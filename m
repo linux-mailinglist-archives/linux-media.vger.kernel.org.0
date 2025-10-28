@@ -1,160 +1,111 @@
-Return-Path: <linux-media+bounces-45765-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45766-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F742C13BAA
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 10:11:20 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id C501DC13BE4
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 10:14:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id C846D4F8C3D
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 09:07:36 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 891E8500CD1
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 09:10:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61CDF2E8E1F;
-	Tue, 28 Oct 2025 09:06:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B0142DCF47;
+	Tue, 28 Oct 2025 09:10:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tnj/5ZKF"
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="Y5Thuq/O"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD4412DEA7E;
-	Tue, 28 Oct 2025 09:06:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A07752D8782
+	for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 09:10:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.97.38.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761642394; cv=none; b=VQxfYvTfUPr2zrLNHtupr1wgfoAk3sAjrA8VKN0zSxdw8oNUhrNw9KR4ezf85nMUslWZWriQwHDiuSwv/gDgFrRw/b8AcgZcnkgbTuY5ZOhQrz/TEZEV/zHI2A36XVW949VjbXvLWsRIIK7zcVo2hTy+UAF3AcOkO1cBCxWe+9s=
+	t=1761642623; cv=none; b=pgccdDoAnXStLxeYT2uKExqt47T/BJD1qA3sjaLsUKb0+ekIf3ykagXDO99R5rbly8kZyon2ddCOfeZa42n5pENyoz684StSgrlzS78FWd06lYXgPO643SbiWLjEiL3GiKVTInA2up1fOa0uq/5EHOG+F5sodyL2/rF31Z0W6Iw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761642394; c=relaxed/simple;
-	bh=jV8zqoSJb4SM5zvB1qu4g9YkFqJZQ/ozJQgtDXq/xb8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K/FSwM77wffDSu+xVic7iEwzmTgLACIdswBDoajYYMV88D8WCEvR4w6wTPra9O7Q1WFOMTe/wlshus+4kj/biKtxZt6ys7PNWNTN309+xtQAVQcOjr3hQjLLqX/VyY0zyn2hVf2kSEfLZYn+nZX1cgPfIMu+YEEEq+7X41SeeH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tnj/5ZKF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD127C4CEE7;
-	Tue, 28 Oct 2025 09:06:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761642394;
-	bh=jV8zqoSJb4SM5zvB1qu4g9YkFqJZQ/ozJQgtDXq/xb8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=tnj/5ZKFhUkDkuZWCiEXSd8FJW82wK/rhC772Fz5YyV/GZJttrwX0G+CbDW4wrn49
-	 atAWab3FTBsSGV4snjXXvsOsiuXRqgtwDBhG6JFzJpfzlA2kbo43AGFsjlm8EVbkpO
-	 9SgP6t9cIJksCWdJgCBJbYA+0k+CrYit0sljKJWwq5BcPECcXpcSjSdHxw/3mxcqHG
-	 sH8iIpmlLrAdDIQKWxT2e8Su8iUKIWcSvVhma4GE0cMOUwIdInwjyrLAapSVnbw+yR
-	 T1aHmi64orBmYWdrSWydU+j1F4YXQlBWDsMVewPcnvm5XyltRC67bba6l8vkEpj7c8
-	 sINSUc4mKogOQ==
-Message-ID: <6668e1f8-c279-4616-aaa2-02669895e623@kernel.org>
-Date: Tue, 28 Oct 2025 10:06:28 +0100
+	s=arc-20240116; t=1761642623; c=relaxed/simple;
+	bh=5zfnTdS04d8KQXLubWipi8iI0JTdE0qcA4DI/46xMcA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o3skyXq410MV01cLu5FiueXMDgk5qUtszKvQtRezLZVV0kPyqyTvqGJztpg1A25PuHFelFx2as7ACw73Nb3NFLQrtNAeg7mcSyj7FhoG3iE6Y8NocUOrEhm9gJyU5h4wskGFzTtsT3RXK0fr8thqNDvZw4KCCYM0xshZC9CCcME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=Y5Thuq/O; arc=none smtp.client-ip=88.97.38.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1761642618; bh=5zfnTdS04d8KQXLubWipi8iI0JTdE0qcA4DI/46xMcA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Y5Thuq/OfotSHMpMWkDpM/TAlKX7bqNv5igtT6CqbRK15C7q9PrNbpNRC6dxhmrzq
+	 7xiftlIW8/VEWv+vqvP1YaSYLm6zoj2+hs7G0LjAz+81iF4ZAxyERQ1ZdaFuokG21J
+	 pedYg5FFxOcWy7fLF998C6JmrFTmuCkH6BkZrkt/gSR3QdGgQs5AbDT+Qvavmf5irf
+	 9unLHUdUSrTxOXLi4gAHvl0ZeWPVME4kc2+oyWhtFtbqJY5UGBurbo27L1PJcRlbkp
+	 DeCaRbBQIoBzrEJLMsz2v4BoRGUpY0Y3SgrXwYt8HlsK+ofXB34cs1D4DFFZoIFOgu
+	 4kBMsOZQ4uVGw==
+Received: by gofer.mess.org (Postfix, from userid 1000)
+	id BB96A1003DC; Tue, 28 Oct 2025 09:10:18 +0000 (GMT)
+Date: Tue, 28 Oct 2025 09:10:18 +0000
+From: Sean Young <sean@mess.org>
+To: Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: linux-media@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Ricardo Ribalda <ribalda@chromium.org>
+Subject: Re: [PATCHv6 1/3] docs: media: update maintainer-entry-profile for
+ multi-committers
+Message-ID: <aQCIenbyRXm1e6J6@gofer.mess.org>
+References: <cover.1761571713.git.hverkuil+cisco@kernel.org>
+ <1495ec4ccdcdfab788fa9d02e11a6028a455e31b.1761571713.git.hverkuil+cisco@kernel.org>
+ <aP_s8D35617s6JWU@gofer.mess.org>
+ <8bc5196e-9a40-44da-941b-f5f42608c74f@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/7] media: platform: amd: Introduce amd isp4 capture
- driver
-To: "Du, Bin" <bin.du@amd.com>, mchehab@kernel.org, hverkuil@xs4all.nl,
- laurent.pinchart+renesas@ideasonboard.com, bryan.odonoghue@linaro.org,
- sakari.ailus@linux.intel.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- sultan@kerneltoast.com
-Cc: pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
- gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com, Dominic.Antony@amd.com,
- mario.limonciello@amd.com, richard.gong@amd.com, anson.tsao@amd.com,
- Mario Limonciello <superm1@kernel.org>,
- Alexey Zagorodnikov <xglooom@gmail.com>
-References: <20251024090643.271883-1-Bin.Du@amd.com>
- <20251024090643.271883-2-Bin.Du@amd.com>
- <93233d51-5ff3-4f10-96f6-a2957325f1bd@kernel.org>
- <2c7ee056-546c-4891-abfc-c1d41e2c1632@amd.com>
- <3194b3d3-5158-472f-9c68-0b0187e2c145@kernel.org>
- <7b20fb08-fa96-4bd9-8240-05b7f8f31681@amd.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <7b20fb08-fa96-4bd9-8240-05b7f8f31681@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8bc5196e-9a40-44da-941b-f5f42608c74f@kernel.org>
 
-On 28/10/2025 10:00, Du, Bin wrote:
-> Thanks Krzysztof.
+On Tue, Oct 28, 2025 at 09:25:29AM +0100, Hans Verkuil wrote:
+> On 27/10/2025 23:06, Sean Young wrote:
+> > On Mon, Oct 27, 2025 at 02:28:31PM +0100, Hans Verkuil wrote:
+> >> From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> >>
+> >> As the media subsystem will experiment with a multi-committers model,
+> >> update the Maintainer's entry profile to the new rules.
+> >>
+> >> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> >> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> >> Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+> > 
+> > I've read it and I only have some tiny nits, looks great.
 > 
-> On 10/28/2025 4:41 PM, Krzysztof Kozlowski wrote:
->> On 28/10/2025 09:30, Du, Bin wrote:
->>>>> +	}
->>>>> +};
->>>>> +
->>>>> +module_platform_driver(isp4_capture_drv);
->>>>> +
->>>>> +MODULE_ALIAS("platform:" ISP4_DRV_NAME);
->>>>
->>>> You should not need MODULE_ALIAS() in normal cases. If you need it,
->>>> usually it means your device ID table is wrong (e.g. misses either
->>>> entries or MODULE_DEVICE_TABLE()). MODULE_ALIAS() is not a substitute
->>>> for incomplete ID table.
->>>>
->>>
->>> Thanks for the clarification, yes, MODULE_ALIAS() does not apply in our
->>> case and should be removed.
->>
->>
->> You don't have ID table, so probably this should be fixed, unless it is
->> instantiated by some other driver, e.g. as MFD. That's the only typical
->> use case for alias in the drivers.
->>
+> Thank you!
 > 
-> Yes, our device is a MFD, so alias works for it, as alternative, we can 
-> add module device table, it should work either, could you please 
-> indicate your preferred option?
->
+> > 
+> > Reviewed-by: Sean Young <sean@mess.org>
+> > 
+> 
+> <snip>
+> 
+> >> +It could be wise to also copy the Media Maintainer(s). You should use
+> >> +``scripts/get_maintainers.pl`` to identify whom else needs to be copied.
+> >> +Please always copy driver's authors and maintainers.
+> > 
+> > git config for using scripts/get_maintainers.pl is useful
+> I'm not sure I understand what you meant with this.
+
+I should have been more specific. I use this in my .gitconfig:
+
+[sendemail]
+	tocmd ="scripts/get_maintainer.pl --no-git --no-git-fallback --no-l --no-roles --no-rolestats"
+	cccmd ="scripts/get_maintainer.pl --no-git --no-git-fallback --no-m --no-roles --no-rolestats"
+
+I find this very handy, I thought everyone was using this (possibly not).
 
 
-So it is spawned by drivers/gpu/drm/amd/amdgpu/isp_v4_1_0.c or
-drivers/gpu/drm/amd/amdgpu/isp_v4_1_1.c ?
-
-If so, then your code is fine, that's correct use of MODULE_ALIAS.
-
-Best regards,
-Krzysztof
+Sean
 
