@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-45780-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45781-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AF23C13E7E
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 10:50:20 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E763C13F56
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 10:57:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 748AE1AA4337
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 09:49:44 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2A3204F1E79
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 09:55:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A28AF302152;
-	Tue, 28 Oct 2025 09:49:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3BE43054F9;
+	Tue, 28 Oct 2025 09:54:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b+wE1UIG"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="IrpHMJ/r"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B772D595A;
-	Tue, 28 Oct 2025 09:49:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90CAF302CC2;
+	Tue, 28 Oct 2025 09:53:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761644950; cv=none; b=nliYJHUhOEec466WVlQR4pM330lYoG6HisY2k9fmLoGlYsLSH697e35Zn1jh0YeZcQbMwAvnmaVor3CN0X810Tgf2zvRHvUcB71n4MFoOBptEO0QjYqy/fpMXQ/A/l3ChDkSwP5l99HeLElbJBGas+tQF4pAAVUcQ0CewqSPr+E=
+	t=1761645240; cv=none; b=mmHjDNd8ZBOFiFFsfjt74GL41Ee9CQ46vyEF0TY7Zg0DbfRGjPrNhV5B/K/nXvQKpCCSTW66vThWglpziOFPUkAiCbhTGMGQDei4oMy331oarJbdOZ8PLoyANF+pfAKFEULWJMxBdY8UDmXEkbQo37wtnP53dty3N0eERO11OdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761644950; c=relaxed/simple;
-	bh=V1O/vHv5Ce9lBkhmkYqa4BSyIQeEuuJ5b7IKSnZx6Io=;
+	s=arc-20240116; t=1761645240; c=relaxed/simple;
+	bh=+58CVtXnt3w5k1YenKlBxrXneK4IFpaNCV8YTq5NzcY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qQRWHfahXndbAfsoQrsb3RKX/qtbHKm3Ba6osu7TaUQfV/7R0zeta2/qtmFDCTD1T1DyhuJUE+SwKU7/IFZ/opYbztbXit0+dTOSpMoUW6YGHvwsPxTVCCovEnV8D0ni5dnGBVrQNqLNtXK20vcajkhunjPT9bM/TX7iQ4aCu6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b+wE1UIG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20AA4C4CEE7;
-	Tue, 28 Oct 2025 09:49:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761644947;
-	bh=V1O/vHv5Ce9lBkhmkYqa4BSyIQeEuuJ5b7IKSnZx6Io=;
+	 In-Reply-To:Content-Type; b=p0UaV+qtX52e8duNRph3DjmKQv4RAQA8oiEZTrF09WTW+F0GCOr7ou5KGaWKMLi940EMPxQKXZvHh16rc5QHOx34kSzSHDbaO+fNvbWz67PGpIBDK/+bOIysjkJAO0AY/UpxiBDlkdkmLSEqoIcTz12t4baJb9ZStq2Rxp2l6/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=IrpHMJ/r; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 56353AB4;
+	Tue, 28 Oct 2025 10:52:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1761645127;
+	bh=+58CVtXnt3w5k1YenKlBxrXneK4IFpaNCV8YTq5NzcY=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=b+wE1UIGZLTFAtW5BOCYL4rhIx3ujcfDi8Zcrv78Jq2yKMn7mXiZwbeZFMgpWjEcW
-	 xjSLimINOHzAPI/oL6DQyCX8KOM4sYalmZDYDR1b6zvdI/uCfYx3qL6B7zD6jIGQIR
-	 WRjRcbynqGjfwPuRKyCG9uDY3MzRkmvpJtUF5z5wjntcFDqaqVBzlt3Grciz9O4f8d
-	 0TmuzdkpdUJ1f5tXbC+skiFGrrDRv3ArxGvBI+YbEw1SdI8dxDg+cNNX5maL1LdMdl
-	 az+zrx+qy2V60Xa/tT9G7n2VMEOKc8dihEzMgHO0jYraVPTdIatezWhnevz8h1t7R6
-	 LBZDFXbFvDjZQ==
-Message-ID: <57bacdd4-67f9-4df5-855d-76dd31490454@kernel.org>
-Date: Tue, 28 Oct 2025 10:49:02 +0100
+	b=IrpHMJ/rffkKqPBly8M6fO/5qd3dmtEt4jMcsksXuhd0kXx6TWopVRehD25nn4TEs
+	 jQs8em1dB6LWVe39egZ/rrwfyaF/Dy0bSSc+esq7rTbPWuT3CWp6VAToDX9bmz1dXt
+	 PJ6cFK/l95mLYFiGdxUjTRGcoSEQTE7V3v9x9AVU=
+Message-ID: <5a3f30c7-fecd-4354-94bc-773dd44b4189@ideasonboard.com>
+Date: Tue, 28 Oct 2025 09:53:52 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,86 +50,196 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] media: dt-bindings: Add qcom,sm6150-camss
-To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>, Robert Foss
- <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+Subject: Re: [PATCH v5 1/3] dt-bindings: media: Add bindings for the RZ/V2H(P)
+ IVC block
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20251016-sm6150-camss-v1-0-e7f64ac32370@oss.qualcomm.com>
- <20251016-sm6150-camss-v1-1-e7f64ac32370@oss.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ jacopo.mondi@ideasonboard.com, biju.das.jz@bp.renesas.com,
+ laurent.pinchart@ideasonboard.com,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20251002-ivc-v5-0-192c663fa70b@ideasonboard.com>
+ <20251002-ivc-v5-1-192c663fa70b@ideasonboard.com>
+ <CA+V-a8sCvhepEL1RnsemN_84U9gcLLoGBnOUtY0zLsZO+kcu7Q@mail.gmail.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251016-sm6150-camss-v1-1-e7f64ac32370@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Dan Scally <dan.scally@ideasonboard.com>
+In-Reply-To: <CA+V-a8sCvhepEL1RnsemN_84U9gcLLoGBnOUtY0zLsZO+kcu7Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 16/10/2025 12:22, Wenmeng Liu wrote:
-> Add bindings for qcom,sm6150-camss in order to support the camera
-> subsystem found in Qualcomm Talos EVK board.
+Hello Prabhakar
+
+On 23/10/2025 22:49, Lad, Prabhakar wrote:
+> Hi Daniel,
 > 
-> Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
-> ---
->  .../bindings/media/qcom,sm6150-camss.yaml          | 283 +++++++++++++++++++++
->  1 file changed, 283 insertions(+)
+> Thank you for the patch.
+> 
+> On Thu, Oct 2, 2025 at 11:38 AM Daniel Scally
+> <dan.scally@ideasonboard.com> wrote:
+>>
+>> The RZ/V2H(P) SoC has a block called the Input Video Control block which
+>> feeds image data into the Image Signal Processor. Add dt bindings to
+>> describe the IVC.
+>>
+>> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+>> ---
+>> Changes in v5:
+>>
+>>          - Rename RZ/V2H to RZ/V2H(P)
+>>
+>> Changes in v3:
+>>
+>>          - Rename from rzv2h-ivc.yaml to r9a09g057-ivc.yaml
+>>          - Update clock and reset names
+>>
+>> Changes in v2:
+>>
+>>          - compatible matches filename
+>>          - Added power-domains
+>>          - Aligned clock and reset entries on opening "<"
+>>          - Removed status = "okay"; from example
+>> ---
+>>   .../bindings/media/renesas,r9a09g057-ivc.yaml      | 103 +++++++++++++++++++++
+>>   1 file changed, 103 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/renesas,r9a09g057-ivc.yaml b/Documentation/devicetree/bindings/media/renesas,r9a09g057-ivc.yaml
+>> new file mode 100644
+>> index 0000000000000000000000000000000000000000..8e236e46882668b2660d175e8b2cffe204aa781c
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/media/renesas,r9a09g057-ivc.yaml
+>> @@ -0,0 +1,103 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/media/renesas,r9a09g057-ivc.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Renesas RZ/V2H(P) Input Video Control Block
+>> +
+>> +maintainers:
+>> +  - Daniel Scally <dan.scally@ideasonboard.com>
+>> +
+>> +description:
+>> +  The IVC block is a module that takes video frames from memory and feeds them
+>> +  to the Image Signal Processor for processing.
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: renesas,r9a09g057-ivc
+> Nit, `const: renesas,r9a09g057-ivc # RZ/V2H(P)` as done for the rest
+> of the Renesas bindings.
+
+Ack>
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  interrupts:
+>> +    maxItems: 1
+>> +
+>> +  clocks:
+>> +    items:
+>> +      - description: Input Video Control block register access clock
+>> +      - description: Video input data AXI bus clock
+>> +      - description: ISP system clock
+>> +
+>> +  clock-names:
+>> +    items:
+>> +      - const: reg
+>> +      - const: axi
+>> +      - const: isp
+>> +
+>> +  power-domains:
+>> +    maxItems: 1
+>> +
+>> +  resets:
+>> +    items:
+>> +      - description: Input Video Control block register access reset
+>> +      - description: Video input data AXI bus reset
+>> +      - description: ISP core reset
+>> +
+>> +  reset-names:
+>> +    items:
+>> +      - const: reg
+>> +      - const: axi
+>> +      - const: isp
+>> +
+>> +  port:
+>> +    $ref: /schemas/graph.yaml#/properties/port
+>> +    description: Output parallel video bus
+>> +
+>> +    properties:
+>> +      endpoint:
+>> +        $ref: /schemas/graph.yaml#/properties/endpoint
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - interrupts
+>> +  - clocks
+>> +  - clock-names
+>> +  - power-domains
+>> +  - resets
+>> +  - reset-names
+>> +  - port
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/clock/renesas,r9a09g057-cpg.h>
+>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+>> +
+>> +    isp-input@16040000 {
+>> +      compatible = "renesas,r9a09g057-ivc";
+>> +      reg = <0x16040000 0x230>;
+>> +
+>> +      clocks = <&cpg CPG_MOD 0xe3>,
+>> +               <&cpg CPG_MOD 0xe4>,
+>> +               <&cpg CPG_MOD 0xe5>;
+>> +      clock-names = "reg", "axi", "isp";
+>> +
+>> +      power-domains = <&cpg>;
+>> +
+>> +      resets = <&cpg 0xd4>,
+>> +               <&cpg 0xd1>,
+>> +               <&cpg 0xd3>;
+>> +      reset-names = "reg", "axi", "isp";
+>> +
+>> +      interrupts = <GIC_SPI 861 IRQ_TYPE_EDGE_RISING>;
+> I understand we split this up from ISP, there are other interrupts for
+> ISP for example 860 which is similar to 861 where it outputs signal on
+> rising instead of falling. Do you foresee this interrupt being used
+> for IVC?  Rest LGTM.
+
+I don't think so...as far as I can tell that interrupt is used for determining when the transfer has 
+started, but I'm not aware of any decisions that we'd want to base on that event over the transfer 
+finished interrupt.
+
+Thanks
+Dan
 
 
-Please implement/go through same comments I gave to Luca.
-https://lore.kernel.org/all/20251028-defiant-visionary-rottweiler-f97cda@kuoka/
+> 
+> Cheers,
+> Prabhakar
+> 
+>> +
+>> +      port {
+>> +        ivc_out: endpoint {
+>> +          remote-endpoint = <&isp_in>;
+>> +        };
+>> +      };
+>> +    };
+>> +...
+>>
+>> --
+>> 2.43.0
+>>
+>>
 
-It is somehow huge mess with camss with every binding re-inventing
-names, resorting everything and keeping nothing in common.
-
-I feel sad when looking at existing bindings.
-
-Best regards,
-Krzysztof
 
