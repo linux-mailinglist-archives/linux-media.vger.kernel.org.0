@@ -1,135 +1,141 @@
-Return-Path: <linux-media+bounces-45775-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45776-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E1CEC13D3A
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 10:33:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA6ACC13D73
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 10:35:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D43CC1A6477C
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 09:32:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9C4FE1A24972
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 09:35:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01B71301715;
-	Tue, 28 Oct 2025 09:32:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C2E83043A2;
+	Tue, 28 Oct 2025 09:34:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A8GuF+2C"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WgpzSpBj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 543BA2D4813;
-	Tue, 28 Oct 2025 09:32:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 097AD30216D
+	for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 09:34:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761643929; cv=none; b=MgMqjkjveHUQk89mK1joOcSuagIL5M+gvWetUI1URHTb9YM7aS7OVmZqKBE0xxL7UPmDJPxy9qdmBhzIZd0loEd/YADfQITQpDd6ZBiEQzNwRLNteWzjxA0hcHJxBYpdSiS4n0iLGx10wl6Nv6u8TcpAxY/NeX3K1ruiOxzSO1k=
+	t=1761644085; cv=none; b=iaPxILMtOkQ4i4kBcMpgn4ZDfgzXt0ZR7E4nytfsEbfZab+3zhYGNIRV0chJT1AuHBbgOlMRSST3zxQwfXdUlTo1+sNriAb8LpHhYfMlUU32auIJkzN7scoiaL9a7aQsuoqK8Ynfn8AkSPAGrBnn87tWHHyuPCcdj71b+76WI7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761643929; c=relaxed/simple;
-	bh=VGec7L1K3/ls04vGgFBjzEMz/ItTRy+/HlhRqpV5zYA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ojTSu0Vn4r8rnPgNHw4V7vSUaWNXBwAtgXtaezFCMX44ZDu9/kcNtn4Gl9NkqED7ZDRUDpzOmxQcyBWKXPSEO6ej3lrCt9dG1Jwi99tFPZcMhYXWTyB21ghSbG855gy5G2DS40Y92UuqCZqjdDdgJHsIqc4mgewx1JsvXs3py1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A8GuF+2C; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD8BBC4CEE7;
-	Tue, 28 Oct 2025 09:32:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761643925;
-	bh=VGec7L1K3/ls04vGgFBjzEMz/ItTRy+/HlhRqpV5zYA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=A8GuF+2C0gkg1jR1+zGVr+ql1TzwWyBiUNtHdbNYldTOUsADT8IgzVDkW2AEiWPy4
-	 8i4a6idUC4IfmaWCKjCLZLDy+BO3RNCTSFJRa/q4v6Dl8gxZqQAEvE8dY2bl8mg2Hd
-	 3io+Lj8zAbN+ByG1oN5O5vBhRNvNCy2iYbX2acO6YQ6lU1NuZEg7HyNSMF8bL7bG2j
-	 pXi/jpy9BShw7NR3R5/37B5xirDasa352fRLMQMg+I1PKdppeEUcvusNApTlbBEm2F
-	 wm4+J96spMJzxz6EGipmKJUD1jDygu9URQHTzf8fXHbAQviw2Piaeyow350Q8hhL9A
-	 jA8+oPlWAOFFw==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1vDg3l-000000000Rm-0xYa;
-	Tue, 28 Oct 2025 10:32:09 +0100
-Date: Tue, 28 Oct 2025 10:32:09 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc: Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-	Houlong Wei <houlong.wei@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>, linux-media@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] media: mediatek: fix VPU device leaks on probe
-Message-ID: <aQCNmZpOquAlL49K@hovoldconsulting.com>
-References: <20250924133552.28841-1-johan@kernel.org>
- <aP91nfnpShIhXcVQ@hovoldconsulting.com>
- <ac27d9b1da68746c62c03047fd7896e2303ef1fd.camel@ndufresne.ca>
- <aQB9BIjXEOHpIy3_@hovoldconsulting.com>
+	s=arc-20240116; t=1761644085; c=relaxed/simple;
+	bh=ac2cQky0IwlGiqpgXPO1XMOU5eK87nY3Jt30oDW649I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uZG+6zeVviRd7sr4c005XOCDAQjIupJsoWJfmjdTxqs0agGaUN3SGgDU4UngN6bVE5U7EyXuRpj7bi46tGglgYuINgAl3qIL84vtDXLzQVcMsfG7mKjgmVOSj79vcfN4DdQJEAbTX4VDofnl0Wq9X0NV7Msm+Vf6tuNhpsZ9hCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WgpzSpBj; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4770c2cd96fso20152245e9.3
+        for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 02:34:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1761644082; x=1762248882; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9/LALU22bj87w78nI48Ei34YpYAmoKYu+jDE6VBCbPs=;
+        b=WgpzSpBj+JIL7I6HAeFZQbV2knyhoxIDxKIQXQlem26fBvtp5VZCsL+UdiQ3lRQJ5n
+         fBmdFDBVq0U4XKlPmxhnl+CjylN+Oum+WPBrQIF/AH1qFA3cPEZbFO9hptZ2j5G2OjDl
+         vY3QG/pwW3ZzqzZXpITH37aZIF+SB5y5anwQPUK70WQaz2vhTEO8OSYqV9Q45FLEq2fZ
+         Dwha8fMKi5/uAjbSvNJNvW+rdwVkdt8iBV9TAxVyzG4lee+AL5V98MU3juWJVGC4aYt+
+         H5YpOydx9D9f/0BJbNkB3H47HODBIjcll4M4CheeND0pEGm4TnZo5un15H9oP//tbFfV
+         rm0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761644082; x=1762248882;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9/LALU22bj87w78nI48Ei34YpYAmoKYu+jDE6VBCbPs=;
+        b=FffTqirBybty0ODR21HydN3giJESOQDWpZZNAfKJhX8VhI5w7Ad4GlLx1V6/Aky+YC
+         0FHiOcMy/E6aeGbdtH5/jDuwEY226o09XXe9LQIeHv+KYmD1tUOxMNLf1qSOVzU/Ci6a
+         RpGQtqE5+zN5Lu0i5yfkM32WLjdNPcAB0B9yJJxbVeXp/n5dcOjBU5hVcZx+EWt1D9e9
+         B2tzkE3UU1p1nUqRWzZRyQtId7X1FSJ5KIPNGddWbUkaNt32yigbRO0lSZ2fddL4Qq/j
+         wuQGU5J1GYG8eoTjLsaTbBiycYXtHONQKwRj1RHkFHzJPsr7pmrj9T1ZXpp19klyn/03
+         iXLw==
+X-Forwarded-Encrypted: i=1; AJvYcCXmoooSX3TJ1qvljK/lqB4U8jyF+5g8fwMfMqeoBYLiLZkF6WipmkLTkmBp8aEBIljcAh5l4KToHTdamQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7ywq+RyOJ5oHlzDNxVhGtQo9GPyxDRDygBNsBLa/n8bN1x8cg
+	Sj0EZbZxSlF21nJbu2on6YJ7sAdtUjWxOcbnuz1i1TXVwxAKZOK3ruW4862dY7SJRoQ=
+X-Gm-Gg: ASbGncvRUxoK/ho3aOa2XZ7Iej3ot8eD4CwWUE0WF4QONOG1GHtwzBNFPXXqyCWH2Hx
+	aXGD14Cl1S8wFVpCtw2sLASL3SJZsl+dt6ivv/83+TiDKpOj9c3qyLRGoSnTIHAmKLfRi2x6rWk
+	D5MSwS55vkS5CDkFuhwkqA8xpN2+u+N1UkN1uKCPDmRU1gXIiPum7ok/hFMoWNjhCX+LCKMninZ
+	802KKO94QoZerhZE/8gPC3/0iLHjdrV+ZHO7UabhNKb7xA2ep6Zjn+iLsrdf4P2F8fSHe59DDcb
+	HvxcChkCBoABetpkm+XYp6di8Pav7eIX4JjGMYxE8SRSXvL44BOGy8S7JAHhnUaGhTlk7vOpKx+
+	VrlPPyjIteJV+oipohXxS2vXKLKL8k+9mSTUn3WEsvNavAUNlzL8Ae6veKszsv/qR7CZRHo7XQy
+	NOIuThYXLxt8D2Dz60YWOpRbKjJ30FnPno51L3M/v8E30=
+X-Google-Smtp-Source: AGHT+IEBsjbGhxSIADHKU/jkeoO1PtNiYWdQlg9Ym9NskralvCLvbd/sbcWeV6cauCEQmOzMHU/aag==
+X-Received: by 2002:a05:600c:4691:b0:471:9da:5248 with SMTP id 5b1f17b1804b1-47717e414a3mr19737305e9.26.1761644082274;
+        Tue, 28 Oct 2025 02:34:42 -0700 (PDT)
+Received: from [192.168.0.163] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952da12dsm19563607f8f.29.2025.10.28.02.34.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Oct 2025 02:34:41 -0700 (PDT)
+Message-ID: <22f63af8-281d-4783-b770-36cb1feb4732@linaro.org>
+Date: Tue, 28 Oct 2025 09:34:40 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="/z9wxTx+yneLrdmE"
-Content-Disposition: inline
-In-Reply-To: <aQB9BIjXEOHpIy3_@hovoldconsulting.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/6] media: qcom: camss: Add Kaanapali support
+To: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>,
+ Loic Poulain <loic.poulain@oss.qualcomm.com>, Robert Foss
+ <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, aiqun.yu@oss.qualcomm.com,
+ tingwei.zhang@oss.qualcomm.com, trilok.soni@oss.qualcomm.com,
+ yijie.yang@oss.qualcomm.com, Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
+ Atiya Kailany <atiya.kailany@oss.qualcomm.com>
+References: <20251023-add-support-for-camss-on-kaanapali-v3-0-02abc9a107bf@oss.qualcomm.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <20251023-add-support-for-camss-on-kaanapali-v3-0-02abc9a107bf@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+On 23/10/2025 10:14, Hangxiang Ma wrote:
+> - 3 x VFE, 5 RDI per VFE
+> - 2 x VFE Lite, 4 RDI per VFE Lite
+> - 3 x CSID
+> - 2 x CSID Lite
+> - 6 x CSI PHY
+> 
+> This series has been tested using the following commands with a
+> downstream driver for S5KJN5 sensor.
+
+A few comments here:
+
+Publish the code ! Its actually in your interests to do so.
+
+> 
+> - media-ctl --reset
+> - media-ctl -V '"msm_csiphy2":0[fmt:SGBRG10/4096x3072]'
+> - media-ctl -V '"msm_csid0":0[fmt:SGBRG10/4096x3072]'
+> - media-ctl -V '"msm_vfe0_rdi0":0[fmt:SGBRG10/4096x3072]'
+> - media-ctl -l '"msm_csiphy2":1->"msm_csid0":0[1]'
+> - media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+> - yavta  --capture=20 -I -n 5 -f SGBRG10P -s 4096x3072 -F  /dev/video0
+
+Good to see, it would be nice if you guys could also start running the 
+RDI path through libcamera - softisp soon gpuisp and start showing some 
+realworld results.
+
+Not a requirement to merge this series but, a strong suggestion for your 
+own verification purposes.
+
+---
+bod
 
 
---/z9wxTx+yneLrdmE
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Oct 28, 2025 at 09:21:24AM +0100, Johan Hovold wrote:
-> On Mon, Oct 27, 2025 at 07:29:39PM +0000, Nicolas Dufresne wrote:
-> > Le lundi 27 octobre 2025 =C3=A0 14:37 +0100, Johan Hovold a =C3=A9crit=
-=C2=A0:
-> > > On Wed, Sep 24, 2025 at 03:35:49PM +0200, Johan Hovold wrote:
-> > > > This series fixes VPU device leaks during probe of the mdp and two =
-codec
-> > > > drivers.
-> > > >=20
-> > > > Included is also a minor documentation update to make it clear that=
- the
-> > > > VPU lookup helper returns the device with an incremented refcount.
-> > >=20
-> > > Can these be picked up for 6.19?
-> >=20
-> > They are picked already, please check in the tree,
-> >=20
-> > https://gitlab.freedesktop.org/linux-media/media-committers/-/commits/n=
-ext
->=20
-> I can't seem to find them in that branch either, and they are not in
-> linux-next.=20
->=20
-> (I seem to have trimmed my original message too much so that the patch
-> summaries were not included in my reminder. Perhaps you are thinking of
-> the related mtk-mdp3 fix?)
->=20
-> But I do see an incomplete attempt at a fix of the reference leak in
-> that branch by someone else in commit cdd0f118ef87 ("media: mediatek:
-> vcodec: Fix a reference leak in mtk_vcodec_fw_vpu_init()")
->=20
-> Can that commit be dropped in favour of this series or shall I rebase on
-> top of it?
-
-Scratch that. The merged commit is correct. I'll respin this series on
-top.
-
-Johan
-
---/z9wxTx+yneLrdmE
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQQHbPq+cpGvN/peuzMLxc3C7H1lCAUCaQCNlQAKCRALxc3C7H1l
-CNI1AP4mIpY9GNfiGHVm9Z4vAFW+glStwC22iPrdWVr53rxShgD+OHcwlYKvCt+/
-P8dYWux9RIhpLNyNVx4owqhrd7Dv8go=
-=J7Jh
------END PGP SIGNATURE-----
-
---/z9wxTx+yneLrdmE--
 
