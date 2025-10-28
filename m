@@ -1,129 +1,135 @@
-Return-Path: <linux-media+bounces-45774-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45775-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BD46C13D58
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 10:33:48 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E1CEC13D3A
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 10:33:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A559D580BF4
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 09:29:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D43CC1A6477C
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 09:32:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A488302CDE;
-	Tue, 28 Oct 2025 09:29:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01B71301715;
+	Tue, 28 Oct 2025 09:32:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="uvt6i+PB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A8GuF+2C"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62985302170;
-	Tue, 28 Oct 2025 09:29:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 543BA2D4813;
+	Tue, 28 Oct 2025 09:32:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761643757; cv=none; b=qtBqMJ4/4dsrEcAi47FDGY3Fb46oA+tCpEbr3eZd5EhY7IUgKhJ/MV2v2MLg89whsHJNwZEPvtZZc/Gfl6vbMtMPSiaA8XBaVZo6mJk0WNdaclqQYqzzqRK3gddSNsRsSefgcVJ99PtHVAGcZS6Z8n7OjG7iRCZwzi3GNwUaeVk=
+	t=1761643929; cv=none; b=MgMqjkjveHUQk89mK1joOcSuagIL5M+gvWetUI1URHTb9YM7aS7OVmZqKBE0xxL7UPmDJPxy9qdmBhzIZd0loEd/YADfQITQpDd6ZBiEQzNwRLNteWzjxA0hcHJxBYpdSiS4n0iLGx10wl6Nv6u8TcpAxY/NeX3K1ruiOxzSO1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761643757; c=relaxed/simple;
-	bh=Gd7ZYV7eAPgH3Oz/R5YuQcQBNb/55k4xyoM4DemwAuc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=iReko0zKh5EWnlsKI735RflX2rPFgL4SXzD++2/PZ3QyXf2qd9uXbQzeLvJCUGqcqLOHB3pmg73g3rKo5K3ZfZ+BGrRGkkF/kJENk8zH5IkXPXw0icNUuzL6TZaQLXPLxa3aZjW/vn1CSI3IaoQoAImT5KVI1obw+mRPD6mt3rg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=uvt6i+PB; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [127.0.1.1] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6A976176B;
-	Tue, 28 Oct 2025 10:27:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1761643645;
-	bh=Gd7ZYV7eAPgH3Oz/R5YuQcQBNb/55k4xyoM4DemwAuc=;
-	h=From:Date:Subject:To:Cc:From;
-	b=uvt6i+PBq6pH3q9jAVhNOXKhpoj48JPXQwFcIfD8yYnTaf2Ap/kcg5qDBS61Y50HB
-	 qMDanX9YI1NLrcXlksCD+cqPXEHp9Vw121xlNWWnK14Dtt2iJtnJxSLBV0JZbcw61A
-	 zB7NAD/dX8cTPXGaslBF1gjYcaW2I9Bm4Ct+8kp0=
-From: Daniel Scally <dan.scally@ideasonboard.com>
-Date: Tue, 28 Oct 2025 09:28:54 +0000
-Subject: [PATCH] MAINTAINERS: Update Daniel Scally's email address
+	s=arc-20240116; t=1761643929; c=relaxed/simple;
+	bh=VGec7L1K3/ls04vGgFBjzEMz/ItTRy+/HlhRqpV5zYA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ojTSu0Vn4r8rnPgNHw4V7vSUaWNXBwAtgXtaezFCMX44ZDu9/kcNtn4Gl9NkqED7ZDRUDpzOmxQcyBWKXPSEO6ej3lrCt9dG1Jwi99tFPZcMhYXWTyB21ghSbG855gy5G2DS40Y92UuqCZqjdDdgJHsIqc4mgewx1JsvXs3py1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A8GuF+2C; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD8BBC4CEE7;
+	Tue, 28 Oct 2025 09:32:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761643925;
+	bh=VGec7L1K3/ls04vGgFBjzEMz/ItTRy+/HlhRqpV5zYA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=A8GuF+2C0gkg1jR1+zGVr+ql1TzwWyBiUNtHdbNYldTOUsADT8IgzVDkW2AEiWPy4
+	 8i4a6idUC4IfmaWCKjCLZLDy+BO3RNCTSFJRa/q4v6Dl8gxZqQAEvE8dY2bl8mg2Hd
+	 3io+Lj8zAbN+ByG1oN5O5vBhRNvNCy2iYbX2acO6YQ6lU1NuZEg7HyNSMF8bL7bG2j
+	 pXi/jpy9BShw7NR3R5/37B5xirDasa352fRLMQMg+I1PKdppeEUcvusNApTlbBEm2F
+	 wm4+J96spMJzxz6EGipmKJUD1jDygu9URQHTzf8fXHbAQviw2Piaeyow350Q8hhL9A
+	 jA8+oPlWAOFFw==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+	(envelope-from <johan@kernel.org>)
+	id 1vDg3l-000000000Rm-0xYa;
+	Tue, 28 Oct 2025 10:32:09 +0100
+Date: Tue, 28 Oct 2025 10:32:09 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc: Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+	Houlong Wei <houlong.wei@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>, linux-media@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] media: mediatek: fix VPU device leaks on probe
+Message-ID: <aQCNmZpOquAlL49K@hovoldconsulting.com>
+References: <20250924133552.28841-1-johan@kernel.org>
+ <aP91nfnpShIhXcVQ@hovoldconsulting.com>
+ <ac27d9b1da68746c62c03047fd7896e2303ef1fd.camel@ndufresne.ca>
+ <aQB9BIjXEOHpIy3_@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251028-maintainers-v1-1-d8ffbc71e8d6@ideasonboard.com>
-X-B4-Tracking: v=1; b=H4sIANWMAGkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1NDAyML3dzEzLwSIE4tKtZNMzU0NUxLMU8zNUhUAuooKEpNy6wAmxYdW1s
- LAJ1WcxxdAAAA
-X-Change-ID: 20251028-maintainers-f5151fd7f50a
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Cc: sakari.ailus@linux.intel.com, 
- Daniel Scally <dan.scally@ideasonboard.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1605;
- i=dan.scally@ideasonboard.com; h=from:subject:message-id;
- bh=Gd7ZYV7eAPgH3Oz/R5YuQcQBNb/55k4xyoM4DemwAuc=;
- b=owEBbQKS/ZANAwAKAchJV3psRXUyAcsmYgBpAIzpmsTBwlkDbeUPLyQ+o+ru7/CGGQitu9I62
- 0RhicZrtM+JAjMEAAEKAB0WIQQqyuwyDnZdb+mxmm/ISVd6bEV1MgUCaQCM6QAKCRDISVd6bEV1
- MipPEACirEnYbO695Vjwv31jmNY1u51HRinrJSkbD28XqgPbc+3eYb75mUsJiOOp2xC2LRstJdm
- 7laB9cnWFHDqIrOv7c4Gwve4V07L1ikfHYpt6hrhisRfYib95RQdxjZ2twPCzp6hULIsE7bdSIq
- 3rUi2FD7TXXhS8sjjmin1a3nJMjGXVifSHGIfWhrWan8JSPpoMrmW5nscvuWDBPcn0XG5GLsE+L
- ez2ag5//QBCx2gQLR0dB6Gs6FMb8vsqsQFh31uaeaI8s/ZoLQfc3ULJlvf7IzCi35h8ZZAaQjAU
- aoWEovYPK011X6biT2h9tZDRKU+fTy3Mh4u+BaMXELDp9j0lvz4phrg8CD/I3Zpyett6VPlbbGP
- Gpe3kgSbiDyeQIRW3Y3M9VWbm650QD2vig2IOVZ6rYzB8dp0jM8xxM56nrshvI/aaeHtW3qxEp6
- SLZj/NqRK7dv8Ele9P4vQPnrJeJg4yowLBv1wW1KbNHlWJFBM18g46QomPce+ugkFHKgUmZLWQx
- 9T/Gg6VmwZa2JYae3NqwY1CVw57P64noLxVshZqw3/kxwsUHBNEinYaUGPZbJbRE44y2li2+P+V
- rMpcJ0HlFBQrmkSWtoprzTLG/Zn3xxYBgoP2+hWh++cBJFHRJdK2V0zOc4cR1lqnY1IZ4AD4J+3
- BVuePI3mHGZDuOg==
-X-Developer-Key: i=dan.scally@ideasonboard.com; a=openpgp;
- fpr=EEC699ACA1B7CB5D31330C0BBD501C2A3546CCF6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="/z9wxTx+yneLrdmE"
+Content-Disposition: inline
+In-Reply-To: <aQB9BIjXEOHpIy3_@hovoldconsulting.com>
 
-Update my email address in MAINTAINERS from my personal account to
-my work one.
 
-Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
----
- MAINTAINERS | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+--/z9wxTx+yneLrdmE
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f7351fced572eff0a18038095ec1724047890b55..bc83179d9345a322b4aa0a369b0fd1a41a97240b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7477,7 +7477,7 @@ F:	Documentation/devicetree/bindings/media/i2c/dongwoon,dw9714.yaml
- F:	drivers/media/i2c/dw9714.c
- 
- DONGWOON DW9719 LENS VOICE COIL DRIVER
--M:	Daniel Scally <djrscally@gmail.com>
-+M:	Daniel Scally <dan.scally@ideasonboard.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media.git
-@@ -12611,7 +12611,7 @@ INTEL IPU3 CSI-2 CIO2 DRIVER
- M:	Yong Zhi <yong.zhi@intel.com>
- M:	Sakari Ailus <sakari.ailus@linux.intel.com>
- M:	Bingbu Cao <bingbu.cao@intel.com>
--M:	Dan Scally <djrscally@gmail.com>
-+M:	Dan Scally <dan.scally@ideasonboard.com>
- R:	Tianshu Qiu <tian.shu.qiu@intel.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
-@@ -19066,7 +19066,7 @@ F:	Documentation/devicetree/bindings/media/i2c/ovti,ov5675.yaml
- F:	drivers/media/i2c/ov5675.c
- 
- OMNIVISION OV5693 SENSOR DRIVER
--M:	Daniel Scally <djrscally@gmail.com>
-+M:	Daniel Scally <dan.scally@ideasonboard.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media.git
+On Tue, Oct 28, 2025 at 09:21:24AM +0100, Johan Hovold wrote:
+> On Mon, Oct 27, 2025 at 07:29:39PM +0000, Nicolas Dufresne wrote:
+> > Le lundi 27 octobre 2025 =C3=A0 14:37 +0100, Johan Hovold a =C3=A9crit=
+=C2=A0:
+> > > On Wed, Sep 24, 2025 at 03:35:49PM +0200, Johan Hovold wrote:
+> > > > This series fixes VPU device leaks during probe of the mdp and two =
+codec
+> > > > drivers.
+> > > >=20
+> > > > Included is also a minor documentation update to make it clear that=
+ the
+> > > > VPU lookup helper returns the device with an incremented refcount.
+> > >=20
+> > > Can these be picked up for 6.19?
+> >=20
+> > They are picked already, please check in the tree,
+> >=20
+> > https://gitlab.freedesktop.org/linux-media/media-committers/-/commits/n=
+ext
+>=20
+> I can't seem to find them in that branch either, and they are not in
+> linux-next.=20
+>=20
+> (I seem to have trimmed my original message too much so that the patch
+> summaries were not included in my reminder. Perhaps you are thinking of
+> the related mtk-mdp3 fix?)
+>=20
+> But I do see an incomplete attempt at a fix of the reference leak in
+> that branch by someone else in commit cdd0f118ef87 ("media: mediatek:
+> vcodec: Fix a reference leak in mtk_vcodec_fw_vpu_init()")
+>=20
+> Can that commit be dropped in favour of this series or shall I rebase on
+> top of it?
 
----
-base-commit: ea299a2164262ff787c9d33f46049acccd120672
-change-id: 20251028-maintainers-f5151fd7f50a
+Scratch that. The merged commit is correct. I'll respin this series on
+top.
 
-Best regards,
--- 
-Daniel Scally <dan.scally@ideasonboard.com>
+Johan
 
+--/z9wxTx+yneLrdmE
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQQHbPq+cpGvN/peuzMLxc3C7H1lCAUCaQCNlQAKCRALxc3C7H1l
+CNI1AP4mIpY9GNfiGHVm9Z4vAFW+glStwC22iPrdWVr53rxShgD+OHcwlYKvCt+/
+P8dYWux9RIhpLNyNVx4owqhrd7Dv8go=
+=J7Jh
+-----END PGP SIGNATURE-----
+
+--/z9wxTx+yneLrdmE--
 
