@@ -1,159 +1,138 @@
-Return-Path: <linux-media+bounces-45847-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45848-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24F29C15E6D
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 17:44:22 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECC69C15F2D
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 17:51:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 79DFA189B39A
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 16:38:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9C31A4234B0
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 16:44:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2221133F8C6;
-	Tue, 28 Oct 2025 16:38:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8C62344053;
+	Tue, 28 Oct 2025 16:44:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZgTkqKY6"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ZZ5UCe1I"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF20327F00A;
-	Tue, 28 Oct 2025 16:38:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03FC133F8A3;
+	Tue, 28 Oct 2025 16:44:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761669505; cv=none; b=szH6vLt4rBcLJyM9K/2U+BV/vTT1D4/4cMY5Tzsp08ipcPXdwXr/qrzbp5bBSlnR0tMjyp8tFl8kT7R1+1ujyPHH0XWYOwff/Q4Jysk1UjCVN3zPGjblcG/dc7UjEGv9bnKk66/v4JIxISPN5RqSsfnXMIwy0mvPa4ziRlLY680=
+	t=1761669880; cv=none; b=qLbMsET11dUHvToc93xWpog+AtJ1rx1Q9F3H9BXAxe+J678Q+n9UnBzXmpU9m1n9KvoSzxgZABluf9YTQz97j9uFuN0xf2PHesYEnli54p9pq4mVk5uiH5N37+ZTq1ZLi24Q0gGZrmAudnzLCnuIWdGfyE4UYJcCorcFcvInges=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761669505; c=relaxed/simple;
-	bh=ZDoVW0phZTZ/KSYf4G3aRZC3br0hCZvkLMwglbY+L+I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Perq9XxXD7YtlwgL7J4BHME2Vw5Sv+H6ltxRV6kwV1v0mslwJmiEx668hOrizgbvzm7KuE0vNcL/4JZ0/ogEnCfORGBok6Pk4aKhrrBc8Rzb+n2LkssvyMx8FoKOAw8u1ooLkdlxH4G3rdkvG9BM5Ll2D+HsEPCJ9kbxhqtiwus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZgTkqKY6; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761669504; x=1793205504;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=ZDoVW0phZTZ/KSYf4G3aRZC3br0hCZvkLMwglbY+L+I=;
-  b=ZgTkqKY6flUAV8m2t5xvZucfLD+p249A6IK3jjgggpHY61/rAjXDFIWs
-   3/O8oTxKfskpPyPim/NAXiZ8a3VD5a3ma82gQfPenTbl/Szeb1bCiWWxU
-   wgNGZkCY0uObFb0fwwPoFE2Cj1VzAtj4U+nwKJ/eHEC2bNmVWaI+NaBqW
-   EzG+WzaHZtY6dAKKe1c3dIPhlZhuKRaCISRL+QHn4tcGOSQIhcRiGnmAj
-   BFNntGXTxuK8d6mCj8BG7R2URnxuzgLHiQCbUs+2838MmLcC8cSBYAI08
-   td1yBYu9UFDxHHYNdSQeSFcF0Jtyo8fOSAlSkJ3I5ImLaP5qSQqIi3pFl
-   Q==;
-X-CSE-ConnectionGUID: WqOI9xSyRn+0/TRtaegpcA==
-X-CSE-MsgGUID: BbwoB0/MSJ6D0RkEuHjLBg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="81198497"
-X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
-   d="scan'208";a="81198497"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 09:38:24 -0700
-X-CSE-ConnectionGUID: QDQWITfDTcCcmdG7SlTaPg==
-X-CSE-MsgGUID: 5AsjzWDETaiOdcaAKoFztw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
-   d="scan'208";a="185484655"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.104])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 09:38:19 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 2647F121E5D;
-	Tue, 28 Oct 2025 18:38:17 +0200 (EET)
-Date: Tue, 28 Oct 2025 18:38:17 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>, Hans de Goede <hansg@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Dongcheng Yan <dongcheng.yan@intel.com>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Jingjing Xiong <jingjing.xiong@intel.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 0/2] media: i2c: add Sony IMX111 CMOS camera sensor
- driver
-Message-ID: <aQDxeXV37IHpKeKX@kekkonen.localdomain>
-References: <20250819120428.83437-1-clamor95@gmail.com>
- <aLB_7YS9HsfzfadI@kekkonen.localdomain>
- <CAPVz0n1mXvdyzshei8Mbw7KVYCkQjziBA95ton4MKXPnPd0kbQ@mail.gmail.com>
- <aQDuOSUYbuoLoFbf@kekkonen.localdomain>
- <aQDvzKMXhVlR2G3J@kekkonen.localdomain>
- <CAPVz0n3E08Ft1q5QS-aT8WUQNmTe5uOs=d2VHovNH1BbdQWVRQ@mail.gmail.com>
+	s=arc-20240116; t=1761669880; c=relaxed/simple;
+	bh=+zDR3syKjBS2kd+OGgcF0id7D9QlT0C1fTMMcdbDDkc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=XsC/MrF2FMie1W5rtSrl+swNS8F4TwbrfBVTB0M5aigh4TDVqjMLy5vX4jzmtwdXDdBChXZlz3Pf+bCu+Di1+yEuAf5/8woR66HGxbv1LKOPpDYLx0jnNgWUSHnD2Sb2cCdmcUx/W96WFTYJw2qSljKrUsadl5O3zR1nZlGi8Do=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ZZ5UCe1I; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1761669876;
+	bh=+zDR3syKjBS2kd+OGgcF0id7D9QlT0C1fTMMcdbDDkc=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=ZZ5UCe1I+VEvGaETBjkABXqceD+4vP3AKUIGnEYq4VzFXR51M623FLgS/kA8qv4O3
+	 d/8ZpREhi2GnKYvdHwIvsixY9jMgira2oG+o/a2FjYacLib+u/dkfexby2xqWbDV28
+	 5QzbOfb+qj7hZ4jKImLRWcwJM4GwOJGJR4gcDCFn0+EwG0DIR2/48vwePA1MocWXc/
+	 FFgKn53F+k0LZRhqNrCMsUaKTPQ5GMB95jXROOIIcUVh/ruC6B0V2GAxQzww6tzuY3
+	 2jAY642APV2A2elQEOe5AbBYneeBjNv43SuRuB7B6ThqM6Y600X57An+wVIy7hySst
+	 WXTLkhbCmPYdw==
+Received: from [192.168.11.9] (ip-217-65-134-16.ptr.icomera.net [217.65.134.16])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 985C317E1278;
+	Tue, 28 Oct 2025 17:44:32 +0100 (CET)
+Message-ID: <c5d17fc824ac7091e63f9d1d9ed7c0666994089e.camel@collabora.com>
+Subject: Re: [PATCH v2 2/2] media: chips-media: wave5: Process ready frames
+ when CMD_STOP sent to Encoder
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Brandon Brnich <b-brnich@ti.com>, Nas Chung <nas.chung@chipsnmedia.com>,
+  Jackson Lee <jackson.lee@chipsnmedia.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, 	linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Darren Etheridge <detheridge@ti.com>
+Date: Tue, 28 Oct 2025 16:42:28 +0000
+In-Reply-To: <20251021204618.2441939-2-b-brnich@ti.com>
+References: <20251021204618.2441939-1-b-brnich@ti.com>
+	 <20251021204618.2441939-2-b-brnich@ti.com>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-fnIbwzv7kVFXSPSi8gAo"
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPVz0n3E08Ft1q5QS-aT8WUQNmTe5uOs=d2VHovNH1BbdQWVRQ@mail.gmail.com>
 
-On Tue, Oct 28, 2025 at 06:34:15PM +0200, Svyatoslav Ryhel wrote:
-> вт, 28 жовт. 2025 р. о 18:31 Sakari Ailus <sakari.ailus@linux.intel.com> пише:
-> >
-> > On Tue, Oct 28, 2025 at 06:24:25PM +0200, Sakari Ailus wrote:
-> > > Hi Svyatoslav,
-> > >
-> > > On Fri, Aug 29, 2025 at 09:20:10PM +0300, Svyatoslav Ryhel wrote:
-> > > > чт, 28 серп. 2025 р. о 19:12 Sakari Ailus <sakari.ailus@linux.intel.com> пише:
-> > > > >
-> > > > > Hi Svyatoslaw,
-> > > > >
-> > > > > On Tue, Aug 19, 2025 at 03:04:25PM +0300, Svyatoslav Ryhel wrote:
-> > > > > > Add driver for Sony IMX111 CMOS sensor found in LG Optimus 4X and Vu
-> > > > > > smartphones.
-> > > > >
-> > > > > Thanks for the set.
-> > > > >
-> > > > > I wonder how would the sensor work with the CCS driver. The register layout
-> > > > > appears to be very much aligned with that (I haven't checked whether there
-> > > > > are MSRs that depend on the mode).
-> > > > >
-> > > >
-> > > > After deeper testing I have found that imx111 may be nokia,smia
-> > > > compatible, at least most of general registers and CCS logic is
-> > > > applicable. Some of registers may cause issues, for example,
-> > > > "phy_ctrl_capability" = 0, 0x0 and some insane pll ranges. Maybe that
-> > > > can be addressed with a firmware patch idk. The trickiest part is that
-> > > > each mode requires non-standard and non-common manufacturer code
-> > > > (0x3xxx ranges). If you can explain how to address these issues, I
-> > > > would love to add imx111 and a few other modules into list of CCS
-> > > > supported devices.
-> > >
-> > > On a closer look, only the image size related configuration and a little
-> > > more appears to be CCS-like. That's not enough to configure the sensor;
-> > > this is conveyed in the MSR space which indeed makes the sensor difficult
-> > > to control using the CCS driver, unfortunately.
-> >
-> > Ok, the driver appears to be doing quite a bit of register writes outside
-> > the register lists, which is good, and what's there appears indeed largely
-> > CCS compliant. The MSRs remain an issue; it'd take quite a bit of reverse
-> > engineering to figure out what the registers are and how to configure them
-> > in a generic way. I think that's doable but I'm not sure it is justifiable
-> > considering the expected effort.
-> >
-> 
-> I have deciphered a lot already since downstream provides only
-> register writing sequences. Everything that left is 0x3xxx which seems
-> to refer a vendor region and it is not documented anywhere.
 
-That's what I'd expect, too, with the possible exception of the datasheet,
-but even sensor datasheets often omit a lot of information.
+--=-fnIbwzv7kVFXSPSi8gAo
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I believe you're already aware of
-<URL:https://www.mipi.org/specifications/camera-command-set>?
+Le mardi 21 octobre 2025 =C3=A0 15:46 -0500, Brandon Brnich a =C3=A9crit=C2=
+=A0:
+> CMD_STOP being sent to encoder before last job is executed by device_run
+> can lead to an occasional dropped frame. Ensure that remaining ready
+> buffers are drained by making a call to v4l2_m2m_try_schedule.
+>=20
+> Signed-off-by: Brandon Brnich <b-brnich@ti.com>
 
--- 
-Sakari Ailus
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
+> ---
+> =C2=A0drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c | 2 ++
+> =C2=A01 file changed, 2 insertions(+)
+>=20
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> index 0a2eab372913..7ee77c9a30c0 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> @@ -649,6 +649,8 @@ static int wave5_vpu_enc_encoder_cmd(struct file *fil=
+e,
+> void *fh, struct v4l2_en
+> =C2=A0
+> =C2=A0		m2m_ctx->last_src_buf =3D v4l2_m2m_last_src_buf(m2m_ctx);
+> =C2=A0		m2m_ctx->is_draining =3D true;
+> +
+> +		v4l2_m2m_try_schedule(m2m_ctx);
+> =C2=A0		break;
+> =C2=A0	case V4L2_ENC_CMD_START:
+> =C2=A0		break;
+
+--=-fnIbwzv7kVFXSPSi8gAo
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaQDydAAKCRDZQZRRKWBy
+9H/SAPwI3yGHldwe6ZRqSHBVKktYayRKH5TXay0xDmFAHPHduQEApiUurKdcqoNF
+tgZCbD4Ej3iJr5/MKVWXBh9J3XOZ2wI=
+=IH2a
+-----END PGP SIGNATURE-----
+
+--=-fnIbwzv7kVFXSPSi8gAo--
 
