@@ -1,235 +1,463 @@
-Return-Path: <linux-media+bounces-45727-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45728-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8115CC12E4E
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 06:01:36 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5F88C12E81
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 06:06:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0981F4683D8
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 05:01:34 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D0C8D4EC7AF
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 05:06:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C9062989BF;
-	Tue, 28 Oct 2025 05:01:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 251C7224234;
+	Tue, 28 Oct 2025 05:06:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZHLqtm4C"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N9Oeftxb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 414F1EAE7
-	for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 05:01:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761627683; cv=none; b=nEC3BUv6pIAydv8ZmFca+poOGXiJ/n9DYlr3c4J1ocY6Nu3dyOoyVWAyFHOsimiXo1R+8injb6pP4XFl988c3outRXnjKwugRZuk13q5u5YTgvTgieX2s03VXB76GGYlfMN2MhZQjgGyZGBWBniTSDx8MKho8B41DEdS6kHmZKU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761627683; c=relaxed/simple;
-	bh=Lq0NUp8tzDM21ME58IEDJ0ubQDaHxYD7QlhSXZX4T5s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i/QjSnB1BbHPm4XXzqiAB4ZQGTxDjLfAnEq+ylSCES2yOjw/UihUfbwjbbLeaYz9iRvT1wBYmBG/ukkepX9BDKy0tvJWHILiJLJ6UIFjj7iC7+R5SKUEA2ttcgDxFcCXM5imIVYzJ1Q/UD902bXkjlyl0z9izliYOutgP1OTFN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ZHLqtm4C; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59S45Hn2573510
-	for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 05:01:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	vad+qn8RkXM2BN3TnKTIwMAAG+YIgA1CHl86YPkog10=; b=ZHLqtm4CHqai9IvB
-	qmTba2B1efr68ZmBDME+eF2GlpicIFe36gX0uz/NGyTVHbT/Pcyx1AaAYo0OUrZ8
-	BkIc0NgThPUASDXXn/S/vkgpXnYMzRs8S/mTc1ssBhl/l8DIo71qZlXruXypYmQM
-	8j49aXc/ahJzCZH/ijj8rzlEHHH4NLItqNbDI/qdetasQ5kAs+yITY5PbWVfKMuN
-	pMzihqAhhuEzc4L3E/dz5B+n4KOkMxKUB6vvRZRSG+UPDd9iv4rkwd99lE/Lud39
-	ld5h48F7z9m5JYy9SotAs2QU/kqSFGEh+l3qqTdVIraKQsqv/z6iSsiXTr5qkI/d
-	X60phA==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a2pge83pv-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 05:01:21 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-32eddb7e714so4603284a91.1
-        for <linux-media@vger.kernel.org>; Mon, 27 Oct 2025 22:01:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761627681; x=1762232481;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vad+qn8RkXM2BN3TnKTIwMAAG+YIgA1CHl86YPkog10=;
-        b=SmJlOJWx5Z4hxt5hFC7f0m3r5CGkdCc9FgTbJqVkw6LkSxO84tn1UQs5ka4qFLGxiY
-         khXuG8MxzYWeiQm+nfx0fdXJXlJ+TKk1ZwNrxY0MttTfCPYBXge4OAIgmJG3FVGKOzlQ
-         /5QiE3Nak/ELOc+D7Oo8ki+GWOn85cxCH4rAPWHdERwGpN13Fa6MZUsDhk/33Z1cf0pm
-         cywKO2Ux/lkHZMCSnW886JmkUDs2gSrStftFLqeypmREir49Z744jGbRdmf7gx09iYrt
-         g+kjWRXCvDuiLjGwZ3I8D4W0OBacP2Tzg/eKYIZX7qXes/tCn7o4UMRvuYnWA0nJ1+Ui
-         b5JA==
-X-Gm-Message-State: AOJu0YzJdmbcOFw9qubRACsN+HMV4FbNccimN1EDtSKHj/CJipVd2kKu
-	VFqoc06MPZDVs5PRdzJzH9+dhicXuLZsmgCPdc0cMPvqakKmWXPPYmNU2sOQiG/p4H3YGjaInVe
-	uyLPZe6xN9XztQhU1sLr9DuDAfjDXaq40cQ84HBMKyomCgBdBEEgY4LYKQg2X+USsag==
-X-Gm-Gg: ASbGnctFZg4jmGYo5mPhjeqFnlEnVPvnDorh1ZwXthRas6WTQLaCwJB0oLxIcIfOts3
-	adYXeosUYtb7c0WFQIBdhjcp1whjKRuQwr6PlXn4Nb0NY9o2ty/XpTpKDQl8LTFpbvpgyOz3HaM
-	6u3imDyOW8nIDqneReBlb1SYmsDowDHyHqEoutOnMM10ZeKvOn+CMBcnVOhs3PuzOOo4lJWagCM
-	ocH57q155lhY7iAT5ipOEl7NKg3PT1FOtguC4xvPQe0iroptWk7U98IvTy7KbCe2RlDnGZwRk1F
-	JCGJIwngzCwcYGLeilZ/ZDn0IdtDiE96hhnNdUziK43ltzr+yypKw12WkTBqXEYK9YyyzAlDPzv
-	EWcKGKJ1cH1LltLl+U8z7OH63YTNc0/o=
-X-Received: by 2002:a05:6a20:6a22:b0:340:fce2:a15c with SMTP id adf61e73a8af0-344d1ba883dmr2074222637.9.1761627680745;
-        Mon, 27 Oct 2025 22:01:20 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGdDeIRD4wAR0wRMOvJHEteHWQmjnRT05hGOov0KIeVR9og2SzmIgUQrAfBFQA0Yal7IiQhpw==
-X-Received: by 2002:a05:6a20:6a22:b0:340:fce2:a15c with SMTP id adf61e73a8af0-344d1ba883dmr2074192637.9.1761627680233;
-        Mon, 27 Oct 2025 22:01:20 -0700 (PDT)
-Received: from [10.0.0.3] ([106.222.229.252])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b712d7cdf28sm9039013a12.31.2025.10.27.22.01.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Oct 2025 22:01:19 -0700 (PDT)
-Message-ID: <68974e34-78e0-d82a-f552-044e9bae3170@oss.qualcomm.com>
-Date: Tue, 28 Oct 2025 10:31:16 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77E3913AA2F
+	for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 05:05:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.18
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761627961; cv=fail; b=LPgCFSGj/4rZpy+bzmA4k9cAi+Xkc81ay5dj0F5DVgSZCgVKiYJdKXGJwDsRLFxyJfKy2VsEuAn52rqBuwhUN+5fugJ4/EN1cQipyghCNUNLtxifop21IQyGTAhtoOHY1IHQZ6SSqBhSsJhDDUsKSVZ5waezDdSf5CETD+PyMwE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761627961; c=relaxed/simple;
+	bh=7po46SiM3f9PoEn3QOsim6OUOp3O8c3ZkOOdj8Q1XV8=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=ONoZ92XcirJupU68AZh2PmeJqj7QHLA/7RofPCR1s6WCNNywCojhMg5v2vVrR1gPZBounoVLbIU20b9Z0t+q6COJceIr7T0F7vBRmJ7KTDDyV4Gq0ZpIWpsKmVPceqc1qUuINN26s6fP3l3ND8Eny6aAtszdB0HvY56+3ot0Mew=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N9Oeftxb; arc=fail smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761627959; x=1793163959;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=7po46SiM3f9PoEn3QOsim6OUOp3O8c3ZkOOdj8Q1XV8=;
+  b=N9OeftxbAg3pAM92oeDD8Qm7KFZUQM0kzqTDf2vUfQhzB2Lj9u+eE+uU
+   y/IF+Q7TxY3R1I+1FSt7SDU92Fc8eIoZSQoGJ4ooPxBXkYKcq1dcfUYG4
+   QjMK9rq4JpV/tIgkB55LYiZdxFJPj8DsbhhRAce8AqGvjJEPTvDhg42PL
+   a5GRzE9lrAK1f7fr9iKCHXElHmcF4MMxaYyHuJibcigQ2VC7qcvSv1D/s
+   TR5zUqd27BiFvk7qleylg0pL76dSCK3KAhf4qI99xdFI93DB/2v01bBIP
+   Dwc1IMCoFZzRKyqrRaczyEx4v+orzU+FTKz0J2JYmpQZmuY3AGzPZlq1H
+   A==;
+X-CSE-ConnectionGUID: 8e11CVRASj69w8a8bxj7WQ==
+X-CSE-MsgGUID: 33PRWsExRGaihBG7Mvp/8Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63756553"
+X-IronPort-AV: E=Sophos;i="6.19,260,1754982000"; 
+   d="scan'208";a="63756553"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 22:05:59 -0700
+X-CSE-ConnectionGUID: Sb8s1oR+Q6WvLzur/y3V0w==
+X-CSE-MsgGUID: wg4Iy+r6SQKZMQVapEdKbA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,260,1754982000"; 
+   d="scan'208";a="185998284"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 22:05:59 -0700
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 27 Oct 2025 22:05:58 -0700
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Mon, 27 Oct 2025 22:05:58 -0700
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (52.101.43.50) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 27 Oct 2025 22:05:58 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Z+NA51uO8+cjyTmt0/k+VCoPtGjZuOx8Xb1gG7QrTP0xCWFcrW+uMhqLZ+aqGtAFMbk/i2PVaLOubwcjuWbXUfUC5zhxVnlZ7Mg1ekeAYWHW8zQoZ/NILfkQRwdl6VOKl8qLgGfjNhwtlcuL/sJRnUp8TxcN8pCefMu4FX3rIViW/E6pEv28YAVh5lfvxgLZ/lAfl6henZohpefChTa6MxQ/yuIdEcVmfiggZScOMg5T0ODymEqkqEu3WB1JbJIpsXtgMR9JZcDZVOK/eq/KOnIkX8+XcbIAs1BPrr1CHN5VFCPcmb705jDFT98lPctb1XGGYV9ksxeppGN2LJiKDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=w7bqi+bLydh/i4Imsg1j6YMDiCDmxQL3P4GeF3Vbw7E=;
+ b=IghQ6/LNKdRtvWgo6XMH1fbgI6vEwSajR+rGdzf9P8heFBgjOf5yNiAJUaM2nYKZMbfQZ6/JjEB63/6fgiI8RLrfP1viQvI51Q1CjvqUa2spEITBnMZAXrr1S2gwfCYwnfYa0yiDbOiEo2iapnlP7D0abEI0h5wM/cewJv/jzo7Evcw2BdNbDX0xB+9aUu4LRKDCQ1wZiA9utww5lx6xpsDYXBieiFeQTS8IR46frGnBtrV8+mm4Ci8bzHFhsRacxGAH0DL24BWSZZB0iQJbg7q5v9PEfXKhbKBkuj+qlAiXNVE6Bl+9I3HQ7fYu7J3uuWkvdEl5QviBRHEBHfDVEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from IA0PR11MB7185.namprd11.prod.outlook.com (2603:10b6:208:432::20)
+ by DM3PPFD83941681.namprd11.prod.outlook.com (2603:10b6:f:fc00::f55) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.19; Tue, 28 Oct
+ 2025 05:05:56 +0000
+Received: from IA0PR11MB7185.namprd11.prod.outlook.com
+ ([fe80::dd3b:ce77:841a:722b]) by IA0PR11MB7185.namprd11.prod.outlook.com
+ ([fe80::dd3b:ce77:841a:722b%4]) with mapi id 15.20.9253.017; Tue, 28 Oct 2025
+ 05:05:49 +0000
+From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+To: "Brost, Matthew" <matthew.brost@intel.com>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>, "Jason
+ Gunthorpe" <jgg@nvidia.com>, Christian Koenig <christian.koenig@amd.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>, =?iso-8859-1?Q?Thomas_Hellstr=F6m?=
+	<thomas.hellstrom@linux.intel.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Subject: RE: [RFC v2 4/8] vfio/pci/dmabuf: Add support for IOV interconnect
+Thread-Topic: [RFC v2 4/8] vfio/pci/dmabuf: Add support for IOV interconnect
+Thread-Index: AQHcRvz6/onhZBrk1UCfBy3w/rHny7TWzzEAgAAPDtA=
+Date: Tue, 28 Oct 2025 05:05:49 +0000
+Message-ID: <IA0PR11MB7185DEE8A2CE81E3A9F86BF9F8FDA@IA0PR11MB7185.namprd11.prod.outlook.com>
+References: <20251027044712.1676175-1-vivek.kasireddy@intel.com>
+ <20251027044712.1676175-5-vivek.kasireddy@intel.com>
+ <aQAjqFw6ElAJBmxF@lstrano-desk.jf.intel.com>
+In-Reply-To: <aQAjqFw6ElAJBmxF@lstrano-desk.jf.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA0PR11MB7185:EE_|DM3PPFD83941681:EE_
+x-ms-office365-filtering-correlation-id: 7ae66cdf-d3e6-4298-fc07-08de15dfa970
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|38070700021;
+x-microsoft-antispam-message-info: =?iso-8859-1?Q?CLmG9uUqFKcr4dl9ZtF8sKpcZL0N+8Q6HqFp+xx2vOiLIRSMQ+emNsLweP?=
+ =?iso-8859-1?Q?A29yPL2AT6EpKYQ6LPjmuDYn5vGjZymyTvxoraXO9Yk8Wo8rTcDBVDzYYq?=
+ =?iso-8859-1?Q?K78mL44urpnnk24tVXvlzeEaLg0kBsCoILixu28WNPgakO+YCGBxMxL7uo?=
+ =?iso-8859-1?Q?UqlDf3RojsHt1QNDinZIEvlS9pWASABbpBnlskulPchETJ6ygrqNrAV0D3?=
+ =?iso-8859-1?Q?EaRhnjgL4DY639HT9OVjkS7juVZV6IYMRyaUaIyxzwliZFYIXHLi8Hk+Sb?=
+ =?iso-8859-1?Q?eZCb6I7Yc6ZB7CiymHnrG9kD+XL8Erq00oJFrt5ueeL0uxgUS5hl4dvsQe?=
+ =?iso-8859-1?Q?efxOSLLj36fOHY0y7G8FHE7TkOrOYZMt33hdIX0DSB9rVIDIHUfDVKAEN/?=
+ =?iso-8859-1?Q?lfJUBP/zbaQmxnVAQK4sFe+6inzhW54QdF/fArsZpQbWOxhmDCQj0MjDvq?=
+ =?iso-8859-1?Q?DJJVnLlXLOHecYnMb+JGlUhDoIMfl9+RJO6xr8x7D9be2n9IdlOp07zNgb?=
+ =?iso-8859-1?Q?UtkNY4E9yHHXVf6NwsOuvYqJS7uDhldQ+DViQAnZto72nCXeOj73So2kGa?=
+ =?iso-8859-1?Q?rEuwtjXgO8zc3Ftir9K5h2j/M3BRuaZNeEnUZzrYSK/KNifSbAlg7G1GUO?=
+ =?iso-8859-1?Q?2sbXLyhwLRbeMwl7MasDzciUTxYH1des5o+2b5TxlwHGZfbfkRtc1twluJ?=
+ =?iso-8859-1?Q?au6q2v6AtxyDPDdZ42hLKi25tviWHIxO0COj+RNIk1BklTezUOVExWevyg?=
+ =?iso-8859-1?Q?zZadQWyVG26ezll5ec9L5NGKF2JWLJ39NOY8Z6vgAyN96oH8TA+XIvVlcs?=
+ =?iso-8859-1?Q?j8KovooxC0//ZtG2+SPAIw7uZ62Qa4xuFcqQVlNQBv3/fH5eRN6DULXbAg?=
+ =?iso-8859-1?Q?eBaCpPZD2LQvHbrdV/jhEoNMG0ucPaMOFJ8gr0wU9v9KZrCqkQol27QGE9?=
+ =?iso-8859-1?Q?B+/5D7tCgdgeCfvq64vXdzqKO4dSai0+A/vmRGyrHAZvoE9DYVNGJp2lBH?=
+ =?iso-8859-1?Q?wnN1j8dg5Xs6CcgjdYBCPhybpG86BbHUiAR3vwpcn8UVyyvZGDUndab1fu?=
+ =?iso-8859-1?Q?xELXNbGSgwF92rq9qWsDizqYDQhJf6KRSnj8JcvXfQAZ7o84Ohu9R3G630?=
+ =?iso-8859-1?Q?MYd3drMiTX3Cdw5B51nRNgyI1jD/QkoUixP+BCY55u8EK9zFJu/rCl7pYB?=
+ =?iso-8859-1?Q?48E8yZJjMHEZFaKCcFB4rZg48Azx+9Wcn4VSvO9NNgtWZooVJkHT5EtOdf?=
+ =?iso-8859-1?Q?hY61mGL7fcbmn9/nEJh07blstx6ISFkCaOnLLKr7ShvAvcwNDzWQBYA/4J?=
+ =?iso-8859-1?Q?tahRBi4ZZHplk66i4t39L0HGifrS0nl73vo192lg3SdDHQAE76HiMQXb8W?=
+ =?iso-8859-1?Q?wzFS8VKZfd/veJT8TV30Vvt2rnaeXOh5NX31707rKP5R9d1IZjS8gZb3wa?=
+ =?iso-8859-1?Q?L2jB0UHlmLjN2En/cfZ3KNqXR1iL1yLhkJenyEMtwNqmLdrUxvhpPmyv84?=
+ =?iso-8859-1?Q?dsACfwQbvtKcKfpBuF+NmnN01UFZc+j6Rf8hrAVX/waIz72x3//rKd9KZk?=
+ =?iso-8859-1?Q?u4JhYGYk+nzfX0F8N2qdkjwiTrOL?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR11MB7185.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?kTWj1HEHKLQ6v9UHf9+ElJpqFVolktGyA4gBulA2DSZieVkWO65p9VHeJi?=
+ =?iso-8859-1?Q?G1GM4+8vlz3GntQXtjBMR0TvvPxoTGxxwk0bv1zLIqOsknpDCBQZ/coG1N?=
+ =?iso-8859-1?Q?fsVvPxSpatTiBA6OS0mMHx6zxq9rrfTQVeAjEayQ3GjBExdkzL0kY2Od+9?=
+ =?iso-8859-1?Q?+xGjDfZ1DTa3ITbEak1AeBMzLdlqDgZaVzGu2AWvvvNREG5v8wIRgIkFZ6?=
+ =?iso-8859-1?Q?0WFJua3F+WVTa24uzzYmrY+Fwt7cACAbe3a7bZRuOTKWhLW7XbeuXwSsEQ?=
+ =?iso-8859-1?Q?OanNB6Ycov93vJUiCkPFh4mZha4HptB77Hi2LIuASb05+EfoLJuXRhBshm?=
+ =?iso-8859-1?Q?yaRjExGtekxMemTgxD6ACJENRnhSmueCOXV7wpyCL0Bp9DSOclnXUgIdJI?=
+ =?iso-8859-1?Q?BrYOTXKJ3cqbKXEIUjw54RPBXsskn/rEJWBOqgewnaWzeMWyAZXimCGJZP?=
+ =?iso-8859-1?Q?XKF+qCzVtQR3gjLyW8ONHlRWyzgo4ZEH8HMuNG5howeImA7aHBmhGmGIwd?=
+ =?iso-8859-1?Q?fCRF9J7iRBTpvV2fZHFKCXbhsebYavcLTgFiAB9PF4X/aVswusLqH0peoG?=
+ =?iso-8859-1?Q?xhOXfzU9zJNj/q8qqrXoHL/u9sXRLMwZsZuRSU0tUc2/DqXG6s6jTkwyXw?=
+ =?iso-8859-1?Q?3KIwAJWmuUfJH+3xLy2eW5n62sfzAn2UhVh5JzddRIccp6+VfGtE+b3dAl?=
+ =?iso-8859-1?Q?PY/AMRO8h2dVsymmozViIwFl+wbQgz31+MvxLpFFrYZcCFFRyGh54iAtxU?=
+ =?iso-8859-1?Q?cbM+FXZcovR1MVuzwlRsXFJC2rEsuKWcoOJF2o6UNU7eIUdzLQ2AhtH0Fe?=
+ =?iso-8859-1?Q?b7s4j33VSOZiESK0RVBYA01xPANM8n3XfkEPy3uWu2/k0/2+dv9H3wZvuN?=
+ =?iso-8859-1?Q?9qEDu5lhZRu+EzSyIyw/RevlH0K/Qr8sqGxQn0E2xPEGz40p66dFzo+EvV?=
+ =?iso-8859-1?Q?QsQzYAxETlUMO0wx9IqbSCg1OPAAm4VEpX07DL9UP7cLclE1TVdjDeZFLa?=
+ =?iso-8859-1?Q?RN1TXn+ZrHy5TebTyiENWk+nL5cFQOOwGKdf63yLs8IjV0DFN7zsKuryhH?=
+ =?iso-8859-1?Q?Ow4m+AG3VutrbJyfpflayaxlHico7653cTpDziuCEUPrfiwFhXrjEJdczo?=
+ =?iso-8859-1?Q?s9Uflb4sTlmHOzwBEQ8a1uIiHzawUtqjAykb7m7J8xMceGiEo1GpTMhhvL?=
+ =?iso-8859-1?Q?hGAz1LNvVitwWGP2m6W68oRKG6fPASJWgiD8YLWKVTKWsLlOkIgMKzl5uY?=
+ =?iso-8859-1?Q?GiEs4f2O2aeS64mTc/fJO+l6pC7gMv34nLocErj3YF8nr9Y9f1iscUqH3V?=
+ =?iso-8859-1?Q?Z1PbczWKplLkvz3jzVpv+ZZiGe7sBEdA8xW436rVggbo1iv55gfYrYGyF8?=
+ =?iso-8859-1?Q?OrGUwjebpUWK6mm890qOMoZxg19mBrAzMe80onk8rdx0oNbGghwqfQLBqC?=
+ =?iso-8859-1?Q?Yplxiys8EpkOmIcA+X+Cg8TBeoCjDwIweGXaVt8gDq37hGo9L4ts5ff/mv?=
+ =?iso-8859-1?Q?rEbyozu/YEOKi/8a9iZqi95LznmTptoV45nWzbb5sdNPoY7vT+HH4AINf9?=
+ =?iso-8859-1?Q?OO8GBU4sU+MdfXiHI020sFkQ6BjtopHS0gNaEpZ45mP2aCHRhrzGZ7QyMr?=
+ =?iso-8859-1?Q?BWo4caoJ8dbTwks/lTYWx4PQ8lQQdZ3KWU?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v5 3/6] media: iris: stop encoding PIPE value into fw_caps
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20251027-iris-sc7280-v5-0-5eeab5670e4b@oss.qualcomm.com>
- <20251027-iris-sc7280-v5-3-5eeab5670e4b@oss.qualcomm.com>
-Content-Language: en-US
-From: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
-In-Reply-To: <20251027-iris-sc7280-v5-3-5eeab5670e4b@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: snh-YKPS0CfmdawbS85JXl_0gE_5nsOj
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI4MDA0MSBTYWx0ZWRfXx16jKxAMUMIS
- D2vBDc03xKLnhKb9yTdlyfU22MUNIFG/tBeyVcjMcNCTJyR7Sce9nwXlD/GYD9mPLAvPB1KiQuj
- IAeSOnkp0mAqwzMgiUDF7bflftjxGvI9QvNU6QbOjO+d4pBvP1acu02VDuIqYWf0u8jlCERebKn
- VTVHW9c2gMBIw4+bFVzg7XPUGNKl5UlHogbWKeSOee8NfJB+jVDAnxc0kpuLRMDHg+k6darCvhj
- VLkoyHbmj6YNna/u8cZC+UHQ46Z8zkWhwKYLYzjRDGIKQBM5SvVfMZJcw5G+qCKW1Oss/3Fpxt0
- Nu4voq75rpGg3VUEyysqCgpuDF24dCXkZsLFRAKd0I+xxwH4xwIobfvdYZKJqekMLkcMA3b25oZ
- uUhY9Kvky0zn3kZKHLVlKoU4xYXA7w==
-X-Proofpoint-GUID: snh-YKPS0CfmdawbS85JXl_0gE_5nsOj
-X-Authority-Analysis: v=2.4 cv=fLU0HJae c=1 sm=1 tr=0 ts=69004e21 cx=c_pps
- a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=L4UNg9I9cQSOxNpRiiGXlA==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=SvJZJoMY8oi3fNviAK8A:9 a=QEXdDO2ut3YA:10
- a=uKXjsCUrEbL0IQVhDsJ9:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-28_02,2025-10-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0 spamscore=0 phishscore=0 malwarescore=0
- lowpriorityscore=0 priorityscore=1501 impostorscore=0 adultscore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2510020000
- definitions=main-2510280041
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7185.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7ae66cdf-d3e6-4298-fc07-08de15dfa970
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Oct 2025 05:05:49.7263
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: rc+ZSkxteNALfUshmJhJ592RGncaEw8jZmxHtj79yn/GCta6vNhbehirjO0/xSAawC4UUlkvcZ9F33pomS3mJ6m2I06Cr5q3AGbQdDcpA2U=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PPFD83941681
+X-OriginatorOrg: intel.com
 
+Hi Matt,
 
+> Subject: Re: [RFC v2 4/8] vfio/pci/dmabuf: Add support for IOV interconne=
+ct
+>=20
+> On Sun, Oct 26, 2025 at 09:44:16PM -0700, Vivek Kasireddy wrote:
+> > Add support for IOV interconnect by provding ops for map/unmap and
+> > match interconnect. Note that the xarray is populated with entries
+> > of type struct range. The range type contains the start and end
+> > addresses of the memory region.
+> >
+> > Cc: Jason Gunthorpe <jgg@nvidia.com>
+> > Cc: Christian Koenig <christian.koenig@amd.com>
+> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > Cc: Thomas Hellstr=F6m <thomas.hellstrom@linux.intel.com>
+> > Cc: Simona Vetter <simona.vetter@ffwll.ch>
+> > Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+> > ---
+> >  drivers/vfio/pci/vfio_pci_dmabuf.c | 135
+> ++++++++++++++++++++++++++++-
+> >  1 file changed, 134 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c
+> b/drivers/vfio/pci/vfio_pci_dmabuf.c
+> > index eaba010777f3..d2b7b5410e5a 100644
+> > --- a/drivers/vfio/pci/vfio_pci_dmabuf.c
+> > +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
+>=20
+> In drm-tip vfio_pci_dmabuf.c does not exist as a file? Is this series
+> based on another series / branch where vfio_pci_dmabuf.c hasn't made it
+> into drm-tip yet?
+That file is part of [1] which hasn't been merged yet. The last patch in [1=
+]
+adds the dmabuf feature to vfio-pci.
 
-On 10/27/2025 5:57 PM, Dmitry Baryshkov wrote:
-> The value of the PIPE property depends on the number of pipes available
-> on the platform and is frequently the only difference between several
-> fw_caps. In order to reduce duplciation, use num_vpp_pipe from the
-> iris_platform_data rather than hardcoding the value into the fw_cap.
-> 
-> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-
-Reviewed-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+[1]: https://lore.kernel.org/dri-devel/cover.1760368250.git.leon@kernel.org=
+/
 
 Thanks,
-Dikshita
-> ---
->  drivers/media/platform/qcom/iris/iris_ctrls.c            | 16 +++++++++++++---
->  drivers/media/platform/qcom/iris/iris_platform_gen2.c    |  4 +---
->  drivers/media/platform/qcom/iris/iris_platform_qcs8300.h |  4 +---
->  drivers/media/platform/qcom/iris/iris_platform_sm8250.c  |  4 +---
->  4 files changed, 16 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/iris/iris_ctrls.c b/drivers/media/platform/qcom/iris/iris_ctrls.c
-> index 9da050aa1f7ce8152dfa46a706e2c27adfb5d6ce..c0b3a09ad3e3dfb0a47e3603a8089cf61390fda8 100644
-> --- a/drivers/media/platform/qcom/iris/iris_ctrls.c
-> +++ b/drivers/media/platform/qcom/iris/iris_ctrls.c
-> @@ -313,13 +313,23 @@ void iris_session_init_caps(struct iris_core *core)
->  			continue;
->  
->  		core->inst_fw_caps_dec[cap_id].cap_id = caps[i].cap_id;
-> -		core->inst_fw_caps_dec[cap_id].min = caps[i].min;
-> -		core->inst_fw_caps_dec[cap_id].max = caps[i].max;
->  		core->inst_fw_caps_dec[cap_id].step_or_mask = caps[i].step_or_mask;
-> -		core->inst_fw_caps_dec[cap_id].value = caps[i].value;
->  		core->inst_fw_caps_dec[cap_id].flags = caps[i].flags;
->  		core->inst_fw_caps_dec[cap_id].hfi_id = caps[i].hfi_id;
->  		core->inst_fw_caps_dec[cap_id].set = caps[i].set;
-> +
-> +		if (cap_id == PIPE) {
-> +			core->inst_fw_caps_dec[cap_id].value =
-> +				core->iris_platform_data->num_vpp_pipe;
-> +			core->inst_fw_caps_dec[cap_id].min =
-> +				core->iris_platform_data->num_vpp_pipe;
-> +			core->inst_fw_caps_dec[cap_id].max =
-> +				core->iris_platform_data->num_vpp_pipe;
-> +		} else {
-> +			core->inst_fw_caps_dec[cap_id].min = caps[i].min;
-> +			core->inst_fw_caps_dec[cap_id].max = caps[i].max;
-> +			core->inst_fw_caps_dec[cap_id].value = caps[i].value;
-> +		}
->  	}
->  
->  	caps = core->iris_platform_data->inst_fw_caps_enc;
-> diff --git a/drivers/media/platform/qcom/iris/iris_platform_gen2.c b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
-> index b444e816355624bca8248cce9da7adcd7caf6c5b..fb3fa1665c523fbe01df590f14d8012da3a8dd09 100644
-> --- a/drivers/media/platform/qcom/iris/iris_platform_gen2.c
-> +++ b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
-> @@ -160,10 +160,8 @@ static const struct platform_inst_fw_cap inst_fw_cap_sm8550_dec[] = {
->  	},
->  	{
->  		.cap_id = PIPE,
-> -		.min = PIPE_1,
-> -		.max = PIPE_4,
-> +		/* .max, .min and .value are set via platform data */
->  		.step_or_mask = 1,
-> -		.value = PIPE_4,
->  		.hfi_id = HFI_PROP_PIPE,
->  		.set = iris_set_pipe,
->  	},
-> diff --git a/drivers/media/platform/qcom/iris/iris_platform_qcs8300.h b/drivers/media/platform/qcom/iris/iris_platform_qcs8300.h
-> index 87517361a1cf4b6fe53b8a1483188670df52c7e7..7ae50ab22f8c577675a10b767e1d5f3cfe16d439 100644
-> --- a/drivers/media/platform/qcom/iris/iris_platform_qcs8300.h
-> +++ b/drivers/media/platform/qcom/iris/iris_platform_qcs8300.h
-> @@ -146,10 +146,8 @@ static const struct platform_inst_fw_cap inst_fw_cap_qcs8300_dec[] = {
->  	},
->  	{
->  		.cap_id = PIPE,
-> -		.min = PIPE_1,
-> -		.max = PIPE_2,
-> +		/* .max, .min and .value are set via platform data */
->  		.step_or_mask = 1,
-> -		.value = PIPE_2,
->  		.hfi_id = HFI_PROP_PIPE,
->  		.set = iris_set_pipe,
->  	},
-> diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8250.c b/drivers/media/platform/qcom/iris/iris_platform_sm8250.c
-> index 66a5bdd24d8a0e98b0554a019438bf4caa1dc43c..805179fba0c41bd7c9e3e5de365912de2b56c182 100644
-> --- a/drivers/media/platform/qcom/iris/iris_platform_sm8250.c
-> +++ b/drivers/media/platform/qcom/iris/iris_platform_sm8250.c
-> @@ -20,10 +20,8 @@
->  static const struct platform_inst_fw_cap inst_fw_cap_sm8250_dec[] = {
->  	{
->  		.cap_id = PIPE,
-> -		.min = PIPE_1,
-> -		.max = PIPE_4,
-> +		/* .max, .min and .value are set via platform data */
->  		.step_or_mask = 1,
-> -		.value = PIPE_4,
->  		.hfi_id = HFI_PROPERTY_PARAM_WORK_ROUTE,
->  		.set = iris_set_pipe,
->  	},
-> 
+Vivek
+
+>=20
+> Matt
+>=20
+> > @@ -4,6 +4,7 @@
+> >  #include <linux/dma-buf.h>
+> >  #include <linux/pci-p2pdma.h>
+> >  #include <linux/dma-resv.h>
+> > +#include <linux/range.h>
+> >
+> >  #include "vfio_pci_priv.h"
+> >
+> > @@ -16,15 +17,132 @@ struct vfio_pci_dma_buf {
+> >  	size_t size;
+> >  	struct phys_vec *phys_vec;
+> >  	struct p2pdma_provider *provider;
+> > +	struct dma_buf_interconnect_match *ic_match;
+> >  	u32 nr_ranges;
+> >  	u8 revoked : 1;
+> >  };
+> >
+> > +static int
+> > +vfio_pci_create_match(struct vfio_pci_dma_buf *priv,
+> > +			  struct vfio_device_feature_dma_buf *dma_buf)
+> > +{
+> > +	struct dma_buf_interconnect_match *ic_match;
+> > +
+> > +	ic_match =3D kzalloc(sizeof(*ic_match), GFP_KERNEL);
+> > +	if (!ic_match)
+> > +		return -ENOMEM;
+> > +
+> > +	ic_match->dev =3D &priv->vdev->pdev->dev;
+> > +	ic_match->bar =3D dma_buf->region_index;
+> > +
+> > +	priv->ic_match =3D ic_match;
+> > +	return 0;
+> > +}
+> > +
+> > +static int vfio_pci_map_iov_interconnect(struct vfio_pci_dma_buf *priv=
+,
+> > +					 struct xarray *ranges)
+> > +{
+> > +	struct phys_vec *phys_vec =3D priv->phys_vec;
+> > +	struct range *range;
+> > +	unsigned long i;
+> > +	void *entry;
+> > +	int ret;
+> > +
+> > +	range =3D kmalloc_array(priv->nr_ranges, sizeof(*range), GFP_KERNEL);
+> > +	if (!range)
+> > +		return -ENOMEM;
+> > +
+> > +	for (i =3D 0; i < priv->nr_ranges; i++) {
+> > +		entry =3D &range[i];
+> > +		range[i].start =3D phys_vec[i].paddr;
+> > +		range[i].end =3D phys_vec[i].paddr + phys_vec[i].len - 1;
+> > +
+> > +		entry =3D xa_store(ranges, i, entry, GFP_KERNEL);
+> > +		if (xa_is_err(entry)) {
+> > +			ret =3D xa_err(entry);
+> > +			goto err_free_range;
+> > +		}
+> > +	}
+> > +	return 0;
+> > +
+> > +err_free_range:
+> > +	kfree(range);
+> > +	return ret;
+> > +}
+> > +
+> > +static int vfio_pci_map_interconnect(struct dma_buf_attachment
+> *attachment,
+> > +				     struct dma_buf_ranges *ranges)
+> > +{
+> > +	const struct dma_buf_interconnect *ic =3D attachment->ic_match->type;
+> > +	struct vfio_pci_dma_buf *priv =3D attachment->dmabuf->priv;
+> > +	int ret =3D -EINVAL;
+> > +
+> > +	ranges->nranges =3D priv->nr_ranges;
+> > +
+> > +	if (ic =3D=3D iov_interconnect)
+> > +		ret =3D vfio_pci_map_iov_interconnect(priv, &ranges->ranges);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static void vfio_pci_unmap_interconnect(struct dma_buf_attachment
+> *attachment,
+> > +					struct dma_buf_ranges *ranges)
+> > +{
+> > +	void *entry;
+> > +
+> > +	entry =3D xa_load(&ranges->ranges, 0);
+> > +	kfree(entry);
+> > +}
+> > +
+> > +static bool
+> > +vfio_pci_match_iov_interconnect(const struct
+> dma_buf_interconnect_match *exp,
+> > +				const struct dma_buf_interconnect_match
+> *imp)
+> > +{
+> > +	struct pci_dev *exp_pdev =3D to_pci_dev(exp->dev);
+> > +	struct pci_dev *imp_pdev =3D to_pci_dev(imp->dev);
+> > +
+> > +	return imp_pdev =3D=3D pci_physfn(exp_pdev) && imp->bar =3D=3D exp->b=
+ar;
+> > +}
+> > +
+> > +static bool
+> > +vfio_pci_match_interconnect(const struct dma_buf_interconnect_match
+> *exp,
+> > +			    const struct dma_buf_interconnect_match *imp)
+> > +{
+> > +	const struct dma_buf_interconnect *ic =3D exp->type;
+> > +
+> > +	if (ic =3D=3D iov_interconnect)
+> > +		return vfio_pci_match_iov_interconnect(exp, imp);
+> > +
+> > +	return false;
+> > +}
+> > +
+> > +static bool
+> > +vfio_pci_match_interconnects(struct vfio_pci_dma_buf *priv,
+> > +			     struct dma_buf_attachment *attachment)
+> > +{
+> > +	const struct dma_buf_attach_ops *aops =3D attachment->importer_ops;
+> > +	const struct dma_buf_interconnect_match supports_ics[] =3D {
+> > +		MATCH_INTERCONNECT(iov_interconnect,
+> > +				   priv->ic_match->dev, priv->ic_match->bar),
+> > +	};
+> > +
+> > +	if (attachment->allow_ic) {
+> > +		if (aops->supports_interconnects(attachment, supports_ics,
+> > +						 ARRAY_SIZE(supports_ics)))
+> > +			return true;
+> > +	}
+> > +	return false;
+> > +}
+> > +
+> >  static int vfio_pci_dma_buf_attach(struct dma_buf *dmabuf,
+> >  				   struct dma_buf_attachment *attachment)
+> >  {
+> >  	struct vfio_pci_dma_buf *priv =3D dmabuf->priv;
+> >
+> > +	if (vfio_pci_match_interconnects(priv, attachment)) {
+> > +		return 0;
+> > +	}
+> > +
+> >  	if (!attachment->peer2peer)
+> >  		return -EOPNOTSUPP;
+> >
+> > @@ -189,6 +307,7 @@ vfio_pci_dma_buf_map(struct dma_buf_attachment
+> *attachment,
+> >  	return ERR_PTR(ret);
+> >  }
+> >
+> > +
+> >  static void vfio_pci_dma_buf_unmap(struct dma_buf_attachment
+> *attachment,
+> >  				   struct sg_table *sgt,
+> >  				   enum dma_data_direction dir)
+> > @@ -228,15 +347,23 @@ static void vfio_pci_dma_buf_release(struct
+> dma_buf *dmabuf)
+> >  		vfio_device_put_registration(&priv->vdev->vdev);
+> >  	}
+> >  	kfree(priv->phys_vec);
+> > +	kfree(priv->ic_match);
+> >  	kfree(priv);
+> >  }
+> >
+> > +static const struct dma_buf_interconnect_ops vfio_pci_interconnect_ops=
+ =3D
+> {
+> > +	.match_interconnect =3D vfio_pci_match_interconnect,
+> > +	.map_interconnect =3D vfio_pci_map_interconnect,
+> > +	.unmap_interconnect =3D vfio_pci_unmap_interconnect,
+> > +};
+> > +
+> >  static const struct dma_buf_ops vfio_pci_dmabuf_ops =3D {
+> >  	.attach =3D vfio_pci_dma_buf_attach,
+> >  	.detach =3D vfio_pci_dma_buf_detach,
+> >  	.map_dma_buf =3D vfio_pci_dma_buf_map,
+> >  	.release =3D vfio_pci_dma_buf_release,
+> >  	.unmap_dma_buf =3D vfio_pci_dma_buf_unmap,
+> > +	.interconnect_ops =3D &vfio_pci_interconnect_ops,
+> >  };
+> >
+> >  static void dma_ranges_to_p2p_phys(struct vfio_pci_dma_buf *priv,
+> > @@ -365,6 +492,10 @@ int vfio_pci_core_feature_dma_buf(struct
+> vfio_pci_core_device *vdev, u32 flags,
+> >  		goto err_free_phys;
+> >  	}
+> >
+> > +	ret =3D vfio_pci_create_match(priv, &get_dma_buf);
+> > +	if (ret)
+> > +		goto err_dev_put;
+> > +
+> >  	exp_info.ops =3D &vfio_pci_dmabuf_ops;
+> >  	exp_info.size =3D priv->size;
+> >  	exp_info.flags =3D get_dma_buf.open_flags;
+> > @@ -373,7 +504,7 @@ int vfio_pci_core_feature_dma_buf(struct
+> vfio_pci_core_device *vdev, u32 flags,
+> >  	priv->dmabuf =3D dma_buf_export(&exp_info);
+> >  	if (IS_ERR(priv->dmabuf)) {
+> >  		ret =3D PTR_ERR(priv->dmabuf);
+> > -		goto err_dev_put;
+> > +		goto err_free_iov;
+> >  	}
+> >
+> >  	/* dma_buf_put() now frees priv */
+> > @@ -391,6 +522,8 @@ int vfio_pci_core_feature_dma_buf(struct
+> vfio_pci_core_device *vdev, u32 flags,
+> >  	 */
+> >  	return dma_buf_fd(priv->dmabuf, get_dma_buf.open_flags);
+> >
+> > +err_free_iov:
+> > +	kfree(priv->ic_match);
+> >  err_dev_put:
+> >  	vfio_device_put_registration(&vdev->vdev);
+> >  err_free_phys:
+> > --
+> > 2.50.1
+> >
 
