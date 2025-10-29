@@ -1,246 +1,193 @@
-Return-Path: <linux-media+bounces-45929-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45930-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FB18C19517
-	for <lists+linux-media@lfdr.de>; Wed, 29 Oct 2025 10:12:20 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34665C195EF
+	for <lists+linux-media@lfdr.de>; Wed, 29 Oct 2025 10:30:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D453C1A66600
-	for <lists+linux-media@lfdr.de>; Wed, 29 Oct 2025 09:12:00 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BD90F4E2150
+	for <lists+linux-media@lfdr.de>; Wed, 29 Oct 2025 09:27:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0F8831E0E1;
-	Wed, 29 Oct 2025 09:11:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0005130FC05;
+	Wed, 29 Oct 2025 09:27:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="yCDsHwsM"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Q73AY/iJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010045.outbound.protection.outlook.com [52.101.56.45])
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012000.outbound.protection.outlook.com [40.93.195.0])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EAA9283FD9;
-	Wed, 29 Oct 2025 09:11:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A9E273D77
+	for <linux-media@vger.kernel.org>; Wed, 29 Oct 2025 09:26:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.0
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761729088; cv=fail; b=CKMVGry6MlUdLDOYy9vU9UBF8XgZrOogtUAQkQZFk8l2jSkxZIaP7hqrPk84aZLZzhc5MLcuKtzyb71EsH/6hSdx9hc8trOPYImR+rUAQvKAPu1nA50oZREy6z4uppfXAfVp8XhFCXudf5fgvdptGgVZvcNZFkbFDQL93HGw/9g=
+	t=1761730021; cv=fail; b=N9FseDFHtd5OEflE5VW2XEsLo3nd67baG36Iq+n/1t5/RzTXxPmO/kVL6kDq44maEGJMULqlbOrqwBON0M5+SRSaZQjwp0Q3mfxy5aArT6ozfIVZWF1Gqt2f3XoOm+AwONGYm7LFn67C2C1rV3DDftIMevfgZPuzv6EDkcn0TRY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761729088; c=relaxed/simple;
-	bh=S2S7eAMatI5tneVKp86CAvpP+RhuiGNUcQws4KB3CDE=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ZzcQF5UcPtahmmYTXU569mxwIQldUmt8X9/6LC3a3EkInH+LBfUvHGmG4NQ9dPDtnMHThthA2aP0K8fAUShlrS63rJZCvfRYiYd9Y733pJd4x36NOsnHZhjxfuXEqW912KDXA0cDxUoLvc09iLdl2096UknIfFilWVURvZEm9so=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=yCDsHwsM; arc=fail smtp.client-ip=52.101.56.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1761730021; c=relaxed/simple;
+	bh=qYgtaBoma9BKZ22Y1JWjY89L1GUIALI80nsKCP7fRl8=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cvY+L1gIN/2LqlpORyTuIm46yLgo31WuDH+vKm03vGSUtmrBfiKaZrnBkswAttx9crk8B10+2SzrU0uiLSZnGpJvJXgjSs2bpI5UtFuTo4Fix/oq+4a/l2zjaDZl/TRNM5h3b3Tg4Y9luNkJDU3M6zhTFA71V1cHO9wYEx4lvoY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Q73AY/iJ; arc=fail smtp.client-ip=40.93.195.0
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qCbTEMD40DzSj6JHMQG6RlHAPpyRQTMDSHlMyel5gFVftjy7Wp4mXWn5k/mABQX1gAiRZYIR4ifLQCWo9f5UlhtiAs7MYn8HXm+T3afCNEvftFtd5YZJTqg6LEYHBBQvvDVXId7oKv10GMM/fNG15Vttp0V1PfIGCoJUsvHFhnGSYdHH5PikoCeAsEZzKAeowEVPkVeH3X3AdgCtotnIr7gW4ovLS9UDDPg1TjMoYj07UwZ9vez6Z1cuFuGl8PjHyYUj3eFt94nYmX2sbPsaG/Et8A/t+avjDRH1kBTVTd6ITX5E34IATaS0z/7ufFLQOonTGU+YL9g0+11j++zt+w==
+ b=ugsA56NmRYydxF5IJZxdxeAHzw4s8yCqWNC2khSFVXr4FBR9APVlgu6vOQFCG1YxkZ2yy3VAF8sWClD6mEj6y223MEkUobwrzh4mQtGft/efPdplMLd8mxlaXG59cK+OxWSwOI/9sJJgSQsx6d8wBCwV6ZS+qvcKS/k4WHLIW5RLbVZYFXf6jfLWALqKM0LNZpUk6Xb91r4hJkKunAP0d/q3i8K98zorD/TnnIF8cbWvZyBTlRIXbtieoOjeqyatsflHg/csdmI2CR3zx7ynl4cWKSnHrmzZzKzvEMDOfzahRLhZ9r/4063bGanMpssfTXRVOpQ0p7Z7awZI1m4Jiw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cYEZMNdDHnQvp43EQ0z67oy2BWoeTy2Bkh33Yh9ro9s=;
- b=k8NNKJuCjM6bVbBaUHl2D6OkMFuJBxWma5h1srUlonxPedq/mlMU6bNVv1uBmkrpJ/gyVrGTmTiQHv34BnBV/Ed1omFN4j5bK+eGZjH4SVEwdS2TxDReauDB6e02MaOilOdvieAx/yvn6X3dYAhb/E6gEFRkaOHKpmzm+ZrAP1SeqiMCJNa6HbKviwzfw56wn+JRByIn/KPbk5uUQ986nvfoa6UtRTJr4YV8+pTdAAwAIt8QPIBOqJesevgFhTeKGQn+Md/7g0FGFlMrQ1EiE6Ow3/JdCEIsFieVY8lcqwuUJqQHvrFTs83oIWg3kwHnwCivxUPtglUYQgnR8YJdaw==
+ bh=Xz6a3ozz4aSvRNROJz/OvlvZWPYRHeII2UMRvcKmH2Q=;
+ b=Up7SvPMpIGtANrUHuIbLTnmU2aGm2g4HAsgZ2q9U5pqo9jittAq2Ba5hDENz2aLbbdXO7zOvBFGG0lGhpDMpfl0ftMTbnDr/lR6kngNwt4hGgqBzUiQwK6/9WxzbdbATkdGR9XyT4ln7dGGJGtCRGRdkvTuf1LYU8puBeAKdT6SnmBBUNLHIr2DCirXh0tdMYov05SS0moywrFwTb5Zi+9ShsG2mk/c80DpHHWS/9RphMBlZHoCHJY85NSum38o/6MtqVcGfPGsGj53dpbrrlgiAjLid83wnEWobbf7gcGRrBOUSLLrMrxZrTuIsvrH+bx2x/NPXaCdQaUnSMyY8fg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ 216.228.117.160) smtp.rcpttodomain=intel.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
  dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cYEZMNdDHnQvp43EQ0z67oy2BWoeTy2Bkh33Yh9ro9s=;
- b=yCDsHwsMvOa4KVN7aojms7kWcWmkJTDiLGsq8SVooWgyXwj40z6w13ktvfUCDAZqWBtrVjUS0UmkmDLjoZgGAiEik0PKzCOkVc3i/EEUmjPthw5YsSH+J3h8QWrrwOkS+ljHNC6h/rS7xqrqs2n29d9th9Mi08ACKIOJ5EdEoeE=
-Received: from MN2PR20CA0022.namprd20.prod.outlook.com (2603:10b6:208:e8::35)
- by BY5PR12MB4211.namprd12.prod.outlook.com (2603:10b6:a03:20f::19) with
+ bh=Xz6a3ozz4aSvRNROJz/OvlvZWPYRHeII2UMRvcKmH2Q=;
+ b=Q73AY/iJTJLdPZ1VvrZzeeFLpZVmI8PXrocF/LqbeV4Rfa8mBTCX4jiiiCZZkj9Zr4o7ttQhZXZTsZYuRRMNOi6X6kmRZwS1O0/LwFqDwKdLLe9Ee/dtMdVtoC6y+pNvKZ6eb+9QTLuxyZuzorILF2j++htRlk6FR+B2Ph340LCIrTex97mgC39cDWy5Gi67AdXwr6m1+qIhKqhQFUxHo6CEdMcHjJzcwOjRAuIENLYpDbQxvnTvYvAvRCCT6W6p/+qVEACEFki3h7s1aF4v4mt7q2V8v4LTBnuDroU/Oan/brneWAkl6Z4OT7MGb7Jq07DR9VmOe5vz8mP0kUas2Q==
+Received: from BL1PR13CA0017.namprd13.prod.outlook.com (2603:10b6:208:256::22)
+ by IA1PR12MB6530.namprd12.prod.outlook.com (2603:10b6:208:3a5::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.12; Wed, 29 Oct
- 2025 09:11:22 +0000
-Received: from BL6PEPF0001AB55.namprd02.prod.outlook.com
- (2603:10b6:208:e8:cafe::3c) by MN2PR20CA0022.outlook.office365.com
- (2603:10b6:208:e8::35) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.13; Wed, 29 Oct
+ 2025 09:26:54 +0000
+Received: from BL6PEPF00022574.namprd02.prod.outlook.com
+ (2603:10b6:208:256:cafe::6e) by BL1PR13CA0017.outlook.office365.com
+ (2603:10b6:208:256::22) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.13 via Frontend Transport; Wed,
- 29 Oct 2025 09:11:21 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- BL6PEPF0001AB55.mail.protection.outlook.com (10.167.241.7) with Microsoft
+ 29 Oct 2025 09:26:54 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ BL6PEPF00022574.mail.protection.outlook.com (10.167.249.42) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9275.10 via Frontend Transport; Wed, 29 Oct 2025 09:11:22 +0000
-Received: from FRAPPELLOUX01-WSLPUB.amd.com (10.180.168.240) by
- satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Wed, 29 Oct 2025 02:11:19 -0700
-From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-To: Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich
-	<dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
-	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
-	<airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sumit Semwal
-	<sumit.semwal@linaro.org>
-CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	<dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
-	<linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>
-Subject: [PATCH v1] drm/sched: fix deadlock in drm_sched_entity_kill_jobs_cb
-Date: Wed, 29 Oct 2025 10:11:03 +0100
-Message-ID: <20251029091103.1159-1-pierre-eric.pelloux-prayer@amd.com>
-X-Mailer: git-send-email 2.43.0
+ 15.20.9275.10 via Frontend Transport; Wed, 29 Oct 2025 09:26:54 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.34; Wed, 29 Oct
+ 2025 02:26:41 -0700
+Received: from localhost (10.126.231.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 29 Oct
+ 2025 02:26:40 -0700
+Date: Wed, 29 Oct 2025 11:25:34 +0200
+From: Leon Romanovsky <leonro@nvidia.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+CC: Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	<dri-devel@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+	<linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>, "Christian
+ Koenig" <christian.koenig@amd.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>, Matthew Brost
+	<matthew.brost@intel.com>, Dongwon Kim <dongwon.kim@intel.com>
+Subject: Re: [RFC v2 0/8] dma-buf: Add support for mapping dmabufs via
+ interconnects
+Message-ID: <20251029092534.GA11622@unreal>
+References: <20251027044712.1676175-1-vivek.kasireddy@intel.com>
+ <20251029002726.GA1092494@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
- (10.181.42.216)
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20251029002726.GA1092494@nvidia.com>
+X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
+ rnnvmail201.nvidia.com (10.129.68.8)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB55:EE_|BY5PR12MB4211:EE_
-X-MS-Office365-Filtering-Correlation-Id: 026e1c61-7025-4e33-57dd-08de16cb2116
+X-MS-TrafficTypeDiagnostic: BL6PEPF00022574:EE_|IA1PR12MB6530:EE_
+X-MS-Office365-Filtering-Correlation-Id: d3a6868b-c28c-4f75-6bd9-08de16cd4cf2
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|376014|7416014|36860700013|1800799024|921020;
+	BCL:0;ARA:13230040|82310400026|376014|7416014|36860700013|1800799024|13003099007;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?TGo3Nm1MN3cvZkJGazZ3VHNwNW1rMU5yMEc3aUNpbzA4RFhCd0kwd1ZiTklV?=
- =?utf-8?B?azg5QmhIMlYyVDd6NHE1SS9yaGZ5NFlxMGlsWFpCcVdYb2xWWkFCVzVLcytQ?=
- =?utf-8?B?dFpaTzE2YytiVGNxb214VHp1Q2JqcGxjTDNZZTJValhhR3BHVXpKdjFubk9X?=
- =?utf-8?B?TnY4bk5iUHZ2VGlBdXJWektkb242aGRVVktNbUxxWWN2V1RkNGNOSWtkRnJU?=
- =?utf-8?B?L2k5dms5SDZqZjlkRi9yU2lzam1UeUZlS0JMNzB0dno1akFqRnlpNm9iVkR3?=
- =?utf-8?B?dThrQnhBVTN6RW9UNTNQVkZlUHhVK3RHN1daSlBYSXNtdFNIc1N4OFJPS2JM?=
- =?utf-8?B?QnIranpaVVoydUQ1YWlqaEpUYXJ4VURoL2YvSVVhQWM1eVVyZjBNSkE0Sko3?=
- =?utf-8?B?N2svcWxTckc2dXdiRXp1RWdSN1gvZTc5Z2tSYXBRbjBzQVlRTG4rRnYvR3Vw?=
- =?utf-8?B?QkVIbWE0RXBmV0RXKzNLc3dPNG5tSG1qZkdGSjl3MkIvWmNQRDZuTXJjY2Fm?=
- =?utf-8?B?UHVBNHh1c05LbjlnMGdJU1AzSloydEZzbVNCVVZ0a0lJdklXZkJ0bnRZc0Zq?=
- =?utf-8?B?UzZ0WjlBU1V0RDhrdTVGdHJmNGtwc2VVMmtRMjQ4VCtzcHBiaUlsNGZkS0g4?=
- =?utf-8?B?Ti85endWKzVVbVU4Uy8yZlFzTGVtY3ArQW51Um11NEp0bFBnekxub2ZaTDdt?=
- =?utf-8?B?dXFHdlc3TmlDbFc1WGRCQW9xTDk0bkgvUFEzZHJXSGpXR05YZ3VtREt0MXpT?=
- =?utf-8?B?WXZPWWl1ZFhkMHphdzg0RUNCQzNPcHlKK2kvcjdhalg2MjEvVWRKTlZpMS8z?=
- =?utf-8?B?aDYrUExUb0dGY1N1d0V4TEVjM1dpUTBCZElXRDN4WU90MTJOY2J3YVNIeGRR?=
- =?utf-8?B?dHlTbUhUTUw2VXV2NnVYbjRxRXFhS1Vwc2Q4cEJ6UytoQi8wbjE0TGxPekcx?=
- =?utf-8?B?bnRsQ2ZHNHk0VTJlM3RQNU9IdmJKMzdLYmVSY0tGUVVvek5nTEFSWVduNzY0?=
- =?utf-8?B?MW1QSW1GSXI5WHlPNU9kdjZoVVBsM00xRmRlbTY0bUhydXVEelBXdTVrc0ZO?=
- =?utf-8?B?akFYR1pES1V6T2dyanp5dWxNcWV6ckdOZUUxaExHZEJveHR5M0pxVmp4L0Jo?=
- =?utf-8?B?Qkk3OWsraEcrOUNtcWJ5Y3FPdmxnVXpGa1hYNFNoYlF1RndJK1MxRU5MZXFk?=
- =?utf-8?B?TGw3T0x2enZiYis4dE5qNlBkSk95M1pLNEk0TUV4aHpEd2s4TXdlcmZpbUto?=
- =?utf-8?B?WjdrcXE4UDVMdVVtTUJLL0VZbGNmZDJmZlFNM3NZTEJ1UzFZTU95Wkt5YmhJ?=
- =?utf-8?B?WW1weFlDMVh4ZFVyay9VczQvN25IR29CaW9DY2ljbitaeDhQSG03cDNxNjA4?=
- =?utf-8?B?cVJhYjNDMjNpd0ZqOEIyTVlWSG5paWJpSCsvcVVYdi9TNm1ubkl6aFdueU1C?=
- =?utf-8?B?a0dyN0ZGMi9YUHpVZG4wUmkwWnJCaC9oM3Y1aTRrcWxaWkxpS1RNOTZuM2xW?=
- =?utf-8?B?U2tZMGFKVldyK3drY3NpQUZjNDYrWkxnRzJDV1dURldzZFpNaGZOTzR1YmNJ?=
- =?utf-8?B?TWJDT0hNc2NsSEFYYzVnc2tkT29Nc250UEk5U2UrQktHcEdLKy9ocFYwekpY?=
- =?utf-8?B?YlI1dlNKTldrcXVBb092enFiQ3NKWnZLaGhIcnFNa1N2ZWsvL3hmQ3ZXMDlr?=
- =?utf-8?B?blU3aENjVVhuSStzeXFLS20waVE0TVF1UVR4UmxvRzUrWGRMUVlxYk5VMkls?=
- =?utf-8?B?UU91L0tlOUFUbzVrTi9SMmNCcFpmcUNVQ1p4RlZmR2lRMnBQbGpQR1R3SUJp?=
- =?utf-8?B?SEZnSmxQM1NCTzRaWUFIZWRtMkZSQ3ZHaU5yV2hJV1dkQkg5N2V1aGFkVnJw?=
- =?utf-8?B?MkJCOUp5VW9oamRDRTFNQ1JpT0cveG9Eelc5ZzVZYktIU25mdHRaMkJBS1U5?=
- =?utf-8?B?U05zOWpUK3M5RjhJNjlVeSt6VjNNSWM4WXdyUUs3Y0lzQUxqTjZpeHVZZUFK?=
- =?utf-8?B?ZW1yZ0xBRzl5eXU1MjdQdGdIaUozc3F0Q3ArV2FZbFNseFJoSnNOOGdpSVd5?=
- =?utf-8?Q?fviA9Z?=
+	=?us-ascii?Q?NVngunuNT47NQo84KAxs+T4FBFstm9ZqvyHhe6Y7o1ytajs0tghCGyc7lkp5?=
+ =?us-ascii?Q?eft2oivsF9N4t0Jr0GTCwBYCltU2H3osfOOEttSVNQPDcXvv6Z06bIxD60dl?=
+ =?us-ascii?Q?rS8tUNdNlqg4GaLFPoi/EvR+cGXAYV9HaPCEph88viM5IvrRfHi3tfcGMIlC?=
+ =?us-ascii?Q?vkFXuxdvjCw0tL5Bb4uBwnfLUQcERgCQkwQjiJKPlDxMYmurRlqPOqxBpf1M?=
+ =?us-ascii?Q?t/eRezZxLIKMLc4yDyxUQ5k2O4jzDjjXNuFhR/RW03uZtX3Ezha8od/STgNt?=
+ =?us-ascii?Q?0Fp2YCZcBSpMqTOsvXL+Zj6ZOrYsTP9acG3TJVs/gCSU9G2TrYKEDNs88s3q?=
+ =?us-ascii?Q?hfOojya9f/MhpJ8cf01NYjaeXMA7LB+stNzkbKYFZfby3Fts7hw4oKQFOmMu?=
+ =?us-ascii?Q?Gsq/ERoHZ08vEAoYdH3ahN4YV3mBPxZm99yKGQCOizHrNxuuVXqdchbb2B0/?=
+ =?us-ascii?Q?qCY9KFSqTu3nDXorLjBVFg7ShHrqqFWGi2g6OW3nD3cn2f1ImCt+ICfRQAV0?=
+ =?us-ascii?Q?EGIlOrN4HFYymHmdkB0wdDBfnJeM7tPcleIgRzkSn3Ivok9EFBgy3kqQ+2xD?=
+ =?us-ascii?Q?tumZrTNMGHaqwbCLDyBoOs6p3jOOoR4IWUJnAbRdPXuE/PpaO5nEICVy/1sp?=
+ =?us-ascii?Q?qQk92PX5vs/ljT3K4u/PqbNfPX3Lsb0OZuii9f1qi7gqwhfk8pBDykz4H6y7?=
+ =?us-ascii?Q?hQRay8LU2dnspn9ylmANZA5QPUrbR6YSGTaw+SV2O6gOPJGO1LmEMDO4NbWv?=
+ =?us-ascii?Q?nXNUG8k2QKU1Bf/K/6kXw9dCjCB8+VmOiPGkcPORCR7rmrIGC7KO4pPSGSBl?=
+ =?us-ascii?Q?L7jdm/8K2UoxXCQH94uboE86UWpraK+bJQ3bHNOe2hunSjzjE6ItiTGJ+gwW?=
+ =?us-ascii?Q?1IC5jco/4YX1fVMZhECgPat8N8lcilzMa0yuDAa18X5i6QJiPI8wgMSPe42m?=
+ =?us-ascii?Q?iq50OBnQZBcqbXSVc6MyWSjFGq9bxS+hXX+w5TGM2XFfAiXWcouFrZqWyfUL?=
+ =?us-ascii?Q?i+rVOt5YLJeM7tnKS/NiLdvV4T6GTYNytBvcdloyX0VQKx0c9FPztgaZORHp?=
+ =?us-ascii?Q?KF/WIRpmQDdYwb3HwSBpbqcAqnxfnqTXYvMDBSGJXA4VWutp9ohELv7t/+wy?=
+ =?us-ascii?Q?MyPPEfqXhaiYYQylMfw52M/wA2S+KeitsfAawwzxKAxI0AUdWuPclZTocxv1?=
+ =?us-ascii?Q?1NByaTK8zUPF47GZGltD1LRBEIKShWaxAHjAaR9anSfx/51jIRe0O9mxe8KM?=
+ =?us-ascii?Q?EixkW8hTk0eHDqVtdwl64PJrfR6t/DJhr6jpNyu5xQct5NqEB4kEsaf0wryO?=
+ =?us-ascii?Q?5QpANNRuC4N3RLALs8v0G9jdlKtg2kFiDV64G6jsiyYoJ9gDG7Z7LBDh6V6b?=
+ =?us-ascii?Q?vMSm0qvgYPJXAi2ArbPYqP/MhfyYtqQuZbMrXtBMKV+rPqD1+Cy7LUAQVGBz?=
+ =?us-ascii?Q?+pVlvyWbRlvEzSlpL3AN2ZfHyeo+ONuRD/axGIPXq+lNq+HDqEa7+hbtC9HJ?=
+ =?us-ascii?Q?chj9LrUH4kpF2JHeaGxg02rQTZ0odC/Kjl3la6XHfhStxWb4uKWQpbD89KiS?=
+ =?us-ascii?Q?JS++JcUjML30ZVvUSjctSz0NOneKI03kr2PACE/7?=
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(7416014)(36860700013)(1800799024)(921020);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2025 09:11:22.2033
+	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(376014)(7416014)(36860700013)(1800799024)(13003099007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2025 09:26:54.6379
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 026e1c61-7025-4e33-57dd-08de16cb2116
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-Network-Message-Id: d3a6868b-c28c-4f75-6bd9-08de16cd4cf2
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	BL6PEPF0001AB55.namprd02.prod.outlook.com
+	BL6PEPF00022574.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4211
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6530
 
-https://gitlab.freedesktop.org/mesa/mesa/-/issues/13908 pointed out
-a possible deadlock:
+On Tue, Oct 28, 2025 at 09:27:26PM -0300, Jason Gunthorpe wrote:
+> On Sun, Oct 26, 2025 at 09:44:12PM -0700, Vivek Kasireddy wrote:
+> > In a typical dma-buf use case, a dmabuf exporter makes its buffer
+> > buffer available to an importer by mapping it using DMA APIs
+> > such as dma_map_sgtable() or dma_map_resource(). However, this
+> > is not desirable in some cases where the exporter and importer
+> > are directly connected via a physical or virtual link (or
+> > interconnect) and the importer can access the buffer without
+> > having it DMA mapped.
+> 
+> I think my explanation was not so clear, I spent a few hours and typed
+> in what I was thinking about here:
+> 
+> https://github.com/jgunthorpe/linux/commits/dmabuf_map_type
+> 
+> I didn't type in the last patch for iommufd side, hopefully it is
+> clear enough. Adding iov should follow the pattern of the "physical
+> address list" patch.
+> 
+> I think the use of EXPORT_SYMBOL_FOR_MODULES() to lock down the
+> physical addres list mapping type to iommufd is clever and I'm hoping
+> addresses Chrsitian's concerns about abuse.
+> 
+> Single GPU drivers can easilly declare their own mapping type for
+> their own private interconnect without needing to change the core
+> code.
+> 
+> This seems to be fairly straightforward and reasonably type safe..
 
-[ 1231.611031]  Possible interrupt unsafe locking scenario:
+It makes me wonder what am I supposed to do with my series now [1]?
+How do you see submission plan now?
 
-[ 1231.611033]        CPU0                    CPU1
-[ 1231.611034]        ----                    ----
-[ 1231.611035]   lock(&xa->xa_lock#17);
-[ 1231.611038]                                local_irq_disable();
-[ 1231.611039]                                lock(&fence->lock);
-[ 1231.611041]                                lock(&xa->xa_lock#17);
-[ 1231.611044]   <Interrupt>
-[ 1231.611045]     lock(&fence->lock);
-[ 1231.611047]
-                *** DEADLOCK ***
+[1] https://lore.kernel.org/all/cover.1760368250.git.leon@kernel.org/
 
-My initial fix was to replace xa_erase by xa_erase_irq, but Christian
-pointed out that calling dma_fence_add_callback from a callback can
-also deadlock if the signalling fence and the one passed to
-dma_fence_add_callback share the same lock.
 
-To fix both issues, the code iterating on dependencies and re-arming them
-is moved out to drm_sched_entity_kill_jobs_work.
-
-Suggested-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
----
- drivers/gpu/drm/scheduler/sched_entity.c | 34 +++++++++++++-----------
- 1 file changed, 19 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index c8e949f4a568..fe174a4857be 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -173,26 +173,15 @@ int drm_sched_entity_error(struct drm_sched_entity *entity)
- }
- EXPORT_SYMBOL(drm_sched_entity_error);
- 
-+static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
-+					  struct dma_fence_cb *cb);
-+
- static void drm_sched_entity_kill_jobs_work(struct work_struct *wrk)
- {
- 	struct drm_sched_job *job = container_of(wrk, typeof(*job), work);
--
--	drm_sched_fence_scheduled(job->s_fence, NULL);
--	drm_sched_fence_finished(job->s_fence, -ESRCH);
--	WARN_ON(job->s_fence->parent);
--	job->sched->ops->free_job(job);
--}
--
--/* Signal the scheduler finished fence when the entity in question is killed. */
--static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
--					  struct dma_fence_cb *cb)
--{
--	struct drm_sched_job *job = container_of(cb, struct drm_sched_job,
--						 finish_cb);
-+	struct dma_fence *f;
- 	unsigned long index;
- 
--	dma_fence_put(f);
--
- 	/* Wait for all dependencies to avoid data corruptions */
- 	xa_for_each(&job->dependencies, index, f) {
- 		struct drm_sched_fence *s_fence = to_drm_sched_fence(f);
-@@ -220,6 +209,21 @@ static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
- 		dma_fence_put(f);
- 	}
- 
-+	drm_sched_fence_scheduled(job->s_fence, NULL);
-+	drm_sched_fence_finished(job->s_fence, -ESRCH);
-+	WARN_ON(job->s_fence->parent);
-+	job->sched->ops->free_job(job);
-+}
-+
-+/* Signal the scheduler finished fence when the entity in question is killed. */
-+static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
-+					  struct dma_fence_cb *cb)
-+{
-+	struct drm_sched_job *job = container_of(cb, struct drm_sched_job,
-+						 finish_cb);
-+
-+	dma_fence_put(f);
-+
- 	INIT_WORK(&job->work, drm_sched_entity_kill_jobs_work);
- 	schedule_work(&job->work);
- }
--- 
-2.43.0
-
+> 
+> What do you think?
+> 
+> Jason
 
