@@ -1,235 +1,201 @@
-Return-Path: <linux-media+bounces-45934-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45935-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA433C19D33
-	for <lists+linux-media@lfdr.de>; Wed, 29 Oct 2025 11:45:33 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDAF4C19EA8
+	for <lists+linux-media@lfdr.de>; Wed, 29 Oct 2025 12:02:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B5BB9564B46
-	for <lists+linux-media@lfdr.de>; Wed, 29 Oct 2025 10:38:36 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9C4BA4E7BE8
+	for <lists+linux-media@lfdr.de>; Wed, 29 Oct 2025 11:00:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B23003346A2;
-	Wed, 29 Oct 2025 10:30:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 215102E5402;
+	Wed, 29 Oct 2025 11:00:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nZ0nvffT"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="npceiVXa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A5192DC76B
-	for <linux-media@vger.kernel.org>; Wed, 29 Oct 2025 10:30:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E3952D8395;
+	Wed, 29 Oct 2025 11:00:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761733838; cv=none; b=OXIEX0MPHIIj2XQqmz1fYt7yOwHDMLFqLGqEBF77tbi6JvxtVo1aue8jBYOfIc/d7oqewhNmU0Bd5CMfHGd+80Sl7sQAv2XoYPo6XA+C80SL4jAb3p6dYqEUQPTkonzyGS4kiOhRbbfOWlF9nEVs5mhuZC2VEQX1z3t9yQpIVzw=
+	t=1761735642; cv=none; b=aVLU4/0i0mjluE3cEWO3Qm4SytFzJB+4jHVwLt5+Jc03LwBXVoP+It8DFNpSccgY5z2cOnthkYcYLa9KAdi4miuRHQ62mol9hHIyr0PawFJU6y7I5K8VPCZx6E16zCIbaWDqJAtJA8s19qp3KUErO4EF19XW22gJgbYVoW2+Vf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761733838; c=relaxed/simple;
-	bh=Yy09G9oEtbZ16ELXgMJMoG+B1gUDzONzof/no1EK12Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iFf++Xs3Z2+xJumHCemhE8sF/dx//yUWK+MJ+LVfCMjAHkNQrddWtHejncCLCdQQOJdigaP+1trN6E0RhdOG7EgYKRof8FNC7ZR8sDpbgdRn+DQz0/6M4/rPwCFhWnDMu+wB0Y8M3Z1h0Z6DFUmKGdHo8MG9L+bXjJPBkYP6770=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=nZ0nvffT; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-378e603f7e4so65523041fa.0
-        for <linux-media@vger.kernel.org>; Wed, 29 Oct 2025 03:30:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1761733834; x=1762338634; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=zAk1NteFooOFNt9HpHhjSeM7o2+eVRnucBTBl4R5fNk=;
-        b=nZ0nvffT0Yk2RDNkFEu6MgQTPIYvVlot9r9R7ic4b+g5iHbT5mCfR28QRmqZb/RID7
-         2dfSsl8TjtOAszD7qkSnqWy+gblXyQ3fGKiz2fWicGWYWEU4IDVBfkToZsE39HXuQDfZ
-         l8veptAQfIdbmOG+2h715Pj8r0K88YBm7zAiI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761733834; x=1762338634;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zAk1NteFooOFNt9HpHhjSeM7o2+eVRnucBTBl4R5fNk=;
-        b=QguZEeN5nb7cq//ji6mIJDcsaNnchgBxiWqJtFrxJEYBnX/kb2GXIPoq5CAnQoOXPb
-         qbUiZSC3cBqzGOU/6ksXjbg0T7nIXsgaI+czI4UayuHIjIEgQMAU+/H5o8PCh+XtXPb6
-         K7CBPLwgTHBDF0UM9eL3Rfxfbws+XXKGRDW3q2FwtcnYbdku8/nWBAxGyCFHpl9TBuJE
-         G7I3NKCTA+4wdaxc23Qt78hjfw4TKC+AQk4ez116GSnRzQzRjberOn4VUYAmxvsLPcn1
-         NHYfHflGBaSlHnuJ/dwO0ooSBVcgl7gTmwIqi69DcwGRZ1vILG9wHFcpc5OZpuAs0k1I
-         rzbw==
-X-Gm-Message-State: AOJu0YzuBxBEts2lNj499zO6UQ7Cy0kpvkBcGdmSvbR0az6HLHRCWj9t
-	OSz+sXBnzBnn74YjL5Uq5vhdowRzWzpAmGoqxnVbELdZzVCuwOXp6mR//HgO3OpdqMd28+hG72y
-	paZc=
-X-Gm-Gg: ASbGncsB10j/AuEHU6ADxPZJDTdCKBlt/Xv+irnuOIDhFQFzqBZWCMTqmEqRZxYLUBT
-	DaSMvbjumRcR9iSlDV/teA4E6zw86BbYLvSDw3XsrZOIekTdOeGN7s9NWDEMNy6lIlpJ3fh1rtV
-	GGP1fOSWm2LlLTVBw6LLlhCqzuft6gp9Vuph2aq47RCkx5r6nYQbqrJKyY/+NdHh+qORJvhavK6
-	dt4lNbFLJav+GbqG8R2IjAuum2T86C5CjX7OoKGZdEWnoUkwIWEufUkzVqTdCWjZbOG060+qgLK
-	pM5NrGJcrzJvt6YqbLVHehx5zrwqVmwnDzkwUY797UoCc1Fbfkt9cjuVBqWHP4W0qstl1CKqZfo
-	hYiEo9REwfBt26FDjKaVkd2uycvXYqHN/FLZzAYxpJgQteZPOpc2jnO740GBP8EG1alniBRv85I
-	yxDVecNm2YZWfcBs3yUgiMA+kg3vxvvMfhkkPicWd+9Q==
-X-Google-Smtp-Source: AGHT+IElGp5RL9/EyeG9ZpPGQQbDSGyvCnAPMGn2ozKcMZpokTvCb+8CyTpELELE/hUB3Xc59OR2QQ==
-X-Received: by 2002:a05:6512:3b91:b0:592:fbb1:c31c with SMTP id 2adb3069b0e04-5941287939fmr763529e87.20.1761733833911;
-        Wed, 29 Oct 2025 03:30:33 -0700 (PDT)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com. [209.85.208.178])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59304239899sm3381506e87.95.2025.10.29.03.30.33
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Oct 2025 03:30:33 -0700 (PDT)
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-36d77de259bso46277431fa.3
-        for <linux-media@vger.kernel.org>; Wed, 29 Oct 2025 03:30:33 -0700 (PDT)
-X-Received: by 2002:a05:6512:1087:b0:592:f40a:25f3 with SMTP id
- 2adb3069b0e04-594128bc800mr788743e87.27.1761733833095; Wed, 29 Oct 2025
- 03:30:33 -0700 (PDT)
+	s=arc-20240116; t=1761735642; c=relaxed/simple;
+	bh=AUNH3u8bUF8JoMehOHg6y00+85aYv43ceW1GQNK7K5s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PUZgcGIGTDN946eHZVLlN6K0ag/9JH0fhug9r1k7NRxVsRbfegTmG3oOPlg3v6msCloIij9/Z/7DODwxxCKtzYZvKpvCd4yc95A9WXThVHqkJ7PrYIjVXtwXa3iVf2DcKpV8WQOuJ0g1WaioXPQaTVCYl72U/yoC4DzJMU9+Mb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=npceiVXa; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1761735638;
+	bh=AUNH3u8bUF8JoMehOHg6y00+85aYv43ceW1GQNK7K5s=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=npceiVXaTi0bcWltz/elJ2izmVPaJxNQfRfpfBaK8UTFwuPZdfN3zVBRtpkCMNsv+
+	 VQv3/j0SmSX/99v/AW5H1pWEDf0vkB9r/lV0LO4QobLJRMsNRZNwS43Reo8yNycTcn
+	 WM+Q4H/vwPN9z/KMwq3zUsN1+RfSDJgcObSW3cDv7A5vUMjiSBcsMGVXRvAZkuAkOI
+	 O/ZD+mPnlwq4Lath0eWq88jkRiNiMPqjy5lm/bgw7DBt6/HwoXCllw9tKBkSYWYbfe
+	 B8WahyXgtqjdfqet3rV+cGrq7VeXN5JSJdWdZ7WW/svX6AiMCzkh6LfI/J7cQhWkJT
+	 GREuVRg4QKMig==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 293B417E00A6;
+	Wed, 29 Oct 2025 12:00:37 +0100 (CET)
+Message-ID: <ef7fa25a-d8bc-4b57-8b96-c676ae7f9cb7@collabora.com>
+Date: Wed, 29 Oct 2025 12:00:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <b960f0fc-36e9-46c3-b56f-a06f6525d5ad@kernel.org>
-In-Reply-To: <b960f0fc-36e9-46c3-b56f-a06f6525d5ad@kernel.org>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Wed, 29 Oct 2025 11:30:19 +0100
-X-Gmail-Original-Message-ID: <CANiDSCsh1_1G_8QPBE88eTrOb3TLPfuJryEgfQQxYjJsOR3Zdg@mail.gmail.com>
-X-Gm-Features: AWmQ_bnG6TrGMVBsN7ppPJ_71J4Ojp2Kvgjyy2RRs6MrZIKI3eYl72gvRtE2ouM
-Message-ID: <CANiDSCsh1_1G_8QPBE88eTrOb3TLPfuJryEgfQQxYjJsOR3Zdg@mail.gmail.com>
-Subject: Re: [PATCH] v4l2-compliance: skip V4L2_CID_PRIVATE_BASE check for UVC
-To: Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 10/20] soc: mediatek: mtk-cmdq: Extend cmdq_pkt_write
+ API for SoCs without subsys ID
+To: =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
+ "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+ <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "mchehab@kernel.org" <mchehab@kernel.org>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "jassisinghbrar@gmail.com" <jassisinghbrar@gmail.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ =?UTF-8?B?U2lyaXVzIFdhbmcgKOeOi+eak+aYsSk=?= <Sirius.Wang@mediatek.com>,
+ =?UTF-8?B?TW91ZHkgSG8gKOS9leWul+WOnyk=?= <Moudy.Ho@mediatek.com>,
+ =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
+ =?UTF-8?B?WGlhbmRvbmcgV2FuZyAo546L5YWI5YasKQ==?=
+ <Xiandong.Wang@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "nicolas@ndufresne.ca" <nicolas@ndufresne.ca>,
+ =?UTF-8?B?UGF1bC1wbCBDaGVuICjpmbPmn4/pnJYp?= <Paul-pl.Chen@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "fshao@chromium.org" <fshao@chromium.org>,
+ =?UTF-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
+ "wenst@chromium.org" <wenst@chromium.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>
+References: <20251017065028.1676930-1-jason-jh.lin@mediatek.com>
+ <20251017065028.1676930-11-jason-jh.lin@mediatek.com>
+ <24b74989-4e31-49e3-8652-c2439f368b26@collabora.com>
+ <1f1377ebec26f767a4af9a0c542817be7cfaeddc.camel@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <1f1377ebec26f767a4af9a0c542817be7cfaeddc.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Hans
+Il 23/10/25 06:03, Jason-JH Lin (林睿祥) ha scritto:
+> On Mon, 2025-10-20 at 12:04 +0200, AngeloGioacchino Del Regno wrote:
+>>
+>> External email : Please do not click links or open attachments until
+>> you have verified the sender or the content.
+>>
+>>
+>> Il 17/10/25 08:44, Jason-JH Lin ha scritto:
+>>> This patch extends the cmdq_pkt_write API to support SoCs that do
+>>> not
+>>> have subsys ID mapping by introducing new register write APIs:
+>>> - cmdq_pkt_write_pa() and cmdq_pkt_write_subsys() replace
+>>>     cmdq_pkt_write()
+>>> - cmdq_pkt_write_mask_pa() and cmdq_pkt_write_mask_subsys() replace
+>>>     cmdq_pkt_write_mask()
+>>>
+>>> To ensure consistent function pointer interfaces, both
+>>> cmdq_pkt_write_pa() and cmdq_pkt_write_subsys() provide subsys and
+>>> pa_base parameters. This unifies how register writes are invoked,
+>>> regardless of whether subsys ID is supported by the device.
+>>>
+>>> All GCEs support writing registers by PA (with mask) without
+>>> subsys,
+>>> but this requires extra GCE instructions to convert the PA into a
+>>> GCE
+>>> readable format, reducing performance compared to using subsys
+>>> directly.
+>>> Therefore, subsys is preferred for register writes when available.
+>>>
+>>> API documentation and function pointer declarations in
+>>> cmdq_client_reg
+>>> have been updated. The original write APIs will be removed after
+>>> all
+>>> CMDQ users transition to the new interfaces.
+>>>
+>>> Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
+>>> ---
+>>>    drivers/soc/mediatek/mtk-cmdq-helper.c | 54 +++++++++++++++++
+>>>    include/linux/soc/mediatek/mtk-cmdq.h  | 83
+>>> ++++++++++++++++++++++++++
+>>>    2 files changed, 137 insertions(+)
+>>>
+>>
+>>> diff --git a/include/linux/soc/mediatek/mtk-cmdq.h
+>>> b/include/linux/soc/mediatek/mtk-cmdq.h
+>>> index 154d0511a0ad..f6dc43c036bd 100644
+>>> --- a/include/linux/soc/mediatek/mtk-cmdq.h
+>>> +++ b/include/linux/soc/mediatek/mtk-cmdq.h
+>>> @@ -57,6 +57,10 @@ struct cmdq_client_reg {
+>>>        phys_addr_t pa_base;
+>>>        u16 offset;
+>>>        u16 size;
+>>> +     int (*reg_write)(struct cmdq_pkt *pkt, u8 subsys, u32
+>>> pa_base,
+>>> +                      u16 offset, u32 value);
+>>
+>> (*pkt_write)
+>>
+>>> +     int (*reg_write_mask)(struct cmdq_pkt *pkt, u8 subsys, u32
+>>> pa_base,
+>>> +                           u16 offset, u32 value, u32 mask);
+>>
+>> (*pkt_write_mask)
+>>
+>> those names make a lot more sense.
+>>
+> Hi Angelo,
+> 
+> The reason why I use reg_write/reg_write_mask is to imply these APIs
+> only provide writing HW register address function, not writing DRAM
+> address.
+> So we don't need to care about mminfra_offset in these APIs.
 
-Thanks for the patch
+Sure I understand that we don't need to care about mminfra_offset - but those
+function pointers are effectively replacing the "(xyz)pkt_write" functions.
 
-On Wed, 29 Oct 2025 at 11:15, Hans Verkuil <hverkuil+cisco@kernel.org> wrote:
->
-> UVC doesn't support V4L2_CID_PRIVATE_BASE, so skip the check.
->
-> Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
-> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-Tested-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
+Changing the name to reg_write will create a lot of confusion.
 
-I have used this patch on top of v4l2-utils 1.28
-Using a kernel 6.12 +
-https://patchwork.linuxtv.org/project/linux-media/patch/20251028-uvc-fix-which-v1-1-a7e6b82672a3@chromium.org/
+> 
+> I can add comment for this.
+> 
+> What do you think?
+> Or should I change its name to pkt_write/pkt_write_amsk?
 
-The missing error is due to a non compliant module. Working also to fix that.
+Please change the name to pkt_write/pkt_write_mask and if you think it's useful
+also add a comment saying that those functions are already accounting for the
+mminfra_offset internally.
 
-Regards!
+Cheers,
+Angelo
 
+> 
+> Regards,
+> Jason-JH Lin
+> 
+>> After applying the requested changes,
+>>
+>> Reviewed-by: AngeloGioacchino Del Regno
+>> <angelogioacchino.delregno@collabora.com>
+>>
+>>>    };
+> 
 
-v4l2-compliance 1.28.1GIT_COMMIT_CNT, 64 bits, 64-bit time_t
-v4l2-compliance SHA: GIT_SHA GIT_COMMIT_DATE
-
-Compliance test for uvcvideo device /dev/video0:
-
-Driver Info:
-        Driver name      : uvcvideo
-        Card type        : ACER FHD VHDR User Facing: ACER
-        Bus info         : usb-0000:00:14.0-6
-        Driver version   : 6.12.45
-        Capabilities     : 0x84a00001
-                Video Capture
-                Metadata Capture
-                Streaming
-                Extended Pix Format
-                Device Capabilities
-        Device Caps      : 0x04200001
-                Video Capture
-                Streaming
-                Extended Pix Format
-Media Driver Info:
-        Driver name      : uvcvideo
-        Model            : ACER FHD VHDR User Facing: ACER
-        Serial           : 200901010001
-        Bus info         : usb-0000:00:14.0-6
-        Media version    : 6.12.45
-        Hardware revision: 0x00000015 (21)
-        Driver version   : 6.12.45
-Interface Info:
-        ID               : 0x03000002
-        Type             : V4L Video
-Entity Info:
-        ID               : 0x00000001 (1)
-        Name             : ACER FHD VHDR User Facing: ACER
-        Function         : V4L2 I/O
-        Flags            : default
-        Pad 0x01000007   : 0: Sink
-          Link 0x02000010: from remote pad 0x100000a of entity
-'Extension 4' (Video Pixel Formatter): Data, Enabled, Immutable
-
-Required ioctls:
-        test MC information (see 'Media Driver Info' above): OK
-        test VIDIOC_QUERYCAP: OK
-        test invalid ioctls: OK
-
-Allow for multiple opens:
-        test second /dev/video0 open: OK
-        test VIDIOC_QUERYCAP: OK
-        test VIDIOC_G/S_PRIORITY: OK
-        test for unlimited opens: OK
-
-Debug ioctls:
-        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-        test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-        test VIDIOC_ENUMAUDIO: OK (Not Supported)
-        test VIDIOC_G/S/ENUMINPUT: OK
-        test VIDIOC_G/S_AUDIO: OK (Not Supported)
-        Inputs: 1 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-        Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-        test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls (Input 0):
-        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-        test VIDIOC_QUERYCTRL: OK
-                fail: v4l2-test-controls.cpp(571): could not set maximum value
-        test VIDIOC_G/S_CTRL: FAIL
-        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-        Standard Controls: 16 Private Controls: 1
-        Standard Compound Controls: 0 Private Compound Controls: 1
-
-Format ioctls (Input 0):
-        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-        test VIDIOC_G/S_PARM: OK
-        test VIDIOC_G_FBUF: OK (Not Supported)
-        test VIDIOC_G_FMT: OK
-        test VIDIOC_TRY_FMT: OK
-                warn: v4l2-test-formats.cpp(1110): Could not set fmt2
-        test VIDIOC_S_FMT: OK
-        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-        test Cropping: OK (Not Supported)
-        test Composing: OK (Not Supported)
-        test Scaling: OK (Not Supported)
-
-Codec ioctls (Input 0):
-        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls (Input 0):
-        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-        test CREATE_BUFS maximum buffers: OK
-        test VIDIOC_REMOVE_BUFS: OK
-        test VIDIOC_EXPBUF: OK
-        test Requests: OK (Not Supported)
-        test blocking wait: OK
-
-Total for uvcvideo device /dev/video0: 49, Succeeded: 48, Failed: 1, Warnings: 1
 
