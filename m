@@ -1,193 +1,232 @@
-Return-Path: <linux-media+bounces-45930-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45931-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34665C195EF
-	for <lists+linux-media@lfdr.de>; Wed, 29 Oct 2025 10:30:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D584DC1974B
+	for <lists+linux-media@lfdr.de>; Wed, 29 Oct 2025 10:47:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BD90F4E2150
-	for <lists+linux-media@lfdr.de>; Wed, 29 Oct 2025 09:27:06 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 6E1E9581904
+	for <lists+linux-media@lfdr.de>; Wed, 29 Oct 2025 09:40:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0005130FC05;
-	Wed, 29 Oct 2025 09:27:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E0F332D444;
+	Wed, 29 Oct 2025 09:37:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Q73AY/iJ"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="EgiLtjcH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012000.outbound.protection.outlook.com [40.93.195.0])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A9E273D77
-	for <linux-media@vger.kernel.org>; Wed, 29 Oct 2025 09:26:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.0
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761730021; cv=fail; b=N9FseDFHtd5OEflE5VW2XEsLo3nd67baG36Iq+n/1t5/RzTXxPmO/kVL6kDq44maEGJMULqlbOrqwBON0M5+SRSaZQjwp0Q3mfxy5aArT6ozfIVZWF1Gqt2f3XoOm+AwONGYm7LFn67C2C1rV3DDftIMevfgZPuzv6EDkcn0TRY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761730021; c=relaxed/simple;
-	bh=qYgtaBoma9BKZ22Y1JWjY89L1GUIALI80nsKCP7fRl8=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cvY+L1gIN/2LqlpORyTuIm46yLgo31WuDH+vKm03vGSUtmrBfiKaZrnBkswAttx9crk8B10+2SzrU0uiLSZnGpJvJXgjSs2bpI5UtFuTo4Fix/oq+4a/l2zjaDZl/TRNM5h3b3Tg4Y9luNkJDU3M6zhTFA71V1cHO9wYEx4lvoY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Q73AY/iJ; arc=fail smtp.client-ip=40.93.195.0
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ugsA56NmRYydxF5IJZxdxeAHzw4s8yCqWNC2khSFVXr4FBR9APVlgu6vOQFCG1YxkZ2yy3VAF8sWClD6mEj6y223MEkUobwrzh4mQtGft/efPdplMLd8mxlaXG59cK+OxWSwOI/9sJJgSQsx6d8wBCwV6ZS+qvcKS/k4WHLIW5RLbVZYFXf6jfLWALqKM0LNZpUk6Xb91r4hJkKunAP0d/q3i8K98zorD/TnnIF8cbWvZyBTlRIXbtieoOjeqyatsflHg/csdmI2CR3zx7ynl4cWKSnHrmzZzKzvEMDOfzahRLhZ9r/4063bGanMpssfTXRVOpQ0p7Z7awZI1m4Jiw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Xz6a3ozz4aSvRNROJz/OvlvZWPYRHeII2UMRvcKmH2Q=;
- b=Up7SvPMpIGtANrUHuIbLTnmU2aGm2g4HAsgZ2q9U5pqo9jittAq2Ba5hDENz2aLbbdXO7zOvBFGG0lGhpDMpfl0ftMTbnDr/lR6kngNwt4hGgqBzUiQwK6/9WxzbdbATkdGR9XyT4ln7dGGJGtCRGRdkvTuf1LYU8puBeAKdT6SnmBBUNLHIr2DCirXh0tdMYov05SS0moywrFwTb5Zi+9ShsG2mk/c80DpHHWS/9RphMBlZHoCHJY85NSum38o/6MtqVcGfPGsGj53dpbrrlgiAjLid83wnEWobbf7gcGRrBOUSLLrMrxZrTuIsvrH+bx2x/NPXaCdQaUnSMyY8fg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=intel.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Xz6a3ozz4aSvRNROJz/OvlvZWPYRHeII2UMRvcKmH2Q=;
- b=Q73AY/iJTJLdPZ1VvrZzeeFLpZVmI8PXrocF/LqbeV4Rfa8mBTCX4jiiiCZZkj9Zr4o7ttQhZXZTsZYuRRMNOi6X6kmRZwS1O0/LwFqDwKdLLe9Ee/dtMdVtoC6y+pNvKZ6eb+9QTLuxyZuzorILF2j++htRlk6FR+B2Ph340LCIrTex97mgC39cDWy5Gi67AdXwr6m1+qIhKqhQFUxHo6CEdMcHjJzcwOjRAuIENLYpDbQxvnTvYvAvRCCT6W6p/+qVEACEFki3h7s1aF4v4mt7q2V8v4LTBnuDroU/Oan/brneWAkl6Z4OT7MGb7Jq07DR9VmOe5vz8mP0kUas2Q==
-Received: from BL1PR13CA0017.namprd13.prod.outlook.com (2603:10b6:208:256::22)
- by IA1PR12MB6530.namprd12.prod.outlook.com (2603:10b6:208:3a5::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.13; Wed, 29 Oct
- 2025 09:26:54 +0000
-Received: from BL6PEPF00022574.namprd02.prod.outlook.com
- (2603:10b6:208:256:cafe::6e) by BL1PR13CA0017.outlook.office365.com
- (2603:10b6:208:256::22) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.13 via Frontend Transport; Wed,
- 29 Oct 2025 09:26:54 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- BL6PEPF00022574.mail.protection.outlook.com (10.167.249.42) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9275.10 via Frontend Transport; Wed, 29 Oct 2025 09:26:54 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.34; Wed, 29 Oct
- 2025 02:26:41 -0700
-Received: from localhost (10.126.231.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 29 Oct
- 2025 02:26:40 -0700
-Date: Wed, 29 Oct 2025 11:25:34 +0200
-From: Leon Romanovsky <leonro@nvidia.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-CC: Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	<dri-devel@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
-	<linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>, "Christian
- Koenig" <christian.koenig@amd.com>, Sumit Semwal <sumit.semwal@linaro.org>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>, Matthew Brost
-	<matthew.brost@intel.com>, Dongwon Kim <dongwon.kim@intel.com>
-Subject: Re: [RFC v2 0/8] dma-buf: Add support for mapping dmabufs via
- interconnects
-Message-ID: <20251029092534.GA11622@unreal>
-References: <20251027044712.1676175-1-vivek.kasireddy@intel.com>
- <20251029002726.GA1092494@nvidia.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB24C328605
+	for <linux-media@vger.kernel.org>; Wed, 29 Oct 2025 09:37:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761730657; cv=none; b=qfCKSG5WsFQce32aNI/WQCzXEKz8Vhmg4+9CmFgeEuy4FZ3Efthk6XaDj+n/ywn4YGS9YD1z8t/uo4QuKbtkfQO9Gl32DJc/1YveUjRvjxGLc1RWcuQMXg+7fiP0Y0IdWdiHlGowITZxWvViKzYqtDW60JkSdDhIcWQfbBn8Fcw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761730657; c=relaxed/simple;
+	bh=FMEPEFiPB6Tfj0snxhV61QxQKg2vsfRJZoiB0EQX/vg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UC2kbxR5HfowfFHTXq2OC2BZpwVf9FVHog6znRYsMcWiM+duIuz521ISryZSzLBiclCFqUW0aek1z22GMFdks2MnWxwZVdsCJ2FHxp8dNCx7UTC6LSx6I926Mw51WKpbtk5QLCPA+L2TO9D9lVMQowlsEVZEfir//RHd7ki2biI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=EgiLtjcH; arc=none smtp.client-ip=209.85.208.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-378d65d8184so26665461fa.0
+        for <linux-media@vger.kernel.org>; Wed, 29 Oct 2025 02:37:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1761730653; x=1762335453; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=zW33KXxYmEIaVqGmGYPO0/yFieFjDmROYj6eA8owy0k=;
+        b=EgiLtjcH2jswEcvd8eJqXtyqMFVYWiL3+sTBFLcc/aOkYAfDYiTGVIsXU9GTEFg+OW
+         7xLMkh9jzln49C016UEGHw4r4HV+5QyXWWKMjBPBM3hZztWrUirXD7wfFt9evqke6KIr
+         d+SrirUW/uc7dhqxh7IK2ysBBN+Yt3aBLLJic=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761730653; x=1762335453;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zW33KXxYmEIaVqGmGYPO0/yFieFjDmROYj6eA8owy0k=;
+        b=lCWMbZbOgFbU7AToBlDHOVXivittkq4ckHocaYqVXZsdc1Z17fPKTe/Dx3eBF5f1P5
+         PXTDAv7f0JFeWmfR4F4INrfSIMPvh+8IpnrTkrrADASqKcWe9sc4CnElQ/gK4sUgKd9T
+         oCLRwNZdP4CXQkKij49czuH6aYYngypJ2gNbWYhtFpw0K9LKWYd97kE6S7j9B7Ngz00l
+         Aexgk8BzfSltYgyEF0T34hvLkboMFOCmOgJtUFuAg7rQ5XdHVq+LdTwIyvGoc3/c3kL3
+         27TqVxu+7pt4l/l4/B/utp5Mxj5oa6PEKFeXPwG9k6VmPuEx6kzMpsywYdS3Uua4SzjM
+         2nxA==
+X-Forwarded-Encrypted: i=1; AJvYcCU4uGMyCARlJeA3/+azhRGQ/PzWjmKePChxR1+shIT/r6fbgm4Fhp6Gn6SlWwwEb4i+WzVC2b6mlXHBmA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwY9MKWG1aDnFW5GrTiEQsXODOuqFi3kjV8i5EyIosFbA8/0jPj
+	58dT1cvgvTZ17jZM51NyfAkVR9xj7uHrCNLcbEZN/F388qHOVDSvqUrzoRmM7uaqcwApnxDeRB6
+	baoY=
+X-Gm-Gg: ASbGncs29o8yH2xbbKmkYCkEa6osOsVlINse8VgbHlXMzoWfQznHyzfHoaIFJ++jDhA
+	JIl/0pEaDMi/vStiz7Yrpa+YRB+CL0g57aU6yHLfOjEiIOiRaCqtYouvR3izZBIUs7NmUxgRxNO
+	3hZddonAeBu5ro+SISYlB4dnpOYieBSu5/vxTcEHSIzd0HyYPjl00fkXCY6UpxsfNZpAdN6T1t2
+	lG7X/XqNGZCvgzw7AVva9DAL3v3phUJqnl57AvqyV827KX+Ig6kQXFMh4pd2w4mC2zsubxE2guh
+	fY6cysaxxsvIjq4vmkcmFWZl64n5osHBzTCBcJsC4gytwZAD1/5QJPkOEC5KJd2Z8JG/EGT+Tvo
+	a9nzGUe3hY+ouLQQ3IrurkFRmWHaayCH205hhH6Yt2BtFzK4zWjXgO2GNKHSnAu+5E5V7JVSJJc
+	nzUTNrxjqD9f/TeEWhYZF7rXIYgNv4F1/9BBagRg==
+X-Google-Smtp-Source: AGHT+IGSFkhNqIFw4D/yQnQeN7KdJP7LJEjCw1CceKhDCFM7Yz+vO/AquYq2T9pZM0RN8eiom+EwdA==
+X-Received: by 2002:a2e:a5c3:0:b0:360:c716:2666 with SMTP id 38308e7fff4ca-37a023fa773mr8248501fa.30.1761730653499;
+        Wed, 29 Oct 2025 02:37:33 -0700 (PDT)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com. [209.85.167.51])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-378ee09213fsm32387071fa.1.2025.10.29.02.37.32
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Oct 2025 02:37:33 -0700 (PDT)
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-59390875930so1232246e87.1
+        for <linux-media@vger.kernel.org>; Wed, 29 Oct 2025 02:37:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW013rWcpLSXKX0SVqSy1Yoeg6aowfvqGnaSaWp+O2KkM103BSZtMdjgr3iJKXXt/vXp2VwdOUbzZ6m7Q==@vger.kernel.org
+X-Received: by 2002:a05:6512:308c:b0:592:fcad:4a11 with SMTP id
+ 2adb3069b0e04-59412862548mr801493e87.7.1761730652345; Wed, 29 Oct 2025
+ 02:37:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20251029002726.GA1092494@nvidia.com>
-X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF00022574:EE_|IA1PR12MB6530:EE_
-X-MS-Office365-Filtering-Correlation-Id: d3a6868b-c28c-4f75-6bd9-08de16cd4cf2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|376014|7416014|36860700013|1800799024|13003099007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?NVngunuNT47NQo84KAxs+T4FBFstm9ZqvyHhe6Y7o1ytajs0tghCGyc7lkp5?=
- =?us-ascii?Q?eft2oivsF9N4t0Jr0GTCwBYCltU2H3osfOOEttSVNQPDcXvv6Z06bIxD60dl?=
- =?us-ascii?Q?rS8tUNdNlqg4GaLFPoi/EvR+cGXAYV9HaPCEph88viM5IvrRfHi3tfcGMIlC?=
- =?us-ascii?Q?vkFXuxdvjCw0tL5Bb4uBwnfLUQcERgCQkwQjiJKPlDxMYmurRlqPOqxBpf1M?=
- =?us-ascii?Q?t/eRezZxLIKMLc4yDyxUQ5k2O4jzDjjXNuFhR/RW03uZtX3Ezha8od/STgNt?=
- =?us-ascii?Q?0Fp2YCZcBSpMqTOsvXL+Zj6ZOrYsTP9acG3TJVs/gCSU9G2TrYKEDNs88s3q?=
- =?us-ascii?Q?hfOojya9f/MhpJ8cf01NYjaeXMA7LB+stNzkbKYFZfby3Fts7hw4oKQFOmMu?=
- =?us-ascii?Q?Gsq/ERoHZ08vEAoYdH3ahN4YV3mBPxZm99yKGQCOizHrNxuuVXqdchbb2B0/?=
- =?us-ascii?Q?qCY9KFSqTu3nDXorLjBVFg7ShHrqqFWGi2g6OW3nD3cn2f1ImCt+ICfRQAV0?=
- =?us-ascii?Q?EGIlOrN4HFYymHmdkB0wdDBfnJeM7tPcleIgRzkSn3Ivok9EFBgy3kqQ+2xD?=
- =?us-ascii?Q?tumZrTNMGHaqwbCLDyBoOs6p3jOOoR4IWUJnAbRdPXuE/PpaO5nEICVy/1sp?=
- =?us-ascii?Q?qQk92PX5vs/ljT3K4u/PqbNfPX3Lsb0OZuii9f1qi7gqwhfk8pBDykz4H6y7?=
- =?us-ascii?Q?hQRay8LU2dnspn9ylmANZA5QPUrbR6YSGTaw+SV2O6gOPJGO1LmEMDO4NbWv?=
- =?us-ascii?Q?nXNUG8k2QKU1Bf/K/6kXw9dCjCB8+VmOiPGkcPORCR7rmrIGC7KO4pPSGSBl?=
- =?us-ascii?Q?L7jdm/8K2UoxXCQH94uboE86UWpraK+bJQ3bHNOe2hunSjzjE6ItiTGJ+gwW?=
- =?us-ascii?Q?1IC5jco/4YX1fVMZhECgPat8N8lcilzMa0yuDAa18X5i6QJiPI8wgMSPe42m?=
- =?us-ascii?Q?iq50OBnQZBcqbXSVc6MyWSjFGq9bxS+hXX+w5TGM2XFfAiXWcouFrZqWyfUL?=
- =?us-ascii?Q?i+rVOt5YLJeM7tnKS/NiLdvV4T6GTYNytBvcdloyX0VQKx0c9FPztgaZORHp?=
- =?us-ascii?Q?KF/WIRpmQDdYwb3HwSBpbqcAqnxfnqTXYvMDBSGJXA4VWutp9ohELv7t/+wy?=
- =?us-ascii?Q?MyPPEfqXhaiYYQylMfw52M/wA2S+KeitsfAawwzxKAxI0AUdWuPclZTocxv1?=
- =?us-ascii?Q?1NByaTK8zUPF47GZGltD1LRBEIKShWaxAHjAaR9anSfx/51jIRe0O9mxe8KM?=
- =?us-ascii?Q?EixkW8hTk0eHDqVtdwl64PJrfR6t/DJhr6jpNyu5xQct5NqEB4kEsaf0wryO?=
- =?us-ascii?Q?5QpANNRuC4N3RLALs8v0G9jdlKtg2kFiDV64G6jsiyYoJ9gDG7Z7LBDh6V6b?=
- =?us-ascii?Q?vMSm0qvgYPJXAi2ArbPYqP/MhfyYtqQuZbMrXtBMKV+rPqD1+Cy7LUAQVGBz?=
- =?us-ascii?Q?+pVlvyWbRlvEzSlpL3AN2ZfHyeo+ONuRD/axGIPXq+lNq+HDqEa7+hbtC9HJ?=
- =?us-ascii?Q?chj9LrUH4kpF2JHeaGxg02rQTZ0odC/Kjl3la6XHfhStxWb4uKWQpbD89KiS?=
- =?us-ascii?Q?JS++JcUjML30ZVvUSjctSz0NOneKI03kr2PACE/7?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(376014)(7416014)(36860700013)(1800799024)(13003099007);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2025 09:26:54.6379
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d3a6868b-c28c-4f75-6bd9-08de16cd4cf2
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL6PEPF00022574.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6530
+References: <20251028-uvc-fix-v1-1-dfcc504ff8e2@chromium.org> <968fc56f-268f-4b2d-8f99-01fa886b524e@kernel.org>
+In-Reply-To: <968fc56f-268f-4b2d-8f99-01fa886b524e@kernel.org>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Wed, 29 Oct 2025 10:37:18 +0100
+X-Gmail-Original-Message-ID: <CANiDSCtjitQqziDnGbAcxHNSqkp78w74OTvqz=tijgZ3KxoSnQ@mail.gmail.com>
+X-Gm-Features: AWmQ_bn1SJ89ZW-fHDRYAwEyIsipoy4MrPRroChHPrtgMUX4tFK8YLQRrWfR7ew
+Message-ID: <CANiDSCtjitQqziDnGbAcxHNSqkp78w74OTvqz=tijgZ3KxoSnQ@mail.gmail.com>
+Subject: Re: [PATCH v4l-utils] v4l2-compliance: Fix test for UVC USER controls
+To: Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Oct 28, 2025 at 09:27:26PM -0300, Jason Gunthorpe wrote:
-> On Sun, Oct 26, 2025 at 09:44:12PM -0700, Vivek Kasireddy wrote:
-> > In a typical dma-buf use case, a dmabuf exporter makes its buffer
-> > buffer available to an importer by mapping it using DMA APIs
-> > such as dma_map_sgtable() or dma_map_resource(). However, this
-> > is not desirable in some cases where the exporter and importer
-> > are directly connected via a physical or virtual link (or
-> > interconnect) and the importer can access the buffer without
-> > having it DMA mapped.
-> 
-> I think my explanation was not so clear, I spent a few hours and typed
-> in what I was thinking about here:
-> 
-> https://github.com/jgunthorpe/linux/commits/dmabuf_map_type
-> 
-> I didn't type in the last patch for iommufd side, hopefully it is
-> clear enough. Adding iov should follow the pattern of the "physical
-> address list" patch.
-> 
-> I think the use of EXPORT_SYMBOL_FOR_MODULES() to lock down the
-> physical addres list mapping type to iommufd is clever and I'm hoping
-> addresses Chrsitian's concerns about abuse.
-> 
-> Single GPU drivers can easilly declare their own mapping type for
-> their own private interconnect without needing to change the core
-> code.
-> 
-> This seems to be fairly straightforward and reasonably type safe..
+Hi Hans
 
-It makes me wonder what am I supposed to do with my series now [1]?
-How do you see submission plan now?
+On Wed, 29 Oct 2025 at 10:10, Hans Verkuil <hverkuil+cisco@kernel.org> wrote:
+>
+> On 28/10/2025 18:45, Ricardo Ribalda wrote:
+> > v4l2-compliance only supports priv_user_controls which id starts from
+> > CID_PRIV_BASE and are contiguous; or compound controls. This is not
+> > enough for UVC:
+> >
+> > The UVC driver exposes two controls V4L2_CID_UVC_REGION_OF_INTEREST_RECT
+> > and V4L2_CID_UVC_REGION_OF_INTEREST_AUTO and reserve space for 62 more.
+> >
+> > Make v4l2-compliance aware of them.
+> >
+> > With this patch the following v4l2-compliance is fixed:
+> >
+> > fail: v4l2-test-controls.cpp(326): expected 1 private controls, got 0
+> >   test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: FAIL
+> >
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >  utils/v4l2-compliance/v4l2-test-controls.cpp | 16 ++++++++++++++++
+> >  1 file changed, 16 insertions(+)
+> >
+> > diff --git a/utils/v4l2-compliance/v4l2-test-controls.cpp b/utils/v4l2-compliance/v4l2-test-controls.cpp
+> > index e4925ca3977b5b87a6a8e9ad5794847fa7009e50..6f645c4f9aca94a4ef586b11d6fd11268f1bf195 100644
+> > --- a/utils/v4l2-compliance/v4l2-test-controls.cpp
+> > +++ b/utils/v4l2-compliance/v4l2-test-controls.cpp
+> > @@ -316,6 +316,22 @@ int testQueryExtControls(struct node *node)
+> >               priv_user_controls++;
+> >       }
+> >
+> > +     for (id = V4L2_CID_USER_UVC_BASE; id < V4L2_CID_USER_UVC_BASE + 64; id++) {
+> > +             memset(&qctrl, 0xff, sizeof(qctrl));
+> > +             qctrl.id = id;
+> > +             ret = doioctl(node, VIDIOC_QUERY_EXT_CTRL, &qctrl);
+> > +             if (ret && ret != EINVAL)
+> > +                     return fail("invalid query_ext_ctrl return code (%d)\n", ret);
+> > +             if (ret)
+> > +                     continue;
+> > +             if (qctrl.id != id)
+> > +                     return fail("qctrl.id (%08x) != id (%08x)\n", qctrl.id, id);
+> > +             if (checkQCtrl(node, qctrl))
+> > +                     return fail("invalid control %08x\n", qctrl.id);
+> > +             if (qctrl.type < V4L2_CTRL_COMPOUND_TYPES)
+> > +                     priv_user_controls++;
+> > +     }
+> > +
+>
+> Ah, no, this is wrong.
+>
+> So a long, long time ago there were only standard integer type controls and driver
+> private controls. The latter started at V4L2_CID_PRIVATE_BASE.
+>
+> The problem with that was that different drivers supported controls with the same
+> ID (V4L2_CID_PRIVATE_BASE + offset), but very different meaning.
+>
+> When I created the control framework, I defined that drivers should use ranges of
+> controls IDs instead ensuring that control IDs would always be unique. Those are
+> reserved in v4l2-controls.h, in the case of UVC they start at V4L2_CID_USER_UVC_BASE.
+> And you can enumerate them using V4L2_CTRL_FLAG_NEXT_CTRL.
+>
+> But to preserve backwards compatibility with existing applications that do not support
+> V4L2_CTRL_FLAG_NEXT_CTRL, the control framework maps those private ranges to
+> V4L2_CID_PRIVATE_BASE. See find_private_ref in drivers/media/v4l2-core/v4l2-ctrls-core.c.
+> This will just find the nth driver private user control that is not a compound control.
+>
+> Drivers don't need to do anything, it's all done by the control framework.
+>
+> In the case of UVC there is one such control: V4L2_CID_UVC_REGION_OF_INTEREST_AUTO.
+>
+> So v4l2-compliance expects that when querying controls from V4L2_CID_PRIVATE_BASE
+> onwards, it will see one control with ID V4L2_CID_PRIVATE_BASE.
+>
+> But it doesn't, since UVC doesn't support this backwards compatibility code.
+>
+> There are two options: UVC can support this old way of working as well, or
+> v4l2-compliance skips this check for uvc. I'm inclined to just skip it for uvc.
+>
+> This patch should do this:
 
-[1] https://lore.kernel.org/all/cover.1760368250.git.leon@kernel.org/
+Thanks for the detailed explanation.
+
+What about landing your proposal and then I start to work to fix uvc
+to support V4L2_CID_PRIVATE_BASE ?
+After I add support for V4L2_CID_PRIVATE_BASE we will revert your quirk.
+
+If we go that path. Do I need to resend a v2 with your code?
+
+Thanks!
+
+>
+> [PATCH] v4l2-compliance: skip V4L2_CID_PRIVATE_BASE check for UVC
+>
+> UVC doesn't support V4L2_CID_PRIVATE_BASE, so skip the check.
+>
+> Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+> diff --git a/utils/v4l2-compliance/v4l2-test-controls.cpp b/utils/v4l2-compliance/v4l2-test-controls.cpp
+> index e4925ca3..73a6a3be 100644
+> --- a/utils/v4l2-compliance/v4l2-test-controls.cpp
+> +++ b/utils/v4l2-compliance/v4l2-test-controls.cpp
+> @@ -321,6 +321,9 @@ int testQueryExtControls(struct node *node)
+>         if (user_controls != user_controls_check)
+>                 return fail("expected %d user controls, got %d\n",
+>                         user_controls_check, user_controls);
+> +       /* UVC doesn't support V4L2_CID_PRIVATE_BASE */
+> +       if (is_uvcvideo)
+> +               priv_user_controls_check = 0;
+>         if (priv_user_controls != priv_user_controls_check)
+>                 return fail("expected %d private controls, got %d\n",
+>                         priv_user_controls_check, priv_user_controls);
+>
+>
+> Regards,
+>
+>         Hans
+>
+> >       if (priv_user_controls + user_controls && node->controls.empty())
+> >               return fail("does not support V4L2_CTRL_FLAG_NEXT_CTRL\n");
+> >       if (user_controls != user_controls_check)
+> >
+> > ---
+> > base-commit: 796dc550a682e8f65fe6457cd5fec5ee123f39aa
+> > change-id: 20251028-uvc-fix-a8ce84e198f4
+> >
+> > Best regards,
+>
 
 
-> 
-> What do you think?
-> 
-> Jason
+-- 
+Ricardo Ribalda
 
