@@ -1,45 +1,45 @@
-Return-Path: <linux-media+bounces-45923-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45921-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4767C19153
-	for <lists+linux-media@lfdr.de>; Wed, 29 Oct 2025 09:36:40 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id A59F7C19189
+	for <lists+linux-media@lfdr.de>; Wed, 29 Oct 2025 09:38:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BB0F1565FC5
-	for <lists+linux-media@lfdr.de>; Wed, 29 Oct 2025 08:24:26 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D0E1458196C
+	for <lists+linux-media@lfdr.de>; Wed, 29 Oct 2025 08:23:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7647F333459;
-	Wed, 29 Oct 2025 08:17:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 456363321C9;
+	Wed, 29 Oct 2025 08:17:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="NlCj9O7M"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="rznuteNs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59D44330316;
-	Wed, 29 Oct 2025 08:17:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0746032E72F;
+	Wed, 29 Oct 2025 08:17:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761725859; cv=none; b=eNa6v5YtKMSUCtyXbtwiU6KfxZOEQT/aQGxn35jQ2pC0fjTTYN3yJM0AEPXD2XPMy80aLp0tFjXJRWSxheFaVWveZm05PK4Jxd7qcv24Ky5Qu0waIu3f538AcBti5J9ZJuSutDmS6nyY2Wx/2srEfiDyiAv3oXBptjGpV/AWUdw=
+	t=1761725858; cv=none; b=HRxjjrOF2l+Ku43MIfakEYHNCIt5VoLtZ0WfZK6A0sYTDAuu+BQNqrOrbAjr9XjWPsm/FQLTUxLbLQ+OM9Vobf8Agdyj0k5obW3L7YCgPsROQEku4EblLnefvOfn8jDJlgUySjrWjX9yzN3GhueEI4fHy8MKPDYWp6UDQSfDHgY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761725859; c=relaxed/simple;
-	bh=s/dq7bwmw5VMZN30ZBb+2VCcW61KD7ENnl8Lx91aNnE=;
+	s=arc-20240116; t=1761725858; c=relaxed/simple;
+	bh=xnuiii9zq94ZjQ33C5+BwNfuGZD5x+YdWMy1IteqJZU=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XnT32F8h9ORh4F0bg/loEl5ddcZDXdbT+TLyoiMiFgNTP0m21DcIsRvsQW3qOc/d6n4PAm9poyE+edd1a6kce6HzUrWd9StQ8tgA9wrlaBL3AJynSCUKRtkpBn+hiMuqftNKtST2nC6h6H7AkAA4pPOsFJ3Ux2dG6gUwPUmmppA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=NlCj9O7M; arc=none smtp.client-ip=210.61.82.184
+	 MIME-Version:Content-Type; b=tKOx6yJkywn5sI0gs3LWmxrLsIYvn8MjD9wq0Pm6NvjoTrQBgi7eubnj59GAtVH5RKFiDtsVmRygT7GoVm8U8m0UDl6tpUAoOvxtA/gmAWFSwUbrvs0GB7PwkD4izGFL7A0QJM0fmiDiaE9GjeqwORzxVmqBQ2JJuvocGzi7tzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=rznuteNs; arc=none smtp.client-ip=60.244.123.138
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: b558e476b49f11f0b33aeb1e7f16c2b6-20251029
+X-UUID: b6601fceb49f11f0ae1e63ff8927bad3-20251029
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=4o/P+C0jNzf2JiOQyXN2IxeKhOI4k26hisBucaHo4zk=;
-	b=NlCj9O7MqgJEEXST7WQ6nxtCSukItNYLAPn2wxtd2TmNCS2WhC7c83ZaRlEvHD69YGtd9KkXIl7nE3BaLItUM7h24kNyYnud8EfQ44hivyruoRad78Bz8LlWS9HRVvovv3Deqg/jip299LlexAf6Brl3ikOABIBtUG9G+xG+u18=;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=l86b3wFQLp7qqyYC3UYkYG48yFwPuGR6BvkHaLpMrlk=;
+	b=rznuteNsJ8l6txoAZs7N01XmTQcGnzaISCQICIZroWtFDQClvTlv5w/FwJ4j/ZVvNnsBIFy4CKKYMHhZKNdcgMQBcK8jimLdoh7B4FyFAD2SADpvOp6axisJ7GVm7gio8QBqv0pZRHZIg3EA0vFh6r0vVh1H4tiDGF3b6CnQF1M=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.6,REQID:3573f5ae-1070-4fed-8de9-018b48211172,IP:0,UR
+X-CID-O-INFO: VERSION:1.3.6,REQID:c4776d70-1fe0-4ac7-8931-60f07879885b,IP:0,UR
 	L:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
 	release,TS:-5
-X-CID-META: VersionHash:a9d874c,CLOUDID:a8d06d84-4124-4606-b51d-d5c9eec0e7b9,B
+X-CID-META: VersionHash:a9d874c,CLOUDID:9fd06d84-4124-4606-b51d-d5c9eec0e7b9,B
 	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|836|888|898,TC:-5,Content:
 	0|15|50,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,BEC:nil,COL:0,OS
 	I:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
@@ -47,18 +47,18 @@ X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: b558e476b49f11f0b33aeb1e7f16c2b6-20251029
-Received: from mtkmbs09n2.mediatek.inc [(172.21.101.94)] by mailgw02.mediatek.com
+X-UUID: b6601fceb49f11f0ae1e63ff8927bad3-20251029
+Received: from mtkmbs09n2.mediatek.inc [(172.21.101.94)] by mailgw01.mediatek.com
 	(envelope-from <kyrie.wu@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 277210065; Wed, 29 Oct 2025 16:17:28 +0800
+	with ESMTP id 1171470171; Wed, 29 Oct 2025 16:17:30 +0800
 Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ MTKMBS09N2.mediatek.inc (172.21.101.94) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.1748.26; Wed, 29 Oct 2025 16:17:27 +0800
 Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
  mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1748.26 via Frontend Transport; Wed, 29 Oct 2025 16:17:26 +0800
+ 15.2.1748.26 via Frontend Transport; Wed, 29 Oct 2025 16:17:27 +0800
 From: Kyrie Wu <kyrie.wu@mediatek.com>
 To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab
 	<mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
@@ -69,9 +69,9 @@ To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab
 	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
 	<linux-mediatek@lists.infradead.org>
 CC: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [RESEND v10 09/12] media: dt-bindings: mediatek,jpeg: Add mediatek, mt8196-jpgdec compatible
-Date: Wed, 29 Oct 2025 16:17:14 +0800
-Message-ID: <20251029081717.29551-10-kyrie.wu@mediatek.com>
+Subject: [RESEND v10 10/12] media: dt-bindings: mediatek,jpeg: Add mediatek, mt8196-jpgenc compatible
+Date: Wed, 29 Oct 2025 16:17:15 +0800
+Message-ID: <20251029081717.29551-11-kyrie.wu@mediatek.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20251029081717.29551-1-kyrie.wu@mediatek.com>
 References: <20251029081717.29551-1-kyrie.wu@mediatek.com>
@@ -87,27 +87,27 @@ X-MTK: N
 
 Compared to the previous generation IC, the MT8196 uses SMMU
 instead of IOMMU and supports features such as dynamic voltage
-and frequency scaling. Therefore, add "mediatek,mt8196-jpgdec"
+and frequency scaling. Therefore, add "mediatek,mt8196-jpgenc"
 compatible to the binding document.
 
 Signed-off-by: Kyrie Wu <kyrie.wu@mediatek.com>
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- .../bindings/media/mediatek,mt8195-jpegdec.yaml           | 8 ++++++--
+ .../bindings/media/mediatek,mt8195-jpegenc.yaml           | 8 ++++++--
  1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml b/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml
-index e5448c60e3eb..28a9a9bfdbf8 100644
---- a/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml
-+++ b/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml
+diff --git a/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegenc.yaml b/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegenc.yaml
+index 596186497b68..e2d772ea0fb0 100644
+--- a/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegenc.yaml
++++ b/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegenc.yaml
 @@ -14,7 +14,9 @@ description:
  
  properties:
    compatible:
--    const: mediatek,mt8195-jpgdec
+-    const: mediatek,mt8195-jpgenc
 +    enum:
-+      - mediatek,mt8195-jpgdec
-+      - mediatek,mt8196-jpgdec
++      - mediatek,mt8195-jpgenc
++      - mediatek,mt8196-jpgenc
  
    power-domains:
      maxItems: 1
@@ -115,10 +115,10 @@ index e5448c60e3eb..28a9a9bfdbf8 100644
  
      properties:
        compatible:
--        const: mediatek,mt8195-jpgdec-hw
+-        const: mediatek,mt8195-jpgenc-hw
 +        enum:
-+          - mediatek,mt8195-jpgdec-hw
-+          - mediatek,mt8196-jpgdec-hw
++          - mediatek,mt8195-jpgenc-hw
++          - mediatek,mt8196-jpgenc-hw
  
        reg:
          maxItems: 1
