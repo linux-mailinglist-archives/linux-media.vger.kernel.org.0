@@ -1,75 +1,76 @@
-Return-Path: <linux-media+bounces-45948-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45949-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 580CBC1C8F0
-	for <lists+linux-media@lfdr.de>; Wed, 29 Oct 2025 18:47:59 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C21DC1C8AA
+	for <lists+linux-media@lfdr.de>; Wed, 29 Oct 2025 18:45:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F3D3D586FA4
-	for <lists+linux-media@lfdr.de>; Wed, 29 Oct 2025 17:30:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4073F1883BA3
+	for <lists+linux-media@lfdr.de>; Wed, 29 Oct 2025 17:45:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60AE72F6191;
-	Wed, 29 Oct 2025 17:30:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 081BD3546EF;
+	Wed, 29 Oct 2025 17:44:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EetOoJeI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HbA7tqNm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8334287510
-	for <linux-media@vger.kernel.org>; Wed, 29 Oct 2025 17:30:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 418F3332902;
+	Wed, 29 Oct 2025 17:44:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761759020; cv=none; b=VGhWBBGWOMZo1tCUzXAfT2XJlyT1cOeU/lKxqeJZHhffyhEZCZWH2f2+mbptVd0I8uRfwmHn8nlMBgPSPcI6NxzB964PBzruYIV5pZHPCLAC3I/LUKcy5igr9nUEUU9Vq4auH2ZIUu0e4xJZJ0jOy6yVuuD9G9uh9mgzPc3dct0=
+	t=1761759895; cv=none; b=SFJ3zs22TXDtbRbnUqAZkLhnjYZNzcLPuIM5dZOgD/pbIfgq5Q1xOqiCYyrFD5NCCZGi3mcdudXXlVSlqAaU7oq/fMENCoqSrOkaH9j7BzceYnINAdc7877cWljanTr9KQ3kSPyr6IxR0HrCjI2LykBbi7yU48TmXkzycKHYxOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761759020; c=relaxed/simple;
-	bh=32Z2g7knH7zda5xchuVyVuAdN7iqApvfHcyAHYR7K7k=;
+	s=arc-20240116; t=1761759895; c=relaxed/simple;
+	bh=2hFcbnwykJKKd8Jrh3uYfXCOJBYZiMN87dt9ZIh4obw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QvABP0byxMCYnniD5ifD9YHz/OLDYd9FAB8boy7NxYDDqNIr+q64ZHEbvkZX/5Ht2GRRkYXN3EgpC6CotjU9K0D5AqMmye3a/k9S2AfgK47jqSbv78Bx5Nmrb9TiCtvWHr7Rh+W7loo7k6tbvAADuDRw5XyOp2zerkPaV959KMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EetOoJeI; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=WFGhrXj+kPk6wZaqqCtiD+7TlGXrup2idGwYYt7JNODIQcwLLX+Nyi6YITx+3SPoD2iWZ48y+Az+MH7KrUDKBsXDcw/H3GZMR3k8ZM0LRfUTgDd3MKDr11H3nOH7o9iMFLMrfpbUWVeTNIr3UlqzxIws8VwMVeUApKdFMis9AdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HbA7tqNm; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761759018; x=1793295018;
+  t=1761759893; x=1793295893;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=32Z2g7knH7zda5xchuVyVuAdN7iqApvfHcyAHYR7K7k=;
-  b=EetOoJeIEAWBszCiaT1eCVsREi8ryRdVBkcuPDLDduGqtOhWQF6BrEf5
-   0ahy/lPeXLpW5kdsiWhe2bMA5+B7STo1GC3ybwDLp1YhVy5uQRFE2SUPT
-   fWA4SKm4wfI/T2imCLopE48ErwAH7N2aFh6BhDqUZnrBSLUbDNNEsUKdc
-   L4+ln0qqReFjv4am3m+2n/t4Lb2VoNyaXHoKE85c9CPHSoOQyXYsLY2PS
-   86Pq0DtF6KQYpWpghh+WRSDiWUvX4gWK8C5D3KcY51ipGCjLEf7713RoL
-   aBq/m1MTHRYCes7EnGKIxCNrLU1907bbn/VniLP8fYfFK9zo4fMURwQ/R
-   Q==;
-X-CSE-ConnectionGUID: nEnzNA5+QV+HgnHXafuF7g==
-X-CSE-MsgGUID: 5ytJ9A6NRKuqAA+P82y2TQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="64038943"
+  bh=2hFcbnwykJKKd8Jrh3uYfXCOJBYZiMN87dt9ZIh4obw=;
+  b=HbA7tqNmy0dtt8abKTjhnQMB1gfXi89hIvHrFz4qWb9BjnMwwUhuNsM5
+   VOGTrlPFymzkxX4Ua3mh+wrayHmAog1u/FPeZYE9RmNAehMqB+1VCDRSd
+   pQQFjZzTOE6WyOZeyCEmXWNfsKxlBr2n+C1A1RmslpgSoiZtWllghoeQG
+   qfz+qCfsbBq/l6cIYbImRewxoj6Ye3M2+kNYUGe85XDRel1vpZCuJJECE
+   tLe8FZCHd2fi9pJRkc50XFY4YZlK4owrWTo7qnPspqWXwCVrmGYJt1KlL
+   oiC+k9/60hHYQCo7u/oyjyTxfBdaGbwToLMvQm2VCn2yZtSuByU3G1aQS
+   w==;
+X-CSE-ConnectionGUID: /cKvFoTPRWWblyg+TAqD8Q==
+X-CSE-MsgGUID: M8zSfO25Ram7E8JmQPLbLA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="67542431"
 X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; 
-   d="scan'208";a="64038943"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 10:30:16 -0700
-X-CSE-ConnectionGUID: Ev/sOJvORsO0Fq/ivz6l8w==
-X-CSE-MsgGUID: C/ztXrl4QTOd3H4ZrtHugg==
+   d="scan'208";a="67542431"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 10:44:52 -0700
+X-CSE-ConnectionGUID: n4W1H7jjRnupT8s9Oft5Bg==
+X-CSE-MsgGUID: C99SNKl1QZCrEZEaQP6Rng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; 
-   d="scan'208";a="186473649"
+   d="scan'208";a="186184385"
 Received: from egrumbac-mobl6.ger.corp.intel.com (HELO mdjait-mobl) ([10.245.245.118])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 10:30:15 -0700
-Date: Wed, 29 Oct 2025 18:30:08 +0100
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 10:44:51 -0700
+Date: Wed, 29 Oct 2025 18:44:44 +0100
 From: Mehdi Djait <mehdi.djait@linux.intel.com>
 To: Hans de Goede <hansg@kernel.org>
 Cc: Bingbu Cao <bingbu.cao@intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
-Subject: Re: [PATCH 11/25] media: i2c: ov01a10: Add ov01a10_check_hwcfg()
- function
-Message-ID: <oy6qn6ts2ut5s5uoawwncsucol25fwggy5wl5i4t6uwgwiwz5g@jujvag6exijj>
+	Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH 06/25] media: i2c: ov01a10: Fix test-pattern disabling
+Message-ID: <5y3rhvmaj2egcc7l6rb45vop2vczfkezliwhh5sxmh3dcv4vbp@mawsa23f6ybu>
 References: <20251014174033.20534-1-hansg@kernel.org>
- <20251014174033.20534-12-hansg@kernel.org>
- <c7cp4mcuzoplibfj7jmtcvktbozzbw7qj3bd4kof56rplvjdye@tlpto2deyyeg>
- <a535a51c-215c-48b5-8d7c-e3728425a71c@kernel.org>
+ <20251014174033.20534-7-hansg@kernel.org>
+ <rywqbh2ku7aexskohujwsiv7yzgn7lipgdqol3rqtkcvqrmn3q@c6oe7wc45hti>
+ <8718bd8e-12b0-4c4e-9155-7e394f0d5a16@kernel.org>
+ <jgzovuqvd5csxwzmzf5asri7xvftoyb4lqyywtfdsrsgdvwz7i@neqszepmzw3m>
+ <2bdea464-a75e-4be3-828c-5f2a7948715f@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -78,85 +79,83 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a535a51c-215c-48b5-8d7c-e3728425a71c@kernel.org>
+In-Reply-To: <2bdea464-a75e-4be3-828c-5f2a7948715f@kernel.org>
 
 Hi Hans,
 
-On Tue, Oct 28, 2025 at 09:09:16PM +0100, Hans de Goede wrote:
-> Hi Mehdi,
+On Tue, Oct 28, 2025 at 04:52:54PM +0100, Hans de Goede wrote:
+> Hi Medhi,
 > 
-> On 28-Oct-25 6:29 PM, Mehdi Djait wrote:
+> On 28-Oct-25 4:38 PM, Mehdi Djait wrote:
 > > Hi Hans,
 > > 
-> > Thank you for the patches!
-> > 
-> > On Tue, Oct 14, 2025 at 07:40:19PM +0200, Hans de Goede wrote:
-> >> Add a function to check that the number of mipi-lanes and there frequency
-> >> are what the driver expects.
+> > On Tue, Oct 28, 2025 at 03:38:28PM +0100, Hans de Goede wrote:
+> >> Hi Mehdi,
 > >>
-> >> Signed-off-by: Hans de Goede <hansg@kernel.org>
+> >> Thank you for all the reviews and testing.
+> >>
+> >> On 28-Oct-25 1:08 PM, Mehdi Djait wrote:
+> >>> Hi Hans,
+> >>>
+> >>> Thank you for the patches!
+> >>>
+> >>> On Tue, Oct 14, 2025 at 07:40:14PM +0200, Hans de Goede wrote:
+> >>>> When the test-pattern control gets set to 0 (Disabled) 0 should be written
+> >>>> to the test-pattern register, rather then doing nothing.
+> >>>>
+> >>>
+> >>> A small question: Do you see any difference between test_pattern 1 and
+> >>> test_pattern 2 or I did not look hard enough at the screen ?
+> >>
+> >> IIRC the one has the colors fading (a bit) from left to right and
+> >> the other from top to bottom ?
 > > 
-> > [..]
-> > 
-> >> +static int ov01a10_check_hwcfg(struct ov01a10 *ov01a10)
-> >> +{
-> >> +	struct v4l2_fwnode_endpoint bus_cfg = {
-> >> +		.bus_type = V4L2_MBUS_CSI2_DPHY
-> >> +	};
-> >> +	struct fwnode_handle *ep, *fwnode = dev_fwnode(ov01a10->dev);
-> >> +	unsigned long link_freq_bitmap;
-> >> +	int ret;
-> >> +
-> >> +	/*
-> >> +	 * Sometimes the fwnode graph is initialized by the bridge driver,
-> >> +	 * wait for this.
-> >> +	 */
-> >> +	ep = fwnode_graph_get_endpoint_by_id(fwnode, 0, 0, 0);
-> >> +	if (!ep)
-> >> +		return dev_err_probe(ov01a10->dev, -EPROBE_DEFER,
-> >> +				     "waiting for fwnode graph endpoint\n");
-> >> +
-> >> +	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
-> >> +	fwnode_handle_put(ep);
-> >> +	if (ret)
-> >> +		return dev_err_probe(ov01a10->dev, ret, "parsing endpoint\n");
-> >> +
-> >> +	ret = v4l2_link_freq_to_bitmap(ov01a10->dev,
-> >> +				       bus_cfg.link_frequencies,
-> >> +				       bus_cfg.nr_of_link_frequencies,
-> >> +				       link_freq_menu_items,
-> >> +				       ARRAY_SIZE(link_freq_menu_items),
-> >> +				       &link_freq_bitmap);
-> >> +	if (ret)
-> >> +		goto check_hwcfg_error;
-> >> +
-> >> +	/* v4l2_link_freq_to_bitmap() guarantees at least 1 bit is set */
-> >> +	ov01a10->link_freq_index = ffs(link_freq_bitmap) - 1;
-> >> +
-> >> +	if (bus_cfg.bus.mipi_csi2.num_data_lanes != OV01A10_DATA_LANES) {
-> >> +		ret = dev_err_probe(ov01a10->dev, -EINVAL,
-> >> +				    "number of CSI2 data lanes %u is not supported\n",
-> >> +				    bus_cfg.bus.mipi_csi2.num_data_lanes);
-> >> +		goto check_hwcfg_error;
-> > 
-> > You don't need this goto at the end.
+> > I see:
+> > 1 and 2 are the same ?!
+> > 3 fading from left -> right
+> > 4 fading from top  ->  bottom
 > 
-> Thank you for the review. I prefer to leave this goto in place even
-> though this is the last error check so that if extra checks are added
-> later on after this block the error handling is still correct.
+> That might very well be correct. Unfortunately I no longer
+> have access to the Dell XPS 13 9320 I tested this on, so I cannot
+> confirm.
 > 
-> But if you feel strongly about removing the goto I can remove it for
-> v2 of this series.
+> I think I should squash the following fix into this one:
 > 
-> Please let me know how you want to proceed with this.
+> diff --git a/drivers/media/i2c/ov01a10.c b/drivers/media/i2c/ov01a10.c
+> index 6a1ab5fa70a2..1fe643cb1e6b 100644
+> --- a/drivers/media/i2c/ov01a10.c
+> +++ b/drivers/media/i2c/ov01a10.c
+> @@ -215,9 +215,8 @@ static const struct reg_sequence ov01a1s_regs[] = {
+>  static const char * const ov01a10_test_pattern_menu[] = {
+>  	"Disabled",
+>  	"Color Bar",
+> +	"Left-Right Darker Color Bar",
+>  	"Top-Bottom Darker Color Bar",
 
-I don't feel strongly about it, you can leave the goto but I would
-prefer to replace check_hwcfg_error by check_hwcfg_done if we need it
-when the function succeeds (we realistically expect the function to
-succeed more than fail)
+This should be changed to: "Bottom-Top Darker Color Bar"
 
-Again, this is really not that important, I am fine with whatever you
-send in the v2
+> -	"Right-Left Darker Color Bar",
+> -	"Color Bar type 4",
+>  };
+>  
+>  static const s64 link_freq_menu_items[] = {
+> @@ -318,7 +317,7 @@ static int ov01a10_update_digital_gain(struct ov01a10 *ov01a10, u32 d_gain)
+>  static int ov01a10_test_pattern(struct ov01a10 *ov01a10, u32 pattern)
+>  {
+>  	if (pattern)
+> -		pattern = (pattern - 1) | OV01A10_TEST_PATTERN_ENABLE;
+> +		pattern |= OV01A10_TEST_PATTERN_ENABLE;
+>  
+>  	return cci_write(ov01a10->regmap, OV01A10_REG_TEST_PATTERN, pattern,
+>  			 NULL);
+> 
+> This skips setting 0 as the pattern, since 0 is the same as 1,
+> removes the weird "Color Bar type 4" from the menu and fixes
+> the order of the 2 fading controls.
+> 
+> Can you give this a test ?
+
+It works as expected. Thank you for the patch
 
 --
 Kind Regards
