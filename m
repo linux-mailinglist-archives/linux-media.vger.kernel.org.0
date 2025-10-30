@@ -1,219 +1,210 @@
-Return-Path: <linux-media+bounces-45977-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45978-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 216C1C1ED8C
-	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 08:51:19 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id B87C7C1EE19
+	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 08:59:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8A8AD19C407A
-	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 07:51:31 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 7D8204E22FE
+	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 07:59:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20E9B337B90;
-	Thu, 30 Oct 2025 07:50:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DBD7339B5B;
+	Thu, 30 Oct 2025 07:59:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jnGAUOIt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PNYPR01CU001.outbound.protection.outlook.com (mail-centralindiaazon11020110.outbound.protection.outlook.com [52.101.225.110])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28B2532E13E;
-	Thu, 30 Oct 2025 07:50:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.225.110
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761810652; cv=fail; b=evOP/s/+Z2Sc1BbikYWTg2RaSVKsQMOTiVdERTXZV35hU/enWvliCyrSUpFl2QVSP7smb61+G5rR1s8Ny92lOS5mknkheb/p4+eLWdTJLRMcCHrCg9jxvXtxvskbG038qXxzP5uxfmn5wyGE6q77hLaAen6OCXWFXAWloJsari0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761810652; c=relaxed/simple;
-	bh=L9C9CQwMRuoaLFiOoO9+ZChnDHL3+pLVpPKXLlQtZp0=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=I1NoaWzX/mNodNTvAozED+JJMgXi0VfLGm5aompKFuNq8jKmyvK2EAx3Q3YZd290qIPC4wEjwP8eb0+I+HOCP1ZD3EUK1ooAilvE8ljdMp+uyJOZ6iPo5tO9lzsJq5IX3SxMHtSbvCIJfdMgfCR8KdosXgGZ9rO3KKWMdgsDD8g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io; spf=fail smtp.mailfrom=siliconsignals.io; arc=fail smtp.client-ip=52.101.225.110
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=siliconsignals.io
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=sWiElrSkOtoGXwU7JMb/0+uAqy2qX8qTOPiXWufX7riMlnPZl9LH0c6NkYcVpSPyHphg3W1vm2elxR4M5RAP5UMd+6/RaTcSXzEWX3+Ovnv2R0Y7s/OGYVZTEGfFQtTwvjjfhQ5r1nh81kpwWNPVPFIvtCPk7X/o/T8Ch8cSGFiOYawdSura/SWyHf3uB8KJpS6Dw2vdeuAL507hbHGQyJRVzKjZaHqEB88vYDQ8tsEKQ5mzG6KBRU0kKhQO7s52pJZoZGN+t3trYIkawYhv4DjXybFaBk4TPA+rmm42zhmexfnTWGjPIcp74bM9o43c1XYC9Rm7qTMP+hDNfMLk7Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=L9C9CQwMRuoaLFiOoO9+ZChnDHL3+pLVpPKXLlQtZp0=;
- b=TeIUbUbF/4Wd8Ff/p5HPTZTayIdBGiMs6H16ziuhhXbPWMYyVHqM3q7HPlE8Bf9rluHjfiTsxoxhjOH9VtJESjJ99d6MSsr0yU4hrjW0yDa5kNJKT49qYPc/QSS6D7BI5aDufACCCzEkuc/DJ7t2GUmaTGKX5uLv9oIHVA6lt1PhstEAIc7GkauaoFaYYGox/2lsnVZVFoz0o3DQihRgSpiCamqntDckGqgtqvlP24dlkEfM3lTOOX624jIV16DUrCuX2EpEIVNPSZKPmlipsCTsVhhiR0dfLynU1upBh+lg4dob6s+pkWDxJJvemM8ymes2toJioTCewJR6ila21A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
- header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
-Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:199::7)
- by MAUP287MB4554.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:18c::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.12; Thu, 30 Oct
- 2025 07:50:47 +0000
-Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
- ([fe80::58ec:81a0:9454:689f]) by PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
- ([fe80::58ec:81a0:9454:689f%4]) with mapi id 15.20.9275.013; Thu, 30 Oct 2025
- 07:50:47 +0000
-From: Tarang Raval <tarang.raval@siliconsignals.io>
-To: "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>
-CC: Kieran Bingham <kieran.bingham@ideasonboard.com>, Dafna Hirschfeld
-	<dafna@fastmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko
- Stuebner <heiko@sntech.de>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "linux-rockchip@lists.infradead.org"
-	<linux-rockchip@lists.infradead.org>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] media: rkisp1: Fix enum_framesizes accepting invalid
- pixel formats
-Thread-Topic: [PATCH] media: rkisp1: Fix enum_framesizes accepting invalid
- pixel formats
-Thread-Index: AQHcGM29WMPsfr2GPEm67fUHmC8L7bSV4PMAgETN5TM=
-Date: Thu, 30 Oct 2025 07:50:47 +0000
-Message-ID:
- <PN3P287MB182921C17B4025A0AFBEA3278BFBA@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
-References: <20250829101425.95442-1-tarang.raval@siliconsignals.io>
- <175802737238.1246375.11921455447379092868@ping.linuxembedded.co.uk>
-In-Reply-To:
- <175802737238.1246375.11921455447379092868@ping.linuxembedded.co.uk>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siliconsignals.io;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PN3P287MB1829:EE_|MAUP287MB4554:EE_
-x-ms-office365-filtering-correlation-id: 2850ec1f-ee2f-4f98-a4be-08de178909c2
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|38070700021;
-x-microsoft-antispam-message-info:
- =?iso-8859-1?Q?ugIHyp83GXDd6ghe5Z7howdFMQIdQ0YHLXZrQIGoDWb3NIgDRF+s3uZar4?=
- =?iso-8859-1?Q?sNMIuhhk66fYANSkgSYw2v/YQJ9ohhak+RMxKJyxDbDfasXSHRRyww1ZUd?=
- =?iso-8859-1?Q?yMbaysHmrI0BiG/b28TWz3z8D110FofEI3i7Q4BDHluSe4X+DEvYZNwLzv?=
- =?iso-8859-1?Q?29fyHF+p6w2Oxe0Ufdu8S3y2PMgkkNSjaQjHkEdXq3N0I4CtfOXEP92NH/?=
- =?iso-8859-1?Q?4eXv9yoCutigqmLXEUIw8llKi30HAUNjE/SSOyPx+pZDY1pCts+QSTHnj5?=
- =?iso-8859-1?Q?BwGNrb0sjHIOU7tlKRAm1Y0bV0YfpHr+JTKxYjMnsB0MRg7Srt8mtCmEj0?=
- =?iso-8859-1?Q?g42ZhnbD+CJKjnsSdsLJ03jROHmNlEysXTIly6cnIh1Zgj9eo28lC9ameT?=
- =?iso-8859-1?Q?gXGgVGM1CUhIrvtfUPgjVdP664RTbvMcNbvZqHw+O1w0Ke/8TrmQmKQnxm?=
- =?iso-8859-1?Q?xWj/SYUxypYJRq5b5Xpg04gOH2Koo/Os2F5FUkqtWI4I/ZirwKcVaU874N?=
- =?iso-8859-1?Q?s1Um782AeOYjyALeuZSQ6u0V8W8SjFl1sp5j8GCExWp/3qWvSlC7bzUukG?=
- =?iso-8859-1?Q?xrPtPZ7le/23qWDwqHc6g6LzkBQ+x8ebrrbf1/uwEUIx8GXIgZcfoksA1k?=
- =?iso-8859-1?Q?5XWLvJdr2wf9QJEp6xp8OI6fzfeajc9zOvbddq0DvzaMzN/HMG+kLqtEsy?=
- =?iso-8859-1?Q?XKGh1e/CafC395Liq39kmbIqUmvj9ye/tRt1hMyaGF40OVy6qjITe0y3le?=
- =?iso-8859-1?Q?t1lggDijLckZsL5dyttlvhJnXhnCEuF/t34YROX1NcU14JGY4yeYq9i8Qk?=
- =?iso-8859-1?Q?HvQzRe7IS5XJPOO+3WGaeBKm8DFuR2Bd2tygiZP6wA/mLse0/o5V8R8voT?=
- =?iso-8859-1?Q?tjT4RzAv7GLbDEIAw4GGadFXz88AVYKhlDdYUL4yGk9dIs8bjnqYy2VWLV?=
- =?iso-8859-1?Q?JBvoDFayklzttUft7T0m6cN+EIoy7eiiCwIxBP9zTK/dXeFmvTc57qeGEj?=
- =?iso-8859-1?Q?9oJV0EK6e/QVWoVDmtguEKIDEFjBlyDKmItvyJzlq9juNwHkjWHbvr+S1k?=
- =?iso-8859-1?Q?XmdHB7hZ+0oiYAShbgQ8iWTM997NMZnw615CYS46QHgK3VaibSSlokgg4c?=
- =?iso-8859-1?Q?ZieD5Lt1rMxVhvPsYlqa+tehVvrrihi0bYvbEb6l7ie6etqnboYAZBj6fv?=
- =?iso-8859-1?Q?ccBs47BBRiOi2YOWzt+UgUZG4nXQfeR5cePPwdY40MWdjILUgX4sml66Zf?=
- =?iso-8859-1?Q?h2FQF40kg4UWJ6cP3jOTgbIXzXxDtd9qmsJO+PRQl/MswB1tIBB6QPaNrP?=
- =?iso-8859-1?Q?efORLHrLggXY0Ry/JNHUtoPvWKOo/kPaSrzj/u0KHVDmNL46sxtbN4FOmQ?=
- =?iso-8859-1?Q?dJikPto1TTXC35y2gKWFXcA5QLKnVqS0TrntAEaHDY+sk+ynChu3YmcZ3Q?=
- =?iso-8859-1?Q?BNat8HI9CVUZ+GmKAHmgCj70yrUQitR6cYinkz0/u/d1hvSuswbfFRDBsO?=
- =?iso-8859-1?Q?B39tZN184GQLilFPk0edY+cqvusoOuz6cPxofiumxqgHzfmjuSEqjWgc9B?=
- =?iso-8859-1?Q?Otb+XM2wsC1aC3VcRLJv9E4w98b0?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB1829.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700021);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?evgQ9GJgCbxcZv9UCAzshtmuT49Bch8maTLdtyWzb5/dfGHcP/6cBa+znh?=
- =?iso-8859-1?Q?tGhHBtjcNGx5OuOEu2EQOx5dPCstAIw4GEgYQM1CoM2YpAx74PXccvTeFd?=
- =?iso-8859-1?Q?TPlbQWOBTwQ29CZ5+VQmYaMNcJwoKFTFHD/2+01Ep4dGj1WIb348pJUyRC?=
- =?iso-8859-1?Q?wUnzcDJQcFGWKXr0ff6ezkelZ9iHJKjvJsHiXtksHdCJ6RLTKN8nnmP0uP?=
- =?iso-8859-1?Q?zOuJGFomrrJq7B0D7CjaJJhVYulalOtwb8GKx/UpHoebMOc+uXcfo5n4a4?=
- =?iso-8859-1?Q?jTR3VBoZpUr9nJlcqGh6a6RVL8qnhVJgLLH73B9aZzQW998NqT9Ds+PJJg?=
- =?iso-8859-1?Q?S9lBH60cfGTQXH0lxYkZZ6Ksu1EyimmXHdJmfhHfLG4Ii+I85R39zFjf8/?=
- =?iso-8859-1?Q?ZaEy0XWGsa+8atZ0/BZrrokJ87r2n8fDTG0yTiDx+CDWu8W8xMRVymCNiP?=
- =?iso-8859-1?Q?ByKiXZjCM0GQ/YOXOgG/Ah8nPaTOCarIufDbXiGsR37cQRKs4jNio4PbcT?=
- =?iso-8859-1?Q?1gACCyDVZEGZwPHc04XfkkGafvxEFOWdcdG/gPnIeQXAX+V3JiS++oTre+?=
- =?iso-8859-1?Q?7ox//LioY0KtplucEkACTqsFGqPRKVN6An/PPqD8Db5zprBX7J0GqEN0K2?=
- =?iso-8859-1?Q?UrXUVjRDzC/gwKrgRal/BLgz3zXjYtNmQMJZVwwCw6n9Sj0BpRbg+4dtgi?=
- =?iso-8859-1?Q?AakrbLvMzvPAkDj0xbsKf3+HRekJxh+ZVMWAcAixwyFlVlxPwefCHdNOOZ?=
- =?iso-8859-1?Q?wVSD9Yb2TqnJf3geR6NiAe2y5wClTM+AWcA4Rx0cWtg8BTXtvLQ1n17pWN?=
- =?iso-8859-1?Q?arDzw33TT6huYw0fake1C5I8YQDU8FISt3ycMWjR/0KJ+6yezw8LAxH0Ua?=
- =?iso-8859-1?Q?xRo6Q+vfRWGEksXp1YLiIkqQPDqVtMiYOlvGg3xvAPCxx0DHRfMS4oIbzg?=
- =?iso-8859-1?Q?ek/hQE717tOyTj9fFn6aRULiOzx96SujJX6bmVMY/DcSQMaGFlBqgWPiaO?=
- =?iso-8859-1?Q?in6vkarqVNujZEgXZh1gx9+1v1RySSn1aOB2E2qnrVvki8Gpn+mUdXIWCS?=
- =?iso-8859-1?Q?0HLjQlm22m0Ce+x5OusolFaZTDC6pE+6nWmKweErfxbYjqfBOqTKSzqEW2?=
- =?iso-8859-1?Q?X5O3snUOExZuzBrGHNxDNcof7pCdV72b5LgipwtU0FdosCIUpONFQ/DKLr?=
- =?iso-8859-1?Q?/82dUVE4+SSYvpO/6Qlb+ySNGRIQM4ccNWR9SGv1SCob1kQTivHbx0+A5j?=
- =?iso-8859-1?Q?E4sbCGeuKXYp5KCRCE5Qd3ZwUTpn9X+fRY7JLMd0coZzcgO3Jf+g/Aw3J+?=
- =?iso-8859-1?Q?6LMp8YuV+GsiYFPqg1L5+BM3UOqPxwx/5ngHKD5aicyn3RuUnELmpR1l2o?=
- =?iso-8859-1?Q?FVhGasXPHEzL3XMKvgy2Rwm/KY8748erOyBPcS6ZQEYGv6FIEsF+b9qiHM?=
- =?iso-8859-1?Q?3thMKaEKv+DfdERvGspBWpBkPm9nhl+KaQgH/zowsAx3ubJCZHEgPH7/Cl?=
- =?iso-8859-1?Q?6yl/rT9yfKzpOpsIT8jzkh+/W5fZnn35iBbySFcJiU5HQjh3UEpdF1Jig1?=
- =?iso-8859-1?Q?zropjWdoUqAAQQyuXKUTuAhaNZJv+MGqNO3BG9esVU1n/KHp2MH5q5xDpY?=
- =?iso-8859-1?Q?giJmQlLwWRR5K5iAsWbH/h+mb65Xp2iBdQmqoPrMVKAsGxxZhpKG0XQw?=
- =?iso-8859-1?Q?=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BE17337B90;
+	Thu, 30 Oct 2025 07:59:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761811162; cv=none; b=qZH4ZVzrdCOamQ4HsutRG9/PC10usioWd9SpS0yescaYLVIzo3+OiasSJVX4W3Yn8o603J2IvehOR+AHO73IeUFyi7fadb8xqGobmuwaU7p9DJYPg07hRa/z1F8MPpdiNR3CJLbiMtqhmdXsWC3AS2ABs7sT7VBOgJllr6K9Jss=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761811162; c=relaxed/simple;
+	bh=MTSlg3MqWMLxjcmpJKaEYt34xVvKmmIHf4SBxsc/wP8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=XBeeOzcJCRB24vBHJX35q+KJemPetkeDfO486MQJLQimJiuMy+QZiAgKrvDa4RJCNQvDOqgSQrZhbC3/964REgmqB6QydzA/xqZVbiijAXm8HP3STE8ATPY1E3kVV35PIqx43p4BCNLUwBeWQuFATrBaGnhKik9kYWvldU76skc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jnGAUOIt; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0F12AC4CEFF;
+	Thu, 30 Oct 2025 07:59:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761811162;
+	bh=MTSlg3MqWMLxjcmpJKaEYt34xVvKmmIHf4SBxsc/wP8=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=jnGAUOItO6hA1yuce7tlkiDiqyCxfgQ5jzxteAkL9Qw7l3cVYZ19Md3C8+E5DepBV
+	 Gt/eUpdeYuwBExebsbIGsCKM/3/HQSaH112RaOURShxVfYJwhJJ8hdEwH6r5cTKwOc
+	 2+cyxUVZQJOrsO/ZZ9aYyLf50FEwvq7FWYRBeU/9qCyojEiaLKpX0o0e1qsCNqlM3o
+	 nY0dK1P1JGmkFtbRDbb25/1mtoDzxrU5RTEf8cgdH3wMs4N24TtNsSEyeN41NAMb7r
+	 RET56zeU7SCTdL42XgXwDdLjRMWPo+/Hka5E2CByrUkJUSCcvKA4lWC+EiuCg7AF7V
+	 c+vfxkZXdOLxA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC1A6CCF9F0;
+	Thu, 30 Oct 2025 07:59:21 +0000 (UTC)
+From: =?utf-8?q?Andr=C3=A9_Apitzsch_via_B4_Relay?= <devnull+git.apitzsch.eu@kernel.org>
+Subject: [PATCH v8 0/4] Add CAMSS support for MSM8939
+Date: Thu, 30 Oct 2025 08:59:11 +0100
+Message-Id: <20251030-camss-8x39-vbif-v8-0-754834937f5c@apitzsch.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: siliconsignals.io
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2850ec1f-ee2f-4f98-a4be-08de178909c2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Oct 2025 07:50:47.4513
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 2gjHE5TTWNpe0PxcOR1QYAcCA00V/4k67MBXLwBRVsMhaIYU4SRKUhlGzOaqikAyHvAxYbRNm/Qx5x07OmXILg6R2cuxal27eVdLKHZT/TY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAUP287MB4554
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAM8aA2kC/23PwW7DIAwG4FepOI8KQ53ATn2PqgeCoUFaSwVd1
+ K3Ku49E05QpOdqSv//3ixWfoy/sffdi2Q+xxHSrg37bMdfb28XzSHVmUkgUCC139loK109l+ND
+ FwE2LIaAGA0azenXPPsTnLJ7Ode5jeaT8NQcMMG1/LSlW1gBccAvSUSNEY4M5Xm38SGmf8mWy5
+ 0Mj9PZhqA2cCSToQEd7j4/v4vq9/2RTjUEuo3EtyCo0pAgd2nDAZhk9A2oBqI3uaqrgDBBg1yG
+ tgfYPACE3fmgrYMB73XlHVuP/H8Zx/AFxKkm5rQEAAA==
+X-Change-ID: 20250517-camss-8x39-vbif-975ff5819198
+To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Bryan O'Donoghue <bod@kernel.org>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Vincent Knecht <vincent.knecht@mailoo.org>, 
+ =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1761811160; l=4991;
+ i=git@apitzsch.eu; s=20240325; h=from:subject:message-id;
+ bh=MTSlg3MqWMLxjcmpJKaEYt34xVvKmmIHf4SBxsc/wP8=;
+ b=ewUiU+ovxCNwLiUzBLCNT/cKy5mhWkBw3WzItMF7BZqz/UbUyJ2/v13BxPbF/yT08OH9zqT0y
+ SO1DC4wOiNbBamuNmRTei2ajBcmqztJ/aHhRdpKQTTqYTdKc0ET4l0Y
+X-Developer-Key: i=git@apitzsch.eu; a=ed25519;
+ pk=wxovcZRfvNYBMcTw4QFFtNEP4qv39gnBfnfyImXZxiU=
+X-Endpoint-Received: by B4 Relay for git@apitzsch.eu/20240325 with
+ auth_id=142
+X-Original-From: =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
+Reply-To: git@apitzsch.eu
 
-Hi Laurent, =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=A0=
-=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0=A0=0A=
-> > Reject unsupported pixel formats in rkisp1_enum_framesizes() to =A0 =A0=
- =A0 =A0 =A0 =A0=A0=0A=
-> > fix v4l2-compliance failure. =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=0A=
-> > =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0=A0=0A=
-> > v4l2-compliance test failure: =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=A0=0A=
-> > =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0=A0=0A=
-> > fail: ../utils/v4l2-compliance/v4l2-test-formats.cpp(403): Accepted fra=
-mesize for invalid format=0A=
-> > test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: FAIL =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=0A=
-> > =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0=A0=0A=
-> > Tested on: Debix i.MX8MP Model A =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=0A=
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 =A0=A0=0A=
-> Tested here also on a debix board running v4l2-compliance before and =A0 =
-=A0 =A0 =A0 =A0=0A=
-> after. =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0=0A=
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 =A0=A0=0A=
-> Tested-by: Kieran Bingham <kieran.bingham@ideasonboard.com> =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0=A0=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=A0 =A0 =A0 =
-=A0 =A0=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0=0A=
-Could you please pick this patch?=0A=
- =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=A0=
-=0A=
-Best regards, =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=A0=
-=0A=
-Tarang =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0=
+This series adds CAMSS support for MSM8939.  It's mostly identical to
+MSM8916, except for some clocks and an additional CSI.
+
+To fix black stripes across sensor output, and garbage in CSID TPG
+output, 2 VFE VBIF register settings are needed.  So the 2nd patch adds
+helper functions to do just that.
+
+Patch 1: documents qcom,msm8939-camss DT bindings
+Patch 2: adds helper for VFE VBIF settings
+Patch 3: adds CAMSS_8x39 version in CAMSS driver
+Patch 4: adds camss and cci in msm8939.dtsi
+
+Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
+[André: Apply reviewer comments]
+Signed-off-by: André Apitzsch <git@apitzsch.eu>
+---
+Changes in v8:
+- Remove unavailable .link_entities callback [1] to fix build error
+  [1] https://lore.kernel.org/all/20250903002255.346026-2-vladimir.zapolskiy@linaro.org/
+- Link to v7: https://lore.kernel.org/r/20251028-camss-8x39-vbif-v7-0-91ee8becda85@apitzsch.eu
+
+Changes in v7:
+- Fix revision (previous submission was wrongly labelled v1)
+- Pick up tags
+- Rebase on latest next/master
+- Link to v6: https://lore.kernel.org/r/20250908-camss-8x39-vbif-v1-0-f198c9fd0d4d@apitzsch.eu
+
+Changes in v6 (was wrongly labelled v1):
+- Move bindings patch to the beginning
+- Make the order of {reg, clock, interrupt} items the same as in 8916 +
+  append additional items
+- Drop R-b tags from bindings and dts patches as order of items was
+  changed
+- Link to v5: https://lore.kernel.org/r/20250613-camss-8x39-vbif-v5-0-a002301a7730@mailoo.org
+
+Changes in v5:
+- Patch 1: no change
+- Patch 2: no change
+- Patch 3: (bindings)
+  - Fix alphanumerical ordering wrt. underscore (Vladimir)
+  - Add 1.2V mention to vdda-supply description (Vladimir)
+  - Correct vdda-supply regulator name for 1.2V in example
+  - Add empty line between properties and child node (Vladimir)
+  - Remove clock-lanes property in example (Vladimir)
+- Patch 4: (dtsi)
+  - Apply ordering and isp node unit address changes from patch 3.
+- Link to v4: https://lore.kernel.org/r/20250602-camss-8x39-vbif-v4-0-32c277d8f9bf@mailoo.org
+
+Changes in v4:
+- Picked up tags
+- Patch 1:
+  - Fix alignment to match opening parenthesis (Bryan)
+- Patch 2: no change
+- Patch 3:
+  - Wrap line at 80 chars (Krzysztof)
+- Patch 4: no change
+- Link to v3: https://lore.kernel.org/r/20250530-camss-8x39-vbif-v3-0-fc91d15bb5d6@mailoo.org
+
+Changes in v3:
+- Patch 1:
+  - Use braces around multiline (Bryan)
+  - Rename vfe_vbif_reg_write to vfe_vbif_write_reg (Bryan)
+  - Get rid of switch block on CAMSS version (Bryan)
+- Patch 2:
+  - Get rid of switch block on CAMSS version (Bryan)
+- Patch 3: no change
+- Patch 4: no change
+  - Tried to get rid of CCI camss_ahb but this resulted in device
+    freeze+reboot (Konrad)
+- Link to v2: https://lore.kernel.org/r/20250525-camss-8x39-vbif-v2-0-6d3d5c5af456@mailoo.org
+
+Changes in v2:
+- Patch 1:
+  - Fix devm_platform_ioremap_resource_byname line to not end with
+    opening parenthesis (media-ci/1-checkpatch)
+  - Move camss-vfe-4-1.c handling of VBIF previously in patch 2 here
+    (Dmitry)
+- Patch 2:
+  - Declare regulators in PHY entries, not CSID ones (Bryan)
+- Patch 3: (bindings)
+  - Fix bindings checks for new errors (Rob)
+  - Fix properties ordering, code-style and example (Krzysztof)
+  - Sort reg-names, clock-names and interrupt-names alphanumerically (Bryan)
+- Patch 4: (dtsi)
+  - Move #address/#size cells before status (Konrad)
+  - Aligned CCI with msm8916, thus removing ispif_ahb mention (Konrad)
+    If "camss_ahb should be unnecessary", it's still required by qcom,i2c-cci.yaml
+- Link to v1: https://lore.kernel.org/r/20250520-camss-8x39-vbif-v1-0-a12cd6006af9@mailoo.org
+
+---
+Vincent Knecht (4):
+      media: dt-bindings: Add qcom,msm8939-camss
+      media: qcom: camss: vfe: Add VBIF setting support
+      media: qcom: camss: Add support for MSM8939
+      arm64: dts: qcom: msm8939: Add camss and cci
+
+ .../bindings/media/qcom,msm8939-camss.yaml         | 254 +++++++++++++++++++++
+ arch/arm64/boot/dts/qcom/msm8939-pm8916.dtsi       |   4 +
+ arch/arm64/boot/dts/qcom/msm8939.dtsi              | 146 ++++++++++++
+ drivers/media/platform/qcom/camss/Makefile         |   1 +
+ drivers/media/platform/qcom/camss/camss-csiphy.c   |   1 +
+ drivers/media/platform/qcom/camss/camss-ispif.c    |   8 +-
+ drivers/media/platform/qcom/camss/camss-vfe-4-1.c  |  12 +
+ drivers/media/platform/qcom/camss/camss-vfe-vbif.c |  31 +++
+ drivers/media/platform/qcom/camss/camss-vfe-vbif.h |  19 ++
+ drivers/media/platform/qcom/camss/camss-vfe.c      |  10 +
+ drivers/media/platform/qcom/camss/camss-vfe.h      |   3 +
+ drivers/media/platform/qcom/camss/camss.c          | 156 +++++++++++++
+ drivers/media/platform/qcom/camss/camss.h          |   1 +
+ 13 files changed, 644 insertions(+), 2 deletions(-)
+---
+base-commit: 131f3d9446a6075192cdd91f197989d98302faa6
+change-id: 20250517-camss-8x39-vbif-975ff5819198
+
+Best regards,
+-- 
+André Apitzsch <git@apitzsch.eu>
+
+
 
