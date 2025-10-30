@@ -1,270 +1,931 @@
-Return-Path: <linux-media+bounces-45958-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45959-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BF4EC1D301
-	for <lists+linux-media@lfdr.de>; Wed, 29 Oct 2025 21:17:52 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4E8DC1DE68
+	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 01:25:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 69D621885C3A
-	for <lists+linux-media@lfdr.de>; Wed, 29 Oct 2025 20:18:16 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 623B94E44C4
+	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 00:25:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B512A34CFDF;
-	Wed, 29 Oct 2025 20:17:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C50551E51EA;
+	Thu, 30 Oct 2025 00:25:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="extVnCsD"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PgKcQkw2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 810BC238D52
-	for <linux-media@vger.kernel.org>; Wed, 29 Oct 2025 20:17:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761769066; cv=fail; b=PlFPEEx9jpQmaYFN6gyE9FMlhmw33e6ZuX1wbUs4mRxy9Oc2cdfnUxvf4d/OJ4P/x+KeQvl6lot63TJyVx4SS0wVQKspZLL2vmJzmJsW0gWHo0rZUM5EMKAIUZtXQbKAEu3pvYSvPYZwWD+doEkjvSxF6XI75cuIiU6rBoC0/tw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761769066; c=relaxed/simple;
-	bh=edvBb2eCIeoPCOpK2r8ids254FGc/ht8Ol3isp3pRYs=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Yu7mgbtaITTs72OU2IY+1IuiMsJdWlJZZrj1ZulW94XhQcHUML48ve48N5cPABVZZCfBkGxsD983e7yI66oY1amx54UZqRJK1dJwJgoxql3C9rbrHUNMVHSz2C2qRkwNueHB92sEHepcg62G1EjiLm1+bApRal8vJn9opRTAUUY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=extVnCsD; arc=fail smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761769064; x=1793305064;
-  h=date:from:to:cc:subject:message-id:references:
-   content-transfer-encoding:in-reply-to:mime-version;
-  bh=edvBb2eCIeoPCOpK2r8ids254FGc/ht8Ol3isp3pRYs=;
-  b=extVnCsDoZu56HWekTbrYsN8p9xpdEqqmH1ABoYlUo7kaYCV7p6R7Pqr
-   a9LisnpAYejZkl+3TmGIyMOepf2iCs5iA13ReRUnhRaYry7FOyCOChbzb
-   G3uaf/1swT4g2oU3ALSnm4s8F6cBFX8wIOps9XY0GpoO52em8orPyBAmq
-   avcKFRZ56vm8nL2ctZKvF5CMIwOMXPPMvzzU1vPE/SBA+zf+fgv3Gg3dv
-   F23RbaJVBTtUiG4XWIY7K41uK0jQPYBVJ9yFN1La5gNgwIU+Sbk2zE5xt
-   /EpWOBxoE/wmdmrEEkl0BFI+XVIZfK9JqGxlcOniD4JpF9/8gcPSoMRxc
-   A==;
-X-CSE-ConnectionGUID: hOWJzSaKTK6LFfC+ekItwA==
-X-CSE-MsgGUID: NHy+gbi1TNKX4Qcfonir4g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="67738336"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="67738336"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 13:17:44 -0700
-X-CSE-ConnectionGUID: h3Ix7iaBQzOz5gRjguW65Q==
-X-CSE-MsgGUID: yDGt7JXwTGiJQrcsDYxq1Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; 
-   d="scan'208";a="190080707"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 13:17:44 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 29 Oct 2025 13:17:43 -0700
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Wed, 29 Oct 2025 13:17:43 -0700
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (40.93.195.17)
- by edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Wed, 29 Oct 2025 13:17:43 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CQ7KIH5VeZZweFoiUnNKoKu9uLRvfj/Cz791ApWcJ2ldTY3uoiO6eMiR64NuiY323/9Vl08z7Rpe7Plkkx8pNwycv59vYBkN3Skl2pMeOzFGk203rO1MIZXRd23k+WLxiL3wfhVxT1zDFmic6DS2g6Pvbw1gAvvFzzmLWBsi5mt4IOP5a7DHEzX1Z8zjhvpvLuMDtI2xiAF4nbW5Unv3Z4QtWSHA44O12ysBzJisZQHZrUU+nUkxmuXwtB0gIQofV+kpRcATX35D2n3uTOqSeBpat9S3VajJPDcSWK1QhOUmrjpihbahbT7aHE+o08l0pQE7v8PXJn7dLnT2wRRdsw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=h5Hi63/J1gCpIhaHbc8LexCRNehOdR8FeDvCE89Bcg0=;
- b=Mc71n5dtBysPpwk0zFTSqcgyqTCqVktZQxgqKVADqIDwc8G+jNEhTeObvjOhkM/Wqi2D6lwigEf+1DnP55sfdOiPxWoAZlBKL3RadCmoGbjex9ewjoD8lfSgJrhKMgtpOeomrc5a3OslbDGWTCR3xEWXgW6YE4t/3CAJKv2r1Mhhfu9TnG3d3K3ZF0PlIh1jwwPv/115MOHLwrBWr0ZPY0KX/qCLNBD9PPlJ/tMhUpCQ7LHCjDHorDyLpIBy82V0U8FxfWvCtDAyEn85M9Lc4uxgig7jfYVGQ875m8syPRp7t80KR9VEf8/ArobwsxhKW5OCfNwcmiGXwsbXLS+9PA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CYYPR11MB8430.namprd11.prod.outlook.com (2603:10b6:930:c6::19)
- by PH7PR11MB7605.namprd11.prod.outlook.com (2603:10b6:510:277::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.18; Wed, 29 Oct
- 2025 20:17:41 +0000
-Received: from CYYPR11MB8430.namprd11.prod.outlook.com
- ([fe80::76d2:8036:2c6b:7563]) by CYYPR11MB8430.namprd11.prod.outlook.com
- ([fe80::76d2:8036:2c6b:7563%6]) with mapi id 15.20.9253.018; Wed, 29 Oct 2025
- 20:17:41 +0000
-Date: Wed, 29 Oct 2025 16:17:36 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-CC: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>, Andi Shyti
-	<andi.shyti@linux.intel.com>, Nitin Gote <nitin.r.gote@intel.com>,
-	<intel-gfx@lists.freedesktop.org>, <chris.p.wilson@intel.com>, Sumit Semwal
-	<sumit.semwal@linaro.org>, <linux-media@vger.kernel.org>,
-	<dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH] dma-buf: Take a breath during dma-fence-chain subtests
-Message-ID: <aQJ2YMGxh-foBCvx@intel.com>
-References: <20250226155534.1099538-1-nitin.r.gote@intel.com>
- <2153999.KlZ2vcFHjT@jkrzyszt-mobl2.ger.corp.intel.com>
- <7a96d06d-54a9-42b4-84c7-0c262104ea5b@amd.com>
- <7836906.EvYhyI6sBW@jkrzyszt-mobl2.ger.corp.intel.com>
- <cf5d530e-6952-4e76-93e2-5c72b31b5c62@amd.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cf5d530e-6952-4e76-93e2-5c72b31b5c62@amd.com>
-X-ClientProxiedBy: SJ0PR13CA0190.namprd13.prod.outlook.com
- (2603:10b6:a03:2c3::15) To CYYPR11MB8430.namprd11.prod.outlook.com
- (2603:10b6:930:c6::19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB36A3A1C9
+	for <linux-media@vger.kernel.org>; Thu, 30 Oct 2025 00:25:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761783920; cv=none; b=Jb0LbZlIOSFCx4rw5cxuKCjUQ7knB+ZLQwWXDK0C4djftlPz3ZlKrmlotUkid77Tu68yUhJnY3/v4BREgo9fU2FgeXFkRQYfdRR0UHie85mL/rasGl1/U8c0F2nGr3dbVphS0uN/2StM6g8YUs1pQ93682NPeKT+c48E5kUwsjw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761783920; c=relaxed/simple;
+	bh=h0ZayanKdKCGbFJsuJ/aE3Q4cf74rNt3JjypjVWyJpI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MbbUneqnVE22fFfQx6UDGGrmsqWPQtnFR1ayiR/mAifOLT5n7zF/mzgvt8QiyJ/S5xLuwOVdGW/rUQKPnB2ImddDFdENgQddGeUq09FlCd7vSxhHGBFWSYse5PcGowjcuxYgvPUGbxByvuJEhtVE62plw7sp/rky8olI/CMHPlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PgKcQkw2; arc=none smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4ed0c8e4dbcso87711cf.0
+        for <linux-media@vger.kernel.org>; Wed, 29 Oct 2025 17:25:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1761783916; x=1762388716; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cFv/dMC2oPnvePb++YRgOZAe9/2gnZCa+p3qqfXzTAM=;
+        b=PgKcQkw2TIDhu9xQYvOJNI1T2Vc1WvBVVfbX5g9dzJx/tZoR8ae2pBuKI93UVHaDmD
+         TjCFhZ4CwEgtRfUjlEd3yrKtTohBbLXYV+TIhyTt8k1bPOIUAmGWItCA/8uwSmYP1R82
+         x+7oRRyFOKoQZIk+o2jtY+nHxbdx3vYpT4N3pDg9rP9TI7PqvKFs9lJq7RfFfC/ZFyyk
+         EbX5Xkf6XVze4Oftb2MYCv8ogh3NfzTUpfzQjyBrTu7AoPIIi2gONF6qJvQ8ar3LQosW
+         uQ4DuEWGc3ca2ATP6am9n5QbxY5zm4JXk/mnrt61XqGj8cUdNqyapyKpgLTYtp654zDh
+         aNsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761783916; x=1762388716;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cFv/dMC2oPnvePb++YRgOZAe9/2gnZCa+p3qqfXzTAM=;
+        b=FXPBil6WpmuTtxszIqQnpf8LqNEoYsd5O5juQyqFPZUZdMORE4wz5dlm4E17Tmh3AO
+         wW8bqNUJjBI1sLMvjq601APzmFwXSjqN0GK0oAZhQl3gpptsIbndOMpnNg5j87NYvBZ6
+         ogFVD/JuGQ5Pgj2O9WXVBlNp6dtxEsPdNgLbEXVCZXD+96oq97wmEoL9l/en8poJ+lTd
+         Z8aMhX6Iq24C2tW0Xyjsa62BI/FU15vbKPpHkQ3X+UViURdbD0dwdim2qoGQVDIPKckz
+         E14SpKBcuUe46ukYOVY26PxrlwAIvfK4YsgWLQg/dzp9WF6pnR4rUGirAoe7Z/aPJjGJ
+         0Abg==
+X-Forwarded-Encrypted: i=1; AJvYcCW3Zj8wXahLpEg4INM+ZL15B5d3BbZpNX8gcS46nOxGF98iOHmYziDy7oBm2gfo2RmRo/6IrsqzHKPaIg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwoZtxqRVptvpJFdYmAfJAAX6Uzx/ZKVImVnPFsg/orVbh+T3B9
+	ZN3pfRz80szW+3Rayu+KcpUn87o3j1RZ5tuEkJdBLuezqzmLjJtKuvYnrOkRvzrXEO4LxgsgE/7
+	KTSyfe9bHvEZBs7OcSoiYYUnMBgbb2HlXWZXsOsOl
+X-Gm-Gg: ASbGncu11FY6I196XKEaHmpiZKj0QUcYhLe+A75aTI/+fJZixbFP/CiSvKujIM3gwaZ
+	Tf9TCnHJ2h7BEnksVjjEOOeHMfT8+AIifLJeafbItEDZybpjlA+j2yio70h9DcmgVQweBbn0t5l
+	SBHespsWTnOWojS1bP74a21BtK4CUAIqHczzJN/OwIwh+niPFj/AoR9583rKuakt2z5MgsU3o1Q
+	LONupiR6OdPp6eRDMDDQjPczREC24J//DaIRzRvbMEHh4u07vMQXft6zbou/WsISTFZU0EbRrEd
+	kCpdsVCzZM+bKuiuLa241VYMGdy0
+X-Google-Smtp-Source: AGHT+IFEMbvu1ikrYucCl8dBDIzfUlORm9URjIpPQq7LIjPdLzRazlAcQffXrENl/mx/WkO1JrXyIx0gcIYP2n8AgJk=
+X-Received: by 2002:ac8:5f11:0:b0:4e6:e07f:dc98 with SMTP id
+ d75a77b69052e-4ed241c39e2mr1465181cf.9.1761783915260; Wed, 29 Oct 2025
+ 17:25:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CYYPR11MB8430:EE_|PH7PR11MB7605:EE_
-X-MS-Office365-Filtering-Correlation-Id: 363751a4-adf6-45bc-7b57-08de17283628
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?p4H0+GfxGOxpAws36tmzQ/5yqnOHYvpD+DeLVgQhLi7NmY+94oVX5vlkGN?=
- =?iso-8859-1?Q?LhwLHfXeayS/dHD5s0uQBDHfRAcVqmQeLd96BFk4QLwSjruc/ex02injXN?=
- =?iso-8859-1?Q?za0jOtR1B2x7QKYToS3icSvq16HOsHiBQ0LniP4yU2TBgiPGhy96focxtO?=
- =?iso-8859-1?Q?DCmuQXRc5lElcKqpZfHkhbjCEUZYP0nhIlOGp6HZePGtBcPYkuMtjusELK?=
- =?iso-8859-1?Q?K4nQuM6X/HBU9rIOE9t+WsuzzvAQ+k70THegWLVVGYglTYi7zasqVd4Xdr?=
- =?iso-8859-1?Q?dDlzHDRejPYc/kJX3xRCGHv+U8WM3McNhNETj6fByFVn36znPMLN9mf6aa?=
- =?iso-8859-1?Q?XLjDPv+rtqQ0p+IfrAVOJBFEHM4jHvowS2MfsRtQ2AcsLTx0MvYaI8V/J7?=
- =?iso-8859-1?Q?SXbmRJ9fgMZgCpw9xjDk8ogvFwT+McuzaXsnqqyU2WCg07i9DMRBOjkF90?=
- =?iso-8859-1?Q?XgGYrkirrX0sHBzxrHa7dEJarvTHz6AkRsaBDPmZocNY/SIRP0GeqVWaat?=
- =?iso-8859-1?Q?rBiuMmpjs1HNlPinWYCKz+QPRWIGSywoRRynZElcqydmxin+NwFLL6Vbya?=
- =?iso-8859-1?Q?pxcLlLhuRFH8ifcpuQFIkygfcTWqqeRaVWjEFEBJFcpLLV9G5kR2wGAmIR?=
- =?iso-8859-1?Q?41SX4vsAWPGYJoBgP/YZGAWOjYiTuOqMoz14TZqJT3ArqVKMqdEQSTIX5Q?=
- =?iso-8859-1?Q?9kno6GLJgrr7mvUgG75pmoxBBW9mniN04ksxfvsqeB8nNkiDBf+9g9rcuE?=
- =?iso-8859-1?Q?RiFMN+uRQyf6gsmuyrAGfVYiM1YbwR+zcly/DD6YPolWJyM9mnqYUEwrf1?=
- =?iso-8859-1?Q?wCgpSrWUqkYHo3qd662wr11wfQ/1+Z8eV1C8EIo4gUoUoUizTKiYVsoXx9?=
- =?iso-8859-1?Q?8MwTZWGeJJDgcwxdVQBCe2R7KZ6P0dSzRKqc48Edm/S5yKcOAXEjXqvGIx?=
- =?iso-8859-1?Q?abzJh5r2WHzCKRTOQXUazCNZXhO8nNtnH5SG/rd3si9W1uEYHVDXyu6iHV?=
- =?iso-8859-1?Q?lw/ehG4MV1JszVONhlgPw6n11qjVFxH+8P/WD6Q5HXaZxpRNhMSz9EcdLI?=
- =?iso-8859-1?Q?oxc51aQVK7XFuNfCrJ4tH2r9O0thBTvYTx2ljcdimb2CY9G4U/0KRYUOmt?=
- =?iso-8859-1?Q?FTFSjin+bICP4g759divE0rarzGFpiUfH3a90w1T7KWR/RgEnoZwwmTmzK?=
- =?iso-8859-1?Q?AKk6e/wjqf/P/3Drq23DKM51Xu2yG9G/BNg9/1k5lVp7b2H4G2rHUZ2Itj?=
- =?iso-8859-1?Q?z+v38xeJs7/yQfX4nTkx+wCzb41v+iBrvtTN6rq4QXxj86rqF9c4i2ck16?=
- =?iso-8859-1?Q?2sAU5883xsSQn7BPU9b001AaCNqty07MlKIwoHrqSQFsYYzXhN7SZtkjHp?=
- =?iso-8859-1?Q?LXxGJhGJNvOjKWssQYh7uFeRAvoeW2SdWQLQgqwNVqUbBfwcrlCApDYanK?=
- =?iso-8859-1?Q?i/Ra+pikrbCYcbiUoOf52izCn03ud1LpZBAB/angmPQJGTV7YZpZKe4PEZ?=
- =?iso-8859-1?Q?TvTwyRaJbdMG1AEWspqAm6?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CYYPR11MB8430.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?/oG6l2HKIHFKYjjlLRUruOVpHc43ojxjDkDNEYHIsHNVrfMoaaemDlPBXv?=
- =?iso-8859-1?Q?o7Uqf0K8kc1Fh00Me17FGoO2N7SvIoKTarGdstIEztVdtEkfA62aR6JoQA?=
- =?iso-8859-1?Q?7aMROvbe/TlempbtiX0mIFIP5iLyXMqiZEqP5eSamAOYTCj2FDEcARQPtS?=
- =?iso-8859-1?Q?5yCxHhKI70bV8Md3hdFODbT3MZhIYOOftbNg67iH2ZxZbF1lUKrrQHPxgh?=
- =?iso-8859-1?Q?8LNx4gpN6TB+tw5+Tll/+xV3Op6ruF6APf67OZ982/oJxUNYcbNcXLV23Q?=
- =?iso-8859-1?Q?bIUbyE8eltIrnyPLAzwb4sBQDsMqtFQDGsHWZXYr1JvfA3FjeV0IBMuDxA?=
- =?iso-8859-1?Q?zru0Iv8uqpL3BkFeUA6hcT1lo2r4GXDek7Ur/6Gqf67zrk9PgqRc9H3n7D?=
- =?iso-8859-1?Q?iz0SwUKkQDmzX+fPURl+eyxD1faZDTVkWMIFcweKyRfIbkfnGXOeqOWZGR?=
- =?iso-8859-1?Q?EvB70gDdtRbNproDJ5rKRNBMCgzjz8YOVoZxT2mnghp6BAPsicqTATfkND?=
- =?iso-8859-1?Q?6mDEBQejnGj6t69xlKotuoODUT/y2xKytOdy/echqdZLuHYFx1rhSt08zC?=
- =?iso-8859-1?Q?quf/JkIw/Y2zOqWbDktESSJXNi1ylpKx6QgdSIKIFQxzKVpA7JARbiFwdh?=
- =?iso-8859-1?Q?qLrSHQ8sANOmPKiYMhEigpJjnHqHYOW1jg/kgXUPFuKJKYhBl8cwWIxTBz?=
- =?iso-8859-1?Q?Mk3vrTnW6Ty7tCmdGiMOv7xpI1A0t55owz7WU7knlZA3B276y8eBTaHOn2?=
- =?iso-8859-1?Q?jBX1lzpwDj2quDgHYU3d6H5kepYI+kXv6ezXCVkmm0idddPbAKkgYwaEOe?=
- =?iso-8859-1?Q?Q+alg73IyOSgIn+KdjNDO3XyATplSSKDWt96QuVu/fBs8aasFlhZ6Wrmzn?=
- =?iso-8859-1?Q?simsTTeBEjkHJMekbq9WNlzF4ebFlUByb5o1iOPFx+c9/5XzeabPm0FcWe?=
- =?iso-8859-1?Q?C5HOUgHUXPEOZA/qbAN+fsLTNZAdAIbflSR8ve51K7aI3oEC4X3D0ReJk7?=
- =?iso-8859-1?Q?Vg38fn0CIqNL1tP1ZkxZR3RK/T94EuRE1l1fz/spd0z4C2aEy2kSz3eyHS?=
- =?iso-8859-1?Q?TKvFzbKMdPd5PYtLY3DRW2m8ga0thnxqMTz1yfqxqEY2s5VUEo57ATMRbX?=
- =?iso-8859-1?Q?7MvNtBeDS9+ryFcTNLgST800/R3r18/CyPj3nAay4hacluQQcOtsJlh8DH?=
- =?iso-8859-1?Q?nMU/60cIl1gfPj1fNCE5jhssAG5wKYv2kLCoafgSljyE+l6IhsMXeDNkgP?=
- =?iso-8859-1?Q?MGkzIgFifq2m9h6+JPzLwvvhFIm1htlhKlAp8PubP0CKxr3BU1LittJ4qw?=
- =?iso-8859-1?Q?ZGbT+inwiUDaAwbQZdl9OYCkCXOKUpgQ7H0iXxoO/ziyjKje57xSJyxtQA?=
- =?iso-8859-1?Q?Btm837Kek7Q+qfF7xVM8DXRVsjkshg4XZYrCqeNMc5R07jGOWVus6oWf6G?=
- =?iso-8859-1?Q?JsDiqDaeVD0MfZrWQakQhamMhItlq2hSBL1zX5FDODyzfdELcLuzSdrrqn?=
- =?iso-8859-1?Q?GlGOAEbmJLX5nEVI0FWqW4Q8QXzS5ys7vRIYmtYFU2ji9Pjd9WHu/wsanf?=
- =?iso-8859-1?Q?v0HhKhLVtFNFiQCmk6yMlMJLaJFm8hjRNDViRiySOR694tWbWRSSxJtTzT?=
- =?iso-8859-1?Q?ieh7LIatwq1wLEjPXKU99hKhkNaW4v21kfbuqN+GKSpVtqMY76N8y7/g?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 363751a4-adf6-45bc-7b57-08de17283628
-X-MS-Exchange-CrossTenant-AuthSource: CYYPR11MB8430.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2025 20:17:41.0842
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dvoNEc1BoqYC5VwvG8GE/Twu1TTwlC2L0ytWsDsCPliqJr2NAsM76M5IgwTtkkcaEwvoTPt8ssuMrvL4j0rYwQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7605
-X-OriginatorOrg: intel.com
+References: <cover.1760368250.git.leon@kernel.org> <72ecaa13864ca346797e342d23a7929562788148.1760368250.git.leon@kernel.org>
+In-Reply-To: <72ecaa13864ca346797e342d23a7929562788148.1760368250.git.leon@kernel.org>
+From: Samiullah Khawaja <skhawaja@google.com>
+Date: Wed, 29 Oct 2025 17:25:03 -0700
+X-Gm-Features: AWmQ_bk_lamZnxOGKMiY4_uYy9zsC2c9IQ2Q8tmFJRkEGX5qGpHewJD6IMe1CiM
+Message-ID: <CAAywjhRb6Nwmzy+QWFPH9Zkn-xvtvOktNjAZ8HMpM2wmVw2rjw@mail.gmail.com>
+Subject: Re: [PATCH v5 9/9] vfio/pci: Add dma-buf export support for MMIO regions
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Alex Williamson <alex.williamson@redhat.com>, Leon Romanovsky <leonro@nvidia.com>, 
+	Jason Gunthorpe <jgg@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	dri-devel@lists.freedesktop.org, iommu@lists.linux.dev, 
+	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>, kvm@vger.kernel.org, 
+	linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-mm@kvack.org, 
+	linux-pci@vger.kernel.org, Logan Gunthorpe <logang@deltatee.com>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Vivek Kasireddy <vivek.kasireddy@intel.com>, 
+	Will Deacon <will@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 13, 2025 at 03:29:39PM +0200, Christian König wrote:
-> On 13.08.25 14:43, Janusz Krzysztofik wrote:
-> > Hi Christian,
-> > 
-> > On Tuesday, 8 July 2025 12:09:58 CEST Christian König wrote:
-> >> On 08.07.25 10:56, Janusz Krzysztofik wrote:
-> >>>>
-> >>>> There is no reason to test enabling signaling each of the element in a loop. So there should be something like 4096 calls to the dma_fence_chain_cb function each jumping to the next unsignaled fence and re-installing the callback.
-> >>>
-> >>> So how building a chain should look like in real use cases?  When a user 
-> >>> builds a chained link of her fence with another fence then may she enable 
-> >>> signaling on the new chain link?  If that other fence occurs a chain link then 
-> >>> who should take care of disabling signaling on it so signaling is enabled only 
-> >>> on the last link of the chain, not leading to a situation similar to what we 
-> >>> have now in the test case?  IOW, what's a correct use pattern of 
-> >>> dma_fence_chain?  I can't find that documented anywhere, neither in inline 
-> >>> docs nor in commit descriptions.
-> >>
-> >> The dma_fence_chain container is basically a single linked list which allows to "chain" together multiple dma_fence objects.
-> >>
-> >> The use cases is to keep only a single fence even when multiple asynchronous operations have been started.
-> >>
-> >> So you usually keep only the most recently created dma_fence_chain and eventually ask that one to signal when you need to wait for all fences inside the container.
-> >>
-> >> The tricky part is that since the chain can get very long the implementation can't use recursion or otherwise we would potentially overflow the kernel stack. And that needs to be tested and made sure we don't accidentally break the implementation somehow.
-> >>
-> >> Keeping all elements of a dma_fence_chain in an array and asking all of them to signal individually makes no sense, for this use case we have the dma_fence_array in the first place.
-> > 
-> > I'm going to submit a patch that drops enabling of signaling on each link of 
-> > the tested chain, as you suggested.  Don't you mind if I add your Suggested-
-> > by:?
-> 
-> Sure.
-> 
-> Thanks for looking into that,
+On Mon, Oct 13, 2025 at 8:27=E2=80=AFAM Leon Romanovsky <leon@kernel.org> w=
+rote:
+>
+> From: Leon Romanovsky <leonro@nvidia.com>
+>
+> Add support for exporting PCI device MMIO regions through dma-buf,
+> enabling safe sharing of non-struct page memory with controlled
+> lifetime management. This allows RDMA and other subsystems to import
+> dma-buf FDs and build them into memory regions for PCI P2P operations.
+>
+> The implementation provides a revocable attachment mechanism using
+> dma-buf move operations. MMIO regions are normally pinned as BARs
+> don't change physical addresses, but access is revoked when the VFIO
+> device is closed or a PCI reset is issued. This ensures kernel
+> self-defense against potentially hostile userspace.
+>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> ---
+>  drivers/vfio/pci/Kconfig           |   3 +
+>  drivers/vfio/pci/Makefile          |   2 +
+>  drivers/vfio/pci/vfio_pci_config.c |  22 +-
+>  drivers/vfio/pci/vfio_pci_core.c   |  28 ++
+>  drivers/vfio/pci/vfio_pci_dmabuf.c | 446 +++++++++++++++++++++++++++++
+>  drivers/vfio/pci/vfio_pci_priv.h   |  23 ++
+>  include/linux/vfio_pci_core.h      |   1 +
+>  include/uapi/linux/vfio.h          |  25 ++
+>  8 files changed, 546 insertions(+), 4 deletions(-)
+>  create mode 100644 drivers/vfio/pci/vfio_pci_dmabuf.c
+>
+> diff --git a/drivers/vfio/pci/Kconfig b/drivers/vfio/pci/Kconfig
+> index 2b0172f54665..2b9fca00e9e8 100644
+> --- a/drivers/vfio/pci/Kconfig
+> +++ b/drivers/vfio/pci/Kconfig
+> @@ -55,6 +55,9 @@ config VFIO_PCI_ZDEV_KVM
+>
+>           To enable s390x KVM vfio-pci extensions, say Y.
+>
+> +config VFIO_PCI_DMABUF
+> +       def_bool y if VFIO_PCI_CORE && PCI_P2PDMA && DMA_SHARED_BUFFER
+> +
+>  source "drivers/vfio/pci/mlx5/Kconfig"
+>
+>  source "drivers/vfio/pci/hisilicon/Kconfig"
+> diff --git a/drivers/vfio/pci/Makefile b/drivers/vfio/pci/Makefile
+> index cf00c0a7e55c..f9155e9c5f63 100644
+> --- a/drivers/vfio/pci/Makefile
+> +++ b/drivers/vfio/pci/Makefile
+> @@ -2,7 +2,9 @@
+>
+>  vfio-pci-core-y :=3D vfio_pci_core.o vfio_pci_intrs.o vfio_pci_rdwr.o vf=
+io_pci_config.o
+>  vfio-pci-core-$(CONFIG_VFIO_PCI_ZDEV_KVM) +=3D vfio_pci_zdev.o
+> +
+>  obj-$(CONFIG_VFIO_PCI_CORE) +=3D vfio-pci-core.o
+> +vfio-pci-core-$(CONFIG_VFIO_PCI_DMABUF) +=3D vfio_pci_dmabuf.o
+>
+>  vfio-pci-y :=3D vfio_pci.o
+>  vfio-pci-$(CONFIG_VFIO_PCI_IGD) +=3D vfio_pci_igd.o
+> diff --git a/drivers/vfio/pci/vfio_pci_config.c b/drivers/vfio/pci/vfio_p=
+ci_config.c
+> index 8f02f236b5b4..1f6008eabf23 100644
+> --- a/drivers/vfio/pci/vfio_pci_config.c
+> +++ b/drivers/vfio/pci/vfio_pci_config.c
+> @@ -589,10 +589,12 @@ static int vfio_basic_config_write(struct vfio_pci_=
+core_device *vdev, int pos,
+>                 virt_mem =3D !!(le16_to_cpu(*virt_cmd) & PCI_COMMAND_MEMO=
+RY);
+>                 new_mem =3D !!(new_cmd & PCI_COMMAND_MEMORY);
+>
+> -               if (!new_mem)
+> +               if (!new_mem) {
+>                         vfio_pci_zap_and_down_write_memory_lock(vdev);
+> -               else
+> +                       vfio_pci_dma_buf_move(vdev, true);
+> +               } else {
+>                         down_write(&vdev->memory_lock);
+> +               }
+>
+>                 /*
+>                  * If the user is writing mem/io enable (new_mem/io) and =
+we
+> @@ -627,6 +629,8 @@ static int vfio_basic_config_write(struct vfio_pci_co=
+re_device *vdev, int pos,
+>                 *virt_cmd &=3D cpu_to_le16(~mask);
+>                 *virt_cmd |=3D cpu_to_le16(new_cmd & mask);
+>
+> +               if (__vfio_pci_memory_enabled(vdev))
+> +                       vfio_pci_dma_buf_move(vdev, false);
+>                 up_write(&vdev->memory_lock);
+>         }
+>
+> @@ -707,12 +711,16 @@ static int __init init_pci_cap_basic_perm(struct pe=
+rm_bits *perm)
+>  static void vfio_lock_and_set_power_state(struct vfio_pci_core_device *v=
+dev,
+>                                           pci_power_t state)
+>  {
+> -       if (state >=3D PCI_D3hot)
+> +       if (state >=3D PCI_D3hot) {
+>                 vfio_pci_zap_and_down_write_memory_lock(vdev);
+> -       else
+> +               vfio_pci_dma_buf_move(vdev, true);
+> +       } else {
+>                 down_write(&vdev->memory_lock);
+> +       }
+>
+>         vfio_pci_set_power_state(vdev, state);
+> +       if (__vfio_pci_memory_enabled(vdev))
+> +               vfio_pci_dma_buf_move(vdev, false);
+>         up_write(&vdev->memory_lock);
+>  }
+>
+> @@ -900,7 +908,10 @@ static int vfio_exp_config_write(struct vfio_pci_cor=
+e_device *vdev, int pos,
+>
+>                 if (!ret && (cap & PCI_EXP_DEVCAP_FLR)) {
+>                         vfio_pci_zap_and_down_write_memory_lock(vdev);
+> +                       vfio_pci_dma_buf_move(vdev, true);
+>                         pci_try_reset_function(vdev->pdev);
+> +                       if (__vfio_pci_memory_enabled(vdev))
+> +                               vfio_pci_dma_buf_move(vdev, false);
+>                         up_write(&vdev->memory_lock);
+>                 }
+>         }
+> @@ -982,7 +993,10 @@ static int vfio_af_config_write(struct vfio_pci_core=
+_device *vdev, int pos,
+>
+>                 if (!ret && (cap & PCI_AF_CAP_FLR) && (cap & PCI_AF_CAP_T=
+P)) {
+>                         vfio_pci_zap_and_down_write_memory_lock(vdev);
+> +                       vfio_pci_dma_buf_move(vdev, true);
+>                         pci_try_reset_function(vdev->pdev);
+> +                       if (__vfio_pci_memory_enabled(vdev))
+> +                               vfio_pci_dma_buf_move(vdev, false);
+>                         up_write(&vdev->memory_lock);
+>                 }
+>         }
+> diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci=
+_core.c
+> index fe247d0e2831..56b1320238a9 100644
+> --- a/drivers/vfio/pci/vfio_pci_core.c
+> +++ b/drivers/vfio/pci/vfio_pci_core.c
+> @@ -287,6 +287,8 @@ static int vfio_pci_runtime_pm_entry(struct vfio_pci_=
+core_device *vdev,
+>          * semaphore.
+>          */
+>         vfio_pci_zap_and_down_write_memory_lock(vdev);
+> +       vfio_pci_dma_buf_move(vdev, true);
+> +
+>         if (vdev->pm_runtime_engaged) {
+>                 up_write(&vdev->memory_lock);
+>                 return -EINVAL;
+> @@ -370,6 +372,8 @@ static void vfio_pci_runtime_pm_exit(struct vfio_pci_=
+core_device *vdev)
+>          */
+>         down_write(&vdev->memory_lock);
+>         __vfio_pci_runtime_pm_exit(vdev);
+> +       if (__vfio_pci_memory_enabled(vdev))
+> +               vfio_pci_dma_buf_move(vdev, false);
+>         up_write(&vdev->memory_lock);
+>  }
+>
+> @@ -690,6 +694,8 @@ void vfio_pci_core_close_device(struct vfio_device *c=
+ore_vdev)
+>  #endif
+>         vfio_pci_core_disable(vdev);
+>
+> +       vfio_pci_dma_buf_cleanup(vdev);
+> +
+>         mutex_lock(&vdev->igate);
+>         if (vdev->err_trigger) {
+>                 eventfd_ctx_put(vdev->err_trigger);
+> @@ -1222,7 +1228,10 @@ static int vfio_pci_ioctl_reset(struct vfio_pci_co=
+re_device *vdev,
+>          */
+>         vfio_pci_set_power_state(vdev, PCI_D0);
+>
+> +       vfio_pci_dma_buf_move(vdev, true);
+>         ret =3D pci_try_reset_function(vdev->pdev);
+> +       if (__vfio_pci_memory_enabled(vdev))
+> +               vfio_pci_dma_buf_move(vdev, false);
+>         up_write(&vdev->memory_lock);
+>
+>         return ret;
+> @@ -1511,6 +1520,19 @@ int vfio_pci_core_ioctl_feature(struct vfio_device=
+ *device, u32 flags,
+>                 return vfio_pci_core_pm_exit(vdev, flags, arg, argsz);
+>         case VFIO_DEVICE_FEATURE_PCI_VF_TOKEN:
+>                 return vfio_pci_core_feature_token(vdev, flags, arg, args=
+z);
+> +       case VFIO_DEVICE_FEATURE_DMA_BUF:
+> +               if (device->ops->ioctl !=3D vfio_pci_core_ioctl)
+> +                       /*
+> +                        * Devices that overwrite general .ioctl() callba=
+ck
+> +                        * usually do it to implement their own
+> +                        * VFIO_DEVICE_GET_REGION_INFO handlerm and they =
+present
+> +                        * different BAR information from the real PCI.
+> +                        *
+> +                        * DMABUF relies on real PCI information.
+> +                        */
+> +                       return -EOPNOTSUPP;
+> +
+> +               return vfio_pci_core_feature_dma_buf(vdev, flags, arg, ar=
+gsz);
+>         default:
+>                 return -ENOTTY;
+>         }
+> @@ -2095,6 +2117,7 @@ int vfio_pci_core_init_dev(struct vfio_device *core=
+_vdev)
+>         ret =3D pcim_p2pdma_init(vdev->pdev);
+>         if (ret !=3D -EOPNOTSUPP)
+>                 return ret;
+> +       INIT_LIST_HEAD(&vdev->dmabufs);
+>         init_rwsem(&vdev->memory_lock);
+>         xa_init(&vdev->ctx);
+>
+> @@ -2459,6 +2482,7 @@ static int vfio_pci_dev_set_hot_reset(struct vfio_d=
+evice_set *dev_set,
+>                         break;
+>                 }
+>
+> +               vfio_pci_dma_buf_move(vdev, true);
+>                 vfio_pci_zap_bars(vdev);
+>         }
+>
+> @@ -2482,6 +2506,10 @@ static int vfio_pci_dev_set_hot_reset(struct vfio_=
+device_set *dev_set,
+>
+>         ret =3D pci_reset_bus(pdev);
+>
+> +       list_for_each_entry(vdev, &dev_set->device_list, vdev.dev_set_lis=
+t)
+> +               if (__vfio_pci_memory_enabled(vdev))
+> +                       vfio_pci_dma_buf_move(vdev, false);
+> +
+>         vdev =3D list_last_entry(&dev_set->device_list,
+>                                struct vfio_pci_core_device, vdev.dev_set_=
+list);
+>
+> diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_p=
+ci_dmabuf.c
+> new file mode 100644
+> index 000000000000..eaba010777f3
+> --- /dev/null
+> +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
+> @@ -0,0 +1,446 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/* Copyright (c) 2025, NVIDIA CORPORATION & AFFILIATES.
+> + */
+> +#include <linux/dma-buf.h>
+> +#include <linux/pci-p2pdma.h>
+> +#include <linux/dma-resv.h>
+> +
+> +#include "vfio_pci_priv.h"
+> +
+> +MODULE_IMPORT_NS("DMA_BUF");
+> +
+> +struct vfio_pci_dma_buf {
+> +       struct dma_buf *dmabuf;
+> +       struct vfio_pci_core_device *vdev;
+> +       struct list_head dmabufs_elm;
+> +       size_t size;
+> +       struct phys_vec *phys_vec;
+> +       struct p2pdma_provider *provider;
+> +       u32 nr_ranges;
+> +       u8 revoked : 1;
+> +};
+> +
+> +static int vfio_pci_dma_buf_attach(struct dma_buf *dmabuf,
+> +                                  struct dma_buf_attachment *attachment)
+> +{
+> +       struct vfio_pci_dma_buf *priv =3D dmabuf->priv;
+> +
+> +       if (!attachment->peer2peer)
+> +               return -EOPNOTSUPP;
+> +
+> +       if (priv->revoked)
+> +               return -ENODEV;
+> +
+> +       switch (pci_p2pdma_map_type(priv->provider, attachment->dev)) {
+> +       case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
+> +               break;
+> +       case PCI_P2PDMA_MAP_BUS_ADDR:
+> +               /*
+> +                * There is no need in IOVA at all for this flow.
+> +                * We rely on attachment->priv =3D=3D NULL as a marker
+> +                * for this mode.
+> +                */
+> +               return 0;
+> +       default:
+> +               return -EINVAL;
+> +       }
+> +
+> +       attachment->priv =3D kzalloc(sizeof(struct dma_iova_state), GFP_K=
+ERNEL);
+> +       if (!attachment->priv)
+> +               return -ENOMEM;
+> +
+> +       dma_iova_try_alloc(attachment->dev, attachment->priv, 0, priv->si=
+ze);
+> +       return 0;
+> +}
+> +
+> +static void vfio_pci_dma_buf_detach(struct dma_buf *dmabuf,
+> +                                   struct dma_buf_attachment *attachment=
+)
+> +{
+> +       kfree(attachment->priv);
+> +}
+> +
+> +static struct scatterlist *fill_sg_entry(struct scatterlist *sgl, u64 le=
+ngth,
+> +                                        dma_addr_t addr)
+> +{
+> +       unsigned int len, nents;
+> +       int i;
+> +
+> +       nents =3D DIV_ROUND_UP(length, UINT_MAX);
+> +       for (i =3D 0; i < nents; i++) {
+> +               len =3D min_t(u64, length, UINT_MAX);
+> +               length -=3D len;
+> +               /*
+> +                * Follow the DMABUF rules for scatterlist, the struct pa=
+ge can
+> +                * be NULL'd for MMIO only memory.
+> +                */
+> +               sg_set_page(sgl, NULL, len, 0);
+> +               sg_dma_address(sgl) =3D addr + i * UINT_MAX;
+> +               sg_dma_len(sgl) =3D len;
+> +               sgl =3D sg_next(sgl);
+> +       }
+> +
+> +       return sgl;
+> +}
+> +
+> +static unsigned int calc_sg_nents(struct vfio_pci_dma_buf *priv,
+> +                                 struct dma_iova_state *state)
+> +{
+> +       struct phys_vec *phys_vec =3D priv->phys_vec;
+> +       unsigned int nents =3D 0;
+> +       u32 i;
+> +
+> +       if (!state || !dma_use_iova(state))
+> +               for (i =3D 0; i < priv->nr_ranges; i++)
+> +                       nents +=3D DIV_ROUND_UP(phys_vec[i].len, UINT_MAX=
+);
+> +       else
+> +               /*
+> +                * In IOVA case, there is only one SG entry which spans
+> +                * for whole IOVA address space, but we need to make sure
+> +                * that it fits sg->length, maybe we need more.
+> +                */
+> +               nents =3D DIV_ROUND_UP(priv->size, UINT_MAX);
+> +
+> +       return nents;
+> +}
+> +
+> +static struct sg_table *
+> +vfio_pci_dma_buf_map(struct dma_buf_attachment *attachment,
+> +                    enum dma_data_direction dir)
+> +{
+> +       struct vfio_pci_dma_buf *priv =3D attachment->dmabuf->priv;
+> +       struct dma_iova_state *state =3D attachment->priv;
+> +       struct phys_vec *phys_vec =3D priv->phys_vec;
+> +       unsigned long attrs =3D DMA_ATTR_MMIO;
+> +       unsigned int nents, mapped_len =3D 0;
+> +       struct scatterlist *sgl;
+> +       struct sg_table *sgt;
+> +       dma_addr_t addr;
+> +       int ret;
+> +       u32 i;
+> +
+> +       dma_resv_assert_held(priv->dmabuf->resv);
+> +
+> +       if (priv->revoked)
+> +               return ERR_PTR(-ENODEV);
+> +
+> +       sgt =3D kzalloc(sizeof(*sgt), GFP_KERNEL);
+> +       if (!sgt)
+> +               return ERR_PTR(-ENOMEM);
+> +
+> +       nents =3D calc_sg_nents(priv, state);
+> +       ret =3D sg_alloc_table(sgt, nents, GFP_KERNEL | __GFP_ZERO);
+> +       if (ret)
+> +               goto err_kfree_sgt;
+> +
+> +       sgl =3D sgt->sgl;
+> +
+> +       for (i =3D 0; i < priv->nr_ranges; i++) {
+> +               if (!state) {
+> +                       addr =3D pci_p2pdma_bus_addr_map(priv->provider,
+> +                                                      phys_vec[i].paddr)=
+;
+> +               } else if (dma_use_iova(state)) {
+> +                       ret =3D dma_iova_link(attachment->dev, state,
+> +                                           phys_vec[i].paddr, 0,
+> +                                           phys_vec[i].len, dir, attrs);
+> +                       if (ret)
+> +                               goto err_unmap_dma;
+> +
+> +                       mapped_len +=3D phys_vec[i].len;
+> +               } else {
+> +                       addr =3D dma_map_phys(attachment->dev, phys_vec[i=
+].paddr,
+> +                                           phys_vec[i].len, dir, attrs);
+> +                       ret =3D dma_mapping_error(attachment->dev, addr);
+> +                       if (ret)
+> +                               goto err_unmap_dma;
+> +               }
+> +
+> +               if (!state || !dma_use_iova(state))
+> +                       sgl =3D fill_sg_entry(sgl, phys_vec[i].len, addr)=
+;
+> +       }
+> +
+> +       if (state && dma_use_iova(state)) {
+> +               WARN_ON_ONCE(mapped_len !=3D priv->size);
+> +               ret =3D dma_iova_sync(attachment->dev, state, 0, mapped_l=
+en);
+> +               if (ret)
+> +                       goto err_unmap_dma;
+> +               sgl =3D fill_sg_entry(sgl, mapped_len, state->addr);
+> +       }
+> +
+> +       /*
+> +        * SGL must be NULL to indicate that SGL is the last one
+> +        * and we allocated correct number of entries in sg_alloc_table()
+> +        */
+> +       WARN_ON_ONCE(sgl);
+> +       return sgt;
+> +
+> +err_unmap_dma:
+> +       if (!i || !state)
+> +               ; /* Do nothing */
+> +       else if (dma_use_iova(state))
+> +               dma_iova_destroy(attachment->dev, state, mapped_len, dir,
+> +                                attrs);
+> +       else
+> +               for_each_sgtable_dma_sg(sgt, sgl, i)
+> +                       dma_unmap_phys(attachment->dev, sg_dma_address(sg=
+l),
+> +                                       sg_dma_len(sgl), dir, attrs);
+> +       sg_free_table(sgt);
+> +err_kfree_sgt:
+> +       kfree(sgt);
+> +       return ERR_PTR(ret);
+> +}
+> +
+> +static void vfio_pci_dma_buf_unmap(struct dma_buf_attachment *attachment=
+,
+> +                                  struct sg_table *sgt,
+> +                                  enum dma_data_direction dir)
+> +{
+> +       struct vfio_pci_dma_buf *priv =3D attachment->dmabuf->priv;
+> +       struct dma_iova_state *state =3D attachment->priv;
+> +       unsigned long attrs =3D DMA_ATTR_MMIO;
+> +       struct scatterlist *sgl;
+> +       int i;
+> +
+> +       if (!state)
+> +               ; /* Do nothing */
+> +       else if (dma_use_iova(state))
+> +               dma_iova_destroy(attachment->dev, state, priv->size, dir,
+> +                                attrs);
+> +       else
+> +               for_each_sgtable_dma_sg(sgt, sgl, i)
+> +                       dma_unmap_phys(attachment->dev, sg_dma_address(sg=
+l),
+> +                                      sg_dma_len(sgl), dir, attrs);
+> +
+> +       sg_free_table(sgt);
+> +       kfree(sgt);
+> +}
+> +
+> +static void vfio_pci_dma_buf_release(struct dma_buf *dmabuf)
+> +{
+> +       struct vfio_pci_dma_buf *priv =3D dmabuf->priv;
+> +
+> +       /*
+> +        * Either this or vfio_pci_dma_buf_cleanup() will remove from the=
+ list.
+> +        * The refcount prevents both.
+> +        */
+> +       if (priv->vdev) {
+> +               down_write(&priv->vdev->memory_lock);
+> +               list_del_init(&priv->dmabufs_elm);
+> +               up_write(&priv->vdev->memory_lock);
+> +               vfio_device_put_registration(&priv->vdev->vdev);
+> +       }
+> +       kfree(priv->phys_vec);
+> +       kfree(priv);
+> +}
+> +
+> +static const struct dma_buf_ops vfio_pci_dmabuf_ops =3D {
+> +       .attach =3D vfio_pci_dma_buf_attach,
+> +       .detach =3D vfio_pci_dma_buf_detach,
+> +       .map_dma_buf =3D vfio_pci_dma_buf_map,
+> +       .release =3D vfio_pci_dma_buf_release,
+> +       .unmap_dma_buf =3D vfio_pci_dma_buf_unmap,
+> +};
+> +
+> +static void dma_ranges_to_p2p_phys(struct vfio_pci_dma_buf *priv,
+> +                                  struct vfio_device_feature_dma_buf *dm=
+a_buf,
+> +                                  struct vfio_region_dma_range *dma_rang=
+es,
+> +                                  struct p2pdma_provider *provider)
+> +{
+> +       struct pci_dev *pdev =3D priv->vdev->pdev;
+> +       phys_addr_t pci_start;
+> +       u32 i;
+> +
+> +       pci_start =3D pci_resource_start(pdev, dma_buf->region_index);
+> +       for (i =3D 0; i < dma_buf->nr_ranges; i++) {
+> +               priv->phys_vec[i].len =3D dma_ranges[i].length;
+> +               priv->phys_vec[i].paddr =3D pci_start + dma_ranges[i].off=
+set;
+> +               priv->size +=3D priv->phys_vec[i].len;
+> +       }
+> +       priv->nr_ranges =3D dma_buf->nr_ranges;
+> +       priv->provider =3D provider;
+> +}
+> +
+> +static int validate_dmabuf_input(struct vfio_pci_core_device *vdev,
+> +                                struct vfio_device_feature_dma_buf *dma_=
+buf,
+> +                                struct vfio_region_dma_range *dma_ranges=
+,
+> +                                struct p2pdma_provider **provider)
+> +{
+> +       struct pci_dev *pdev =3D vdev->pdev;
+> +       u32 bar =3D dma_buf->region_index;
+> +       resource_size_t bar_size;
+> +       u64 length =3D 0, sum;
+> +       u32 i;
+> +
+> +       if (dma_buf->flags)
+> +               return -EINVAL;
+> +       /*
+> +        * For PCI the region_index is the BAR number like  everything el=
+se.
+> +        */
+> +       if (bar >=3D VFIO_PCI_ROM_REGION_INDEX)
+> +               return -ENODEV;
+> +
+> +       *provider =3D pcim_p2pdma_provider(pdev, bar);
+> +       if (!*provider)
+> +               return -EINVAL;
+> +
+> +       bar_size =3D pci_resource_len(pdev, bar);
+> +       for (i =3D 0; i < dma_buf->nr_ranges; i++) {
+> +               u64 offset =3D dma_ranges[i].offset;
+> +               u64 len =3D dma_ranges[i].length;
+> +
+> +               if (!len || !PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))
+> +                       return -EINVAL;
+> +
+> +               if (check_add_overflow(offset, len, &sum) || sum > bar_si=
+ze)
+> +                       return -EINVAL;
+> +
+> +               /* Total requested length can't overflow IOVA size */
+> +               if (check_add_overflow(length, len, &sum))
+> +                       return -EINVAL;
+> +
+> +               length =3D sum;
+> +       }
+> +
+> +       /*
+> +        * DMA API uses size_t, so make sure that requested region length
+> +        * can fit into size_t variable, which can be unsigned int (32bit=
+s).
+> +        *
+> +        * In addition make sure that high bit of total length is not use=
+d too
+> +        * as it is used as a marker for DMA IOVA API.
+> +        */
+> +       if (overflows_type(length, size_t) || length & DMA_IOVA_USE_SWIOT=
+LB)
+> +               return -EINVAL;
+> +
+> +       return 0;
+> +}
+> +
+> +int vfio_pci_core_feature_dma_buf(struct vfio_pci_core_device *vdev, u32=
+ flags,
+> +                                 struct vfio_device_feature_dma_buf __us=
+er *arg,
+> +                                 size_t argsz)
+> +{
+> +       struct vfio_device_feature_dma_buf get_dma_buf =3D {};
+> +       struct vfio_region_dma_range *dma_ranges;
+> +       DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
+> +       struct p2pdma_provider *provider;
+> +       struct vfio_pci_dma_buf *priv;
+> +       int ret;
+> +
+> +       ret =3D vfio_check_feature(flags, argsz, VFIO_DEVICE_FEATURE_GET,
+> +                                sizeof(get_dma_buf));
+> +       if (ret !=3D 1)
+> +               return ret;
+> +
+> +       if (copy_from_user(&get_dma_buf, arg, sizeof(get_dma_buf)))
+> +               return -EFAULT;
+> +
+> +       if (!get_dma_buf.nr_ranges)
+> +               return -EINVAL;
+> +
+> +       dma_ranges =3D memdup_array_user(&arg->dma_ranges, get_dma_buf.nr=
+_ranges,
+> +                                      sizeof(*dma_ranges));
+> +       if (IS_ERR(dma_ranges))
+> +               return PTR_ERR(dma_ranges);
+> +
+> +       ret =3D validate_dmabuf_input(vdev, &get_dma_buf, dma_ranges, &pr=
+ovider);
+> +       if (ret)
+> +               goto err_free_ranges;
+> +
+> +       priv =3D kzalloc(sizeof(*priv), GFP_KERNEL);
+> +       if (!priv) {
+> +               ret =3D -ENOMEM;
+> +               goto err_free_ranges;
+> +       }
+> +       priv->phys_vec =3D kcalloc(get_dma_buf.nr_ranges, sizeof(*priv->p=
+hys_vec),
+> +                                GFP_KERNEL);
+> +       if (!priv->phys_vec) {
+> +               ret =3D -ENOMEM;
+> +               goto err_free_priv;
+> +       }
+> +
+> +       priv->vdev =3D vdev;
+> +       dma_ranges_to_p2p_phys(priv, &get_dma_buf, dma_ranges, provider);
+> +       kfree(dma_ranges);
+> +       dma_ranges =3D NULL;
+> +
+> +       if (!vfio_device_try_get_registration(&vdev->vdev)) {
+> +               ret =3D -ENODEV;
+> +               goto err_free_phys;
+> +       }
+> +
+> +       exp_info.ops =3D &vfio_pci_dmabuf_ops;
+> +       exp_info.size =3D priv->size;
+> +       exp_info.flags =3D get_dma_buf.open_flags;
+> +       exp_info.priv =3D priv;
+> +
+> +       priv->dmabuf =3D dma_buf_export(&exp_info);
+> +       if (IS_ERR(priv->dmabuf)) {
+> +               ret =3D PTR_ERR(priv->dmabuf);
+> +               goto err_dev_put;
+> +       }
+> +
+> +       /* dma_buf_put() now frees priv */
+> +       INIT_LIST_HEAD(&priv->dmabufs_elm);
+> +       down_write(&vdev->memory_lock);
+> +       dma_resv_lock(priv->dmabuf->resv, NULL);
+> +       priv->revoked =3D !__vfio_pci_memory_enabled(vdev);
+> +       list_add_tail(&priv->dmabufs_elm, &vdev->dmabufs);
+> +       dma_resv_unlock(priv->dmabuf->resv);
+> +       up_write(&vdev->memory_lock);
+> +
+> +       /*
+> +        * dma_buf_fd() consumes the reference, when the file closes the =
+dmabuf
+> +        * will be released.
+> +        */
+> +       return dma_buf_fd(priv->dmabuf, get_dma_buf.open_flags);
+> +
+> +err_dev_put:
+> +       vfio_device_put_registration(&vdev->vdev);
+> +err_free_phys:
+> +       kfree(priv->phys_vec);
+> +err_free_priv:
+> +       kfree(priv);
+> +err_free_ranges:
+> +       kfree(dma_ranges);
+> +       return ret;
+> +}
+> +
+> +void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev, bool revok=
+ed)
+> +{
+> +       struct vfio_pci_dma_buf *priv;
+> +       struct vfio_pci_dma_buf *tmp;
+> +
+> +       lockdep_assert_held_write(&vdev->memory_lock);
+> +
+> +       list_for_each_entry_safe(priv, tmp, &vdev->dmabufs, dmabufs_elm) =
+{
+> +               if (!get_file_active(&priv->dmabuf->file))
+> +                       continue;
+> +
+> +               if (priv->revoked !=3D revoked) {
+> +                       dma_resv_lock(priv->dmabuf->resv, NULL);
+> +                       priv->revoked =3D revoked;
+> +                       dma_buf_move_notify(priv->dmabuf);
 
-
-Hi Christian,
-
-Okay, so the take is that that IGT case is non-realistic and that that kernel
-change is not needed. We still have a problem with this patch here take so
-long to complete in a few platforms in a way that the watchdogs gets triggered
-and test case is marked as failure. While if we do the reschedule waiting a bit
-longer it end up completing successfully as expected.
-
-Since the goal here is not performance but compliance, can we go with this
-cond_reschedule here? Or do you have any other suggestion here on how
-to handle this test case and make it pass on those old platforms?
-
-Or should we simply disable the tests for those platforms?
-
-Thanks,
-Rodrigo.
-
-> Christian.
-> 
-> > 
-> > Thanks,
-> > Janusz
-> > 
-> >>
-> >> Regards,
-> >> Christian.
-> >>
-> >>>
-> >>> Thanks,
-> >>> Janusz
-> >>
-> > 
-> > 
-> > 
-> > 
-> 
+I think this should only be called when revoked is true, otherwise
+this will be calling move_notify on the already revoked dmabuf
+attachments.
+> +                       dma_resv_unlock(priv->dmabuf->resv);
+> +               }
+> +               dma_buf_put(priv->dmabuf);
+> +       }
+> +}
+> +
+> +void vfio_pci_dma_buf_cleanup(struct vfio_pci_core_device *vdev)
+> +{
+> +       struct vfio_pci_dma_buf *priv;
+> +       struct vfio_pci_dma_buf *tmp;
+> +
+> +       down_write(&vdev->memory_lock);
+> +       list_for_each_entry_safe(priv, tmp, &vdev->dmabufs, dmabufs_elm) =
+{
+> +               if (!get_file_active(&priv->dmabuf->file))
+> +                       continue;
+> +
+> +               dma_resv_lock(priv->dmabuf->resv, NULL);
+> +               list_del_init(&priv->dmabufs_elm);
+> +               priv->vdev =3D NULL;
+> +               priv->revoked =3D true;
+> +               dma_buf_move_notify(priv->dmabuf);
+> +               dma_resv_unlock(priv->dmabuf->resv);
+> +               vfio_device_put_registration(&vdev->vdev);
+> +               dma_buf_put(priv->dmabuf);
+> +       }
+> +       up_write(&vdev->memory_lock);
+> +}
+> diff --git a/drivers/vfio/pci/vfio_pci_priv.h b/drivers/vfio/pci/vfio_pci=
+_priv.h
+> index a9972eacb293..28a405f8b97c 100644
+> --- a/drivers/vfio/pci/vfio_pci_priv.h
+> +++ b/drivers/vfio/pci/vfio_pci_priv.h
+> @@ -107,4 +107,27 @@ static inline bool vfio_pci_is_vga(struct pci_dev *p=
+dev)
+>         return (pdev->class >> 8) =3D=3D PCI_CLASS_DISPLAY_VGA;
+>  }
+>
+> +#ifdef CONFIG_VFIO_PCI_DMABUF
+> +int vfio_pci_core_feature_dma_buf(struct vfio_pci_core_device *vdev, u32=
+ flags,
+> +                                 struct vfio_device_feature_dma_buf __us=
+er *arg,
+> +                                 size_t argsz);
+> +void vfio_pci_dma_buf_cleanup(struct vfio_pci_core_device *vdev);
+> +void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev, bool revok=
+ed);
+> +#else
+> +static inline int
+> +vfio_pci_core_feature_dma_buf(struct vfio_pci_core_device *vdev, u32 fla=
+gs,
+> +                             struct vfio_device_feature_dma_buf __user *=
+arg,
+> +                             size_t argsz)
+> +{
+> +       return -ENOTTY;
+> +}
+> +static inline void vfio_pci_dma_buf_cleanup(struct vfio_pci_core_device =
+*vdev)
+> +{
+> +}
+> +static inline void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vd=
+ev,
+> +                                        bool revoked)
+> +{
+> +}
+> +#endif
+> +
+>  #endif
+> diff --git a/include/linux/vfio_pci_core.h b/include/linux/vfio_pci_core.=
+h
+> index f541044e42a2..30d74b364f25 100644
+> --- a/include/linux/vfio_pci_core.h
+> +++ b/include/linux/vfio_pci_core.h
+> @@ -94,6 +94,7 @@ struct vfio_pci_core_device {
+>         struct vfio_pci_core_device     *sriov_pf_core_dev;
+>         struct notifier_block   nb;
+>         struct rw_semaphore     memory_lock;
+> +       struct list_head        dmabufs;
+>  };
+>
+>  /* Will be exported for vfio pci drivers usage */
+> diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
+> index 75100bf009ba..63214467c875 100644
+> --- a/include/uapi/linux/vfio.h
+> +++ b/include/uapi/linux/vfio.h
+> @@ -1478,6 +1478,31 @@ struct vfio_device_feature_bus_master {
+>  };
+>  #define VFIO_DEVICE_FEATURE_BUS_MASTER 10
+>
+> +/**
+> + * Upon VFIO_DEVICE_FEATURE_GET create a dma_buf fd for the
+> + * regions selected.
+> + *
+> + * open_flags are the typical flags passed to open(2), eg O_RDWR, O_CLOE=
+XEC,
+> + * etc. offset/length specify a slice of the region to create the dmabuf=
+ from.
+> + * nr_ranges is the total number of (P2P DMA) ranges that comprise the d=
+mabuf.
+> + *
+> + * Return: The fd number on success, -1 and errno is set on failure.
+> + */
+> +#define VFIO_DEVICE_FEATURE_DMA_BUF 11
+> +
+> +struct vfio_region_dma_range {
+> +       __u64 offset;
+> +       __u64 length;
+> +};
+> +
+> +struct vfio_device_feature_dma_buf {
+> +       __u32   region_index;
+> +       __u32   open_flags;
+> +       __u32   flags;
+> +       __u32   nr_ranges;
+> +       struct vfio_region_dma_range dma_ranges[];
+> +};
+> +
+>  /* -------- API for Type1 VFIO IOMMU -------- */
+>
+>  /**
+> --
+> 2.51.0
+>
+>
 
