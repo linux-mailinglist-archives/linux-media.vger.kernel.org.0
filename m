@@ -1,364 +1,193 @@
-Return-Path: <linux-media+bounces-46029-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-46030-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3FA1C2255B
-	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 21:50:04 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6361DC225E6
+	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 22:03:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 943651AA4094
-	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 20:41:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 85AC43B85D7
+	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 21:01:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E84433BBBF;
-	Thu, 30 Oct 2025 20:38:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D6D42DF719;
+	Thu, 30 Oct 2025 21:01:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b="DsC38lET";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="yWVHoBY1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cvODNfNw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51A1E3271F8;
-	Thu, 30 Oct 2025 20:38:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 101FF238D52
+	for <linux-media@vger.kernel.org>; Thu, 30 Oct 2025 21:01:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761856724; cv=none; b=Ov73VzzqTfXZqbqHftEvaZF+5Y97CisqJh1q4EERtOheK2NU5OT/dy7VBOwMp3QtqSWozHoC6CRWLzlwiSX6IOgWydbURRFmlVXVpnPIcoHdOxFyggLtJk4ilbOU7cJyMGwLsOwMwHB00F/mpH+R1AfliT+1Nm1nJtTpAFQh9s0=
+	t=1761858089; cv=none; b=e0JYQq1Gr37dzphukWNrbNTiAermsozVnEt53aLoPCIfesu2t7hPgOU1mAvRQEQT1PTIWge2UZdr76Fkk29df1UdqL6mqAX2sMAfC6zU0IBcNBZnuG2uk6nI53vWbA5f8YIiBd2dQdAnf16NNQwonQnUkn6cN46pQlOGA/juECY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761856724; c=relaxed/simple;
-	bh=Otc/CbhHm7gxjIcqJPP+5I/QV+QqqLRp7pDOdr60Iuk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Wq3hD2Nl5aQaSYo7/b/R7x5wWVAA4vA0lCwTt6kV57ewuFDhzxb1F///LbMIyV5RE4boMBlSae/dmz5P3IMDq+YyCpJdx1x1Coa7GQIyjgmkVHc825THfxn4vWsXPESlsdj+xcUuQX1y+Jcjuxdzi/9QH2E5bayumX4Hf0QxyeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org; spf=pass smtp.mailfrom=shazbot.org; dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b=DsC38lET; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=yWVHoBY1; arc=none smtp.client-ip=103.168.172.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 8C9A014001DA;
-	Thu, 30 Oct 2025 16:38:41 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Thu, 30 Oct 2025 16:38:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1761856721;
-	 x=1761943121; bh=p/8nyxWirOj4W+hYeRtMTG+81adajTiGVYuh/z6LXOE=; b=
-	DsC38lETCmk/UCR0NCEwSG/uMsWXv3KF8nqtv5mXrxnOSNXAuNpeCuWFpcBvb+Rd
-	qJBjT5+eedr1G7iNzvqfrWIs8YRmqr2Wn21vsB0Emgw2ammXeAjJNTKT8X3CRF7f
-	sgThj4w6Go/EWjZJV5hnPtkmvfi6+pv64RwRGY8broPbxr/l47tuMqaHoojfoTlR
-	x8NDbZZySjAGPtlXTOwEeVtGqPiFwdzOMit5oo4Jlrg3Xiv12ZeKHlQsjJ2dfLoo
-	Dd4zchU1KSWfT+xErx3Qp84XfWS++Q21slSUIXTr2Vf+w51bpou71HnP2egRiZFl
-	JYynwj6jAFgGlfam/THdRQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1761856721; x=
-	1761943121; bh=p/8nyxWirOj4W+hYeRtMTG+81adajTiGVYuh/z6LXOE=; b=y
-	WVHoBY1ck0fhOfaNyfXlK3MsltrJ16L4JMUjk4/8F1vhiZvK9+ByZAPE2Fr+lDEn
-	31wuiMAdQO9JUckxnFimEg9qgiR7Buz2VVu3gcL2K4BISNU112JvnuEfmtkVFPU/
-	WkKn9wiMCn/ibulsR45YnPo3Fgmy6RI+6Fk3aMG8co7oZG18ttXuQ58m649z8toG
-	uT5IEDW7hMQMIpoPYi22aGzWDJxfD1aqI4Iw7ZnDH3Ltcib06o+rASeKq7T4jlRO
-	a3slUeUe0CCl0KdMKPV16WqcZAYF7H/sqwJXPOUxsj0SzU4xV0yEV9o7Tp0CRH3k
-	UOAJNTt/tx/Lco0qxnstA==
-X-ME-Sender: <xms:z8wDaZLo5dD7ZxDV6II0FqH4O7jccYwOPy06udjLAl4RXkxI_trqqw>
-    <xme:z8wDaW3NyxbzGjLL5VL8Xo8PzYRVFCOzMbstflMQqva5Wle0FjF3VlMyKQrzHC5El
-    q3grRf5LAMq5wsIJswOZBD4TQxX7zoQ86zYjcR_77WmesqtyRs2M7A>
-X-ME-Received: <xmr:z8wDaVIW0bK32xwhEPjPTrLSw9kl2duIIdiJN2tr1QWnNDZ4iA2BxWRaG40>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduieejheelucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkjghfgggtgfesthejredttddtvdenucfhrhhomheptehlvgigucgh
-    ihhllhhirghmshhonhcuoegrlhgvgiesshhhrgiisghothdrohhrgheqnecuggftrfgrth
-    htvghrnhepteetudelgeekieegudegleeuvdffgeehleeivddtfeektdekkeehffehudet
-    hffhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hlvgigsehshhgriigsohhtrdhorhhgpdhnsggprhgtphhtthhopedvgedpmhhouggvpehs
-    mhhtphhouhhtpdhrtghpthhtoheplhgvohhnsehkvghrnhgvlhdrohhrghdprhgtphhtth
-    hopegrlhgvgidrfihilhhlihgrmhhsohhnsehrvgguhhgrthdrtghomhdprhgtphhtthho
-    pehlvghonhhrohesnhhvihguihgrrdgtohhmpdhrtghpthhtohepjhhgghesnhhvihguih
-    grrdgtohhmpdhrtghpthhtoheprghkphhmsehlihhnuhigqdhfohhunhgurghtihhonhdr
-    ohhrghdprhgtphhtthhopegshhgvlhhgrggrshesghhoohhglhgvrdgtohhmpdhrtghpth
-    htoheptghhrhhishhtihgrnhdrkhhovghnihhgsegrmhgurdgtohhmpdhrtghpthhtohep
-    ughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtph
-    htthhopehiohhmmhhusehlihhsthhsrdhlihhnuhigrdguvghv
-X-ME-Proxy: <xmx:z8wDaaMiGwbWX7czDe5iiad6EIpQFwJ1yQIteZ0s-dAUbUDysgOuAQ>
-    <xmx:z8wDaWyOXEdvkv2nByzkDyCMSCs83bIcsse_dM2y2-1KvLiBXmR81Q>
-    <xmx:z8wDaSIr0J6kFZz5NMvG-wATtPZO5nIJ7XYS0F5DucQqhu-KLzZWag>
-    <xmx:z8wDaVrwkjuhIMeJQEscr9oJy00Glt_Gj0UMB1ES18qD9i2fTKlcuQ>
-    <xmx:0cwDacSuknghBUpyXTe85wMhy52PcPg_FWLjbD2hGGkyV4h7HjHD1dZT>
-Feedback-ID: i03f14258:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 30 Oct 2025 16:38:37 -0400 (EDT)
-Date: Thu, 30 Oct 2025 14:38:36 -0600
-From: Alex Williamson <alex@shazbot.org>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Alex Williamson <alex.williamson@redhat.com>, Leon Romanovsky
- <leonro@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Andrew Morton
- <akpm@linux-foundation.org>, Bjorn Helgaas <bhelgaas@google.com>, Christian
- =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, iommu@lists.linux.dev, Jens Axboe
- <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>, kvm@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mm@kvack.org, linux-pci@vger.kernel.org, Logan Gunthorpe
- <logang@deltatee.com>, Marek Szyprowski <m.szyprowski@samsung.com>, Robin
- Murphy <robin.murphy@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v5 9/9] vfio/pci: Add dma-buf export support for MMIO
- regions
-Message-ID: <20251030143836.66cdf116@shazbot.org>
-In-Reply-To: <72ecaa13864ca346797e342d23a7929562788148.1760368250.git.leon@kernel.org>
-References: <cover.1760368250.git.leon@kernel.org>
-	<72ecaa13864ca346797e342d23a7929562788148.1760368250.git.leon@kernel.org>
+	s=arc-20240116; t=1761858089; c=relaxed/simple;
+	bh=esVfu0+Fvm8WjTWOgPnjpdUDr6WqSS25QN8RmSwnszs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=TNfyXs/9AmSVzyAaJlbR1Yk+UqDL6KfLbBokC1QoR+lud2L1KAAQv8IJFwxiU/jy2xbaS5UdKK/6C+gV31k9oYbVa66Z+e7+1hZOC4E9tzufPVgWUuP5+Xi8PCVyaK0qEfbEy5eYi95B8wb2Y7LCoNYzdtteZF3ccTrPifUixm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cvODNfNw; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761858088; x=1793394088;
+  h=date:from:to:cc:subject:message-id;
+  bh=esVfu0+Fvm8WjTWOgPnjpdUDr6WqSS25QN8RmSwnszs=;
+  b=cvODNfNw57moULjBQg+X4QbWxIfb9W1YJbGUwwgSuLM5ub4F2aCkVYNf
+   5MK2yii2cqMzjPVTeVgUjpM8nqVzUKBHL6YamQcgr0jaaR75eT3rnJUt4
+   e7q/Pi/HmXvhm+AnxhXk1Bc5/YwTqD6ZcUDOPo7F4jgLTpuXgiTKkXhn4
+   T2gqBS0psTYWTma3TBrx8DcxLu3YYhWqQvq/m8CaIqIWZ7hYHJ96+/9Ft
+   ER5sZroaNOSi8LWFn15J3pRIiX9ii9vUda/YIFBMH4QW/jSX8VSR5H6pp
+   pFLnt6WMnDP3Hfq73FEQjrvwJ50327gcF14flKInN/Ub9HzoSI1xAYln7
+   g==;
+X-CSE-ConnectionGUID: aR2akCG+SGmKkPHPErbk2w==
+X-CSE-MsgGUID: rVyGDbW9TGWaUDbg4enODA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="66627843"
+X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; 
+   d="scan'208";a="66627843"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 14:01:27 -0700
+X-CSE-ConnectionGUID: xoPCEh0NQ2e3lShbjMcq+Q==
+X-CSE-MsgGUID: 0iDgirokSemEa+H2UKOA3g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; 
+   d="scan'208";a="191198646"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 30 Oct 2025 14:01:26 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vEZlr-000MWu-2e;
+	Thu, 30 Oct 2025 21:01:23 +0000
+Date: Fri, 31 Oct 2025 05:00:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org
+Subject: [linuxtv-media-pending:next] BUILD SUCCESS
+ 163917839c0eea3bdfe3620f27f617a55fd76302
+Message-ID: <202510310536.bBcXFMAW-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Mon, 13 Oct 2025 18:26:11 +0300
-Leon Romanovsky <leon@kernel.org> wrote:
-> diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
-> index fe247d0e2831..56b1320238a9 100644
-> --- a/drivers/vfio/pci/vfio_pci_core.c
-> +++ b/drivers/vfio/pci/vfio_pci_core.c
-> @@ -1511,6 +1520,19 @@ int vfio_pci_core_ioctl_feature(struct vfio_device *device, u32 flags,
->  		return vfio_pci_core_pm_exit(vdev, flags, arg, argsz);
->  	case VFIO_DEVICE_FEATURE_PCI_VF_TOKEN:
->  		return vfio_pci_core_feature_token(vdev, flags, arg, argsz);
-> +	case VFIO_DEVICE_FEATURE_DMA_BUF:
-> +		if (device->ops->ioctl != vfio_pci_core_ioctl)
-> +			/*
-> +			 * Devices that overwrite general .ioctl() callback
-> +			 * usually do it to implement their own
-> +			 * VFIO_DEVICE_GET_REGION_INFO handlerm and they present
+tree/branch: https://git.linuxtv.org/media-ci/media-pending.git next
+branch HEAD: 163917839c0eea3bdfe3620f27f617a55fd76302  MAINTAINERS: Update Daniel Scally's email address
 
-Typo, "handlerm"
+elapsed time: 1579m
 
-> +			 * different BAR information from the real PCI.
-> +			 *
-> +			 * DMABUF relies on real PCI information.
-> +			 */
-> +			return -EOPNOTSUPP;
-> +
-> +		return vfio_pci_core_feature_dma_buf(vdev, flags, arg, argsz);
->  	default:
->  		return -ENOTTY;
->  	}
-...
-> @@ -2459,6 +2482,7 @@ static int vfio_pci_dev_set_hot_reset(struct vfio_device_set *dev_set,
->  			break;
->  		}
->  
-> +		vfio_pci_dma_buf_move(vdev, true);
->  		vfio_pci_zap_bars(vdev);
->  	}
->  
-> @@ -2482,6 +2506,10 @@ static int vfio_pci_dev_set_hot_reset(struct vfio_device_set *dev_set,
->  
->  	ret = pci_reset_bus(pdev);
->  
-> +	list_for_each_entry(vdev, &dev_set->device_list, vdev.dev_set_list)
-> +		if (__vfio_pci_memory_enabled(vdev))
-> +			vfio_pci_dma_buf_move(vdev, false);
-> +
->  	vdev = list_last_entry(&dev_set->device_list,
->  			       struct vfio_pci_core_device, vdev.dev_set_list);
->  
+configs tested: 100
+configs skipped: 3
 
-This needs to be placed in the existing undo loop with the up_write(),
-otherwise it can be missed in the error case.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
-> new file mode 100644
-> index 000000000000..eaba010777f3
-> --- /dev/null
-> +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
-> +static unsigned int calc_sg_nents(struct vfio_pci_dma_buf *priv,
-> +				  struct dma_iova_state *state)
-> +{
-> +	struct phys_vec *phys_vec = priv->phys_vec;
-> +	unsigned int nents = 0;
-> +	u32 i;
-> +
-> +	if (!state || !dma_use_iova(state))
-> +		for (i = 0; i < priv->nr_ranges; i++)
-> +			nents += DIV_ROUND_UP(phys_vec[i].len, UINT_MAX);
-> +	else
-> +		/*
-> +		 * In IOVA case, there is only one SG entry which spans
-> +		 * for whole IOVA address space, but we need to make sure
-> +		 * that it fits sg->length, maybe we need more.
-> +		 */
-> +		nents = DIV_ROUND_UP(priv->size, UINT_MAX);
+tested configs:
+alpha                             allnoconfig    gcc-15.1.0
+arc                               allnoconfig    gcc-15.1.0
+arc                          axs103_defconfig    gcc-15.1.0
+arc                      axs103_smp_defconfig    gcc-15.1.0
+arc                   randconfig-001-20251030    gcc-11.5.0
+arc                   randconfig-002-20251030    gcc-8.5.0
+arm                               allnoconfig    clang-22
+arm                         lpc18xx_defconfig    clang-22
+arm                   randconfig-001-20251030    gcc-10.5.0
+arm                   randconfig-002-20251030    clang-19
+arm                   randconfig-003-20251030    clang-22
+arm                   randconfig-004-20251030    clang-22
+arm                           sama7_defconfig    clang-22
+arm64                             allnoconfig    gcc-15.1.0
+arm64                 randconfig-001-20251030    gcc-12.5.0
+arm64                 randconfig-002-20251030    gcc-8.5.0
+arm64                 randconfig-003-20251030    clang-17
+arm64                 randconfig-004-20251030    clang-22
+csky                             allmodconfig    gcc-15.1.0
+csky                              allnoconfig    gcc-15.1.0
+csky                             allyesconfig    gcc-15.1.0
+csky                  randconfig-001-20251030    gcc-13.4.0
+csky                  randconfig-002-20251030    gcc-15.1.0
+hexagon                           allnoconfig    clang-22
+hexagon               randconfig-001-20251030    clang-22
+hexagon               randconfig-002-20251030    clang-22
+i386                              allnoconfig    gcc-14
+i386        buildonly-randconfig-001-20251030    clang-20
+i386        buildonly-randconfig-002-20251030    gcc-14
+i386        buildonly-randconfig-003-20251030    clang-20
+i386        buildonly-randconfig-004-20251030    clang-20
+i386        buildonly-randconfig-005-20251030    gcc-14
+i386        buildonly-randconfig-006-20251030    clang-20
+loongarch                         allnoconfig    clang-22
+loongarch             randconfig-001-20251030    clang-22
+loongarch             randconfig-002-20251030    clang-22
+m68k                             allmodconfig    gcc-15.1.0
+m68k                              allnoconfig    gcc-15.1.0
+m68k                             allyesconfig    gcc-15.1.0
+m68k                                defconfig    gcc-15.1.0
+microblaze                        allnoconfig    gcc-15.1.0
+microblaze                          defconfig    gcc-15.1.0
+mips                              allnoconfig    gcc-15.1.0
+mips                      maltaaprp_defconfig    clang-22
+mips                        vocore2_defconfig    clang-22
+nios2                             allnoconfig    gcc-11.5.0
+nios2                               defconfig    gcc-11.5.0
+nios2                 randconfig-001-20251030    gcc-8.5.0
+nios2                 randconfig-002-20251030    gcc-11.5.0
+openrisc                          allnoconfig    gcc-15.1.0
+parisc                            allnoconfig    gcc-15.1.0
+parisc                randconfig-001-20251030    gcc-8.5.0
+parisc                randconfig-002-20251030    gcc-8.5.0
+parisc64                            defconfig    gcc-15.1.0
+powerpc                           allnoconfig    gcc-15.1.0
+powerpc                    gamecube_defconfig    clang-22
+powerpc               randconfig-001-20251030    clang-22
+powerpc               randconfig-002-20251030    clang-22
+powerpc64             randconfig-001-20251030    gcc-8.5.0
+powerpc64             randconfig-002-20251030    gcc-8.5.0
+riscv                             allnoconfig    gcc-15.1.0
+riscv                 randconfig-001-20251030    gcc-13.4.0
+riscv                 randconfig-002-20251030    gcc-15.1.0
+s390                              allnoconfig    clang-22
+s390                  randconfig-001-20251030    clang-17
+s390                  randconfig-002-20251030    gcc-8.5.0
+sh                                allnoconfig    gcc-15.1.0
+sh                                  defconfig    gcc-15.1.0
+sh                    randconfig-001-20251030    gcc-15.1.0
+sh                    randconfig-002-20251030    gcc-15.1.0
+sparc                             allnoconfig    gcc-15.1.0
+sparc                 randconfig-001-20251030    gcc-8.5.0
+sparc                 randconfig-002-20251030    gcc-8.5.0
+sparc64                             defconfig    clang-20
+sparc64               randconfig-001-20251030    gcc-11.5.0
+sparc64               randconfig-002-20251030    clang-20
+um                                allnoconfig    clang-22
+um                                  defconfig    clang-22
+um                             i386_defconfig    gcc-14
+um                    randconfig-001-20251030    gcc-14
+um                    randconfig-002-20251030    clang-22
+um                           x86_64_defconfig    clang-22
+x86_64                            allnoconfig    clang-20
+x86_64      buildonly-randconfig-001-20251030    clang-20
+x86_64      buildonly-randconfig-002-20251030    gcc-14
+x86_64      buildonly-randconfig-003-20251030    gcc-13
+x86_64      buildonly-randconfig-004-20251030    gcc-14
+x86_64      buildonly-randconfig-005-20251030    clang-20
+x86_64      buildonly-randconfig-006-20251030    gcc-14
+x86_64                              defconfig    gcc-14
+x86_64                randconfig-011-20251031    gcc-14
+x86_64                randconfig-012-20251031    clang-20
+x86_64                randconfig-013-20251031    gcc-14
+x86_64                randconfig-014-20251031    gcc-14
+x86_64                randconfig-015-20251031    gcc-14
+x86_64                randconfig-016-20251031    clang-20
+xtensa                            allnoconfig    gcc-15.1.0
+xtensa                randconfig-001-20251030    gcc-10.5.0
+xtensa                randconfig-002-20251030    gcc-13.4.0
+xtensa                    smp_lx200_defconfig    gcc-15.1.0
 
-I think we're arguably running afoul of the coding style standard here
-that this is not a single simple statement and should use braces.
-
-> +
-> +	return nents;
-> +}
-> +
-> +static struct sg_table *
-> +vfio_pci_dma_buf_map(struct dma_buf_attachment *attachment,
-> +		     enum dma_data_direction dir)
-> +{
-> +	struct vfio_pci_dma_buf *priv = attachment->dmabuf->priv;
-> +	struct dma_iova_state *state = attachment->priv;
-> +	struct phys_vec *phys_vec = priv->phys_vec;
-> +	unsigned long attrs = DMA_ATTR_MMIO;
-> +	unsigned int nents, mapped_len = 0;
-> +	struct scatterlist *sgl;
-> +	struct sg_table *sgt;
-> +	dma_addr_t addr;
-> +	int ret;
-> +	u32 i;
-> +
-> +	dma_resv_assert_held(priv->dmabuf->resv);
-> +
-> +	if (priv->revoked)
-> +		return ERR_PTR(-ENODEV);
-> +
-> +	sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
-> +	if (!sgt)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	nents = calc_sg_nents(priv, state);
-> +	ret = sg_alloc_table(sgt, nents, GFP_KERNEL | __GFP_ZERO);
-> +	if (ret)
-> +		goto err_kfree_sgt;
-> +
-> +	sgl = sgt->sgl;
-> +
-> +	for (i = 0; i < priv->nr_ranges; i++) {
-> +		if (!state) {
-> +			addr = pci_p2pdma_bus_addr_map(priv->provider,
-> +						       phys_vec[i].paddr);
-> +		} else if (dma_use_iova(state)) {
-> +			ret = dma_iova_link(attachment->dev, state,
-> +					    phys_vec[i].paddr, 0,
-> +					    phys_vec[i].len, dir, attrs);
-> +			if (ret)
-> +				goto err_unmap_dma;
-> +
-> +			mapped_len += phys_vec[i].len;
-> +		} else {
-> +			addr = dma_map_phys(attachment->dev, phys_vec[i].paddr,
-> +					    phys_vec[i].len, dir, attrs);
-> +			ret = dma_mapping_error(attachment->dev, addr);
-> +			if (ret)
-> +				goto err_unmap_dma;
-> +		}
-> +
-> +		if (!state || !dma_use_iova(state))
-> +			sgl = fill_sg_entry(sgl, phys_vec[i].len, addr);
-> +	}
-> +
-> +	if (state && dma_use_iova(state)) {
-> +		WARN_ON_ONCE(mapped_len != priv->size);
-> +		ret = dma_iova_sync(attachment->dev, state, 0, mapped_len);
-> +		if (ret)
-> +			goto err_unmap_dma;
-> +		sgl = fill_sg_entry(sgl, mapped_len, state->addr);
-> +	}
-> +
-> +	/*
-> +	 * SGL must be NULL to indicate that SGL is the last one
-> +	 * and we allocated correct number of entries in sg_alloc_table()
-> +	 */
-> +	WARN_ON_ONCE(sgl);
-> +	return sgt;
-> +
-> +err_unmap_dma:
-> +	if (!i || !state)
-> +		; /* Do nothing */
-> +	else if (dma_use_iova(state))
-> +		dma_iova_destroy(attachment->dev, state, mapped_len, dir,
-> +				 attrs);
-> +	else
-> +		for_each_sgtable_dma_sg(sgt, sgl, i)
-> +			dma_unmap_phys(attachment->dev, sg_dma_address(sgl),
-> +					sg_dma_len(sgl), dir, attrs);
-
-Same, here for braces.
-
-> +	sg_free_table(sgt);
-> +err_kfree_sgt:
-> +	kfree(sgt);
-> +	return ERR_PTR(ret);
-> +}
-> +
-> +static void vfio_pci_dma_buf_unmap(struct dma_buf_attachment *attachment,
-> +				   struct sg_table *sgt,
-> +				   enum dma_data_direction dir)
-> +{
-> +	struct vfio_pci_dma_buf *priv = attachment->dmabuf->priv;
-> +	struct dma_iova_state *state = attachment->priv;
-> +	unsigned long attrs = DMA_ATTR_MMIO;
-> +	struct scatterlist *sgl;
-> +	int i;
-> +
-> +	if (!state)
-> +		; /* Do nothing */
-> +	else if (dma_use_iova(state))
-> +		dma_iova_destroy(attachment->dev, state, priv->size, dir,
-> +				 attrs);
-> +	else
-> +		for_each_sgtable_dma_sg(sgt, sgl, i)
-> +			dma_unmap_phys(attachment->dev, sg_dma_address(sgl),
-> +				       sg_dma_len(sgl), dir, attrs);
-> +
-
-Here too.
-
-> +	sg_free_table(sgt);
-> +	kfree(sgt);
-> +}
-...
-> diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
-> index 75100bf009ba..63214467c875 100644
-> --- a/include/uapi/linux/vfio.h
-> +++ b/include/uapi/linux/vfio.h
-> @@ -1478,6 +1478,31 @@ struct vfio_device_feature_bus_master {
->  };
->  #define VFIO_DEVICE_FEATURE_BUS_MASTER 10
->  
-> +/**
-> + * Upon VFIO_DEVICE_FEATURE_GET create a dma_buf fd for the
-> + * regions selected.
-> + *
-> + * open_flags are the typical flags passed to open(2), eg O_RDWR, O_CLOEXEC,
-> + * etc. offset/length specify a slice of the region to create the dmabuf from.
-> + * nr_ranges is the total number of (P2P DMA) ranges that comprise the dmabuf.
-> + *
-
-Probably worth noting that .flags should be zero, I see we enforce
-that.  Thanks,
-
-Alex
-
-> + * Return: The fd number on success, -1 and errno is set on failure.
-> + */
-> +#define VFIO_DEVICE_FEATURE_DMA_BUF 11
-> +
-> +struct vfio_region_dma_range {
-> +	__u64 offset;
-> +	__u64 length;
-> +};
-> +
-> +struct vfio_device_feature_dma_buf {
-> +	__u32	region_index;
-> +	__u32	open_flags;
-> +	__u32   flags;
-> +	__u32   nr_ranges;
-> +	struct vfio_region_dma_range dma_ranges[];
-> +};
-> +
->  /* -------- API for Type1 VFIO IOMMU -------- */
->  
->  /**
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
