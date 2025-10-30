@@ -1,146 +1,274 @@
-Return-Path: <linux-media+bounces-45960-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45961-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3DD9C1E39B
-	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 04:40:38 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B23D0C1E612
+	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 05:44:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 9C78B34D0EA
-	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 03:40:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1467E402F6C
+	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 04:44:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95C782D47F5;
-	Thu, 30 Oct 2025 03:40:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 421E431197E;
+	Thu, 30 Oct 2025 04:44:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LMN0IIwW"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="s/6MncB8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazhn15010019.outbound.protection.outlook.com [52.102.139.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE95021ABAC;
-	Thu, 30 Oct 2025 03:40:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761795629; cv=none; b=GxsIhFbVfPdGKDIi0Q0Y7kZNRS4NtZZDvOhuEA0dOnOIIA2IuFnJEDRFsvKZkIFRWrleXPPsm87swQH2m9dpfiJKXn4X807WQc5UOgF0+dWwxjJEArBmnWCUn8nZWrd7Sw0rDy2rO9smGrRAnOcuJlx0XhchHUIv37/QdcX2iMk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761795629; c=relaxed/simple;
-	bh=eP+v44bFnQV6pzfjh1fsjAmhu/NjG8eSqtbS6lHqGyo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=progKE2uBwQf8Oa6v783LuBMr5ECTL14Pc9l7BPhjrGP/WSF+vIYXzEVC1fK+pgy7b5CXN8gXrZGCv8SkdOCAMWuwdQfdRUWYm1yuNv6eKikLGfC+NsZBIegnNJ5nmVp5B6y/kLVKxFmx1zcvcJBl5YWnzGgEr0GrITyg++clrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LMN0IIwW; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761795626; x=1793331626;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=eP+v44bFnQV6pzfjh1fsjAmhu/NjG8eSqtbS6lHqGyo=;
-  b=LMN0IIwWIa4r8Bfe+VJqkoh+xIvfELrc4DCSOEauIp+Hh7Tzqm6R1+JU
-   UcD+k4HLxE+5j/bXnNduQbzqBRR/hXJpI5eLv5JJdUAMzg3BshDujZcjT
-   6CXBGbIQqlJjNUYNtP+05/Ra19+OdiZ4BxgwT+tWjc+DIKq7VZdrPebz/
-   Rs8naQZa9Ki0NApf3IsP22mv4+V89lkU/JcB3I6cNK/L5r9Xqq2lFA+1G
-   iiVXgHcApgppvV9TwC7FhFYyHFwtPOEyOycZ5y9ULnVEm3d+zPlgB77O3
-   zH1yu7u+tL1nd/DwkpitSUhvK3jbqKiMVtkbhDC8s1fStruX0LsZxbA6t
-   w==;
-X-CSE-ConnectionGUID: Q6PUKDdhR7e+31tYN6x1qw==
-X-CSE-MsgGUID: LeCEIcaZTLacXzEAaGLPNw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="74528614"
-X-IronPort-AV: E=Sophos;i="6.19,265,1754982000"; 
-   d="scan'208";a="74528614"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 20:40:25 -0700
-X-CSE-ConnectionGUID: IXqawMBZRs6YZejWKU1Vmw==
-X-CSE-MsgGUID: 4mtAaMg5T9eoMBdWxPoang==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,265,1754982000"; 
-   d="scan'208";a="216694173"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 29 Oct 2025 20:40:22 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vEJUw-000LQF-12;
-	Thu, 30 Oct 2025 03:39:33 +0000
-Date: Thu, 30 Oct 2025 11:38:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Andr=E9?= Apitzsch via B4 Relay <devnull+git.apitzsch.eu@kernel.org>,
-	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Vincent Knecht <vincent.knecht@mailoo.org>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
-Subject: Re: [PATCH v7 3/4] media: qcom: camss: Add support for MSM8939
-Message-ID: <202510301103.9EJIzPFp-lkp@intel.com>
-References: <20251028-camss-8x39-vbif-v7-3-91ee8becda85@apitzsch.eu>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8755F2EBB96;
+	Thu, 30 Oct 2025 04:44:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.102.139.19
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761799457; cv=fail; b=uRYnL5ppYtwIT3JYiAQmHOKf5Ah+DSalgpiL9rnG+ehxp5eBHg6bEyTQfFgKbkF4j8DwnT/JJRutJ5g3Zh05CtcYkFxqdWyZkWaFiLiYtzgWg9jXtNR99ZKlXPSk/NWwn7WEEaFxmQw6n2gGbyiSEcAfptNoKV50MLfD4uKJmbg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761799457; c=relaxed/simple;
+	bh=Ion0atLeZLBnsGbSz64pTIDGE6njQaepRySO0xT7krE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=nRY1OxFEPSlKkZUx9gXWaEh7aKb6ZmM2XTRS9qFXH4FRfrMpW/mz4zwLYDsvJO065CDw4xrdm5Tr1NDDWuZazE01CKYTrY5uXx7F3MVpRc5wYct2TXLzUDWv4PA2mtOzenmTHDZqIQzcOhGRhOg9RzgkP0+Lu5Js8FXZfzpQMGE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=s/6MncB8; arc=fail smtp.client-ip=52.102.139.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gFJLT6UOjJvtAwNYTUwMrnDnrh/GmLi/2v+4HB2pFBEgtl/JmcfpU7xR5g/1fKHYvK6LvSonuFpXqJ0o69Dk6j/UxhwGH5HJkNpVHywLPqNJzyQ49vNs16sYgn7NusqNaR3b5gxIg0t0w3iV+3+PJt2+jIGfWx9TgfLbNRS7hC0kpyoEamc9rdRxBEpFD1arWglFr32Ka8BIOfonj985aENLL5gfLvQcM1ZClI5aFbtLTMCSWnd4q8Jz6CbrmLGbkyOGacSZ0ITHI4GnCFDxPR1TtL0EJpOYPmoM/O9RIEMrXLKQ04AmympZv0ey3t4E3JeLNXM4gUNGfSTW+R9lGQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zpgtKhPtUjL30Fec/scLab74IjUMA05RajdEndc/YuU=;
+ b=fvLIG4whZOaGJIPs+tbmWCIVDmHVTYbmZFDONjEg2dAtPcmwIb1VrGGNeIrkZMZk5I0bsc9gzsjH3fMUFam9C88Y7jaHPv13mvgfZys744Gih/eBx2VXPKHqLAivXyz+taG80VLUCTsGhlLfUkHJJTCboV0SIiNGxh+H3ihAQhMR8vbrznwHX94fPwunpP8eBqLVTiqyWi8emA41MTrTovwjYckKv0IZtifTah2SoT3MX0SxK2MmMZKPhianHT/9sxvuzJXmi9pTxALKTaZyOxIvk7rFwpkm80UwC9Fj38g2UAh9nOHTALSEP94pDKOMdS5EHDxLJ5rtojNArX0Hbg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.194) smtp.rcpttodomain=kernel.org smtp.mailfrom=ti.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zpgtKhPtUjL30Fec/scLab74IjUMA05RajdEndc/YuU=;
+ b=s/6MncB8npOsupezmnmSUz3bHQQY7bGiR2tTnLThZ/pwI+Dtn8HtS4kZGpWwXIs3bi8Dt4x7nQrCJCuRX03PGqZJqkiUYGpwUhE0ZBKOagnMFapbNr+w9hzQsrY4yl5sVFR1YY9c9vA3p1XrGGB6+4UJ03lhhz27UfpkwIkSdKY=
+Received: from BN0PR04CA0137.namprd04.prod.outlook.com (2603:10b6:408:ed::22)
+ by BN0PR10MB4981.namprd10.prod.outlook.com (2603:10b6:408:12d::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.13; Thu, 30 Oct
+ 2025 04:44:10 +0000
+Received: from BN1PEPF00004685.namprd03.prod.outlook.com
+ (2603:10b6:408:ed:cafe::db) by BN0PR04CA0137.outlook.office365.com
+ (2603:10b6:408:ed::22) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.14 via Frontend Transport; Thu,
+ 30 Oct 2025 04:43:59 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
+Received: from flwvzet200.ext.ti.com (198.47.21.194) by
+ BN1PEPF00004685.mail.protection.outlook.com (10.167.243.86) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9275.10 via Frontend Transport; Thu, 30 Oct 2025 04:44:09 +0000
+Received: from DFLE201.ent.ti.com (10.64.6.59) by flwvzet200.ext.ti.com
+ (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 29 Oct
+ 2025 23:43:59 -0500
+Received: from DFLE212.ent.ti.com (10.64.6.70) by DFLE201.ent.ti.com
+ (10.64.6.59) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 29 Oct
+ 2025 23:43:59 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE212.ent.ti.com
+ (10.64.6.70) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Wed, 29 Oct 2025 23:43:59 -0500
+Received: from [10.24.69.13] (meghana-pc.dhcp.ti.com [10.24.69.13] (may be forged))
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 59U4hqLO1337117;
+	Wed, 29 Oct 2025 23:43:52 -0500
+Message-ID: <ba1b48dc-b544-4c4b-be8a-d39b104cda21@ti.com>
+Date: Thu, 30 Oct 2025 10:13:51 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [EXTERNAL] Re: [PATCH net-next v4 2/6] net: ti: icssg-prueth: Add
+ XSK pool helpers
+To: Paolo Abeni <pabeni@redhat.com>, <horms@kernel.org>,
+	<namcao@linutronix.de>, <vadim.fedorenko@linux.dev>,
+	<jacob.e.keller@intel.com>, <christian.koenig@amd.com>,
+	<sumit.semwal@linaro.org>, <sdf@fomichev.me>, <john.fastabend@gmail.com>,
+	<hawk@kernel.org>, <daniel@iogearbox.net>, <ast@kernel.org>,
+	<kuba@kernel.org>, <edumazet@google.com>, <davem@davemloft.net>,
+	<andrew+netdev@lunn.ch>
+CC: <linaro-mm-sig@lists.linaro.org>, <dri-devel@lists.freedesktop.org>,
+	<linux-media@vger.kernel.org>, <bpf@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <srk@ti.com>, Vignesh Raghavendra
+	<vigneshr@ti.com>, Roger Quadros <rogerq@kernel.org>, <danishanwar@ti.com>
+References: <20251023093927.1878411-1-m-malladi@ti.com>
+ <20251023093927.1878411-3-m-malladi@ti.com>
+ <05efdc9a-8704-476e-8179-1a9fc0ada749@redhat.com>
+Content-Language: en-US
+From: Meghana Malladi <m-malladi@ti.com>
+In-Reply-To: <05efdc9a-8704-476e-8179-1a9fc0ada749@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251028-camss-8x39-vbif-v7-3-91ee8becda85@apitzsch.eu>
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN1PEPF00004685:EE_|BN0PR10MB4981:EE_
+X-MS-Office365-Filtering-Correlation-Id: d547939b-942c-4649-5de9-08de176ef77b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|1800799024|7416014|376014|34020700016|36860700013|921020|12100799066;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?QUJob3ZIMlU4cFg0Zk1FSGJHUFhrTWFTbFFaeFBuU0VYcnNQVjk5VEtBTnN4?=
+ =?utf-8?B?WjlhNkpIRHloK3FhbDAzc0ZtSVV2d0dNczQrYVRvcTJMUkxWdnU3UkFYNTJj?=
+ =?utf-8?B?WEpwaEV2WVBzbUZvakhFYTFoWWF4SHl0NkRuSTJaQnk4VWZoNWpFUkw2V1lZ?=
+ =?utf-8?B?RElLazBBZW9aZnp4aWEzMWV6VlE2dU5qM2JsenZBR2dDNElZKzM5dVRqTTl3?=
+ =?utf-8?B?aThhUnJBeVVFdnpGcHBmWkYrL01BamgxMGRJOGZxK0FzNWMzcUorc0VzMjBx?=
+ =?utf-8?B?cFhmaUQ5NHA0aTY4S25aVy96ZzdRNDBhUThnWE9BTXlqcmh5dWJPNnlLa3Zi?=
+ =?utf-8?B?K3VBRWp0K28yS1QvVWYzYlFqNzdkKzFQN1dkU0tBdWliVTNDK3B4Mi9WV3RN?=
+ =?utf-8?B?RmNXb3pybjFWbHRaZUNtcnhkbnZjWGFjbkxibktxRFh6N0ZJUWF6R1NybGQy?=
+ =?utf-8?B?alcrVHJQTitabFg2ejc4ZWJ0UW1oVmVLUXZNc2R5NmMwSXp6SmNtQ3hxM0hh?=
+ =?utf-8?B?TGt0Wjd0OFQyaVM1UnhwK2tMdWRNbUxMSUFHeVRIWEc2VWRISlZJVjN5RThr?=
+ =?utf-8?B?SmdTNnltQnJycHhaaFpqaGFkTG1DUmRIVmVHWGRJd1NndGVjbVJDNHJ6WmFs?=
+ =?utf-8?B?SmREd3BYcDVlOVBrVVI1emZCUnI3bzJXR2FpOUpNenhDdDAwVVArSkdCLzRk?=
+ =?utf-8?B?QUtkd0ZpUDAzYjk2bVJHT3lvMisrVnVGVkJhY2dCeWNDQ0VnVXNhekdDVEs0?=
+ =?utf-8?B?UVZWVjhUVGRCUlg1YlFPZlBIZkhWeHVDTHF3cVVlLytyQ0dEemo1cGU3bGg4?=
+ =?utf-8?B?ZFRCeFNxN2lERlhsb0M2UVNZTzY1RjMrTDhsZmFNM003VXJFNFRqdFNaU2t6?=
+ =?utf-8?B?bFRYdVMyT2ZSL1IvOENsOXg5RUhzYnB0QmxaY2V3dTVIdlhEU1hqUkNxdWNx?=
+ =?utf-8?B?a3lHUFFjMXBhMmJhSHNBUE9mbFB3TUtaa0RHVmdkSmJ4RE10cTJtRW1FU3hK?=
+ =?utf-8?B?OVRORmxtWGpkSTVOQVk2V0hSamR0OXRVTTArQkxUNDFZT2lkLzBFYzk4YVE0?=
+ =?utf-8?B?YXFvajZldWVUK3JyYzVqZnNKQ3pUajhVT1JjNUdaa2xNUytBcGhDUkxsRkt0?=
+ =?utf-8?B?U1Ftd3prcDdTZm9RWXBPUi9yem5VRG9yNnk4K0kzOTZXM2JYeFRpT3QxTmRn?=
+ =?utf-8?B?WVU2OEo1TmhxTXcwbEl3VTNCekIvc2tOSnJXWU4rYnMwUjhqTVQ5UjRIeU9y?=
+ =?utf-8?B?QWpiU2hHV3JpRWFiK0FFRWRBSlVzYzEzaHRLZ2dXbFYybTY0MzFCMSt2N1Bn?=
+ =?utf-8?B?SjNsdkcyZStvTGc0Y0IvVDBmUVF3aWhZU3E3UlNtTmMrNjBnMDZUZnd3S1hD?=
+ =?utf-8?B?YXVsakpwK29xcHYydVMwa3VuQ3dRYnpoQktXMFJWRjV1aWhEM1dTNXdIaDBQ?=
+ =?utf-8?B?VFFhaGtnTjRwb2NxeUlCVzQ5ZFZLVDZZckFjZ08veUl6YmI4aS96MnFObEVr?=
+ =?utf-8?B?UjErVHh5a0xmMjZjdWhobW15dk1HcTNRZHBsekxCT2pYUzgwUSt2Ni84L0ds?=
+ =?utf-8?B?TUlrbSs2R0JMblRlZ3AxZzhrVHVZSWtjNGwvVVJFWVBPUUlPYjBsVVNtdEs3?=
+ =?utf-8?B?bzFGaytzY3pIM1R6cVMzalg1NWY2M0JJU3RGaVBwZjRaV2ZHY3J4ZXYzQ1VG?=
+ =?utf-8?B?S0pZUnR5SDViNE1tOHRKSGhXdEhOK3d3Z3RJSVI3Zys3QWFtY2h3RElZSGlE?=
+ =?utf-8?B?d2VyUkZZMy8zeGVLRXdKYUpWVmxTanBaMEs0ak1kNFYwOXBxdjllbGVvY1NC?=
+ =?utf-8?B?U0JEMmpYclFLTk8yOUJMOGw3ajN6TDJiNzY4cG1nZVdGRkJpa21LT09uS1Br?=
+ =?utf-8?B?TDdkZ3RlSnNNeUU4UVhxUWZiUk5TOEN3SjRUTnlhYXgwZXFYQ0FwckdlaDNH?=
+ =?utf-8?B?TFFrTDNuZXpVV0N4bkNoc1d5bHZQeWV4eG9Gc0NvY1VuLzJrc29oQ0hSdXg5?=
+ =?utf-8?B?R2V1cEpaL28xajkwRFV4bjZyMDc5alR1TEk3M2o2cThoSzNDUVVUOVZSL3o5?=
+ =?utf-8?Q?hIhOY/?=
+X-Forefront-Antispam-Report:
+	CIP:198.47.21.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet200.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(7416014)(376014)(34020700016)(36860700013)(921020)(12100799066);DIR:OUT;SFP:1501;
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2025 04:44:09.7861
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d547939b-942c-4649-5de9-08de176ef77b
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.194];Helo=[flwvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN1PEPF00004685.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR10MB4981
 
-Hi Andr�,
+Hi Paolo,
 
-kernel test robot noticed the following build warnings:
+On 10/28/25 16:27, Paolo Abeni wrote:
+> On 10/23/25 11: 39 AM, Meghana Malladi wrote: > @@ -1200,6 +1218,109 @@ 
+> static int emac_xdp_setup(struct prueth_emac *emac, struct netdev_bpf 
+> *bpf) > return 0; > } > > +static int prueth_xsk_pool_enable(struct 
+> prueth_emac *emac,
+> ZjQcmQRYFpfptBannerStart
+> This message was sent from outside of Texas Instruments.
+> Do not click links or open attachments unless you recognize the source 
+> of this email and know the content is safe.
+> Report Suspicious
+> <https://us-phishalarm-ewt.proofpoint.com/EWT/v1/G3vK! 
+> updqHb0lvOd6ACXFPDODXzFjW2RtkIpblpWr3zui2O2JqWTyRCLKc2i7Pa7uSMBZYpq8H7tTr-jp_nDelg_OUrmNCgZ8_m0$>
+> ZjQcmQRYFpfptBannerEnd
+> 
+> On 10/23/25 11:39 AM, Meghana Malladi wrote:
+>> @@ -1200,6 +1218,109 @@ static int emac_xdp_setup(struct prueth_emac *emac, struct netdev_bpf *bpf)
+>>  	return 0;
+>>  }
+>>  
+>> +static int prueth_xsk_pool_enable(struct prueth_emac *emac,
+>> +				  struct xsk_buff_pool *pool, u16 queue_id)
+>> +{
+>> +	struct prueth_rx_chn *rx_chn = &emac->rx_chns;
+>> +	u32 frame_size;
+>> +	int ret;
+>> +
+>> +	if (queue_id >= PRUETH_MAX_RX_FLOWS ||
+>> +	    queue_id >= emac->tx_ch_num) {
+>> +		netdev_err(emac->ndev, "Invalid XSK queue ID %d\n", queue_id);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	frame_size = xsk_pool_get_rx_frame_size(pool);
+>> +	if (frame_size < PRUETH_MAX_PKT_SIZE)
+>> +		return -EOPNOTSUPP;
+>> +
+>> +	ret = xsk_pool_dma_map(pool, rx_chn->dma_dev, PRUETH_RX_DMA_ATTR);
+>> +	if (ret) {
+>> +		netdev_err(emac->ndev, "Failed to map XSK pool: %d\n", ret);
+>> +		return ret;
+>> +	}
+>> +
+>> +	if (netif_running(emac->ndev)) {
+>> +		/* stop packets from wire for graceful teardown */
+>> +		ret = icssg_set_port_state(emac, ICSSG_EMAC_PORT_DISABLE);
+>> +		if (ret)
+>> +			return ret;
+>> +		prueth_destroy_rxq(emac);
+>> +	}
+>> +
+>> +	emac->xsk_qid = queue_id;
+>> +	prueth_set_xsk_pool(emac, queue_id);
+>> +
+>> +	if (netif_running(emac->ndev)) {
+>> +		ret = prueth_create_rxq(emac);
+> 
+> It looks like this falls short of Jakub's request on v2:
+> 
+> https://urldefense.com/v3/__https://lore.kernel.org/ 
+> netdev/20250903174847.5d8d1c9f@kernel.org/__;!!G3vK! 
+> TxEOF2PZA-2oagU7Gmq2PdyHrceI_sWFRSCMP2meOxVrs8eqStDUSTPi2kyzjva1rgUzQUtYbd9g$ <https://urldefense.com/v3/__https://lore.kernel.org/netdev/20250903174847.5d8d1c9f@kernel.org/__;!!G3vK!TxEOF2PZA-2oagU7Gmq2PdyHrceI_sWFRSCMP2meOxVrs8eqStDUSTPi2kyzjva1rgUzQUtYbd9g$>
+> 
+> about not freeing the rx queue for reconfig.
+> 
 
-[auto build test WARNING on f7d2388eeec24966fc4d5cf32d706f0514f29ac5]
+I tried honoring Jakub's comment to avoid freeing the rx memory wherever 
+necessary.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Apitzsch-via-B4-Relay/media-dt-bindings-Add-qcom-msm8939-camss/20251029-053926
-base:   f7d2388eeec24966fc4d5cf32d706f0514f29ac5
-patch link:    https://lore.kernel.org/r/20251028-camss-8x39-vbif-v7-3-91ee8becda85%40apitzsch.eu
-patch subject: [PATCH v7 3/4] media: qcom: camss: Add support for MSM8939
-config: parisc-randconfig-001-20251030 (https://download.01.org/0day-ci/archive/20251030/202510301103.9EJIzPFp-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251030/202510301103.9EJIzPFp-lkp@intel.com/reproduce)
+"In case of icssg driver, freeing the rx memory is necessary as the
+rx descriptor memory is owned by the cppi dma controller and can be
+mapped to a single memory model (pages/xdp buffers) at a given time.
+In order to remap it, the memory needs to be freed and reallocated."
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510301103.9EJIzPFp-lkp@intel.com/
+> I think you should:
+> - stop the H/W from processing incoming packets,
+> - spool all the pending packets
+> - attach/detach the xsk_pool
+> - refill the ring
+> - re-enable the H/W
+> 
 
-All warnings (new ones prefixed by >>):
+Current implementation follows the same sequence:
+1. Does a channel teardown -> stop incoming traffic
+2. free the rx descriptors from free queue and completion queue -> spool 
+all pending packets/descriptors
+3. attach/detach the xsk pool
+4. allocate rx descriptors and fill the freeq after mapping them to the 
+correct memory buffers -> refill the ring
+5. restart the NAPI - re-enable the H/W to recv the traffic
 
-   drivers/media/platform/qcom/camss/camss.c:4458:3: error: 'const struct camss_resources' has no member named 'link_entities'
-     .link_entities = camss_link_entities
-      ^~~~~~~~~~~~~
->> drivers/media/platform/qcom/camss/camss.c:4458:19: warning: excess elements in struct initializer
-     .link_entities = camss_link_entities
-                      ^~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss.c:4458:19: note: (near initialization for 'msm8939_resources')
+I am still working on skipping 2 and 4 steps but this will be a long 
+shot. Need to make sure all corner cases are getting covered. If this 
+approach looks doable without causing any regressions I might post it as 
+a followup patch later in the future.
 
+> /P
+> 
 
-vim +4458 drivers/media/platform/qcom/camss/camss.c
-
-  4448	
-  4449	static const struct camss_resources msm8939_resources = {
-  4450		.version = CAMSS_8x39,
-  4451		.csiphy_res = csiphy_res_8x39,
-  4452		.csid_res = csid_res_8x39,
-  4453		.ispif_res = &ispif_res_8x39,
-  4454		.vfe_res = vfe_res_8x39,
-  4455		.csiphy_num = ARRAY_SIZE(csiphy_res_8x39),
-  4456		.csid_num = ARRAY_SIZE(csid_res_8x39),
-  4457		.vfe_num = ARRAY_SIZE(vfe_res_8x39),
-> 4458		.link_entities = camss_link_entities
-  4459	};
-  4460	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
