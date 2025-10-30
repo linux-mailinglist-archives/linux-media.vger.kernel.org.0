@@ -1,45 +1,46 @@
-Return-Path: <linux-media+bounces-45984-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45985-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8B93C1F08D
-	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 09:43:24 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id A882DC1F093
+	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 09:43:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 086A91895C81
-	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 08:43:46 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E11864E8523
+	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 08:43:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BE96337BB4;
-	Thu, 30 Oct 2025 08:43:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51D41333757;
+	Thu, 30 Oct 2025 08:43:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="tw0+Yx1k"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oFQqK4Vp"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2EC32D7FB;
-	Thu, 30 Oct 2025 08:43:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4003339710;
+	Thu, 30 Oct 2025 08:43:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761813792; cv=none; b=LoI77nJCTNnHjVJIhhkhnaLHLNHRGOhLrd6VcKvD9nDqUdGm+j1ZgBdq+zZbgw7KSJNnAzE4ngRAtJnAlzDsECcYU7CjfNtvZYT3OoWXE1c7MoT+jZ4Y2CVpFElaWo2fyaCUzQkLmNnYhyYj/oNK3QX0MvVNmIc1gB2Cc8GrNfQ=
+	t=1761813798; cv=none; b=mH+oWB9XhSDsWfLXIrU8RB7c+kV1NBEJ/ZDgIlBw8s4IHLEMDLMJEY5H3NbdtxlryUjLSC2F3lRih9crbg9HuRFYiUc8VmbvxuUrcGnoyqWnB5uLvCQuQpQyQqLZxkRj9+v6k2t4GPDdr174PR7jkD9t9x/gDRkzTV7C60KLtwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761813792; c=relaxed/simple;
-	bh=7DXv/+yb6DWCcHLnxNfR2X8aeHeEvWByVOvzkMI4SbI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FBIpZlOPFcPbW2Ei5HHFLgD6hoAhaBAZByZdlHZIuy5s+QCEr9kicxIQPKoWd9SOSmUc71N2LP9gIUT31fU19TQ3BsEQ+roXjNiDiB3q5NRDRBP8HbFqEIMa6jXVT1jsY9JOd6fQpVgxW/5bqLl5alrwdywHYOb6TpT+QK33X1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=tw0+Yx1k; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1761813798; c=relaxed/simple;
+	bh=f554b4UEqiVHHa37Elp5PwAy1JMUtZkiY0I7rFW4grc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HP9/2Mi0s8w1+WQZ/EjIXJ5Vm5CiCM7069y5Q9AkvfBSj03+qIZ+0CcxfIG5c5IEV1Kr+t/Hp5UEJJYzKdYnX846Lh+ZC3NVTL1/2IPlkbdNp9LDmIlWI5ZjeLf20Ngpk4VryLoZzz1svzBlRHhFWC/Th5+QmXMymJoZvwHAm4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oFQqK4Vp; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c69:314e:ee86:ae6e:30:9d13])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B4305EAE;
-	Thu, 30 Oct 2025 09:41:17 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C1258EAE;
+	Thu, 30 Oct 2025 09:41:23 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1761813678;
-	bh=7DXv/+yb6DWCcHLnxNfR2X8aeHeEvWByVOvzkMI4SbI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=tw0+Yx1ktVV3xTPd5cSN4g2tvXjAeEVG814B21tZyiQWh8fAJ3g96UH1LvEFE/QM6
-	 MAVo2Azzvgdlsf55yPmhDdY66+vx16xTlqMdRxOzvoOWDF/AjVbIluXxNvuGgfjFcM
-	 Q/wPhYytI3qQKUgmuuEpFBwhf8M9i9peB7jCerjI=
+	s=mail; t=1761813684;
+	bh=f554b4UEqiVHHa37Elp5PwAy1JMUtZkiY0I7rFW4grc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=oFQqK4VpPOVJvFfNodFiRl4n8cX4Ew8UkX8Mmo95fDPTDnQbwqKcw/1Sn4Y6oFKW9
+	 wK+ROQ2BFzf0nyOLCarVUsGh8fh/NAYvXqnyY8NB+b06V8Talcx1sZ+SrL3nzQH5eB
+	 farA24Kgd1CIpniO9z36tzeidBIVWORebiSDOp2o=
 From: Jai Luthra <jai.luthra@ideasonboard.com>
 To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -47,11 +48,14 @@ To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
 Cc: linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Umang Jain <uajain@igalia.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
 	Jai Luthra <jai.luthra@ideasonboard.com>
-Subject: [PATCH v4 0/8] media: imx335: Vflip, active state and binning support
-Date: Thu, 30 Oct 2025 14:12:53 +0530
-Message-ID: <20251030-imx335_binning-v4-0-534f82415aa7@ideasonboard.com>
+Subject: [PATCH v4 1/8] media: imx335: Rectify name of mode struct
+Date: Thu, 30 Oct 2025 14:12:54 +0530
+Message-ID: <20251030-imx335_binning-v4-1-534f82415aa7@ideasonboard.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251030-imx335_binning-v4-0-534f82415aa7@ideasonboard.com>
+References: <20251030-imx335_binning-v4-0-534f82415aa7@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -59,72 +63,48 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-X-Change-ID: 20250606-imx335_binning-d43dce921b0a
 Content-Transfer-Encoding: 8bit
 
-From: Umang Jain <uajain@igalia.com>
+From: Umang Jain <umang.jain@ideasonboard.com>
 
-Hi,
+In commit 81495a59baeb ("media: imx335: Fix active area height
+discrepency") the height for the mode struct was rectified to '1944'.
+However, the name of mode struct is still reflecting to '1940'. Update
+it.
 
-This series adds support for 2x2 binning mode for Sony IMX335, along
-with some improvements like using subdev active state, using
-{enable,disable}_streams APIs and fixing the native pixel array width to
-match the datasheet.
-
-These changes are done on top of a couple of already reviewed patches
-from Umang's series from last year that added support for vertical flip [1]
-
-[1]: https://lore.kernel.org/all/20240830062639.72947-1-umang.jain@ideasonboard.com/
-
-There is some WIP to make the resolution freely configurable:
- - [x] Add support for a cropped mode (1944x1100)
- - [ ] Fix exposure timing limits when cropping
- - [ ] Add support for a cropped binned mode
- - [ ] Make it freely configurable (depends on new control for binning)
-
-Available in the branch here:
-https://github.com/jailuthra/linux/commits/imx335_binning
-
+Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+Reviewed-by: Tommaso Merciai <tomm.merciai@gmail.com>
+Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
 ---
-Changes in v4:
-- Simplify imx335_update_vertical_flip() as Sakari suggested
-- Rebase on top of v6.18-rc1
-- Link to v3: https://lore.kernel.org/r/20250915-imx335_binning-v3-0-16ecabf2090d@ideasonboard.com
+ drivers/media/i2c/imx335.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Changes in v3:
-- Drop extra commas in reglist
-- Fix checkpatch check for wrong indentation in disable_streams
-- Add Kieran's R-by tags
-- Link to v2: https://lore.kernel.org/r/20250911-imx335_binning-v2-0-30a28df74df6@ideasonboard.com
+diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
+index c043df2f15fb25b3a56422092f99a1fd9a508fa9..213cfb7276611f522db0643186f25a8fef3c39db 100644
+--- a/drivers/media/i2c/imx335.c
++++ b/drivers/media/i2c/imx335.c
+@@ -252,7 +252,7 @@ static const int imx335_tpg_val[] = {
+ };
+ 
+ /* Sensor mode registers */
+-static const struct cci_reg_sequence mode_2592x1940_regs[] = {
++static const struct cci_reg_sequence mode_2592x1944_regs[] = {
+ 	{ IMX335_REG_MODE_SELECT, IMX335_MODE_STANDBY },
+ 	{ IMX335_REG_MASTER_MODE, 0x00 },
+ 	{ IMX335_REG_WINMODE, 0x04 },
+@@ -416,8 +416,8 @@ static const struct imx335_mode supported_mode = {
+ 	.vblank_max = 133060,
+ 	.pclk = 396000000,
+ 	.reg_list = {
+-		.num_of_regs = ARRAY_SIZE(mode_2592x1940_regs),
+-		.regs = mode_2592x1940_regs,
++		.num_of_regs = ARRAY_SIZE(mode_2592x1944_regs),
++		.regs = mode_2592x1944_regs,
+ 	},
+ };
+ 
 
-Changes in v2:
-- Split runtime PM re-ordering from the patch introducing state support
-- Use v4l2_rect instead of macros for sensor native and crop sizes
-- Add new patch to introduce enable/disable streams API support with
-  s_stream fallback helper
-- Link to v1: https://lore.kernel.org/r/20250813-imx335_binning-v1-0-a42b687d8541@ideasonboard.com
-
----
-Jai Luthra (6):
-      media: imx335: Update the native pixel array width
-      media: imx335: Update HBLANK range on mode change
-      media: imx335: Handle runtime PM in leaf functions
-      media: imx355: Use subdev active state
-      media: imx335: Support 2x2 binning
-      media: imx335: Switch to {enable,disable}_streams
-
-Umang Jain (2):
-      media: imx335: Rectify name of mode struct
-      media: imx335: Support vertical flip
-
- drivers/media/i2c/imx335.c | 509 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++------------------------------------------------
- 1 file changed, 340 insertions(+), 169 deletions(-)
----
-base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
-change-id: 20250606-imx335_binning-d43dce921b0a
-
-Best regards,
 -- 
-Jai Luthra <jai.luthra@ideasonboard.com>
+2.51.0
 
