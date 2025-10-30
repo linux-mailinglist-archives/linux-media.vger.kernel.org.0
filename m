@@ -1,170 +1,446 @@
-Return-Path: <linux-media+bounces-45996-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45997-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6949C1F589
-	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 10:40:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4427BC1F9F2
+	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 11:44:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 942A14E9000
-	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 09:39:58 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 6CF824EB9B6
+	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 10:43:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBD5E342170;
-	Thu, 30 Oct 2025 09:39:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29F35338912;
+	Thu, 30 Oct 2025 10:43:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZkUPRZzm"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UTKlwLDW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA1C1DF742
-	for <linux-media@vger.kernel.org>; Thu, 30 Oct 2025 09:39:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914FF3358CE
+	for <linux-media@vger.kernel.org>; Thu, 30 Oct 2025 10:43:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761817149; cv=none; b=mRDfG/RkraUUJI+k8uJK2EOTjF7t318qgzxEWe210R9ryEqnT6BWCgiQX5mByfKGGj9S5Ju4LwajAxLdbmCyaokSRM0SEBiCwzUzsdj2jDw0Q+1FRBV6HUUd4V0IzNTblzhnZ0C6aAaQHAZ3FC/gKGXIvmeDaS66X3XX1MrZt9E=
+	t=1761820998; cv=none; b=sU48Uf8mGaeh208Lf136kkoTs7YYt91kRthqO4W5KRFgY+121rDmWemSP4DOEo1dBN/AOVf9V8SCgoNw6Q7LfRKLJFIyRTeJZkeIYFj2JMNQYwvaHXRZcyoFHmnAfXR2iZCtVzP7RPp8ZmNalTGbXD1E6Q1gnzbVS4PnLNDEXOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761817149; c=relaxed/simple;
-	bh=lsJrna+6v8B5ycy8lWZ140CQsYRFyXUXZV/1T6CbUmE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VoiPzDlax1Ipk8YdzUFN5P+MrraPqp+9zxgrQz49IYO4xZDCyNEUK7WmrsIRV5Ycamw+ofuGgbofUi1TtfL+iTKqtpHiSIgxns8W63v1IBrxZFu5CGfBQS7jvfzZ1s/EE7b5OVlkufvNGrW99tfR/16wnJoZwvP+m8iuIhlXSlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZkUPRZzm; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761817147; x=1793353147;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lsJrna+6v8B5ycy8lWZ140CQsYRFyXUXZV/1T6CbUmE=;
-  b=ZkUPRZzm7g3ffdWtkkvHu5BmUc8FnuY6uC2qcwb6Mqyek5PgH+DMK0gT
-   LuIGnI0CEFuQhsZFx+D2APBeJL6Nvv3kZebkJk0ap2sF+6p0hj/Tzzvju
-   6LauktlLEjnWLNvjqVIRRms+FFNK3yB8xvY3128IOgKKBhv1RjD54ApNX
-   dcK10TVq/LG5MBWtgYLI2s4d+18qULG5clEKd0RS8G9jXn0QwqHloa26s
-   1HZbxCL8obuXWH0KWrfScqazDpMj6HKXPLY6CC3mvXJOzVXCySVj61caP
-   JOZ79SFMbQL6SpaBjRzfrC4CbBR3wOmAkpQXahe6TnxqQpypY4MNUBf5T
-   Q==;
-X-CSE-ConnectionGUID: hi29gpy/QUy+bLDfK4bZyg==
-X-CSE-MsgGUID: SAj46yIXT1KLSNbeOV26iw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="63986677"
-X-IronPort-AV: E=Sophos;i="6.19,266,1754982000"; 
-   d="scan'208";a="63986677"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 02:39:07 -0700
-X-CSE-ConnectionGUID: Lz51S/11QiefE5DysvUfyw==
-X-CSE-MsgGUID: S/SDhnCfTzKq3HdDz8orKA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,266,1754982000"; 
-   d="scan'208";a="186353329"
-Received: from bergbenj-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.176])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 02:39:05 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id E6A18121E1E;
-	Thu, 30 Oct 2025 11:39:02 +0200 (EET)
-Date: Thu, 30 Oct 2025 11:39:02 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCHv2] media: v4l2-event: keep place in event list when
- combining events
-Message-ID: <aQMyNttmOOVCBRym@kekkonen.localdomain>
-References: <d4319e94-15c5-43a6-9bab-b9eb1d6c0d7c@kernel.org>
- <aQMl32qFeMNmG598@kekkonen.localdomain>
- <79f4a4f2-a7b9-4ee6-af29-6e9970d2ed7a@kernel.org>
+	s=arc-20240116; t=1761820998; c=relaxed/simple;
+	bh=M5LN/CfuYlAsOGMOcCsGJW78k1Ii/25HikD9T71XSMY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=o11qDYD8yQJBwdkcJxjwFInCRvMsfbcegRxSJZTD8PzqEob9uSTztX3jvbTrXrdyn/z7kxGaFknAufZPjISzCrlUZqt/bKK0rknDDT1Y9hNr/9aXTDZE/ymdrIoYisP0T3Lek8ol1cn6i2CizBe4O6m7I/N+5F3DD8ZOSkg6I18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UTKlwLDW; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-47109187c32so4787865e9.2
+        for <linux-media@vger.kernel.org>; Thu, 30 Oct 2025 03:43:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1761820995; x=1762425795; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PZ75iMivqNNhr/B3CKSu8v6BPgomwit/xVK0FAim4i8=;
+        b=UTKlwLDWXrF1jGfA441q7zoGt1F4sk8SJe7xZXFQtDkXtDnnRBSe84swpMvsJNwpX9
+         tQ1Mqr+HPcLwImDMLRkhA0K+V/jSRKY/YQ2rmOovmrAxZCNr+8RSJFCKS1zBJmDw4EQY
+         4oegkPBi9GMYfLowcgYD5XaU8vnB/OxgG9N1hl5eKaQSrF3pCVBCBSRCzqmSHE1Fje3A
+         K0BY8zGlpGNTIvWkQHSXETfnhenDn/eYn9y2K1PE+yPz7bB4EIx3Hzv/9dYRV76ckT0G
+         t2BbU06YQnXDYnByirt/WftYucu5pNRnxELMKS+zgs7KdXYRe7Fo+SjJbSpCQBH424YE
+         HCFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761820995; x=1762425795;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PZ75iMivqNNhr/B3CKSu8v6BPgomwit/xVK0FAim4i8=;
+        b=SOElUGbIANJheWZgbR5pMkFGKmlmnCGUWWSkBuQqGAcDof/ZR7WWW7nPhnqMtQEiSN
+         nLvoj4fH8SRf6PcyY/tfVpPt2oI1oYPMI8C0k71fQprzZGu+0X/qf7N/22Pi5C0wY0nM
+         bVgXfSA+mNaQraLEKF6iHAxe8AOjPGoEReoETdx8HpoHQvxn7fwqgGjpV+X1jiqFmQbb
+         CMK9m3izdqLozRQ3qEFuLARcigOajCwe//wii1idQmp2eWPtLbB8FSRpimf61jhTrwUa
+         UG3tKBD/pJ+oZsEwxBg+mHGeCPGsuZaBDglvglL1CqVE6iBk35iC1pQd5tHAo6X0koPd
+         epeg==
+X-Forwarded-Encrypted: i=1; AJvYcCVzWbDXw6ZPWWvBYCXDOiECDr1OLc4Sj4xAyCDCkV2eXhvwwhthp8PXGZQZjG4ANNpESaL4kmApi+Cflg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwOMJ1N8hPqV05gFC2rx2xtqD8gEEYAx33ek5FwpPfZckcMmxqY
+	dHMCe2ADuYGOZE7z7BOCGsY4+jWXgajolNjkuQdiJEO1boOB2OZ0shu1FaB2p8EkcaQ=
+X-Gm-Gg: ASbGncsTh/BymsPV9mMiO3q7L2BHbrKktGMcL9AxvPxCg6R6e4EGY14lrJ0SxDJAuju
+	EeWRtyxsuUEEMDHA+hOKGbyLGtq2oPdaL97yHWs4a1b6ioQNjVKI0WoGvBu/PT0ZOqjCucA7LfC
+	fd1UR4LM5LvBZRA5stNfZ73CcDLJ0p97AtpybI9VTSjn5Qww+RmvTzT59vXS29xlC9eu+TMJHHw
+	SaN+05C/9wuPkjPV4NG684kGQTEpxtAEvvKYnLavvp6q3B/UM/kDDFOv32IhJW96PVPv0sGuqAb
+	mVtrK7w9i9CzhOVNpYl1nrUg4tzJyZIMR7/8JJmV8FbuCMwZPjj4hmzn2NC/xQMKawZU963B8e9
+	172yTySj0hc7JunO5dtd4Spk7IenS5y/MAo0etm4vtEsRW5A6e6yz3GCD+/uLDcOtG5nOB72VVt
+	LWid0CpOLdMfExRBBijDgiijDXMt+fhFv17dRrTBA5GQ==
+X-Google-Smtp-Source: AGHT+IEJDT+VEOtWM3AxIaDKwce/lsT2ux+ORGMFhB1JqWFm8K6YO+34rU/7eFruiB0UUjJVBwoLyg==
+X-Received: by 2002:a5d:584b:0:b0:429:ba8a:a860 with SMTP id ffacd0b85a97d-429ba8aa933mr651765f8f.12.1761820994810;
+        Thu, 30 Oct 2025 03:43:14 -0700 (PDT)
+Received: from [192.168.0.21] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952db9d1sm30898105f8f.35.2025.10.30.03.43.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Oct 2025 03:43:14 -0700 (PDT)
+Message-ID: <eeba18d3-089b-4874-b473-6238a9cd23ea@linaro.org>
+Date: Thu, 30 Oct 2025 10:43:12 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <79f4a4f2-a7b9-4ee6-af29-6e9970d2ed7a@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/3] arm64: dts: qcom: qcs8300: Add CCI definitions
+To: Vikram Sharma <quic_vikramsa@quicinc.com>, mchehab@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ andersson@kernel.org, konradybcio@kernel.org, hverkuil-cisco@xs4all.nl,
+ cros-qcom-dts-watchers@chromium.org, catalin.marinas@arm.com, will@kernel.org
+Cc: linux-arm-kernel@lists.infradead.org, quic_svankada@quicinc.com,
+ quic_nihalkum@quicinc.com, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Ravi Shankar <quic_rshankar@quicinc.com>,
+ Vishal Verma <quic_vishverm@quicinc.com>
+References: <20251015131303.2797800-1-quic_vikramsa@quicinc.com>
+ <20251015131303.2797800-3-quic_vikramsa@quicinc.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <20251015131303.2797800-3-quic_vikramsa@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Hans,
+On 15/10/2025 14:13, Vikram Sharma wrote:
+> From: Nihal Kumar Gupta <quic_nihalkum@quicinc.com>
+> 
+> Qualcomm QCS8300 SoC contains 3 Camera Control Interface (CCI). Compared
+> to lemans, the key difference is in SDA/SCL GPIO assignments and number
+> of CCIs.
+> 
+> Co-developed-by: Ravi Shankar <quic_rshankar@quicinc.com>
+> Signed-off-by: Ravi Shankar <quic_rshankar@quicinc.com>
+> Co-developed-by: Vishal Verma <quic_vishverm@quicinc.com>
+> Signed-off-by: Vishal Verma <quic_vishverm@quicinc.com>
+> Co-developed-by: Suresh Vankadara <quic_svankada@quicinc.com>
+> Signed-off-by: Suresh Vankadara <quic_svankada@quicinc.com>
+> Signed-off-by: Nihal Kumar Gupta <quic_nihalkum@quicinc.com>
+> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+> ---
+>   arch/arm64/boot/dts/qcom/qcs8300.dtsi | 303 ++++++++++++++++++++++++++
+>   1 file changed, 303 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/qcs8300.dtsi b/arch/arm64/boot/dts/qcom/qcs8300.dtsi
+> index 75fafbcea845..8f2b5f40ce14 100644
+> --- a/arch/arm64/boot/dts/qcom/qcs8300.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/qcs8300.dtsi
+> @@ -4769,6 +4769,117 @@ videocc: clock-controller@abf0000 {
+>   			#power-domain-cells = <1>;
+>   		};
+>   
+> +		cci0: cci@ac13000 {
+> +			compatible = "qcom,qcs8300-cci", "qcom,msm8996-cci";
+> +			reg = <0x0 0x0ac13000 0x0 0x1000>;
+> +
+> +			interrupts = <GIC_SPI 460 IRQ_TYPE_EDGE_RISING>;
+> +
+> +			clocks = <&camcc CAM_CC_CPAS_AHB_CLK>,
+> +				 <&camcc CAM_CC_CCI_0_CLK>;
+> +			clock-names = "cpas_ahb",
+> +				      "cci";
+> +
+> +			power-domains = <&camcc CAM_CC_TITAN_TOP_GDSC>;
+> +
+> +			pinctrl-0 = <&cci0_i2c0_default &cci0_i2c1_default>;
+> +			pinctrl-1 = <&cci0_i2c0_sleep &cci0_i2c1_sleep>;
+> +			pinctrl-names = "default", "sleep";
+> +
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +
+> +			status = "disabled";
+> +
+> +			cci0_i2c0: i2c-bus@0 {
+> +				reg = <0>;
+> +				clock-frequency = <1000000>;
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +			};
+> +
+> +			cci0_i2c1: i2c-bus@1 {
+> +				reg = <1>;
+> +				clock-frequency = <1000000>;
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +			};
+> +		};
+> +
+> +		cci1: cci@ac14000 {
+> +			compatible = "qcom,qcs8300-cci", "qcom,msm8996-cci";
+> +			reg = <0x0 0x0ac14000 0x0 0x1000>;
+> +
+> +			interrupts = <GIC_SPI 271 IRQ_TYPE_EDGE_RISING>;
+> +
+> +			clocks = <&camcc CAM_CC_CPAS_AHB_CLK>,
+> +				 <&camcc CAM_CC_CCI_1_CLK>;
+> +			clock-names = "cpas_ahb",
+> +				      "cci";
+> +
+> +			power-domains = <&camcc CAM_CC_TITAN_TOP_GDSC>;
+> +
+> +			pinctrl-0 = <&cci1_i2c0_default &cci1_i2c1_default>;
+> +			pinctrl-1 = <&cci1_i2c0_sleep &cci1_i2c1_sleep>;
+> +			pinctrl-names = "default", "sleep";
+> +
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +
+> +			status = "disabled";
+> +
+> +			cci1_i2c0: i2c-bus@0 {
+> +				reg = <0>;
+> +				clock-frequency = <1000000>;
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +			};
+> +
+> +			cci1_i2c1: i2c-bus@1 {
+> +				reg = <1>;
+> +				clock-frequency = <1000000>;
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +			};
+> +		};
+> +
+> +		cci2: cci@ac15000 {
+> +			compatible = "qcom,qcs8300-cci", "qcom,msm8996-cci";
+> +			reg = <0x0 0x0ac15000 0x0 0x1000>;
+> +
+> +			interrupts = <GIC_SPI 651 IRQ_TYPE_EDGE_RISING>;
+> +
+> +			clocks = <&camcc CAM_CC_CPAS_AHB_CLK>,
+> +				 <&camcc CAM_CC_CCI_2_CLK>;
+> +			clock-names = "cpas_ahb",
+> +				      "cci";
+> +
+> +			power-domains = <&camcc CAM_CC_TITAN_TOP_GDSC>;
+> +
+> +			pinctrl-0 = <&cci2_i2c0_default &cci2_i2c1_default>;
+> +			pinctrl-1 = <&cci2_i2c0_sleep &cci2_i2c1_sleep>;
+> +			pinctrl-names = "default", "sleep";
+> +
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +
+> +			status = "disabled";
+> +
+> +			cci2_i2c0: i2c-bus@0 {
+> +				reg = <0>;
+> +				clock-frequency = <1000000>;
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +			};
+> +
+> +			cci2_i2c1: i2c-bus@1 {
+> +				reg = <1>;
+> +				clock-frequency = <1000000>;
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +			};
+> +		};
+> +
+>   		camss: isp@ac78000 {
+>   			compatible = "qcom,qcs8300-camss";
+>   
+> @@ -5063,6 +5174,198 @@ tlmm: pinctrl@f100000 {
+>   			#interrupt-cells = <2>;
+>   			wakeup-parent = <&pdc>;
+>   
+> +			cci0_i2c0_default: cci0-0-default-state {
+> +				sda-pins {
+> +					pins = "gpio57";
+> +					function = "cci_i2c_sda";
+> +					drive-strength = <2>;
+> +					bias-pull-up = <2200>;
+> +				};
+> +
+> +				scl-pins {
+> +					pins = "gpio58";
+> +					function = "cci_i2c_scl";
+> +					drive-strength = <2>;
+> +					bias-pull-up = <2200>;
+> +				};
+> +			};
+> +
+> +			cci0_i2c0_sleep: cci0-0-sleep-state {
+> +				sda-pins {
+> +					pins = "gpio57";
+> +					function = "cci_i2c_sda";
+> +					drive-strength = <2>;
+> +					bias-pull-down;
+> +				};
+> +
+> +				scl-pins {
+> +					pins = "gpio58";
+> +					function = "cci_i2c_scl";
+> +					drive-strength = <2>;
+> +					bias-pull-down;
+> +				};
+> +			};
+> +
+> +			cci0_i2c1_default: cci0-1-default-state {
+> +				sda-pins {
+> +					pins = "gpio29";
+> +					function = "cci_i2c_sda";
+> +					drive-strength = <2>;
+> +					bias-pull-up = <2200>;
+> +				};
+> +
+> +				scl-pins {
+> +					pins = "gpio30";
+> +					function = "cci_i2c_scl";
+> +					drive-strength = <2>;
+> +					bias-pull-up = <2200>;
+> +				};
+> +			};
+> +
+> +			cci0_i2c1_sleep: cci0-1-sleep-state {
+> +				sda-pins {
+> +					pins = "gpio29";
+> +					function = "cci_i2c_sda";
+> +					drive-strength = <2>;
+> +					bias-pull-down;
+> +				};
+> +
+> +				scl-pins {
+> +					pins = "gpio30";
+> +					function = "cci_i2c_scl";
+> +					drive-strength = <2>;
+> +					bias-pull-down;
+> +				};
+> +			};
+> +
+> +			cci1_i2c0_default: cci1-0-default-state {
+> +				sda-pins {
+> +					pins = "gpio59";
+> +					function = "cci_i2c_sda";
+> +					drive-strength = <2>;
+> +					bias-pull-up = <2200>;
+> +				};
+> +
+> +				scl-pins {
+> +					pins = "gpio60";
+> +					function = "cci_i2c_scl";
+> +					drive-strength = <2>;
+> +					bias-pull-up = <2200>;
+> +				};
+> +			};
+> +
+> +			cci1_i2c0_sleep: cci1-0-sleep-state {
+> +				sda-pins {
+> +					pins = "gpio59";
+> +					function = "cci_i2c_sda";
+> +					drive-strength = <2>;
+> +					bias-pull-down;
+> +				};
+> +
+> +				scl-pins {
+> +					pins = "gpio60";
+> +					function = "cci_i2c_scl";
+> +					drive-strength = <2>;
+> +					bias-pull-down;
+> +				};
+> +			};
+> +
+> +			cci1_i2c1_default: cci1-1-default-state {
+> +				sda-pins {
+> +					pins = "gpio31";
+> +					function = "cci_i2c_sda";
+> +					drive-strength = <2>;
+> +					bias-pull-up = <2200>;
+> +				};
+> +
+> +				scl-pins {
+> +					pins = "gpio32";
+> +					function = "cci_i2c_scl";
+> +					drive-strength = <2>;
+> +					bias-pull-up = <2200>;
+> +				};
+> +			};
+> +
+> +			cci1_i2c1_sleep: cci1-1-sleep-state {
+> +				sda-pins {
+> +					pins = "gpio31";
+> +					function = "cci_i2c_sda";
+> +					drive-strength = <2>;
+> +					bias-pull-down;
+> +				};
+> +
+> +				scl-pins {
+> +					pins = "gpio32";
+> +					function = "cci_i2c_scl";
+> +					drive-strength = <2>;
+> +					bias-pull-down;
+> +				};
+> +			};
+> +
+> +			cci2_i2c0_default: cci2-0-default-state {
+> +				sda-pins {
+> +					pins = "gpio61";
+> +					function = "cci_i2c_sda";
+> +					drive-strength = <2>;
+> +					bias-pull-up = <2200>;
+> +				};
+> +
+> +				scl-pins {
+> +					pins = "gpio62";
+> +					function = "cci_i2c_scl";
+> +					drive-strength = <2>;
+> +					bias-pull-up = <2200>;
+> +				};
+> +			};
+> +
+> +			cci2_i2c0_sleep: cci2-0-sleep-state {
+> +				sda-pins {
+> +					pins = "gpio61";
+> +					function = "cci_i2c_sda";
+> +					drive-strength = <2>;
+> +					bias-pull-down;
+> +				};
+> +
+> +				scl-pins {
+> +					pins = "gpio62";
+> +					function = "cci_i2c_scl";
+> +					drive-strength = <2>;
+> +					bias-pull-down;
+> +				};
+> +			};
+> +
+> +			cci2_i2c1_default: cci2-1-default-state {
+> +				sda-pins {
+> +					pins = "gpio54";
+> +					function = "cci_i2c_sda";
+> +					drive-strength = <2>;
+> +					bias-pull-up = <2200>;
+> +				};
+> +
+> +				scl-pins {
+> +					pins = "gpio55";
+> +					function = "cci_i2c_scl";
+> +					drive-strength = <2>;
+> +					bias-pull-up = <2200>;
+> +				};
+> +			};
+> +
+> +			cci2_i2c1_sleep: cci2-1-sleep-state {
+> +				sda-pins {
+> +					pins = "gpio54";
+> +					function = "cci_i2c_sda";
+> +					drive-strength = <2>;
+> +					bias-pull-down;
+> +				};
+> +
+> +				scl-pins {
+> +					pins = "gpio55";
+> +					function = "cci_i2c_scl";
+> +					drive-strength = <2>;
+> +					bias-pull-down;
+> +				};
+> +			};
+> +
+>   			hs0_mi2s_active: hs0-mi2s-active-state {
+>   				pins = "gpio106", "gpio107", "gpio108", "gpio109";
+>   				function = "hs0_mi2s";
 
-On Thu, Oct 30, 2025 at 10:07:49AM +0100, Hans Verkuil wrote:
-> On 10/30/25 09:46, Sakari Ailus wrote:
-> > Hi Hans,
-> > 
-> > On Fri, Oct 10, 2025 at 01:35:02PM +0200, Hans Verkuil wrote:
-> >> When subscribing to an event a fixed circular buffer of N (N >= 1) events
-> >> is allocated for that file handle.
-> >>
-> >> New events of the same type are added to that buffer and eventually the
-> >> oldest event is removed from the buffer when VIDIOC_DQEVENT is called.
-> >>
-> >> If the circular buffer is full, then the event framework will
-> >> merge the two oldest events (what 'merge' means is event type
-> >> specific).
-> >>
-> >> So far, so good.
-> >>
-> >> There is also a per-filehandle list of pending events for all event
-> >> types. VIDIOC_DQEVENT always dequeues the oldest of that event list,
-> >> and that event is removed from the corresponding circular buffer.
-> >>
-> >> The problem occurs when the circular buffer is full and a new event
-> >> arrives. Then the two oldest events are merged, but instead of
-> >> keeping the position in the list of pending events, the merged
-> >> event is added to the *end* of the list of pending events.
-> >>
-> >> So if a lot of events are generated, then events can continually
-> >> be pushed to the end of the list of pending events, and so are never
-> >> or much later dequeued by the application.
-> >>
-> >> Effectively this is a denial-of-service situation were the
-> >> event is never seen by the application even though there are
-> >> actually a lot of events.
-> >>
-> >> So if you subscribe to events from control A and B, then
-> >> change control A, then change control B, then change control A
-> >> again, and now call VIDIOC_DQEVENT, you will get the event from
-> >> control B followed by A, even though A was changed first.
-> >>
-> >> This patch keeps the oldest event in its place in the 'pending
-> >> events' list rather then moving it to the end, and in the test
-> >> above you will now receive the event from control A first.
-> > 
-> > Typically events are queued faster than they're generated, it is an
-> 
-> You mean 'dequeued' instead of 'queued'?
-> 
-> > exception when they are not. The application certainly won't work very well
-> > if it consumes events slower than they're produced, whether or not the
-> > ordering of events fits for the use case.
-> 
-> The problem isn't the application, the problem is that with the current
-> code events never reach the application, they can be continuously pushed
-> back to the end of the queue. This is not theory, it's how I discovered
-> something was wrong. Some events were delayed by seconds.
-> 
-> > For instance, for frame sync events, the latest event is more relevant than
-> > than earlier such events and the latest event should be kept instead of an
-> > earlier event. I wouldn't change this, or alternatively I'd make it
-> > dependent on the event type, but in I wonder if that's worth the
-> > complexity.
-> 
-> This might be an option. Another option is to extend struct v4l2_event_subscription:
-> a flag that says how to handle this specific case (drop the oldest event or
-> update the contents of the oldest event), and a field to set the size of the
-> queue for that event.
-> 
-> Right now the number of events for a (type, id) tuple is set by the driver,
-> but for situations like this it can be useful to be able to configure it by
-> the application.
-> 
-> It would certainly help if I can configure this for the specific use-case I am
-> dealing with.
-
-Sounds good to me, implementation-wise. But to benefit from that,
-applications would need to set the flag. If that's enough, then we don't
-need e.g. defaults per event type (and don't need another flag).
-
--- 
-Sakari Ailus
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
