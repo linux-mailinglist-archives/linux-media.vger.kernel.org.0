@@ -1,114 +1,120 @@
-Return-Path: <linux-media+bounces-45974-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45975-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 455F6C1EB75
-	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 08:15:53 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6118BC1EBC5
+	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 08:25:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 16EE0188B4C3
-	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 07:15:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8998E1892C3F
+	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 07:25:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA40D3358DE;
-	Thu, 30 Oct 2025 07:14:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6F55336EFB;
+	Thu, 30 Oct 2025 07:25:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uZWhqEE0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BRes+EpO"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E3973358B6;
-	Thu, 30 Oct 2025 07:14:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 206A0336EDE;
+	Thu, 30 Oct 2025 07:25:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761808489; cv=none; b=cXoBLoTykOFK6tB64lg2YIPSKWeIty4Y9KGnc6xueuF4tOSzRmpPtuwjBsavpoo6KyIFbGj17Y45U6LVBY/T2RMAgEI4v/n+DXZ9wAwCnPlM2UY0KqWVnZzIcd+rgspeZLAlt1BLGvWfne4y9qLHxzNaJSAUMG2yjCxRJokJ864=
+	t=1761809107; cv=none; b=VzawoC7FKcijDAGSQfu013qrzFDvxJ5mUjzCqRVrpO+eBpLosJfBkXuiviFjK3b0r2qeCOSzWynpN2R4SB7iFqonFRWzqhOhUdDbfuFhHpKsWZYNpfn98xWzDgGovlpYxSXrOf1HxlYtaPHUdNcLRU/X1k392SV2lB+N22LDIaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761808489; c=relaxed/simple;
-	bh=WD77tKmKY5w/O3RSmdbBKzMTfY9r3GWRp/ahnOefiNs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VlleM7MotzJnoQhweWMpiqz+iUWieh7H5O8z5IQZhJo+Arb6C4bXI/o/DxELkZC4KcyEhpg7xH0nNY9dmIlSNHCAg/uusDMgryifTsPdZcxgFstN7zWUIWDff7SkyHDcPVoGU26k613B3mPUtRVPaGxmhDob7dtCfm4bTqxvRhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uZWhqEE0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E68FC4CEF1;
-	Thu, 30 Oct 2025 07:14:47 +0000 (UTC)
+	s=arc-20240116; t=1761809107; c=relaxed/simple;
+	bh=0rIugVszyT34QGRppHHd9SZR9iNqZFH+IuaNiT3T9+8=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=SvGCw0zIpbRLe9LYVfxJeAP9fClBCsGB63ELz7EZ5MWD3Eosq5vRuN+2ltaVq8xhr5+cKwXdtxSPlWIhrogKbb93nv9+PyOu0v0qhHRdpmhbWAhSuZwXdoIovze8UFXK3KgyEFQilWdh79STRSJYseWlEx+M0GCJ1qjY4G7D+Ig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BRes+EpO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82701C4CEF1;
+	Thu, 30 Oct 2025 07:25:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761808487;
-	bh=WD77tKmKY5w/O3RSmdbBKzMTfY9r3GWRp/ahnOefiNs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uZWhqEE0v7kucYmOBKf4QRFYMQNGZdv1nhvKJf6bTHAzDO/zoYGErGf3GJYri/+BL
-	 kdt5Ra0vTF49aIJ7jy1FsMYcIPPGfcXe7M2BM9xWUpVBnykxZAF68WOsLAC0OWJjKJ
-	 3M84yufh+vT+sPy1B3V6kM+/8PWmrgoPwhNcMxWESbkUCYdH04Ls1iqH42SE9XR+T6
-	 UeQyn7v+tL/i40hov1XsBgkNbq6xeEhbk2RIqWALUZjoNkprcX8RAssZS6LO6vA8pf
-	 uVqfcfUizMT7drZWB9oqZbCWm/0QR7erp0XfyPOCKgIoEydKj9mTwa0wP+7Y0UcnfH
-	 Kaf27Ts3m9jDA==
-Date: Thu, 30 Oct 2025 08:14:45 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
-Cc: Loic Poulain <loic.poulain@oss.qualcomm.com>, 
-	Robert Foss <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>, linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	aiqun.yu@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com, trilok.soni@oss.qualcomm.com, 
-	yijie.yang@oss.qualcomm.com, Jingyi Wang <jingyi.wang@oss.qualcomm.com>, 
-	Atiya Kailany <atiya.kailany@oss.qualcomm.com>
-Subject: Re: [PATCH v4 0/6] media: qcom: camss: Add Kaanapali support
-Message-ID: <20251030-tody-of-strongest-wizardry-1f7c8e@kuoka>
-References: <20251028-add-support-for-camss-on-kaanapali-v4-0-7eb484c89585@oss.qualcomm.com>
+	s=k20201202; t=1761809104;
+	bh=0rIugVszyT34QGRppHHd9SZR9iNqZFH+IuaNiT3T9+8=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=BRes+EpOEwjryV0Z8sofpJLsQT18kgdgVRmN0yF7WYWYjOqslFATDklrk7PMRbSr9
+	 iSOs6bU7aSsc2JDNXNlnxaazpGbttXSYTDuSXVG0BxWn91fQdrE1jScQNOwK/NFx+2
+	 oDnz9NsxyaVOqfcNuCwKDAqouFNG1qIzV+5j6j2DmJQ2YO4mAC7bCTu6JvldluiQZp
+	 DUgaczZnA9YZfXjPMdGpDP472EbCVWbbefGyks3zxWA5Grlk92hjsULkokfKYO6FFi
+	 WDjtcJ/2g0RGLVzBMBpeW9zsG4NEqaAyU4YYtarexsUMAYTaXasfsBwXwakl12ZlAT
+	 YgOi5KjpIdvxg==
+Message-ID: <b573d80c-bd93-4592-86b4-e6c398d5862e@kernel.org>
+Date: Thu, 30 Oct 2025 08:24:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251028-add-support-for-camss-on-kaanapali-v4-0-7eb484c89585@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH v1 1/6] media: vidtv: Rename PI definition to PI_SAMPLES
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-iio@vger.kernel.org, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Cc: Jonathan Cameron <jic23@kernel.org>, David Lechner
+ <dlechner@baylibre.com>, =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ Andy Shevchenko <andy@kernel.org>, Benson Leung <bleung@chromium.org>,
+ Guenter Roeck <groeck@chromium.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+References: <20251027143850.2070427-1-andriy.shevchenko@linux.intel.com>
+ <20251027143850.2070427-2-andriy.shevchenko@linux.intel.com>
+Content-Language: en-US, nl
+In-Reply-To: <20251027143850.2070427-2-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Oct 28, 2025 at 10:44:09PM -0700, Hangxiang Ma wrote:
-> Add support for the RDI only CAMSS camera driver on Kaanapali. Enabling
-> RDI path involves adding the support for a set of CSIPHY, CSID and TFE
-> modules, with each TFE having multiple RDI ports. This hardware
-> architecture requires 'qdss_debug_xo' clock for CAMNOC to be functional.
+On 27/10/2025 15:34, Andy Shevchenko wrote:
+> The definition of PI in the driver is not the actual value in radians,
+> but rather degrees. Since we are going to have a value in radians
+> defined in a global header, rename this definition to avoid potential
+> collisions. No functional changes.
 > 
-> Kaanapali camera sub system provides
-> 
-> - 3 x VFE, 5 RDI per VFE
-> - 2 x VFE Lite, 4 RDI per VFE Lite
-> - 3 x CSID
-> - 2 x CSID Lite
-> - 6 x CSI PHY
-> 
-> This series has been tested using the following commands with a
-> downstream driver for S5KJN5 sensor.
-> 
-> - media-ctl --reset
-> - media-ctl -V '"msm_csiphy2":0[fmt:SGBRG10/4096x3072]'
-> - media-ctl -V '"msm_csid0":0[fmt:SGBRG10/4096x3072]'
-> - media-ctl -V '"msm_vfe0_rdi0":0[fmt:SGBRG10/4096x3072]'
-> - media-ctl -l '"msm_csiphy2":1->"msm_csid0":0[1]'
-> - media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
-> - yavta  --capture=20 -I -n 5 -f SGBRG10P -s 4096x3072 -F  /dev/video0
-> 
-> Dependencies:
-> - https://lore.kernel.org/all/20251014-use-marco-to-denote-image-buffer-number-v1-1-f782e4cc622d@oss.qualcomm.com/
-> - https://lore.kernel.org/all/20251014-add-new-clock-in-vfe-matching-list-v1-1-0d965ccc8a3a@oss.qualcomm.com/
-> - https://lore.kernel.org/all/20251023-make-csiphy-status-macro-cross-platform-v1-1-5746446dfdc6@oss.qualcomm.com/
-> 
-> Signed-off-by: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+Acked-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+
+Feel free to merge this through a non-media subsystem. If you want me to
+take this as a separate media subsystem patch, then let me know.
+
+Regards,
+
+	Hans
+
 > ---
-> Changes in v4:
-> - Refactor kaanapali camss binding style and commit message - Krzysztof
-
-Everything is refactor. That's so unspecific.
-
-For sure adding 8 more supplies is not refactor.
-
-Write complete changelogs.
-
-Best regards,
-Krzysztof
+>  drivers/media/test-drivers/vidtv/vidtv_s302m.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/test-drivers/vidtv/vidtv_s302m.c b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
+> index 9da18eac04b5..b3217d643b1e 100644
+> --- a/drivers/media/test-drivers/vidtv/vidtv_s302m.c
+> +++ b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
+> @@ -45,7 +45,7 @@
+>  #define FF_S302M_DEFAULT_PTS_OFFSET 100000
+>  
+>  /* Used by the tone generator: number of samples for PI */
+> -#define PI		180
+> +#define PI_SAMPLES		180
+>  
+>  static const u8 reverse[256] = {
+>  	/* from ffmpeg */
+> @@ -259,10 +259,10 @@ static u16 vidtv_s302m_get_sample(struct vidtv_encoder *e)
+>  		if (!ctx->last_tone)
+>  			return 0x8000;
+>  
+> -		pos = (2 * PI * ctx->note_offset * ctx->last_tone) / S302M_SAMPLING_RATE_HZ;
+> +		pos = (2 * PI_SAMPLES * ctx->note_offset * ctx->last_tone) / S302M_SAMPLING_RATE_HZ;
+>  		ctx->note_offset++;
+>  
+> -		return (fixp_sin32(pos % (2 * PI)) >> 16) + 0x8000;
+> +		return (fixp_sin32(pos % (2 * PI_SAMPLES)) >> 16) + 0x8000;
+>  	}
+>  
+>  	/* bug somewhere */
 
 
