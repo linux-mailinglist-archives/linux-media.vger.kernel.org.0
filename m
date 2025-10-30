@@ -1,173 +1,242 @@
-Return-Path: <linux-media+bounces-45992-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45993-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BAE7C1F0B4
-	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 09:45:30 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1D33C1F0DB
+	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 09:47:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AF9A73BAFEE
-	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 08:45:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D862040485E
+	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 08:47:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 873D733F38A;
-	Thu, 30 Oct 2025 08:44:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43C0733B955;
+	Thu, 30 Oct 2025 08:46:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cW/RNcMW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D4L2jwQ/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F5A21770B;
-	Thu, 30 Oct 2025 08:43:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1BFB2EA749
+	for <linux-media@vger.kernel.org>; Thu, 30 Oct 2025 08:46:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761813840; cv=none; b=DwH6mtboTXV78kRZ3MqV1Jtnsnnqdlsq1JFZnpd+Rs7ndsqG+/cSvkEYsTCtH1ql1VeZFL6a5yCNDuBQeozKdKVDePJiSojPNFgVd7lvfbeatfRt5peh/DUeNNDB9vAlDflzMIUk6XG37nQi4BDAz6Oaqdodxef4TwQWGEuWx84=
+	t=1761813991; cv=none; b=gJE45s0vxL5+/CTPap4pvCbuTYbghJaGZgsdmmibnF6dSBkScDAN/I0hfEr2k0uEjH0mmeS+A2mPFzHjw+dVP7MOcpnX1RBMuEGwZkcqdFp5XjFFtW7evgjom/NGnaRu8w9MV8yLtkvmpIlNr1MEj1QfwOiZ8lAmheTyQWj3MKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761813840; c=relaxed/simple;
-	bh=9In6pxPNUoqOT4j2XRIApFPGaJyS5HYdYnHdhN6GgAU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DxYHDwww/dujChles/S0/EY30A607LSM77YNmKOkVAXY0nvsJ9e1/5SJyyD+OcuCF3Ljanqh4AhHSgwTMeKaCFoOinDBtV5CplpJwgUL2cRD1JTRpsn2upbQKG51zsQVjmVSa0DXhbsNHfiop/oWLbdlusA3d5PNKyEtM+R2Ba0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=cW/RNcMW; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c69:314e:ee86:ae6e:30:9d13])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C8BE61A8F;
-	Thu, 30 Oct 2025 09:42:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1761813727;
-	bh=9In6pxPNUoqOT4j2XRIApFPGaJyS5HYdYnHdhN6GgAU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=cW/RNcMWIn/zX0wv9XMxBNejlyKGqovK6lywqCYWy36Sb7rNzfmV7NmSZj7ETqnTN
-	 UTsgcG8bnnkhl+KaTLwtRORUSoyHCCU6/1sbO4cVNfUAGLKXPOdCMtRJZBZJwVLcP8
-	 HJmwVupGOaUjjUC09Y2al8Zx627n9P1Dp1lYylzA=
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	s=arc-20240116; t=1761813991; c=relaxed/simple;
+	bh=s/w6yc2NNN992X1bqasQnOrHlBhdhYUwutGNFgdtt6Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=vDW+FLKc6bBgu/Q06rCZOyg9pC4V6N2pMxdf/bo98BILj9/K+xTMxSndv+c9pYQRAMEOiSjdbZIHb9ysK5Rfan685kj27/PUIERfnlEcKrfsHvxepiI+U6VhQ9UBWWJedINhpRx6Adm8RLuW2urJYq/aiRSj2oM/H6eSuC2+Bic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D4L2jwQ/; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761813990; x=1793349990;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=s/w6yc2NNN992X1bqasQnOrHlBhdhYUwutGNFgdtt6Q=;
+  b=D4L2jwQ/G1Sk0U+Uf3hh2U0NiivuSR0pa/4AbABEqQJ78OZIZzAtSdEz
+   zBXQhpR6geVDszsnQeuVQNDz+TQLnYNmMlL7ly4giW14ClRqcMiTdanYl
+   Bck5g0H3bw2HfHg5YQCms9CKJLBne1JKCBCgBtSsGqaM++3a31k0wKe2D
+   Fv9EnQgiMSSq2rarFtkjKULScYd3vV/pm5K8YCx9CROz4Htip2qUqUBVy
+   KaTvXpPSSRSenI4nEC4i7PqiRuaGIWMYQa9ViSX5Nm92S0LkzJQDNTMD1
+   6h5lbTvZFkPEtAQ5EKDbCgoCJQabrFMdHUpLduxHHf7yQ9FQrJFmuvVW4
+   g==;
+X-CSE-ConnectionGUID: Jya59tsISr+ybfdHCriVVA==
+X-CSE-MsgGUID: 4OuxUFBGQK+AJoZd+PjZrQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="75398137"
+X-IronPort-AV: E=Sophos;i="6.19,266,1754982000"; 
+   d="scan'208";a="75398137"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 01:46:29 -0700
+X-CSE-ConnectionGUID: hp942hJHToy4T/HvU39mgQ==
+X-CSE-MsgGUID: KHTjV/ZAS4y0/N26wVWBWg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,266,1754982000"; 
+   d="scan'208";a="209478177"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.176])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 01:46:27 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id DD7891206DE;
+	Thu, 30 Oct 2025 10:46:23 +0200 (EET)
+Date: Thu, 30 Oct 2025 10:46:23 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Umang Jain <uajain@igalia.com>,
-	Jai Luthra <jai.luthra@ideasonboard.com>
-Subject: [PATCH v4 8/8] media: imx335: Switch to {enable,disable}_streams
-Date: Thu, 30 Oct 2025 14:13:01 +0530
-Message-ID: <20251030-imx335_binning-v4-8-534f82415aa7@ideasonboard.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251030-imx335_binning-v4-0-534f82415aa7@ideasonboard.com>
-References: <20251030-imx335_binning-v4-0-534f82415aa7@ideasonboard.com>
+Subject: Re: [PATCHv2] media: v4l2-event: keep place in event list when
+ combining events
+Message-ID: <aQMl32qFeMNmG598@kekkonen.localdomain>
+References: <d4319e94-15c5-43a6-9bab-b9eb1d6c0d7c@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d4319e94-15c5-43a6-9bab-b9eb1d6c0d7c@kernel.org>
 
-Switch from s_stream to enable_streams and disable_streams callbacks.
+Hi Hans,
 
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
----
- drivers/media/i2c/imx335.c | 53 ++++++++++++++++++++++++-----------------------------
- 1 file changed, 24 insertions(+), 29 deletions(-)
+On Fri, Oct 10, 2025 at 01:35:02PM +0200, Hans Verkuil wrote:
+> When subscribing to an event a fixed circular buffer of N (N >= 1) events
+> is allocated for that file handle.
+> 
+> New events of the same type are added to that buffer and eventually the
+> oldest event is removed from the buffer when VIDIOC_DQEVENT is called.
+> 
+> If the circular buffer is full, then the event framework will
+> merge the two oldest events (what 'merge' means is event type
+> specific).
+> 
+> So far, so good.
+> 
+> There is also a per-filehandle list of pending events for all event
+> types. VIDIOC_DQEVENT always dequeues the oldest of that event list,
+> and that event is removed from the corresponding circular buffer.
+> 
+> The problem occurs when the circular buffer is full and a new event
+> arrives. Then the two oldest events are merged, but instead of
+> keeping the position in the list of pending events, the merged
+> event is added to the *end* of the list of pending events.
+> 
+> So if a lot of events are generated, then events can continually
+> be pushed to the end of the list of pending events, and so are never
+> or much later dequeued by the application.
+> 
+> Effectively this is a denial-of-service situation were the
+> event is never seen by the application even though there are
+> actually a lot of events.
+> 
+> So if you subscribe to events from control A and B, then
+> change control A, then change control B, then change control A
+> again, and now call VIDIOC_DQEVENT, you will get the event from
+> control B followed by A, even though A was changed first.
+> 
+> This patch keeps the oldest event in its place in the 'pending
+> events' list rather then moving it to the end, and in the test
+> above you will now receive the event from control A first.
 
-diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
-index 7e6e9950e60ae887db3a1f70e38fa7f9adfee1c5..e94d9f72027c8a32b25836239bc8d58c55c7ee7d 100644
---- a/drivers/media/i2c/imx335.c
-+++ b/drivers/media/i2c/imx335.c
-@@ -1012,13 +1012,19 @@ static int imx335_set_framefmt(struct imx335 *imx335)
- }
- 
- /**
-- * imx335_start_streaming() - Start sensor stream
-- * @imx335: pointer to imx335 device
-+ * imx335_enable_streams() - Enable sensor streams
-+ * @sd: V4L2 subdevice
-+ * @state: V4L2 subdevice state
-+ * @pad: The pad to enable
-+ * @streams_mask: Bitmask of streams to enable
-  *
-  * Return: 0 if successful, error code otherwise.
-  */
--static int imx335_start_streaming(struct imx335 *imx335)
-+static int imx335_enable_streams(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_state *state, u32 pad,
-+				 u64 streams_mask)
- {
-+	struct imx335 *imx335 = to_imx335(sd);
- 	const struct imx335_reg_list *reg_list;
- 	int ret;
- 
-@@ -1092,37 +1098,24 @@ static int imx335_start_streaming(struct imx335 *imx335)
- }
- 
- /**
-- * imx335_stop_streaming() - Stop sensor stream
-- * @imx335: pointer to imx335 device
-- */
--static void imx335_stop_streaming(struct imx335 *imx335)
--{
--	cci_write(imx335->cci, IMX335_REG_MODE_SELECT,
--		  IMX335_MODE_STANDBY, NULL);
--	pm_runtime_put(imx335->dev);
--}
--
--/**
-- * imx335_set_stream() - Enable sensor streaming
-- * @sd: pointer to imx335 subdevice
-- * @enable: set to enable sensor streaming
-+ * imx335_disable_streams() - Disable sensor streams
-+ * @sd: V4L2 subdevice
-+ * @state: V4L2 subdevice state
-+ * @pad: The pad to disable
-+ * @streams_mask: Bitmask of streams to disable
-  *
-  * Return: 0 if successful, error code otherwise.
-  */
--static int imx335_set_stream(struct v4l2_subdev *sd, int enable)
-+static int imx335_disable_streams(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_state *state, u32 pad,
-+				  u64 streams_mask)
- {
- 	struct imx335 *imx335 = to_imx335(sd);
--	struct v4l2_subdev_state *state;
--	int ret = 0;
--
--	state = v4l2_subdev_lock_and_get_active_state(sd);
--
--	if (enable)
--		ret = imx335_start_streaming(imx335);
--	else
--		imx335_stop_streaming(imx335);
-+	int ret;
- 
--	v4l2_subdev_unlock_state(state);
-+	ret = cci_write(imx335->cci, IMX335_REG_MODE_SELECT,
-+			IMX335_MODE_STANDBY, NULL);
-+	pm_runtime_put(imx335->dev);
- 
- 	return ret;
- }
-@@ -1242,7 +1235,7 @@ static int imx335_parse_hw_config(struct imx335 *imx335)
- 
- /* V4l2 subdevice ops */
- static const struct v4l2_subdev_video_ops imx335_video_ops = {
--	.s_stream = imx335_set_stream,
-+	.s_stream = v4l2_subdev_s_stream_helper,
- };
- 
- static const struct v4l2_subdev_pad_ops imx335_pad_ops = {
-@@ -1252,6 +1245,8 @@ static const struct v4l2_subdev_pad_ops imx335_pad_ops = {
- 	.set_selection = imx335_get_selection,
- 	.get_fmt = v4l2_subdev_get_fmt,
- 	.set_fmt = imx335_set_pad_format,
-+	.enable_streams = imx335_enable_streams,
-+	.disable_streams = imx335_disable_streams,
- };
- 
- static const struct v4l2_subdev_ops imx335_subdev_ops = {
+Typically events are queued faster than they're generated, it is an
+exception when they are not. The application certainly won't work very well
+if it consumes events slower than they're produced, whether or not the
+ordering of events fits for the use case.
+
+For instance, for frame sync events, the latest event is more relevant than
+than earlier such events and the latest event should be kept instead of an
+earlier event. I wouldn't change this, or alternatively I'd make it
+dependent on the event type, but in I wonder if that's worth the
+complexity.
+
+> 
+> Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+> Fixes: c53c2549333b ("[media] v4l2-event: Add v4l2_subscribed_event_ops")
+> Cc: <stable@vger.kernel.org>
+> ---
+> Changes since v1:
+> - fh->sequence was not incremented when replacing an event. Just drop that
+>   change and keep the original code (i.e. incrementing the sequence counter
+>   at the beginning).
+> ---
+>  drivers/media/v4l2-core/v4l2-event.c | 59 +++++++++++++++++++++-------
+>  1 file changed, 44 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-event.c b/drivers/media/v4l2-core/v4l2-event.c
+> index 3898ff7edddb..919cdd46a2c2 100644
+> --- a/drivers/media/v4l2-core/v4l2-event.c
+> +++ b/drivers/media/v4l2-core/v4l2-event.c
+> @@ -104,7 +104,6 @@ static void __v4l2_event_queue_fh(struct v4l2_fh *fh,
+>  {
+>  	struct v4l2_subscribed_event *sev;
+>  	struct v4l2_kevent *kev;
+> -	bool copy_payload = true;
+> 
+>  	/* Are we subscribed? */
+>  	sev = v4l2_event_subscribed(fh, ev->type, ev->id);
+> @@ -116,29 +115,59 @@ static void __v4l2_event_queue_fh(struct v4l2_fh *fh,
+> 
+>  	/* Do we have any free events? */
+>  	if (sev->in_use == sev->elems) {
+> -		/* no, remove the oldest one */
+> -		kev = sev->events + sev_pos(sev, 0);
+> -		list_del(&kev->list);
+> -		sev->in_use--;
+> -		sev->first = sev_pos(sev, 1);
+> -		fh->navailable--;
+> +		/*
+> +		 * No, so we have to make space.
+> +		 *
+> +		 * This is a bit tricky: the easy solution is to drop the oldest
+> +		 * event from the fh->available list and add the new one to
+> +		 * the end of the list. However, that can lead to situation
+> +		 * were, if there are a lot of events, the oldest event keeps
+> +		 * being removed before it can be dequeued by the application.
+> +		 * Effectively this is a denial-of-service situation were the
+> +		 * event is never seen by the application even though there are
+> +		 * actually a lot of events.
+> +		 *
+> +		 * So instead we take care to keep the oldest event in its
+> +		 * place, and instead either replace the event content with
+> +		 * the new event (if sev->elems == 1) or merge the 2nd oldest
+> +		 * event with the oldest event.
+> +		 */
+> +		struct v4l2_kevent *oldest = sev->events + sev_pos(sev, 0);
+> +		struct v4l2_kevent *second_oldest;
+> +
+>  		if (sev->elems == 1) {
+>  			if (sev->ops && sev->ops->replace) {
+> -				sev->ops->replace(&kev->event, ev);
+> -				copy_payload = false;
+> +				/* Replace the oldest event with the new event */
+> +				sev->ops->replace(&oldest->event, ev);
+> +			} else {
+> +				oldest->event.u = ev->u;
+>  			}
+> -		} else if (sev->ops && sev->ops->merge) {
+> -			struct v4l2_kevent *second_oldest =
+> -				sev->events + sev_pos(sev, 0);
+> -			sev->ops->merge(&kev->event, &second_oldest->event);
+> +			wake_up_all(&fh->wait);
+> +			return;
+>  		}
+> +		second_oldest = sev->events + sev_pos(sev, 1);
+> +		if (sev->ops && sev->ops->merge) {
+> +			/* Merge the oldest event with the 2nd oldest event */
+> +			sev->ops->merge(&oldest->event, &second_oldest->event);
+> +		}
+> +
+> +		/*
+> +		 * Replace the oldest event with the second oldest event in the
+> +		 * event list.
+> +		 */
+> +		second_oldest->event.sequence = oldest->event.sequence;
+> +		second_oldest->ts = oldest->ts;
+> +		list_del(&second_oldest->list);
+> +		list_replace_init(&oldest->list, &second_oldest->list);
+> +		sev->first = sev_pos(sev, 1);
+> +		sev->in_use--;
+> +		fh->navailable--;
+>  	}
+> 
+>  	/* Take one and fill it. */
+>  	kev = sev->events + sev_pos(sev, sev->in_use);
+>  	kev->event.type = ev->type;
+> -	if (copy_payload)
+> -		kev->event.u = ev->u;
+> +	kev->event.u = ev->u;
+>  	kev->event.id = ev->id;
+>  	kev->ts = ts;
+>  	kev->event.sequence = fh->sequence;
 
 -- 
-2.51.0
+Kind regards,
+
+Sakari Ailus
 
