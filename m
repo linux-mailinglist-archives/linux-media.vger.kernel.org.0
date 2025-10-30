@@ -1,196 +1,106 @@
-Return-Path: <linux-media+bounces-46024-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-46025-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A8C7C2126E
-	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 17:24:26 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF2F9C21254
+	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 17:24:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 022033BF249
-	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 16:22:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D8FBE1A238FC
+	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 16:23:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3D4433C530;
-	Thu, 30 Oct 2025 16:21:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06F5A366FD9;
+	Thu, 30 Oct 2025 16:22:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HWByW3ef"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sM2BrH/9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82AFE366FBA
-	for <linux-media@vger.kernel.org>; Thu, 30 Oct 2025 16:21:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48FFD279329;
+	Thu, 30 Oct 2025 16:22:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761841311; cv=none; b=lruFuFSQ6qJru1xk+q15xL0wZmZENuhP/iO9HNeDDXOPfdf457NBlxZijj1zox86wbQrImSdZYdtKKXRSg88W8qvgkxS/1TNSi2BoN705CCtf69c9RXEMPqdUZ+jts0OpCCbsZUrStlbbPO/kKgzvnkUXE8E9jjKPRUCN5G0MnA=
+	t=1761841360; cv=none; b=ZVVJlPZh9fu1tgJVfBtP1chR/ybbPfvIu5XLhwDSB2qzVGA1pMePN16TSDo3SfsUj7tNQHSZemkcop2Pl7ABdcsQJv8dNXrFd5d9MNXgCzukgYxyzrj4Chg/JriloillZfgFQZnkEyOhQRHwolqMTtGSkA5D/2TgzfNORiPhDH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761841311; c=relaxed/simple;
-	bh=OqGHRg49ESCWxbW2AOonwmoD0j1eXPR7zeAe/hMl8O8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=exoD+M0x8i+dhORiIIeY2IfSclbBdoQufsRmladG9+uck8dZcATrCq99u/iPDOJgSMt0Oc4K2zGVpVt9CEsq9SGaLIBuGLct0ymBQpx9wmM2ZjkcANkfvVkAjtkhvkefrh5h1Cryzn5O/38IoTYHl3T2lnUwSB5AP/NQ8lKaP20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HWByW3ef; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761841309; x=1793377309;
-  h=date:from:to:cc:subject:message-id;
-  bh=OqGHRg49ESCWxbW2AOonwmoD0j1eXPR7zeAe/hMl8O8=;
-  b=HWByW3efjrF7B1jejo8NPDIWI7Lk4FXyMuV9Xh57GTpe4P/p6taxIVqS
-   9w1TO4cDqaCAZUzkqMC28GMxcX6s5Pw22k1B5aYre58X30XiGhUweosHE
-   m5jWivjtRMBUBtHPm/5wZvHOx1LukJQi148z7pfcCkjOd2q0YRcr5yQk+
-   lWwaKmjtmKZDWwj/pqDf5yDpww52LBrjAlu2vSRmDnuPAC2MZ8Lk2P0D1
-   XsBzvGu5BohWjqeQBk3UTpyWl+NN2lKdAsBEqM4dpQ6a7vgm2zsMSPrYJ
-   mbphJ1NRLlKgz4K6xPvBKnLUOwNx2IjXYNLftahpwH6RfmOAxajOiFu2m
-   g==;
-X-CSE-ConnectionGUID: mBgxOERhT8Cm4ijbS65WDA==
-X-CSE-MsgGUID: FdGEmMPpShWaQHTEtc3Ajw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11598"; a="75439209"
-X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; 
-   d="scan'208";a="75439209"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2025 09:21:48 -0700
-X-CSE-ConnectionGUID: 46xQwvuFRSKH9CDioOIbfg==
-X-CSE-MsgGUID: kARwzImYRqmIKfpepmJ8ug==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,267,1754982000"; 
-   d="scan'208";a="185203125"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 30 Oct 2025 09:21:47 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vEVPE-000MD6-2z;
-	Thu, 30 Oct 2025 16:21:44 +0000
-Date: Fri, 31 Oct 2025 00:20:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org
-Subject: [sailus-media-tree:cleanup] BUILD SUCCESS
- 7ea6dd9d7f1c00a87d918f48903093e6dbb7ce89
-Message-ID: <202510310037.rkBizD8M-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1761841360; c=relaxed/simple;
+	bh=qeejJw/Ci04guqvtvub4+S+ZoFbZ8/admEO2nb7xcKk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=M5dwTqbHn7hlSu6Eh69d9E/g085RBjCNOU12jJ0+MJj0sc6/XANkrfKSvLFwbjt4KN07xkzJ+9c1D2FuszO1AdoZSmuTMK3YvKtP3seib+iemmxc7vr2pELm4rX5dPos4+zjKAojPB/PZQkb+qaRUVuC3Va+M4ugweT3PqxA8ro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sM2BrH/9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D9C5C4CEF1;
+	Thu, 30 Oct 2025 16:22:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761841359;
+	bh=qeejJw/Ci04guqvtvub4+S+ZoFbZ8/admEO2nb7xcKk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=sM2BrH/9fLau66Kv3195fiOQB6MxtyPXRXtOIYVMdU5A17KL7QC2Qai+2RmKFruY/
+	 uTxFhGlUjTeb7BdmOXNCSNp9kWr7zSRhWCbaRPS008DM8bOn8Za3RY6SbVy5EAlYXo
+	 NHFmhjj4Wnxex9UrXdb7nEma4PZD9b2kNGKvqUITnEp5ODjFDs3Pb0AQHXbeKZLZds
+	 /Y9UaXi51BAeTwg93p/Q1UJQZ3YdLY6yHAduDN2woYqCSIY6v0ABaXPu9cSDqw7Z2E
+	 VnlNC1IvIV20+NKAkAo/2CVcajJ5k02bGlPpLU8Ss/jKqZvwMywdaosN1nNbFViAk9
+	 xgX2bZxesoVqg==
+From: Bjorn Andersson <andersson@kernel.org>
+To: Hans de Goede <hansg@kernel.org>,
+	Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
+	Jacopo Mondi <jacopo@jmondi.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Daniel Thompson <danielt@kernel.org>,
+	Aleksandrs Vinarskis <alex@vinarskis.com>
+Cc: linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	threeway@gmail.com,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: (subset) [PATCH v5 0/4] leds: privacy-led support for devicetree
+Date: Thu, 30 Oct 2025 11:25:33 -0500
+Message-ID: <176184154198.475875.6266114626536757346.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20250910-leds-v5-0-bb90a0f897d5@vinarskis.com>
+References: <20250910-leds-v5-0-bb90a0f897d5@vinarskis.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git cleanup
-branch HEAD: 7ea6dd9d7f1c00a87d918f48903093e6dbb7ce89  MAINTAINERS: Update Daniel Scally's email address
 
-elapsed time: 1665m
+On Wed, 10 Sep 2025 14:01:07 +0200, Aleksandrs Vinarskis wrote:
+> Re-spin of RFC patch from ~2.5 years ago [1]. v4l2 controls for privacy
+> LEDs has landed, but the DT part was left out. Introduce missing
+> dt-bindings, and commonize 'leds' parameter. Finally, add a patch to
+> enable privacy-led on Lenovo Thinkpad x13s.
+> 
+> With recent inflow of arm64-power laptops (Snapdragon X1E/X1P) which
+> mostly use MIPI cameras, this feature becomes more desired. Original
+> rebased patch is still working as expected (with respective DT changes)
+> on Dell XPS 9345.
+> 
+> [...]
 
-configs tested: 103
-configs skipped: 3
+Applied, thanks!
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+[4/4] arm64: dts: qcom: sc8280xp-x13s: enable camera privacy indicator
+      commit: b54c412b511c8bc8e71fd09a766bd95528d94840
 
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                   randconfig-001-20251029    gcc-15.1.0
-arc                   randconfig-002-20251029    gcc-15.1.0
-arm                               allnoconfig    clang-22
-arm                   randconfig-001-20251029    gcc-8.5.0
-arm                   randconfig-002-20251029    clang-22
-arm                   randconfig-003-20251029    clang-22
-arm                   randconfig-004-20251029    clang-22
-arm64                             allnoconfig    gcc-15.1.0
-arm64                               defconfig    gcc-15.1.0
-arm64                 randconfig-001-20251030    gcc-12.5.0
-arm64                 randconfig-002-20251030    gcc-8.5.0
-arm64                 randconfig-003-20251030    clang-17
-arm64                 randconfig-004-20251030    clang-22
-csky                             allmodconfig    gcc-15.1.0
-csky                              allnoconfig    gcc-15.1.0
-csky                             allyesconfig    gcc-15.1.0
-csky                  randconfig-001-20251030    gcc-13.4.0
-csky                  randconfig-002-20251030    gcc-15.1.0
-hexagon                           allnoconfig    clang-22
-hexagon                          allyesconfig    clang-22
-hexagon               randconfig-001-20251029    clang-20
-hexagon               randconfig-002-20251029    clang-22
-i386                              allnoconfig    gcc-14
-i386        buildonly-randconfig-001-20251030    clang-20
-i386        buildonly-randconfig-002-20251030    gcc-14
-i386        buildonly-randconfig-003-20251030    clang-20
-i386        buildonly-randconfig-004-20251030    clang-20
-i386        buildonly-randconfig-005-20251030    gcc-14
-i386        buildonly-randconfig-006-20251030    clang-20
-loongarch                         allnoconfig    clang-22
-loongarch                           defconfig    clang-19
-loongarch             randconfig-001-20251029    clang-22
-loongarch             randconfig-002-20251029    clang-22
-m68k                              allnoconfig    gcc-15.1.0
-m68k                                defconfig    gcc-15.1.0
-m68k                            mac_defconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-nios2                             allnoconfig    gcc-11.5.0
-nios2                            allyesconfig    gcc-11.5.0
-nios2                               defconfig    gcc-11.5.0
-nios2                 randconfig-001-20251029    gcc-11.5.0
-nios2                 randconfig-002-20251029    gcc-9.5.0
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                            defconfig    gcc-15.1.0
-parisc                            allnoconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20251030    gcc-8.5.0
-parisc                randconfig-002-20251030    gcc-8.5.0
-parisc64                            defconfig    gcc-15.1.0
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                    gamecube_defconfig    clang-22
-powerpc                        icon_defconfig    gcc-15.1.0
-powerpc               randconfig-001-20251030    clang-22
-powerpc               randconfig-002-20251030    clang-22
-powerpc                      tqm8xx_defconfig    clang-19
-powerpc64             randconfig-001-20251030    gcc-8.5.0
-powerpc64             randconfig-002-20251030    gcc-8.5.0
-riscv                             allnoconfig    gcc-15.1.0
-riscv                 randconfig-001-20251030    gcc-13.4.0
-riscv                 randconfig-002-20251030    gcc-15.1.0
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-22
-s390                             allyesconfig    gcc-15.1.0
-s390                  randconfig-001-20251030    clang-17
-s390                  randconfig-002-20251030    gcc-8.5.0
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                                  defconfig    gcc-15.1.0
-sh                          lboxre2_defconfig    gcc-15.1.0
-sh                            migor_defconfig    gcc-15.1.0
-sh                    randconfig-001-20251030    gcc-15.1.0
-sh                    randconfig-002-20251030    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                 randconfig-001-20251030    gcc-8.5.0
-sparc                 randconfig-002-20251030    gcc-8.5.0
-sparc64                             defconfig    clang-20
-sparc64               randconfig-001-20251030    gcc-11.5.0
-sparc64               randconfig-002-20251030    clang-20
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-22
-um                               allyesconfig    gcc-14
-um                                  defconfig    clang-22
-um                             i386_defconfig    gcc-14
-um                    randconfig-001-20251030    gcc-14
-um                    randconfig-002-20251030    clang-22
-um                           x86_64_defconfig    clang-22
-x86_64                            allnoconfig    clang-20
-x86_64      buildonly-randconfig-001-20251030    clang-20
-x86_64      buildonly-randconfig-002-20251030    gcc-14
-x86_64      buildonly-randconfig-003-20251030    gcc-13
-x86_64      buildonly-randconfig-004-20251030    gcc-14
-x86_64      buildonly-randconfig-005-20251030    clang-20
-x86_64      buildonly-randconfig-006-20251030    gcc-14
-x86_64                              defconfig    gcc-14
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                          iss_defconfig    gcc-15.1.0
-xtensa                randconfig-001-20251030    gcc-10.5.0
-xtensa                randconfig-002-20251030    gcc-13.4.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+-- 
+Bjorn Andersson <andersson@kernel.org>
 
