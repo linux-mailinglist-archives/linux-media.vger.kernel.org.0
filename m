@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-45987-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45988-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A82FBC1F099
-	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 09:44:03 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95C24C1F0A8
+	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 09:44:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 39F983AED24
-	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 08:44:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8147C19C3DAF
+	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 08:44:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBC4B33B6CC;
-	Thu, 30 Oct 2025 08:43:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7057233B943;
+	Thu, 30 Oct 2025 08:43:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KmyL0LEQ"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MtviTo/R"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7ACD338F5B;
-	Thu, 30 Oct 2025 08:43:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C3932D7FB;
+	Thu, 30 Oct 2025 08:43:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761813810; cv=none; b=ceqcVazKPgwxI2gfxLDyy+EGSRuPWDAIK+1VkjANrYXkBg6Fk4amp6wfD2Q5zdl1C8zo6QHjLc/Nr2rD9JlQbW8S9V4Tl0d5OZE7nsd98hd4HTmruR3jsmZ7PnjiQ1BnxODZKYcuy3L6qSikRT7e8xFjF5ZcZ/lxHXQLT1zACbI=
+	t=1761813815; cv=none; b=nShBJ/U1yqEkj7szuF0AlPHVHX7HrCHVknsPYCSRdfKMdTS//8jHlVY3W9uxeMSh4HwN3mv7B7jny4Xo+olJIS3PGVku/jDi9Cc27WoE5RWXbxsqgOHpRRfMakX0E6RQKty8jNqyj7d9iy+BWx6Ebd7TKzpY+jq3iCMAeLeno6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761813810; c=relaxed/simple;
-	bh=vREb5QGLlC+MfWhaXitSYjEqSFA17LTQdF1ZiG0e5dE=;
+	s=arc-20240116; t=1761813815; c=relaxed/simple;
+	bh=8q8zjRMdQxgekD+7tRCl5Ed+AssG2njqN+QZF4x+aUU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Mnqm/06GqmaJrJnHqDJx4nPEJjC3IGJjNZT/mVNfZkWVuNHRokOrFf+R6C7maDTgoGApoDHDt3xKzjfMPmaYkT/fDmJtKSLgnq+gPbOPEm+vwpnKbstEwm1xwbasiRVccsHU/48k26WT65V/V95sPlj0jD2DGn0erkUCd1rvQwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KmyL0LEQ; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version:Content-Type; b=sqmbuoZv6E58bJnqyfiz/rGTmD/VASlhKCVrtyD4nFYe9yDqX13xz0rw0CUWc3KSKaoKmv3whoUvPmKml73tuONbqBaXYbxG8MQlX6AbMzP/8laMU09yPGzWrsL48HS0dSHFx+HOMk9fRoqcfZL1RGohP/Beysvbvx05LP6eZaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MtviTo/R; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c69:314e:ee86:ae6e:30:9d13])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2DE3FEAE;
-	Thu, 30 Oct 2025 09:41:36 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E50E1EAE;
+	Thu, 30 Oct 2025 09:41:42 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1761813697;
-	bh=vREb5QGLlC+MfWhaXitSYjEqSFA17LTQdF1ZiG0e5dE=;
+	s=mail; t=1761813703;
+	bh=8q8zjRMdQxgekD+7tRCl5Ed+AssG2njqN+QZF4x+aUU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KmyL0LEQN7S2tjh33gXYiRpIKesw9OknqGTiDe12UqxHhItTheobmyB/4bqENdu3w
-	 Ru00Tt475ltPE+cw1Q1r9YMldTTDaQa3neK7DasQ24kNCdddnBHn+LTu0PjWgvWXNi
-	 vzIhJ7fqhRaoBomg93MEwfqT0jZGZDWUd2UHy+iY=
+	b=MtviTo/R51u4opv1in0gQiu2VpE6Gdach+o8n/DiUZKseHb4EdatjyvNHRdTQ8fNZ
+	 ab9XrdQP+M1zvNGeZVmUggidg8WZPdpct+wOunIPKj8V5xaeQcPDn967Ks5SOcTu/Z
+	 rvb7RwhuOK3rfcxuBW3u0x1lXlzyyWhtX20usqLo=
 From: Jai Luthra <jai.luthra@ideasonboard.com>
 To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -49,9 +49,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Umang Jain <uajain@igalia.com>,
 	Jai Luthra <jai.luthra@ideasonboard.com>
-Subject: [PATCH v4 3/8] media: imx335: Update the native pixel array width
-Date: Thu, 30 Oct 2025 14:12:56 +0530
-Message-ID: <20251030-imx335_binning-v4-3-534f82415aa7@ideasonboard.com>
+Subject: [PATCH v4 4/8] media: imx335: Update HBLANK range on mode change
+Date: Thu, 30 Oct 2025 14:12:57 +0530
+Message-ID: <20251030-imx335_binning-v4-4-534f82415aa7@ideasonboard.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251030-imx335_binning-v4-0-534f82415aa7@ideasonboard.com>
 References: <20251030-imx335_binning-v4-0-534f82415aa7@ideasonboard.com>
@@ -64,71 +64,33 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-The sensor datasheet reports actual total number of pixels as 2696x2044.
+While switching modes, updating to a different value of HBLANK isn't
+sufficient, as this is a read-only control with a single allowed value,
+and thus hblank_min == hblank_max == hblank of the default mode.
 
-This becomes important for supporting 2x2 binning modes that can go
-beyond the current maximum pixel array width set here.
+So to correctly update the user-facing value of the HBLANK parameter,
+which is necessary for correct framerate calculation, update the whole
+range when switching modes.
 
 Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
 ---
- drivers/media/i2c/imx335.c | 32 ++++++++++++++++----------------
- 1 file changed, 16 insertions(+), 16 deletions(-)
+ drivers/media/i2c/imx335.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
-index 770adc3106321769823f757d0d3277d1948a6bc2..145b4415ba590245ab49c0124d8094683adddf0e 100644
+index 145b4415ba590245ab49c0124d8094683adddf0e..77863a28c4725ae151ac60213ab05a46bd1549ee 100644
 --- a/drivers/media/i2c/imx335.c
 +++ b/drivers/media/i2c/imx335.c
-@@ -124,12 +124,20 @@
- #define IMX335_NUM_DATA_LANES	4
+@@ -493,7 +493,8 @@ static int imx335_update_controls(struct imx335 *imx335,
+ 	if (ret)
+ 		return ret;
  
- /* IMX335 native and active pixel array size. */
--#define IMX335_NATIVE_WIDTH		2616U
--#define IMX335_NATIVE_HEIGHT		1964U
--#define IMX335_PIXEL_ARRAY_LEFT		12U
--#define IMX335_PIXEL_ARRAY_TOP		12U
--#define IMX335_PIXEL_ARRAY_WIDTH	2592U
--#define IMX335_PIXEL_ARRAY_HEIGHT	1944U
-+static const struct v4l2_rect imx335_native_area = {
-+	.top = 0,
-+	.left = 0,
-+	.width = 2696,
-+	.height = 2044,
-+};
-+
-+static const struct v4l2_rect imx335_active_area = {
-+	.top = 50,
-+	.left = 52,
-+	.width = 2592,
-+	.height = 1944,
-+};
-+
- 
- /**
-  * struct imx335_reg_list - imx335 sensor register list
-@@ -862,21 +870,13 @@ static int imx335_get_selection(struct v4l2_subdev *sd,
- {
- 	switch (sel->target) {
- 	case V4L2_SEL_TGT_NATIVE_SIZE:
--		sel->r.top = 0;
--		sel->r.left = 0;
--		sel->r.width = IMX335_NATIVE_WIDTH;
--		sel->r.height = IMX335_NATIVE_HEIGHT;
--
-+		sel->r = imx335_native_area;
- 		return 0;
- 
- 	case V4L2_SEL_TGT_CROP:
- 	case V4L2_SEL_TGT_CROP_DEFAULT:
- 	case V4L2_SEL_TGT_CROP_BOUNDS:
--		sel->r.top = IMX335_PIXEL_ARRAY_TOP;
--		sel->r.left = IMX335_PIXEL_ARRAY_LEFT;
--		sel->r.width = IMX335_PIXEL_ARRAY_WIDTH;
--		sel->r.height = IMX335_PIXEL_ARRAY_HEIGHT;
--
-+		sel->r = imx335_active_area;
- 		return 0;
- 	}
+-	ret = __v4l2_ctrl_s_ctrl(imx335->hblank_ctrl, mode->hblank);
++	ret = __v4l2_ctrl_modify_range(imx335->hblank_ctrl, mode->hblank,
++				       mode->hblank, 1, mode->hblank);
+ 	if (ret)
+ 		return ret;
  
 
 -- 
