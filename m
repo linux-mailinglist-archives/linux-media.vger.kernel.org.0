@@ -1,129 +1,282 @@
-Return-Path: <linux-media+bounces-45962-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45963-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87CE3C1E826
-	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 07:08:17 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED679C1E880
+	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 07:17:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6E0C618920EB
-	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 06:08:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 678CC189369E
+	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 06:17:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E51D23148DB;
-	Thu, 30 Oct 2025 06:08:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FCA82D4B57;
+	Thu, 30 Oct 2025 06:17:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="utU8PCoz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mLNTRCKn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1FA42F12DA;
-	Thu, 30 Oct 2025 06:07:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761804480; cv=none; b=kxtVI4FW9pbq0K6ZAwK+P9NcS1e8PuLSANxctkBWqfbkbszw8Lp2zhmIBtEUPmHSXuLFkFi5md1rqHJxBgHPGF+w+UltLNa0Gbh/xMsiTTERIdfxxnHfiMBTmBJEO1pRodv5PzuNQ8CFskZOsjk7pzH9IufTBCr+MtrB1LJaTi4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761804480; c=relaxed/simple;
-	bh=zczIPpc0KWPLn9zXQ3ZoaFjpPTnJbDtjuzfwpUxJB5g=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=f2oAMJqPk43to7ruwInIRO7GNZouAVgtpFDfVh1SH2DlqriBav616GkGsFOu8FbI8tbe+cuCp8//pLkMIQ3BCdTE8j1qAImeXIr6tbjxR26q0rJUJpkWCtpsSFpECws5S83YerVhiSO/+hGdw/w7jrxK41u8aEuHVB43lahaZ/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=utU8PCoz; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c69:314e:ee86:ae6e:30:9d13])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 288606F3;
-	Thu, 30 Oct 2025 07:06:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1761804365;
-	bh=zczIPpc0KWPLn9zXQ3ZoaFjpPTnJbDtjuzfwpUxJB5g=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=utU8PCozLh0qFegg5Nivf//IQXFEM+4PC1QnaSa/h+a6JbDTaYTYLxGu0Q3DGXyyv
-	 5PGAPDv54VigbM7G5oo95YrpViI3Esw5yrv5AlmdiprhtjmsExFtl5gkDhNebvvf1f
-	 SQUhgj6Rc/X9mlyVqim1fr2K5p+HsTQeoc8p4hSA=
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A39BA2C178D
+	for <linux-media@vger.kernel.org>; Thu, 30 Oct 2025 06:17:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.19
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761805037; cv=fail; b=Ck9dlEiVaDp5FuBnIDjxvrR7rD3UCPvGLzJ7n3+nuAcT2BLyc4nXbbvqHfm/HkWVgce7UKuU3aRsNmwftUduLr0Qc+zvzmfVGVB4WpuWjlAylaNBMfc69DjhrbYu9t7QE8e1ziNR88EDyhfu+RkUPwQzcdPFwOpxAwUkynSbAjY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761805037; c=relaxed/simple;
+	bh=vIIGGHvldU1SjeoNblOUOVgohnCXzkN3VYzkd/FsOq0=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=jtqXpKSwX+5AcO78F8vt3/ZvY1w4+9QvSIeN25UBFCybnob2rbAsboVo3SbGxuyP74bicXO/RAEpLfhMv4ycnIFTc+jTkw0+nXUKXCFncYLLd+eAem9uY+PLVbcHO1v0DmFzWpRKvvbog8yjE0jlSiKvpIw/yjMXJoEy3S2MfmM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mLNTRCKn; arc=fail smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761805036; x=1793341036;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=vIIGGHvldU1SjeoNblOUOVgohnCXzkN3VYzkd/FsOq0=;
+  b=mLNTRCKnADCmNGlp3L6oQEzTWXwqSghoQiesC0sLjsrZJTNq644Oy/nn
+   jnG+bWB4BK1hUKImOhSSRzLgFGfzmpX0D3OGEoK7SCejKhJYxndKf/JV5
+   +iPmysNJi9OMIdtF3xeZXRQB9Z/R05H3XirUYU34mDw+kOcjqt/ICA80C
+   tyqcXma46HUkL3W3xZs0qNCW6zXQqcPjrz3smveblfurzrlzcXGPNF1qP
+   llPrIRvBJIZiQ80s5I4d0u0E9zlaEoC+tVkJhFi0LjbsdIfRMdjdmbzjy
+   73bUL8UJJvdA2hVRZ+iRw6x3qOV8zdFXhr0GOONQQyKG7fzYtyUwClDew
+   g==;
+X-CSE-ConnectionGUID: VrsMh1+/QM6pGNgs0hM7Hw==
+X-CSE-MsgGUID: 3RWs584JTWa+aQ7pGA4PQA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="63822494"
+X-IronPort-AV: E=Sophos;i="6.19,265,1754982000"; 
+   d="scan'208";a="63822494"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 23:17:15 -0700
+X-CSE-ConnectionGUID: rCjIptHyQaKlUrjaoGOFYQ==
+X-CSE-MsgGUID: pacQapcwRYeC7MCGshCMFQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,265,1754982000"; 
+   d="scan'208";a="186609887"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 23:17:14 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Wed, 29 Oct 2025 23:17:14 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Wed, 29 Oct 2025 23:17:14 -0700
+Received: from BL0PR03CU003.outbound.protection.outlook.com (52.101.53.21) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Wed, 29 Oct 2025 23:17:14 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Wn1Egk2N6n05X5bE8qwKC7pibl8Fuvr8RqmhXhgqF6pVocyW2UL77MgUhXTgybp/0m2OKwzm3ddXPFs06yfmlZaDj6lOPlWaLPHjGKgvh/r0anaLcz9djK4xAwbhVFrY6Wr7pm/3J4g3eiEjZ8fuy5tAWPFJjKzY848Z2Ns3GaX+GJT5qtUkINE8cEEzjIczHdUjEq3AqvUMGWwjz+IjfiOrYNvGEcJrAIJyDAEUEGFp4ASFJjmbvdCv77gDet2XLximC/k4Opr+rxde4p/1as+CEm7FQ4E1UxmproIDCpFzd2w8Z2RhqkBMDMJmeP3IldMXeJLDSgsL2iX8H3GMMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vIIGGHvldU1SjeoNblOUOVgohnCXzkN3VYzkd/FsOq0=;
+ b=Nn0P/cu3AWKHWK3jA+JkFV3ry1f91tiNR772MpZpNFu/fkIW+G/uYTtn0dqrRpUF4tFwQt6w9eXjoOgZGUdRLbQJK5qIa8bbsNbgMMr932CN/WexlkwqR3UGtDz64Q9OeEUmXG8DNVC3TdRP87QDCqNVx1zoCEczSBmEmg5GHdcmCrQTcKlz3RrPsJCG8sGzLCV9OBXNinkiCSotOmQzNJYxhz3cOAuqlzy7uARTrTFTlk9GTjAvYAj8pPQ3Rksp9oX+QNr+iUXCcrcM7e6Edt1BKXgiRsUxyPS+5Rn/oxj6CZfiEH6BnXPjVVuX8ZLBPzKC2D95HSWOHc/uP5SEvQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from IA0PR11MB7185.namprd11.prod.outlook.com (2603:10b6:208:432::20)
+ by DS0PR11MB6518.namprd11.prod.outlook.com (2603:10b6:8:d2::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.18; Thu, 30 Oct
+ 2025 06:17:11 +0000
+Received: from IA0PR11MB7185.namprd11.prod.outlook.com
+ ([fe80::dd3b:ce77:841a:722b]) by IA0PR11MB7185.namprd11.prod.outlook.com
+ ([fe80::dd3b:ce77:841a:722b%4]) with mapi id 15.20.9275.011; Thu, 30 Oct 2025
+ 06:17:11 +0000
+From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>, Leon Romanovsky <leonro@nvidia.com>,
+	Christian Koenig <christian.koenig@amd.com>, Sumit Semwal
+	<sumit.semwal@linaro.org>, =?iso-8859-1?Q?Thomas_Hellstr=F6m?=
+	<thomas.hellstrom@linux.intel.com>, Simona Vetter <simona.vetter@ffwll.ch>,
+	"Brost, Matthew" <matthew.brost@intel.com>, "Kim, Dongwon"
+	<dongwon.kim@intel.com>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>
+Subject: RE: [RFC v2 0/8] dma-buf: Add support for mapping dmabufs via
+ interconnects
+Thread-Topic: [RFC v2 0/8] dma-buf: Add support for mapping dmabufs via
+ interconnects
+Thread-Index: AQHcRvz4E9hXyspRBUGk9qxvPpLsUbTYR6AAgAFminA=
+Date: Thu, 30 Oct 2025 06:17:11 +0000
+Message-ID: <IA0PR11MB7185E85E1CFAA04485768E30F8FBA@IA0PR11MB7185.namprd11.prod.outlook.com>
+References: <20251027044712.1676175-1-vivek.kasireddy@intel.com>
+ <20251029002726.GA1092494@nvidia.com>
+In-Reply-To: <20251029002726.GA1092494@nvidia.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA0PR11MB7185:EE_|DS0PR11MB6518:EE_
+x-ms-office365-filtering-correlation-id: 30260015-46a6-4eda-0516-08de177bf67c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|7416014|1800799024|921020|38070700021;
+x-microsoft-antispam-message-info: =?iso-8859-1?Q?WHuY8NTt9b4MtVYeIQHGaUnZVHF6wFBd2iT+1usNWpnOnikl9uz1qe7Vnl?=
+ =?iso-8859-1?Q?90vPfdVgCo/RKDuQ9WOH5iyGrzSJuYh7yGb86ospAmDh+avbzb34U9Nk/z?=
+ =?iso-8859-1?Q?4gRkVtGzXdjkoOUdJDCNZbY4q12EiqsugJsAr9mfe/5qYKOpRyloXNIMT3?=
+ =?iso-8859-1?Q?vYfrSJO51DidEerlADrz13Qtc2XdhuGKm0J8cmXhD1ZG+4rqj3f0bijz7c?=
+ =?iso-8859-1?Q?Ul5BZsfiKwo9Q7CyD1OIVxXPzJ0107kTiBWIFY5+JZYbytJdMgtRyF6vS9?=
+ =?iso-8859-1?Q?gAuEv9QVJtjabGIuBPQjBS6x8eGEuZp3zwS+isrByJyz0lvkHSNShj+r1c?=
+ =?iso-8859-1?Q?fK2sKQwzNoJZs9RRY8/BeaOZ59SievXJc2OrMzsKN1bp4A/z61x01CgT/h?=
+ =?iso-8859-1?Q?E/ZWglyQE7TOh3pc9LyDj88pnsIoVJ3yYbFsc2/xOaY1B0Sf1ihrszVawu?=
+ =?iso-8859-1?Q?1VPMpljb1bOEorogQCotunspkANT1P7ww13VpDe3oaNHTHOKWrhheJ6OXi?=
+ =?iso-8859-1?Q?ab7OemDsqQI8kMpuvkM6jVp/xA3sO97X1e+62XA0DgPS9+2Y3dzsB93QJ5?=
+ =?iso-8859-1?Q?x1MP2ywe1ZJzIp2P/I54Xh/AitBiv4sQAtoXuJOIZU6C7LJGYgLo5PAMKP?=
+ =?iso-8859-1?Q?nwYLO4R59qv0jBwZO11/PzZs+fWvd2tmRkTWiaFYI+po3gMYkoiD8k2qoJ?=
+ =?iso-8859-1?Q?hDYL0PRVjGNxQMExomnKGLl820g8k29O6WStmYsi9ElwMbl0PZtwEir2iQ?=
+ =?iso-8859-1?Q?/DgYILUXHRUbsfdSPl9w32nSGbqE/vz1XH/Sxfm5MNRbwRFErGFD1vO5a7?=
+ =?iso-8859-1?Q?VLVi0BJ8/eWDtv0wQVlHOm+4xHxcK7hAS/hyW0JF+hwPe/EPztRrBa2yO8?=
+ =?iso-8859-1?Q?7KdV8CwN2kcLbNYPqCDQR8S3F5785RjTcp5GIeZwftLnLvvKkUGYs0slsj?=
+ =?iso-8859-1?Q?JqJaLILVpJijHifD2Mr/PDDlZmHg9B6bBOvxcb9Cbxq+eXo0OLHf1He9gJ?=
+ =?iso-8859-1?Q?GjbDk0VQ7U7Wmr56pjAQb5OC0mld92cF8SsGF8qlVwLC2xeXUWO3DgWEkv?=
+ =?iso-8859-1?Q?4FNR6N7nSd3RO2qFXnrxx7Hf4zrs8r5KUmMsv8JmBm+DxARpRwtLkXjGBz?=
+ =?iso-8859-1?Q?/IQxEgoKaB9kG9r1JXHqgHTOgso+BnWTiuTdXqvX6l/m74hCbH9m0G0yls?=
+ =?iso-8859-1?Q?cYzSWl2aX5kDIfDZP8EqcuTBeSNMal9ydmLGS6auwhiuY33VWM7gaND72R?=
+ =?iso-8859-1?Q?Hp5DkeZyfPube9Cd/JW41J94zyL/Ib5/pgU9b2Dc55c9koKa9xsMYcrCK7?=
+ =?iso-8859-1?Q?dBdFITHA4XDSQ/+gVuzG7wj+LW8ufh84nrGJKFOoAbSVmL3DNakjvngcvG?=
+ =?iso-8859-1?Q?VYgIvOQxBl1Ph5HYDMwaipCl6E/3eXfv3Rv1eaTiEg0YYad8Ew+uUAkYii?=
+ =?iso-8859-1?Q?j6VNYGCud4B+Yv8u9xVovkRxAae9MerApVWvEfBhEnXqVsLFwo+yN8oR6k?=
+ =?iso-8859-1?Q?awTUUzggIkQghxXtmt1hCEUqireWVJY1lqjkHSlizNDpXvIcpXkEZKfZLq?=
+ =?iso-8859-1?Q?kzBUC6BKBgsgctTi1z5VspoIAE2xrLURYCjZ3WATY3HdPYifAA=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR11MB7185.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(7416014)(1800799024)(921020)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?iUAIxKIS+NnS7R8Ckt7nIg4u09Qq9FUvMww7SpeSimd0kuwSLtrTKEieFr?=
+ =?iso-8859-1?Q?he9n1FP9hKfB2BQLu79Hp7lkJPrJQlj0w1w6BcCJA+vpFBMCY9q14tqNHj?=
+ =?iso-8859-1?Q?PXLNVe+Z20PhNZA0XV0WgbUb55SohAzlbd269FuxjkajaVDBi6CX4EgUI0?=
+ =?iso-8859-1?Q?haIlZR+jPBi0eTQQsAOGvTr1QCqh53hF7CVOwMYAjFcJgGca8+o6UssmkD?=
+ =?iso-8859-1?Q?YAlrq/Vc1dt6BldCr7Pzd1qlvuHqx64R2poKMXoZf7DGP3lMV83KpcnhBW?=
+ =?iso-8859-1?Q?pmjjIchL/xxt5He+TWsb8g5Th1wMThN0UToib2lHZaIPQ2CsJr8s+HQkrf?=
+ =?iso-8859-1?Q?/SQlQm7PBcZE5REGtZgbDQ81F5vgHBcdwCx7xthN+yIO28OkR+1ftchgJf?=
+ =?iso-8859-1?Q?5gAiZQr9ZyXVAVMkGA6ntiU2VSNGjb6YG2U3A1ROsSv/GmCfXcPZBYXPqx?=
+ =?iso-8859-1?Q?OJ40bwuoqKDLmbGZIRPH8q+O7QR+sMgoV+XkkmI2OIAswJLLwz0QC90z3V?=
+ =?iso-8859-1?Q?maAVuuKi8xVO4q7w9LL2oRmARnjpGU7Hquy+spjacPnw2I8/97wfSFmW82?=
+ =?iso-8859-1?Q?JpJSB8t96F8MwISU29kL0ASgZHD+0cujlOjaHtF8trpO9YjyQJvIs+aMhC?=
+ =?iso-8859-1?Q?ZZCdH4+xs9QmIRdmdv6D+wGy227m1PjTEEoxtDe0qlm5BjSmee3OKV3I2m?=
+ =?iso-8859-1?Q?91j1+blrJaga0UpBbZ0NiIKtKCmcUHygAZlgB9YjHKnYaEMKcFdAI2VOzU?=
+ =?iso-8859-1?Q?TYrr/NcTT2KShRjjNxutIK6tkYT7H4RHhJnV0t32VGaQFAhsPncjSyHRYo?=
+ =?iso-8859-1?Q?Ou47Oe9ORra3SSQcNIXjA8sbATpzEnPoiotR7EhBm+mYvbL0TxKb86THSF?=
+ =?iso-8859-1?Q?Qe7AZ14DD5MlO2rUp8dPXrxGZENb+r+NWnB4L35VetRTXCxc3hmGf01MK0?=
+ =?iso-8859-1?Q?IryzvXfdzx15znHVk8pAKRApBpyWtB9DwBRZu+yP341nAx63X5+hkZLMiA?=
+ =?iso-8859-1?Q?jbbFzoLH7Wr0QyTXCSNHPzAv6YpAignU4IcQfhKW9BidTm6t9Yjvkdyc9G?=
+ =?iso-8859-1?Q?khLNimSu1j7A/nh08I7JPM14iVzWA/dkCMaNE/XKT6O4wtOxRNkvaagKRH?=
+ =?iso-8859-1?Q?qeBXX1LN8JVt000EwoEdnWmxsm/bO4qKhVQEXnBK8ugPaucUOi2iHGqyX9?=
+ =?iso-8859-1?Q?+3z9AxD+kiVhwrHgEr4m2bkIYbTceeRhHOaBD3ZbaK/G2m8+eR7dnFjS9M?=
+ =?iso-8859-1?Q?7bu2LZF13SjRiyLjOhduRNOOU6jyhruTYXyEz/YArUwYgiWZJYbvq1Lk8j?=
+ =?iso-8859-1?Q?JN38bdqyv/F98GWb3txw50rpQi10jJEA4wDN5Km8Ig7DE6f8KNJUpoQyn5?=
+ =?iso-8859-1?Q?tjpgdAjAHjsCnfzyEAtm7Y7s5c+7yUOyXSwx9CeBdCKsHtbEypEIqSE4jg?=
+ =?iso-8859-1?Q?vv3vzUBHZX7MjGqALTY5rKjyaIOXhGCwXgfKaeGH6jX9zyV6D7539fnTwz?=
+ =?iso-8859-1?Q?YUuLsm+WcAejwOjqed7TtA3/pPo1+nnMykfkp/8UrHwdspSX3hYjMSxmTf?=
+ =?iso-8859-1?Q?M49tZzLOneOadSiP3ht9nZUxJJds5/0jW+LqHSEyjFptJfRDn9GL9F27QD?=
+ =?iso-8859-1?Q?T/n2nCG39vPvXGx/+lHlM+GoLZJpcN82Pw?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <202510290816.8EQhDjD8-lkp@intel.com>
-References: <20251028-b4-rpi-ov5647-v1-4-098413454f5e@ideasonboard.com> <202510290816.8EQhDjD8-lkp@intel.com>
-Subject: Re: [PATCH 04/13] media: i2c: ov5647: Fix v4l2-compliance failure subscribing to events
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, Kieran Bingham <kieran.bingham@ideasonboard.com>, David Plowman <david.plowman@raspberrypi.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Peter Robinson <pbrobinson@gmail.com>, Stefan Wahren <wahrenst@gmx.net>, Ivan T. Ivanov <iivanov@suse.de>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>, Jacopo Mondi <jacopo@jmondi.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, kernel test robot <lkp@intel.com>
-Date: Thu, 30 Oct 2025 11:37:49 +0530
-Message-ID: <176180446968.8690.15499732608328141859@freya>
-User-Agent: alot/0.12.dev28+gd2c823fe
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7185.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 30260015-46a6-4eda-0516-08de177bf67c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Oct 2025 06:17:11.6672
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ki1SUlRmx0iJPZ+j//J/9cYM42lkhVd9uLi79XhoS9mjbbtAtYTCgcc9vHo50SCetzJTG3sxE2d7EMAInlnDYB4Klzs3GLQUdAsBJuWr6r0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6518
+X-OriginatorOrg: intel.com
 
-Quoting kernel test robot (2025-10-29 06:27:53)
-> Hi Jai,
->=20
-> kernel test robot noticed the following build warnings:
->=20
-> [auto build test WARNING on 3a8660878839faadb4f1a6dd72c3179c1df56787]
->=20
-> url:    https://github.com/intel-lab-lkp/linux/commits/Jai-Luthra/media-i=
-2c-ov5647-Parse-and-register-properties/20251028-153619
-> base:   3a8660878839faadb4f1a6dd72c3179c1df56787
-> patch link:    https://lore.kernel.org/r/20251028-b4-rpi-ov5647-v1-4-0984=
-13454f5e%40ideasonboard.com
-> patch subject: [PATCH 04/13] media: i2c: ov5647: Fix v4l2-compliance fail=
-ure subscribing to events
-> config: sparc64-randconfig-r134-20251029 (https://download.01.org/0day-ci=
-/archive/20251029/202510290816.8EQhDjD8-lkp@intel.com/config)
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d=
-1c086e82af239b245fe8d7832f2753436634990)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20251029/202510290816.8EQhDjD8-lkp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202510290816.8EQhDjD8-lkp=
-@intel.com/
->=20
-> sparse warnings: (new ones prefixed by >>)
-> >> drivers/media/i2c/ov5647.c:870:10: sparse: sparse: Initializer entry d=
-efined twice
->    drivers/media/i2c/ov5647.c:876:10: sparse:   also defined here
+Hi Jason,
 
-My bad, this patch is already mainlined. I will drop it in next iteration.
+> Subject: Re: [RFC v2 0/8] dma-buf: Add support for mapping dmabufs via
+> interconnects
+>=20
+> On Sun, Oct 26, 2025 at 09:44:12PM -0700, Vivek Kasireddy wrote:
+> > In a typical dma-buf use case, a dmabuf exporter makes its buffer
+> > buffer available to an importer by mapping it using DMA APIs
+> > such as dma_map_sgtable() or dma_map_resource(). However, this
+> > is not desirable in some cases where the exporter and importer
+> > are directly connected via a physical or virtual link (or
+> > interconnect) and the importer can access the buffer without
+> > having it DMA mapped.
+>=20
+> I think my explanation was not so clear, I spent a few hours and typed
+> in what I was thinking about here:
+>=20
+> https://github.com/jgunthorpe/linux/commits/dmabuf_map_type
+>=20
+> I didn't type in the last patch for iommufd side, hopefully it is
+> clear enough. Adding iov should follow the pattern of the "physical
+> address list" patch.
+>=20
+> I think the use of EXPORT_SYMBOL_FOR_MODULES() to lock down the
+> physical addres list mapping type to iommufd is clever and I'm hoping
+> addresses Chrsitian's concerns about abuse.
+>=20
+> Single GPU drivers can easilly declare their own mapping type for
+> their own private interconnect without needing to change the core
+> code.
+>=20
+> This seems to be fairly straightforward and reasonably type safe..
+>=20
+> What do you think?
+It mostly looks OK to me but there are a few things that I want to discuss,
+after briefly looking at the patches in your branch:
+- I am wondering what is the benefit of the SGT compatibility stuff especia=
+lly
+when Christian suggested that he'd like to see SGT usage gone from dma-buf
+eventually. Also, if matching fails, IMO, indicating that to the importer (=
+allow_ic)
+and having both exporter/importer fallback to the current legacy mechanism
+would be simpler than the SGT compatibility stuff.
 
->=20
-> vim +870 drivers/media/i2c/ov5647.c
->=20
-> 3c2472a3c54895 Ramiro Oliveira 2017-03-22  867 =20
-> c9a05cece64c60 Jacopo Mondi    2020-11-19  868  /* Subdev core operations=
- registration */
-> 3c2472a3c54895 Ramiro Oliveira 2017-03-22  869  static const struct v4l2_=
-subdev_core_ops ov5647_subdev_core_ops =3D {
-> dc3373081396f5 Jacopo Mondi    2020-11-19 @870          .subscribe_event =
-       =3D v4l2_ctrl_subdev_subscribe_event,
-> dc3373081396f5 Jacopo Mondi    2020-11-19  871          .unsubscribe_even=
-t      =3D v4l2_event_subdev_unsubscribe,
-> 3c2472a3c54895 Ramiro Oliveira 2017-03-22  872  #ifdef CONFIG_VIDEO_ADV_D=
-EBUG
-> 3c2472a3c54895 Ramiro Oliveira 2017-03-22  873          .g_register      =
-       =3D ov5647_sensor_get_register,
-> 3c2472a3c54895 Ramiro Oliveira 2017-03-22  874          .s_register      =
-       =3D ov5647_sensor_set_register,
-> 3c2472a3c54895 Ramiro Oliveira 2017-03-22  875  #endif
-> d812c6225cf5be David Plowman   2025-10-28  876          .subscribe_event =
-=3D v4l2_ctrl_subdev_subscribe_event,
-> d812c6225cf5be David Plowman   2025-10-28  877          .unsubscribe_even=
-t =3D v4l2_event_subdev_unsubscribe,
-> 3c2472a3c54895 Ramiro Oliveira 2017-03-22  878  };
-> 3c2472a3c54895 Ramiro Oliveira 2017-03-22  879 =20
->=20
-> --=20
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+- Also, I thought PCIe P2P (along with SGT) use-cases are already well hand=
+led
+by the existing map_dma_buf() and other interfaces. So, it might be confusi=
+ng
+if the newer interfaces also provide a mechanism to handle P2P although a
+bit differently. I might be missing something here but shouldn't the existi=
+ng
+allow_peer2peer and other related stuff be left alone?
+
+- You are also adding custom attach/detach ops for each mapping_type. I thi=
+nk
+it makes sense to reuse existing attach/detach ops if possible and initiate=
+ the
+matching process from there, at-least initially.
+
+- Looks like your design doesn't call for a dma_buf_map_interconnect() or o=
+ther
+similar helpers provided by dma-buf core that the importers can use. Is tha=
+t
+because the return type would not be known to the core?
+
+- And, just to confirm, with your design if I want to add a new interconnec=
+t/
+mapping_type (not just IOV but in general), all that is needed is to provid=
+e custom
+attach/detach, match ops and one or more ops to map/unmap the address list
+right? Does this mean that the role of dma-buf core would be limited to jus=
+t
+match and the exporters are expected to do most of the heavy lifting and
+checking for stuff like dynamic importers, resv lock held, etc?
 
 Thanks,
-    Jai
+Vivek
+
+>=20
+> Jason
 
