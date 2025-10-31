@@ -1,132 +1,158 @@
-Return-Path: <linux-media+bounces-46031-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-46032-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C5A1C228ED
-	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 23:29:29 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 486ACC22CB5
+	for <lists+linux-media@lfdr.de>; Fri, 31 Oct 2025 01:34:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BE7194E4753
-	for <lists+linux-media@lfdr.de>; Thu, 30 Oct 2025 22:29:27 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 6C52F4E9132
+	for <lists+linux-media@lfdr.de>; Fri, 31 Oct 2025 00:33:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01C5433BBA0;
-	Thu, 30 Oct 2025 22:29:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1C67253F07;
+	Fri, 31 Oct 2025 00:31:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fb.com header.i=@fb.com header.b="epe5O20x"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="A/iPZChc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3FDF33B6D0;
-	Thu, 30 Oct 2025 22:29:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.145.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B3411E5213
+	for <linux-media@vger.kernel.org>; Fri, 31 Oct 2025 00:31:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761863360; cv=none; b=Djsqv0Bbs3dj/nbmHR31nEzoxv2akJk/UosaNvLoLhYsUKEf1INAMCJ0PXXKkRUem3CmMT3Ttgfuo/HA9UmRsUQtW3bKH8k+ThxLRNA/0bSx/1DymvchdP+Y+QtLc33eaYXat1tTCcepvDStHXl1eV5IXY+AsEKjwuivWDIiY+8=
+	t=1761870672; cv=none; b=ZxaWSY2E23NqgJpQp/0w9SUeeE681faqvYHagOAMCWdz+8ShzhcIqVBJfRdpgXVhLVDpb8WXHpKj5+VNGOWez2GaAMLfsRegPMjCThDNUlzpRTnGGGqu8pg4EvY6ytagcogzENjN+rNNEnn5RPI0A3M2qLQOjFgMUR0JBgxqG8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761863360; c=relaxed/simple;
-	bh=xuWeFnb+o/iej1ePHcnltUKBGKcVE0f1K2+jE7TaIbM=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hcYYr6HCvJmdbmTRFSt4n9llYCo8hmkxSL9HxvnAwa4wq5eCQ8bggCagIfyMIL2/4bSq/qJCQyOvH4zSfWBM5N3QVZP/mivbbyTI4wuq2Mn24G10svmejsEwhWXTdCNH+1MSg4J9p3AptPaN/SE5wci+qv3oUvaE9zKwjoMPISo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=fb.com header.i=@fb.com header.b=epe5O20x; arc=none smtp.client-ip=67.231.145.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
-Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59UM3pna1895091;
-	Thu, 30 Oct 2025 15:28:47 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
-	 bh=60MefK3DxP+BN/HIANh8ofusObRmU+P87CCGRx3MEO0=; b=epe5O20xyR3j
-	YqdW4KFFW/hKSzMmP6zxpSgyY+iAjdoiRJ/+1fZ+wpMdqBODgMbL3NtPVqIm9fXn
-	x8KD+nhge1tAFU+UM7ib57i84EfUejMrkp4ywkavIftCYdfYPL+rg5TyuM4egAxp
-	v730WeuN1y8ewqJYkdxzs+vF0OKA/mBfAZff8Mdlq8EyvuSoLvqO75SdNAY16w6j
-	uZbkq8Y021f4I7CD+rct0ho/uS5M6fGUedgN4CujHW513K4iArOZm0gmlsx+gPqZ
-	Qi8bw00rL9JiY8406oULQSWADhgiBvzYco4K9/0e4d4uZWV47Eh97AQSmjhfQ0Yg
-	vjFgzZ4jXg==
-Received: from maileast.thefacebook.com ([163.114.135.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4a4aakbt30-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 30 Oct 2025 15:28:47 -0700 (PDT)
-Received: from devgpu015.cco6.facebook.com (2620:10d:c0a8:1b::8e35) by
- mail.thefacebook.com (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.20; Thu, 30 Oct 2025 22:28:44 +0000
-Date: Thu, 30 Oct 2025 15:28:39 -0700
-From: Alex Mastro <amastro@fb.com>
-To: Leon Romanovsky <leon@kernel.org>
-CC: David Matlack <dmatlack@google.com>,
-        Alex Williamson
-	<alex.williamson@redhat.com>,
-        Jason Gunthorpe <jgg@nvidia.com>,
-        Andrew Morton
-	<akpm@linux-foundation.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Christian
- =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        <dri-devel@lists.freedesktop.org>, <iommu@lists.linux.dev>,
-        Jens Axboe
-	<axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
-        <kvm@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>,
-        <linux-block@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-mm@kvack.org>,
-        <linux-pci@vger.kernel.org>, Logan Gunthorpe
-	<logang@deltatee.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin
- Murphy <robin.murphy@arm.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Vivek
- Kasireddy <vivek.kasireddy@intel.com>,
-        Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v5 9/9] vfio/pci: Add dma-buf export support for MMIO
- regions
-Message-ID: <aQPmlwaoqPPFeyN/@devgpu015.cco6.facebook.com>
-References: <cover.1760368250.git.leon@kernel.org>
- <72ecaa13864ca346797e342d23a7929562788148.1760368250.git.leon@kernel.org>
- <CALzav=cj_g8ndvbWdm=dukW+37cDh04k1n7ssFrDG+dN3D+cbw@mail.gmail.com>
- <20251028120207.GQ12554@unreal>
+	s=arc-20240116; t=1761870672; c=relaxed/simple;
+	bh=KMzDRKv5vA7T7CtnN1YiylERwCfSkYzsAuzyPy6DuS8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=P+foGtEOwbjghd54o014mHfE2cVqGjHI25wwq0UKop5Bv6rOm6SbOe1tUZrNU71vPLkxqsMDoeJeb7PTBhRKpxHCiZJjj7kqU2h7B2hx0qV/8SVXsOuARmgYe4nHuMlAAnpWYvpdSs3Ak3H2tj+5jOurwyZQxPX7pqYWwFXcqjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=A/iPZChc; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4771b03267bso11412295e9.0
+        for <linux-media@vger.kernel.org>; Thu, 30 Oct 2025 17:31:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1761870667; x=1762475467; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XQyM+gpE1/R8XB7auHos6sn8eyFYyrQM/uv08lULwXc=;
+        b=A/iPZChchR43f4h7UeGjo2dAGs1KBe9fc6oP9w6W1oJWCBBQXsxSdpyugvLTzY87sk
+         O9NLOvtYWWc/DIMaW1tqBhPTT1IlBOTtIa4yN26p0DdX1nNrIv5Rz87en4leoeYGnEBp
+         EEr1pD+kpp5zVxE3VEw8WimXA9P6cpC9fZ0o09+ftNbWp6KPgskct2DpcX9KnXag4/9f
+         od47Zd2y0CZ1P0LjxruKRAg8M8fIKFxzcDJAItnzZ8K6DytU0LNc31X1pB93HT2RW0Qd
+         Sw6MeqLR/qyP/UPR27hl3ngZppBGc6M+iUoGRfFBHVK8P8pCglwIJxk57pYYP4bFsLZ+
+         9NEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761870667; x=1762475467;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XQyM+gpE1/R8XB7auHos6sn8eyFYyrQM/uv08lULwXc=;
+        b=KgBs7IpCpSxni77FKHULK4ESBR8omi2VkX17PYYSKztWpwTZjMQdIxN5yfe86xPxkU
+         a0Vevs7gxpqNP7qHX0ZZ1Q44V/BR4z3npltT192+8zAtswwRKzlX5baVmAvBbK1/v1qg
+         hOw1QMkzQ39EEcNdIzRHeYDXd1i/LB4BvzSPQODqjDQp8UFEv0CshhsGfjjBRNxYpsXs
+         EdJHzF1dXFs/sEQJwTjpMhXwD46WuTkRoWhrDpfr29hP8WathKHBOLiIOxExpPwGjv1z
+         Ir9fhfFvgHbd+kdrhRK+YymzE3Pv+GGWXUIcdwtx3yuuZpUQo6m+ZjL7+PEIxB4ue5Qy
+         mdNw==
+X-Gm-Message-State: AOJu0YzoiAJ/NVn+HGSpj7gsJv8Ff7o3hoxpYcvzdiic0cP1/geBUWWQ
+	TBC6Qn/4lRalZJz9djTs/TbcpnhT+KFOyXyseUFNLLaEKDO852oGFRI5BDpq3m1PX9I=
+X-Gm-Gg: ASbGncvWZUoxFw8Mhz5Js4neqEAN1ibmJ6rD/LFf6Nb4LHEHeb60AMg5y0UfiNQ4CDL
+	GPNppM9zgjPkpXQ/LKWWTqkuP2fIaB+FLR4AF5dTIA7O0iv08auC+rQf6aKNBKtaNXJuC8F05wk
+	Ras9cICjfRHUrn3+keWA1WAuRTYlcsTXxz3xjwo34HdeKfTYs26ctAugx1jGokjM1RuVsnhaYdj
+	gY/NPYKZ4xprxWzBbPBEpG6+shKAYje24E7iFU8O6yM8C+2QEovXNckNH54oNFGypYSbUinsnOa
+	WZg5eyZO9FFDQfGrOz2yYq3Ek8K8UZ9SnGOBVi83DrAPuaUWk2Cx5WApxksJafNzCAC9hpIaKcy
+	AL2ZbIfQRZIgxCHkj198lebaj8DSoa3jwwCUEtvqMSiYpOiI2FOFKrCYTL6tppyEq5EUzjnzQnd
+	qqRix1O8V0+GU9Jxe7GpUWfkE9ubS0ySoLyIe7lxQVofmBOTEhs9Vn
+X-Google-Smtp-Source: AGHT+IHXcj8ihCaJ0joDQKKDFiMlVz4FGEpmj/DtV4mCnROhkUQEtdynsk+5jYqiPYBn1KFHIFfjeQ==
+X-Received: by 2002:a05:600d:6352:b0:45f:28d2:bd38 with SMTP id 5b1f17b1804b1-4773163825dmr4196955e9.18.1761870667522;
+        Thu, 30 Oct 2025 17:31:07 -0700 (PDT)
+Received: from [192.168.0.21] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429c13e1d8bsm286786f8f.25.2025.10.30.17.31.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Oct 2025 17:31:06 -0700 (PDT)
+Message-ID: <85217da4-3ba5-491f-a771-40c95a31f1f3@linaro.org>
+Date: Fri, 31 Oct 2025 00:31:04 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251028120207.GQ12554@unreal>
-X-Proofpoint-GUID: 0ZpO7X-t6Kgi2VjTgweWDl_lcxnq2iwh
-X-Authority-Analysis: v=2.4 cv=MKVtWcZl c=1 sm=1 tr=0 ts=6903e69f cx=c_pps
- a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=NEAV23lmAAAA:8 a=VwQbUJbxAAAA:8 a=7nlfRzPPCwOAtMVn9e4A:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=zZCYzV9kfG8A:10 a=nl4s5V0KI7Kw-pW0DWrs:22
- a=pHzHmUro8NiASowvMSCR:22 a=xoEH_sTeL_Rfw54TyV31:22
-X-Proofpoint-ORIG-GUID: 0ZpO7X-t6Kgi2VjTgweWDl_lcxnq2iwh
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDMwMDE5MCBTYWx0ZWRfX9llSfoX60trR
- mXbkBVBl55Urqb11S4qwjm/pObJY1X+1S60diRRsEHth5MOf7IKq4Czoup72ugb8Fl7vtg6Umws
- T0wR1zGVKO57L2GHA+0qVpD49RE7de+O2DlACYm/FDEOQ+atQFmHmE8OEvSGvK9Gg4KMjnnZt8P
- 9eo89vLlcLa+5jC4ltXqN6ZnruT3+bwwmAoV+36wLcYx0ULiPIRAKmAFs3n7/cl40zFJ4huLoWi
- lhzkX2aFxuaPfA92Kwt7K+H/vFc1bREnntF0tAc+FIeWaqYsNtchscW+GO7K0feCvrH6ojQzyNc
- 9LmYvsWx+Z1+kjfzugACbFQ5EapodjjO8oosw2rM7ft6LeldzwV/2j0JbuFgschcLfnZT3p4l5a
- f0vHibOGQ5TJGIf/lMEHHGx/tX27mA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-10-30_07,2025-10-29_03,2025-10-01_01
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/5] media: uapi: videodev2: Add support for AV1
+ stateful decoder
+To: Deepa Guthyappa Madivalara <deepa.madivalara@oss.qualcomm.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+ Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Deepa Guthyappa Madivalara <deepa.madivalara@oss.qualcomm.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+ Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, kernel test robot <lkp@intel.com>
+References: <20251030-av1d_stateful_v3-v3-0-a1184de52fc4@oss.qualcomm.com>
+ <_CZHQqm9UaYWFVQTen8I6llGxozVDgeSVxCp_HGBttKghQ3or75NV-dfyGOXiKF-bPIDdgsTtNtKJjED0nko8w==@protonmail.internalid>
+ <20251030-av1d_stateful_v3-v3-1-a1184de52fc4@oss.qualcomm.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <20251030-av1d_stateful_v3-v3-1-a1184de52fc4@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> On Mon, Oct 27, 2025 at 04:13:05PM -0700, David Matlack wrote:
-> > On Mon, Oct 13, 2025 at 8:44 AM Leon Romanovsky <leon@kernel.org> wrote:
-> > This uAPI would be a good candidate for a VFIO selftest. You can test
-> > that it returns an error when it's supposed to, and a valid fd when
-> > it's supposed to. And once the iommufd importer side is ready, we can
-> > extend the test and verify that the fd can be mapped into iommufd.
+On 30/10/2025 07:00, Deepa Guthyappa Madivalara wrote:
+> Introduce a new pixel format, V4L2_PIX_FMT_AV1, to the
+> Video4Linux2(V4L2) API. This format is intended for AV1
+> bitstreams in stateful decoding/encoding workflows.
+> The fourcc code 'AV10' is used to distinguish
+> this format from the existing V4L2_PIX_FMT_AV1_FRAME,
+> which is used for stateless AV1 decoder implementation.
 > 
-> No problem, I'll add such test, but let's focus on making sure that this
-> series is accepted first.
-
-Along similar lines, perhaps adding vfio as src/vfio_memory.c dmabuf provider
-to perftest [1] could be useful for low-level end-to-end validation.
-
-https://github.com/linux-rdma/perftest
+> Signed-off-by: Deepa Guthyappa Madivalara <deepa.madivalara@oss.qualcomm.com>
+> ---
+>   Documentation/userspace-api/media/v4l/pixfmt-compressed.rst | 8 ++++++++
+>   include/uapi/linux/videodev2.h                              | 1 +
+>   2 files changed, 9 insertions(+)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+> index c7efb0465db6480fe35be8557728c196e0e530f4..0c70410ffd4d58e0719d3cf13ad336c97b454ae9 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+> @@ -275,6 +275,14 @@ Compressed Formats
+>           of macroblocks to decode a full corresponding frame to the matching
+>           capture buffer.
+> 
+> +    * .. _V4L2-PIX-FMT-AV1:
+> +
+> +      - ``V4L2_PIX_FMT_AV1``
+> +      - 'AV01'
+> +      - AV1 compressed video frame. This format is adapted for implementing AV1
+> +        pipeline. The decoder implements stateful video decoder and expects one
+> +        Temporal Unit per buffer from OBU-stream or AnnexB.
+> +        The encoder generates one Temporal Unit per buffer.
+>   .. raw:: latex
+> 
+>       \normalsize
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index becd08fdbddb857f8f2bf205d2164dc6e20e80b2..cf0b71bbe0f9d397e1e6c88433a0fc3ba11fb947 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -775,6 +775,7 @@ struct v4l2_pix_format {
+>   #define V4L2_PIX_FMT_H264_SLICE v4l2_fourcc('S', '2', '6', '4') /* H264 parsed slices */
+>   #define V4L2_PIX_FMT_HEVC_SLICE v4l2_fourcc('S', '2', '6', '5') /* HEVC parsed slices */
+>   #define V4L2_PIX_FMT_AV1_FRAME v4l2_fourcc('A', 'V', '1', 'F') /* AV1 parsed frame */
+> +#define V4L2_PIX_FMT_AV1      v4l2_fourcc('A', 'V', '0', '1') /* AV1 */
+>   #define V4L2_PIX_FMT_SPK      v4l2_fourcc('S', 'P', 'K', '0') /* Sorenson Spark */
+>   #define V4L2_PIX_FMT_RV30     v4l2_fourcc('R', 'V', '3', '0') /* RealVideo 8 */
+>   #define V4L2_PIX_FMT_RV40     v4l2_fourcc('R', 'V', '4', '0') /* RealVideo 9 & 10 */
+> 
+> --
+> 2.34.1
+> 
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
