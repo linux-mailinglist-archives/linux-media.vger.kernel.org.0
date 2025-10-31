@@ -1,137 +1,137 @@
-Return-Path: <linux-media+bounces-46082-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-46085-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3C72C25C55
-	for <lists+linux-media@lfdr.de>; Fri, 31 Oct 2025 16:11:20 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4895CC25FC9
+	for <lists+linux-media@lfdr.de>; Fri, 31 Oct 2025 17:05:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 49E6E3AD65C
-	for <lists+linux-media@lfdr.de>; Fri, 31 Oct 2025 15:08:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 426031A60C47
+	for <lists+linux-media@lfdr.de>; Fri, 31 Oct 2025 16:00:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90D62230D14;
-	Fri, 31 Oct 2025 15:08:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CAA52F546E;
+	Fri, 31 Oct 2025 15:58:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FVPrdUHS"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="duhoxMid"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AE691DC198;
-	Fri, 31 Oct 2025 15:08:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AFAD2E8894;
+	Fri, 31 Oct 2025 15:58:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761923315; cv=none; b=IFo2qF6Bb083wrbP56xEP+RSJ1ohe3OHvR6j+gSY5U54xwaHRca3kbzdsz4EwJyJk3EqJ2CUSNP7ZwFdjg3ExrQwGxffbplw82cwJo9M1BjhLQaC1GKkQUPSeHHL543sZQPxt8I/HY1tyrmJFCALKRvt3Zhe3DV8Wj8tgO0P3ik=
+	t=1761926332; cv=none; b=niGqkgHPUxj0AtKeGSkYyWemTUUZIWZTeRdisW0vzjWuUsBQ6d345PWzRvX5t1ovbArUTu98yWO7EYXABUFZkB4BugIGbnL6OA1spik5mx2gzmcO+6Ue73W69j5Rl8ImVdevEseE3sKjBGKHQjiC5wPw9bH3PWfdutFtw4npa8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761923315; c=relaxed/simple;
-	bh=+0fVAVV8CjLZmynXrrG3nwndOiUEsEKbv4bJrqEDm4Q=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=B1tNHHOULvNW1kr98THuBNlteUlZrYsm7/Pe2hMJ5yOTEPWxWasBd7pLUls7krQFxJpCSDWkjUvodRe5vp4D6ElnZcdQUY+F5doVEA22KkiV64+2uWv8KUlzauo7yALGPHGtdp1VchtAN6dG2xLV7KU4hkOefHQkU8Z31YWwklQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FVPrdUHS; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 77EB1520;
-	Fri, 31 Oct 2025 16:06:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1761923199;
-	bh=+0fVAVV8CjLZmynXrrG3nwndOiUEsEKbv4bJrqEDm4Q=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=FVPrdUHSPwpG9UHeAD08omvYfUTMtQpZCwfs1dunml3+sBPsCr3t/RH49saIRs9iu
-	 u/5VuvXYYl3yOzoDRoPCVHOq3OZ/gn57+POohG8KrZILVsoOQ8UvhwZlV68syJ+uPs
-	 wYoen17Wx0DGXoPT0DFcCDIH7B5E7C9o7q85awz8=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1761926332; c=relaxed/simple;
+	bh=7ZocrOdZoOe8U0HbdKT4/kjrzm5YzPGNjP4XkVa5BWs=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=L4UHYiQrmTWXy8QdtVexeyt8foonA8+vGxBZ5YihTDvHBKrwdjiIYXa8jLqnPMJojvlTdCICxui2rGa5iXylIvJi0jTdD1igipigFs7vkUs0R7bJNa+MI0MI8Gae4FamGEas9bMnr76uY9zP9C+E2/c1/r8O4VZqaNC5FxbVZj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=duhoxMid; arc=none smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 787881f4b67211f0b33aeb1e7f16c2b6-20251031
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=bov98rlRxQkhC4GLJxADuB3XDxqpYat/vql3Q23B3/o=;
+	b=duhoxMidtH5SSxYzqL5w5+blGJJ2NumIp1jIV4xwe3YQ75SVVWR1NbdsjTBx8+t773mbJqK+kFORVve9CW9X4kFOyN4R7F7KdNr7xfULE2Vuomeqb+dAO2ffYTZsbSTbAM4d6OzIBUcj39u901QBc1GJmc+Dnm3MoTvIFxzLXqo=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.6,REQID:76af375b-8c22-495a-9007-4ab11db5d6a8,IP:0,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:0
+X-CID-META: VersionHash:a9d874c,CLOUDID:4413e76a-d4bd-4ab9-8221-0049857cc502,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102|836|888|898,TC:-5,Content:0|15|5
+	0,EDM:-3,IP:nil,URL:99|1,File:130,RT:0,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0
+	,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 787881f4b67211f0b33aeb1e7f16c2b6-20251031
+Received: from mtkmbs09n1.mediatek.inc [(172.21.101.35)] by mailgw02.mediatek.com
+	(envelope-from <jason-jh.lin@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 561415047; Fri, 31 Oct 2025 23:58:41 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Fri, 31 Oct 2025 23:58:39 +0800
+Received: from mtksitap99.mediatek.inc (10.233.130.16) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1748.26 via Frontend Transport; Fri, 31 Oct 2025 23:58:39 +0800
+From: Jason-JH Lin <jason-jh.lin@mediatek.com>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>
+CC: Matthias Brugger <matthias.bgg@gmail.com>, Nicolas Dufresne
+	<nicolas@ndufresne.ca>, Jason-JH Lin <jason-jh.lin@mediatek.com>, Nancy Lin
+	<nancy.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>, Paul-PL
+ Chen <paul-pl.chen@mediatek.com>, Moudy Ho <moudy.ho@mediatek.com>, Xiandong
+ Wang <xiandong.wang@mediatek.com>, Sirius Wang <sirius.wang@mediatek.com>,
+	Fei Shao <fshao@chromium.org>, Chen-yu Tsai <wenst@chromium.org>,
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
+	Jason-jh Lin <jason-jh.lin@mediatek.corp-partner.google.com>
+Subject: [PATCH 0/9] Add GCE support for MT8196 (series 1/4)
+Date: Fri, 31 Oct 2025 23:56:28 +0800
+Message-ID: <20251031155838.1650833-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20251031114835.113026-3-tarang.raval@siliconsignals.io>
-References: <20251031114835.113026-1-tarang.raval@siliconsignals.io> <20251031114835.113026-3-tarang.raval@siliconsignals.io>
-Subject: Re: [PATCH v1 2/2] media: i2c: imx219: Replace exposure magic value with named constant
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Tarang Raval <tarang.raval@siliconsignals.io>, Dave Stevenson <dave.stevenson@raspberrypi.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-To: Tarang Raval <tarang.raval@siliconsignals.io>, sakari.ailus@linux.intel.com
-Date: Fri, 31 Oct 2025 15:08:27 +0000
-Message-ID: <176192330798.567526.14611830953271874355@ping.linuxembedded.co.uk>
-User-Agent: alot/0.9.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 
-Quoting Tarang Raval (2025-10-31 11:48:35)
-> Introduce IMX219_EXPOSURE_OFFSET (4) and use it instead of the literal
-> '4' when computing the maximum coarse exposure. The IMX219 datasheet
-> specifies the maximum storage time as frame_length_lines - 4.
-> (Ref: Datasheet section 5-7-1)
->=20
-> Also fix one indentation issue for consistency.
+From: Jason-jh Lin <jason-jh.lin@mediatek.corp-partner.google.com>
 
+This series adds initial support for the MediaTek MT8196 GCE in the CMDQ
+driver, including related API changes for new hardware requirements.
 
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Series application order:
+  1. [Fixes] Refine DMA address handling for the command buffer
+  - https://lore.kernel.org/all/20251022171847.379470-1-jason-jh.lin@mediatek.com/
+  2. [Series 1/4] Add GCE support for MT8196 and update CMDQ APIs (this series)
+  3. [Series 2/4] Migrate subsystems to new CMDQ APIs
+  4. [Series 3/4] Remove shift_pa from CMDQ jump functions
+  5. [Series 4/4] Remove deprecated CMDQ APIs
 
->=20
-> Signed-off-by: Tarang Raval <tarang.raval@siliconsignals.io>
-> ---
->  drivers/media/i2c/imx219.c | 13 +++++++------
->  1 file changed, 7 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index 40693635c0c3..e87d5a18fe87 100644
-> --- a/drivers/media/i2c/imx219.c
-> +++ b/drivers/media/i2c/imx219.c
-> @@ -68,6 +68,7 @@
->  #define IMX219_EXPOSURE_STEP           1
->  #define IMX219_EXPOSURE_DEFAULT                0x640
->  #define IMX219_EXPOSURE_MAX            65535
-> +#define IMX219_EXPOSURE_OFFSET                 4
-> =20
->  /* V_TIMING internal */
->  #define IMX219_REG_FRM_LENGTH_A                CCI_REG16(0x0160)
-> @@ -450,9 +451,9 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
->                 int exposure_max, exposure_def;
-> =20
->                 /* Update max exposure while meeting expected vblanking */
-> -               exposure_max =3D format->height + ctrl->val - 4;
-> +               exposure_max =3D format->height + ctrl->val - IMX219_EXPO=
-SURE_OFFSET;
->                 exposure_def =3D (exposure_max < IMX219_EXPOSURE_DEFAULT)=
- ?
-> -                       exposure_max : IMX219_EXPOSURE_DEFAULT;
-> +                               exposure_max : IMX219_EXPOSURE_DEFAULT;
->                 ret =3D __v4l2_ctrl_modify_range(imx219->exposure,
->                                                imx219->exposure->minimum,
->                                                exposure_max,
-> @@ -579,9 +580,9 @@ static int imx219_init_controls(struct imx219 *imx219)
->                                            IMX219_LLP_MIN - mode->width,
->                                            IMX219_LLP_MAX - mode->width, =
-1,
->                                            IMX219_LLP_MIN - mode->width);
-> -       exposure_max =3D mode->fll_def - 4;
-> +       exposure_max =3D mode->fll_def - IMX219_EXPOSURE_OFFSET;
->         exposure_def =3D (exposure_max < IMX219_EXPOSURE_DEFAULT) ?
-> -               exposure_max : IMX219_EXPOSURE_DEFAULT;
-> +                       exposure_max : IMX219_EXPOSURE_DEFAULT;
->         imx219->exposure =3D v4l2_ctrl_new_std(ctrl_hdlr, &imx219_ctrl_op=
-s,
->                                              V4L2_CID_EXPOSURE,
->                                              IMX219_EXPOSURE_MIN, exposur=
-e_max,
-> @@ -900,9 +901,9 @@ static int imx219_set_pad_format(struct v4l2_subdev *=
-sd,
->                         return ret;
-> =20
->                 /* Update max exposure while meeting expected vblanking */
-> -               exposure_max =3D mode->fll_def - 4;
-> +               exposure_max =3D mode->fll_def - IMX219_EXPOSURE_OFFSET;
->                 exposure_def =3D (exposure_max < IMX219_EXPOSURE_DEFAULT)=
- ?
-> -                       exposure_max : IMX219_EXPOSURE_DEFAULT;
-> +                               exposure_max : IMX219_EXPOSURE_DEFAULT;
->                 ret =3D __v4l2_ctrl_modify_range(imx219->exposure,
->                                                imx219->exposure->minimum,
->                                                exposure_max,
-> --=20
-> 2.34.1
->
+Please apply this series after the DMA address handling Fixes patch[1],
+and before the following series.
+
+---
+
+Jason-JH Lin (9):
+  arm64: dts: mediatek: Add GCE header for MT8196
+  mailbox: mtk-cmdq: Add cmdq private data to cmdq_pkt for generating
+    instruction
+  mailbox: mtk-cmdq: Add GCE hardware virtualization configuration
+  mailbox: mtk-cmdq: Add mminfra_offset configuration for DRAM
+    transaction
+  mailbox: mtk-cmdq: Add driver data to support for MT8196
+  soc: mediatek: mtk-cmdq: Add cmdq_get_mbox_priv() in cmdq_pkt_create()
+  soc: mediatek: mtk-cmdq: Add pa_base parsing for hardware without
+    subsys ID support
+  soc: mediatek: mtk-cmdq: Extend cmdq_pkt_write API for SoCs without
+    subsys ID
+  soc: mediatek: mtk-cmdq: Add mminfra_offset adjustment for DRAM
+    addresses
+
+ arch/arm64/boot/dts/mediatek/mt8196-gce.h | 612 ++++++++++++++++++++++
+ drivers/mailbox/mtk-cmdq-mailbox.c        |  74 ++-
+ drivers/soc/mediatek/mtk-cmdq-helper.c    |  77 ++-
+ include/linux/mailbox/mtk-cmdq-mailbox.h  |  19 +
+ include/linux/soc/mediatek/mtk-cmdq.h     |  93 ++++
+ 5 files changed, 869 insertions(+), 6 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/mediatek/mt8196-gce.h
+
+-- 
+2.43.0
+
 
