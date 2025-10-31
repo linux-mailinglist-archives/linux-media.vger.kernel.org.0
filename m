@@ -1,218 +1,227 @@
-Return-Path: <linux-media+bounces-46072-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-46073-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7605AC24DB8
-	for <lists+linux-media@lfdr.de>; Fri, 31 Oct 2025 12:52:20 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DB43C24DA3
+	for <lists+linux-media@lfdr.de>; Fri, 31 Oct 2025 12:51:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7F56B561880
-	for <lists+linux-media@lfdr.de>; Fri, 31 Oct 2025 11:51:04 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id BC005351152
+	for <lists+linux-media@lfdr.de>; Fri, 31 Oct 2025 11:51:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 667C134A3C4;
-	Fri, 31 Oct 2025 11:49:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 376AE34844B;
+	Fri, 31 Oct 2025 11:50:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="iWszGXr/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PNYPR01CU001.outbound.protection.outlook.com (mail-centralindiaazon11020111.outbound.protection.outlook.com [52.101.225.111])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78ABB347BA9;
-	Fri, 31 Oct 2025 11:49:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.225.111
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761911351; cv=fail; b=YGzIDQqjo5fxfw7TNyYJM1/T0jdL3sN+VRmOH/ZWW5F3ld/Qm9QKAJH26JDZqcK4Ad3sZA69PW5BZ5KJwhGtwSwcFlLGrdC5qEyaNxWOeyLi5rRgbysHZbyZ3VXIihMVGhYLHvsbRypjta302g590VVGuxLlKAETM7h7z8IMRTY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761911351; c=relaxed/simple;
-	bh=8+flSWiNDD3S0G84VKBRdr2QtNJlFwWIsLciHLYoc1Q=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=gig92ExfkdGNxnPYqPiM9BfxQAtYymSW/1kYTXznstw/5gPPoiN5HpzC/3+wK33TYS+7T0+q+J1NTGVZOYGheMFynLgUUYwqz6TinfEXUsRGVgL+H7fZ+/rd1DJmCZhjm/F7P70t7WRcRI/1emSv3nXtwYbie7QU46bQhvZ7lbo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io; spf=fail smtp.mailfrom=siliconsignals.io; arc=fail smtp.client-ip=52.101.225.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=siliconsignals.io
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SArBKMIBVCv3fcTDJMOuJCnlK6S6RT6WDB78UB2tTATh2rknb/MN/vNHL8NlS34bh4AF62M+flVB/x2LVl3hBTI1zlMrzEjfUvNZTKjXiKxogrvLXH/cbpWExt2uE2yogdVv0mdMva8mBc3YAFM1QMdb+fP6t36da9exlHU+hJP+GD12tUy3Vr3LOLh63HdzdM4disnt9ptXjrrhZBiCvk/UXrGYeGAT+Dfjd43SxpkimLlc3ocMHWCkKXbYQ4qgA87EKUOBXY7cxXBcZoICrVicroKrFqwuWvxV3O0hodeRZMLRfmfWvYJvLjb/IhHycr3PbdmKP15AyExLAPfWqQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/xosQkk7NtwI+EtEhN4pmDisKv/DAyu/MljgMhi/590=;
- b=hu63DZBMdOLVETH2glm4xUfe9Nsk5iVjDPfOcyqtb/KZtSTUWJ5qusLq709GyQmXk87nKNbf17Fm7f5G02z275zt4GugGbvjhpFHIEZxFNoCZov08kBXc3uZwM6KoH3dE5FKpX7IGFG3aKYUVZiBJQd1tSJHr5R9e4FrWgy7rssJQPf3j/xoZunAm9wjQlU6FserTEzM191O14BKBq8u+YwC689XPOvt00pC1/9QdSamrhJ59Gh7KyhJRDwelzC2QDQP2IaJof+zYUCCEcNB7dZq8AHyk0ciDNW2OeBanFnaF1uXpXRnT4FdSibFN4j1P0kbl89PrWcxC+rCuy2F1g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
- header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siliconsignals.io;
-Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:199::7)
- by PN4P287MB5137.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:305::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.15; Fri, 31 Oct
- 2025 11:49:04 +0000
-Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
- ([fe80::58ec:81a0:9454:689f]) by PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
- ([fe80::58ec:81a0:9454:689f%4]) with mapi id 15.20.9275.013; Fri, 31 Oct 2025
- 11:49:04 +0000
-From: Tarang Raval <tarang.raval@siliconsignals.io>
-To: sakari.ailus@linux.intel.com
-Cc: Tarang Raval <tarang.raval@siliconsignals.io>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 2/2] media: i2c: imx219: Replace exposure magic value with named constant
-Date: Fri, 31 Oct 2025 17:18:35 +0530
-Message-Id: <20251031114835.113026-3-tarang.raval@siliconsignals.io>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251031114835.113026-1-tarang.raval@siliconsignals.io>
-References: <20251031114835.113026-1-tarang.raval@siliconsignals.io>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: PN2PR01CA0220.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:ea::18) To PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:199::7)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7B3F346FDD
+	for <linux-media@vger.kernel.org>; Fri, 31 Oct 2025 11:50:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761911421; cv=none; b=YGDGNZ6yOUgNpUQvSD/rVPu+U8xpAgkMLTi2pMOoKrrc6ScD0Sno3XKWCnrm9k+hxCCMBWFk6rUkHSZk1bBrmClDsiu6fUjS9Z0WMcLkkos/Lid1+Rm3/BEJCY4hfFCLqKaEvjtPCvVmzehw019hbkVrzeedlKPf777OuxNoo5s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761911421; c=relaxed/simple;
+	bh=qBTF3vC97h/TQ5mFg0ENVn3FRosFpRIjOpgQtABY4KI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WA/dHuM6QsAHSjak4o/kLJIYcnQuoNvHfffRXJs+HRfG8tDqnEde+r8EPU8ck9kynueq4RZH98O0rAyHixmw2I9EYwrIRgMB/+rBWimjItsUfQk6cGnZpk5FJot8Ma6/sTaMahfUp2lweTw3sbgsxfbz5rBTziIRw4iVrk+mJiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net; spf=none smtp.mailfrom=ursulin.net; dkim=pass (2048-bit key) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b=iWszGXr/; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ursulin.net
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-429c19b5de4so465682f8f.3
+        for <linux-media@vger.kernel.org>; Fri, 31 Oct 2025 04:50:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1761911418; x=1762516218; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TMW4q1yc/hq1gjF5rKdDD6wjxSe1WwAdRUZxNTv4M7U=;
+        b=iWszGXr/WjG0Iy3nl+JyGoceL39J++pv91P2V0gC+pdLjp1+0XI/Ws7fArDdeIXjAs
+         sxVq/gfBIjH4WbGXuTgYr+IiZ21/cFjl+Tu68IursCoo/7ie+IRMRGkayago2mlZDnvi
+         en4qNhbt57co9O7FyDiUVSD+5uhL2UznR7W4GQBjrhlc0gJTazMPgUOqqlPigMq2csvx
+         SD2uoPTJwIjmkx/+0b6oVNbQDbCVjVXUT7/kjZ/TcPgzPAL25sDiviLC9hdKjb4YYLw+
+         /X39bAiIOH2onQmK/DBrY95eoHZYl08/KFRoavtOavyr4VZXIpV9Q+3o567jJYKLd1kN
+         wMtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761911418; x=1762516218;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TMW4q1yc/hq1gjF5rKdDD6wjxSe1WwAdRUZxNTv4M7U=;
+        b=F4PY7t/eRAzRY/Aj18rEy93Y27jtoC/Sa8QfcFCkt1XmbJrS3W2cjXstdl/PTAW9AH
+         puLCccifiqXWu5AkAabt36P1Jr7FAP9TMbI61HQ0UtmgU2042XMLj+B4RSzzjrGqXNer
+         OjPNTLxfv9kt1R6MKfkuuW7W857ZwgM+4/nmiT+ytFzu9l5W+1edEgFE3/ZIONiOOK1p
+         7kW4tFdYJtSRt75NUCCUodu+adW2QoC8lWj9txkSrS4SAzQ5iZf6HBWuTsXj0ZKC/x3G
+         7p2MXZHGn8K7+PfzzIWc/Nwed6QT3k6JjyYfH8Z7gO0x8TxXxl1ExIQasNvzczqqw+be
+         A9BA==
+X-Forwarded-Encrypted: i=1; AJvYcCXYL5mt+JJKslC/0DkBDbgaNcdSxLYAHMNunruQg/07nQDAb4Y750jX8SEQV3dxqoIKEeWVdjy2qrRrrg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwREnE1fi1/nOfV/YoVhdMPUj5Y+JK08zMOW7Z5aqf6+zNFXckO
+	CTYvSXBCKFm+RkIDk3vO2rZEpqPojt5jxadImQJLhXvYgIkHTW20XJ9imyrP4VyYniM=
+X-Gm-Gg: ASbGncuSuxNjdDoB6O73QcGXsPw//AWshIeUjY4fgVmRx8dxgPzWVM4IwBG3Dxj9mo3
+	SOEpwx6QTq0BnWKI/p8Xic5SAEp0J4oXmrtHrKqgfppP6ybFewn29zFTTRAxb0OVaIaXeaqeLGb
+	RhymL/tRi1gGQI5ScxJum0g2l750IfqO5GFz/UUfSNAcI1gQLm8SYkG0dGYgBfNMz+iuycfWYLI
+	lKhv7m2hb1Djw1epfNp0RmCPQurwYeoi9ZN4UBgkgmJeMiNvPzlgoHJnEg+JM78rP8Y7LYjPyOD
+	TuXXDg3/oZLUoXEJFfFv2jRtaoJEKkottDnToI7rtQl95j4jxlsLE+3qtLNqac7LqKwPA6DVciJ
+	uMRRp86qkOUtQlchLJsxZA5Jr8tenKtAWCKkQFzF9fSIBxY+6fFhXO66TCSiV8Pzf/bpYkrL29J
+	iKxKmA6aKSE/C8nm2D
+X-Google-Smtp-Source: AGHT+IG7ZgRAfklgWSpAYSPzxFgTxUag6V3Fc8ctTVAuDt+DMbJ27kEs61rDXYyhICbDmi4MeLbsVQ==
+X-Received: by 2002:a05:6000:1889:b0:3dc:1473:18bc with SMTP id ffacd0b85a97d-429bd5f72ccmr2613024f8f.0.1761911416851;
+        Fri, 31 Oct 2025 04:50:16 -0700 (PDT)
+Received: from [192.168.0.101] ([90.240.106.137])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47728a979b8sm91657215e9.10.2025.10.31.04.50.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 31 Oct 2025 04:50:16 -0700 (PDT)
+Message-ID: <411190d4-92d7-4e95-acac-b39afa438c0f@ursulin.net>
+Date: Fri, 31 Oct 2025 11:50:15 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PN3P287MB1829:EE_|PN4P287MB5137:EE_
-X-MS-Office365-Filtering-Correlation-Id: 87f7c342-4d89-40c3-0c5e-08de18737d8e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|52116014|366016|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?HggZ2rJWrcZSa/ArL9DAjx/1cs949OPLJh1kHrZx1Y8n5J+cSjqD4lO+2oSE?=
- =?us-ascii?Q?zeksg4/+lrxIhCTdU+Sj5wXbsxb/zeqO2vTxYQiWEm9Bx9E0hTjhpgIkNt+/?=
- =?us-ascii?Q?vlC+a7igUMMEIROw2sKR7ie8IcDSLeuJFDC5KLw0ffA6Qz4jfLNpMTfprrys?=
- =?us-ascii?Q?9We1xTrYm7XdfKYvDC9rR6q0O6bcxzOy5n8Cci97lyySeQgclZh7T4hTNRmS?=
- =?us-ascii?Q?LvPta1OI3I4SD6pFX/AUAKyryGyfgR/G63G65s1W+5EgCg8Roef1tKDQh9Hm?=
- =?us-ascii?Q?mfBqb2TTX2rRWA5dXwpCK8OEM+yzWw2SCI0ApRVXFlGUeY+bDFc4EpXnjJgg?=
- =?us-ascii?Q?bSSy9DItFUExgEClbUouBGN3z3XZu6AQ7GaguV01x92YOEEShHcKXQYWm1au?=
- =?us-ascii?Q?yEqXCU6QQuG9tTC/xLB/5wfXngpvSMq4EVfK6NKT4n/AJb4vZib+AHgHTjfR?=
- =?us-ascii?Q?xcC68KILosGs+2oGEICfQDgu8maPTefV+ANAA7mn6DnhdGLJdMU1DTymjc7W?=
- =?us-ascii?Q?9cr6/l2MjGBSjOjTK7ajcQbWxeG0Jecr3dHpXPyxMiCbpXxn9h8MQZowMtF+?=
- =?us-ascii?Q?feSpgJIYnc0g2EhPmlhJbatZu30mhePoRPhC3EXvr7EwguB0TvL+WBMRmSSr?=
- =?us-ascii?Q?+I3hS8vLRam2d3EuvsvphxROmHpb0xgj7+sA+SiwbehFZrngpKjpE9cg/x4K?=
- =?us-ascii?Q?TQBl6VG7huQ/f7fu9rEpcLFmUCzYANhv0MAaoKhr0zinlrORN/+L03vvhB7G?=
- =?us-ascii?Q?6ke/C0whiSlKccNjEbFI14SffdTrUBK8P3XgtnzJM//QDRookLWpuK6k0vRT?=
- =?us-ascii?Q?h1veMxE58VvocsSuBBFp/FDypSEukWJ43mwTq+DU/z1/rBBEHQ8uE+er9dWk?=
- =?us-ascii?Q?ksJnu+x2B81isd6UqJfyJP+9MSl9hWMbUQSNhCg3D1zgwxyxUSZKXgILUmFb?=
- =?us-ascii?Q?tVvvWE5zV5oOgu0N9T/d+e2yjclkLrpJZH0IrE1sXw8nd6SzKXS243SxzRiL?=
- =?us-ascii?Q?IFEa7NFVkLGRAub3P9uzKhPaP6wVsejGPpTUHC2uV+gMd/nJrN+kF3JTCjYT?=
- =?us-ascii?Q?YPRAzq8YIe8o27o1nnK/waRCfzjaBw+/9JErt4vLP25nYVwuTPSqUmZYPnyr?=
- =?us-ascii?Q?dDIi4I/JiPNppuxz6Z5bKYr5OmqozL6AqgKvfnt6z8tdD1XmlMgxNOomu/hD?=
- =?us-ascii?Q?bQkVYnkADviBpZvCc/O/S9z1UpwjdCbmUnAAX1yMeUlabEfvMDo8XLIJ6kBU?=
- =?us-ascii?Q?Ma2IxJi+rA4kTNtSGSgpvNlegAi1V/khb/cEa4zFfUaA1cc/gotUgw1dHR+v?=
- =?us-ascii?Q?TLMoKNXh/db/ZCxPFVb2VtteDatxdVtZYGdInQ0FMo8rgMkZ6HLI6iN1ejps?=
- =?us-ascii?Q?S8KHhwdr9fE2/W8/NClOphurKGabkgRN8G8zTvzDZcysfG8DYKzfZw90Lq+h?=
- =?us-ascii?Q?2sp/7H0LM7Xfwpix3QnFTH826i1BN1oIuPK9BfJ4ACbPIjB2xvcmcbNZ2Nmg?=
- =?us-ascii?Q?CCtfobAwxUSq7jFhaOiDGiCoZ4hFHGiDCjep?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB1829.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(52116014)(366016)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?e1tTSgslf77JwE4xGGcCaZ+kSAxbhtU/Re5AkYZnT8xcT3OE0UIanH9ltsOd?=
- =?us-ascii?Q?HHhl1DuoA3mIUjal2ARmdw89DXOKrRH9KIGip521XVOPlkF9p673qkSrwIOt?=
- =?us-ascii?Q?xcZE+iVMQllMZBP3e19G+2+7ReID/ph45BJP8DhVYLtoJCAPUaGoIXJymKxs?=
- =?us-ascii?Q?7zG1ilBr5yr0JoZpzuhv4z1Xouyirqx/zYj2c8VQb/zifpYkfc1Z1J1fdpW0?=
- =?us-ascii?Q?jy/EL7dkzcO+Ar5NaMpWbvlHrvJ2fDBbtfhM7IzQWVVN378eTaiy7yNUeoGC?=
- =?us-ascii?Q?7A2Kw0UUYoPfqL9VTWwZonAT5tlxXknWEifVL+deSHLxImtVxxLUmggvlpgr?=
- =?us-ascii?Q?ZtdfdUMh8ElX8IDJ3IgOMfjotAyUbxSyYDNez/hCXsR40JHk05lh0fl8xLNe?=
- =?us-ascii?Q?2tnC3Ipxj8HlpR/chza9wrAchpAkEnhzVfVozw4f+3yT6GsvMlIRJHWUaOlb?=
- =?us-ascii?Q?XrB7vVqJ3EJ21Rk30CPGQK+q6DgDmjKzpoo73ZAPAlXntDhbIyg/tbJ3JBif?=
- =?us-ascii?Q?3YEj26KGwa8a9VUjvzAWBHzoSYMZcvDHernudMO7vJ9HjxQ9RUxq53BD4zdR?=
- =?us-ascii?Q?KZNHMCyAB7hsmzRIPu0BdlC6z2Wct0LqBcaylVaOSyfhmP6rxUax2l585Jwy?=
- =?us-ascii?Q?g4RwYlEq5bRMq9sNaAhxjN7rFHhH5w4NciCvABvHiAiGy0xp3DsMqooYYMTZ?=
- =?us-ascii?Q?v7dO814/S6FdFNPblaDjxlc3A+GNN7wA+iDyWKTBpZ3F77hWTCV6EJaqEViF?=
- =?us-ascii?Q?w7wr6bOI7+X9W9IkLbXilGmnkUkN69TrB07bQSXtYJ9cqDi9gyajai5Q88FJ?=
- =?us-ascii?Q?PuVjvqcX6D80MRfH2joeDBHWCOHjvlxEap/ZY9VhG78p7UP4tVkmzeqbvJNq?=
- =?us-ascii?Q?jAhwB55Iypcg3hKNr55NxtEe6KabCkkfADKJ+siCHeUrqS3JY1LIl8i9AcK+?=
- =?us-ascii?Q?IUaU1BU+gsizMmpP9blZMlhFGGoS4OzzvCuPp7wk39XDIPJSLsALgXOK4cOF?=
- =?us-ascii?Q?f2171eL7zOtgCHXuD0ZwTyd7WNWfChPEEhS5En2XcFVG9BMvKX/JQA3Ks8P1?=
- =?us-ascii?Q?Sm4xmI7w8KHyEx3GK+uxfN9KN2WEw4UeDaPDAkUVlOjNH6GH9CzWsdmxMJfZ?=
- =?us-ascii?Q?x+QQF7zUWFg2+ga3JcEpJPKfFc22UjteAeG70xWl2V38kloZLgk0iOUqiysK?=
- =?us-ascii?Q?2PPUARPoXMQ2Yc0LWqBju7/8PI3lJwrlEtUtmaNdL8zTnCYBn+xlhHDSlp4R?=
- =?us-ascii?Q?vOInXpaRVANNh/x4PgSsdb9I1ds7Alx0S3xluQ0CZkd0eZnww/LGEPTQlngo?=
- =?us-ascii?Q?zOJZ/uxREnYdtlwIbgOxtKjPp7+UbQcVGhcm1Piz9gowPb5gw5GqMQD/iQt/?=
- =?us-ascii?Q?N2N3ZFOwUOwFrlSTA0jNP12ds6gzDZYLN7o8q0Vrn5dM2iaKzW6tGbgvrSP6?=
- =?us-ascii?Q?nh15VK4lJMoys71huo4nxZmY7th2iUomTmriVtwsETmxWhrQ+FXEkazmOWjk?=
- =?us-ascii?Q?o4/lw06Fi7diwwJ43WzYbq1PDZvUf7cB3vHH6Izd3a82leXMW+CamgdhgLuA?=
- =?us-ascii?Q?W1hyTGzV1weUndcnzQe1n4tbxUDApnmT9bXKWJFeZIHTl/yhia20vdhvW1mJ?=
- =?us-ascii?Q?Xw=3D=3D?=
-X-OriginatorOrg: siliconsignals.io
-X-MS-Exchange-CrossTenant-Network-Message-Id: 87f7c342-4d89-40c3-0c5e-08de18737d8e
-X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2025 11:49:04.3783
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zpRy73/fluTjvwVWULmjLgz5NG2dikgFWK3SLLcxghrT2LLmA2uAPymg36e6EV1RTQOb135jdv3TfxcQFPtQfOSMgA6mAW9+0nLJiLxBxhQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN4P287MB5137
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/sched: Fix deadlock in
+ drm_sched_entity_kill_jobs_cb
+To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
+ Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20251031090704.1111-1-pierre-eric.pelloux-prayer@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20251031090704.1111-1-pierre-eric.pelloux-prayer@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Introduce IMX219_EXPOSURE_OFFSET (4) and use it instead of the literal
-'4' when computing the maximum coarse exposure. The IMX219 datasheet
-specifies the maximum storage time as frame_length_lines - 4.
-(Ref: Datasheet section 5-7-1)
 
-Also fix one indentation issue for consistency.
+On 31/10/2025 09:07, Pierre-Eric Pelloux-Prayer wrote:
+> The Mesa issue referenced below pointed out a possible deadlock:
+> 
+> [ 1231.611031]  Possible interrupt unsafe locking scenario:
+> 
+> [ 1231.611033]        CPU0                    CPU1
+> [ 1231.611034]        ----                    ----
+> [ 1231.611035]   lock(&xa->xa_lock#17);
+> [ 1231.611038]                                local_irq_disable();
+> [ 1231.611039]                                lock(&fence->lock);
+> [ 1231.611041]                                lock(&xa->xa_lock#17);
+> [ 1231.611044]   <Interrupt>
+> [ 1231.611045]     lock(&fence->lock);
+> [ 1231.611047]
+>                  *** DEADLOCK ***
+> 
+> In this example, CPU0 would be any function accessing job->dependencies
+> through the xa_* functions that doesn't disable interrupts (eg:
+> drm_sched_job_add_dependency, drm_sched_entity_kill_jobs_cb).
+> 
+> CPU1 is executing drm_sched_entity_kill_jobs_cb as a fence signalling
+> callback so in an interrupt context. It will deadlock when trying to
+> grab the xa_lock which is already held by CPU0.
+> 
+> Replacing all xa_* usage by their xa_*_irq counterparts would fix
+> this issue, but Christian pointed out another issue: dma_fence_signal
+> takes fence.lock and so does dma_fence_add_callback.
+> 
+>    dma_fence_signal() // locks f1.lock
+>    -> drm_sched_entity_kill_jobs_cb()
+>    -> foreach dependencies
+>       -> dma_fence_add_callback() // locks f2.lock
+> 
+> This will deadlock if f1 and f2 share the same spinlock.
 
-Signed-off-by: Tarang Raval <tarang.raval@siliconsignals.io>
----
- drivers/media/i2c/imx219.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+Is it possible to hit this case?
 
-diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index 40693635c0c3..e87d5a18fe87 100644
---- a/drivers/media/i2c/imx219.c
-+++ b/drivers/media/i2c/imx219.c
-@@ -68,6 +68,7 @@
- #define IMX219_EXPOSURE_STEP		1
- #define IMX219_EXPOSURE_DEFAULT		0x640
- #define IMX219_EXPOSURE_MAX		65535
-+#define IMX219_EXPOSURE_OFFSET 		4
- 
- /* V_TIMING internal */
- #define IMX219_REG_FRM_LENGTH_A		CCI_REG16(0x0160)
-@@ -450,9 +451,9 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
- 		int exposure_max, exposure_def;
- 
- 		/* Update max exposure while meeting expected vblanking */
--		exposure_max = format->height + ctrl->val - 4;
-+		exposure_max = format->height + ctrl->val - IMX219_EXPOSURE_OFFSET;
- 		exposure_def = (exposure_max < IMX219_EXPOSURE_DEFAULT) ?
--			exposure_max : IMX219_EXPOSURE_DEFAULT;
-+				exposure_max : IMX219_EXPOSURE_DEFAULT;
- 		ret = __v4l2_ctrl_modify_range(imx219->exposure,
- 					       imx219->exposure->minimum,
- 					       exposure_max,
-@@ -579,9 +580,9 @@ static int imx219_init_controls(struct imx219 *imx219)
- 					   IMX219_LLP_MIN - mode->width,
- 					   IMX219_LLP_MAX - mode->width, 1,
- 					   IMX219_LLP_MIN - mode->width);
--	exposure_max = mode->fll_def - 4;
-+	exposure_max = mode->fll_def - IMX219_EXPOSURE_OFFSET;
- 	exposure_def = (exposure_max < IMX219_EXPOSURE_DEFAULT) ?
--		exposure_max : IMX219_EXPOSURE_DEFAULT;
-+			exposure_max : IMX219_EXPOSURE_DEFAULT;
- 	imx219->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &imx219_ctrl_ops,
- 					     V4L2_CID_EXPOSURE,
- 					     IMX219_EXPOSURE_MIN, exposure_max,
-@@ -900,9 +901,9 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
- 			return ret;
- 
- 		/* Update max exposure while meeting expected vblanking */
--		exposure_max = mode->fll_def - 4;
-+		exposure_max = mode->fll_def - IMX219_EXPOSURE_OFFSET;
- 		exposure_def = (exposure_max < IMX219_EXPOSURE_DEFAULT) ?
--			exposure_max : IMX219_EXPOSURE_DEFAULT;
-+				exposure_max : IMX219_EXPOSURE_DEFAULT;
- 		ret = __v4l2_ctrl_modify_range(imx219->exposure,
- 					       imx219->exposure->minimum,
- 					       exposure_max,
--- 
-2.34.1
+Same lock means same execution timeline, which should mean dependency 
+should have been squashed in drm_sched_job_add_dependency(), no?
+
+Or would sharing the lock but not sharing the entity->fence_context be 
+considered legal? It would be surprising at least.
+
+Also, would anyone have time to add a kunit test? ;)
+
+Regards,
+
+Tvrtko
+
+> To fix both issues, the code iterating on dependencies and re-arming them
+> is moved out to drm_sched_entity_kill_jobs_work.
+> 
+> Link: https://gitlab.freedesktop.org/mesa/mesa/-/issues/13908
+> Reported-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+> Suggested-by: Christian König <christian.koenig@amd.com>
+> Reviewed-by: Christian König <christian.koenig@amd.com>
+> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+> ---
+>   drivers/gpu/drm/scheduler/sched_entity.c | 34 +++++++++++++-----------
+>   1 file changed, 19 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+> index c8e949f4a568..fe174a4857be 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -173,26 +173,15 @@ int drm_sched_entity_error(struct drm_sched_entity *entity)
+>   }
+>   EXPORT_SYMBOL(drm_sched_entity_error);
+>   
+> +static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
+> +					  struct dma_fence_cb *cb);
+> +
+>   static void drm_sched_entity_kill_jobs_work(struct work_struct *wrk)
+>   {
+>   	struct drm_sched_job *job = container_of(wrk, typeof(*job), work);
+> -
+> -	drm_sched_fence_scheduled(job->s_fence, NULL);
+> -	drm_sched_fence_finished(job->s_fence, -ESRCH);
+> -	WARN_ON(job->s_fence->parent);
+> -	job->sched->ops->free_job(job);
+> -}
+> -
+> -/* Signal the scheduler finished fence when the entity in question is killed. */
+> -static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
+> -					  struct dma_fence_cb *cb)
+> -{
+> -	struct drm_sched_job *job = container_of(cb, struct drm_sched_job,
+> -						 finish_cb);
+> +	struct dma_fence *f;
+>   	unsigned long index;
+>   
+> -	dma_fence_put(f);
+> -
+>   	/* Wait for all dependencies to avoid data corruptions */
+>   	xa_for_each(&job->dependencies, index, f) {
+>   		struct drm_sched_fence *s_fence = to_drm_sched_fence(f);
+> @@ -220,6 +209,21 @@ static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
+>   		dma_fence_put(f);
+>   	}
+>   
+> +	drm_sched_fence_scheduled(job->s_fence, NULL);
+> +	drm_sched_fence_finished(job->s_fence, -ESRCH);
+> +	WARN_ON(job->s_fence->parent);
+> +	job->sched->ops->free_job(job);
+> +}
+> +
+> +/* Signal the scheduler finished fence when the entity in question is killed. */
+> +static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
+> +					  struct dma_fence_cb *cb)
+> +{
+> +	struct drm_sched_job *job = container_of(cb, struct drm_sched_job,
+> +						 finish_cb);
+> +
+> +	dma_fence_put(f);
+> +
+>   	INIT_WORK(&job->work, drm_sched_entity_kill_jobs_work);
+>   	schedule_work(&job->work);
+>   }
 
 
