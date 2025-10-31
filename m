@@ -1,82 +1,82 @@
-Return-Path: <linux-media+bounces-46068-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-46069-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49644C24A30
-	for <lists+linux-media@lfdr.de>; Fri, 31 Oct 2025 11:55:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60577C24C7F
+	for <lists+linux-media@lfdr.de>; Fri, 31 Oct 2025 12:30:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B869D4F15C7
-	for <lists+linux-media@lfdr.de>; Fri, 31 Oct 2025 10:55:04 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 20D914E05DE
+	for <lists+linux-media@lfdr.de>; Fri, 31 Oct 2025 11:30:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAADE343203;
-	Fri, 31 Oct 2025 10:54:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFAD4329367;
+	Fri, 31 Oct 2025 11:30:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="U2oyjWhf"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="d/wCXEIJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F99A342CBD
-	for <linux-media@vger.kernel.org>; Fri, 31 Oct 2025 10:54:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7712F332EDC
+	for <linux-media@vger.kernel.org>; Fri, 31 Oct 2025 11:30:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761908087; cv=none; b=V0trh0UFPsYfuz3+FJajaTmM4WTs6AmFBf2Uo27yxLqVnoWQut80BH1J1afXYrRAWBS6tPwuq0nUwgz6OAVtZA+gR+TVmMVYvEUnBVPp6j7pbJsBjpr4Rc+RFEVx1+LjJ5LQkj+EGvrvPKHSDCfvS0IU5aBLMYurXQ4hLDzFiMQ=
+	t=1761910235; cv=none; b=SbQ/0+TqalcjfjhriBqPyQrXIn8CdfL3O4m0Omzonbood3wsaiJZWZ+uTyqFZPt5HVHFFBJnZlKVytTlMHEfi2z3gFxbOxazN0FS+0MdqEpIyJ7iWEdI8O103hfL71ehavS4ViOYIPfe+03jvhG0ExDBhdhvwRzpqPEyo/hou6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761908087; c=relaxed/simple;
-	bh=G3/YU1QordgrcT8LsqQ5yEAOA2Fbkwsq0D8nhkPPh44=;
+	s=arc-20240116; t=1761910235; c=relaxed/simple;
+	bh=ie6znrCNK/LudrsUZPQiI7XbOx2sgL5YtdTO4JVi7QA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bRcszmL2Tp3X6u0LuLSvimSAZ2PECP5fOkfsKNQ6sO0MrXxQBMxfbNA8+8YW4Fh3bczQvsaXNDW7io1imR8l8zcDDN9+TMjCiqlFJ9XrwMIlb0nOh6aT4/w6KIkhWJkWnv8g6qwvPrEZ1ESUBmx/dEtPQRvd2UyZ1Ab7B2GDJVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=U2oyjWhf; arc=none smtp.client-ip=209.85.128.53
+	 In-Reply-To:Content-Type; b=WEYqW3iM/wBawj7voB1X8hNB+aPzmJdcJfbsBOvRyPXpPEEYQDRDUjh0PRTstCLo56DAUYR2dU0g1ImU0u3iUzJ6xmuBghX/4bIFFbQe5OXz0oelvuyr79FUGraIoMmvrxQU4fPDQyZ+LwBZeoBrh/ArKwiPp+9aoUD19bqUqjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=d/wCXEIJ; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-475dc0ed8aeso14230055e9.2
-        for <linux-media@vger.kernel.org>; Fri, 31 Oct 2025 03:54:44 -0700 (PDT)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-429bf011e6cso787790f8f.1
+        for <linux-media@vger.kernel.org>; Fri, 31 Oct 2025 04:30:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761908082; x=1762512882; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1761910232; x=1762515032; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:from:references:cc:to:subject:reply-to:user-agent
          :mime-version:date:message-id:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=nrx14+IMecvzAl4UiexDkJHLOgwmOpHv9KRq9o4Ztbk=;
-        b=U2oyjWhfPZcGSkvBcWXDnN+o34YXVgN5rultADkRIjQwb2nxzMV3NuHeJDSNUwWTqh
-         RGbTsgFomotZAvZZMDDAFFLmjUXyUGZNN39VeFoDM7QwydUsQlYmY/vOAJyW8jk/iFIE
-         yWNWQf5k7S5dNNC50OfSt5Wi++CGetqkyiZY5jdQZldhgLJLX483Z9zf8lmV9N2Y7rXB
-         HUSeljoLCl6gQhgnADiIjdFitFNXJdgNpH8+RHBY1uRjqepIXQa+L1UGSDTJjdOWcmvj
-         0SWUPLtEeP4X1aF94xQxY/NGwf89akmb3zMX2QBfwaYQ3zScsE6RGCgvY1Ykl0V6p6e4
-         +UsA==
+        bh=tS2PhZL7XUJM1s7RUQ3B94skBzEvBjGc+MR5GlYC1yQ=;
+        b=d/wCXEIJx19dO2JG5Dv5LaTheMvlX/svqSlWf97HyNXJVwV0Ezs5jXdga7pAoN61nk
+         WxHYGhTfHESeOAteydGzM0ikyX34Q3qm0jLfE+CRjevPrkhhgaP/MvD1h4GKtNFGMNGb
+         vF93fg1EyOoWvdKBapOyOb5JWYoC/Zb7GAWn6wAPlV/6Cp48lrK1vC+V8e9CjuTDAhnF
+         JapIPYm+om+s8OUSaAksWMApzfz2ZolWzhuXHCCwZ0Yx1Zj8hm5dGic08A43is21VER2
+         996+m+uK2WxmSWG+KWjhT3iekAJkzdKj0Yfikfpe3VNyBS+kCaXeH1u3KuiqXZjj2pHA
+         jxDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761908083; x=1762512883;
+        d=1e100.net; s=20230601; t=1761910232; x=1762515032;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:from:references:cc:to:subject:reply-to:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=nrx14+IMecvzAl4UiexDkJHLOgwmOpHv9KRq9o4Ztbk=;
-        b=mehX+4Em6JRxsUxFb25nbZP5Et0xlglEp5U/+nUq1G5w91IPhD6Dch+DkJ8+garFk6
-         3zeHugyqx/WBLvf8YPXil6namZSohR9pUa9arrLUuSraEn5dvSA70f79q9GBzIRQ/PEB
-         35lqn5O9Xs3+34A/WZlhzkH8Usq2tKOCoPSvUJBiO9iC+bpzJ5cs/3BwPZZfJOrc8wjT
-         gHP/ebrXOUrTD/RN7CTAPUaYUSndG5deexAvFOAYQsqm5RkDBi0VOSGGqgXQmD/SXixq
-         ljGfzdZy2dLge9MdqZRYeX7v8oaTMbdNHpjimy0Bs+SgXbtZFesfBNqVGCOUmBIQnnOI
-         qNCQ==
-X-Gm-Message-State: AOJu0YzkUHCp4R3xpIjVkhJXYGa46tTTZMnrt5FQnLQghW5ZnzNjTh5d
-	o7FuXf9UlQl7e/C/O/4T8oQdTR6DBvBlfrvpDELrXB0wQrAzXMQyh61zzoazQASRSYE=
-X-Gm-Gg: ASbGncsQF7s8IWtODWWw1NDVIcQuuAR5g3hM80U/cNe3iJIdWlSZWtJCpkqIBY8Typk
-	JoA7kAotPwqXsoFlJhex57hGLrmdVAZo7i5nKZnwPJuUsQI8VzXvAEzD7VLo0eb4E29OZvwdRjX
-	p7/QJoGtJM1bMRdrBNGK4pQeAwN7bcAGQMcxBKKCYrEFqF+eQUjdBmeCLZf980OZusTMEzcsGs7
-	KK82RpJgliIYPkYToxWr4OgEogzFLuve+grpakOpdXz9zXvrUav9gLXIfTh0fX4W9bzErjISdBV
-	SPzgfAaiSu9gEM/JoJVeiiiLe7pfWlccIJ4VrBLyh8sbbGBckO/se+xLdy3u39dwEO+f7/4Gd5m
-	5/ZkS4elWd7xUKSD1Dl3POA9KGrXPQUvRDD5E87Eb0PFWz3tKB+Dbyo5435YctjAt3Q4+k4N2K/
-	53aW7/j9TtUB68wuPcrGVxhz1nG75OpyuWDZddJQBn4cSKWtI+wGWsCOZ931htqtk=
-X-Google-Smtp-Source: AGHT+IH1qwkEmgqVmTN+ivxafY9W2GaHGk/oAp1YQ7VELJ5K8DOaakj6qrEcg5qy1AZEt18IlcwCmw==
-X-Received: by 2002:a05:600c:3548:b0:471:16b1:b824 with SMTP id 5b1f17b1804b1-4773088be8bmr33966175e9.28.1761908082467;
-        Fri, 31 Oct 2025 03:54:42 -0700 (PDT)
+        bh=tS2PhZL7XUJM1s7RUQ3B94skBzEvBjGc+MR5GlYC1yQ=;
+        b=rygH8aS2cW2PwwAULTsajqJCEg+8yDAEPqEk4WiFyRD/REYbd4YIN/BoAoUrL6tUGG
+         hFR9jlkI8Iui1dG6WWVNfTOGm3O+ajcPnYkPQU46os1CvaTNX54zLHjd5vsjOSrgjCdj
+         AxIK8h93pOaAvaQcWzITM8azUaJcVYCz4xx5E6kE0y+vuhGB9TLrlNy54RXbhvfvm7CN
+         nvJXSn3VZDrLXN3zCtCQ3lsV1Ct0FH3lWqZ3NdvPc1QsmxtuLH+1UOoMN9i22T58tLZM
+         Z1lrVbMxzf8IoTSSULP8flbKBXcVzTL3SyFN68q/Az+/jflbZBUPu+0vmMS2DsURvrZf
+         Bh7g==
+X-Gm-Message-State: AOJu0YzJ5L4uOa6IreSHvG16HrDzwS2D0GOZv+TAAmvOns7urVIMEzCA
+	GFL5xeCaJC74B/cjJ07CQdU02iJyus03QsW8UxbXOq1+2LTHibWHvXHgI396l6MH5Ao=
+X-Gm-Gg: ASbGncsTI51HIyuLhE6XIp+o/bHxO0cxO9gvlFtUGuIMmO4+w+W5I03NG0Tu6l+FsAC
+	zh4BFY7WomAW2NXkRhNzhz4SJ0FlD8crpWY3S0S9tZpqLwkG8WJeG+ZqsQFdiPpkXQG3OXn3Xa7
+	MxPXV5gnNf/vhuRM+QbRR9IChCLMAGI8LVQ2dqejs6UduI7iQ8kpyqVpHEZez5O45Fmu9pWqgJ3
+	cCY7bKdYPrI9UJl4A0EoMxL52VUJJ0XANCuEQa4UWLb0NfEPXlgHxwR72SdogFW4XnD3WzVEDhB
+	yWWmlIdNW68wk8zHQBhDrPcHy4fEkfcvA8nkuAN0WRfs6qV9OdZWepcHc8QSt7ztoEE6mjxHA18
+	rxiy+0pFCOFJEEBwQRgtQwxO83FtX3643EiQVekoE9txfRPzVVznHBuAQkDk9UWSON+za28L45f
+	hJ1/lXrHi88WyYv1EC376wcUvlkvr3zZoIPBvjvm8ayfULgf9cgOexnxRHWRu0MSY=
+X-Google-Smtp-Source: AGHT+IF+iyyElco9VXyBMXEb9lk4ZkcEAKDKdVRl2XQBakgbVhtW1KsvgNAXUuNVlzzQYwQqI5cl8w==
+X-Received: by 2002:a5d:5d11:0:b0:425:825d:2c64 with SMTP id ffacd0b85a97d-429bd6801aamr2396129f8f.17.1761910231450;
+        Fri, 31 Oct 2025 04:30:31 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:cad:2140:d967:2bcf:d2d0:b324? ([2a01:e0a:cad:2140:d967:2bcf:d2d0:b324])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47732dc28d4sm26747545e9.1.2025.10.31.03.54.41
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47732ddd2d5sm27795365e9.7.2025.10.31.04.30.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 Oct 2025 03:54:42 -0700 (PDT)
-Message-ID: <796fa6dc-d2a0-4f9d-8dc2-6e64d90deddd@linaro.org>
-Date: Fri, 31 Oct 2025 11:54:41 +0100
+        Fri, 31 Oct 2025 04:30:31 -0700 (PDT)
+Message-ID: <1d653876-2df0-4177-8256-00905148fb46@linaro.org>
+Date: Fri, 31 Oct 2025 12:30:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -85,7 +85,8 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v2 4/5] media: qcom: iris: Add flip support for encoder
+Subject: Re: [PATCH v2 3/5] media: qcom: iris: Add rotation support for
+ encoder
 To: Wangao Wang <wangao.wang@oss.qualcomm.com>,
  Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
  Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
@@ -95,7 +96,7 @@ Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  linux-kernel@vger.kernel.org, quic_qiweil@quicinc.com,
  quic_renjiang@quicinc.com
 References: <20251031-iris_encoder_enhancements-v2-0-319cd75cbb45@oss.qualcomm.com>
- <20251031-iris_encoder_enhancements-v2-4-319cd75cbb45@oss.qualcomm.com>
+ <20251031-iris_encoder_enhancements-v2-3-319cd75cbb45@oss.qualcomm.com>
 From: Neil Armstrong <neil.armstrong@linaro.org>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
@@ -123,152 +124,68 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20251031-iris_encoder_enhancements-v2-4-319cd75cbb45@oss.qualcomm.com>
+In-Reply-To: <20251031-iris_encoder_enhancements-v2-3-319cd75cbb45@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 10/31/25 10:50, Wangao Wang wrote:
-> Add support for V4L2_CID_HFLIP and V4L2_CID_VFLIP controls in encoder.
+> Add rotation control for encoder, enabling V4L2_CID_ROTATE and handling
+>   90/180/270 degree rotation.
 > 
 > Signed-off-by: Wangao Wang <wangao.wang@oss.qualcomm.com>
 > ---
->   drivers/media/platform/qcom/iris/iris_ctrls.c      | 27 ++++++++++++++++++++++
+>   drivers/media/platform/qcom/iris/iris_ctrls.c      | 34 ++++++++++++++++
 >   drivers/media/platform/qcom/iris/iris_ctrls.h      |  1 +
->   .../platform/qcom/iris/iris_hfi_gen2_defines.h     |  8 +++++++
->   .../platform/qcom/iris/iris_platform_common.h      |  2 ++
->   .../media/platform/qcom/iris/iris_platform_gen2.c  | 22 ++++++++++++++++++
->   5 files changed, 60 insertions(+)
-> 
-> diff --git a/drivers/media/platform/qcom/iris/iris_ctrls.c b/drivers/media/platform/qcom/iris/iris_ctrls.c
-> index 00949c207ddb0203e51df359214bf23c3d8265d0..8f74c12f2f41f23d75424819c707aff61ea61b33 100644
-> --- a/drivers/media/platform/qcom/iris/iris_ctrls.c
-> +++ b/drivers/media/platform/qcom/iris/iris_ctrls.c
-> @@ -100,6 +100,10 @@ static enum platform_inst_fw_cap_type iris_get_cap_id(u32 id)
->   		return B_FRAME_QP_HEVC;
->   	case V4L2_CID_ROTATE:
->   		return ROTATION;
-> +	case V4L2_CID_HFLIP:
-> +		return HFLIP;
-> +	case V4L2_CID_VFLIP:
-> +		return VFLIP;
->   	default:
->   		return INST_FW_CAP_MAX;
->   	}
-> @@ -189,6 +193,10 @@ static u32 iris_get_v4l2_id(enum platform_inst_fw_cap_type cap_id)
->   		return V4L2_CID_MPEG_VIDEO_HEVC_B_FRAME_QP;
->   	case ROTATION:
->   		return V4L2_CID_ROTATE;
-> +	case HFLIP:
-> +		return V4L2_CID_HFLIP;
-> +	case VFLIP:
-> +		return V4L2_CID_VFLIP;
->   	default:
->   		return 0;
->   	}
-> @@ -917,6 +925,25 @@ int iris_set_rotation(struct iris_inst *inst, enum platform_inst_fw_cap_type cap
->   					     &hfi_val, sizeof(u32));
->   }
->   
-> +int iris_set_flip(struct iris_inst *inst, enum platform_inst_fw_cap_type cap_id)
-> +{
-> +	const struct iris_hfi_command_ops *hfi_ops = inst->core->hfi_ops;
-> +	u32 hfi_id = inst->fw_caps[cap_id].hfi_id;
-> +	u32 hfi_val = HFI_DISABLE_FLIP;
-> +
-> +	if (inst->fw_caps[HFLIP].value)
-> +		hfi_val |= HFI_HORIZONTAL_FLIP;
-> +
-> +	if (inst->fw_caps[VFLIP].value)
-> +		hfi_val |= HFI_VERTICAL_FLIP;
-> +
-> +	return hfi_ops->session_set_property(inst, hfi_id,
-> +					     HFI_HOST_FLAGS_NONE,
-> +					     iris_get_port_info(inst, cap_id),
-> +					     HFI_PAYLOAD_U32_ENUM,
-> +					     &hfi_val, sizeof(u32));
-> +}
-> +
->   int iris_set_properties(struct iris_inst *inst, u32 plane)
->   {
->   	const struct iris_hfi_command_ops *hfi_ops = inst->core->hfi_ops;
-> diff --git a/drivers/media/platform/qcom/iris/iris_ctrls.h b/drivers/media/platform/qcom/iris/iris_ctrls.h
-> index 3ea0a00c7587a516f19bb7307a0eb9a60c856ab0..355a592049f3fcc715a1b9df44b4d1398b052653 100644
-> --- a/drivers/media/platform/qcom/iris/iris_ctrls.h
-> +++ b/drivers/media/platform/qcom/iris/iris_ctrls.h
-> @@ -33,6 +33,7 @@ int iris_set_max_qp(struct iris_inst *inst, enum platform_inst_fw_cap_type cap_i
->   int iris_set_frame_qp(struct iris_inst *inst, enum platform_inst_fw_cap_type cap_id);
->   int iris_set_qp_range(struct iris_inst *inst, enum platform_inst_fw_cap_type cap_id);
->   int iris_set_rotation(struct iris_inst *inst, enum platform_inst_fw_cap_type cap_id);
-> +int iris_set_flip(struct iris_inst *inst, enum platform_inst_fw_cap_type cap_id);
->   int iris_set_properties(struct iris_inst *inst, u32 plane);
->   
->   #endif
-> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h b/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
-> index 4edcce7faf5e2f74bfecfdbf574391d5b1c9cca5..0f92468dca91cbb2ca9b451ebce255180066b3a4 100644
-> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
-> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
-> @@ -92,6 +92,14 @@ enum hfi_rotation {
->   };
->   
->   #define HFI_PROP_ROTATION			0x0300014b
-> +
-> +enum hfi_flip {
-> +	HFI_DISABLE_FLIP    = 0x00000000,
-> +	HFI_HORIZONTAL_FLIP = 0x00000001,
-> +	HFI_VERTICAL_FLIP   = 0x00000002,
-> +};
-> +
-> +#define HFI_PROP_FLIP				0x0300014c
->   #define HFI_PROP_SIGNAL_COLOR_INFO		0x03000155
->   #define HFI_PROP_PICTURE_TYPE			0x03000162
->   #define HFI_PROP_DEC_DEFAULT_HEADER		0x03000168
-> diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
-> index 9a4232b1c64eea6ce909e1e311769dd958b84c6e..284d6bde6d6bcdf70016646d1c92e6ae7f067efc 100644
-> --- a/drivers/media/platform/qcom/iris/iris_platform_common.h
-> +++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
-> @@ -141,6 +141,8 @@ enum platform_inst_fw_cap_type {
->   	B_FRAME_QP_H264,
->   	B_FRAME_QP_HEVC,
->   	ROTATION,
-> +	HFLIP,
-> +	VFLIP,
->   	INST_FW_CAP_MAX,
->   };
->   
-> diff --git a/drivers/media/platform/qcom/iris/iris_platform_gen2.c b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
-> index c1f83e179d441c45df8d6487dc87e137e482fb63..e74bdd00a4bb2f457ec9352e0acaebc820dae235 100644
-> --- a/drivers/media/platform/qcom/iris/iris_platform_gen2.c
-> +++ b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
-> @@ -598,6 +598,28 @@ static struct platform_inst_fw_cap inst_fw_cap_sm8550_enc[] = {
->   		.flags = CAP_FLAG_OUTPUT_PORT,
->   		.set = iris_set_rotation,
->   	},
-> +	{
-> +		.cap_id = HFLIP,
-> +		.min = 0,
-> +		.max = 1,
-> +		.step_or_mask = 1,
-> +		.value = 0,
-> +		.hfi_id = HFI_PROP_FLIP,
-> +		.flags = CAP_FLAG_OUTPUT_PORT | CAP_FLAG_INPUT_PORT |
-> +			CAP_FLAG_DYNAMIC_ALLOWED,
-> +		.set = iris_set_flip,
-> +	},
-> +	{
-> +		.cap_id = VFLIP,
-> +		.min = 0,
-> +		.max = 1,
-> +		.step_or_mask = 1,
-> +		.value = 0,
-> +		.hfi_id = HFI_PROP_FLIP,
-> +		.flags = CAP_FLAG_OUTPUT_PORT | CAP_FLAG_INPUT_PORT |
-> +			CAP_FLAG_DYNAMIC_ALLOWED,
-> +		.set = iris_set_flip,
-> +	},
->   };
->   
->   static struct platform_inst_caps platform_inst_cap_sm8550 = {
+>   .../platform/qcom/iris/iris_hfi_gen2_command.c     | 41 ++++++++++++++-----
+>   .../platform/qcom/iris/iris_hfi_gen2_defines.h     |  9 +++++
+>   .../platform/qcom/iris/iris_platform_common.h      |  1 +
+>   .../media/platform/qcom/iris/iris_platform_gen2.c  | 10 +++++
+>   drivers/media/platform/qcom/iris/iris_utils.c      |  6 +++
+>   drivers/media/platform/qcom/iris/iris_utils.h      |  1 +
+>   drivers/media/platform/qcom/iris/iris_vpu_buffer.c | 46 +++++++++++++---------
+>   9 files changed, 121 insertions(+), 28 deletions(-)
 > 
 
+<snip>
+
+>   
+>   	if (inst->codec == V4L2_PIX_FMT_HEVC) {
+> @@ -1051,9 +1064,8 @@ u32 hfi_buffer_line_enc_vpu33(u32 frame_width, u32 frame_height, bool is_ten_bit
+>   static u32 iris_vpu_enc_line_size(struct iris_inst *inst)
+>   {
+>   	u32 num_vpp_pipes = inst->core->iris_platform_data->num_vpp_pipe;
+> -	struct v4l2_format *f = inst->fmt_dst;
+> -	u32 height = f->fmt.pix_mp.height;
+> -	u32 width = f->fmt.pix_mp.width;
+> +	u32 height = iris_vpu_enc_get_bitstream_height(inst);
+> +	u32 width = iris_vpu_enc_get_bitstream_width(inst);
+
+I found the issue with SM8650, you did not update the vppu33 variant of iris_vpu_enc_line_size.
+
+With this:
+============================><=============================
+diff --git a/drivers/media/platform/qcom/iris/iris_vpu_buffer.c b/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
+index be8b8588a39f..4a4fbcbfdb46 100644
+--- a/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
++++ b/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
+@@ -1082,8 +1082,8 @@ static u32 iris_vpu33_enc_line_size(struct iris_inst *inst)
+  {
+         u32 num_vpp_pipes = inst->core->iris_platform_data->num_vpp_pipe;
+         struct v4l2_format *f = inst->fmt_dst;
+-       u32 height = f->fmt.pix_mp.height;
+-       u32 width = f->fmt.pix_mp.width;
++       u32 height = iris_vpu_enc_get_bitstream_height(inst);
++       u32 width = iris_vpu_enc_get_bitstream_width(inst);
+         u32 lcu_size = 16;
+
+         if (inst->codec == V4L2_PIX_FMT_HEVC) {
+============================><=============================
+
 Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-HDK
+
+Neil
+
+
+<snip>
+
 
