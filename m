@@ -1,75 +1,263 @@
-Return-Path: <linux-media+bounces-46055-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-46056-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF12BC23C84
-	for <lists+linux-media@lfdr.de>; Fri, 31 Oct 2025 09:27:04 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C41EAC240C1
+	for <lists+linux-media@lfdr.de>; Fri, 31 Oct 2025 10:12:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A2DD142655C
-	for <lists+linux-media@lfdr.de>; Fri, 31 Oct 2025 08:16:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9E7571A67E3D
+	for <lists+linux-media@lfdr.de>; Fri, 31 Oct 2025 09:08:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E89142E0910;
-	Fri, 31 Oct 2025 08:16:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF27832E133;
+	Fri, 31 Oct 2025 09:08:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="hj3nAC8k"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010055.outbound.protection.outlook.com [52.101.61.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E705253957;
-	Fri, 31 Oct 2025 08:16:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761898584; cv=none; b=JTg5imKosOVdcUDAs2ym9Z1oBaV6Uyi3hnnYSJheWeB6gntH/5DKUJ0+4/ANbXs1yWVjcO9nthCpiOlk5ZcJ4Z9S2xOLZMMecyJZ7uIo8xD44iJtGMiR8aizupani5bQIdHLDZjJqij9rQxhu1/rODM2jzX4ATxRnzuUhADeLZM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761898584; c=relaxed/simple;
-	bh=fGhIYsT50Xq9t6CI5lMf9dFSVPFae+PCvqQq0D8Qkm4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NU0xziyH+Yhpx97ap7X8bKhwh71PwsDYKRLzfKXFq5/t2MWcOYE1AS96EafOxmhdB7GWrWgyieLpKItzGL/ZbQk7WKJdF887J7/cKB/g3BqgczqjB5kgnZ4JoLmVmlnc8Tws5dGCTgttQwoZE213hY/kT5MxgNtltYQMLnNMNK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E229C4CEE7;
-	Fri, 31 Oct 2025 08:16:23 +0000 (UTC)
-Date: Fri, 31 Oct 2025 09:16:21 +0100
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
-Cc: Loic Poulain <loic.poulain@oss.qualcomm.com>, 
-	Robert Foss <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>, linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	aiqun.yu@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com, trilok.soni@oss.qualcomm.com, 
-	yijie.yang@oss.qualcomm.com, Jingyi Wang <jingyi.wang@oss.qualcomm.com>, 
-	Atiya Kailany <atiya.kailany@oss.qualcomm.com>
-Subject: Re: [PATCH v5 1/6] dt-bindings: i2c: qcom-cci: Document Kaanapali
- compatible
-Message-ID: <20251031-truthful-worm-of-force-7ef435@kuoka>
-References: <20251030-add-support-for-camss-on-kaanapali-v5-0-f8e12bea3d02@oss.qualcomm.com>
- <20251030-add-support-for-camss-on-kaanapali-v5-1-f8e12bea3d02@oss.qualcomm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB96929AAE3;
+	Fri, 31 Oct 2025 09:07:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.55
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761901684; cv=fail; b=jD1Brf+z27O1rYM7Lq2RVoCm88Ywy5vKyEFCWo4uITKnlbzT2IKmlxtmK4Ppmi7MfrfpkR+PeqHBYUZRCTejCXSKMAdzxMNfY5BsDeo5Wn4UgfnHvdOH/PaSuIjqiXH/EZgwMo519/gYb4qV1aYgTDbbUGcgvtJv5zp3d8ETGsI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761901684; c=relaxed/simple;
+	bh=1drKImxJ/zolF04FEhq5Vmnu3zvDAAW6Vq5mB0Kcwig=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=kVedVZjSBWalzab6OzLq483TiB8BnpGvzgKiHaB6SO0bdZlBitjaF90By+9U33/2EJ5SL/V+qhyBnrM5/8guNqR1JdpXbIhhiDqh4T7X6g32xEPPFbj0Bb7yOZ+3cXqVnhnuqUzOSfITBhgBuAtVPXFAL4SN0sOELiQaLItJJ14=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=hj3nAC8k; arc=fail smtp.client-ip=52.101.61.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=L5jZluuyJhog0VB7XMlw5ul/hodAx/bypq+bloiZ/r2d1+eS3gFQR30qepO/AQCjQnxm5DmxiznfDtUeE5yd087YPmZXqXKuTy7cR4n4onLn/5ASWJ27EOvhSAwUpgWBpOx+amszHKy3rmRZDfg7DLmifYhD8W7N+qrEB4OJA/1iVSx1T/yZdqzjnjUHIUlFjjn5YGQCLfb8zinHB6hWPamdmvyiAzE2X7MNqbCdyWKQu2gICfNoVV2KpTQVNLWctJ6Nrl347vGm1gzR5sM744/oVL7A6ebVeSN7U3eaqQY3MVJ7oV1gslhDLMpfvp4JkeHlMM0llrf215As98HIyw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QdNvOiQ1LXcb13VOXga0h/FFdJUqY66hyml/hMGWAEI=;
+ b=LT05SD1gf83ic3Yo51mHI7c/sXAV3i5t9Sl/StUMfWHhOOqDz0YNaR3KTTR/41Ffkq7IIkvIT2vNk5wdhRDPmG8JkcaSqK2WnjBB2xMadsseannBLZOYOKk+MoRUdEyoDcefqUR2pXGzf5QsMN4nH98hVvmTHxn4iqyZzwJzqWNojwQFYU08CDO98dK1KWT0znUSVj8CoBY418xF9k7waY7CUQZLAcTnOPm/B5LJFbIKiaOnWl418wp2g2DX9naPiDI05jFJ6m34mmswRu0mhHP4wjO5uo8CBB4pKEYMyeoeNwzszEr3GZGxoEXmBjJ70bQe9rd4TctmylApxFqLfA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QdNvOiQ1LXcb13VOXga0h/FFdJUqY66hyml/hMGWAEI=;
+ b=hj3nAC8kRu53LFEFQ1eIf3hSZoZpg62uimlrBoxl1txqUhSpi7r25HvSjWk7G8Nlw2NV11ib2ty9C7BO57KlOq0VKPDVhwrD5chWpa28CGmMz56PshgEaJLt5BgBACU9qXmgTAODAvVdhcdrvk0K8OQQiCG0qm+ygFSG9kA9IrE=
+Received: from BY5PR04CA0029.namprd04.prod.outlook.com (2603:10b6:a03:1d0::39)
+ by IA1PR12MB6458.namprd12.prod.outlook.com (2603:10b6:208:3aa::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.15; Fri, 31 Oct
+ 2025 09:07:55 +0000
+Received: from SJ1PEPF00001CE0.namprd05.prod.outlook.com
+ (2603:10b6:a03:1d0:cafe::14) by BY5PR04CA0029.outlook.office365.com
+ (2603:10b6:a03:1d0::39) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9275.14 via Frontend Transport; Fri,
+ 31 Oct 2025 09:07:52 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ SJ1PEPF00001CE0.mail.protection.outlook.com (10.167.242.8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9275.10 via Frontend Transport; Fri, 31 Oct 2025 09:07:54 +0000
+Received: from FRAPPELLOUX01-WSLPUB.amd.com (10.180.168.240) by
+ satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Fri, 31 Oct 2025 02:07:52 -0700
+From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+To: Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich
+	<dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+	<airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sumit Semwal
+	<sumit.semwal@linaro.org>
+CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, "Mikhail
+ Gavrilov" <mikhail.v.gavrilov@gmail.com>, =?UTF-8?q?Christian=20K=C3=B6nig?=
+	<christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
+	<linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+	<linaro-mm-sig@lists.linaro.org>
+Subject: [PATCH v2] drm/sched: Fix deadlock in drm_sched_entity_kill_jobs_cb
+Date: Fri, 31 Oct 2025 10:07:03 +0100
+Message-ID: <20251031090704.1111-1-pierre-eric.pelloux-prayer@amd.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251030-add-support-for-camss-on-kaanapali-v5-1-f8e12bea3d02@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CE0:EE_|IA1PR12MB6458:EE_
+X-MS-Office365-Filtering-Correlation-Id: 04bc99fa-1d1e-4ecc-f922-08de185cfa72
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|1800799024|82310400026|36860700013|13003099007|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?bnBmTGNNUFpFMVNzTjVuZHcrUEZjWGtVRmlna2xoMVBIZ3QrNVdWL1BWS3hU?=
+ =?utf-8?B?U04yZ3dNbXBobktUMmZNSk9TZXVsMEgyNTFlRUZ1UGFNMU9vc1hiMFlCaExX?=
+ =?utf-8?B?ZVNraUhZaWhBTFc3b3VqczJxZFdtNW1rZHZXR3h1Y25QblRuUUVYK3NGN0t3?=
+ =?utf-8?B?R0pkMHZBZXRZL0p6S014eWU1SFBxSW9kclVtVlJIZkFlWlNudFI2bE1xTHY4?=
+ =?utf-8?B?K2NKWWRYMmRlbTlrKy9yaFNJdm5uZHl1RnpHZnloV09HZXkyZkttZzJtTkhH?=
+ =?utf-8?B?THV0eEJxZ1NvRHQyd09JVGdSOTBweUlod2RsVHZjSlpWa2xubVlXZFY3OE1w?=
+ =?utf-8?B?NDVXdlU3TFVXaGprMnNSems0Q1BLMDM5SEZ2WE1UazQ0Sm1nUlRpYnVBR0li?=
+ =?utf-8?B?T050Z0tTMW9UQUdJSFV5TE1TWHpXOHJhc2tTUWtvTmhDTzNvRUY4d2VJT2dj?=
+ =?utf-8?B?RW5jTHNvcHJsVzZ2RjZyYzk2djBJWGYwV0ZIR1ZXNjJsMk03V2RvNHFUS3JQ?=
+ =?utf-8?B?cUpSRlFSNmlNaVcwZGQ1Rk9sRE9ib1FBZkZBMkJnRTA4QW5Db0RjSTl6cnQ2?=
+ =?utf-8?B?VGQxaEZmWmxBM3p5SzB2NUw2R1RzelRSRFVhRWpzdzhPUjl0UnA5RDZmbmsv?=
+ =?utf-8?B?bytoUTd0TWM5QkdWZFROSFlySmtraVpWeHpxUkpRWVZyZkJJUXJDakhxcHY3?=
+ =?utf-8?B?bklGd0p1Nm8wQ2RpYnlSZFlMby9TUGZlZFNLb3VxV0h6U2Z1azE2NUh0VjZI?=
+ =?utf-8?B?Q1VGem1aYWxNWEZ1UUNhMWhjN1dSL3VUWWttZGlSNTFWWjRyV0RkU1NPSjBD?=
+ =?utf-8?B?MHlXWmtQYUZNQXRLT1JWd1ZhZG1JeUtmZDFNQVFuVGViRDZPTFpVNENGd2Jz?=
+ =?utf-8?B?c203N0I5bDhST2hDWkMzbEJRSFB1Ti9lU2Z2V3E5N0FlZDk0WjJjRnBvbm9u?=
+ =?utf-8?B?am8vMzZ2QjJiUHZjYnlYTmYyaGNDbkhLem5BNEhzVkJYSnpkKzlKLzFVbURq?=
+ =?utf-8?B?QTRqOTZTSkIxM1p2aE9Way96eXAwZFovUFlNYllBSU5NdVVZdTRFcXFvRDZw?=
+ =?utf-8?B?UGEreHNVK2QzSHlqVy9KR0c2SXdNankvYVdXOEFLbU1ja3pKZGU1aG5vN1Rp?=
+ =?utf-8?B?eDNtYVJMQ0ZjMDNNWENScSszM1Jnc3ZTU0VqaG9VbUQ2ekdzYXFENVlQbmFD?=
+ =?utf-8?B?aTdXcmg3WExrb0o3SHBJSW5vVnhUQW9IWkV6SUt0Si9FNjdCQzI2RWlIKzBl?=
+ =?utf-8?B?a21BblpmOXEyMWlZdzJGeHd0clJXc01RUEJScGFxVmF1cEpOaHZGdWVacUtt?=
+ =?utf-8?B?KzFDbEpNRXdrUHBDcVV6MkVDMkhLRWVGcWRwS1Uxeit0UVNFa1NETmJtR2tP?=
+ =?utf-8?B?Zi94M05mQVlvZDNSRm1MY1N4WWo4ZTAybkhyU1FkNjdxUlNSL2xNTEdVd3hP?=
+ =?utf-8?B?ak9rejl0SndkNlhJSVJFVkZJM0FHSnRoc09yU0oyNjZYQTJOWlVNVFVVNnV0?=
+ =?utf-8?B?Z1d3QWp5QjRqQ0tNU1k4bm1HTElHeGFtMzZMNlVWM1N0L3pSd0tyZDd5Yk5Z?=
+ =?utf-8?B?QWlDUWQ1c2lNUExRa3d3a2dsY1pYRFVRZHQ0cENNTlIvRTdLdWMrcEdJTmRK?=
+ =?utf-8?B?bUc5Z3VENTc1dkg0cTMyNy9pQm5rYmswazljZkt3VHMzbDNEN0FseW1HNlhZ?=
+ =?utf-8?B?b1RVRmFSaEQ2Z1Ivc1VPak5vUWtlV1dZUUZBVTVRbUJ4bjgzNTFicE9wR0V3?=
+ =?utf-8?B?N2ZUeWFDSVZvTFNhL2RadWVLaTZMblFQd24xWEdUbWRzUk82a1ZGNGRHc0pR?=
+ =?utf-8?B?NFNiaUJvL2Z0bFk4YnVWTUJyZDl2NG14L2ZPYXpDY1Nkd0FCVkZ5TGNsVE5I?=
+ =?utf-8?B?b3ZPUWlPblU5UmY5K0t3Vytka09YeEp1WEhFUXhQZXFJOVpOVE5Zd2ZQQTBn?=
+ =?utf-8?B?UWN5ZFg5M2FXL2RUUWRPeGRZTGMwTXRxZkdGYmZ4eFA0NW94SzBLZlFNNU9w?=
+ =?utf-8?B?MlcvK3A0NnNFVEhIc3dGU2pKR0t4a0hyZTNMSFpOM0t4anJ4THJiOGtXREJY?=
+ =?utf-8?Q?exbM1M?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(82310400026)(36860700013)(13003099007)(921020);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Oct 2025 09:07:54.9755
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 04bc99fa-1d1e-4ecc-f922-08de185cfa72
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF00001CE0.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6458
 
-On Thu, Oct 30, 2025 at 07:59:48PM -0700, Hangxiang Ma wrote:
-> Add Kaanapali compatible consistent with CAMSS CCI interfaces.
-> 
-> Reviewed-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
-> ---
->  Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml | 2 ++
->  1 file changed, 2 insertions(+)
+The Mesa issue referenced below pointed out a possible deadlock:
 
-Why do you send it again? Do you read messages on the mailing list?
+[ 1231.611031]  Possible interrupt unsafe locking scenario:
 
-Best regards,
-Krzysztof
+[ 1231.611033]        CPU0                    CPU1
+[ 1231.611034]        ----                    ----
+[ 1231.611035]   lock(&xa->xa_lock#17);
+[ 1231.611038]                                local_irq_disable();
+[ 1231.611039]                                lock(&fence->lock);
+[ 1231.611041]                                lock(&xa->xa_lock#17);
+[ 1231.611044]   <Interrupt>
+[ 1231.611045]     lock(&fence->lock);
+[ 1231.611047]
+                *** DEADLOCK ***
+
+In this example, CPU0 would be any function accessing job->dependencies
+through the xa_* functions that doesn't disable interrupts (eg:
+drm_sched_job_add_dependency, drm_sched_entity_kill_jobs_cb).
+
+CPU1 is executing drm_sched_entity_kill_jobs_cb as a fence signalling
+callback so in an interrupt context. It will deadlock when trying to
+grab the xa_lock which is already held by CPU0.
+
+Replacing all xa_* usage by their xa_*_irq counterparts would fix
+this issue, but Christian pointed out another issue: dma_fence_signal
+takes fence.lock and so does dma_fence_add_callback.
+
+  dma_fence_signal() // locks f1.lock
+  -> drm_sched_entity_kill_jobs_cb()
+  -> foreach dependencies
+     -> dma_fence_add_callback() // locks f2.lock
+
+This will deadlock if f1 and f2 share the same spinlock.
+
+To fix both issues, the code iterating on dependencies and re-arming them
+is moved out to drm_sched_entity_kill_jobs_work.
+
+Link: https://gitlab.freedesktop.org/mesa/mesa/-/issues/13908
+Reported-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Suggested-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+---
+ drivers/gpu/drm/scheduler/sched_entity.c | 34 +++++++++++++-----------
+ 1 file changed, 19 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+index c8e949f4a568..fe174a4857be 100644
+--- a/drivers/gpu/drm/scheduler/sched_entity.c
++++ b/drivers/gpu/drm/scheduler/sched_entity.c
+@@ -173,26 +173,15 @@ int drm_sched_entity_error(struct drm_sched_entity *entity)
+ }
+ EXPORT_SYMBOL(drm_sched_entity_error);
+ 
++static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
++					  struct dma_fence_cb *cb);
++
+ static void drm_sched_entity_kill_jobs_work(struct work_struct *wrk)
+ {
+ 	struct drm_sched_job *job = container_of(wrk, typeof(*job), work);
+-
+-	drm_sched_fence_scheduled(job->s_fence, NULL);
+-	drm_sched_fence_finished(job->s_fence, -ESRCH);
+-	WARN_ON(job->s_fence->parent);
+-	job->sched->ops->free_job(job);
+-}
+-
+-/* Signal the scheduler finished fence when the entity in question is killed. */
+-static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
+-					  struct dma_fence_cb *cb)
+-{
+-	struct drm_sched_job *job = container_of(cb, struct drm_sched_job,
+-						 finish_cb);
++	struct dma_fence *f;
+ 	unsigned long index;
+ 
+-	dma_fence_put(f);
+-
+ 	/* Wait for all dependencies to avoid data corruptions */
+ 	xa_for_each(&job->dependencies, index, f) {
+ 		struct drm_sched_fence *s_fence = to_drm_sched_fence(f);
+@@ -220,6 +209,21 @@ static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
+ 		dma_fence_put(f);
+ 	}
+ 
++	drm_sched_fence_scheduled(job->s_fence, NULL);
++	drm_sched_fence_finished(job->s_fence, -ESRCH);
++	WARN_ON(job->s_fence->parent);
++	job->sched->ops->free_job(job);
++}
++
++/* Signal the scheduler finished fence when the entity in question is killed. */
++static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
++					  struct dma_fence_cb *cb)
++{
++	struct drm_sched_job *job = container_of(cb, struct drm_sched_job,
++						 finish_cb);
++
++	dma_fence_put(f);
++
+ 	INIT_WORK(&job->work, drm_sched_entity_kill_jobs_work);
+ 	schedule_work(&job->work);
+ }
+-- 
+2.43.0
 
 
