@@ -1,68 +1,68 @@
-Return-Path: <linux-media+bounces-46114-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-46115-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5488DC27C73
-	for <lists+linux-media@lfdr.de>; Sat, 01 Nov 2025 12:07:59 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCA73C27CB3
+	for <lists+linux-media@lfdr.de>; Sat, 01 Nov 2025 12:29:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 783DF4E721C
-	for <lists+linux-media@lfdr.de>; Sat,  1 Nov 2025 11:07:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 83B9C189A2EA
+	for <lists+linux-media@lfdr.de>; Sat,  1 Nov 2025 11:29:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB98D2F2916;
-	Sat,  1 Nov 2025 11:07:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98D4C2F5466;
+	Sat,  1 Nov 2025 11:29:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jm5PnlJw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LEBy17/b"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 793202E54DB;
-	Sat,  1 Nov 2025 11:07:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD9C2DC348;
+	Sat,  1 Nov 2025 11:29:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761995267; cv=none; b=Gx6dYql/JM4J3Uian8vx/OoKoeXg3PggrR2yaCTx8CM981PvrXgznuPi6ztc0FGYKi7XooK2cVgLDbyjnIj5zUpyOSTe2JC/zmCX/Acwr/csq4pLp/cHMceVOlicybDvPYiAnhZaybACSJ7qRKhhmpZvUXLwcaA48pgpzb8oPJ4=
+	t=1761996545; cv=none; b=FnwJtNm5RbYdE4s7PllZU7gsrtmprwcOvWX+f09e4waoQefEeTImwxRIG29XkdkUvKEzLROnlR8QFyXPp70oXcr9WBUzolBPA/H0JqO+EpsWnaYHIGm0fPeqgKXUD37HQamWUNSilcABgaqncexnkJT5FRAWXofLp8UR/1PW3cI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761995267; c=relaxed/simple;
-	bh=pwo2AH/F6d+H4i2vyh89lNZ+XD4n4HBplTVDLdDFnB4=;
+	s=arc-20240116; t=1761996545; c=relaxed/simple;
+	bh=sF26sQtYAQFqKSwZpyXYz3QW+Hf+GiF9jFBa1Emk2c8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K0nf1u9ftAuSnAXKE6PPp/apaLMUpvXdIJXy1VuFBfjx7eUutdDkwnHyrbmU7j7bBD2ApE5DpOejPG0mkFzioVgPd7rWNLvvSsqzv6F2Por2xp6f3BKv3Es3hUY7xOU7ouiBulGJnvfQK7lzNg458iPQTetTmf9w7TcX3RO3EGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jm5PnlJw; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=AsQGPTagtxE23/D7Y61FuK7vGW3E7nTHR0Gy0bn4xcZ2qdbrSTEvWK9H7TwImLTaY5W9gGlItot0d1NiA7HkMLgb9nugWmu+mAfAkrWPwC4XcbQdFdTk9t7gJj7z6Iv6JLhfR66j2aXWR/8fewT/K1qpV3QANwldYYONXhhL7qk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LEBy17/b; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761995265; x=1793531265;
+  t=1761996544; x=1793532544;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=pwo2AH/F6d+H4i2vyh89lNZ+XD4n4HBplTVDLdDFnB4=;
-  b=Jm5PnlJwxr82UmtT9GMQBDM33G6qWaUDkSYg/M7EetOmQpeODpe+rf8m
-   QFjoKVBfGzninZQ+r7Aq90ovuvp8YpswOHnU/XXx3vNHLy0GOZfwVQ/vI
-   qmzxRswOxCZf3/P6a6qNmQsBtdGxmmp2CnQ/UVLrXENQ9ev6MKYZ3ovv/
-   lSE+8jtC17n8jYpMHo7RYibjZoe+TfLK4rN07hh4n9VpKodZjGotRa9q7
-   Z7fm5b9B0HNgC/kZZYCMDhiyKib9ZxieGxF06C1MRVFaVhmO9ZoCqDVjz
-   qCy60AORX9ZYJRBVqVXkdcvtQvZ3KEnnk72tkToGW0y9cXYNpVCdmzS6a
+  bh=sF26sQtYAQFqKSwZpyXYz3QW+Hf+GiF9jFBa1Emk2c8=;
+  b=LEBy17/bz5Kld+I1fZIuLvXIq9/a7omM3HYxlxAyijZ+MuGxRd6z6c4T
+   Lyl5BY0NPsabZl6T7ELw0p8kl+I7Dw7tiW2jUjUOyn0WHZRHaR3m7EaSS
+   R06tYv6m9z1PG8ihDwS/M3WiGm9xLvl1dCzzJfAE6ltZqBKnxq0/GYrez
+   dmPJE+EqZXLP22IcS2hHHexzP+TeCq8+Cf+zdGeHxQ8cYcrMvo97ef/lB
+   nNOB9+gxLMflT9Ez9KJMWwnAb2JtenOMUK90a7Rj2o8PJWnB1p+ef9/bd
+   +5gqJgO7nRmAiyyP6iRT5Ib1tG8NGxA/1SJrlec/l1U4c6v8m2NQb+YLi
    Q==;
-X-CSE-ConnectionGUID: /3/n6Ag6TsqQ9HUFI4jf4w==
-X-CSE-MsgGUID: WIBPjXUJQtKNOlviYiPLeg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="67979214"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="67979214"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2025 04:07:45 -0700
-X-CSE-ConnectionGUID: D9pmvt2aRzub+M8lQn84cw==
-X-CSE-MsgGUID: FpfaqeAFSECmJUUrEqcDeg==
+X-CSE-ConnectionGUID: S05RZRYKRGqTbeNiAOBjLw==
+X-CSE-MsgGUID: GFToRhMfTTGdlJ1bPZh00w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11599"; a="67797844"
+X-IronPort-AV: E=Sophos;i="6.19,272,1754982000"; 
+   d="scan'208";a="67797844"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2025 04:29:03 -0700
+X-CSE-ConnectionGUID: fCbaBgp4R9Cg2C2C3uNafw==
+X-CSE-MsgGUID: fbz26zFYROKDX/eUs4VjWw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,271,1754982000"; 
-   d="scan'208";a="190789457"
+X-IronPort-AV: E=Sophos;i="6.19,272,1754982000"; 
+   d="scan'208";a="186400275"
 Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 01 Nov 2025 04:07:39 -0700
+  by orviesa007.jf.intel.com with ESMTP; 01 Nov 2025 04:28:58 -0700
 Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1vF9SE-000OAS-0o;
-	Sat, 01 Nov 2025 11:07:33 +0000
-Date: Sat, 1 Nov 2025 19:06:56 +0800
+	id 1vF9mw-000OBo-38;
+	Sat, 01 Nov 2025 11:28:54 +0000
+Date: Sat, 1 Nov 2025 19:28:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jason-JH Lin <jason-jh.lin@mediatek.com>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk@kernel.org>,
@@ -88,7 +88,7 @@ Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org
 Subject: Re: [PATCH 1/5] soc: mediatek: Use pkt_write function pointer for
  subsys ID compatibility
-Message-ID: <202511011822.Vn6fsvGr-lkp@intel.com>
+Message-ID: <202511011936.zWnbnVXF-lkp@intel.com>
 References: <20251031160309.1654761-2-jason-jh.lin@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -114,29 +114,29 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Jason-JH-Lin/soc-mediatek
 base:   https://git.linuxtv.org/media-ci/media-pending.git master
 patch link:    https://lore.kernel.org/r/20251031160309.1654761-2-jason-jh.lin%40mediatek.com
 patch subject: [PATCH 1/5] soc: mediatek: Use pkt_write function pointer for subsys ID compatibility
-config: powerpc64-randconfig-r063-20251101 (https://download.01.org/0day-ci/archive/20251101/202511011822.Vn6fsvGr-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251101/202511011822.Vn6fsvGr-lkp@intel.com/reproduce)
+config: xtensa-randconfig-r064-20251101 (https://download.01.org/0day-ci/archive/20251101/202511011936.zWnbnVXF-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251101/202511011936.zWnbnVXF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511011822.Vn6fsvGr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511011936.zWnbnVXF-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/soc/mediatek/mtk-mmsys.c:170:26: error: no member named 'pkt_write_mask' in 'struct cmdq_client_reg'
-     170 |                 ret = mmsys->cmdq_base.pkt_write_mask(cmdq_pkt,
-         |                       ~~~~~~~~~~~~~~~~ ^
->> drivers/soc/mediatek/mtk-mmsys.c:172:30: error: no member named 'pa_base' in 'struct cmdq_client_reg'
-     172 |                                                       mmsys->cmdq_base.pa_base,
-         |                                                       ~~~~~~~~~~~~~~~~ ^
-   2 errors generated.
+   drivers/soc/mediatek/mtk-mmsys.c: In function 'mtk_mmsys_update_bits':
+>> drivers/soc/mediatek/mtk-mmsys.c:170:25: error: 'struct cmdq_client_reg' has no member named 'pkt_write_mask'
+      ret = mmsys->cmdq_base.pkt_write_mask(cmdq_pkt,
+                            ^
+>> drivers/soc/mediatek/mtk-mmsys.c:172:29: error: 'struct cmdq_client_reg' has no member named 'pa_base'
+                mmsys->cmdq_base.pa_base,
+                                ^
 --
->> drivers/soc/mediatek/mtk-mutex.c:1002:16: error: no member named 'pkt_write' in 'struct cmdq_client_reg'
-    1002 |         mtx->cmdq_reg.pkt_write(cmdq_pkt, mtx->cmdq_reg.subsys, en_addr, en_addr, 1);
-         |         ~~~~~~~~~~~~~ ^
-   1 error generated.
+   drivers/soc/mediatek/mtk-mutex.c: In function 'mtk_mutex_enable_by_cmdq':
+>> drivers/soc/mediatek/mtk-mutex.c:1002:15: error: 'struct cmdq_client_reg' has no member named 'pkt_write'
+     mtx->cmdq_reg.pkt_write(cmdq_pkt, mtx->cmdq_reg.subsys, en_addr, en_addr, 1);
+                  ^
 
 
 vim +170 drivers/soc/mediatek/mtk-mmsys.c
