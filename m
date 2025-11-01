@@ -1,206 +1,211 @@
-Return-Path: <linux-media+bounces-46119-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-46120-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E167C28808
-	for <lists+linux-media@lfdr.de>; Sat, 01 Nov 2025 22:27:48 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1AD1C28822
+	for <lists+linux-media@lfdr.de>; Sat, 01 Nov 2025 23:09:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 0312A4E2472
-	for <lists+linux-media@lfdr.de>; Sat,  1 Nov 2025 21:27:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 03D7A3AA925
+	for <lists+linux-media@lfdr.de>; Sat,  1 Nov 2025 22:07:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2F1028853E;
-	Sat,  1 Nov 2025 21:27:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65011258CDF;
+	Sat,  1 Nov 2025 22:07:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b="KA04CA0D"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from linuxtv.org (140-211-166-241-openstack.osuosl.org [140.211.166.241])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E085184;
-	Sat,  1 Nov 2025 21:27:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E7134D3A4
+	for <linux-media@vger.kernel.org>; Sat,  1 Nov 2025 22:07:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.241
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762032460; cv=none; b=kZJGKgEmSSDis511gh1XhfANdnLO1tcQVbaUx0TGeQbzkZtt821VOiUZ4Di2p1HWUTBxITsyr/PtczTqzJSC/1BR0UN4TEZ9jf2dXU6abM9Ig4eHHp/dAszONNPBfRLmHMvd7xyXeaVgBqQob5BoMX2piR0x87OpftLbfoCCZeo=
+	t=1762034870; cv=none; b=UHHMgvVHkBQhV0j2zB2bLb+YVhUFFaKHkGP73IGN6udX7QfyiW+yIt5GtGRN0xGELDVLYP+p3XyZgkQ/xhuQfEGRKSfa5S/+dOIjfSIK6Ub3KjND1GjRKWcKDHHftKYnNTAV9OhralOvSq6Ux6gSEtrGE6fSjYeSHMhJtgPL5a8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762032460; c=relaxed/simple;
-	bh=IyMOrE3IZXQkr57uglInK4/AoFrP2M5HRazI6poDrPc=;
-	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=tcs4yGbl+1MO4vslLpkBpoYY9+ryJVlqRy/5MF5dddwp10xPYuvIxA2yfwK+QcWTAx+qXaOUpfL0PZ9KgvQYKSeAqYsF/rWxIBDm4xOQFoiZNfzqq5ECGPXndTJZGQWL0nXFtWMPevlJhCaRO070WDvMnSXsFsHFW29Dn/NCTks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=ndufresne.ca; spf=fail smtp.mailfrom=ndufresne.ca; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=ndufresne.ca
-Received: from [IPv6:2606:6d00:17:ebd3::5ac] (unknown [IPv6:2606:6d00:17:ebd3::5ac])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 1674F17E13F9;
-	Sat,  1 Nov 2025 22:27:28 +0100 (CET)
-Message-ID: <4d1260be46be22d7b40fab9788763af796d118dc.camel@ndufresne.ca>
-Subject: Re: [PATCH v3 2/4] media: docs: dev-decoder: Trigger dynamic
- source change for colorspace
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: ming.qian@oss.nxp.com, mchehab@kernel.org, hverkuil-cisco@xs4all.nl
-Cc: sebastian.fricke@collabora.com, shawnguo@kernel.org,
- s.hauer@pengutronix.de, 	kernel@pengutronix.de, festevam@gmail.com,
- linux-imx@nxp.com, xiahong.bao@nxp.com, 	eagle.zhou@nxp.com,
- imx@lists.linux.dev, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-In-Reply-To: <20250418085422.193-2-ming.qian@oss.nxp.com>
-References: <20250418085422.193-1-ming.qian@oss.nxp.com>
-	 <20250418085422.193-2-ming.qian@oss.nxp.com>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0MU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAY29sbGFib3JhLmNvbT6ImQQTFg
- oAQQIbAwULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBO8NUoEVxMPCGgRvEtlBlFEpYHL0BQJ
- oLLLGBQkJZfd1AAoJENlBlFEpYHL0BEkA/3qkWYt99myYFSmTJUF8UB/7OroEm3vr1HRqXeQe9Qp2
- AP0bsoAe6KjEPa/pJfuJ2khrOPPHxvyt/PBNbI5BYcIABLQnTmljb2xhcyBEdWZyZXNuZSA8bmljb
- 2xhc0BuZHVmcmVzbmUuY2E+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AWIQ
- TvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyy+AUJCWX3dQAKCRDZQZRRKWBy9FJ5AQCNy8SX8DpHbLa
- cy58vgDwyIpB89mok9eWGGejY9mqpRwEAhHzs+/n5xlVlM3bqy1yHnAzJqVwqBE1D0jG0a9V6VQI=
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-7roVwGdgaHQCxf+hVe0E"
-Date: Fri, 01 Aug 2025 11:23:35 -0400
+	s=arc-20240116; t=1762034870; c=relaxed/simple;
+	bh=91qq99leoFhJWU64m+RS9iBgNWoSXK02snfPKvc00+Q=;
+	h=Date:From:To:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=amRFHjn54gZueIkrpircb851/EmtHCL4exELHUBtiBO02HPZWs7JGwZ/LP0r5bovH4P7YLI2AxakSKH5Rw/nDs13YUsHq3RvlttcHTj3pr31LNvcRmxnLa3Eo+beLvAq+a733claabwVPX/XvLUNL/1FNU45A74+EKQYIdghxwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org; spf=pass smtp.mailfrom=linuxtv.org; dkim=pass (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b=KA04CA0D; arc=none smtp.client-ip=140.211.166.241
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxtv.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linuxtv.org
+	; s=s1; h=List-ID:Content-Type:MIME-Version:Subject:References:In-Reply-To:
+	Message-ID:To:Reply-To:From:Date:Sender:Cc:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=CD1uA2N+9WHPxC6mD5ot1pleHX4AAaKAk5PYtbvLTV0=; b=KA04CA0DrinSfQObZhZyNiSB1F
+	QAzaT9gzICdGG0aynED1UPS9YaDsEJz623CgaqqIzrrm86YGMHo0gFz9UpSDBU0Fqzhcn8Vchi1+7
+	w/MK2eXSaDwxR/G6nS1mNPkfLYJFQfI2uEcL3ptlqoXmLJH5u/HGZU5GAICYznisn7ii0UksQjLAm
+	ealrtOl77lmEGzyaxj5SU5ZDunrmZs2F+yu4k1ipd0yvl8NTd9+jnMRc8NfJ+zPiV7LzrwDn/64cj
+	omFJO+WcjG5RYDPUVPGMApFR/gebOQ8qGqOCZz/c3AKsEWBDfPeIgcQOm07IYNl0XCrvaGW3guUxw
+	4TuEj+Ew==;
+Received: from builder.linuxtv.org ([140.211.167.10])
+	by linuxtv.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1vFJlE-0004UQ-13;
+	Sat, 01 Nov 2025 22:07:48 +0000
+Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
+	by builder.linuxtv.org with esmtp (Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1vFJlE-001V2r-0l;
+	Sat, 01 Nov 2025 22:07:48 +0000
+Date: Sat, 1 Nov 2025 22:07:47 +0000 (UTC)
+From: Jenkins Builder Robot <jenkins@linuxtv.org>
+Reply-To: mchehab@kernel.org, media-committers@linuxtv.org,
+	linux-media@vger.kernel.org
+To: mchehab@kernel.org, media-committers@linuxtv.org,
+	linux-media@vger.kernel.org, hverkuil@xs4all.nl
+Message-ID: <1662667723.2.1762034868237@builder.linuxtv.org>
+In-Reply-To: <1807094057.2.1761948420855@builder.linuxtv.org>
+References: <1807094057.2.1761948420855@builder.linuxtv.org>
+Subject: [Jenkins] media.git_drivers_build #443: build failed for x86_64
+ allyesconfig x86_64 allmodconfig x86_64 no PM
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_1_2133533441.1762034867960"
+X-Jenkins-Job: media.git_drivers_build
+
+------=_Part_1_2133533441.1762034867960
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+Some tests failed:
+	PASS: arm32 allmodconfig
+	PASS: arm32 allyesconfig
+	FAIL: x86_64 allyesconfig
+	FAIL: x86_64 allmodconfig
+	PASS: arm64 allyesconfig
+	FAIL: x86_64 no PM
+	PASS: arm64 allmodconfig
+	PASS: clang15 allmodconfig
+
+GENERAL INFO
+
+BUILD SUCCESSFUL
+Build URL: https://builder.linuxtv.org/job/media.git_drivers_build/443/
+Project: media.git_drivers_build
+Date of build: Sat, 1 Nov 2025 22:05:06 GMT
+Build duration: 2 min 41 sec and counting
 
 
---=-7roVwGdgaHQCxf+hVe0E
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+CHANGE SET
 
-Hi Ming,
+  	 Revision  by hverkuil: (media: MAINTAINERS: Assign ov08x40 driver to Jimmy)
 
-Le vendredi 18 avril 2025 =C3=A0 16:54 +0800, ming.qian@oss.nxp.com a =C3=
-=A9crit=C2=A0:
-> From: Ming Qian <ming.qian@oss.nxp.com>
->=20
-> If colorspace changes, the client needs to renegotiate the pipeline,
-> otherwise the decoded frame may not be displayed correctly.
->=20
-> When a colorspace change in the stream, the decoder sends a
-> V4L2_EVENT_SOURCE_CHANGE event with changes set to
-> V4L2_EVENT_SRC_CH_COLORSPACE. After client receive this source change
-> event, then client can switch to the correct stream setting. And each
-> frame can be displayed properly.
+	 change: edit MAINTAINERS
 
-sorry for the long delay. While reading this, in any case userspace have to=
- read
-the new format. Why can't userspace compare the old and new v4l2_format and
-decide to avoid re-allocation that way ?
+  	 Revision  by hverkuil: (media: ivsc: Release csi_dev reference early in mei_ace_setup_dev_link())
 
-There is also backward compatbility issues for driver that was sending
-V4L2_EVENT_SRC_CH_RESOLUTION for colorspace change before. Despite the cost=
-ly
-re-allocation, userspace only watching for V4L2_EVENT_SRC_CH_RESOLUTION wou=
-ld
-endup not updating the colorspace anymore.
+	 change: edit drivers/media/pci/intel/ivsc/mei_ace.c
 
-Combining both would be an option, but then V4L2_EVENT_SRC_CH_RESOLUTION me=
-ans
-any v4l2_format changes, which is awkward. What do you think of leaving to
-userspace the task of comparing the old and new v4l2_format ?
+  	 Revision  by hverkuil: (dt-bindings: media: i2c: Add DW9718S, DW9719 and DW9761 VCM)
 
-Nicolas
+	 change: add Documentation/devicetree/bindings/media/i2c/dongwoon,dw9719.yaml
 
->=20
-> So add colorspace as a trigger parameter for dynamic resolution change.
->=20
-> Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
-> ---
-> v2
-> - Add V4L2_EVENT_SRC_CH_COLORSPACE for colorspace source change event
->=20
-> =C2=A0.../userspace-api/media/v4l/dev-decoder.rst=C2=A0=C2=A0=C2=A0=C2=A0=
- | 17 +++++++++++++----
-> =C2=A01 file changed, 13 insertions(+), 4 deletions(-)
->=20
-> diff --git a/Documentation/userspace-api/media/v4l/dev-decoder.rst
-> b/Documentation/userspace-api/media/v4l/dev-decoder.rst
-> index ef8e8cf31f90..51d6da3eea4a 100644
-> --- a/Documentation/userspace-api/media/v4l/dev-decoder.rst
-> +++ b/Documentation/userspace-api/media/v4l/dev-decoder.rst
-> @@ -784,8 +784,8 @@ before the sequence started. Last of the buffers will=
- have
-> the
-> =C2=A0must check if there is any pending event and:
-> =C2=A0
-> =C2=A0* if a ``V4L2_EVENT_SOURCE_CHANGE`` event with ``changes`` set to
-> -=C2=A0 ``V4L2_EVENT_SRC_CH_RESOLUTION`` is pending, the `Dynamic Resolut=
-ion
-> -=C2=A0 Change` sequence needs to be followed,
-> +=C2=A0 ``V4L2_EVENT_SRC_CH_RESOLUTION`` or ``V4L2_EVENT_SRC_CH_COLORSPAC=
-E`` is
-> pending,
-> +=C2=A0 the `Dynamic Resolution Change` sequence needs to be followed,
-> =C2=A0
-> =C2=A0* if a ``V4L2_EVENT_EOS`` event is pending, the `End of Stream` seq=
-uence
-> needs
-> =C2=A0=C2=A0 to be followed.
-> @@ -932,13 +932,17 @@ reflected by corresponding queries):
-> =C2=A0
-> =C2=A0* the minimum number of buffers needed for decoding,
-> =C2=A0
-> -* bit-depth of the bitstream has been changed.
-> +* bit-depth of the bitstream has been changed,
-> +
-> +* colorspace of the bitstream has been changed.
-> =C2=A0
-> =C2=A0Whenever that happens, the decoder must proceed as follows:
-> =C2=A0
-> =C2=A01.=C2=A0 After encountering a resolution change in the stream, the =
-decoder sends a
-> =C2=A0=C2=A0=C2=A0=C2=A0 ``V4L2_EVENT_SOURCE_CHANGE`` event with ``change=
-s`` set to
-> -=C2=A0=C2=A0=C2=A0 ``V4L2_EVENT_SRC_CH_RESOLUTION``.
-> +=C2=A0=C2=A0=C2=A0 ``V4L2_EVENT_SRC_CH_RESOLUTION``, or a colorspace cha=
-nge in the stream,
-> the
-> +=C2=A0=C2=A0=C2=A0 decoder sends a ``V4L2_EVENT_SOURCE_CHANGE`` event wi=
-th ``changes`` set
-> to
-> +=C2=A0=C2=A0=C2=A0 ``V4L2_EVENT_SRC_CH_COLORSPACE``.
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0 .. important::
-> =C2=A0
-> @@ -946,6 +950,11 @@ Whenever that happens, the decoder must proceed as
-> follows:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 values applying to the stream =
-after the resolution change, including
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 queue formats, selection recta=
-ngles and controls.
-> =C2=A0
-> +.. note::
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 A ``V4L2_EVENT_SOURCE_CHANGE`=
-` event with ``changes`` set to
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ``V4L2_EVENT_SRC_CH_RESOLUTIO=
-N`` will affect the allocation, but
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ``V4L2_EVENT_SRC_CH_COLORSPAC=
-E`` won't.
-> +
-> =C2=A02.=C2=A0 The decoder will then process and decode all remaining buf=
-fers from
-> before
-> =C2=A0=C2=A0=C2=A0=C2=A0 the resolution change point.
-> =C2=A0
+  	 Revision  by hverkuil: (media: i2c: dw9719: Deprecate dongwoon,vcm-freq)
 
---=-7roVwGdgaHQCxf+hVe0E
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+	 change: edit drivers/media/i2c/dw9719.c
 
------BEGIN PGP SIGNATURE-----
+  	 Revision  by hverkuil: (media: i2c: dw9719: Remove unused i2c device id table)
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaIzb9AAKCRDZQZRRKWBy
-9J4AAPsHUIFEn3VY8agsSDDBhYSCgjQgdq6VCsTIZOI/onEoFwD/eMf1L5FSeA/7
-DuR3YPAOrYGgjgJ5M4KhzEvWSIq08ws=
-=mLm3
------END PGP SIGNATURE-----
+	 change: edit drivers/media/i2c/dw9719.c
 
---=-7roVwGdgaHQCxf+hVe0E--
+  	 Revision  by hverkuil: (media: i2c: dw9719: Add an of_match_table)
+
+	 change: edit drivers/media/i2c/dw9719.c
+
+  	 Revision  by hverkuil: (media: i2c: dw9719: Add driver_data matching)
+
+	 change: edit drivers/media/i2c/dw9719.c
+
+  	 Revision  by hverkuil: (media: i2c: dw9719: Add DW9718S support)
+
+	 change: edit drivers/media/i2c/dw9719.c
+
+  	 Revision  by hverkuil: (media: i2c: dw9719: Update PM last busy time upon close)
+
+	 change: edit drivers/media/i2c/dw9719.c
+
+  	 Revision  by hverkuil: (media: i2c: dw9719: Fix power on/off sequence)
+
+	 change: edit drivers/media/i2c/dw9719.c
+
+  	 Revision  by hverkuil: (dt-bindings: media: i2c: dw9719: Document DW9800K)
+
+	 change: edit Documentation/devicetree/bindings/media/i2c/dongwoon,dw9719.yaml
+
+  	 Revision  by hverkuil: (media: i2c: dw9719: Add DW9800K support)
+
+	 change: edit drivers/media/i2c/dw9719.c
+
+  	 Revision  by hverkuil: (dt-bindings: media: Convert ti,tvp5150.txt to yaml format.)
+
+	 change: add Documentation/devicetree/bindings/media/i2c/ti,tvp5150.yaml
+
+	 change: delete Documentation/devicetree/bindings/media/i2c/ti,tvp5150.txt
+
+  	 Revision  by hverkuil: (dt-bindings: media: convert nxp,tda1997x.txt to yaml format)
+
+	 change: delete Documentation/devicetree/bindings/media/i2c/nxp,tda1997x.txt
+
+	 change: add Documentation/devicetree/bindings/media/i2c/nxp,tda19971.yaml
+
+  	 Revision  by hverkuil: (media: i2c: imx219: Fix 1920x1080 mode to use 1:1 pixel aspect ratio)
+
+	 change: edit drivers/media/i2c/imx219.c
+
+  	 Revision  by hverkuil: (media: i2c: imx219: Simplify imx219_get_binning() function)
+
+	 change: edit drivers/media/i2c/imx219.c
+
+  	 Revision  by hverkuil: (media: ov13b10: Add ACPI ID for ASUS Z13 Flow laptop)
+
+	 change: edit drivers/media/i2c/ov13b10.c
+
+  	 Revision  by hverkuil: (media: dt-bindings: video-interfaces: add video-interfaces.h information)
+
+	 change: edit Documentation/devicetree/bindings/media/video-interfaces.yaml
+
+  	 Revision  by hverkuil: (media: dt-bindings: vd55g1: Add vd65g4 compatible)
+
+	 change: edit Documentation/devicetree/bindings/media/i2c/st,vd55g1.yaml
+
+  	 Revision  by hverkuil: (media: i2c: vd55g1: Add support for vd65g4 RGB variant)
+
+	 change: edit drivers/media/i2c/vd55g1.c
+
+  	 Revision  by hverkuil: (media: ov02c10: Fix default vertical flip)
+
+	 change: edit drivers/media/i2c/ov02c10.c
+
+  	 Revision  by hverkuil: (media: ov02c10: Support hflip and vflip)
+
+	 change: edit drivers/media/i2c/ov02c10.c
+
+  	 Revision  by hverkuil: (media: ipu3-imgu: Drop struct imgu_device v4l2_file_ops field)
+
+	 change: edit drivers/staging/media/ipu3/ipu3.h
+
+  	 Revision  by hverkuil: (media: staging: ipu7: isys: Drop video_open() function)
+
+	 change: edit drivers/staging/media/ipu7/ipu7-isys-video.c
+
+  	 Revision  by hverkuil: (media: i2c: Fix vendor name typo in OV2735 Kconfig help text)
+
+	 change: edit drivers/media/i2c/Kconfig
+
+  	 Revision  by hverkuil: (MAINTAINERS: Update Daniel Scally&#039;s email address)
+
+	 change: edit MAINTAINERS
+------=_Part_1_2133533441.1762034867960--
 
