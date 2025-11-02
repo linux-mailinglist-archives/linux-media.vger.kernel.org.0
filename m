@@ -1,66 +1,68 @@
-Return-Path: <linux-media+bounces-46168-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-46169-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E955C2994C
-	for <lists+linux-media@lfdr.de>; Mon, 03 Nov 2025 00:03:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C455C299CA
+	for <lists+linux-media@lfdr.de>; Mon, 03 Nov 2025 00:15:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A54413A8A88
-	for <lists+linux-media@lfdr.de>; Sun,  2 Nov 2025 23:02:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE8993AD330
+	for <lists+linux-media@lfdr.de>; Sun,  2 Nov 2025 23:15:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A45F1B423B;
-	Sun,  2 Nov 2025 23:02:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6787C2472BD;
+	Sun,  2 Nov 2025 23:14:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="K2eDJo9p"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="POvKaHNI"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBC462F5E;
-	Sun,  2 Nov 2025 23:02:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06A69148850;
+	Sun,  2 Nov 2025 23:14:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762124536; cv=none; b=FXa1pjhYnAYnARgwb/8NM6ESZauC0wX1ITfeOkSfnOYQie1VJ5n79kTwIi3MbbNpSSphyV3hKXFNAnv2MOD/FN0KC3LV6RI4OwBUTGTBl7JuWl9gwDuj567TZokAd6ikXG8xsPVQbAw35Gg1eBdx1bd7sP2xA8UR8znJUTtE9+U=
+	t=1762125298; cv=none; b=JNdf0xlo/dwBqLRIFALIjIKb854YZjEzLuKPkG0a2FcSv0i4GHO0gOcstctJXJjRrqeeRwT6bLs0GHfnjwnWSBnmjhUigiZsBW9Nn7LNm118f9GOCIOMJHcB7/1KvEHe7dkhmDoom/Js3erF/xRTYqsFiOtXz1w7oZGjdYT3qek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762124536; c=relaxed/simple;
-	bh=nZm+KO4+ZVuNc4gxK7tkO1KbJMk9/Tr67Ic5LCJjzF0=;
+	s=arc-20240116; t=1762125298; c=relaxed/simple;
+	bh=kUr0faM6nmdPvF981v46JyOf4dm270I/HG8+3rNC3ok=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q/nh6rihDhjUXol62uefOAOXl5ncETWCEqjw1P2TOZc1WEBapKoboCKA7kF3N+0tUewUItfJQ8HyiG8cPhWYgpPh61/5wOEkTJlIP1w52RDgo9dasa/xbOyRrfWcyRNuYmrrtfOabqMp5N92izJYYCLVRZbL8B84+rHX0oNie4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=K2eDJo9p; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=e/xh9MYSfL30FerEzFlaITG9xcHBUY7z1jtZ66GyTyXmBGPH18ZrB9mpHP7LGZurdyvsLfIxsyL95s3JdmO+XhIKvbJIHwxMjltlBrQWNM0ic8CE421xaIDqvcgkiJrYdQSfiHR3LMMjIT+yd8HxMJQZbPT3YMAuKQ39EX8j+pE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=POvKaHNI; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (82-203-160-149.bb.dnainternet.fi [82.203.160.149])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id D35E71E2E;
-	Mon,  3 Nov 2025 00:00:18 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 326738BE;
+	Mon,  3 Nov 2025 00:13:02 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1762124419;
-	bh=nZm+KO4+ZVuNc4gxK7tkO1KbJMk9/Tr67Ic5LCJjzF0=;
+	s=mail; t=1762125182;
+	bh=kUr0faM6nmdPvF981v46JyOf4dm270I/HG8+3rNC3ok=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=K2eDJo9pQwFOmxXLCxfKT48xZOvC6SoDhjDn6pR+J5Ofi8Zlpv7dkpPpm1DxhyQy3
-	 QVuvKTvyw2cfUBB9HVhNnDLP72N2bI0JEjHiXSOoFdvvffhOBUF5O1m7dVdmE67+jV
-	 vltwYGu2sFTnnysEuPqwwyBJIublm9T9GboUkhk4=
-Date: Mon, 3 Nov 2025 01:01:57 +0200
+	b=POvKaHNIoRGL2MDfaf4h+sVBVTp/25n5QTk44MkrPN+bHGnQkSvs9/xku5f1aIP93
+	 1bW22IONVmWJ4i0tgiSOBzj3GRepC2d7vjbbzqNvK3XBDWyIacsrdCmzImFAxuArkE
+	 7KtorvEnqRRHFJPWiREarPEv37ZxQLecceM0y5rY=
+Date: Mon, 3 Nov 2025 01:14:40 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Shawn Guo <shawnguo@kernel.org>
-Cc: linux-media@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-	Fabio Estevam <festevam@gmail.com>,
-	Inbaraj E <inbaraj.e@samsung.com>,
-	Isaac Scott <isaac.scott@ideasonboard.com>,
+To: "G.N. Zhou" <guoniu.zhou@nxp.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Martin Kepplinger <martink@posteo.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>, Rui Miguel Silva <rmfrfs@gmail.com>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
 	Sascha Hauer <s.hauer@pengutronix.de>,
 	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Purism Kernel Team <kernel@puri.sm>, devicetree@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v3 13/13] arm64: dts: imx8mp: Specify the number of
- channels for CSI-2 receivers
-Message-ID: <20251102230157.GA31427@pendragon.ideasonboard.com>
-References: <20250822002734.23516-1-laurent.pinchart@ideasonboard.com>
- <20250822002734.23516-14-laurent.pinchart@ideasonboard.com>
+	Fabio Estevam <festevam@gmail.com>, Frank Li <frank.li@nxp.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [EXT] Re: [PATCH v2 2/5] media: nxp: imx8-isi: Simplify code by
+ using helper macro
+Message-ID: <20251102231440.GA1933@pendragon.ideasonboard.com>
+References: <20250905-isi_imx93-v2-0-37db5f768c57@nxp.com>
+ <20250905-isi_imx93-v2-2-37db5f768c57@nxp.com>
+ <20250921221325.GB10540@pendragon.ideasonboard.com>
+ <AS8PR04MB9080158655C3EA188BE7FE7AFA12A@AS8PR04MB9080.eurprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -69,43 +71,76 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250822002734.23516-14-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <AS8PR04MB9080158655C3EA188BE7FE7AFA12A@AS8PR04MB9080.eurprd04.prod.outlook.com>
 
-Hi Shawn,
-
-The DT bindings have been merged in v6.18, could you please pick this
-patch for v6.19 ?
-
-On Fri, Aug 22, 2025 at 03:27:33AM +0300, Laurent Pinchart wrote:
-> The CSI-2 receivers in the i.MX8MP have 3 output channels. Specify this
-> in the device tree, to enable support for more than one channel.
+On Mon, Sep 22, 2025 at 02:03:44AM +0000, G.N. Zhou wrote:
+> On Monday, September 22, 2025 6:13 AM, Laurent Pinchart wrote:
+> > On Fri, Sep 05, 2025 at 02:55:59PM +0800, Guoniu Zhou wrote:
+> > > Simplify code by using helper macro FIELD_PREP() and GENMASK().
+> > 
+> > I'm not necessarily against this change, but how does it "simplify code"
+> > ? There's no change in the code beside the macros, and they don't look
+> > particularly simpler.
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Frank Li <Frank.Li@nxp.com>
-> ---
->  arch/arm64/boot/dts/freescale/imx8mp.dtsi | 2 ++
->  1 file changed, 2 insertions(+)
+> How about the message body change to " Make code more readable and easier to maintain by
+> using the FIELD_PREP and GENMASK(). macro" and title change to "Refine code by using helper macro"?
+> If you agree, I could apply it in next version.
+
+No need to send a new version, I'll update the commit message myself.
+
+> > > No functions changed.
+> > >
+> > > Reviewed-by: Frank Li <Frank.Li@nxp.com>
+> > > Signed-off-by: Guoniu Zhou <guoniu.zhou@nxp.com>
+> > > ---
+> > >  drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c | 7 ++++---
+> > >  1 file changed, 4 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c
+> > > b/drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c
+> > > index
+> > >
+> > f69c3b5d478209c083738477edf380e3f280c471..2f5e7299b537d612fb1fe668
+> > 8c1b
+> > > 75bfd2d6049b 100644
+> > > --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c
+> > > +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c
+> > > @@ -3,6 +3,8 @@
+> > >   * Copyright 2019-2023 NXP
+> > >   */
+> > >
+> > > +#include <linux/bitfield.h>
+> > > +#include <linux/bits.h>
+> > >  #include <linux/regmap.h>
+> > >
+> > >  #include <media/mipi-csi2.h>
+> > > @@ -16,8 +18,7 @@
+> > >  #define GASKET_BASE(n)                               (0x0060 + (n) * 0x30)
+> > >
+> > >  #define GASKET_CTRL                          0x0000
+> > > -#define GASKET_CTRL_DATA_TYPE(dt)            ((dt) << 8)
+> > > -#define GASKET_CTRL_DATA_TYPE_MASK           (0x3f << 8)
+> > > +#define GASKET_CTRL_DATA_TYPE(dt)            FIELD_PREP(GENMASK(13, 8),
+> > (dt))
+> > 
+> > I think you can omit the parentheses around dt here, and around x below.
 > 
-> diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-> index bb24dba7338e..1e52840078df 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-> +++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-> @@ -1764,6 +1764,7 @@ mipi_csi_0: csi@32e40000 {
->  				assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_250M>,
->  							 <&clk IMX8MP_CLK_24M>;
->  				power-domains = <&media_blk_ctrl IMX8MP_MEDIABLK_PD_MIPI_CSI2_1>;
-> +				fsl,num-channels = <3>;
->  				status = "disabled";
->  
->  				ports {
-> @@ -1799,6 +1800,7 @@ mipi_csi_1: csi@32e50000 {
->  				assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_250M>,
->  							 <&clk IMX8MP_CLK_24M>;
->  				power-domains = <&media_blk_ctrl IMX8MP_MEDIABLK_PD_MIPI_CSI2_2>;
-> +				fsl,num-channels = <3>;
->  				status = "disabled";
->  
->  				ports {
+> Ok, will apply in next version.
+> 
+> > 
+> > >  #define GASKET_CTRL_DUAL_COMP_ENABLE         BIT(1)
+> > >  #define GASKET_CTRL_ENABLE                   BIT(0)
+> > >
+> > > @@ -58,7 +59,7 @@ const struct mxc_gasket_ops mxc_imx8_gasket_ops = {
+> > >   */
+> > >
+> > >  #define DISP_MIX_CAMERA_MUX                     0x30
+> > > -#define DISP_MIX_CAMERA_MUX_DATA_TYPE(x)        (((x) & 0x3f) << 3)
+> > > +#define DISP_MIX_CAMERA_MUX_DATA_TYPE(x)
+> > FIELD_PREP(GENMASK(8, 3), (x))
+> > >  #define DISP_MIX_CAMERA_MUX_GASKET_ENABLE       BIT(16)
+> > >
+> > >  static void mxc_imx93_gasket_enable(struct mxc_isi_dev *isi,
 
 -- 
 Regards,
