@@ -1,95 +1,96 @@
-Return-Path: <linux-media+bounces-46161-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-46162-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C43AC2990F
-	for <lists+linux-media@lfdr.de>; Mon, 03 Nov 2025 00:00:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C7F8C2991A
+	for <lists+linux-media@lfdr.de>; Mon, 03 Nov 2025 00:00:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 15AFD3B0834
-	for <lists+linux-media@lfdr.de>; Sun,  2 Nov 2025 22:58:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BD19E3AA773
+	for <lists+linux-media@lfdr.de>; Sun,  2 Nov 2025 22:58:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0605025D533;
-	Sun,  2 Nov 2025 22:57:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96C10260592;
+	Sun,  2 Nov 2025 22:57:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="gQcucSLC";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="jSA1gSeg"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="FwTgSHdr";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="1BRhjhm+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
+Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F8432571D8;
-	Sun,  2 Nov 2025 22:57:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2CD425A353;
+	Sun,  2 Nov 2025 22:57:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762124240; cv=none; b=WCDgm4EVl6Ign9CUP3IVJV2TYpAJ32B4l99gOO2kiuRgW/rtzQRX7XKmNlJ1G2wY1Sw+Uj6C0/MwviAJTzBfHryeGNa4qC0IHG2oxNCV8RnU0U4lEhG8n0nVoevZ9S5WoLcv4TuRX/iPBtf8IdMWbR5a9pK/YNf5NTBJvIkFotk=
+	t=1762124241; cv=none; b=AEgt14C/Hfw0ANALRTJ1XkDnYOSVxBgAs3BblhAM2kaY5nAR6gGeI+90ZIJKvEE8I/0bAUlupuVqb8srpmUeH2PYaKlJimXp5uISGN7DPHZHz0VGNgYCU/CO5SIneM3kiI9WFzqBDESUpOqBbaS4hM2D1OdDZKD2hOhXg13d52c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762124240; c=relaxed/simple;
-	bh=3BsEiC3yXAZ4lYorwmUAKhyiOkNN+8Qam6rPYtsAHqI=;
+	s=arc-20240116; t=1762124241; c=relaxed/simple;
+	bh=lYXS9/lUH6//2nYfOZQHGlPEvt5Tm6w5TkrDxRCvjHQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jrCT49Ht038nCkhjhOBsW/ynyGprgZe2R4qs0h7UA0J6I/r0zSLQLqxSVp+97AjUvx7UD0uSLSlWApdvEXj4szE2qKgg+20okgHF+OPFWpsiKQD5QC03Swqc731KwaIFLMvmkmUPZ0PQjnKLsQny+UzbmYIr1Kn7LhU3KsuX3Gc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=gQcucSLC; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=jSA1gSeg; arc=none smtp.client-ip=103.168.172.158
+	 MIME-Version:Content-Type; b=NWssr5ogyDIl1y49ZIB7OEU7Q7BMJopIZTacbxCMm2szisTcAXD9FQwGieLQWu1UAeqixFJHEVYp2+1jRCmiIg7g4XICyUIpCoBg1Yiicq5BOuONMzNmMS5m7eM8NO4lRmKSa3EomXBqDWBh6B/kitC6fCh/ziUGfcDddsTX/cw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=FwTgSHdr; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=1BRhjhm+; arc=none smtp.client-ip=103.168.172.147
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
 Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 4F18A140025D;
-	Sun,  2 Nov 2025 17:57:17 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Sun, 02 Nov 2025 17:57:17 -0500
+	by mailfout.phl.internal (Postfix) with ESMTP id 2ED44EC00C2;
+	Sun,  2 Nov 2025 17:57:19 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-03.internal (MEProxy); Sun, 02 Nov 2025 17:57:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1762124237;
-	 x=1762210637; bh=frx7H/XMJROWbWj4SqKL71xx2DhWlWuWN3SaPGeryjw=; b=
-	gQcucSLCrNVP0klkKFaLWJLC0+/AbylksQuB3Ky0tYooL+EvpXaSRgYOM+GHRTqj
-	DE5ji5tdUL/xle1WTEK8+4pRMNFLog6s5LiwWOtuGdXoe4vNX7MKs4CwO6aGZ1Ab
-	YqsHcff9kC1APQXkWEIO1mMt64t1m3PSCd1YIjkTa7AWejjALU30Njdm8nJpb1dZ
-	JMjA4HH+s9MdbVwF8u6AqoDm4x+/y3EG8zsXjHB5jUdmWqGEyfIRlq0kWkq0+FP8
-	l1Y68ilXW/V4KAj3G4cTs88VfByvyvN3BjdCMh8qx1M4ea4bg/SBGXSjn13XJECF
-	qa1knnNGVxMojmUaBaVMqA==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1762124239;
+	 x=1762210639; bh=eLLX04wS2mhvdK1hmgdmNBjfDXAIqyEsiwM2vHP4UQw=; b=
+	FwTgSHdreZ/NnGWdVzppv0uRFXl4FIVcYp0H59CsW2+stsSdWkAG3RY14i+Uzz/n
+	MrZ2T+lPyEWTBgXuEhJA1tOLArWaJ73Anp+9pKGnsXZG5k60M2Nw3iexpcGeePUX
+	CfSIiHnR5BdER4LvLrjNLtaW7COVOmXJLDXbCjfYJ52SjcNDS/HTP35Icb9tyWiU
+	Fm1JTU7Jp5ibkWBLXERIBjX5JMZMTPrzfvOQ3HBuUq6X7+phS3SrTIqgT2hZeNQe
+	aMTjiOGJzElvKxhYa8TSqXu2zmy9R083ogr4ihAd3uJ4AllSgpDqOnm2zeJ4USkE
+	+z+LJfO8iZYCf44+1KoAwg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1762124237; x=
-	1762210637; bh=frx7H/XMJROWbWj4SqKL71xx2DhWlWuWN3SaPGeryjw=; b=j
-	SA1gSegYIzSYFHcGc4+nn9e2qw7OzPobZeW/6lXB4LiQsbDW/HPHN7ZK/mGXdBsk
-	aUUOvZ0LEEweAHvCyR4nQ/0sjEreK+E5MhmcbP/xqztSmPnq7k4gPvUSDZnDNsyY
-	reKPRG27fvwfEz33LE+KTgJ3sSPkRB+UtfPF2qLgcCBJgR/SywrDJZcMzHDAu8W0
-	lrGDQgQDFj+5xS2H5ASloyE0+yj/CKr9hKbYO/Kna23pmFdwqoJ2Olbt/d3JB/pE
-	SKyZEReEwr2Q/n5rDr/tjND9y+btJTQ/LEzn3HfM1ZoIK8vsgMDgTDUPFwtqZgDv
-	pTOz2+T5FC0n5P7YPxQ3A==
-X-ME-Sender: <xms:zeEHaVHnCfGqJuLiJ2t6eJe-sF9Y2enu4nm4Fu2HGVBkk-iGAj78tA>
-    <xme:zeEHaUajA1bJ_-1kShlfmm9u0dGzYwI6qTlOPO3HL_CRwZyo_6LQv3f16bfMMqPWD
-    syq4V0IDm-saceE8RGDITtRtMp2PV8XzSo5Ou7ETo9eIX2gbr152w>
-X-ME-Received: <xmr:zeEHaXDEn5Dhxj8dg-zhxVKkdnYNV2ghWMjpAXLv3C644UoZEv5WZ2ZzNBSP-nKEHK6YIJ3GylJuXQhz_Xo3oYZl>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1762124239; x=
+	1762210639; bh=eLLX04wS2mhvdK1hmgdmNBjfDXAIqyEsiwM2vHP4UQw=; b=1
+	BRhjhm+5ZSGrL2a1sLg/vOmD8RK/WfHDjS5h0nMbwX0Hf1qURAx5W7AZEP2Yl84a
+	JOHLXTFarSKD104G2WDqnIKkITUYTZp87cfvsRpbcCg1IJy61RkT1gQwQDsfGZSG
+	+W4dDDBNgj5MMc5NRI05fgCo0+3DPGcE+uHY0+/OydWgf0ctR0C2+L9iie6JMgvK
+	9Xgs2Pf9bzMSTN5Tmzs05bWK5d7Tjq17/s4ejLJf/hswt8VZQs+3KPRr3LRvuiaf
+	0v+aE3KGkbNV/T/L/JyNEbaDOD9GaKc5mUpcTpfJGq9dbH1/ph8ATEovLtYoC/A5
+	tbh3bk5tUtwJ8rkW5VxzQ==
+X-ME-Sender: <xms:z-EHaZg_eyzfaWXc30-uLjMfeYN3kWcJ9n8K-piExd9Nwhji_r6F5Q>
+    <xme:z-EHaYEDCm50gVA0j1SIbXHWZ45DoPpyGjum2gTsSrNNDYVpKdiczv3YC1KdGfJeG
+    d03TH4kxo0K0KaW1BbOVQtTf1d7HqxCmda_rZ-uzMa-ktz7sWr5BSg>
+X-ME-Received: <xmr:z-EHaY-_L2bMsh_A6pOvC9VFGl68_Rgu21P640u6slGNVhSFCDG8op9WqNYH8YEDrjM67Cj6e56rPVABaR-ge2uf>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddujeeiheduucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
     gurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgr
     shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvsh
-    grshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehiefgueevuedt
-    fefhheegkeevtdelueeukeevfeduhefhhfejfffggeffleefgeenucevlhhushhtvghruf
-    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhl
-    uhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeejpdhmohguvgepsh
-    hmthhpohhuthdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgt
-    phhtthhopehjrggtohhpohdrmhhonhguihesihguvggrshhonhgsohgrrhgurdgtohhmpd
-    hrtghpthhtoheplhgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghr
-    ugdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvg
-    hlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghr
-    rdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvg
-    hrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehnihhklhgrshdrshhouggvrhhluhhn
-    ugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:zeEHack-LOS19hEDpkMGP4Rg3iZB-c4Osr0-P9A_eyQeE3QgcD2P1g>
-    <xmx:zeEHaYwPGKrFVsxA1cq23AXcSFnb6XfA-FxnJXfQHtUmrKaoqOzhHw>
-    <xmx:zeEHaWSELzwpuBVS9uYgz8ds89ZzFNPFxmiQ4C6eMhFaNpj7VTqQ4w>
-    <xmx:zeEHaQ_Fmz1zGzofJkN1DLU5Q1iQJshCbzhvGyVV5tMjGF7p2D_rcw>
-    <xmx:zeEHaWxlmai-6TYiq21aEQmvAs_mJV2go4D4v0Ho30IIn1-VXxT6priI>
+    grshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeekheetffdukedt
+    keeijeevieehlefgfeekvdejueelheekfedutedvudetfeefieenucffohhmrghinhepfh
+    higigvuggpvhgrlhdrghhrpdhfihigvggupghvrghlrdhgsgenucevlhhushhtvghrufhi
+    iigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluh
+    hnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeejpdhmohguvgepshhm
+    thhpohhuthdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtph
+    htthhopehjrggtohhpohdrmhhonhguihesihguvggrshhonhgsohgrrhgurdgtohhmpdhr
+    tghpthhtoheplhgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrug
+    drtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghl
+    rdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrd
+    hkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghr
+    rdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehnihhklhgrshdrshhouggvrhhluhhnug
+    dorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:z-EHafwErJAufeJkwhi_QtA7cdrUBpYcV81-JXbdo_rInvmTYeq4Dg>
+    <xmx:z-EHaUNFldmSXfmzLhbsrRFV3LNE5dgGPULW-itvquWCWMIcde9FFQ>
+    <xmx:z-EHaU_NdSkDRzxSp1gH-fQEVVBrgk2qdykv2mgFwiwNleCKaLpNmg>
+    <xmx:z-EHaR7zr2wZJNjvcyHvY62P4QWWDAoMpqjnqrIK53wnfuLFit3BiA>
+    <xmx:z-EHafcKFVSvLJmWVMXz1qOH7MkLg6YZhBC0o3ok9bYca0blY9f8_ukI>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 2 Nov 2025 17:57:16 -0500 (EST)
+ 2 Nov 2025 17:57:18 -0500 (EST)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
@@ -98,9 +99,9 @@ To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v3 06/12] media: rppx1: Add support for Histogram Measurement
-Date: Sun,  2 Nov 2025 23:56:36 +0100
-Message-ID: <20251102225642.3125325-7-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v3 07/12] media: rppx1: Add support for Black Level Subtraction
+Date: Sun,  2 Nov 2025 23:56:37 +0100
+Message-ID: <20251102225642.3125325-8-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251102225642.3125325-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20251102225642.3125325-1-niklas.soderlund+renesas@ragnatech.se>
@@ -113,10 +114,11 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Extend the RPPX1 driver to allow setting the Histogram configuration
-using the RkISP1 parameter buffer format. It uses the RPPX1 framework for
-parameters and  its writer abstraction to allow the user to control how
-(and when) configuration is applied to the RPPX1.
+Extend the RPPX1 driver to allow setting the Black Level Subtraction
+(BLS) configuration using the RkISP1 parameter buffer format. It uses
+the RPPX1 framework for parameters and  its writer abstraction to allow
+the user to control how (and when) configuration is applied to the
+RPPX1.
 
 As the RkISP1 parameters buffer have lower precision then the RPPX1
 hardware the values needs to be scaled. The behavior matches the RkISP1
@@ -125,229 +127,174 @@ hardware.
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
  .../platform/dreamchip/rppx1/rpp_params.c     |   3 +
- .../platform/dreamchip/rppx1/rpp_stats.c      |   4 +
- .../platform/dreamchip/rppx1/rppx1_hist.c     | 173 ++++++++++++++++++
- 3 files changed, 180 insertions(+)
+ .../platform/dreamchip/rppx1/rpp_stats.c      |   5 +-
+ .../platform/dreamchip/rppx1/rppx1_bls.c      | 116 ++++++++++++++++++
+ 3 files changed, 123 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_params.c b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-index bff525970478..15e476d2fa1c 100644
+index 15e476d2fa1c..afc80a480d42 100644
 --- a/drivers/media/platform/dreamchip/rppx1/rpp_params.c
 +++ b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-@@ -30,6 +30,9 @@ int rppx1_params_rkisp1(struct rppx1 *rpp, struct rkisp1_ext_params_cfg *cfg,
- 		case RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_MEAS:
- 			module = &rpp->post.wbmeas;
- 			break;
-+		case RKISP1_EXT_PARAMS_BLOCK_TYPE_HST_MEAS:
-+			module = &rpp->post.hist;
+@@ -24,6 +24,9 @@ int rppx1_params_rkisp1(struct rppx1 *rpp, struct rkisp1_ext_params_cfg *cfg,
+ 		block_offset += block->header.size;
+ 
+ 		switch (block->header.type) {
++		case RKISP1_EXT_PARAMS_BLOCK_TYPE_BLS:
++			module = &rpp->pre1.bls;
 +			break;
- 		case RKISP1_EXT_PARAMS_BLOCK_TYPE_AEC_MEAS:
- 			module = &rpp->pre1.exm;
+ 		case RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_GAIN:
+ 			module = &rpp->pre1.awbg;
  			break;
 diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_stats.c b/drivers/media/platform/dreamchip/rppx1/rpp_stats.c
-index d62b26e24cb0..059bd76ecf64 100644
+index 059bd76ecf64..1bffa6dd35f8 100644
 --- a/drivers/media/platform/dreamchip/rppx1/rpp_stats.c
 +++ b/drivers/media/platform/dreamchip/rppx1/rpp_stats.c
-@@ -16,6 +16,10 @@ void rppx1_stats_fill_isr(struct rppx1 *rpp, u32 isc, void *buf)
- 		if (!rpp_module_call(&rpp->post.wbmeas, stats_rkisp1, &stats->params))
- 			stats->meas_type |= RKISP1_CIF_ISP_STAT_AWB;
+@@ -20,8 +20,11 @@ void rppx1_stats_fill_isr(struct rppx1 *rpp, u32 isc, void *buf)
+ 		if (!rpp_module_call(&rpp->post.hist, stats_rkisp1, &stats->params))
+ 			stats->meas_type |= RKISP1_CIF_ISP_STAT_HIST;
  
-+	if (isc & RPPX1_IRQ_ID_POST_HIST_MEAS)
-+		if (!rpp_module_call(&rpp->post.hist, stats_rkisp1, &stats->params))
-+			stats->meas_type |= RKISP1_CIF_ISP_STAT_HIST;
-+
- 	if (isc & RPPX1_IRQ_ID_PRE1_EXM)
+-	if (isc & RPPX1_IRQ_ID_PRE1_EXM)
++	if (isc & RPPX1_IRQ_ID_PRE1_EXM) {
  		if (!rpp_module_call(&rpp->pre1.exm, stats_rkisp1, &stats->params))
  			stats->meas_type |= RKISP1_CIF_ISP_STAT_AUTOEXP;
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_hist.c b/drivers/media/platform/dreamchip/rppx1/rppx1_hist.c
-index cab498ece5a8..40ae8dc72b90 100644
---- a/drivers/media/platform/dreamchip/rppx1/rppx1_hist.c
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_hist.c
-@@ -25,6 +25,9 @@
- 
- #define HIST_LAST_MEAS_LINE_REG			0x0010
- #define HIST_SUBSAMPLING_REG			0x0014
-+#define HIST_SUBSAMPLING_V_STEPSIZE(x)		(((x) & 0x7f) << 24)
-+#define HIST_SUBSAMPLING_H_STEP_INC(x)		(((x) & 0x1ffff))
 +
- #define HIST_COEFF_R_REG			0x0018
- #define HIST_COEFF_G_REG			0x001c
- #define HIST_COEFF_B_REG			0x0020
-@@ -71,6 +74,176 @@ static int rppx1_hist_probe(struct rpp_module *mod)
++		rpp_module_call(&rpp->pre1.bls, stats_rkisp1, &stats->params);
++	}
+ }
+ EXPORT_SYMBOL_GPL(rppx1_stats_fill_isr);
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_bls.c b/drivers/media/platform/dreamchip/rppx1/rppx1_bls.c
+index de7008befd8e..164bc4a63c23 100644
+--- a/drivers/media/platform/dreamchip/rppx1/rppx1_bls.c
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_bls.c
+@@ -5,6 +5,7 @@
+  */
+ 
+ #include "rpp_module.h"
++#include "rppx1.h"
+ 
+ #define BLS_VERSION_REG				0x0000
+ 
+@@ -54,6 +55,121 @@ static int rppx1_bls_probe(struct rpp_module *mod)
  	return 0;
  }
  
-+#define RPPX1_HIST_WEIGHT(v0, v1, v2, v3) \
-+	(((v0) & 0x1f) | (((v1) & 0x1f) << 8)  | \
-+	(((v2) & 0x1f) << 16) | \
-+	(((v3) & 0x1f) << 24))
-+
-+static int rppx1_hist_param_rkisp1(struct rpp_module *mod,
-+				   const union rppx1_params_rkisp1_config *block,
-+				   rppx1_reg_write write, void *priv)
++static void
++rppx1_bls_swap_regs(struct rpp_module *mod, const u32 input[4], u32 output[4])
 +{
-+	const struct rkisp1_ext_params_hst_config *cfg = &block->hst;
-+	const struct rkisp1_cif_isp_hst_config *arg = &cfg->config;
-+	u32 h_offs, v_offs, h_size, v_size;
-+	u8 mode, coeff[3];
++	static const unsigned int swap[4][4] = {
++		[RPP_RGGB] = { 0, 1, 2, 3 },
++		[RPP_GRBG] = { 1, 0, 3, 2 },
++		[RPP_GBRG] = { 2, 3, 0, 1 },
++		[RPP_BGGR] = { 3, 2, 1, 0 },
++	};
++
++	/* Swap to pattern used in our path, PRE1 or PRE2. */
++	struct rpp_module *acq = mod == &mod->rpp->pre1.bls ?
++		&mod->rpp->pre1.acq : &mod->rpp->pre2.bls;
++	enum rpp_raw_pattern pattern = acq->info.acq.raw_pattern;
++
++	for (unsigned int i = 0; i < 4; ++i)
++		output[i] = input[swap[pattern][i]];
++}
++
++static int
++rppx1_bls_param_rkisp1(struct rpp_module *mod,
++		       const union rppx1_params_rkisp1_config *block,
++		       rppx1_reg_write write, void *priv)
++{
++	const struct rkisp1_ext_params_bls_config *cfg = &block->bls;
 +
 +	/* If the modules is disabled, simply bypass it. */
 +	if (cfg->header.flags & RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE) {
-+		write(priv, mod->base + HIST_MODE_REG,
-+		      HIST_MODE_HIST_MODE_DISABLE);
++		write(priv, mod->base + BLS_CTRL_REG, 0);
 +		return 0;
 +	}
 +
-+	/* Sample after demosaicing. */
-+	write(priv, mod->base + HIST_CHANNEL_SEL_REG, 7);
++	u32 ctrl = BLS_CTRL_BLS_EN;
 +
-+	/*
-+	 * The RkISP1 histogram_predivider setting controls the pixel spacing
-+	 * between each sample. On RPPX1 there is greater control as both line
-+	 * and pixel spacing can be controlled.  The RkISP1 stepsize register is
-+	 * documented as.
-+	 *
-+	 *  0, 1, 3: not allowed
-+	 *  3: process every third input pixel
-+	 *  4: process every fourth input pixel
-+	 *  127: process every 127th pixel
-+	 *
-+	 * The output bins are 16 bit (FP16.4) so to not overflow a divider
-+	 * calculated as would be needed.
-+	 *
-+	 *  count = mode == RGB_COMBINED ? 3 : 1
-+	 *  factor = vsize * hsize  * count / 65536
-+	 *
-+	 * However the libcamera user of the RkISP documents the setting as
-+	 * applying to both h and v direction at the same time and calculates
-+	 * the divider as,
-+	 *
-+	 *  count = mode == RGB_COMBINED ? 3 : 1
-+	 *  factor = ceil(sqrt(vsize * hsize  * count / 65536))
-+	 *
-+	 * Real world usage is better then bad documentation, do the same here
-+	 * and apply the divider in both directions.
-+	 *
-+	 * The RPPX1 h-stepping is also configured differently. Internally
-+	 * there is a 16-bit counter and for each input pixel h_step_inc is
-+	 * added to it. Every time it overflows the input pixel is sampled.
-+	 *
-+	 *  h_step_inc = 2**16 => sample every pixel
-+	 *  h_step_inc = 2**15 => sample every other pixel
-+	 *
-+	 * Gives us the conversion to RkISP1 parameters of.
-+	 *
-+	 *  h_step_inc = 65536 / divider
-+	 */
-+	write(priv, mod->base + HIST_SUBSAMPLING_REG,
-+	      HIST_SUBSAMPLING_V_STEPSIZE(arg->histogram_predivider) |
-+	      HIST_SUBSAMPLING_H_STEP_INC(0x10000 / arg->histogram_predivider));
++	if (!cfg->config.enable_auto) {
++		static const u32 regs[] = {
++			BLS_A_FIXED_REG,
++			BLS_B_FIXED_REG,
++			BLS_C_FIXED_REG,
++			BLS_D_FIXED_REG,
++		};
++		u32 swapped[4];
 +
-+	/*
-+	 * Adjust and set measurement window to hardware limitations,
-+	 * - Offsets must be even.
-+	 * - Width and height must be divisible by 10.
-+	 */
-+	h_offs = arg->meas_window.h_offs & 0x1ffe;
-+	v_offs = arg->meas_window.v_offs & 0x1ffe;
-+	h_size = arg->meas_window.h_size - arg->meas_window.h_size % 10;
-+	v_size = arg->meas_window.v_size - arg->meas_window.v_size % 10;
++		rppx1_bls_swap_regs(mod, regs, swapped);
 +
-+	write(priv, mod->base + HIST_H_OFFS_REG, h_offs);
-+	write(priv, mod->base + HIST_V_OFFS_REG, v_offs);
-+	write(priv, mod->base + HIST_H_SIZE_REG, h_size / 5);
-+	write(priv, mod->base + HIST_V_SIZE_REG, v_size / 5);
++		/*
++		 * The RkISP params are 12-bit + 1 signed bit, while the RPP can
++		 * be 12, 20 or 24 bit + 1 signed bit. Figure out how much we
++		 * need to adjust the input parameters.
++		 */
++		const unsigned int shift = mod->info.bls.colorbits - 12;
 +
-+	/* Set last measurement line for ready interrupt. */
-+	write(priv, mod->base + HIST_LAST_MEAS_LINE_REG,
-+	      v_offs + v_size + 1);
++		write(priv, mod->base + swapped[0], cfg->config.fixed_val.r << shift);
++		write(priv, mod->base + swapped[1], cfg->config.fixed_val.gr << shift);
++		write(priv, mod->base + swapped[2], cfg->config.fixed_val.gb << shift);
++		write(priv, mod->base + swapped[3], cfg->config.fixed_val.b << shift);
++	} else {
++		write(priv, mod->base + BLS_SAMPLES_REG, cfg->config.bls_samples);
 +
-+	/* NOTE: Keep the default full sample range. */
++		if (cfg->config.en_windows & BIT(0)) {
++			write(priv, mod->base + BLS_H1_START_REG, cfg->config.bls_window1.h_offs);
++			write(priv, mod->base + BLS_H1_STOP_REG, cfg->config.bls_window1.h_size);
++			write(priv, mod->base + BLS_V1_START_REG, cfg->config.bls_window1.v_offs);
++			write(priv, mod->base + BLS_V1_STOP_REG, cfg->config.bls_window1.v_size);
++			ctrl |= BLS_CTRL_BLS_WIN1;
++		}
 +
-+	/* Set measurement window weights. */
-+	write(priv, mod->base + HIST_WEIGHT_00TO30_REG,
-+	      RPPX1_HIST_WEIGHT(arg->hist_weight[0], arg->hist_weight[1],
-+				arg->hist_weight[2], arg->hist_weight[3]));
-+	write(priv, mod->base + HIST_WEIGHT_40TO21_REG,
-+	      RPPX1_HIST_WEIGHT(arg->hist_weight[4], arg->hist_weight[5],
-+				arg->hist_weight[6], arg->hist_weight[7]));
-+	write(priv, mod->base + HIST_WEIGHT_31TO12_REG,
-+	      RPPX1_HIST_WEIGHT(arg->hist_weight[8], arg->hist_weight[9],
-+				arg->hist_weight[10], arg->hist_weight[11]));
-+	write(priv, mod->base + HIST_WEIGHT_22TO03_REG,
-+	      RPPX1_HIST_WEIGHT(arg->hist_weight[12], arg->hist_weight[13],
-+				arg->hist_weight[14], arg->hist_weight[15]));
-+	write(priv, mod->base + HIST_WEIGHT_13TO43_REG,
-+	      RPPX1_HIST_WEIGHT(arg->hist_weight[16], arg->hist_weight[17],
-+				arg->hist_weight[18], arg->hist_weight[19]));
-+	write(priv, mod->base + HIST_WEIGHT_04TO34_REG,
-+	      RPPX1_HIST_WEIGHT(arg->hist_weight[20], arg->hist_weight[21],
-+				arg->hist_weight[22], arg->hist_weight[23]));
-+	write(priv, mod->base + HIST_WEIGHT_44_REG,
-+	      RPPX1_HIST_WEIGHT(arg->hist_weight[24], 0, 0, 0));
++		if (cfg->config.en_windows & BIT(1)) {
++			write(priv, mod->base + BLS_H2_START_REG, cfg->config.bls_window2.h_offs);
++			write(priv, mod->base + BLS_H2_STOP_REG, cfg->config.bls_window2.h_size);
++			write(priv, mod->base + BLS_V2_START_REG, cfg->config.bls_window2.v_offs);
++			write(priv, mod->base + BLS_V2_STOP_REG, cfg->config.bls_window2.v_size);
++			ctrl |= BLS_CTRL_BLS_WIN2;
++		}
 +
-+	/* Translate RkISP1 modes. */
-+	mode = HIST_MODE_HIST_MODE_YRGB;
-+	switch (arg->mode) {
-+	case RKISP1_CIF_ISP_HISTOGRAM_MODE_RGB_COMBINED:
-+		/* L = R + G + B */
-+		coeff[0] = 0x80;
-+		coeff[1] = 0x80;
-+		coeff[2] = 0x80;
-+		break;
-+	case RKISP1_CIF_ISP_HISTOGRAM_MODE_R_HISTOGRAM:
-+		/* L = R */
-+		coeff[0] = 0x80;
-+		coeff[1] = 0x00;
-+		coeff[2] = 0x00;
-+		break;
-+	case RKISP1_CIF_ISP_HISTOGRAM_MODE_G_HISTOGRAM:
-+		/* L = G */
-+		coeff[0] = 0x00;
-+		coeff[1] = 0x80;
-+		coeff[2] = 0x00;
-+		break;
-+	case RKISP1_CIF_ISP_HISTOGRAM_MODE_B_HISTOGRAM:
-+		coeff[0] = 0x00;
-+		coeff[1] = 0x00;
-+		coeff[2] = 0x80;
-+		break;
-+	case RKISP1_CIF_ISP_HISTOGRAM_MODE_Y_HISTOGRAM:
-+		/* Coefficients for a BT.601 (from datasheet). */
-+		coeff[0] = 38;
-+		coeff[1] = 75;
-+		coeff[2] = 15;
-+		break;
-+	default:
-+		mode = HIST_MODE_HIST_MODE_DISABLE;
-+		coeff[0] = 0x00;
-+		coeff[1] = 0x00;
-+		coeff[2] = 0x00;
-+		break;
++		ctrl |= BLS_CTRL_BLS_MODE_MEASURED;
 +	}
 +
-+	write(priv, mod->base + HIST_MODE_REG, mode);
-+	write(priv, mod->base + HIST_COEFF_R_REG, coeff[0]);
-+	write(priv, mod->base + HIST_COEFF_G_REG, coeff[1]);
-+	write(priv, mod->base + HIST_COEFF_B_REG, coeff[2]);
-+
-+	write(priv, mod->base + HIST_FORCED_UPDATE_REG, 1);
++	write(priv, mod->base + BLS_CTRL_REG, ctrl);
 +
 +	return 0;
 +}
 +
-+static int rppx1_hist_stats_rkisp1(struct rpp_module *mod,
-+				   struct rkisp1_cif_isp_stat *stats)
++static int rppx1_bls_stats_rkisp1(struct rpp_module *mod,
++				  struct rkisp1_cif_isp_stat *stats)
 +{
-+	for (unsigned int i = 0; i < HIST_BIN_REG_NUM; i++)
-+		stats->hist.hist_bins[i] = rpp_module_read(mod, HIST_BIN_REG(i)) & 0xfffff;
++	struct rkisp1_cif_isp_bls_meas_val *bls = &stats->ae.bls_val;
++
++	static const u32 regs[] = {
++		BLS_A_MEASURED_REG,
++		BLS_B_MEASURED_REG,
++		BLS_C_MEASURED_REG,
++		BLS_D_MEASURED_REG,
++	};
++	u32 swapped[4];
++
++	rppx1_bls_swap_regs(mod, regs, swapped);
++
++	/*
++	 * The RkISP BLS stats are 12-bit while the RPP can be 8, 20
++	 * or 24 bit. Figure out how much we need to adjust the output
++	 * statistics.
++	 */
++	const unsigned int shift = mod->info.bls.colorbits - 12;
++
++	bls->meas_r = rpp_module_read(mod, swapped[0]) >> shift;
++	bls->meas_gr = rpp_module_read(mod, swapped[1]) >> shift;
++	bls->meas_gb = rpp_module_read(mod, swapped[2]) >> shift;
++	bls->meas_b = rpp_module_read(mod, swapped[3]) >> shift;
 +
 +	return 0;
 +}
 +
- const struct rpp_module_ops rppx1_hist_ops = {
- 	.probe = rppx1_hist_probe,
-+	.param_rkisp1 = rppx1_hist_param_rkisp1,
-+	.stats_rkisp1 = rppx1_hist_stats_rkisp1,
+ const struct rpp_module_ops rppx1_bls_ops = {
+ 	.probe = rppx1_bls_probe,
++	.param_rkisp1 = rppx1_bls_param_rkisp1,
++	.stats_rkisp1 = rppx1_bls_stats_rkisp1
  };
 -- 
 2.51.1
