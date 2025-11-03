@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-46190-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-46191-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B0B1C2AE9D
-	for <lists+linux-media@lfdr.de>; Mon, 03 Nov 2025 11:06:34 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6D75C2AF4E
+	for <lists+linux-media@lfdr.de>; Mon, 03 Nov 2025 11:15:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6BDE93A9213
-	for <lists+linux-media@lfdr.de>; Mon,  3 Nov 2025 10:06:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id ED3F11891CFC
+	for <lists+linux-media@lfdr.de>; Mon,  3 Nov 2025 10:15:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA06D2FC00A;
-	Mon,  3 Nov 2025 10:06:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1A957261E;
+	Mon,  3 Nov 2025 10:15:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jQVn/NW4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r8PK8xNq"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EB9714A60F;
-	Mon,  3 Nov 2025 10:06:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 433B02FD677
+	for <linux-media@vger.kernel.org>; Mon,  3 Nov 2025 10:15:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762164385; cv=none; b=i0YCXppdml2Dvf8vRFR+IpoN5otc0NiLPFi2rwG19IyzjB/R3QZl41Zy+CnsGuWI/R3YX0RFIQ3chRYUQrVZaHyM/SZxkK1qE9I75n7MtzHRMHb1C5XLbQJQNdhuhMOmtkI+WaaDdxEc9l+YoHWqEuL5bKiPEW+rfGsBPbwwQRA=
+	t=1762164913; cv=none; b=cVvrebGJOZcncVH6+XZ+XNw42id5Hcuk6J+ggYIwjJstNWx2nzd2Pkd1Q92oak+X00SI/p2/PdBiWZI/P0VJ0Ptb8Cmd64n7OHQr9/Ti+ee57etWWV9a0iy0jGRvv7euU6uHvt8n63pLOciKAs8pEdtzOdIheqnVQcOiy8gZWyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762164385; c=relaxed/simple;
-	bh=U7dljpxaf1r0mwkGNZ8GR8FmR5XSNn25x6Hd0IO0hQE=;
+	s=arc-20240116; t=1762164913; c=relaxed/simple;
+	bh=MBILiLTdrJLo3mMAR/OMxTXVD4aQqw+H+ejOGzlgCp8=;
 	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=uQW2867MVK0G1/V/VDK1VIufi3ZdbMzEnjmmGVxHU+b6bJyY7KIAYE84AvLOxMrL9fI/j9ZdLb0jw3zNUIl5Zz3aGbB4cbB+XsfT05liw9B9miRY2JZm/Wz+j0vwU+XxgMV+RAjWUfo3QT5Ic+GFRt9SEHhEkDI5JsH5AKgBhRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jQVn/NW4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99B5EC4CEE7;
-	Mon,  3 Nov 2025 10:06:23 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=Pgap3vi+qgT2+QzSltMDfjsCNKWQE2AJWqj5TMuneYDZvVoiPZWxeCywQpEgOg+zy/1QjIk0tfg7++AkKRNQL1W9N1NJI2f5IeGx9wm3SmfdwFjdNMOhPYTqgQGvSlqut6zypUlqy6vTz2+IYc3pAv2Z4Gl1wUt8g394cuAF790=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r8PK8xNq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DD13C116B1;
+	Mon,  3 Nov 2025 10:15:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762164384;
-	bh=U7dljpxaf1r0mwkGNZ8GR8FmR5XSNn25x6Hd0IO0hQE=;
+	s=k20201202; t=1762164912;
+	bh=MBILiLTdrJLo3mMAR/OMxTXVD4aQqw+H+ejOGzlgCp8=;
 	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=jQVn/NW4nxlzqdkHGtzkZw9cVy5oPgWwxkHaZ/SWZ921tyTRJbZygRMP59xDFGOhD
-	 kaZNmGafoRq9WVW1C7iqyCBsCf4FORfnDEKVI14AB6ZQ0ZCE6UruopRNLTSn5G9cqv
-	 T2nG5sH6qiVvBaRpB7hVg4/QwdlGv8M6EVunWHr+g3Dei5d+1c5bSJ6ebK11v7GhJs
-	 00vlmmusnGwBS2EpVEu/3QIH1f/Y9cvOmG5X0VQnPM22C1CXpXbm4kPstcNtTEe8iF
-	 QqblJijTFMnmXMoU7yaO+G+GfWo5T1vUp7+YjMowCa5ddRh4bAE9fcYcDlV7GOIP2O
-	 FwCi6cs/OJAsg==
-Message-ID: <d661ae00-d100-46ef-8a15-50919b34daae@kernel.org>
-Date: Mon, 3 Nov 2025 11:06:21 +0100
+	b=r8PK8xNqjHkmyCLwX0xoQ0Bjxvn7RIrkRx5cQKl8Ywfp3bKs4BcJV5Slwi5Hih2DA
+	 4YqqMazD2sjm6KNpCKfg6yEvEW1j3njlKKQUTxRF7H7iM3SR9PkMkKhTBlRAhV5XrD
+	 3ONkNxXyaMW/5C6fR/NA+NZZH4yUC5ADd9pQ7DQ1mWsu5KE95FQa/r2009Fw5iR+Dq
+	 XFc+CrrL7NxoMNI7iRYQsl+5b0gTovF0lTnV0y9PV7kuve01bURZEwk+cS02D+5ObR
+	 d8vZ3ToIsnYClhvP5wjCyfwNlVxgtr5OQni8yC2zZvoGheSrJML2t+dzozoE3DxDzn
+	 B6mERC8zdUPkQ==
+Message-ID: <bdffda14-cb84-45ce-98ac-03d53762b888@kernel.org>
+Date: Mon, 3 Nov 2025 11:15:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -51,68 +51,105 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH] media: az6007: Add upper bound check to the data of
- device state
-To: Edward Adam Davis <eadavis@qq.com>,
- syzbot+0192952caa411a3be209@syzkaller.appspotmail.com
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- mchehab@kernel.org, syzkaller-bugs@googlegroups.com
-References: <6805a24c.050a0220.4e547.000b.GAE@google.com>
- <tencent_93C4465D499DEEDF6EE60CB667DC46D0D206@qq.com>
+Subject: Re: [GIT PULL FOR v6.19] NXP media drivers changes
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20251103001640.GA9221@pendragon.ideasonboard.com>
+ <4989c563-47f4-478c-80c4-41f7e98597e4@kernel.org>
+ <20251103100456.GO27255@pendragon.ideasonboard.com>
 Content-Language: en-US, nl
-In-Reply-To: <tencent_93C4465D499DEEDF6EE60CB667DC46D0D206@qq.com>
+In-Reply-To: <20251103100456.GO27255@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 21/04/2025 16:31, Edward Adam Davis wrote:
-> syzbot report a corrupted list in az6007_i2c_xfer. [1]
+On 03/11/2025 11:04, Laurent Pinchart wrote:
+> On Mon, Nov 03, 2025 at 09:08:10AM +0100, Hans Verkuil wrote:
+>> Hi Laurent,
+>>
+>> I noticed you forgot to CC to linux-media (I added that now), but also that all
 > 
-> Before accessing the member data of the struct az6007_device_state, only
-> the lower boundary of data is checked, but the upper boundary is not checked.
-> When the value of msgs[i].len is damaged or too large, it will cause out
-> of bounds access to st->data.
+> Oops sorry, my bad.
 > 
-> [1]
-> UBSAN: array-index-out-of-bounds in drivers/media/usb/dvb-usb-v2/az6007.c:821:30
-> index 4096 is out of range for type 'unsigned char [4096]'
-> CPU: 1 UID: 0 PID: 5832 Comm: syz-executor328 Not tainted 6.15.0-rc2-syzkaller-00493-gac71fabf1567 #0 PREEMPT(full)
-> Call Trace:
->  <TASK>
->  az6007_i2c_xfer+0x549/0xc30 drivers/media/usb/dvb-usb-v2/az6007.c:821
->  i2c_transfer_buffer_flags+0x10c/0x190 drivers/i2c/i2c-core-base.c:2343
->  i2cdev_read+0x111/0x280 drivers/i2c/i2c-dev.c:155
->  do_loop_readv_writev fs/read_write.c:833 [inline]
->  do_preadv+0x1af/0x270 fs/read_write.c:1130
->  do_syscall_64+0xcd/0x260 arch/x86/entry/syscall_64.c:94
+>> these patches have a Link: tag. Linus only wants Link tags if there is additional
+>> information through that link. That's not the case here.
+>>
+>> I'm dropping the Link tags from the patches in this PR, let me know if you disagree.
 > 
-> Reported-by: syzbot+0192952caa411a3be209@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=0192952caa411a3be209
-> Signed-off-by: Edward Adam Davis <eadavis@qq.com>
-> ---
->  drivers/media/usb/dvb-usb-v2/az6007.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+> You missed the last episode of the drama :-)
 > 
-> diff --git a/drivers/media/usb/dvb-usb-v2/az6007.c b/drivers/media/usb/dvb-usb-v2/az6007.c
-> index 65ef045b74ca..6322894eda27 100644
-> --- a/drivers/media/usb/dvb-usb-v2/az6007.c
-> +++ b/drivers/media/usb/dvb-usb-v2/az6007.c
-> @@ -806,7 +806,8 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
->  			if (az6007_xfer_debug)
->  				printk(KERN_DEBUG "az6007: I2C R addr=0x%x len=%d\n",
->  				       addr, msgs[i].len);
-> -			if (msgs[i].len < 1) {
-> +			if (msgs[i].len < 1 ||
-> +			    msgs[i].len > ARRAY_SIZE(st->data) - 5) {
+> https://lore.kernel.org/all/CAHk-=wj5MATvT-FR8qNpXuuBGiJdjY1kRfhtzuyBSpTKR+=Vtw@mail.gmail.com/
+> 
+> We can use Link: trailers to reference the patch that was picked, and we
+> need to use the patch.msgid.link domain for that purpose. Adding
 
-Hmm, shouldn't this be '- 6'? Since a few lines below this the length passed
-to __az6007_read is msgs[i].len + 6.
+OK. Good to know. I'm fixing my check for Link: tags to test for that domain.
 
 Regards,
 
 	Hans
 
->  				ret = -EIO;
->  				goto err;
->  			}
+> 
+> [b4]
+> 	linkmask = https://patch.msgid.link/%s
+> 
+> to your .gitconfig will instruct b4 to use that domain.
+> 
+>> On 03/11/2025 01:16, Laurent Pinchart wrote:
+>>> Hi Hans, Mauro,
+>>>
+>>> The following changes since commit 163917839c0eea3bdfe3620f27f617a55fd76302:
+>>>
+>>>   MAINTAINERS: Update Daniel Scally's email address (2025-10-29 14:07:02 +0100)
+>>>
+>>> are available in the Git repository at:
+>>>
+>>>   https://gitlab.freedesktop.org/linux-media/users/pinchartl.git tags/next-media-nxp-20251103
+>>>
+>>> for you to fetch changes up to a581a7c7d2c354131e184a8770f761c40168dda6:
+>>>
+>>>   media: imx8mq-mipi-csi2: drop unused module alias (2025-11-03 01:23:28 +0200)
+>>>
+>>> ----------------------------------------------------------------
+>>> NXP media drivers changes:
+>>>
+>>> - Add Frank Li as a reviewer for NXP media drivers
+>>> - Improve buffer sequence in rkisp1
+>>> - Add i.MX91 support and i.MX93 parallel input support to imx8-isi
+>>> - Drop unused module aliases
+>>>
+>>> ----------------------------------------------------------------
+>>> Alice Yuan (2):
+>>>       media: dt-bindings: nxp,imx8-isi: Add i.MX91 ISI compatible string
+>>>       media: nxp: imx8-isi: Add parallel camera input support for i.MX93
+>>>
+>>> Frank Li (1):
+>>>       MAINTAINERS: Add Frank Li as reviewer for NXP media drivers
+>>>
+>>> Guoniu Zhou (3):
+>>>       media: nxp: imx8-isi: Refine code by using helper macro
+>>>       media: nxp: imx8-isi: Reorder the platform data
+>>>       media: nxp: imx8-isi: Add ISI support for i.MX91
+>>>
+>>> Johan Hovold (3):
+>>>       media: imx-mipi-csis: drop unused module alias
+>>>       media: imx7-media-csi: drop unused module alias
+>>>       media: imx8mq-mipi-csi2: drop unused module alias
+>>>
+>>> Stefan Klug (1):
+>>>       media: rkisp1: Improve frame sequence correctness on stats and params buffers
+>>>
+>>>  .../devicetree/bindings/media/nxp,imx8-isi.yaml    | 13 ++++-
+>>>  MAINTAINERS                                        |  4 ++
+>>>  drivers/media/platform/nxp/imx-mipi-csis.c         |  1 -
+>>>  drivers/media/platform/nxp/imx7-media-csi.c        |  1 -
+>>>  .../media/platform/nxp/imx8-isi/imx8-isi-core.c    | 58 +++++++++++++---------
+>>>  .../media/platform/nxp/imx8-isi/imx8-isi-core.h    |  1 +
+>>>  .../media/platform/nxp/imx8-isi/imx8-isi-gasket.c  | 22 ++++++--
+>>>  drivers/media/platform/nxp/imx8mq-mipi-csi2.c      |  1 -
+>>>  .../media/platform/rockchip/rkisp1/rkisp1-common.h |  1 +
+>>>  .../media/platform/rockchip/rkisp1/rkisp1-isp.c    | 27 ++++++++--
+>>>  10 files changed, 92 insertions(+), 37 deletions(-)
+> 
 
 
