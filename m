@@ -1,142 +1,133 @@
-Return-Path: <linux-media+bounces-46179-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-46180-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED9D2C2A811
-	for <lists+linux-media@lfdr.de>; Mon, 03 Nov 2025 09:12:14 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 371CDC2A7D3
+	for <lists+linux-media@lfdr.de>; Mon, 03 Nov 2025 09:08:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2B9703BAE2B
-	for <lists+linux-media@lfdr.de>; Mon,  3 Nov 2025 08:05:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A0A0C1890881
+	for <lists+linux-media@lfdr.de>; Mon,  3 Nov 2025 08:08:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE1882D8362;
-	Mon,  3 Nov 2025 08:05:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43B182D12EF;
+	Mon,  3 Nov 2025 08:08:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YNIMhHK+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GtSC2Pzh"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F01DC2C0F63;
-	Mon,  3 Nov 2025 08:05:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C90E1EEE6
+	for <linux-media@vger.kernel.org>; Mon,  3 Nov 2025 08:08:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762157127; cv=none; b=P76Z9moxFAwTsJTIF1/fy1YWuw6n56Yw1tE3c/8ftjoMChhhycaKhPeAWMdQbuOJ3+4TZgUqZooYK9yPZGENZYhRSpn6nvNFSLyewVF/7otaqBDaMmbzfwFd5ZzHYactkQc6df9l+qu4uoFMG5zTALaHSvjqhgXzif+kDChPLSc=
+	t=1762157293; cv=none; b=p5FTNj4b491ZXF1YmVQRN6HjHq1XPQZkGtahDUNbi8HkfVOn2Kisie6CtcWLqzVBCfE7HLk2GzIyjSKOwEHvEzlaG31FUMy0HEndd4V9EXcpisn3CzALLnsOYYOKiAbvMt6C/oDLFzwRMzch0oIanuqh0qL8HwTVgRtXb6DQnUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762157127; c=relaxed/simple;
-	bh=/Z00hsFx0kFKgS/fH2fkWOXPCRXDBSY3j5PVFskPLtY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d/y0xbp5LMVt+pDAUSF0YqPeaOUJTU1A8tuh0c5vCsf6lUhpFHYi9p07usY6fhYOt/5jp/PlPbVxXvRQm3NsZMAOc61OtyVr2BRvr/479QW4549K3GpqE/vrrA7piieEIj92lR/lQe8kgnGQ+w5jthJVzLfyCEbxE2qdfZ0gXdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YNIMhHK+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDBE8C4CEE7;
-	Mon,  3 Nov 2025 08:05:24 +0000 (UTC)
+	s=arc-20240116; t=1762157293; c=relaxed/simple;
+	bh=tz2zaeLgHculwksSgJC1b+iSpNvi+0JMbI/qgWd+J28=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:References:Cc:
+	 In-Reply-To:Content-Type; b=sHxB8UebPxk76J9dUGWWtTnlZ1HUG3HYi2UD+8KRLLBgBX1ju4jbcqlgF0qO4QI1aRzoYakbMHFy+p6vwsJr6ZBXNLj/APNdvFsDHFPTDj2eIn8JxX2RJE4cdl6wlUAakwiNeNydLNZZ1gT/a+t2WpEXqQmmBxTK+yPZWHaYRBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GtSC2Pzh; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CF0FC4CEE7;
+	Mon,  3 Nov 2025 08:08:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762157126;
-	bh=/Z00hsFx0kFKgS/fH2fkWOXPCRXDBSY3j5PVFskPLtY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YNIMhHK+TIAw9S8epUQRLJ0hHWrXGrX021AASru7kQYHYuMFC6zo5jxbc7KUmJ0L3
-	 YNEe1nE+4ae3JtQxcTTez3gXWgSy2u2msyRHFv6Ufnrx2bt2n0+8KYqma3OyMomdHy
-	 Und0omT0toRmHQSOMJHh8FIiBDSXmNrLx8mv1uScrl9HdFKsXLarM713jjbRgR+/v4
-	 7/jTF678ISrptDm6AzMN9ALIVAtiWOrlbYsGz2TuzZPwPoiteJ/wA8NnfdkaDlmCac
-	 R8sanushWpLqk/uQd051eoYlDOALHHRNHhGhWZBT9cBCKpSLGzr/fRIrMBO19/jAvs
-	 SiEU4tXpMsS3Q==
-Date: Mon, 3 Nov 2025 10:05:18 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <skolothumtho@nvidia.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, iommu@lists.linux.dev,
-	linux-mm@kvack.org, linux-doc@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v6 05/11] PCI/P2PDMA: Document DMABUF model
-Message-ID: <20251103080518.GB50752@unreal>
-References: <20251102-dmabuf-vfio-v6-0-d773cff0db9f@nvidia.com>
- <20251102-dmabuf-vfio-v6-5-d773cff0db9f@nvidia.com>
- <86383031-807e-43d9-976e-dd955d79dc52@infradead.org>
+	s=k20201202; t=1762157293;
+	bh=tz2zaeLgHculwksSgJC1b+iSpNvi+0JMbI/qgWd+J28=;
+	h=Date:From:Subject:To:References:Cc:In-Reply-To:From;
+	b=GtSC2PzhKXfVgHU0kjDWS7wkVdqGUrNQvRVzXGgg4lo8+BiYVCxoVC1WmMNPJAM4g
+	 HPH7DGnS1aQwO5lTsRP1dXrFiqRxoAut3iN0xsaaRkjfnErR+QsxG6wlC4LESFjHrp
+	 kL7tTAXnIB3m014f806XCIcsHDQpcD2h6skP6AzDGS54XoQvh1NgA77HeyWTX96Ih7
+	 0WiKdaJ1S9gNbyCxe80pNt8AKXayllNydUqW0T3mHFp+SDPwSc+J3F5PpDY66LAWcf
+	 qTFoQj04hiZTAbT5qAQWuRaP/Pic2lpx4i7EqTETxRXv76y50NDnFECY41AHlw9LeT
+	 jUdJe6v8cWQxA==
+Message-ID: <4989c563-47f4-478c-80c4-41f7e98597e4@kernel.org>
+Date: Mon, 3 Nov 2025 09:08:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <86383031-807e-43d9-976e-dd955d79dc52@infradead.org>
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [GIT PULL FOR v6.19] NXP media drivers changes
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20251103001640.GA9221@pendragon.ideasonboard.com>
+Content-Language: en-US, nl
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+In-Reply-To: <20251103001640.GA9221@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, Nov 02, 2025 at 10:16:59AM -0800, Randy Dunlap wrote:
+Hi Laurent,
+
+I noticed you forgot to CC to linux-media (I added that now), but also that all
+these patches have a Link: tag. Linus only wants Link tags if there is additional
+information through that link. That's not the case here.
+
+I'm dropping the Link tags from the patches in this PR, let me know if you disagree.
+
+Regards,
+
+	Hans
+
+On 03/11/2025 01:16, Laurent Pinchart wrote:
+> Hi Hans, Mauro,
 > 
+> The following changes since commit 163917839c0eea3bdfe3620f27f617a55fd76302:
 > 
-> On 11/2/25 1:00 AM, Leon Romanovsky wrote:
-> > From: Jason Gunthorpe <jgg@nvidia.com>
-> > 
-> > Reflect latest changes in p2p implementation to support DMABUF lifecycle.
-> > 
-> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> > ---
-> >  Documentation/driver-api/pci/p2pdma.rst | 95 +++++++++++++++++++++++++--------
-> >  1 file changed, 72 insertions(+), 23 deletions(-)
-
-<...>
-
-> > +guarentee that the consuming driver has stopped using the MMIO during a removal
+>   MAINTAINERS: Update Daniel Scally's email address (2025-10-29 14:07:02 +0100)
 > 
->    guarantee
-
-<...>
-
-> > +if are used with mmap() must create special PTEs. As such there are very few
+> are available in the Git repository at:
 > 
->    if used
-
-<...>
-
-> > +pggmap of MEMORY_DEVICE_PCI_P2PDMA to create struct pages. The lifecylce of
+>   https://gitlab.freedesktop.org/linux-media/users/pinchartl.git tags/next-media-nxp-20251103
 > 
->    pgmap ?                                                        lifecycle
-
-<...>
-
-> > +architectures, others will experiance corruption or just crash in the kernel.
+> for you to fetch changes up to a581a7c7d2c354131e184a8770f761c40168dda6:
 > 
->                               experience
-
-<...>
-
-> > +In this case the initator and target pci_devices are known and the P2P subsystem
+>   media: imx8mq-mipi-csi2: drop unused module alias (2025-11-03 01:23:28 +0200)
 > 
->                     initiator
-
-<...>
-
-> > +exporting driver has destroyed it's p2p_provider.
->                                   its
-
-Thanks a lot, fixed.
-
+> ----------------------------------------------------------------
+> NXP media drivers changes:
 > 
-> -- 
-> ~Randy
+> - Add Frank Li as a reviewer for NXP media drivers
+> - Improve buffer sequence in rkisp1
+> - Add i.MX91 support and i.MX93 parallel input support to imx8-isi
+> - Drop unused module aliases
 > 
+> ----------------------------------------------------------------
+> Alice Yuan (2):
+>       media: dt-bindings: nxp,imx8-isi: Add i.MX91 ISI compatible string
+>       media: nxp: imx8-isi: Add parallel camera input support for i.MX93
 > 
+> Frank Li (1):
+>       MAINTAINERS: Add Frank Li as reviewer for NXP media drivers
+> 
+> Guoniu Zhou (3):
+>       media: nxp: imx8-isi: Refine code by using helper macro
+>       media: nxp: imx8-isi: Reorder the platform data
+>       media: nxp: imx8-isi: Add ISI support for i.MX91
+> 
+> Johan Hovold (3):
+>       media: imx-mipi-csis: drop unused module alias
+>       media: imx7-media-csi: drop unused module alias
+>       media: imx8mq-mipi-csi2: drop unused module alias
+> 
+> Stefan Klug (1):
+>       media: rkisp1: Improve frame sequence correctness on stats and params buffers
+> 
+>  .../devicetree/bindings/media/nxp,imx8-isi.yaml    | 13 ++++-
+>  MAINTAINERS                                        |  4 ++
+>  drivers/media/platform/nxp/imx-mipi-csis.c         |  1 -
+>  drivers/media/platform/nxp/imx7-media-csi.c        |  1 -
+>  .../media/platform/nxp/imx8-isi/imx8-isi-core.c    | 58 +++++++++++++---------
+>  .../media/platform/nxp/imx8-isi/imx8-isi-core.h    |  1 +
+>  .../media/platform/nxp/imx8-isi/imx8-isi-gasket.c  | 22 ++++++--
+>  drivers/media/platform/nxp/imx8mq-mipi-csi2.c      |  1 -
+>  .../media/platform/rockchip/rkisp1/rkisp1-common.h |  1 +
+>  .../media/platform/rockchip/rkisp1/rkisp1-isp.c    | 27 ++++++++--
+>  10 files changed, 92 insertions(+), 37 deletions(-)
+> 
+
 
