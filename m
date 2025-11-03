@@ -1,192 +1,287 @@
-Return-Path: <linux-media+bounces-46222-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-46223-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4080C2CB5B
-	for <lists+linux-media@lfdr.de>; Mon, 03 Nov 2025 16:27:53 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AD27C2D238
+	for <lists+linux-media@lfdr.de>; Mon, 03 Nov 2025 17:31:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B762E18963D8
-	for <lists+linux-media@lfdr.de>; Mon,  3 Nov 2025 15:19:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C24343B9471
+	for <lists+linux-media@lfdr.de>; Mon,  3 Nov 2025 16:17:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36AEC320A1A;
-	Mon,  3 Nov 2025 15:11:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E32C14A4F9;
+	Mon,  3 Nov 2025 16:17:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="YOwIouaU"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="tQRQPOTh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013056.outbound.protection.outlook.com [52.101.83.56])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89B27320393
-	for <linux-media@vger.kernel.org>; Mon,  3 Nov 2025 15:11:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.56
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762182707; cv=fail; b=ic9uu4IJ1FOmm/Gs0zYnKlyqDCSkwmlc7nu7L8bc5Hk4fimxkhfeaXEuFZWsSvm46ajk34iysYjBhalj2G6MDECORB38H8uZyGk+9HdSmYakdKdQauOX3FYrNJST+ruLPs72eey40Y/YuwkL/GTq4IR3uIKjCQvVfXDliEhu+dc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762182707; c=relaxed/simple;
-	bh=3CGXMAz2MMouc9/JwXqlzzmuNYGC/94LGNCLEsN5maE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=OIP4vAq94vScESiVlSMoZm9/5qfhmvNWUyTnOHT4M9pLQhrC+HWIBUeYHFJVyNaeSe4ds+ip+FM850rq+q/khsas/Q4b5JvBDka+Aw3mafDjqlCZdshv9muAejFiEB2FHWGEmQw4ltuoxQQxXxdHCkZrxoW2Irp6YZdICynwqyQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=YOwIouaU; arc=fail smtp.client-ip=52.101.83.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bHxbAOhjAoQ2gudaG4zEhvSiGYv5X5brj47fLlv1H9tb7SWLjnRb6AZ3P3/Qs2oN+YM5RfoocSJwvZCqHZMldezfdOhA5YlvZgOH4lCzhLkl9F3ExERFlNWvYOX2mvtms2SMOk4UZYPg1mMZP5IRGe+5oq0LVdn3Af/kFrYp8XyMf8oMM/yVk2tiVeftG3WXIx6MlKi+ayRlNYGy5Voqx+08/G/ghJQq8zs5OTugN+sxIPqhWpq8myqCrH6uUOsAD7K65bm+2XvPePktWDsfbwrX4MFvSJehvDCDBFZQDuOQZ2uWoqofyRFFD44EJ9jC/PIxSVA8qZUKIK8iL6bKCg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1rQI53v6INU/7ptbMLmkubRjeuLWlnMcjvTebqfFFHc=;
- b=kq6WGWFZlBcIq+eQ6oojFcR/KzLONIp3MkY07qNodjqkBfFI5DA4Yugot/tsvvcAUPYr98Bje7g3Tg4OSxOM1BCUfbY9I0d1zQm4yg56RkXR2vUm/7Y/XbIL+8sb0jn6dmHOnTQf2H7ighCCLEu1LNFhdJVbFbhgNQJCa80FIzMLqZpbUowB6pGKK0y8q4HVpLayVwGQBIzqxyOmPUSigw/xHDo9EwQJ4JwDURODdTuhVYms+EHoXdCr5Khu3pIcHPG1a9PTCbDKkRtlKUTXY+LQBL4pde1ioPt8jzPNcB4Bin6tYSsF9B13+NKB3UONkgHTx/UON9N7YJOOth0rAg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1rQI53v6INU/7ptbMLmkubRjeuLWlnMcjvTebqfFFHc=;
- b=YOwIouaU1MTHoBsaiJcUj+ENCoGH5TTrjaB8wpODXu0da338ng51tlnzNCnl5SiEdm3+00a0JjGCD5HpdagXDDZ+IkQDv2c0WddZnZUhSa+ZL1s4yeA/59ui2THkYno7ose8/akxBva51Odxx2TxHOE4yRlcR+exuEOhcmr+FxoTWCBQRD8asZtI3QOlPjgnCT56HcUjwxqEH3CWFJbOwuebqfTmYzTT3/iAKCv8c7WggObEDHuhGEIkFbU/TNP+J1qaje3G7RLTmP96DHcl90EBapAajZ4RXg5fEjP7ELWo3npOOAnotJlaaCv6SnOkMzXI7+mp/XaPdXaz3x3EKg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXSPRMB0053.eurprd04.prod.outlook.com (2603:10a6:102:23f::21)
- by AM9PR04MB8068.eurprd04.prod.outlook.com (2603:10a6:20b:3b5::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.16; Mon, 3 Nov
- 2025 15:11:28 +0000
-Received: from PAXSPRMB0053.eurprd04.prod.outlook.com
- ([fe80::504f:2a06:4579:5f15]) by PAXSPRMB0053.eurprd04.prod.outlook.com
- ([fe80::504f:2a06:4579:5f15%6]) with mapi id 15.20.9275.015; Mon, 3 Nov 2025
- 15:11:27 +0000
-Date: Mon, 3 Nov 2025 10:11:18 -0500
-From: Frank Li <Frank.li@nxp.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, Johan Hovold <johan@kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] media: imx8-isi: Drop unused module alias
-Message-ID: <aQjGFpmdcgsMwbs8@lizhi-Precision-Tower-5810>
-References: <20251102234438.8022-1-laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251102234438.8022-1-laurent.pinchart@ideasonboard.com>
-X-ClientProxiedBy: BY5PR13CA0020.namprd13.prod.outlook.com
- (2603:10b6:a03:180::33) To PAXSPRMB0053.eurprd04.prod.outlook.com
- (2603:10a6:102:23f::21)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C96DB280CE5;
+	Mon,  3 Nov 2025 16:17:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762186652; cv=none; b=j+zoWT6fApA7DlXBmX3hJ5v0NR0a7bZcXS4XoaMuYi/HESLqRrKqCALkcIbuOdcfD8JoXTUkb4bSjffuYKxfMWmFoPhknkt5yotMehI7T+wA0yQV0A4ezwXW9Bm1EvA/dJDf+ObmQ0fTE3KI16IaVDZ4uS7475jZkxyLYo+U7LM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762186652; c=relaxed/simple;
+	bh=tU20dHhvzTic1V34oCJnXHvxilHx8SjrMcH9p7oyPPg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=N1SK+UE5urCMhsjFPc4v/bSLM6GYkzGDhv/l9lRqpt8tZtTBWzX81qtskdlbMXHUAmdferGtyufEO9tqXXRRcSRKF1LsEkwwSxo2UNkRrCay/uo3866zR3pwmWHu3MtpnqOPUu1OLgqAj4Z5WWZ6jSv5snLiVHAlmu2NC9gwcfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=tQRQPOTh; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 43F9B22E;
+	Mon,  3 Nov 2025 17:15:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1762186534;
+	bh=tU20dHhvzTic1V34oCJnXHvxilHx8SjrMcH9p7oyPPg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=tQRQPOThqW29KOusEVJeufmpzOaCbYCbNbLbWE1NpG84mKLRIWv77MbLFXjZkhVXJ
+	 QDs/t6uzSZDbGhk6r85U8+COeUQjXNnUrpYgcy3MftX22HYkHu8Im67VyQPnFVAIvg
+	 WFufq9+zZbS7jmnGDJ4O+oOSXwHihz1FxnS5mhTk=
+Message-ID: <8c5a4c68-8299-4d8f-96b2-8db232df70fe@ideasonboard.com>
+Date: Mon, 3 Nov 2025 16:17:24 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXSPRMB0053:EE_|AM9PR04MB8068:EE_
-X-MS-Office365-Filtering-Correlation-Id: 44fe8606-410e-485d-bf48-08de1aeb42fb
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|19092799006|366016|376014|1800799024|52116014|38350700014|7053199007;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?zOR52VorvbyGIgLzSjd4FIwhWK2T7EDVkRERmjjMx7BYC1jQL7hQ62HMA0iz?=
- =?us-ascii?Q?SgYomeOhVRurwSns5W2c3qdeI/suBFkqepBCDnFTO+QRnQREj4Hqwso12XnO?=
- =?us-ascii?Q?0XtN/fy1R0Hao82en5TO40hz71xYgR8QdWPxUV4LDa3d2+unGHGvB+GDh8IX?=
- =?us-ascii?Q?0S4apeWkGgdqQkkvbVjZUqqUPgsfcugreKjPfhDOOu3h1+napGdKbLZHw6vL?=
- =?us-ascii?Q?M6IqlmGd3343q4N6DD93T3jgiRib1Kac0iJoNu1BXnBOxv33iRwcEQdKbKFx?=
- =?us-ascii?Q?G4zO07rI3DAcQRBdVkF4mXe0ZpOFCUbFuKcLc6Qyy9j1rDkAQbbNLrRz1PCy?=
- =?us-ascii?Q?gi0UeaEzib1vAWhzyu3Jp1EClxd/VOSeIx3thum846J2uVpuwS/L2uXglU2/?=
- =?us-ascii?Q?Np0XrZDPhthvUOSIpEypYOd0fjmpcRCoAe79AQ7foudNsZsTwhYN8oQKxQ8I?=
- =?us-ascii?Q?d5eKNkcA7Cf8qv0uBttefN1qKMhrqidpKfo6qqY5rBnjrLX+x0DfNt9VQqYk?=
- =?us-ascii?Q?5Bj7yPHVmes8JCG6fg+sVuuI2jy9nvVD3EaWKCxsiZZE9TT8IzliU3wfRcTp?=
- =?us-ascii?Q?e15Xh83raHvBW0IPj7hnBwcBY97w6dS8Q3ApYWEbztBUI2PjV/KN+lUWoCEk?=
- =?us-ascii?Q?7efh9h5l7kmcno3XF//SeXvnmcoi6kZMfjg4YFgItj3yvzwENgpefKQFUjVa?=
- =?us-ascii?Q?01C/fprWOClXQnvxssYAkzGERdyNfq4jyPRW8SBAnCTfmRnZKxChAQT9Ffqs?=
- =?us-ascii?Q?jCFalsYcJwme5amZUmItZFTIfZkOC4sFzrwP7MQAKpYGXwfQK3ub0//90vHZ?=
- =?us-ascii?Q?Yx2xMguAC1dfbURmTXhUFufAw+BLb+qT+aRgZEuji7Eqk5GMqn9eqyQwh2Yi?=
- =?us-ascii?Q?zYSd+XVKsFn0XQmaAkWC8Oq4SUfy42dKBrTAsGCbj95hxH3BL7E414vp56Qb?=
- =?us-ascii?Q?rjseU+BiWexCPdtX6QP0q74TjworFX64Fv7uDHJZGf4x/84/jXQyykJqha6h?=
- =?us-ascii?Q?NeoRQhCzdV+HXFV3zslkwUvzxmoMhI22XE4N3wnOkHfa3aSduE0CqYYknEvz?=
- =?us-ascii?Q?BDr6b7+ywG0iokWfGCfcX8eaJnWz4m5wxF89acAtaDb25Qiz9Fy0/H8XgxQT?=
- =?us-ascii?Q?j3k37nfM9PvKanriZ4kc5edmDpAbXyX7YhcATt/3JuPibQcwJ0BP1XU+mHg2?=
- =?us-ascii?Q?NUBjepRDdE1lza60XV4VyrbLDKG6CvCaLnFzScnYb+hfKnFQC2E5E+xmSTyU?=
- =?us-ascii?Q?XDqgPsQ2YmnunU+Eot+rNfEb7MWdz9sJJ17uPzyLkczKbkHqyQpSrZGruxxW?=
- =?us-ascii?Q?+c/N9ZxnlEDJvgfPinHaC57N5M1gzOxJgp0jm8sIxA1Dxmq/MdYlXy0dyZj6?=
- =?us-ascii?Q?u2vEjeFS1TG7wvSm43Ky0qEgDlfzBg/Xqdte7NknxTMNQFOAnXyxCjdfTL7p?=
- =?us-ascii?Q?WgAX9xpQRfsL/rDyNGqNUg4f4tpSHXBCmX+/kUe7M1DPZzYnmhCXEaDxaEUq?=
- =?us-ascii?Q?O6xbbTJszmQbC/+nGYTCayMLzJzWJ04PK/Fr?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXSPRMB0053.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(366016)(376014)(1800799024)(52116014)(38350700014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?sLEjzT4cY5MoiyQRJlW9hLiLLpIigMnU2T8grum3yc7K+Hpv2z28rUa3vvh0?=
- =?us-ascii?Q?r+rBax2EjyydCTI8+vXiNM/2J0Nfj6GellarSUC2OjrMyDoNsaTmFAgyVFJ5?=
- =?us-ascii?Q?pDlIRq3NJoYb2kgaeQhrtKdM19CG/pG9PdMBufM13RzWnCu2oNYrgNYIn1WU?=
- =?us-ascii?Q?YjmYisNBy2y3q9jTo9dMG0C90kf+fRi7id8bD5DJd7uxpltOCA2vL7Zsm9FX?=
- =?us-ascii?Q?f5KVksNvinXWOALUMBCowAtigH/+QT3jrOWawyeiiAx2rZInlh5yGr3hDHzH?=
- =?us-ascii?Q?P/xMD5LINHEe0DA+3Pde/5ppgTZEFD2JZrsOJ+6ejEwzAqS3EKIues/xppXK?=
- =?us-ascii?Q?ZOxvR3Oi3WU2jQ1no+i9CMcB5MzHH1ZS445JbmT+QGUf/IraZm3CKrMhiDAD?=
- =?us-ascii?Q?JNk6g3Omfi/ulidfrk7hVTcycIe5hMANv9vhPuDLip+n4cbHWMh1C/+59T32?=
- =?us-ascii?Q?EmsNllbEP49zXYu134RYGm+BqnkIy5XYvKZ1dEn4RQsoH07uByk7trxHJKDh?=
- =?us-ascii?Q?aPA2gvZ9aXnnW5erovxQi7VvPQABmOxQScMCOk5Nzw8keJlKcd0Di1DxImbs?=
- =?us-ascii?Q?9sMIroBCTQOfHheVfxHUsP91WIvg/EEyf0o1XXeH7Ch2NvHd1YEWV2Mve7Nn?=
- =?us-ascii?Q?4SsWdTxUnSHBjky4hE4inmFC5GcEsaXQenTaN7/abC19r25BVCMrlTlNN0Cz?=
- =?us-ascii?Q?naMsbma4evL79L3gaw86lsewtC8t2YOc3EvT9b8IXokI2i6PPvFNrilEBalM?=
- =?us-ascii?Q?9dY+EGKsstbCbaNUIMIxRhYXnFjb8QURCmIyUNTlEmLVvxqn02UJg+XdO2i9?=
- =?us-ascii?Q?qQ8hrDLY4vAVLUNMPNm2oFdJTT4JlSYx7VASFYbSiqYpRnlo5VcyFsmCZRbY?=
- =?us-ascii?Q?uxieWSJGfriqrhNJotNDTSi67+ZUAkOOkEEIuq8sr8m6Rgt2Fd+aEoQmIrZD?=
- =?us-ascii?Q?uvMsno1wWiUE2sk4SYL9pGpfgWjUcYnPGavBkzEMl5fEKXQ1evUa0kETNqEO?=
- =?us-ascii?Q?f7rkoI6vX0ZmLukxFLbpOcityiccnrUAK1OHByTOsBWz1xOPdUl9DntXGFdg?=
- =?us-ascii?Q?e4CKw+qpxnoYdOOb7tAaL0UlGH5ycVCTfBD6+UAeVi5Y+VSrYW1Xgt5D/VVu?=
- =?us-ascii?Q?fhgZ69HqX+mZDkfMfDKuZnHzqo1bRn08HfBSD8u4B7KgEn91I6j2kVuH/mrD?=
- =?us-ascii?Q?brM2oJgSJAlmkT2TlZfMnLMAKY8zJzwvcui9bE3dtJQVf8j/qz8U5cQF1jtQ?=
- =?us-ascii?Q?yYRHDerCUcOgOoiI6rHKaShER2UNVnr6JgHqpB2A7qz+r/5+SWD0lkjPJu8+?=
- =?us-ascii?Q?8h/3mU8Qhmyys+RDv4Kga3+H6g+YpsBmKGgOo+sYS0l5xjS42DD650nmHt2q?=
- =?us-ascii?Q?g7ckDAlii972sEq+pOxw1vmndxodVNOA4HDqPDZS1evLneS8vUFwYYgqFpX7?=
- =?us-ascii?Q?c8/hcjyPGRqkWXrD1m3kN7J3mD2PymHS4ngY1dickxJE6/nhOnot8gfn2Xh2?=
- =?us-ascii?Q?jtHuEFP/ksMH+F1CfHbhoJBb7pD0dal/acs0rwjss12OK8wI5rGvyOdtOVjy?=
- =?us-ascii?Q?Jzk88qpFdyb/r8GDvpc=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 44fe8606-410e-485d-bf48-08de1aeb42fb
-X-MS-Exchange-CrossTenant-AuthSource: PAXSPRMB0053.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2025 15:11:27.8769
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +3casHQhGZD5/LWu4Zjl3aLFR+9b1BZKqrMuVs6XPyRZllI9qh0B3dgVjHDbTTwhwRxb6RMuj7S5iTN1sMA0gw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8068
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12 03/15] dt-bindings: media: Add bindings for ARM
+ mali-c55
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Anthony.McGivern@arm.com,
+ jacopo.mondi@ideasonboard.com, nayden.kanchev@arm.com, robh+dt@kernel.org,
+ mchehab@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
+ laurent.pinchart@ideasonboard.com,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20251002-c55-v12-0-3eda2dba9554@ideasonboard.com>
+ <20251002-c55-v12-3-3eda2dba9554@ideasonboard.com>
+ <CA+V-a8sg4c697WTS=wXoWvgc_UCFM3+Qjh1br=rMm4F84NVw-Q@mail.gmail.com>
+Content-Language: en-US
+From: Dan Scally <dan.scally@ideasonboard.com>
+In-Reply-To: <CA+V-a8sg4c697WTS=wXoWvgc_UCFM3+Qjh1br=rMm4F84NVw-Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 03, 2025 at 01:44:38AM +0200, Laurent Pinchart wrote:
-> The driver has never supported anything but OF probing so drop the
-> unused platform module alias.
->
-> Suggested-by: Johan Hovold <johan@kernel.org>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
-> ---
-> Johan, I've got the idea from similar patches you submitted for other
-> NXP media drivers, hence the Suggested-by tag. Please let me know if I
-> can keep it.
->
->  drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
-> index c3d411ddf492..0f000582a1de 100644
-> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
-> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
-> @@ -575,7 +575,6 @@ static struct platform_driver mxc_isi_driver = {
->  };
->  module_platform_driver(mxc_isi_driver);
->
-> -MODULE_ALIAS("ISI");
->  MODULE_AUTHOR("Freescale Semiconductor, Inc.");
->  MODULE_DESCRIPTION("IMX8 Image Sensing Interface driver");
->  MODULE_LICENSE("GPL");
->
-> base-commit: 163917839c0eea3bdfe3620f27f617a55fd76302
-> --
-> Regards,
->
-> Laurent Pinchart
->
+Hi Prabhakar
+
+On 28/10/2025 18:23, Lad, Prabhakar wrote:
+> Hi Daniel,
+> 
+> Thank you for the patch.
+> 
+> On Thu, Oct 2, 2025 at 11:19 AM Daniel Scally
+> <dan.scally@ideasonboard.com> wrote:
+>>
+>> Add the yaml binding for ARM's Mali-C55 Image Signal Processor.
+>>
+>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> Acked-by: Nayden Kanchev <nayden.kanchev@arm.com>
+>> Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+>> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+>> ---
+>> Changes in v12:
+>>
+>>          - _Actually_ dropped the arm,inline property mode, having forgotten to
+>>            do so in v11.
+>>
+>> Changes in v11:
+>>
+>>          - Dropped in arm,inline_mode property. This is now identical to the
+>>            reviewed version 8, so I have kept the tags on there.
+>>
+>> Changes in v10:
+>>
+>>          - None
+>>
+>> Changes in v9:
+>>
+>>          - Added the arm,inline_mode property to differentiate between inline and
+>>            memory input configurations
+>>
+>> Changes in v8:
+>>
+>>          - Added the video clock back in. Now that we have actual hardware it's
+>>            clear that it's necessary.
+>>          - Added reset lines
+>>          - Dropped R-bs
+>>
+>> Changes in v7:
+>>
+>>          - None
+>>
+>> Changes in v6:
+>>
+>>          - None
+>>
+>> Changes in v5:
+>>
+>>          - None
+>>
+>> Changes in v4:
+>>
+>>          - Switched to port instead of ports
+>>
+>> Changes in v3:
+>>
+>>          - Dropped the video clock as suggested by Laurent. I didn't retain it
+>>          for the purposes of the refcount since this driver will call .s_stream()
+>>          for the sensor driver which will refcount the clock anyway.
+>>          - Clarified that the port is a parallel input port rather (Sakari)
+>>
+>> Changes in v2:
+>>
+>>          - Added clocks information
+>>          - Fixed the warnings raised by Rob
+>> ---
+>>   .../devicetree/bindings/media/arm,mali-c55.yaml    | 82 ++++++++++++++++++++++
+>>   1 file changed, 82 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/arm,mali-c55.yaml b/Documentation/devicetree/bindings/media/arm,mali-c55.yaml
+>> new file mode 100644
+>> index 0000000000000000000000000000000000000000..efc88fd2c447e98dd82a1fc1bae234147eb967a8
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/media/arm,mali-c55.yaml
+>> @@ -0,0 +1,82 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/media/arm,mali-c55.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: ARM Mali-C55 Image Signal Processor
+>> +
+>> +maintainers:
+>> +  - Daniel Scally <dan.scally@ideasonboard.com>
+>> +  - Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: arm,mali-c55
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  interrupts:
+>> +    maxItems: 1
+>> +
+>> +  clocks:
+>> +    items:
+>> +      - description: ISP Video Clock
+>> +      - description: ISP AXI clock
+>> +      - description: ISP AHB-lite clock
+> As per RZ/V2H HW manual we have reg clock looking at the driver code
+> it does have readl. IVC has reg clock if IVC driver fails are you
+> still able to read/write regs from ISP driver?
+ >
+ > I think we do need to pass reg clock too.
+
+Yes - but I should clarify that the names are from the arm documentation that we had when we 
+originally developed the ISP driver. The RZ/V2H documentation treats the ISP and IVC as one block 
+that shares 4 clocks and resets, but when we originally developed the ISP driver the platform we 
+used had the ISP implemented as an inline configuration (taking data directly from a csi-2 receiver 
+without an IVC equivalent), and the documentation detailed just the three clocks and resets. The 
+dtsi changes for the RZ/V2H(P) [1] assign clocks 226, 228 and 229 to the ISP which are named 
+reg_aclk, vin_aclk and isp_sclk in the renesas documentation.
+
+The IVC gets pclk, vin_aclk and isp_sclk.
+
+[1] https://lore.kernel.org/linux-renesas-soc/20251010-kakip_dts-v1-1-64f798ad43c9@ideasonboard.com/
+
+> Also for IVC we do have a main clock (which is a system clock).  Can
+> you please educate me on what is the purpose of it. Just curious as we
+> pass to IVC and not ISP.
+
+The IVC uniquely gets the one called "pclk" in renesas documentation, with the description "Input 
+Video Control block register access APB clock".
+
+Thanks
+Dan
+
+> 
+>> +
+>> +  clock-names:
+>> +    items:
+>> +      - const: vclk
+>> +      - const: aclk
+>> +      - const: hclk
+> Not sure if we want to have the same names as IVC or vice versa.
+> 
+>> +
+>> +  resets:
+>> +    items:
+>> +      - description: vclk domain reset
+>> +      - description: aclk domain reset
+>> +      - description: hclk domain reset
+> Same query here, wrt register reset.
+> 
+>> +
+>> +  reset-names:
+>> +    items:
+>> +      - const: vresetn
+>> +      - const: aresetn
+>> +      - const: hresetn
+> ditto naming.
+> 
+>> +
+>> +  port:
+>> +    $ref: /schemas/graph.yaml#/properties/port
+>> +    description: Input parallel video bus
+>> +
+>> +    properties:
+>> +      endpoint:
+>> +        $ref: /schemas/graph.yaml#/properties/endpoint
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - interrupts
+>> +  - clocks
+>> +  - clock-names
+>> +  - port
+> maybe also resets and rest-names should be part of required properties?
+> 
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    mali_c55: isp@400000 {
+> we could drop `mali_c55`
+> 
+>> +      compatible = "arm,mali-c55";
+>> +      reg = <0x400000 0x200000>;
+>> +      clocks = <&clk 0>, <&clk 1>, <&clk 2>;
+>> +      clock-names = "vclk", "aclk", "hclk";
+>> +      resets = <&resets 0>, <&resets 1>, <&resets 2>;
+>> +      reset-names = "vresetn", "aresetn", "hresetn";
+>> +      interrupts = <0>;
+> I would have a non-zero val here.
+> 
+> Cheers,
+> Prabhakar
+> 
+>> +
+>> +      port {
+>> +        isp_in: endpoint {
+>> +            remote-endpoint = <&csi2_rx_out>;
+>> +        };
+>> +      };
+>> +    };
+>> +...
+>>
+>> --
+>> 2.43.0
+>>
+>>
+
 
