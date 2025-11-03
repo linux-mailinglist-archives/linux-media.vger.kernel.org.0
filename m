@@ -1,285 +1,242 @@
-Return-Path: <linux-media+bounces-46226-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-46227-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C03FAC2D717
-	for <lists+linux-media@lfdr.de>; Mon, 03 Nov 2025 18:21:12 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37B3BC2DA03
+	for <lists+linux-media@lfdr.de>; Mon, 03 Nov 2025 19:18:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 44E1F188237A
-	for <lists+linux-media@lfdr.de>; Mon,  3 Nov 2025 17:20:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7615B189B510
+	for <lists+linux-media@lfdr.de>; Mon,  3 Nov 2025 18:18:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04CA331B111;
-	Mon,  3 Nov 2025 17:19:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F3DD23D7F4;
+	Mon,  3 Nov 2025 18:17:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="hn6T1KfZ"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="lFgd8s97"
 X-Original-To: linux-media@vger.kernel.org
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010044.outbound.protection.outlook.com [52.101.84.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E3B31960B;
-	Mon,  3 Nov 2025 17:19:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762190385; cv=fail; b=Xc0jQa7zz6vDYx+QnRW4FBgp1yQb6LsNXraL7HrRxXoTVRNjZAp57WegreJNqcIYWCem1vOLbdnnunAbJxlm4BRq+QgYMGMnpIe7FpfcM87ToF2m0lyIOHVjWTMrr3eoybxLq9W5JFNXQgo660/3Cqs8M5fc5TMRnI4vEtq5MRk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762190385; c=relaxed/simple;
-	bh=ZjlWYimgecxTAjam4DZ6EwRs50tC7RiXHn4bKZW/+Ts=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=ZdmOzz9dDLIKOjj5YJxBnM/tiNod1u3h42hppelfdLWK9gVeuRuerMN/CLxoxeg5O0UYpJmPBfLIlwZXqTOARKfQLYN4XmMEOXgL2iyMTOAlY5Zh7pStZEKuRt9hTYJBy7avu6aNmqjVQKDIoG6cfMCPAPqBmWjRI+ClRdp1M4U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=hn6T1KfZ; arc=fail smtp.client-ip=52.101.84.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=e7QtEH0QtUvjtHwtpD5YUKBtwKsuWM23h1o9NDzInPv0cmTtuzxpzHPAaA54af+8Lvp2/+9wyZUTaekEALSbqhkwbp/9y4d2jyYuVsOyJICbrUHI+qXCNqLPPQQGADiMsaeqyMxAfAQjqA2FgIftgNecJI0g6IHeuIrkjDN6Uv2/r2A63Nh5RhlZW0+ILCj7gMQxn3So2KnKWCXR8rnWFaVReHAzMQ/vI3m2E5gZkjx3DMF/5oCC8R0xRc4Ib1XmaQUJFk/RLCI11RoCPOtI/oE0MMAGUELPiMzTRG08Jj5S5fYK6sQQdrbhSWcY4nxEBOkKyvf4ffOPdrf6LHWzoQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4YJvNS7mXHjtKpHzE2dOF5gTX6Avx4OMlGdFZ5qV9wk=;
- b=oJtjL1nmmQdqQyVFOZrUB3MI+ljwITPLrpi4sgPkt3WeoT9t9zdPeh94mDNwK8vSRqdi/Cd+HvPq1r20H4P7ua93cELLBPAM34b4zXR/C+JVXwuTXGNvS6scVycPAyNfZ2qhITMkbPnX8m7y8xa4QasGJfyEQhLApUZnq66uMB96K/Bu3ntMFfmj0dZ8pFMzOa2coHJRZYtsv1nUbe6hBqFMqlkuSQhmZMnk42AIMmRY5qO4wDf/c4+vRFeipyLWMAnRLS0Qmg1CXAQ5AFQ6zCQIa2nNHbGsJ8VRN/hV/xHzeIPo9lwB7DQ/MhwjgunWo4WHiRwTDthC2IPlj5JG9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4YJvNS7mXHjtKpHzE2dOF5gTX6Avx4OMlGdFZ5qV9wk=;
- b=hn6T1KfZWd9HJLALaQ0e5uC6QsTYvZluqguOABXHrPKoufkfHJTvQxb7bbLOeOn4eFHH6WDpmlzFg/rgdMUiAzuUJiEaCnKdUynBJhbwQHncs7sh+oNuQWZUzyd3SLOu8nOO7B+1t+AH749Gz1gd4eiMVFVaGXE3ftdPFOrja2jQADwNsJSDC9Eh+MoKxTCPkITImSlVKvTXN/YemfxyawSUC5C9tzvwDamh9n814oyuO1Lf+0n3/dvL2zIs5+BoiHDbNgag7Tu0hAKAnNTclqec5aZbsFns22NphHMtzv/B19ZXHkSDrs6oh4QGSEbnrL7+6XXi2RMhCoJIQ4vWlw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXSPRMB0053.eurprd04.prod.outlook.com (2603:10a6:102:23f::21)
- by PAXPR04MB9201.eurprd04.prod.outlook.com (2603:10a6:102:232::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.16; Mon, 3 Nov
- 2025 17:19:38 +0000
-Received: from PAXSPRMB0053.eurprd04.prod.outlook.com
- ([fe80::504f:2a06:4579:5f15]) by PAXSPRMB0053.eurprd04.prod.outlook.com
- ([fe80::504f:2a06:4579:5f15%6]) with mapi id 15.20.9275.015; Mon, 3 Nov 2025
- 17:19:37 +0000
-Date: Mon, 3 Nov 2025 12:19:23 -0500
-From: Frank Li <Frank.li@nxp.com>
-To: Rui Miguel Silva <rmfrfs@gmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Eugen Hristev <eugen.hristev@linaro.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
-	Alice Yuan <alice.yuan@nxp.com>, Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
-	linux-staging@lists.linux.dev, Luis Oliveira <lolivei@synopsys.com>
-Subject: Re: [PATCH v3 00/31] media: add imx93 mipi/controller csi support
-Message-ID: <aQjkG2f/Dgt0SLxz@lizhi-Precision-Tower-5810>
-References: <20250821-95_cam-v3-0-c9286fbb34b9@nxp.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250821-95_cam-v3-0-c9286fbb34b9@nxp.com>
-X-ClientProxiedBy: SJ0PR03CA0018.namprd03.prod.outlook.com
- (2603:10b6:a03:33a::23) To PAXSPRMB0053.eurprd04.prod.outlook.com
- (2603:10a6:102:23f::21)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64D522264C8
+	for <linux-media@vger.kernel.org>; Mon,  3 Nov 2025 18:17:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762193874; cv=none; b=OtDeqL515KT9oKlGY8HiY3Xj6YqkZYzUWJnj6MxAi95LDnTQ8J9iDzZxdWXNFjUYf1LnNs5vh46BhqZ45CHgopi3GBnCRoWHY3V7/G0scM7Bqrx9OqwAb8mBREpf4G8eb+P4nTUCzNfuKSXU7B/pQb553H//HunCkcnZ01ue8sc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762193874; c=relaxed/simple;
+	bh=q3logXzsizlE7vxCDEHKIRUBbcalhSKwMKCC5YbOdeg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=itfsw03/TsCDS4ac+UBCwRxxXrapri6hJlUdYtS4byTa3TR5tSUuZOBrtC7MeuZzxTgIkAzymjTu8GHVrHflgGK7NmcyjUJaSjqw6NHyokPcLy3J6MZOL94U0jat6b2zsZpEH0sEJHOcGcjaIGFR+G6larBCHvqqr9LNUJQtDHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=lFgd8s97; arc=none smtp.client-ip=209.85.128.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-78488cdc20aso60154567b3.1
+        for <linux-media@vger.kernel.org>; Mon, 03 Nov 2025 10:17:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1762193871; x=1762798671; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=/xmAK/aryaCve4zg5te4EbYXs5XtAGc70a0N7jrOVis=;
+        b=lFgd8s976x7GSAgtbxgIha2fcT43XDvV8skZh1K4878SKJWRK+x26KBg8J6OwIlAc/
+         Qlo0KgIMGBdU/lMRXPL1ytvkimGW24FD8rNIMzRGXmWA0yMP9oj3s1v0kGUz/9czj2kW
+         J9DAXu8LvnLVsfEgLq3YHo+tNZqVaQO8EHsQUU2JNnkrdaPPmFND+KKqg5b45khIKcWX
+         eO8NIefBS7d++6RU7Xd+AVJavdbGjDbFu9Vx95lg73pfhuXrHxEtJ+9wNRYKxlk6YxD1
+         ZW+Xvv+1gcEdZiIbQJ7GVHTOT2p0anF+r/kPpuFnI/qTNRJqCYsLMXITGZoIRqN4bXLC
+         Pa4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762193871; x=1762798671;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/xmAK/aryaCve4zg5te4EbYXs5XtAGc70a0N7jrOVis=;
+        b=pN1IZ/cTW1ODQL9Sc5koRgBh//Hc/lkSylj/cAF4xcxYPt6bIrRWWL2x+BmLwpgzHb
+         hodG0Y/K2s/N0jBWBh4kAbjEb5jGeyc8b45hE2E5EbLwPYQbs65QjufO5ieLBLzbHGWm
+         uqGk81aCChFMzg1It3GwqPhfI6/EKvZ8LDqF4Pw68y19NiID6s8r5DIzvq7E8zlYs5fC
+         fYIifyWYXLhQTFGlQJPmoZsLKvk1J4ZqjfhCgP2TiMpjkzghK/v0PPgzLSRcUY1V7Qp5
+         yA50+N/9/0+rSIW3jDGQ/rljtXfIjzJYUDNfVbtkCidH7WDVLRtqoyy78xdPgrhyR+Wj
+         lC4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWU8BgXWEIuPG2haDfaSmQZytSQ0sdezYL6c6AWAhTQ+jg4oGElZKwnz8b1/ULL58Cgmzc0hOwCfHsdTw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzkJgcR/dYUWQibfAZ6X6wg+e7tFZgFs4E66+0aWT8mbPL049GM
+	H+uTvzUojpmEAUzYeKWdkbRcNUm2F5dgwTLkBH3oXW3EJ6gTRyaSd9qTDp8p/8ACLN/zeqQiG80
+	GuCgjjtGNIlNnSss++EriANUUeeb0iEvQje6gOyhO0A==
+X-Gm-Gg: ASbGncvcP60FpKyVmVNWjUvW71oTzr4jFgDhwfv/x9KMxFgjfp2t27D3FarnimeQCYb
+	locWUx8hp0FO9u4kt9AWbwXbyGfNi3f/fqMJFIvwhirFMvtWcrB6iDu/7ZjugFYS6O2S7BYOJn0
+	AgNT0L+6GWJIHY6WbtNpV2HqpV6eMlYTYs/EZBCpM5kbeHujXItDtykiXMeX9r0Gz4wOVD9DtRG
+	jIdxFXprlzF84F0gTCs3zrVQkAHWMR2paAdWrBVEGiIadilpdGV0AwKwMWL09irKa7xUs549Cz0
+	OtDwcHewsi8pHifiNbnsrbVPh0w=
+X-Google-Smtp-Source: AGHT+IFqE8B94Mp2/FJ4pe8YGqharK3QI0mj5qNCj+r9MNVvDf2hJB3l7zQZO5XO9mTAk+uegLHpNOSHPzCdeHMMZAU=
+X-Received: by 2002:a05:690c:62c4:b0:786:5789:57df with SMTP id
+ 00721157ae682-78657895902mr97319357b3.45.1762193871162; Mon, 03 Nov 2025
+ 10:17:51 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXSPRMB0053:EE_|PAXPR04MB9201:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9ca9a862-67c1-445a-cb5f-08de1afd297c
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|366016|376014|52116014|7416014|19092799006|1800799024|38350700014|921020;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?U2uDe0KdPBl1VThIKL0VfhMy5QtI039y/28opZeWwQ89I2oRcMpy6bn1eevL?=
- =?us-ascii?Q?5CMIV4Fk66Dbl+yFYSiHDkJJX4jawPSsMixX7CXCHgl3IeXXKG5u6VERr6Cu?=
- =?us-ascii?Q?TP2xx2HwblcfL8Bg+MV2XRiXKKdJ+U6WunKjUu7q+fkWy/5Bd3ZHHU1VrcJG?=
- =?us-ascii?Q?sacsIfowgxH51HaevsOY1QvqEoSO7+tAvviiheUESAWzN7ezmilnLBCwnIsa?=
- =?us-ascii?Q?+GKIr/Wy6K1j5sIgDeGA+kWS4izqDUT8TEDk3QMHU+EX7K4ItWMCoXXtwcpe?=
- =?us-ascii?Q?i7Nj2iKRP04e1HizlUUTBEdFsv8EEFegqIX0vZcinPVjRUB39/VFZb8wNQ7y?=
- =?us-ascii?Q?0mImh6SQxYK1QDywXQmRlPL2qQgPdZHb1CoXagFMoTjvjHalQFgTc08I9c05?=
- =?us-ascii?Q?SpyV7Urdm2vQvTEYbtVJGu9dOFAxUneQ3SfuG+GbS9kMuTVidNlVVL2xsl97?=
- =?us-ascii?Q?mahezDHtTIdMpb4Nfn+U0SN0+yrsG3jcaK69eKRa7ccRq2atLKPOn+EsChCC?=
- =?us-ascii?Q?mPHxsrxl/QGV6j5VxHB8hTjqRYcrIkBm3S1DRLl5a6AQt40o2nZ8SAyI6ay/?=
- =?us-ascii?Q?eOSZOxaPlWZYF8nqxoLmkKfqF2PeSnsjsuiFiQR/eMuodOEbvNIXCuFaIQgm?=
- =?us-ascii?Q?FVDL16fg08w+Tdwo3PcKWUNUuhlkxcQt679Ks7Q/9gumM7tt36Yup3W4gQ/f?=
- =?us-ascii?Q?y6I1KiLcsf7kufbPwvGzEuMFtbUNWN372s5b4/nu+NWR/D5l5tBtr7WVchGl?=
- =?us-ascii?Q?4hi6Fsk/kWE/MLwNWZsiX7t+YxyqKCaPTssqElxot/mQV6ZfEjfLiWlmpJ4+?=
- =?us-ascii?Q?tFrlO6LxnFg8NuvmPTIHXs/e4zmnUKvgobx2lCOV9UyR7RpnElMwcJdDmD1Z?=
- =?us-ascii?Q?BEeN8zX/Og34DAjAdeeSm4vd9b8mNqIk99ATB9IEToyStIAH580ShchsqamK?=
- =?us-ascii?Q?YKp6R0hSD9pxgm+bQn9bkQEBK2sGZclyF2zNdxDipZEiIdGiTYm75/L5GqkI?=
- =?us-ascii?Q?2nHt8mQE0Y3EAmQjaua/lYBqO6+/1LwpWkTGjLe0kVNOb9PaUQrLqAYGkIr2?=
- =?us-ascii?Q?8roORON3KoEx7VORhEhhrfzWJvQqPdQgNGYqPdc6pcQS/VKFh9Z9BubBTroz?=
- =?us-ascii?Q?qBmhgivRs0sP/ol7SPheIa+kCla14HiASqs6t6lLn1QmTIT5bvz9oXzIkGym?=
- =?us-ascii?Q?s472gLxmYEBhpC53i18WbsIsTFCubk1IXC9YgFGSIZhglOkkyduxIXi3gPKB?=
- =?us-ascii?Q?WizoVhV/wUaEkBeaL6LBT/66Vm1e9IFCyn3+ZXBs+0TThUXaKz1VQWzA6QLw?=
- =?us-ascii?Q?iJGf+L51w+UizYG84QaJ2N4+ssrUxusL+rHiPAtJ0uAInVABcdxAjJqHrhdV?=
- =?us-ascii?Q?CLT3W5SMYbAAUYGZ6LuQnCaRT60gwO1PYufWflTqElObvqugx9V0vVYe/27b?=
- =?us-ascii?Q?8iw6/WCGi5Yb9xRXoQFNSZAjhvfLetvzJeUPB5FQbh5yC2kbUJCmsY+XbySv?=
- =?us-ascii?Q?CN/24wMi4tWFQYrpMcGzLaLq2dfQLFd6tVUaJ23KAMp3Titsrvi3pjkg6w?=
- =?us-ascii?Q?=3D=3D?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXSPRMB0053.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(52116014)(7416014)(19092799006)(1800799024)(38350700014)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?gfIKOVDqznKGI1v8smwjFb9lmcBZR5/wWUNNcNMRhPRb8T6GV/ZKzdhIrqf/?=
- =?us-ascii?Q?/1oDFebEf/PuBJ4VXiqmt1NPoXlHGITjBg2RdMc7ak0kh8M52yw7h2fcP8Ld?=
- =?us-ascii?Q?cEzla5K+zSW32fG/j8MPPNjj4M89qPATecoyp5o5DC+S7V6j8plz/cRXanVh?=
- =?us-ascii?Q?Xcfv2qy65adagnpy3JV7qB0csLYym/IQk6IeJgJuTg9txdfu0AMOAPmU5a+f?=
- =?us-ascii?Q?6dXqKb8bcQF1hzzVz2J9YQ4xZ1iBXmzj5CI9SLGXfitl0AOCpSNmQShKImYF?=
- =?us-ascii?Q?SyZZ1Wn3kQo4hkmAev0CVdXo5MVc2m05x9IMAr7o/MkDKo8+3m2970uAQBuz?=
- =?us-ascii?Q?3x0BvKeKxN6MbzGNhNvwUuDJvMG1bfm9A7S5JPb8qtR0SHpftiQGw4h7KQbU?=
- =?us-ascii?Q?3CG9t/ur+A3K+W3mfEjwt6IHXPe+PddtU6uk70wcfS0AoFH9XaWOnJdxUsk0?=
- =?us-ascii?Q?CT2Zo0gAV8nUnyN8AdbOwVgX97b7owj3OrT3HdfaQDzLLIPZAacT0eJ8qVYI?=
- =?us-ascii?Q?p9LhxSjL3evfCug2ySdWqA2GsPC9+uUC9sHXPNQBVQetc2odgaa6l5QhJJ19?=
- =?us-ascii?Q?T8sMjUrA2VomatCVykEAlxapR5/KhpM3baXGmz/6QtHg3kB6t5RyEUhqMM1N?=
- =?us-ascii?Q?fSDiXehH8Y4soE0wFBkx7RrQAnOdk/MpUxRMwvgQUGZp8roU9rqBdGRyvxkD?=
- =?us-ascii?Q?jGEOWoVSVNR0nGvqGewQYRRypNjjoSdhwyh0iWchv6Iq5vNkVA3Ynha6uWce?=
- =?us-ascii?Q?D7gHrHk6MCFF2SlfbcBkkN3phzYF6zAr6NkI5FUypdw4qZKqJ8PorNdWwxgt?=
- =?us-ascii?Q?JvA/ILmsIA1GRMOMOs6qJzil137+oRIqoa4cEdJ+ioSLBhRfWK6qDEaKFxm7?=
- =?us-ascii?Q?BT9tXatj2wCFd3M9/oJs3mNOapRtfE7S0WKKRT2Ncggope562yKz5T+QHyC8?=
- =?us-ascii?Q?m14M0ztypnFj/Vun/P3narEecHG/yFxQIy3z2qdpcPGBLYYsE7VJvdyGbQJn?=
- =?us-ascii?Q?f009ehOgAcDRZFWRyFpxHHY9uss46DWFaHU47zfcL6BM6/2Roede8JF3pIL0?=
- =?us-ascii?Q?6TM3VfqAPILL8Frlk5yF4OxSVgwQYl5CBjH95h3lsGH67ZHfIhlH/xXfo8/P?=
- =?us-ascii?Q?oh/4SoDaiyf4dbCSxXaDHtD5Ja46Jaw/1SWMoJ7xmELxcCnCzWlEV1UroU70?=
- =?us-ascii?Q?YCx90oKfYJ2GdvfNjuMw1GzbI8sylhNsnaKedrPVTl9mBrxenVATtUdmZa/z?=
- =?us-ascii?Q?U7hk2cxdoIc3CQO1pWhaj4Hdmv9bCdTkqma5q6Ssilao9nFNoQrn/3Vycjjk?=
- =?us-ascii?Q?20f/FScq3HtOvG1ncN9x94+4963exXhvb33NyTb0Nacwpu+uv54k396OEuUG?=
- =?us-ascii?Q?SBbZnDibZCfQh67C+L58wFaBshniwx0+j8fruC4UROeHL7a5TI5iPCDu/Dkt?=
- =?us-ascii?Q?wdSxVszbzt1kcIjyAd40A3auKjnMlyBw0si6HtBUGY0VkPd2elQXUtcK28JZ?=
- =?us-ascii?Q?ziIUHT53dZuR+6MNp8TXQ5cajCcrdG9SV2xM8RN31d9ufDUFB5Rf+nmWzL0U?=
- =?us-ascii?Q?vZSBt2VFiRIyAjw9nIVOmwE8gMz2dVdBPFzbCD17?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9ca9a862-67c1-445a-cb5f-08de1afd297c
-X-MS-Exchange-CrossTenant-AuthSource: PAXSPRMB0053.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2025 17:19:36.2998
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pGA0eKQnORpYMw4oCudbuMoUlO8grdzn1/L8EJya0s67Qi7J8+WLUpraUBCI1MJ7knyLsKb/2M6yiWYEzbW4xg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB9201
+References: <20251031114835.113026-1-tarang.raval@siliconsignals.io> <20251031114835.113026-2-tarang.raval@siliconsignals.io>
+In-Reply-To: <20251031114835.113026-2-tarang.raval@siliconsignals.io>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Mon, 3 Nov 2025 18:17:31 +0000
+X-Gm-Features: AWmQ_bmurtv0JEn9tphiJaL2oYCvaL0iF7Drv_num1dn1VxlUEctW68r9rEtJqs
+Message-ID: <CAPY8ntDy0NmU5D6Q=v+X0nN9beGFLWHQp0jpfNYq+shGaam87g@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] media: i2c: imx219: Propagate errors from control
+ range updates
+To: Tarang Raval <tarang.raval@siliconsignals.io>
+Cc: sakari.ailus@linux.intel.com, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Aug 21, 2025 at 04:15:35PM -0400, Frank Li wrote:
-> Totally rewrite CSI part driver compared to V1.
->
-> This only includes CSI related patches.
->
-> DTS part: see https://lore.kernel.org/imx/20250701-95_cam-v1-6-c5172bab387b@nxp.com/
-> PHY part: see https://lore.kernel.org/imx/20250701-95_cam-v1-4-c5172bab387b@nxp.com/
-> AP1302 part: see https://lore.kernel.org/imx/20250701-95_cam-v1-7-c5172bab387b@nxp.com/
-> 	upstream: https://lore.kernel.org/imx/20250623-ap1302-v3-0-c9ca5b791494@nxp.com/
->
-> First 3 patches add some common helper function to simple code and remove
-> duplicated code in difference CSI2 drivers.
->
-> Clean up stage imx6 old version csi2 driver, and prepare create common
-> dw csi2 library for difference IP version.
+Hi Tarang
 
-Laurent Pinchart:
+On Fri, 31 Oct 2025 at 11:49, Tarang Raval
+<tarang.raval@siliconsignals.io> wrote:
+>
+> Propagate return values from __v4l2_ctrl_modify_range() and
+> __v4l2_ctrl_s_ctrl() in imx219_set_ctrl() and imx219_set_pad_format().
+> This ensures proper error handling instead of ignoring possible
+> failures. Also return the result of imx219_set_pad_format() from
+> imx219_init_state().
 
-	Do you have time to review cleanup part? at least we try to land
-some simple patches in this cycle.
+It should be impossible for a number of these to fail unless someone
+has messed up in updating the driver, but it does little harm in
+returning the error code back out.
 
-Frank
+The slight hesitation would be that in imx219_set_pad_format you could
+have updated the ranges/values of one or more controls, and then fail
+leaving a partially implemented mode change. It has returned an error,
+but an application would be reasonable in thinking that the previous
+working state has been retained when it hasn't.
+As long as it would only trigger due to a driver bug rather than user
+interaction, I would *not* propose that all values have to be saved
+and have to be restored on failure. It just gets too ugly.
 
->
-> Move stage driver under driver/media/synosis.
->
-> Create simple platform driver for common dw csi2 use case.
->
-> TODO:
-> 	1. create bus, to probe phy driver under "test_if" interface for
-> specific phys under CSI2.
-> 	2. support to combine phy, (which connect to both dw CSI and DSI's
-> test_if). Need use DSI's test_if to config combo phy to switch to RX mode.
-> and also need config RX part's phy register by use CSI's testif.
-> 	3. move other vendor's csi driver to use this common DWC CSI
-> library.
->
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> Signed-off-by: Tarang Raval <tarang.raval@siliconsignals.io>
+
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+
 > ---
-> Changes in v3:
-> - update binding doc
-> - combine two add helper function's patch to one. and use media_bus_fmt_info
-> data structure.
-> - Link to v2: https://lore.kernel.org/r/20250808-95_cam-v2-0-4b29fa6919a7@nxp.com
+>  drivers/media/i2c/imx219.c | 61 +++++++++++++++++++++++++-------------
+>  1 file changed, 40 insertions(+), 21 deletions(-)
 >
-> Changes in v2:
-> - totally rewrite, see above section
-> - Link to v1: https://lore.kernel.org/r/20250701-95_cam-v1-0-c5172bab387b@nxp.com
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index 48efdcd2a8f9..40693635c0c3 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -453,10 +453,14 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
+>                 exposure_max = format->height + ctrl->val - 4;
+>                 exposure_def = (exposure_max < IMX219_EXPOSURE_DEFAULT) ?
+>                         exposure_max : IMX219_EXPOSURE_DEFAULT;
+> -               __v4l2_ctrl_modify_range(imx219->exposure,
+> -                                        imx219->exposure->minimum,
+> -                                        exposure_max, imx219->exposure->step,
+> -                                        exposure_def);
+> +               ret = __v4l2_ctrl_modify_range(imx219->exposure,
+> +                                              imx219->exposure->minimum,
+> +                                              exposure_max,
+> +                                              imx219->exposure->step,
+> +                                              exposure_def);
+> +               if (ret)
+> +                       return ret;
+> +
+>         }
 >
-> ---
-> Eugen Hristev (1):
->       dt-bindings: media: add DW MIPI CSI-2 Host support
+>         /*
+> @@ -848,6 +852,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+>         struct v4l2_rect *crop;
+>         u8 bin_h, bin_v, binning;
+>         u32 prev_line_len;
+> +       int ret;
 >
-> Frank Li (30):
->       media: v4l2-common: Add helper function v4l_get_required_align_by_bpp()
->       media: v4l2-common: Add helper function media_bus_fmt_to_csi2_(bpp|dt)()
->       media: staging: media: imx6-mipi-csi2: replace space with tab for alignment
->       media: staging: media: imx6-mipi-csi2: use devm_add_action_or_reset() to simplify code
->       media: staging: media: imx6-mipi-csi2: use devm_clk_bulk_get_all() to fetch clocks
->       media: staging: media: imx6-mipi-csi2: use devm_mutex_init() to simplify code
->       media: staging: media: imx6-mipi-csi2: use guard() to simplify code
->       media: staging: media: imx6-mipi-csi2: use register structure to match hardware
->       media: staging: media: imx6-mipi-csi2: use devm_platform_ioremap_resource() simplify code
->       media: staging: media: imx6-mipi-csi2: move probe part to imx6-csi2.c
->       media: staging: media: imx6-mipi-csi2: move sd imx6's specific initialization into imx6-sci2.c
->       media: staging: media: imx6-mipi-csi2: move csi2ipu_gasket_init() to imx6-csi2.c
->       media: staging: media: imx6-mipi-csi2: move number pad macro define into imx6-csi2.c
->       media: staging: media: imx6-mipi-csi2: move dphy init part to imx6-csi2.c
->       media: staging: media: imx6-mipi-csi2: use runtime_pm frame to control clks
->       media: synopsys: move imx6-mipi-csi2.c to synopsys/mipi-csi2.c
->       media: synopsys: csi2: Remove deprecated s_stream and use v4l2_subdev_pad_ops
->       media: synopsys: csi2: Add phy interface support
->       media: synopsys: csi2: Add basic v150* version register
->       media: synopsys: csi2: Add irq support to record error count
->       media: synopsys: csi2: Handle alignment requirement for width
->       media: synopsys: csi2: Add register prefix to register field definitions
->       media: synopsys: csi2: Add need_dphy_reset in config
->       media: synopsys: csi2: Add default simple dw_csi2_subdev_init_state
->       media: synopsys: csi2: Add v150 lane stop state register bit define
->       media: synopsys: csi2: use standard v4l2_subdev_get_fmt() function
->       media: synopsys: csi2: Add customize get_frame_desc() callback
->       media: synopsys: csi2: Add Image Pixel Interface (IPI) support for v150
->       media: synopsys: csi2: Remove source pad connected check at dw_csi2_enable_streams()
->       media: synopsys: csi2: Add simple synopsys platform driver
+>         format = v4l2_subdev_state_get_format(state, 0);
+>         prev_line_len = format->width + imx219->hblank->val;
+> @@ -883,19 +888,28 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+>                 int pixel_rate;
 >
->  .../bindings/media/snps,dw-mipi-csi2-v150.yaml     |  151 +++
->  MAINTAINERS                                        |    1 +
->  drivers/media/platform/synopsys/Kconfig            |   20 +
->  drivers/media/platform/synopsys/Makefile           |    3 +
->  drivers/media/platform/synopsys/mipi-csi2-simple.c |   75 ++
->  drivers/media/platform/synopsys/mipi-csi2.c        | 1260 ++++++++++++++++++++
->  drivers/media/v4l2-core/v4l2-common.c              |  149 +++
->  drivers/staging/media/imx/Kconfig                  |    1 +
->  drivers/staging/media/imx/Makefile                 |    2 +-
->  drivers/staging/media/imx/imx6-csi2.c              |  181 +++
->  drivers/staging/media/imx/imx6-mipi-csi2.c         |  846 -------------
->  include/media/dw-mipi-csi2.h                       |  120 ++
->  include/media/mipi-csi2.h                          |   30 +
->  include/media/v4l2-common.h                        |   30 +
->  14 files changed, 2022 insertions(+), 847 deletions(-)
-> ---
-> base-commit: ad0a162e543964443feec3a6a9395a64fe6c35c9
-> change-id: 20250606-95_cam-b74c094ad1fb
+>                 /* Update limits and set FPS to default */
+> -               __v4l2_ctrl_modify_range(imx219->vblank, IMX219_VBLANK_MIN,
+> -                                        IMX219_FLL_MAX - mode->height, 1,
+> +               ret = __v4l2_ctrl_modify_range(imx219->vblank, IMX219_VBLANK_MIN,
+> +                                              IMX219_FLL_MAX - mode->height, 1,
+> +                                              mode->fll_def - mode->height);
+> +               if (ret)
+> +                       return ret;
+> +
+> +               ret = __v4l2_ctrl_s_ctrl(imx219->vblank,
+>                                          mode->fll_def - mode->height);
+> -               __v4l2_ctrl_s_ctrl(imx219->vblank,
+> -                                  mode->fll_def - mode->height);
+> +               if (ret)
+> +                       return ret;
+> +
+>                 /* Update max exposure while meeting expected vblanking */
+>                 exposure_max = mode->fll_def - 4;
+>                 exposure_def = (exposure_max < IMX219_EXPOSURE_DEFAULT) ?
+>                         exposure_max : IMX219_EXPOSURE_DEFAULT;
+> -               __v4l2_ctrl_modify_range(imx219->exposure,
+> -                                        imx219->exposure->minimum,
+> -                                        exposure_max, imx219->exposure->step,
+> -                                        exposure_def);
+> +               ret = __v4l2_ctrl_modify_range(imx219->exposure,
+> +                                              imx219->exposure->minimum,
+> +                                              exposure_max,
+> +                                              imx219->exposure->step,
+> +                                              exposure_def);
+> +               if (ret)
+> +                       return ret;
 >
-> Best regards,
+>                 /*
+>                  * With analog binning the default minimum line length of 3448
+> @@ -906,9 +920,12 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+>                 imx219_get_binning(state, &bin_h, &bin_v);
+>                 llp_min = (bin_h & bin_v) == IMX219_BINNING_X2_ANALOG ?
+>                                   IMX219_BINNED_LLP_MIN : IMX219_LLP_MIN;
+> -               __v4l2_ctrl_modify_range(imx219->hblank, llp_min - mode->width,
+> -                                        IMX219_LLP_MAX - mode->width, 1,
+> -                                        llp_min - mode->width);
+> +               ret = __v4l2_ctrl_modify_range(imx219->hblank,
+> +                                              llp_min - mode->width,
+> +                                              IMX219_LLP_MAX - mode->width, 1,
+> +                                              llp_min - mode->width);
+> +               if (ret)
+> +                       return ret;
+>                 /*
+>                  * Retain PPL setting from previous mode so that the
+>                  * line time does not change on a mode change.
+> @@ -917,13 +934,17 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+>                  * mode width subtracted.
+>                  */
+>                 hblank = prev_line_len - mode->width;
+> -               __v4l2_ctrl_s_ctrl(imx219->hblank, hblank);
+> +               ret = __v4l2_ctrl_s_ctrl(imx219->hblank, hblank);
+> +               if (ret)
+> +                       return ret;
+>
+>                 /* Scale the pixel rate based on the mode specific factor */
+>                 pixel_rate = imx219_get_pixel_rate(imx219) *
+>                              imx219_get_rate_factor(state);
+> -               __v4l2_ctrl_modify_range(imx219->pixel_rate, pixel_rate,
+> -                                        pixel_rate, 1, pixel_rate);
+> +               ret = __v4l2_ctrl_modify_range(imx219->pixel_rate, pixel_rate,
+> +                                              pixel_rate, 1, pixel_rate);
+> +               if (ret)
+> +                       return ret;
+>         }
+>
+>         return 0;
+> @@ -972,9 +993,7 @@ static int imx219_init_state(struct v4l2_subdev *sd,
+>                 },
+>         };
+>
+> -       imx219_set_pad_format(sd, state, &fmt);
+> -
+> -       return 0;
+> +       return imx219_set_pad_format(sd, state, &fmt);
+>  }
+>
+>  static const struct v4l2_subdev_video_ops imx219_video_ops = {
 > --
-> Frank Li <Frank.Li@nxp.com>
+> 2.34.1
 >
 
