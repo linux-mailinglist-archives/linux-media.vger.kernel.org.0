@@ -1,102 +1,102 @@
-Return-Path: <linux-media+bounces-46210-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-46211-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ADCFC2C149
-	for <lists+linux-media@lfdr.de>; Mon, 03 Nov 2025 14:29:12 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CBE2C2C13D
+	for <lists+linux-media@lfdr.de>; Mon, 03 Nov 2025 14:28:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1902F3B9EDF
-	for <lists+linux-media@lfdr.de>; Mon,  3 Nov 2025 13:24:38 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E2A854F6379
+	for <lists+linux-media@lfdr.de>; Mon,  3 Nov 2025 13:24:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACA9F26738B;
-	Mon,  3 Nov 2025 13:24:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0A61261B6D;
+	Mon,  3 Nov 2025 13:24:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="aK1VDKeB";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="I2Fs9IUs"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="cSYQASGm";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="U7aD4hgI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44A4C25393E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85BE6263F22
 	for <linux-media@vger.kernel.org>; Mon,  3 Nov 2025 13:24:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762176263; cv=none; b=jIkdbb3IfbB1OslquGiHwdiR+kxjo4G/qD4ZWmHJHTHNX4KsswUAjizXQ4z+dD+PA1pJOn/V04HNQACdlMCjL7paEtSdbKJM+BKW5ia+/saSTVAX/YYfLtgaRN7nUp1Vyfajsqcwyrf93OR4qNRK4+FhyGWSeKi/1xPgxTrudJ4=
+	t=1762176264; cv=none; b=tl9bJjxQzKrkLn8UCzJQBPpFflcpvAa1PAhO/hm9a79dH5g6lsZX6NSKz7O7OzGUC0bx+O3Is9hYnzrM5x+v/mC7ggFuh+8HwAUe/d7cPiSrWN0W1A7N+rtfjsIPbw6QJzevRKir1GP5v4ug+rvkI1umt93L5Ri1MwaWL1Cztus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762176263; c=relaxed/simple;
-	bh=SZrZjo2s0yDcGXFZCdWPCh5Pkm0hk0faJ9y/OoFuzs8=;
+	s=arc-20240116; t=1762176264; c=relaxed/simple;
+	bh=lQvghmf454Nrr1HSejyrgphE01hNnR8XL04TB97Hm0k=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mvEC+1p1ETGtWcaqAX38+Urrj+RNNtwmVCkR+0CXbHG3xpsdPfPyu7rY6SPk2/NO9C+FQRxP0BJSrIYuY010voC4rbijoPPCi/nBaMrwT1S/M6TK9kKAMXf1NzeXw6YW30g8IWh8MvUdQLDZWEpQm5z2sm/CMa9pT0YnHuaTjB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=aK1VDKeB; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=I2Fs9IUs; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:To:Cc; b=i2KA1t8mCyY037rPfztHAlh/Tt80CI9VBqeVe1sR26ndTn8l2054ZfjeJu7iihFY/LMPkQaCPvb3gRLK/Q8ffvFQFy51FXf9+9T3KW3Pna8FZmr8KoDrO9lscLMhXkF0hrFgQePk+QGkK3aGRIQDnE+nNpeH8XNEZGqqbCfz7Tc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=cSYQASGm; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=U7aD4hgI; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5A3Ah7ax1940616
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5A3B5rmo2906327
 	for <linux-media@vger.kernel.org>; Mon, 3 Nov 2025 13:24:20 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	w0bUAQePG1bGRaZhHjmNgnU7WKw1Px2yFxgVwokQWVU=; b=aK1VDKeB78Ft5zFt
-	xrEHENj0XydNvyI3rfkNEGLsdT+b+/Ic+HfbcaeRhlJa52v3QIKIhJl1bHHn11ta
-	QBJbtCV7iTR7LrcWgcA76pOW1aKugPySeQeRtF9h7n/9MjQGMoHV8ZAtzL3m+q6I
-	ofY2in/j34uY5nvn7hWzknVRUu1L6j8/FVmiIpixmf1zAt1sOMD6EK0AEOyEUdue
-	2zJXcxrLj0eYXzigVxM0xxEL0+ncArDUqVjEfGcUK/Ymqmxn/F0o/FBKBhgGeMmD
-	bkoHcPLlPR2Ba2iRwkgHbbOPRXWl6v7NE7jfucHwgRBR8SXP2TJ2/e3kF+4SU9Lu
-	gGysNQ==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a6m9w9jpp-1
+	ridrxwGEIpXOZ0gdsUYBH2J8aRIkpNMjp2cQPKRYlLE=; b=cSYQASGmZSVwRO+C
+	b4MN4upha8xMMs6t+LuSlHOFIzMJ/9GharfKPyGNAQ1SxWIbq9YJi539TmEjm5UJ
+	VXINVCfVhsD/t/A4M9ti94wTb67G9CCAhAC8By9/zN118f31x3gNmJ3eXtNrsPNN
+	T1N1l2SDIntHXHuuiYIXMgFrsZS96RkdmP3kv7uXooY1h3UembyWl3PG2Nt1DgXF
+	A/moGPjwjky5FtEAaU+fQpos83xPmjylJkz4twAg9zTQ60xwDT60vahtavaTd0A5
+	TWf2FQsA3X3InRfytZet8zPHTv6GOWZOxaw3w9NdU86tdN9tv40dqg8FLgc+LMsQ
+	GDhyhQ==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a6u7krasp-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
 	for <linux-media@vger.kernel.org>; Mon, 03 Nov 2025 13:24:20 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-33fc9b69218so1217487a91.0
-        for <linux-media@vger.kernel.org>; Mon, 03 Nov 2025 05:24:19 -0800 (PST)
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-34142fffc03so177538a91.2
+        for <linux-media@vger.kernel.org>; Mon, 03 Nov 2025 05:24:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1762176259; x=1762781059; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1762176260; x=1762781060; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=w0bUAQePG1bGRaZhHjmNgnU7WKw1Px2yFxgVwokQWVU=;
-        b=I2Fs9IUsB85hEv8p3/sbqT9VNUp7PB6R4/hbD0hj0PeMq6UOXmbUrI5EbI4CCQjFrV
-         +x6JhCRlD/L5137qXY7QReIsStL9NvZmUQIs+T39gG/gjfxvKgnBDk06ZE3KahwmV9LW
-         CpbQBO3b2uI5qIvfB8KOrCsGULBxIySfJ1QWpF0JzVzpuE2Ic/QHl3OWHfafTk1Bjv6o
-         JHBTOI4YiWI4fRg/l13OVqnZ0OlfwghynxUnDSYW8T6RZDL+4zVipsPABH310YuF9krx
-         H9IvEk+h6ST/6xsNw/ZRjiXIEZTKjhOIG/eUVkaof//E8P+MUQk8497Ou2kOaVgdVriY
-         9Dlg==
+        bh=ridrxwGEIpXOZ0gdsUYBH2J8aRIkpNMjp2cQPKRYlLE=;
+        b=U7aD4hgIOgQPYJvbFelFqZGhEIs2XopnTJbCoGfNm+SRLe8v3baMrO5D7cfnfjmCTT
+         GNU9gVg7otqLjXEyUAF/vQBavszAkA0dM2NTuQWf5p0m5BIN6hsmNJpwmLWkW44VuoIm
+         xFcFK+4ZY8dpAI3SC0V+6KgftalnTqsQwt0uaXHx6C2QNG0ysi6oZkHZLDy3gOCAXFNM
+         x5LVuQOGMalgB2aU/tvu/QZjJnG0ow1pjH/85/CM0amp6BsKOo/UA40TF0LShs1XJpfy
+         GSO1dNfM9HeWFz1UhYAGarjeTENwbWFovb326eBxcKTLmB2iK0kcTpQfBc7wz7hI3Imr
+         eV2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762176259; x=1762781059;
+        d=1e100.net; s=20230601; t=1762176260; x=1762781060;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=w0bUAQePG1bGRaZhHjmNgnU7WKw1Px2yFxgVwokQWVU=;
-        b=FOqeuR09STtAAs3Mx63GTJPdtAd3nQwK5KD92Rqunk9rNBeur/T8t6NaawEBCzF14U
-         tApICjWxkSo0Z6bt5m/sR0ga1JuiVqwmUL5BBOzCMwZTxJf/ptBnhukZum9yZXKVWnK+
-         sjKfX63IjzY/H+7MP/WxG3erzwNYj61e2HFgZzkW00MyIWdio6/47x5/It+9fWQowrYu
-         PZIYU9AC7+F6yIT2q5g8G6RSblEI9EoCquukciNyPDPehLUis5OnscBwP7u8h4nUOx0v
-         3FLOvEYmvcEuGkIKUy4kCzlR07SAIxcMr7MIbH1Sy3TcvizsZR29dFMaDyTp7QyzCekd
-         5Kag==
-X-Gm-Message-State: AOJu0YyBGCA6DTNMpV3qt54EGCPdj9kkNksjXOm5CEfLy7DVVanQiJ5M
-	mkBf66X8KCYNnnCYgG+yjqvpcc0M5RJ0RY72+Nq+YWUCbs33NktAmXdzbyJ5urNsSgJ+jVgB/rN
-	gHkUpp3fK1yxWcOYMowR5mW1XqY5h1khjjBBZ7TmoRQrgEC7JUAIbbAeRTLYHl3hZcQ==
-X-Gm-Gg: ASbGncsEK5LOjqyp/t7MC8O0P3xeU5gAXPGoy0qzcPEitbt7g1Gf4Fw9cfyJv9G41nR
-	6oulG8+GDc/eCLAnSzLBh8mgHfuR3DPRTfDtamNBkNCez5PdFhBnDlUVRSE8s056v5egdb1WkyI
-	RawWd2d/0mW6GJ9vUrJEnRU8F1z98C15r6ZJPKCpof2w1qKCA+F3wp4w6APKMqRhnXO4sXlZGX+
-	K1DobCS0n3rXAqX5gYs34hcQw6ZheNlip6KGMF6QjJbh4h3T5rZRVMuTdi7TNkX8hk/2udpWoZv
-	UlTV8VTWES+eeGbjKs3/ujefEr1kpDjqY4SC4hDXrVgVskWz8OjbJkBUHWFJk4gX+Aqc+gPlwKV
-	IEPtvsUt2oKRQPIWXVWW2H1bn+Nj2D5stmIzOuti8GEkPO7u2Jok0Ou+7cUs=
-X-Received: by 2002:a17:90b:4d8a:b0:330:6ce2:18d5 with SMTP id 98e67ed59e1d1-3408309f105mr8891836a91.6.1762176258868;
-        Mon, 03 Nov 2025 05:24:18 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFyIW0BH20ElS3Fhbf25HVcEUlDUuxxvJCKXdoilo6wy+7B/fZedx4edNGgyTNwUTrV/xSiOQ==
-X-Received: by 2002:a17:90b:4d8a:b0:330:6ce2:18d5 with SMTP id 98e67ed59e1d1-3408309f105mr8891817a91.6.1762176258343;
-        Mon, 03 Nov 2025 05:24:18 -0800 (PST)
+        bh=ridrxwGEIpXOZ0gdsUYBH2J8aRIkpNMjp2cQPKRYlLE=;
+        b=l7j+BlLgoQhotlomBSyaKg+9a5j8+oTCUFWUPfWYWwME0Gj2iCxs70VQeKTLxtvYRU
+         Tx0R0yPC3AVZlJtb9n/45Ces/rO2W1yhv094xMmpxTQdH5MFaNPgS4noPhuuLjCFfGQC
+         S3IHg1IiTdB9u4OiI5kwsUEHoAFm2lEMa8Q6ICYd4+fFGswMPwsFxOWNbmpxSR/8hgpx
+         Amdy73ls5eUJntfEf52UphI/VxQCqpa2Azw9L7lq8u2+5Zvws/NWnc20vr5ftpHPaNgQ
+         t2ga/KdncEdWpi2g4hH29oWaGch2aMLWnSKDkB8EZi0N0hYu0SYIq6aYCy2SWETDp8FO
+         fX9A==
+X-Gm-Message-State: AOJu0Yx5lXhBJ+tg9NsSP5FZi4abGmgB3D+9p/odwCBfI5Xq428ioT4z
+	bPV13SE6IGQJB75clMh0X/2wXGQkYj+IXvlPfTRkWJHJd1Q7uegXwYkgajUnZDKxm5g1pJlchPn
+	1VVrAssBW6r/fOrHibB8ouO6eZXDQce8WY2Ws1kEs6z7bCAiOEuPW7nNh+sFZgQW9Vw==
+X-Gm-Gg: ASbGncvw4qud+DonhFkjVDcJzi3EqgToQcFqdBgtJTlHW7XuZrj6BgSVdA9aQT1DqVO
+	FQuHF6Lwmr4pUwGAaPGYBqi/5TSfz15oL6Jgc+Y5AMOc4dFoTFeSWxSGFuIL8+8V4PtX4mh2J6n
+	ffo1M5P1tCh2Lkw4waC1K+aW4EUBNcwJvP/v689ihokeexkgg0OdvtqlcuZMRRKYOyabpdZdLFu
+	WLTuanMdcNn9GQQCRQJTO0TXFq19Yktjz9blWDT09VQd/Md61UQ8zoRyenD/r91tiuVQc7kJZcC
+	q9QI07wsfBcn16db4eHppeKKFKVv7XjaMeH4h6ImMnHAJK7HQCK2I/+48GG1VBEKqC8m9nCONyS
+	SmiY+rf6irm22TAeBoecFrnygk4wcY1DFJcBsydUZkBCyeSwcHKuHhSg4xxQ=
+X-Received: by 2002:a17:90b:2243:b0:340:be2e:9884 with SMTP id 98e67ed59e1d1-340be2e9c84mr5431665a91.1.1762176259945;
+        Mon, 03 Nov 2025 05:24:19 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEbQpnGgNePOdLV6tgr44laSI5gUkCBQFkvptxvt0UkB+hMtzVUugM1w2gY/N5KHOo3c0JxpQ==
+X-Received: by 2002:a17:90b:2243:b0:340:be2e:9884 with SMTP id 98e67ed59e1d1-340be2e9c84mr5431641a91.1.1762176259404;
+        Mon, 03 Nov 2025 05:24:19 -0800 (PST)
 Received: from gu-dmadival-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3407ec24330sm6614812a91.2.2025.11.03.05.24.17
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3407ec24330sm6614812a91.2.2025.11.03.05.24.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Nov 2025 05:24:18 -0800 (PST)
+        Mon, 03 Nov 2025 05:24:19 -0800 (PST)
 From: Deepa Guthyappa Madivalara <deepa.madivalara@oss.qualcomm.com>
-Date: Mon, 03 Nov 2025 05:24:05 -0800
-Subject: [PATCH v4 1/5] media: uapi: videodev2: Add support for AV1
- stateful decoder
+Date: Mon, 03 Nov 2025 05:24:06 -0800
+Subject: [PATCH v4 2/5] media: v4l2: Add description for V4L2_PIX_FMT_AV1
+ in v4l_fill_fmtdesc()
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -105,7 +105,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251103-av1d_stateful_v3-v4-1-33cc1eaa83f2@oss.qualcomm.com>
+Message-Id: <20251103-av1d_stateful_v3-v4-2-33cc1eaa83f2@oss.qualcomm.com>
 References: <20251103-av1d_stateful_v3-v4-0-33cc1eaa83f2@oss.qualcomm.com>
 In-Reply-To: <20251103-av1d_stateful_v3-v4-0-33cc1eaa83f2@oss.qualcomm.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -119,83 +119,60 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
         Nicolas Dufresne <nicolas.dufresne@collabora.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1762176256; l=2547;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1762176256; l=1278;
  i=deepa.madivalara@oss.qualcomm.com; s=20250814; h=from:subject:message-id;
- bh=SZrZjo2s0yDcGXFZCdWPCh5Pkm0hk0faJ9y/OoFuzs8=;
- b=xSuETWOuPoqI9D+MZWk5uNiBkn43qGqWDa3uSgo70INpcWRAUANQ3xtkRbzI+KII7cm+NG62e
- +94auhPzarMAsqe/rvCC/wce1tvZ0f2cwQxCKu8JtN8Xoda6Pq7iyYU
+ bh=lQvghmf454Nrr1HSejyrgphE01hNnR8XL04TB97Hm0k=;
+ b=unlrN9so8n+4P8zp+QLkA173F6rkQITUlMylEac1SYvbehQz+RJBjiL7McxP42G+mHUm4n3H5
+ shaCNn7X1JAD1R2D0zQypHAc217TS7/uCURfrZR3pwqcaQrtXpJ6f1q
 X-Developer-Key: i=deepa.madivalara@oss.qualcomm.com; a=ed25519;
  pk=MOEXgyokievn+bgpHdS6Ixh/KQYyS90z2mqIbQ822FQ=
-X-Authority-Analysis: v=2.4 cv=P7Q3RyAu c=1 sm=1 tr=0 ts=6908ad04 cx=c_pps
- a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTAzMDEyMSBTYWx0ZWRfX8jzlPbMK1KtX
+ 7tpE2xI5FKIvpSEduDQ9qqqpYsJ0h3AO3O5zT1oUq+i+ByYiA7KEpiX5JgVHnKwN5S/nZ0Qz2jj
+ vTzKbDG3YRbcH7NGkiWwBlPuO01sNC2RS0KGn6Y+aoGdt+mO24JVA7u3QU0ybwHLNHVaNYqSEJu
+ w1/TG0wt7chuuiSOM8EGwx03cxFfBviMJUwbidSGfhKNmSRaCk5r9uwQ1AoI4cvkNTxpU/y7shI
+ ecJxiIRTlRQH+jJJcNhbf5mYK+gjqY6CLjGFDojwI8MJv0bZfkLKB07M0Rzuend/7ku51Bta4ds
+ cj/tG5Cm8zyLAaCdMhuJEQBcJ2CXmHNY5yye5sJ6kA/edL2v7rCnF77zjRYE3lK6nEb1/E9HzR/
+ 7ymHriAG381FqEWmu0FIksDXs1zYdQ==
+X-Proofpoint-ORIG-GUID: l2vUscr23leYoLXRF6xY1Lk79yHcAlpL
+X-Proofpoint-GUID: l2vUscr23leYoLXRF6xY1Lk79yHcAlpL
+X-Authority-Analysis: v=2.4 cv=Q9HfIo2a c=1 sm=1 tr=0 ts=6908ad04 cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
  a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
  a=VkNPw1HP01LnGYTKEx00:22 a=KKAkSRfTAAAA:8 a=QX4gbG5DAAAA:8 a=EUspDBNiAAAA:8
- a=5q8hE9cQKCNJD2usWYQA:9 a=QEXdDO2ut3YA:10 a=uKXjsCUrEbL0IQVhDsJ9:22
+ a=3VFMuRvh7oFGMF0ZDtIA:9 a=QEXdDO2ut3YA:10 a=mQ_c8vxmzFEMiUWkPHU9:22
  a=cvBusfyB2V15izCimMoJ:22 a=AbAUZ8qAyYyZVLSsDulk:22
-X-Proofpoint-GUID: Z7jNVEQZEVXjj5PFeictlli1WRR0Vh9F
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTAzMDEyMSBTYWx0ZWRfX8yHNvhsGrjJs
- R4s5ienIvRLvP3yj4hS4FnK+Y+V8/wcDbAcYwddLLszIx1ckrGLMk60IO2Orb96Z5u396RIB+ct
- yPpTtQUgjIrDORMkvxDg6eoumIEmo+zMI0J2NvmUmP1w34tfjLTjm19L7IQQ3MTgdzdZ5pQE0qd
- PR58rZkzsjUNeXMCaOBgg65oOcmQ8DQV8bXJ5wyZ9cYgx/8HqZu+wynreYrXRg6zjvJd1QhgG8e
- Tqi/JTQc5p6/Ja7A9AUPrkZRj51Pri6d90KmiFcT7adkmp4QLJJ2dkPHx5/mufHzA9zv3Fg+uBD
- vyi83343VMIAUeDMENI76ysecMVbYgH2KYzjbBkJq9pDuBn82bsMJf/kpMs1HENuzVfkiLOFigu
- 5nWk7R6K0EUhHaXoEXih8i/EEd4Unw==
-X-Proofpoint-ORIG-GUID: Z7jNVEQZEVXjj5PFeictlli1WRR0Vh9F
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-11-03_02,2025-11-03_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 phishscore=0
- clxscore=1015 suspectscore=0 adultscore=0 malwarescore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511030121
+ lowpriorityscore=0 impostorscore=0 phishscore=0 priorityscore=1501
+ suspectscore=0 bulkscore=0 adultscore=0 clxscore=1015 malwarescore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2511030121
 
-Introduce a new pixel format, V4L2_PIX_FMT_AV1, to the
-Video4Linux2(V4L2) API. This format is intended for AV1
-bitstreams in stateful decoding/encoding workflows.
-The fourcc code 'AV10' is used to distinguish
-this format from the existing V4L2_PIX_FMT_AV1_FRAME,
-which is used for stateless AV1 decoder implementation.
+Add a descriptive string for the AV1 pixel format to v4l_fill_fmtdesc(),
+enabling proper reporting of AV1 support via VIDIOC_ENUM_FMT.
 
 Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 Signed-off-by: Deepa Guthyappa Madivalara <deepa.madivalara@oss.qualcomm.com>
 ---
- Documentation/userspace-api/media/v4l/pixfmt-compressed.rst | 8 ++++++++
- include/uapi/linux/videodev2.h                              | 1 +
- 2 files changed, 9 insertions(+)
+ drivers/media/v4l2-core/v4l2-ioctl.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-index c7efb0465db6480fe35be8557728c196e0e530f4..0c70410ffd4d58e0719d3cf13ad336c97b454ae9 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-@@ -275,6 +275,14 @@ Compressed Formats
-         of macroblocks to decode a full corresponding frame to the matching
-         capture buffer.
- 
-+    * .. _V4L2-PIX-FMT-AV1:
-+
-+      - ``V4L2_PIX_FMT_AV1``
-+      - 'AV01'
-+      - AV1 compressed video frame. This format is adapted for implementing AV1
-+        pipeline. The decoder implements stateful video decoder and expects one
-+        Temporal Unit per buffer from OBU-stream or AnnexB.
-+        The encoder generates one Temporal Unit per buffer.
- .. raw:: latex
- 
-     \normalsize
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index becd08fdbddb857f8f2bf205d2164dc6e20e80b2..cf0b71bbe0f9d397e1e6c88433a0fc3ba11fb947 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -775,6 +775,7 @@ struct v4l2_pix_format {
- #define V4L2_PIX_FMT_H264_SLICE v4l2_fourcc('S', '2', '6', '4') /* H264 parsed slices */
- #define V4L2_PIX_FMT_HEVC_SLICE v4l2_fourcc('S', '2', '6', '5') /* HEVC parsed slices */
- #define V4L2_PIX_FMT_AV1_FRAME v4l2_fourcc('A', 'V', '1', 'F') /* AV1 parsed frame */
-+#define V4L2_PIX_FMT_AV1      v4l2_fourcc('A', 'V', '0', '1') /* AV1 */
- #define V4L2_PIX_FMT_SPK      v4l2_fourcc('S', 'P', 'K', '0') /* Sorenson Spark */
- #define V4L2_PIX_FMT_RV30     v4l2_fourcc('R', 'V', '3', '0') /* RealVideo 8 */
- #define V4L2_PIX_FMT_RV40     v4l2_fourcc('R', 'V', '4', '0') /* RealVideo 9 & 10 */
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 01cf52c3ea33e1a01e1b306036ba4e57ef5c95d0..bdfdf45c5de2f2ce885f219007718a54b5c86251 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1542,6 +1542,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 		case V4L2_PIX_FMT_QC10C:	descr = "QCOM Compressed 10-bit Format"; break;
+ 		case V4L2_PIX_FMT_AJPG:		descr = "Aspeed JPEG"; break;
+ 		case V4L2_PIX_FMT_AV1_FRAME:	descr = "AV1 Frame"; break;
++		case V4L2_PIX_FMT_AV1:		descr = "AV1 OBU stream"; break;
+ 		case V4L2_PIX_FMT_MT2110T:	descr = "Mediatek 10bit Tile Mode"; break;
+ 		case V4L2_PIX_FMT_MT2110R:	descr = "Mediatek 10bit Raster Mode"; break;
+ 		case V4L2_PIX_FMT_HEXTILE:	descr = "Hextile Compressed Format"; break;
 
 -- 
 2.34.1
