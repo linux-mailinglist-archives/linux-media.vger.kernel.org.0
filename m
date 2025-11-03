@@ -1,133 +1,196 @@
-Return-Path: <linux-media+bounces-46206-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-46207-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A03DC2B97E
-	for <lists+linux-media@lfdr.de>; Mon, 03 Nov 2025 13:18:02 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C134C2BA68
+	for <lists+linux-media@lfdr.de>; Mon, 03 Nov 2025 13:25:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 387364EC96F
-	for <lists+linux-media@lfdr.de>; Mon,  3 Nov 2025 12:16:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 69DE618957AC
+	for <lists+linux-media@lfdr.de>; Mon,  3 Nov 2025 12:24:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F25B030AD1D;
-	Mon,  3 Nov 2025 12:16:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 736DB30CDAB;
+	Mon,  3 Nov 2025 12:23:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="AInRrPnk"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="APEaBeGR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from out162-62-57-64.mail.qq.com (out162-62-57-64.mail.qq.com [162.62.57.64])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEF3A21D3F0;
-	Mon,  3 Nov 2025 12:16:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 931B52D0C92;
+	Mon,  3 Nov 2025 12:23:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762172184; cv=none; b=J7u2GHBkne++HPbiySwGKo/4dztQYaqy9/YrW8Mag2nT8qfPjnQSsYLVGxnJFowawVWNN2yK0ircN8p2gJAlViCocTPvJRkjhfxfRAqm4FpD9nnjXrX+HeBgBQNhxEsQZ4MTVo/QdE1P+6SHbpofpbLh6ldQH1u34Asjrf4CuIg=
+	t=1762172617; cv=none; b=RexqJGkzFRigtmDdXRNunGMIg1BLlwy3a+NJ7BsFbH9+/6IB1J5x++VH5w3wdLn1Vbp04sPSsjuL9zwHkESf7zNIv01r0HvvrK45+ttp2FdqCIOxf5ko6Q0/lGOpP7stc1BnIRQ617GsQouQfku77IbCVlOed/8mjVPK7L1umbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762172184; c=relaxed/simple;
-	bh=6krgWtqrGcUs/3srWaBGKYaon5zOH66rvyRQwKTNAYg=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=oVTkgsFGkug8yxMBU36O/SLwPBAsB0dRxEFIdUBzm6DOEyo76WBDaoH2kHrLqKJ9G3LJgsveDTkfgkF9EFK4Li8nHIKbZdsrbfUJOHUN/wHADrhayUZdNmVOfmPjN/7fakmOzc/gXAJut0ZB2+r3/8wmlJc3O89+vfKV/Ute3fM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=AInRrPnk; arc=none smtp.client-ip=162.62.57.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1762171871; bh=WFePNAZGR4tQn9FIlJTTpZn4dniKjCQurdOMqdPydC4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=AInRrPnksJMYjSNNtZk0hNwQ47VHtzZgHQeMUdl9u8ZtaRoYcDaeRCtbupLdudEak
-	 Lx3inBB2JMcUPfeogiplxYErOG6gzr/LP46jrPgvQV7V9DTT2dafrV/IB5AZZP43xi
-	 ctAH5sAcuwxLk6A2VEpdEYLMYvxeli9DYJNbTB54=
-Received: from pek-lxu-l1.corp.ad.wrs.com ([111.201.7.117])
-	by newxmesmtplogicsvrsza56-0.qq.com (NewEsmtp) with SMTP
-	id E711D030; Mon, 03 Nov 2025 19:57:49 +0800
-X-QQ-mid: xmsmtpt1762171069tbsjfar7s
-Message-ID: <tencent_7D8067C646C712F50668898DEEC9AEE48C06@qq.com>
-X-QQ-XMAILINFO: NVJ0hJNx7N5SbHuNsjjI99gdChJWFrhEaEO2fz9GKo04uhP3B05ApCdOdGAaB0
-	 NTLvE+/XOzKcAUqeXoICv+lWPdGvIbNZR533IEGg7HtSKyPTTi5IcUrrlrCiPRfwhs8ctKIqv9xD
-	 RlhLod0vaOaJdVwKfVaI5WOX1/8pjbJ3xHQ+TdkuEGwIj743AmU9vLTnbQvPyC2CnXKWbe18cp3J
-	 7rNCtSv/rQHSsx98EfsQVQtX9RHvo3M5TzFuZcD0nqnhOY+x85wtMOAHwJ5zI44lC6GANKNIRxqj
-	 npot38WHE94sd7BH8B1gfySo2N2W88vD+qI2kCy45HGlwt88i9vLeRut9GEnr7cIJ/RC5nNxEH2d
-	 Uh8tcJSH5bI4ovjlbwiMrEY7E4LOULhhKkTVpHwS6ObwBuBGRH30C3h4YdnvXuo075q3KNj8v2cu
-	 1w9Bh7jzfPRTLH5PbxRjdrV6f2R7ulOtPARuthYkUBQxPji8t4EvR/U3UnDHK/RwSqriW8bCLl43
-	 pOHoA3cfNQbBUN2bGdVx3Z+mH82xzhM5boThy0T/MQOs+APGkPliWBxPsCyEen1e2/54jT7UuEAk
-	 RoEMlOD4s/O3NF5b9Y/uZ2FGnXuHgmhK8IDGu+lkMQ1dRC9+37xkPt1eBDGbAoQ5yR2plScAKEcl
-	 wSfiqmv4zUSUmZUH2A/sUKKXeSOM6sOU3DE9z6UeWDortVSv9ygLMLvbCh8jTshybU9HeoEBlrx6
-	 3Mae40iAMQLJ83N3VDZnmWDA8imsid1Ed84CNK2kdrcEZBP0RdNuIBy5PsqGq/+Q6LI0lJWWl62W
-	 gL9p8TemNAKG6EHHPTgfSUyOavxwU/NtH41koGDtJQBCxZ4sWU1Yr8HziqqHP7dH49PsYWN+b1pR
-	 /aTK5Dl8xwc1SVP2eU+Qm67r7x93AD7DYB6Jf1O8X2bvUiP3iUwAfqEDCLzHS6hCpo0rImvShFO+
-	 nyyLpmI4mzhxp6COf8hCVf3Jyl1cDt+ksPi1ZLxzleftqZgTdWQ4gOI911NUH40JEqZFDZ6a3ars
-	 9FDmiRMA==
-X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
-From: Edward Adam Davis <eadavis@qq.com>
-To: hverkuil+cisco@kernel.org
-Cc: eadavis@qq.com,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	mchehab@kernel.org,
-	syzbot+480edd2cadb85ddb4bbe@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com
-Subject: [PATCH V3] media: dvb-usb: pctv452e: move snd/rcv len check before kmalloc
-Date: Mon,  3 Nov 2025 19:57:49 +0800
-X-OQ-MSGID: <20251103115748.1724573-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <9f9d2240-63be-4232-8ad6-44821d2b9177@kernel.org>
-References: <9f9d2240-63be-4232-8ad6-44821d2b9177@kernel.org>
+	s=arc-20240116; t=1762172617; c=relaxed/simple;
+	bh=HEShMzZKAsuD2pJQ1j+0chm5T3Nli1m/xpt2pjx+ejY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=N6+nXcJ5gTe+r2CLoiRbZwtXGNvAQQlPs5JVoZxLwlC/vFebG52W903G8SAkWbO6u/En+mKHNPdy8roEKogOYL916U5wUW4n+qarbUCRqmmlzH0jzL0KHwfe8+GD5UFKnh7zQVuPtQSH0oA3p9t7CpMUsDxP9FWyjArEscZAozQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=APEaBeGR; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (82-203-160-149.bb.dnainternet.fi [82.203.160.149])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id E5E7F99F;
+	Mon,  3 Nov 2025 13:21:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1762172501;
+	bh=HEShMzZKAsuD2pJQ1j+0chm5T3Nli1m/xpt2pjx+ejY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=APEaBeGRxHqPYPNuEVrAcHNep/jjdgFLhbG9UWla37ARJU0RUb2V20wikG9Y5WtAc
+	 Jb4OimaCU+KfrW35gTqmK6nrnaMqy7Fc2sdC9dX8JXa9q5w610E5Tw1iy8FiYPCvLl
+	 5s+Pl1rwsehi3cDP7nFSXLUHRSe9QB8r3+d+yUkc=
+Date: Mon, 3 Nov 2025 14:23:20 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Frank Li <Frank.li@nxp.com>
+Cc: Guoniu Zhou <guoniu.zhou@oss.nxp.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Guoniu Zhou <guoniu.zhou@nxp.com>
+Subject: Re: [PATCH 1/3] media: dt-bindings: nxp,imx8-isi: Add i.MX95 ISI
+ compatible string
+Message-ID: <20251103122320.GT27255@pendragon.ideasonboard.com>
+References: <20251024-isi_imx95-v1-0-3ad1af7c3d61@nxp.com>
+ <20251024-isi_imx95-v1-1-3ad1af7c3d61@nxp.com>
+ <aPuAVqVUHjrPCbIH@lizhi-Precision-Tower-5810>
+ <20251026220438.GG13023@pendragon.ideasonboard.com>
+ <aP/F3joJ0RnL0G1z@lizhi-Precision-Tower-5810>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aP/F3joJ0RnL0G1z@lizhi-Precision-Tower-5810>
 
-syzbot reported a uninit-value in pctv452e_i2c_msg. [1]
+On Mon, Oct 27, 2025 at 03:19:58PM -0400, Frank Li wrote:
+> On Mon, Oct 27, 2025 at 12:04:38AM +0200, Laurent Pinchart wrote:
+> > On Fri, Oct 24, 2025 at 09:34:14AM -0400, Frank Li wrote:
+> > > On Fri, Oct 24, 2025 at 05:46:52PM +0800, Guoniu Zhou wrote:
+> > > > From: Guoniu Zhou <guoniu.zhou@nxp.com>
+> > > >
+> > > > The ISI module on i.MX95 supports up to eight channels and four link
+> > > > sources to obtain the image data for processing in its pipelines. It
+> > > > can process up to eight image sources at the same time.
+> > > >
+> > > > Signed-off-by: Guoniu Zhou <guoniu.zhou@nxp.com>
+> > > > ---
+> > > >  .../devicetree/bindings/media/nxp,imx8-isi.yaml    | 26 +++++++++++++++++++++-
+> > > >  1 file changed, 25 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml b/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
+> > > > index f43b91984f0152fbbcf80db3b3bbad7e8ad6c11e..eaab98ecf343a2cd3620f7469c016c3955d37406 100644
+> > > > --- a/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
+> > > > +++ b/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
+> > > > @@ -23,6 +23,7 @@ properties:
+> > > >        - fsl,imx8mp-isi
+> > > >        - fsl,imx8ulp-isi
+> > > >        - fsl,imx93-isi
+> > > > +      - fsl,imx95-isi
+> > > >
+> > > >    reg:
+> > > >      maxItems: 1
+> > > > @@ -49,7 +50,7 @@ properties:
+> > > >    interrupts:
+> > > >      description: Processing pipeline interrupts, one per pipeline
+> > > >      minItems: 1
+> > > > -    maxItems: 2
+> > > > +    maxItems: 8
+> > > >
+> > > >    power-domains:
+> > > >      maxItems: 1
+> > > > @@ -109,6 +110,29 @@ allOf:
+> > > >              - port@0
+> > > >              - port@1
+> > > >
+> > > > +  - if:
+> > > > +      properties:
+> > > > +        compatible:
+> > > > +          contains:
+> > > > +            const: fsl,imx95-isi
+> > > > +    then:
+> > > > +      properties:
+> > > > +        interrupts:
+> > > > +          maxItems: 8
+> > >
+> > > should minItems: 8 because you already limit maxItems at top;
+> >
+> > As far as I understand, when no "items" are specified, minItems defaults
+> > to 1, and maxItems defaults to minItems (if specified) or 0 (if minItems
+> > is not specified). This is implemented in dtschema/lib.py of
+> > https://github.com/devicetree-org/dt-schema.git.
+> >
+> > Then, in dtschema/fixups.py, if only one of minItems or maxItems is
+> > specified, the other one is set to the same value. I believe relying on
+> > this is frowned upon by the DT maintainers.
+> >
+> > We could specify minItems only here, as the top-level constraint will
+> > ensure we don't go over 8. That's not very future-proof though, so I
+> > think specifying both minItems and maxItems would be best. Confirmation
+> > from a DT maintainer would be appreciated.
+> 
+> I pretty sure I am correct. please below thread, I met many similar cases
+> before.
+> https://lore.kernel.org/imx/72c29785-eb7a-4cc8-a74c-3aad50129a23@kernel.org/
 
-When the snd_len or rcv_len check fails and jumps to failed, buf is
-uninitialized, triggering the uninit-value issue.
+I discussed this with Krzysztof on IRC last week. He said that in
+conditional statements, both minItems and maxItems should be set, except
+when one of them is a border constraint (being the same as the top-level
+constraint). In that case it can be omitted.
 
-Move the snd/rcv length check before kmalloc, and return -EINVAL directly
-if the condition is met.
+So in this particular case you're right, we should specify minItems
+here, not maxItems.
 
-[1]
-BUG: KMSAN: uninit-value in hex_string+0x681/0x740 lib/vsprintf.c:1220
- pctv452e_i2c_msg+0x82a/0x8f0 drivers/media/usb/dvb-usb/pctv452e.c:467
- pctv452e_i2c_xfer+0x2e6/0x4c0 drivers/media/usb/dvb-usb/pctv452e.c:502
+> > The fsl,imx8mp-isi block above should then be fixed. It currently only
+> > has maxItems set, minItems should be set to 2 as well.
 
-Reported-by: syzbot+480edd2cadb85ddb4bbe@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=480edd2cadb85ddb4bbe
-Signed-off-by: Edward Adam Davis <eadavis@qq.com>
----
-V1 -> V2: subject typos
-V2 -> V3: move the check before kmalloc
+The fsl,imx8mp-isi conditional block should specify both minItems and
+maxItems, and set both to 2.
 
- drivers/media/usb/dvb-usb/pctv452e.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+> >
+> > > > +        ports:
+> > > > +          properties:
+> > > > +            port@0:
+> > > > +              description: Pixel Link Slave 0
+> > > > +            port@1:
+> > > > +              description: Pixel Link Slave 1
+> > > > +            port@2:
+> > > > +              description: MIPI CSI-2 RX 0
+> > > > +            port@3:
+> > > > +              description: MIPI CSI-2 RX 1
+> > > > +          required:
+> > > > +            - port@2
+> > > > +            - port@3
+> > > > +
+> > >
+> > >      else
+> > >        properties:
+> > >          interrupts:
+> > >            maxItem: 2
+> > >
+> > > to keep the same restriction for existed compatible string.
+> >
+> > We already specify the number of interrupts in two separate conditional
+> > blocks above, with any else statement (for all but fsl,imx8mp-isi first,
+> > and then for fsl,imx8mp-isi). Both specify maxItems, so I think we're
+> > fine.
+> >
+> > > >  additionalProperties: false
+> > > >
+> > > >  examples:
 
-diff --git a/drivers/media/usb/dvb-usb/pctv452e.c b/drivers/media/usb/dvb-usb/pctv452e.c
-index 5094de9a312e..bc7a224d829e 100644
---- a/drivers/media/usb/dvb-usb/pctv452e.c
-+++ b/drivers/media/usb/dvb-usb/pctv452e.c
-@@ -422,16 +422,15 @@ static int pctv452e_i2c_msg(struct dvb_usb_device *d, u8 addr,
- 	u8 id;
- 	int ret;
- 
-+	if (snd_len > 64 - 7 || rcv_len > 64 - 7)
-+		return -EINVAL;
-+
- 	buf = kmalloc(64, GFP_KERNEL);
- 	if (!buf)
- 		return -ENOMEM;
- 
- 	id = state->c++;
- 
--	ret = -EINVAL;
--	if (snd_len > 64 - 7 || rcv_len > 64 - 7)
--		goto failed;
--
- 	buf[0] = SYNC_BYTE_OUT;
- 	buf[1] = id;
- 	buf[2] = PCTV_CMD_I2C;
 -- 
-2.43.0
+Regards,
 
+Laurent Pinchart
 
