@@ -1,206 +1,113 @@
-Return-Path: <linux-media+bounces-46278-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-46282-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 564F0C308CC
-	for <lists+linux-media@lfdr.de>; Tue, 04 Nov 2025 11:40:02 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDE8CC30DB7
+	for <lists+linux-media@lfdr.de>; Tue, 04 Nov 2025 13:03:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 69A8F34BFBE
-	for <lists+linux-media@lfdr.de>; Tue,  4 Nov 2025 10:40:01 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 4B8BD4ECC5F
+	for <lists+linux-media@lfdr.de>; Tue,  4 Nov 2025 12:01:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DEF92D738A;
-	Tue,  4 Nov 2025 10:39:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47EFB2EC54B;
+	Tue,  4 Nov 2025 12:01:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SlNk83dt"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qOTvTDuU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D6527E04C;
-	Tue,  4 Nov 2025 10:39:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F6F31C8631;
+	Tue,  4 Nov 2025 12:01:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762252794; cv=none; b=UGZfcRROW5h4kDe6Al9rA8eUPPT64W8J28hvtRSNWNwSAqq3U8utCTRpzwS82ekJtXYI5ImCnR0pGZ2fbfBPGHpBmE0AObcHqkgsiOQqWKP2CFMs5KRKXnBFpwCWNQlmdO2NgNtabFEMskoQtfs4Gi2wbbzgA8zSU8BXNJM0qZo=
+	t=1762257708; cv=none; b=JoDhd4IQ8AATR1U3oFGmQTtosNIzggg8SXT3izMgb2+xmRyr0s/gLenANPHwfK5QZ1pIHEBFZEvkDA/49YtgL259bhXpGcF7CnbAFmkY+/4twbmUvYCyo9rbAN9R8RGCjCKsOE5enc5j9wg/x86DpsLlLsvq7ZYTYTtG44WV9Mc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762252794; c=relaxed/simple;
-	bh=bVSOpVrl2E+aD2iwJShLNXwchdC6N4vvdH0xbq0Wv7Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pHnstrxNg9yS17ADWxmx1s9gfBvrCfTsubepi5uSg9zSLUcpJJ8DUmAq6YxaEc3OyDHvBxN7XJe3PA7c4JRkVvF85U7UabNrcAMR6NsLrA+52/S/eWfyDdRnZV6Xw3DgEp2PkrsFCgevBXj8qf0GUGHN0ix/zN6QrtFHJJ/Lb7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SlNk83dt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4DC6C116B1;
-	Tue,  4 Nov 2025 10:39:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762252794;
-	bh=bVSOpVrl2E+aD2iwJShLNXwchdC6N4vvdH0xbq0Wv7Q=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=SlNk83dt1Smbc3hLuSAOFwWkfmmmmga4QZ2/iN/3hvrii36ah911xR1PZR6CrIzMW
-	 bZw4faGQ5Y7SCpkJqDpd5uAX1CHrdxz7S5+rPLO3U6mHZy06WdlubrhGRZIXF8WJrD
-	 7RHzF3sRp7Iez191RHjK0bMbNeIKDsYy0CaroJe1tyQvGL6Qc1/PNYmSE6BGlkjdfl
-	 lkycl49PkuqE5g7LvXy4gZC10Vy2odMekVQYQOk/17egZGcFZxQB9IK6WqNYNbO9sz
-	 FmLc0IesnZ3Yr3DHYFgYF9BHORkyuY/hKO6esZwjP5rJWFmz2pIhYx175Z1C9RAVf1
-	 Jl1MhdXrOJ2BQ==
-Message-ID: <0735f540-8085-440c-9c0f-7ac23b52b838@kernel.org>
-Date: Tue, 4 Nov 2025 10:39:50 +0000
+	s=arc-20240116; t=1762257708; c=relaxed/simple;
+	bh=An0ewd46tHrHSZlqEHw7QZnRHppOPRXPwAigI3eGGdg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fbBPkfZVC/vfKEpd7pnItR2wau73ljpSt+ltem7E/K2UvHL2dmqqdNKY3xyojmP6Cm9mw18AqZNyr3NLeGfchL40+Tk8yQWVnnVFqumWUDFjvHp1TGlMhdUx0pOiNoj8QIb0X54noXWuJAHVuAqqutvWzfwRVatccrsDDtTEczE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qOTvTDuU; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (82-203-160-149.bb.dnainternet.fi [82.203.160.149])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 0C7B61771;
+	Tue,  4 Nov 2025 12:59:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1762257590;
+	bh=An0ewd46tHrHSZlqEHw7QZnRHppOPRXPwAigI3eGGdg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qOTvTDuU/dMMg6zsQSX7/ptxTPdT6Es+qk54St1B7KoGxR0JxAallh3QPQgJ6v4pD
+	 QnMkggEkLC8lV12Zh5C9kECPN9SHrx6JXGH/FHOIIF+DNVwwPC8EJxVJb59eMurJRy
+	 /HzmqwnbSuBqDxvUdItSb0eWX9XQ+Lcv6pTM83Ik=
+Date: Tue, 4 Nov 2025 14:01:41 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH] media: dt-bindings: media: renesas,fcp: Allow three
+ clocks for RZ/V2N SoC
+Message-ID: <20251104120141.GC27255@pendragon.ideasonboard.com>
+References: <20251103194554.54313-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/5] media: qcom: iris: Improve format alignment for
- encoder
-To: Wangao Wang <wangao.wang@oss.qualcomm.com>,
- Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
- quic_qiweil@quicinc.com, quic_renjiang@quicinc.com
-References: <20251104-iris_encoder_enhancements-v3-0-63b0c431b4d0@oss.qualcomm.com>
- <k3umzf0z69-Hbh7jbT-Gjp4pyquNAYVC3VfIXQcdVZstI5FTtcGU_NEgb8l796Z3Cr6Dz0DQ0BoVQQPd4fr6sQ==@protonmail.internalid>
- <20251104-iris_encoder_enhancements-v3-1-63b0c431b4d0@oss.qualcomm.com>
-From: Bryan O'Donoghue <bod@kernel.org>
-Content-Language: en-US
-In-Reply-To: <20251104-iris_encoder_enhancements-v3-1-63b0c431b4d0@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251103194554.54313-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On 04/11/2025 08:11, Wangao Wang wrote:
-> Add members enc_raw_width, enc_raw_height to the struct iris_inst to
-> support codec alignment requirements.
+Hi Prabhakar,
+
+Thank you for the patch.
+
+On Mon, Nov 03, 2025 at 07:45:54PM +0000, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> HFI_PROP_CROP_OFFSETS is used to inform the firmware of the region
-> of interest, rather than indicating that the codec supports crop.
-> Therefore, the crop handling has been corrected accordingly.
+> Update the FCP DT schema to permit three clock inputs for the RZ/V2N SoC.
+> The FCP block on this SoC requires three separate clocks, unlike other
+> variants which use only one.
 > 
-> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-HDK
-> Signed-off-by: Wangao Wang <wangao.wang@oss.qualcomm.com>
+> Fixes: f42eddf44fbf ("media: dt-bindings: media: renesas,fcp: Document RZ/V2N SoC")
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
 > ---
->   .../platform/qcom/iris/iris_hfi_gen2_command.c     | 23 ++++++++++++++++------
->   drivers/media/platform/qcom/iris/iris_instance.h   |  4 ++++
->   drivers/media/platform/qcom/iris/iris_venc.c       | 10 ++++++++--
->   3 files changed, 29 insertions(+), 8 deletions(-)
+> Note, there are no current users of the RZ/V2N FCP compatible string in
+> the kernel tree.
+> ---
+>  Documentation/devicetree/bindings/media/renesas,fcp.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
-> index 4ce71a14250832440099e4cf3835b4aedfb749e8..2469e027706fb6c9c0b95be11109c3cd0f8d70ce 100644
-> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
-> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
-> @@ -168,8 +168,7 @@ static int iris_hfi_gen2_session_set_property(struct iris_inst *inst, u32 packet
-> 
->   static int iris_hfi_gen2_set_raw_resolution(struct iris_inst *inst, u32 plane)
->   {
-> -	u32 resolution = inst->fmt_src->fmt.pix_mp.width << 16 |
-> -		inst->fmt_src->fmt.pix_mp.height;
-> +	u32 resolution = inst->enc_raw_width << 16 | inst->enc_raw_height;
->   	u32 port = iris_hfi_gen2_get_port(inst, plane);
-> 
->   	return iris_hfi_gen2_session_set_property(inst,
-> @@ -216,8 +215,11 @@ static int iris_hfi_gen2_set_crop_offsets(struct iris_inst *inst, u32 plane)
->   	u32 port = iris_hfi_gen2_get_port(inst, plane);
->   	u32 bottom_offset, right_offset;
->   	u32 left_offset, top_offset;
-> +	u32 codec_align;
->   	u32 payload[2];
-> 
-> +	codec_align = inst->codec == V4L2_PIX_FMT_HEVC ? 32 : 16;
-> +
->   	if (inst->domain == DECODER) {
->   		if (V4L2_TYPE_IS_OUTPUT(plane)) {
->   			bottom_offset = (inst->fmt_src->fmt.pix_mp.height - inst->crop.height);
-> @@ -231,10 +233,19 @@ static int iris_hfi_gen2_set_crop_offsets(struct iris_inst *inst, u32 plane)
->   			top_offset = inst->compose.top;
->   		}
->   	} else {
-> -		bottom_offset = (inst->fmt_src->fmt.pix_mp.height - inst->crop.height);
-> -		right_offset = (inst->fmt_src->fmt.pix_mp.width - inst->crop.width);
-> -		left_offset = inst->crop.left;
-> -		top_offset = inst->crop.top;
-> +		if (V4L2_TYPE_IS_OUTPUT(plane)) {
-> +			bottom_offset = (inst->enc_raw_height - inst->crop.height);
-> +			right_offset = (inst->enc_raw_width - inst->crop.width);
-> +			left_offset = inst->crop.left;
-> +			top_offset = inst->crop.top;
-> +		} else {
-> +			bottom_offset = (ALIGN(inst->enc_raw_height, codec_align) -
-> +					inst->enc_raw_height);
-> +			right_offset = (ALIGN(inst->enc_raw_width, codec_align) -
-> +					inst->enc_raw_width);
-> +			left_offset = 0;
-> +			top_offset = 0;
-> +		}
->   	}
-> 
->   	payload[0] = FIELD_PREP(GENMASK(31, 16), left_offset) | top_offset;
-> diff --git a/drivers/media/platform/qcom/iris/iris_instance.h b/drivers/media/platform/qcom/iris/iris_instance.h
-> index 5982d7adefeab80905478b32cddba7bd4651a691..fbae1662947df73bb3d10b7892839fa1076b7e61 100644
-> --- a/drivers/media/platform/qcom/iris/iris_instance.h
-> +++ b/drivers/media/platform/qcom/iris/iris_instance.h
-> @@ -64,6 +64,8 @@ struct iris_fmt {
->    * @frame_rate: frame rate of current instance
->    * @operating_rate: operating rate of current instance
->    * @hfi_rc_type: rate control type
-> + * @enc_raw_width: raw image width for encoder instance
-> + * @enc_raw_height: raw image height for encoder instance
->    */
-> 
->   struct iris_inst {
-> @@ -102,6 +104,8 @@ struct iris_inst {
->   	u32				frame_rate;
->   	u32				operating_rate;
->   	u32				hfi_rc_type;
-> +	u32				enc_raw_width;
-> +	u32				enc_raw_height;
->   };
-> 
->   #endif
-> diff --git a/drivers/media/platform/qcom/iris/iris_venc.c b/drivers/media/platform/qcom/iris/iris_venc.c
-> index 099bd5ed4ae0294725860305254c4cad1ec88d7e..7ad747d2272f029e69a56572a188a032f898a3fb 100644
-> --- a/drivers/media/platform/qcom/iris/iris_venc.c
-> +++ b/drivers/media/platform/qcom/iris/iris_venc.c
-> @@ -62,12 +62,15 @@ int iris_venc_inst_init(struct iris_inst *inst)
-> 
->   	inst->crop.left = 0;
->   	inst->crop.top = 0;
-> -	inst->crop.width = f->fmt.pix_mp.width;
-> -	inst->crop.height = f->fmt.pix_mp.height;
-> +	inst->crop.width = DEFAULT_WIDTH;
-> +	inst->crop.height = DEFAULT_HEIGHT;
-> 
->   	inst->operating_rate = DEFAULT_FPS;
->   	inst->frame_rate = DEFAULT_FPS;
-> 
-> +	inst->enc_raw_width = DEFAULT_WIDTH;
-> +	inst->enc_raw_height = DEFAULT_HEIGHT;
-> +
->   	memcpy(&inst->fw_caps[0], &core->inst_fw_caps_enc[0],
->   	       INST_FW_CAP_MAX * sizeof(struct platform_inst_fw_cap));
-> 
-> @@ -249,6 +252,9 @@ static int iris_venc_s_fmt_input(struct iris_inst *inst, struct v4l2_format *f)
->   	inst->buffers[BUF_INPUT].min_count = iris_vpu_buf_count(inst, BUF_INPUT);
->   	inst->buffers[BUF_INPUT].size = fmt->fmt.pix_mp.plane_fmt[0].sizeimage;
-> 
-> +	inst->enc_raw_width = f->fmt.pix_mp.width;
-> +	inst->enc_raw_height = f->fmt.pix_mp.height;
-> +
->   	if (f->fmt.pix_mp.width != inst->crop.width ||
->   	    f->fmt.pix_mp.height != inst->crop.height) {
->   		inst->crop.top = 0;
-> 
-> --
-> 2.43.0
-> 
+> diff --git a/Documentation/devicetree/bindings/media/renesas,fcp.yaml b/Documentation/devicetree/bindings/media/renesas,fcp.yaml
+> index cf92dfe69637..b5eff6fec8a9 100644
+> --- a/Documentation/devicetree/bindings/media/renesas,fcp.yaml
+> +++ b/Documentation/devicetree/bindings/media/renesas,fcp.yaml
+> @@ -77,6 +77,7 @@ allOf:
+>                - renesas,r9a07g043u-fcpvd
+>                - renesas,r9a07g044-fcpvd
+>                - renesas,r9a07g054-fcpvd
+> +              - renesas,r9a09g056-fcpvd
+>                - renesas,r9a09g057-fcpvd
+>      then:
+>        properties:
 
-To me reading this patch you seem to have three or four different 
-alignment changed bunched into one.
+-- 
+Regards,
 
-I would prefer to see more granular and specific patches for each change.
-
-Please break this up into more bite size chunks.
-
----
-bod
+Laurent Pinchart
 
