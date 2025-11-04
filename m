@@ -1,108 +1,146 @@
-Return-Path: <linux-media+bounces-46245-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-46246-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1632C2F743
-	for <lists+linux-media@lfdr.de>; Tue, 04 Nov 2025 07:35:34 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90B37C2F8AD
+	for <lists+linux-media@lfdr.de>; Tue, 04 Nov 2025 08:01:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 26173189C27D
-	for <lists+linux-media@lfdr.de>; Tue,  4 Nov 2025 06:35:59 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B5E9E4E5F1A
+	for <lists+linux-media@lfdr.de>; Tue,  4 Nov 2025 07:00:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EDA5280308;
-	Tue,  4 Nov 2025 06:35:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49CDE3009F4;
+	Tue,  4 Nov 2025 07:00:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XvDt0/4J"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I1UEY/F8"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A65D1B7F4;
-	Tue,  4 Nov 2025 06:35:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7307E16DEB3;
+	Tue,  4 Nov 2025 07:00:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762238124; cv=none; b=H0TemPbxLSbt2vH4RYkCx/eqZqRvIEe9JUOGAEHMzk3qar6/BT4h3LDCoQ4KdU8EfuNbvrDcIfEz67gKp07njNljMcXLFukaC/kFYQV3zV1dV7bwTFxVgOh4hQCeAqu+oAsLCPNe02CV8aPaZydKS29KlWFUEooonW2RcNpZe5Y=
+	t=1762239630; cv=none; b=KcZzB1PrhujXRamZ4ExMUAF5RXN3SmYQJxqpihNqmqn+Megvz1TXD/RymTLoLMqtkZag33cLy9LG9Mbfjy6Sl35hpkwFdkeScUnGXPBHDJR3OcMujrCnGZ+XNC7UR1gunq1r2/R/hca36l9ci1s5MSpN4NH6dce6EK0E8bSzVdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762238124; c=relaxed/simple;
-	bh=eFuDg37ZQAag3sg5+6r+dhczzX8GMtILmYLd5akxHxk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Iix4Q+5TPbMxKa/oeMovRASRDrAoz5ly3ZlLtg0UOzZGXp+FG2bste1vpogTlBpPLWd+rd46kXxk2HBXoQbP7r0+el67hpPyf0FreFMcG0APcuWR6RO7LCXkPI89xbnaK9rzk1cHWAmZtW06AmR6WOzi2iP2liYG8FwFy4/V7EY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XvDt0/4J; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11309C4CEF7;
-	Tue,  4 Nov 2025 06:35:20 +0000 (UTC)
+	s=arc-20240116; t=1762239630; c=relaxed/simple;
+	bh=4X+6t70DXpoh2T+5EieuiIaGNQ+Nx/11qPV6DRFYJmY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HRoUpwqjxD2l/ralGuUgK5Qnj7LTdtIVFMwJw2up3J3s2N8DYb5928OZHp4eUUSTIiHghhlcm6hN+cDaT4NPTJulUsFD5PrCQehS+9WRQz/vJDhnj33YcMFcKmFuI3W/nSZ1N0WgZJOa5LWRC7IgBJhJbtOkk74ckVEIH5Ue/lw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I1UEY/F8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C40EC4CEF7;
+	Tue,  4 Nov 2025 07:00:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762238123;
-	bh=eFuDg37ZQAag3sg5+6r+dhczzX8GMtILmYLd5akxHxk=;
-	h=Date:Reply-To:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=XvDt0/4JxCDD8N4w4xQdVrdlLd63KTFg7ne6R5N3/7HZn88/qr7qw+gLTFv8Q3lUw
-	 Sk40/10HHnBfbmEpyhsLgTxR3xfuK0ZLvpVYN8hfoimKU6he8WNmvPz76BbftL2UiW
-	 cWbDPwlJiQhQgalfini5lXBV6LXkeEwmERW2tyFJrns6IQT+TEWDao1i9K6gOF+FJi
-	 BeEdrYjPwOVLuwah/q7rm0BeIxLzruNEYRaeNutohUqWkbM5p/0g/CwA+XoUh/v00H
-	 UdK8qCrq1Dk+23980NzcJB1P6idBLmFYuW4oJyTHl3lgdObPL3XPP6HE88Hm3SbxK5
-	 QcyGh/l2S6RkA==
-Message-ID: <ab56339a-8736-4d68-bf11-d27c8d591597@kernel.org>
-Date: Tue, 4 Nov 2025 07:35:19 +0100
+	s=k20201202; t=1762239630;
+	bh=4X+6t70DXpoh2T+5EieuiIaGNQ+Nx/11qPV6DRFYJmY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=I1UEY/F8kb6rmfO1N8znpDwknPo+zoeYokqXc5isZjuBzW2kwNIyURNneL551ILHq
+	 xB1qlT1GwIRyPrqploIY1BSnrb/M+gayul0auOGaYIzVZ5ipDhkzhnPwCHrtS0f6BC
+	 z5t1VvB9oLCq/rFMCgCk9VhSiEJuSXID8okNRaVWmbtPOK+n28WqZyhoHpfWmronvf
+	 FcGjEPq4VK6Yo+LBMfOfTVdislK0QSciIeNRcwvKA5aNqAeghvNKt/yYcDiNo2g9fQ
+	 ijAwMsISbHre8xNCfIwmhQpHnPPoDWGxgBNbI3zl0/Lwh8StDazLf/AgskMUfBm9kx
+	 ZlGWIVygzFi3w==
+Date: Tue, 4 Nov 2025 09:00:21 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Jens Axboe <axboe@kernel.dk>, Robin Murphy <robin.murphy@arm.com>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <skolothumtho@nvidia.com>,
+	Kevin Tian <kevin.tian@intel.com>
+Cc: Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, iommu@lists.linux.dev,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH v6 00/11] vfio/pci: Allow MMIO regions to be exported
+ through dma-buf
+Message-ID: <20251104070021.GC50752@unreal>
+References: <20251102-dmabuf-vfio-v6-0-d773cff0db9f@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: Daniel Gomez <da.gomez@kernel.org>
-Subject: Re: [PATCH v2 0/3] module: Add compile-time check for embedded NUL
- characters
-To: Kees Cook <kees@kernel.org>, Hans Verkuil <hverkuil+cisco@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Luis Chamberlain <mcgrof@kernel.org>,
- Malcolm Priestley <tvboxspy@gmail.com>, Hans Verkuil <hverkuil@kernel.org>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Rusty Russell <rusty@rustcorp.com.au>, Petr Pavlu <petr.pavlu@suse.com>,
- Sami Tolvanen <samitolvanen@google.com>, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-hardening@vger.kernel.org
-References: <20251010030348.it.784-kees@kernel.org>
- <176219902728.2668573.8447418880394997824.b4-ty@kernel.org>
- <202511031612.8A05E2FD1C@keescook>
-Content-Language: en-US
-From: Daniel Gomez <da.gomez@kernel.org>
-Organization: kernel.org
-In-Reply-To: <202511031612.8A05E2FD1C@keescook>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251102-dmabuf-vfio-v6-0-d773cff0db9f@nvidia.com>
 
+On Sun, Nov 02, 2025 at 10:00:48AM +0200, Leon Romanovsky wrote:
 
+<...>
 
-On 04/11/2025 01.13, Kees Cook wrote:
-> On Mon, Nov 03, 2025 at 08:49:43PM +0100, Daniel Gomez wrote:
->>
->> On Thu, 09 Oct 2025 20:06:06 -0700, Kees Cook wrote:
->>>  v2:
->>>  - use static_assert instead of _Static_assert
->>>  - add Hans's Reviewed-by's
->>>  v1: https://lore.kernel.org/lkml/20251008033844.work.801-kees@kernel.org/
->>>
->>> Hi!
->>>
->>> [...]
->>
->> Applied patch 3, thanks!
->>
->> [3/3] module: Add compile-time check for embedded NUL characters
->>       commit: 913359754ea821c4d6f6a77e0449b29984099663
+> ---
+> Jason Gunthorpe (2):
+>       PCI/P2PDMA: Document DMABUF model
+>       vfio/nvgrace: Support get_dmabuf_phys
 > 
-> I'm nervous about this going in alone -- it breaks allmodconfig builds
-> without the media fixes. My intention was to have the media fixes land
-> first...
+> Leon Romanovsky (7):
+>       PCI/P2PDMA: Separate the mmap() support from the core logic
+>       PCI/P2PDMA: Simplify bus address mapping API
+>       PCI/P2PDMA: Refactor to separate core P2P functionality from memory allocation
+>       PCI/P2PDMA: Provide an access to pci_p2pdma_map_type() function
+>       dma-buf: provide phys_vec to scatter-gather mapping routine
+>       vfio/pci: Enable peer-to-peer DMA transactions by default
+>       vfio/pci: Add dma-buf export support for MMIO regions
 > 
-> Should I send the media fixes to linus right away?
-> 
-> -Kees
-> 
+> Vivek Kasireddy (2):
+>       vfio: Export vfio device get and put registration helpers
+>       vfio/pci: Share the core device pointer while invoking feature functions
 
-I can take both patches. But I think it'd make sense to drop patch 3 first and
-then, apply all 3.
 
-Please, Kees, Hans and Mauro, let me know if this is okay with you.
+Hi,
+
+Can we get Acked-by for p2pdma and DMABUF parts?
+
+Thanks
+
+> 
+>  Documentation/driver-api/pci/p2pdma.rst |  95 +++++++---
+>  block/blk-mq-dma.c                      |   2 +-
+>  drivers/dma-buf/dma-buf.c               | 235 ++++++++++++++++++++++++
+>  drivers/iommu/dma-iommu.c               |   4 +-
+>  drivers/pci/p2pdma.c                    | 182 +++++++++++++-----
+>  drivers/vfio/pci/Kconfig                |   3 +
+>  drivers/vfio/pci/Makefile               |   1 +
+>  drivers/vfio/pci/nvgrace-gpu/main.c     |  56 ++++++
+>  drivers/vfio/pci/vfio_pci.c             |   5 +
+>  drivers/vfio/pci/vfio_pci_config.c      |  22 ++-
+>  drivers/vfio/pci/vfio_pci_core.c        |  56 ++++--
+>  drivers/vfio/pci/vfio_pci_dmabuf.c      | 315 ++++++++++++++++++++++++++++++++
+>  drivers/vfio/pci/vfio_pci_priv.h        |  23 +++
+>  drivers/vfio/vfio_main.c                |   2 +
+>  include/linux/dma-buf.h                 |  18 ++
+>  include/linux/pci-p2pdma.h              | 120 +++++++-----
+>  include/linux/vfio.h                    |   2 +
+>  include/linux/vfio_pci_core.h           |  42 +++++
+>  include/uapi/linux/vfio.h               |  27 +++
+>  kernel/dma/direct.c                     |   4 +-
+>  mm/hmm.c                                |   2 +-
+>  21 files changed, 1077 insertions(+), 139 deletions(-)
+> ---
+> base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
+> change-id: 20251016-dmabuf-vfio-6cef732adf5a
+> 
+> Best regards,
+> --  
+> Leon Romanovsky <leonro@nvidia.com>
+> 
+> 
 
