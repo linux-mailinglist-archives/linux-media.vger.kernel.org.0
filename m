@@ -1,289 +1,465 @@
-Return-Path: <linux-media+bounces-46248-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-46249-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id E49D1C2F904
-	for <lists+linux-media@lfdr.de>; Tue, 04 Nov 2025 08:13:48 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8838C2F9CE
+	for <lists+linux-media@lfdr.de>; Tue, 04 Nov 2025 08:29:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id AB78F4F1AD1
-	for <lists+linux-media@lfdr.de>; Tue,  4 Nov 2025 07:13:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BF359189DF6D
+	for <lists+linux-media@lfdr.de>; Tue,  4 Nov 2025 07:29:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8A91302776;
-	Tue,  4 Nov 2025 07:13:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 823453064A6;
+	Tue,  4 Nov 2025 07:28:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="CqmGv/TK"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l7h+/uWR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013027.outbound.protection.outlook.com [52.101.72.27])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B213019A7;
-	Tue,  4 Nov 2025 07:13:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.27
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762240396; cv=fail; b=ijPpT1swf9sr4e51rqT1fDIvgmPBtK9qqGCalyZn3Y8IV9wZpfPhBLsfkvTFz5HvKyOoOlLx8wO/TnheVz9qA6tlgKl6Ql1nnHGGeVfk20r2XJkXEudgk+R3hu/LY+0bSd0QBeDGUMRqwAaT37cp3MguH+lThenjU/Cwy5kMhTg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762240396; c=relaxed/simple;
-	bh=x2WjEmN4cZK0PaDU+5L3wnolWQ39LmwJWBoZAWRcV+g=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=TVMXIcD/gyDjH9Z9YJtHyO/8pz7OxIjdAd4I/i1fH89EYd6Xl83X5PBL1oElWzYDKhZZf7f2FBc1t/l1k3pOSXRdsXQ8jjvfdMm9zGs8XKPLNVJgQnZBefWnysM8rudxRFeszD3hrqHtJfvGTBu1ThvFk9tqL/P/gTrvO3xiAt8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=CqmGv/TK; arc=fail smtp.client-ip=52.101.72.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=G0ZP4Y3l2gw/usaSmP6mAhiG+fosEtEzEFu/nNWCN23tfKK0CDzXr2HYNRpcrom2rwPPH5YGnjZoshsbGszCi3BZ/cz2wrFk2U+1CrFNtqga9/ypP4P4sCwLa09TcD0zKcpGhuaUB6IfjSwpMHZ2c0seGnVwfiOTwOyFQcd5ONu6wx1bluDBtdRox8eXtb1889AltgD8TcABEc+0+amzxEu72oHTv38Uy2YkwgSCtApxlHoDJTCGzJiRb5ROv8GeCB7RAx04BMZX5iNhqnGUPDYiT41NZjhz/rrG6KZ7YUyBxs/E0ksVRd9U+0WkijyDwM06KFc/s5amx7UdjcoqHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=x2WjEmN4cZK0PaDU+5L3wnolWQ39LmwJWBoZAWRcV+g=;
- b=lB1eD6LK4c1fNjZC7pFz1Kq1Wtdepblez3N2kCWTpu/8/1fS80kwB8EkXDlZFMQWAGUd7eCiSJcFitSN5/OhtrThjln1UKj9KirqZ0y2RM7ik1Qp5WzA+d9iT1Mp2g7DvnrzI6xeaasB5ChwTrig7W/AhtyJO0OpsVzK/GyRk2Jaf7E909a/r5g5K96QxdNbS7bfMD+WVlXdRvAcas0ddPjsC4yp0uC9GW/Uu8mdywpDH9H6NcUxWUdHTrw10QH7lg5Fuh86hR6oyWFB0TclPlQ6scrMAad9Je0+B1/3aUukYRdSQJ/YnHsR1omEAuKUjPiKR5PDp/0nfxQYz1uhnA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x2WjEmN4cZK0PaDU+5L3wnolWQ39LmwJWBoZAWRcV+g=;
- b=CqmGv/TKwXTq08rt5TShP3QgDIHcjETqtDCGPojtm8auRZdmZNlAnLJDIiNhnsTH0ay4byGNCIfPqmVOWZZw3qRIg0F3csdba+jRWoe6m9yZ53AYo0nCH6JA3HPHVKPQ9zGWVfc4QYFDi9uD1hWhcIHQMuVYCyYjA0OahLboF7EyamLjwirXvXV3xsrIWCY8j2+8CKP0s9KI6OVx3UDeEWQQpx6guviWiJl4f+azA6uycEi5Z9yH2chh23D3YCW8zMqWlcwND5J241W23OLZwQhsRRtFfYSFU0o6keX6t8KAxcrfEgvvegw7MyRPkxkFXXOij/r7/cv69yYgVgN7dQ==
-Received: from AS8PR04MB9080.eurprd04.prod.outlook.com (2603:10a6:20b:447::16)
- by VI2PR04MB10572.eurprd04.prod.outlook.com (2603:10a6:800:27c::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.7; Tue, 4 Nov
- 2025 07:13:08 +0000
-Received: from AS8PR04MB9080.eurprd04.prod.outlook.com
- ([fe80::92c2:2e03:bf99:68eb]) by AS8PR04MB9080.eurprd04.prod.outlook.com
- ([fe80::92c2:2e03:bf99:68eb%6]) with mapi id 15.20.9275.015; Tue, 4 Nov 2025
- 07:13:08 +0000
-From: "G.N. Zhou (OSS)" <guoniu.zhou@oss.nxp.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, "G.N. Zhou (OSS)"
-	<guoniu.zhou@oss.nxp.com>
-CC: Rui Miguel Silva <rmfrfs@gmail.com>, Martin Kepplinger
-	<martink@posteo.de>, Purism Kernel Team <kernel@puri.sm>, Mauro Carvalho
- Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Shawn Guo
-	<shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>, Frank Li <frank.li@nxp.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "G.N. Zhou" <guoniu.zhou@nxp.com>, Conor
- Dooley <conor.dooley@microchip.com>
-Subject: RE: [PATCH v7 1/5] media: dt-bindings: nxp,imx8mq-mipi-csi2: Add
- i.MX8ULP compatible string
-Thread-Topic: [PATCH v7 1/5] media: dt-bindings: nxp,imx8mq-mipi-csi2: Add
- i.MX8ULP compatible string
-Thread-Index: AQHcTVp4y4GrTcEr9EOKDfGuDB00Gg==
-Date: Tue, 4 Nov 2025 07:13:07 +0000
-Message-ID:
- <AS8PR04MB9080D81CEDE343E00D1E7A64FAC4A@AS8PR04MB9080.eurprd04.prod.outlook.com>
-References: <20251023-csi2_imx8ulp-v7-0-5ecb081ce79b@nxp.com>
- <20251023-csi2_imx8ulp-v7-1-5ecb081ce79b@nxp.com>
- <20251027000537.GM13023@pendragon.ideasonboard.com>
-In-Reply-To: <20251027000537.GM13023@pendragon.ideasonboard.com>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS8PR04MB9080:EE_|VI2PR04MB10572:EE_
-x-ms-office365-filtering-correlation-id: 5fb10425-a033-4d95-e8cb-08de1b719b0c
-x-ms-exchange-sharedmailbox-routingagent-processed: True
-x-ld-processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|376014|19092799006|1800799024|366016|38070700021;
-x-microsoft-antispam-message-info:
- =?utf-8?B?aklMbmNaUFQySmpLb29mc3pZanZsRko4NWx6aDNXaVd6RkRieVJDNFZUOFpz?=
- =?utf-8?B?OUxUSWxrNVJGT3Z5d3pBcVg1eERDczRlWUk4K2xybzl0UjJ3aWQwei91N1Jo?=
- =?utf-8?B?cGtKNUtYY3ZIcVh6ZEZIVndzbDlMd1pMUUZpN0VvQTByS1N3dzBjSnJ0b1Ro?=
- =?utf-8?B?UlJnd2hFak9SVVNvdkFoNEgxaERoblJ2TE9TTlJaSmhocStiSnQydHNyeHpH?=
- =?utf-8?B?bG1CaVBHREI1a1hGQzllV3BFdUNaSVl0VDE2aWx6T2NhQVZXKzhxNlkvRzBF?=
- =?utf-8?B?cm1menM5a1BHVThoZDhYUFRmcVhrRGljWkc2dzlBNlNUZ1J6UHRSL3AvMG5k?=
- =?utf-8?B?endkMCtHdHduVkJldFRLYWVSdnFyT3BvYVRIZEZyTVlmemZ1R0UySFIxN210?=
- =?utf-8?B?TmtESm1LNTJaNEkyUGZ4R3BXN09LNy9UVkc2V1Uvd2thUmhlNXNueldPNzJP?=
- =?utf-8?B?VlUwWXBUSElQQ0tZUXZoakNRK0dNdExWTmJ2dy9oalY1YzBtblBzcjdSbDEw?=
- =?utf-8?B?QXJIVXVKOG5EakN4b3VSbEltV3FaOEUzZFZ3ZUVlQ2VnTFZuazM4YlhIU2dI?=
- =?utf-8?B?MGZLWE11cmpveUgvSTlFbVRxVGk3RVhmb1czRFVyNENVcGZMWWs5NCtiWG84?=
- =?utf-8?B?Tm5tbjQyUURPMkhaanphWk9tQ0dNOCtiUmpFQklzTmV1WW0yclNzWXhXOTNT?=
- =?utf-8?B?MmxCTjdTdzRrOGIrVTlBTVdPaE1UQ0lnRFo1cmFSWnFhUnFnV285b2UrZHhZ?=
- =?utf-8?B?VHhHbVpycnp5YU9mSGNpOS9xVUlSK3YyUlBTK0JhUGNtUDJITEtMZUE3NlBD?=
- =?utf-8?B?QVM2b3pmeWxOZ29HZDc3MllYZ0Rqb3QveGIwL0ZnaENkTE0rQkYvYXk3VFNG?=
- =?utf-8?B?OEhUNEZlWlZGWG1FanZZUU03b0VhTXhLWnZxOCtXMC9jK2YrVFJvNkJZZXdU?=
- =?utf-8?B?V0x3cGRQTEw2eEVNS0tFTERLcDdqSzh2SWxNRTBnUTZDZWRPYUd3TTRCTEVO?=
- =?utf-8?B?cTBUZ0tsYS9rRUxHWXc1K3Y5bUdqRUN2dm5BYWdVRUxKTXYxUlFYbktua1NF?=
- =?utf-8?B?MGFlQS9BSmpmRE1ldzlNeWlJczhxYis0TGI0Yi9aZzNXL2RyU28vTFA5K0xx?=
- =?utf-8?B?K2xQekpHVTFObUtucU5GMWhjNUluUUxjNm16V2FZSHR0cWZVVHljbDFoTmdR?=
- =?utf-8?B?ZU9WQUxDcE1DOGJxQzBpMUgrcWN0TWJ3MTJWaCtmSWJWQk1CR29FaWlCT0V0?=
- =?utf-8?B?SEYvVkwzUWZkTVpRMTNac2FGODYyS3poTWtDaFhJTjNZdDVhZDVlWmE5SmhY?=
- =?utf-8?B?ckFIRWgyQUlnUEVXMUxJTUF2WEFpV1BMeHRhZTFDRkpMN3k4ck0yWm4wSmRF?=
- =?utf-8?B?VDNPVkR2c01lZ2JrZDdZS3RXcnVsZHREdk9WTDZDdktkY3FLQURHeEQrTHAx?=
- =?utf-8?B?cWF4dHAzaU9zM24ycWllK3NkenJ0bGpGZ0d5dmdrdExZZys2eUlPb3k5YzhQ?=
- =?utf-8?B?MjFDVWdzbTYxMktTaExSU2ZmdE1PVVpraW96OGxZT1F0WlJ3MlFYZkgxRkY3?=
- =?utf-8?B?YldNaXBKVG9vUHFYZlNHcjRmdDB1dU94Zkl5Q29RV01qQzdoRlg3L0xWc1pK?=
- =?utf-8?B?elU4Ti81Q204UlJjbThIQXJ5SUYyeGgwbXVWQS9YZzFKZXlzdDRyNU9Qd0R6?=
- =?utf-8?B?c3lVbUVKTmRSUVQ3S2ZUWXUxSmxJcTF4cWk2eVFqazJPQkkydHRRNVZ0cTI5?=
- =?utf-8?B?TE5XakgrTU05cE1XeXFlRTN5U0ZCR0ZHV1BqSTk5bER2TGUzbEFQc3dsY05u?=
- =?utf-8?B?R1ZtM3Ezd2o2WlBjUWhua29uZ0g4Z0FXcWZIYlhMK2J4S2VONDdmS25jc1FE?=
- =?utf-8?B?aUZ0Wm1QaHFKTVV5aDdydnppVElncGZLQVdrQkJobGVjYW9pa3pxQXpSVHRD?=
- =?utf-8?B?UGp5amZaOW1EL3ZKYjQ1TnVPakVucXRKcmdQNnd5cGpLVCttUjVITUcyekRx?=
- =?utf-8?B?SGJ6WW90SGtTNWdBSkdOM09oTjBvc0owRHMwWG41L2JIRmlsc3N6dzY4dEtR?=
- =?utf-8?Q?IebHo+?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB9080.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(19092799006)(1800799024)(366016)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?UFc5WHdsYUZQNTFBWld4VjBMR0RHZVRYeXE0UkFCQUE2eWt2cnNCNzI1aWV4?=
- =?utf-8?B?YmV4YjRLdHpNTUQ2SExuY3k5enE2ZTJxcVFEUnYvZGZhN1VyVncwYUcrMnIr?=
- =?utf-8?B?Z1hsNitGeHp6by8xNkJKU2c1R1lpdzlmUWFDVTQrdWNUTlYvUzJhd1VXU2tk?=
- =?utf-8?B?YUJRUkJjb1BPeldvenN5NTh3N3N3bU9rVzVmcWNyc2hLcG9LeDFtc2Fic1VC?=
- =?utf-8?B?R2VnNXJQKyt6UkowY2RKRWF0UkYwWjhvZ3h0aEZVeGNJNUNWMW5POWJCeHpn?=
- =?utf-8?B?MGZ1V1VZVDJ3YWhLZG5lMERzb0wvdGVEZnNaSE9qVG1QMURTb3MvRzk4bThX?=
- =?utf-8?B?OGJsNERqTXF3TWgrRmRLRVZZS2VvckQvb2dsMzIzNzllbzA2bHZOblRLNnFu?=
- =?utf-8?B?UTA2NWZhTjJ1bEtmSlZKSjVZbUVTejk2NysxbE1pV3BpUzhmazVUK2JFMTZZ?=
- =?utf-8?B?OWZ6TzVPQ2NGc1k0TWFuUkRFWnh6YTY5N21ScVRzd2JvVlhmTEhwREYwbkQy?=
- =?utf-8?B?aTcySmpyY2FUVWtoSjJDTHhBb0ZSRkZEMWlYejlyUmZiSFVReEV1d3JmR2Fz?=
- =?utf-8?B?TDNtcVlTdDhSeVpzaG1ITHhFYjZTQ3FwMHlxTWMyVmJJK1duYUloRjB3YTZN?=
- =?utf-8?B?UmlPZGxTTXE2NGNaUW42c0pBVUpGQVE1a2pTcTZNeXYzQ1NZWEtpbjgwdVRm?=
- =?utf-8?B?NllnZEdWaVJXcm5nUjVHSkwyOGM5cnZTSmsvSC9wWHlBWjBmRzQzajU0VlVx?=
- =?utf-8?B?M29nY2syTjIybS9BSnQrYUc3YktoQklXK2NjUWJxL0NzbEdsZGZjb3NnUUkx?=
- =?utf-8?B?MEZDZWVBd3FQeGVvZnUveWhIMXJDenJNckk2eUlMRDBlaWRaWTA2OFVmcHZz?=
- =?utf-8?B?UGZRWjJvc3BIdmhDZG9kbXF3NlVzdkJTT1BzVGZpby9VdmFLK0FQNDVaVjdw?=
- =?utf-8?B?Q21XakZIMlkrM01UU01qT1BURG5QVVh1YWV5bzJ2dHVHcENNNEpaVGQ5VTlS?=
- =?utf-8?B?RzUxK3ZlcW40MDBFdmp1Z2dWdytNQm5GZk1aOU1KSkc5ODBKR2xkaDRPRUlm?=
- =?utf-8?B?eG1qc2crZzNBSU5GTStKMDRyYnV1QjAvbVNjcmdDVkV6aDA0WitJRDFiVjVG?=
- =?utf-8?B?dlhRNnF3dFhuSUdoZmZIL0xaai9BT0QxTGNCOUtyWU14Z21iL2hqOXB4Q3Ru?=
- =?utf-8?B?N001Nyt2TkJiTFNUa3p2K2xhWllyVWpORERidmVVQjkvVkZlN2xYZjNZeWlw?=
- =?utf-8?B?NUd3V3lJR2VnRTVqeWtLM2pCS0FxS2NlcjEwbHBlUzNDalhQc2N5MnBJa0tQ?=
- =?utf-8?B?Q3hsRmRDOFRHeTdjOEVTVlBQcGhSclJycmo5RWg4NTVmQ0NnZjEyM21OODNa?=
- =?utf-8?B?ejMxUkdqS3FnY0VqaHRidUtkQVhQMWlxODlDZ21OdCt2YUFWQW5VM212cFlk?=
- =?utf-8?B?V25FUHBGZG5tWlJsSTlwckxZN1FFRnVqN0hieUdMTVV6VEpnajY1QS9XOHZu?=
- =?utf-8?B?UDhFTWdJblBPTVRIL21xSDg5MjNBUzloQzJVSHF1YUZWeVJtaEJjTXdzK0dE?=
- =?utf-8?B?c3BkZnd3ekQzVWlpOEVHckc0cEg2anBtNWdVZnVrTnN4TFJJclVwMUpHelRv?=
- =?utf-8?B?Si9uOU9MQVpCSUtQeGZ5aURvWTRZRXgrWWNqRURCRkVvdklpQU5mVUQ3NEQ5?=
- =?utf-8?B?MFN5dnRaVnNmeWZ0U3l5Q1pOdEV1U0hQTmdoVUN1YlpGMzNjbENxSVJvWGxs?=
- =?utf-8?B?S3NydTdwdEExaFQ5SEg3SGx4Y0JQN3FvbFJLOGowRDkxS21nWUt5NW9QRElS?=
- =?utf-8?B?bEQ3Z0ZQM0oxcHdJVG1wNkkyclVWU3VqZzNUSGJlTnFqRm1mS0lZSkdvdlNU?=
- =?utf-8?B?cCszWEVESnN3RzQrREErVTV4U1ZzanorVC9lYjNWLzZ5ZGl1cGJvNFVnNS8z?=
- =?utf-8?B?TjVKeVcxWVFQNFRFOHl6d2Q3M0RtaU5XT2ZzTmpRelRGb3FEaHNaMEhHWW5x?=
- =?utf-8?B?QWZDL2IwTDNQZTVhUXdmYnE4cktCaTFYYmRubEQrdlFqUndaZEErT1hUVTBR?=
- =?utf-8?B?bW9kcWpiaUxuMUJDazQvYnJTZEJGN3RsRFh1d01Jb2FSSkVzUElOWDgzZXNv?=
- =?utf-8?Q?+96br8g/Jo2kHo2yjYhqplkfs?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DED0305E3A
+	for <linux-media@vger.kernel.org>; Tue,  4 Nov 2025 07:28:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762241331; cv=none; b=fcMJqaOCp/tnrh9+Hr9fsxd0c6iTTKjMYN9iqeb9u3YvRn+vDMYIjIeZC9KAobCToWMUkIhceNTPgCkrp5yA9fV4Noevr8rXl98JrZnEQJ6gYPzGcKfGkzxURKhr1JcOPpJ5YR0/BFHpRGZhAePJxusxedn2FSb7XHPvzpLnBqQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762241331; c=relaxed/simple;
+	bh=RzL4yYIPBn7PInlROYKVeTg4lpHCuSXqDqT7JeeqATY=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=Mv93ZUjojbtwHPwDWRzXgD8mbbXw0zXMA253f0Rsp1+ozVyS5seTKZ+vZ10FTTw8wTUZwlk8hGHH8G/zv8IgF3bpT7WStpju/BSej46RF3lLHSIg6Mt5Ax9afacyYaMrIuPDPQGGcTRjIlHWaMKQcRrPkPj2ge1WXsnJ92EMGZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l7h+/uWR; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-429bcddad32so2980969f8f.3
+        for <linux-media@vger.kernel.org>; Mon, 03 Nov 2025 23:28:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762241327; x=1762846127; darn=vger.kernel.org;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RQrVztubx2u+pACffgEQuXsypBYi+W9z0hLwySF7Kwo=;
+        b=l7h+/uWRB+8DND0mB0rZ98D0mqgRf6cvyNO8xVrzONfVVq/UcdTSdGrDycX3Dv0/xO
+         MkY5KBcnWkPbUy6oXo88q9yyPfk0uVQeleFpR/TQZGSgNZp7RwOQDzbkEQjGpwGjQVbx
+         SiXYz0/Bq7vdyvI0Uhkqed2/hhpUQN0/t5oYP95wkMZ0SiXSJfKLvWwhEDUpPNIgcxLL
+         44ZEIPQFbNI1gSYxjfmQS6jLyYJmcfIGdPAiRJfHTA/ZtA8fF82S6z4QAvQAPC6qn6bq
+         HqUxSTRwL1bQwYLgXeX2SxVd1B3ffqRIid6d0jRLxvdAhUorgoUKBozj0PxhxI5+ZCLj
+         XWkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762241327; x=1762846127;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RQrVztubx2u+pACffgEQuXsypBYi+W9z0hLwySF7Kwo=;
+        b=MpijS3T/i1sR8fenAxTY6DNKsElas44vbFiwTz3QSQWnmrzNAyFD+rFF0nN7EIalVh
+         4KwSO0uBFvKsCH1LxOJdYwRakglFe/0AjqFvVcK2+ULQ5+umV81bT2c+TCMzqrZq+cgq
+         2Fdsmia3SPJXgh3WbezodfK8idMMyghvy853anPyPunTERFb1wJXMOeJEMv1pBiZ9o5Z
+         teNwkV+j58MrWspJux45WBcVfpNejjbVZ0KIdWZVHUsjEo6P1W9uxW7swGiEtCjJm7pg
+         KXtstFIhJiH4XOEdVb22TYAvzhS91/iHciQHYttJBUGQODurTzH0jNdmueHD8uIPGlzf
+         sMJw==
+X-Forwarded-Encrypted: i=1; AJvYcCWHXTf/WE9py9LsT2zQxDUEG/SvqR21yrgdnU9EQIpqBOv7bZB+mNMwzeZbuIRfsY4+ES40BCUPNtz4+Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzOknXTyclSIVv9sTxGm38fFwuoqj139StOqkCKaNx3ce8wvai9
+	HUbXnf5M7Al19PWsynUAAMz09Esu9iXzbx8UHna9uAkrrOaPUsgf8ARe
+X-Gm-Gg: ASbGncs6AnDb3mGOUBlxyC3eGQpGzmQOi+dRWw4cOcygMUS4ez2F8UABtcbE4WhRpts
+	PcH3kpNF6q51JX9fA7u6T+ZuPlgmfG0+WGneMen4xSqPmxw9SpgxVd7PgKN6FC9MmIiGxdRlJ62
+	WsFCsikEN1uYU/cr3NHIGMngOMcfwXNu9Zf0UjvsWBtY+BFFZgGWipvuZdrcdcIiVWYbJEfBnS5
+	T3FCRJuRwNYelkYJsprjJ0QZReKjrRMsGjeMj1SsA8JkhYQOhj8ZaqUD/8h8xFhYejG/IyqwRwy
+	WVToFf7SMGxU8yv29SMmsWnRHpIr1Z5Ki+azthDOTSnmTvtsbaAJ2xA/c2BtShNbJe8ZLdxrvYx
+	GMslXmcjcjHgRKphAqMYQVQdhpZ2DEjjeqmfUVio+mOaoLGl5W1O/Lu5ROym+AaxLikNwNiN0Ou
+	rzxUsKip05wtlmmzU2h5tKZHtMLjheRNcS2M866iCcRh7SP8uB6V75/vWVYl8/+AZpS9d9nFI=
+X-Google-Smtp-Source: AGHT+IE/zGw+D0u9TFjklGUocQN9vuvOn2j0IijPm9wr89yrvoE3rgFyzPC1PsYWnF6kAditU4Rbhw==
+X-Received: by 2002:a05:6000:714:b0:429:c711:22c5 with SMTP id ffacd0b85a97d-429c7112421mr9065018f8f.42.1762241326271;
+        Mon, 03 Nov 2025 23:28:46 -0800 (PST)
+Received: from smtpclient.apple (static.253.36.98.91.clients.your-server.de. [91.98.36.253])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429dc19227csm2989084f8f.11.2025.11.03.23.28.44
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 03 Nov 2025 23:28:45 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB9080.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5fb10425-a033-4d95-e8cb-08de1b719b0c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Nov 2025 07:13:07.9322
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: RvuXIIrHRqatfUWn2S23mInOLQ36FueP4rRPBpKSWCmxJekzZnYLnpKPPE7Z29/dz+XSw/k3JIMPk93sxV9tfQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI2PR04MB10572
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
+Subject: Re: [PATCH 0/3] Add Amlogic stateless H.264 video decoder for S4
+From: Christian Hewitt <christianshewitt@gmail.com>
+In-Reply-To: <540d98ea-114c-43bc-94c0-e944b5613d74@amlogic.com>
+Date: Tue, 4 Nov 2025 11:28:33 +0400
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-amlogic@lists.infradead.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <2B4BFCAC-57FF-429F-BD57-457E634A24E8@gmail.com>
+References: <20251027-b4-s4-vdec-upstream-v1-0-620401813b5d@amlogic.com>
+ <b976b442-7d07-4fef-b851-ccd14661a233@linaro.org>
+ <540d98ea-114c-43bc-94c0-e944b5613d74@amlogic.com>
+To: Zhentao Guo <zhentao.guo@amlogic.com>
+X-Mailer: Apple Mail (2.3826.700.81)
 
-SGkgTGF1cmVudCwNCg0KVGhhbmtzIGZvciB5b3VyIHJldmlldy4NCg0KPiAtLS0tLU9yaWdpbmFs
-IE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBMYXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0
-QGlkZWFzb25ib2FyZC5jb20+DQo+IFNlbnQ6IE1vbmRheSwgT2N0b2JlciAyNywgMjAyNSA4OjA2
-IEFNDQo+IFRvOiBHLk4uIFpob3UgKE9TUykgPGd1b25pdS56aG91QG9zcy5ueHAuY29tPg0KPiBD
-YzogUnVpIE1pZ3VlbCBTaWx2YSA8cm1mcmZzQGdtYWlsLmNvbT47IE1hcnRpbiBLZXBwbGluZ2Vy
-DQo+IDxtYXJ0aW5rQHBvc3Rlby5kZT47IFB1cmlzbSBLZXJuZWwgVGVhbSA8a2VybmVsQHB1cmku
-c20+OyBNYXVybw0KPiBDYXJ2YWxobyBDaGVoYWIgPG1jaGVoYWJAa2VybmVsLm9yZz47IFJvYiBI
-ZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+Ow0KPiBLcnp5c3p0b2YgS296bG93c2tpIDxrcnprK2R0
-QGtlcm5lbC5vcmc+OyBDb25vciBEb29sZXkNCj4gPGNvbm9yK2R0QGtlcm5lbC5vcmc+OyBTaGF3
-biBHdW8gPHNoYXduZ3VvQGtlcm5lbC5vcmc+OyBTYXNjaGEgSGF1ZXINCj4gPHMuaGF1ZXJAcGVu
-Z3V0cm9uaXguZGU+OyBQZW5ndXRyb25peCBLZXJuZWwgVGVhbQ0KPiA8a2VybmVsQHBlbmd1dHJv
-bml4LmRlPjsgRmFiaW8gRXN0ZXZhbSA8ZmVzdGV2YW1AZ21haWwuY29tPjsgUGhpbGlwcA0KPiBa
-YWJlbCA8cC56YWJlbEBwZW5ndXRyb25peC5kZT47IEZyYW5rIExpIDxmcmFuay5saUBueHAuY29t
-PjsgbGludXgtDQo+IG1lZGlhQHZnZXIua2VybmVsLm9yZzsgZGV2aWNldHJlZUB2Z2VyLmtlcm5l
-bC5vcmc7IGlteEBsaXN0cy5saW51eC5kZXY7IGxpbnV4LQ0KPiBhcm0ta2VybmVsQGxpc3RzLmlu
-ZnJhZGVhZC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IEcuTi4gWmhvdQ0KPiA8
-Z3Vvbml1Lnpob3VAbnhwLmNvbT47IENvbm9yIERvb2xleSA8Y29ub3IuZG9vbGV5QG1pY3JvY2hp
-cC5jb20+DQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjcgMS81XSBtZWRpYTogZHQtYmluZGluZ3M6
-IG54cCxpbXg4bXEtbWlwaS1jc2kyOiBBZGQNCj4gaS5NWDhVTFAgY29tcGF0aWJsZSBzdHJpbmcN
-Cj4gDQo+IEhpIEd1b25pdSwNCj4gDQo+IE9uIFRodSwgT2N0IDIzLCAyMDI1IGF0IDA1OjE5OjQy
-UE0gKzA4MDAsIEd1b25pdSBaaG91IHdyb3RlOg0KPiA+IEZyb206IEd1b25pdSBaaG91IDxndW9u
-aXUuemhvdUBueHAuY29tPg0KPiA+DQo+ID4gVGhlIENTSS0yIHJlY2VpdmVyIGluIHRoZSBpLk1Y
-OFVMUCBpcyBhbG1vc3QgaWRlbnRpY2FsIHRvIHRoZSB2ZXJzaW9uDQo+ID4gcHJlc2VudCBpbiB0
-aGUgaS5NWDhRWFAvUU0sIGJ1dCBpLk1YOFVMUCBDU0ktMiBjb250cm9sbGVyIG5lZWRzIHBjbGsN
-Cj4gPiBjbG9jayBhcyB0aGUgaW5wdXQgY2xvY2sgZm9yIGl0cyBBUEIgaW50ZXJmYWNlIG9mIENv
-bnRyb2wgYW5kIFN0YXR1cw0KPiA+IHJlZ2lzdGVyKENTUikuIFNvIGFkZCBjb21wYXRpYmxlIHN0
-cmluZyBmc2wsaW14OHVscC1taXBpLWNzaTIgYW5kDQo+ID4gaW5jcmVhc2UgbWF4SXRlbXMgb2Yg
-Q2xvY2tzIChjbG9jay1uYW1lcykgdG8gNCBmcm9tIDMuICBBbmQga2VlcCB0aGUNCj4gPiBzYW1l
-IHJlc3RyaWN0aW9uIGZvciBleGlzdGluZyBjb21wYXRpYmxlLg0KPiA+DQo+ID4gUmV2aWV3ZWQt
-Ynk6IEZyYW5rIExpIDxGcmFuay5MaUBueHAuY29tPg0KPiA+IEFja2VkLWJ5OiBDb25vciBEb29s
-ZXkgPGNvbm9yLmRvb2xleUBtaWNyb2NoaXAuY29tPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEd1b25p
-dSBaaG91IDxndW9uaXUuemhvdUBueHAuY29tPg0KPiA+IC0tLQ0KPiA+ICAuLi4vYmluZGluZ3Mv
-bWVkaWEvbnhwLGlteDhtcS1taXBpLWNzaTIueWFtbCAgICAgICB8IDQxDQo+ICsrKysrKysrKysr
-KysrKysrKysrLS0NCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDM5IGluc2VydGlvbnMoKyksIDIgZGVs
-ZXRpb25zKC0pDQo+ID4NCj4gPiBkaWZmIC0tZ2l0DQo+ID4gYS9Eb2N1bWVudGF0aW9uL2Rldmlj
-ZXRyZWUvYmluZGluZ3MvbWVkaWEvbnhwLGlteDhtcS1taXBpLWNzaTIueWFtbA0KPiA+IGIvRG9j
-dW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlhL254cCxpbXg4bXEtbWlwaS1jc2ky
-LnlhbWwNCj4gPiBpbmRleA0KPiA+DQo+IDMzODliYWIyNjZhOWFkYmRhMzEzYzhhZDc5NWI5OTg2
-NDFkZjEyZjMuLmRhMzk3OGRhMWNhYjc1MjkyYWRhM2YyDQo+IDQ4Mzc0DQo+ID4gNDNmN2Y0YWI2
-NDE4IDEwMDY0NA0KPiA+IC0tLQ0KPiA+IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
-bmdzL21lZGlhL254cCxpbXg4bXEtbWlwaS1jc2kyLnlhbWwNCj4gPiArKysgYi9Eb2N1bWVudGF0
-aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVkaWEvbnhwLGlteDhtcS1taXBpLQ0KPiBjc2kyLnlh
-bQ0KPiA+ICsrKyBsDQo+ID4gQEAgLTIwLDYgKzIwLDcgQEAgcHJvcGVydGllczoNCj4gPiAgICAg
-ICAgLSBlbnVtOg0KPiA+ICAgICAgICAgICAgLSBmc2wsaW14OG1xLW1pcGktY3NpMg0KPiA+ICAg
-ICAgICAgICAgLSBmc2wsaW14OHF4cC1taXBpLWNzaTINCj4gPiArICAgICAgICAgIC0gZnNsLGlt
-eDh1bHAtbWlwaS1jc2kyDQo+ID4gICAgICAgIC0gaXRlbXM6DQo+ID4gICAgICAgICAgICAtIGNv
-bnN0OiBmc2wsaW14OHFtLW1pcGktY3NpMg0KPiA+ICAgICAgICAgICAgLSBjb25zdDogZnNsLGlt
-eDhxeHAtbWlwaS1jc2kyIEBAIC0zOSwxMiArNDAsMTYgQEANCj4gPiBwcm9wZXJ0aWVzOg0KPiA+
-ICAgICAgICAgICAgICAgICAgICAgICBjbG9jayB0aGF0IHRoZSBSWCBEUEhZIHJlY2VpdmVzLg0K
-PiA+ICAgICAgICAtIGRlc2NyaXB0aW9uOiB1aSBpcyB0aGUgcGl4ZWwgY2xvY2sgKHBoeV9yZWYg
-dXAgdG8gMzMzTWh6KS4NCj4gPiAgICAgICAgICAgICAgICAgICAgICAgU2VlIHRoZSByZWZlcmVu
-Y2UgbWFudWFsIGZvciBkZXRhaWxzLg0KPiA+ICsgICAgICAtIGRlc2NyaXB0aW9uOiBwY2xrIGlz
-IGNsb2NrIGZvciBjc3IgQVBCIGludGVyZmFjZS4NCj4gPiArICAgIG1pbkl0ZW1zOiAzDQo+ID4N
-Cj4gPiAgICBjbG9jay1uYW1lczoNCj4gPiAgICAgIGl0ZW1zOg0KPiA+ICAgICAgICAtIGNvbnN0
-OiBjb3JlDQo+ID4gICAgICAgIC0gY29uc3Q6IGVzYw0KPiA+ICAgICAgICAtIGNvbnN0OiB1aQ0K
-PiA+ICsgICAgICAtIGNvbnN0OiBwY2xrDQo+ID4gKyAgICBtaW5JdGVtczogMw0KPiA+DQo+ID4g
-ICAgcG93ZXItZG9tYWluczoNCj4gPiAgICAgIG1heEl0ZW1zOiAxDQo+ID4gQEAgLTEzMCwxOSAr
-MTM1LDUxIEBAIGFsbE9mOg0KPiA+ICAgICAgICAgIGNvbXBhdGlibGU6DQo+ID4gICAgICAgICAg
-ICBjb250YWluczoNCj4gPiAgICAgICAgICAgICAgZW51bToNCj4gPiAtICAgICAgICAgICAgICAt
-IGZzbCxpbXg4cXhwLW1pcGktY3NpMg0KPiA+ICsgICAgICAgICAgICAgIC0gZnNsLGlteDh1bHAt
-bWlwaS1jc2kyDQo+ID4gKyAgICB0aGVuOg0KPiA+ICsgICAgICBwcm9wZXJ0aWVzOg0KPiA+ICsg
-ICAgICAgIHJlZzoNCj4gPiArICAgICAgICAgIG1pbkl0ZW1zOiAyDQo+ID4gKyAgICAgICAgcmVz
-ZXRzOg0KPiA+ICsgICAgICAgICAgbWluSXRlbXM6IDINCj4gPiArICAgICAgICAgIG1heEl0ZW1z
-OiAyDQo+ID4gKyAgICAgICAgY2xvY2tzOg0KPiA+ICsgICAgICAgICAgbWluSXRlbXM6IDQNCj4g
-PiArICAgICAgICBjbG9jay1uYW1lczoNCj4gPiArICAgICAgICAgIG1pbkl0ZW1zOiA0DQo+IA0K
-PiBEbyB3ZSBuZWVkIHRoZSBjbG9jay1uYW1lcyBjb25zdHJhaW50ID8gVGhlIERUIHNjaGVtYXMg
-d2lsbCBlbmZvcmNlIHRoYXQNCj4gY2xvY2tzIGFuZCBjbG9jay1uYW1lcyBhbHdheXMgaGF2ZSB0
-aGUgc2FtZSBudW1iZXIgb2YgZWxlbWVudHMuDQoNClllcywgSSBwcmVmZXIgdG8gaGF2ZSBpdCBz
-aW5jZSBleHBsaWNpdCBjb25zdHJhaW50IGNvdWxkIG1ha2Ugb3VyIHlhbWwgZmlsZSBtb3JlIGNs
-ZWFyIHRvIHNob3cNCm91ciBkZXNpZ24gcHVycG9zZS4gSW4gYWRkaXRpb24sIGl0IGNhbiBhbHNv
-IGhlbHAgcGVvcGxlIHdobyBhcmUgbm90IGZhbWlsaWFyIHdpdGggdGhlIGltcGxpY2l0DQpjb25z
-dHJhaW50IGluIERUIHNjaGVtYSBhdm9pZCBtYWtpbmcgbWlzdGFrZXMuDQoNCj4gDQo+ID4gKw0K
-PiA+ICsgIC0gaWY6DQo+ID4gKyAgICAgIHByb3BlcnRpZXM6DQo+ID4gKyAgICAgICAgY29tcGF0
-aWJsZToNCj4gPiArICAgICAgICAgIGNvbnRhaW5zOg0KPiA+ICsgICAgICAgICAgICBjb25zdDog
-ZnNsLGlteDhxeHAtbWlwaS1jc2kyDQo+ID4gICAgICB0aGVuOg0KPiA+ICAgICAgICBwcm9wZXJ0
-aWVzOg0KPiA+ICAgICAgICAgIHJlZzoNCj4gPiAgICAgICAgICAgIG1pbkl0ZW1zOiAyDQo+ID4g
-ICAgICAgICAgcmVzZXRzOg0KPiA+ICAgICAgICAgICAgbWF4SXRlbXM6IDENCj4gPiAtICAgIGVs
-c2U6DQo+ID4gKyAgICAgICAgY2xvY2tzOg0KPiA+ICsgICAgICAgICAgbWF4SXRlbXM6IDMNCj4g
-PiArICAgICAgICBjbG9jay1uYW1lczoNCj4gPiArICAgICAgICAgIG1heEl0ZW1zOiAzDQo+ID4g
-Kw0KPiA+ICsgIC0gaWY6DQo+ID4gKyAgICAgIHByb3BlcnRpZXM6DQo+ID4gKyAgICAgICAgY29t
-cGF0aWJsZToNCj4gPiArICAgICAgICAgIGNvbnRhaW5zOg0KPiA+ICsgICAgICAgICAgICBlbnVt
-Og0KPiA+ICsgICAgICAgICAgICAgIC0gZnNsLGlteDhtcS1taXBpLWNzaTINCj4gPiArICAgIHRo
-ZW46DQo+ID4gICAgICAgIHByb3BlcnRpZXM6DQo+ID4gICAgICAgICAgcmVnOg0KPiA+ICAgICAg
-ICAgICAgbWF4SXRlbXM6IDENCj4gPiAgICAgICAgICByZXNldHM6DQo+ID4gICAgICAgICAgICBt
-aW5JdGVtczogMw0KPiA+ICsgICAgICAgIGNsb2NrczoNCj4gPiArICAgICAgICAgIG1heEl0ZW1z
-OiAzDQo+ID4gKyAgICAgICAgY2xvY2stbmFtZXM6DQo+ID4gKyAgICAgICAgICBtYXhJdGVtczog
-Mw0KPiA+ICAgICAgICByZXF1aXJlZDoNCj4gPiAgICAgICAgICAtIGZzbCxtaXBpLXBoeS1ncHIN
-Cj4gPg0KPiANCj4gQ291bGQgeW91IHBsZWFzZSBzb3J0IHRob3NlIGNvbmRpdGlvbmFsIGJsb2Nr
-cyBieSBhbHBoYWJldGljYWwgb3JkZXIgb2YgdGhlDQo+IGNvbXBhdGlibGUgc3RyaW5ncyA/DQoN
-ClN1cmUNCg0KPiANCj4gLS0NCj4gUmVnYXJkcywNCj4gDQo+IExhdXJlbnQgUGluY2hhcnQNCg==
+> On 28 Oct 2025, at 3:47=E2=80=AFpm, Zhentao Guo =
+<zhentao.guo@amlogic.com> wrote:
+>=20
+> =E5=9C=A8 2025/10/28 18:50, Neil Armstrong =E5=86=99=E9=81=93:
+>> [ EXTERNAL EMAIL ]
+>>=20
+>> Hi,
+>>=20
+>> On 10/27/25 06:42, Zhentao Guo via B4 Relay wrote:
+>>> Introduce initial driver support for Amlogic's new video =
+acceleration
+>>> hardware architecture, designed for video stream decoding.
+>>>=20
+>>> Compared to the current Amlogic video decoder hardware architecture,
+>>> this new implementation eliminates the Esparser hardware component,
+>>> enabling direct vb2 buffer input. The driver is designed to support
+>>> the V4L2 M2M stateless decoder API. The initial phase includes =
+support
+>>> for H.264 decoding on Amlogic S805X2 platform.
+
+S805X2 looks challenging to test (without hardware) and this will =
+prevent
+wider feedback. Can you extend the driver for G12B? - it has good =
+upstream
+support and lots of good boards. This would also demonstrate (in =
+patches)
+how further expansion is handled. The only minor complication is that
+meson-g12-common.dtsi has vdec nodes for the staging driver that need to =
+be
+reworked. This probably leads into a discussion (with Neil mostly) about
+how to drop/clean-up the staging driver. NB: There is also a canvas =
+driver
+long-merged upstream. Can this be reused or adapted instead of adding =
+new
+canvas code?
+
+>>> The driver is capable of:
+>>> - Supporting stateless H.264 decoding up to a resolution =
+1920x1088(on the S805X2 platform).
+>>> - Supporting I/P/B frame handling.
+>>> - Supporting vb2 mmap and dma-buf modes.
+>>> - Supporting frame-based decode mode. (Note that some H.264 =
+bitstreams require
+>>>    DPB reordering to generate reference lists, the stateless decoder =
+driver
+>>>    cannot access reordered reference lists in this mode, requiring =
+the driver
+>>>    to perform reference list reordering itself)
+>>> - Supporting NV12/NV21 output.
+>>> - Supporting Annex B start codes.
+>>=20
+>> Thanks for the initial drop, it's very nice !
+>>=20
+>> First of all, this still requires some work so it would be better if =
+you
+>> used the RFC tag until all issues are sorted out.
+>>=20
+> Thanks for the reminder, I will add the RFC tag from the next patch =
+version.
+>> You didn't tell anything about the firmware, did you build a specific =
+version
+>> of the firmware to handle the stateless and bypass ESPARSER ?
+>> Will this technique work with the released firmwares of GXL/G12/SM1 ?
+> For the firmware, we need to build a specific version for stateless =
+decoder
+> driver. The ESPARSER is fully dropped. As I mentioned, this technique =
+needs
+> specific firmware so it would not work with the released firmware of =
+the older
+> SOCs. We plan to submit the new firmware to the linux-firmware repo. I =
+will
+> share the commit once the upload is completed.
+
+linux-firmware only accepts files for merged drivers so while things are
+still in development you either need to share firmware blobs as an extra
+patch with the series (tagged as DONOTMERGE) or you need to put files in
+a repo and share a link in the cover-letter. You are welcome to abuse =
+the
+LibreELEC org on GitHub if you need somewhere friendly to push files (we
+already host similar things for distro packaging).
+
+>> Will you support the compressed format and 10bit with this ?
+> No, the compressed format and 10bit are not supported.
+
+Understood that AFBC and 10-bit are not part of this initial series, but
+are they planned for a follow-up series? .. or never?
+
+>>> This driver is tested with Gstreamer.
+>>> Example:
+>>> gst-launch-1.0 filesrc =
+location=3D/tmp/video_640x360_mp4_hevc_450kbps_no_b.mp4 !
+>>> parsebin ! v4l2slh264dec ! filesink location=3D/tmp/output.yuv
+>>>=20
+>>> The driver passes v4l2 compliance test, test reports :
+>>> v4l2-compliance 1.30.1, 64 bits, 64-bit time_t
+>>>=20
+>>> Compliance test for aml-vdec-drv device /dev/video0:
+>>>=20
+>>> Driver Info:
+>>>          Driver name      : aml-vdec-drv
+>>>          Card type        : platform:aml-vdec-drv
+>>>          Bus info         : platform:fe320000.video-codec
+>>>          Driver version   : 6.16.0
+>>>          Capabilities     : 0x84204000
+>>>                  Video Memory-to-Memory Multiplanar
+>>>                  Streaming
+>>>                  Extended Pix Format
+>>>                  Device Capabilities
+>>>          Device Caps      : 0x04204000
+>>>                  Video Memory-to-Memory Multiplanar
+>>>                  Streaming
+>>>                  Extended Pix Format
+>>>          Detected Stateless Decoder
+>>> Media Driver Info:
+>>>          Driver name      : aml-vdec-drv
+>>>          Model            : aml-vdec-drv
+>>>          Serial           :
+>>>          Bus info         : platform:fe320000.video-codec
+>>>          Media version    : 6.16.0
+>>>          Hardware revision: 0x00000000 (0)
+>>>          Driver version   : 6.16.0
+>>> Interface Info:
+>>>          ID               : 0x0300000c
+>>>          Type             : V4L Video
+>>> Entity Info:
+>>>          ID               : 0x00000001 (1)
+>>>          Name             : aml_dev_drv-source
+>>>          Function         : V4L2 I/O
+>>>          Pad 0x01000002   : 0: Source
+>>>            Link 0x02000008: to remote pad 0x1000004 of entity =
+'aml_dev_drv-proc' (Video Decoder): Data, Enabled, Immutable
+>>>=20
+>>> Required ioctls:
+>>>          test MC information (see 'Media Driver Info' above): OK
+>>>          test VIDIOC_QUERYCAP: OK
+>>>          test invalid ioctls: OK
+>>>=20
+>>> Allow for multiple opens:
+>>>          test second /dev/video0 open: OK
+>>>          test VIDIOC_QUERYCAP: OK
+>>>          test VIDIOC_G/S_PRIORITY: OK
+>>>          test for unlimited opens: OK
+>>>=20
+>>> Debug ioctls:
+>>>          test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+>>>          test VIDIOC_LOG_STATUS: OK (Not Supported)
+>>>=20
+>>> Input ioctls:
+>>>          test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+>>>          test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>>>          test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+>>>          test VIDIOC_ENUMAUDIO: OK (Not Supported)
+>>>          test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+>>>          test VIDIOC_G/S_AUDIO: OK (Not Supported)
+>>>          Inputs: 0 Audio Inputs: 0 Tuners: 0
+>>>=20
+>>> Output ioctls:
+>>>          test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+>>>          test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>>>          test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+>>>          test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+>>>          test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+>>>          Outputs: 0 Audio Outputs: 0 Modulators: 0
+>>>=20
+>>> Input/Output configuration ioctls:
+>>>          test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+>>>          test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+>>>          test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+>>>          test VIDIOC_G/S_EDID: OK (Not Supported)
+>>>=20
+>>> Control ioctls:
+>>>          test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+>>>          test VIDIOC_QUERYCTRL: OK
+>>>          test VIDIOC_G/S_CTRL: OK
+>>>          test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+>>>          test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+>>>          test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+>>>          Standard Controls: 6 Private Controls: 0
+>>>          Standard Compound Controls: 4 Private Compound Controls: 0
+>>>=20
+>>> Format ioctls:
+>>>          test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+>>>          test VIDIOC_G/S_PARM: OK (Not Supported)
+>>>          test VIDIOC_G_FBUF: OK (Not Supported)
+>>>          test VIDIOC_G_FMT: OK
+>>>          test VIDIOC_TRY_FMT: OK
+>>>          test VIDIOC_S_FMT: OK
+>>>          test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+>>>          test Cropping: OK (Not Supported)
+>>>          test Composing: OK (Not Supported)
+>>>          test Scaling: OK (Not Supported)
+>>>=20
+>>> Codec ioctls:
+>>>          test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+>>>          test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+>>>          test VIDIOC_(TRY_)DECODER_CMD: OK
+>>>=20
+>>> Buffer ioctls:
+>>>          test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+>>>          test CREATE_BUFS maximum buffers: OK
+>>>          test VIDIOC_REMOVE_BUFS: OK
+>>>          test VIDIOC_EXPBUF: OK
+>>>          test Requests: OK
+>>>          test blocking wait: OK
+>>=20
+>> Please also enable the streaming tests.
+> Yes, we did some streaming tests with Gstreamer, fluster test and bug =
+fix is also in progress.
+>>>=20
+>>> Total for aml-vdec-drv device /dev/video0: 49, Succeeded: 49, =
+Failed: 0, Warnings: 0
+>>>=20
+>>> Some Fluster test cases are still failing. We will publish the final =
+results
+>>> once all these Fluster test failures have been resolved.
+>>=20
+>> As Christian reported, please add the flutter results aswell.
+> Thanks. We have now tested the JVT-AVC_V1.
+> Result:
+> Ran 54/135 tests successfully
+>=20
+> - 52 test vectors failed due to interlaced or mbaff clips: The Amlogic =
+stateless
+>   decoder driver only support bitstreams with frame_mbs_only_flags =3D=3D=
+ 1.
+>   Test Vectors:
+>         cabac_mot_fld0_full
+>         cabac_mot_mbaff0_full
+>         cabac_mot_picaff0_full
+>         CABREF3_Sand_D
+>         CAFI1_SVA_C
+>         CAMA1_Sony_C
+>         CAMA1_TOSHIBA_B
+>         cama1_vtc_c
+>         cama2_vtc_b
+>         CAMA3_Sand_E
+>         cama3_vtc_b
+>         CAMACI3_Sony_C
+>         CAMANL1_TOSHIBA_B
+>         CAMANL2_TOSHIBA_B
+>         CAMANL3_Sand_E
+>         CAMASL3_Sony_B
+>         CAMP_MOT_MBAFF_L30
+>         CAMP_MOT_MBAFF_L31
+>         CANLMA2_Sony_C
+>         CANLMA3_Sony_C
+>         CAPA1_TOSHIBA_B
+>         CAPAMA3_Sand_F
+>         cavlc_mot_fld0_full_B
+>         cavlc_mot_mbaff0_full_B
+>         cavlc_mot_picaff0_full_B
+>         CVCANLMA2_Sony_C
+>         CVFI1_Sony_D
+>         CVFI1_SVA_C
+>         CVFI2_Sony_H
+>         CVFI2_SVA_C
+>         CVMA1_Sony_D
+>         CVMA1_TOSHIBA_B
+>         CVMANL1_TOSHIBA_B
+>         CVMANL2_TOSHIBA_B
+>         CVMAPAQP3_Sony_E
+>         CVMAQP2_Sony_G
+>         CVMAQP3_Sony_D
+>         CVMP_MOT_FLD_L30_B
+>         CVNLFI1_Sony_C
+>         CVNLFI2_Sony_H
+>         CVPA1_TOSHIBA_B
+>         FI1_Sony_E
+>         MR6_BT_B
+>         MR7_BT_B
+>         MR8_BT_B
+>         MR9_BT_B
+>         Sharp_MP_Field_1_B
+>         Sharp_MP_Field_2_B
+>         Sharp_MP_Field_3_B
+>         Sharp_MP_PAFF_1r2
+>         Sharp_MP_PAFF_2r
+>         CVMP_MOT_FRM_L31_B
+> - 3 test vectors failed due to unsupported bitstream.
+>   num_slice_group_minus1 greater than zero is not supported by the
+>   hardware.
+>   Test Vectors:
+>         FM1_BT_B
+>         FM1_FT_E
+>         FM2_SVA_C
+> - 2 test vectors failed because SP_SLICE type is not supported by the
+>   hardware.
+>   Test Vectors:
+>         SP1_BT_A
+>         sp2_bt_b
+>=20
+> We are working with the remain failures, we think that these fail =
+cases
+>=20
+> must be resolved.
+>=20
+> I'll add the fluster result to the cover-letter from the next patch =
+version.
+
+Thanks, it=E2=80=99s good to understand where things are. All good :)
+
+Christian
+
+
+>>=20
+>> Neil
+>>=20
+>>>=20
+>>> Signed-off-by: Zhentao Guo <zhentao.guo@amlogic.com>
+>>> ---
+>>> Zhentao Guo (3):
+>>>        dt-bindings: vdec: Add binding document of Amlogic decoder =
+accelerator
+>>>        dts: decoder: Support V4L2 stateless decoder dt node for S4
+>>>        decoder: Add V4L2 stateless H.264 decoder driver
+>>>=20
+>>>   .../bindings/media/amlogic,vcodec-dec.yaml         |   96 ++
+>>>   MAINTAINERS                                        |    7 +
+>>>   arch/arm64/boot/dts/amlogic/meson-s4.dtsi          |   24 +
+>>>   drivers/media/platform/amlogic/Kconfig             |    2 +
+>>>   drivers/media/platform/amlogic/Makefile            |    1 +
+>>>   drivers/media/platform/amlogic/vdec/Kconfig        |   15 +
+>>>   drivers/media/platform/amlogic/vdec/Makefile       |    4 +
+>>>   drivers/media/platform/amlogic/vdec/aml_vdec.c     |  759 =
++++++++++
+>>>   drivers/media/platform/amlogic/vdec/aml_vdec.h     |   31 +
+>>>   .../platform/amlogic/vdec/aml_vdec_canvas_utils.c  |  154 ++
+>>>   .../platform/amlogic/vdec/aml_vdec_canvas_utils.h  |   22 +
+>>>   drivers/media/platform/amlogic/vdec/aml_vdec_drv.c |  263 +++
+>>>   drivers/media/platform/amlogic/vdec/aml_vdec_drv.h |  194 +++
+>>>   drivers/media/platform/amlogic/vdec/aml_vdec_hw.c  |  652 +++++++
+>>>   drivers/media/platform/amlogic/vdec/aml_vdec_hw.h  |  182 ++
+>>>   .../platform/amlogic/vdec/aml_vdec_platform.c      |   37 +
+>>>   .../platform/amlogic/vdec/aml_vdec_platform.h      |   62 +
+>>>   drivers/media/platform/amlogic/vdec/h264.c         | 1790 =
+++++++++++++++++++++
+>>>   drivers/media/platform/amlogic/vdec/h264.h         |  300 ++++
+>>>   drivers/media/platform/amlogic/vdec/reg_defines.h  |  175 ++
+>>>   20 files changed, 4770 insertions(+)
+>>> ---
+>>> base-commit: 72fb0170ef1f45addf726319c52a0562b6913707
+>>> change-id: 20251027-b4-s4-vdec-upstream-0603c1a4c84a
+>>>=20
+>>> Best regards,
+>>=20
+> Thank you
+>=20
+> Zhentao
+>=20
+>=20
+> _______________________________________________
+> linux-amlogic mailing list
+> linux-amlogic@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-amlogic
+
 
