@@ -1,274 +1,287 @@
-Return-Path: <linux-media+bounces-46268-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-46269-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08BFEC30012
-	for <lists+linux-media@lfdr.de>; Tue, 04 Nov 2025 09:44:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8811CC3024E
+	for <lists+linux-media@lfdr.de>; Tue, 04 Nov 2025 10:04:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2E40F4F551F
-	for <lists+linux-media@lfdr.de>; Tue,  4 Nov 2025 08:41:32 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 59ADA4F6C74
+	for <lists+linux-media@lfdr.de>; Tue,  4 Nov 2025 08:56:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FD0B3203AA;
-	Tue,  4 Nov 2025 08:37:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86971318151;
+	Tue,  4 Nov 2025 08:53:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="33qNLTPu"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="uabM0aRg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011013.outbound.protection.outlook.com [40.93.194.13])
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazhn15012045.outbound.protection.outlook.com [52.102.140.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB07C31B801;
-	Tue,  4 Nov 2025 08:37:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF340313260;
+	Tue,  4 Nov 2025 08:53:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.102.140.45
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762245442; cv=fail; b=uQKAIIwBwCh8Gw7ILz87hbbajNDkSVPeCLfWQQQv8WIZftPITyFiM+RxB4AKoQEAxd/PYB/z0mn93RGXjDjgKumyckEuhu9ZcVMQwgfs2INg7S697TbYE3vkWLI4FUjeAuHorX0Xdp0KgdHU3uvNv7lMQ3HVu0Gfyg//+PqdzAM=
+	t=1762246437; cv=fail; b=FlHpLm/2SOmofSnNTa+aIvuuSKrTPYn1pFap4xUlmzlTjhqBNu9HI+wpDmLjUSlHKWRoXIyhS2WDzeAo/dni4mJieoqgAVHzMSe+xXYj8m9d+WVwRAuFHKFGdGlsQOrtPW22kHUnDIQUxEpp+P4kXoXVxdyShp15eVN0B6eMpqs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762245442; c=relaxed/simple;
-	bh=079iv2JDR1983FC/pvgEiJFQ00ZStQ3QBcs8RWENLBk=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gNc0PJrhrQqYb2d8XBJXrjlnZGsw0tlIVuKddy65Xjg7Tyu/rm2ESSD9RJ6TxaN1WwEOvotYZLBn7+PgLhecwoMjVd3MdRVShksgpiA35exp2SG0MMvRSG9VIxsKazkEm381GVMBU0rhqqFOht3xthseNeQwOdqpNCpqon51cO4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=33qNLTPu; arc=fail smtp.client-ip=40.93.194.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1762246437; c=relaxed/simple;
+	bh=5zBNENWWz4oByh0G0NHeTXkOKw+ZPN4i3nM1IwBWmDs=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:CC:References:
+	 In-Reply-To:Content-Type; b=UVfx0ApDI4NeGZWTx2bYlomBrtjuMHAvjH7H8X/c5YtpLBEKRMLiP4QEHWOgDe3HHFLGcgKRTHAjajvhjdu5SmykTswd2LGUyY6F1Yr5+Kx52SwseBZGT/mKctmU5OvxyC9l+U0ABoNjmEdEeWA12Vwv3pEB4Hp7Y6DBNdvjvdY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=uabM0aRg; arc=fail smtp.client-ip=52.102.140.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KTbYA0HGXZuKN3WZS676iR403dqaoaZt7o/qBdSCCW3IYUVdskoZaBpQ1mV07qkmgCNW6y1cqhwwp3UfQ0AGsi0Zof72sjFbaJVJDfywaYVY7If/hKwtL1MtdEjk7ICnsFbJC8aG5eE99pbP6gE5V8DIIyj5+1WpYvNnonA2PyqZM2LVHUTxauAsMpI8ibvellfOyq8rlq0qplE6dW4qSy2B6qJatvU27hfcI0mD7CJ3MP9lTmWe5a2vzyjF+CTUBGaMZSCjckDqYWlDEG6YT94oNRg5jJf+O0m+U8VTsq+MELjxgqaGff5TYOCXj7h9yBs3X0Fo0iZkXv5uBMWvrw==
+ b=YJnqhhKGfwOL1HaZTmlyiU+b5jrbZhJmMCxIDiBN+NH7+T9PX+8j+zQl+zwzw3s67QB5lcLN+NoVydk9qDDSeqRqTJRusDbTjBNfDa/DwxlfmaG5S9MZhdSlta2Ym178MtjoS9o/DB4CmoHsKWuZgWkHud3Mfzm6F4DD7gAcWFBOOOgzhJLcFQrVdPeCPSZFPoR9wrDcoTPRq90NoyW2nzqTMgbh0lbf06N+JLUToZPiAOQ4C+EYRKjjiJRn+Py86Q1FIq1Cm01s7ZcaXzqviyZUiTeZ0Y8NBvyrkCxoht8Zt8BQpG4WsGmxUN8dXCsEAVq1c3qQmEx8i/2rY7XrJw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ycx+XS+puQP4Ud6pPHgD1DgIG+Nv+Fl9RIIR+PssVU4=;
- b=CZ1iER50O+tfjfM5nnAip7FOHhzKN8X3xpv3RNT5+7vQ/FGR8J/ZGqV5bLwAv+U785Ya0rYMDVmNv9SJkSw4Pf33rxmtLN/0GK5QCorgXmPiDESY8wyB/9i8RRhJ9k6J4vIDvYIn3bbxDvEfzTs1RiPO7lpVjsbaeSJlrm05We4nm1P4nLNgnqtC2IYVUPlTwWpTRZ4h12paejSvLMn85iILYxnpEBRrH8yzjEeyPuRBZltdzOiMM6eL0lwwEblGGv1CFyagqM1mnKW8pphVnzcAx/CGYIc9QFyLJpJIpm29zxt3H35UHPqEynDAmhdO0HWj80Wez1Cm3woAT1nuIQ==
+ bh=2o+GFgh4IBx4CdLDCRMAxzEWR65gnszOF4J3iviVUVw=;
+ b=CYpUoEpb3rYeMd3rOSz8QcKJ4rFjlk/Gy1gz8khKIFLud3lvBXgZZFOEAMzJKLSNJFlgkCxdPVsNT+AwyzmQZIV5//V7SWhS1V1CarAa9yvCpUlBg9OYATF2eJaL5pm3kPzk2Jg9B8wvb7h9FBb4zE+ffY2DhxLdbbFNk/NDmYEPUZ0/7lv5XUd4RJKGVoDspAZls4LkLKXqRLdGOQlVUzaiamns87SJbkyVvedekkwfWcFC0Bb+7uOmZseJniVEj0tQJ9KznbGkq3kHwWVLrXQ3rYOjfKBz2ZAAaz9Nrhp01+GSZNpolxlU/dMWiyRVtSXx06sHbPQN1ocklQgucw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ 198.47.21.194) smtp.rcpttodomain=kernel.org smtp.mailfrom=ti.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ycx+XS+puQP4Ud6pPHgD1DgIG+Nv+Fl9RIIR+PssVU4=;
- b=33qNLTPuxEIS3O+R01GzcRRdjorStEDHo9/VgMaSmigZbE91fV1O7h8inwoWeMeBjeGP2ajxzB9ByhcavWEmS8A9NYeZI/tQvlEIASAZPWJCkT7+vJjnjgJou23OGSusGrvI+yEz14etHQIrUprfCSb9OZu5uj1cxXSf6FFc8Ok=
-Received: from SJ0PR13CA0187.namprd13.prod.outlook.com (2603:10b6:a03:2c3::12)
- by DS7PR12MB5911.namprd12.prod.outlook.com (2603:10b6:8:7c::16) with
+ bh=2o+GFgh4IBx4CdLDCRMAxzEWR65gnszOF4J3iviVUVw=;
+ b=uabM0aRg/IhwdF/Nrah0UySW1CWKB5KVq0dLKeW7SWUpIh/Ck+uU/gYE/O6tpNu08uK/+10k9ByNpsuby1eK0WpwTbj2chueSdGz4u5MXkibVWtMMBAGS74RKBgjmyg0P9XhwSuqpOnLUtWr+ZktfHZdn9ki3FoOZlERLcmZBr8=
+Received: from PH8P220CA0030.NAMP220.PROD.OUTLOOK.COM (2603:10b6:510:348::15)
+ by CY8PR10MB7315.namprd10.prod.outlook.com (2603:10b6:930:7e::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.16; Tue, 4 Nov
- 2025 08:37:13 +0000
-Received: from CO1PEPF000042A7.namprd03.prod.outlook.com
- (2603:10b6:a03:2c3:cafe::a) by SJ0PR13CA0187.outlook.office365.com
- (2603:10b6:a03:2c3::12) with Microsoft SMTP Server (version=TLS1_3,
+ 2025 08:53:51 +0000
+Received: from SN1PEPF00036F42.namprd05.prod.outlook.com
+ (2603:10b6:510:348:cafe::aa) by PH8P220CA0030.outlook.office365.com
+ (2603:10b6:510:348::15) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9298.7 via Frontend Transport; Tue, 4
- Nov 2025 08:37:03 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- CO1PEPF000042A7.mail.protection.outlook.com (10.167.243.36) with Microsoft
+ Nov 2025 08:53:51 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
+Received: from flwvzet200.ext.ti.com (198.47.21.194) by
+ SN1PEPF00036F42.mail.protection.outlook.com (10.167.248.26) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9298.6 via Frontend Transport; Tue, 4 Nov 2025 08:37:12 +0000
-Received: from FRAPPELLOUX01-WSLPUB.amd.com (10.180.168.240) by
- satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Tue, 4 Nov 2025 00:37:10 -0800
-From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, David Airlie
-	<airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sumit Semwal
-	<sumit.semwal@linaro.org>
-CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
-	<amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
-	<linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-	<linaro-mm-sig@lists.linaro.org>
-Subject: [PATCH v1 18/20] drm/amdgpu: rename amdgpu_fill_buffer as amdgpu_clear_buffer
-Date: Tue, 4 Nov 2025 09:35:33 +0100
-Message-ID: <20251104083605.13677-19-pierre-eric.pelloux-prayer@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251104083605.13677-1-pierre-eric.pelloux-prayer@amd.com>
-References: <20251104083605.13677-1-pierre-eric.pelloux-prayer@amd.com>
+ 15.20.9298.6 via Frontend Transport; Tue, 4 Nov 2025 08:53:49 +0000
+Received: from DFLE203.ent.ti.com (10.64.6.61) by flwvzet200.ext.ti.com
+ (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 4 Nov
+ 2025 02:53:32 -0600
+Received: from DFLE202.ent.ti.com (10.64.6.60) by DFLE203.ent.ti.com
+ (10.64.6.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 4 Nov
+ 2025 02:53:32 -0600
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE202.ent.ti.com
+ (10.64.6.60) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Tue, 4 Nov 2025 02:53:32 -0600
+Received: from [10.24.69.13] (meghana-pc.dhcp.ti.com [10.24.69.13] (may be forged))
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5A48rPTu1678790;
+	Tue, 4 Nov 2025 02:53:26 -0600
+Message-ID: <c792f4da-3385-4c14-a625-e31b09675c32@ti.com>
+Date: Tue, 4 Nov 2025 14:23:24 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [EXTERNAL] Re: [PATCH net-next v4 2/6] net: ti: icssg-prueth: Add
+ XSK pool helpers
+From: Meghana Malladi <m-malladi@ti.com>
+To: Paolo Abeni <pabeni@redhat.com>, <horms@kernel.org>,
+	<namcao@linutronix.de>, <vadim.fedorenko@linux.dev>,
+	<jacob.e.keller@intel.com>, <christian.koenig@amd.com>,
+	<sumit.semwal@linaro.org>, <sdf@fomichev.me>, <john.fastabend@gmail.com>,
+	<hawk@kernel.org>, <daniel@iogearbox.net>, <ast@kernel.org>,
+	<kuba@kernel.org>, <edumazet@google.com>, <davem@davemloft.net>,
+	<andrew+netdev@lunn.ch>
+CC: <linaro-mm-sig@lists.linaro.org>, <dri-devel@lists.freedesktop.org>,
+	<linux-media@vger.kernel.org>, <bpf@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <srk@ti.com>, Vignesh Raghavendra
+	<vigneshr@ti.com>, Roger Quadros <rogerq@kernel.org>, <danishanwar@ti.com>
+References: <20251023093927.1878411-1-m-malladi@ti.com>
+ <20251023093927.1878411-3-m-malladi@ti.com>
+ <05efdc9a-8704-476e-8179-1a9fc0ada749@redhat.com>
+ <ba1b48dc-b544-4c4b-be8a-d39b104cda21@ti.com>
+Content-Language: en-US
+In-Reply-To: <ba1b48dc-b544-4c4b-be8a-d39b104cda21@ti.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000042A7:EE_|DS7PR12MB5911:EE_
-X-MS-Office365-Filtering-Correlation-Id: f3f70be7-1fa9-4b32-a0df-08de1b7d59ff
+X-MS-TrafficTypeDiagnostic: SN1PEPF00036F42:EE_|CY8PR10MB7315:EE_
+X-MS-Office365-Filtering-Correlation-Id: afa45c00-5f65-40ef-fdf6-08de1b7fac39
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|82310400026|1800799024|36860700013;
+	BCL:0;ARA:13230040|82310400026|7416014|376014|1800799024|34020700016|36860700013|921020|12100799066;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?nSLz2Zx6IgmVhCOCYpO7rLchb0ZomhSG3RUmhdI9WBX4oT7c7a88IpirVmw3?=
- =?us-ascii?Q?fp8JX6RnYV8/4CwR72D3q24EQ8zWLWHvm5im5elFs7eczN2kmhePg2MPptMi?=
- =?us-ascii?Q?U7jtr658HrihVFsSF7jni8nJau8oY3HM5nq8aBlxbMGS6wA4iTqUETRwWHBJ?=
- =?us-ascii?Q?71m7fDI4kNdGCKP7lpOXRqDnYEcfZRSch1FRri6O3dbNdEoWl1I8EYsdtOMf?=
- =?us-ascii?Q?wVk8swL9qBB0Y2DsdNkJdBnrvjbeggEdjCstzQv+9e5ZD+FnT+ciKv0jxZtq?=
- =?us-ascii?Q?4+foYnF62krKVUZAZD8mXKo5suwttK0alpwVNaGgL828JdKtodmpSnloqaM7?=
- =?us-ascii?Q?C6a/0Pi6hmm70zH//70DZtPd8q+5b7oAgUKZ7AG7yB6ukD9JrZrjp3hMmYIj?=
- =?us-ascii?Q?yu8cs47vh0qpVY/t729ILeTmbIQ0jUpu00C/p0Ef/JXVEpcBtFkow+foMXoI?=
- =?us-ascii?Q?zFf/hwvISLb1wfbD5hvsif7NYZXI4kBT3F5OWW87ZjvDrdGs4h8aKtaiq98s?=
- =?us-ascii?Q?Eg02/ztHZeaB4Cq6nnJc7xK+zSVkQhtbgjeF5rsMOS8W4SJy9cq9mIwN3isl?=
- =?us-ascii?Q?nVU8w4QbzXW+0CSQkVt+5OYH6LYg/u9oWzELPLmygkWXzyPmz0Qnr+4fCpPk?=
- =?us-ascii?Q?donZRB9HiplOWocnPMEIiaexL6zorUXxowNTs59grdPQaKNq+poiCQlNOAck?=
- =?us-ascii?Q?+5ts7P1j01LH5ccaTtA8MlAEdjsCAW4I1lJA9YBEQbAYGHITpuO6qYNUjf/x?=
- =?us-ascii?Q?CAvhiG9e+ZctLcXxXJXzd10JR4cs2SeMUq7mnuIZLSNEE0PDuhZiY5RQXSkK?=
- =?us-ascii?Q?XfMT+T5kKUObe8J4YCOfnVoF0svwgEO/EvsNCKymxSLSHeoWkD6kwLNPPuo0?=
- =?us-ascii?Q?PNNFhGeDHqELJkyJG8t1wb3u/sDZKu/D9WnpvF2UIXAgR8wrtrTjpxMNga2o?=
- =?us-ascii?Q?cLUANkfAXc9v9waA6pmJ5JfL2CVTaqG8bxMOyRnQulRoz9Op6vFvCTVq9T2F?=
- =?us-ascii?Q?V+1NVyNFK6m5VMUOHXSVBvhZFuusirldS4c8/jAo5ytl8euZQoU/TtpvEMZh?=
- =?us-ascii?Q?bC6uLX0UQpFqf+jHGlU/eVKyq37OXaHJpOFOWuzCQM1CLMLfjvrZ/U170RRh?=
- =?us-ascii?Q?rIrbOIL4NJ5chWw2NpnUZWMeb+vsO2003Xc3RuvoFXB8Cql6Kp2wx1MrSf5L?=
- =?us-ascii?Q?9PI3K0s3Iq+08bEGXUEmH4cAn0ShfehQKMs5zV1LKIxwWc1gWfQsnEUGib+p?=
- =?us-ascii?Q?Nje3At2RGkgHnIIl5nDtq6v8pQ7XYq0N98GXPxF+/xUOUt1mrDj0zEjU/HBF?=
- =?us-ascii?Q?pfb8aSHiNYza9SpQj5uub6Ogu/jofsTyuDq6ysidz8PZb9GqAmQLnf3i29za?=
- =?us-ascii?Q?SJVoVBenG8lyGocz0rghrRX8sNi3yNe+aXXMMbxqoh0LePkhKJiNTXcAWmn7?=
- =?us-ascii?Q?2JVq3xCTorrmZZ9GoN9Ccks0REPtsgKRcnZCUfh0LlSfwXx0NSCKsifbB8sC?=
- =?us-ascii?Q?+2KD04Ngxkz1ldS0WLb3ZELfXQgwWoupC30QGUyaoqJnuId4LCn09vSQb8j5?=
- =?us-ascii?Q?dk+ZaYZyBZ8n0s+Kwrk=3D?=
+	=?utf-8?B?YmU4YnpkdE05dTBzWC9UUDlDRzJjQzVuUTV1eDR4RlA1TUdraWl4VThmMXpD?=
+ =?utf-8?B?WXRNcCtXV2hUcE1vblp3Y2NJbi80K013RVhNYnhyVUJqR0JGTWNXUFlDdExu?=
+ =?utf-8?B?YW9nN2xIbU43emVxaXJFWkh2MWlqTm8rblV2M1pHUm81aGYrUzdpT3V1MHJV?=
+ =?utf-8?B?elA3dGVBMng0RWpwc1BrdUoxaUVJTW9vNzMwQTlMQTA0U0M0czJ3ejdZZCtC?=
+ =?utf-8?B?eVE4OWh3UFJHUXJRWXlnRkoyMUdUWXlvblhHU0JXdEUxRE1HQUdVd2wxbjJk?=
+ =?utf-8?B?aDU2RTBrUlh4OHNUTkNDbFJuTFVXK0tDeFI0dmp0TjYwSUhXYzRlWU1Ydlcr?=
+ =?utf-8?B?RzJnVE9NVGNOL1BnTG1jS0FhTGdvNm4xRldISzVldldBWG9rczRlVHhIWnpi?=
+ =?utf-8?B?UkcyV2luQm95RXhZOFhLd3EvdjRhVTg0bEl5ZmFYaWMzNTJ5V0IrMXQvZ1BH?=
+ =?utf-8?B?YW1mdmtHZ2V3ZEpTWlRxYXdUMjFHOW9UbmVKV0pXZGlLb2ljTXVFaHgwWExj?=
+ =?utf-8?B?bjNsSzNlaEtlTWF3c0Q5ZWpDMlhwN2dicWp6VSs2R3B3L2RHOWZNMXBmZ08x?=
+ =?utf-8?B?WW44ZFpINWYxZXZjMUh4YkRCZW5zaEhhc0RIdVgvQnhkZC9YeXNsYkRGaCtn?=
+ =?utf-8?B?TGMzNTZ6Y3UrcTROZG55Vnp0WVREeFlnUzUrSjNtbTRIL25pSHF2bW1aVkE1?=
+ =?utf-8?B?N042S3Z5MVF0K3p4WmwrWFJOVGpDU3VHdnFybWNHcmk2NHkvcWFMR2NOQnhw?=
+ =?utf-8?B?di9DY2FCNkRGOUNxUk1qcit1K0xLbkhpbVRnMUNlY1RETlpJdWlpWWNBMG91?=
+ =?utf-8?B?M2xmVEd3V2JHdkc4OHF2WE9YQWlNeTJ2ajFQakpMYnNqSlBmVzlESytNRVB0?=
+ =?utf-8?B?OWlwVUs5ZlhYekZEOTlLVHJGUlNscC9DblVNRHI0QW5teE05Mm1ZdVpWNGI2?=
+ =?utf-8?B?WTREWXc0NXBtMXAwMVZDRHdVbXNDWXlLS1J0RmZhaHFnWmtJUXFZeUQvRzBi?=
+ =?utf-8?B?MDY1RjVOdnorUlFjbUJkdHpYZzFYUVdZckNHcXZMVzRDemYyTTQxam9yWDdI?=
+ =?utf-8?B?bXEyVnVmd2d3RXFSdm9QaW94SHVFU3ZWS3c0c3VqY20rZkc3dUxobnV3dU1u?=
+ =?utf-8?B?VE5tNk5OTXFzR054ejFNSWFFc0dycW9GMmJJZGZPaWtIV3RYY0g4VW1BUHMy?=
+ =?utf-8?B?UGpUUFAzWklrWXdFMncwRGlmT3duaE82MWw0Tnh4SkRLL2VYWTNTUUsvZDl0?=
+ =?utf-8?B?MC9hRkowaDlML055Q1ltWnhHbXJHU052TGRyREJwcnFNMGI0cWF0RnRXdjRX?=
+ =?utf-8?B?SHcwSERTa1I2TXByUWVFTEREMDFjSWNaSThHZ2RRLzdvd1dSTGNsRkltRzB5?=
+ =?utf-8?B?NUFrakJSelFrWmxJV1dKNjB1ZFBhaFJVQTAwd1M0c3dDN1N1RnM3dzRrc1pF?=
+ =?utf-8?B?RGd6bWU4WE5FVUhiYmxCTW11MzhJc0JwNUc0bEdBalpDUGRqWEVkeFI3VzB4?=
+ =?utf-8?B?eFdVaHk1ZFZDTXJsci8zZ2tQSmZub2VRVmpISU54R1hLVENGQ3R0dkdvL3hi?=
+ =?utf-8?B?R0hSVHdHZWZ3L1ZiTmRRclFJNHVnaEZoaXFQTkUrZEg5WU0vVTdVdHRRTUFM?=
+ =?utf-8?B?UFJZeWxBdG9MdFdXYzR4OEg1S2JZcnNOQ0hzUlIwaDRUWDk3Yys0bGZKTDRJ?=
+ =?utf-8?B?eXFJRHlvc25KeVpBdm1DSUw2K2tJM3N6c0FCeDBMNXVrdHdOVzRjd1BnbFA0?=
+ =?utf-8?B?MkN2cHFFUEd1SDJFMGYvbWQzK2s3cFZwTGVwbXQvZW9XZitCblBjSHdzS0lF?=
+ =?utf-8?B?NkNtcUxBSnAzaUgyWlJEMlhwUm84QVJDL0krVlhKc3R0MjNQemlnd2FjaFJR?=
+ =?utf-8?B?ZElKY2RVS2xkT0tncXA3b01TcEppcjVrR2ZNUXQ4dm1FNk5wL2pkbU5ia09z?=
+ =?utf-8?B?U2c3VFFHS283b0w1Wkd4QUozYXZQMGNhS1U5OERtN3RDMkhxNUlpbFZYQlBI?=
+ =?utf-8?B?Q0U5SHpuWFZDb1FuSE5ZZDl5OFQraG55b0xPZkZ3RmRsNUNGVXV6QVg5QkZ0?=
+ =?utf-8?Q?mF4wFr?=
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(1800799024)(36860700013);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2025 08:37:12.6639
+	CIP:198.47.21.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet200.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(82310400026)(7416014)(376014)(1800799024)(34020700016)(36860700013)(921020)(12100799066);DIR:OUT;SFP:1501;
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2025 08:53:49.6979
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f3f70be7-1fa9-4b32-a0df-08de1b7d59ff
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-Network-Message-Id: afa45c00-5f65-40ef-fdf6-08de1b7fac39
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.194];Helo=[flwvzet200.ext.ti.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	CO1PEPF000042A7.namprd03.prod.outlook.com
+	SN1PEPF00036F42.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5911
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR10MB7315
 
-This is the only use case for this function.
+Hi Paolo,
 
-Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c |  8 +++----
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    | 25 ++++++++++------------
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h    | 11 +++++-----
- 3 files changed, 20 insertions(+), 24 deletions(-)
+On 10/30/25 10:13, Meghana Malladi wrote:
+> Hi Paolo,
+> 
+> On 10/28/25 16:27, Paolo Abeni wrote:
+>> On 10/23/25 11: 39 AM, Meghana Malladi wrote: > @@ -1200,6 +1218,109 
+>> @@ static int emac_xdp_setup(struct prueth_emac *emac, struct 
+>> netdev_bpf *bpf) > return 0; > } > > +static int 
+>> prueth_xsk_pool_enable(struct prueth_emac *emac,
+>> ZjQcmQRYFpfptBannerStart
+>> This message was sent from outside of Texas Instruments.
+>> Do not click links or open attachments unless you recognize the source 
+>> of this email and know the content is safe.
+>> Report Suspicious
+>> <https://us-phishalarm-ewt.proofpoint.com/EWT/v1/G3vK! 
+>> updqHb0lvOd6ACXFPDODXzFjW2RtkIpblpWr3zui2O2JqWTyRCLKc2i7Pa7uSMBZYpq8H7tTr-jp_nDelg_OUrmNCgZ8_m0$>
+>> ZjQcmQRYFpfptBannerEnd
+>>
+>> On 10/23/25 11:39 AM, Meghana Malladi wrote:
+>>> @@ -1200,6 +1218,109 @@ static int emac_xdp_setup(struct prueth_emac 
+>>> *emac, struct netdev_bpf *bpf)
+>>>      return 0;
+>>>  }
+>>>
+>>> +static int prueth_xsk_pool_enable(struct prueth_emac *emac,
+>>> +                  struct xsk_buff_pool *pool, u16 queue_id)
+>>> +{
+>>> +    struct prueth_rx_chn *rx_chn = &emac->rx_chns;
+>>> +    u32 frame_size;
+>>> +    int ret;
+>>> +
+>>> +    if (queue_id >= PRUETH_MAX_RX_FLOWS ||
+>>> +        queue_id >= emac->tx_ch_num) {
+>>> +        netdev_err(emac->ndev, "Invalid XSK queue ID %d\n", queue_id);
+>>> +        return -EINVAL;
+>>> +    }
+>>> +
+>>> +    frame_size = xsk_pool_get_rx_frame_size(pool);
+>>> +    if (frame_size < PRUETH_MAX_PKT_SIZE)
+>>> +        return -EOPNOTSUPP;
+>>> +
+>>> +    ret = xsk_pool_dma_map(pool, rx_chn->dma_dev, PRUETH_RX_DMA_ATTR);
+>>> +    if (ret) {
+>>> +        netdev_err(emac->ndev, "Failed to map XSK pool: %d\n", ret);
+>>> +        return ret;
+>>> +    }
+>>> +
+>>> +    if (netif_running(emac->ndev)) {
+>>> +        /* stop packets from wire for graceful teardown */
+>>> +        ret = icssg_set_port_state(emac, ICSSG_EMAC_PORT_DISABLE);
+>>> +        if (ret)
+>>> +            return ret;
+>>> +        prueth_destroy_rxq(emac);
+>>> +    }
+>>> +
+>>> +    emac->xsk_qid = queue_id;
+>>> +    prueth_set_xsk_pool(emac, queue_id);
+>>> +
+>>> +    if (netif_running(emac->ndev)) {
+>>> +        ret = prueth_create_rxq(emac);
+>>
+>> It looks like this falls short of Jakub's request on v2:
+>>
+>> https://urldefense.com/v3/__https://lore.kernel.org/ 
+>> netdev/20250903174847.5d8d1c9f@kernel.org/__;!!G3vK! 
+>> TxEOF2PZA-2oagU7Gmq2PdyHrceI_sWFRSCMP2meOxVrs8eqStDUSTPi2kyzjva1rgUzQUtYbd9g$ <https://urldefense.com/v3/__https://lore.kernel.org/netdev/20250903174847.5d8d1c9f@kernel.org/__;!!G3vK!TxEOF2PZA-2oagU7Gmq2PdyHrceI_sWFRSCMP2meOxVrs8eqStDUSTPi2kyzjva1rgUzQUtYbd9g$>
+>>
+>> about not freeing the rx queue for reconfig.
+>>
+> 
+> I tried honoring Jakub's comment to avoid freeing the rx memory wherever 
+> necessary.
+> 
+> "In case of icssg driver, freeing the rx memory is necessary as the
+> rx descriptor memory is owned by the cppi dma controller and can be
+> mapped to a single memory model (pages/xdp buffers) at a given time.
+> In order to remap it, the memory needs to be freed and reallocated."
+> 
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-index 410e9b68ff81..9dc262cac39f 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-@@ -723,8 +723,8 @@ int amdgpu_bo_create(struct amdgpu_device *adev,
- 
- 	if (bp->flags & AMDGPU_GEM_CREATE_VRAM_CLEARED &&
- 	    bo->tbo.resource->mem_type == TTM_PL_VRAM) {
--		r = amdgpu_fill_buffer(NULL, bo, 0, NULL,
--				       NULL, AMDGPU_KERNEL_JOB_ID_TTM_CLEAR_BUFFER);
-+		r = amdgpu_clear_buffer(NULL, bo, NULL,
-+					NULL, AMDGPU_KERNEL_JOB_ID_TTM_CLEAR_BUFFER);
- 		if (unlikely(r))
- 			goto fail_unreserve;
- 	}
-@@ -1311,8 +1311,8 @@ void amdgpu_bo_release_notify(struct ttm_buffer_object *bo)
- 	    adev->in_suspend || drm_dev_is_unplugged(adev_to_drm(adev)))
- 		goto out;
- 
--	r = amdgpu_fill_buffer(NULL, abo, 0, NULL,
--			       NULL, AMDGPU_KERNEL_JOB_ID_CLEAR_ON_RELEASE);
-+	r = amdgpu_clear_buffer(NULL, abo, NULL,
-+				NULL, AMDGPU_KERNEL_JOB_ID_CLEAR_ON_RELEASE);
- 	if (WARN_ON(r))
- 		goto out;
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 1f553c56f31d..ac2857314d68 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -431,9 +431,9 @@ static int amdgpu_move_blit(struct ttm_buffer_object *bo,
- 	    (abo->flags & AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE)) {
- 		struct dma_fence *wipe_fence = NULL;
- 
--		r = amdgpu_fill_buffer(entity,
--				       abo, 0, &wipe_fence, fence,
--				       AMDGPU_KERNEL_JOB_ID_MOVE_BLIT);
-+		r = amdgpu_clear_buffer(entity,
-+					abo, &wipe_fence, fence,
-+					AMDGPU_KERNEL_JOB_ID_MOVE_BLIT);
- 		if (r) {
- 			goto error;
- 		} else if (wipe_fence) {
-@@ -2413,23 +2413,21 @@ static int amdgpu_ttm_fill_mem(struct amdgpu_ring *ring,
- }
- 
- /**
-- * amdgpu_fill_buffer - fill a buffer with a given value
-+ * amdgpu_clear_buffer - fill a buffer with 0
-  * @entity: optional entity to use. If NULL, the clearing entities will be
-  *          used to load-balance the partial clears
-  * @bo: the bo to fill
-- * @src_data: the value to set
-  * @f: optional out fence. If @entity is NULL, this must be NULL and the
-  *     fences from each partial clear will be added to the &dma_resv.
-  * @dependency: optional input dependency fence.
-  * @k_job_id: trace id
-  *
-  */
--int amdgpu_fill_buffer(struct amdgpu_ttm_entity *entity,
--		       struct amdgpu_bo *bo,
--		       uint32_t src_data,
--		       struct dma_fence **f,
--		       struct dma_fence *dependency,
--		       u64 k_job_id)
-+int amdgpu_clear_buffer(struct amdgpu_ttm_entity *entity,
-+			struct amdgpu_bo *bo,
-+			struct dma_fence **f,
-+			struct dma_fence *dependency,
-+			u64 k_job_id)
- {
- 	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
- 	struct amdgpu_ring *ring = adev->mman.buffer_funcs_rings[0];
-@@ -2440,8 +2438,7 @@ int amdgpu_fill_buffer(struct amdgpu_ttm_entity *entity,
- 	uint64_t cur_size, to;
- 	int r, e, n_fences;
- 	/* The clear flag is only valid directly after allocation. */
--	bool consider_clear_flag =
--		src_data == 0 && k_job_id == AMDGPU_KERNEL_JOB_ID_TTM_CLEAR_BUFFER;
-+	bool consider_clear_flag = k_job_id == AMDGPU_KERNEL_JOB_ID_TTM_CLEAR_BUFFER;
- 
- 	/* The fences will be either added to the resv object or the last fence
- 	 * will be returned to the caller. In the latter case, all fill jobs will
-@@ -2520,7 +2517,7 @@ int amdgpu_fill_buffer(struct amdgpu_ttm_entity *entity,
- 
- 
- 		r = amdgpu_ttm_fill_mem(ring, &entity->base,
--					src_data, to, cur_size,
-+					0, to, cur_size,
- 					resv,
- 					&fence, true, k_job_id);
- 		if (r) {
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-index 97e73919cb0c..b685bf207e43 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-@@ -182,12 +182,11 @@ int amdgpu_copy_buffer(struct amdgpu_ring *ring,
- 		       struct dma_resv *resv,
- 		       struct dma_fence **fence,
- 		       bool vm_needs_flush, uint32_t copy_flags);
--int amdgpu_fill_buffer(struct amdgpu_ttm_entity *entity,
--		       struct amdgpu_bo *bo,
--		       uint32_t src_data,
--		       struct dma_fence **f,
--		       struct dma_fence *dependency,
--		       u64 k_job_id);
-+int amdgpu_clear_buffer(struct amdgpu_ttm_entity *entity,
-+			struct amdgpu_bo *bo,
-+			struct dma_fence **f,
-+			struct dma_fence *dependency,
-+			u64 k_job_id);
- 
- int amdgpu_ttm_alloc_gart(struct ttm_buffer_object *bo);
- void amdgpu_ttm_recover_gart(struct ttm_buffer_object *tbo);
--- 
-2.43.0
+Just to make sure we are on the same page, does the above explanation 
+make sense to you or do you want me to make any changes in this series 
+for v5 ?
 
+>> I think you should:
+>> - stop the H/W from processing incoming packets,
+>> - spool all the pending packets
+>> - attach/detach the xsk_pool
+>> - refill the ring
+>> - re-enable the H/W
+>>
+> 
+> Current implementation follows the same sequence:
+> 1. Does a channel teardown -> stop incoming traffic
+> 2. free the rx descriptors from free queue and completion queue -> spool 
+> all pending packets/descriptors
+> 3. attach/detach the xsk pool
+> 4. allocate rx descriptors and fill the freeq after mapping them to the 
+> correct memory buffers -> refill the ring
+> 5. restart the NAPI - re-enable the H/W to recv the traffic
+> 
+> I am still working on skipping 2 and 4 steps but this will be a long 
+> shot. Need to make sure all corner cases are getting covered. If this 
+> approach looks doable without causing any regressions I might post it as 
+> a followup patch later in the future.
+> 
+>> /P
+>>
+> 
+
+thanks,
+Meghana
 
