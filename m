@@ -1,100 +1,94 @@
-Return-Path: <linux-media+bounces-46271-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-46272-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8084C30630
-	for <lists+linux-media@lfdr.de>; Tue, 04 Nov 2025 10:59:27 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A96DC306FF
+	for <lists+linux-media@lfdr.de>; Tue, 04 Nov 2025 11:13:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 1D1314F6168
-	for <lists+linux-media@lfdr.de>; Tue,  4 Nov 2025 09:57:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 27E913ADD88
+	for <lists+linux-media@lfdr.de>; Tue,  4 Nov 2025 10:13:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBF93314A90;
-	Tue,  4 Nov 2025 09:57:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F80D313271;
+	Tue,  4 Nov 2025 10:13:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lxvUEd0/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SuNKL8Dg"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32C1528BAAC;
-	Tue,  4 Nov 2025 09:57:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D313B3112D5;
+	Tue,  4 Nov 2025 10:13:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762250251; cv=none; b=YeoYtq+PRn5cPFtYbjMDgiu3S96xa8P+nBMvjBDElTC1iq6r0KBu1SDCoER6/73MqOae66qA3bJnJY4Rfd0a2IzqiUHBYDwTACulbxv4znn6FTxTD3gcuPxtRkAaeG+b/N0KFTU5Xgg5n8SZG0PnuV4tJaXkTWGDDFoeh8xpt3A=
+	t=1762251182; cv=none; b=H5c1QnwTFq7nw0NOkmq5Bu/pgUIOpntgRkv4JwLp3Z/JyhnPNMkUKhr8f6Ae9YkAvyE8KFJdGzSHS5lMpJUGvNN6e7q1jgKaDLFNFIof+8+HmZYjDhA92JKjw4jM0r3owmbhm9OBJkv1Qc2hPyBTQxnzoKADuAPJoOTwVpR2esc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762250251; c=relaxed/simple;
-	bh=7En2OG3X7ZP2LUb4t379Rh8l5nm4w5x2WVKDBZXU++c=;
+	s=arc-20240116; t=1762251182; c=relaxed/simple;
+	bh=icqyozgXuJp3TFyBwx6Aw0nfD5vxd8pkStCNlIhPD0Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R7NxijKRQhSR5KtBRWemzFWxeUXzb5BWhgGZoRfv3AJL7vhKv4PDZENZZdTC2lZw5xFv3tk7wvAxrXJL/qEWQle5CeDIB7GPuV2ygwD/7P5G+fZbcXbQDRUDLfFVUXF/SbLt1kZrKW1OmhUxPDwiC9X9lQjfHKf4+Fqh5ZOpUE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lxvUEd0/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31B08C4CEF7;
-	Tue,  4 Nov 2025 09:57:30 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=rlXCYxmAoo0o1lXqIjQ2ZpveH5hm9pyAGSj4tXdh/FyCz+8HFz6rUdPCH3J/TuC4nWaoY+KXHIyZt+uS5rI09UyWmENJSkgCjZMfBYh3jQYw8PV2sdNABeFC0Iex+MlOG73aQ1+pdByZlWdYtLG4YKDDFLSOVfqlEvgJj5bbrjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SuNKL8Dg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69DDAC4CEF7;
+	Tue,  4 Nov 2025 10:13:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762250250;
-	bh=7En2OG3X7ZP2LUb4t379Rh8l5nm4w5x2WVKDBZXU++c=;
+	s=k20201202; t=1762251182;
+	bh=icqyozgXuJp3TFyBwx6Aw0nfD5vxd8pkStCNlIhPD0Y=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lxvUEd0/+QrkhLPYuBnQ/9h1tHeLa30JGm9ZsH19YCY3j/D5/jn/L7l/XEY3JVvtF
-	 Z+DgQdggz5BBwcqp740WVIHMei09l8oiE1p2QhTiYydS2lQZRT3FsE2X9BqBn94k+H
-	 HqaEZD9WbXUKCbpAhnFbe5HtIBPdmja9P9bg/znjqY3OzlVkKIWFi1ki6yLj6VnOe7
-	 NwO+6fJYCl/wfdzvsp3Q06QtAOArsSNjyqP9s/WLt30+gFrqgPzJwj57suwQgvFfgq
-	 elpcMz/GB9twDSJfYfhzAfdI2s0iXiNO7+xbjIFE+vsJnhVE/9DBs8SAsy1L+w+FE2
-	 kmGj+fxz5zC9g==
-Date: Tue, 4 Nov 2025 10:57:28 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Guoniu Zhou <guoniu.zhou@oss.nxp.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>, 
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Guoniu Zhou <guoniu.zhou@nxp.com>
-Subject: Re: [PATCH v2 1/3] media: dt-bindings: nxp,imx8-isi: Add i.MX95 ISI
- compatible string
-Message-ID: <20251104-tricky-stallion-of-tenacity-a8e81b@kuoka>
-References: <20251104-isi_imx95-v2-0-c05b7cb104cd@nxp.com>
- <20251104-isi_imx95-v2-1-c05b7cb104cd@nxp.com>
+	b=SuNKL8DgiuWqZRNbOeP0J8D6oiYE8NmQg6mxYwpn9jb1acj/P5hvg8b8HqNzTLoEb
+	 OWYb874u2QM9b3GYVsCPiWArerXQ5Ts/9+6jw1l3xkx6VcjHrEyGWN48PFRaGm8UYA
+	 +WyQg4m0J+XB6skEnw6SOAj5glof0emhU3w0B3XwmeuzHxtwpoe+8XBH4b3N+v1zfs
+	 uZ/wEf5Wnvxv9vc4n1LK6SEDtge3Tkgl+3my8HidKuqNij8V+VhD3aoOiogdJ2OIOj
+	 7OebDqwQwa7dBTuMXN+Qm/rGpcK4nerGjfmfX5gAJTrcvX2i5p4UacfgkFE1OB91uU
+	 RgIEOnuUPxSfQ==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+	(envelope-from <johan@kernel.org>)
+	id 1vGE2D-000000006G3-1Ycg;
+	Tue, 04 Nov 2025 11:13:05 +0100
+Date: Tue, 4 Nov 2025 11:13:05 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, Frank Li <Frank.Li@nxp.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] media: imx8-isi: Drop unused module alias
+Message-ID: <aQnRsVPq1ndQrLr_@hovoldconsulting.com>
+References: <20251102234438.8022-1-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251104-isi_imx95-v2-1-c05b7cb104cd@nxp.com>
+In-Reply-To: <20251102234438.8022-1-laurent.pinchart@ideasonboard.com>
 
-On Tue, Nov 04, 2025 at 11:21:05AM +0800, Guoniu Zhou wrote:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: fsl,imx95-isi
-> +    then:
-> +      properties:
-> +        interrupts:
-> +          minItems: 8
-> +        ports:
-> +          properties:
-> +            port@0:
-> +              description: Pixel Link Slave 0
-> +            port@1:
-> +              description: Pixel Link Slave 1
-> +            port@2:
-> +              description: MIPI CSI-2 RX 0
-> +            port@3:
-> +              description: MIPI CSI-2 RX 1
-> +          required:
-> +            - port@2
-> +            - port@3
-> +    else:
+Hi Laurent,
 
-Drop the else and instead add if:then: blocks per each variant where you
-correctly constrain the interrupts.
+On Mon, Nov 03, 2025 at 01:44:38AM +0200, Laurent Pinchart wrote:
+> The driver has never supported anything but OF probing so drop the
+> unused platform module alias.
 
-Best regards,
-Krzysztof
+The commit message needs some more work since this isn't a platform
+module alias (i.e. has a "platform:" prefix), and judging from a quick
+look it seems like the driver did support platform probing before commit
+605b57c4e888 ("media: nxp: imx8-isi: Drop partial support for i.MX8QM
+and i.MX8QXP"), at least in theory.
 
+It's probably fine to remove the "ISI" alias, but it should not affect
+module autoloading.
+ 
+> Suggested-by: Johan Hovold <johan@kernel.org>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+> Johan, I've got the idea from similar patches you submitted for other
+> NXP media drivers, hence the Suggested-by tag. Please let me know if I
+> can keep it.
+
+Sure, please do.
+
+> -MODULE_ALIAS("ISI");
+
+Johan
 
