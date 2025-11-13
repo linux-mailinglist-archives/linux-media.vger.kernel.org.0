@@ -1,255 +1,156 @@
-Return-Path: <linux-media+bounces-47019-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47020-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6647C5A0E1
-	for <lists+linux-media@lfdr.de>; Thu, 13 Nov 2025 22:07:15 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60B15C5A3DA
+	for <lists+linux-media@lfdr.de>; Thu, 13 Nov 2025 22:52:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id E94D0356752
-	for <lists+linux-media@lfdr.de>; Thu, 13 Nov 2025 21:04:23 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D5E034FB42B
+	for <lists+linux-media@lfdr.de>; Thu, 13 Nov 2025 21:38:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D38962F6582;
-	Thu, 13 Nov 2025 21:04:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57B6B322C63;
+	Thu, 13 Nov 2025 21:37:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="R4xiIsZd"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="dE5u0BfX"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2372F5311
-	for <linux-media@vger.kernel.org>; Thu, 13 Nov 2025 21:04:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F08B12F5A05;
+	Thu, 13 Nov 2025 21:37:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763067859; cv=none; b=T9PaVxSWHE9smqSg1C3wlUSu/HD8vlqDXgbE6A/RhVjGC6jjHMthiGik4gu7KzNN6peJigGuviTUKV4rvrceOyuJoe++hqJ5ZYDeJvO3rrFr7f+15QPlloEPsBGagc4OrKxmX9kxrkDm9w56jr3hY6yzqjYkT/RLu5RHHZJytD8=
+	t=1763069875; cv=none; b=ndW5gL+/FUgAQXv30fEGHxUDEJ3eqiS8H0kpya0E4CbM6FPnc3Pw3i0kVXNWmyvx20cSgqaIn+Pu3j1slO1lo0FnuavTRquVEU9TvYGnxx6qDoq4VSY9Ay+vfPRvQfBADHf/dA0jwVC2R+LRkZaBn3Vs0bF8ippgzAxw8HjHP3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763067859; c=relaxed/simple;
-	bh=6AVYao2iwJafhgW7lrO+gPL0uztrCDncIErDM5/MKyE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VK1y82V6kpu1q7/J0ipyCaYUec++aly1J07aBWk84dZmpT5O7CcLQh336hf1RF4Iq4YUlZtY8IUhgsg/Cz/tPndg2W9qG+rDMtBzecMs2GyJhZxB4TIY3QBGzBFnL7w0B5vaRYaj3aPnYEQuAHLsG+WDuktjTfwAHbhYWxQznhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=R4xiIsZd; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1763069875; c=relaxed/simple;
+	bh=ZEvMSYQn3qX32oQ0cS7GX9KlSRR2/sSwyGOpDRMxdx4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WyZKC1ydk1dXXBaF/0b3TU9c9Hrt7CrsEvSr9EbBnBMQexnzawmPeA3kSYYmLuaFEthZ6WXkgRBqSVloYMNaZ6Eb54MLSFfSiXfnd94WFvdwUXvbiNGcUAY4omnk5xh4OtBAmW+bf2KY3lIWuuHSMvEWpOnlp5vN5Z3baaAyGmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=dE5u0BfX; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (82-203-165-222.bb.dnainternet.fi [82.203.165.222])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id D8558C67;
-	Thu, 13 Nov 2025 22:02:11 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 2390B5B2;
+	Thu, 13 Nov 2025 22:35:44 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1763067732;
-	bh=6AVYao2iwJafhgW7lrO+gPL0uztrCDncIErDM5/MKyE=;
-	h=From:To:Cc:Subject:Date:From;
-	b=R4xiIsZdJ1iibjY1XO/5YKyCcvgEjUAeQNCl2UoybnggbijFKuX0HJeIlgYSsTDCA
-	 CiMzeZK4mIq1bJ4dn/cUEu7oboKKKUySd0U7mJp669lkWY5VrjJFgJVhvviaMhWOI2
-	 KhT4NqhPd0CD3dhHBRg090JsMcEMaC+Tm/PjSewQ=
+	s=mail; t=1763069744;
+	bh=ZEvMSYQn3qX32oQ0cS7GX9KlSRR2/sSwyGOpDRMxdx4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dE5u0BfX5p5nUpoUTk15ZrOwnkZ9g4IRhcJSkCtLsbUhSnaHYlMBdXcL3mVsB2qUz
+	 DrvVhfb766HUsHy7kCE8xkTW+xHgVKhQ5KywBd2pTzm+KMDK2uRT/rz29ITRsGMQX7
+	 RLBSiX2eLlKlk19bJBiM516cbZmqrh/v1EurvT1U=
+Date: Thu, 13 Nov 2025 23:37:33 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: linux-media@vger.kernel.org
-Cc: Ricardo Ribalda <ribalda@chromium.org>,
-	Hans Verkuil <hans@jjverkuil.nl>,
-	Hans de Goede <hansg@kernel.org>,
-	Lili Orosz <lily@floofy.city>
-Subject: [PATCH v4] media: uvcvideo: Create an ID namespace for streaming output terminals
-Date: Thu, 13 Nov 2025 23:04:00 +0200
-Message-ID: <20251113210400.28618-1-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.51.0
+To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Cc: Michal Pecio <michal.pecio@gmail.com>, Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: uvcvideo: Return queued buffers on
+ start_streaming() failure
+Message-ID: <20251113213733.GF9135@pendragon.ideasonboard.com>
+References: <20251015133642.3dede646.michal.pecio@gmail.com>
+ <CAPybu_0O10SsPp4G8SfcsbCP5k1gXQJ5Hmhw4kMFTZguEZ7iBQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPybu_0O10SsPp4G8SfcsbCP5k1gXQJ5Hmhw4kMFTZguEZ7iBQ@mail.gmail.com>
 
-From: Ricardo Ribalda <ribalda@chromium.org>
+On Tue, Oct 21, 2025 at 12:47:23PM +0200, Ricardo Ribalda Delgado wrote:
+> Hi Michal
+> 
+> It seems that the device was disconnected while doing streamon. That
+> caused uvc_pm_get() to fail and exit without returning the buffers.
+> 
+> Your patch is not going to help to fix:
+> xhci_hcd 0000:09:00.0: HC died; cleaning up
+> usb 13-2: USB disconnect, device number 2
+> 
+> But it is fixing an issue. thanks :)
+> 
+> On Wed, Oct 15, 2025 at 1:36 PM Michal Pecio <michal.pecio@gmail.com> wrote:
+> >
+> > Return buffers if streaming fails to start due to uvc_pm_get() error.
+> >
+> > This bug may be responsible for a warning I got running
+> >
+> >     while :; do yavta -c3 /dev/video0; done
+> >
+> > on an xHCI controller which failed under this workload.
+> > I had no luck reproducing this warning again to confirm.
+> >
+> > xhci_hcd 0000:09:00.0: HC died; cleaning up
+> > usb 13-2: USB disconnect, device number 2
+> > WARNING: CPU: 2 PID: 29386 at drivers/media/common/videobuf2/videobuf2-core.c:1803 vb2_start_streaming+0xac/0x120
+> >
+> > Fixes: 7dd56c47784a ("media: uvcvideo: Remove stream->is_streaming field")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
+> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> 
+> > ---
+> >  drivers/media/usb/uvc/uvc_queue.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
+> > index 790184c9843d..f49c538618bc 100644
+> > --- a/drivers/media/usb/uvc/uvc_queue.c
+> > +++ b/drivers/media/usb/uvc/uvc_queue.c
+> > @@ -177,7 +177,7 @@ static int uvc_start_streaming_video(struct vb2_queue *vq, unsigned int count)
+> >
+> >         ret = uvc_pm_get(stream->dev);
+> >         if (ret)
+> > -               return ret;
+> > +               goto return_buffers;
+> >
+> >         queue->buf_used = 0;
+> >
+> > @@ -187,6 +187,7 @@ static int uvc_start_streaming_video(struct vb2_queue *vq, unsigned int count)
+> >
+> >         uvc_pm_put(stream->dev);
+> >
+> > +return_buffers:
+> >         uvc_queue_return_buffers(queue, UVC_BUF_STATE_QUEUED);
+> >
+> >         return ret;
 
-Some devices, such as the Grandstream GUV3100 and the LSK Meeting Eye
-for Business & Home, exhibit entity ID collisions between units and
-streaming output terminals.
+Error labels should start with err_. I'd like to take this as an
+opportunity to reorganize the error path with something like
 
-The UVC specification requires unit and terminal IDs to be unique, and
-uses the ID to reference entities:
+	ret = uvc_pm_get(stream->dev);
+	if (ret)
+		goto err_buffers;
+ 
+	queue->buf_used = 0;
 
-- In control requests, to identify the target entity
-- In the UVC units and terminals descriptors' bSourceID field, to
-  identify source entities
-- In the UVC input header descriptor's bTerminalLink, to identify the
-  terminal associated with a streaming interface
+	ret = uvc_video_start_streaming(stream);
+	if (ret)
+		goto err_pm;
 
-Entity ID collisions break accessing controls and make the graph
-description in the UVC descriptors ambiguous. However, collisions where
-one of the entities is a streaming output terminal and the other entity
-is not a streaming terminal are less severe. Streaming output terminals
-have no controls, and, as they are the final entity in pipelines, they
-are never referenced in descriptors as source entities. They are
-referenced by ID only from innput header descriptors, which by
-definition only reference streaming terminals.
+	return 0;
+ 
+err_pm:
+	uvc_pm_put(stream->dev);
+err_buffers:
+	uvc_queue_return_buffers(queue, UVC_BUF_STATE_QUEUED);
+	return ret;
 
-For these reasons, we can work around the collision by giving streaming
-output terminals their own ID namespace. Do so by setting bit
-UVC_TERM_OUTPUT (15) in the uvc_entity.id field, which is normally never
-set as the ID is a 8-bit value.
 
-This ID change doesn't affect the entity name in the media controller
-graph as the name isn't constructed from the ID, so there should not be
-any impact on the uAPI.
+I'll send a v2 that does this.
 
-Although this change handles some ID collisions automagically, keep
-printing an error in uvc_alloc_new_entity() when a camera has invalid
-descriptors. Hopefully this message will help vendors fix their invalid
-descriptors.
-
-This new method of handling ID collisions includes a revert of commit
-758dbc756aad ("media: uvcvideo: Use heuristic to find stream entity")
-that attempted to fix the problem urgently due to regression reports.
-
-Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Tested-by: Lili Orosz <lily@floofy.city>
-Co-developed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
-Changes since v3:
 
-- Squash with revert of commit 758dbc756aad ("media: uvcvideo: Use
-  heuristic to find stream entity")
-
-Changes since v2:
-
-- Improve commit message and comment block
-
-Changes in v2:
-
-- Change Macro name
-- Apply quirk only to TT_STEAMING
-- Add missing suggested by
-- uvc_stream_for_terminal
-- Note, v2 has not been tested yet in real hardware, only v1.
-- Link to v1: https://lore.kernel.org/r/20251022-uvc-grandstream-laurent-v1-1-0925738a3484@chromium.org
----
- drivers/media/usb/uvc/uvc_driver.c | 54 ++++++++++++++++++------------
- drivers/media/usb/uvc/uvcvideo.h   |  3 +-
- 2 files changed, 35 insertions(+), 22 deletions(-)
-
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index ee4f54d68349..aa3e8d295e0f 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -165,28 +165,17 @@ static struct uvc_entity *uvc_entity_by_reference(struct uvc_device *dev,
- 	return NULL;
- }
- 
--static struct uvc_streaming *uvc_stream_by_id(struct uvc_device *dev, int id)
-+static struct uvc_streaming *uvc_stream_for_terminal(struct uvc_device *dev,
-+						     struct uvc_entity *term)
- {
--	struct uvc_streaming *stream, *last_stream;
--	unsigned int count = 0;
-+	u16 id = UVC_HARDWARE_ENTITY_ID(term->id);
-+	struct uvc_streaming *stream;
- 
- 	list_for_each_entry(stream, &dev->streams, list) {
--		count += 1;
--		last_stream = stream;
- 		if (stream->header.bTerminalLink == id)
- 			return stream;
- 	}
- 
--	/*
--	 * If the streaming entity is referenced by an invalid ID, notify the
--	 * user and use heuristics to guess the correct entity.
--	 */
--	if (count == 1 && id == UVC_INVALID_ENTITY_ID) {
--		dev_warn(&dev->intf->dev,
--			 "UVC non compliance: Invalid USB header. The streaming entity has an invalid ID, guessing the correct one.");
--		return last_stream;
--	}
--
- 	return NULL;
- }
- 
-@@ -823,10 +812,12 @@ static struct uvc_entity *uvc_alloc_new_entity(struct uvc_device *dev, u16 type,
- 	}
- 
- 	/* Per UVC 1.1+ spec 3.7.2, the ID is unique. */
--	if (uvc_entity_by_id(dev, id)) {
--		dev_err(&dev->intf->dev, "Found multiple Units with ID %u\n", id);
-+	if (uvc_entity_by_id(dev, UVC_HARDWARE_ENTITY_ID(id)))
-+		dev_err(&dev->intf->dev, "Found multiple Units with ID %u\n",
-+			UVC_HARDWARE_ENTITY_ID(id));
-+
-+	if (uvc_entity_by_id(dev, id))
- 		id = UVC_INVALID_ENTITY_ID;
--	}
- 
- 	extra_size = roundup(extra_size, sizeof(*entity->pads));
- 	if (num_pads)
-@@ -982,6 +973,7 @@ static int uvc_parse_standard_control(struct uvc_device *dev,
- 	struct usb_host_interface *alts = dev->intf->cur_altsetting;
- 	unsigned int i, n, p, len;
- 	const char *type_name;
-+	unsigned int id;
- 	u16 type;
- 
- 	switch (buffer[2]) {
-@@ -1120,8 +1112,28 @@ static int uvc_parse_standard_control(struct uvc_device *dev,
- 			return 0;
- 		}
- 
-+		id = buffer[3];
-+
-+		/*
-+		 * Some devices, such as the Grandstream GUV3100, exhibit entity
-+		 * ID collisions between units and streaming output terminals.
-+		 * Move streaming output terminals to their own ID namespace by
-+		 * setting bit UVC_TERM_OUTPUT (15), above the ID's 8-bit value.
-+		 * The bit is ignored in uvc_stream_for_terminal() when looking
-+		 * up the streaming interface for the terminal.
-+		 *
-+		 * This hack is safe to enable unconditionally, as the ID is not
-+		 * used for any other purpose (streaming output terminals have
-+		 * no controls and are never referenced as sources in UVC
-+		 * descriptors). Other types output terminals can have controls,
-+		 * so limit usage of this separate namespace to streaming output
-+		 * terminals.
-+		 */
-+		if (type & UVC_TT_STREAMING)
-+			id |= UVC_TERM_OUTPUT;
-+
- 		term = uvc_alloc_new_entity(dev, type | UVC_TERM_OUTPUT,
--					    buffer[3], 1, 0);
-+					    id, 1, 0);
- 		if (IS_ERR(term))
- 			return PTR_ERR(term);
- 
-@@ -2118,8 +2130,8 @@ static int uvc_register_terms(struct uvc_device *dev,
- 		if (UVC_ENTITY_TYPE(term) != UVC_TT_STREAMING)
- 			continue;
- 
--		stream = uvc_stream_by_id(dev, term->id);
--		if (stream == NULL) {
-+		stream = uvc_stream_for_terminal(dev, term);
-+		if (!stream) {
- 			dev_info(&dev->intf->dev,
- 				 "No streaming interface found for terminal %u.",
- 				 term->id);
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index ed7bad31f75c..3f2e832025e7 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -41,7 +41,8 @@
- #define UVC_EXT_GPIO_UNIT		0x7ffe
- #define UVC_EXT_GPIO_UNIT_ID		0x100
- 
--#define UVC_INVALID_ENTITY_ID          0xffff
-+#define UVC_HARDWARE_ENTITY_ID(id)	((id) & 0xff)
-+#define UVC_INVALID_ENTITY_ID		0xffff
- 
- /* ------------------------------------------------------------------------
-  * Driver specific constants.
-
-base-commit: d363bdfa0ec6b19a4f40b572cec70430d5b13ad6
 -- 
 Regards,
 
 Laurent Pinchart
-
 
