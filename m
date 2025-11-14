@@ -1,156 +1,111 @@
-Return-Path: <linux-media+bounces-47140-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47141-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F6F1C5E269
-	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 17:18:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B62AC5E351
+	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 17:24:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3928E36434A
-	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 15:32:27 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id D812635FBD5
+	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 15:39:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D2DC3451CE;
-	Fri, 14 Nov 2025 15:20:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18ABD32D42F;
+	Fri, 14 Nov 2025 15:28:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iAfQvPfi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LkjbqH06"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F838342145;
-	Fri, 14 Nov 2025 15:20:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1BD32D7F4;
+	Fri, 14 Nov 2025 15:28:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763133621; cv=none; b=HgjB43z6Q0nuZRG606+uGtZJ9VDL7IDebJVOG5uCQln3vSz2HUjDr7lvNRv2x2oFm4Vq3K+ZBr14qhULlerQ12hLB7pFV1jgF5qIQuOKIJDLOq8qxicJpyf9JuG746OVFt5AOjb7WOUx58DGwHcbrxZYiJf29WM+7xdnyl9iZLs=
+	t=1763134109; cv=none; b=seiJb/Zt9V1ZSGahdLcJ25Sn30yVtrSkOkadnhaVJ2W4fH23Y7TyL7BEsBsvg6f25opQZ9RGCPVvbHjHN6rHN9Ti7VBai5JoJ2pVWLhq8VN9+N+QzZG/rWMf4FkAZ5F6JzxQrWmvOm8aZiYKtRQU0IbjbjJyi96sNffbiPwmPTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763133621; c=relaxed/simple;
-	bh=Zl4Mel46TcR7AjpUnvtEjIgKxbaBwJflcYSmq34rCyA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=DPX41qjauz73DhSCmft6eKegELSoxeNO8goExu6rYH9kj3Tl4fdbU0E5uu1/zPvGYYbOAoSeNQ4oP3GEjy9uHeAfwjO8T9cSH/nFlw9UlMomQEoepYy2lb6ez+9slN+bEPRcwjB4LkK7R6mws7Bf4OpJAqvr7SyABLCV/RRCOls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iAfQvPfi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E57B1C4CEF5;
-	Fri, 14 Nov 2025 15:20:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763133621;
-	bh=Zl4Mel46TcR7AjpUnvtEjIgKxbaBwJflcYSmq34rCyA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=iAfQvPfi5SEADkrlUNoOM6I8Of1LYP0FGLct8zWunHT6+ytKuGxV8cnXyPGEyvXMQ
-	 t5jTYgBnFuRUumcwcf7D2AHe4F44j+LxRFhOL7nR8e0GLwuWPWYIgAL49WTzCGN3wO
-	 1htSQfWSMwzxcQdVjGPiU0hNwfuenZNJMxFJiL7Ua8So64KaO/1J1bJIJY58OYbgq6
-	 Epz3MJxDVjFUXRrx8pUZsyCAIqC4x5M3NAb9tM8Mmas9ZVtSIL2s8Z8d8ERWFfHFJL
-	 xN6At0nQ96mcBVN/pLGEDAB9vj07PQzCb+wS2DRnWO5xNT750op7wy3l43WpBnJNVE
-	 1PLbFMtQx3LFg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE98CCE8D40;
-	Fri, 14 Nov 2025 15:20:20 +0000 (UTC)
-From: Michael Riesch via B4 Relay <devnull+michael.riesch.collabora.com@kernel.org>
-Date: Fri, 14 Nov 2025 16:20:25 +0100
-Subject: [PATCH v15 14/14] arm64: dts: rockchip: enable vicap dvp on
- wolfvision pf5 io expander
+	s=arc-20240116; t=1763134109; c=relaxed/simple;
+	bh=z8lCr3fSbWR0YaeRJvRwXvQNpYW9CE1zd/Fm1bcIsCE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n6cQTe+uiXpEMSkHRusag5G6cBvW5w6tqV+YjlmcbYc0KkZYhviZarRl/m91AJrhLG445SO0XqFoE4dE382mtJo/Pw+nK7BcoGXTNVpBI+i5hs1ceCIeWz2NwzXST9trVdnMrZ87ZldSJ+gQCbgzP4tlY3WjWHu0D9duekY/ncA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LkjbqH06; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763134108; x=1794670108;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=z8lCr3fSbWR0YaeRJvRwXvQNpYW9CE1zd/Fm1bcIsCE=;
+  b=LkjbqH063u0pq5dYjXDf++VVJnwUmyFcHaX/9V4RECDnUMJL9FNB/Bv2
+   Mcz8jDM5RW+xp69OHg/NpzShe51fercrdgPMfcU+5TwgWwdQ//36XnYv7
+   AxeYPFMMouHhCbWcQcusPIfFXpKhbKrJI3ld4/Ol+azuxaxZObwlDYcGI
+   QaFV73UfBzX3OIi5SAgKv1JOqxsVHOt4i0e76BTh2hpaZCae3CVtQ9hKJ
+   OYtgpruwqQKxyIubZRf9e7ho6+cdFVfJBJ8TCdwvvjpUtCXJ1Py/xbCSP
+   DJL3PDb9+F1yjoi9eFXr/9E0aoFcPKHfUq46HfqBmLGRh/F7hlAFRXq1e
+   Q==;
+X-CSE-ConnectionGUID: d3Cr80r0R4+qvXxfKnozeg==
+X-CSE-MsgGUID: Q5eqjIEsRuWhdUHDqlg9wg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11613"; a="75909789"
+X-IronPort-AV: E=Sophos;i="6.19,305,1754982000"; 
+   d="scan'208";a="75909789"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 07:28:27 -0800
+X-CSE-ConnectionGUID: 82XteTvSQDqJSy/t7iUKSw==
+X-CSE-MsgGUID: Ypb8ALdmRFS6MgEOugSKQg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,305,1754982000"; 
+   d="scan'208";a="189450717"
+Received: from ijarvine-desk1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.53])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 07:28:24 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 606D5121DDE;
+	Fri, 14 Nov 2025 17:28:23 +0200 (EET)
+Date: Fri, 14 Nov 2025 17:28:23 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Daniel Scally <dan.scally@ideasonboard.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, Anthony.McGivern@arm.com,
+	nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com,
+	laurent.pinchart@ideasonboard.com,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v13 15/15] Documentation: mali-c55: Document the mali-c55
+ parameter setting
+Message-ID: <aRdKlwosRv-80_KN@kekkonen.localdomain>
+References: <20251111-c55-v13-0-3dc581355e3a@ideasonboard.com>
+ <20251111-c55-v13-15-3dc581355e3a@ideasonboard.com>
+ <2n4sn2aakwl7k2qvcefb7m2zzllytj7i4nup55xex2ggdngfkd@gwpxbpmlupko>
+ <aRdBbn4cpdn_7H0v@kekkonen.localdomain>
+ <umslyxkmj4gnr743c6ixsykay5w2seoeiy2hzidg6lb3fcizep@dglvrn7l7a4q>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240220-rk3568-vicap-v15-14-8f4915ee365d@collabora.com>
-References: <20240220-rk3568-vicap-v15-0-8f4915ee365d@collabora.com>
-In-Reply-To: <20240220-rk3568-vicap-v15-0-8f4915ee365d@collabora.com>
-To: Mehdi Djait <mehdi.djait@linux.intel.com>, 
- Maxime Chevallier <maxime.chevallier@bootlin.com>, 
- =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Gerald Loacker <gerald.loacker@wolfvision.net>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Markus Elfring <Markus.Elfring@web.de>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
- Kever Yang <kever.yang@rock-chips.com>, 
- Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- Collabora Kernel Team <kernel@collabora.com>, 
- Paul Kocialkowski <paulk@sys-base.io>, 
- Alexander Shiyan <eagle.alexander923@gmail.com>, 
- Val Packett <val@packett.cool>, Rob Herring <robh@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, 
- Michael Riesch <michael.riesch@collabora.com>, 
- Michael Riesch <michael.riesch@collabora.com>
-X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1763133617; l=1721;
- i=michael.riesch@collabora.com; s=20250410; h=from:subject:message-id;
- bh=0H9SWagLsWuudSJ0hjW87B9xG48FbT9CuvPeqAKM5fI=;
- b=ON8s1W20TM2jD3yggSPiBMjn3TVdy681hETUmgkXMbCzQ5bIRhnbvJJbaQ2nq4R7R+7KYcocC
- kcQo4gi6jRWDuQiwLMpSjUDm9L/HBnw6KmYYdm+LkgOlG3FcDZKi8dm
-X-Developer-Key: i=michael.riesch@collabora.com; a=ed25519;
- pk=+MWX1fffLFZtTPG/I6XdYm/+OSvpRE8D9evQaWbiN04=
-X-Endpoint-Received: by B4 Relay for michael.riesch@collabora.com/20250410
- with auth_id=371
-X-Original-From: Michael Riesch <michael.riesch@collabora.com>
-Reply-To: michael.riesch@collabora.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <umslyxkmj4gnr743c6ixsykay5w2seoeiy2hzidg6lb3fcizep@dglvrn7l7a4q>
 
-From: Michael Riesch <michael.riesch@collabora.com>
+Hi Jacopo,
 
-The Digital Video Port (DVP, the 16-bit variant) of the RK3568 VICAP
-is broken out to the PF5 mainboard expansion header.
-Enable it in the device tree overlay for the WolfVision PF5 IO
-Expander board.
+On Fri, Nov 14, 2025 at 03:57:21PM +0100, Jacopo Mondi wrote:
+> Hi Sakari,
+>    can't say timing is what we excel the most at.
+> 
+> Afaik Hans has applied the PR, and as all comments here are on ...
+> comments, they will be addressed with patches on top
 
-Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
-Reviewed-by: Gerald Loacker <gerald.loacker@wolfvision.net>
-Tested-by: Gerald Loacker <gerald.loacker@wolfvision.net>
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
----
- .../rockchip/rk3568-wolfvision-pf5-io-expander.dtso  | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+This is just sample code, changing it later on will be fine.
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-io-expander.dtso b/arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-io-expander.dtso
-index 048933de2943..8cfce71dd318 100644
---- a/arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-io-expander.dtso
-+++ b/arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-io-expander.dtso
-@@ -11,6 +11,7 @@
- #include <dt-bindings/clock/rk3568-cru.h>
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/interrupt-controller/irq.h>
-+#include <dt-bindings/media/video-interfaces.h>
- #include <dt-bindings/pinctrl/rockchip.h>
- 
- &{/} {
-@@ -134,3 +135,22 @@ &usb2phy0_host {
- 	phy-supply = <&usb_host_vbus>;
- 	status = "okay";
- };
-+
-+&vicap {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&cif_clk &cif_dvp_clk &cif_dvp_bus16>;
-+	status = "okay";
-+};
-+
-+&vicap_dvp {
-+	vicap_dvp_input: endpoint {
-+		bus-type = <MEDIA_BUS_TYPE_BT656>;
-+		bus-width = <16>;
-+		pclk-sample = <MEDIA_PCLK_SAMPLE_DUAL_EDGE>;
-+		rockchip,dvp-clk-delay = <10>;
-+	};
-+};
-+
-+&vicap_mmu {
-+	status = "okay";
-+};
+Thanks.
 
 -- 
-2.39.5
+Kind regards,
 
-
+Sakari Ailus
 
