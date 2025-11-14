@@ -1,326 +1,209 @@
-Return-Path: <linux-media+bounces-47072-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47074-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27216C5CC8B
-	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 12:14:14 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DD05C5CDBE
+	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 12:29:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 21EE33A9E1A
-	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 11:13:51 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 0BA2334EB2A
+	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 11:28:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83A67313548;
-	Fri, 14 Nov 2025 11:13:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21A00314A67;
+	Fri, 14 Nov 2025 11:28:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="X+fcgGzZ"
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="1itAnsS/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012025.outbound.protection.outlook.com [40.93.195.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com [209.85.208.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0C02FB625;
-	Fri, 14 Nov 2025 11:13:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763118821; cv=fail; b=sG+C7ZJFrpmTts9cGJpUmPdLiVcqva5T30Z8G363Tb5q4jesaYtHhtt1Lla0VCkFJr6X2CkQo0yx+PYiBbyotM7JxDTa4kZc+Wgo4P1yONPK63Nn3IE71AimH5LIx/mgrMepTFXMQ4nODRHZfGgRCkoXbBaNOseKHKKbXh2LmGc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763118821; c=relaxed/simple;
-	bh=ISfVG1/0SVfqLHOU4995EJpXDYi2Y0CZLaUpEihXwR4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Cn5AVHFUHvHxPISbTq9HEYM/Dy5cbV1B9U90Ffavm+BmpU4MPsVfRB8n4mp5QmAMu4b6VWjxTYcwTYz9wS/K3SRDR6kKNaKZx+oEuowA9SuH7PZgcnZfGfeXA83+KbOjalmbPFZukioNe2/1uavbidvOr2pkMD/2jks6ZH6sCQE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=X+fcgGzZ; arc=fail smtp.client-ip=40.93.195.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fs8V3FCMs1KGmhNdXtjLVAx1kwG8c/KolmMXX0xuDZUhZsYKufzExicr2ClnawSfDItcWwPsyLwRnwuMkH8NuL6QTND/FmZ4ICrn0gDCMUfp8wVPYfC1CV9/Ltm5nweUpsC1cjL40TEGbzVk8RF1Q2ESb27Fb/SF3a0EFgDM8uvDLjvH8avsUrz9J0WM2QDh+x49YA03SORafdI58V5zh6x4fnLoFCxMVRiQELpDDkGQBdu1mbDY3baMQ23E5FMw6ekoRUlWW8kTukaojveH4apJ9IJAhkwdMpIqK/NQDCa9mk4AaPVRDNzXPWMgrut3seuaKjqPxvWoH7XmRpVgwQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mMzKjTcHJWDpvDIK0bqX2/DAOrIti20vcVW2pwyhm7s=;
- b=YEtJRvjpkQIWjz1LwdaW5+f68SrDTQfJ+OYYoqBvn0+hpG2f/B0N6VHNKqlRNc/FSmDJdYGsRqXAJf+k52+NXuyAv5i4smRIcxUhoF3s+avEtmuYcWePTTSLlVXXAA5IVZ2HA8jhHy9EsXUX/dguU+AtEFmQtELD3bUfgnjdUBYyABM/l7sWdZKjA0NI2/dVTdu53w4ZQNyu3m2yNFy/zC1i77P73U/jobAdRil3esTmrni27wEvX5K/0lgL8+LsSUoVJDiv9SaTNELbx6Hd0izYHe9Iw3K5QFZcy3uQ4VIFJLLhUo8WbraP1Y78E/WtjcJOUTGsYEpQg2ZzZyn0Ew==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.194) smtp.rcpttodomain=kernel.org smtp.mailfrom=ti.com; dmarc=pass
- (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
- (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mMzKjTcHJWDpvDIK0bqX2/DAOrIti20vcVW2pwyhm7s=;
- b=X+fcgGzZWMpprUT6aP21UyGjmZ8Iql+mtEoCDHshFhHkXICu3akJOTb+lew0iuht26TmvtoeljgkpBLTSgb/l9hUtDy/rrt3UHVZoioVhGMiC5M5t2/a+YA6hX9Zs0luNvHP4m8HQjn6x6mNI+CUf3dtDA9FTM8XPKzaDoe/Kj8=
-Received: from BN9PR03CA0906.namprd03.prod.outlook.com (2603:10b6:408:107::11)
- by PH3PPF077CE0592.namprd10.prod.outlook.com (2603:10b6:518:1::785) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.15; Fri, 14 Nov
- 2025 11:13:36 +0000
-Received: from BN1PEPF00006000.namprd05.prod.outlook.com
- (2603:10b6:408:107:cafe::e3) by BN9PR03CA0906.outlook.office365.com
- (2603:10b6:408:107::11) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9320.16 via Frontend Transport; Fri,
- 14 Nov 2025 11:13:29 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
-Received: from flwvzet200.ext.ti.com (198.47.21.194) by
- BN1PEPF00006000.mail.protection.outlook.com (10.167.243.232) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9320.13 via Frontend Transport; Fri, 14 Nov 2025 11:13:33 +0000
-Received: from DFLE203.ent.ti.com (10.64.6.61) by flwvzet200.ext.ti.com
- (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 14 Nov
- 2025 05:13:29 -0600
-Received: from DFLE201.ent.ti.com (10.64.6.59) by DFLE203.ent.ti.com
- (10.64.6.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 14 Nov
- 2025 05:13:28 -0600
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE201.ent.ti.com
- (10.64.6.59) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Fri, 14 Nov 2025 05:13:28 -0600
-Received: from [10.24.69.13] (meghana-pc.dhcp.ti.com [10.24.69.13] (may be forged))
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5AEBDLRH1893172;
-	Fri, 14 Nov 2025 05:13:22 -0600
-Message-ID: <3737a9bf-e95b-4ea8-b16b-418b777f407c@ti.com>
-Date: Fri, 14 Nov 2025 16:43:21 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4935C313E0E
+	for <linux-media@vger.kernel.org>; Fri, 14 Nov 2025 11:28:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.68
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763119709; cv=none; b=pG1Mw/7du1aQELaxbv5OTy5cp0NpGYu1Ux6bWgN9PsdZkqfE7XKXTRk/MsdQz7Cciq0sF+H05sIrrgWlLS0/BE1UGXsC82HQMrlNvcYLv0y+P0k9p8/BFQ24f/W56Ku0PlEh6uiIAQRcqBpiP2TKIgpgVcnWp/uePHs5CkNhMJA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763119709; c=relaxed/simple;
+	bh=/8v081eYKCKOZDNGWsjdgufXOvmbM2u274lti91nqBc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Sd41CwSWUBIZX+qC5fMld7Xo7PinaheT6HgLKvzSyv0h9auxIEZ8oaFiaeMb8p1EMDwzfBLFFDXfsW0jgay5zIBc4ozphxoI6vmJ24PX4Z4zeI++dAknz2ZPnQU4NfTruSitH6gahDzEb2xqdpfGQgSEfjg2Z3x4u9+4cfQzXTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=1itAnsS/; arc=none smtp.client-ip=209.85.208.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
+Received: by mail-ed1-f68.google.com with SMTP id 4fb4d7f45d1cf-640b0639dabso3255501a12.3
+        for <linux-media@vger.kernel.org>; Fri, 14 Nov 2025 03:28:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1763119704; x=1763724504; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UZrsM3gSytE92YEMxHDpdQzx1aWK1/po5BBG7X3Ts/g=;
+        b=1itAnsS/F8HTIKsTQTG8edIFH4wgNIpA9EUTqFnGlUUDyrhlmp/qQeTxi/f87roxaG
+         bbZMIxlhHlP05E2DSpNP2Cnhld+AMwFsyDUgir/AlrAyO7dRKHTOs8HHc1IwyvfVRg4P
+         oowNadK+Yw+TZXPEltudnFSCLyARV9zWqTieef5bh5ddk2oHfvxULvQ8lRyN869QI0xR
+         eDTMrHj0Md2+ZGp1R3gznriF1ZcXOx3KRJBXSnpEc0JM9UMQ5EXvGDrvaMFeeHf1VD+7
+         qhAryNwH7GYvpGgYYteq7dOCoKBCQcn5sQ7TaG73pbEBSwhMDCMV1b8C/HHs/F2Imbaa
+         6Lvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763119705; x=1763724505;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UZrsM3gSytE92YEMxHDpdQzx1aWK1/po5BBG7X3Ts/g=;
+        b=hu0iFqg65YUtFhgIVbzCyrw4aEqDxPO2LhIocSe+BiIev9y4XAXuJ7p9El56viKwMV
+         Echk4ZJTa/WzVoaq1xkAT4RttkW5o2fkYKAocerCctJzkaymiZv/VB/jrB0GPpozisCt
+         anxJOjjKGw6gFSQxTTSo0ywBHSw2R4hoH4w3u45ssVcCOdTrVlCQf8daYzuAGqQc1TA/
+         vYegzPxC96TBls4U/JuHOY4koBX6q35iofiFbSUPEAAFYGJtiChhGkYNGZnrKtz20g1K
+         cht+dhSbKqHUcjdQPxbWElT1zzaZZjvt2X9EY+lFC4O+GfRCRlmcgsAggE5lot7gnVf/
+         l4dQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWyVZWFWN3BH+yXi2UM52IeiD/0louFnRdkiwnE8KoB0jCS+FfKHpcoYgPqggZ+Kvc8FBdqn+x32P8KGQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxoKkNQK7OnUFlDHHa247rxKUj3tmXv1TcMvPINPIGsGDDlYhbr
+	bFUPYqgHetXSgX2olYSn/kNeVmo+Nrw49YirjpCHLjliTBlZl6HRQOk+Mt25Bv/E44E=
+X-Gm-Gg: ASbGncsyKNMgi0eZNRraceTNqDIY32rRIBnXq5Ot8TJXjJMbSbMAoGG9lRVZwFIYvEG
+	DBpdIwiFHjyYBNK0264NY/TQNeObchu7h2g4XY1pApQzypb17S7BpYm2fLo2V2NR5xQ5ysKrcp8
+	q5h6HVHT5U6vEKN1ikadevsuXkV5x/w9BEmeJ5fvD8OrUpby6wiM6OIqkclzVarjOvSqc9l4Xkz
+	rDjaAAWK6fVh3b7O4gR6bZcLqQtOMx3y5b2V+ihj7FV91l8NV9lUx5Zpw6hShvuGEdJUfXI4fnY
+	T2frp45dX4acP5drkCoOKsSxMtp6cAPoC1Xer4IgdPzp+PudFUjcSIGAvQct4AHqxKJ+PreFsRd
+	DTN+xraic7e6rOpMT5CG1Wv14QHZXx5mI3To8WkZzD4bZzU7WQb9COf70o8Y4CjMIZ4mVxdndlG
+	vEBZPgPc+Rjg8JKnMTpzYCi1vpfcUCYb54ec8DF0QetOpImfQnjj8vm3s43bo2KkFmbe42TcbrV
+	uPE0mREssNsRUixtLT6+X+FcQ0vxaBktQ==
+X-Google-Smtp-Source: AGHT+IHkMtKAsDivftMze7owOgMWMjSMGYTEya3fZ0IaGCwoODR/zJDYr0nmHilXmU636PkOl4jIQg==
+X-Received: by 2002:a17:907:3d87:b0:b72:9961:dc04 with SMTP id a640c23a62f3a-b736792fdeamr279925866b.28.1763119704520;
+        Fri, 14 Nov 2025 03:28:24 -0800 (PST)
+Received: from [192.168.101.179] (2001-1c04-0509-ec01-156d-fa6e-7f19-0b67.cable.dynamic.v6.ziggo.nl. [2001:1c04:509:ec01:156d:fa6e:7f19:b67])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b734fedb91bsm366887766b.70.2025.11.14.03.28.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Nov 2025 03:28:24 -0800 (PST)
+From: Luca Weiss <luca.weiss@fairphone.com>
+Subject: [PATCH v2 0/3] Add CAMSS support for SM6350
+Date: Fri, 14 Nov 2025 12:15:23 +0100
+Message-Id: <20251114-sm6350-camss-v2-0-d1ff67da33b6@fairphone.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v5 1/6] net: ti: icssg-prueth: Add functions to
- create and destroy Rx/Tx queues
-To: Simon Horman <horms@kernel.org>
-CC: <namcao@linutronix.de>, <vadim.fedorenko@linux.dev>,
-	<jacob.e.keller@intel.com>, <christian.koenig@amd.com>,
-	<sumit.semwal@linaro.org>, <sdf@fomichev.me>, <john.fastabend@gmail.com>,
-	<hawk@kernel.org>, <daniel@iogearbox.net>, <ast@kernel.org>,
-	<pabeni@redhat.com>, <kuba@kernel.org>, <edumazet@google.com>,
-	<davem@davemloft.net>, <andrew+netdev@lunn.ch>,
-	<linaro-mm-sig@lists.linaro.org>, <dri-devel@lists.freedesktop.org>,
-	<linux-media@vger.kernel.org>, <bpf@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <srk@ti.com>, Vignesh Raghavendra
-	<vigneshr@ti.com>, Roger Quadros <rogerq@kernel.org>, <danishanwar@ti.com>
-References: <20251111101523.3160680-1-m-malladi@ti.com>
- <20251111101523.3160680-2-m-malladi@ti.com>
- <aRcGMTRzDFwe23NV@horms.kernel.org>
-Content-Language: en-US
-From: Meghana Malladi <m-malladi@ti.com>
-In-Reply-To: <aRcGMTRzDFwe23NV@horms.kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF00006000:EE_|PH3PPF077CE0592:EE_
-X-MS-Office365-Filtering-Correlation-Id: 19158132-7084-4256-0eb1-08de236ed9b3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|36860700013|82310400026|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?UFBkaWdIUzJTNno5Tzk3NTNrdG9OaGRDMElIcWI3ZHdsM1lxT0x6TG9OTWto?=
- =?utf-8?B?emY2VVpiVDFQS2dkV1lQa09yOC9JQmZHWVNocFVaMEdBWFFMNlFrZWFHL005?=
- =?utf-8?B?VXJTaTVSTjdPRTFTNG0wVkYwMEt2NEIxVG1leHNpdEwwdVRNMVBGSVVSNmJK?=
- =?utf-8?B?My9GQVY2bGlnTENoZllaNjUrRG13anJGSGtNTjNMUE8vM3YxQ2RoTmlvMlRo?=
- =?utf-8?B?UVFiQmRxaGdjeUxuVEF0Y0JBT09LbU52WHh2cEtIcW03L2h4ZUR3MWgxNHFj?=
- =?utf-8?B?UkxmQ29FRGp1VXp1bmRwMUNJM2FhbGo4WFVSSU1iTWhaTGVpY2tiUjVGbVh3?=
- =?utf-8?B?eXNXUUt6M3d1dHlQVk9pVktpZ0Z5ZzREVnVsUWZmRGRRbEdZZlNsUG5nczNV?=
- =?utf-8?B?VFJzQ3VoU2ZPMUl5ZHJ0QUh5WDV5ZEVDNzVFVDV2M3VrdXVMQkIvcGxrSEhE?=
- =?utf-8?B?L3o0aW5tK2hwNkNnamQwT1VYRTI4ZzFWeFo0anNvaWgrdmlDUncxckZzc1NK?=
- =?utf-8?B?K0dDeTJDVHVZQTJpNGJyQnBOVytWbDFvOVVrcW4wYXNTNytDbnhTQ1Q2TUEx?=
- =?utf-8?B?VU5sYTZSYW8xNWVUWHFCMHdmUlF4VGVBNnNBd3U1VEFGNWJJU1RRVVIxVzE1?=
- =?utf-8?B?YnQ5K3hnMDMwNnJKSFJhalNINmxILys2Y1BjZExJTjdvWTFhQk9ERk9sSTk5?=
- =?utf-8?B?eHdHZlEwNndqeGFUQS9yaFU5QWdWS1NKcEdHVDJmU2JzZXl5NUhWNm9PZndl?=
- =?utf-8?B?UGh2TU1DRUY4UVl1dXpQeGJoYlQyYlhPZnNETW9kdTNzNHVlczRsUGFtNjlK?=
- =?utf-8?B?RmxWRFVqSlN4WmlIWnYzRmxwcUJDbmt5MkMxL2JJNDRvWE9JMlE4dEhidXNy?=
- =?utf-8?B?VElqRS80eUpFdjJ6ZnRCMEFRMElsMmhGdFBFTEc3b05yWXFJb3lqQTFOMzVu?=
- =?utf-8?B?dXZwcU81N2lsbFZLUTF6Y2g5R1NJL251MkQvL3N3aGlPdlVmOGJOUFlvZHVa?=
- =?utf-8?B?OVB6djhOUDVYS2tUQW54M0xxWEh2Mkk1YUV2amdOclhlWm40bHNSOGYwaU1W?=
- =?utf-8?B?VDlRYUE5WERnOGJOWEcxYkJzQ2lYb0NlUHdOMGRneUxZNzArVnVpeFAwbkNk?=
- =?utf-8?B?SFJPSWpKZXgwcEFUeThCMVFLT09qWmZuY2dpM0Ntay9TV1ptdnNXTG9rR3B6?=
- =?utf-8?B?cy9sTytLTDJVODVUc05LbUtZNjJhRzJrVDRacWRFaTJjc1lqZS9qeS9Ea2JB?=
- =?utf-8?B?ak1VYVlqMXc5RXhqTWwyelRNblFNZVVvN0ZtSEs0YllOS2tqTWNZeWVGekVq?=
- =?utf-8?B?K2ZFNUFxcjRzSXo4TDhPdEIzdDFYZzIxUUdSMnhrNis2b3RBb1dNS2UwbS9z?=
- =?utf-8?B?UXUvTDJIN2dkRlNGNWpUQTlWWHRsVzA3TnQwdTN6RzB0UW9qYVNROVNIdStn?=
- =?utf-8?B?VlRyVko3TDJhYkpxKzhuZk4yZ1RTWCtROTNPQkZqbW1ZSWQwS0VTN0hCeVRO?=
- =?utf-8?B?THZPTkc0TEJDbDZIakdmbnFtTk9JZW5vcllqUEx0eExxQzRybWlHNmVjeUI1?=
- =?utf-8?B?c05LWTdmS0lUR0QwODBzN3ZCVGM1SkYwMXRWenN4aUNmREFMQnp0WHhMeXBr?=
- =?utf-8?B?bXk4N2ZJZXl0M3BhMEIyZmRIVkZzQ3IySTR4OER3R2ZWYnFJRnJucWtsbk1X?=
- =?utf-8?B?Z2d3eGhwVFJlQ29WczdEUnMwZFRsQjI4RGVFWktiNkFoYXc2OHhUQjhhQTZx?=
- =?utf-8?B?MEtWRGtkZTRJemhWbVpyZ3F2K2VpTnkyUEFEdmRrNnBQRXpIU0FwcmpYK21i?=
- =?utf-8?B?ZzBTaGxUWHF4QW1tODR5Q0EzeTlaSkgrY2J6clQ4SW9TT1luRkxIYVNYaGlk?=
- =?utf-8?B?RExMNDc5N1JvbHBwa1Y0dVowcDN5QWk2UXQxbHd1MWs1KzNkWndEWVd5YkFU?=
- =?utf-8?B?WWptbFBTKzBleUs2S0F2Y0xkbDhJY3JCQ2pEZlY4RXl4Q2p1L1A4NlQyRWZB?=
- =?utf-8?B?MDZpSDZLSGxwcU9PWmtpdGlySmptdWJINXJpWEc0UkRMMVR3NFlTK25aUFVp?=
- =?utf-8?B?VzlGMmRlL01KTzBya2gweEs3c2c0UE15MDVpTFg0Y253KzlKVDBxSUJ4QzYr?=
- =?utf-8?Q?TEsw=3D?=
-X-Forefront-Antispam-Report:
-	CIP:198.47.21.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet200.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(7416014)(376014)(36860700013)(82310400026)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2025 11:13:33.7891
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 19158132-7084-4256-0eb1-08de236ed9b3
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.194];Helo=[flwvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN1PEPF00006000.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPF077CE0592
+X-B4-Tracking: v=1; b=H4sIAEsPF2kC/22OQQ6DIBBFr2JmXRoEJbWr3qNxgTBUFoAFamyMd
+ y/VLrt8k7z3Z4WE0WKCa7VCxNkmG3wBdqpAjdI/kFhdGBhlbU1ZQ5ITvKVESZcS6VRDm8F0ymg
+ NRZkiGrvsuXt/cMTnq1TzcYRBJiQqOGfztfK4ZPIrc/gKo005xPf+zlzvxv/luSaUCK4FE4Jfp
+ NY3I22cxuDxXPLQb9v2Af6l9PHdAAAA
+X-Change-ID: 20251024-sm6350-camss-9c404bf9cfdd
+To: Bryan O'Donoghue <bod@kernel.org>, Robert Foss <rfoss@kernel.org>, 
+ Todor Tomov <todor.too@gmail.com>, 
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Luca Weiss <luca.weiss@fairphone.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1763119703; l=4454;
+ i=luca.weiss@fairphone.com; s=20250611; h=from:subject:message-id;
+ bh=/8v081eYKCKOZDNGWsjdgufXOvmbM2u274lti91nqBc=;
+ b=rGV1bCqA0QoOB4J2pHzjAWoClMZOmodaUbYXbxr2puh0l23HeNXM95pNlZAx+5vRtUHaEAD6g
+ njOXGF3IURTBg0DuXp8g+iOA48x7S5Fvq8ANuLgKbtGDM58CEwaSHjW
+X-Developer-Key: i=luca.weiss@fairphone.com; a=ed25519;
+ pk=O1aw+AAust5lEmgrNJ1Bs7PTY0fEsJm+mdkjExA69q8=
 
-Hi Simon,
+Add bindings, driver and dts to support the Camera Subsystem on the
+SM6350 SoC.
 
-On 11/14/25 16:06, Simon Horman wrote:
-> On Tue, Nov 11, 2025 at 03:45:18PM +0530, Meghana Malladi wrote:
-> 
-> ...
-> 
->> diff --git a/drivers/net/ethernet/ti/icssg/icssg_prueth.c b/drivers/net/ethernet/ti/icssg/icssg_prueth.c
->> index 57a7d1ceab08..b66ffbfb499c 100644
->> --- a/drivers/net/ethernet/ti/icssg/icssg_prueth.c
->> +++ b/drivers/net/ethernet/ti/icssg/icssg_prueth.c
->> @@ -735,6 +735,114 @@ static int icssg_update_vlan_mcast(struct net_device *vdev, int vid,
->>   	return 0;
->>   }
->>   
->> +static void prueth_destroy_txq(struct prueth_emac *emac)
->> +{
->> +	int ret, i;
->> +
->> +	atomic_set(&emac->tdown_cnt, emac->tx_ch_num);
->> +	/* ensure new tdown_cnt value is visible */
->> +	smp_mb__after_atomic();
->> +	/* tear down and disable UDMA channels */
->> +	reinit_completion(&emac->tdown_complete);
->> +	for (i = 0; i < emac->tx_ch_num; i++)
->> +		k3_udma_glue_tdown_tx_chn(emac->tx_chns[i].tx_chn, false);
->> +
->> +	ret = wait_for_completion_timeout(&emac->tdown_complete,
->> +					  msecs_to_jiffies(1000));
->> +	if (!ret)
->> +		netdev_err(emac->ndev, "tx teardown timeout\n");
->> +
->> +	for (i = 0; i < emac->tx_ch_num; i++) {
->> +		napi_disable(&emac->tx_chns[i].napi_tx);
->> +		hrtimer_cancel(&emac->tx_chns[i].tx_hrtimer);
->> +		k3_udma_glue_reset_tx_chn(emac->tx_chns[i].tx_chn,
->> +					  &emac->tx_chns[i],
->> +					  prueth_tx_cleanup);
->> +		k3_udma_glue_disable_tx_chn(emac->tx_chns[i].tx_chn);
->> +	}
->> +}
->> +
->> +static void prueth_destroy_rxq(struct prueth_emac *emac)
->> +{
->> +	int i, ret;
->> +
->> +	/* tear down and disable UDMA channels */
->> +	reinit_completion(&emac->tdown_complete);
->> +	k3_udma_glue_tdown_rx_chn(emac->rx_chns.rx_chn, true);
->> +
->> +	/* When RX DMA Channel Teardown is initiated, it will result in an
->> +	 * interrupt and a Teardown Completion Marker (TDCM) is queued into
->> +	 * the RX Completion queue. Acknowledging the interrupt involves
->> +	 * popping the TDCM descriptor from the RX Completion queue via the
->> +	 * RX NAPI Handler. To avoid timing out when waiting for the TDCM to
->> +	 * be popped, schedule the RX NAPI handler to run immediately.
->> +	 */
->> +	if (!napi_if_scheduled_mark_missed(&emac->napi_rx)) {
->> +		if (napi_schedule_prep(&emac->napi_rx))
->> +			__napi_schedule(&emac->napi_rx);
->> +	}
->> +
->> +	ret = wait_for_completion_timeout(&emac->tdown_complete,
->> +					  msecs_to_jiffies(1000));
->> +	if (!ret)
->> +		netdev_err(emac->ndev, "rx teardown timeout\n");
->> +
->> +	for (i = 0; i < PRUETH_MAX_RX_FLOWS; i++) {
->> +		napi_disable(&emac->napi_rx);
->> +		hrtimer_cancel(&emac->rx_hrtimer);
-> 
-> Hi Meghana,
-> 
-> Is it intentional that the napi_disable() and hrtimer_cancel()
-> are made once for each (possible) flow, rather than just once
-> as was the case before this patch?
-> 
-> Maybe the tx code, which does the same, was used as a template here
-> in error?
-> 
+These patches were tested on a Fairphone 4 smartphone with WIP sensor
+drivers (Sony IMX576 and IMX582), the camera pipeline works properly as
+far as I can tell.
 
-Currently there is only one flow per Rx channel. But we can enable 
-support to add multiple flows to a given given channel. In that case 
-napi_disable() and hrtimer_cancel() will be invoked per flow. That being 
-said, though right now this for loop is redundant this is a intentional 
-change for multiple flows.
+Though when stopping the camera stream, the following clock warning
+appears in dmesg. But it does not interfere with any functionality,
+starting and stopping the stream works and debugcc is showing 426.4 MHz
+while the clock is on, and 'off' while it's off.
 
-> Flagged by Claude Code with https://github.com/masoncl/review-prompts/
-> 
->> +		k3_udma_glue_reset_rx_chn(emac->rx_chns.rx_chn, i,
->> +					  &emac->rx_chns,
->> +					  prueth_rx_cleanup);
->> +	}
->> +
->> +	prueth_destroy_xdp_rxqs(emac);
->> +	k3_udma_glue_disable_rx_chn(emac->rx_chns.rx_chn);
->> +}
-> 
-> ...
-> 
->> @@ -905,32 +988,8 @@ static int emac_ndo_stop(struct net_device *ndev)
->>   	else
->>   		__dev_mc_unsync(ndev, icssg_prueth_del_mcast);
->>   
->> -	atomic_set(&emac->tdown_cnt, emac->tx_ch_num);
->> -	/* ensure new tdown_cnt value is visible */
->> -	smp_mb__after_atomic();
->> -	/* tear down and disable UDMA channels */
->> -	reinit_completion(&emac->tdown_complete);
->> -	for (i = 0; i < emac->tx_ch_num; i++)
->> -		k3_udma_glue_tdown_tx_chn(emac->tx_chns[i].tx_chn, false);
->> -
->> -	ret = wait_for_completion_timeout(&emac->tdown_complete,
->> -					  msecs_to_jiffies(1000));
->> -	if (!ret)
->> -		netdev_err(ndev, "tx teardown timeout\n");
->> -
->> -	prueth_reset_tx_chan(emac, emac->tx_ch_num, true);
->> -	for (i = 0; i < emac->tx_ch_num; i++) {
->> -		napi_disable(&emac->tx_chns[i].napi_tx);
->> -		hrtimer_cancel(&emac->tx_chns[i].tx_hrtimer);
->> -	}
->> -
->> -	max_rx_flows = PRUETH_MAX_RX_FLOWS;
->> -	k3_udma_glue_tdown_rx_chn(emac->rx_chns.rx_chn, true);
->> -
->> -	prueth_reset_rx_chan(&emac->rx_chns, max_rx_flows, true);
->> -	prueth_destroy_xdp_rxqs(emac);
->> -	napi_disable(&emac->napi_rx);
->> -	hrtimer_cancel(&emac->rx_hrtimer);
->> +	prueth_destroy_txq(emac);
->> +	prueth_destroy_rxq(emac);
->>   
->>   	cancel_work_sync(&emac->rx_mode_work);
->>   
->> @@ -943,10 +1002,10 @@ static int emac_ndo_stop(struct net_device *ndev)
->>   
->>   	free_irq(emac->tx_ts_irq, emac);
->>   
->> -	free_irq(emac->rx_chns.irq[rx_flow], emac);
->> +	free_irq(emac->rx_chns.irq[PRUETH_RX_FLOW_DATA], emac);
->>   	prueth_ndev_del_tx_napi(emac, emac->tx_ch_num);
->>   
->> -	prueth_cleanup_rx_chns(emac, &emac->rx_chns, max_rx_flows);
->> +	prueth_cleanup_rx_chns(emac, &emac->rx_chns, PRUETH_MAX_RX_FLOWS);
->>   	prueth_cleanup_tx_chns(emac);
->>   
->>   	prueth->emacs_initialized--;
-> 
-> ...
+Any suggestion how to fix this, is appreciated.
+
+[ 5738.590980] ------------[ cut here ]------------
+[ 5738.591009] gcc_camera_axi_clk status stuck at 'on'
+[ 5738.591049] WARNING: CPU: 0 PID: 6918 at drivers/clk/qcom/clk-branch.c:87 clk_branch_toggle+0x170/0x190
+[ 5738.591081] Modules linked in:
+[ 5738.591099] CPU: 0 UID: 10000 PID: 6918 Comm: plasma-camera Tainted: G        W           6.17.0-00057-ge6b67db49622 #71 NONE 
+[ 5738.591118] Tainted: [W]=WARN
+[ 5738.591126] Hardware name: Fairphone 4 (DT)
+[ 5738.591136] pstate: 604000c5 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[ 5738.591150] pc : clk_branch_toggle+0x170/0x190
+[ 5738.591164] lr : clk_branch_toggle+0x170/0x190
+[ 5738.591177] sp : ffff800086ed3980
+[ 5738.591184] x29: ffff800086ed3990 x28: 0000000000000001 x27: ffff800086ed3cd8
+[ 5738.591208] x26: 0000000000000000 x25: ffffda14fcfbd250 x24: 0000000000000000
+[ 5738.591230] x23: 0000000000000000 x22: ffffda14fc38bce0 x21: 0000000000000000
+[ 5738.591252] x20: ffffda14fd33e618 x19: 0000000000000000 x18: 00000000000064c8
+[ 5738.591274] x17: 0000000000000000 x16: 00001ae003667e9e x15: ffffda14fd2a07b0
+[ 5738.591295] x14: 0000000000000000 x13: 6f27207461206b63 x12: 7574732073757461
+[ 5738.591317] x11: 0000000000000058 x10: 0000000000000018 x9 : ffffda14fd2a0838
+[ 5738.591338] x8 : 0000000000057fa8 x7 : 0000000000000a16 x6 : ffffda14fd2f8838
+[ 5738.591360] x5 : ffff0001f6f59788 x4 : 0000000000000a15 x3 : ffff25ecf9d7e000
+[ 5738.591381] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0000baf5c100
+[ 5738.591403] Call trace:
+[ 5738.591412]  clk_branch_toggle+0x170/0x190 (P)
+[ 5738.591429]  clk_branch2_disable+0x1c/0x30
+[ 5738.591445]  clk_core_disable+0x5c/0xb4
+[ 5738.591462]  clk_disable+0x38/0x60
+[ 5738.591478]  camss_disable_clocks+0x44/0x78
+[ 5738.591496]  vfe_put+0x7c/0xc0
+[ 5738.591512]  vfe_set_power+0x40/0x50
+[ 5738.591528]  pipeline_pm_power_one+0x14c/0x150
+[ 5738.591546]  pipeline_pm_power+0x74/0xf4
+[ 5738.591561]  v4l2_pipeline_pm_use+0x54/0x9c
+[ 5738.591577]  v4l2_pipeline_pm_put+0x14/0x40
+[ 5738.591592]  video_unprepare_streaming+0x18/0x24
+[ 5738.591608]  __vb2_queue_cancel+0x4c/0x314
+[ 5738.591626]  vb2_core_streamoff+0x24/0xc8
+[ 5738.591643]  vb2_ioctl_streamoff+0x58/0x98
+[ 5738.591657]  v4l_streamoff+0x24/0x30
+[ 5738.591672]  __video_do_ioctl+0x430/0x4a8
+[ 5738.591689]  video_usercopy+0x2ac/0x680
+[ 5738.591705]  video_ioctl2+0x18/0x40
+[ 5738.591720]  v4l2_ioctl+0x40/0x60
+[ 5738.591734]  __arm64_sys_ioctl+0x90/0xf0
+[ 5738.591750]  invoke_syscall.constprop.0+0x40/0xf0
+[ 5738.591769]  el0_svc_common.constprop.0+0x38/0xd8
+[ 5738.591785]  do_el0_svc+0x1c/0x28
+[ 5738.591801]  el0_svc+0x34/0xe8
+[ 5738.591820]  el0t_64_sync_handler+0xa0/0xe4
+[ 5738.591838]  el0t_64_sync+0x198/0x19c
+[ 5738.591854] ---[ end trace 0000000000000000 ]---
+
+Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+---
+Changes in v2:
+- Remove prefix from interconnect-names
+- Move 'top' power-domain to the top of list
+- Update regulator supply names
+- Link to v1: https://lore.kernel.org/r/20251024-sm6350-camss-v1-0-63d626638add@fairphone.com
+
+---
+Luca Weiss (3):
+      dt-bindings: media: camss: Add qcom,sm6350-camss
+      media: qcom: camss: Add SM6350 support
+      arm64: dts: qcom: sm6350: Add CAMSS node
+
+ .../bindings/media/qcom,sm6350-camss.yaml          | 349 +++++++++++++++++++++
+ arch/arm64/boot/dts/qcom/sm6350.dtsi               | 165 ++++++++++
+ .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     | 125 ++++++++
+ drivers/media/platform/qcom/camss/camss-vfe.c      |   2 +
+ drivers/media/platform/qcom/camss/camss.c          | 249 +++++++++++++++
+ drivers/media/platform/qcom/camss/camss.h          |   1 +
+ 6 files changed, 891 insertions(+)
+---
+base-commit: a92c761bcac3d5042559107fa7679470727a4bcb
+change-id: 20251024-sm6350-camss-9c404bf9cfdd
+
+Best regards,
+-- 
+Luca Weiss <luca.weiss@fairphone.com>
 
 
