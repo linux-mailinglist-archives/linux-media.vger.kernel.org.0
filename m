@@ -1,576 +1,503 @@
-Return-Path: <linux-media+bounces-47085-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47086-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69FE2C5D448
-	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 14:12:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7595AC5D468
+	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 14:13:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id B159435C664
-	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 13:07:56 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 4E80235D304
+	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 13:08:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99E2931196A;
-	Fri, 14 Nov 2025 13:06:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 255EE313526;
+	Fri, 14 Nov 2025 13:07:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="Q8JdOIlG"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="3zEibdlg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011042.outbound.protection.outlook.com [40.107.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25B01313295
-	for <linux-media@vger.kernel.org>; Fri, 14 Nov 2025 13:06:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.66
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763125617; cv=none; b=HuQe+vEX8Z1/E/RxmKLMfFh+9lKiMBh7ZKVReF71TAWcTsSF7EpGQMY+rk/il4sTPyplf2/0VUjDK/ps7XKHG/J3weINf3EmkEg2Cl8764ZMMm7Uc9WxQhmg/kEOT5pLfgBS7RVZrHJCtZfa0xyxchvShAKUIUS4cmLEwWrB2Ow=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763125617; c=relaxed/simple;
-	bh=U30gWwAFBsNEZmxDPBTWg1VA0Q6ekWATqu/KWSk7AoE=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=q32oXAOGpZhAoDQTxwny6JswB3W99eeD/LWG7XH4TCC3IBydRSzcZaWhALybifDrmBMHOLr6lDAwMbcnjYy4Zb5YqbhubtgHBt2ytzNXw1jEl5oOqx/VCP7Fgxq84G3ccQy6niYa83aj3J/TjOMxoLGKesko1br19Y+zY65LJGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=Q8JdOIlG; arc=none smtp.client-ip=209.85.218.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
-Received: by mail-ej1-f66.google.com with SMTP id a640c23a62f3a-b736f48ba11so90342166b.0
-        for <linux-media@vger.kernel.org>; Fri, 14 Nov 2025 05:06:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1763125612; x=1763730412; darn=vger.kernel.org;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QFlFVp68C1Bl22T0DXVcRcXo+oBu0i4nDk6iL5q9r/s=;
-        b=Q8JdOIlGGBD1IkXjgtLe5bYWoU3HFssjuy7sJOYTQ0AVP0G3nYbX2hXaMuothzMaU1
-         ooNeXiIP7XDzfOcJZsE+HMYTo7xFHzWIhNEvbPW6t1vU3/NHRyxi/PcaU3EXPo1yRa7o
-         gQ07F2u6lbBYMxT39eu0HlDC6+lUI6Q+T66EoIoNYpLNDviD/ftBVRRSdl5N054AIYQf
-         UO3DcY0cCfpWUVwpOjb3jMB4NoX72WjFKu77QM2o0sO+0uaRI50HbIMtQHFnHCB+HT2P
-         NHjIM5pTU3tDxnqUqyB76MHVSd+LP41tuevUQFGli2okuirIO231P8mBdrXLAhZr07Ex
-         3G4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763125612; x=1763730412;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QFlFVp68C1Bl22T0DXVcRcXo+oBu0i4nDk6iL5q9r/s=;
-        b=tLZNj5crskp5qf7aJaDPdqW3/PrSNi4bjvrGlR4n9jK5oQqHM/nd5r2/vBwxnuNpaL
-         X5OAyYbd9olwuAcn18y4cdaM96BMHLgwaA+FgAEhnW5NkkDzNZEHL+YfIGwtfgzrV8r1
-         nxu+a10ccwENrPB/82lKXOpAQXcyA4CVqcQI9eEKMuH/dFsCPbpuTZvrHwpu9HqKYUPA
-         cGrR15P0EM3rYo6piSAboSlwqaLYgA3R1G4owcdN7r+Pv8bbU+oW8H8RqUZ8Mp9a42iV
-         Olo0J7Md6VKhvbjUH68db/tUSSQ3p9i9LR9D90KqMg6Y0AkAUe4YYL0YaaoZSsI9M4XI
-         hvTA==
-X-Forwarded-Encrypted: i=1; AJvYcCWcu8Dbq0fQ5fyALGvxsPRbhIIw5REBV7iI2EdB9FusK3eZW4sRA+GReXmxcCRtmMisBrl2VM6Z4bYfVw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwtEQqniDWc4sQAnLV71438kOubT8SDTGsfFtvGbvvQSzbgM2J1
-	7KMjZX+2VFobeMTAvszJwMHC8QR/Tj0UDeQ8/e5Y/ZUvQ/d858GOchH+M3XdS/Ruf0w=
-X-Gm-Gg: ASbGnctg0Z6qV5FnYByVaS8uMIZf6rUtBKBhhaHMVHSUemGit1nKCwLd8h3eJoGlxai
-	hFTGhvbQn42IhYCvSfZqModnRgNgbsLxTeEy17DjpfEPDFKJSAMsm/ejt0tqvGQdW7Q+kZRxUT9
-	mY0o/oe2DUpm9A2zKTI3vU0HJwZbAlowr81zqb8lcV1xQqtVcih3psBMfnsUN5iv7Q9PYhfidFr
-	OvBLGd23sPwQo/2rUO5H8ZTTEu65oN+rrB/36hcC9NOEbJItT74Cv7LjfW8ijCQrxi7QXx23Ega
-	+kFamkG98NBClKQLpzgEXMU9L3qZqGc/O5r1mWC1W+QGIXWfhhKobjA2Lslyvfaop2T1zsE/PP5
-	ceg6tRXnVYsma3LwxSaYnAKGmrN2Hlw4xeFRqgX7Mszml7eBTFnz8Aw7sXCh4ImzzYdKYaKGDF2
-	bBfKSfA1VAx01balRbJhh0A0fJWB/pT2Q034Pwrtcr0y8J+GiXGJ1OwdYOQUyLGGfuvn7IU/a9v
-	rJUclgDcaey
-X-Google-Smtp-Source: AGHT+IEh2NFr1KybwXLKbTEo02cRgnqybmLKMeCfk6Zi6ooKLjugj9KSuN02CQuj+HAZ8zCcI5xacg==
-X-Received: by 2002:a17:906:fe4d:b0:b72:7e7c:e848 with SMTP id a640c23a62f3a-b7348570744mr750353166b.17.1763125612274;
-        Fri, 14 Nov 2025 05:06:52 -0800 (PST)
-Received: from localhost (2001-1c04-0509-ec01-156d-fa6e-7f19-0b67.cable.dynamic.v6.ziggo.nl. [2001:1c04:509:ec01:156d:fa6e:7f19:b67])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b734fa81331sm387170666b.9.2025.11.14.05.06.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Nov 2025 05:06:51 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97400309EE1;
+	Fri, 14 Nov 2025 13:07:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763125677; cv=fail; b=N93zfZ/lY14hPb9dtf1L26iMLJJXz8eHz1qsmN3Gaq13DtYpSYHHUktGd7PsaOwwZOlR/bvGS6se5wrwcE1cbUwFwZRBHLm5M/yr8bvQM1bWE5fU91Cxn11cTP+19SP+L+kUG09iIjJQsEL0MJgoTHmGKnwmhXOXHcu6hSrDw4E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763125677; c=relaxed/simple;
+	bh=To9ZAv9P9+pxwBeqwLtjq+qUbQGgmrfLJ/265xKkejs=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=kmskxMzdvqzk5A61Oqa+M37u2ZToWT/lezMMeCWxeBWb+Cc+P+FDWF/pxC1xn24JpenOggCYA2icSZ08XGcYP4Cjnjp94BE2xCWE8uh774f3OYHIOSdeT7rymtJQc1+xsbVk17kg1k05yUq6LvZaJnHRjsejYUUCPPYQjDQ8Hac=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=3zEibdlg; arc=fail smtp.client-ip=40.107.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=t/zvKJozlZ6LCk1JDqE0JQHKgj4oJ7xvplmdO7ecY4Ggq1/t6KnhEAWO5ncrKl8fFyzvcVyWPSO6GArVdubpY/FveFkvd3AVAC9qqhZwAWR3mc7Ebj4uKDQgUql1NHtVS7iMZNu2gSkQP3l3Gf4m/M/jUxq4C2jdD4rWrh/Yo1OHGE95EbYLg+itvp1PNYlqeOKBsAEkaXfrnFb0wS2TlIHKDACzD37aAVNWhEN9ZP8WWnAoNwD1N741y0/Y4IRxWG7+C6zoA9r0jeHUTFGHys8uGtXuWIhZXfmrrfjAYpQ8sg1N7U+u79Ld/8YIrGA/u75hswhpzDCd9EvkVnFz4g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rKb1jXkSEPeloYKO/ENk6pR6bEapBfxdCaBCm2OXrdI=;
+ b=lNw2aRCUDuc7SkUQH8jotp43Uk7mCyf+j2CUDzbMWUPHI9S4+6xwIwmSnKb/oLpUfSXrrqlJ8wlc+FCXzMlR+LCDnZEGDMh1DwEBf64DIbD8DEH/7kR5aXDMaAgY+YZxgXXj8RM0cPwX7Lpmj4ymHyJNzH0F6BlNKuwzJ+hogYv4/XsuTfzgAC48xhAGEqI2/V5AnnPI1g/Zaf6Pg/PV5mTZVcy7EQ2OegmqXWHJdO4O/9r3GPMUVYRARUV9bOnbWaySejO/Z58bmufzzjEsocqbk1a3gT1jWhiDcrgKGt+jmafCPvXz9K8jIcGRJ2qOvbd9uajLjijPxDfERNdivA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rKb1jXkSEPeloYKO/ENk6pR6bEapBfxdCaBCm2OXrdI=;
+ b=3zEibdlgMMQMLbzgjIUx/vDfqZkBZg7bYrng0duvxfsABA29iY1AbeuNPfm3/RyKciSM/MClJ9BtocJxrQg1whCnZWmIGBfL+0v4BiEuvfikyq8AlQJ5O46k86WHdWK2JGDyG1IqJESuVToHMO1jjgKnd6Nwc7PoSiJ3dMpvtCg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CY8PR12MB8066.namprd12.prod.outlook.com (2603:10b6:930:70::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.17; Fri, 14 Nov
+ 2025 13:07:51 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9320.013; Fri, 14 Nov 2025
+ 13:07:50 +0000
+Message-ID: <6469a0ce-89d9-42ad-867b-1d8094293e44@amd.com>
+Date: Fri, 14 Nov 2025 14:07:45 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 05/20] drm/amdgpu: pass the entity to use to ttm
+ functions
+To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Felix Kuehling <Felix.Kuehling@amd.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20251113160632.5889-1-pierre-eric.pelloux-prayer@amd.com>
+ <20251113160632.5889-6-pierre-eric.pelloux-prayer@amd.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20251113160632.5889-6-pierre-eric.pelloux-prayer@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0373.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f8::20) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 14 Nov 2025 14:06:51 +0100
-Message-Id: <DE8FV81S45S5.CH6K1QAX940D@fairphone.com>
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-To: "Vladimir Zapolskiy" <vladimir.zapolskiy@linaro.org>, "Luca Weiss"
- <luca.weiss@fairphone.com>, "Bryan O'Donoghue" <bod@kernel.org>, "Robert
- Foss" <rfoss@kernel.org>, "Todor Tomov" <todor.too@gmail.com>, "Mauro
- Carvalho Chehab" <mchehab@kernel.org>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
- <conor+dt@kernel.org>, "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
- "Bjorn Andersson" <andersson@kernel.org>, "Konrad Dybcio"
- <konradybcio@kernel.org>
-Cc: <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 1/3] dt-bindings: media: camss: Add qcom,sm6350-camss
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20251114-sm6350-camss-v2-0-d1ff67da33b6@fairphone.com>
- <20251114-sm6350-camss-v2-1-d1ff67da33b6@fairphone.com>
- <de7ad562-80bc-498e-a6fb-cc26bb6343f0@linaro.org>
-In-Reply-To: <de7ad562-80bc-498e-a6fb-cc26bb6343f0@linaro.org>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY8PR12MB8066:EE_
+X-MS-Office365-Filtering-Correlation-Id: 429ab0d2-31a0-43a1-5df2-08de237ed0b8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?d0xLM2ZkZkxwd01vNjlBU25XdWRtNXliZThKNXNUekJibG5Obk9HS0J6SFhB?=
+ =?utf-8?B?ak9ubnQwbGNqTzlOcllHcS9SSzZFUVB0OEs5eGh6RTVLWjRrSlVlSnJRMExN?=
+ =?utf-8?B?N1JKVFQrMWRqbWsyaFFRSXhPckVaeUhyR3h4dTJSQnZCNG5ocTF5UWo2Szkr?=
+ =?utf-8?B?QkRYeDlwMFJ5ZTVaVkU5dzRLYUhxR0orS0t2bDY3K3hsdEwyZ3dSY0wwbFZQ?=
+ =?utf-8?B?bVZKdUtvRlhiT0djVmUvbDFDN0FGbmNETzlnQTVmU0JEczBMZjZhVUZTUkVa?=
+ =?utf-8?B?UnhvSmRTY0dlKzI5U2hLbHYzNDRxQWtWTit6OEcyc0R3Zk9zYTZoaXRkNjFB?=
+ =?utf-8?B?WVd4Rk5EZVJkdFJJeXZudmozaDkxUkpCTDdteFIvWk9xdVNoNXdQV0ZFb2tu?=
+ =?utf-8?B?R0JvZkZFdTV2bnZtdWczN3l3WDBNQWlNNm1GUDRweXdiMnc3MDU5OTR3cXpV?=
+ =?utf-8?B?TFlVS1JpcjBmcHZWZlBQemJ0TTB0NXBQSFE4Vml1Q2tLTmpyNUoyNHg4eWI3?=
+ =?utf-8?B?UWJDYnk5eER3ZlRQSEwrYlUrcWtWejk3SWlZVGQ2dG12K1VHZmhMSXJvSmxC?=
+ =?utf-8?B?b3lpbm1Qc3ZmcTNrQ0gzby9mWHNieHgvbWx1Ym8wTG5NSldUUzluS2xFRVpn?=
+ =?utf-8?B?R2syY21QMXZnZmVhbmFnS292TzkzdndUQlQweDYvSE5lV05DdXhDMXloMDJ6?=
+ =?utf-8?B?ZzdMRTMxeit2ZEZGUE1BcUVmZk00c1FLeEdyai94cGV6VEF0aFZaY1AwMWNO?=
+ =?utf-8?B?RzhzamFvdTRLSTNhRkpsZGZvTjhlZU5PcysvOElwdEtTV2pib3RMVlB1SFg4?=
+ =?utf-8?B?NUtWaGNyNmhUbVlEeHRYbmt6WDY1c3QvUE9LcFhaU2p3elFkbDdJSjA4Q3Bw?=
+ =?utf-8?B?Z0ZhWDd4RUxJR0Jjc2JPOVZNeUl4MFdBY3M0Y1JlQWNQaU1EWWR1Uk5qZGxO?=
+ =?utf-8?B?NG5MejhSL3hXQXFnLy9sRVVwV0wwSEMyYW4wODZ4My9iU08rVlpacElkeWdy?=
+ =?utf-8?B?ZW9YNFJjaXVVYmFIb05RbXZHWkFmS29Td2RwQUZtZVRmYUFkY2tIeHFGallj?=
+ =?utf-8?B?aXZZNnphZEVPWGxLclBDTkgvUzMvVnFrMDY2Y1NSVGJTL2p1NjNHVDZQTnc2?=
+ =?utf-8?B?Vll5WmI2NnkxaFdZOVdYUVM0R2tOL1IvbnVWWjN1TTZrTDlaNTJyOTNxVDJp?=
+ =?utf-8?B?N3UwdW9ZT2RlVkhhdVlkYlpiaE50dWg1NytRb0o3K0dqbUxxc0I5Q3dTaHE0?=
+ =?utf-8?B?cVFrdVR3b3N6UWhFam95RXc2ZXIwYml3Z3dVZ1RnUmVHSDdmMHhHb21Mb0N6?=
+ =?utf-8?B?S1MwRTVOaGdrditpNkVFY2tFZk5jay9OTDhtOStOcUNITUZTSXY4aU8vUTBz?=
+ =?utf-8?B?bkxpNC9iWkQ2YW1STG9iZFJtYUN6alZxWDdlcVVMS1A5ZjB6OFRyblorYVRJ?=
+ =?utf-8?B?QnhKTXdWdFdFZEVSTXgvOU9pQ2p3MExkQzk2NUF5SXY3Z0t3YXVLV3c4dXVu?=
+ =?utf-8?B?ZmFiQ0wyT05QVTNKYU5QVWExc3pkVThtWW1hdkVISzVwMUhIUU9HeUF1QXZP?=
+ =?utf-8?B?cXV6dnl6V1BjRjhEaC9vUkhWSWpFMDg3dkVJZk4yTHhWQjVkWkI2ZzRMV0F1?=
+ =?utf-8?B?cy9pTEdKVVQrQVVtOVR2MHFVZUthczNUTGJzaGV0S3BVbU5GTnJtd2plN0hT?=
+ =?utf-8?B?a1M2Skw1eWtkTnRpdEMxL0l6UjFXMlhqekEwdTFLM3k0ZEZXTDNkMnZvd0JB?=
+ =?utf-8?B?Qlp1dWFCL1oxb2FlV1QyZC9mL05vZE41N2xUeHVrV0tmN2ZYRGdHcFRFZE4z?=
+ =?utf-8?B?NVFSWWxsRThhZXdNV09tYWIvT2tWWG1KY05LR2h0d3JacFYxSHlUZUliMXVJ?=
+ =?utf-8?B?dGJwVXJrZHZrQlNYLzY0SXJoM1BDT3JOcnI4ZG9VU2N2Q0lEZ0hIUE42Z21x?=
+ =?utf-8?Q?b/IAFmjo1mSa4O/CVBVdPYjdtR5K64e0?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?YTN1ZjFCRjJVdXhtcGcyMFI3SnN0Njl4bUttREViWVJRdExGaFZIeDYrZXBl?=
+ =?utf-8?B?NWpLWm5qRFdnRFhFMWRRKzNaaVBsMUFCTkRPVjBOeXZjQnhVdkxXUmMxcTRE?=
+ =?utf-8?B?YmNrUUdQNEc2Zk1oaHN6UEFTOGdqQkJ6VnY4Tm4wN01TVGQ5K2lxdUVzQVVw?=
+ =?utf-8?B?WFY5dTlxYU15djgwQXcyZ0VCc2JET2ZITk52UnROdy9jcUVQeEtFcTJTWFN0?=
+ =?utf-8?B?K3hDcEhCaG9HSXJUYkdDMmFCT09PYlJ4UHlWSWphOVliWTRKOTBlVyttc1Uy?=
+ =?utf-8?B?WUQwUXBCdjJWcDllVzN4VDBiUFdTWUFSSGsrR2hNOS83bVBVc0d1MVl4YkNN?=
+ =?utf-8?B?ak9ZZXNKOW1KNnJ2Rm96eGlaVlB3MTEwOUJkY20raEZ2YUhuUGVEYXh2MUt1?=
+ =?utf-8?B?ZmRHS0dPUzFHUEZYUHBtZWJsMEJPNFB6SUpzamNVVjh2K1YwSTdDUlpZdFVv?=
+ =?utf-8?B?MUxYTmRNZGc0RS9PS3YwTzRqT3NSQ3BkVytzd1hrK2ZFb2VyMExQOTdWbjVZ?=
+ =?utf-8?B?Tnk4OTNVcUFVc0JPcFNzdkF1MjNjSURMZmY5QjUzTGFndjVqbzA4WGJtVys5?=
+ =?utf-8?B?cWx5UGJHbjNkK0FCZnpDZ0p3VGIzZEdKYUY2ODZGc05TbmJCT3YvSzNVdmth?=
+ =?utf-8?B?aUhIMklxYW5BaHhLcmh5MVgzNWJscjNuSzNac1JML1pvQU4xQ1dtajhtOXJx?=
+ =?utf-8?B?WWs1ME5uRGFwNmIrTFd0Z01qS0x6Rk5XRFNtVU5LUHlyODM1ek1VeTVCdWFw?=
+ =?utf-8?B?Tnhxa0l5UXpJRWlqVGpkbUFGM0lVMzNPemRTWlBUVXY4Ujl0a2hLQlg4VlhW?=
+ =?utf-8?B?UTVDNDBJWndUZkZXUEZHUkdESkxzM2FDYWc2MEJVRlFwd0lSSmM2KzdkaVg3?=
+ =?utf-8?B?amFiTC8rWDh3c0hRWWpkVThMeXE2WEZUWVJRaDZzRFEvU0VTZ283SmUwdE5U?=
+ =?utf-8?B?VWJxcEtVU0dXL21xYWFXQ0dYeGVWdDBOY2V6T3hVaW5ad25CcUdWOFZ5eHZR?=
+ =?utf-8?B?YnVPdDdHdDJ5ZXpsMlJBbm0wTjJwcVEzckQzUEFaeGNUV0dldElLbWVadHUy?=
+ =?utf-8?B?cXU5RFlmTm5FdnNnYm9wanlyTmI0N21JTDZjQ1dwL0dubmNCMlY5cTdRTHdv?=
+ =?utf-8?B?ZlZTYnlaQ2NFcDlCdFdEaS81ZFFhTW94M0xrMXZiZWkvSGl2K2RwTTR0d0w5?=
+ =?utf-8?B?QzRGcTVJRDB0ODN1SGlKZFRMZmdpNEljRVJDU1c4V0s1T0dPS1R4ekRrNkVH?=
+ =?utf-8?B?aFNMaGIwZXdBT1NaUWJBb3k5Rzh3TjhXV3AyNGwvanVkWGExeTBNNHh5RUVP?=
+ =?utf-8?B?VFZtY3A1ZWhuOENONlJSTkJJcktUWlBnUm5SRFk5YnNES3R3MU1tZ2NTQ3ZI?=
+ =?utf-8?B?Z29uakoxMXpiVVRLZUlTNFJBSnFZSGd3RmRFWEhCMm1XTVNJQnNDUzluMmxE?=
+ =?utf-8?B?OS84OStlRVJrbGJUcWNJOHNRRlhTVkp6WTUzWkhQZmNWa1NNaUlsbXlISUNw?=
+ =?utf-8?B?RW1JU1NyZEZzUDlUQXMrbTlFUGZ1bXR6VVJtMWMvcmdJSEd5ZjNSWUo2cmVt?=
+ =?utf-8?B?K1R2UTN1R2EzL0QxSlM1SFI5ZTlaczFHb2dYRmp0a2ZPcDM3dGorRlZXZ24r?=
+ =?utf-8?B?c09qc3RJYzhrZmhaYTNEZU9JZ2tFVW1qajFaREVoTmF3K3RWcXdBS0M0MjZm?=
+ =?utf-8?B?NVE0RGlhN1ZOamhaU1BYYTBmQStDQzdqZ1JEKzdOM1ZmNXJZZXNhcW5KQ2Uz?=
+ =?utf-8?B?K0FQcDlnUjRhUnJaWS9ES2lycWdFRW1PTE8waWJwM3ZERHdTYUhneTZ5Tk44?=
+ =?utf-8?B?c09lWFZwSFp3ZkRPdGpHdXRqOG5UZ3FOUndXcHdTeXNSQmFiallJaHhuU054?=
+ =?utf-8?B?TUlCL09SUC9aa0NVQm8vZXdPTUN3TXU3Q1MvbTNUVDN1dFlhZHkzLzBtazA5?=
+ =?utf-8?B?cVptajBPOUxsY0xkTlp5R0xFMUVxYkZvWGVOMnhic1JSVStmU216NFg3VUZp?=
+ =?utf-8?B?ejFLYWZiTmh4WktaY21QUXlCVU9jUjcwNFBGVnpWaTFYclBxMjdlUStRS28y?=
+ =?utf-8?B?ZlZKRzkvS213UmdzSXpjK1dQOVA5T3d6UUZ4TmpZdTNBS3JaSzFDTjJRcEJK?=
+ =?utf-8?Q?tqkv8KF+4PNDHMM9g7WiI+skg?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 429ab0d2-31a0-43a1-5df2-08de237ed0b8
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2025 13:07:50.9027
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: g9+ORSHlb53VyPvMUetsaD/r7myq46Ky9TluRbShsdXIT+04oQ+mtBMG3GnAGjT/
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8066
 
-Hi Vladimir,
+On 11/13/25 17:05, Pierre-Eric Pelloux-Prayer wrote:
+> This way the caller can select the one it wants to use.
+> 
+> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c |  3 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c    |  4 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       | 75 +++++++++++--------
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h       | 16 ++--
+>  drivers/gpu/drm/amd/amdkfd/kfd_migrate.c      |  3 +-
+>  5 files changed, 60 insertions(+), 41 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c
+> index 02c2479a8840..b59040a8771f 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c
+> @@ -38,7 +38,8 @@ static int amdgpu_benchmark_do_move(struct amdgpu_device *adev, unsigned size,
+>  	stime = ktime_get();
+>  	for (i = 0; i < n; i++) {
+>  		struct amdgpu_ring *ring = adev->mman.buffer_funcs_ring;
+> -		r = amdgpu_copy_buffer(ring, saddr, daddr, size, NULL, &fence,
+> +		r = amdgpu_copy_buffer(ring, &adev->mman.default_entity.base,
+> +				       saddr, daddr, size, NULL, &fence,
+>  				       false, 0);
+>  		if (r)
+>  			goto exit_do_move;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> index e08f58de4b17..c06c132a753c 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> @@ -1321,8 +1321,8 @@ void amdgpu_bo_release_notify(struct ttm_buffer_object *bo)
+>  	if (r)
+>  		goto out;
+>  
+> -	r = amdgpu_fill_buffer(abo, 0, &bo->base._resv, &fence, true,
+> -			       AMDGPU_KERNEL_JOB_ID_CLEAR_ON_RELEASE);
+> +	r = amdgpu_fill_buffer(&adev->mman.clear_entity, abo, 0, &bo->base._resv,
+> +			       &fence, AMDGPU_KERNEL_JOB_ID_CLEAR_ON_RELEASE);
+>  	if (WARN_ON(r))
+>  		goto out;
+>  
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> index 42d448cd6a6d..c8d59ca2b3bd 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> @@ -164,6 +164,7 @@ static void amdgpu_evict_flags(struct ttm_buffer_object *bo,
+>  
+>  /**
+>   * amdgpu_ttm_map_buffer - Map memory into the GART windows
+> + * @entity: entity to run the window setup job
+>   * @bo: buffer object to map
+>   * @mem: memory object to map
+>   * @mm_cur: range to map
+> @@ -176,7 +177,8 @@ static void amdgpu_evict_flags(struct ttm_buffer_object *bo,
+>   * Setup one of the GART windows to access a specific piece of memory or return
+>   * the physical address for local memory.
+>   */
+> -static int amdgpu_ttm_map_buffer(struct ttm_buffer_object *bo,
+> +static int amdgpu_ttm_map_buffer(struct drm_sched_entity *entity,
+> +				 struct ttm_buffer_object *bo,
 
-On Fri Nov 14, 2025 at 1:40 PM CET, Vladimir Zapolskiy wrote:
-> Hi Luca.
->
-> On 11/14/25 13:15, Luca Weiss wrote:
->> Add bindings for the Camera Subsystem on the SM6350 SoC.
->>=20
->> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
->> ---
->>   .../bindings/media/qcom,sm6350-camss.yaml          | 349 +++++++++++++=
-++++++++
->>   1 file changed, 349 insertions(+)
->>=20
->> diff --git a/Documentation/devicetree/bindings/media/qcom,sm6350-camss.y=
-aml b/Documentation/devicetree/bindings/media/qcom,sm6350-camss.yaml
->> new file mode 100644
->> index 000000000000..d812b5b50c05
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/media/qcom,sm6350-camss.yaml
->> @@ -0,0 +1,349 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/media/qcom,sm6350-camss.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Qualcomm SM6350 Camera Subsystem (CAMSS)
->> +
->> +maintainers:
->> +  - Luca Weiss <luca.weiss@fairphone.com>
->> +
->> +description:
->> +  The CAMSS IP is a CSI decoder and ISP present on Qualcomm platforms.
->> +
->> +properties:
->> +  compatible:
->> +    const: qcom,sm6350-camss
->> +
->> +  reg:
->> +    maxItems: 12
->> +
->> +  reg-names:
->> +    items:
->> +      - const: csid0
->> +      - const: csid1
->> +      - const: csid2
->> +      - const: csid_lite
->> +      - const: csiphy0
->> +      - const: csiphy1
->> +      - const: csiphy2
->> +      - const: csiphy3
->> +      - const: vfe0
->> +      - const: vfe1
->> +      - const: vfe2
->> +      - const: vfe_lite
->> +
->> +  clocks:
->> +    maxItems: 30
->> +
->> +  clock-names:
->> +    items:
->> +      - const: cam_ahb_clk
->> +      - const: cam_axi
->> +      - const: soc_ahb
->> +      - const: camnoc_axi
->> +      - const: core_ahb
->> +      - const: cpas_ahb
->> +      - const: csiphy0
->> +      - const: csiphy0_timer
->> +      - const: csiphy1
->> +      - const: csiphy1_timer
->> +      - const: csiphy2
->> +      - const: csiphy2_timer
->> +      - const: csiphy3
->> +      - const: csiphy3_timer
->> +      - const: slow_ahb_src
->> +      - const: vfe0_axi
->> +      - const: vfe0
->> +      - const: vfe0_cphy_rx
->> +      - const: vfe0_csid
->> +      - const: vfe1_axi
->> +      - const: vfe1
->> +      - const: vfe1_cphy_rx
->> +      - const: vfe1_csid
->> +      - const: vfe2_axi
->> +      - const: vfe2
->> +      - const: vfe2_cphy_rx
->> +      - const: vfe2_csid
->> +      - const: vfe_lite
->> +      - const: vfe_lite_cphy_rx
->> +      - const: vfe_lite_csid
->
-> The sorting order of this list does not follow the sorting order accepted
-> in the past.
 
-What file should I best reference?
+Probably better to split this patch into multiple patches.
 
->
-> I'm very sorry for the vagueness, but I can not pronounce the accepted
-> sorting order name, because it triggers people.
->
->> +
->> +  interrupts:
->> +    maxItems: 12
->> +
->> +  interrupt-names:
->> +    items:
->> +      - const: csid0
->> +      - const: csid1
->> +      - const: csid2
->> +      - const: csid_lite
->> +      - const: csiphy0
->> +      - const: csiphy1
->> +      - const: csiphy2
->> +      - const: csiphy3
->> +      - const: vfe0
->> +      - const: vfe1
->> +      - const: vfe2
->> +      - const: vfe_lite
->> +
->> +  interconnects:
->> +    maxItems: 4
->> +
->> +  interconnect-names:
->> +    items:
->> +      - const: ahb
->> +      - const: hf_mnoc
->> +      - const: sf_mnoc
->> +      - const: sf_icp_mnoc
->
-> Please remove sf_mnoc and sf_icp_mnoc, they are not needed for enabling
-> IP to produce raw images, and one day you may use them somewhere else.
+One which changes amdgpu_ttm_map_buffer() and then another one or two for the higher level copy_buffer and fill_buffer functions.
 
-Ack, will give it a try.
+>  				 struct ttm_resource *mem,
+>  				 struct amdgpu_res_cursor *mm_cur,
+>  				 unsigned int window, struct amdgpu_ring *ring,
+> @@ -224,7 +226,7 @@ static int amdgpu_ttm_map_buffer(struct ttm_buffer_object *bo,
+>  	num_dw = ALIGN(adev->mman.buffer_funcs->copy_num_dw, 8);
+>  	num_bytes = num_pages * 8 * AMDGPU_GPU_PAGES_IN_CPU_PAGE;
+>  
+> -	r = amdgpu_job_alloc_with_ib(adev, &adev->mman.default_entity.base,
+> +	r = amdgpu_job_alloc_with_ib(adev, entity,
+>  				     AMDGPU_FENCE_OWNER_UNDEFINED,
+>  				     num_dw * 4 + num_bytes,
+>  				     AMDGPU_IB_POOL_DELAYED, &job,
+> @@ -274,6 +276,7 @@ static int amdgpu_ttm_map_buffer(struct ttm_buffer_object *bo,
+>  /**
+>   * amdgpu_ttm_copy_mem_to_mem - Helper function for copy
+>   * @adev: amdgpu device
+> + * @entity: entity to run the jobs
+>   * @src: buffer/address where to read from
+>   * @dst: buffer/address where to write to
+>   * @size: number of bytes to copy
+> @@ -288,6 +291,7 @@ static int amdgpu_ttm_map_buffer(struct ttm_buffer_object *bo,
+>   */
+>  __attribute__((nonnull))
+>  static int amdgpu_ttm_copy_mem_to_mem(struct amdgpu_device *adev,
+> +				      struct drm_sched_entity *entity,
+>  				      const struct amdgpu_copy_mem *src,
+>  				      const struct amdgpu_copy_mem *dst,
+>  				      uint64_t size, bool tmz,
+> @@ -320,12 +324,14 @@ static int amdgpu_ttm_copy_mem_to_mem(struct amdgpu_device *adev,
+>  		cur_size = min3(src_mm.size, dst_mm.size, 256ULL << 20);
+>  
+>  		/* Map src to window 0 and dst to window 1. */
+> -		r = amdgpu_ttm_map_buffer(src->bo, src->mem, &src_mm,
+> +		r = amdgpu_ttm_map_buffer(entity,
+> +					  src->bo, src->mem, &src_mm,
+>  					  0, ring, tmz, &cur_size, &from);
+>  		if (r)
+>  			goto error;
+>  
+> -		r = amdgpu_ttm_map_buffer(dst->bo, dst->mem, &dst_mm,
+> +		r = amdgpu_ttm_map_buffer(entity,
+> +					  dst->bo, dst->mem, &dst_mm,
+>  					  1, ring, tmz, &cur_size, &to);
+>  		if (r)
+>  			goto error;
+> @@ -353,7 +359,7 @@ static int amdgpu_ttm_copy_mem_to_mem(struct amdgpu_device *adev,
+>  							     write_compress_disable));
+>  		}
+>  
+> -		r = amdgpu_copy_buffer(ring, from, to, cur_size, resv,
+> +		r = amdgpu_copy_buffer(ring, entity, from, to, cur_size, resv,
+>  				       &next, true, copy_flags);
+>  		if (r)
+>  			goto error;
+> @@ -394,7 +400,9 @@ static int amdgpu_move_blit(struct ttm_buffer_object *bo,
+>  	src.offset = 0;
+>  	dst.offset = 0;
+>  
+> -	r = amdgpu_ttm_copy_mem_to_mem(adev, &src, &dst,
+> +	r = amdgpu_ttm_copy_mem_to_mem(adev,
+> +				       &adev->mman.move_entity.base,
+> +				       &src, &dst,
+>  				       new_mem->size,
+>  				       amdgpu_bo_encrypted(abo),
+>  				       bo->base.resv, &fence);
+> @@ -406,8 +414,9 @@ static int amdgpu_move_blit(struct ttm_buffer_object *bo,
+>  	    (abo->flags & AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE)) {
+>  		struct dma_fence *wipe_fence = NULL;
+>  
+> -		r = amdgpu_fill_buffer(abo, 0, NULL, &wipe_fence,
+> -				       false, AMDGPU_KERNEL_JOB_ID_MOVE_BLIT);
+> +		r = amdgpu_fill_buffer(&adev->mman.move_entity,
+> +				       abo, 0, NULL, &wipe_fence,
+> +				       AMDGPU_KERNEL_JOB_ID_MOVE_BLIT);
+>  		if (r) {
+>  			goto error;
+>  		} else if (wipe_fence) {
+> @@ -2223,16 +2232,15 @@ void amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
+>  }
+>  
+>  static int amdgpu_ttm_prepare_job(struct amdgpu_device *adev,
+> +				  struct drm_sched_entity *entity,
+>  				  unsigned int num_dw,
+>  				  struct dma_resv *resv,
+>  				  bool vm_needs_flush,
+>  				  struct amdgpu_job **job,
+> -				  bool delayed, u64 k_job_id)
+> +				  u64 k_job_id)
+>  {
+>  	enum amdgpu_ib_pool_type pool = AMDGPU_IB_POOL_DELAYED;
+>  	int r;
+> -	struct drm_sched_entity *entity = delayed ? &adev->mman.clear_entity.base :
+> -						    &adev->mman.move_entity.base;
+>  	r = amdgpu_job_alloc_with_ib(adev, entity,
+>  				     AMDGPU_FENCE_OWNER_UNDEFINED,
+>  				     num_dw * 4, pool, job, k_job_id);
+> @@ -2252,7 +2260,9 @@ static int amdgpu_ttm_prepare_job(struct amdgpu_device *adev,
+>  						   DMA_RESV_USAGE_BOOKKEEP);
+>  }
+>  
+> -int amdgpu_copy_buffer(struct amdgpu_ring *ring, uint64_t src_offset,
+> +int amdgpu_copy_buffer(struct amdgpu_ring *ring,
+> +		       struct drm_sched_entity *entity,
+> +		       uint64_t src_offset,
+>  		       uint64_t dst_offset, uint32_t byte_count,
+>  		       struct dma_resv *resv,
+>  		       struct dma_fence **fence,
+> @@ -2274,8 +2284,8 @@ int amdgpu_copy_buffer(struct amdgpu_ring *ring, uint64_t src_offset,
+>  	max_bytes = adev->mman.buffer_funcs->copy_max_bytes;
+>  	num_loops = DIV_ROUND_UP(byte_count, max_bytes);
+>  	num_dw = ALIGN(num_loops * adev->mman.buffer_funcs->copy_num_dw, 8);
+> -	r = amdgpu_ttm_prepare_job(adev, num_dw,
+> -				   resv, vm_needs_flush, &job, false,
+> +	r = amdgpu_ttm_prepare_job(adev, entity, num_dw,
+> +				   resv, vm_needs_flush, &job,
+>  				   AMDGPU_KERNEL_JOB_ID_TTM_COPY_BUFFER);
+>  	if (r)
+>  		return r;
+> @@ -2304,11 +2314,13 @@ int amdgpu_copy_buffer(struct amdgpu_ring *ring, uint64_t src_offset,
+>  	return r;
+>  }
+>  
+> -static int amdgpu_ttm_fill_mem(struct amdgpu_ring *ring, uint32_t src_data,
+> +static int amdgpu_ttm_fill_mem(struct amdgpu_ring *ring,
+> +			       struct drm_sched_entity *entity,
+> +			       uint32_t src_data,
+>  			       uint64_t dst_addr, uint32_t byte_count,
+>  			       struct dma_resv *resv,
+>  			       struct dma_fence **fence,
+> -			       bool vm_needs_flush, bool delayed,
+> +			       bool vm_needs_flush,
+>  			       u64 k_job_id)
+>  {
+>  	struct amdgpu_device *adev = ring->adev;
+> @@ -2321,8 +2333,8 @@ static int amdgpu_ttm_fill_mem(struct amdgpu_ring *ring, uint32_t src_data,
+>  	max_bytes = adev->mman.buffer_funcs->fill_max_bytes;
+>  	num_loops = DIV_ROUND_UP_ULL(byte_count, max_bytes);
+>  	num_dw = ALIGN(num_loops * adev->mman.buffer_funcs->fill_num_dw, 8);
+> -	r = amdgpu_ttm_prepare_job(adev, num_dw, resv, vm_needs_flush,
+> -				   &job, delayed, k_job_id);
+> +	r = amdgpu_ttm_prepare_job(adev, entity, num_dw, resv,
+> +				   vm_needs_flush, &job, k_job_id);
+>  	if (r)
+>  		return r;
+>  
+> @@ -2386,13 +2398,14 @@ int amdgpu_ttm_clear_buffer(struct amdgpu_bo *bo,
+>  		/* Never clear more than 256MiB at once to avoid timeouts */
+>  		size = min(cursor.size, 256ULL << 20);
+>  
+> -		r = amdgpu_ttm_map_buffer(&bo->tbo, bo->tbo.resource, &cursor,
+> +		r = amdgpu_ttm_map_buffer(&adev->mman.clear_entity.base,
+> +					  &bo->tbo, bo->tbo.resource, &cursor,
+>  					  1, ring, false, &size, &addr);
+>  		if (r)
+>  			goto err;
+>  
+> -		r = amdgpu_ttm_fill_mem(ring, 0, addr, size, resv,
+> -					&next, true, true,
+> +		r = amdgpu_ttm_fill_mem(ring, &adev->mman.clear_entity.base, 0, addr, size, resv,
+> +					&next, true,
+>  					AMDGPU_KERNEL_JOB_ID_TTM_CLEAR_BUFFER);
+>  		if (r)
+>  			goto err;
+> @@ -2408,12 +2421,12 @@ int amdgpu_ttm_clear_buffer(struct amdgpu_bo *bo,
+>  	return r;
+>  }
+>  
+> -int amdgpu_fill_buffer(struct amdgpu_bo *bo,
+> -			uint32_t src_data,
+> -			struct dma_resv *resv,
+> -			struct dma_fence **f,
+> -			bool delayed,
+> -			u64 k_job_id)
+> +int amdgpu_fill_buffer(struct amdgpu_ttm_entity *entity,
+> +		       struct amdgpu_bo *bo,
+> +		       uint32_t src_data,
+> +		       struct dma_resv *resv,
+> +		       struct dma_fence **f,
+> +		       u64 k_job_id)
+>  {
+>  	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
+>  	struct amdgpu_ring *ring = adev->mman.buffer_funcs_ring;
+> @@ -2437,13 +2450,15 @@ int amdgpu_fill_buffer(struct amdgpu_bo *bo,
+>  		/* Never fill more than 256MiB at once to avoid timeouts */
+>  		cur_size = min(dst.size, 256ULL << 20);
+>  
+> -		r = amdgpu_ttm_map_buffer(&bo->tbo, bo->tbo.resource, &dst,
+> +		r = amdgpu_ttm_map_buffer(&entity->base,
+> +					  &bo->tbo, bo->tbo.resource, &dst,
+>  					  1, ring, false, &cur_size, &to);
+>  		if (r)
+>  			goto error;
+>  
+> -		r = amdgpu_ttm_fill_mem(ring, src_data, to, cur_size, resv,
+> -					&next, true, delayed, k_job_id);
+> +		r = amdgpu_ttm_fill_mem(ring, &entity->base,
+> +					src_data, to, cur_size, resv,
+> +					&next, true, k_job_id);
+>  		if (r)
+>  			goto error;
+>  
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+> index d2295d6c2b67..e1655f86a016 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+> @@ -167,7 +167,9 @@ int amdgpu_ttm_init(struct amdgpu_device *adev);
+>  void amdgpu_ttm_fini(struct amdgpu_device *adev);
+>  void amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev,
+>  					bool enable);
+> -int amdgpu_copy_buffer(struct amdgpu_ring *ring, uint64_t src_offset,
+> +int amdgpu_copy_buffer(struct amdgpu_ring *ring,
+> +		       struct drm_sched_entity *entity,
 
->
->> +
->> +  iommus:
->> +    maxItems: 4
->> +
->> +  power-domains:
->> +    items:
->> +      - description: IFE0 GDSC - Image Front End, Global Distributed Sw=
-itch Controller.
->> +      - description: IFE1 GDSC - Image Front End, Global Distributed Sw=
-itch Controller.
->> +      - description: IFE2 GDSC - Image Front End, Global Distributed Sw=
-itch Controller.
->> +      - description: Titan Top GDSC - Titan ISP Block, Global Distribut=
-ed Switch Controller.
->> +
->> +  power-domain-names:
->> +    items:
->> +      - const: top
->> +      - const: ife0
->> +      - const: ife1
->> +      - const: ife2
->
-> Note that the list of items and the list of the item descriptions do not
-> correspond to each other. Titan Top GDSC shall be at the end.
+If I'm not completely mistaken you should be able to drop the ring argument since that can be determined from the entity.
 
-In the v1 the comment was that top can now be put on top (because a
-limitation in the driver was fixed). But yes, forgot to modify
-power-domains description. Will fix.
+Apart from that looks rather good to me.
 
->
->> +
->> +  vdd-csiphy-0p9-supply:
->> +    description:
->> +      Phandle to a 0.9V regulator supply to a PHY.
->> +
->> +  vdd-csiphy-1p25-supply:
->> +    description:
->> +      Phandle to a 1.25V regulator supply to a PHY.
->> +
->
-> Please reference to the schematics or SoC TRM, does SM6350 SoC
-> have different pads to get supplies to different CSIPHYx IPs?
->
-> If so, then please provide hardware properties to get a proper
-> correspondence between supplies and CSIPHYx, and make all these
-> properties optional.
+Regards,
+Christian.
 
-I shared the names in replies to v1.
-
-* VDD_CAMSS_PLL_0P9 - Camera SS PLL 0.9 V circuits
-    (not referenced in downstream kernel, connected to vreg_s5a in
-    schematics, which is MX)
-* VDD_A_CSI_x_0P9 - MIPI CSIx 0.9 V circuits
-    With pad names VDD_A_CSI_0_0P9 to VDD_A_CSI_3_0P9
-* VDD_A_CSI_x_1P25 - MIPI CSIx 1.25 V circuits
-    With pad names VDD_A_CSI_0_1P25 to VDD_A_CSI_3_1P25
-
->
->> +  ports:
->> +    $ref: /schemas/graph.yaml#/properties/ports
->> +
->> +    description:
->> +      CSI input ports.
->> +
->> +    patternProperties:
->> +      "^port@[0-3]$":
->> +        $ref: /schemas/graph.yaml#/$defs/port-base
->> +        unevaluatedProperties: false
->> +
->> +        description:
->> +          Input port for receiving CSI data from a CSIPHY.
->> +
->> +        properties:
->> +          endpoint:
->> +            $ref: video-interfaces.yaml#
->> +            unevaluatedProperties: false
->> +
->> +            properties:
->> +              data-lanes:
->> +                minItems: 1
->> +                maxItems: 4
->> +
->> +              bus-type:
->> +                enum:
->> +                  - 1 # MEDIA_BUS_TYPE_CSI2_CPHY
->> +                  - 4 # MEDIA_BUS_TYPE_CSI2_DPHY
->> +
->> +            required:
->> +              - data-lanes
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - reg-names
->> +  - clocks
->> +  - clock-names
->> +  - interrupts
->> +  - interrupt-names
->> +  - interconnects
->> +  - interconnect-names
->> +  - iommus
->> +  - power-domains
->> +  - power-domain-names
->> +  - vdd-csiphy-0p9-supply
->> +  - vdd-csiphy-1p25-supply
->
-> When a change to add CSIPHYx specific supplies is done, please remove
-> *-supply properties from the list of the requred ones.
-
-Is this pending some other change that will be posted? Or what do you mean?
-
->
->> +  - ports
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/clock/qcom,gcc-sm6350.h>
->> +    #include <dt-bindings/clock/qcom,sm6350-camcc.h>
->> +    #include <dt-bindings/interconnect/qcom,icc.h>
->> +    #include <dt-bindings/interconnect/qcom,sm6350.h>
->> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->> +    #include <dt-bindings/media/video-interfaces.h>
->> +    #include <dt-bindings/power/qcom-rpmpd.h>
->> +
->> +    soc {
->> +        #address-cells =3D <2>;
->> +        #size-cells =3D <2>;
->> +
->> +        isp@acb3000 {
->> +            compatible =3D "qcom,sm6350-camss";
->> +
->> +            reg =3D <0x0 0x0acb3000 0x0 0x1000>,
->> +                  <0x0 0x0acba000 0x0 0x1000>,
->> +                  <0x0 0x0acc1000 0x0 0x1000>,
->> +                  <0x0 0x0acc8000 0x0 0x1000>,
->> +                  <0x0 0x0ac65000 0x0 0x1000>,
->> +                  <0x0 0x0ac66000 0x0 0x1000>,
->> +                  <0x0 0x0ac67000 0x0 0x1000>,
->> +                  <0x0 0x0ac68000 0x0 0x1000>,
->> +                  <0x0 0x0acaf000 0x0 0x4000>,
->> +                  <0x0 0x0acb6000 0x0 0x4000>,
->> +                  <0x0 0x0acbd000 0x0 0x4000>,
->> +                  <0x0 0x0acc4000 0x0 0x4000>;
->> +            reg-names =3D "csid0",
->> +                        "csid1",
->> +                        "csid2",
->> +                        "csid_lite",
->> +                        "csiphy0",
->> +                        "csiphy1",
->> +                        "csiphy2",
->> +                        "csiphy3",
->> +                        "vfe0",
->> +                        "vfe1",
->> +                        "vfe2",
->> +                        "vfe_lite";
->> +
->> +            clocks =3D <&gcc GCC_CAMERA_AHB_CLK>,
->
-> I believe this clock is critical, and it is set so in the SM6350 GCC driv=
-er,
-> therefore it should not be added here.
-
-True, gcc_camera_ahb_clk has CLK_IS_CRITICAL in gcc-sm6350.c
-
->
-> Multiple CAMCC drivers define some of the clocks as "critical" and always
-> enabled, a misconfiguration in this area may cause the reported warning.
-
-Will try to remove it then.
-
->
->> +                     <&gcc GCC_CAMERA_AXI_CLK>,
->> +                     <&camcc CAMCC_SOC_AHB_CLK>,
->> +                     <&camcc CAMCC_CAMNOC_AXI_CLK>,
->> +                     <&camcc CAMCC_CORE_AHB_CLK>,
->> +                     <&camcc CAMCC_CPAS_AHB_CLK>,
->> +                     <&camcc CAMCC_CSIPHY0_CLK>,
->> +                     <&camcc CAMCC_CSI0PHYTIMER_CLK>,
->> +                     <&camcc CAMCC_CSIPHY1_CLK>,
->> +                     <&camcc CAMCC_CSI1PHYTIMER_CLK>,
->> +                     <&camcc CAMCC_CSIPHY2_CLK>,
->> +                     <&camcc CAMCC_CSI2PHYTIMER_CLK>,
->> +                     <&camcc CAMCC_CSIPHY3_CLK>,
->> +                     <&camcc CAMCC_CSI3PHYTIMER_CLK>,
->> +                     <&camcc CAMCC_SLOW_AHB_CLK_SRC>,
->> +                     <&camcc CAMCC_IFE_0_AXI_CLK>,
->> +                     <&camcc CAMCC_IFE_0_CLK>,
->> +                     <&camcc CAMCC_IFE_0_CPHY_RX_CLK>,
->> +                     <&camcc CAMCC_IFE_0_CSID_CLK>,
->> +                     <&camcc CAMCC_IFE_1_AXI_CLK>,
->> +                     <&camcc CAMCC_IFE_1_CLK>,
->> +                     <&camcc CAMCC_IFE_1_CPHY_RX_CLK>,
->> +                     <&camcc CAMCC_IFE_1_CSID_CLK>,
->> +                     <&camcc CAMCC_IFE_2_AXI_CLK>,
->> +                     <&camcc CAMCC_IFE_2_CLK>,
->> +                     <&camcc CAMCC_IFE_2_CPHY_RX_CLK>,
->> +                     <&camcc CAMCC_IFE_2_CSID_CLK>,
->> +                     <&camcc CAMCC_IFE_LITE_CLK>,
->> +                     <&camcc CAMCC_IFE_LITE_CPHY_RX_CLK>,
->> +                     <&camcc CAMCC_IFE_LITE_CSID_CLK>;
->> +            clock-names =3D "cam_ahb_clk",
->> +                          "cam_axi",
->> +                          "soc_ahb",
->> +                          "camnoc_axi",
->> +                          "core_ahb",
->> +                          "cpas_ahb",
->> +                          "csiphy0",
->> +                          "csiphy0_timer",
->> +                          "csiphy1",
->> +                          "csiphy1_timer",
->> +                          "csiphy2",
->> +                          "csiphy2_timer",
->> +                          "csiphy3",
->> +                          "csiphy3_timer",
->> +                          "slow_ahb_src",
->> +                          "vfe0_axi",
->> +                          "vfe0",
->> +                          "vfe0_cphy_rx",
->> +                          "vfe0_csid",
->> +                          "vfe1_axi",
->> +                          "vfe1",
->> +                          "vfe1_cphy_rx",
->> +                          "vfe1_csid",
->> +                          "vfe2_axi",
->> +                          "vfe2",
->> +                          "vfe2_cphy_rx",
->> +                          "vfe2_csid",
->> +                          "vfe_lite",
->> +                          "vfe_lite_cphy_rx",
->> +                          "vfe_lite_csid";
->> +
->> +            interrupts =3D <GIC_SPI 464 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 466 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 717 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 473 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 477 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 478 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 479 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 461 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 465 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 467 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 718 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 472 IRQ_TYPE_LEVEL_HIGH>;
->
-> Interrupt types shall be IRQ_TYPE_EDGE_RISING.
-
-Ack
-
->
->> +            interrupt-names =3D "csid0",
->> +                              "csid1",
->> +                              "csid2",
->> +                              "csid_lite",
->> +                              "csiphy0",
->> +                              "csiphy1",
->> +                              "csiphy2",
->> +                              "csiphy3",
->> +                              "vfe0",
->> +                              "vfe1",
->> +                              "vfe2",
->> +                              "vfe_lite";
->> +
->> +            interconnects =3D <&gem_noc MASTER_AMPSS_M0 QCOM_ICC_TAG_AC=
-TIVE_ONLY
->> +                             &config_noc SLAVE_CAMERA_CFG QCOM_ICC_TAG_=
-ACTIVE_ONLY>,
->> +                            <&mmss_noc MASTER_CAMNOC_HF QCOM_ICC_TAG_AL=
-WAYS
->> +                             &clk_virt SLAVE_EBI_CH0 QCOM_ICC_TAG_ALWAY=
-S>,
->> +                            <&mmss_noc MASTER_CAMNOC_SF QCOM_ICC_TAG_AL=
-WAYS
->> +                             &clk_virt SLAVE_EBI_CH0 QCOM_ICC_TAG_ALWAY=
-S>,
->> +                            <&mmss_noc MASTER_CAMNOC_ICP QCOM_ICC_TAG_A=
-LWAYS
->> +                             &clk_virt SLAVE_EBI_CH0 QCOM_ICC_TAG_ALWAY=
-S>;
->> +            interconnect-names =3D "ahb",
->> +                                 "hf_mnoc",
->> +                                 "sf_mnoc",
->> +                                 "sf_icp_mnoc";
->> +
->> +            iommus =3D <&apps_smmu 0x820 0xc0>,
->> +                     <&apps_smmu 0x840 0x0>,
->> +                     <&apps_smmu 0x860 0xc0>,
->> +                     <&apps_smmu 0x880 0x0>;
->> +
->> +            power-domains =3D <&camcc TITAN_TOP_GDSC>
->
-> It should be the last one in the list, if the settled practice is followe=
-d.
-
-See above.
-
->
->> +                            <&camcc IFE_0_GDSC>,
->> +                            <&camcc IFE_1_GDSC>,
->> +                            <&camcc IFE_2_GDSC>;
->> +            power-domain-names =3D "top",
->> +                                 "ife0",
->> +                                 "ife1",
->> +                                 "ife2";
->> +
->> +            vdd-csiphy-0p9-supply =3D <&vreg_l18a>;
->> +            vdd-csiphy-1p25-supply =3D <&vreg_l22a>;
->> +
->> +            ports {
->> +                #address-cells =3D <1>;
->> +                #size-cells =3D <0>;
->> +
->> +                port@0 {
->> +                    reg =3D <0>;
->> +                    csiphy0_ep: endpoint {
->
-> An empty line before a child node is always needed.
-
-Ack
-
->
->> +                        data-lanes =3D <0 1 2 3>;
->> +                        bus-type =3D <MEDIA_BUS_TYPE_CSI2_DPHY>;
->> +                        remote-endpoint =3D <&sensor_ep>;
->> +                    };
->> +                };
->> +            };
->> +        };
->> +    };
->>=20
+> +		       uint64_t src_offset,
+>  		       uint64_t dst_offset, uint32_t byte_count,
+>  		       struct dma_resv *resv,
+>  		       struct dma_fence **fence,
+> @@ -175,12 +177,12 @@ int amdgpu_copy_buffer(struct amdgpu_ring *ring, uint64_t src_offset,
+>  int amdgpu_ttm_clear_buffer(struct amdgpu_bo *bo,
+>  			    struct dma_resv *resv,
+>  			    struct dma_fence **fence);
+> -int amdgpu_fill_buffer(struct amdgpu_bo *bo,
+> -			uint32_t src_data,
+> -			struct dma_resv *resv,
+> -			struct dma_fence **fence,
+> -			bool delayed,
+> -			u64 k_job_id);
+> +int amdgpu_fill_buffer(struct amdgpu_ttm_entity *entity,
+> +		       struct amdgpu_bo *bo,
+> +		       uint32_t src_data,
+> +		       struct dma_resv *resv,
+> +		       struct dma_fence **f,
+> +		       u64 k_job_id);
+>  
+>  int amdgpu_ttm_alloc_gart(struct ttm_buffer_object *bo);
+>  void amdgpu_ttm_recover_gart(struct ttm_buffer_object *tbo);
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+> index d74ff6e90590..09756132fa1b 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+> @@ -157,7 +157,8 @@ svm_migrate_copy_memory_gart(struct amdgpu_device *adev, dma_addr_t *sys,
+>  			goto out_unlock;
+>  		}
+>  
+> -		r = amdgpu_copy_buffer(ring, gart_s, gart_d, size * PAGE_SIZE,
+> +		r = amdgpu_copy_buffer(ring, &entity->base,
+> +				       gart_s, gart_d, size * PAGE_SIZE,
+>  				       NULL, &next, true, 0);
+>  		if (r) {
+>  			dev_err(adev->dev, "fail %d to copy memory\n", r);
 
 
