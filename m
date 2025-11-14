@@ -1,50 +1,48 @@
-Return-Path: <linux-media+bounces-47096-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47097-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAA19C5DA67
-	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 15:43:47 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FEBCC5DAF4
+	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 15:51:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D1C923A47E4
-	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 14:42:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A52593B30B9
+	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 14:49:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DB6C32144A;
-	Fri, 14 Nov 2025 14:42:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C387328626;
+	Fri, 14 Nov 2025 14:46:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=damsy.net header.i=@damsy.net header.b="S/es1NCT";
-	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="5ei/kBEp"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i32FKnnf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from jeth.damsy.net (jeth.damsy.net [51.159.152.102])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F4E31AF21;
-	Fri, 14 Nov 2025 14:42:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.152.102
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67B53265CAD;
+	Fri, 14 Nov 2025 14:46:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763131325; cv=none; b=J3jDRkcfTQ8mMo9mbpGAbshd+6Gf0Er64wwn3hRfXLMY8a0d/NHvHZI52fbOQ2Ubjrp9Ex+/h7mN7KiXdsoPDfNKu4zomrT9/ipVbEiOXX5CCk/F3JMoZ4L8fLYoCSgVJmDI0VPUQ5u+Lwm40BrZL77rbKz4HgWv9M2y8YjdDRo=
+	t=1763131590; cv=none; b=Q8dfd1OGkq4Pp7VReKDBrGjt4AviQTTdJ2U2THP+aUspNJfTykB7s2C0XYh0t+NRoh5/W9U1m4qbF6tE73sjcgJ/G3W6iglleqR0QnCmHyhJO9WfJZ8tDFVwJbEWvqt4W9qmWm+6d6vZnaQgNF+dECuKcrPJ7l1bQnMtxA6z7YY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763131325; c=relaxed/simple;
-	bh=w6QR1EG8htmjR7hfijTu7vCQZSijtLUfghhingqAovQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EaaKfuByMgWt92wZt3jmYlb8AuxRY8BoTZDzdNIJLGPNZyl48ZFdSFKFfbYTedcJ/TnTA0JDLuVCnFVRUDBPyTkGnd9S7KZj586D4E3rFQZybPThGY/MTU9JPLUIsYSO+LFSJ8Pb3F/3oDGdCLiXtSaLvXpIqknd28onAgiYSz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=damsy.net; spf=pass smtp.mailfrom=damsy.net; dkim=pass (2048-bit key) header.d=damsy.net header.i=@damsy.net header.b=S/es1NCT; dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b=5ei/kBEp; arc=none smtp.client-ip=51.159.152.102
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=damsy.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=damsy.net
-DKIM-Signature: v=1; a=rsa-sha256; s=202408r; d=damsy.net; c=relaxed/relaxed;
-	h=From:To:Subject:Date:Message-ID; t=1763131303; bh=nYgLJec6Kojr+3Bkv+F2UQ1
-	dh5CbMmGwLYqprxaTm0I=; b=S/es1NCTPdwWEnbhsQZIyp4MlomPedoOycy3FUiytiwMxpv76U
-	f0E6PTHBF2ciLW6LqKqeLQn1SYsnPAT7MJPMXdlf2+zCRsUUApJENEC+jC3AJwArQoN3vJQWuVy
-	h4XLriRPcIpRau5GLzU0S/d3k/JkOdiochZNPCS0VONkreoFCbtN5v92+rUbfFWTSY0YeLy4Qfk
-	QOhRNdLwP1woexCvvN4OYDArmM0NkbjuoxmU5T2zZue3GVqH6B71daQUHa0k5qz766WqcLxX4XC
-	eE23DxNKQKVLTADPalEGflAQOpYsM+sWRIB7R5qh+vP5uejBBaHxD+0/UiUcLsrW+Cw==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202408e; d=damsy.net; c=relaxed/relaxed;
-	h=From:To:Subject:Date:Message-ID; t=1763131303; bh=nYgLJec6Kojr+3Bkv+F2UQ1
-	dh5CbMmGwLYqprxaTm0I=; b=5ei/kBEpxO8McpEAcbiiYnHqz7sjTMX15MZf5irA+GEvjfllfg
-	aAwJsXJGUyF+FacNwaNfdwNhTc+dyibxvJBw==;
-Message-ID: <1ef63068-1352-4e8a-abea-bfad5f7a2198@damsy.net>
-Date: Fri, 14 Nov 2025 15:41:43 +0100
+	s=arc-20240116; t=1763131590; c=relaxed/simple;
+	bh=2OeKYXvCi9FswCmBTes5mMGtrh8zxfSflP1rjt5sadc=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=sX4mrQbVvwjEOucZ3lRs46da1/X3UY3PNxV1OtbSQf3QMpwSIMdq1GKAoDDYwtrZwDiKsSjuYOdBEQVAxStvBBb9Gq8gavRPFE4yb9tQCmg+I+n864T8NM763tHsLj4o/if3U75osdwEmSf2eXEIz9osb8apezejt0FA9SuXr8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i32FKnnf; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD895C4CEF8;
+	Fri, 14 Nov 2025 14:46:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763131590;
+	bh=2OeKYXvCi9FswCmBTes5mMGtrh8zxfSflP1rjt5sadc=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=i32FKnnfKRTq1bQnplDX628RCD9p2P1iXSLKCt7Tzo6LtyjuNgM+P7pydA7/XZ28T
+	 MtDDBzRO2FHiDk6cPb9EyJ4RK0SoHqhb3XsfpfTXz6u2R6BRDOYQXyDiE8WfLwRcJN
+	 cTi8dYg4CbcKE4KUKI8ShoxL34ORWXUkIOhXQRPj9xZGlcXRmiy7LQneFKPe1JGQuJ
+	 yR0ITV70Va/TjmhN/bXZukZ7MseMQ63eeRi1Y1S4D2Z9ze/3VjnNII5NlsfTcyqQdO
+	 Fo/7XLECFv5KUrI1zgj1gxb2Ph79nuGPrd6SVlzv8bUP10WGJ4LAbVVBwgv4btQmua
+	 eVQg4PIVcF/dQ==
+Message-ID: <0ad2b299-236b-4dc6-86cd-3ff72400e474@kernel.org>
+Date: Fri, 14 Nov 2025 15:46:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,359 +50,192 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 05/20] drm/amdgpu: pass the entity to use to ttm
- functions
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Felix Kuehling <Felix.Kuehling@amd.com>,
- Sumit Semwal <sumit.semwal@linaro.org>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <20251113160632.5889-1-pierre-eric.pelloux-prayer@amd.com>
- <20251113160632.5889-6-pierre-eric.pelloux-prayer@amd.com>
- <6469a0ce-89d9-42ad-867b-1d8094293e44@amd.com>
-Content-Language: en-US
-From: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
-In-Reply-To: <6469a0ce-89d9-42ad-867b-1d8094293e44@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH v6 2/3] media: platform: Add Renesas Input Video Control
+ block driver
+To: Daniel Scally <dan.scally@ideasonboard.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ jacopo.mondi@ideasonboard.com, biju.das.jz@bp.renesas.com,
+ laurent.pinchart@ideasonboard.com,
+ Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+References: <20251111-ivc-v6-0-2a0ad3894478@ideasonboard.com>
+ <20251111-ivc-v6-2-2a0ad3894478@ideasonboard.com>
+Content-Language: en-US, nl
+In-Reply-To: <20251111-ivc-v6-2-2a0ad3894478@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+Hi Dan,
 
-
-Le 14/11/2025 à 14:07, Christian König a écrit :
-> On 11/13/25 17:05, Pierre-Eric Pelloux-Prayer wrote:
->> This way the caller can select the one it wants to use.
->>
->> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c |  3 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c    |  4 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       | 75 +++++++++++--------
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h       | 16 ++--
->>   drivers/gpu/drm/amd/amdkfd/kfd_migrate.c      |  3 +-
->>   5 files changed, 60 insertions(+), 41 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c
->> index 02c2479a8840..b59040a8771f 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c
->> @@ -38,7 +38,8 @@ static int amdgpu_benchmark_do_move(struct amdgpu_device *adev, unsigned size,
->>   	stime = ktime_get();
->>   	for (i = 0; i < n; i++) {
->>   		struct amdgpu_ring *ring = adev->mman.buffer_funcs_ring;
->> -		r = amdgpu_copy_buffer(ring, saddr, daddr, size, NULL, &fence,
->> +		r = amdgpu_copy_buffer(ring, &adev->mman.default_entity.base,
->> +				       saddr, daddr, size, NULL, &fence,
->>   				       false, 0);
->>   		if (r)
->>   			goto exit_do_move;
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
->> index e08f58de4b17..c06c132a753c 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
->> @@ -1321,8 +1321,8 @@ void amdgpu_bo_release_notify(struct ttm_buffer_object *bo)
->>   	if (r)
->>   		goto out;
->>   
->> -	r = amdgpu_fill_buffer(abo, 0, &bo->base._resv, &fence, true,
->> -			       AMDGPU_KERNEL_JOB_ID_CLEAR_ON_RELEASE);
->> +	r = amdgpu_fill_buffer(&adev->mman.clear_entity, abo, 0, &bo->base._resv,
->> +			       &fence, AMDGPU_KERNEL_JOB_ID_CLEAR_ON_RELEASE);
->>   	if (WARN_ON(r))
->>   		goto out;
->>   
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->> index 42d448cd6a6d..c8d59ca2b3bd 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->> @@ -164,6 +164,7 @@ static void amdgpu_evict_flags(struct ttm_buffer_object *bo,
->>   
->>   /**
->>    * amdgpu_ttm_map_buffer - Map memory into the GART windows
->> + * @entity: entity to run the window setup job
->>    * @bo: buffer object to map
->>    * @mem: memory object to map
->>    * @mm_cur: range to map
->> @@ -176,7 +177,8 @@ static void amdgpu_evict_flags(struct ttm_buffer_object *bo,
->>    * Setup one of the GART windows to access a specific piece of memory or return
->>    * the physical address for local memory.
->>    */
->> -static int amdgpu_ttm_map_buffer(struct ttm_buffer_object *bo,
->> +static int amdgpu_ttm_map_buffer(struct drm_sched_entity *entity,
->> +				 struct ttm_buffer_object *bo,
+On 11/11/2025 17:34, Daniel Scally wrote:
+> Add a driver for the Input Video Control block in an RZ/V2H(P) SoC
+> which feeds data into the Arm Mali-C55 ISP.
 > 
+> [ivc: Remove check on buffers list in start_streaming]
+> [ivc: put_autosuspend() implies mark_last_busy()]
+> [media: rzv2h-ivc: Do not delay frame completion]
+> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+> ---
+> Changes in latest version:
 > 
-> Probably better to split this patch into multiple patches.
+> 	- Requested irq at very end of runtime resume callback and
+> 	  not the beginning.
+> 	- Switch to devm_mutex_init()
+> 	- Disable runtime pm in probe() error path
 > 
-> One which changes amdgpu_ttm_map_buffer() and then another one or two for the higher level copy_buffer and fill_buffer functions.
-
-OK.
-
+> Changes in v7:
 > 
->>   				 struct ttm_resource *mem,
->>   				 struct amdgpu_res_cursor *mm_cur,
->>   				 unsigned int window, struct amdgpu_ring *ring,
->> @@ -224,7 +226,7 @@ static int amdgpu_ttm_map_buffer(struct ttm_buffer_object *bo,
->>   	num_dw = ALIGN(adev->mman.buffer_funcs->copy_num_dw, 8);
->>   	num_bytes = num_pages * 8 * AMDGPU_GPU_PAGES_IN_CPU_PAGE;
->>   
->> -	r = amdgpu_job_alloc_with_ib(adev, &adev->mman.default_entity.base,
->> +	r = amdgpu_job_alloc_with_ib(adev, entity,
->>   				     AMDGPU_FENCE_OWNER_UNDEFINED,
->>   				     num_dw * 4 + num_bytes,
->>   				     AMDGPU_IB_POOL_DELAYED, &job,
->> @@ -274,6 +276,7 @@ static int amdgpu_ttm_map_buffer(struct ttm_buffer_object *bo,
->>   /**
->>    * amdgpu_ttm_copy_mem_to_mem - Helper function for copy
->>    * @adev: amdgpu device
->> + * @entity: entity to run the jobs
->>    * @src: buffer/address where to read from
->>    * @dst: buffer/address where to write to
->>    * @size: number of bytes to copy
->> @@ -288,6 +291,7 @@ static int amdgpu_ttm_map_buffer(struct ttm_buffer_object *bo,
->>    */
->>   __attribute__((nonnull))
->>   static int amdgpu_ttm_copy_mem_to_mem(struct amdgpu_device *adev,
->> +				      struct drm_sched_entity *entity,
->>   				      const struct amdgpu_copy_mem *src,
->>   				      const struct amdgpu_copy_mem *dst,
->>   				      uint64_t size, bool tmz,
->> @@ -320,12 +324,14 @@ static int amdgpu_ttm_copy_mem_to_mem(struct amdgpu_device *adev,
->>   		cur_size = min3(src_mm.size, dst_mm.size, 256ULL << 20);
->>   
->>   		/* Map src to window 0 and dst to window 1. */
->> -		r = amdgpu_ttm_map_buffer(src->bo, src->mem, &src_mm,
->> +		r = amdgpu_ttm_map_buffer(entity,
->> +					  src->bo, src->mem, &src_mm,
->>   					  0, ring, tmz, &cur_size, &from);
->>   		if (r)
->>   			goto error;
->>   
->> -		r = amdgpu_ttm_map_buffer(dst->bo, dst->mem, &dst_mm,
->> +		r = amdgpu_ttm_map_buffer(entity,
->> +					  dst->bo, dst->mem, &dst_mm,
->>   					  1, ring, tmz, &cur_size, &to);
->>   		if (r)
->>   			goto error;
->> @@ -353,7 +359,7 @@ static int amdgpu_ttm_copy_mem_to_mem(struct amdgpu_device *adev,
->>   							     write_compress_disable));
->>   		}
->>   
->> -		r = amdgpu_copy_buffer(ring, from, to, cur_size, resv,
->> +		r = amdgpu_copy_buffer(ring, entity, from, to, cur_size, resv,
->>   				       &next, true, copy_flags);
->>   		if (r)
->>   			goto error;
->> @@ -394,7 +400,9 @@ static int amdgpu_move_blit(struct ttm_buffer_object *bo,
->>   	src.offset = 0;
->>   	dst.offset = 0;
->>   
->> -	r = amdgpu_ttm_copy_mem_to_mem(adev, &src, &dst,
->> +	r = amdgpu_ttm_copy_mem_to_mem(adev,
->> +				       &adev->mman.move_entity.base,
->> +				       &src, &dst,
->>   				       new_mem->size,
->>   				       amdgpu_bo_encrypted(abo),
->>   				       bo->base.resv, &fence);
->> @@ -406,8 +414,9 @@ static int amdgpu_move_blit(struct ttm_buffer_object *bo,
->>   	    (abo->flags & AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE)) {
->>   		struct dma_fence *wipe_fence = NULL;
->>   
->> -		r = amdgpu_fill_buffer(abo, 0, NULL, &wipe_fence,
->> -				       false, AMDGPU_KERNEL_JOB_ID_MOVE_BLIT);
->> +		r = amdgpu_fill_buffer(&adev->mman.move_entity,
->> +				       abo, 0, NULL, &wipe_fence,
->> +				       AMDGPU_KERNEL_JOB_ID_MOVE_BLIT);
->>   		if (r) {
->>   			goto error;
->>   		} else if (wipe_fence) {
->> @@ -2223,16 +2232,15 @@ void amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
->>   }
->>   
->>   static int amdgpu_ttm_prepare_job(struct amdgpu_device *adev,
->> +				  struct drm_sched_entity *entity,
->>   				  unsigned int num_dw,
->>   				  struct dma_resv *resv,
->>   				  bool vm_needs_flush,
->>   				  struct amdgpu_job **job,
->> -				  bool delayed, u64 k_job_id)
->> +				  u64 k_job_id)
->>   {
->>   	enum amdgpu_ib_pool_type pool = AMDGPU_IB_POOL_DELAYED;
->>   	int r;
->> -	struct drm_sched_entity *entity = delayed ? &adev->mman.clear_entity.base :
->> -						    &adev->mman.move_entity.base;
->>   	r = amdgpu_job_alloc_with_ib(adev, entity,
->>   				     AMDGPU_FENCE_OWNER_UNDEFINED,
->>   				     num_dw * 4, pool, job, k_job_id);
->> @@ -2252,7 +2260,9 @@ static int amdgpu_ttm_prepare_job(struct amdgpu_device *adev,
->>   						   DMA_RESV_USAGE_BOOKKEEP);
->>   }
->>   
->> -int amdgpu_copy_buffer(struct amdgpu_ring *ring, uint64_t src_offset,
->> +int amdgpu_copy_buffer(struct amdgpu_ring *ring,
->> +		       struct drm_sched_entity *entity,
->> +		       uint64_t src_offset,
->>   		       uint64_t dst_offset, uint32_t byte_count,
->>   		       struct dma_resv *resv,
->>   		       struct dma_fence **fence,
->> @@ -2274,8 +2284,8 @@ int amdgpu_copy_buffer(struct amdgpu_ring *ring, uint64_t src_offset,
->>   	max_bytes = adev->mman.buffer_funcs->copy_max_bytes;
->>   	num_loops = DIV_ROUND_UP(byte_count, max_bytes);
->>   	num_dw = ALIGN(num_loops * adev->mman.buffer_funcs->copy_num_dw, 8);
->> -	r = amdgpu_ttm_prepare_job(adev, num_dw,
->> -				   resv, vm_needs_flush, &job, false,
->> +	r = amdgpu_ttm_prepare_job(adev, entity, num_dw,
->> +				   resv, vm_needs_flush, &job,
->>   				   AMDGPU_KERNEL_JOB_ID_TTM_COPY_BUFFER);
->>   	if (r)
->>   		return r;
->> @@ -2304,11 +2314,13 @@ int amdgpu_copy_buffer(struct amdgpu_ring *ring, uint64_t src_offset,
->>   	return r;
->>   }
->>   
->> -static int amdgpu_ttm_fill_mem(struct amdgpu_ring *ring, uint32_t src_data,
->> +static int amdgpu_ttm_fill_mem(struct amdgpu_ring *ring,
->> +			       struct drm_sched_entity *entity,
->> +			       uint32_t src_data,
->>   			       uint64_t dst_addr, uint32_t byte_count,
->>   			       struct dma_resv *resv,
->>   			       struct dma_fence **fence,
->> -			       bool vm_needs_flush, bool delayed,
->> +			       bool vm_needs_flush,
->>   			       u64 k_job_id)
->>   {
->>   	struct amdgpu_device *adev = ring->adev;
->> @@ -2321,8 +2333,8 @@ static int amdgpu_ttm_fill_mem(struct amdgpu_ring *ring, uint32_t src_data,
->>   	max_bytes = adev->mman.buffer_funcs->fill_max_bytes;
->>   	num_loops = DIV_ROUND_UP_ULL(byte_count, max_bytes);
->>   	num_dw = ALIGN(num_loops * adev->mman.buffer_funcs->fill_num_dw, 8);
->> -	r = amdgpu_ttm_prepare_job(adev, num_dw, resv, vm_needs_flush,
->> -				   &job, delayed, k_job_id);
->> +	r = amdgpu_ttm_prepare_job(adev, entity, num_dw, resv,
->> +				   vm_needs_flush, &job, k_job_id);
->>   	if (r)
->>   		return r;
->>   
->> @@ -2386,13 +2398,14 @@ int amdgpu_ttm_clear_buffer(struct amdgpu_bo *bo,
->>   		/* Never clear more than 256MiB at once to avoid timeouts */
->>   		size = min(cursor.size, 256ULL << 20);
->>   
->> -		r = amdgpu_ttm_map_buffer(&bo->tbo, bo->tbo.resource, &cursor,
->> +		r = amdgpu_ttm_map_buffer(&adev->mman.clear_entity.base,
->> +					  &bo->tbo, bo->tbo.resource, &cursor,
->>   					  1, ring, false, &size, &addr);
->>   		if (r)
->>   			goto err;
->>   
->> -		r = amdgpu_ttm_fill_mem(ring, 0, addr, size, resv,
->> -					&next, true, true,
->> +		r = amdgpu_ttm_fill_mem(ring, &adev->mman.clear_entity.base, 0, addr, size, resv,
->> +					&next, true,
->>   					AMDGPU_KERNEL_JOB_ID_TTM_CLEAR_BUFFER);
->>   		if (r)
->>   			goto err;
->> @@ -2408,12 +2421,12 @@ int amdgpu_ttm_clear_buffer(struct amdgpu_bo *bo,
->>   	return r;
->>   }
->>   
->> -int amdgpu_fill_buffer(struct amdgpu_bo *bo,
->> -			uint32_t src_data,
->> -			struct dma_resv *resv,
->> -			struct dma_fence **f,
->> -			bool delayed,
->> -			u64 k_job_id)
->> +int amdgpu_fill_buffer(struct amdgpu_ttm_entity *entity,
->> +		       struct amdgpu_bo *bo,
->> +		       uint32_t src_data,
->> +		       struct dma_resv *resv,
->> +		       struct dma_fence **f,
->> +		       u64 k_job_id)
->>   {
->>   	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
->>   	struct amdgpu_ring *ring = adev->mman.buffer_funcs_ring;
->> @@ -2437,13 +2450,15 @@ int amdgpu_fill_buffer(struct amdgpu_bo *bo,
->>   		/* Never fill more than 256MiB at once to avoid timeouts */
->>   		cur_size = min(dst.size, 256ULL << 20);
->>   
->> -		r = amdgpu_ttm_map_buffer(&bo->tbo, bo->tbo.resource, &dst,
->> +		r = amdgpu_ttm_map_buffer(&entity->base,
->> +					  &bo->tbo, bo->tbo.resource, &dst,
->>   					  1, ring, false, &cur_size, &to);
->>   		if (r)
->>   			goto error;
->>   
->> -		r = amdgpu_ttm_fill_mem(ring, src_data, to, cur_size, resv,
->> -					&next, true, delayed, k_job_id);
->> +		r = amdgpu_ttm_fill_mem(ring, &entity->base,
->> +					src_data, to, cur_size, resv,
->> +					&next, true, k_job_id);
->>   		if (r)
->>   			goto error;
->>   
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
->> index d2295d6c2b67..e1655f86a016 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
->> @@ -167,7 +167,9 @@ int amdgpu_ttm_init(struct amdgpu_device *adev);
->>   void amdgpu_ttm_fini(struct amdgpu_device *adev);
->>   void amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev,
->>   					bool enable);
->> -int amdgpu_copy_buffer(struct amdgpu_ring *ring, uint64_t src_offset,
->> +int amdgpu_copy_buffer(struct amdgpu_ring *ring,
->> +		       struct drm_sched_entity *entity,
+> 	- Returned buffers to userspace as soon as the first
+> 	  interrupt is received instead of waiting until the
+> 	  second
+> 	- Fixes to the pm runtime invocations
+> 	- Some minor formatting changes
 > 
-> If I'm not completely mistaken you should be able to drop the ring argument since that can be determined from the entity.
-
-OK will do.
-
-Pierre-Eric
-
-
+> Changes in v6:
 > 
-> Apart from that looks rather good to me.
+> 	- Minor formatting changes
+> 	- Dropped CONFIG_ prefix from Kconfig symbols
+> 	- Collected tags
+> 	- Replaced "RZ/V2H" with "RZ/V2H(P)"
+> 	- Reformatted probe function
+> 	- Removed leftover reference to media job scheduler
+> 	- Drop the .pipeline_started() and .pipeline_stopped()
+> 	  media entity operations to remove a dependency for the
+> 	  set.
 > 
-> Regards,
-> Christian.
+> Changes in v5:
 > 
->> +		       uint64_t src_offset,
->>   		       uint64_t dst_offset, uint32_t byte_count,
->>   		       struct dma_resv *resv,
->>   		       struct dma_fence **fence,
->> @@ -175,12 +177,12 @@ int amdgpu_copy_buffer(struct amdgpu_ring *ring, uint64_t src_offset,
->>   int amdgpu_ttm_clear_buffer(struct amdgpu_bo *bo,
->>   			    struct dma_resv *resv,
->>   			    struct dma_fence **fence);
->> -int amdgpu_fill_buffer(struct amdgpu_bo *bo,
->> -			uint32_t src_data,
->> -			struct dma_resv *resv,
->> -			struct dma_fence **fence,
->> -			bool delayed,
->> -			u64 k_job_id);
->> +int amdgpu_fill_buffer(struct amdgpu_ttm_entity *entity,
->> +		       struct amdgpu_bo *bo,
->> +		       uint32_t src_data,
->> +		       struct dma_resv *resv,
->> +		       struct dma_fence **f,
->> +		       u64 k_job_id);
->>   
->>   int amdgpu_ttm_alloc_gart(struct ttm_buffer_object *bo);
->>   void amdgpu_ttm_recover_gart(struct ttm_buffer_object *tbo);
->> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
->> index d74ff6e90590..09756132fa1b 100644
->> --- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
->> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
->> @@ -157,7 +157,8 @@ svm_migrate_copy_memory_gart(struct amdgpu_device *adev, dma_addr_t *sys,
->>   			goto out_unlock;
->>   		}
->>   
->> -		r = amdgpu_copy_buffer(ring, gart_s, gart_d, size * PAGE_SIZE,
->> +		r = amdgpu_copy_buffer(ring, &entity->base,
->> +				       gart_s, gart_d, size * PAGE_SIZE,
->>   				       NULL, &next, true, 0);
->>   		if (r) {
->>   			dev_err(adev->dev, "fail %d to copy memory\n", r);
+> 	- Fixed .enum_frame_sizes() to properly check that the
+> 	  given mbus_code matches the source pads format.
+> 	- Tidy up extra space in Kconfig
+> 	- Revise Kconfig option message
+> 	- Don't mark functions inline
+> 	- Fixup misleading comment
+> 	- select CONFIG_PM
+> 	- Use the new pm_sleep_ptr() functionality
+> 	- Minor formatting
+> 
+> Changes in v4:
+> 
+> 	- Update the compatible to renesas,r9a09g057-ivc
+> 	- Dropped the media jobs / scheduler functionality, and re
+> 	  worked the driver to have its own workqueue pushing frames
+> 	- Fix .enum_mbus_code() to return 20-bit output for source
+> 	  pad.
+> 	- Fix some alignment issues
+> 	- Make the forwarding of sink to source pad format a more
+> 	  explicit operation.
+> 	- Rename rzv2h_initialise_video_device_and_queue()
+> 	- Reversed order of v4l2_subdev_init_finalize() and
+> 	  v4l2_async_register_subdev() to make sure everything is
+> 	  finished initialising before registering the subdev.
+> 	- Change function to MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER
+> 	- Use a parametised macro for min vblank
+> 	- Minor formatting
+> 	- Use the DEFAULT macros for quantization / ycbcr_enc values
+> 	- Switch to using the mplane API
+> 	- Dropped select RESET_CONTROLLER
+> 	- Used the new helpers for starting a media pipeline
+> 	- Switch from threaded irq to normal with driver workqueue
+> 	  and revised startup routine
+> 
+> Changes in v3:
+> 
+> 	- Account for the renamed CRU pixel formats
+> 
+> Changes in v2:
+> 
+> 	- Added selects and depends statements to Kconfig entry
+> 	- Fixed copyright year
+> 	- Stopped including in .c files headers already included in .h
+> 	- Fixed uninitialized variable in iterator
+> 	- Only check vvalid member in interrupt function and wait
+> 	  unconditionally elsewhere
+> 	- __maybe_unused for the PM ops
+> 	- Initialise the subdevice after setting up PM
+> 	- Fixed the remove function for the driver to actually do
+> 	  something.
+> 	- Some minor formatting changes
+> 	- Fixed the quantization member for the format
+> 	- Changes accounting for the v2 of the media jobs framework
+> 	- Change min_queued_buffers to 0
+> ---
+>  drivers/media/platform/renesas/Kconfig             |   1 +
+>  drivers/media/platform/renesas/Makefile            |   1 +
+>  drivers/media/platform/renesas/rzv2h-ivc/Kconfig   |  18 +
+>  drivers/media/platform/renesas/rzv2h-ivc/Makefile  |   5 +
+>  .../platform/renesas/rzv2h-ivc/rzv2h-ivc-dev.c     | 250 ++++++++++
+>  .../platform/renesas/rzv2h-ivc/rzv2h-ivc-subdev.c  | 375 +++++++++++++++
+>  .../platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c   | 533 +++++++++++++++++++++
+>  .../media/platform/renesas/rzv2h-ivc/rzv2h-ivc.h   | 130 +++++
+>  8 files changed, 1313 insertions(+)
+> 
+> diff --git a/drivers/media/platform/renesas/Kconfig b/drivers/media/platform/renesas/Kconfig
+> index 27a54fa7908384f2e8200f0f7283a82b0ae8435c..bd8247c0b8aa734d2b412438e694f3908d910b25 100644
+> --- a/drivers/media/platform/renesas/Kconfig
+> +++ b/drivers/media/platform/renesas/Kconfig
+> @@ -42,6 +42,7 @@ config VIDEO_SH_VOU
+>  source "drivers/media/platform/renesas/rcar-isp/Kconfig"
+>  source "drivers/media/platform/renesas/rcar-vin/Kconfig"
+>  source "drivers/media/platform/renesas/rzg2l-cru/Kconfig"
+> +source "drivers/media/platform/renesas/rzv2h-ivc/Kconfig"
+>  
+>  # Mem2mem drivers
+>  
+> diff --git a/drivers/media/platform/renesas/Makefile b/drivers/media/platform/renesas/Makefile
+> index 1127259c09d6a51b70803e76c495918e06777f67..b6b4abf01db246aaf8269b8027efee9b0b32083a 100644
+> --- a/drivers/media/platform/renesas/Makefile
+> +++ b/drivers/media/platform/renesas/Makefile
+> @@ -6,6 +6,7 @@
+>  obj-y += rcar-isp/
+>  obj-y += rcar-vin/
+>  obj-y += rzg2l-cru/
+> +obj-y += rzv2h-ivc/
+>  obj-y += vsp1/
+>  
+>  obj-$(CONFIG_VIDEO_RCAR_CSI2) += rcar-csi2.o
+> diff --git a/drivers/media/platform/renesas/rzv2h-ivc/Kconfig b/drivers/media/platform/renesas/rzv2h-ivc/Kconfig
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..b30702489d380902bfdcff57f0d70498c85e1d24
+> --- /dev/null
+> +++ b/drivers/media/platform/renesas/rzv2h-ivc/Kconfig
+> @@ -0,0 +1,18 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +
+> +config VIDEO_RZV2H_IVC
+> +	tristate "Renesas RZ/V2H(P) Input Video Control block driver"
+> +	depends on V4L_PLATFORM_DRIVERS
+> +	depends on VIDEO_DEV
+> +	depends on ARCH_RENESAS || COMPILE_TEST
+> +	depends on OF
+> +	select PM
 
+Is it OK if I change this to "depends on PM"? It's what we use in the media subsystem.
+
+This also makes it easier for our CI since one of the tests is to disable PM and checks
+that everything still compiles.
+
+Regards,
+
+	Hans
+
+> +	select VIDEOBUF2_DMA_CONTIG
+> +	select MEDIA_CONTROLLER
+> +	select VIDEO_V4L2_SUBDEV_API
+> +	help
+> +          Support for the Renesas RZ/V2H(P) Input Video Control Block
+> +          (IVC).
+> +
+> +          To compile this driver as a module, choose M here: the
+> +          module will be called rzv2h-ivc.
+
+Regards,
+
+	Hans
 
