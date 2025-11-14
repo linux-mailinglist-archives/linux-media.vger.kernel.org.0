@@ -1,517 +1,605 @@
-Return-Path: <linux-media+bounces-47080-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47081-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF604C5D266
-	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 13:40:41 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A374C5D2DB
+	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 13:51:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9EA3A3B01A0
-	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 12:40:38 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id F3EFB351DB9
+	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 12:48:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B47481DE4DC;
-	Fri, 14 Nov 2025 12:40:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7A5C147C9B;
+	Fri, 14 Nov 2025 12:47:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jA05jM76"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="DeNuNc8R"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012062.outbound.protection.outlook.com [40.93.195.62])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A91F01BD9CE
-	for <linux-media@vger.kernel.org>; Fri, 14 Nov 2025 12:40:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763124028; cv=none; b=r9C6Wup9EbfwDyYnOT8jBqaoBHUaOXICreRvzVB2BrUQXP5vW03UIycKo+R78+R+rWtsikjnILP6BMyolZuPBE3/h4Jmwmgz6MSxha0VPDL7MTPQvBwjDsgUV1a92gZUKbjJkjjeRQYP/D/DMhIdYPDzBv+v2E93Dd2z02w6qC8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763124028; c=relaxed/simple;
-	bh=6RjWDLI+pLbByiw5tflsFWzlyUGWfktb18dMsX6Y0m8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DbSRYEWRiSYab62zYO/frZ6wlnD1pyQZzxHk4FTjF1UgU9vyA1sXT2ll7Laol31Y4fne6DUwCCT/mcU9mpaBFXWmiaKFXTTsdn9oVTHy+m0Vl2g/zEmqZtnj1Y8pT7doJWBVpKoGafkIybqQsdMlXBj8/z9SE9eRBHDUK6e+mD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jA05jM76; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-59426dc96f2so111327e87.2
-        for <linux-media@vger.kernel.org>; Fri, 14 Nov 2025 04:40:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763124024; x=1763728824; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Jg0PvqRezKbupz3Kg00de1ttMmCopst/jLXtGT3bTZQ=;
-        b=jA05jM76wLX7UYqLFe4u1+5ESJSj+yFeHRCxb4XOeZmwOMa6HYliJpFHICDZXmjGqJ
-         YiPdXULZHWWKNVF9wjwJpBd/Lf5HvLMFxi7kp8uZ6oyGhVCAVVTa1MxdVfhvfxbfzhWF
-         z53FYzaPLIv2CvIbAt7rUomxQ3kwXojZckfBlYlkvaLkobg/ZAbikL0MuQ+wsqwDmNxm
-         YiopAKgsU4XZE3JZecEpu58Cj/LjHAqUFsJW4xhGTkcTHFDP4ED6u+slv8qTqy9aTJOz
-         sSvMeOpuI6tyuPYi7HCLcYWA4zcoFg1pE+0zYCOuxVsMe2BpB2HgCe/2t6yf+VbjfFKw
-         lVKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763124024; x=1763728824;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Jg0PvqRezKbupz3Kg00de1ttMmCopst/jLXtGT3bTZQ=;
-        b=VVpo10WyHgmjpeXuqqCOd5SAhWCFOgArh+E46D0Q30t4AioqKUANAfIN/VJESqERkG
-         9dnPlbWYmHTyLcwXYJTTMVMLUF3AIznk+cC5Yg/sPnM07jVS6Riq2/Hl5X2eXRByv2Dh
-         BDfaZWF4/kAziNcZN5u8bdwHy0Qj45DuhFKnlSK2XWi3j2jWub9mgqCnV4dGSK41no6a
-         7ac2VQKEZGM81FIEgetY1sgB/LLyiM/lRhqk2Iv3gbYYOaEriydCDeI/7kCnN+t0A1bQ
-         +qkGD7Wg7CIXAyNybK04LRk5qDVxz1u9lGBT5v0OzVBh+KdCibhFRVUXpnsLbPxV9r2n
-         0A6g==
-X-Forwarded-Encrypted: i=1; AJvYcCVOHYfOzhpMXMH868xJBJsVmU1WXVZdi9FJW4wEWdQypUoBK+cHu82PRi2mfFS+EbSf3O+aWOGU+tACiA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwIFaLUdNvbiR2YqJHb2vbNX01dXnJmgfwCgmXNoxUvq+5zWxuK
-	JMM6Wqj0f9Lbu6X2fe2sI+FH1NRd//Ma/bOEByjaxaQ5Dsoft1ADTWJ+uChoErS9D6M=
-X-Gm-Gg: ASbGncuXOfPxahOik3n7YiPjS+ujZr1SVf9mFv9K7gAv7nFSEUMPNcjMqd+oEkzaY5h
-	EGgTZfoFpnqD4nWEiK0+q5AmvRxYC8G0fK7U3X8iy5N+DKaRqvXrgfyUOmwM11ZbhfA8k15Vp0c
-	NGO46xMVNGcvKxGtfz3tnFH17CJlfH3P40LGTertmd0dTEDXyiI1FrMg2g6WvEpRsRF3JRXTzsD
-	E22DRTmNrIWnT+0pETGcXEMjaAaAJCnxjTC1Jqc6JaDkX/joWHnay2GMdz2cS2Idc81WdgzP//J
-	3O9HgzjM+U9sZJ6b8B5nVXkYGy9fSK/9ATwW3JTpkBaoQv9gD9oMuOEpS6/EruymRjJbpV29Myh
-	aBMXPfHpG1h0Uoq2+Tv+s1aSVcK9AdYhaVNTTnL8mhh1TH2wdydECTxeU5ff+Zg4Z9jTflO7DH2
-	Z8hhTs4ngObiQTFtrH7Q/ZCgmW1K++0M83vnLwxsNxAjDneb1rVaGRqPp9U4zujys4kw==
-X-Google-Smtp-Source: AGHT+IGJYPQlaR8EvmhvGbzkYup72zeZ7xs1plmBFOUBHn0OvAXWI4uYws2IEREwIrDVLw6kZ9Ksyw==
-X-Received: by 2002:a05:6512:1150:b0:594:2e4e:6996 with SMTP id 2adb3069b0e04-59584924433mr442379e87.7.1763124023670;
-        Fri, 14 Nov 2025 04:40:23 -0800 (PST)
-Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-595803acc1asm1056622e87.13.2025.11.14.04.40.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Nov 2025 04:40:22 -0800 (PST)
-Message-ID: <de7ad562-80bc-498e-a6fb-cc26bb6343f0@linaro.org>
-Date: Fri, 14 Nov 2025 14:40:21 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459D31B4F09;
+	Fri, 14 Nov 2025 12:47:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.62
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763124474; cv=fail; b=BiZ2pi7BjHBzx2VZpzkSPk4HcQiGDgzCFKyuhsYUsmcm8xdFNmsJilIdV1nm2LvhAZofkShjI4K9LmCYm/uc8s/ko82QD2w596kIPZJcHrDWeA7fAhyMqVNjLahihN+/mQ+n/t+f35TFvXCK2HORwcrjTpsPu4Tq+YhOVrhTbtA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763124474; c=relaxed/simple;
+	bh=TMDUYbD/lO5EolxRIENwazdpjNo4PgS0y4DNOBmkrN0=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=qVPIY23k0stn2bbpqUreULHyaPpaR5Lln3z2majuebqvKyzDQgq5WmYWg2dB0i73l6S98qDKtJDPUGUqxnPki+olNO9zN+FAU7Dhx/rPc2Ypwv0UoYiZVhUbZJWR5t+TrOLNvZvB2Z0ah+EziAp50l692CPvSYGWQE4nLuXu5eU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=DeNuNc8R; arc=fail smtp.client-ip=40.93.195.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UhUP6CekUqoDPENJH7Cr3wiO7V+ex6kb9KRsgC1sYfcmo/3mTsmKa4dUzWJ/7laOaTIR9LvhIWIziSd+VhSu5B+MCRK9bAOCkrW+Jx8LvLBmyKAWqzAnoRhPDPQzpGtAUhSYjSnlFD8BzqYiuqhCEh0e/IKV4k8uu13zAzaZjrkSoiPea9q8vGGKSeuE9POgxRGKGAv1vIA96vBXgxwH4R3xgC9+Jh4H8IT0bbMVWs0ncVVHgE1pMTpPWqH+ny0XAmaEFxo+lXDStgiY+/dGElfffOLrkE2oRNWUVXvF/5m4UD/zqgLsIW8Mfpo4cbhT1rEGylmowe5m70IRAJDukw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+oU0+Gf363IsLu9Ps0WKaD+K/QUMh0CvIaNBAl5LTZU=;
+ b=BYlnlRVmgOVnRS7xocnmquA2GLuLdVjTN9oraNGabqWRQPN9hVw6VkAyL0fRNp//E4Orw5OO+dqnWcDt2ZNjhwgdoAMUyJ+2nsc708FsfFiye6svs1LQVxI+pg8e4ZmOTRZDIxlxQ//7qE2gCC0yoIyXv3yhVqPfBnYX0OWyC+hg5eWxoEShavcYRjtThw5TXHRogx6j+2+ohpY/DIIVprPrWyDA0HEwGG9+kPOJ8w3eYVeDfhWKOqLcfcUg+Zg89YdIwQzOTWFG1fXw6n6jwQPdJQddgUaT4U5RxmucfNWuKhLcY+s5TUuOVvyq40jFiVEMYcEYgC2UwZel+A+P3Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+oU0+Gf363IsLu9Ps0WKaD+K/QUMh0CvIaNBAl5LTZU=;
+ b=DeNuNc8RVIq59fx9ssKel2PbicQjsTfdB6ktfJet/ET6paFHJhz5tCJETPnSez42H+xLYMIDVq82WnV7/iXQU9iUKoNvBGrnmRSH4A+idbpAN85b7eOoPWeilOfqKZmQW39hUACO2ukXq3V1QaUcKkBcmDuurWsibulrZnsP898=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by IA1PR12MB7518.namprd12.prod.outlook.com (2603:10b6:208:419::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.17; Fri, 14 Nov
+ 2025 12:47:48 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9320.013; Fri, 14 Nov 2025
+ 12:47:47 +0000
+Message-ID: <9bd76e0e-6461-4497-a8b3-6c66d3f9c6c8@amd.com>
+Date: Fri, 14 Nov 2025 13:47:38 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 02/20] drm/ttm: rework pipelined eviction fence
+ handling
+To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org,
+ "open list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b"
+ <linux-media@vger.kernel.org>
+References: <20251113160632.5889-1-pierre-eric.pelloux-prayer@amd.com>
+ <20251113160632.5889-3-pierre-eric.pelloux-prayer@amd.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20251113160632.5889-3-pierre-eric.pelloux-prayer@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0118.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:bb::9) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] dt-bindings: media: camss: Add qcom,sm6350-camss
-To: Luca Weiss <luca.weiss@fairphone.com>, Bryan O'Donoghue <bod@kernel.org>,
- Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20251114-sm6350-camss-v2-0-d1ff67da33b6@fairphone.com>
- <20251114-sm6350-camss-v2-1-d1ff67da33b6@fairphone.com>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <20251114-sm6350-camss-v2-1-d1ff67da33b6@fairphone.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|IA1PR12MB7518:EE_
+X-MS-Office365-Filtering-Correlation-Id: b6899912-5ef8-4e3e-8673-08de237c033b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?S0QzMDJKazkrU2JjRW5tNHA2Q3pqaEY0aFFpeTR1VUkzWmQzNGVDYXdraUdY?=
+ =?utf-8?B?UG96V1B2OVF5dWtZM1NsaSsyQU5vS01welZGNDcwVXdwcEpJQS9kRStiYzFQ?=
+ =?utf-8?B?YWNZY2JDM3hFejR6aDNFOUlBS3lWSlhDU2RxM0xPMHVydUlkcWh4NHh4QTN6?=
+ =?utf-8?B?Ryt6Y3dKMWp4WTdwZEI5a1NVc3NnbjdSdE9yWFlaVlNWU0hlMEFpR3dOMFRK?=
+ =?utf-8?B?ZXBDbHg0NlM3T2hkR0FQeVNzTkNheHpoRVBSMm8vNlZPZWkxSG5kbXN6Mm04?=
+ =?utf-8?B?N1BYWnVFOFlBNmhSR05BU0RSdzU5dC9FS0srOFlVaEtHZGhtbnZEUGExaWsw?=
+ =?utf-8?B?K241NmxGNGxQVFRKdng1aWRmS0xCVlFDTnZXWXZ4bEJxNHZDdGthK08yN1Aw?=
+ =?utf-8?B?dFVMT3VHTnlSaXNpNmpZSnpzclpIbXplYWdtNTV6OEowSnMxSlF6L20zUFc3?=
+ =?utf-8?B?ck1heHovN0ZabGRyaE5pVlBsZG9qUk5FRzR2NVR1cFJzWmJHZFhQRDRuVnIz?=
+ =?utf-8?B?bUZ2ZURvS2JaeTBDK0Y2Wm1WY3dTcUJ4VWVoRFJvbXJVODA3Y0x6QXF6aUlh?=
+ =?utf-8?B?UE11SkJaTkN3WDN0YWZHdFlPU0psdTJ6eTNXUHJaWW0yd2RxZXRWdXRpRGpO?=
+ =?utf-8?B?Y05rSDI3WURGcVZmcFFZNnpOamR2ZW1EWExFcklJdzFieWxqdWRldXBxNmQz?=
+ =?utf-8?B?aGwxYTBRRFFvQlFKbkhRWExxY3V2TGlyY2JhM2VTVGo0eklHZmx5MGN0QzA4?=
+ =?utf-8?B?QUZIZlc0dlFFaEl0RzZKRklkUTdqc3hCVmU0dnl2enNoTFRDVTlXU1NvMU8v?=
+ =?utf-8?B?bzdSWXdCeFdKaHNSUnA1K3UxVTV5ak5XcnZtZllHZUdMVitsMkxrWDlYenRl?=
+ =?utf-8?B?THRuUjFMU0pyZDNsWTY2YVhtaFBac3JCb212amJ1UjZsZ2lLd0cvMkM1d0s2?=
+ =?utf-8?B?UUlZTGR1RVIwY3FIVVBHeFhSMDlCNVh0ejV2QTQ1dnlRRm83c29qYlcwMEpR?=
+ =?utf-8?B?Q3hlUEFyZkhmYnlCd2lCZXdwb3FoQzZnaEo2R0U1VS9WLzlCb3VqT2NmbGFi?=
+ =?utf-8?B?R2ZxK3VxdUVzSEdid0JCL1EzZXY4SE5CTmR3QUZuYUZ0OW0rUWJVRFhYbHBK?=
+ =?utf-8?B?eHBCVFZOcTlkVE55UFRwNWorVENMYmIwcnlrL0FhQjdmdEphRjRYSVBBbWVO?=
+ =?utf-8?B?R0s1djRmcEpQV0hYdkdmbWlDcTlHOUZWTEZpcnlOb0VrQlFRRis2VmphY0tH?=
+ =?utf-8?B?NkZpYmE0c2FiUG4zOWpRU3VlSnRBNmRMdUxEVjY2ZjBlQkZvamlnWjlxSTR0?=
+ =?utf-8?B?dWc4YnZRUFowbmpMUW82UkZCR3lpbi9rS0xYaFhkVnp3VUwzS0ZLSWdKS2V0?=
+ =?utf-8?B?S2praFJCc1RhV1lsZnRiSExyNHdQLyt6SXlmYXBnaHM3MHBPR0oydGNTbzlD?=
+ =?utf-8?B?cjA5L1orQ0J2dmNwRVEzdWdnLzhQbm1aMDk4Qk95UDlOL3NEdzlBZytOakRx?=
+ =?utf-8?B?Mjl1U0lTcC9NdENkWS9keW9pSVlVbzJIT1JXWmxSTkdQZ000b0Zua2tuSFpa?=
+ =?utf-8?B?SHVhdHVMK0ovTnNFYUdrbG0zWlI5YlRFOWlPWDBUYXBralowb0NXMENNZFUx?=
+ =?utf-8?B?UFFyTlgrb3VTNEtXS1kyaDFDaVEybVpkTndGalVvc3ZKUDNoU05Vd3gzNHUz?=
+ =?utf-8?B?R1lQZEJXR2taUzBGZHVlZEdCeVhIclZJRUZvYWl2aXJEdjlXVDRZK2t4RjJJ?=
+ =?utf-8?B?UjdxY1VNSDl3ZzFLRm1sanM5T0ladnFUVXZVd1NBTlRPVkQvQmlsMEdCVE5D?=
+ =?utf-8?B?WFBpWkN2dEZLdWQzV1hqWTNmSVVuYUUwdFpTWHhYdmZhSWU5QUhpV2FVanhB?=
+ =?utf-8?B?eVBwK01YY1pPamRGM2UrZGxMM0ZCS0FrVHBuSllmQTFnajBDdHJYS3JVQVp6?=
+ =?utf-8?B?WmxYMmw4UVN1eGNneEx6S1VXUUltSjhvbUd5ZHRvM0JmSjJNTmVXZm1lSzFy?=
+ =?utf-8?Q?2t2siQ7Uh3XYICzKptDucipDmd0/2g=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?SWtCZy9ibDhvUm1EemNKUTVNU1J6NHBmc0Izek5BdWdIY29HREVjaUpESjFj?=
+ =?utf-8?B?K1h5L3Z6YUo4bGdLK25TbnpIK0xjWW8rWHBpalRSTlJqYjZ2RWtHVUlLSDNl?=
+ =?utf-8?B?SURLQ3Z2b2Z1SGNBekpmU2JldGlUK2lsdDQweDZYSWordXBYVllwempRZ2xa?=
+ =?utf-8?B?ZlF0U2UzZk1UZnFkcGFOQnc3YWMvTnVDM3c2NzgzcDhaWTg1S3IzQ3pwY2lI?=
+ =?utf-8?B?THlnN2x0WDBNNm5TcGpDM1JJZU5jVjdkeVNyWTBjOGxZQWkvZmRwTWJwR3RS?=
+ =?utf-8?B?R2FJWkxKa2pFTWk3TW5STXY4bm1EODBzWWQ2OExuZm9XajU0KzVEMzZaUDdq?=
+ =?utf-8?B?ZWM0MjVrUGVXUFFQdENBdjhBVVdkMktXbzdBOGt3ODJWSUhiblZYcFpHTEpo?=
+ =?utf-8?B?VmF0aEorUTNndVRKdElVem8xbmtxMThPR3FZcFBCS0lsRVY3TTNZMTJ3M0Ux?=
+ =?utf-8?B?dHBVTWRjalVVZ3paSC8zcUs3NUl1c3VUTEVOcVAvK2QzMW5waHZhUjB3Qyt4?=
+ =?utf-8?B?RWZZdC9QOEJtK3FGTWNzMWdRanVFcEs1cllUVWFRWlVXSGM4THhpZlBwWUF3?=
+ =?utf-8?B?YnFKTFdrS1pYMEt2TXJYNG1qOEdnb3dHeEhPUThreTlvclY2MWtSTkF6M2Yw?=
+ =?utf-8?B?MVg5TkppSnQwR091MjFxbHZTc21IUlJsemplRlRmeXRld0JQMllPaXJxSE5E?=
+ =?utf-8?B?ZlZyVzJ5Rkd5U3cySDhQMnVXVFlaMjJPcjQ3dDJMZW8wakM0SldqTkZNV2Z1?=
+ =?utf-8?B?SWI0TUlRL1N6SDN1R3pQaTNndzV5SzliYW5iMHI1QkFCbTljOWM1VmNZelFL?=
+ =?utf-8?B?cldOdHdOOGNGUzE1Q1pieU00KzNLRkVjV0piNmsrOFZDaGF2N1V5VC9WK3FF?=
+ =?utf-8?B?MVJVNGJ0R0Q3QUFpdWJtU1Y2N0orOE44TTU3MG9iZFZWUmNlZnVTSnlRa0Nr?=
+ =?utf-8?B?dmdXRTZKZjVZcCtyOW1USnJwNmkyeG95SlBCV3lZZWNWd3ZQRlNSVmJXUDcx?=
+ =?utf-8?B?TlYzYlRLdm9QdXhCRHRtem5OT0twVDVya1dIUzFubGlvRWV4K0VFWXR4aXEv?=
+ =?utf-8?B?VEVkL3R4cWNwT1ROOFZKZGdVVUE3WDEzZ1QwTXNJOXY4SWtHa0hNTWNJbzgz?=
+ =?utf-8?B?U2lVUElqVmFpd045OGhkNHlBc0psWjhtcjVDZVRkU1lwdG5pNmxMYkViZzFJ?=
+ =?utf-8?B?by83Y0gyeTEwR2lBYkpKbjV1VnRGVUgrdXpmK3g0WDRHOEVyNkltK2lLUHZu?=
+ =?utf-8?B?d2JFNC9MOUlZUzBjaDRma2hBcmt5cjhuemlCc01iVnBWRkdMQTVkVHdrQjVS?=
+ =?utf-8?B?VlNYSTVOeTZUVDRZNUxibjBKQnBPSklSdERXZytJcXo3VWhCTEpRK0pvMEli?=
+ =?utf-8?B?bmRPREVDREQ3eTNoeklnaE5zZnBGbHYyQlFVbWdkZERJYXZnOGJqVHFUdWhE?=
+ =?utf-8?B?SldHMWhFOG5pM1U3QzF4MmNrMGFmZHM5STNoOCtTOVd1Y1pJbnFwc3daNFF6?=
+ =?utf-8?B?VVo0V0tKOVhsT0pFUkRLTEZ6cERRRkVJSHA0eWs3TC9ZNWF3K1pzeFk5NFhH?=
+ =?utf-8?B?OVhlQyt4OXdzbkpyckZXL0g5OWlLSU16NnR4NmxSdHJ2Q09kSk1oa0R3U0pu?=
+ =?utf-8?B?UVRjek5hQlhWak9OQjhmcGZVU1UxN3R2aGFVd09HUEdoL0FpYVpOSytqQmJX?=
+ =?utf-8?B?S0grQVA2NFhEZWE5ZXdhRlkxWHZRMm9mVndIRGlDUTR5cDNLSlc5MzdZWUV1?=
+ =?utf-8?B?VWVJamZQTHd2Zm1vYnN3OW5Cc3RqZVgydXlCdDgvVWpjbTJubHZ5UUMwcTlX?=
+ =?utf-8?B?RXo0bFNKZEI2NUhTc2RDTFJjQTNlcENOQWVMUzVrNDhUaE5JNnFIZVpZZkQ5?=
+ =?utf-8?B?bkRpT0FhSXAwOXVFZEh2SWVUUHJCellvd3FrU1lwRXRDVzdKMFY2NEhQMkZy?=
+ =?utf-8?B?czZDTHZxYk5ZTG5RbUFHTDJDa0lmWUZ2S0RRLysvRFB2b2x0dVBnMTlJdjZn?=
+ =?utf-8?B?UmUvTVV0Q2RZN2lUZ2RHbnF0eTFSMTk5NERMcFBKUUJwclJLMDg2TUErR1Zy?=
+ =?utf-8?B?ZktkWHNKVjZhMndCcG94SnI4bkZHZU1HbG5ueXo0OFN6czRFZHZOVEZyVnA0?=
+ =?utf-8?Q?77uGj+7lldDq7Ph7M5uxaF2bf?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b6899912-5ef8-4e3e-8673-08de237c033b
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2025 12:47:47.3308
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: iAF++g9O0pw0dJDaPqViBxf1hanZgEyLMsHtzyT/BtKym2jo2Y6kkNJX5DVkCc/Y
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7518
 
-Hi Luca.
-
-On 11/14/25 13:15, Luca Weiss wrote:
-> Add bindings for the Camera Subsystem on the SM6350 SoC.
+On 11/13/25 17:05, Pierre-Eric Pelloux-Prayer wrote:
+> Until now ttm stored a single pipelined eviction fence which means
+> drivers had to use a single entity for these evictions.
 > 
-> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+> To lift this requirement, this commit allows up to 8 entities to
+> be used.
+> 
+> Ideally a dma_resv object would have been used as a container of
+> the eviction fences, but the locking rules makes it complex.
+> dma_resv all have the same ww_class, which means "Attempting to
+> lock more mutexes after ww_acquire_done." is an error.
+> 
+> One alternative considered was to introduced a 2nd ww_class for
+> specific resv to hold a single "transient" lock (= the resv lock
+> would only be held for a short period, without taking any other
+> locks).
+> 
+> The other option, is to statically reserve a fence array, and
+> extend the existing code to deal with N fences, instead of 1.
+> 
+> The driver is still responsible to reserve the correct number
+> of fence slots.
+> 
 > ---
->   .../bindings/media/qcom,sm6350-camss.yaml          | 349 +++++++++++++++++++++
->   1 file changed, 349 insertions(+)
+> v2:
+> - simplified code
+> - dropped n_fences
+> - name changes
+> ---
 > 
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sm6350-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sm6350-camss.yaml
-> new file mode 100644
-> index 000000000000..d812b5b50c05
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/qcom,sm6350-camss.yaml
-> @@ -0,0 +1,349 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/qcom,sm6350-camss.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Qualcomm SM6350 Camera Subsystem (CAMSS)
-> +
-> +maintainers:
-> +  - Luca Weiss <luca.weiss@fairphone.com>
-> +
-> +description:
-> +  The CAMSS IP is a CSI decoder and ISP present on Qualcomm platforms.
-> +
-> +properties:
-> +  compatible:
-> +    const: qcom,sm6350-camss
-> +
-> +  reg:
-> +    maxItems: 12
-> +
-> +  reg-names:
-> +    items:
-> +      - const: csid0
-> +      - const: csid1
-> +      - const: csid2
-> +      - const: csid_lite
-> +      - const: csiphy0
-> +      - const: csiphy1
-> +      - const: csiphy2
-> +      - const: csiphy3
-> +      - const: vfe0
-> +      - const: vfe1
-> +      - const: vfe2
-> +      - const: vfe_lite
-> +
-> +  clocks:
-> +    maxItems: 30
-> +
-> +  clock-names:
-> +    items:
-> +      - const: cam_ahb_clk
-> +      - const: cam_axi
-> +      - const: soc_ahb
-> +      - const: camnoc_axi
-> +      - const: core_ahb
-> +      - const: cpas_ahb
-> +      - const: csiphy0
-> +      - const: csiphy0_timer
-> +      - const: csiphy1
-> +      - const: csiphy1_timer
-> +      - const: csiphy2
-> +      - const: csiphy2_timer
-> +      - const: csiphy3
-> +      - const: csiphy3_timer
-> +      - const: slow_ahb_src
-> +      - const: vfe0_axi
-> +      - const: vfe0
-> +      - const: vfe0_cphy_rx
-> +      - const: vfe0_csid
-> +      - const: vfe1_axi
-> +      - const: vfe1
-> +      - const: vfe1_cphy_rx
-> +      - const: vfe1_csid
-> +      - const: vfe2_axi
-> +      - const: vfe2
-> +      - const: vfe2_cphy_rx
-> +      - const: vfe2_csid
-> +      - const: vfe_lite
-> +      - const: vfe_lite_cphy_rx
-> +      - const: vfe_lite_csid
-
-The sorting order of this list does not follow the sorting order accepted
-in the past.
-
-I'm very sorry for the vagueness, but I can not pronounce the accepted
-sorting order name, because it triggers people.
-
-> +
-> +  interrupts:
-> +    maxItems: 12
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: csid0
-> +      - const: csid1
-> +      - const: csid2
-> +      - const: csid_lite
-> +      - const: csiphy0
-> +      - const: csiphy1
-> +      - const: csiphy2
-> +      - const: csiphy3
-> +      - const: vfe0
-> +      - const: vfe1
-> +      - const: vfe2
-> +      - const: vfe_lite
-> +
-> +  interconnects:
-> +    maxItems: 4
-> +
-> +  interconnect-names:
-> +    items:
-> +      - const: ahb
-> +      - const: hf_mnoc
-> +      - const: sf_mnoc
-> +      - const: sf_icp_mnoc
-
-Please remove sf_mnoc and sf_icp_mnoc, they are not needed for enabling
-IP to produce raw images, and one day you may use them somewhere else.
-
-> +
-> +  iommus:
-> +    maxItems: 4
-> +
-> +  power-domains:
-> +    items:
-> +      - description: IFE0 GDSC - Image Front End, Global Distributed Switch Controller.
-> +      - description: IFE1 GDSC - Image Front End, Global Distributed Switch Controller.
-> +      - description: IFE2 GDSC - Image Front End, Global Distributed Switch Controller.
-> +      - description: Titan Top GDSC - Titan ISP Block, Global Distributed Switch Controller.
-> +
-> +  power-domain-names:
-> +    items:
-> +      - const: top
-> +      - const: ife0
-> +      - const: ife1
-> +      - const: ife2
-
-Note that the list of items and the list of the item descriptions do not
-correspond to each other. Titan Top GDSC shall be at the end.
-
-> +
-> +  vdd-csiphy-0p9-supply:
-> +    description:
-> +      Phandle to a 0.9V regulator supply to a PHY.
-> +
-> +  vdd-csiphy-1p25-supply:
-> +    description:
-> +      Phandle to a 1.25V regulator supply to a PHY.
-> +
-
-Please reference to the schematics or SoC TRM, does SM6350 SoC
-have different pads to get supplies to different CSIPHYx IPs?
-
-If so, then please provide hardware properties to get a proper
-correspondence between supplies and CSIPHYx, and make all these
-properties optional.
-
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    description:
-> +      CSI input ports.
-> +
-> +    patternProperties:
-> +      "^port@[0-3]$":
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +
-> +        description:
-> +          Input port for receiving CSI data from a CSIPHY.
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              data-lanes:
-> +                minItems: 1
-> +                maxItems: 4
-> +
-> +              bus-type:
-> +                enum:
-> +                  - 1 # MEDIA_BUS_TYPE_CSI2_CPHY
-> +                  - 4 # MEDIA_BUS_TYPE_CSI2_DPHY
-> +
-> +            required:
-> +              - data-lanes
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-names
-> +  - clocks
-> +  - clock-names
-> +  - interrupts
-> +  - interrupt-names
-> +  - interconnects
-> +  - interconnect-names
-> +  - iommus
-> +  - power-domains
-> +  - power-domain-names
-> +  - vdd-csiphy-0p9-supply
-> +  - vdd-csiphy-1p25-supply
-
-When a change to add CSIPHYx specific supplies is done, please remove
-*-supply properties from the list of the requred ones.
-
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/qcom,gcc-sm6350.h>
-> +    #include <dt-bindings/clock/qcom,sm6350-camcc.h>
-> +    #include <dt-bindings/interconnect/qcom,icc.h>
-> +    #include <dt-bindings/interconnect/qcom,sm6350.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/media/video-interfaces.h>
-> +    #include <dt-bindings/power/qcom-rpmpd.h>
-> +
-> +    soc {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +
-> +        isp@acb3000 {
-> +            compatible = "qcom,sm6350-camss";
-> +
-> +            reg = <0x0 0x0acb3000 0x0 0x1000>,
-> +                  <0x0 0x0acba000 0x0 0x1000>,
-> +                  <0x0 0x0acc1000 0x0 0x1000>,
-> +                  <0x0 0x0acc8000 0x0 0x1000>,
-> +                  <0x0 0x0ac65000 0x0 0x1000>,
-> +                  <0x0 0x0ac66000 0x0 0x1000>,
-> +                  <0x0 0x0ac67000 0x0 0x1000>,
-> +                  <0x0 0x0ac68000 0x0 0x1000>,
-> +                  <0x0 0x0acaf000 0x0 0x4000>,
-> +                  <0x0 0x0acb6000 0x0 0x4000>,
-> +                  <0x0 0x0acbd000 0x0 0x4000>,
-> +                  <0x0 0x0acc4000 0x0 0x4000>;
-> +            reg-names = "csid0",
-> +                        "csid1",
-> +                        "csid2",
-> +                        "csid_lite",
-> +                        "csiphy0",
-> +                        "csiphy1",
-> +                        "csiphy2",
-> +                        "csiphy3",
-> +                        "vfe0",
-> +                        "vfe1",
-> +                        "vfe2",
-> +                        "vfe_lite";
-> +
-> +            clocks = <&gcc GCC_CAMERA_AHB_CLK>,
-
-I believe this clock is critical, and it is set so in the SM6350 GCC driver,
-therefore it should not be added here.
-
-Multiple CAMCC drivers define some of the clocks as "critical" and always
-enabled, a misconfiguration in this area may cause the reported warning.
-
-> +                     <&gcc GCC_CAMERA_AXI_CLK>,
-> +                     <&camcc CAMCC_SOC_AHB_CLK>,
-> +                     <&camcc CAMCC_CAMNOC_AXI_CLK>,
-> +                     <&camcc CAMCC_CORE_AHB_CLK>,
-> +                     <&camcc CAMCC_CPAS_AHB_CLK>,
-> +                     <&camcc CAMCC_CSIPHY0_CLK>,
-> +                     <&camcc CAMCC_CSI0PHYTIMER_CLK>,
-> +                     <&camcc CAMCC_CSIPHY1_CLK>,
-> +                     <&camcc CAMCC_CSI1PHYTIMER_CLK>,
-> +                     <&camcc CAMCC_CSIPHY2_CLK>,
-> +                     <&camcc CAMCC_CSI2PHYTIMER_CLK>,
-> +                     <&camcc CAMCC_CSIPHY3_CLK>,
-> +                     <&camcc CAMCC_CSI3PHYTIMER_CLK>,
-> +                     <&camcc CAMCC_SLOW_AHB_CLK_SRC>,
-> +                     <&camcc CAMCC_IFE_0_AXI_CLK>,
-> +                     <&camcc CAMCC_IFE_0_CLK>,
-> +                     <&camcc CAMCC_IFE_0_CPHY_RX_CLK>,
-> +                     <&camcc CAMCC_IFE_0_CSID_CLK>,
-> +                     <&camcc CAMCC_IFE_1_AXI_CLK>,
-> +                     <&camcc CAMCC_IFE_1_CLK>,
-> +                     <&camcc CAMCC_IFE_1_CPHY_RX_CLK>,
-> +                     <&camcc CAMCC_IFE_1_CSID_CLK>,
-> +                     <&camcc CAMCC_IFE_2_AXI_CLK>,
-> +                     <&camcc CAMCC_IFE_2_CLK>,
-> +                     <&camcc CAMCC_IFE_2_CPHY_RX_CLK>,
-> +                     <&camcc CAMCC_IFE_2_CSID_CLK>,
-> +                     <&camcc CAMCC_IFE_LITE_CLK>,
-> +                     <&camcc CAMCC_IFE_LITE_CPHY_RX_CLK>,
-> +                     <&camcc CAMCC_IFE_LITE_CSID_CLK>;
-> +            clock-names = "cam_ahb_clk",
-> +                          "cam_axi",
-> +                          "soc_ahb",
-> +                          "camnoc_axi",
-> +                          "core_ahb",
-> +                          "cpas_ahb",
-> +                          "csiphy0",
-> +                          "csiphy0_timer",
-> +                          "csiphy1",
-> +                          "csiphy1_timer",
-> +                          "csiphy2",
-> +                          "csiphy2_timer",
-> +                          "csiphy3",
-> +                          "csiphy3_timer",
-> +                          "slow_ahb_src",
-> +                          "vfe0_axi",
-> +                          "vfe0",
-> +                          "vfe0_cphy_rx",
-> +                          "vfe0_csid",
-> +                          "vfe1_axi",
-> +                          "vfe1",
-> +                          "vfe1_cphy_rx",
-> +                          "vfe1_csid",
-> +                          "vfe2_axi",
-> +                          "vfe2",
-> +                          "vfe2_cphy_rx",
-> +                          "vfe2_csid",
-> +                          "vfe_lite",
-> +                          "vfe_lite_cphy_rx",
-> +                          "vfe_lite_csid";
-> +
-> +            interrupts = <GIC_SPI 464 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 466 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 717 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 473 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 477 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 478 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 479 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 461 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 465 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 467 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 718 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 472 IRQ_TYPE_LEVEL_HIGH>;
-
-Interrupt types shall be IRQ_TYPE_EDGE_RISING.
-
-> +            interrupt-names = "csid0",
-> +                              "csid1",
-> +                              "csid2",
-> +                              "csid_lite",
-> +                              "csiphy0",
-> +                              "csiphy1",
-> +                              "csiphy2",
-> +                              "csiphy3",
-> +                              "vfe0",
-> +                              "vfe1",
-> +                              "vfe2",
-> +                              "vfe_lite";
-> +
-> +            interconnects = <&gem_noc MASTER_AMPSS_M0 QCOM_ICC_TAG_ACTIVE_ONLY
-> +                             &config_noc SLAVE_CAMERA_CFG QCOM_ICC_TAG_ACTIVE_ONLY>,
-> +                            <&mmss_noc MASTER_CAMNOC_HF QCOM_ICC_TAG_ALWAYS
-> +                             &clk_virt SLAVE_EBI_CH0 QCOM_ICC_TAG_ALWAYS>,
-> +                            <&mmss_noc MASTER_CAMNOC_SF QCOM_ICC_TAG_ALWAYS
-> +                             &clk_virt SLAVE_EBI_CH0 QCOM_ICC_TAG_ALWAYS>,
-> +                            <&mmss_noc MASTER_CAMNOC_ICP QCOM_ICC_TAG_ALWAYS
-> +                             &clk_virt SLAVE_EBI_CH0 QCOM_ICC_TAG_ALWAYS>;
-> +            interconnect-names = "ahb",
-> +                                 "hf_mnoc",
-> +                                 "sf_mnoc",
-> +                                 "sf_icp_mnoc";
-> +
-> +            iommus = <&apps_smmu 0x820 0xc0>,
-> +                     <&apps_smmu 0x840 0x0>,
-> +                     <&apps_smmu 0x860 0xc0>,
-> +                     <&apps_smmu 0x880 0x0>;
-> +
-> +            power-domains = <&camcc TITAN_TOP_GDSC>
-
-It should be the last one in the list, if the settled practice is followed.
-
-> +                            <&camcc IFE_0_GDSC>,
-> +                            <&camcc IFE_1_GDSC>,
-> +                            <&camcc IFE_2_GDSC>;
-> +            power-domain-names = "top",
-> +                                 "ife0",
-> +                                 "ife1",
-> +                                 "ife2";
-> +
-> +            vdd-csiphy-0p9-supply = <&vreg_l18a>;
-> +            vdd-csiphy-1p25-supply = <&vreg_l22a>;
-> +
-> +            ports {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +
-> +                port@0 {
-> +                    reg = <0>;
-> +                    csiphy0_ep: endpoint {
-
-An empty line before a child node is always needed.
-
-> +                        data-lanes = <0 1 2 3>;
-> +                        bus-type = <MEDIA_BUS_TYPE_CSI2_DPHY>;
-> +                        remote-endpoint = <&sensor_ep>;
-> +                    };
-> +                };
-> +            };
-> +        };
-> +    };
+> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |  8 ++--
+>  .../gpu/drm/ttm/tests/ttm_bo_validate_test.c  | 11 +++--
+>  drivers/gpu/drm/ttm/tests/ttm_resource_test.c |  5 +-
+>  drivers/gpu/drm/ttm/ttm_bo.c                  | 47 ++++++++++---------
+>  drivers/gpu/drm/ttm/ttm_bo_util.c             | 38 ++++++++++++---
+>  drivers/gpu/drm/ttm/ttm_resource.c            | 31 +++++++-----
+>  include/drm/ttm/ttm_resource.h                | 29 ++++++++----
+>  7 files changed, 109 insertions(+), 60 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> index 326476089db3..3b46a24a8c48 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> @@ -2156,7 +2156,7 @@ void amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
+>  {
+>  	struct ttm_resource_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM);
+>  	uint64_t size;
+> -	int r;
+> +	int r, i;
+>  
+>  	if (!adev->mman.initialized || amdgpu_in_reset(adev) ||
+>  	    adev->mman.buffer_funcs_enabled == enable || adev->gmc.is_app_apu)
+> @@ -2190,8 +2190,10 @@ void amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
+>  	} else {
+>  		drm_sched_entity_destroy(&adev->mman.high_pr);
+>  		drm_sched_entity_destroy(&adev->mman.low_pr);
+> -		dma_fence_put(man->move);
+> -		man->move = NULL;
+> +		for (i = 0; i < TTM_NUM_MOVE_FENCES; i++) {
+> +			dma_fence_put(man->eviction_fences[i]);
+> +			man->eviction_fences[i] = NULL;
+> +		}
 
--- 
-Best wishes,
-Vladimir
+That code should have been a TTM function in the first place.
+
+I suggest to just call ttm_resource_manager_cleanup() here instead and add this as comment:
+
+/* Drop all the old fences since re-creating the scheduler entities will allocate next contexts */
+
+Apart from that looks good to me.
+
+Regards,
+Christian.
+
+>  	}
+>  
+>  	/* this just adjusts TTM size idea, which sets lpfn to the correct value */
+> diff --git a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
+> index 3148f5d3dbd6..8f71906c4238 100644
+> --- a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
+> +++ b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
+> @@ -651,7 +651,7 @@ static void ttm_bo_validate_move_fence_signaled(struct kunit *test)
+>  	int err;
+>  
+>  	man = ttm_manager_type(priv->ttm_dev, mem_type);
+> -	man->move = dma_fence_get_stub();
+> +	man->eviction_fences[0] = dma_fence_get_stub();
+>  
+>  	bo = ttm_bo_kunit_init(test, test->priv, size, NULL);
+>  	bo->type = bo_type;
+> @@ -668,7 +668,7 @@ static void ttm_bo_validate_move_fence_signaled(struct kunit *test)
+>  	KUNIT_EXPECT_EQ(test, ctx.bytes_moved, size);
+>  
+>  	ttm_bo_put(bo);
+> -	dma_fence_put(man->move);
+> +	dma_fence_put(man->eviction_fences[0]);
+>  }
+>  
+>  static const struct ttm_bo_validate_test_case ttm_bo_validate_wait_cases[] = {
+> @@ -732,9 +732,9 @@ static void ttm_bo_validate_move_fence_not_signaled(struct kunit *test)
+>  
+>  	spin_lock_init(&fence_lock);
+>  	man = ttm_manager_type(priv->ttm_dev, fst_mem);
+> -	man->move = alloc_mock_fence(test);
+> +	man->eviction_fences[0] = alloc_mock_fence(test);
+>  
+> -	task = kthread_create(threaded_fence_signal, man->move, "move-fence-signal");
+> +	task = kthread_create(threaded_fence_signal, man->eviction_fences[0], "move-fence-signal");
+>  	if (IS_ERR(task))
+>  		KUNIT_FAIL(test, "Couldn't create move fence signal task\n");
+>  
+> @@ -742,7 +742,8 @@ static void ttm_bo_validate_move_fence_not_signaled(struct kunit *test)
+>  	err = ttm_bo_validate(bo, placement_val, &ctx_val);
+>  	dma_resv_unlock(bo->base.resv);
+>  
+> -	dma_fence_wait_timeout(man->move, false, MAX_SCHEDULE_TIMEOUT);
+> +	dma_fence_wait_timeout(man->eviction_fences[0], false, MAX_SCHEDULE_TIMEOUT);
+> +	man->eviction_fences[0] = NULL;
+>  
+>  	KUNIT_EXPECT_EQ(test, err, 0);
+>  	KUNIT_EXPECT_EQ(test, ctx_val.bytes_moved, size);
+> diff --git a/drivers/gpu/drm/ttm/tests/ttm_resource_test.c b/drivers/gpu/drm/ttm/tests/ttm_resource_test.c
+> index e6ea2bd01f07..c0e4e35e0442 100644
+> --- a/drivers/gpu/drm/ttm/tests/ttm_resource_test.c
+> +++ b/drivers/gpu/drm/ttm/tests/ttm_resource_test.c
+> @@ -207,6 +207,7 @@ static void ttm_resource_manager_init_basic(struct kunit *test)
+>  	struct ttm_resource_test_priv *priv = test->priv;
+>  	struct ttm_resource_manager *man;
+>  	size_t size = SZ_16K;
+> +	int i;
+>  
+>  	man = kunit_kzalloc(test, sizeof(*man), GFP_KERNEL);
+>  	KUNIT_ASSERT_NOT_NULL(test, man);
+> @@ -216,8 +217,8 @@ static void ttm_resource_manager_init_basic(struct kunit *test)
+>  	KUNIT_ASSERT_PTR_EQ(test, man->bdev, priv->devs->ttm_dev);
+>  	KUNIT_ASSERT_EQ(test, man->size, size);
+>  	KUNIT_ASSERT_EQ(test, man->usage, 0);
+> -	KUNIT_ASSERT_NULL(test, man->move);
+> -	KUNIT_ASSERT_NOT_NULL(test, &man->move_lock);
+> +	for (i = 0; i < TTM_NUM_MOVE_FENCES; i++)
+> +		KUNIT_ASSERT_NULL(test, man->eviction_fences[i]);
+>  
+>  	for (int i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
+>  		KUNIT_ASSERT_TRUE(test, list_empty(&man->lru[i]));
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index f4d9e68b21e7..0b3732ed6f6c 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -658,34 +658,35 @@ void ttm_bo_unpin(struct ttm_buffer_object *bo)
+>  EXPORT_SYMBOL(ttm_bo_unpin);
+>  
+>  /*
+> - * Add the last move fence to the BO as kernel dependency and reserve a new
+> - * fence slot.
+> + * Add the pipelined eviction fencesto the BO as kernel dependency and reserve new
+> + * fence slots.
+>   */
+> -static int ttm_bo_add_move_fence(struct ttm_buffer_object *bo,
+> -				 struct ttm_resource_manager *man,
+> -				 bool no_wait_gpu)
+> +static int ttm_bo_add_pipelined_eviction_fences(struct ttm_buffer_object *bo,
+> +						struct ttm_resource_manager *man,
+> +						bool no_wait_gpu)
+>  {
+>  	struct dma_fence *fence;
+> -	int ret;
+> +	int i;
+>  
+> -	spin_lock(&man->move_lock);
+> -	fence = dma_fence_get(man->move);
+> -	spin_unlock(&man->move_lock);
+> +	spin_lock(&man->eviction_lock);
+> +	for (i = 0; i < TTM_NUM_MOVE_FENCES; i++) {
+> +		fence = man->eviction_fences[i];
+> +		if (!fence)
+> +			continue;
+>  
+> -	if (!fence)
+> -		return 0;
+> -
+> -	if (no_wait_gpu) {
+> -		ret = dma_fence_is_signaled(fence) ? 0 : -EBUSY;
+> -		dma_fence_put(fence);
+> -		return ret;
+> +		if (no_wait_gpu) {
+> +			if (!dma_fence_is_signaled(fence)) {
+> +				spin_unlock(&man->eviction_lock);
+> +				return -EBUSY;
+> +			}
+> +		} else {
+> +			dma_resv_add_fence(bo->base.resv, fence, DMA_RESV_USAGE_KERNEL);
+> +		}
+>  	}
+> +	spin_unlock(&man->eviction_lock);
+>  
+> -	dma_resv_add_fence(bo->base.resv, fence, DMA_RESV_USAGE_KERNEL);
+> -
+> -	ret = dma_resv_reserve_fences(bo->base.resv, 1);
+> -	dma_fence_put(fence);
+> -	return ret;
+> +	/* TODO: this call should be removed. */
+> +	return dma_resv_reserve_fences(bo->base.resv, 1);
+>  }
+>  
+>  /**
+> @@ -718,7 +719,7 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
+>  	int i, ret;
+>  
+>  	ticket = dma_resv_locking_ctx(bo->base.resv);
+> -	ret = dma_resv_reserve_fences(bo->base.resv, 1);
+> +	ret = dma_resv_reserve_fences(bo->base.resv, TTM_NUM_MOVE_FENCES);
+>  	if (unlikely(ret))
+>  		return ret;
+>  
+> @@ -757,7 +758,7 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
+>  				return ret;
+>  		}
+>  
+> -		ret = ttm_bo_add_move_fence(bo, man, ctx->no_wait_gpu);
+> +		ret = ttm_bo_add_pipelined_eviction_fences(bo, man, ctx->no_wait_gpu);
+>  		if (unlikely(ret)) {
+>  			ttm_resource_free(bo, res);
+>  			if (ret == -EBUSY)
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> index acbbca9d5c92..2ff35d55e462 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> @@ -258,7 +258,7 @@ static int ttm_buffer_object_transfer(struct ttm_buffer_object *bo,
+>  	ret = dma_resv_trylock(&fbo->base.base._resv);
+>  	WARN_ON(!ret);
+>  
+> -	ret = dma_resv_reserve_fences(&fbo->base.base._resv, 1);
+> +	ret = dma_resv_reserve_fences(&fbo->base.base._resv, TTM_NUM_MOVE_FENCES);
+>  	if (ret) {
+>  		dma_resv_unlock(&fbo->base.base._resv);
+>  		kfree(fbo);
+> @@ -646,20 +646,44 @@ static void ttm_bo_move_pipeline_evict(struct ttm_buffer_object *bo,
+>  {
+>  	struct ttm_device *bdev = bo->bdev;
+>  	struct ttm_resource_manager *from;
+> +	struct dma_fence *tmp;
+> +	int i;
+>  
+>  	from = ttm_manager_type(bdev, bo->resource->mem_type);
+>  
+>  	/**
+>  	 * BO doesn't have a TTM we need to bind/unbind. Just remember
+> -	 * this eviction and free up the allocation
+> +	 * this eviction and free up the allocation.
+> +	 * The fence will be saved in the first free slot or in the slot
+> +	 * already used to store a fence from the same context. Since
+> +	 * drivers can't use more than TTM_NUM_MOVE_FENCES contexts for
+> +	 * evictions we should always find a slot to use.
+>  	 */
+> -	spin_lock(&from->move_lock);
+> -	if (!from->move || dma_fence_is_later(fence, from->move)) {
+> -		dma_fence_put(from->move);
+> -		from->move = dma_fence_get(fence);
+> +	spin_lock(&from->eviction_lock);
+> +	for (i = 0; i < TTM_NUM_MOVE_FENCES; i++) {
+> +		tmp = from->eviction_fences[i];
+> +		if (!tmp)
+> +			break;
+> +		if (fence->context != tmp->context)
+> +			continue;
+> +		if (dma_fence_is_later(fence, tmp)) {
+> +			dma_fence_put(tmp);
+> +			break;
+> +		}
+> +		goto unlock;
+> +	}
+> +	if (i < TTM_NUM_MOVE_FENCES) {
+> +		from->eviction_fences[i] = dma_fence_get(fence);
+> +	} else {
+> +		WARN(1, "not enough fence slots for all fence contexts");
+> +		spin_unlock(&from->eviction_lock);
+> +		dma_fence_wait(fence, false);
+> +		goto end;
+>  	}
+> -	spin_unlock(&from->move_lock);
+>  
+> +unlock:
+> +	spin_unlock(&from->eviction_lock);
+> +end:
+>  	ttm_resource_free(bo, &bo->resource);
+>  }
+>  
+> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
+> index e2c82ad07eb4..62c34cafa387 100644
+> --- a/drivers/gpu/drm/ttm/ttm_resource.c
+> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
+> @@ -523,14 +523,15 @@ void ttm_resource_manager_init(struct ttm_resource_manager *man,
+>  {
+>  	unsigned i;
+>  
+> -	spin_lock_init(&man->move_lock);
+>  	man->bdev = bdev;
+>  	man->size = size;
+>  	man->usage = 0;
+>  
+>  	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
+>  		INIT_LIST_HEAD(&man->lru[i]);
+> -	man->move = NULL;
+> +	spin_lock_init(&man->eviction_lock);
+> +	for (i = 0; i < TTM_NUM_MOVE_FENCES; i++)
+> +		man->eviction_fences[i] = NULL;
+>  }
+>  EXPORT_SYMBOL(ttm_resource_manager_init);
+>  
+> @@ -551,7 +552,7 @@ int ttm_resource_manager_evict_all(struct ttm_device *bdev,
+>  		.no_wait_gpu = false,
+>  	};
+>  	struct dma_fence *fence;
+> -	int ret;
+> +	int ret, i;
+>  
+>  	do {
+>  		ret = ttm_bo_evict_first(bdev, man, &ctx);
+> @@ -561,18 +562,24 @@ int ttm_resource_manager_evict_all(struct ttm_device *bdev,
+>  	if (ret && ret != -ENOENT)
+>  		return ret;
+>  
+> -	spin_lock(&man->move_lock);
+> -	fence = dma_fence_get(man->move);
+> -	spin_unlock(&man->move_lock);
+> +	ret = 0;
+>  
+> -	if (fence) {
+> -		ret = dma_fence_wait(fence, false);
+> -		dma_fence_put(fence);
+> -		if (ret)
+> -			return ret;
+> +	spin_lock(&man->eviction_lock);
+> +	for (i = 0; i < TTM_NUM_MOVE_FENCES; i++) {
+> +		fence = man->eviction_fences[i];
+> +		if (fence && !dma_fence_is_signaled(fence)) {
+> +			dma_fence_get(fence);
+> +			spin_unlock(&man->eviction_lock);
+> +			ret = dma_fence_wait(fence, false);
+> +			dma_fence_put(fence);
+> +			if (ret)
+> +				return ret;
+> +			spin_lock(&man->eviction_lock);
+> +		}
+>  	}
+> +	spin_unlock(&man->eviction_lock);
+>  
+> -	return 0;
+> +	return ret;
+>  }
+>  EXPORT_SYMBOL(ttm_resource_manager_evict_all);
+>  
+> diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
+> index f49daa504c36..50e6added509 100644
+> --- a/include/drm/ttm/ttm_resource.h
+> +++ b/include/drm/ttm/ttm_resource.h
+> @@ -50,6 +50,15 @@ struct io_mapping;
+>  struct sg_table;
+>  struct scatterlist;
+>  
+> +/**
+> + * define TTM_NUM_MOVE_FENCES - How many entities can be used for evictions
+> + *
+> + * Pipelined evictions can be spread on multiple entities. This
+> + * is the max number of entities that can be used by the driver
+> + * for that purpose.
+> + */
+> +#define TTM_NUM_MOVE_FENCES 8
+> +
+>  /**
+>   * enum ttm_lru_item_type - enumerate ttm_lru_item subclasses
+>   */
+> @@ -180,8 +189,8 @@ struct ttm_resource_manager_func {
+>   * @size: Size of the managed region.
+>   * @bdev: ttm device this manager belongs to
+>   * @func: structure pointer implementing the range manager. See above
+> - * @move_lock: lock for move fence
+> - * @move: The fence of the last pipelined move operation.
+> + * @eviction_lock: lock for eviction fences
+> + * @eviction_fences: The fences of the last pipelined move operation.
+>   * @lru: The lru list for this memory type.
+>   *
+>   * This structure is used to identify and manage memory types for a device.
+> @@ -195,12 +204,12 @@ struct ttm_resource_manager {
+>  	struct ttm_device *bdev;
+>  	uint64_t size;
+>  	const struct ttm_resource_manager_func *func;
+> -	spinlock_t move_lock;
+>  
+> -	/*
+> -	 * Protected by @move_lock.
+> +	/* This is very similar to a dma_resv object, but locking rules make
+> +	 * it difficult to use one in this context.
+>  	 */
+> -	struct dma_fence *move;
+> +	spinlock_t eviction_lock;
+> +	struct dma_fence *eviction_fences[TTM_NUM_MOVE_FENCES];
+>  
+>  	/*
+>  	 * Protected by the bdev->lru_lock.
+> @@ -421,8 +430,12 @@ static inline bool ttm_resource_manager_used(struct ttm_resource_manager *man)
+>  static inline void
+>  ttm_resource_manager_cleanup(struct ttm_resource_manager *man)
+>  {
+> -	dma_fence_put(man->move);
+> -	man->move = NULL;
+> +	int i;
+> +
+> +	for (i = 0; i < TTM_NUM_MOVE_FENCES; i++) {
+> +		dma_fence_put(man->eviction_fences[i]);
+> +		man->eviction_fences[i] = NULL;
+> +	}
+>  }
+>  
+>  void ttm_lru_bulk_move_init(struct ttm_lru_bulk_move *bulk);
+
 
