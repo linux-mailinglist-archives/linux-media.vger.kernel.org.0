@@ -1,54 +1,75 @@
-Return-Path: <linux-media+bounces-47078-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47079-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B85CC5D20C
-	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 13:33:59 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72EE8C5D248
+	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 13:38:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id AE1E54EFB02
-	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 12:24:44 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 5A396349754
+	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 12:32:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0BF7136358;
-	Fri, 14 Nov 2025 12:23:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6319715746E;
+	Fri, 14 Nov 2025 12:32:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MrZGHd4q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kCnoAerF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52FF58632B
-	for <linux-media@vger.kernel.org>; Fri, 14 Nov 2025 12:23:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF37B147C9B
+	for <linux-media@vger.kernel.org>; Fri, 14 Nov 2025 12:32:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763123013; cv=none; b=r2O7vNj33uKJVAXxpTQR1l47UWSUFzjnm8XFMEPIFtBNmYtEH8C8v0+aYC1oS7jwRDE3yBKRvfOLpi7vZfRWJW4+ujpUGH0q6hE3ZmmhJfAUkmmq9icgjnjbB1IZuaizSWq5tl2dehyWilYOQOM0ZBinAcihTpGdA7Zni+7kXdI=
+	t=1763123528; cv=none; b=OOVsqixMfXoXtjrBYmW3e+U/ddEVsvdrVt619emm7bAYC03hDib76D3d1KU/lLoS50dqTLgdq70TBYbmT2ebMDKk8Gk1My+vSHUAn745/IRSBFIoCfdxpnjvfRnS+45J+fpnD6xpmhKP03Tr1O9SuuYz/qFQFdmPFz1ZJVAtwFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763123013; c=relaxed/simple;
-	bh=x73rOviazstGD57jcrh2aWL/vWhdNH3n2MAs2v1ya/w=;
+	s=arc-20240116; t=1763123528; c=relaxed/simple;
+	bh=fQbdYyrgAQM8llNGfdhTnkUNiS0izaNUo3ZQjP5bEZ8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fzawWw6PlDbE07j3EQOy9xJbQJg4MXqT9mDBj46330r7KZHV+8Ut0t+1R7/uuKjaYc361TuNMdrDNXJrNS8pCMS5uBOa/Xw9u+BJOqDpo6rGokrU5gD+iZlqj1aW66axMMAH94prHzRS0cqHc+bjvLPdBP8+3qSMjmCtcn1wh4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MrZGHd4q; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (82-203-165-222.bb.dnainternet.fi [82.203.165.222])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 7E06F664;
-	Fri, 14 Nov 2025 13:21:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1763122888;
-	bh=x73rOviazstGD57jcrh2aWL/vWhdNH3n2MAs2v1ya/w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MrZGHd4qgrhB50PFkiX3h8NWVc5ClNZGVqOaOtMPX2zZQwQhOPjRuY2Bv8jYprJ2o
-	 Vqw25rW3Q74mOl5FhZHM0LEkQtuViLJu7uTwXBtWMopAiWt23pw+yM9VTemdCYBWg6
-	 Oi91BU8eiyZ4BFuutryOvWh3ASBSoEWfTBseAIk8=
-Date: Fri, 14 Nov 2025 14:23:16 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=sQ3N+tDoCw7BuidESdO5/26T/6FYnVbh8EGm/NhLXm8dmSrrD4kInJSsMaYKOanViDB1aQgZ1kJyJPW4AMr2dc0hEZUQqkmtn4WuWhsQCDcksPwbxKMWvbG3ISrfdrNvBnCdNld9D2EHpIG1pYLEjPGxzwvE5eLimpIgpn4ObNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kCnoAerF; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763123526; x=1794659526;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fQbdYyrgAQM8llNGfdhTnkUNiS0izaNUo3ZQjP5bEZ8=;
+  b=kCnoAerF/kp0RPtUpW9/j2w/9fdJhbkNAwzALB04vepheBx5kBfA381w
+   bCyJNytLtk8Ogu8gDwFBw4ILzK3xFo+YNBMbTF7uSNHO34Za4PxY50KLw
+   ipDo+ucCWqZmyVqCJESXOGVX2dABz0TkuJTZpVDFiPjnyvjnPDNXxmZWR
+   ig95mq5D4jL1fgrXz/c8M7Eg1XNMDHi45/R63G2XUaKZQU04n/VNYKfBf
+   lZz/0S3M5R9ul2QQ/rycgLL2qUREgil3Y/U3gqkxfDq7Bb6xauUpbRWDK
+   10mEy7fc7ucwFmNX7uL+AFR//MbMkE7ZnBMb4qV7lh9GtJbOFR0ZwH6j0
+   g==;
+X-CSE-ConnectionGUID: x5Y+vPL9S9ex9PSX8jKTgg==
+X-CSE-MsgGUID: TE+fCXGwQJ+nnMiQ3aD4qw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="52783093"
+X-IronPort-AV: E=Sophos;i="6.19,304,1754982000"; 
+   d="scan'208";a="52783093"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 04:32:06 -0800
+X-CSE-ConnectionGUID: a7fbtR3jQ5SkyJXZ3yQwig==
+X-CSE-MsgGUID: JtCHabebQcmNUhwWzatdRQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,304,1754982000"; 
+   d="scan'208";a="190545091"
+Received: from ijarvine-desk1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.53])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2025 04:32:04 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id ED98E121DDE;
+	Fri, 14 Nov 2025 14:32:03 +0200 (EET)
+Date: Fri, 14 Nov 2025 14:32:03 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: hans@jjverkuil.nl, Sakari Ailus <sakari.ailus@linux.intel.com>,
+Cc: hans@jjverkuil.nl, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Dan Scally <dan.scally@ideasonboard.com>,
 	linux-media@vger.kernel.org
 Subject: Re: [PATCH 0/2] Mali-C55, v4l2-isp late fixes
-Message-ID: <20251114122316.GH30434@pendragon.ideasonboard.com>
+Message-ID: <aRchQytoLBS0llYd@kekkonen.localdomain>
 References: <20251114110213.523187-1-jacopo.mondi@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -56,7 +77,7 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20251114110213.523187-1-jacopo.mondi@ideasonboard.com>
 
@@ -71,9 +92,6 @@ On Fri, Nov 14, 2025 at 12:02:10PM +0100, Jacopo Mondi wrote:
 > Jacopo Mondi (2):
 >   media: v4l2-isp: Rename block_info to block_type_info
 >   media: mali-c55: Assert ISP blocks size correctness
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
 > 
 >  .../platform/amlogic/c3/isp/c3-isp-params.c   |  9 ++++---
 >  .../platform/arm/mali-c55/mali-c55-params.c   | 10 ++++---
@@ -82,8 +100,8 @@ Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 >  include/media/v4l2-isp.h                      | 26 +++++++++----------
 >  5 files changed, 38 insertions(+), 32 deletions(-)
 
--- 
-Regards,
+Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-Laurent Pinchart
+-- 
+Sakari Ailus
 
