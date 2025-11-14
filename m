@@ -1,93 +1,326 @@
-Return-Path: <linux-media+bounces-47071-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47072-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 606D6C5CC73
-	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 12:12:39 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27216C5CC8B
+	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 12:14:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 68A644F1185
-	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 11:04:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 21EE33A9E1A
+	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 11:13:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A0FD2ED151;
-	Fri, 14 Nov 2025 11:04:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83A67313548;
+	Fri, 14 Nov 2025 11:13:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jnvSE0Z5"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="X+fcgGzZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012025.outbound.protection.outlook.com [40.93.195.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E558B2882A9
-	for <linux-media@vger.kernel.org>; Fri, 14 Nov 2025 11:04:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763118277; cv=none; b=GRi/cfpucQArwhsqWpM2GEwnaoeHDK1wrj7OMCvtF3tRVfQ54P1JXQTPkMpBwZCtG57+JKRKpwY7p8t+NiromFava9ctvCOz/GdqEOHsC0GBl3/tITkTDUxdX50qBk4eodd+aNpkfli2clnzy59rkBoWTg5YNSjZ8wW8Vljq4L8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763118277; c=relaxed/simple;
-	bh=GdEHLAJ2Jr62iRJePEZGmMh0GCvvaPrR8OHwedO9oT4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VP4R5pI35mh9MQIe9+38Ry4Spe4pIB5pbwejaEb4m1V9ULw5CRdBzmgqEeSDUZTZY1z/n01XS+6VI0fuIZ+ZKbiS5/DfteLDF5dGyb6AyIzgRBrU3BCmHfZdfUZDHMq2LEY3Z4gvHAjEOtXt0pQOJzC2MRcqF/BGzfxPuxbQWRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jnvSE0Z5; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BE2241E5A;
-	Fri, 14 Nov 2025 12:02:29 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1763118150;
-	bh=GdEHLAJ2Jr62iRJePEZGmMh0GCvvaPrR8OHwedO9oT4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jnvSE0Z5AXPLYMun5CtpmqVKYc3rStcTrfEBf+ST8nfBCaxGi3cjZSMHTOohgQ5XF
-	 MSDmcXNfBmNZjGiSWf/Gk2TX6g/wfblPZ05ZNOfZr66HSe3AqqLdt3kxr1YkNBkhzJ
-	 JX4fANXmxixJjQ36C6ELMxQi14kzasDPfPH51bLg=
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: hans@jjverkuil.nl,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Dan Scally <dan.scally@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	linux-media@vger.kernel.org
-Subject: [PATCH 2/2] media: mali-c55: Assert ISP blocks size correctness
-Date: Fri, 14 Nov 2025 12:02:12 +0100
-Message-ID: <20251114110213.523187-3-jacopo.mondi@ideasonboard.com>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251114110213.523187-1-jacopo.mondi@ideasonboard.com>
-References: <20251114110213.523187-1-jacopo.mondi@ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0C02FB625;
+	Fri, 14 Nov 2025 11:13:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763118821; cv=fail; b=sG+C7ZJFrpmTts9cGJpUmPdLiVcqva5T30Z8G363Tb5q4jesaYtHhtt1Lla0VCkFJr6X2CkQo0yx+PYiBbyotM7JxDTa4kZc+Wgo4P1yONPK63Nn3IE71AimH5LIx/mgrMepTFXMQ4nODRHZfGgRCkoXbBaNOseKHKKbXh2LmGc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763118821; c=relaxed/simple;
+	bh=ISfVG1/0SVfqLHOU4995EJpXDYi2Y0CZLaUpEihXwR4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Cn5AVHFUHvHxPISbTq9HEYM/Dy5cbV1B9U90Ffavm+BmpU4MPsVfRB8n4mp5QmAMu4b6VWjxTYcwTYz9wS/K3SRDR6kKNaKZx+oEuowA9SuH7PZgcnZfGfeXA83+KbOjalmbPFZukioNe2/1uavbidvOr2pkMD/2jks6ZH6sCQE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=X+fcgGzZ; arc=fail smtp.client-ip=40.93.195.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fs8V3FCMs1KGmhNdXtjLVAx1kwG8c/KolmMXX0xuDZUhZsYKufzExicr2ClnawSfDItcWwPsyLwRnwuMkH8NuL6QTND/FmZ4ICrn0gDCMUfp8wVPYfC1CV9/Ltm5nweUpsC1cjL40TEGbzVk8RF1Q2ESb27Fb/SF3a0EFgDM8uvDLjvH8avsUrz9J0WM2QDh+x49YA03SORafdI58V5zh6x4fnLoFCxMVRiQELpDDkGQBdu1mbDY3baMQ23E5FMw6ekoRUlWW8kTukaojveH4apJ9IJAhkwdMpIqK/NQDCa9mk4AaPVRDNzXPWMgrut3seuaKjqPxvWoH7XmRpVgwQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mMzKjTcHJWDpvDIK0bqX2/DAOrIti20vcVW2pwyhm7s=;
+ b=YEtJRvjpkQIWjz1LwdaW5+f68SrDTQfJ+OYYoqBvn0+hpG2f/B0N6VHNKqlRNc/FSmDJdYGsRqXAJf+k52+NXuyAv5i4smRIcxUhoF3s+avEtmuYcWePTTSLlVXXAA5IVZ2HA8jhHy9EsXUX/dguU+AtEFmQtELD3bUfgnjdUBYyABM/l7sWdZKjA0NI2/dVTdu53w4ZQNyu3m2yNFy/zC1i77P73U/jobAdRil3esTmrni27wEvX5K/0lgL8+LsSUoVJDiv9SaTNELbx6Hd0izYHe9Iw3K5QFZcy3uQ4VIFJLLhUo8WbraP1Y78E/WtjcJOUTGsYEpQg2ZzZyn0Ew==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.194) smtp.rcpttodomain=kernel.org smtp.mailfrom=ti.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mMzKjTcHJWDpvDIK0bqX2/DAOrIti20vcVW2pwyhm7s=;
+ b=X+fcgGzZWMpprUT6aP21UyGjmZ8Iql+mtEoCDHshFhHkXICu3akJOTb+lew0iuht26TmvtoeljgkpBLTSgb/l9hUtDy/rrt3UHVZoioVhGMiC5M5t2/a+YA6hX9Zs0luNvHP4m8HQjn6x6mNI+CUf3dtDA9FTM8XPKzaDoe/Kj8=
+Received: from BN9PR03CA0906.namprd03.prod.outlook.com (2603:10b6:408:107::11)
+ by PH3PPF077CE0592.namprd10.prod.outlook.com (2603:10b6:518:1::785) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.15; Fri, 14 Nov
+ 2025 11:13:36 +0000
+Received: from BN1PEPF00006000.namprd05.prod.outlook.com
+ (2603:10b6:408:107:cafe::e3) by BN9PR03CA0906.outlook.office365.com
+ (2603:10b6:408:107::11) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9320.16 via Frontend Transport; Fri,
+ 14 Nov 2025 11:13:29 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
+Received: from flwvzet200.ext.ti.com (198.47.21.194) by
+ BN1PEPF00006000.mail.protection.outlook.com (10.167.243.232) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9320.13 via Frontend Transport; Fri, 14 Nov 2025 11:13:33 +0000
+Received: from DFLE203.ent.ti.com (10.64.6.61) by flwvzet200.ext.ti.com
+ (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 14 Nov
+ 2025 05:13:29 -0600
+Received: from DFLE201.ent.ti.com (10.64.6.59) by DFLE203.ent.ti.com
+ (10.64.6.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 14 Nov
+ 2025 05:13:28 -0600
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE201.ent.ti.com
+ (10.64.6.59) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Fri, 14 Nov 2025 05:13:28 -0600
+Received: from [10.24.69.13] (meghana-pc.dhcp.ti.com [10.24.69.13] (may be forged))
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5AEBDLRH1893172;
+	Fri, 14 Nov 2025 05:13:22 -0600
+Message-ID: <3737a9bf-e95b-4ea8-b16b-418b777f407c@ti.com>
+Date: Fri, 14 Nov 2025 16:43:21 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v5 1/6] net: ti: icssg-prueth: Add functions to
+ create and destroy Rx/Tx queues
+To: Simon Horman <horms@kernel.org>
+CC: <namcao@linutronix.de>, <vadim.fedorenko@linux.dev>,
+	<jacob.e.keller@intel.com>, <christian.koenig@amd.com>,
+	<sumit.semwal@linaro.org>, <sdf@fomichev.me>, <john.fastabend@gmail.com>,
+	<hawk@kernel.org>, <daniel@iogearbox.net>, <ast@kernel.org>,
+	<pabeni@redhat.com>, <kuba@kernel.org>, <edumazet@google.com>,
+	<davem@davemloft.net>, <andrew+netdev@lunn.ch>,
+	<linaro-mm-sig@lists.linaro.org>, <dri-devel@lists.freedesktop.org>,
+	<linux-media@vger.kernel.org>, <bpf@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <srk@ti.com>, Vignesh Raghavendra
+	<vigneshr@ti.com>, Roger Quadros <rogerq@kernel.org>, <danishanwar@ti.com>
+References: <20251111101523.3160680-1-m-malladi@ti.com>
+ <20251111101523.3160680-2-m-malladi@ti.com>
+ <aRcGMTRzDFwe23NV@horms.kernel.org>
+Content-Language: en-US
+From: Meghana Malladi <m-malladi@ti.com>
+In-Reply-To: <aRcGMTRzDFwe23NV@horms.kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN1PEPF00006000:EE_|PH3PPF077CE0592:EE_
+X-MS-Office365-Filtering-Correlation-Id: 19158132-7084-4256-0eb1-08de236ed9b3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|36860700013|82310400026|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?UFBkaWdIUzJTNno5Tzk3NTNrdG9OaGRDMElIcWI3ZHdsM1lxT0x6TG9OTWto?=
+ =?utf-8?B?emY2VVpiVDFQS2dkV1lQa09yOC9JQmZHWVNocFVaMEdBWFFMNlFrZWFHL005?=
+ =?utf-8?B?VXJTaTVSTjdPRTFTNG0wVkYwMEt2NEIxVG1leHNpdEwwdVRNMVBGSVVSNmJK?=
+ =?utf-8?B?My9GQVY2bGlnTENoZllaNjUrRG13anJGSGtNTjNMUE8vM3YxQ2RoTmlvMlRo?=
+ =?utf-8?B?UVFiQmRxaGdjeUxuVEF0Y0JBT09LbU52WHh2cEtIcW03L2h4ZUR3MWgxNHFj?=
+ =?utf-8?B?UkxmQ29FRGp1VXp1bmRwMUNJM2FhbGo4WFVSSU1iTWhaTGVpY2tiUjVGbVh3?=
+ =?utf-8?B?eXNXUUt6M3d1dHlQVk9pVktpZ0Z5ZzREVnVsUWZmRGRRbEdZZlNsUG5nczNV?=
+ =?utf-8?B?VFJzQ3VoU2ZPMUl5ZHJ0QUh5WDV5ZEVDNzVFVDV2M3VrdXVMQkIvcGxrSEhE?=
+ =?utf-8?B?L3o0aW5tK2hwNkNnamQwT1VYRTI4ZzFWeFo0anNvaWgrdmlDUncxckZzc1NK?=
+ =?utf-8?B?K0dDeTJDVHVZQTJpNGJyQnBOVytWbDFvOVVrcW4wYXNTNytDbnhTQ1Q2TUEx?=
+ =?utf-8?B?VU5sYTZSYW8xNWVUWHFCMHdmUlF4VGVBNnNBd3U1VEFGNWJJU1RRVVIxVzE1?=
+ =?utf-8?B?YnQ5K3hnMDMwNnJKSFJhalNINmxILys2Y1BjZExJTjdvWTFhQk9ERk9sSTk5?=
+ =?utf-8?B?eHdHZlEwNndqeGFUQS9yaFU5QWdWS1NKcEdHVDJmU2JzZXl5NUhWNm9PZndl?=
+ =?utf-8?B?UGh2TU1DRUY4UVl1dXpQeGJoYlQyYlhPZnNETW9kdTNzNHVlczRsUGFtNjlK?=
+ =?utf-8?B?RmxWRFVqSlN4WmlIWnYzRmxwcUJDbmt5MkMxL2JJNDRvWE9JMlE4dEhidXNy?=
+ =?utf-8?B?VElqRS80eUpFdjJ6ZnRCMEFRMElsMmhGdFBFTEc3b05yWXFJb3lqQTFOMzVu?=
+ =?utf-8?B?dXZwcU81N2lsbFZLUTF6Y2g5R1NJL251MkQvL3N3aGlPdlVmOGJOUFlvZHVa?=
+ =?utf-8?B?OVB6djhOUDVYS2tUQW54M0xxWEh2Mkk1YUV2amdOclhlWm40bHNSOGYwaU1W?=
+ =?utf-8?B?VDlRYUE5WERnOGJOWEcxYkJzQ2lYb0NlUHdOMGRneUxZNzArVnVpeFAwbkNk?=
+ =?utf-8?B?SFJPSWpKZXgwcEFUeThCMVFLT09qWmZuY2dpM0Ntay9TV1ptdnNXTG9rR3B6?=
+ =?utf-8?B?cy9sTytLTDJVODVUc05LbUtZNjJhRzJrVDRacWRFaTJjc1lqZS9qeS9Ea2JB?=
+ =?utf-8?B?ak1VYVlqMXc5RXhqTWwyelRNblFNZVVvN0ZtSEs0YllOS2tqTWNZeWVGekVq?=
+ =?utf-8?B?K2ZFNUFxcjRzSXo4TDhPdEIzdDFYZzIxUUdSMnhrNis2b3RBb1dNS2UwbS9z?=
+ =?utf-8?B?UXUvTDJIN2dkRlNGNWpUQTlWWHRsVzA3TnQwdTN6RzB0UW9qYVNROVNIdStn?=
+ =?utf-8?B?VlRyVko3TDJhYkpxKzhuZk4yZ1RTWCtROTNPQkZqbW1ZSWQwS0VTN0hCeVRO?=
+ =?utf-8?B?THZPTkc0TEJDbDZIakdmbnFtTk9JZW5vcllqUEx0eExxQzRybWlHNmVjeUI1?=
+ =?utf-8?B?c05LWTdmS0lUR0QwODBzN3ZCVGM1SkYwMXRWenN4aUNmREFMQnp0WHhMeXBr?=
+ =?utf-8?B?bXk4N2ZJZXl0M3BhMEIyZmRIVkZzQ3IySTR4OER3R2ZWYnFJRnJucWtsbk1X?=
+ =?utf-8?B?Z2d3eGhwVFJlQ29WczdEUnMwZFRsQjI4RGVFWktiNkFoYXc2OHhUQjhhQTZx?=
+ =?utf-8?B?MEtWRGtkZTRJemhWbVpyZ3F2K2VpTnkyUEFEdmRrNnBQRXpIU0FwcmpYK21i?=
+ =?utf-8?B?ZzBTaGxUWHF4QW1tODR5Q0EzeTlaSkgrY2J6clQ4SW9TT1luRkxIYVNYaGlk?=
+ =?utf-8?B?RExMNDc5N1JvbHBwa1Y0dVowcDN5QWk2UXQxbHd1MWs1KzNkWndEWVd5YkFU?=
+ =?utf-8?B?WWptbFBTKzBleUs2S0F2Y0xkbDhJY3JCQ2pEZlY4RXl4Q2p1L1A4NlQyRWZB?=
+ =?utf-8?B?MDZpSDZLSGxwcU9PWmtpdGlySmptdWJINXJpWEc0UkRMMVR3NFlTK25aUFVp?=
+ =?utf-8?B?VzlGMmRlL01KTzBya2gweEs3c2c0UE15MDVpTFg0Y253KzlKVDBxSUJ4QzYr?=
+ =?utf-8?Q?TEsw=3D?=
+X-Forefront-Antispam-Report:
+	CIP:198.47.21.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet200.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(7416014)(376014)(36860700013)(82310400026)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2025 11:13:33.7891
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 19158132-7084-4256-0eb1-08de236ed9b3
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.194];Helo=[flwvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN1PEPF00006000.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPF077CE0592
 
-For each supported ISP block type the v4l2-isp framework expects
-one handler and one block type info.
+Hi Simon,
 
-Static assert that the array of handlers is of the same size of the
-array of block types info.
+On 11/14/25 16:06, Simon Horman wrote:
+> On Tue, Nov 11, 2025 at 03:45:18PM +0530, Meghana Malladi wrote:
+> 
+> ...
+> 
+>> diff --git a/drivers/net/ethernet/ti/icssg/icssg_prueth.c b/drivers/net/ethernet/ti/icssg/icssg_prueth.c
+>> index 57a7d1ceab08..b66ffbfb499c 100644
+>> --- a/drivers/net/ethernet/ti/icssg/icssg_prueth.c
+>> +++ b/drivers/net/ethernet/ti/icssg/icssg_prueth.c
+>> @@ -735,6 +735,114 @@ static int icssg_update_vlan_mcast(struct net_device *vdev, int vid,
+>>   	return 0;
+>>   }
+>>   
+>> +static void prueth_destroy_txq(struct prueth_emac *emac)
+>> +{
+>> +	int ret, i;
+>> +
+>> +	atomic_set(&emac->tdown_cnt, emac->tx_ch_num);
+>> +	/* ensure new tdown_cnt value is visible */
+>> +	smp_mb__after_atomic();
+>> +	/* tear down and disable UDMA channels */
+>> +	reinit_completion(&emac->tdown_complete);
+>> +	for (i = 0; i < emac->tx_ch_num; i++)
+>> +		k3_udma_glue_tdown_tx_chn(emac->tx_chns[i].tx_chn, false);
+>> +
+>> +	ret = wait_for_completion_timeout(&emac->tdown_complete,
+>> +					  msecs_to_jiffies(1000));
+>> +	if (!ret)
+>> +		netdev_err(emac->ndev, "tx teardown timeout\n");
+>> +
+>> +	for (i = 0; i < emac->tx_ch_num; i++) {
+>> +		napi_disable(&emac->tx_chns[i].napi_tx);
+>> +		hrtimer_cancel(&emac->tx_chns[i].tx_hrtimer);
+>> +		k3_udma_glue_reset_tx_chn(emac->tx_chns[i].tx_chn,
+>> +					  &emac->tx_chns[i],
+>> +					  prueth_tx_cleanup);
+>> +		k3_udma_glue_disable_tx_chn(emac->tx_chns[i].tx_chn);
+>> +	}
+>> +}
+>> +
+>> +static void prueth_destroy_rxq(struct prueth_emac *emac)
+>> +{
+>> +	int i, ret;
+>> +
+>> +	/* tear down and disable UDMA channels */
+>> +	reinit_completion(&emac->tdown_complete);
+>> +	k3_udma_glue_tdown_rx_chn(emac->rx_chns.rx_chn, true);
+>> +
+>> +	/* When RX DMA Channel Teardown is initiated, it will result in an
+>> +	 * interrupt and a Teardown Completion Marker (TDCM) is queued into
+>> +	 * the RX Completion queue. Acknowledging the interrupt involves
+>> +	 * popping the TDCM descriptor from the RX Completion queue via the
+>> +	 * RX NAPI Handler. To avoid timing out when waiting for the TDCM to
+>> +	 * be popped, schedule the RX NAPI handler to run immediately.
+>> +	 */
+>> +	if (!napi_if_scheduled_mark_missed(&emac->napi_rx)) {
+>> +		if (napi_schedule_prep(&emac->napi_rx))
+>> +			__napi_schedule(&emac->napi_rx);
+>> +	}
+>> +
+>> +	ret = wait_for_completion_timeout(&emac->tdown_complete,
+>> +					  msecs_to_jiffies(1000));
+>> +	if (!ret)
+>> +		netdev_err(emac->ndev, "rx teardown timeout\n");
+>> +
+>> +	for (i = 0; i < PRUETH_MAX_RX_FLOWS; i++) {
+>> +		napi_disable(&emac->napi_rx);
+>> +		hrtimer_cancel(&emac->rx_hrtimer);
+> 
+> Hi Meghana,
+> 
+> Is it intentional that the napi_disable() and hrtimer_cancel()
+> are made once for each (possible) flow, rather than just once
+> as was the case before this patch?
+> 
+> Maybe the tx code, which does the same, was used as a template here
+> in error?
+> 
 
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
----
- drivers/media/platform/arm/mali-c55/mali-c55-params.c | 3 +++
- 1 file changed, 3 insertions(+)
+Currently there is only one flow per Rx channel. But we can enable 
+support to add multiple flows to a given given channel. In that case 
+napi_disable() and hrtimer_cancel() will be invoked per flow. That being 
+said, though right now this for loop is redundant this is a intentional 
+change for multiple flows.
 
-diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-params.c b/drivers/media/platform/arm/mali-c55/mali-c55-params.c
-index cfa79a50083e..81e5944bc31c 100644
---- a/drivers/media/platform/arm/mali-c55/mali-c55-params.c
-+++ b/drivers/media/platform/arm/mali-c55/mali-c55-params.c
-@@ -465,6 +465,9 @@ mali_c55_params_block_types_info[] = {
- 	},
- };
- 
-+static_assert(ARRAY_SIZE(mali_c55_params_handlers) ==
-+	      ARRAY_SIZE(mali_c55_params_block_types_info));
-+
- static int mali_c55_params_enum_fmt_meta_out(struct file *file, void *fh,
- 					     struct v4l2_fmtdesc *f)
- {
--- 
-2.51.1
+> Flagged by Claude Code with https://github.com/masoncl/review-prompts/
+> 
+>> +		k3_udma_glue_reset_rx_chn(emac->rx_chns.rx_chn, i,
+>> +					  &emac->rx_chns,
+>> +					  prueth_rx_cleanup);
+>> +	}
+>> +
+>> +	prueth_destroy_xdp_rxqs(emac);
+>> +	k3_udma_glue_disable_rx_chn(emac->rx_chns.rx_chn);
+>> +}
+> 
+> ...
+> 
+>> @@ -905,32 +988,8 @@ static int emac_ndo_stop(struct net_device *ndev)
+>>   	else
+>>   		__dev_mc_unsync(ndev, icssg_prueth_del_mcast);
+>>   
+>> -	atomic_set(&emac->tdown_cnt, emac->tx_ch_num);
+>> -	/* ensure new tdown_cnt value is visible */
+>> -	smp_mb__after_atomic();
+>> -	/* tear down and disable UDMA channels */
+>> -	reinit_completion(&emac->tdown_complete);
+>> -	for (i = 0; i < emac->tx_ch_num; i++)
+>> -		k3_udma_glue_tdown_tx_chn(emac->tx_chns[i].tx_chn, false);
+>> -
+>> -	ret = wait_for_completion_timeout(&emac->tdown_complete,
+>> -					  msecs_to_jiffies(1000));
+>> -	if (!ret)
+>> -		netdev_err(ndev, "tx teardown timeout\n");
+>> -
+>> -	prueth_reset_tx_chan(emac, emac->tx_ch_num, true);
+>> -	for (i = 0; i < emac->tx_ch_num; i++) {
+>> -		napi_disable(&emac->tx_chns[i].napi_tx);
+>> -		hrtimer_cancel(&emac->tx_chns[i].tx_hrtimer);
+>> -	}
+>> -
+>> -	max_rx_flows = PRUETH_MAX_RX_FLOWS;
+>> -	k3_udma_glue_tdown_rx_chn(emac->rx_chns.rx_chn, true);
+>> -
+>> -	prueth_reset_rx_chan(&emac->rx_chns, max_rx_flows, true);
+>> -	prueth_destroy_xdp_rxqs(emac);
+>> -	napi_disable(&emac->napi_rx);
+>> -	hrtimer_cancel(&emac->rx_hrtimer);
+>> +	prueth_destroy_txq(emac);
+>> +	prueth_destroy_rxq(emac);
+>>   
+>>   	cancel_work_sync(&emac->rx_mode_work);
+>>   
+>> @@ -943,10 +1002,10 @@ static int emac_ndo_stop(struct net_device *ndev)
+>>   
+>>   	free_irq(emac->tx_ts_irq, emac);
+>>   
+>> -	free_irq(emac->rx_chns.irq[rx_flow], emac);
+>> +	free_irq(emac->rx_chns.irq[PRUETH_RX_FLOW_DATA], emac);
+>>   	prueth_ndev_del_tx_napi(emac, emac->tx_ch_num);
+>>   
+>> -	prueth_cleanup_rx_chns(emac, &emac->rx_chns, max_rx_flows);
+>> +	prueth_cleanup_rx_chns(emac, &emac->rx_chns, PRUETH_MAX_RX_FLOWS);
+>>   	prueth_cleanup_tx_chns(emac);
+>>   
+>>   	prueth->emacs_initialized--;
+> 
+> ...
 
 
