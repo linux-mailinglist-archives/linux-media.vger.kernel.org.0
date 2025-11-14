@@ -1,184 +1,325 @@
-Return-Path: <linux-media+bounces-47029-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47030-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96F1EC5AB54
-	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 01:05:40 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B276C5AE3D
+	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 02:21:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 0FD7E4E4592
-	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 00:05:39 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 712894E576C
+	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 01:21:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31A1870809;
-	Fri, 14 Nov 2025 00:05:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C15A5239E97;
+	Fri, 14 Nov 2025 01:21:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="VlNjfRHX"
+	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="SD15wRhX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012053.outbound.protection.outlook.com [52.101.43.53])
+Received: from SLXP216CU001.outbound.protection.outlook.com (mail-koreacentralazon11021081.outbound.protection.outlook.com [40.107.42.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16958B661;
-	Fri, 14 Nov 2025 00:05:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 480F42222B2;
+	Fri, 14 Nov 2025 01:21:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.42.81
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763078732; cv=fail; b=VWRbHhK2uzERubtCbtajbHglWqXrs5Kr+wREm2ip8oDUKiknwA1ELWI+t68S4i80F5/g8Vi5q7yOgqqUxBojY6DnjaktL7RsuSmj/zOtVRYw8X+HTtS6t+MJM6CGN3KzOtBw71sJ1WwkiXYro4+4PrWcLaSQ9MMJX+91IvBlCv0=
+	t=1763083308; cv=fail; b=mBBQ7hZm1pj8QuRXt6N/JKNpqPkGRR/EOPgsAk4A2FUEW2JeQl1xbMud3phjIUsowDAroFZEPiNT66GtF8522agIgATSzMpzEg4Ka2ns4DPRoOPeagtOZf501Wf9VRmtlTd4i5xdQAJA4abBPM/b19d/QsaK4V7UhUOFViynhMQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763078732; c=relaxed/simple;
-	bh=YuclyO8WJ2nR9OzM8MvdAd477kFWuITrnztsKeAttGA=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AXgRHMBgYTHjRme5nfTG+WE/6WluLyrVsHLRLXNi1ypOe5UgSg14aHp6LBU6jTGtoWMdX9pQmJPCuI30DVcnVHsJE9zY9Wpg/KvwoB4xQXRF6ISFv9J3p8huyzp5fjbUQWU19YWZgGi2egNiS6yeVfrDTI0CBHGtsSJsGQHJeWI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=VlNjfRHX; arc=fail smtp.client-ip=52.101.43.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1763083308; c=relaxed/simple;
+	bh=nHDivDgtWXqmn24GLH3rPhcRy5npgVNVIFkdtsyjLPs=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=HqwwzzJppdDXzxy76fwQiM7BhfLK3ZTPqxz6fJztIM7wuF+keFhBkbXv+0BTium7mZPzid0YYOg7PD/zlO5ecyO9MZvFxJEcokbiJofCyF7uSCnzIMjKpNaWIksaiyWwRCNdBn2RuBQoEDt/Pum837WFw3fR6EyGGemRSL+hDGc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=SD15wRhX; arc=fail smtp.client-ip=40.107.42.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=chipsnmedia.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TrK/DpYsnkwiA6JRszCGWApt32Kt4tVGHesyjzGH63nLi56qhuY1zYfczCLOOEyA4O8V9vGHGFEiiHSh3q/c5QzZvLwm3PoXp94HxtgkP5ti8HFTPwAk6GZj1Asswyb8ygmzYuTxjPFve0Xnl+OiJEvYCHPr4qK9j7cGNJdfPiKQ/kF5YoC42O2Y6u4BfYseBNc/YO6vXoOrBMW/3N1hCQv/VwLgJyMEqvmZCR6GOh/Zgp7WcEspgeRNKnhoS6HAKpwZY0U4eEqwwbbdZeHtMnA3O+J5rm2U7yriuSfrEhQP+VGhFDYztknLdnlAwOcvLQ4XW8uwVJ2nygf2BOSn9g==
+ b=HqDTNnJgOHELWr9u7eFzBmZfBIGeUSom+F7MXUN4IF58bz1mA83Ke+I2dP9UmMSYRfl4v6MndvR5nMdUDV3TxjogKfiy/VM7KhJZ+AunH1QKZCG5ODywbt44qq8F0fCuhE0hlzSvp3vlCLDrG2ZoDIqk5LLqixRzH+NJuMK5XRTXUlkl6LAWc5oLMr/tf6SiYxXvAhbJKNiqNIecENVk/h8gAeT6QUMIbL8ENM+SoaaqkCKX4fLmtb/4yJc4m58x7+VhmkSgUn494GAuajIHMQDuiRobCrzU7nsU7xmh3DJI9L780PTHo6K6H+6M2MuxQKH5UzXh+EudmJ3cqsVg7A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Xft5WB/dm/CZ5/r1VwDLpvhLZXvhyLKsZK91gUJcaNU=;
- b=G3g7y8UaIVMf+eSYpu6iJlwv/91LWkCrsqDnm/XgZY3S87vqBRZ1ilD3BNUPtHyRMqM9zsPNXLpy4v2URvoXhKQu0mHulWmygpI3XGCOBdFJ6ryl+L5v40ae0DA/nFW53rL7cyzlTivVwn6E3Y+UZazDMD0TWdhTTK1xEgsgF6zokSe74ELe8+RQs74NXG2YuK2QIdNubrOudl8JNWQ3esVGsFh0Hztzql+ACGIgW12ftKZquuvrZyDha8BYxXiNwvq50jlISkwVx+33cl/4y2OE+A6iACmipo7nZCbgmfyJa8joMTIMOpQN1v9+CtubQ0HcY10awXM3r4upHjweGA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.233) smtp.rcpttodomain=ffwll.ch smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ bh=FZjg+EG3o4FRpwjoN3mtaiEftUShzpoOMj/TMduGAE4=;
+ b=g0RwfuMETQR3cqzN6ckuY4LuwvVgvlWeIiY7ncL6NdT1oESrXX3RPK5IFI7E6VLChViZbUYvcPvGeXT4gOsR7HaL75RMCKvYeAGpDQnY8t0yZJ5hXj7oS7gWuv2zQy5Zchg3/JMHHEjXGdLdNkGHqaVi06kXIUXUJcm+Vr9RW4JN8DjLVUZJCX7bQDeHRhD9M4m8r+IRXYd75U0J0gdYepmhYI6lqy9LOOyiPAbNm+aviRgGI8/tfPoBmCRABa4f86wLh+di9+xcPimcUggDXSn2tg/m+RETCbh8B/h6FbjlrAIw16By4EprzkPcRl6XRTFvFcFS72OK9B0O5zDzfg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
+ header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Xft5WB/dm/CZ5/r1VwDLpvhLZXvhyLKsZK91gUJcaNU=;
- b=VlNjfRHXvI0WsKCJKgoy0n/IogMun1fBO3t1mlYE8jjg4u1nIMWpWMCdlZNqiOBfJgPaABIZ2HGqFhMYb/cD5qx21ZMBPWyDtGK8tNGKeIaXqkKktz8vugkTWvivb/fygOLEoWGzCk6NrcZ7SHy4lCZ//LIUIaIW54MBmNj3UvhLK36lh5bgX5nCpAQ5Lpjerm2xnQMXz3WJJnuoqbwXtc1yLzN3Xu6GhEnV9aWsWnqmbxl301mvBgeQKjFaGLZNSIzsHAAOyn6GMwPrcWI6kIqYgK/DIOyLVecKaGi0CXqvG+KWorOmyXHDIxLnRE2YUjCqculrrPnVW8wuuc+wyA==
-Received: from DS7PR03CA0324.namprd03.prod.outlook.com (2603:10b6:8:2b::24) by
- PH7PR12MB8794.namprd12.prod.outlook.com (2603:10b6:510:27d::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.15; Fri, 14 Nov
- 2025 00:05:26 +0000
-Received: from DS1PEPF00017092.namprd03.prod.outlook.com
- (2603:10b6:8:2b:cafe::fb) by DS7PR03CA0324.outlook.office365.com
- (2603:10b6:8:2b::24) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9320.15 via Frontend Transport; Fri,
- 14 Nov 2025 00:05:24 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.233) by
- DS1PEPF00017092.mail.protection.outlook.com (10.167.17.135) with Microsoft
+ bh=FZjg+EG3o4FRpwjoN3mtaiEftUShzpoOMj/TMduGAE4=;
+ b=SD15wRhXIs82fBqbrdSif2JrGTsyt2nQJgveQFsmSQPLdeKxu6ViK4fsgC1+4asvd0PzPMHltkOKyD2lHZPrKZVn3RZB30v6/6Mmuer5HI9EB0GX+bOpGfUi4FdJnfNZBenjIo3nTp2rJrmHxzfCupF26X/mEZruQJ57lXqQFqY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=chipsnmedia.com;
+Received: from SLXP216MB1148.KORP216.PROD.OUTLOOK.COM (2603:1096:101:f::14) by
+ SE2P216MB2850.KORP216.PROD.OUTLOOK.COM (2603:1096:101:290::7) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9320.13 via Frontend Transport; Fri, 14 Nov 2025 00:05:24 +0000
-Received: from drhqmail203.nvidia.com (10.126.190.182) by mail.nvidia.com
- (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 13 Nov
- 2025 16:05:11 -0800
-Received: from drhqmail201.nvidia.com (10.126.190.180) by
- drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.20; Thu, 13 Nov 2025 16:05:11 -0800
-Received: from Asurada-Nvidia (10.127.8.11) by mail.nvidia.com
- (10.126.190.180) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Thu, 13 Nov 2025 16:05:10 -0800
-Date: Thu, 13 Nov 2025 16:05:09 -0800
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-CC: Alex Williamson <alex@shazbot.org>, Christian =?iso-8859-1?Q?K=F6nig?=
-	<christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
-	<iommu@lists.linux.dev>, Joerg Roedel <joro@8bytes.org>, Kevin Tian
-	<kevin.tian@intel.com>, <kvm@vger.kernel.org>,
-	<linaro-mm-sig@lists.linaro.org>, <linux-kselftest@vger.kernel.org>,
-	<linux-media@vger.kernel.org>, Robin Murphy <robin.murphy@arm.com>, "Shuah
- Khan" <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, Will Deacon
-	<will@kernel.org>, Krishnakant Jaju <kjaju@nvidia.com>, Leon Romanovsky
-	<leon@kernel.org>, Matt Ochs <mochs@nvidia.com>, <patches@lists.linux.dev>,
-	Simona Vetter <simona.vetter@ffwll.ch>, Vivek Kasireddy
-	<vivek.kasireddy@intel.com>, Xu Yilun <yilun.xu@linux.intel.com>
-Subject: Re: [PATCH 8/9] iommufd: Accept a DMABUF through IOMMU_IOAS_MAP_FILE
-Message-ID: <aRZyNaLxrwSKKMXG@Asurada-Nvidia>
-References: <0-v1-af84a3ab44f5+f68-iommufd_buf_jgg@nvidia.com>
- <8-v1-af84a3ab44f5+f68-iommufd_buf_jgg@nvidia.com>
+ 15.20.9320.17; Fri, 14 Nov 2025 01:21:40 +0000
+Received: from SLXP216MB1148.KORP216.PROD.OUTLOOK.COM
+ ([fe80::6dcd:ad0b:394c:954f]) by SLXP216MB1148.KORP216.PROD.OUTLOOK.COM
+ ([fe80::6dcd:ad0b:394c:954f%4]) with mapi id 15.20.9320.013; Fri, 14 Nov 2025
+ 01:21:40 +0000
+From: "Jackson.lee" <jackson.lee@chipsnmedia.com>
+To: mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl,
+	nicolas.dufresne@collabora.com,
+	bob.beckett@collabora.com
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	jackson.lee@chipsnmedia.com,
+	lafley.kim@chipsnmedia.com,
+	b-brnich@ti.com,
+	hverkuil@xs4all.nl,
+	nas.chung@chipsnmedia.com
+Subject: [PATCH v6 0/4] Performance improvement of decoder
+Date: Fri, 14 Nov 2025 10:21:26 +0900
+Message-Id: <20251114012130.59-1-jackson.lee@chipsnmedia.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SE2P216CA0031.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:116::10) To SLXP216MB1148.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:f::14)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <8-v1-af84a3ab44f5+f68-iommufd_buf_jgg@nvidia.com>
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF00017092:EE_|PH7PR12MB8794:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4675b071-4623-4d6c-c575-08de231182ce
+X-MS-TrafficTypeDiagnostic: SLXP216MB1148:EE_|SE2P216MB2850:EE_
+X-MS-Office365-Filtering-Correlation-Id: aa7286a9-9cf7-40b5-856c-08de231c2961
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|36860700013|82310400026|1800799024;
+	BCL:0;ARA:13230040|52116014|376014|366016|1800799024|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?LtozZYBcn3bPMjfcX8IKraT0qndzO4vzEhVvrk8zlYM84p+Qc7MVoIAzpGDZ?=
- =?us-ascii?Q?0ewSXOTwuqUS25flq5lPJDqMiJkbb1E0+1cS/gOdExd9Jg6t9EBbpA662jpq?=
- =?us-ascii?Q?aZXzYV0dOyv5+XAp6WVxLUqUBzdfHwqipOB3x+NEluVTEDhw10ObmlC2b1xx?=
- =?us-ascii?Q?8pOG+HZOLumB+R5avSolmnLL+9gvpNeXtEF1nKMOnI/CZNSIq22E2Dsyf02t?=
- =?us-ascii?Q?WiTEzsYNM3PvO0vsJt0+OjaZARGev0mxxMxm3SLAN2bt2ZkojwqdzZEBnJf5?=
- =?us-ascii?Q?9zmbvR2b3ksDvib/OObDPFHVd/YLSkfRtCuONVD1QiYXT3JN6Krnelf25UA/?=
- =?us-ascii?Q?4PM6l9AlJmRkhoPIC0SrwERnBoROIOE7WAamXcl5vRoHfpZiS7+pdHbS5hmY?=
- =?us-ascii?Q?prEJ5YvD5aMw4MGSXIt59fzyC87Kk7UGP58XqK3IbcMD4irvYf6xEjKgI4Uv?=
- =?us-ascii?Q?v/5Z05gJRCKrsopjDUqmme2Rk/TwuHckulnjzLXczbIRtnXDClyckQGRSbqr?=
- =?us-ascii?Q?ahVyHgtsejNawJyBastVHiv/PkOJKLYPaeQRlOAxIzPB64XyYYn1/Nl5W4oa?=
- =?us-ascii?Q?Yf7begaPUlEYOTfDgsweXIKh3AsS43wkW4NEQjfU6aet6lS7bxX2fPg3sAxs?=
- =?us-ascii?Q?mJajR4KqBnqTypJLXJiuH51MIC+hLXLJD61T+kLAIV3YBKLqH5dcbeitKn9a?=
- =?us-ascii?Q?RubnNE8Mkicc3G9F9NozvukZblq5kXtLhAGJZSJxm0z6lZJS9/5zASf+TADu?=
- =?us-ascii?Q?7TxnrbgsGfRgku9yFnwQcgHG/nKQY+X8KTO98ehrzYMEhbxjS4Dho20C47tb?=
- =?us-ascii?Q?H4PUPXdsqqSGDGMou4NSnWm7bJkyQpzHNrvhOp6vGqS6nw8wHS5wV9/d4ePa?=
- =?us-ascii?Q?XoVAtZ34mn3dyapco/10iAyh8A1pi285Nx7twHj/cqx7F5LlGyhB6BWBTCUG?=
- =?us-ascii?Q?h/2mEa1YChBdRAsxC/TmSn6AKv96dw5AbvDMj72K7ePWNyioe3TQ+Rk7+XWj?=
- =?us-ascii?Q?uapCoRzdlMVa1JWo0W1gxyd7eZCwtUPnKopFZJwHWIqzvSu4r7YGKq5EdTa4?=
- =?us-ascii?Q?Ji2Prhrk/oBkF8VB8jzb6iXsRshEjf7deQmH6FcbKWr90GzbwdPX95kH4q2B?=
- =?us-ascii?Q?ZocXZXfoJiiWVkk1ppgMkqmrddoCM9yZWK0i6RD4p5Y3neG0f4jWhF+4aGDK?=
- =?us-ascii?Q?VLqewZvlRp6rDq8SnKMb1RpePM8P0/zSp17zhulz8TmMzsrF3fmH2Nj15NP2?=
- =?us-ascii?Q?2d0mMmkcigEece/c7uvvmnJjq3gDtIwH9HrG3zJ0HftbhKhqKmZRNpYyHhQQ?=
- =?us-ascii?Q?/VXERQlifT5daCQuBTma0NEnLG2KfDTIvNI0ZHRBJGZa04xq4yCl4TdgamsD?=
- =?us-ascii?Q?FFfVkVQvHGComrN8cqGzdlVrySz5u0cNt51Th3QSokdd7atA7ApinrgO5KMx?=
- =?us-ascii?Q?LzW7/hFZqZbwGJx0CQrf4baGNyt46+D2SVnZjSOtn+ABn+oJlXcSzsqCZgDv?=
- =?us-ascii?Q?OoajfcrPu7vZPCDtXQVs7aRxNdi42DmYxS/CUYtBNCvF0koX1LVJrsE1oqMy?=
- =?us-ascii?Q?XDunSgf4aP1S/Y+0m28=3D?=
+	=?us-ascii?Q?cW2ZIddByVrjjZn527vElSTEmXaN+t0siZIasVq3jaeBDVZh9SPZtOHr+bQa?=
+ =?us-ascii?Q?NG/Yn5ItkMbM+HNGtcykcNju1Bztl/6rxnYKvNnnLurkER1k+uOZtaQXKcHu?=
+ =?us-ascii?Q?wRFHaKfOwXszuvqW4sgntGvO/RFKMiK3Ee35PLFoFXGnuV28+VQ6YHL4p19M?=
+ =?us-ascii?Q?IPxiOoONHXpV/wn3Iz8RoaeHOFOOLPdISXoqalBitmFv7bGoRu24+7Pp58Ns?=
+ =?us-ascii?Q?6jYKoEvT2huhGisKiF7FK2DZdu7l96WjLBIApEHs31RTcLnJGpX1MNhR+zhp?=
+ =?us-ascii?Q?jxs2ZWmzZaw4AqgKbJtPm42GzgcZ3dy6XHyVUkiC253WgHDofgkeJgSVR0GN?=
+ =?us-ascii?Q?wTP22dJcjMZtLI+FCkx9fgPU/0zIEdEa5BvI0HY8QYx5b0bi1ZXr25bGiQpm?=
+ =?us-ascii?Q?ihIbCYatgMVvJXDq30J6LEoy1yzQgM4i0v913HJRDoQ/F2M5CXoQLy54uXDY?=
+ =?us-ascii?Q?9oDm742ncQIQS/+I5Xw5VB5FkAW/mIeze/hxrdz0PWm09fiDO+rH2XgfckYM?=
+ =?us-ascii?Q?fpTMqTjRu38D43tk/SwRcGqFyiKUBKelM4EVQ8NDh8wHmXq5OX1CyR7kVeOq?=
+ =?us-ascii?Q?NQFio80HENb3fzFdPYuY0Lfpc/InEygZIePC5jU0LPeJLRDhUaOW2Kaa0jGq?=
+ =?us-ascii?Q?QOnUS8nHWYrewpfzTMb4VTu/v/H+Rve5Bn1SKmXsnyqAgDIDGw/jZyAG6caE?=
+ =?us-ascii?Q?99Co7JX2lnQZbH7nn27rJjXaVEH1Y9UbsEDeez0IP2LvUMjF/uVowZSr3QfI?=
+ =?us-ascii?Q?HoKon7fI9cQ6/8sSS2vYMYE5SRB2RggcPhUDk0P60CqEK9e+cbZC+oc1vn/8?=
+ =?us-ascii?Q?vUdxiPrljUHdyhNLXz4Pike0Y6leKj45O6M9B5fpus7wmSjacBYvUozsVnp/?=
+ =?us-ascii?Q?6OmcmHitwg3h4bNNjZHfL3D4cq2TZ5+IHzddPjRjKX1+mhH0rAIjzbP9FXda?=
+ =?us-ascii?Q?YN2ANhLcXa8PEXvJXKy/8wADjPMKIhYxTKcxxH96cgcBdKNMDBU3WCON6OJR?=
+ =?us-ascii?Q?i/DMMbiBmhayRWDXP1z1FFLKSZxTAYDEky5klu4cQ37ZSqkp+vDMiePzq1x1?=
+ =?us-ascii?Q?vEsL3/pNqvTdxhtXfGvi/wLnQW0GVZXtXLA2q+TeDGpG1s/oUnWmBIGFoYBJ?=
+ =?us-ascii?Q?aBX5u7v8C56hpsl1jPPFnGhGAB7zgnDh4hGH4s8GkokGuT3I4S5fn4TokUaG?=
+ =?us-ascii?Q?i29pAW+RGYu93OpWEKTLdkvdjZ+DHfOsbgOV7GJP2bYkTsUkuwTZwTEycjzo?=
+ =?us-ascii?Q?5hqceIthRCRNn+NSDnT2HF05mueVjIZ5IUuQpu8T2KcDtT0ODOnfm3wsOmH4?=
+ =?us-ascii?Q?cHoG20blVbzuA9To9zdUu61yN6IDPH/SIWlhWd/3/hWqBlaMu+CNtiqRjyT1?=
+ =?us-ascii?Q?1DJ1W1rx2gpswfriSZiEDcz3mC7JTHl+K7ftQIquoiLKdlU8AseRQQdFEFGH?=
+ =?us-ascii?Q?m7JRRd+a3DtqL51gzDKE3YCjU+HvD4J1ZIobo637nQS1/eB2Crq4/xkKPSem?=
+ =?us-ascii?Q?vP+pcX3EslN8GpmqMPWT0i3UhyVIWDr7RQjc?=
 X-Forefront-Antispam-Report:
-	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(376014)(7416014)(36860700013)(82310400026)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2025 00:05:24.7721
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SLXP216MB1148.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?GhIZH9PNZeAA+eIi4ERYs26WKPNE79AO3pmg18YCv6++elT/cST+MHfsrzrE?=
+ =?us-ascii?Q?nowMhVkSyaS5dtsh0SVMaElnMV7QxUSCz6qujc4MoiMeIZv5f/pzvjmOyOQ5?=
+ =?us-ascii?Q?TfjgYHnUpeHGffaahROMSfj4pfMK1aMLLO/5oJnbMCzmQaL4Vvp/ZvFBxI5/?=
+ =?us-ascii?Q?e0crkQe7p9BBS6NF2wxMjCMACf2LKsinUU90VBs3DSMYkNF3+OYIahxBiU5t?=
+ =?us-ascii?Q?5lomHWbPtLnViwREsyiu6yK8zhDhTPdt//MANUqLYsiXopX2scOXa3FKBEH+?=
+ =?us-ascii?Q?OTJTLZ7Fcx9AePtvZH+pGOfbG13/Vb0q3zSUZhgTNQV0swVW8bqa4HFcvXlF?=
+ =?us-ascii?Q?GOGc8c0zfafJGIiVP/4EBWFpMyAyViYuo06UQAFylB9keE0jl+97IVfoWa8S?=
+ =?us-ascii?Q?mMqYnD0muS3oe5jOy9Wp4Haula1WmI9igXV6JyOcNYB3PDCmf1t1BL1qZeS5?=
+ =?us-ascii?Q?rHCVCqB58c9lonM0kHvzwwX3/jgFuYWd/q/GquRRVCwJO3mPWXS6BpwDRuEg?=
+ =?us-ascii?Q?YmPGTEgg8DDih9RF8Q8A3DjFRPpN66IyAD4DG4KbmPCQx8AnOldyXFere2eb?=
+ =?us-ascii?Q?ZgghZ3ZWmplYdWH5m44DUBWfV575wO7rdFiNAH5qi9s0ZH6OcOsBr4ENVAvm?=
+ =?us-ascii?Q?wYCSMX+5XCGfBx50hciLgs1LO1UwE0GaBVxHbDNbARkXM7bM1DYwohan0tQ/?=
+ =?us-ascii?Q?N5quTPzMtqbFzC44h2L2r4O37x9yJcVF+2ZJM1MfLvX4NRha+R+0iqVoBfvG?=
+ =?us-ascii?Q?ab+d0eEpgLWmugnMdjTsmYPj5raflC7O9E1UI0Sx4rgxn5FdZiV6D7Eig2VR?=
+ =?us-ascii?Q?7vHaOglMhBv0q9lHkskOgkXi7AA6DSBvWWPosMgdwyQDropzID57Vh3xr02t?=
+ =?us-ascii?Q?v84D30z9c8KyXDkObsDFb/WRPDW3Dr5qf+zgzt7ZOajcy5oPQMkX0EcIqWdQ?=
+ =?us-ascii?Q?clJ16hc8F3I1UsiPQYNBAM0UsNCw2yr99iImRQQyAkX0GyRb1wH1CZXztknC?=
+ =?us-ascii?Q?vVLpA1DTUrWNc7T4bkoY84Xvi6Bww0mWcRa927NWxEOBFUj8rPLzoY6gg8GA?=
+ =?us-ascii?Q?lZ+aMiIQRNT1ac8yJwAs/XgPbiSXB2LY0i5SqKyrUEWlIOAJRxRO/A55GyNQ?=
+ =?us-ascii?Q?GB/YE9T/X8JWfeE3CPgFFw0gLoEFpGK36KrfdT+QJmPydo/51r7E+6kpA1bR?=
+ =?us-ascii?Q?AWva5SmugsRiCYijbk7zyiGGMKtQT2cqqUAtqum2rN6jqhQE4/6fYG/COTjk?=
+ =?us-ascii?Q?A3CQjY5zveWjNYBGEmSJbRGdPwDR5bWW8Y1qKafnd6ZU66x4N0ZxI3oHaXyX?=
+ =?us-ascii?Q?C+pvBGtepH4G/jESoEaTMqbFEWkdJA0S3QxuKneoIOKyIrm+hmILxDD7txKV?=
+ =?us-ascii?Q?VR3fOaJbgYfcdDczVRcbIhcvlWvVTZQ7rop3g7WpWlwkE3DzDiJ2GDQzZi9M?=
+ =?us-ascii?Q?GTj6BHpFi/5SB4M6g6ZhVN+p7mUbegkbf/u/rd9CSWZ/F2NorbDTvUF7lZnW?=
+ =?us-ascii?Q?e16wNX2OED42hk2xkB5wEfwb3lqlK/qgGjoSL3ix9BdfATr7IAImOh7TqSkb?=
+ =?us-ascii?Q?L1jBdwmFBeurgOFByvY4BAmJWnSSXU0wu9TMpa6PbAPp6Tdd2+wCPa+pDS8t?=
+ =?us-ascii?Q?gg=3D=3D?=
+X-OriginatorOrg: chipsnmedia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: aa7286a9-9cf7-40b5-856c-08de231c2961
+X-MS-Exchange-CrossTenant-AuthSource: SLXP216MB1148.KORP216.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2025 01:21:40.7307
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4675b071-4623-4d6c-c575-08de231182ce
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DS1PEPF00017092.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8794
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OvQWiyixpNaKUMCMoISs3xA7shxPAX8dOnpgmYlks8MdSxY/kNyo831ZqtSsWCxH9BUktXLZWXJVwqcslC1hCyDxgQbnLxmVUzn+oIq78TM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SE2P216MB2850
 
-On Fri, Nov 07, 2025 at 12:49:40PM -0400, Jason Gunthorpe wrote:
-> Finally call iopt_alloc_dmabuf_pages() if the user passed in a DMABUF
-> through IOMMU_IOAS_MAP_FILE. This makes the feature visible to userspace.
-> 
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+From: Jackson Lee <jackson.lee@chipsnmedia.com>
 
-Reviewed-by: Nicolin Chen <nicolinc@nvidia.com>
+v4l2-compliance results:
+========================
 
-With a nit:
+v4l2-compliance 1.28.1-5233, 64 bits, 64-bit time_t
 
-> -struct iopt_pages *iopt_alloc_file_pages(struct file *file, unsigned long start,
-> +struct iopt_pages *iopt_alloc_file_pages(struct file *file,
-> +					 unsigned long start_byte,
-> +					 unsigned long start,
->  					 unsigned long length, bool writable);
+Buffer ioctls:
+                warn: v4l2-test-buffers.cpp(693): VIDIOC_CREATE_BUFS not supported
+                warn: v4l2-test-buffers.cpp(693): VIDIOC_CREATE_BUFS not supported
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
 
-Passing in start_byte looks like a cleanup to me, aligning with
-what iopt_map_common() has.
+Total for wave5-dec device /dev/video0: 46, Succeeded: 46, Failed: 0, Warnings: 2
+Total for wave5-enc device /dev/video1: 46, Succeeded: 46, Failed: 0, Warnings: 0
 
-Since we are doing this cleanup, maybe we could follow the same
-sequence: xxx, start, length, start_byte, writable?
+Fluster test results:
+=====================
 
-Thanks
-Nicolin
+Running test suite JCT-VC-HEVC_V1 with decoder GStreamer-H.265-V4L2-Gst1.0 Using 3 parallel job(s)
+Ran 133/147 tests successfully              in 37.043 secs
+
+(1 test fails because of not supporting to parse multi frames, 1 test fails because of a missing frame and slight corruption,
+ 2 tests fail because of sizes which are incompatible with the IP, 11 tests fail because of unsupported 10 bit format)
+
+
+Running test suite JVT-AVC_V1 with decoder GStreamer-H.264-V4L2-Gst1.0 Using 3 parallel job(s)
+Ran 78/135 tests successfully               in 41.820 secs
+
+(57 fail because the hardware is unable to decode  MBAFF / FMO / Field / Extended profile streams.)
+
+Running test suite JVT-FR-EXT with decoder GStreamer-H.264-V4L2-Gst1.0 Using 3 parallel job(s)
+Ran 25/69 tests successfully               in 12.485 secs
+
+(44 fail because the hardware does not support field encoded and 422 encoded stream)
+
+Seek test
+=====================
+1. gst-play-1.0 seek.264
+2. this will use waylandsink since gst-play-1.0 uses playbin.
+   if you don't want to hook up display,
+   you can run gst-play-1.0 seek.264 --videosink=fakevideosink instead
+3. Let pipeline run for 2-3 seconds
+4. press SPACE key to pause
+5. press 0 to reset press SPACE to start again
+
+gst-play-1.0 seek.264 --videosink=fakevideosink Press 'k' to see a list of keyboard shortcuts.
+Now playing /root/seek.264
+Redistribute latency...
+Redistribute latency...
+Redistribute latency...
+Redistribute latency...
+Redistribute latency...aused
+0:00:09.9 / 0:00:09.9
+Reached end of play list.
+
+
+Sequence Change test
+=====================
+gst-launch-1.0 filesrc location=./drc.h264 ! h264parse ! v4l2h264dec ! filesink location=./h264_output_420.yuv
+Setting pipeline to PAUSED ...
+Pipeline is PREROLLING ...
+Redistribute latency...
+Pipeline is PREROLLED ...
+Setting pipeline to PLAYING ...
+New clock: GstSystemClock
+Redistribute latency...
+Got EOS from element "pipeline0".
+Execution ended after 0:00:00.100759170
+Setting pipeline to NULL ...
+Freeing pipeline ...
+root@j721s2-evm:~#
+
+
+Change since v5:
+================
+* For [PATCH v4 4/4] media: chips-media: wave5: Improve performance of decoder
+ - reduce high cpu usage while playback adaptive streaming from
+   streaming server
+
+* For [PATCH v4 1/4] media: chips-media: wave5: Fix SError of kernel panic when closed
+ - fix kernel panic when printing a lot of log messages
+
+Change since v4:
+=================
+* For [PATCH v5 4/4] media: chips-media: wave5: Improve performance of decoder
+ - fix the error which the Media CI rebot reported
+
+* For [PATCH v5 2/4] media: chips-media: wave5: Fix Null reference while testing fluster
+ - fix the error which the Media CI rebot reported
+
+Change since v3:
+==================
+* For [PATCH v4 4/4] media: chips-media: wave5: Improve performance of decoder
+ - fix crash and dead lock while testing seek
+
+* For [PATCH v4 3/4] media: chips-media: wave5: Add WARN_ON to check if dec_output_info is NULL
+ - update commit message
+
+* For [PATCH v4 2/4] media: chips-media: wave5: Fix Null reference while testing fluster
+ - add thread irq logic
+
+* For [PATCH v4 1/4] media: chips-media: wave5: Fix SError of kernel panic when closed
+ - add Reviewed-by tag
+
+Change since v2:
+==================
+* For [PATCH v3 4/4] media: chips-media: wave5: Improve performance of decoder
+ - squash v2's #3~#6 to #4 patch of v3
+
+Change since v1:
+===================
+* For [PATCH v2 2/7] media: chips-media: wave5: Improve performance of decoder
+ - change log to dbg level
+
+Change since v0:
+===================
+* For [PATCH v1 2/7] media: chips-media: wave5: Improve performance of decoder
+ - separates the previous patch to a few patches
+
+* For [PATCH v1 3/7] media: chips-media: wave5: Fix not to be closed
+ - separated from the previous patch of performance improvement of
+   decoder
+
+* For [PATCH v1 4/7] media: chips-media: wave5: Use spinlock whenever state is changed
+ - separated from the previous patch of performance improvement of
+   decoder
+
+* For [PATCH v1 5/7] media: chips-media: wave5: Fix not to free resources normally when
+    instance was destroyed
+ - separated from the previous patch of performance improvement of
+   decoder
+
+* For [PATCH v1 7/7] media: chips-media: wave5: Fix SError of kernel panic when closed
+ - separated from the previous patch of performance improvement of
+   decoder
+
+
+Jackson Lee (4):
+  media: chips-media: wave5: Fix SError of kernel panic when closed
+  media: chips-media: wave5: Fix Null reference while testing fluster
+  media: chips-media: wave5: Add WARN_ON to check if dec_output_info is
+    NULL
+  media: chips-media: wave5: Improve performance of decoder
+
+ .../platform/chips-media/wave5/wave5-helper.c |  28 ++-
+ .../platform/chips-media/wave5/wave5-helper.h |   1 +
+ .../platform/chips-media/wave5/wave5-hw.c     |   2 +-
+ .../chips-media/wave5/wave5-vpu-dec.c         | 177 +++++++++++++-----
+ .../chips-media/wave5/wave5-vpu-enc.c         |   8 +-
+ .../platform/chips-media/wave5/wave5-vpu.c    |  98 ++++++++--
+ .../platform/chips-media/wave5/wave5-vpu.h    |   2 +-
+ .../platform/chips-media/wave5/wave5-vpuapi.c |  68 ++++---
+ .../platform/chips-media/wave5/wave5-vpuapi.h |  13 ++
+ .../chips-media/wave5/wave5-vpuconfig.h       |   1 +
+ 10 files changed, 307 insertions(+), 91 deletions(-)
+
+-- 
+2.43.0
+
 
