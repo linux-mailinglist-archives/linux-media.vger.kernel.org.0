@@ -1,46 +1,53 @@
-Return-Path: <linux-media+bounces-47061-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47062-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5C1DC5C2F0
-	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 10:13:09 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 765BDC5C383
+	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 10:20:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id A08A935A6F5
-	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 09:07:28 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 272314F6A18
+	for <lists+linux-media@lfdr.de>; Fri, 14 Nov 2025 09:13:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87AAB2F90D5;
-	Fri, 14 Nov 2025 09:07:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0E913019C1;
+	Fri, 14 Nov 2025 09:13:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="VG3Ln/dr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFBD32F8BD9;
-	Fri, 14 Nov 2025 09:07:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19CE93016F5;
+	Fri, 14 Nov 2025 09:13:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763111229; cv=none; b=H6QrY24Al3bqPaUvP7idBqMSpv0s4CVAlF+EqYNEDfF3naweF9SeuXkIHV7ZLp/SkDayCjM7R8zRQp+SW4GUp6mM64lNWzHMbQpWUa+PQqK+k/tERxui/ueOZPoqHMgvKQgzy+IfFcywj8RczRELSXNhUQpC3ortjdjkJGDuz7w=
+	t=1763111595; cv=none; b=eVAbuMsRrGOQSgXUiN6+Aw95Llo4Vchgx/cXdatnbvliASNS/iEkqpFSDyT3rmVIdbE9e52KlVEyAvbD/++/8sNOLq0mMzJfhv7Nj1vToeRTz4PvoaCyOn+sjKnlcpoQauf8HjAWQQ8+3H2d2TOMyXr65QaNMthhAZMS/fQKfrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763111229; c=relaxed/simple;
-	bh=y5Oz49HXCPeN088wok1wEjCbHkMK8fhv2EdKI1NjSho=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RrROYl/dKm+eAOh0zWSxnTxA9rbwYvjRSEm5Del4KdtFDaXvucwdg42E7f2XqDIBRKGRGiyr0nIhO1jT1MR9CYRmDq831BNDfB5rR0d8Sj0SDotaNw1j8irGlRhqst5MTGyD3pAet3sd6w463Rp62a7s0EFxrCPw3dNO54hUFoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from DESKTOP-L0HPE2S (unknown [124.16.141.245])
-	by APP-01 (Coremail) with SMTP id qwCowAA3zs0t8RZpnXy1AA--.9127S2;
-	Fri, 14 Nov 2025 17:06:53 +0800 (CST)
-From: Haotian Zhang <vulab@iscas.ac.cn>
-To: sean@mess.org,
-	mchehab@kernel.org
-Cc: linux-media@vger.kernel.org,
+	s=arc-20240116; t=1763111595; c=relaxed/simple;
+	bh=RIY07XPyKe5L+ZeyK6GDW5uwco2GOJNBREhd2oMdYSM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GKUqKToKD7qfeb58+grAfiRogphDXg+kwro3R95tA27fN4qn0lkDfRvn0340nrXsZKnnGMdMufH3d1hxuBC/EetXLmJQRGPn/MZKDZyWWBgDJHw6GOUzVT7BL1fTDJ9NxQEdBXn1m3tCUeSaodBCcC7EVX4nh/ZjodZ9VpXy0Iw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=VG3Ln/dr; arc=none smtp.client-ip=101.71.155.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
+Received: from LAPTOP-N070L597.localdomain (unknown [223.112.146.162])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 2998aa759;
+	Fri, 14 Nov 2025 17:13:00 +0800 (GMT+08:00)
+From: Zilin Guan <zilin@seu.edu.cn>
+To: jonathanh@nvidia.com
+Cc: skomatineni@nvidia.com,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Haotian Zhang <vulab@iscas.ac.cn>
-Subject: [PATCH] media: iguanair: fix race between device disconnection and urb callback
-Date: Fri, 14 Nov 2025 17:06:05 +0800
-Message-ID: <20251114090605.2413-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1.windows.1
+	jianhao.xu@seu.edu.cn,
+	Zilin Guan <zilin@seu.edu.cn>
+Subject: [PATCH] media: tegra-video: Fix memory leak in __tegra_channel_try_format()
+Date: Fri, 14 Nov 2025 09:12:57 +0000
+Message-Id: <20251114091257.1616738-1-zilin@seu.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -48,58 +55,79 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowAA3zs0t8RZpnXy1AA--.9127S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7uryUtF1xuw15AF4rZr1rtFb_yoW8Xr1fpF
-	WxWryayrWUWr4UA3yDtF1kGa4Yqws3GayUCFyrW34F9ws5Casrta4kAa45Xwn8CFy5Ga4q
-	yw1YqayfuFyUCaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvm14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
-	JF0_Jw1lc2xSY4AK67AK6r4fMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r
-	4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF
-	67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2I
-	x0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2
-	z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnU
-	UI43ZEXa7VUUhL05UUUUU==
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAgGA2kWr+LoFAAAsP
+X-HM-Tid: 0a9a81a3b14503a1kunmddf594931af9e5
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZGBhCVh8fTU1JSR8eHklMSFYeHw5VEwETFhoSFy
+	QUDg9ZV1kYEgtZQVlJSUhVSkpJVUpPTVVKTUlZV1kWGg8SFR0UWUFZS1VLVUtVS1kG
+DKIM-Signature: a=rsa-sha256;
+	b=VG3Ln/drpj/G7iSWk9NkqHBaJSeDGnNoErI3r+/ZQ/i4CwelOL+mXsxrERiOm2nYMN78TMPfqNbdaAFjhDeXlRgkKOJFcbrNZiHuxZFiuRILG/CJaQHPwpsDq1s63F3esQWsRJEZtrPy6i+d9H+GFzpCrAcPwDH2zdqTaoiOunI=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
+	bh=GEFFh+Nwict6VejMdzW7BfYMOeEGIwcjfqJ7sedV6Q4=;
+	h=date:mime-version:subject:message-id:from;
 
-The iguanair_disconnect() function calls rc_unregister_device() before
-usb_kill_urb(), creating a race condition similar to the one fixed in
-commit 'f656cfbc7a29'. If rc_unregister_device() executes while
-the URB callback iguanair_rx() is still running, process_ir_data() may call
-ir_raw_event_store_with_filter() or ir_raw_event_overflow() with a freed
-ir->rc->raw pointer, leading to a NULL pointer dereference.
+The state object allocated by __v4l2_subdev_state_alloc() must be freed
+with __v4l2_subdev_state_free() when it is no longer needed.
 
-Call usb_kill_urb() before rc_unregister_device() to ensure all URB
-callbacks complete before freeing device resources.
+In __tegra_channel_try_format(), two error paths return directly after
+v4l2_subdev_call() fails, without freeing the allocated 'sd_state'
+object. This violates the requirement and causes a memory leak.
 
-Fixes: 7c0bd96b767d ("[media] iguanair: support suspend and resume")
-Signed-off-by: Haotian Zhang <vulab@iscas.ac.cn>
+Fix this by introducing a cleanup label and using goto statements in the
+error paths to ensure that __v4l2_subdev_state_free() is always called
+before the function returns.
+
+Fixes: 56f64b82356b7 ("media: tegra-video: Use zero crop settings if subdev has no get_selection")
+Fixes: 1ebaeb09830f3 ("media: tegra-video: Add support for external sensor capture")
+Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
 ---
- drivers/media/rc/iguanair.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/media/tegra-video/vi.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/media/rc/iguanair.c b/drivers/media/rc/iguanair.c
-index 8af94246e591..70105250d88d 100644
---- a/drivers/media/rc/iguanair.c
-+++ b/drivers/media/rc/iguanair.c
-@@ -496,10 +496,10 @@ static void iguanair_disconnect(struct usb_interface *intf)
- {
- 	struct iguanair *ir = usb_get_intfdata(intf);
+diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+index c9276ff76157..14b327afe045 100644
+--- a/drivers/staging/media/tegra-video/vi.c
++++ b/drivers/staging/media/tegra-video/vi.c
+@@ -438,7 +438,7 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
+ 		.target = V4L2_SEL_TGT_CROP_BOUNDS,
+ 	};
+ 	struct v4l2_rect *try_crop;
+-	int ret;
++	int ret = 0;
  
--	rc_unregister_device(ir->rc);
- 	usb_set_intfdata(intf, NULL);
- 	usb_kill_urb(ir->urb_in);
- 	usb_kill_urb(ir->urb_out);
-+	rc_unregister_device(ir->rc);
- 	usb_free_urb(ir->urb_in);
- 	usb_free_urb(ir->urb_out);
- 	usb_free_coherent(ir->udev, MAX_IN_PACKET, ir->buf_in, ir->dma_in);
+ 	subdev = tegra_channel_get_remote_source_subdev(chan);
+ 	if (!subdev)
+@@ -482,8 +482,10 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
+ 		} else {
+ 			ret = v4l2_subdev_call(subdev, pad, get_selection,
+ 					       NULL, &sdsel);
+-			if (ret)
+-				return -EINVAL;
++			if (ret) {
++				ret = -EINVAL;
++				goto out_free;
++			}
+ 
+ 			try_crop->width = sdsel.r.width;
+ 			try_crop->height = sdsel.r.height;
+@@ -495,14 +497,15 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
+ 
+ 	ret = v4l2_subdev_call(subdev, pad, set_fmt, sd_state, &fmt);
+ 	if (ret < 0)
+-		return ret;
++		goto out_free;
+ 
+ 	v4l2_fill_pix_format(pix, &fmt.format);
+ 	chan->vi->ops->vi_fmt_align(pix, fmtinfo->bpp);
+ 
++out_free:
+ 	__v4l2_subdev_state_free(sd_state);
+ 
+-	return 0;
++	return ret;
+ }
+ 
+ static int tegra_channel_try_format(struct file *file, void *fh,
 -- 
-2.50.1.windows.1
+2.34.1
 
 
