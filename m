@@ -1,129 +1,131 @@
-Return-Path: <linux-media+bounces-47169-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47170-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0576C60B9F
-	for <lists+linux-media@lfdr.de>; Sat, 15 Nov 2025 22:04:15 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5850EC60DDA
+	for <lists+linux-media@lfdr.de>; Sun, 16 Nov 2025 00:43:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 7592B4E999E
-	for <lists+linux-media@lfdr.de>; Sat, 15 Nov 2025 21:02:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E9D9F420CA1
+	for <lists+linux-media@lfdr.de>; Sat, 15 Nov 2025 23:43:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 869862405E3;
-	Sat, 15 Nov 2025 20:59:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FB2E274669;
+	Sat, 15 Nov 2025 23:43:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OTgbmD6O"
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="T7W1X8/V"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C204123FC41
-	for <linux-media@vger.kernel.org>; Sat, 15 Nov 2025 20:59:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49C9726ED54;
+	Sat, 15 Nov 2025 23:43:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763240365; cv=none; b=ZFJmYDVp70GeIOLEJ9dZixtRnB47i1bJdUMdcpYs3Z7VnPp+UJZBa+/Ryh4DvNt6QZ9S83tyztGI/S9tLJnLHndPctR0o6i239YYt4B8t6QMtTlsVAbCku+b9Jr3yxe6zyAVdgewuYYqMmV5yv32/+P9okTpFDfa8GxIVw/a8y0=
+	t=1763250226; cv=none; b=PcH1ldwnHWyHXO1dNOpRqRdVTnBCCgV9Wpe+eEsJAZKsfzRB+QvkM75hbVzfREXlMYWAkQbFpX9U7QvTbg7JYFY9xsTG1b9Bxqal/7wCUjucvjNMb+MGwU+x9U58pHSGIrw/ghwp0ajm1nQX8PDEh+ew5PVYoDgPdp4ga3vDEoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763240365; c=relaxed/simple;
-	bh=/11GCS+k8gtmZVz0m7rF5IEQdjT8FPkFQ7e8v/jJ18g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I3WC2lyJioz9CwR7M3E62xoOWozauLaPgdaYWg589jo8N3/pOnhW5sNYYQgoObpN3zvwsIstnkRfhquZszL1edyY6PJMBMj3KwnMCFhlKm+0mBq2b8/2ypA7vbM6WIyAwr+xFJiTVD4furLTFt/o+5t33VZE5Ya8FexT3oHOGqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OTgbmD6O; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (82-203-165-222.bb.dnainternet.fi [82.203.165.222])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 8061982A;
-	Sat, 15 Nov 2025 21:57:18 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1763240238;
-	bh=/11GCS+k8gtmZVz0m7rF5IEQdjT8FPkFQ7e8v/jJ18g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OTgbmD6OoVAlAxoABeh/LyF7MDddJuW3gHyMcWCHqioN3pc+WwvA7ONhaTfOY0ux3
-	 JGj3bVGjy4dbZL36UGsrxke+lB8z2HN4pBaKFGHEFhf+343wYCfkRhxQyf/hBKld28
-	 64BhuL8A39DeiddHdByOwDuZ5SmSim82882gUDeg=
-Date: Sat, 15 Nov 2025 22:59:06 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: hans@jjverkuil.nl, Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Dan Scally <dan.scally@ideasonboard.com>,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: mali-c55: Mark pm handlers as __maybe_unused
-Message-ID: <20251115205906.GC31986@pendragon.ideasonboard.com>
-References: <20251114201921.562337-1-jacopo.mondi@ideasonboard.com>
- <20251114204501.GA12160@pendragon.ideasonboard.com>
- <f6o5naywg4gc67ww2yi22ybc5pctd3upeyo74vhlvau3sld5rg@2v7baqvvykxn>
+	s=arc-20240116; t=1763250226; c=relaxed/simple;
+	bh=llN6Cn3B/kgh4ulN0MEBNKdXAxOmngqsyPmwW/2bxxU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sQR5c6uVXtFdxeB1jRGMujAZsNc9/52RfzamdcsOWLukMKjUcmRyDcvh4OCLwJPcU5wmVCYuoFtCHgaqEZqMAMizGQhArCI3vn1c8PqcyNFwn5aU4FzlZ/u4eoHE6EvnuABTR720oOOcvsmvVxRS5573RixJQXFKO5g7LCulXoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=T7W1X8/V; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+	bh=p2QaOkO8NjOGntm2KfoOJ04f8p6YfbVqlV+eGAe/YQo=; b=T7W1X8/VKMuVlBltXAxej69Ttz
+	RuhoComjszRwtfM2WRLudijqxYx8+iDpYVKRkjzAOeJ2+dzp/hIgsO4ouvdKVfdGyFNXNp/m6voi8
+	y712OG3Hn2bhgRTkA3m/P+ycUcJYGV3Z6f3S1VKon4otCRK35wNF7STP5wQTTx3aJETYob8/p8rOc
+	8++Wjxfe0mDHh/kpUpJd3V+HDyNTNZcB7h9xuTpi4weeY7h6j7ilSzsyEscPgANMx9D2hnoRotmfV
+	lAyrMTxiua92KOdCj7nX41M+MAE994s8pN348Eocq9pi3S48mS+rJeSjDKpbDmadqS+/+x77ZvwzF
+	5XyTT/Tw==;
+Received: from i53875bd0.versanet.de ([83.135.91.208] helo=phil..)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1vKPvO-00022c-4Q; Sun, 16 Nov 2025 00:43:22 +0100
+From: Heiko Stuebner <heiko@sntech.de>
+To: Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	=?UTF-8?q?Th=C3=A9o=20Lebrun?= <theo.lebrun@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Gerald Loacker <gerald.loacker@wolfvision.net>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Markus Elfring <Markus.Elfring@web.de>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Kever Yang <kever.yang@rock-chips.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Collabora Kernel Team <kernel@collabora.com>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Val Packett <val@packett.cool>,
+	Rob Herring <robh@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Michael Riesch <michael.riesch@collabora.com>
+Cc: Heiko Stuebner <heiko@sntech.de>,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	Mehdi Djait <mehdi.djait@bootlin.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: (subset) [PATCH v15 00/14] media: rockchip: add a driver for the rockchip camera interface
+Date: Sun, 16 Nov 2025 00:43:19 +0100
+Message-ID: <176325011672.721648.2323929668705434904.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20240220-rk3568-vicap-v15-0-8f4915ee365d@collabora.com>
+References: <20240220-rk3568-vicap-v15-0-8f4915ee365d@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <f6o5naywg4gc67ww2yi22ybc5pctd3upeyo74vhlvau3sld5rg@2v7baqvvykxn>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Sat, Nov 15, 2025 at 07:07:06PM +0100, Jacopo Mondi wrote:
-> On Fri, Nov 14, 2025 at 10:45:01PM +0200, Laurent Pinchart wrote:
-> > On Fri, Nov 14, 2025 at 09:19:20PM +0100, Jacopo Mondi wrote:
-> > > As the Mali-C55 driver is instrumented to work without depending on
-> > > CONFIG_PM, mark the two pm_runtime handlers as __maybe_unused to
-> > > suppress the compiler warning when compiling without CONFIG_PM.
-> > >
-> > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > > ---
-> > > Late fix for Mali C55 PR
-> > >
-> > > fixes:
-> > > https://gitlab.freedesktop.org/linux-media/media-committers/-/jobs/87903226
-> > >
-> > > it's great to have CI, Thanks!
-> >
-> > The recommended way to handle this is to replace SET_RUNTIME_PM_OPS with
-> > RUNTIME_PM_OPS and use pm_ptr(). See commit
-> > b5ddb9ab3d83fe0d93d38de442c45610a5846d06 for instance. I think you can
-> > actually use DEFINE_RUNTIME_DEV_PM_OPS() and drop the manual
-> > SET_SYSTEM_SLEEP_PM_OPS().
+
+On Fri, 14 Nov 2025 16:20:11 +0100, Michael Riesch wrote:
+> Habidere,
 > 
-> Thanks, Hans has collected this patch which at least suppress the
-> compiler warning for v6.19.
+> This series introduces support for the Rockchip Camera Interface (CIF),
+> which is featured in many Rockchip SoCs in different variations.
+> The series has now been around for a while and has received many comments
+> and reviews. Thus, it should be ready for mainline by now.
 > 
-> > This being said, it seems PM needs more love, I don't see where
-> > streaming would get stopped and resumed with system PM. That's something
-> > to be addressed on top of course.
-> 
-> We can address both the above suggestions on v6.19!
+> [...]
 
-Fine with me.
+Applied, thanks!
 
-> > > ---
-> > >  drivers/media/platform/arm/mali-c55/mali-c55-core.c | 4 ++--
-> > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-core.c b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-> > > index b23d543cf496..43b834459ccf 100644
-> > > --- a/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-> > > +++ b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-> > > @@ -707,7 +707,7 @@ static void __mali_c55_power_off(struct mali_c55 *mali_c55)
-> > >  	clk_bulk_disable_unprepare(ARRAY_SIZE(mali_c55->clks), mali_c55->clks);
-> > >  }
-> > >
-> > > -static int mali_c55_runtime_suspend(struct device *dev)
-> > > +static int __maybe_unused mali_c55_runtime_suspend(struct device *dev)
-> > >  {
-> > >  	struct mali_c55 *mali_c55 = dev_get_drvdata(dev);
-> > >
-> > > @@ -770,7 +770,7 @@ static int __mali_c55_power_on(struct mali_c55 *mali_c55)
-> > >  	return 0;
-> > >  }
-> > >
-> > > -static int mali_c55_runtime_resume(struct device *dev)
-> > > +static int __maybe_unused mali_c55_runtime_resume(struct device *dev)
-> > >  {
-> > >  	struct mali_c55 *mali_c55 = dev_get_drvdata(dev);
-> > >  	int ret;
+[11/14] arm64: defconfig: enable rockchip camera interface
+        commit: 60705b039f960378bb2a0a844f9378646bc0c6c8
+[12/14] arm64: dts: rockchip: add the vip node to px30
+        commit: d2da7e98c0bf7f75433809ad875c6e1ae57f0cea
+[13/14] arm64: dts: rockchip: add vicap node to rk356x
+        commit: 78f316e90906d54c8aa6029e5c19ae83e420e56a
 
+
+Not applied 
+    arm64: dts: rockchip: enable vicap dvp on wolfvision pf5 io expander
+
+because of
+Lexical error: ../arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-io-expander.dtso:149.18-45 Unexpected 'MEDIA_PCLK_SAMPLE_DUAL_EDGE'
+FATAL ERROR: Syntax error parsing input tree
+
+This likely will only work after the next merge window.
+
+So if you can live with that please resubmit that last patch individually.
+
+
+Best regards,
 -- 
-Regards,
-
-Laurent Pinchart
+Heiko Stuebner <heiko@sntech.de>
 
