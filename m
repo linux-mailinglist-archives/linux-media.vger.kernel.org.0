@@ -1,173 +1,258 @@
-Return-Path: <linux-media+bounces-47163-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47164-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDE69C6048A
-	for <lists+linux-media@lfdr.de>; Sat, 15 Nov 2025 13:02:21 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37DC3C607CE
+	for <lists+linux-media@lfdr.de>; Sat, 15 Nov 2025 16:19:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 679CD4E324E
-	for <lists+linux-media@lfdr.de>; Sat, 15 Nov 2025 12:02:20 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 40A384E4313
+	for <lists+linux-media@lfdr.de>; Sat, 15 Nov 2025 15:19:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D30229D266;
-	Sat, 15 Nov 2025 12:02:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54296221723;
+	Sat, 15 Nov 2025 15:19:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="i0HCznZg";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="QdSQct0a"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BIReUrW8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14725298CAF
-	for <linux-media@vger.kernel.org>; Sat, 15 Nov 2025 12:02:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 054172F85B
+	for <linux-media@vger.kernel.org>; Sat, 15 Nov 2025 15:19:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763208135; cv=none; b=VYa1tj2RDAUOsKY48bP/dQADoBYXAR7pRgyfSyTV3Eh0+46ZcpflQuY8I9Xl12ToUFJDQPCuR5cb392GQt6v0GNqbXEUE/4Wbh3BOoaSxwt1d+EhPw45J2W990pSQr/3GczPSRuL3bWA8PTXdW2FlFBQV8kZAYO3eR+wQnEHrzc=
+	t=1763219987; cv=none; b=P2SlWpVtUIz7mmY9jlAmHeaFfrl8en4szZ+JyVtE5NJFAqIclzf59bZUpLpn/EcoPonAEUmaYFYD4rqkVsH2E/gqy2DpWccVPL76Kiyief237lhht+BDhwSJo/8izcEkp3RJXk5T4U03gXkxY+FMVQDaY3rJUsWYvYw3yzoiyNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763208135; c=relaxed/simple;
-	bh=HwQsPkARwbE8ccmNwdigeGyfb4Xb1tjlsGXg/4I1eOw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=GrGeddMWs3TJ2YL6VytqlzTL06gXYcZaG8RO/qzgZ/tKvXuiwRhPyMIfzDjYPStiE1HC9RKWr+yq+iU/gw5/PDlW6EJZKG+QCfAtuYRM8S8OfiLgFnnWwi+Re+deqV/cwO8pyrg4vJncH6jWnvhN5C+C1RlwlEcS9tfhZRZVwAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=i0HCznZg; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=QdSQct0a; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AFB022O2065214
-	for <linux-media@vger.kernel.org>; Sat, 15 Nov 2025 12:02:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	sgNpePqNkrGdvbxFAVaJZLoBIIfUIJU4MKl/OmY0CbM=; b=i0HCznZgZWQr8cVX
-	PosGjCDdi3KjhH32ktPUJMxdT4u/JaODRYB91EeEZiLuZAPwzh6FqLEzT2xmh8kb
-	wuE3HCYez0V34FiqCrRF+WM/CH2n2TCTy3CWANrinh3f2lT5ZRRQafevKdZanJiF
-	1JW4tY0hrc7lGz5K30czD82DpyERPiaz28TOa/N2W4C06tv1tXYY9QvCdfg//iUa
-	5MzlYcHDmWt5IC/+ruZhzUcBui5tDNJe8jQKYbBh+YsGxPtuK90DdwrdfHvWcH4O
-	7KA/LeU3dz6HFwliYeJLBIybS50ihWCNQrnu5WL6i55r0qwCbV0TuIFxi+8QVNwu
-	Z/VhCw==
-Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com [209.85.221.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4aejmyrgph-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Sat, 15 Nov 2025 12:02:12 +0000 (GMT)
-Received: by mail-vk1-f200.google.com with SMTP id 71dfb90a1353d-55b188806faso1650949e0c.2
-        for <linux-media@vger.kernel.org>; Sat, 15 Nov 2025 04:02:12 -0800 (PST)
+	s=arc-20240116; t=1763219987; c=relaxed/simple;
+	bh=pwhk6KUC9aj1bO1CnKCgI1WgBJAeVfM9l/gwJMBdHX8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jX+Mc8tPJ9DpQIqZdSQHttkVBxCDuma3Qni3H8V7y0J5d37YoC+JBf0InQ4DvrODk49hKdDm7R84/7fdjCMMOC6nn10ftXk8hVfL2JFnLivLIjw9mmAF22UDftMUy+Pv/n3bYLM7bC9sGNhw0OTfvV6VPeGwoLB2ecL0I4WJquA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BIReUrW8; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-42b3c965ca9so1373747f8f.1
+        for <linux-media@vger.kernel.org>; Sat, 15 Nov 2025 07:19:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1763208132; x=1763812932; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=sgNpePqNkrGdvbxFAVaJZLoBIIfUIJU4MKl/OmY0CbM=;
-        b=QdSQct0autGh0+VrDxYXJKCwbECU9nIm89dlafp1oMQGt27m5DT0HXfchVrsX8ndRx
-         XUTTMvI6Z9ek/mQoABaPoL8lRMeve3CiUUJMLj/HDE3xeQRIiV2Zotg1Wmz7q82xfBiV
-         7g5pvXwlqV9laQ9fgSiyzWM0GpR609ENu3T3anWS0+SJfjlYi313iBxfk+k3qdmiTrGY
-         PGy+f5zJiZhs639imfYsu54aPx2MDu8EDWn/huK8HDEoeBY/Dhv9scMbTwMqvQ7hyLEe
-         s35r7ZcesZGcD82HKYTg6wFngel7E1fUgOue6+r3mIJkH2CQv7cSE7aHBmVZ6LIs9sfW
-         imJg==
+        d=gmail.com; s=20230601; t=1763219984; x=1763824784; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3fiwCuDBn6bCR36wBmkPpqkRzBcsOHTvfCQX1x7iMNw=;
+        b=BIReUrW8IodDI3BTSLi5eJqsbhosTlujaIMdNZ64kuUzGjaWAR54bloQBQEMmj1C2A
+         ci1QaSHrXAj3GP/iNFgSIKKaqFymSk20ZLrD013aV8L6HOOs+WYcgcsBQLDUG/+6iBpi
+         s8JH6xjZfZEydcbOOrOZrwjmvmStzngHIiOJUGkP1O7qHfUD+UmNNkLNjCyTkURiLr2O
+         LyZT/+AUzM3hVBdsF/XjY2zbOhj46Bk0gonVIcbVETxM0zQhUTrG7TJ+NS7ariXVEgT7
+         tm/kPXNN81Es1gq/MWkobvluC4DID3vueSJQC6YW8/R6Fy58LcxdMhNnRC4xZLPNLebV
+         BMng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763208132; x=1763812932;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sgNpePqNkrGdvbxFAVaJZLoBIIfUIJU4MKl/OmY0CbM=;
-        b=TMtyokz/gT56SZziUdlLCwcU01KBsZrRmIMW+tuwWS3TVDU1CP6ASpsY4syyi6SARN
-         4yBRvzWZxqav4zOcUz4CbvaWoke4bXot2asXXuoIYxBubexlZfnyODzpFsUMJZvfFSp4
-         6vblVJkyUVNDFcRoz5Jn0pFDxrml8try+4CvBCGUiCuIL6e0UrjbC/RszUDXr7UpVoCS
-         Uygd7NXOTAa/3WGmzNIdl88HxWc1AugcgbtnsCNjA8v9cqW3bemZhWupRiCFa+sJOukV
-         rdwM+bFuEGARnQTBZrXImDwYsjX0Yopr8HUYyvYX/kLiNQ5V4z6qnO9vB+ZruTQwo1fe
-         CRaA==
-X-Forwarded-Encrypted: i=1; AJvYcCX8eS+bXOsIf9ATumeXoAaUmmuqRXxrbI3GRQv9kXfAotIWeAsRr/mzv+Mn3Qm4DDKM1uXGTqeWpca1rA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxfLpbJBR/oOxa3sNnXBdzCfc5b0AgQgNUPs8OknOj5qHA2Lcrg
-	WO/eESQe+9/zrP8bLl/MS3mzg44mbEAo9LtzrvX6j8K6koVk2pEd60DblI3f4Im8YmVtBfC81W0
-	GXPW24UHAb7hgly4lTzuj3Dk8b1sVudIAegXkfHKQsKlT2j1kGe3mjEtzeNVfl/JVSw==
-X-Gm-Gg: ASbGncsN/7kKxGR2eLVCLC6k6OLaywsZ46vxUpnUrcqRtSTfHGe55UYKwU+he/USh84
-	X6+HE3cVx175y5uxqWN5TnzAKkgeDgNfftvq+nVHRwmkcz9sLv9RxLMbanEiyz9PPtIqkOuwpBW
-	rqaWnrb0JBqPKembDRPOhHwffpsUbsb60a74p1tXa9js91HnwRQV3HT48hAZz59YXl46ps95f1P
-	MSHA41BI4Xx5HKqcIlQD7Wr/pmS/Z6LYBx9qEGNUipI3IPW6hwMThILVo/mYyxhh0cyI/9E3xNR
-	Vv/z2TP+r6zGYyrr2G3jU+Kr+xgX2xwLoioWi2tNiiFzke+J+8tYU0N6KTeGYc9gtkkbI74C3MX
-	s1pY9dDRlw511D2nwvYWzQpuxHje2R/UDCkX++HvFwH54T/9Ko4Bpwjs+VcBKGPXQVLhZ7S2Oam
-	Waqh7KiDeZtU/V3oWnsaVI9KU3sZjUCoCa14oMXXEsSE92cD193jfBXEOdkFt358olcg==
-X-Received: by 2002:a05:6122:8114:b0:55b:305b:4e3f with SMTP id 71dfb90a1353d-55b305b726amr226392e0c.21.1763208131771;
-        Sat, 15 Nov 2025 04:02:11 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGAP4ygIrDfpHbXS/pbACjE+GJET/ZPFd0WwWgIb692WyVtbPatbyH8QaBepY7KPQ1X7sBtvQ==
-X-Received: by 2002:a05:6122:8114:b0:55b:305b:4e3f with SMTP id 71dfb90a1353d-55b305b726amr226381e0c.21.1763208131370;
-        Sat, 15 Nov 2025 04:02:11 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6433a4b2615sm5583740a12.32.2025.11.15.04.02.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 15 Nov 2025 04:02:10 -0800 (PST)
-Message-ID: <c2a1e48f-2ba3-4754-85ed-ccf6399d0791@oss.qualcomm.com>
-Date: Sat, 15 Nov 2025 13:02:10 +0100
+        d=1e100.net; s=20230601; t=1763219984; x=1763824784;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3fiwCuDBn6bCR36wBmkPpqkRzBcsOHTvfCQX1x7iMNw=;
+        b=MNRf8KQGAGleUwoT7CRAG8Cm5mJEC/L8U5Th8gm9AIg/lhIdFvNR9QRL1e07pH2x2M
+         4JhnEVkfWp2F85fFG0ZCidX9a7qzZIVh6pW7u1YyqlAKx2WjAcR5t8ejB18uG4ec2eHm
+         VnxvX9u1t4bN1XyHwxZOm2ouT2ONmlz/e5oDGchqQOXJ8Icgy3eGbEPbD2QhJPb7BNgS
+         g5ekn8Qtyxaw5l+D4Y2ai5q2iIk/dNChYlK/2SET+XngvaF5J8QzCEO2Ufb3pupzs39S
+         IRJsLNZuvtWDJZ13S7/WVtVhjPuBsrSh7q/7yiaB8crI0at1FsFHRhbFvFra6DxBJPQv
+         pDjw==
+X-Forwarded-Encrypted: i=1; AJvYcCU9sAMIpngmbiWeocn0emX45r/Kiw6JbO7lsGbPBneAB/KF9U79IEq3CbOoyVzeNu1AMDIB2CDsG2xBkQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgxAF7XELg3Qe+rkXOB59Kuatb9JIV7QKgB29R8tCaWhwkg5sr
+	mB8/VQWeo0v9sENWkqt+rNb99Th3JA+IPu/1Gzfez+QQ9B4kht76ECXM
+X-Gm-Gg: ASbGncuYZzHDIJb/6UupczDjXUxBTwpuoYyWptYnx9vjOOSQjA6NBSz4CS2vyf7xuXN
+	NrA4FqFE0kW2E4pUYCRRtU5td/f3ekgURtLI7atpHnVDXOabsZQNmjMWhyfV0xbqnkhkTy37MV+
+	aqXiexplZHk1MCvaq9xDT94/+FC7HZObvcLSLT4gKK0HGoM2VJexfUP6o2+dpJyCxE/aac3eb4n
+	nfxoqd9Uud70Y8JjFgnT3fHdZM23x/0xNDaFGPA9d4F+pcnd8cPbsMm1OS3ZejnIIsgK1QKWeNX
+	zeOe4uiTMeo5CyMfzBscdO2VUPJwvHnzfL1xbe64AABByWCyPQkI8TiX+ZmgzBUdAE7TttDv/Nn
+	Vdw/Cr0d90x2AUWuXMSBoJf1osZw2PugTepVzNToK+7u0M9Tsc8hMajbNyMfneollkwqIB/6Dff
+	VsRbE=
+X-Google-Smtp-Source: AGHT+IE0WZaMPkQ2gf5Cfbpuz0f0f1hn6sPXTkFITHtyS6NvFcAeITRj13yFAzpQHkMmtxXEeKa0kQ==
+X-Received: by 2002:a05:6000:2010:b0:42b:3c3e:5d53 with SMTP id ffacd0b85a97d-42b5933aff4mr5549415f8f.16.1763219984236;
+        Sat, 15 Nov 2025 07:19:44 -0800 (PST)
+Received: from hamdan-pc.. ([39.34.132.139])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53e982d6sm16665382f8f.21.2025.11.15.07.19.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 Nov 2025 07:19:43 -0800 (PST)
+From: Hamdan Khan <hamdankhan212@gmail.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	andy@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Hamdan Khan <hamdankhan212@gmail.com>
+Subject: [PATCH] staging: media: atomisp: Fix typos and comments alignment issue in include/linux/* header files
+Date: Sat, 15 Nov 2025 20:18:40 +0500
+Message-ID: <20251115151840.6366-1-hamdankhan212@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [ANN] Media Summit 2026: co-locate again with Embedded Recipes?
-To: Hans Verkuil <hverkuil+cisco@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <0fa3fccd-c619-4a98-b50c-41fd513a847c@kernel.org>
-From: Hans de Goede <johannes.goede@oss.qualcomm.com>
-Content-Language: en-US, nl
-In-Reply-To: <0fa3fccd-c619-4a98-b50c-41fd513a847c@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE1MDA5OCBTYWx0ZWRfX4lBwi1+8NlpX
- aTtltnYVslZIbzsOBXOpw53EfVf/NhFHaiUEa1z924NCvRnbPablIDz28iK2LAz3ohNLN4hlzHL
- Ny1X1g38GccjLTk/o8paFpoOR+C3H2vaYTdMxkJ7t6g4Xz5BNMEhyUQUpt+3VoCLXXYygRo9yXQ
- 9W9MezNysvXFILcSlBIurpPcmJi1TnR17r7Npt+ZuoT51mp6rCZEOcpWIsPKtylb8q4fmo90pE7
- aVB/1VJNJfglyKwHK4CAaC8Qd0tYMcNI/GJGDU481sgF5o1d4smXwLnU6G2YgZGONyDaCEITAAb
- loVo2RIl+HQoe3XWvFYZ8vj3KvGdcs9u+5J5hATV6wJbRMQF2tfLUbSjAKBI/IIP1sLM14oPKU0
- vwTv0jyziUe9iDLLmduWtICHs8LSpg==
-X-Authority-Analysis: v=2.4 cv=BPK+bVQG c=1 sm=1 tr=0 ts=69186bc4 cx=c_pps
- a=wuOIiItHwq1biOnFUQQHKA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=ujZUX0x9v-1goGDpkj0A:9 a=QEXdDO2ut3YA:10 a=XD7yVLdPMpWraOa8Un9W:22
- a=HhbK4dLum7pmb74im6QT:22
-X-Proofpoint-ORIG-GUID: vYtXf5TnOdUVm8otLAxxDPSvpm8iArmv
-X-Proofpoint-GUID: vYtXf5TnOdUVm8otLAxxDPSvpm8iArmv
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-15_04,2025-11-13_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 priorityscore=1501 adultscore=0 suspectscore=0 phishscore=0
- malwarescore=0 impostorscore=0 bulkscore=0 lowpriorityscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511150098
+Content-Transfer-Encoding: 8bit
 
-Hi,
+This patch fixes minor comment and code alignment issues in
+atomisp/include/linux/*.h header files. Some of them were warnings
+generated by checkpatch.pl (missing * at the start of the line or */
+present in the same line)
 
-On 15-Oct-25 11:08 AM, Hans Verkuil wrote:
-> Hi all,
-> 
-> The Embedded Recipes conference 2026 will be May 27 and 28, again in Nice, same venue
-> as this year (flamingos!).
-> 
-> We co-located with ER this year, and I thought that was quite successful. I also liked
-> the meeting room we had, so I plan to be early for once and see if we can get the same
-> meeting room for (hopefully) Tuesday May 26 2026.
-> 
-> But that assumes that there are no objections. The alternative would be to co-locate with
-> the Embedded Linux Conference Europe in Prague on October 7-9 2026.
-> 
-> Let me know if co-locating with the ER 2026 conference is a problem, or if you really
-> prefer the ELCE, or have an alternative.
-> 
-> If I don't hear any objections by the end of the month, then I'll see if I can get the
-> meeting room organized.
+The changes are code-style related only and don't affect the
+functionality.
 
-I'm a bit late with replying, but it looks like this thread can use
-a bump anyways.
+Signed-off-by: Hamdan Khan <hamdankhan212@gmail.com>
+---
+ .../media/atomisp/include/linux/atomisp.h     | 30 +++++++++++--------
+ .../include/linux/atomisp_gmin_platform.h     |  7 ++---
+ .../atomisp/include/linux/atomisp_platform.h  | 21 +++++++------
+ 3 files changed, 32 insertions(+), 26 deletions(-)
 
-I think that co-locating this with ER in Nice again and doing it the day before ER
-would be a great idea, so +1 from me on that.
-
-Regards,
-
-Hans
-
-
+diff --git a/drivers/staging/media/atomisp/include/linux/atomisp.h b/drivers/staging/media/atomisp/include/linux/atomisp.h
+index 3c8fa3f5808d..bce4e5f1bfc7 100644
+--- a/drivers/staging/media/atomisp/include/linux/atomisp.h
++++ b/drivers/staging/media/atomisp/include/linux/atomisp.h
+@@ -146,8 +146,7 @@ struct atomisp_3a_config {
+ 	unsigned int ae_y_coef_r;	/* [gain] Weight of R for Y */
+ 	unsigned int ae_y_coef_g;	/* [gain] Weight of G for Y */
+ 	unsigned int ae_y_coef_b;	/* [gain] Weight of B for Y */
+-	unsigned int awb_lg_high_raw;	/* [intensity]
+-					   AWB level gate high for raw */
++	unsigned int awb_lg_high_raw;	/* [intensity] AWB level gate high for raw */
+ 	unsigned int awb_lg_low;	/* [intensity] AWB level gate low */
+ 	unsigned int awb_lg_high;	/* [intensity] AWB level gate high */
+ 	int af_fir1_coef[7];	/* [factor] AF FIR coefficients of fir1 */
+@@ -272,8 +271,10 @@ struct atomisp_wb_config {
+ /* Color Space Conversion settings */
+ struct atomisp_cc_config {
+ 	unsigned int fraction_bits;
+-	int matrix[3 * 3];	/* RGB2YUV Color matrix, signed
+-				   <13-fraction_bits>.<fraction_bits> */
++	/* RGB2YUV Color matrix, signed
++	 * <13-fraction_bits>.<fraction_bits>
++	 */
++	int matrix[3 * 3];
+ };
+ 
+ /* De pixel noise configuration */
+@@ -425,10 +426,8 @@ struct atomisp_parameters {
+ 	struct atomisp_3a_config   *a3a_config; /* 3A Statistics config */
+ 	struct atomisp_xnr_config  *xnr_config; /* eXtra Noise Reduction */
+ 	struct atomisp_dz_config   *dz_config;  /* Digital Zoom */
+-	struct atomisp_cc_config *yuv2rgb_cc_config; /* Color
+-							Correction config */
+-	struct atomisp_cc_config *rgb2yuv_cc_config; /* Color
+-							Correction config */
++	struct atomisp_cc_config *yuv2rgb_cc_config; /* Color Correction config */
++	struct atomisp_cc_config *rgb2yuv_cc_config; /* Color Correction config */
+ 	struct atomisp_macc_table  *macc_table;
+ 	struct atomisp_gamma_table *gamma_table;
+ 	struct atomisp_ctc_table   *ctc_table;
+@@ -538,7 +537,8 @@ struct atomisp_ctc_table {
+ 
+ /* Parameter for overlay image loading */
+ struct atomisp_overlay {
+-	/* the frame containing the overlay data The overlay frame width should
++	/*
++	 * the frame containing the overlay data The overlay frame width should
+ 	 * be the multiples of 2*ISP_VEC_NELEMS. The overlay frame height
+ 	 * should be the multiples of 2.
+ 	 */
+@@ -562,10 +562,12 @@ struct atomisp_overlay {
+ 	/* the blending percent of overlay data for V subpixels */
+ 	unsigned char blend_overlay_perc_v;
+ 	/* the overlay start x pixel position on output frame It should be the
+-	   multiples of 2*ISP_VEC_NELEMS. */
++	 * multiples of 2*ISP_VEC_NELEMS.
++	 */
+ 	unsigned int overlay_start_x;
+ 	/* the overlay start y pixel position on output frame It should be the
+-	   multiples of 2. */
++	 * multiples of 2.
++	 */
+ 	unsigned int overlay_start_y;
+ };
+ 
+@@ -836,8 +838,10 @@ enum atomisp_burst_capture_options {
+ #define V4L2_CID_ATOMISP_LOW_LIGHT \
+ 	(V4L2_CID_PRIVATE_BASE + 5)
+ 
+-/* Camera class:
+- * Exposure, Flash and privacy (indicator) light controls, to be upstreamed */
++/*
++ * Camera class:
++ * Exposure, Flash and privacy (indicator) light controls, to be upstreamed
++ */
+ #define V4L2_CID_CAMERA_LASTP1             (V4L2_CID_CAMERA_CLASS_BASE + 1024)
+ 
+ #define V4L2_CID_RUN_MODE			(V4L2_CID_CAMERA_LASTP1 + 20)
+diff --git a/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h b/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h
+index 426c5ee4ec18..415b265505c7 100644
+--- a/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h
++++ b/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h
+@@ -15,8 +15,7 @@ int atomisp_gmin_remove_subdev(struct v4l2_subdev *sd);
+ int gmin_get_var_int(struct device *dev, bool is_gmin,
+ 		     const char *var, int def);
+ struct camera_sensor_platform_data *
+-gmin_camera_platform_data(
+-    struct v4l2_subdev *subdev,
+-    enum atomisp_input_format csi_format,
+-    enum atomisp_bayer_order csi_bayer);
++gmin_camera_platform_data(struct v4l2_subdev *subdev,
++			  enum atomisp_input_format csi_format,
++			  enum atomisp_bayer_order csi_bayer);
+ #endif
+diff --git a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
+index 6146555fe9cf..2378a21ee961 100644
+--- a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
++++ b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
+@@ -72,10 +72,12 @@ enum atomisp_input_format {
+ 
+ 	/* CSI2-MIPI specific format: YUV data.
+ 	 */
+-	ATOMISP_INPUT_FORMAT_YUV420_8_SHIFT,  /* YUV420 8-bit (Chroma Shifted
+-						 Pixel Sampling) */
+-	ATOMISP_INPUT_FORMAT_YUV420_10_SHIFT, /* YUV420 8-bit (Chroma Shifted
+-						 Pixel Sampling) */
++	ATOMISP_INPUT_FORMAT_YUV420_8_SHIFT,   /* YUV420 8-bit (Chroma Shifted
++						* Pixel Sampling)
++						*/
++	ATOMISP_INPUT_FORMAT_YUV420_10_SHIFT,  /* YUV420 10-bit (Chroma Shifted
++						* Pixel Sampling)
++						*/
+ 
+ 	/* CSI2-MIPI specific format: Generic long packet data
+ 	 */
+@@ -105,7 +107,7 @@ struct intel_v4l2_subdev_table {
+ };
+ 
+ /*
+- *  Sensor of external ISP can send multiple streams with different mipi data
++ * Sensor of external ISP can send multiple streams with different mipi data
+  * type in the same virtual channel. This information needs to come from the
+  * sensor or external ISP
+  */
+@@ -119,13 +121,14 @@ struct atomisp_input_stream_info {
+ 	enum atomisp_input_stream_id stream;
+ 	u8 enable;
+ 	/* Sensor driver fills ch_id with the id
+-	   of the virtual channel. */
++	 * of the virtual channel.
++	 */
+ 	u8 ch_id;
+ 	/* Tells how many streams in this virtual channel. If 0 ignore rest
+-	 * and the input format will be from mipi_info */
++	 * and the input format will be from mipi_info
++	 */
+ 	u8 isys_configs;
+-	/*
+-	 * if more isys_configs is more than 0, sensor needs to configure the
++	/* If isys_configs is more than 0, sensor needs to configure the
+ 	 * input format differently. width and height can be 0. If width and
+ 	 * height is not zero, then the corresponding data needs to be set
+ 	 */
+-- 
+2.43.0
 
 
