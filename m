@@ -1,150 +1,205 @@
-Return-Path: <linux-media+bounces-47158-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47159-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99E63C5FC9A
-	for <lists+linux-media@lfdr.de>; Sat, 15 Nov 2025 01:58:33 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 647CEC5FD59
+	for <lists+linux-media@lfdr.de>; Sat, 15 Nov 2025 02:30:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 419F3358A00
-	for <lists+linux-media@lfdr.de>; Sat, 15 Nov 2025 00:58:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0C6073BAE1D
+	for <lists+linux-media@lfdr.de>; Sat, 15 Nov 2025 01:30:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A41531A256B;
-	Sat, 15 Nov 2025 00:58:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kOhzwIcJ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07DD11C3BF7;
+	Sat, 15 Nov 2025 01:30:39 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from irl.hu (irl.hu [95.85.9.111])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A9AC14E2E2
-	for <linux-media@vger.kernel.org>; Sat, 15 Nov 2025 00:58:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6337613D521;
+	Sat, 15 Nov 2025 01:30:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763168291; cv=none; b=HlZcLuHsnws5t0w1I2yZSihHQ3D4nH39KCP7itEmAz0pnyKJFfh7yeSnsTS4x0k2QTfl1i6zgaxVFVF9AmXOcfme4HpFGO3NsjwkzagE4Awo8asOV+HtYsYqMvd7tG9mKvCYct2t34mMq50finXn6/+7UJTC077pPMffl9d4U7Y=
+	t=1763170238; cv=none; b=d2p6z4mmridl2u2cVDrQv7zvX17MK/NogLTfk9ePmYYUfl9x+g/AQUFpaN0xGlPwUqlAvJA8Vt82Jn2B3sJo5TAbG9O9Bmlkrkn/kBA/Y5NmqvuM1m7J8aXkYNVTYym8UGrqmxgmJP/tEqZIk8a+/hcxwrU/PBWWMGQjeQoQIDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763168291; c=relaxed/simple;
-	bh=OhgMBzBFmABnP0/gJkc/xt26r8btIyn0XQcPsvh2ptc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z7HPoqqlk70f7/MZhg4pCn/j9vUljer7U3Ad8jNU7Fa8cLKHdP5nLeVD8BkTOQdPMiVuX16Kv+Unh9bH5JYgek3gB9mhI8ncQe+PkH7M43kxkS99pjXL+nb0i5p8KCSs+mCX6SSDV4Pihymb07A1buXkmMdiqN8Ogh985NfawtA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kOhzwIcJ; arc=none smtp.client-ip=209.85.221.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-55b219b2242so528150e0c.0
-        for <linux-media@vger.kernel.org>; Fri, 14 Nov 2025 16:58:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763168287; x=1763773087; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+mEO8hF75rBOxmwN/ro6wDW7KvehJwNDYbmq5YFbJcw=;
-        b=kOhzwIcJf2SyKsHF+ZpJ1DSg2DqwE0vc2ldPdwdjX5jkdjEMR6kk1TpF+HYU42nDMW
-         LaHNRUGm3dhsC0GiuFec0vyocTaWSzennMxMrcBpUeczZJDJuJLoNEfpowBNTr8X2YYH
-         XTCidp/OjmjRjwCJjqC47RzpaHLIIADd8T/9MO7C8MmfWQSe2OhafSg5ji6f9BfQxzk6
-         ePjRTkvTsqPvzPmydEeDzlnvLKHBawQJLPuk8fPHB5ERkaSAW+mL3DZsUKSXDeHdeiYB
-         g4EGvaAEsg3trY99cQ0f64oPf6bdPnyYmP76nlj4oBJn9zowTq5mVjqLBGZee7t04ZgY
-         0vkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763168287; x=1763773087;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+mEO8hF75rBOxmwN/ro6wDW7KvehJwNDYbmq5YFbJcw=;
-        b=vE6dnmtt3GyC+ttpBeeMjhT492t1/GMZw1VAiWuxnn6Spj+gA+ea3Ajen3i0m7wEQb
-         0AwOZCVPuDC0BkQWEmcLjdZMK88yeRJxkQhkAY/OQJaqkGM3YpAp3GJMVIBx/CXeFlt3
-         vSWEKL0pfNTHuQFPqdfkg7lwUl8SauKLYA+rXSC/eEkcMSKXg8X2pQDU92QM83LM0Kpc
-         9cz9L9bMqrOzL/EIE1qE/StZDlymo3lmDRXbmLl7wLM+UVKQv/wu5DQdtuJpSKibsc0Z
-         pYX171qsVvKIc2bGyhQRX9Kn4mMDjQit10ub8EPqQjU4BirveZXrLOPwz3dR9fVfAoFk
-         VfuA==
-X-Forwarded-Encrypted: i=1; AJvYcCU/0d3t9452jq8DM4USXIbnc5ltYWpTGX3n1QLjNm4zCx5e7q4VuJwjvOkCbI61D7QvC1MIigfMDuzb6w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwqOreIAT2emXiuK5SrCpFZfzBnWi0qYrEfABo5lE7BbQDLK2pA
-	uRYAbdOD4J60UUtK5GPgD21yjBD2UOsoWfMJGXCn3UuSFjSCzlCYMOqv2n3KWyNexmUC7ch3Q4n
-	3AKSkqlUaxZ+6jV+zwk6iNh3OE7ayKCQ=
-X-Gm-Gg: ASbGncvnEmJn1QNGrbF2TkYxebT/1Y3JJ7dPXdUKkTbg9yBKy0wqbuBLqV+beG4BsMV
-	HETNGza9JrbWW99RCW3RIa/zRedhpZro+uVfUsNcVqtOFesQy2edj+KNUy8gPDeGGk6K9cZUKUA
-	ZxmGoDRfgK/Ke/FrpLuYd9iqVw1KKnf563vHhUuq9EecXro+uZ8LQ5sSWQg2FwFHS7UFzPE8uT7
-	sWsdxLLDl3wejZkE1FSqg3dwTsf5iLN4HtyhrkK2nW72/KcqHzvVbg2GkAQWpFXc7f9HybT
-X-Google-Smtp-Source: AGHT+IGn0I+Eso4Cl7gDk3Yoo5jaaOT0AQELEpomQjJxykud0vEW2B5emaAfM8xWxt/7WFzYwb97Hw1Jyv5VyD4metQ=
-X-Received: by 2002:a05:6122:370d:b0:559:14e2:9fc7 with SMTP id
- 71dfb90a1353d-55b1bbdba89mr2374742e0c.0.1763168287188; Fri, 14 Nov 2025
- 16:58:07 -0800 (PST)
+	s=arc-20240116; t=1763170238; c=relaxed/simple;
+	bh=+jjPCsTMv2g9V4AV1f9+ey/xZSQwfi5ZtkXT3bcuN/0=;
+	h=From:To:Cc:Subject:Date:Message-ID:Mime-Version:Content-Type; b=purQikwUW4NLFMc+3jbNdC4lPGEhlIcB9tz5Tnlwd5gZESkHPA+PWCeZ9D71NutQOJqBUzVgF8isQLoOyD1Kf30nDa4PDc5dXCg9jwWxWR5JmEr7jsz/x+hS6DL2ZvzMO4U72OZqcwr52KNKQuoOseESXvm/2wPOWkrYy3o4Tnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
+Received: from fedori.lan (51b69c3a.dsl.pool.telekom.hu [::ffff:81.182.156.58])
+  (AUTH: CRAM-MD5 soyer@irl.hu, )
+  by irl.hu with ESMTPSA
+  id 00000000000830C5.000000006917D7B4.00328662; Sat, 15 Nov 2025 02:30:28 +0100
+From: Gergo Koteles <soyer@irl.hu>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+  Hans de Goede <hansg@kernel.org>,
+  Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+  John Bauer <johnebgood@securitylive.com>,
+  Gergo Koteles <soyer@irl.hu>
+Subject: [PATCH v5] media: uvcvideo: UVC minimum relative pan/tilt/zoom speed fix.
+Date: Sat, 15 Nov 2025 02:30:07 +0100
+Message-ID: <20251115013007.4842-1-soyer@irl.hu>
+X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20251108233200.2068334-1-alex.t.tran@gmail.com> <20251109-hospitable-poised-scorpion-bdf833@kuoka>
-In-Reply-To: <20251109-hospitable-poised-scorpion-bdf833@kuoka>
-From: Alex Tran <alex.t.tran@gmail.com>
-Date: Fri, 14 Nov 2025 16:57:56 -0800
-X-Gm-Features: AWmQ_bnUGRKNx4anGJI7E15WQQM6fLUvzVkG8pZZsuzwuehenpZli6XJcrmAT94
-Message-ID: <CA+hkOd5iAwbKQoNM_qhNc1PpNHw0we3S0J1rFG=W05RnSHR3Bw@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] dt-bindings: media: i2c: et8ek8: document missing
- crc as optional property
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
-	Hans Verkuil <hverkuil+cisco@kernel.org>, linux-media@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Mime-Autoconverted: from 8bit to 7bit by courier 1.0
 
-On Sun, Nov 9, 2025 at 9:18=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.org=
-> wrote:
->
-> On Sat, Nov 08, 2025 at 03:32:00PM -0800, Alex Tran wrote:
-> > Add the optional crc property to the endpoint node for the et8ek8 senso=
-r.
-> > This property enables CRC checksums for the sensor bus and was added to
-> > match the new driver support for reading it from the device tree.
->
-> We do not add bindings because you want this in the driver. Please
-> describe the hardware.
->
-> >
-> > Signed-off-by: Alex Tran <alex.t.tran@gmail.com>
->
-> Your patchser has broken threading. There is no patch #1.
->
-> > ---
-> >  .../devicetree/bindings/media/i2c/toshiba,et8ek8.txt        | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8=
-.txt b/Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.txt
-> > index 8d8e40c56..5fd30f59b 100644
-> > --- a/Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.txt
-> > +++ b/Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.txt
-> > @@ -30,6 +30,12 @@ Endpoint node mandatory properties
-> >  - remote-endpoint: A phandle to the bus receiver's endpoint node.
-> >
-> >
-> > +Endpoint node optional properties
-> > +---------------------------------
-> > +
-> > +- crc: Enable CRC checksums.
->
-> Looks like SW property, so not really suitable for bindings.
->
-> Also, no changes to TXT bindings are accepted, so first this would have
-> to be converted to DT schema.
->
-> Best regards,
-> Krzysztof
->
-Thanks for the review. The et8ek8 sensor has hardware support for CRC
-checksums on CCP2.
-However, the receiver must also support CRC for this to work.
-Whether CRC should be enabled depends on the specific board design and rece=
-iver.
-Regarding the conversion to a DT schema, I'll follow up with a patch
-series v2 that fixes the broken threading and converts the binding to
-a YAML format.
+From: John Bauer <johnebgood@securitylive.com>
 
-Best,
---
-Alex Tran
+For relative PTZ controls, UVC_GET_MIN for b(Pan|Tilt|Zoom)Speed
+returns the minimum speed of the movement in direction specified
+in the sign field.
+
+So in the negative direction, only the slowest speed can be used
+at the moment.
+
+For minimum value, use maximum speed but in negative direction.
+
+Signed-off-by: John Bauer <johnebgood@securitylive.com>
+Signed-off-by: Gergo Koteles <soyer@irl.hu>
+---
+Changes in v5:
+- Rebased on 6.18
+- Link to v4: https://lore.kernel.org/all/cover.1718835633.git.soyer@irl.hu/
+
+Changes in v4:
+- Based on Ricardo's suggestion, only query the min value in uvc_ctrl_set
+  if necessary
+- Rename is_relative_ptz_ctrl function to uvc_ctrl_is_relative_ptz for
+  consistency
+- Rename 'relative speed implementation' to 'relative PTZ controls' in
+  comments
+- Fix indentation of comments
+- Reduce the length of the new lines to 80
+- Link to v3: https://lore.kernel.org/all/cover.1718726777.git.soyer@irl.hu/
+
+Changes in v3:
+- Based on Ricardo's suggestion, I squashed the two patches.
+- Link to v2: https://lore.kernel.org/all/20240405-uvc-fix-relative-ptz-speed-v1-0-c32cdb2a899d@securitylive.com/
+
+Changes in v2:
+- Made recommended changes, moved control check to helper function and removed dead code.
+- Link to v1: https://lore.kernel.org/all/20240326-uvc-relative-ptz-speed-fix-v1-1-453fd5ccfd37@securitylive.com/
+---
+ drivers/media/usb/uvc/uvc_ctrl.c | 52 +++++++++++++++++++++++++-------
+ 1 file changed, 41 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+index 2905505c240c..38a7d71526c2 100644
+--- a/drivers/media/usb/uvc/uvc_ctrl.c
++++ b/drivers/media/usb/uvc/uvc_ctrl.c
+@@ -526,8 +526,6 @@ static int uvc_ctrl_get_rel_speed(struct uvc_control_mapping *mapping,
+ 		*out = (sign == 0) ? 0 : (sign > 0 ? value : -value);
+ 		return 0;
+ 	case UVC_GET_MIN:
+-		*out = -value;
+-		return 0;
+ 	case UVC_GET_MAX:
+ 	case UVC_GET_RES:
+ 	case UVC_GET_DEF:
+@@ -1517,6 +1515,17 @@ static u32 uvc_get_ctrl_bitmap(struct uvc_control *ctrl,
+ 	return ~0;
+ }
+ 
++static bool uvc_ctrl_is_relative_ptz(__u32 ctrl_id)
++{
++	switch (ctrl_id) {
++	case V4L2_CID_ZOOM_CONTINUOUS:
++	case V4L2_CID_PAN_SPEED:
++	case V4L2_CID_TILT_SPEED:
++		return true;
++	}
++	return false;
++}
++
+ /*
+  * Maximum retry count to avoid spurious errors with controls. Increasing this
+  * value does no seem to produce better results in the tested hardware.
+@@ -1576,18 +1585,28 @@ static int __uvc_queryctrl_boundaries(struct uvc_video_chain *chain,
+ 		break;
+ 	}
+ 
+-	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MIN)
+-		v4l2_ctrl->minimum = uvc_mapping_get_s32(mapping, UVC_GET_MIN,
+-				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN));
+-	else
+-		v4l2_ctrl->minimum = 0;
+-
+ 	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MAX)
+ 		v4l2_ctrl->maximum = uvc_mapping_get_s32(mapping, UVC_GET_MAX,
+ 				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
+ 	else
+ 		v4l2_ctrl->maximum = 0;
+ 
++	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MIN) {
++		/*
++		 * For relative PTZ controls, UVC_GET_MIN for
++		 * b(Pan|Tilt|Zoom)Speed returns the minimum speed of the
++		 * movement in direction specified in the sign field.
++		 * For minimum value, use maximum speed but in negative direction.
++		 */
++		if (uvc_ctrl_is_relative_ptz(v4l2_ctrl->id))
++			v4l2_ctrl->minimum = -v4l2_ctrl->maximum;
++		else
++			v4l2_ctrl->minimum = uvc_mapping_get_s32(mapping,
++				UVC_GET_MIN, uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN));
++	} else {
++		v4l2_ctrl->minimum = 0;
++	}
++
+ 	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_RES)
+ 		v4l2_ctrl->step = uvc_mapping_get_s32(mapping, UVC_GET_RES,
+ 				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
+@@ -2449,6 +2468,7 @@ int uvc_ctrl_get(struct uvc_video_chain *chain, u32 which,
+ 
+ static int uvc_ctrl_clamp(struct uvc_video_chain *chain,
+ 			  struct uvc_control *ctrl,
++			  u32 v4l2_id,
+ 			  struct uvc_control_mapping *mapping,
+ 			  s32 *value_in_out)
+ {
+@@ -2466,10 +2486,20 @@ static int uvc_ctrl_clamp(struct uvc_video_chain *chain,
+ 				return ret;
+ 		}
+ 
+-		min = uvc_mapping_get_s32(mapping, UVC_GET_MIN,
+-					  uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN));
+ 		max = uvc_mapping_get_s32(mapping, UVC_GET_MAX,
+ 					  uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
++		/*
++		 * For relative PTZ controls, UVC_GET_MIN for
++		 * b(Pan|Tilt|Zoom)Speed returns the minimum speed of the
++		 * movement in direction specified in the sign field.
++		 * For minimum value, use maximum speed but in negative direction.
++		 */
++		if (uvc_ctrl_is_relative_ptz(v4l2_id))
++			min = -max;
++		else
++			min = uvc_mapping_get_s32(mapping, UVC_GET_MIN,
++					uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN));
++
+ 		step = uvc_mapping_get_s32(mapping, UVC_GET_RES,
+ 					   uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
+ 		if (step == 0)
+@@ -2583,7 +2613,7 @@ int uvc_ctrl_set(struct uvc_fh *handle, struct v4l2_ext_control *xctrl)
+ 	if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR))
+ 		return -EACCES;
+ 
+-	ret = uvc_ctrl_clamp(chain, ctrl, mapping, &xctrl->value);
++	ret = uvc_ctrl_clamp(chain, ctrl, xctrl->id, mapping, &xctrl->value);
+ 	if (ret)
+ 		return ret;
+ 	/*
+-- 
+2.51.1
+
 
