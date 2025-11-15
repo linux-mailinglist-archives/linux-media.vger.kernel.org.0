@@ -1,124 +1,91 @@
-Return-Path: <linux-media+bounces-47161-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47162-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 329EAC602E0
-	for <lists+linux-media@lfdr.de>; Sat, 15 Nov 2025 10:54:30 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96104C603DF
+	for <lists+linux-media@lfdr.de>; Sat, 15 Nov 2025 12:26:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 0146D4E1378
-	for <lists+linux-media@lfdr.de>; Sat, 15 Nov 2025 09:54:29 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 872E335BD66
+	for <lists+linux-media@lfdr.de>; Sat, 15 Nov 2025 11:26:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A08F4283129;
-	Sat, 15 Nov 2025 09:54:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 795E329A300;
+	Sat, 15 Nov 2025 11:25:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="caf2ADpr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jzMjwTPE"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CF0423D7C4
-	for <linux-media@vger.kernel.org>; Sat, 15 Nov 2025 09:54:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C16CC2222C4;
+	Sat, 15 Nov 2025 11:25:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763200464; cv=none; b=uQiKf6/L2tpaYpS181rJNEHYpv16jdjAbnb/89cI7oyjSweDMvRqW4JrCQIsUReN5QkWfcGKh/31i2fzrn7mDH4m99JN4TxzO/g+nw2rNo1E5krxVDymNdN3NC/immB4kBepvacYW0sIpSz8fgc5T7mLJptTloZOBTle0h9srSQ=
+	t=1763205950; cv=none; b=GbMjT0V2Ej0NabHa5n9s3oKuwmVKge09fkHTYONdbHOPzOsZx2ELG1J7VN85pDn3Ul17Bsv3LqGuMsJ5Q8KkqEF86f/JV2YQZ/KnphmtE33/wMfxsJpKEQLOyJbCj1IbW6k2O45qWlgrNFeFfA4SF4YUFvPm6++gD3lfYaLSWQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763200464; c=relaxed/simple;
-	bh=r2bSFw61WdCTEV2xaDuuulDGVxOUzrPQIk3OqXed+2U=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=ayXLo287G3fpdQwKgfu8bfVR4C3/74gWuPZw58tojS97d0n3TCBePoti2fnwLKoA/dw7JorKah+qz90mS5m2zmZd+50UNbnKsVDA2zPDg4SS/J9qlSTDeegNRd32QLYCu6D6Msk6+1Imsdp4sinLdREv0T1KG9R1xJiu31AgC6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=caf2ADpr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CB5FC113D0;
-	Sat, 15 Nov 2025 09:54:22 +0000 (UTC)
+	s=arc-20240116; t=1763205950; c=relaxed/simple;
+	bh=ihnAcrwzmNvgHB9t80E3vh83Va4si89oujP9YCym2h8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DRQZpnAmpsnqnxs1giSkcX1z89h5RtArMryQsWWtomZCVfDv4kRP++QfDCKvAb+eZhzx+nfwev54kA9LI7hqdq8Hu8lMq5fzs0cy24ifFM+ocJ+K6y23+4O6w4q+FkzHky+8rZ6hjxmfFs+dyUB+fDDXmQSqBR2l/UmS3EUjeqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jzMjwTPE; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5829C4CEF5;
+	Sat, 15 Nov 2025 11:25:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763200463;
-	bh=r2bSFw61WdCTEV2xaDuuulDGVxOUzrPQIk3OqXed+2U=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=caf2ADprjdg3PIMvAE3OszQ0ccqyzSHJt6xEQB1JpOUUA2kOD9G2gZ9AVnMUxK4YF
-	 52/k92/1XMUjgOtTQ/jLFu3/hKnGixnZ1VJ42UQqumww5f7NKONwVy2GOZK4K/prYW
-	 AYM78vGQXeomxQdshDdxUj7uDbyYNrRyXX38Z6tRBc9HX7hzQBwgTB3r/nD45eBFC2
-	 y2TSuJRQ/NmQIRb+V8uPYEDe1BCsuztOLjLWk2Ts2ABs8h4MncvXCrErLMaK8JsEJS
-	 Z6KGhnNUASd7Dap3yklO3BiyQGUmU1FXZSyiFhsSHt1reFsAkttv4PgL3jyeJjE7rh
-	 YI9dz6zeWCFeQ==
-Message-ID: <60754b1c-7f4d-4a7f-abe2-5b23c0f40aba@kernel.org>
-Date: Sat, 15 Nov 2025 10:54:20 +0100
+	s=k20201202; t=1763205950;
+	bh=ihnAcrwzmNvgHB9t80E3vh83Va4si89oujP9YCym2h8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jzMjwTPEpRbot8bpnCZe84zsYrveejOWKshH765b5fhn7ws+wT9keiBLsBaVWmU68
+	 MnnjHSoWXtGYtUX9KdV9t+Fmr035XnYuDBNiP1M4X5p+W+JYj/XEGqiMoqDsfHdrrB
+	 fdPRlO8JPG4UkS87xxC4gvOJGACEk61MhWtdgREDsOgbOZRrpeKnx6MSRxGBMp0Xwa
+	 vnhq+AXrZq4pjNHp0rcy6I9KUhVYeG06y56HLEoCurT4K4MfP7WoXinQK9WzyXSyt6
+	 llQptJNNH+LGubtBPmgUXMmbaWS09hbu6Ly5FyYHEl6DAbqqYrprbIEcqz+IC4rIOW
+	 +3V8nLhkMXnoA==
+Date: Sat, 15 Nov 2025 12:25:47 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
+Cc: Loic Poulain <loic.poulain@oss.qualcomm.com>, 
+	Robert Foss <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, aiqun.yu@oss.qualcomm.com, 
+	tingwei.zhang@oss.qualcomm.com, trilok.soni@oss.qualcomm.com, yijie.yang@oss.qualcomm.com, 
+	Jingyi Wang <jingyi.wang@oss.qualcomm.com>, Atiya Kailany <atiya.kailany@oss.qualcomm.com>
+Subject: Re: [PATCH v6 1/5] media: dt-bindings: Add CAMSS device for Kaanapali
+Message-ID: <20251115-masterful-foamy-malkoha-ffc0e4@kuoka>
+References: <20251113-add-support-for-camss-on-kaanapali-v6-0-1e6038785a8e@oss.qualcomm.com>
+ <20251113-add-support-for-camss-on-kaanapali-v6-1-1e6038785a8e@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH] media: mali-c55: Mark pm handlers as __maybe_unused
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Dan Scally <dan.scally@ideasonboard.com>
-Cc: linux-media@vger.kernel.org
-References: <20251114201921.562337-1-jacopo.mondi@ideasonboard.com>
-Content-Language: en-US, nl
-In-Reply-To: <20251114201921.562337-1-jacopo.mondi@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251113-add-support-for-camss-on-kaanapali-v6-1-1e6038785a8e@oss.qualcomm.com>
 
-On 14/11/2025 21:19, Jacopo Mondi wrote:
-> As the Mali-C55 driver is instrumented to work without depending on
-> CONFIG_PM, mark the two pm_runtime handlers as __maybe_unused to
-> suppress the compiler warning when compiling without CONFIG_PM.
+On Thu, Nov 13, 2025 at 07:29:18PM -0800, Hangxiang Ma wrote:
+> Add the compatible string "qcom,kaanapali-camss" to support the Camera
+> Subsystem (CAMSS) on the Qualcomm Kaanapali platform.
 > 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> The Kaanapali platform provides:
+> - 3 x VFE, 5 RDI per VFE
+> - 2 x VFE Lite, 4 RDI per VFE Lite
+> - 3 x CSID
+> - 2 x CSID Lite
+> - 6 x CSIPHY
+> 
+> Signed-off-by: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
 > ---
-> Late fix for Mali C55 PR
-> 
-> fixes:
-> https://gitlab.freedesktop.org/linux-media/media-committers/-/jobs/87903226
-> 
-> it's great to have CI, Thanks!
+>  .../bindings/media/qcom,kaanapali-camss.yaml       | 639 +++++++++++++++++++++
+>  1 file changed, 639 insertions(+)
 
-I wondered why I didn't see this issue until CI started on the merge request.
-It turned out that I used to have the FULL_CI variable set to 1 in gitlab, but
-at some point it was removed. Either by me or perhaps by a gitlab update, possibly
-when we moved to a different server. In any case, I now set it again and I now
-see the same issue.
+Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-You can do the same: setting FULL_CI to 1 will enable additional tests, which
-is useful when prepping a PR.
-
-Regards,
-
-	Hans
-
-> 
-> ---
->  drivers/media/platform/arm/mali-c55/mali-c55-core.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-core.c b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-> index b23d543cf496..43b834459ccf 100644
-> --- a/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-> @@ -707,7 +707,7 @@ static void __mali_c55_power_off(struct mali_c55 *mali_c55)
->  	clk_bulk_disable_unprepare(ARRAY_SIZE(mali_c55->clks), mali_c55->clks);
->  }
-> 
-> -static int mali_c55_runtime_suspend(struct device *dev)
-> +static int __maybe_unused mali_c55_runtime_suspend(struct device *dev)
->  {
->  	struct mali_c55 *mali_c55 = dev_get_drvdata(dev);
-> 
-> @@ -770,7 +770,7 @@ static int __mali_c55_power_on(struct mali_c55 *mali_c55)
->  	return 0;
->  }
-> 
-> -static int mali_c55_runtime_resume(struct device *dev)
-> +static int __maybe_unused mali_c55_runtime_resume(struct device *dev)
->  {
->  	struct mali_c55 *mali_c55 = dev_get_drvdata(dev);
->  	int ret;
-> --
-> 2.51.1
-> 
+Best regards,
+Krzysztof
 
 
