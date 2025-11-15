@@ -1,205 +1,170 @@
-Return-Path: <linux-media+bounces-47159-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47160-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 647CEC5FD59
-	for <lists+linux-media@lfdr.de>; Sat, 15 Nov 2025 02:30:46 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC93CC60048
+	for <lists+linux-media@lfdr.de>; Sat, 15 Nov 2025 06:54:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0C6073BAE1D
-	for <lists+linux-media@lfdr.de>; Sat, 15 Nov 2025 01:30:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5206E3BF4EC
+	for <lists+linux-media@lfdr.de>; Sat, 15 Nov 2025 05:54:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07DD11C3BF7;
-	Sat, 15 Nov 2025 01:30:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31F12215F42;
+	Sat, 15 Nov 2025 05:54:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Jdh4rJVU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from irl.hu (irl.hu [95.85.9.111])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6337613D521;
-	Sat, 15 Nov 2025 01:30:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF8DE18CC13;
+	Sat, 15 Nov 2025 05:53:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763170238; cv=none; b=d2p6z4mmridl2u2cVDrQv7zvX17MK/NogLTfk9ePmYYUfl9x+g/AQUFpaN0xGlPwUqlAvJA8Vt82Jn2B3sJo5TAbG9O9Bmlkrkn/kBA/Y5NmqvuM1m7J8aXkYNVTYym8UGrqmxgmJP/tEqZIk8a+/hcxwrU/PBWWMGQjeQoQIDc=
+	t=1763186042; cv=none; b=smtSsV9vt2il/12RgPKEKGRGi8R+Qg1zr7/xNS5O/hzf9O6AQ1n4wSOG90xbTZw9QOsBtzbvFCmiNcpYODNXFT5fMCv+9DzWC6n8Y27ECp9cmbKjnEm1/esBKGDesR2AfL8XivM/rC2CVdBRmDLf2W4XvEtVPmYnTDOp7Yv5enU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763170238; c=relaxed/simple;
-	bh=+jjPCsTMv2g9V4AV1f9+ey/xZSQwfi5ZtkXT3bcuN/0=;
-	h=From:To:Cc:Subject:Date:Message-ID:Mime-Version:Content-Type; b=purQikwUW4NLFMc+3jbNdC4lPGEhlIcB9tz5Tnlwd5gZESkHPA+PWCeZ9D71NutQOJqBUzVgF8isQLoOyD1Kf30nDa4PDc5dXCg9jwWxWR5JmEr7jsz/x+hS6DL2ZvzMO4U72OZqcwr52KNKQuoOseESXvm/2wPOWkrYy3o4Tnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
-Received: from fedori.lan (51b69c3a.dsl.pool.telekom.hu [::ffff:81.182.156.58])
-  (AUTH: CRAM-MD5 soyer@irl.hu, )
-  by irl.hu with ESMTPSA
-  id 00000000000830C5.000000006917D7B4.00328662; Sat, 15 Nov 2025 02:30:28 +0100
-From: Gergo Koteles <soyer@irl.hu>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-  Hans de Goede <hansg@kernel.org>,
-  Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-  John Bauer <johnebgood@securitylive.com>,
-  Gergo Koteles <soyer@irl.hu>
-Subject: [PATCH v5] media: uvcvideo: UVC minimum relative pan/tilt/zoom speed fix.
-Date: Sat, 15 Nov 2025 02:30:07 +0100
-Message-ID: <20251115013007.4842-1-soyer@irl.hu>
-X-Mailer: git-send-email 2.51.1
+	s=arc-20240116; t=1763186042; c=relaxed/simple;
+	bh=oGNpuLcmNm4SLYmLFUGFfU/kg9V/1OopHxb4g+2YNC4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=GANlP/0Tv3kkCJ+ZSyqsvivKXZWaKEX1GBfn7E1rn+bdNwSX4uwmReSGfw3/XDha+bbZwXnXWlRhLZOWeAGeILFpZkbBu/qogVwrnYjkdR4lFfMNrTLBCmVyNUC7FBHyqdu8HFIl3L/WOBPx2MnfBCxWDUEQLDuxaLyZcgmKF5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Jdh4rJVU; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AF4e1sW1103566;
+	Sat, 15 Nov 2025 05:53:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	aJpW5j7MocVlQ3SqpFQ/R4aiA5eLAfFTD2hyk10hb8c=; b=Jdh4rJVUtezAxl6m
+	nYzdvF2BfQolewQte7sObWllAVt/oJVg1cyoYQqaIuU3EraALk6F0s0BIV84prTN
+	p9XeDlw29poWz3yCiZeM+CGy8pNXyKj08IkWcHasQUnn6lpqkK5it68xetQ2J2wB
+	iQ/w9rCCqYhGLr71svK2PerMwARI8d3bhMlIyRZZOdyazl8CYNObANYWsHONCQnE
+	O4PmxW+HFnxe1cfg9EtUcPDvnLhnVXsIxMj3ujzbSk+oPKBGcOK3vznZqiTGGO5h
+	tIvs/PLAkX9KWoQtOB9DdEmgtB+T1LjCV/9HPEPYAZmwOb/JdxeapdFjQK8zpXUI
+	kLlTAA==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4aejph02w1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 15 Nov 2025 05:53:47 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5AF5rkUN010797
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 15 Nov 2025 05:53:46 GMT
+Received: from [10.216.38.157] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 14 Nov
+ 2025 21:53:39 -0800
+Message-ID: <22350774-20da-42ff-a6c2-02fab121f4b5@quicinc.com>
+Date: Sat, 15 Nov 2025 11:23:30 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Mime-Autoconverted: from 8bit to 7bit by courier 1.0
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 3/3] arm64: dts: qcom: monaco-evk-camera: Add DT
+ overlay
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+        Vikram Sharma
+	<quic_vikramsa@quicinc.com>,
+        <bryan.odonoghue@linaro.org>, <mchehab@kernel.org>, <robh@kernel.org>,
+        <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <andersson@kernel.org>,
+        <konradybcio@kernel.org>, <hverkuil-cisco@xs4all.nl>,
+        <cros-qcom-dts-watchers@chromium.org>, <catalin.marinas@arm.com>,
+        <will@kernel.org>
+CC: <linux-arm-kernel@lists.infradead.org>, <quic_svankada@quicinc.com>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Ravi Shankar
+	<quic_rshankar@quicinc.com>,
+        Vishal Verma <quic_vishverm@quicinc.com>,
+        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+References: <20251114064541.446276-1-quic_vikramsa@quicinc.com>
+ <20251114064541.446276-4-quic_vikramsa@quicinc.com>
+ <a5ae933d-c5d1-4094-b4a1-de52060e0786@oss.qualcomm.com>
+Content-Language: en-US
+From: Nihal Kumar Gupta <quic_nihalkum@quicinc.com>
+In-Reply-To: <a5ae933d-c5d1-4094-b4a1-de52060e0786@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE1MDA0NiBTYWx0ZWRfX5OxJQXPM193g
+ stAn1JeRwBliK55fXewzsEyJGSawrtugqFizZuDvIszIkCaQdcd8AJuww38dMMktAi2i1xfOLoi
+ XjzytoMPSaVpUy4Eq9CIzhJLMjoTFqdHhQD9dC/TUnk0ojNusnhwYuhbGqv7bejCYz8vvBf+/e4
+ vVPiU1aeSq5simOtjWpXW1Xf22BopsofaZcEgwWXA+8MHEd+v6GGU+2CFlM19cRXDyiFB3J6in8
+ Waf9XkPIptBLQI5VByYTjp5mCSeLXcKYm8vDKFByuhvwV8ffrjz8QQSdigtThAbvl2odRh4ePoG
+ ahgx7IXgKst+m8fq0NJ6QHrEBkj5YYj92zCf+7ZdRtBVAxTENTnR5ESZN7wo+Vp6E08SGIzTE3I
+ vd69MkFEcs34Y9n9rHMwAa5shtAfEA==
+X-Proofpoint-GUID: tHKamVMcx8f6uAcjWA9C5Cik_mG7iFvA
+X-Authority-Analysis: v=2.4 cv=E4vAZKdl c=1 sm=1 tr=0 ts=6918156b cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=mZF60CUetaME7T47FmQA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-ORIG-GUID: tHKamVMcx8f6uAcjWA9C5Cik_mG7iFvA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-15_02,2025-11-13_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 adultscore=0 priorityscore=1501 phishscore=0 impostorscore=0
+ suspectscore=0 clxscore=1015 spamscore=0 lowpriorityscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511150046
 
-From: John Bauer <johnebgood@securitylive.com>
 
-For relative PTZ controls, UVC_GET_MIN for b(Pan|Tilt|Zoom)Speed
-returns the minimum speed of the movement in direction specified
-in the sign field.
 
-So in the negative direction, only the slowest speed can be used
-at the moment.
+On 15-11-2025 03:49, Konrad Dybcio wrote:
+>> +&{/} {
+>> +	vreg_cam1_2p8: vreg-cam1-2p8 {
+> Where does this regulator lie physically? Is its presence dependent
+> on the connection of the sensor, is it part of the EVK carrier board,
+> or perhaps something else?
+vreg_cam1_2p8 is a fixed 2.8 V regulator located on the EVK carrier board. 
+It supplies the camera sensor’s AVDD rail and is enabled via GPIO 74, which is controlled by the TLMM block. 
 
-For minimum value, use maximum speed but in negative direction.
+> 
+>> +		compatible = "regulator-fixed";
+>> +		regulator-name = "vreg_cam1_2p8";
+>> +		startup-delay-us = <10000>;
+>> +		enable-active-high;
+>> +		gpio = <&tlmm 74 GPIO_ACTIVE_HIGH>;
+>> +		pinctrl-names = "default";
+>> +		pinctrl-0 = <&cam1_avdd_2v8_en_default>;
+> property-n
+> property-names
+> 
+> please
+> 
+ACK
 
-Signed-off-by: John Bauer <johnebgood@securitylive.com>
-Signed-off-by: Gergo Koteles <soyer@irl.hu>
----
-Changes in v5:
-- Rebased on 6.18
-- Link to v4: https://lore.kernel.org/all/cover.1718835633.git.soyer@irl.hu/
+> [...]
+> 
+>> +&tlmm {
+>> +	/*
+>> +	 * gpio67, gpio68, gpio69 provide MCLK0, MCLK1, MCLK2 for
+>> +	 * CAM0, CAM1 and CAM2 respectively via the "cam_mclk" function.
+>> +	 * So, here it's MCLK1 pin for instance.
+>> +	 */
+> I don't really see the value in these comments..
+> 
+> Vladimir requested you to move the 'description' (meaning the node
+> describing the hardware, not a comment explaining the function of the
+> DT hunk in natural language) to monaco.dtsi too
+I’ve added descriptions to indicate which pins enable which camera MCLK/Regulators. If these aren’t considered useful, I can remove them.
 
-Changes in v4:
-- Based on Ricardo's suggestion, only query the min value in uvc_ctrl_set
-  if necessary
-- Rename is_relative_ptz_ctrl function to uvc_ctrl_is_relative_ptz for
-  consistency
-- Rename 'relative speed implementation' to 'relative PTZ controls' in
-  comments
-- Fix indentation of comments
-- Reduce the length of the new lines to 80
-- Link to v3: https://lore.kernel.org/all/cover.1718726777.git.soyer@irl.hu/
+Should I need to add hardware descriptions for all GPIOs (gpio67–69 for MCLK and gpio73–75 for regulator enable), even if they are unused?
 
-Changes in v3:
-- Based on Ricardo's suggestion, I squashed the two patches.
-- Link to v2: https://lore.kernel.org/all/20240405-uvc-fix-relative-ptz-speed-v1-0-c32cdb2a899d@securitylive.com/
+I have referenced qcs6490-rb3gen2-vision-mezzanine.dtso for the MCLK pin hardware description (cam1_default).
+All TLMM GPIOs mentioned above are muxed pins. As Bryan suggested in v4, these should go into the mezzanine-specific dtso. Do I need to extend this in monaco.dtsi as well?
 
-Changes in v2:
-- Made recommended changes, moved control check to helper function and removed dead code.
-- Link to v1: https://lore.kernel.org/all/20240326-uvc-relative-ptz-speed-fix-v1-1-453fd5ccfd37@securitylive.com/
----
- drivers/media/usb/uvc/uvc_ctrl.c | 52 +++++++++++++++++++++++++-------
- 1 file changed, 41 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index 2905505c240c..38a7d71526c2 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -526,8 +526,6 @@ static int uvc_ctrl_get_rel_speed(struct uvc_control_mapping *mapping,
- 		*out = (sign == 0) ? 0 : (sign > 0 ? value : -value);
- 		return 0;
- 	case UVC_GET_MIN:
--		*out = -value;
--		return 0;
- 	case UVC_GET_MAX:
- 	case UVC_GET_RES:
- 	case UVC_GET_DEF:
-@@ -1517,6 +1515,17 @@ static u32 uvc_get_ctrl_bitmap(struct uvc_control *ctrl,
- 	return ~0;
- }
- 
-+static bool uvc_ctrl_is_relative_ptz(__u32 ctrl_id)
-+{
-+	switch (ctrl_id) {
-+	case V4L2_CID_ZOOM_CONTINUOUS:
-+	case V4L2_CID_PAN_SPEED:
-+	case V4L2_CID_TILT_SPEED:
-+		return true;
-+	}
-+	return false;
-+}
-+
- /*
-  * Maximum retry count to avoid spurious errors with controls. Increasing this
-  * value does no seem to produce better results in the tested hardware.
-@@ -1576,18 +1585,28 @@ static int __uvc_queryctrl_boundaries(struct uvc_video_chain *chain,
- 		break;
- 	}
- 
--	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MIN)
--		v4l2_ctrl->minimum = uvc_mapping_get_s32(mapping, UVC_GET_MIN,
--				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN));
--	else
--		v4l2_ctrl->minimum = 0;
--
- 	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MAX)
- 		v4l2_ctrl->maximum = uvc_mapping_get_s32(mapping, UVC_GET_MAX,
- 				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
- 	else
- 		v4l2_ctrl->maximum = 0;
- 
-+	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MIN) {
-+		/*
-+		 * For relative PTZ controls, UVC_GET_MIN for
-+		 * b(Pan|Tilt|Zoom)Speed returns the minimum speed of the
-+		 * movement in direction specified in the sign field.
-+		 * For minimum value, use maximum speed but in negative direction.
-+		 */
-+		if (uvc_ctrl_is_relative_ptz(v4l2_ctrl->id))
-+			v4l2_ctrl->minimum = -v4l2_ctrl->maximum;
-+		else
-+			v4l2_ctrl->minimum = uvc_mapping_get_s32(mapping,
-+				UVC_GET_MIN, uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN));
-+	} else {
-+		v4l2_ctrl->minimum = 0;
-+	}
-+
- 	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_RES)
- 		v4l2_ctrl->step = uvc_mapping_get_s32(mapping, UVC_GET_RES,
- 				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
-@@ -2449,6 +2468,7 @@ int uvc_ctrl_get(struct uvc_video_chain *chain, u32 which,
- 
- static int uvc_ctrl_clamp(struct uvc_video_chain *chain,
- 			  struct uvc_control *ctrl,
-+			  u32 v4l2_id,
- 			  struct uvc_control_mapping *mapping,
- 			  s32 *value_in_out)
- {
-@@ -2466,10 +2486,20 @@ static int uvc_ctrl_clamp(struct uvc_video_chain *chain,
- 				return ret;
- 		}
- 
--		min = uvc_mapping_get_s32(mapping, UVC_GET_MIN,
--					  uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN));
- 		max = uvc_mapping_get_s32(mapping, UVC_GET_MAX,
- 					  uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
-+		/*
-+		 * For relative PTZ controls, UVC_GET_MIN for
-+		 * b(Pan|Tilt|Zoom)Speed returns the minimum speed of the
-+		 * movement in direction specified in the sign field.
-+		 * For minimum value, use maximum speed but in negative direction.
-+		 */
-+		if (uvc_ctrl_is_relative_ptz(v4l2_id))
-+			min = -max;
-+		else
-+			min = uvc_mapping_get_s32(mapping, UVC_GET_MIN,
-+					uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN));
-+
- 		step = uvc_mapping_get_s32(mapping, UVC_GET_RES,
- 					   uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
- 		if (step == 0)
-@@ -2583,7 +2613,7 @@ int uvc_ctrl_set(struct uvc_fh *handle, struct v4l2_ext_control *xctrl)
- 	if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR))
- 		return -EACCES;
- 
--	ret = uvc_ctrl_clamp(chain, ctrl, mapping, &xctrl->value);
-+	ret = uvc_ctrl_clamp(chain, ctrl, xctrl->id, mapping, &xctrl->value);
- 	if (ret)
- 		return ret;
- 	/*
 -- 
-2.51.1
+Regards,
+Nihal Kumar Gupta
 
 
