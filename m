@@ -1,187 +1,200 @@
-Return-Path: <linux-media+bounces-47182-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47183-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72E8BC61BB0
-	for <lists+linux-media@lfdr.de>; Sun, 16 Nov 2025 20:24:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CF6DC61D63
+	for <lists+linux-media@lfdr.de>; Sun, 16 Nov 2025 22:36:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 7DBBE4E3F96
-	for <lists+linux-media@lfdr.de>; Sun, 16 Nov 2025 19:24:27 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id F23DE4E2F99
+	for <lists+linux-media@lfdr.de>; Sun, 16 Nov 2025 21:35:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8293923EAB0;
-	Sun, 16 Nov 2025 19:24:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDC16257827;
+	Sun, 16 Nov 2025 21:35:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="Dr9NSpEW";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="GYIHwbHS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M1SRa0y/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 127A7E55A;
-	Sun, 16 Nov 2025 19:24:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49622128395
+	for <linux-media@vger.kernel.org>; Sun, 16 Nov 2025 21:35:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763321061; cv=none; b=EnfEJneSEuGGo6ZPS0D70zEu0Gr0kOzFkfjOVX6BWPwD9grVSxOpD8NW/l5qO72+ATtGf3ML+rt/a/A0ZtC6Ac+4AeWIddFXqtYflmQJaBLy/tC6ycPjk2L8Gu11bdSJ9/0nhV1XcG53GIV1/+mMaV69w2kzC7dTAsWKVQI8hjI=
+	t=1763328954; cv=none; b=d4ch6eCXt2s5VkaY2OSZSBajQBMhmV+BeHAn5ciwJNrCmsF5A0fLBTpyHmvwPtred9XEHGp89/2NuufD2YT1RdTTz7VB5ihI6yfrsUZuKOdn39pjEzhoYYFSi9UAsBAnL9o9b2lym/1d6FVZrmW4Hi2hTl8o3nvZCUd9tfFWuVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763321061; c=relaxed/simple;
-	bh=KfCSgdHXM/DLu8kJkdQ1fcsGkt/rTqMsRFvN4NFR7jk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PRsdtYRRH59VVtyeeh0svbEAmLJS7mCrMosOuNvXxB/hZQCjJkuhF4+26GYGT97zMsyTegNM4k3kYgP2DhvaquIntX+7RdkoT0yWVGrsZrvXf1NDfYufzfh30nnwSSOUvTjMWsqcUkY++1vIypGmKLqjFVLU15q58k9T1Qzqad4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Dr9NSpEW; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=GYIHwbHS; arc=none smtp.client-ip=202.12.124.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 191397A00E2;
-	Sun, 16 Nov 2025 14:24:19 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-11.internal (MEProxy); Sun, 16 Nov 2025 14:24:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1763321058;
-	 x=1763407458; bh=HVjozl/X/DY4FZam42Ixr6Ica6xuoqZWKkmyPMDgiAY=; b=
-	Dr9NSpEW5jtY/usdUJyzwP+l0rr0lu2E6Gc3kBr4lntNoJzIBS4qoyJYUAP1iLGZ
-	8xwPrqMfKDz6eo3udOkLor65mDmX0EX6Q6UfBtptRH29l1VFi3aLXP8mP+ar2cf/
-	k/f8hMf3PFo2F772HldvFlAcfEUYA0Z5Fz8zH4Ooeza2mejOQLA3MkAeco032zKW
-	t2hIvx1aVisqOLYSVxtY6gbyto3AYXLTLlFCXzchfSpfPQ7UZp8o7XSqdQn5IJ3d
-	rbLjgvAF4gBKaBxcQbJg7viJgie4xxsuoVoNaJYDXxgALFk1Iaviw+xn6R2VYUVG
-	iizpLshfJ8OrL8uZj2BElQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1763321058; x=
-	1763407458; bh=HVjozl/X/DY4FZam42Ixr6Ica6xuoqZWKkmyPMDgiAY=; b=G
-	YIHwbHSC3x5BWLk6z/Y1BNz6AWEK55p96cbFBbqsKoS3426bsDHfj9zPz1WX0WV7
-	YVqvE+0r+GYIvh6uKn8qoc5PrXWJhhwTKYQ8CI+BH/2pV2YiTwMev+BFpIanNPgm
-	ms5eNjKkbUWd1r7uoYTkGmpRgCs0aCXNhIsbffiXJRnd2KaFXvG/fiuic+cRsl2v
-	SaM8Blc7G/TI6B90oipxJa9FoPw4O+5LRBpg9drxoEw1m3abgvxSlRyEroABaqyr
-	e76RIsrr45UGLrEAQv7ppGYcRfMimerUlhlMQ5zihWatRbKy/xVF72K1KMJ470Sv
-	Xs/mL70yvEv3a8UF84/TA==
-X-ME-Sender: <xms:4iQaaWfcNu11KCS2HTfvHzTrDyaRJ4Cul4RaN47MSr7aKPB3CHQtTw>
-    <xme:4iQaaTRjyfsScV9KgEajqgfUUdcFl6C0O6V33aR1uZXAaXtN9wiVZ0J7AlapweyAp
-    MPo3TkZBovdW5cECYev6ei3FWN7s9U6-0Y5Me8CvlvmnlJrRCKF-gkP>
-X-ME-Received: <xmr:4iQaaSLN7Qs3h07vDBcOa9mI3mwwGcF_3ttCTByB5Frxqi3zTNjXGjQ7-f4kgnSCGCs14bmKMurdQiJB_n3cQn3Ldguqd-M>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvudeigeduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgr
-    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvsh
-    grshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeefhfellefhffej
-    gfefudfggeejlefhveehieekhfeulefgtdefueehffdtvdelieenucevlhhushhtvghruf
-    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhl
-    uhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhope
-    dutddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhdrthhrvghtthgvrhesphgv
-    nhhguhhtrhhonhhigidruggvpdhrtghpthhtoheplhgrrhhssehmvghtrghfohhordguvg
-    dprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehr
-    ohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvg
-    hlrdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgt
-    phhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtohepuggvvhhitggvthhrvggvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghp
-    thhtohepkhgvrhhnvghlsehpvghnghhuthhrohhnihigrdguvg
-X-ME-Proxy: <xmx:4iQaaQJb5yqWUEAU5Np1Z7cxB9kUGNyHxUnQ1AgEBj7NHXv5ZCQ-tg>
-    <xmx:4iQaadj03VVb-NU7eMjSBT7yatcq0uKvPd0KjUNKFwLzJ0yAri_vBg>
-    <xmx:4iQaaaNgDcPqzWJp0dWWYFMor8OdiUXn3OJZ0RqLAiIbO-8PMXSpUQ>
-    <xmx:4iQaaYpZQwsph6n7Bl9bIKJher6Ppuf6YJwhyx2s35QmbvFDtNBjEg>
-    <xmx:4iQaaUmfvBC-D6hA0mMa2Weci3Yc1gLjsQHoRf2O_uBKbUgxe0zKHp-s>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 16 Nov 2025 14:24:18 -0500 (EST)
-Date: Sun, 16 Nov 2025 20:24:16 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Michael Tretter <m.tretter@pengutronix.de>
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, kernel@pengutronix.de,
-	Thorsten Schmelzer <tschmelzer@topcon.com>
-Subject: Re: [PATCH 4/4] media: adv7180: fix frame interval in progressive
- mode
-Message-ID: <20251116192416.GH1759911@ragnatech.se>
-References: <20251111-b4-adv7180-vpp-sub-device-v1-0-9877fe9f709b@pengutronix.de>
- <20251111-b4-adv7180-vpp-sub-device-v1-4-9877fe9f709b@pengutronix.de>
+	s=arc-20240116; t=1763328954; c=relaxed/simple;
+	bh=dY5Py9OpleD6PnPp6k/Nhkb0Olk38zoO2wW504QD8DM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=nqTrXZ4tU4Lb4/5dwKtXQrrSxodg3qr1LwE0w5EW6YcqPgfpimE5IzvIopCs82SMsaWUyUzSjPbLzfoiKmeS1GT1gpAEcCGFMBVKnAMC0gS8ow9PgAU4hZq8Iq4nm/4ia7ntP1T2jcO7cSpjgWlNebIO3ZiUeDrjtHS2zM0dVDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M1SRa0y/; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763328952; x=1794864952;
+  h=date:from:to:cc:subject:message-id;
+  bh=dY5Py9OpleD6PnPp6k/Nhkb0Olk38zoO2wW504QD8DM=;
+  b=M1SRa0y/s+a8OQP9vL8s2W+okTpglukxi7IyYKQ+6oOLV/q81pxuI/9b
+   K8iMxChhC/q41dCvbUBzbcE52TtRUar03W9rtf4lrdvG0jmWxFXu9EDFE
+   b0JJkmc/UCBJe3CLx0qD5piXwEQp6bHUwWlQ/SXjQTfHm6to9cZOX5fZb
+   O0esJNu2qH04818SDKRNahEUdBlG9mJhZe+AO+LLfIk/J0NUAZwjyoexj
+   DANNz+l+QNwtcoRFAwbsWhu1Ay5lFK2WrQMEeODHobbwuTM6w8xoReehM
+   XtsuWiaK+fpMiZH/shKRpfMhILTnLpGjCEsJdRHTwFNFqcXLaXzYJpyxB
+   A==;
+X-CSE-ConnectionGUID: feVvWqHISoqSZTNP92rLSw==
+X-CSE-MsgGUID: goyvZpP8QeG1Fmy+mfnNmQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11615"; a="82960448"
+X-IronPort-AV: E=Sophos;i="6.19,310,1754982000"; 
+   d="scan'208";a="82960448"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2025 13:35:51 -0800
+X-CSE-ConnectionGUID: G+FllsddRICVP29o+5xepw==
+X-CSE-MsgGUID: 5/K7UFTWS9CNsCtCAhP5Ew==
+X-ExtLoop1: 1
+Received: from lkp-server01.sh.intel.com (HELO 7b01c990427b) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 16 Nov 2025 13:35:51 -0800
+Received: from kbuild by 7b01c990427b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vKkPU-00095n-2J;
+	Sun, 16 Nov 2025 21:35:48 +0000
+Date: Mon, 17 Nov 2025 05:35:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org
+Subject: [linuxtv-media-pending:next] BUILD SUCCESS
+ 1f2353f5a1af995efbf7bea44341aa0d03460b28
+Message-ID: <202511170522.HKwDgoGP-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251111-b4-adv7180-vpp-sub-device-v1-4-9877fe9f709b@pengutronix.de>
 
-Hi Michael and Thorsten,
+tree/branch: https://git.linuxtv.org/media-ci/media-pending.git next
+branch HEAD: 1f2353f5a1af995efbf7bea44341aa0d03460b28  media: rockchip: rkcif: add support for rk3568 vicap mipi capture
 
-Thanks for your patch.
+elapsed time: 1915m
 
-On 2025-11-11 15:36:17 +0100, Michael Tretter wrote:
-> From: Thorsten Schmelzer <tschmelzer@topcon.com>
-> 
-> The ADV7280-M may internally convert interlaced video input to
-> progressive video. If this mode is enabled, the ADV7280-M delivers
-> progressive video at the full refresh rate of 50 FPS (PAL) or 60 FPS
-> (NTSC).
-> 
-> Fix the reported frame interval if progressive video is enabled.
-> 
-> Signed-off-by: Thorsten Schmelzer <tschmelzer@topcon.com>
-> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-> ---
->  drivers/media/i2c/adv7180.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
-> index d289cbc2eefd..3a5a0818bc5f 100644
-> --- a/drivers/media/i2c/adv7180.c
-> +++ b/drivers/media/i2c/adv7180.c
-> @@ -491,6 +491,7 @@ static int adv7180_get_frame_interval(struct v4l2_subdev *sd,
->  				      struct v4l2_subdev_frame_interval *fi)
->  {
->  	struct adv7180_state *state = to_state(sd);
-> +	bool progressive;
->  
->  	/*
->  	 * FIXME: Implement support for V4L2_SUBDEV_FORMAT_TRY, using the V4L2
-> @@ -499,12 +500,14 @@ static int adv7180_get_frame_interval(struct v4l2_subdev *sd,
->  	if (fi->which != V4L2_SUBDEV_FORMAT_ACTIVE)
->  		return -EINVAL;
->  
-> +	progressive = (state->field == V4L2_FIELD_NONE);
+configs tested: 109
+configs skipped: 2
 
-No need for ( ) here.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> +
->  	if (state->curr_norm & V4L2_STD_525_60) {
->  		fi->interval.numerator = 1001;
-> -		fi->interval.denominator = 30000;
-> +		fi->interval.denominator = progressive ? 60000 : 30000;
->  	} else {
->  		fi->interval.numerator = 1;
-> -		fi->interval.denominator = 25;
-> +		fi->interval.denominator = progressive ? 50 : 25;
->  	}
+tested configs:
+alpha                            alldefconfig    gcc-15.1.0
+alpha                             allnoconfig    gcc-15.1.0
+alpha                               defconfig    gcc-15.1.0
+arc                               allnoconfig    gcc-15.1.0
+arc                                 defconfig    gcc-15.1.0
+arc                   randconfig-001-20251115    gcc-13.4.0
+arc                   randconfig-002-20251115    gcc-11.5.0
+arm                               allnoconfig    clang-22
+arm                         assabet_defconfig    clang-18
+arm                                 defconfig    clang-22
+arm                   randconfig-001-20251115    clang-22
+arm                   randconfig-002-20251115    gcc-8.5.0
+arm                   randconfig-003-20251115    gcc-10.5.0
+arm                   randconfig-004-20251115    clang-22
+arm                           spitz_defconfig    gcc-15.1.0
+arm64                             allnoconfig    gcc-15.1.0
+arm64                               defconfig    gcc-15.1.0
+arm64                 randconfig-001-20251116    gcc-12.5.0
+arm64                 randconfig-002-20251116    gcc-10.5.0
+arm64                 randconfig-003-20251116    clang-22
+arm64                 randconfig-004-20251116    gcc-8.5.0
+csky                              allnoconfig    gcc-15.1.0
+csky                                defconfig    gcc-15.1.0
+csky                  randconfig-001-20251116    gcc-12.5.0
+csky                  randconfig-002-20251116    gcc-15.1.0
+hexagon                           allnoconfig    clang-22
+hexagon                             defconfig    clang-22
+i386                              allnoconfig    gcc-14
+i386                                defconfig    clang-20
+i386                  randconfig-001-20251117    gcc-12
+i386                  randconfig-002-20251117    gcc-14
+i386                  randconfig-003-20251117    clang-20
+i386                  randconfig-004-20251117    clang-20
+i386                  randconfig-005-20251117    gcc-14
+i386                  randconfig-006-20251117    gcc-14
+i386                  randconfig-007-20251117    clang-20
+loongarch                         allnoconfig    clang-22
+loongarch                           defconfig    clang-19
+m68k                              allnoconfig    gcc-15.1.0
+m68k                                defconfig    gcc-15.1.0
+m68k                        m5272c3_defconfig    gcc-15.1.0
+microblaze                        allnoconfig    gcc-15.1.0
+microblaze                          defconfig    gcc-15.1.0
+mips                              allnoconfig    gcc-15.1.0
+nios2                             allnoconfig    gcc-11.5.0
+nios2                               defconfig    gcc-11.5.0
+nios2                 randconfig-001-20251116    gcc-11.5.0
+openrisc                          allnoconfig    gcc-15.1.0
+openrisc                            defconfig    gcc-15.1.0
+parisc                            allnoconfig    gcc-15.1.0
+parisc                              defconfig    gcc-15.1.0
+parisc                randconfig-001-20251116    gcc-12.5.0
+parisc                randconfig-002-20251116    gcc-14.3.0
+parisc64                            defconfig    gcc-15.1.0
+powerpc                           allnoconfig    gcc-15.1.0
+powerpc               randconfig-001-20251116    gcc-10.5.0
+powerpc               randconfig-002-20251116    clang-22
+powerpc64             randconfig-001-20251116    clang-22
+powerpc64             randconfig-002-20251116    gcc-10.5.0
+riscv                             allnoconfig    gcc-15.1.0
+riscv                               defconfig    clang-22
+riscv                 randconfig-001-20251116    clang-20
+riscv                 randconfig-002-20251116    gcc-10.5.0
+s390                              allnoconfig    clang-22
+s390                                defconfig    clang-22
+s390                  randconfig-001-20251116    clang-22
+s390                  randconfig-002-20251116    gcc-15.1.0
+sh                                allnoconfig    gcc-15.1.0
+sh                                  defconfig    gcc-15.1.0
+sh                          lboxre2_defconfig    gcc-15.1.0
+sh                    randconfig-001-20251116    gcc-13.4.0
+sh                    randconfig-002-20251116    gcc-15.1.0
+sh                             shx3_defconfig    gcc-15.1.0
+sparc                             allnoconfig    gcc-15.1.0
+sparc                               defconfig    gcc-15.1.0
+sparc                 randconfig-001-20251117    gcc-15.1.0
+sparc                 randconfig-002-20251117    gcc-12.5.0
+sparc64                             defconfig    clang-20
+sparc64               randconfig-001-20251117    clang-20
+sparc64               randconfig-002-20251117    gcc-10.5.0
+um                                allnoconfig    clang-22
+um                                  defconfig    clang-22
+um                             i386_defconfig    gcc-14
+um                    randconfig-001-20251117    gcc-14
+um                    randconfig-002-20251117    gcc-14
+um                           x86_64_defconfig    clang-22
+x86_64                            allnoconfig    clang-20
+x86_64      buildonly-randconfig-001-20251116    clang-20
+x86_64      buildonly-randconfig-002-20251116    clang-20
+x86_64      buildonly-randconfig-003-20251116    clang-20
+x86_64      buildonly-randconfig-004-20251116    gcc-13
+x86_64      buildonly-randconfig-005-20251116    clang-20
+x86_64      buildonly-randconfig-006-20251116    clang-20
+x86_64                              defconfig    gcc-14
+x86_64                randconfig-011-20251117    clang-20
+x86_64                randconfig-012-20251117    gcc-14
+x86_64                randconfig-013-20251117    gcc-14
+x86_64                randconfig-014-20251117    gcc-12
+x86_64                randconfig-015-20251117    gcc-14
+x86_64                randconfig-016-20251117    gcc-14
+x86_64                randconfig-071-20251116    clang-20
+x86_64                randconfig-072-20251116    clang-20
+x86_64                randconfig-073-20251116    clang-20
+x86_64                randconfig-074-20251116    clang-20
+x86_64                randconfig-075-20251116    clang-20
+x86_64                randconfig-076-20251116    gcc-14
+xtensa                            allnoconfig    gcc-15.1.0
+xtensa                randconfig-001-20251117    gcc-11.5.0
+xtensa                randconfig-002-20251117    gcc-8.5.0
 
-I wonder if it make sens to instead of the above do?
-
-    /* Interlaced video have half the frame interval period. */
-    if (state->field == V4L2_FIELD_NONE)
-        fi->interval.denominator *= 2;
-
-
->  
->  	return 0;
-> 
-> -- 
-> 2.47.3
-> 
-
--- 
-Kind Regards,
-Niklas Söderlund
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
