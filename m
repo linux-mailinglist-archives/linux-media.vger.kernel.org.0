@@ -1,182 +1,196 @@
-Return-Path: <linux-media+bounces-47220-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47221-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA894C65783
-	for <lists+linux-media@lfdr.de>; Mon, 17 Nov 2025 18:26:14 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F879C65804
+	for <lists+linux-media@lfdr.de>; Mon, 17 Nov 2025 18:31:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 6488A381D88
-	for <lists+linux-media@lfdr.de>; Mon, 17 Nov 2025 17:19:34 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTPS id 90A5B28E93
+	for <lists+linux-media@lfdr.de>; Mon, 17 Nov 2025 17:31:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 669B13081C1;
-	Mon, 17 Nov 2025 17:16:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CE88309EE4;
+	Mon, 17 Nov 2025 17:30:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="St0q6+iO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SrxtI/Ht"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9747C304BCB
-	for <linux-media@vger.kernel.org>; Mon, 17 Nov 2025 17:16:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 949D8302776;
+	Mon, 17 Nov 2025 17:30:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763399783; cv=none; b=OEGG9bbjzS1sSnx1yAz8odpkryq/iRu1OFzSWcann22Vf9V/NfpcucXPrZfiHE7NiveqoGnQz7YCvYXJugOJz/aj7pd1Lz0LrIGrBKte6i/XfhXAnHihhFjmJiF5VAmr8wQY1h2F5A5BI1Q3byDB4I3gxse8egH38N3thEYCnsM=
+	t=1763400644; cv=none; b=qpwnf0NfQt43OOMc0kZ6K16VJjL3FWiNb8Oqc5a5HINl53y5BQt2wuGdoy43zAd7IbHq14kPMUdzlNJW1YKzG49Ncu3jz6zAgNn5+6Mmb+6vX4U04ZKIU8UreuZ4eD6PFM8nCnLVWd05JBI5qtLZOKvoIKWMsY3m1QA1Jy05VXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763399783; c=relaxed/simple;
-	bh=2sNLnkk8V5VHxiND7V+FoGQrjFZ2T5dAZtQ/cFM2bC8=;
+	s=arc-20240116; t=1763400644; c=relaxed/simple;
+	bh=nR2cjGoprCmwf4S7T7dO+OEe6zIU8l2rU9RUyoI9qi0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eXc8tiY5lPlY8Ixg/PPUqS+RNIFkQ76pSk8Odu8Tjg9wtB9w9zLVYKT/k29ypOf34rs9kKDBVg5ubnkuO5ToF8qB3PxzllSduQRLDBsnlzi6BjnWK2XEltMCkuR17zd2C/6sg2sSANtQWXGF7uFC4VJ8MbXosxgkbpNJI+xu94U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=St0q6+iO; arc=none smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4ede6b5cad7so20383201cf.2
-        for <linux-media@vger.kernel.org>; Mon, 17 Nov 2025 09:16:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1763399780; x=1764004580; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=P1EKuTl21MaZwOVAnrWkECo68IZFcqZRr/UNlppTPmo=;
-        b=St0q6+iOpxbQP/6k4YKopb2b5abxIoNmFDBUjCQhyPHK+h7d8HKH6xaNs1SrXfm6OZ
-         SX3+iU7AfSkVpcl9Oh20UsDOxLGNyrTJJc60M57mpWVYDN6AnVbBn3x/F0Pr/nl/c57p
-         5jOlIOnA23o0k+wKKWoTyTffzSAy9/U+iWg/cLqgA3zQq/msJHRR/LgxbQaTSBBwO6MZ
-         HKzAgSbvvmGmW1PFfxSgqU9DWWWbgWBmTKIdeGJueyBjy9frttHn2vvAydk/HIgrAZxw
-         cGoTxy1YwOwm3TyCYh3mvEIbvhY1xGP7VBnVqBapoxOOhc2WUKsxkMK9G0cuu6VQah0D
-         A6aA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763399780; x=1764004580;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=P1EKuTl21MaZwOVAnrWkECo68IZFcqZRr/UNlppTPmo=;
-        b=EFM655pf/jIaxvMlbYboXDXb8AWls9Xyc3DVF9c64uIRDnByAAOBsRsevVntPDO9xR
-         /nO+WGw4oBYDzzAqxfE7AzS7ukHrNm80ur//ygXsEdaMvBCbPA89nhUZ4vH/ZpxxozBz
-         t4qfuGBEZYrRbvYXTRLzEDHNx7XPcb4fR6dByZu5mrgKmipIASLkV2i585pHhhBZw50e
-         k7eQob7QNkbkf508ZOIKjHXCAL16DM2kAaTy7Ru5oHRmDrTfLMxISjJQG/AAWygzJcLB
-         x8MvRqnWaLXuS6F1zRV+VP43JalkFG1c9E3QugFWSupZFBhiOnfEOV2ijCpgiWCYqrdb
-         zmDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUkI6dMmaLIp9K6eRnkj4c4DWq3rcDWy1ICaknJPmiXe0NEjMOb9R0Ponu0mSylsT6nTXPZsOqaNI8yrQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxYSJUG8YNhaqT3o5dXHfJ8ZkW3UVad3NpHK644l7dHprw7YivU
-	+3Y0fQeL+U6O2HwJ5omsFxE84KKttfOkovOqVuG8+GxGfdXUY9THCl2IB8Hp8QCDN/c=
-X-Gm-Gg: ASbGnctQb2aKQFMUFompXkP1tkm+CfyVKQVgcn+YacqaEZT2e+oWvg1CDspkU8UUOZr
-	pAiEZMj3ifWLUM7RkQ0VohdHdqfpLtWjiVmSUoc8sn6HV+pFv+AJ9n+iJj635MELpccmxQKUulC
-	+52yEdrq9C94aP7QYi94lwzr4HR6ThEO64NKYk6hnOTDdkg22puQl1QCnlGBTzgtsp7xcGb4TIf
-	2HZST+g9sJZznKh7yNIxXk6bFOe7n9X+wVr4qu+RdiqVPtb4hI1fzXuOHgubJVbz73pC4GsSU8B
-	TeDqlwKj2aJmSlr7ByUBhAtX7v0y7WAjqLdI1JbBsVxkdpN66FEWHLd53vmcIHLwcoeeRX3RlWE
-	p3T8HxUMe7pfWpeJyIHOgIEjIo4XcpNUQk0s6r/9eROCJ7BVikmNyyZWofx6y4xXRxjOr3TB9gw
-	mal5qnSQDtG59H8R+fnH7YGntPbUAivigSkNOv3ric1hcmKjM3wJTWy4JK
-X-Google-Smtp-Source: AGHT+IHdomOA3fXFLRj5Qifi24Z8ILoy1R2tZQWL9HXByV1pnhKykseLX/aaxM1vhUTUzCoPwrvJjg==
-X-Received: by 2002:a05:622a:22aa:b0:4ec:ef20:ac52 with SMTP id d75a77b69052e-4edfc87511cmr159168241cf.79.1763399780286;
-        Mon, 17 Nov 2025 09:16:20 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-47-55-120-4.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.120.4])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4ee1c21ea34sm32656311cf.30.2025.11.17.09.16.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Nov 2025 09:16:19 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1vL2pv-000000005PX-0G4a;
-	Mon, 17 Nov 2025 13:16:19 -0400
-Date: Mon, 17 Nov 2025 13:16:19 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Alex Williamson <alex@shazbot.org>
-Cc: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>, Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <skolothumtho@nvidia.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, iommu@lists.linux.dev,
-	linux-mm@kvack.org, linux-doc@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
-	linux-hardening@vger.kernel.org, Alex Mastro <amastro@fb.com>,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH v7 00/11] vfio/pci: Allow MMIO regions to be exported
- through dma-buf
-Message-ID: <20251117171619.GB17968@ziepe.ca>
-References: <20251106-dmabuf-vfio-v7-0-2503bf390699@nvidia.com>
- <20251110134218.5e399b0f.alex@shazbot.org>
- <da399efa-ad5b-4bdc-964d-b6cc4a4fc55d@amd.com>
- <20251117083620.4660081a.alex@shazbot.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=SU3i6B1KJdN/R52vkY5kDJEEFJIwkphlG5v/CYrmk3vnfyDy57MbnQ86EV1je8V/Tb8BxxJeAdVRQnuQOH7/9DjLWvr3pg/wdtqmfCnzNcRUuIWWFrUPyHblRuTvDee1RZiF68X52YhnyNseJlS0tC6WTGGKCs9HXk49qDDwCgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SrxtI/Ht; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763400643; x=1794936643;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nR2cjGoprCmwf4S7T7dO+OEe6zIU8l2rU9RUyoI9qi0=;
+  b=SrxtI/HtU96kuA5RwpRv4FHXtqLH9rbs7mbXNWHoSuQwTgBbSGtUBmm8
+   UGR66qxC553ky7SJ0uhyymvMcYT80ZO3uEbiBi1ebU7sa7N7Q0LwQuy5A
+   FPMnIBrAjw3Dkl+/uc8mny1C44y/GcgDX05YSQVnIY2q2eJXXTQ4InUyn
+   2Dbsx220pXcwAl0KmP/Txss5iTbxpHjsqU/B/5sEYg2I6nTUhCSafgiu3
+   lSt/19z1mARACToTYbhsPD/OELAUIEfTbMzSesmMRi3xQRKL3/bt/Wr44
+   BILAhxQQ7YnNQd9rSpvVF2I1A2Cq9X7vOQe+gYFXVrZADIfQGECHx7hKo
+   A==;
+X-CSE-ConnectionGUID: um25IIfrQl2Nn/m9blc/zQ==
+X-CSE-MsgGUID: 99rPy7XlTzyPIL+07Fva8A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="69275707"
+X-IronPort-AV: E=Sophos;i="6.19,312,1754982000"; 
+   d="scan'208";a="69275707"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 09:30:41 -0800
+X-CSE-ConnectionGUID: Xl/AtU1PSSyudnJx6rdLZg==
+X-CSE-MsgGUID: QlpWCE35SdagwT3LT28UqA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,312,1754982000"; 
+   d="scan'208";a="227843748"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.44])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2025 09:30:39 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 15C5911FA5E;
+	Mon, 17 Nov 2025 19:30:40 +0200 (EET)
+Date: Mon, 17 Nov 2025 19:30:40 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>
+Cc: andersson@kernel.org, konradybcio@kernel.org,
+	dave.stevenson@raspberrypi.com, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, mchehab@kernel.org,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH v3 1/4] media: i2c: ov9282: Fix reset-gpio logical state
+Message-ID: <aRtbwK0Afo50Lh0B@kekkonen.localdomain>
+References: <20251114133822.434171-1-loic.poulain@oss.qualcomm.com>
+ <20251114133822.434171-2-loic.poulain@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251117083620.4660081a.alex@shazbot.org>
+In-Reply-To: <20251114133822.434171-2-loic.poulain@oss.qualcomm.com>
 
-On Mon, Nov 17, 2025 at 08:36:20AM -0700, Alex Williamson wrote:
-> On Tue, 11 Nov 2025 09:54:22 +0100
-> Christian König <christian.koenig@amd.com> wrote:
+Hi Loic,
+
+On Fri, Nov 14, 2025 at 02:38:19PM +0100, Loic Poulain wrote:
+> Ensure reset state is low in the power-on state and high in the
+> power-off state (assert reset). Note that the polarity is abstracted
+> by the GPIO subsystem, so the logic level reflects the intended reset
+> behavior.
+
+That's an interesting approach to fix DTS gone systematically wrong.
+
+I was thinking of the drivers that have this issue, too, but I would have
+introduced a new GPIO under a different name (many sensors use "enable",
+too). Any thoughts?
+
+Cc Laurent.
+
 > 
-> > On 11/10/25 21:42, Alex Williamson wrote:
-> > > On Thu,  6 Nov 2025 16:16:45 +0200
-> > > Leon Romanovsky <leon@kernel.org> wrote:
-> > >   
-> > >> Changelog:
-> > >> v7:
-> > >>  * Dropped restore_revoke flag and added vfio_pci_dma_buf_move
-> > >>    to reverse loop.
-> > >>  * Fixed spelling errors in documentation patch.
-> > >>  * Rebased on top of v6.18-rc3.
-> > >>  * Added include to stddef.h to vfio.h, to keep uapi header file independent.  
-> > > 
-> > > I think we're winding down on review comments.  It'd be great to get
-> > > p2pdma and dma-buf acks on this series.  Otherwise it's been posted
-> > > enough that we'll assume no objections.  Thanks,  
-> > 
-> > Already have it on my TODO list to take a closer look, but no idea when that will be.
-> > 
-> > This patch set is on place 4 or 5 on a rather long list of stuff to review/finish.
+> To maintain backward compatibility with DTS files that use an incorrect
+> flag, we implement a mechanism similar to:
+>   commit 738455858a2d ("ASoC: codecs: wsa881x: Use proper shutdown GPIO polarity")
 > 
-> Hi Christian,
+> Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+> ---
+>  drivers/media/i2c/ov9282.c | 26 ++++++++++++++++++++++----
+>  1 file changed, 22 insertions(+), 4 deletions(-)
 > 
-> Gentle nudge.  Leon posted v8[1] last week, which is not drawing any
-> new comments.  Do you foresee having time for review that I should
-> still hold off merging for v6.19 a bit longer?  Thanks,
+> diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+> index a9f6176e9729..e79b326cdd94 100644
+> --- a/drivers/media/i2c/ov9282.c
+> +++ b/drivers/media/i2c/ov9282.c
+> @@ -160,6 +160,7 @@ struct ov9282_mode {
+>   * @sd: V4L2 sub-device
+>   * @pad: Media pad. Only one pad supported
+>   * @reset_gpio: Sensor reset gpio
+> + * @reset_gpio_val: Logical value to reset the sensor
+>   * @inclk: Sensor input clock
+>   * @supplies: Regulator supplies for the sensor
+>   * @ctrl_handler: V4L2 control handler
+> @@ -180,6 +181,7 @@ struct ov9282 {
+>  	struct v4l2_subdev sd;
+>  	struct media_pad pad;
+>  	struct gpio_desc *reset_gpio;
+> +	unsigned int reset_gpio_val;
+>  	struct clk *inclk;
+>  	struct regulator_bulk_data supplies[OV9282_NUM_SUPPLIES];
+>  	struct v4l2_ctrl_handler ctrl_handler;
+> @@ -1127,13 +1129,29 @@ static int ov9282_parse_hw_config(struct ov9282 *ov9282)
+>  
+>  	/* Request optional reset pin */
+>  	ov9282->reset_gpio = devm_gpiod_get_optional(ov9282->dev, "reset",
+> -						     GPIOD_OUT_LOW);
+> +						     GPIOD_OUT_HIGH);
+>  	if (IS_ERR(ov9282->reset_gpio)) {
+>  		dev_err(ov9282->dev, "failed to get reset gpio %ld",
+>  			PTR_ERR(ov9282->reset_gpio));
+>  		return PTR_ERR(ov9282->reset_gpio);
+>  	}
+>  
+> +	/*
+> +	 * Backwards compatibility work-around.
+> +	 *
+> +	 * The reset GPIO is active-low, but the driver has always used the
+> +	 * gpiod API with inverted logic. As a result, the DTS had to
+> +	 * incorrectly mark the GPIO as active-high to compensate for this
+> +	 * behavior. Changing the flag in the driver now would break backward
+> +	 * compatibility with existing DTS configurations. To address this,
+> +	 * we add a simple value inversion so the driver works with both old
+> +	 * and new DTS.
+> +	 */
+> +	ov9282->reset_gpio_val = gpiod_is_active_low(ov9282->reset_gpio);
+> +	if (!ov9282->reset_gpio_val)
+> +		dev_warn(ov9282->dev, "Using ACTIVE_HIGH for reset GPIO. Your DTB might be outdated\n");
+> +	gpiod_set_value_cansleep(ov9282->reset_gpio, ov9282->reset_gpio_val);
+> +
+>  	/* Get sensor input clock */
+>  	ov9282->inclk = devm_v4l2_sensor_clk_get(ov9282->dev, NULL);
+>  	if (IS_ERR(ov9282->inclk))
+> @@ -1237,7 +1255,7 @@ static int ov9282_power_on(struct device *dev)
+>  
+>  	usleep_range(400, 600);
+>  
+> -	gpiod_set_value_cansleep(ov9282->reset_gpio, 1);
+> +	gpiod_set_value_cansleep(ov9282->reset_gpio, !ov9282->reset_gpio_val);
+>  
+>  	ret = clk_prepare_enable(ov9282->inclk);
+>  	if (ret) {
+> @@ -1260,7 +1278,7 @@ static int ov9282_power_on(struct device *dev)
+>  error_clk:
+>  	clk_disable_unprepare(ov9282->inclk);
+>  error_reset:
+> -	gpiod_set_value_cansleep(ov9282->reset_gpio, 0);
+> +	gpiod_set_value_cansleep(ov9282->reset_gpio, ov9282->reset_gpio_val);
+>  
+>  	regulator_bulk_disable(OV9282_NUM_SUPPLIES, ov9282->supplies);
+>  
+> @@ -1278,7 +1296,7 @@ static int ov9282_power_off(struct device *dev)
+>  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+>  	struct ov9282 *ov9282 = to_ov9282(sd);
+>  
+> -	gpiod_set_value_cansleep(ov9282->reset_gpio, 0);
+> +	gpiod_set_value_cansleep(ov9282->reset_gpio, ov9282->reset_gpio_val);
+>  
+>  	clk_disable_unprepare(ov9282->inclk);
+>  
 
-I really want this merged this cycle, along with the iommufd part,
-which means it needs to go into your tree by very early next week on a
-shared branch so I can do the iommufd part on top.
+-- 
+Kind regards,
 
-It is the last blocking kernel piece to conclude the viommu support
-roll out into qemu for iommufd which quite a lot of people have been
-working on for years now.
-
-IMHO there is nothing profound in the dmabuf patch, it was written by
-the expert in the new DMA API operation, and doesn't form any
-troublesome API contracts. It is also the same basic code as from the
-v1 in July just moved into dmabuf .c files instead of vfio .c files at
-Christoph's request.
-
-My hope is DRM folks will pick up the baton and continue to improve
-this to move other drivers away from dma_map_resource(). Simona told
-me people have wanted DMA API improvements for ages, now we have them,
-now is the time!
-
-Any remarks after the fact can be addressed incrementally.
-
-If there are no concrete technical remarks please take it. 6 months is
-long enough to wait for feedback.
-
-Thanks,
-Jason
+Sakari Ailus
 
