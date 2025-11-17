@@ -1,124 +1,169 @@
-Return-Path: <linux-media+bounces-47217-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47216-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6717C64EC3
-	for <lists+linux-media@lfdr.de>; Mon, 17 Nov 2025 16:41:37 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8921DC64E99
+	for <lists+linux-media@lfdr.de>; Mon, 17 Nov 2025 16:39:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id EDDFE4EAB6E
-	for <lists+linux-media@lfdr.de>; Mon, 17 Nov 2025 15:40:51 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id DED8535920D
+	for <lists+linux-media@lfdr.de>; Mon, 17 Nov 2025 15:37:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5597275112;
-	Mon, 17 Nov 2025 15:40:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60233284693;
+	Mon, 17 Nov 2025 15:36:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rosa.ru header.i=@rosa.ru header.b="ebuGxqXG"
+	dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b="bTgByaG4";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="a3V3ZZ/H"
 X-Original-To: linux-media@vger.kernel.org
-Received: from forward204a.mail.yandex.net (forward204a.mail.yandex.net [178.154.239.89])
+Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5B442571A1;
-	Mon, 17 Nov 2025 15:40:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B727027280A;
+	Mon, 17 Nov 2025 15:36:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763394037; cv=none; b=CMQmytnCVtOBWiLBJYDuPvc75+XSCRddfD3iXwwRnqYqoy9d1x8xL9cN8XEBw8BWc4IOjgrr1psKzS8AYsvCexX6E5EoBIeU2r94ikSY9FRyfADp5uS6yI2bymG8VX7CjbYUyvCUW49sXEekn6kAcbJ0yZC9JyeDzePdhOUhtGE=
+	t=1763393790; cv=none; b=aAoxtY3CTGDP933OoZ3oRBZZBgvuTdWTFR0QjvA679C4CZj0l1xw2Ms3+e5gTcafYTEAd54r7yecG2XHmfMRv21w1R3aKkDvriraqnxhSHKMCpv5mHlS+uw8yj4P6eV5/20o3YwLXR67XP6ZSAohz+AeehnfWgxjWcydqRGCAZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763394037; c=relaxed/simple;
-	bh=B0BBEYut7RIJlNGta6URCghTht5K6Ylx4CfM49OtJcI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fZ0s5SueRoXDOMyY6i1NwLkty51kWO5BbB+L6IYsZeKBmVOPj1tmDAgAJLXN06V+42nP3b+ekLRCacLJPngjX6dI8hhII9RXmLG/32BJz0Fmikd1jfY9XHPZdXQfXebWesgS13WDYp+VpOugzU5ZM0rX/kxkGojzrQu0HDNFCCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosa.ru; spf=pass smtp.mailfrom=rosa.ru; dkim=pass (1024-bit key) header.d=rosa.ru header.i=@rosa.ru header.b=ebuGxqXG; arc=none smtp.client-ip=178.154.239.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosa.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosa.ru
-Received: from forward103a.mail.yandex.net (forward103a.mail.yandex.net [IPv6:2a02:6b8:c0e:500:1:45:d181:d103])
-	by forward204a.mail.yandex.net (Yandex) with ESMTPS id A08008246A;
-	Mon, 17 Nov 2025 18:32:58 +0300 (MSK)
-Received: from mail-nwsmtp-smtp-production-main-52.vla.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-52.vla.yp-c.yandex.net [IPv6:2a02:6b8:c2d:6c0a:0:640:c879:0])
-	by forward103a.mail.yandex.net (Yandex) with ESMTPS id D1D4E80695;
-	Mon, 17 Nov 2025 18:32:49 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-52.vla.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id kWWweLwLr0U0-32uqdvfV;
-	Mon, 17 Nov 2025 18:32:49 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosa.ru; s=mail;
-	t=1763393569; bh=2FdZrhnoWupSb9f/5xpKxyzrRF/l3tMNY1G5OKa5HCY=;
-	h=Message-ID:Date:Cc:Subject:To:From;
-	b=ebuGxqXGmg+CDD5AGnXIJDWAPZZ1gdu7jcYZtE4Pgf4oBFFfgBD/gYQdfgGLZp+6K
-	 NaouY6NnH6wSXZhqYwn65L3m753uKN1AG/MUw6fCg4C4DAgq7mpt0VEoXhJX29lRsQ
-	 wvG94Cbyz8w41f99p2zS6U1ZgGjQ3xhbJ9uKgQBw=
-Authentication-Results: mail-nwsmtp-smtp-production-main-52.vla.yp-c.yandex.net; dkim=pass header.i=@rosa.ru
-From: Alexei Safin <a.safin@rosa.ru>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: a.safin@rosa.ru,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org
-Subject: [PATCH] media: ipu6: isys: csi2: guard NULL remote pad/subdev on enable/disable
-Date: Mon, 17 Nov 2025 18:32:42 +0300
-Message-ID: <20251117153244.16095-1-a.safin@rosa.ru>
-X-Mailer: git-send-email 2.50.1
+	s=arc-20240116; t=1763393790; c=relaxed/simple;
+	bh=e4u3eYmUgkB0Kz0goGsy4ER6DXTGROhUPStI4UwkDYo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ozb81FXn+kkJiga9NZiPgvMZd27FZEXzh2QIDaxI4T5ufaR8NN9Eb51laINM1HZT3Q7KyBVmafKWyYq2nycYsRLdIPrDkUSSslrk/+8rT1dW0w1q7pj7BDuu75seInUsyhAV4PwX3UCzAZgm130QkqXI2MVvzFE7mQNgZy52nL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org; spf=pass smtp.mailfrom=shazbot.org; dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b=bTgByaG4; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=a3V3ZZ/H; arc=none smtp.client-ip=103.168.172.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id AEDCD14001CD;
+	Mon, 17 Nov 2025 10:36:26 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Mon, 17 Nov 2025 10:36:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1763393786;
+	 x=1763480186; bh=dumULOFDFktDrAv/FEHp3FtDy5iDmeMi8WaBMWjFFc0=; b=
+	bTgByaG40HRwAAQHrZmUb1QxjoIKG692YfpeDBRFe9Iu6ybe//AfCHpW3mIPsM1M
+	WYnkzK8lh2vXojzl2+qseUFiMvxqQKr0IYjFET9zskLG20I8YPQxfkYQYgftEyWx
+	jeD3gXXQIl0ubwQsOnRCneY9Ee+d3+FyAnOe8/ZEXTNbJBdR9zsD/Uqm6CFnrieJ
+	60m+mV6mdpdJNLWAtv0sUtz2nkHnAVCeUhvAsXprKWeJ9SeFuthsuY3OGDw1Tpsw
+	ZMjmSiwEFqUDMvWqfBkZB2f2ikmXmb74OaRGArj1p0panyj3vvVWtNAew6f7EjEB
+	kku47rytqu0faY0bmEgdRA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1763393786; x=
+	1763480186; bh=dumULOFDFktDrAv/FEHp3FtDy5iDmeMi8WaBMWjFFc0=; b=a
+	3V3ZZ/HrTsgG7BZQp9uEsbe6TdQbscGPUzzV1ucmE75P+RX148fjF6z3+eDtfxE/
+	+LIsnQGcry5t2eP9DsugDIxSRuHjQL4Pa48vQlCFL4Aj9/mvHNagLk5oliXqjZiN
+	P7d9HhnMs2X2J530B8bl9/HIJt7CTkAoGK83TiPn4Am8w3vpm2woXXyidHxnjDmy
+	AoDIYJqVBQO7kNTSKqZlkxYHdKM38pK6DV5BLhEpHopJc14gJ9bdwbzb1CECdFQ4
+	29UG0a8x0Qak4XNvR1lJ563e3TxaNlVHCoAPZmYQcpWw6cJWVjhYMw/XcXCtUO7+
+	0XyIT5kl1gHE9x0NMHR1g==
+X-ME-Sender: <xms:-EAbaWyQ-WAwnluLWHzIZSr0mg8fK4EjRWclwqn4UadFrYR9CFAq3A>
+    <xme:-EAbaYnO_OBUD04HGAVXLl5Y0sdGgCgZ0LkU9JWquhPnnfcmXV8ZdkOcf5KlVUEak
+    U9OYBBXPjLciDkkfhjTYgSLsu-_gFaVGAR6arDrg1_4BpjJyD5n4g>
+X-ME-Received: <xmr:-EAbaeV7CxOi5NsfI_0iHooQtOGJov1ufXfnaa1D97FrNVc9zEAX-2Uc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvudekkeegucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkjghfgggtgfesthhqredttddtjeenucfhrhhomheptehlvgigucgh
+    ihhllhhirghmshhonhcuoegrlhgvgiesshhhrgiisghothdrohhrgheqnecuggftrfgrth
+    htvghrnhepgffggfegffffhffhhefftdeikedtueefkefghfehledtkedvvddtieehveej
+    fffgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
+    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrlhgvgiesshhhrgiisghothdrohhrghdp
+    nhgspghrtghpthhtohepfeehpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegthh
+    hrihhsthhirghnrdhkohgvnhhighesrghmugdrtghomhdprhgtphhtthhopehlvghonhes
+    khgvrhhnvghlrdhorhhgpdhrtghpthhtohepsghhvghlghgrrghssehgohhoghhlvgdrtg
+    homhdprhgtphhtthhopehlohhgrghnghesuggvlhhtrghtvggvrdgtohhmpdhrtghpthht
+    oheprgigsghovgeskhgvrhhnvghlrdgukhdprhgtphhtthhopehrohgsihhnrdhmuhhrph
+    hhhiesrghrmhdrtghomhdprhgtphhtthhopehjohhroheskegshihtvghsrdhorhhgpdhr
+    tghpthhtohepfihilhhlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmrdhsiiihph
+    hrohifshhkihesshgrmhhsuhhnghdrtghomh
+X-ME-Proxy: <xmx:-EAbaZ0fTJm_ATpV97jWOpcVupVrX5qYHi8qRNGt3G3rqeBOTipOKQ>
+    <xmx:-EAbaekY7TK2z-tERLv9vPNj8oV4GTGLaugTF_hEpglIkqI0gqjajw>
+    <xmx:-EAbaQEqElQCUqBqS26kmOTvil5W3KYOkdSQUnH2TTqyeLc7k0jBCw>
+    <xmx:-EAbabl0qbHJHfqmS6yt46qZ4Q6MuXUoWNyxiao6TOaw-x3l0mdFoA>
+    <xmx:-kAbaVsEtsMVur8JcMzBXoqZTmuBVUtCij-s3rV4asHdXPXnRrkBls7n>
+Feedback-ID: i03f14258:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 17 Nov 2025 10:36:22 -0500 (EST)
+Date: Mon, 17 Nov 2025 08:36:20 -0700
+From: Alex Williamson <alex@shazbot.org>
+To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
+ Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Ankit Agrawal <ankita@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
+ Shameer Kolothum <skolothumtho@nvidia.com>,
+ Kevin Tian <kevin.tian@intel.com>, Krishnakant Jaju <kjaju@nvidia.com>,
+ Matt Ochs <mochs@nvidia.com>, linux-pci@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+ iommu@lists.linux.dev, linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
+ linux-hardening@vger.kernel.org, Alex Mastro <amastro@fb.com>,
+ Nicolin Chen <nicolinc@nvidia.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH v7 00/11] vfio/pci: Allow MMIO regions to be exported
+ through dma-buf
+Message-ID: <20251117083620.4660081a.alex@shazbot.org>
+In-Reply-To: <da399efa-ad5b-4bdc-964d-b6cc4a4fc55d@amd.com>
+References: <20251106-dmabuf-vfio-v7-0-2503bf390699@nvidia.com>
+	<20251110134218.5e399b0f.alex@shazbot.org>
+	<da399efa-ad5b-4bdc-964d-b6cc4a4fc55d@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-media_pad_remote_pad_first() may return NULL when the media link is absent
-or disabled. The code dereferenced remote_pad->entity unconditionally,
-leading to a possible NULL dereference.
+On Tue, 11 Nov 2025 09:54:22 +0100
+Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
 
-On the disable path, always shut down the local stream when the remote pad
-or subdev is missing and then return 0, preserving local shutdown semantics
-and avoiding a crash.
+> On 11/10/25 21:42, Alex Williamson wrote:
+> > On Thu,  6 Nov 2025 16:16:45 +0200
+> > Leon Romanovsky <leon@kernel.org> wrote:
+> >  =20
+> >> Changelog:
+> >> v7:
+> >>  * Dropped restore_revoke flag and added vfio_pci_dma_buf_move
+> >>    to reverse loop.
+> >>  * Fixed spelling errors in documentation patch.
+> >>  * Rebased on top of v6.18-rc3.
+> >>  * Added include to stddef.h to vfio.h, to keep uapi header file indep=
+endent. =20
+> >=20
+> > I think we're winding down on review comments.  It'd be great to get
+> > p2pdma and dma-buf acks on this series.  Otherwise it's been posted
+> > enough that we'll assume no objections.  Thanks, =20
+>=20
+> Already have it on my TODO list to take a closer look, but no idea when t=
+hat will be.
+>=20
+> This patch set is on place 4 or 5 on a rather long list of stuff to revie=
+w/finish.
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+Hi Christian,
 
-Fixes: 3a5c59ad926b ("media: ipu6: Rework CSI-2 sub-device streaming control")
-Signed-off-by: Alexei Safin <a.safin@rosa.ru>
----
- drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+Gentle nudge.  Leon posted v8[1] last week, which is not drawing any
+new comments.  Do you foresee having time for review that I should
+still hold off merging for v6.19 a bit longer?  Thanks,
 
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
-index 08148bfc2b4b..4a75b0b6c525 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
-@@ -358,7 +358,12 @@ static int ipu6_isys_csi2_enable_streams(struct v4l2_subdev *sd,
- 	int ret;
- 
- 	remote_pad = media_pad_remote_pad_first(&sd->entity.pads[CSI2_PAD_SINK]);
-+	if (!remote_pad)
-+		return -ENOLINK;
-+
- 	remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
-+	if (!remote_sd)
-+		return -ENODEV;
- 
- 	sink_streams =
- 		v4l2_subdev_state_xlate_streams(state, pad, CSI2_PAD_SINK,
-@@ -395,7 +400,16 @@ static int ipu6_isys_csi2_disable_streams(struct v4l2_subdev *sd,
- 						&streams_mask);
- 
- 	remote_pad = media_pad_remote_pad_first(&sd->entity.pads[CSI2_PAD_SINK]);
-+	if (!remote_pad) {
-+		ipu6_isys_csi2_set_stream(sd, NULL, 0, false);
-+		return 0;
-+	}
-+
- 	remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
-+	if (!remote_sd) {
-+		ipu6_isys_csi2_set_stream(sd, NULL, 0, false);
-+		return 0;
-+	}
- 
- 	ipu6_isys_csi2_set_stream(sd, NULL, 0, false);
- 
--- 
-2.50.1 (Apple Git-155)
+Alex
 
+
+[1]https://lore.kernel.org/all/20251111-dmabuf-vfio-v8-0-fd9aa5df478f@nvidi=
+a.com/
 
