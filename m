@@ -1,359 +1,171 @@
-Return-Path: <linux-media+bounces-47226-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47227-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2154C65E31
-	for <lists+linux-media@lfdr.de>; Mon, 17 Nov 2025 20:11:54 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2B36C6613F
+	for <lists+linux-media@lfdr.de>; Mon, 17 Nov 2025 21:14:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sin.lore.kernel.org (Postfix) with ESMTPS id EE637297DD
-	for <lists+linux-media@lfdr.de>; Mon, 17 Nov 2025 19:05:13 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id EF0E535FEAC
+	for <lists+linux-media@lfdr.de>; Mon, 17 Nov 2025 20:14:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D54C5346775;
-	Mon, 17 Nov 2025 18:58:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D738833439B;
+	Mon, 17 Nov 2025 20:14:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Acskasg0"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="e/TSjmmm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011017.outbound.protection.outlook.com [52.101.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F23DB345CAD;
-	Mon, 17 Nov 2025 18:58:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.17
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763405934; cv=fail; b=eZs7Ab4SIZpV3In+L5fcWONGe843sYpfgeo9PLNOLWZUFkaRrU9I/y3l+7JVM48XY2nV1xUDPeXfxlm7JV9E4gk2ZDslK3koIT0wPvb2H/VANf2l/jbAC1bJYbu1yoCfbKajD9oHJjoVNWXhzrKlILfpwto1BmkiyMxyhWDvxOg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763405934; c=relaxed/simple;
-	bh=YNPqdD0kd3pdtCVRYCUxeHy5zguOY4Bm/pVnyP+rdV4=;
-	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=hRfKWuINRFSNhw+RG5CV6yb2Uv4f/tbhAOVVabLyiN69PhdkulA1/ciSS3aRpmFGCiAnvrsJjdfpmTWXutITm4rJcW3JkqgCG+E/PR1Aee11uupRr+4yT3H1Ep0r0BPjyxqFXZ61mQeq28UUQno3aXIQ8itSeiLmvBbRE36WRAo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Acskasg0; arc=fail smtp.client-ip=52.101.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hi1s0OwnmPmW2tRxBR/M+2JfHeSruZoyHhABCpEV/70fe1PrGnv7UtzieGFA7Hb3eylW+JYPsyykW9DHNCYfJpOWLnMuHi0SA6idDymIilCLuEYfONPhTlomUdEHe4E/rIAutoVnHqd0/TSHafNTAwXBITvFCs/BaqQ/INDOSeGJWVbM3BY9xpvEV269aR1uaZ6IsqQbAY0t/9IJxseMpToe81ngIgTVg9MGpSaeA4kullD8dhBU4wN27Z7V1ZMbyOKAthSORfBJx6butSu1iMt4glrr3zzkitJ4sdlJhE1PEtIYnX/hqs6mB9P57TExnH3fz+S5dydaeoa6n/4Q7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HD/yjQP86hb2xgIO8HmcLBuFMjM29JNMeVd8HfBQ2mY=;
- b=n56eDLr45BaWuKGncvBzkz/3kuSTwqgL8lbFWpsabUF//VomvIsMxkRLFXBa0KyjxB38iVZQ8spgLMt4gE3/ZNxsy4OUASfCDgcnb/LPCYmDlnSLNqV3SlQTM2yT9kR2yGDecUG6ybj8JPmato4NAwRNUNKFe0/pirWX+jBVd/iqULAJuXpv/X9I7HpCoNODCF+1W0ISAIy6Wojo+tGluhxMcrN5virI4dI1tFrckcqFoqQMcQKzf/Lv4MaPY1YEIqtSs7uSCmi1SLv9mLO8KI/2CqS+1k6qw4Vge1sFOGQl5HZIXr49vTzem/phajZc9pbo+9ghaW3xSX6b8eN9RA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HD/yjQP86hb2xgIO8HmcLBuFMjM29JNMeVd8HfBQ2mY=;
- b=Acskasg012CcQJc2aElYjnjMlzFbrUHkCQQLvIDKVPk/veUdE7PuHaeCjdaP7MkfqWA3++ZzOck+DBuWtr5A+l8zwVvIvazsSFD9HPuajj7OwnYRdAYtkc+1AAfwXhbKnNInWaCHHLfF4oLIyarHT4VSlfuSrQkpK2h7oHcT1JfzCApGIf4X/7jThTpJxe02NOomwUNqT3TYg3VunXEvUn+f8qxwM2fAIZnkAM+bc16QOv3OTbOH4fDK1BzDEZ7onru8DmTytZghU3jI/42wEJOcn9A3O06jy1uq/5xo/o13F5x+M6lSNmnd5RnAvr+2i1wuc2JFGJnLVT61TSNVNw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AS4PR04MB9621.eurprd04.prod.outlook.com (2603:10a6:20b:4ff::22)
- by DU4PR04MB11030.eurprd04.prod.outlook.com (2603:10a6:10:593::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.22; Mon, 17 Nov
- 2025 18:58:48 +0000
-Received: from AS4PR04MB9621.eurprd04.prod.outlook.com
- ([fe80::a84d:82bf:a9ff:171e]) by AS4PR04MB9621.eurprd04.prod.outlook.com
- ([fe80::a84d:82bf:a9ff:171e%4]) with mapi id 15.20.9320.021; Mon, 17 Nov 2025
- 18:58:48 +0000
-From: Frank Li <Frank.Li@nxp.com>
-Date: Mon, 17 Nov 2025 13:58:14 -0500
-Subject: [PATCH 4/4] media: nxp: use cleanup __free(fwnode_handle) simplify
- code
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251117-cam_cleanup-v1-4-6cd42872db79@nxp.com>
-References: <20251117-cam_cleanup-v1-0-6cd42872db79@nxp.com>
-In-Reply-To: <20251117-cam_cleanup-v1-0-6cd42872db79@nxp.com>
-To: Philipp Zabel <p.zabel@pengutronix.de>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Rui Miguel Silva <rmfrfs@gmail.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Martin Kepplinger-Novakovic <martink@posteo.de>, 
- Purism Kernel Team <kernel@puri.sm>
-Cc: linux-media@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Frank Li <Frank.Li@nxp.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1763405910; l=5050;
- i=Frank.Li@nxp.com; s=20240130; h=from:subject:message-id;
- bh=YNPqdD0kd3pdtCVRYCUxeHy5zguOY4Bm/pVnyP+rdV4=;
- b=KexX+ebW9GE8ZzA6Qww9rFGMcjivsRHvV0E0/6frp+iMypAUZANiNv8QkNAMiUIyghivV/A+r
- KiKjzFFtV14DS0TbapIbyhdOSF0Ik01evyprHY2y5cEDXfpQK1OLich
-X-Developer-Key: i=Frank.Li@nxp.com; a=ed25519;
- pk=I0L1sDUfPxpAkRvPKy7MdauTuSENRq+DnA+G4qcS94Q=
-X-ClientProxiedBy: PH0PR07CA0072.namprd07.prod.outlook.com
- (2603:10b6:510:f::17) To AS4PR04MB9621.eurprd04.prod.outlook.com
- (2603:10a6:20b:4ff::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 482AE332EAB
+	for <linux-media@vger.kernel.org>; Mon, 17 Nov 2025 20:14:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763410461; cv=none; b=rdug15NxTD7Q4c+lhPMkCjm3jrZ65Xkuwb32n3Y+cizYMx+xFURUj9ChkU0+vssnCeQctY0TTfqP1evCEr6HSKWoNE4VdpUwtMxyh7n/1+SG/Dpcf6cnhn5G8POPT/iTEBeEmLZdlf8ob3zuUe73UdYNt+mhe6gydDLwQqbeSV4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763410461; c=relaxed/simple;
+	bh=yAEG85GYrN3ElOkyTjNy3tCOE6XKbdGKYBvZg/pwYHA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=mFDFQ5xw1ZCCYGHaf7e2nFhzWf9D5Z6AUpsUdMQrp1vb+rKAU64/9LY5FunHcbvjK/24Ci+wl7YPcCNwP95R+Seo1Ee/xhjnb1MNxcCwWoR7xTLkWQEBvj0q7wm0RRzt6ZbPa0WbJ8VCnc7QgkAWLqg7iv8x5+AsYsK1HCjvYA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=e/TSjmmm; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5942e61f001so4743989e87.1
+        for <linux-media@vger.kernel.org>; Mon, 17 Nov 2025 12:14:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1763410457; x=1764015257; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GgHXo4GJGpAcaLA4PTb3BZ5lDtzW4GBjMfZZU48RY5w=;
+        b=e/TSjmmmZSLVN36oQ07xL+atzBJRGfOi8Bu/NK33RQ1oe5uY/48Ze9m5kCl7U30UlI
+         tNsF9Suj3FDgGwEWZjZqAdV+1gXSySojulEqiQW7r1VdwsWI2jyQGTo1v6QonBCFskYW
+         XiFSUuK1ozp1GcjJnVkPG7fnLaepkGOFzoQZM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763410457; x=1764015257;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GgHXo4GJGpAcaLA4PTb3BZ5lDtzW4GBjMfZZU48RY5w=;
+        b=YOV0InpmL2NgsAhJpljphBpIOHT476p1glAo298cRkLGfWl26hgapwslkxsong01oa
+         3BCmkjIHUnvLYaMIsfVq+khjNZS3pbIO1gMaJ/frJno2kAZk9ZN1AwOtuagyJ9HCpP05
+         7la/7j1o/V6uyqc1yddNmeWhP23Py7h92nADmDSEdjwkvu1mNALhf+07aINQ8DqqA3Ew
+         FzNDn/Cwy60tgQ3u6GiZD+EdjhQBrYBF1ocvA99emqKlYQmoGG2vlJKVuWnGRZMsooZt
+         ufHmynOMRlKi1kI90AQbU1QEgomfZRvgf0+6ySWtABIgJO/Owl7NvIHDkPWczyBgmbrc
+         r3pQ==
+X-Gm-Message-State: AOJu0YyTRizJousv0O9D9Z0BYnALa9ug8sEa9NhjSICDSUaGlVstzteQ
+	dbZhAZm2PZhyE4mLJrC4mc3lfh7SR3NQRqCufhhuCq6pVdt0EnPfrFcgYx/vgm/pvw==
+X-Gm-Gg: ASbGnctbIsOO3h1l39OCtwpfWH7R28jA+tYAUrnnskBskvxP3q0rOgg0sQLDrQHKfyk
+	bQLJ/dUXkICfnF2bpUHfJkNU3IdF1PFfFxiygpWoDqesEo2n6YOMisf+AwAfRn9tP5cnXP+Pnrd
+	K+sJIJIR6NXL0CA+MupMhyOXJPbar4DrJqdCKlFG7OCzK46WVRloUzCH4fsGNNoJLXKZvXiswyn
+	mgpSKQyq9nV3x30G/wpv8FtfHcTRASqhS2CQ+Rvox4DGTXDY6QpmM+g9DFao9neHyXMcCVaPci4
+	bZNgKeOC3P9wNS+QskG7zmlR3LpQPkcD/aTmYj1HJ0UaSvfaozNcwa5JK/+iB+PT28I2fb9aBHf
+	czroU9hmfCvAJEq83x9rA4U5Hw0vEuY8krK1woT4H+vteWN7OkNmzu4OhNM2bNrCyJ3nL7narR6
+	fztcCbnXgr0BKfqNksAEnPCR9pYTmCIvvtm8mADDKh2c78l+EJyjIhQfVSbpUwh63vvsq5pVKh
+X-Google-Smtp-Source: AGHT+IFc43tykLdR7iGrO4WldYv3LdTnARilIJdABWioVTl/8nUjj1uXHiVVOMgIMBPJ5aNeGwOKtg==
+X-Received: by 2002:a05:6512:b9a:b0:595:8200:9f79 with SMTP id 2adb3069b0e04-595842134a8mr4845108e87.43.1763410457359;
+        Mon, 17 Nov 2025 12:14:17 -0800 (PST)
+Received: from ribalda.c.googlers.com (80.38.88.34.bc.googleusercontent.com. [34.88.38.80])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-595804003a4sm3413302e87.59.2025.11.17.12.14.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Nov 2025 12:14:16 -0800 (PST)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH 0/4] media: uvcvideo: Map known XU controls
+Date: Mon, 17 Nov 2025 20:14:15 +0000
+Message-Id: <20251117-uvcdynctrl-v1-0-aed70eadf3d8@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR04MB9621:EE_|DU4PR04MB11030:EE_
-X-MS-Office365-Filtering-Correlation-Id: f6bfda3e-eae3-4566-d7b0-08de260b573d
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|1800799024|366016|376014|52116014|7416014|19092799006|921020|38350700014;
-X-Microsoft-Antispam-Message-Info:
- =?utf-8?B?SXIxc2hadnc1enUyU1orZ0R0R01veVV4THUxbXFTV2JucUQrdUEwYWlZZXBu?=
- =?utf-8?B?N2R6SS9iRit0S2FmR1hEMzE5VHBQUFhwVzJwcW1lWXRVV2dwNWFPd2lzRWdH?=
- =?utf-8?B?ZWdXSnRib0htZ0N0bWROQk5pV1FOQU9HYld3VGt4bFlvVFd3MFJSQU1zWjY0?=
- =?utf-8?B?SlZGQkxxYXNmaWJnaUt2T21rc0ZrUWIweElETEtmTGdPTzRpNFd6a1NNQ2Fm?=
- =?utf-8?B?Si9TL3Q5ek02SHVRQWFteTJCa3BSTnBQTkZkSkJnMnppRnhPdk43VWdmMjBO?=
- =?utf-8?B?UTFKWGFvSWwrQXdJQVZ6ZnNYRUNIRE9lcTluaXkvQjhlS3BncmRRelF2SUUr?=
- =?utf-8?B?cnBFbUdxdmZ0N0x6dmExWCt6ajY3S3l2c1ZmdDZuanJqVS9ZSklyKzAwYkVG?=
- =?utf-8?B?Y29KOE5GU3E4YjZkSEl4QUNhSGg1RW9nZW1TcGNLMTl6STV3eUF6M2V6bFF2?=
- =?utf-8?B?aGt5cUZvODNCRHFPN0t2VlZwQTZrckIzYnZNL1RtdENKYU5tdXc5OG9QYmtM?=
- =?utf-8?B?eHY3WUdTNXZYUjdOYy9zeVhQWnEwcWJ1cFFBTGVQVjB6STBvY2JFcTNXSVlP?=
- =?utf-8?B?MHF5Tmt6TmNld0xGRlI2dVQweERBRG5OZ3lCMHFXSWs5bVhCQ25pNEtoZTR3?=
- =?utf-8?B?UFE4OVZOUGpuSjBOR0I3TVlMSEZ6b3BZeW1ndjQ1dGdmRUhJTFVvZ2Q4amhx?=
- =?utf-8?B?aCttME9RWTdSU2pTSTJ2RXFPVlhGUmIyaTFaMkthVGlMV2VZQWFEK25pYlFz?=
- =?utf-8?B?Qm5JVWlGSnVuamhBWHFiNXRjTnRWMitVRzhCeDRIQlQ4RDZRSU5Dam5WUFpM?=
- =?utf-8?B?Uytic0cwZGI4MHAwdks5cHlGYXBWbGJZcHdkRE0yd1ZoMFI1NXVpMDFNTUlC?=
- =?utf-8?B?TW4rWkptY3FLblo3TFlpaDNTb3ZQWUZxU2VKV0xTcndVTjB4SWREMkZ1VjF1?=
- =?utf-8?B?cm9SMVNWQ0ZMYlVSQlFtL3luR3VJTm42ZzRycTBpQ2hXTllsRzBMWXlxTHVm?=
- =?utf-8?B?bmw0MVI0dVlKMEZhVytKSmphVCtDYkZnc3NXNkd6aDB4TUpTVXVQQU9ZTU1m?=
- =?utf-8?B?K3grM1ZwZzBaanYrakdvOW9XTUIxbzZsS2V2MmZQUnFrRmVWR2xkbXlwOGgz?=
- =?utf-8?B?ZUFQQTZhT3FSZU9GRUk0U3BJdG9yY2R3OGpPblByQ29BSnFkR2JKS0tkaDI2?=
- =?utf-8?B?aUhNMTY0dGxWS0IzWUhGOFA1WDJ2R0xXeC9DUWg2VVl0b1FJc0lzTHI1dm0y?=
- =?utf-8?B?OWJ5ck9PcWFsa0sxSW85V3hQK0pXTkI3MmdPVHRTdW5rRE1WQVMxVWJ0L1Er?=
- =?utf-8?B?MEZCNjNwSnJBUSs1VmdjTWdMeENUQ0FibFM4Wmx5THNkRXp6dzZiUEtFUGdN?=
- =?utf-8?B?QjhBTGYwbzU1VEJLSmZxb2N3Qi9jOHB1U1liTGJ0UWN1UGxiVTdhdGIwVXNQ?=
- =?utf-8?B?RElmLzlQNDR5MDdtZnlYaVdyWk1WV3JFdTAwVnFJWXBvWldoMHR6SEwzckVM?=
- =?utf-8?B?SUdPZHlUZzF3aUt0Mjl0RkVIRHRZd3NpZFRaU0dmbWtyMGhBQkI5WUdxdUJq?=
- =?utf-8?B?U1B5VlFTWHJ3amsyWnRIRUNMYi9IeXBvdW53ZXVoUXFaUkU3eUF2UUpnb2l2?=
- =?utf-8?B?dG5rSGhJN3JUTEZ4Ui9RVnpyUUJHcHcvWkpJNFVZeHZjQ09OWGtSaEFoRTNN?=
- =?utf-8?B?M0U2OTk0TnNaUDA0UEZLZ0JsWG56MjNRN2FXOGhqbUdlQ3RFQlVZaU5FQWhl?=
- =?utf-8?B?Y0RIUlVkSXNZdHpqdFNvcUdBMUw0OUt0aERDdkVyN283L09SQlNucGVoZ0pu?=
- =?utf-8?B?WWs0bUl6WEVmcTZVVG81SmMyclhKWVVJRUFUdzhDZ1BsK0dvM1NZbVFkY1lM?=
- =?utf-8?B?VkNoSFc5ZVNIQ04zOVJrNUxJa2ZKcmNGbDM1cWwzYlJtOUhhNUV1b1oyNDNx?=
- =?utf-8?B?dUVEZE9HMFZvNkhaK3NaSStwQlM3dU9pYUJPV3V0TmxwR2ZhYVBzaUFldlJD?=
- =?utf-8?B?eWFpdUE5NmlpenJrZnJXNHk2V2c2bDNKQ1ZLdDI0OVF4SGdaSTZaUklTWVJX?=
- =?utf-8?B?RVlRMUt3Um5IWU1PQkJIazBhVDlvVUVmQzJEUT09?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9621.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(7416014)(19092799006)(921020)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?c01RN2FxZ0VmTmp1TFhHVjUyVGIrRG41U1FtQ3U1bG14TFBySEtBSzlQTk9P?=
- =?utf-8?B?V2VaT21jME9SK0RFZGh1MFM0VlNYWkh2Tm1UeXhRS0Vua0Y3Q2N3Nnl3SHRS?=
- =?utf-8?B?Rk1Jc3NTYTE4U1ppUkhack5lV1Q3b1R5MlNrR21vcmcyUlpwQnRraHE1eFNv?=
- =?utf-8?B?dVJRNjlBbzBCTXdRNGJ6bHZBNEF1bEYxZk1kRXYyeUNmQUxBWit1aSt3RlRP?=
- =?utf-8?B?ajZ1S1FVWnJ4NjdZaEtiV1FNRmhpUzI4aDdub0luRkYxaHAxcU9VQjFCbVVi?=
- =?utf-8?B?NnNoSnpXcGZHYUFkWXFWS1pRblEraEdwMGx6dlg2dDJCUG1XWXRlSkxvVWdP?=
- =?utf-8?B?enFGVkdPN3dKVU9HaUI3cU5SaEMvd2RVc0xmenRHZTNmVDgzUUlZTWtCWEUr?=
- =?utf-8?B?bDlZdzVoYlQ3M2FmMm4wcGR0TmZIeGJmN2h3OTY0RmFEZllJeGJUanZ6Nm1Q?=
- =?utf-8?B?QlBGVWhaZzZMK1ZPeDZHKzN3VkR4a1RMZjRhZlc0OWxDL2VTdWtHajBRYUhP?=
- =?utf-8?B?N0k0L21LcDlpQllscXN3UndyZnlseVNNYVJMZThNN3I2bXlmNFcrL2pFL3ZW?=
- =?utf-8?B?UlNyUWtYWmVjbC9HQlpVVHR0SFNJVFh1RGpyeHVURVRucHdqOXVMQ1VRVW9h?=
- =?utf-8?B?RVRCb09iQW5ZeHd2ZVZ2ZXFqTlRjcFl4NS9LaVdTMSs1MXJzK0xwUmFvYlZQ?=
- =?utf-8?B?WldtQ2FPb2Ewek5aN0JQdUFLc2hnT0xBUWRBK0dhNnB2TzZNeTBvU21IYVBT?=
- =?utf-8?B?NmtHN3pXd1ZFblFkdUpnV2d6N2k4Y1JBMCtxKzBCejNERmxYTnpTSHdwVDdS?=
- =?utf-8?B?LzZFSkEwbkttTmRCSlFuSmlWamRraWxST0tYNTNuUFJJcTUzVElnd2t3NjJk?=
- =?utf-8?B?MXo1NEhUT1FHNTFhU3ZoZHcrcHR6WGJNZnVDSnZhYzI4b1Ruc3RzR2I1d1Q4?=
- =?utf-8?B?K1k0VU05ZHNhQTFPWnBLR2FRZS9MNVB3eGxDRzZYcHB5b1l4azJwN0d3NVBK?=
- =?utf-8?B?b3ZORVA5Q2hySVA4OExMVGlkb01ZWDkrc2E2RXY4SG9heUdNR2YvLzR2Unk4?=
- =?utf-8?B?VUpkL2JmVnViQmZVeElmZnhNTitXVSsxQmoxVUZVVWd2cDFOaVlDQXM3b3Az?=
- =?utf-8?B?RVFld3Uzem81MEJLY0h2S1JHRmhSZFRaWHozRndlRzg4K0NrUW0vZlluUTJv?=
- =?utf-8?B?MTVKSzJ3aHJXV3p2M0JSU1lIS2MwOXdGeURSL1A1bWwvSXd4bVVKYjFwVWdM?=
- =?utf-8?B?aTE2MEY3QUUwckR2UVVHYlA5dERJK2p5TXpDclRaR2tYRFNyNVFBNDduTmxL?=
- =?utf-8?B?Zzk3Si81cVpTR2JpNW9MaXNhaDdQNkxNMmxyRUo1NlZveTdvTDc3TjdQUnkz?=
- =?utf-8?B?THhZaFc2STV1Uk80Vm1OVW9UQ2ZmdHIvR1NDcDZmUHByR0NSTVZiWTBCSUJP?=
- =?utf-8?B?aU9aU2M2RjU1RnVRK1FBLzFRRm5vVktna3l5Rlp5ekwvOUFYc3ptY0Mzd0tX?=
- =?utf-8?B?VGlNZVEzLzViaHVvUWQwRlNBdXh1Vk5CWmVRNzZSclQyWjY4cm1HVWR6aThY?=
- =?utf-8?B?Z2kwVVljQXdhTmdaZnR1bzZHRnordHZkdndrL242OHV0VlJiU3JSTXZRQjhX?=
- =?utf-8?B?YkozZXFPVzllZHRZRW93cDlrMlBON3l0KzZPcWtSNWpPRXBNWXhFNFFGaHpx?=
- =?utf-8?B?TXNQL2gxZWVXaVA5YWpGUmhyYlovVzVNUWxKU0kvZmtDNG1vd2UxUjJjQ2dB?=
- =?utf-8?B?c1hqemNJZXpwMkZ1cTAwclFRNkVWNUhKQ3lYa2FiODFjdmFIY1I4LzZycHFM?=
- =?utf-8?B?R1Y1TnVGeUlWUmQzeTBqRzR2R3MyRUZ5SFZUZC9KVlkzRVZsRmttQjI2YzI3?=
- =?utf-8?B?SVgzOGdnckJFaG5seHZhcisycEY3SzVlMVJ5ZG1oemNMQzJZVktzclNneEV2?=
- =?utf-8?B?d2RicWtuWlBPaDViVkpJektqMmlHOUFseitzNG5lSmZVZmlEYXZneDFBeXR3?=
- =?utf-8?B?bWduZ0Exc21SM0pmMjRqZ1Z6SGd5blFjREpvaGxheEZUYkdCOFJDbXFBSzNH?=
- =?utf-8?B?TUpndG8zRVh5MlNQTm92S1JVQVNVak5tUk50ckhwdXMrWVpNY3MyVXZWdzhK?=
- =?utf-8?Q?4jLP94QrmobICLZ5DP5LecZsA?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f6bfda3e-eae3-4566-d7b0-08de260b573d
-X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9621.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2025 18:58:48.7629
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rBx5HzVg/udXTJOioGJatsDNRgy0NBo+THLpC9IQ4cPdhctbQERdLBHcYU/iBv1ywS3U3RT/zRpcRP92MUxIQA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB11030
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABeCG2kC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1NDQ0Nz3dKy5JTKvOSSohxd8yQLgzTTpLSkJBNDJaCGgqLUtMwKsGHRsbW
+ 1AGA9BM1cAAAA
+X-Change-ID: 20251117-uvcdynctrl-7b80f5bfbb41
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Hans de Goede <hansg@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-usb@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>, 
+ Manav Gautama <bandwidthcrunch@gmail.com>, 
+ Martin Rubli <martin_rubli@logitech.com>
+X-Mailer: b4 0.14.2
 
-Use cleanup __free(fwnode_handle) simplify code. Change to dev_err_probe()
-because replace goto with return.
+The UVC driver uses a custom ioctl `UVCIOC_CTRL_MAP` to map XU controls
+into v4l2 controls. The most well know user of this feature is the
+uvcdynctrl app.
 
-Add missed "\n" at error message.
+This app has a set of XML files which contains the list of mappings.
+Some of these mappings are standard and other ones are custom.
 
-No functional change.
+This series move the standard mappings to the kernel driver, so
+userspace do not need to depend on external apps to use them.
 
-Signed-off-by: Frank Li <Frank.Li@nxp.com>
+While we are at it we realized that some of the mappings can be harmful
+for the privacy of the user. This series introduce a mechanism to block
+those mappings.
+
+While we are at it, we complete the deprecation of the nodrop parameter.
+Ideally, this patch should belong in a different series, but then we
+will have conflicts... and who wants to works twice?
+
+I have tried this series with a Logitech Webcam Pro 9000, that has been
+donated by Hans de Goede (Thanks Hans!!!).
+
+Without this patch and uvcdynctrl the device has 14 controls. (Ctrls A)
+
+With this patch the device has 15 controls (Ctrls B):
+Ctrls A
++
+control 0x009a090a `Focus, Absolute' min 0 max 255 step 0 default 0 current 0
+
+With uvcdynctrl and this patch the device has 17 controls (Ctrls C):
+Ctrls B
++
+control 0x0a046d71 `Disable video processing' min 0 max 1 step 1 default 0 current 0
+control 0x0a046d72 `Raw bits per pixel' min 0 max 1 step 1 default 0 current 0
+
+With uvcdynctrl and without this patch the device has 19 controls:
+Ctrls C
++
+control 0x0a046d05 `LED1 Mode' min 0 max 3 step 1 default 3 current 3
+  0: Off
+  1: On
+  2: Blinking
+  3: Auto (*)
+control 0x0a046d06 `LED1 Frequency' min 0 max 255 step 1 default 0 current 0
+
+BTW, Driver tested with virtme-ng. First time that I use it for uvc
+development, and it works like a charm :).
+virtme-run --kimg arch/x86/boot/bzImage --mods auto --show-command \
+	--show-boot-console --verbose --qemu-opts -usb -device qemu-xhci \
+	-device usb-host,hostbus=1,hostport=4
+
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/platform/nxp/imx-mipi-csis.c    | 31 +++++++++------------------
- drivers/media/platform/nxp/imx8mq-mipi-csi2.c | 31 +++++++++------------------
- 2 files changed, 20 insertions(+), 42 deletions(-)
+Ricardo Ribalda (4):
+      media: uvcvideo: Remove nodrop parameter
+      media: uvcvideo: Import standard controls from uvcdynctrl
+      media: uvcvideo: Announce deprecation intentions for UVCIOC_CTRL_MAP
+      media: uvcvideo: Introduce allow_privacy_override
 
-diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
-index ce93d868746f002c22e2f86b1e0aa84ec1a76061..d924adb406a30797b66f0094ab17e98ad44fefac 100644
---- a/drivers/media/platform/nxp/imx-mipi-csis.c
-+++ b/drivers/media/platform/nxp/imx-mipi-csis.c
-@@ -12,6 +12,7 @@
-  *
-  */
- 
-+#include <linux/cleanup.h>
- #include <linux/clk.h>
- #include <linux/debugfs.h>
- #include <linux/delay.h>
-@@ -1349,28 +1350,25 @@ static int mipi_csis_async_register(struct mipi_csis_device *csis)
- 		.bus_type = V4L2_MBUS_CSI2_DPHY,
- 	};
- 	struct v4l2_async_connection *asd;
--	struct fwnode_handle *ep;
- 	unsigned int i;
- 	int ret;
- 
- 	v4l2_async_subdev_nf_init(&csis->notifier, &csis->sd);
- 
--	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(csis->dev), 0, 0,
--					     FWNODE_GRAPH_ENDPOINT_NEXT);
-+	struct fwnode_handle *ep __free(fwnode_handle) =
-+		fwnode_graph_get_endpoint_by_id(dev_fwnode(csis->dev), 0, 0,
-+						FWNODE_GRAPH_ENDPOINT_NEXT);
- 	if (!ep)
- 		return -ENOTCONN;
- 
- 	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
- 	if (ret)
--		goto err_parse;
-+		return ret;
- 
- 	for (i = 0; i < vep.bus.mipi_csi2.num_data_lanes; ++i) {
--		if (vep.bus.mipi_csi2.data_lanes[i] != i + 1) {
--			dev_err(csis->dev,
--				"data lanes reordering is not supported");
--			ret = -EINVAL;
--			goto err_parse;
--		}
-+		if (vep.bus.mipi_csi2.data_lanes[i] != i + 1)
-+			return dev_err_probe(csis->dev, -EINVAL,
-+					     "data lanes reordering is not supported\n");
- 	}
- 
- 	csis->bus = vep.bus.mipi_csi2;
-@@ -1381,12 +1379,8 @@ static int mipi_csis_async_register(struct mipi_csis_device *csis)
- 
- 	asd = v4l2_async_nf_add_fwnode_remote(&csis->notifier, ep,
- 					      struct v4l2_async_connection);
--	if (IS_ERR(asd)) {
--		ret = PTR_ERR(asd);
--		goto err_parse;
--	}
--
--	fwnode_handle_put(ep);
-+	if (IS_ERR(asd))
-+		return PTR_ERR(asd);
- 
- 	csis->notifier.ops = &mipi_csis_notify_ops;
- 
-@@ -1395,11 +1389,6 @@ static int mipi_csis_async_register(struct mipi_csis_device *csis)
- 		return ret;
- 
- 	return v4l2_async_register_subdev(&csis->sd);
--
--err_parse:
--	fwnode_handle_put(ep);
--
--	return ret;
- }
- 
- /* -----------------------------------------------------------------------------
-diff --git a/drivers/media/platform/nxp/imx8mq-mipi-csi2.c b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-index 75709161fb26a61239b94430365849e022fdc14f..94882568405db55593c5c51722db2233a64d53e4 100644
---- a/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-+++ b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-@@ -6,6 +6,7 @@
-  */
- 
- #include <linux/bitfield.h>
-+#include <linux/cleanup.h>
- #include <linux/clk.h>
- #include <linux/clk-provider.h>
- #include <linux/delay.h>
-@@ -717,28 +718,25 @@ static int imx8mq_mipi_csi_async_register(struct csi_state *state)
- 		.bus_type = V4L2_MBUS_CSI2_DPHY,
- 	};
- 	struct v4l2_async_connection *asd;
--	struct fwnode_handle *ep;
- 	unsigned int i;
- 	int ret;
- 
- 	v4l2_async_subdev_nf_init(&state->notifier, &state->sd);
- 
--	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(state->dev), 0, 0,
--					     FWNODE_GRAPH_ENDPOINT_NEXT);
-+	struct fwnode_handle *ep __free(fwnode_handle) =
-+		fwnode_graph_get_endpoint_by_id(dev_fwnode(state->dev), 0, 0,
-+						FWNODE_GRAPH_ENDPOINT_NEXT);
- 	if (!ep)
- 		return -ENOTCONN;
- 
- 	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
- 	if (ret)
--		goto err_parse;
-+		return ret;
- 
- 	for (i = 0; i < vep.bus.mipi_csi2.num_data_lanes; ++i) {
--		if (vep.bus.mipi_csi2.data_lanes[i] != i + 1) {
--			dev_err(state->dev,
--				"data lanes reordering is not supported");
--			ret = -EINVAL;
--			goto err_parse;
--		}
-+		if (vep.bus.mipi_csi2.data_lanes[i] != i + 1)
-+			return dev_err_probe(state->dev, -EINVAL,
-+					     "data lanes reordering is not supported\n");
- 	}
- 
- 	state->bus = vep.bus.mipi_csi2;
-@@ -749,12 +747,8 @@ static int imx8mq_mipi_csi_async_register(struct csi_state *state)
- 
- 	asd = v4l2_async_nf_add_fwnode_remote(&state->notifier, ep,
- 					      struct v4l2_async_connection);
--	if (IS_ERR(asd)) {
--		ret = PTR_ERR(asd);
--		goto err_parse;
--	}
--
--	fwnode_handle_put(ep);
-+	if (IS_ERR(asd))
-+		return PTR_ERR(asd);
- 
- 	state->notifier.ops = &imx8mq_mipi_csi_notify_ops;
- 
-@@ -763,11 +757,6 @@ static int imx8mq_mipi_csi_async_register(struct csi_state *state)
- 		return ret;
- 
- 	return v4l2_async_register_subdev(&state->sd);
--
--err_parse:
--	fwnode_handle_put(ep);
--
--	return ret;
- }
- 
- /* -----------------------------------------------------------------------------
+ .../userspace-api/media/drivers/uvcvideo.rst       |   2 +
+ drivers/media/usb/uvc/uvc_ctrl.c                   | 161 +++++++++++++++++++++
+ drivers/media/usb/uvc/uvc_driver.c                 |  24 +--
+ drivers/media/usb/uvc/uvc_queue.c                  |  25 ----
+ drivers/media/usb/uvc/uvc_v4l2.c                   |  36 +++++
+ drivers/media/usb/uvc/uvcvideo.h                   |   2 +-
+ include/linux/usb/uvc.h                            |  10 ++
+ 7 files changed, 215 insertions(+), 45 deletions(-)
+---
+base-commit: 1f2353f5a1af995efbf7bea44341aa0d03460b28
+change-id: 20251117-uvcdynctrl-7b80f5bfbb41
 
+Best regards,
 -- 
-2.34.1
+Ricardo Ribalda <ribalda@chromium.org>
 
 
