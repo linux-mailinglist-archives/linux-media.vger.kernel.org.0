@@ -1,202 +1,199 @@
-Return-Path: <linux-media+bounces-47209-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47210-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36FC9C63F2A
-	for <lists+linux-media@lfdr.de>; Mon, 17 Nov 2025 12:56:32 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 542CCC6416F
+	for <lists+linux-media@lfdr.de>; Mon, 17 Nov 2025 13:37:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sin.lore.kernel.org (Postfix) with ESMTPS id 3479128E17
-	for <lists+linux-media@lfdr.de>; Mon, 17 Nov 2025 11:56:29 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BD4D44F282B
+	for <lists+linux-media@lfdr.de>; Mon, 17 Nov 2025 12:32:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 466E232B9B0;
-	Mon, 17 Nov 2025 11:56:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E570332E724;
+	Mon, 17 Nov 2025 12:31:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PZHMEM3G"
+	dkim=pass (2048-bit key) header.d=kaspersky.com header.i=@kaspersky.com header.b="hnJWdQG9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx12.kaspersky-labs.com (mx12.kaspersky-labs.com [91.103.66.155])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E39FA24A076
-	for <linux-media@vger.kernel.org>; Mon, 17 Nov 2025 11:56:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8CA732D0ED;
+	Mon, 17 Nov 2025 12:31:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.103.66.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763380582; cv=none; b=eftbV6WoPfm2PrIDrMOnR0rLnXNy5aCbbl8dR1M0ZjWPhWH0c0+LbCaiQSUs8tgoD3IeHbULwhVm3XU8mJri4FLazkmRjyI0uk7MYHMESoqmo0V+9KXB9HDNJqOKDUi9Ya1TM0bdDYwYpHo9dnNKpxXwjXyjDsFtGIzYD78ezEo=
+	t=1763382706; cv=none; b=DzRN9i3hrD5ir9UY1VoH9blhZX5C6YdNPrVgWfYoaJlsQuvbgoVlaSKup6t3VjpfkkAaxQj+ayxQoocAuVwvAAyXsh6iszCTKkZryDiXhKHarXE64CX8nGK6hbPzGZkOeYMjbwpg8sMBWXQeEtTF+LlM+KAzvOzv53Euoblazbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763380582; c=relaxed/simple;
-	bh=IoPbm27xlqMQUcqxETSpkG+UYV649jqk6iAorfC4n8c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eFOUzFN4cAsIQ4rL+T784kBtEwg8SU0eA9rg6iyb5gazMDN3vqPvvA06GkprmOL6mlGbh2IG74/b4y8pLFG4QTiJdVEFQCDRPaA8zhChauKR6YYUIm6vRhws1nIZOFk4s88m4jUz1kfHJtdlL8Q1/JZfY2UrPVjCqWo4ZDjSOGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PZHMEM3G; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-42b32a5494dso2444510f8f.2
-        for <linux-media@vger.kernel.org>; Mon, 17 Nov 2025 03:56:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763380579; x=1763985379; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RWXDrHTHFq+LoH950osN3acgfrZIVN9A2hnRrxaWjK8=;
-        b=PZHMEM3GXiPrSq34Q0BdUk84t7c/SHM+UBapc6416nGFGKlqNWd2MM0Eu/gc8s82X/
-         dxWgyT0ibcTO6pHO9YNbCZDykre1fuq/0U6nL54EqnXzWcHx2WHVRcHUTupRCSq9nEvl
-         pBzUNGr/KufNFzIg7CXz5oEa+IDMPQScb6wdBGovRbGwaFQA2qmRth08N244Ip1sUb6f
-         BKLuqd3Nik41AIArCo3WnBaHEnarTJ4kGJTraO85xhivjOMOe6a7CIi451XWhn2DB3WC
-         G8HcyumIdJJr3abQREgF02P2q3odn13xca+R3RpnsVtUbkXX+s7soltQEB7kxCWAZWYr
-         lWUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763380579; x=1763985379;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RWXDrHTHFq+LoH950osN3acgfrZIVN9A2hnRrxaWjK8=;
-        b=khx6onAZAYAzyCbAmlxPZf2KXxswr5/2cq2O5csqOcfydnbvIL+VSwoVIwyHAqx0WQ
-         AJLeA3xJnlHk57FsTx+aL5KcPHBEsEczfMk/gG/xMTfnvKAAUcX4V8E7TK8kTo8E73pK
-         i+yKd+JXq92siNsTUJnsNENjtmQ0yXFJ1IFqljSTMZtnu1VeFwM7ntHibR3t2JEaEt2Q
-         yb3acKNpDtfSIg6iYojpBc8fM4gyeULFl141LKo6gppUVD13eHjhrHhcLD1DF3XmwjOD
-         /M+azJG32c7odfnfvZROnU3/9GFnRC5BhkCDXcypqVsqctY++B6Q9XrZll6p6qNMEwh/
-         i3ig==
-X-Forwarded-Encrypted: i=1; AJvYcCW3CCUmlDugoa7jVD6qYoVh8stvIoPHUQ1cliD9rnHoL+1PgmGXZQ+47RNRGJL5Eal/tMaFmeJBPajD6Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwqzNB6nnFZvDWzT7PTtmu/R9d8d5Uly4Afz5wnWvRv+718r/gA
-	GapjGaYcrxTD27RnJI9b1n07UDQV+Z+PnaPUrjNS+tSm570VlxZE3DJ6
-X-Gm-Gg: ASbGncs1YHwtv+MiyTyPatfrRX90zDmuPSFn2mZTJ2yebV6LqwT1dGl420TPt0blqTz
-	JXv3yQR6fqbEwpQJQAM/rPw67G12lIu8jomO2YMd0FsaWwXZ1rNlkGgH01RIWK1YM6gUY2Wvv28
-	w95Rp+sAOOXf8TXMiWWkUzYTw4ej9toLV0kH+2yiMU9CgJEt9i/zgJDdTYUFIrF3uMmczCEiOSO
-	1eVFN7T0Z07rud/wt9K08tBFA0at5A8uk/42M4wSSe5n9UK++a/W//PpzWSJTtbJXJK5I0QXwYv
-	50XY31Vc0Won6l9Ez1c8VJwWs9koSlnjKRzlZKDNd6K0f3sXZZNzsQbp45QV82E146rhKbeEBTc
-	DGXsiYKRTraVxyAIy7onaOjzym1I1/tUn0mvcj/5Y2EvAu+hGiYNhkSd7HqrtycXgKlsojnXZHJ
-	D59ZPQr+zo31xWzwITcmZdSjTX9CUZDcUDTaLpD+YWZBRHcTIfh7GWn41Qevx4EuRpIM6CSUt68
-	g==
-X-Google-Smtp-Source: AGHT+IGyc0tqDOwSpepSxf6zhqj7TmN9ClebDcKhn8W2nmVRELCNueCBZL+FZrHTRO+B3NHj6nEyNg==
-X-Received: by 2002:a05:6000:4029:b0:42b:4177:7139 with SMTP id ffacd0b85a97d-42b59374d6emr11588070f8f.46.1763380578949;
-        Mon, 17 Nov 2025 03:56:18 -0800 (PST)
-Received: from orome (p200300e41f274600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f27:4600:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53e91f2dsm26367014f8f.19.2025.11.17.03.56.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Nov 2025 03:56:16 -0800 (PST)
-Date: Mon, 17 Nov 2025 12:56:14 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni <skomatineni@nvidia.com>, 
-	Luca Ceresoli <luca.ceresoli@bootlin.com>, Prashant Gaikwad <pgaikwad@nvidia.com>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jonas =?utf-8?B?U2Nod8O2YmVs?= <jonasschwoebel@yahoo.de>, 
-	Dmitry Osipenko <digetx@gmail.com>, Charan Pedumuru <charan.pedumuru@gmail.com>, 
-	Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, Aaron Kling <webgeek1234@gmail.com>, 
-	Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v5 23/23] staging: media: tegra-video: add CSI support
- for Tegra20 and Tegra30
-Message-ID: <mzapp3ekwj3xdzqjjwkwn2hdfunf75fnd3wwxfsr5nce5guhoa@k2dgiw4sngrd>
-References: <20251022144930.73272-1-clamor95@gmail.com>
- <20251022144930.73272-3-clamor95@gmail.com>
+	s=arc-20240116; t=1763382706; c=relaxed/simple;
+	bh=1nSiGgeUb15drNu5JFJPqa6zU+fyxeK70YZetTcKsck=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hBvYSgHgAmWU+B71HjVaruc4QvqzwWipZaYg00vPBbXmw0pzLttdfnyrZY/JQeyq6rBB0KPWIpIzTF79z/mYB3MtANA/ZvZuj/F9DBGsbzgcZIwSawvPfthRpo5QXkygRklD/Z2pYe0ZOz4wWd6MNSdmrlN+fI7NgmPhRHp+LUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kaspersky.com; spf=pass smtp.mailfrom=kaspersky.com; dkim=pass (2048-bit key) header.d=kaspersky.com header.i=@kaspersky.com header.b=hnJWdQG9; arc=none smtp.client-ip=91.103.66.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kaspersky.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kaspersky.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kaspersky.com;
+	s=mail202505; t=1763382695;
+	bh=1pInTKFz1cx999q16HOPczNE62eICWJDGWgZtItV2Sc=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=hnJWdQG9xRezE8lk/jDUXJIplXZwHiWN8uec6ccE02vEVt/lvnVx3jDNmeHa2tlLf
+	 4TyAGR+fo7+kWHgp/PyTMiqyjgmtUdXgl6zENehN5cKDcMICXa5wVPB19LMJnHto3d
+	 CBGKRMlCf2ZJZzPO3nw87yrGAbdWV9CvjrwyNhinpG/JnTdOmy8GgqS+k8nxYUJjyf
+	 5rupyW/g4dX4esrRT3bzC0Ktk791TaaIRZnwknrIA8ipyYmsDGC153d8FTlK9fixVh
+	 L3T3TwrME0808vF2vd7S5HOl6zvGIe3b3o1Uc8/eZTqb9fXf4pU80NNAwtesYihFQx
+	 +b7Y2T3MazMAQ==
+Received: from relay12.kaspersky-labs.com (localhost [127.0.0.1])
+	by relay12.kaspersky-labs.com (Postfix) with ESMTP id A61AE5A43EC;
+	Mon, 17 Nov 2025 15:31:35 +0300 (MSK)
+Received: from mail-hq2.kaspersky.com (unknown [91.103.66.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(Client CN "mail-hq2.kaspersky.com", Issuer "Kaspersky MailRelays CA G3" (verified OK))
+	by mailhub12.kaspersky-labs.com (Postfix) with ESMTPS id 1E3B55A47E8;
+	Mon, 17 Nov 2025 15:31:35 +0300 (MSK)
+Received: from Nalivayko.avp.ru (10.16.105.14) by HQMAILSRV3.avp.ru
+ (10.64.57.53) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.29; Mon, 17 Nov
+ 2025 15:31:27 +0300
+From: Nalivayko Sergey <Sergey.Nalivayko@kaspersky.com>
+To: <linux-media@vger.kernel.org>
+CC: Nalivayko Sergey <Sergey.Nalivayko@kaspersky.com>,
+	<linux-kernel@vger.kernel.org>, <mchehab@kernel.org>,
+	<lvc-project@linuxtesting.org>,
+	<syzbot+0192952caa411a3be209@syzkaller.appspotmail.com>,
+	<stable@vger.kernel.org>
+Subject: [PATCH] media: az6007: validate I2C message length
+Date: Mon, 17 Nov 2025 15:31:01 +0300
+Message-ID: <20251117123101.1641065-1-Sergey.Nalivayko@kaspersky.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="chm563f4rduz3hg6"
-Content-Disposition: inline
-In-Reply-To: <20251022144930.73272-3-clamor95@gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: HQMAILSRV3.avp.ru (10.64.57.53) To HQMAILSRV3.avp.ru
+ (10.64.57.53)
+X-KSE-ServerInfo: HQMAILSRV3.avp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.1, Database issued on: 11/17/2025 12:18:17
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 0
+X-KSE-AntiSpam-Info: Lua profiles 198144 [Nov 17 2025]
+X-KSE-AntiSpam-Info: Version: 6.1.1.11
+X-KSE-AntiSpam-Info: Envelope from: Sergey.Nalivayko@kaspersky.com
+X-KSE-AntiSpam-Info: LuaCore: 76 0.3.76
+ 6aad6e32ec76b30ee13ccddeafeaa4d1732eef15
+X-KSE-AntiSpam-Info: {Tracking_cluster_exceptions}
+X-KSE-AntiSpam-Info: {Tracking_real_kaspersky_domains}
+X-KSE-AntiSpam-Info: {Tracking_one_url}
+X-KSE-AntiSpam-Info: {Tracking_uf_ne_domains}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;kaspersky.com:5.0.1,7.1.1;syzkaller.appspot.com:5.0.1,7.1.1
+X-KSE-AntiSpam-Info: {Tracking_white_helo}
+X-KSE-AntiSpam-Info: FromAlignment: s
+X-KSE-AntiSpam-Info: Rate: 0
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Deterministic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 11/17/2025 12:20:00
+X-KSE-AttachmentFiltering-Interceptor-Info: no applicable attachment filtering
+ rules found
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 11/17/2025 11:12:00 AM
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+X-KSE-AttachmentFiltering-Interceptor-Info: no applicable attachment filtering
+ rules found
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+X-KSMG-AntiPhishing: NotDetected, bases: 2025/11/17 11:46:00
+X-KSMG-AntiSpam-Interceptor-Info: not scanned
+X-KSMG-AntiSpam-Status: not scanned, disabled by settings
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.1.8310, bases: 2025/11/17 08:57:00 #27937168
+X-KSMG-AntiVirus-Status: NotDetected, skipped
+X-KSMG-LinksScanning: NotDetected, bases: 2025/11/17 11:47:00
+X-KSMG-Message-Action: skipped
+X-KSMG-Rule-ID: 52
 
+syzbot reports a UBSAN issue as below:
 
---chm563f4rduz3hg6
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v5 23/23] staging: media: tegra-video: add CSI support
- for Tegra20 and Tegra30
-MIME-Version: 1.0
+UBSAN: array-index-out-of-bounds in drivers/media/usb/dvb-usb-v2/az6007.c:821:30
+index 4096 is out of range for type 'unsigned char [4096]'
+CPU: 1 UID: 0 PID: 5832 Comm: syz-executor328 Not tainted 6.15.0-rc2-syzkaller-00493-gac71fabf1567 #0 PREEMPT(full)
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/12/2025
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x16c/0x1f0 lib/dump_stack.c:120
+ ubsan_epilogue lib/ubsan.c:231 [inline]
+ __ubsan_handle_out_of_bounds+0x11c/0x160 lib/ubsan.c:453
+ az6007_i2c_xfer+0x549/0xc30 drivers/media/usb/dvb-usb-v2/az6007.c:821
+ __i2c_transfer+0x6b3/0x2190 drivers/i2c/i2c-core-base.c:2259
+ i2c_transfer drivers/i2c/i2c-core-base.c:2315 [inline]
+ i2c_transfer+0x1da/0x380 drivers/i2c/i2c-core-base.c:2291
+ i2c_transfer_buffer_flags+0x10c/0x190 drivers/i2c/i2c-core-base.c:2343
+ i2c_master_recv include/linux/i2c.h:79 [inline]
+ i2cdev_read+0x111/0x280 drivers/i2c/i2c-dev.c:155
+ do_loop_readv_writev fs/read_write.c:845 [inline]
+ do_loop_readv_writev fs/read_write.c:833 [inline]
+ vfs_readv+0x6bc/0x8a0 fs/read_write.c:1018
+ do_preadv+0x1af/0x270 fs/read_write.c:1130
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xcd/0x260 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+ </TASK>
 
-On Wed, Oct 22, 2025 at 05:49:30PM +0300, Svyatoslav Ryhel wrote:
-> Add support for MIPI CSI device and calibration logic found in Tegra20 and
-> Tegra30 SoC.
->=20
-> To get CSI operational, an additional syncpoint was allocated to serve as
-> the CSI frame counter. Both VIP and CSI use an existing syncpoint for VI
-> frame start events. That said, the frame capture function was refactored
-> to reflect the addition of the CSI syncpoint, and the CSI-specific
-> configuration is guarded by the presence of a passed CSI channel structure
-> pointer.
->=20
-> The camera capture setup's configuration was reconsidered: the first two
-> writes must be done before tegra_channel_set_stream for MIPI calibration
-> to work properly; the third write was moved to VIP/CSI-specific functions
-> since it must be source-specific; the function was placed after
-> tegra_channel_set_stream so the initial sequence is preserved and expande=
-d.
->=20
-> CSI configuration sequences were added based on downstream 3.1 kernel
-> sources and adjusted to the existing video-tegra framework. Although
-> Tegra20 and Tegra30 have the same set of configurations, they differ by
-> the number of clocks used by CSI.
->=20
-> Dropped the software syncpoint counters in favor of reading syncpoints
-> directly and passing the incremented value to the polling function. If the
-> syncpoint increase fails, the PP is reset. This change should prevent
-> possible race conditions.
->=20
-> MIPI calibration logic was registered in CSI since Tegra20 and Tegra30
-> have no dedicated hardware block for these operations and use CSI. These
-> calls are used for both CSI and DSI to work properly, which is why MIPI
-> calibration cannot be contained within CSI. The pads passed to the
-> calibration calls resemble CSI PORT_A (0), CSI PORT_B (1), DSI-A (3) and
-> DSI-B (4).
->=20
-> Co-developed-by: Jonas Schw=C3=B6bel <jonasschwoebel@yahoo.de>
-> Signed-off-by: Jonas Schw=C3=B6bel <jonasschwoebel@yahoo.de>
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> ---
->  drivers/staging/media/tegra-video/csi.c     |  23 +
->  drivers/staging/media/tegra-video/csi.h     |   4 +
->  drivers/staging/media/tegra-video/tegra20.c | 620 ++++++++++++++++++--
->  drivers/staging/media/tegra-video/vi.h      |   2 -
->  drivers/staging/media/tegra-video/video.c   |   6 +
->  5 files changed, 608 insertions(+), 47 deletions(-)
+The issue occurs because the az6007 driver does not validate the length
+of the received I2C message. While iterating over st->data, the index 'j'
+may exceed the maximum buffer size of 4096 elements.
 
-Sorry, didn't realize that this was supposed to be part of the earlier
-series that contains the opsification since it shows up as separate
-patch series. Admittedly the numbering should've given it away... Thanks
-Mikko for pointing that out.
+Add validation of msgs.len based on buffer length value passed
+to __az6007_read/write functions to prevent out-of-bounds access.
 
-Anyway, most of my objections remain. You can implement this here just
-the same even without most of the extra churn in the prior patch. No
-need for moving things to a different header, just keep adding the new
-ops stuff to the existing one, which all drivers that need the
-calibration functionality already include anyway (including this). Also
-no need to split out the SoC specific bits from the mipi.c file since,
-like I said, it's not going to grow anymore and can just remain as it
-is.
+Reported-by: syzbot+0192952caa411a3be209@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=d8913f1760bc090ee46e\
+Fixes: 71d676345698 ("[media] dvb: Add a new driver for az6007")
+Cc: stable@vger.kernel.org
+Signed-off-by: Nalivayko Sergey <Sergey.Nalivayko@kaspersky.com>
+---
+ drivers/media/usb/dvb-usb-v2/az6007.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-Thierry
+diff --git a/drivers/media/usb/dvb-usb-v2/az6007.c b/drivers/media/usb/dvb-usb-v2/az6007.c
+index 65ef045b74ca..c966de4ea6e1 100644
+--- a/drivers/media/usb/dvb-usb-v2/az6007.c
++++ b/drivers/media/usb/dvb-usb-v2/az6007.c
+@@ -770,6 +770,10 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
+ 			if (az6007_xfer_debug)
+ 				printk(KERN_DEBUG "az6007: I2C W/R addr=0x%x len=%d/%d\n",
+ 				       addr, msgs[i].len, msgs[i + 1].len);
++			if (msgs[i + 1].len + 6 > ARRAY_SIZE(st->data)) {
++				ret = -EIO;
++				goto err;
++			}
+ 			req = AZ6007_I2C_RD;
+ 			index = msgs[i].buf[0];
+ 			value = addr | (1 << 8);
+@@ -788,7 +792,7 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
+ 			if (az6007_xfer_debug)
+ 				printk(KERN_DEBUG "az6007: I2C W addr=0x%x len=%d\n",
+ 				       addr, msgs[i].len);
+-			if (msgs[i].len < 1) {
++			if (msgs[i].len < 1 || msgs[i].len - 1 > ARRAY_SIZE(st->data)) {
+ 				ret = -EIO;
+ 				goto err;
+ 			}
+@@ -806,7 +810,7 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
+ 			if (az6007_xfer_debug)
+ 				printk(KERN_DEBUG "az6007: I2C R addr=0x%x len=%d\n",
+ 				       addr, msgs[i].len);
+-			if (msgs[i].len < 1) {
++			if (msgs[i].len < 1 || msgs[i].len + 6 > ARRAY_SIZE(st->data)) {
+ 				ret = -EIO;
+ 				goto err;
+ 			}
+-- 
+2.39.5
 
---chm563f4rduz3hg6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmkbDVsACgkQ3SOs138+
-s6HaShAAl2Mt1kT8lpQi6WisXh3S3pWUZiGEd4h+Q4mM5o3CX5jGL3HRmrLuw3X9
-E46M9ZXWcfbObqJtcXc+adkfJjRp0SZAVv4dOuHYewSpSxJJcqk7MvPaBHVIRQCW
-DuNQF0xdh5X/H9aWmCEGuVPE11AOkU2hoT4jS2ovdRGzkV/bK581i7oFSbP8yp+8
-x5Ah3mdv97Ffhtmfo6pXDQs6yUdK7NtTVUsUzLixcNMG+YsgzDW9E63xE1Z30ChA
-h0E1wT1VhNRnt8xa9bEyfdCJqPdevYXaatR+pPlVkOR58kWKHFiOHNgEUaF8xerQ
-BSzWTx3Kp9QLwamVDyGnw0EQ9FQdaOlQcuauh0hqum8RcrugB4VtlGfFw3FPa+3g
-GgZAOQJ+0ZVGSB/hAEuNyr4wGu95OISvuXKIkqrdoHbYU+TASM0CxSNQtPPEzmZ2
-diLGGMXsUorMYEbX9qBO8LtvanKOCXneaZsEsM8qWz9bVDhCMhQrgc9Pc+tsqCny
-AIaDMNMyxijTd5v3gKBFW7zTwtd6lWas7lyUoZau+o1eSFfuB4e41PBmK/wVhMs7
-gfpOhWIdHftMKP5vG8CqUAWanoe6uv+CeWrELFtrsmXB9l2aO50m+qOu/tK3IJGl
-d2KOoBu0b3FYme9XArllewm8eUA56emOKuD9D5FkDvRinR3ljDY=
-=co+3
------END PGP SIGNATURE-----
-
---chm563f4rduz3hg6--
 
