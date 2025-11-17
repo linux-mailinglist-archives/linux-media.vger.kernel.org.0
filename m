@@ -1,221 +1,304 @@
-Return-Path: <linux-media+bounces-47231-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47232-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F163DC6615D
-	for <lists+linux-media@lfdr.de>; Mon, 17 Nov 2025 21:15:49 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85CA8C66273
+	for <lists+linux-media@lfdr.de>; Mon, 17 Nov 2025 21:55:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sea.lore.kernel.org (Postfix) with ESMTPS id B964F29A32
-	for <lists+linux-media@lfdr.de>; Mon, 17 Nov 2025 20:15:48 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTPS id D7CEE24252
+	for <lists+linux-media@lfdr.de>; Mon, 17 Nov 2025 20:55:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCA4433C525;
-	Mon, 17 Nov 2025 20:14:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BB4532B9A0;
+	Mon, 17 Nov 2025 20:55:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="HYZxAWEg"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HUMuCDdq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D40533344E
-	for <linux-media@vger.kernel.org>; Mon, 17 Nov 2025 20:14:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F096D3191A7
+	for <linux-media@vger.kernel.org>; Mon, 17 Nov 2025 20:55:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763410465; cv=none; b=j8qvrmIRBa/3uE7HIaUXBqDtCYG6xzHRI3ScKZBblu9YYro6omiO5SHDxxcDJozyqrXzObmQBe8E6OiEYRf036skkMMN6CJ3oEb+2XqvYZvsdxK+Tu7etc0IupFX2vchXG0D3enRH4Pp1hUO3YNedBVNHCbn4U5nT6pujoY4ef0=
+	t=1763412908; cv=none; b=hy6CLv+9rIlVvhhPBX69SQt5lfPJRATvI0nrKow17ux5devmJLow8BKFtG74HojAlj6yLSD6DmUQPK6EP/eXW7//5T7ndPnQqMRINu7XOqpGV1HoBevYhxuLnBN9BI5OUVyzsjzeJSmgz467Wayv20cEXtGv26R1syT7ibHOLtM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763410465; c=relaxed/simple;
-	bh=lNuoYkLvd+eD46/OBdJpQ72e0YfFGIty3L9APEHHUsI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=b3WK2ONKMtohD9SoCsDRSXK+JThiRsp/2BtnizQOwEfY83Ee7jOjJprmW1RxVRIU+u2b6e8p3SCDI1EKKMNz05qVK2BA7tX2IMlhcG2w8pPlBBWmvRitk4dW7019rutq94BqAVtAxfPXnuvEFQZdNaipbC1kUORLgqgCgYSGm+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=HYZxAWEg; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-37bac34346dso26370841fa.2
-        for <linux-media@vger.kernel.org>; Mon, 17 Nov 2025 12:14:22 -0800 (PST)
+	s=arc-20240116; t=1763412908; c=relaxed/simple;
+	bh=MPJxeFMncmmWYIM9zDNl+erDvmc/KudaidoK95TWSww=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gLeuACWLQMrxHPGNbaWYZ5wZSugPgcpofUmmynat4saVnZK3cABpAFO4ZDdAqa70PCNd8u3b69wBZnfLttAXTsfHMd5xeQLTdQB9b+g3JMn1EfMQziD9WWFlcA0scG8lz7d0dpZNxft647ae+mVPZVQV/7fQS/2BTAlzy+W/z3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HUMuCDdq; arc=none smtp.client-ip=209.85.217.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-5dfd2148bf3so1112011137.1
+        for <linux-media@vger.kernel.org>; Mon, 17 Nov 2025 12:55:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1763410461; x=1764015261; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GJ11MTmtpMbfLC31x15oun+LOtxDWcheLgXdGkh/tGo=;
-        b=HYZxAWEgZ7WMoRNSOU9MWgT6li+Pi7wvVdaXS4PGcAS+AYoFG/qqIyMePAUyTzLdi+
-         ZPQTch5BbsdjXMDLfqHQ9zWNzskw3+GFNWpx/otka1UwaLIdPT13fQ6R6PGk7cqp70SM
-         0rgApnqQl6/c3LEAnK2jDXCSNWdrC65bPBm4o=
+        d=gmail.com; s=20230601; t=1763412904; x=1764017704; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M0TJCoUJ0BIlh25j+JVWYAJTJ6NLeGluXa177SPvLDY=;
+        b=HUMuCDdq2w0WtRkKbnvptzP7YdnAKe6Fywyhb/Z+xtfKei5y7mbtaXYYVvTT5kq6aw
+         nK5flxo92bOD1MIzYwvRi24tBDHw6fuETSl98VqP5qBROLHd1LS81MyCHJ7/N1k9xiu7
+         TOsq6GbnuIDA2z/i9e4m3Rz23/YKYPCeg50vVXPKJzQ2HpugVIHotyji/FWEFspQo2lm
+         Fu9DsYcBuN4VBl2RD3yZy5eVc6Rlu8TetKMi1H9JHSu0yLLSuScfOFY5XuOPgVk1XN9k
+         VV/Sz8KbIi6vA6OlJZ5a255soRImn3G4HU3th40lDD80NqozAmyma0D1MtcIFSp1UfPX
+         2PlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763410461; x=1764015261;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=GJ11MTmtpMbfLC31x15oun+LOtxDWcheLgXdGkh/tGo=;
-        b=r/+jgYwXm0gWgPRj0AJS4TiFQKKHK/xGKBFgvuZdF1To71c/lk0FZQUoAmXVGjygZw
-         sxPKi0Dxq4rRlTpatLrcJ8kRTLtAK8ApYbD8Om5k5lE5jd0Cid5BEt9fFl2nX9t4Umes
-         r2VeGNRci42+SfZ/TtGvB/0+Ui3c/kfmmBasF4iQDtxwSsQ1/mevWzLtkhd+13dIc1Zc
-         5co8dxWJGe4T72jZX8/9ztI3tClZGmgrCOVxRjs1c1wlpeEwvvkDlywPuIq7WWlYXPlo
-         7rDzqW5JfEQG0wJ/mbRBgDyE4N59WPoFfniW/5EajrEH0X5LsPS1rKQDvNP6EkFnuYRk
-         BoAg==
-X-Gm-Message-State: AOJu0YzR38iSVTRGMD1lGDVzkD2m5u0ZErrLSt/4HmEGlRf/whdL1A7J
-	/xHPhyr5wdhr4FW/ojeLYW8F9RWAvbABZsHhArLEC3clYEEcg81fEUMAXArMZun5FDYOrIEwvP4
-	GrORJVG5Z
-X-Gm-Gg: ASbGncvFZPBZNuv8CItvJY++H+qEjhmjcsmhtngclNfW5aEPxpPieRwWJPii8YbOXHQ
-	hPd0+y5ui+Q/53CmojYky/8qvCSSLP2OoGza1uvfC4OE8apViOwj3cMvxtd+LjTd+Eyx12YGuXd
-	KmI8bV92V2sU1iuVliV2497fpm1a+qd1z+M3l17doZOFg1b+RmXB0VrzhaFqmW/Q6nuBtdPuki1
-	unNCI605bUCTeJqq5l3gtKzE3hSzJSsMDMCV/y4N6KkIhUjKcxSXPWLYqYycMcF3KAscN9H5bFg
-	cPkE2Ce3uzKckOh6XG84KhoKovQAV2Wk09/LDwZlUeRJdJYHJtdNEB932PaUbXUXrA9DEgKvdnZ
-	rG7vB3IqHrw5V+dsoJxOL7UwXRRITv7SItXqpm5vdejmlxhNi3MT0Ce6HQf527Fg1nNqGqLlkoq
-	dbhQNK4q0hGHLpZPEJb+Xj+q9XEfoXHKPW/X6apsrJ+5UKWDeTO40VuQ0UcYiKbZBBedpZp0Ok
-X-Google-Smtp-Source: AGHT+IH/Si6c/IRfGlQZcmYGRMYCiNBeXJ2Mujhyi1F02SW3SKnVbJIOPFSmJ7DPN02kVq+M9GRlLA==
-X-Received: by 2002:a05:6512:131c:b0:594:5ec5:8fec with SMTP id 2adb3069b0e04-595841ff9f5mr3977626e87.28.1763410461174;
-        Mon, 17 Nov 2025 12:14:21 -0800 (PST)
-Received: from ribalda.c.googlers.com (80.38.88.34.bc.googleusercontent.com. [34.88.38.80])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-595804003a4sm3413302e87.59.2025.11.17.12.14.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Nov 2025 12:14:20 -0800 (PST)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 17 Nov 2025 20:14:19 +0000
-Subject: [PATCH 4/4] media: uvcvideo: Introduce allow_privacy_override
+        d=1e100.net; s=20230601; t=1763412904; x=1764017704;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=M0TJCoUJ0BIlh25j+JVWYAJTJ6NLeGluXa177SPvLDY=;
+        b=Cte70PRVB998OPGhXrZE6C7Q2il83qKMl7xfXcbs8vxEKwMqoceCL6guevl7uSN9fN
+         zuI7Ly9ZvDK/pmJE/G3s06saRk3biNIqRA5+0GRIaD6Bi2dJUzGmIl/mFWgeHbW7tvLg
+         gGrR/MnKvoTZLWJTiLYHzCLPG8QGZcWwJ31OAMhyWhrUIXGUpaFIdZHmnuHQ0Ic2ZasY
+         lX3fRitqTBmBWsmX4VDcfScuF96Q3FbOyOkPgr8+ZnwaMNLzZSgzoA46Qv4ZM4JFZD3f
+         Ng9yYcnrAdkbxRi/P+UwnyZnz9ABvk1ZJuA51NDZ9b5Vyt5MY6l8bAofkSkNn+FbSkSM
+         +Ctg==
+X-Forwarded-Encrypted: i=1; AJvYcCVRNKO/vfwgx5XouykKImw9+mGR/gQCiZeQjTTOaS09T8+4CxPQMkRLNPAZgvshunKTQmiX56W+F6WfGg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwSxaSRGtyrgsZ3E5ClLlNPfRrACmLQv9cfVtF2Tna2uGfPvOYy
+	4ufjFt+sh2884DmdXbU8gri2CKFmG3ZdmXwFRbkZtUm6ZI9GH/8/b0N373lHetsPZOayyyVAXCM
+	0MQwZ6gkRo/2sU+gb3rSc9bD3RDi+WtM=
+X-Gm-Gg: ASbGncvygX+cl4sMTkcNIPRLCaA8GgmQygyY8KpZ5QfUEMtSe5Qu/R1DERw7QtlrPUN
+	co4CM/NN1olXSJhmLTrmTS7SmtEjoQCgO8Hn6YFB7eCuJlJbeGBhs7pwaOcX/DQ0FvMvJPNQjno
+	lXAzp4PkyEsOaAriwx7Jr3Jc0diYTyOvvjz2a2+sSzVhcqX7KXZN9i1Fi7Evw4YOBqDqNrEOwt+
+	JIIwSEce8+uqCMhH1r6qpg9u5tybVJQnVEym3kLEG/5EbUhDilxvxbNTYPMBqXarw+DxKd8l9jt
+	kaGdroHaRK9EVuoH5P0MC8OVwA==
+X-Google-Smtp-Source: AGHT+IHIgQTczMwF1AM9XGLuVF1VIlcFQEtn32kNIFRL5YwF+dXg3IlrSluHiCXmTueQYY2YIEJircmM3GmA9uMkfDY=
+X-Received: by 2002:a05:6102:548b:b0:5df:b5d4:e463 with SMTP id
+ ada2fe7eead31-5dfc5c05deemr4229858137.43.1763412903485; Mon, 17 Nov 2025
+ 12:55:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251117-uvcdynctrl-v1-4-aed70eadf3d8@chromium.org>
-References: <20251117-uvcdynctrl-v1-0-aed70eadf3d8@chromium.org>
-In-Reply-To: <20251117-uvcdynctrl-v1-0-aed70eadf3d8@chromium.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Hans de Goede <hansg@kernel.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-usb@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.14.2
+References: <20251115013007.4842-1-soyer@irl.hu>
+In-Reply-To: <20251115013007.4842-1-soyer@irl.hu>
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date: Mon, 17 Nov 2025 21:54:46 +0100
+X-Gm-Features: AWmQ_bnEEuepaOuqcxYe3ME28jPrP8Wg8mJ0kgtZLIBmfMPZ9Vki_li-47h-h4c
+Message-ID: <CAPybu_1HEpqfXqQFrwxs7cwerrNb1YMf-hgg4WYmK3VC4wsbrA@mail.gmail.com>
+Subject: Re: [PATCH v5] media: uvcvideo: UVC minimum relative pan/tilt/zoom
+ speed fix.
+To: Gergo Koteles <soyer@irl.hu>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede <hansg@kernel.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, John Bauer <johnebgood@securitylive.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Some camera modules have XU controls that can configure the behaviour of
-the privacy LED.
+Hi Gergo
 
-Block mapping of those controls, unless the module is configured with
-a new parameter: allow_privacy_override.
+Thanks for reposting the patch, Could you mention what device you have
+used to test it? If you include a lsusb -v from the device that would
+be extra awesome.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/usb/uvc/uvc_driver.c |  5 +++++
- drivers/media/usb/uvc/uvc_v4l2.c   | 32 ++++++++++++++++++++++++++++++++
- drivers/media/usb/uvc/uvcvideo.h   |  1 +
- include/linux/usb/uvc.h            |  4 ++++
- 4 files changed, 42 insertions(+)
+On Sat, Nov 15, 2025 at 2:30=E2=80=AFAM Gergo Koteles <soyer@irl.hu> wrote:
+>
+> From: John Bauer <johnebgood@securitylive.com>
+>
+> For relative PTZ controls, UVC_GET_MIN for b(Pan|Tilt|Zoom)Speed
+> returns the minimum speed of the movement in direction specified
+> in the sign field.
+>
+nit: What about this extra clarification in the commit message?
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 71563d8f4bcf581694ccd4b665ff52b629caa0b6..d50c501121e6f774dfd6cfdb859279e0860d06a5 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -35,6 +35,7 @@ unsigned int uvc_hw_timestamps_param;
- static unsigned int uvc_quirks_param = -1;
- unsigned int uvc_dbg_param;
- unsigned int uvc_timeout_param = UVC_CTRL_STREAMING_TIMEOUT;
-+bool uvc_allow_privacy_override_param;
- 
- static struct usb_driver uvc_driver;
- 
-@@ -2473,6 +2474,10 @@ module_param_named(trace, uvc_dbg_param, uint, 0644);
- MODULE_PARM_DESC(trace, "Trace level bitmask");
- module_param_named(timeout, uvc_timeout_param, uint, 0644);
- MODULE_PARM_DESC(timeout, "Streaming control requests timeout");
-+module_param_named(allow_privacy_override, uvc_allow_privacy_override_param,
-+		   bool, 0644);
-+MODULE_PARM_DESC(allow_privacy_override,
-+		 "Allow UVCIOC_CTRL_MAP ioctl map privacy related control");
- 
- /* ------------------------------------------------------------------------
-  * Driver initialization and cleanup
-diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index 03c64b5698bf4331fed8437fa6e9c726a07450bd..e067b8f38500299fe6acc7e3b9770f7374748823 100644
---- a/drivers/media/usb/uvc/uvc_v4l2.c
-+++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -18,6 +18,7 @@
- #include <linux/mm.h>
- #include <linux/wait.h>
- #include <linux/atomic.h>
-+#include <linux/usb/uvc.h>
- 
- #include <media/v4l2-common.h>
- #include <media/v4l2-ctrls.h>
-@@ -121,6 +122,32 @@ static int uvc_control_add_xu_mapping(struct uvc_video_chain *chain,
- /* ------------------------------------------------------------------------
-  * UVC ioctls
-  */
-+
-+static bool uvc_is_privacy_mapping(struct uvc_xu_control_mapping *xmap)
-+{
-+	struct mapping {
-+		u8 entity[16];
-+		u8 selector;
-+	} privacy_mappings[] = {
-+		{
-+			.entity = UVC_GUID_LOGITECH_USER_HW_CONTROL_V1,
-+			.selector = 1,
-+		},
-+		{
-+			.entity = UVC_GUID_LOGITECH_PERIPHERAL,
-+			.selector = 9,
-+		},
-+	};
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(privacy_mappings); i++)
-+		if (!memcmp(xmap->entity, privacy_mappings[i].entity, 16) &&
-+		    xmap->selector == privacy_mappings[i].selector)
-+			return true;
-+
-+	return false;
-+}
-+
- static int uvc_ioctl_xu_ctrl_map(struct uvc_video_chain *chain,
- 				 struct uvc_xu_control_mapping *xmap)
- {
-@@ -133,6 +160,11 @@ static int uvc_ioctl_xu_ctrl_map(struct uvc_video_chain *chain,
- 		return -EINVAL;
- 	}
- 
-+	if (uvc_is_privacy_mapping(xmap) && !uvc_allow_privacy_override_param) {
-+		pr_warn_once("uvcvideo: Privacy related controls can only be mapped if param allow_privacy_override is true\n");
-+		return -EINVAL;
-+	}
-+
- 	map = kzalloc(sizeof(*map), GFP_KERNEL);
- 	if (map == NULL)
- 		return -ENOMEM;
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 9a86d7f1f6ea022dace87614030bf0fde0d260f0..1895e4fe45e9c0246b7f0613dd2bc51f60b78759 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -662,6 +662,7 @@ extern unsigned int uvc_clock_param;
- extern unsigned int uvc_dbg_param;
- extern unsigned int uvc_timeout_param;
- extern unsigned int uvc_hw_timestamps_param;
-+extern bool uvc_allow_privacy_override_param;
- 
- #define uvc_dbg(_dev, flag, fmt, ...)					\
- do {									\
-diff --git a/include/linux/usb/uvc.h b/include/linux/usb/uvc.h
-index b939a01da11466747249c64c72a3ea40cd364a59..f2d6cf52427ce9c0a62a80ca3629c6e350fa02c8 100644
---- a/include/linux/usb/uvc.h
-+++ b/include/linux/usb/uvc.h
-@@ -41,6 +41,10 @@
- #define UVC_GUID_LOGITECH_PERIPHERAL \
- 	{0x21, 0x2d, 0xe5, 0xff, 0x30, 0x80, 0x2c, 0x4e, \
- 	 0x82, 0xd9, 0xf5, 0x87, 0xd0, 0x05, 0x40, 0xbd }
-+#define UVC_GUID_LOGITECH_USER_HW_CONTROL_V1 \
-+	{0x82, 0x06, 0x61, 0x63, 0x70, 0x50, 0xab, 0x49, \
-+	 0xb8, 0xcc, 0xb3, 0x85, 0x5e, 0x8d, 0x22, 0x1f }
-+
- 
- /* https://learn.microsoft.com/en-us/windows-hardware/drivers/stream/uvc-extensions-1-5#222-extension-unit-controls */
- #define UVC_MSXU_CONTROL_FOCUS			0x01
+In Video4Linux, a negative value in V4L2_CID_ZOOM_CONTINUOUS,
+V4L2_CID_PAN_SPEED and V4L2_CID_TILT_SPEED indicates a movement in the
+"opposite" direction to the standard direction.
 
--- 
-2.52.0.rc1.455.g30608eb744-goog
+Currently, we were using -UVC_GET_MIN as the negative value, which
+resulted in the camera moving in the slowest possible speed.
 
+Quirk the driver to return -UVC_GET_MAX for the affected controls.
+
+Note that the get/set function from the mapping cannot be used for
+this, because we need to use the information from GET_MAX for GET_MIN
+and hacking uvc_ctrl_populate_cache seems like a worse alternative.
+
+
+> So in the negative direction, only the slowest speed can be used
+> at the moment.
+>
+> For minimum value, use maximum speed but in negative direction.
+>
+> Signed-off-by: John Bauer <johnebgood@securitylive.com>
+> Signed-off-by: Gergo Koteles <soyer@irl.hu>
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+> Changes in v5:
+> - Rebased on 6.18
+> - Link to v4: https://lore.kernel.org/all/cover.1718835633.git.soyer@irl.=
+hu/
+>
+> Changes in v4:
+> - Based on Ricardo's suggestion, only query the min value in uvc_ctrl_set
+>   if necessary
+> - Rename is_relative_ptz_ctrl function to uvc_ctrl_is_relative_ptz for
+>   consistency
+> - Rename 'relative speed implementation' to 'relative PTZ controls' in
+>   comments
+> - Fix indentation of comments
+> - Reduce the length of the new lines to 80
+> - Link to v3: https://lore.kernel.org/all/cover.1718726777.git.soyer@irl.=
+hu/
+>
+> Changes in v3:
+> - Based on Ricardo's suggestion, I squashed the two patches.
+> - Link to v2: https://lore.kernel.org/all/20240405-uvc-fix-relative-ptz-s=
+peed-v1-0-c32cdb2a899d@securitylive.com/
+>
+> Changes in v2:
+> - Made recommended changes, moved control check to helper function and re=
+moved dead code.
+> - Link to v1: https://lore.kernel.org/all/20240326-uvc-relative-ptz-speed=
+-fix-v1-1-453fd5ccfd37@securitylive.com/
+> ---
+>  drivers/media/usb/uvc/uvc_ctrl.c | 52 +++++++++++++++++++++++++-------
+>  1 file changed, 41 insertions(+), 11 deletions(-)
+>
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc=
+_ctrl.c
+> index 2905505c240c..38a7d71526c2 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -526,8 +526,6 @@ static int uvc_ctrl_get_rel_speed(struct uvc_control_=
+mapping *mapping,
+>                 *out =3D (sign =3D=3D 0) ? 0 : (sign > 0 ? value : -value=
+);
+>                 return 0;
+>         case UVC_GET_MIN:
+nit: Add comment. (and if you add it also to uvc_ctrl_get_zoom, it
+would be even better)
+            /* Not used, we use -UVC_GET_MAX */
+> -               *out =3D -value;
+> -               return 0;
+>         case UVC_GET_MAX:
+>         case UVC_GET_RES:
+>         case UVC_GET_DEF:
+> @@ -1517,6 +1515,17 @@ static u32 uvc_get_ctrl_bitmap(struct uvc_control =
+*ctrl,
+>         return ~0;
+>  }
+>
+> +static bool uvc_ctrl_is_relative_ptz(__u32 ctrl_id)
+> +{
+> +       switch (ctrl_id) {
+> +       case V4L2_CID_ZOOM_CONTINUOUS:
+> +       case V4L2_CID_PAN_SPEED:
+> +       case V4L2_CID_TILT_SPEED:
+> +               return true;
+> +       }
+> +       return false;
+> +}
+> +
+>  /*
+>   * Maximum retry count to avoid spurious errors with controls. Increasin=
+g this
+>   * value does no seem to produce better results in the tested hardware.
+> @@ -1576,18 +1585,28 @@ static int __uvc_queryctrl_boundaries(struct uvc_=
+video_chain *chain,
+>                 break;
+>         }
+>
+> -       if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MIN)
+> -               v4l2_ctrl->minimum =3D uvc_mapping_get_s32(mapping, UVC_G=
+ET_MIN,
+> -                               uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN));
+> -       else
+> -               v4l2_ctrl->minimum =3D 0;
+> -
+>         if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MAX)
+>                 v4l2_ctrl->maximum =3D uvc_mapping_get_s32(mapping, UVC_G=
+ET_MAX,
+>                                 uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
+>         else
+>                 v4l2_ctrl->maximum =3D 0;
+>
+> +       if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MIN) {
+> +               /*
+> +                * For relative PTZ controls, UVC_GET_MIN for
+> +                * b(Pan|Tilt|Zoom)Speed returns the minimum speed of the
+> +                * movement in direction specified in the sign field.
+nit: mention 4.2.2.1.15 in the comment
+> +                * For minimum value, use maximum speed but in negative d=
+irection.
+> +                */
+> +               if (uvc_ctrl_is_relative_ptz(v4l2_ctrl->id))
+> +                       v4l2_ctrl->minimum =3D -v4l2_ctrl->maximum;
+> +               else
+> +                       v4l2_ctrl->minimum =3D uvc_mapping_get_s32(mappin=
+g,
+> +                               UVC_GET_MIN, uvc_ctrl_data(ctrl, UVC_CTRL=
+_DATA_MIN));
+> +       } else {
+> +               v4l2_ctrl->minimum =3D 0;
+> +       }
+> +
+>         if (ctrl->info.flags & UVC_CTRL_FLAG_GET_RES)
+>                 v4l2_ctrl->step =3D uvc_mapping_get_s32(mapping, UVC_GET_=
+RES,
+>                                 uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
+> @@ -2449,6 +2468,7 @@ int uvc_ctrl_get(struct uvc_video_chain *chain, u32=
+ which,
+>
+>  static int uvc_ctrl_clamp(struct uvc_video_chain *chain,
+>                           struct uvc_control *ctrl,
+> +                         u32 v4l2_id,
+>                           struct uvc_control_mapping *mapping,
+>                           s32 *value_in_out)
+>  {
+> @@ -2466,10 +2486,20 @@ static int uvc_ctrl_clamp(struct uvc_video_chain =
+*chain,
+>                                 return ret;
+>                 }
+>
+> -               min =3D uvc_mapping_get_s32(mapping, UVC_GET_MIN,
+> -                                         uvc_ctrl_data(ctrl, UVC_CTRL_DA=
+TA_MIN));
+>                 max =3D uvc_mapping_get_s32(mapping, UVC_GET_MAX,
+>                                           uvc_ctrl_data(ctrl, UVC_CTRL_DA=
+TA_MAX));
+> +               /*
+> +                * For relative PTZ controls, UVC_GET_MIN for
+> +                * b(Pan|Tilt|Zoom)Speed returns the minimum speed of the
+> +                * movement in direction specified in the sign field.
+> +                * For minimum value, use maximum speed but in negative d=
+irection.
+> +                */
+nit: Mention 4.2.2.1.15
+> +               if (uvc_ctrl_is_relative_ptz(v4l2_id))
+> +                       min =3D -max;
+> +               else
+> +                       min =3D uvc_mapping_get_s32(mapping, UVC_GET_MIN,
+> +                                       uvc_ctrl_data(ctrl, UVC_CTRL_DATA=
+_MIN));
+> +
+>                 step =3D uvc_mapping_get_s32(mapping, UVC_GET_RES,
+>                                            uvc_ctrl_data(ctrl, UVC_CTRL_D=
+ATA_RES));
+>                 if (step =3D=3D 0)
+> @@ -2583,7 +2613,7 @@ int uvc_ctrl_set(struct uvc_fh *handle, struct v4l2=
+_ext_control *xctrl)
+>         if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR))
+>                 return -EACCES;
+>
+> -       ret =3D uvc_ctrl_clamp(chain, ctrl, mapping, &xctrl->value);
+> +       ret =3D uvc_ctrl_clamp(chain, ctrl, xctrl->id, mapping, &xctrl->v=
+alue);
+>         if (ret)
+>                 return ret;
+>         /*
+> --
+> 2.51.1
+>
+>
+
+
+--=20
+Ricardo Ribalda
 
