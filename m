@@ -1,205 +1,227 @@
-Return-Path: <linux-media+bounces-47218-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47219-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id E40E0C64F98
-	for <lists+linux-media@lfdr.de>; Mon, 17 Nov 2025 16:52:24 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73A90C64FEC
+	for <lists+linux-media@lfdr.de>; Mon, 17 Nov 2025 16:57:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 998AD353785
-	for <lists+linux-media@lfdr.de>; Mon, 17 Nov 2025 15:50:38 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 7EBB83590F3
+	for <lists+linux-media@lfdr.de>; Mon, 17 Nov 2025 15:55:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB01B29BD8C;
-	Mon, 17 Nov 2025 15:50:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDF5D29BD80;
+	Mon, 17 Nov 2025 15:55:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="okpVjgwd"
+	dkim=pass (2048-bit key) header.d=kaspersky.com header.i=@kaspersky.com header.b="CkUD4nSK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013053.outbound.protection.outlook.com [40.107.201.53])
+Received: from mx13.kaspersky-labs.com (mx13.kaspersky-labs.com [91.103.66.164])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A9829B8E5;
-	Mon, 17 Nov 2025 15:50:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763394629; cv=fail; b=lMJWmKHAijXUELsvimlRQ/GUY5axBRoVUjMCzX5YX/Kvj5EPhjYTBS2MKiP1CdOCupSHowKY66YCGoM9+OJQEaATKsUCofDnMbcnIvnXPCHjGc1XnJeq6/W5ekWYWak/meIcYyGPd1LI4owvZ2ya/weG1YS7uhfMwCWcDaSFMfw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763394629; c=relaxed/simple;
-	bh=DEPOK0tVTmZvD22swXJg8duh+iP/Ec9FRxdx4fC0rlw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=dag3Xx7z9vn0+EUEpXf1TLYsr4vz3WzAU9CsJDPy8UdSq7EMnCE18sdlybF3wQJNGdtGFoCeSbhQU3FAVylet7IRx0oNvfdMTd9MWYzlHfg35th46YlnRMoc0thEQN4Zc4iv2geLQeieE9TeoWQYi+OJG30NNLuXQHB6I8bsEDM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=okpVjgwd; arc=fail smtp.client-ip=40.107.201.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vvyimsH7BAJQi/ZnVh2l7JdDYt2BOc5hp58XBRCXKkhRqff5Fln+BkufrtnuByZPetnGf6/C99XBFdEQY6DPgR70V26CYTG+iGkrkloe4Kkqzeo3KKpe51pZOPt8eUZLX9opo9vHhaTcjnLaquBtHrTY1/00nNlIPWB7zHvSvy0+lE5xGYnEMIwe/1I/E5rXO15lvN/UqD2AKe3k1wI+mjEUH4Ndiy4uCth13Zzz0ifRMyPPm8YqRotEwIjuznuTeDXe4YSFgDKlikEtOVyK6eBp3K51kfde64ZibeqA4VAnklb6C9trHMOWCB1CRPzMgaDyiDEq4hKDsWvCsqp/LA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pc37mD9QaSAYq+7w3aE6UnYrbibxytcTJLldhXdjVm4=;
- b=NelfxMdujLwxghZKa6A2IN16uDB0cUcLjq6h2W96YZUuAdGPGGXwMwiY/Ej4Mc4NipzocpgmpNGj4Nky2eZf9DSpqQpuJ9B+Z8O3z625IBH6UXcgsJqEOGKbDE68HRCcRqRgok3aw9iJRgXeVshiE1LMwZqmxdE3dPMXXr2KhyrD/NLlc/pduyxw9NDw5OhYyQUH8oz9MyzKmHKHmQXUTR2NE4k0/h5S2vKHpR6/09fLBRPlWJy72OCKJFR0intXhFEWse0CwN01uFUJA70g1CYpTkKKHN0c6OfDAXqe1VaOvweBiVcuZuSZj5Wx3XHO9wRNmSq4SCZCB670YDpmnA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pc37mD9QaSAYq+7w3aE6UnYrbibxytcTJLldhXdjVm4=;
- b=okpVjgwdgV/5/Bn9Sa2av8d1/WA4hfsAGJoIuV9hhoIaLPTi6N9QwW4EftTznuuAt88SMFh7Z30xSLfqVwwDIbK2HdSfALvmDJP6hpyJBcIwcZM6pgmagsMtEna1qHVMTtGJQn/h2Y4e16UTh5K2CWzDG6dPzWaCjtg+jI5R8GE+NX5bort9xTJjYGVf+vYBc5CYUqWP5odUGldzkKWr+G34C83n7wkpUlegXfG7hKm4HyDIRAoovmWD4hR2awf4T8xuPYnD5XPLoTmfhEj47xO9dgOQts5QKJ19dpwYTZx1EgEjRbtJnYHGCbZu7mGcU4tn5cM5j5+6yYIKwQPD4g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB3613.namprd12.prod.outlook.com (2603:10b6:208:c1::17)
- by SJ2PR12MB7848.namprd12.prod.outlook.com (2603:10b6:a03:4ca::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.19; Mon, 17 Nov
- 2025 15:50:18 +0000
-Received: from MN2PR12MB3613.namprd12.prod.outlook.com
- ([fe80::1b3b:64f5:9211:608b]) by MN2PR12MB3613.namprd12.prod.outlook.com
- ([fe80::1b3b:64f5:9211:608b%4]) with mapi id 15.20.9320.021; Mon, 17 Nov 2025
- 15:50:18 +0000
-Date: Mon, 17 Nov 2025 11:50:17 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Alex Williamson <alex@shazbot.org>
-Cc: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
-	Joerg Roedel <joro@8bytes.org>, Kevin Tian <kevin.tian@intel.com>,
-	kvm@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
-	Robin Murphy <robin.murphy@arm.com>, Shuah Khan <shuah@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Will Deacon <will@kernel.org>, Krishnakant Jaju <kjaju@nvidia.com>,
-	Leon Romanovsky <leon@kernel.org>, Matt Ochs <mochs@nvidia.com>,
-	Nicolin Chen <nicolinc@nvidia.com>, patches@lists.linux.dev,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	Xu Yilun <yilun.xu@linux.intel.com>
-Subject: Re: [PATCH 0/9] Initial DMABUF support for iommufd
-Message-ID: <20251117155017.GF10864@nvidia.com>
-References: <0-v1-af84a3ab44f5+f68-iommufd_buf_jgg@nvidia.com>
- <20251113113712.5691cbaf.alex@shazbot.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251113113712.5691cbaf.alex@shazbot.org>
-X-ClientProxiedBy: BL0PR02CA0069.namprd02.prod.outlook.com
- (2603:10b6:207:3d::46) To MN2PR12MB3613.namprd12.prod.outlook.com
- (2603:10b6:208:c1::17)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4274B275B05;
+	Mon, 17 Nov 2025 15:55:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.103.66.164
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763394918; cv=none; b=tXvEe/v8uVDICbR7+DZomPjPFoKD8gPA1qdKGdlW7pqpbtYWm4JrhTya5Ym9jxlHfmTDCDGDmQonJbKZZ1rnCKxqA4M4bm7+5aefxPdARMQckShjQg/T2JQYf8c2go2tYagwrr7B7BFS3cPb48a7WnYAgA7+ynUKJcr8OVzJufQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763394918; c=relaxed/simple;
+	bh=hPrJDzyj8DX0fuDZDNUP+DAIWqS/5XdNO8huBQyUsLA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fNyq17ORd108ws9ftl5g2IKQLVupumRL9owgGYNHcnGYPGJ7DpU+cEc0HgybmFPaen5w8K2KzCNMwUun6kpRKYW2x8G7ZEMvjXuUsMwSGNhBLnmhZwL0p8n8qqyFX+Jeszv7lmF3qLEvTt/gZPn7BgJCn9OO9brEo+ORq229Gzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kaspersky.com; spf=pass smtp.mailfrom=kaspersky.com; dkim=pass (2048-bit key) header.d=kaspersky.com header.i=@kaspersky.com header.b=CkUD4nSK; arc=none smtp.client-ip=91.103.66.164
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kaspersky.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kaspersky.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kaspersky.com;
+	s=mail202505; t=1763394908;
+	bh=16HCA9ddrIpnYG6PtakcW47alFrg1zTkrEo2ojf5Jdg=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=CkUD4nSKYq2qyquyvta8i15LQTPsVQlyHnSRpfHd7/9YJM1AQ8TCCPVXQ5oEQECtI
+	 r8r0zjzgXS4wZkueTaGGlFH+HAvqgITwvdHzoW41KYLsBw/N+uj41KPf5Z6rrNpgf8
+	 FcS+IkN+Qpi6PvupRQL5kZ7gp+fnghhDIpf8VpnUIVNo5J6JznyZx9I2DtjG2tT/gY
+	 q5U72jdsl3eHB5RLKzjZaHuO44wRPq3cVdfR/YAnP1TZvrRKxDI889y4qRoKtxHQWW
+	 oCmrQtBtX165S85H8c24kh6U45fmSguzCwOzQDrWxJ53sVA16SkUuCMpCrsYr7rWfB
+	 Os5zDlTmC7jTQ==
+Received: from relay13.kaspersky-labs.com (localhost [127.0.0.1])
+	by relay13.kaspersky-labs.com (Postfix) with ESMTP id 78FFA3E1D2C;
+	Mon, 17 Nov 2025 18:55:08 +0300 (MSK)
+Received: from mail-hq2.kaspersky.com (unknown [91.103.66.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(Client CN "mail-hq2.kaspersky.com", Issuer "Kaspersky MailRelays CA G3" (verified OK))
+	by mailhub13.kaspersky-labs.com (Postfix) with ESMTPS id 0B7643E4FCA;
+	Mon, 17 Nov 2025 18:55:06 +0300 (MSK)
+Received: from Nalivayko.avp.ru (10.16.105.14) by HQMAILSRV3.avp.ru
+ (10.64.57.53) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.29; Mon, 17 Nov
+ 2025 18:54:57 +0300
+From: Nalivayko Sergey <Sergey.Nalivayko@kaspersky.com>
+To: <linux-media@vger.kernel.org>
+CC: Nalivayko Sergey <Sergey.Nalivayko@kaspersky.com>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Antoine Jacquet <royale@zerezo.com>, Christophe JAILLET
+	<christophe.jaillet@wanadoo.fr>, Alan Stern <stern@rowland.harvard.edu>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	<lvc-project@linuxtesting.org>,
+	<syzbot+0335df380edd9bd3ff70@syzkaller.appspotmail.com>,
+	<stable@vger.kernel.org>
+Subject: [PATCH] dvb-usb: dtv5100: rewrite i2c message usb_control send/recv
+Date: Mon, 17 Nov 2025 18:53:56 +0300
+Message-ID: <20251117155356.1912431-1-Sergey.Nalivayko@kaspersky.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3613:EE_|SJ2PR12MB7848:EE_
-X-MS-Office365-Filtering-Correlation-Id: dc728ff3-2ffc-43c7-2ace-08de25f101a4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?kr5ASHpw+iOz2zaDEJNoWXIdb/hBbToygu3EPYsR4ornbefEXbTzQ4lRvOzR?=
- =?us-ascii?Q?vgKPxGXMbqTdPwFjDf7bIurCmG7sWXRImaAytM+54s3H6vz/Jmq/iwuMHBvm?=
- =?us-ascii?Q?dm/EvVeVhx5oOrEeJbuXx3+ap4oOPoDDmc3kzPZ2lBjFE+7BcFimK1jh8p76?=
- =?us-ascii?Q?ryMw73RjWuBkZAqBvzAOQTFbug3bPlwOjhayuF51+ietb4X0LP9z7nyhGJ+N?=
- =?us-ascii?Q?utimxU7AVTLv28Z9WLqryU13VDL3wreu7DbeRZKGUQWETGoORboGYBGPr1qZ?=
- =?us-ascii?Q?VHYckgbBavpbGExrPdzJPhKbNI1XlCm89cQ71sUEhqrIKhyV76bc2D276UGT?=
- =?us-ascii?Q?s9Efie902hVpdJzDHsNAIZQwxDq9KBHHpgCPVvEs8VJ4foC49lKM/ouv/d3f?=
- =?us-ascii?Q?WTvnkk5WCLoI/eGW3Rc0T2S6Mv2qaqsTgDMzvZ4fmU4uYiDLHnB/9HyZayPn?=
- =?us-ascii?Q?HmavzrY0mtOInvFaCYOwlmmdFv6whwBTkIMdVykFOHF1rYJwo27itvKADwHo?=
- =?us-ascii?Q?eh6wGWCZbgl23lHynCOyZ3yIGVU+6X0TLU01ZN+SEFQlzDYUkg6NfAGMryQL?=
- =?us-ascii?Q?B3WbtcbXRKvUUfdqVAdlfGDb4PHmJmq6RccXxDxJY2x0mncRLvIQR1qDFjcE?=
- =?us-ascii?Q?rK+fogUMVyRUILYtWGGzMNKsadUdN5uYS3kOYbmFQiuRIYx8C+BewYuTANpC?=
- =?us-ascii?Q?wk8ufNdHx3765GsGXYmRf/KKleELMW5bzstmstpf5GLUZ1+gV1WTUDqdm/ZJ?=
- =?us-ascii?Q?20f9e+9okaAZrWt7Tmawes1wyUGNHYlqO6YbPenRoCV6QHUHDDb6psQmBVZ0?=
- =?us-ascii?Q?AjGsqmqLOKSe2QNt8/OrAmixxYeE6KX3ADOEnP0eS8yan3FjcSj/tjptO0+Y?=
- =?us-ascii?Q?2RsUAe26yUUS8B7tJSZaxod0ERkxE+x5UYASZdJlMJ2UoNINDLCHHETvVSLM?=
- =?us-ascii?Q?whmdhAI7+lKuH2qBkpEjy3eIDu3OL2plh4S/XKuRo39MeF/5j1j97ocbFIof?=
- =?us-ascii?Q?IhU1WwpCs8ZhPSruPbseHkxgvaAFFq/gDpPysj9xwk2uW4GBZtF4l2cSPN5W?=
- =?us-ascii?Q?SvtVy1fjwSdhvxmNh3xLtCevgDos+VoW7P967xnB0w7BQ/j1ct6lfZpj8ex8?=
- =?us-ascii?Q?Ws9JromENyo8KwJ4mOtcKvX9w2UoqN9Sd+QGcvyoZsdhEoQ4lUo7k6ST7s4k?=
- =?us-ascii?Q?RAEzqoaFm1cQ+xFpHF56oi/JW0yGDuNUU8hhHHTMaGHD9Uo0Q9Y/dur768LE?=
- =?us-ascii?Q?cT4p6VV+qA1z+MMohLZcQWyatR219n3oEK9PqewmoKDxH17at+Dg9sTEieDi?=
- =?us-ascii?Q?DpcK74wCP8ugicTfaLfeU9m5X1UmsDIS34y3mcrd+yJLtrtWhgNpMC+97Dky?=
- =?us-ascii?Q?yE8SABpY97hJUka/xef5dzqvqYYMpMVgpIUJX/v8eKmZEUDyDbCkwx4lIZGH?=
- =?us-ascii?Q?V/LJWUAeNUyqW4cdr2R0sHuY+RsItaksRM+9Ch38NZzSeHyZWL6shg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3613.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?HWQur8mpGTaYRNuNeZsm3vyk46/bInYJ+ffGoVJaDjysxWH9jATxbI7g/NJp?=
- =?us-ascii?Q?j4bIhmPPkQ2JtGADXRQV2m/5YeMDXEypk+lMHQsm/3nD36ibhqBYrRYLvuHw?=
- =?us-ascii?Q?kN+fBctlHHkNMO1OIOVcnsuhsMKEqfleZKtwUB3qu3tlAkeFgIM4Mo7ze0k3?=
- =?us-ascii?Q?r3QCX7K8pkNMcczxAg15D5XfXmNRFmI+Bga3v9VOgZwGrtadr9hRPGgLsKRv?=
- =?us-ascii?Q?e99plptfR+iUA4uYWV8g1vA7ZXhA+qDeNKHmFE/HAxhrWqcZfAxm2S0wNp82?=
- =?us-ascii?Q?Fg1RoNnLFsKU74vProuHCPXYt7fyBfcLk/Ce7RVGwoo5MWGR1vSfdwOiRYIJ?=
- =?us-ascii?Q?LduHgZDAVnlq50Q1ZAursvZmPeYspNIFS3O/xk+MBAfsKE1MaMjYM1vxZf/l?=
- =?us-ascii?Q?Qb9mOsKxLLVDnUSHLMtyuFFzGpxE+wPB7xmava3v2v8V0lBdgJ677eFnVkAY?=
- =?us-ascii?Q?1CS0UixwgI0PWKqT8SsL53dR9LkejaFBpKkO+RCjA+J2NH7lRKpEgGuiHMXW?=
- =?us-ascii?Q?Tf3OvgBuIgG75PQl6wdJZiNttpRZ2n1VCdqqmOztOmXNZdwRE30LGk/8T/0Q?=
- =?us-ascii?Q?FSAGt77Z2KMLsMlDadk+Om5u3rZyzypvLdoh94itY5LBRLix/HByWc6W6y6O?=
- =?us-ascii?Q?5FaYAM0FMvh5DZiOHARdL+/8vbOx8+JHD+XMHSe/HhehLvmVhBOJqwydlBXK?=
- =?us-ascii?Q?f7aXlNRwAVfWvI1vaQCgNPqhXe6zgbMn+J6JmLgVFMtnNN+nU3xqRVPhyuBl?=
- =?us-ascii?Q?Ugu1iV1/dC111y51hcCOC0MYPr82Vy68ZA+WDGkJnKGibk6qwUFxf71uIlOt?=
- =?us-ascii?Q?oxA8/Z3QajusdvUODnl0M5djFcJ3FzCLTsnUKWztsERYjoamPmsYHMwbBtph?=
- =?us-ascii?Q?Ixef/0DLHT0rzZlSh6pXEJC4UQeJFJCoGgPL8fNADKGwOufF0gmz3CZWCvQs?=
- =?us-ascii?Q?HGCObdNCffnzG0Ks1g1t5M685jkI78sXYq8R87ViQo5++aKj2sY0XbtGCEqK?=
- =?us-ascii?Q?SPupGWtzb4wUQJo8Lup3Yzv7pKeK8EvnaIJPl58140iWYuP+jAOo0ULq5uxJ?=
- =?us-ascii?Q?UgiBKKRir6XvPJ9UdVfKXERQeH6BwZJT2Av+Wn6vdEYLxvbtPvjMRXyOh/8o?=
- =?us-ascii?Q?onG2d9krmjzv7p0wMihFxRs89UXuiZMhZU5DLQdudzPU6u2+ntuqrsZ0FWlA?=
- =?us-ascii?Q?JOVjD88Y7NOJT3RPsKlzWQyJFJBFp6Wh9IgPtbR+FvcvLQNlIKBU/KkCYrK1?=
- =?us-ascii?Q?LKxz1/IwpkjzqQElpWsDMq9r1bKEckDQ7Rj22myJHM38udnEzokjTYbVRbXq?=
- =?us-ascii?Q?3Sz7g7A7KvyvwuMvIkhWNirYVgCuQC4SSkarDQwgUy31aTSXX36lXiKDevFV?=
- =?us-ascii?Q?J8KqxbyVaSdgqSoeHquuM0LzYSHxTERLQGiV2+MLyRbdrE98O0LMu5AENqa4?=
- =?us-ascii?Q?cSQctH9nbO/yriUhVkL+CYItpmjZra/3O3gnhGHI8TDeUn8QQ9GlGciJKCqc?=
- =?us-ascii?Q?H0ZuavoNGY0CcK4qseEJl+iEG5ocIU03mCgBuww9h6KL5CUluH0Ca8DF33ws?=
- =?us-ascii?Q?dwpV7A9eL2zz4QGltYM=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dc728ff3-2ffc-43c7-2ace-08de25f101a4
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3613.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2025 15:50:17.9569
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DLi8JcM86Lz9a7WNfYP5qnh61YN4kTSZfg2UqiVR3TPqVnFzBqB2ixQ6Q2UEfbtK
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7848
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: HQMAILSRV1.avp.ru (10.64.57.51) To HQMAILSRV3.avp.ru
+ (10.64.57.53)
+X-KSE-ServerInfo: HQMAILSRV3.avp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.1, Database issued on: 11/17/2025 15:26:59
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 0
+X-KSE-AntiSpam-Info: Lua profiles 198158 [Nov 17 2025]
+X-KSE-AntiSpam-Info: Version: 6.1.1.11
+X-KSE-AntiSpam-Info: Envelope from: Sergey.Nalivayko@kaspersky.com
+X-KSE-AntiSpam-Info: LuaCore: 77 0.3.77
+ 32e48053defa8195f3a40f668b6fa713f8e2761b
+X-KSE-AntiSpam-Info: {Tracking_cluster_exceptions}
+X-KSE-AntiSpam-Info: {Tracking_real_kaspersky_domains}
+X-KSE-AntiSpam-Info: {Tracking_one_url}
+X-KSE-AntiSpam-Info: {Tracking_uf_ne_domains}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;kaspersky.com:5.0.1,7.1.1;127.0.0.199:7.1.2;syzkaller.appspot.com:5.0.1,7.1.1
+X-KSE-AntiSpam-Info: {Tracking_white_helo}
+X-KSE-AntiSpam-Info: FromAlignment: s
+X-KSE-AntiSpam-Info: Rate: 0
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Deterministic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 11/17/2025 15:28:00
+X-KSE-AttachmentFiltering-Interceptor-Info: no applicable attachment filtering
+ rules found
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 11/17/2025 2:02:00 PM
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+X-KSE-AttachmentFiltering-Interceptor-Info: no applicable attachment filtering
+ rules found
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+X-KSMG-AntiPhishing: NotDetected, bases: 2025/11/17 15:09:00
+X-KSMG-AntiSpam-Interceptor-Info: not scanned
+X-KSMG-AntiSpam-Status: not scanned, disabled by settings
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.1.8310, bases: 2025/11/17 08:57:00 #27937168
+X-KSMG-AntiVirus-Status: NotDetected, skipped
+X-KSMG-LinksScanning: NotDetected, bases: 2025/11/17 15:09:00
+X-KSMG-Message-Action: skipped
+X-KSMG-Rule-ID: 52
 
-On Thu, Nov 13, 2025 at 11:37:12AM -0700, Alex Williamson wrote:
-> > The latest series for interconnect negotation to exchange a phys_addr is:
-> >  https://lore.kernel.org/r/20251027044712.1676175-1-vivek.kasireddy@intel.com
-> 
-> If this is in development, why are we pursuing a vfio specific
-> temporary "private interconnect" here rather than building on that
-> work?  What are the gaps/barriers/timeline?
+syzbot reports a WARNING issue as below:
 
-I broadly don't expect to see an agreement on the above for probably
-half a year, and I see no reason to hold this up for it. Many people
-are asking for this P2P support to be completed in iommufd.
+usb 1-1: BOGUS control dir, pipe 80000280 doesn't match bRequestType c0
+WARNING: CPU: 0 PID: 5833 at drivers/usb/core/urb.c:413 usb_submit_urb+0x1112/0x1870 drivers/usb/core/urb.c:411
+Modules linked in:
+CPU: 0 UID: 0 PID: 5833 Comm: syz-executor411 Not tainted 6.15.0-syzkaller #0 PREEMPT(full)
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/07/2025
+Call Trace:
+ <TASK>
+ usb_start_wait_urb+0x114/0x4c0 drivers/usb/core/message.c:59
+ usb_internal_control_msg drivers/usb/core/message.c:103 [inline]
+ usb_control_msg+0x232/0x3e0 drivers/usb/core/message.c:154
+ dtv5100_i2c_msg+0x250/0x330 drivers/media/usb/dvb-usb/dtv5100.c:60
+ dtv5100_i2c_xfer+0x1a4/0x3c0 drivers/media/usb/dvb-usb/dtv5100.c:86
+ __i2c_transfer+0x871/0x2170 drivers/i2c/i2c-core-base.c:-1
+ i2c_transfer+0x25b/0x3a0 drivers/i2c/i2c-core-base.c:2315
+ i2c_transfer_buffer_flags+0x105/0x190 drivers/i2c/i2c-core-base.c:2343
+ i2c_master_send include/linux/i2c.h:109 [inline]
+ i2cdev_write+0x112/0x1b0 drivers/i2c/i2c-dev.c:183
+ do_loop_readv_writev include/linux/uio.h:-1 [inline]
+ vfs_writev+0x4a5/0x9a0 fs/read_write.c:1057
+ do_writev+0x14d/0x2d0 fs/read_write.c:1101
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xf6/0x210 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+ </TASK>
 
-Further, I think the above will be easier to work on when we have this
-merged as an example that can consume it in a different way. Right now
-it is too theoretical, IMHO.
+The issue occurs due to insufficient validation of data passed to the USB API.
+In the current implementation, the case where the operation type is read
+but the read length is zero is not handled properly, which makes no sense.
 
-> I don't see any uAPI changes here, is there any visibility to userspace
-> whether IOMMUFD supports this feature or is it simply a try and fail
-> approach?  
+When usb_control_msg() is called with a PIPEOUT type and a read length of
+zero, a mismatch error occurs between the operation type and the expected
+transfer direction in function usb_submit_urb. This is the trigger
+for warning.
 
-So far we haven't done discoverably things beyond try and fail.
+Replace usb_control_msg() with usb_control_msg_recv() and
+usb_control_msg_send() to rely on the USB API for proper validation and
+prevent inconsistencies in the future.
 
-I'd be happy if the userspace folks doing libvirt or whatever came
-with some requests/patches for discoverability. It is not just this
-feature, but things like nesting and IOMMU driver support and so on.
+Reported-by: syzbot+0335df380edd9bd3ff70@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=0335df380edd9bd3ff70
+Fixes: 60688d5e6e6e ("V4L/DVB (8735): dtv5100: replace dummy frontend by zl10353")
+Cc: stable@vger.kernel.org
+Signed-off-by: Nalivayko Sergey <Sergey.Nalivayko@kaspersky.com>
+---
+ drivers/media/usb/dvb-usb/dtv5100.c | 21 +++++++++------------
+ 1 file changed, 9 insertions(+), 12 deletions(-)
 
-> The latter makes it difficult for management tools to select
-> whether to choose a VM configuration based on IOMMUFD or legacy vfio if
-> p2p DMA is a requirement.  Thanks,
+diff --git a/drivers/media/usb/dvb-usb/dtv5100.c b/drivers/media/usb/dvb-usb/dtv5100.c
+index 3d85c6f7f6ec..05860f5d5053 100644
+--- a/drivers/media/usb/dvb-usb/dtv5100.c
++++ b/drivers/media/usb/dvb-usb/dtv5100.c
+@@ -26,40 +26,37 @@ static int dtv5100_i2c_msg(struct dvb_usb_device *d, u8 addr,
+ 			   u8 *wbuf, u16 wlen, u8 *rbuf, u16 rlen)
+ {
+ 	struct dtv5100_state *st = d->priv;
+-	unsigned int pipe;
+ 	u8 request;
+ 	u8 type;
+ 	u16 value;
+ 	u16 index;
+ 
++	index = (addr << 8) + wbuf[0];
++
++	memcpy(st->data, rbuf, rlen);
++	msleep(1); /* avoid I2C errors */
++
+ 	switch (wlen) {
+ 	case 1:
+ 		/* write { reg }, read { value } */
+-		pipe = usb_rcvctrlpipe(d->udev, 0);
+ 		request = (addr == DTV5100_DEMOD_ADDR ? DTV5100_DEMOD_READ :
+ 							DTV5100_TUNER_READ);
+ 		type = USB_TYPE_VENDOR | USB_DIR_IN;
+ 		value = 0;
+-		break;
++		return usb_control_msg_recv(d->udev, 0, request, type, value, index,
++			st->data, rlen, DTV5100_USB_TIMEOUT, GFP_KERNEL);
+ 	case 2:
+ 		/* write { reg, value } */
+-		pipe = usb_sndctrlpipe(d->udev, 0);
+ 		request = (addr == DTV5100_DEMOD_ADDR ? DTV5100_DEMOD_WRITE :
+ 							DTV5100_TUNER_WRITE);
+ 		type = USB_TYPE_VENDOR | USB_DIR_OUT;
+ 		value = wbuf[1];
+-		break;
++		return usb_control_msg_send(d->udev, 0, request, type, value, index,
++			st->data, rlen, DTV5100_USB_TIMEOUT, GFP_KERNEL);
+ 	default:
+ 		warn("wlen = %x, aborting.", wlen);
+ 		return -EINVAL;
+ 	}
+-	index = (addr << 8) + wbuf[0];
+-
+-	memcpy(st->data, rbuf, rlen);
+-	msleep(1); /* avoid I2C errors */
+-	return usb_control_msg(d->udev, pipe, request,
+-			       type, value, index, st->data, rlen,
+-			       DTV5100_USB_TIMEOUT);
+ }
+ 
+ /* I2C */
+-- 
+2.39.5
 
-In alot of cases it isn't really a choice as you need iommufd to do an
-accelerated vIOMMU.
-
-But yes, it would be nice to eventually automatically use iommufd
-whenever possible.
-
-Thanks,
-Jason
 
