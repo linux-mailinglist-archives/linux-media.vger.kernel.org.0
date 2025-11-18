@@ -1,106 +1,142 @@
-Return-Path: <linux-media+bounces-47298-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47299-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C21ECC69D4C
-	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 15:09:38 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42CD1C69F9A
+	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 15:30:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sto.lore.kernel.org (Postfix) with ESMTPS id 6146728D24
-	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 14:09:38 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3DF1A349B4E
+	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 14:26:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BC7C3596F9;
-	Tue, 18 Nov 2025 14:09:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCB0E35A95C;
+	Tue, 18 Nov 2025 14:26:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d9kFa/E8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uf7ERMtL"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 899412FFFB4;
-	Tue, 18 Nov 2025 14:09:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36798355050;
+	Tue, 18 Nov 2025 14:26:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763474958; cv=none; b=oDSXfTtt4zIR86GpOpc67h+lhcRxgfEJoPrTyjhe5Xtl+A+4evvtc2fUhtckMaogrUd8WAim96CGZn/jfWB3MAM3V7iooluEQwA+PJbgaXcUL12ozE+1LkpuZL0xk5Z+PySR2RQ3d9Q5wrfJ697gM1G28wwx/Uc4obxZjiULK64=
+	t=1763475972; cv=none; b=CAoqG7fKrrnv3sUfvh76eXnZcNiyt5WGREP7VEQxMEy0W02ShWTwkACDYpApBQ/2kVquLyNDRHOt7H7BMtfkivlY8W+2Alt4soEvYybR2aX7DYXq2BtD5QezJj0X4lu0cTKpjzm29JNCnco4L8ZoWYYuimi9xQdBGxrFjA69+JI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763474958; c=relaxed/simple;
-	bh=nrTGR5b2VdJfs2Bp44Aa5+BK6AQuXNBiakDGZoA+KZ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k7CpcTLkgjqhiWGWEFafqVYwqJv5AMG1MQTrYDLv1+FfhetbR5+6lXdSyN7Ks5qVg75kHfHgY9yeGlYB9ZcL2nsD5clI/zQ89O6en846keDOfB9GYM73AjSRE6t/v2AArpxc1lsj4xa5qP7HFCPH9Xh8fJSUNL+i33cfJmpXOB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d9kFa/E8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C07FC19425;
-	Tue, 18 Nov 2025 14:09:18 +0000 (UTC)
+	s=arc-20240116; t=1763475972; c=relaxed/simple;
+	bh=ejoEfVQPWBYZ0PyLtQkJpAvcNWz5Xe4/WqTYaNUnAbM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=g0UpobZYKyJbqhQi6BPeStwIuBqoIi3mvf7IkWm37JWcEvb34Bu2kqFqsdJNPOnLRP0zEZh8JgHGWH7yYgk7JA5sa4CsU0FfaPEgxsrRm+pIIHANSym6/S2ardfToU1WW0W2qpZ+GnWXNKRO8qI5W+YW0U5KfDXosH0CTZWa2U8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uf7ERMtL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FA1DC4CEF1;
+	Tue, 18 Nov 2025 14:26:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763474958;
-	bh=nrTGR5b2VdJfs2Bp44Aa5+BK6AQuXNBiakDGZoA+KZ8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d9kFa/E8z4UscfIn/Nt/R5Ns9WIUgtjk9fCP0BM88HYGFjx90YKZDkwxQ9nDcM1hQ
-	 FdmC9hFIp/aMOFF/Agac/Ms+sDj1CDjQuElA6fBZDtkkh9LDdA9apYBxMt0Qfnq038
-	 oMdnV7F335HR4OqQl6WlF7iHDbtQYyDNpS5MWIcGkTV3AhPpOtHgVPUXquRyeAFv46
-	 zwGARRGaIKNnKIS+8TYJGKFHdMfsVZ2Q5BEb5nXIw3B/JUUv8/N9HCquwrzBs+BSw7
-	 5bgLOklGvyE1Z9PXFAUB5zIWILegQu204kUPvD30X9E5JHQ95+KsKHfIOl2K1i7cup
-	 XTgRipoE+gbHg==
-Received: from mchehab by mail.kernel.org with local (Exim 4.99)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vLMOS-000000039Fh-1ZaZ;
-	Tue, 18 Nov 2025 15:09:16 +0100
-Date: Tue, 18 Nov 2025 15:09:16 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH 4/4] media: uvcvideo: Introduce allow_privacy_override
-Message-ID: <x2xheosw24fecqjjv4fmj2t3i53k2ypyvmkkkvmv6xtdwsherd@e5klkm3ou4g7>
-References: <20251117-uvcdynctrl-v1-0-aed70eadf3d8@chromium.org>
- <20251117-uvcdynctrl-v1-4-aed70eadf3d8@chromium.org>
- <2025111817-wages-anyone-e39a@gregkh>
+	s=k20201202; t=1763475971;
+	bh=ejoEfVQPWBYZ0PyLtQkJpAvcNWz5Xe4/WqTYaNUnAbM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=uf7ERMtLHtJDvvwZbXYkIsMFKtBumBRhF0ksmCj4I/Jp9VKRBonN51gwp9X8ID5zV
+	 oEUJ6sNJFOxRPUYLs4mVYQD4A2yVYg0+dGDefFRU85TokaOnM/gYRahEWUCkHkro0H
+	 J25yg1RfTsTuuv+5K/RITI6PfQl9aatifYH1GPXmgvb23zQecbMj3ylcSxxMdCiluB
+	 eFPiPeT+gzkBeqcBKc6Am9wxPpXEYiAZfhY0NCckOVvfNe7MYIue7X+HO1T+Dx86SR
+	 tI+lJ1DwATG70Q3Tf28jooQU0uYDRwzc1+0ic7fBK/Xpiz4DEWT8fwwTPRdde1FfBf
+	 ObBAPmnkRC1Rg==
+Message-ID: <381cf376-72b0-4a5f-a99e-524f6d83a2d0@kernel.org>
+Date: Tue, 18 Nov 2025 15:26:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2025111817-wages-anyone-e39a@gregkh>
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/4] media: uvcvideo: Introduce allow_privacy_override
+To: Gergo Koteles <soyer@irl.hu>, Ricardo Ribalda <ribalda@chromium.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org
+References: <20251117-uvcdynctrl-v1-0-aed70eadf3d8@chromium.org>
+ <20251117-uvcdynctrl-v1-4-aed70eadf3d8@chromium.org>
+ <f922a8271624a6ae765abbf9894867007a29c8e7.camel@irl.hu>
+ <CANiDSCs7mdMmCxho+u=DC53kCaUTq05htzpV2=_NEkvq0U0pOw@mail.gmail.com>
+ <fd65b83abc22587e592a565dd2b326e8eb63f34c.camel@irl.hu>
+ <CANiDSCudzTj0QZMWNnE0gUPFh5heQWRC8z8NOmDHnVXCdqi96A@mail.gmail.com>
+ <b55a513fb25c47411ab7289f3812187e3f67da43.camel@irl.hu>
+From: Hans de Goede <hansg@kernel.org>
+Content-Language: en-US, nl
+In-Reply-To: <b55a513fb25c47411ab7289f3812187e3f67da43.camel@irl.hu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 18, 2025 at 06:14:09AM -0500, Greg Kroah-Hartman wrote:
-> On Mon, Nov 17, 2025 at 08:14:19PM +0000, Ricardo Ribalda wrote:
-> > Some camera modules have XU controls that can configure the behaviour of
-> > the privacy LED.
-> > 
-> > Block mapping of those controls, unless the module is configured with
-> > a new parameter: allow_privacy_override.
+Hi George,
+
+On 18-Nov-25 12:14 PM, Gergo Koteles wrote:
+
+..
+
+>> Do you have a compelling use-case for turning off the privacy LED?
+>>
 > 
-> This is not the 1990's, please do not add new module parameters, they do
-> not scale, nor work properly at all for modern hardware where you can
-> have multiple devices in the same system.
+> As a pet camera, it is useful to be able to turn off the LED.
+> In some cases, it can also eliminate unwanted reflections.
+> Some cameras may have blue LED, and if someone hates blue LEDs..
+
+And almost all cameras already do not allow manually overriding the LED
+turning on while streaming. There is a very low-tech solution for this,
+put some black isolation tape over the LED :)
+
+>> My core goal is simple: if the camera is in use, the privacy LED must
+>> be ON. If the LED is ON unexpectedly, it serves as a clear indication
+>> that something unusual is happening.
+
+...
+
+>> No freedom is lost. This change simply increases the
+>> trustworthiness/reliability of your device.
 > 
-> This isn't an agreement that we should do this feature at all, just that
-> if you do, it should NOT be a module parameter.
+> It will decrease to the extent that fewer people will know that such an
+> option exists because they will not read the description of the
+> module's parameters.
 
-I agree with Greg: modprobe makes things harder specially on usb.
+People currently already will not know that the option exists.
 
-Also, in the specific case of privacy leds, IMO it should never be
-possible to directly disable it, not even root via a modprobe or
-runtime parameter.
+Seeing the current LED controls on Logitech cams requires 2 manual steps:
 
-Ok, as it might be some case where someone really wants to disable for his
-special pet toy. If such cases are relevant, a Kconfig parameter could
-be added (maybe depending on BROKEN), having privacy LED enabled by default. 
+1. Install uvcdynctrl which maps the custom GUIDs to the LED controls
+   Note distros do not install this be default
+2. Use either a GUI v4l2-control app like qv4l2ucp or gtk-v4l, or
+   v4l-ctrl -l to list controls and then change the setting.
 
-This way, any sane distro-generated Kernel should always have the privacy
-LED on when camera is in use. 
+So there already is close to 0 discoverability for this Logitech
+only feature.
 
-On other words, if someone has secure boot enabled, he can be more confident
-that a distro-vendor signed Kernel will honour the privacy LED, and not
-even the root can tamper with - as BIOS access to disable secure boot would
-be needed to change it - plus, booting a non-signed kernel.
+For the new MIPI cameras on laptops we have deliberately made it
+impossible to disable the privacy LED while streaming even though
+it is often controlled by a separate GPIO because of privacy reasons.
+
+For the same privacy reasons I fully agree with Ricardo that this should
+be behind a module option. Which replaces step 1. with creating
+a /etc/modprobe.d/uvc.conf file, so just about as much work.
+
+> And it's not possible to be sure that there isn't another undocumented
+> option in the firmware to turn it off the LED.
+> 
+> A physical switch would be the best for this control, but that's not an
+> option :(
+
+Sure but remember perfect is the enemy of good. Having a v4l2-ctrl to
+force the LED to always be off will make it a lot easier for an attacker
+to use the camera without the LED turning on. Security is all about
+layers / defense in depth and the module option is a nice and simple
+way to make things harder for pervert spyware.
 
 Regards,
-Mauro
+
+Hans
+
+
+
+
 
