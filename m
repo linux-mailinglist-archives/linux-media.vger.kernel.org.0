@@ -1,180 +1,207 @@
-Return-Path: <linux-media+bounces-47290-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47292-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89E8FC699AA
-	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 14:30:08 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 618E1C69BF0
+	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 14:57:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 94AB1383607
-	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 13:28:29 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2317E4F0C0B
+	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 13:56:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A7AA354AF5;
-	Tue, 18 Nov 2025 13:27:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F48335A95F;
+	Tue, 18 Nov 2025 13:56:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ftDsZ6RC"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="mjRiTdqP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012044.outbound.protection.outlook.com [40.93.195.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9AEB3546E9;
-	Tue, 18 Nov 2025 13:27:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763472469; cv=none; b=FQPYLAS3ZKJin/2xKY1GtpLyIxfu3zklq1lGvoEXIw9xJMLL0XzvcY0VzZ0BVRVObIDGuM3achGlMQ6SG0/EJb+MaAyD3xAU8U7spnhjRypsWMVJ62QCjyqAne5wnlKhQ6JTnaZ9Rw6xr3XPz2k7MIruOT4nbUMTbPgBGgX9JZs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763472469; c=relaxed/simple;
-	bh=Y1Q0s9/1a/2ogde0fl6iNvwOmP4x/JbwJCKCpYqVIkQ=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=DVhUjsh8b8pJknLoiIr3gtX0X9ptI43dET6nzof5OnQ9WZMcuqXoPd7f288BSHSZmsBxZR7cGIdvggzSaJ7jSx0qguDYjYxRgQG2GFmQbPidBAyRVddM/2FZpQpHKiSeSC+labJePRf17R/Bx3+SKmvZP0m2ruiCYhInk/sXsvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ftDsZ6RC; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c66:4b0d:7040:4d69:4c7c:d231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 195E11E33;
-	Tue, 18 Nov 2025 14:25:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1763472340;
-	bh=Y1Q0s9/1a/2ogde0fl6iNvwOmP4x/JbwJCKCpYqVIkQ=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=ftDsZ6RCOOJQUV0IRrmp35drpcPNpr129GWBDr+q2TqtO/qNLWXVpqAhp2Scb58Ig
-	 IzDIVbdCLuSTJhpUWHtYJoKWxJ7gypvjrTCwGzYOG5vNGVNDszr7SoIlMu7Gtn6G5r
-	 W6HQLpeVcJ3GD1p34p3feDCS7W0s/bXaGDFOrDdk=
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04B11358D0F;
+	Tue, 18 Nov 2025 13:55:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763474162; cv=fail; b=JLmWeJKZZqcp7GAuY9c24YNhF3BohpVC4bSQixkOPa1vkQRAwECEKVjAcjqP6N4MgU3stg8nAhUE66zygJFsxdh//OQcrHKt2fVOp4QC8pozk5Ew4JGdLpIB8BMOgv36RIfKdlHiaV3jPO+ISMPokTCMV1mbnq/VgL+pkT5yigU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763474162; c=relaxed/simple;
+	bh=MIbE4ykbcND322Y9YGdzXu1wv5pCC8f0e2MopCW0UFU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JUR/mi1yTGvLAXPC+I1ilxVRQ4mDQYqwdJqitYJ7yiM2e1cVxBneaZ6VAV6+BM1qc0VFAyta1nG6ch55jFTAqukt7F/O2dTP9jlF3YxIggnHfuPb8yEFGLwbmQkou4jCPBS42k5cdNGLM2T7DPV8pu+3nf8xtEoQqq2YLD3yK1M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=mjRiTdqP; arc=fail smtp.client-ip=40.93.195.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=H1/DNRSddPht56LFSA3Gr2j2sRBb/qmfDFw8Vv+wpjYQcZmuy3U9dFLbkJjaYJ1/LAfbZI9hMH5zflQ681dnuCcK7aNMlQNNFnfIKtaTBAKpwJKoYGNgaAT5JyglmzoCT7ORk5UdYVG8XPb1tk3Pi9UI18li571wa7GrynobrFG9zP9jwxjz3EVNtdTTBcMyyb4DcoOdLtld4O/HAePMJUdwY2TA+HSVhqOFfr2IBp6PbEeSPlHw21sUzjlwbUJv/EPoZ3W0+kUa9xGKrnFON3jFXQjX0mIE2Q5LV8uFOReWna0V+GM/MScHwOSXZNj7WfB8ChZmy4LFwZtsJh2TLw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Dbi/SDEbhwv9x9qUnIJcSmxMwVDSSZlgVZJIO9G4GsI=;
+ b=fDDSyWdEjOlF9btt9N9T2QGv/VsP5/jnbNZWkFBNV1OdAudiPY5p/F4aW/sC8QHafa/tW7Jb7gTzHj6PpXQkeU53LqUqWpOZM8QFkAspx2T6UF7vHzm+PHHxEW502psFE3FQzUCehsiBWpp604qP5OvSqBt6VNM+w7UJEawG0GkW9eEaZAS56Kf387lgZ4hlekIMFNwx6bfNSO1xUUU5ALC1qlwkrySmc1XBeBA7KzvW9bvm+3k+0xm7qZWQHfPigX4xfzdVzWSw+HKeSlsI7vfzHi2cUhjfFa/MUBXwYL68WWiC6tdzZffs01XVQzJftigbabI+j7hqoa+ADIbuUw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.194) smtp.rcpttodomain=kernel.org smtp.mailfrom=ti.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Dbi/SDEbhwv9x9qUnIJcSmxMwVDSSZlgVZJIO9G4GsI=;
+ b=mjRiTdqPuk932D1Ca6yNkiqh1zF1Siakx5llwvZVGYTJTwDtJlZn8TYgi+dIqb1nsqxDi55OojdXkizl+/xS08KBY7m7384YS7nx5tMwazQd0bdF4Qos0i2GkQyRIv+0Nev9WYN/Q35PedCJmrMwaQvNJqGW2DHRWPxVx78hXMs=
+Received: from PH7P223CA0026.NAMP223.PROD.OUTLOOK.COM (2603:10b6:510:338::31)
+ by DS0PR10MB7245.namprd10.prod.outlook.com (2603:10b6:8:fd::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9320.22; Tue, 18 Nov 2025 13:55:53 +0000
+Received: from CY4PEPF0000EE34.namprd05.prod.outlook.com
+ (2603:10b6:510:338:cafe::a1) by PH7P223CA0026.outlook.office365.com
+ (2603:10b6:510:338::31) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.10 via Frontend Transport; Tue,
+ 18 Nov 2025 13:55:52 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
+Received: from flwvzet200.ext.ti.com (198.47.21.194) by
+ CY4PEPF0000EE34.mail.protection.outlook.com (10.167.242.40) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9343.9 via Frontend Transport; Tue, 18 Nov 2025 13:55:51 +0000
+Received: from DFLE214.ent.ti.com (10.64.6.72) by flwvzet200.ext.ti.com
+ (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 18 Nov
+ 2025 07:55:48 -0600
+Received: from DFLE211.ent.ti.com (10.64.6.69) by DFLE214.ent.ti.com
+ (10.64.6.72) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 18 Nov
+ 2025 07:55:47 -0600
+Received: from fllvem-mr07.itg.ti.com (10.64.41.89) by DFLE211.ent.ti.com
+ (10.64.6.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Tue, 18 Nov 2025 07:55:47 -0600
+Received: from lelv0854.itg.ti.com (lelv0854.itg.ti.com [10.181.64.140])
+	by fllvem-mr07.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5AIDtl3f605856;
+	Tue, 18 Nov 2025 07:55:47 -0600
+Received: from localhost (meghana-pc.dhcp.ti.com [10.24.69.13] (may be forged))
+	by lelv0854.itg.ti.com (8.14.7/8.14.7) with ESMTP id 5AIDtkwo004165;
+	Tue, 18 Nov 2025 07:55:47 -0600
+From: Meghana Malladi <m-malladi@ti.com>
+To: <horms@kernel.org>, <namcao@linutronix.de>, <vadim.fedorenko@linux.dev>,
+	<jacob.e.keller@intel.com>, <m-malladi@ti.com>, <christian.koenig@amd.com>,
+	<sumit.semwal@linaro.org>, <sdf@fomichev.me>, <john.fastabend@gmail.com>,
+	<hawk@kernel.org>, <daniel@iogearbox.net>, <ast@kernel.org>,
+	<pabeni@redhat.com>, <kuba@kernel.org>, <edumazet@google.com>,
+	<davem@davemloft.net>, <andrew+netdev@lunn.ch>
+CC: <linaro-mm-sig@lists.linaro.org>, <dri-devel@lists.freedesktop.org>,
+	<linux-media@vger.kernel.org>, <bpf@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <srk@ti.com>, Vignesh Raghavendra
+	<vigneshr@ti.com>, Roger Quadros <rogerq@kernel.org>, <danishanwar@ti.com>
+Subject: [PATCH net-next v6 0/6] Add AF_XDP zero copy support
+Date: Tue, 18 Nov 2025 19:25:36 +0530
+Message-ID: <20251118135542.380574-1-m-malladi@ti.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAPY8ntA2TCf9FuB6Nk+On+y6N_PMuYPAOAr3Yx8YESwe4skWvw@mail.gmail.com>
-References: <20251028-b4-rpi-ov5647-v1-0-098413454f5e@ideasonboard.com> <20251028-b4-rpi-ov5647-v1-13-098413454f5e@ideasonboard.com> <tca3pwpzwqokxpjlv5mjsf3mai6ojlwypve6np53vur4cojd3t@viistqpnzv25> <176346530691.268162.12757814341347187181@freya> <CAPY8ntA2TCf9FuB6Nk+On+y6N_PMuYPAOAr3Yx8YESwe4skWvw@mail.gmail.com>
-Subject: Re: [PATCH 13/13] media: i2c: ov5647: Add V4L2_CID_LINK_FREQUENCY control
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, Jacopo Mondi <jacopo@jmondi.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Kieran Bingham <kieran.bingham@ideasonboard.com>, David Plowman <david.plowman@raspberrypi.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Peter Robinson <pbrobinson@gmail.com>, Stefan Wahren <wahrenst@gmx.net>, Ivan T. Ivanov <iivanov@suse.de>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 18 Nov 2025 18:57:37 +0530
-Message-ID: <176347245796.268162.1039078457352251254@freya>
-User-Agent: alot/0.12.dev28+gd2c823fe
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE34:EE_|DS0PR10MB7245:EE_
+X-MS-Office365-Filtering-Correlation-Id: bcfc0923-3683-47d9-bd34-08de26aa2f43
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|82310400026|7416014|1800799024|36860700013|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?kjgwSamNIf2UpUJG5mE+YJtocnY7AJEoOCK+ZHmOxVJd1DylsqMAfYVhcKcz?=
+ =?us-ascii?Q?ergCyl+sEOLz+coNcN55MVJBJzlIHoNRsRff/dJETCCmz3dyHwln7PldQ1Xi?=
+ =?us-ascii?Q?CIQrLJeY6pViSx2LkYSluqbOjCtL+FUwWJW6uSCrLBvwswO11TwIYRrZGUK2?=
+ =?us-ascii?Q?nCBIO0PRTRH5pFmR+GF2a49TWltOfCIbhBBWxaSUiSDLnYGXiFzuPsjhXpx6?=
+ =?us-ascii?Q?EPFoI9h+K9N8u0wa0QErYdaP9ER6mCIG5JuvgLQ0XDsPVr68aW9HtZsqbL1R?=
+ =?us-ascii?Q?rhbAs9qrLEvERMnMcX/+3dHTcoZB5QyF4wn2i/BUCL8Cobq8xDD6OyWvXvXG?=
+ =?us-ascii?Q?EHUf4jV+ItWiTiqCqBtM5cdDC0v7blv4wg2HaU7sRhtpwP2iNeUMCpbX+kRK?=
+ =?us-ascii?Q?EKIDSlv84/q/zm6KOzmqsP/KowusVNBLsJd/97Fl/EtcUqcjsYoqPsi1ux9Q?=
+ =?us-ascii?Q?aLN495BUPNl0T7E9GXuAGk/petjGCHREtOIKAcsKqlQ4GGGuASfYtHD3oUK5?=
+ =?us-ascii?Q?/43Z+CGGnQQqh1mM/VRD+um/1DzWVWBZASEeEMjnMboVY5rhCbG+VHd11R0W?=
+ =?us-ascii?Q?+FwRJ8iPFi/Reit8IhsEEQY9W/qWXu/VzXUwN29lx1yJevLBSy5S8TKU4KtI?=
+ =?us-ascii?Q?hsya97+ms/VHI+UdbsdyyQzuOrbZq+B2QQlUdiSTIFAuexCa5lmS3Hqmu95O?=
+ =?us-ascii?Q?nf9QEDuMxW9vhL94YRBx28QUJi0+BwfbjmCIjPF/eRoUp6SIgXmbriTQbyvj?=
+ =?us-ascii?Q?Mou/8aFlvSlgUj8ob3QHm/Itv66JuDEFofdVYbcRCqge3xlb2Ojs8drgRzm/?=
+ =?us-ascii?Q?UcRsaEHiZfx3RhqPkX5cc0Lbgbf0OGPjVsaGDrLcx6bdkWyn+ig8s/ws0UPE?=
+ =?us-ascii?Q?NPpAFWoMPIxhVVw7rZ+BViSBGn5k12FR66UqOI+eHPH8WrqL8iM3m33lzJbz?=
+ =?us-ascii?Q?rwqeEv3NBbChCgUP8eqZRAHk956MPLeaN5wHAc1fg76aXuMRbJJkWfOE3ar8?=
+ =?us-ascii?Q?dgyGQmqtR2EhQYBTRi9UFb8AY6q7u0gWwNg92tRzxtKp7zhbN7Uj7HRp+s23?=
+ =?us-ascii?Q?MC9X26blPg131ZHFr0nUKRh4MzpYE7cQW93GfzCMdUtFyLpdKzajtnKp6+yf?=
+ =?us-ascii?Q?fIP8YnxAKcCpHBW5H8ods3zUH1cKD5D2/SaDDvef+OAdln0cSkziFSahhL12?=
+ =?us-ascii?Q?iTwLa/roYzuVZxOo+V0Axk5Ia6SiTyihe5fr1G5YT6reYhn8RaG+g5SyxqYB?=
+ =?us-ascii?Q?C+wzgz3uaFLD2XHW+ycgElzTByszrBI/BqJIN+uRDTEhTarOGdWemgfXvPgF?=
+ =?us-ascii?Q?yRXdweqW7eEteCKuj/O94Y+Zg2/Kx3UoyDBi0Um9v/sXEfW8zc6aZf0bqe7C?=
+ =?us-ascii?Q?a7CM3MXN7pwqQ5qcEPWuwfN0ERpAKaDnfMfNEe4WDW3AXFvQ2wiGOQAxSoMT?=
+ =?us-ascii?Q?3K0DtoyHrHTq7fQUbXDSGoaXTjTCt4gmjj2UUZ8gPlXZv74DWmhZtREerKJA?=
+ =?us-ascii?Q?7ovC69xp8HES4o3VfaLLEVRs5US8/ev5fYtXt98QwP1cm5/npCjVOrjGqXkh?=
+ =?us-ascii?Q?EbTViv9IffvieMeC2Q5CbIEzwYiLNxN1tN9Oup2j?=
+X-Forefront-Antispam-Report:
+	CIP:198.47.21.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet200.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(376014)(82310400026)(7416014)(1800799024)(36860700013)(921020);DIR:OUT;SFP:1101;
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2025 13:55:51.1520
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bcfc0923-3683-47d9-bd34-08de26aa2f43
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.194];Helo=[flwvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CY4PEPF0000EE34.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB7245
 
-Hi Dave,
+This series adds AF_XDP zero coppy support to icssg driver.
 
-Quoting Dave Stevenson (2025-11-18 18:17:25)
-> Hi Jacopo & Jai
->=20
-> On Tue, 18 Nov 2025 at 11:28, Jai Luthra <jai.luthra@ideasonboard.com> wr=
-ote:
-> >
-> > Hi Jacopo,
-> >
-> > Quoting Jacopo Mondi (2025-11-02 16:59:02)
-> > > Hi Jai
-> > >
-> > > On Tue, Oct 28, 2025 at 12:57:24PM +0530, Jai Luthra wrote:
-> > > > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > >
-> > > > The link frequency can vary between modes, so add it as a
-> > > > control.
-> > > >
-> > > > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > > Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-> > > > ---
-> > > >  drivers/media/i2c/ov5647.c | 25 ++++++++++++++++++++++++-
-> > > >  1 file changed, 24 insertions(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-> > > > index be0b96c4372ae0c6d8fc57280b195d6069dd7019..dea978305c3c8688197=
-80f7f631b225f4c1e7756 100644
-> > > > --- a/drivers/media/i2c/ov5647.c
-> > > > +++ b/drivers/media/i2c/ov5647.c
-> > > > @@ -97,6 +97,13 @@ static const char * const ov5647_supply_names[] =
-=3D {
-> > > >
-> > > >  #define OV5647_NUM_SUPPLIES ARRAY_SIZE(ov5647_supply_names)
-> > > >
-> > > > +#define FREQ_INDEX_FULL              0
-> > > > +#define FREQ_INDEX_VGA               1
-> > > > +static const s64 ov5647_link_freqs[] =3D {
-> > > > +     [FREQ_INDEX_FULL]       =3D 218500000,
-> > >
-> > > The full mode pixel rate is set to 87500000, which considering CSI-2
-> > > DDR mode and the 2 lanes in use give me a link freq of 21875000.
-> >
-> > Indeed, I get the same value, will update.
->=20
-> Agreed. I obviously lost a digit.
->=20
-> > >
-> > > Do you know where 218500000 comes from ? (it might be perfectly legit,
-> > > I'm not questioning that).
-> > >
-> >
-> > > > +     [FREQ_INDEX_VGA]        =3D 208333000,
-> >
-> > This value should be 137500000 if we do the same calculation using the
-> > pixel rate for the VGA mode. But for the VGA mode, the sensor does 2x2
-> > binning + 2x2 subsampling, which is quite a bit different than other mo=
-des.
-> >
-> > https://docs.kernel.org/driver-api/media/tx-rx.html#pixel-rate mentions
-> > that the pixel rate value calculated from the bus link frequency does n=
-ot
-> > necessarily have to match the PIXEL_RATE control value (which is for the
-> > sensor's internal readout of pixels including blanking).
->=20
-> Indeed you should never assume that pixel rate and link frequency are
-> directly linked. So many sensors have separate PLLs for the pixel
-> array vs the MIPI block.
->=20
-> Having said that, OV5647 appears to use the same PLL for pixel clock
-> and MIPI, although it does have a separate PLLADCLK which is
-> presumably for the ADC.
+Tests were performed on AM64x-EVM with xdpsock application [1].
 
-Ah that's really helpful information, thanks.
+A clear improvement is seen Transmit (txonly) and receive (rxdrop)
+for 64 byte packets. 1500 byte test seems to be limited by line
+rate (1G link) so no improvement seen there in packet rate
 
->=20
-> > Ultimately, these values are coming from the BSP where the CFE driver is
-> > using the link frequency control to configure the DPHY-RX rate, so I th=
-ink
-> > it would be wiser to not reduce the VGA link frequency value, which may
-> > cause issues with DPHY-RX latching. We can always fix it later if neede=
-d.
->=20
-> It's been a long time since I looked at these settings, but I do have
-> a spreadsheet from Omnivision that gives clock frequencies based on
-> register values.
-> In my experience the link frequency isn't critical to be exactly right
-> as it typically only sets up timeout ranges in the PHY. Even if the
-> value is significantly out it will generally work just fine.
->=20
-> VGA and full modes differ in register 0x3036 (SC_CMMN_PLL_MULTIPLIER)
-> which alters all the timings.
->=20
-> Running the numbers again, I get the VGA link frequency to be
-> 145.8333MHz, but also the pixel rate to be 58.333MPix/s vs 55 in the
-> driver. I don't recall the VGA mode being 6% out on frame rate and
-> exposure setup, so I can't quite square that with reality. I'll try to
-> find 10 minutes to confirm, unless either of you happen to have one
-> set up and could validate the frame times.
->=20
+Having some issue with l2fwd as the benchmarking numbers show 0
+for 64 byte packets after forwading first batch packets and I am
+currently looking into it.
 
-Running 640x480 capture with default hblank/vblank I get frames at
-62.49fps.
+AF_XDP performance using 64 byte packets in Kpps.
+AF_XDP performance using 64 byte packets in Kpps.
+Benchmark:	XDP-SKB		XDP-Native	XDP-Native(ZeroCopy)
+rxdrop		253		473		656
+txonly		350		354		855
+l2fwd 		178		240		0
 
-58333000/(1852*504) =3D 62.4946
+AF_XDP performance using 1500 byte packets in Kpps.
+Benchmark:	XDP-SKB		XDP-Native	XDP-Native(ZeroCopy)
+rxdrop		82		82		82
+txonly		81		82		82
+l2fwd 		81		82		82
 
-So 58.333MPix/s seems to be the correct value instead of 55MPix/s.
+[1]: https://github.com/xdp-project/bpf-examples/tree/master/AF_XDP-example
+v5: https://lore.kernel.org/all/20251111101523.3160680-1-m-malladi@ti.com/
 
-I had already sent a v2, so I'll wait till next -rc1 is tagged for any
-more comments, and will update these values in v3.
+Meghana Malladi (6):
+  net: ti: icssg-prueth: Add functions to create and destroy Rx/Tx
+    queues
+  net: ti: icssg-prueth: Add XSK pool helpers
+  net: ti: icssg-prueth: Add AF_XDP zero copy for TX
+  net: ti: icssg-prueth: Make emac_run_xdp function independent of page
+  net: ti: icssg-prueth: Add AF_XDP zero copy for RX
+  net: ti: icssg-prueth: Enable zero copy in XDP features
 
-Thanks,
-Jai
+ drivers/net/ethernet/ti/icssg/icssg_common.c | 469 ++++++++++++++++---
+ drivers/net/ethernet/ti/icssg/icssg_prueth.c | 394 +++++++++++++---
+ drivers/net/ethernet/ti/icssg/icssg_prueth.h |  25 +-
+ 3 files changed, 739 insertions(+), 149 deletions(-)
 
->   Dave
->=20
 
-[snip]
+base-commit: c9dfb92de0738eb7fe6a591ad1642333793e8b6e
+-- 
+2.43.0
+
 
