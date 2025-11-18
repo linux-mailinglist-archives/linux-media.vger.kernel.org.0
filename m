@@ -1,264 +1,130 @@
-Return-Path: <linux-media+bounces-47262-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47263-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 268BFC68F03
-	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 11:57:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AF2BC68FC4
+	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 12:08:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id F38624E8C39
-	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 10:57:28 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9C8AD4E81A3
+	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 11:08:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46B9633E377;
-	Tue, 18 Nov 2025 10:57:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EEB634E75C;
+	Tue, 18 Nov 2025 11:08:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="co0Wp3wo"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zBJLxkuJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0656631D723;
-	Tue, 18 Nov 2025 10:57:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16337330B13
+	for <linux-media@vger.kernel.org>; Tue, 18 Nov 2025 11:08:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763463441; cv=none; b=Yp4W1OBoN1grE/uIeq/c+yuYllRC2cIAqB2uutHp/xj/hAheseiAzl/DCguJN6PHVIUfNaPrhGCHoH12dp6HqEx4MlF2I/VTbVdI1lGFDdG1zKcnHk+yKeUwohXbIJ2yZLYP01WVi0AojvSxPSZ1P6BMIixTFz7Ishp+PiGRtRg=
+	t=1763464087; cv=none; b=KhsaS1j2aH4gLivr1np4fS6ScvXpna5b3pqLHVkIw/RxRaCpChk/R8TxuXxSBv3IMR3an8f6R9Thd70Kyl1Eqcx41B31pvXK2uyPzsTzAh+I0Ebj95rwvmU5DHC9ePRhcSfwbEVb5cGVZA66/uaB4wz7GImlHFT6uVgV2xmNSTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763463441; c=relaxed/simple;
-	bh=RSIWFx/SvMPdUNLuiE3ukb3/EJw/SXKL00UeU8a30ns=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=rJhuv23CYgeTBXKpqKGmO/ZKFdNMbOTAVUavDCBrZPylqfW+5MqbkpnlXQgNhnegGNXYYZP3zT8MwKYgeRZoW9Gog7EaUyA5jeIuG7JwJl9S9zkT7t01j6L4RoyTr5THdUmR+bjjRvK7GNLPZ/9Elj5bl1qT/998XdUU1LFZLR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=co0Wp3wo; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c66:4b0d:7040:4d69:4c7c:d231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1EE26BE4;
-	Tue, 18 Nov 2025 11:55:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1763463312;
-	bh=RSIWFx/SvMPdUNLuiE3ukb3/EJw/SXKL00UeU8a30ns=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=co0Wp3wojRmmFBtMUYQZYH+xyNMpRsHsd+4Cswydwh9/DQV4nfv9vT3K25eD6LCEe
-	 hW3G7/Yii3V/+L01nKtgk5tzH09iVXah7jXBHOg8WuXEYSAjKi1cazcrZ4zhJiWANd
-	 q1IbiPwIGTK5sOP/Cj1SSf3lWqjCL357jA8iV0EY=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1763464087; c=relaxed/simple;
+	bh=OQF0sk46s2hLmjrUOiUzHeID2ZztqA4oI0bB6vj5ooQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VvtXhuhSpgY2nxg47hwrLs3zP5Vt5yXlfgVbePYxjsZetMGp0CR4jNLRzJxTObRG/gF4F9xJiR895K4RUsLr54QDI5/XqLJ0bJtATvkeQUfVdp3nEwsS06GCwFh7OMVLlcOConfDceEscifaEeZ6NHqy3CosEeCS2ysyxEr9MPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zBJLxkuJ; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-47774d3536dso44237085e9.0
+        for <linux-media@vger.kernel.org>; Tue, 18 Nov 2025 03:08:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1763464083; x=1764068883; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=AoB6bHmy3Gr2c9dl9LxyC0mWmZ5xq1v+qI2e+g/jvls=;
+        b=zBJLxkuJLSYviU4ISl3zDgXfKnxH6/z2ryxkLAWaBI067G7ryVkL62V2vinvocVscv
+         W3bsMtUOmcDBzSDSeb+HB7bDPVRVbF6POYgOFGOEBPVi8mk5oj8rXjxl1Py14U+u8oF0
+         bSfJi2V2NSXk1+DQSo2JQO29iR/AxVCEyoRTV+sjxzICIjyDlTsncHomUy4Qm55m75zP
+         xq2ytQkpxea7WClkvYeoY+1/fbjbdzN51oQK4u7a3LcaoY8xnL/gt2Pk+6Q57nH+JRLu
+         Wnmx5O1iz98fW/Uk1KFAoUvOmUH8vq0tJG6bBLEQLl/+W1SzSdk399P/XY427/SanQs6
+         Rjgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763464083; x=1764068883;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AoB6bHmy3Gr2c9dl9LxyC0mWmZ5xq1v+qI2e+g/jvls=;
+        b=sryKmzeoyaqeuX1IxPMgObkggyB7iPhXN1jL1ylVrVILMb6094CkVCno/ki/3fRlEj
+         Sd5tV7j/9vSVkGcXw72XluodiI3leYRRctgzmbF9LKnOwTrbnU3fu961oNlnbN4Q6Vmp
+         Ib3je5uL779kf5Cw20kJ+qvFloHuFEpsUMAJdzF1116EWy9CCXNDdIE7fQECR5Sub3/g
+         epBKX7X8A8vXViksVdaXI2Rg2UZl9WCwZBToznAJ01DyRsfRlDnZU4RIfA7OQXtYulc0
+         NWaov9RldcWFEaPgM9Y6FWaJtCmm5babJk9os0EtL3pTipEBfC1GNsW5OvSF1y03f/cY
+         yrbg==
+X-Forwarded-Encrypted: i=1; AJvYcCUCeSm3Z2v6vshgV+1BBBwFI2O9YyzTm7MMfhhahH74lHsIxFODGadsWEPniyT6QLdKwXVm8ln94qGOMQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxihoZa4abbWx4FpmUsmBuYbG1tSPyjOVJihYPMUjsXfD/qxbl3
+	hrquYo/gui0NsStStBkqLaNFVeyGskfuf0cxZ15E9xsATqIzkZQFVtnH7IdXHCUM2rE=
+X-Gm-Gg: ASbGncvd2Jj1TvTMwRJN+z348zHlWhLdgBek/dQhQOb8Hoj3XoFM5IM7s7oQWcRr8TV
+	7GiU5BRTCbFj8fY6kB38vsW348OjZ/YqoZifjYx3/Iy4jg4psxEY6fvpPDTwFfuzvPO86Lwqq0P
+	o1+AuSCSHts83FiQd2dMrqj3deQ57qas0Ds9H22AclUZyhUVEuhUwgmv49/qd8fpAgtqXSXXz1/
+	1MFu2shomHu18OFmaS3Ky1rAYzHXF3w3/mSRwNB1wrTLVYptgJUj8cW3sexvzMRErP3VsgB27bj
+	xQNhk3EBye6rrH0S4l3wVNaNHQQ8IYiM0xJAA3GjkjXyp6nrDBgDMEdGYI1VpKm1zNsr/UT65hR
+	/pw3E8lqDbdhz+t0oqdVLukE/5dBL+sDaqyB5rjYTtkxrOROjQn5cQZROLn8xa+X6JhFRe99xdm
+	2NqlhaE1j8TJzH92+9T74gd3WnTwqLZO8IgTMH+pS/tg==
+X-Google-Smtp-Source: AGHT+IFwBfUbutDFVGFhG/tpcbmLbS1ovbAuX60wD/D/mUkwyiz6bbGTHlNaOEa8ByNTSBTIa85fWA==
+X-Received: by 2002:a05:600c:524e:b0:475:dadd:c474 with SMTP id 5b1f17b1804b1-477a94e88bcmr26303945e9.10.1763464083352;
+        Tue, 18 Nov 2025 03:08:03 -0800 (PST)
+Received: from [192.168.0.27] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4779a684202sm180035855e9.10.2025.11.18.03.08.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Nov 2025 03:08:02 -0800 (PST)
+Message-ID: <0a114896-ffca-427a-8761-977dafa73ea5@linaro.org>
+Date: Tue, 18 Nov 2025 11:08:01 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <maj7fvugwy25d4fny4km26yoed4o4zdggh3totbuatqu73qjs2@tllxhvjg7qey>
-References: <20251028-b4-rpi-ov5647-v1-0-098413454f5e@ideasonboard.com> <20251028-b4-rpi-ov5647-v1-9-098413454f5e@ideasonboard.com> <maj7fvugwy25d4fny4km26yoed4o4zdggh3totbuatqu73qjs2@tllxhvjg7qey>
-Subject: Re: [PATCH 09/13] media: i2c: ov5647: Add control of V4L2_CID_HBLANK
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, Jacopo Mondi <jacopo@jmondi.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Kieran Bingham <kieran.bingham@ideasonboard.com>, David Plowman <david.plowman@raspberrypi.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Peter Robinson <pbrobinson@gmail.com>, Stefan Wahren <wahrenst@gmx.net>, Ivan T. Ivanov <iivanov@suse.de>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Tue, 18 Nov 2025 16:27:10 +0530
-Message-ID: <176346343076.268162.8926249825341031408@freya>
-User-Agent: alot/0.12.dev28+gd2c823fe
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/3] Add CAMSS support for SM6350
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Luca Weiss <luca.weiss@fairphone.com>, Bryan O'Donoghue <bod@kernel.org>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <3ph8XeidoxkUIsK7qiOH29pde94sdwa3ReWKVVrPabgS5enIAmwVAC5plyFnBMJGKQBnxFB6df6j69OMFIeavw==@protonmail.internalid>
+ <20251114-sm6350-camss-v2-0-d1ff67da33b6@fairphone.com>
+ <df4a6a77-9004-4dbe-9b11-7af2bea7e068@kernel.org>
+ <DE8JJCQA0C4Q.35NEED7XG0K0V@fairphone.com>
+ <17e7ebc9-3b88-4334-b87d-1bce6d5bb120@linaro.org>
+ <893b97ad-7d2b-4408-bab5-2cd63fdaa33b@oss.qualcomm.com>
+ <28f33d3a-6866-4bdb-a1e5-d193dcb7d4d1@linaro.org>
+ <a15bbbf1-549d-4603-ad6d-3a578b548184@oss.qualcomm.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <a15bbbf1-549d-4603-ad6d-3a578b548184@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Jacopo,
+On 18/11/2025 10:06, Konrad Dybcio wrote:
+>>> Konrad
+>> vfe170 is what we have on sdm845
+>>
+>> So I'm just asking Luca to try the sdm845 method of waggling this clock since what we have doesn't work.
+> It's of course going to work because this way you're not calling the
+> code that throws this error
+> 
+> I was curious whether you know the actual reason why this is being
+> done in some other GCC drivers
+> 
+> Konrad
 
-Thanks for the review.
+No notion at all, perhaps as a workaround to this very problem.
 
-Quoting Jacopo Mondi (2025-11-02 16:37:55)
-> Hi Jai
->=20
-> On Tue, Oct 28, 2025 at 12:57:20PM +0530, Jai Luthra wrote:
-> > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> >
-> > The driver did expose V4L2_CID_HBLANK, but as a READ_ONLY control.
-> >
-> > The sensor only uses the HTS register to control the line length,
-> > so convert this control to read/write, with the appropriate ranges.
-> > Adopt the old fixed values as the minimum values permitted in each
-> > mode to avoid issues of it not streaming.
-> >
-> > This should allow exposure times up to ~3 seconds (up from ~1sec).
-> >
-> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-> > ---
-> >  drivers/media/i2c/ov5647.c | 26 +++++++++++++-------------
-> >  1 file changed, 13 insertions(+), 13 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-> > index 3aad3dc9b5cd0c24c07a37e2567e3c61c52e4fc2..59c21b91d09d79f073a5487=
-1221f197a0bcf3aa2 100644
-> > --- a/drivers/media/i2c/ov5647.c
-> > +++ b/drivers/media/i2c/ov5647.c
-> > @@ -53,6 +53,8 @@
-> >  #define OV5647_REG_AEC_AGC           0x3503
-> >  #define OV5647_REG_GAIN_HI           0x350a
-> >  #define OV5647_REG_GAIN_LO           0x350b
-> > +#define OV5647_REG_HTS_HI            0x380c
-> > +#define OV5647_REG_HTS_LO            0x380d
-> >  #define OV5647_REG_VTS_HI            0x380e
-> >  #define OV5647_REG_VTS_LO            0x380f
-> >  #define OV5647_REG_VFLIP             0x3820
-> > @@ -79,6 +81,8 @@
-> >  #define OV5647_VBLANK_MIN            24
-> >  #define OV5647_VTS_MAX                       32767
-> >
-> > +#define OV5647_HTS_MAX                       0x1fff
-> > +
-> >  #define OV5647_EXPOSURE_MIN          4
-> >  #define OV5647_EXPOSURE_STEP         1
-> >  #define OV5647_EXPOSURE_DEFAULT              1000
-> > @@ -187,8 +191,6 @@ static struct regval_list ov5647_2592x1944_10bpp[] =
-=3D {
-> >       {0x3a19, 0xf8},
-> >       {0x3c01, 0x80},
-> >       {0x3b07, 0x0c},
-> > -     {0x380c, 0x0b},
-> > -     {0x380d, 0x1c},
-> >       {0x3814, 0x11},
-> >       {0x3815, 0x11},
-> >       {0x3708, 0x64},
-> > @@ -276,8 +278,6 @@ static struct regval_list ov5647_1080p30_10bpp[] =
-=3D {
-> >       {0x3a19, 0xf8},
-> >       {0x3c01, 0x80},
-> >       {0x3b07, 0x0c},
-> > -     {0x380c, 0x09},
-> > -     {0x380d, 0x70},
-> >       {0x3814, 0x11},
-> >       {0x3815, 0x11},
-> >       {0x3708, 0x64},
-> > @@ -375,8 +375,6 @@ static struct regval_list ov5647_2x2binned_10bpp[] =
-=3D {
-> >       {0x3809, 0x10},
-> >       {0x380a, 0x03},
-> >       {0x380b, 0xcc},
-> > -     {0x380c, 0x07},
-> > -     {0x380d, 0x68},
-> >       {0x3811, 0x0c},
-> >       {0x3813, 0x06},
-> >       {0x3814, 0x31},
-> > @@ -450,8 +448,6 @@ static struct regval_list ov5647_640x480_10bpp[] =
-=3D {
-> >       {0x3a19, 0xf8},
-> >       {0x3c01, 0x80},
-> >       {0x3b07, 0x0c},
-> > -     {0x380c, 0x07},
-> > -     {0x380d, 0x3c},
-> >       {0x3814, 0x35},
-> >       {0x3815, 0x35},
-> >       {0x3708, 0x64},
-> > @@ -1061,7 +1057,8 @@ static int ov5647_set_pad_fmt(struct v4l2_subdev =
-*sd,
-> >                                        mode->pixel_rate, 1, mode->pixel=
-_rate);
-> >
-> >               hblank =3D mode->hts - mode->format.width;
-> > -             __v4l2_ctrl_modify_range(sensor->hblank, hblank, hblank, =
-1,
-> > +             __v4l2_ctrl_modify_range(sensor->hblank, hblank,
-> > +                                      OV5647_HTS_MAX - mode->format.wi=
-dth, 1,
->=20
-> Is '1' really the min ? Who knows the datasheet doesn't report that :(
->=20
-
-I think 1 is set as the step value here, keeping the minimum equal to
-default HTS - width (to be safe, as I presume the HTS values for a mode
-come from the sensor manufacturer)
-
-> >                                        hblank);
-> >
-> >               vblank =3D mode->vts - mode->format.height;
-> > @@ -1325,6 +1322,10 @@ static int ov5647_s_ctrl(struct v4l2_ctrl *ctrl)
-> >               ret =3D ov5647_write16(sd, OV5647_REG_VTS_HI,
-> >                                    sensor->mode->format.height + ctrl->=
-val);
-> >               break;
-> > +     case V4L2_CID_HBLANK:
-> > +             ret =3D ov5647_write16(sd, OV5647_REG_HTS_HI,
-> > +                                  sensor->mode->format.width + ctrl->v=
-al);
->=20
-> Why are we writing HTS_HI only ? The max control value is set to
-> 0x1fff, this spans two registers..
->=20
-
-IIUC ov5647_write16 sends two bytes of data over I2C, where it auto
-increments the address when writing the second byte.
-
-> > +             break;
-> >       case V4L2_CID_TEST_PATTERN:
-> >               ret =3D ov5647_write(sd, OV5647_REG_ISPCTRL3D,
-> >                                  ov5647_test_pattern_val[ctrl->val]);
-> > @@ -1332,7 +1333,6 @@ static int ov5647_s_ctrl(struct v4l2_ctrl *ctrl)
-> >
-> >       /* Read-only, but we adjust it based on mode. */
-> >       case V4L2_CID_PIXEL_RATE:
-> > -     case V4L2_CID_HBLANK:
-> >               /* Read-only, but we adjust it based on mode. */
->=20
-> We really like this comment, at the point of repeating it twice...
->=20
-
-Oops, you're right, I'll drop this in the cleanup commit for PIXEL_RATE
-control.
-
-> Speaking of which... if you set the ctrl_handler to NULL when
-> registering a ro control
->=20
->         sensor->pixel_rate =3D v4l2_ctrl_new_std(&sensor->ctrls, NULL,
->                                                V4L2_CID_PIXEL_RATE,
->                                                sensor->mode->pixel_rate,
->                                                sensor->mode->pixel_rate, =
-1,
->                                                sensor->mode->pixel_rate);
->=20
-> you can remove the above 4 lines.
->=20
-> (the background is that for RO controls the control_handler has to be
-> set to NULL, to avoid having to handle them in the s_ctrl handler)
->=20
-> Maybe add a patch to this series ?
-
-Nice, will do!
-
->=20
-> >               break;
-> >
-> > @@ -1409,10 +1409,11 @@ static int ov5647_init_controls(struct ov5647 *=
-sensor, struct device *dev)
-> >                                              sensor->mode->pixel_rate, =
-1,
-> >                                              sensor->mode->pixel_rate);
-> >
-> > -     /* By default, HBLANK is read only, but it does change per mode. =
-*/
-> >       hblank =3D sensor->mode->hts - sensor->mode->format.width;
-> >       sensor->hblank =3D v4l2_ctrl_new_std(&sensor->ctrls, &ov5647_ctrl=
-_ops,
-> > -                                        V4L2_CID_HBLANK, hblank, hblan=
-k, 1,
-> > +                                        V4L2_CID_HBLANK, hblank,
-> > +                                        OV5647_HTS_MAX -
-> > +                                        sensor->mode->format.width, 1,
-> >                                          hblank);
-> >
-> >       sensor->vblank =3D v4l2_ctrl_new_std(&sensor->ctrls, &ov5647_ctrl=
-_ops,
-> > @@ -1446,7 +1447,6 @@ static int ov5647_init_controls(struct ov5647 *se=
-nsor, struct device *dev)
-> >               goto handler_free;
-> >
-> >       sensor->pixel_rate->flags |=3D V4L2_CTRL_FLAG_READ_ONLY;
-> > -     sensor->hblank->flags |=3D V4L2_CTRL_FLAG_READ_ONLY;
-> >       sensor->sd.ctrl_handler =3D &sensor->ctrls;
-> >
-> >       return 0;
-> >
-> > --
-> > 2.51.0
-> >
-
-Thanks,
-Jai
+---
+bod
 
