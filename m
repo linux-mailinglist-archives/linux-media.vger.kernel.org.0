@@ -1,49 +1,50 @@
-Return-Path: <linux-media+bounces-47287-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47288-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66B46C6943A
-	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 13:08:10 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 109F3C6944C
+	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 13:08:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sea.lore.kernel.org (Postfix) with ESMTPS id E3C6F2AA46
-	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 12:08:08 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTPS id 3C1292B1B8
+	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 12:08:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E823F35970A;
-	Tue, 18 Nov 2025 12:04:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 270B8359704;
+	Tue, 18 Nov 2025 12:04:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="C9uijmVZ"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QwuI/du4"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0343F3596EF;
-	Tue, 18 Nov 2025 12:04:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF6E93559E3;
+	Tue, 18 Nov 2025 12:04:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763467487; cv=none; b=NoMjvhIClz0HYXqb7K1wlIrhdJEzk8oCZ2mIvsNlKJwlog0sFCSHXPN1lTuIqzHUn27JSfxyoUpmxd4HuSDQjIuJsTf9Ij/D6VOhcfD09f4b9nmNq8R2YcoWkvkJZBPhcX70G55VFBcj8He59tKOcgt4vgjLgXX3K3AQcuh7kBk=
+	t=1763467495; cv=none; b=BVSG+ig5NcuQxEEU9ISu+HylkWqDaXzekEUpJhA5Hhq2tWsTcewjKalEtiP4A0KH+yEs8orBtVoOtO4/Jb6hnTQspzQQ27lW73kz3NGNBp0jXNDOp6SYXNJuOWWQAhsJjbWNhZd+0qTxPHJhRWSphiQqjpDvZl5N20xBCEuDq5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763467487; c=relaxed/simple;
-	bh=BpDORgbM71EJEbjswrJR7b3OCq74fh8zDCvCzLzXjb8=;
+	s=arc-20240116; t=1763467495; c=relaxed/simple;
+	bh=DpkWuYfncaRWDOJhDgPhlnJ5he9guBR6UviCskUoiR4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GxGDqIRukuFji71tgWOqc75Q9KM2jdE/51NtXH7DRZIQoo5fuTxmZ+InI6CDD1jdAJVAjRKpkjFukKcLNs5N85P1Ii2K1CQvlL2VBqVKXw9B8tCPQQARSTK+uvGHF8yM5UItVzYLPivSmRxwqiMNTyOJBL7txO5tue++Zs0l/y0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=C9uijmVZ; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=l+Hf+gA3k7DcqOeytCJXmEC35W61tN7Z2wPnanPqdKxTPS3kBs0JyovlBLwcRa4fIF1Yz0vRSS1oQ9/X7XdTkemzJO3rihg/pkFDFbHC+nUh99Yz2ELzEKAzS2lJ5m/nM0d2P756Ig/4FF00x+HdaLoXOon3iQLLsDpevKhEIdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QwuI/du4; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c66:4b0d:7040:4d69:4c7c:d231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 37191211E;
-	Tue, 18 Nov 2025 13:02:39 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F21B71FE4;
+	Tue, 18 Nov 2025 13:02:43 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1763467359;
-	bh=BpDORgbM71EJEbjswrJR7b3OCq74fh8zDCvCzLzXjb8=;
+	s=mail; t=1763467364;
+	bh=DpkWuYfncaRWDOJhDgPhlnJ5he9guBR6UviCskUoiR4=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=C9uijmVZOd8UsSeMNSCI7KfZLrRYEKALTMedcPckGYpQ3cG39x+qJjLF+0xYsACLz
-	 s2wfpLqqT4YBGrEWUwaZzsiBinN24S9AbCaffGAVneTSRmIgNIh8EDo9CGG1RA2b5B
-	 3zx02kAhcRz5zEgY+lrdkR+5AfnlbKTTdK1k3qfE=
+	b=QwuI/du4Y4KGUJr1AOwwDoDKsDUSEPyAh1EhWqqkOAFUgQ+CWufRO+YHIYQGgmfvL
+	 MTwcsV2TAYEWtXR83l8GRRzpjB/amAa9nNfEBV/oj5DDCLZmL6hpMMBq5Acx4cyyPo
+	 Yf4ASKXIGWjVjtkJ4B9eaiov0XyAxzy6aUJmLHAE=
 From: Jai Luthra <jai.luthra@ideasonboard.com>
-Date: Tue, 18 Nov 2025 17:33:08 +0530
-Subject: [PATCH v2 15/16] media: i2c: ov5647: Tidy up PIXEL_RATE control
+Date: Tue, 18 Nov 2025 17:33:09 +0530
+Subject: [PATCH v2 16/16] media: i2c: ov5647: Add V4L2_CID_LINK_FREQUENCY
+ control
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,7 +53,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251118-b4-rpi-ov5647-v2-15-5e78e7cb7f9b@ideasonboard.com>
+Message-Id: <20251118-b4-rpi-ov5647-v2-16-5e78e7cb7f9b@ideasonboard.com>
 References: <20251118-b4-rpi-ov5647-v2-0-5e78e7cb7f9b@ideasonboard.com>
 In-Reply-To: <20251118-b4-rpi-ov5647-v2-0-5e78e7cb7f9b@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -73,68 +74,133 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
  Jai Luthra <jai.luthra@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1881;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3628;
  i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
- bh=BpDORgbM71EJEbjswrJR7b3OCq74fh8zDCvCzLzXjb8=;
- b=kA0DAAoBQ96R+SSacUUByyZiAGkcYIijDh5yI5Hv5/Tlgpk2AT/c1PfagZFouwVWHulWP18zf
- YkCMwQAAQoAHRYhBE3g2Bjl1XXo1FqvxUPekfkkmnFFBQJpHGCIAAoJEEPekfkkmnFFDkwP/0tm
- IErMO6/s9hHe7I0g8md/TG2Nr6gbnTDtGBeh2y5eSgK/46vpEaLdGX3tG+5S6B8Y9iMvhA0+YOL
- 1+vFlmPdVA4zXLCxv0ZWsB3LTwYVzt7PhZzAFU56K244s3eK3/2ZyTPqH0sjL7aTuSOICFDA0l6
- VMyLKZUin/YKJ0eyd3jZhi2dUYcWIfl7eBY9X33BozIxoEzuexjCRFuwDb7+4pl1fRl5/ENf51V
- u0SJP1Af6vuIfbGyi9zeWHtIYZxmT7xSuCs/Z54q9ZYEFk6OBCUxSji4uNUYLM9CpX5y2KO7/7m
- qd07Rh+QpYiytZqk6ZdQrBSpMF7kHkNzBcj4IZVNSfbfnw4UrLVddD8abj3rXYukhms92bK24Iz
- bVnR+OyqFeo4yUTvNAOU0+ZRntRRJec4Oiu6cW9wOkaKY8xvAb5fl/MiEa9ufKKrdhl8KnlErdG
- uXrhY1kVHaqTYWvCZ/gfiF3GCu3ekUJF9ejZRUfTjFUHArBmU0xF/vCUSwb4CK2gXV/jufdzt1t
- +8RIOTEv0j8J2ccCaemszBOQVGDSL+F1xYyaqyNBPnnwByAcZsHLwtOl4AgmHKiefcSXyjMrC4j
- tIaFDHy6t44ows4NOg8uSfLiR40DewlLVKQm3+jSiilsrHQlG5kJUigyZvW7Gndc5JSB4AdmIdE
- tto1n
+ bh=T1d9Hy1J4BXcVdPBAf0njg5hJALA68gH9mII9MKw4KY=;
+ b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBpHGCJMpN5i9euon65piigJ4n86ZUUGguRBoi0r
+ 97PVr64yx6JAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaRxgiQAKCRBD3pH5JJpx
+ RYriD/oCtozvC3aZ94C3UYAo5HMNMiKMABMquC6EyiFQAqBTDdxYoiA0gK9NriiU6iS0aho6B9f
+ IzJ2ZtC/CpFdCgJxeiJcb79M8j0nYMe0vfoXxegeorvN5OiA9gB6HRQNGUk6s0R1mW/7kfhmtyq
+ BKgBEoajIvoERDrXA2iex8pepcDL2UWeQhBAPZri5tbHeIkPqxal+orP8d3vAce282XjrhzHoen
+ mQL/X02RBujXmkIkUIQGteswzTSWPywy0GHN5YuH5Iy57YJkiO39wG/D4DLZV8ggF94dpXXAAp8
+ rjVrxHfISnvkUPuwIUbJ1/5yMWJzWFNNXo0cOWE5N9XwE2rveYAzeieT9zYjaZWb+Gh3hDQK9Pm
+ XCHboJ3AelAHDProMiyctYRwEyZTrNdd5ZKO7jEAsg/RZkNazYu/SeMRixG8OpWhALr6pB38Cca
+ jkvxxPoOZtdxm3N0lQmYfQEseTiiWsP/3rGMPzXuxcDF738sbkbNWHMGHIstUYpgt+0UWwacGx8
+ EoZ1XtoA1yfF2mUuzkJfjUENlQ7329b9U9Hjp99jBuBqehMlnaINIUOjP0Oribt7NRtwMtRK+gm
+ 2OeUT2SbRqTffc8mucPp6YebLgOjGc7y8Buf0Vj1KhebCJMsrQH06IDHUFBH+FOc6RWoq4T59lB
+ wbXVWqBKCWDgZqw==
 X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
  fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
 
-The pixel rate control is marked as read-only by the framework itself,
-so no need to mark it explicitly in the driver. Also, we can set the ops
-to NULL to avoid checking for it in the s_ctrl implementation.
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-Suggested-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+The link frequency can vary between modes, so add it as a
+control.
+
+Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
 ---
- drivers/media/i2c/ov5647.c | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+ drivers/media/i2c/ov5647.c | 24 +++++++++++++++++++++++-
+ 1 file changed, 23 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-index 3a2c25a6b6808bf1289a2357ac5b79bf6bf99daa..71107d74f2900b39233a52b29a229282bd087963 100644
+index 71107d74f2900b39233a52b29a229282bd087963..de27e76b487957bfa0a072359f28194425950eaf 100644
 --- a/drivers/media/i2c/ov5647.c
 +++ b/drivers/media/i2c/ov5647.c
-@@ -1195,12 +1195,6 @@ static int ov5647_s_ctrl(struct v4l2_ctrl *ctrl)
- 		ret = ov5647_write(sd, OV5647_REG_ISPCTRL3D,
- 				   ov5647_test_pattern_val[ctrl->val]);
- 		break;
--
--	/* Read-only, but we adjust it based on mode. */
--	case V4L2_CID_PIXEL_RATE:
--		/* Read-only, but we adjust it based on mode. */
--		break;
--
- 	case V4L2_CID_HFLIP:
- 		/* There's an in-built hflip in the sensor, so account for that here. */
- 		ov5647_s_flip(sd, OV5647_REG_TIMING_TC_H, !ctrl->val);
-@@ -1267,7 +1261,7 @@ static int ov5647_init_controls(struct ov5647 *sensor)
- 			  V4L2_CID_ANALOGUE_GAIN, 16, 1023, 1, 32);
+@@ -97,6 +97,13 @@ static const char * const ov5647_supply_names[] = {
  
- 	/* By default, PIXEL_RATE is read only, but it does change per mode */
--	sensor->pixel_rate = v4l2_ctrl_new_std(&sensor->ctrls, &ov5647_ctrl_ops,
-+	sensor->pixel_rate = v4l2_ctrl_new_std(&sensor->ctrls, NULL,
- 					       V4L2_CID_PIXEL_RATE,
- 					       sensor->mode->pixel_rate,
- 					       sensor->mode->pixel_rate, 1,
-@@ -1306,7 +1300,6 @@ static int ov5647_init_controls(struct ov5647 *sensor)
- 	if (sensor->ctrls.error)
- 		goto handler_free;
+ #define OV5647_NUM_SUPPLIES ARRAY_SIZE(ov5647_supply_names)
  
--	sensor->pixel_rate->flags |= V4L2_CTRL_FLAG_READ_ONLY;
- 	sensor->sd.ctrl_handler = &sensor->ctrls;
++#define FREQ_INDEX_FULL		0
++#define FREQ_INDEX_VGA		1
++static const s64 ov5647_link_freqs[] = {
++	[FREQ_INDEX_FULL]	= 218750000,
++	[FREQ_INDEX_VGA]	= 208333000,
++};
++
+ struct regval_list {
+ 	u16 addr;
+ 	u8 data;
+@@ -106,6 +113,7 @@ struct ov5647_mode {
+ 	struct v4l2_mbus_framefmt	format;
+ 	struct v4l2_rect		crop;
+ 	u64				pixel_rate;
++	unsigned int			link_freq_index;
+ 	int				hts;
+ 	int				vts;
+ 	const struct regval_list	*reg_list;
+@@ -128,6 +136,7 @@ struct ov5647 {
+ 	struct v4l2_ctrl		*exposure;
+ 	struct v4l2_ctrl		*hflip;
+ 	struct v4l2_ctrl		*vflip;
++	struct v4l2_ctrl		*link_freq;
+ };
  
- 	return 0;
+ static inline struct ov5647 *to_sensor(struct v4l2_subdev *sd)
+@@ -376,6 +385,7 @@ static const struct ov5647_mode ov5647_modes[] = {
+ 			.height		= 1944
+ 		},
+ 		.pixel_rate	= 87500000,
++		.link_freq_index = FREQ_INDEX_FULL,
+ 		.hts		= 2844,
+ 		.vts		= 0x7b0,
+ 		.reg_list	= ov5647_2592x1944_10bpp,
+@@ -397,6 +407,7 @@ static const struct ov5647_mode ov5647_modes[] = {
+ 			.height		= 1080,
+ 		},
+ 		.pixel_rate	= 87500000,
++		.link_freq_index = FREQ_INDEX_FULL,
+ 		.hts		= 2416,
+ 		.vts		= 0x450,
+ 		.reg_list	= ov5647_1080p30_10bpp,
+@@ -418,6 +429,7 @@ static const struct ov5647_mode ov5647_modes[] = {
+ 			.height		= 1944,
+ 		},
+ 		.pixel_rate	= 87500000,
++		.link_freq_index = FREQ_INDEX_FULL,
+ 		.hts		= 1896,
+ 		.vts		= 0x59b,
+ 		.reg_list	= ov5647_2x2binned_10bpp,
+@@ -439,6 +451,7 @@ static const struct ov5647_mode ov5647_modes[] = {
+ 			.height		= 1920,
+ 		},
+ 		.pixel_rate	= 55000000,
++		.link_freq_index = FREQ_INDEX_VGA,
+ 		.hts		= 1852,
+ 		.vts		= 0x1f8,
+ 		.reg_list	= ov5647_640x480_10bpp,
+@@ -927,6 +940,8 @@ static int ov5647_set_pad_fmt(struct v4l2_subdev *sd,
+ 					 sensor->exposure->minimum,
+ 					 exposure_max, sensor->exposure->step,
+ 					 exposure_def);
++
++		__v4l2_ctrl_s_ctrl(sensor->link_freq, mode->link_freq_index);
+ 	}
+ 	*fmt = mode->format;
+ 	/* The code we pass back must reflect the current h/vflips. */
+@@ -1236,7 +1251,7 @@ static int ov5647_init_controls(struct ov5647 *sensor)
+ 	int hblank, exposure_max, exposure_def;
+ 	struct device *dev = &client->dev;
+ 
+-	v4l2_ctrl_handler_init(&sensor->ctrls, 13);
++	v4l2_ctrl_handler_init(&sensor->ctrls, 14);
+ 
+ 	v4l2_ctrl_new_std(&sensor->ctrls, &ov5647_ctrl_ops,
+ 			  V4L2_CID_AUTOGAIN, 0, 1, 1, 0);
+@@ -1292,6 +1307,13 @@ static int ov5647_init_controls(struct ov5647 *sensor)
+ 	sensor->vflip = v4l2_ctrl_new_std(&sensor->ctrls, &ov5647_ctrl_ops,
+ 					  V4L2_CID_VFLIP, 0, 1, 1, 0);
+ 
++	sensor->link_freq =
++		v4l2_ctrl_new_int_menu(&sensor->ctrls, NULL, V4L2_CID_LINK_FREQ,
++				       ARRAY_SIZE(ov5647_link_freqs) - 1, 0,
++				       ov5647_link_freqs);
++	if (sensor->link_freq)
++		sensor->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
++
+ 	v4l2_fwnode_device_parse(dev, &props);
+ 
+ 	v4l2_ctrl_new_fwnode_properties(&sensor->ctrls, &ov5647_ctrl_ops,
 
 -- 
 2.51.1
