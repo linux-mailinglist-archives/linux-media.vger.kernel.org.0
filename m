@@ -1,186 +1,155 @@
-Return-Path: <linux-media+bounces-47271-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47272-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56E37C69389
-	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 12:56:37 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6744CC69428
+	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 13:07:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 828DC356F00
-	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 11:50:43 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 0C33835969E
+	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 12:03:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92E463502A3;
-	Tue, 18 Nov 2025 11:50:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 288DE352F96;
+	Tue, 18 Nov 2025 12:03:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="DEvSkt4L";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="aXIgDsoI"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Nuz4bipc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F82F34E777
-	for <linux-media@vger.kernel.org>; Tue, 18 Nov 2025 11:50:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 738FE33E36D;
+	Tue, 18 Nov 2025 12:03:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763466632; cv=none; b=g+C492rN3MDM814RZ1fbRlqOV1mHq9Yt73LMI/f9O90VYDGnz/zHSZ8Sz7z7s63kZGXFz0mc1NoUTNF58RcR26c0g7WOnbDKstQl9zpM4Bnfl49gySzLLWZ90SjQqDc8coadiN+cfDThwXJrnnlEDTgStZ7xaO1rXibm6da+zJQ=
+	t=1763467412; cv=none; b=Ufgd2hpLKsrs8Uet99wDXvhDhHdD7LlJZyz7Ko4V85MLr7L2BI2tOnBGcA0bJHJEMC5q6VwSxdVe+fMgKLq3RIg5CEj7lB+gm7jILNZF5D9Qf9/cQVxUdeS8POTHcEmv4iXlc5tpwfzIuhXk0xU9IDT3YcEv4APjBuW4U7xwaqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763466632; c=relaxed/simple;
-	bh=UFQDpThjH7s6OXXOeELKLt+5LTDFiBkDHBlZOOjvOT8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NXEsZ1N6ib7a5uc5iJCKRMlgFYLmiuREe2emePYc6klS3zdB21BUXXAdgoxbHlRfsh6UAvuRfmrhrpTBUFUMXjMFnr+rBtMguESAP1dVMh1NNxRdDC4Rl/fadmfDm+PSFea4QiGEUQIX873EAoEQ/qGO2LlSWwSYpHl8Xu4Q5jw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=DEvSkt4L; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=aXIgDsoI; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AIAIDJo027519
-	for <linux-media@vger.kernel.org>; Tue, 18 Nov 2025 11:50:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	3hikXjUucj1+jC+rfFcQBPfFASs5z5jMV7UppVeM/hM=; b=DEvSkt4L9VS18TZV
-	ms5+0I/Dubb3kgae+20er3GNiJ1qGli3RHPJ3wb2i50qcyi+96I49A2DxvIaJzv4
-	YQPZ643JpyyH2QS5rO3W7juzd7fOZ5vjDMg3dwwBmOMy2kMNWvRQTrt8Vu/d2yJ1
-	SSnh4rsj7jIgVGrgBg1JunHxLT985jlpe7jmIXPhYdILlfyvSmK1nP+WgcPp0ml+
-	xafpOiEcYUo+9XkOTCkD4QakVDtHgNJC34/oBNKV8VIRSgvw1oBFJeFCEdwtsNTl
-	A6IRkVZpMzPnQdg2KCXuFSmX+c3Notut+vetgwqylvic42OejhEqg9lbEIkNgyNL
-	1Ykjcw==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ag77t2ydv-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Tue, 18 Nov 2025 11:50:29 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8b2ea2b51cfso61841685a.0
-        for <linux-media@vger.kernel.org>; Tue, 18 Nov 2025 03:50:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1763466629; x=1764071429; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3hikXjUucj1+jC+rfFcQBPfFASs5z5jMV7UppVeM/hM=;
-        b=aXIgDsoINTj3OzuM1L2mzIag+bs8hbf/j3++xQfgsi1ZaoJbQWuvEiIpKBE2qW2n2x
-         JwySsPtp79ilLdPd97C3Qn3Dartysxl3pWmyE4edMXbuOuNl/r/sEPtsQVHewzX9znAz
-         faNvmo/XXoDFCs1NvP/1H81ZN380TW+nEkMyx2yqfh2+FkO1fPAZHh8dW6vHfFzLTAsJ
-         QVe59zDSgN7E0IvZa/fRX9AjeLWhO3Jn/e7FLZwykgnZrlGKZRyWxXlmS4gQG+E+lHG3
-         un88sZpFHDLEd49fOL2CpL01AZZAQruoU2lFMdb9GCanvW3TvxLT+A9SSZ6FSCduw2id
-         dLWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763466629; x=1764071429;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3hikXjUucj1+jC+rfFcQBPfFASs5z5jMV7UppVeM/hM=;
-        b=IQxOMFBSR22G4XHG/OvkrIMHDrZPZW11GTqKRfPh0mfWh/wFGavJcxrz9nQKjdki7K
-         FToEMuvTEzCoXeONc2xQ0nmFt6/Ov/hHUmpS+BbfRtJ6ZYfl9DUIj2vAR3T2ZZBDU/el
-         xeNOPKOxUEQLtXVWTw5yZXdkiQGPZk41ENq9DIaoQGPfyNdvwKt7H1ThqXsXukUrEpNg
-         NKZPoEO9c68FkMGH2oWo4NuKqre2OPPlJJqyugagDhs7/pzivYkjZtfSp3i6znLMB/R+
-         2vzaAx7dPA9f0At3o6bh9xFjXXycittO80zZCQK6PLO7rAPwXlHPeJa4pXtGECaDqBMq
-         8jpg==
-X-Forwarded-Encrypted: i=1; AJvYcCVciLB1TFenu1SydZjfWu8uOEncNXJGTwLp7bkejU3lIGkRYzmOG55+2YHc6+EnKupCm3iUdG4xblFC1A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwkfwnOkY88t7TuxlxhP8qQJcSszAwmVjxHZ4XZVgJopd54RFWT
-	/cQgs1l4h47d2nL3Iz+RD4sDy7ZaJug02oafGSsZvTjafBncZN1zdjXpRe6XO/BeduKmVWP8JfQ
-	dswHu9AT7lfom8U05AuweVv4+Tro4e7ozh0oaAvFToUlutpcU5gY5CsT3xV4b4prfrw==
-X-Gm-Gg: ASbGncuEc+MR1zLlTciCyiNom6H6zw46I4t10QItwfPlMYxjCtnhcixe30vPUcJUcDm
-	C9b6AfiJUa4gK8ioI6/1byfSuwRWG4vyBSe9SN8urUK/ZOeSxYbp0YRp0eCHqOMUpGSLaEp+GVW
-	NHGJvC9OPm9Lc9dTAHkDPjYoc7yYAUCgqds4ReHhZZhwIzFGRiSZQ18MhZKF1Tr4yxoYbqT69yY
-	I7wAS2Jy2/6TV8U4+6HICF5YafgZGiSB+lNE9DJC0cAVVCTSEzEcyqQLsle24kvLjUv1rSK8aR6
-	ySuszhEU1pnU0dtOwMNeMrrO5sW5I4Sw6a1lbPiD2zyxRs6Cn0+iOxKQ2+/WKZHvvISuOmi+vzP
-	H9E1MYSMq7i3nl+RKqRucBQyvSeJTsVq7UhOMLPWEYPPVLuAbkjjbu9tp2X8+FMpZlqs=
-X-Received: by 2002:a05:622a:1801:b0:4ee:1db1:a61d with SMTP id d75a77b69052e-4ee313e82f2mr24811121cf.3.1763466628721;
-        Tue, 18 Nov 2025 03:50:28 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFdcBnxvTchEI4xgqfQAAMzQYTZlN2bSFFaAKUizuPbhe3vWImJ4kfXdxNtpqcs/rTUiMDPmQ==
-X-Received: by 2002:a05:622a:1801:b0:4ee:1db1:a61d with SMTP id d75a77b69052e-4ee313e82f2mr24810701cf.3.1763466628235;
-        Tue, 18 Nov 2025 03:50:28 -0800 (PST)
-Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6433a3f94f8sm12675207a12.13.2025.11.18.03.50.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Nov 2025 03:50:27 -0800 (PST)
-Message-ID: <0392b41d-3a95-4c77-9267-bfa3e207013a@oss.qualcomm.com>
-Date: Tue, 18 Nov 2025 12:50:23 +0100
+	s=arc-20240116; t=1763467412; c=relaxed/simple;
+	bh=3oY2hfI4kA/xXIAt/gv8znyKKZ7SXxVd7TB90i5d/HE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=hmi5Dy9eZOKbCfRZk9gIVMQ0jAQlMuEK2O+70Otuhs+jbkFGMfKaOSUSw8cpKaf4uy98B3L30lsnH8tSqQTdyBkqYEZ/q+9VEzaVWS7OSnpgxSbUIAnaOPbh4ScIoHMZeMjIcIKkOtBio43a38wrvWNmA77jFEpP1kRHPXx9NB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Nuz4bipc; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c66:4b0d:7040:4d69:4c7c:d231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1CF3D1E33;
+	Tue, 18 Nov 2025 13:01:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1763467283;
+	bh=3oY2hfI4kA/xXIAt/gv8znyKKZ7SXxVd7TB90i5d/HE=;
+	h=From:Subject:Date:To:Cc:From;
+	b=Nuz4bipcSeQwfGxABcfLyuZLlSzuHTiCFfzB9jgdqscyIAuvLyvVAaSZvAMgURf+/
+	 XSz5TkUW7wTqwskl4FZhvnwmfZ+/e0w56PhoUzo9PjirS6DZQ3S1CKbaX1QEwQ0N64
+	 2g7jYKys3bRpqUfgChpQzE5M9uY8/+X5IluU+pls=
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+Subject: [PATCH v2 00/16] media: i2c: Miscellaneous features and fixes for
+ OV5647
+Date: Tue, 18 Nov 2025 17:32:53 +0530
+Message-Id: <20251118-b4-rpi-ov5647-v2-0-5e78e7cb7f9b@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/3] Add CAMSS support for SM6350
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Luca Weiss <luca.weiss@fairphone.com>,
-        Bryan O'Donoghue <bod@kernel.org>, Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Taniya Das <taniya.das@oss.qualcomm.com>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <3ph8XeidoxkUIsK7qiOH29pde94sdwa3ReWKVVrPabgS5enIAmwVAC5plyFnBMJGKQBnxFB6df6j69OMFIeavw==@protonmail.internalid>
- <20251114-sm6350-camss-v2-0-d1ff67da33b6@fairphone.com>
- <df4a6a77-9004-4dbe-9b11-7af2bea7e068@kernel.org>
- <DE8JJCQA0C4Q.35NEED7XG0K0V@fairphone.com>
- <17e7ebc9-3b88-4334-b87d-1bce6d5bb120@linaro.org>
- <893b97ad-7d2b-4408-bab5-2cd63fdaa33b@oss.qualcomm.com>
- <28f33d3a-6866-4bdb-a1e5-d193dcb7d4d1@linaro.org>
- <a15bbbf1-549d-4603-ad6d-3a578b548184@oss.qualcomm.com>
- <0a114896-ffca-427a-8761-977dafa73ea5@linaro.org>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <0a114896-ffca-427a-8761-977dafa73ea5@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE4MDA5NCBTYWx0ZWRfX7KSOVn+L08Ml
- Vcz8WUM8x05uobDRH7dlJDMgkzixDyctTrouDcZedgy+xuJ8A+RKlz+Z55rOwaIKtJckozQaAlS
- nUIk9/49UAjr35PC7+03T6iYjjXhJOmjOUULnDuPy9z7xMplAWgZJjz9RzXHYjGIPdVmLpKAun3
- Qcsr0/x3a1QBhpgXESViLcAoiaKRakKZSRpe428plGPGN99YM7AWsn8bj4X8eeSPmsMB6HT0Uw0
- rowij00n+WhnJ/xKoSlZA/SinqhbHRvskOFqfeA6aRoZ0tYFAxW2iEDzNbGE7bZNBxZXQwkUwT/
- 3CK6qH6OResuoNEod6HkJgry/UXf2hZnDsRP36B5mmZhQFkdiWFTOUptlTrF/RxJb63lSWchDMs
- bcaYaOP29mtOSIU/o0CQuYyAB5C1hA==
-X-Authority-Analysis: v=2.4 cv=EPoLElZC c=1 sm=1 tr=0 ts=691c5d85 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=PV6EGJ5lTCk7Ln_g6zQA:9 a=QEXdDO2ut3YA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-ORIG-GUID: N39lVzYhD7oz3ZSMg7Gwlu7TSARwXAt5
-X-Proofpoint-GUID: N39lVzYhD7oz3ZSMg7Gwlu7TSARwXAt5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-17_04,2025-11-13_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0 priorityscore=1501 impostorscore=0
- lowpriorityscore=0 phishscore=0 adultscore=0 spamscore=0 clxscore=1015
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2511180094
+X-B4-Tracking: v=1; b=H4sIAG5gHGkC/12Oyw7CIBBFf6VhLQYor3blfxgXUAY7C0uF2miM/
+ y7auHF55mbOvU9SICMU0jdPkmHFgmmqIHYNGUY3nYFiqEwEE4ozIamXNM9I06q0NJQprxkzyho
+ tSP2ZM0S8f33HU+URy5Ly46tf+ef6M9k/08opo6yzkrdSyajggAFcSZNPLof9kC7k9NoaMlxvd
+ eiy1RDvCtCaX3Dpm9ZZrZk11rZddC54GbnTIRgxtNx0Aw9RaWNNlb3eFD/Apf0AAAA=
+X-Change-ID: 20251024-b4-rpi-ov5647-05b600758762
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Jacopo Mondi <jacopo@jmondi.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Naushir Patuck <naush@raspberrypi.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, 
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
+ Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+ David Plowman <david.plowman@raspberrypi.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Peter Robinson <pbrobinson@gmail.com>, Stefan Wahren <wahrenst@gmx.net>, 
+ "Ivan T. Ivanov" <iivanov@suse.de>, 
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+ Jai Luthra <jai.luthra@ideasonboard.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2482;
+ i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
+ bh=3oY2hfI4kA/xXIAt/gv8znyKKZ7SXxVd7TB90i5d/HE=;
+ b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBpHGB5qjxfmA60mpEAKVxxVk5SNj2mC7VU/1zAH
+ j+CHndxMlWJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaRxgeQAKCRBD3pH5JJpx
+ RR7ND/0ZI1meZShmzT+ZfBZOrwLAcxKW8P8builU7gL4kSqouWP4VZuIssANwV6KQI8DVvjYH5/
+ BEQuNHrEWSAorAlX+o6Jctb8qhzhUW6TUZt3MJovZ6VXRbDSxtdbIj2c8yC8T10EdGIEv69zdLG
+ h0Yy3LiL5INAzjE7kr4bMnYRo3HxnxenlOLcSM5tpBikDgdgplzH3QpFzIE+eb9yVw9LQutpr1h
+ b4MIn8DWaq0yWRTjaXQvfr85NVpG4O8R3gH7lsgD3OHSGvWb49EGlLoK91uEsn5obcicI1G1Eay
+ 3QwSLguzlezMI4HFx6I9+ck8vBf8RorDeunmhdHzXfZipX+YphmKjmkl/mmFEesrRl3FkeP8QbT
+ ykRyxfgz7UYzpFfyzTAH7VGR4e/3dBSdMblDj2FVB1f83CPRYbMyey7TEFREwxCts5I4kFAe1jC
+ nWDpvetSZb061M46Bk1JwO7VmHzBtQKY+kQgNbY7HXVguKAKCi4nbCGvP5GVlFpX2uBuZruejnn
+ 5vDzJ3CfCWCo70sp9LdmEBiYGv2adTeVunXo/8zx9jpZwULMJq10WOcwE2bBvRLVzkPnTZkJK9/
+ UV+Onf8r7ybqS57eeE9TGkjpwB5j0YiW+Wi2Z5vhkI6m34LNVrnbM7ieW++dgmuWPoNewobnR+C
+ GDLi0gQwjOzBK9g==
+X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
+ fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
 
-On 11/18/25 12:08 PM, Bryan O'Donoghue wrote:
-> On 18/11/2025 10:06, Konrad Dybcio wrote:
->>>> Konrad
->>> vfe170 is what we have on sdm845
->>>
->>> So I'm just asking Luca to try the sdm845 method of waggling this clock since what we have doesn't work.
->> It's of course going to work because this way you're not calling the
->> code that throws this error
->>
->> I was curious whether you know the actual reason why this is being
->> done in some other GCC drivers
->>
->> Konrad
-> 
-> No notion at all, perhaps as a workaround to this very problem.
+This series adds support for some important features, like controls for
+H/VFLIP, horizontal blanking, link frequency and regulator support that
+is present in the downstream kernel to support the Raspberry Pi v1 camera
+module.
 
-I tried digging it up, but only managed to find that there is a signal
-between titan and gcc to request it being enabled (perhaps that's a
-fancy description of hwcg)
+Additionally, it also fixes some known issues with streaming lockups and
+wrong pixel array size.
 
-Maybe +Taniya would know? (context: sm6350 gcc_camera_axi_clk stuck at
-'on' when disabling)
+Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+---
+Changes in v2:
+- Drop [PATCH 4/13] as it is already present in mainline
+- Add a fix for a potential segfault by reordering ov5647_init_controls
+  after v4l2_i2c_subdev_init in the probe
+- Add 2 new patches updating dt-bindings for regulators and
+  rotation/orientation
+- Add a patch for cleaning up the PIXEL_RATE control
+- Reorder the patches in the series, moving all fixes at the start
+- Fix review comments from Jacopo, Stefan, Kieran and Dave, picking
+  Jacopo's R-by tag on a few patches
+- Link to v1: https://lore.kernel.org/r/20251028-b4-rpi-ov5647-v1-0-098413454f5e@ideasonboard.com
 
-Konrad
+---
+Dave Stevenson (7):
+      media: i2c: ov5647: Add support for regulator control
+      media: i2c: ov5647: Use v4l2_async_register_subdev_sensor for lens binding
+      media: i2c: ov5647: Add control of V4L2_CID_HBLANK
+      media: i2c: ov5647: Tidy up mode registers to make the order common
+      media: i2c: ov5647: Separate out the common registers.
+      media: i2c: ov5647: Use the same PLL config for full, 1080p, and binned modes
+      media: i2c: ov5647: Add V4L2_CID_LINK_FREQUENCY control
+
+David Plowman (4):
+      media: i2c: ov5647: Correct pixel array offset
+      media: i2c: ov5647: Correct minimum VBLANK value
+      media: i2c: ov5647: Sensor should report RAW color space
+      media: i2c: ov5647: Support HFLIP and VFLIP
+
+Jai Luthra (4):
+      media: i2c: ov5647: Initialize subdev before controls
+      dt-bindings: media: ov5647: Add optional regulators
+      dt-bindings: media: ov5647: Allow props from video-interface-devices
+      media: i2c: ov5647: Tidy up PIXEL_RATE control
+
+Laurent Pinchart (1):
+      media: i2c: ov5647: Parse and register properties
+
+ .../devicetree/bindings/media/i2c/ovti,ov5647.yaml |  14 +-
+ drivers/media/i2c/ov5647.c                         | 467 ++++++++++-----------
+ 2 files changed, 238 insertions(+), 243 deletions(-)
+---
+base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
+change-id: 20251024-b4-rpi-ov5647-05b600758762
+
+Best regards,
+-- 
+Jai Luthra <jai.luthra@ideasonboard.com>
+
 
