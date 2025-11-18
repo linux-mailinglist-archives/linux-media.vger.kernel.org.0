@@ -1,83 +1,83 @@
-Return-Path: <linux-media+bounces-47315-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47316-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E683C6B34B
-	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 19:28:56 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97799C6B378
+	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 19:32:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 45B534E29FA
-	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 18:28:51 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 6C2484E407F
+	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 18:31:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64137364EA5;
-	Tue, 18 Nov 2025 18:28:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AFBA2D5A0C;
+	Tue, 18 Nov 2025 18:31:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="GaKdu5jQ"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Y6Ldg65m"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0632935FF7B
-	for <linux-media@vger.kernel.org>; Tue, 18 Nov 2025 18:28:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 929F1270557
+	for <linux-media@vger.kernel.org>; Tue, 18 Nov 2025 18:31:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763490520; cv=none; b=UvXiLIa1TRTY6sV+i47ZR77sWklVDXYQrVQLYKepNE+Q0EQ2p2/X5U+k5hfpOMFY46oroGdzCgAfiydUzhNOrsy7UOOoxU99eFwwSrxwdoU4K75nt7KwkRilsSlq+WsU1LEY1NVcDvZxGFymbxhY0D/BwK4XYc3K3mQ0mIkpUl8=
+	t=1763490669; cv=none; b=egKyxzDlW02sUUJymRDZwcMXkF9EsQXFUXEU/TGdXAeZWj0nM5hIs95xaFcKyzJ+5nmQHbnFRgVTQvs9qbFj38aVqjn4jEUbca1GnD4c1ovG4gbyfdMPD+6LkIUaSBqUZ3XiNOu8KKc2dTNQK9Eb5lQP9QSk9C20rJvksLzNjwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763490520; c=relaxed/simple;
-	bh=DhPoh8Yg2X9WakZCAvg/708yGtup22jmnfZDgCthA0Q=;
+	s=arc-20240116; t=1763490669; c=relaxed/simple;
+	bh=P3BkHutUzZpErH606PWVYArfOtRbKMR0WpEHsrNUd6g=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NvPkd4J9CGX3RAzGK/4ve5aT8dah7RAJwylLm1ZYIhdxH4IgcbBObOHEtaCrm9ztkhW3oS5OPSPzghNB1f1E7b+nBWGOFNTWUuWrvfMnBpyTFL2sDIzmWWuokYnVnFMxl845oudo8rbY2GFoEmniPL/QVW7LBx9g7CJ0rj+nFwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=GaKdu5jQ; arc=none smtp.client-ip=209.85.167.45
+	 To:Cc:Content-Type; b=QOif90mSr5Wm2AS9L4WA4Fy1N9zrjD60jiPgjWdZwh8UZ1n36gtCmc1cwu8nfIg/e8UcO2wzIOWRl4OXBADpzCiCrzgpsX0f6YbgCtF3gxy/1L/QRox7leMgUvNXmV1gT6rM3T0bpY6gEdvBcLSuO0NWFEyOMTBOq9HRAgzZBNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Y6Ldg65m; arc=none smtp.client-ip=209.85.167.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5959187c5a9so1943288e87.1
-        for <linux-media@vger.kernel.org>; Tue, 18 Nov 2025 10:28:38 -0800 (PST)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5958232f806so5702331e87.0
+        for <linux-media@vger.kernel.org>; Tue, 18 Nov 2025 10:31:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1763490517; x=1764095317; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1763490665; x=1764095465; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vJf9PmJagRyIa0BOvJOuBX45kWw0Bxs9hWW3HKipvOk=;
-        b=GaKdu5jQEKxnQgonc3Qtzk5wl+5Ds3yM+yniHAsIDj9w1BYrspS/V10LNHZU38kKnN
-         8QXjuv1thaBsIW2+Z3W0XKM0Ivb90h/60l9BiD4Se8Y4uJVeKv/X3iz1EvgyPsHjNQGo
-         fi8EC8lfjVQyz9jNIvF2Zophj8lh3cNyA2h5U=
+        bh=VhYP8Yr2Bs/L0pguVS42Jfu20UdXEvyQ6QTbcMCUyc8=;
+        b=Y6Ldg65mbpfO/CNpSKcfDTp1z+GIkHzTb9EKUpE3X1HEJbWKZgPZ7U+lUFtpZcoB91
+         /tAHH4v5wmOOWUAf7PD9zzwCfANL3d1thoIWASXgcQEQH9+d1meDdlP/vhSAiYJqSoU2
+         lX5LGM+rALODHqPV8mmlYEUyxW/Otyh9iFaD0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763490517; x=1764095317;
+        d=1e100.net; s=20230601; t=1763490665; x=1764095465;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vJf9PmJagRyIa0BOvJOuBX45kWw0Bxs9hWW3HKipvOk=;
-        b=Lb1y4keDPZrD7j9seogwNK01Rn1zHmzqKhGB2H4Y/hKpQfNY+yri+fk1fyjuvXPzis
-         gtxcgPl7Xe2FJyyQXDlBPmwlvSOtk4aXh98o9yW0o0tDH0aWFDcUjrvLyh0spMmHPp1F
-         ze+hgLq7JNIBvP0ufUMr6CSujnCXBzEASn9aVpfFgwx2tTsaBq/TDzPX/4m4dEMeb35w
-         WcQ7UFQmWIoY1W0MzGEXJMEDvV/A66WAHmPfTrXLrY0/O4lvAvA6vpNnAc5jZG11E7+I
-         rdf7cKpJp3H73Nfb8C7PJQxIoae1n8rJpxPUJoaeoVM4OURB+KNY+UAdx5/rKcqgnP8S
-         MwGg==
-X-Forwarded-Encrypted: i=1; AJvYcCVeZMwuRXflEewHP+yrRKSvmP7B/K939cct4PJYdWpwDJVRCwR3QzWyqHa4lefeyUMc3A+nkZyzGNo5NQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YypYnrmnIUZD/XydKKpUe1/PA/8CIlx+oOXUwRJlgZgpU5CTH/i
-	NQX+KYegy+hrtwLgdKQnu0JS9GWzwE5lj0m8SxqnlTTExOFmwTuKGe3RLdMVvJ3Rj7fAnfQc7Da
-	t7fVdaQ==
-X-Gm-Gg: ASbGncuINtMoPw95a0ML0c07Y2tLwhHLdYoyAhL6pLdYv1P7MCmdRYAOtY70lOQP4Ry
-	Q3iPh2dbG3xFahnL9hHrq/AGvU0LLRdS4M8FioNvk9QMFFC91qh2EYfJOq7rj3cx8LATstb9Ae1
-	iCZmlOLTRhWKiDIoSDHT6cdN58jPb6cVC65CeX58EQFz36PnKhED24yUCif+w6M63DuTRvPGZVo
-	yiUkXNVmaTl9RwlgBl3DSLTM4mhueTmyIq8St2/1dYSKgdA4GyHEYjhWOKiYptjR5bP5rXLxTuJ
-	8jIaEreQx2kpxWh4SjPLIOPFYlNaFn6+7vPtUPepXgBYw1wKr3FG/4j9c0L0sPUoXECqgS1BwUW
-	ABjn1qpAVife2L7fYIXzCuHEg6t1VUqJi/maq2vxQv/seAW4kqMwwXz4j74//0yiWURt73uXJHn
-	G7XoTXGyMYWBmqfQCF6NhlZhQrHr2AINxdT3b5vsOhl2yDRk6j//N3
-X-Google-Smtp-Source: AGHT+IE2OL4/l8ysp5HududxrfXAbO/sYXxRLuum84EHkRw3ruKY+0ficwWlLDzUoRm4sj2VU0iBTg==
-X-Received: by 2002:a05:6512:2246:b0:595:7f2e:ddfa with SMTP id 2adb3069b0e04-595841983c0mr6744188e87.3.1763490516969;
-        Tue, 18 Nov 2025 10:28:36 -0800 (PST)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com. [209.85.208.174])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5959101a0b7sm2122837e87.55.2025.11.18.10.28.35
+        bh=VhYP8Yr2Bs/L0pguVS42Jfu20UdXEvyQ6QTbcMCUyc8=;
+        b=MRfWb9IvuqTUY8enRLOUUQ3I8yxenPcqWqVwMOUJXCgH4govgneUOt8UbR1lOkbOLd
+         g2OeeDq16Dw39y2Ixv6HpgwJVHmevTNyUCohk/kMJxqE73/4NH3tFf32bS0qLUbfK6SG
+         7U8xuB649l0MVspoTGq/W9x3BYrC+1jOavgvQ5x7zcBo5r3XW83BTrwfc9SB8o/5J3Sx
+         sbJ1b9qQxDP3PAhzOth5XbyqygSM9bpKh3hLZSzLvn2wZLJ1TBxaKK72X8wh6cHzvDzX
+         +sRRJQc9WnMpV0wqtoHBqHp8ngi1KKFwi+I1RWG7P7Vh9x8O0HC29c1RXKf61A3chA0z
+         74Ww==
+X-Forwarded-Encrypted: i=1; AJvYcCWlKCD8xdroVDstMSAUiuvC8ouypELf+Hvf0tdMKtwHi16TkddKc8osGedelQ6G333pljDhkIEKYF57qg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxWK9Zr5LcqGvNkjAnt07eynDP1lrVwpz2POOHWrlpquGL3g6+q
+	pc53pGUCexQ7jomllbmFK/0140V5DNiJFV/AMFjnaBzaWsdRhBRuoyz9kMD8jR0DrP1RxkEXNRb
+	tdaNq5g==
+X-Gm-Gg: ASbGncuvkg9f9yQpgm0JJ/0gvoXkGUHw8vw7HyqAOPpOtFn5Je7GUJ+aGUyLwmzoExR
+	xjiip9xEktXSuTWN0+4fX2RpFbv4W/4HWJ6F455W0TrtRSwNSOOn/MPTgtp5yHcLwAxsFHACrEY
+	dJSpweInWvhQ6EeoV/rQMqz9uzrZJYGcEuiD4nM96P4gsK36qc8YlepqAxGGq3m4fme1vpeWCkj
+	+2F9c17jLFRa0aZCbA5azWBSSB59EHGC8OGzjRr2ntlqW4PQ6vSUGJZ2RJ9QmPE/hK55eqmyAPt
+	xwsah1JwOaqkZYZzlpxBYTQ7XQJgjKpodTwhyY15kTUrbi7RPvYYNjQeTRcCnEiPYb3geQdB3/z
+	ZtVBsNi4pvkcqKpHq57eHur9ymhtebeF3N5P88F2tfYRLANLxDuj+8LGgnjJlCcXGlsPxmB+A9y
+	OGdtlGgYCR8LPtoYpyNOpPk/OPldTrsbFpgc/RSDMZQ0V1Rt/4c9DGQlAIdgA=
+X-Google-Smtp-Source: AGHT+IFUkW4Z2c15lNXP95oGua6AujIBBde3ozN86lKfFCbMXjpH6qzXzg75p6jx1VG9q7VK0fpfMg==
+X-Received: by 2002:a05:6512:104f:b0:594:3340:1b63 with SMTP id 2adb3069b0e04-5958423391cmr6263374e87.49.1763490665453;
+        Tue, 18 Nov 2025 10:31:05 -0800 (PST)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com. [209.85.167.48])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59580400269sm4144146e87.51.2025.11.18.10.31.03
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Nov 2025 10:28:35 -0800 (PST)
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-37a56a475e8so53765551fa.3
-        for <linux-media@vger.kernel.org>; Tue, 18 Nov 2025 10:28:35 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXgegym3zDeeOeUO+AKF7CNoGm1CP08WR0Hq0zGHsCwTA98gM5zwVq6oo0BWLk6yuR1bnxbJAk4OdkzsA==@vger.kernel.org
-X-Received: by 2002:a2e:9692:0:b0:37b:966a:493e with SMTP id
- 38308e7fff4ca-37babd6e95bmr38757561fa.39.1763490514771; Tue, 18 Nov 2025
- 10:28:34 -0800 (PST)
+        Tue, 18 Nov 2025 10:31:03 -0800 (PST)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5958232f806so5702288e87.0
+        for <linux-media@vger.kernel.org>; Tue, 18 Nov 2025 10:31:03 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXcopWmvp6WvZUNlz29fDpp92FO2+uf4mkiZiX5WiAQ75zzTm/RXh30bdB636OFhnoUHlwBSqbAMuKS/A==@vger.kernel.org
+X-Received: by 2002:a05:6512:2342:b0:595:8200:9f8f with SMTP id
+ 2adb3069b0e04-595841b7044mr5328031e87.18.1763490663342; Tue, 18 Nov 2025
+ 10:31:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -85,89 +85,112 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20251117-uvcdynctrl-v1-0-aed70eadf3d8@chromium.org>
- <20251117-uvcdynctrl-v1-4-aed70eadf3d8@chromium.org> <2025111817-wages-anyone-e39a@gregkh>
- <x2xheosw24fecqjjv4fmj2t3i53k2ypyvmkkkvmv6xtdwsherd@e5klkm3ou4g7>
-In-Reply-To: <x2xheosw24fecqjjv4fmj2t3i53k2ypyvmkkkvmv6xtdwsherd@e5klkm3ou4g7>
+ <20251117-uvcdynctrl-v1-4-aed70eadf3d8@chromium.org> <f922a8271624a6ae765abbf9894867007a29c8e7.camel@irl.hu>
+ <CANiDSCs7mdMmCxho+u=DC53kCaUTq05htzpV2=_NEkvq0U0pOw@mail.gmail.com>
+ <fd65b83abc22587e592a565dd2b326e8eb63f34c.camel@irl.hu> <CANiDSCudzTj0QZMWNnE0gUPFh5heQWRC8z8NOmDHnVXCdqi96A@mail.gmail.com>
+ <b55a513fb25c47411ab7289f3812187e3f67da43.camel@irl.hu> <381cf376-72b0-4a5f-a99e-524f6d83a2d0@kernel.org>
+ <374afd7b45297979278d02f6b06abaed35c12eae.camel@irl.hu>
+In-Reply-To: <374afd7b45297979278d02f6b06abaed35c12eae.camel@irl.hu>
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 18 Nov 2025 19:28:22 +0100
-X-Gmail-Original-Message-ID: <CANiDSCuv8UG6TMx6pK348okK+NYzAorPEgPYzoRCEZiBDgPP=A@mail.gmail.com>
-X-Gm-Features: AWmQ_blM7S4shaTGNxJfhLmGLTcwMtEJb-eDC45CoRNAlMmaP_NitZys0JaGpa8
-Message-ID: <CANiDSCuv8UG6TMx6pK348okK+NYzAorPEgPYzoRCEZiBDgPP=A@mail.gmail.com>
+Date: Tue, 18 Nov 2025 19:30:50 +0100
+X-Gmail-Original-Message-ID: <CANiDSCtZw48bHc7m7aVPX8jFubkPYc-NKXtcWg1_rdiCMVXLnw@mail.gmail.com>
+X-Gm-Features: AWmQ_bkMHdZVf0LVzn1ijYbE1e_BvdtuDPL2POQEtFyju11rtqGYEj2xQq-UrxY
+Message-ID: <CANiDSCtZw48bHc7m7aVPX8jFubkPYc-NKXtcWg1_rdiCMVXLnw@mail.gmail.com>
 Subject: Re: [PATCH 4/4] media: uvcvideo: Introduce allow_privacy_override
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede <hansg@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Gergo Koteles <soyer@irl.hu>
+Cc: Hans de Goede <hansg@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Mauro
+Hi Gergo
 
-On Tue, 18 Nov 2025 at 15:09, Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
+On Tue, 18 Nov 2025 at 16:36, Gergo Koteles <soyer@irl.hu> wrote:
 >
-> On Tue, Nov 18, 2025 at 06:14:09AM -0500, Greg Kroah-Hartman wrote:
-> > On Mon, Nov 17, 2025 at 08:14:19PM +0000, Ricardo Ribalda wrote:
-> > > Some camera modules have XU controls that can configure the behaviour of
-> > > the privacy LED.
+> Hi Hans,
+>
+> On Tue, 2025-11-18 at 15:26 +0100, Hans de Goede wrote:
+>
+> >
+> > > > Do you have a compelling use-case for turning off the privacy LED?
+> > > >
 > > >
-> > > Block mapping of those controls, unless the module is configured with
-> > > a new parameter: allow_privacy_override.
+> > > As a pet camera, it is useful to be able to turn off the LED.
+> > > In some cases, it can also eliminate unwanted reflections.
+> > > Some cameras may have blue LED, and if someone hates blue LEDs..
 > >
-> > This is not the 1990's, please do not add new module parameters, they do
-> > not scale, nor work properly at all for modern hardware where you can
-> > have multiple devices in the same system.
+> > And almost all cameras already do not allow manually overriding the LED
+> > turning on while streaming. There is a very low-tech solution for this,
+> > put some black isolation tape over the LED :)
 > >
-> > This isn't an agreement that we should do this feature at all, just that
-> > if you do, it should NOT be a module parameter.
 >
-> I agree with Greg: modprobe makes things harder, especially on usb.
-
-If the argument is that with parameters you cannot have a different
-parameter for each USB camera, I would say that I see this option as a
-system-wide policy, not as a per-device option. But yeah, the less
-parameters that we have, the better.
-
+> Yes, this is also a good and stable solution. :)
 >
-> Also, in the specific case of privacy leds, IMO it should never be
-> possible to directly disable it, not even root via a modprobe or
-> runtime parameter.
-
-+1
-
+> > > > My core goal is simple: if the camera is in use, the privacy LED must
+> > > > be ON. If the LED is ON unexpectedly, it serves as a clear indication
+> > > > that something unusual is happening.
+> >
+> > ...
+> >
+> > > > No freedom is lost. This change simply increases the
+> > > > trustworthiness/reliability of your device.
+> > >
+> > > It will decrease to the extent that fewer people will know that such an
+> > > option exists because they will not read the description of the
+> > > module's parameters.
+> >
+> > People currently already will not know that the option exists.
+> >
+> > Seeing the current LED controls on Logitech cams requires 2 manual steps:
+> >
+> > 1. Install uvcdynctrl which maps the custom GUIDs to the LED controls
+> >    Note distros do not install this be default
+> > 2. Use either a GUI v4l2-control app like qv4l2ucp or gtk-v4l, or
+> >    v4l-ctrl -l to list controls and then change the setting.
+> >
+> > So there already is close to 0 discoverability for this Logitech
+> > only feature.
 >
-> Ok, as it might be some case where someone really wants to disable for his
-> special pet toy. If such cases are relevant, a Kconfig parameter could
-> be added (maybe depending on BROKEN), having privacy LED enabled by default.
+> This is not completely true.
+> The cameractrls uses these extensions and controls with
+> uvc_xu_control_query() and has over 140k downloads on Flathub alone.
 >
-> This way, any sane distro-generated Kernel should always have the privacy
-> LED on when camera is in use.
+> >
+> > For the new MIPI cameras on laptops we have deliberately made it
+> > impossible to disable the privacy LED while streaming even though
+> > it is often controlled by a separate GPIO because of privacy reasons.
+> >
+> > For the same privacy reasons I fully agree with Ricardo that this should
+> > be behind a module option. Which replaces step 1. with creating
+> > a /etc/modprobe.d/uvc.conf file, so just about as much work.
+> >
 >
-> On other words, if someone has secure boot enabled, he can be more confident
-> that a distro-vendor signed Kernel will honour the privacy LED, and not
-> even the root can tamper with - as BIOS access to disable secure boot would
-> be needed to change it - plus, booting a non-signed kernel.
+> I agree that this will be useful. The module parameter is also simpler
+> than per-V4L2 control permission management. And the latter is not
+> needed in other cases, I think.
+>
+> However, if allow_privacy_override is enabled, would it be worth
+> mapping these controls by the kernel?
+> So uvcdynctrl or cameractrls would not be needed for this control.
 
-If most of the people agree that the final goal is to block all the
-LED privacy access from userspace we could have a mixed approach.
+If allow_privacy_override is enabled and there is a standard control
+in include/uapi/linux/v4l2-controls.h that supports such control: I
+have no issue adding the mapping for it.
 
-1. We introduce the allow_privacy_override parameter with default off.
-If the user sets allow_privacy_override, they are welcomed with a message like:
+Right now we only have V4L2_CID_PRIVACY which is a boolean and has
+usually been used to tell if the privacy shutter is on or off, not to
+configure the LED.
 
-uvcvideo: [DEPRECATION]: Access to the privacy controls will be
-eventually blocked.
+In any case, the default value of allow_privacy_override should be
+false. I would even argue that the best approach is to block all the
+known LED config controls after a deprecation period.
+Check: https://lore.kernel.org/linux-media/CANiDSCuv8UG6TMx6pK348okK+NYzAorPEgPYzoRCEZiBDgPP=A@mail.gmail.com/
 
-2. In one year, if nobody screams at us we remove the parameter and
-call it a day.
-
-3. If someone depends on this feature, we will move it into a kernel
-configuration behind BROKEN.
-
-What do you think?
-
+> >
 >
 > Regards,
-> Mauro
+> Gergo
 
 
 
