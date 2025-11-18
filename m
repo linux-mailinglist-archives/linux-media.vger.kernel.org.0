@@ -1,142 +1,258 @@
-Return-Path: <linux-media+bounces-47299-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47300-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42CD1C69F9A
-	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 15:30:44 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79EA8C69F72
+	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 15:29:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3DF1A349B4E
-	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 14:26:27 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTPS id 60A262BCED
+	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 14:29:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCB0E35A95C;
-	Tue, 18 Nov 2025 14:26:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B906320CD3;
+	Tue, 18 Nov 2025 14:28:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uf7ERMtL"
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="jbgNlztq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36798355050;
-	Tue, 18 Nov 2025 14:26:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 991BF3559E8
+	for <linux-media@vger.kernel.org>; Tue, 18 Nov 2025 14:28:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763475972; cv=none; b=CAoqG7fKrrnv3sUfvh76eXnZcNiyt5WGREP7VEQxMEy0W02ShWTwkACDYpApBQ/2kVquLyNDRHOt7H7BMtfkivlY8W+2Alt4soEvYybR2aX7DYXq2BtD5QezJj0X4lu0cTKpjzm29JNCnco4L8ZoWYYuimi9xQdBGxrFjA69+JI=
+	t=1763476138; cv=none; b=O9WavsUpDz0iKzbcNh7c/AH7l+hd6eHfKMg8IBYTVbW2Ue+y6qYH+TgV7h15mOlGQOTM8+e3R15Ivc57tH7j1Ewn+twPgOV/KLtZD6EXUYP+vXboB7YPlOU913YZW/AstwjEI0c4cudZb7TmCVTDSU184lAbBMHCRCenAZVKIe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763475972; c=relaxed/simple;
-	bh=ejoEfVQPWBYZ0PyLtQkJpAvcNWz5Xe4/WqTYaNUnAbM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g0UpobZYKyJbqhQi6BPeStwIuBqoIi3mvf7IkWm37JWcEvb34Bu2kqFqsdJNPOnLRP0zEZh8JgHGWH7yYgk7JA5sa4CsU0FfaPEgxsrRm+pIIHANSym6/S2ardfToU1WW0W2qpZ+GnWXNKRO8qI5W+YW0U5KfDXosH0CTZWa2U8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uf7ERMtL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FA1DC4CEF1;
-	Tue, 18 Nov 2025 14:26:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763475971;
-	bh=ejoEfVQPWBYZ0PyLtQkJpAvcNWz5Xe4/WqTYaNUnAbM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=uf7ERMtLHtJDvvwZbXYkIsMFKtBumBRhF0ksmCj4I/Jp9VKRBonN51gwp9X8ID5zV
-	 oEUJ6sNJFOxRPUYLs4mVYQD4A2yVYg0+dGDefFRU85TokaOnM/gYRahEWUCkHkro0H
-	 J25yg1RfTsTuuv+5K/RITI6PfQl9aatifYH1GPXmgvb23zQecbMj3ylcSxxMdCiluB
-	 eFPiPeT+gzkBeqcBKc6Am9wxPpXEYiAZfhY0NCckOVvfNe7MYIue7X+HO1T+Dx86SR
-	 tI+lJ1DwATG70Q3Tf28jooQU0uYDRwzc1+0ic7fBK/Xpiz4DEWT8fwwTPRdde1FfBf
-	 ObBAPmnkRC1Rg==
-Message-ID: <381cf376-72b0-4a5f-a99e-524f6d83a2d0@kernel.org>
-Date: Tue, 18 Nov 2025 15:26:07 +0100
+	s=arc-20240116; t=1763476138; c=relaxed/simple;
+	bh=Vw+jMoLrz3CPi3RZadAUQ9OZDIQrFYnK7RrpZ+3jFFU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tdipU04wiLckVkGLBsqlT715U4YrVh0rZWFQxAi+7xKZ2i4OhL02F7GjqxnuWXWMCeNCvjC/P/VUG+kAzWzoZiVw3uWyghRhIhLnNXoTRaMrLDjsGD5TaKhxLUdyGWAuJ/LgE5wVpXou6VIXMQRKRPStcs4MCFcHrmBtE71nA3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=jbgNlztq; arc=none smtp.client-ip=209.85.219.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-88249766055so69600756d6.1
+        for <linux-media@vger.kernel.org>; Tue, 18 Nov 2025 06:28:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1763476131; x=1764080931; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=35WpspOv1fAWFINmOzi0AcgEQL1oV2/QEYSJcrH4aSg=;
+        b=jbgNlztqEGj3WmXe7Jo3l8FaT1DvF8AaIYPg93dVoF6UZRCE01BN9/Pnq+azINjQid
+         LpaMmzcr/XUyOOp2ThaI47IxSCnWlvwIwG94wN+XZ7LGqOd6cdwVFXyTanROgMLBbQ/6
+         jzJ8MKocS/iXqpfC3Wey6NGpOtxYUOzxcm2sbBZdIsSp05BjVhevLq428KKvAXPl3xL5
+         8RIG9SSDGshJkAbsY3vW7n/jSgIOdS7J00+Bl+R1/qeSCQMNP5hD5M8oSOaDEz/Aheqg
+         FSaz76ZiLI+pEwl6Es2xp9bla/Vfo6GtgTw9bOQLBkvuDaGebbESWQ07NgaAWjGPJun8
+         9Ycw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763476131; x=1764080931;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=35WpspOv1fAWFINmOzi0AcgEQL1oV2/QEYSJcrH4aSg=;
+        b=Q7l8jC/QfX8SGmkVQzOb0PfzvkwjvXldQLNoEymms9ztVP2BnnpDhKrfa13LEQVqbA
+         oGJPQ597mlz16rz8tTxHVOi5Sz0w5L4gwDPnVuUj7HgPwUwDUTmty2JZcx1b8LH/gIcc
+         NXMOPEt6pj1EMwJagxDMYfQiq4VY1fWzG2dS6/kbMw7b/gFbiwPGpVBqf5pldwofReW8
+         DC7mWONrYWLJwqGWBdwQ4hOA/YKyspwNcSZT+QOKaSvcE2EO6l7xp6X4Kd+6M2l1o5Rf
+         JFd04cdhRY/DwJ89uc89f+i7uIAklSyyjZRj4JQRKwjdgY65hV7ftett8k035laesLM2
+         sJiw==
+X-Forwarded-Encrypted: i=1; AJvYcCWHcKVhKj+xZpr0hJCkDEzFKya4hQzp8CCCs6FExdT0Ak+4yGsYwo6Kk/Jpo84tou6o4WAPgPcrrlrO2w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQzz4W/pSVTEA0dFET2zLGkyj+PAvDe8rF98pgSDC/v5Ky/HS2
+	EKZU8wE7A3oYJs8Y4DpsUU2WP6GqjY9q7k/EFUqoA5fQ3nCptBQsfRil0jz5uubikJA=
+X-Gm-Gg: ASbGncv6rJ1Jyu9E1hN/Ga76LWCvsKK1idDUcfEIpYpjZy5CSfs1c5COoQqoLem+SC6
+	GGlktdnhXQsEysOx4a61sETlWYYwYdruQsFpvYackFyyZ6MJbYOUPFGBrf+HkdJ0BjN9DJZI/Nr
+	1yo6iNkXg88VmD1zVkCmeR28ocuw0S0jOkg3+jdRtBJ6euajFG2rtaobQrwG5GaARJyskJq4SiA
+	6o3JxYGg7SNyaesvFAmntt9j5qZHwzH3abiqaTQTNet8PS3k2d5hy66c/s6JhCkAB8VgbP6GSFE
+	8yMpYufSVYwv6hD8ELCbic4jCf9OalFgmX8B6yRhlmtZCT6vArzXu2lpoZpYBja2gqgLBmuCI4H
+	EGsm1x2DZG5OVW3MVtxwEmOk7EsbxxIb5aaURm4WSsh00ehQBjp1GsNdfW8rFHsHqboZk4+vkaW
+	pbSEZgBOZqHuQgynaU25vswDlWRihuIsAji9u6ddm+wbO44HIcBU08Kj/iZhHBBxKmj2c=
+X-Google-Smtp-Source: AGHT+IF+NrfSbYwvwiNh+CC3YngHFJHpwzxC37jBlKkv0sHaTL3i1cld4gWS47y25QRA75BxBaWSvQ==
+X-Received: by 2002:a05:6214:62a:b0:81b:bf92:8df9 with SMTP id 6a1803df08f44-8829269e086mr234228876d6.43.1763476131063;
+        Tue, 18 Nov 2025 06:28:51 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-47-55-120-4.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.120.4])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8828652efa4sm114860276d6.39.2025.11.18.06.28.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Nov 2025 06:28:50 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1vLMhN-00000000NEc-3Dxs;
+	Tue, 18 Nov 2025 10:28:49 -0400
+Date: Tue, 18 Nov 2025 10:28:49 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: "Tian, Kevin" <kevin.tian@intel.com>
+Cc: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <skolothumtho@nvidia.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
+	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+	"linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>,
+	"Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH v8 10/11] vfio/pci: Add dma-buf export support for MMIO
+ regions
+Message-ID: <20251118142849.GG17968@ziepe.ca>
+References: <20251111-dmabuf-vfio-v8-0-fd9aa5df478f@nvidia.com>
+ <20251111-dmabuf-vfio-v8-10-fd9aa5df478f@nvidia.com>
+ <BN9PR11MB527610F3240E677BE9720C2B8CD6A@BN9PR11MB5276.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] media: uvcvideo: Introduce allow_privacy_override
-To: Gergo Koteles <soyer@irl.hu>, Ricardo Ribalda <ribalda@chromium.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org
-References: <20251117-uvcdynctrl-v1-0-aed70eadf3d8@chromium.org>
- <20251117-uvcdynctrl-v1-4-aed70eadf3d8@chromium.org>
- <f922a8271624a6ae765abbf9894867007a29c8e7.camel@irl.hu>
- <CANiDSCs7mdMmCxho+u=DC53kCaUTq05htzpV2=_NEkvq0U0pOw@mail.gmail.com>
- <fd65b83abc22587e592a565dd2b326e8eb63f34c.camel@irl.hu>
- <CANiDSCudzTj0QZMWNnE0gUPFh5heQWRC8z8NOmDHnVXCdqi96A@mail.gmail.com>
- <b55a513fb25c47411ab7289f3812187e3f67da43.camel@irl.hu>
-From: Hans de Goede <hansg@kernel.org>
-Content-Language: en-US, nl
-In-Reply-To: <b55a513fb25c47411ab7289f3812187e3f67da43.camel@irl.hu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <BN9PR11MB527610F3240E677BE9720C2B8CD6A@BN9PR11MB5276.namprd11.prod.outlook.com>
 
-Hi George,
-
-On 18-Nov-25 12:14 PM, Gergo Koteles wrote:
-
-..
-
->> Do you have a compelling use-case for turning off the privacy LED?
->>
+On Tue, Nov 18, 2025 at 07:33:23AM +0000, Tian, Kevin wrote:
+> > From: Leon Romanovsky <leon@kernel.org>
+> > Sent: Tuesday, November 11, 2025 5:58 PM
+> > 
+> > -		if (!new_mem)
+> > +		if (!new_mem) {
+> >  			vfio_pci_zap_and_down_write_memory_lock(vdev);
+> > -		else
+> > +			vfio_pci_dma_buf_move(vdev, true);
+> > +		} else {
+> >  			down_write(&vdev->memory_lock);
+> > +		}
 > 
-> As a pet camera, it is useful to be able to turn off the LED.
-> In some cases, it can also eliminate unwanted reflections.
-> Some cameras may have blue LED, and if someone hates blue LEDs..
+> shouldn't we notify move before zapping the bars? otherwise there is
+> still a small window in between where the exporter already has the
+> mapping cleared while the importer still keeps it...
 
-And almost all cameras already do not allow manually overriding the LED
-turning on while streaming. There is a very low-tech solution for this,
-put some black isolation tape over the LED :)
+zapping the VMA and moving/revoking the DMABUF are independent
+operations that can happen in any order. They effect different kinds
+of users. The VMA zap prevents CPU access from userspace, the DMABUF
+move prevents DMA access from devices.
 
->> My core goal is simple: if the camera is in use, the privacy LED must
->> be ON. If the LED is ON unexpectedly, it serves as a clear indication
->> that something unusual is happening.
+The order has to be like the above because vfio_pci_dma_buf_move()
+must be called under the memory lock and
+vfio_pci_zap_and_down_write_memory_lock() gets the memory lock..
 
-...
-
->> No freedom is lost. This change simply increases the
->> trustworthiness/reliability of your device.
+> > +static void vfio_pci_dma_buf_release(struct dma_buf *dmabuf)
+> > +{
+> > +	struct vfio_pci_dma_buf *priv = dmabuf->priv;
+> > +
+> > +	/*
+> > +	 * Either this or vfio_pci_dma_buf_cleanup() will remove from the list.
+> > +	 * The refcount prevents both.
 > 
-> It will decrease to the extent that fewer people will know that such an
-> option exists because they will not read the description of the
-> module's parameters.
+> which refcount? I thought it's vdev->memory_lock preventing the race...
 
-People currently already will not know that the option exists.
+Refcount on the dmabuf
 
-Seeing the current LED controls on Logitech cams requires 2 manual steps:
-
-1. Install uvcdynctrl which maps the custom GUIDs to the LED controls
-   Note distros do not install this be default
-2. Use either a GUI v4l2-control app like qv4l2ucp or gtk-v4l, or
-   v4l-ctrl -l to list controls and then change the setting.
-
-So there already is close to 0 discoverability for this Logitech
-only feature.
-
-For the new MIPI cameras on laptops we have deliberately made it
-impossible to disable the privacy LED while streaming even though
-it is often controlled by a separate GPIO because of privacy reasons.
-
-For the same privacy reasons I fully agree with Ricardo that this should
-be behind a module option. Which replaces step 1. with creating
-a /etc/modprobe.d/uvc.conf file, so just about as much work.
-
-> And it's not possible to be sure that there isn't another undocumented
-> option in the firmware to turn it off the LED.
+> > +int vfio_pci_core_fill_phys_vec(struct dma_buf_phys_vec *phys_vec,
+> > +				struct vfio_region_dma_range *dma_ranges,
+> > +				size_t nr_ranges, phys_addr_t start,
+> > +				phys_addr_t len)
+> > +{
+> > +	phys_addr_t max_addr;
+> > +	unsigned int i;
+> > +
+> > +	max_addr = start + len;
+> > +	for (i = 0; i < nr_ranges; i++) {
+> > +		phys_addr_t end;
+> > +
+> > +		if (!dma_ranges[i].length)
+> > +			return -EINVAL;
 > 
-> A physical switch would be the best for this control, but that's not an
-> option :(
+> Looks redundant as there is already a check in validate_dmabuf_input().
 
-Sure but remember perfect is the enemy of good. Having a v4l2-ctrl to
-force the LED to always be off will make it a lot easier for an attacker
-to use the camera without the LED turning on. Security is all about
-layers / defense in depth and the module option is a nice and simple
-way to make things harder for pervert spyware.
+Agree
 
-Regards,
+> > +int vfio_pci_core_feature_dma_buf(struct vfio_pci_core_device *vdev, u32
+> > flags,
+> > +				  struct vfio_device_feature_dma_buf __user
+> > *arg,
+> > +				  size_t argsz)
+> > +{
+> > +	struct vfio_device_feature_dma_buf get_dma_buf = {};
+> > +	struct vfio_region_dma_range *dma_ranges;
+> > +	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
+> > +	struct vfio_pci_dma_buf *priv;
+> > +	size_t length;
+> > +	int ret;
+> > +
+> > +	if (!vdev->pci_ops || !vdev->pci_ops->get_dmabuf_phys)
+> > +		return -EOPNOTSUPP;
+> > +
+> > +	ret = vfio_check_feature(flags, argsz, VFIO_DEVICE_FEATURE_GET,
+> > +				 sizeof(get_dma_buf));
+> > +	if (ret != 1)
+> > +		return ret;
+> > +
+> > +	if (copy_from_user(&get_dma_buf, arg, sizeof(get_dma_buf)))
+> > +		return -EFAULT;
+> > +
+> > +	if (!get_dma_buf.nr_ranges || get_dma_buf.flags)
+> > +		return -EINVAL;
+> 
+> unknown flag bits get -EOPNOTSUPP.
 
-Hans
+Agree
 
+> > +
+> > +void vfio_pci_dma_buf_cleanup(struct vfio_pci_core_device *vdev)
+> > +{
+> > +	struct vfio_pci_dma_buf *priv;
+> > +	struct vfio_pci_dma_buf *tmp;
+> > +
+> > +	down_write(&vdev->memory_lock);
+> > +	list_for_each_entry_safe(priv, tmp, &vdev->dmabufs, dmabufs_elm)
+> > {
+> > +		if (!get_file_active(&priv->dmabuf->file))
+> > +			continue;
+> > +
+> > +		dma_resv_lock(priv->dmabuf->resv, NULL);
+> > +		list_del_init(&priv->dmabufs_elm);
+> > +		priv->vdev = NULL;
+> > +		priv->revoked = true;
+> > +		dma_buf_move_notify(priv->dmabuf);
+> > +		dma_resv_unlock(priv->dmabuf->resv);
+> > +		vfio_device_put_registration(&vdev->vdev);
+> > +		fput(priv->dmabuf->file);
+> 
+> dma_buf_put(priv->dmabuf), consistent with other places.
 
+Someone else said this, I don't agree, the above got the get via
 
+get_file_active() instead of a dma_buf version..
 
+So we should pair with get_file_active() vs fput().
+
+Christian rejected the idea of adding a dmabuf wrapper for
+get_file_active(), oh well.
+
+> > +struct vfio_device_feature_dma_buf {
+> > +	__u32	region_index;
+> > +	__u32	open_flags;
+> > +	__u32   flags;
+> 
+> Usually the 'flags' field is put in the start (following argsz if existing).
+
+Yeah, but doesn't really matter.
+
+Thanks,
+Jason
 
