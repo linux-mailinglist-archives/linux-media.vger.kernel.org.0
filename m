@@ -1,167 +1,182 @@
-Return-Path: <linux-media+bounces-47255-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47256-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4308FC6885E
-	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 10:27:14 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D60D5C688F6
+	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 10:34:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 789F6364555
-	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 09:26:12 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTPS id C587A2A497
+	for <lists+linux-media@lfdr.de>; Tue, 18 Nov 2025 09:34:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DD413128DF;
-	Tue, 18 Nov 2025 09:26:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25A36317707;
+	Tue, 18 Nov 2025 09:33:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="oXcBtlSb"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Y+2GtTlk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCF0D2FE05B
-	for <linux-media@vger.kernel.org>; Tue, 18 Nov 2025 09:25:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 891EA3168FB
+	for <linux-media@vger.kernel.org>; Tue, 18 Nov 2025 09:33:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763457960; cv=none; b=MiEQOrcLtO/zM+4nIrR3nfl02wFpGnTX9il3o3bm5w4QpAsKigijPvCRFiv5QND1BGYnm50BfvI3+Kns+k6It374ItjamRKOnqK2Y4t5siWyVaMBPvhsVJBnSJVzw0hkR8lOBk3U41zjFWA7sP671PGQoi9OCyUakNX5Y9MIYt4=
+	t=1763458422; cv=none; b=Fw3QiqUSjRccpxZspPxfhrJB7c0VfcBcBIRdArf0MPI6jSXuiIxb4xGXAkSkrl5FhBxDZncBQGCPMpNYn+fiGXmu/r1l9ScsbfxNYTyRKU2UnS0zy+QT0veM3UnDvsyvvFMYpZDHseHeQOubshrx8daqsOs9+UspSIXFcxSQFsw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763457960; c=relaxed/simple;
-	bh=dH8EdpnR2i16jftT1azcGeU6nyFTjX9mdLB8VTapQ8k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iGan/MMc7eylYuzI5HQjdvAcq3+fnrpKDW93UtEJXM7JjEP7GIFa064uN+uLlJl63nIhZ6gW5M6B78ehsZqC5LOC/c5LrObLxKty0c1P0MdCfPXjcKoJJWS2qU1U/+0GQ5/JJol6Jbos+DfAr+KYMzelqT1e9bJo5az1ahxDnPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=oXcBtlSb; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5959187c5a9so1525717e87.1
-        for <linux-media@vger.kernel.org>; Tue, 18 Nov 2025 01:25:58 -0800 (PST)
+	s=arc-20240116; t=1763458422; c=relaxed/simple;
+	bh=+50Ey2th+tvNWLHYjF3fekOQvXPxWkgWTW4J+kjkuuI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DHGUJl2mFWIcpdbsLTCOzgwdQHzm2EYqxDpl1JxCtFgqy3gngJ/ofoYphSHLEcQkgQFGcqbg76F6Sfn/dUkdxjPn6hIW+Mst3nJIGxqtKwDwimdoxLSi4+gojNop68GfyeX1xAOKVPFugNhakvMRbAFW3Ah50Z92B61MxTkXd/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Y+2GtTlk; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-477aa218f20so3202745e9.0
+        for <linux-media@vger.kernel.org>; Tue, 18 Nov 2025 01:33:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1763457957; x=1764062757; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+yae1MALCGHKV7TgqqaWxc3cR1A5oospqJfHNyVOwSU=;
-        b=oXcBtlSbU2KPc5J+DDYyunNDbx6P5vFFb+GPvgTdULqSI1p0eolhtXxg5pXOPjF4xk
-         kHh5WmPKM+TMIoaDkyz1N5hB21bpLxm/LwCzoVmL7GDWQfajaxkmDVUgR5/5nWaEMsfZ
-         BjYm+v3cARIVbCATdNHyKTK3qNXbhziLQFU78=
+        d=linaro.org; s=google; t=1763458419; x=1764063219; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lTOCRDtXGRsyXp0u8jNTz0TfJTFFmawtdeFt+8GZM68=;
+        b=Y+2GtTlkNQxatit+63DAyzp440oXvf+KzxiB5+dz9/PGKW5mAQa6emkJG4aBVaL4na
+         NtHlFYbXEl3qsbfF59W7vq8Ls++edU5LajSij7+f7MB/c+X2bdJJ+8Kj4rOVihpYaxWx
+         BsM9vOWPBcsaJ+Xo44z2msIr/jk5DjkAEWsbwte4CxeBKGvdxme2MjCK8qPo7N3zZXFY
+         hznAhrA98Q9NdvZh/0pV1tjrlDgukY4boCOdn6kkw5WspKYpSGv9F/Yc5Xt4i4H8L3fl
+         N9VMro/eyoXpDHHKJZHtZBHOvhVG9KDzknz6FggTTob3S3RKtcQ4s/oi6nk8ztMjRE/H
+         7d2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763457957; x=1764062757;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+yae1MALCGHKV7TgqqaWxc3cR1A5oospqJfHNyVOwSU=;
-        b=WbMscT/keEOfJIThfExZEmgAAFzrX1mwzY0vnI3RwBhT788J6SyolIubRNem5kNs5o
-         oFLyubfgoPO2iOxrpE0+v3cEdMXLI8ZjmOwolBF4oAZ984XhM0gRVLG+XNELRFQaqvPG
-         6vdCwhvLpf0D3qux3ADU6f4mAa7xmweZ1MCnCy64WblCmZMvROcy+q+LZCEYbumn6VLf
-         gv3v34/nUZ8OPf520c5vebKGQT7D7+bk0zc9Et27Vdljj1/7KgOqEd7gveqfIcFK/f+5
-         vNq//obCvXd7bBJlBd7KOEINby/Pv8ZKDjfpPOSAuvln3iPnOEgfW8MjW9YPHz3oIV0s
-         XS/g==
-X-Forwarded-Encrypted: i=1; AJvYcCVFg3ah1TBVOCY8VJLJe5P0sjvTpCsGS/yB0bdiQOy8dVCi8t9Ss3qV1RfYT1+jGnB6Z7Nm6izPMqUAfw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxu37hDNKuGn4hTspk9spmGOxN1geD9Xa2hwDbheHaS9k6Z/93n
-	/tm+GU2QkaYX+JTbodDtfymbeOVnRArMd8ukbU5BrZdpM28bC19rTXiF6ljXxjbvkHyZK14/J2/
-	eoRR0mg==
-X-Gm-Gg: ASbGncvmVFx8M3vFqpB75Lvonmm2lnMC7+AbSTLLytbv7+72Ihw9c/GGb6zmA+v1QB5
-	RWqs/tB2nvUI/yvk2HM27ITSsspS4J+x3soZVtigZIkYBcihfcbZz4QUoLTdANilKXxDX+YfBbs
-	Y3F6h/CMcMixLdGTB0sbSVjsKqIN4i6taw9p40rEmKpeSkK2AkEVynH0h/tjlFl/jK0mzqfTLOr
-	6AfONAnw6vr9I15VQx+HwVjl4frVcrMg7anVR+4/1qPzZlfT44af8TAq4Nle5s148rPlfmL6/Ar
-	ogufDHue14xg1w0X4+qBeCxcBS2ZafecdvIJJzHqrIcsw9RTg++vf0qF0IlA1jIRGGNNtsRMfwS
-	t23OaCotJQb5BrQIUuWmvTpG+1BS+BSUAv7BM7ORn5HAUCkEeGThVfXScbs/FQc5XxwVkR7mrQ4
-	ylY2QkX6VhyLEd3EGwzwKqVWummVUZxOHKItujKw==
-X-Google-Smtp-Source: AGHT+IGkxO2maItmm/Vn0tVaGPBa9vdtfDsMaBktkzP9FS/xrL9BUtLPgjOil94vbtel6E4zT/0hTA==
-X-Received: by 2002:a05:6512:3b0d:b0:594:5685:94ce with SMTP id 2adb3069b0e04-59584213a5dmr5467520e87.48.1763457956890;
-        Tue, 18 Nov 2025 01:25:56 -0800 (PST)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com. [209.85.167.51])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-595803ac88bsm3914058e87.12.2025.11.18.01.25.55
-        for <linux-media@vger.kernel.org>
+        d=1e100.net; s=20230601; t=1763458419; x=1764063219;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lTOCRDtXGRsyXp0u8jNTz0TfJTFFmawtdeFt+8GZM68=;
+        b=KndTl6uV8Xbdhbxl4aRQUBWyqsjuawesh6D2fP1Jh/nPs4xTfILzqPlNitHF5FY5TL
+         7z0x1+mFZZjoublwuYY669eh8KL6lG10Cg8aCchz1rks/7wpbzUOQWaTXX6kbtKy68Y/
+         wmCzZ+1BBI/grWPbZLmnvBi4Q+Ez2+E8LUNFhQQklEeE47QbPjdMz2HhDqakmfsSZDJW
+         fpaZZrGKwoo1jbmHniwg/r/KQjkhbK/pvAqX48dsHp5DSBrHsNV1d4EQ9EnXeAHGWRvu
+         iwM0pF5bIeEL0TqM+fMROEk0+u5G1dz56rlvXfecxWG5himex0yJdAcFDY6WPcrhih7g
+         TqzA==
+X-Forwarded-Encrypted: i=1; AJvYcCWdligbk1tUYR3RNh0Qt9kQR59ggBOMQMlcmNRBZD7xP1ySR4FfPn3N0QUHB4i65OrzRx/F6LIBSvt/4Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YydBoGySTe2512MDHIG26M4lGP/4tHoU0oynyjoIncjCayR5W2u
+	ouio6oqWZXlNj4eAiGITh9JugkzP5n2mb24ujcnx4z1aNwBDSJWA2AlA1UgW+1nQDlBR2dZUX4G
+	wJNs+Z8g=
+X-Gm-Gg: ASbGncuwgtLRwi4wjqK2qSBo+3pQvF4RYr4uF/Jl4McwU97z/a+Mr/wPL1wv6qF0RqE
+	Yty5lHDtt6xhrBoSiu3Icvgmn56iatLNpnq+ClhSbb3zYwVBG3EK5hI/aBaBBqW/EZ03dgcBQch
+	6hrV6UEHh8hwCwIAb8Z9WuXug1Dz0ELfafTfDKpy+kEYF+F+vQw8bEjO5eu9XrpswkOaR+6U7tr
+	Oj9+iyuqhBRraagXDF0u8xshnfqUgre8JAqcBm8tR6BugGG5uIJzOIpRllRKID9l+2uzwhEYLml
+	EozdIQp1i9/KHR0OEcDGOCt/CCRUkurnlM3/5/b+Uhkz7UNbBwOlZVdW8/hdDwhzZvPK85u/5FY
+	5ht+lFlbI/hcinac7EQft1ZbWrnRwtzmOivET0RjAA0ffeXx2od5ND6LzBID0aIs0uRT16AVeZ4
+	Ez6/GuzHUysFIbRNGyeutkLJK0JSGqzbDddqdg3YSmgbQSHR8XzZnWyRV6mPe0Sx31xxLyxg/Om
+	g==
+X-Google-Smtp-Source: AGHT+IGjvYXGcM8w+Yy+Mw51ltxXu22tj1ZNHWr9tLZbYKT9LQg2FaVpLbb1z4I+LQJU8q7Yzr3yiA==
+X-Received: by 2002:a05:600c:1caa:b0:477:76cb:4812 with SMTP id 5b1f17b1804b1-4778fe0694amr165159625e9.0.1763458418772;
+        Tue, 18 Nov 2025 01:33:38 -0800 (PST)
+Received: from [192.168.0.27] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477a9df99d3sm11797575e9.12.2025.11.18.01.33.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Nov 2025 01:25:55 -0800 (PST)
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-591c9934e0cso7088412e87.0
-        for <linux-media@vger.kernel.org>; Tue, 18 Nov 2025 01:25:55 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWxcS1PnYKaKD7mcEDT5uFOgEKcXbQFcda6s4zvf3yFN5b3IA+hoc6zlQQ3eVxdCCZwCEw5kuhlOaO7Pw==@vger.kernel.org
-X-Received: by 2002:a05:6512:12c9:b0:579:8bbb:d61b with SMTP id
- 2adb3069b0e04-5958420949amr4940858e87.46.1763457954653; Tue, 18 Nov 2025
- 01:25:54 -0800 (PST)
+        Tue, 18 Nov 2025 01:33:38 -0800 (PST)
+Message-ID: <28f33d3a-6866-4bdb-a1e5-d193dcb7d4d1@linaro.org>
+Date: Tue, 18 Nov 2025 09:33:35 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251117-uvcdynctrl-v1-0-aed70eadf3d8@chromium.org>
- <20251117-uvcdynctrl-v1-4-aed70eadf3d8@chromium.org> <f922a8271624a6ae765abbf9894867007a29c8e7.camel@irl.hu>
- <CANiDSCs7mdMmCxho+u=DC53kCaUTq05htzpV2=_NEkvq0U0pOw@mail.gmail.com> <fd65b83abc22587e592a565dd2b326e8eb63f34c.camel@irl.hu>
-In-Reply-To: <fd65b83abc22587e592a565dd2b326e8eb63f34c.camel@irl.hu>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 18 Nov 2025 10:25:42 +0100
-X-Gmail-Original-Message-ID: <CANiDSCudzTj0QZMWNnE0gUPFh5heQWRC8z8NOmDHnVXCdqi96A@mail.gmail.com>
-X-Gm-Features: AWmQ_bloIqP2zjmmqvyZS2koEN_byM0aGR6YqFlokGP3PeXDJPTGOygBffnBb84
-Message-ID: <CANiDSCudzTj0QZMWNnE0gUPFh5heQWRC8z8NOmDHnVXCdqi96A@mail.gmail.com>
-Subject: Re: [PATCH 4/4] media: uvcvideo: Introduce allow_privacy_override
-To: Gergo Koteles <soyer@irl.hu>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede <hansg@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/3] Add CAMSS support for SM6350
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Luca Weiss <luca.weiss@fairphone.com>, Bryan O'Donoghue <bod@kernel.org>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <3ph8XeidoxkUIsK7qiOH29pde94sdwa3ReWKVVrPabgS5enIAmwVAC5plyFnBMJGKQBnxFB6df6j69OMFIeavw==@protonmail.internalid>
+ <20251114-sm6350-camss-v2-0-d1ff67da33b6@fairphone.com>
+ <df4a6a77-9004-4dbe-9b11-7af2bea7e068@kernel.org>
+ <DE8JJCQA0C4Q.35NEED7XG0K0V@fairphone.com>
+ <17e7ebc9-3b88-4334-b87d-1bce6d5bb120@linaro.org>
+ <893b97ad-7d2b-4408-bab5-2cd63fdaa33b@oss.qualcomm.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <893b97ad-7d2b-4408-bab5-2cd63fdaa33b@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Gergo
+On 17/11/2025 12:53, Konrad Dybcio wrote:
+> On 11/16/25 3:30 PM, Bryan O'Donoghue wrote:
+>> On 14/11/2025 15:59, Luca Weiss wrote:
+>>> On Fri Nov 14, 2025 at 4:51 PM CET, Bryan O'Donoghue wrote:
+>>>> On 14/11/2025 11:15, Luca Weiss wrote:
+>>>>> Add bindings, driver and dts to support the Camera Subsystem on the
+>>>>> SM6350 SoC.
+>>>>>
+>>>>> These patches were tested on a Fairphone 4 smartphone with WIP sensor
+>>>>> drivers (Sony IMX576 and IMX582), the camera pipeline works properly as
+>>>>> far as I can tell.
+>>>>>
+>>>>> Though when stopping the camera stream, the following clock warning
+>>>>> appears in dmesg. But it does not interfere with any functionality,
+>>>>> starting and stopping the stream works and debugcc is showing 426.4 MHz
+>>>>> while the clock is on, and 'off' while it's off.
+>>>>>
+>>>>> Any suggestion how to fix this, is appreciated.
+>>>>>
+>>>>> [ 5738.590980] ------------[ cut here ]------------
+>>>>> [ 5738.591009] gcc_camera_axi_clk status stuck at 'on'
+>>>>> [ 5738.591049] WARNING: CPU: 0 PID: 6918 at drivers/clk/qcom/clk-branch.c:87 clk_branch_toggle+0x170/0x190
+>>>>
+>>>> Do you have a full and complete kernel tree we could look at here ?
+>>>
+>>> Sure, this branch has everything in:
+>>>
+>>> https://github.com/sm6350-mainline/linux/tree/sm6350-6.17.y/
+>>>
+>>> For further refence, at least two other people have tested this branch
+>>> in postmarketOS, nothing particularly exciting to report from there,
+>>> apart from that the sdm-skin-thermal thermal zone (thermistor right next
+>>> to SoC) is currently configured with 55 degC as critical trip, which is
+>>> quickly achieved when starting a video recording, but that's not really
+>>> an issue with camss, but will need some tweaking regardless.
+>>>
+>>> https://gitlab.postmarketos.org/postmarketOS/pmaports/-/merge_requests/7281
+>>
+>> diff --git a/drivers/clk/qcom/gcc-sm6350.c b/drivers/clk/qcom/gcc-sm6350.c
+>> index a4d6dff9d0f7f..229629ef82809 100644
+>> --- a/drivers/clk/qcom/gcc-sm6350.c
+>> +++ b/drivers/clk/qcom/gcc-sm6350.c
+>> @@ -908,9 +908,7 @@ static struct clk_branch gcc_camera_ahb_clk = {
+>>
+>>   static struct clk_branch gcc_camera_axi_clk = {
+>>          .halt_reg = 0x17018,
+>> -       .halt_check = BRANCH_HALT,
+>> -       .hwcg_reg = 0x17018,
+>> -       .hwcg_bit = 1,
+> 
+> No reason to drop the hwcg description
+> 
+>> +       .halt_check = BRANCH_VOTED,
+> 
+> It'd be useful to explain why we should ignore the hw feedback in this case
+> 
+>>          .clkr = {
+>>                  .enable_reg = 0x17018,
+>>                  .enable_mask = BIT(0),
+> 
+> Konrad
 
-On Tue, 18 Nov 2025 at 09:48, Gergo Koteles <soyer@irl.hu> wrote:
->
-> Hi Ricardo,
->
-> On Tue, 2025-11-18 at 07:21 +0100, Ricardo Ribalda wrote:
-> >
-> > Most users expect that the led is always on when the camera is active.
-> > I think the usecases where the led should not be turned on are spooky
-> > or very limited.
-> >
->
-> Or do most users expect that if a piece of hardware has a setting, they
-> can set it without module parameters?
+vfe170 is what we have on sdm845
 
-A piece of hardware that has a non-standard, undocumented setting.
+So I'm just asking Luca to try the sdm845 method of waggling this clock 
+since what we have doesn't work.
 
-Do you have a compelling use-case for turning off the privacy LED?
-
->
-> > Even if you use open-source software, when it parses user generated
-> > data, there is a risk for bugs. If there is a bug the only thing
-> > protecting the security of the camera is the membership of the video
-> > group which is a very low barrier. And once you manage to change the
-> > LED behaviour will persist in other unrelated apps.
-> >
->
-> So this is about what if an attacker accessed my passwords, private
-> keys, OTP tokens, emails, pictures and then couldn't take a fresh
-> picture of me in the dark without an LED? I'm smart as hell and I use a
-> privacy tape anyway ;)
-
-My core goal is simple: if the camera is in use, the privacy LED must
-be ON. If the LED is ON unexpectedly, it serves as a clear indication
-that something unusual is happening.
-
-Gaining access to the video node does not automatically grant access
-to sensitive data like browser information; there are sandboxes in
-place for that. Also open source does not equate to secure or
-non-malicious code.
-
->
-> I think freedom is worth more than this kind of fear.
-
-No freedom is lost. This change simply increases the
-trustworthiness/reliability of your device.
-
-On ChromeOS, I don't use a privacy tape, but that's because I know how
-the LED is wired :). I want to achieve a similar level of
-trust/reliability for everyone else.
-
-In other words, I want to know if someone has seen me without t-shirt,
-eating ice-cream and crying while I am re-watching Coco.
-
->
->
-> Gergo
-
-
-
--- 
-Ricardo Ribalda
+---
+bod
 
