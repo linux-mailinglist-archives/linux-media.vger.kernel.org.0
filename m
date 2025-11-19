@@ -1,64 +1,66 @@
-Return-Path: <linux-media+bounces-47346-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47347-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2E74C6CC0D
-	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 05:35:28 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39FF0C6CC83
+	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 06:03:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 4314535CC24
-	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 04:35:28 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTPS id 4D4522C5AD
+	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 05:03:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74AF43064A3;
-	Wed, 19 Nov 2025 04:35:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B5A0270542;
+	Wed, 19 Nov 2025 05:03:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pW8dqBlC"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fUFcaMcA"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 598EB3054D9;
-	Wed, 19 Nov 2025 04:35:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD51C220698;
+	Wed, 19 Nov 2025 05:03:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763526921; cv=none; b=PZgoKGalAn+XKzKceGYfXkcMcz/s8sqsyclz8dxBxVE1sezvqe50DgGYpx76KtKozvLMWhdU+VE9mFUGhtQy6Q+3s9A3RsEIB5GxKzmTsdFb6cXeRoxq8bmdhWJK54Wn8zAoYDUnHNt5KccLRzWIZkLjFwU0mmAHZ6JEPfWJVxA=
+	t=1763528597; cv=none; b=K3MZ+Fm2eW6pa+NOD619dAM5lSjVxaQ7MTb9G72tJ2lwqzLVfQwTIySfyOKkoWIs8aqn1muHUB6rRaqxGTeLiFBstwPvG0R1YDvaifjxJBHNyPy+tVaWFHji5yVPezY+eki6jpKFrjgsh2tEYlk8Xh5meI5MFnCkZN0OgIuFpRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763526921; c=relaxed/simple;
-	bh=J5moTwiTxXOfuPBOlB1FvexbUDCLvBsjPBhAeKd7XO4=;
+	s=arc-20240116; t=1763528597; c=relaxed/simple;
+	bh=6f04bYijyMFsZjVjgltBRwZEr1RHbFar8/wn5NeBitM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kqtb6kvl7Gy613/9VASO4DEbK80CgL+DME21CFb8uHJZTW0YfFooI/LtzZv7EXQzu3wsN/Qkv/R1VcqArdtM9ulDvKHnNcHMCSH5EVMdCb0Nz2uJQZbyVB/nwmVdBg5Y6BMOw0LRaSqSQeKfw6c/UxdSQFV/zuu/A56Wtf3IQfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pW8dqBlC; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=u+fKi4M9I1U/QV+gSal2J38EfRSSqVCsPqtD1YJXS7p1q6RRvXWysRoby31aOZAB1R4o6o0cG/sfdxzILOyE7uJAP/SRqL2PH6WoCphsxTh0OGSh1u8o0YuAO9CQl80Q9n4KQzW15vPnOU4T/M4yH9w9O06EOH25bCuDpV+15v8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fUFcaMcA; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (unknown [205.220.129.225])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 14E9EB5;
-	Wed, 19 Nov 2025 05:33:12 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 53739195E;
+	Wed, 19 Nov 2025 06:01:05 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1763526795;
-	bh=J5moTwiTxXOfuPBOlB1FvexbUDCLvBsjPBhAeKd7XO4=;
+	s=mail; t=1763528468;
+	bh=6f04bYijyMFsZjVjgltBRwZEr1RHbFar8/wn5NeBitM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pW8dqBlCRTLwl4+7oKJAJYj+vbmdRGOjWy04Ez/Slz/refbqx64HU/eMXuPicXxXG
-	 ctz5wvrwy7IhkY5n7hLu6xd17HzAVkF9CcR0+y8U5SdGcbzC3COkAHuKjyt9uEzEK9
-	 FzPc69GC9LL8IY+mXbldtyPu9oD2tcnhnHh8+sEQ=
-Date: Wed, 19 Nov 2025 13:34:51 +0900
+	b=fUFcaMcA4k5pMNwr3yRgoRddLq9BLebhEBuD47UPiZg1bPfq9Hb69MKVNFtE+5/be
+	 v5nT1KiTI04S8GGb9elvBgOOgb5AyShKEstDfnB+0f5AtvlsG0wLpvaw7LGP7iKnlA
+	 oTyQ5jAKw/+U4TnzntuqvjuC2l5qxsB1LwfuYigw=
+Date: Wed, 19 Nov 2025 14:02:39 +0900
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Frank Li <Frank.Li@nxp.com>
-Cc: Steve Longerbeam <slongerbeam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
+Cc: Philipp Zabel <p.zabel@pengutronix.de>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Shawn Guo <shawnguo@kernel.org>,
 	Sascha Hauer <s.hauer@pengutronix.de>,
 	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, imx@lists.linux.dev,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/5] media: staging: media: imx6-mipi-csi2: replace
- spaces with tabs for alignment
-Message-ID: <20251119043451.GA11519@pendragon.ideasonboard.com>
-References: <20251111-stage-csi2-cleanup-v2-0-371bb951776f@nxp.com>
- <20251111-stage-csi2-cleanup-v2-1-371bb951776f@nxp.com>
+	Fabio Estevam <festevam@gmail.com>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Martin Kepplinger-Novakovic <martink@posteo.de>,
+	Purism Kernel Team <kernel@puri.sm>, linux-media@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/4] media: nxp: use cleanup __free(fwnode_handle)
+ simplify code
+Message-ID: <20251119050239.GA16725@pendragon.ideasonboard.com>
+References: <20251117-cam_cleanup-v1-0-6cd42872db79@nxp.com>
+ <20251117-cam_cleanup-v1-4-6cd42872db79@nxp.com>
+ <20251119042505.GO10711@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,153 +69,207 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251111-stage-csi2-cleanup-v2-1-371bb951776f@nxp.com>
+In-Reply-To: <20251119042505.GO10711@pendragon.ideasonboard.com>
 
-On Tue, Nov 11, 2025 at 04:42:13PM -0500, Frank Li wrote:
-> Replace spaces with tabs to align register value definitions, making it
-> easier to add new entries and maintain consistent formatting.
+On Wed, Nov 19, 2025 at 01:25:29PM +0900, Laurent Pinchart wrote:
+> On Mon, Nov 17, 2025 at 01:58:14PM -0500, Frank Li wrote:
+> > Use cleanup __free(fwnode_handle) simplify code. Change to dev_err_probe()
+> > because replace goto with return.
+> > 
+> > Add missed "\n" at error message.
+> > 
+> > No functional change.
+> > 
+> > Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> > ---
+> >  drivers/media/platform/nxp/imx-mipi-csis.c    | 31 +++++++++------------------
+> >  drivers/media/platform/nxp/imx8mq-mipi-csi2.c | 31 +++++++++------------------
+> >  2 files changed, 20 insertions(+), 42 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
+> > index ce93d868746f002c22e2f86b1e0aa84ec1a76061..d924adb406a30797b66f0094ab17e98ad44fefac 100644
+> > --- a/drivers/media/platform/nxp/imx-mipi-csis.c
+> > +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
+> > @@ -12,6 +12,7 @@
+> >   *
+> >   */
+> >  
+> > +#include <linux/cleanup.h>
+> >  #include <linux/clk.h>
+> >  #include <linux/debugfs.h>
+> >  #include <linux/delay.h>
+> > @@ -1349,28 +1350,25 @@ static int mipi_csis_async_register(struct mipi_csis_device *csis)
+> >  		.bus_type = V4L2_MBUS_CSI2_DPHY,
+> >  	};
+> >  	struct v4l2_async_connection *asd;
+> uuu> -	struct fwnode_handle *ep;
+> >  	unsigned int i;
+> >  	int ret;
+> >  
+> >  	v4l2_async_subdev_nf_init(&csis->notifier, &csis->sd);
+> >  
+> > -	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(csis->dev), 0, 0,
+> > -					     FWNODE_GRAPH_ENDPOINT_NEXT);
+> > +	struct fwnode_handle *ep __free(fwnode_handle) =
+> > +		fwnode_graph_get_endpoint_by_id(dev_fwnode(csis->dev), 0, 0,
+> > +						FWNODE_GRAPH_ENDPOINT_NEXT);
 > 
-> Also use a space between the type and field in struct csi2_dev.
+> Let's avoid mixing variable declarations and code, this is a style
+> change that is not widely accepted (yet). You can write
 > 
-> No functional change.
+> 	struct fwnode_handle *ep __free(fwnode_handle) = NULL;
+>  	struct v4l2_async_connection *asd;
+> 	unsigned int i;
+> 	int ret;
 > 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+>   	v4l2_async_subdev_nf_init(&csis->notifier, &csis->sd);
+> 
+> 	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(csis->dev), 0, 0,
+> 					     FWNODE_GRAPH_ENDPOINT_NEXT);
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Quite a coincidence, there's an ongoing mail thread on LKML about this
+topic:
 
-> ---
-> changes in v2
-> - struct use one space between type and field name.
-> ---
->  drivers/staging/media/imx/imx6-mipi-csi2.c | 84 +++++++++++++++---------------
->  1 file changed, 42 insertions(+), 42 deletions(-)
+http://lore.kernel.org/r/CAHk-=whPZoi03ZwphxiW6cuWPtC3nyKYS8_BThgztCdgPWP1WA@mail.gmail.com
+
+> >  	if (!ep)
+> >  		return -ENOTCONN;
+> >  
+> >  	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
+> >  	if (ret)
+> > -		goto err_parse;
+> > +		return ret;
+> >  
+> >  	for (i = 0; i < vep.bus.mipi_csi2.num_data_lanes; ++i) {
+> > -		if (vep.bus.mipi_csi2.data_lanes[i] != i + 1) {
+> > -			dev_err(csis->dev,
+> > -				"data lanes reordering is not supported");
+> > -			ret = -EINVAL;
+> > -			goto err_parse;
+> > -		}
+> > +		if (vep.bus.mipi_csi2.data_lanes[i] != i + 1)
+> > +			return dev_err_probe(csis->dev, -EINVAL,
+> > +					     "data lanes reordering is not supported\n");
 > 
-> diff --git a/drivers/staging/media/imx/imx6-mipi-csi2.c b/drivers/staging/media/imx/imx6-mipi-csi2.c
-> index dd8c7b3233bccfc34b59e0f0ff813b36752e1526..1113ea2a37f03753423164069b95c049968cc0af 100644
-> --- a/drivers/staging/media/imx/imx6-mipi-csi2.c
-> +++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
-> @@ -23,65 +23,65 @@
->   * there must be 5 pads: 1 input pad from sensor, and
->   * the 4 virtual channel output pads
->   */
-> -#define CSI2_SINK_PAD       0
-> -#define CSI2_NUM_SINK_PADS  1
-> -#define CSI2_NUM_SRC_PADS   4
-> -#define CSI2_NUM_PADS       5
-> +#define CSI2_SINK_PAD		0
-> +#define CSI2_NUM_SINK_PADS	1
-> +#define CSI2_NUM_SRC_PADS	4
-> +#define CSI2_NUM_PADS		5
->  
->  /*
->   * The default maximum bit-rate per lane in Mbps, if the
->   * source subdev does not provide V4L2_CID_LINK_FREQ.
->   */
-> -#define CSI2_DEFAULT_MAX_MBPS 849
-> +#define CSI2_DEFAULT_MAX_MBPS	849
->  
->  struct csi2_dev {
-> -	struct device          *dev;
-> -	struct v4l2_subdev      sd;
-> +	struct device *dev;
-> +	struct v4l2_subdev sd;
->  	struct v4l2_async_notifier notifier;
-> -	struct media_pad       pad[CSI2_NUM_PADS];
-> -	struct clk             *dphy_clk;
-> -	struct clk             *pllref_clk;
-> -	struct clk             *pix_clk; /* what is this? */
-> -	void __iomem           *base;
-> +	struct media_pad pad[CSI2_NUM_PADS];
-> +	struct clk *dphy_clk;
-> +	struct clk *pllref_clk;
-> +	struct clk *pix_clk; /* what is this? */
-> +	void __iomem *base;
->  
-> -	struct v4l2_subdev	*remote;
-> -	unsigned int		remote_pad;
-> -	unsigned short		data_lanes;
-> +	struct v4l2_subdev *remote;
-> +	unsigned int remote_pad;
-> +	unsigned short data_lanes;
->  
->  	/* lock to protect all members below */
->  	struct mutex lock;
->  
->  	struct v4l2_mbus_framefmt format_mbus;
->  
-> -	int                     stream_count;
-> -	struct v4l2_subdev      *src_sd;
-> -	bool                    sink_linked[CSI2_NUM_SRC_PADS];
-> +	int stream_count;
-> +	struct v4l2_subdev *src_sd;
-> +	bool sink_linked[CSI2_NUM_SRC_PADS];
->  };
->  
->  #define DEVICE_NAME "imx6-mipi-csi2"
->  
->  /* Register offsets */
-> -#define CSI2_VERSION            0x000
-> -#define CSI2_N_LANES            0x004
-> -#define CSI2_PHY_SHUTDOWNZ      0x008
-> -#define CSI2_DPHY_RSTZ          0x00c
-> -#define CSI2_RESETN             0x010
-> -#define CSI2_PHY_STATE          0x014
-> -#define PHY_STOPSTATEDATA_BIT   4
-> -#define PHY_STOPSTATEDATA(n)    BIT(PHY_STOPSTATEDATA_BIT + (n))
-> -#define PHY_RXCLKACTIVEHS       BIT(8)
-> -#define PHY_RXULPSCLKNOT        BIT(9)
-> -#define PHY_STOPSTATECLK        BIT(10)
-> -#define CSI2_DATA_IDS_1         0x018
-> -#define CSI2_DATA_IDS_2         0x01c
-> -#define CSI2_ERR1               0x020
-> -#define CSI2_ERR2               0x024
-> -#define CSI2_MSK1               0x028
-> -#define CSI2_MSK2               0x02c
-> -#define CSI2_PHY_TST_CTRL0      0x030
-> +#define CSI2_VERSION		0x000
-> +#define CSI2_N_LANES		0x004
-> +#define CSI2_PHY_SHUTDOWNZ	0x008
-> +#define CSI2_DPHY_RSTZ		0x00c
-> +#define CSI2_RESETN		0x010
-> +#define CSI2_PHY_STATE		0x014
-> +#define PHY_STOPSTATEDATA_BIT	4
-> +#define PHY_STOPSTATEDATA(n)	BIT(PHY_STOPSTATEDATA_BIT + (n))
-> +#define PHY_RXCLKACTIVEHS	BIT(8)
-> +#define PHY_RXULPSCLKNOT	BIT(9)
-> +#define PHY_STOPSTATECLK	BIT(10)
-> +#define CSI2_DATA_IDS_1		0x018
-> +#define CSI2_DATA_IDS_2		0x01c
-> +#define CSI2_ERR1		0x020
-> +#define CSI2_ERR2		0x024
-> +#define CSI2_MSK1		0x028
-> +#define CSI2_MSK2		0x02c
-> +#define CSI2_PHY_TST_CTRL0	0x030
->  #define PHY_TESTCLR		BIT(0)
->  #define PHY_TESTCLK		BIT(1)
-> -#define CSI2_PHY_TST_CTRL1      0x034
-> +#define CSI2_PHY_TST_CTRL1	0x034
->  #define PHY_TESTEN		BIT(16)
->  /*
->   * i.MX CSI2IPU Gasket registers follow. The CSI2IPU gasket is
-> @@ -106,13 +106,13 @@ static inline struct csi2_dev *notifier_to_dev(struct v4l2_async_notifier *n)
->   * reference manual is as follows:
->   *
->   * 1. Deassert presetn signal (global reset).
-> - *        It's not clear what this "global reset" signal is (maybe APB
-> - *        global reset), but in any case this step would be probably
-> - *        be carried out during driver load in csi2_probe().
-> + *	It's not clear what this "global reset" signal is (maybe APB
-> + *	global reset), but in any case this step would be probably
-> + *	be carried out during driver load in csi2_probe().
->   *
->   * 2. Configure MIPI Camera Sensor to put all Tx lanes in LP-11 state.
-> - *        This must be carried out by the MIPI sensor's s_power(ON) subdev
-> - *        op.
-> + *	This must be carried out by the MIPI sensor's s_power(ON) subdev
-> + *	op.
->   *
->   * 3. D-PHY initialization.
->   * 4. CSI2 Controller programming (Set N_LANES, deassert PHY_SHUTDOWNZ,
+> To switch to dev_err_probe(), we should drop the error message in the
+> probe() function when mipi_csis_async_register() fails, and make sure
+> every error path in this function prints a message. I'd prefer splitting
+> that to a separate patch.
+> 
+> >  	}
+> >  
+> >  	csis->bus = vep.bus.mipi_csi2;
+> > @@ -1381,12 +1379,8 @@ static int mipi_csis_async_register(struct mipi_csis_device *csis)
+> >  
+> >  	asd = v4l2_async_nf_add_fwnode_remote(&csis->notifier, ep,
+> >  					      struct v4l2_async_connection);
+> > -	if (IS_ERR(asd)) {
+> > -		ret = PTR_ERR(asd);
+> > -		goto err_parse;
+> > -	}
+> > -
+> > -	fwnode_handle_put(ep);
+> > +	if (IS_ERR(asd))
+> > +		return PTR_ERR(asd);
+> >  
+> >  	csis->notifier.ops = &mipi_csis_notify_ops;
+> >  
+> > @@ -1395,11 +1389,6 @@ static int mipi_csis_async_register(struct mipi_csis_device *csis)
+> >  		return ret;
+> >  
+> >  	return v4l2_async_register_subdev(&csis->sd);
+> > -
+> > -err_parse:
+> > -	fwnode_handle_put(ep);
+> > -
+> > -	return ret;
+> >  }
+> >  
+> >  /* -----------------------------------------------------------------------------
+> > diff --git a/drivers/media/platform/nxp/imx8mq-mipi-csi2.c b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
+> > index 75709161fb26a61239b94430365849e022fdc14f..94882568405db55593c5c51722db2233a64d53e4 100644
+> > --- a/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
+> > +++ b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
+> > @@ -6,6 +6,7 @@
+> >   */
+> >  
+> >  #include <linux/bitfield.h>
+> > +#include <linux/cleanup.h>
+> >  #include <linux/clk.h>
+> >  #include <linux/clk-provider.h>
+> >  #include <linux/delay.h>
+> > @@ -717,28 +718,25 @@ static int imx8mq_mipi_csi_async_register(struct csi_state *state)
+> >  		.bus_type = V4L2_MBUS_CSI2_DPHY,
+> >  	};
+> >  	struct v4l2_async_connection *asd;
+> > -	struct fwnode_handle *ep;
+> >  	unsigned int i;
+> >  	int ret;
+> >  
+> >  	v4l2_async_subdev_nf_init(&state->notifier, &state->sd);
+> >  
+> > -	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(state->dev), 0, 0,
+> > -					     FWNODE_GRAPH_ENDPOINT_NEXT);
+> > +	struct fwnode_handle *ep __free(fwnode_handle) =
+> > +		fwnode_graph_get_endpoint_by_id(dev_fwnode(state->dev), 0, 0,
+> > +						FWNODE_GRAPH_ENDPOINT_NEXT);
+> 
+> Same comment as above.
+> 
+> >  	if (!ep)
+> >  		return -ENOTCONN;
+> >  
+> >  	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
+> >  	if (ret)
+> > -		goto err_parse;
+> > +		return ret;
+> >  
+> >  	for (i = 0; i < vep.bus.mipi_csi2.num_data_lanes; ++i) {
+> > -		if (vep.bus.mipi_csi2.data_lanes[i] != i + 1) {
+> > -			dev_err(state->dev,
+> > -				"data lanes reordering is not supported");
+> > -			ret = -EINVAL;
+> > -			goto err_parse;
+> > -		}
+> > +		if (vep.bus.mipi_csi2.data_lanes[i] != i + 1)
+> > +			return dev_err_probe(state->dev, -EINVAL,
+> > +					     "data lanes reordering is not supported\n");
+> 
+> And here too.
+> 
+> Usage of __free(fwnode_handle) looks good, it just needs to be split to
+> a patch of its own.
+> 
+> >  	}
+> >  
+> >  	state->bus = vep.bus.mipi_csi2;
+> > @@ -749,12 +747,8 @@ static int imx8mq_mipi_csi_async_register(struct csi_state *state)
+> >  
+> >  	asd = v4l2_async_nf_add_fwnode_remote(&state->notifier, ep,
+> >  					      struct v4l2_async_connection);
+> > -	if (IS_ERR(asd)) {
+> > -		ret = PTR_ERR(asd);
+> > -		goto err_parse;
+> > -	}
+> > -
+> > -	fwnode_handle_put(ep);
+> > +	if (IS_ERR(asd))
+> > +		return PTR_ERR(asd);
+> >  
+> >  	state->notifier.ops = &imx8mq_mipi_csi_notify_ops;
+> >  
+> > @@ -763,11 +757,6 @@ static int imx8mq_mipi_csi_async_register(struct csi_state *state)
+> >  		return ret;
+> >  
+> >  	return v4l2_async_register_subdev(&state->sd);
+> > -
+> > -err_parse:
+> > -	fwnode_handle_put(ep);
+> > -
+> > -	return ret;
+> >  }
+> >  
+> >  /* -----------------------------------------------------------------------------
 
 -- 
 Regards,
