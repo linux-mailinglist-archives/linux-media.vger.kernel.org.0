@@ -1,201 +1,188 @@
-Return-Path: <linux-media+bounces-47369-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47370-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2A83C6EEBD
-	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 14:34:19 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAEB8C6F10F
+	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 14:55:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id D3D30351F5B
-	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 13:28:18 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 0FED7506233
+	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 13:30:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E79DC368262;
-	Wed, 19 Nov 2025 13:25:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 068903612C2;
+	Wed, 19 Nov 2025 13:29:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="WMfJevXW"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hFIhR5+Z";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="i1n8AQaz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E87E2366567
-	for <linux-media@vger.kernel.org>; Wed, 19 Nov 2025 13:25:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B333612D4
+	for <linux-media@vger.kernel.org>; Wed, 19 Nov 2025 13:29:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763558717; cv=none; b=aMRC4M/gx4KIvevlXHywuRYSX4zJGJGptRTQEmTUbnV+lt2LszlVMRhxjh2+uMotxlpZ0CG/G90Jp6Wdil1vgAijmtynF2hFEPSc/+5jbwqocIbdRxHJYkrFzxWwzzO7ip3VUcEMcPDu9akzonzfZ4vKoZMnETP+AvjXOz63q/A=
+	t=1763558976; cv=none; b=c0mNTfUV9hvKF/IMBgHBSxF1XVPVXxF09aeL1D0Ln1EMzHNDvsfCdb/HDa+SYRmC5wjquaoYItL+eJv3f/1BthEvNvVTXHOR0zFH1mWP5NT3+sYWGWnRglGem8RF0Z/rniAGRwvrXkhqFKcAMIjwFTYDCnNNZ3msiJfuZF4FbZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763558717; c=relaxed/simple;
-	bh=NY4W006Vmm4O8KX13k1mpx8rxHpApVfJH2xGg7x9Lfs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MtnrQe5FtAqFxZoI964hjssrIKQnuX33Lf8xcG6aRO6k6NBYgwQqEIBU//CB3xLLo+/xpFZeXSV4p24Q1cRfPC/bNEC1Ehdwj6XzkV76zqJhMkwJqL/Z/W0f5olPOnZSuo+XKM7Kok6VilY/NwQPVX9JsA482Inp0Brnrn8cvv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=WMfJevXW; arc=none smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4ed75832448so81985611cf.2
-        for <linux-media@vger.kernel.org>; Wed, 19 Nov 2025 05:25:13 -0800 (PST)
+	s=arc-20240116; t=1763558976; c=relaxed/simple;
+	bh=P5EFCLkeVjIC6Db2GqTKOtDPyJqdrP0m/jjUMLaPTxw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nRwaKQZb/XWyGYOH/0TjJ8K94U05rO0EErWNWFV14JmB6qYFh+etkXMKZphsB3Q1e7nw9m272QF6nSuNdA2LYACENhZL4jxSBiRG2BUTm/gCyeJzssd0ARDu/lQBZhmYoWh40KZ6wl+MLlJVaHrhGw4tfnKH9jZPby8josvYY+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hFIhR5+Z; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=i1n8AQaz; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AJ7aAtr718609
+	for <linux-media@vger.kernel.org>; Wed, 19 Nov 2025 13:29:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	QGGdogWgWUImr0gsxTERgdARrL1T0foOXEeAjf5Gy4k=; b=hFIhR5+ZLQA0eZY6
+	hfK8rCmhNC3dJnIcq/cGWW64yyvKOhawlXz5jh4MvQQ/Dt57jDBH/plsxlbMUlUE
+	qHQFhY4EoqWGgZnUBCm3z5fdQC2GFW1XtaCwjfsO3ie1khQQl3QnXnqjqKX3jhCe
+	ry+1ofwv8b38Yu3tkC8Hk/Dmt2/kU/nP4b/Qp2s8Ng1+BNyzyXF3tNiTAn3uOFgk
+	RUXbhmBcRbJUjT0/b4m/JdrAR9AUP+ptjAuNIcWv6pJc1u1mmH6nw8lM4fWDQZ33
+	7hbenEYV0qHQqJV3SQKVzfEKzBfoG//DkgOAYFq/oJ7PB1tkk5K7PTiT8sX3Rh+G
+	612Nsw==
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ah9n0s0vb-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 19 Nov 2025 13:29:33 +0000 (GMT)
+Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-b9b9e8b0812so14309807a12.0
+        for <linux-media@vger.kernel.org>; Wed, 19 Nov 2025 05:29:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1763558713; x=1764163513; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=7FcA8gVt6NKvMsMWTMSBQuU8SYBlABMNBdbtn9F9iv8=;
-        b=WMfJevXWqU3CRU2AHZ4/IK/wY+6nPWRcEwraHsRz8KDG1ijClMR7G9IMKrHNcSkml6
-         uvAsh5rLHr6z7QMHuiddDP5u7ySsTrbmvBiSEaRfIbiTEg4T+EyqwuDj6qvP1Gi4ynzl
-         1Yyd6lkGWpXGvLNmMmXvWAHOugKBbY3LnZC473Sgx4w/MLtN0gyaXN1wIlc4MdtY1PZc
-         Mv78ThOUOJbmHwU7y1/kA0/5bQB6tqj3kMJhg+KIl0nk2JjqWWx9BUmZhrEIO9aElB6z
-         3NpQY8He2tWwR7LjI1fXnqHlIf/Fu2dHJ9DG+XIENzU3PcWORuGmfl/m/lVDxT77cRMR
-         0mtA==
+        d=oss.qualcomm.com; s=google; t=1763558973; x=1764163773; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QGGdogWgWUImr0gsxTERgdARrL1T0foOXEeAjf5Gy4k=;
+        b=i1n8AQazbIjcDtydNFu6xJGk2epLydb3gDcZHElo4DcnJ2F3J5RFxatQRNEnZUtzkG
+         JKtcSyFv2pujW0gqXIC1Lf3Lc1DXYHPaYuSBU8KkAsedbjy6f8mgLY4/ae38ALSrd39R
+         jD0LR7UscSAj0eHakijHcR6l1wkoiUYIwt8hZAvL3rpFEDRlqQJC6dgy49FlXWR4PbBb
+         byUCA6uBnT5iRyl/8yOTpsAU2ea/F9GRlyARHAReRWqqrPCq7Cs6W9bCowtKPzNU1CMj
+         9NNSrztZpD5S9o1LDCa2of8zEEKZNu/dm/e0E+iaB1msiFBk1tHxoWFjnHYLgq8ZukWn
+         lOFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763558713; x=1764163513;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7FcA8gVt6NKvMsMWTMSBQuU8SYBlABMNBdbtn9F9iv8=;
-        b=Q3Hmr1jXBrAezUDPZPEeKCWacF2h5nHdyEHLGh3EdIXcMIuUxsZhIMonzA04jN531z
-         FiP+cjodHhGjTviHpqEKTGDETniEzIL8SXX9C8nQfPrjLsFsWIHmry2QcIiKd6lh+C4X
-         px6rWt5HxN9LjUkF1WjToSvwyEc+qLvlVtJoa3AR1zDc/rxFCqg5XAETiPpJ81Zk8ds3
-         dMAadK3guG+2NKV0/nYhQhT1YvopMBax3nnd3M5ADvAeikO6iP7d7fVMmFj6ZRKgwNu9
-         zWw0K90JjXYaStivejgDKOEvS/6U5/ZnjMtDyEpF1kobmG8YUU7zbHcIvLihD9nqf+/S
-         XLqg==
-X-Forwarded-Encrypted: i=1; AJvYcCU24kELotHpLjBU0motdmkoDspXgVhYiBupju4CF/KomKx2EZMyyaLv4ooBb0Ori/AK/Iad+IcR/ZrmKg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyShFi9ht97u6k706Mldw/bCL2nn1/Bpfc7vtOgzntJ+QVa9cKd
-	20AxmMgfgiCdI7VW+ebc/K3/C4M1cTPxDtuyb3r5a+kI9GPxx+u4g9BLpYdlYL1RBgE=
-X-Gm-Gg: ASbGncs6E1aMrc7OCsWmkIXlUh4S2CNqMcbWEO1w4uI91sDbJuMJBJYXTI39luchSQv
-	kzUAF/jln+5nTDrzrsIruZo+nqgYlCHSPyZuyHp5urDrRw+1kssXNmbmugrL6JbWfggS6RdmT6k
-	bwjVuAAzj/FZ7PNhyHz6kZT/VKqLyhBUvevGxa077JfJiSR3HqzRTKO7uU8y+CwZKyPTvMg8eOl
-	7cATYkBjcqVadOkpFPKfi9VPJzPQV8XsqvRc1xwvHMeS3uisfKLp+Z2JejB86cJT6cLA25Sc1zN
-	7dsq6y5RA6jZc+3emh8h95089G/l1blZp6KQfh0Y1GhUWj+ANFNw2lvJQtDVQMhko5yyMIeSSak
-	CyIhSACR4GC1dyGmMW2YuwX6q3sJ7qZQS9mQkZ+46M8arG2OS8mOdW9kq/QH1F/xJdTNiO4ha/s
-	+4nBbQQb+IGVh+LU6yV0vcChQDCF4EgLRYNJwVq/C3nQrClYot/+wnoA7fbodZ4gHARculfS+Qi
-	j7DMg==
-X-Google-Smtp-Source: AGHT+IGcHnQoF5t1hy3jZRVLXrR3AGxUUwufE8qFpbPEJxiBipRIqKgpWukFR+qkVncUWaOAApoSpg==
-X-Received: by 2002:a05:622a:1a8d:b0:4ee:219e:e66 with SMTP id d75a77b69052e-4ee219e1ccbmr140009891cf.83.1763558712629;
-        Wed, 19 Nov 2025 05:25:12 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-47-55-120-4.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.120.4])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88286588be1sm133530266d6.47.2025.11.19.05.25.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 05:25:11 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1vLiBL-00000000Z6L-0jbP;
-	Wed, 19 Nov 2025 09:25:11 -0400
-Date: Wed, 19 Nov 2025 09:25:11 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>, Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <skolothumtho@nvidia.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex@shazbot.org>,
-	Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, iommu@lists.linux.dev,
-	linux-mm@kvack.org, linux-doc@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
-	linux-hardening@vger.kernel.org, Alex Mastro <amastro@fb.com>,
-	Nicolin Chen <nicolinc@nvidia.com>
-Subject: Re: [Linaro-mm-sig] [PATCH v8 06/11] dma-buf: provide phys_vec to
- scatter-gather mapping routine
-Message-ID: <20251119132511.GK17968@ziepe.ca>
-References: <20251111-dmabuf-vfio-v8-0-fd9aa5df478f@nvidia.com>
- <20251111-dmabuf-vfio-v8-6-fd9aa5df478f@nvidia.com>
- <8a11b605-6ac7-48ac-8f27-22df7072e4ad@amd.com>
+        d=1e100.net; s=20230601; t=1763558973; x=1764163773;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QGGdogWgWUImr0gsxTERgdARrL1T0foOXEeAjf5Gy4k=;
+        b=rQ4LoY0O1saNX0AQ9EiLKBJGASmlChfq0sgb+lUcjbc4Apo0VFV55dKejUw9DEgxXW
+         Slpq0I13hCyuxfSu/2vcbvBchq5QA+FWRhbY+fYI9niWno33oibK+OoE2xgukKjIYc/I
+         dzq3N56Ak/gmR8AVCn6fJk/ZHaZjjqZddo2ta0rGO+p/mRzFNa0exKwItEPYhIUQLRNk
+         lcVmgqwNZvXSkpELmDPvNheL89QcoYiTrS883t5FkFPOtDTQCwGF8V7X9tf4shkZqEmT
+         CezRU6KR1+zk1k5ZQ5kOKB3J/w6Nw24e9Qrbv4k+v6mXlwiBZfGp3vUDGJcfJ3qY3GvG
+         +A0Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWG+Qqdw7fqCpBDAoRDVpRRtlVdQFj7/L7OBodTL4w/z9HI0rBftS5j88YuXwnesgUYyYitStW1mtUOyA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxTHpVm1bNzd7avndqAGonR2DiXoccbcEoNxqlDiTfShMsk918F
+	gVtg9CftewvOVDQd2u5W5k64kDxLRJFyG7EF1Rag5+CG7pjhSkOvsLx3qJY6A31Nax2dUz9tepp
+	TmV1amUmmI3FOc/YurEINNv4TdAUcQDhLRQaXKkIeeXcqfRRPZOzvNI2blVk53qZnSg==
+X-Gm-Gg: ASbGncuQLYZd/dpSzGF9lX2R9A4oNH288GwK0EP4sxbSR8hdErY4DxThdTvPhY5ptac
+	EcAWfsG0i4TeUdhBCZzPjGBSU8a9NM+5op5CoumlRyaO4TTr9cdfm481nn0sbqHeRS000GZ0Oo7
+	A/EGWb1iZG7Ed9LQ5JvSRfWGWBgadFFwnLedWXiU+qe733/yyOP6ORLZRg2ltLvuhlPxKOWf7If
+	fBKO+12ZDqFGBtAfaLiivllPzuTLbUlQ+dGbc+pKlBqn8Ha8qUb2UJsRBiffTfSGiOnhA034Qc4
+	iPo5nb242EbsfZxsrgR6rwXD9UaOaRHpMAJ5fNmrt6w9Qcfgpv+DU55YWoe8Pfw3Ct6FpC+1DRH
+	Vt9j8SV0YsCUn5unyd50hJSxIBH73sjQCkEVLvDWb
+X-Received: by 2002:a17:903:18b:b0:295:8c51:6505 with SMTP id d9443c01a7336-2986a741aaemr243774295ad.33.1763558973171;
+        Wed, 19 Nov 2025 05:29:33 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHVtsrHwgS9TdK2Xnym6543vqIpxNswUiEHoeYWVo4V8hSYs944J/eKrb2JYQw0iM9JjQMPMw==
+X-Received: by 2002:a17:903:18b:b0:295:8c51:6505 with SMTP id d9443c01a7336-2986a741aaemr243773935ad.33.1763558972808;
+        Wed, 19 Nov 2025 05:29:32 -0800 (PST)
+Received: from [192.168.1.57] ([98.148.145.183])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c24229bsm208073505ad.30.2025.11.19.05.29.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Nov 2025 05:29:32 -0800 (PST)
+Message-ID: <ce15589e-f389-43f4-a671-4f7bf3894f86@oss.qualcomm.com>
+Date: Wed, 19 Nov 2025 05:29:30 -0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8a11b605-6ac7-48ac-8f27-22df7072e4ad@amd.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 1/5] media: dt-bindings: Add CAMSS device for Kaanapali
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+        Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>,
+        Loic Poulain <loic.poulain@oss.qualcomm.com>,
+        Robert Foss
+ <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        aiqun.yu@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
+        trilok.soni@oss.qualcomm.com, yijie.yang@oss.qualcomm.com,
+        Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
+        Atiya Kailany <atiya.kailany@oss.qualcomm.com>
+References: <20251113-add-support-for-camss-on-kaanapali-v6-0-1e6038785a8e@oss.qualcomm.com>
+ <20251113-add-support-for-camss-on-kaanapali-v6-1-1e6038785a8e@oss.qualcomm.com>
+ <bd899586-f714-4d2e-95e3-6abf124e75a4@linaro.org>
+ <37d0f89f-69be-45a7-90fa-347d6a3800bf@oss.qualcomm.com>
+ <2d7ac7e8-ab69-44a6-b732-3657abf3a5a6@oss.qualcomm.com>
+ <1f320bc6-ba7b-476a-b9fa-b5333f66530f@oss.qualcomm.com>
+ <fa8ddb59-079a-41c8-b75d-c7a9d40e7da3@linaro.org>
+Content-Language: en-US
+From: Vijay Kumar Tumati <vijay.tumati@oss.qualcomm.com>
+In-Reply-To: <fa8ddb59-079a-41c8-b75d-c7a9d40e7da3@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE5MDEwNyBTYWx0ZWRfXwnht7U4Caogr
+ xJrP2kUZavsmq5JSvD7DKvdRh2eulgMJiUkiulv+opIdHnwQrc5D796WJ0VycwabBCo9A7VwNEM
+ 9btPJjOH7UJOFwaPuzr2qTce3bYbxBhgAx3Nise0j92qcfqG/h4DVoSlK7kflFiciTh0a3QQcGD
+ bpA3riUxJ8EZj2W4XMHYcIVk8YgoMjHDZDLeRD2VgDHVWayLJT1Ou1Ww9dWN2uD2dh02a6MOuOt
+ XtAKMm8Vvvmw0pJV6FSSLLi1hXuVQsIMEBiJAfN0bkfbbRu8KHiVXcN3AGHwEvE+jht37cuXHne
+ ojzu1DtRBu5BwOf0mFE+QtD3r7o7xpUgtk7s2C7H2SpHMnwDHZ3rr2fdqzfVw+l7xVaW8OR/2ac
+ mOuCL+TUjECIinYcV2oZOu+DAqp65Q==
+X-Proofpoint-GUID: OaoFRIDCY89qdhQggOb075kL7Hp-3Ons
+X-Authority-Analysis: v=2.4 cv=QZlrf8bv c=1 sm=1 tr=0 ts=691dc63d cx=c_pps
+ a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=BiHMn5M11h/vNwziJwzFrg==:17
+ a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=pKwLnlz3lkq_G46TUYIA:9 a=QEXdDO2ut3YA:10
+ a=zZCYzV9kfG8A:10 a=3WC7DwWrALyhR5TkjVHa:22
+X-Proofpoint-ORIG-GUID: OaoFRIDCY89qdhQggOb075kL7Hp-3Ons
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-19_04,2025-11-18_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 spamscore=0 phishscore=0 adultscore=0 suspectscore=0
+ clxscore=1015 priorityscore=1501 bulkscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2511190107
 
-On Wed, Nov 19, 2025 at 02:16:57PM +0100, Christian König wrote:
-> > +/**
-> > + * dma_buf_map - Returns the scatterlist table of the attachment from arrays
-> > + * of physical vectors. This funciton is intended for MMIO memory only.
-> > + * @attach:	[in]	attachment whose scatterlist is to be returned
-> > + * @provider:	[in]	p2pdma provider
-> > + * @phys_vec:	[in]	array of physical vectors
-> > + * @nr_ranges:	[in]	number of entries in phys_vec array
-> > + * @size:	[in]	total size of phys_vec
-> > + * @dir:	[in]	direction of DMA transfer
-> > + *
-> > + * Returns sg_table containing the scatterlist to be returned; returns ERR_PTR
-> > + * on error. May return -EINTR if it is interrupted by a signal.
-> > + *
-> > + * On success, the DMA addresses and lengths in the returned scatterlist are
-> > + * PAGE_SIZE aligned.
-> > + *
-> > + * A mapping must be unmapped by using dma_buf_unmap().
-> > + */
-> > +struct sg_table *dma_buf_map(struct dma_buf_attachment *attach,
-> 
-> That is clearly not a good name for this function. We already have overloaded the term *mapping* with something completely different.
-> 
-> > +			     struct p2pdma_provider *provider,
-> > +			     struct dma_buf_phys_vec *phys_vec,
-> > +			     size_t nr_ranges, size_t size,
-> > +			     enum dma_data_direction dir)
-> > +{
-> > +	unsigned int nents, mapped_len = 0;
-> > +	struct dma_buf_dma *dma;
-> > +	struct scatterlist *sgl;
-> > +	dma_addr_t addr;
-> > +	size_t i;
-> > +	int ret;
-> > +
-> > +	dma_resv_assert_held(attach->dmabuf->resv);
-> > +
-> > +	if (WARN_ON(!attach || !attach->dmabuf || !provider))
-> > +		/* This function is supposed to work on MMIO memory only */
-> > +		return ERR_PTR(-EINVAL);
-> > +
-> > +	dma = kzalloc(sizeof(*dma), GFP_KERNEL);
-> > +	if (!dma)
-> > +		return ERR_PTR(-ENOMEM);
-> > +
-> > +	switch (pci_p2pdma_map_type(provider, attach->dev)) {
-> > +	case PCI_P2PDMA_MAP_BUS_ADDR:
-> > +		/*
-> > +		 * There is no need in IOVA at all for this flow.
-> > +		 */
-> > +		break;
-> > +	case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
-> > +		dma->state = kzalloc(sizeof(*dma->state), GFP_KERNEL);
-> > +		if (!dma->state) {
-> > +			ret = -ENOMEM;
-> > +			goto err_free_dma;
-> > +		}
-> > +
-> > +		dma_iova_try_alloc(attach->dev, dma->state, 0, size);
-> 
-> Oh, that is a clear no-go for the core DMA-buf code.
-> 
-> It's intentionally up to the exporter how to create the DMA
-> addresses the importer can work with.
 
-I can't fully understand this remark?
+On 11/19/2025 1:21 AM, Bryan O'Donoghue wrote:
+> On 18/11/2025 21:45, Vijay Kumar Tumati wrote:
+>>>> Hi Bryan, HLOS does not have access to those registers. They are 
+>>>> configured by the Hyp.
+>>> If that's hyp, please add them. We already have platforms without
+>>> Gunyah. Remember, bindings are defined once and for good and I wouldn't
+>>> call it impossible that someone would want to run that configuration on
+>>> Kaanapali some day
+>>>
+>>> Konrad
+>>
+>> Sure, if that's the standard. But even on systems without Gunyah 
+>> (say, KVM/PKVM), these will not be configured from HLOS in the 
+>> regular flow. It will be done from TZ.
+>
+> By the bootloader/s or by runtime TZ app ?
+>
+> ---
+> bod
 
-> We could add something like a dma_buf_sg_helper.c or similar and put it in there.
-
-Yes, the intention is this function is an "exporter helper" that an
-exporter can call if it wants to help generate the scatterlist.
-
-So your "no-go" is just about what file it is in, not anything about
-how it works?
+The proposed architecture is for it to be done by the TZ (Secure EL1).
 
 Thanks,
-Jason
+
+Vijay.
+
 
