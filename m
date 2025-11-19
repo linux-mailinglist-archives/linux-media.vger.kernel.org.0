@@ -1,84 +1,84 @@
-Return-Path: <linux-media+bounces-47398-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47399-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B64A6C70D40
-	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 20:33:18 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CE59C70D85
+	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 20:38:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sin.lore.kernel.org (Postfix) with ESMTPS id 6EF2E2BD08
-	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 19:32:17 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTPS id 0F18D2F8E3
+	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 19:37:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 053B1371DF1;
-	Wed, 19 Nov 2025 19:31:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D7B036CDEF;
+	Wed, 19 Nov 2025 19:36:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="XdlJDak+"
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="jBqa/z5s"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6855A3090FD
-	for <linux-media@vger.kernel.org>; Wed, 19 Nov 2025 19:31:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3043B348860
+	for <linux-media@vger.kernel.org>; Wed, 19 Nov 2025 19:36:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763580688; cv=none; b=KgVrHWbjL1aiQbhZAduDg/rErsEhP10R3A1v0amxMt+krESakepmolUYPkQ/+u7KsKMomT4MZHnR1T0biC99ecK0JbpLU716oLYlLT97hmsMFybiHzO2OgfdxleQbNcDGQxN53HtK9XTe6Zy4ajMCL8wBqc6GM4L2Vz2HEfeU7Q=
+	t=1763581004; cv=none; b=sC8KzaDGen7yqGTtVKd/xShfAdMWl0u8Z3JiQKv/Y7P91XG61MhAzgudW2go10NZSuVEGx7qSLizQ4YZ2cIdOJIZWxuuWvshBaqLoFNjX/jaZhozEeCiJSVDJ/4Z9k3Anuc1eDP7mXeooaPu/Q1DPsWMwE2XXPscGau2ra3A2ig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763580688; c=relaxed/simple;
-	bh=31o43Jiq7+42iBKuCHD0EJijctYU11Xzmoh7F9+p7aA=;
+	s=arc-20240116; t=1763581004; c=relaxed/simple;
+	bh=sztelLlBrONBmM282viGyh6kz65i94yYxCWrYWozdqM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UfDp8bMZ8jOkQhngyE+IAe9zRliocJ8y840qQRF60Xe0dJbtCCE1TEIo8+SvBLuVqWeOfl73L7lvDxxmgRfQoNWbZwyHknbJOy8o0SsnZQ+p2mKhGtFPWzsAC/XzsfexFTinYJkIMjg5PGeJU6VQUnACPHMlDTdk6YLXuFyRU7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=XdlJDak+; arc=none smtp.client-ip=209.85.160.172
+	 Content-Type:Content-Disposition:In-Reply-To; b=E03fG0Ub8CKCd22rSRqwJHPv7r8Fby/hn3E/99/z8ti723u55hsv66n/v0wjdBbdAs43CYcY1bMekAC6uaRtAgrRWX8RMcObMsjS3N2CfRcP6TQ1nIrP2iquzEw6jnqvN+W6YaRm9nW9FO8WDqt2uznY+FovO/dJpb5dXCk9Mr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=jBqa/z5s; arc=none smtp.client-ip=209.85.160.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4eddfb8c7f5so806801cf.1
-        for <linux-media@vger.kernel.org>; Wed, 19 Nov 2025 11:31:18 -0800 (PST)
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4ee158187aaso1122521cf.0
+        for <linux-media@vger.kernel.org>; Wed, 19 Nov 2025 11:36:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1763580676; x=1764185476; darn=vger.kernel.org;
+        d=ziepe.ca; s=google; t=1763580999; x=1764185799; darn=vger.kernel.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=h7MnLKcAx1SQL4BtR2OdhLpsdZ14wJj1fNMBVXMaHpI=;
-        b=XdlJDak+5BK913SU3JuefgTys0Pu3jagmK7yJRyg0hso6vBbEnNWrP/4T4ol0frYeQ
-         v72slbgWiUzUkvc5J9nruxngr4U8bjd49BPaZVmvFk3nVkQeWMFAA9u86tKqv9X1hNhK
-         MlqYYLa9OWUP32XsBcZxKrfLx3/P5R6PJ+h5hBO1AY350/0bZcNA4a3VB+Mm2EZq+tuy
-         2zW8VsnOjICqJWrFFskAlkKYKVrHI+m3LVPh9ZWULCzK0B6ii9jOvGUvNr+rAbET5gKT
-         aIqFqtGZMVR1/oWhdLlQH/aHK4RI3YFZ+ToY0lGX/NpOTOSRqsVtdilqIlqws45I3kGI
-         vpCQ==
+        bh=sztelLlBrONBmM282viGyh6kz65i94yYxCWrYWozdqM=;
+        b=jBqa/z5s9CGp5RICxeKSJrdO5l3megJVr81FnjM4RHwVEKCUb4xEQ8NaoiOBOhnzcZ
+         bMxWoyoMgmSdI5ISZhu0sMMq/bhX6xdwOzl9EI+joXijVlgSlY/nZpUwpWnn/B0Ui1n3
+         W1cP0IRwL+kjK02u1dFunMpg85hYN05Dj9YAOL9GP3DccFBflwbNZyVBV7hJoxkN969L
+         WGavQPhrCgEO9MrysbD9xVHbtHHSiRc7gCv2T2zrxkr+wtl5uM6DDuTpWX8LCAjj2xlp
+         FMsXVMjmkR4zOh3um/QXeOnX47MD5GU5Nvj7Dyi23HwJxfdQIj3H8yE3t+KQbYckONLZ
+         +Lxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763580676; x=1764185476;
+        d=1e100.net; s=20230601; t=1763580999; x=1764185799;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=h7MnLKcAx1SQL4BtR2OdhLpsdZ14wJj1fNMBVXMaHpI=;
-        b=p9RyDi6tUoA7ssVzThgfOkSF676Dh6Cz4oYvFqteWY1KjfUulTkbjURg58Ou4OkH/P
-         w2CVIoTbt1bzOvSkqtz/55ksmi6Nc0+RWvmQt2tc8g2V3POY0FFcxdJ3tSpZE3HQXY+p
-         9SOQcL0Uc7TLOVYibjHqM3qBoC0gArZysr/K8F2a3gZ0/GcF8B8LeWICRMrVGOxeAYyX
-         GXqF3sICaLXOAf7FWq4Bc+X3R5VRmhnZDRPFufplK6ZFR0qNqTFo4oh99cyUX8ESOxp/
-         kVe03Qy68o85yBdlqttks0/NNJ2XWf/IWHdtT3bDNR/BdGpYpWgpOuJP0JY8DELvyV66
-         1INA==
-X-Forwarded-Encrypted: i=1; AJvYcCVmQSwJkRrb4ywhMXJSofYE1pvSjyB0wVwSQs3Wom5+oVJj54Lb6SaG9jPfXDXxFzk8S6jlvLex+CtT0w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxp8i6dgzvi/NMeqEvsbQ/mFFAK7mHLTPZ+/KtfguJUnSutmqmp
-	WtnXqInHSRDgml1lA+8z3s15Fe1G/GhUIIHDxyXA8cLKLYessrEmdZQHQ7Zu8LKfAfI=
-X-Gm-Gg: ASbGnctTgJYTb0aw7lXiNd2jCK8BeDXc9Xs6V4iG4v+ZQ/IPDiwPXMcDVa6utOFOwj6
-	SxFWVV6w1MIAv1ddPcuLbMjudOc5pru3JXS9rKYj0SAyxk9/muJnJH03k1GftoRXVcU5tYPdgG0
-	Mjxxlnnu5Jb+lh5m0qW8MLA1hxEpXk/IqlOi0y353VFIUZivlFWnyHUeYmGHXBf+qleUUHgnCSX
-	rkHSMcSQcwcfB1IA+59Hm536rB9f671M3Z4uRjqS5FZvyI8r0Uk+J7LQD/3ZF0qoKiBPhtnGYOH
-	SyVOm4mINzKPXs8oGWbbfB4CNb2BsUL1yu8OVARVMZa3+/5Yapm5GgqMCtodvgH8zEArvvqR54A
-	HRkx+JZ6R5Z2PBuywyH+8oLwhl00hy4vV5M/mbxMp4EE6lFaDus166OusboaqiQz/ZKuOc4hUdp
-	Y1n5D1UcpND5HzV65PKtWZPIUq0PrDwdmSFhDK7SsK9BB+mMvN2MM78Ujgoccjh1PSb24=
-X-Google-Smtp-Source: AGHT+IH0hpvR5twkqRmVGMRtAcrCxesRIOb4Xizv2z5I0TXHRJV8nSPA0Y9PLt873fJAl178vHWixw==
-X-Received: by 2002:ac8:7e4c:0:b0:4ee:4a3a:bd18 with SMTP id d75a77b69052e-4ee4a3abe64mr1136891cf.76.1763580675980;
-        Wed, 19 Nov 2025 11:31:15 -0800 (PST)
+        bh=sztelLlBrONBmM282viGyh6kz65i94yYxCWrYWozdqM=;
+        b=vbgCGInwvSn/Stv2bhSSjjxf9JIlnIgFBlMfllnrweKwF5ejplGqbNoJHmivNFc35T
+         d+0oUpbm41Nm/WTjCfykoV/BWQFxjmzyKawPHoAbmb5aAxzPjgWGy3W1Qv8xEmJ0BDyx
+         RRFatO7UpXXDZtQfcD5r/tF7nzYeN2RTDuTQo6vbzXbzn2w3MyVXecGgwJJCuHNK4Rp7
+         UwzZ64i50KEVII9IOxhEgC7tBLQ1vdqNpW0bXC+Asjnh7qKU3FZsckughVASJUEUk7/b
+         sfin1kHaJJLNNPV8pY6oLvidHdBxtHZyXLphwTrJBYrU3MvHywxHGi0VFJKp+pZkMAZM
+         3K7w==
+X-Forwarded-Encrypted: i=1; AJvYcCUmT4BBjHMNbhNgGKOxLJOyxfunqXf8zQ9BBmwWFPKULRNCMlEYaXTR+JHgpu8nUj3nK9BG3lf5Lsrg8w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxh2hjgp1seeq579kEXk7H0YmS5z2qiXprocxBAAcVl+TobdYIf
+	v7BGSzjSukR8dOXefPGt1F0baDgEqMtM/96j12QLKqf2VEIFxGVMCg9LGa1cNTXoxMk=
+X-Gm-Gg: ASbGncs5dh6g/vwkTrMZLcV6X0Fihk5nqQwEWYNA0aLRP7kMbiakAV/17/Td4VJ3JSp
+	u2F0ISsRwdCgTAAC9A/rPjkzvGctfOJngfgoriKFq064GhWIxAoWxxhtcE5vEiQP8bWUW59xIgw
+	+ZZtpH1RLBAlIPEOC8b3/D9lvWlHPLidIKCxwqhGTLIIu20Eehcamlg5byOqJjEy6Lk86kImahf
+	U2S1MtPdUN9+xDGzmVz23lFtZN4w7NoH7Y/KQEbaE+4kFf70CCdtb9a7TCGviVILHULU9QRIb9Y
+	vbsg2lOIFLAe+MYVIkdbn5I5qxjU7wnvE3KQjn1/BvcILYxMaF5xIIOZgIrxvfBFteNlXVNL8er
+	EFBEL6eRsiptQWXmUQlG21q/gFycSI4x9ENry26BLchMUO0os4kaQuk+8wKdy+THLnNYq83zliq
+	1VF6oFi1SlH6ZdKsvkfSuyKMhn8ZTDk7gs8kr5u46cCfoeHQ5PW4rG2l1/
+X-Google-Smtp-Source: AGHT+IEogkhlTHFcyAE9/u1UuBQV+X3tukog/nHIoHavB/ndnYOWZGPWrkYoYNh/EOln2cA+Kp4KoA==
+X-Received: by 2002:a05:622a:310:b0:4ee:1d84:3068 with SMTP id d75a77b69052e-4ee4971a985mr8236121cf.76.1763580999342;
+        Wed, 19 Nov 2025 11:36:39 -0800 (PST)
 Received: from ziepe.ca (hlfxns017vw-47-55-120-4.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.120.4])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4ee48e46ed0sm2807721cf.20.2025.11.19.11.31.15
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4ee48d64503sm3117901cf.13.2025.11.19.11.36.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 11:31:15 -0800 (PST)
+        Wed, 19 Nov 2025 11:36:38 -0800 (PST)
 Received: from jgg by wakko with local (Exim 4.97)
 	(envelope-from <jgg@ziepe.ca>)
-	id 1vLnta-00000000bWq-3r3x;
-	Wed, 19 Nov 2025 15:31:14 -0400
-Date: Wed, 19 Nov 2025 15:31:14 -0400
+	id 1vLnyo-00000000bYz-0lQx;
+	Wed, 19 Nov 2025 15:36:38 -0400
+Date: Wed, 19 Nov 2025 15:36:38 -0400
 From: Jason Gunthorpe <jgg@ziepe.ca>
 To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Cc: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
@@ -105,12 +105,12 @@ Cc: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
 	Nicolin Chen <nicolinc@nvidia.com>
 Subject: Re: [Linaro-mm-sig] [PATCH v8 06/11] dma-buf: provide phys_vec to
  scatter-gather mapping routine
-Message-ID: <20251119193114.GP17968@ziepe.ca>
+Message-ID: <20251119193638.GQ17968@ziepe.ca>
 References: <20251111-dmabuf-vfio-v8-0-fd9aa5df478f@nvidia.com>
  <20251111-dmabuf-vfio-v8-6-fd9aa5df478f@nvidia.com>
  <8a11b605-6ac7-48ac-8f27-22df7072e4ad@amd.com>
- <20251119132511.GK17968@ziepe.ca>
- <69436b2a-108d-4a5a-8025-c94348b74db6@amd.com>
+ <20251119134245.GD18335@unreal>
+ <6714dc49-6b5c-4d58-9a43-95bb95873a97@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -120,52 +120,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <69436b2a-108d-4a5a-8025-c94348b74db6@amd.com>
+In-Reply-To: <6714dc49-6b5c-4d58-9a43-95bb95873a97@amd.com>
 
-On Wed, Nov 19, 2025 at 02:42:18PM +0100, Christian König wrote:
+On Wed, Nov 19, 2025 at 03:11:01PM +0100, Christian König wrote:
 
-> >>> +	case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
-> >>> +		dma->state = kzalloc(sizeof(*dma->state), GFP_KERNEL);
-> >>> +		if (!dma->state) {
-> >>> +			ret = -ENOMEM;
-> >>> +			goto err_free_dma;
-> >>> +		}
-> >>> +
-> >>> +		dma_iova_try_alloc(attach->dev, dma->state, 0, size);
-> >>
-> >> Oh, that is a clear no-go for the core DMA-buf code.
-> >>
-> >> It's intentionally up to the exporter how to create the DMA
-> >> addresses the importer can work with.
-> > 
-> > I can't fully understand this remark?
-> 
-> The exporter should be able to decide if it actually wants to use
-> P2P when the transfer has to go through the host bridge (e.g. when
-> IOMMU/bridge routing bits are enabled).
+> I miss interpreted the call to pci_p2pdma_map_type() here in that
+> now the DMA-buf code decides if transactions go over the root
+> complex or not.
 
-Sure, but this is a simplified helper for exporters that don't have
-choices where the memory comes from.
+Oh, that's not it at all. I think you get it, but just to be really
+clear:
 
-I fully expet to see changes to this to support more use cases,
-including the one above. We should do those changes along with users
-making use of them so we can evaluate what works best.
+This code is taking a physical address from the exporter and
+determining how it MUST route inside the fabric. There is only one
+single choice with no optionality.
 
-> But only take that as Acked-by, I would need at least a day (or
-> week) of free time to wrap my head around all the technical details
-> again. And that is something I won't have before January or even
-> later.
+The exporter already decided if it will go over the host bridge by
+providing an address that must use a host bridge path.
 
-Sure, it is alot, and I think DRM community in general should come up
-to speed on the new DMA API and how we are pushing to see P2P work
-within Linux.
+> But the exporter can call pci_p2pdma_map_type() even before calling
+> this function, so that looks fine to me.
 
-So thanks, we can take the Acked-by and progress here. Interested
-parties can pick it up from this point when time allows.
+Yes, the exporter needs to decide where the data is placed before it
+tries to map it into the SGT.
 
-We can also have a mini-community call to give a summary/etc on these
-topics.
-
-Thanks,
 Jason
 
