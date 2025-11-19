@@ -1,41 +1,42 @@
-Return-Path: <linux-media+bounces-47395-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47392-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EE9FC702A1
-	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 17:43:45 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89480C70310
+	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 17:46:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 45FF03A8D54
-	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 16:29:57 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id C6A0A3A697A
+	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 16:29:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26B5636C0C3;
-	Wed, 19 Nov 2025 16:26:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38FF136A03E;
+	Wed, 19 Nov 2025 16:26:09 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7DF025D546
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44F372E1C7B
 	for <linux-media@vger.kernel.org>; Wed, 19 Nov 2025 16:26:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763569569; cv=none; b=GC0/s9pGhJqhA3R9FI5fBB/8DQUBXFptF73ES6BU+axN0tXH+v3c2IUSB9ogkUEq0TAvZJM03/6hmTb2CYi8ZieI2FaEINMOUKLCtHGflIxp5eNoHcjmLsssKN82OSgf6zbujyHC296BhdEKtzWI6NcHPHHEpdZf4ab9q9lIge8=
+	t=1763569568; cv=none; b=LIWPxGjEb85BT9E/1hRpAhlS7aPhHz2RDoEW7nKxZ/uLO9+Noc0Lv2SktEXEsKdMJBSUKVifCcxKQmvuv6T73K0zOK5ntX4T4kGdCQlzBrK2ehj9UGjjvJ89Hz7DLc2As08rq0OdMbFOMDsmiGrYMK90QEtwQxrGkwiYM07GFP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763569569; c=relaxed/simple;
-	bh=XbJldmTxcgOfioNkF9c7u8P3Zg65XfkU6nJShBamrEo=;
+	s=arc-20240116; t=1763569568; c=relaxed/simple;
+	bh=bDLakZJbNpmsQ/KMi5TAH8fXyFj4xdHUXOD13Ia8x7k=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=FRQD/r3A6Ex9EfwMjRikcCPsBT9fzz26qgQr4jFHMq9CkukGLvyUlCL3hj0H34DCpQlS8Y9YwphNtCStyFj3KxnxOoXlu+A7B1aaNi4Bg2sXu9hhddaeCpVERTkBy1ph8SgtVww5XwCT20BduybKFuZghjqpIGSAwog/i4oNDDw=
+	 In-Reply-To:To:Cc; b=vCReoEbkjAfiUeT3rn7jM/0QNuxu9w/RSrcB2CnVIAcwKmOZEPFmGL2SW+1rk5kjoeR3AhvfafmhnJv6YoVGIqZRttb9orPqmtpmRix3rOdtGB38KnzTCNqTyOYjgw/1QgIyuOVvN31zkSh3Ez73QQ/n98Q96Lfw63eoFpsUtLE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
 	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
 	(envelope-from <m.tretter@pengutronix.de>)
-	id 1vLl0L-0000aE-8m; Wed, 19 Nov 2025 17:26:01 +0100
+	id 1vLl0L-0000aE-Ah; Wed, 19 Nov 2025 17:26:01 +0100
 From: Michael Tretter <m.tretter@pengutronix.de>
-Date: Wed, 19 Nov 2025 17:25:53 +0100
-Subject: [PATCH v2 3/4] media: adv7180: implement g_register and s_register
+Date: Wed, 19 Nov 2025 17:25:54 +0100
+Subject: [PATCH v2 4/4] media: adv7180: fix frame interval in progressive
+ mode
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -43,8 +44,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20251119-b4-adv7180-vpp-sub-device-v2-3-86a7790b63ab@pengutronix.de>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251119-b4-adv7180-vpp-sub-device-v2-4-86a7790b63ab@pengutronix.de>
 References: <20251119-b4-adv7180-vpp-sub-device-v2-0-86a7790b63ab@pengutronix.de>
 In-Reply-To: <20251119-b4-adv7180-vpp-sub-device-v2-0-86a7790b63ab@pengutronix.de>
 To: Lars-Peter Clausen <lars@metafoo.de>, 
@@ -63,69 +64,40 @@ X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
 From: Thorsten Schmelzer <tschmelzer@topcon.com>
 
-The g_register and s_register callbacks are useful for debugging the
-adv7180.
+The ADV7280-M may internally convert interlaced video input to
+progressive video. If this mode is enabled, the ADV7280-M delivers
+progressive video frames at the field rate of 50 fields per second (PAL)
+or 60 fields per second (NTSC).
 
-Implement the callbacks to expose the register debugging to userspace.
+Fix the reported frame interval if progressive video is enabled.
 
 Signed-off-by: Thorsten Schmelzer <tschmelzer@topcon.com>
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 ---
 Changes in v2:
-- None
+- Simplify and document calculation of frame interval
 ---
- drivers/media/i2c/adv7180.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ drivers/media/i2c/adv7180.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
-index 4152f2049a6d..d289cbc2eefd 100644
+index d289cbc2eefd..669b0b3165b1 100644
 --- a/drivers/media/i2c/adv7180.c
 +++ b/drivers/media/i2c/adv7180.c
-@@ -969,6 +969,32 @@ static int adv7180_subscribe_event(struct v4l2_subdev *sd,
+@@ -507,6 +507,13 @@ static int adv7180_get_frame_interval(struct v4l2_subdev *sd,
+ 		fi->interval.denominator = 25;
  	}
+ 
++	/*
++	 * If the de-interlacer is active, the chip produces full video frames
++	 * at the field rate.
++	 */
++	if (state->field == V4L2_FIELD_NONE)
++		fi->interval.denominator *= 2;
++
+ 	return 0;
  }
  
-+#ifdef CONFIG_VIDEO_ADV_DEBUG
-+static int adv7180_g_register(struct v4l2_subdev *sd,
-+			      struct v4l2_dbg_register *reg)
-+{
-+	struct adv7180_state *state = to_state(sd);
-+	int ret;
-+
-+	ret = adv7180_read(state, reg->reg);
-+	if (ret < 0)
-+		return ret;
-+
-+	reg->val = ret;
-+	reg->size = 1;
-+
-+	return 0;
-+}
-+
-+static int adv7180_s_register(struct v4l2_subdev *sd,
-+			      const struct v4l2_dbg_register *reg)
-+{
-+	struct adv7180_state *state = to_state(sd);
-+
-+	return adv7180_write(state, reg->reg, reg->val);
-+}
-+#endif
-+
- static const struct v4l2_subdev_video_ops adv7180_video_ops = {
- 	.s_std = adv7180_s_std,
- 	.g_std = adv7180_g_std,
-@@ -982,6 +1008,10 @@ static const struct v4l2_subdev_video_ops adv7180_video_ops = {
- static const struct v4l2_subdev_core_ops adv7180_core_ops = {
- 	.subscribe_event = adv7180_subscribe_event,
- 	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
-+#ifdef CONFIG_VIDEO_ADV_DEBUG
-+	.g_register = adv7180_g_register,
-+	.s_register = adv7180_s_register,
-+#endif
- };
- 
- static const struct v4l2_subdev_pad_ops adv7180_pad_ops = {
 
 -- 
 2.47.3
