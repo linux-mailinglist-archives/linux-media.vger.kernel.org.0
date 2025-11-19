@@ -1,134 +1,140 @@
-Return-Path: <linux-media+bounces-47355-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47356-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35A40C6D047
-	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 08:02:51 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0707C6D514
+	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 09:10:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 6BB954F8124
-	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 06:58:45 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTPS id C81A72D48C
+	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 08:10:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AA5A31B82B;
-	Wed, 19 Nov 2025 06:58:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 764F3320A02;
+	Wed, 19 Nov 2025 08:10:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MJlaVgOx"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qwie+VBY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71930213E6A;
-	Wed, 19 Nov 2025 06:58:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44F7F2F5321
+	for <linux-media@vger.kernel.org>; Wed, 19 Nov 2025 08:10:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763535515; cv=none; b=OuOeJci27Cyzd2/YxcJkUUS5nlzlNwyyj5phuPRT0sHMdrePqjMY7dCtz/9/vFH1sSU++GNUyIEpZLRM/ajEHbPP8iYEPTEzJWgXEFAbWz09soQDpU3kcKeiEzqOTctX2QJh4xz7BhHT2YxX9VkLyRPf+2jfZ15N9IEY8IwSfrc=
+	t=1763539803; cv=none; b=pTZtOyZT6v37KCVZD0h7I6i+LrpPmjWvxO8CqOgc96/VnLbwiuRrbCndFAdPKKoJVv/52Q5xXsdnUz1EPNeDdBHX5kl70EJzjtA8g0rJj+9AeUlr8CNDXa5JH1FkNGXWsIqukxLVIpkvQRuz1hyG8uUIPnScZGClDoCgLQWAAvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763535515; c=relaxed/simple;
-	bh=xqpppwD1JtmElYx9+k0cBzkdD23wS/IRF5UenU5rTaI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Q2oOcKWP17GM41aF5yeaZXWNOxpeTSwbJzi4mOvSJRhxgngZ1Mt0oRT6JB+7DFaVsrwN/ojaOgH4GsvUPiawCAlokMuzqe8+TB6C+MmnaxOwRe0CeI3lLzMAKafuLnEdjbE+/MTpmG+DjP4AGAgx++yLhSVasQRBoVMhMV6ex0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MJlaVgOx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A94CC19422;
-	Wed, 19 Nov 2025 06:58:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763535514;
-	bh=xqpppwD1JtmElYx9+k0cBzkdD23wS/IRF5UenU5rTaI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=MJlaVgOxENXeDayNieiJlez7tO/fruamm7LkYVoiQIsjHG4+lakDNL8JplxBav9Hw
-	 8ybUtIpfAj3bTRkGZk9v9ouBw6OFYnig6FZ03wrm+rB9sv2j8aAGgw1qMVylYZNY0/
-	 +DFmI1LenSJWtkUplvWc8e7VOTDPFXZa9eUvsK3SBTgkvignmlPGSZN0l2FDnVDODh
-	 uohRcn9l0IQ5SNAhRnCda93dMkWkChI0dEzkJDVD5BmK6xbqIrKlZHKgzADID0GxL/
-	 I6R9mVrxvU1x05YMLOIHZd7bVr4OHrKMXSAH/rUvfqpTHYINdHNjyv4i/o5kkTuqPe
-	 IWmLmEU31bDCw==
-Message-ID: <721ae67a-22e4-43c8-940a-56ad9fa4f608@kernel.org>
-Date: Wed, 19 Nov 2025 07:58:27 +0100
+	s=arc-20240116; t=1763539803; c=relaxed/simple;
+	bh=Yut0WA+8SDFNziooZRQDH571zlB6+TkPVIIMdys54mA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bBtbPkAf0txbBo1dYtLeya+v2WY+XWGTWqAlbdtcnkiTdRsefCeVXskBi0imYyaZYe9tH/eVutrp9Fx9g0SDB3oFcIYZpHE/3MsrejU1YHR0bDJNv5tv3ZVI5fBr/eIN+e5/aBGZJXR6m1LuBqy/kIX6TKE5v2ajeptfUS0wXXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qwie+VBY; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-429c82bf86bso3761951f8f.1
+        for <linux-media@vger.kernel.org>; Wed, 19 Nov 2025 00:09:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1763539798; x=1764144598; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FiIFVMX2MR+XXmvXnG9d1/8nmYiayzPl3ENasC1cOTY=;
+        b=qwie+VBYVnit58cr33wDwSb0UtHxPpvJua6ZfibbsqhWxHley4kl++LlnXRnzXmHAW
+         SScx65XfAydUfNQAGf+R1oH851gLQx88h/qyRRaKtKl42P2OOphSkuKTgH8kxoGCrSpo
+         C0taVxK9D22K1WYTyBpe/affBidYcBzWP0KXLX7vfq/v++lBBpkuz0JVpCgWCxTC5sxs
+         QRKNagCXUWBcUKZDnr1jbYFCwdm0W9rmMiKFYWFu+693iLYehmw+vtN/7hdqntAPn+h8
+         QOT7QKfY7QY2N0H/Srp+vUOMW02PyFeq23KKYrsxdTLle8XGQSVuuHz7RSgWf6dxQWJ7
+         Wtig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763539798; x=1764144598;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FiIFVMX2MR+XXmvXnG9d1/8nmYiayzPl3ENasC1cOTY=;
+        b=wflHhQMKOZ+nv4bIBQ7uYHks/olUEGanIbx29YN3l07gF1bKo80++wz2OGxZijGxMv
+         GvwkgFOD7nfJltZZvKRj3UxHrQeLjRCabkWda36XMzOmLDldP1lolRDoOrnHIF6sscvD
+         6LeFtzTObvvXAQ+M820RHuZhbmIpprjm62Bj+JWNJwyzVlyPaArfbV7sCG2CxvObCisv
+         62hwLtN3v1DkqbQ0C5th3vylp2f06sRX/x6YnDaeoR2h/+FphUopMxvvEFVv2L4ROI1M
+         jHoNVmhUjjMaOA+depVo3umBKZJxK2U6+0bAn2CqyvK+76I2BBotZbvIPN30um1h3qGg
+         HlaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVCnB6yEl6h9iy7JSj5cUUAh/2P50TFDmGqj7rDNYHcR/DJcy1RKzzXiymZQ3e4fWtX4FyDQz9wvg0png==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyOEpTtGDxfsSQkmck8uTRprR8shp/B0hvIRj5d6yZwjf5woqLd
+	bBMQxOZ7rY4dpF4a3DOLyf5NgYALHd5n1ZJs6vW3WGUosvphelUS31uxp+17ceiAIho=
+X-Gm-Gg: ASbGncv4niBWdgVl1FbQSJoNHmKCMuAvAHGOAqWX+YyduqXys/ELipJC+x7XxFWagov
+	gpQWE/0vUQSLCp8xz5O5j+7n9x8OOBgJGI3xcPwdzo82aBZDt6lsaH8c+LeYAmhU8cRjhJGuCpT
+	E3oA2pmYfmmKdi5xhty+VOTTRxgwVtFIkgNH+CJ2cQvk34t5NzB6a8igqJ+cuXgdde7cQBIcfqf
+	51cc7wa3AQvmUqBH8tFQSetvumErV5kVuaS/Ol07T6pk/N4/If23KtgRnRLH5xICuAuEAr8xoeu
+	jH8smialG0U90+yScohGOe9rAgNP/K5gfnxmL9eJO3OXllqQ5JwrFDImx+4R9l3dz/BfTUU7Czu
+	eGs0T2r1BYSqnSysAcGgj9/70mGGJ2vZy1Vj6hvj3NtnA7co0AVopPFJ8H8hJV7kncPw33tihYk
+	zAkTn8T4+WQzyae/xrK4uP0pBKqEI=
+X-Google-Smtp-Source: AGHT+IE1q82L18y3VRPhHfEId7f170t/V5fSl9Cnt7w8NWmAat0eSm35Q1/LPz22OoVfb8I/7QAR9w==
+X-Received: by 2002:a05:6000:4383:b0:42b:3c8d:1932 with SMTP id ffacd0b85a97d-42b59345301mr16798960f8f.23.1763539798470;
+        Wed, 19 Nov 2025 00:09:58 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-42b53f0b60csm35501317f8f.22.2025.11.19.00.09.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Nov 2025 00:09:58 -0800 (PST)
+Date: Wed, 19 Nov 2025 11:09:54 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Michael Riesch <michael.riesch@collabora.com>
+Cc: Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: [PATCH next] media: rockchip: rkcif: fix off by one bugs
+Message-ID: <aR17UkYsfAxCZ4fe@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 07/16] dt-bindings: media: ov5647: Allow props from
- video-interface-devices
-To: Jai Luthra <jai.luthra@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Jacopo Mondi <jacopo@jmondi.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Naushir Patuck <naush@raspberrypi.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>, Kieran Bingham
- <kieran.bingham@ideasonboard.com>,
- David Plowman <david.plowman@raspberrypi.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Peter Robinson <pbrobinson@gmail.com>, Stefan Wahren <wahrenst@gmx.net>,
- "Ivan T. Ivanov" <iivanov@suse.de>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-References: <20251118-b4-rpi-ov5647-v2-0-5e78e7cb7f9b@ideasonboard.com>
- <20251118-b4-rpi-ov5647-v2-7-5e78e7cb7f9b@ideasonboard.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251118-b4-rpi-ov5647-v2-7-5e78e7cb7f9b@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 
-On 18/11/2025 13:03, Jai Luthra wrote:
-> Allow properties from video-interface-devices. The change is identical to
-> commit 08fbd355be3d ("media: dt-bindings: sony,imx219: Allow props from
-> video-interface-devices")
-> 
-> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-> ---
+Change these comparisons from > vs >= to avoid accessing one element
+beyond the end of the arrays.
 
-Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+Fixes: 1f2353f5a1af ("media: rockchip: rkcif: add support for rk3568 vicap mipi capture")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ .../media/platform/rockchip/rkcif/rkcif-capture-mipi.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Best regards,
-Krzysztof
+diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.c b/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.c
+index 1b81bcc067ef..a933df682acc 100644
+--- a/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.c
++++ b/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.c
+@@ -489,8 +489,8 @@ static inline unsigned int rkcif_mipi_get_reg(struct rkcif_interface *interface,
+ 
+ 	block = interface->index - RKCIF_MIPI_BASE;
+ 
+-	if (WARN_ON_ONCE(block > RKCIF_MIPI_MAX - RKCIF_MIPI_BASE) ||
+-	    WARN_ON_ONCE(index > RKCIF_MIPI_REGISTER_MAX))
++	if (WARN_ON_ONCE(block >= RKCIF_MIPI_MAX - RKCIF_MIPI_BASE) ||
++	    WARN_ON_ONCE(index >= RKCIF_MIPI_REGISTER_MAX))
+ 		return RKCIF_REGISTER_NOTSUPPORTED;
+ 
+ 	offset = rkcif->match_data->mipi->blocks[block].offset;
+@@ -510,9 +510,9 @@ static inline unsigned int rkcif_mipi_id_get_reg(struct rkcif_stream *stream,
+ 	block = stream->interface->index - RKCIF_MIPI_BASE;
+ 	id = stream->id;
+ 
+-	if (WARN_ON_ONCE(block > RKCIF_MIPI_MAX - RKCIF_MIPI_BASE) ||
+-	    WARN_ON_ONCE(id > RKCIF_ID_MAX) ||
+-	    WARN_ON_ONCE(index > RKCIF_MIPI_ID_REGISTER_MAX))
++	if (WARN_ON_ONCE(block >= RKCIF_MIPI_MAX - RKCIF_MIPI_BASE) ||
++	    WARN_ON_ONCE(id >= RKCIF_ID_MAX) ||
++	    WARN_ON_ONCE(index >= RKCIF_MIPI_ID_REGISTER_MAX))
+ 		return RKCIF_REGISTER_NOTSUPPORTED;
+ 
+ 	offset = rkcif->match_data->mipi->blocks[block].offset;
+-- 
+2.51.0
+
 
