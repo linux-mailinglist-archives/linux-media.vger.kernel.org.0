@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-47354-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47355-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5A04C6D026
-	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 08:01:09 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35A40C6D047
+	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 08:02:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 9CEC6363958
-	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 06:57:53 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 6BB954F8124
+	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 06:58:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B41BF31ED89;
-	Wed, 19 Nov 2025 06:57:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AA5A31B82B;
+	Wed, 19 Nov 2025 06:58:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cFci5oEn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MJlaVgOx"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A6EB25B662;
-	Wed, 19 Nov 2025 06:57:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71930213E6A;
+	Wed, 19 Nov 2025 06:58:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763535448; cv=none; b=RT3FBz4wD3bla3Yz/C52DMygdx2nOFVhlaiQIKMnATLRIleZ+eiYn3CaqOKEV0NhxensHqraene+jQz02h8R9MHwuWxXtNoABXf5jR6sJ4Wpiw3yrNe4CUQ6xlOZxaOqJXUMFh6gEGDWarmo91JMualNN01lQ57/mXP0Gh+KwNs=
+	t=1763535515; cv=none; b=OuOeJci27Cyzd2/YxcJkUUS5nlzlNwyyj5phuPRT0sHMdrePqjMY7dCtz/9/vFH1sSU++GNUyIEpZLRM/ajEHbPP8iYEPTEzJWgXEFAbWz09soQDpU3kcKeiEzqOTctX2QJh4xz7BhHT2YxX9VkLyRPf+2jfZ15N9IEY8IwSfrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763535448; c=relaxed/simple;
-	bh=piHIRtvPgJ/pR7ZXwdMGLC6+yiLapBGLc2VV3ODHwlU=;
+	s=arc-20240116; t=1763535515; c=relaxed/simple;
+	bh=xqpppwD1JtmElYx9+k0cBzkdD23wS/IRF5UenU5rTaI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=a6fB2oQ7vXWVFacav+B6MQIeAFgblrNCYlyYDYqpmGNR5/GSEgwGHxzDosm03EgIllZbpJ+LQ2u7tyVtMqYvj7vEViR9g92TLcM0pNiDr2THWhASwpkvlKw4iO+dW0lP88pW/H+3UO/F7LLxRt//u6kw9XLfMPhPPa5XR92M/G8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cFci5oEn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B35FAC19424;
-	Wed, 19 Nov 2025 06:57:21 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=Q2oOcKWP17GM41aF5yeaZXWNOxpeTSwbJzi4mOvSJRhxgngZ1Mt0oRT6JB+7DFaVsrwN/ojaOgH4GsvUPiawCAlokMuzqe8+TB6C+MmnaxOwRe0CeI3lLzMAKafuLnEdjbE+/MTpmG+DjP4AGAgx++yLhSVasQRBoVMhMV6ex0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MJlaVgOx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A94CC19422;
+	Wed, 19 Nov 2025 06:58:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763535447;
-	bh=piHIRtvPgJ/pR7ZXwdMGLC6+yiLapBGLc2VV3ODHwlU=;
+	s=k20201202; t=1763535514;
+	bh=xqpppwD1JtmElYx9+k0cBzkdD23wS/IRF5UenU5rTaI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=cFci5oEnTq2MdX8n3f6MQD/N3iYPv2rV4cDD2W3nIliOh5yCbGJ+dV111lF11kgWt
-	 rP4hWHtAl0+Ewum6MXi9vQA4yz2WN15HCL4ptObIJn3xw9b/+wTiVYKF67ItfzgmTf
-	 wslCMlv7kVAbWHhhyeuBuhKgeNi0h7gzK94ac4jEpx2C880uQTUTinLbhvifKIfI5k
-	 hVczaafglCuTtwNrlKIMZ4CYy6fQr7/UJKmAFLlF0w2nZavMnrNtljgXW8fcON3pDX
-	 kM2MWAFMRTMIVQasBRiUQGttJY8En0DacY5mEwoEssDX3P0eLkije68vSrcynzSnsq
-	 lknEUEjcLgT1A==
-Message-ID: <48a0432d-a9b1-416a-931f-46822463ad10@kernel.org>
-Date: Wed, 19 Nov 2025 07:57:19 +0100
+	b=MJlaVgOxENXeDayNieiJlez7tO/fruamm7LkYVoiQIsjHG4+lakDNL8JplxBav9Hw
+	 8ybUtIpfAj3bTRkGZk9v9ouBw6OFYnig6FZ03wrm+rB9sv2j8aAGgw1qMVylYZNY0/
+	 +DFmI1LenSJWtkUplvWc8e7VOTDPFXZa9eUvsK3SBTgkvignmlPGSZN0l2FDnVDODh
+	 uohRcn9l0IQ5SNAhRnCda93dMkWkChI0dEzkJDVD5BmK6xbqIrKlZHKgzADID0GxL/
+	 I6R9mVrxvU1x05YMLOIHZd7bVr4OHrKMXSAH/rUvfqpTHYINdHNjyv4i/o5kkTuqPe
+	 IWmLmEU31bDCw==
+Message-ID: <721ae67a-22e4-43c8-940a-56ad9fa4f608@kernel.org>
+Date: Wed, 19 Nov 2025 07:58:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 05/16] dt-bindings: media: ov5647: Add optional
- regulators
+Subject: Re: [PATCH v2 07/16] dt-bindings: media: ov5647: Allow props from
+ video-interface-devices
 To: Jai Luthra <jai.luthra@ideasonboard.com>,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
@@ -69,7 +69,7 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  "Ivan T. Ivanov" <iivanov@suse.de>,
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 References: <20251118-b4-rpi-ov5647-v2-0-5e78e7cb7f9b@ideasonboard.com>
- <20251118-b4-rpi-ov5647-v2-5-5e78e7cb7f9b@ideasonboard.com>
+ <20251118-b4-rpi-ov5647-v2-7-5e78e7cb7f9b@ideasonboard.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -115,20 +115,19 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251118-b4-rpi-ov5647-v2-5-5e78e7cb7f9b@ideasonboard.com>
+In-Reply-To: <20251118-b4-rpi-ov5647-v2-7-5e78e7cb7f9b@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 18/11/2025 13:02, Jai Luthra wrote:
-> The OV5647 camera sensor takes 3 voltage supplies. So define those in
-> the bindings as optional regulators, to not break existing users.
+On 18/11/2025 13:03, Jai Luthra wrote:
+> Allow properties from video-interface-devices. The change is identical to
+> commit 08fbd355be3d ("media: dt-bindings: sony,imx219: Allow props from
+> video-interface-devices")
 > 
 > Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
 > ---
->  Documentation/devicetree/bindings/media/i2c/ovti,ov5647.yaml | 9 +++++++++
->  1 file changed, 9 insertions(+)
 
-Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
+Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
 
 Best regards,
 Krzysztof
