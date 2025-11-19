@@ -1,147 +1,100 @@
-Return-Path: <linux-media+bounces-47364-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47365-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A5E3C6E016
-	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 11:36:33 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72978C6E12A
+	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 11:53:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 50E0A4F8B7A
-	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 10:27:38 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTPS id 60F382E163
+	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 10:53:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF1A734D3B6;
-	Wed, 19 Nov 2025 10:27:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MiU7xOEM"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CAB934DB6E;
+	Wed, 19 Nov 2025 10:53:26 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 707CD3446B8;
-	Wed, 19 Nov 2025 10:27:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C7E5313E12;
+	Wed, 19 Nov 2025 10:53:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763548037; cv=none; b=dRSeZ8LDNfgUew98rmwGSBUhsATKcvL0qflJm2YvRMbUc5pcDL8czuy5DJkHChOslbWl430nP/cxuospn/LS4F+uUGFJ81E6wRIrgHqxDPkXoGQt6+49qAe+Z0MDQQS3wHeMgc1Q+fENHeYTfCWJIncHi7WcaF4GM7LAv+QbKJE=
+	t=1763549605; cv=none; b=kb0PsW3zSDeSMA8r1nYYk3hUDR2RzP2HcTxEWEgP5mNkMMYOl62nayWU21iklx8OXYcCA6LJNAd6WVPlHrNRji1EakiWFb5r0Vy1JXOTeq0sWWh9ZUPJDZ346TfJ/A2mxucUsaCIIpxJBpQKexi2hPLkvDJS+KDuTHkl0LWKuZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763548037; c=relaxed/simple;
-	bh=jmw9bhTP6DqEEo8SaI642JH1s3dFqQGzetmEw8f3+f0=;
+	s=arc-20240116; t=1763549605; c=relaxed/simple;
+	bh=GYqmggF3znhUGPatz51esM7m1/OXe2ZD930Ya1NBl3c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZDEndxOQsGURyNyw7HJ+3V+/jE0nKso+pQgMGxupM6YJ2sUFd8ByT5zUdqRku+eLZ/bVdynuKs7sPZ5pqALwV5kMjzwfg5VTY37HYidePcJ+UWS5jym+sVUxabI3v10TTkJHSTuvzO/b0fEfj/1JAKGuzcuYStaCZWlv5FiVTVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MiU7xOEM; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763548035; x=1795084035;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jmw9bhTP6DqEEo8SaI642JH1s3dFqQGzetmEw8f3+f0=;
-  b=MiU7xOEMrvpSHRKoOGFoxjvp2olCkMHYcgyVqGCXYhxtUSjKS4HqPHZY
-   jwn1jZ20MYSLYgPZepTcbeT44WCjzhtiyp+/af2F23uBo2SxPny1E+O0E
-   i35l1wp5ztEr/UgnTalJgnFm37qhWHVpZKg8LSXY/NLmt0PE9WL14Y8tO
-   k3h/zOCwTRmKYN7LyemrWXS3V9sFi2e4KayP+OT7P6pLnL9tii32X9EIR
-   Lpgv24Cc1EEW8J6mJRkCTzvjuPiiwhLzT1y6FWYPeBcXX3xztfuWgYKGf
-   GVLiIWrx11wXkoB91Fm9V6NPb59zQvI7HbI0Bo9UlmO1kmJt9DFQYly3E
-   w==;
-X-CSE-ConnectionGUID: 2bBlveQeQxCd7RgNC0YNsw==
-X-CSE-MsgGUID: njPqeXaCSmC15wNSdDdbLw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="65286211"
-X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="65286211"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 02:27:12 -0800
-X-CSE-ConnectionGUID: BabbyDhyQAOE+ZtEsTT7/g==
-X-CSE-MsgGUID: bIH3DAOlTZmt1WuzGTp/dQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
-   d="scan'208";a="195322765"
-Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.245])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 02:26:53 -0800
-Date: Wed, 19 Nov 2025 12:26:51 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Petr Mladek <pmladek@suse.com>
-Cc: Corey Minyard <corey@minyard.net>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	"Dr. David Alan Gilbert" <linux@treblig.org>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
-	Vitaly Lifshits <vitaly.lifshits@intel.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Niklas Cassel <cassel@kernel.org>, Calvin Owens <calvin@wbinvd.org>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Sagi Maimon <maimon.sagi@gmail.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Karan Tilak Kumar <kartilak@cisco.com>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Casey Schaufler <casey@schaufler-ca.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>,
-	Max Kellermann <max.kellermann@ionos.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	openipmi-developer@lists.sourceforge.net,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
-	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org, linux-mmc@vger.kernel.org,
-	netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-	linux-pci@vger.kernel.org, linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
-	ceph-devel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Gustavo Padovan <gustavo@padovan.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Vladimir Oltean <olteanv@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Rodolfo Giometti <giometti@enneenne.com>,
-	Jonathan Lemon <jonathan.lemon@gmail.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Stefan Haberland <sth@linux.ibm.com>,
-	Jan Hoeppner <hoeppner@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Satish Kharat <satishkh@cisco.com>,
-	Sesidhar Baddela <sebaddel@cisco.com>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v3 19/21] scsi: fnic: Switch to use %ptSp
-Message-ID: <aR2bazZn8m4EMHdW@smile.fi.intel.com>
-References: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
- <20251113150217.3030010-20-andriy.shevchenko@linux.intel.com>
- <aR2XAYWTEgMZu_Mx@pathway.suse.cz>
+	 Content-Type:Content-Disposition:In-Reply-To; b=HHnY/dMGIxxCFdRfTZcTrDjN5VqVIac5c9OXH/ozQT4rGbWwnvm9gKHFq9KVv7u1RUd6GyPRR384da+mMjfaaQPcINxRP2yo0aqTzFTkkdTRvhbx6AtKWCBhr2EpcWp+qWuKDqDEYl4Zb+wNP0KLQks/NDEIl/6+4OFBW4gkYKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
+X-AuditID: a67dfc5b-c45ff70000001609-19-691da19e89c8
+Date: Wed, 19 Nov 2025 19:53:12 +0900
+From: Byungchul Park <byungchul@sk.com>
+To: linux-kernel@vger.kernel.org
+Cc: kernel_team@skhynix.com, torvalds@linux-foundation.org,
+	damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org,
+	adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org,
+	mingo@redhat.com, peterz@infradead.org, will@kernel.org,
+	tglx@linutronix.de, rostedt@goodmis.org, joel@joelfernandes.org,
+	sashal@kernel.org, daniel.vetter@ffwll.ch, duyuyang@gmail.com,
+	johannes.berg@intel.com, tj@kernel.org, tytso@mit.edu,
+	willy@infradead.org, david@fromorbit.com, amir73il@gmail.com,
+	gregkh@linuxfoundation.org, kernel-team@lge.com, linux-mm@kvack.org,
+	akpm@linux-foundation.org, mhocko@kernel.org, minchan@kernel.org,
+	hannes@cmpxchg.org, vdavydov.dev@gmail.com, sj@kernel.org,
+	jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
+	penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
+	ngupta@vflare.org, linux-block@vger.kernel.org,
+	josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
+	jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
+	djwong@kernel.org, dri-devel@lists.freedesktop.org,
+	rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
+	hamohammed.sa@gmail.com, harry.yoo@oracle.com,
+	chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
+	max.byungchul.park@gmail.com, boqun.feng@gmail.com,
+	longman@redhat.com, yunseong.kim@ericsson.com, ysk@kzalloc.com,
+	yeoreum.yun@arm.com, netdev@vger.kernel.org,
+	matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net,
+	catalin.marinas@arm.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, luto@kernel.org,
+	sumit.semwal@linaro.org, gustavo@padovan.org,
+	christian.koenig@amd.com, andi.shyti@kernel.org, arnd@arndb.de,
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+	rppt@kernel.org, surenb@google.com, mcgrof@kernel.org,
+	petr.pavlu@suse.com, da.gomez@kernel.org, samitolvanen@google.com,
+	paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
+	joelagnelf@nvidia.com, josh@joshtriplett.org, urezki@gmail.com,
+	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+	qiang.zhang@linux.dev, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
+	chuck.lever@oracle.com, neil@brown.name, okorniev@redhat.com,
+	Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
+	anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
+	clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
+	kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
+	broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk,
+	shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
+	yuzhao@google.com, baolin.wang@linux.alibaba.com,
+	usamaarif642@gmail.com, joel.granados@kernel.org,
+	richard.weiyang@gmail.com, geert+renesas@glider.be,
+	tim.c.chen@linux.intel.com, linux@treblig.org,
+	alexander.shishkin@linux.intel.com, lillian@star-ark.net,
+	chenhuacai@kernel.org, francesco@valla.it,
+	guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
+	masahiroy@kernel.org, brauner@kernel.org,
+	thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
+	andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+	rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v17 44/47] dept: introduce APIs to set page usage and use
+ subclasses_evt for the usage
+Message-ID: <20251119105312.GA11582@system.software.com>
+References: <20251002081247.51255-1-byungchul@sk.com>
+ <20251002081247.51255-45-byungchul@sk.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -150,133 +103,275 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aR2XAYWTEgMZu_Mx@pathway.suse.cz>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20251002081247.51255-45-byungchul@sk.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0iTYRTHed67o9HrtHrMhFhJYGQaYoeyKPDD+6WILoQF1cqXHM0VW1lG
+	hWWpWVJMFrkuXtO1vLWVeWeazUsXK22saF5CtDCNprOaS3NG5Lcfv8P5/8+Hw5EyO72YU6qP
+	ixq1QiVnJJRkZF7Bqrv5IcqIhochkGHOoaHXnYHgUs00Bb91NhamG2wIhp+6EOj7BxiYdg4R
+	MGBNRzD5spOER7YeBO36KwyMvLlNQN6FBhpSCysYqOmrZeHGw0WgL6sjoDglFD4ZDSw4r+kp
+	aO+x0zA8qGNgvLufgPy0Igps1Z8IuFr5mIae0mkaUm79oKGztoyG/j4HDdmjgwiK3d9YsOUt
+	BN2giwVX0QQFaWNTNLRmWQnofl+HoDGjj4CWiicEmEvtDHQ4x1jwOKtpsOtyGaj8XsLAnfFI
+	KPttR5siBJOlihBK75YiYdKjQ8L4vVRS8LjfMUJHARZqDE5WuNj4gRUsxjChsP4LIeS73LRg
+	Nl1mBLNLxwqZI92E8NFezwijr16x25bskcTEiyplkqhZvfGAJKGxr4Q5lr7hlHGomk1BLyIy
+	kR+H+Sjce76X+sdfx/NZH1N8KG4730X7mOFXYIfjF+njQH4ptmQNzngJR/I5wdhdmcr4BgG8
+	Ck+0lM8uS3nALbkts17GH8R6Uzb91/vj9pyB2TKSD8OOqS9EJuJmOBiXTHE+7cevxeW5NuTj
+	BfwybK1qJXxdmO/xw1XGn+jvoUG4yeigriPeMCfWMCfW8D82D5EmJFOqkxIVSlVUeEKyWnkq
+	/NDRRDOa+bbis9691cj1ekcz4jkknyfNmB+ilNGKJG1yYjPCHCkPlIZuXqKUSeMVyadFzdH9
+	mhMqUduMgjlKvki6ZuJkvIw/rDguHhHFY6Lm35Tg/BanoJVnRm+v927dpIvd9cLjv/1BZNby
+	Q1cnK+ss2UExnWShmBDr/8hakN110vK8oO2NN5KuNacPlN/ct2a33qaIttbnVnl3bqkju5yx
+	0RXhsV3rkos2ar0QnxaXfjC6adgRZA58Vrxs+G3AOXy6Q/353X0yKuKyyR4V51k3tLw87eMN
+	OaVNUESGkRqt4g+/LpDnaQMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0xTZxjHfc+dZtUjg3hiXUK6oQaDQjLmk7kZlyzxxGXGxA9LtkWtejYa
+	SmGtY9aEDCyNBJ3UukJoBcrt2BSE2noBSQ3jUqdCLKubZIMBSy0wuSTaApXbTl2W+eXN7/39
+	n3/yfHgYPHGF3MyotacEnValUVIyQnZwjzG9uu4tdUYgvBt+K+4iIBopJeBKWwsFpZ4qEgKt
+	zQhGo6UIFpbsOJg61ghYsfhpiMT+oGHN50dQMWjBoeVGMQYv3KsUPOt5jsA6HqKgcqqYgDnx
+	AgJb2E7DVN9+mBntJGFtZAKDJ/PTCMTQKgahrnMIVipyoLbeS8HSwCMcKq0BBHXjIzhMuqXw
+	hv9PBD7nWQqemm/iEAyth8fROQruW89TMDN4BYNZNwWOsz4Squ0WBMaGNgoqqj0EdIzdoWHw
+	2TIGwxUWDJo9n8KoGCbgobkek/aTpq5vAnulEZOeSQys1zoxiIkuGvobhgkQi1LBPhAk4S+n
+	jYbl8UxYc+SBv3mChpFyKwGtM4/IfVbEL5guErzLewvjTb+sUHxLTQvil15aEB9pMuK8ySx9
+	e6bncL7E+x3f9HCa4l9Gf6V437yD4B/Uc/ylgXS+wzZC8yV3f6cPvf+57IOTgkZdIOh27T0m
+	y747dpXKP/fhaedEO12E+jPKUALDse9y05E6Os4Em8r9XBwk40yx27ihoRge5yQ2hfP+EJa8
+	jMHZKgUXdRupePAmq+Hme1tfleUscL21va98Inucs7ouk//6jdz9qhARZ5xN44ZWp7AyxEis
+	4K6uMnGdwO7mWmv9KM7J7Ntc1617mBnJba+1ba+1bf+3HQh3oSS1tiBXpdZk7dTnZBu06tM7
+	T+TlepB0lGLh8qV2FAnu70Ysg5RvyBfNW9SJpKpAb8jtRhyDK5PkqR9JSn5SZTgj6PKO6r7V
+	CPpupGAI5Sb5gc+EY4ns16pTQo4g5Au6/1KMSdhchFwpXRu+f55pejyW9YVKH3sykbl93dbC
+	NPTJ4t5wRvJC5zd/L9aUKH5aUISInB9v6icPtycf6T/cdHQwwJ+pOeBrNNBHKgvHHxwKOi+I
+	X/aleAJfpR8MG4wZTva2uyemnd1RfvHpO0lZfeWjH7MNmONyG31evL7eWzY7/F7jjJjfqyT0
+	2arMNFynV/0DMGDGq5ADAAA=
+X-CFilter-Loop: Reflected
 
-On Wed, Nov 19, 2025 at 11:08:01AM +0100, Petr Mladek wrote:
-> On Thu 2025-11-13 15:32:33, Andy Shevchenko wrote:
-> > Use %ptSp instead of open coded variants to print content of
-> > struct timespec64 in human readable format.
+On Thu, Oct 02, 2025 at 05:12:44PM +0900, Byungchul Park wrote:
+> False positive reports have been observed since dept works with the
+> assumption that all the pages have the same dept class, but the class
+> should be split since the problematic call paths are different depending
+> on what the page is used for.
 > 
-> I was about to commit the changes into printk/linux.git and
-> found a mistake during the final double check, see below.
+> At least, ones in block device's address_space and ones in regular
+> file's address_space have exclusively different usages.
 > 
-> > diff --git a/drivers/scsi/fnic/fnic_trace.c b/drivers/scsi/fnic/fnic_trace.c
-> > index cdc6b12b1ec2..0a849a195a8e 100644
-> > --- a/drivers/scsi/fnic/fnic_trace.c
-> > +++ b/drivers/scsi/fnic/fnic_trace.c
-> > @@ -215,30 +213,26 @@ int fnic_get_stats_data(struct stats_debug_info *debug,
-> >  {
-> >  	int len = 0;
-> >  	int buf_size = debug->buf_size;
-> > -	struct timespec64 val1, val2;
-> > +	struct timespec64 val, val1, val2;
-> >  	int i = 0;
-> >  
-> > -	ktime_get_real_ts64(&val1);
-> > +	ktime_get_real_ts64(&val);
-> >  	len = scnprintf(debug->debug_buffer + len, buf_size - len,
-> >  		"------------------------------------------\n"
-> >  		 "\t\tTime\n"
-> >  		"------------------------------------------\n");
-> >  
-> > +	val1 = timespec64_sub(val, stats->stats_timestamps.last_reset_time);
-> > +	val2 = timespec64_sub(val, stats->stats_timestamps.last_read_time);
-> >  	len += scnprintf(debug->debug_buffer + len, buf_size - len,
-> > -		"Current time :          [%lld:%ld]\n"
-> > -		"Last stats reset time:  [%lld:%09ld]\n"
-> > -		"Last stats read time:   [%lld:%ld]\n"
-> > -		"delta since last reset: [%lld:%ld]\n"
-> > -		"delta since last read:  [%lld:%ld]\n",
-> > -	(s64)val1.tv_sec, val1.tv_nsec,
-> > -	(s64)stats->stats_timestamps.last_reset_time.tv_sec,
-> > -	stats->stats_timestamps.last_reset_time.tv_nsec,
-> > -	(s64)stats->stats_timestamps.last_read_time.tv_sec,
-> > -	stats->stats_timestamps.last_read_time.tv_nsec,
-> > -	(s64)timespec64_sub(val1, stats->stats_timestamps.last_reset_time).tv_sec,
-> > -	timespec64_sub(val1, stats->stats_timestamps.last_reset_time).tv_nsec,
-> > -	(s64)timespec64_sub(val1, stats->stats_timestamps.last_read_time).tv_sec,
-> > -	timespec64_sub(val1, stats->stats_timestamps.last_read_time).tv_nsec);
-> > +			 "Current time :          [%ptSp]\n"
-> > +			 "Last stats reset time:  [%ptSp]\n"
-> > +			 "Last stats read time:   [%ptSp]\n"
-> > +			 "delta since last reset: [%ptSp]\n"
-> > +			 "delta since last read:  [%ptSp]\n",
+> Thus, define usage candidates like:
 > 
-> Both delta times are printed at the end.
-> 
-> > +			 &val,
-> > +			 &stats->stats_timestamps.last_reset_time, &val1,
-> > +			 &stats->stats_timestamps.last_read_time, &val2);
-> 
-> I think that this should be:
-> 
-> 			 &stats->stats_timestamps.last_reset_time,
-> 			 &stats->stats_timestamps.last_read_time,
-> 			 &val1, &val2);
-> 
-> >  	stats->stats_timestamps.last_read_time = val1;
-> 
-> The original code stored the current time in "val1". This should be:
-> 
-> 	stats->stats_timestamps.last_read_time = val;
-> 
-> > @@ -416,8 +410,8 @@ int fnic_get_stats_data(struct stats_debug_info *debug,
-> >  	jiffies_to_timespec64(stats->misc_stats.last_ack_time, &val2);
-> 
-> Just for record. Another values are stored into @val1 and @val2 at
-> this point.
-> 
-> >  	len += scnprintf(debug->debug_buffer + len, buf_size - len,
-> > -		  "Last ISR time: %llu (%8llu.%09lu)\n"
-> > -		  "Last ACK time: %llu (%8llu.%09lu)\n"
-> > +		  "Last ISR time: %llu (%ptSp)\n"
-> > +		  "Last ACK time: %llu (%ptSp)\n"
-> >  		  "Max ISR jiffies: %llu\n"
-> >  		  "Max ISR time (ms) (0 denotes < 1 ms): %llu\n"
-> >  		  "Corr. work done: %llu\n"
-> > @@ -437,10 +431,8 @@ int fnic_get_stats_data(struct stats_debug_info *debug,
-> >  		  "Number of rport not ready: %lld\n"
-> >  		 "Number of receive frame errors: %lld\n"
-> >  		 "Port speed (in Mbps): %lld\n",
-> > -		  (u64)stats->misc_stats.last_isr_time,
-> > -		  (s64)val1.tv_sec, val1.tv_nsec,
-> > -		  (u64)stats->misc_stats.last_ack_time,
-> > -		  (s64)val2.tv_sec, val2.tv_nsec,
-> > +		  (u64)stats->misc_stats.last_isr_time, &val1,
-> > +		  (u64)stats->misc_stats.last_ack_time, &val2,
-> 
-> So, this is correct!
-> 
-> >  		  (u64)atomic64_read(&stats->misc_stats.max_isr_jiffies),
-> >  		  (u64)atomic64_read(&stats->misc_stats.max_isr_time_ms),
-> >  		  (u64)atomic64_read(&stats->misc_stats.corr_work_done),
-> 
-> 
-> Now, I think that there is no need to resend the entire huge patchset.
-> 
-> I could either fix this when comitting or commit the rest and
-> you could send only this patch for review.
+>    DEPT_PAGE_REGFILE_CACHE /* page in regular file's address_space */
+>    DEPT_PAGE_BDEV_CACHE    /* page in block device's address_space */
+>    DEPT_PAGE_DEFAULT       /* the others */
 
-Thank you for the thoroughly done review, I changed that patch between the
-versions and the problem is that for printf() specifiers (extensions) we do not
-have an automatic type checking. We starve for a GCC plugin for that, yeah...
+1. I'd like to annotate a page to DEPT_PAGE_REGFILE_CACHE when the page
+   starts to be associated with a page cache for fs data.
 
-In any case, if you fold your changes in, I will appreciate that!
-Otherwise it's also fine with me to send a patch separately later on.
+2. And I'd like to annotate a page to DEPT_PAGE_BDEV_CACHE when the page
+   starts to be associated with meta data of fs e.g. super block.
 
-> PS: All other patches look good. Well, nobody acked 7th patch yet.
->     But I think that the change is pretty straightforward and
->     we could do it even without an ack.
+3. Lastly, I'd like to reset the annotated value if any, that has been
+   set in the page, when the page ends the assoication with either page
+   cache or meta block of fs e.g. freeing the page.
 
-This is my understanding as well. It changes the output, but that output is
-debug anyway. So I don't expect breakage of anything we have an obligation
-to keep working.
+Can anyone suggest good places in code for the annotation 1, 2, 3?  It'd
+be totally appreciated. :-)
 
--- 
-With Best Regards,
-Andy Shevchenko
+	Byungchul
 
-
+> Introduce APIs to set each page's usage properly and make sure not to
+> interact between at least between DEPT_PAGE_REGFILE_CACHE and
+> DEPT_PAGE_BDEV_CACHE.  However, besides the exclusive usages, allow any
+> other combinations to interact to the other for example:
+> 
+>    PG_locked for DEPT_PAGE_DEFAULT page can wait for PG_locked for
+>    DEPT_PAGE_REGFILE_CACHE page and vice versa.
+> 
+>    PG_locked for DEPT_PAGE_DEFAULT page can wait for PG_locked for
+>    DEPT_PAGE_BDEV_CACHE page and vice versa.
+> 
+>    PG_locked for DEPT_PAGE_DEFAULT page can wait for PG_locked for
+>    DEPT_PAGE_DEFAULT page.
+> 
+> Signed-off-by: Byungchul Park <byungchul@sk.com>
+> ---
+>  include/linux/dept.h       | 31 +++++++++++++++-
+>  include/linux/mm_types.h   |  1 +
+>  include/linux/page-flags.h | 76 +++++++++++++++++++++++++++++++++++++-
+>  3 files changed, 104 insertions(+), 4 deletions(-)
+> 
+> diff --git a/include/linux/dept.h b/include/linux/dept.h
+> index 0ac13129f308..fbbc41048fac 100644
+> --- a/include/linux/dept.h
+> +++ b/include/linux/dept.h
+> @@ -21,8 +21,8 @@ struct task_struct;
+>  #define DEPT_MAX_WAIT_HIST		64
+>  #define DEPT_MAX_ECXT_HELD		48
+>  
+> -#define DEPT_MAX_SUBCLASSES		16
+> -#define DEPT_MAX_SUBCLASSES_EVT		2
+> +#define DEPT_MAX_SUBCLASSES		24
+> +#define DEPT_MAX_SUBCLASSES_EVT		3
+>  #define DEPT_MAX_SUBCLASSES_USR		(DEPT_MAX_SUBCLASSES / DEPT_MAX_SUBCLASSES_EVT)
+>  #define DEPT_MAX_SUBCLASSES_CACHE	2
+>  
+> @@ -390,6 +390,32 @@ struct dept_ext_wgen {
+>  	unsigned int wgen;
+>  };
+>  
+> +enum {
+> +	DEPT_PAGE_DEFAULT = 0,
+> +	DEPT_PAGE_REGFILE_CACHE,	/* regular file page cache */
+> +	DEPT_PAGE_BDEV_CACHE,		/* block device cache */
+> +	DEPT_PAGE_USAGE_NR,		/* nr of usages options */
+> +};
+> +
+> +#define DEPT_PAGE_USAGE_SHIFT 16
+> +#define DEPT_PAGE_USAGE_MASK ((1U << DEPT_PAGE_USAGE_SHIFT) - 1)
+> +#define DEPT_PAGE_USAGE_PENDING_MASK (DEPT_PAGE_USAGE_MASK << DEPT_PAGE_USAGE_SHIFT)
+> +
+> +/*
+> + * Identify each page's usage type
+> + */
+> +struct dept_page_usage {
+> +	/*
+> +	 * low 16 bits  : the current usage type
+> +	 * high 16 bits : usage type requested to be set
+> +	 *
+> +	 * Do not apply the type requested immediately but defer until
+> +	 * after clearing PG_locked bit of the folio or page e.g. by
+> +	 * folio_unlock().
+> +	 */
+> +	atomic_t type; /* Update and read atomically */
+> +};
+> +
+>  struct dept_event_site {
+>  	/*
+>  	 * event site name
+> @@ -562,6 +588,7 @@ extern void dept_hardirqs_off(void);
+>  struct dept_key { };
+>  struct dept_map { };
+>  struct dept_ext_wgen { };
+> +struct dept_page_usage { };
+>  struct dept_event_site { };
+>  
+>  #define DEPT_MAP_INITIALIZER(n, k) { }
+> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+> index 5ebc565309af..8ccbb030500c 100644
+> --- a/include/linux/mm_types.h
+> +++ b/include/linux/mm_types.h
+> @@ -224,6 +224,7 @@ struct page {
+>  	struct page *kmsan_shadow;
+>  	struct page *kmsan_origin;
+>  #endif
+> +	struct dept_page_usage usage;
+>  	struct dept_ext_wgen pg_locked_wgen;
+>  } _struct_page_alignment;
+>  
+> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+> index d3c4954c4218..3fd3660ddc6f 100644
+> --- a/include/linux/page-flags.h
+> +++ b/include/linux/page-flags.h
+> @@ -204,6 +204,68 @@ enum pageflags {
+>  
+>  extern struct dept_map pg_locked_map;
+>  
+> +static inline int dept_set_page_usage(struct page *p,
+> +		unsigned int new_type)
+> +{
+> +	unsigned int type = atomic_read(&p->usage.type);
+> +
+> +	if (WARN_ON_ONCE(new_type >= DEPT_PAGE_USAGE_NR))
+> +		return -1;
+> +
+> +	new_type <<= DEPT_PAGE_USAGE_SHIFT;
+> +retry:
+> +	new_type &= ~DEPT_PAGE_USAGE_MASK;
+> +	new_type |= type & DEPT_PAGE_USAGE_MASK;
+> +
+> +	if (!atomic_try_cmpxchg(&p->usage.type, &type, new_type))
+> +		goto retry;
+> +
+> +	return 0;
+> +}
+> +
+> +static inline int dept_reset_page_usage(struct page *p)
+> +{
+> +	return dept_set_page_usage(p, DEPT_PAGE_DEFAULT);
+> +}
+> +
+> +static inline void dept_update_page_usage(struct page *p)
+> +{
+> +	unsigned int type = atomic_read(&p->usage.type);
+> +	unsigned int new_type;
+> +
+> +retry:
+> +	new_type = type & DEPT_PAGE_USAGE_PENDING_MASK;
+> +	new_type >>= DEPT_PAGE_USAGE_SHIFT;
+> +	new_type |= type & DEPT_PAGE_USAGE_PENDING_MASK;
+> +
+> +	/*
+> +	 * Already updated by others.
+> +	 */
+> +	if (type == new_type)
+> +		return;
+> +
+> +	if (!atomic_try_cmpxchg(&p->usage.type, &type, new_type))
+> +		goto retry;
+> +}
+> +
+> +static inline unsigned long dept_event_flags(struct page *p, bool wait)
+> +{
+> +	unsigned int type;
+> +
+> +	type = atomic_read(&p->usage.type) & DEPT_PAGE_USAGE_MASK;
+> +
+> +	if (WARN_ON_ONCE(type >= DEPT_PAGE_USAGE_NR))
+> +		return 0;
+> +
+> +	/*
+> +	 * event
+> +	 */
+> +	if (!wait)
+> +		return 1UL << type;
+> +
+> +	return (1UL << DEPT_PAGE_DEFAULT) | (1UL << type);
+> +}
+> +
+>  /*
+>   * Place the following annotations in its suitable point in code:
+>   *
+> @@ -214,20 +276,28 @@ extern struct dept_map pg_locked_map;
+>  
+>  static inline void dept_page_set_bit(struct page *p, int bit_nr)
+>  {
+> +	dept_update_page_usage(p);
+>  	if (bit_nr == PG_locked)
+>  		dept_request_event(&pg_locked_map, &p->pg_locked_wgen);
+>  }
+>  
+>  static inline void dept_page_clear_bit(struct page *p, int bit_nr)
+>  {
+> +	unsigned long evt_f;
+> +
+> +	evt_f = dept_event_flags(p, false);
+>  	if (bit_nr == PG_locked)
+> -		dept_event(&pg_locked_map, 1UL, _RET_IP_, __func__, &p->pg_locked_wgen);
+> +		dept_event(&pg_locked_map, evt_f, _RET_IP_, __func__, &p->pg_locked_wgen);
+>  }
+>  
+>  static inline void dept_page_wait_on_bit(struct page *p, int bit_nr)
+>  {
+> +	unsigned long evt_f;
+> +
+> +	dept_update_page_usage(p);
+> +	evt_f = dept_event_flags(p, true);
+>  	if (bit_nr == PG_locked)
+> -		dept_wait(&pg_locked_map, 1UL, _RET_IP_, __func__, 0, -1L);
+> +		dept_wait(&pg_locked_map, evt_f, _RET_IP_, __func__, 0, -1L);
+>  }
+>  
+>  static inline void dept_folio_set_bit(struct folio *f, int bit_nr)
+> @@ -245,6 +315,8 @@ static inline void dept_folio_wait_on_bit(struct folio *f, int bit_nr)
+>  	dept_page_wait_on_bit(&f->page, bit_nr);
+>  }
+>  #else
+> +#define dept_set_page_usage(p, t)		do { } while (0)
+> +#define dept_reset_page_usage(p)		do { } while (0)
+>  #define dept_page_set_bit(p, bit_nr)		do { } while (0)
+>  #define dept_page_clear_bit(p, bit_nr)		do { } while (0)
+>  #define dept_page_wait_on_bit(p, bit_nr)	do { } while (0)
+> -- 
+> 2.17.1
 
