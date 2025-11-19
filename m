@@ -1,59 +1,64 @@
-Return-Path: <linux-media+bounces-47341-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47342-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28250C6CB9B
-	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 05:26:27 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E948C6CBA7
+	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 05:27:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 5468E4F41B6
-	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 04:23:31 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id E5B84380A7D
+	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 04:25:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE5EA2FDC41;
-	Wed, 19 Nov 2025 04:22:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26DE32F7ABE;
+	Wed, 19 Nov 2025 04:23:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NHfC3EVr"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qusI2sob"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAA7F4503B;
-	Wed, 19 Nov 2025 04:22:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B6DD2F5A3C;
+	Wed, 19 Nov 2025 04:23:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763526153; cv=none; b=YbR48SqQf/jpTJege4y4Zwr1UNWGXctivrAC4E42W8BBkek8w6JvrLCtQkPLzqiA7W8DnenTQ0AleydNMQNoyCHMkVx6Tx3/N6nHV23DnSVUBEQNOyPvZ3fmIYFe4j21kEqRHimpNrckNFLeUaNHx2bg23ecCnB4MuM8iq2/jMw=
+	t=1763526207; cv=none; b=DW0nzBCzooI4/ZNqQ81QYtyp2FSgoovvDonW4LDAlpvmzkpWNAlLt15jxtIlhDTMuAiBYB409vG1T+n0Z2mrHDH9EvoSCoe31yf+ln82KNfZII7e/k8XVtvLEKYKNYy2dgu8QOkIBDguUhNFpcBsS+jfEaCBmRvxfmu9Klsl2ZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763526153; c=relaxed/simple;
-	bh=qp03+Oj8VKIgjXFNghRslYZhVH+RPCBxKwdWf3+U5QQ=;
+	s=arc-20240116; t=1763526207; c=relaxed/simple;
+	bh=9Ebh3zjHTAH1FvI3YKXROgZAf1jvykzloaAHjJr46O8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iOaK6nW5T8UTXo92cB2MMB+mNcjxFuBAoyJZemdQ+7ADSqpeg0L6P0vyOf8W4oIfI1epKT6fZLcaLh2Jr6+v5XBO0G7xiGC7EuptzmoeQcs3KHUyWUrjaN0cb9VHFpCxSQy0kTdeXvzQKzA1wwDFO+4/zIzoPn8UmArNO8O5nxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=NHfC3EVr; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=XPog4ialWhkTyQy8fleKz3838G+VrcBQpL1ggJ7O1EEXstlUfWC2DXV4FPQocNquhFy1mV2/2VqibjsryBQAJzuWLSUlaOsxiJ7RaLRQBJ/QOOhEuQiPwv1XYdX/6S1xArX3nNkuwPvC1N6trDYod3UuzyZboNSyQ7OezNXFO3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qusI2sob; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (unknown [205.220.129.225])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 713B3195E;
-	Wed, 19 Nov 2025 05:20:23 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 201FBDD9;
+	Wed, 19 Nov 2025 05:21:15 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1763526026;
-	bh=qp03+Oj8VKIgjXFNghRslYZhVH+RPCBxKwdWf3+U5QQ=;
+	s=mail; t=1763526080;
+	bh=9Ebh3zjHTAH1FvI3YKXROgZAf1jvykzloaAHjJr46O8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NHfC3EVrYvRNq9BXJK9JzqXl6Q4SLboihpNHIWWL58pEWZkxLLAJOJSyOpShY71dy
-	 kBCptYTwML4nFE0HxT0XEmuyEhAhAtULg/9cR9effChZEDR+qlnSpZo8wXMfh9czwr
-	 0SRndtgl+rCzUFHiO2CD0DfeWNl4EA/bt7+8KtsI=
-Date: Wed, 19 Nov 2025 13:21:56 +0900
+	b=qusI2sobNHdWWnh8sMcryOCL2C4GuA7ZNMA2V4K3VjcSQcoFvxFBu9oQY2TC+XV4p
+	 6vGPlNhJfqF7H7ylrC/s2/o9ZxtC8bwD6guU4F9fPa3m4WCejvFGQnhLAqOTJXRW4Z
+	 p0k9A0maYxCmvwAHu198LboCfncOSkS1UvOwWU8E=
+Date: Wed, 19 Nov 2025 13:22:47 +0900
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Hans de Goede <hansg@kernel.org>,
+To: Frank Li <Frank.Li@nxp.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH 3/4] media: uvcvideo: Announce deprecation intentions for
- UVCIOC_CTRL_MAP
-Message-ID: <20251119042156.GK10711@pendragon.ideasonboard.com>
-References: <20251117-uvcdynctrl-v1-0-aed70eadf3d8@chromium.org>
- <20251117-uvcdynctrl-v1-3-aed70eadf3d8@chromium.org>
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Martin Kepplinger-Novakovic <martink@posteo.de>,
+	Purism Kernel Team <kernel@puri.sm>, linux-media@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/4] media: nxp: use devm_mutex_init() simple code
+Message-ID: <20251119042247.GL10711@pendragon.ideasonboard.com>
+References: <20251117-cam_cleanup-v1-0-6cd42872db79@nxp.com>
+ <20251117-cam_cleanup-v1-1-6cd42872db79@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -62,63 +67,124 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251117-uvcdynctrl-v1-3-aed70eadf3d8@chromium.org>
+In-Reply-To: <20251117-cam_cleanup-v1-1-6cd42872db79@nxp.com>
 
-Hi Ricardo,
+Hi Frank,
 
 Thank you for the patch.
 
-On Mon, Nov 17, 2025 at 08:14:18PM +0000, Ricardo Ribalda wrote:
-> The UVCIOC_CTRL_MAP lets userspace create a mapping for a custom
-> control.
+On Mon, Nov 17, 2025 at 01:58:11PM -0500, Frank Li wrote:
+> Use devm_mutex_init() simple code. No functional change.
 > 
-> This mapping is usually created by the uvcdynctrl userspace utility. We
-> would like to get the mappings into the driver instead.
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
 > ---
->  Documentation/userspace-api/media/drivers/uvcvideo.rst | 2 ++
->  drivers/media/usb/uvc/uvc_v4l2.c                       | 4 ++++
->  2 files changed, 6 insertions(+)
+>  drivers/media/platform/nxp/imx-pxp.c          |  5 ++++-
+>  drivers/media/platform/nxp/imx8mq-mipi-csi2.c | 11 +++++------
+>  drivers/media/platform/nxp/mx2_emmaprp.c      |  7 +++----
+>  3 files changed, 12 insertions(+), 11 deletions(-)
+
+Given the diffstat, and the fact that devm_mutex_init() performs dynamic
+memory allocation, I'm not convinced by this change. I won't block it
+though, as I don't maintain the above drivers.
+
 > 
-> diff --git a/Documentation/userspace-api/media/drivers/uvcvideo.rst b/Documentation/userspace-api/media/drivers/uvcvideo.rst
-> index dbb30ad389ae4d53bc734b4269ebea20ecdd7535..b09d2f8ba66ecde67f1e35fd77858a505ad44eb1 100644
-> --- a/Documentation/userspace-api/media/drivers/uvcvideo.rst
-> +++ b/Documentation/userspace-api/media/drivers/uvcvideo.rst
-> @@ -109,6 +109,8 @@ IOCTL reference
->  UVCIOC_CTRL_MAP - Map a UVC control to a V4L2 control
->  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> diff --git a/drivers/media/platform/nxp/imx-pxp.c b/drivers/media/platform/nxp/imx-pxp.c
+> index 3f9a67a6bd4d268841f85f9b69af03138300d188..32d39c8013c7eef1f9629f971cc74afecd463ac7 100644
+> --- a/drivers/media/platform/nxp/imx-pxp.c
+> +++ b/drivers/media/platform/nxp/imx-pxp.c
+> @@ -1805,6 +1805,10 @@ static int pxp_probe(struct platform_device *pdev)
 >  
-> +**This IOCTL is deprecated and will be eventually removed**
+>  	spin_lock_init(&dev->irqlock);
+>  
+> +	ret = devm_mutex_init(&pdev->dev, &dev->dev_mutex);
+> +	if (ret)
+> +		return ret;
 > +
->  Argument: struct uvc_xu_control_mapping
+>  	ret = devm_request_irq(&pdev->dev, irq, pxp_irq_handler, 0,
+>  			       dev_name(&pdev->dev), dev);
+>  	if (ret < 0) {
+> @@ -1831,7 +1835,6 @@ static int pxp_probe(struct platform_device *pdev)
+>  		goto err_clk;
 >  
->  **Description**:
-> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> index 9e4a251eca88085a1b4e0e854370015855be92ee..03c64b5698bf4331fed8437fa6e9c726a07450bd 100644
-> --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> @@ -1044,6 +1044,8 @@ static long uvc_ioctl_default(struct file *file, void *priv, bool valid_prio,
->  	switch (cmd) {
->  	/* Dynamic controls. */
->  	case UVCIOC_CTRL_MAP:
-> +		pr_warn_once("uvcvideo: " DEPRECATED
-> +			     "UVCIOC_CTRL_MAP ioctl will be eventually removed.\n");
->  		return uvc_ioctl_xu_ctrl_map(chain, arg);
+>  	atomic_set(&dev->num_inst, 0);
+> -	mutex_init(&dev->dev_mutex);
 >  
->  	case UVCIOC_CTRL_QUERY:
-> @@ -1158,6 +1160,8 @@ static long uvc_v4l2_compat_ioctl32(struct file *file,
+>  	dev->vfd = pxp_videodev;
+>  	vfd = &dev->vfd;
+> diff --git a/drivers/media/platform/nxp/imx8mq-mipi-csi2.c b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
+> index 371b4e81328c107269f89da23818ab0abd0179da..0851f4a9ae52d3096f454da643cfdc5017e000b1 100644
+> --- a/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
+> +++ b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
+> @@ -1033,15 +1033,17 @@ static int imx8mq_mipi_csi_probe(struct platform_device *pdev)
 >  
->  	switch (cmd) {
->  	case UVCIOC_CTRL_MAP32:
-> +		pr_warn_once("uvcvideo: " DEPRECATED
-> +			     "UVCIOC_CTRL_MAP32 ioctl will be eventually removed.\n");
->  		ret = uvc_v4l2_get_xu_mapping(&karg.xmap, up);
->  		if (ret)
->  			break;
+>  	platform_set_drvdata(pdev, &state->sd);
+>  
+> -	mutex_init(&state->lock);
+> +	ret = devm_mutex_init(dev, &state->lock);
+> +	if (ret)
+> +		return ret;
+>  
+>  	ret = imx8mq_mipi_csi_subdev_init(state);
+>  	if (ret < 0)
+> -		goto mutex;
+> +		return ret;
+>  
+>  	ret = imx8mq_mipi_csi_init_icc(pdev);
+>  	if (ret)
+> -		goto mutex;
+> +		return ret;
+>  
+>  	/* Enable runtime PM. */
+>  	pm_runtime_enable(dev);
+> @@ -1068,8 +1070,6 @@ static int imx8mq_mipi_csi_probe(struct platform_device *pdev)
+>  	v4l2_async_unregister_subdev(&state->sd);
+>  icc:
+>  	imx8mq_mipi_csi_release_icc(pdev);
+> -mutex:
+> -	mutex_destroy(&state->lock);
+>  
+>  	return ret;
+>  }
+> @@ -1087,7 +1087,6 @@ static void imx8mq_mipi_csi_remove(struct platform_device *pdev)
+>  	imx8mq_mipi_csi_runtime_suspend(&pdev->dev);
+>  	media_entity_cleanup(&state->sd.entity);
+>  	v4l2_subdev_cleanup(&state->sd);
+> -	mutex_destroy(&state->lock);
+>  	pm_runtime_set_suspended(&pdev->dev);
+>  	imx8mq_mipi_csi_release_icc(pdev);
+>  }
+> diff --git a/drivers/media/platform/nxp/mx2_emmaprp.c b/drivers/media/platform/nxp/mx2_emmaprp.c
+> index 02d57229b9b3a600303cc0429e102139385071d6..384a2672884e96d17cca542ef51fbef62328b66a 100644
+> --- a/drivers/media/platform/nxp/mx2_emmaprp.c
+> +++ b/drivers/media/platform/nxp/mx2_emmaprp.c
+> @@ -824,7 +824,9 @@ static int emmaprp_probe(struct platform_device *pdev)
+>  	if (ret)
+>  		return ret;
+>  
+> -	mutex_init(&pcdev->dev_mutex);
+> +	ret = devm_mutex_init(&pdev->dev, &pcdev->dev_mutex);
+> +	if (ret)
+> +		return ret;
+>  
+>  	vfd = video_device_alloc();
+>  	if (!vfd) {
+> @@ -878,8 +880,6 @@ static int emmaprp_probe(struct platform_device *pdev)
+>  unreg_dev:
+>  	v4l2_device_unregister(&pcdev->v4l2_dev);
+>  
+> -	mutex_destroy(&pcdev->dev_mutex);
+> -
+>  	return ret;
+>  }
+>  
+> @@ -892,7 +892,6 @@ static void emmaprp_remove(struct platform_device *pdev)
+>  	video_unregister_device(pcdev->vfd);
+>  	v4l2_m2m_release(pcdev->m2m_dev);
+>  	v4l2_device_unregister(&pcdev->v4l2_dev);
+> -	mutex_destroy(&pcdev->dev_mutex);
+>  }
+>  
+>  static struct platform_driver emmaprp_pdrv = {
 
 -- 
 Regards,
