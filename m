@@ -1,105 +1,112 @@
-Return-Path: <linux-media+bounces-47392-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47397-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89480C70310
-	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 17:46:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2780EC70385
+	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 17:51:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id C6A0A3A697A
-	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 16:29:41 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 4460634ACC5
+	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 16:36:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38FF136A03E;
-	Wed, 19 Nov 2025 16:26:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17F6E36829D;
+	Wed, 19 Nov 2025 16:33:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mafG8ZOF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44F372E1C7B
-	for <linux-media@vger.kernel.org>; Wed, 19 Nov 2025 16:26:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 530EE366DAF;
+	Wed, 19 Nov 2025 16:33:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763569568; cv=none; b=LIWPxGjEb85BT9E/1hRpAhlS7aPhHz2RDoEW7nKxZ/uLO9+Noc0Lv2SktEXEsKdMJBSUKVifCcxKQmvuv6T73K0zOK5ntX4T4kGdCQlzBrK2ehj9UGjjvJ89Hz7DLc2As08rq0OdMbFOMDsmiGrYMK90QEtwQxrGkwiYM07GFP8=
+	t=1763570012; cv=none; b=U51JieKwrHARvUpu+V6rWx7tBOASc8FMgAWfzbfKWCIvx3z8QEpGBDCN9PyZS0W3jWsOtV8bYkskPRvbsb3MtLMve5VpK/XcO1ibYF+qqH5cURaHVNt43rqCO9K/O0XlHwunFa6xL/Qso1J2nZlz0oeKQzInhZuH+VzFaoE3Gxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763569568; c=relaxed/simple;
-	bh=bDLakZJbNpmsQ/KMi5TAH8fXyFj4xdHUXOD13Ia8x7k=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=vCReoEbkjAfiUeT3rn7jM/0QNuxu9w/RSrcB2CnVIAcwKmOZEPFmGL2SW+1rk5kjoeR3AhvfafmhnJv6YoVGIqZRttb9orPqmtpmRix3rOdtGB38KnzTCNqTyOYjgw/1QgIyuOVvN31zkSh3Ez73QQ/n98Q96Lfw63eoFpsUtLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <m.tretter@pengutronix.de>)
-	id 1vLl0L-0000aE-Ah; Wed, 19 Nov 2025 17:26:01 +0100
-From: Michael Tretter <m.tretter@pengutronix.de>
-Date: Wed, 19 Nov 2025 17:25:54 +0100
-Subject: [PATCH v2 4/4] media: adv7180: fix frame interval in progressive
- mode
+	s=arc-20240116; t=1763570012; c=relaxed/simple;
+	bh=SQB43V1lcm01gCfrVBWXeZWkfWYzDLNLnZu9KWeWJcg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mWVcMbYRgRQ0OxvJt5Q2L1zzYl59np6SjBhwVxDw4WjuLxelLFVtRQzu3BbLVx0QMpzBE5Jc/EFv6pZgX+iBz1EzJhZqFRn6l+x4dAck7hnLLnG3J0Um6sX6K/qia/WLgO0SiV6gevGzh6cfZLjbc2PpuMeiTKWSqO6xFAIFIgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mafG8ZOF; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48D05C116B1;
+	Wed, 19 Nov 2025 16:33:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763570012;
+	bh=SQB43V1lcm01gCfrVBWXeZWkfWYzDLNLnZu9KWeWJcg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mafG8ZOF8WzHpM0Ap0HV10HNQ+V26iii16RmNEh8xlVGt/3Fyif1MM/ooh0K/pfIz
+	 szK/RWtsKgEJUAwJCF4Ei2amklh14ZMnM9irxppUQrCUJkvt/EZVFJcbPn28NcqEGY
+	 H5mQcoOTZFTUtioKEvXhb//Hd+eC/e25r6Py2bHgQa/vmQ3b9ezpxZIBWcXV9ncmwt
+	 7e2asxChIzWsMtQIBzyz1HCL0UngdmumU3R+J6sfLJMWs0oS7ZF4iSIBsph8VRgCK0
+	 +t4iS375piSkus/kTsSOX82JCK0IrwbeeJvL9xKC8TF2BvGIttU+8sQ9kfioC2gTlg
+	 KCxDuQf1gZvsw==
+Date: Wed, 19 Nov 2025 18:33:26 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>, Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <skolothumtho@nvidia.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, iommu@lists.linux.dev,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
+	linux-hardening@vger.kernel.org, Alex Mastro <amastro@fb.com>,
+	Nicolin Chen <nicolinc@nvidia.com>
+Subject: Re: [Linaro-mm-sig] [PATCH v8 06/11] dma-buf: provide phys_vec to
+ scatter-gather mapping routine
+Message-ID: <20251119163326.GL18335@unreal>
+References: <20251111-dmabuf-vfio-v8-0-fd9aa5df478f@nvidia.com>
+ <20251111-dmabuf-vfio-v8-6-fd9aa5df478f@nvidia.com>
+ <8a11b605-6ac7-48ac-8f27-22df7072e4ad@amd.com>
+ <20251119134245.GD18335@unreal>
+ <6714dc49-6b5c-4d58-9a43-95bb95873a97@amd.com>
+ <20251119145007.GJ18335@unreal>
+ <26d7ecab-33ed-4aab-82d5-954b0d1d1718@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251119-b4-adv7180-vpp-sub-device-v2-4-86a7790b63ab@pengutronix.de>
-References: <20251119-b4-adv7180-vpp-sub-device-v2-0-86a7790b63ab@pengutronix.de>
-In-Reply-To: <20251119-b4-adv7180-vpp-sub-device-v2-0-86a7790b63ab@pengutronix.de>
-To: Lars-Peter Clausen <lars@metafoo.de>, 
- =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
- kernel@pengutronix.de, Michael Tretter <m.tretter@pengutronix.de>, 
- Thorsten Schmelzer <tschmelzer@topcon.com>
-X-Mailer: b4 0.14.3
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::54
-X-SA-Exim-Mail-From: m.tretter@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <26d7ecab-33ed-4aab-82d5-954b0d1d1718@amd.com>
 
-From: Thorsten Schmelzer <tschmelzer@topcon.com>
+On Wed, Nov 19, 2025 at 03:53:30PM +0100, Christian König wrote:
 
-The ADV7280-M may internally convert interlaced video input to
-progressive video. If this mode is enabled, the ADV7280-M delivers
-progressive video frames at the field rate of 50 fields per second (PAL)
-or 60 fields per second (NTSC).
+<...>
 
-Fix the reported frame interval if progressive video is enabled.
+> >>>>> +struct sg_table *dma_buf_map(struct dma_buf_attachment *attach,
+> >>>>
+> >>>> That is clearly not a good name for this function. We already have overloaded the term *mapping* with something completely different.
+> >>>
+> >>> This function performs DMA mapping, so what name do you suggest instead of dma_buf_map()?
+> >>
+> >> Something like dma_buf_phys_vec_to_sg_table(). I'm not good at naming either.
+> > 
+> > Can I call it simply dma_buf_mapping() as I plan to put that function in dma_buf_mapping.c
+> > file per-your request.
+> 
+> No, just completely drop the term "mapping" here. This is about phys_vector to sg_table conversion and nothing else.
 
-Signed-off-by: Thorsten Schmelzer <tschmelzer@topcon.com>
-Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
----
-Changes in v2:
-- Simplify and document calculation of frame interval
----
- drivers/media/i2c/adv7180.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+In order to progress, I renamed these functions to be
+dma_buf_phys_vec_to_sgt() and dma_buf_free_sgt(), and put everything in dma_buf_mapping.c file.
 
-diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
-index d289cbc2eefd..669b0b3165b1 100644
---- a/drivers/media/i2c/adv7180.c
-+++ b/drivers/media/i2c/adv7180.c
-@@ -507,6 +507,13 @@ static int adv7180_get_frame_interval(struct v4l2_subdev *sd,
- 		fi->interval.denominator = 25;
- 	}
- 
-+	/*
-+	 * If the de-interlacer is active, the chip produces full video frames
-+	 * at the field rate.
-+	 */
-+	if (state->field == V4L2_FIELD_NONE)
-+		fi->interval.denominator *= 2;
-+
- 	return 0;
- }
- 
-
--- 
-2.47.3
-
+Thanks
 
