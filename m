@@ -1,449 +1,321 @@
-Return-Path: <linux-media+bounces-47387-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47388-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 049FAC6FA5D
-	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 16:27:50 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F50CC6FC7F
+	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 16:50:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2417B4EBD8E
-	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 15:18:38 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B76514F0076
+	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 15:41:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9040D35F8C2;
-	Wed, 19 Nov 2025 15:18:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE0932E8B64;
+	Wed, 19 Nov 2025 15:41:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="kLkMlwbN";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="b0QnkxF9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QZA36zm5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 130C435F8B3
-	for <linux-media@vger.kernel.org>; Wed, 19 Nov 2025 15:18:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01B24285CB6;
+	Wed, 19 Nov 2025 15:41:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763565510; cv=none; b=E6VtCUe5+OzX3r2j+oqsHXJsyNQlqe+uVsVsVdURB6Am2840S3Pdtdyf0X2oJg9dtq3Qx0p1dXPDk1YKKODO8TfiSpHfkA9gba9WbJ3NyvyNdyoIDUBkn+zQBmS7xJn5CMzSv0n3hBobzd0c0FNQcaC2DGOO9/Y+oe8nWzRe6K8=
+	t=1763566876; cv=none; b=InXmhKLKDbK/aW/YX5c3FR6NY1XmgQxSA2KSvdmNUs4wVT36fKCz/mRBRkAB86iJon2df1sWl0lu7WNjtb1OfsTrysqgvrsKACMQYuQZ67Lu3CjDvYFXrVQX7aylS2Fx+x2s8uKpdb9nrpTia+/2APWmT1gI4b7AI42KYn2cPkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763565510; c=relaxed/simple;
-	bh=oT/OGsLGkkaC9y1rpQ0CnW+mlxwNKO7XakWCsqK6Ll0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=jy9DCH8mUr8gnDdVULKIBZWBfATY4TGXjNvIeVmhB82i0pZqYz1abrUpT4p/4TqV7HCLKo86Oom+8tufCWL9KZkKx4TOOVI7T4sQ7VEqMNzAGV7cf0RuQXAx4NnEpnOk3JeCaOtcLT43b8seH6MbaSwpZJg0cnOOuhHQtqIi9IQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=kLkMlwbN; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=b0QnkxF9; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AJA0kds3165017
-	for <linux-media@vger.kernel.org>; Wed, 19 Nov 2025 15:18:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=QWpVCTGHK/nWhxNcrupPpc
-	wrgXCNo8eFhd/F3+L/MnE=; b=kLkMlwbNLR7mpze3WOA0K3gF/S6YZgfJBqPYxi
-	ddVBIKHviyHAvNRqRwDpRmcIC6D5jJm5bDjo/sSqt+8MVbA9x20qZs0xai1uT02F
-	yLidNfPOkGNkppKEC4gTUY6HblA3Lnu0Ik6votSIIfAzAXuYmxFFI+nzc/FLu4NC
-	TFbdjbDM4o+k8YIeK71TFHmjjqajd+d5cAV/O6c5ing1oXvO5gIj1jA2jZ3RHUAd
-	4ErcnqfK9bc7JDAcXHnTUnN3UA4k++01pwJlt2MQkpjGDpvA/3jNRh40n3yIGg/H
-	x4eCYML4D0MFtFludsXPMoHKrGBGIXOTXSQzTLziDx8RwlSA==
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com [209.85.221.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4agvqgumdx-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 19 Nov 2025 15:18:28 +0000 (GMT)
-Received: by mail-vk1-f198.google.com with SMTP id 71dfb90a1353d-559549c0edbso16481601e0c.3
-        for <linux-media@vger.kernel.org>; Wed, 19 Nov 2025 07:18:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1763565506; x=1764170306; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QWpVCTGHK/nWhxNcrupPpcwrgXCNo8eFhd/F3+L/MnE=;
-        b=b0QnkxF9qTOr9zEEdco0QeKGHuSxBfLm1cuwerWoqjTnGQojbTsXTDCJ6/ALE7SCdR
-         Yp8GOoUDSWuajBgr6iu2t1ZYjPL6D8Oxjf9eRmPVHjLxn8VZkZSvsId8aEEdbfA1c6n+
-         nxys95E0YcfMN5BEYoqeNPx/O7LGZHvgn+2PbnAL0m+oE8PxKK3EhmSHrbPR08LtlVEO
-         Pq14JKDYufOfJFHFrkUl5Ut2gSVQbfGV785gqqs3koMo9mNbpDVKP/BHzMnj13vSqdmA
-         Q+hU4hhOczDdP6S5YXGpqp9T2gASbDidZMt7GPcj5xQrTLJqaxWdTjYOBhd13cVbjj5Z
-         Ra2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763565506; x=1764170306;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QWpVCTGHK/nWhxNcrupPpcwrgXCNo8eFhd/F3+L/MnE=;
-        b=amF/h7HK50ZUDnKkJLJVZ0QY7WLFpynBUQ3S3044IAGUAstVRjpceFEmCu2Ew/E7Gw
-         vcs5ZQRt2fLEE/HDhymfOU7+IhGLw+vwba4/zWPznqGJpCMePgpAyjajKAAKnvLUAJAb
-         QbU2yawephAkrRMfBqGgs3s/sOhh08T1Y7r2H6TWY3uU353XKZRLa04Wh/Le4xLiRC6F
-         TTZ4g3aS0cIBbRGCHoNTqS1M2ttSMUvgdmPdOOEbQjjcieLkNAuGFZnPvWQrpc8SSkl2
-         gHkip1CzcoDqZPXf1bENY9LPvR6ikIF9xeOmGD+0f3vF2CB5hCb+Xpnw/i4VeP8F90nS
-         Jh3A==
-X-Gm-Message-State: AOJu0YxAkzJeHpG96t2GDryUgMvLipqSTKMCWMqx2k3vouP7GQ1BcjLY
-	261jIN0VPkbDXaw0QSin+n9Kfd2bbqJkR8JruWkywf/GUqvu7sVqkaQy2bzt1LTzVrT+OwVVMWV
-	CFsueXS/joshylcyWiN0vkVHjvbhUmxWSwwwlk2/43JJsgZT4K1HBW5yijItYpAUmGw==
-X-Gm-Gg: ASbGncsJMhLpsVK/JyDj33IBGhfmBGwx879LVxX/yqBD9S1DudzuRBP75dQUn8+OWAr
-	xyhjGia7P31GKhl++wk0FudYPNqoqhb+7yPsZHXhlRVymlxcPei5Q//uAr1ITimeS+YsgCkKx12
-	PLF8ZROdcC2QI262B8pBXQNt9C+xG4hl5FIeLCWQYy+olgBvao3yRjrbLYzn0GfDVULqrPYxm8h
-	1LG/SWgkgWzgV9Y52mpF58odVjUzBUNJT6DvQy0kj4l4bf8UwOadbpjaFk3Vm3aKtHyfl1Tc7k1
-	zYUTcxSbPZNCZtlKGW736Y59QYh+tN3Y0i0LToMZPpsvZld9McanENzeQWvO2sTaxVFlX1VfY0U
-	j+HUGad7ycZfVaZGrc5mqLjN5mX6ajtwuw0m0YzH6rxZPow1ivorkpG5w/GNVAhYbwvQ+6ncp1i
-	ieRwjo4GZsz6cnGpocS5e84iI=
-X-Received: by 2002:a05:6122:468c:b0:559:3d91:5f2d with SMTP id 71dfb90a1353d-55b1bdd9cbemr7509418e0c.9.1763565506390;
-        Wed, 19 Nov 2025 07:18:26 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFrzSvMoZK6a91l2N+ixDVeYYxB+S4Ir+MztWmRPr7NJWvaFhCcmhL7vXHQNFOaA3VmUOH3qg==
-X-Received: by 2002:a05:6122:468c:b0:559:3d91:5f2d with SMTP id 71dfb90a1353d-55b1bdd9cbemr7509177e0c.9.1763565504126;
-        Wed, 19 Nov 2025 07:18:24 -0800 (PST)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5958040576csm4737494e87.88.2025.11.19.07.18.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 07:18:23 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Wed, 19 Nov 2025 17:18:18 +0200
-Subject: [PATCH] media: qcom: venus: flip the venus/iris switch
+	s=arc-20240116; t=1763566876; c=relaxed/simple;
+	bh=+tu5xEE2csr5lj4QfalL/akMO0Iwzk3kuQR0JJgfkqQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZW/os156ObB8wxAnA/7S1DtH9xEoiwkyEtRC34ghemRQXpx3IjdFkcsUE4ulLgN+eOB4ohWh7DgKyeRN63SeJDpaURtOWqr3wXBPdRQWm9m/or9NuThWuqKMmwvap0dbYTNLnut8GCsOSZHGEZMkA4198FmxCjF6DvMvb5TGHo8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QZA36zm5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B957C2BCB2;
+	Wed, 19 Nov 2025 15:41:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763566873;
+	bh=+tu5xEE2csr5lj4QfalL/akMO0Iwzk3kuQR0JJgfkqQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QZA36zm5JLd7o0QBgL/m337GXPzMm86iJP+sqGrJjj1yhmQahzCnAAdePGwI0czJ9
+	 rt4OUD/ZwcM93t/K+PUcYG/mPoxd3i5GXITekoSzYkf+zK+1puSkDtnkTCfXWs++0m
+	 M9zKcwUgAkxFOEXC/RFEX/wz1Iq7Syn6vdULPDfvt40zK7+wJ2eDruSfFEgrILevfv
+	 d1Sb/+sY9emGTM3ScYXG3ovMIORPEms7/vnPk+lNN/iOHrUpZto2zHikmZMZUuTeXw
+	 q5uBEXiMRpmdS+1CbaUYpBm+Kas3khufe9slupFE9daJ6PwQfcbycL8K+e+GM1qvBy
+	 uhz+0UV4rK9dw==
+Date: Wed, 19 Nov 2025 17:41:08 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>, Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <skolothumtho@nvidia.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, iommu@lists.linux.dev,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
+	linux-hardening@vger.kernel.org, Alex Mastro <amastro@fb.com>,
+	Nicolin Chen <nicolinc@nvidia.com>
+Subject: Re: [Linaro-mm-sig] [PATCH v8 06/11] dma-buf: provide phys_vec to
+ scatter-gather mapping routine
+Message-ID: <20251119154108.GK18335@unreal>
+References: <20251111-dmabuf-vfio-v8-0-fd9aa5df478f@nvidia.com>
+ <20251111-dmabuf-vfio-v8-6-fd9aa5df478f@nvidia.com>
+ <8a11b605-6ac7-48ac-8f27-22df7072e4ad@amd.com>
+ <20251119134245.GD18335@unreal>
+ <6714dc49-6b5c-4d58-9a43-95bb95873a97@amd.com>
+ <20251119145007.GJ18335@unreal>
+ <26d7ecab-33ed-4aab-82d5-954b0d1d1718@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251119-venus-iris-flip-switch-v1-1-852369f66e36@oss.qualcomm.com>
-X-B4-Tracking: v=1; b=H4sIALnfHWkC/x3MSwqEMBBF0a1IjS3o+GnQrYiDGCvtgyZKyh+Ie
- zc4PIN7L1KJEKU2uyjKDsUcEkyekZts+AljTKbiU9TGmIZ3CZsyIpT9HwvrgdVNPNaNLf3gvrY
- aKMVLFI/zHXf9fT9U31tXaAAAAA==
-X-Change-ID: 20251119-venus-iris-flip-switch-d59a3fbc6a4b
-To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=12279;
- i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=oT/OGsLGkkaC9y1rpQ0CnW+mlxwNKO7XakWCsqK6Ll0=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBpHd++59fi+BhOOfaH0grHWAph7b4EwgQEVELTR
- oGVDTnhJv6JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaR3fvgAKCRCLPIo+Aiko
- 1bw0CACDYGsybwDuP0q+AmUYR1ayMUY4US8fhKeKSzHCpzPaIU9pN5AfPffEpaZ1UpP1Z5zEUdc
- k6PZ+sr+yXyEcDBhncdQqEz+D8dGsrqrkz1+gmBSY3Pjw6YkgdjIP6bASFDPlxGKqPWt6PC2NBu
- rY0WzoSfjkm7VfdkJopdrfjc0uQ14l4oWcDJHJP5aa4SiJkOWQMOSGjSiEKfi80syej1Q0QrhD9
- 3HB6dUipqZXjRgw2c3+9KnwNjFmdQnWrh9wEg8iQvwEc4RbiWEkOu0xl7lTqQ0WgWnxCVUe+27b
- d3bxwducr/KyDZor083Hr+Yht69AlrY+cswZN7CZXmJZNoCa
-X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Proofpoint-ORIG-GUID: 6-jt3HtBNJUZ1xFxHFXb6uox8FAiM60Q
-X-Proofpoint-GUID: 6-jt3HtBNJUZ1xFxHFXb6uox8FAiM60Q
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE5MDEyMiBTYWx0ZWRfX1sehtPs30kKF
- EiD/FvyhYFM5o+SxWqXztc7D54p+jKAuEmlIpTXBUHrCtl9IUbbCX2q6MZiOPNZWDgsXr9Jy2yQ
- 0alTDk6HdvSzoH4rcPiOBLfinuEjuVmxZ+JF0Hgiji79dMX81N1a1V4WDa5Ww09y8VOMGc6qmYJ
- wXt6WmU+vOkp8TGwodsgh/nthku9YWJFf/yRr0ZGHfmNhFO2wFIO3h7Pv2dn8Wn3P5lJUM2JLkM
- 3SvYlw01loIZu773q0CopJuYnbMVITCIdTDZDP/nQYUNRfkoTFDAFoHxCMy9KjEQFoh48S7aen9
- gdJBA1P2yKvzb9wmwAy2CbQYs6uW029bZQpwcNXvQ==
-X-Authority-Analysis: v=2.4 cv=LMJrgZW9 c=1 sm=1 tr=0 ts=691ddfc4 cx=c_pps
- a=1Os3MKEOqt8YzSjcPV0cFA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=pI-9nvPbGx2-jEZ2MXwA:9 a=QEXdDO2ut3YA:10
- a=hhpmQAJR8DioWGSBphRh:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-19_04,2025-11-18_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 lowpriorityscore=0 spamscore=0 suspectscore=0 adultscore=0
- bulkscore=0 malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2511190122
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <26d7ecab-33ed-4aab-82d5-954b0d1d1718@amd.com>
 
-With the Iris and Venus driver having more or less feature parity for
-"HFI 6xx" platforms and with Iris gaining support for SC7280, flip the
-switch. Use Iris by default for SM8250 and SC7280, the platforms which
-are supported by both drivers, and use Venus only if Iris is not
-compiled at all. Use IS_ENABLED to strip out the code and data
-structures which are used by the disabled platforms.
+On Wed, Nov 19, 2025 at 03:53:30PM +0100, Christian König wrote:
+> 
+> 
+> On 11/19/25 15:50, Leon Romanovsky wrote:
+> > On Wed, Nov 19, 2025 at 03:11:01PM +0100, Christian König wrote:
+> >> On 11/19/25 14:42, Leon Romanovsky wrote:
+> >>> On Wed, Nov 19, 2025 at 02:16:57PM +0100, Christian König wrote:
+> >>>>
+> >>>>
+> >>>> On 11/11/25 10:57, Leon Romanovsky wrote:
+> >>>>> From: Leon Romanovsky <leonro@nvidia.com>
+> >>>>>
+> >>>>> Add dma_buf_map() and dma_buf_unmap() helpers to convert an array of
+> >>>>> MMIO physical address ranges into scatter-gather tables with proper
+> >>>>> DMA mapping.
+> >>>>>
+> >>>>> These common functions are a starting point and support any PCI
+> >>>>> drivers creating mappings from their BAR's MMIO addresses. VFIO is one
+> >>>>> case, as shortly will be RDMA. We can review existing DRM drivers to
+> >>>>> refactor them separately. We hope this will evolve into routines to
+> >>>>> help common DRM that include mixed CPU and MMIO mappings.
+> >>>>>
+> >>>>> Compared to the dma_map_resource() abuse this implementation handles
+> >>>>> the complicated PCI P2P scenarios properly, especially when an IOMMU
+> >>>>> is enabled:
+> >>>>>
+> >>>>>  - Direct bus address mapping without IOVA allocation for
+> >>>>>    PCI_P2PDMA_MAP_BUS_ADDR, using pci_p2pdma_bus_addr_map(). This
+> >>>>>    happens if the IOMMU is enabled but the PCIe switch ACS flags allow
+> >>>>>    transactions to avoid the host bridge.
+> >>>>>
+> >>>>>    Further, this handles the slightly obscure, case of MMIO with a
+> >>>>>    phys_addr_t that is different from the physical BAR programming
+> >>>>>    (bus offset). The phys_addr_t is converted to a dma_addr_t and
+> >>>>>    accommodates this effect. This enables certain real systems to
+> >>>>>    work, especially on ARM platforms.
+> >>>>>
+> >>>>>  - Mapping through host bridge with IOVA allocation and DMA_ATTR_MMIO
+> >>>>>    attribute for MMIO memory regions (PCI_P2PDMA_MAP_THRU_HOST_BRIDGE).
+> >>>>>    This happens when the IOMMU is enabled and the ACS flags are forcing
+> >>>>>    all traffic to the IOMMU - ie for virtualization systems.
+> >>>>>
+> >>>>>  - Cases where P2P is not supported through the host bridge/CPU. The
+> >>>>>    P2P subsystem is the proper place to detect this and block it.
+> >>>>>
+> >>>>> Helper functions fill_sg_entry() and calc_sg_nents() handle the
+> >>>>> scatter-gather table construction, splitting large regions into
+> >>>>> UINT_MAX-sized chunks to fit within sg->length field limits.
+> >>>>>
+> >>>>> Since the physical address based DMA API forbids use of the CPU list
+> >>>>> of the scatterlist this will produce a mangled scatterlist that has
+> >>>>> a fully zero-length and NULL'd CPU list. The list is 0 length,
+> >>>>> all the struct page pointers are NULL and zero sized. This is stronger
+> >>>>> and more robust than the existing mangle_sg_table() technique. It is
+> >>>>> a future project to migrate DMABUF as a subsystem away from using
+> >>>>> scatterlist for this data structure.
+> >>>>>
+> >>>>> Tested-by: Alex Mastro <amastro@fb.com>
+> >>>>> Tested-by: Nicolin Chen <nicolinc@nvidia.com>
+> >>>>> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> >>>>> ---
+> >>>>>  drivers/dma-buf/dma-buf.c | 235 ++++++++++++++++++++++++++++++++++++++++++++++
+> >>>>>  include/linux/dma-buf.h   |  18 ++++
+> >>>>>  2 files changed, 253 insertions(+)
+> >>>>>
+> >>>>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> >>>>> index 2bcf9ceca997..cb55dff1dad5 100644
+> >>>>> --- a/drivers/dma-buf/dma-buf.c
+> >>>>> +++ b/drivers/dma-buf/dma-buf.c
+> >>>>> @@ -1254,6 +1254,241 @@ void dma_buf_unmap_attachment_unlocked(struct dma_buf_attachment *attach,
+> >>>>>  }
+> >>>>>  EXPORT_SYMBOL_NS_GPL(dma_buf_unmap_attachment_unlocked, "DMA_BUF");
+> >>>>>  
+> >>>>> +static struct scatterlist *fill_sg_entry(struct scatterlist *sgl, size_t length,
+> >>>>> +					 dma_addr_t addr)
+> >>>>> +{
+> >>>>> +	unsigned int len, nents;
+> >>>>> +	int i;
+> >>>>> +
+> >>>>> +	nents = DIV_ROUND_UP(length, UINT_MAX);
+> >>>>> +	for (i = 0; i < nents; i++) {
+> >>>>> +		len = min_t(size_t, length, UINT_MAX);
+> >>>>> +		length -= len;
+> >>>>> +		/*
+> >>>>> +		 * DMABUF abuses scatterlist to create a scatterlist
+> >>>>> +		 * that does not have any CPU list, only the DMA list.
+> >>>>> +		 * Always set the page related values to NULL to ensure
+> >>>>> +		 * importers can't use it. The phys_addr based DMA API
+> >>>>> +		 * does not require the CPU list for mapping or unmapping.
+> >>>>> +		 */
+> >>>>> +		sg_set_page(sgl, NULL, 0, 0);
+> >>>>> +		sg_dma_address(sgl) = addr + i * UINT_MAX;
+> >>>>> +		sg_dma_len(sgl) = len;
+> >>>>> +		sgl = sg_next(sgl);
+> >>>>> +	}
+> >>>>> +
+> >>>>> +	return sgl;
+> >>>>> +}
+> >>>>> +
+> >>>>> +static unsigned int calc_sg_nents(struct dma_iova_state *state,
+> >>>>> +				  struct dma_buf_phys_vec *phys_vec,
+> >>>>> +				  size_t nr_ranges, size_t size)
+> >>>>> +{
+> >>>>> +	unsigned int nents = 0;
+> >>>>> +	size_t i;
+> >>>>> +
+> >>>>> +	if (!state || !dma_use_iova(state)) {
+> >>>>> +		for (i = 0; i < nr_ranges; i++)
+> >>>>> +			nents += DIV_ROUND_UP(phys_vec[i].len, UINT_MAX);
+> >>>>> +	} else {
+> >>>>> +		/*
+> >>>>> +		 * In IOVA case, there is only one SG entry which spans
+> >>>>> +		 * for whole IOVA address space, but we need to make sure
+> >>>>> +		 * that it fits sg->length, maybe we need more.
+> >>>>> +		 */
+> >>>>> +		nents = DIV_ROUND_UP(size, UINT_MAX);
+> >>>>> +	}
+> >>>>> +
+> >>>>> +	return nents;
+> >>>>> +}
+> >>>>> +
+> >>>>> +/**
+> >>>>> + * struct dma_buf_dma - holds DMA mapping information
+> >>>>> + * @sgt:    Scatter-gather table
+> >>>>> + * @state:  DMA IOVA state relevant in IOMMU-based DMA
+> >>>>> + * @size:   Total size of DMA transfer
+> >>>>> + */
+> >>>>> +struct dma_buf_dma {
+> >>>>> +	struct sg_table sgt;
+> >>>>> +	struct dma_iova_state *state;
+> >>>>> +	size_t size;
+> >>>>> +};
+> >>>>> +
+> >>>>> +/**
+> >>>>> + * dma_buf_map - Returns the scatterlist table of the attachment from arrays
+> >>>>> + * of physical vectors. This funciton is intended for MMIO memory only.
+> >>>>> + * @attach:	[in]	attachment whose scatterlist is to be returned
+> >>>>> + * @provider:	[in]	p2pdma provider
+> >>>>> + * @phys_vec:	[in]	array of physical vectors
+> >>>>> + * @nr_ranges:	[in]	number of entries in phys_vec array
+> >>>>> + * @size:	[in]	total size of phys_vec
+> >>>>> + * @dir:	[in]	direction of DMA transfer
+> >>>>> + *
+> >>>>> + * Returns sg_table containing the scatterlist to be returned; returns ERR_PTR
+> >>>>> + * on error. May return -EINTR if it is interrupted by a signal.
+> >>>>> + *
+> >>>>> + * On success, the DMA addresses and lengths in the returned scatterlist are
+> >>>>> + * PAGE_SIZE aligned.
+> >>>>> + *
+> >>>>> + * A mapping must be unmapped by using dma_buf_unmap().
+> >>>>> + */
+> >>>>> +struct sg_table *dma_buf_map(struct dma_buf_attachment *attach,
+> >>>>
+> >>>> That is clearly not a good name for this function. We already have overloaded the term *mapping* with something completely different.
+> >>>
+> >>> This function performs DMA mapping, so what name do you suggest instead of dma_buf_map()?
+> >>
+> >> Something like dma_buf_phys_vec_to_sg_table(). I'm not good at naming either.
+> > 
+> > Can I call it simply dma_buf_mapping() as I plan to put that function in dma_buf_mapping.c
+> > file per-your request.
+> 
+> No, just completely drop the term "mapping" here. This is about phys_vector to sg_table conversion and nothing else.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
-Note: then intention is to land this in 6.20, which might let us to
-start dropping those platforms from the Venus driver in 6.21+.
----
- drivers/media/platform/qcom/iris/Makefile        |  5 +----
- drivers/media/platform/qcom/iris/iris_probe.c    |  2 --
- drivers/media/platform/qcom/venus/Makefile       |  5 ++++-
- drivers/media/platform/qcom/venus/core.c         |  6 ++++++
- drivers/media/platform/qcom/venus/core.h         | 11 +++++++++++
- drivers/media/platform/qcom/venus/helpers.c      |  7 ++++++-
- drivers/media/platform/qcom/venus/hfi_helper.h   | 11 +++++++++++
- drivers/media/platform/qcom/venus/hfi_platform.c |  2 ++
- drivers/media/platform/qcom/venus/hfi_platform.h |  2 ++
- drivers/media/platform/qcom/venus/pm_helpers.c   |  3 +++
- drivers/media/platform/qcom/venus/venc.c         |  3 +--
- 11 files changed, 47 insertions(+), 10 deletions(-)
+We have both map and unmap, so dma_buf_*_to_*() can be applicable to dma_buf_map() only.
+And it is not simple conversion, most of the logic is actually handles mapping:
 
-diff --git a/drivers/media/platform/qcom/iris/Makefile b/drivers/media/platform/qcom/iris/Makefile
-index fad3be044e5fe783db697a592b4f09de4d42d0d2..ce360c67846b1243dd9245972672591076bfdee2 100644
---- a/drivers/media/platform/qcom/iris/Makefile
-+++ b/drivers/media/platform/qcom/iris/Makefile
-@@ -10,6 +10,7 @@ qcom-iris-objs += iris_buffer.o \
-              iris_hfi_gen2_packet.o \
-              iris_hfi_gen2_response.o \
-              iris_hfi_queue.o \
-+             iris_platform_gen1.o \
-              iris_platform_gen2.o \
-              iris_power.o \
-              iris_probe.o \
-@@ -25,8 +26,4 @@ qcom-iris-objs += iris_buffer.o \
-              iris_vpu_buffer.o \
-              iris_vpu_common.o \
- 
--ifeq ($(CONFIG_VIDEO_QCOM_VENUS),)
--qcom-iris-objs += iris_platform_gen1.o
--endif
--
- obj-$(CONFIG_VIDEO_QCOM_IRIS) += qcom-iris.o
-diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
-index 9bc9b34c2576581635fa8d87eed1965657eb3eb3..0d5f37e51558ed1207554b3a3841096d8699c755 100644
---- a/drivers/media/platform/qcom/iris/iris_probe.c
-+++ b/drivers/media/platform/qcom/iris/iris_probe.c
-@@ -356,7 +356,6 @@ static const struct of_device_id iris_dt_match[] = {
- 		.compatible = "qcom,qcs8300-iris",
- 		.data = &qcs8300_data,
- 	},
--#if (!IS_ENABLED(CONFIG_VIDEO_QCOM_VENUS))
- 	{
- 		.compatible = "qcom,sc7280-venus",
- 		.data = &sc7280_data,
-@@ -365,7 +364,6 @@ static const struct of_device_id iris_dt_match[] = {
- 		.compatible = "qcom,sm8250-venus",
- 		.data = &sm8250_data,
- 	},
--#endif
- 	{
- 		.compatible = "qcom,sm8550-iris",
- 		.data = &sm8550_data,
-diff --git a/drivers/media/platform/qcom/venus/Makefile b/drivers/media/platform/qcom/venus/Makefile
-index 91ee6be10292e0c275106f090f521f268da4c50a..60a3f948adbfaa4c6c91abdbbbe050f0bd724c9c 100644
---- a/drivers/media/platform/qcom/venus/Makefile
-+++ b/drivers/media/platform/qcom/venus/Makefile
-@@ -5,7 +5,10 @@ venus-core-objs += core.o helpers.o firmware.o \
- 		   hfi_venus.o hfi_msgs.o hfi_cmds.o hfi.o \
- 		   hfi_parser.o pm_helpers.o dbgfs.o \
- 		   hfi_platform.o hfi_platform_v4.o \
--		   hfi_platform_v6.o hfi_plat_bufs_v6.o \
-+
-+ifeq ($(CONFIG_VIDEO_QCOM_IRIS),)
-+venus-core-objs += hfi_platform_v6.o hfi_plat_bufs_v6.o
-+endif
- 
- venus-dec-objs += vdec.o vdec_ctrls.o
- venus-enc-objs += venc.o venc_ctrls.o
-diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-index 24d2b2fd0340b55ed1aa329f49ded449dc466f14..646dae3407b4d13454eedd8e926f16e7470d5d3d 100644
---- a/drivers/media/platform/qcom/venus/core.c
-+++ b/drivers/media/platform/qcom/venus/core.c
-@@ -949,6 +949,7 @@ static const struct venus_resources sc7180_res = {
- 	.enc_nodename = "video-encoder",
- };
- 
-+#if (!IS_ENABLED(CONFIG_VIDEO_QCOM_IRIS))
- static const struct freq_tbl sm8250_freq_table[] = {
- 	{ 0, 444000000 },
- 	{ 0, 366000000 },
-@@ -1069,6 +1070,7 @@ static const struct venus_resources sc7280_res = {
- 	.dec_nodename = "video-decoder",
- 	.enc_nodename = "video-encoder",
- };
-+#endif
- 
- static const struct bw_tbl qcm2290_bw_table_dec[] = {
- 	{ 352800, 597000, 0, 746000, 0 }, /* 1080p@30 + 720p@30 */
-@@ -1125,11 +1127,15 @@ static const struct of_device_id venus_dt_match[] = {
- 	{ .compatible = "qcom,msm8998-venus", .data = &msm8998_res, },
- 	{ .compatible = "qcom,qcm2290-venus", .data = &qcm2290_res, },
- 	{ .compatible = "qcom,sc7180-venus", .data = &sc7180_res, },
-+#if (!IS_ENABLED(CONFIG_VIDEO_QCOM_IRIS))
- 	{ .compatible = "qcom,sc7280-venus", .data = &sc7280_res, },
-+#endif
- 	{ .compatible = "qcom,sdm660-venus", .data = &sdm660_res, },
- 	{ .compatible = "qcom,sdm845-venus", .data = &sdm845_res, },
- 	{ .compatible = "qcom,sdm845-venus-v2", .data = &sdm845_res_v2, },
-+#if (!IS_ENABLED(CONFIG_VIDEO_QCOM_IRIS))
- 	{ .compatible = "qcom,sm8250-venus", .data = &sm8250_res, },
-+#endif
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, venus_dt_match);
-diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-index 7506f5d0f609ac8984ab90ba207e64750df8a9ec..c7acacaa53b880c66b11bba2cca8d625b4f8fb9d 100644
---- a/drivers/media/platform/qcom/venus/core.h
-+++ b/drivers/media/platform/qcom/venus/core.h
-@@ -54,8 +54,10 @@ enum vpu_version {
- 	VPU_VERSION_AR50,
- 	VPU_VERSION_AR50_LITE,
- 	VPU_VERSION_IRIS1,
-+#if (!IS_ENABLED(CONFIG_VIDEO_QCOM_IRIS))
- 	VPU_VERSION_IRIS2,
- 	VPU_VERSION_IRIS2_1,
-+#endif
- };
- 
- struct firmware_version {
-@@ -525,13 +527,22 @@ struct venus_inst {
- #define IS_V1(core)	((core)->res->hfi_version == HFI_VERSION_1XX)
- #define IS_V3(core)	((core)->res->hfi_version == HFI_VERSION_3XX)
- #define IS_V4(core)	((core)->res->hfi_version == HFI_VERSION_4XX)
-+#if (!IS_ENABLED(CONFIG_VIDEO_QCOM_IRIS))
- #define IS_V6(core)	((core)->res->hfi_version == HFI_VERSION_6XX)
-+#else
-+#define IS_V6(core)	(0)
-+#endif
- 
- #define IS_AR50(core)		((core)->res->vpu_version == VPU_VERSION_AR50)
- #define IS_AR50_LITE(core)	((core)->res->vpu_version == VPU_VERSION_AR50_LITE)
- #define IS_IRIS1(core)		((core)->res->vpu_version == VPU_VERSION_IRIS1)
-+#if (!IS_ENABLED(CONFIG_VIDEO_QCOM_IRIS))
- #define IS_IRIS2(core)		((core)->res->vpu_version == VPU_VERSION_IRIS2)
- #define IS_IRIS2_1(core)	((core)->res->vpu_version == VPU_VERSION_IRIS2_1)
-+#else
-+#define IS_IRIS2(core)		(0)
-+#define IS_IRIS2_1(core)	(0)
-+#endif
- 
- static inline bool is_lite(struct venus_core *core)
- {
-diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-index 2e4363f8223171b497e6326877d37c5075735a30..f44f382f7d8dfbe71014c0b167b686e18616ffe2 100644
---- a/drivers/media/platform/qcom/venus/helpers.c
-+++ b/drivers/media/platform/qcom/venus/helpers.c
-@@ -329,6 +329,7 @@ static const unsigned int intbuf_types_4xx[] = {
- 	HFI_BUFFER_INTERNAL_PERSIST_1,
- };
- 
-+#if (!IS_ENABLED(CONFIG_VIDEO_QCOM_IRIS))
- static const unsigned int intbuf_types_6xx[] = {
- 	HFI_BUFFER_INTERNAL_SCRATCH(HFI_VERSION_6XX),
- 	HFI_BUFFER_INTERNAL_SCRATCH_1(HFI_VERSION_6XX),
-@@ -336,6 +337,7 @@ static const unsigned int intbuf_types_6xx[] = {
- 	HFI_BUFFER_INTERNAL_PERSIST,
- 	HFI_BUFFER_INTERNAL_PERSIST_1,
- };
-+#endif
- 
- int venus_helper_intbufs_alloc(struct venus_inst *inst)
- {
-@@ -343,10 +345,13 @@ int venus_helper_intbufs_alloc(struct venus_inst *inst)
- 	size_t arr_sz, i;
- 	int ret;
- 
-+#if (!IS_ENABLED(CONFIG_VIDEO_QCOM_IRIS))
- 	if (IS_V6(inst->core)) {
- 		arr_sz = ARRAY_SIZE(intbuf_types_6xx);
- 		intbuf = intbuf_types_6xx;
--	} else if (IS_V4(inst->core)) {
-+	} else
-+#endif
-+	if (IS_V4(inst->core)) {
- 		arr_sz = ARRAY_SIZE(intbuf_types_4xx);
- 		intbuf = intbuf_types_4xx;
- 	} else {
-diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
-index f44059f19505a0b33e582f8c6c0723bf7f6ce30b..6157aa79f80aa8eb3c7f33c7dc87739cec632a74 100644
---- a/drivers/media/platform/qcom/venus/hfi_helper.h
-+++ b/drivers/media/platform/qcom/venus/hfi_helper.h
-@@ -395,6 +395,7 @@
- #define HFI_BUFFER_OUTPUT2			0x3
- #define HFI_BUFFER_INTERNAL_PERSIST		0x4
- #define HFI_BUFFER_INTERNAL_PERSIST_1		0x5
-+#if (!IS_ENABLED(CONFIG_VIDEO_QCOM_IRIS))
- #define HFI_BUFFER_INTERNAL_SCRATCH(ver)	\
- 	(((ver) == HFI_VERSION_4XX ||		\
- 	(ver) == HFI_VERSION_6XX) ? 0x6 : 0x1000001)
-@@ -404,6 +405,14 @@
- #define HFI_BUFFER_INTERNAL_SCRATCH_2(ver)	\
- 	(((ver) == HFI_VERSION_4XX ||		\
- 	(ver) == HFI_VERSION_6XX) ? 0x8 : 0x1000006)
-+#else
-+#define HFI_BUFFER_INTERNAL_SCRATCH(ver)	\
-+	((ver) == HFI_VERSION_4XX ? 0x6 : 0x1000001)
-+#define HFI_BUFFER_INTERNAL_SCRATCH_1(ver)	\
-+	((ver) == HFI_VERSION_4XX ? 0x7 : 0x1000005)
-+#define HFI_BUFFER_INTERNAL_SCRATCH_2(ver)	\
-+	((ver) == HFI_VERSION_4XX ? 0x8 : 0x1000006)
-+#endif
- #define HFI_BUFFER_EXTRADATA_INPUT(ver)		\
- 	(((ver) == HFI_VERSION_4XX) ? 0xc : 0x1000002)
- #define HFI_BUFFER_EXTRADATA_OUTPUT(ver)	\
-@@ -560,7 +569,9 @@ enum hfi_version {
- 	HFI_VERSION_1XX,
- 	HFI_VERSION_3XX,
- 	HFI_VERSION_4XX,
-+#if (!IS_ENABLED(CONFIG_VIDEO_QCOM_IRIS))
- 	HFI_VERSION_6XX,
-+#endif
- };
- 
- struct hfi_buffer_info {
-diff --git a/drivers/media/platform/qcom/venus/hfi_platform.c b/drivers/media/platform/qcom/venus/hfi_platform.c
-index cde7f93045ac4567bf4239eeb3c489b887d4ad01..fa4262a5cd284a3f123b564ff71bf460942d1790 100644
---- a/drivers/media/platform/qcom/venus/hfi_platform.c
-+++ b/drivers/media/platform/qcom/venus/hfi_platform.c
-@@ -11,8 +11,10 @@ const struct hfi_platform *hfi_platform_get(enum hfi_version version)
- 	switch (version) {
- 	case HFI_VERSION_4XX:
- 		return &hfi_plat_v4;
-+#if (!IS_ENABLED(CONFIG_VIDEO_QCOM_IRIS))
- 	case HFI_VERSION_6XX:
- 		return &hfi_plat_v6;
-+#endif
- 	default:
- 		break;
- 	}
-diff --git a/drivers/media/platform/qcom/venus/hfi_platform.h b/drivers/media/platform/qcom/venus/hfi_platform.h
-index 5e4f8013a6b1db4f4f83cd983ef9e83347ef4e0a..164ef5a892fbdce6c6d2833e8d2ab3b03c5193a8 100644
---- a/drivers/media/platform/qcom/venus/hfi_platform.h
-+++ b/drivers/media/platform/qcom/venus/hfi_platform.h
-@@ -62,7 +62,9 @@ struct hfi_platform {
- };
- 
- extern const struct hfi_platform hfi_plat_v4;
-+#if (!IS_ENABLED(CONFIG_VIDEO_QCOM_IRIS))
- extern const struct hfi_platform hfi_plat_v6;
-+#endif
- 
- const struct hfi_platform *hfi_platform_get(enum hfi_version version);
- unsigned long hfi_platform_get_codec_vpp_freq(struct venus_core *core,
-diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
-index f0269524ac70eb72384a06aa6a215e2046abf5c2..62b2ae661a365941dfe8987f1c0733189a6d4de9 100644
---- a/drivers/media/platform/qcom/venus/pm_helpers.c
-+++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-@@ -1188,8 +1188,11 @@ const struct venus_pm_ops *venus_pm_get(enum hfi_version version)
- 	case HFI_VERSION_3XX:
- 		return &pm_ops_v3;
- 	case HFI_VERSION_4XX:
-+		return &pm_ops_v4;
-+#if (!IS_ENABLED(CONFIG_VIDEO_QCOM_IRIS))
- 	case HFI_VERSION_6XX:
- 		return &pm_ops_v4;
-+#endif
- 	}
- 
- 	return NULL;
-diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-index b478b982a80daec54554e46f7c582a6f9b68e352..164152257bdee17b6dceef07a0df8ed2df15bd31 100644
---- a/drivers/media/platform/qcom/venus/venc.c
-+++ b/drivers/media/platform/qcom/venus/venc.c
-@@ -898,8 +898,7 @@ static int venc_set_properties(struct venus_inst *inst)
- 	if (ret)
- 		return ret;
- 
--	if (inst->core->res->hfi_version == HFI_VERSION_4XX ||
--	    inst->core->res->hfi_version == HFI_VERSION_6XX) {
-+	if (IS_V4(inst->core) || IS_V6(inst->core)) {
- 		ptype = HFI_PROPERTY_PARAM_VENC_SESSION_QP_RANGE_V2;
- 
- 		if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
+  137         for (i = 0; i < nr_ranges; i++) {
+  138                 if (!dma->state) {
+  139                         addr = pci_p2pdma_bus_addr_map(provider,
+  140                                                        phys_vec[i].paddr);
+  141                 } else if (dma_use_iova(dma->state)) {
+  142                         ret = dma_iova_link(attach->dev, dma->state,
+  143                                             phys_vec[i].paddr, 0,
+  144                                             phys_vec[i].len, dir,
+  145                                             DMA_ATTR_MMIO);
+  146                         if (ret)
+  147                                 goto err_unmap_dma;
+  148
+  149                         mapped_len += phys_vec[i].len;
+  150                 } else {
+  151                         addr = dma_map_phys(attach->dev, phys_vec[i].paddr,
+  152                                             phys_vec[i].len, dir,
+  153                                             DMA_ATTR_MMIO);
+  154                         ret = dma_mapping_error(attach->dev, addr);
+  155                         if (ret)
+  156                                 goto err_unmap_dma;
+  157                 }
+  158
+  159                 if (!dma->state || !dma_use_iova(dma->state))
+  160                         sgl = fill_sg_entry(sgl, phys_vec[i].len, addr);
+  161         }
+  162
+  163         if (dma->state && dma_use_iova(dma->state)) {
+  164                 WARN_ON_ONCE(mapped_len != size);
+  165                 ret = dma_iova_sync(attach->dev, dma->state, 0, mapped_len);
+  166                 if (ret)
+  167                         goto err_unmap_dma;
+  168
+  169                 sgl = fill_sg_entry(sgl, mapped_len, dma->state->addr);
+  170         }
 
----
-base-commit: b179ce312bafcb8c68dc718e015aee79b7939ff0
-change-id: 20251119-venus-iris-flip-switch-d59a3fbc6a4b
+SG table conversion is only two lines (160 and 169) which are here
+because of DMABUF dependency on SG.
 
-Best regards,
--- 
-With best wishes
-Dmitry
+What about dma_buf_phys_vec_mapping()/dma_buf_phys_vec_unmapping()?
 
+> 
+> That we create an IOVA mapping when the access needs to go through the root complex is an implementation detail.
+> 
+> > 
+> > Regarding SG, the long term plan is to remove SG table completely, so at
+> > least external users of DMABUF shouldn't be exposed to internal implementation
+> > details (SG table).
+> 
+> Hui? Well I suggested to remove the sg_table, but that doesn't mean that implementations shouldn't be aware of that.
+
+VFIO which is first user of this interface. It doesn't care how
+internally DMABUF handles array of phys_vecs. Today, it is sg_table,
+tomorrow it will be something else.
+
+Thanks
+
+> 
+> Regards,
+> Christian.
+> 
+> > 
+> > Thanks
+> 
 
