@@ -1,136 +1,227 @@
-Return-Path: <linux-media+bounces-47427-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47428-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01324C7197C
-	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 01:46:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7019BC71C4E
+	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 03:11:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E5C004E19B3
-	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 00:46:49 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E4C4D4E1FA5
+	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 02:09:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C9B421CC4D;
-	Thu, 20 Nov 2025 00:46:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ooVwzhl6"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA7B7276038;
+	Thu, 20 Nov 2025 02:09:28 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 019F81EF38E
-	for <linux-media@vger.kernel.org>; Thu, 20 Nov 2025 00:46:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 684DE227E83;
+	Thu, 20 Nov 2025 02:09:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763599583; cv=none; b=Td+bNmnzDGGQkZe4Ir8XHNmFRNZ9V3NsJhpA3fyriLn0yb62zWErup/iOsa4c7CC1hpWFP0SCNAl/Gr/RX+ZAAhRwApjlcOwDaILXRDlARsiPZYxw8hnGKtA4oA2kZpsHz4Ik2G5np7x840htinog3BKq4i1AJg1/37yrD4hjCM=
+	t=1763604568; cv=none; b=Isfni3xDAXIpgyEEW2460j4u0ulf1xJlD3S6FLMzvNR31Hu7GUROolsJcJrSI4l0CoPpNBIIQIaFWfjNoqi9m7hekUeF6nGio9ysSoKcBT8vqNzYTdLn4ST7NtH7cDKraZR0YJHb6WAyRnSNRmhqCe80QpZiL4BeijmcD69B/Dw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763599583; c=relaxed/simple;
-	bh=XdgjqCFN8zcVLt+R4SFzR28/tF64NVaZATzV8y3WeUw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PfyKN415uVmLtJQWbBQ/Rm1CJ8k5Zi2dIgFLo2lgASFpB2k5ZkoGbVljrXUvIoo+/AKXxyc8ToTCYSf1M5yXB533EnVyhcz2Z1YBtLTDn88dOQoNSfRvse+3wxIFaqYalEhCjL+dc32bZdiYzj2LUuU0nJs7O3pHmWMjXd6JgEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ooVwzhl6; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-595867f09fcso32330e87.2
-        for <linux-media@vger.kernel.org>; Wed, 19 Nov 2025 16:46:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763599580; x=1764204380; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tHpWN5s6ScBkjvSQGEh65WLbcdillAfnHYGU7Sa0wY4=;
-        b=ooVwzhl63ji+GOa7ShpySbdRmaOiZl/4WWTLufGQN3fs7yoHnHf8r9wtKaqsPuo193
-         uX9cr4hqyVRrf9SNFlWS5g8dsNiQNQ/9Yd5qlRe8MpSyfV++AZlGvr3ChV/6dDXRsibP
-         Uoh15SKeqOBHtZ0Ho9TWwEZjlqYjzqu8wKsGHvmGnQoKQZb3ypFjlVZxw+MF6WE8ff73
-         qV62uyHK2+fRYS2uvAktgHMjzHD/XxLwSrsEpA3E106Sd0G9PU8fHGXwV+WERVk/GiKh
-         sY8Nwmu/mCzBv+/6NCPazZsDJHzbo1WjBvoJFMJCRTQjl8cMEH8BnXIBekoJFrjxMtc0
-         2kog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763599580; x=1764204380;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=tHpWN5s6ScBkjvSQGEh65WLbcdillAfnHYGU7Sa0wY4=;
-        b=Ykk3iSgGXCKUFy7x4lJs9ds+T8sQOYVTgjkIrEkuyYTgeu+P2CXm1ZL2RKFyTGtclj
-         1KbJMZlgm4lx1Agl/Egfi0iGSiOFH3Hf6u1yfGFXbasDd1sjWaqbzPHrBK6oWZeIyriT
-         ccwqpSQEAWdGCFGOzNUErgKqOLwYjpeVk00i5IFKA4LoRtjbCJ3iDEfMWqFq+wwByfcw
-         omWUiSbPpwN/DNB1Jpdb6azhUv5qTJ6Vv+qjlpNt5qbcqSL0eO85qNlrUfEWEbvWyWty
-         EjVqQ17zVsy2a424ciFOX4Cw4Fx/PZRW8M0FrVbdNJv/p69RizzapDATVPKfpz0TTOrv
-         26rg==
-X-Forwarded-Encrypted: i=1; AJvYcCV8tcg6AhabhuluhV/IWJqi2LCbLoIzUxoofTUBbquWH0xxQAkG2rIXNjSgqbSWCs+JhdZ+efc0S3FuxQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxhla4uq9S2H8MggzYoXsYj/F4VpJdf9dDEEfw33GX1F5xzGW4/
-	B8RF5M/QoJrJ6wvx3ajcB9SgUUeyCnR6qHAMxZGPZe/puNw3oS2t8tLK2iqhUo1JN7s=
-X-Gm-Gg: ASbGncuGdxZ+FjoyhlynLhbP7rW4WUmsCBpDV/mGsfg5NC9TYfFXKtpBA9qOfZejURA
-	0uJZHlcxtlcKaSU9KLLpAH47gjm/HkymV1OAw3jtXpVWUQgakl+9Fv40tPl566CEKOjwzX+0LF5
-	VMBD/YbTvSQ+S/aw1X07WdLR3ZPRPvVsjuAYMEHEsFXrScxlmuJA6cNOI9S9hfSgBA1NTEEJ16u
-	MpZpBcrC+BCmgDmqO7pegLGOL5LFDcCwcuzYdKbHH9TLa0FkYs3NIOjgYs+Il+QtdleiGeW+bHf
-	bl/v7WAeRwSBsKghejSNpLx/6Lzd2GvuazTsFMnQA1Yy5hKdHNvp2HBPVFwJAhVlHSuPgKpmqiT
-	SLSokhnnL7yezOax4L0slAWvWBJK2ramANWwRFRrw3nQlJ2tspgs4zW9fU6LNCj4yBLM29Q9g1r
-	KGgcCGQ/MzZRV7i5lQ1g5j/bR6RNxThm5FbrOcl3h/ooXz6KGjkT1sXEDGlH2exPys
-X-Google-Smtp-Source: AGHT+IHZRZL5fi5Soa1OfVIBarkuqZ3uoJuX2ljNeZ/UrapTH6fiRU5dDlTaot3ZuMW7WMcCwMLAQg==
-X-Received: by 2002:a05:651c:304b:b0:37a:43ad:859c with SMTP id 38308e7fff4ca-37cce90d921mr51741fa.0.1763599580067;
-        Wed, 19 Nov 2025 16:46:20 -0800 (PST)
-Received: from thyme.. (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5969dbc59a9sm229479e87.71.2025.11.19.16.46.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 16:46:18 -0800 (PST)
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-To: Robert Foss <rfoss@kernel.org>,
-	Todor Tomov <todor.too@gmail.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Loic Poulain <loic.poulain@oss.qualcomm.com>,
-	Rui Miguel Silva <rui.silva@linaro.org>,
-	linux-media@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Subject: [PATCH v3 2/2] media: qcom: camss: use a handy v4l2_async_nf_add_fwnode_remote() function
-Date: Thu, 20 Nov 2025 02:46:04 +0200
-Message-ID: <20251120004604.2573803-3-vladimir.zapolskiy@linaro.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20251120004604.2573803-1-vladimir.zapolskiy@linaro.org>
-References: <20251120004604.2573803-1-vladimir.zapolskiy@linaro.org>
+	s=arc-20240116; t=1763604568; c=relaxed/simple;
+	bh=QUgA1HX7B/qcO1RvgSuXmUmQCsyytJqwclA8xmQo11E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uqmTeN8IXLccaRcij+riy3sey2Kq/PuOPVvsP1u5dOfSOYyqTrUqxAIBaEDTRQFtXbgpClsanmlpnPpXKS/nQMIGq8bhKkw+0Rk5wtOoqs7RzrU/PUVE22S56OjynKh3R2JBAXdnZK1GJ/fZCBly1t+aJoZB0B0ltU7MV8K5wdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
+X-AuditID: a67dfc5b-c45ff70000001609-d8-691e784bd858
+Date: Thu, 20 Nov 2025 11:09:09 +0900
+From: Byungchul Park <byungchul@sk.com>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: linux-kernel@vger.kernel.org, kernel_team@skhynix.com,
+	torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
+	linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
+	linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
+	will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
+	joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
+	duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org,
+	tytso@mit.edu, david@fromorbit.com, amir73il@gmail.com,
+	gregkh@linuxfoundation.org, kernel-team@lge.com, linux-mm@kvack.org,
+	akpm@linux-foundation.org, mhocko@kernel.org, minchan@kernel.org,
+	hannes@cmpxchg.org, vdavydov.dev@gmail.com, sj@kernel.org,
+	jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
+	penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
+	ngupta@vflare.org, linux-block@vger.kernel.org,
+	josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
+	jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
+	djwong@kernel.org, dri-devel@lists.freedesktop.org,
+	rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
+	hamohammed.sa@gmail.com, harry.yoo@oracle.com,
+	chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
+	max.byungchul.park@gmail.com, boqun.feng@gmail.com,
+	longman@redhat.com, yunseong.kim@ericsson.com, ysk@kzalloc.com,
+	yeoreum.yun@arm.com, netdev@vger.kernel.org,
+	matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net,
+	catalin.marinas@arm.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, luto@kernel.org,
+	sumit.semwal@linaro.org, gustavo@padovan.org,
+	christian.koenig@amd.com, andi.shyti@kernel.org, arnd@arndb.de,
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+	rppt@kernel.org, surenb@google.com, mcgrof@kernel.org,
+	petr.pavlu@suse.com, da.gomez@kernel.org, samitolvanen@google.com,
+	paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
+	joelagnelf@nvidia.com, josh@joshtriplett.org, urezki@gmail.com,
+	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+	qiang.zhang@linux.dev, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
+	chuck.lever@oracle.com, neil@brown.name, okorniev@redhat.com,
+	Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
+	anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
+	clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
+	kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
+	broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk,
+	shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
+	yuzhao@google.com, baolin.wang@linux.alibaba.com,
+	usamaarif642@gmail.com, joel.granados@kernel.org,
+	richard.weiyang@gmail.com, geert+renesas@glider.be,
+	tim.c.chen@linux.intel.com, linux@treblig.org,
+	alexander.shishkin@linux.intel.com, lillian@star-ark.net,
+	chenhuacai@kernel.org, francesco@valla.it,
+	guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
+	masahiroy@kernel.org, brauner@kernel.org,
+	thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
+	andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+	rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v17 44/47] dept: introduce APIs to set page usage and use
+ subclasses_evt for the usage
+Message-ID: <20251120020909.GA78650@system.software.com>
+References: <20251002081247.51255-1-byungchul@sk.com>
+ <20251002081247.51255-45-byungchul@sk.com>
+ <20251119105312.GA11582@system.software.com>
+ <aR3WHf9QZ_dizNun@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aR3WHf9QZ_dizNun@casper.infradead.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxTZxTH89znvtHY5VodPlr0Qw3OsMgc0eQ4nXG+5SaGZGbEKH7AZlzl
+	zvKyoghLyHDyJjLEbs5YkJXiFGhVqGjQlQywVKGCkBGs8qJWdDKYCgM2KVR7NUa//c45//zO
+	+XB4rOliFvBy0j7JmKQ36FgVrfpnlnXZlvRF8vKcpsXQc7CRhnsT+QhmTG4OXja4EfzSZcJg
+	rztIwZnBAAWDjXkI/O23MJw43ongSU2wrHMPIOieeMaC5YcGBg5VXGCha3iaApsjGjzFVgpO
+	DLHgqzQHlZZkcNv+4qD/6HEa7IWPMZTnnqbhz6ulLBTWXGJgwP6SgayS/xjwuG/Q8OC+l4HO
+	Yz8y4C1+hMBtCYWx05M05P4bYOC38acY2ks6GOgr+puGaxMjFEz11zPQY/qVhZzCFxzkuyYx
+	ZPetBP//wQ3jtmoWSloGuHXLRXuZHYn+KRMSr408w2KblYhXzP2ceLEyQqxwDlHi3eHPRUf1
+	YVZ0jJk4sdz/BIt9PU5WfNrRwYlXHqwSy1q3in+csnNfzo9VrYmXDHKaZPxk7S5VwvSUhU5x
+	hKVX3DZTWSg7tACF8ERYQYbzc3AB4l/zzexMpU0L4cRTcJVVmBU+Il7vi9eRucJSMlIXVYBU
+	PBasWnKurYlRMnMEA5l0necUVgtAAlWVSAlphN8R6c6tZd4MZpPWk4O0wliIIN7AEKVIsaAl
+	ZwO80g4JnnDHmocV/lBYTBovX6cUDxF8IcSWX4Xf3DyfNFV66WIkmN/Tmt/Tmt9pLQhXI42c
+	lJaolw0rIhMykuT0yK+TEx0o+GhnMqd31qOxzq+akcAj3Sz1dvdCWcPo01IzEpsR4bFurjr8
+	izBZo47XZ3wnGZPjjPsNUmoz0vK0bp46avJAvEbYo98n7ZWkFMn4dkrxIQuyUFlk9M9FTqdP
+	U1oek9Kb+Xx0z8PajxP8sRfvdfpu7NUOy492f190eEtey5HN3VMnTZtuJtpdCz2rDgzmtIbH
+	xjlHtfPa1jRs9NhGo6P6zrLrj9Z/UPst+qZ+w/MY90+qbb0PQ9t3tBhcYZ5t4zMzGfzqXqev
+	dPO6blfVkoFa/BldGqOjUxP0n0ZgY6r+FZMm1P9kAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sb0xbZRTGfe/73j80llwrsuvYNOmCkiVDIS4eJzH6aTdLtqgxcUGJa8aN
+	3LQU1jIEsyVlpUJQJ5QUspbNWlxFYIy1SGSk2LFRMxjbKtOhDgFTYQQYyaRs0NLaG2Pcl5Pf
+	Oc/znJwPh8OaOL2Vk40VksmoM2gZFVEdeNW6a1/VM/KLQ50F8EtNkEB0tZ5A2/luBup9p2i4
+	2dOFYDpaj+BBzIXBNpAksGkPsbC6/jsLyUAIQUvYjqG7r4aCv3sTDCxevo/AMRthoHWhhsCK
+	9zMEzjkXCwsje2F5epCG5NQ8BbfXlhB4IwkKIsE6BJstevjS42cgNn4DQ6vjJoKvZqcw3O1N
+	iX2hPxAEOk4w8FfjdxgmIulwK7rCwFXHpwwsh9souNfLgPtEgIbTLjsCa/t5BlpO+wgMzFxk
+	IbwYp+BOi52CLt9+mPbOERhr9FCp+1KuC1vA1WqlUuUuBY5zgxSseztZuNZ+h4DXkg2u8Qka
+	/uxwshCfzYOkuwxCXfMsTH3hINCzfIN+3YHEB7aTROz091Oi7adNRuw+043E2IYdiatnrVi0
+	Nabay0srWKz1fySeHVtixI3oz4wYWHMTcdQjiE3ju8QB5xQr1g79xr65p1BVUCwZ5ErJ9MJr
+	h1Ql8Q03Kfdtq2q/7aQsqDazAXGcwL8kXKs93oDSOMJnC2MNFxmFGf55YXJyHSuWDD5HWOrL
+	b0AqDvOeLOHc6CVa8TzJG4S1Kz2swmoehMS3HUgxafhBJNz65AL9r/CEcPVUhCiM+Z3CZGKB
+	UpZiPkv4JsEp47TUCb966rDCT/E7hGD/j1QjUjsfSTsfSTv/T7sR7kQZsrGyVCcbduea9SXV
+	Rrkq93BZqQ+lftJ7PN70PVqd2DuMeA5pH1cfDG2XNbSu0lxdOowEDmsz1NlvbJM16mJd9ceS
+	qewD01GDZB5GWRzRblHve1c6pOE/1FVIekkql0z/qRSXttWCrhx772hBRWHmyz35+R7LTPMr
+	6Q99b0dzFv30wPD8Y+k1Ujhel/t+buERlz6WbWwK0qEiOJPjj+lHdrxT2mxJPHvP5ZH3+0bn
+	8GDeTODwyeofirZfPxI8WJ9sO0bfL+6zft1sGhop6Ch/eo9Fbb1kux7+fPfD/oTkKyKxt57L
+	PKAl5hJd3k5sMuv+AScIleSPAwAA
+X-CFilter-Loop: Reflected
 
-Another code simplification makes parsing of remote endpoints easy.
+On Wed, Nov 19, 2025 at 02:37:17PM +0000, Matthew Wilcox wrote:
+> On Wed, Nov 19, 2025 at 07:53:12PM +0900, Byungchul Park wrote:
+> > On Thu, Oct 02, 2025 at 05:12:44PM +0900, Byungchul Park wrote:
+> > > False positive reports have been observed since dept works with the
+> > > assumption that all the pages have the same dept class, but the class
+> > > should be split since the problematic call paths are different depending
+> > > on what the page is used for.
+> > >
+> > > At least, ones in block device's address_space and ones in regular
+> > > file's address_space have exclusively different usages.
+> > >
+> > > Thus, define usage candidates like:
+> > >
+> > >    DEPT_PAGE_REGFILE_CACHE /* page in regular file's address_space */
+> > >    DEPT_PAGE_BDEV_CACHE    /* page in block device's address_space */
+> > >    DEPT_PAGE_DEFAULT       /* the others */
+> >
+> > 1. I'd like to annotate a page to DEPT_PAGE_REGFILE_CACHE when the page
+> >    starts to be associated with a page cache for fs data.
+> >
+> > 2. And I'd like to annotate a page to DEPT_PAGE_BDEV_CACHE when the page
+> >    starts to be associated with meta data of fs e.g. super block.
+> >
+> > 3. Lastly, I'd like to reset the annotated value if any, that has been
+> >    set in the page, when the page ends the assoication with either page
+> >    cache or meta block of fs e.g. freeing the page.
+> >
+> > Can anyone suggest good places in code for the annotation 1, 2, 3?  It'd
+> > be totally appreciated. :-)
+> 
+> I don't think it makes sense to track lock state in the page (nor
+> folio).  Partly bcause there's just so many of them, but also because
+> the locking rules don't really apply to individual folios so much as
+> they do to the mappings (or anon_vmas) that contain folios.
 
-Tested-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
-Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
----
- drivers/media/platform/qcom/camss/camss.c | 13 ++-----------
- 1 file changed, 2 insertions(+), 11 deletions(-)
+Thank you for the suggestion!
 
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index 736f04e10bdb..43592b51e127 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -4087,18 +4087,9 @@ static int camss_parse_ports(struct camss *camss)
- 
- 	fwnode_graph_for_each_endpoint(fwnode, ep) {
- 		struct camss_async_subdev *csd;
--		struct fwnode_handle *remote;
- 
--		remote = fwnode_graph_get_remote_port_parent(ep);
--		if (!remote) {
--			dev_err(dev, "Cannot get remote parent\n");
--			ret = -EINVAL;
--			goto err_cleanup;
--		}
--
--		csd = v4l2_async_nf_add_fwnode(&camss->notifier, remote,
--					       struct camss_async_subdev);
--		fwnode_handle_put(remote);
-+		csd = v4l2_async_nf_add_fwnode_remote(&camss->notifier, ep,
-+						      typeof(*csd));
- 		if (IS_ERR(csd)) {
- 			ret = PTR_ERR(csd);
- 			goto err_cleanup;
--- 
-2.49.0
+Since two folios associated to different mappings might appear in the
+same callpath that usually be classified to a single class, I need to
+think how to reflect the suggestion.
 
+I guess you wanted to tell me a folio can only be associated to a single
+mapping at once.  Right?  If so, sure, I should reflect it.
+
+> If you're looking to find deadlock scenarios, I think it makes more
+> sense to track all folio locks in a given mapping as the same lock
+> type rather than track each folio's lock status.
+> 
+> For example, let's suppose we did something like this in the
+> page fault path:
+> 
+> Look up and lock a folio (we need folios locked to insert them into
+> the page tables to avoid a race with truncate)
+> Try to allocate a page table
+> Go into reclaim, attempt to reclaim a folio from this mapping
+> 
+> We ought to detect that as a potential deadlock, regardless of which
+> folio in the mapping we attempt to reclaim.  So can we track folio
+
+Did you mean 'regardless' for 'potential' detection, right?
+
+> locking at the mapping/anon_vma level instead?
+
+Piece of cake.  Even though it may increase the number of DEPT classes,
+I hope it will be okay.  I just need to know the points in code where
+folios start/end being associated to their specific mappings.
+
+	Byungchul
+
+> ---
+> 
+> My current understanding of folio locking rules:
+> 
+> If you hold a lock on folio A, you can take a lock on folio B if:
+> 
+> 1. A->mapping == B->mapping and A->index < B->index
+>    (for example writeback; we take locks on all folios to be written
+>     back in order)
+> 2. !S_ISBLK(A->mapping->host) and S_ISBLK(B->mapping->host)
+> 3. S_ISREG(A->mapping->host) and S_ISREG(B->mapping->host) with
+>    inode_lock() held on both and A->index < B->index
+>    (the remap_range code)
 
