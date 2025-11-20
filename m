@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-47460-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47461-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C51F5C7308E
-	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 10:11:20 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6985FC730FC
+	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 10:14:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sea.lore.kernel.org (Postfix) with ESMTPS id 63BA12FC54
-	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 09:11:19 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D6AF34E734C
+	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 09:11:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CF97310774;
-	Thu, 20 Nov 2025 09:11:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0670C3128AA;
+	Thu, 20 Nov 2025 09:11:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="TQ4UOyVw"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="UP9Vm4AQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013050.outbound.protection.outlook.com [40.93.196.50])
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013038.outbound.protection.outlook.com [40.93.201.38])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5431C3101AD;
-	Thu, 20 Nov 2025 09:10:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28CE33101B6;
+	Thu, 20 Nov 2025 09:10:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.38
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763629859; cv=fail; b=a0kAV2i0kJFepg4AduuP1OPchuVN8mfY0kg/nhI2llnxy6hhECHHCVaif4IutBClP/24th42FPp1IhQHu1CntscbJqP8OaSWzyvpaRwtXbz90s3lPX+eD7ZffNaegdCwd0MaGoOC10gEuW85ocm3sqbA7bTNAkVFSTr02Q4vDRA=
+	t=1763629861; cv=fail; b=TJxZYaPjQKmT8C0xDG/q2rtj6mmjaCu2b33Pu7VCQ6jhahN3u+mVcdGW8tQEPqX8DL8QGTFEIfJXENRwGwrHfUnheC6N5x9pzIHdO4B61aS0qbkHugLzWbeMiu51hayIgqsqUW4w8zspV4tLOV5GR4ajxDjEzQTbpJYxspk6XhU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763629859; c=relaxed/simple;
-	bh=AVnm9OgQSS23Py9t5bMjg8D/EIp64K0NhOg4nsoXH6s=;
+	s=arc-20240116; t=1763629861; c=relaxed/simple;
+	bh=cVx7atmHtPvg8dKzH3g4atr5NjXtz5VOAFhwQdAsO3E=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SHSNqAiExwe5yWTkzJjebTt/vzceuOQfii8oqtPjoahj/hjU0Kbe7/43Zw+2cLPl5NuFjOEP5LUOvV4BH8MwqG+xZ60DFCd+Sx/8BuxpsUjvHyQdGcHrqWJGuyNfwH9at7sPIhhxtUWW0pPchFbjUoGxKQf8mFgpQXpZVMWA5jI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=TQ4UOyVw; arc=fail smtp.client-ip=40.93.196.50
+	 MIME-Version:Content-Type; b=raBwf0oiukAAr9kB1/xif34s/w+k5SN3XWHXC25UjSrhEt0nF80zDiR/jOgN+8eB/6HKGcoDnjMeDPtpAjbTdDQZn2YXozwwk6jqccZxPpCXK6YCCZvk5ZgJdOHeYlWqkLGzHzwQqwCeinhbakk9C2ScgnrCyGuVfR6Xx9oVCB0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=UP9Vm4AQ; arc=fail smtp.client-ip=40.93.201.38
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VEDtiPbrkVz9MP4NVmwSRdNSQrriWfHge2MSwQwkRwjUfHNIG7pCTfsPnEMIEwh1nVdasRMf/H7NRdWEFgS12WlNr2CR4Z3bS6ACtRDBDEjAG4riS1rm/FTwe9K+XT5b1cvSZKoGakPsa1ZZHi+Ie78RipKnOk+JCtfAykCP3bAOg98jPQucQz0UL7KAWFDgpPaYZZr/bgF5fJ0cDBbax0JqgUqE2aCRuanBd9SrUCVHhC9IayOo6j1spPCubbKf1eZ1FL4CHfwreAc/OcjHF1KZy6I/IdezjJHy3t0Pi1GbYf7OwiDl3x1PT2t6LIoezapwTwixt2Itbz/o1M/r6Q==
+ b=RXt0PAdVUDsCJtCJpWOfykv5SXzfjSUbKI5EmD0dhN7rNrflM2biFKrk1+0iWGs4J+OWAvIh9UT38afHv1gKklw3+QUq/YGZmied5sv7tNnNWLf8s8k/cuLBI5TjZUda0zRas4x4ZKjICEKFuKddvm0yPnXgq2lL2qeZuMvBXUmvrMEGS1mFQwyS0J+RCBy2NA59rqUUygNRafhWlvUV/P6hCmSyaX1KdoRFmwsnRpzofWIdaSHLT96wE8dnaHemSMPD751W4xR2nwtEoTNd3Z2/vYD1WgOcM4HvlbV3B1WCxRKvkEsCJTZ5hUlNlK2AaNWYJrg0r0KUnSJnTDoTqQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=T/mkxM99aQPInPdyi7+eKqBWHtoPS0AiDVRlKGOReRs=;
- b=bBt4GPLFjiRcZwq/VtH9zpAy9oUJmyiAIf5EsR009gHVNE8Nao2ZayOAQ4dmz5viYlqI4ptozc962pgb5P5G3bqoEI9HdPTDuhUKMd9120hpax8xZsYxLATXomsNS3nRyLcTL5AkDf+jG2txMyw8oR0NHa9ri7MWmAAq3sgGAH6K4XqUdMymCEewsrAR0JOmL3NuVfI9+KQlnujJzdIudPJAwheg9bRMUtU1fUDxgJLPGv6RxrcwB08B2xoEVodrFzpI39vWnugz8vkdyEAQl3logZXzJ3xUfRs5APOagQdr6XK0yyN7wYCS1IJJ1iCw8ZaTU2s6HxNV/MyK4ONxHg==
+ bh=eYrtYxUv6A51odEg2u6qENZ+oiyy0ej6DjO9vrLDx+0=;
+ b=P2ZTKrR5kSNXrkcBnpvMV4cnu2kP+G+VG4yHL3p5zsBLoJuNgUXBFvaz2b64tvATN0veGWsH00eZLfwmf9bER063a0nEqSt6bn2z2AW5ZOCGqVrGADXnrp9DXeeVjwpZt8QkKqLBp2MsGyGTFfrzFOMy4Qx+XL1UMONvkK60By/Nfq03dAlMhcSHeu/uNJsGuGkfCgCa7dmpG5hknrQv5fqX1DumoLJDXHFUj3QvEMgeF1q38xkbM8VZjI3Iw3m/EsF7SVI0NMfQMyBi6+wfGEWEN889piwjv/6fc9bap4vkz6lAPesErEhGJKU4fbR05bPHv2hH61ywGIDXgBW/tA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  198.47.23.195) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
  dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=T/mkxM99aQPInPdyi7+eKqBWHtoPS0AiDVRlKGOReRs=;
- b=TQ4UOyVw2PxfM9pjnfBH301kmf8xTmN9kPzEA/7z6EUvGRFNDdalpalX/vO805oYVNoekXdpB4UfLRI2r4+eGPBsNr9n3Pjab+EjKutb2dDn4MPlTOumYO/fDviKECt5yw8wVjkakOH7AGHjkA6OSeiAgoZN/fNifQz7uF4Di4M=
-Received: from MN2PR08CA0003.namprd08.prod.outlook.com (2603:10b6:208:239::8)
- by PH3PPF558EA2A2C.namprd10.prod.outlook.com (2603:10b6:518:1::7a2) with
+ bh=eYrtYxUv6A51odEg2u6qENZ+oiyy0ej6DjO9vrLDx+0=;
+ b=UP9Vm4AQA8Z3ZJzljpz9DgA5DhGMTyxSx7KCbvgm6aGJWzdu+ts8Fx60IJ5Fb6Hu1bzCr208j12m5abYXW6NARiA5X2NlWgFQPpmQ1q/0S7dwNWH4/39K7jqwAQn2zNcJqe1mcqmWZbRqArtpeCxWrfMSN5/OYc9qjvLDMIFXzA=
+Received: from MN2PR08CA0018.namprd08.prod.outlook.com (2603:10b6:208:239::23)
+ by DS0PR10MB7174.namprd10.prod.outlook.com (2603:10b6:8:df::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.11; Thu, 20 Nov
- 2025 09:10:47 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Thu, 20 Nov
+ 2025 09:10:54 +0000
 Received: from BL02EPF00021F6D.namprd02.prod.outlook.com
- (2603:10b6:208:239:cafe::b5) by MN2PR08CA0003.outlook.office365.com
- (2603:10b6:208:239::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.10 via Frontend Transport; Thu,
- 20 Nov 2025 09:10:44 +0000
+ (2603:10b6:208:239:cafe::20) by MN2PR08CA0018.outlook.office365.com
+ (2603:10b6:208:239::23) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.11 via Frontend Transport; Thu,
+ 20 Nov 2025 09:10:43 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
  smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
  action=none header.from=ti.com;
@@ -65,22 +65,22 @@ Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
 Received: from lewvzet201.ext.ti.com (198.47.23.195) by
  BL02EPF00021F6D.mail.protection.outlook.com (10.167.249.9) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9343.9 via Frontend Transport; Thu, 20 Nov 2025 09:10:47 +0000
-Received: from DLEE207.ent.ti.com (157.170.170.95) by lewvzet201.ext.ti.com
+ 15.20.9343.9 via Frontend Transport; Thu, 20 Nov 2025 09:10:53 +0000
+Received: from DLEE204.ent.ti.com (157.170.170.84) by lewvzet201.ext.ti.com
  (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 20 Nov
- 2025 03:10:44 -0600
-Received: from DLEE200.ent.ti.com (157.170.170.75) by DLEE207.ent.ti.com
- (157.170.170.95) with Microsoft SMTP Server (version=TLS1_2,
+ 2025 03:10:49 -0600
+Received: from DLEE203.ent.ti.com (157.170.170.78) by DLEE204.ent.ti.com
+ (157.170.170.84) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 20 Nov
- 2025 03:10:43 -0600
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE200.ent.ti.com
- (157.170.170.75) with Microsoft SMTP Server (version=TLS1_2,
+ 2025 03:10:49 -0600
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE203.ent.ti.com
+ (157.170.170.78) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Thu, 20 Nov 2025 03:10:43 -0600
+ Transport; Thu, 20 Nov 2025 03:10:49 -0600
 Received: from abhilash-HP.dhcp.ti.com (abhilash-hp.dhcp.ti.com [10.24.68.198])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5AK9AXWd3413879;
-	Thu, 20 Nov 2025 03:10:40 -0600
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5AK9AXWe3413879;
+	Thu, 20 Nov 2025 03:10:45 -0600
 From: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
 To: <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
 	<conor+dt@kernel.org>, <hverkuil+cisco@kernel.org>
@@ -88,9 +88,9 @@ CC: <sakari.ailus@linux.intel.com>, <bparrot@ti.com>,
 	<jai.luthra@ideasonboard.com>, <dale@farnsworth.org>,
 	<linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
 	<linux-kernel@vger.kernel.org>, <u-kumar1@ti.com>, <y-abhilashchandra@ti.com>
-Subject: [PATCH V6 1/4] media: ti: vpe: Re-introduce multi-instance and multi-client support
-Date: Thu, 20 Nov 2025 14:40:27 +0530
-Message-ID: <20251120091030.2081594-2-y-abhilashchandra@ti.com>
+Subject: [PATCH V6 2/4] media: ti: vpe: Export vpdma_load_firmware() function
+Date: Thu, 20 Nov 2025 14:40:28 +0530
+Message-ID: <20251120091030.2081594-3-y-abhilashchandra@ti.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251120091030.2081594-1-y-abhilashchandra@ti.com>
 References: <20251120091030.2081594-1-y-abhilashchandra@ti.com>
@@ -105,145 +105,96 @@ Content-Type: text/plain
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF00021F6D:EE_|PH3PPF558EA2A2C:EE_
-X-MS-Office365-Filtering-Correlation-Id: c212be2b-11a2-46eb-c31a-08de2814b15c
+X-MS-TrafficTypeDiagnostic: BL02EPF00021F6D:EE_|DS0PR10MB7174:EE_
+X-MS-Office365-Filtering-Correlation-Id: 45772ada-6e61-4d8b-093f-08de2814b563
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|36860700013|1800799024|82310400026;
+	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|7416014|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?KD8Ah0hH5HacZVsbEsgzk7I5BLU/AP/3UdGj7hKOsJsYtPkwTjZpc8lW3ttw?=
- =?us-ascii?Q?AKxi6kGLokqY8q+e+zqylEDDRbGzU5ele4Zjo+qMnPMeQEEwJlvC0pwnEiuG?=
- =?us-ascii?Q?PFf4f46t6QBtxAJ4NgXK44ecuT4nSFx1nNPQW5C1bOySKchqDN8YiNcozskY?=
- =?us-ascii?Q?fho1KqSQs5LbMN2CTpK00OY/R9MS3HUspKOqmRK90Dh16wTWkYy2S7ix4d/t?=
- =?us-ascii?Q?2t6HpiUxyRvwCRBf14Wtta5AWVm2zuvfZTZso9pIAV1Ll8YXsz5HSdAoZJ2w?=
- =?us-ascii?Q?AVPB2Tv04+AvRndnhl52RY/LkKtLgCvQjrUU53pyjfpFTsNd2VLSNzK/0Z8y?=
- =?us-ascii?Q?bxnQNolrDqbhke91wO7F+8MmP4cSHuOJCC6ka79wTtKDoVrinyaBiWIMVfQE?=
- =?us-ascii?Q?wSFlXqm4sp1l3tKnaEx7mpQs55ppp/qEwJIyeSMpsSN9qmk4662O3n7F6SjL?=
- =?us-ascii?Q?GDUbQX6KywhtHjK4Wi9IuNlhkeUc4yLsW/7CGXHXcdnF4J7u35ZbFcnKEMTe?=
- =?us-ascii?Q?SkH2w34bvkr3s12JUWr6LXdk0tkfu4ID1Bas1z3GCXmB9WLylmyzW1Wq9KAc?=
- =?us-ascii?Q?XnCDgID/njGQCp3U5jmgszjClrcPu3cmrcE9U1kNkB2onDOq8RO3ibtUEfsP?=
- =?us-ascii?Q?sFOxSNIPwMkOf2cGKiKn83zaxjVBapk5HnqHKiRm7SBDJ5osKe9TwYRpiGCv?=
- =?us-ascii?Q?7puZOejpTMQg2jCEixu2ehxtJhUohkL2fwr9S525gqFJdeBHkQ+alt9CoWHZ?=
- =?us-ascii?Q?GjulFLyPcx7Li52wpwohm5LwF7CqFCIE9zgZp2Y0Fa/E5x2GpSbiqnw4qvBC?=
- =?us-ascii?Q?geMydpFZ74wDG7YHZqNBu5v9I9YY/EXrM5/s2JRFuyILJRGxQI5d6sKK7frK?=
- =?us-ascii?Q?pBrkduvsGWzSNqpliOS1wzEj0VaO5z87Uc+U3XNAk2TWfPATGcREWskJhJiF?=
- =?us-ascii?Q?PwE9Oob4CYAiSVfEtzFDHGTquG5y6FUtlPoQ5rriYYwenWSmIr9I4ngPTbMb?=
- =?us-ascii?Q?JEkVzHymRHaRo0aNoSV+qvjKWCHRa0+zJTrvClDLnTmsMCdYQAng4HgOZKOr?=
- =?us-ascii?Q?enhn1X4CPyxrMKuZvG9DWgx0QSoi+gKsXApSZ4t35Wa1jJY3jnHBvbTLdpdh?=
- =?us-ascii?Q?IwJpBZ6EwRFk2MbWjvzyJcxZ92xzBwLSDLqBSSkTVAEoq1W2JCA92bLuzcBf?=
- =?us-ascii?Q?48sbxCvHm3n3GLc+vdOiohZmdkvNuPDkrOjwSwszP7ZAezbN41DHqPjXYu1X?=
- =?us-ascii?Q?6/rxjVHK0HfD/IqTveUIxjhXgCGpF4EI3JEUugDeZz9E1Xp3o8hDgljoFEmk?=
- =?us-ascii?Q?uZCyCZiR2I78ipiaZirdaPFjvG1tP4Z4WW7cENjDGxy+xUYxpW9nT/4fY65G?=
- =?us-ascii?Q?18V4AzMug9twwP/3rI6kiomhAf+8uVRMZV5bhKcouiLWL7kur5+3VYiFRhoc?=
- =?us-ascii?Q?K91ETw7UcuRjNWEAL9Te0R/dJTIOMZK6npaKfjb6ZEjsZWC7cL5rwcFXuSCn?=
- =?us-ascii?Q?k8BAENHhx+5VzDEgUDlvE1t+UMRHhiJtl3lHSh3gY8HyZzX22ZSt1YkdYa0F?=
- =?us-ascii?Q?LEkpuF1odmNXP+b5cPI=3D?=
+	=?us-ascii?Q?1VnoCwXrTldyPPIeDxOydyfdOFoA65xGKXTDhi2D7/7E1afVUOanVu5gKFm7?=
+ =?us-ascii?Q?axUBxyMVjFcFJcR4aHqw683r1aw8LX9FGRE7PpuVwPYQSC9uF2ARbDLglrAk?=
+ =?us-ascii?Q?jD7kuheQzfrpBmxwyLx0AbbGcDFisRu7CF0oXk5dUVHQxGapsxBIWw12VZnC?=
+ =?us-ascii?Q?SK48jyQ50+Kd6Hr4IL4UXNPooJxFrs04dPgLLaZr+rNFAKFtAnnW2jZySC2V?=
+ =?us-ascii?Q?Ku6WkcZB1PkqzJMNaBiP3fhLGQLH3YHyHXxPcQ45dlnm61f0f5nYBEJyd+No?=
+ =?us-ascii?Q?FN2wncBEqty8GNEEAzRlt3xwOYnEESBROu9Gl6ys9SoQy0fvPIFyuk2GA8Id?=
+ =?us-ascii?Q?ED5xeTyYtkRbMEhDceQuu3xlTYMkXjUmFJ/QvEneOVLTXC/Njh5ai6Ta3xfQ?=
+ =?us-ascii?Q?eB0UGU/3ymIGkLp4qDUdrOUDcIl1IQ1mM3h6XeM/GMabzV94DNySAv4GUI/U?=
+ =?us-ascii?Q?pXGjH0UhaCrkhWZ4PjJlip/MAskSRgaeCHa/HQuLV05Gim38zbZD4ave2xL/?=
+ =?us-ascii?Q?pq4/Km9nEGLh1/X4aM+ejpxQrGOPgm/Lg91SFQfC9vLglenJqg2+0iR2GgmQ?=
+ =?us-ascii?Q?moa0fvFAObqJvFwWE2adEgdw0Uu5Vm4Lul6GzMHQJ2XteXNaRDXTYR/7OUIl?=
+ =?us-ascii?Q?Arhjq80Pz94EDjyi8e2WiMa6tQ9ifd47xyGfJn/ADAln5i+NYZi7by22T4XV?=
+ =?us-ascii?Q?O+T/16PpjAccxEUnAvus+Ib4imdscyBvcxA8knlsfuDSbsxvcgWHzZXFu55U?=
+ =?us-ascii?Q?CcWiv3kZIdE12KAdnsifnAikbX4dlOWLJQcX/dTAsxruE/dQjH6T9fE/gpOf?=
+ =?us-ascii?Q?nVnCu309VNEUFYNAXXWSJ61qf4HaIGSUX7J7rn/+oXiI1RjCEgdr9OtCyyo0?=
+ =?us-ascii?Q?FXx2gfajlRx+KLZQt0WSaw7g2PVvFNitDrt0ouyqBMZK2S1Y1vAP/zZvh/+C?=
+ =?us-ascii?Q?Ocmv+107Q6E4xDuGbHsrmEkFnmw35vBZfckSCRYvCLXpOX9NLHLjw2CEVktU?=
+ =?us-ascii?Q?LlFKttAV40/Qny6xlTIeE8Vysv6BY9nuboRYfr1l/p5hATqXBybgJd1H2FjJ?=
+ =?us-ascii?Q?arHM1+S2nkxDQJyDXCT8jeEPQK2RB7CjW8GSpiMmNVMxLXjY4j3BvpvaZoyu?=
+ =?us-ascii?Q?vP5U0UPfYZPnzSb+5mw9y2VLIExATs56NimWU4UJ0fEI9VL1M/ORmMmHFx8z?=
+ =?us-ascii?Q?5eVWcjBz4I0Anxs/2rhehFGlzYynCuhr3qNwS7AQgrhplv5SJltF9/DbtQqE?=
+ =?us-ascii?Q?0ZjhSSFDUOlz//ZDZHT2gVX6FCoh0cSC1yB0FYevGSDaVJBxcKMgMAr20e9R?=
+ =?us-ascii?Q?3mKCBuFwI+b5pKy8XJYmiSVpMr1+gNuwynFjrZA6u70dEnE8uexFEaJmxKke?=
+ =?us-ascii?Q?TYLzQuvHR05JFPj4magZN5ZKMbXyolsqMxUMB9H7z5djbL+f+qy9Sp/aileo?=
+ =?us-ascii?Q?29x97jv044rQ4KDOL1Qr8tT/FE9I3YH7j7jzHrjydaWhcWlDXu7NXU5+SA2i?=
+ =?us-ascii?Q?TeQVjT0fgdd3HLnGo1oT2eUuPZzQ5gJpKYeFsHi79G9sZ/aziAGN6WGy3M7T?=
+ =?us-ascii?Q?ecLFHSs2Qerr6Ys6qgk=3D?=
 X-Forefront-Antispam-Report:
-	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(36860700013)(1800799024)(82310400026);DIR:OUT;SFP:1101;
+	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
 X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2025 09:10:47.2225
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2025 09:10:53.9643
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c212be2b-11a2-46eb-c31a-08de2814b15c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 45772ada-6e61-4d8b-093f-08de2814b563
 X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
 X-MS-Exchange-CrossTenant-AuthSource:
 	BL02EPF00021F6D.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPF558EA2A2C
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB7174
 
-vpdma_update_dma_addr() was originally added to support multi-instance and
-multi-client in vpdma. However it was dropped as it was unused.
-
-We are adding support for TI VIP. Some devices may have multiple VIP
-instances each with its own VPDMA engine. Within VIP, two slices can use a
-single VPDMA engine simultaneously. So support for multi instances and
-multiple clients is needed. Hence reintroduce multi-instance and
-multi-client support. Also add kernel doc and switch to GPL version of
-EXPORT_SYMBOL.
-
-This reverts commit 9314891df119442a6ec1518b3d872c330e2bf1a1.
+Export vpdma_load_firmware() function which is needed by TI VIP to load
+the VPDMA firmware.
 
 Signed-off-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
 ---
- drivers/media/platform/ti/vpe/vpdma.c | 48 +++++++++++++++++++++++++++
- drivers/media/platform/ti/vpe/vpdma.h |  3 ++
- 2 files changed, 51 insertions(+)
+ drivers/media/platform/ti/vpe/vpdma.c | 3 ++-
+ drivers/media/platform/ti/vpe/vpdma.h | 3 +++
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/platform/ti/vpe/vpdma.c b/drivers/media/platform/ti/vpe/vpdma.c
-index bb8a8bd7980c..29ee1918bc1c 100644
+index 29ee1918bc1c..573aa83f62eb 100644
 --- a/drivers/media/platform/ti/vpe/vpdma.c
 +++ b/drivers/media/platform/ti/vpe/vpdma.c
-@@ -552,6 +552,54 @@ EXPORT_SYMBOL(vpdma_submit_descs);
+@@ -1135,7 +1135,7 @@ static void vpdma_firmware_cb(const struct firmware *f, void *context)
+ 	release_firmware(f);
+ }
  
- static void dump_dtd(struct vpdma_dtd *dtd);
- 
-+/**
-+ * vpdma_update_dma_addr() - update DMA address in a descriptor
-+ * @vpdma: VPDMA device context
-+ * @list: vpdma desc list to which we add this descriptor
-+ * @dma_addr: new DMA address to program into the descriptor
-+ * @write_dtd: descriptor pointer used to compute write-back address
-+ * @drop: if true, set the drop bit in the write descriptor
-+ * @idx: index of the descriptor in the list to update
-+ *
-+ * Updates dma addresses of the descriptor at @idx in @list.
-+ * This allows reusing an existing descriptor list with a new buffer
-+ * address, instead of rebuilding the list, which is needed when
-+ * multiple clients share the same VPDMA engine. The list buffer is
-+ * unmapped before the update and remapped after.
-+ */
-+void vpdma_update_dma_addr(struct vpdma_data *vpdma,
-+			   struct vpdma_desc_list *list,
-+			   dma_addr_t dma_addr,
-+			   void *write_dtd, int drop, int idx)
-+{
-+	struct vpdma_dtd *dtd = list->buf.addr;
-+	dma_addr_t write_desc_addr;
-+	int offset;
-+
-+	dtd += idx;
-+	vpdma_unmap_desc_buf(vpdma, &list->buf);
-+
-+	dtd->start_addr = dma_addr;
-+
-+	/* Calculate write address from the offset of write_dtd from start
-+	 * of the list->buf
-+	 */
-+	offset = (void *)write_dtd - list->buf.addr;
-+	write_desc_addr = list->buf.dma_addr + offset;
-+
-+	if (drop)
-+		dtd->desc_write_addr = dtd_desc_write_addr(write_desc_addr,
-+							   1, 1, 0);
-+	else
-+		dtd->desc_write_addr = dtd_desc_write_addr(write_desc_addr,
-+							   1, 0, 0);
-+
-+	vpdma_map_desc_buf(vpdma, &list->buf);
-+
-+	dump_dtd(dtd);
-+}
-+EXPORT_SYMBOL_GPL(vpdma_update_dma_addr);
-+
- void vpdma_set_max_size(struct vpdma_data *vpdma, int reg_addr,
- 			u32 width, u32 height)
+-static int vpdma_load_firmware(struct vpdma_data *vpdma)
++int vpdma_load_firmware(struct vpdma_data *vpdma)
  {
+ 	int r;
+ 	struct device *dev = &vpdma->pdev->dev;
+@@ -1152,6 +1152,7 @@ static int vpdma_load_firmware(struct vpdma_data *vpdma)
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL_GPL(vpdma_load_firmware);
+ 
+ int vpdma_create(struct platform_device *pdev, struct vpdma_data *vpdma,
+ 		void (*cb)(struct platform_device *pdev))
 diff --git a/drivers/media/platform/ti/vpe/vpdma.h b/drivers/media/platform/ti/vpe/vpdma.h
-index e4d7941c6207..5b3a0cd49a3c 100644
+index 5b3a0cd49a3c..1fc53fb33497 100644
 --- a/drivers/media/platform/ti/vpe/vpdma.h
 +++ b/drivers/media/platform/ti/vpe/vpdma.h
-@@ -222,6 +222,9 @@ void vpdma_free_desc_list(struct vpdma_desc_list *list);
- int vpdma_submit_descs(struct vpdma_data *vpdma, struct vpdma_desc_list *list,
- 		       int list_num);
- bool vpdma_list_busy(struct vpdma_data *vpdma, int list_num);
-+void vpdma_update_dma_addr(struct vpdma_data *vpdma,
-+			   struct vpdma_desc_list *list, dma_addr_t dma_addr,
-+			   void *write_dtd, int drop, int idx);
+@@ -281,4 +281,7 @@ void vpdma_dump_regs(struct vpdma_data *vpdma);
+ int vpdma_create(struct platform_device *pdev, struct vpdma_data *vpdma,
+ 		void (*cb)(struct platform_device *pdev));
  
- /* VPDMA hardware list funcs */
- int vpdma_hwlist_alloc(struct vpdma_data *vpdma, void *priv);
++/* load vpdma firmware*/
++int vpdma_load_firmware(struct vpdma_data *vpdma);
++
+ #endif
 -- 
 2.34.1
 
