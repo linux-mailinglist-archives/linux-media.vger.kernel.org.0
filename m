@@ -1,265 +1,132 @@
-Return-Path: <linux-media+bounces-47424-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47425-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 334DFC71395
-	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 23:10:16 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72B0BC71985
+	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 01:47:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 541E94E1930
-	for <lists+linux-media@lfdr.de>; Wed, 19 Nov 2025 22:10:14 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 2C74E34D0EE
+	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 00:46:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3768130CD94;
-	Wed, 19 Nov 2025 22:10:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 778941F03C5;
+	Thu, 20 Nov 2025 00:46:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Uk9k8Cik"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gXxg7J3i"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56AEE220698
-	for <linux-media@vger.kernel.org>; Wed, 19 Nov 2025 22:10:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19A371EF38E
+	for <linux-media@vger.kernel.org>; Thu, 20 Nov 2025 00:46:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763590205; cv=none; b=iWBgNdYu0fBBig0ntKZKYIOCKPeSUHbZTXTOGvH/gb3VVFrFdrgHHlgWXNTLNVkSqe9iJ+r7eXdEixyJtZf5Y48e6s0CLSRVPxhBQirvsV2VR8Zf6y8frvSuCnow08zw/p/Rz6X5HW7iKRYtiLS+MFaUTTIPsFLEWTjONRvu9J4=
+	t=1763599577; cv=none; b=uQNHR/Frld29N7Z0ki39DXmr+25WHH2jXI/Gh0xGLexQIuq6wio+fAGfzVoI0W1QR7C/Bmx8eZbLobzYcKm7Ib/zDBtC/sZinrqNR8EXAce8cHibrNnBzG0YcF/uy6i5q4pvI63HUIk8E56ADqsLi+eAVslFU0gCNZcoEK7f2RM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763590205; c=relaxed/simple;
-	bh=mcFfVE057zIZBUkpMJV51i3s++9WCB2V3lpwWA8SDOY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ORTBQirCQmtQo9++PphzQRpv1vPgeEkoO2ZGl/G92uluf83mSUkqnRT52V7Axo4ptsV6tJoHTpjCJW5GdkKiEuZnQzauEIq7bWM4FEniiil7cPSvzeeyNZ3TBXnx6w9Dj6PgZV9TBUHBWpWMZooFZOPNF7SKOUTqwJr15WAWBck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Uk9k8Cik; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5942b58ac81so119542e87.2
-        for <linux-media@vger.kernel.org>; Wed, 19 Nov 2025 14:10:03 -0800 (PST)
+	s=arc-20240116; t=1763599577; c=relaxed/simple;
+	bh=cfRYehKmIYEVCp2eb7c/iu9LL0ZbAiyq0M8tgp2yQLE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aZf1I9K7z6UXwuF2P6YiDw18RpWXmp2GnlfOuuGrzq3yI6jKl32lLml0mDer01C1XTpU0qcVFFXNbb9aZchE26U4t7t3g/r5tetug9IrDq3U84Hk5ettiamaD9w+3g7ifigN+Kbu6wbwcmoYFcO4b6VlVWqAql/OUValiqOjti4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gXxg7J3i; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-594285eed50so32783e87.0
+        for <linux-media@vger.kernel.org>; Wed, 19 Nov 2025 16:46:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1763590201; x=1764195001; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=L8urkfLCwfQfy0bbN91cMP+HPc/CQewamX66N3nMm0c=;
-        b=Uk9k8CikXj0xop0MdrzKZPdV41YhUn+Mxsxm/YId14BLBrs2+PbScu6QAviB98Bt2u
-         v/ZCbk1mO/Xd2eKl7HOj95dnQWPRxl8I1jgwPmkXwtiOIngX/y43q01BOUEy0tWNT8jB
-         Jn+Xyj0s6WsFtd9wF1sRP5AhfrvzN1pmZ3d0g=
+        d=linaro.org; s=google; t=1763599574; x=1764204374; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=j5e5nQefCPDRN0dJhI8HXjijaK923N3wC5GLZmrz9s8=;
+        b=gXxg7J3irP45HSPNTEPqhWZjYAtD3Sy2g0T8Mq+RMGm6+QG3d4FvB492m+zcTxuZZr
+         JxTnOfu06aVu7MCUbcZTqLUd5b9BggK3tGXnq0T3OZg2mcv6MqHf89wYj+iKnioVM3Li
+         EvZFK+hFNNlMWSPtq7NMYxHy6EL+kQr+uGQ15g2Ff0dOwkOOkKDnRpsG0S0Ok3aILFSf
+         3BREvxGttXgWsX/4G/6u2s+MDDXAJLgGmvo/JPQVBAsHokjLRNrE0nK6vTZheJOWuql1
+         o49tCRn3x0jK/OutYYu3YWXc/UJlO/RnSxbokgldd0VTpaBARqJppWjJ25zXqQ2TmMZI
+         KFJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763590201; x=1764195001;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1763599574; x=1764204374;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=L8urkfLCwfQfy0bbN91cMP+HPc/CQewamX66N3nMm0c=;
-        b=YTdzp2W6Ne0QBfjZOVdjEMaYOxwGNe96GZHgAzf/HNAFYO3nBULSsjfaOZ03az7567
-         tM1iFWDMIiXLmk1SCrTUSRkMZ4V3rMY1gXW670P1U+rlNuP28b8X1ta2PwNQnmmnNp7a
-         ZqOgddqCHTIA9ePNUspmAy2+IBCLyWZMXhqoO2V6mfMbFp+tEePEQNTaPK/4IL8y8WoG
-         YEuC4gU5rVg1XOEFai3b6boNm7ThbKu4vf5YMQ7hnNxUzBnYZZaN/ZKCUbI1iRlMxmyn
-         g/NHR+uNy6/AtmkwnxmCU2sMJqjSp/rGvN7LggIxGx32jpxYI8FIZ1sBayGgV1j3cuKi
-         wbgw==
-X-Forwarded-Encrypted: i=1; AJvYcCWe53wSmYp3/a6cz6DUSNc2+LtM3435cxzgcL/obwyNEHOEEu6tTAccQCJ/DWsK4HNUIOrOY+JNx2cxKw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YywlxpiqHBx+jjWQLTHt741qHU0744ll8NUDW/aZvGOIjsYAEfi
-	bCy2pLvdI+mpvgqwSJJtr+v/7/FcUD3tG90zDhqOgflH2MP9xR5/TMEp7yemo0lT8s45VG0c5c0
-	glAfXcA==
-X-Gm-Gg: ASbGncsGqYRXgeTesa/cb7ozPJ2UW1EgWcvXY+s6B8OHGBHwPTPB1i0xmkBj1ugykee
-	dICYULEewH6cK64kq8iUmEoDkbtT2vHttKMnVNkp4HOIxPmv+1OZVoNdos7Eftze0abpKWdq16/
-	26VUbHAzr9+NQDltON+qa1pi94V228ZRRmKYpjtKzu/0X6q/dV9ka0m73reX9gTut0V6EtK9fIw
-	6aox8+K7R4OKXh830FQ6n9o/cG7Qsbfw2yVsoO4y8ABbait1HC0MBS5kLAtEcAOF2JKTaMEimjD
-	dK/eJdTeHn6sDxWclhYNR9iug20hQsXXBBDWEhllkRITAzaGv2hqT6GrsT0BJMFLgCYN3wiwtrl
-	Ji7Ut+wA0F0NrRac42Y+Og1+noMRvwqiimJsp7SAbSPcITs/Lm2raj0hw3z7N2JGoRm1f42dJp9
-	CAVQgKVy2f/iJFc8CjlzDIYeCv1MhztXq6gmt7JI0tTY4bk66jBKJsRVMEl6w=
-X-Google-Smtp-Source: AGHT+IEwSI1vu8TKPyaYxJZd2AsmJSHkadzRqVDY46hGCJAoC+dcpqGiwrLCUD9wyl+JCHYfV5qZjQ==
-X-Received: by 2002:a05:6512:b8d:b0:594:2ff7:9d29 with SMTP id 2adb3069b0e04-5969e2da506mr139254e87.13.1763590201312;
-        Wed, 19 Nov 2025 14:10:01 -0800 (PST)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com. [209.85.167.47])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5969dbc5b2bsm147107e87.67.2025.11.19.14.10.00
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Nov 2025 14:10:00 -0800 (PST)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5943d20f352so172926e87.0
-        for <linux-media@vger.kernel.org>; Wed, 19 Nov 2025 14:10:00 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX1TNhr+LIz3FzsqgspKMCMIdx5P4STnKNzdO82Cpnv2U/GusGr7DnaZxfnkB/0m+jal6UR9klfC9qGKA==@vger.kernel.org
-X-Received: by 2002:a05:6512:33cc:b0:595:9dbc:2ed7 with SMTP id
- 2adb3069b0e04-5969e320d2emr161355e87.43.1763590199881; Wed, 19 Nov 2025
- 14:09:59 -0800 (PST)
+        bh=j5e5nQefCPDRN0dJhI8HXjijaK923N3wC5GLZmrz9s8=;
+        b=IKn7r50VdQpJIQkUSDSzpujBLwm2sDoCvysPcheiz00dmLPDccfo1HJTDzbkQSmamk
+         QkFi4oW13zliHFAQOJGIGUEG0DzObfsWe+98UbAEE3tdnEXf+rJOld1Kzzmf9IEjBTv4
+         RfbLaFYrq1HeUhDVprzT52Biktf8rGRtugCTpnH2CndlizROEppbzNqelmGsYXKUAHhD
+         G75ytbgiJai3o+NtGYXWg/PDqrecPJUDLzQ9Th4X2wutOmj7GQpoHq+/FfPDnnip+ERo
+         bfcqeHRBNhmwJAi+hritCcLJJbGvocutL4+U8heouJwvoM/9/JS/2arqfXhOkkNroPgd
+         KExw==
+X-Forwarded-Encrypted: i=1; AJvYcCVL/t50arO3XKw/OjZpEL2WT/H3KtQwDZvKDocG3w9odp4RrY1ovGxDNTxk+LOi0TmQOAuC2XRl8HIUUA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzziYDwbl30vJc3zS99hGLM0AWYjfZby13NN+5WJkE4KWejqAtB
+	qfr77TYPO5SJyvTucRYAY5nZGXclfdI6MxAmovFDYHV+5CEsKeozObjV2UIYFmCCntM=
+X-Gm-Gg: ASbGncuC8bFGVrvBCXaNqi7YsiROsJ+lJKn6NmlPhr3cpYzlAOQTkJ4/ADLN3KVRcJ5
+	NyN/hwXaRoSWZAq38p556xpcINWnlVrqmsFcbzEz1IfKGDr2+i+O+alXFMpDTYVysRJs4GK8xEx
+	dcHktTNdWu5SgJuIzYJWCABS3s/SMY2kWbTFFGxR2WhwFqmj5MQrBYstj47rj/+75trrguGOjp3
+	v83e3LD3dVqwdjedlGMXzWjizisT9QNhldyEQjpeEd7UAMVOurH99YV5UxSUX/8yWCBmp8IDtNK
+	6KCelbbbmY+/QyXOnTQTqAzTZRyeiZ2YR/iDJRWWqgcONzleXEr4OHYVT2uWVjKjGi+exnkuAcy
+	bMb9aaJhkfw2SUZzTRZlLoy2JEwXRElaiCUeA9oBM2HFmDejvWxDpWl3IT+49bTGzPJuIK6cNZF
+	I8QDsDwy4/DB1r97UXqG8ziUhg5oKUKiq7h7XpDu47EACft8BZrWVIfw==
+X-Google-Smtp-Source: AGHT+IF0tBnQr3LZJWz9Y765jwY1r6Y8p+uKy+rRNcAVxWJTHaRd7ZfpFTD0aQ0FWs/nGcZqBFo4Jw==
+X-Received: by 2002:a05:6512:3b99:b0:594:5582:f77e with SMTP id 2adb3069b0e04-5969f4901c4mr12357e87.4.1763599574149;
+        Wed, 19 Nov 2025 16:46:14 -0800 (PST)
+Received: from thyme.. (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5969dbc59a9sm229479e87.71.2025.11.19.16.46.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Nov 2025 16:46:12 -0800 (PST)
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+To: Robert Foss <rfoss@kernel.org>,
+	Todor Tomov <todor.too@gmail.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Loic Poulain <loic.poulain@oss.qualcomm.com>,
+	Rui Miguel Silva <rui.silva@linaro.org>,
+	linux-media@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org
+Subject: [PATCH v3 0/2] media: qcom: camss: simplify registration of sensors
+Date: Thu, 20 Nov 2025 02:46:02 +0200
+Message-ID: <20251120004604.2573803-1-vladimir.zapolskiy@linaro.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251119-uvcdynctrl-v2-0-0359ffb98c9e@chromium.org>
- <20251119-uvcdynctrl-v2-5-0359ffb98c9e@chromium.org> <c42795b2ea0ddd9af13380acff8212841f81d48f.camel@irl.hu>
-In-Reply-To: <c42795b2ea0ddd9af13380acff8212841f81d48f.camel@irl.hu>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Wed, 19 Nov 2025 23:09:46 +0100
-X-Gmail-Original-Message-ID: <CANiDSCtyMvbSMod3afjwR0aP+ZaG2tLugLTiC5q8tQyHL1k9pw@mail.gmail.com>
-X-Gm-Features: AWmQ_bk8ViQMOGSoa7xeoiHzcTix9I9pB6xN4wR2eEfHaZKAUuE1XNfLGS6AUL8
-Message-ID: <CANiDSCtyMvbSMod3afjwR0aP+ZaG2tLugLTiC5q8tQyHL1k9pw@mail.gmail.com>
-Subject: Re: [PATCH v2 5/6] media: uvcvideo: Introduce allow_privacy_override param
-To: Gergo Koteles <soyer@irl.hu>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede <hansg@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Gergo
+The patchset simplifies asynchronous registration of sensors connected to
+CAMSS CSIPHY IPs as linked media entities.
 
-Thanks for the review (and the discussion :) )
+There is no difference between these patches and the unapplied patches
+from v2, where the patch review discussion didn't progress further.
 
-On Wed, 19 Nov 2025 at 22:54, Gergo Koteles <soyer@irl.hu> wrote:
->
-> Hi Ricardo,
->
-> On Wed, 2025-11-19 at 19:37 +0000, Ricardo Ribalda wrote:
-> > Some camera modules have XU controls that can configure the behaviour of
-> > the privacy LED.
-> >
-> > Block mapping of those controls, unless the module is configured with
-> > a new parameter: allow_privacy_override.
-> >
-> > This is just an interim solution. Based on the users feedback, we will
-> > either put the privacy controls behind a CONFIG option, or completely
-> > block them.
-> >
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> >  drivers/media/usb/uvc/uvc_ctrl.c   | 38 ++++++++++++++++++++++++++++++++++++++
-> >  drivers/media/usb/uvc/uvc_driver.c | 20 ++++++++++++++++++++
-> >  drivers/media/usb/uvc/uvc_v4l2.c   |  7 +++++++
-> >  drivers/media/usb/uvc/uvcvideo.h   |  2 ++
-> >  include/linux/usb/uvc.h            |  4 ++++
-> >  5 files changed, 71 insertions(+)
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> > index 57ce486f22bbc404a1f127539eb2d12373431631..d9cbb942f798dc7138608982a5d3e3ef9f8141f6 100644
-> > --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > @@ -2951,6 +2951,35 @@ static int uvc_ctrl_init_xu_ctrl(struct uvc_device *dev,
-> >       return ret;
-> >  }
-> >
-> > +bool uvc_ctrl_is_privacy_control(u8 entity[16], u8 selector)
-> > +{
-> > +     /*
-> > +      * This list is not exhaustive, it is a best effort to block access to
-> > +      * non documented controls that can affect user's privacy.
-> > +      */
-> > +     struct privacy_control {
-> > +             u8 entity[16];
-> > +             u8 selector;
-> > +     } privacy_control[] = {
-> > +             {
-> > +                     .entity = UVC_GUID_LOGITECH_USER_HW_CONTROL_V1,
-> > +                     .selector = 1,
-> > +             },
-> > +             {
-> > +                     .entity = UVC_GUID_LOGITECH_PERIPHERAL,
-> > +                     .selector = 9,
-> > +             },
-> > +     };
-> > +     int i;
-> > +
-> > +     for (i = 0; i < ARRAY_SIZE(privacy_control); i++)
-> > +             if (!memcmp(entity, privacy_control[i].entity, 16) &&
-> > +                 selector == privacy_control[i].selector)
-> > +                     return true;
-> > +
-> > +     return false;
-> > +}
-> > +
-> >  int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
-> >       struct uvc_xu_control_query *xqry)
-> >  {
-> > @@ -2995,6 +3024,15 @@ int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
-> >               return -ENOENT;
-> >       }
-> >
-> > +     if (uvc_ctrl_is_privacy_control(entity->guid, xqry->selector) &&
-> > +         !uvc_allow_privacy_override_param) {
-> > +             dev_warn_once(&chain->dev->intf->dev,
-> > +                           "Privacy related controls can only be accessed if param allow_privacy_override is true\n");
-> > +             uvc_dbg(chain->dev, CONTROL, "Blocking access to privacy related Control %pUl/%u\n",
-> > +                     entity->guid, xqry->selector);
-> > +             return -EACCES;
-> > +     }
-> > +
->
-> What if this only applied to UVC_SET_CUR?
->
-> >       if (mutex_lock_interruptible(&chain->ctrl_mutex))
-> >               return -ERESTARTSYS;
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> > index 71563d8f4bcf581694ccd4b665ff52b629caa0b6..c292bf8b6f57e9fdacee726285f5b46e638fd317 100644
-> > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > @@ -35,6 +35,7 @@ unsigned int uvc_hw_timestamps_param;
-> >  static unsigned int uvc_quirks_param = -1;
-> >  unsigned int uvc_dbg_param;
-> >  unsigned int uvc_timeout_param = UVC_CTRL_STREAMING_TIMEOUT;
-> > +bool uvc_allow_privacy_override_param;
-> >
-> >  static struct usb_driver uvc_driver;
-> >
-> > @@ -2474,6 +2475,25 @@ MODULE_PARM_DESC(trace, "Trace level bitmask");
-> >  module_param_named(timeout, uvc_timeout_param, uint, 0644);
-> >  MODULE_PARM_DESC(timeout, "Streaming control requests timeout");
-> >
-> > +static int param_set_privacy(const char *val, const struct kernel_param *kp)
-> > +{
-> > +     pr_warn_once("uvcvideo: " DEPRECATED
-> > +                  "allow_privacy_override parameter will be eventually removed.\n");
-> > +     return param_set_bool(val, kp);
-> > +}
-> > +
-> > +static const struct kernel_param_ops param_ops_privacy = {
-> > +     .set = param_set_privacy,
-> > +     .get = param_get_bool,
-> > +};
-> > +
-> > +param_check_bool(allow_privacy_override, &uvc_allow_privacy_override_param);
-> > +module_param_cb(allow_privacy_override, &param_ops_privacy,
-> > +             &uvc_allow_privacy_override_param, 0644);
-> > +__MODULE_PARM_TYPE(allow_privacy_override, "bool");
-> > +MODULE_PARM_DESC(allow_privacy_override,
-> > +              "Allow access to privacy related controls");
-> > +
-> >  /* ------------------------------------------------------------------------
-> >   * Driver initialization and cleanup
-> >   */
-> > diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> > index 03c64b5698bf4331fed8437fa6e9c726a07450bd..510cf47c86a62ba7fe3c7fa51be82c996cf37f9f 100644
-> > --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> > +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> > @@ -133,6 +133,13 @@ static int uvc_ioctl_xu_ctrl_map(struct uvc_video_chain *chain,
-> >               return -EINVAL;
-> >       }
-> >
-> > +     if (uvc_ctrl_is_privacy_control(xmap->entity, xmap->selector) &&
-> > +         !uvc_allow_privacy_override_param) {
-> > +             dev_warn_once(&chain->dev->intf->dev,
-> > +                           "Privacy related controls can only be mapped if param allow_privacy_override is true\n");
-> > +             return -EACCES;
-> > +     }
-> > +
->
-> Would a better solution be to be able to map and query, but not set?
+Link to v2:
+- https://lore.kernel.org/all/20250903002255.346026-1-vladimir.zapolskiy@linaro.org/
 
-IMO it is less confusing if the controls are fully disabled.
+Changes from v2 to v3:
+* rebased on top of next-20251117, intended for v6.20 inclusion,
+* added gained Tested-by tags by Loic,
+* removed already applied patches from the series.
 
-Maybe it is worth it to land the patches that we do not have any
-disagreement with (1-4) . And then make a new patchset thread with 5
-and have a proper discussion there about usecases, mechanism to bypass
-block and future plans.
+Link to v1:
+- https://lore.kernel.org/all/20250513142353.2572563-1-vladimir.zapolskiy@linaro.org/
 
+Changes from v1 to v2:
+* added a gained Reviewed-by tag to patch 1/4 (Bryan),
+* reworded commit message of patch 2/4 (Bryan),
+* explained better a removal of port node availability check (Bryan, Neil),
+* cosmetic and non-function clean-ups of lesser significance,
+* removed already applied changes and rebased the rest on top of v6.17-rc2.
 
-Best regards
+There is no any functional changes between v1 and v2 of the series.
 
->
->
-> Regards,
-> Gergo
+Vladimir Zapolskiy (2):
+  media: qcom: camss: change internals of endpoint parsing to fwnode handling
+  media: qcom: camss: use a handy v4l2_async_nf_add_fwnode_remote() function
 
-
+ drivers/media/platform/qcom/camss/camss.c | 54 +++++++++--------------
+ 1 file changed, 21 insertions(+), 33 deletions(-)
 
 -- 
-Ricardo Ribalda
+2.49.0
+
 
