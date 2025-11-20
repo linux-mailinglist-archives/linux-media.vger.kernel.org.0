@@ -1,124 +1,212 @@
-Return-Path: <linux-media+bounces-47457-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47458-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 421CDC72FC7
-	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 09:57:28 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62403C7303D
+	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 10:06:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 2C2F0345919
-	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 08:54:00 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BF4B74E7064
+	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 09:06:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C1E030F948;
-	Thu, 20 Nov 2025 08:53:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DCAF3112AD;
+	Thu, 20 Nov 2025 09:05:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XzuvCE3z"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QtSqCzCL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAAB430F93D
-	for <linux-media@vger.kernel.org>; Thu, 20 Nov 2025 08:53:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A378230FF24;
+	Thu, 20 Nov 2025 09:05:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763628824; cv=none; b=JIolLLaVWbdEK93UEkRByw2PwQ4gseDvLIyBmJ+Z4d+0GE9TZ+45Gyr8eIk6WED6GRwwXZQSUvZG7WTWzG+urgeQTZPBMDZXbRvqZcqGMNxhIeif1uDxxbDwdjcM5ixuL6iNtV1YRveuWz2KWTy3D0F/9zwzzk1nE4XPuyTNziA=
+	t=1763629549; cv=none; b=DgvKTDH7P/2HQbakoSpmQ3QS9Skgo24EqOV0h6xf9f1JBhWAtNY3UHBdpDebFOqRw394fk0H55JLhth6Ktnsg5vU+BQouNGZrlc3FtlXBCAaKwXbWknCBw6IERLA3XzrMePflvUmnbsUAEnAbXw0zA8RBqP+s37sTq/TIBApEOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763628824; c=relaxed/simple;
-	bh=3RtAvB/9Ie1DCuhI1qP/SJsMoGHKx9tVF1JnaInWIaU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LV3g1JhjnE/hwgKKr5jXav4mO2X7sMUsuwgbkdXpUQ75M09ju9brHUv7dTMS0IMPf9i6/h5NumobioxSKTwPeS8aksG2hug/kZXBuADV4UYKvGt3t9/DZawjaNgWHrbxjdhmLisfWwWIXh7q9Wm1KG0D/GseEm8uYh3xQGEuQP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XzuvCE3z; arc=none smtp.client-ip=209.85.215.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b9f1d0126e6so271894a12.1
-        for <linux-media@vger.kernel.org>; Thu, 20 Nov 2025 00:53:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763628822; x=1764233622; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3RtAvB/9Ie1DCuhI1qP/SJsMoGHKx9tVF1JnaInWIaU=;
-        b=XzuvCE3zivvVT9sY3ApGfSA3q42V6rGMBgMbSqp0Fls11jO2QMKJLRT4mEoOw2x1jU
-         2jlhDS0P6py50FdMf4dPIVeWORVZ0iojALW6mj9nVoZQtEh20DQuGShGjdsanaTSOTOe
-         hRXK6ITmHHcb3BZyLy1OLXMqwJyCFNmaDKPD2UOSgxEF0iOlbBXqTS0AwBPhGFS+m7il
-         Lhn1+CMIAJvV9ve1xQQVunkPkAc8iqZo4tbtQSIsbcX1LdAgMAFpO3xbTWP0dLaQ5lH0
-         4BOCkvRl5I1FoOhNjf9FcSvC3hMHaKx+a06ZAH9rm4ngxSAKAQ3orSUu3FK0r7kpsZnM
-         DmAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763628822; x=1764233622;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=3RtAvB/9Ie1DCuhI1qP/SJsMoGHKx9tVF1JnaInWIaU=;
-        b=p/XylpanPDHDBmKcZBPY0WbCPCd04Bpi3wW6lWFmaM1lmUAZVpWQ2UhN6F2Qe4H+uh
-         TtSwHyReYzrUX6VNRpsNjUlGbwL/YKLYhg5JMGK6TwZpqZ2DYrLU7SBNcIHZPR3Pf6Od
-         a04BX6j0Utg1FTOcNCphe8uZocb4Y6q1liPCmyFdoWbB7jFJMKDr/XgWVs0vbDZX53NW
-         cjXswDB1LE+8EQT/TE2ULN2N46ffdkUf0HfhplSTnRBe3d2Iz6MUpVCJzsqy+GOXMnlk
-         MtZVY6DOe/F7J4twwDfg9kHoQ59NV9jbHBLwej4huQgNGrEfe74LJuyGqOImIB68Gsg/
-         JdBw==
-X-Forwarded-Encrypted: i=1; AJvYcCXka6b5xIN8qELirkozlt/7As2Jvcwv3Hot7sF5QpzojCiWmwhSqfRrzibDU5wUVZnQQHsBPRH5T8FhdQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxpBlQYrwHy028+Ue+FXiLaipEuRfKtAzqwfP26pWYiVEVKnMRe
-	rt79s7Ng/QJnLww9e1YwQ1sxnsWwe5AoFlsEhDCp3LUr+2DlYe+cthN/mYu06ClFrPrUh0he0yN
-	VGW/AkfjN7gkRB5Vg1lI2Q9e3oF5RhnWcyFk8
-X-Gm-Gg: ASbGncucSeA0C6v3dAQe/dcJ3IJ4X3yOiJKksPDXHExt30Sp5jfQOPpbzmMRlLGUWkR
-	OsPPLiX2nh33eRXMPLHAVaNi6/BJNMTUL8ak0ZrL8AkrF7nZ9gBze3yimupM8TjOjptR6yPXMRX
-	6HFqqjQ+q2z55xx48d9VWdCBj22CRle9pILAuvi9j8MS+lo498uSao8cUg3kmCRmOp+K1adI7Qh
-	gZYg/ZwGqC8P6epTFi2za4Q9WbA7jVn6jG782sx+CNWMYmf0DFOO4dOrp1BsshKTIQHwmAqVOWQ
-	rjygX9aELPkVrINs6BOdroDraWxbdA==
-X-Google-Smtp-Source: AGHT+IEZLRxgqeX1zMPbcTM89f7psvMnTfkXa56MVUNNnlTRlCeRgGGzbUpl3Ua98lZhiMNB0LOg1siz3pl+thP67LQ=
-X-Received: by 2002:a17:90a:e7c7:b0:340:6b6f:4bbf with SMTP id
- 98e67ed59e1d1-347298dacdcmr2170613a91.18.1763628821957; Thu, 20 Nov 2025
- 00:53:41 -0800 (PST)
+	s=arc-20240116; t=1763629549; c=relaxed/simple;
+	bh=pyS1vaqzNz/xpyS0z9TMgo/u5zVifYtAkx7uH8FT7Uc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=OWZu6iU+AJMS9uVlcONxI0J80AZtoExNHHl+wcSlknOQu052+l64LbqNpjtx4vA03RSXsqxg/kqL89itl6+Rimx4pBcxTfyQVCjte3LSlf0+i/q+jyb+nD5hw54CpsBzyIMT34VHk3EzWJ8QD2g8lNTjRwyRwRCy2hUOWUTB+nw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QtSqCzCL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE050C116B1;
+	Thu, 20 Nov 2025 09:05:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763629548;
+	bh=pyS1vaqzNz/xpyS0z9TMgo/u5zVifYtAkx7uH8FT7Uc=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=QtSqCzCL0/UDsrxxWX/F2Y/5GQMhpSnb8MkjVJdn4E/LaqpZx5owpNhUoHEksedh2
+	 rrMbP0zrwOcWZ2DRu1TBIwGAn554Zb5PxDZao4LwZ9ICg+cLqKgDXlBTaCY/rFsg1o
+	 gnu6MZajM9VfFgZkNBaEnA29Sztzq5RMYGUhBh5nLLWv9VpHwFiU5Y3ifvT9Dgd3I4
+	 XvRUtabYurCzh9H3rFa+zGKh8hJxDceq6DoFK5iQoKGvDlZSKMBKCBYfOP3z19pmFm
+	 EikZHjI3mCRtRMaDJXEGWhPskzixA6ufiPYqbw5unOXUfTvHzIuBQjo+NEehmhUaDW
+	 g9ZeuYPW3vf8A==
+Message-ID: <bdc6a80f-3d26-420e-8c83-839f06c365a5@kernel.org>
+Date: Thu, 20 Nov 2025 10:05:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251101052651.6197-1-opensource206@gmail.com>
- <959ac74b-a8b7-4d4e-9d34-3b3d971f9f8a@linuxfoundation.org>
- <CAKPKb8-nFzqgh+k3aBxUvZ8g28usiAt5BEdFDQysVnCk3S+sEg@mail.gmail.com>
- <c64985f5-f1e5-4880-876d-0a3c9d83629c@linuxfoundation.org>
- <CAKPKb8830YHuY=h662wPVPvTz3LcyLio6pRDy9ZGStkqwu_Vdg@mail.gmail.com> <3150f8ed-5de4-48fa-a6ac-136b07955235@linuxfoundation.org>
-In-Reply-To: <3150f8ed-5de4-48fa-a6ac-136b07955235@linuxfoundation.org>
-From: opensource india <opensource206@gmail.com>
-Date: Thu, 20 Nov 2025 14:23:23 +0530
-X-Gm-Features: AWmQ_blHBmCnyfgAVnD4MxQVnZEstjQKBmzOc7_CIKdoEn69vk-X01a9JOL5FNc
-Message-ID: <CAKPKb88jCvkktRqWcmmeH_j5vWXcdB7gvoQ-Pq-G-HeBc=jdXg@mail.gmail.com>
-Subject: Re: [PATCH] media: vimc: add RGB/YUV input entity implementation
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: kieran.bingham@ideasonboard.com, mchehab@kernel.org, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/4] media: dt-bindings: adi,adv7180: add VPP and CSI
+ register maps
+To: Michael Tretter <m.tretter@pengutronix.de>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, kernel@pengutronix.de
+References: <20251119-b4-adv7180-vpp-sub-device-v2-0-86a7790b63ab@pengutronix.de>
+ <20251119-b4-adv7180-vpp-sub-device-v2-1-86a7790b63ab@pengutronix.de>
+ <20251120-calm-invisible-bullmastiff-ceaf71@kuoka>
+ <aR7W76sUxs2gm1LL@pengutronix.de>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
+ QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
+ +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
+ ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
+ 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
+ hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
+ tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
+ 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
+ naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
+ hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
+ whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
+ qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
+ RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
+ Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
+ H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
+ dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
+ AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
+ jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
+ zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
+ XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
+In-Reply-To: <aR7W76sUxs2gm1LL@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Shuah,
+On 20/11/2025 09:53, Michael Tretter wrote:
+> On Thu, 20 Nov 2025 09:04:48 +0100, Krzysztof Kozlowski wrote:
+>> On Wed, Nov 19, 2025 at 05:25:51PM +0100, Michael Tretter wrote:
+>>> diff --git a/Documentation/devicetree/bindings/media/i2c/adi,adv7180.yaml b/Documentation/devicetree/bindings/media/i2c/adi,adv7180.yaml
+>>> index dee8ce7cb7ba..dbbbe76291bc 100644
+>>> --- a/Documentation/devicetree/bindings/media/i2c/adi,adv7180.yaml
+>>> +++ b/Documentation/devicetree/bindings/media/i2c/adi,adv7180.yaml
+>>> @@ -30,7 +30,27 @@ properties:
+>>>            - adi,adv7282-m
+>>>  
+>>>    reg:
+>>> -    maxItems: 1
+>>> +    minItems: 1
+>>> +    items:
+>>> +      - description: main register map
+>>> +      - description: CSI register map
+>>> +      - description: VPP register map
+>>> +    description:
+>>> +      The ADV7180 family may have up to three register maps. All chips have
+>>> +      the main register map. The availability of the CSI and VPP register maps
+>>> +      depends on the chip variant.
+>>> +
+>>> +      The addresses of the CSI and VPP register maps are programmable by
+>>> +      software. They depend on the board layout and other devices on the I2C
+>>> +      bus and are determined by the hardware designer to avoid address
+>>> +      conflicts on the I2C bus.
+>>> +
+>>> +  reg-names:
+>>> +    minItems: 1
+>>> +    items:
+>>> +      - const: main
+>>> +      - enum: [ csi, vpp ]
+>>> +      - enum: [ csi, vpp ]
+>>
+>> Last entry must be:
+>>
+>> const: vpp
+>>
+>> We do not allow flexible order... but the problem is that your if:then:
+>> does not match above at all. You do not have three items anywhere.
+> 
+> I'm not entirely sure, if I correctly understand that comment.
+> 
+> The adi,adv7280-m and adi,adv7282-m have all three items and don't need
+> an if:then:. Do I have explicitly define the binding with three items,
+> too?
 
-On Thu, Nov 20, 2025 at 1:35=E2=80=AFAM Shuah Khan <skhan@linuxfoundation.o=
-rg> wrote:
->
+Which comment? That third item cannot be csi? What is odd here?
 
-> Sorry for the delay - these four patches especially this one add
-> new features/functionality to to vimc.
->
-> These require updates - Documentation/admin-guide/media/vimc.rst
-> Please include the documentation patch - please send these as
-> series 4 patches + doc patch as a series.
->
-> The changes look okay to me.
->
-> thanks,
-> -- Shuah
 
-Thank you for the review.
-i have sent all patches as a series along with documentation changes
+> 
+> The chip has the following variants:
+> 
+> adi,adv7180:     main
+> adi,adv7180cp:   main
+> adi,adv7180st:   main
+> adi,adv7182:     main
+> adi,adv7280:     main, vpp
+> adi,adv7280-m:   main, csi, vpp
+> adi,adv7281:     main, csi
+> adi,adv7281-m:   main, csi
+> adi,adv7281-ma:  main, csi
+> adi,adv7282:     main, vpp
+> adi,adv7282-m:   main, csi, vpp
 
-https://lore.kernel.org/linux-media/20251120084926.18620-1-opensource206@gm=
-ail.com/T/#t
+So where is csi as third item?
 
-please review
+Anyway, you also miss minItems in your if:then: cases.
 
-Regards,
-Pavan
+> 
+> If I make the last entry (vpp) const, I allow exactly these variants.
+> 
+> For the adi,adv7280-m compatible, the following combinations would be
+> valid or invalid:
+> 
+> adi,adv7280-m:   main
+> 
+> is valid, because only main is mandatory. For csi and vpp, the default
+> addresses are used.
+> 
+> adi,adv7280-m:   main, vpp
+> 
+> is valid, because the second entry may be vpp. For csi, the default
+> address is used.
+> 
+> adi,adv7280-m:   main, vpp, csi
+> 
+> is invalid, because the entries must be in the defined order, and
+> flexible order is not possible.
+> 
+> Is this correct and matches the binding definition?
+
+It does not match your code.
+
+
+Best regards,
+Krzysztof
 
