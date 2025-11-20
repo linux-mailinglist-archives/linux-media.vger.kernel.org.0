@@ -1,212 +1,214 @@
-Return-Path: <linux-media+bounces-47458-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47459-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62403C7303D
-	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 10:06:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ED05C730DE
+	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 10:13:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BF4B74E7064
-	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 09:06:00 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9144A4EC9C9
+	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 09:10:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DCAF3112AD;
-	Thu, 20 Nov 2025 09:05:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9511B30FF24;
+	Thu, 20 Nov 2025 09:10:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QtSqCzCL"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="R3HzLfOF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012067.outbound.protection.outlook.com [40.93.195.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A378230FF24;
-	Thu, 20 Nov 2025 09:05:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763629549; cv=none; b=DgvKTDH7P/2HQbakoSpmQ3QS9Skgo24EqOV0h6xf9f1JBhWAtNY3UHBdpDebFOqRw394fk0H55JLhth6Ktnsg5vU+BQouNGZrlc3FtlXBCAaKwXbWknCBw6IERLA3XzrMePflvUmnbsUAEnAbXw0zA8RBqP+s37sTq/TIBApEOQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763629549; c=relaxed/simple;
-	bh=pyS1vaqzNz/xpyS0z9TMgo/u5zVifYtAkx7uH8FT7Uc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=OWZu6iU+AJMS9uVlcONxI0J80AZtoExNHHl+wcSlknOQu052+l64LbqNpjtx4vA03RSXsqxg/kqL89itl6+Rimx4pBcxTfyQVCjte3LSlf0+i/q+jyb+nD5hw54CpsBzyIMT34VHk3EzWJ8QD2g8lNTjRwyRwRCy2hUOWUTB+nw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QtSqCzCL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE050C116B1;
-	Thu, 20 Nov 2025 09:05:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763629548;
-	bh=pyS1vaqzNz/xpyS0z9TMgo/u5zVifYtAkx7uH8FT7Uc=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=QtSqCzCL0/UDsrxxWX/F2Y/5GQMhpSnb8MkjVJdn4E/LaqpZx5owpNhUoHEksedh2
-	 rrMbP0zrwOcWZ2DRu1TBIwGAn554Zb5PxDZao4LwZ9ICg+cLqKgDXlBTaCY/rFsg1o
-	 gnu6MZajM9VfFgZkNBaEnA29Sztzq5RMYGUhBh5nLLWv9VpHwFiU5Y3ifvT9Dgd3I4
-	 XvRUtabYurCzh9H3rFa+zGKh8hJxDceq6DoFK5iQoKGvDlZSKMBKCBYfOP3z19pmFm
-	 EikZHjI3mCRtRMaDJXEGWhPskzixA6ufiPYqbw5unOXUfTvHzIuBQjo+NEehmhUaDW
-	 g9ZeuYPW3vf8A==
-Message-ID: <bdc6a80f-3d26-420e-8c83-839f06c365a5@kernel.org>
-Date: Thu, 20 Nov 2025 10:05:43 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45DA178F54;
+	Thu, 20 Nov 2025 09:10:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.67
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763629847; cv=fail; b=pyolBBN4mPTouSK0BHRc9ilRyiJQZbG2WddY9fuCBYyvrxrqeh5Q1y5efsSG2UpX6+RnI9qInfXG3WvE8xXKdjzVWS1B4ijh++CQlDGIm5KQWXmcNH5r8sH17n2xwGqo2uI6hz6DIU+wmDKvp9ihCkOWTO0B6y0Kk3o9nsYfsuw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763629847; c=relaxed/simple;
+	bh=jcWlr3ynAX28+s97fQa6gbHSxCosuZXIvrUiVTAHLi8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=R/PBmAb1IUNx7DsAThhFJza/I1YF6VYMo7P9mzjfx9iqZBFNQ4sBcl3Dd2dzg5m17wO/maafhh26jRwG4F3efMe3zON34n5NWvq8ismlkD9YFYyhSVCKy504e+38CXo2NQiRl3HTxioXGi0429ML3XEiYSnRjftIMn2tuiMi4j8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=R3HzLfOF; arc=fail smtp.client-ip=40.93.195.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RoUpSJ1bz6qntTZT1eKOGRkP4ZVk+ufu14BrsLQiG7fYIVPxM06Nl1plblSfMRBmnpmew+fMNcVJ3+cZLYL+C00PXU1D0P5F0M9BPnOh3mrfXqrCgKqr3x/GqgDuWyB6mw7XVijP9Lx3M9wqEGCDr4csps4hj1vsVSfRHNmkDHZyB+p6lHlVYEgLbq2jbmWK0CU58gd95VuNCQbF69yhyTm2USocgucIuOCVRBd5kQhgcfO/OU+pVDVBjIyRvFCRih0kSbMOVSrZV4k6Oo/NFETLFPYlwke9BW1evRniHNcXABsNKSE0HZPJqHHyuNPKDdivRtYozOVMA+MC/bHkiA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qFTc2VDstp7N9Nwhs2AETmEas8/fPWdCe0LY1uP5kEo=;
+ b=jZELY4QFJa4VTLX+4YOWlv+GMZtcUYRABJJfFk5NHRO09/S/WoridziQCBDxXrEgKk7jUVV7ngoJguGFixW5ALp0x+fAz1o4hBO6N+9cIHxSe9L++sSUCeO+V+ARKUjbKPRx9qd47JPecSkdl2YKt6Tny6ab2W8q8nXrUKa5IdNwLKyxuV7MQ54ngv8VrKLHL/FdnF4qT6n9oZj4HtX9eMym3F/WDuQstS610ktEETgeGF4uavVD83mVa8fci0v6Rd/8mFaNKI053VArd1GZHMHi7MyPDu89JgifWnpWHh0DSUMFNVyMSn2370yvs9HcIcfqHBgiEP749kLTaK/4mA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.195) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qFTc2VDstp7N9Nwhs2AETmEas8/fPWdCe0LY1uP5kEo=;
+ b=R3HzLfOF8xxPxKwY/TMl9Zcm70bOSGHXgpjrOgmqZWJH7q+AUd37Kjue9Mf/lHhZrxA3Ohu6c8UVR1ciywSszT/G1ixK8RRY7uEFsLe5kXBEubF6D5QENUUYiPUSNn9OIoOBkCf9lf0zhaywYPtan+Dw6B7AxQFKCGgSTY3vMCk=
+Received: from MN2PR22CA0002.namprd22.prod.outlook.com (2603:10b6:208:238::7)
+ by SA1PR10MB6566.namprd10.prod.outlook.com (2603:10b6:806:2bf::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Thu, 20 Nov
+ 2025 09:10:40 +0000
+Received: from BL02EPF00021F6F.namprd02.prod.outlook.com
+ (2603:10b6:208:238:cafe::88) by MN2PR22CA0002.outlook.office365.com
+ (2603:10b6:208:238::7) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.10 via Frontend Transport; Thu,
+ 20 Nov 2025 09:10:38 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
+Received: from lewvzet201.ext.ti.com (198.47.23.195) by
+ BL02EPF00021F6F.mail.protection.outlook.com (10.167.249.11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9343.9 via Frontend Transport; Thu, 20 Nov 2025 09:10:40 +0000
+Received: from DLEE204.ent.ti.com (157.170.170.84) by lewvzet201.ext.ti.com
+ (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 20 Nov
+ 2025 03:10:38 -0600
+Received: from DLEE210.ent.ti.com (157.170.170.112) by DLEE204.ent.ti.com
+ (157.170.170.84) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 20 Nov
+ 2025 03:10:38 -0600
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE210.ent.ti.com
+ (157.170.170.112) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Thu, 20 Nov 2025 03:10:38 -0600
+Received: from abhilash-HP.dhcp.ti.com (abhilash-hp.dhcp.ti.com [10.24.68.198])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5AK9AXWc3413879;
+	Thu, 20 Nov 2025 03:10:34 -0600
+From: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
+To: <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+	<conor+dt@kernel.org>, <hverkuil+cisco@kernel.org>
+CC: <sakari.ailus@linux.intel.com>, <bparrot@ti.com>,
+	<jai.luthra@ideasonboard.com>, <dale@farnsworth.org>,
+	<linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <u-kumar1@ti.com>, <y-abhilashchandra@ti.com>
+Subject: [PATCH V6 0/4] Add support for TI VIP
+Date: Thu, 20 Nov 2025 14:40:26 +0530
+Message-ID: <20251120091030.2081594-1-y-abhilashchandra@ti.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] media: dt-bindings: adi,adv7180: add VPP and CSI
- register maps
-To: Michael Tretter <m.tretter@pengutronix.de>,
- Lars-Peter Clausen <lars@metafoo.de>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, kernel@pengutronix.de
-References: <20251119-b4-adv7180-vpp-sub-device-v2-0-86a7790b63ab@pengutronix.de>
- <20251119-b4-adv7180-vpp-sub-device-v2-1-86a7790b63ab@pengutronix.de>
- <20251120-calm-invisible-bullmastiff-ceaf71@kuoka>
- <aR7W76sUxs2gm1LL@pengutronix.de>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <aR7W76sUxs2gm1LL@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF00021F6F:EE_|SA1PR10MB6566:EE_
+X-MS-Office365-Filtering-Correlation-Id: 920db8e1-be52-4ef0-b2fd-08de2814ad43
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|82310400026|36860700013|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?rvWWtXRsNrLYMoKHXEGqrM9OsTmkdsB8w9AKUfKTOWGuNuPBVMV7ffek+LCw?=
+ =?us-ascii?Q?MQT7D2Zz//o4XiXKyXfzOgJOw7HchPBvcsNXm1RbaGX9NZET+zvKqRODx+CY?=
+ =?us-ascii?Q?hJ6QFlyhP7Wh8ZyNn10SyLPkWNtYYiulDiq4j/71O6fCxqpNqJ6FGsVLQMyA?=
+ =?us-ascii?Q?VMFIXcPQgXDUGJgNW0vYmLQbyDb2p3T8uK1Gc67KYinNU63gy8MJD6o4tX7H?=
+ =?us-ascii?Q?R8zc4E9bvGBtCTIL0wmeugoSp9dQgLjvikynh9SEbL5txvOur9VONcSToNvB?=
+ =?us-ascii?Q?9vid+i1xKoPnpPQq+eEOep0ZTRQZewy/6VgcGYq2+fRD44qtiZcX5cqyxEQI?=
+ =?us-ascii?Q?BC++QfhSMRuNSwAoyfueVKULDozdfXldzCIWTrSkOX8QGsndmBE820sqSxGt?=
+ =?us-ascii?Q?DzuWT85LaYR6U1hXKsgdtBmXgg4BNgCmIJtbPWpZQEzJRhUFSWDJZRMR8Lzi?=
+ =?us-ascii?Q?cFQoA+Hh5HucLCuM6jDwOMr3Aj9PdEXUkC4Y4XTB7ScUKHhDMoFdp+w2/p2Q?=
+ =?us-ascii?Q?nOIoC9vFv+F0kFEhQHrxuEBBjU6lt6/d288hs+UMql2qDYkUSIjcKftjAcul?=
+ =?us-ascii?Q?8zKGptRPWaA+nTRhJwCdKdjAxFEHTDXFl1fsTwPpHgNJU9ZgYUZfkOxMmGfy?=
+ =?us-ascii?Q?K3ZBN5zi6UY0pLBQiTcfci3RYPKylfp0chMsvxLuHBPqr5ak1adFAeQwGOCa?=
+ =?us-ascii?Q?kfecB2whp+9lbsLustofpZYhQU+BFXICqWxx0ZvGuKGNPqy0fveLKmXqYpbU?=
+ =?us-ascii?Q?oZCuaG0OdTwiGkYIJ5XsdqnRVNpe7ecWbVztcgy/Cml9JIy0iSDK61c78rPc?=
+ =?us-ascii?Q?FWOwOfZnGeENIqZ12gs2MZ04rDLtrPfkrbbEB2rEUh+30ctMDHxYCKbIsQeO?=
+ =?us-ascii?Q?Rotie594bKgjE62oZ/9pTtJk0n9yrDY3ToOTp/9jr+KHkZREn1J8l3XrLkH3?=
+ =?us-ascii?Q?wx7J0RWEZX6DD70ZpVwPhkYAE6lvioPdzEaBy5S8dIVNRS7nsUuW5ebeJCip?=
+ =?us-ascii?Q?YQ1PxWe9uE9nIdS+MD2/DuO4QsqF1MtVY96vdRL94OCuedbUIskv8o3+rn54?=
+ =?us-ascii?Q?Ex/QO7zhJy93L+JBhnyLv5DAmDUsa198cqBOSPK6LSf9+hh6aSYtTeCRwfmO?=
+ =?us-ascii?Q?Wo8ZWl3GjXxO7Lnp+tbsTgwEMl40MMN1Z74+5qNb0I68Kb+zBszKTY2aUI1z?=
+ =?us-ascii?Q?G+SLbbt41hWnwe0MG0GCc4kUStFLtNTVfyBsGRwCtusdvX1AAKeVfDZzjgkR?=
+ =?us-ascii?Q?XO5T5deTWsQ0GUVnxJB+ycPvItlLGQZXiQLyKOrZDtxDomGg0ejMKvivIzXf?=
+ =?us-ascii?Q?m+nlBT3dJFjd8sU2nVIePZYA6wDc9DHuv77E9iSJfrUZE7639Xi8UOlIvKtw?=
+ =?us-ascii?Q?mEV49R6NbmGkmHvqxGF8Lr6hgXTD0eo93zw9BspHZK5BnWOP/vYEXgouBO4S?=
+ =?us-ascii?Q?fM+DgIRfj1M4HeO0f6F4D9PlyHbzHdb/uYSOsGQWiDHNWsM6EYudRbYxjY0K?=
+ =?us-ascii?Q?8UeRY2ioLEL0ZHFs8uvmJ/cbFo/cS28FBfaxvr2AzLfe5bqNAD9u2zZHcnYC?=
+ =?us-ascii?Q?SwbKRXlJrML/czOfFtI=3D?=
+X-Forefront-Antispam-Report:
+	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014)(7416014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2025 09:10:40.3361
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 920db8e1-be52-4ef0-b2fd-08de2814ad43
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL02EPF00021F6F.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR10MB6566
 
-On 20/11/2025 09:53, Michael Tretter wrote:
-> On Thu, 20 Nov 2025 09:04:48 +0100, Krzysztof Kozlowski wrote:
->> On Wed, Nov 19, 2025 at 05:25:51PM +0100, Michael Tretter wrote:
->>> diff --git a/Documentation/devicetree/bindings/media/i2c/adi,adv7180.yaml b/Documentation/devicetree/bindings/media/i2c/adi,adv7180.yaml
->>> index dee8ce7cb7ba..dbbbe76291bc 100644
->>> --- a/Documentation/devicetree/bindings/media/i2c/adi,adv7180.yaml
->>> +++ b/Documentation/devicetree/bindings/media/i2c/adi,adv7180.yaml
->>> @@ -30,7 +30,27 @@ properties:
->>>            - adi,adv7282-m
->>>  
->>>    reg:
->>> -    maxItems: 1
->>> +    minItems: 1
->>> +    items:
->>> +      - description: main register map
->>> +      - description: CSI register map
->>> +      - description: VPP register map
->>> +    description:
->>> +      The ADV7180 family may have up to three register maps. All chips have
->>> +      the main register map. The availability of the CSI and VPP register maps
->>> +      depends on the chip variant.
->>> +
->>> +      The addresses of the CSI and VPP register maps are programmable by
->>> +      software. They depend on the board layout and other devices on the I2C
->>> +      bus and are determined by the hardware designer to avoid address
->>> +      conflicts on the I2C bus.
->>> +
->>> +  reg-names:
->>> +    minItems: 1
->>> +    items:
->>> +      - const: main
->>> +      - enum: [ csi, vpp ]
->>> +      - enum: [ csi, vpp ]
->>
->> Last entry must be:
->>
->> const: vpp
->>
->> We do not allow flexible order... but the problem is that your if:then:
->> does not match above at all. You do not have three items anywhere.
-> 
-> I'm not entirely sure, if I correctly understand that comment.
-> 
-> The adi,adv7280-m and adi,adv7282-m have all three items and don't need
-> an if:then:. Do I have explicitly define the binding with three items,
-> too?
+This patch series adds support for the TI VIP. VIP stands for Video
+Input Port, it can be found on devices such as DRA7xx and provides
+a parallel interface to a video source such as a sensor or TV decoder.
 
-Which comment? That third item cannot be csi? What is odd here?
+Each VIP can support two inputs (slices) and a SoC can be configured
+with a variable number of VIP's. Each slice can support two ports
+each connected to its own sub-device.
+
+Changelog:
+Changes in v6:
+- Collect R/B from Rob
+- Use latest v4l-utils (Hans) 
+- Remove 'default n' from VIDEO_TI_VIP Kconfig option (Hans)
+- Updated Kconfig dependencies with COMPILE_TEST, now depends on SOC_DRA7XX || COMPILE_TEST (Hans)
+- In vip_s_std(), moved the standard validation check before the vb2_is_busy() check (Hans)
+- In vip_s_fmt_vid_cap(), moved the vip_try_fmt_vid_cap() call before the vb2_is_busy() check (Hans)
+- Put all vip_set_slice_path() calls on a single line for better readability (Hans)
+- Clean up set_fmt_params and unset_fmt_params functions to make the logic easier to read (Hans)
+- Add a vb2_is_busy check in vip_s_selection (Hans)
+- Remove buffer count check in vip_queue_setup (Hans)
+- For *nplanes is != 0 just check the size in vip_queue_setup (Hans)
+- Remove read support (Hans)
+- Change vip_register_subdev_notif() to vip_register_subdev_notify() (Hans)
+- Also fixed issues reported by Coccinelle and W=1 build.
 
 
-> 
-> The chip has the following variants:
-> 
-> adi,adv7180:     main
-> adi,adv7180cp:   main
-> adi,adv7180st:   main
-> adi,adv7182:     main
-> adi,adv7280:     main, vpp
-> adi,adv7280-m:   main, csi, vpp
-> adi,adv7281:     main, csi
-> adi,adv7281-m:   main, csi
-> adi,adv7281-ma:  main, csi
-> adi,adv7282:     main, vpp
-> adi,adv7282-m:   main, csi, vpp
+v4l2-compliance output: https://gist.github.com/Yemike-Abhilash-Chandra/36af73c5f6f43d3cf497eebf729e39a5
+v4l2-compliance output with -s: https://gist.github.com/Yemike-Abhilash-Chandra/bccf57e5ef9775bec912edff66a5bffd
 
-So where is csi as third item?
+Test logs: https://gist.github.com/Yemike-Abhilash-Chandra/d4e775f688256feb8ae2d7ec91de4249
+(Tested on mainline: 6.18-rc6 since next-20251119 was broken for AM57 due to some othe reason)
 
-Anyway, you also miss minItems in your if:then: cases.
+DT binding check results: https://gist.github.com/Yemike-Abhilash-Chandra/da9b144943225326e0209bf5e0627810
+(No errors related to ti,vip.yaml)
 
-> 
-> If I make the last entry (vpp) const, I allow exactly these variants.
-> 
-> For the adi,adv7280-m compatible, the following combinations would be
-> valid or invalid:
-> 
-> adi,adv7280-m:   main
-> 
-> is valid, because only main is mandatory. For csi and vpp, the default
-> addresses are used.
-> 
-> adi,adv7280-m:   main, vpp
-> 
-> is valid, because the second entry may be vpp. For csi, the default
-> address is used.
-> 
-> adi,adv7280-m:   main, vpp, csi
-> 
-> is invalid, because the entries must be in the defined order, and
-> flexible order is not possible.
-> 
-> Is this correct and matches the binding definition?
+Link for v5: https://lore.kernel.org/all/20251024094452.549186-1-y-abhilashchandra@ti.com/
 
-It does not match your code.
+Dale Farnsworth (2):
+  dt-bindings: media: ti: vpe: Add support for Video Input Port
+  media: ti: vpe: Add the VIP driver
 
+Yemike Abhilash Chandra (2):
+  media: ti: vpe: Re-introduce multi-instance and multi-client support
+  media: ti: vpe: Export vpdma_load_firmware() function
 
-Best regards,
-Krzysztof
+ .../devicetree/bindings/media/ti,vip.yaml     |  152 +
+ MAINTAINERS                                   |    1 +
+ drivers/media/platform/ti/Kconfig             |   13 +
+ drivers/media/platform/ti/vpe/Makefile        |    2 +
+ drivers/media/platform/ti/vpe/vip.c           | 3668 +++++++++++++++++
+ drivers/media/platform/ti/vpe/vip.h           |  717 ++++
+ drivers/media/platform/ti/vpe/vpdma.c         |   51 +-
+ drivers/media/platform/ti/vpe/vpdma.h         |    6 +
+ 8 files changed, 4609 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/media/ti,vip.yaml
+ create mode 100644 drivers/media/platform/ti/vpe/vip.c
+ create mode 100644 drivers/media/platform/ti/vpe/vip.h
+
+-- 
+2.34.1
+
 
