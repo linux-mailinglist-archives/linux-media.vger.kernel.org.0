@@ -1,88 +1,48 @@
-Return-Path: <linux-media+bounces-47484-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47485-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9979FC73776
-	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 11:32:26 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A550C73D82
+	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 12:59:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 4B0A04E4739
-	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 10:32:25 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTPS id AAF9E28A2B
+	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 11:59:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F15532C31B;
-	Thu, 20 Nov 2025 10:32:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E45D330332;
+	Thu, 20 Nov 2025 11:58:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="wjvGljOB"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="f2ntpa/r"
 X-Original-To: linux-media@vger.kernel.org
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012044.outbound.protection.outlook.com [52.101.43.44])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37BF02E8B8A;
-	Thu, 20 Nov 2025 10:32:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763634735; cv=fail; b=VsYLZS2OAUme2E0rSsqqalynLCnTJ8Zvrvnx2rdfWufeMqRSYWSIXnA9AXqQOyRAAnm1x0C/z/RPEfH1ekDAEdWdswk2I1fgOUcZntYpFW3HImJ9CtVFwxqGo29aTMxPTI8SOF4zy10hGWYaASMhNvUpGrhG3MG6Xxgtm/P+eN8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763634735; c=relaxed/simple;
-	bh=OMDLiu89b7j9V40PUSEHWCmHOhxsy/omfPdKBlrbE0Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=EENZ4DhfZYYw7ic/2+LaC+Tetwf7OirxyCTUV3/TmP9poccluzsTevi2tojZRvAJqjhWbX60PAXWNWHNDcouPaPwYsQE46nCIGsvSzEfuoYQBfs4XzJUN5pK90i7lcQ7UaaJ5Ne+p2MwA10bnl6Pha1AOPwdugGIvNJ7N2U6VV4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=wjvGljOB; arc=fail smtp.client-ip=52.101.43.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=k33u+Ca3k8l/20Mo1zVuznQiu0O4jQLVS5L3MgsJCzxk5X5YPG+7K3dQdKhOlVxNFduhETvVDJ27pzDl6oiFq9SyxX0uJ/3rhMhxYExCEEXrq/9fU6pf5bPw0aBYptZz/hcYTwrcKZ7xClG1ImFp55Or8wLn0jKXMjiI5kjs0cmf5etZHjgdRO52+mj6L1B8dSgEPDFtbsO9zXRxR0N2EcqGsqjxCJglsXGXCQwi/bkEHeGRjFx9Rk27Vu+IHcfbiQjtiS44CGNiQgqvlVs+qYv3q2v5cP5bxF1mKAnVJyccib4N5stdbOHzINlzGatvsf5qix9UrxrjwhX2wlK1zw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+U5n5W+49CJTfiSSPCPw6tB1AoKMdI9gMtef8SBjKxg=;
- b=pfldXA4zWOLfAHpFhc3B+9t/+BRiO3ddvGmSLuPI/ZvJ+hbbIetSmGDzTBUKzSn3aLqmMW3/CYONXYDq8a+l2Wx7H/zclnFIq2jKdc16klr9ujz7Ix3XGZCsAwVdlftSuuWoxAupv/eMZAWyJ9SgtQOv9kYq5jA9867YaritfXSq78+QkPjRZg/wuG7t+aYDLIKEUBN2tUTljgHqJzWPipjHsWnEaSEzVt7JYtoHlwfWqiFRKAfGzXJkv6cU5fg21h9WACnOpP6t21ZSDujwSSe4ATZBgXa8JAEHd1N1bGQmwkyY/bfvE/NPhuR/7Im8oBCm6NLyiuIQCuVW9P3qmw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.195) smtp.rcpttodomain=baylibre.com smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+U5n5W+49CJTfiSSPCPw6tB1AoKMdI9gMtef8SBjKxg=;
- b=wjvGljOBsNebjhHIPWzrCwF0rKDjPq0pu8RuZsTgTKDhS/j6lWSAYi+9Teg13mQrR0/W2Yn8G5agDZQz1Bt/g+p52lM/yiJbdJ49llk9yg8kUhLYlzzl00JPzbWmeIwnylo7+imc0CaQFceeybi+v/vEbzgJVxjvRVfQDLCNBnA=
-Received: from BY3PR05CA0029.namprd05.prod.outlook.com (2603:10b6:a03:254::34)
- by PH5PR10MB997708.namprd10.prod.outlook.com (2603:10b6:510:39c::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.11; Thu, 20 Nov
- 2025 10:32:10 +0000
-Received: from BY1PEPF0001AE1A.namprd04.prod.outlook.com
- (2603:10b6:a03:254:cafe::61) by BY3PR05CA0029.outlook.office365.com
- (2603:10b6:a03:254::34) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.10 via Frontend Transport; Thu,
- 20 Nov 2025 10:32:10 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
-Received: from lewvzet201.ext.ti.com (198.47.23.195) by
- BY1PEPF0001AE1A.mail.protection.outlook.com (10.167.242.102) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9343.9 via Frontend Transport; Thu, 20 Nov 2025 10:32:10 +0000
-Received: from DLEE203.ent.ti.com (157.170.170.78) by lewvzet201.ext.ti.com
- (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 20 Nov
- 2025 04:32:06 -0600
-Received: from DLEE201.ent.ti.com (157.170.170.76) by DLEE203.ent.ti.com
- (157.170.170.78) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 20 Nov
- 2025 04:32:06 -0600
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE201.ent.ti.com
- (157.170.170.76) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Thu, 20 Nov 2025 04:32:06 -0600
-Received: from [10.24.68.198] (abhilash-hp.dhcp.ti.com [10.24.68.198])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5AKAW1rS3517791;
-	Thu, 20 Nov 2025 04:32:02 -0600
-Message-ID: <7ebd8fa2-eea0-4620-bf5c-c60a572575d3@ti.com>
-Date: Thu, 20 Nov 2025 16:02:01 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5067372AC1;
+	Thu, 20 Nov 2025 11:58:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763639936; cv=none; b=YPYh5AnpNk0DFhFeqLmPd0+LljG7ElCt/IOA8jn0lOzETZm6K5zEdzw1MzWfLHNsubYZUWzc9xCpGAVHR5crIazfiMv4MdQQFlCZF+TdhA9Ur/3Ox4HF9/SA1yM2bmeOcdydsNPC3k0A6Fe65rwMVsio4S1XbiBz6f/NYy8Hm8U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763639936; c=relaxed/simple;
+	bh=2fJeeNJmb1dv02nuHuAxzkWRgIz4VXfIq4fN2FZVjBY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Vt7Z1fwuQQFdZYBrYw6nSkA4K1yYxtyJLwajD5c7EzNvrhhmi9vXeXrk9LQ3ySa8Y8MEduhaPnsWx7xRgs9n6CpEuGK0EXNZq0PpmfQx4QcdV9BkaYHIS01ucZI3aE0+xzWfrukehxnGh1PEJyPzdvsTGzmi+VbIjmO5696qaBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=f2ntpa/r; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6899A9CA;
+	Thu, 20 Nov 2025 12:56:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1763639799;
+	bh=2fJeeNJmb1dv02nuHuAxzkWRgIz4VXfIq4fN2FZVjBY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=f2ntpa/r47LmVQznnUc61afmqexXQdmzVQYkNKXFpeDZ6y2wrKEZ3gUnuD/bV3ezi
+	 nyBJirHkyB+yO6VOQD0tCqNsYAZ7V17mW+xqGWAtJd6v3s9xInXssVJkewOTPeCGUH
+	 ZptkR/5C0UKbkh+RYGvXA1LdIGO+a0b63odSCbYw=
+Message-ID: <f15d1ac0-5f87-4221-8af3-c0aa5a5b29b2@ideasonboard.com>
+Date: Thu, 20 Nov 2025 13:58:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -90,130 +50,148 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V6 3/4] dt-bindings: media: ti: vpe: Add support for Video
- Input Port
-To: Krzysztof Kozlowski <krzk@kernel.org>, <mchehab@kernel.org>,
-	<robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
-	<hverkuil+cisco@kernel.org>
-CC: <sakari.ailus@linux.intel.com>, <bparrot@ti.com>,
-	<jai.luthra@ideasonboard.com>, <dale@farnsworth.org>,
-	<linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <u-kumar1@ti.com>, Sukrut Bellary
-	<sbellary@baylibre.com>
-References: <20251120091030.2081594-1-y-abhilashchandra@ti.com>
- <20251120091030.2081594-4-y-abhilashchandra@ti.com>
- <d0ca66b3-82ff-4187-b2c0-182e25f6f19c@kernel.org>
+Subject: Re: [PATCH v8 01/18] media: ti: j721e-csi2rx: Remove word size
+ alignment on frame width
+To: Rishikesh Donadkar <r-donadkar@ti.com>, jai.luthra@linux.dev,
+ laurent.pinchart@ideasonboard.com, mripard@kernel.org
+Cc: y-abhilashchandra@ti.com, devarsht@ti.com, s-jain1@ti.com,
+ vigneshr@ti.com, mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ p.zabel@pengutronix.de, conor+dt@kernel.org, sakari.ailus@linux.intel.com,
+ hverkuil-cisco@xs4all.nl, jai.luthra@ideasonboard.com,
+ changhuang.liang@starfivetech.com, jack.zhu@starfivetech.com,
+ sjoerd@collabora.com, dan.carpenter@linaro.org, hverkuil+cisco@kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20251112115459.2479225-1-r-donadkar@ti.com>
+ <20251112115459.2479225-2-r-donadkar@ti.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Content-Language: en-US
-From: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
-In-Reply-To: <d0ca66b3-82ff-4187-b2c0-182e25f6f19c@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20251112115459.2479225-2-r-donadkar@ti.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY1PEPF0001AE1A:EE_|PH5PR10MB997708:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0465e731-d263-4697-7cc7-08de28200fb6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|1800799024|7416014|376014|36860700013|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?S2tYVnY1bmFMZHlFeWlsbDgwb2podlVwb253eGI0ck1MRnlDTkMyL3dnUEJR?=
- =?utf-8?B?Y1RkVlROWnB5ZElJMUQ4SkJtc3pWOFVFdzlmamNKcjFWMUd3SnlDWnpZdkxJ?=
- =?utf-8?B?TnlVUTQ2cnUrTGYzeGRxQzFLS1pFSGNiVHdLZzBnZVRsOEwyVHp2QWVOMmVY?=
- =?utf-8?B?VjZoZVN5a1ZmRGp2WG9SNHZDdzI4czlEQ3NLWlBjWWxFaE1VVFBzTUlaZXRu?=
- =?utf-8?B?Tk0vcmxZaCswZnJYZGppUS9FOExoeEt0ZFZGVGpTWWxJVG1KUXllNGhhZHpI?=
- =?utf-8?B?UnBhMGl5c3lWOU4vdXU1NjBCK2l5VlJVdHBERE5EeDBnK3pmVzI1dlZyK1RR?=
- =?utf-8?B?MWN4T3lJbWJwdmRKSldFWUZTZ0REWkthN3c3ZjdlUVdhOHAwd3h6cC9JQmxk?=
- =?utf-8?B?NldYbmVkRGplUlBJaGVNMmdZT2tJR3dXYi9JT0I3NCtXazlCamplTXVBbHRa?=
- =?utf-8?B?Yk9YZ0JOcFozeWpnNjlzYmloazRYc01jOW1LWkxpTWJVSVVTd2VVSWlMN3gv?=
- =?utf-8?B?MnBNUUo1czlKbWhKSkZIMFhJVVMyWU5oUTRGU1V4dWJXOUE2MGxBL3NkTkpZ?=
- =?utf-8?B?SjFnSFBaSjZjakdBMXkzRzNqWncxWUdMSXF2eWVRRmFaRVBQRkxHRElJRU1C?=
- =?utf-8?B?WjExWVkzcjNiUno1M2lDRUdlNU5JUFpmdW1FckplTTc3dkhiczAxNXdZOGxi?=
- =?utf-8?B?SnNTNi9PYWhCSzhaQXExMmIwV1BQVm5GbDhrSGhxVGYyQ1gvcGhEb2xvSFho?=
- =?utf-8?B?R0pRZFdXZDlvSjVFanQrTnE1WUxySG82SnBFdlNuZFVQUi9QeXdJb1QrRUdq?=
- =?utf-8?B?NnZkVmNLN2RDWDMwc1BBMUtjQzRCWDJMbWRoaDhpd3lGR0dyMWVQSFZKNVRi?=
- =?utf-8?B?dXRhMUc4cVo3YU02elE1S3BRSm1nM3kxQ0FqOG1UYnBYb2FQQlI3WnR4WVNZ?=
- =?utf-8?B?UDg2YWYwNGZJU1NTQ2VRZ2N0MVE3c1hQb0hOUkRHdnVEUE5hbnFhWS92TGht?=
- =?utf-8?B?c2xXeXJpeUVlT0E1dVh4UzRabzBhZHFNM1c3VjdEVDQ4Wjd0UjVXcnNQRHRN?=
- =?utf-8?B?TXB6OWFqTlV2WHVubHZqOUhKZWRLNFhKYlVKUWNsK2FkQ2ZncWVQKzVNWW9z?=
- =?utf-8?B?OG85MDkzaERyeGJuWjF2eEFtMkcyc1VrK01PUnVBZVgrRVdBb2luSWhuc2dU?=
- =?utf-8?B?ZGN5VWZKRzdkTEpqc3gxMTByZDF6TUVCYkVvTUR3ZXY4a3hrQTRONkJnTUcy?=
- =?utf-8?B?bTVYZ1ZJY1lERDJ1V3RYdEhtUUhYRmt5L2JEcWQrVmlHdTgyZ0JsZ0h1Q0dy?=
- =?utf-8?B?Rkp2M3V3b2YxSVdIYkpiVnc5cXMwN2E5L3RJYVZBZHdZM01MUEZFVzI3em5Z?=
- =?utf-8?B?WkhmdVMra0dCb21yeE5iSEtCbXQxVTFUdnd4b0p4ekh1aHo2QkN0OHRqejFF?=
- =?utf-8?B?Q0hLbVhXaFZBUlhjVEJTejZWUmpIS0ozN29haHhDYmw3czh0NklqTFMvUVZ1?=
- =?utf-8?B?SEJXVmhMaVlkTk14dU9PYkpCdTVkZUd6U1EwTE9UUnlBUVcwNURVVllCSzVl?=
- =?utf-8?B?eUljSElaSmxaWCtML0NxblNEbGdza2RJVEVrdDZza1F6NWxSOTdNeEJFNlR1?=
- =?utf-8?B?TmE0aUkwZTRJcnB3YXBYazlESmM2ZEZzM2pQZTBBQ096T2lmcm5hTjU1Umxu?=
- =?utf-8?B?c1VHSVpVRlpPZkdTYzVDVThGQ0lKV1NoczdWVVlycUZDNVB6M0JnVHNDVytM?=
- =?utf-8?B?QXptTHFDVVMwbGVhWWtlcFRxZVJpY0Y4clk0QThkZnM3cWlkeXhpZFRwWnhU?=
- =?utf-8?B?eVg5eHYwRmdlSnlmcWd1QW92SHJ3YWk2QkVva1poMEE2RDUwK0ZQblE2emZY?=
- =?utf-8?B?QXVzTmZtWmg4RkNvU0ZQQkMzQjZhRjdkR1Fxd1U0a1FFaWpuUzlMSzlCL1dn?=
- =?utf-8?B?MzVzU3B2MlBsQ3kvT1ZzOCtEVks2aFowcHZtR3hHU0NZL3dZNFM2czdydU0x?=
- =?utf-8?B?NncrRFVjM0lHSm9BNWF6M3A1dDNkQ0syYnc1VVFRbmk0WjJ6NmF3dTMzMGJ6?=
- =?utf-8?B?QmlqWUJXa1NJNlQwRUtCMVI4Z1BDTHFTWXc4QU4zMURmcWNTcU5XdEw3NHdN?=
- =?utf-8?Q?SSoQ=3D?=
-X-Forefront-Antispam-Report:
-	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(7416014)(376014)(36860700013)(7053199007);DIR:OUT;SFP:1101;
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2025 10:32:10.0203
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0465e731-d263-4697-7cc7-08de28200fb6
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BY1PEPF0001AE1A.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH5PR10MB997708
 
-Hi Krzysztof,
-Thanks for the quick review.
+Hi,
 
-On 20/11/25 15:20, Krzysztof Kozlowski wrote:
-> On 20/11/2025 10:10, Yemike Abhilash Chandra wrote:
->> From: Dale Farnsworth <dale@farnsworth.org>
->>
->> Add device tree bindings for the Video Input Port. Video Input Port (VIP)
->> can be found on devices such as DRA7xx and provides a parallel interface
->> to a video source such as a sensor or TV decoder.
->>
->> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+On 12/11/2025 13:54, Rishikesh Donadkar wrote:
+> j721e-csi2rx driver has a limitation of frame width being a multiple
+> word size. However, there is no such limitation imposed by the
+> hardware [1].
 > 
-> How the tag could appear here?
+> Remove this limitation from the driver.
 > 
->> Signed-off-by: Dale Farnsworth <dale@farnsworth.org>
->> Signed-off-by: Benoit Parrot <bparrot@ti.com>
->> Signed-off-by: Sukrut Bellary <sbellary@baylibre.com>
->> Signed-off-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
+> Link: https://www.ti.com/lit/pdf/spruj16
+> Reviewed-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
+> Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
+> ---
+>  .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 24 ++++---------------
+>  1 file changed, 4 insertions(+), 20 deletions(-)
 > 
-> Who actually sent the patch and what was the original DCO chain?
-> 
+> diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+> index b75aa363d1bf2..710d05a053539 100644
+> --- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+> +++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+> @@ -43,7 +43,6 @@
+>  #define SHIM_PSI_CFG0_DST_TAG		GENMASK(31, 16)
+>  
+>  #define TI_CSI2RX_MAX_PIX_PER_CLK	4
+> -#define PSIL_WORD_SIZE_BYTES		16
+>  /*
+>   * There are no hard limits on the width or height. The DMA engine can handle
+>   * all sizes. The max width and height are arbitrary numbers for this driver.
+> @@ -250,19 +249,12 @@ static void ti_csi2rx_fill_fmt(const struct ti_csi2rx_fmt *csi_fmt,
+>  			       struct v4l2_format *v4l2_fmt)
+>  {
+>  	struct v4l2_pix_format *pix = &v4l2_fmt->fmt.pix;
+> -	unsigned int pixels_in_word;
+> -
+> -	pixels_in_word = PSIL_WORD_SIZE_BYTES * 8 / csi_fmt->bpp;
+>  
+>  	/* Clamp width and height to sensible maximums (16K x 16K) */
+>  	pix->width = clamp_t(unsigned int, pix->width,
+> -			     pixels_in_word,
+> -			     MAX_WIDTH_BYTES * 8 / csi_fmt->bpp);
+> +			     1, MAX_WIDTH_BYTES * 8 / csi_fmt->bpp);
+>  	pix->height = clamp_t(unsigned int, pix->height, 1, MAX_HEIGHT_LINES);
+>  
+> -	/* Width should be a multiple of transfer word-size */
+> -	pix->width = rounddown(pix->width, pixels_in_word);
+> -
+>  	v4l2_fmt->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+>  	pix->pixelformat = csi_fmt->fourcc;
+>  	pix->bytesperline = pix->width * (csi_fmt->bpp / 8);
+> @@ -360,23 +352,15 @@ static int ti_csi2rx_enum_framesizes(struct file *file, void *fh,
+>  				     struct v4l2_frmsizeenum *fsize)
+>  {
+>  	const struct ti_csi2rx_fmt *fmt;
+> -	unsigned int pixels_in_word;
+>  
+>  	fmt = find_format_by_fourcc(fsize->pixel_format);
+>  	if (!fmt || fsize->index != 0)
+>  		return -EINVAL;
+>  
+> -	/*
+> -	 * Number of pixels in one PSI-L word. The transfer happens in multiples
+> -	 * of PSI-L word sizes.
+> -	 */
+> -	pixels_in_word = PSIL_WORD_SIZE_BYTES * 8 / fmt->bpp;
+> -
+>  	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
+> -	fsize->stepwise.min_width = pixels_in_word;
+> -	fsize->stepwise.max_width = rounddown(MAX_WIDTH_BYTES * 8 / fmt->bpp,
+> -					      pixels_in_word);
+> -	fsize->stepwise.step_width = pixels_in_word;
+> +	fsize->stepwise.min_width = 1;
+> +	fsize->stepwise.max_width = MAX_WIDTH_BYTES * 8 / fmt->bpp;
+> +	fsize->stepwise.step_width = 1;
+>  	fsize->stepwise.min_height = 1;
+>  	fsize->stepwise.max_height = MAX_HEIGHT_LINES;
+>  	fsize->stepwise.step_height = 1;
 
-The original author of the VIP driver and bindings was Dale.
-Benoit worked on upstreaming the driver in 2020,[1] and Sukruth
-later ported it to our downstream 6.1 LTS tree. I am currently
-working to upstream the driver.
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-Before sending v2 , I contacted Dale, Benoit, and Sukruth and
-obtained their permission to retain their respective Signed-off-by tags.
-I also kept Dale as the author since he was the original author.
-
-I collected Rob's R/B from [2]
-
-I should probably have this context in my cover letter for better clarity.
-Please let me know if you would prefer the tags to be removed or modified.
-
-[1]: https://lore.kernel.org/all/20200522225412.29440-1-bparrot@ti.com/#t
-[2]: 
-https://lore.kernel.org/all/176158807606.1250661.5992100889957757703.robh@kernel.org/
-
-Thanks and Regards
-Yemike Abhilash Chandra
-
-
-> Best regards,
-> Krzysztof
+ Tomi
 
 
