@@ -1,244 +1,124 @@
-Return-Path: <linux-media+bounces-47456-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47457-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id D02A4C72F88
-	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 09:53:30 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 421CDC72FC7
+	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 09:57:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sin.lore.kernel.org (Postfix) with ESMTPS id 78D102A4EF
-	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 08:53:28 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 2C2F0345919
+	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 08:54:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6AB6301482;
-	Thu, 20 Nov 2025 08:53:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C1E030F948;
+	Thu, 20 Nov 2025 08:53:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XzuvCE3z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB86A2AEF5
-	for <linux-media@vger.kernel.org>; Thu, 20 Nov 2025 08:53:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAAB430F93D
+	for <linux-media@vger.kernel.org>; Thu, 20 Nov 2025 08:53:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763628802; cv=none; b=onhnWDwVP+JtBJduCsfE9hrnjyTgbQPRZHpcH5ipgMVkuCLTFdwjp8LLh7xOuLda/DedTr8hURzjupq6V++8+Oe2KuZWR6ACpZf4CNvOX05XtoMu/ZG6VHGaBV++I6v7hbubYtGTaO330/E8n7EGUw7f21FMQVfmd1Ent8EiNiw=
+	t=1763628824; cv=none; b=JIolLLaVWbdEK93UEkRByw2PwQ4gseDvLIyBmJ+Z4d+0GE9TZ+45Gyr8eIk6WED6GRwwXZQSUvZG7WTWzG+urgeQTZPBMDZXbRvqZcqGMNxhIeif1uDxxbDwdjcM5ixuL6iNtV1YRveuWz2KWTy3D0F/9zwzzk1nE4XPuyTNziA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763628802; c=relaxed/simple;
-	bh=u+tUqV58sHcSyq09Jq44vf4tuWh+YWc21D3uipfTX9o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yh0HSYcIBvKbJwQULNXY/fLAOoiRt9kdesLwYUa+AvKk98CHBl32546/3hhVUW+6srovtmPM7Geq9SbuSXeSvnm1yLXv9Oxk6vbGRL8x0EF1PJ5Jg3S3dc+cGL7G5gmpWHpSrrvhBOcjhDlco2qR2s9ShqNth6zrJjQ06QyY+5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <m.tretter@pengutronix.de>)
-	id 1vM0PY-0003if-0V; Thu, 20 Nov 2025 09:53:04 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <m.tretter@pengutronix.de>)
-	id 1vM0PX-001O9B-1R;
-	Thu, 20 Nov 2025 09:53:03 +0100
-Received: from mtr by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <m.tretter@pengutronix.de>)
-	id 1vM0PX-00Dy6a-10;
-	Thu, 20 Nov 2025 09:53:03 +0100
-Date: Thu, 20 Nov 2025 09:53:03 +0100
-From: Michael Tretter <m.tretter@pengutronix.de>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH v2 1/4] media: dt-bindings: adi,adv7180: add VPP and CSI
- register maps
-Message-ID: <aR7W76sUxs2gm1LL@pengutronix.de>
-Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, kernel@pengutronix.de
-References: <20251119-b4-adv7180-vpp-sub-device-v2-0-86a7790b63ab@pengutronix.de>
- <20251119-b4-adv7180-vpp-sub-device-v2-1-86a7790b63ab@pengutronix.de>
- <20251120-calm-invisible-bullmastiff-ceaf71@kuoka>
+	s=arc-20240116; t=1763628824; c=relaxed/simple;
+	bh=3RtAvB/9Ie1DCuhI1qP/SJsMoGHKx9tVF1JnaInWIaU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LV3g1JhjnE/hwgKKr5jXav4mO2X7sMUsuwgbkdXpUQ75M09ju9brHUv7dTMS0IMPf9i6/h5NumobioxSKTwPeS8aksG2hug/kZXBuADV4UYKvGt3t9/DZawjaNgWHrbxjdhmLisfWwWIXh7q9Wm1KG0D/GseEm8uYh3xQGEuQP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XzuvCE3z; arc=none smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b9f1d0126e6so271894a12.1
+        for <linux-media@vger.kernel.org>; Thu, 20 Nov 2025 00:53:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763628822; x=1764233622; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3RtAvB/9Ie1DCuhI1qP/SJsMoGHKx9tVF1JnaInWIaU=;
+        b=XzuvCE3zivvVT9sY3ApGfSA3q42V6rGMBgMbSqp0Fls11jO2QMKJLRT4mEoOw2x1jU
+         2jlhDS0P6py50FdMf4dPIVeWORVZ0iojALW6mj9nVoZQtEh20DQuGShGjdsanaTSOTOe
+         hRXK6ITmHHcb3BZyLy1OLXMqwJyCFNmaDKPD2UOSgxEF0iOlbBXqTS0AwBPhGFS+m7il
+         Lhn1+CMIAJvV9ve1xQQVunkPkAc8iqZo4tbtQSIsbcX1LdAgMAFpO3xbTWP0dLaQ5lH0
+         4BOCkvRl5I1FoOhNjf9FcSvC3hMHaKx+a06ZAH9rm4ngxSAKAQ3orSUu3FK0r7kpsZnM
+         DmAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763628822; x=1764233622;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=3RtAvB/9Ie1DCuhI1qP/SJsMoGHKx9tVF1JnaInWIaU=;
+        b=p/XylpanPDHDBmKcZBPY0WbCPCd04Bpi3wW6lWFmaM1lmUAZVpWQ2UhN6F2Qe4H+uh
+         TtSwHyReYzrUX6VNRpsNjUlGbwL/YKLYhg5JMGK6TwZpqZ2DYrLU7SBNcIHZPR3Pf6Od
+         a04BX6j0Utg1FTOcNCphe8uZocb4Y6q1liPCmyFdoWbB7jFJMKDr/XgWVs0vbDZX53NW
+         cjXswDB1LE+8EQT/TE2ULN2N46ffdkUf0HfhplSTnRBe3d2Iz6MUpVCJzsqy+GOXMnlk
+         MtZVY6DOe/F7J4twwDfg9kHoQ59NV9jbHBLwej4huQgNGrEfe74LJuyGqOImIB68Gsg/
+         JdBw==
+X-Forwarded-Encrypted: i=1; AJvYcCXka6b5xIN8qELirkozlt/7As2Jvcwv3Hot7sF5QpzojCiWmwhSqfRrzibDU5wUVZnQQHsBPRH5T8FhdQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxpBlQYrwHy028+Ue+FXiLaipEuRfKtAzqwfP26pWYiVEVKnMRe
+	rt79s7Ng/QJnLww9e1YwQ1sxnsWwe5AoFlsEhDCp3LUr+2DlYe+cthN/mYu06ClFrPrUh0he0yN
+	VGW/AkfjN7gkRB5Vg1lI2Q9e3oF5RhnWcyFk8
+X-Gm-Gg: ASbGncucSeA0C6v3dAQe/dcJ3IJ4X3yOiJKksPDXHExt30Sp5jfQOPpbzmMRlLGUWkR
+	OsPPLiX2nh33eRXMPLHAVaNi6/BJNMTUL8ak0ZrL8AkrF7nZ9gBze3yimupM8TjOjptR6yPXMRX
+	6HFqqjQ+q2z55xx48d9VWdCBj22CRle9pILAuvi9j8MS+lo498uSao8cUg3kmCRmOp+K1adI7Qh
+	gZYg/ZwGqC8P6epTFi2za4Q9WbA7jVn6jG782sx+CNWMYmf0DFOO4dOrp1BsshKTIQHwmAqVOWQ
+	rjygX9aELPkVrINs6BOdroDraWxbdA==
+X-Google-Smtp-Source: AGHT+IEZLRxgqeX1zMPbcTM89f7psvMnTfkXa56MVUNNnlTRlCeRgGGzbUpl3Ua98lZhiMNB0LOg1siz3pl+thP67LQ=
+X-Received: by 2002:a17:90a:e7c7:b0:340:6b6f:4bbf with SMTP id
+ 98e67ed59e1d1-347298dacdcmr2170613a91.18.1763628821957; Thu, 20 Nov 2025
+ 00:53:41 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251120-calm-invisible-bullmastiff-ceaf71@kuoka>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: m.tretter@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+References: <20251101052651.6197-1-opensource206@gmail.com>
+ <959ac74b-a8b7-4d4e-9d34-3b3d971f9f8a@linuxfoundation.org>
+ <CAKPKb8-nFzqgh+k3aBxUvZ8g28usiAt5BEdFDQysVnCk3S+sEg@mail.gmail.com>
+ <c64985f5-f1e5-4880-876d-0a3c9d83629c@linuxfoundation.org>
+ <CAKPKb8830YHuY=h662wPVPvTz3LcyLio6pRDy9ZGStkqwu_Vdg@mail.gmail.com> <3150f8ed-5de4-48fa-a6ac-136b07955235@linuxfoundation.org>
+In-Reply-To: <3150f8ed-5de4-48fa-a6ac-136b07955235@linuxfoundation.org>
+From: opensource india <opensource206@gmail.com>
+Date: Thu, 20 Nov 2025 14:23:23 +0530
+X-Gm-Features: AWmQ_blHBmCnyfgAVnD4MxQVnZEstjQKBmzOc7_CIKdoEn69vk-X01a9JOL5FNc
+Message-ID: <CAKPKb88jCvkktRqWcmmeH_j5vWXcdB7gvoQ-Pq-G-HeBc=jdXg@mail.gmail.com>
+Subject: Re: [PATCH] media: vimc: add RGB/YUV input entity implementation
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: kieran.bingham@ideasonboard.com, mchehab@kernel.org, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 20 Nov 2025 09:04:48 +0100, Krzysztof Kozlowski wrote:
-> On Wed, Nov 19, 2025 at 05:25:51PM +0100, Michael Tretter wrote:
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/adi,adv7180.yaml b/Documentation/devicetree/bindings/media/i2c/adi,adv7180.yaml
-> > index dee8ce7cb7ba..dbbbe76291bc 100644
-> > --- a/Documentation/devicetree/bindings/media/i2c/adi,adv7180.yaml
-> > +++ b/Documentation/devicetree/bindings/media/i2c/adi,adv7180.yaml
-> > @@ -30,7 +30,27 @@ properties:
-> >            - adi,adv7282-m
-> >  
-> >    reg:
-> > -    maxItems: 1
-> > +    minItems: 1
-> > +    items:
-> > +      - description: main register map
-> > +      - description: CSI register map
-> > +      - description: VPP register map
-> > +    description:
-> > +      The ADV7180 family may have up to three register maps. All chips have
-> > +      the main register map. The availability of the CSI and VPP register maps
-> > +      depends on the chip variant.
-> > +
-> > +      The addresses of the CSI and VPP register maps are programmable by
-> > +      software. They depend on the board layout and other devices on the I2C
-> > +      bus and are determined by the hardware designer to avoid address
-> > +      conflicts on the I2C bus.
-> > +
-> > +  reg-names:
-> > +    minItems: 1
-> > +    items:
-> > +      - const: main
-> > +      - enum: [ csi, vpp ]
-> > +      - enum: [ csi, vpp ]
-> 
-> Last entry must be:
-> 
-> const: vpp
-> 
-> We do not allow flexible order... but the problem is that your if:then:
-> does not match above at all. You do not have three items anywhere.
+Hi Shuah,
 
-I'm not entirely sure, if I correctly understand that comment.
+On Thu, Nov 20, 2025 at 1:35=E2=80=AFAM Shuah Khan <skhan@linuxfoundation.o=
+rg> wrote:
+>
 
-The adi,adv7280-m and adi,adv7282-m have all three items and don't need
-an if:then:. Do I have explicitly define the binding with three items,
-too?
+> Sorry for the delay - these four patches especially this one add
+> new features/functionality to to vimc.
+>
+> These require updates - Documentation/admin-guide/media/vimc.rst
+> Please include the documentation patch - please send these as
+> series 4 patches + doc patch as a series.
+>
+> The changes look okay to me.
+>
+> thanks,
+> -- Shuah
 
-The chip has the following variants:
+Thank you for the review.
+i have sent all patches as a series along with documentation changes
 
-adi,adv7180:     main
-adi,adv7180cp:   main
-adi,adv7180st:   main
-adi,adv7182:     main
-adi,adv7280:     main, vpp
-adi,adv7280-m:   main, csi, vpp
-adi,adv7281:     main, csi
-adi,adv7281-m:   main, csi
-adi,adv7281-ma:  main, csi
-adi,adv7282:     main, vpp
-adi,adv7282-m:   main, csi, vpp
+https://lore.kernel.org/linux-media/20251120084926.18620-1-opensource206@gm=
+ail.com/T/#t
 
-If I make the last entry (vpp) const, I allow exactly these variants.
+please review
 
-For the adi,adv7280-m compatible, the following combinations would be
-valid or invalid:
-
-adi,adv7280-m:   main
-
-is valid, because only main is mandatory. For csi and vpp, the default
-addresses are used.
-
-adi,adv7280-m:   main, vpp
-
-is valid, because the second entry may be vpp. For csi, the default
-address is used.
-
-adi,adv7280-m:   main, vpp, csi
-
-is invalid, because the entries must be in the defined order, and
-flexible order is not possible.
-
-Is this correct and matches the binding definition?
-
-Thanks!
-
-Michael
-
-> 
-> 
-> >  
-> >    powerdown-gpios:
-> >      maxItems: 1
-> > @@ -138,6 +158,58 @@ allOf:
-> >        required:
-> >          - ports
-> >  
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - adi,adv7180
-> > +              - adi,adv7180cp
-> > +              - adi,adv7180st
-> > +              - adi,adv7182
-> > +    then:
-> > +      properties:
-> > +        reg:
-> > +          maxItems: 1
-> > +
-> > +        reg-names:
-> > +          maxItems: 1
-> > +
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - adi,adv7281
-> > +              - adi,adv7281-m
-> > +              - adi,adv7281-ma
-> > +    then:
-> > +      properties:
-> > +        reg:
-> > +          maxItems: 2
-> > +
-> > +        reg-names:
-> > +          items:
-> > +            - const: main
-> > +            - enum: [ csi ]
-> 
-> const
-> 
-> > +
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - adi,adv7280
-> > +              - adi,adv7282
-> > +    then:
-> > +      properties:
-> > +        reg:
-> > +          maxItems: 2
-> > +
-> > +        reg-names:
-> > +          items:
-> > +            - const: main
-> > +            - enum: [ vpp ]
-> 
-> const
-> 
-> > +
-> >  examples:
+Regards,
+Pavan
 
