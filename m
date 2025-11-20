@@ -1,77 +1,79 @@
-Return-Path: <linux-media+bounces-47425-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47426-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72B0BC71985
-	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 01:47:17 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id F18E6C71976
+	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 01:46:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 2C74E34D0EE
-	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 00:46:40 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTPS id D0D822967A
+	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 00:46:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 778941F03C5;
-	Thu, 20 Nov 2025 00:46:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 725FF2153D8;
+	Thu, 20 Nov 2025 00:46:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gXxg7J3i"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TQS6nYr4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19A371EF38E
-	for <linux-media@vger.kernel.org>; Thu, 20 Nov 2025 00:46:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03D041EF38E
+	for <linux-media@vger.kernel.org>; Thu, 20 Nov 2025 00:46:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763599577; cv=none; b=uQNHR/Frld29N7Z0ki39DXmr+25WHH2jXI/Gh0xGLexQIuq6wio+fAGfzVoI0W1QR7C/Bmx8eZbLobzYcKm7Ib/zDBtC/sZinrqNR8EXAce8cHibrNnBzG0YcF/uy6i5q4pvI63HUIk8E56ADqsLi+eAVslFU0gCNZcoEK7f2RM=
+	t=1763599580; cv=none; b=NcKqlOCuqSJkU0eD8dJcZqcOC1xZqgyVrct7khDplANuq1lzUZKdN7Kh8BXelYGecmmZF3T7xfp27T8qwWWFSLpLTNNcptuQX5yxW7fU1Wd6+2yM6bkuSFcLgxw2Xwf0+2Nqh4NWO2wS9mqwtQxvUnhVc35kjkN6nDWZX7RHDaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763599577; c=relaxed/simple;
-	bh=cfRYehKmIYEVCp2eb7c/iu9LL0ZbAiyq0M8tgp2yQLE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aZf1I9K7z6UXwuF2P6YiDw18RpWXmp2GnlfOuuGrzq3yI6jKl32lLml0mDer01C1XTpU0qcVFFXNbb9aZchE26U4t7t3g/r5tetug9IrDq3U84Hk5ettiamaD9w+3g7ifigN+Kbu6wbwcmoYFcO4b6VlVWqAql/OUValiqOjti4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gXxg7J3i; arc=none smtp.client-ip=209.85.167.42
+	s=arc-20240116; t=1763599580; c=relaxed/simple;
+	bh=mPxIQxf8RXrT6ur3bfi9b6n4x+7PEd3xn7AU3r1AgeU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=PUQwjkllIOEvu/nrDeMHVSKqtcrf/uXEx5tGtT3VxNil8G2zWy8gRRQKp4kvG3sAx9Fja0qfS17brylsppWd7tW5sRhALmQBkzPoPCn8CFsUVyuQhDFz2ZJiPf3fbU8Hy37UH14d1m+BaqqvluMFQst8RGsd8gwGFKo8/WrbXso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TQS6nYr4; arc=none smtp.client-ip=209.85.167.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-594285eed50so32783e87.0
-        for <linux-media@vger.kernel.org>; Wed, 19 Nov 2025 16:46:15 -0800 (PST)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-595867f09fcso32325e87.2
+        for <linux-media@vger.kernel.org>; Wed, 19 Nov 2025 16:46:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763599574; x=1764204374; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=j5e5nQefCPDRN0dJhI8HXjijaK923N3wC5GLZmrz9s8=;
-        b=gXxg7J3irP45HSPNTEPqhWZjYAtD3Sy2g0T8Mq+RMGm6+QG3d4FvB492m+zcTxuZZr
-         JxTnOfu06aVu7MCUbcZTqLUd5b9BggK3tGXnq0T3OZg2mcv6MqHf89wYj+iKnioVM3Li
-         EvZFK+hFNNlMWSPtq7NMYxHy6EL+kQr+uGQ15g2Ff0dOwkOOkKDnRpsG0S0Ok3aILFSf
-         3BREvxGttXgWsX/4G/6u2s+MDDXAJLgGmvo/JPQVBAsHokjLRNrE0nK6vTZheJOWuql1
-         o49tCRn3x0jK/OutYYu3YWXc/UJlO/RnSxbokgldd0VTpaBARqJppWjJ25zXqQ2TmMZI
-         KFJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763599574; x=1764204374;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=linaro.org; s=google; t=1763599577; x=1764204377; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=j5e5nQefCPDRN0dJhI8HXjijaK923N3wC5GLZmrz9s8=;
-        b=IKn7r50VdQpJIQkUSDSzpujBLwm2sDoCvysPcheiz00dmLPDccfo1HJTDzbkQSmamk
-         QkFi4oW13zliHFAQOJGIGUEG0DzObfsWe+98UbAEE3tdnEXf+rJOld1Kzzmf9IEjBTv4
-         RfbLaFYrq1HeUhDVprzT52Biktf8rGRtugCTpnH2CndlizROEppbzNqelmGsYXKUAHhD
-         G75ytbgiJai3o+NtGYXWg/PDqrecPJUDLzQ9Th4X2wutOmj7GQpoHq+/FfPDnnip+ERo
-         bfcqeHRBNhmwJAi+hritCcLJJbGvocutL4+U8heouJwvoM/9/JS/2arqfXhOkkNroPgd
-         KExw==
-X-Forwarded-Encrypted: i=1; AJvYcCVL/t50arO3XKw/OjZpEL2WT/H3KtQwDZvKDocG3w9odp4RrY1ovGxDNTxk+LOi0TmQOAuC2XRl8HIUUA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzziYDwbl30vJc3zS99hGLM0AWYjfZby13NN+5WJkE4KWejqAtB
-	qfr77TYPO5SJyvTucRYAY5nZGXclfdI6MxAmovFDYHV+5CEsKeozObjV2UIYFmCCntM=
-X-Gm-Gg: ASbGncuC8bFGVrvBCXaNqi7YsiROsJ+lJKn6NmlPhr3cpYzlAOQTkJ4/ADLN3KVRcJ5
-	NyN/hwXaRoSWZAq38p556xpcINWnlVrqmsFcbzEz1IfKGDr2+i+O+alXFMpDTYVysRJs4GK8xEx
-	dcHktTNdWu5SgJuIzYJWCABS3s/SMY2kWbTFFGxR2WhwFqmj5MQrBYstj47rj/+75trrguGOjp3
-	v83e3LD3dVqwdjedlGMXzWjizisT9QNhldyEQjpeEd7UAMVOurH99YV5UxSUX/8yWCBmp8IDtNK
-	6KCelbbbmY+/QyXOnTQTqAzTZRyeiZ2YR/iDJRWWqgcONzleXEr4OHYVT2uWVjKjGi+exnkuAcy
-	bMb9aaJhkfw2SUZzTRZlLoy2JEwXRElaiCUeA9oBM2HFmDejvWxDpWl3IT+49bTGzPJuIK6cNZF
-	I8QDsDwy4/DB1r97UXqG8ziUhg5oKUKiq7h7XpDu47EACft8BZrWVIfw==
-X-Google-Smtp-Source: AGHT+IF0tBnQr3LZJWz9Y765jwY1r6Y8p+uKy+rRNcAVxWJTHaRd7ZfpFTD0aQ0FWs/nGcZqBFo4Jw==
-X-Received: by 2002:a05:6512:3b99:b0:594:5582:f77e with SMTP id 2adb3069b0e04-5969f4901c4mr12357e87.4.1763599574149;
-        Wed, 19 Nov 2025 16:46:14 -0800 (PST)
+        bh=RXPnG8PtuBm329AWD7irpNDHB4AObnZc8MrCBAUiE7s=;
+        b=TQS6nYr4UOYPl/0dx3+z2SUQDmFfqNTSYZhH98TNL7Vdb9l30nOCXczYMvjGlb+GgM
+         aHUetGK55pRMmrP666Z0yrr3y/upG5YWm8JontJ0MMKRVTa/a/pg9t8UtFrJp1MaHlIZ
+         iB/Ih4SgRMLHQiTfPfAYkOFUq9nCRa9KVch5cKmmlhgT6K+a7N66NWEZ4oiVl08bQXPd
+         YYacPFPavIo2MJtKFZCrtamDBCUtE6gsH/1K3e6qJMwRk6M5y6EaPqp45IRrEZAx/dsG
+         E0qO+me7/DpYtD312/buzolrckCyNiIYBeImP1uNtVzBA8uUg0fUxEqsnFSfThBU43qu
+         Z2mA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763599577; x=1764204377;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=RXPnG8PtuBm329AWD7irpNDHB4AObnZc8MrCBAUiE7s=;
+        b=GDEJ69t8VvGAyVRsmRaax6f2I3TIhZyM7KUKLXiJ6P7OoUg7c5XSU6ITr07QhC2pKh
+         nSdDiob+F44l9ZKJsGRycDNTyZp+MwRJpZY/Mc8b0sG/alO2X1K4KwiHUThwScX448c0
+         q4f2+Bq417sT5Iz5jpMEY4FHwnNKb7/0CJSNoCCKCLIwXELLYtQ/vTakYg4mqqCfO86H
+         5nQ2tneTfk+YfctE3oarjde4UNyufU1a+6tz2y4PkpHGrvl/I/wi/JF3OyjJrCIRVlCR
+         zY2IUFYYXBwOkQPceAD/LDjyUFIwzfz3I1I/FA9ARaQPgC/MzxQcoE9XbMH87ZOLGmCW
+         65tw==
+X-Forwarded-Encrypted: i=1; AJvYcCWJAm1L4L2Qkgon1tFXKFdMirHrM6J/cezVhWnTqhEHrNF6muuxLSyNtS3dWuDHjAAViipbATtHzsi81g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwC24HmoAZnAcef3BARhgt8775sUqXrX6CtjireUV2wRI3w90Cz
+	OJWjwIVZSdBdlajInl1ic4ZeFv79Rrk35fRWZo85PV5DFjXcK3OFPqpmGtjrQ4J2RHs=
+X-Gm-Gg: ASbGncsW/45x5B/I9XfG5VoylJP/bfG8T0gksaZ5fd10e2+7Me4ainPmsDtZPuvo1tr
+	lBBFpKgVB/ZkZrEH83gr5GgNVMTYC6GDdCm23BzY+NPWtqxIKZy/1vUsV6NCW7y1uAEZdIQthQ6
+	5nUQ9luRg6702kYH+omiOa9k3kew75g7BhBXzXkCF70U4NkhYM9vOvcczjvv3ElbM5avrnnQG0W
+	PNs5x3WXYs3F8IRMxf6zKRjKHvEqz3tIFIsFl+EGgdBmne26D8SC0CNFLRU/2Tw9s68wmQWVZJL
+	FihoiBNbv5MqZGEB+eulh4FGJkAtq3gxgO+nZzaR/W9iq0ZYqTfnGPcR0lzmgOHgny3dVFOhksk
+	KBR8A6f4TBou8bmIU3gL2cGDIVwHGmZSNCKjZ5fP246E/pgVIHnlKJPimqFplDNTkg3KbhBELdv
+	K42QhYEKX/A83o7X8Fy/3x1BSR5rUiYZxoD5JXTn15IsfcyVsiIydyog==
+X-Google-Smtp-Source: AGHT+IFnf7qKIzWnkSQq4jAY4Quq4AnkczpeiPzfliC678e0KHe83BA3joW9GLNqgA+6WPKCEYn/dw==
+X-Received: by 2002:a05:6512:3b99:b0:594:5582:f77e with SMTP id 2adb3069b0e04-5969f4901c4mr12381e87.4.1763599577153;
+        Wed, 19 Nov 2025 16:46:17 -0800 (PST)
 Received: from thyme.. (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5969dbc59a9sm229479e87.71.2025.11.19.16.46.11
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5969dbc59a9sm229479e87.71.2025.11.19.16.46.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 16:46:12 -0800 (PST)
+        Wed, 19 Nov 2025 16:46:15 -0800 (PST)
 From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 To: Robert Foss <rfoss@kernel.org>,
 	Todor Tomov <todor.too@gmail.com>,
@@ -81,10 +83,12 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rui Miguel Silva <rui.silva@linaro.org>,
 	linux-media@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org
-Subject: [PATCH v3 0/2] media: qcom: camss: simplify registration of sensors
-Date: Thu, 20 Nov 2025 02:46:02 +0200
-Message-ID: <20251120004604.2573803-1-vladimir.zapolskiy@linaro.org>
+Subject: [PATCH v3 1/2] media: qcom: camss: change internals of endpoint parsing to fwnode handling
+Date: Thu, 20 Nov 2025 02:46:03 +0200
+Message-ID: <20251120004604.2573803-2-vladimir.zapolskiy@linaro.org>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20251120004604.2573803-1-vladimir.zapolskiy@linaro.org>
+References: <20251120004604.2573803-1-vladimir.zapolskiy@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -93,39 +97,130 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The patchset simplifies asynchronous registration of sensors connected to
-CAMSS CSIPHY IPs as linked media entities.
+Since a few called V4L2 functions operate with fwnode arguments the change
+from OF device nodes to fwnodes brings a simplification to the code.
 
-There is no difference between these patches and the unapplied patches
-from v2, where the patch review discussion didn't progress further.
+The camss_parse_endpoint_node() function is called once by camss_probe(),
+and there is no use of knowing a number of asynchronously registered
+remote devices, so it makes sense to remove the related computation from
+the function.
 
-Link to v2:
-- https://lore.kernel.org/all/20250903002255.346026-1-vladimir.zapolskiy@linaro.org/
+Tested-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+---
+ drivers/media/platform/qcom/camss/camss.c | 49 +++++++++++------------
+ 1 file changed, 23 insertions(+), 26 deletions(-)
 
-Changes from v2 to v3:
-* rebased on top of next-20251117, intended for v6.20 inclusion,
-* added gained Tested-by tags by Loic,
-* removed already applied patches from the series.
-
-Link to v1:
-- https://lore.kernel.org/all/20250513142353.2572563-1-vladimir.zapolskiy@linaro.org/
-
-Changes from v1 to v2:
-* added a gained Reviewed-by tag to patch 1/4 (Bryan),
-* reworded commit message of patch 2/4 (Bryan),
-* explained better a removal of port node availability check (Bryan, Neil),
-* cosmetic and non-function clean-ups of lesser significance,
-* removed already applied changes and rebased the rest on top of v6.17-rc2.
-
-There is no any functional changes between v1 and v2 of the series.
-
-Vladimir Zapolskiy (2):
-  media: qcom: camss: change internals of endpoint parsing to fwnode handling
-  media: qcom: camss: use a handy v4l2_async_nf_add_fwnode_remote() function
-
- drivers/media/platform/qcom/camss/camss.c | 54 +++++++++--------------
- 1 file changed, 21 insertions(+), 33 deletions(-)
-
+diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+index fcc2b2c3cba0..736f04e10bdb 100644
+--- a/drivers/media/platform/qcom/camss/camss.c
++++ b/drivers/media/platform/qcom/camss/camss.c
+@@ -4022,16 +4022,16 @@ static const struct parent_dev_ops vfe_parent_dev_ops = {
+ };
+ 
+ /*
+- * camss_of_parse_endpoint_node - Parse port endpoint node
+- * @dev: Device
+- * @node: Device node to be parsed
++ * camss_parse_endpoint_node - Parse port endpoint node
++ * @dev: CAMSS device
++ * @ep: Device endpoint to be parsed
+  * @csd: Parsed data from port endpoint node
+  *
+  * Return 0 on success or a negative error code on failure
+  */
+-static int camss_of_parse_endpoint_node(struct device *dev,
+-					struct device_node *node,
+-					struct camss_async_subdev *csd)
++static int camss_parse_endpoint_node(struct device *dev,
++				     struct fwnode_handle *ep,
++				     struct camss_async_subdev *csd)
+ {
+ 	struct csiphy_lanes_cfg *lncfg = &csd->interface.csi2.lane_cfg;
+ 	struct v4l2_mbus_config_mipi_csi2 *mipi_csi2;
+@@ -4039,7 +4039,7 @@ static int camss_of_parse_endpoint_node(struct device *dev,
+ 	unsigned int i;
+ 	int ret;
+ 
+-	ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(node), &vep);
++	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -4074,49 +4074,46 @@ static int camss_of_parse_endpoint_node(struct device *dev,
+ }
+ 
+ /*
+- * camss_of_parse_ports - Parse ports node
+- * @dev: Device
+- * @notifier: v4l2_device notifier data
++ * camss_parse_ports - Parse ports node
++ * @dev: CAMSS device
+  *
+- * Return number of "port" nodes found in "ports" node
++ * Return 0 on success or a negative error code on failure
+  */
+-static int camss_of_parse_ports(struct camss *camss)
++static int camss_parse_ports(struct camss *camss)
+ {
+ 	struct device *dev = camss->dev;
+-	struct device_node *node = NULL;
+-	struct device_node *remote = NULL;
+-	int ret, num_subdevs = 0;
++	struct fwnode_handle *fwnode = dev_fwnode(dev), *ep;
++	int ret;
+ 
+-	for_each_endpoint_of_node(dev->of_node, node) {
++	fwnode_graph_for_each_endpoint(fwnode, ep) {
+ 		struct camss_async_subdev *csd;
++		struct fwnode_handle *remote;
+ 
+-		remote = of_graph_get_remote_port_parent(node);
++		remote = fwnode_graph_get_remote_port_parent(ep);
+ 		if (!remote) {
+ 			dev_err(dev, "Cannot get remote parent\n");
+ 			ret = -EINVAL;
+ 			goto err_cleanup;
+ 		}
+ 
+-		csd = v4l2_async_nf_add_fwnode(&camss->notifier,
+-					       of_fwnode_handle(remote),
++		csd = v4l2_async_nf_add_fwnode(&camss->notifier, remote,
+ 					       struct camss_async_subdev);
+-		of_node_put(remote);
++		fwnode_handle_put(remote);
+ 		if (IS_ERR(csd)) {
+ 			ret = PTR_ERR(csd);
+ 			goto err_cleanup;
+ 		}
+ 
+-		ret = camss_of_parse_endpoint_node(dev, node, csd);
++		ret = camss_parse_endpoint_node(dev, ep, csd);
+ 		if (ret < 0)
+ 			goto err_cleanup;
+-
+-		num_subdevs++;
+ 	}
+ 
+-	return num_subdevs;
++	return 0;
+ 
+ err_cleanup:
+-	of_node_put(node);
++	fwnode_handle_put(ep);
++
+ 	return ret;
+ }
+ 
+@@ -4673,7 +4670,7 @@ static int camss_probe(struct platform_device *pdev)
+ 
+ 	pm_runtime_enable(dev);
+ 
+-	ret = camss_of_parse_ports(camss);
++	ret = camss_parse_ports(camss);
+ 	if (ret < 0)
+ 		goto err_v4l2_device_unregister;
+ 
 -- 
 2.49.0
 
