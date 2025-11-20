@@ -1,192 +1,328 @@
-Return-Path: <linux-media+bounces-47508-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47509-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE73EC74B39
-	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 16:00:05 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18682C7501A
+	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 16:36:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by tor.lore.kernel.org (Postfix) with ESMTPS id 27D502B7EF
-	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 15:00:04 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTPS id 81CFC31749
+	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 15:26:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAFED349AF2;
-	Thu, 20 Nov 2025 14:59:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80B7B364EA2;
+	Thu, 20 Nov 2025 15:17:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="eVEs8wAV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cvx8OZlK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012036.outbound.protection.outlook.com [52.101.53.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 291B233A027;
-	Thu, 20 Nov 2025 14:59:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.36
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763650790; cv=fail; b=FAHRhepkRFWnOG06C5Cc5/V1dh8okUTIAqD5QYpETOcAiQOI7kKzmldq9w7+/3rrbF2ripfo7EdXGeCi78BM12WG2vUNE4/BhxCJYSLzT636zZqc5aDEQsixrbpAYmKWMARX585uHtbKATNIPJgioBU/LCbtFZ3dYdGiDx8a4JA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763650790; c=relaxed/simple;
-	bh=aVEUPOVDrep5FNX8ubLMN20bYk4nmPeO7XB6LqnZVLo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=ZzR1TJo+ZSr2GcR/O//DQkq0HNyFPF46zqZOeLmJoHEdcK4EYUehs+9NKIsDt9jfav2Q5c6SEdVypfbVcXV8eoLj5M5JcYBiA1t2zDj+Lgo1x3d0m6kTPEqCtQvV0eExvB1cxO7sQ3i+sxrQmTBt2lI15YmucFO37uQntGrwn9Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=eVEs8wAV; arc=fail smtp.client-ip=52.101.53.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oBwLl/5f1YY5+a03Onq7O0EKlacexcVC74tHOp5RfxDBvaNrxFIRtJ4m8KUvW3vGYu/aKSKFH88l2Bo6z9C3ZuaqR1LCzD2wjQOSc+WwDFRYidYqzEaEJpKMbEPJhBpodQ+hUmJc19JDVgtJ8W1UE5kr00I04wQKMZ794OyulWKJ5CaGRKpcBGVetLXbysmWn+zs/uy1HIMXn0iN5nrWgKOZJZUHqGpKi12fLYbdKScQOCWpAUJ6x7JRPRfRBXFvgFVkMU85wmH9xEQ3gqezLFRgDF3+uLYBr+x1lFeU4gdpbBBPXNde9OJPmEOtkX4y+AIhnRTucEY/oMV7lTnrUw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=85eUEXCFIH2fJ9ddRbG0jzYyR06m/4rKjpAqPy+Pooc=;
- b=V6G+BN7ZKqAHlKCqX9ygQG8rmUDdbvL9yaEZRPzxSmlBZV10mL/qd8+FyrNng8Kt13GtQmd5zM9UBhxK0e6kJPcO5mICKxQUOX/11MvzLmASx3OM5+vZSWDyjGKG7HYa3FuaAP2pN+VJmoHrc8N8kGrONwhdozpRr8MYATxZmmc1dBx4op9oLCj/a5yBnS0x64hMidymVLws8mKgCXTf0wvQ81gniCYkx6fWkt+dFkRtQtzhyfoRhcidifRjUsAZTWCPWQRLHBPwydErw6LwDRqdApdMcRBsqovH43fOvXNyUzePuQuAjyNaYPE4kavPdY50UNpC6CDK/zUHP/xccQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=85eUEXCFIH2fJ9ddRbG0jzYyR06m/4rKjpAqPy+Pooc=;
- b=eVEs8wAVTi9iHtM/S3Kgd/IpB62lB5HKlocPISmi2U4i96q0vhaLNlGPsfAbsjTho+ld1qodkL51LaLAq0NLaxIrv1owa/v6KJJhXib+3y/2l+ydDW1QOA6vTobarOQqmCkzJ1Z0ZHV+1TSGFtXeiEmA/8invgMWzqMBLMmIntm9cKBAV3Ve6PuzcqVUTKuRtP2iZKcUFtYCjxBEVltrzCTfViiRep9SCrOpUtX/TJwFIDWnO5GqRduyJc8JShT6PohwfCWPfK5idKd/oT/J3EEnpHNKTRCrQAeUBU/u7T2cATttXrhnOU7+TWQIFpaAsQE10q4AyeejqrXpnws68g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB3613.namprd12.prod.outlook.com (2603:10b6:208:c1::17)
- by DM4PR12MB8569.namprd12.prod.outlook.com (2603:10b6:8:18a::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Thu, 20 Nov
- 2025 14:59:42 +0000
-Received: from MN2PR12MB3613.namprd12.prod.outlook.com
- ([fe80::1b3b:64f5:9211:608b]) by MN2PR12MB3613.namprd12.prod.outlook.com
- ([fe80::1b3b:64f5:9211:608b%4]) with mapi id 15.20.9343.009; Thu, 20 Nov 2025
- 14:59:42 +0000
-Date: Thu, 20 Nov 2025 10:59:41 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: "Tian, Kevin" <kevin.tian@intel.com>
-Cc: Alex Williamson <alex@shazbot.org>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
-	Joerg Roedel <joro@8bytes.org>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, Shuah Khan <shuah@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Will Deacon <will@kernel.org>, Krishnakant Jaju <kjaju@nvidia.com>,
-	Leon Romanovsky <leon@kernel.org>, Matt Ochs <mochs@nvidia.com>,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	"patches@lists.linux.dev" <patches@lists.linux.dev>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	"Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
-	Xu Yilun <yilun.xu@linux.intel.com>
-Subject: Re: [PATCH 5/9] iommufd: Allow MMIO pages in a batch
-Message-ID: <20251120145941.GC153257@nvidia.com>
-References: <0-v1-af84a3ab44f5+f68-iommufd_buf_jgg@nvidia.com>
- <5-v1-af84a3ab44f5+f68-iommufd_buf_jgg@nvidia.com>
- <BN9PR11MB5276C73B3BA7E689EAB90F648CD4A@BN9PR11MB5276.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BN9PR11MB5276C73B3BA7E689EAB90F648CD4A@BN9PR11MB5276.namprd11.prod.outlook.com>
-X-ClientProxiedBy: MN0P223CA0013.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:208:52b::15) To MN2PR12MB3613.namprd12.prod.outlook.com
- (2603:10b6:208:c1::17)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0137A364037
+	for <linux-media@vger.kernel.org>; Thu, 20 Nov 2025 15:17:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763651875; cv=none; b=DExQP9FafVc7g8nuxeYLybY9WOHu13Ms5ccXSKBHSJwg7xqDqToNAYVprSILLsGQPH/gN0gKuJ0FTFMj8lWtoUkxxfkGW2yagmTIvzphN4O1B2mdkHFCHhvBqRMd7eoslt6iAluiUF/iAS2Umn9TfFOz5E7TfNk8rzI/xQee4A0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763651875; c=relaxed/simple;
+	bh=V1bX16dTvEDrKt1tkmraZG4WsLCIF+fkegVkUd/oMdc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=WuB6E5PMFG/DuQv3IVUHg2hJ7ApeV4M2nZD8NC4HBQqdGgu/QEd2NXSEB5CxFlbp4txoyjMKUXh2+oOrbi7eDXNve2T/8sTAEzvlrOsP54abNlrjfUHWF+7TcbbnlCgaWoWiNR+m7ik7u6vOPYiwGDnaMd9VGu/C//k7w9LcS0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cvx8OZlK; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-42b32900c8bso618461f8f.0
+        for <linux-media@vger.kernel.org>; Thu, 20 Nov 2025 07:17:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763651871; x=1764256671; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wer3mjbYfHeiw2QmUqtyCuHKc//t8hrbgPrVlZE/3+M=;
+        b=cvx8OZlKluP9ZD6XJqLjRByau8PBaTk1hHNO3aVVKRxJC2f7KnrtaXVp2ivu6i/1tC
+         Trt4iPFA40ZNOuqsWLn+xu4XQYjvrljw/kIqmMq9SbSR6epVolW4mSAxs+3SXI7CmEDL
+         LPjzpa+ie8R7BCetcyAa4jbte96KYheGsqdzlG1zXiK1UTesbwuCVIsgLHpoE/hJD8gG
+         QBUZ2cUMhpFznydl4hLGiVpNTgAwSLcOspUdwi5s42K4zJoxg/2Fe3gGoN8MM9YZiuJ9
+         TrlfVc8OW4PykvqGj3y8lu/Jv/gy4xDOFuL99e0T5QfxAlLA4T827mAq0hFV13CNTfWs
+         hIFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763651871; x=1764256671;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wer3mjbYfHeiw2QmUqtyCuHKc//t8hrbgPrVlZE/3+M=;
+        b=vRARMvX28BMPZB0EVeN9KjH1NRkpWJjI1z/s9zcufrmJGMSOYUTZOyzpk1jjnZ+ykX
+         T/BM9DamDjis85ZBOg+CZV7vu3A4MGSWjnxhFOQXANBEuyW671YlAm3MSaiyQt05E0WA
+         GEQuw93mfnKJnUsOx3m7ehlAke9/RSr+g2YLJ9NzizraKmobylIUB5QTiHh+t9ah/E47
+         6TQwrPyLUgouYti7PXmLYpN41xxp0ZVWWz8kHzusDHa8nJ04lazp+dtpQiFOdJR1ClFf
+         j+ek2MIZcBw0Ummbhivf4JktKJ2DLjdcMI14rT6W/3Eqq6dmc0K+aWSrf2mqEaSv3Stw
+         nafw==
+X-Gm-Message-State: AOJu0YyIgMir0qOLdf9jwWXgjVnoHhWI0VwtkSvteY0Plk1oafxl9wmV
+	0vEohI3zVwcC1j7JC2fkxqhb7goRAqu7uZ5sBW1laZhBO+U5yhJlMkizsoFS0A==
+X-Gm-Gg: ASbGncuXtkFs+9PjX0nTf9PKTOMMGsaft7vyc0Lfe2CcHREZJyFRLvyRqKmizQuMVSu
+	MBuglXz0C4QtHTywzTe2CrNKALFPQgFsr6dts7SHSrcxujPSX4vwOLseO3YE6ty8YRwPEFOpMmZ
+	xvn/BWty93z7Hkl5LAW4RRGwjm9XeqNvl22mAV+NVEvHqXpigrfR2P/ma1pOjvcifwK9hUO/cpD
+	ap6hYf02rnr85qZenTGOOlNHfsMoEHKxuwc9MWIGbuR0Uv55+ofvth0cvtejjC0ECAnGqzWhbRQ
+	ZRCDAxNRZJvkk70EH6DTZyPqfQYBLVtBxzj4glM6CYuj4pPgurdHYVb9RNXRNNgsgJHnzz6oEte
+	OUQZhLJ9bNvhKwNhSaNC1YMEy9enHeUTom9CGCXJ1stxJGwbJYcZauLQcWSkF/x3smYN6nbOlaU
+	jxpQfvBMVINUKcXycgy+ljxnCxIoBxrLIA42ZHVVQsaYnycwf/KKLY3m0Oiv4d30xK/+4=
+X-Google-Smtp-Source: AGHT+IGF7aXcu3sYjMGzilkcwQPKzgKO06qQyMKjKSHGyS3GiVtYEOhs7MzVbwc7DUiZit6UpZkFXA==
+X-Received: by 2002:a05:6000:2f86:b0:429:bc68:6c95 with SMTP id ffacd0b85a97d-42cbb2aa2b8mr2786442f8f.47.1763651870665;
+        Thu, 20 Nov 2025 07:17:50 -0800 (PST)
+Received: from [10.13.0.20] (ip87-106-117-14.pbiaas.com. [87.106.117.14])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7f363c0sm5811098f8f.18.2025.11.20.07.17.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Nov 2025 07:17:50 -0800 (PST)
+From: Julian Orth <ju.orth@gmail.com>
+Date: Thu, 20 Nov 2025 16:17:44 +0100
+Subject: [PATCH v4l-utils] edid-decode: add more details to the AMD VSDB
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3613:EE_|DM4PR12MB8569:EE_
-X-MS-Office365-Filtering-Correlation-Id: 48893505-3016-4db4-fbdf-08de28456f7e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?uWfTxbN/mDFb18V51OuA+JTg5mVZasQXY8gH4/EbP+99K8aYpRpiLCXPuSZx?=
- =?us-ascii?Q?tvWWkgq14dCwrhPbB5kEM/dHZYbilkulh3ERMiWvP8yVYZKdvVS9DmFDkY3D?=
- =?us-ascii?Q?CMVkcmFgqY1JABtS7cvdybxm0+yOEwh75xM7HCv4lNP5iJ34KbkOokqllMDz?=
- =?us-ascii?Q?WkEtf5e271ede9L8Q+Y6CxCJw1XzvLnYm91wG4E78b5JMsOCit3IgMrtte0S?=
- =?us-ascii?Q?5P7R3S3blTKudL9tuzih/zHuJ0MzKul13aZsq1UqiMhaKo3RemDsethNLzKm?=
- =?us-ascii?Q?tEWK+jCoq70te/6MYgdJ6DnRmKcefq0iQY2BijP1kQNPO1gws4pv0VBNHOpC?=
- =?us-ascii?Q?muVEd4xcnDkm4aHxOJnXwryt+Eq61KTkoN9ZDDq8eUxELs5jBp2pxikebcxU?=
- =?us-ascii?Q?uBjYlJCNvgFLHnI/YPczMZa2qldlNJ9q8zaTcgO5+D18T4KjhA4aBmEFhLk/?=
- =?us-ascii?Q?Fb6Gn9NrwCkJSK38P0TtJqB8IrEK+QZ4VKakiBe3Px3OoMpekelKmLfS1d9t?=
- =?us-ascii?Q?BVMMAQYIVzIHWSUMbE8e9FQy19qTvkhhOrmyTuak22u3IK3SNYHBAd52eUGE?=
- =?us-ascii?Q?FN5gzXTDY/dpYgCQ3HMehNqmhkoARDoZNASsG6QKyUX17hSR0Y0VVNPJ1qIY?=
- =?us-ascii?Q?t+Ds4qaVESdAL5FSEdKCBISLUT6Qv9MZr44uRVySPT2dcfZE0vB8x+vHUZZK?=
- =?us-ascii?Q?V8jZ6aaZE3keaNLcaCCZWhoBjhUv2qbW8lUTXG48K9jtXT4i3hXPHXmnKLAR?=
- =?us-ascii?Q?Ojj8+2ehmzjl1wepAIjfr7IsFK3J6bmn4c3J/b0l5zAlzHA9RakVuq9E1E1E?=
- =?us-ascii?Q?AE1ra2ULmFENBx1qrhPMZL4Ijy7nhcfY3QptuOhjFktIihdBmka5Zqy7O65M?=
- =?us-ascii?Q?jtZR1AN8pUoNU5Vlyhb7P54t3hSa4btKUSDCKbNMQxS5ZnzBnbu7mau8/lml?=
- =?us-ascii?Q?DMzDRo3aycc7+I+mqctlrsDkBKfNE53dIZhJ1AnTVdi3CcAdajXZAje4SzUM?=
- =?us-ascii?Q?K2EGBu18rUb0EUZwFIehg1dnFkKyweWWPS4Nljw9FS7YQYf22ib9qVXHiCRc?=
- =?us-ascii?Q?wQf0dSzr0+CJgjfUOKLzo/9AhCRkTIrFcZo5ruidFBrdR3cZFjRn+Fa6B0Kb?=
- =?us-ascii?Q?ljuURrF8PBI/uxGWIOhRk1+UIvCNBiy6IPxrrNtK4oGY/meVJbpji2Fb2Zko?=
- =?us-ascii?Q?GSg5o6SC4UQKv7a9yqNz3xO6DRnh0cL98RQb/f5iFB3jPYF9QdsrIqPpooqL?=
- =?us-ascii?Q?BGT7rgsRcLNinhQhPBvP6+crn2tVpkHh+WGTCwA8b/jPD5d02K8AgZ5nImaZ?=
- =?us-ascii?Q?xUHbwJhVIFT074njYyhytWQypSyDEqV43PyH1YQlZMMw/FPzAepe9IHUDgx9?=
- =?us-ascii?Q?00fvtajFtVOMkV2v5wLqruzHplJjdOd/x5gN0m+fHGltYKuZuikNuoSYgTsz?=
- =?us-ascii?Q?9QNEyzjIlQ4Sujshv5Xa3rHVnHwodzsm?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3613.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?mK+iGE5Rpg+1sFglOZETIDWm0Mkmov0bTguZteqkvDO+OYUT+XTShrksFhba?=
- =?us-ascii?Q?glpJW16pi9hzpqfCXOgJJQJ/HHzAhwUWo0QfwLi6hUzpf7Lj/hzOxXqpvvAl?=
- =?us-ascii?Q?db5NCd5yzORBtq9LSL6/R1HBQbJNNyMBv0kM10kYU/lgtfle9m6ywpk7y0to?=
- =?us-ascii?Q?5D4Htb3w8XaaBFEtQ9iYyHLpHAcP2+H64MqLrhtbDzpYC59m5GWKX77XX//A?=
- =?us-ascii?Q?ndJYJw0WIa6QgivCaYkeCBvolbA6C+bQovlXzWWoTvGe33O4rDIZfTddl/BO?=
- =?us-ascii?Q?dBqrKmx7mSWE83QqxOvnqEKmdEBuEozEA1HehxpiSkBVCPtETIBi/34EslMn?=
- =?us-ascii?Q?c/W7vIoT9fkAM6fA/FDg2l21zPtit1cr8n9Ktod/takCBSOdifSWAPzTf9ed?=
- =?us-ascii?Q?Ug0aYrSW6nyFolUhOL6FgW+hkRGjRHBTcBG/8q9s86Lp2SVyEUkq4Ck7XPU6?=
- =?us-ascii?Q?CJYR8DTMV9jGXzShTKtUZpcDzLlzNnQ1KALl2uECLxQKzp08kYVACtqG+Cft?=
- =?us-ascii?Q?9gaoDQbP/tMcYH0VLX0pVD0JGU+bkAdhP/zXmCILUKtfhpKsgIQrzEvNGqLt?=
- =?us-ascii?Q?q/421TC90EniASbrbzViD8xJP5KvUtG9IwiKGwKS2gQ7Ql3PjgR3RPNjlGyE?=
- =?us-ascii?Q?+o4yz3CN053OK9CRJZHZekZPZ8ZSu4ZIC1YV2S6SxK4YZzqk5dK9Oc3MI0n+?=
- =?us-ascii?Q?/9ZI31ziTgyDgSiVgT12FudaNhnICC0dEBp6q6/obvilw1YZ0VZgGiV+eDmC?=
- =?us-ascii?Q?JQRXUOpGt48MDwLFFi2T5zVQ2xr2fQK/U90eO+33k2gSu4nX15WKbCGnedOj?=
- =?us-ascii?Q?xR1UiMzUewzlj3rsTQAKAdJgFMk9U4UdmKZO3OIqRWs6hkUlDf1WckZf6Eck?=
- =?us-ascii?Q?rA+rY2JM/K4eMmpkHK81xcjRdVYdXvkv571CLEQkS8cYAaztfqZXTQvuf0qM?=
- =?us-ascii?Q?iPbGKsjDHGXXN6Rjfhu39WKwmaKOXAYa5Fpyp9s3EsdjZhxqq8e7eKfKJDen?=
- =?us-ascii?Q?IYpAxQe38Tlh+9uDHRIngHos773KezzyyXGspbiBRJrxOmSet4olUfkkRKv+?=
- =?us-ascii?Q?kPs7djnv0Ye3ZHu9n8ThspmK2id6yWzV5qJahYUPEzJbyMaK4WVwI9ptM8/e?=
- =?us-ascii?Q?YMmIhpLNuWQFtBXn1YGVCcgkyUlwnBWYFZHvBx6bqughcIsugNrslLeoWAnc?=
- =?us-ascii?Q?jfI3haRdvGutB1hez0x1VXDztLCemkpqX62J9Bfz874dcJuBPbtzjzVue19j?=
- =?us-ascii?Q?fyynNqxLF5t+Jo+YPIS94l5l0ZECW0NDz8RFCrVtsi6uNSVEJtuewiaCgUki?=
- =?us-ascii?Q?HBF8NNEbJkZXEwZBVZX/HkHCioVA92XRpdDlS07Dd5BIRPchJP5ONbTeANvi?=
- =?us-ascii?Q?ag74WGu4NU+Q7Xqs00Lv0LaUeSxRTLx0kcVjDGn90XpgNiyYpgZz2ak73/HG?=
- =?us-ascii?Q?ZK5MFVPhiKps7e+Q0X0QOTxtzdrIcB3bGqq25+DvwLryZWrt2qjH/vcy9nZr?=
- =?us-ascii?Q?5WyfB5+vAoLacCBhBg5LZOYBPAToasXQq9oj8I2IjN0jHm/iIx/naVljfKj7?=
- =?us-ascii?Q?0BSsiEbWxCQk8SV9Olg=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 48893505-3016-4db4-fbdf-08de28456f7e
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3613.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2025 14:59:42.3769
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2Mkr4xX6VI11hK2uIHf89zIOCcv8lw50cYTo0DVUjwDxR3890dW9znzEwTuRU7Ck
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB8569
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251120-jorth-amd-v1-1-670ec8092d62@gmail.com>
+X-B4-Tracking: v=1; b=H4sIABcxH2kC/x3MSwqAMAwA0atI1gbaoiJeRVxEG23EH62KULy7x
+ eWDYSIE9sIBmiyC51uC7FuCzjMYHG0To9hkMMqUWhuF8+5Ph7RaJCYqlK0G1deQ+sPzKM//auE
+ uFrxOWQJ07/sBr9Z8lmYAAAA=
+X-Change-ID: 20251120-jorth-amd-aeaa40d6c0b8
+To: linux-media@vger.kernel.org
+Cc: Julian Orth <ju.orth@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1763651869; l=9584;
+ i=ju.orth@gmail.com; s=20251120; h=from:subject:message-id;
+ bh=V1bX16dTvEDrKt1tkmraZG4WsLCIF+fkegVkUd/oMdc=;
+ b=a+cUZ2aG3kFCTTUESlEhVwKggqe5NQ1HAV6PbPrWiw1WEZQpPI58/j/BLoEzYyTeMRt92tg61
+ EsONwmVLtgjDVkRBiEwNK7FyPJmk7/d2tRhn2WXftWeTlS99ImHMPMr
+X-Developer-Key: i=ju.orth@gmail.com; a=ed25519;
+ pk=uM2SS4lelkuIoYHc7v9N9bgBZ3hS632zJS2xjRJLPLI=
 
-On Thu, Nov 20, 2025 at 07:59:19AM +0000, Tian, Kevin wrote:
-> > From: Jason Gunthorpe <jgg@nvidia.com>
-> > Sent: Saturday, November 8, 2025 12:50 AM
-> > 
-> > +enum batch_kind {
-> > +	BATCH_CPU_MEMORY = 0,
-> > +	BATCH_MMIO,
-> > +};
-> 
-> with 'CPU_MEMORY' (instead of plain 'MEMORY') implies future
-> support of 'DEV_MEMORY'?
+These values have been determined through reverse engineering and might
+be inaccurate.
 
-Maybe, but I don't have an immediate thought on this. CXL "MMIO" that
-is cachable is a thing but we can also label it as CPU_MEMORY.
+Signed-off-by: Julian Orth <ju.orth@gmail.com>
+---
+These values have been determined through reverse engineering and might
+be inaccurate.
 
-We might have something for CC shared/protected memory down the road.
+[1] contains the diff of the EDID database when regenerating everything
+after applying this patch.
 
-Thanks,
-Jason
+[1]: https://github.com/mahkoh/EDID/commit/271605f9a18b06e3df90b7c690f53e76256be8dd.diff
+---
+ utils/edid-decode/parse-cta-block.cpp | 183 +++++++++++++++++++++++++---------
+ 1 file changed, 137 insertions(+), 46 deletions(-)
+
+diff --git a/utils/edid-decode/parse-cta-block.cpp b/utils/edid-decode/parse-cta-block.cpp
+index 3783a32e..ecf32b9f 100644
+--- a/utils/edid-decode/parse-cta-block.cpp
++++ b/utils/edid-decode/parse-cta-block.cpp
+@@ -1576,60 +1576,151 @@ static void cta_hf_sbtmdb(const unsigned char *x, unsigned length)
+ 
+ static void cta_amd(const unsigned char *x, unsigned length)
+ {
+-	// These Freesync values are reversed engineered by looking
+-	// at existing EDIDs.
+-	printf("    Version: %u\n", x[0]);
++    // x[00]          - major version
++    // x[01] & 0x01   - unknown, set in almost all EDIDs
++    // x[01] & 0x02   - set if x[05..=09] are valid
++    // x[01] & 0x04   - global backlight control support
++    // x[01] & 0x08   - local dimming support
++    // x[01] & 0x10   - FreeSync Panel Replay/PSR switch support
++    // x[01] & 0x20   - called the SPRS bit by AMD, related to Replay
++    // x[01] & 0x40   - FreeSync Panel Replay support
++    // x[01] & 0x80   - set if x[12..=14] are valid
++    // x[02]          - min refresh rate
++    // x[03]          - max refresh rate in versions < 3
++    // x[04]          - MCCS flags
++    // -- start of version 2 fields
++    // x[05] & 0x01   - unknown
++    // x[05] & 0x02   - unknown
++    // x[05] & 0x04   - PQ EOTF support
++    // x[05] & 0x08   - unknown
++    // x[05] & 0x10   - PQ-Interim EOTF support (unknown what that is but enumerated in ADL)
++    // x[05] & 0x20   - unknown but see the calculation of supported_tf below
++    // x[05] & 0xc0   - set to 1 if the display is Mini LED
++    //                  set to 2 if the display is OLED
++    // x[06]          - max luminance
++    // x[07]          - min luminance
++    // x[08]          -      if x[01] & 0x08 or display is OLED: max luminance without local dimming
++    //                  else if x[01] & 0x04                   : max luminance at min backlight
++    // x[09]          -      if x[01] & 0x08 or display is OLED: min luminance without local dimming
++    //                  else if x[01] & 0x04                   : min luminance at min backlight
++    // -- start of version 3 fields
++    // x[10]          - max refresh rate lower 8 bits in version >= 3
++    // x[11] & 0x03   - max refresh rate upper 2 bits in version >= 3
++    // x[11] & 0xfc   - unused
++    // -- end of version 3 mandatory fields, fields below will be parsed only if the VSDB
++    //    block is large enough
++    // x[12]          - unknown
++    // x[13]          - unknown
++    // x[14]          - unknown
++    // x[15] & 0x80   - x[15] & 0x7f is valid
++    // x[15] & 0x7f   - unknown
++    // x[16] & 0x80   - x[16] & 0x7f is valid
++    // x[16] & 0x7f   - DPCD (DisplayPort configuration data) register offset for
++    //                  proprietary AMD settings
++
++    if (length < 5) {
++        printf("    Data block is truncated (length = %d)\n", length);
++        return;
++    }
++
++    unsigned version = x[0];
++	printf("    Version: %u\n", version);
+ 
+-	// Obtained from:
+-	// https://github.com/torvalds/linux/commit/ec8e59cb4e0c1a52d5a541fff9dcec398b48f7b4
+ 	printf("    Feature Caps: 0x%02x\n", x[1]);
+-	if (x[1] & 0x40)
+-		printf("      Replay Supported\n");
+-
++    bool hdr_fields_valid = false;
++    bool supports_local_dimming = false;
++    bool has_global_backlight_control = false;
++    if (version > 1) {
++        hdr_fields_valid = x[1] & 0x02;
++        has_global_backlight_control = x[1] & 0x04;
++        supports_local_dimming = x[1] & 0x08;
++        if (has_global_backlight_control)
++            printf("      Global Backlight Control Supported\n");
++        if (supports_local_dimming)
++            printf("      Local Dimming Supported\n");
++        if (version > 2) {
++            // Obtained from:
++            // https://github.com/torvalds/linux/commit/ec8e59cb4e0c1a52d5a541fff9dcec398b48f7b4
++            if (x[1] & 0x40)
++                printf("      FreeSync Panel Replay Supported\n");
++        }
++    }
++
++    unsigned short max_refresh_rate;
++    if (version > 2 && length > 0xb) {
++        max_refresh_rate = (x[0xb] & 3) << 8 | x[0xa];
++    } else {
++        max_refresh_rate = x[3];
++    }
+ 	printf("    Minimum Refresh Rate: %u Hz\n", x[2]);
+-	printf("    Maximum Refresh Rate: %u Hz\n", x[3]);
++	printf("    Maximum Refresh Rate: %u Hz\n", max_refresh_rate);
+ 	// Freesync 1.x flags
+ 	// One or more of the 0xe6 bits signal that the VESA MCCS
+ 	// protocol is used to switch the Freesync range
+ 	printf("    Flags 1.x: 0x%02x%s\n", x[4],
+ 	       (x[4] & 0xe6) ? " (MCCS)" : "");
+-	if (length >= 10) {
+-		// Freesync 2.x flags
+-		// Bit 2 no doubt indicates if the monitor supports Local Dimming
+-		// There are probably also bits to signal support of the
+-		// FreeSync2_scRGB and FreeSync2_Gamma22 HDR display modes.
+-		// I suspect bits 0 and 1.
+-		printf("    Flags 2.x: 0x%02x\n", x[5]);
+-		// The AMD tone mapping tutorial referred to in the URL below
+-		// mentions that the Freesync HDR info reports max/min
+-		// luminance of the monitor with and without local dimming.
+-		//
+-		// https://gpuopen.com/learn/using-amd-freesync-premium-pro-hdr-code-samples/
+-		//
+-		// So I assume that the first two luminance values are
+-		// the max/min luminance of the display and the next two
+-		// luminance values are the max/min luminance values when
+-		// local dimming is disabled. The values I get seem to
+-		// support that.
+-		printf("    Maximum luminance: %u (%.3f cd/m^2)\n",
+-		       x[6], 50.0 * pow(2, x[6] / 32.0));
+-		printf("    Minimum luminance: %u (%.3f cd/m^2)\n",
+-		       x[7], (50.0 * pow(2, x[6] / 32.0)) * pow(x[7] / 255.0, 2) / 100.0);
+-		if (x[5] & 4) {
+-			// One or both bytes can be 0. The meaning of that
+-			// is unknown.
+-			printf("    Maximum luminance (without local dimming): %u (%.3f cd/m^2)\n",
+-			       x[8], 50.0 * pow(2, x[8] / 32.0));
+-			printf("    Minimum luminance (without local dimming): %u (%.3f cd/m^2)\n",
+-			       x[9], (50.0 * pow(2, x[8] / 32.0)) * pow(x[9] / 255.0, 2) / 100.0);
+-		} else {
+-			// These bytes are always 0x08 0x2f. If these values
+-			// represent max/min luminance as well, then these
+-			// would map to 59.460 and 0.020 cd/m^2 respectively.
+-			// I wonder if this somehow relates to SDR.
+-			printf("    Unknown: 0x%02x 0x%02x\n", x[8], x[9]);
+-		}
+-	}
++
++    if (version < 2)
++        return;
++    if (length < 10) {
++        printf("    Data block is truncated (length = %d)\n", length);
++        return;
++    }
++
++    printf("    Flags 2.x: 0x%02x\n", x[5]);
++
++    if (!hdr_fields_valid)
++        return;
++
++    const unsigned TF_PQ2084         = 0x0004;
++    const unsigned TF_LINEAR_0_125   = 0x0020;
++    const unsigned TF_GAMMA_22       = 0x0080;
++
++    const unsigned CS_BT2020         = 0x0008;
++
++    // the calculation of supported_tf is a bit weird because it doesn't correspond to
++    // the description in the comment at the start of the function. but this is what ADL
++    // (AMD Display Library) reports
++    unsigned supported_tf = 0;
++    unsigned supported_cs = 0;
++    bool supports_hdr10 = x[5] & 0x34;
++    if (supports_hdr10) {
++        supported_tf |= TF_LINEAR_0_125 | TF_PQ2084;
++        supported_cs |= CS_BT2020;
++    }
++    if (x[5] & 0x04)
++        supported_tf |= TF_GAMMA_22;
++
++    if (supported_tf & TF_PQ2084)
++        printf("      ST 2084 (PQ) EOTF Supported\n");
++    if (supported_tf & TF_LINEAR_0_125)
++        printf("      Linear EOTF (Windows scRGB, 0.0 - 125.0) Supported\n");
++    if (supported_tf & TF_GAMMA_22)
++        printf("      Gamma 2.2 EOTF Supported\n");
++
++    if (supported_cs & CS_BT2020)
++        printf("      BT.2020 Gamut Supported\n");
++
++    bool is_mini_led = x[5] >> 5 == 1;
++    bool is_oled     = x[5] >> 5 == 2;
++    if (is_mini_led)
++        printf("      Display is Mini LED\n");
++    if (is_oled)
++        printf("      Display is OLED\n");
++
++    printf("    Maximum luminance: %u (%.3f cd/m^2)\n",
++           x[6], 50.0 * pow(2, x[6] / 32.0));
++    printf("    Minimum luminance: %u (%.3f cd/m^2)\n",
++           x[7], (50.0 * pow(2, x[6] / 32.0)) * pow(x[7] / 255.0, 2) / 100.0);
++    if (supports_local_dimming || is_oled || has_global_backlight_control) {
++        const char *type = "minimum backlight";
++        if (supports_local_dimming || is_oled)
++            type = "without local dimming";
++        printf("    Maximum luminance (%s): %u (%.3f cd/m^2)\n",
++               type, x[8], 50.0 * pow(2, x[8] / 32.0));
++        printf("    Minimum luminance (%s): %u (%.3f cd/m^2)\n",
++               type, x[9], (50.0 * pow(2, x[8] / 32.0)) * pow(x[9] / 255.0, 2) / 100.0);
++    }
+ }
+ 
+ static std::string display_use_case(unsigned char x)
+
+---
+base-commit: af4a91dea9a25f05af5a1b8a26064d7072ae7a79
+change-id: 20251120-jorth-amd-aeaa40d6c0b8
+
+Best regards,
+-- 
+Julian Orth <ju.orth@gmail.com>
+
 
