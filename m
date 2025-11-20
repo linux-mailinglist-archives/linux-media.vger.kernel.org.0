@@ -1,81 +1,109 @@
-Return-Path: <linux-media+bounces-47482-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47483-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17193C735C4
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84EF1C735C7
 	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 11:03:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 94D5834CE57
-	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 10:00:20 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTPS id 0BAC62DC19
+	for <lists+linux-media@lfdr.de>; Thu, 20 Nov 2025 10:03:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF0752D9784;
-	Thu, 20 Nov 2025 10:00:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CEC93126C5;
+	Thu, 20 Nov 2025 10:03:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NwvTwTuh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G+hY+OMB"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D7602367BA;
-	Thu, 20 Nov 2025 10:00:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E582882D7;
+	Thu, 20 Nov 2025 10:03:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763632811; cv=none; b=OtQiDkZIgguJ4XFoRsi+PzXKjrP/isQ33iZaaSn/3I444Td2pPzzHRLWibbYRAqOOhvFzOAefpZAr12Afp+5lNHb78wjy4AnWEqI3ALmOl6JZuXGyfdzewwk8s8XhMxGVJaqVXIbQdpY6yNfuLoy10Bd7kUJ3Medbn5/5bCYZLQ=
+	t=1763632998; cv=none; b=UHB8sytnn18+I0cYSpYryeP5F9EUBSfhyaIwet1aoc5oTZpcfsJS3vdP5ANYHlqCFJkJ7YJY/g6j2obUkbIXGfcJCWTq6gyE9p2vEQVy04w2vEUHmOnWNTuExqzKOv9R7xjElwa2xGI1kq29zrYldIWATV/K1N7ocXXiqAVceLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763632811; c=relaxed/simple;
-	bh=YOqMEz7Vce8ng0D/jOk1x2Q83YNT2JkrnXVo0KnDj7s=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=fi3KovgoX/IYUUer6izc1tlqGF849H+oFelDhYAL4NbzrnqkmFtdVAccRJ3qlmh6hY9AnmPJLw6nS/5qXKsGG1BPJPECFkaXkF7T5lANIuS+Uxcy9pjF62Y3UmsfFu+V9CGsNUlUSb9hNHx91bjQRi1KYk79KDeQyBJNH3emHPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NwvTwTuh; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8425FC4CEF1;
-	Thu, 20 Nov 2025 10:00:08 +0000 (UTC)
+	s=arc-20240116; t=1763632998; c=relaxed/simple;
+	bh=nN18XypDEK4Xp2Uwyzn2CyI2CYU2LLHnqRbvcxN/MOk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YkZKsxbjmzwFFsnCamzc3TQTNZcIWHIod9adUL8u3eAAIPMVgvjhbnuoBzAjwDVwJdaVwsgNT3AHq5+tPZab6YHJ9fRsLwXo2dQ4g48+vI55UCHla69HfynkA5o/DKyBUTv0OxP1Us5yF5Oft+fm8gtiiTBqiyNBqLQ6ffXguNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G+hY+OMB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FB98C4CEF1;
+	Thu, 20 Nov 2025 10:03:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763632810;
-	bh=YOqMEz7Vce8ng0D/jOk1x2Q83YNT2JkrnXVo0KnDj7s=;
-	h=Date:Subject:From:To:Cc:Reply-To:References:In-Reply-To:From;
-	b=NwvTwTuh/j0Gl2rh/KKBuN4FXpHCTLhmPbxuQxFiz41Guqcz/T0S1gxonXgKLvt7a
-	 Cs4Gi8voIbTVTGBQLcuQOUYk3/3IzvAzBdMSvxTsrK9P+E5Lx0hCeQ5146QNcIuqBd
-	 pKqtG7PuAPdntywVwptp4JvGEe3ApQcKMszqJB0zZKO7q44ilihJC489BtcYU/WhWO
-	 UHOCxMcnjW/ueWnB7NvZoSx+75pI7J5nuodNbo6tYCP+B03OqIdANFzyLZ/b+7xB/V
-	 SdDXCPdtAptKP4BidTkNZPE5fCu5ZB57lVueajF+jABxtTNOCc4Cy1QKrxcLBSUSEM
-	 BollKtxiLlK9A==
-Message-ID: <8bbbffe0-eda8-4ed3-be54-50360e4199ec@kernel.org>
-Date: Thu, 20 Nov 2025 10:00:06 +0000
+	s=k20201202; t=1763632997;
+	bh=nN18XypDEK4Xp2Uwyzn2CyI2CYU2LLHnqRbvcxN/MOk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=G+hY+OMBFwxjvW/rHz3D9U5weCHQooOgK8MHfyA01kVMMV+A3AkZ438UHthcqeE9M
+	 /W8sa0sQXGzt/hW+GZKYO9qCVhuYOSwzWyvXmoHLLLXKCC71ccQychOWgBEc9/N4WR
+	 B4hzYRwhJYWOy/XMG9Ee6J/fv3T7TqpQvxDZRmSFypghKchjL3PUHlMTtC4LoafHEg
+	 8gc9esBn2NM5CJ6c+XmHXAeq018QsYls0PqZAWftuB8E+D1BJ3lzNPMBBHus01EitA
+	 yHaQJeOXigJlJYANOS70kHWQFawRWzvBrKbuTNC8S71WbHRGEk1IfIpBp5grsDiqGo
+	 BP3n3eU4f4VgA==
+Date: Thu, 20 Nov 2025 12:03:12 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>, Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <skolothumtho@nvidia.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, iommu@lists.linux.dev,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
+	linux-hardening@vger.kernel.org, Nicolin Chen <nicolinc@nvidia.com>,
+	Alex Mastro <amastro@fb.com>, Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v9 06/11] dma-buf: provide phys_vec to scatter-gather
+ mapping routine
+Message-ID: <20251120100312.GV18335@unreal>
+References: <20251120-dmabuf-vfio-v9-0-d7f71607f371@nvidia.com>
+ <20251120-dmabuf-vfio-v9-6-d7f71607f371@nvidia.com>
+ <57b8876f-1399-4e4d-a44b-1177787aa17d@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: qcom: venus: flip the venus/iris switch
-From: Bryan O'Donoghue <bod@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Reply-To: Bryan O'Donoghue <bod@kernel.org>
-References: <10Ud2nacNpGLxEZdFk2VE6I40JkFU8f1S0lGFZayvkwiPgffhyV-gY3p_-AnMAAMckWDMVO__50mkrCB6NnyVg==@protonmail.internalid>
- <20251119-venus-iris-flip-switch-v1-1-852369f66e36@oss.qualcomm.com>
- <QNE2n_TmtAHnuV9XZ91kv4WczLkVkhy-FLRSeXwQUHN33qLCP_bUkF5Y5bHZm3GIdSViKwTGqnxY7EnZWTUJaw==@protonmail.internalid>
- <9c1afc08-e584-48a5-808d-16711c4ecd4a@kernel.org>
-Content-Language: en-US
-In-Reply-To: <9c1afc08-e584-48a5-808d-16711c4ecd4a@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <57b8876f-1399-4e4d-a44b-1177787aa17d@amd.com>
 
-On 20/11/2025 09:58, Bryan O'Donoghue wrote:
-> In principal
+On Thu, Nov 20, 2025 at 10:33:36AM +0100, Christian König wrote:
+> On 11/20/25 10:28, Leon Romanovsky wrote:
+> > From: Leon Romanovsky <leonro@nvidia.com>
+> > 
+> > Add dma_buf_phys_vec_to_sgt() and dma_buf_free_sgt() helpers to convert
+> > an array of MMIO physical address ranges into scatter-gather tables with
+> > proper DMA mapping.
 
-*principle
+<...>
 
-learn to type english plz
+> > Reviewed-by: Kevin Tian <kevin.tian@intel.com>
+> > Reviewed-by: Nicolin Chen <nicolinc@nvidia.com>
+> > Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+> > Tested-by: Alex Mastro <amastro@fb.com>
+> > Tested-by: Nicolin Chen <nicolinc@nvidia.com>
+> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> 
+> Could be that this will backfire at some point, but I think we will never know without trying.
+> 
+> Acked-by: Christian König <christian.koenig@amd.com>
 
----
-bod
+Thanks a lot.
 
