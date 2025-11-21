@@ -1,172 +1,237 @@
-Return-Path: <linux-media+bounces-47556-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47557-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id D959BC77E6D
-	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 09:28:36 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53B57C782A9
+	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 10:33:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D89CD4EBB1D
-	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 08:23:40 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 36FEA4E8B7B
+	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 09:33:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB1C333E373;
-	Fri, 21 Nov 2025 08:21:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7066733FE17;
+	Fri, 21 Nov 2025 09:32:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ps/jj8OT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HdQtfl+J"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD74E2FDC57;
-	Fri, 21 Nov 2025 08:21:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BEEC33F8C9
+	for <linux-media@vger.kernel.org>; Fri, 21 Nov 2025 09:32:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763713286; cv=none; b=oejguto8qnxYSCsveqLIytbGVqXl4J4R90enDg0aP8pxn7wkU0CykdM7WKS7vcNpJt+yoVJO2k9/a0KD5M0wcfr033EYvMahmMdcC9rbAb08BpTool8cpdYD8UCmQB40/oUABpeVpLJD4RRXFikcHkerzph7jjME3M0mmVFJ4Zg=
+	t=1763717559; cv=none; b=bzp33por7agIsZ4uX4tczscHY4o5a7SVe5Pg7QnMVEI+HY+7QcfI+wylH5m6De8VJ3Uz5eWhAA1RaA1fHwyB57UP83iK6v3ATmFqc7o/I3LIJCPJg1XUrwXzvc6SoJapKHwNrLhcOp/YOBUR9Vvj74scLsGZNTOj6Gkh2LI9Vag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763713286; c=relaxed/simple;
-	bh=bbkC/gm+PlvYtnfQwRKFSQLCAfd4zVrxvX6KXk1XrPM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MlqRWW0T0Gg01eBXH2WE9Ddtsa3uOTls8RoheG0z1XLZUM16MhK0317aVBuO3kQnfeTSDSEYnyLZ6cnXTUV1kBIXj41sHsofFJ7SCvVI+xpjX5HPltAlNy4/aB7ZF90Q/UDW6QQkjuPvASpwhS0r4GeLF9goC8myJ4kq9ExJXA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ps/jj8OT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E369FC4CEF1;
-	Fri, 21 Nov 2025 08:21:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763713285;
-	bh=bbkC/gm+PlvYtnfQwRKFSQLCAfd4zVrxvX6KXk1XrPM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ps/jj8OTyCxwmGcOFq4SxnG4HIdTLuzI2EE2RjXYt015cAW9PDLc1kesVkR43f1Lr
-	 eSSpeXoRzFUGjxsd4JKBIJBcwwmvlkI4ApM1SgHGkmNCoIJs6L5ZQOiMwgCxp81WQR
-	 1HLM0KmRGlR09MfeyWVLJ8LSlJKkA8VbMYQ22UyymhXXJbjvj+Xbp1GvpjY1o/hsNc
-	 0Ehn0L0DZRBxbCiEyJ+uvl7Z2wPc4nHp/u33m1Zptegkn7xznD25NXicOwFUdd11XE
-	 hc40aJVd6dbcwwUspVLVqF9EDDHgKYaKfopVzyVRJA32nXr6fsB+Py83AUZQ23U0TW
-	 TsqcdI8UDU/Ew==
-Date: Fri, 21 Nov 2025 09:21:22 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Michael Tretter <m.tretter@pengutronix.de>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, 
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	kernel@pengutronix.de
-Subject: Re: [PATCH v3 1/4] media: dt-bindings: adi,adv7180: add VPP and CSI
- register maps
-Message-ID: <20251121-ambrosial-ermine-of-gallantry-cf2c51@kuoka>
-References: <20251120-b4-adv7180-vpp-sub-device-v3-0-c9d80661e7d9@pengutronix.de>
- <20251120-b4-adv7180-vpp-sub-device-v3-1-c9d80661e7d9@pengutronix.de>
+	s=arc-20240116; t=1763717559; c=relaxed/simple;
+	bh=6PyDzD8CijFm7XP9JQUYHuFA8d6AifEMr9vGmysI/9o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eMm/GOvJS7e83bv0odx04PK4tgYezRz6cLNOzslsyL01rXMVAk3qfgVn3kCoCcXeqNfGzLBykdhH/uSGXYeOed8lImVL1G/EOeppRlL+i62ZdJT3JQz5Qly3T5H8GDtJUIGWxy8F4bYUA5j7GZ6toynwsi9glz1LpNAQZi794d8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HdQtfl+J; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7aa9be9f03aso1529819b3a.2
+        for <linux-media@vger.kernel.org>; Fri, 21 Nov 2025 01:32:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763717557; x=1764322357; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MuYEbkRINb2Wv3I/5k7ZJX5SxvEA5yNyvSqXwQJB7iQ=;
+        b=HdQtfl+JCUrDNWTgk4RRAAFPs1YEtvVo92mJ+NtXCbdLNJ2Ov86S8pYN9kcz7WLYhB
+         ivuMYeFi8OYc2jnR1FFgqTmk3jbfl6VMldNMOTZVU1ULyQ7UKgLTKd1Nx/EFjmPhPl+B
+         ilpqtMWMahZLDPvjoXooa7hhZPAkb8Qh9cXIG1TOfxfBl2O3tYDkIbmHmWJSF0OChv3N
+         d1psJ4/NQmX2PURKB+UHfTKuyczb7xj2xAOhlt1gBZQF7A8U8wda1l7LwHjc3W8i3TQc
+         3H05miQcVBEg7HwTLDA0MNB8maMg+bEBNzDwJgLB8xBdKbKcuSLsRCozxSmTfzRdwbYv
+         hubQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763717557; x=1764322357;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=MuYEbkRINb2Wv3I/5k7ZJX5SxvEA5yNyvSqXwQJB7iQ=;
+        b=KNluTkh3WMO0eZM6lgSwjIuodOCzel5ldl4ld0RgHX+yxhOmKVQ+1xiUbff1Nqgwzk
+         f+VvdWZo1Z5XyIDEXHUp1GA79iZyXmEDc8USH9TiGFnYVGIC5GxbdUB0sxFSKeHmbJy8
+         8Cf8TUb02A23YP5PjoehvFd5ZJHUxfGpBBlz3CbIzdKNDsmmfqkwqerVi48Wvpl/WVbb
+         D1827tY+qRDsFTfAGWQ8Lx2ZRfhoxPFJsysg6kq5QopSeGPp8oVHvyieHkg/6j79uGQw
+         oJgUnB9qFMge3KoYCMLP2WAmQxuSOiOT0OOuSOlbctUtt8eEIJ1m58QD+FSegO6Zr5HU
+         pafw==
+X-Gm-Message-State: AOJu0YykzDMwlxhZqL0vJj38JuS9W98V2zNn5BGpl7kgyD6MFLsAAyJz
+	QZEihOhj/OxzA3p+yCnJim00/7AnStjGHYx4EPpmwujdZwwz3HdEMC+PFqQ4nnKXsmlHkmRpQzs
+	3LQuLj4dyPt0t+WWhe1vmmSUR6DXr7jA=
+X-Gm-Gg: ASbGncuCZg+nVJ9Qfgu1FKLdBMFFZKpr0DSM2Dsvk+dHcl9D57xlpxa00XvXsVS8IEu
+	L7SzSt6ez7EbkKqLo4xBJFLZPvqzCDGnwXKgWehXAixSStM5cTyI58aFZ2MKM47vTrVFoMd8Fn+
+	PsPWZpxOo7Ykh+BuZQKrLKZ+nekbCjrNpvjWef5FHxbNqRHOK924Hi8ylP94u7TcS60OhpQPyKm
+	qHYY9k52bo9u70vZ5OfYboRUGdmvhX4b7qDQzhjTZxSbBKV4mhHgwG/2rU8kxS2BiuucA==
+X-Google-Smtp-Source: AGHT+IGJ9l7LM/cmvFqp6VMJS0iaY+Ctu1F8qada78oVHFJxOezPTDCIZ7/ebocfX/WvtsUsPkL7iXTCmBptB5jhWwU=
+X-Received: by 2002:a05:7022:6b93:b0:11b:9386:825a with SMTP id
+ a92af1059eb24-11c9d87a52fmr477468c88.47.1763717557154; Fri, 21 Nov 2025
+ 01:32:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251120-b4-adv7180-vpp-sub-device-v3-1-c9d80661e7d9@pengutronix.de>
+References: <20251027195638.481129-1-hoff.benjamin.k@gmail.com> <b38c4013-fabb-4469-bfa9-9296a88d244a@kernel.org>
+In-Reply-To: <b38c4013-fabb-4469-bfa9-9296a88d244a@kernel.org>
+From: Ben Hoff <hoff.benjamin.k@gmail.com>
+Date: Fri, 21 Nov 2025 04:32:25 -0500
+X-Gm-Features: AWmQ_bnPnNHz2ukL275wX1-IwhQGUN7FSg7OHDTtrG8DMo89y1DSDKZvEJnG5hM
+Message-ID: <CAMSzxxQyuF5pE6bwU9+1cyA-0_0facswdNqOnKNV1jxa-0sVcw@mail.gmail.com>
+Subject: Re: [RFC PATCH v1 0/2] media: pci: AVMatrix HWS capture driver refresh
+To: Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	mchehab@kernel.org, hverkuil@kernel.org, lukas.bulwahn@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 20, 2025 at 03:22:53PM +0100, Michael Tretter wrote:
-> Different variants of the ADV7280 chip have up to three register maps.
-> The availability of the CSI and VPP register maps depends on the chip
-> variant. The address of the additional register maps depends on the
-> board design and other chips on the I2C but. They may be programmed via
-> registers in the main register map.
-> 
-> Allow to specify the addresses of the VPP and CSI register maps in the
-> device tree to solve I2C address conflicts on a board level.
-> 
-> The CSI and VPP register maps are always optional to allow backwards
-> compatibility with existing device trees which may rely on the default
-> address.
-> 
-> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-> ---
-> Changes in v3:
-> - add minItems to all if:then: cases
-> - make enums with one item const
-> Changes in v2:
-> - document backwards compatibility in commit message
-> - extend register maps in top level and define limits per variant
-> - define additional register maps for all variants
-> - document, why the programmable addresses are hardware description
-> ---
->  .../devicetree/bindings/media/i2c/adi,adv7180.yaml | 99 +++++++++++++++++++++-
->  1 file changed, 98 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/adi,adv7180.yaml b/Documentation/devicetree/bindings/media/i2c/adi,adv7180.yaml
-> index dee8ce7cb7ba..c455da2b7912 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/adi,adv7180.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/adi,adv7180.yaml
-> @@ -30,7 +30,27 @@ properties:
->            - adi,adv7282-m
->  
->    reg:
-> -    maxItems: 1
-> +    minItems: 1
-> +    items:
-> +      - description: main register map
-> +      - description: CSI register map
+Hi Hans,
 
-VPP  or CSI register map
+Thanks for the review and for the guidance =E2=80=94 much appreciated.
 
-> +      - description: VPP register map
+> 1. wait until you finish the audio validation, or
+> 2. make this a staging driver=E2=80=A6
 
-CSI register map
+Thanks for the pointers. I=E2=80=99ll wait until I have the audio paths ful=
+ly
+validated before sending v1. I=E2=80=99ll be running extended testing at th=
+at
+point, so it makes sense to submit the driver once the capture and
+audio paths are both stable.
 
-> +    description:
-> +      The ADV7180 family may have up to three register maps. All chips have
-> +      the main register map. The availability of the CSI and VPP register maps
-> +      depends on the chip variant.
-> +
-> +      The addresses of the CSI and VPP register maps are programmable by
-> +      software. They depend on the board layout and other devices on the I2C
-> +      bus and are determined by the hardware designer to avoid address
-> +      conflicts on the I2C bus.
-> +
-> +  reg-names:
-> +    minItems: 1
-> +    items:
-> +      - const: main
-> +      - enum: [ csi, vpp ]
-> +      - const: csi
->  
->    powerdown-gpios:
->      maxItems: 1
-> @@ -138,6 +158,64 @@ allOf:
->        required:
->          - ports
->  
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - adi,adv7180
-> +              - adi,adv7180cp
-> +              - adi,adv7180st
-> +              - adi,adv7182
-> +    then:
-> +      properties:
-> +        reg:
-> +          minItems: 1
+> Can you add a URL to the driver?
 
-I guess you added minItems after my suggestions of being explicit, heh,
-I did not provide you all rules because that one seemed obvious - 1 is
-already minimum, so it can be skipped.
+Yes =E2=80=94 this is a rework of the vendor=E2=80=99s GPL out-of-tree driv=
+er. I=E2=80=99ll
+include a link to the original source (or the widely mirrored version
+if that is the only available copy) in the commit log of the main
+driver patch.
 
-Please drop minItems here.
+> Is the vendor involved?
 
-> +          maxItems: 1
-> +
-> +        reg-names:
-> +          minItems: 1
+At the moment the vendor is not directly involved; I took their GPL
+driver as the starting point and restructured it to follow V4L2/ALSA
+idioms, add runtime PM, and bring it closer to what is expected
+upstream. I=E2=80=99ll note that explicitly in the cover letter for v1.
 
-and here
+> Please include v4l2-compliance output=E2=80=A6
 
-The rest is fine, so with all fixes above:
+Will do. I=E2=80=99ll regenerate the results using the latest v4l-utils (bu=
+ilt
+from git) and include the full report in the v1 cover letter.
 
-Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+Thanks again for the review =E2=80=94 I=E2=80=99ll follow up with a cleaned=
+-up v1 once
+I fold in this feedback.
 
-Best regards,
-Krzysztof
 
+On Mon, Nov 3, 2025 at 9:57=E2=80=AFAM Hans Verkuil <hverkuil+cisco@kernel.=
+org> wrote:
+>
+> Hi Ben,
+>
+> Thank you for working on this!
+>
+> On 27/10/2025 20:56, Ben Hoff wrote:
+> > Hi all,
+> >
+> > This RFC series significantly refactors the downstream AVMatrix HWS PCI=
+e
+> > capture driver so it is maintainable in-tree and aligns with upstream
+> > media driver expectations. The new implementation follows V4L2 and ALSA
+> > subsystem patterns, splits the hardware plumbing across focused source
+> > files, and introduces proper runtime PM and interrupt handling. The goa=
+l
+> > is to keep future maintenance manageable while providing a direct path =
+for
+> > existing users of the vendor tree.
+> >
+> > Current status / open items:
+> >   - Audio capture paths have been refactored from the vendor driver but=
+ have
+> >     not yet been validated on real hardware. I would appreciate guidanc=
+e
+> >     on whether you would prefer that I drop the ALSA pieces from the
+> >     initial submission and stage them as a follow-up once I finish
+> >     validation.
+> >   - `v4l2-compliance` passes for each video node, and I have exercised
+> >     basic capture in OBS. I still plan to do heavier soak testing acros=
+s
+> >     all inputs and audio channels, as well as cover the suspend/resume
+> >     paths.
+> >
+> > Any feedback on the overall structure, subsystem integration, and in
+> > particular the best way to stage the audio support would be very welcom=
+e.
+>
+> I think you have two options:
+>
+> 1) wait until you finish the audio validation, or
+> 2) make this a staging driver (drivers/staging/media), add the audio part
+>    later and then move it to drivers/media/pci.
+>
+> Regarding this driver: I gather that this is a rework of a GPL out-of-tre=
+e
+> driver? Can you should at least add a URL that driver? That should defini=
+tely
+> be part of the commit log of the driver.
+>
+> Is the vendor involved in this upstream driver work? Or you just took the=
+ir
+> code and made it suitable for mainlining? Just curious.
+>
+> Finally, for the next v1 please include the v4l2-compliance output in the
+> cover letter. And make sure you compile v4l2-compliance from the v4l-util=
+s
+> git repo so you are using the latest and greatest version.
+>
+> Regards,
+>
+>         Hans
+>
+> > Once I hear back on the preferred direction I will respin this as a
+> > formal v1 submission.
+> >
+> > Thanks for taking a look!
+> >
+> > Ben
+> >
+> > Ben Hoff (2):
+> >   media: pci: add AVMatrix HWS capture driver
+> >   MAINTAINERS: add entry for AVMatrix HWS driver
+> >
+> >  MAINTAINERS                            |    6 +
+> >  drivers/media/pci/Kconfig              |    1 +
+> >  drivers/media/pci/Makefile             |    1 +
+> >  drivers/media/pci/hws/Kconfig          |   13 +
+> >  drivers/media/pci/hws/Makefile         |    4 +
+> >  drivers/media/pci/hws/hws.h            |  194 +++
+> >  drivers/media/pci/hws/hws_audio.c      |  571 +++++++++
+> >  drivers/media/pci/hws/hws_audio.h      |   22 +
+> >  drivers/media/pci/hws/hws_irq.c        |  281 +++++
+> >  drivers/media/pci/hws/hws_irq.h        |   12 +
+> >  drivers/media/pci/hws/hws_pci.c        |  708 +++++++++++
+> >  drivers/media/pci/hws/hws_reg.h        |  142 +++
+> >  drivers/media/pci/hws/hws_v4l2_ioctl.c |  576 +++++++++
+> >  drivers/media/pci/hws/hws_v4l2_ioctl.h |   32 +
+> >  drivers/media/pci/hws/hws_video.c      | 1542 ++++++++++++++++++++++++
+> >  drivers/media/pci/hws/hws_video.h      |   24 +
+> >  16 files changed, 4129 insertions(+)
+> >  create mode 100644 drivers/media/pci/hws/Kconfig
+> >  create mode 100644 drivers/media/pci/hws/Makefile
+> >  create mode 100644 drivers/media/pci/hws/hws.h
+> >  create mode 100644 drivers/media/pci/hws/hws_audio.c
+> >  create mode 100644 drivers/media/pci/hws/hws_audio.h
+> >  create mode 100644 drivers/media/pci/hws/hws_irq.c
+> >  create mode 100644 drivers/media/pci/hws/hws_irq.h
+> >  create mode 100644 drivers/media/pci/hws/hws_pci.c
+> >  create mode 100644 drivers/media/pci/hws/hws_reg.h
+> >  create mode 100644 drivers/media/pci/hws/hws_v4l2_ioctl.c
+> >  create mode 100644 drivers/media/pci/hws/hws_v4l2_ioctl.h
+> >  create mode 100644 drivers/media/pci/hws/hws_video.c
+> >  create mode 100644 drivers/media/pci/hws/hws_video.h
+> >
+>
 
