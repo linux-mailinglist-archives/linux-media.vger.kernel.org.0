@@ -1,294 +1,122 @@
-Return-Path: <linux-media+bounces-47564-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47565-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B7E9C7879C
-	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 11:20:55 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02BD2C78853
+	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 11:31:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sea.lore.kernel.org (Postfix) with ESMTPS id 0B558321D6
-	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 10:20:54 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B32E94E9CEC
+	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 10:31:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B4AE3451B4;
-	Fri, 21 Nov 2025 10:19:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF7B4343D6C;
+	Fri, 21 Nov 2025 10:30:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="vopVRzLY"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b="c13HocQP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012055.outbound.protection.outlook.com [40.107.209.55])
+Received: from sender3-pp-f112.zoho.com (sender3-pp-f112.zoho.com [136.143.184.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54ADB343D80;
-	Fri, 21 Nov 2025 10:19:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 539394C97;
+	Fri, 21 Nov 2025 10:30:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.184.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763720372; cv=fail; b=lwyDXi1N5ChHN9U7yS/Oza4jkh6/OHMDhNksr95F3MOuMowCL0L+gaB5+Al3e2JLm+9nzdA75EZD38vbAwZ5xAdZwdxNMp7gI7COICbSpgEy+7Wjd6d4hd2Cr3MngZEwabCJdua3Sr9fl0MWHRxRQ4my5ZThYh+qp7UHeklePpU=
+	t=1763721054; cv=pass; b=brtPPcxb39inNrQNFWVj53ltWwNWzVSSRFqFPgWC9Dm02i93bY1G0ai2fCtohyUwtszc3SC6Za9vLd3oFFZksjUtId8IValHULwlZEYassN+fxsHXLtYaS0Tpf7hxuvxtIqE5JT0FKV2XTCzuSBT4V1KN7ncTtSaPICPTWl9ru0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763720372; c=relaxed/simple;
-	bh=SPFHRn3JNzdiClHrfM2M81mfiMOiGjGNDhudmCI5YRg=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GXiqMEnIC83m76hmekZf9wRD/IDN34/z/XH/rQ3GPiqyCq7EL2etbqnVQ9YEFwqvrbPFkntzt9EiuFor/S0epoZVEXq3shAnu7ChDhUkLDWcD8AWPm9VJwLaghr/HldutJ+MWitugkav1dDjK63R3SyJr/BohZ5v3mAW6HDYuS8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=vopVRzLY; arc=fail smtp.client-ip=40.107.209.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=P39gDmz04ElOtsmk8EfRy8rQP7WZWXvWE/HmhTkeeluokOEBfDrNFzZPHjXsckknWMDI4MVOtdMGXJ4mOqSeHnuWFlYWAA8HKuk6fPqRiqk9mZunPvf5AoBDPhKZacFq/zwD6y5eEuKT0omrujV/FNbm0VR/Q0jEGTogxRahJ3fcz2RdRbPH7EtYl9wdtUwwLKCBqAWVCeA+W1wUn2ZrfbCczp2VOpXPQW+0YjSEGi1hzaxm6JfGjPu5YBXidhnqYPT+XMVBvxrVSGc79Z6HTiMDJ+Dj4qRe4xiaaNOVDcLxQWhhRwQsNpuTLsy/vRj/Qb27cJiULJ0q21qEYFNSqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Fzp68uJ/mbJpmyd/2Zx8qBt1xPdo1vwDxT/GPncS4qI=;
- b=sp1CY7q5il9KAgluZlHyu5cpQfq2wkFOn4b8MtoGRywQR2m5Z7D/SQ+CIgxAbtksVGajFHszNChZid21yWOLUR71q0gTptuou5DjMy9xWgDBT2Cs+yfOHwHu6g0UUlQAYmhsuwz47apjfE6Rb761LocXSIRjbkfap4LO9nzDg7nRd9BHkJP/GiChJ58EO0eFOk4Km1kXSPTABO/vmGUrSnma9ZFTyEOc3hxKhFtf1r9ZrPx8rFKkMReRXKQdlfzETJGSm23oJza3tPx8rLDv0SMhOuEit/sIaGCRAo3VOJhxSqdqfkcreHOg+LWfymM9xZv+HxR/6PUIBjzEjwGDuw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Fzp68uJ/mbJpmyd/2Zx8qBt1xPdo1vwDxT/GPncS4qI=;
- b=vopVRzLYgRu+AWLZy2jek5lI43ro54EixtB4PpeFErQMoRa6Ul+OS7z2QiYdTzk0u/j5VXsQfNJYdP3D0B9MaAc4eXPln/fkEA97VIgs9L6/eg+RHaMEEGaWm+nkt4eKQl6PSxo5lQcnzfiIavpwdUxXxp6nd5FoWkpt9Re9Bgw=
-Received: from BL0PR05CA0003.namprd05.prod.outlook.com (2603:10b6:208:91::13)
- by CY8PR12MB7220.namprd12.prod.outlook.com (2603:10b6:930:58::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Fri, 21 Nov
- 2025 10:19:25 +0000
-Received: from BL6PEPF0002256E.namprd02.prod.outlook.com
- (2603:10b6:208:91:cafe::5d) by BL0PR05CA0003.outlook.office365.com
- (2603:10b6:208:91::13) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.5 via Frontend Transport; Fri,
- 21 Nov 2025 10:19:24 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- BL6PEPF0002256E.mail.protection.outlook.com (10.167.249.36) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9343.9 via Frontend Transport; Fri, 21 Nov 2025 10:19:24 +0000
-Received: from FRAPPELLOUX01-WSLPUB.amd.com (10.180.168.240) by
- satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Fri, 21 Nov 2025 02:19:22 -0800
-From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, David Airlie
-	<airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sumit Semwal
-	<sumit.semwal@linaro.org>
-CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
-	<amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
-	<linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-	<linaro-mm-sig@lists.linaro.org>
-Subject: [PATCH v3 28/28] drm/amdgpu: rename amdgpu_fill_buffer as amdgpu_ttm_clear_buffer
-Date: Fri, 21 Nov 2025 11:12:38 +0100
-Message-ID: <20251121101315.3585-29-pierre-eric.pelloux-prayer@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251121101315.3585-1-pierre-eric.pelloux-prayer@amd.com>
-References: <20251121101315.3585-1-pierre-eric.pelloux-prayer@amd.com>
+	s=arc-20240116; t=1763721054; c=relaxed/simple;
+	bh=cJNg9CMO2XzFOYNsXRbWPJs+C/51bgw0S6GQMq+gZ9I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DLn43WA2E7OzngRj+dHBoq4k56MzCCYCdaffhWm3iSz4oji5WJ1aF3yRuC80IvVv0yjo95l2zMAaCgnTaHGJgxjLpp7HUqCBT4v/fFrdAdr+dM9rs1c780tpkvuRsPfk2c9ek/xUaZY1ZGIfSImoLl/+qliiKMttWffZmik1q08=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b=c13HocQP; arc=pass smtp.client-ip=136.143.184.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1763721012; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=Seii7yGgiAK8YqQd3A1uljT0JIy/Rn1UVCro8gYHBzeklgaoSJaCMu7uOlMHUgPEAhdXAhmjmlNsPRCTMhn7cpq97vpdfkT1BHJRmpTjNbm0oUj8FwmIEvqt+ZmA5Ytgxpc8/bAGyoq0/A2YJyOkPqWJYhTZqiEu4yux09mM/kg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1763721012; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=gn3wOGMh35VRAyLK1z47rfPXxroKNFJ6qRR7lUA5vuc=; 
+	b=HFwMQKJpirHsE9HjQ/VIVGncO0FhTLIjc0JjMJfsDtKZ0TqCEbW480JVdpP0uL846XjpYMKjE2OzilpF/3oE4JGaQZujwLrpowTBeBhOrWubk0hUjSL04XlYAzvLcL5XSZ4RSqdPsZsq7Bq6mWOmX61Hxti+4M/zuqNzWInjOrw=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=benjamin.gaignard@collabora.com;
+	dmarc=pass header.from=<benjamin.gaignard@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1763721012;
+	s=zohomail; d=collabora.com; i=benjamin.gaignard@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=gn3wOGMh35VRAyLK1z47rfPXxroKNFJ6qRR7lUA5vuc=;
+	b=c13HocQPgKuWgTuCJ2uA0XulrvwGkyEwubh0Q4UmVk0K7Z1djTilCdbbxC3s+llP
+	PkzpvWfpHABOipyA778yBgcZv5fYSpzmFaFhoovo+i9b7hgKTOZx19rbnti5xDa6KAN
+	QrNsdOGJBtc9CRESwezDzB+MPvrIDI9/1aMDs8Ic=
+Received: by mx.zohomail.com with SMTPS id 1763721011318865.399722972453;
+	Fri, 21 Nov 2025 02:30:11 -0800 (PST)
+Message-ID: <ec5adaa8-078f-4c6b-94af-c75b1fe3ec84@collabora.com>
+Date: Fri, 21 Nov 2025 11:30:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] pmdomain: imx8m-blk-ctrl: Remove separate rst and clk
+ mask for 8mq vpu
+To: ming.qian@oss.nxp.com, linux-media@vger.kernel.org
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl, nicolas@ndufresne.ca,
+ p.zabel@pengutronix.de, sebastian.fricke@collabora.com, shawnguo@kernel.org,
+ ulf.hansson@linaro.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, linux-imx@nxp.com, l.stach@pengutronix.de,
+ peng.fan@nxp.com, eagle.zhou@nxp.com, imx@lists.linux.dev,
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+References: <20251121081911.1682-1-ming.qian@oss.nxp.com>
+Content-Language: en-US
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <20251121081911.1682-1-ming.qian@oss.nxp.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0002256E:EE_|CY8PR12MB7220:EE_
-X-MS-Office365-Filtering-Correlation-Id: e3183a14-5d98-471f-d20e-08de28e771d1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|1800799024|376014|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?MWJtaGtWNEI2enJTSTZqYzBVZWpuY1dxNm1XbEVjaFhlVzd6ZHNmOEMyc0JI?=
- =?utf-8?B?ZW9wVzFxMUZ5U0xJdURIWjkxRHE3TWI3d3VFYnZoVis0OUtCSjNlUG9SalAv?=
- =?utf-8?B?Y0ZJNDBwUTdOWk91NUFOT05QTHVsOWpLNFlMVTh3VEM1eVZ1WlhFYURnKzdi?=
- =?utf-8?B?RUIxemJJOHl4MUxZdHAxSnI3RVpuOGIyWUNES0JzSHFGT1lETmFyWnlCaTBB?=
- =?utf-8?B?WkFCN05NWDFhc1dlVEtGNUo3ckcyTzB4YmJWbTl4T2YwVndrYWkvSWVFVXFF?=
- =?utf-8?B?VExPMnM1Rk9OUE5RNnFXSmhIWTBVMFBRalFDQWNpc21yZFhHSGNnL2JpaFMv?=
- =?utf-8?B?dEtCOVhYbVU0cEViR3NRVWtsUnZaM1R3L0plRXJRZWJvaXZ3VkRGNklYdTJz?=
- =?utf-8?B?RURhZEZiZ1U3MmFmcmdzaGs4ZXNqVDJTY0MvZlpGUzVpTGRnUlNCSWIvSmRX?=
- =?utf-8?B?ODZJblVxQ1drWTB0SktGVW1yczZuV1NsQmI3U2hqRTdnNW9lazVVQUlBSFdk?=
- =?utf-8?B?c2VKNGo3aTIwalZ4Y3hVRGV4M0hxS01wR0tjTGZ3VytJYnIwSmxGS0Z6bWVZ?=
- =?utf-8?B?Qjk5b1NleWNlUVNINlpSU3R0Zm5HT2tkQitXeUg3QnJ4TVlkTnFwQ3M1cjZP?=
- =?utf-8?B?amxpbjltbmZOZkdBLzlPbTZySk9QaVhuVHI4SWNjbmM1M3VrZU0yTE9WREZZ?=
- =?utf-8?B?dXNYT2lmWVFycDIwU2FCNk5pZE9EQnJHbFlleTFTTnExa1N2SlBaUjlTbis5?=
- =?utf-8?B?VGEzNUZ4MDR3NlIvbDJFa2RSWHRZaGJ2OG0yQW1weFVYT2EwamhpOHgxQjdY?=
- =?utf-8?B?K0NTQWc3MkVOVkJBc21nWTFBQmJ6eURGTC85aGFETTZ0enR1cGsybWlLWkdT?=
- =?utf-8?B?SzdQVUd2SjRrZ21scTgzVGorYnNFK0tPaFJ5aFoyVW1GWlJZdDJ0Z1JscXlr?=
- =?utf-8?B?RjU3VHkzYUhjY2hhRVIvQkpGQkNOOU90WEhDem9tNnlMdWU4V3lQekpVenc0?=
- =?utf-8?B?YlpVL2kzTklwUm41TThmVTZMZGxDaXZtT2xHQVVmZW84RmxmeGpnUHVST0VB?=
- =?utf-8?B?dUowby8yRFBiaVBNLy9mSFlPdy9CQVBsS2UyemZMMXJnVm5zS2VkQ2FpaGNq?=
- =?utf-8?B?NGk0ekNaMnhuWExmd293V3Q5aDdETGgveEJ0eE1mcWY2Q2t6aFdzQ3Nmb2da?=
- =?utf-8?B?bTNuVG9zcHVRc0ppb1k2UFJmREZvVFFzNnhCK2ZtTllka0pZbU1CdlJreTNF?=
- =?utf-8?B?NEJ5OTBPS01GUDltc2NOa1krcmtUdm42UDU4d21LNEZQdURGL25vaXBOdTda?=
- =?utf-8?B?MUtKZkFDVWsyWTVyQkZzSVk2aVFwaDdVdHAyOFVGZjNqMnVGVVVVa0VmUU50?=
- =?utf-8?B?ZzVuL0lmYnRnTXdoa0Z3dUFEKzZ6QmlrU2dWZ3FFTUtmdmx1Z0NURSs0UnIy?=
- =?utf-8?B?eDNkSS9DelpiWllURExqUm5GTFJkU0FXL0c5NHF3ZUlUd3NjZ1pHSFNEYkdW?=
- =?utf-8?B?a2swaHBDSjE4MXcvMjN5QTl1ZTh6WTVhQUFIOFM5OWhLUkN4MGZydmhDUVhV?=
- =?utf-8?B?ajI2Z1RSZFJDMHlCSlVMb1pEd3NsaDVRSmpoclNTUEhNUVA0NXV4Ymh2U3ha?=
- =?utf-8?B?RVpmV3BybFBXbURQSkhuWDdkZHRKQXNDSWs1eFNMdjhXbzRoWnNUMnBuUEJB?=
- =?utf-8?B?c1JwQnlwZDQyR2FNRFhsaFRJQ1BPbS9lSjdGaC9zL01sR05qY1FZeEF6WTQ1?=
- =?utf-8?B?ZzVHaEtGZnlqYjVDVmZpY0U4bEJlcDRsOFNadFB5cEpYQmhMTkJwQ0dVV2VJ?=
- =?utf-8?B?YXVPS1BQYWtaVVprZzFkZUVNdzJuOWVzcjJCazBhSVpKbERta1R5S042VWQz?=
- =?utf-8?B?TEZvMEwvdVZheHBOSDVibG9vZUZyVTNieDNsKzF6Y3B0YVR6eHR0SDFYUW9C?=
- =?utf-8?B?UnFnSkthOU1EV0NPZ3pKckRySGRGZ2h0b0xmMEgwZWZ5ZU5BcnRuZDRDQk1s?=
- =?utf-8?B?TzVFZTlVZm1tMWJsS3AyRG5RT0VDVjVNdUlZaVhwdUtZaWRFOWRnNXJIUnJu?=
- =?utf-8?B?Zk1FSzhYRENJaHltdDFOUHFiYTZ5TFVTeWJHUjAxZjlSbTJITDFLeGJzNGc3?=
- =?utf-8?Q?u9D4=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(376014)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2025 10:19:24.4888
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e3183a14-5d98-471f-d20e-08de28e771d1
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL6PEPF0002256E.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7220
 
-This is the only use case for this function.
 
----
-v2: amdgpu_ttm_clear_buffer instead of amdgpu_clear_buffer
----
+Le 21/11/2025 à 09:19, ming.qian@oss.nxp.com a écrit :
+> From: Ming Qian <ming.qian@oss.nxp.com>
+>
+> The ADB in the VPUMIX domain has no separate reset and clock
+> enable bits, but is ungated and reset together with the VPUs.
+> So we can't reset G1 or G2 separately, it may led to the system hang.
+> Remove rst_mask and clk_mask of imx8mq_vpu_blk_ctl_domain_data.
+> Let imx8mq_vpu_power_notifier() do really vpu reset.
+>
+> Fixes: 608d7c325e85 ("soc: imx: imx8m-blk-ctrl: add i.MX8MQ VPU blk-ctrl")
+> Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
 
-Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 12 +++++-----
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    | 27 ++++++++++------------
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h    | 15 ++++++------
- 3 files changed, 25 insertions(+), 29 deletions(-)
+Thanks for the patch.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-index dccc31d0128e..ac1727c3634a 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-@@ -725,9 +725,9 @@ int amdgpu_bo_create(struct amdgpu_device *adev,
- 	    bo->tbo.resource->mem_type == TTM_PL_VRAM) {
- 		struct dma_fence *fence;
- 
--		r = amdgpu_fill_buffer(adev, amdgpu_ttm_next_clear_entity(adev),
--				       bo, 0, NULL, &fence,
--				       true, AMDGPU_KERNEL_JOB_ID_TTM_CLEAR_BUFFER);
-+		r = amdgpu_ttm_clear_buffer(adev, amdgpu_ttm_next_clear_entity(adev),
-+					    bo, NULL, &fence,
-+					    true, AMDGPU_KERNEL_JOB_ID_TTM_CLEAR_BUFFER);
- 		if (unlikely(r))
- 			goto fail_unreserve;
- 
-@@ -1326,9 +1326,9 @@ void amdgpu_bo_release_notify(struct ttm_buffer_object *bo)
- 	if (r)
- 		goto out;
- 
--	r = amdgpu_fill_buffer(adev, amdgpu_ttm_next_clear_entity(adev),
--			       abo, 0, &bo->base._resv, &fence,
--			       false, AMDGPU_KERNEL_JOB_ID_CLEAR_ON_RELEASE);
-+	r = amdgpu_ttm_clear_buffer(adev, amdgpu_ttm_next_clear_entity(adev),
-+				    abo, &bo->base._resv, &fence,
-+				    false, AMDGPU_KERNEL_JOB_ID_CLEAR_ON_RELEASE);
- 	if (WARN_ON(r))
- 		goto out;
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index c65c411ce26e..1cc72fd94a4c 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -457,9 +457,9 @@ static int amdgpu_move_blit(struct ttm_buffer_object *bo,
- 	    (abo->flags & AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE)) {
- 		struct dma_fence *wipe_fence = NULL;
- 
--		r = amdgpu_fill_buffer(adev, entity,
--				       abo, 0, NULL, &wipe_fence,
--				       false, AMDGPU_KERNEL_JOB_ID_MOVE_BLIT);
-+		r = amdgpu_ttm_clear_buffer(adev, entity,
-+					    abo, NULL, &wipe_fence,
-+					    false, AMDGPU_KERNEL_JOB_ID_MOVE_BLIT);
- 		if (r) {
- 			goto error;
- 		} else if (wipe_fence) {
-@@ -2459,29 +2459,26 @@ static int amdgpu_ttm_fill_mem(struct amdgpu_device *adev,
- }
- 
- /**
-- * amdgpu_fill_buffer - fill a buffer with a given value
-+ * amdgpu_ttm_clear_buffer - fill a buffer with 0
-  * @adev: amdgpu device object
-  * @entity: optional entity to use. If NULL, the clearing entities will be
-  *          used to load-balance the partial clears
-  * @bo: the bo to fill
-- * @src_data: the value to set
-  * @resv: fences contained in this reservation will be used as dependencies.
-  * @out_fence: the fence from the last clear will be stored here. It might be
-  *             NULL if no job was run.
-- * @dependency: optional input dependency fence.
-  * @consider_clear_status: true if region reported as cleared by amdgpu_res_cleared()
-  *                         are skipped.
-  * @k_job_id: trace id
-  *
-  */
--int amdgpu_fill_buffer(struct amdgpu_device *adev,
--		       struct amdgpu_ttm_buffer_entity *entity,
--		       struct amdgpu_bo *bo,
--		       uint32_t src_data,
--		       struct dma_resv *resv,
--		       struct dma_fence **out_fence,
--		       bool consider_clear_status,
--		       u64 k_job_id)
-+int amdgpu_ttm_clear_buffer(struct amdgpu_device *adev,
-+			    struct amdgpu_ttm_buffer_entity *entity,
-+			    struct amdgpu_bo *bo,
-+			    struct dma_resv *resv,
-+			    struct dma_fence **out_fence,
-+			    bool consider_clear_status,
-+			    u64 k_job_id)
- {
- 	struct dma_fence *fence = NULL;
- 	struct amdgpu_res_cursor dst;
-@@ -2516,7 +2513,7 @@ int amdgpu_fill_buffer(struct amdgpu_device *adev,
- 			goto error;
- 
- 		r = amdgpu_ttm_fill_mem(adev, entity,
--					src_data, to, cur_size, resv,
-+					0, to, cur_size, resv,
- 					&next, true, k_job_id);
- 		if (r)
- 			goto error;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-index f3bdbcec9afc..fba205c1b5d7 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-@@ -181,14 +181,13 @@ int amdgpu_copy_buffer(struct amdgpu_device *adev,
- 		       struct dma_resv *resv,
- 		       struct dma_fence **fence,
- 		       bool vm_needs_flush, uint32_t copy_flags);
--int amdgpu_fill_buffer(struct amdgpu_device *adev,
--		       struct amdgpu_ttm_buffer_entity *entity,
--		       struct amdgpu_bo *bo,
--		       uint32_t src_data,
--		       struct dma_resv *resv,
--		       struct dma_fence **out_fence,
--		       bool consider_clear_status,
--		       u64 k_job_id);
-+int amdgpu_ttm_clear_buffer(struct amdgpu_device *adev,
-+			    struct amdgpu_ttm_buffer_entity *entity,
-+			    struct amdgpu_bo *bo,
-+			    struct dma_resv *resv,
-+			    struct dma_fence **out_fence,
-+			    bool consider_clear_status,
-+			    u64 k_job_id);
- struct amdgpu_ttm_buffer_entity *amdgpu_ttm_next_clear_entity(struct amdgpu_device *adev);
- 
- int amdgpu_ttm_alloc_gart(struct ttm_buffer_object *bo);
--- 
-2.43.0
+Reviewed-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 
+> ---
+>   drivers/pmdomain/imx/imx8m-blk-ctrl.c | 4 ----
+>   1 file changed, 4 deletions(-)
+>
+> diff --git a/drivers/pmdomain/imx/imx8m-blk-ctrl.c b/drivers/pmdomain/imx/imx8m-blk-ctrl.c
+> index 5c83e5599f1e..1f07ff041295 100644
+> --- a/drivers/pmdomain/imx/imx8m-blk-ctrl.c
+> +++ b/drivers/pmdomain/imx/imx8m-blk-ctrl.c
+> @@ -852,16 +852,12 @@ static const struct imx8m_blk_ctrl_domain_data imx8mq_vpu_blk_ctl_domain_data[]
+>   		.clk_names = (const char *[]){ "g1", },
+>   		.num_clks = 1,
+>   		.gpc_name = "g1",
+> -		.rst_mask = BIT(1),
+> -		.clk_mask = BIT(1),
+>   	},
+>   	[IMX8MQ_VPUBLK_PD_G2] = {
+>   		.name = "vpublk-g2",
+>   		.clk_names = (const char *[]){ "g2", },
+>   		.num_clks = 1,
+>   		.gpc_name = "g2",
+> -		.rst_mask = BIT(0),
+> -		.clk_mask = BIT(0),
+>   	},
+>   };
+>   
 
