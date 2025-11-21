@@ -1,237 +1,273 @@
-Return-Path: <linux-media+bounces-47557-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47558-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53B57C782A9
-	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 10:33:05 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA503C78820
+	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 11:27:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 36FEA4E8B7B
-	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 09:33:04 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTPS id 10EDD3246B
+	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 10:13:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7066733FE17;
-	Fri, 21 Nov 2025 09:32:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 972BE2E03F2;
+	Fri, 21 Nov 2025 10:13:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HdQtfl+J"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="12XZKvgg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011007.outbound.protection.outlook.com [40.107.208.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BEEC33F8C9
-	for <linux-media@vger.kernel.org>; Fri, 21 Nov 2025 09:32:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763717559; cv=none; b=bzp33por7agIsZ4uX4tczscHY4o5a7SVe5Pg7QnMVEI+HY+7QcfI+wylH5m6De8VJ3Uz5eWhAA1RaA1fHwyB57UP83iK6v3ATmFqc7o/I3LIJCPJg1XUrwXzvc6SoJapKHwNrLhcOp/YOBUR9Vvj74scLsGZNTOj6Gkh2LI9Vag=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763717559; c=relaxed/simple;
-	bh=6PyDzD8CijFm7XP9JQUYHuFA8d6AifEMr9vGmysI/9o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eMm/GOvJS7e83bv0odx04PK4tgYezRz6cLNOzslsyL01rXMVAk3qfgVn3kCoCcXeqNfGzLBykdhH/uSGXYeOed8lImVL1G/EOeppRlL+i62ZdJT3JQz5Qly3T5H8GDtJUIGWxy8F4bYUA5j7GZ6toynwsi9glz1LpNAQZi794d8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HdQtfl+J; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7aa9be9f03aso1529819b3a.2
-        for <linux-media@vger.kernel.org>; Fri, 21 Nov 2025 01:32:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763717557; x=1764322357; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MuYEbkRINb2Wv3I/5k7ZJX5SxvEA5yNyvSqXwQJB7iQ=;
-        b=HdQtfl+JCUrDNWTgk4RRAAFPs1YEtvVo92mJ+NtXCbdLNJ2Ov86S8pYN9kcz7WLYhB
-         ivuMYeFi8OYc2jnR1FFgqTmk3jbfl6VMldNMOTZVU1ULyQ7UKgLTKd1Nx/EFjmPhPl+B
-         ilpqtMWMahZLDPvjoXooa7hhZPAkb8Qh9cXIG1TOfxfBl2O3tYDkIbmHmWJSF0OChv3N
-         d1psJ4/NQmX2PURKB+UHfTKuyczb7xj2xAOhlt1gBZQF7A8U8wda1l7LwHjc3W8i3TQc
-         3H05miQcVBEg7HwTLDA0MNB8maMg+bEBNzDwJgLB8xBdKbKcuSLsRCozxSmTfzRdwbYv
-         hubQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763717557; x=1764322357;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=MuYEbkRINb2Wv3I/5k7ZJX5SxvEA5yNyvSqXwQJB7iQ=;
-        b=KNluTkh3WMO0eZM6lgSwjIuodOCzel5ldl4ld0RgHX+yxhOmKVQ+1xiUbff1Nqgwzk
-         f+VvdWZo1Z5XyIDEXHUp1GA79iZyXmEDc8USH9TiGFnYVGIC5GxbdUB0sxFSKeHmbJy8
-         8Cf8TUb02A23YP5PjoehvFd5ZJHUxfGpBBlz3CbIzdKNDsmmfqkwqerVi48Wvpl/WVbb
-         D1827tY+qRDsFTfAGWQ8Lx2ZRfhoxPFJsysg6kq5QopSeGPp8oVHvyieHkg/6j79uGQw
-         oJgUnB9qFMge3KoYCMLP2WAmQxuSOiOT0OOuSOlbctUtt8eEIJ1m58QD+FSegO6Zr5HU
-         pafw==
-X-Gm-Message-State: AOJu0YykzDMwlxhZqL0vJj38JuS9W98V2zNn5BGpl7kgyD6MFLsAAyJz
-	QZEihOhj/OxzA3p+yCnJim00/7AnStjGHYx4EPpmwujdZwwz3HdEMC+PFqQ4nnKXsmlHkmRpQzs
-	3LQuLj4dyPt0t+WWhe1vmmSUR6DXr7jA=
-X-Gm-Gg: ASbGncuCZg+nVJ9Qfgu1FKLdBMFFZKpr0DSM2Dsvk+dHcl9D57xlpxa00XvXsVS8IEu
-	L7SzSt6ez7EbkKqLo4xBJFLZPvqzCDGnwXKgWehXAixSStM5cTyI58aFZ2MKM47vTrVFoMd8Fn+
-	PsPWZpxOo7Ykh+BuZQKrLKZ+nekbCjrNpvjWef5FHxbNqRHOK924Hi8ylP94u7TcS60OhpQPyKm
-	qHYY9k52bo9u70vZ5OfYboRUGdmvhX4b7qDQzhjTZxSbBKV4mhHgwG/2rU8kxS2BiuucA==
-X-Google-Smtp-Source: AGHT+IGJ9l7LM/cmvFqp6VMJS0iaY+Ctu1F8qada78oVHFJxOezPTDCIZ7/ebocfX/WvtsUsPkL7iXTCmBptB5jhWwU=
-X-Received: by 2002:a05:7022:6b93:b0:11b:9386:825a with SMTP id
- a92af1059eb24-11c9d87a52fmr477468c88.47.1763717557154; Fri, 21 Nov 2025
- 01:32:37 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0480190477;
+	Fri, 21 Nov 2025 10:13:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.7
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763720030; cv=fail; b=XPRpGoKKc8BsOdPRBhMaHH/zkX1S/mMN0YRk/v3tnlV9PBl2VnWoRMCa/SxDaNf/QhthH/TlfSXnqe+V8kOld3oNgyEsjCWv1it54MtKOBTxFhsKAuB4nArPanOEu3gVRXtZBQ0hqJ49XCcFmk02ztmA3YL+9C7ZL2Owjo/53NU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763720030; c=relaxed/simple;
+	bh=1h+PyGDT8KX19g39RxfZmzM0q+J7mDooxzrrGaE3Z9g=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DhZUUoNFBwy6Nnl/xPQ9inKAnG89cLTtyATKSvRzkwu6SNoREKV0JZbty4qRkZmMyWJES2eDn3zqRLgiD5/6kAhGzav+qfJFaQs1laJc+6GYHk2nBeOXV5JjoVATE7qo6jyjD1ixEG0Opk3Q8olAWDlhUZlM1yWn6k1epu+Zp+4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=12XZKvgg; arc=fail smtp.client-ip=40.107.208.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=STAMn6oVmpBZbBM6rrbjqcFeYtd2VXa7+9lGLWsgXA1Z9fXep02+Nv2ejqDNJTGjNsn8ZWKYanDXcmbO43K0dYNW8vksJPFKnLczvO4+5/yGESvqnpPcyBehtDoM4gTNZGM20PN3XnZnHPr9ZgLYpl+fYCPIXo8amer3aMAiaIilD//oezQ8SnAg7UO83IQTH4qIzZmJ6HUWqr9JTjYr1eGRBRnoBkA9vv55EXTDSnZ8ZvM2Zf9ApzvhxEDmRVPtHoB9OfSVVdGtFkTE4uW7Dte/gIJUhaJ8GZNjZDr4q+lct5mUiuRc0SDbKqlX6GfEYqoaFn377XGpB+ehYHmLfA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jv0TaBPAysMDm2r3OVTrjyPAipCVEICIUKhPQjsifGo=;
+ b=argcYPwrMbsKrI+om1Lch2rgqD8PqTWQQr+WMC1TRHihHv6ytR4k/STCCKRZdMkpR7yVmVfVTSb71xgUcu+YxntqoBx4NG/Wjj7w95gwtmmEporAjZED82AJQRy7NrqGpb5cvCLAAPaSXr+SVb01exR6yCTwpH+p6Futc6UafYvB+D88Q0T8yN78tYvjR8jF2SpTn2tUSFKScl5K4I6a0cxlcE0mnJx7dWB8Qwwf/EFdC+C4Y5PpitYiOYUAONCdRpw9KSuFTLVMtWKOwXcVdt4tqkPh3XLP+vyG8eHIHsf6kCpNZCLnukyLNqvwOnbFcioHTyj2WZA2zZIYbpPxww==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jv0TaBPAysMDm2r3OVTrjyPAipCVEICIUKhPQjsifGo=;
+ b=12XZKvggHVKTPPXV9Jzze7+28ZsS9Ge6FKKIBgYTHTZ9UT+gprWaszZ8mYYp8apN6bdN8X79q9QnC85FGq/jqgEl2QFWOrEvvKawM/dFe1FNk2uRGIVAX3cEifEi8+ZmPo6R/Zv0x5fJaF0twj/8iBggvKfN4gAdqQbM2SfEJ9E=
+Received: from CH2PR07CA0027.namprd07.prod.outlook.com (2603:10b6:610:20::40)
+ by CYXPR12MB9278.namprd12.prod.outlook.com (2603:10b6:930:e5::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.11; Fri, 21 Nov
+ 2025 10:13:43 +0000
+Received: from CH2PEPF00000141.namprd02.prod.outlook.com
+ (2603:10b6:610:20:cafe::1b) by CH2PR07CA0027.outlook.office365.com
+ (2603:10b6:610:20::40) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.14 via Frontend Transport; Fri,
+ 21 Nov 2025 10:13:45 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ CH2PEPF00000141.mail.protection.outlook.com (10.167.244.74) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9343.9 via Frontend Transport; Fri, 21 Nov 2025 10:13:43 +0000
+Received: from FRAPPELLOUX01-WSLPUB.amd.com (10.180.168.240) by
+ satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Fri, 21 Nov 2025 02:13:40 -0800
+From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+To:
+CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, Alex Deucher
+	<alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>, Felix Kuehling
+	<Felix.Kuehling@amd.com>, Harry Wentland <harry.wentland@amd.com>, Huang Rui
+	<ray.huang@amd.com>, Leo Li <sunpeng.li@amd.com>, Maarten Lankhorst
+	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+	Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>, <amd-gfx@lists.freedesktop.org>,
+	<dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
+	<linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>
+Subject: [PATCH v3 00/28] drm/amdgpu: use all SDMA instances for TTM clears and moves
+Date: Fri, 21 Nov 2025 11:12:10 +0100
+Message-ID: <20251121101315.3585-1-pierre-eric.pelloux-prayer@amd.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251027195638.481129-1-hoff.benjamin.k@gmail.com> <b38c4013-fabb-4469-bfa9-9296a88d244a@kernel.org>
-In-Reply-To: <b38c4013-fabb-4469-bfa9-9296a88d244a@kernel.org>
-From: Ben Hoff <hoff.benjamin.k@gmail.com>
-Date: Fri, 21 Nov 2025 04:32:25 -0500
-X-Gm-Features: AWmQ_bnPnNHz2ukL275wX1-IwhQGUN7FSg7OHDTtrG8DMo89y1DSDKZvEJnG5hM
-Message-ID: <CAMSzxxQyuF5pE6bwU9+1cyA-0_0facswdNqOnKNV1jxa-0sVcw@mail.gmail.com>
-Subject: Re: [RFC PATCH v1 0/2] media: pci: AVMatrix HWS capture driver refresh
-To: Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	mchehab@kernel.org, hverkuil@kernel.org, lukas.bulwahn@redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PEPF00000141:EE_|CYXPR12MB9278:EE_
+X-MS-Office365-Filtering-Correlation-Id: d0fc0e40-c46a-41cd-4035-08de28e6a6b5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|82310400026|376014|7416014|1800799024|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?L3A4S1FKandBY0gxYlFLWDVpTWtmQ2NIZkJFOW4zS0NWbkNvTVQrV0ZNU0Ex?=
+ =?utf-8?B?dnNGZzFUQjZFWTVQc3lQb1pnbHlGaHVaY3J0Y2ZFMVp1UWp0cFRoYXNZcVhV?=
+ =?utf-8?B?bk9aR1VDUWdWZG1GR2tmU2kxQ2FKRXhScE1tdS9SakNZQTY2M2NrN1NVTEVn?=
+ =?utf-8?B?ekVpN2prdXBidE9KbGRqVVFETjVFcjJHT2tFc2tVRElVSWcwbnl6QVVzR1BU?=
+ =?utf-8?B?QWUySERiNWF3WksxQjhoVi92T3F5R2xZY0lJL2djbHIwMWsvL0FoTEZ0eFM1?=
+ =?utf-8?B?cXJiYUtNMElEemJDM1RtdjlRMXk5ZVZ1SzhnelZaOXNKdGpzRDhycTVBRDA3?=
+ =?utf-8?B?RUpEVEdwWXdiMW5JaExnUVZWODlOaE5Hbll5L1RjMXRubGF5TzFOOEZKc25n?=
+ =?utf-8?B?R0VETVp1UnFNeXN2TlhMR0tac3YxdjlMcmZDUDlrY3RtbFVIeTBuaE4zMTY2?=
+ =?utf-8?B?Mm1RTlgwN1c2Q1g2SmhOYWJ6ckp3V3Y3eWtzT1lWUzZiMys0YkQzWmpZOVNx?=
+ =?utf-8?B?d1kyRFhOb1lpU2lkOUUzSjk0cTlkUGJ0LzY3aXpud1BsOWUva3IyVGF5eDNC?=
+ =?utf-8?B?Z1Z4eGRIaUhaWlIwajZiUVlMWGxwNk1LMXdNbUFTZU5wL29jYWtWdjdLMGhP?=
+ =?utf-8?B?N1BrS0VBRyszMXlWWFBNalVCZExMb2Z1S3NNRnlNOUhvc25mV0lWVE9tSWNG?=
+ =?utf-8?B?ZzJFRE1DdGI3UTNESGdQOVhHRmsrZFlvbVhwTmZPQ2xiRGJKUTZLVENQTlBn?=
+ =?utf-8?B?WHJvL1A2RkR0cmhqYnZUTDNmdEU0clprK2YrY2ZGL0loK2ZsRGNtazB4SzF1?=
+ =?utf-8?B?OU1rUGRBVW1sRjVFTG40VDdyRGV0Wk9KT0dDL014WC9EcTEwOUhwRjZNS0do?=
+ =?utf-8?B?YlZxamJlc09mVE5LSFNIcXE1MG1BK1VTcndrTVhxeVhmVFArVTNERFdNUk5V?=
+ =?utf-8?B?K0ZNY3hROTFVMy9WUHFZNW5FejQ3ZldhUi8zdWpuZXdaajJjR1FTek1telN0?=
+ =?utf-8?B?ZHdzd2xaczVMUzcwODdMUjBlcW1CQTc3TDVOc3VXa0tkRTM2eWNiaW5PMFVn?=
+ =?utf-8?B?ZHNQWWNISkw3WHg5SklBVVM3aGU3Nnl4L2pzL0hlSWkyVmRPTmZsZDlQLys2?=
+ =?utf-8?B?MjFEUm5rNDFEMDZzRXhzRVlsdmJxRXBRZUg2V0xNcU1iQi9HdzdLelhRZWtj?=
+ =?utf-8?B?SnFhc2k0YlM0UHFKVlNtWXcwNU55R21OQm5RRC9VK3VmclJzbUJhd09DbXJW?=
+ =?utf-8?B?QTZzNVcya2FMeXlnQmkrVGpJd1dsaW9sWitCd1JFTjZDZS9hWDVwTVZKOGpm?=
+ =?utf-8?B?eXkzUEdCRzFDUDRnNFZNZ3AyWEh3cXdzTFRYWVcwTERkNTFId3NZY1FGSlRa?=
+ =?utf-8?B?b2crUXNDZjJhbkRtZ0p6Nnd6QWNoSlVxSk1hTC93by9STUxDOWJyTkdIdFJO?=
+ =?utf-8?B?b2dsUER1UHhPdEVyOFh3MVFYREhCa3BleUdjTVN0TTVPcUFpbjE2TjdFcWR4?=
+ =?utf-8?B?bE5KSUc5cXVhamJvZGV4c2dlN2ZITG1aTE5XUW1wc2VCTTRncjd5Y2d6M2w4?=
+ =?utf-8?B?d29MdTZwV3BheWZmMk1OS1ZzcjliMG9xSmVZemtwOXdwZ3dmeXVGWEFQbG5Q?=
+ =?utf-8?B?YVhKSGRaQmd6TUF2SXpIY1RFU1VCZXNPQW93REQ3aisvNW5ueWZaeFNVNWs2?=
+ =?utf-8?B?Yi9aajM1UERpb1JjL1ovQjBibjNRNHp3ZGtuY3Y4UXp6SkQzQUhZanZGbldm?=
+ =?utf-8?B?NTR1eG0rWXIrc2h1c0ViVlFtUS9YcGdaMTgzcEE4b3JjS1V2RHRiVnhhTzhW?=
+ =?utf-8?B?WkkvSlBLaDZEUE5zVWRpM3JEbGl3YzJGOGd6ci9rYTZzb2tlUDRYM0R5Znpi?=
+ =?utf-8?B?SXpqQ1l4THR1bFpVYU1xaWdEWnpVbExWVExvZEtwQU5SclBOQVhGY3crU2N4?=
+ =?utf-8?B?NXZhZEpOTnVQaW5PdDhMeGZ0S2JHbCtMN2NjWG8zcUpLMEVlV3hDSEE2RUZN?=
+ =?utf-8?B?dFlSQ2V5c0JpUFhPUVVSaU9PSGUweEE0LzBQRU85eE1DVE5HNUVodEJKR0ZJ?=
+ =?utf-8?Q?kchgAl?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(376014)(7416014)(1800799024)(13003099007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2025 10:13:43.7144
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d0fc0e40-c46a-41cd-4035-08de28e6a6b5
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH2PEPF00000141.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR12MB9278
 
-Hi Hans,
+The drm/ttm patch modifies TTM to support multiple contexts for the pipelined moves.
 
-Thanks for the review and for the guidance =E2=80=94 much appreciated.
+Then amdgpu/ttm is updated to express dependencies between jobs explicitely,
+instead of relying on the ordering of execution guaranteed by the use of a single
+instance.
+With all of this in place, we can use multiple entities, with each having access
+to the available SDMA instances.
 
-> 1. wait until you finish the audio validation, or
-> 2. make this a staging driver=E2=80=A6
+This rework also gives the opportunity to merge the clear functions into a single
+one and to optimize a bit GART usage.
 
-Thanks for the pointers. I=E2=80=99ll wait until I have the audio paths ful=
-ly
-validated before sending v1. I=E2=80=99ll be running extended testing at th=
-at
-point, so it makes sense to submit the driver once the capture and
-audio paths are both stable.
+(The first patch of the series has already been merged through drm-misc but I'm
+including it here to reduce conflicts)
 
-> Can you add a URL to the driver?
+For v3 I've kept the series as a whole but I've reorganized the patches so that
+everything up to the drm/ttm change can be merged through amd-staging-drm-next
+once reviewed.
 
-Yes =E2=80=94 this is a rework of the vendor=E2=80=99s GPL out-of-tree driv=
-er. I=E2=80=99ll
-include a link to the original source (or the widely mirrored version
-if that is the only available copy) in the commit log of the main
-driver patch.
+v3:
+ - shuffled the patches: everything up to the drm/ttm patch has no dependency
+   on the ttm change and be merged independently
+ - split "drm/amdgpu: pass the entity to use to ttm functions" in 2 commits
+ - moved AMDGPU_GTT_NUM_TRANSFER_WINDOWS removal to its own commit
+ - added a ttm job submission helper
+ - addressed comments from Christian and Felix
+v2:
+  - addressed comments from Christian
+  - dropped "drm/amdgpu: prepare amdgpu_fill_buffer to use N entities" and
+    "drm/amdgpu: use multiple entities in amdgpu_fill_buffer"
+  - added "drm/admgpu: handle resv dependencies in amdgpu_ttm_map_buffer",
+    "drm/amdgpu: round robin through clear_entities in amdgpu_fill_buffer"
+  - reworked how sdma rings/scheds are passed to amdgpu_ttm
+v1: https://lists.freedesktop.org/archives/dri-devel/2025-November/534517.html
 
-> Is the vendor involved?
+Pierre-Eric Pelloux-Prayer (28):
+  drm/amdgpu: give each kernel job a unique id
+  drm/amdgpu: use ttm_resource_manager_cleanup
+  drm/amdgpu: remove direct_submit arg from amdgpu_copy_buffer
+  drm/amdgpu: remove the ring param from ttm functions
+  drm/amdgpu: introduce amdgpu_ttm_buffer_entity
+  drm/amdgpu: add amdgpu_ttm_job_submit helper
+  drm/amdgpu: fix error handling in amdgpu_copy_buffer
+  drm/amdgpu: pass the entity to use to amdgpu_ttm_map_buffer
+  drm/amdgpu: pass the entity to use to ttm public functions
+  drm/amdgpu: add amdgpu_device argument to ttm functions that need it
+  drm/amdgpu: statically assign gart windows to ttm entities
+  drm/amdgpu: remove AMDGPU_GTT_NUM_TRANSFER_WINDOWS
+  drm/amdgpu: add missing lock when using ttm entities
+  drm/amdgpu: check entity lock is held in amdgpu_ttm_job_submit
+  drm/amdgpu: double AMDGPU_GTT_MAX_TRANSFER_SIZE
+  drm/amdgpu: use larger gart window when possible
+  drm/amdgpu: introduce amdgpu_sdma_set_vm_pte_scheds
+  drm/amdgpu: move sched status check inside
+    amdgpu_ttm_set_buffer_funcs_status
+  drm/ttm: rework pipelined eviction fence handling
+  drm/amdgpu: allocate multiple clear entities
+  drm/amdgpu: allocate multiple move entities
+  drm/amdgpu: round robin through clear_entities in amdgpu_fill_buffer
+  drm/amdgpu: use TTM_NUM_MOVE_FENCES when reserving fences
+  drm/amdgpu: use multiple entities in amdgpu_move_blit
+  drm/amdgpu: pass all the sdma scheds to amdgpu_mman
+  drm/amdgpu: give ttm entities access to all the sdma scheds
+  drm/amdgpu: get rid of amdgpu_ttm_clear_buffer
+  drm/amdgpu: rename amdgpu_fill_buffer as amdgpu_ttm_clear_buffer
 
-At the moment the vendor is not directly involved; I took their GPL
-driver as the starting point and restructured it to follow V4L2/ALSA
-idioms, add runtime PM, and bring it closer to what is expected
-upstream. I=E2=80=99ll note that explicitly in the cover letter for v1.
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h           |   4 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c |   8 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |   5 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |  15 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c       |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c       |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c       |  14 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c   |   8 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c       |   5 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.h       |  19 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c      |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c    |  16 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       | 493 +++++++++++-------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h       |  58 ++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c       |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c       |  11 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vce.h       |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c       |   8 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c      |   6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        |  26 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h        |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c    |   4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c     |   4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c   |  12 +-
+ drivers/gpu/drm/amd/amdgpu/cik_sdma.c         |  34 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v2_4.c        |  34 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v3_0.c        |  34 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c        |  41 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c      |  41 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c        |  37 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c        |  37 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c        |  32 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v7_0.c        |  32 +-
+ drivers/gpu/drm/amd/amdgpu/si_dma.c           |  34 +-
+ drivers/gpu/drm/amd/amdgpu/uvd_v6_0.c         |   6 +-
+ drivers/gpu/drm/amd/amdgpu/uvd_v7_0.c         |   6 +-
+ drivers/gpu/drm/amd/amdgpu/vce_v1_0.c         |  12 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_migrate.c      |  33 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_svm.c          |   3 +-
+ .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   |   6 +-
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c  |   6 +-
+ .../gpu/drm/ttm/tests/ttm_bo_validate_test.c  |  11 +-
+ drivers/gpu/drm/ttm/tests/ttm_resource_test.c |   5 +-
+ drivers/gpu/drm/ttm/ttm_bo.c                  |  47 +-
+ drivers/gpu/drm/ttm/ttm_bo_util.c             |  38 +-
+ drivers/gpu/drm/ttm/ttm_resource.c            |  31 +-
+ include/drm/ttm/ttm_resource.h                |  29 +-
+ 47 files changed, 706 insertions(+), 615 deletions(-)
 
-> Please include v4l2-compliance output=E2=80=A6
+-- 
+2.43.0
 
-Will do. I=E2=80=99ll regenerate the results using the latest v4l-utils (bu=
-ilt
-from git) and include the full report in the v1 cover letter.
-
-Thanks again for the review =E2=80=94 I=E2=80=99ll follow up with a cleaned=
--up v1 once
-I fold in this feedback.
-
-
-On Mon, Nov 3, 2025 at 9:57=E2=80=AFAM Hans Verkuil <hverkuil+cisco@kernel.=
-org> wrote:
->
-> Hi Ben,
->
-> Thank you for working on this!
->
-> On 27/10/2025 20:56, Ben Hoff wrote:
-> > Hi all,
-> >
-> > This RFC series significantly refactors the downstream AVMatrix HWS PCI=
-e
-> > capture driver so it is maintainable in-tree and aligns with upstream
-> > media driver expectations. The new implementation follows V4L2 and ALSA
-> > subsystem patterns, splits the hardware plumbing across focused source
-> > files, and introduces proper runtime PM and interrupt handling. The goa=
-l
-> > is to keep future maintenance manageable while providing a direct path =
-for
-> > existing users of the vendor tree.
-> >
-> > Current status / open items:
-> >   - Audio capture paths have been refactored from the vendor driver but=
- have
-> >     not yet been validated on real hardware. I would appreciate guidanc=
-e
-> >     on whether you would prefer that I drop the ALSA pieces from the
-> >     initial submission and stage them as a follow-up once I finish
-> >     validation.
-> >   - `v4l2-compliance` passes for each video node, and I have exercised
-> >     basic capture in OBS. I still plan to do heavier soak testing acros=
-s
-> >     all inputs and audio channels, as well as cover the suspend/resume
-> >     paths.
-> >
-> > Any feedback on the overall structure, subsystem integration, and in
-> > particular the best way to stage the audio support would be very welcom=
-e.
->
-> I think you have two options:
->
-> 1) wait until you finish the audio validation, or
-> 2) make this a staging driver (drivers/staging/media), add the audio part
->    later and then move it to drivers/media/pci.
->
-> Regarding this driver: I gather that this is a rework of a GPL out-of-tre=
-e
-> driver? Can you should at least add a URL that driver? That should defini=
-tely
-> be part of the commit log of the driver.
->
-> Is the vendor involved in this upstream driver work? Or you just took the=
-ir
-> code and made it suitable for mainlining? Just curious.
->
-> Finally, for the next v1 please include the v4l2-compliance output in the
-> cover letter. And make sure you compile v4l2-compliance from the v4l-util=
-s
-> git repo so you are using the latest and greatest version.
->
-> Regards,
->
->         Hans
->
-> > Once I hear back on the preferred direction I will respin this as a
-> > formal v1 submission.
-> >
-> > Thanks for taking a look!
-> >
-> > Ben
-> >
-> > Ben Hoff (2):
-> >   media: pci: add AVMatrix HWS capture driver
-> >   MAINTAINERS: add entry for AVMatrix HWS driver
-> >
-> >  MAINTAINERS                            |    6 +
-> >  drivers/media/pci/Kconfig              |    1 +
-> >  drivers/media/pci/Makefile             |    1 +
-> >  drivers/media/pci/hws/Kconfig          |   13 +
-> >  drivers/media/pci/hws/Makefile         |    4 +
-> >  drivers/media/pci/hws/hws.h            |  194 +++
-> >  drivers/media/pci/hws/hws_audio.c      |  571 +++++++++
-> >  drivers/media/pci/hws/hws_audio.h      |   22 +
-> >  drivers/media/pci/hws/hws_irq.c        |  281 +++++
-> >  drivers/media/pci/hws/hws_irq.h        |   12 +
-> >  drivers/media/pci/hws/hws_pci.c        |  708 +++++++++++
-> >  drivers/media/pci/hws/hws_reg.h        |  142 +++
-> >  drivers/media/pci/hws/hws_v4l2_ioctl.c |  576 +++++++++
-> >  drivers/media/pci/hws/hws_v4l2_ioctl.h |   32 +
-> >  drivers/media/pci/hws/hws_video.c      | 1542 ++++++++++++++++++++++++
-> >  drivers/media/pci/hws/hws_video.h      |   24 +
-> >  16 files changed, 4129 insertions(+)
-> >  create mode 100644 drivers/media/pci/hws/Kconfig
-> >  create mode 100644 drivers/media/pci/hws/Makefile
-> >  create mode 100644 drivers/media/pci/hws/hws.h
-> >  create mode 100644 drivers/media/pci/hws/hws_audio.c
-> >  create mode 100644 drivers/media/pci/hws/hws_audio.h
-> >  create mode 100644 drivers/media/pci/hws/hws_irq.c
-> >  create mode 100644 drivers/media/pci/hws/hws_irq.h
-> >  create mode 100644 drivers/media/pci/hws/hws_pci.c
-> >  create mode 100644 drivers/media/pci/hws/hws_reg.h
-> >  create mode 100644 drivers/media/pci/hws/hws_v4l2_ioctl.c
-> >  create mode 100644 drivers/media/pci/hws/hws_v4l2_ioctl.h
-> >  create mode 100644 drivers/media/pci/hws/hws_video.c
-> >  create mode 100644 drivers/media/pci/hws/hws_video.h
-> >
->
 
