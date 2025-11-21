@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-47562-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47563-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DE13C78751
-	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 11:18:53 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23F29C7878A
+	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 11:20:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sto.lore.kernel.org (Postfix) with ESMTPS id 3770E298B5
-	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 10:18:49 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTPS id D37A02D42E
+	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 10:20:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FC002FF151;
-	Fri, 21 Nov 2025 10:18:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A20B34321F;
+	Fri, 21 Nov 2025 10:19:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="bRPFnolo"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="U53VJ3yw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010001.outbound.protection.outlook.com [52.101.85.1])
+Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013055.outbound.protection.outlook.com [40.107.201.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B156B342510;
-	Fri, 21 Nov 2025 10:18:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A18510957;
+	Fri, 21 Nov 2025 10:19:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.55
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763720289; cv=fail; b=edhvN/naE+nuZ/O2LaRYF65KeovWbM9uma/YHn52p8DCRNvb3JmdDdE+6BCdaGrkWaV71UjOJrGL7Dnx/AFNKQBxa2fes9xvT8UFQlbZpW7X+/UjXyo55HwGcUb1OFlhGd1W9Xtb0J8w4EVcVerINfGwew+BVLRr+ltGBM+RY5w=
+	t=1763720367; cv=fail; b=c6EK0Q4iQVYPppYMztCZ1pumpD/NpiFYR9zHCgr7RfUbkSH9hhDtOQt01LqPVoxjYuNbnWwbuYw8yZdxbLq9vZceIsASpeNUn7dwbVRxcSYGOSZ4J/SXUMRFRaAJcviQ651XbgA52UGmP93+jYYpRhk0SDSnffQPQmLLy8nCsvg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763720289; c=relaxed/simple;
-	bh=NqVo5hUsQjxPNBVHYzLxfbvivU3Dz32wVahAQSQVPgg=;
+	s=arc-20240116; t=1763720367; c=relaxed/simple;
+	bh=1MXg5dGe5C4Uxptq1bsG/hDcT1DPfBOUXQz3JmPVLJA=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jsNDdGf0zIMveF9rdYtGr1i3onp1wCRfwMq0qZuY1ogBaPPiQ0b6JU88QuYkib38qRpGtwEHpPxPyKbLG9lE+0Q+8FoEJfVqnMEHSvgjUOyr8jWtOdDnRFBO6IPlA3zyOwFGRBDeUB8V6B5DoIBCytmBg+bOJdKpKePm0zroVFw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=bRPFnolo; arc=fail smtp.client-ip=52.101.85.1
+	 MIME-Version:Content-Type; b=cBS+5KB7OWJ0B06GGfz3R/laBLl+fu0xlKJUozoLSgygKrY6+eNwEGl+TzFpRFq4HnLkmteITUDqqfehteRmdXkqoi+Y1EJfaaBj9k0vb0UhuOCfG7TFh/ijilwRY0kbg/Yxf9kH1/l+Evn/lGAWZr0gN+65TeO13dEr9uE6DCE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=U53VJ3yw; arc=fail smtp.client-ip=40.107.201.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KNwkS3onuCFJKhle2A2moliSB+ndSsA3h4DIrnURpaZvHuweJBJk/bL4u4FdPXWFzMohf132K2kBByA3JSLNHVeszDak9aE285iEdYzVBjeQwS/EPIYytu1p8/WthB2RofO0yXkftNJH8up/z+w3Y+LBTzGsvoUZ829uT4juCy+Gmr0XrtjxEIuyqKCm99pY1IDiOu2gqhGWa2G7LIeG2tUe6A6iMjRZsGy5+ErpGjFIsc+Jzs2Pp5RWlRDeOywHZyWibhVk07oFQICnjHufnJVGQtn1gbK0eRBxrOwZzf+iR0uofgeYoQoZtQhovhjpVXZnOFjuLVFV156zlrAzVw==
+ b=FFco9HZX55yjzUOfQ3eTdlr5fmdmTaijRjCrYQsIWgP0HD9kBvqffRvm6b9HvLk32Qr8a2pgri5DDyVeL+Qxoj02zLP3o8yUcBdjYhBs56zB9UQMtsRq8bYpMpBzuoTHmU6N3RSuEBI6WYTK4W/u0Q5kVZSuF3F/GnjU/8fCC9jDeF/JB+AiTvQQb+0YdYGus7VEIUuW2bOa8su0+fVyR1LCpwn4Dfhg3XE3hPC1XumYfvNTxYEn/OTy+2ukk6U4/kBccrKJwMQiL42VXdI86yFVOq5Xn6ykrjWasSo8iO46oqloDgNgQfM4eVqcrf113E6eGv+BKclriD7W4cBqnQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=I5o0bmrlTwRX2OabXfLS2ETBdi8ayPuuYoXsNC7YHQo=;
- b=w3+y9Znmena/VwArQfok2gguDu1pmO4Plt0cTkkV7dQFXEJoGKBUOPgBnODRWWgpdZb+F3w6AXNGzsgpfqvORAeEnWxB2MQ9o/gEvBeXHtlILRdh6RSgtCLLEO07T+J/shtWJbyUxt8SlsfTZcm01soXbzfzwhVvESAudnx6f5kyajK6om/VUC6gueYvLrpsxMz7AR4Gk4+DFm1gk62IQCcQ70XPiZ8VB0P+PCYaB/cZxnTrz3pX35EiPOizjEjIHcRa7qb//KtaK20Sw6FbGeF5o0fiDxeYjQjfcYsvFDO0jEqzPYiTwqqMz5dPWgNh1BUBZWK2GVc7GgYHK3kZbw==
+ bh=hV78d21m4SPWwJ+Bgvpl8fvOLX/uTXanvSuWwcqmUsg=;
+ b=p7NrQer9cTo0WV0F2NalegfF/v8XEo16N0bLafNDoWQhHNXTnzqgDNASC8DT0bXI2wjA9YvGUwQ8PKqPkjKBb1DeP4HK3NdUxBSYF4ylgyWh27jcfpzxi9rANC0gXhoCH9kvplrtmmhL4VAYOi84dqaxCl1vs0dtWfvve1qEmLBdsHp26acOAXUF7+YJg7M59WIacgZUifFDIbgw98ywl+SfdFN1eGY6tvh9mu+4PBfirmk9GpErc5VuS/diYfxuDMGPCSW20qm3uFnXeqFVp/BhpxWr1gf39FubU5svDOF8Xm9kvDRnah/UWlQpk2sarYnGqLUSw765rJUh9bjonw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
+ 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=I5o0bmrlTwRX2OabXfLS2ETBdi8ayPuuYoXsNC7YHQo=;
- b=bRPFnoloFXKJ5gW8NNTPS83u6W2o/ENZD6PxzPh/zK0AM4kjihNTAXlPQM96m8QTn2bxBftDP1YsaLW9huqhZLFlPZ6m4do8+xmRs6ZeCLB1bf2FZUUpdzO1Eq4/c9J1waqp5/l8LDjZRZR1imMupJA/KZS5DWI9n+ztrith7mk=
-Received: from BN9PR03CA0220.namprd03.prod.outlook.com (2603:10b6:408:f8::15)
- by LV8PR12MB9269.namprd12.prod.outlook.com (2603:10b6:408:1fe::21) with
+ bh=hV78d21m4SPWwJ+Bgvpl8fvOLX/uTXanvSuWwcqmUsg=;
+ b=U53VJ3ywT1LN9AjqMNVIyumhG6oi4jIJaucYtzQ7t+cJB74tnYzmS5FTOEqdc7O3oAYRi1CvR+DpoRm0/V+DWqonToNiS0P1AGO4iOCLIjvRnIYNnKLIGXxHMZEKkKq3VyAK+cyfnjD7LAUsejF3gOo/qyHNU/Jz0lQsTOs5tVk=
+Received: from BL0PR05CA0021.namprd05.prod.outlook.com (2603:10b6:208:91::31)
+ by PH7PR12MB5733.namprd12.prod.outlook.com (2603:10b6:510:1e0::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.11; Fri, 21 Nov
- 2025 10:18:02 +0000
-Received: from BN2PEPF000055DA.namprd21.prod.outlook.com
- (2603:10b6:408:f8:cafe::c9) by BN9PR03CA0220.outlook.office365.com
- (2603:10b6:408:f8::15) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.11 via Frontend Transport; Fri,
- 21 Nov 2025 10:18:00 +0000
+ 2025 10:19:21 +0000
+Received: from BL6PEPF0002256E.namprd02.prod.outlook.com
+ (2603:10b6:208:91:cafe::b) by BL0PR05CA0021.outlook.office365.com
+ (2603:10b6:208:91::31) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.6 via Frontend Transport; Fri,
+ 21 Nov 2025 10:19:20 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -63,26 +63,25 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
 Received: from satlexmb07.amd.com (165.204.84.17) by
- BN2PEPF000055DA.mail.protection.outlook.com (10.167.245.4) with Microsoft
+ BL6PEPF0002256E.mail.protection.outlook.com (10.167.249.36) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9366.1 via Frontend Transport; Fri, 21 Nov 2025 10:18:00 +0000
+ 15.20.9343.9 via Frontend Transport; Fri, 21 Nov 2025 10:19:20 +0000
 Received: from FRAPPELLOUX01-WSLPUB.amd.com (10.180.168.240) by
  satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Fri, 21 Nov 2025 02:17:57 -0800
+ 15.2.2562.17; Fri, 21 Nov 2025 02:19:18 -0800
 From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-To: Christian Koenig <christian.koenig@amd.com>, Huang Rui
-	<ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>, Matthew Brost
-	<matthew.brost@intel.com>, Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
+To: Alex Deucher <alexander.deucher@amd.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, David Airlie
+	<airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sumit Semwal
+	<sumit.semwal@linaro.org>
 CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
-	<dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
-	<linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>
-Subject: [PATCH v3 19/28] drm/ttm: rework pipelined eviction fence handling
-Date: Fri, 21 Nov 2025 11:12:29 +0100
-Message-ID: <20251121101315.3585-20-pierre-eric.pelloux-prayer@amd.com>
+	<amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+	<linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+	<linaro-mm-sig@lists.linaro.org>
+Subject: [PATCH v3 27/28] drm/amdgpu: get rid of amdgpu_ttm_clear_buffer
+Date: Fri, 21 Nov 2025 11:12:37 +0100
+Message-ID: <20251121101315.3585-28-pierre-eric.pelloux-prayer@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251121101315.3585-1-pierre-eric.pelloux-prayer@amd.com>
 References: <20251121101315.3585-1-pierre-eric.pelloux-prayer@amd.com>
@@ -98,432 +97,260 @@ X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF000055DA:EE_|LV8PR12MB9269:EE_
-X-MS-Office365-Filtering-Correlation-Id: e18b7b34-3410-4b9f-ec8b-08de28e73fb1
+X-MS-TrafficTypeDiagnostic: BL6PEPF0002256E:EE_|PH7PR12MB5733:EE_
+X-MS-Office365-Filtering-Correlation-Id: 45b4bb3a-c1a6-4547-8154-08de28e76fa5
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|36860700013|7416014|1800799024|82310400026|921020;
+	BCL:0;ARA:13230040|36860700013|1800799024|82310400026|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?oJQ1YScYPNy661icnmUQhYO4ewROHiaAO+m83rH0X09CUeYb86Qq1f2m4ceS?=
- =?us-ascii?Q?pqyezINaJaLTrrgGpK3KiHyeLvLFMZC3YJTYHEkPaoqYiWAwQR3QApsLJpCH?=
- =?us-ascii?Q?rdQbLj+KnDlgqMv3LBpNvrPjsyt9XWAQFM8U/cF2LPHzRmOu1Kp4mlq6P6Mr?=
- =?us-ascii?Q?rrtgCfDhGxFFCmwisYu31FPjUj6J3j2Lu0JfaY8UhjBRnbjBSR3DcVYfrmaR?=
- =?us-ascii?Q?4ZMOmZ99gOGPtIYR6kVyvCEpg57CEsxt3hIZQy0/Q+9mcFXGFbRrK3MTSPdN?=
- =?us-ascii?Q?EaEoDRaNEAhlwTEfw7zxVj2vNulFHI7+P5KvEuPsw08tF7/X2CF9ZRNpvBY6?=
- =?us-ascii?Q?YqgW3eSe2nkvZdscsTeWYXYui2+sGiwSAZrrbyHaRW5AFTzR/qHdfrbauTdU?=
- =?us-ascii?Q?k4NkUi4IorbzxZzJ2Nc6Cjj/h3N/WSusTd8gov4pDPhYGXAveKKYbwgmBgJD?=
- =?us-ascii?Q?c2yFzvK8GkVeCldNo38Xf+2RdsJP5FYmDR/Jha2WXNFEQqHYJyiGfyfnq2Qf?=
- =?us-ascii?Q?qijNYud8VTH2ceEM5rIXhZNzOOduheXyN/8Cvw5aiRTwWp2K9b1yKieyad+N?=
- =?us-ascii?Q?D5yJShLzivwpypB+pVp3355qyhA01FSVv27oQ4taNyT14T8MHuPB4bGOGYJi?=
- =?us-ascii?Q?YXJUvLA77qU9Q6nYZ4hg4BX4uFHIuEqKSBZ1ipVWYt34OO/7/Wgje7M3aUS/?=
- =?us-ascii?Q?efDkYvRFJ/PC3J/4zZycwFV4YJ+MKwvUFdsIUCwCUtlnLxpzncvi1bSfsajI?=
- =?us-ascii?Q?w1lda5mOb8TVNSVCWnxgyNrhN2KEECuw7HA/h5UNPUenMROyek0jb8lx1e7O?=
- =?us-ascii?Q?QTb7MlePyXR0TMRE4Y900vPM2M1DHZe/6S+qR0AV0hYJ6JOpagyq5qw26n46?=
- =?us-ascii?Q?OQAu+XA+pqfsfELGPTPwTahzm2Vg5gcEsjXfcwieZUjD6yxTaapiJzgaZfNA?=
- =?us-ascii?Q?Z+4ao9HaOjKHt5buFAOzsqJRLr5DeaZUb9d1cnzdtYHn8CH7dSUkK+Z4hcQR?=
- =?us-ascii?Q?sLcPo+EJUniIVDtG7HxEi/I/7k0pscoIRmxrISEBor2ACmck6iK+16Gzoq51?=
- =?us-ascii?Q?t+EuxRkeQxefutBykSRPji2eTq4DyMMOcOLdfwaQQTYQTYJPxHjqr9wsEqtK?=
- =?us-ascii?Q?C/kLmE+fVD0q32aZcY4qB+MZwWA+vqMHfKjJhS/bK5gAJLSAMJ8l+KlT9qSU?=
- =?us-ascii?Q?VU351LHE6tar63yotTzm02lV67hXXKHLKYl/znnU0FGbLBtFWsTmgdd8yjFR?=
- =?us-ascii?Q?Z9RYYiOfpzvE1N+r7Sg/Zf57eE/yJF64S+/55Bgc9Ur07DPZSl4EPqn0rAqF?=
- =?us-ascii?Q?62VNeu53yU8OjwdspJ62Pon2qDj4bLb+PHN36sV/9kHZYsN09YPJFEUCd0j1?=
- =?us-ascii?Q?m/QWf5w1PCl+O1xmFH4f0fPbNAjBYNAj7vw+6a1K9oVZFad15iHKoFXBcxcr?=
- =?us-ascii?Q?aSx6POFaPWwdUx2fEN9Ow8hGO22e/IYxSH5jRJfycue6Siq7StkCXYFuLfpO?=
- =?us-ascii?Q?BHb9xOXx5a1R4rwGS+X/Znw7lOR6v0u7796x5Hmz64AZOSeaDMrZz/M5RoAG?=
- =?us-ascii?Q?i/GY5SGzlEyK1jWYpM5r+VuaJFyDx7LqsBOurvYW?=
+	=?us-ascii?Q?knLuv/G58geHw8QDH/uo4dskMnKK2B0/dFuwd2FzdvY/hncgq8qnSNAgc+LC?=
+ =?us-ascii?Q?XKut8FEWpMgAlGkR/s+zli7gpbszYYI0VRuP3mlK0xdgwasTsIaVM17LSYWq?=
+ =?us-ascii?Q?beJQEJpbewpdUvv3AzpoL+lNfgGmCpaMzPlfPw6LoWnSIsfecuShbe79j8ey?=
+ =?us-ascii?Q?+TcOhWUCWQKREQxqvm2guDGhM2KBaTOnPk2+CGxC7D9BO3rqgmSU3AWnMeGH?=
+ =?us-ascii?Q?tAKimmmi8+adI/nwvHsu05Yu5DP13Vcz3IvhrDoZvSwk2Z3b6RXSEbs8APRN?=
+ =?us-ascii?Q?LYk578GQH2cqXauIx1Rt0DknopvlWcdU1zZwIrxWJoiO0vANFEUslyQIPdtr?=
+ =?us-ascii?Q?F/G+kSujnua7T96dBMQeghX4sCeO8UP4C55lbBKm9B10F2WXyhBV2+Lyjbof?=
+ =?us-ascii?Q?6Qh1jYVIkdNioA55PWgxrrYi12x9YFIk83NrI54k/YN4odaDDrg2y8vmst4B?=
+ =?us-ascii?Q?zZMQ9j5GkFS70a6jOEDVVaDNDqkM8t+Zi5IwqV924qD95XdzmC9wdQzYtTJB?=
+ =?us-ascii?Q?J7zg8kxeDCkNngSGQ6HOGyn6jlMcb7JtP1sh481XY/M3IJmOJnvqOU2HpBM0?=
+ =?us-ascii?Q?oID+d/KuW3Fps1k+VEqd4a9cBKCFE42p8v9M99B6c+3axIxLVzsI8JG5xDgj?=
+ =?us-ascii?Q?7YF43af1cvFFyWe5lAlMDIzzlCmeBhAd6pAXylXhOgrvv7J00+V/yAawnLYt?=
+ =?us-ascii?Q?EB6CVuqCZ48/9CjywcdRx9ocwF2xrLZgYspRuViOXLwiEX3nFqA2wbLXC36a?=
+ =?us-ascii?Q?8NCIPvLLmQGD54FarUPcuUyDo88gZZ+O6UnHivjCSQlY3ImW8BetiKFopjmd?=
+ =?us-ascii?Q?pmUMMXsKXUMfDMa34taenXtRMGECiMFUYwMklS8ogNIZwN5p68kHnvP6mdPr?=
+ =?us-ascii?Q?yAwaoobVrkz5d94lNborRvqAxBeTA346gu+oUL2j9dtyxJyAJhvIM5uHqnbe?=
+ =?us-ascii?Q?A4d9TNEcSyJ53oy1tskE9dEcPjYLM0ShgrcQ91IaKXDO7ZSu3GPVOVRy2GZm?=
+ =?us-ascii?Q?Bomfhf7CVR36TzsFgowSFcu10FuTZ9p936GaPY+wiBLYpJ6EqjkOfmtxZvLh?=
+ =?us-ascii?Q?19CGIEnEbFH5l6cpu/LC2P/BuIor/XQqV4AAgz2o2XhHczjommgdfqTSBupy?=
+ =?us-ascii?Q?eh1+rUKzWNi0MzvCokND1OfHHFw5f2i1S/0MZIE5lvR2Epv3f491SdMe+y41?=
+ =?us-ascii?Q?AjxTXvzMpgKPYCa16OLPrFc8fEINx4owWmUYWA7J7RWRbpjoSJCFnln2gdSL?=
+ =?us-ascii?Q?qEWIoLqdjabeAc0WAWDb2si3YwOHbobRHcu6dGFqGhD0c/ZwUhL5PLMs29y5?=
+ =?us-ascii?Q?k7sYnRsrc94PaLKSs5Q9a+ZriyxLJXHzJES+uK9ZC6zI+Ap2Y8ktKAosXff5?=
+ =?us-ascii?Q?C8fNAQgc6EDL2WpXbMIDf0s2eFOw8p2vazF1ZRhFnfDdp/hScOjykWo3op8w?=
+ =?us-ascii?Q?0STmzO+XFX/tJr8B8KhcI/M/9qAC+ezq4WbihEosPz9wI/4ZzPpsvaGnS0a/?=
+ =?us-ascii?Q?XZGevKEccz+emcacJ5YARYKLzdB/5ox7fIwkhctkoWtG5lKX4+byqELMjNNJ?=
+ =?us-ascii?Q?IlDu6Y2LZT+/DG3IU+Y=3D?=
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700013)(7416014)(1800799024)(82310400026)(921020);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(82310400026)(376014);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2025 10:18:00.3951
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2025 10:19:20.8510
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e18b7b34-3410-4b9f-ec8b-08de28e73fb1
+X-MS-Exchange-CrossTenant-Network-Message-Id: 45b4bb3a-c1a6-4547-8154-08de28e76fa5
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	BN2PEPF000055DA.namprd21.prod.outlook.com
+	BL6PEPF0002256E.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9269
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5733
 
-Until now ttm stored a single pipelined eviction fence which means
-drivers had to use a single entity for these evictions.
+It's doing the same thing as amdgpu_fill_buffer(src_data=0), so drop it.
 
-To lift this requirement, this commit allows up to 8 entities to
-be used.
-
-Ideally a dma_resv object would have been used as a container of
-the eviction fences, but the locking rules makes it complex.
-dma_resv all have the same ww_class, which means "Attempting to
-lock more mutexes after ww_acquire_done." is an error.
-
-One alternative considered was to introduced a 2nd ww_class for
-specific resv to hold a single "transient" lock (= the resv lock
-would only be held for a short period, without taking any other
-locks).
-
-The other option, is to statically reserve a fence array, and
-extend the existing code to deal with N fences, instead of 1.
-
-The driver is still responsible to reserve the correct number
-of fence slots.
+The only caveat is that amdgpu_res_cleared() return value is only valid
+right after allocation.
 
 ---
-v2:
-- simplified code
-- dropped n_fences
-- name changes
-v3: use ttm_resource_manager_cleanup
+v2: introduce new "bool consider_clear_status" arg
 ---
 
 Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 ---
- .../gpu/drm/ttm/tests/ttm_bo_validate_test.c  | 11 +++--
- drivers/gpu/drm/ttm/tests/ttm_resource_test.c |  5 +-
- drivers/gpu/drm/ttm/ttm_bo.c                  | 47 ++++++++++---------
- drivers/gpu/drm/ttm/ttm_bo_util.c             | 38 ++++++++++++---
- drivers/gpu/drm/ttm/ttm_resource.c            | 31 +++++++-----
- include/drm/ttm/ttm_resource.h                | 29 ++++++++----
- 6 files changed, 104 insertions(+), 57 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 16 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    | 90 +++++-----------------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h    |  7 +-
+ 3 files changed, 33 insertions(+), 80 deletions(-)
 
-diff --git a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
-index 3148f5d3dbd6..8f71906c4238 100644
---- a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
-+++ b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
-@@ -651,7 +651,7 @@ static void ttm_bo_validate_move_fence_signaled(struct kunit *test)
- 	int err;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+index 7d8d70135cc2..dccc31d0128e 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+@@ -725,13 +725,17 @@ int amdgpu_bo_create(struct amdgpu_device *adev,
+ 	    bo->tbo.resource->mem_type == TTM_PL_VRAM) {
+ 		struct dma_fence *fence;
  
- 	man = ttm_manager_type(priv->ttm_dev, mem_type);
--	man->move = dma_fence_get_stub();
-+	man->eviction_fences[0] = dma_fence_get_stub();
+-		r = amdgpu_ttm_clear_buffer(adev, bo, bo->tbo.base.resv, &fence);
++		r = amdgpu_fill_buffer(adev, amdgpu_ttm_next_clear_entity(adev),
++				       bo, 0, NULL, &fence,
++				       true, AMDGPU_KERNEL_JOB_ID_TTM_CLEAR_BUFFER);
+ 		if (unlikely(r))
+ 			goto fail_unreserve;
  
- 	bo = ttm_bo_kunit_init(test, test->priv, size, NULL);
- 	bo->type = bo_type;
-@@ -668,7 +668,7 @@ static void ttm_bo_validate_move_fence_signaled(struct kunit *test)
- 	KUNIT_EXPECT_EQ(test, ctx.bytes_moved, size);
- 
- 	ttm_bo_put(bo);
--	dma_fence_put(man->move);
-+	dma_fence_put(man->eviction_fences[0]);
- }
- 
- static const struct ttm_bo_validate_test_case ttm_bo_validate_wait_cases[] = {
-@@ -732,9 +732,9 @@ static void ttm_bo_validate_move_fence_not_signaled(struct kunit *test)
- 
- 	spin_lock_init(&fence_lock);
- 	man = ttm_manager_type(priv->ttm_dev, fst_mem);
--	man->move = alloc_mock_fence(test);
-+	man->eviction_fences[0] = alloc_mock_fence(test);
- 
--	task = kthread_create(threaded_fence_signal, man->move, "move-fence-signal");
-+	task = kthread_create(threaded_fence_signal, man->eviction_fences[0], "move-fence-signal");
- 	if (IS_ERR(task))
- 		KUNIT_FAIL(test, "Couldn't create move fence signal task\n");
- 
-@@ -742,7 +742,8 @@ static void ttm_bo_validate_move_fence_not_signaled(struct kunit *test)
- 	err = ttm_bo_validate(bo, placement_val, &ctx_val);
- 	dma_resv_unlock(bo->base.resv);
- 
--	dma_fence_wait_timeout(man->move, false, MAX_SCHEDULE_TIMEOUT);
-+	dma_fence_wait_timeout(man->eviction_fences[0], false, MAX_SCHEDULE_TIMEOUT);
-+	man->eviction_fences[0] = NULL;
- 
- 	KUNIT_EXPECT_EQ(test, err, 0);
- 	KUNIT_EXPECT_EQ(test, ctx_val.bytes_moved, size);
-diff --git a/drivers/gpu/drm/ttm/tests/ttm_resource_test.c b/drivers/gpu/drm/ttm/tests/ttm_resource_test.c
-index e6ea2bd01f07..c0e4e35e0442 100644
---- a/drivers/gpu/drm/ttm/tests/ttm_resource_test.c
-+++ b/drivers/gpu/drm/ttm/tests/ttm_resource_test.c
-@@ -207,6 +207,7 @@ static void ttm_resource_manager_init_basic(struct kunit *test)
- 	struct ttm_resource_test_priv *priv = test->priv;
- 	struct ttm_resource_manager *man;
- 	size_t size = SZ_16K;
-+	int i;
- 
- 	man = kunit_kzalloc(test, sizeof(*man), GFP_KERNEL);
- 	KUNIT_ASSERT_NOT_NULL(test, man);
-@@ -216,8 +217,8 @@ static void ttm_resource_manager_init_basic(struct kunit *test)
- 	KUNIT_ASSERT_PTR_EQ(test, man->bdev, priv->devs->ttm_dev);
- 	KUNIT_ASSERT_EQ(test, man->size, size);
- 	KUNIT_ASSERT_EQ(test, man->usage, 0);
--	KUNIT_ASSERT_NULL(test, man->move);
--	KUNIT_ASSERT_NOT_NULL(test, &man->move_lock);
-+	for (i = 0; i < TTM_NUM_MOVE_FENCES; i++)
-+		KUNIT_ASSERT_NULL(test, man->eviction_fences[i]);
- 
- 	for (int i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
- 		KUNIT_ASSERT_TRUE(test, list_empty(&man->lru[i]));
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index f4d9e68b21e7..0b3732ed6f6c 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -658,34 +658,35 @@ void ttm_bo_unpin(struct ttm_buffer_object *bo)
- EXPORT_SYMBOL(ttm_bo_unpin);
- 
- /*
-- * Add the last move fence to the BO as kernel dependency and reserve a new
-- * fence slot.
-+ * Add the pipelined eviction fencesto the BO as kernel dependency and reserve new
-+ * fence slots.
-  */
--static int ttm_bo_add_move_fence(struct ttm_buffer_object *bo,
--				 struct ttm_resource_manager *man,
--				 bool no_wait_gpu)
-+static int ttm_bo_add_pipelined_eviction_fences(struct ttm_buffer_object *bo,
-+						struct ttm_resource_manager *man,
-+						bool no_wait_gpu)
- {
- 	struct dma_fence *fence;
--	int ret;
-+	int i;
- 
--	spin_lock(&man->move_lock);
--	fence = dma_fence_get(man->move);
--	spin_unlock(&man->move_lock);
-+	spin_lock(&man->eviction_lock);
-+	for (i = 0; i < TTM_NUM_MOVE_FENCES; i++) {
-+		fence = man->eviction_fences[i];
-+		if (!fence)
-+			continue;
- 
--	if (!fence)
--		return 0;
--
--	if (no_wait_gpu) {
--		ret = dma_fence_is_signaled(fence) ? 0 : -EBUSY;
+-		dma_resv_add_fence(bo->tbo.base.resv, fence,
+-				   DMA_RESV_USAGE_KERNEL);
 -		dma_fence_put(fence);
--		return ret;
-+		if (no_wait_gpu) {
-+			if (!dma_fence_is_signaled(fence)) {
-+				spin_unlock(&man->eviction_lock);
-+				return -EBUSY;
-+			}
-+		} else {
-+			dma_resv_add_fence(bo->base.resv, fence, DMA_RESV_USAGE_KERNEL);
-+		}
- 	}
-+	spin_unlock(&man->eviction_lock);
- 
--	dma_resv_add_fence(bo->base.resv, fence, DMA_RESV_USAGE_KERNEL);
--
--	ret = dma_resv_reserve_fences(bo->base.resv, 1);
--	dma_fence_put(fence);
--	return ret;
-+	/* TODO: this call should be removed. */
-+	return dma_resv_reserve_fences(bo->base.resv, 1);
- }
- 
- /**
-@@ -718,7 +719,7 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
- 	int i, ret;
- 
- 	ticket = dma_resv_locking_ctx(bo->base.resv);
--	ret = dma_resv_reserve_fences(bo->base.resv, 1);
-+	ret = dma_resv_reserve_fences(bo->base.resv, TTM_NUM_MOVE_FENCES);
- 	if (unlikely(ret))
- 		return ret;
- 
-@@ -757,7 +758,7 @@ static int ttm_bo_alloc_resource(struct ttm_buffer_object *bo,
- 				return ret;
- 		}
- 
--		ret = ttm_bo_add_move_fence(bo, man, ctx->no_wait_gpu);
-+		ret = ttm_bo_add_pipelined_eviction_fences(bo, man, ctx->no_wait_gpu);
- 		if (unlikely(ret)) {
- 			ttm_resource_free(bo, res);
- 			if (ret == -EBUSY)
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-index acbbca9d5c92..2ff35d55e462 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-@@ -258,7 +258,7 @@ static int ttm_buffer_object_transfer(struct ttm_buffer_object *bo,
- 	ret = dma_resv_trylock(&fbo->base.base._resv);
- 	WARN_ON(!ret);
- 
--	ret = dma_resv_reserve_fences(&fbo->base.base._resv, 1);
-+	ret = dma_resv_reserve_fences(&fbo->base.base._resv, TTM_NUM_MOVE_FENCES);
- 	if (ret) {
- 		dma_resv_unlock(&fbo->base.base._resv);
- 		kfree(fbo);
-@@ -646,20 +646,44 @@ static void ttm_bo_move_pipeline_evict(struct ttm_buffer_object *bo,
- {
- 	struct ttm_device *bdev = bo->bdev;
- 	struct ttm_resource_manager *from;
-+	struct dma_fence *tmp;
-+	int i;
- 
- 	from = ttm_manager_type(bdev, bo->resource->mem_type);
- 
- 	/**
- 	 * BO doesn't have a TTM we need to bind/unbind. Just remember
--	 * this eviction and free up the allocation
-+	 * this eviction and free up the allocation.
-+	 * The fence will be saved in the first free slot or in the slot
-+	 * already used to store a fence from the same context. Since
-+	 * drivers can't use more than TTM_NUM_MOVE_FENCES contexts for
-+	 * evictions we should always find a slot to use.
- 	 */
--	spin_lock(&from->move_lock);
--	if (!from->move || dma_fence_is_later(fence, from->move)) {
--		dma_fence_put(from->move);
--		from->move = dma_fence_get(fence);
-+	spin_lock(&from->eviction_lock);
-+	for (i = 0; i < TTM_NUM_MOVE_FENCES; i++) {
-+		tmp = from->eviction_fences[i];
-+		if (!tmp)
-+			break;
-+		if (fence->context != tmp->context)
-+			continue;
-+		if (dma_fence_is_later(fence, tmp)) {
-+			dma_fence_put(tmp);
-+			break;
-+		}
-+		goto unlock;
-+	}
-+	if (i < TTM_NUM_MOVE_FENCES) {
-+		from->eviction_fences[i] = dma_fence_get(fence);
-+	} else {
-+		WARN(1, "not enough fence slots for all fence contexts");
-+		spin_unlock(&from->eviction_lock);
-+		dma_fence_wait(fence, false);
-+		goto end;
- 	}
--	spin_unlock(&from->move_lock);
- 
-+unlock:
-+	spin_unlock(&from->eviction_lock);
-+end:
- 	ttm_resource_free(bo, &bo->resource);
- }
- 
-diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
-index e2c82ad07eb4..62c34cafa387 100644
---- a/drivers/gpu/drm/ttm/ttm_resource.c
-+++ b/drivers/gpu/drm/ttm/ttm_resource.c
-@@ -523,14 +523,15 @@ void ttm_resource_manager_init(struct ttm_resource_manager *man,
- {
- 	unsigned i;
- 
--	spin_lock_init(&man->move_lock);
- 	man->bdev = bdev;
- 	man->size = size;
- 	man->usage = 0;
- 
- 	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
- 		INIT_LIST_HEAD(&man->lru[i]);
--	man->move = NULL;
-+	spin_lock_init(&man->eviction_lock);
-+	for (i = 0; i < TTM_NUM_MOVE_FENCES; i++)
-+		man->eviction_fences[i] = NULL;
- }
- EXPORT_SYMBOL(ttm_resource_manager_init);
- 
-@@ -551,7 +552,7 @@ int ttm_resource_manager_evict_all(struct ttm_device *bdev,
- 		.no_wait_gpu = false,
- 	};
- 	struct dma_fence *fence;
--	int ret;
-+	int ret, i;
- 
- 	do {
- 		ret = ttm_bo_evict_first(bdev, man, &ctx);
-@@ -561,18 +562,24 @@ int ttm_resource_manager_evict_all(struct ttm_device *bdev,
- 	if (ret && ret != -ENOENT)
- 		return ret;
- 
--	spin_lock(&man->move_lock);
--	fence = dma_fence_get(man->move);
--	spin_unlock(&man->move_lock);
-+	ret = 0;
- 
--	if (fence) {
--		ret = dma_fence_wait(fence, false);
--		dma_fence_put(fence);
--		if (ret)
--			return ret;
-+	spin_lock(&man->eviction_lock);
-+	for (i = 0; i < TTM_NUM_MOVE_FENCES; i++) {
-+		fence = man->eviction_fences[i];
-+		if (fence && !dma_fence_is_signaled(fence)) {
-+			dma_fence_get(fence);
-+			spin_unlock(&man->eviction_lock);
-+			ret = dma_fence_wait(fence, false);
++		if (fence) {
++			dma_resv_add_fence(bo->tbo.base.resv, fence,
++					   DMA_RESV_USAGE_KERNEL);
 +			dma_fence_put(fence);
-+			if (ret)
-+				return ret;
-+			spin_lock(&man->eviction_lock);
 +		}
  	}
-+	spin_unlock(&man->eviction_lock);
+ 	if (!bp->resv)
+ 		amdgpu_bo_unreserve(bo);
+@@ -1323,8 +1327,8 @@ void amdgpu_bo_release_notify(struct ttm_buffer_object *bo)
+ 		goto out;
  
--	return 0;
-+	return ret;
+ 	r = amdgpu_fill_buffer(adev, amdgpu_ttm_next_clear_entity(adev),
+-			       abo, 0, &bo->base._resv,
+-			       &fence, AMDGPU_KERNEL_JOB_ID_CLEAR_ON_RELEASE);
++			       abo, 0, &bo->base._resv, &fence,
++			       false, AMDGPU_KERNEL_JOB_ID_CLEAR_ON_RELEASE);
+ 	if (WARN_ON(r))
+ 		goto out;
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index 39cfe2dbdf03..c65c411ce26e 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -459,7 +459,7 @@ static int amdgpu_move_blit(struct ttm_buffer_object *bo,
+ 
+ 		r = amdgpu_fill_buffer(adev, entity,
+ 				       abo, 0, NULL, &wipe_fence,
+-				       AMDGPU_KERNEL_JOB_ID_MOVE_BLIT);
++				       false, AMDGPU_KERNEL_JOB_ID_MOVE_BLIT);
+ 		if (r) {
+ 			goto error;
+ 		} else if (wipe_fence) {
+@@ -2459,79 +2459,28 @@ static int amdgpu_ttm_fill_mem(struct amdgpu_device *adev,
  }
- EXPORT_SYMBOL(ttm_resource_manager_evict_all);
  
-diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
-index f49daa504c36..50e6added509 100644
---- a/include/drm/ttm/ttm_resource.h
-+++ b/include/drm/ttm/ttm_resource.h
-@@ -50,6 +50,15 @@ struct io_mapping;
- struct sg_table;
- struct scatterlist;
- 
-+/**
-+ * define TTM_NUM_MOVE_FENCES - How many entities can be used for evictions
-+ *
-+ * Pipelined evictions can be spread on multiple entities. This
-+ * is the max number of entities that can be used by the driver
-+ * for that purpose.
-+ */
-+#define TTM_NUM_MOVE_FENCES 8
-+
  /**
-  * enum ttm_lru_item_type - enumerate ttm_lru_item subclasses
-  */
-@@ -180,8 +189,8 @@ struct ttm_resource_manager_func {
-  * @size: Size of the managed region.
-  * @bdev: ttm device this manager belongs to
-  * @func: structure pointer implementing the range manager. See above
-- * @move_lock: lock for move fence
-- * @move: The fence of the last pipelined move operation.
-+ * @eviction_lock: lock for eviction fences
-+ * @eviction_fences: The fences of the last pipelined move operation.
-  * @lru: The lru list for this memory type.
+- * amdgpu_ttm_clear_buffer - clear memory buffers
++ * amdgpu_fill_buffer - fill a buffer with a given value
+  * @adev: amdgpu device object
+- * @bo: amdgpu buffer object
+- * @resv: reservation object
+- * @fence: dma_fence associated with the operation
++ * @entity: optional entity to use. If NULL, the clearing entities will be
++ *          used to load-balance the partial clears
++ * @bo: the bo to fill
++ * @src_data: the value to set
++ * @resv: fences contained in this reservation will be used as dependencies.
++ * @out_fence: the fence from the last clear will be stored here. It might be
++ *             NULL if no job was run.
++ * @dependency: optional input dependency fence.
++ * @consider_clear_status: true if region reported as cleared by amdgpu_res_cleared()
++ *                         are skipped.
++ * @k_job_id: trace id
   *
-  * This structure is used to identify and manage memory types for a device.
-@@ -195,12 +204,12 @@ struct ttm_resource_manager {
- 	struct ttm_device *bdev;
- 	uint64_t size;
- 	const struct ttm_resource_manager_func *func;
--	spinlock_t move_lock;
- 
--	/*
--	 * Protected by @move_lock.
-+	/* This is very similar to a dma_resv object, but locking rules make
-+	 * it difficult to use one in this context.
- 	 */
--	struct dma_fence *move;
-+	spinlock_t eviction_lock;
-+	struct dma_fence *eviction_fences[TTM_NUM_MOVE_FENCES];
- 
- 	/*
- 	 * Protected by the bdev->lru_lock.
-@@ -421,8 +430,12 @@ static inline bool ttm_resource_manager_used(struct ttm_resource_manager *man)
- static inline void
- ttm_resource_manager_cleanup(struct ttm_resource_manager *man)
+- * Clear the memory buffer resource.
+- *
+- * Returns:
+- * 0 for success or a negative error code on failure.
+  */
+-int amdgpu_ttm_clear_buffer(struct amdgpu_device *adev,
+-			    struct amdgpu_bo *bo,
+-			    struct dma_resv *resv,
+-			    struct dma_fence **fence)
+-{
+-	struct amdgpu_ttm_buffer_entity *entity;
+-	struct amdgpu_res_cursor cursor;
+-	u64 addr;
+-	int r = 0;
+-
+-	if (!adev->mman.buffer_funcs_enabled)
+-		return -EINVAL;
+-
+-	if (!fence)
+-		return -EINVAL;
+-	entity = &adev->mman.clear_entities[0];
+-	*fence = dma_fence_get_stub();
+-
+-	amdgpu_res_first(bo->tbo.resource, 0, amdgpu_bo_size(bo), &cursor);
+-
+-	mutex_lock(&entity->lock);
+-	while (cursor.remaining) {
+-		struct dma_fence *next = NULL;
+-		u64 size;
+-
+-		if (amdgpu_res_cleared(&cursor)) {
+-			amdgpu_res_next(&cursor, cursor.size);
+-			continue;
+-		}
+-
+-		/* Never clear more than 256MiB at once to avoid timeouts */
+-		size = min(cursor.size, 256ULL << 20);
+-
+-		r = amdgpu_ttm_map_buffer(adev, entity,
+-					  &bo->tbo, bo->tbo.resource, &cursor,
+-					  1, false, false, &size, &addr);
+-		if (r)
+-			goto err;
+-
+-		r = amdgpu_ttm_fill_mem(adev, entity, 0, addr, size, resv,
+-					&next, true,
+-					AMDGPU_KERNEL_JOB_ID_TTM_CLEAR_BUFFER);
+-		if (r)
+-			goto err;
+-
+-		dma_fence_put(*fence);
+-		*fence = next;
+-
+-		amdgpu_res_next(&cursor, size);
+-	}
+-err:
+-	mutex_unlock(&entity->lock);
+-
+-	return r;
+-}
+-
+ int amdgpu_fill_buffer(struct amdgpu_device *adev,
+ 		       struct amdgpu_ttm_buffer_entity *entity,
+ 		       struct amdgpu_bo *bo,
+ 		       uint32_t src_data,
+ 		       struct dma_resv *resv,
+-		       struct dma_fence **f,
++		       struct dma_fence **out_fence,
++		       bool consider_clear_status,
+ 		       u64 k_job_id)
  {
--	dma_fence_put(man->move);
--	man->move = NULL;
-+	int i;
+ 	struct dma_fence *fence = NULL;
+@@ -2551,6 +2500,11 @@ int amdgpu_fill_buffer(struct amdgpu_device *adev,
+ 		struct dma_fence *next;
+ 		uint64_t cur_size, to;
+ 
++		if (consider_clear_status && amdgpu_res_cleared(&dst)) {
++			amdgpu_res_next(&dst, dst.size);
++			continue;
++		}
 +
-+	for (i = 0; i < TTM_NUM_MOVE_FENCES; i++) {
-+		dma_fence_put(man->eviction_fences[i]);
-+		man->eviction_fences[i] = NULL;
-+	}
+ 		/* Never fill more than 256MiB at once to avoid timeouts */
+ 		cur_size = min(dst.size, 256ULL << 20);
+ 
+@@ -2574,9 +2528,7 @@ int amdgpu_fill_buffer(struct amdgpu_device *adev,
+ 	}
+ error:
+ 	mutex_unlock(&entity->lock);
+-	if (f)
+-		*f = dma_fence_get(fence);
+-	dma_fence_put(fence);
++	*out_fence = fence;
+ 	return r;
  }
  
- void ttm_lru_bulk_move_init(struct ttm_lru_bulk_move *bulk);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+index 653a4d17543e..f3bdbcec9afc 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+@@ -181,16 +181,13 @@ int amdgpu_copy_buffer(struct amdgpu_device *adev,
+ 		       struct dma_resv *resv,
+ 		       struct dma_fence **fence,
+ 		       bool vm_needs_flush, uint32_t copy_flags);
+-int amdgpu_ttm_clear_buffer(struct amdgpu_device *adev,
+-			    struct amdgpu_bo *bo,
+-			    struct dma_resv *resv,
+-			    struct dma_fence **fence);
+ int amdgpu_fill_buffer(struct amdgpu_device *adev,
+ 		       struct amdgpu_ttm_buffer_entity *entity,
+ 		       struct amdgpu_bo *bo,
+ 		       uint32_t src_data,
+ 		       struct dma_resv *resv,
+-		       struct dma_fence **f,
++		       struct dma_fence **out_fence,
++		       bool consider_clear_status,
+ 		       u64 k_job_id);
+ struct amdgpu_ttm_buffer_entity *amdgpu_ttm_next_clear_entity(struct amdgpu_device *adev);
+ 
 -- 
 2.43.0
 
