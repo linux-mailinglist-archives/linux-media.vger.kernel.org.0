@@ -1,367 +1,230 @@
-Return-Path: <linux-media+bounces-47572-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47573-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29F6BC79559
-	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 14:26:47 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57577C795FB
+	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 14:29:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 290F94EDCC5
-	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 13:23:34 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTPS id 7F89B32441
+	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 13:24:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74AF42F3632;
-	Fri, 21 Nov 2025 13:23:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41EB22F3632;
+	Fri, 21 Nov 2025 13:24:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="QRVf/6Jx"
+	dkim=pass (2048-bit key) header.d=kaspersky.com header.i=@kaspersky.com header.b="Pzz0o2No"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012004.outbound.protection.outlook.com [40.107.200.4])
+Received: from mx13.kaspersky-labs.com (mx13.kaspersky-labs.com [91.103.66.164])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF780264612;
-	Fri, 21 Nov 2025 13:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.4
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763731404; cv=fail; b=ttN6ylaR1six4noD80MLOkMNPMF+8qQWDTLdu/ZKb5+7fHz1Vp/Gm81MKjhQdodDJE+nupEiGft0dYAGnN3x9yllEuXSQZxk0D3FbrhZBO7PI3FkxNQMUBx2jbbdOV7YBHupA3iehik45ijR6TnyJO2QuSLjwLitodqHpiWSbt0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763731404; c=relaxed/simple;
-	bh=xg1f2O4F8NC57WijmdLHj9cQJBMZtXnGcAUjodCj2wo=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=cmJM7/4Htv+k5UAcgNFxWMsYmCXCVf2f3HVHXFhqB7EALz6YMAnW/0D8awQ88+i4NRD9RzK9DpAxcXCsg73ikECK2Fj/nm2zn/gJ9jJAoLNNgv9kqtdj38YK5ug42lopICl3lFP/Ot7w3GluCymPdGrsfoOGYfgI1QtJodKW33k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=QRVf/6Jx; arc=fail smtp.client-ip=40.107.200.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VLRHYeW4gPZphHO4PkNYm1axD3kIV6Ai9mVc7j02TBvPCkZNZM+RlHXqm54oh6AS15/zSa/m+wvuloSY7VwDuK54DqAl1UXVbUWL7jiHbTtR3c+Qe3rG/jCu3n8V8BpZxMnhsM6Icy1CcvbnXb+nOPQBhyeq8wh8w2SfBW9eZo5STiNFPOjaHGFljeNqTIjWYluYchaHIPMpUj3t6wbydz9QSckUCAhkUUuehjkwJ/njg1Fy+WMLaUQTW3HA8ao6FbXvDfqM3Qm3NifCIz8J0TbN+8zB0evCBIZU7euvEw8AYFRps6dC/P65yX8KFMTnmSsbWQOuAasPKuExhF3vfQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IEWn30i+lcB1juNFoi8l+2ereyqFg6C2vLQWrIDo/sM=;
- b=Xf5l6Ziw1cQzPPZVL0ijWPb4pKHCJKDXWpGOVEdR3BM3wb6n+B4v6oDf47u3jUjtEWYmOfGwgx2i0PwsMZ9AIA2DUhUu1Kl5DaZY+N5p/YQ3X16csDFpxe8ihv3UlZBhaYZ89F/Gk6dvyziXiRgrXDhSlq3ilTszIFgM+kXPqhY61fzbd8yItpMFIJtbhJO3cyVRWU/4JnHkrp8u0ipw0pzMg1qhC7r8WrF/d+wiqiyg6xHxk6MBpqX+gg5Q4xBe2zhqP0MqZDaSEWBUCI/+q4wxQIEQQ0MRYgxs1TUQd4xmTLmwrS0Bol5AGrm2qE8NgMjzZ6mLocH+d6Ypb0F4Ng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IEWn30i+lcB1juNFoi8l+2ereyqFg6C2vLQWrIDo/sM=;
- b=QRVf/6Jx5a8jQfMfC0MdXG3wwZZpY46idFvUUnas1I5HLKAj7FH/5/eGdlrP56/EkYdMOkUGW+EVaajHi32MaiL5FOm9wMNu3KXS3V/oYfoq9yPFR2vq5POTRqq/SMvgpvu8SOy3M5q5yc3lBf78sMTHnIRcycsgYj3YtTZGtUo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CH1PR12MB9719.namprd12.prod.outlook.com (2603:10b6:610:2b2::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Fri, 21 Nov
- 2025 13:23:20 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9320.021; Fri, 21 Nov 2025
- 13:23:19 +0000
-Message-ID: <696b6fd1-9590-4395-a7a8-2888ceb8adc0@amd.com>
-Date: Fri, 21 Nov 2025 14:23:10 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 09/28] drm/amdgpu: pass the entity to use to ttm public
- functions
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Felix Kuehling <Felix.Kuehling@amd.com>,
- Sumit Semwal <sumit.semwal@linaro.org>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <20251121101315.3585-1-pierre-eric.pelloux-prayer@amd.com>
- <20251121101315.3585-10-pierre-eric.pelloux-prayer@amd.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20251121101315.3585-10-pierre-eric.pelloux-prayer@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SG2PR02CA0026.apcprd02.prod.outlook.com
- (2603:1096:3:18::14) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2AD9341044;
+	Fri, 21 Nov 2025 13:24:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.103.66.164
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763731462; cv=none; b=rZJeD0c3yZ/IoYAWeJWLQh5ZHA+GBqQdMpU4ZyWLkBqgdaO2Ka1eaGOzxBSjeES1DOQ2VSr79YEODiYOtY5kFVgxcRzh84B5WqEgD4F9OFfu9IrP09EGtxa4b4YRzLcWellI4X/iupiHltRp/+nKXGudVUeblfprVMjpzI8SIPk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763731462; c=relaxed/simple;
+	bh=gCSD/meQnl9tT4NSHRQITpayeAOwbenLsmTidzNUO1E=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VysC/rMkSt3Zv/qBAFdN2b4LqzKMp3XHulmbqoi8i0EfaW2qH5XpQ7ySQLNnDE01bFr84bElH5fDl1U4FVnsCAfaZXQ/XKBXieIeBtZuBEm2YO5KqK0faX2vXEsarg9wQtG5OTlivJ8Gz7SFT6jOal4p2EGsHi3JwzPvsKlAIls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kaspersky.com; spf=pass smtp.mailfrom=kaspersky.com; dkim=pass (2048-bit key) header.d=kaspersky.com header.i=@kaspersky.com header.b=Pzz0o2No; arc=none smtp.client-ip=91.103.66.164
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kaspersky.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kaspersky.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kaspersky.com;
+	s=mail202505; t=1763731451;
+	bh=DCj2AeYsx0k+Qfi2hM7PNGR5VzBYkbbO3sWKvMVCmL0=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	b=Pzz0o2NonAWX4lnqG8t6IeRh1wMz7tVi1G2tBjtW22D1wGT8Ey8mnpjQvpwgH5myO
+	 PKr7uwcMAYKlkewj1MJKTEXWdi6Hiai/vkoDuNeN00DEvQPuwtH7XG7TfO6PmtjVeI
+	 eUxHj3ROmbPJiiEAKd1UOSU6tYakr+EO9imzPDdKBgXPwa93xlA/iwfghW32iJ3NJw
+	 rky5SABGhxe3rI1IgKDSipbom/hZ8vTTSL58bE2zho6VRQ/OaBFAYGd+LsJopOeQ/3
+	 O8AkiDTcWvGazzJVaZdcYwFs+YIfIyZN9gOGVBAV0JjWknXiVjduv8Kbffbrg0Cl09
+	 3VRhN2vgBqvWQ==
+Received: from relay13.kaspersky-labs.com (localhost [127.0.0.1])
+	by relay13.kaspersky-labs.com (Postfix) with ESMTP id CD5923E9B79;
+	Fri, 21 Nov 2025 16:24:11 +0300 (MSK)
+Received: from mail-hq2.kaspersky.com (unknown [91.103.66.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(Client CN "mail-hq2.kaspersky.com", Issuer "Kaspersky MailRelays CA G3" (verified OK))
+	by mailhub13.kaspersky-labs.com (Postfix) with ESMTPS id 67A373E4F07;
+	Fri, 21 Nov 2025 16:24:10 +0300 (MSK)
+Received: from Nalivayko.avp.ru (10.16.105.14) by HQMAILSRV3.avp.ru
+ (10.64.57.53) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.29; Fri, 21 Nov
+ 2025 16:24:09 +0300
+From: Nalivayko Sergey <Sergey.Nalivayko@kaspersky.com>
+To: <linux-media@vger.kernel.org>
+CC: Nalivayko Sergey <Sergey.Nalivayko@kaspersky.com>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Antoine Jacquet <royale@zerezo.com>, Christophe JAILLET
+	<christophe.jaillet@wanadoo.fr>, Alan Stern <stern@rowland.harvard.edu>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	<lvc-project@linuxtesting.org>,
+	<syzbot+0335df380edd9bd3ff70@syzkaller.appspotmail.com>,
+	<stable@vger.kernel.org>
+Subject: [PATCH v2] dvb-usb: dtv5100: rewrite i2c message usb_control send/recv
+Date: Fri, 21 Nov 2025 16:23:31 +0300
+Message-ID: <20251121132332.3983185-1-Sergey.Nalivayko@kaspersky.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH1PR12MB9719:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5fccb49c-552d-4d35-b9d6-08de29012328
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?eC8xblVWU3Z5NnJvbXJzNmtNTCtUam50bmc1cFMzaGx1QXo2dUtvRkxVa3Jx?=
- =?utf-8?B?N2RqbXl1Z2lMOWUwRTdiUE5XeHNrYUt2ZFkwcEVwdWVtQnFocncvZmwydXQv?=
- =?utf-8?B?MTV0MjdzMEVrZVpxL0tQSzlNTnorYWZCT29qWWl0S1l6ckhRdTZnUDhvOXU1?=
- =?utf-8?B?ZlJPOVJsdDVNa05seHl5WDh2L3hSSzBHUGU0c2E0U2VKSjJIbFBseTBYenJX?=
- =?utf-8?B?cXBJUU0zaG80U2IvaEFybGVxeXNjVGhTRHlGaXFpbVY0bDNFaEdHTXRjZHBi?=
- =?utf-8?B?NXRkRDc1MXJLNG9RaTUrV2VjRWRIM3dYMUE3QjBJdnpialZsMFk4ZGpNcDF4?=
- =?utf-8?B?bDduZ1JQSUZjWWJMalNTYzEyYVBPWWpNL1k3WlQ4RkNLYTFmcExlSHk0VFpF?=
- =?utf-8?B?Sk13c2p4cWZXMFF3YzJNTk54Rllwc05oOG01NmVRc0ZFTXRJM29DMU1hSFIy?=
- =?utf-8?B?T1h4anZUeG9vczJBQm5KQ1Z0OERjME9nWVNFY3lvaTJ6WFdpK3duN2s0T1M5?=
- =?utf-8?B?OE1meEZudlA5MTZrQ1I1MTJ1a2dvL1M2VkdwT0RhQjN1WTlkb0NNY1RVcUln?=
- =?utf-8?B?MWFXQ0hITUNNbzRNbGZTL1RSUExVN2NUY2FOVzFjV0tGUXNYVjI3cmFXSFQw?=
- =?utf-8?B?NXFNRTZKY1NZWGxtbHVuczB1WEVvODUyTEdZWjFLMnZMdGtnUVlZdU9xT1la?=
- =?utf-8?B?c05HaS9UWThscjMyUUVybnNxcjJzRmtDYjhpZWkxbWh5Qll3MytYWXlsWEEz?=
- =?utf-8?B?TG9UempoQlI5dTBaeXRWb2x1Z0tScy9SS3VQTkwvYUVBQnp4bWdVSXBvTWFz?=
- =?utf-8?B?bGVabUNHcjhHVFQvai9vc04zbGVqL1VrUlA0UkNuSkFaK2tDOFJKSU82c1Q0?=
- =?utf-8?B?bjdxdE40WjhITWphVWV4R09TeHZtUlRLS2NnblZJa04vTURDeFBGS1QrMENR?=
- =?utf-8?B?MFRBTjNKRFNVdEZzdGFoZzk5S1Z2a2NteUlvMkoxQ0dVZUo5cHBTZWdrK0k3?=
- =?utf-8?B?Tjd6SjB4ZnBUNGlnRVBVUnJOWEtlcFo4Tml4L0RoYklnS1FKa1lKVVM4aWQx?=
- =?utf-8?B?YXJOZUtqTWI4bzdFWit1OVJ4U09pNzd3Z2Z3VnFwUnFTaGdvam9YNUJpS05V?=
- =?utf-8?B?NHo3SHg5Rjh4UjgvKy9nZHppWm9QandmeTl4bllsUXFQYUNKZGxucXlmTlpK?=
- =?utf-8?B?d0IwUGx6UmFNdFZyOUFKbDN6UXpjY29HUHFSSkJWYU55ZXZMb2NPcmJyTVRK?=
- =?utf-8?B?dysxZGpTWEdVYlpkM0Z5VlhPVGZJZXhhNzg1NkFOa04vLzJ3T3poUDRMVlJ3?=
- =?utf-8?B?QWo2YmFpZlRYSTN0eElYTlpxSG9iZUg5YW5YOFplTEVFM2FWN0NCRVRidUI4?=
- =?utf-8?B?WVlLaGw4UEovVjFqb0dqTFB2aDlCT1pQNm5NcjltSnFiSTNhd2dhWUlzT1F2?=
- =?utf-8?B?ZmdRQWhURFhCbThGOW5YTWVsejhXM1FqK2Jxd09zRUhjczA4Nnl1dmV5eTM1?=
- =?utf-8?B?L0NMK0M1TDFaTlNaS3lSN2JxWUdhV0psK3h1T3pKT0ZrbDV0azZwZ1hRNUlh?=
- =?utf-8?B?d3hKdC9Cc3hDSjJCa0toNW9iQTE0bmZXNWtvNUQ4cVZOamFoSG4xQnlDSm04?=
- =?utf-8?B?TEVXbi9wZy9YME5xTnJ4VTYvd09XUXd4S21IRnphREFlVjVEQlIydXQ4b1VF?=
- =?utf-8?B?aGlVMGF0V05kM3RLQktMZEJYQzRKTGxJRGtVZGNpVExqRkhBdE1UU0hFQjlm?=
- =?utf-8?B?bnZpUVZPMVhEUXpNWEpGQUkxN1l4NEY1TTgzQUVsTEZrKzI4eHdId1BzeTQ5?=
- =?utf-8?B?YnEyaERhNHFVaElSUDkwSmMybVJ0L2kxdk9yUWgyYkJMVktoOEJUODllZlN6?=
- =?utf-8?B?djh1MVF5aEtIUUVPRi9pbGY1VytTbFhidVF0TzJsNXU4L05ieWQ1SW40NytG?=
- =?utf-8?Q?YUWgv3ic/ddZAUuZSZNU/OXwvhL3N0Gr?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ZHV5emJ4bEhMRDIxMFhrSTA5eE5hZGNBVHBVdzRkS2ppdDY3NEJweC9odUhC?=
- =?utf-8?B?Z0RPTC8vOUxmWmZaS3N5RThZb0l0UGJSeERTeVNvQVNnayswclZlUU5lQWNt?=
- =?utf-8?B?aC9rZmxFMlRjdXl0cTRKdFZBaUQ4aTN1ZUhSWVRMNkNuRDMyQ0ZuNkRLMGZi?=
- =?utf-8?B?WEZvcFpwLy9xbmkyYWRkTlJJMnNQMldwTFVpanlobjMySitBdGo5OUwyTkh3?=
- =?utf-8?B?dWR4SEdhZ0ZEQzA2bm1KTStmWnd1cVJqSS9xbzI5UWs4QkpvYkVKQ3NJcU1n?=
- =?utf-8?B?S3pXdEprSVFtVEFuRmdWN25QWUhRWHZWTnkzOFA4VjcvSnRUMlVxZ1BWQnQ2?=
- =?utf-8?B?MmhjZHAvd2QrU1R4dUpCZjg3eFJTM0lXS3dkRmkxZHVCbUJDTEdOSHUrZ3p2?=
- =?utf-8?B?Tk1JQ1hiLzUvdjJOQ29KRHpxOUJna1VnRnFRcVBLRDc5SWd4bE1ydStlOW5G?=
- =?utf-8?B?dnJucjlqcERsREVnN0t0VldneitZcnR5a0R5S2FBa3RrOEM2QUlwbEZvR3N5?=
- =?utf-8?B?NXhvaFErSUV4ZG9JVUNuL2hLUmh4WWIwbHR5UmVFd1k3MVFrREVJNmJFSHJi?=
- =?utf-8?B?cUxKSG1wUi8rNzlPZG9VODhpM3NSVVI4RjFadWVUVkp3R0YrMkwrNitQb2FO?=
- =?utf-8?B?Y3lyNGNTQWkrbmNaaWJkeVpMc2NxVVR5SUNIVXB0WWpHczBHUUF6UjhOSUpK?=
- =?utf-8?B?d21xdW5sakpldjdBQmxWd0RHNDFuQ21TVE9ybGgvMkNSQVBpUzM0eVFDUEJy?=
- =?utf-8?B?a1YvMXRJeStXR2ZpMFc3Q1B4alpEcUZRYWVYdVNaNjBDZ3AzbmJyWVVScXdm?=
- =?utf-8?B?eEs1UkVGVi9QVTFKTHE3bzFSSUVEWDFqZjJoWHdIQU9Bc0tqSlFUQnl3Qk5L?=
- =?utf-8?B?RldVRjVycnhyemJWY2RiN0ZsQXFDVlZwVTBhTk9XWkt4TGZpbzhjanFQcndS?=
- =?utf-8?B?OW9GcEE5UjA2QWtFVkJWUnlScWFKUHdXYmRQTVFQS3BIZlg4c3dTR29iS0Mz?=
- =?utf-8?B?OEFVWS9kdzQ0K3ZsUHkzZWg0c01rb1VUUjV2RHZJL1A4ckxLY2dsQUFQSzVl?=
- =?utf-8?B?eUYyMDN5TGxxVmtscGU4MzV3ZzIxc3RVUjZIVVhPV2MrSHR0amhlNE1xR1Nv?=
- =?utf-8?B?dnQwSUVRWVRwYmlVbG5GOGMyMnBtaEtYSmIwWklvU1gwZE5KbUxGWERkeElR?=
- =?utf-8?B?eCtiRmR2SVBZTVBybnRwMWIxQTZ0M3Z2NHFkSjFZbWc2TkMvM1ZVSFJiNVpY?=
- =?utf-8?B?T3NjVE5vUjU0bjJ6b2FuVHBUT1hVM09oOGhHalIwZUcwM1dZMXZHbU9kRGhw?=
- =?utf-8?B?OEVTMEkxaW1iN0YrZzJBbUdaTTZHMkdmd0dObFQ0RHhnVkFmdFU3TzdXMmxj?=
- =?utf-8?B?WDVtRnU1bGZHcGltWU9FMGtuaGgzOCtzUVBwdWRHMmZmYmxCWFJ3Y2xFaEZh?=
- =?utf-8?B?ZnY5N1N2emczdUc0NHlNN3B6SmNSU2lkZWxZVDRzbGlSNm9Fa3h6V1Q2Mk9u?=
- =?utf-8?B?RkkyRGdPT2lSVS8vWm0ySXhnQTc1emVxYURnelByTjBSK3BOWnRmUG4yVDB1?=
- =?utf-8?B?aElQOWdKZnFVSzNnTE5xTWxGaXNHa1lOdUtRc3hjdHVLVTdjS1ZXSVBZZHZm?=
- =?utf-8?B?MkZ3dXlOM0ZVWkFhUzlxeVNRdkRFQXd1RkEweUU1amY0anhNZmxzTlRxZjU1?=
- =?utf-8?B?QkhSWG5VbGg2Um1ZaEIrNFF3NG1uTWJkQklrWXhQTXZaV0FiWHlYNEt4bmg5?=
- =?utf-8?B?N2ZFdUtrS0N1K1JVRFdCVFhFbHlML1FKcFpQbWg5TEZmYkpUVzZSNWkyNnF3?=
- =?utf-8?B?emtjMWh6S2trUXpCemRlUm1vTmNhSEN5Z2lVMXBFNnlzNmpSMjZleEtkVWFV?=
- =?utf-8?B?NjhkQ2JKQ0p6RGVwTDVNenNGanNFZ29SWmtFTzkweEQrRHpoUDFpL0o5RDBm?=
- =?utf-8?B?NWovanlBakxMZTBDUEk2QWF1cGVEVStmSnZ0aVNtU3lEOEFSRk5nczhuejZN?=
- =?utf-8?B?azVHR051QjhpTXgvWDdsWGhQcW11TWh3OW5EUkhJNW9uYzhLZTRrbmpLZy9V?=
- =?utf-8?B?U0RnOFl1SGNCVVdkM3RvQTRRZUlJTy9wcmxGamh5Z2ZGNkN6UmRya1BoOHpU?=
- =?utf-8?Q?wiMWRsVjr136+X2XJIYgThSZ6?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5fccb49c-552d-4d35-b9d6-08de29012328
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2025 13:23:19.7798
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dGOCcVP5oSJPjK0sI/sIVNRBlcmMR6MnDNUspSo00hO2FprFRUFMm11E5x43avZS
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH1PR12MB9719
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: HQMAILSRV3.avp.ru (10.64.57.53) To HQMAILSRV3.avp.ru
+ (10.64.57.53)
+X-KSE-ServerInfo: HQMAILSRV3.avp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.1, Database issued on: 11/21/2025 13:08:39
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 0
+X-KSE-AntiSpam-Info: Lua profiles 198293 [Nov 21 2025]
+X-KSE-AntiSpam-Info: Version: 6.1.1.20
+X-KSE-AntiSpam-Info: Envelope from: Sergey.Nalivayko@kaspersky.com
+X-KSE-AntiSpam-Info: LuaCore: 78 0.3.78
+ 468114d1894f8bd8bd24fc93d92b1fa7ecfbc0f3
+X-KSE-AntiSpam-Info: {Tracking_cluster_exceptions}
+X-KSE-AntiSpam-Info: {Tracking_real_kaspersky_domains}
+X-KSE-AntiSpam-Info: {Tracking_one_url}
+X-KSE-AntiSpam-Info: {Tracking_uf_ne_domains}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: 127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;syzkaller.appspot.com:7.1.1,5.0.1;kaspersky.com:7.1.1,5.0.1
+X-KSE-AntiSpam-Info: {Tracking_white_helo}
+X-KSE-AntiSpam-Info: FromAlignment: s
+X-KSE-AntiSpam-Info: Rate: 0
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Deterministic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 11/21/2025 13:11:00
+X-KSE-AttachmentFiltering-Interceptor-Info: no applicable attachment filtering
+ rules found
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 11/21/2025 11:55:00 AM
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+X-KSE-AttachmentFiltering-Interceptor-Info: no applicable attachment filtering
+ rules found
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+X-KSMG-AntiPhishing: NotDetected, bases: 2025/11/21 12:51:00
+X-KSMG-AntiSpam-Interceptor-Info: not scanned
+X-KSMG-AntiSpam-Status: not scanned, disabled by settings
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.1.8310, bases: 2025/11/21 08:31:00 #27956385
+X-KSMG-AntiVirus-Status: NotDetected, skipped
+X-KSMG-LinksScanning: NotDetected, bases: 2025/11/21 12:51:00
+X-KSMG-Message-Action: skipped
+X-KSMG-Rule-ID: 52
 
-On 11/21/25 11:12, Pierre-Eric Pelloux-Prayer wrote:
-> This way the caller can select the one it wants to use.
-> 
-> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+syzbot reports a WARNING issue as below:
 
-I'm wondering if it wouldn't make sense to put a pointer to adev into each amdgpu_ttm_buffer_entity.
+usb 1-1: BOGUS control dir, pipe 80000280 doesn't match bRequestType c0
+WARNING: CPU: 0 PID: 5833 at drivers/usb/core/urb.c:413 usb_submit_urb+0x1112/0x1870 drivers/usb/core/urb.c:411
+Modules linked in:
+CPU: 0 UID: 0 PID: 5833 Comm: syz-executor411 Not tainted 6.15.0-syzkaller #0 PREEMPT(full)
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/07/2025
+Call Trace:
+ <TASK>
+ usb_start_wait_urb+0x114/0x4c0 drivers/usb/core/message.c:59
+ usb_internal_control_msg drivers/usb/core/message.c:103 [inline]
+ usb_control_msg+0x232/0x3e0 drivers/usb/core/message.c:154
+ dtv5100_i2c_msg+0x250/0x330 drivers/media/usb/dvb-usb/dtv5100.c:60
+ dtv5100_i2c_xfer+0x1a4/0x3c0 drivers/media/usb/dvb-usb/dtv5100.c:86
+ __i2c_transfer+0x871/0x2170 drivers/i2c/i2c-core-base.c:-1
+ i2c_transfer+0x25b/0x3a0 drivers/i2c/i2c-core-base.c:2315
+ i2c_transfer_buffer_flags+0x105/0x190 drivers/i2c/i2c-core-base.c:2343
+ i2c_master_send include/linux/i2c.h:109 [inline]
+ i2cdev_write+0x112/0x1b0 drivers/i2c/i2c-dev.c:183
+ do_loop_readv_writev include/linux/uio.h:-1 [inline]
+ vfs_writev+0x4a5/0x9a0 fs/read_write.c:1057
+ do_writev+0x14d/0x2d0 fs/read_write.c:1101
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xf6/0x210 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+ </TASK>
 
-But that is maybe something for another patch. For now:
+The issue occurs due to insufficient validation of data passed to the USB API.
+In the current implementation, the dtv5100 driver expects two I2C non-zero 
+length messages for a combined write/read request. However, when 
+only a single message is provided, the driver incorrectly processes message
+of size 1, passing a read data size of zero to the dtv5100_i2c_msg function.
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+When usb_control_msg() is called with a PIPEOUT type and a read length of
+zero, a mismatch error occurs between the operation type and the expected
+transfer direction in function usb_submit_urb. This is the trigger
+for warning.
 
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c |  3 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c    |  4 +--
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       | 34 +++++++++----------
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h       | 16 +++++----
->  drivers/gpu/drm/amd/amdkfd/kfd_migrate.c      |  3 +-
->  5 files changed, 32 insertions(+), 28 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c
-> index 3636b757c974..a050167e76a4 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c
-> @@ -37,7 +37,8 @@ static int amdgpu_benchmark_do_move(struct amdgpu_device *adev, unsigned size,
->  
->  	stime = ktime_get();
->  	for (i = 0; i < n; i++) {
-> -		r = amdgpu_copy_buffer(adev, saddr, daddr, size, NULL, &fence,
-> +		r = amdgpu_copy_buffer(adev, &adev->mman.default_entity,
-> +				       saddr, daddr, size, NULL, &fence,
->  				       false, 0);
->  		if (r)
->  			goto exit_do_move;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> index 926a3f09a776..858eb9fa061b 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> @@ -1322,8 +1322,8 @@ void amdgpu_bo_release_notify(struct ttm_buffer_object *bo)
->  	if (r)
->  		goto out;
->  
-> -	r = amdgpu_fill_buffer(abo, 0, &bo->base._resv, &fence, true,
-> -			       AMDGPU_KERNEL_JOB_ID_CLEAR_ON_RELEASE);
-> +	r = amdgpu_fill_buffer(&adev->mman.clear_entity, abo, 0, &bo->base._resv,
-> +			       &fence, AMDGPU_KERNEL_JOB_ID_CLEAR_ON_RELEASE);
->  	if (WARN_ON(r))
->  		goto out;
->  
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> index 3d850893b97f..1d3afad885da 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> @@ -359,7 +359,7 @@ static int amdgpu_ttm_copy_mem_to_mem(struct amdgpu_device *adev,
->  							     write_compress_disable));
->  		}
->  
-> -		r = amdgpu_copy_buffer(adev, from, to, cur_size, resv,
-> +		r = amdgpu_copy_buffer(adev, entity, from, to, cur_size, resv,
->  				       &next, true, copy_flags);
->  		if (r)
->  			goto error;
-> @@ -414,8 +414,9 @@ static int amdgpu_move_blit(struct ttm_buffer_object *bo,
->  	    (abo->flags & AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE)) {
->  		struct dma_fence *wipe_fence = NULL;
->  
-> -		r = amdgpu_fill_buffer(abo, 0, NULL, &wipe_fence,
-> -				       false, AMDGPU_KERNEL_JOB_ID_MOVE_BLIT);
-> +		r = amdgpu_fill_buffer(&adev->mman.move_entity,
-> +				       abo, 0, NULL, &wipe_fence,
-> +				       AMDGPU_KERNEL_JOB_ID_MOVE_BLIT);
->  		if (r) {
->  			goto error;
->  		} else if (wipe_fence) {
-> @@ -2258,7 +2259,9 @@ static int amdgpu_ttm_prepare_job(struct amdgpu_device *adev,
->  						   DMA_RESV_USAGE_BOOKKEEP);
->  }
->  
-> -int amdgpu_copy_buffer(struct amdgpu_device *adev, uint64_t src_offset,
-> +int amdgpu_copy_buffer(struct amdgpu_device *adev,
-> +		       struct amdgpu_ttm_buffer_entity *entity,
-> +		       uint64_t src_offset,
->  		       uint64_t dst_offset, uint32_t byte_count,
->  		       struct dma_resv *resv,
->  		       struct dma_fence **fence,
-> @@ -2282,7 +2285,7 @@ int amdgpu_copy_buffer(struct amdgpu_device *adev, uint64_t src_offset,
->  	max_bytes = adev->mman.buffer_funcs->copy_max_bytes;
->  	num_loops = DIV_ROUND_UP(byte_count, max_bytes);
->  	num_dw = ALIGN(num_loops * adev->mman.buffer_funcs->copy_num_dw, 8);
-> -	r = amdgpu_ttm_prepare_job(adev, &adev->mman.move_entity, num_dw,
-> +	r = amdgpu_ttm_prepare_job(adev, entity, num_dw,
->  				   resv, vm_needs_flush, &job,
->  				   AMDGPU_KERNEL_JOB_ID_TTM_COPY_BUFFER);
->  	if (r)
-> @@ -2411,22 +2414,18 @@ int amdgpu_ttm_clear_buffer(struct amdgpu_bo *bo,
->  	return r;
->  }
->  
-> -int amdgpu_fill_buffer(struct amdgpu_bo *bo,
-> -			uint32_t src_data,
-> -			struct dma_resv *resv,
-> -			struct dma_fence **f,
-> -			bool delayed,
-> -			u64 k_job_id)
-> +int amdgpu_fill_buffer(struct amdgpu_ttm_buffer_entity *entity,
-> +		       struct amdgpu_bo *bo,
-> +		       uint32_t src_data,
-> +		       struct dma_resv *resv,
-> +		       struct dma_fence **f,
-> +		       u64 k_job_id)
->  {
->  	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
-> -	struct amdgpu_ttm_buffer_entity *entity;
->  	struct dma_fence *fence = NULL;
->  	struct amdgpu_res_cursor dst;
->  	int r;
->  
-> -	entity = delayed ? &adev->mman.clear_entity :
-> -			   &adev->mman.move_entity;
-> -
->  	if (!adev->mman.buffer_funcs_enabled) {
->  		dev_err(adev->dev,
->  			"Trying to clear memory with ring turned off.\n");
-> @@ -2443,13 +2442,14 @@ int amdgpu_fill_buffer(struct amdgpu_bo *bo,
->  		/* Never fill more than 256MiB at once to avoid timeouts */
->  		cur_size = min(dst.size, 256ULL << 20);
->  
-> -		r = amdgpu_ttm_map_buffer(adev, &adev->mman.default_entity,
-> +		r = amdgpu_ttm_map_buffer(adev, entity,
->  					  &bo->tbo, bo->tbo.resource, &dst,
->  					  1, false, &cur_size, &to);
->  		if (r)
->  			goto error;
->  
-> -		r = amdgpu_ttm_fill_mem(adev, entity, src_data, to, cur_size, resv,
-> +		r = amdgpu_ttm_fill_mem(adev, entity,
-> +					src_data, to, cur_size, resv,
->  					&next, true, k_job_id);
->  		if (r)
->  			goto error;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-> index 41bbc25680a2..9288599c9c46 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-> @@ -167,7 +167,9 @@ int amdgpu_ttm_init(struct amdgpu_device *adev);
->  void amdgpu_ttm_fini(struct amdgpu_device *adev);
->  void amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev,
->  					bool enable);
-> -int amdgpu_copy_buffer(struct amdgpu_device *adev, uint64_t src_offset,
-> +int amdgpu_copy_buffer(struct amdgpu_device *adev,
-> +		       struct amdgpu_ttm_buffer_entity *entity,
-> +		       uint64_t src_offset,
->  		       uint64_t dst_offset, uint32_t byte_count,
->  		       struct dma_resv *resv,
->  		       struct dma_fence **fence,
-> @@ -175,12 +177,12 @@ int amdgpu_copy_buffer(struct amdgpu_device *adev, uint64_t src_offset,
->  int amdgpu_ttm_clear_buffer(struct amdgpu_bo *bo,
->  			    struct dma_resv *resv,
->  			    struct dma_fence **fence);
-> -int amdgpu_fill_buffer(struct amdgpu_bo *bo,
-> -			uint32_t src_data,
-> -			struct dma_resv *resv,
-> -			struct dma_fence **fence,
-> -			bool delayed,
-> -			u64 k_job_id);
-> +int amdgpu_fill_buffer(struct amdgpu_ttm_buffer_entity *entity,
-> +		       struct amdgpu_bo *bo,
-> +		       uint32_t src_data,
-> +		       struct dma_resv *resv,
-> +		       struct dma_fence **f,
-> +		       u64 k_job_id);
->  
->  int amdgpu_ttm_alloc_gart(struct ttm_buffer_object *bo);
->  void amdgpu_ttm_recover_gart(struct ttm_buffer_object *tbo);
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-> index ade1d4068d29..9c76f1ba0e55 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-> @@ -157,7 +157,8 @@ svm_migrate_copy_memory_gart(struct amdgpu_device *adev, dma_addr_t *sys,
->  			goto out_unlock;
->  		}
->  
-> -		r = amdgpu_copy_buffer(adev, gart_s, gart_d, size * PAGE_SIZE,
-> +		r = amdgpu_copy_buffer(adev, entity,
-> +				       gart_s, gart_d, size * PAGE_SIZE,
->  				       NULL, &next, true, 0);
->  		if (r) {
->  			dev_err(adev->dev, "fail %d to copy memory\n", r);
+Replace usb_control_msg() with usb_control_msg_recv() and
+usb_control_msg_send() to rely on the USB API for proper validation and
+prevent inconsistencies in the future.
 
+Reported-by: syzbot+0335df380edd9bd3ff70@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=0335df380edd9bd3ff70
+Fixes: 60688d5e6e6e ("V4L/DVB (8735): dtv5100: replace dummy frontend by zl10353")
+Cc: stable@vger.kernel.org
+Signed-off-by: Nalivayko Sergey <Sergey.Nalivayko@kaspersky.com>
+---
+v2: Expand problem description.
+
+ drivers/media/usb/dvb-usb/dtv5100.c | 21 +++++++++------------
+ 1 file changed, 9 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/media/usb/dvb-usb/dtv5100.c b/drivers/media/usb/dvb-usb/dtv5100.c
+index 3d85c6f7f6ec..05860f5d5053 100644
+--- a/drivers/media/usb/dvb-usb/dtv5100.c
++++ b/drivers/media/usb/dvb-usb/dtv5100.c
+@@ -26,40 +26,37 @@ static int dtv5100_i2c_msg(struct dvb_usb_device *d, u8 addr,
+ 			   u8 *wbuf, u16 wlen, u8 *rbuf, u16 rlen)
+ {
+ 	struct dtv5100_state *st = d->priv;
+-	unsigned int pipe;
+ 	u8 request;
+ 	u8 type;
+ 	u16 value;
+ 	u16 index;
+ 
++	index = (addr << 8) + wbuf[0];
++
++	memcpy(st->data, rbuf, rlen);
++	msleep(1); /* avoid I2C errors */
++
+ 	switch (wlen) {
+ 	case 1:
+ 		/* write { reg }, read { value } */
+-		pipe = usb_rcvctrlpipe(d->udev, 0);
+ 		request = (addr == DTV5100_DEMOD_ADDR ? DTV5100_DEMOD_READ :
+ 							DTV5100_TUNER_READ);
+ 		type = USB_TYPE_VENDOR | USB_DIR_IN;
+ 		value = 0;
+-		break;
++		return usb_control_msg_recv(d->udev, 0, request, type, value, index,
++			st->data, rlen, DTV5100_USB_TIMEOUT, GFP_KERNEL);
+ 	case 2:
+ 		/* write { reg, value } */
+-		pipe = usb_sndctrlpipe(d->udev, 0);
+ 		request = (addr == DTV5100_DEMOD_ADDR ? DTV5100_DEMOD_WRITE :
+ 							DTV5100_TUNER_WRITE);
+ 		type = USB_TYPE_VENDOR | USB_DIR_OUT;
+ 		value = wbuf[1];
+-		break;
++		return usb_control_msg_send(d->udev, 0, request, type, value, index,
++			st->data, rlen, DTV5100_USB_TIMEOUT, GFP_KERNEL);
+ 	default:
+ 		warn("wlen = %x, aborting.", wlen);
+ 		return -EINVAL;
+ 	}
+-	index = (addr << 8) + wbuf[0];
+-
+-	memcpy(st->data, rbuf, rlen);
+-	msleep(1); /* avoid I2C errors */
+-	return usb_control_msg(d->udev, pipe, request,
+-			       type, value, index, st->data, rlen,
+-			       DTV5100_USB_TIMEOUT);
+ }
+ 
+ /* I2C */
+-- 
+2.39.5
 
