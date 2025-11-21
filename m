@@ -1,173 +1,185 @@
-Return-Path: <linux-media+bounces-47598-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47599-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20BD7C7B39A
-	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 19:08:33 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2C2EC7B5EA
+	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 19:44:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AB2493A1F82
-	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 18:07:52 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3D24535A8B9
+	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 18:43:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71469332909;
-	Fri, 21 Nov 2025 18:07:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0616D2F3C22;
+	Fri, 21 Nov 2025 18:43:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="wKFtvo1d"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="RVYiVEH7";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="S+4DKAGx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0642D77F5
-	for <linux-media@vger.kernel.org>; Fri, 21 Nov 2025 18:07:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B12642F1FFC
+	for <linux-media@vger.kernel.org>; Fri, 21 Nov 2025 18:43:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763748461; cv=none; b=pA3uyouWV4il0V62/nxvVyNVtDvYwyqt+sD+hPCViNiuotxYWvagO5Z7ct+OBa4h4+//1thzXQylbWqFQXe4FL3oMQstnuEvNy8SBHLxGvUf27tqhx97/nDZ5/iQfBhoO08wxJPjDtd2mxkcb0d+hqmsZ/euP/vwOzgYUJtpdxs=
+	t=1763750595; cv=none; b=F4xr/4rcEPa4XTPcrmeM05NRfetipJpyVeRBDypMN3UsR1T4cF15i121HbSESkW7FUnmv8NnYmN8puaDFrYY/nrMcstGoqgMbOzq7UhPnM06jN+dFFuIFGhNMEDWLJA2akOHg53ikb1oFsA1gAWcsDnYla2G9K6koSuNA2a2w6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763748461; c=relaxed/simple;
-	bh=Q1ZwELVabso4EkyDG2xMjJ4EyeFlxuL65Prpg3ujMaw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Okbg93Wzm2JpYGecc/hU+YJFAnq2nrVGJ0k/G5dxdwFXd3t46zON3gWYEFeVDvQW5c18GkmTQevHEKe3cPWq1SzyKx4KI8y5QXWgkyMBSgOprMLKvdDBsA9bRepXhWV4o/I+lIzvLGXYYmRikslE9JZY1tXfcTDtgK4e1yxyWFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=wKFtvo1d; arc=none smtp.client-ip=209.85.219.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-882390f7952so23912756d6.3
-        for <linux-media@vger.kernel.org>; Fri, 21 Nov 2025 10:07:39 -0800 (PST)
+	s=arc-20240116; t=1763750595; c=relaxed/simple;
+	bh=6JFA6PEKwaz7P72HT8ffVP5KXKRcTkuJmGo6q2C7mKs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tmE8xlFlLV0QiX77kMoK88Ed4Co34ZvzhAleff0Gq4F9nmF76Q4YBcdViK5GtCefYDn7MigSGWtl0RZHDN8As64fPJ7Y/xQbC2qDPIxdRYyBY+AoAJ5I/1FQyLGRkznCqlcTJ7U0lGgzvyDzNMqmyborZaY2VuczjDKWvJ99pvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=RVYiVEH7; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=S+4DKAGx; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5ALHupAY2746336
+	for <linux-media@vger.kernel.org>; Fri, 21 Nov 2025 18:43:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=TCQqezv9F4PsyHydEuHSiF1YdJ/kZjlRcuY
+	c6n7FZhM=; b=RVYiVEH7KwhnHJEcZCJOsyBE1W1/kBugLA7MV8X0hu44qfdzCUd
+	5U3mtEsmM7tUrumZSbGMTe1vNq3eNUR9zArzuLQh6nougtiGDuEmEOtr6uVl2O6C
+	IsoGWjiMfhaoW91GSsvbqzp1p8CY7UGIaNosfNV1RgdoiVC+rUNh9NUADQClajy6
+	Pep+77cj/nLgtLukGOL88NRG3K7sT6BRZbdeok+qwhqU6toqWl8kMrFv0UXaXXVV
+	s/rHyJIgb/jpKAj34RMXbn4TZOagg0zJmWkNZTWxpHyGye8uhYK39laQC+1dOf/m
+	7CxYlGzHjceSl+aMfuOBdH2G6Fzcr3ruzQQ==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ajgeh2t1g-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Fri, 21 Nov 2025 18:43:12 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8b2dbf4d6a4so357875885a.2
+        for <linux-media@vger.kernel.org>; Fri, 21 Nov 2025 10:43:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1763748458; x=1764353258; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
-         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=3reEjUab7HQIYE8MwmDCD1KFRlukjdmGK/LzC0B9YJA=;
-        b=wKFtvo1dIN7H6z1bleHrFmzrrXSc10UGGH4Oumx0Yt5xG5emiRczaotKIid3hBWq99
-         A983IZfFndHC2qATsQWFkZl/+rzw/njCltrzR25GuW8Zv9vKsrNmQbusZDYMEEcVPSzA
-         mKz5SEgWVub7VqrIUy83UdnyHTVNSiWaJzijTsO//qrYoFS04ZPdt2ZfSS/Nq6hDC2Bj
-         O7CLElReR4qmWJwl/Gmntx+Zk+pNIOuSnD0IlPEUfjoAKmFyPFqLBfkoY0zOQ6PxhNUV
-         zgIGMJVolrcN0BW1Fh3Q/Y/KWy1qnrlS5MjV4/Ok56ntDNkK0auoSbe/Barvfm8y5qOu
-         ZIeg==
+        d=oss.qualcomm.com; s=google; t=1763750592; x=1764355392; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TCQqezv9F4PsyHydEuHSiF1YdJ/kZjlRcuYc6n7FZhM=;
+        b=S+4DKAGxY8oezChwf13ZA65QeOAMpF0ZMN5UTI709WEjXDb/aOG2JHfU5mmpTFnCLG
+         IAcg4zO5jvJW1QZxfuej8w+5xcYTQOBnVFONviawxUq3N/5BZ0lnx5645N1vEnwN5kyo
+         h4qaZaY7mOlCoq7mKFjbbkKlTck4L12reKeKzLnvXA2PCdX9zdMRu9cU9kkR929JGxzw
+         XpnDvbgKBDcRNj68MzJIIeQyQiQDE41U279b4qt+AANO+m3k+i31PT3ychmouomHoXtO
+         8SDEQwrKo83ennbFL7jiyIHuC3XMcfcookfOZMUlmAJKrmKxzG4tztrFyFAnmYV1Ltvj
+         YTlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763748458; x=1764353258;
-        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
-         :subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=3reEjUab7HQIYE8MwmDCD1KFRlukjdmGK/LzC0B9YJA=;
-        b=KY6FZuyIz1dYsL5YXd8WbPhz3Vn/YbeaP4f2M5TLXw1PqVVxfaYF3hGSJ5mQ5ZFffW
-         ZN/ipSw6f/MS4FwRBnwrj50rT5jQ3yRguwfcn95S/2sq2SvZAS2sh5LpofaGelpSMWTc
-         SiMF7jflPt8wTTu+n+5qZ3Rr6EgjkwOVud1VBtSLNkkHQCVJvt90+HV6PcdM8Nw4/OoZ
-         86PkasVmTSl35ggrRRsqUHsO7LzWvJW/BeWxy67Zzn7urcENZ1sFchctkeetnK9eoSIt
-         Q4J2ag/kV29xpUiyxZzriTRMRk/QM2MdNyA3LmS1Yf3ZLZB4srq1k7BgSZQItNSTaZgV
-         LOHw==
-X-Forwarded-Encrypted: i=1; AJvYcCWc0ynmRSeTtNeOn4HvhYpXAf4htu5ZIksbo1AEPW7cT7R8MNkmAQ6WBZP9wjoRH1VVR3YF/IuUmqvyRg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyuVm6RcDe44G9Qmpe+ZgHx10u+X6G9BkLJv4mgECI7tilvxGaf
-	3gMju+YU9os2W5hqE0VLzepxy2DRkdjW8rkcGboneQhlG+trCpESfs0qzeAhkckbK8SeFTm0Dhj
-	nebdJW/ifSA==
-X-Gm-Gg: ASbGnctHkJD23ORuQ74ArLYX4TN2q5pYjKiM/zDjG9BGS89QGvUmhyibOFZwF29+mAW
-	A1kv6FbMNKEOAdB/rcfKQeS+/VeRjMQL67Y/zqQ//7GTPHDlEOT4NgI71hoVtPxrOWSd03ce69v
-	3N6NUpu43WXvp/IKnfARHSQZ2a2yYTdzx0jPCjP3km2D420Ws2HcoJUFCgOyatrHmPbBrl3uYvT
-	etqkoVjgOJaCu/saEARwlMX8Frh0pyJIKuCzZUBYE9JBKIKtZEnwyeGujRnMReZLTM+CeVDAzZz
-	Cmrsz2eEIUPQ/lxMbWn4cY0crRJGwL6IO9imXB84NAkTXo3U8amZGkTuxIkcbTjOG03Thb0Sn/c
-	PzarEVUab42KWlIGIUADosNEmGQwNb/3GGxMkHRI5nzwarZKxMwtkyeWfjEaxRSMUu+h+rr/dUK
-	lsxMcDhZDZ9egOHoMj
-X-Google-Smtp-Source: AGHT+IGSn6lWVFdXMF2O7+16BxyboE+vLKmTO8u+vsDg8rBpHj7vHOjDlUdUHZhhn3mvBIHkM4SR0A==
-X-Received: by 2002:a05:6214:f01:b0:882:4987:367 with SMTP id 6a1803df08f44-8847c546402mr35659826d6.65.1763748458256;
-        Fri, 21 Nov 2025 10:07:38 -0800 (PST)
-Received: from ?IPv6:2606:6d00:17:7b4b::5ac? ([2606:6d00:17:7b4b::5ac])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8846e599ac9sm44053446d6.49.2025.11.21.10.07.36
+        d=1e100.net; s=20230601; t=1763750592; x=1764355392;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TCQqezv9F4PsyHydEuHSiF1YdJ/kZjlRcuYc6n7FZhM=;
+        b=AeOZmE5p2oY1EuBprctVMOxGLFTs52hK4cjmIV/sWmvJQaS733Tk6E1egS2FQqWIhd
+         SgiqmT4oV6FM6UKy9gvgzVjpqS0sN7axsPI/oHcW5LACEyGb27QsZWSvd+CwztTHgm25
+         eT9CfAI8zP2iNjU9fuFDPoLAUqbtjV3hcg7tUwLNwBDRdTpKNrGc1NY9Ey+MuQqcA+IO
+         fufkfK7ebSI2dG6asp4v8SDZ6Djoa8704Nrd1A15ZipoPphN3+2pfSMxdY4It/hdJvvq
+         E9yZeZya78pRkitbLkNglnpYTq53Uuqoa2A6bjyUpoR/55WtvcztPqUYj+xHCMfKyhyP
+         jt8w==
+X-Gm-Message-State: AOJu0YxYKLVUXkfixU3y+ELXHgKb21v584FYKgNdY2hKaOJnQ8LO5YuS
+	OlGk0e7HO7jS2NLEyj8zq3tPmmVZRnIxq8DKs/aH/E+AVGdaU0Amow48rKiAIUISyPjUqsHwOtl
+	5yFDF+mLsUNN4x39Zimszk51B91LWi/dDq5wyjdLo00Svr42I7tbGei0hhVoOkeBc3g==
+X-Gm-Gg: ASbGncseYxAfiOFZ388YMiqatsPeFBlrB04tub2qObgEYDxfkbBBSnQUFAfuaLJIx0A
+	29pRqGjblnyIyiMQLTqg+LO2o66lXIFe/6CwZHMyOssW3YCtzx5usiCgSv4nC+FhGoA1rN2NYue
+	gBP/37YKV+/mKx8HMi1TCa+6y0ueAzR69SYlVIlyO+ktN/gz8dgX5088fYH4PjFONgaF+HALTeJ
+	Pv0aTbs6DxwRjFJWmGYQEwltTP/2E2qWVWVUuEFt4FHg6BgNo4goYJZcq2b/tkRE8mSVtJiDXKX
+	Ekp/cFuchj2LqDVPKV8NILCoo1uqL6vY1b7xdU7daVjx4DwOsg5lE01YliQK3P94HAezKgGSuiY
+	2zWryalP59c0iJbzs3JqY6Be2Zwb7zzM/um1tUGmcDdIYjcjMo02iM84xeTcwEuM=
+X-Received: by 2002:a05:620a:2956:b0:8b1:59d9:f1e5 with SMTP id af79cd13be357-8b33d240e97mr407002785a.30.1763750591716;
+        Fri, 21 Nov 2025 10:43:11 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEAQaU6RSZ63cI0wyAQMIR4HL2N3pba/c7Do82t7bAU993xQMYjzhYa/gVdqjPlhnnE0t3zXg==
+X-Received: by 2002:a05:620a:2956:b0:8b1:59d9:f1e5 with SMTP id af79cd13be357-8b33d240e97mr406999885a.30.1763750591369;
+        Fri, 21 Nov 2025 10:43:11 -0800 (PST)
+Received: from trex.. (125.red-79-144-189.dynamicip.rima-tde.net. [79.144.189.125])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477bf3af0ecsm55118545e9.9.2025.11.21.10.43.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Nov 2025 10:07:37 -0800 (PST)
-Message-ID: <11354064b251d01f8a0f8974c451c91d515be1a4.camel@ndufresne.ca>
-Subject: Re: [PATCH 1/2] pmdomain: imx8m-blk-ctrl: Remove separate rst and
- clk mask for 8mq vpu
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: ming.qian@oss.nxp.com, linux-media@vger.kernel.org
-Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl, 
-	benjamin.gaignard@collabora.com, p.zabel@pengutronix.de, 
-	sebastian.fricke@collabora.com, shawnguo@kernel.org,
- ulf.hansson@linaro.org, 	s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, 	linux-imx@nxp.com, l.stach@pengutronix.de,
- peng.fan@nxp.com, eagle.zhou@nxp.com, 	imx@lists.linux.dev,
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org
-Date: Fri, 21 Nov 2025 13:07:35 -0500
-In-Reply-To: <20251121081911.1682-1-ming.qian@oss.nxp.com>
-References: <20251121081911.1682-1-ming.qian@oss.nxp.com>
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-CGluF/KiYEHV7bilRPFN"
-User-Agent: Evolution 3.58.1 (3.58.1-1.fc43) 
+        Fri, 21 Nov 2025 10:43:10 -0800 (PST)
+From: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
+To: jorge.ramirez@oss.qualcomm.com, vikash.garodia@oss.qualcomm.com,
+        dikshita.agarwal@oss.qualcomm.com, bod@kernel.org, mchehab@kernel.org
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] media: venus: assign unique bus_info strings for encoder and decoder
+Date: Fri, 21 Nov 2025 19:43:01 +0100
+Message-ID: <20251121184306.218169-1-jorge.ramirez@oss.qualcomm.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTIxMDE0MSBTYWx0ZWRfX6PilYB1AmJOD
+ Ctx5YHQ3/tfGdLjy1oE+x2qbtzBPndcR845LvuVLfyIgjDmPej5OoF6zNCTJguHoYyUQ+NGIqBr
+ lD+uII12ZssoQ16cbpWmfNH5jD9z43gWa+racZPPDfmy5gPOHjx04Gd/dI0L1alK20WCtwH0RTw
+ tpbfAl0JW5aHHrs7B8jEBd2g5Z4QbQbSiUuYEJpQh5BEeBzWjnicssEKG9Oy0n4pbtP8wiao1Sm
+ EDyfVhnRQiXWgjCCksfHRnMtSMI2Rj810yyiIeJVADSMPYtnDDdqaEhRDnCotI6MuUx9cD7Z47j
+ vPrugIAJWUfaZ+f/m3lLK3rM7zwRlylujCbNvlYPos2RT1GdvWp9/OHduu1hpanD1pTSSzfponj
+ uWAGyvgDERUJf2Xm5EbfMqXUKeUFbw==
+X-Proofpoint-GUID: 0X316vurIPyYaeeJnWDNmn9DnCZ9f-hu
+X-Authority-Analysis: v=2.4 cv=AubjHe9P c=1 sm=1 tr=0 ts=6920b2c0 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=QCpOfKHlYVe8AePir1+hrw==:17
+ a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=EUspDBNiAAAA:8 a=owfriIHii3yi9sGd5oQA:9 a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-ORIG-GUID: 0X316vurIPyYaeeJnWDNmn9DnCZ9f-hu
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-21_05,2025-11-21_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 clxscore=1015 phishscore=0 lowpriorityscore=0 malwarescore=0
+ adultscore=0 spamscore=0 bulkscore=0 priorityscore=1501 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511210141
 
+The Venus encoder and decoder video devices currently report the same
+bus_info string ("platform:qcom-venus").
 
---=-CGluF/KiYEHV7bilRPFN
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Assign unique bus_info identifiers by appending ":dec" and ":enc" to the
+parent device name. With this change v4l2-ctl will display two separate
+logical devices
 
-Hi Ming,
+Signed-off-by: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
+---
+ drivers/media/platform/qcom/venus/vdec.c | 5 +++++
+ drivers/media/platform/qcom/venus/venc.c | 5 +++++
+ 2 files changed, 10 insertions(+)
 
-thanks a lot for working on this.
+diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+index 4a6641fdffcf..63f6ae1ff6ac 100644
+--- a/drivers/media/platform/qcom/venus/vdec.c
++++ b/drivers/media/platform/qcom/venus/vdec.c
+@@ -433,9 +433,14 @@ vdec_g_selection(struct file *file, void *fh, struct v4l2_selection *s)
+ static int
+ vdec_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
+ {
++	struct venus_inst *inst = to_inst(file);
++	struct venus_core *core = inst->core;
++
+ 	strscpy(cap->driver, "qcom-venus", sizeof(cap->driver));
+ 	strscpy(cap->card, "Qualcomm Venus video decoder", sizeof(cap->card));
+ 	strscpy(cap->bus_info, "platform:qcom-venus", sizeof(cap->bus_info));
++	snprintf(cap->bus_info, sizeof(cap->bus_info),
++		 "platform:%s:dec", dev_name(core->dev));
+ 
+ 	return 0;
+ }
+diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+index b478b982a80d..520689f5533d 100644
+--- a/drivers/media/platform/qcom/venus/venc.c
++++ b/drivers/media/platform/qcom/venus/venc.c
+@@ -144,9 +144,14 @@ static int venc_v4l2_to_hfi(int id, int value)
+ static int
+ venc_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
+ {
++	struct venus_inst *inst = to_inst(file);
++	struct venus_core *core = inst->core;
++
+ 	strscpy(cap->driver, "qcom-venus", sizeof(cap->driver));
+ 	strscpy(cap->card, "Qualcomm Venus video encoder", sizeof(cap->card));
+ 	strscpy(cap->bus_info, "platform:qcom-venus", sizeof(cap->bus_info));
++	snprintf(cap->bus_info, sizeof(cap->bus_info),
++		 "platform:%s:enc", dev_name(core->dev));
+ 
+ 	return 0;
+ }
+-- 
+2.43.0
 
-Le vendredi 21 novembre 2025 =C3=A0 16:19 +0800, ming.qian@oss.nxp.com a =
-=C3=A9crit=C2=A0:
-> From: Ming Qian <ming.qian@oss.nxp.com>
->=20
-> The ADB in the VPUMIX domain has no separate reset and clock
-> enable bits, but is ungated and reset together with the VPUs.
-> So we can't reset G1 or G2 separately, it may led to the system hang.
-> Remove rst_mask and clk_mask of imx8mq_vpu_blk_ctl_domain_data.
-> Let imx8mq_vpu_power_notifier() do really vpu reset.
->=20
-> Fixes: 608d7c325e85 ("soc: imx: imx8m-blk-ctrl: add i.MX8MQ VPU blk-ctrl"=
-)
-> Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
-> ---
-> =C2=A0drivers/pmdomain/imx/imx8m-blk-ctrl.c | 4 ----
-> =C2=A01 file changed, 4 deletions(-)
->=20
-> diff --git a/drivers/pmdomain/imx/imx8m-blk-ctrl.c b/drivers/pmdomain/imx=
-/imx8m-blk-ctrl.c
-> index 5c83e5599f1e..1f07ff041295 100644
-> --- a/drivers/pmdomain/imx/imx8m-blk-ctrl.c
-> +++ b/drivers/pmdomain/imx/imx8m-blk-ctrl.c
-> @@ -852,16 +852,12 @@ static const struct imx8m_blk_ctrl_domain_data imx8=
-mq_vpu_blk_ctl_domain_data[]
-> =C2=A0		.clk_names =3D (const char *[]){ "g1", },
-> =C2=A0		.num_clks =3D 1,
-> =C2=A0		.gpc_name =3D "g1",
-> -		.rst_mask =3D BIT(1),
-> -		.clk_mask =3D BIT(1),
-> =C2=A0	},
-> =C2=A0	[IMX8MQ_VPUBLK_PD_G2] =3D {
-> =C2=A0		.name =3D "vpublk-g2",
-> =C2=A0		.clk_names =3D (const char *[]){ "g2", },
-> =C2=A0		.num_clks =3D 1,
-> =C2=A0		.gpc_name =3D "g2",
-> -		.rst_mask =3D BIT(0),
-> -		.clk_mask =3D BIT(0),
-> =C2=A0	},
-
-That was also our impression, but we could not get information about this H=
-W.
-One question here, how do we ensure that we don't reset twice on power on ?
-
-Nicolas
-
-> =C2=A0};
-> =C2=A0
-
---=-CGluF/KiYEHV7bilRPFN
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaSCqZwAKCRDZQZRRKWBy
-9A6ZAP90EgdxFgS1MNEpip8ViNpAOQ1t5ODnf13yvBhSJ87yTwD/W2WHO1JhMsym
-rs/FdLqAmGCaIVG4rntDh6YMtk3p6gc=
-=VrGj
------END PGP SIGNATURE-----
-
---=-CGluF/KiYEHV7bilRPFN--
 
