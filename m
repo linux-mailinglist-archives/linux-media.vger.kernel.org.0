@@ -1,298 +1,545 @@
-Return-Path: <linux-media+bounces-47554-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47555-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA2D2C77E5E
-	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 09:27:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46A17C77E6A
+	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 09:28:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id DE9CC4EB3DF
-	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 08:23:02 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2998B4EB130
+	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 08:23:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01EE233D6CD;
-	Fri, 21 Nov 2025 08:20:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9788333D6F1;
+	Fri, 21 Nov 2025 08:21:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="TZV6ap8X"
+	dkim=pass (2048-bit key) header.d=kerneltoast.com header.i=@kerneltoast.com header.b="e8ujhrig"
 X-Original-To: linux-media@vger.kernel.org
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013017.outbound.protection.outlook.com [40.107.159.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0539033C50E;
-	Fri, 21 Nov 2025 08:20:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.17
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763713252; cv=fail; b=Nq/QBlfhyvlhADYO4zMVSHL7DqqiBOOtJvys2kkKSubdCkBdKlJbrV/SOIBwRvLRDJWUsk6wdsMQScqe8D3kIRoyYF71zpW75gS1vATrzY0lBGYOPKm2M3mt0TLv0F89OUjC+ZzZFDBDEY+U467Uj4bEHBMDuAUMFF5AovNaymo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763713252; c=relaxed/simple;
-	bh=DK4FNyl6zxzbVLC99CJAVXX3yVMCulDj4+YPivZ39CQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=DMxCowjJspWEGJMSNobnQHnz6Mv24ULmrGRvG9vCkeHUTtXMkJGzcIIvpIVd2JDqA3dJsUgyzX6IQNMOrRHZG4qL1Mx51+sTe0tgYiKhjmoAIp8qWBOQX2KVTEDxXeEO5Yk2GI/yHVKCRJWpgse4UaDsuQPfnm+zB/4r9ppp/D8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=TZV6ap8X; arc=fail smtp.client-ip=40.107.159.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=S3DoGdURsxh7PL4DWxdZtv5j9MDpGoT8nai3k0JkiyIGYwpqCcXOGmnJDqZxvUhFnjCyN/U0qMHfgg/njnhlCBrbLKmI6vm1E+t7Cib4NqCPlipvhO0p1BifU36QjojdjKA5eQRjGWqQQraYhyN0hY1+BxoVhIkHPmRyGH5W3Uxo+d6/4pQt1Q5nURPODiK0Rpil8RZG9fmqZUhBDa8BZxV0/hE4dN+FhgRbuCUXFlHqEsR/WIZq4o7OS2GKCGFKkSEhfMNnJgKBs6LPgIvPSWy4strd2hbnlLGo5615ct7AF6tsUF0q/Et2jB5toUcmRX/R0whhIKf+Gs/ULCT45Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HAUBncDj0ifdzfKG+Va5lfsRKyaZaQq5VEwqL4YTwTk=;
- b=XjTEH0OVUifaXEn1Ku1Lle/z5u+mX9aOJo4HfMDgh64dx2vicgHoknAwYBa0AuFXGamJPC12GjMosJcSS/6XbKzFY1VqFKAGV8RcEuGsUzLWJggDxNlFR6eBLEL89+BnDpshQD4M58C1U7QWub1h6sJyZfd9EwkHuz5v2wJkBJKx5S+dOSUtNZF6Tjn+zvu/NjzMGaW4InAAL6hawJN98yZfZbvhXp+UEY5TelF7KyBlTnoQbsj10lKbp0Wh2VsrL0J3TARFDSa9wKZALEPglSyaCcSsatNYW5LBEnrSGYfd1yfoQJm0q4AAAzORkGwbQFyIoPA16C+4hrGosLW4kQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HAUBncDj0ifdzfKG+Va5lfsRKyaZaQq5VEwqL4YTwTk=;
- b=TZV6ap8XIb3ZQDV3a6Czdyo0uKAPjGtUiEdxB1kFaVLFHL8GuWl19Mh3lf2Uge5mNZUHksrl3w/3r575icq89SMgqgb2l45FmmyKijae1rJoTvEiomlq5uApfeD2Gf8Xmu5XxMtvT1if45aHa6I/Ofts9MyECAeeiFbM31KS5juIhdZJyrKLKt7K9YqeMGWbIRlPOhaqAyPWxBuk9NvTfYf9kVRBJUrKjXIG1OOUbT6b2f2+3in+gIHt2qplVN0wyPiZkSiMWsEpirQsAnUhxMSnhtHFaMJxjAXxNsQiiyFncpAjpafKNAqGmndLikW1+G4ePDGhK6rtZkf5zbWYuw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB8254.eurprd04.prod.outlook.com (2603:10a6:102:1cd::24)
- by GVXPR04MB10405.eurprd04.prod.outlook.com (2603:10a6:150:1d8::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.16; Fri, 21 Nov
- 2025 08:20:15 +0000
-Received: from PAXPR04MB8254.eurprd04.prod.outlook.com
- ([fe80::2755:55ac:5d6f:4f87]) by PAXPR04MB8254.eurprd04.prod.outlook.com
- ([fe80::2755:55ac:5d6f:4f87%4]) with mapi id 15.20.9343.011; Fri, 21 Nov 2025
- 08:20:15 +0000
-From: ming.qian@oss.nxp.com
-To: linux-media@vger.kernel.org
-Cc: mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl,
-	nicolas@ndufresne.ca,
-	benjamin.gaignard@collabora.com,
-	p.zabel@pengutronix.de,
-	sebastian.fricke@collabora.com,
-	shawnguo@kernel.org,
-	ulf.hansson@linaro.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	festevam@gmail.com,
-	linux-imx@nxp.com,
-	l.stach@pengutronix.de,
-	peng.fan@nxp.com,
-	eagle.zhou@nxp.com,
-	imx@lists.linux.dev,
-	linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 2/2] media: verisilicon: Avoid G2 bus error while decoding H.264 and HEVC
-Date: Fri, 21 Nov 2025 16:19:09 +0800
-Message-ID: <20251121081911.1682-2-ming.qian@oss.nxp.com>
-X-Mailer: git-send-email 2.48.1.windows.1
-In-Reply-To: <20251121081911.1682-1-ming.qian@oss.nxp.com>
-References: <20251121081911.1682-1-ming.qian@oss.nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI1PR02CA0008.apcprd02.prod.outlook.com
- (2603:1096:4:1f7::14) To PAXPR04MB8254.eurprd04.prod.outlook.com
- (2603:10a6:102:1cd::24)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 011C133C50E
+	for <linux-media@vger.kernel.org>; Fri, 21 Nov 2025 08:21:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763713281; cv=none; b=MM8f463Pj1Kfao8/XK7FuxrhF8znz9R+aeiII3lMehH5F4P1OcxPXcrYQ3rTlDMBrO2LCZQx7D5lyJRgDQBaeSa30CMNHtB8x5g+qhKI2jyGYTXUmrVYSucVlVNTUA+eCeTOH0WriG8IhN+EkXUx9tejIvvt6jGyv0LSFKKh4Cc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763713281; c=relaxed/simple;
+	bh=zPcRlaq3iW7F6++Xt72M3Mzb0aBL3LYG8ICc4ex+5lo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LW1upvqbTybjrYQI8Uw06YtCrOCijGpqPctolo4uzccp4yx3VqD1hSgzUZoZy7nZHCBeF8Zsy4o+pn3YSQD6nXUNDNQm5zX8iMV5OEHUC3blz6iHoLbEV0m1lkVWQkv0kT/jASaeHqHrDw+XzhFZuhapKIDzMEa0kT3QPj+5k2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kerneltoast.com; spf=pass smtp.mailfrom=kerneltoast.com; dkim=pass (2048-bit key) header.d=kerneltoast.com header.i=@kerneltoast.com header.b=e8ujhrig; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kerneltoast.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kerneltoast.com
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-bc0e89640b9so1102243a12.1
+        for <linux-media@vger.kernel.org>; Fri, 21 Nov 2025 00:21:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kerneltoast.com; s=google; t=1763713278; x=1764318078; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=RoCVjTMnMCI+KtEkU4Ta+WRnXwNYyveMj2zXSECKCB0=;
+        b=e8ujhrig2fye9JKnwf9MrLtDrHaojfcg5p2DoCUHEGb770QdsPbL7rqrk/J8w44mnv
+         rQ5to0oRNp+iCCkO6MsA7PFt0UtfWMsXuKsB0WNkbaPmNXOthqwNj+A1XT3Y0/Nh8r26
+         YWeDJRBxbVMt+QJt9CicVwwiKtfhBWUU6WvISBtnyNjoT7bv2moyX5pmzVi0XVGlY+A0
+         5tVrI30P1MLJ3VOx+zxrwfELYphGiClTWuHXQyt3NRpz9GxT3tEtiIHPKtsjw3b/C5dQ
+         6bXvluBdD9Bud6g8lQOKaXTsTzTcMtD5XSMVy38lPt8Ana1GytLP4anVFdBm0YkS3MH6
+         oD+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763713278; x=1764318078;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RoCVjTMnMCI+KtEkU4Ta+WRnXwNYyveMj2zXSECKCB0=;
+        b=tMSjZSLBTU5Ek3uTlXRaxelmrjBP0/nUkjge7HGMxQMmJCTRdyUm1jOAvOL6OrWVzY
+         CDUNqTpahYj8eg7yi7Du5Jo3Y4OPjWNa9tuYynjKLNKcK0HZ98H2KEs1Sk+eOI2dOyPJ
+         KGvW1AKclKFo2GDzemjQnLUpA5Y4HpQkL3RFrQa+2Mlor9JFgehrFli0aStQFJUqYEjw
+         e9jpUR8uiDQu689fgEMXiWQVbwYteXG1mPuEVepzT+2R3/B7F/veR7dzWUbA3H0QYLPR
+         xgUYFF6GuP7zWBN5d6HU/+WnwR6qdbo3FWGJAzT9aBsurd8De2eC382jB4AGMkTtqtPh
+         +zRg==
+X-Forwarded-Encrypted: i=1; AJvYcCVEC0/8P7y3BqaJKrDdgwo5D3uHeNX4g78Jtt9xKnTf+xhuK/6DD6LiQskB8FKem2T9mjlgWyrUAlSKSQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx7KZXw9doy40zKuppOnjlrYNdGJ2O8bOuRZwfpRphsWLON9OhD
+	OricAPJ4voAPxLpU+XZ2pjy4C328jGmkUEdVJjlM60WeTfQWXSk+TevtW1VH0GZ6/vxI
+X-Gm-Gg: ASbGncteaZwGHt2m/IXeThO2LfxTSkfu4/TYy2jKNXyIPBPq9JR9Kh/FuCX0/HwkJGH
+	1MXca7+QitsAFoeuGPGIav9IAk+XIBjPtTyjuFUZEXUAkdS4r09ffY/1mlnzBXgQmDv3EtP0H9i
+	Xn5PrcrGW1csIBghhBwo3vOGJrn96Y0hGhzw0n/tQ0zBi6Wbr4b5muymQnxa6f8kOQouHQPJX+o
+	8ve5Tvs1x/tDDgO0sWBVScf2GWcuXYOvoMtbhuEcUEPDY4bWftAvdfqW4VHJhnGAERFpBgjq2+t
+	AN+DJf2RHHG1QO5raWVWU1tSOHmv2LVcst+zV8cMKaS/89+/BwrTYPZoEeEtsUSuR7SfQw57K0c
+	uc6l3KVO5w4mBpAlbHOdWplPkPNIc24u5B0Hg23rp1GiFfZ7cbGTxBnvuMjdAasYR4lfD2TbCQv
+	tMpwVkD18aQAw1z6saYSWWx1WQ
+X-Google-Smtp-Source: AGHT+IEmU1uftVK/dUv/YQAOeXKyl4K+pGHTBZaHWOqgmo6MRRqtcxURNZqNWQjkwpgR1w1UySLNBw==
+X-Received: by 2002:a05:7022:6628:b0:11b:82b8:40ae with SMTP id a92af1059eb24-11c9d712b45mr504723c88.18.1763713277683;
+        Fri, 21 Nov 2025 00:21:17 -0800 (PST)
+Received: from sultan-box ([142.147.89.233])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11c93de6d5csm14134043c88.4.2025.11.21.00.21.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Nov 2025 00:21:17 -0800 (PST)
+Date: Fri, 21 Nov 2025 00:20:36 -0800
+From: Sultan Alsawaf <sultan@kerneltoast.com>
+To: "Du, Bin" <bin.du@amd.com>
+Cc: mchehab@kernel.org, hverkuil@xs4all.nl,
+	laurent.pinchart+renesas@ideasonboard.com,
+	bryan.odonoghue@linaro.org, sakari.ailus@linux.intel.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
+	gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com,
+	Dominic.Antony@amd.com, mario.limonciello@amd.com,
+	richard.gong@amd.com, anson.tsao@amd.com
+Subject: Re: [PATCH v5 0/7] Add AMD ISP4 driver
+Message-ID: <aSAg1MUVZtDlCC96@sultan-box>
+References: <aRL8ZPwXSeKD4Qmn@sultan-box>
+ <e09207fd-1879-44c8-a5c1-838a140dcd4b@amd.com>
+ <aRPH1hV7bEfagPtE@sultan-box>
+ <aRPhMCwJjpMqAROG@sultan-box>
+ <d9afc6db-fd8a-4069-a8a8-1e2d74c1db3a@amd.com>
+ <aRQyAdyiQjhsC11h@sultan-box>
+ <aRQ5aA4Gus4iCVLp@sultan-box>
+ <591efd28-805a-4a13-b7e2-0f78a3ca3eac@amd.com>
+ <aRwhuNmPRlPGxIia@sultan-box>
+ <8288a5b3-6e56-4c9a-a772-99ca36bb7c52@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8254:EE_|GVXPR04MB10405:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8fc9eac2-2bfc-4847-5595-08de28d6cc3a
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|376014|7416014|366016|1800799024|19092799006|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?FeteNeGGkgmIZg6eNOLzlHa2DAGhUt0YnEVQdI+rACdd49OLciEW11fPGE1K?=
- =?us-ascii?Q?MP+hbvgvHTxYRJhnKAn5amH4l6EBn97AXSu2Tj1+YWyHVV4NHAvpAsO25Pot?=
- =?us-ascii?Q?SAke38F84AjllOyO6a21IuAD/as7QpjcmEM65sCsR/6+yuiDTS+2tPOpji0m?=
- =?us-ascii?Q?ZcjAoqCsBnZwJrH6KTjnHfq3uxG0APSe9f5iMjrwGY3Lw4FbQnBnT909wjkX?=
- =?us-ascii?Q?IArklm2ZOQjr5Wd9+5wrUx90HH7qYyL+C8SGJfiEOqqZSzYF/fMWSJFYNRCV?=
- =?us-ascii?Q?Owgu44nRBkEWE/oFLtTD7mBI1Qt6IBzAqAFUkImt4P5J6VtNGa7M86QRddNG?=
- =?us-ascii?Q?5bqc0aWIllgVErQK2hhizJRYrhPYQ3hH1oc6wEKNOpIvJJUPM+/wG1o0lFSQ?=
- =?us-ascii?Q?/ckxDytiHHotkCKC6bci3MzA6hZBxiX4K1skQinuIPN0UnnmvAHs2TeyT0PB?=
- =?us-ascii?Q?DW2rRF+8XYVoR9K0deke3qs9bbEacfxyfw3TnfDha4La3vOQTJFPdA9QI8M8?=
- =?us-ascii?Q?worX4MIvvIbyBVounuduOPiT50jOsdwVHyj16IsIjye0lapbX06jw0mPgSYW?=
- =?us-ascii?Q?a6rtY8XztF5cfHFf3X8QKQuVvGf0V1Ua77NptjQpmcBaNjzVPus1dIN4OBZD?=
- =?us-ascii?Q?XP9MWlp78i7cpaz+Q2WugEJpaTaf9ai4lNxSxDvdTYGmFcbhQJu4/fTflQCj?=
- =?us-ascii?Q?8owSO7ApKJVf2/pH9HdnW5/MSh9KL3shKpURgnGSqUjNFknM1/jG++hCri9Q?=
- =?us-ascii?Q?n6tEe4Y3yrMiWxkd6HlVohlTM1jF/bmCdtfnPmNgbFlAlbfg5l3c08jJNmeu?=
- =?us-ascii?Q?egN9K5mP65tD5isQ49/8U2K8VG1sCmjaRe352XLexbrwcqWm86L0bj/IrFuN?=
- =?us-ascii?Q?5NSLNNxiMXyQRsoOcaFVNkSkmz7DIpZHuM9wS28OZFanNa4wd89COVRT5sAs?=
- =?us-ascii?Q?5dVd66/dCxbcmt+cVtPdGwGU9/2K5tOW2Ct0IGmLPpo5KYcS0OLff+FvjqEo?=
- =?us-ascii?Q?cjBddUyLvEq+3IkY/R3rEmk0cvuDKVM+lx5uq3XhcW2m+fUUWVy5WzyyG4Ve?=
- =?us-ascii?Q?4VxOc2p/kXiNmAkFTLOC0uzFxQdbw/MsdogWt1vuE/s0Xpwokd1xLRxW+Ijc?=
- =?us-ascii?Q?6vLJVBI0t+rqcXEXXtqn3d8fetawE3xzW23tp5Alk+DSkITCErE4yZSfe66B?=
- =?us-ascii?Q?koL6sldPMjjLhYaV5NHT87zhBXJ3kuqT945OLoReQyw36wAvHOs0r1fI6tBn?=
- =?us-ascii?Q?4pTyRp1bVoAFEmoNteuZSegnSE+lDnciZSE/SfiLNJg7V4LLlyCj7teKvlS7?=
- =?us-ascii?Q?IbSDqL88c3pgLP3hEErX+85ZqLOD4mPfp4TeSL0E52in2LOP06lTQSY+7106?=
- =?us-ascii?Q?OGGF9bzpT4mdcCd0/pFs2L9xepRe/YeMSZkUoaxIzS9ogcn8ZRszYivI32Dq?=
- =?us-ascii?Q?kdZLUuHMw7jgV9QoC5G99Ku6ehFGdXYmCNz+aMX0ORlabuWNwZ3/LWkfOOBm?=
- =?us-ascii?Q?ioAPd1z+juOHCvYenBt4jaZ8qtmDBH3peUN3?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8254.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(7416014)(366016)(1800799024)(19092799006)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?SzJXKJPRjFTJ8L2uxOhXhbnB3ilmS8ry8J7Ly5+PberZf2QKCTdO10Umqxar?=
- =?us-ascii?Q?eO3eJCm0H4uhOMnj5n+Z2CGIzin6DoPDH+JQKFdRuL/eE1ruTPndSutUKtyh?=
- =?us-ascii?Q?qQc7CSysk0zHM5gAbkX1CO3YPlB0Oi4m8z71eZbgVq0a7dC0A3ONEyCo3//g?=
- =?us-ascii?Q?8TthteixobEPl8If0MfrOGkAeE0w35gOy82LxoiyXUuxo9OYk56ZeO+eVLp6?=
- =?us-ascii?Q?NZIwd52NqdrFcTIfTPBBNHjhhQaNaNUeChNqXEuOHi9O3nJo+yj4Ykz0G6lj?=
- =?us-ascii?Q?hDJ2Z9nOdGgiASP8HTmY/ZvwZAT6SL3h4phl6a9vR/r+dpqqO03EiuHcQcgI?=
- =?us-ascii?Q?nAGvLoXKcMwZhxFpzqjrEQx+YtQvVCdDNTfVinEn85GwmrfDmvGHxp+zaa56?=
- =?us-ascii?Q?ByFi7gRxTqHOcq219vNGsCpSf1qOsG7vSxxowrqEmzJvR+XX29aPP66MO7LF?=
- =?us-ascii?Q?Dgtnfj+tN3Qdgtdcxt4UhAZivsBwsBaEzxIL9a+WIfCm6EnAuGBz1je8rBTc?=
- =?us-ascii?Q?NmX6L3rLJ4SWEBGFElFK+mkp+yznEyghNsMEMWswhkgvGXvIhXnsZ1EmLZco?=
- =?us-ascii?Q?RCO4567Xs6PTscTBNTJvZZWFopi2fepFkgRoobcHcR0kdQXbIbrCXRJblNCr?=
- =?us-ascii?Q?/1ZrvlNTo+DBxONm9hF0UM+50cBDvEGyA5nTjGm2dNYNEDpJwDl4qnqxoa2P?=
- =?us-ascii?Q?Z7BMPgGJuiZ+n+Oc/jLV64ODIhut6aBsOw4YpR+RauHuxxBv8RTYfQt0YH5Z?=
- =?us-ascii?Q?kkBQPQM5cVLF8Lj3ecHnE4SywfadaVOTLPA4X6RcLAto7i+LitUMsIwGlgy2?=
- =?us-ascii?Q?0x7NI65Z8TOyzquO4T9qd4S4g6vCeAl0Crhce9A92nRsbu/0vUZqThBUU1Fo?=
- =?us-ascii?Q?7vz8P+2FU5PA4IGu186v2ryFNzmfcRhpXhwLHd+woSnzMOAixxSYEeij78Am?=
- =?us-ascii?Q?fXWuXgfPQV9pd2qCUaaZtdYHpyWbMW+qfKR0f3ukEQ1uCTZnA8WQ2dtk9nqh?=
- =?us-ascii?Q?zPjG1kvLkmzT2Wb1tRkU5e1/UT9+V5i55viZM34Dszbh4Ua0HsRipTiCPcZ8?=
- =?us-ascii?Q?zcitVaK6r0857wDp+bBEnW7We8j5b27GMjhgwvUfCXkGBC1jApwIp0nYwW0l?=
- =?us-ascii?Q?poUF8J1gTtJSm1kB/xGemj9DiDWWNONxcr9+fom51Fm7ejuhiYp2TJauP4OS?=
- =?us-ascii?Q?A0YLQX9dQYCrKQbqVbxC5EqIj6fgWcYfNlQJO8FxERTlATwM4o6hBttufw5r?=
- =?us-ascii?Q?IJpOcqRRbE73HYxbmxYA79ZZ38qfltqbjmo1rgRogU7NibLnT+KGjclFj9Rt?=
- =?us-ascii?Q?6ureRPxH/1pya5j/0C8YE7KrKMzUgqJlYYEhR/5taInbOberqk/YmVyESIkh?=
- =?us-ascii?Q?xnMaUx9h6pB92C0rFsjclcotqvHUjyTDq1zRGkgMA0PTjtQItfe2Pq6wxwQO?=
- =?us-ascii?Q?7UyzUEm/Sc1rEHqtC4c4+rOsFyr+B1SWNiHSSXiYyrsTNTNpmA9/hx+CfVmd?=
- =?us-ascii?Q?FOf2d50pYtK8fr1RSbpqJpdfYAzTmYFY6cZKu2CNjLLffuhQakjWQGZCIA3S?=
- =?us-ascii?Q?xA2HlAs1ZKjQfsVQO62q5tIqkq8xmXTCadG9QZUG?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8fc9eac2-2bfc-4847-5595-08de28d6cc3a
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8254.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2025 08:20:15.0933
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pYxFouBC7c8R2yybTPqTaodKIuKK70+jdafDaqqM2mkIMhoHemqbm2UpYIlzn9LhBjM14GCFAOsmbZ3DwQ9hxg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB10405
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8288a5b3-6e56-4c9a-a772-99ca36bb7c52@amd.com>
 
-From: Ming Qian <ming.qian@oss.nxp.com>
+On Wed, Nov 19, 2025 at 06:14:17PM +0800, Du, Bin wrote:
+> 
+> 
+> On 11/18/2025 3:35 PM, Sultan Alsawaf wrote:
+> > On Wed, Nov 12, 2025 at 06:21:33PM +0800, Du, Bin wrote:
+> > > 
+> > > 
+> > > On 11/12/2025 3:38 PM, Sultan Alsawaf wrote:
+> > > > On Tue, Nov 11, 2025 at 11:06:41PM -0800, Sultan Alsawaf wrote:
+> > > > > On Wed, Nov 12, 2025 at 02:32:51PM +0800, Du, Bin wrote:
+> > > > > > Thanks Sultan for your information.
+> > > > > > 
+> > > > > > On 11/12/2025 9:21 AM, Sultan Alsawaf wrote:
+> > > > > > > On Tue, Nov 11, 2025 at 03:33:42PM -0800, Sultan Alsawaf wrote:
+> > > > > > > > On Tue, Nov 11, 2025 at 05:58:10PM +0800, Du, Bin wrote:
+> > > > > > > > > 
+> > > > > > > > > On 11/11/2025 5:05 PM, Sultan Alsawaf wrote:
+> > > > > > > > > 
+> > > > > > > > > > On Mon, Nov 10, 2025 at 05:46:28PM +0800, Du, Bin wrote:
+> > > > > > > > > > > Thank you, Sultan, for your time, big effort, and constant support.
+> > > > > > > > > > > Apologies for my delayed reply for being occupied a little with other
+> > > > > > > > > > > matters.
+> > > > > > > > > > > 
+> > > > > > > > > > > On 11/10/2025 4:33 PM, Sultan Alsawaf wrote:
+> > > > > > > > > > > > Hi Bin,
+> > > > > > > > > > > > 
+> > > > > > > > > > > > On Wed, Nov 05, 2025 at 01:25:58AM -0800, Sultan Alsawaf wrote:
+> > > > > > > > > > > > > Hi Bin,
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > To expedite review, I've attached a patch containing a bunch of fixes I've made
+> > > > > > > > > > > > > on top of v5. Most of my changes should be self-explanatory; feel free to ask
+> > > > > > > > > > > > > further about specific changes if you have any questions.
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > I haven't had a chance to review all of the v4 -> v5 changes yet, but I figured
+> > > > > > > > > > > > > I should send what I've got so far.
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > FYI, there is a regression in isp4if_dequeue_buffer() where the bufq lock isn't
+> > > > > > > > > > > > > protecting the list_del() anymore. I also checked the compiler output when using
+> > > > > > > > > > > > > guard() versus scoped_guard() in that function and there is no difference:
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > >        sha1sum:
+> > > > > > > > > > > > >        5652a0306da22ea741d80a9e03a787d0f71758a8  isp4_interface.o // guard()
+> > > > > > > > > > > > >        5652a0306da22ea741d80a9e03a787d0f71758a8  isp4_interface.o // scoped_guard()
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > So guard() should be used there again, which I've done in my patch.
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > I also have a few questions:
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > 1. Does ISP FW provide a register interface to disable the IRQ? If so, it is
+> > > > > > > > > > > > >         faster to use that than using disable_irq_nosync() to disable the IRQ from
+> > > > > > > > > > > > >         the CPU's side.
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > 2. When the IRQ is re-enabled in isp4sd_fw_resp_func(), is there anything
+> > > > > > > > > > > > >         beforehand to mask all pending interrupts from the ISP so that there isn't a
+> > > > > > > > > > > > >         bunch of stale interrupts firing as soon the IRQ is re-enabled?
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > 3. Is there any risk of deadlock due to the stream kthread racing with the ISP
+> > > > > > > > > > > > >         when the ISP posts a new response _after_ the kthread determines there are no
+> > > > > > > > > > > > >         more new responses but _before_ the enable_irq() in isp4sd_fw_resp_func()?
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > 4. Why are some lines much longer than before? It seems inconsistent that now
+> > > > > > > > > > > > >         there is a mix of several lines wrapped to 80 cols and many lines going
+> > > > > > > > > > > > >         beyond 80 cols. And there are multiple places where code is wrapped before
+> > > > > > > > > > > > >         reaching 80 cols even with lots of room left, specifically for cases where it
+> > > > > > > > > > > > >         wouldn't hurt readability to put more characters onto each line.
+> > > > > > > > > > > > 
+> > > > > > > > > > > > I've attached a new, complete patch of changes to apply on top of v5. You may
+> > > > > > > > > > > > ignore the incomplete patch from my previous email and use the new one instead.
+> > > > > > > > > > > > 
+> > > > > > > > > > > > I made many changes and also answered questions 1-3 myself.
+> > > > > > > > > > > > 
+> > > > > > > > > > > > Please apply this on top of v5 and let me know if you have any questions.
+> > > > > > > > > > > > 
+> > > > > > > > > > > 
+> > > > > > > > > > > Sure, will review, apply and test your patch accordingly. Your contribution
+> > > > > > > > > > > is greatly appreciated, will let you know if there is any question or
+> > > > > > > > > > > problem.
+> > > > > > > > > > > 
+> > > > > > > > > > > > BTW, I noticed a strange regression in v5 even without any of my changes: every
+> > > > > > > > > > > > time you use cheese after using it one time, the video will freeze after 30-60
+> > > > > > > > > > > > seconds with this message printed to dmesg:
+> > > > > > > > > > > >        [ 2032.716559] amd_isp_capture amd_isp_capture: -><- fail respid unknown respid(0x30002)
+> > > > > > > > > > > > 
+> > > > > > > > > > > > And the video never unfreezes. I haven't found the cause for the regression yet;
+> > > > > > > > > > > > can you try to reproduce it?
+> > > > > > > > > > > > 
+> > > > > > > > > > > 
+> > > > > > > > > > > Really weird, we don't see this issue either in dev or QA test. Is it 100%
+> > > > > > > > > > > reproducible and any other fail or err in the log?
+> > > > > > > > > > 
+> > > > > > > > > > Yes, it's 100% reproducible. There's no other message in dmesg, only that one.
+> > > > > > > > > > 
+> > > > > > > > > > Sometimes there is a stop stream error when I close cheese after it froze:
+> > > > > > > > > > 
+> > > > > > > > > >       [  656.540307] amd_isp_capture amd_isp_capture: fail to disable stream
+> > > > > > > > > >       [  657.046633] amd_isp_capture amd_isp_capture: fail to stop steam
+> > > > > > > > > >       [  657.047224] amd_isp_capture amd_isp_capture: disabling streaming failed (-110)
+> > > > > > > > > > 
+> > > > > > > > > > When I revert to v4 I cannot reproduce it at all. It seems to be something in
+> > > > > > > > > > v4 -> v5 that is not fixed by any of my changes.
+> > > > > > > > > > 
+> > > > > > > > > 
+> > > > > > > > > Hi Sultan, could you please try following modifications on top of v5 to see
+> > > > > > > > > if it helps?
+> > > > > > > > > 
+> > > > > > > > > diff --git a/drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h
+> > > > > > > > > b/drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h
+> > > > > > > > > index 39c2265121f9..d571b3873edb 100644
+> > > > > > > > > --- a/drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h
+> > > > > > > > > +++ b/drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h
+> > > > > > > > > @@ -97,7 +97,7 @@
+> > > > > > > > > 
+> > > > > > > > > #define ADDR_SPACE_TYPE_GPU_VA          4
+> > > > > > > > > 
+> > > > > > > > > -#define FW_MEMORY_POOL_SIZE             (200 * 1024 * 1024)
+> > > > > > > > > +#define FW_MEMORY_POOL_SIZE             (100 * 1024 * 1024)
+> > > > > > > > > 
+> > > > > > > > > /*
+> > > > > > > > >      * standard ISP mipicsi=>isp
+> > > > > > > > > diff --git a/drivers/media/platform/amd/isp4/isp4_subdev.c
+> > > > > > > > > b/drivers/media/platform/amd/isp4/isp4_subdev.c
+> > > > > > > > > index 248d10076ae8..acbc80aa709e 100644
+> > > > > > > > > --- a/drivers/media/platform/amd/isp4/isp4_subdev.c
+> > > > > > > > > +++ b/drivers/media/platform/amd/isp4/isp4_subdev.c
+> > > > > > > > > @@ -697,7 +697,7 @@ static int isp4sd_stop_resp_proc_threads(struct
+> > > > > > > > > isp4_subdev *isp_subdev)
+> > > > > > > > >            return 0;
+> > > > > > > > > }
+> > > > > > > > > 
+> > > > > > > > > -static int isp4sd_pwroff_and_deinit(struct isp4_subdev *isp_subdev)
+> > > > > > > > > +static int isp4sd_pwroff_and_deinit(struct isp4_subdev *isp_subdev, bool
+> > > > > > > > > irq_enabled)
+> > > > > > > > > {
+> > > > > > > > >            struct isp4sd_sensor_info *sensor_info = &isp_subdev->sensor_info;
+> > > > > > > > >            unsigned int perf_state = ISP4SD_PERFORMANCE_STATE_LOW;
+> > > > > > > > > @@ -716,8 +716,9 @@ static int isp4sd_pwroff_and_deinit(struct isp4_subdev
+> > > > > > > > > *isp_subdev)
+> > > > > > > > >                    return 0;
+> > > > > > > > >            }
+> > > > > > > > > 
+> > > > > > > > > -       for (int i = 0; i < ISP4SD_MAX_FW_RESP_STREAM_NUM; i++)
+> > > > > > > > > -               disable_irq(isp_subdev->irq[i]);
+> > > > > > > > > +       if (irq_enabled)
+> > > > > > > > > +               for (int i = 0; i < ISP4SD_MAX_FW_RESP_STREAM_NUM; i++)
+> > > > > > > > > +                       disable_irq(isp_subdev->irq[i]);
+> > > > > > > > > 
+> > > > > > > > >            isp4sd_stop_resp_proc_threads(isp_subdev);
+> > > > > > > > >            dev_dbg(dev, "isp_subdev stop resp proc streads suc");
+> > > > > > > > > @@ -813,7 +814,7 @@ static int isp4sd_pwron_and_init(struct isp4_subdev
+> > > > > > > > > *isp_subdev)
+> > > > > > > > > 
+> > > > > > > > >            return 0;
+> > > > > > > > > err_unlock_and_close:
+> > > > > > > > > -       isp4sd_pwroff_and_deinit(isp_subdev);
+> > > > > > > > > +       isp4sd_pwroff_and_deinit(isp_subdev, false);
+> > > > > > > > >            return -EINVAL;
+> > > > > > > > > }
+> > > > > > > > > 
+> > > > > > > > > @@ -985,7 +986,7 @@ static int isp4sd_set_power(struct v4l2_subdev *sd, int
+> > > > > > > > > on)
+> > > > > > > > >            if (on)
+> > > > > > > > >                    return isp4sd_pwron_and_init(isp_subdev);
+> > > > > > > > >            else
+> > > > > > > > > -               return isp4sd_pwroff_and_deinit(isp_subdev);
+> > > > > > > > > +               return isp4sd_pwroff_and_deinit(isp_subdev, true);
+> > > > > > > > > }
+> > > > > > > > > 
+> > > > > > > > > static const struct v4l2_subdev_core_ops isp4sd_core_ops = {
+> > > > > > > > 
+> > > > > > > > No difference sadly; same symptoms as before. FYI, your email client broke the
+> > > > > > > > patch formatting so I couldn't apply it; it hard wrapped some lines to 80 cols,
+> > > > > > > > replaced tabs with spaces, and removed leading spaces on each context line, so I
+> > > > > > > > had to apply it manually. To confirm I applied it correctly, here is my diff:
+> > > > > > > > 
+> > > > > > > > diff --git a/drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h b/drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h
+> > > > > > > > index 39c2265121f9..d571b3873edb 100644
+> > > > > > > > --- a/drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h
+> > > > > > > > +++ b/drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h
+> > > > > > > > @@ -97,7 +97,7 @@
+> > > > > > > >     #define ADDR_SPACE_TYPE_GPU_VA          4
+> > > > > > > > -#define FW_MEMORY_POOL_SIZE             (200 * 1024 * 1024)
+> > > > > > > > +#define FW_MEMORY_POOL_SIZE             (100 * 1024 * 1024)
+> > > > > > > >     /*
+> > > > > > > >      * standard ISP mipicsi=>isp
+> > > > > > > > diff --git a/drivers/media/platform/amd/isp4/isp4_subdev.c b/drivers/media/platform/amd/isp4/isp4_subdev.c
+> > > > > > > > index 4bd2ebf0f694..500ef0af8a41 100644
+> > > > > > > > --- a/drivers/media/platform/amd/isp4/isp4_subdev.c
+> > > > > > > > +++ b/drivers/media/platform/amd/isp4/isp4_subdev.c
+> > > > > > > > @@ -669,7 +669,7 @@ static int isp4sd_stop_resp_proc_threads(struct isp4_subdev *isp_subdev)
+> > > > > > > >     	return 0;
+> > > > > > > >     }
+> > > > > > > > -static int isp4sd_pwroff_and_deinit(struct isp4_subdev *isp_subdev)
+> > > > > > > > +static int isp4sd_pwroff_and_deinit(struct isp4_subdev *isp_subdev, bool irq_enabled)
+> > > > > > > >     {
+> > > > > > > >     	struct isp4sd_sensor_info *sensor_info = &isp_subdev->sensor_info;
+> > > > > > > >     	unsigned int perf_state = ISP4SD_PERFORMANCE_STATE_LOW;
+> > > > > > > > @@ -688,8 +688,9 @@ static int isp4sd_pwroff_and_deinit(struct isp4_subdev *isp_subdev)
+> > > > > > > >     		return 0;
+> > > > > > > >     	}
+> > > > > > > > -	for (int i = 0; i < ISP4SD_MAX_FW_RESP_STREAM_NUM; i++)
+> > > > > > > > -		disable_irq(isp_subdev->irq[i]);
+> > > > > > > > +	if (irq_enabled)
+> > > > > > > > +		for (int i = 0; i < ISP4SD_MAX_FW_RESP_STREAM_NUM; i++)
+> > > > > > > > +			disable_irq(isp_subdev->irq[i]);
+> > > > > > > >     	isp4sd_stop_resp_proc_threads(isp_subdev);
+> > > > > > > >     	dev_dbg(dev, "isp_subdev stop resp proc streads suc");
+> > > > > > > > @@ -785,7 +786,7 @@ static int isp4sd_pwron_and_init(struct isp4_subdev *isp_subdev)
+> > > > > > > >     	return 0;
+> > > > > > > >     err_unlock_and_close:
+> > > > > > > > -	isp4sd_pwroff_and_deinit(isp_subdev);
+> > > > > > > > +	isp4sd_pwroff_and_deinit(isp_subdev, false);
+> > > > > > > >     	return -EINVAL;
+> > > > > > > >     }
+> > > > > > > > @@ -957,7 +958,7 @@ static int isp4sd_set_power(struct v4l2_subdev *sd, int on)
+> > > > > > > >     	if (on)
+> > > > > > > >     		return isp4sd_pwron_and_init(isp_subdev);
+> > > > > > > >     	else
+> > > > > > > > -		return isp4sd_pwroff_and_deinit(isp_subdev);
+> > > > > > > > +		return isp4sd_pwroff_and_deinit(isp_subdev, true);
+> > > > > > > >     }
+> > > > > > > >     static const struct v4l2_subdev_core_ops isp4sd_core_ops = {
+> > > > > > > > 
+> > > > > > > > > On the other hand, please also add the patch in amdgpu which sets *bo to
+> > > > > > > > > NULL in isp_kernel_buffer_alloc() which you mentioned in another thread.
+> > > > > > > > 
+> > > > > > > > Yep, I have been doing all v5 testing with that patch applied.
+> > > > > > > > 
+> > > > > > > > BTW, I have verified the IRQ changes are not the cause for the regression; I
+> > > > > > > > tested with IRQs kept enabled all the time and the issue still occurs.
+> > > > > > > > 
+> > > > > > > > I did observe that ISP stops sending interrupts when the video stream freezes.
+> > > > > > > > And, if I replicate the bug enough times, it seems to permanently break FW until
+> > > > > > > > a full machine reboot. Reloading amd_capture with the v4 driver doesn't recover
+> > > > > > > > the ISP when this happens.
+> > > > > > > > 
+> > > > > > > > As an improvement to the driver, can we do a hard reset of ISP on driver probe?
+> > > > > > > > I am assuming hardware doesn't need too long to settle after hard reset, maybe
+> > > > > > > > a few hundred milliseconds? This would ensure ISP FW is always in a working
+> > > > > > > > state when the driver is loaded.
+> > > > > > > > 
+> > > > > > 
+> > > > > > Actually, each time the camera is activated, the ISP driver powers on the
+> > > > > > ISP and initiates its firmware from the beginning; when the camera is
+> > > > > > closed, the ISP is powered off..
+> > > > > 
+> > > > > Hmm, well I am able to put the ISP in a completely unusable state that doesn't
+> > > > > recover when I unload and reload amd_capture. Or maybe it is the sensor that is
+> > > > > stuck in a broken state?
+> > > > 
+> > > > Here is the log output when I try to start cheese after unloading and reloading
+> > > > amd_capture, where the ISP is in the broken state that requires rebooting the
+> > > > laptop (annotated with notes of what I saw/did at each point in time):
+> > > > 
+> > > > ==> opened cheese
+> > > > ==> cheese froze after a few seconds
+> > > > ==> closed cheese
+> > > >     [   34.570823] amd_isp_capture amd_isp_capture: fail to disable stream
+> > > >     [   35.077503] amd_isp_capture amd_isp_capture: fail to stop steam
+> > > >     [   35.077525] amd_isp_capture amd_isp_capture: disabling streaming failed (-110)
+> > > > ==> unloaded amd_capture
+> > > > ==> loaded amd_capture
+> > > > ==> opened cheese
+> > > >     [  308.039721] amd_isp_capture amd_isp_capture: ISP CCPU FW boot failed
+> > > >     [  308.043961] amd_isp_capture amd_isp_capture: fail to start isp_subdev interface
+> > > >     [  308.044188] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.044194] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.044196] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.044197] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.044198] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.044198] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.044199] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.044200] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.044200] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.044201] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.044202] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.065226] amd_isp_capture amd_isp_capture: power up isp fail -22
+> > > >     [  308.174814] amd_isp_capture amd_isp_capture: ISP CCPU FW boot failed
+> > > >     [  308.177807] amd_isp_capture amd_isp_capture: fail to start isp_subdev interface
+> > > >     [  308.178036] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.178043] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.178044] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.178045] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.178046] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.178047] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.178048] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.178048] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.178049] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.178050] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.178050] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.198776] amd_isp_capture amd_isp_capture: power up isp fail -22
+> > > >     [  308.306835] amd_isp_capture amd_isp_capture: ISP CCPU FW boot failed
+> > > >     [  308.311533] amd_isp_capture amd_isp_capture: fail to start isp_subdev interface
+> > > >     [  308.311723] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.311723] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.311724] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.311725] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.311725] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.311726] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.311726] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.311726] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.311727] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.311727] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.311727] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > >     [  308.335281] amd_isp_capture amd_isp_capture: power up isp fail -22
+> > > > 
+> > > 
+> > > Thanks Sultan for the detailed info, I agree with you, tend to believe it
+> > > may related to the sensor, I will follow up with the FW team to investigate
+> > > further.
+> > > 
+> > > > > > > > Thanks,
+> > > > > > > > Sultan
+> > > > > > > 
+> > > > > > > A small update: I reproduced the issue on v4, but it took several more cycles of
+> > > > > > > closing/opening cheese and waiting 30s compared to v5.
+> > > > > > > 
+> > > > > > > Right now my best guess is that this is a timing issue with respect to FW that
+> > > > > > > was exposed by the v5 changes. v5 introduced slight changes in code timing, like
+> > > > > > > with the mutex locks getting replaced by spin locks.
+> > > > > > > 
+> > > > > > > I'll try to insert mdelays to see if I can expose the issue that way on v4.
+> > > > > > > 
+> > > > > > 
+> > > > > > Could you kindly provide the FW used?
+> > > > > 
+> > > > >     commit a89515d3ff79f12099f7a51b0f4932b881b7720e
+> > > > >     Author: Pratap Nirujogi <pratap.nirujogi@amd.com>
+> > > > >     Date:   Thu Aug 21 15:40:45 2025 -0400
+> > > > > 
+> > > > >         amdgpu: Update ISP FW for isp v4.1.1
+> > > > >         From internal git commit:
+> > > > >         24557b7326e539183b3bc44cf8e1496c74d383d6
+> > > > >         Signed-off-by: Pratap Nirujogi <pratap.nirujogi@amd.com>
+> > > > > 
+> > > > > Sultan
+> > > > 
+> > > > Sultan
+> > > 
+> > > -- 
+> > > Regards,
+> > > Bin
+> > > 
+> > 
+> > Thanks, Bin. I looked deeper at the code and didn't find any reason the issue
+> > could be due to the driver. Also, the problem happens outside of cheese for me
+> > (like in Chromium with Zoom meetings), so v5 of the driver is pretty much
+> > unusable for me until this issue is fixed. :(
+> > 
+> 
+> Oh, really sad to hear that :(, there must be some difference between our
+> platforms because we still can't reproduce the issue you mentioned, to help
+> on this, would you share more info like your Ubuntu version, Kernel
+> version/source, ISP driver version, BIOS version, .config used to build the
+> kernel, FW: commit a89515d3ff79f12099f7a51b0f4932b881b7720e.
+> Just wondering, if possible, could you provide the kernel image either so we
+> can directly test on it. Also, the HW is not broken, right?
 
-For the i.MX8MQ platform, there is a hardware limitation: the g1 VPU and
-g2 VPU cannot decode simultaneously; otherwise, it will cause below bus
-error and produce corrupted pictures, even led to system hang.
+I figured out why you cannot reproduce the issue. You need to pass amd_iommu=off
+on the kernel command line to trigger the issue.
 
-[  110.527986] hantro-vpu 38310000.video-codec: frame decode timed out.
-[  110.583517] hantro-vpu 38310000.video-codec: bus error detected.
+The reason I am using amd_iommu=off is because this laptop otherwise doesn't
+ever wake from suspend under Linux once it reaches the S0i3 state. The keyboard,
+power button, and lid do not respond to wake up the laptop from suspend. This
+happens 100% of the time once S0i3 is reached, and occurs on the OEM Ubuntu
+image from HP as well. The only fix I have found is to pass amd_iommu=off, which
+other owners of this laptop also found fixes the issue.
 
-Therefore, it is necessary to ensure that g1 and g2 operate alternately.
-Then this allows for successful multi-instance decoding of H.264 and HEVC.
+> 
+> > I've attached a v2 of my big patch, which includes more improvements and another
+> > ringbuffer bug fix. Please check the ringbuffer logic on the FW side to make
+> > sure FW doesn't have the same bug, where it may let rd_ptr == wr_ptr upon
+> > filling the ringbuffer, even though rd_ptr == wr_ptr is supposed to indicate the
+> > ringbuffer is empty.
+> > 
+> 
+> Thank you for your huge contribution. We'll review, verify, and merge as
+> much as possible into v6 and hope this marks the final significant update.
+> We typically avoid large changes to reduce regression risks and minimize
+> additional debugging, testing, and schedule impact.
 
-Fixes: cb5dd5a0fa518 ("media: hantro: Introduce G2/HEVC decoder")
-Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
----
- drivers/media/platform/verisilicon/hantro.h   |  1 +
- .../media/platform/verisilicon/hantro_drv.c   | 26 +++++++++++++++++++
- .../media/platform/verisilicon/imx8m_vpu_hw.c |  4 +++
- 3 files changed, 31 insertions(+)
+I understand. Don't worry, that is indeed the final significant update. Please
+let me know which changes you don't merge in, since it could be an important
+change. And thank you for considering my changes! :)
 
-diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/platform/verisilicon/hantro.h
-index e0fdc4535b2d..8baebf767d26 100644
---- a/drivers/media/platform/verisilicon/hantro.h
-+++ b/drivers/media/platform/verisilicon/hantro.h
-@@ -101,6 +101,7 @@ struct hantro_variant {
- 	unsigned int double_buffer : 1;
- 	unsigned int legacy_regs : 1;
- 	unsigned int late_postproc : 1;
-+	atomic_t *shared_resource;
- };
- 
- /**
-diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
-index 60b95b5d8565..036ce43c9359 100644
---- a/drivers/media/platform/verisilicon/hantro_drv.c
-+++ b/drivers/media/platform/verisilicon/hantro_drv.c
-@@ -19,6 +19,7 @@
- #include <linux/slab.h>
- #include <linux/videodev2.h>
- #include <linux/workqueue.h>
-+#include <linux/iopoll.h>
- #include <media/v4l2-event.h>
- #include <media/v4l2-mem2mem.h>
- #include <media/videobuf2-core.h>
-@@ -93,6 +94,9 @@ static void hantro_job_finish(struct hantro_dev *vpu,
- 
- 	clk_bulk_disable(vpu->variant->num_clocks, vpu->clocks);
- 
-+	if (vpu->variant->shared_resource)
-+		atomic_cmpxchg(vpu->variant->shared_resource, 0, 1);
-+
- 	hantro_job_finish_no_pm(vpu, ctx, result);
- }
- 
-@@ -166,12 +170,34 @@ void hantro_end_prepare_run(struct hantro_ctx *ctx)
- 			      msecs_to_jiffies(2000));
- }
- 
-+static int hantro_wait_shared_resource(struct hantro_dev *vpu)
-+{
-+	u32 data;
-+	int ret;
-+
-+	if (!vpu->variant->shared_resource)
-+		return 0;
-+
-+	ret = read_poll_timeout(atomic_cmpxchg, data, data, 10, 300 * NSEC_PER_MSEC, false,
-+				vpu->variant->shared_resource, 1, 0);
-+	if (ret) {
-+		dev_err(vpu->dev, "Failed to wait shared resource\n");
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
- static void device_run(void *priv)
- {
- 	struct hantro_ctx *ctx = priv;
- 	struct vb2_v4l2_buffer *src, *dst;
- 	int ret;
- 
-+	ret = hantro_wait_shared_resource(ctx->dev);
-+	if (ret < 0)
-+		goto err_cancel_job;
-+
- 	src = hantro_get_src_buf(ctx);
- 	dst = hantro_get_dst_buf(ctx);
- 
-diff --git a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
-index 5be0e2e76882..1b3a0bfbf890 100644
---- a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
-+++ b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
-@@ -324,6 +324,8 @@ static const char * const imx8mq_reg_names[] = { "g1", "g2", "ctrl" };
- static const char * const imx8mq_g1_clk_names[] = { "g1" };
- static const char * const imx8mq_g2_clk_names[] = { "g2" };
- 
-+static atomic_t imx8mq_shared_resource = ATOMIC_INIT(1);
-+
- const struct hantro_variant imx8mq_vpu_variant = {
- 	.dec_fmts = imx8m_vpu_dec_fmts,
- 	.num_dec_fmts = ARRAY_SIZE(imx8m_vpu_dec_fmts),
-@@ -356,6 +358,7 @@ const struct hantro_variant imx8mq_vpu_g1_variant = {
- 	.num_irqs = ARRAY_SIZE(imx8mq_irqs),
- 	.clk_names = imx8mq_g1_clk_names,
- 	.num_clocks = ARRAY_SIZE(imx8mq_g1_clk_names),
-+	.shared_resource = &imx8mq_shared_resource,
- };
- 
- const struct hantro_variant imx8mq_vpu_g2_variant = {
-@@ -371,6 +374,7 @@ const struct hantro_variant imx8mq_vpu_g2_variant = {
- 	.num_irqs = ARRAY_SIZE(imx8mq_g2_irqs),
- 	.clk_names = imx8mq_g2_clk_names,
- 	.num_clocks = ARRAY_SIZE(imx8mq_g2_clk_names),
-+	.shared_resource = &imx8mq_shared_resource,
- };
- 
- const struct hantro_variant imx8mm_vpu_g1_variant = {
--- 
-2.34.1
+And please be sure to check the ringbuffer code in FW to see if it has the same
+bug I found in the driver.
 
+> > Also, I have a suggestion for a FW change to improve IRQ handling in the driver:
+> > 
+> > 1. Change ISP_SYS_INT0_ACK behavior so that it also clears the acked interrupts
+> >     from ISP_SYS_INT0_EN.
+> > 
+> 
+> Based on my understanding, this pertains to the hardware design and cannot
+> be modified.
+> 
+> > 2. Change ISP_SYS_INT0_EN behavior so that it only enables the interrupts in the
+> >     provided mask, so RMW of ISP_SYS_INT0_EN in the driver won't be necessary to
+> >     re-enable interrupts for a stream.
+> > 
+> 
+> I'm not sure I understand your point. Are you saying that ISP_SYS_INT0_EN
+> only considers '1' in the mask and ignores '0'? If that's the case, I'm
+> curious about how to disable an interrupt. Also, this is also determined by
+> the hardware design.
+
+No worries, it's not a big deal. Just a small optimization I thought of.
+
+My idea was:
+
+1. Current behavior of ISP_SYS_INT0_ACK:
+     isp4hw_wreg(mmio, ISP_SYS_INT0_ACK, intr_ack) results in:
+
+         regmap[ISP_SYS_INT0_STATUS] &= ~intr_ack;
+
+   Proposed behavior of ISP_SYS_INT0_ACK:
+     isp4hw_wreg(mmio, ISP_SYS_INT0_ACK, intr_ack) results in:
+
+         regmap[ISP_SYS_INT0_STATUS] &= ~intr_ack;
+         regmap[ISP_SYS_INT0_EN] &= ~intr_ack;
+
+2. Current behavior of ISP_SYS_INT0_EN:
+     isp4hw_wreg(mmio, ISP_SYS_INT0_EN, intr_en) results in:
+
+         regmap[ISP_SYS_INT0_EN] = intr_en;
+
+   Proposed behavior of ISP_SYS_INT0_EN:
+     isp4hw_wreg(mmio, ISP_SYS_INT0_EN, intr_en) results in:
+
+         regmap[ISP_SYS_INT0_EN] |= intr_en;
+
+
+And to disable an interrupt with this design, you can write to ISP_SYS_INT0_ACK.
+
+Sultan
 
