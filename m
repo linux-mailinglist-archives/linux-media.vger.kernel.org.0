@@ -1,887 +1,316 @@
-Return-Path: <linux-media+bounces-47596-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47597-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42DEAC7ADE1
-	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 17:33:23 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id A68F2C7B23B
+	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 18:52:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 51AE9355393
-	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 16:31:40 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 090CD35A923
+	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 17:52:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20DA828851C;
-	Fri, 21 Nov 2025 16:31:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A92F034FF40;
+	Fri, 21 Nov 2025 17:52:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kerneltoast.com header.i=@kerneltoast.com header.b="C0ooVgC/"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="b6+OtZeB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010013.outbound.protection.outlook.com [40.93.198.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 964B427FD72
-	for <linux-media@vger.kernel.org>; Fri, 21 Nov 2025 16:31:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763742688; cv=none; b=QOKyP9V6owTA2D2DGDsci60Bg/UT4JCar9f8SlmJuiNGPeduFjYLtjrVkt41pWoRN2Pskdh3c+UtBzsG/7GZE7cFvGzaRm3N7Ru02AmJkd20JWhNsNs1+XqXiY0w7yISlM1dfVE3HRyiPCcgo+IJrniQDtXKHrG7zwXxzZSsIwc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763742688; c=relaxed/simple;
-	bh=6py1dqT8GxLDvJnA5WiGZg/8+Z7X5FMOZ5r/HL6YHZk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QaABOllnuU1fHyglR1NWVTYPd8gpSVT+kexqXzy502rv2CtCEYlNnqYJzFVeXpIWDhAGgw9o4GoiYRAsMOf+KSGnO3H0f/fAcn4ZwI9YwZynlwcvDnvOp3Csouk4C98Ks2KeBA9lfa0f8u9qsRredoWfQhSaGm4rQ0ryQR5KZVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kerneltoast.com; spf=pass smtp.mailfrom=kerneltoast.com; dkim=pass (2048-bit key) header.d=kerneltoast.com header.i=@kerneltoast.com header.b=C0ooVgC/; arc=none smtp.client-ip=209.85.215.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kerneltoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kerneltoast.com
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-bb2447d11ceso1336955a12.0
-        for <linux-media@vger.kernel.org>; Fri, 21 Nov 2025 08:31:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kerneltoast.com; s=google; t=1763742685; x=1764347485; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Fx0DiEnkJFjgul/WUUyf7NbyyaeBwblyjOIh4DCm1HE=;
-        b=C0ooVgC/BYMWtXZNbluy3tmBCjy7YXFQzsdZKPEMiJjyZZJL8zZX7JuYy5CZmQPTQe
-         rA1/ZZZ4LVbDl6Z5ohD9N7XzZ6xcemqcK8vc8UkvgH0dSl2Zry8ZkCvLKHXTE7So4IKR
-         UBNC7uvICE5qIOPhDfghbNMqQv+eUBSgCgvmDBL2nbvM57Sn6YYR4YeaWNgc2PPvJvWa
-         FgAUzm9D49hWJn58TMBfj2C6ZE8R0I2sUTzYod1sn6qKKu/fVjbtnYOxZr/ootijfxuH
-         Mei1iRoP1AYmIxQfcg7HSfUH8u4S3NjqGVXtmRnd6bJpqT/KXHbblhcaaKtNU2WgNifI
-         uKWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763742685; x=1764347485;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fx0DiEnkJFjgul/WUUyf7NbyyaeBwblyjOIh4DCm1HE=;
-        b=KcQ7zW0+EsBlkCdpVZek4Q+0ZWpN6fKNFEP/D4pGEo4mVgzBoB5tiAw/HACDwTp36w
-         Fu6uWaklqopN1Y7gIido8coI3SVAPCjlMY0UYoXtVCdKe5YdQksvFZTQulRr2gp1Rwdd
-         gIeUcoC4I+QkxH/nxfmRyY24GUaRypoFdp5cO6U434bWxQXFMJqp4GNuMTHmtdZhQK/Y
-         OabEVf4gn0mEhz4Hb7WJ2vA7fSg+Slwc9NdN5ZinQOmYyedXgnT9PaJpnNKNRWCIQD7q
-         buw+iDvTVOrm8GPtbplJakKZd4T0HM+a9TBqJXCRKrnkunG1CgzAd2LjrnsKQ1FxfEuO
-         tOIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXMNAowHZ7y2Lk1UUdB1zJYjvot0/bPbjPK1HPZXcLIgsGL1s6gaSNdLtcCKGbyUhYTmv2AC1P4hicT5g==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6WRU4zcdhAOzjEIw/t+MOZ0f3p98EGSb+McmyeHSLL4dJBr9w
-	1xKtbl6iIGgUoa+GS/BlpORsqQU/ad9SLj6dexHhSs2Kzbrp+0I2Zf2B7SrlW7xUPgkh
-X-Gm-Gg: ASbGncuxERFHL6UxBesFef9OtiU5a6IUCaOy4RkHkPxy6WGed04TzHMzhaoI2peJiDz
-	RjFLKdrvh/78Tw0ETzLkoo5Qvzft1mhqK4XiivGOr89rRD+tCYFo18OKy3e0rAT5JXyBRqSopRX
-	UmpvYgTyrJiGMiIj4NQdMb5JRFOs5RSK0+JPENqRqCqGhppi2SCEpn3yzL3X+WadNencQBpFhB9
-	V1AQSgwJ3SV+Pe1oDS+RiyHH9abPbvmSLifPN8tXA/wd0tNxsSCQwA23CerynIaeoU60i/9hapy
-	A/+PED2rm3id+i2ZJBln9kgD/uiSdAZcSiWOzPZbJZNABF/9sULO+VBhFulQrdjwWdCEBUQlLJI
-	i7Q7Q39QzlVigLRZzOXxQg0HK/CFUsiv3w2HN/dXrvvjL0OWmZh0VBLjfc2Avh5SjlMcVkEh8wK
-	GlFHzj9LUSubp3bQ==
-X-Google-Smtp-Source: AGHT+IElanE00Dp6OUV4mIIxGsVmOC6pij3YXx0ACP+dY9foi+9GIvLWVBK2u+K86plBPQAIbhA7Og==
-X-Received: by 2002:a05:693c:2d92:b0:2a4:3592:c604 with SMTP id 5a478bee46e88-2a71927d865mr1372137eec.21.1763742684078;
-        Fri, 21 Nov 2025 08:31:24 -0800 (PST)
-Received: from sultan-box ([142.147.89.233])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2a6fc3d0bb6sm30845966eec.2.2025.11.21.08.31.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Nov 2025 08:31:23 -0800 (PST)
-Date: Fri, 21 Nov 2025 08:31:20 -0800
-From: Sultan Alsawaf <sultan@kerneltoast.com>
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: "Du, Bin" <bin.du@amd.com>, mchehab@kernel.org, hverkuil@xs4all.nl,
-	laurent.pinchart+renesas@ideasonboard.com,
-	bryan.odonoghue@linaro.org, sakari.ailus@linux.intel.com,
-	prabhakar.mahadev-lad.rj@bp.renesas.com,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
-	gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com,
-	Dominic.Antony@amd.com, richard.gong@amd.com, anson.tsao@amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9672334FF65;
+	Fri, 21 Nov 2025 17:52:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763747555; cv=fail; b=Fm21mj9CLYPSsnhy0W/yOzOhOqerQLIO36HiUno6z5nJbdHy36F8rzKFefiV2KnDgtYWBK8MqiKfGs3TQeBz2t1L7swtESQ8uSoCRloyRvcIXb7vcp9oLadL9Tj/YATkMHVni0d/QjfWB4PRAG/wWdmuL02HO6u5c+j/8jCSMNw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763747555; c=relaxed/simple;
+	bh=0pUccKlgl0wDdMBelgOLm3FpmQ3BjUoU9Omtl/c2zfE=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=m1Wd7OQka19+/61I/UBHBTtRAgjDctXrFDKzuIwGprUPAV5kdt2Hp1CJzgaY/Zbf6gao0LeLhAlX5umnkUaKEMfPFjVgGw+B/KxEnk+yTio7FpenD4cMNhAmF4xuyDdll+dLJ2CRTfmQl4RtR+7WdCp4qywp85yhsb8GjfedhRM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=b6+OtZeB; arc=fail smtp.client-ip=40.93.198.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tmHKeTsBUFLODQthTOAybhxMU4f1pRWXIATs/PvjbjnXalrS1KFxyc9i8d3cGYD847dYJxQBQTGK7XI+hdj5aeHAj/dS4HqoHsQbCtFgax5w19jtEJZ9SQ3k9Sq5r/PsRrwJKYoIGRpqMWyuo+lgxkJwxopzf75Vgj54jw0FjQVGPj5fxBmKUUWVEOmSAQxQBlC8ibu7y9Ao/1R8n4iFEFhN4TymMfUUZ6Wf4vpFgznfuTWlylnMM0DLMJT+OEAXzGTF8OZsVr6saSlCQV0xTHcXmmswUiTkKKr0LK22cYyjq5EKAlgX/+wqJGmv4uToxEARBPQqxUxnr0wf4mNAJQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0pUccKlgl0wDdMBelgOLm3FpmQ3BjUoU9Omtl/c2zfE=;
+ b=y2JS8C750xl0upuQ4KzgmA8qGaTTuyi8vK/L8LTZihJkFj76OjJHrBQ5eX4d5GheYanXJSySfQkU2ORG57159Ift4TyhL1+2VUkvpFO1KikqOYtHyZxQ0ya551JL3zFI1GyWd36PXLMolOt2pcJnhBJYmCw/Rzc5B2wKY4a+IbZhc06eSyGR7919mOspKv+ut4r3AEJcMjgkr0ZKi/pC0peoT7ZUGU4vIiZjY9AfkKUw3hRMPPLumrSdEXZUc6vVITPZdCHWJweLDqTjDdjv5iaGBucUigvahUbG1UsuOYZEbi1r5vkfLq/8tJKbKMldZiMeBNFmjyDYTBssgLRvOA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0pUccKlgl0wDdMBelgOLm3FpmQ3BjUoU9Omtl/c2zfE=;
+ b=b6+OtZeBoiNZRDChqAzH6jlCJLvjzAuzGn+uuJfrEZ1TDODEKlYNdG0rrIoPCUzasXy16BArvswkeydyVf326eIyKGlrXwl81qwKyJ1RiE2J8QkwM0vl8ZLEvYz+n+9BrOKvj8fVtlyTyJhshCj/OfmrTo5WL5d+vtc/llEfnw0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by SN7PR12MB8027.namprd12.prod.outlook.com (2603:10b6:806:32a::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.11; Fri, 21 Nov
+ 2025 17:52:27 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca%7]) with mapi id 15.20.9343.011; Fri, 21 Nov 2025
+ 17:52:27 +0000
+Message-ID: <3e2566cd-81d5-4c62-9b53-40e1ac610b2f@amd.com>
+Date: Fri, 21 Nov 2025 11:52:23 -0600
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v5 0/7] Add AMD ISP4 driver
-Message-ID: <aSCT2AuwZeiuP7N9@sultan-box>
+To: Sultan Alsawaf <sultan@kerneltoast.com>
+Cc: "Du, Bin" <bin.du@amd.com>, mchehab@kernel.org, hverkuil@xs4all.nl,
+ laurent.pinchart+renesas@ideasonboard.com, bryan.odonoghue@linaro.org,
+ sakari.ailus@linux.intel.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
+ gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com, Dominic.Antony@amd.com,
+ richard.gong@amd.com, anson.tsao@amd.com
 References: <d9afc6db-fd8a-4069-a8a8-1e2d74c1db3a@amd.com>
- <aRQyAdyiQjhsC11h@sultan-box>
- <aRQ5aA4Gus4iCVLp@sultan-box>
- <591efd28-805a-4a13-b7e2-0f78a3ca3eac@amd.com>
- <aRwhuNmPRlPGxIia@sultan-box>
- <8288a5b3-6e56-4c9a-a772-99ca36bb7c52@amd.com>
- <aSAg1MUVZtDlCC96@sultan-box>
- <546a8d8e-514b-4f6b-bf46-1ec0c9974e7e@amd.com>
- <aSCHlvWMYEdRb2ey@sultan-box>
- <ccb0a045-fc00-49bc-9441-09d5a0b9aa51@amd.com>
+ <aRQyAdyiQjhsC11h@sultan-box> <aRQ5aA4Gus4iCVLp@sultan-box>
+ <591efd28-805a-4a13-b7e2-0f78a3ca3eac@amd.com> <aRwhuNmPRlPGxIia@sultan-box>
+ <8288a5b3-6e56-4c9a-a772-99ca36bb7c52@amd.com> <aSAg1MUVZtDlCC96@sultan-box>
+ <546a8d8e-514b-4f6b-bf46-1ec0c9974e7e@amd.com> <aSCHlvWMYEdRb2ey@sultan-box>
+ <ccb0a045-fc00-49bc-9441-09d5a0b9aa51@amd.com> <aSCT2AuwZeiuP7N9@sultan-box>
+Content-Language: en-US
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <aSCT2AuwZeiuP7N9@sultan-box>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+X-ClientProxiedBy: SA0PR11CA0093.namprd11.prod.outlook.com
+ (2603:10b6:806:d1::8) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <ccb0a045-fc00-49bc-9441-09d5a0b9aa51@amd.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|SN7PR12MB8027:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3f583f26-c354-4938-e066-08de2926bbdd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?dERFT2pMM3ZSTzVZam52UDJ5SXo5eTY3WUFSVjZ0K3NDeGg4K3htRWlYMDVN?=
+ =?utf-8?B?MXBZY3dzL2Nxd1lGaVJDVW5LN1hwVFNMY0NKb0ZkMnlQMm9UcHJoVDc5YXRk?=
+ =?utf-8?B?U2NhT3gvLzg1UzJ3eVZucWJKaGNTQ3YxYVYybWdtZ0J4NnRmdTFRem5hbzk0?=
+ =?utf-8?B?S09LekFLNUdsV0g4em1uNGd1WWNOanhUT2tTQ0xRNTBJV2JXUVMyQlhZOWtz?=
+ =?utf-8?B?VTZuY3lxS2owdlpmSm5Vb1BDczlSQmZpelRSbnBOU2hadGNMR3dPSTJYdnZQ?=
+ =?utf-8?B?Y1RGcCtqTXJOekdLK3hZT3RZYTJmSGJPZVFKOFJ1d3h5U0kzbERsK0lBeDhR?=
+ =?utf-8?B?ZkNRUEtyY3o4dHhPbGpQUU9DNlhyZjU3TVQyZk9PeGtJWThLSWFOWU03VjFB?=
+ =?utf-8?B?dGpwMjhQQUFQalZFYVUrK2w4TkljZFNidTNTVkVEeFgxbURsUUR3Z1Bpdjdz?=
+ =?utf-8?B?SnZLK1lhZ040WTNtR1hGTmV1Y1kvaG5PdndHVU9RczVtYXlHclNHanorYnpR?=
+ =?utf-8?B?RXN4QjY4RE5IQ3lmMDJTNFVGcnk2UlgrcWhscWhpVU9yT2NDc3lmZ01uRG1V?=
+ =?utf-8?B?Qzh5L2xkZHZxZVRsREk3Rm12ZUdJMnJsN3ZHOGxHYzVjL1FBbEFzZkdMdFQx?=
+ =?utf-8?B?Tll1eXQ2QXhURWk0dVcvS3FOeE10T2xUL0RUak5xblIyS2w4STRaMmduVnd1?=
+ =?utf-8?B?ZDhVcng0MXZYZlg2SlljMW8xL3BaMWpsU1pxeDltSFFUNFlTYmFSN1lQLytS?=
+ =?utf-8?B?QWFSSWw2TXZGeDBCRkFZVy8wZ081Q2tHZVdrUnZjWlZvT2RmM25HVXg5SUIz?=
+ =?utf-8?B?RHVGRTBxSDNxL3FGaVdtR0dxdFdJWmpkTWZQNDRZaWVjR2djUGFZLzlzWE5R?=
+ =?utf-8?B?VXJQZDBqU0kxQ3lGRHNVSDNTeFovREFQNWFXWEpvcEpDdDFKSVBnM1hEMzBm?=
+ =?utf-8?B?dW93NWpWVTArak9qek5mNGJmSjJUNFhNZ2tnalJ4MlZiNVZLWFRiMS9ZeUpJ?=
+ =?utf-8?B?OXlMbzJOUjVYNi9GVi9odTg1c20xQlEycGZudVpsalBidDhrMzZVMnkvOUll?=
+ =?utf-8?B?RFlhRm1uMjlEdGFId3ZiT2Npck1CV2ZQR3orZURyNnRsWnMza1NlVjA2bnBm?=
+ =?utf-8?B?SnBPWU9Ga1VIb3NaNmJrZVlxaGFwUkJjL2x4NnNFWGQ1TFVlTnFpYkhHb2FW?=
+ =?utf-8?B?SHFhZVZvd2ZJdExQckk4WThhUTJNN0xzR3I4aDZLUzdFWnByL0xPa2ZtSFJS?=
+ =?utf-8?B?dTlveHA5S29VRjRMNW85MnlvaUl6QkRWdk9OYmk0QW9LbkV3NHRqYllxZUM5?=
+ =?utf-8?B?ajJGa1ZSYXdzcFB4QjQ3di9sQXVQeUNvd3FmQlJsWVlWenhqdUMrZUZGOG1w?=
+ =?utf-8?B?NEFIbzYxYitJek1Td1pLL1hoOXFjZEpib3BpNXdUYmg1UEZaekYrbXk2aDFl?=
+ =?utf-8?B?WmRNNkp6N041OVlPZTBCVXdRNUh5UVYrSG1JcUlNVy9UaGlvNDdIa2RhSDRq?=
+ =?utf-8?B?SytqdVBtbWZUaTA1dVV4NzhIUzBTSkRXaHoxL2xPeXR2NmlvSFR6RTd2KytZ?=
+ =?utf-8?B?RG9SeEcxSzhLTFNpZCsrWTVRVS9UOUJETXlxcU0rUkFBcEU5UEw2aEFWdkQr?=
+ =?utf-8?B?aU9rSTU4SHgzU2Nxc1duZGMyNFNiRlVrQlliajBNR0pXRGs5TnRrN0pTc2I0?=
+ =?utf-8?B?QW42L1k0cjRDdW4yMXdzQnNWaUlHeGQyTnVEOTlHRndneDNNUHRNRUxZcnlX?=
+ =?utf-8?B?ZVFHVXNmR0lTNGtOaWUvUGQrKzdPQTJxM2dzZ3VIeGtyWVI1R05WR0VWZE5l?=
+ =?utf-8?B?c00wUEkrRTBuVFFpbUk0Z1NPdHNoaGN5dVIxamtKUGpVQXVJV2dKSVducGY0?=
+ =?utf-8?B?ZTNGNWptWG5PV1N5cnpsYVg1ZklCTGxXcFZvOFE3ZnozdHc9PQ==?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6101.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?SEg2QlpMSXAvaXUzOWpxL1VrcFJuenloTjRZVDdYQjlIZWoyY1FoSW56ZzVy?=
+ =?utf-8?B?WGFtV3NEQW5uTUJ4bERvZmJXa01aeGZpNm9VYXZ3ckNoKzR2M3hDTmc1aU04?=
+ =?utf-8?B?N0tHYllSRHo1ZDRoMU5jditsQmRBT1Azc3BsZWZRMXdxcEhVRmcyWlRzK3dk?=
+ =?utf-8?B?LzNzSGtQNHhMRUoxa3kzUStMMHlaS25ucllScjhMT24wRzM1eU9OQnVhL2hq?=
+ =?utf-8?B?YTZOWXRQcHFmWmlGSzlCbEcxOHhadEovb0haOEdac3NveDk1K0V1MnNNVm5i?=
+ =?utf-8?B?bmMxRVl6S0g4bU9SOFNZQkxvaXUwbzRtcG1oOCtJU2lCc280SG1pTEJ2RzRw?=
+ =?utf-8?B?NU9NVzBRSElFU2Vidmg5NzNWSk16dEphZEYxdUdlOElMYi81aXZuZWJPbWRD?=
+ =?utf-8?B?N0tZSTJKL2k5dCtjdllUZmRQVHMybjE0WFozazRZM21ndWVmMVBSZ2pPd2d1?=
+ =?utf-8?B?ZVRYQkJScGt0dGNoZjFPRW16SVhiNVI0YVpaWXJ1dEZMSDRxQytoUDB1Y2x2?=
+ =?utf-8?B?UnNHei9vZk9xRVRuUGZIeUFibnZtVFdNdzh3Yk5DV3J1UlBTelIvOFNBVzd1?=
+ =?utf-8?B?ZTJrMWVNR0xDdWtQSHYrK0ZpTDdTS3pLRWkyYW1BL2lzR3FaNXJ0TlpyVWs1?=
+ =?utf-8?B?MzlrTEdZWnEybmhRNWRVNHROZW02cS85ZHlUWllFRC93K1JRam1WN0xIRUwz?=
+ =?utf-8?B?WkNBbnNqeGFMUDNqRWNnVVNjdGFTZ3ptcnNTazMxWDRYQ2JtRThjVC8xMTQx?=
+ =?utf-8?B?V3ljTWxLRTd2M0ozSkp2Ym96bjdUbmV6cjg5QjlJUWszRUFGZEFuQWluWWdS?=
+ =?utf-8?B?bVRjd0F0cDMrVmRMT2ttdGtoeW9oVXYveDhEZmRBcFpFQWFjcVpIeTRBd2Iv?=
+ =?utf-8?B?VkNmZTZFeVBEdDA0ZXdRSzRkS0phTEZ0ZHZrRWlkRzZLK25xSTVEV2ZWc29h?=
+ =?utf-8?B?UWRDTXUwYm12TnBxL0o0SUg5RjQ5VXdZZVBIQks4WFpRUWxYK1d3V3RzSmlH?=
+ =?utf-8?B?L0pZRW03RkRINEJUZ1RlQ0s3MXpVbTlycjc5dUZtRVhCbjZBemxRdDRIcXVH?=
+ =?utf-8?B?a08ycWI1MGd4K1pNL21jYk1hVmZkQ0VlckVFSmtac1p6U0hLT3p0WWV0b0Ux?=
+ =?utf-8?B?RDF4WXhWTlRwSW1nMG1VV2MyaHFFK2V1SkhpQlZmSHZLUFd3U3BRZnFxR09Z?=
+ =?utf-8?B?SkhybVhvK05FVE81MFMxV1RHZXB5bUJiUXZ4ZnNnMWJmaUJRbzVPYlJBQ05J?=
+ =?utf-8?B?SlNUZlFobGRxdzRseVpHaXgwd2M2UmRTeW9ubjBtYWhqTXRUTmFRM0tjQVR4?=
+ =?utf-8?B?NytsM0lsWlJ0b0JCNnBWT1B3K1FUUXBaUldTVHk1VCs0Nmg1RHQ1NkxBT1Fj?=
+ =?utf-8?B?SFIva21kTkpMaGVDb0xzZ0xRZDdWWnBNTmpkVmY1NmVCWjU5bWtPd3FvR1V5?=
+ =?utf-8?B?YkMybUJBRnFGSzFYbHhVVmg5WnBuMzk0YkJFQTNuQjlxbStqNmxtd2RmcnBo?=
+ =?utf-8?B?Y2tDWWl1MFFjY21SR0FWeHZBSVBQRFE2ZUliMmxMUFZUMFc3Z1VjRlJDSTlQ?=
+ =?utf-8?B?ZGp3NVdFZTVkYlFoZWRCVVVDVnRnUnR4dDI4SUtpOFJMYzM1VSsxZUxhVXA2?=
+ =?utf-8?B?bmlKWlVjZTNVNVZtQi93Ly9VUE9lYkttSWJzQlhNS1VEaWtKbTB2WGs5c1Nj?=
+ =?utf-8?B?QzR3dW9ZbDNMT0U0dEpJeXpFVStxT0E5U1JOd0lrQ0pLczJzSDM2dGc1Ync1?=
+ =?utf-8?B?b0xFaFpucHE2aExkRndDNGFVQXg0VnhDT2pCcTRPUjVUMFY5RE5EVEpMVkNR?=
+ =?utf-8?B?c01GTGtTSHJlM29IdGNwZnJtTWpSWW16VlJqd2dOamxPU25OR29oQmxBTmFM?=
+ =?utf-8?B?M29zVE8vTkxrOUtjV25XL2MyYTBCTjVzWHZaS1hDTlhQbm01VldXUlE4VnUx?=
+ =?utf-8?B?S01qb3QxWXpxMDdpS2ZjL0ZEeW0xRG44UlJQWWhuQ2I0SHI3emxJZkZxcXRv?=
+ =?utf-8?B?cWtDTWZQd3pKL3dDUjQvQ0xMUGxXMlY2MFJLY3dIOGgzR05DN3o1NXBVTVNw?=
+ =?utf-8?B?WmhrcTJaWVIwVWVhbytYdndFdVJrSFFLYzRtWktnRXgxM3JvWGlCd3Q5YjVr?=
+ =?utf-8?Q?3DoqHFofZbqecvOXWGlJQh0Y8?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3f583f26-c354-4938-e066-08de2926bbdd
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2025 17:52:27.2194
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yU0FxOYJfK4iDg3pMWfLdcK+9xghOOTeBZr83bwpEi0WuSI1UXGkcQiCcRAfEUDt7DQb39dGBZa8EClvNVuPPA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8027
 
-On Fri, Nov 21, 2025 at 09:46:41AM -0600, Mario Limonciello wrote:
->=20
->=20
-> On 11/21/2025 9:39 AM, Sultan Alsawaf wrote:
-> > On Fri, Nov 21, 2025 at 08:32:34AM -0600, Mario Limonciello wrote:
-> > >=20
-> > >=20
-> > > On 11/21/2025 2:20 AM, Sultan Alsawaf wrote:
-> > > > On Wed, Nov 19, 2025 at 06:14:17PM +0800, Du, Bin wrote:
-> > > > >=20
-> > > > >=20
-> > > > > On 11/18/2025 3:35 PM, Sultan Alsawaf wrote:
-> > > > > > On Wed, Nov 12, 2025 at 06:21:33PM +0800, Du, Bin wrote:
-> > > > > > >=20
-> > > > > > >=20
-> > > > > > > On 11/12/2025 3:38 PM, Sultan Alsawaf wrote:
-> > > > > > > > On Tue, Nov 11, 2025 at 11:06:41PM -0800, Sultan Alsawaf wr=
-ote:
-> > > > > > > > > On Wed, Nov 12, 2025 at 02:32:51PM +0800, Du, Bin wrote:
-> > > > > > > > > > Thanks Sultan for your information.
-> > > > > > > > > >=20
-> > > > > > > > > > On 11/12/2025 9:21 AM, Sultan Alsawaf wrote:
-> > > > > > > > > > > On Tue, Nov 11, 2025 at 03:33:42PM -0800, Sultan Alsa=
-waf wrote:
-> > > > > > > > > > > > On Tue, Nov 11, 2025 at 05:58:10PM +0800, Du, Bin w=
-rote:
-> > > > > > > > > > > > >=20
-> > > > > > > > > > > > > On 11/11/2025 5:05 PM, Sultan Alsawaf wrote:
-> > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > On Mon, Nov 10, 2025 at 05:46:28PM +0800, Du, B=
-in wrote:
-> > > > > > > > > > > > > > > Thank you, Sultan, for your time, big effort,=
- and constant support.
-> > > > > > > > > > > > > > > Apologies for my delayed reply for being occu=
-pied a little with other
-> > > > > > > > > > > > > > > matters.
-> > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > On 11/10/2025 4:33 PM, Sultan Alsawaf wrote:
-> > > > > > > > > > > > > > > > Hi Bin,
-> > > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > > On Wed, Nov 05, 2025 at 01:25:58AM -0800, S=
-ultan Alsawaf wrote:
-> > > > > > > > > > > > > > > > > Hi Bin,
-> > > > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > > > To expedite review, I've attached a patch=
- containing a bunch of fixes I've made
-> > > > > > > > > > > > > > > > > on top of v5. Most of my changes should b=
-e self-explanatory; feel free to ask
-> > > > > > > > > > > > > > > > > further about specific changes if you hav=
-e any questions.
-> > > > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > > > I haven't had a chance to review all of t=
-he v4 -> v5 changes yet, but I figured
-> > > > > > > > > > > > > > > > > I should send what I've got so far.
-> > > > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > > > FYI, there is a regression in isp4if_dequ=
-eue_buffer() where the bufq lock isn't
-> > > > > > > > > > > > > > > > > protecting the list_del() anymore. I also=
- checked the compiler output when using
-> > > > > > > > > > > > > > > > > guard() versus scoped_guard() in that fun=
-ction and there is no difference:
-> > > > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > > >          sha1sum:
-> > > > > > > > > > > > > > > > >          5652a0306da22ea741d80a9e03a787d0=
-f71758a8  isp4_interface.o // guard()
-> > > > > > > > > > > > > > > > >          5652a0306da22ea741d80a9e03a787d0=
-f71758a8  isp4_interface.o // scoped_guard()
-> > > > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > > > So guard() should be used there again, wh=
-ich I've done in my patch.
-> > > > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > > > I also have a few questions:
-> > > > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > > > 1. Does ISP FW provide a register interfa=
-ce to disable the IRQ? If so, it is
-> > > > > > > > > > > > > > > > >           faster to use that than using d=
-isable_irq_nosync() to disable the IRQ from
-> > > > > > > > > > > > > > > > >           the CPU's side.
-> > > > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > > > 2. When the IRQ is re-enabled in isp4sd_f=
-w_resp_func(), is there anything
-> > > > > > > > > > > > > > > > >           beforehand to mask all pending =
-interrupts from the ISP so that there isn't a
-> > > > > > > > > > > > > > > > >           bunch of stale interrupts firin=
-g as soon the IRQ is re-enabled?
-> > > > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > > > 3. Is there any risk of deadlock due to t=
-he stream kthread racing with the ISP
-> > > > > > > > > > > > > > > > >           when the ISP posts a new respon=
-se _after_ the kthread determines there are no
-> > > > > > > > > > > > > > > > >           more new responses but _before_=
- the enable_irq() in isp4sd_fw_resp_func()?
-> > > > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > > > 4. Why are some lines much longer than be=
-fore? It seems inconsistent that now
-> > > > > > > > > > > > > > > > >           there is a mix of several lines=
- wrapped to 80 cols and many lines going
-> > > > > > > > > > > > > > > > >           beyond 80 cols. And there are m=
-ultiple places where code is wrapped before
-> > > > > > > > > > > > > > > > >           reaching 80 cols even with lots=
- of room left, specifically for cases where it
-> > > > > > > > > > > > > > > > >           wouldn't hurt readability to pu=
-t more characters onto each line.
-> > > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > > I've attached a new, complete patch of chan=
-ges to apply on top of v5. You may
-> > > > > > > > > > > > > > > > ignore the incomplete patch from my previou=
-s email and use the new one instead.
-> > > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > > I made many changes and also answered quest=
-ions 1-3 myself.
-> > > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > > Please apply this on top of v5 and let me k=
-now if you have any questions.
-> > > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > Sure, will review, apply and test your patch =
-accordingly. Your contribution
-> > > > > > > > > > > > > > > is greatly appreciated, will let you know if =
-there is any question or
-> > > > > > > > > > > > > > > problem.
-> > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > > BTW, I noticed a strange regression in v5 e=
-ven without any of my changes: every
-> > > > > > > > > > > > > > > > time you use cheese after using it one time=
-, the video will freeze after 30-60
-> > > > > > > > > > > > > > > > seconds with this message printed to dmesg:
-> > > > > > > > > > > > > > > >          [ 2032.716559] amd_isp_capture amd=
-_isp_capture: -><- fail respid unknown respid(0x30002)
-> > > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > > And the video never unfreezes. I haven't fo=
-und the cause for the regression yet;
-> > > > > > > > > > > > > > > > can you try to reproduce it?
-> > > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > Really weird, we don't see this issue either =
-in dev or QA test. Is it 100%
-> > > > > > > > > > > > > > > reproducible and any other fail or err in the=
- log?
-> > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > Yes, it's 100% reproducible. There's no other m=
-essage in dmesg, only that one.
-> > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > Sometimes there is a stop stream error when I c=
-lose cheese after it froze:
-> > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > >         [  656.540307] amd_isp_capture amd_isp_=
-capture: fail to disable stream
-> > > > > > > > > > > > > >         [  657.046633] amd_isp_capture amd_isp_=
-capture: fail to stop steam
-> > > > > > > > > > > > > >         [  657.047224] amd_isp_capture amd_isp_=
-capture: disabling streaming failed (-110)
-> > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > When I revert to v4 I cannot reproduce it at al=
-l. It seems to be something in
-> > > > > > > > > > > > > > v4 -> v5 that is not fixed by any of my changes.
-> > > > > > > > > > > > > >=20
-> > > > > > > > > > > > >=20
-> > > > > > > > > > > > > Hi Sultan, could you please try following modific=
-ations on top of v5 to see
-> > > > > > > > > > > > > if it helps?
-> > > > > > > > > > > > >=20
-> > > > > > > > > > > > > diff --git a/drivers/media/platform/amd/isp4/isp4=
-_fw_cmd_resp.h
-> > > > > > > > > > > > > b/drivers/media/platform/amd/isp4/isp4_fw_cmd_res=
-p.h
-> > > > > > > > > > > > > index 39c2265121f9..d571b3873edb 100644
-> > > > > > > > > > > > > --- a/drivers/media/platform/amd/isp4/isp4_fw_cmd=
-_resp.h
-> > > > > > > > > > > > > +++ b/drivers/media/platform/amd/isp4/isp4_fw_cmd=
-_resp.h
-> > > > > > > > > > > > > @@ -97,7 +97,7 @@
-> > > > > > > > > > > > >=20
-> > > > > > > > > > > > > #define ADDR_SPACE_TYPE_GPU_VA          4
-> > > > > > > > > > > > >=20
-> > > > > > > > > > > > > -#define FW_MEMORY_POOL_SIZE             (200 * 1=
-024 * 1024)
-> > > > > > > > > > > > > +#define FW_MEMORY_POOL_SIZE             (100 * 1=
-024 * 1024)
-> > > > > > > > > > > > >=20
-> > > > > > > > > > > > > /*
-> > > > > > > > > > > > >        * standard ISP mipicsi=3D>isp
-> > > > > > > > > > > > > diff --git a/drivers/media/platform/amd/isp4/isp4=
-_subdev.c
-> > > > > > > > > > > > > b/drivers/media/platform/amd/isp4/isp4_subdev.c
-> > > > > > > > > > > > > index 248d10076ae8..acbc80aa709e 100644
-> > > > > > > > > > > > > --- a/drivers/media/platform/amd/isp4/isp4_subdev=
-=2Ec
-> > > > > > > > > > > > > +++ b/drivers/media/platform/amd/isp4/isp4_subdev=
-=2Ec
-> > > > > > > > > > > > > @@ -697,7 +697,7 @@ static int isp4sd_stop_resp_p=
-roc_threads(struct
-> > > > > > > > > > > > > isp4_subdev *isp_subdev)
-> > > > > > > > > > > > >              return 0;
-> > > > > > > > > > > > > }
-> > > > > > > > > > > > >=20
-> > > > > > > > > > > > > -static int isp4sd_pwroff_and_deinit(struct isp4_=
-subdev *isp_subdev)
-> > > > > > > > > > > > > +static int isp4sd_pwroff_and_deinit(struct isp4_=
-subdev *isp_subdev, bool
-> > > > > > > > > > > > > irq_enabled)
-> > > > > > > > > > > > > {
-> > > > > > > > > > > > >              struct isp4sd_sensor_info *sensor_in=
-fo =3D &isp_subdev->sensor_info;
-> > > > > > > > > > > > >              unsigned int perf_state =3D ISP4SD_P=
-ERFORMANCE_STATE_LOW;
-> > > > > > > > > > > > > @@ -716,8 +716,9 @@ static int isp4sd_pwroff_and_=
-deinit(struct isp4_subdev
-> > > > > > > > > > > > > *isp_subdev)
-> > > > > > > > > > > > >                      return 0;
-> > > > > > > > > > > > >              }
-> > > > > > > > > > > > >=20
-> > > > > > > > > > > > > -       for (int i =3D 0; i < ISP4SD_MAX_FW_RESP_=
-STREAM_NUM; i++)
-> > > > > > > > > > > > > -               disable_irq(isp_subdev->irq[i]);
-> > > > > > > > > > > > > +       if (irq_enabled)
-> > > > > > > > > > > > > +               for (int i =3D 0; i < ISP4SD_MAX_=
-FW_RESP_STREAM_NUM; i++)
-> > > > > > > > > > > > > +                       disable_irq(isp_subdev->i=
-rq[i]);
-> > > > > > > > > > > > >=20
-> > > > > > > > > > > > >              isp4sd_stop_resp_proc_threads(isp_su=
-bdev);
-> > > > > > > > > > > > >              dev_dbg(dev, "isp_subdev stop resp p=
-roc streads suc");
-> > > > > > > > > > > > > @@ -813,7 +814,7 @@ static int isp4sd_pwron_and_i=
-nit(struct isp4_subdev
-> > > > > > > > > > > > > *isp_subdev)
-> > > > > > > > > > > > >=20
-> > > > > > > > > > > > >              return 0;
-> > > > > > > > > > > > > err_unlock_and_close:
-> > > > > > > > > > > > > -       isp4sd_pwroff_and_deinit(isp_subdev);
-> > > > > > > > > > > > > +       isp4sd_pwroff_and_deinit(isp_subdev, fals=
-e);
-> > > > > > > > > > > > >              return -EINVAL;
-> > > > > > > > > > > > > }
-> > > > > > > > > > > > >=20
-> > > > > > > > > > > > > @@ -985,7 +986,7 @@ static int isp4sd_set_power(s=
-truct v4l2_subdev *sd, int
-> > > > > > > > > > > > > on)
-> > > > > > > > > > > > >              if (on)
-> > > > > > > > > > > > >                      return isp4sd_pwron_and_init=
-(isp_subdev);
-> > > > > > > > > > > > >              else
-> > > > > > > > > > > > > -               return isp4sd_pwroff_and_deinit(i=
-sp_subdev);
-> > > > > > > > > > > > > +               return isp4sd_pwroff_and_deinit(i=
-sp_subdev, true);
-> > > > > > > > > > > > > }
-> > > > > > > > > > > > >=20
-> > > > > > > > > > > > > static const struct v4l2_subdev_core_ops isp4sd_c=
-ore_ops =3D {
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > No difference sadly; same symptoms as before. FYI, =
-your email client broke the
-> > > > > > > > > > > > patch formatting so I couldn't apply it; it hard wr=
-apped some lines to 80 cols,
-> > > > > > > > > > > > replaced tabs with spaces, and removed leading spac=
-es on each context line, so I
-> > > > > > > > > > > > had to apply it manually. To confirm I applied it c=
-orrectly, here is my diff:
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > diff --git a/drivers/media/platform/amd/isp4/isp4_f=
-w_cmd_resp.h b/drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h
-> > > > > > > > > > > > index 39c2265121f9..d571b3873edb 100644
-> > > > > > > > > > > > --- a/drivers/media/platform/amd/isp4/isp4_fw_cmd_r=
-esp.h
-> > > > > > > > > > > > +++ b/drivers/media/platform/amd/isp4/isp4_fw_cmd_r=
-esp.h
-> > > > > > > > > > > > @@ -97,7 +97,7 @@
-> > > > > > > > > > > >       #define ADDR_SPACE_TYPE_GPU_VA          4
-> > > > > > > > > > > > -#define FW_MEMORY_POOL_SIZE             (200 * 102=
-4 * 1024)
-> > > > > > > > > > > > +#define FW_MEMORY_POOL_SIZE             (100 * 102=
-4 * 1024)
-> > > > > > > > > > > >       /*
-> > > > > > > > > > > >        * standard ISP mipicsi=3D>isp
-> > > > > > > > > > > > diff --git a/drivers/media/platform/amd/isp4/isp4_s=
-ubdev.c b/drivers/media/platform/amd/isp4/isp4_subdev.c
-> > > > > > > > > > > > index 4bd2ebf0f694..500ef0af8a41 100644
-> > > > > > > > > > > > --- a/drivers/media/platform/amd/isp4/isp4_subdev.c
-> > > > > > > > > > > > +++ b/drivers/media/platform/amd/isp4/isp4_subdev.c
-> > > > > > > > > > > > @@ -669,7 +669,7 @@ static int isp4sd_stop_resp_pro=
-c_threads(struct isp4_subdev *isp_subdev)
-> > > > > > > > > > > >       	return 0;
-> > > > > > > > > > > >       }
-> > > > > > > > > > > > -static int isp4sd_pwroff_and_deinit(struct isp4_su=
-bdev *isp_subdev)
-> > > > > > > > > > > > +static int isp4sd_pwroff_and_deinit(struct isp4_su=
-bdev *isp_subdev, bool irq_enabled)
-> > > > > > > > > > > >       {
-> > > > > > > > > > > >       	struct isp4sd_sensor_info *sensor_info =3D &=
-isp_subdev->sensor_info;
-> > > > > > > > > > > >       	unsigned int perf_state =3D ISP4SD_PERFORMAN=
-CE_STATE_LOW;
-> > > > > > > > > > > > @@ -688,8 +688,9 @@ static int isp4sd_pwroff_and_de=
-init(struct isp4_subdev *isp_subdev)
-> > > > > > > > > > > >       		return 0;
-> > > > > > > > > > > >       	}
-> > > > > > > > > > > > -	for (int i =3D 0; i < ISP4SD_MAX_FW_RESP_STREAM_N=
-UM; i++)
-> > > > > > > > > > > > -		disable_irq(isp_subdev->irq[i]);
-> > > > > > > > > > > > +	if (irq_enabled)
-> > > > > > > > > > > > +		for (int i =3D 0; i < ISP4SD_MAX_FW_RESP_STREAM_=
-NUM; i++)
-> > > > > > > > > > > > +			disable_irq(isp_subdev->irq[i]);
-> > > > > > > > > > > >       	isp4sd_stop_resp_proc_threads(isp_subdev);
-> > > > > > > > > > > >       	dev_dbg(dev, "isp_subdev stop resp proc stre=
-ads suc");
-> > > > > > > > > > > > @@ -785,7 +786,7 @@ static int isp4sd_pwron_and_ini=
-t(struct isp4_subdev *isp_subdev)
-> > > > > > > > > > > >       	return 0;
-> > > > > > > > > > > >       err_unlock_and_close:
-> > > > > > > > > > > > -	isp4sd_pwroff_and_deinit(isp_subdev);
-> > > > > > > > > > > > +	isp4sd_pwroff_and_deinit(isp_subdev, false);
-> > > > > > > > > > > >       	return -EINVAL;
-> > > > > > > > > > > >       }
-> > > > > > > > > > > > @@ -957,7 +958,7 @@ static int isp4sd_set_power(str=
-uct v4l2_subdev *sd, int on)
-> > > > > > > > > > > >       	if (on)
-> > > > > > > > > > > >       		return isp4sd_pwron_and_init(isp_subdev);
-> > > > > > > > > > > >       	else
-> > > > > > > > > > > > -		return isp4sd_pwroff_and_deinit(isp_subdev);
-> > > > > > > > > > > > +		return isp4sd_pwroff_and_deinit(isp_subdev, true=
-);
-> > > > > > > > > > > >       }
-> > > > > > > > > > > >       static const struct v4l2_subdev_core_ops isp4=
-sd_core_ops =3D {
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > > On the other hand, please also add the patch in a=
-mdgpu which sets *bo to
-> > > > > > > > > > > > > NULL in isp_kernel_buffer_alloc() which you menti=
-oned in another thread.
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > Yep, I have been doing all v5 testing with that pat=
-ch applied.
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > BTW, I have verified the IRQ changes are not the ca=
-use for the regression; I
-> > > > > > > > > > > > tested with IRQs kept enabled all the time and the =
-issue still occurs.
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > I did observe that ISP stops sending interrupts whe=
-n the video stream freezes.
-> > > > > > > > > > > > And, if I replicate the bug enough times, it seems =
-to permanently break FW until
-> > > > > > > > > > > > a full machine reboot. Reloading amd_capture with t=
-he v4 driver doesn't recover
-> > > > > > > > > > > > the ISP when this happens.
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > As an improvement to the driver, can we do a hard r=
-eset of ISP on driver probe?
-> > > > > > > > > > > > I am assuming hardware doesn't need too long to set=
-tle after hard reset, maybe
-> > > > > > > > > > > > a few hundred milliseconds? This would ensure ISP F=
-W is always in a working
-> > > > > > > > > > > > state when the driver is loaded.
-> > > > > > > > > > > >=20
-> > > > > > > > > >=20
-> > > > > > > > > > Actually, each time the camera is activated, the ISP dr=
-iver powers on the
-> > > > > > > > > > ISP and initiates its firmware from the beginning; when=
- the camera is
-> > > > > > > > > > closed, the ISP is powered off..
-> > > > > > > > >=20
-> > > > > > > > > Hmm, well I am able to put the ISP in a completely unusab=
-le state that doesn't
-> > > > > > > > > recover when I unload and reload amd_capture. Or maybe it=
- is the sensor that is
-> > > > > > > > > stuck in a broken state?
-> > > > > > > >=20
-> > > > > > > > Here is the log output when I try to start cheese after unl=
-oading and reloading
-> > > > > > > > amd_capture, where the ISP is in the broken state that requ=
-ires rebooting the
-> > > > > > > > laptop (annotated with notes of what I saw/did at each poin=
-t in time):
-> > > > > > > >=20
-> > > > > > > > =3D=3D> opened cheese
-> > > > > > > > =3D=3D> cheese froze after a few seconds
-> > > > > > > > =3D=3D> closed cheese
-> > > > > > > >       [   34.570823] amd_isp_capture amd_isp_capture: fail =
-to disable stream
-> > > > > > > >       [   35.077503] amd_isp_capture amd_isp_capture: fail =
-to stop steam
-> > > > > > > >       [   35.077525] amd_isp_capture amd_isp_capture: disab=
-ling streaming failed (-110)
-> > > > > > > > =3D=3D> unloaded amd_capture
-> > > > > > > > =3D=3D> loaded amd_capture
-> > > > > > > > =3D=3D> opened cheese
-> > > > > > > >       [  308.039721] amd_isp_capture amd_isp_capture: ISP C=
-CPU FW boot failed
-> > > > > > > >       [  308.043961] amd_isp_capture amd_isp_capture: fail =
-to start isp_subdev interface
-> > > > > > > >       [  308.044188] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.044194] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.044196] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.044197] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.044198] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.044198] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.044199] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.044200] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.044200] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.044201] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.044202] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.065226] amd_isp_capture amd_isp_capture: power=
- up isp fail -22
-> > > > > > > >       [  308.174814] amd_isp_capture amd_isp_capture: ISP C=
-CPU FW boot failed
-> > > > > > > >       [  308.177807] amd_isp_capture amd_isp_capture: fail =
-to start isp_subdev interface
-> > > > > > > >       [  308.178036] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.178043] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.178044] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.178045] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.178046] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.178047] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.178048] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.178048] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.178049] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.178050] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.178050] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.198776] amd_isp_capture amd_isp_capture: power=
- up isp fail -22
-> > > > > > > >       [  308.306835] amd_isp_capture amd_isp_capture: ISP C=
-CPU FW boot failed
-> > > > > > > >       [  308.311533] amd_isp_capture amd_isp_capture: fail =
-to start isp_subdev interface
-> > > > > > > >       [  308.311723] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.311723] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.311724] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.311725] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.311725] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.311726] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.311726] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.311726] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.311727] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.311727] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.311727] amd_isp_capture amd_isp_capture: inval=
-id mem_info
-> > > > > > > >       [  308.335281] amd_isp_capture amd_isp_capture: power=
- up isp fail -22
-> > > > > > > >=20
-> > > > > > >=20
-> > > > > > > Thanks Sultan for the detailed info, I agree with you, tend t=
-o believe it
-> > > > > > > may related to the sensor, I will follow up with the FW team =
-to investigate
-> > > > > > > further.
-> > > > > > >=20
-> > > > > > > > > > > > Thanks,
-> > > > > > > > > > > > Sultan
-> > > > > > > > > > >=20
-> > > > > > > > > > > A small update: I reproduced the issue on v4, but it =
-took several more cycles of
-> > > > > > > > > > > closing/opening cheese and waiting 30s compared to v5.
-> > > > > > > > > > >=20
-> > > > > > > > > > > Right now my best guess is that this is a timing issu=
-e with respect to FW that
-> > > > > > > > > > > was exposed by the v5 changes. v5 introduced slight c=
-hanges in code timing, like
-> > > > > > > > > > > with the mutex locks getting replaced by spin locks.
-> > > > > > > > > > >=20
-> > > > > > > > > > > I'll try to insert mdelays to see if I can expose the=
- issue that way on v4.
-> > > > > > > > > > >=20
-> > > > > > > > > >=20
-> > > > > > > > > > Could you kindly provide the FW used?
-> > > > > > > > >=20
-> > > > > > > > >       commit a89515d3ff79f12099f7a51b0f4932b881b7720e
-> > > > > > > > >       Author: Pratap Nirujogi <pratap.nirujogi@amd.com>
-> > > > > > > > >       Date:   Thu Aug 21 15:40:45 2025 -0400
-> > > > > > > > >=20
-> > > > > > > > >           amdgpu: Update ISP FW for isp v4.1.1
-> > > > > > > > >           From internal git commit:
-> > > > > > > > >           24557b7326e539183b3bc44cf8e1496c74d383d6
-> > > > > > > > >           Signed-off-by: Pratap Nirujogi <pratap.nirujogi=
-@amd.com>
-> > > > > > > > >=20
-> > > > > > > > > Sultan
-> > > > > > > >=20
-> > > > > > > > Sultan
-> > > > > > >=20
-> > > > > > > --=20
-> > > > > > > Regards,
-> > > > > > > Bin
-> > > > > > >=20
-> > > > > >=20
-> > > > > > Thanks, Bin. I looked deeper at the code and didn't find any re=
-ason the issue
-> > > > > > could be due to the driver. Also, the problem happens outside o=
-f cheese for me
-> > > > > > (like in Chromium with Zoom meetings), so v5 of the driver is p=
-retty much
-> > > > > > unusable for me until this issue is fixed. :(
-> > > > > >=20
-> > > > >=20
-> > > > > Oh, really sad to hear that :(, there must be some difference bet=
-ween our
-> > > > > platforms because we still can't reproduce the issue you mentione=
-d, to help
-> > > > > on this, would you share more info like your Ubuntu version, Kern=
-el
-> > > > > version/source, ISP driver version, BIOS version, .config used to=
- build the
-> > > > > kernel, FW: commit a89515d3ff79f12099f7a51b0f4932b881b7720e.
-> > > > > Just wondering, if possible, could you provide the kernel image e=
-ither so we
-> > > > > can directly test on it. Also, the HW is not broken, right?
-> > > >=20
-> > > > I figured out why you cannot reproduce the issue. You need to pass =
-amd_iommu=3Doff
-> > > > on the kernel command line to trigger the issue.
-> > > >=20
-> > > > The reason I am using amd_iommu=3Doff is because this laptop otherw=
-ise doesn't
-> > > > ever wake from suspend under Linux once it reaches the S0i3 state. =
-The keyboard,
-> > > > power button, and lid do not respond to wake up the laptop from sus=
-pend. This
-> > > > happens 100% of the time once S0i3 is reached, and occurs on the OE=
-M Ubuntu
-> > > > image from HP as well. The only fix I have found is to pass amd_iom=
-mu=3Doff, which
-> > > > other owners of this laptop also found fixes the issue.
-> > >=20
-> > > You're the first report I've heard of this.
-> > >=20
-> > > Are you using storage encryption or a storage password of any kind (s=
-oftware
-> > > or hardware) by chance?
-> > >=20
-> > > If you are can you please describe it?
-> > >=20
-> > > Also can you generate a report using amd-s2idle?  I don't think it's =
-going
-> > > to flag anything but I would like to confirm.
-> >=20
-> > The issue is mentioned on a Reddit post [1]. A specific comment mentions
-> > amd_iommu=3Doff fixing the issue [2], which is where I got the idea to =
-do that.
-> >=20
-> > You will find conflicting reports about this issue online, with some pe=
-ople
-> > saying it doesn't happen anymore after some kernel update [3], and othe=
-rs saying
-> > it worked until something updated [4].
-> >=20
-> > The reason for all the conflicting reports online is because this issue=
- only
-> > occurs when S0i3 is reached, and I suspect that no one realized there's=
- a delay
-> > before S0i3 is entered. Reaching S0i3 appears to take at least 60 secon=
-ds
-> > *after* suspending the laptop. If S0i3 isn't entered, then you *can* wa=
-ke the
-> > laptop but there will always be this message indicating S0i3 wasn't hit:
-> >    [  107.428836] amd_pmc AMDI000B:00: Last suspend didn't reach deepes=
-t state
-> >=20
->=20
-> It shouldn't take 60 seconds to enter s0i3.  It should be ~5 seconds. So =
-are
-> you saying that if you have IOMMU enabled and interrupt the suspend around
-> 20 seconds later you get that you didn't reach deepest sleep state, and if
-> you wait longer it hangs?
->=20
-> > I am using LUKS1 encryption on my storage (software encryption). Howeve=
-r, I'm
-> > not sure any of my configuration info is relevant because I reproduced =
-the issue
-> > from a live USB using HP's OEM Ubuntu image [5], with nothing else phys=
-ically
-> > plugged into the laptop and not connected to anything over WiFi or Blue=
-tooth.
->=20
-> Is the SSD a SED?  Anything for storage password set in BIOS?
->=20
-> >=20
-> > I had the thought of generating a report using amd-s2idle a couple mont=
-hs ago...
-> > except I have no way to wake the machine from suspend at all. I have to=
- hold the
-> > the power button to do a hard shutdown. I tried using no_console_suspen=
-d but of
-> > course userspace processes are frozen so systemd couldn't record anythi=
-ng for
-> > me. I tried UART over USB and connected the output to another laptop bu=
-t it
-> > would only work for a few seconds right after booting up the laptop (co=
-uld've
-> > just been because I was using PL2303 serial converters, which aren't so=
- great).
-> >=20
-> > I have also tried several different combinations of settings toggled on=
-/off in
-> > the BIOS setup menu, as well as resetting to the factory default values=
-, without
-> > any change in behavior.
-> >=20
-> > I'm at a loss on how I can retrieve some debug info for this issue. :/
->=20
-> You are on the latest BIOS presumably, right?
->=20
-> If you schedule a suspend with amd-s2idle for ~10 seconds, does it reprod=
-uce
-> too?
-
-Oh my God, I ran `amd-s2idle test` and got this:
-
-  =E2=9D=8C IOMMU is misconfigured: missing MSFT0201 ACPI device
-  [...]
-  =F0=9F=9A=AB Your system does not meet s2idle prerequisites!
-  =F0=9F=97=A3 Explanations for your system
-  =F0=9F=9A=A6 Device MSFT0201 missing from ACPI tables
-  The ACPI device MSFT0201 is required for suspend to work when the IOMMU i=
-s enabled. Please check your BIOS settings and if configured correctly, rep=
-ort a bug to your system vendor.
-  For more information on this failure see:https://gitlab.freedesktop.org/d=
-rm/amd/-/issues/3738#note_2667140
-
-So then I reenabled Pluton in the BIOS and waking from suspend works now!!!
-
-This had slipped past my test with BIOS settings reset to factory defaults
-because the BIOS has a separate button to reset *security settings* to fact=
-ory
-defaults. And Pluton is one of those security settings.
-
-When I had Pluton disabled, it always took at least 60 seconds to enter S0i=
-3,
-measured on a stopwatch. Now S0i3 entry takes much less time as you say.
-
-Well, that fixes a bunch of struggles I had with this laptop. :) Thank you!
-
-Also, since I have your attention on S0i3, there is always this warning spl=
-at
-printed on resume from S0i3, both with and without IOMMU enabled:
-
-  [  366.694362] ------------[ cut here ]------------
-  [  366.694367] amdgpu 0000:c3:00.0: SMU uninitialized but power ungate re=
-quested for 16!
-  [  366.694427] WARNING: CPU: 12 PID: 3122 at drivers/gpu/drm/amd/amdgpu/.=
-=2E/pm/swsmu/amdgpu_smu.c:398 smu_dpm_set_power_gate+0x1d7/0x1f0 [amdgpu]
-  [  366.694640] Modules linked in: ccm hid_sensor_gyro_3d hid_sensor_prox =
-hid_sensor_trigger industrialio_triggered_buffer kfifo_buf hid_sensor_iio_c=
-ommon industrialio hid_sensor_hub rfcomm snd_seq_dummy snd_hrtimer snd_seq =
-snd_seq_device amd_capture videobuf2_memops videobuf2_v4l2 videobuf2_common=
- videodev mc pinctrl_amdisp i2c_designware_amdisp uhid cmac algif_hash algi=
-f_skcipher af_alg bnep uinput nls_iso8859_1 vfat fat snd_acp_legacy_mach jo=
-ydev snd_acp_mach mousedev intel_rapl_msr snd_soc_nau8821 snd_hda_scodec_cs=
-35l56_spi intel_rapl_common snd_acp3x_rn amdgpu snd_acp70 snd_ctl_led snd_a=
-cp_i2s snd_acp_pdm snd_soc_dmic snd_acp_pcm snd_sof_amd_acp70 snd_sof_amd_a=
-cp63 snd_sof_amd_vangogh snd_sof_amd_rembrandt snd_hda_codec_alc269 snd_sof=
-_amd_renoir snd_hda_scodec_component snd_sof_amd_acp snd_sof_pci snd_hda_co=
-dec_realtek_lib snd_sof_xtensa_dsp snd_hda_codec_generic snd_sof snd_sof_ut=
-ils snd_pci_ps snd_soc_acpi_amd_match snd_amd_sdw_acpi soundwire_amd soundw=
-ire_generic_allocation mt7925e soundwire_bus
-  [  366.694715]  snd_hda_codec_atihdmi mt7925_common snd_soc_sdca snd_hda_=
-codec_hdmi mt792x_lib snd_soc_core mt76_connac_lib snd_compress drm_panel_b=
-acklight_quirks amdxcp btusb ac97_bus drm_buddy snd_hda_intel mt76 snd_pcm_=
-dmaengine btrtl drm_exec snd_rpl_pci_acp6x drm_suballoc_helper snd_hda_code=
-c btintel drm_ttm_helper btbcm mac80211 snd_hda_scodec_cs35l56_i2c snd_acp_=
-pci snd_hda_core ttm btmtk ucsi_acpi snd_hda_scodec_cs35l56 snd_amd_acpi_ma=
-ch libarc4 snd_intel_dspcfg snd_hda_cirrus_scodec i2c_algo_bit typec_ucsi s=
-nd_acp_legacy_common spd5118 snd_intel_sdw_acpi bluetooth drm_display_helpe=
-r snd_soc_cs35l56_shared snd_pci_acp6x snd_hwdep snd_soc_cs_amp_lib typec h=
-p_wmi cfg80211 cs_dsp cec kvm_amd snd_pci_acp5x snd_pcm hid_multitouch ecdh=
-_generic roles sp5100_tco sparse_keymap wmi_bmof amd_pmf kvm snd_timer snd_=
-rn_pci_acp3x i2c_hid_acpi snd_acp_config video amdtee serial_multi_instanti=
-ate i2c_hid irqbypass i2c_piix4 snd snd_soc_acpi amdxdna snd_pci_acp3x soun=
-dcore amd_sfh platform_profile wmi i2c_smbus rfkill
-  [  366.694807]  wireless_hotkey thunderbolt amd_pmc gpu_sched rapl mac_hi=
-d i2c_dev sg crypto_user loop nfnetlink ip_tables x_tables dm_crypt encrypt=
-ed_keys trusted asn1_encoder tee dm_mod polyval_clmulni ghash_clmulni_intel=
- aesni_intel nvme nvme_core serio_raw nvme_keyring ccp nvme_auth
-  [  366.694840] CPU: 12 UID: 0 PID: 3122 Comm: kworker/u129:47 Tainted: G =
-       W           6.17.7 #1 PREEMPT=20
-  [  366.694846] Tainted: [W]=3DWARN
-  [  366.694848] Hardware name: HP HP ZBook Ultra G1a 14 inch Mobile Workst=
-ation PC/8D01, BIOS X89 Ver. 01.03.02 06/18/2025
-  [  366.694852] Workqueue: async async_run_entry_fn
-  [  366.694867] RIP: 0010:smu_dpm_set_power_gate+0x1d7/0x1f0 [amdgpu]
-  [  366.694974] Code: 85 ed 75 03 48 8b 2f 89 74 24 04 e8 f3 85 da cb 44 8=
-b 44 24 04 48 89 d9 48 89 ea 48 89 c6 48 c7 c7 48 80 fc c1 e8 c9 0d 63 cb <=
-0f> 0b b8 a1 ff ff ff e9 a1 fe ff ff e9 3b b3 3b 00 e9 36 b3 3b 00
-  [  366.694977] RSP: 0018:ffff8fad27387ce8 EFLAGS: 00010246
-  [  366.694981] RAX: 0000000000000000 RBX: ffffffffc2006846 RCX: 000000000=
-0000027
-  [  366.694984] RDX: ffff8fcbde51abc8 RSI: 0000000000000001 RDI: ffff8fcbd=
-e51abc0
-  [  366.694985] RBP: ffff8fad016afc80 R08: 0000000000000000 R09: 00000000f=
-fffdfff
-  [  366.694986] R10: ffffffff8e6d5da0 R11: ffff8fad27387b88 R12: ffff8fad2=
-5a80000
-  [  366.694987] R13: ffff8fad25a96680 R14: 0000000000000001 R15: ffffffffc=
-1e7ce80
-  [  366.694989] FS:  0000000000000000(0000) GS:ffff8fcc4fe73000(0000) knlG=
-S:0000000000000000
-  [  366.694990] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-  [  366.694992] CR2: 00007f58f6956408 CR3: 0000000116015000 CR4: 000000000=
-0f50ef0
-  [  366.694993] PKRU: 55555554
-  [  366.694995] Call Trace:
-  [  366.695003]  <TASK>
-  [  366.695007]  amdgpu_dpm_set_powergating_by_smu+0xf1/0x110 [amdgpu]
-  [  366.695136]  _genpd_power_on+0x83/0x120
-  [  366.695149]  genpd_sync_power_on.part.0+0x66/0xc0
-  [  366.695154]  genpd_finish_resume+0x6f/0xd0
-  [  366.695157]  ? genpd_thaw_noirq+0x10/0x10
-  [  366.695159]  dpm_run_callback.isra.0+0x28/0x90
-  [  366.695166]  device_resume_noirq+0xc7/0x210
-  [  366.695169]  async_resume_noirq+0x1c/0x30
-  [  366.695171]  async_run_entry_fn+0x1f/0xa0
-  [  366.695175]  process_one_work+0x173/0x270
-  [  366.695183]  worker_thread+0x2d7/0x410
-  [  366.695188]  ? rescuer_thread+0x4e0/0x4e0
-  [  366.695191]  kthread+0xe6/0x1e0
-  [  366.695196]  ? kthread_queue_delayed_work+0x80/0x80
-  [  366.695199]  ? kthread_queue_delayed_work+0x80/0x80
-  [  366.695202]  ret_from_fork+0xf0/0x110
-  [  366.695211]  ? kthread_queue_delayed_work+0x80/0x80
-  [  366.695214]  ? kthread_queue_delayed_work+0x80/0x80
-  [  366.695217]  ret_from_fork_asm+0x11/0x20
-  [  366.695224]  </TASK>
-  [  366.695225] ---[ end trace 0000000000000000 ]---
-
-
-> >=20
-> > [1] https://www.reddit.com/r/AMDLaptops/comments/1mmrlgz/hp_zbook_ultra=
-_g1a_ubuntu_fully_working_now_or/
-> > [2] https://www.reddit.com/r/AMDLaptops/comments/1mmrlgz/comment/nd4cld=
-p/
-> > [3] https://forum.level1techs.com/t/the-ultimate-arch-secureboot-guide-=
-for-ryzen-ai-max-ft-hp-g1a-128gb-8060s-monster-laptop/230652#hibernate-susp=
-end-and-kernel-versions-16
-> > [4] https://www.reddit.com/r/AMDLaptops/comments/1mmrlgz/comment/nd1xbt=
-d/
-> > [5] https://ftp.hp.com/pub/softpaq/sp158501-159000/stella-noble-oem-24.=
-04b-20250422-107.iso
-> >=20
-> > Sultan
->=20
-
-Sultan
+DQo+Pj4gSSdtIGF0IGEgbG9zcyBvbiBob3cgSSBjYW4gcmV0cmlldmUgc29tZSBkZWJ1ZyBpbmZv
+IGZvciB0aGlzIGlzc3VlLiA6Lw0KPj4NCj4+IFlvdSBhcmUgb24gdGhlIGxhdGVzdCBCSU9TIHBy
+ZXN1bWFibHksIHJpZ2h0Pw0KPj4NCj4+IElmIHlvdSBzY2hlZHVsZSBhIHN1c3BlbmQgd2l0aCBh
+bWQtczJpZGxlIGZvciB+MTAgc2Vjb25kcywgZG9lcyBpdCByZXByb2R1Y2UNCj4+IHRvbz8NCj4g
+DQo+IE9oIG15IEdvZCwgSSByYW4gYGFtZC1zMmlkbGUgdGVzdGAgYW5kIGdvdCB0aGlzOg0KPiAN
+Cj4gICAg4p2MIElPTU1VIGlzIG1pc2NvbmZpZ3VyZWQ6IG1pc3NpbmcgTVNGVDAyMDEgQUNQSSBk
+ZXZpY2UNCj4gICAgWy4uLl0NCj4gICAg8J+aqyBZb3VyIHN5c3RlbSBkb2VzIG5vdCBtZWV0IHMy
+aWRsZSBwcmVyZXF1aXNpdGVzIQ0KPiAgICDwn5ejIEV4cGxhbmF0aW9ucyBmb3IgeW91ciBzeXN0
+ZW0NCj4gICAg8J+apiBEZXZpY2UgTVNGVDAyMDEgbWlzc2luZyBmcm9tIEFDUEkgdGFibGVzDQo+
+ICAgIFRoZSBBQ1BJIGRldmljZSBNU0ZUMDIwMSBpcyByZXF1aXJlZCBmb3Igc3VzcGVuZCB0byB3
+b3JrIHdoZW4gdGhlIElPTU1VIGlzIGVuYWJsZWQuIFBsZWFzZSBjaGVjayB5b3VyIEJJT1Mgc2V0
+dGluZ3MgYW5kIGlmIGNvbmZpZ3VyZWQgY29ycmVjdGx5LCByZXBvcnQgYSBidWcgdG8geW91ciBz
+eXN0ZW0gdmVuZG9yLg0KPiAgICBGb3IgbW9yZSBpbmZvcm1hdGlvbiBvbiB0aGlzIGZhaWx1cmUg
+c2VlOmh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9kcm0vYW1kLy0vaXNzdWVzLzM3Mzgj
+bm90ZV8yNjY3MTQwDQo+IA0KPiBTbyB0aGVuIEkgcmVlbmFibGVkIFBsdXRvbiBpbiB0aGUgQklP
+UyBhbmQgd2FraW5nIGZyb20gc3VzcGVuZCB3b3JrcyBub3chISENCj4gDQo+IFRoaXMgaGFkIHNs
+aXBwZWQgcGFzdCBteSB0ZXN0IHdpdGggQklPUyBzZXR0aW5ncyByZXNldCB0byBmYWN0b3J5IGRl
+ZmF1bHRzDQo+IGJlY2F1c2UgdGhlIEJJT1MgaGFzIGEgc2VwYXJhdGUgYnV0dG9uIHRvIHJlc2V0
+ICpzZWN1cml0eSBzZXR0aW5ncyogdG8gZmFjdG9yeQ0KPiBkZWZhdWx0cy4gQW5kIFBsdXRvbiBp
+cyBvbmUgb2YgdGhvc2Ugc2VjdXJpdHkgc2V0dGluZ3MuDQo+IA0KPiBXaGVuIEkgaGFkIFBsdXRv
+biBkaXNhYmxlZCwgaXQgYWx3YXlzIHRvb2sgYXQgbGVhc3QgNjAgc2Vjb25kcyB0byBlbnRlciBT
+MGkzLA0KPiBtZWFzdXJlZCBvbiBhIHN0b3B3YXRjaC4gTm93IFMwaTMgZW50cnkgdGFrZXMgbXVj
+aCBsZXNzIHRpbWUgYXMgeW91IHNheS4NCj4gDQo+IFdlbGwsIHRoYXQgZml4ZXMgYSBidW5jaCBv
+ZiBzdHJ1Z2dsZXMgSSBoYWQgd2l0aCB0aGlzIGxhcHRvcC4gOikgVGhhbmsgeW91IQ0KDQpXZWxs
+IHRoYXQncyBncmVhdCBuZXdzIHRvIGhlYXIuICBJJ20gZ2xhZCB0aGF0IGNoZWNrIGluIGFtZC1z
+MmlkbGUgaGFzIA0KY29tZSBpbiBoYW5keS4NCg0KPiANCj4gQWxzbywgc2luY2UgSSBoYXZlIHlv
+dXIgYXR0ZW50aW9uIG9uIFMwaTMsIHRoZXJlIGlzIGFsd2F5cyB0aGlzIHdhcm5pbmcgc3BsYXQN
+Cj4gcHJpbnRlZCBvbiByZXN1bWUgZnJvbSBTMGkzLCBib3RoIHdpdGggYW5kIHdpdGhvdXQgSU9N
+TVUgZW5hYmxlZDoNCg0KWWVzOyBJJ20gYXdhcmUgb2YgdGhpcywgUHJhdGFwIGlzIGxvb2tpbmcg
+YXQgaG93IHRvIGFwcHJvYWNoIGl0LiAgSXQgDQpzaG91bGQgYmUgZnVuY3Rpb25hbGx5IGhhcm1s
+ZXNzIGF0IGxlYXN0Lg0KDQo+IA0KPiAgICBbICAzNjYuNjk0MzYyXSAtLS0tLS0tLS0tLS1bIGN1
+dCBoZXJlIF0tLS0tLS0tLS0tLS0NCj4gICAgWyAgMzY2LjY5NDM2N10gYW1kZ3B1IDAwMDA6YzM6
+MDAuMDogU01VIHVuaW5pdGlhbGl6ZWQgYnV0IHBvd2VyIHVuZ2F0ZSByZXF1ZXN0ZWQgZm9yIDE2
+IQ0KPiAgICBbICAzNjYuNjk0NDI3XSBXQVJOSU5HOiBDUFU6IDEyIFBJRDogMzEyMiBhdCBkcml2
+ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS8uLi9wbS9zd3NtdS9hbWRncHVfc211LmM6Mzk4IHNtdV9k
+cG1fc2V0X3Bvd2VyX2dhdGUrMHgxZDcvMHgxZjAgW2FtZGdwdV0NCj4gICAgWyAgMzY2LjY5NDY0
+MF0gTW9kdWxlcyBsaW5rZWQgaW46IGNjbSBoaWRfc2Vuc29yX2d5cm9fM2QgaGlkX3NlbnNvcl9w
+cm94IGhpZF9zZW5zb3JfdHJpZ2dlciBpbmR1c3RyaWFsaW9fdHJpZ2dlcmVkX2J1ZmZlciBrZmlm
+b19idWYgaGlkX3NlbnNvcl9paW9fY29tbW9uIGluZHVzdHJpYWxpbyBoaWRfc2Vuc29yX2h1YiBy
+ZmNvbW0gc25kX3NlcV9kdW1teSBzbmRfaHJ0aW1lciBzbmRfc2VxIHNuZF9zZXFfZGV2aWNlIGFt
+ZF9jYXB0dXJlIHZpZGVvYnVmMl9tZW1vcHMgdmlkZW9idWYyX3Y0bDIgdmlkZW9idWYyX2NvbW1v
+biB2aWRlb2RldiBtYyBwaW5jdHJsX2FtZGlzcCBpMmNfZGVzaWdud2FyZV9hbWRpc3AgdWhpZCBj
+bWFjIGFsZ2lmX2hhc2ggYWxnaWZfc2tjaXBoZXIgYWZfYWxnIGJuZXAgdWlucHV0IG5sc19pc284
+ODU5XzEgdmZhdCBmYXQgc25kX2FjcF9sZWdhY3lfbWFjaCBqb3lkZXYgc25kX2FjcF9tYWNoIG1v
+dXNlZGV2IGludGVsX3JhcGxfbXNyIHNuZF9zb2NfbmF1ODgyMSBzbmRfaGRhX3Njb2RlY19jczM1
+bDU2X3NwaSBpbnRlbF9yYXBsX2NvbW1vbiBzbmRfYWNwM3hfcm4gYW1kZ3B1IHNuZF9hY3A3MCBz
+bmRfY3RsX2xlZCBzbmRfYWNwX2kycyBzbmRfYWNwX3BkbSBzbmRfc29jX2RtaWMgc25kX2FjcF9w
+Y20gc25kX3NvZl9hbWRfYWNwNzAgc25kX3NvZl9hbWRfYWNwNjMgc25kX3NvZl9hbWRfdmFuZ29n
+aCBzbmRfc29mX2FtZF9yZW1icmFuZHQgc25kX2hkYV9jb2RlY19hbGMyNjkgc25kX3NvZl9hbWRf
+cmVub2lyIHNuZF9oZGFfc2NvZGVjX2NvbXBvbmVudCBzbmRfc29mX2FtZF9hY3Agc25kX3NvZl9w
+Y2kgc25kX2hkYV9jb2RlY19yZWFsdGVrX2xpYiBzbmRfc29mX3h0ZW5zYV9kc3Agc25kX2hkYV9j
+b2RlY19nZW5lcmljIHNuZF9zb2Ygc25kX3NvZl91dGlscyBzbmRfcGNpX3BzIHNuZF9zb2NfYWNw
+aV9hbWRfbWF0Y2ggc25kX2FtZF9zZHdfYWNwaSBzb3VuZHdpcmVfYW1kIHNvdW5kd2lyZV9nZW5l
+cmljX2FsbG9jYXRpb24gbXQ3OTI1ZSBzb3VuZHdpcmVfYnVzDQo+ICAgIFsgIDM2Ni42OTQ3MTVd
+ICBzbmRfaGRhX2NvZGVjX2F0aWhkbWkgbXQ3OTI1X2NvbW1vbiBzbmRfc29jX3NkY2Egc25kX2hk
+YV9jb2RlY19oZG1pIG10NzkyeF9saWIgc25kX3NvY19jb3JlIG10NzZfY29ubmFjX2xpYiBzbmRf
+Y29tcHJlc3MgZHJtX3BhbmVsX2JhY2tsaWdodF9xdWlya3MgYW1keGNwIGJ0dXNiIGFjOTdfYnVz
+IGRybV9idWRkeSBzbmRfaGRhX2ludGVsIG10NzYgc25kX3BjbV9kbWFlbmdpbmUgYnRydGwgZHJt
+X2V4ZWMgc25kX3JwbF9wY2lfYWNwNnggZHJtX3N1YmFsbG9jX2hlbHBlciBzbmRfaGRhX2NvZGVj
+IGJ0aW50ZWwgZHJtX3R0bV9oZWxwZXIgYnRiY20gbWFjODAyMTEgc25kX2hkYV9zY29kZWNfY3Mz
+NWw1Nl9pMmMgc25kX2FjcF9wY2kgc25kX2hkYV9jb3JlIHR0bSBidG10ayB1Y3NpX2FjcGkgc25k
+X2hkYV9zY29kZWNfY3MzNWw1NiBzbmRfYW1kX2FjcGlfbWFjaCBsaWJhcmM0IHNuZF9pbnRlbF9k
+c3BjZmcgc25kX2hkYV9jaXJydXNfc2NvZGVjIGkyY19hbGdvX2JpdCB0eXBlY191Y3NpIHNuZF9h
+Y3BfbGVnYWN5X2NvbW1vbiBzcGQ1MTE4IHNuZF9pbnRlbF9zZHdfYWNwaSBibHVldG9vdGggZHJt
+X2Rpc3BsYXlfaGVscGVyIHNuZF9zb2NfY3MzNWw1Nl9zaGFyZWQgc25kX3BjaV9hY3A2eCBzbmRf
+aHdkZXAgc25kX3NvY19jc19hbXBfbGliIHR5cGVjIGhwX3dtaSBjZmc4MDIxMSBjc19kc3AgY2Vj
+IGt2bV9hbWQgc25kX3BjaV9hY3A1eCBzbmRfcGNtIGhpZF9tdWx0aXRvdWNoIGVjZGhfZ2VuZXJp
+YyByb2xlcyBzcDUxMDBfdGNvIHNwYXJzZV9rZXltYXAgd21pX2Jtb2YgYW1kX3BtZiBrdm0gc25k
+X3RpbWVyIHNuZF9ybl9wY2lfYWNwM3ggaTJjX2hpZF9hY3BpIHNuZF9hY3BfY29uZmlnIHZpZGVv
+IGFtZHRlZSBzZXJpYWxfbXVsdGlfaW5zdGFudGlhdGUgaTJjX2hpZCBpcnFieXBhc3MgaTJjX3Bp
+aXg0IHNuZCBzbmRfc29jX2FjcGkgYW1keGRuYSBzbmRfcGNpX2FjcDN4IHNvdW5kY29yZSBhbWRf
+c2ZoIHBsYXRmb3JtX3Byb2ZpbGUgd21pIGkyY19zbWJ1cyByZmtpbGwNCj4gICAgWyAgMzY2LjY5
+NDgwN10gIHdpcmVsZXNzX2hvdGtleSB0aHVuZGVyYm9sdCBhbWRfcG1jIGdwdV9zY2hlZCByYXBs
+IG1hY19oaWQgaTJjX2RldiBzZyBjcnlwdG9fdXNlciBsb29wIG5mbmV0bGluayBpcF90YWJsZXMg
+eF90YWJsZXMgZG1fY3J5cHQgZW5jcnlwdGVkX2tleXMgdHJ1c3RlZCBhc24xX2VuY29kZXIgdGVl
+IGRtX21vZCBwb2x5dmFsX2NsbXVsbmkgZ2hhc2hfY2xtdWxuaV9pbnRlbCBhZXNuaV9pbnRlbCBu
+dm1lIG52bWVfY29yZSBzZXJpb19yYXcgbnZtZV9rZXlyaW5nIGNjcCBudm1lX2F1dGgNCj4gICAg
+WyAgMzY2LjY5NDg0MF0gQ1BVOiAxMiBVSUQ6IDAgUElEOiAzMTIyIENvbW06IGt3b3JrZXIvdTEy
+OTo0NyBUYWludGVkOiBHICAgICAgICBXICAgICAgICAgICA2LjE3LjcgIzEgUFJFRU1QVA0KPiAg
+ICBbICAzNjYuNjk0ODQ2XSBUYWludGVkOiBbV109V0FSTg0KPiAgICBbICAzNjYuNjk0ODQ4XSBI
+YXJkd2FyZSBuYW1lOiBIUCBIUCBaQm9vayBVbHRyYSBHMWEgMTQgaW5jaCBNb2JpbGUgV29ya3N0
+YXRpb24gUEMvOEQwMSwgQklPUyBYODkgVmVyLiAwMS4wMy4wMiAwNi8xOC8yMDI1DQo+ICAgIFsg
+IDM2Ni42OTQ4NTJdIFdvcmtxdWV1ZTogYXN5bmMgYXN5bmNfcnVuX2VudHJ5X2ZuDQo+ICAgIFsg
+IDM2Ni42OTQ4NjddIFJJUDogMDAxMDpzbXVfZHBtX3NldF9wb3dlcl9nYXRlKzB4MWQ3LzB4MWYw
+IFthbWRncHVdDQo+ICAgIFsgIDM2Ni42OTQ5NzRdIENvZGU6IDg1IGVkIDc1IDAzIDQ4IDhiIDJm
+IDg5IDc0IDI0IDA0IGU4IGYzIDg1IGRhIGNiIDQ0IDhiIDQ0IDI0IDA0IDQ4IDg5IGQ5IDQ4IDg5
+IGVhIDQ4IDg5IGM2IDQ4IGM3IGM3IDQ4IDgwIGZjIGMxIGU4IGM5IDBkIDYzIGNiIDwwZj4gMGIg
+YjggYTEgZmYgZmYgZmYgZTkgYTEgZmUgZmYgZmYgZTkgM2IgYjMgM2IgMDAgZTkgMzYgYjMgM2Ig
+MDANCj4gICAgWyAgMzY2LjY5NDk3N10gUlNQOiAwMDE4OmZmZmY4ZmFkMjczODdjZTggRUZMQUdT
+OiAwMDAxMDI0Ng0KPiAgICBbICAzNjYuNjk0OTgxXSBSQVg6IDAwMDAwMDAwMDAwMDAwMDAgUkJY
+OiBmZmZmZmZmZmMyMDA2ODQ2IFJDWDogMDAwMDAwMDAwMDAwMDAyNw0KPiAgICBbICAzNjYuNjk0
+OTg0XSBSRFg6IGZmZmY4ZmNiZGU1MWFiYzggUlNJOiAwMDAwMDAwMDAwMDAwMDAxIFJESTogZmZm
+ZjhmY2JkZTUxYWJjMA0KPiAgICBbICAzNjYuNjk0OTg1XSBSQlA6IGZmZmY4ZmFkMDE2YWZjODAg
+UjA4OiAwMDAwMDAwMDAwMDAwMDAwIFIwOTogMDAwMDAwMDBmZmZmZGZmZg0KPiAgICBbICAzNjYu
+Njk0OTg2XSBSMTA6IGZmZmZmZmZmOGU2ZDVkYTAgUjExOiBmZmZmOGZhZDI3Mzg3Yjg4IFIxMjog
+ZmZmZjhmYWQyNWE4MDAwMA0KPiAgICBbICAzNjYuNjk0OTg3XSBSMTM6IGZmZmY4ZmFkMjVhOTY2
+ODAgUjE0OiAwMDAwMDAwMDAwMDAwMDAxIFIxNTogZmZmZmZmZmZjMWU3Y2U4MA0KPiAgICBbICAz
+NjYuNjk0OTg5XSBGUzogIDAwMDAwMDAwMDAwMDAwMDAoMDAwMCkgR1M6ZmZmZjhmY2M0ZmU3MzAw
+MCgwMDAwKSBrbmxHUzowMDAwMDAwMDAwMDAwMDAwDQo+ICAgIFsgIDM2Ni42OTQ5OTBdIENTOiAg
+MDAxMCBEUzogMDAwMCBFUzogMDAwMCBDUjA6IDAwMDAwMDAwODAwNTAwMzMNCj4gICAgWyAgMzY2
+LjY5NDk5Ml0gQ1IyOiAwMDAwN2Y1OGY2OTU2NDA4IENSMzogMDAwMDAwMDExNjAxNTAwMCBDUjQ6
+IDAwMDAwMDAwMDBmNTBlZjANCj4gICAgWyAgMzY2LjY5NDk5M10gUEtSVTogNTU1NTU1NTQNCj4g
+ICAgWyAgMzY2LjY5NDk5NV0gQ2FsbCBUcmFjZToNCj4gICAgWyAgMzY2LjY5NTAwM10gIDxUQVNL
+Pg0KPiAgICBbICAzNjYuNjk1MDA3XSAgYW1kZ3B1X2RwbV9zZXRfcG93ZXJnYXRpbmdfYnlfc211
+KzB4ZjEvMHgxMTAgW2FtZGdwdV0NCj4gICAgWyAgMzY2LjY5NTEzNl0gIF9nZW5wZF9wb3dlcl9v
+bisweDgzLzB4MTIwDQo+ICAgIFsgIDM2Ni42OTUxNDldICBnZW5wZF9zeW5jX3Bvd2VyX29uLnBh
+cnQuMCsweDY2LzB4YzANCj4gICAgWyAgMzY2LjY5NTE1NF0gIGdlbnBkX2ZpbmlzaF9yZXN1bWUr
+MHg2Zi8weGQwDQo+ICAgIFsgIDM2Ni42OTUxNTddICA/IGdlbnBkX3RoYXdfbm9pcnErMHgxMC8w
+eDEwDQo+ICAgIFsgIDM2Ni42OTUxNTldICBkcG1fcnVuX2NhbGxiYWNrLmlzcmEuMCsweDI4LzB4
+OTANCj4gICAgWyAgMzY2LjY5NTE2Nl0gIGRldmljZV9yZXN1bWVfbm9pcnErMHhjNy8weDIxMA0K
+PiAgICBbICAzNjYuNjk1MTY5XSAgYXN5bmNfcmVzdW1lX25vaXJxKzB4MWMvMHgzMA0KPiAgICBb
+ICAzNjYuNjk1MTcxXSAgYXN5bmNfcnVuX2VudHJ5X2ZuKzB4MWYvMHhhMA0KPiAgICBbICAzNjYu
+Njk1MTc1XSAgcHJvY2Vzc19vbmVfd29yaysweDE3My8weDI3MA0KPiAgICBbICAzNjYuNjk1MTgz
+XSAgd29ya2VyX3RocmVhZCsweDJkNy8weDQxMA0KPiAgICBbICAzNjYuNjk1MTg4XSAgPyByZXNj
+dWVyX3RocmVhZCsweDRlMC8weDRlMA0KPiAgICBbICAzNjYuNjk1MTkxXSAga3RocmVhZCsweGU2
+LzB4MWUwDQo+ICAgIFsgIDM2Ni42OTUxOTZdICA/IGt0aHJlYWRfcXVldWVfZGVsYXllZF93b3Jr
+KzB4ODAvMHg4MA0KPiAgICBbICAzNjYuNjk1MTk5XSAgPyBrdGhyZWFkX3F1ZXVlX2RlbGF5ZWRf
+d29yaysweDgwLzB4ODANCj4gICAgWyAgMzY2LjY5NTIwMl0gIHJldF9mcm9tX2ZvcmsrMHhmMC8w
+eDExMA0KPiAgICBbICAzNjYuNjk1MjExXSAgPyBrdGhyZWFkX3F1ZXVlX2RlbGF5ZWRfd29yaysw
+eDgwLzB4ODANCj4gICAgWyAgMzY2LjY5NTIxNF0gID8ga3RocmVhZF9xdWV1ZV9kZWxheWVkX3dv
+cmsrMHg4MC8weDgwDQo+ICAgIFsgIDM2Ni42OTUyMTddICByZXRfZnJvbV9mb3JrX2FzbSsweDEx
+LzB4MjANCj4gICAgWyAgMzY2LjY5NTIyNF0gIDwvVEFTSz4NCj4gICAgWyAgMzY2LjY5NTIyNV0g
+LS0tWyBlbmQgdHJhY2UgMDAwMDAwMDAwMDAwMDAwMCBdLS0tDQo+IA0KPiANCj4+Pg0KPj4+IFsx
+XSBodHRwczovL3d3dy5yZWRkaXQuY29tL3IvQU1ETGFwdG9wcy9jb21tZW50cy8xbW1ybGd6L2hw
+X3pib29rX3VsdHJhX2cxYV91YnVudHVfZnVsbHlfd29ya2luZ19ub3dfb3IvDQo+Pj4gWzJdIGh0
+dHBzOi8vd3d3LnJlZGRpdC5jb20vci9BTURMYXB0b3BzL2NvbW1lbnRzLzFtbXJsZ3ovY29tbWVu
+dC9uZDRjbGRwLw0KPj4+IFszXSBodHRwczovL2ZvcnVtLmxldmVsMXRlY2hzLmNvbS90L3RoZS11
+bHRpbWF0ZS1hcmNoLXNlY3VyZWJvb3QtZ3VpZGUtZm9yLXJ5emVuLWFpLW1heC1mdC1ocC1nMWEt
+MTI4Z2ItODA2MHMtbW9uc3Rlci1sYXB0b3AvMjMwNjUyI2hpYmVybmF0ZS1zdXNwZW5kLWFuZC1r
+ZXJuZWwtdmVyc2lvbnMtMTYNCj4+PiBbNF0gaHR0cHM6Ly93d3cucmVkZGl0LmNvbS9yL0FNRExh
+cHRvcHMvY29tbWVudHMvMW1tcmxnei9jb21tZW50L25kMXhidGQvDQo+Pj4gWzVdIGh0dHBzOi8v
+ZnRwLmhwLmNvbS9wdWIvc29mdHBhcS9zcDE1ODUwMS0xNTkwMDAvc3RlbGxhLW5vYmxlLW9lbS0y
+NC4wNGItMjAyNTA0MjItMTA3Lmlzbw0KDQpNYXliZSBzaGFyZSBzb21lIHBvaW50ZXJzIG92ZXIg
+dG8gdGhlc2UgdGhyZWFkcyBhYm91dCB5b3VyIGZpbmRpbmdzIHRvbyENCg0K
 
