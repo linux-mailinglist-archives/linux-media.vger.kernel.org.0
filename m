@@ -1,126 +1,129 @@
-Return-Path: <linux-media+bounces-47570-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47571-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04AADC79247
-	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 14:10:54 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B0A3C795A4
+	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 14:28:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E9B674EA39F
-	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 13:07:51 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id E634B38069A
+	for <lists+linux-media@lfdr.de>; Fri, 21 Nov 2025 13:23:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB09B3431EF;
-	Fri, 21 Nov 2025 13:07:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 949872773F7;
+	Fri, 21 Nov 2025 13:22:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kaspersky.com header.i=@kaspersky.com header.b="gw2DlDjx"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="il38GDHD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx12.kaspersky-labs.com (mx12.kaspersky-labs.com [91.103.66.155])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5CC2F2900;
-	Fri, 21 Nov 2025 13:07:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.103.66.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C74274B2E
+	for <linux-media@vger.kernel.org>; Fri, 21 Nov 2025 13:22:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763730464; cv=none; b=psZhPD3thgSQbQymcm41kQgqCLZNfIAxlpswbhej5vJnTfsGxb897rgHGkKZ4+wkN5boOuOBMJl9GAhMhEks8QM/PO2eHCGrvR1chkhSZPKdPUvSyDcd6az4+zTFLolGUBDZkVvWmO2WbxYdPyj0yuzSU70c67CZ7FVuJUYXy3o=
+	t=1763731376; cv=none; b=A0n3ctuUJyz11s+JAXECvAOoEJQEXoZdhlHSaM2ajKQyMGIv6TVX08QIeDbMvPx68WALAvx/RlGWZ4LQfZJ9Tp7kW6FPWfrBI6yvutyjES5p0IFQmuis86QWz4/LtI7DmbKn4eL61FfLGxgypC5AnuRozNaAjB63QE+oXFguZuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763730464; c=relaxed/simple;
-	bh=XSWFcLzFNcH7IwA2R3+9HEqRUYncMcqCIwvE/4AErvU=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=HB4MurpIBG5f5sTXICw8crW5Eyh7jsuH7RiwQWp37aeCVz7Enl4+ZFciq5AAn56EndF94OGO/wSRNzmJuAfpbzwAKrWROOzzCP4mBtefODmJw67wQeV2gOZP7CclcsgD9b/BXNedH/Gc8O6WYq+ETxPSg4XCvzeYoIBEvj0R35U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kaspersky.com; spf=pass smtp.mailfrom=kaspersky.com; dkim=pass (2048-bit key) header.d=kaspersky.com header.i=@kaspersky.com header.b=gw2DlDjx; arc=none smtp.client-ip=91.103.66.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kaspersky.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kaspersky.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kaspersky.com;
-	s=mail202505; t=1763730454;
-	bh=VZSbMUCFGQuW/l8NxXF+VNPEjirlq3pKnNbZ2j41dCE=;
-	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version;
-	b=gw2DlDjxaLXjp7FXldBaOC1zZZMA3A+HJi4TjrpPwMZTsffVk+MUKNb/DEhNV6Rhv
-	 axxxrv4PsLs7yEzvzig0FmtW/YUL/tiXUS6aNzAMWOZ8LQ+TxO8umk9motovCCYjvH
-	 TZLlP4TjJsCcLnX9qijZ48LALX7WyFWxipXlN1lMiXqlu/T1Rbi32MDSO7FFQcTHwV
-	 +h9xnC2W39FE+JsnhEXnoEZN/MIPACDHtXgvEsoZurU/vgltuFNV/7NOsRqCuGOhRd
-	 c2bSeha7B9wCopwJv7MyvHw1Z/d6ykoR27C3CL8NfOBVyAsV74amb321V+5dRsPwek
-	 qLYHxd1f5kntw==
-Received: from relay12.kaspersky-labs.com (localhost [127.0.0.1])
-	by relay12.kaspersky-labs.com (Postfix) with ESMTP id F1A235A18AA;
-	Fri, 21 Nov 2025 16:07:33 +0300 (MSK)
-Received: from mail-hq2.kaspersky.com (unknown [91.103.66.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(Client CN "mail-hq2.kaspersky.com", Issuer "Kaspersky MailRelays CA G3" (verified OK))
-	by mailhub12.kaspersky-labs.com (Postfix) with ESMTPS id 164515A17B1;
-	Fri, 21 Nov 2025 16:07:32 +0300 (MSK)
-Received: from HQMAILSRV3.avp.ru (10.64.57.53) by HQMAILSRV2.avp.ru
- (10.64.57.52) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.29; Fri, 21 Nov
- 2025 16:07:32 +0300
-Received: from HQMAILSRV3.avp.ru ([fe80::3db3:73bc:819f:30e7]) by
- HQMAILSRV3.avp.ru ([fe80::3db3:73bc:819f:30e7%10]) with mapi id
- 15.02.2562.029; Fri, 21 Nov 2025 16:07:32 +0300
-From: Sergey Nalivayko <Sergey.Nalivayko@kaspersky.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, Alan Stern
-	<stern@rowland.harvard.edu>
-CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, "Mauro
- Carvalho Chehab" <mchehab@kernel.org>, Antoine Jacquet <royale@zerezo.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	"lvc-project@linuxtesting.org" <lvc-project@linuxtesting.org>,
-	"syzbot+0335df380edd9bd3ff70@syzkaller.appspotmail.com"
-	<syzbot+0335df380edd9bd3ff70@syzkaller.appspotmail.com>,
-	"stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: RE: [PATCH] dvb-usb: dtv5100: rewrite i2c message usb_control
- send/recv
-Thread-Topic: [PATCH] dvb-usb: dtv5100: rewrite i2c message usb_control
- send/recv
-Thread-Index: AQHcV9qGMUMw9E7/x02wMd1BZ/CtXLT59qeAgAA/8wCAAuY4sA==
-Date: Fri, 21 Nov 2025 13:07:32 +0000
-Message-ID: <f2e6bea0262748bc9c6fdcf81cd70607@kaspersky.com>
-References: <20251117155356.1912431-1-Sergey.Nalivayko@kaspersky.com>
- <f0c93964-2971-428f-8fb9-f72147f1ad29@rowland.harvard.edu>
- <aR4dFL75cdb0ccQQ@shikoro>
-In-Reply-To: <aR4dFL75cdb0ccQQ@shikoro>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-kse-serverinfo: HQMAILSRV2.avp.ru, 9
-x-kse-attachmentfiltering-interceptor-info: no applicable attachment filtering
- rules found
-x-kse-antivirus-interceptor-info: scan successful
-x-kse-antivirus-info: Clean, bases: 11/21/2025 11:55:00 AM
-x-kse-bulkmessagesfiltering-scan-result: InTheLimit
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1763731376; c=relaxed/simple;
+	bh=kwWIXcKz+wkJQIb8kfPn6QFbAA4BP4+5X4O3otodBWE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oLfZNOalFkk5wmeHJBdosYCJ4YJHKz5MDw5quKqP/O8OmUVPgIsMyBuDgiygxe07ArDHE59f9m0ORHSv2j2zn8KFIj+xjFWAiZ1g7lSbeb/+gK1/w9f3MHsAK/RvG0zhMaYsEy+yuEskB1KXKDAtWtD8GYaBWgIfoFaKu6jiIjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=il38GDHD; arc=none smtp.client-ip=209.85.128.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-4775ae5684fso9630675e9.1
+        for <linux-media@vger.kernel.org>; Fri, 21 Nov 2025 05:22:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1763731371; x=1764336171; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8QpSFXioSjyQXcU8SaMiFAt7l2VJ/I1C0RiE/RYFihE=;
+        b=il38GDHDOAbp6gofZ4QLP7vkg+jm0onWHsGApcQZCSdDbG0Nv0GSon0fCqCTv/E0QL
+         zHttMlD1pbLI0cCTDp+DpshB3ZTyOgN2DutylyLXbJNkqWkD2moQ/UvVU0Bra7e9ZQtG
+         tfRKa723qrY/mhZD4dIJh7CIlBRbAY6CPpyzEqnQrcVyv0ejCpAbahAie9UHv5CEzju6
+         ZYUAtitwfAoR6zfGVBkAp6NcxkmPcHK9ndKilcIXSFZ4i87eXLrJDoVfQQgtyBbf3T+r
+         A5mDIidbsqyrroVmDZPJmH6CQ4qI0BVPS7dYKUpirLF2t9Cvk0Nf0u9QuV3FAr/DkxVw
+         gIkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763731371; x=1764336171;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8QpSFXioSjyQXcU8SaMiFAt7l2VJ/I1C0RiE/RYFihE=;
+        b=ieh7SxbfTeqabTV/Gmyjnv3ByiYcypG57022eLEvncgxrI6FUAGEZkJ+FUvgmf/QWF
+         ddZFKtmDskl30oxRTmuVYzJ0fEPkuOyB64SgAGPfEV9alELJwWkH8TCucqOvhHwduJ4Q
+         qttJakMiQsNyiGx4gZPoZBH6H+TiBAOzo3AiIJfI0UtnE6xgAqcSYdpgs667tH2O/DRl
+         RC3KimFlNQzxD1aMrL6RXtvf0+7NJNsQSgpCuXAvkFPnUSUNZ+RbHr1ePaQfkJqHkV7m
+         iKETDsoL+qbzdp13vHqNPD4RBAfFJnD0bQ/Dp8tjPcQNBY1XVj/glUVjiAPfsOMOMllq
+         AMMw==
+X-Forwarded-Encrypted: i=1; AJvYcCUX6Pz57Pc7VH8+YEMgsLDTsPZdiIpy82VY5gDRT6JAyHtQvOUwPtem1s0FLpq9k4oV+gJU3nKUpQcoYw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyeRBfPwvSaTZrgmPQ7i4893pWK47uJ47hjRFveB9Ac4GdNnFwV
+	O2TkpRG2D18eq00H9fQhe+KsJzGTgHBq85jvvkTvnyZiGWjFRcgSk/gsMA6DkMsAxVo=
+X-Gm-Gg: ASbGncsLVC3AWCRwDU2UQ/7yIj6G0p5lO4ZhZvZnX3grEgGtdqINqzmS8ZQtinsUF5k
+	Pp/FWv1OtzAqfoCOySoKwpfEQVoO/yPAqTRRsC0xVFr50nbpdP76rmYgxW9hyDB95b4mMWbC8nf
+	R8pAvHCk/Ya71y+8oaWEWu6OdRTkl1sbPrFdmj6zoEgC8RIDAXtsUpf9BfFMOyNorX0SvVnGoxC
+	Pj3djH9lvxz4Hq5qxknP9QqVh8bFnzstQK/utaCerlPE0psQ7eswj6PpW/2z+cenL1NXITAbxk6
+	TkgOlnQayqlHS+TXnEKgs57ui060vVdmRFliEMvdgthvB9R1qEttkokYB8N0H3Wl9vOxruu8EKf
+	e6mubjLd2WWEr6JsnG8dbYjBSZgZSf/8cV4F+u4UycLxmOr/48A+vAORNqcOwB+bAQEeZkk+NYq
+	ZYZ8abYYeNJ0+lPVsPH9it+A==
+X-Google-Smtp-Source: AGHT+IHENEs1jPAAH0HGBykRBKQ08scGb3hNuXygpTUnmtkh54mkVXduB7RwTrk1Hwk0+hw6GdCMyg==
+X-Received: by 2002:a05:600c:c492:b0:477:429b:3b93 with SMTP id 5b1f17b1804b1-477c1143089mr21426265e9.18.1763731370957;
+        Fri, 21 Nov 2025 05:22:50 -0800 (PST)
+Received: from linaro.org ([2a02:2454:ff23:4430:ca2:42d7:6571:757c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477a9739964sm89119435e9.1.2025.11.21.05.22.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Nov 2025 05:22:50 -0800 (PST)
+Date: Fri, 21 Nov 2025 14:22:46 +0100
+From: Stephan Gerhold <stephan.gerhold@linaro.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+	Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Bryan O'Donoghue <bod@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: qcom: venus: flip the venus/iris switch
+Message-ID: <aSBnpm1VduuPw9pW@linaro.org>
+References: <20251119-venus-iris-flip-switch-v1-1-852369f66e36@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-KSMG-AntiPhishing: NotDetected
-X-KSMG-AntiSpam-Interceptor-Info: not scanned
-X-KSMG-AntiSpam-Status: not scanned, disabled by settings
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.1.8310, bases: 2025/11/21 08:31:00 #27956385
-X-KSMG-AntiVirus-Status: NotDetected, skipped
-X-KSMG-LinksScanning: NotDetected
-X-KSMG-Message-Action: skipped
-X-KSMG-Rule-ID: 52
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251119-venus-iris-flip-switch-v1-1-852369f66e36@oss.qualcomm.com>
 
->On Wed, Nov 19, 2025 at 18:51, Alan Stern wrote:
->> Can't this problem be fixed more simply by setting the=20
->> I2C_AQ_NO_ZERO_LEN_READ adapter quirk flag, as in some of Wolfram=20
->> Sang's recent commits?
+On Wed, Nov 19, 2025 at 05:18:18PM +0200, Dmitry Baryshkov wrote:
+> With the Iris and Venus driver having more or less feature parity for
+> "HFI 6xx" platforms and with Iris gaining support for SC7280, flip the
+> switch. Use Iris by default for SM8250 and SC7280, the platforms which
+> are supported by both drivers, and use Venus only if Iris is not
+> compiled at all. Use IS_ENABLED to strip out the code and data
+> structures which are used by the disabled platforms.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-On Wed, Nov 19, 2025 at 22:40, Wolfram Sang wrote:
-> I think so. Hmm, I searched the tree for potential candidates. Seems this=
- slipped through :( For reference, I fixed it in another media driver with =
-commit b5ae5a79825b ("media: usb: hdpvr: disable zero-length read messages"=
-).
+I think this will break the ChromeOS SC7280 platform, because the new
+Iris driver does not (yet) support the non-PAS/TZ startup sequence.
+Given that this is a dead (never released) platform, it probably does
+not make sense blocking the switch from Venus to Iris, but it should be
+made clear in the commit message at least. And perhaps the affected DTs
+should be changed to disable Venus/Iris then.
 
-Thanks for your comment. Unfortunately, setting the I2C_AQ_NO_ZERO_LEN_READ=
- adapter quirk does not solve the issue, as the problem occurs within the d=
-tv5100_i2c_msg() function itself when it receives a message of NON-ZERO len=
-gth. A message with length 1 arrives,  but it's expected only in the case o=
-f a combined write/read operation,  when two messages arrive simultaneously=
- via the I2C interface (this is explicitly checked in the condition). If th=
-ere's only one message, the  last parameter of the dtv5100_i2c_msg() functi=
-on, rlen, is 0,  and a parameter inconsistency error occurs.
+It would be easy to add support for the non-PAS/TZ startup sequence in
+the Iris driver. The changes exist already [1], they are just stuck on
+the never ending discussion about how to model the additional
+video-firmware IOMMU entry in the DT for newer platforms [2]. Perhaps
+the existing legacy usage in SC7280 would be enough precedent to land
+this patch as-is, although I don't have access to any SC7280-based board
+for testing.
+
+Thanks,
+Stephan
+
+[1]: https://git.codelinaro.org/stephan.gerhold/linux/-/commit/14db4bfae9279a0e69a0a9d2ccdd684658916431
+[2]: https://lore.kernel.org/r/20250823155349.22344-2-krzysztof.kozlowski@linaro.org/
 
