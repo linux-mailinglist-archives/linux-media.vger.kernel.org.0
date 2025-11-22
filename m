@@ -1,109 +1,146 @@
-Return-Path: <linux-media+bounces-47613-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47614-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98928C7CFDE
-	for <lists+linux-media@lfdr.de>; Sat, 22 Nov 2025 13:38:25 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8471C7D31C
+	for <lists+linux-media@lfdr.de>; Sat, 22 Nov 2025 16:14:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 57AC73A93A8
-	for <lists+linux-media@lfdr.de>; Sat, 22 Nov 2025 12:38:24 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 5AC7434C84F
+	for <lists+linux-media@lfdr.de>; Sat, 22 Nov 2025 15:14:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D64A2FCBE3;
-	Sat, 22 Nov 2025 12:38:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4382E288515;
+	Sat, 22 Nov 2025 15:14:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GN+Vt+Lg"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZfgAYMec"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE511DDDD;
-	Sat, 22 Nov 2025 12:38:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E0C286410
+	for <linux-media@vger.kernel.org>; Sat, 22 Nov 2025 15:14:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763815087; cv=none; b=S/3POPoRBwJpJabplRpB2S42KVhSs+5FOwn7D8+1kNhWyYgkoL9AL3wslU6qGFZ6MiDVc6vxsemv7VG42ctWmNjXzG56+2PbEHS5ip/y1UAwu0mon+bmxTgscOqBx+cWsXj6mdNpUMxdkXX3On3kw9geyGqpRM7A5wnbMpJao0E=
+	t=1763824480; cv=none; b=GdykX1Ucb8fVQwrRY0ayl3gLGvcRz/CjIkaW9toLOf8gUDU2snbT6rOnBpCAIWU1gDXQ6NsGS9fyK3cwGzAN0dv0QrER1uB7NVDJV0v/9MlawWn5J+4oNTpkqmiVMkLWqU7xButzKbInhvLBF17LKATXaTyzD46aepXa2va1SuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763815087; c=relaxed/simple;
-	bh=EHqiTl/gEFOctfX43h+L9XFYer9UoRGKk7O6CT/FANo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=W5WVUNg/0hF402N/klqpLqQLI3YoUebeEks9Qsk/7pbYf5aCXF2nhyi3/KLPYjfHz4PFnl1IpCf7rRxSqjLm6FtagZbe/UM6bDo3RH6Q6XI31qirejthSEQKr8vo49oIePIG8He18jsfX8RDgdEQwoYJdV9Ws93cOwdqJdmQma4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GN+Vt+Lg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CDEDC116D0;
-	Sat, 22 Nov 2025 12:38:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763815087;
-	bh=EHqiTl/gEFOctfX43h+L9XFYer9UoRGKk7O6CT/FANo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=GN+Vt+LgFN2f9wjxgOpTq9pYMB3Ob9rLqKVveeX4KCeYDwLCoYBJS3ng4V04GSYMh
-	 vbUDCvFjr5olUDgQPCFh5pqMp521X/eW8/WGwb3jjopXqqn4B+xlCU5UAhxf8Np80+
-	 0SQJapjuh/h2iQ27i3FOOJu299KTzL5FiLRLOL9AmLil6MmP+JVbaWZ3tu/vub8f5A
-	 sPN+nsHDyhaO58y99K0gX7v+PIESfVCHBrEf/X7Q9+vw6Yx0c+5tiFKBg3NxIpm4SR
-	 e7MPjObN9DN863JUX5dvysNabjsJT36S3KmIv24R8v8w/3oQ24MCBinfDPK3Mg2Ggv
-	 vYWADoM63KuTg==
-Received: from mchehab by mail.kernel.org with local (Exim 4.99)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vMmsP-00000004pmD-2F9W;
-	Sat, 22 Nov 2025 13:38:05 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	"Jonathan Corbet" <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Mauro Carvalho Chehab" <mchehab@kernel.org>,
-	"Randy Dunlap" <rdunlap@infradead.org>,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org
-Subject: [PATCH v4 3/5] docs: media: v4l2-ioctl.h: document two global variables
-Date: Sat, 22 Nov 2025 13:37:57 +0100
-Message-ID: <7f471a4d2749c7dc7985e35c69b6f5e67e0aa33d.1763814816.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <cover.1763814816.git.mchehab+huawei@kernel.org>
-References: <cover.1763814816.git.mchehab+huawei@kernel.org>
+	s=arc-20240116; t=1763824480; c=relaxed/simple;
+	bh=96mZRfIwWmEUcWaa7TTm4aiGazhILKQbWDNR++bEOjM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZfPg1Mj4k9MAKdnimLvALubkYdSSaZmjWzh7gtT/r0sBISqgRI6zgHMEBnP7ZPq2pcgc//uxi9hzNLYUUrY4lXessHLtx+weWnCpXnX34DX1wng3gCSHTErhvjPLavUjndAnO0QBjVznP/c5QjPP58uishCiLXbiTsyvsaXxRqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZfgAYMec; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (fs276ed015.tkyc509.ap.nuro.jp [39.110.208.21])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 30B8F56D;
+	Sat, 22 Nov 2025 16:12:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1763824340;
+	bh=96mZRfIwWmEUcWaa7TTm4aiGazhILKQbWDNR++bEOjM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZfgAYMecCBxcUEi3Cf1Y7VWETEt7H9n1CvnALEUtvvkjuZXeT15uobA7lcLv5lQUg
+	 DGIVZo1OHCvye+wynl4kjXzqVSM2rKyBbMhISvRaMo1eFObSl8QPaQfEd4SKHsOKF/
+	 B7dXtsyoqM3XPDHjCKWvqBk3+kVphhx+4tEium7M=
+Date: Sun, 23 Nov 2025 00:14:01 +0900
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Lynne <dev@lynne.ee>
+Cc: hdegoede@redhat.com, linux-media@vger.kernel.org
+Subject: Re: uvc_video issue: Panasonic S1II initialization fails in webcam
+ mode
+Message-ID: <20251122151401.GC15447@pendragon.ideasonboard.com>
+References: <91137e13-102b-41a6-8f14-14fb33a3e554@lynne.ee>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <91137e13-102b-41a6-8f14-14fb33a3e554@lynne.ee>
 
-The media kAPI has two global variables at v4l2-ioctl.h. Document
-them.
+Hi Lynne,
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- include/media/v4l2-ioctl.h | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+On Sat, Nov 22, 2025 at 12:28:48PM +0100, Lynne wrote:
+> The issue I'd like to report is that the kernel fails to initialize the 
+> Panasonic S1II DSLR camera in webcam mode as a webcam.
+> Seems like most queries time out or error out with a generic protocol 
+> error return.
+> I tried increasing UVC_CTRL_CONTROL_TIMEOUT just in case, but it did not 
+> seem to help.
 
-diff --git a/include/media/v4l2-ioctl.h b/include/media/v4l2-ioctl.h
-index 6f7a58350441..ed63841a100c 100644
---- a/include/media/v4l2-ioctl.h
-+++ b/include/media/v4l2-ioctl.h
-@@ -663,7 +663,22 @@ void v4l_printk_ioctl(const char *prefix, unsigned int cmd);
- struct video_device;
- 
- /* names for fancy debug output */
-+
-+/**
-+ * var v4l2_field_names - Helper array mapping V4L2_FIELD_* to strings.
-+ *
-+ * Specially when printing debug messages, it is interesting to output
-+ * the field order at the V4L2 buffers. This array associates all possible
-+ * values of field pix format from V4L2 API into a string.
-+ */
- extern const char *v4l2_field_names[];
-+
-+/**
-+ * var v4l2_type_names - Helper array mapping V4L2_BUF_TYPE_* to strings.
-+ *
-+ * When printing debug messages, it is interesting to output the V4L2 buffer
-+ * type number with a name that represents its content.
-+ */
- extern const char *v4l2_type_names[];
- 
- #ifdef CONFIG_COMPAT
+I see in the log that the USB audio driver fails as well. There are
+quite a few devices that exhibit issues in the interactions between the
+audio and video interfaces. Could you test blacklisting the
+snd_usb_audio module to prevent it from loading (and unloading it if
+it's loaded already), and replug your camera ?
+
+> Full log is below:
+> 
+> [Nov22 12:11] usb 4-4: new SuperSpeed Plus Gen 2x1 USB device number 10 using xhci_hcd
+> [  +0.017315] usb 4-4: New USB device found, idVendor=04da, idProduct=2385, bcdDevice= 1.00
+> [  +0.000008] usb 4-4: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+> [  +0.000004] usb 4-4: Product: DC-S1M2
+> [  +0.000002] usb 4-4: Manufacturer: Panasonic
+> [  +0.000002] usb 4-4: SerialNumber: 00000Z12FB009251
+> [  +0.019222] usb 4-4: Found UVC 1.10 device DC-S1M2 (04da:2385)
+> [  +5.127335] usb 4-4: Failed to query (GET_INFO) UVC control 2 on unit 2: -110 (exp. 1).
+> [  +5.119884] usb 4-4: Failed to query (GET_INFO) UVC control 2 on unit 1: -110 (exp. 1).
+> [ +10.239937] usb 4-4: UVC non compliance - GET_DEF(PROBE) not supported. Enabling workaround.
+> [  +0.008264] uvcvideo 4-4:1.1: Failed to query (GET_CUR) UVC probe control : -71 (exp. 34).
+> [  +0.000013] uvcvideo 4-4:1.1: Failed to initialize the device (-71).
+> [  +0.000026] uvcvideo 4-4:1.0: probe with driver uvcvideo failed with error -71
+> [  +0.103095] usb 4-4: 3:1: cannot set freq 48000 to ep 0x83
+> [  +0.359825] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.320056] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.320010] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.320011] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.319987] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.319998] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.320059] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.319936] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.320003] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.320013] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +2.239898] endpoint_set_interface: 6 callbacks suppressed
+> [  +0.000006] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.319993] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.319998] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.336000] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.320060] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.320003] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.319963] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.320031] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.320000] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.319939] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +2.272271] endpoint_set_interface: 6 callbacks suppressed
+> [  +0.000005] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.319969] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.320040] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.319687] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.319976] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.320002] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.320000] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.335995] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.336289] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.319755] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [Nov22 12:12] endpoint_set_interface: 6 callbacks suppressed
+> [  +0.000006] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.319730] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.320269] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.319729] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.320145] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.319884] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.320264] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.320012] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.319704] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.320287] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +2.239682] endpoint_set_interface: 6 callbacks suppressed
+> [  +0.000006] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.319995] usb 4-4: 3:1: usb_set_interface failed (-71)
+> [  +0.233053] usb 4-4: USB disconnect, device number 10
+
 -- 
-2.51.1
+Regards,
 
+Laurent Pinchart
 
