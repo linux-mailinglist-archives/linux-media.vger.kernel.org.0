@@ -1,206 +1,173 @@
-Return-Path: <linux-media+bounces-47611-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47612-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11B64C7CE55
-	for <lists+linux-media@lfdr.de>; Sat, 22 Nov 2025 12:31:28 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A772CC7CFC4
+	for <lists+linux-media@lfdr.de>; Sat, 22 Nov 2025 13:35:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 392A43A9198
-	for <lists+linux-media@lfdr.de>; Sat, 22 Nov 2025 11:31:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 60A763A8DEF
+	for <lists+linux-media@lfdr.de>; Sat, 22 Nov 2025 12:35:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F68D6F06A;
-	Sat, 22 Nov 2025 11:31:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 037D726ED2B;
+	Sat, 22 Nov 2025 12:35:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lynne.ee header.i=@lynne.ee header.b="cZg8iow9";
-	dkim=permerror (0-bit key) header.d=lynne.ee header.i=@lynne.ee header.b="UBgrMijG"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="eKyEoFof";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ysQrlLgI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from vidala.pars.ee (vidala.pars.ee [116.203.72.101])
+Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F3542FE06E
-	for <linux-media@vger.kernel.org>; Sat, 22 Nov 2025 11:31:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.72.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 650D51C695;
+	Sat, 22 Nov 2025 12:35:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763811081; cv=none; b=nUtxzcsrFkcvpmDcijPrXAACbTVmR27Pr2Xut+5884tn231X+gS+12qgGbjBeB4ZEW9hCxRRcPWz2XHQ5WT1ZMZPg7BHrcNJVtPM+QZbjJvri8G+IvdkScB/MXbYkYI15Z7zLjxB8vT2+mSknVwgh0/4s3s3kKSC/eGcQ5uZdes=
+	t=1763814943; cv=none; b=LUqSpYqBtBpD1Y+aLxCzRPDWWhgL57P0Lnx5xBgsIyQa5VWSPuvAepgId6kbv4pOIVTxr1KsWujZqvLbToAGwUR/jaNPKGnZDbe18Z0+rLp2nD7dGMmc/uWMvrSDyHI1YHwCN29gbYNimJLlkHLJ8NUnnKxw+c62wvaavfgdNCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763811081; c=relaxed/simple;
-	bh=EM9VVLyyKo0Ohg4omI3bDGg4eXXGeec4Ioh03oiTai4=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=u4e+zGG2EZq0XiAPljeAfJ3jBHYH5mJgTzl+ajoAbuwgGr4dpjGoN7L0Ju4GcIHexYyd5ZoKaNX2FJskFNH+5UVClluKqEEpyS3QFyzKvhOGXtwRUyka3soJJXtTTNbFYoNsLxsZwKA7jwU2iqSNWo9fdXlj8Tr041MpHvdc6tI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lynne.ee; spf=pass smtp.mailfrom=lynne.ee; dkim=pass (2048-bit key) header.d=lynne.ee header.i=@lynne.ee header.b=cZg8iow9; dkim=permerror (0-bit key) header.d=lynne.ee header.i=@lynne.ee header.b=UBgrMijG; arc=none smtp.client-ip=116.203.72.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lynne.ee
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lynne.ee
-DKIM-Signature: v=1; a=rsa-sha256; s=202405r; d=lynne.ee; c=relaxed/relaxed;
-	h=Subject:From:To:Date:Message-ID; t=1763810928; bh=EM9VVLyyKo0Ohg4omI3bDGg
-	4eXXGeec4Ioh03oiTai4=; b=cZg8iow9TefCWgk4iqLfshGFI/Cfqx9mdRh8TDwDGQIR9314if
-	wLALND4PBYsWCx2Y4oyN7Zhk/7J1J/5rAYTgb1NYxMNoToZGWKY/LuX41MCDaMBZombZ9gIwFGa
-	RAIAiPNhpsOuYGtIwlkBgYff0yJcbucCOHLXpZFbJKXC276CyT6KXnps4C1ng3PCHbzdCGmooco
-	ak28jp5mZNprKAXT/wjWMk0GG29bTNt1jI1QUoP9MUWYp9InRm5g+7C61ZRPwygu75QLZyWDHUf
-	UQhc0Mm5FVZcv1dEGocWyVALyY1K+XJe0fQRoVQjTxOVdWLRjKg2WjhsAn3SxJq0OXg==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202405e; d=lynne.ee; c=relaxed/relaxed;
-	h=Subject:From:To:Date:Message-ID; t=1763810928; bh=EM9VVLyyKo0Ohg4omI3bDGg
-	4eXXGeec4Ioh03oiTai4=; b=UBgrMijGM2fTMYGSa/UMBAGR5W8/j4vNfHKc0wZz6CHVmEDDEQ
-	DvMch+luRe6rvYzGeKqUEZ2Pdl3PW043RpBQ==;
-Message-ID: <91137e13-102b-41a6-8f14-14fb33a3e554@lynne.ee>
-Date: Sat, 22 Nov 2025 12:28:48 +0100
+	s=arc-20240116; t=1763814943; c=relaxed/simple;
+	bh=XDr/N739gOpO7BYXaKKUzE2qBARN5+9zpX19YZgqgqU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FC16AkR+y1Yj23bPtImimNRz+khcA2r9lXGkpOII/WHpIgGiN6cBL0z5W02C1RuEOB8Ht9prQqieF0oyuWNKIiJONINBeNwFcaBrLXtpy4Pj/kDW2yOxIssCHSmHJH0kNYBWJc/a83swCCbPupJzP2881b80w6pWdWs4utDTKkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=eKyEoFof; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ysQrlLgI; arc=none smtp.client-ip=202.12.124.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.stl.internal (Postfix) with ESMTP id 0C6391D0013B;
+	Sat, 22 Nov 2025 07:35:40 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-02.internal (MEProxy); Sat, 22 Nov 2025 07:35:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1763814939;
+	 x=1763901339; bh=ElDJVjFIr0ZqCqJwcQweoSpOYPZE4AzT6FtQoJ2Z/7U=; b=
+	eKyEoFof2s8BNCdnTlAdkqYxVkc8RL9wFwKY3G8xFtXOk+FNv3FEsjb8b1BVShUu
+	/QtX3uvRKohvKlkVk7c3sTlZ3RZF/J34mDPquVgtSN3Ac4lKuFzPvLowiw/MAV2O
+	nEiAEVk02LF64QOPyFkX+7OX/AAyhf70oCUi/b+TsaPCh25Qd7m/8hBq9/2QuUEZ
+	sTVizxpgJmh1CeyylEF3vgpTHVbXa5d8tIktxY+BjTW9aYmCtvej/gDufG1kD/57
+	NXWjR7fHt2eXOlORLNLVX8QZ/WpdUWrerFXPQAlhh0Lzl2DnQKa7Wgm0lvqG47u3
+	gb1bcRUxtcy+fTNmuAu65g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1763814939; x=
+	1763901339; bh=ElDJVjFIr0ZqCqJwcQweoSpOYPZE4AzT6FtQoJ2Z/7U=; b=y
+	sQrlLgIASdxG/rwCGeb+8jrf+fZF31BEJZ7IfgTbTWBsrR2H5EyFDmJBxgWUiVUJ
+	ZLEE/8Mr7wB3H/lG+g9oz252uH42qx0VSo1gKsjIJ1YPHY/5pWJlV67PA+In72Rf
+	1j3qlibxDM8i26REUzrMfhzRk7t0GP47R8otUL5JpzvQYNAZ1nCjLuSFLMkuFqlZ
+	jafQxHC6kgAUvCq+Z71n238XvZyLtu11xGG/GLnIIA1l3QtEgGsHWBZp8YcExbeH
+	w/LUemaOe+PNIFKM8ktSpvdjOa1333w/lbKKEF+klPsmFBsLlrNJ73HUEKr6w29i
+	4TtGjzPV/2zeT0IvTRUmg==
+X-ME-Sender: <xms:G64haU178HyFhd9ALtlkGt58WwJ0LLONjjjtKEvfIA_R_XKxo6p_Tw>
+    <xme:G64haSKvnOKuZ5ogVBxyQ_Fs8Ouz0kGbAlRCySBp0J_g_43a3cbO14HgHJjzvPXVl
+    R1U-G7H8D73hv-lG6xxrFp9I9sqbfnPg4dtcQwHuW7qD9OqpgLR0A>
+X-ME-Received: <xmr:G64haXj1hI1rynjSkmQ31xUiBNiHPbIzLlympFD1K3wfwzv_BAcGhzVDNY7fcx3WQOwz1A3ubLQNlL5sSOkzP-lIk3t_Z0I>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvfedvkeeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgr
+    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvsh
+    grshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeefhfellefhffej
+    gfefudfggeejlefhveehieekhfeulefgtdefueehffdtvdelieenucevlhhushhtvghruf
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhl
+    uhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhope
+    dutddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhdrthhrvghtthgvrhesphgv
+    nhhguhhtrhhonhhigidruggvpdhrtghpthhtoheplhgrrhhssehmvghtrghfohhordguvg
+    dprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehr
+    ohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvg
+    hlrdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgt
+    phhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtg
+    hpthhtohepuggvvhhitggvthhrvggvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghp
+    thhtohepkhgvrhhnvghlsehpvghnghhuthhrohhnihigrdguvg
+X-ME-Proxy: <xmx:G64haaDLyOmF3OV7qqYieQy1eKXfbUEGyE5cPi_VffehL0FtyGRCEQ>
+    <xmx:G64haR7csPxe61hOJYABULaZENZ87U0idyREhXfrtYaxpZ_rrVAijg>
+    <xmx:G64haXG9Ki-N3V2_FJUIZSrMXXuZh_YK1cI8nDDVuqJWEwX0P_dwPA>
+    <xmx:G64haUDxDKd0WBXc6WUQ-DxEIThDCoXDYIAk5mUmua7P8uSGtVpQJA>
+    <xmx:G64haQXuSAVgA-qZiS9zUj-8eEsZuY2HvJ3CxO3MIYy5mspnLjGqKEm7>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 22 Nov 2025 07:35:38 -0500 (EST)
+Date: Sat, 22 Nov 2025 13:35:36 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Michael Tretter <m.tretter@pengutronix.de>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, kernel@pengutronix.de,
+	Thorsten Schmelzer <tschmelzer@topcon.com>
+Subject: Re: [PATCH v3 4/4] media: adv7180: fix frame interval in progressive
+ mode
+Message-ID: <20251122123536.GC991773@ragnatech.se>
+References: <20251120-b4-adv7180-vpp-sub-device-v3-0-c9d80661e7d9@pengutronix.de>
+ <20251120-b4-adv7180-vpp-sub-device-v3-4-c9d80661e7d9@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: laurent.pinchart@ideasonboard.com, hdegoede@redhat.com,
- linux-media@vger.kernel.org
-From: Lynne <dev@lynne.ee>
-Subject: uvc_video issue: Panasonic S1II initialization fails in webcam mode
-Autocrypt: addr=dev@lynne.ee; keydata=
- xjMEXnFG3BYJKwYBBAHaRw8BAQdA3FyJpqEdfQj4GA7OUWVrNheT9dUsIs+yUx6Hljr9mYvN
- FEx5bm5lIDxkZXZAbHlubmUuZWU+wpAEExYIADgWIQT+UBOcaAVyyv1SH42i/qXwPwNEZAUC
- XnFG3AIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRCi/qXwPwNEZOTWAQCSNEA+kZLI
- NZ2dsR5Qg988c0HXpOXThZEjg+h1TL7KGgEA3Gff0c28efI02S6iMxazrpdWGHqHk7JN7pCj
- nt397wzOOARecUbcEgorBgEEAZdVAQUBAQdAjDdFQ5H+AJ9vwXrOb7val460g45EsheIaL5S
- 7/zSaX8DAQgHwngEGBYIACAWIQT+UBOcaAVyyv1SH42i/qXwPwNEZAUCXnFG3AIbDAAKCRCi
- /qXwPwNEZKaxAQCHLV4gAk/B9JvRG27MYm22X3+5QRCLBtEILP29aDh+MQD/V8JFHATDXRY3
- 0LsmqR3sPQ0BJ1UFVZA5BUoIJPJZWwg=
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------6KZNB941bpKSx6bZMSVwb40q"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251120-b4-adv7180-vpp-sub-device-v3-4-c9d80661e7d9@pengutronix.de>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------6KZNB941bpKSx6bZMSVwb40q
-Content-Type: multipart/mixed; boundary="------------xHleJHRKuW0TeZEKJkeZpyKD";
- protected-headers="v1"
-From: Lynne <dev@lynne.ee>
-To: laurent.pinchart@ideasonboard.com, hdegoede@redhat.com,
- linux-media@vger.kernel.org
-Message-ID: <91137e13-102b-41a6-8f14-14fb33a3e554@lynne.ee>
-Subject: uvc_video issue: Panasonic S1II initialization fails in webcam mode
+Hi Michael,
 
---------------xHleJHRKuW0TeZEKJkeZpyKD
-Content-Type: multipart/mixed; boundary="------------Ty45Diy4o4sn82QzgIkhPIIQ"
+Thanks for your work.
 
---------------Ty45Diy4o4sn82QzgIkhPIIQ
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On 2025-11-20 15:22:56 +0100, Michael Tretter wrote:
+> From: Thorsten Schmelzer <tschmelzer@topcon.com>
+> 
+> The ADV7280-M may internally convert interlaced video input to
+> progressive video. If this mode is enabled, the ADV7280-M delivers
+> progressive video frames at the field rate of 50 fields per second (PAL)
+> or 60 fields per second (NTSC).
+> 
+> Fix the reported frame interval if progressive video is enabled.
+> 
+> Signed-off-by: Thorsten Schmelzer <tschmelzer@topcon.com>
+> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 
-VGhlIGlzc3VlIEknZCBsaWtlIHRvIHJlcG9ydCBpcyB0aGF0IHRoZSBrZXJuZWwgZmFpbHMg
-dG8gaW5pdGlhbGl6ZSB0aGUgDQpQYW5hc29uaWMgUzFJSSBEU0xSIGNhbWVyYSBpbiB3ZWJj
-YW0gbW9kZSBhcyBhIHdlYmNhbS4NClNlZW1zIGxpa2UgbW9zdCBxdWVyaWVzIHRpbWUgb3V0
-IG9yIGVycm9yIG91dCB3aXRoIGEgZ2VuZXJpYyBwcm90b2NvbCANCmVycm9yIHJldHVybi4N
-CkkgdHJpZWQgaW5jcmVhc2luZyBVVkNfQ1RSTF9DT05UUk9MX1RJTUVPVVQganVzdCBpbiBj
-YXNlLCBidXQgaXQgZGlkIG5vdCANCnNlZW0gdG8gaGVscC4NCg0KRnVsbCBsb2cgaXMgYmVs
-b3c6DQoNCltOb3YyMiAxMjoxMV0gdXNiIDQtNDogbmV3IFN1cGVyU3BlZWQgUGx1cyBHZW4g
-MngxIFVTQiBkZXZpY2UgbnVtYmVyIDEwIA0KdXNpbmcgeGhjaV9oY2QNClsgICswLjAxNzMx
-NV0gdXNiIDQtNDogTmV3IFVTQiBkZXZpY2UgZm91bmQsIGlkVmVuZG9yPTA0ZGEsIA0KaWRQ
-cm9kdWN0PTIzODUsIGJjZERldmljZT0gMS4wMA0KWyAgKzAuMDAwMDA4XSB1c2IgNC00OiBO
-ZXcgVVNCIGRldmljZSBzdHJpbmdzOiBNZnI9MSwgUHJvZHVjdD0yLCANClNlcmlhbE51bWJl
-cj0zDQpbICArMC4wMDAwMDRdIHVzYiA0LTQ6IFByb2R1Y3Q6IERDLVMxTTINClsgICswLjAw
-MDAwMl0gdXNiIDQtNDogTWFudWZhY3R1cmVyOiBQYW5hc29uaWMNClsgICswLjAwMDAwMl0g
-dXNiIDQtNDogU2VyaWFsTnVtYmVyOiAwMDAwMFoxMkZCMDA5MjUxDQpbICArMC4wMTkyMjJd
-IHVzYiA0LTQ6IEZvdW5kIFVWQyAxLjEwIGRldmljZSBEQy1TMU0yICgwNGRhOjIzODUpDQpb
-ICArNS4xMjczMzVdIHVzYiA0LTQ6IEZhaWxlZCB0byBxdWVyeSAoR0VUX0lORk8pIFVWQyBj
-b250cm9sIDIgb24gdW5pdCANCjI6IC0xMTAgKGV4cC4gMSkuDQpbICArNS4xMTk4ODRdIHVz
-YiA0LTQ6IEZhaWxlZCB0byBxdWVyeSAoR0VUX0lORk8pIFVWQyBjb250cm9sIDIgb24gdW5p
-dCANCjE6IC0xMTAgKGV4cC4gMSkuDQpbICsxMC4yMzk5MzddIHVzYiA0LTQ6IFVWQyBub24g
-Y29tcGxpYW5jZSAtIEdFVF9ERUYoUFJPQkUpIG5vdCANCnN1cHBvcnRlZC4gRW5hYmxpbmcg
-d29ya2Fyb3VuZC4NClsgICswLjAwODI2NF0gdXZjdmlkZW8gNC00OjEuMTogRmFpbGVkIHRv
-IHF1ZXJ5IChHRVRfQ1VSKSBVVkMgcHJvYmUgDQpjb250cm9sIDogLTcxIChleHAuIDM0KS4N
-ClsgICswLjAwMDAxM10gdXZjdmlkZW8gNC00OjEuMTogRmFpbGVkIHRvIGluaXRpYWxpemUg
-dGhlIGRldmljZSAoLTcxKS4NClsgICswLjAwMDAyNl0gdXZjdmlkZW8gNC00OjEuMDogcHJv
-YmUgd2l0aCBkcml2ZXIgdXZjdmlkZW8gZmFpbGVkIHdpdGggDQplcnJvciAtNzENClsgICsw
-LjEwMzA5NV0gdXNiIDQtNDogMzoxOiBjYW5ub3Qgc2V0IGZyZXEgNDgwMDAgdG8gZXAgMHg4
-Mw0KWyAgKzAuMzU5ODI1XSB1c2IgNC00OiAzOjE6IHVzYl9zZXRfaW50ZXJmYWNlIGZhaWxl
-ZCAoLTcxKQ0KWyAgKzAuMzIwMDU2XSB1c2IgNC00OiAzOjE6IHVzYl9zZXRfaW50ZXJmYWNl
-IGZhaWxlZCAoLTcxKQ0KWyAgKzAuMzIwMDEwXSB1c2IgNC00OiAzOjE6IHVzYl9zZXRfaW50
-ZXJmYWNlIGZhaWxlZCAoLTcxKQ0KWyAgKzAuMzIwMDExXSB1c2IgNC00OiAzOjE6IHVzYl9z
-ZXRfaW50ZXJmYWNlIGZhaWxlZCAoLTcxKQ0KWyAgKzAuMzE5OTg3XSB1c2IgNC00OiAzOjE6
-IHVzYl9zZXRfaW50ZXJmYWNlIGZhaWxlZCAoLTcxKQ0KWyAgKzAuMzE5OTk4XSB1c2IgNC00
-OiAzOjE6IHVzYl9zZXRfaW50ZXJmYWNlIGZhaWxlZCAoLTcxKQ0KWyAgKzAuMzIwMDU5XSB1
-c2IgNC00OiAzOjE6IHVzYl9zZXRfaW50ZXJmYWNlIGZhaWxlZCAoLTcxKQ0KWyAgKzAuMzE5
-OTM2XSB1c2IgNC00OiAzOjE6IHVzYl9zZXRfaW50ZXJmYWNlIGZhaWxlZCAoLTcxKQ0KWyAg
-KzAuMzIwMDAzXSB1c2IgNC00OiAzOjE6IHVzYl9zZXRfaW50ZXJmYWNlIGZhaWxlZCAoLTcx
-KQ0KWyAgKzAuMzIwMDEzXSB1c2IgNC00OiAzOjE6IHVzYl9zZXRfaW50ZXJmYWNlIGZhaWxl
-ZCAoLTcxKQ0KWyAgKzIuMjM5ODk4XSBlbmRwb2ludF9zZXRfaW50ZXJmYWNlOiA2IGNhbGxi
-YWNrcyBzdXBwcmVzc2VkDQpbICArMC4wMDAwMDZdIHVzYiA0LTQ6IDM6MTogdXNiX3NldF9p
-bnRlcmZhY2UgZmFpbGVkICgtNzEpDQpbICArMC4zMTk5OTNdIHVzYiA0LTQ6IDM6MTogdXNi
-X3NldF9pbnRlcmZhY2UgZmFpbGVkICgtNzEpDQpbICArMC4zMTk5OThdIHVzYiA0LTQ6IDM6
-MTogdXNiX3NldF9pbnRlcmZhY2UgZmFpbGVkICgtNzEpDQpbICArMC4zMzYwMDBdIHVzYiA0
-LTQ6IDM6MTogdXNiX3NldF9pbnRlcmZhY2UgZmFpbGVkICgtNzEpDQpbICArMC4zMjAwNjBd
-IHVzYiA0LTQ6IDM6MTogdXNiX3NldF9pbnRlcmZhY2UgZmFpbGVkICgtNzEpDQpbICArMC4z
-MjAwMDNdIHVzYiA0LTQ6IDM6MTogdXNiX3NldF9pbnRlcmZhY2UgZmFpbGVkICgtNzEpDQpb
-ICArMC4zMTk5NjNdIHVzYiA0LTQ6IDM6MTogdXNiX3NldF9pbnRlcmZhY2UgZmFpbGVkICgt
-NzEpDQpbICArMC4zMjAwMzFdIHVzYiA0LTQ6IDM6MTogdXNiX3NldF9pbnRlcmZhY2UgZmFp
-bGVkICgtNzEpDQpbICArMC4zMjAwMDBdIHVzYiA0LTQ6IDM6MTogdXNiX3NldF9pbnRlcmZh
-Y2UgZmFpbGVkICgtNzEpDQpbICArMC4zMTk5MzldIHVzYiA0LTQ6IDM6MTogdXNiX3NldF9p
-bnRlcmZhY2UgZmFpbGVkICgtNzEpDQpbICArMi4yNzIyNzFdIGVuZHBvaW50X3NldF9pbnRl
-cmZhY2U6IDYgY2FsbGJhY2tzIHN1cHByZXNzZWQNClsgICswLjAwMDAwNV0gdXNiIDQtNDog
-MzoxOiB1c2Jfc2V0X2ludGVyZmFjZSBmYWlsZWQgKC03MSkNClsgICswLjMxOTk2OV0gdXNi
-IDQtNDogMzoxOiB1c2Jfc2V0X2ludGVyZmFjZSBmYWlsZWQgKC03MSkNClsgICswLjMyMDA0
-MF0gdXNiIDQtNDogMzoxOiB1c2Jfc2V0X2ludGVyZmFjZSBmYWlsZWQgKC03MSkNClsgICsw
-LjMxOTY4N10gdXNiIDQtNDogMzoxOiB1c2Jfc2V0X2ludGVyZmFjZSBmYWlsZWQgKC03MSkN
-ClsgICswLjMxOTk3Nl0gdXNiIDQtNDogMzoxOiB1c2Jfc2V0X2ludGVyZmFjZSBmYWlsZWQg
-KC03MSkNClsgICswLjMyMDAwMl0gdXNiIDQtNDogMzoxOiB1c2Jfc2V0X2ludGVyZmFjZSBm
-YWlsZWQgKC03MSkNClsgICswLjMyMDAwMF0gdXNiIDQtNDogMzoxOiB1c2Jfc2V0X2ludGVy
-ZmFjZSBmYWlsZWQgKC03MSkNClsgICswLjMzNTk5NV0gdXNiIDQtNDogMzoxOiB1c2Jfc2V0
-X2ludGVyZmFjZSBmYWlsZWQgKC03MSkNClsgICswLjMzNjI4OV0gdXNiIDQtNDogMzoxOiB1
-c2Jfc2V0X2ludGVyZmFjZSBmYWlsZWQgKC03MSkNClsgICswLjMxOTc1NV0gdXNiIDQtNDog
-MzoxOiB1c2Jfc2V0X2ludGVyZmFjZSBmYWlsZWQgKC03MSkNCltOb3YyMiAxMjoxMl0gZW5k
-cG9pbnRfc2V0X2ludGVyZmFjZTogNiBjYWxsYmFja3Mgc3VwcHJlc3NlZA0KWyAgKzAuMDAw
-MDA2XSB1c2IgNC00OiAzOjE6IHVzYl9zZXRfaW50ZXJmYWNlIGZhaWxlZCAoLTcxKQ0KWyAg
-KzAuMzE5NzMwXSB1c2IgNC00OiAzOjE6IHVzYl9zZXRfaW50ZXJmYWNlIGZhaWxlZCAoLTcx
-KQ0KWyAgKzAuMzIwMjY5XSB1c2IgNC00OiAzOjE6IHVzYl9zZXRfaW50ZXJmYWNlIGZhaWxl
-ZCAoLTcxKQ0KWyAgKzAuMzE5NzI5XSB1c2IgNC00OiAzOjE6IHVzYl9zZXRfaW50ZXJmYWNl
-IGZhaWxlZCAoLTcxKQ0KWyAgKzAuMzIwMTQ1XSB1c2IgNC00OiAzOjE6IHVzYl9zZXRfaW50
-ZXJmYWNlIGZhaWxlZCAoLTcxKQ0KWyAgKzAuMzE5ODg0XSB1c2IgNC00OiAzOjE6IHVzYl9z
-ZXRfaW50ZXJmYWNlIGZhaWxlZCAoLTcxKQ0KWyAgKzAuMzIwMjY0XSB1c2IgNC00OiAzOjE6
-IHVzYl9zZXRfaW50ZXJmYWNlIGZhaWxlZCAoLTcxKQ0KWyAgKzAuMzIwMDEyXSB1c2IgNC00
-OiAzOjE6IHVzYl9zZXRfaW50ZXJmYWNlIGZhaWxlZCAoLTcxKQ0KWyAgKzAuMzE5NzA0XSB1
-c2IgNC00OiAzOjE6IHVzYl9zZXRfaW50ZXJmYWNlIGZhaWxlZCAoLTcxKQ0KWyAgKzAuMzIw
-Mjg3XSB1c2IgNC00OiAzOjE6IHVzYl9zZXRfaW50ZXJmYWNlIGZhaWxlZCAoLTcxKQ0KWyAg
-KzIuMjM5NjgyXSBlbmRwb2ludF9zZXRfaW50ZXJmYWNlOiA2IGNhbGxiYWNrcyBzdXBwcmVz
-c2VkDQpbICArMC4wMDAwMDZdIHVzYiA0LTQ6IDM6MTogdXNiX3NldF9pbnRlcmZhY2UgZmFp
-bGVkICgtNzEpDQpbICArMC4zMTk5OTVdIHVzYiA0LTQ6IDM6MTogdXNiX3NldF9pbnRlcmZh
-Y2UgZmFpbGVkICgtNzEpDQpbICArMC4yMzMwNTNdIHVzYiA0LTQ6IFVTQiBkaXNjb25uZWN0
-LCBkZXZpY2UgbnVtYmVyIDEwDQo=
---------------Ty45Diy4o4sn82QzgIkhPIIQ
-Content-Type: application/pgp-keys; name="OpenPGP_0xA2FEA5F03F034464.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xA2FEA5F03F034464.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+> ---
+> Changes in v3:
+> - None
+> Changes in v2:
+> - Simplify and document calculation of frame interval
+> ---
+>  drivers/media/i2c/adv7180.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
+> index d289cbc2eefd..669b0b3165b1 100644
+> --- a/drivers/media/i2c/adv7180.c
+> +++ b/drivers/media/i2c/adv7180.c
+> @@ -507,6 +507,13 @@ static int adv7180_get_frame_interval(struct v4l2_subdev *sd,
+>  		fi->interval.denominator = 25;
+>  	}
+>  
+> +	/*
+> +	 * If the de-interlacer is active, the chip produces full video frames
+> +	 * at the field rate.
+> +	 */
+> +	if (state->field == V4L2_FIELD_NONE)
+> +		fi->interval.denominator *= 2;
+> +
+>  	return 0;
+>  }
+>  
+> 
+> -- 
+> 2.47.3
+> 
 
-xjMEXnFG3BYJKwYBBAHaRw8BAQdA3FyJpqEdfQj4GA7OUWVrNheT9dUsIs+yUx6H
-ljr9mYvNFEx5bm5lIDxkZXZAbHlubmUuZWU+wpAEExYIADgWIQT+UBOcaAVyyv1S
-H42i/qXwPwNEZAUCXnFG3AIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRCi
-/qXwPwNEZOTWAQCSNEA+kZLINZ2dsR5Qg988c0HXpOXThZEjg+h1TL7KGgEA3Gff
-0c28efI02S6iMxazrpdWGHqHk7JN7pCjnt397wzOOARecUbcEgorBgEEAZdVAQUB
-AQdAjDdFQ5H+AJ9vwXrOb7val460g45EsheIaL5S7/zSaX8DAQgHwngEGBYIACAW
-IQT+UBOcaAVyyv1SH42i/qXwPwNEZAUCXnFG3AIbDAAKCRCi/qXwPwNEZKaxAQCH
-LV4gAk/B9JvRG27MYm22X3+5QRCLBtEILP29aDh+MQD/V8JFHATDXRY30LsmqR3s
-PQ0BJ1UFVZA5BUoIJPJZWwg=3D
-=3DylY5
------END PGP PUBLIC KEY BLOCK-----
-
---------------Ty45Diy4o4sn82QzgIkhPIIQ--
-
---------------xHleJHRKuW0TeZEKJkeZpyKD--
-
---------------6KZNB941bpKSx6bZMSVwb40q
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQT+UBOcaAVyyv1SH42i/qXwPwNEZAUCaSGecAUDAAAAAAAKCRCi/qXwPwNEZD0Y
-AP91brPKIB6Zl1SZaY98SNSrA0AYgRzNjPyuFHjb1QvvYgEAmpHOHwwYg21mTMAkJ6L2lsAmVvxi
-Jm8ktLCQZABLZwM=
-=SF/d
------END PGP SIGNATURE-----
-
---------------6KZNB941bpKSx6bZMSVwb40q--
+-- 
+Kind Regards,
+Niklas Söderlund
 
