@@ -1,135 +1,155 @@
-Return-Path: <linux-media+bounces-47605-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47606-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57891C7C87C
-	for <lists+linux-media@lfdr.de>; Sat, 22 Nov 2025 07:12:46 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B544C7C89A
+	for <lists+linux-media@lfdr.de>; Sat, 22 Nov 2025 07:29:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 9688D35B1FD
-	for <lists+linux-media@lfdr.de>; Sat, 22 Nov 2025 06:12:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 65BC83A776C
+	for <lists+linux-media@lfdr.de>; Sat, 22 Nov 2025 06:29:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFE712F25E2;
-	Sat, 22 Nov 2025 06:12:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 526212F617E;
+	Sat, 22 Nov 2025 06:29:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iL69vdCb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NRelajk6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0AF1191F98
-	for <linux-media@vger.kernel.org>; Sat, 22 Nov 2025 06:12:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E3E2E413;
+	Sat, 22 Nov 2025 06:29:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763791956; cv=none; b=jIc2/dy3AwSr48csAH4qPcz/INBlc/50Qiu7nEfqIJ0/QE1OND5hQnHjHRjxH228SrZ+QIBR0yq2yHAwzSDBmsksBquFz9jhkt7p1NEvW4lUt7QfqY/K3/qAkQsZCRr0sslIRj8dbNL7oClv3v6Eyf0vZFyUVgwva0TFqz05PfI=
+	t=1763792991; cv=none; b=sf8zYP29ACVFGP0/rLUkRAp/q0nkjTCrWRyDSgW3mPwiK6WX5PG16d2OcNtqpPUcLATqg2zBDLn1bKBBIM7aTYdPwBThuQZXmBoAIOyHsZ5ChcVcdpBPZb8ROTRERK1KMWzV2acE0zKGBVVFIKcL30dORtlRR04OMGehXxBNT1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763791956; c=relaxed/simple;
-	bh=X2b/MKU+rsahySYjtm7A+lzzR/q0LqJmysjHzsfXj7g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UQtYMJxMnQNNfjvadPNBqEMxyBBK4yo9t8OI4e+W9IMAvwy/ZAqg4tygBGbjOLcb+2rVUll+uMgFSbizu8sGIxVsLd7eZ7yTB3StnpQDRIobJqoIHQeQ17pKK1Mkk0cJsvVg/jchUIr+5xaDU/t5HwVAo+HRCNkRBKFYoqZ4O7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iL69vdCb; arc=none smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3437af8444cso2890593a91.2
-        for <linux-media@vger.kernel.org>; Fri, 21 Nov 2025 22:12:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763791954; x=1764396754; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BFsL45n41/Hy6LgeWFBOzqkc8C7/mLyLVAt81mYg+MU=;
-        b=iL69vdCbvA85jhDN+0131Kebx6movWmQS/XaCsHzZv0dR6jEsCEHf/ohY2a87zWnd7
-         LKtVoykd12FIJZwD6mAlumIW4ZKYv/Ur1grCBAiZmXGIh3le5WBgrQpfb+zUPCewE8l+
-         qjkfA+4INVzFYFHTEv8LrbXLwQCDAmBGfXFZEVw02IqpjXTSPlBnY18DUPItN1S8gFxv
-         5g71gHz7HEiBh3cH/JXm0mhUuVq5g4okJr9JCijPsbaVmUcjcKSFV/2sOvucfRC9uLI6
-         bZ/yIsS00Y/NvTTb3r3nfzJPeYFmJrxVjzNaSeUpZIMo+Z/Dj340mRFSP1UckANcqJtr
-         wGmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763791954; x=1764396754;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BFsL45n41/Hy6LgeWFBOzqkc8C7/mLyLVAt81mYg+MU=;
-        b=HPiftot7pkmQpCMWu2WfP/AvWVK2NwUqV57EGKy5NnrDkphiJZR6oUYkVmPMWipWxH
-         RmZb4DB9Ktgn16GJHs9l1OPEp7crRPf7soQTXNRtgg4RxZ9zOCYLUEVieZst7V/3Vlbd
-         TSxk8Rrbo2eYMd0720GF/Kyx9x37fJQ5oZ5Juna1syBwHYogLUHONEn1DApI6tOGC6ac
-         6mpOvrcOjeiy8ec85UDlbaGJHU/9ElqNA8G+v3AnI01j8LLkiqZViX85PxOABAUVrG1v
-         wyhgwDB6ryxiEd6GL0Mee+N99dTiTcVT2nMrqh45Q/LKVjtQP0jWygbFliH4XjHhm7Jw
-         zo/A==
-X-Gm-Message-State: AOJu0YwsCgq4taKsZyduzmox+1FuNPKNNGF4JBtyBzlPpGli4BTYzErJ
-	WjHueBXIh9l4HX/gW9uFCjPl+3483hSRC60gYtel2UM4IeLXag9FXxo=
-X-Gm-Gg: ASbGncug6Gad9FqPPqq0sVCI8R9E5s3YNxUHFQOb0wBzK4JjkGjYrVVRVej35ojIMf6
-	YleT7WCNATQ9JiEeTfh1yNY4yfdE0Gm8FyFUw4jf6GWLxFH2cZDYXIzeJlWdBpWXLZltM/omYYw
-	odRuT8nbxxrOLzKodUmJ3FjIgkhhALROuPL/9f/wXRsChcapoTbs9TULCruqyEGJrh+4UpKkO5Q
-	fI/oY3W/MvHK82B6kQ1g4xWgrBMaOKj7t8LuLafGyVjT68l1WWEEve+EVcRJkBT06uD/3Jy5da9
-	H9/0/vmmcWZ1vTvkoI3bq5DpC4lf2WvcZppLXNSoEYnEdFYiRKzZhTyKqCuSR4AInnyidm+SauN
-	KOo0aTjNo5QyT0ZaefknikdQBTnFwHSatF7AjQP7TeClzt3soCY3cVmBEf0Gb/XOHY32JxsgSWv
-	pQzKvsH8UwGxfm1w5pdcjOq09ZhZF9EefMwek8SmO7mP99Dv4=
-X-Google-Smtp-Source: AGHT+IEELFfYPSuLnTswRTEk4MYgnZbFR5Ptbci+yj7Ijvh3VOfQijP8rAUNywzLB/VWxLh3vTqjGw==
-X-Received: by 2002:a17:90b:180e:b0:340:bfcd:6af3 with SMTP id 98e67ed59e1d1-34733f546aamr5285531a91.33.1763791953971;
-        Fri, 21 Nov 2025 22:12:33 -0800 (PST)
-Received: from samee-VMware-Virtual-Platform.. ([2402:e280:3d9e:537:8ccb:550c:e84d:a5b1])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34726696ba5sm7287600a91.2.2025.11.21.22.12.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Nov 2025 22:12:33 -0800 (PST)
-From: Sameeksha Sankpal <sameekshasankpal@gmail.com>
-To: mchehab@kernel.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sameeksha Sankpal <sameekshasankpal@gmail.com>,
-	syzbot+d445a71e1c011b592c16@syzkaller.appspotmail.com
-Subject: [PATCH] media: dvb-core: fix use-after-free in dvb_device_open() error path
-Date: Sat, 22 Nov 2025 11:42:25 +0530
-Message-ID: <20251122061225.47432-1-sameekshasankpal@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1763792991; c=relaxed/simple;
+	bh=KCqbutL5B3VrIg/In49Xjlc1+gcJU4pHbQqJsCJTwC0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jj0D+nCv8BrExBGIUv5RRFiT5E1HS0Wd1PRLM1Ft+Wr1woS3caAggysOUl8EkNwQYJ1gyyYe32ZaK5/9ZU6H+0XcC4fJkVYX4YX0cUs+cawuDNpbGxQqD7WrEdbZAQQEosYaRGdXPiKYr9B4Rb46Ilr+m57YCM9dbGaX1KrIe8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NRelajk6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC68AC4CEF5;
+	Sat, 22 Nov 2025 06:29:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763792991;
+	bh=KCqbutL5B3VrIg/In49Xjlc1+gcJU4pHbQqJsCJTwC0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NRelajk6nL9+YgVmEajHUme+graOI7HL6KyT0PlhqKCysSyRGF2HaAece8x12xi5P
+	 3+fkxJsItktxrKrT0XVHWsFuOjZ8f28jU3EEh6vhBqvifvwrPlgo5EYiGxCnBINJWe
+	 5bJrWx3P62E2hk0Ldcwt0UFOUPzHQRzdIXRRB7MHZsflQXlv9kEHgeCRC5wScmpM4b
+	 yhqzm+wLhqFTtmvZXO4mb7DNS9RJZslKrLY4EqUwsqIdN2At7JN/E12v5kAdN9h0cv
+	 /cTyD3dFXbKuXGimNITYneUq33eLZ/pwEKDIZNrRZs7yeXz4ks2tNQz43LcT1C3jBL
+	 KQMSHK/k3GHAg==
+Date: Fri, 21 Nov 2025 23:29:46 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Ingo Molnar <mingo@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org
+Subject: Re: drivers/media/i2c/ccs/ccs.o: error: objtool:
+ ccs_set_selection(): unexpected end of section .text.ccs_set_selection
+Message-ID: <20251122062946.GA3054484@ax162>
+References: <aSEGwejeD3f7lnUL@rli9-mobl>
+ <20251122013414.GA3094872@ax162>
+ <ahukd6b3wonye3zgtptvwzvrxldcruazs2exfvll6etjhmcxyj@vq3eh6pd375b>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ahukd6b3wonye3zgtptvwzvrxldcruazs2exfvll6etjhmcxyj@vq3eh6pd375b>
 
-syzbot reported a slab-use-after-free in dvb_device_put() triggered when
-opening a DVB device fails during the device-specific ->open() callback.
+On Fri, Nov 21, 2025 at 09:51:33PM -0800, Josh Poimboeuf wrote:
+> On Fri, Nov 21, 2025 at 06:34:14PM -0700, Nathan Chancellor wrote:
+> > On Sat, Nov 22, 2025 at 08:41:37AM +0800, kernel test robot wrote:
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > > head:   2eba5e05d9bcf4cdea995ed51b0f07ba0275794a
+> > > commit: 188d90f817e13b66e03e110eb6f82e8f5f0d654b objtool: Append "()" to function name in "unexpected end of section" warning
+> > > date:   8 months ago
+> > > :::::: branch date: 4 hours ago
+> > > :::::: commit date: 8 months ago
+> > > config: x86_64-randconfig-101-20251122 (https://download.01.org/0day-ci/archive/20251122/202511220717.5HHMLUHG-lkp@intel.com/config)
+> > > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511220717.5HHMLUHG-lkp@intel.com/reproduce)
+> > > 
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/r/202511220717.5HHMLUHG-lkp@intel.com/
+> > > 
+> > > All errors (new ones prefixed by >>):
+> > > 
+> > > >> drivers/media/i2c/ccs/ccs.o: error: objtool: ccs_set_selection(): unexpected end of section .text.ccs_set_selection
+> > 
+> > That change obviously does not result in this warning/error. This
+> > appears to be another divide by zero issue but based on my analysis so
+> > far, I do not understand how...
+> > 
+> > https://github.com/ClangBuiltLinux/linux/issues/2129
+> 
+> Here ya go :-)  After looking at a gazillion of these I can often spot
+> these pretty easily.  I'm not sure what the correct fix is here but this
+> made the error go away.
+> 
+> diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
+> index 1c889c878abd..2429c05bffb3 100644
+> --- a/drivers/media/i2c/ccs/ccs-core.c
+> +++ b/drivers/media/i2c/ccs/ccs-core.c
+> @@ -2346,7 +2346,7 @@ static void ccs_set_compose_scaler(struct v4l2_subdev *subdev,
+>  		* CCS_LIM(sensor, SCALER_N_MIN) / sel->r.height;
+>  	max_m = crops[CCS_PAD_SINK]->width
+>  		* CCS_LIM(sensor, SCALER_N_MIN)
+> -		/ CCS_LIM(sensor, MIN_X_OUTPUT_SIZE);
+> +		/ (CCS_LIM(sensor, MIN_X_OUTPUT_SIZE) ? : 1);
+>  
+>  	a = clamp(a, CCS_LIM(sensor, SCALER_M_MIN),
+>  		  CCS_LIM(sensor, SCALER_M_MAX));
 
-The root cause is a reference counting imbalance in dvb_device_open().
-The code assigns a dvb_device pointer to file->private_data after calling
-dvb_device_get(), but if the subsequent ->open() call fails, the error path
-drops the reference with dvb_device_put() and returns an error.
+Aha! Thanks a lot :) I had thought it might be something with CCS_LIM()
+since ccs_get_limit() returns zero if ccs_limit_ptr() errors and in the
+default case of the switch statement. There are a lot of unchecked
+divides with the result of CCS_LIM() throughout this driver so I figured
+if that was it, there would be other instances of this warning... oh
+well.
 
-However, the VFS layer will still call ->release() on the file, and
-dvb_device_release() will call dvb_device_put() again on
-file->private_data. Since the earlier put() already freed the device,
-the release() path ends up operating on freed memory, leading to a
-use-after-free.
+Something like the following diff also fixes it since LLVM no longer
+sees 0 as a possible divisor, which seems a little better to me since it
+seems like one of the other uses could turn problematic with other
+optimizations.  Given these cases are both errors and have visible WARNs
+in case they are hit, it seems like it is better to use a valid divisor
+instead of 0.
 
-Fix this by explicitly taking a reference for the file descriptor and
-letting the ->release() method drop it, while the error path only drops
-the reference acquired for the open logic. This ensures that the device
-remains alive until VFS calls ->release(), regardless of ->open() failure.
+Just one more warning to tackle in my personal configuration then I can
+enable CONFIG_OBJTOOL_WERROR to make new warnings from LLVM uprevs more
+obvious :)
 
-Reported-by: syzbot+d445a71e1c011b592c16@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=d445a71e1c011b592c16
-Signed-off-by: Sameeksha Sankpal <sameekshasankpal@gmail.com>
----
- drivers/media/dvb-core/dvbdev.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+  https://github.com/ClangBuiltLinux/linux/issues/2130
 
-diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
-index 9df7c213716a..7fdc21a770a3 100644
---- a/drivers/media/dvb-core/dvbdev.c
-+++ b/drivers/media/dvb-core/dvbdev.c
-@@ -103,7 +103,8 @@ static int dvb_device_open(struct inode *inode, struct file *file)
- 		new_fops = fops_get(dvbdev->fops);
- 		if (!new_fops)
- 			goto fail;
--		file->private_data = dvb_device_get(dvbdev);
-+		dvb_device_get(dvbdev);
-+		file->private_data = dvbdev;
- 		replace_fops(file, new_fops);
- 		if (file->f_op->open)
- 			err = file->f_op->open(inode, file);
--- 
-2.43.0
+diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
+index 1c889c878abd..05c3da29f14c 100644
+--- a/drivers/media/i2c/ccs/ccs-core.c
++++ b/drivers/media/i2c/ccs/ccs-core.c
+@@ -137,7 +137,7 @@ u32 ccs_get_limit(struct ccs_sensor *sensor, unsigned int limit,
 
+        ret = ccs_limit_ptr(sensor, limit, offset, &ptr);
+        if (ret)
+-               return 0;
++               return 1;
+
+        switch (CCI_REG_WIDTH_BYTES(ccs_limits[ccs_limit_offsets[limit].info].reg)) {
+        case sizeof(u8):
+@@ -151,7 +151,7 @@ u32 ccs_get_limit(struct ccs_sensor *sensor, unsigned int limit,
+                break;
+        default:
+                WARN_ON(1);
+-               return 0;
++               return 1;
+        }
+
+        return ccs_reg_conv(sensor, ccs_limits[limit].reg, val);
 
