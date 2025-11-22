@@ -1,155 +1,168 @@
-Return-Path: <linux-media+bounces-47606-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47607-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B544C7C89A
-	for <lists+linux-media@lfdr.de>; Sat, 22 Nov 2025 07:29:59 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AA0AC7C965
+	for <lists+linux-media@lfdr.de>; Sat, 22 Nov 2025 08:26:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 65BC83A776C
-	for <lists+linux-media@lfdr.de>; Sat, 22 Nov 2025 06:29:57 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D4E434E32C8
+	for <lists+linux-media@lfdr.de>; Sat, 22 Nov 2025 07:26:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 526212F617E;
-	Sat, 22 Nov 2025 06:29:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NRelajk6"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD9472F28EC;
+	Sat, 22 Nov 2025 07:26:30 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E3E2E413;
-	Sat, 22 Nov 2025 06:29:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D71A1DF755;
+	Sat, 22 Nov 2025 07:26:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763792991; cv=none; b=sf8zYP29ACVFGP0/rLUkRAp/q0nkjTCrWRyDSgW3mPwiK6WX5PG16d2OcNtqpPUcLATqg2zBDLn1bKBBIM7aTYdPwBThuQZXmBoAIOyHsZ5ChcVcdpBPZb8ROTRERK1KMWzV2acE0zKGBVVFIKcL30dORtlRR04OMGehXxBNT1o=
+	t=1763796390; cv=none; b=Mz4IqgHkBu9vMKEFYQve7Pn/DFv8W5Dlp6jR4m5QiOROhk2iVTJc7xhWlEW7yihS5X3x2cML6OCs5x1aNHO978PddD0572OwZrb1PffBWEjKBnbOm5u97KScELmlgUzuwcd6FBmOf2d6VDDB3yKx9Xtga60a1TI1UnUn1XTjb3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763792991; c=relaxed/simple;
-	bh=KCqbutL5B3VrIg/In49Xjlc1+gcJU4pHbQqJsCJTwC0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jj0D+nCv8BrExBGIUv5RRFiT5E1HS0Wd1PRLM1Ft+Wr1woS3caAggysOUl8EkNwQYJ1gyyYe32ZaK5/9ZU6H+0XcC4fJkVYX4YX0cUs+cawuDNpbGxQqD7WrEdbZAQQEosYaRGdXPiKYr9B4Rb46Ilr+m57YCM9dbGaX1KrIe8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NRelajk6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC68AC4CEF5;
-	Sat, 22 Nov 2025 06:29:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763792991;
-	bh=KCqbutL5B3VrIg/In49Xjlc1+gcJU4pHbQqJsCJTwC0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NRelajk6nL9+YgVmEajHUme+graOI7HL6KyT0PlhqKCysSyRGF2HaAece8x12xi5P
-	 3+fkxJsItktxrKrT0XVHWsFuOjZ8f28jU3EEh6vhBqvifvwrPlgo5EYiGxCnBINJWe
-	 5bJrWx3P62E2hk0Ldcwt0UFOUPzHQRzdIXRRB7MHZsflQXlv9kEHgeCRC5wScmpM4b
-	 yhqzm+wLhqFTtmvZXO4mb7DNS9RJZslKrLY4EqUwsqIdN2At7JN/E12v5kAdN9h0cv
-	 /cTyD3dFXbKuXGimNITYneUq33eLZ/pwEKDIZNrRZs7yeXz4ks2tNQz43LcT1C3jBL
-	 KQMSHK/k3GHAg==
-Date: Fri, 21 Nov 2025 23:29:46 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Ingo Molnar <mingo@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org
-Subject: Re: drivers/media/i2c/ccs/ccs.o: error: objtool:
- ccs_set_selection(): unexpected end of section .text.ccs_set_selection
-Message-ID: <20251122062946.GA3054484@ax162>
-References: <aSEGwejeD3f7lnUL@rli9-mobl>
- <20251122013414.GA3094872@ax162>
- <ahukd6b3wonye3zgtptvwzvrxldcruazs2exfvll6etjhmcxyj@vq3eh6pd375b>
+	s=arc-20240116; t=1763796390; c=relaxed/simple;
+	bh=eoQPxV0bqpB6nxGpd8YPMIDxctKmS3pjBtnDyzgxaFw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=ALqOqh450gErUpUJHi6RFH5ojtvUXJJmajFmNDBsP2eho1jg3HHdJreHxBFYSlYpVk3RJA+mAciatZxS8nSx0s3OZDHDQXQ+4akP6wPwQYk2RJKAh5AqV/9laKZEO1VmCI0yuX48UnvWCe2OavMUB/GjIz3CqOfk/+Ad3wfRizQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 86b67f56c77411f0a38c85956e01ac42-20251122
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.6,REQID:daaaa0b1-d8fb-4641-a5f4-12eec753ac8f,IP:0,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:0
+X-CID-META: VersionHash:a9d874c,CLOUDID:93fe3913ca7f5a8ae7e63d78a71e3828,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|898,TC:nil,Content:0|15|50,EDM:-
+	3,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:
+	0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 86b67f56c77411f0a38c85956e01ac42-20251122
+X-User: dengjie03@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <dengjie03@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1089239997; Sat, 22 Nov 2025 15:26:13 +0800
+From: Jie Deng <dengjie03@kylinos.cn>
+To: laurent.pinchart@ideasonboard.com
+Cc: hansg@kernel.org,
+	mchehab@kernel.org,
+	kieran.bingham@ideasonboard.com,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jie Deng <dengjie03@kylinos.cn>
+Subject: [PATCH v2] media: usb: uvc: Fix NULL pointer dereference during USB device hot-unplug
+Date: Sat, 22 Nov 2025 15:25:58 +0800
+Message-Id: <20251122072558.2604753-1-dengjie03@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ahukd6b3wonye3zgtptvwzvrxldcruazs2exfvll6etjhmcxyj@vq3eh6pd375b>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 21, 2025 at 09:51:33PM -0800, Josh Poimboeuf wrote:
-> On Fri, Nov 21, 2025 at 06:34:14PM -0700, Nathan Chancellor wrote:
-> > On Sat, Nov 22, 2025 at 08:41:37AM +0800, kernel test robot wrote:
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > > head:   2eba5e05d9bcf4cdea995ed51b0f07ba0275794a
-> > > commit: 188d90f817e13b66e03e110eb6f82e8f5f0d654b objtool: Append "()" to function name in "unexpected end of section" warning
-> > > date:   8 months ago
-> > > :::::: branch date: 4 hours ago
-> > > :::::: commit date: 8 months ago
-> > > config: x86_64-randconfig-101-20251122 (https://download.01.org/0day-ci/archive/20251122/202511220717.5HHMLUHG-lkp@intel.com/config)
-> > > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511220717.5HHMLUHG-lkp@intel.com/reproduce)
-> > > 
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/r/202511220717.5HHMLUHG-lkp@intel.com/
-> > > 
-> > > All errors (new ones prefixed by >>):
-> > > 
-> > > >> drivers/media/i2c/ccs/ccs.o: error: objtool: ccs_set_selection(): unexpected end of section .text.ccs_set_selection
-> > 
-> > That change obviously does not result in this warning/error. This
-> > appears to be another divide by zero issue but based on my analysis so
-> > far, I do not understand how...
-> > 
-> > https://github.com/ClangBuiltLinux/linux/issues/2129
-> 
-> Here ya go :-)  After looking at a gazillion of these I can often spot
-> these pretty easily.  I'm not sure what the correct fix is here but this
-> made the error go away.
-> 
-> diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-> index 1c889c878abd..2429c05bffb3 100644
-> --- a/drivers/media/i2c/ccs/ccs-core.c
-> +++ b/drivers/media/i2c/ccs/ccs-core.c
-> @@ -2346,7 +2346,7 @@ static void ccs_set_compose_scaler(struct v4l2_subdev *subdev,
->  		* CCS_LIM(sensor, SCALER_N_MIN) / sel->r.height;
->  	max_m = crops[CCS_PAD_SINK]->width
->  		* CCS_LIM(sensor, SCALER_N_MIN)
-> -		/ CCS_LIM(sensor, MIN_X_OUTPUT_SIZE);
-> +		/ (CCS_LIM(sensor, MIN_X_OUTPUT_SIZE) ? : 1);
->  
->  	a = clamp(a, CCS_LIM(sensor, SCALER_M_MIN),
->  		  CCS_LIM(sensor, SCALER_M_MAX));
+Add safety checks to prevent kernel panic during the race window in
+USB device disconnection.
 
-Aha! Thanks a lot :) I had thought it might be something with CCS_LIM()
-since ccs_get_limit() returns zero if ccs_limit_ptr() errors and in the
-default case of the switch statement. There are a lot of unchecked
-divides with the result of CCS_LIM() throughout this driver so I figured
-if that was it, there would be other instances of this warning... oh
-well.
+The issue occurs in a specific timing window during hot-unplug:
+- usb_disconnect() calls usb_disable_device() which sets
+  dev->actconfig->interface[i] to NULL
+- But dev->actconfig is not yet set to NULL
+- During this window, uvc_video_stop_streaming() calls usb_set_interface()
+- This eventually calls usb_ifnum_to_if() which accesses the already
+  NULL interface[i]->altsetting, causing a kernel panic
+logs:
+[ 9518.891254] Call trace:
+[ 9518.894817]  usb_ifnum_to_if+0x34/0x50
+[ 9518.899681]  usb_set_interface+0x108/0x3c8
+[ 9518.904898]  uvc_video_stop_streaming+0x3c/0x90 [uvcvideo]
+[ 9518.911500]  uvc_stop_streaming+0x24/0x90 [uvcvideo]
+[ 9518.917583]  __vb2_queue_cancel+0x44/0x458 [videobuf2_common]
+[ 9518.924444]  vb2_core_streamoff+0x20/0xb8 [videobuf2_common]
+[ 9518.931221]  vb2_streamoff+0x18/0x60 [videobuf2_v4l2]
+[ 9518.937390]  uvc_queue_streamoff+0x30/0x50 [uvcvideo]
+[ 9518.943557]  uvc_ioctl_streamoff+0x40/0x68 [uvcvideo]
+[ 9518.949724]  v4l_streamoff+0x20/0x28
+[ 9518.954415]  __video_do_ioctl+0x17c/0x3e0
+[ 9518.959540]  video_usercopy+0x1d8/0x558
+[ 9518.964490]  video_ioctl2+0x14/0x1c
+[ 9518.969094]  v4l2_ioctl+0x3c/0x58
+[ 9518.973526]  do_vfs_ioctl+0x374/0x7b0
+[ 9518.978304]  ksys_ioctl+0x78/0xa8
+[ 9518.982734]  sys_ioctl+0xc/0x18
+[ 9518.986991]  __sys_trace_return+0x0/0x4
+[ 9518.991943] Code: eb04005f 54000100 f9400040 91002042 (f9400003)
+[ 9518.999153] ---[ end trace f7c7d3236806d9a4 ]---
 
-Something like the following diff also fixes it since LLVM no longer
-sees 0 as a possible divisor, which seems a little better to me since it
-seems like one of the other uses could turn problematic with other
-optimizations.  Given these cases are both errors and have visible WARNs
-in case they are hit, it seems like it is better to use a valid divisor
-instead of 0.
+The fix adds comprehensive NULL pointer validation:
+- Check stream, stream->dev, stream->dev->udev, and stream->intf early
+- Safely iterate through interfaces with proper NULL checks.
+- Ensure config->interface[i] and its altsetting are valid before
+  access.
+This prevents the crash by ensuring we don't access partially freed
+USB interface structures during device removal.
 
-Just one more warning to tackle in my personal configuration then I can
-enable CONFIG_OBJTOOL_WERROR to make new warnings from LLVM uprevs more
-obvious :)
+Fixes: 571e70dbd421 ("media: uvcvideo: Split uvc_video_enable into two")
+Signed-off-by: Jie Deng <dengjie03@kylinos.cn>
+---
+v2:
+	* Before the uvc driver calls usb_set_interface(), it first
+	  checks whether the interface exists and is valid.
+v1:
+	* Add a null pointer check in the usb_ifnum_to_if() function.
+	  This plan cannot eliminate the root cause.
+	  Link：https://lore.kernel.org/all/20251113114411.1410343-1-dengjie03@kylinos.cn/
+---
+ drivers/media/usb/uvc/uvc_video.c | 20 ++++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
 
-  https://github.com/ClangBuiltLinux/linux/issues/2130
+diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+index 2094e059d7d3..30dd8ea8980e 100644
+--- a/drivers/media/usb/uvc/uvc_video.c
++++ b/drivers/media/usb/uvc/uvc_video.c
+@@ -2317,10 +2317,25 @@ int uvc_video_start_streaming(struct uvc_streaming *stream)
+ 
+ void uvc_video_stop_streaming(struct uvc_streaming *stream)
+ {
++	struct usb_host_config *config;
++	int i;
++
++	if (!stream || !stream->dev || !stream->dev->udev || !stream->intf)
++		goto cleanup_clock;
++
+ 	uvc_video_stop_transfer(stream, 1);
+ 
+-	if (stream->intf->num_altsetting > 1) {
+-		usb_set_interface(stream->dev->udev, stream->intfnum, 0);
++	config = stream->dev->udev->actconfig;
++	if (stream->intf->num_altsetting > 1 && config) {
++		/* Security Check: Check if the interface exists and is valid */
++		for (i = 0; i < config->desc.bNumInterfaces; i++) {
++			if (config->interface[i] &&
++			    config->interface[i]->altsetting[0]
++				.desc.bInterfaceNumber == stream->intfnum) {
++				usb_set_interface(stream->dev->udev, stream->intfnum, 0);
++				break;
++			}
++		}
+ 	} else {
+ 		/*
+ 		 * UVC doesn't specify how to inform a bulk-based device
+@@ -2338,5 +2353,6 @@ void uvc_video_stop_streaming(struct uvc_streaming *stream)
+ 		usb_clear_halt(stream->dev->udev, pipe);
+ 	}
+ 
++cleanup_clock:
+ 	uvc_video_clock_cleanup(&stream->clock);
+ }
+-- 
+2.25.1
 
-diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-index 1c889c878abd..05c3da29f14c 100644
---- a/drivers/media/i2c/ccs/ccs-core.c
-+++ b/drivers/media/i2c/ccs/ccs-core.c
-@@ -137,7 +137,7 @@ u32 ccs_get_limit(struct ccs_sensor *sensor, unsigned int limit,
-
-        ret = ccs_limit_ptr(sensor, limit, offset, &ptr);
-        if (ret)
--               return 0;
-+               return 1;
-
-        switch (CCI_REG_WIDTH_BYTES(ccs_limits[ccs_limit_offsets[limit].info].reg)) {
-        case sizeof(u8):
-@@ -151,7 +151,7 @@ u32 ccs_get_limit(struct ccs_sensor *sensor, unsigned int limit,
-                break;
-        default:
-                WARN_ON(1);
--               return 0;
-+               return 1;
-        }
-
-        return ccs_reg_conv(sensor, ccs_limits[limit].reg, val);
 
