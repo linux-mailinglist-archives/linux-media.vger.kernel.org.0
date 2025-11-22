@@ -1,48 +1,50 @@
-Return-Path: <linux-media+bounces-47615-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47616-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 742BCC7D3D0
-	for <lists+linux-media@lfdr.de>; Sat, 22 Nov 2025 17:17:17 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AA8AC7D507
+	for <lists+linux-media@lfdr.de>; Sat, 22 Nov 2025 18:58:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 89E734E4FAC
-	for <lists+linux-media@lfdr.de>; Sat, 22 Nov 2025 16:17:13 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 033B334D243
+	for <lists+linux-media@lfdr.de>; Sat, 22 Nov 2025 17:58:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF36E28D83F;
-	Sat, 22 Nov 2025 16:17:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E673C288505;
+	Sat, 22 Nov 2025 17:58:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ub/VKTxl"
+	dkim=pass (2048-bit key) header.d=lynne.ee header.i=@lynne.ee header.b="LUWookV8";
+	dkim=permerror (0-bit key) header.d=lynne.ee header.i=@lynne.ee header.b="PyzY4J4A"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vidala.pars.ee (vidala.pars.ee [116.203.72.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 275541DF755;
-	Sat, 22 Nov 2025 16:17:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 358B91A316E
+	for <linux-media@vger.kernel.org>; Sat, 22 Nov 2025 17:58:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.72.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763828225; cv=none; b=NCM4EA9isBKjPa/vJJpRkMrb7oLJNEDdOatfvJOceLIeifnamU7ymXxy+X7H1ll4RlRfVGFPW5ttuvc1kqVAnWZ0C4s04WXdHoJqAFqWOROrpRKSpqJXarFD8lr4jAdojI+0WgWcJ+q3Sk0c8w1aj0oatLKHsQ0xya8/Ud2APr4=
+	t=1763834318; cv=none; b=p6ebT6NZqyyLw0apDwK5HqGRCveV8kmkfN32aVYBK13z2Ne3my5E0uzn119ecmobCBbCJT8Dsrir/6Ggf+jZzlDUeaE2lalXFnAl3i58uCp3Lan472yg/+2Bv4ev7cZYUb9Xr9jhK4c3sxz/7iS8Dx293FQlqN3jXZNRFYOxOTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763828225; c=relaxed/simple;
-	bh=Jl5QOHm4dlknrlqq9uEeExy8mu6Zpdxhj8VTMXIz6Kk=;
+	s=arc-20240116; t=1763834318; c=relaxed/simple;
+	bh=K7jDgQ2WyAAl++lqgXYV9u9iZnts19qhz3ffc3p8NHE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K+TubqudYEnttn2261fcXFEPMAiLZWR0fqKgyV9ygs+nPlqzlYmYwIj/8TY4pz0hDNzYorSX0Mi+vxsNDWruaOTNECE9FHU2XPiZD9zGcOcyosdbARJRgY3FwDj4eub7zhB/b7Aj9rL7QgHSdOtLk0vkg71r6Tq+ECvyJocWhoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ub/VKTxl; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6620C113D0;
-	Sat, 22 Nov 2025 16:17:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763828224;
-	bh=Jl5QOHm4dlknrlqq9uEeExy8mu6Zpdxhj8VTMXIz6Kk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Ub/VKTxl50oYz7DjtO+G5wLp1CuF1AWMAH2vpwq4CQayed9wfcbdHGTQdRe0RX4ZD
-	 qFqLs6hr59NBUZ/OKfiFSw4q0h3VH8VL92pETaot/DApdVp6qWKXCXvprvwxBIFE+L
-	 JGUImv3Qj6nU75d6ur1Xl/dSTTouHNz8KRbs0fltJSocTBWGeFJBv38qoxIxkuugYY
-	 sEkqgGF31pttK1GiJfPc7PkjZb0JFMkcjFa0Q0gAoDqJb4Ei2dwomy1Vs8wNmYGo0h
-	 5KLsaZPULIurLMX7sbm379bvQ91yGaffOmI/PHk/msb/hwbB6fAxcbnEXfW/joXyAt
-	 Let2DWEcTUvKQ==
-Message-ID: <e352c37c-90f6-4f52-8c24-baeae2883bf9@kernel.org>
-Date: Sat, 22 Nov 2025 16:17:00 +0000
+	 In-Reply-To:Content-Type; b=qCbNyfyCBkEFeANj3HGR6rV3sPuDDvIf+1kBAd1xbAv6IsqajO41g9D1UJdhtUtuBoOU626YJekm5t/75kQCNP9PL32GiJRfFkeSHMRvGrl0jA8krltrq450AgVtQDZj3oUwWR4fZfNFC1jV5WFKiU4NEtRQ7R4aE83VRD12piM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lynne.ee; spf=pass smtp.mailfrom=lynne.ee; dkim=pass (2048-bit key) header.d=lynne.ee header.i=@lynne.ee header.b=LUWookV8; dkim=permerror (0-bit key) header.d=lynne.ee header.i=@lynne.ee header.b=PyzY4J4A; arc=none smtp.client-ip=116.203.72.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lynne.ee
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lynne.ee
+DKIM-Signature: v=1; a=rsa-sha256; s=202405r; d=lynne.ee; c=relaxed/relaxed;
+	h=From:To:Subject:Date:Message-ID; t=1763834308; bh=yEHBaBqVPS7A6JX3zVtKSGP
+	AS9E7qW/86seNQqx9a/M=; b=LUWookV8BkYfpHHwUQ6+37AzVT+Kxu+cAbXEQDqT6sHejgxoi+
+	GEq0w7UbsCfp3nLSNIfLo+PN/o43+9RHu8/xd+Xq/J1UjMxZz2FgQSIL4jpbSXWcEr7Hfmgdw+a
+	8E/a4ukb8xuxhCtkDU1AcSq3FLA56tJo+aKZd25KlDFID2dSYKk/RSKWhizMDNw9yKeWsqkzC7Z
+	ezx5472CxDcTRLObc+tT9KjAoO/p+UkbGDsK6DiEkUiIS/3b1p/63LteS9FR3gRlVoCH1d6cCRt
+	m9jxDZUjOmPoixQAYsUCjEDTpVG2tSAK7Ho6+WYGJmO7og6Xc1t2xiajOznCCwW/zoQ==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202405e; d=lynne.ee; c=relaxed/relaxed;
+	h=From:To:Subject:Date:Message-ID; t=1763834308; bh=yEHBaBqVPS7A6JX3zVtKSGP
+	AS9E7qW/86seNQqx9a/M=; b=PyzY4J4A0bx94LDw68rnglak27zWA5r/edPOQJJZ/NZ23J2q1+
+	mYO0Vyp4lNk3YilLEcMGpPhsRQ7zlaVCKxAQ==;
+Message-ID: <7ce47ae4-f45d-49f6-919d-98f301aaaa75@lynne.ee>
+Date: Sat, 22 Nov 2025 18:58:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,75 +52,89 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: venus: assign unique bus_info strings for encoder
- and decoder
-To: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>,
- vikash.garodia@oss.qualcomm.com, dikshita.agarwal@oss.qualcomm.com,
- mchehab@kernel.org
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <3FJhEomSdQ2CUrDJZaWiNVmSKYmUGylmoUUZc_15p0xnLmG_gydDxIyJDrUnemnatDXNOtQAqbWytjZ-xZAJ_w==@protonmail.internalid>
- <20251121184306.218169-1-jorge.ramirez@oss.qualcomm.com>
-From: Bryan O'Donoghue <bod@kernel.org>
+Subject: Re: uvc_video issue: Panasonic S1II initialization fails in webcam
+ mode
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org
+References: <91137e13-102b-41a6-8f14-14fb33a3e554@lynne.ee>
+ <20251122151401.GC15447@pendragon.ideasonboard.com>
 Content-Language: en-US
-In-Reply-To: <20251121184306.218169-1-jorge.ramirez@oss.qualcomm.com>
+From: Lynne <dev@lynne.ee>
+In-Reply-To: <20251122151401.GC15447@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 21/11/2025 18:43, Jorge Ramirez-Ortiz wrote:
-> The Venus encoder and decoder video devices currently report the same
-> bus_info string ("platform:qcom-venus").
+On 22/11/2025 16:14, Laurent Pinchart wrote:
+> Hi Lynne,
 > 
-> Assign unique bus_info identifiers by appending ":dec" and ":enc" to the
-> parent device name. With this change v4l2-ctl will display two separate
-> logical devices
+> On Sat, Nov 22, 2025 at 12:28:48PM +0100, Lynne wrote:
+>> The issue I'd like to report is that the kernel fails to initialize the
+>> Panasonic S1II DSLR camera in webcam mode as a webcam.
+>> Seems like most queries time out or error out with a generic protocol
+>> error return.
+>> I tried increasing UVC_CTRL_CONTROL_TIMEOUT just in case, but it did not
+>> seem to help.
 > 
-> Signed-off-by: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
-> ---
->   drivers/media/platform/qcom/venus/vdec.c | 5 +++++
->   drivers/media/platform/qcom/venus/venc.c | 5 +++++
->   2 files changed, 10 insertions(+)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-> index 4a6641fdffcf..63f6ae1ff6ac 100644
-> --- a/drivers/media/platform/qcom/venus/vdec.c
-> +++ b/drivers/media/platform/qcom/venus/vdec.c
-> @@ -433,9 +433,14 @@ vdec_g_selection(struct file *file, void *fh, struct v4l2_selection *s)
->   static int
->   vdec_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
->   {
-> +	struct venus_inst *inst = to_inst(file);
-> +	struct venus_core *core = inst->core;
-> +
->   	strscpy(cap->driver, "qcom-venus", sizeof(cap->driver));
->   	strscpy(cap->card, "Qualcomm Venus video decoder", sizeof(cap->card));
->   	strscpy(cap->bus_info, "platform:qcom-venus", sizeof(cap->bus_info));
-> +	snprintf(cap->bus_info, sizeof(cap->bus_info),
-> +		 "platform:%s:dec", dev_name(core->dev));
-> 
->   	return 0;
->   }
-> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-> index b478b982a80d..520689f5533d 100644
-> --- a/drivers/media/platform/qcom/venus/venc.c
-> +++ b/drivers/media/platform/qcom/venus/venc.c
-> @@ -144,9 +144,14 @@ static int venc_v4l2_to_hfi(int id, int value)
->   static int
->   venc_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
->   {
-> +	struct venus_inst *inst = to_inst(file);
-> +	struct venus_core *core = inst->core;
-> +
->   	strscpy(cap->driver, "qcom-venus", sizeof(cap->driver));
->   	strscpy(cap->card, "Qualcomm Venus video encoder", sizeof(cap->card));
->   	strscpy(cap->bus_info, "platform:qcom-venus", sizeof(cap->bus_info));
-> +	snprintf(cap->bus_info, sizeof(cap->bus_info),
-> +		 "platform:%s:enc", dev_name(core->dev));
-> 
->   	return 0;
->   }
-> --
-> 2.43.0
-> 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> I see in the log that the USB audio driver fails as well. There are
+> quite a few devices that exhibit issues in the interactions between the
+> audio and video interfaces. Could you test blacklisting the
+> snd_usb_audio module to prevent it from loading (and unloading it if
+> it's loaded already), and replug your camera ?
+
+Hi,
+I dug around some more. When the device is first connected, everything 
+runs fine, actually. Upon unplugging and plugging it back in, I get the 
+log I posted initially. Unloading the uvcvideo/uvc moedule and loading 
+it makes the camera work again.
+Disabling snd_usb_audio did not help.
+
+Here's the log of the device being plugged in for the first time.
+<same as before>
+[  +0.000001] usb 2-3: SerialNumber: 00000Z12FB009251
+[  +0.094425] videodev: Linux video capture interface: v2.00
+[  +0.017217] usb 2-3: Found UVC 1.10 device DC-S1M2 (04da:2385)
+[  +0.000493] usb 2-3: Failed to query (GET_INFO) UVC error code control 
+2 on unit 2: -32 (exp. 1).
+[  +0.000264] usb 2-3: Failed to query (GET_INFO) UVC error code control 
+2 on unit 1: -32 (exp. 1).
+[  +0.000407] usbcore: registered new interface driver uvcvideo
+[  +0.007960] usb 2-3: Failed to query (GET_DEF) UVC error code control 
+2 on unit 2: -32 (exp. 1).
+[  +0.000004] usb 2-3: UVC non compliance: permanently disabling control 
+980900 (Brightness), due to error -32
+[  +0.000425] usb 2-3: Failed to query (GET_DEF) UVC error code control 
+2 on unit 1: -32 (exp. 1).
+[  +0.000001] usb 2-3: UVC non compliance: permanently disabling control 
+9a0901 (Auto Exposure), due to error -32
+[  +1.091011] usb 2-3: Failed to query (GET_DEF) UVC error code control 
+2 on unit 2: -32 (exp. 1).
+[  +0.000442] usb 2-3: Failed to query (GET_DEF) UVC error code control 
+2 on unit 1: -32 (exp. 1).
+[  +0.000762] usb 2-3: Failed to query (GET_DEF) UVC error code control 
+2 on unit 2: -32 (exp. 1).
+[  +0.000426] usb 2-3: Failed to query (GET_DEF) UVC error code control 
+2 on unit 1: -32 (exp. 1).
+[Nov22 18:50] usb 2-3: USB disconnect, device number 2
+
+Maybe some state gets corrupted?
+
+>> Full log is below:
+>>
+>> [Nov22 12:11] usb 4-4: new SuperSpeed Plus Gen 2x1 USB device number 10 using xhci_hcd
+>> [  +0.017315] usb 4-4: New USB device found, idVendor=04da, idProduct=2385, bcdDevice= 1.00
+>> [  +0.000008] usb 4-4: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+>> [  +0.000004] usb 4-4: Product: DC-S1M2
+>> [  +0.000002] usb 4-4: Manufacturer: Panasonic
+>> [  +0.000002] usb 4-4: SerialNumber: 00000Z12FB009251
+>> [  +0.019222] usb 4-4: Found UVC 1.10 device DC-S1M2 (04da:2385)
+>> [  +5.127335] usb 4-4: Failed to query (GET_INFO) UVC control 2 on unit 2: -110 (exp. 1).
+>> [  +5.119884] usb 4-4: Failed to query (GET_INFO) UVC control 2 on unit 1: -110 (exp. 1).
+>> [ +10.239937] usb 4-4: UVC non compliance - GET_DEF(PROBE) not supported. Enabling workaround.
+>> [  +0.008264] uvcvideo 4-4:1.1: Failed to query (GET_CUR) UVC probe control : -71 (exp. 34).
+>> [  +0.000013] uvcvideo 4-4:1.1: Failed to initialize the device (-71).
+>> [  +0.000026] uvcvideo 4-4:1.0: probe with driver uvcvideo failed with error -71
+>> [  +0.103095] usb 4-4: 3:1: cannot set freq 48000 to ep 0x83
+>> [  +0.359825] usb 4-4: 3:1: usb_set_interface failed (-71)
+>> [  +0.320056] usb 4-4: 3:1: usb_set_interface failed (-71)
+
 
