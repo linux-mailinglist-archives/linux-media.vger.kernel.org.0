@@ -1,342 +1,193 @@
-Return-Path: <linux-media+bounces-47619-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47620-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id C06B6C7E783
-	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 22:03:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FC30C7E81E
+	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 23:29:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3F59C345CE3
-	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 21:03:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1A8813A3EAA
+	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 22:29:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 494992673B7;
-	Sun, 23 Nov 2025 21:02:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4E33274B48;
+	Sun, 23 Nov 2025 22:29:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jriF4r3C"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="moafI85T"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD058261B98
-	for <linux-media@vger.kernel.org>; Sun, 23 Nov 2025 21:02:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D104433A6;
+	Sun, 23 Nov 2025 22:29:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763931772; cv=none; b=BB33y1uT167yysplDghaG59w8HtUDdeAZQmoyxnRnS/92aqhynz7U520N7onMnKJ5RW8YPqhM98UHIEc9+gvg0PjyJ9Lea34AXmCY0in1JKsy92FCu4M++KN0B/yrYKDSzLfmqdm/wPCALWMGrk2b/ilvgPxdhrFvtQVYmmXHlM=
+	t=1763936953; cv=none; b=cw1NL78y6C5xEyeKVNfcsVW7PY8W1yOshoakKxDKDFglOnjHtD1QQF88QXcy46qDzE0QQQdG/I105oYClXta/GjY1IHxRnRMuCfZOVA2W6FB38gbrs4QsRYxs2iWY2Oosdu9aCsyjEjMyGGRoQbFUwoCiEV7zzJH3p82ufxr6Lo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763931772; c=relaxed/simple;
-	bh=hxzufESahS48J9qe4RxDVYXwkRS/DsW5pdksDexMURk=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=lUDfayuuVouNsCEpM3ECV9p3O394fpYIzUERFR0eKD/LNOrYdI40JD2SzzcG7T0aDG1G3+0xGw/ajYL+xU9Q3cWXHW/NhSA8QRiq63IIuoeNL3nHrowtPaMOKlhTq8BtOWUw3pFQjXFaofrNdrt8JvAMdBSM8kI2Fu2esT1hYoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jriF4r3C; arc=none smtp.client-ip=209.85.219.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-882475d8851so43958696d6.2
-        for <linux-media@vger.kernel.org>; Sun, 23 Nov 2025 13:02:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763931770; x=1764536570; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=O8HKGPqpWw+NLxCdwrDd7XfSCOsLWUXQfs0Wb0Ps6NI=;
-        b=jriF4r3CKlWv/kF3hEmjmC+e1YkDDnejnOE8FSjcf0OSfAfuJVrBEEJSd7u75DOCDH
-         4piQLWYezds17ayOPDMsvC4ijdVDeyOL7F6Ikk4Pc+bCoSulh8ZyKln3ijFKwqYSYYQW
-         CHl3AVfKDzdxW+CmZgUcorFz4QJERF4RCI2i5xvcbe9mkb/+hzSAep63HylMDUeGNxd3
-         6NuYN4XTDqLtOHzNWsEFsCXd1+oUMzqyV+umiW458GwZMS438lFFgqr3E7PoU8z5Kuio
-         IKy65q52VI3pX9o7NXWCtq7jCzal58vtQB5h/fwjUYyA6dTVdA+NAhhue2wPO51OmICa
-         oE9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763931770; x=1764536570;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=O8HKGPqpWw+NLxCdwrDd7XfSCOsLWUXQfs0Wb0Ps6NI=;
-        b=KLG1/U8tb4KPkVdKYAEb8P1VGx2Bcq8/A9s6uh+xXwtGY/8d0+tJZkt8+PbcB7uk+6
-         AyZG2lC4//AmI/S86s469lxh/OizuM6RmoXEcSlvNTdWtnxwEO7GY2OqQbPZnG+qtfq8
-         QiGoye7ut+VBtVsmAc2bMPMpX8y9sD5/wV66LITPyZjsrZ9BWLnf+1zUGJdUqbN5Y3Gg
-         85TbpkzZnFoh/gRsae5ClcU0BXDhJOAO/E2/oAcsm459Vwei6LB9wGvWwILaT2sLoKZr
-         GOK3XK70DtIc8iC4MSa0TUciKUrcNIQU1+FtLcyRNEZLYGvJvek6+Vvgw9CtMwT4/Gc+
-         0rdw==
-X-Gm-Message-State: AOJu0Yz35bpupfCOd8MPHBwarjlp51e+WnsVDpV4u3xqwXvK0/wx+AXy
-	SIF/sn5VV3XOKN5zlxvp9kfmyUF0i6dwmXDEzfREOH7NSk0mXDj46GcMlj6FEw==
-X-Gm-Gg: ASbGncs2/Sj9i+MpUwDHQPDzXn4RmC4dQPjcdNW2ZAOzNoIHKcn5xs42IPUQs+OYb++
-	sc/QZseREzrx80t7fQgkvJMRH7UFxwa3Ik0c8uuaYSz7Z/SOwwLa+ujrRPiVeqluy4X2gaeruLE
-	QQRMxVI2NlbKN3ATxyKjBA8ulRQ8Qd6eTMqcqo1hgHvHPp6vFOvkf+6HWYzkqFcwRpA+i8yum7q
-	0246U2P9EHlUvtuSE4GjRQyZ6IEQ5LnEXbMVqxkKYTjTM0i/cupJBguhgC9Tc3oEkQDj1EVAJay
-	cxwb8o+l/CUSdeaqFnHPn8CQ8U2xsapd+y/fCv9Jhw4Qb8tq+XwexP2SWMX96zy9rQ+QV9DCAuK
-	4iNWIHSz5XNV0mBn5HBYqBoA82KW6kvF4LNg/wIdrmZau4WgaHSovPDrFZAhbmt+HQT91
-X-Google-Smtp-Source: AGHT+IEpruYS93dD/6AelRJMD+toaEG0rJhAEFwo2OA1w8gZU/cK+ApfXgVTCPEPafMqq0oY6kAP9Q==
-X-Received: by 2002:a05:6214:5d0b:b0:880:42a7:772c with SMTP id 6a1803df08f44-8847c52d14bmr143173596d6.54.1763931769488;
-        Sun, 23 Nov 2025 13:02:49 -0800 (PST)
-Received: from ryzen ([2601:644:8000:8e26::ea0])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8846e54c84esm84549206d6.30.2025.11.23.13.02.48
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Nov 2025 13:02:48 -0800 (PST)
-From: Rosen Penev <rosenp@gmail.com>
-To: linux-media@vger.kernel.org
-Subject: [PATCH] v4l2-tracer: unique_ptr conversions
-Date: Sun, 23 Nov 2025 13:02:31 -0800
-Message-ID: <20251123210231.11605-1-rosenp@gmail.com>
-X-Mailer: git-send-email 2.52.0
+	s=arc-20240116; t=1763936953; c=relaxed/simple;
+	bh=HVYStuqoqDMlm90IYZiFbfw27vrFjgOsWLDFDAv5nrA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IFbSFU8worL1j6GaYpMqFKs9+xuJhO1pgYAaRfE1qAafdNhcj13LGU4Iz8olKBUaC3e+76N/BI193D2LmRGqfgFinSPH0V9ccLqQ59maOzlKHzhmsdsfnWxaxw2dxbxicMjKw5bPs9q+Xxr4aIWvdFn0j2UMh/YtZdDrqsrKXSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=moafI85T; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763936951; x=1795472951;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HVYStuqoqDMlm90IYZiFbfw27vrFjgOsWLDFDAv5nrA=;
+  b=moafI85Tz88js/3ggIP8I0SlDJN0ltXkmMh7O1zNPSWMSDU7SqJDvl1v
+   aXwW8/mW3XKXaK26Vz4phfzj1XgvpZ4QATG/4yOSa1NKD1bsUs/alAZAr
+   sANcY8hSlyE4dxAAX037Ae7cIkYh2xs5cXAildqogE2Rl8du/EMnEisha
+   UigI5eNpe6o6hDxdBFV4Lod7GkNfBmnf1Wz3BnC7VcubVc+yNGBNMVvqm
+   MWDhtCGh3AznYuipJXDsM/ZhCxFI2MDsxkTj8bTETqow3fT1/geN094SJ
+   9mVV5jsYtlLHKLKmfNZHhMSZBgjJcVKJjZ58JM0thXBf1/g8fXVSCbjca
+   g==;
+X-CSE-ConnectionGUID: 8CFnQOK3Ql6wyHfmYYEYFA==
+X-CSE-MsgGUID: 3jKrpzfsTSOwM3w1sMBanA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11622"; a="76550180"
+X-IronPort-AV: E=Sophos;i="6.20,221,1758610800"; 
+   d="scan'208";a="76550180"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2025 14:29:11 -0800
+X-CSE-ConnectionGUID: AKRJtZDfS5GybDL7pS6qzQ==
+X-CSE-MsgGUID: PYO5J11dSHyVC+Tl71f0Fw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,221,1758610800"; 
+   d="scan'208";a="215530293"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.203])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2025 14:29:09 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id BBC8611F869;
+	Mon, 24 Nov 2025 00:29:06 +0200 (EET)
+Date: Mon, 24 Nov 2025 00:29:06 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Josh Poimboeuf <jpoimboe@kernel.org>, kernel test robot <lkp@intel.com>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ingo Molnar <mingo@kernel.org>, linux-media@vger.kernel.org
+Subject: Re: drivers/media/i2c/ccs/ccs.o: error: objtool:
+ ccs_set_selection(): unexpected end of section .text.ccs_set_selection
+Message-ID: <aSOKsu3XjLc9GRM-@kekkonen.localdomain>
+References: <aSEGwejeD3f7lnUL@rli9-mobl>
+ <20251122013414.GA3094872@ax162>
+ <ahukd6b3wonye3zgtptvwzvrxldcruazs2exfvll6etjhmcxyj@vq3eh6pd375b>
+ <20251122062946.GA3054484@ax162>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251122062946.GA3054484@ax162>
 
-No need to manually free.
+Hi folks,
 
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
----
- utils/v4l2-tracer/retrace.cpp | 84 +++++++++++++----------------------
- 1 file changed, 32 insertions(+), 52 deletions(-)
+On Fri, Nov 21, 2025 at 11:29:46PM -0700, Nathan Chancellor wrote:
+> On Fri, Nov 21, 2025 at 09:51:33PM -0800, Josh Poimboeuf wrote:
+> > On Fri, Nov 21, 2025 at 06:34:14PM -0700, Nathan Chancellor wrote:
+> > > On Sat, Nov 22, 2025 at 08:41:37AM +0800, kernel test robot wrote:
+> > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > > > head:   2eba5e05d9bcf4cdea995ed51b0f07ba0275794a
+> > > > commit: 188d90f817e13b66e03e110eb6f82e8f5f0d654b objtool: Append "()" to function name in "unexpected end of section" warning
+> > > > date:   8 months ago
+> > > > :::::: branch date: 4 hours ago
+> > > > :::::: commit date: 8 months ago
+> > > > config: x86_64-randconfig-101-20251122 (https://download.01.org/0day-ci/archive/20251122/202511220717.5HHMLUHG-lkp@intel.com/config)
+> > > > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511220717.5HHMLUHG-lkp@intel.com/reproduce)
+> > > > 
+> > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > > the same patch/commit), kindly add following tags
+> > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > | Closes: https://lore.kernel.org/r/202511220717.5HHMLUHG-lkp@intel.com/
+> > > > 
+> > > > All errors (new ones prefixed by >>):
+> > > > 
+> > > > >> drivers/media/i2c/ccs/ccs.o: error: objtool: ccs_set_selection(): unexpected end of section .text.ccs_set_selection
+> > > 
+> > > That change obviously does not result in this warning/error. This
+> > > appears to be another divide by zero issue but based on my analysis so
+> > > far, I do not understand how...
+> > > 
+> > > https://github.com/ClangBuiltLinux/linux/issues/2129
+> > 
+> > Here ya go :-)  After looking at a gazillion of these I can often spot
+> > these pretty easily.  I'm not sure what the correct fix is here but this
+> > made the error go away.
+> > 
+> > diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
+> > index 1c889c878abd..2429c05bffb3 100644
+> > --- a/drivers/media/i2c/ccs/ccs-core.c
+> > +++ b/drivers/media/i2c/ccs/ccs-core.c
+> > @@ -2346,7 +2346,7 @@ static void ccs_set_compose_scaler(struct v4l2_subdev *subdev,
+> >  		* CCS_LIM(sensor, SCALER_N_MIN) / sel->r.height;
+> >  	max_m = crops[CCS_PAD_SINK]->width
+> >  		* CCS_LIM(sensor, SCALER_N_MIN)
+> > -		/ CCS_LIM(sensor, MIN_X_OUTPUT_SIZE);
+> > +		/ (CCS_LIM(sensor, MIN_X_OUTPUT_SIZE) ? : 1);
 
-diff --git a/utils/v4l2-tracer/retrace.cpp b/utils/v4l2-tracer/retrace.cpp
-index d65ecd3d..8419b2ce 100644
---- a/utils/v4l2-tracer/retrace.cpp
-+++ b/utils/v4l2-tracer/retrace.cpp
-@@ -5,6 +5,8 @@
- 
- #include "retrace.h"
- 
-+#include <memory>
-+
- extern struct retrace_context ctx_retrace;
- 
- void retrace_mmap(json_object *mmap_obj, bool is_mmap64)
-@@ -226,9 +228,9 @@ struct v4l2_plane *retrace_v4l2_plane(json_object *plane_obj, __u32 memory)
- 	return ptr;
- }
- 
--struct v4l2_buffer *retrace_v4l2_buffer(json_object *ioctl_args)
-+std::unique_ptr<v4l2_buffer> retrace_v4l2_buffer(json_object *ioctl_args)
- {
--	struct v4l2_buffer *buf = (struct v4l2_buffer *) calloc(1, sizeof(struct v4l2_buffer));
-+	std::unique_ptr<v4l2_buffer> buf(new v4l2_buffer{});
- 
- 	json_object *buf_obj;
- 	json_object_object_get_ex(ioctl_args, "v4l2_buffer", &buf_obj);
-@@ -311,9 +313,9 @@ struct v4l2_buffer *retrace_v4l2_buffer(json_object *ioctl_args)
- 
- void retrace_vidioc_querybuf(int fd_retrace, json_object *ioctl_args)
- {
--	struct v4l2_buffer *buf = retrace_v4l2_buffer(ioctl_args);
-+	auto buf = retrace_v4l2_buffer(ioctl_args);
- 
--	ioctl(fd_retrace, VIDIOC_QUERYBUF, buf);
-+	ioctl(fd_retrace, VIDIOC_QUERYBUF, buf.get());
- 
- 	if (buf->memory == V4L2_MEMORY_MMAP) {
- 		__u32 offset = 0;
-@@ -342,15 +344,13 @@ void retrace_vidioc_querybuf(int fd_retrace, json_object *ioctl_args)
- 		debug_line_info();
- 		print_context();
- 	}
--
--	free(buf);
- }
- 
- void retrace_vidioc_qbuf(int fd_retrace, json_object *ioctl_args)
- {
--	struct v4l2_buffer *ptr = retrace_v4l2_buffer(ioctl_args);
-+	auto ptr = retrace_v4l2_buffer(ioctl_args);
- 
--	ioctl(fd_retrace, VIDIOC_QBUF, ptr);
-+	ioctl(fd_retrace, VIDIOC_QBUF, ptr.get());
- 
- 	if (ptr->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE ||
- 	    ptr->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
-@@ -367,13 +367,11 @@ void retrace_vidioc_qbuf(int fd_retrace, json_object *ioctl_args)
- 		debug_line_info();
- 		print_context();
- 	}
--
--	free(ptr);
- }
- 
- void retrace_vidioc_dqbuf(int fd_retrace, json_object *ioctl_args)
- {
--	struct v4l2_buffer *buf = retrace_v4l2_buffer(ioctl_args);
-+	auto buf = retrace_v4l2_buffer(ioctl_args);
- 
- 	const int poll_timeout_ms = 5000;
- 	struct pollfd *pfds = (struct pollfd *) calloc(1, sizeof(struct pollfd));
-@@ -393,7 +391,7 @@ void retrace_vidioc_dqbuf(int fd_retrace, json_object *ioctl_args)
- 		exit(EXIT_FAILURE);
- 	}
- 
--	ioctl(fd_retrace, VIDIOC_DQBUF, buf);
-+	ioctl(fd_retrace, VIDIOC_DQBUF, buf.get());
- 
- 	if (is_verbose() || (errno != 0)) {
- 		fprintf(stderr, "%s, index: %d, fd: %d, ",
-@@ -407,15 +405,13 @@ void retrace_vidioc_dqbuf(int fd_retrace, json_object *ioctl_args)
- 	if (buf->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE ||
- 	    buf->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
- 			free(buf->m.planes);
--
--	free(buf);
- }
- 
- void retrace_vidioc_prepare_buf(int fd_retrace, json_object *ioctl_args)
- {
--	struct v4l2_buffer *buf = retrace_v4l2_buffer(ioctl_args);
-+	auto buf = retrace_v4l2_buffer(ioctl_args);
- 
--	ioctl(fd_retrace, VIDIOC_PREPARE_BUF, buf);
-+	ioctl(fd_retrace, VIDIOC_PREPARE_BUF, buf.get());
- 
- 	if (is_verbose() || (errno != 0)) {
- 		fprintf(stderr, "%s, index: %d, fd: %d, ",
-@@ -429,8 +425,6 @@ void retrace_vidioc_prepare_buf(int fd_retrace, json_object *ioctl_args)
- 	if (buf->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE ||
- 	    buf->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
- 			free(buf->m.planes);
--
--	free(buf);
- }
- 
- void retrace_vidioc_create_bufs(int fd_retrace, json_object *ioctl_args)
-@@ -541,9 +535,9 @@ void retrace_vidioc_s_fmt(int fd_retrace, json_object *ioctl_args)
- 	free(ptr);
- }
- 
--struct v4l2_streamparm *retrace_v4l2_streamparm(json_object *parent_obj, const std::string& key_name = "")
-+std::unique_ptr<v4l2_streamparm> retrace_v4l2_streamparm(json_object *parent_obj, const std::string& key_name = "")
- {
--	struct v4l2_streamparm *ptr = (struct v4l2_streamparm *) calloc(1, sizeof(v4l2_streamparm));
-+	std::unique_ptr<v4l2_streamparm> ptr(new v4l2_streamparm{});
- 
- 	json_object *v4l2_streamparm_obj;
- 	json_object_object_get_ex(parent_obj, "v4l2_streamparm", &v4l2_streamparm_obj);
-@@ -563,24 +557,20 @@ struct v4l2_streamparm *retrace_v4l2_streamparm(json_object *parent_obj, const s
- 
- void retrace_vidioc_g_parm (int fd_retrace, json_object *ioctl_args)
- {
--	struct v4l2_streamparm *ptr = retrace_v4l2_streamparm(ioctl_args);
--	ioctl(fd_retrace, VIDIOC_G_PARM, ptr);
-+	auto ptr = retrace_v4l2_streamparm(ioctl_args);
-+	ioctl(fd_retrace, VIDIOC_G_PARM, ptr.get());
- 
- 	if (is_verbose() || (errno != 0))
- 		perror("VIDIOC_G_PARM");
--
--	free(ptr);
- }
- 
- void retrace_vidioc_s_parm (int fd_retrace, json_object *ioctl_args)
- {
--	struct v4l2_streamparm *ptr = retrace_v4l2_streamparm(ioctl_args);
--	ioctl(fd_retrace, VIDIOC_S_PARM, ptr);
-+	auto ptr = retrace_v4l2_streamparm(ioctl_args);
-+	ioctl(fd_retrace, VIDIOC_S_PARM, ptr.get());
- 
- 	if (is_verbose() || (errno != 0))
- 		perror("VIDIOC_S_PARM");
--
--	free(ptr);
- }
- 
- void retrace_vidioc_queryctrl(int fd_retrace, json_object *ioctl_args)
-@@ -897,9 +887,9 @@ struct v4l2_ext_control *retrace_v4l2_ext_control(json_object *parent_obj, int c
- 	return p;
- }
- 
--struct v4l2_ext_controls *retrace_v4l2_ext_controls(json_object *parent_obj)
-+std::unique_ptr<v4l2_ext_controls> retrace_v4l2_ext_controls(json_object *parent_obj)
- {
--	struct v4l2_ext_controls *ptr = (struct v4l2_ext_controls *) calloc(1, sizeof(v4l2_ext_controls));
-+	std::unique_ptr<v4l2_ext_controls> ptr(new v4l2_ext_controls{});
- 
- 	json_object *v4l2_ext_controls_obj;
- 	json_object_object_get_ex(parent_obj, "v4l2_ext_controls", &v4l2_ext_controls_obj);
-@@ -948,10 +938,8 @@ struct v4l2_ext_controls *retrace_v4l2_ext_controls(json_object *parent_obj)
- 
- void retrace_vidioc_try_ext_ctrls(int fd_retrace, json_object *ioctl_args)
- {
--	struct v4l2_ext_controls *ptr = retrace_v4l2_ext_controls(ioctl_args);
--	ioctl(fd_retrace, VIDIOC_TRY_EXT_CTRLS, ptr);
--
--	free(ptr);
-+	auto ptr = retrace_v4l2_ext_controls(ioctl_args);
-+	ioctl(fd_retrace, VIDIOC_TRY_EXT_CTRLS, ptr.get());
- 
- 	if (is_verbose() || (errno != 0))
- 		perror("VIDIOC_TRY_EXT_CTRLS");
-@@ -959,10 +947,8 @@ void retrace_vidioc_try_ext_ctrls(int fd_retrace, json_object *ioctl_args)
- 
- void retrace_vidioc_g_ext_ctrls(int fd_retrace, json_object *ioctl_args)
- {
--	struct v4l2_ext_controls *ptr = retrace_v4l2_ext_controls(ioctl_args);
--	ioctl(fd_retrace, VIDIOC_G_EXT_CTRLS, ptr);
--
--	free(ptr);
-+	auto ptr = retrace_v4l2_ext_controls(ioctl_args);
-+	ioctl(fd_retrace, VIDIOC_G_EXT_CTRLS, ptr.get());
- 
- 	if (is_verbose() || (errno != 0))
- 		perror("VIDIOC_G_EXT_CTRLS");
-@@ -970,10 +956,8 @@ void retrace_vidioc_g_ext_ctrls(int fd_retrace, json_object *ioctl_args)
- 
- void retrace_vidioc_s_ext_ctrls(int fd_retrace, json_object *ioctl_args)
- {
--	struct v4l2_ext_controls *ptr = retrace_v4l2_ext_controls(ioctl_args);
--	ioctl(fd_retrace, VIDIOC_S_EXT_CTRLS, ptr);
--
--	free(ptr);
-+	auto ptr = retrace_v4l2_ext_controls(ioctl_args);
-+	ioctl(fd_retrace, VIDIOC_S_EXT_CTRLS, ptr.get());
- 
- 	if (is_verbose() || (errno != 0)) {
- 		perror("VIDIOC_S_EXT_CTRLS");
-@@ -1056,9 +1040,9 @@ void retrace_vidioc_s_selection(int fd_retrace, json_object *ioctl_args)
- 	free(ptr);
- }
- 
--struct v4l2_decoder_cmd *retrace_v4l2_decoder_cmd(json_object *parent_obj)
-+std::unique_ptr<v4l2_decoder_cmd> retrace_v4l2_decoder_cmd(json_object *parent_obj)
- {
--	struct v4l2_decoder_cmd *ptr = (struct v4l2_decoder_cmd *) calloc(1, sizeof(v4l2_decoder_cmd));
-+	std::unique_ptr<v4l2_decoder_cmd> ptr(new v4l2_decoder_cmd{});
- 
- 	json_object *v4l2_decoder_cmd_obj;
- 	json_object_object_get_ex(parent_obj, "v4l2_decoder_cmd", &v4l2_decoder_cmd_obj);
-@@ -1121,14 +1105,12 @@ struct v4l2_decoder_cmd *retrace_v4l2_decoder_cmd(json_object *parent_obj)
- 
- void retrace_vidioc_try_decoder_cmd(int fd_retrace, json_object *ioctl_args)
- {
--	struct v4l2_decoder_cmd *ptr = retrace_v4l2_decoder_cmd(ioctl_args);
-+	auto ptr = retrace_v4l2_decoder_cmd(ioctl_args);
- 
--	ioctl(fd_retrace, VIDIOC_TRY_DECODER_CMD, ptr);
-+	ioctl(fd_retrace, VIDIOC_TRY_DECODER_CMD, ptr.get());
- 
- 	if (is_verbose() || (errno != 0))
- 		perror("VIDIOC_TRY_DECODER_CMD");
--
--	free (ptr);
- }
- 
- void retrace_vidioc_dqevent(int fd_retrace)
-@@ -1188,14 +1170,12 @@ void retrace_vidioc_unsubscribe(int fd_retrace, json_object *ioctl_args)
- 
- void retrace_vidioc_decoder_cmd(int fd_retrace, json_object *ioctl_args)
- {
--	struct v4l2_decoder_cmd *ptr = retrace_v4l2_decoder_cmd(ioctl_args);
-+	auto ptr = retrace_v4l2_decoder_cmd(ioctl_args);
- 
--	ioctl(fd_retrace, VIDIOC_DECODER_CMD, ptr);
-+	ioctl(fd_retrace, VIDIOC_DECODER_CMD, ptr.get());
- 
- 	if (is_verbose() || (errno != 0))
- 		perror("VIDIOC_DECODER_CMD");
--
--	free (ptr);
- }
- 
- void retrace_vidioc_query_ext_ctrl(int fd_retrace, json_object *ioctl_args)
+Thanks for cc'ing me.
+
+I prefer this as there's no guarantee the value read via ccs_get_limit()
+would be non-zero. Presumably it is (and has been so far as no-one has hit
+this to my knowledge), but we shouldn't rely on that.
+
+I can post a patch as well.
+
+> >  
+> >  	a = clamp(a, CCS_LIM(sensor, SCALER_M_MIN),
+> >  		  CCS_LIM(sensor, SCALER_M_MAX));
+> 
+> Aha! Thanks a lot :) I had thought it might be something with CCS_LIM()
+> since ccs_get_limit() returns zero if ccs_limit_ptr() errors and in the
+> default case of the switch statement. There are a lot of unchecked
+> divides with the result of CCS_LIM() throughout this driver so I figured
+> if that was it, there would be other instances of this warning... oh
+> well.
+> 
+> Something like the following diff also fixes it since LLVM no longer
+> sees 0 as a possible divisor, which seems a little better to me since it
+> seems like one of the other uses could turn problematic with other
+> optimizations.  Given these cases are both errors and have visible WARNs
+> in case they are hit, it seems like it is better to use a valid divisor
+> instead of 0.
+> 
+> Just one more warning to tackle in my personal configuration then I can
+> enable CONFIG_OBJTOOL_WERROR to make new warnings from LLVM uprevs more
+> obvious :)
+> 
+>   https://github.com/ClangBuiltLinux/linux/issues/2130
+> 
+> diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
+> index 1c889c878abd..05c3da29f14c 100644
+> --- a/drivers/media/i2c/ccs/ccs-core.c
+> +++ b/drivers/media/i2c/ccs/ccs-core.c
+> @@ -137,7 +137,7 @@ u32 ccs_get_limit(struct ccs_sensor *sensor, unsigned int limit,
+> 
+>         ret = ccs_limit_ptr(sensor, limit, offset, &ptr);
+>         if (ret)
+> -               return 0;
+> +               return 1;
+> 
+>         switch (CCI_REG_WIDTH_BYTES(ccs_limits[ccs_limit_offsets[limit].info].reg)) {
+>         case sizeof(u8):
+> @@ -151,7 +151,7 @@ u32 ccs_get_limit(struct ccs_sensor *sensor, unsigned int limit,
+>                 break;
+>         default:
+>                 WARN_ON(1);
+> -               return 0;
+> +               return 1;
+>         }
+> 
+>         return ccs_reg_conv(sensor, ccs_limits[limit].reg, val);
+
 -- 
-2.52.0
+Kind regards,
 
+Sakari Ailus
 
