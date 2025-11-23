@@ -1,252 +1,123 @@
-Return-Path: <linux-media+bounces-47632-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47633-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 443B1C7E91D
-	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 23:57:12 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79723C7E9DC
+	for <lists+linux-media@lfdr.de>; Mon, 24 Nov 2025 00:48:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C14A13A17DF
-	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 22:55:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D72633A44F3
+	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 23:48:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30FFD2C11D4;
-	Sun, 23 Nov 2025 22:52:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86F15277029;
+	Sun, 23 Nov 2025 23:47:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P4NZQWfe"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nOxm2x8a"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69F032BE7B8
-	for <linux-media@vger.kernel.org>; Sun, 23 Nov 2025 22:52:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC0323ABA9
+	for <linux-media@vger.kernel.org>; Sun, 23 Nov 2025 23:47:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763938328; cv=none; b=LEgkM5oY3hq1GIBkkhgLZw7eODFpr+mktE6/wRCdCPzGRaOTfdoEnuUtQx7Qh7RjtY62L1J0VXMnliovbI56QBfPwGHPdITnd5E/Ein2RKnCwQk0dj4Bfjo5v7fkLt4wbccjGpkHRaGl2JvtNmhMqQM6CUx9EdFHJ+Iez1Y6z5Y=
+	t=1763941678; cv=none; b=Yhi9Qb7DVd2kZ6nToBDmmYMyM9IiIbvoYC3IuREHbxg5vStFM03ybpGpJ/D8q5T5Wd1RBzoLUy4LX61bTHG0AA0kqmeTj6Yxu73yPCSpfEkXj71wMaveK58gScy4C02zzK1iOsJzR7k5LFnDDWW3/X5jkJb96Et1u81+VrkRKjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763938328; c=relaxed/simple;
-	bh=EXYOheJb4cgW5yVlz0jhAvYk6zmI9HBqPvYTaeMxyhc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WutuEjW/jx34kvs2MAxCtLFCLwr4X8kGurkPZmUgryAu7dyO+dw9wcQSNZYMB73E0y+Td6G41K+xzgckkecvIlANsziMwow2f8y3tQwLbF9c3kxZDZfQ14P4DeiyNY/4lNwwc9a/MxtSUQjuDq/ZYFPfxu6gxISpQyIFKy6YHOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P4NZQWfe; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4775ae5684fso17053075e9.1
-        for <linux-media@vger.kernel.org>; Sun, 23 Nov 2025 14:52:06 -0800 (PST)
+	s=arc-20240116; t=1763941678; c=relaxed/simple;
+	bh=TJIcmKvYcwLavlNS6SXJ/86zVoDsC8q0zbps/byk9vw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UjaW+MLRfu7/qxHJJT3aPcfOkavavUwn/JANvOW4D2xTGpO7ug1d8Y99OlevHVXJ8w0Ex26ovKx0wgN9lZ94oP+gh2kPy7NiRE7zc2Wh/XDVg+Iu+0bsgvePH5NdvlqI9W6sXq+gs0yYjfs/y/wKY19hGUu6t46asuLgV/4+ILw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nOxm2x8a; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-429c7869704so3114032f8f.2
+        for <linux-media@vger.kernel.org>; Sun, 23 Nov 2025 15:47:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763938325; x=1764543125; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IjKpkoDBMFXqwI53pRDJnxFi7xwhurS0a3ahU0JbCgI=;
-        b=P4NZQWfeyO45qY/ul+V8nOpW0TduYosMmKvc9jP8E//7n1Kuz9XEHBR4MP35H2QEL5
-         sQRRFXi6orkEra+c606COFw3gtGmyj+6yzk5qdWcWgLrcu7x0zgXa+NzdmCe1X5WBxd5
-         2TQg4+n65KIoUGwQsJv1jNvtjWulO90MfvFO+JXnPVSvGvILHUjAwEhKzhHOkaVdbdeS
-         e04WvpRe3TwvvPvNrTEMEhZNSNtaZR2OkwX3c5bhUE0WbdPku1toldN1q+KJgEb9N77S
-         PJlAGJjHMosHvFnc+GocB72N9HRjxpKmslvSu2l9TXToP1nIWZQ2KQCLN8jmO+0NsQx4
-         7bOg==
+        d=linaro.org; s=google; t=1763941675; x=1764546475; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9WpSd2LefLOPcYBkAZyB05aqITFj4fqTlh36DvQaccA=;
+        b=nOxm2x8a5wSNm37ObdH4mYUiP0sSwgBDm83oiyPM4k06PVw5QHFtzSvd+/tY1kpSPy
+         8FDn8VMyk8s/93EG8KRk5xQR4fU3CvJ5uPl72UgRac7h1vZ9vMD0/WApAEMSOxD6oHqA
+         iJaB3dtPgJhrdD6W22SiQFrQajjEoqgEg68VhUr4LPKzh71IgFpUOijWdnFPlqS+TygL
+         9jTr6+0DCKTEFq5jB183Sd4vV4LYHaWmZdbMtPJiaNPoApTYX/6Gyzv6NUgvGX1aYoRY
+         2hNvi/Iiz7aL5sjnK37C2VFrYBZ5h/5cEgEY3uxelR2gUvSCe5Yzu86YzDfGYG67txGn
+         rpvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763938325; x=1764543125;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=IjKpkoDBMFXqwI53pRDJnxFi7xwhurS0a3ahU0JbCgI=;
-        b=IqbhsEEAbPWQzgjTO2S1qho79feSGBkCMMwj31sXDN25STwwg5GO8U97CmtPIO4XDQ
-         qt9sCov2sS0junZPYzAAtIJBiH4JjjZpowwcS9gFwOBtp4vi8MYtV5VHDmUajOuH2s00
-         NK5vrylKyF7gkm5mOos0c+nOOdWGzpyX++gHIq3KD4QBn4izMmOLKsu2kYGa+AmfiBia
-         a3IuG8LkCa0jv/iOFEu0EUDCJn91aF3BC3IeHPJGB5ETQYCD0ta7wSQzm/8RK0r8O55g
-         DIZntGlJHCCYr3f6QKrqM7S5gx2oXBFwaeL006KkSo2J+6MWpFE/Vm1gu5MWcfZo8qdd
-         SebA==
-X-Forwarded-Encrypted: i=1; AJvYcCVXnOpZJU5l7JmKs+x+efr+T02UWJMgyNXJBxG/jIAyJckTqV/VUYB3JFFNdiGVkpjk8sN/vRI4MA17NA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9vHC1C1CXZmluuc68FPrIFFze8e7Xyq3YOWkd4QQPCGznkV1j
-	sNVfHHKos3lrLSOvb0b7FdLaV/mYUsVrBGXFsAoh6GrlDoy7E1+lXj6f
-X-Gm-Gg: ASbGncsBO7tl6i9l27xj94C7BvlJw6zOI4SapFbp3bEjiDvmKtQK33EY9O5Bs9tcGUu
-	ImepoodPDLCEfNnFtn1I+pFfIW2QmiS06JsFCpPVN7byZFnUqjNWdBcpYrbbjYX4pef2/tjS5bD
-	TA9Ka9xdTgYYDU8WrfVjNHpP3w2/IxnZQj2LY/yCX5Vs31KVQ2F3iOdMVtme7vssBAnTUmxV+Rl
-	Odc9ENlGScFmqMZySkIi2Pr7yy+E+g+h7ggjPR11wvAd+/2k8cbbpjoQo6AZFz95QRJ9bT+IEz6
-	raeRmhTXi+9Ecg9gGiyVac4KMwPAO49r1nv1xFjem76UcRXeY+jQ84zwsPQpSp+gECeurEHoiqG
-	xvRjri+i/jmF3PeeB0RU//ZyaYg0wOxomeoNcbA6Wi5riiQS9uKvHrLzmwS+EQa7iTZbxWVgw9A
-	ehil4Kt+Ws0sFiUQ==
-X-Google-Smtp-Source: AGHT+IG0SGMWMdVe66Rksvn6v5FBe6opsohs/EM0p8y743GggDbgal5u09Oo75v6mEVGyS+Z85JlHQ==
-X-Received: by 2002:a05:600c:8b35:b0:477:832c:86ae with SMTP id 5b1f17b1804b1-477c111b94fmr113406075e9.12.1763938324588;
-        Sun, 23 Nov 2025 14:52:04 -0800 (PST)
-Received: from 127.mynet ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7fb9190sm24849064f8f.33.2025.11.23.14.52.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Nov 2025 14:52:03 -0800 (PST)
-From: Pavel Begunkov <asml.silence@gmail.com>
-To: linux-block@vger.kernel.org,
-	io-uring@vger.kernel.org
-Cc: Vishal Verma <vishal1.verma@intel.com>,
-	tushar.gohad@intel.com,
-	Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Pavel Begunkov <asml.silence@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	David Wei <dw@davidwei.uk>
-Subject: [RFC v2 11/11] io_uring/rsrc: implement dmabuf regbuf import
-Date: Sun, 23 Nov 2025 22:51:31 +0000
-Message-ID: <44e4ad8c4bd72856379c368e4303090c44c9e98e.1763725388.git.asml.silence@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <cover.1763725387.git.asml.silence@gmail.com>
-References: <cover.1763725387.git.asml.silence@gmail.com>
+        d=1e100.net; s=20230601; t=1763941675; x=1764546475;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9WpSd2LefLOPcYBkAZyB05aqITFj4fqTlh36DvQaccA=;
+        b=hqSYv5EHnTfwm348JXoebPaNSontGYyiwhuNOY9NKeh7//Hj+2cD+gZAMiCnuUkl8+
+         JZEMdYYCcVk0BHzd+Hs9nyaqf+yNpaYQF+rcBCQ98XzIe/OsXgoUwPDqJ9mbzHYfME6N
+         +1MVpHpaCuW/PTVCimbRoc8ET/KQE4QXaPR5DuM7LbOqt/9Be/lVIcPDiuEcCREGggkN
+         AeOV7koYIx+KOJIsz4BVzDeZrJ3traRHR+JXc/l7twIkG2Vb0CktikaolU2odVT+L7Jy
+         KeDBropSUAFZrVh2QOYxp1WS/CplxoWA0GeW5DzE9ahOCT3NyCBjpcFpx5UXNUisXYOL
+         Po+w==
+X-Forwarded-Encrypted: i=1; AJvYcCVk8lBWXJ/dnUpM6Y+xpFtXLrjdNt6fdktA6jAXdFJBH9lDEXjVCTXT/+k5M+snyTrj1iKTBQ7hXxXm7A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzU+4+3/w0DkUlMdMDdnx0xqE/GSesnvaAq5SAT4J4PaZGFGq3B
+	mgXJA1IWwk007qXW6yiQHOs/Bkp+m9GPzpWCQieTml2O36ksfkJIpQBYMK/qzqhtfeQ=
+X-Gm-Gg: ASbGncsovAm1ioVuHqRjLGUKN6OL4MEjMEcDi8dLvaoRkRqETBsgt9zp6m4fLr6xVnJ
+	aaU5gfs8Z1iQ51ah0YltvwCcKZ61wJT14O2RpQn4H68u3hq3aljoGl50cv2+MxNDqckUGNYFc/g
+	xuUCvah4TFTVbFwNCK5Zba0hNPumw2brGqjceNgBF0l246tauyVYxUbxMgdF+YBYbyWQ7RqZiQP
+	XdcdyVT1FmJH2ynZy1MCEb0ujRfqu0p217WGj2i34O0Qb4jNrMPTvbUHonaX6ItuuXft/SVC1cz
+	Jsyg4nYxSmdfepSjsW6pVGiVfSmEDF6/TiFeAKmZTA0rzrazluI8zcMVcZoKRAgMVmH+izxE4ie
+	VQKJI4DwMi/iffpea4hS/sZl5rXkHeVN/4tKP4aBAR7R07GtIgops2IsPGJK8lcUNrUfYdqYXTQ
+	/lbbvLHtmWQLr20OZw5mSD5eutW5jldHzHX30Nfwg1ugTSm7OoPk98
+X-Google-Smtp-Source: AGHT+IHVxdc0S4p7GcNa9n3stpz6wIbEUwBNlaz8lj7snVGYZFGdUkAQ9qLVQVzs619DRkEviJfz+Q==
+X-Received: by 2002:a05:6000:250a:b0:42b:4961:eb4c with SMTP id ffacd0b85a97d-42cc1cd5cc1mr10385337f8f.1.1763941675585;
+        Sun, 23 Nov 2025 15:47:55 -0800 (PST)
+Received: from [192.168.0.27] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7f2e598sm24494734f8f.4.2025.11.23.15.47.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 23 Nov 2025 15:47:54 -0800 (PST)
+Message-ID: <0b2b8352-4ac1-4a5e-be73-67b5cffdb934@linaro.org>
+Date: Sun, 23 Nov 2025 23:47:51 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 1/5] media: dt-bindings: Add CAMSS device for Kaanapali
+To: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>,
+ Loic Poulain <loic.poulain@oss.qualcomm.com>, Robert Foss
+ <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ aiqun.yu@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
+ trilok.soni@oss.qualcomm.com, yijie.yang@oss.qualcomm.com,
+ Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
+ Atiya Kailany <atiya.kailany@oss.qualcomm.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>
+References: <20251120-add-support-for-camss-on-kaanapali-v7-0-de27f9a67ce6@oss.qualcomm.com>
+ <20251120-add-support-for-camss-on-kaanapali-v7-1-de27f9a67ce6@oss.qualcomm.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <20251120-add-support-for-camss-on-kaanapali-v7-1-de27f9a67ce6@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Allow importing dmabuf backed registered buffers. It's an opt-in feature
-for requests and they need to pass a flag allowing it. Furthermore,
-the import will fail if the request's file doesn't match the file for
-which the buffer for registered. This way, it's also limited to files
-that support the feature by implementing the corresponding file op.
-Enable it for read/write requests.
+On 21/11/2025 04:43, Hangxiang Ma wrote:
+> The Kaanapali platform provides:
+> - 3 x VFE, 5 RDI per VFE
+> - 2 x VFE Lite, 4 RDI per VFE Lite
+> - 3 x CSID
+> - 2 x CSID Lite
+> - 6 x CSIPHY
 
-Suggested-by: David Wei <dw@davidwei.uk>
-Suggested-by: Vishal Verma <vishal1.verma@intel.com>
-Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
+Another nit-pick which you don't have to fix, I can do this in the 
+commit log - but, you've not detailed the new regs added below.
+
 ---
- io_uring/rsrc.c | 36 +++++++++++++++++++++++++++++-------
- io_uring/rsrc.h | 16 +++++++++++++++-
- io_uring/rw.c   |  4 ++--
- 3 files changed, 46 insertions(+), 10 deletions(-)
-
-diff --git a/io_uring/rsrc.c b/io_uring/rsrc.c
-index 7dfebf459dd0..a5d88dae536e 100644
---- a/io_uring/rsrc.c
-+++ b/io_uring/rsrc.c
-@@ -1201,9 +1201,27 @@ static int io_import_kbuf(int ddir, struct iov_iter *iter,
- 	return 0;
- }
- 
--static int io_import_fixed(int ddir, struct iov_iter *iter,
-+static int io_import_dmabuf(struct io_kiocb *req,
-+			   int ddir, struct iov_iter *iter,
- 			   struct io_mapped_ubuf *imu,
--			   u64 buf_addr, size_t len)
-+			   size_t len, size_t offset)
-+{
-+	struct io_regbuf_dma *db = imu->priv;
-+
-+	if (!len)
-+		return -EFAULT;
-+	if (req->file != db->target_file)
-+		return -EBADF;
-+
-+	iov_iter_dma_token(iter, ddir, db->token, offset, len);
-+	return 0;
-+}
-+
-+static int io_import_fixed(struct io_kiocb *req,
-+			   int ddir, struct iov_iter *iter,
-+			   struct io_mapped_ubuf *imu,
-+			   u64 buf_addr, size_t len,
-+			   unsigned import_flags)
- {
- 	const struct bio_vec *bvec;
- 	size_t folio_mask;
-@@ -1219,8 +1237,11 @@ static int io_import_fixed(int ddir, struct iov_iter *iter,
- 
- 	offset = buf_addr - imu->ubuf;
- 
--	if (imu->flags & IO_IMU_F_DMA)
--		return -EOPNOTSUPP;
-+	if (imu->flags & IO_IMU_F_DMA) {
-+		if (!(import_flags & IO_REGBUF_IMPORT_ALLOW_DMA))
-+			return -EFAULT;
-+		return io_import_dmabuf(req, ddir, iter, imu, len, offset);
-+	}
- 	if (imu->flags & IO_IMU_F_KBUF)
- 		return io_import_kbuf(ddir, iter, imu, len, offset);
- 
-@@ -1274,16 +1295,17 @@ inline struct io_rsrc_node *io_find_buf_node(struct io_kiocb *req,
- 	return NULL;
- }
- 
--int io_import_reg_buf(struct io_kiocb *req, struct iov_iter *iter,
-+int __io_import_reg_buf(struct io_kiocb *req, struct iov_iter *iter,
- 			u64 buf_addr, size_t len, int ddir,
--			unsigned issue_flags)
-+			unsigned issue_flags, unsigned import_flags)
- {
- 	struct io_rsrc_node *node;
- 
- 	node = io_find_buf_node(req, issue_flags);
- 	if (!node)
- 		return -EFAULT;
--	return io_import_fixed(ddir, iter, node->buf, buf_addr, len);
-+	return io_import_fixed(req, ddir, iter, node->buf, buf_addr, len,
-+				import_flags);
- }
- 
- /* Lock two rings at once. The rings must be different! */
-diff --git a/io_uring/rsrc.h b/io_uring/rsrc.h
-index 280d3988abf3..e0eafce976f3 100644
---- a/io_uring/rsrc.h
-+++ b/io_uring/rsrc.h
-@@ -33,6 +33,10 @@ enum {
- 	IO_IMU_F_DMA			= 2,
- };
- 
-+enum {
-+	IO_REGBUF_IMPORT_ALLOW_DMA		= 1,
-+};
-+
- struct io_mapped_ubuf {
- 	u64		ubuf;
- 	unsigned int	len;
-@@ -66,9 +70,19 @@ int io_rsrc_data_alloc(struct io_rsrc_data *data, unsigned nr);
- 
- struct io_rsrc_node *io_find_buf_node(struct io_kiocb *req,
- 				      unsigned issue_flags);
-+int __io_import_reg_buf(struct io_kiocb *req, struct iov_iter *iter,
-+			u64 buf_addr, size_t len, int ddir,
-+			unsigned issue_flags, unsigned import_flags);
-+
-+static inline
- int io_import_reg_buf(struct io_kiocb *req, struct iov_iter *iter,
- 			u64 buf_addr, size_t len, int ddir,
--			unsigned issue_flags);
-+			unsigned issue_flags)
-+{
-+	return __io_import_reg_buf(req, iter, buf_addr, len, ddir,
-+				   issue_flags, 0);
-+}
-+
- int io_import_reg_vec(int ddir, struct iov_iter *iter,
- 			struct io_kiocb *req, struct iou_vec *vec,
- 			unsigned nr_iovs, unsigned issue_flags);
-diff --git a/io_uring/rw.c b/io_uring/rw.c
-index a3eb4e7bf992..0d9d99695801 100644
---- a/io_uring/rw.c
-+++ b/io_uring/rw.c
-@@ -374,8 +374,8 @@ static int io_init_rw_fixed(struct io_kiocb *req, unsigned int issue_flags,
- 	if (io->bytes_done)
- 		return 0;
- 
--	ret = io_import_reg_buf(req, &io->iter, rw->addr, rw->len, ddir,
--				issue_flags);
-+	ret = __io_import_reg_buf(req, &io->iter, rw->addr, rw->len, ddir,
-+				  issue_flags, IO_REGBUF_IMPORT_ALLOW_DMA);
- 	iov_iter_save_state(&io->iter, &io->iter_state);
- 	return ret;
- }
--- 
-2.52.0
-
+bod
 
