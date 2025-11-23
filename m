@@ -1,161 +1,342 @@
-Return-Path: <linux-media+bounces-47618-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47619-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC57AC7E684
-	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 20:29:04 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id C06B6C7E783
+	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 22:03:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9F2723A88C5
-	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 19:29:03 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3F59C345CE3
+	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 21:03:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F3F924728F;
-	Sun, 23 Nov 2025 19:29:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 494992673B7;
+	Sun, 23 Nov 2025 21:02:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.ca header.i=@yahoo.ca header.b="a3BSmMSD"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jriF4r3C"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sonic316-20.consmr.mail.ne1.yahoo.com (sonic316-20.consmr.mail.ne1.yahoo.com [66.163.187.146])
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED9C218AA0
-	for <linux-media@vger.kernel.org>; Sun, 23 Nov 2025 19:28:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.163.187.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD058261B98
+	for <linux-media@vger.kernel.org>; Sun, 23 Nov 2025 21:02:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763926139; cv=none; b=riKzg2Q4Du9wJq4wUESeXhZeDf3o9E+OAKrQ9zJoROOMsrFBje/O6VXniSDpV7Ifba12UXNV0SGg4IR/nzQj4RcYVokdcHx5EuS7gj/uzrQU8Ziaw9+OZvSE5QBkFmxvsFqTYsaJHAOFDSrrChVNJ4zNNJHv9zFom76JGM/XjsI=
+	t=1763931772; cv=none; b=BB33y1uT167yysplDghaG59w8HtUDdeAZQmoyxnRnS/92aqhynz7U520N7onMnKJ5RW8YPqhM98UHIEc9+gvg0PjyJ9Lea34AXmCY0in1JKsy92FCu4M++KN0B/yrYKDSzLfmqdm/wPCALWMGrk2b/ilvgPxdhrFvtQVYmmXHlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763926139; c=relaxed/simple;
-	bh=1ewW10+7cEHvngqMflBir/WEBLLwDbpZon9bS8lcfDE=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Content-Type:
-	 References; b=PCPPoviMp8gW0xY2omcqdfbR9qdCu9fvZOVHUrclvpZTdCpQ2w/OFqDsa6ZN+dtsQzOf5iwuuGlNL9P7I73/9Q/uvYFluIakwOg6zOz1+lJIRw3uc2XmrZrdeitV3aOJdP/ZzqKlxuwOLeKgsnNSnE6Hrgbk0JDU/BXymhpfLSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.ca; spf=pass smtp.mailfrom=yahoo.ca; dkim=pass (2048-bit key) header.d=yahoo.ca header.i=@yahoo.ca header.b=a3BSmMSD; arc=none smtp.client-ip=66.163.187.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.ca
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.ca; s=s2048; t=1763926137; bh=dYh7WODUL9ujKrxBo0hpRpyHiF0/GTPAF/K94SHlwNk=; h=Date:From:Subject:To:References:From:Subject:Reply-To; b=a3BSmMSDzVNkucnAEVGpUyu0HUOcdJBQplAskxSwngwMpjArJgA5CiBSfiNO+l2qVHPIKBS9rDBn0XBMU0gAc8noCyERHWU0aet8rB/kZ/MdsHMy+4jkADfvhOi9hDboio2Oy5pRSj8w6qOE/Vh1sClHEZzdN+461ldb0/z9JlvuuACG7IaqLJWkUTSAwBAVNjEYy5iMzGpnSFwElXFdP9puyXIu8isyUgj1pLPLMKIg/o9pcbHCwy9ScWtbYs73Ud3Wt+NnCoJv1jJttAXu6x+olqSkM+n9jfT6UDkLTIy6OUiNx+5vXHkQ5P/+6BlMtG4GRhqGLuWAaO0y2vPgPw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1763926137; bh=8dOUGD+Z6sbxZuitL8aj6snr9t0cS91YszyipAXpgEI=; h=X-Sonic-MF:Date:From:Subject:To:From:Subject; b=UhUbYWT8QqADIbu2Hsc2bOTBa09hJZZdvKd5VFEpL5pURqdxSgX0gTbz6RX4sBn3PU15upl3Bnqim26ScEuvNG3VZpz8mfr5Feo0o+zfAVLAQZKjq8kCONdBNyqRg3FvBl7Ay06VebCh0aCGM58FfyVLtezhIlJK0yhosF0wtiiMWm3YArEkI66FDbuag9WHuMGBQzjNLcCM7f2p9StA4OyaBN0lxvH2GZSaaX//8Sa/ZvVgFH9NFxkssCTok2wZsTn9JpyoT+2zZu/JLquMRimzSTE514IXduzyMyUC7T9Q+TwuhLGLxg7/IgS4DGZAyApjJsDHnvU094Y96LazyA==
-X-YMail-OSG: x6NAl8MVM1lt.et_nhGmhOu.Aqj7qgNXt5kd.N25CpBSRowJx4xWdduv_XLsyJl
- dxRguhQzOWzgNiUKF1h8toLa_hxIZwPyFT39wf3I3twH6Fc2OwUgrvUHArgUugyFwAZSIFzOzRkC
- w5nsYhi1OCbtFelqu2QQ9u60pK6qr79T2GizMPDGXkHYvNVYNBVmawoBFHaqYfzFoJDma.aQ.NZw
- I3ZCOQTA9FxdDgwQWpQ5PkD2jF061b_3Qqc2unnzhKjoArEPZF7HIsQ6OEOw3b2vEy9Viyqi53xE
- uPSyNzisHSjWPB0VS6kC4XhEjInQ0u1n1.fhgssvXS5hvl1hb.C3sllSPHwteU4PLVbUgLht08L0
- Y4.05I4KT6dQkeTq5i0ZqYzHYF2u3E0WQ72J6rGDoCmGZHL9TjrKTZHfBjK6C90yWzdTch5iAZv9
- XzZ6rKLytQqrPU220JmNDNAp5G7i9yVptNY2p.almVw6UM_43.sKlM_VWG.GYYlI5zCcBgbAPol7
- CxLtQnfZqpPA4Y1hK5wW0XFwmX1XPcxlGVJ0ScLfP0j7H13mpFf3uK15UKc2F82jWtBLhLk4clJe
- K7AZ3QwfjFqU.nWUZO.7JLq8dgaHiVd8GYZCXBd4KW372sOKhGhmiLZtAr2IRT9.6DIQAkkzemLo
- zPtu5PvwXTOxUEBW6m413B3WQCsU3cOG5UdLA12US2bblO1OrWTwLDPlzykbG2THYdMAKkD1ooLZ
- 2sO27_J5pDKdIwanq_zjTFStRxIoKcSSeuM4NP8ptFf4z3S2vcGV57WFgu6VX3DjWUh5Ixrg2_Ws
- _K2qVwbwVt0oJxHkUCsxPxnKprhixqVrqSC3ZRMeZ63QIhZdEQq1j8tufqJ4TT9lPAXEuSDYPagx
- AHTniVEgntjFoRLis8jwxov0ehdt9hbC0JCh1MbybZWcT1iPRHRAoGmZ1oMGgyf19lMBOSEbjL0t
- trMyjUf464PHJ0jSsmXhJWRB1PgGBpjR.JjCJwMOEDlObN2KUpdLCO2ICMvHZFYU3CRkdLl8cMjD
- UsSSm7Lw0.8hhe1fIlTCn7BQhcNZT6pxZVwt5QBjMlAv8Q2hJ1im8jnjbdD.OXMeBztv3AeF2PCc
- oZvlt79lZUnGHk7Qy1U.NbCOd62M3kI.PPttfyANjT7W9kbdZl7ueockWAwzxN0y8TGKotUsYCHm
- vgbYxSlJReA_hBRlopjI1NoF7xHVWjTu6i1bHQXDpD8NaXqID8DrMQBbyyQyMKGG.eXjnOGtE3.j
- 0O_N.sFdg_rWP.djsmbV8.4Qle5kzZloba.fymqajnIjFRXXjvmCYB72FYN.lc0eQuR57isH9k9X
- XxTxZHvncwTaVAVVKbbbQdwwmgdZ3dVQIQceFtHPje.yw2S1WFopLVUcT0WNH9QUkQtFHmypPGhF
- YNRLpGj4vVnFCWzoqkLBC8hcIw7L6luewFghCJP1tmeCPktkduPV.dyUguTbI7ETkfEdJF85UBVA
- S9k5f.shcnKJHqy.NsBoLPIHr0bpaBOD3pe1QeBU1TX_MrbB_eo0bOD0m.mh.HAElC3EXNFofLSh
- nFOpfqYC03H6AyVVWuxyZXKJawyLBTwdcrD_yh11.yq5D7goQBpXyeYsMPtgBDsGnUlzHY8OShDV
- 4IwHpuwOaDa51o.wyZqIEMyhm_F1BcKdNzwsmq60ffmIply9Oo5PyuSkTOKcvjlJW2_CPEreSOo1
- QpEJIjof_7CWGsgvo9WQFyAdiVEYs42DXH4db4u0fJ.MULJ_bajqO6CLatNdJtxWiWHPTkMdL1pD
- 8TzvlKOeGkqZSI2Oac2yb_stJqbhpDgCFzAX1weWURJ4WY4nQtU1EyfU4sexoiWj40XqYz4HjrWn
- p_O2ZENg4oKAPZAqDlZbSBcatBZmxZzcg4wdV5o3fe3UmMT7vDl82Rat67RirVT.bSHmNxIS2XuU
- 0VxJmOF.mBKwXPHmh6gaQe8rSVjco9X2KcfTZFjC8BhSYi82prYtPChh2Ri9ek6K9kBR_oy0M1G4
- IR1fRoNt8f1BHV3shAEG20ClSdhZ52m09f3_BLj1AVL647OclzLF3Ybpb9i9.6E2hcgdLTs84XUZ
- ICexh_hN4KIKrmg25Hp.9P1fyssv3UnJjvNIZgse7ZUgIo8Lr71XsAYUdnhXRPuGp0ACiPAkgqxl
- yYBeg8RelUYgNxq.NXqeQSKKKQCnOGHwrERNzXDmw8Aq.ItUJDdJ7LEOzjsVrOYEv7rcP.6SqBUJ
- 8aX9715jVLTZh8HVcQsB8_02YgOyvhYz5cQNA8BQaEquH43qIXX5L74iJF6TQQLCTZN3uJhHfR9M
- GnHB1hg--
-X-Sonic-MF: <dschultzca@yahoo.ca>
-X-Sonic-ID: 10781348-120e-4811-9c54-447789d44b9b
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic316.consmr.mail.ne1.yahoo.com with HTTP; Sun, 23 Nov 2025 19:28:57 +0000
-Received: by hermes--production-gq1-fdb64d996-6k252 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 1e5ee8aa5e39a8a93aa570693c781658;
-          Sun, 23 Nov 2025 19:28:55 +0000 (UTC)
-Message-ID: <53060d5e-1cfa-4b86-aaa0-e6192a5bcd12@yahoo.ca>
-Date: Sun, 23 Nov 2025 14:28:53 -0500
+	s=arc-20240116; t=1763931772; c=relaxed/simple;
+	bh=hxzufESahS48J9qe4RxDVYXwkRS/DsW5pdksDexMURk=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=lUDfayuuVouNsCEpM3ECV9p3O394fpYIzUERFR0eKD/LNOrYdI40JD2SzzcG7T0aDG1G3+0xGw/ajYL+xU9Q3cWXHW/NhSA8QRiq63IIuoeNL3nHrowtPaMOKlhTq8BtOWUw3pFQjXFaofrNdrt8JvAMdBSM8kI2Fu2esT1hYoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jriF4r3C; arc=none smtp.client-ip=209.85.219.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-882475d8851so43958696d6.2
+        for <linux-media@vger.kernel.org>; Sun, 23 Nov 2025 13:02:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763931770; x=1764536570; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=O8HKGPqpWw+NLxCdwrDd7XfSCOsLWUXQfs0Wb0Ps6NI=;
+        b=jriF4r3CKlWv/kF3hEmjmC+e1YkDDnejnOE8FSjcf0OSfAfuJVrBEEJSd7u75DOCDH
+         4piQLWYezds17ayOPDMsvC4ijdVDeyOL7F6Ikk4Pc+bCoSulh8ZyKln3ijFKwqYSYYQW
+         CHl3AVfKDzdxW+CmZgUcorFz4QJERF4RCI2i5xvcbe9mkb/+hzSAep63HylMDUeGNxd3
+         6NuYN4XTDqLtOHzNWsEFsCXd1+oUMzqyV+umiW458GwZMS438lFFgqr3E7PoU8z5Kuio
+         IKy65q52VI3pX9o7NXWCtq7jCzal58vtQB5h/fwjUYyA6dTVdA+NAhhue2wPO51OmICa
+         oE9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763931770; x=1764536570;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=O8HKGPqpWw+NLxCdwrDd7XfSCOsLWUXQfs0Wb0Ps6NI=;
+        b=KLG1/U8tb4KPkVdKYAEb8P1VGx2Bcq8/A9s6uh+xXwtGY/8d0+tJZkt8+PbcB7uk+6
+         AyZG2lC4//AmI/S86s469lxh/OizuM6RmoXEcSlvNTdWtnxwEO7GY2OqQbPZnG+qtfq8
+         QiGoye7ut+VBtVsmAc2bMPMpX8y9sD5/wV66LITPyZjsrZ9BWLnf+1zUGJdUqbN5Y3Gg
+         85TbpkzZnFoh/gRsae5ClcU0BXDhJOAO/E2/oAcsm459Vwei6LB9wGvWwILaT2sLoKZr
+         GOK3XK70DtIc8iC4MSa0TUciKUrcNIQU1+FtLcyRNEZLYGvJvek6+Vvgw9CtMwT4/Gc+
+         0rdw==
+X-Gm-Message-State: AOJu0Yz35bpupfCOd8MPHBwarjlp51e+WnsVDpV4u3xqwXvK0/wx+AXy
+	SIF/sn5VV3XOKN5zlxvp9kfmyUF0i6dwmXDEzfREOH7NSk0mXDj46GcMlj6FEw==
+X-Gm-Gg: ASbGncs2/Sj9i+MpUwDHQPDzXn4RmC4dQPjcdNW2ZAOzNoIHKcn5xs42IPUQs+OYb++
+	sc/QZseREzrx80t7fQgkvJMRH7UFxwa3Ik0c8uuaYSz7Z/SOwwLa+ujrRPiVeqluy4X2gaeruLE
+	QQRMxVI2NlbKN3ATxyKjBA8ulRQ8Qd6eTMqcqo1hgHvHPp6vFOvkf+6HWYzkqFcwRpA+i8yum7q
+	0246U2P9EHlUvtuSE4GjRQyZ6IEQ5LnEXbMVqxkKYTjTM0i/cupJBguhgC9Tc3oEkQDj1EVAJay
+	cxwb8o+l/CUSdeaqFnHPn8CQ8U2xsapd+y/fCv9Jhw4Qb8tq+XwexP2SWMX96zy9rQ+QV9DCAuK
+	4iNWIHSz5XNV0mBn5HBYqBoA82KW6kvF4LNg/wIdrmZau4WgaHSovPDrFZAhbmt+HQT91
+X-Google-Smtp-Source: AGHT+IEpruYS93dD/6AelRJMD+toaEG0rJhAEFwo2OA1w8gZU/cK+ApfXgVTCPEPafMqq0oY6kAP9Q==
+X-Received: by 2002:a05:6214:5d0b:b0:880:42a7:772c with SMTP id 6a1803df08f44-8847c52d14bmr143173596d6.54.1763931769488;
+        Sun, 23 Nov 2025 13:02:49 -0800 (PST)
+Received: from ryzen ([2601:644:8000:8e26::ea0])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8846e54c84esm84549206d6.30.2025.11.23.13.02.48
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Nov 2025 13:02:48 -0800 (PST)
+From: Rosen Penev <rosenp@gmail.com>
+To: linux-media@vger.kernel.org
+Subject: [PATCH] v4l2-tracer: unique_ptr conversions
+Date: Sun, 23 Nov 2025 13:02:31 -0800
+Message-ID: <20251123210231.11605-1-rosenp@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Dale Schultz <dschultzca@yahoo.ca>
-Subject: v4l-cx23885-enc.fw file on linuxtv.org
-To: linux-media@vger.kernel.org
-Content-Language: en-CA
-Autocrypt: addr=dschultzca@yahoo.ca; keydata=
- xsFNBFqkSWEBEAC3ZgTg2DIJ3uptbYDhLEM8Y9d7RejPvD/20pkZnIpzyDOJ5poiMSfaQGFf
- nvgDTmsL8KUxWzI7SlyxFpbYEllawObygpIUyY6sG6s/BupODyOYNGPLNyQ1fughoEgp3Wb8
- aHQ6tj5e4SMoK1akCF7yletbYjJlqM8uf6EzpDb9Uh5i5b8qTkwMORe5Et8CQ9soKNQuDHJs
- NyXsje/SUh2QMaWRV9F5ZraeCGPXw7m+ujQfbxNr0JMO8Wb3HXrEhw+/IqBBgL+u6LypX7bV
- Nrq9imtD0DvsiylH+Ej2EOr95Vo16MpeyG4lhBRLm8e/m7FOQ/amKT3Eqhwsx+9VK3XA4e88
- lTj2HYAtacYp4/4uwTOV73dvOcwjcDTzvBGWVD8atWybZzan0f/4tIfIfleVNwjvZ2EzOTwH
- qdx2UoO0y4FHpJ6IFFuWou0pQta1C40J7fWHT2fBzJlDiqv15EZP0UVN700f2avekaWdCQbh
- qPt0CkbTbv43NiI0DAbdy4r2a5xDYKNo8Z/aTdwfRr6gXEid8Zlk7ZHGdh3ReNEPqg+J2H20
- nnfkHTBvCz2dwv8NDZb6kUt/kA6dXCa/tUd2W4kHJW07VDK9HRlyVduuLa0Oi2p6ZAgB0DDF
- Hoa4LHly4LbqQT8VtACePEsCxl7lhMfO4NKmwCN2aC9X/YPNzQARAQABzSJEYWxlIFNjaHVs
- dHogPGRzY2h1bHR6Y2FAeWFob28uY2E+wsGVBBMBCAA/AhsDBgsJCAcDAgYVCAIJCgsEFgID
- AQIeAQIXgBYhBGg/LH3aoaKDOXSOteositbLXCryBQJn3brOBQkS3tgiAAoJEOositbLXCry
- 9d8P/3rispTTgCrC0dEGYsET1rsD0ACs2rmuUqG6qwVp1b38LjM8eOWCInFCOiK+LEEahPgs
- sroOlP5lGaeq7zAid3Z87MBsNed+JHuvEe8sqR2oLy9XTUbQoGsmxYMUaEiIaQx4vb4tAmlf
- Le5TFSKOlQY1f5t71xb2eQau5c3qasvnDHEtLI/L+V7X4eu1Q9WWxas/2oU82HGBHg9l/BzU
- Qm9x7DW6qiS9HmncxUDrc82NPrZv5xpulKuXeBcIzv3A4TWc+zcdn8dizmw8A+JuXeXEv53W
- h6n1R6g7UwQTmNnZVlJvI0C0SdzRTilG1l/7DIS4OKfeyGMkXAr3G0GEvsBmewzJ9mAnzWvW
- 13uvJuOWFwgZTMJYpKm/jIl1+TANnqwlLeXMWM49/vzYPaKoBTjQqDQASQZLpHi0A+ueqz3D
- OtBFeAjNTnBxGR6C6gZYZK6fq+C+cUGREHp/IOOvTUs2StzP4ShNMQVPra1vv0pLW6acSdMB
- oE/AFea/pZ2fdlrIY3QZRyef2xxPJF9YF9khJp4Rk8A4wUEIVvPxxri77Ql84F2Ml3TBalsB
- ta2psMjT15bykBmU5AmdziKWjSOvuFVXJwMUZoWa4IggdS1Z76ihxH/C2vPDOVYauhvFZEdn
- 7Xhwi3jE0htQLzCZHGd3vKgao1nXOSfOK8NHT+s/zsFNBFqkSWEBEADFq4zV60i57BBrfzIF
- iuqfei9634zQtsy6zSN1KQZZF0Guief3NJ/q4Nx0eIXplmRVJXB0+MVUnPv0EzXYm9KgMYtO
- F8Lk3psMi8SNYcfv/Akqv/pbLEoORyostQAxOFiNdSZgTCAoeoEUIapQcTpMvPE/cVIhJh60
- wKH7R3PYsXaQZW25iTn+Rk6I57cf04A8gHfE9NoS7fB2pjGLNuExF++cJA2r9aCwzhspSaZ3
- 81xF/HMl66iYXitEN0DqxKiNm05yYbJ0F9Os1eWC9Ge2O56UG+md18SExZv7xUw3s2/evuLp
- xscCaoow6iwzgbcU1IOW+9ihSMe5VNxfXkLC9MEyCHiF4o392LSrMkGmoDhFKbF2O9eTxd/c
- Tl1klXvZnm2Fe3n1IrE1ANCcTEXPRuDuORj1AzoiCsq7Sd2tHJ/bzlHww9TATvBYf0oVyd2s
- uBjiiz1W6Tp9b8O+dOpLkRXaBjC54ww7gLhFhVYtOKtgCHURgNzwc7k/Thrqq0kekGm//jMX
- Jr/0sAdgjKYInqUfBcEb+evMyxTRg/4jaX5bXwtJBIA6gl7vXeZZ9LLpzPZ4wS0CHzLOE2S8
- WPNMJl8hBSZpB+xEBekzy8cMIzjl0qGP9ETCsLsTzYIdGQUR1Rw4QFflxQknvXEV3UjVTByk
- zuErkmEQCB4k02I8qwARAQABwsF8BBgBCAAmAhsMFiEEaD8sfdqhooM5dI616iyK1stcKvIF
- AmfdutcFCRLe2CsACgkQ6iyK1stcKvJ7nQ/9EBCsu46wBM47qf0Dzm3a7kubsYepNxCy/5QY
- rAfK0X9+sbF+zoEN8aQ7h/z2bCtZ58tt7SgxjsipffSWK+aWXlqo2Hg9yS7fMwIH1mLLJMEV
- dQezmQl6r5lCjt9Qa200mi4pXLoAggaSj8qTsShZpt9B+lv1g2fo/h9sJFRNrdwoxzLiv6pH
- qPBiSwVWXFXOYZ4ruNX+SGz6y9FZepDWpd4p3mKPc6Qycbxngs15eTB1GZQM6ZcCx5BKt0qK
- WrQXjzq4iE9bIPX9eaU+wWCoYJmCNxidAAweKh6sIYjP0l+RVs/nM6araWkJRxavHH81LiPO
- eYmok3Zo63y9PGiWriTxvojbJEl4lOlw5PPWkmy8VvkqKysjX9HpMM+AWxB4P1E4OOfsGE6z
- 4z4CKi87kj9Ikj+uLK18gZG5rl5UNqdiK8/FfGvSwDjdsk72otY4cOvzWSzcp+GVmL8jLh/+
- j5RNILUBTYrOwea0hd9HkS+F8p532esKIhP64t7Y+jQZTVCHoqzAPLS1vYnFsT5nlFs88xFj
- E/WGLM7oY5OY1/gzs0nppckKjEyUUy89mRLLzjnhhXZsp7XyUkGxdavg485pxOTrVkEHB2IY
- bdvU8sZR7QeEEzYh0XmCJO/3Alzk5UldeXa+frr5pwSsEr9c9SWl1HbMZohR4qpWyA6RJY0=
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-References: <53060d5e-1cfa-4b86-aaa0-e6192a5bcd12.ref@yahoo.ca>
-X-Mailer: WebService/1.1.24794 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
 
-Hello:
-I'm offering this firmware file so that the one hosted on the 
-linuxtv.org website 
-(https://www.linuxtv.org/downloads/firmware/#conexant and referenced by 
-https://github.com/torvalds/linux/blob/master/scripts/get_dvb_firmware 
-line 444) can be updated so it is not "broken".
+No need to manually free.
 
-Background:
-I moved my Hauppauge HVR-1800 card from Windows to Linux and noticed a 
-message during boot claiming v4l-cx23885-enc.fw was in error.
-[    7.404524] cx23885 0000:04:00.0: Direct firmware load for 
-v4l-cx23885-enc.fw failed with error -2
-[    7.404527] cx23885: ERROR: Hotplug firmware request failed 
-(v4l-cx23885-enc.fw).
-[    7.404529] cx23885: Please fix your hotplug setup, the board will 
-not work without firmware loaded!
-[    7.404530] cx23885: cx23885_initialize_codec() f/w load failed
+Signed-off-by: Rosen Penev <rosenp@gmail.com>
+---
+ utils/v4l2-tracer/retrace.cpp | 84 +++++++++++++----------------------
+ 1 file changed, 32 insertions(+), 52 deletions(-)
 
-I went to my Windows machine and retrieved the v4l-cx23885-enc.fw file 
-(named hcw85enc.rom in the drivers directory) and copied it to my Linux 
-/lib/firmware/ directory to clear the boot message.
-I confirmed first that the v4l-cx23885-avcore-01.fw file had the same 
-MD5 sum as the Windows version.
+diff --git a/utils/v4l2-tracer/retrace.cpp b/utils/v4l2-tracer/retrace.cpp
+index d65ecd3d..8419b2ce 100644
+--- a/utils/v4l2-tracer/retrace.cpp
++++ b/utils/v4l2-tracer/retrace.cpp
+@@ -5,6 +5,8 @@
+ 
+ #include "retrace.h"
+ 
++#include <memory>
++
+ extern struct retrace_context ctx_retrace;
+ 
+ void retrace_mmap(json_object *mmap_obj, bool is_mmap64)
+@@ -226,9 +228,9 @@ struct v4l2_plane *retrace_v4l2_plane(json_object *plane_obj, __u32 memory)
+ 	return ptr;
+ }
+ 
+-struct v4l2_buffer *retrace_v4l2_buffer(json_object *ioctl_args)
++std::unique_ptr<v4l2_buffer> retrace_v4l2_buffer(json_object *ioctl_args)
+ {
+-	struct v4l2_buffer *buf = (struct v4l2_buffer *) calloc(1, sizeof(struct v4l2_buffer));
++	std::unique_ptr<v4l2_buffer> buf(new v4l2_buffer{});
+ 
+ 	json_object *buf_obj;
+ 	json_object_object_get_ex(ioctl_args, "v4l2_buffer", &buf_obj);
+@@ -311,9 +313,9 @@ struct v4l2_buffer *retrace_v4l2_buffer(json_object *ioctl_args)
+ 
+ void retrace_vidioc_querybuf(int fd_retrace, json_object *ioctl_args)
+ {
+-	struct v4l2_buffer *buf = retrace_v4l2_buffer(ioctl_args);
++	auto buf = retrace_v4l2_buffer(ioctl_args);
+ 
+-	ioctl(fd_retrace, VIDIOC_QUERYBUF, buf);
++	ioctl(fd_retrace, VIDIOC_QUERYBUF, buf.get());
+ 
+ 	if (buf->memory == V4L2_MEMORY_MMAP) {
+ 		__u32 offset = 0;
+@@ -342,15 +344,13 @@ void retrace_vidioc_querybuf(int fd_retrace, json_object *ioctl_args)
+ 		debug_line_info();
+ 		print_context();
+ 	}
+-
+-	free(buf);
+ }
+ 
+ void retrace_vidioc_qbuf(int fd_retrace, json_object *ioctl_args)
+ {
+-	struct v4l2_buffer *ptr = retrace_v4l2_buffer(ioctl_args);
++	auto ptr = retrace_v4l2_buffer(ioctl_args);
+ 
+-	ioctl(fd_retrace, VIDIOC_QBUF, ptr);
++	ioctl(fd_retrace, VIDIOC_QBUF, ptr.get());
+ 
+ 	if (ptr->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE ||
+ 	    ptr->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
+@@ -367,13 +367,11 @@ void retrace_vidioc_qbuf(int fd_retrace, json_object *ioctl_args)
+ 		debug_line_info();
+ 		print_context();
+ 	}
+-
+-	free(ptr);
+ }
+ 
+ void retrace_vidioc_dqbuf(int fd_retrace, json_object *ioctl_args)
+ {
+-	struct v4l2_buffer *buf = retrace_v4l2_buffer(ioctl_args);
++	auto buf = retrace_v4l2_buffer(ioctl_args);
+ 
+ 	const int poll_timeout_ms = 5000;
+ 	struct pollfd *pfds = (struct pollfd *) calloc(1, sizeof(struct pollfd));
+@@ -393,7 +391,7 @@ void retrace_vidioc_dqbuf(int fd_retrace, json_object *ioctl_args)
+ 		exit(EXIT_FAILURE);
+ 	}
+ 
+-	ioctl(fd_retrace, VIDIOC_DQBUF, buf);
++	ioctl(fd_retrace, VIDIOC_DQBUF, buf.get());
+ 
+ 	if (is_verbose() || (errno != 0)) {
+ 		fprintf(stderr, "%s, index: %d, fd: %d, ",
+@@ -407,15 +405,13 @@ void retrace_vidioc_dqbuf(int fd_retrace, json_object *ioctl_args)
+ 	if (buf->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE ||
+ 	    buf->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+ 			free(buf->m.planes);
+-
+-	free(buf);
+ }
+ 
+ void retrace_vidioc_prepare_buf(int fd_retrace, json_object *ioctl_args)
+ {
+-	struct v4l2_buffer *buf = retrace_v4l2_buffer(ioctl_args);
++	auto buf = retrace_v4l2_buffer(ioctl_args);
+ 
+-	ioctl(fd_retrace, VIDIOC_PREPARE_BUF, buf);
++	ioctl(fd_retrace, VIDIOC_PREPARE_BUF, buf.get());
+ 
+ 	if (is_verbose() || (errno != 0)) {
+ 		fprintf(stderr, "%s, index: %d, fd: %d, ",
+@@ -429,8 +425,6 @@ void retrace_vidioc_prepare_buf(int fd_retrace, json_object *ioctl_args)
+ 	if (buf->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE ||
+ 	    buf->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+ 			free(buf->m.planes);
+-
+-	free(buf);
+ }
+ 
+ void retrace_vidioc_create_bufs(int fd_retrace, json_object *ioctl_args)
+@@ -541,9 +535,9 @@ void retrace_vidioc_s_fmt(int fd_retrace, json_object *ioctl_args)
+ 	free(ptr);
+ }
+ 
+-struct v4l2_streamparm *retrace_v4l2_streamparm(json_object *parent_obj, const std::string& key_name = "")
++std::unique_ptr<v4l2_streamparm> retrace_v4l2_streamparm(json_object *parent_obj, const std::string& key_name = "")
+ {
+-	struct v4l2_streamparm *ptr = (struct v4l2_streamparm *) calloc(1, sizeof(v4l2_streamparm));
++	std::unique_ptr<v4l2_streamparm> ptr(new v4l2_streamparm{});
+ 
+ 	json_object *v4l2_streamparm_obj;
+ 	json_object_object_get_ex(parent_obj, "v4l2_streamparm", &v4l2_streamparm_obj);
+@@ -563,24 +557,20 @@ struct v4l2_streamparm *retrace_v4l2_streamparm(json_object *parent_obj, const s
+ 
+ void retrace_vidioc_g_parm (int fd_retrace, json_object *ioctl_args)
+ {
+-	struct v4l2_streamparm *ptr = retrace_v4l2_streamparm(ioctl_args);
+-	ioctl(fd_retrace, VIDIOC_G_PARM, ptr);
++	auto ptr = retrace_v4l2_streamparm(ioctl_args);
++	ioctl(fd_retrace, VIDIOC_G_PARM, ptr.get());
+ 
+ 	if (is_verbose() || (errno != 0))
+ 		perror("VIDIOC_G_PARM");
+-
+-	free(ptr);
+ }
+ 
+ void retrace_vidioc_s_parm (int fd_retrace, json_object *ioctl_args)
+ {
+-	struct v4l2_streamparm *ptr = retrace_v4l2_streamparm(ioctl_args);
+-	ioctl(fd_retrace, VIDIOC_S_PARM, ptr);
++	auto ptr = retrace_v4l2_streamparm(ioctl_args);
++	ioctl(fd_retrace, VIDIOC_S_PARM, ptr.get());
+ 
+ 	if (is_verbose() || (errno != 0))
+ 		perror("VIDIOC_S_PARM");
+-
+-	free(ptr);
+ }
+ 
+ void retrace_vidioc_queryctrl(int fd_retrace, json_object *ioctl_args)
+@@ -897,9 +887,9 @@ struct v4l2_ext_control *retrace_v4l2_ext_control(json_object *parent_obj, int c
+ 	return p;
+ }
+ 
+-struct v4l2_ext_controls *retrace_v4l2_ext_controls(json_object *parent_obj)
++std::unique_ptr<v4l2_ext_controls> retrace_v4l2_ext_controls(json_object *parent_obj)
+ {
+-	struct v4l2_ext_controls *ptr = (struct v4l2_ext_controls *) calloc(1, sizeof(v4l2_ext_controls));
++	std::unique_ptr<v4l2_ext_controls> ptr(new v4l2_ext_controls{});
+ 
+ 	json_object *v4l2_ext_controls_obj;
+ 	json_object_object_get_ex(parent_obj, "v4l2_ext_controls", &v4l2_ext_controls_obj);
+@@ -948,10 +938,8 @@ struct v4l2_ext_controls *retrace_v4l2_ext_controls(json_object *parent_obj)
+ 
+ void retrace_vidioc_try_ext_ctrls(int fd_retrace, json_object *ioctl_args)
+ {
+-	struct v4l2_ext_controls *ptr = retrace_v4l2_ext_controls(ioctl_args);
+-	ioctl(fd_retrace, VIDIOC_TRY_EXT_CTRLS, ptr);
+-
+-	free(ptr);
++	auto ptr = retrace_v4l2_ext_controls(ioctl_args);
++	ioctl(fd_retrace, VIDIOC_TRY_EXT_CTRLS, ptr.get());
+ 
+ 	if (is_verbose() || (errno != 0))
+ 		perror("VIDIOC_TRY_EXT_CTRLS");
+@@ -959,10 +947,8 @@ void retrace_vidioc_try_ext_ctrls(int fd_retrace, json_object *ioctl_args)
+ 
+ void retrace_vidioc_g_ext_ctrls(int fd_retrace, json_object *ioctl_args)
+ {
+-	struct v4l2_ext_controls *ptr = retrace_v4l2_ext_controls(ioctl_args);
+-	ioctl(fd_retrace, VIDIOC_G_EXT_CTRLS, ptr);
+-
+-	free(ptr);
++	auto ptr = retrace_v4l2_ext_controls(ioctl_args);
++	ioctl(fd_retrace, VIDIOC_G_EXT_CTRLS, ptr.get());
+ 
+ 	if (is_verbose() || (errno != 0))
+ 		perror("VIDIOC_G_EXT_CTRLS");
+@@ -970,10 +956,8 @@ void retrace_vidioc_g_ext_ctrls(int fd_retrace, json_object *ioctl_args)
+ 
+ void retrace_vidioc_s_ext_ctrls(int fd_retrace, json_object *ioctl_args)
+ {
+-	struct v4l2_ext_controls *ptr = retrace_v4l2_ext_controls(ioctl_args);
+-	ioctl(fd_retrace, VIDIOC_S_EXT_CTRLS, ptr);
+-
+-	free(ptr);
++	auto ptr = retrace_v4l2_ext_controls(ioctl_args);
++	ioctl(fd_retrace, VIDIOC_S_EXT_CTRLS, ptr.get());
+ 
+ 	if (is_verbose() || (errno != 0)) {
+ 		perror("VIDIOC_S_EXT_CTRLS");
+@@ -1056,9 +1040,9 @@ void retrace_vidioc_s_selection(int fd_retrace, json_object *ioctl_args)
+ 	free(ptr);
+ }
+ 
+-struct v4l2_decoder_cmd *retrace_v4l2_decoder_cmd(json_object *parent_obj)
++std::unique_ptr<v4l2_decoder_cmd> retrace_v4l2_decoder_cmd(json_object *parent_obj)
+ {
+-	struct v4l2_decoder_cmd *ptr = (struct v4l2_decoder_cmd *) calloc(1, sizeof(v4l2_decoder_cmd));
++	std::unique_ptr<v4l2_decoder_cmd> ptr(new v4l2_decoder_cmd{});
+ 
+ 	json_object *v4l2_decoder_cmd_obj;
+ 	json_object_object_get_ex(parent_obj, "v4l2_decoder_cmd", &v4l2_decoder_cmd_obj);
+@@ -1121,14 +1105,12 @@ struct v4l2_decoder_cmd *retrace_v4l2_decoder_cmd(json_object *parent_obj)
+ 
+ void retrace_vidioc_try_decoder_cmd(int fd_retrace, json_object *ioctl_args)
+ {
+-	struct v4l2_decoder_cmd *ptr = retrace_v4l2_decoder_cmd(ioctl_args);
++	auto ptr = retrace_v4l2_decoder_cmd(ioctl_args);
+ 
+-	ioctl(fd_retrace, VIDIOC_TRY_DECODER_CMD, ptr);
++	ioctl(fd_retrace, VIDIOC_TRY_DECODER_CMD, ptr.get());
+ 
+ 	if (is_verbose() || (errno != 0))
+ 		perror("VIDIOC_TRY_DECODER_CMD");
+-
+-	free (ptr);
+ }
+ 
+ void retrace_vidioc_dqevent(int fd_retrace)
+@@ -1188,14 +1170,12 @@ void retrace_vidioc_unsubscribe(int fd_retrace, json_object *ioctl_args)
+ 
+ void retrace_vidioc_decoder_cmd(int fd_retrace, json_object *ioctl_args)
+ {
+-	struct v4l2_decoder_cmd *ptr = retrace_v4l2_decoder_cmd(ioctl_args);
++	auto ptr = retrace_v4l2_decoder_cmd(ioctl_args);
+ 
+-	ioctl(fd_retrace, VIDIOC_DECODER_CMD, ptr);
++	ioctl(fd_retrace, VIDIOC_DECODER_CMD, ptr.get());
+ 
+ 	if (is_verbose() || (errno != 0))
+ 		perror("VIDIOC_DECODER_CMD");
+-
+-	free (ptr);
+ }
+ 
+ void retrace_vidioc_query_ext_ctrl(int fd_retrace, json_object *ioctl_args)
+-- 
+2.52.0
 
-The file(s) can be pulled from https://github.com/dschultzca/hvr-1800_fw
-
-Thanks
 
