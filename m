@@ -1,79 +1,79 @@
-Return-Path: <linux-media+bounces-47623-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47624-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20394C7E89F
-	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 23:53:04 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C19CC7E899
+	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 23:52:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AD3273A4D3A
-	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 22:52:28 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 5A3C83452D9
+	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 22:52:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A64CF280CFC;
-	Sun, 23 Nov 2025 22:51:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDDF2284884;
+	Sun, 23 Nov 2025 22:51:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WpmGMvm3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ExMtn78q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 163A2279DB1
-	for <linux-media@vger.kernel.org>; Sun, 23 Nov 2025 22:51:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C49274B48
+	for <linux-media@vger.kernel.org>; Sun, 23 Nov 2025 22:51:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763938307; cv=none; b=OKmgNeanWv71uUMRcUOeqZQSMWIg/XFKejBOytTitrkZUNNlZ/96RmK7q1dl8yywUZDD3/UhzlMvyzPZI5tndhIT5ygt+QPkk5I4njYPlQqQHgAb5LHAQK/hm11nzpYrV0M1oX5fpXKrtMlNKN5OhzQoyOrjSfpincOPuQUWibo=
+	t=1763938309; cv=none; b=dcBp2XvZEAZPaDsD+nLPNR3AIxHBm59DY2ZPKxPCb3x/rPgsssR66V3409ttfwq/VKxQMLFr8CySy6DantdHY2A/HGcrkH5S6ZRbNErzdSD1psCi4N/o0izLZbJouwohl538eiVPtKe7SZMBLvqpJAOTA58hteyOlG3jeW4b7SM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763938307; c=relaxed/simple;
-	bh=biIYoLFZIunfY+RjkNduyhE0he3gpQJOgrFilhAOH4g=;
+	s=arc-20240116; t=1763938309; c=relaxed/simple;
+	bh=2QAhGEFKNmLFH3rV8w4M1xXti7VQ8PITqhdQLrQ5sfg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sD9gTcVI+gQMDhAjIswLC58sEbsfHgqE3RNdjKmUpphPgNM5dT0kQVXsc8Ai3qCg5qlcdj6HHezB28uuxtFnbLvr5HvolD+yAcWWMhj7f0O6oEgDKxs0ZHRDe0XmAIsA3ZverP5crYQth1VNeJ58U52aWGRREgZ32XQwr/q2PUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WpmGMvm3; arc=none smtp.client-ip=209.85.221.52
+	 MIME-Version; b=TrOs1m5yTAUvjtWynYbTxpcycXj7u/MoOoHY5uTBycxMbE8kpnH+qVdXxG9C0Yk3fJjIFGHqoEI2URvNDdVVI52XLlUVfxswDq7VECsvlwCId6uwEo67a0rkWQjYqiL2hqjrri68n2n3OrFNHHbtSBTzKvUswIMygBVSlQAMEGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ExMtn78q; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-42b31c610fcso3194218f8f.0
-        for <linux-media@vger.kernel.org>; Sun, 23 Nov 2025 14:51:45 -0800 (PST)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-42b31c610fcso3194230f8f.0
+        for <linux-media@vger.kernel.org>; Sun, 23 Nov 2025 14:51:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763938304; x=1764543104; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1763938306; x=1764543106; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Eb2Dznv7cN1HWvl69eUL3qKJ9duXd8EJVDjyGYBP64I=;
-        b=WpmGMvm3Tt0Y2XyUxUpwW2d5teUAZCtS8tXckR5X/RDdFiEfJCS4kG6UaJnYUThtom
-         hVeXn8TIJ9meTxceBvBKwkHciPinGwCqfv3wjWwIf+m88DPx3FN4hpvukifhHXo98Zgf
-         Z5WVvQboSs4e2gH8x979VuM5bzCFt6GmbE24Kvbr4tFLnXRGk/0iExyengLb2OvbRPVc
-         TDwO+nPjaWdkwTGWQsEJozk5nUZ1UUcVRUS05QTkW3lCmRFGs3QFAmSHXsGZmUKgcjnC
-         LGqCFndJS+bJKiRwz7ujKWxSlhm7A/S03RXh/ctR3jiEVpK1SkHNGZ36PnMNEchv4zDe
-         naPA==
+        bh=g6fykkTkHS7qppZkkxaQlxQiAfIqxjHL5zv+seY74S0=;
+        b=ExMtn78q7qR6pIUKU/7VGEUjfVV6bk4JomIs0V7n3OZ75PBi4JcasAliBmf1wTvoyx
+         b92OsjRkMwvIJuHVXeRbVuryPNFAwkzKf4EGn7EO8szNtfK1k5krVOdZmS8No32ZESGv
+         ImPPNTwX7bmkJ1IhqUNvIU76EZji1bIfOQtq1ljfyidK+oNXUJ7XWwa6MNxvVFiP8HHs
+         B48v9HxDqE527c99oqmHROtvLt21uqMQkqSXO9ArUQjRm7NuOAtbNBiuF1oPNo1YAURf
+         n7K4uaIjeMzrer6TJnVDiPQbQLbmf5Oe9zgZDmAiVIE3QFQMktiqlGywBqIateN1ldED
+         3Ohw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763938304; x=1764543104;
+        d=1e100.net; s=20230601; t=1763938306; x=1764543106;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Eb2Dznv7cN1HWvl69eUL3qKJ9duXd8EJVDjyGYBP64I=;
-        b=DuPlwL7qNmCZ9toTt5D6Z9OodKYIiCjf5rlUotxhFxQnKcjWCf39ANvVKHO/F6/VeX
-         MDKIhrx2Uf/e5aRU/rJbyMzBxlxYw7r/sfr067fgNLygyP/ZB3SPOtRzf5nTf6fIf9dO
-         72u5J7F1/hyEyxVfnZI/mgiDh9pUvrE7JNp+yofwyPlng7y7L1BHc+F7i1PHLgmbP8jp
-         wHn1uBGU1UQOSsUprHPlEJ2BzxIPzL41EVyMe6vhmJ6X4Lio+4nkZkQzc+ank+SthX43
-         5zpIXn/Hp7kfb2uvgXM/fC/4XSObIXs7ykTDmq1iDia7DdMQb3dm0Em/gCPvMGAtXin4
-         +TXA==
-X-Forwarded-Encrypted: i=1; AJvYcCUnAo0ab44zW7SQlTSGPjvzk9KUT7qiEPUwcxU+0NeczARpgTbYnt8dJ00FGnH9sXugtxYQgfLESy3viQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzCtS3IhuaXka63LYVpatyNnoKWjqfklqI78DzGm2yKU9UNq37d
-	0xOfGWKh5rXQPhX/DJ5Yx4XvB+o/fCmt9fKmgYf8AYe3QIMHjHYJ2VB8
-X-Gm-Gg: ASbGnctmnBu/1adGCnqoE7xoJkgEPl3JOAhRh8zcfqWSAyp/7z9cmlfzYj17vlv8PHF
-	9p5ye2YQiqNbkyajvBRpqebtAYuIEQwv/P+w9Ce6zpBSDgyZhZvYEna1+qouvK9VeBelSMne5hA
-	wE65Wxz5psPPhzmcDSNqG3LrTgy0+LElQCn+SzH8HiWrE9Y54uKtCbZszmO9Ipk5tx1oal33kBp
-	px+ZhjV2AegS+jNC1y9PLl+M8PUNiOkyYYrgCRaLPnGhj79/C44uwOoUvke3FNX03+NqP4xagLU
-	DUczktMuRHc0hD9BHuxp9ZqSGhOEecl0b5q7eU3M2wD/oTnjPtqPLZfE700zztopZx0neZN5Mq4
-	N2mP1tfVFDcZsbnF5vCK8KVsDkLddSYH3vO/ed90nKR6YgHRJb9nX2XnK4SM8iUhktzOrOL0f+H
-	hDKRIX1Fla2M7F5w==
-X-Google-Smtp-Source: AGHT+IED8z7T9BZIQ3+G6TZGcukyRm9aG9PTE7rjzPMs+94mQ+eXcoj3xDrYuPfTG51yWGc4ynh5VQ==
-X-Received: by 2002:a05:6000:601:b0:42b:5592:ebd1 with SMTP id ffacd0b85a97d-42cc19f0b39mr11000772f8f.0.1763938304146;
-        Sun, 23 Nov 2025 14:51:44 -0800 (PST)
+        bh=g6fykkTkHS7qppZkkxaQlxQiAfIqxjHL5zv+seY74S0=;
+        b=UfKdZUGuzBsqXCAFs1m3yFdBLZRrAvi80/xKUN45roAW0FDG6lLwohIFJ4eLW9zpXC
+         zBwqW7wLSrW/abd38+96RG1s+VuXl2JYvGtxH8uM0TZw9vp6pEn9q/BmbFiQxFnz5YQf
+         mP6ckjkphDFE2iuUO02LLl6dVIevVqGFIYmU7yvo2KNDzPUVG1xlJy25T7mfE4Gc6F44
+         SJ/0NEVDAvce0tEJQ98mclsFRCMmyOtO8IUqBbfC0e1FoXo40FMMnl3MfrllWgvfSwq5
+         ecDRURGmw7MzabUsMhi2/rWNsM79AFzE9P569jTsqxnsQXTueoxrd2WHSDkWS2+tBzDa
+         a2Bg==
+X-Forwarded-Encrypted: i=1; AJvYcCWfFuGHIZER7VtJHZQbfFG/aiKNinwRVyGrJSiFI+Z5zJzcwi3RgjwSzAF9MkcWwYE0eItcNuF/BGAZ8g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzH6h1ZHaeE+v+3EicHrwapZKf1n9TBd/QYAsAmstyYRTU1SlZb
+	hNTK/1875TVTnW5KlnmLJqY9r4L4rlIYvrqVqKcFLERTZ7fkE05ncInx
+X-Gm-Gg: ASbGncsewTTLHDXrB/VfDDDQbm/cE2SZ3Dx0fdBWxYqWIA8TNz5eYKu58/paz631pqk
+	OJVIhh+PPGhM3bWS17YJFsnBYXIwUAj6zA7LZ1SHk6zLgv7vERGNbWbproWjP9RgJYNWNvacfak
+	vgNZoigHsdbpm0i6/5RmIJmqmhRfiadw9PX33dEiIVf5kxLmfTin2dlETwyspit3MF0XW7Nw+P+
+	mpZdbE08XBqXDU6Syf3DzNGL2NYRFCEw2WawnYeQVKwRw/T3xRUl9hlZIe2B4MkSi7YKgSYFR2p
+	yo2E+syO7EVk2S1qmbeOxTaKEUBgVAhvY9Opf0uixswBA58kMIsGQ6joH/7eKNUv3eDVkD6Skja
+	Ft8I+6e1gfzCQAl3ABccOxu3sfOPeJe3zXUo0J6U/h7AGnCn6ie25IRaR/RLqQvt06m/N3HFuBz
+	Y/XWFsJlCkLncVOg==
+X-Google-Smtp-Source: AGHT+IG6zETWdv1uNEXL1H7qlBK8rzCntcx0G5cI2YCnUx99f9VimwWWKVBIKAVqjQPLH9huSPPJwA==
+X-Received: by 2002:a05:6000:1448:b0:429:d3e9:65b with SMTP id ffacd0b85a97d-42cc1d23c3emr9659226f8f.59.1763938305625;
+        Sun, 23 Nov 2025 14:51:45 -0800 (PST)
 Received: from 127.mynet ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7fb9190sm24849064f8f.33.2025.11.23.14.51.41
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7fb9190sm24849064f8f.33.2025.11.23.14.51.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Nov 2025 14:51:43 -0800 (PST)
+        Sun, 23 Nov 2025 14:51:44 -0800 (PST)
 From: Pavel Begunkov <asml.silence@gmail.com>
 To: linux-block@vger.kernel.org,
 	io-uring@vger.kernel.org
@@ -95,9 +95,9 @@ Cc: Vishal Verma <vishal1.verma@intel.com>,
 	linux-media@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
 	linaro-mm-sig@lists.linaro.org
-Subject: [RFC v2 02/11] iov_iter: introduce iter type for pre-registered dma
-Date: Sun, 23 Nov 2025 22:51:22 +0000
-Message-ID: <f57269489c4d6f670ab1f9de4d0764030d8d080c.1763725387.git.asml.silence@gmail.com>
+Subject: [RFC v2 03/11] block: move around bio flagging helpers
+Date: Sun, 23 Nov 2025 22:51:23 +0000
+Message-ID: <6cb3193d3249ab5ca54e8aecbfc24086db09b753.1763725387.git.asml.silence@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1763725387.git.asml.silence@gmail.com>
 References: <cover.1763725387.git.asml.silence@gmail.com>
@@ -109,139 +109,63 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Introduce a new iterator type backed by a pre mapped dmabuf represented
-by struct dma_token. The token is specific to the file for which it was
-created, and the user must avoid the token and the iterator to any other
-file. This limitation will be softened in the future.
+We'll need bio_flagged() earlier in bio.h in the next patch, move it
+together with all related helpers, and mark the bio_flagged()'s bio
+argument as const.
 
-Suggested-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
 ---
- include/linux/uio.h | 10 ++++++++++
- lib/iov_iter.c      | 30 ++++++++++++++++++++++++------
- 2 files changed, 34 insertions(+), 6 deletions(-)
+ include/linux/bio.h | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/include/linux/uio.h b/include/linux/uio.h
-index 5b127043a151..1b22594ca35b 100644
---- a/include/linux/uio.h
-+++ b/include/linux/uio.h
-@@ -29,6 +29,7 @@ enum iter_type {
- 	ITER_FOLIOQ,
- 	ITER_XARRAY,
- 	ITER_DISCARD,
-+	ITER_DMA_TOKEN,
- };
+diff --git a/include/linux/bio.h b/include/linux/bio.h
+index ad2d57908c1c..c75a9b3672aa 100644
+--- a/include/linux/bio.h
++++ b/include/linux/bio.h
+@@ -46,6 +46,21 @@ static inline unsigned int bio_max_segs(unsigned int nr_segs)
+ #define bio_data_dir(bio) \
+ 	(op_is_write(bio_op(bio)) ? WRITE : READ)
  
- #define ITER_SOURCE	1	// == WRITE
-@@ -71,6 +72,7 @@ struct iov_iter {
- 				const struct folio_queue *folioq;
- 				struct xarray *xarray;
- 				void __user *ubuf;
-+				struct dma_token *dma_token;
- 			};
- 			size_t count;
- 		};
-@@ -155,6 +157,11 @@ static inline bool iov_iter_is_xarray(const struct iov_iter *i)
- 	return iov_iter_type(i) == ITER_XARRAY;
- }
- 
-+static inline bool iov_iter_is_dma_token(const struct iov_iter *i)
++static inline bool bio_flagged(const struct bio *bio, unsigned int bit)
 +{
-+	return iov_iter_type(i) == ITER_DMA_TOKEN;
++	return bio->bi_flags & (1U << bit);
 +}
 +
- static inline unsigned char iov_iter_rw(const struct iov_iter *i)
- {
- 	return i->data_source ? WRITE : READ;
-@@ -300,6 +307,9 @@ void iov_iter_folio_queue(struct iov_iter *i, unsigned int direction,
- 			  unsigned int first_slot, unsigned int offset, size_t count);
- void iov_iter_xarray(struct iov_iter *i, unsigned int direction, struct xarray *xarray,
- 		     loff_t start, size_t count);
-+void iov_iter_dma_token(struct iov_iter *i, unsigned int direction,
-+			struct dma_token *token,
-+			loff_t off, size_t count);
- ssize_t iov_iter_get_pages2(struct iov_iter *i, struct page **pages,
- 			size_t maxsize, unsigned maxpages, size_t *start);
- ssize_t iov_iter_get_pages_alloc2(struct iov_iter *i, struct page ***pages,
-diff --git a/lib/iov_iter.c b/lib/iov_iter.c
-index 2fe66a6b8789..26fa8f8f13c0 100644
---- a/lib/iov_iter.c
-+++ b/lib/iov_iter.c
-@@ -563,7 +563,8 @@ void iov_iter_advance(struct iov_iter *i, size_t size)
- {
- 	if (unlikely(i->count < size))
- 		size = i->count;
--	if (likely(iter_is_ubuf(i)) || unlikely(iov_iter_is_xarray(i))) {
-+	if (likely(iter_is_ubuf(i)) || unlikely(iov_iter_is_xarray(i)) ||
-+	    unlikely(iov_iter_is_dma_token(i))) {
- 		i->iov_offset += size;
- 		i->count -= size;
- 	} else if (likely(iter_is_iovec(i) || iov_iter_is_kvec(i))) {
-@@ -619,7 +620,8 @@ void iov_iter_revert(struct iov_iter *i, size_t unroll)
- 		return;
- 	}
- 	unroll -= i->iov_offset;
--	if (iov_iter_is_xarray(i) || iter_is_ubuf(i)) {
-+	if (iov_iter_is_xarray(i) || iter_is_ubuf(i) ||
-+	    iov_iter_is_dma_token(i)) {
- 		BUG(); /* We should never go beyond the start of the specified
- 			* range since we might then be straying into pages that
- 			* aren't pinned.
-@@ -763,6 +765,21 @@ void iov_iter_xarray(struct iov_iter *i, unsigned int direction,
- }
- EXPORT_SYMBOL(iov_iter_xarray);
- 
-+void iov_iter_dma_token(struct iov_iter *i, unsigned int direction,
-+			struct dma_token *token,
-+			loff_t off, size_t count)
++static inline void bio_set_flag(struct bio *bio, unsigned int bit)
 +{
-+	WARN_ON(direction & ~(READ | WRITE));
-+	*i = (struct iov_iter){
-+		.iter_type = ITER_DMA_TOKEN,
-+		.data_source = direction,
-+		.dma_token = token,
-+		.iov_offset = 0,
-+		.count = count,
-+		.iov_offset = off,
-+	};
++	bio->bi_flags |= (1U << bit);
 +}
 +
- /**
-  * iov_iter_discard - Initialise an I/O iterator that discards data
-  * @i: The iterator to initialise.
-@@ -829,7 +846,7 @@ static unsigned long iov_iter_alignment_bvec(const struct iov_iter *i)
++static inline void bio_clear_flag(struct bio *bio, unsigned int bit)
++{
++	bio->bi_flags &= ~(1U << bit);
++}
++
+ /*
+  * Check whether this bio carries any data or not. A NULL bio is allowed.
+  */
+@@ -225,21 +240,6 @@ static inline void bio_cnt_set(struct bio *bio, unsigned int count)
+ 	atomic_set(&bio->__bi_cnt, count);
+ }
  
- unsigned long iov_iter_alignment(const struct iov_iter *i)
+-static inline bool bio_flagged(struct bio *bio, unsigned int bit)
+-{
+-	return bio->bi_flags & (1U << bit);
+-}
+-
+-static inline void bio_set_flag(struct bio *bio, unsigned int bit)
+-{
+-	bio->bi_flags |= (1U << bit);
+-}
+-
+-static inline void bio_clear_flag(struct bio *bio, unsigned int bit)
+-{
+-	bio->bi_flags &= ~(1U << bit);
+-}
+-
+ static inline struct bio_vec *bio_first_bvec_all(struct bio *bio)
  {
--	if (likely(iter_is_ubuf(i))) {
-+	if (likely(iter_is_ubuf(i)) || iov_iter_is_dma_token(i)) {
- 		size_t size = i->count;
- 		if (size)
- 			return ((unsigned long)i->ubuf + i->iov_offset) | size;
-@@ -860,7 +877,7 @@ unsigned long iov_iter_gap_alignment(const struct iov_iter *i)
- 	size_t size = i->count;
- 	unsigned k;
- 
--	if (iter_is_ubuf(i))
-+	if (iter_is_ubuf(i) || iov_iter_is_dma_token(i))
- 		return 0;
- 
- 	if (WARN_ON(!iter_is_iovec(i)))
-@@ -1457,11 +1474,12 @@ EXPORT_SYMBOL_GPL(import_ubuf);
- void iov_iter_restore(struct iov_iter *i, struct iov_iter_state *state)
- {
- 	if (WARN_ON_ONCE(!iov_iter_is_bvec(i) && !iter_is_iovec(i) &&
--			 !iter_is_ubuf(i)) && !iov_iter_is_kvec(i))
-+			 !iter_is_ubuf(i) && !iov_iter_is_kvec(i) &&
-+			 !iov_iter_is_dma_token(i)))
- 		return;
- 	i->iov_offset = state->iov_offset;
- 	i->count = state->count;
--	if (iter_is_ubuf(i))
-+	if (iter_is_ubuf(i) || iov_iter_is_dma_token(i))
- 		return;
- 	/*
- 	 * For the *vec iters, nr_segs + iov is constant - if we increment
+ 	WARN_ON_ONCE(bio_flagged(bio, BIO_CLONED));
 -- 
 2.52.0
 
