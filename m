@@ -1,79 +1,79 @@
-Return-Path: <linux-media+bounces-47625-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47626-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B0FDC7E8A2
-	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 23:53:06 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91AF4C7E8C1
+	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 23:54:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2CA1A4E12F2
-	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 22:53:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 296A83A22D0
+	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 22:53:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BD32286D63;
-	Sun, 23 Nov 2025 22:51:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05BD328B4F0;
+	Sun, 23 Nov 2025 22:51:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Usl72E/4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WSVzQSuZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CC512857C6
-	for <linux-media@vger.kernel.org>; Sun, 23 Nov 2025 22:51:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9FC2286D40
+	for <linux-media@vger.kernel.org>; Sun, 23 Nov 2025 22:51:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763938312; cv=none; b=pshcBSg+YGz0njgNEY988Yzo7Ki9tjKY63s+TXNBIm+BO60VHbSZXYEHlYCHeRNoaM8cIfVipt+DYLWa7mgf+45Mdw7bIGm6Nqf3EJjWv7QJo6NlYDBE7kisXfvhdoJX/giH9GolGRn5AHk1z35eV+tN4utD34AC8aDIrgeojOE=
+	t=1763938315; cv=none; b=AbOGbqfC92HjU7pScXDp/aYrcJfwJPIyi9ipfA6I5R4IlZSulXCWcs7DWfdtbUDqJlzEWfAKOGYu3ozing4atq4cqNp0xuMug+vI6z0ECwSLydIYeLFW0uDzicdjbJteOgxtwZDPey0mq7OZ+zvJlI+uMWVDvrefjd/m+8uj2Rk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763938312; c=relaxed/simple;
-	bh=XGx1f8qezWKlKgKLLZ301GCSMIBZ1JsSW3EFwWISAzM=;
+	s=arc-20240116; t=1763938315; c=relaxed/simple;
+	bh=069Y8B4LQyZ9577N4Tpt4w72wqG515Cr2xlW9Y7a6Cg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pcEmqKWYT9Mvei0JDerudVFzP9PMLCEY+//FaQLV31nMOtyfmyBqtyqs/pNFqFQs9wzrOK+eebbQ+k2hq6FpmWd2OJp3EWF1xcFR4d79H/Yh7j2ACj3DpBTsGPUfcYVSUuqfOVDYfQ6WzKpLSKsCq9oJ2ORfZP9oyFY2JGvAduA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Usl72E/4; arc=none smtp.client-ip=209.85.128.43
+	 MIME-Version; b=KTL3WhVQDAHnjQ21TFN8cQX9re4AcdljxKha1cTdw1J7KzA4TO20g5w8NkXETHHPjJwA7wh2tHCQFhCafbu9PE9bmvoAQgwbqYDikOFK134JB8Q54yIvfe3mh+5e2v3cqz+wnHnJbkI8Vd1xqnx5I12MnleBRUwbtIGqz3NZ72c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WSVzQSuZ; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-477b1cc8fb4so20956165e9.1
-        for <linux-media@vger.kernel.org>; Sun, 23 Nov 2025 14:51:50 -0800 (PST)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-42b38de7940so1790752f8f.3
+        for <linux-media@vger.kernel.org>; Sun, 23 Nov 2025 14:51:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763938309; x=1764543109; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1763938311; x=1764543111; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zxuKr9/wD0hv1o+9Q16IeSgRkNQrWSlYyRysfxG3AMc=;
-        b=Usl72E/4lDVylaOAdrgBenfNmYwPULhoCn7bcUbX9lMyLAwFpLkhpQgSbSxfxpz0Fw
-         U7Zx3kltDeQeXDAJ6unFxL+Aivuml7u+pH+YdsCp2YTEGuVWvtNC1xcCd7uMu3Q/Zi1H
-         So+w5R3mk2TxH/02U99gTzJNVSGSWSO0Mil8Z3yTwlYMMX7WRi1uK8f5XqOsNiqkT51C
-         e625YD7BMenXbT1xQlh1jNZ+HEx5hCbLGVP0bL2vVoqbYMLH7zX/HaZb8J8gDdVHI6ik
-         M7pyw1B520SlVXnVjbRibWutqDawrzaDB1cUS2V6YdZJ6TaUrsqPTLb/UdqGpThc+NeJ
-         b6gQ==
+        bh=vtyRM3SiK93qfGEm4pAX9GDP/9MNGPDztBsVCrDNvOw=;
+        b=WSVzQSuZFASv9x+Ew3i3SIjYdBEW2G1mYB2kSAVZh0ZeZdgeTgK2oWLXdH0EaRSdBy
+         U1s5++Nt0Ly00qErV8mdmfFI7UlvgHaEZt9yfxrFZwzzkQrlBMzgpkPhMEZ9rUEnJ6P/
+         OYw70cxs9KcAusMiZ/MZESMKr/itGclAM6mc6PLUEyo8dVxB3HRMiLxUdHz5zssFcfk9
+         ik26ZNn/tOoetCq0oRIdS0yE2k8vHJKbtHKbeyzuDDKchgh3EIpLgwTCX2a7pE+MELfv
+         6vkfp9MlmkAmSmutLvMaamjpNdxuliQB2iY1yXubcDbU/lHrMs3/3DPq1B0fWR0OmnQ5
+         WTDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763938309; x=1764543109;
+        d=1e100.net; s=20230601; t=1763938311; x=1764543111;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=zxuKr9/wD0hv1o+9Q16IeSgRkNQrWSlYyRysfxG3AMc=;
-        b=fVbezrSpqqL9eikw2hGunBXpRbrS2MzftoowiC8DYzv6gXVKcZVpm3Prtmv3PzWzox
-         ro0H8I+O9DvSFWGo8mi34tpdCE2QYEVxQEpPz+zgswIOwwBzfNl8wsbGPbjEOnP+rasJ
-         ejSAW9nIxjCroqgFbaVN252FPsYdB9zPyS2Ze60O2gT9XuqutXQhKw8j5fOy3/VZAlvO
-         61gYWshoAGCH7/ODBOG4X6ylQfJ7KW0MlU02L7QcaABxq0h8tHoiWHALwEodZG/kyL3C
-         tWkdGEC2f4i+yswubMFYeFqgb/xNAyR3QLseKoxtoFXVdb5jDrek9zpmtbNOXrFAtY/J
-         mYsg==
-X-Forwarded-Encrypted: i=1; AJvYcCXht0sRzQTthVDZdSsH+C7YAAjbnffyucY9kjs0h/BCSE0jtTxsKDWEdekY2Cg9F1uKWIanDOJWH/4MdA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9XCexLXcjaASQPcszaTjdfJeOJS4BtPNXU2qekq/+dHcOaarQ
-	0iVRcopSrM/Tp8VqnIMN5O3qJZzare8AfxLLZ/2R8NkmaxFZ7xWgm2g8
-X-Gm-Gg: ASbGnctz/3JqhhjdoyjtVUy0D3WhUeJw7IoXU5ka56K6fEyBuUgWefZ/DwQc7ZykQC4
-	BoAkDfrMYLPrfMxSa+c0AENtL7LKtmziej5pL8Kv9hvZUbAW3ARZtcWKgccR6pChGCaFnOE9t0a
-	JBIxcL4V+/pBvxz+MVkki0fTw0bTe/EHBwpnLRHJiiFApkqoxmgONvSrvmCD1dfJRlBZn3x84VI
-	JFXOsWGfDxtPahG9ECta+WxLv9/+sKM1PhJk3GVuPwA+FB6bhEjaRxAFlCNy12ehj3tA/79MUx9
-	e52sXBSYNsPsPMlGXjf9kb97xCjwgCuGc3q3/QTBnQ4SAqATmqFuQhttC8yUf2N1iq1XBYWTr47
-	jPeuV7xpEJnYBE1qt9uelOzKdb/etNNanCkkyeo9WFFZxpdh9HcIheyMpTTAOR/vUPM1cPy77kc
-	3S1z1l5urTFR+Kmf4DODK2Cys/
-X-Google-Smtp-Source: AGHT+IF9Tqh/ORJZEo3R5Xg7ZJWy7sWzF8MjqLc9q+tvrWwYorpVbwyCo218uq/Fj/Pad8uOgoxn1g==
-X-Received: by 2002:a05:600c:840f:b0:477:7479:f081 with SMTP id 5b1f17b1804b1-477c0181443mr112383465e9.12.1763938308511;
-        Sun, 23 Nov 2025 14:51:48 -0800 (PST)
+        bh=vtyRM3SiK93qfGEm4pAX9GDP/9MNGPDztBsVCrDNvOw=;
+        b=cbwk4ncJw+F3anNHxeE26Qk1vAhIxUhjazOAzNYTxAun22qde+McxzJODMS/oJI84Y
+         9Z/nqlY4v03p7fLFh7hZ1cdKZmkAtTpCAKmAq60DKa7SO3bVVMsGVxz9zJp5a6x/sVqg
+         TScrUKs9K6mIqNXzu441U9Ymx/ynXE85X2SeaIjMcp/TZulG4U2qC0ezTV70AqmHj7/A
+         +QaPqr2X1OcFpZplHMbLUEl8W9OmqTMpdzYnWSchYZ6LxzjrFIQv1jtuGmekTVXRdDSF
+         PlztRTGg9qfvTcoKsuzuVMKocZp676h6Y5G3LAEfA9Kdc3w1HMJXQVkJFSKnNTRuMFKH
+         /hRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUD96q6+em27tU7l860laO87kHzx1wZ0xMg8hyzEBE9PAALzvyLPflqXMIV1fGVaKROHx0582gNxHlNpw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxYzhx87Lin41RCvwQWO44Gz6ikf50ucN4WCSnDX1mEpJk4KBrD
+	wrlY/cCTvpyVlvBjTzBHOTOcY80ieDZ8TTgliDYfKhV52yIJ9z7Hydgd
+X-Gm-Gg: ASbGncvdCX7eViybKQ19XXiPu7CVLEuC1uT9RR5sY4EdgoXZDaSgBo4kleagGLKYIx2
+	NTYJbmXdxSBCU6pdqIkWS/sm2xxN8ogDQ30t/Q9tuqHEwbxqSJ6X63S8yVyAkXcVivPv/MjwlZD
+	31OSWMXpxb3t846fmZZmNq1v2nF7rKQXVqVX2kvYw9kdJMgg6sHkmTTcIVmAFLMR23UNYLjYR6b
+	DBPSS2VIL/gv5Ou1pj8EI9h3+gBx1dTNMXrmvoJcwDgJNUP8VakbFCDXwQUZU0GHkwapm4aXqpz
+	N1rFxorMbFmlI0PRjp26yS4DOAWfmMd/k+7L5cSITEaonXGrkTUqRrtXIRTgjETI7TPKV8IKIvj
+	oaiq0+p8A+BUhk1fao+yhlgNfarM+8dkv+RXNjW/5d3t8yeB7zk8TUIBUHRMx203nVtrNDaa1l2
+	KSwMPEtpYapDb3/A==
+X-Google-Smtp-Source: AGHT+IGfOL+4KpbQvV0qNRfo8OovcJ37mYapE/bWdNNKsAObOGKg7LEW9kMhWjZqfvqDPLpynO+F1g==
+X-Received: by 2002:a05:6000:3102:b0:429:d40e:fa40 with SMTP id ffacd0b85a97d-42cc1d0cab6mr8756848f8f.45.1763938310890;
+        Sun, 23 Nov 2025 14:51:50 -0800 (PST)
 Received: from 127.mynet ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7fb9190sm24849064f8f.33.2025.11.23.14.51.45
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7fb9190sm24849064f8f.33.2025.11.23.14.51.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Nov 2025 14:51:47 -0800 (PST)
+        Sun, 23 Nov 2025 14:51:50 -0800 (PST)
 From: Pavel Begunkov <asml.silence@gmail.com>
 To: linux-block@vger.kernel.org,
 	io-uring@vger.kernel.org
@@ -95,9 +95,9 @@ Cc: Vishal Verma <vishal1.verma@intel.com>,
 	linux-media@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
 	linaro-mm-sig@lists.linaro.org
-Subject: [RFC v2 04/11] block: introduce dma token backed bio type
-Date: Sun, 23 Nov 2025 22:51:24 +0000
-Message-ID: <12530de6d1907afb44be3e76e7668b935f1fd441.1763725387.git.asml.silence@gmail.com>
+Subject: [RFC v2 05/11] block: add infra to handle dmabuf tokens
+Date: Sun, 23 Nov 2025 22:51:25 +0000
+Message-ID: <51cddd97b31d80ec8842a88b9f3c9881419e8a7b.1763725387.git.asml.silence@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1763725387.git.asml.silence@gmail.com>
 References: <cover.1763725387.git.asml.silence@gmail.com>
@@ -109,218 +109,520 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Premapped buffers don't require a generic bio_vec since these have
-already been dma mapped. Repurpose the bi_io_vec space for the dma
-token as they are mutually exclusive, and provide setup to support
-dma tokens.
+Add blk-mq infrastructure to handle dmabuf tokens. There are two main
+objects. The first is struct blk_mq_dma_token, which is an extension of
+struct dma_token and passed in an iterator. The second is struct
+blk_mq_dma_map, which keeps the actual mapping and unlike the token, can
+be ejected (e.g. by move_notify) and recreated.
 
-In order to use this, a driver must implement the dma_map blk-mq op,
-in which case it must be aware that any given bio may be using a
-dma_tag instead of a bio_vec.
+The token keeps an rcu protected pointer to the mapping, so when it
+resolves a token into a mapping to pass it to a request, it'll do an rcu
+protected lookup and get a percpu reference to the mapping.
 
-Suggested-by: Keith Busch <kbusch@kernel.org>
+If there is no current mapping attached to a token, it'll need to be
+created by calling the driver (e.g. nvme) via a new callback. It
+requires waiting, thefore can't be done for nowait requests and couldn't
+happen deeper in the stack, e.g. during nvme request submission.
+
+The structure split is needed because move_notify can request to
+invalidate the dma mapping at any moment, and we need a way to
+concurrently remove it and wait for the inflight requests using the
+previous mapping to complete.
+
 Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
 ---
- block/bio.c               | 21 +++++++++++++++++++++
- block/blk-merge.c         | 23 +++++++++++++++++++++++
- block/blk.h               |  3 ++-
- block/fops.c              |  2 ++
- include/linux/bio.h       | 19 ++++++++++++++++---
- include/linux/blk_types.h |  8 +++++++-
- 6 files changed, 71 insertions(+), 5 deletions(-)
+ block/Makefile                   |   1 +
+ block/bdev.c                     |  14 ++
+ block/blk-mq-dma-token.c         | 236 +++++++++++++++++++++++++++++++
+ block/blk-mq.c                   |  20 +++
+ block/fops.c                     |   1 +
+ include/linux/blk-mq-dma-token.h |  60 ++++++++
+ include/linux/blk-mq.h           |  21 +++
+ include/linux/blkdev.h           |   3 +
+ 8 files changed, 356 insertions(+)
+ create mode 100644 block/blk-mq-dma-token.c
+ create mode 100644 include/linux/blk-mq-dma-token.h
 
-diff --git a/block/bio.c b/block/bio.c
-index 7b13bdf72de0..8793f1ee559d 100644
---- a/block/bio.c
-+++ b/block/bio.c
-@@ -843,6 +843,11 @@ static int __bio_clone(struct bio *bio, struct bio *bio_src, gfp_t gfp)
- 		bio_clone_blkg_association(bio, bio_src);
- 	}
+diff --git a/block/Makefile b/block/Makefile
+index c65f4da93702..0190e5aa9f00 100644
+--- a/block/Makefile
++++ b/block/Makefile
+@@ -36,3 +36,4 @@ obj-$(CONFIG_BLK_INLINE_ENCRYPTION)	+= blk-crypto.o blk-crypto-profile.o \
+ 					   blk-crypto-sysfs.o
+ obj-$(CONFIG_BLK_INLINE_ENCRYPTION_FALLBACK)	+= blk-crypto-fallback.o
+ obj-$(CONFIG_BLOCK_HOLDER_DEPRECATED)	+= holder.o
++obj-$(CONFIG_DMA_SHARED_BUFFER) += blk-mq-dma-token.o
+diff --git a/block/bdev.c b/block/bdev.c
+index 810707cca970..da89d20f33f3 100644
+--- a/block/bdev.c
++++ b/block/bdev.c
+@@ -28,6 +28,7 @@
+ #include <linux/part_stat.h>
+ #include <linux/uaccess.h>
+ #include <linux/stat.h>
++#include <linux/blk-mq-dma-token.h>
+ #include "../fs/internal.h"
+ #include "blk.h"
  
-+	if (bio_flagged(bio_src, BIO_DMA_TOKEN)) {
-+		bio->dma_token = bio_src->dma_token;
-+		bio_set_flag(bio, BIO_DMA_TOKEN);
-+	}
-+
- 	if (bio_crypt_clone(bio, bio_src, gfp) < 0)
- 		return -ENOMEM;
- 	if (bio_integrity(bio_src) &&
-@@ -1167,6 +1172,18 @@ void bio_iov_bvec_set(struct bio *bio, const struct iov_iter *iter)
- 	bio_set_flag(bio, BIO_CLONED);
+@@ -61,6 +62,19 @@ struct block_device *file_bdev(struct file *bdev_file)
  }
+ EXPORT_SYMBOL(file_bdev);
  
-+void bio_iov_dma_token_set(struct bio *bio, struct iov_iter *iter)
++struct dma_token *blkdev_dma_map(struct file *file,
++				 struct dma_token_params *params)
 +{
-+	WARN_ON_ONCE(bio->bi_max_vecs);
++	struct request_queue *q = bdev_get_queue(file_bdev(file));
 +
-+	bio->dma_token = iter->dma_token;
-+	bio->bi_vcnt = 0;
-+	bio->bi_iter.bi_bvec_done = iter->iov_offset;
-+	bio->bi_iter.bi_size = iov_iter_count(iter);
-+	bio->bi_opf |= REQ_NOMERGE;
-+	bio_set_flag(bio, BIO_DMA_TOKEN);
++	if (!(file->f_flags & O_DIRECT))
++		return ERR_PTR(-EINVAL);
++	if (!q->mq_ops)
++		return ERR_PTR(-EINVAL);
++
++	return blk_mq_dma_map(q, params);
 +}
 +
- static unsigned int get_contig_folio_len(unsigned int *num_pages,
- 					 struct page **pages, unsigned int i,
- 					 struct folio *folio, size_t left,
-@@ -1349,6 +1366,10 @@ int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter,
- 		bio_iov_bvec_set(bio, iter);
- 		iov_iter_advance(iter, bio->bi_iter.bi_size);
- 		return 0;
-+	} else if (iov_iter_is_dma_token(iter)) {
-+		bio_iov_dma_token_set(bio, iter);
-+		iov_iter_advance(iter, bio->bi_iter.bi_size);
-+		return 0;
- 	}
+ static void bdev_write_inode(struct block_device *bdev)
+ {
+ 	struct inode *inode = BD_INODE(bdev);
+diff --git a/block/blk-mq-dma-token.c b/block/blk-mq-dma-token.c
+new file mode 100644
+index 000000000000..cd62c4d09422
+--- /dev/null
++++ b/block/blk-mq-dma-token.c
+@@ -0,0 +1,236 @@
++#include <linux/blk-mq-dma-token.h>
++#include <linux/dma-resv.h>
++
++struct blk_mq_dma_fence {
++	struct dma_fence base;
++	spinlock_t lock;
++};
++
++static const char *blk_mq_fence_drv_name(struct dma_fence *fence)
++{
++	return "blk-mq";
++}
++
++const struct dma_fence_ops blk_mq_dma_fence_ops = {
++	.get_driver_name = blk_mq_fence_drv_name,
++	.get_timeline_name = blk_mq_fence_drv_name,
++};
++
++static void blk_mq_dma_token_free(struct blk_mq_dma_token *token)
++{
++	token->q->mq_ops->clean_dma_token(token->q, token);
++	dma_buf_put(token->dmabuf);
++	kfree(token);
++}
++
++static inline void blk_mq_dma_token_put(struct blk_mq_dma_token *token)
++{
++	if (refcount_dec_and_test(&token->refs))
++		blk_mq_dma_token_free(token);
++}
++
++static void blk_mq_dma_mapping_free(struct blk_mq_dma_map *map)
++{
++	struct blk_mq_dma_token *token = map->token;
++
++	if (map->sgt)
++		token->q->mq_ops->dma_unmap(token->q, map);
++
++	dma_fence_put(&map->fence->base);
++	percpu_ref_exit(&map->refs);
++	kfree(map);
++	blk_mq_dma_token_put(token);
++}
++
++static void blk_mq_dma_map_work_free(struct work_struct *work)
++{
++	struct blk_mq_dma_map *map = container_of(work, struct blk_mq_dma_map,
++						free_work);
++
++	dma_fence_signal(&map->fence->base);
++	blk_mq_dma_mapping_free(map);
++}
++
++static void blk_mq_dma_map_refs_free(struct percpu_ref *ref)
++{
++	struct blk_mq_dma_map *map = container_of(ref, struct blk_mq_dma_map, refs);
++
++	INIT_WORK(&map->free_work, blk_mq_dma_map_work_free);
++	queue_work(system_wq, &map->free_work);
++}
++
++static struct blk_mq_dma_map *blk_mq_alloc_dma_mapping(struct blk_mq_dma_token *token)
++{
++	struct blk_mq_dma_fence *fence = NULL;
++	struct blk_mq_dma_map *map;
++	int ret = -ENOMEM;
++
++	map = kzalloc(sizeof(*map), GFP_KERNEL);
++	if (!map)
++		return ERR_PTR(-ENOMEM);
++
++	fence = kzalloc(sizeof(*fence), GFP_KERNEL);
++	if (!fence)
++		goto err;
++
++	ret = percpu_ref_init(&map->refs, blk_mq_dma_map_refs_free, 0,
++			      GFP_KERNEL);
++	if (ret)
++		goto err;
++
++	dma_fence_init(&fence->base, &blk_mq_dma_fence_ops, &fence->lock,
++			token->fence_ctx, atomic_inc_return(&token->fence_seq));
++	spin_lock_init(&fence->lock);
++	map->fence = fence;
++	map->token = token;
++	refcount_inc(&token->refs);
++	return map;
++err:
++	kfree(map);
++	kfree(fence);
++	return ERR_PTR(ret);
++}
++
++static inline
++struct blk_mq_dma_map *blk_mq_get_token_map(struct blk_mq_dma_token *token)
++{
++	struct blk_mq_dma_map *map;
++
++	guard(rcu)();
++
++	map = rcu_dereference(token->map);
++	if (unlikely(!map || !percpu_ref_tryget_live_rcu(&map->refs)))
++		return NULL;
++	return map;
++}
++
++static struct blk_mq_dma_map *
++blk_mq_create_dma_map(struct blk_mq_dma_token *token)
++{
++	struct dma_buf *dmabuf = token->dmabuf;
++	struct blk_mq_dma_map *map;
++	long ret;
++
++	guard(mutex)(&token->mapping_lock);
++
++	map = blk_mq_get_token_map(token);
++	if (map)
++		return map;
++
++	map = blk_mq_alloc_dma_mapping(token);
++	if (IS_ERR(map))
++		return NULL;
++
++	dma_resv_lock(dmabuf->resv, NULL);
++	ret = dma_resv_wait_timeout(dmabuf->resv, DMA_RESV_USAGE_BOOKKEEP,
++				    true, MAX_SCHEDULE_TIMEOUT);
++	ret = ret ? ret : -ETIME;
++	if (ret > 0)
++		ret = token->q->mq_ops->dma_map(token->q, map);
++	dma_resv_unlock(dmabuf->resv);
++
++	if (ret)
++		return ERR_PTR(ret);
++
++	percpu_ref_get(&map->refs);
++	rcu_assign_pointer(token->map, map);
++	return map;
++}
++
++static void blk_mq_dma_map_remove(struct blk_mq_dma_token *token)
++{
++	struct dma_buf *dmabuf = token->dmabuf;
++	struct blk_mq_dma_map *map;
++	int ret;
++
++	dma_resv_assert_held(dmabuf->resv);
++
++	ret = dma_resv_reserve_fences(dmabuf->resv, 1);
++	if (WARN_ON_ONCE(ret))
++		return;
++
++	map = rcu_dereference_protected(token->map,
++					dma_resv_held(dmabuf->resv));
++	if (!map)
++		return;
++	rcu_assign_pointer(token->map, NULL);
++
++	dma_resv_add_fence(dmabuf->resv, &map->fence->base,
++			   DMA_RESV_USAGE_KERNEL);
++	percpu_ref_kill(&map->refs);
++}
++
++blk_status_t blk_rq_assign_dma_map(struct request *rq,
++				   struct blk_mq_dma_token *token)
++{
++	struct blk_mq_dma_map *map;
++
++	map = blk_mq_get_token_map(token);
++	if (map)
++		goto complete;
++
++	if (rq->cmd_flags & REQ_NOWAIT)
++		return BLK_STS_AGAIN;
++
++	map = blk_mq_create_dma_map(token);
++	if (IS_ERR(map))
++		return BLK_STS_RESOURCE;
++complete:
++	rq->dma_map = map;
++	return BLK_STS_OK;
++}
++
++void blk_mq_dma_map_move_notify(struct blk_mq_dma_token *token)
++{
++	blk_mq_dma_map_remove(token);
++}
++
++static void blk_mq_release_dma_mapping(struct dma_token *base_token)
++{
++	struct blk_mq_dma_token *token = dma_token_to_blk_mq(base_token);
++	struct dma_buf *dmabuf = token->dmabuf;
++
++	dma_resv_lock(dmabuf->resv, NULL);
++	blk_mq_dma_map_remove(token);
++	dma_resv_unlock(dmabuf->resv);
++
++	blk_mq_dma_token_put(token);
++}
++
++struct dma_token *blk_mq_dma_map(struct request_queue *q,
++				  struct dma_token_params *params)
++{
++	struct dma_buf *dmabuf = params->dmabuf;
++	struct blk_mq_dma_token *token;
++	int ret;
++
++	if (!q->mq_ops->dma_map || !q->mq_ops->dma_unmap ||
++	    !q->mq_ops->init_dma_token || !q->mq_ops->clean_dma_token)
++		return ERR_PTR(-EINVAL);
++
++	token = kzalloc(sizeof(*token), GFP_KERNEL);
++	if (!token)
++		return ERR_PTR(-ENOMEM);
++
++	get_dma_buf(dmabuf);
++	token->fence_ctx = dma_fence_context_alloc(1);
++	token->dmabuf = dmabuf;
++	token->dir = params->dir;
++	token->base.release = blk_mq_release_dma_mapping;
++	token->q = q;
++	refcount_set(&token->refs, 1);
++	mutex_init(&token->mapping_lock);
++
++	if (!blk_get_queue(q)) {
++		kfree(token);
++		return ERR_PTR(-EFAULT);
++	}
++
++	ret = token->q->mq_ops->init_dma_token(token->q, token);
++	if (ret) {
++		kfree(token);
++		blk_put_queue(q);
++		return ERR_PTR(ret);
++	}
++	return &token->base;
++}
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index f2650c97a75e..1ff3a7e3191b 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -29,6 +29,7 @@
+ #include <linux/blk-crypto.h>
+ #include <linux/part_stat.h>
+ #include <linux/sched/isolation.h>
++#include <linux/blk-mq-dma-token.h>
  
- 	if (iov_iter_extract_will_pin(iter))
-diff --git a/block/blk-merge.c b/block/blk-merge.c
-index d3115d7469df..c02a5f9c99e6 100644
---- a/block/blk-merge.c
-+++ b/block/blk-merge.c
-@@ -328,6 +328,29 @@ int bio_split_io_at(struct bio *bio, const struct queue_limits *lim,
- 	unsigned nsegs = 0, bytes = 0, gaps = 0;
- 	struct bvec_iter iter;
+ #include <trace/events/block.h>
+ 
+@@ -439,6 +440,7 @@ static struct request *blk_mq_rq_ctx_init(struct blk_mq_alloc_data *data,
+ 	rq->nr_integrity_segments = 0;
+ 	rq->end_io = NULL;
+ 	rq->end_io_data = NULL;
++	rq->dma_map = NULL;
+ 
+ 	blk_crypto_rq_set_defaults(rq);
+ 	INIT_LIST_HEAD(&rq->queuelist);
+@@ -794,6 +796,7 @@ static void __blk_mq_free_request(struct request *rq)
+ 	blk_pm_mark_last_busy(rq);
+ 	rq->mq_hctx = NULL;
+ 
++	blk_rq_drop_dma_map(rq);
+ 	if (rq->tag != BLK_MQ_NO_TAG) {
+ 		blk_mq_dec_active_requests(hctx);
+ 		blk_mq_put_tag(hctx->tags, ctx, rq->tag);
+@@ -3214,6 +3217,23 @@ void blk_mq_submit_bio(struct bio *bio)
+ 
+ 	blk_mq_bio_to_request(rq, bio, nr_segs);
  
 +	if (bio_flagged(bio, BIO_DMA_TOKEN)) {
-+		int offset = offset_in_page(bio->bi_iter.bi_bvec_done);
++		struct blk_mq_dma_token *token;
++		blk_status_t ret;
 +
-+		nsegs = ALIGN(bio->bi_iter.bi_size + offset, PAGE_SIZE);
-+		nsegs >>= PAGE_SHIFT;
-+
-+		if (offset & lim->dma_alignment || bytes & len_align_mask)
-+			return -EINVAL;
-+
-+		if (bio->bi_iter.bi_size > max_bytes) {
-+			bytes = max_bytes;
-+			nsegs = (bytes + offset) >> PAGE_SHIFT;
-+			goto split;
-+		} else if (nsegs > lim->max_segments) {
-+			nsegs = lim->max_segments;
-+			bytes = PAGE_SIZE * nsegs - offset;
-+			goto split;
++		token = dma_token_to_blk_mq(bio->dma_token);
++		ret = blk_rq_assign_dma_map(rq, token);
++		if (ret) {
++			if (ret == BLK_STS_AGAIN) {
++				bio_wouldblock_error(bio);
++			} else {
++				bio->bi_status = BLK_STS_RESOURCE;
++				bio_endio(bio);
++			}
++			goto queue_exit;
 +		}
-+
-+		*segs = nsegs;
-+		return 0;
 +	}
 +
- 	bio_for_each_bvec(bv, bio, iter) {
- 		if (bv.bv_offset & lim->dma_alignment ||
- 		    bv.bv_len & len_align_mask)
-diff --git a/block/blk.h b/block/blk.h
-index e4c433f62dfc..2c72f2630faf 100644
---- a/block/blk.h
-+++ b/block/blk.h
-@@ -398,7 +398,8 @@ static inline struct bio *__bio_split_to_limits(struct bio *bio,
- 	switch (bio_op(bio)) {
- 	case REQ_OP_READ:
- 	case REQ_OP_WRITE:
--		if (bio_may_need_split(bio, lim))
-+		if (bio_may_need_split(bio, lim) ||
-+		    bio_flagged(bio, BIO_DMA_TOKEN))
- 			return bio_split_rw(bio, lim, nr_segs);
- 		*nr_segs = 1;
- 		return bio;
+ 	ret = blk_crypto_rq_get_keyslot(rq);
+ 	if (ret != BLK_STS_OK) {
+ 		bio->bi_status = ret;
 diff --git a/block/fops.c b/block/fops.c
-index 5e3db9fead77..41f8795874a9 100644
+index 41f8795874a9..ac52fe1a4b8d 100644
 --- a/block/fops.c
 +++ b/block/fops.c
-@@ -354,6 +354,8 @@ static ssize_t __blkdev_direct_IO_async(struct kiocb *iocb,
- 		 * bio_iov_iter_get_pages() and set the bvec directly.
- 		 */
- 		bio_iov_bvec_set(bio, iter);
-+	} else if (iov_iter_is_dma_token(iter)) {
-+		bio_iov_dma_token_set(bio, iter);
- 	} else {
- 		ret = blkdev_iov_iter_get_pages(bio, iter, bdev);
- 		if (unlikely(ret))
-diff --git a/include/linux/bio.h b/include/linux/bio.h
-index c75a9b3672aa..f83342640e71 100644
---- a/include/linux/bio.h
-+++ b/include/linux/bio.h
-@@ -108,16 +108,26 @@ static inline bool bio_next_segment(const struct bio *bio,
- #define bio_for_each_segment_all(bvl, bio, iter) \
- 	for (bvl = bvec_init_iter_all(&iter); bio_next_segment((bio), &iter); )
+@@ -973,6 +973,7 @@ const struct file_operations def_blk_fops = {
+ 	.fallocate	= blkdev_fallocate,
+ 	.uring_cmd	= blkdev_uring_cmd,
+ 	.fop_flags	= FOP_BUFFER_RASYNC,
++	.dma_map	= blkdev_dma_map,
+ };
  
-+static inline void bio_advance_iter_dma_token(struct bvec_iter *iter,
-+						unsigned int bytes)
+ static __init int blkdev_init(void)
+diff --git a/include/linux/blk-mq-dma-token.h b/include/linux/blk-mq-dma-token.h
+new file mode 100644
+index 000000000000..4a8d84addc06
+--- /dev/null
++++ b/include/linux/blk-mq-dma-token.h
+@@ -0,0 +1,60 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef BLK_MQ_DMA_TOKEN_H
++#define BLK_MQ_DMA_TOKEN_H
++
++#include <linux/blk-mq.h>
++#include <linux/dma_token.h>
++#include <linux/percpu-refcount.h>
++
++struct blk_mq_dma_token;
++struct blk_mq_dma_fence;
++
++struct blk_mq_dma_map {
++	void				*private;
++
++	struct percpu_ref		refs;
++	struct sg_table			*sgt;
++	struct blk_mq_dma_token		*token;
++	struct blk_mq_dma_fence		*fence;
++	struct work_struct		free_work;
++};
++
++struct blk_mq_dma_token {
++	struct dma_token		base;
++	enum dma_data_direction		dir;
++
++	void				*private;
++
++	struct dma_buf			*dmabuf;
++	struct blk_mq_dma_map __rcu	*map;
++	struct request_queue		*q;
++
++	struct mutex			mapping_lock;
++	refcount_t			refs;
++
++	atomic_t			fence_seq;
++	u64				fence_ctx;
++};
++
++static inline
++struct blk_mq_dma_token *dma_token_to_blk_mq(struct dma_token *token)
 +{
-+	iter->bi_bvec_done += bytes;
-+	iter->bi_size -= bytes;
++	return container_of(token, struct blk_mq_dma_token, base);
 +}
 +
- static inline void bio_advance_iter(const struct bio *bio,
- 				    struct bvec_iter *iter, unsigned int bytes)
- {
- 	iter->bi_sector += bytes >> 9;
- 
--	if (bio_no_advance_iter(bio))
-+	if (bio_no_advance_iter(bio)) {
- 		iter->bi_size -= bytes;
--	else
-+	} else if (bio_flagged(bio, BIO_DMA_TOKEN)) {
-+		bio_advance_iter_dma_token(iter, bytes);
-+	} else {
- 		bvec_iter_advance(bio->bi_io_vec, iter, bytes);
- 		/* TODO: It is reasonable to complete bio with error here. */
-+	}
- }
- 
- /* @bytes should be less or equal to bvec[i->bi_idx].bv_len */
-@@ -129,6 +139,8 @@ static inline void bio_advance_iter_single(const struct bio *bio,
- 
- 	if (bio_no_advance_iter(bio))
- 		iter->bi_size -= bytes;
-+	else if (bio_flagged(bio, BIO_DMA_TOKEN))
-+		bio_advance_iter_dma_token(iter, bytes);
- 	else
- 		bvec_iter_advance_single(bio->bi_io_vec, iter, bytes);
- }
-@@ -398,7 +410,7 @@ static inline void bio_wouldblock_error(struct bio *bio)
-  */
- static inline int bio_iov_vecs_to_alloc(struct iov_iter *iter, int max_segs)
- {
--	if (iov_iter_is_bvec(iter))
-+	if (iov_iter_is_bvec(iter) || iov_iter_is_dma_token(iter))
- 		return 0;
- 	return iov_iter_npages(iter, max_segs);
- }
-@@ -452,6 +464,7 @@ int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter,
- 		unsigned len_align_mask);
- 
- void bio_iov_bvec_set(struct bio *bio, const struct iov_iter *iter);
-+void bio_iov_dma_token_set(struct bio *bio, struct iov_iter *iter);
- void __bio_release_pages(struct bio *bio, bool mark_dirty);
- extern void bio_set_pages_dirty(struct bio *bio);
- extern void bio_check_pages_dirty(struct bio *bio);
-diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-index cbbcb9051ec3..3bc7f89d4e66 100644
---- a/include/linux/blk_types.h
-+++ b/include/linux/blk_types.h
-@@ -275,7 +275,12 @@ struct bio {
- 
- 	atomic_t		__bi_cnt;	/* pin count */
- 
--	struct bio_vec		*bi_io_vec;	/* the actual vec list */
-+	union {
-+		struct bio_vec		*bi_io_vec;	/* the actual vec list */
-+		/* Driver specific dma map, present only with BIO_DMA_TOKEN */
-+		struct dma_token	*dma_token;
-+	};
++blk_status_t blk_rq_assign_dma_map(struct request *req,
++				   struct blk_mq_dma_token *token);
 +
- 
- 	struct bio_set		*bi_pool;
++static inline void blk_rq_drop_dma_map(struct request *rq)
++{
++	if (rq->dma_map) {
++		percpu_ref_put(&rq->dma_map->refs);
++		rq->dma_map = NULL;
++	}
++}
++
++void blk_mq_dma_map_move_notify(struct blk_mq_dma_token *token);
++struct dma_token *blk_mq_dma_map(struct request_queue *q,
++				 struct dma_token_params *params);
++
++#endif /* BLK_MQ_DMA_TOKEN_H */
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index b54506b3b76d..4745d1e183f2 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -94,6 +94,9 @@ enum mq_rq_state {
+ 	MQ_RQ_COMPLETE		= 2,
  };
-@@ -315,6 +320,7 @@ enum {
- 	BIO_REMAPPED,
- 	BIO_ZONE_WRITE_PLUGGING, /* bio handled through zone write plugging */
- 	BIO_EMULATES_ZONE_APPEND, /* bio emulates a zone append operation */
-+	BIO_DMA_TOKEN, /* Using premmaped dma buffers */
- 	BIO_FLAG_LAST
- };
  
++struct blk_mq_dma_map;
++struct blk_mq_dma_token;
++
+ /*
+  * Try to put the fields that are referenced together in the same cacheline.
+  *
+@@ -170,6 +173,8 @@ struct request {
+ 
+ 	unsigned long deadline;
+ 
++	struct blk_mq_dma_map	*dma_map;
++
+ 	/*
+ 	 * The hash is used inside the scheduler, and killed once the
+ 	 * request reaches the dispatch list. The ipi_list is only used
+@@ -675,6 +680,21 @@ struct blk_mq_ops {
+ 	 */
+ 	void (*map_queues)(struct blk_mq_tag_set *set);
+ 
++	/**
++	 * @map_dmabuf: Allows drivers to pre-map a dmabuf. The resulting driver
++	 * specific mapping will be wrapped into dma_token and passed to the
++	 * read / write path in an iterator.
++	 */
++	int (*dma_map)(struct request_queue *q, struct blk_mq_dma_map *);
++	void (*dma_unmap)(struct request_queue *q, struct blk_mq_dma_map *);
++	int (*init_dma_token)(struct request_queue *q,
++			      struct blk_mq_dma_token *token);
++	void (*clean_dma_token)(struct request_queue *q,
++				struct blk_mq_dma_token *token);
++
++	struct dma_buf_attachment *(*dma_attach)(struct request_queue *q,
++					struct dma_token_params *params);
++
+ #ifdef CONFIG_BLK_DEBUG_FS
+ 	/**
+ 	 * @show_rq: Used by the debugfs implementation to show driver-specific
+@@ -946,6 +966,7 @@ void blk_mq_tagset_busy_iter(struct blk_mq_tag_set *tagset,
+ void blk_mq_tagset_wait_completed_request(struct blk_mq_tag_set *tagset);
+ void blk_mq_freeze_queue_nomemsave(struct request_queue *q);
+ void blk_mq_unfreeze_queue_nomemrestore(struct request_queue *q);
++
+ static inline unsigned int __must_check
+ blk_mq_freeze_queue(struct request_queue *q)
+ {
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index cb4ba09959ee..dec75348f8dc 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -1777,6 +1777,9 @@ struct block_device *file_bdev(struct file *bdev_file);
+ bool disk_live(struct gendisk *disk);
+ unsigned int block_size(struct block_device *bdev);
+ 
++struct dma_token *blkdev_dma_map(struct file *file,
++				 struct dma_token_params *params);
++
+ #ifdef CONFIG_BLOCK
+ void invalidate_bdev(struct block_device *bdev);
+ int sync_blockdev(struct block_device *bdev);
 -- 
 2.52.0
 
