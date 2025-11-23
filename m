@@ -1,77 +1,79 @@
-Return-Path: <linux-media+bounces-47621-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47622-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3CAEC7E860
-	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 23:51:58 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3223BC7E878
+	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 23:52:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B828D4E10FD
-	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 22:51:57 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id E75DD344F78
+	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 22:52:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C95D27B359;
-	Sun, 23 Nov 2025 22:51:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9A6A27F01E;
+	Sun, 23 Nov 2025 22:51:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l6BKAYFq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ftiNcTx1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BCDE22A4F4
-	for <linux-media@vger.kernel.org>; Sun, 23 Nov 2025 22:51:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39EDD279DB1
+	for <linux-media@vger.kernel.org>; Sun, 23 Nov 2025 22:51:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763938303; cv=none; b=K9uTyZUBIoEN9a2KTC6cY47AJOM3jX/xY5gujeR8LuR/wXDBsW7Lnlhjs5mBlmx8xLaBjA3o14RchXabN+krPnX6/uSJznTPwB1o4Kjzy5XqRrB4bzEhdL+IGenZHtQJm7J+WfcjYUKe96uxjMd55q2q98X1JwAdMQYHL5wNS94=
+	t=1763938305; cv=none; b=OeIVY6OX24Fu3OV0prSGqGkZD/YjBYl02mKxwRpaWDJphQFsgZxSY9kZZ+QUT5VMxZ+nJpxdpt1IKYvBxZ2hubeoHP6lBxuls3VPKIZnEWiu10HG5Df+b0n4O12i3BMyn1ecvmP2JqgyMbkhJy9a/oKBMGJ4G81Khps2YQ5ty8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763938303; c=relaxed/simple;
-	bh=8PyEGRkcRN3H3Qg+AG9OmNSVW+xgeo66cxYJL94BR4E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gbJsOuRgqD1CwY6DBCIQwnfJI7WNnD3F3NFLd4vWcAJT4kEn1iDPcabTKlVEzzmKnv5cfa6Xl/GyQtbPgYa02QJgojOOua4uAIJIcDaxdqt5cIQP/af8wfLCzyZIDe+2K+mDWexpoaaMtJp8oQdhNTKLRpnBYZOszXxV8VgYMqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l6BKAYFq; arc=none smtp.client-ip=209.85.128.48
+	s=arc-20240116; t=1763938305; c=relaxed/simple;
+	bh=TaA27OxA1hBFyRB5sQEZB6XkCgdFpDueoKtHtp+vFGM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=GjBZDDw24ZL5cXvQlrGzEdZfA+bVSFZkJstQyg/lPX2fQkBZlEdI752gwa6KqEBwBVeGcZwGGJmeiDUHQmwufYHqT44QB8+y9DyNn+5oE7VOyxQ3VoBzdN+rTh6kbqPKae51aw8UaC6QAKewUya2KmeU5pki/E8n9Z2FZickLQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ftiNcTx1; arc=none smtp.client-ip=209.85.221.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4775895d69cso15117685e9.0
-        for <linux-media@vger.kernel.org>; Sun, 23 Nov 2025 14:51:39 -0800 (PST)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-42b3c5defb2so2333247f8f.2
+        for <linux-media@vger.kernel.org>; Sun, 23 Nov 2025 14:51:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763938298; x=1764543098; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QZk9sSNTwOxRpwZ/DRrF1dwGfvdtNtexBNm/jAu7ryY=;
-        b=l6BKAYFqN+Det8YbgstB6eqhQCK+zE1qvXHle/mj0weBCTEnef8YgpixLJdZkJ65iP
-         9p/BSabegsCDKPdS36tISi4H26MiJgGXG9BxBkcTAJVBkrQAUmRtN69eUYZuhsv/D+2k
-         lpaPaDH+pTtEkI22e9fcCXPanrMsNzqr5114pkBfSmljaf/xtvFsVwz7m8CiqnhQ8dTm
-         WNZX4acCn3nIqfBdbSN+gqRUilyE8ob+Fqf9zjTs9MIHLJlbzND6tThoX9/vlgLLyo0Z
-         GiGxpfryUVqJ/5b7Z5UI1Fe9cjAzcSNdiSFnufibnxHCVr32cQ2wTVpJKz7SPSYhxFGK
-         7TNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763938298; x=1764543098;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1763938301; x=1764543101; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QZk9sSNTwOxRpwZ/DRrF1dwGfvdtNtexBNm/jAu7ryY=;
-        b=O4x78VFZ9FxXYEdRtsbXxd/4TKVN3udJXj0GjSPuZsrR4CM4yHmt33tYCn0ARHesv7
-         eCRaKO6cMeUkPDAaTDc7gq9cXfZqK486VMey6lI8W7sarLJxc9e4RSlhF5epxho80aFs
-         a2xM8OgwpMiofXF2UiHUXucX1vtLAp/OggaMhOqpYeAqPq4q74bAc37KSMhFD8hL4E8i
-         JyPO5hqffno4QK+kCXLVpXg42cFKIhrqfoLyoQnv8ulcjfvLEOLtiKC3j7ZKemlxozKb
-         Wxs86usL9sKcIDITn9KPf/K17Bi+6sZhoL2v1T1UA12wChRr7DD/PDGhqwiUWvvVPpCK
-         KX6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWui0Swz3tW37saoe+yd2FkQI7IaEWzIqjc3jNE65zke9p36MXzI4bxuy990s3Bap3K9FQWXY5aiqGUmg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwEIL4EVVTApLF3qHB3FL1eUf+hzTuCHaA23gbNG9EI3b25bJc9
-	JqHcIbaHZkw0eKXEvJ7OrLx2k/4mVmCLkjzAhDSSxSmqFteq0mKh6yQQ
-X-Gm-Gg: ASbGncsUmAItWEViGnQA4lNziGd6mxckh7o4yFI54oAPEVMPSXOj4sWyypCw1djV8sx
-	gACregiucdPG+VDw+/Cl7hoUFBTE31wjHsIrMHMI5v/46w0IzHucTV/ajiJP74aPQxrK43YW4M1
-	d/M1GBd+MdujQmteOglbJZZpTxJAMawcaOtv2yIjPUIfC0uihZpK+LSLd2BhXXzb3hRRKc62nFu
-	PeCxTwidYu4wY/VUxlL+hGJQLu1ZKDFYtcGB7sIP9m3PwXIhcUbuBhwMijNPSAOY6jBm+RB0SCD
-	04TJQsYQ0t9d2uXu814oACAV1GH7XV+n1U7XTfcx6uJTiM+6RUmETSq6xzhjtq9JaQUjA1tfugc
-	K/89dxgnSa1BQiOT1dALR4WQKMeis3PMq+dXEpVz6FGRbIsNL7ZLMGsWrtgquiu7F0Cfrh7efVX
-	+OA4gDXauK/loJIg==
-X-Google-Smtp-Source: AGHT+IEIzt6XAqBENWHKeltpmV3b1E5pfBhghZPeIUxjN0aB1YgGqF8Sp/+lNyxIs5uZ/0aP6PM4yA==
-X-Received: by 2002:a05:600c:5491:b0:477:fcb:226b with SMTP id 5b1f17b1804b1-477c016e60cmr94038575e9.2.1763938298240;
-        Sun, 23 Nov 2025 14:51:38 -0800 (PST)
+        bh=PR8DhyhbmfM3XR45v/DX3VtwAUQ7pza2V3aAfSC4t8o=;
+        b=ftiNcTx13YdP4WuIFjBYEQY9qh3Zw5EizPLOwUI0Oo29LmHJH65J9m5pF9tilsgK4R
+         Rahz3xxfxLMMQwK14JXW532fLPTYPEwkK3ER1iCLC6qfx/26ECwO0Rv2iU494tZ7Nj+n
+         kNNDxSdI9r705Qgcb7Msyeau1ATIy0ChwWxeIzgVQRW8cVAikB/9IKpzTRZmBmDB6vW6
+         fkxIN2vlVHGp7KWT88WoGGAU7COpoAKtaSOaDVh5PRcaok/AAmVbDQqger9TwVxKz6/X
+         Xn6IB6EtTFeqJLZ6w5szBwq5njjyzULzOsqBp2lw4WThiqTSW1xjDSUFxEnTbVJOKv58
+         oC2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763938301; x=1764543101;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=PR8DhyhbmfM3XR45v/DX3VtwAUQ7pza2V3aAfSC4t8o=;
+        b=G3w8zMrUfKBBo/Isnuep7SORDgTAwlktGdq2+SIvd5ekd/IezmYcGLy3dIqAYMtcwN
+         JyfnpyarnyWBSXAOE+2QDr38TnyUc/3CPSqNvhLI62yXZtFHWYE1glURVW+pNIBziOUu
+         9QhFyTefc5hcRc0ndnqgC5vts47wV+5zz9pdrj/PQZNrrDExoH6mYWSbdYEvrn38EHoI
+         J8z29LwdS8k/a91tXXy+S5R3uI4qVpNGWtxijKALEdX3fBAi86fO8CZx7lslv0qauV4U
+         wt3yx6jdZr9BcIiK3olmg9w/AklXiW5rXpY78X+X7FtvqbQfxs9WAsN2aNg1i92HSfkw
+         vgUA==
+X-Forwarded-Encrypted: i=1; AJvYcCViGATAkwkuXk68zn74HfGUoIwBevdszXW/uLZqMUznn/7QqycrhAx4qLzGYT82up6/LPk6PLhqrbZeqQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+y9B6fzft6TarGXIna88ZRHSDUgBgIWmphpWs3/EreaQKkIdJ
+	jWXc5dTK0b72Ofu9qj7X+Wba1B/qW1Z8qnviTUIHg1O6gTn49ncLt8GH
+X-Gm-Gg: ASbGncskmmFuhfuSrlB4REX58tpUDjmDokwD+NysMqOPovx2jZQT0SDDWpCaHPwyBTl
+	KwNN7A7EZUo+ZWtw9IiWKFEeDd3qmioIGxfcleiDRP07HsD7riMqKx1PTdZGuVNBS4GIpZ+3VDW
+	gAX4HMHeOs6Xo2xwjhdkrC61XZoHLbjWBMMZjGEgVLuiG3jV7fo/nOA5xzoK3MHj/r6FiSdMwum
+	1U45v7T+oFtaNQJVm0wn8jBJqrDLkT+3rOTkVpo5OB6DGvqGWkdS5Lch9TyZwmVvo3hIhjmZQQO
+	FXB9AIlISmn+y5SluBXaY9USvDwQj+65ruNmkAYgNFETQ1xDQwgjPshFBAaMg6s963FMZKKYCvO
+	vBACjlMJxqTd4fds3dBjjogixxk8NB7XlV1nw4Kkfc8zx4hsaOQ3je76u+qWn7k82aUrAoleaCA
+	eNALBeakTgAFzimA==
+X-Google-Smtp-Source: AGHT+IF2fkOx1psmIiI8t6n1UVP6WxxL86e2rgF4bc5zvWBkXEsJkKhYvtgfzcrreOJ89mrZR3pH7Q==
+X-Received: by 2002:a05:6000:40da:b0:42b:47da:c316 with SMTP id ffacd0b85a97d-42cc1cc30c2mr10114899f8f.26.1763938301503;
+        Sun, 23 Nov 2025 14:51:41 -0800 (PST)
 Received: from 127.mynet ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7fb9190sm24849064f8f.33.2025.11.23.14.51.35
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7fb9190sm24849064f8f.33.2025.11.23.14.51.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Nov 2025 14:51:36 -0800 (PST)
+        Sun, 23 Nov 2025 14:51:40 -0800 (PST)
 From: Pavel Begunkov <asml.silence@gmail.com>
 To: linux-block@vger.kernel.org,
 	io-uring@vger.kernel.org
@@ -93,10 +95,12 @@ Cc: Vishal Verma <vishal1.verma@intel.com>,
 	linux-media@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
 	linaro-mm-sig@lists.linaro.org
-Subject: [RFC v2 00/11] Add dmabuf read/write via io_uring
-Date: Sun, 23 Nov 2025 22:51:20 +0000
-Message-ID: <cover.1763725387.git.asml.silence@gmail.com>
+Subject: [RFC v2 01/11] file: add callback for pre-mapping dmabuf
+Date: Sun, 23 Nov 2025 22:51:21 +0000
+Message-ID: <74d689540fa200fe37f1a930165357a92fe9e68c.1763725387.git.asml.silence@gmail.com>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <cover.1763725387.git.asml.silence@gmail.com>
+References: <cover.1763725387.git.asml.silence@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -105,86 +109,86 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Picking up the work on supporting dmabuf in the read/write path. There
-are two main changes. First, it doesn't pass a dma addresss directly by
-rather wraps it into an opaque structure, which is extended and
-understood by the target driver.
+Add a file callback that maps a dmabuf for the given file and returns
+an opaque token of type struct dma_token representing the mapping. The
+implementation details are hidden from the caller, and the implementors
+are normally expected to extend the structure.
 
-The second big change is support for dynamic attachments, which added a
-good part of complexity (see Patch 5). I kept the main machinery in nvme
-at first, but move_notify can ask to kill the dma mapping asynchronously,
-and any new IO would need to wait during submission, thus it was moved
-to blk-mq. That also introduced an extra callback layer b/w driver and
-blk-mq.
+The callback callers will be able to pass the token with an IO request,
+which implemented in following patches as a new iterator type. The user
+should release the token once it's not needed by calling the provided
+release callback via appropriate helpers.
 
-There are some rough corners, and I'm not perfectly happy about the
-complexity and layering. For v3 I'll try to move the waiting up in the
-stack to io_uring wrapped into library helpers.
-
-For now, I'm interested what is the best way to test move_notify? And
-how dma_resv_reserve_fences() errors should be handled in move_notify?
-
-The uapi didn't change, after registration it looks like a normal
-io_uring registered buffer and can be used as such. Only non-vectored
-fixed reads/writes are allowed. Pseudo code:
-
-// registration
-reg_buf_idx = 0;
-io_uring_update_buffer(ring, reg_buf_idx, { dma_buf_fd, file_fd });
-
-// request creation
-io_uring_prep_read_fixed(sqe, file_fd, buffer_offset,
-                         buffer_size, file_offset, reg_buf_idx);
-
-And as previously, a good bunch of code was taken from Keith's series [1].
-
-liburing based example:
-
-git: https://github.com/isilence/liburing.git dmabuf-rw
-link: https://github.com/isilence/liburing/tree/dmabuf-rw
-
-[1] https://lore.kernel.org/io-uring/20220805162444.3985535-1-kbusch@fb.com/
-
-Pavel Begunkov (11):
-  file: add callback for pre-mapping dmabuf
-  iov_iter: introduce iter type for pre-registered dma
-  block: move around bio flagging helpers
-  block: introduce dma token backed bio type
-  block: add infra to handle dmabuf tokens
-  nvme-pci: add support for dmabuf reggistration
-  nvme-pci: implement dma_token backed requests
-  io_uring/rsrc: add imu flags
-  io_uring/rsrc: extended reg buffer registration
-  io_uring/rsrc: add dmabuf-backed buffer registeration
-  io_uring/rsrc: implement dmabuf regbuf import
-
- block/Makefile                   |   1 +
- block/bdev.c                     |  14 ++
- block/bio.c                      |  21 +++
- block/blk-merge.c                |  23 +++
- block/blk-mq-dma-token.c         | 236 +++++++++++++++++++++++++++++++
- block/blk-mq.c                   |  20 +++
- block/blk.h                      |   3 +-
- block/fops.c                     |   3 +
- drivers/nvme/host/pci.c          | 217 ++++++++++++++++++++++++++++
- include/linux/bio.h              |  49 ++++---
- include/linux/blk-mq-dma-token.h |  60 ++++++++
- include/linux/blk-mq.h           |  21 +++
- include/linux/blk_types.h        |   8 +-
- include/linux/blkdev.h           |   3 +
- include/linux/dma_token.h        |  35 +++++
- include/linux/fs.h               |   4 +
- include/linux/uio.h              |  10 ++
- include/uapi/linux/io_uring.h    |  13 +-
- io_uring/rsrc.c                  | 201 +++++++++++++++++++++++---
- io_uring/rsrc.h                  |  23 ++-
- io_uring/rw.c                    |   7 +-
- lib/iov_iter.c                   |  30 +++-
- 22 files changed, 948 insertions(+), 54 deletions(-)
- create mode 100644 block/blk-mq-dma-token.c
- create mode 100644 include/linux/blk-mq-dma-token.h
+Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
+---
+ include/linux/dma_token.h | 35 +++++++++++++++++++++++++++++++++++
+ include/linux/fs.h        |  4 ++++
+ 2 files changed, 39 insertions(+)
  create mode 100644 include/linux/dma_token.h
 
+diff --git a/include/linux/dma_token.h b/include/linux/dma_token.h
+new file mode 100644
+index 000000000000..9194b34282c2
+--- /dev/null
++++ b/include/linux/dma_token.h
+@@ -0,0 +1,35 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef _LINUX_DMA_TOKEN_H
++#define _LINUX_DMA_TOKEN_H
++
++#include <linux/dma-buf.h>
++
++struct dma_token_params {
++	struct dma_buf			*dmabuf;
++	enum dma_data_direction		dir;
++};
++
++struct dma_token {
++	void (*release)(struct dma_token *);
++};
++
++static inline void dma_token_release(struct dma_token *token)
++{
++	token->release(token);
++}
++
++static inline struct dma_token *
++dma_token_create(struct file *file, struct dma_token_params *params)
++{
++	struct dma_token *res;
++
++	if (!file->f_op->dma_map)
++		return ERR_PTR(-EOPNOTSUPP);
++	res = file->f_op->dma_map(file, params);
++
++	WARN_ON_ONCE(!IS_ERR(res) && !res->release);
++
++	return res;
++}
++
++#endif
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index c895146c1444..0ce9a53fabec 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -2262,6 +2262,8 @@ struct dir_context {
+ struct iov_iter;
+ struct io_uring_cmd;
+ struct offset_ctx;
++struct dma_token;
++struct dma_token_params;
+ 
+ typedef unsigned int __bitwise fop_flags_t;
+ 
+@@ -2309,6 +2311,8 @@ struct file_operations {
+ 	int (*uring_cmd_iopoll)(struct io_uring_cmd *, struct io_comp_batch *,
+ 				unsigned int poll_flags);
+ 	int (*mmap_prepare)(struct vm_area_desc *);
++	struct dma_token *(*dma_map)(struct file *,
++				     struct dma_token_params *);
+ } __randomize_layout;
+ 
+ /* Supports async buffered reads */
 -- 
 2.52.0
 
