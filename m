@@ -1,79 +1,79 @@
-Return-Path: <linux-media+bounces-47627-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47628-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83A43C7E8DB
-	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 23:54:49 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB612C7E8E4
+	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 23:55:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C76213A3C2D
-	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 22:53:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8F0273A5317
+	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 22:54:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B17A2296BA2;
-	Sun, 23 Nov 2025 22:51:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C8AE29AB1D;
+	Sun, 23 Nov 2025 22:52:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SWC3WtzW"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mSdY/1KA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB68C28726A
-	for <linux-media@vger.kernel.org>; Sun, 23 Nov 2025 22:51:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E493028DB71
+	for <linux-media@vger.kernel.org>; Sun, 23 Nov 2025 22:51:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763938317; cv=none; b=i424fntKpgZ8dgOEruvmz59H3piuGnw+Hrq/5dQ0SrhdEp7Er9+g9wZ19jKdFLpuiqvyQ414gks7GaIlgk8Z2yuoVeMLt5X9ut1/W69gZACmQLvaLZ7k2LapM/qvpF3M1x46uvxs0DVqar6BVj8AYIUaZSjabilo9Q9faLtH1q8=
+	t=1763938320; cv=none; b=r4jGTzmGJxMfSIb65eD8bgk6G1dCQqqpfnMywM32JcBOPrphGP+HWJJJKbAOkCvjFqcgi4JetrJ4ZOpCBRurcPQgqHKqg9lRnSocKWfbR57IfNwIDPUGonUBj858u5FzamtWvUHYkMl+8uAdeW9qyNdVovb1H5XgR+bVOiTLI8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763938317; c=relaxed/simple;
-	bh=yxSa78i6WGSB+rLN2wnYPcV3pbfkXhbApdZHHrVnd/4=;
+	s=arc-20240116; t=1763938320; c=relaxed/simple;
+	bh=UXMDuvciehfdM/JpQpcfknw3TaZdhJajBPgetayGTPI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YnYJhq3oKheN+hsBHCyNNxn4QvLm0eub34uDqniDrKOBa1JHT4OP3LZ6EY0x52XSTTFnr1/n6D396dE1eL+dkiD1sSjNEJJdxGYIeNE33Qp2pAERlAHKoCM28MF5hnjKvkpISIGrjYHpLzm5V/nLPNG/wCP3bJelCiJw98TYAdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SWC3WtzW; arc=none smtp.client-ip=209.85.221.42
+	 MIME-Version; b=ssOf82HMZgKGh9LuQilYqdrt5cWhdKPHtkar+pCBdTdLjiCDrXkpPijpJvITm0UnQL5K9mS+beJckbCYtjA5D1YC8Vn/wj+mX9xGb/4xII2S3xpThCZBKTwVHjuUhOtaWRt0tL9BUDGHRJjBy/7t/YFsWPAztpiQy3/N8kViJtg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mSdY/1KA; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-42bb288c1bfso2140153f8f.2
-        for <linux-media@vger.kernel.org>; Sun, 23 Nov 2025 14:51:55 -0800 (PST)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-42b427cda88so2467297f8f.0
+        for <linux-media@vger.kernel.org>; Sun, 23 Nov 2025 14:51:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763938314; x=1764543114; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1763938316; x=1764543116; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=o6XYP6M4yTt1qmMNVTJGvjFxmCyRCFcZp21DmV1BJvo=;
-        b=SWC3WtzWunmIoxQcpPcBFLPUYEJWym14GO7iRr1/3Ad36ZEWp8V202BrOiW3ZOAtA5
-         KF/ACbm/UiESvf5tIAV7eC+onWTD648+asz9J3Rkemi5EhydytFOTuKqqrfvQ83ejP5U
-         Btu4HwACa5/mz0Bue4XOYVliW7GSFFcJh4oYeP+FNHk3rNqnrIk6gRNf7w/sgWtTk2E3
-         I2c18V+67kavlYo67p746Vre5fBSG5MgrMElJ44JJfzsV1/MDhsb60CZwIrd0ksvFdVL
-         2JUPt/jnoGcO9oi84wVxtL1RAgxVlVOK4WosWmrIh/zJE6wkdIgzhom/JhIed3BpmqAV
-         +Thw==
+        bh=aczXTymWXQPIGDaXnf/nBr9xYQNzFFU48NeAsCHNOPA=;
+        b=mSdY/1KA049Dl+KwP552oSPQcLPG8jtb1WMtsdNe3I0iIAxyVIukExEx1SRjVM5Ier
+         tRSAL8ACfC7NdWhEI7NrX6jJbBxKyNwSJfElCoUTdQ9n8bo1SRQcznuakYQ4oLioPzix
+         hTzAgWjv9vd0knKSstQ2hUFCkz0ocA2SDp32HjBS07ZBP9XbElMN0+3/PEEIm/GP6OCp
+         Azcye8vZnEgeF7XBgJQHariw/VvI90NBbIja/657GD7/clhJE2t5KIzbfVtFbEplbBb7
+         nndgyeDZ4n67flVCYVvn6WC/n9J3lwvQFUwJkSZZaxpozVFeUnfNPAWEOvfJM6tx0W7p
+         C7/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763938314; x=1764543114;
+        d=1e100.net; s=20230601; t=1763938316; x=1764543116;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=o6XYP6M4yTt1qmMNVTJGvjFxmCyRCFcZp21DmV1BJvo=;
-        b=pBfJjqZux2+WSXp1B3UhC74QeoeIYzlQvfnaQh2XjfLj2siLLC9F5XNJIKaXsDxU9C
-         d51sfVhpnn6+grkcrTbuGy6gbQxo08CFMWR52W5Xp5T1AX5ZASMGQm7W7Zh0D3ZC5PjQ
-         u9c2ogHvstf/ZBRD5lldPU4K7YsYrg45T/pBP04AQegYs/UOoZH6swbthJb8q1D4mizo
-         ThTmMRgibuqLSklONSt7P2Bk5JtfW7ntUkeUI8HKbYlNKpa3KrIDRxD8xk+pxHd/YhwO
-         /I+D86N5PgtuStQ31b5FyF4O61XzDx7I/TjicbLA4leaDCIKzJb4kKv3BJkwF54vDFHs
-         WxKw==
-X-Forwarded-Encrypted: i=1; AJvYcCWeF+1ijDcjxgRzz57Ap2Y302xElfXxQneWhatqjbzLFHN5Ukbm+T6Ogml9rC2QSzn4skPoMkM9NVUlEA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxSqVdxWPGfwaNV1pRrxwc8XVuxgUrpZ3shR5eA9SJY9LKwnKey
-	h0Yr0ffiCaXuWj+GQnKX+k64GygT99jdWP00j7NnJde8LvuX5bD54fva
-X-Gm-Gg: ASbGnct1jiGeqEJ+qx4bwAq/GTTLEcFDvzMLvXrOHzAO41cpZSHqApjgnBl+6kOZkHz
-	Dwc0fa9HHgwWRk1BRoEH+xVbQLFlld6bDj9bZDH3r3teg8xeGKzDVJSFV5BmVVEUJSX4jaT925I
-	s1nRC4VkyqoUV4bATAFVmk7oLNnjGIwEKBuBVM9ZfLBQ+EUcN8BvOmAxSLQMlRrqrrBja5VcXaX
-	tB8xBNHSNzKZRjEp0v+BrTmLCPDOHstvHxubr4P0KHzAy0rshKYp26ycY84sTaMchx0vYCTEwXK
-	U0f0gYsuZ5SanSkSV3IzCYnvWFTx1FYeg1m7xEK6k3zSk/oKO3PaPsXgtvR09sPuGAVIdeQOmE3
-	jcNcDsUbj/snF/Pe1BqNMrmqDtxF7wdF1qvtgugO8/ylLI7gG1jvWkVnm3Po5Cm75JSTZUw4L5X
-	eGuZy5M8bS6DxdcMBXkFU6c/Fr
-X-Google-Smtp-Source: AGHT+IGE0ZjscP742EdyKh9uzu23uLZ3l6gi0agALTuRuYrf+rNDfvZsYNVo2p4Uu5MAT2Id6+WoIQ==
-X-Received: by 2002:a05:6000:1447:b0:3ec:dd12:54d3 with SMTP id ffacd0b85a97d-42cc1d0c37dmr9157966f8f.35.1763938313681;
-        Sun, 23 Nov 2025 14:51:53 -0800 (PST)
+        bh=aczXTymWXQPIGDaXnf/nBr9xYQNzFFU48NeAsCHNOPA=;
+        b=XH0ojsx8mjGNzO4/RCWbHiW/y8IVrG4l1urtMCc2+JY1Gou+bheuA3+cq0VXPwUWwl
+         bfj1Q/mSsge2JU6Ts2E/PJ/JJmQDHOTS/ApvWREY7brStEJeohdk9VjpC4VMOJSWqnL5
+         w+WEGyBw2ZBfcer2G9MaAxp1wvw1shbHsRh0cbd+CLvPBxkR2nyvt5Wju5bh0ZtFAeEc
+         fQvt2yPLllNu+uOEv+Dp6yTMTjNRSh82NpSKv/5Ymj1K7KrVwZHh6KC/OQtCeMc78Du/
+         /5xjIhD8JIYSyHEN6MY+Ix5MrQ+sNK8TF67q64wmhQcAFiT/U/KuwJ3uujAwvAsAIZwz
+         gJ7A==
+X-Forwarded-Encrypted: i=1; AJvYcCUTJ9VeOmfJBcOU+JsUSJvqpf4Mdh17mRL2KCEGyPaYzfCNpwzdHApCIveDkTNCA4LYdMhdmMlY13Ajxw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDJKmtjK5ajw0YMMo9jeyiSUyJYahL182JrgxmZTHKIW0Z0ElS
+	iFUJ+jVxHg70aCDd57CPzbNcZlxC7miFhw+HE3EAB6tdDT3ZSM+TV/II
+X-Gm-Gg: ASbGnctDprl+DcLJ3CrLO19JvBpJ/db13sXoWwZ/GCNkfMMTNPcII7ZADCwKzcGON2a
+	CnkU4TddmKkG9YXR1YcfLAxVnbUYuDkjUJS8c/SHXu9AtSys1kOojXNgsBRS6ubH3r4NcHvVm7S
+	n7lqji4F49lY6aplXBlrHZFcDi1FGO4Cq9CsowF/8bxD5fNAdHp+WlaF02cHPIqxhciK54fQwEt
+	mjESH/jS88JKPaytvr46zWdKq46XmXH6olpQ+oYq+jYkSLZIxETWx+CAKUjRAqWres5cM99zahI
+	vnMUg62XvD9xDbxznCmiIWePpnYim+G/pXIB/Dgnk23m/KdVqLaxd5ubBywQfixOrYBqF32duQi
+	uvNvK7BRIuB2ZuGbZOOowof2j4SnoZpDWTNK/YUuZTHCaZcf1Oouvl6/n+G137S0GD5SVLcQ4w+
+	a0WR2WMX9C0oJZdA==
+X-Google-Smtp-Source: AGHT+IEhsmDeavDDsXXTdPeMYswvjoeFYMEcGIVgrZUZIxbXidFIxZRmwhVPCPHioGiavOVUtI6phA==
+X-Received: by 2002:a05:6000:2893:b0:42b:55f3:6196 with SMTP id ffacd0b85a97d-42cc1ab89b3mr10647235f8f.4.1763938316187;
+        Sun, 23 Nov 2025 14:51:56 -0800 (PST)
 Received: from 127.mynet ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7fb9190sm24849064f8f.33.2025.11.23.14.51.51
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7fb9190sm24849064f8f.33.2025.11.23.14.51.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Nov 2025 14:51:52 -0800 (PST)
+        Sun, 23 Nov 2025 14:51:54 -0800 (PST)
 From: Pavel Begunkov <asml.silence@gmail.com>
 To: linux-block@vger.kernel.org,
 	io-uring@vger.kernel.org
@@ -95,9 +95,9 @@ Cc: Vishal Verma <vishal1.verma@intel.com>,
 	linux-media@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
 	linaro-mm-sig@lists.linaro.org
-Subject: [RFC v2 06/11] nvme-pci: add support for dmabuf reggistration
-Date: Sun, 23 Nov 2025 22:51:26 +0000
-Message-ID: <9bc25f46d2116436d73140cd8e8554576de2caca.1763725388.git.asml.silence@gmail.com>
+Subject: [RFC v2 07/11] nvme-pci: implement dma_token backed requests
+Date: Sun, 23 Nov 2025 22:51:27 +0000
+Message-ID: <a86bbe2d8d105ed2c342749cd46ece2d1c537821.1763725388.git.asml.silence@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1763725387.git.asml.silence@gmail.com>
 References: <cover.1763725387.git.asml.silence@gmail.com>
@@ -109,140 +109,167 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Implement dma-token related callbacks for nvme block devices.
+Enable BIO_DMA_TOKEN backed requests. It requires special handling to
+set up the nvme request from the prepared in advance mapping, tear it
+down and sync the buffers.
 
+Suggested-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
 ---
- drivers/nvme/host/pci.c | 95 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 95 insertions(+)
+ drivers/nvme/host/pci.c | 126 +++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 124 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index e5ca8301bb8b..63e03c3dc044 100644
+index 63e03c3dc044..ac377416b088 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -27,6 +27,7 @@
- #include <linux/io-64-nonatomic-lo-hi.h>
- #include <linux/io-64-nonatomic-hi-lo.h>
- #include <linux/sed-opal.h>
-+#include <linux/blk-mq-dma-token.h>
- 
- #include "trace.h"
- #include "nvme.h"
-@@ -482,6 +483,92 @@ static void nvme_release_descriptor_pools(struct nvme_dev *dev)
+@@ -797,6 +797,123 @@ static void nvme_free_descriptors(struct request *req)
  	}
  }
  
-+static void nvme_dmabuf_move_notify(struct dma_buf_attachment *attach)
++static void nvme_sync_dma(struct nvme_dev *nvme_dev, struct request *req,
++			  enum dma_data_direction dir)
 +{
-+	blk_mq_dma_map_move_notify(attach->importer_priv);
-+}
-+
-+const struct dma_buf_attach_ops nvme_dmabuf_importer_ops = {
-+	.move_notify = nvme_dmabuf_move_notify,
-+	.allow_peer2peer = true,
-+};
-+
-+static int nvme_init_dma_token(struct request_queue *q,
-+				struct blk_mq_dma_token *token)
-+{
-+	struct dma_buf_attachment *attach;
-+	struct nvme_ns *ns = q->queuedata;
-+	struct nvme_dev *dev = to_nvme_dev(ns->ctrl);
-+	struct dma_buf *dmabuf = token->dmabuf;
-+
-+	if (dmabuf->size % NVME_CTRL_PAGE_SIZE)
-+		return -EINVAL;
-+
-+	attach = dma_buf_dynamic_attach(dmabuf, dev->dev,
-+					&nvme_dmabuf_importer_ops, token);
-+	if (IS_ERR(attach))
-+		return PTR_ERR(attach);
-+
-+	token->private = attach;
-+	return 0;
-+}
-+
-+static void nvme_clean_dma_token(struct request_queue *q,
-+				 struct blk_mq_dma_token *token)
-+{
-+	struct dma_buf_attachment *attach = token->private;
-+
-+	dma_buf_detach(token->dmabuf, attach);
-+}
-+
-+static int nvme_dma_map(struct request_queue *q, struct blk_mq_dma_map *map)
-+{
-+	struct blk_mq_dma_token *token = map->token;
-+	struct dma_buf_attachment *attach = token->private;
-+	unsigned nr_entries;
-+	unsigned long tmp, i = 0;
-+	struct scatterlist *sg;
-+	struct sg_table *sgt;
-+	dma_addr_t *dma_list;
-+
-+	nr_entries = token->dmabuf->size / NVME_CTRL_PAGE_SIZE;
-+	dma_list = kmalloc_array(nr_entries, sizeof(dma_list[0]), GFP_KERNEL);
-+	if (!dma_list)
-+		return -ENOMEM;
-+
-+	sgt = dma_buf_map_attachment(attach, token->dir);
-+	if (IS_ERR(sgt)) {
-+		kfree(dma_list);
-+		return PTR_ERR(sgt);
-+	}
-+	map->sgt = sgt;
-+
-+	for_each_sgtable_dma_sg(sgt, sg, tmp) {
-+		dma_addr_t dma = sg_dma_address(sg);
-+		unsigned long sg_len = sg_dma_len(sg);
-+
-+		while (sg_len) {
-+			dma_list[i++] = dma;
-+			dma += NVME_CTRL_PAGE_SIZE;
-+			sg_len -= NVME_CTRL_PAGE_SIZE;
-+		}
-+	}
-+
-+	map->private = dma_list;
-+	return 0;
-+}
-+
-+static void nvme_dma_unmap(struct request_queue *q, struct blk_mq_dma_map *map)
-+{
-+	struct blk_mq_dma_token *token = map->token;
-+	struct dma_buf_attachment *attach = token->private;
++	struct blk_mq_dma_map *map = req->dma_map;
++	int length = blk_rq_payload_bytes(req);
++	bool for_cpu = dir == DMA_FROM_DEVICE;
++	struct device *dev = nvme_dev->dev;
 +	dma_addr_t *dma_list = map->private;
++	struct bio *bio = req->bio;
++	int offset, map_idx;
 +
-+	dma_buf_unmap_attachment_unlocked(attach, map->sgt, token->dir);
-+	map->sgt = NULL;
-+	kfree(dma_list);
++	offset = bio->bi_iter.bi_bvec_done;
++	map_idx = offset / NVME_CTRL_PAGE_SIZE;
++	length += offset & (NVME_CTRL_PAGE_SIZE - 1);
++
++	while (length > 0) {
++		u64 dma_addr = dma_list[map_idx++];
++
++		if (for_cpu)
++			__dma_sync_single_for_cpu(dev, dma_addr,
++						  NVME_CTRL_PAGE_SIZE, dir);
++		else
++			__dma_sync_single_for_device(dev, dma_addr,
++						     NVME_CTRL_PAGE_SIZE, dir);
++		length -= NVME_CTRL_PAGE_SIZE;
++	}
 +}
 +
- static int nvme_init_hctx_common(struct blk_mq_hw_ctx *hctx, void *data,
- 		unsigned qid)
++static void nvme_unmap_premapped_data(struct nvme_dev *dev,
++				      struct request *req)
++{
++	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
++
++	if (rq_data_dir(req) == READ)
++		nvme_sync_dma(dev, req, DMA_FROM_DEVICE);
++	if (!(iod->flags & IOD_SINGLE_SEGMENT))
++		nvme_free_descriptors(req);
++}
++
++static blk_status_t nvme_dma_premapped(struct request *req,
++				       struct nvme_queue *nvmeq)
++{
++	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
++	int length = blk_rq_payload_bytes(req);
++	struct blk_mq_dma_map *map = req->dma_map;
++	u64 dma_addr, prp1_dma, prp2_dma;
++	struct bio *bio = req->bio;
++	dma_addr_t *dma_list;
++	dma_addr_t prp_dma;
++	__le64 *prp_list;
++	int i, map_idx;
++	int offset;
++
++	dma_list = map->private;
++
++	if (rq_data_dir(req) == WRITE)
++		nvme_sync_dma(nvmeq->dev, req, DMA_TO_DEVICE);
++
++	offset = bio->bi_iter.bi_bvec_done;
++	map_idx = offset / NVME_CTRL_PAGE_SIZE;
++	offset &= (NVME_CTRL_PAGE_SIZE - 1);
++
++	prp1_dma = dma_list[map_idx++] + offset;
++
++	length -= (NVME_CTRL_PAGE_SIZE - offset);
++	if (length <= 0) {
++		prp2_dma = 0;
++		goto done;
++	}
++
++	if (length <= NVME_CTRL_PAGE_SIZE) {
++		prp2_dma = dma_list[map_idx];
++		goto done;
++	}
++
++	if (DIV_ROUND_UP(length, NVME_CTRL_PAGE_SIZE) <=
++	    NVME_SMALL_POOL_SIZE / sizeof(__le64))
++		iod->flags |= IOD_SMALL_DESCRIPTOR;
++
++	prp_list = dma_pool_alloc(nvme_dma_pool(nvmeq, iod), GFP_ATOMIC,
++			&prp_dma);
++	if (!prp_list)
++		return BLK_STS_RESOURCE;
++
++	iod->descriptors[iod->nr_descriptors++] = prp_list;
++	prp2_dma = prp_dma;
++	i = 0;
++	for (;;) {
++		if (i == NVME_CTRL_PAGE_SIZE >> 3) {
++			__le64 *old_prp_list = prp_list;
++
++			prp_list = dma_pool_alloc(nvmeq->descriptor_pools.large,
++					GFP_ATOMIC, &prp_dma);
++			if (!prp_list)
++				goto free_prps;
++			iod->descriptors[iod->nr_descriptors++] = prp_list;
++			prp_list[0] = old_prp_list[i - 1];
++			old_prp_list[i - 1] = cpu_to_le64(prp_dma);
++			i = 1;
++		}
++
++		dma_addr = dma_list[map_idx++];
++		prp_list[i++] = cpu_to_le64(dma_addr);
++
++		length -= NVME_CTRL_PAGE_SIZE;
++		if (length <= 0)
++			break;
++	}
++done:
++	iod->cmd.common.dptr.prp1 = cpu_to_le64(prp1_dma);
++	iod->cmd.common.dptr.prp2 = cpu_to_le64(prp2_dma);
++	return BLK_STS_OK;
++free_prps:
++	nvme_free_descriptors(req);
++	return BLK_STS_RESOURCE;
++}
++
+ static void nvme_free_prps(struct request *req, unsigned int attrs)
  {
-@@ -1067,6 +1154,9 @@ static blk_status_t nvme_map_data(struct request *req)
+ 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+@@ -875,6 +992,11 @@ static void nvme_unmap_data(struct request *req)
+ 	struct device *dma_dev = nvmeq->dev->dev;
+ 	unsigned int attrs = 0;
+ 
++	if (req->bio && bio_flagged(req->bio, BIO_DMA_TOKEN)) {
++		nvme_unmap_premapped_data(nvmeq->dev, req);
++		return;
++	}
++
+ 	if (iod->flags & IOD_SINGLE_SEGMENT) {
+ 		static_assert(offsetof(union nvme_data_ptr, prp1) ==
+ 				offsetof(union nvme_data_ptr, sgl.addr));
+@@ -1154,8 +1276,8 @@ static blk_status_t nvme_map_data(struct request *req)
  	struct blk_dma_iter iter;
  	blk_status_t ret;
  
-+	if (req->bio && bio_flagged(req->bio, BIO_DMA_TOKEN))
-+		return BLK_STS_RESOURCE;
-+
+-	if (req->bio && bio_flagged(req->bio, BIO_DMA_TOKEN))
+-		return BLK_STS_RESOURCE;
++	if (req->dma_map)
++		return nvme_dma_premapped(req, nvmeq);
+ 
  	/*
  	 * Try to skip the DMA iterator for single segment requests, as that
- 	 * significantly improves performances for small I/O sizes.
-@@ -2093,6 +2183,11 @@ static const struct blk_mq_ops nvme_mq_ops = {
- 	.map_queues	= nvme_pci_map_queues,
- 	.timeout	= nvme_timeout,
- 	.poll		= nvme_poll,
-+
-+	.dma_map	= nvme_dma_map,
-+	.dma_unmap 	= nvme_dma_unmap,
-+	.init_dma_token =  nvme_init_dma_token,
-+	.clean_dma_token = nvme_clean_dma_token,
- };
- 
- static void nvme_dev_remove_admin(struct nvme_dev *dev)
 -- 
 2.52.0
 
