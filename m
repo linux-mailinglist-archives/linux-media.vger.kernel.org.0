@@ -1,193 +1,191 @@
-Return-Path: <linux-media+bounces-47620-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47621-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FC30C7E81E
-	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 23:29:21 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3CAEC7E860
+	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 23:51:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1A8813A3EAA
-	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 22:29:20 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B828D4E10FD
+	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 22:51:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4E33274B48;
-	Sun, 23 Nov 2025 22:29:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C95D27B359;
+	Sun, 23 Nov 2025 22:51:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="moafI85T"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l6BKAYFq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D104433A6;
-	Sun, 23 Nov 2025 22:29:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BCDE22A4F4
+	for <linux-media@vger.kernel.org>; Sun, 23 Nov 2025 22:51:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763936953; cv=none; b=cw1NL78y6C5xEyeKVNfcsVW7PY8W1yOshoakKxDKDFglOnjHtD1QQF88QXcy46qDzE0QQQdG/I105oYClXta/GjY1IHxRnRMuCfZOVA2W6FB38gbrs4QsRYxs2iWY2Oosdu9aCsyjEjMyGGRoQbFUwoCiEV7zzJH3p82ufxr6Lo=
+	t=1763938303; cv=none; b=K9uTyZUBIoEN9a2KTC6cY47AJOM3jX/xY5gujeR8LuR/wXDBsW7Lnlhjs5mBlmx8xLaBjA3o14RchXabN+krPnX6/uSJznTPwB1o4Kjzy5XqRrB4bzEhdL+IGenZHtQJm7J+WfcjYUKe96uxjMd55q2q98X1JwAdMQYHL5wNS94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763936953; c=relaxed/simple;
-	bh=HVYStuqoqDMlm90IYZiFbfw27vrFjgOsWLDFDAv5nrA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IFbSFU8worL1j6GaYpMqFKs9+xuJhO1pgYAaRfE1qAafdNhcj13LGU4Iz8olKBUaC3e+76N/BI193D2LmRGqfgFinSPH0V9ccLqQ59maOzlKHzhmsdsfnWxaxw2dxbxicMjKw5bPs9q+Xxr4aIWvdFn0j2UMh/YtZdDrqsrKXSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=moafI85T; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763936951; x=1795472951;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HVYStuqoqDMlm90IYZiFbfw27vrFjgOsWLDFDAv5nrA=;
-  b=moafI85Tz88js/3ggIP8I0SlDJN0ltXkmMh7O1zNPSWMSDU7SqJDvl1v
-   aXwW8/mW3XKXaK26Vz4phfzj1XgvpZ4QATG/4yOSa1NKD1bsUs/alAZAr
-   sANcY8hSlyE4dxAAX037Ae7cIkYh2xs5cXAildqogE2Rl8du/EMnEisha
-   UigI5eNpe6o6hDxdBFV4Lod7GkNfBmnf1Wz3BnC7VcubVc+yNGBNMVvqm
-   MWDhtCGh3AznYuipJXDsM/ZhCxFI2MDsxkTj8bTETqow3fT1/geN094SJ
-   9mVV5jsYtlLHKLKmfNZHhMSZBgjJcVKJjZ58JM0thXBf1/g8fXVSCbjca
-   g==;
-X-CSE-ConnectionGUID: 8CFnQOK3Ql6wyHfmYYEYFA==
-X-CSE-MsgGUID: 3jKrpzfsTSOwM3w1sMBanA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11622"; a="76550180"
-X-IronPort-AV: E=Sophos;i="6.20,221,1758610800"; 
-   d="scan'208";a="76550180"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2025 14:29:11 -0800
-X-CSE-ConnectionGUID: AKRJtZDfS5GybDL7pS6qzQ==
-X-CSE-MsgGUID: PYO5J11dSHyVC+Tl71f0Fw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,221,1758610800"; 
-   d="scan'208";a="215530293"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.203])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2025 14:29:09 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id BBC8611F869;
-	Mon, 24 Nov 2025 00:29:06 +0200 (EET)
-Date: Mon, 24 Nov 2025 00:29:06 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Josh Poimboeuf <jpoimboe@kernel.org>, kernel test robot <lkp@intel.com>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ingo Molnar <mingo@kernel.org>, linux-media@vger.kernel.org
-Subject: Re: drivers/media/i2c/ccs/ccs.o: error: objtool:
- ccs_set_selection(): unexpected end of section .text.ccs_set_selection
-Message-ID: <aSOKsu3XjLc9GRM-@kekkonen.localdomain>
-References: <aSEGwejeD3f7lnUL@rli9-mobl>
- <20251122013414.GA3094872@ax162>
- <ahukd6b3wonye3zgtptvwzvrxldcruazs2exfvll6etjhmcxyj@vq3eh6pd375b>
- <20251122062946.GA3054484@ax162>
+	s=arc-20240116; t=1763938303; c=relaxed/simple;
+	bh=8PyEGRkcRN3H3Qg+AG9OmNSVW+xgeo66cxYJL94BR4E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gbJsOuRgqD1CwY6DBCIQwnfJI7WNnD3F3NFLd4vWcAJT4kEn1iDPcabTKlVEzzmKnv5cfa6Xl/GyQtbPgYa02QJgojOOua4uAIJIcDaxdqt5cIQP/af8wfLCzyZIDe+2K+mDWexpoaaMtJp8oQdhNTKLRpnBYZOszXxV8VgYMqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l6BKAYFq; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4775895d69cso15117685e9.0
+        for <linux-media@vger.kernel.org>; Sun, 23 Nov 2025 14:51:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763938298; x=1764543098; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QZk9sSNTwOxRpwZ/DRrF1dwGfvdtNtexBNm/jAu7ryY=;
+        b=l6BKAYFqN+Det8YbgstB6eqhQCK+zE1qvXHle/mj0weBCTEnef8YgpixLJdZkJ65iP
+         9p/BSabegsCDKPdS36tISi4H26MiJgGXG9BxBkcTAJVBkrQAUmRtN69eUYZuhsv/D+2k
+         lpaPaDH+pTtEkI22e9fcCXPanrMsNzqr5114pkBfSmljaf/xtvFsVwz7m8CiqnhQ8dTm
+         WNZX4acCn3nIqfBdbSN+gqRUilyE8ob+Fqf9zjTs9MIHLJlbzND6tThoX9/vlgLLyo0Z
+         GiGxpfryUVqJ/5b7Z5UI1Fe9cjAzcSNdiSFnufibnxHCVr32cQ2wTVpJKz7SPSYhxFGK
+         7TNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763938298; x=1764543098;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QZk9sSNTwOxRpwZ/DRrF1dwGfvdtNtexBNm/jAu7ryY=;
+        b=O4x78VFZ9FxXYEdRtsbXxd/4TKVN3udJXj0GjSPuZsrR4CM4yHmt33tYCn0ARHesv7
+         eCRaKO6cMeUkPDAaTDc7gq9cXfZqK486VMey6lI8W7sarLJxc9e4RSlhF5epxho80aFs
+         a2xM8OgwpMiofXF2UiHUXucX1vtLAp/OggaMhOqpYeAqPq4q74bAc37KSMhFD8hL4E8i
+         JyPO5hqffno4QK+kCXLVpXg42cFKIhrqfoLyoQnv8ulcjfvLEOLtiKC3j7ZKemlxozKb
+         Wxs86usL9sKcIDITn9KPf/K17Bi+6sZhoL2v1T1UA12wChRr7DD/PDGhqwiUWvvVPpCK
+         KX6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWui0Swz3tW37saoe+yd2FkQI7IaEWzIqjc3jNE65zke9p36MXzI4bxuy990s3Bap3K9FQWXY5aiqGUmg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEIL4EVVTApLF3qHB3FL1eUf+hzTuCHaA23gbNG9EI3b25bJc9
+	JqHcIbaHZkw0eKXEvJ7OrLx2k/4mVmCLkjzAhDSSxSmqFteq0mKh6yQQ
+X-Gm-Gg: ASbGncsUmAItWEViGnQA4lNziGd6mxckh7o4yFI54oAPEVMPSXOj4sWyypCw1djV8sx
+	gACregiucdPG+VDw+/Cl7hoUFBTE31wjHsIrMHMI5v/46w0IzHucTV/ajiJP74aPQxrK43YW4M1
+	d/M1GBd+MdujQmteOglbJZZpTxJAMawcaOtv2yIjPUIfC0uihZpK+LSLd2BhXXzb3hRRKc62nFu
+	PeCxTwidYu4wY/VUxlL+hGJQLu1ZKDFYtcGB7sIP9m3PwXIhcUbuBhwMijNPSAOY6jBm+RB0SCD
+	04TJQsYQ0t9d2uXu814oACAV1GH7XV+n1U7XTfcx6uJTiM+6RUmETSq6xzhjtq9JaQUjA1tfugc
+	K/89dxgnSa1BQiOT1dALR4WQKMeis3PMq+dXEpVz6FGRbIsNL7ZLMGsWrtgquiu7F0Cfrh7efVX
+	+OA4gDXauK/loJIg==
+X-Google-Smtp-Source: AGHT+IEIzt6XAqBENWHKeltpmV3b1E5pfBhghZPeIUxjN0aB1YgGqF8Sp/+lNyxIs5uZ/0aP6PM4yA==
+X-Received: by 2002:a05:600c:5491:b0:477:fcb:226b with SMTP id 5b1f17b1804b1-477c016e60cmr94038575e9.2.1763938298240;
+        Sun, 23 Nov 2025 14:51:38 -0800 (PST)
+Received: from 127.mynet ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42cb7fb9190sm24849064f8f.33.2025.11.23.14.51.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Nov 2025 14:51:36 -0800 (PST)
+From: Pavel Begunkov <asml.silence@gmail.com>
+To: linux-block@vger.kernel.org,
+	io-uring@vger.kernel.org
+Cc: Vishal Verma <vishal1.verma@intel.com>,
+	tushar.gohad@intel.com,
+	Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Pavel Begunkov <asml.silence@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: [RFC v2 00/11] Add dmabuf read/write via io_uring
+Date: Sun, 23 Nov 2025 22:51:20 +0000
+Message-ID: <cover.1763725387.git.asml.silence@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251122062946.GA3054484@ax162>
+Content-Transfer-Encoding: 8bit
 
-Hi folks,
+Picking up the work on supporting dmabuf in the read/write path. There
+are two main changes. First, it doesn't pass a dma addresss directly by
+rather wraps it into an opaque structure, which is extended and
+understood by the target driver.
 
-On Fri, Nov 21, 2025 at 11:29:46PM -0700, Nathan Chancellor wrote:
-> On Fri, Nov 21, 2025 at 09:51:33PM -0800, Josh Poimboeuf wrote:
-> > On Fri, Nov 21, 2025 at 06:34:14PM -0700, Nathan Chancellor wrote:
-> > > On Sat, Nov 22, 2025 at 08:41:37AM +0800, kernel test robot wrote:
-> > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > > > head:   2eba5e05d9bcf4cdea995ed51b0f07ba0275794a
-> > > > commit: 188d90f817e13b66e03e110eb6f82e8f5f0d654b objtool: Append "()" to function name in "unexpected end of section" warning
-> > > > date:   8 months ago
-> > > > :::::: branch date: 4 hours ago
-> > > > :::::: commit date: 8 months ago
-> > > > config: x86_64-randconfig-101-20251122 (https://download.01.org/0day-ci/archive/20251122/202511220717.5HHMLUHG-lkp@intel.com/config)
-> > > > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251122/202511220717.5HHMLUHG-lkp@intel.com/reproduce)
-> > > > 
-> > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > > the same patch/commit), kindly add following tags
-> > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > | Closes: https://lore.kernel.org/r/202511220717.5HHMLUHG-lkp@intel.com/
-> > > > 
-> > > > All errors (new ones prefixed by >>):
-> > > > 
-> > > > >> drivers/media/i2c/ccs/ccs.o: error: objtool: ccs_set_selection(): unexpected end of section .text.ccs_set_selection
-> > > 
-> > > That change obviously does not result in this warning/error. This
-> > > appears to be another divide by zero issue but based on my analysis so
-> > > far, I do not understand how...
-> > > 
-> > > https://github.com/ClangBuiltLinux/linux/issues/2129
-> > 
-> > Here ya go :-)  After looking at a gazillion of these I can often spot
-> > these pretty easily.  I'm not sure what the correct fix is here but this
-> > made the error go away.
-> > 
-> > diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-> > index 1c889c878abd..2429c05bffb3 100644
-> > --- a/drivers/media/i2c/ccs/ccs-core.c
-> > +++ b/drivers/media/i2c/ccs/ccs-core.c
-> > @@ -2346,7 +2346,7 @@ static void ccs_set_compose_scaler(struct v4l2_subdev *subdev,
-> >  		* CCS_LIM(sensor, SCALER_N_MIN) / sel->r.height;
-> >  	max_m = crops[CCS_PAD_SINK]->width
-> >  		* CCS_LIM(sensor, SCALER_N_MIN)
-> > -		/ CCS_LIM(sensor, MIN_X_OUTPUT_SIZE);
-> > +		/ (CCS_LIM(sensor, MIN_X_OUTPUT_SIZE) ? : 1);
+The second big change is support for dynamic attachments, which added a
+good part of complexity (see Patch 5). I kept the main machinery in nvme
+at first, but move_notify can ask to kill the dma mapping asynchronously,
+and any new IO would need to wait during submission, thus it was moved
+to blk-mq. That also introduced an extra callback layer b/w driver and
+blk-mq.
 
-Thanks for cc'ing me.
+There are some rough corners, and I'm not perfectly happy about the
+complexity and layering. For v3 I'll try to move the waiting up in the
+stack to io_uring wrapped into library helpers.
 
-I prefer this as there's no guarantee the value read via ccs_get_limit()
-would be non-zero. Presumably it is (and has been so far as no-one has hit
-this to my knowledge), but we shouldn't rely on that.
+For now, I'm interested what is the best way to test move_notify? And
+how dma_resv_reserve_fences() errors should be handled in move_notify?
 
-I can post a patch as well.
+The uapi didn't change, after registration it looks like a normal
+io_uring registered buffer and can be used as such. Only non-vectored
+fixed reads/writes are allowed. Pseudo code:
 
-> >  
-> >  	a = clamp(a, CCS_LIM(sensor, SCALER_M_MIN),
-> >  		  CCS_LIM(sensor, SCALER_M_MAX));
-> 
-> Aha! Thanks a lot :) I had thought it might be something with CCS_LIM()
-> since ccs_get_limit() returns zero if ccs_limit_ptr() errors and in the
-> default case of the switch statement. There are a lot of unchecked
-> divides with the result of CCS_LIM() throughout this driver so I figured
-> if that was it, there would be other instances of this warning... oh
-> well.
-> 
-> Something like the following diff also fixes it since LLVM no longer
-> sees 0 as a possible divisor, which seems a little better to me since it
-> seems like one of the other uses could turn problematic with other
-> optimizations.  Given these cases are both errors and have visible WARNs
-> in case they are hit, it seems like it is better to use a valid divisor
-> instead of 0.
-> 
-> Just one more warning to tackle in my personal configuration then I can
-> enable CONFIG_OBJTOOL_WERROR to make new warnings from LLVM uprevs more
-> obvious :)
-> 
->   https://github.com/ClangBuiltLinux/linux/issues/2130
-> 
-> diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-> index 1c889c878abd..05c3da29f14c 100644
-> --- a/drivers/media/i2c/ccs/ccs-core.c
-> +++ b/drivers/media/i2c/ccs/ccs-core.c
-> @@ -137,7 +137,7 @@ u32 ccs_get_limit(struct ccs_sensor *sensor, unsigned int limit,
-> 
->         ret = ccs_limit_ptr(sensor, limit, offset, &ptr);
->         if (ret)
-> -               return 0;
-> +               return 1;
-> 
->         switch (CCI_REG_WIDTH_BYTES(ccs_limits[ccs_limit_offsets[limit].info].reg)) {
->         case sizeof(u8):
-> @@ -151,7 +151,7 @@ u32 ccs_get_limit(struct ccs_sensor *sensor, unsigned int limit,
->                 break;
->         default:
->                 WARN_ON(1);
-> -               return 0;
-> +               return 1;
->         }
-> 
->         return ccs_reg_conv(sensor, ccs_limits[limit].reg, val);
+// registration
+reg_buf_idx = 0;
+io_uring_update_buffer(ring, reg_buf_idx, { dma_buf_fd, file_fd });
+
+// request creation
+io_uring_prep_read_fixed(sqe, file_fd, buffer_offset,
+                         buffer_size, file_offset, reg_buf_idx);
+
+And as previously, a good bunch of code was taken from Keith's series [1].
+
+liburing based example:
+
+git: https://github.com/isilence/liburing.git dmabuf-rw
+link: https://github.com/isilence/liburing/tree/dmabuf-rw
+
+[1] https://lore.kernel.org/io-uring/20220805162444.3985535-1-kbusch@fb.com/
+
+Pavel Begunkov (11):
+  file: add callback for pre-mapping dmabuf
+  iov_iter: introduce iter type for pre-registered dma
+  block: move around bio flagging helpers
+  block: introduce dma token backed bio type
+  block: add infra to handle dmabuf tokens
+  nvme-pci: add support for dmabuf reggistration
+  nvme-pci: implement dma_token backed requests
+  io_uring/rsrc: add imu flags
+  io_uring/rsrc: extended reg buffer registration
+  io_uring/rsrc: add dmabuf-backed buffer registeration
+  io_uring/rsrc: implement dmabuf regbuf import
+
+ block/Makefile                   |   1 +
+ block/bdev.c                     |  14 ++
+ block/bio.c                      |  21 +++
+ block/blk-merge.c                |  23 +++
+ block/blk-mq-dma-token.c         | 236 +++++++++++++++++++++++++++++++
+ block/blk-mq.c                   |  20 +++
+ block/blk.h                      |   3 +-
+ block/fops.c                     |   3 +
+ drivers/nvme/host/pci.c          | 217 ++++++++++++++++++++++++++++
+ include/linux/bio.h              |  49 ++++---
+ include/linux/blk-mq-dma-token.h |  60 ++++++++
+ include/linux/blk-mq.h           |  21 +++
+ include/linux/blk_types.h        |   8 +-
+ include/linux/blkdev.h           |   3 +
+ include/linux/dma_token.h        |  35 +++++
+ include/linux/fs.h               |   4 +
+ include/linux/uio.h              |  10 ++
+ include/uapi/linux/io_uring.h    |  13 +-
+ io_uring/rsrc.c                  | 201 +++++++++++++++++++++++---
+ io_uring/rsrc.h                  |  23 ++-
+ io_uring/rw.c                    |   7 +-
+ lib/iov_iter.c                   |  30 +++-
+ 22 files changed, 948 insertions(+), 54 deletions(-)
+ create mode 100644 block/blk-mq-dma-token.c
+ create mode 100644 include/linux/blk-mq-dma-token.h
+ create mode 100644 include/linux/dma_token.h
 
 -- 
-Kind regards,
+2.52.0
 
-Sakari Ailus
 
