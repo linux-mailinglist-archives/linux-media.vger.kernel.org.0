@@ -1,140 +1,133 @@
-Return-Path: <linux-media+bounces-47616-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47617-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AA8AC7D507
-	for <lists+linux-media@lfdr.de>; Sat, 22 Nov 2025 18:58:45 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0762C7DDE5
+	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 09:10:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 033B334D243
-	for <lists+linux-media@lfdr.de>; Sat, 22 Nov 2025 17:58:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B3BD03A96AE
+	for <lists+linux-media@lfdr.de>; Sun, 23 Nov 2025 08:10:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E673C288505;
-	Sat, 22 Nov 2025 17:58:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC4242BEC2E;
+	Sun, 23 Nov 2025 08:10:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lynne.ee header.i=@lynne.ee header.b="LUWookV8";
-	dkim=permerror (0-bit key) header.d=lynne.ee header.i=@lynne.ee header.b="PyzY4J4A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a6PIOh9a"
 X-Original-To: linux-media@vger.kernel.org
-Received: from vidala.pars.ee (vidala.pars.ee [116.203.72.101])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 358B91A316E
-	for <linux-media@vger.kernel.org>; Sat, 22 Nov 2025 17:58:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.72.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4B918B0A;
+	Sun, 23 Nov 2025 08:10:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763834318; cv=none; b=p6ebT6NZqyyLw0apDwK5HqGRCveV8kmkfN32aVYBK13z2Ne3my5E0uzn119ecmobCBbCJT8Dsrir/6Ggf+jZzlDUeaE2lalXFnAl3i58uCp3Lan472yg/+2Bv4ev7cZYUb9Xr9jhK4c3sxz/7iS8Dx293FQlqN3jXZNRFYOxOTE=
+	t=1763885413; cv=none; b=tlP1mDjg9H3ks4f9390H39zJo1x0BmFawOLselz6ndWpAqvuJYirznMSk9IeevTJnE66mbo9nojtx9S0NdaseZFn3WfcRUEdcCXmqyo6bGbM4zIvD3+KV8XJicZyQxkgs4YAuqdgoaSf7g7XxXM4UONVYe72hVdsIGBoCEqnhVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763834318; c=relaxed/simple;
-	bh=K7jDgQ2WyAAl++lqgXYV9u9iZnts19qhz3ffc3p8NHE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qCbNyfyCBkEFeANj3HGR6rV3sPuDDvIf+1kBAd1xbAv6IsqajO41g9D1UJdhtUtuBoOU626YJekm5t/75kQCNP9PL32GiJRfFkeSHMRvGrl0jA8krltrq450AgVtQDZj3oUwWR4fZfNFC1jV5WFKiU4NEtRQ7R4aE83VRD12piM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lynne.ee; spf=pass smtp.mailfrom=lynne.ee; dkim=pass (2048-bit key) header.d=lynne.ee header.i=@lynne.ee header.b=LUWookV8; dkim=permerror (0-bit key) header.d=lynne.ee header.i=@lynne.ee header.b=PyzY4J4A; arc=none smtp.client-ip=116.203.72.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lynne.ee
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lynne.ee
-DKIM-Signature: v=1; a=rsa-sha256; s=202405r; d=lynne.ee; c=relaxed/relaxed;
-	h=From:To:Subject:Date:Message-ID; t=1763834308; bh=yEHBaBqVPS7A6JX3zVtKSGP
-	AS9E7qW/86seNQqx9a/M=; b=LUWookV8BkYfpHHwUQ6+37AzVT+Kxu+cAbXEQDqT6sHejgxoi+
-	GEq0w7UbsCfp3nLSNIfLo+PN/o43+9RHu8/xd+Xq/J1UjMxZz2FgQSIL4jpbSXWcEr7Hfmgdw+a
-	8E/a4ukb8xuxhCtkDU1AcSq3FLA56tJo+aKZd25KlDFID2dSYKk/RSKWhizMDNw9yKeWsqkzC7Z
-	ezx5472CxDcTRLObc+tT9KjAoO/p+UkbGDsK6DiEkUiIS/3b1p/63LteS9FR3gRlVoCH1d6cCRt
-	m9jxDZUjOmPoixQAYsUCjEDTpVG2tSAK7Ho6+WYGJmO7og6Xc1t2xiajOznCCwW/zoQ==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202405e; d=lynne.ee; c=relaxed/relaxed;
-	h=From:To:Subject:Date:Message-ID; t=1763834308; bh=yEHBaBqVPS7A6JX3zVtKSGP
-	AS9E7qW/86seNQqx9a/M=; b=PyzY4J4A0bx94LDw68rnglak27zWA5r/edPOQJJZ/NZ23J2q1+
-	mYO0Vyp4lNk3YilLEcMGpPhsRQ7zlaVCKxAQ==;
-Message-ID: <7ce47ae4-f45d-49f6-919d-98f301aaaa75@lynne.ee>
-Date: Sat, 22 Nov 2025 18:58:27 +0100
+	s=arc-20240116; t=1763885413; c=relaxed/simple;
+	bh=MCgfxK4hLqKoCQ/UcaDEzK8dsTFv5sTyZ1mOdcEhEtE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qqc/WUlZbKwkRQAozZ9G6pNBq14pVkr3e69TALJf4lQ96rcBmY+8H0unfPXaJzW6+uz054J6/iErKqjmpcsp7C3YNGYWHBD8uoL/aIsjVeC3l8kdDCklPpT4KC0RvRLGGLBlWX5R2wcqI8Fmvw+07PgZ8q+u83C4+gYaBfHmjCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a6PIOh9a; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763885412; x=1795421412;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MCgfxK4hLqKoCQ/UcaDEzK8dsTFv5sTyZ1mOdcEhEtE=;
+  b=a6PIOh9alTCrOLhp60MVMWwk7QXq14vlIXlVA2YHd6Yw+p5gTyQFkzV/
+   RT/6IwZ/V6wmSBO+MLd16HdsqgPgLQL95yKivPEpmCG/fnxRdoqrajh4i
+   aB8D9bnIKcr7nmoWA7CBKZqzvN3bE2ZadZt5uLUZtZQN6/nFq8+52KzEE
+   fZbaishLWe/ThyWI5eEH1WRN7o763wkEvH0KNCynzD+oFHYrIuDWBiB5z
+   oOBHmGbLXx+nlBaOZdDS9+AvnIig+wXV7dbK/zYo8a3lQ3Kx6vxIVDM4v
+   4l2JcY9JRuUW4y8eYxSXlGOTrjHONYU086VyrxUlCtEK51jxdhvteUWmk
+   w==;
+X-CSE-ConnectionGUID: euq5fmAdR8ezs1k3dEF+aw==
+X-CSE-MsgGUID: wURq24MFRN6quz+19V1bww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11621"; a="65808908"
+X-IronPort-AV: E=Sophos;i="6.20,220,1758610800"; 
+   d="scan'208";a="65808908"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2025 00:10:11 -0800
+X-CSE-ConnectionGUID: 9qhHtOB3QGKsVXYf+Y4uhA==
+X-CSE-MsgGUID: 7K7O+wchSVO82pKm0riWdg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,220,1758610800"; 
+   d="scan'208";a="192307019"
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 23 Nov 2025 00:10:07 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vN5Ab-00089D-1A;
+	Sun, 23 Nov 2025 08:10:05 +0000
+Date: Sun, 23 Nov 2025 16:10:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>, mchehab@kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	hverkuil+cisco@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, sakari.ailus@linux.intel.com,
+	bparrot@ti.com, jai.luthra@ideasonboard.com, dale@farnsworth.org,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, u-kumar1@ti.com,
+	y-abhilashchandra@ti.com, Sukrut Bellary <sbellary@baylibre.com>
+Subject: Re: [PATCH V6 4/4] media: ti: vpe: Add the VIP driver
+Message-ID: <202511231502.YcimpKQJ-lkp@intel.com>
+References: <20251120091030.2081594-5-y-abhilashchandra@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: uvc_video issue: Panasonic S1II initialization fails in webcam
- mode
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org
-References: <91137e13-102b-41a6-8f14-14fb33a3e554@lynne.ee>
- <20251122151401.GC15447@pendragon.ideasonboard.com>
-Content-Language: en-US
-From: Lynne <dev@lynne.ee>
-In-Reply-To: <20251122151401.GC15447@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251120091030.2081594-5-y-abhilashchandra@ti.com>
 
-On 22/11/2025 16:14, Laurent Pinchart wrote:
-> Hi Lynne,
-> 
-> On Sat, Nov 22, 2025 at 12:28:48PM +0100, Lynne wrote:
->> The issue I'd like to report is that the kernel fails to initialize the
->> Panasonic S1II DSLR camera in webcam mode as a webcam.
->> Seems like most queries time out or error out with a generic protocol
->> error return.
->> I tried increasing UVC_CTRL_CONTROL_TIMEOUT just in case, but it did not
->> seem to help.
-> 
-> I see in the log that the USB audio driver fails as well. There are
-> quite a few devices that exhibit issues in the interactions between the
-> audio and video interfaces. Could you test blacklisting the
-> snd_usb_audio module to prevent it from loading (and unloading it if
-> it's loaded already), and replug your camera ?
+Hi Yemike,
 
-Hi,
-I dug around some more. When the device is first connected, everything 
-runs fine, actually. Upon unplugging and plugging it back in, I get the 
-log I posted initially. Unloading the uvcvideo/uvc moedule and loading 
-it makes the camera work again.
-Disabling snd_usb_audio did not help.
+kernel test robot noticed the following build warnings:
 
-Here's the log of the device being plugged in for the first time.
-<same as before>
-[  +0.000001] usb 2-3: SerialNumber: 00000Z12FB009251
-[  +0.094425] videodev: Linux video capture interface: v2.00
-[  +0.017217] usb 2-3: Found UVC 1.10 device DC-S1M2 (04da:2385)
-[  +0.000493] usb 2-3: Failed to query (GET_INFO) UVC error code control 
-2 on unit 2: -32 (exp. 1).
-[  +0.000264] usb 2-3: Failed to query (GET_INFO) UVC error code control 
-2 on unit 1: -32 (exp. 1).
-[  +0.000407] usbcore: registered new interface driver uvcvideo
-[  +0.007960] usb 2-3: Failed to query (GET_DEF) UVC error code control 
-2 on unit 2: -32 (exp. 1).
-[  +0.000004] usb 2-3: UVC non compliance: permanently disabling control 
-980900 (Brightness), due to error -32
-[  +0.000425] usb 2-3: Failed to query (GET_DEF) UVC error code control 
-2 on unit 1: -32 (exp. 1).
-[  +0.000001] usb 2-3: UVC non compliance: permanently disabling control 
-9a0901 (Auto Exposure), due to error -32
-[  +1.091011] usb 2-3: Failed to query (GET_DEF) UVC error code control 
-2 on unit 2: -32 (exp. 1).
-[  +0.000442] usb 2-3: Failed to query (GET_DEF) UVC error code control 
-2 on unit 1: -32 (exp. 1).
-[  +0.000762] usb 2-3: Failed to query (GET_DEF) UVC error code control 
-2 on unit 2: -32 (exp. 1).
-[  +0.000426] usb 2-3: Failed to query (GET_DEF) UVC error code control 
-2 on unit 1: -32 (exp. 1).
-[Nov22 18:50] usb 2-3: USB disconnect, device number 2
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linuxtv-media-pending/master sailus-media-tree/master linus/master v6.18-rc6 next-20251121]
+[cannot apply to sailus-media-tree/streams]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Maybe some state gets corrupted?
+url:    https://github.com/intel-lab-lkp/linux/commits/Yemike-Abhilash-Chandra/media-ti-vpe-Re-introduce-multi-instance-and-multi-client-support/20251120-171336
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20251120091030.2081594-5-y-abhilashchandra%40ti.com
+patch subject: [PATCH V6 4/4] media: ti: vpe: Add the VIP driver
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20251123/202511231502.YcimpKQJ-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251123/202511231502.YcimpKQJ-lkp@intel.com/reproduce)
 
->> Full log is below:
->>
->> [Nov22 12:11] usb 4-4: new SuperSpeed Plus Gen 2x1 USB device number 10 using xhci_hcd
->> [  +0.017315] usb 4-4: New USB device found, idVendor=04da, idProduct=2385, bcdDevice= 1.00
->> [  +0.000008] usb 4-4: New USB device strings: Mfr=1, Product=2, SerialNumber=3
->> [  +0.000004] usb 4-4: Product: DC-S1M2
->> [  +0.000002] usb 4-4: Manufacturer: Panasonic
->> [  +0.000002] usb 4-4: SerialNumber: 00000Z12FB009251
->> [  +0.019222] usb 4-4: Found UVC 1.10 device DC-S1M2 (04da:2385)
->> [  +5.127335] usb 4-4: Failed to query (GET_INFO) UVC control 2 on unit 2: -110 (exp. 1).
->> [  +5.119884] usb 4-4: Failed to query (GET_INFO) UVC control 2 on unit 1: -110 (exp. 1).
->> [ +10.239937] usb 4-4: UVC non compliance - GET_DEF(PROBE) not supported. Enabling workaround.
->> [  +0.008264] uvcvideo 4-4:1.1: Failed to query (GET_CUR) UVC probe control : -71 (exp. 34).
->> [  +0.000013] uvcvideo 4-4:1.1: Failed to initialize the device (-71).
->> [  +0.000026] uvcvideo 4-4:1.0: probe with driver uvcvideo failed with error -71
->> [  +0.103095] usb 4-4: 3:1: cannot set freq 48000 to ep 0x83
->> [  +0.359825] usb 4-4: 3:1: usb_set_interface failed (-71)
->> [  +0.320056] usb 4-4: 3:1: usb_set_interface failed (-71)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511231502.YcimpKQJ-lkp@intel.com/
 
+All warnings (new ones prefixed by >>):
+
+   drivers/media/platform/ti/vpe/vip.c: In function 'enable_irqs':
+>> drivers/media/platform/ti/vpe/vip.c:78:47: warning: conversion from 'long unsigned int' to 'u32' {aka 'unsigned int'} changes value from '18446744073709551471' to '4294967151' [-Woverflow]
+      78 | #define reg_write(dev, offset, val) iowrite32((val), (dev)->base + (offset))
+         |                                               ^~~~~
+   drivers/media/platform/ti/vpe/vip.c:776:9: note: in expansion of macro 'reg_write'
+     776 |         reg_write(parser, VIP_PARSER_FIQ_MASK, ~PARSER_IRQ_MASK);
+         |         ^~~~~~~~~
+
+
+vim +78 drivers/media/platform/ti/vpe/vip.c
+
+    76	
+    77	#define reg_read(dev, offset) ioread32((dev)->base + (offset))
+  > 78	#define reg_write(dev, offset, val) iowrite32((val), (dev)->base + (offset))
+    79	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
