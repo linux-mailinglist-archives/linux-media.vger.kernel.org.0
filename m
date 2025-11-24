@@ -1,89 +1,134 @@
-Return-Path: <linux-media+bounces-47671-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47672-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 270F0C8223C
-	for <lists+linux-media@lfdr.de>; Mon, 24 Nov 2025 19:45:07 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2C01C822F9
+	for <lists+linux-media@lfdr.de>; Mon, 24 Nov 2025 19:55:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A4D703A552E
-	for <lists+linux-media@lfdr.de>; Mon, 24 Nov 2025 18:45:03 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A495F4E84F6
+	for <lists+linux-media@lfdr.de>; Mon, 24 Nov 2025 18:54:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C19E31A815;
-	Mon, 24 Nov 2025 18:44:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7EA231A56C;
+	Mon, 24 Nov 2025 18:54:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NDhmOFds"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AmpYBxDa"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B13C931A04F;
-	Mon, 24 Nov 2025 18:44:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DD4F230BDF
+	for <linux-media@vger.kernel.org>; Mon, 24 Nov 2025 18:54:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764009885; cv=none; b=XSAhronkdm0IY+LkuyXjvHmj/JPJCPE6l+xRhte4pQuv/0bj1HB4ZCGFg+ec7ZePgH4nEMoFB9fuA78libLymnwoV3piK7S9/sx55+VGrG7kiffEpkTAdh+DZStX9cHZNKlbiwS8n+Yap2lGcpuGLMhwys4DxTfe7EDkR3dCGUU=
+	t=1764010458; cv=none; b=ONaLK0rR4CO942ZeaXm9zW6rRaxHjHxRbehrk8KEHhCkRL6mVYHJ8HLoEVL7kvmO8Ic7sIsSy1Z6oX0CSdp9MTcMbpnMhPyo2ivgmmdnQ4qO0U03HnX06RYqtWFZY8P9U2VKSRH/HqsiJrTAUspKtFFtNG430FvQ5WVRCdzuOqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764009885; c=relaxed/simple;
-	bh=UV9pWUzCW+NAMLyodNz/c2YEyHOWyS4QJyt6A+EDrkA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TFXr2NSLfLKyUV6BEMtVuEDfMh2cp382VJBOFMxbocCyd/0beIgq+lxcqv3kqDfBlCL4zjdeEN1y1VJsOODFeOBV47Bp4XyptJJYumSyq2fN++gAgC0Nzor9pBKUmmwZ1Z7yOL/XkJAXLRA13w3xrKYpGSKp8P5R67O3zEXVqKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NDhmOFds; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C930BC4CEF1;
-	Mon, 24 Nov 2025 18:44:43 +0000 (UTC)
+	s=arc-20240116; t=1764010458; c=relaxed/simple;
+	bh=TEK7y+I345Za9ATxX+knyA/Uh489WPY9Dd1JCZP1I5g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VzP7O8AODyRf6feRRhZ4aUSa02Mo0uZ13mO1Y1lFkYKCYlJBfHMoCVUF2TgnK4btY1cNRLdsTgLbEXrnXinzQWB7PNXNuOKjDPJaT6hFtmN4nHVssmDbWp7ugdYJ73OTHuEmcvKveDngvhiqUNbLAzVYbWPXwymxSo2ny/+YR6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AmpYBxDa; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1BBDC2BCB6
+	for <linux-media@vger.kernel.org>; Mon, 24 Nov 2025 18:54:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764009885;
-	bh=UV9pWUzCW+NAMLyodNz/c2YEyHOWyS4QJyt6A+EDrkA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NDhmOFds2UnaaXvrVxIQsVYa+nM6JJUJeQ4MmOxS/eZT2X4iL4grbq20h1E/dbRYU
-	 YWVffEcqO7rAOlRLZo+RVBVsr9hfaol9pjKu2oYuW0kdq04d/hACBRwfV3G8nLCaNG
-	 kYdIQxGCYZjP9f6oqnK6lSpv4WqdGmPQWsF0UHHHhi+DKlUfpAOrRv5/Hma405RvIM
-	 PdzqsZqT6IkTFdvlbeof7WKpnkgxmysmBWqEZwNI9x7vKsr4Ol+VQEeZOSlDRGUE7n
-	 0zSPCAx7Mpg9XPXDAarlRSd0FxsVeEnPbTKEVNbFonGgwkmwyDrKWPbtuCXblPWqpE
-	 I0ltM8w08VmxA==
-Date: Mon, 24 Nov 2025 11:44:41 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Josh Poimboeuf <jpoimboe@kernel.org>, kernel test robot <lkp@intel.com>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ingo Molnar <mingo@kernel.org>, linux-media@vger.kernel.org
-Subject: Re: drivers/media/i2c/ccs/ccs.o: error: objtool:
- ccs_set_selection(): unexpected end of section .text.ccs_set_selection
-Message-ID: <20251124184441.GB1084995@ax162>
-References: <aSEGwejeD3f7lnUL@rli9-mobl>
- <20251122013414.GA3094872@ax162>
- <ahukd6b3wonye3zgtptvwzvrxldcruazs2exfvll6etjhmcxyj@vq3eh6pd375b>
- <20251122062946.GA3054484@ax162>
- <aSOKsu3XjLc9GRM-@kekkonen.localdomain>
+	s=k20201202; t=1764010457;
+	bh=TEK7y+I345Za9ATxX+knyA/Uh489WPY9Dd1JCZP1I5g=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=AmpYBxDaPN5ZX9P0uxZqWlwOpLxvn2PrmdmQy+Ucj2PSpzD1kjzVJQNspQ3O+zzAE
+	 SoyfcVuxENoe6qN/jwgovr+Map/yE1k+ds7flRVlx2SmXzlUGVnFRek18ncwAZHd7S
+	 CmZZxqAIg/l3VjDKxFy7NVIj3yVu8kSd1iexr44ZzLxCtAc/tf/uV7g0Evv7eqHjnm
+	 1YCo41nZXFteqNZB42Xy6mkJWgTsrY3vio3yZSuwLAF9h+4WTNJsjuMD9VktUXg+iG
+	 xqY1spckPyd0iU/VIM2tMeSOPeqRpUk3qI2vXgOXeQZFFERXoX3JYZp2Be25cXhs5B
+	 9ERA2nzw21Whg==
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-64198771a9bso8323538a12.2
+        for <linux-media@vger.kernel.org>; Mon, 24 Nov 2025 10:54:17 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV1V89Rda7ifI/VPBhS1mubhG/VXEOsNwfonjycKVp0JX2RPqWUUoMzlZLGAiG4xAbWkF43SgH95tenhA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyETxc4u9hz6eSySVtPrtFq3xA4wZnIZJrdT8dJa0T912xCc81u
+	DEKUiPk9ET8Ux1e1OA2cpNXd+3cFW2cp8JI3qNqRDEWpMlOa+f3+KHWaUJVWJep8hWele41KCqB
+	K/lr/NFRdNtZOM+fxzLwIKx8ylW2zSQ==
+X-Google-Smtp-Source: AGHT+IFReAtDFuSFDhp918Ohx2vHaiN5KlMAX/uodATZY6O/YB75rQVqkELqtwQbH271c/8FxbJ2Dkum3f0Uu3OWMzM=
+X-Received: by 2002:a05:6402:5252:b0:643:4e9c:d166 with SMTP id
+ 4fb4d7f45d1cf-6455443ed4cmr10891528a12.8.1764010456224; Mon, 24 Nov 2025
+ 10:54:16 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aSOKsu3XjLc9GRM-@kekkonen.localdomain>
+References: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
+ <20250911151001.108744-4-ariel.dalessandro@collabora.com> <20250912140619.GA1293647-robh@kernel.org>
+ <fb20e4fe-df0a-4089-a7cf-e82bfe1f8e00@collabora.com>
+In-Reply-To: <fb20e4fe-df0a-4089-a7cf-e82bfe1f8e00@collabora.com>
+From: Rob Herring <robh@kernel.org>
+Date: Mon, 24 Nov 2025 12:54:04 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+eeiw9oaqQPWt2=rZSX98Pak_oB=tfQFvEehwLZ=S52g@mail.gmail.com>
+X-Gm-Features: AWmQ_blUF-g1qhHGkKsa6U6HY_V7mtf4Q-WkpVuhZVm09t2HSWt6-IOrweXVTPs
+Message-ID: <CAL_Jsq+eeiw9oaqQPWt2=rZSX98Pak_oB=tfQFvEehwLZ=S52g@mail.gmail.com>
+Subject: Re: [PATCH v2 03/12] dt-bindings: net: Convert Marvell 8897/8997
+ bindings to DT schema
+To: "Ariel D'Alessandro" <ariel.dalessandro@collabora.com>
+Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch, 
+	andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com, 
+	broonie@kernel.org, chunkuang.hu@kernel.org, conor+dt@kernel.org, 
+	davem@davemloft.net, dmitry.torokhov@gmail.com, edumazet@google.com, 
+	flora.fu@mediatek.com, heiko@sntech.de, houlong.wei@mediatek.com, 
+	jeesw@melfas.com, kernel@collabora.com, krzk+dt@kernel.org, kuba@kernel.org, 
+	lgirdwood@gmail.com, linus.walleij@linaro.org, 
+	louisalexis.eyraud@collabora.com, luiz.dentz@gmail.com, 
+	maarten.lankhorst@linux.intel.com, marcel@holtmann.org, 
+	matthias.bgg@gmail.com, mchehab@kernel.org, minghsiu.tsai@mediatek.com, 
+	mripard@kernel.org, p.zabel@pengutronix.de, pabeni@redhat.com, 
+	sean.wang@kernel.org, simona@ffwll.ch, support.opensource@diasemi.com, 
+	tiffany.lin@mediatek.com, tzimmermann@suse.de, yunfei.dong@mediatek.com, 
+	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-sound@vger.kernel.org, netdev@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Sakari,
+On Wed, Oct 1, 2025 at 12:28=E2=80=AFPM Ariel D'Alessandro
+<ariel.dalessandro@collabora.com> wrote:
+>
+> Rob,
+>
+> On 9/12/25 11:06 AM, Rob Herring wrote:
+> > On Thu, Sep 11, 2025 at 12:09:52PM -0300, Ariel D'Alessandro wrote:
+> >> Convert the existing text-based DT bindings for Marvell 8897/8997
+> >> (sd8897/sd8997) bluetooth devices controller to a DT schema.
+> >>
+> >> While here:
+> >>
+> >> * bindings for "usb1286,204e" (USB interface) are dropped from the DT
+> >>    schema definition as these are currently documented in file [0].
+> >> * DT binding users are updated to use bluetooth generic name
+> >>    recommendation.
+> >>
+> >> [0] Documentation/devicetree/bindings/net/btusb.txt
+> >>
+> >> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+> >> ---
+> >>   .../net/bluetooth/marvell,sd8897-bt.yaml      | 79 +++++++++++++++++=
++
+> >>   .../devicetree/bindings/net/btusb.txt         |  2 +-
+> >>   .../bindings/net/marvell-bt-8xxx.txt          | 83 -----------------=
+--
+> >
+> >>   .../dts/rockchip/rk3288-veyron-fievel.dts     |  2 +-
+> >>   .../boot/dts/rockchip/rk3288-veyron-jaq.dts   |  2 +-
+> >>   arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi  |  2 +-
+> >
+> > .dts files should be separate patches. Please send the bindings patches
+> > separately per subsystem so subsystem maintainers can apply them. All
+> > the Mediatek dts changes can be 1 series.
+>
+> Ack, will fix in v3.
 
-On Mon, Nov 24, 2025 at 12:29:06AM +0200, Sakari Ailus wrote:
-> Thanks for cc'ing me.
-> 
-> I prefer this as there's no guarantee the value read via ccs_get_limit()
-> would be non-zero. Presumably it is (and has been so far as no-one has hit
-> this to my knowledge), but we shouldn't rely on that.
+Are you going to send v3 still?
 
-Ah, that makes sense. I misread some of the other places I thought were
-using the value of CCS_LIM() as a divisor, guess I forgot my elementary
-order of operations :) This appears to be the only overt one that I can
-see.
-
-> I can post a patch as well.
-
-If you have time, that would be great (I am happy to build test and
-review it). Otherwise, I can get to it soon.
-
-Cheers,
-Nathan
+Rob
 
