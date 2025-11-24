@@ -1,116 +1,106 @@
-Return-Path: <linux-media+bounces-47643-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47644-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98943C7F1A2
-	for <lists+linux-media@lfdr.de>; Mon, 24 Nov 2025 07:38:24 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20E37C7F66A
+	for <lists+linux-media@lfdr.de>; Mon, 24 Nov 2025 09:37:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D28513AB586
-	for <lists+linux-media@lfdr.de>; Mon, 24 Nov 2025 06:35:21 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 906E04E2F53
+	for <lists+linux-media@lfdr.de>; Mon, 24 Nov 2025 08:37:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD64E2D94B8;
-	Mon, 24 Nov 2025 06:35:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26AB8261B9F;
+	Mon, 24 Nov 2025 08:37:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=deepin.org header.i=@deepin.org header.b="raLPcWW7"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="e2eoZ3bE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C90D2D8792
-	for <linux-media@vger.kernel.org>; Mon, 24 Nov 2025 06:35:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.243.244.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA8527472
+	for <linux-media@vger.kernel.org>; Mon, 24 Nov 2025 08:37:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763966117; cv=none; b=o026B46wUvbcCxLjUD3f4YPd3geYdORP0tm2Km9UbJGzPy+ZJuN1HSLIIgqACdQpV8WEX9Y+RomT6OaAmFOeLyFuwrUNEGb9+jo0vxviC0la8tUexJgm4TSqdhP3R2nMz/o+h4WjwRdyzF/O4enuCKRNkAIcx8I/o3Aem1NjbUU=
+	t=1763973444; cv=none; b=I4t32YI/ye5Tv/IWBDoUuYu3dGSS2FdKH/wvILMhVBUzIhftKL/vGFtBc1xI9gYoE/JnJFl8UTzrcagrapk8qj0ZEZ+ZydM88cKcPUR0CO1mHO22OPdU9l7hVrW6Aof7z6zZR7j9+WC3yuIsByilC49souCDGyzcsos2jZBeOEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763966117; c=relaxed/simple;
-	bh=9Iieci6E6Qt6eWm9wgb4CLUg71wMHcE7Sm6YZjYzw8A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dVL7DJnvJoKzc4hiwgmnv4MNv1UDKnKKWXEpaKmdzst90BD+abMb2BMdUWurQu2lt6ztF9Ppe2R6uV9ScwvLYP6Wy08csy09TfUZ0PSQGRMeGqW+1DlvUXQ8qg3XNVJwJtnXHRYGZwvuThDn+LFa+qpz1qXTgobZ2SyNyancQlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=deepin.org; spf=pass smtp.mailfrom=deepin.org; dkim=pass (1024-bit key) header.d=deepin.org header.i=@deepin.org header.b=raLPcWW7; arc=none smtp.client-ip=54.243.244.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=deepin.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=deepin.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=deepin.org;
-	s=ukjg2408; t=1763966108;
-	bh=xnOjccNb0Jw+nn6RncUWU25F0n4Qc8AzaZvqNkVBbgk=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=raLPcWW7Ne6FwPr2QeTeOgZP0Bgg5ussJRNlOba0w0SGGMxEVLbWEZ4XfWeCnMZNI
-	 l4uKqY7y1A10Pb6T4sTxPOpBdWHVAIc8vDnouM0b1QBmjl9GiTXNG2ADVMCilO8I8g
-	 WpaXAqHt8hBQkorfyecERh80dHQowpUdv1llCS2I=
-X-QQ-mid: zesmtpgz1t1763966107t5630b4ae
-X-QQ-Originating-IP: yzEmcdSkc/mtYEEF6ffxpxATJmovat3JLQw/7OW23TI=
-Received: from ut005408-PC.. ( [103.118.42.229])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 24 Nov 2025 14:35:04 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 14111664059910992199
-EX-QQ-RecipientCnt: 2
-From: Tianyu Chen <sweetyfish@deepin.org>
-To: linux-media@vger.kernel.org
-Cc: Tianyu Chen <sweetyfish@deepin.org>
-Subject: [PATCH v4l-utils] libv4l2: zero v4l2_buffer
-Date: Mon, 24 Nov 2025 14:34:58 +0800
-Message-ID: <F7314D7B842F6CC2+20251124063458.1224107-1-sweetyfish@deepin.org>
-X-Mailer: git-send-email 2.47.2
+	s=arc-20240116; t=1763973444; c=relaxed/simple;
+	bh=m3sWEgPS5R617ojX6IJg3P4UNQLHcAj431mC23Q5Mr4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iz0S83kleprXjsLQyxZ5Jy0FVtt9K0/VpFUab4SVnn7QX29ePpD9vucEBoekV/GKp4V2JLM/5/M4cXfJrMPfOkPXVRlzni6ncauhikkgYjJcHdWGM5j96HhbkaWKNk1yeToSXTEg1EAXz7RnNiFtt0oetYYAN7mea0RdAa5nBGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=e2eoZ3bE; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (mob-5-90-137-64.net.vodafone.it [5.90.137.64])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6EC2389A;
+	Mon, 24 Nov 2025 09:35:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1763973309;
+	bh=m3sWEgPS5R617ojX6IJg3P4UNQLHcAj431mC23Q5Mr4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=e2eoZ3bEjUHsiQ0hEdvj7fqP+EJkpdYavBjAPXt+sgFmuDqDgnH6zf29BotTVSa9H
+	 d0s4Y0z97ZEeQmiqZkBzTAZ/HU3FcW8qyveXYmxfxAVP2f44b+Osz8XcuXLIi3qo9z
+	 SxMBx1PpYI/2moRfhpV3CUPDfBbhieHu3Gp95Coc=
+Date: Mon, 24 Nov 2025 09:37:14 +0100
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Sune Brian <briansune@gmail.com>
+Cc: linux-media@vger.kernel.org
+Subject: Re: [HELP] V4L2 kept reporting CROPCAP fail
+Message-ID: <3qt2yxwubrxhbhst5o2ig5ng4wqokzfg6uqzrtc2lfzq2cjbds@uwdb3zg2a7vi>
+References: <CAN7C2SA34JN71qvqyefmr9h11SsmCaeGGVyc=GW408+MrC-aRg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:deepin.org:qybglogicsvrgz:qybglogicsvrgz3a-1
-X-QQ-XMAILINFO: OWetTbhfR/zwZ5jUcT5WwHInE8J9dRrMiC5RljTapv22rhEE+7W9MCcf
-	yECm8pN1dkdeg9FzW3LqWMMBEKI/X8pgM4o8rjNw0z1mc0+uZMSUNaXTgqTwEeIzWG7U/Xa
-	n5qv/aW0+QYzLVzj8zxhxeXgxnoJVoLxVl4uhN1LUhX3IPd7cr10h+Iox6LV0FFI8Boval7
-	zNeog9G4v34EWdaQFX7trn4XFovDNN2CWE7jbOgnUDxZ2G663GfjgmC1Oncfpdb+F2YEzAE
-	vJhSEnTvcF5b5zYMW19OA2g0l18QZyqnjnXcjyaqWK6rdlksDXk1hZoGqog+7HqDtV69XRA
-	1y9S2L/WrHNMktUVh9Y810SXEIz93nVEuYfPc4Q7yB78A11HnuyQeckXz42i+Lr0IZJn1sh
-	S4jCQosOcTyazuWyIgRK2TXZi8XQQlOhA1gXa7IAkKq+D8YM2BV5iGfZRULtMQWAMSLF3eK
-	QiVryuEXiK71nTwGgZB9DMzxoZdYHydckokihxB77zwkP8l1NJwrhHQxAv+iEdA6kFVRu83
-	deQsbGqitKSVpFDo5uuKdCEIenI+EXq2UyT3/AQP9UxRiWHSIyFdwy9gsiy73rb+6fA5oyf
-	IfgTf9ktRNA3T6jEW6UrYdVrAFief2BiZ117yoIPOLjATsWMRlZst26QAGeu0H+Y0GQK+On
-	PKbjmeas6NS9wr1g3usyz67kpt4ycbSjfSBhZ0sjFYfi5Qc6yIRjR/buq/+KzgOQhA5eUdb
-	HMZV4yoE390N9rIFozaEKDqlETIAGFS439LvVTNFf6yJpQGfClYhiPExI8ut1PbjjlGrGnI
-	X0gDJL+hvHm3B+JddaPoQK16NUXkW/K5PM2LDNlEPOhZumpoS303RrE40zL476wpVwtZmow
-	uC4NDjW3bfqq8M4R7/MjC5eV5CSjwjWMuw67Zqjs0UP7U7VQ8hCol1VpvLO6jHb8ULB5TK7
-	jheyS1LuJ4I7f+OlXTz4oq1aQkCmPzaSQo6YGUsXUN/BKpJG5hfXUYpbUK8tDBOu8CZECHu
-	yxk26dZxcPakUadeaIPtTcQgfgd2Zr7HUiEpAgDKvVEltT420+
-X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
-X-QQ-RECHKSPAM: 0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAN7C2SA34JN71qvqyefmr9h11SsmCaeGGVyc=GW408+MrC-aRg@mail.gmail.com>
 
-v4l2_buffer should be zeroed.
+Hi Brian
 
-Signed-off-by: Tianyu Chen <sweetyfish@deepin.org>
----
- lib/libv4l2/libv4l2.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Sat, Nov 22, 2025 at 04:34:13AM +0800, Sune Brian wrote:
+> Dear v4l mailing members,
+>
+> This is Brian trying to seek help on the following issue.
+>
+> * Platform using: Nanopi-Neo4 (RK3399)
+> * Kernel version: 6.12 & 6.18
 
-diff --git a/lib/libv4l2/libv4l2.c b/lib/libv4l2/libv4l2.c
-index 06396abb..0958cf7e 100644
---- a/lib/libv4l2/libv4l2.c
-+++ b/lib/libv4l2/libv4l2.c
-@@ -176,7 +176,7 @@ static int v4l2_map_buffers(int index)
- {
- 	int result = 0;
- 	unsigned int i;
--	struct v4l2_buffer buf;
-+	struct v4l2_buffer buf = {};
- 
- 	for (i = 0; i < devices[index].no_frames; i++) {
- 		if (devices[index].frame_pointers[i] != MAP_FAILED)
-@@ -568,7 +568,7 @@ static int v4l2_buffers_mapped(int index)
- 
- 	if (!v4l2_needs_conversion(index)) {
- 		/* Normal (no conversion) mode */
--		struct v4l2_buffer buf;
-+		struct v4l2_buffer buf = {};
- 
- 		for (i = 0; i < devices[index].no_frames; i++) {
- 			buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
--- 
-2.47.2
+Is this a mainline kernel or a Rockchip BSP ? (tbh I've no idea if
+rockchip BSP ships a different camera/ISP driver than mainline..)
 
+> * Issue: CROPCAP fail warming and possible stall on v4l2
+>
+> More information:
+>
+> The MIPI camera is functioning on both 6.12&6.18.
+> However, no matter preview or capturing there is
+> a warming message kept reports and cannot found
+> possible root cause.
+>
+> Message as follows:
+> v4l2 gstv4l2object.c:5032:gst_v4l2_object_get_crop_rect:<v4l2src0:src>
+
+this is gstreamer reporting an error.
+
+I would start by suggesting increasing the gstreamer debug (plenty of
+resources online)
+
+However, if you're trying to capture from a camera going through the ISP
+the v4l2src plugin from gstreamer shouldn't work, so I suspect you
+might be on a different software stack than mainline linux and
+gstreamer or you are using a different camera than what I'm thinking
+of.
+
+Could you provide more details on your setup, what application you're
+capturing with etc etc ?
+
+
+> VIDIOC_CROPCAP failed
+>
+> Thank you,
+> Brian
+>
 
