@@ -1,262 +1,134 @@
-Return-Path: <linux-media+bounces-47667-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47668-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91125C81A0E
-	for <lists+linux-media@lfdr.de>; Mon, 24 Nov 2025 17:42:47 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89269C81A9E
+	for <lists+linux-media@lfdr.de>; Mon, 24 Nov 2025 17:50:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5637B3A7FF6
-	for <lists+linux-media@lfdr.de>; Mon, 24 Nov 2025 16:39:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 988453A9BDF
+	for <lists+linux-media@lfdr.de>; Mon, 24 Nov 2025 16:49:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87A4029BD94;
-	Mon, 24 Nov 2025 16:39:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99997316189;
+	Mon, 24 Nov 2025 16:49:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="ZV62hm9Q"
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="eVMzGw+l"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 080D229AB11
-	for <linux-media@vger.kernel.org>; Mon, 24 Nov 2025 16:39:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77CC1305053
+	for <linux-media@vger.kernel.org>; Mon, 24 Nov 2025 16:49:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764002388; cv=none; b=sXOKBHgfCtHx34H3lfhVTfDoMMNLcmLEtniwy2UjzkIlCRL81S2zgtloWkd90V9+xy4ODi8NIpnvxSGuLcx9f7mD0eN1zVEM4TOAlDLeBEzFTMbKr09yIvyhQgcV2i6A/ejQYTAOOeoyTffddasCyDP6Dltskdygspdvmw9pWRs=
+	t=1764002988; cv=none; b=IRO2w44xn8z0yUaOQxnPtd02AMn0GqdVnLUBBGnjrL2zZp3Ajwm+WTTTd7ean3Iud1e9APDuC+VtnlmyTNaQ4whSPQASnbTSs4heAmqjruV8W3Fj6xhqoiLmQsocXy7ezpw0OoaYiWVvC1IkY80cBeO2pG1lQCe9LrIqU5abXHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764002388; c=relaxed/simple;
-	bh=5l6CRo/azRe1VajN8G2idPGnbGPFBO48LaAcHce2FcQ=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=QfyyIvqWZmPG8viRl9wzfkwPhZil2wyC49b7FF+rdwHD/jJxz3+xC+5a00DNbBWCJ+mbdf+IG90T/kZ5IsUrGndHrpXBNWmSvr9C5OZxse75/cF3wu6JM7PRGXPLa/uDh4ofzNS1xVI89MjkwMIgNH6y8ElKXqsakqbucOSU7Tw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=ZV62hm9Q; arc=none smtp.client-ip=209.85.222.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qk1-f196.google.com with SMTP id af79cd13be357-8b2f2c5ec36so527015585a.1
-        for <linux-media@vger.kernel.org>; Mon, 24 Nov 2025 08:39:46 -0800 (PST)
+	s=arc-20240116; t=1764002988; c=relaxed/simple;
+	bh=5q+m+70L8W6/MtJ6J2PXmMYiDdxIy6zTsSH9/gU2w/8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ogjF32BJDTVKyNQvbVBhVPTNGkxdF1PkN1vPJbWBdpDtHbqImFkBawfyHpKycZ2vAt0Gkr2+VphRHkQHqllY2CxN7KCtqDpyYx4HnRP7W5iyeUEaR7uOuNc90CAwycmZaXG4AemEjTdvbWEfqs5VluGobOREdDx21ujUNIdi27c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=eVMzGw+l; arc=none smtp.client-ip=209.85.219.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-88267973e5cso28416476d6.3
+        for <linux-media@vger.kernel.org>; Mon, 24 Nov 2025 08:49:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1764002386; x=1764607186; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
-         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=9iavF5wgAHC4K4vBJKSRHkahZUTo4v4P/ufyYmBWGak=;
-        b=ZV62hm9QbldjmUh8nHqmSop9v8gq1Lm/ijAwu3EgylNz2dqLO/I7iGUbWJ7OPlAc9S
-         nN3PXrXbIzGnpAmce2820pNGh4+IFYKN+Pt/SE3dLp4B6OmFeP5K2AQ+ySuFjWbgHg7h
-         LLCI9PMlUo4+zb71YD4EPqhLPWH0B3mAbOal2EnbDFvIuUHIy6HVyXKB0tNot0/YBS2k
-         M1S30GnjMoAKrYDEQek7x1mGhSQUBS/tCNj+6OOjKD7kD6CGrXF8+F5G78I+vzHZbtkL
-         JMmRWwVvE9oGLrokIOLP61UY+DTVyfruVFaJf7e9eV8N4RNCXcK71Y3tic2voYnNGImd
-         3jgA==
+        d=rowland.harvard.edu; s=google; t=1764002985; x=1764607785; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=32HmhasQZgNPGsGzmYAFxW5zQ2p5OywfOicHnjZoIfo=;
+        b=eVMzGw+lIe8BpaRm7SNXkhBwUf5p2wiC/6j4zB7TUH6aw68gp9PE3fChtD/wM/Aicy
+         pcSDwcOrU0L7dBg2J1jKg9Qxx54gxHoQh7KEd6xJzwd4zI7SMHPGlQuKziB0OXkp96a9
+         05hIeXotdEnvpTaGwRR/vIp96xp0XTU393Fv8TAv6s5lPw5RZgwyx+wsTgLtM+MduNju
+         hSf8JQ5OmHGP51N580YZl4QH31YGs65Bf/YMcRJzqPydsAF1rbK6tK4K+g1HRUDQdOPO
+         K8tONuYzVe9aSwh6QwePWp7EK76LZGZ/Od/e/aVoTOhScOgsNPLoJ63lcI0Fq4tymk5m
+         cl3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764002386; x=1764607186;
-        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
-         :subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=9iavF5wgAHC4K4vBJKSRHkahZUTo4v4P/ufyYmBWGak=;
-        b=YuyCWSngXOjML0ExonhQbJEPbBglSSHBiD9Rh/3U2FuPXXWBQPjmcliG0Z00swYE57
-         +JBSfg/FmCl5J38hExDCi28QJbeD+noCLjjMefHIFDoXJHHSPHhfBvEGOahlP89GDcZO
-         IYxYm7oDd5L8lfpuRFgYS6ISFI7rxCIp7d1tLnL9ItQApU40uryP16lEsprOccRsab6V
-         xQtUPMT5Kbn7eHgmvdjQoluMpgkJz8rpZPvWaCgjmMTE1Mk3tWuTpBYTJPCG4o5CTxA8
-         mwfmDCjxEJIc/ywnjH5AkYvfWQDSB3VZOcVyuCFFdcxMlAdY9iKeVCcR8qywuHa0ji9L
-         gvXw==
-X-Gm-Message-State: AOJu0Yz7vC8e9QisZexneQlQtqWg9rS//y86tY2Fu7CiklkesXsNhtxk
-	saiuLt2QZ/RXA0ypPcsdW32FUGjjmTjZfL8qS/yI0ZlX5HPdsTH1PSn4o/iF2SJ0I7g=
-X-Gm-Gg: ASbGnculViE4HTnXmdhQGVekd/0tSAMQ/sWrrYJj9KXkRobL22zOgTiP/4UDXxkRnQu
-	CKuLZV7ORqcVjrVZAYc7aGtY70rayJ9C2Z6ncAyrpjhe7wx+RcMgkYtM3OwHeqbYtp7Qkd2S63u
-	z03w9LF2xKFuHbF0CtYfN5vvngqt4AL8l66FqFYsx07ETocDcevLTycY/JwV/zjM4/xcOs51nAb
-	pKbJ/bUXYaulTIFvk9149udHDxBIGb2QMZs1W+3V6vIHn+wqGIJl+Jgmmxrd8y6g2Wyn+RJN1sG
-	5kNDP9Hb2JbB7fiW6yTUR5pUw+JIY8iues+7QluSekvBhZNC6Xh5iiEWlq5lp23YCQp3vuivI6o
-	DbmD5Q37lHibPYpi2wf/Ic6vHg2cXE4mDtegVe5vgt2GtT20YbEDSmh5+vb885126bc36ylasrY
-	+my+vcuGwQeVqgPI2A
-X-Google-Smtp-Source: AGHT+IEhf7zBXg2obuM0Wvyx3W1baR9UChFOPX2BoB/TIpveKMriV0p5s5SimoGLInp8YO2+ZvsNlQ==
-X-Received: by 2002:a05:620a:701a:b0:8b2:1568:82ce with SMTP id af79cd13be357-8b33d4680b0mr1458433285a.37.1764002385770;
-        Mon, 24 Nov 2025 08:39:45 -0800 (PST)
-Received: from ?IPv6:2606:6d00:17:7b4b::5ac? ([2606:6d00:17:7b4b::5ac])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8b3295db58fsm979338885a.37.2025.11.24.08.39.44
+        d=1e100.net; s=20230601; t=1764002985; x=1764607785;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=32HmhasQZgNPGsGzmYAFxW5zQ2p5OywfOicHnjZoIfo=;
+        b=jGu2bwJfDpdSY8hqrP4/JGdL4eGgcBf5f5BkMf2OjElbLfrDy3K0muybM3xUciwiIZ
+         liNS3WhG+qNrqvEs+vhRZnrNZsbVFW/K10z5vZPxINVPvGt+qKnTbV9OfDyK321rJp47
+         XEJ/IEot0Vs2/MkgoVjoCKfAd9qV6H+K2s4bWChQKMYjiZCXXeXORtVzwpKF52RDVKXb
+         ie637FCG+FP7zCwemiFqnz8Trb9l8d9bypH1WipADhXTp/ZWFoHv4v/RaXUTO0LflUWX
+         CCeyXb6EROTPb67zLkuV5lR4s+5ygEVu8+Fri8QNDT4uKoj+OTKuYIOtMyK9g7SfZC5J
+         E7Mg==
+X-Gm-Message-State: AOJu0YwORhG+4VE7ZFIEpPcFKqn25sS4L6B4nz2+qVS2OzdhjNUAb7L2
+	qxkw91k+51GR7o6N6IfekVyM5Tq9Bcp//W6bEeb93xjRveHlZOwPkE23v3QGTGNxhQ==
+X-Gm-Gg: ASbGncujvCh+gkY4FC8vkB9/JdP2AA2L8pIu7NUGpdAteK/JbU4RYkTw2wBARatFmNv
+	XZp4bDpnhi7NuvgAQdfXBZrA/faFp1jECiiTD43EgaPAcrqx8r9qi0WtjFV2Sbsk8HR60BkvbxX
+	C19prtzfaKng6Bn7qPCeZdwtQtgtg5ZfrSLzJpNDWF+/5/KJGSxmMI3+mYbMf2qXMZaa9JsTSKl
+	r16mM/gEBqeSZdrmhVGTqaghbuDXeDfm+yNRq5TiGwJdqeSmJ9fyhdDjVfldT7LGKacIrbq986V
+	I33MW8ymYdCxg3b+GGDH1LQEQxT7nFltCNId+Q5xLZvIAhJY4mszMrKuxQDnAADU7T2UN1K+MKN
+	SZu4K82yTr4m9GIZLuncTmc86egK4NXeBTNzEiuP2OCGMbpNPpgtDlt2mxLRNK29jHgj+xD2PW+
+	B9yn9qIKLFb2VH
+X-Google-Smtp-Source: AGHT+IHocwxdXpk5RDYixJT4zq5tyh6blA48vmJIcPgVQzo441r/3lc83iLf5nSVxOzoet7kQOBP2A==
+X-Received: by 2002:a05:6214:19c5:b0:882:3ecd:20ec with SMTP id 6a1803df08f44-8847c57a6c3mr180093406d6.60.1764002985111;
+        Mon, 24 Nov 2025 08:49:45 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:d03:1700::eaae])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8846e54c32csm103250496d6.37.2025.11.24.08.49.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Nov 2025 08:39:45 -0800 (PST)
-Message-ID: <baec095da2b7b84be19b205b18e765f9a2305574.camel@ndufresne.ca>
-Subject: Re: [PATCH 2/2] media: verisilicon: Avoid G2 bus error while
- decoding H.264 and HEVC
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Frank Li <Frank.li@nxp.com>, "Ming Qian(OSS)" <ming.qian@oss.nxp.com>
-Cc: linux-media@vger.kernel.org, mchehab@kernel.org,
- hverkuil-cisco@xs4all.nl, 	benjamin.gaignard@collabora.com,
- p.zabel@pengutronix.de, 	sebastian.fricke@collabora.com,
- shawnguo@kernel.org, ulf.hansson@linaro.org, 	s.hauer@pengutronix.de,
- kernel@pengutronix.de, festevam@gmail.com, 	linux-imx@nxp.com,
- l.stach@pengutronix.de, peng.fan@nxp.com, eagle.zhou@nxp.com, 
-	imx@lists.linux.dev, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, 	linux-arm-kernel@lists.infradead.org
-Date: Mon, 24 Nov 2025 11:39:43 -0500
-In-Reply-To: <aSR+eaVxBhnahOl7@lizhi-Precision-Tower-5810>
-References: <20251121081911.1682-1-ming.qian@oss.nxp.com>
-	 <20251121081911.1682-2-ming.qian@oss.nxp.com>
-	 <aSCOZCJ2rSw7LAvE@lizhi-Precision-Tower-5810>
-	 <d282811a-866d-4ca8-b9f6-fc1da3a7565e@oss.nxp.com>
-	 <aSR+eaVxBhnahOl7@lizhi-Precision-Tower-5810>
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-9MfzEt4m6odi0eUBy2qY"
-User-Agent: Evolution 3.58.1 (3.58.1-1.fc43) 
+        Mon, 24 Nov 2025 08:49:44 -0800 (PST)
+Date: Mon, 24 Nov 2025 11:49:41 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Nalivayko Sergey <Sergey.Nalivayko@kaspersky.com>
+Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Antoine Jacquet <royale@zerezo.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	lvc-project@linuxtesting.org,
+	syzbot+0335df380edd9bd3ff70@syzkaller.appspotmail.com,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2] dvb-usb: dtv5100: rewrite i2c message usb_control
+ send/recv
+Message-ID: <1097a93c-89d7-49e1-9b36-3fb9e51ede54@rowland.harvard.edu>
+References: <20251121132332.3983185-1-Sergey.Nalivayko@kaspersky.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251121132332.3983185-1-Sergey.Nalivayko@kaspersky.com>
 
+On Fri, Nov 21, 2025 at 04:23:31PM +0300, Nalivayko Sergey wrote:
+> syzbot reports a WARNING issue as below:
+> 
+> usb 1-1: BOGUS control dir, pipe 80000280 doesn't match bRequestType c0
+> WARNING: CPU: 0 PID: 5833 at drivers/usb/core/urb.c:413 usb_submit_urb+0x1112/0x1870 drivers/usb/core/urb.c:411
 
---=-9MfzEt4m6odi0eUBy2qY
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+...
 
-Hi,
+> The issue occurs due to insufficient validation of data passed to the USB API.
+> In the current implementation, the dtv5100 driver expects two I2C non-zero 
+> length messages for a combined write/read request. However, when 
+> only a single message is provided, the driver incorrectly processes message
+> of size 1, passing a read data size of zero to the dtv5100_i2c_msg function.
 
-Le lundi 24 novembre 2025 =C3=A0 10:49 -0500, Frank Li a =C3=A9crit=C2=A0:
-> On Mon, Nov 24, 2025 at 09:38:15AM +0800, Ming Qian(OSS) wrote:
-> > Hi Frank,
-> >=20
-> > On 11/22/2025 12:08 AM, Frank Li wrote:
-> > > On Fri, Nov 21, 2025 at 04:19:09PM +0800, ming.qian@oss.nxp.com=C2=A0=
-wrote:
-> > > > From: Ming Qian <ming.qian@oss.nxp.com>
-> > > >=20
-> > > > For the i.MX8MQ platform, there is a hardware limitation: the g1 VP=
-U and
-> > > > g2 VPU cannot decode simultaneously; otherwise, it will cause below=
- bus
-> > > > error and produce corrupted pictures, even led to system hang.
-> > > >=20
-> > > > [=C2=A0 110.527986] hantro-vpu 38310000.video-codec: frame decode t=
-imed out.
-> > > > [=C2=A0 110.583517] hantro-vpu 38310000.video-codec: bus error dete=
-cted.
-> > > >=20
-> > > > Therefore, it is necessary to ensure that g1 and g2 operate alterna=
-tely.
-> > > > Then this allows for successful multi-instance decoding of H.264 an=
-d
-> > > > HEVC.
-> > > >=20
-> > > > Fixes: cb5dd5a0fa518 ("media: hantro: Introduce G2/HEVC decoder")
-> > > > Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
-> > > > ---
-> > > > =C2=A0 drivers/media/platform/verisilicon/hantro.h=C2=A0=C2=A0 |=C2=
-=A0 1 +
-> > > > =C2=A0 .../media/platform/verisilicon/hantro_drv.c=C2=A0=C2=A0 | 26=
- +++++++++++++++++++
-> > > > =C2=A0 .../media/platform/verisilicon/imx8m_vpu_hw.c |=C2=A0 4 +++
-> > > > =C2=A0 3 files changed, 31 insertions(+)
-> > > >=20
-> > > ...
-> > > > =C2=A0 #include <linux/workqueue.h>
-> > > > +#include <linux/iopoll.h>
-> > > > =C2=A0 #include <media/v4l2-event.h>
-> > > > =C2=A0 #include <media/v4l2-mem2mem.h>
-> > > > =C2=A0 #include <media/videobuf2-core.h>
-> > > > @@ -93,6 +94,9 @@ static void hantro_job_finish(struct hantro_dev *=
-vpu,
-> > > >=20
-> > > > =C2=A0=C2=A0	clk_bulk_disable(vpu->variant->num_clocks, vpu->clocks=
-);
-> > > >=20
-> > > > +	if (vpu->variant->shared_resource)
-> > > > +		atomic_cmpxchg(vpu->variant->shared_resource, 0, 1);
-> > > > +
-> > > > =C2=A0=C2=A0	hantro_job_finish_no_pm(vpu, ctx, result);
-> > > > =C2=A0 }
-> > > >=20
-> > > > @@ -166,12 +170,34 @@ void hantro_end_prepare_run(struct hantro_ctx
-> > > > *ctx)
-> > > > =C2=A0=C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 msecs_to_jiffies(2000=
-));
-> > > > =C2=A0 }
-> > > >=20
-> > > > +static int hantro_wait_shared_resource(struct hantro_dev *vpu)
-> > > > +{
-> > > > +	u32 data;
-> > > > +	int ret;
-> > > > +
-> > > > +	if (!vpu->variant->shared_resource)
-> > > > +		return 0;
-> > > > +
-> > > > +	ret =3D read_poll_timeout(atomic_cmpxchg, data, data, 10, 300 *
-> > > > NSEC_PER_MSEC, false,
-> > > > +				vpu->variant->shared_resource, 1, 0);
-> > > > +	if (ret) {
-> > > > +		dev_err(vpu->dev, "Failed to wait shared resource\n");
-> > > > +		return -EINVAL;
-> > > > +	}
-> > >=20
-> > > why not use a mutex?
-> > >=20
-> > > mutex() lock here, unlock at hantro_job_finish(), if second instance
-> > > run to here, mutex() will block thread, until previous hantro_job_fin=
-ish()
-> > > finish.
-> > >=20
-> > > Frank
-> >=20
-> > G1 and G2 are two different devices. If I were to use a mutex, I would
-> > need to define a global mutex. Therefore, to avoid using a global mutex=
-,
-> > I only define a static atomic variable.
->=20
-> static atomic varible also is global.=C2=A0 Global mutex is allowed if it=
- is
-> really needed.
->=20
-> >=20
-> > If a static mutex is acceptable, I think I can change it to a mutex.
->=20
-> ref to
-> https://elixir.bootlin.com/linux/v6.18-rc6/source/drivers/base/core.c#L43
+Then why not fix the validation instead of trying to cope with invalid 
+data in dtv5100_i2c_msg()?
 
-My main concern with either of these approaches is that it kills the abilit=
-y to
-rmmod the driver forever. The only working approach would be that both driv=
-ers
-depends on a third driver that provide the synchronization services.
+> When usb_control_msg() is called with a PIPEOUT type and a read length of
+> zero, a mismatch error occurs between the operation type and the expected
+> transfer direction in function usb_submit_urb. This is the trigger
+> for warning.
+> 
+> Replace usb_control_msg() with usb_control_msg_recv() and
+> usb_control_msg_send() to rely on the USB API for proper validation and
+> prevent inconsistencies in the future.
 
-Nicolas
+The reason those two functions were created was to simplify the calling 
+sequence by removing the need for callers to allocate temporary buffers 
+-- not to do any extra validation.  That reason don't seem to apply in 
+this case.
 
->=20
-> Frank
-> >=20
-> > Regards,
-> > Ming
-> >=20
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +
-> > > > =C2=A0 static void device_run(void *priv)
-> > > > =C2=A0 {
-> > > > =C2=A0=C2=A0	struct hantro_ctx *ctx =3D priv;
-> > > > =C2=A0=C2=A0	struct vb2_v4l2_buffer *src, *dst;
-> > > > =C2=A0=C2=A0	int ret;
-> > > >=20
-> > > > +	ret =3D hantro_wait_shared_resource(ctx->dev);
-> > > > +	if (ret < 0)
-> > > > +		goto err_cancel_job;
-> > > > +
-> > > > =C2=A0=C2=A0	src =3D hantro_get_src_buf(ctx);
-> > > > =C2=A0=C2=A0	dst =3D hantro_get_dst_buf(ctx);
-> > > ...
-> > >=20
-> > > >=20
-> > > > --
-> > > > 2.34.1
-> > > >=20
+It seems like there would be no need to change dtv5100_i2c_msg() at all 
+if its inputs were properly vetted.  Am I missing something?
 
---=-9MfzEt4m6odi0eUBy2qY
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaSSKTwAKCRDZQZRRKWBy
-9I6lAQChTt9rXsTyp+alYyrA7Oe8CReteB0yVGS6rHYuqIhe1wEAiasfKosen86t
-jj/9bnBTj+RVfWUI5e4CEn7uH8QRMQM=
-=aSTR
------END PGP SIGNATURE-----
-
---=-9MfzEt4m6odi0eUBy2qY--
+Alan Stern
 
