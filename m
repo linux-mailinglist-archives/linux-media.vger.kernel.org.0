@@ -1,109 +1,196 @@
-Return-Path: <linux-media+bounces-47650-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47651-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD5D1C7FC7D
-	for <lists+linux-media@lfdr.de>; Mon, 24 Nov 2025 10:58:14 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97F43C7FD5A
+	for <lists+linux-media@lfdr.de>; Mon, 24 Nov 2025 11:18:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 70C633A7127
-	for <lists+linux-media@lfdr.de>; Mon, 24 Nov 2025 09:58:09 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 82DB04E4D76
+	for <lists+linux-media@lfdr.de>; Mon, 24 Nov 2025 10:18:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECB3D2F998A;
-	Mon, 24 Nov 2025 09:57:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5394626E175;
+	Mon, 24 Nov 2025 10:18:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HCn1FAer"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aGwSS8xY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 418442F745B;
-	Mon, 24 Nov 2025 09:57:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8895A25F7A4;
+	Mon, 24 Nov 2025 10:18:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763978276; cv=none; b=nggaabpP96PB+KHxgYP9YrDRdE/sdsf+NcUtbp4ptmi6aQGhwIiKeIFkIz1C8bZ7Ggi/sVwczuwKAgCWDierQjNC+3I4XMCNcfomicDGBqfjrRF8JGWl0kf/38CceXG6utz0vO8uDqnmYjg25y/t4gCar4LmxXXFq/ayj2UTaTU=
+	t=1763979519; cv=none; b=lPWJKADMOeyU4KbTLJ+DxpQsvfFjvKo7nb1kntyqKucniZQfVn+qozO7nP2UCTu4foXcjRtk7lh14n4kkkqI0KluZgAwGjBrFfdNRmBCTffHbD/2b4Dhj5lzLpt2YzuaICOpnwosMHpEcQb6xCU2IkCv0ctxFWvcuN1Uuvv/rxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763978276; c=relaxed/simple;
-	bh=Ik0bwiscH39XA81eEpRwbrxBFIfeeaIoMwR5sWLhRX0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BEYgnnhBCMCxvlUElnZUxSBqd+IwEczsqeDHMZj3aFIGz9AqWVxKnJ3KpOecsqF43VuQ0NS0rqslg+jaOdppB0d3y1wNCfJSF7ZzMHJgbMrEjp7FxoGYicAW6j3VeFKtG6nd7uaz6Z4Yj4OTK8R8TCZkVI9lQq8CYFCZBuPloP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HCn1FAer; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAA92C19421;
-	Mon, 24 Nov 2025 09:57:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763978276;
-	bh=Ik0bwiscH39XA81eEpRwbrxBFIfeeaIoMwR5sWLhRX0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=HCn1FAeracqS4C5RHH3gtIyy1o4+mdfUbxdO5ZGnc8l6dh9Y3LGt8kBTnHoFH51fF
-	 qPhDuAsobF8jmLaz9Ove1jV/2HyPEb722xX6psuwr/j+Ap3du3JQmvuz08f2s5PLC5
-	 TVzBN4Sy5o8K9HFCGhHJ7lw+GDgpLky33+sV2Y/xGfqjdqXp7pAUNW4P7jvoGbE7v6
-	 KTZb0nPbFgxH60KjiH0pPdqMKvX8wq7rmCavaUdT7A41n1dhkkN5kEru6RLNhP4ei8
-	 E2vTR7mDr0iMoWyWcTChcqw025mvusNdDvsjnwM6AjqjEjoXFXnijN5NaJu6efmcSr
-	 4DuL+z2/+IJrA==
-Received: from mchehab by mail.kernel.org with local (Exim 4.99)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vNTKU-000000013c8-0kV4;
-	Mon, 24 Nov 2025 10:57:54 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	"Jonathan Corbet" <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Mauro Carvalho Chehab" <mchehab@kernel.org>,
-	"Randy Dunlap" <rdunlap@infradead.org>,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org
-Subject: [PATCH v5 3/5] docs: media: v4l2-ioctl.h: document two global variables
-Date: Mon, 24 Nov 2025 10:57:44 +0100
-Message-ID: <8a834e98624795aa02070752d3d49a9ba40a86e7.1763978209.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <cover.1763978209.git.mchehab+huawei@kernel.org>
-References: <cover.1763978209.git.mchehab+huawei@kernel.org>
+	s=arc-20240116; t=1763979519; c=relaxed/simple;
+	bh=M3REM2AkGNRfWagplN2Td6j45eziRKuEeQGf6FkIvVo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QtRpzMm+LoOa2X7Xys6u4OfxwjsrQQfgl1yh2NtgJY1S1fG4R6BGjJw1L/YyJvQE/LfHcLWHd6y+bauS2h8Bdfit5F4YQnVO+VUW5z4HvWRcR0JfsOF1rbNTWMCxgbvRJs/IQt2rD46crpu4KBWLOCjai5RcClNOSnNFNUk5RpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aGwSS8xY; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763979517; x=1795515517;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=M3REM2AkGNRfWagplN2Td6j45eziRKuEeQGf6FkIvVo=;
+  b=aGwSS8xY1acNx9LrlyOZr+n/Ry4dUp/ZS6HdcLn0+6ROYLtcPZgEt0Qw
+   1NECndnqi/9p+d/PcbuonIiny7luX6Nj/TodHZ72D4AKAB4ZA2Y9rVPIT
+   WiJfmXPVo+bIYtsI8S+yf4+HLz3qyQrNV7s1tGUrxt2jUBgwWzM9KsttM
+   KoPE9sQGH4DLzwwjy70z6GgjDfaqFXc7TKTXUvE3nBUZ86gmU8XkMeaDI
+   2ECJC96RBEoGohTD2IcDpmVNAgLSUcSp1e/EkOIeLAd0tFiMsY2p4Piac
+   S6PyKZQngWIC/7ZZT3tcB9gBFqzEATjHcKJtIov6YtkgPF++P2VUoE7P8
+   g==;
+X-CSE-ConnectionGUID: f+mIFPhwRDyMVNDnjRa5rQ==
+X-CSE-MsgGUID: s1g3mON4SmadvmkycGQW1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11622"; a="65855446"
+X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
+   d="scan'208";a="65855446"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 02:18:37 -0800
+X-CSE-ConnectionGUID: KM+m4CkRRBCfpQiCwM9fNw==
+X-CSE-MsgGUID: i/IUTimqRFC+XihnoxF4Rw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,222,1758610800"; 
+   d="scan'208";a="191963443"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.9])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 02:18:34 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id C4117121DC4;
+	Mon, 24 Nov 2025 12:18:33 +0200 (EET)
+Date: Mon, 24 Nov 2025 12:18:33 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Richard Leitner <richard.leitner@linux.dev>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org, Hans Verkuil <hverkuil@kernel.org>
+Subject: Re: [PATCH v9 6/8] media: i2c: ov9282: add strobe_duration v4l2
+ control
+Message-ID: <aSQw-SaUr9U5heah@kekkonen.localdomain>
+References: <20251120-ov9282-flash-strobe-v9-0-6c9e3a4301d7@linux.dev>
+ <20251120-ov9282-flash-strobe-v9-6-6c9e3a4301d7@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+In-Reply-To: <20251120-ov9282-flash-strobe-v9-6-6c9e3a4301d7@linux.dev>
 
-The media kAPI has two global variables at v4l2-ioctl.h. Document
-them.
+Hi Richard,
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- include/media/v4l2-ioctl.h | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+On Thu, Nov 20, 2025 at 06:04:26PM +0100, Richard Leitner wrote:
+> Add V4L2_CID_FLASH_DURATION support using the "strobe_frame_span"
+> feature of the sensor. This is implemented by transforming the given µs
+> value by an interpolated formula to a "span step width" value and
+> writing it to register PWM_CTRL_25, PWM_CTRL_26, PWM_CTRL_27,
+> PWM_CTRL_28 (0x3925, 0x3926, 0x3927, 0x3928).
+> 
+> The maximum control value is set to the period of the current default
+> framerate.
+> 
+> All register values are based on the OV9281 datasheet v1.53 (jan 2019)
+> and tested using an ov9281 VisionComponents module.
+> 
+> Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
+> ---
+>  drivers/media/i2c/ov9282.c | 37 ++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 36 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+> index 6afce803a049..26296dc1d1b9 100644
+> --- a/drivers/media/i2c/ov9282.c
+> +++ b/drivers/media/i2c/ov9282.c
+> @@ -97,6 +97,10 @@
+>  #define OV9282_REG_MIPI_CTRL00	0x4800
+>  #define OV9282_GATED_CLOCK	BIT(5)
+>  
+> +/* Flash/Strobe control registers */
+> +#define OV9282_REG_STROBE_FRAME_SPAN		0x3925
+> +#define OV9282_STROBE_FRAME_SPAN_DEFAULT	0x0000001a
+> +
+>  /* Input clock rate */
+>  #define OV9282_INCLK_RATE	24000000
+>  
+> @@ -687,6 +691,31 @@ static int ov9282_set_ctrl_flash_strobe_oe(struct ov9282 *ov9282, bool enable)
+>  	return ov9282_write_reg(ov9282, OV9282_REG_OUTPUT_ENABLE6, 1, current_val);
+>  }
+>  
+> +static int ov9282_set_ctrl_flash_duration(struct ov9282 *ov9282, u32 value)
+> +{
+> +	int ret;
+> +	/*
+> +	 * Calculate "strobe_frame_span" increments from a given value (µs).
+> +	 * This is quite tricky as "The step width of shift and span is
+> +	 * programmable under system clock domain.", but it's not documented
+> +	 * how to program this step width (at least in the datasheet available
+> +	 * to the author at time of writing).
+> +	 * The formula below is interpolated from different modes/framerates
+> +	 * and should work quite well for most settings.
+> +	 */
+> +	u32 val = value * 192 / (ov9282->cur_mode->width + ov9282->hblank_ctrl->val);
+> +
+> +	ret = ov9282_write_reg(ov9282, OV9282_REG_STROBE_FRAME_SPAN, 1,
+> +			       (val >> 24) & 0xff);
+> +	ret |= ov9282_write_reg(ov9282, OV9282_REG_STROBE_FRAME_SPAN + 1, 1,
+> +				(val >> 16) & 0xff);
+> +	ret |= ov9282_write_reg(ov9282, OV9282_REG_STROBE_FRAME_SPAN + 2, 1,
+> +				(val >> 8) & 0xff);
+> +	ret |= ov9282_write_reg(ov9282, OV9282_REG_STROBE_FRAME_SPAN + 3, 1,
+> +				val & 0xff);
 
-diff --git a/include/media/v4l2-ioctl.h b/include/media/v4l2-ioctl.h
-index 6f7a58350441..54c83b18d555 100644
---- a/include/media/v4l2-ioctl.h
-+++ b/include/media/v4l2-ioctl.h
-@@ -663,7 +663,22 @@ void v4l_printk_ioctl(const char *prefix, unsigned int cmd);
- struct video_device;
- 
- /* names for fancy debug output */
-+
-+/**
-+ * var v4l2_field_names - Helper array mapping ``V4L2_FIELD_*`` to strings.
-+ *
-+ * Specially when printing debug messages, it is interesting to output
-+ * the field order at the V4L2 buffers. This array associates all possible
-+ * values of field pix format from V4L2 API into a string.
-+ */
- extern const char *v4l2_field_names[];
-+
-+/**
-+ * var v4l2_type_names - Helper array mapping ``V4L2_BUF_TYPE_*`` to strings.
-+ *
-+ * When printing debug messages, it is interesting to output the V4L2 buffer
-+ * type number with a name that represents its content.
-+ */
- extern const char *v4l2_type_names[];
- 
- #ifdef CONFIG_COMPAT
+Bitwise or on error codes won't produce sensible results. Could you fix
+that? The series won't make it to v6.19 in any case.
+
+> +	return ret;
+> +}
+> +
+>  /**
+>   * ov9282_set_ctrl() - Set subdevice control
+>   * @ctrl: pointer to v4l2_ctrl structure
+> @@ -756,6 +785,9 @@ static int ov9282_set_ctrl(struct v4l2_ctrl *ctrl)
+>  	case V4L2_CID_FLASH_STROBE_OE:
+>  		ret = ov9282_set_ctrl_flash_strobe_oe(ov9282, ctrl->val);
+>  		break;
+> +	case V4L2_CID_FLASH_DURATION:
+> +		ret = ov9282_set_ctrl_flash_duration(ov9282, ctrl->val);
+> +		break;
+>  	default:
+>  		dev_err(ov9282->dev, "Invalid control %d", ctrl->id);
+>  		ret = -EINVAL;
+> @@ -1345,7 +1377,7 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
+>  	u32 lpfr;
+>  	int ret;
+>  
+> -	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 11);
+> +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 12);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -1414,6 +1446,9 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
+>  	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops,
+>  			  V4L2_CID_FLASH_STROBE_OE, 0, 1, 1, 0);
+>  
+> +	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_FLASH_DURATION,
+> +			  0, 13900, 1, 8);
+> +
+>  	ret = v4l2_fwnode_device_parse(ov9282->dev, &props);
+>  	if (!ret) {
+>  		/* Failure sets ctrl_hdlr->error, which we check afterwards anyway */
+> 
+
 -- 
-2.51.1
+Kind regards,
 
+Sakari Ailus
 
