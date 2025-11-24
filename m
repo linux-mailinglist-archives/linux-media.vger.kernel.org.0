@@ -1,361 +1,274 @@
-Return-Path: <linux-media+bounces-47665-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47666-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D31BC81059
-	for <lists+linux-media@lfdr.de>; Mon, 24 Nov 2025 15:30:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3A89C816C2
+	for <lists+linux-media@lfdr.de>; Mon, 24 Nov 2025 16:49:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EF34F3ADA27
-	for <lists+linux-media@lfdr.de>; Mon, 24 Nov 2025 14:29:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5059D3A8F8B
+	for <lists+linux-media@lfdr.de>; Mon, 24 Nov 2025 15:49:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D6A23126BE;
-	Mon, 24 Nov 2025 14:28:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC495314A95;
+	Mon, 24 Nov 2025 15:49:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j0IKMoaG"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="QRavQBf6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012043.outbound.protection.outlook.com [52.101.66.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7632A30FF36;
-	Mon, 24 Nov 2025 14:28:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763994526; cv=none; b=GtSMZv1xZSuSRQdhl95UGMcc9K/ZOuSoItE1IqVvlsxfwkF+syF/K5Fd5jigo3hsnYj+2jFHPrDFfVWWjVR1JxqektYbucf0jGCNVNHDVEEbbxe2YiKDzifKNwoIGfZ1HV8M8T546Y7owVN2A11bQ+IIl2K63oixZBUSzNb2CDc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763994526; c=relaxed/simple;
-	bh=lXpGCOoct+/71A0nTTpJIxCc2V4EGg5C9RDF8s1TsDM=;
-	h=From:Date:Content-Type:MIME-Version:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=kp2cCYtDQQSDSNHrcEVGGQvHfljVbZ2tjeuyhnZxW7QDp5Y4u2sxauVxpGauIfBR3H9dsgBUU9o9aDjcV6wdIMzobo30vOBgQb5KC3g/LTM4RrStQScz+ZO2p0TjsOX2To+kb63SwBfLfCoWQHDdWKa8aiaU9IMMUJxhf3PUaLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j0IKMoaG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3DD3C116D0;
-	Mon, 24 Nov 2025 14:28:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763994526;
-	bh=lXpGCOoct+/71A0nTTpJIxCc2V4EGg5C9RDF8s1TsDM=;
-	h=From:Date:Cc:To:In-Reply-To:References:Subject:From;
-	b=j0IKMoaG3cR1RpSFy/pSS1sT/DSSUxmH/XIxiptYiVi3V/AgrGTihDFX9CrMhPJqJ
-	 VyrZNFaukQFydNljrew3CdPuuNngkcdw8Jo4rHGI7Sz+GO+cPc56g+FdSQ5W0uY+U9
-	 Z3dv3kujzTvQCwT3CHyGi9xaK37pHTSZBJtFYDzbii/Q74l63WgcwP/TsGSX7uKEpc
-	 ngevVik22fG6Az55vUIvVOu7j/zyK53YWnZZSIMZgqVEf6U9HpI8iPKblSrybm5rCv
-	 O3JwQviLJ97KvreS+xFEJTWL67/Pu2/8kr7gunEkzGovr0VfrZi+C0DgIlffEnZCwN
-	 Z1of9m5q/q6Rw==
-From: Rob Herring <robh@kernel.org>
-Date: Mon, 24 Nov 2025 08:28:44 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AACD4F5E0;
+	Mon, 24 Nov 2025 15:49:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763999371; cv=fail; b=sgn99QABGT6zx7EuY0Zr8DlT0NNySj2nF/hqpRXnCif5sXwoKxb4QTUomSxMyP1aJRs264ZkQ5pdCQjwNWhVjx6U6QR2xx2gzIDqAyo7AZeHHMdZw5z/XeHmzh6gRp/rqsgZ+55Ai2tTqn+w2a5MLOxIhaaFPA5crprACuW9I70=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763999371; c=relaxed/simple;
+	bh=7lE26UgBtYefATwPS9Q0Fy92FDx3AeDh04/PVMxHoqI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=WshqzyAq8vZzXxZmdLkb7kElnQl519uWaFc6uIs/d2Pq3flq98RKzAMvUceWdvRyIxi1c8p+IswLxREmYdpyY6t4QGVBQxy2rlwq41brx+qWi/q1m2wDemjehjWRn3f3ZFNzeQ8Cfc7ZBJOc513Zp2IrrPg27l2qlVck8xXRxBc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=QRavQBf6; arc=fail smtp.client-ip=52.101.66.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=awxWLZIqoui5PFwhNqfkk8Dk98lzSwMWXrqZ64VIUsW0CuyYmMGESjrFQ5Dowjfe5zQYNLJ/DCBnBzHctI4pCNOFiVbdQc8nH38PHGM5Xlr/+xkaGxROJu6y2Z7xNt1XAszLnXOBn7HWLxfip6Jl3AQpT8gMsedXuJf6FaDwCzWfzBMl70vIvWc1+4ATovP667dHdyNvLtt8Gg19SGpBsT3hn8xKyzx8Nv+FjyORYSXrheAI4FmGaQNAN6ywyQYZgZHp/M+a+c7e/xdu4VwBQEgPj5uazminNzQ6b1GXQ/32i+HnaMVu9X6sf8iraL0bHR6Iwg0TLWV/R4AqPCGOag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TghA5rkcZoe13lKhax0U8ktMUKJrlpbilfvIA6c1Vq4=;
+ b=Z2VunPALWOeRcowEufBBS6cgFC4TBMZwk3RYJAWVrifPKnSPuzD5qYfbYn3HfusHSaJVLzNCDIrqesVFXM+6AtY8nJrKpFAjjYX31/r04HSP/GwCBebRaB4yYg8HtLcfYUSXbhbSP8Qt3C4f73/XXhsyJrsdqGh/vB8ZMVcjcXim5wJid/w4YBnU+5M9qVqwf5ijD6KRLVngC7Ir3AZG5H8IyldDQkIYBOHnZmLKKbkqKR0hPREQ618UoirrMcS6zwFWzhgCPZDsvGd1htB08ph7asSmyosizmcUEfTFKWa6ABcSnfq40sNOFGmhDPaRWB+O+kkNycmHtd3dnD8cOw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TghA5rkcZoe13lKhax0U8ktMUKJrlpbilfvIA6c1Vq4=;
+ b=QRavQBf6fBh4cKB3kvDPYvt2YEHMpDTldnSsNr2F6F4iJ2rC4+mKfDqz2a4Rq/0NZ0acv+0asnuo6Hvd2ygZfj3OsD/D2lhAqjicftfQVmM2iv2bhfDsP/E0RC9C9xFhBcNkEUz9bWNY1JxXXQAUOh5KLFjP/or17FnzBuKF2gVG0vo35Kk7KYPhaIwAWuSC5FIQ2/AcYwCrAyX4DHQb9HpX5TBwQFUv6uSi2rsXu9VGzCXTlR3Duq/icwtPZVZGzzzymHXzlRvWDmw+/CE8dILVdpSa9ogy06mjIOJG9wP271ormn8mwqVbOs95pSUPIvzlvfutUaybIjXXzhxVaQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DU2PR04MB8951.eurprd04.prod.outlook.com (2603:10a6:10:2e2::22)
+ by AM9PR04MB8827.eurprd04.prod.outlook.com (2603:10a6:20b:40a::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.17; Mon, 24 Nov
+ 2025 15:49:25 +0000
+Received: from DU2PR04MB8951.eurprd04.prod.outlook.com
+ ([fe80::753c:468d:266:196]) by DU2PR04MB8951.eurprd04.prod.outlook.com
+ ([fe80::753c:468d:266:196%4]) with mapi id 15.20.9343.016; Mon, 24 Nov 2025
+ 15:49:25 +0000
+Date: Mon, 24 Nov 2025 10:49:13 -0500
+From: Frank Li <Frank.li@nxp.com>
+To: "Ming Qian(OSS)" <ming.qian@oss.nxp.com>
+Cc: linux-media@vger.kernel.org, mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl, nicolas@ndufresne.ca,
+	benjamin.gaignard@collabora.com, p.zabel@pengutronix.de,
+	sebastian.fricke@collabora.com, shawnguo@kernel.org,
+	ulf.hansson@linaro.org, s.hauer@pengutronix.de,
+	kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+	l.stach@pengutronix.de, peng.fan@nxp.com, eagle.zhou@nxp.com,
+	imx@lists.linux.dev, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 2/2] media: verisilicon: Avoid G2 bus error while
+ decoding H.264 and HEVC
+Message-ID: <aSR+eaVxBhnahOl7@lizhi-Precision-Tower-5810>
+References: <20251121081911.1682-1-ming.qian@oss.nxp.com>
+ <20251121081911.1682-2-ming.qian@oss.nxp.com>
+ <aSCOZCJ2rSw7LAvE@lizhi-Precision-Tower-5810>
+ <d282811a-866d-4ca8-b9f6-fc1da3a7565e@oss.nxp.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d282811a-866d-4ca8-b9f6-fc1da3a7565e@oss.nxp.com>
+X-ClientProxiedBy: BY3PR05CA0045.namprd05.prod.outlook.com
+ (2603:10b6:a03:39b::20) To DU2PR04MB8951.eurprd04.prod.outlook.com
+ (2603:10a6:10:2e2::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Cc: Jerome Brunet <jbrunet@baylibre.com>, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Kevin Hilman <khilman@baylibre.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
- linux-amlogic@lists.infradead.org, linux-media@vger.kernel.org, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>
-To: Zhentao Guo <zhentao.guo@amlogic.com>
-In-Reply-To: <20251124-b4-s4-vdec-upstream-v2-0-bdbbce3f11a6@amlogic.com>
-References: <20251124-b4-s4-vdec-upstream-v2-0-bdbbce3f11a6@amlogic.com>
-Message-Id: <176399402192.138936.11233579649489245455.robh@kernel.org>
-Subject: Re: [PATCH RFC v2 0/3] Add Amlogic stateless H.264 video decoder
- for S4
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU2PR04MB8951:EE_|AM9PR04MB8827:EE_
+X-MS-Office365-Filtering-Correlation-Id: 377cb43d-e0d0-42b1-26aa-08de2b710b47
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|19092799006|376014|52116014|7416014|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?WK/MpO3zhjsYNifB/DQI8wlBWCeZI1Meo/W296chJH9uhK7FCItdhZcsoD6U?=
+ =?us-ascii?Q?j1sg1qAgXmsfuoiFS1NJ+nmzWOeqNRayda0gYT7RMDaKU9wGFNvYdP3b+I2t?=
+ =?us-ascii?Q?S+6U+qXR7O3nep4XhVV+TCbOAJ1bT4wtg7lnxEJtVyTTJFzI5F9wQTBMHOgb?=
+ =?us-ascii?Q?o22DugIDet6Ydpy5nijOcIU0DQtreagToeJ3wuEosoKJjkghnsL395sUW1+t?=
+ =?us-ascii?Q?D0iuPUQ43YKHSVqIITHEQMfR+lObh2Uf1Q7KyZQBlS90NnbNhhNLImrdAwlq?=
+ =?us-ascii?Q?Mu17OFqyFRMtZ6TtfHoXSdZ6uF2KlnLX5G6ZHi55Y7QnXfw/keNg1XzvRYty?=
+ =?us-ascii?Q?n5hRqbaYFYipL1ue3H2J4uf9kyBp7BrFRaZXJAIGjsGqJaPKvHKuVBoSUrqK?=
+ =?us-ascii?Q?F2uRo6Na7j/AQ98HN8vtkRErduby/mxxSvew75q7LNERqmWQ8rzPL0KQYzgJ?=
+ =?us-ascii?Q?otjkVWPr219CYzHE5SQoX663x+tK7pI+5z4qEA5PN1TKu6I3PrUph/fnIFTE?=
+ =?us-ascii?Q?szOVtTUgl/tyDz85BsJsl7a9XJDcmnZYZ7yyW5S+hzK5tsE+TqDXjayEjYG0?=
+ =?us-ascii?Q?tHn+A/VFwzWoISK28HsCXWbwF5yc4aI6/CPtoUUmE8ph+aFnljGMV1MCkLxi?=
+ =?us-ascii?Q?FZIU85klKV78ThSaMye9aaFdjYDzdQPf5M9Pd26nf+sDr9GDcg/IHAlLZmCp?=
+ =?us-ascii?Q?rdLeZa26GOEe8NTJxza4eHi3vnMIPXbgUz+YIEPUaJzGYQVh8QJZ2qNj0LBJ?=
+ =?us-ascii?Q?jctMRxG50xCZFszmr9eH/RKinsLOmjPuDl2uvFj41Kw4VxNQnri9RTNjuY/q?=
+ =?us-ascii?Q?awkxcqt+I8TDG95YVPyogyhtGBTj4KDdV9sLj/bHzcMKWu83hWocRLksv6pO?=
+ =?us-ascii?Q?z/Q7w0VYmI+Og1wyptQX29RRtN40shDCGy0tYEA3JgWqDA1LqwSFTwP8RMtq?=
+ =?us-ascii?Q?KYawzmDFkCrBfm1lTL03Chsf8YK+M9UbtnIdEWOB5L1TCDMPFuDa8ubUcKao?=
+ =?us-ascii?Q?PmWEKOZ15v8Nuc5sVNesz1aUaerlS/xcndDaaagJkRRfk8HRJsU+WFthYC84?=
+ =?us-ascii?Q?dolCbUfYb5Y1XeySGSDUr2ShWJF07aZaFO9Vpx5tOIiHXfanXZHCeynZtzRh?=
+ =?us-ascii?Q?w6u1P57H3Qqq/+O5RG1xhfrPT3hA6OLRNhYvvucm5lDybtZfS7ywyt/l683f?=
+ =?us-ascii?Q?RrIWyGz3YO2KjmBg3Mjo2u7NvJvifmU7Jgx65iObEewgkKyZLqqn5xlSYbv+?=
+ =?us-ascii?Q?zvV5CfpTPwWac0hjDaIYCRPf8lHl/uKpbUeTzE86HzrR+Cpq6VlbthzlPR5i?=
+ =?us-ascii?Q?hQEE7leUYeRdBPWZg0zvMeTxzk25B1cDXUAXxS6F3tDpAoMSUQoDzaRHeqA/?=
+ =?us-ascii?Q?kScM8fCrbzSlU6u6RXMU0jwAon6JVPgiGMgAQ/Xeztt1y6L5HssbuwgEIFEy?=
+ =?us-ascii?Q?C1rw7+UVNfhMRj/kmGIb4XnqGZ9MU3adEmXMWU/dTqtwNO55TvJIJg=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8951.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(19092799006)(376014)(52116014)(7416014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?kb1m8vUxrKKqg28P61um2PcB4NSYVJAO/dDi/2osRzYtViqL0AyM5pE4oUGt?=
+ =?us-ascii?Q?EbSN5yxZKn0pKmyE+YLL3QFhNMbU55dXAv7xjjRhhcejAzlWI9mkPS6mJcam?=
+ =?us-ascii?Q?1/3RyxfD6PkQvD371AaQGz3J6pt9vwPHBLdz1GquFtpj4XHyMP0jlUA/OgCi?=
+ =?us-ascii?Q?Ad/nqL3bwtHQiR1Xnsx1+MdL4hO/98StS2TnmJnre05Fd+naszDuacRCQYrX?=
+ =?us-ascii?Q?+z95zNJIM0wvv4viHUAawk0SNn0KF/V8h8ZU9+NaApED9aGB/0TGJAEFcF7I?=
+ =?us-ascii?Q?AEJDmxS0uLdL2OOUVVKU4+zg0bgLUInAtuCu108Ew4SdelbgC7zvLYI3NZUi?=
+ =?us-ascii?Q?u3YZqhiIO4KO3t8V29QABF9v5wf1eD4ZAqY8Kp2L6sJ2i4xB2aYNL7JfCnJm?=
+ =?us-ascii?Q?G8hy6WPJ8/iuWJ/EWyNDnso3qjIeabxtm27fxjAryzo+meDSipInmgJOhK4v?=
+ =?us-ascii?Q?Y8O9HtELxEZJybInHzYstRZ8/rQa5p3sRDsO+aj6isUecSclneE7Yh1RAOqC?=
+ =?us-ascii?Q?kJzx7HKScs9hMAhNkzROATCCT6aWVRRBJa/UXquf8QTGHIZRf5xT3XBLm6gk?=
+ =?us-ascii?Q?Bb8VuEN9ymGEuecfRCfCNhsnADw+V1lzeqpmsXRqClcNnftR+rcmjaUwMhMI?=
+ =?us-ascii?Q?hoa8WKUAxXIHqwrVWUAwlr/pFvS7v6W5OkGwQnhlaNw5dMaowcm3CFskYSJ9?=
+ =?us-ascii?Q?TZflUi1TtLGB0bF/m8tW7TWdSJRoM8LZu8JfPIGAROHeCYQ4MBdzbFZeps8W?=
+ =?us-ascii?Q?b71oxFyKdVDynD55FTxlmEef5qoqdXt5L7CHOZQuOT0dzk2SFpxlJOTweiIA?=
+ =?us-ascii?Q?/2h7xIJcUJUGcBxwaK9uQgRE9rDnQ5QfDDpGx6iWduzD9pNaaTi5nniwiZxW?=
+ =?us-ascii?Q?P95C9rQCThUZJWAOtS+R7ABMq5Qigk3ZI/TwrarM49oVXSxz0/yhilm1vadX?=
+ =?us-ascii?Q?nOlyhUoTRMALnVDmnxOkD1ZUW/Cywq/S7xpca57yAFw3tsm/Nass6wmW2rk+?=
+ =?us-ascii?Q?vji7t+nJKgb6yYyWt40+RGPYSG5DVZC8LO+6+rjCECxgNf4EXNe9RlomHAny?=
+ =?us-ascii?Q?0WTHZaVAIxen/rLm1J+tAcJiaDseu0UoOG87eW7lrsA3I+cd59sqEiFkjzRn?=
+ =?us-ascii?Q?7BPwjEZR9CpBZUlQ0hnW7QGGj+z6U4BsnnRnC0hMN3uSBz/mmgOQ0MI9CtGB?=
+ =?us-ascii?Q?6gjMfWzu/tcatQyZdM4JOH/8ZclesJAc5rstnwkTLKb/op82UnDMYQyL5X3l?=
+ =?us-ascii?Q?aPPPjh78vcp1xBiMECLK8Mfj1ct7bGlLRgQWAsK+9kH2BBltLyn78BPQ5Imd?=
+ =?us-ascii?Q?kpG6Cqg19rPG/AENxpKU6ltnVbO/SW1mjOzUDYidgUg6UguvQAhlVKc8n4tf?=
+ =?us-ascii?Q?KAk37BdGbpxgjERsbrjM5mOStlGl0RpbcU4SwNUphgi3qq6yDMklw1C5BO0y?=
+ =?us-ascii?Q?xKIHnW5J+sGdEMA2M92VBaab7EAyIqr/t2+r+d9F9GNgwU7pWuXdBTWC7kSH?=
+ =?us-ascii?Q?Qa5VIadjHl9nIL6gWrf62bCt1owdaxEBBA6LaW8R5hUbkvBJ518heGCjDb01?=
+ =?us-ascii?Q?NfusBF4W8qipOenFvEEsZz9MrnN6oytGp7o0FaLu?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 377cb43d-e0d0-42b1-26aa-08de2b710b47
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8951.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2025 15:49:25.5472
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KISbn+GuyR8LsGCG07hQDfoL3LpKjahcFybS7Xi1wzip0HicuyBx1ScY03gIGAUctoEX+V3QbBeoloB2I1fPBA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8827
 
+On Mon, Nov 24, 2025 at 09:38:15AM +0800, Ming Qian(OSS) wrote:
+> Hi Frank,
+>
+> On 11/22/2025 12:08 AM, Frank Li wrote:
+> > On Fri, Nov 21, 2025 at 04:19:09PM +0800, ming.qian@oss.nxp.com wrote:
+> > > From: Ming Qian <ming.qian@oss.nxp.com>
+> > >
+> > > For the i.MX8MQ platform, there is a hardware limitation: the g1 VPU and
+> > > g2 VPU cannot decode simultaneously; otherwise, it will cause below bus
+> > > error and produce corrupted pictures, even led to system hang.
+> > >
+> > > [  110.527986] hantro-vpu 38310000.video-codec: frame decode timed out.
+> > > [  110.583517] hantro-vpu 38310000.video-codec: bus error detected.
+> > >
+> > > Therefore, it is necessary to ensure that g1 and g2 operate alternately.
+> > > Then this allows for successful multi-instance decoding of H.264 and HEVC.
+> > >
+> > > Fixes: cb5dd5a0fa518 ("media: hantro: Introduce G2/HEVC decoder")
+> > > Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
+> > > ---
+> > >   drivers/media/platform/verisilicon/hantro.h   |  1 +
+> > >   .../media/platform/verisilicon/hantro_drv.c   | 26 +++++++++++++++++++
+> > >   .../media/platform/verisilicon/imx8m_vpu_hw.c |  4 +++
+> > >   3 files changed, 31 insertions(+)
+> > >
+> > ...
+> > >   #include <linux/workqueue.h>
+> > > +#include <linux/iopoll.h>
+> > >   #include <media/v4l2-event.h>
+> > >   #include <media/v4l2-mem2mem.h>
+> > >   #include <media/videobuf2-core.h>
+> > > @@ -93,6 +94,9 @@ static void hantro_job_finish(struct hantro_dev *vpu,
+> > >
+> > >   	clk_bulk_disable(vpu->variant->num_clocks, vpu->clocks);
+> > >
+> > > +	if (vpu->variant->shared_resource)
+> > > +		atomic_cmpxchg(vpu->variant->shared_resource, 0, 1);
+> > > +
+> > >   	hantro_job_finish_no_pm(vpu, ctx, result);
+> > >   }
+> > >
+> > > @@ -166,12 +170,34 @@ void hantro_end_prepare_run(struct hantro_ctx *ctx)
+> > >   			      msecs_to_jiffies(2000));
+> > >   }
+> > >
+> > > +static int hantro_wait_shared_resource(struct hantro_dev *vpu)
+> > > +{
+> > > +	u32 data;
+> > > +	int ret;
+> > > +
+> > > +	if (!vpu->variant->shared_resource)
+> > > +		return 0;
+> > > +
+> > > +	ret = read_poll_timeout(atomic_cmpxchg, data, data, 10, 300 * NSEC_PER_MSEC, false,
+> > > +				vpu->variant->shared_resource, 1, 0);
+> > > +	if (ret) {
+> > > +		dev_err(vpu->dev, "Failed to wait shared resource\n");
+> > > +		return -EINVAL;
+> > > +	}
+> >
+> > why not use a mutex?
+> >
+> > mutex() lock here, unlock at hantro_job_finish(), if second instance
+> > run to here, mutex() will block thread, until previous hantro_job_finish()
+> > finish.
+> >
+> > Frank
+>
+> G1 and G2 are two different devices. If I were to use a mutex, I would
+> need to define a global mutex. Therefore, to avoid using a global mutex,
+> I only define a static atomic variable.
 
-On Mon, 24 Nov 2025 11:32:16 +0800, Zhentao Guo wrote:
-> Introduce initial driver support for Amlogic's new video acceleration
-> hardware architecture, designed for video stream decoding.
-> 
-> Compared to the current Amlogic video decoder hardware architecture,
-> this new implementation eliminates the Esparser hardware component,
-> enabling direct vb2 buffer input. The driver is designed to support
-> the V4L2 M2M stateless decoder API. The initial phase includes support
-> for H.264 decoding on Amlogic S805X2 platform.
-> 
-> The driver is capable of:
-> - Supporting stateless H.264 decoding up to a resolution 1920x1088(on the S805X2 platform).
-> - Supporting I/P/B frame handling.
-> - Supporting vb2 mmap and dma-buf modes.
-> - Supporting frame-based decode mode. (Note that some H.264 bitstreams require
->   DPB reordering to generate reference lists, the stateless decoder driver
->   cannot access reordered reference lists in this mode, requiring the driver
->   to perform reference list reordering itself)
-> - Supporting NV12/NV21 output.
-> - Supporting Annex B start codes.
-> 
-> This driver is tested with Gstreamer.
-> Example:
-> gst-launch-1.0 filesrc location=/tmp/video_640x360_mp4_hevc_450kbps_no_b.mp4 !
-> parsebin ! v4l2slh264dec ! filesink location=/tmp/output.yuv
-> 
-> Retry the compliance test based on kernel 6.18-rc6:
-> v4l2-compliance 1.30.1, 64 bits, 64-bit time_t
-> 
-> Compliance test for aml-vdec-drv device /dev/video0:
-> 
-> Driver Info:
->         Driver name      : aml-vdec-drv
->         Card type        : platform:aml-vdec-drv
->         Bus info         : platform:fe320000.video-codec
->         Driver version   : 6.18.0
->         Capabilities     : 0x84204000
->                 Video Memory-to-Memory Multiplanar
->                 Streaming
->                 Extended Pix Format
->                 Device Capabilities
->         Device Caps      : 0x04204000
->                 Video Memory-to-Memory Multiplanar
->                 Streaming
->                 Extended Pix Format
->         Detected Stateless Decoder
-> Media Driver Info:
->         Driver name      : aml-vdec-drv
->         Model            : aml-vdec-drv
->         Serial           :
->         Bus info         : platform:fe320000.video-codec
->         Media version    : 6.18.0
->         Hardware revision: 0x00000000 (0)
->         Driver version   : 6.18.0
-> Interface Info:
->         ID               : 0x0300000c
->         Type             : V4L Video
-> Entity Info:
->         ID               : 0x00000001 (1)
->         Name             : aml_dev_drv-source
->         Function         : V4L2 I/O
->         Pad 0x01000002   : 0: Source
->           Link 0x02000008: to remote pad 0x1000004 of entity 'aml_dev_drv-proc' (Video Decoder): Data, Enabled, Immutable
-> 
-> Required ioctls:
->         test MC information (see 'Media Driver Info' above): OK
->         test VIDIOC_QUERYCAP: OK
->         test invalid ioctls: OK
-> 
-> Allow for multiple opens:
->         test second /dev/video0 open: OK
->         test VIDIOC_QUERYCAP: OK
->         test VIDIOC_G/S_PRIORITY: OK
->         test for unlimited opens: OK
-> 
-> Debug ioctls:
->         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
->         test VIDIOC_LOG_STATUS: OK (Not Supported)
-> 
-> Input ioctls:
->         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
->         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->         test VIDIOC_ENUMAUDIO: OK (Not Supported)
->         test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
->         test VIDIOC_G/S_AUDIO: OK (Not Supported)
->         Inputs: 0 Audio Inputs: 0 Tuners: 0
-> 
-> Output ioctls:
->         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
->         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->         Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
->         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
->         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
->         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
->         test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Control ioctls:
->         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->         test VIDIOC_QUERYCTRL: OK
->         test VIDIOC_G/S_CTRL: OK
->         test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->         Standard Controls: 6 Private Controls: 0
->         Standard Compound Controls: 4 Private Compound Controls: 0
-> 
-> Format ioctls:
->         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
->         test VIDIOC_G/S_PARM: OK (Not Supported)
->         test VIDIOC_G_FBUF: OK (Not Supported)
->         test VIDIOC_G_FMT: OK
->         test VIDIOC_TRY_FMT: OK
->         test VIDIOC_S_FMT: OK
->         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->         test Cropping: OK (Not Supported)
->         test Composing: OK (Not Supported)
->         test Scaling: OK (Not Supported)
-> 
-> Codec ioctls:
->         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->         test VIDIOC_(TRY_)DECODER_CMD: OK
-> 
-> Buffer ioctls:
->         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->         test CREATE_BUFS maximum buffers: OK
->         test VIDIOC_REMOVE_BUFS: OK
->         test VIDIOC_EXPBUF: OK
->         test Requests: OK
->         test blocking wait: OK
-> 
-> Fluster test result of JVT-AVC_V1.
-> Result:
-> Ran 61/135 tests successfully
-> 
-> - 52 test vectors failed due to interlaced or mbaff clips: The Amlogic stateless
->   decoder driver only support bitstreams with frame_mbs_only_flags == 1.
->   Test Vectors:
->         cabac_mot_fld0_full
->         cabac_mot_mbaff0_full
->         cabac_mot_picaff0_full
->         CABREF3_Sand_D
->         CAFI1_SVA_C
->         CAMA1_Sony_C
->         CAMA1_TOSHIBA_B
->         cama1_vtc_c
->         cama2_vtc_b
->         CAMA3_Sand_E
->         cama3_vtc_b
->         CAMACI3_Sony_C
->         CAMANL1_TOSHIBA_B
->         CAMANL2_TOSHIBA_B
->         CAMANL3_Sand_E
->         CAMASL3_Sony_B
->         CAMP_MOT_MBAFF_L30
->         CAMP_MOT_MBAFF_L31
->         CANLMA2_Sony_C
->         CANLMA3_Sony_C
->         CAPA1_TOSHIBA_B
->         CAPAMA3_Sand_F
->         cavlc_mot_fld0_full_B
->         cavlc_mot_mbaff0_full_B
->         cavlc_mot_picaff0_full_B
->         CVCANLMA2_Sony_C
->         CVFI1_Sony_D
->         CVFI1_SVA_C
->         CVFI2_Sony_H
->         CVFI2_SVA_C
->         CVMA1_Sony_D
->         CVMA1_TOSHIBA_B
->         CVMANL1_TOSHIBA_B
->         CVMANL2_TOSHIBA_B
->         CVMAPAQP3_Sony_E
->         CVMAQP2_Sony_G
->         CVMAQP3_Sony_D
->         CVMP_MOT_FLD_L30_B
->         CVNLFI1_Sony_C
->         CVNLFI2_Sony_H
->         CVPA1_TOSHIBA_B
->         FI1_Sony_E
->         MR6_BT_B
->         MR7_BT_B
->         MR8_BT_B
->         MR9_BT_B
->         Sharp_MP_Field_1_B
->         Sharp_MP_Field_2_B
->         Sharp_MP_Field_3_B
->         Sharp_MP_PAFF_1r2
->         Sharp_MP_PAFF_2r
->         CVMP_MOT_FRM_L31_B
-> - 3 test vectors failed due to unsupported bitstream.
->   num_slice_group_minus1 greater than zero is not supported by the
->   hardware.
->   Test Vectors:
->         FM1_BT_B
->         FM1_FT_E
->         FM2_SVA_C
-> - 2 test vectors failed because SP_SLICE type is not supported by the
->   hardware.
->   Test Vectors:
->         SP1_BT_A
->         sp2_bt_b
-> 
-> We are working with the remain failures, these failures have the same root cause.
-> 
-> Signed-off-by: Zhentao Guo <zhentao.guo@amlogic.com>
-> ---
-> Changes in v2:
-> - Fixed incorrect generation of the reference lists for some B-frames.
-> - Rename or get rid of some properties in DTS and dt-binding.
-> - Remove some useless code or helper functions, (eg. clk helper functions, reg I/O macros, and some superfluous print messages) replace these functions with existing ones.
-> - Replace all the printk messages with dev_err/dev_info/dev_dbg
-> - Use the helper functions from the existing meson-canvas driver.
-> - Use clk_bulk_data to map clocks from DTS.
-> - Retry the V4L2 Compliance test on 6.18-rc6, fix a newly introduced bug.
-> - Link to v1: https://lore.kernel.org/r/20251027-b4-s4-vdec-upstream-v1-0-620401813b5d@amlogic.com
-> 
-> ---
-> Zhentao Guo (3):
->       media: dt-bindings: Add Amlogic V4L2 video decoder
->       decoder: Add V4L2 stateless H.264 decoder driver
->       arm64: dts: amlogic: Add video decoder driver support for S4 SOCs
-> 
->  .../bindings/media/amlogic,s4-vcodec-dec.yaml      |   87 +
->  MAINTAINERS                                        |    7 +
->  arch/arm64/boot/dts/amlogic/meson-s4.dtsi          |   27 +
->  drivers/media/platform/amlogic/Kconfig             |    1 +
->  drivers/media/platform/amlogic/Makefile            |    1 +
->  drivers/media/platform/amlogic/vdec/Kconfig        |   16 +
->  drivers/media/platform/amlogic/vdec/Makefile       |    4 +
->  drivers/media/platform/amlogic/vdec/TODO           |    7 +
->  drivers/media/platform/amlogic/vdec/aml_vdec.c     |  756 ++++++++
->  drivers/media/platform/amlogic/vdec/aml_vdec.h     |   31 +
->  drivers/media/platform/amlogic/vdec/aml_vdec_drv.c |  239 +++
->  drivers/media/platform/amlogic/vdec/aml_vdec_drv.h |  196 ++
->  drivers/media/platform/amlogic/vdec/aml_vdec_hw.c  |  596 ++++++
->  drivers/media/platform/amlogic/vdec/aml_vdec_hw.h  |  158 ++
->  .../platform/amlogic/vdec/aml_vdec_platform.c      |   37 +
->  .../platform/amlogic/vdec/aml_vdec_platform.h      |   62 +
->  drivers/media/platform/amlogic/vdec/h264.c         | 1933 ++++++++++++++++++++
->  drivers/media/platform/amlogic/vdec/h264.h         |  300 +++
->  drivers/media/platform/amlogic/vdec/reg_defines.h  |  177 ++
->  19 files changed, 4635 insertions(+)
-> ---
-> base-commit: 0c1c7a6a83feaf2cf182c52983ffe330ffb50280
-> change-id: 20251027-b4-s4-vdec-upstream-0603c1a4c84a
-> 
-> Best regards,
-> --
-> Zhentao Guo <zhentao.guo@amlogic.com>
-> 
-> 
-> 
+static atomic varible also is global.  Global mutex is allowed if it is
+really needed.
 
+>
+> If a static mutex is acceptable, I think I can change it to a mutex.
 
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
+ref to
+https://elixir.bootlin.com/linux/v6.18-rc6/source/drivers/base/core.c#L43
 
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
-
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
-
-  pip3 install dtschema --upgrade
-
-
-This patch series was applied (using b4) to base:
- Base: 0c1c7a6a83feaf2cf182c52983ffe330ffb50280 (use --merge-base to override)
-
-If this is not the correct base, please add 'base-commit' tag
-(or use b4 which does this automatically)
-
-New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/amlogic/' for 20251124-b4-s4-vdec-upstream-v2-0-bdbbce3f11a6@amlogic.com:
-
-arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dtb: video-codec@fe320000 (amlogic,s4-vcodec-dec): 'amlogic,canvas' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/media/amlogic,vcodec-dec.yaml
-
-
-
-
-
+Frank
+>
+> Regards,
+> Ming
+>
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > >   static void device_run(void *priv)
+> > >   {
+> > >   	struct hantro_ctx *ctx = priv;
+> > >   	struct vb2_v4l2_buffer *src, *dst;
+> > >   	int ret;
+> > >
+> > > +	ret = hantro_wait_shared_resource(ctx->dev);
+> > > +	if (ret < 0)
+> > > +		goto err_cancel_job;
+> > > +
+> > >   	src = hantro_get_src_buf(ctx);
+> > >   	dst = hantro_get_dst_buf(ctx);
+> > ...
+> >
+> > >
+> > > --
+> > > 2.34.1
+> > >
 
