@@ -1,136 +1,116 @@
-Return-Path: <linux-media+bounces-47641-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47643-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A911C7EE4B
-	for <lists+linux-media@lfdr.de>; Mon, 24 Nov 2025 04:33:00 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98943C7F1A2
+	for <lists+linux-media@lfdr.de>; Mon, 24 Nov 2025 07:38:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id CB47E4E2144
-	for <lists+linux-media@lfdr.de>; Mon, 24 Nov 2025 03:32:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D28513AB586
+	for <lists+linux-media@lfdr.de>; Mon, 24 Nov 2025 06:35:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96BB429BDB1;
-	Mon, 24 Nov 2025 03:32:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD64E2D94B8;
+	Mon, 24 Nov 2025 06:35:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LIvqdsee"
+	dkim=pass (1024-bit key) header.d=deepin.org header.i=@deepin.org header.b="raLPcWW7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA5B12853F7;
-	Mon, 24 Nov 2025 03:32:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C90D2D8792
+	for <linux-media@vger.kernel.org>; Mon, 24 Nov 2025 06:35:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.243.244.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763955155; cv=none; b=OMlcFKOqP6KLCzDDfhmqmAMLtx7DDjr3qaO8gMol3iJLeiZ530ZrZczyLzGIwczBP4jlEEz5PqluwSPbqqK5NAD48OBWrfbpd4DxYEodXF3WUsk4zWskB0b+/QyxtG5040PvDa43GINVCutchoSsX8x/545vtTPffqVbnS+yCHc=
+	t=1763966117; cv=none; b=o026B46wUvbcCxLjUD3f4YPd3geYdORP0tm2Km9UbJGzPy+ZJuN1HSLIIgqACdQpV8WEX9Y+RomT6OaAmFOeLyFuwrUNEGb9+jo0vxviC0la8tUexJgm4TSqdhP3R2nMz/o+h4WjwRdyzF/O4enuCKRNkAIcx8I/o3Aem1NjbUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763955155; c=relaxed/simple;
-	bh=nQMpas0P68zqe+jsuAUQuc78OljFGZeSHfJ158LMKlg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=bB76r+S2ypRz3M712p7iKKJMFE3MA6Yu7DhILUDz42Nb6NCCoJlXZ9SkrcSbJU03uCll7S1VsdVcuD8FYZGqbUROVn4ppszHtDQfbe8jvpRGzxFNj+QqRhoGNWdo1kEjYhvn8YsHqYkKCKWQbTTdbdITVhYmvck6g+ZaN3moqcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LIvqdsee; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 94261C2BC9E;
-	Mon, 24 Nov 2025 03:32:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763955154;
-	bh=nQMpas0P68zqe+jsuAUQuc78OljFGZeSHfJ158LMKlg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=LIvqdsee1woYL1Q8LlyGqPI8UWC+R3TubGMryLxV0Lbrjw1PUqH1+0rJGHSYq1tzW
-	 eDifwaEwSBYALohqMjo5p22/686Mjw832VBupIP5TTaoZtBobhGXBLaAftNEjtFIco
-	 dX5gzqMTJxLrX2RrCe1r+154pMsLSTq0Is4iJPJ9K7vm1I1fDlSw3Iu567FfLMI9N2
-	 OoNfNVbVdk2YMATkWV2uyfnW7+vyqnaGpvhI0K2dTG39slf9Mw9tFBCKXOEZ1yRDwk
-	 05P/M7Mfirm+JfS8T2VyNAcKtQVFyZEVfqAS+qgUJnEMyhdg352PJA+QpsmmO8+lqT
-	 BT3og9flY3swA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8685BCFD31F;
-	Mon, 24 Nov 2025 03:32:34 +0000 (UTC)
-From: Zhentao Guo via B4 Relay <devnull+zhentao.guo.amlogic.com@kernel.org>
-Date: Mon, 24 Nov 2025 11:32:19 +0800
-Subject: [PATCH RFC v2 3/3] arm64: dts: amlogic: Add video decoder driver
- support for S4 SOCs
+	s=arc-20240116; t=1763966117; c=relaxed/simple;
+	bh=9Iieci6E6Qt6eWm9wgb4CLUg71wMHcE7Sm6YZjYzw8A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dVL7DJnvJoKzc4hiwgmnv4MNv1UDKnKKWXEpaKmdzst90BD+abMb2BMdUWurQu2lt6ztF9Ppe2R6uV9ScwvLYP6Wy08csy09TfUZ0PSQGRMeGqW+1DlvUXQ8qg3XNVJwJtnXHRYGZwvuThDn+LFa+qpz1qXTgobZ2SyNyancQlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=deepin.org; spf=pass smtp.mailfrom=deepin.org; dkim=pass (1024-bit key) header.d=deepin.org header.i=@deepin.org header.b=raLPcWW7; arc=none smtp.client-ip=54.243.244.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=deepin.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=deepin.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=deepin.org;
+	s=ukjg2408; t=1763966108;
+	bh=xnOjccNb0Jw+nn6RncUWU25F0n4Qc8AzaZvqNkVBbgk=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=raLPcWW7Ne6FwPr2QeTeOgZP0Bgg5ussJRNlOba0w0SGGMxEVLbWEZ4XfWeCnMZNI
+	 l4uKqY7y1A10Pb6T4sTxPOpBdWHVAIc8vDnouM0b1QBmjl9GiTXNG2ADVMCilO8I8g
+	 WpaXAqHt8hBQkorfyecERh80dHQowpUdv1llCS2I=
+X-QQ-mid: zesmtpgz1t1763966107t5630b4ae
+X-QQ-Originating-IP: yzEmcdSkc/mtYEEF6ffxpxATJmovat3JLQw/7OW23TI=
+Received: from ut005408-PC.. ( [103.118.42.229])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Mon, 24 Nov 2025 14:35:04 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 14111664059910992199
+EX-QQ-RecipientCnt: 2
+From: Tianyu Chen <sweetyfish@deepin.org>
+To: linux-media@vger.kernel.org
+Cc: Tianyu Chen <sweetyfish@deepin.org>
+Subject: [PATCH v4l-utils] libv4l2: zero v4l2_buffer
+Date: Mon, 24 Nov 2025 14:34:58 +0800
+Message-ID: <F7314D7B842F6CC2+20251124063458.1224107-1-sweetyfish@deepin.org>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251124-b4-s4-vdec-upstream-v2-3-bdbbce3f11a6@amlogic.com>
-References: <20251124-b4-s4-vdec-upstream-v2-0-bdbbce3f11a6@amlogic.com>
-In-Reply-To: <20251124-b4-s4-vdec-upstream-v2-0-bdbbce3f11a6@amlogic.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-amlogic@lists.infradead.org, Zhentao Guo <zhentao.guo@amlogic.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1763955152; l=1441;
- i=zhentao.guo@amlogic.com; s=20251024; h=from:subject:message-id;
- bh=ipvSyoCuAjlj5iGd/O8ZvsuGOB2B3dXxp1S6BN3SOc4=;
- b=+1wPmnRCbaMUs0SfXj44FPENcjNu8W4k/F7Tgy5s0bjQiMcfnJkYcBKCv5+xdb+cSPZT7jend
- eHRRpV6VIQSA8ZOxSqEmAJO5YdnW3ZVx3xXwZdX4csth3oNHl+54ezg
-X-Developer-Key: i=zhentao.guo@amlogic.com; a=ed25519;
- pk=5yfDKrjreXwcAoEUsdtWafy6YN500upXp/CgtnXjLVU=
-X-Endpoint-Received: by B4 Relay for zhentao.guo@amlogic.com/20251024 with
- auth_id=555
-X-Original-From: Zhentao Guo <zhentao.guo@amlogic.com>
-Reply-To: zhentao.guo@amlogic.com
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpgz:deepin.org:qybglogicsvrgz:qybglogicsvrgz3a-1
+X-QQ-XMAILINFO: OWetTbhfR/zwZ5jUcT5WwHInE8J9dRrMiC5RljTapv22rhEE+7W9MCcf
+	yECm8pN1dkdeg9FzW3LqWMMBEKI/X8pgM4o8rjNw0z1mc0+uZMSUNaXTgqTwEeIzWG7U/Xa
+	n5qv/aW0+QYzLVzj8zxhxeXgxnoJVoLxVl4uhN1LUhX3IPd7cr10h+Iox6LV0FFI8Boval7
+	zNeog9G4v34EWdaQFX7trn4XFovDNN2CWE7jbOgnUDxZ2G663GfjgmC1Oncfpdb+F2YEzAE
+	vJhSEnTvcF5b5zYMW19OA2g0l18QZyqnjnXcjyaqWK6rdlksDXk1hZoGqog+7HqDtV69XRA
+	1y9S2L/WrHNMktUVh9Y810SXEIz93nVEuYfPc4Q7yB78A11HnuyQeckXz42i+Lr0IZJn1sh
+	S4jCQosOcTyazuWyIgRK2TXZi8XQQlOhA1gXa7IAkKq+D8YM2BV5iGfZRULtMQWAMSLF3eK
+	QiVryuEXiK71nTwGgZB9DMzxoZdYHydckokihxB77zwkP8l1NJwrhHQxAv+iEdA6kFVRu83
+	deQsbGqitKSVpFDo5uuKdCEIenI+EXq2UyT3/AQP9UxRiWHSIyFdwy9gsiy73rb+6fA5oyf
+	IfgTf9ktRNA3T6jEW6UrYdVrAFief2BiZ117yoIPOLjATsWMRlZst26QAGeu0H+Y0GQK+On
+	PKbjmeas6NS9wr1g3usyz67kpt4ycbSjfSBhZ0sjFYfi5Qc6yIRjR/buq/+KzgOQhA5eUdb
+	HMZV4yoE390N9rIFozaEKDqlETIAGFS439LvVTNFf6yJpQGfClYhiPExI8ut1PbjjlGrGnI
+	X0gDJL+hvHm3B+JddaPoQK16NUXkW/K5PM2LDNlEPOhZumpoS303RrE40zL476wpVwtZmow
+	uC4NDjW3bfqq8M4R7/MjC5eV5CSjwjWMuw67Zqjs0UP7U7VQ8hCol1VpvLO6jHb8ULB5TK7
+	jheyS1LuJ4I7f+OlXTz4oq1aQkCmPzaSQo6YGUsXUN/BKpJG5hfXUYpbUK8tDBOu8CZECHu
+	yxk26dZxcPakUadeaIPtTcQgfgd2Zr7HUiEpAgDKvVEltT420+
+X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
+X-QQ-RECHKSPAM: 0
 
-From: Zhentao Guo <zhentao.guo@amlogic.com>
+v4l2_buffer should be zeroed.
 
-Add vcodec node to enable Amlogic V4L2 stateless video decoder
-support.
-
-Signed-off-by: Zhentao Guo <zhentao.guo@amlogic.com>
+Signed-off-by: Tianyu Chen <sweetyfish@deepin.org>
 ---
- arch/arm64/boot/dts/amlogic/meson-s4.dtsi | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+ lib/libv4l2/libv4l2.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/amlogic/meson-s4.dtsi b/arch/arm64/boot/dts/amlogic/meson-s4.dtsi
-index 9d99ed2994df..80f1b92492a5 100644
---- a/arch/arm64/boot/dts/amlogic/meson-s4.dtsi
-+++ b/arch/arm64/boot/dts/amlogic/meson-s4.dtsi
-@@ -853,5 +853,32 @@ emmc: mmc@fe08c000 {
- 			no-sd;
- 			status = "disabled";
- 		};
-+
-+		canvas: video-lut@fe036048 {
-+			compatible = "amlogic,canvas";
-+			reg = <0x0 0xfe036048 0x0 0x14>;
-+		};
-+
-+		video-codec@fe320000 {
-+			compatible = "amlogic,s4-vcodec-dec";
-+			reg = <0x0 0xfe320000 0x0 0x10000>,
-+			      <0x0 0xfe036000 0x0 0x20>;
-+			amlogic,canvas = <&canvas>;
-+			reg-names = "dos",
-+				    "dmc";
-+			interrupts = <GIC_SPI 91 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 92 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 93 IRQ_TYPE_EDGE_RISING>;
-+			clocks = <&clkc_periphs CLKID_DOS>,
-+				 <&clkc_periphs CLKID_VDEC_SEL>,
-+				 <&clkc_periphs CLKID_HEVCF_SEL>;
-+			clock-names = "vdec",
-+				      "clk_vdec_mux",
-+				      "clk_hevcf_mux";
-+			power-domains = <&pwrc PWRC_S4_DOS_VDEC_ID>,
-+					<&pwrc PWRC_S4_DOS_HEVC_ID>;
-+			power-domain-names = "vdec",
-+					     "hevc";
-+		};
- 	};
- };
-
+diff --git a/lib/libv4l2/libv4l2.c b/lib/libv4l2/libv4l2.c
+index 06396abb..0958cf7e 100644
+--- a/lib/libv4l2/libv4l2.c
++++ b/lib/libv4l2/libv4l2.c
+@@ -176,7 +176,7 @@ static int v4l2_map_buffers(int index)
+ {
+ 	int result = 0;
+ 	unsigned int i;
+-	struct v4l2_buffer buf;
++	struct v4l2_buffer buf = {};
+ 
+ 	for (i = 0; i < devices[index].no_frames; i++) {
+ 		if (devices[index].frame_pointers[i] != MAP_FAILED)
+@@ -568,7 +568,7 @@ static int v4l2_buffers_mapped(int index)
+ 
+ 	if (!v4l2_needs_conversion(index)) {
+ 		/* Normal (no conversion) mode */
+-		struct v4l2_buffer buf;
++		struct v4l2_buffer buf = {};
+ 
+ 		for (i = 0; i < devices[index].no_frames; i++) {
+ 			buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 -- 
-2.42.0
-
+2.47.2
 
 
