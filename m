@@ -1,134 +1,120 @@
-Return-Path: <linux-media+bounces-47672-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47673-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2C01C822F9
-	for <lists+linux-media@lfdr.de>; Mon, 24 Nov 2025 19:55:21 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B281BC82C21
+	for <lists+linux-media@lfdr.de>; Tue, 25 Nov 2025 00:00:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A495F4E84F6
-	for <lists+linux-media@lfdr.de>; Mon, 24 Nov 2025 18:54:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 603B63ACFCE
+	for <lists+linux-media@lfdr.de>; Mon, 24 Nov 2025 23:00:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7EA231A56C;
-	Mon, 24 Nov 2025 18:54:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74772265CBE;
+	Mon, 24 Nov 2025 23:00:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AmpYBxDa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TIuo3ynJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DD4F230BDF
-	for <linux-media@vger.kernel.org>; Mon, 24 Nov 2025 18:54:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A37DB158538;
+	Mon, 24 Nov 2025 23:00:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764010458; cv=none; b=ONaLK0rR4CO942ZeaXm9zW6rRaxHjHxRbehrk8KEHhCkRL6mVYHJ8HLoEVL7kvmO8Ic7sIsSy1Z6oX0CSdp9MTcMbpnMhPyo2ivgmmdnQ4qO0U03HnX06RYqtWFZY8P9U2VKSRH/HqsiJrTAUspKtFFtNG430FvQ5WVRCdzuOqI=
+	t=1764025251; cv=none; b=jJ5H87hAN5+1viBXfKcU7X40184Q9f4yqmVUYrUNYCYRF0R/LkGsLMmz2S44FVpnJcfouMtuP16TsbfT9Fo7D68QmIK7XYUaD6cmQ5LNDcPfLchwlVBWVLjEmMZT8B9Z1kJlHawYXsJuNzR3dv6JpOsziBHwegbzWMDYQ8dGT74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764010458; c=relaxed/simple;
-	bh=TEK7y+I345Za9ATxX+knyA/Uh489WPY9Dd1JCZP1I5g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VzP7O8AODyRf6feRRhZ4aUSa02Mo0uZ13mO1Y1lFkYKCYlJBfHMoCVUF2TgnK4btY1cNRLdsTgLbEXrnXinzQWB7PNXNuOKjDPJaT6hFtmN4nHVssmDbWp7ugdYJ73OTHuEmcvKveDngvhiqUNbLAzVYbWPXwymxSo2ny/+YR6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AmpYBxDa; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1BBDC2BCB6
-	for <linux-media@vger.kernel.org>; Mon, 24 Nov 2025 18:54:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764010457;
-	bh=TEK7y+I345Za9ATxX+knyA/Uh489WPY9Dd1JCZP1I5g=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=AmpYBxDaPN5ZX9P0uxZqWlwOpLxvn2PrmdmQy+Ucj2PSpzD1kjzVJQNspQ3O+zzAE
-	 SoyfcVuxENoe6qN/jwgovr+Map/yE1k+ds7flRVlx2SmXzlUGVnFRek18ncwAZHd7S
-	 CmZZxqAIg/l3VjDKxFy7NVIj3yVu8kSd1iexr44ZzLxCtAc/tf/uV7g0Evv7eqHjnm
-	 1YCo41nZXFteqNZB42Xy6mkJWgTsrY3vio3yZSuwLAF9h+4WTNJsjuMD9VktUXg+iG
-	 xqY1spckPyd0iU/VIM2tMeSOPeqRpUk3qI2vXgOXeQZFFERXoX3JYZp2Be25cXhs5B
-	 9ERA2nzw21Whg==
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-64198771a9bso8323538a12.2
-        for <linux-media@vger.kernel.org>; Mon, 24 Nov 2025 10:54:17 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV1V89Rda7ifI/VPBhS1mubhG/VXEOsNwfonjycKVp0JX2RPqWUUoMzlZLGAiG4xAbWkF43SgH95tenhA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyETxc4u9hz6eSySVtPrtFq3xA4wZnIZJrdT8dJa0T912xCc81u
-	DEKUiPk9ET8Ux1e1OA2cpNXd+3cFW2cp8JI3qNqRDEWpMlOa+f3+KHWaUJVWJep8hWele41KCqB
-	K/lr/NFRdNtZOM+fxzLwIKx8ylW2zSQ==
-X-Google-Smtp-Source: AGHT+IFReAtDFuSFDhp918Ohx2vHaiN5KlMAX/uodATZY6O/YB75rQVqkELqtwQbH271c/8FxbJ2Dkum3f0Uu3OWMzM=
-X-Received: by 2002:a05:6402:5252:b0:643:4e9c:d166 with SMTP id
- 4fb4d7f45d1cf-6455443ed4cmr10891528a12.8.1764010456224; Mon, 24 Nov 2025
- 10:54:16 -0800 (PST)
+	s=arc-20240116; t=1764025251; c=relaxed/simple;
+	bh=UCA3d0FFln8ohnY08Q8wliMEd8mH8w3WnT7Cofp+e08=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=pCAW+bDGGnShglMIKRQuEOidSxA7tz1HXpEusUGZ4YJR38RyUy4mIYlTwUHEU+UGRIitAx9hsmno7BG27Afbze09Dug+cNjoRPrB+lcG8mx+U75rjWEUHwCDISYOXjDq2aPlvqJ8oD+nF6IExSOifYlmoXDUru9HmsSBc0GTsAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TIuo3ynJ; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764025249; x=1795561249;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=UCA3d0FFln8ohnY08Q8wliMEd8mH8w3WnT7Cofp+e08=;
+  b=TIuo3ynJjFdWM1ebl2JHv5qdcIjMMjLT3JlDft9wfwaHizRAf/65wnee
+   6JsusVsuTCD3oEUDXt3THUWKCRo0pTTi5ETvzr1SlTX8q5QyZBz9RkAjX
+   7dfEVmfujr74hF4bQYlwMj/Oas5InSZQ7usmpuBItEpGmZ9IQAqqFAffK
+   CcEmtTOVZ0ePTrqdoBCSA4wHSo3MX/F/uyCLei/eMCPT7H6A/YL/Ik35J
+   uSTtOrA792Lo38Cco2VcOcxyt69SI7XBZMJuOPows5H/v5hkqIYBkFNz9
+   Ddfas735GNisTHaGaEcWHRekiLO0kF45JHMJDSez2tGWapBrKyF7oHd3x
+   Q==;
+X-CSE-ConnectionGUID: Q+c32qzYQG+5yMKSYRUNBA==
+X-CSE-MsgGUID: s3MhGnFxTrmqNGH6fNyskQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="69656990"
+X-IronPort-AV: E=Sophos;i="6.20,224,1758610800"; 
+   d="scan'208";a="69656990"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 15:00:49 -0800
+X-CSE-ConnectionGUID: 5h6tVZjXT3mZEgOyo/JiKQ==
+X-CSE-MsgGUID: 2wUOMFK5S46RMqCftbSb4g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,224,1758610800"; 
+   d="scan'208";a="192704659"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.126])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2025 15:00:47 -0800
+Received: from punajuuri.localdomain (unknown [192.168.240.130])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id B0FB111F90E;
+	Tue, 25 Nov 2025 01:00:46 +0200 (EET)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
+	(envelope-from <sakari.ailus@linux.intel.com>)
+	id 1vNfY5-0000000DNSH-3ont;
+	Tue, 25 Nov 2025 01:00:45 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: Nathan Chancellor <nathan@kernel.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Ingo Molnar <mingo@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/1] media: ccs: Avoid possible division by zero
+Date: Tue, 25 Nov 2025 01:00:45 +0200
+Message-ID: <20251124230045.3188417-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20251124184441.GB1084995@ax162>
+References: <20251124184441.GB1084995@ax162>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
- <20250911151001.108744-4-ariel.dalessandro@collabora.com> <20250912140619.GA1293647-robh@kernel.org>
- <fb20e4fe-df0a-4089-a7cf-e82bfe1f8e00@collabora.com>
-In-Reply-To: <fb20e4fe-df0a-4089-a7cf-e82bfe1f8e00@collabora.com>
-From: Rob Herring <robh@kernel.org>
-Date: Mon, 24 Nov 2025 12:54:04 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+eeiw9oaqQPWt2=rZSX98Pak_oB=tfQFvEehwLZ=S52g@mail.gmail.com>
-X-Gm-Features: AWmQ_blUF-g1qhHGkKsa6U6HY_V7mtf4Q-WkpVuhZVm09t2HSWt6-IOrweXVTPs
-Message-ID: <CAL_Jsq+eeiw9oaqQPWt2=rZSX98Pak_oB=tfQFvEehwLZ=S52g@mail.gmail.com>
-Subject: Re: [PATCH v2 03/12] dt-bindings: net: Convert Marvell 8897/8997
- bindings to DT schema
-To: "Ariel D'Alessandro" <ariel.dalessandro@collabora.com>
-Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch, 
-	andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com, 
-	broonie@kernel.org, chunkuang.hu@kernel.org, conor+dt@kernel.org, 
-	davem@davemloft.net, dmitry.torokhov@gmail.com, edumazet@google.com, 
-	flora.fu@mediatek.com, heiko@sntech.de, houlong.wei@mediatek.com, 
-	jeesw@melfas.com, kernel@collabora.com, krzk+dt@kernel.org, kuba@kernel.org, 
-	lgirdwood@gmail.com, linus.walleij@linaro.org, 
-	louisalexis.eyraud@collabora.com, luiz.dentz@gmail.com, 
-	maarten.lankhorst@linux.intel.com, marcel@holtmann.org, 
-	matthias.bgg@gmail.com, mchehab@kernel.org, minghsiu.tsai@mediatek.com, 
-	mripard@kernel.org, p.zabel@pengutronix.de, pabeni@redhat.com, 
-	sean.wang@kernel.org, simona@ffwll.ch, support.opensource@diasemi.com, 
-	tiffany.lin@mediatek.com, tzimmermann@suse.de, yunfei.dong@mediatek.com, 
-	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	linux-sound@vger.kernel.org, netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 1, 2025 at 12:28=E2=80=AFPM Ariel D'Alessandro
-<ariel.dalessandro@collabora.com> wrote:
->
-> Rob,
->
-> On 9/12/25 11:06 AM, Rob Herring wrote:
-> > On Thu, Sep 11, 2025 at 12:09:52PM -0300, Ariel D'Alessandro wrote:
-> >> Convert the existing text-based DT bindings for Marvell 8897/8997
-> >> (sd8897/sd8997) bluetooth devices controller to a DT schema.
-> >>
-> >> While here:
-> >>
-> >> * bindings for "usb1286,204e" (USB interface) are dropped from the DT
-> >>    schema definition as these are currently documented in file [0].
-> >> * DT binding users are updated to use bluetooth generic name
-> >>    recommendation.
-> >>
-> >> [0] Documentation/devicetree/bindings/net/btusb.txt
-> >>
-> >> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-> >> ---
-> >>   .../net/bluetooth/marvell,sd8897-bt.yaml      | 79 +++++++++++++++++=
-+
-> >>   .../devicetree/bindings/net/btusb.txt         |  2 +-
-> >>   .../bindings/net/marvell-bt-8xxx.txt          | 83 -----------------=
---
-> >
-> >>   .../dts/rockchip/rk3288-veyron-fievel.dts     |  2 +-
-> >>   .../boot/dts/rockchip/rk3288-veyron-jaq.dts   |  2 +-
-> >>   arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi  |  2 +-
-> >
-> > .dts files should be separate patches. Please send the bindings patches
-> > separately per subsystem so subsystem maintainers can apply them. All
-> > the Mediatek dts changes can be 1 series.
->
-> Ack, will fix in v3.
+Calculating maximum M for scaler configuration involves dividing by
+MIN_X_OUTPUT_SIZE limit register's value. Albeit the value is presumably
+non-zero, the driver was missing the check it in fact was. Fix this.
 
-Are you going to send v3 still?
+Reported-by: Josh Poimboeuf <jpoimboe@kernel.org>
+Closes: https://lore.kernel.org/all/ahukd6b3wonye3zgtptvwzvrxldcruazs2exfvll6etjhmcxyj@vq3eh6pd375b/
+Fixes: ccfc97bdb5ae ("[media] smiapp: Add driver")
+Cc: stable@vger.kernel.org # for 5.15 and later
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+Not tested but what could go wrong here? :-)
 
-Rob
+ drivers/media/i2c/ccs/ccs-core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
+index f8523140784c..dadff8c50679 100644
+--- a/drivers/media/i2c/ccs/ccs-core.c
++++ b/drivers/media/i2c/ccs/ccs-core.c
+@@ -2346,7 +2346,7 @@ static void ccs_set_compose_scaler(struct v4l2_subdev *subdev,
+ 		* CCS_LIM(sensor, SCALER_N_MIN) / sel->r.height;
+ 	max_m = crops[CCS_PAD_SINK]->width
+ 		* CCS_LIM(sensor, SCALER_N_MIN)
+-		/ CCS_LIM(sensor, MIN_X_OUTPUT_SIZE);
++		/ (CCS_LIM(sensor, MIN_X_OUTPUT_SIZE) ?: 1);
+ 
+ 	a = clamp(a, CCS_LIM(sensor, SCALER_M_MIN),
+ 		  CCS_LIM(sensor, SCALER_M_MAX));
+-- 
+2.47.3
+
 
