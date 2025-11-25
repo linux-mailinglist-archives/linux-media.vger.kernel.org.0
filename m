@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-47691-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47692-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88BCEC84BD1
-	for <lists+linux-media@lfdr.de>; Tue, 25 Nov 2025 12:30:07 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF02DC84BF8
+	for <lists+linux-media@lfdr.de>; Tue, 25 Nov 2025 12:32:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 2D97434FE60
-	for <lists+linux-media@lfdr.de>; Tue, 25 Nov 2025 11:30:07 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 29BA04E8ED1
+	for <lists+linux-media@lfdr.de>; Tue, 25 Nov 2025 11:32:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8030E314D24;
-	Tue, 25 Nov 2025 11:29:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0BDF275AF5;
+	Tue, 25 Nov 2025 11:32:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IU07aGLg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rv0vtKkN"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD4B52E0B5B;
-	Tue, 25 Nov 2025 11:29:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CDF12E645;
+	Tue, 25 Nov 2025 11:32:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764070198; cv=none; b=LqPMDje54TBiUdlw4LjMwBkfh1dDbwM31kMJHT3GvlWyW144M5nKoSncImj2qvJQ3I8NZ2vA9zNmekMghor/seqAh7FVAT+/7xsE/93p/P4mvkTcPhkT0sOr8ArMt3bHmQ7hBJ64n7e6enzqlHHQcvRudTt5ih3ayg0pQcv0GwQ=
+	t=1764070321; cv=none; b=qQCrGss08jumxbp39TfigcvoNfcjbBK/+g2w9SPGbiMljP5ZE1wgdhtOz/AM0WyfukCR+2jAq347F8s9Y0sToR/qzEC4ZvmWPRg5ZZGBf5TlOYo7AOWNr68Le4NkFA9REuDV35q/et+0EuswMMprCWt97G6nlvzTScw7lJIOPkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764070198; c=relaxed/simple;
-	bh=xpjGH4cjjo4duVBZAy+5FxOn1KY0mAxLWhQqaiYbBbM=;
+	s=arc-20240116; t=1764070321; c=relaxed/simple;
+	bh=uio4iAKYgslHYKuPlJuyY9dB10WakryV1vtm0OR6yko=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jXf7i9xMVVagjB/+kKyaXLdrU5izaHZCnFHseVX8uKMcLlKjmCxdNkGGrvJStlYxLwYnwhPFU68UTwNens4Ejqo0mZYL7mLCLQqC6vZDC5lDe6b6dNuBFKg8PVSKSuPCEBiKY3XrBsGJawmdrctehqXTng4ys3wyd9lusM048Yg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IU07aGLg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66BA1C4CEF1;
-	Tue, 25 Nov 2025 11:29:52 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=Fpowgh49wiPp4YaAcofmh9EE4uwQuwXWqPSyizgF2n1SCHoGfFnt1ge4BRL4cAUj36GSJkrirbJ94ngZqlD9DfYHiiZs5h4/6AqkS+Du3cNJGolbGA1RKhNQsW205wOh3IksyyJMkmLKDLmWMZ3F55WgLJ9YRRbvBNwwQOiOWHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rv0vtKkN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4287C4CEF1;
+	Tue, 25 Nov 2025 11:31:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764070198;
-	bh=xpjGH4cjjo4duVBZAy+5FxOn1KY0mAxLWhQqaiYbBbM=;
+	s=k20201202; t=1764070320;
+	bh=uio4iAKYgslHYKuPlJuyY9dB10WakryV1vtm0OR6yko=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=IU07aGLg63QW3/1nhZZL4l66bu7kE2aogPaiYdga6a0sbfdmVKvT4NNGcWucylzRR
-	 a6kP6gyTYC2/jNYxAb5wh41w07qJwnd5JAQ/xd3X8IlNbCEr0t+mfJxW0HVve5pc9B
-	 mJhnE3hCTXit7CavJu1zzCkrLszf+jPJJYF+bQpiKst96wpepqaLlajVxvGkSwen6q
-	 Wt9NSdfpt+Cr8Z+mFA0TZNECFwqwKqZtcXfaFlxsW57brbMVNDX+OfV4nc4lnWxegl
-	 3css8V7Yv0Ld96o0ACcl30VoYrNDxYyNy07E47Bwe9zRC1gaTBkMtULefZpKlo5FnK
-	 /e2toU0O/gCwQ==
-Message-ID: <ae1fe925-3e3b-428d-9bae-a587ca5e37f6@kernel.org>
-Date: Tue, 25 Nov 2025 12:29:48 +0100
+	b=rv0vtKkNaZ+nQo5zQJMWV1GKSUfE+P5KeZS0jMeXMUb0AdkPBAhRbB8tsrjFKHDM8
+	 jPa2LLfI4/vX5UvK907iqPeTQcSWCO5VTblFhgHy8DJmuRr8vq7qgFuxKUp7e5+r7I
+	 jN4mXgmqC0qGdpmZR+wCNC4PUGeBL3ZjlLJwHJf/ZbQ1fGaB7Gwh2L4RuiZ3UXHEHa
+	 MOzuiWkLPKCcvsY/EUXd2pvlW7mR172khuV2XeWRKzBCO1AclmpdBK0uL3LKsQa3+K
+	 IMmRxr+AMQCigx2C1mZHZSEIW3k9X46rIrtBcC/Qb9CaQ6jX4kXnMga+iQ5vCFh3GW
+	 r+RF0K7xH21mA==
+Message-ID: <07d0b355-861f-443a-a3a2-e003ecbaa29b@kernel.org>
+Date: Tue, 25 Nov 2025 12:31:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,21 +50,19 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v2 0/3] Add Amlogic stateless H.264 video decoder for
- S4
-To: Zhentao Guo <zhentao.guo@amlogic.com>, Rob Herring <robh@kernel.org>
-Cc: Jerome Brunet <jbrunet@baylibre.com>, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
+Subject: Re: [PATCH RFC v2 1/3] media: dt-bindings: Add Amlogic V4L2 video
+ decoder
+To: zhentao.guo@amlogic.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
  Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- linux-amlogic@lists.infradead.org, linux-media@vger.kernel.org,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-amlogic@lists.infradead.org
 References: <20251124-b4-s4-vdec-upstream-v2-0-bdbbce3f11a6@amlogic.com>
- <176399402192.138936.11233579649489245455.robh@kernel.org>
- <5faeb411-91d0-42e2-9bf8-3051045ff42c@amlogic.com>
+ <20251124-b4-s4-vdec-upstream-v2-1-bdbbce3f11a6@amlogic.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -110,23 +108,27 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <5faeb411-91d0-42e2-9bf8-3051045ff42c@amlogic.com>
+In-Reply-To: <20251124-b4-s4-vdec-upstream-v2-1-bdbbce3f11a6@amlogic.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 25/11/2025 04:24, Zhentao Guo wrote:
->> (or use b4 which does this automatically)
->>
->> New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/amlogic/' for 20251124-b4-s4-vdec-upstream-v2-0-bdbbce3f11a6@amlogic.com:
->>
->> arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dtb: video-codec@fe320000 (amlogic,s4-vcodec-dec): 'amlogic,canvas' does not match any of the regexes: '^pinctrl-[0-9]+$'
->>          from schema $id: http://devicetree.org/schemas/media/amlogic,vcodec-dec.yaml
-> Yes, this is a problem. We renamed the dt-binding file and added new 
-> node to the dts in this patch series, but the dt-binding was not fully 
-> updated. We'll fix this warning in the next version.
+On 24/11/2025 04:32, Zhentao Guo via B4 Relay wrote:
+> From: Zhentao Guo <zhentao.guo@amlogic.com>
+> 
+> Describe the initial support for the V4L2 stateless video decoder
+> driver used with the Amlogic S4 (S805X2) platform.
+> 
+> Signed-off-by: Zhentao Guo <zhentao.guo@amlogic.com>
+> ---
+>  .../bindings/media/amlogic,s4-vcodec-dec.yaml      | 87 ++++++++++++++++++++++
+>  1 file changed, 87 insertions(+)
+> 
 
 
-The problem is that you did not test it before sending.
+Never tested, although maybe you imply this by RFC. If that is the case,
+explain IN THE FIRST paragraph of your cover letter why this is RFC, why
+this is not ready for review and mention that because of this you did
+not test your own code.
 
 Best regards,
 Krzysztof
