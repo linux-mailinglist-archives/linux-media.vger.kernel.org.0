@@ -1,492 +1,650 @@
-Return-Path: <linux-media+bounces-47682-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47683-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40253C83DA5
-	for <lists+linux-media@lfdr.de>; Tue, 25 Nov 2025 09:02:44 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF836C83D2A
+	for <lists+linux-media@lfdr.de>; Tue, 25 Nov 2025 08:57:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 1C8814E062F
-	for <lists+linux-media@lfdr.de>; Tue, 25 Nov 2025 08:02:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7FF853AFF7C
+	for <lists+linux-media@lfdr.de>; Tue, 25 Nov 2025 07:55:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AFF32E3365;
-	Tue, 25 Nov 2025 07:52:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 777392FA0DB;
+	Tue, 25 Nov 2025 07:55:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="1lF7YPhE"
+	dkim=pass (2048-bit key) header.d=kerneltoast.com header.i=@kerneltoast.com header.b="bsDm3hUw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010064.outbound.protection.outlook.com [40.93.198.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 130F52D8773;
-	Tue, 25 Nov 2025 07:52:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.64
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764057149; cv=fail; b=f2sNuOPLllTgWNdqqXAmVTOQAlQLSnvPHxBXxO25jxKtyt+9/1F11Y0EWc6yntl8USNMqfq2oTmng53eumUoJXNKex8LxUhwVF/QSNa48wu5kX9XlEeu0274w4SOscUa5/CFre9PJ8TeoeLLH5buO3iuAsNYondV+hJ9g1ZNNr4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764057149; c=relaxed/simple;
-	bh=TSghQkd5/XfAJ6ge8AkfeqGeJckAjqR3gLLD6JCFF7A=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=r3BbKw55zqpD0u7eJ+KIE+EZgDnYW9mxi8jkEo4XxLC3pPNhFtIZYIydDRTTs8hUkpQwHw2UAH9W7yic7XBOJsHdWoKrLtyoGHkWazLNYiNyUBbZ3YhORCtyPJUm4rzJmdSTcRoE0OtCgVyZpBMDxdyVduOVSxOdTr3FdzVkPSc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=1lF7YPhE; arc=fail smtp.client-ip=40.93.198.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=K9HJcZMUeaauzpFg3NupqTAa2vpBQjMd/Lw2la7sp0NhMxVn0z3HrLLffjVzGWHhP3ONQNcNVh65jSnrM1Dr2+PlFxcAz7xJuvYTuuTA6tAzSNZZnG2dCqgSPyLq4f/8wuBLiMZo2GwVUViZaRX8/s/JFA1GC0yfMr4E8eRBIfmoZkOR06dehjKF2HSS0TArnsvZzt1EX8pCRvMaQBz/w4YDHtKoGvgZjMyTLoTx0hhnYgIo3BtX4u4dLXJOO45reNDP1u3w1SNnQXoIESaYp2oTkq2uYNCifkfaEB+575kD26sIdc2Qz0wD4B9ud1DUxa7yGSq8Yz8x0XJXmeWiOw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TSghQkd5/XfAJ6ge8AkfeqGeJckAjqR3gLLD6JCFF7A=;
- b=lQlQDX6htddihRtuZMqDdGqu7LAx5VTENb0Um4tkdTZhj3Zyx+rDS6Pf4qBm0ePwi1qDN0wXehilAx/GVQ/QAlEe/l2NU+eV2aTRYftzhd1KWYtYwU9jpY+ZIEX4h/RmtEIDBqOd0c5w/6ozoGzX0hJU2dCKSiVxhJFSm75joywJ3lG6HSKNoyT2LGc+aYtmXibsWltfHzAYjLktQabY06paXtSCTyNrN/0+hsFCEZuiVOZu/4ryG4fiMeFIvR5lG3HkCsGhR6cS74PS46oJcX7LjlYvWK00D+lLFKvmQR5rfKGt6E7rw7ehwFY35IxOov5UsF/TSmTpaxyVRwRdiA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TSghQkd5/XfAJ6ge8AkfeqGeJckAjqR3gLLD6JCFF7A=;
- b=1lF7YPhErmS+A8hwlPRC4hQyZJTM5CU/f4XRGCon9oh3BQXRgo/uf5hiDFw9BYStX2JCZHzTZvnNR6/PHqQOWL0/EdDPet5IekG947lg5yT8Ddbn/JfQvf1bxTfT4H8r/MY92TUuVgaxwhsGv3ObodJqXZERutq9lhsKMv/5d8c=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SJ0PR12MB6805.namprd12.prod.outlook.com (2603:10b6:a03:44f::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.17; Tue, 25 Nov
- 2025 07:52:24 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9343.016; Tue, 25 Nov 2025
- 07:52:24 +0000
-Message-ID: <c0bc6d72-a078-4847-99fd-d95407fe3e72@amd.com>
-Date: Tue, 25 Nov 2025 08:52:18 +0100
-User-Agent: Mozilla Thunderbird
-Subject: =?UTF-8?B?UmU6IOetlOWkjTogW0V4dGVybmFsIE1haWxdUmU6IFtQQVRDSF0gZG1h?=
- =?UTF-8?Q?-buf=3A_add_some_tracepoints_to_debug=2E?=
-To: =?UTF-8?B?6auY57+U?= <gaoxiang17@xiaomi.com>,
- Xiang Gao <gxxa03070307@gmail.com>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "rostedt@goodmis.org" <rostedt@goodmis.org>,
- "mhiramat@kernel.org" <mhiramat@kernel.org>
-Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>,
- "dhowells@redhat.com" <dhowells@redhat.com>,
- "kuba@kernel.org" <kuba@kernel.org>, "brauner@kernel.org"
- <brauner@kernel.org>, "akpm@linux-foundation.org"
- <akpm@linux-foundation.org>,
- "linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>
-References: <20251124133648.72668-1-gxxa03070307@gmail.com>
- <3a1271f3-4c56-499b-b674-32299ddc72b2@amd.com>
- <c6aeed35a17b4fb6b30c5b58a464aba5@xiaomi.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <c6aeed35a17b4fb6b30c5b58a464aba5@xiaomi.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
-X-ClientProxiedBy: FR4P281CA0036.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:c7::9) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2AC02D7D42
+	for <linux-media@vger.kernel.org>; Tue, 25 Nov 2025 07:55:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764057313; cv=none; b=L+aAEvP56jspdVjJ6vxFetdBqWZfzpjj7ewDkz03Nyy1Dqv41Qd0H3qXxiSeYlHPe6hU+U3sbVwdQw4GL43BQuwgC1i2/HTcv60eT3QIeRDvDOYDODhf91CTgCPCG5V+0YXdqTH8G5fStP9MXukKmq+eV3o36jW3ZOmrS6KGBDM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764057313; c=relaxed/simple;
+	bh=QsMkRcmu+/jvUsbbFy85/gv18fh5MO2fC3UQ+XlEtrA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZfMkiECVDXf2YrFd2C0Z7JBby41Ld6QpDnv47pwjIx8EFkinKtZfvCNHFg3uwfpZ3OV0dr3IdVOUCLRBF30PS/QMAf4LYu3Zd6dscqi5ZlH472smJGTu4IpVl8dWKf7Sa2tgxIiSVqJosmcEzHwlf3C8SwiuRNCJRjeKhMyxpFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kerneltoast.com; spf=pass smtp.mailfrom=kerneltoast.com; dkim=pass (2048-bit key) header.d=kerneltoast.com header.i=@kerneltoast.com header.b=bsDm3hUw; arc=none smtp.client-ip=209.85.215.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kerneltoast.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kerneltoast.com
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-bc8198fbaf8so4694673a12.1
+        for <linux-media@vger.kernel.org>; Mon, 24 Nov 2025 23:55:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kerneltoast.com; s=google; t=1764057310; x=1764662110; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1aSX4wah47OmroERWv1ieo+3b8uR3fyDw+Qib5H1o0o=;
+        b=bsDm3hUw10BydHeL9fqBegI5DZ/jhSM3kauhu8oIFGz0L2XZFpZz384Ty1h/cdT/Vx
+         +NrY3C1OOhDNAFEVyxiWPPu/+DC/qr4HSqrrCOMK5mgQvLuUG4RV+pDKkEt3C/90/MsK
+         c3q3YkZEQu1vnoHahV4KGwCXIGy40CCya+38uctfwnYgzmwaYsspxkaKtORKMdFRi3fO
+         5fYWFkfpYKWIFqE29c3CQP+G/6kFaMQCBW61Cz+1itKEOI9Uc4YEl6tQWJAPbq7ES+9w
+         k4FQcjBEmiZxQbd5kZmtd2ClaBXBpMbsSvSHfhKrwlqR5QEx+ooNbcMKwRfud89WBg4p
+         o+Mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764057310; x=1764662110;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1aSX4wah47OmroERWv1ieo+3b8uR3fyDw+Qib5H1o0o=;
+        b=h4b1SkMekXE2AExJ/AFO5tq/NyX3/rETlE1fiyFv6lM/uTyGAMmJiUQB3Y/sCTvjEr
+         bb2D7oocGh53NdCshJdAkS0ESzrtfWpQqg0qmu2q+ITd5fOsDZexuW5veWDJpRBsUDL+
+         WcW3/HnY6pnB6Pw646cPe8xCjnLeRq5jitUWcgvdNbfERRZ5Mn6/yRTRGo31c05QABbn
+         xocslCggsb717V3QHvQK7fs+APPrfflWq7Ci2QtmJSIu8zsRHgolOcOlbUYyJut0FVXR
+         vcL44SMKlW1LD5bG2XT8Uw9jZhxSOX//om8F9S0th3vHkjZP+QWpXfKl6CVTnYjMzz04
+         ptIw==
+X-Forwarded-Encrypted: i=1; AJvYcCVii7OEpsj3ZPKRQ3I6JARjICumF+dGi72rggQHNc+BZhyar/O0yt9hsDoeCaiALBW7BNlxmRAof5CWJw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyNwpFaYBw7L3c3f0HEJx6zWgPGnuCyu009pe1cCeR4EtG/pqt2
+	qzFVEXs2+vO9tmzLpdNcAUUXllOlKDTPsedjNDbYg8/0dtKFyHZRUo4auHk+vR+FKF7U
+X-Gm-Gg: ASbGnctGbw30OJlYbqRpmGbWRCGy5x7b7cm/lzlXFvnRRpgzuHaPcAQ0EUY+vrp5Pdj
+	967kxoWZatD0JYkJNgKYYoKtM4gpHTrRYtqYDNVS1rNW1rFEukqX6O23PMTZL74OpJn9WXZxGmn
+	UhckFl9ezlkUHhyFxscIvWQVVOGX4/H3l9LGma6sDM587H0LrsK9UpGph8NRAojR0+i0HpSeqWI
+	wN2g/CRJHJFeay6tQ4GOmE0k6Q8POLNO8bP2kDJPwvbKvXlZURyujRxz1xOwemDhCExY2mh7bYA
+	aJsnvBHVuv63SvUHDw89vriuLuGq3SFzDQI+7D4GSb0V8yQVd+k+72Fdib0GpapEk4bexMg8WZI
+	gVzigQXJB5E4i8CyXQXNAbI6fEyOn8tjQi6wo6a/YvwJ9kTMvW+V6rmP4HQFpBltBTPjA/tWHmr
+	BUX5Pyxq1RCGerkA==
+X-Google-Smtp-Source: AGHT+IEDw4uEvzjnLAZOaq2d+yyW4XDnzKC/2BprqrGfE/2irxslnE6yIsp/KApDN3AGmWYrx+HuLA==
+X-Received: by 2002:a05:7301:da0b:b0:2a4:4f6c:53b4 with SMTP id 5a478bee46e88-2a7190a5f6dmr6281492eec.11.1764057309478;
+        Mon, 24 Nov 2025 23:55:09 -0800 (PST)
+Received: from sultan-box ([142.147.89.233])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2a6fc38a66bsm59400790eec.1.2025.11.24.23.55.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Nov 2025 23:55:08 -0800 (PST)
+Date: Mon, 24 Nov 2025 23:55:04 -0800
+From: Sultan Alsawaf <sultan@kerneltoast.com>
+To: "Du, Bin" <bin.du@amd.com>
+Cc: mchehab@kernel.org, hverkuil@xs4all.nl,
+	laurent.pinchart+renesas@ideasonboard.com,
+	bryan.odonoghue@linaro.org, sakari.ailus@linux.intel.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
+	gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com,
+	Dominic.Antony@amd.com, mario.limonciello@amd.com,
+	richard.gong@amd.com, anson.tsao@amd.com
+Subject: Re: [PATCH v5 0/7] Add AMD ISP4 driver
+Message-ID: <aSVg2C3mzc5DjIRi@sultan-box>
+References: <aRPhMCwJjpMqAROG@sultan-box>
+ <d9afc6db-fd8a-4069-a8a8-1e2d74c1db3a@amd.com>
+ <aRQyAdyiQjhsC11h@sultan-box>
+ <aRQ5aA4Gus4iCVLp@sultan-box>
+ <591efd28-805a-4a13-b7e2-0f78a3ca3eac@amd.com>
+ <aRwhuNmPRlPGxIia@sultan-box>
+ <8288a5b3-6e56-4c9a-a772-99ca36bb7c52@amd.com>
+ <aSAg1MUVZtDlCC96@sultan-box>
+ <aSEmDlwKH6PT3i4y@sultan-box>
+ <aSErtOOG5X5JG8Kl@sultan-box>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ0PR12MB6805:EE_
-X-MS-Office365-Filtering-Correlation-Id: 731e8f9c-b60d-4276-3b36-08de2bf791ce
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?VTJmc3BpQWQ1ZkZQUi8xYlhZWnVocytydmFGbEhyTFBLbjJGek4zdlJMSDlJ?=
- =?utf-8?B?dFpTQkpYdFhoTGkxVnVqSE5SclI2T0JNbGNGS2ZLdDRudDhFVVNHN0plYzBH?=
- =?utf-8?B?bjRhTWQ1eURTdzN3RWVkQkZxcDN6RkgvUHRKcHhzZEs3RXVncytpNU5BRjcz?=
- =?utf-8?B?REFzSDM1MDB0MTVTeExhOUxUaytXWXZJT2piWExGWHhnakdEN1pGY1cwWkYv?=
- =?utf-8?B?YWR4N3pnSXBud3k4Qk9Xa04ybHhlcFJNdUdOU2xrSDJzd1N6MlFtSnFIWUxr?=
- =?utf-8?B?ZFpTaU00dDJPcFF6eXd1M01LeTZSY3lRMThjdXkzRVJIYlJPSzQzY013VEZa?=
- =?utf-8?B?bEE2a0tmUUQwWEFWL0FxY3dtdUFiZ1VSdFFNSVMyWHZ0ZmFrQklKMmluZ2Fy?=
- =?utf-8?B?d0JIWk83RjZ1QVM2amFRdy9qVGdPL2FLZE9jT3lLQmYwc1Y2VWdnZXFKa3Qy?=
- =?utf-8?B?TnZ5M2pGWWNVZUdJamdUb3A1bVdWeFJmZGhqRTlUNjJVYzNQRTdVcTB4b29B?=
- =?utf-8?B?dDgza2d2QTdTSE1hTXZjNjNtTFhJcDU2LzlJYmhNTzdQZmxlYnFUR1kyUkVx?=
- =?utf-8?B?Z1pjMC9HbHVxOHJFVWlmTXRqbjVHMDNYNDlVMUkrY0JTOElBdStzYmRjVXU2?=
- =?utf-8?B?MHJweFlPdUtGWFR3NWRFNjZyK0Z1REJUY2Z6bEdWb2tqaWhHWE14WG9OOGU3?=
- =?utf-8?B?aU81ckZIbEJnR1l5UXh2NlhablI4S1gwdTN4UDcvNmJKZ0RpTlRxYlRqVDd2?=
- =?utf-8?B?cmhuT0RWV0JaYm9pMHREOUJod1MvVGRSOFNuRkxuelNlMmhzUFFsNml4aVRo?=
- =?utf-8?B?MU5zYmViNGoxV2ZtTjljb0M4cTJxcmVOeVhCeDA1eVdEV2s0ZGlMR0tMNS9p?=
- =?utf-8?B?d2l6SGQ4Ty90QnEzTkQrSWR1MDZiWXRpM1pVRkZSVExNem1YalVFeWovZVRx?=
- =?utf-8?B?Y0FBVFRwZGFQNWlJL3NvMys4eEQySlczQkZwU3E2R2pzNmxTSkxmaTJ5Yktm?=
- =?utf-8?B?bmNvY2ZGSVR3ZFdQNittTzAycUZiREtpODl6aVQycjdzMC9JSUdrVmpIWUZp?=
- =?utf-8?B?Y0ROL2lTS09OMXdXT0NjZm5YdnppaS9udTRiMzFoM1hLZUt3QzErbmZBaFJi?=
- =?utf-8?B?RElJbzBMTjlrRUFLOVFUTGlUVmZTcGlFRlJkbnVwUTE0aUx6WTlvOWNqK2dL?=
- =?utf-8?B?SFRQNHNsT2RuaUgwYUtPL2x3V2RBS3NzMWVOOXhHUkcybkhiV0p4SStRS3Z4?=
- =?utf-8?B?ODZiSXE1dHhpWGwxUXRNNGNSR29vaUhxK3YyYVdncVBXUmZwR0pXMXJrRERI?=
- =?utf-8?B?S0xITnY1VmtpZXg1WDduSHd5cE1JQmJJQWtURE9xOVFOQ3Zqb0UwVW5GRzB0?=
- =?utf-8?B?bWRFWGpXdTlGcEU3aXZaa3d6N2VmdWJFWHNnYXZuRktGVXpJdnpkMitSZFh2?=
- =?utf-8?B?RnVBSTFzRklzRU5qWmYrdmM1dVdDYWR2SHBDRHBEVzlpa1d3b2RQOGFqN2h2?=
- =?utf-8?B?KzBkUmxFaHBFUzVvK0I3TWhFMnNuOCs4VlBLMFdpZCtEYmtRT2NDSitxSkgy?=
- =?utf-8?B?MmZtb29jQ2VzYnRGZ3BDN3gyMUZqUlFyRlFlVm9Cc2crME9jUU1rbVRPNmRH?=
- =?utf-8?B?eW0xOUNmZXFZQTZkd1FNd3VWdG1vUnJmVDJrOElKMm4wRWRab2Y3TEo4OVp6?=
- =?utf-8?B?NHl2dDcrVUJWRkpmWjJHY25BZE9rQnRQc00wWHJYRVFSaXpiNUhUY0FuajFL?=
- =?utf-8?B?MlQvTFIxTjduUTdySVNnbVcxR1VXZzBiU1NVQzNTT29CWkdJNDBucjRZZGsz?=
- =?utf-8?B?SFNvQWoxRXZzMm5iTTY4b2dEaTVhSnVZd1U3ZnFQSnNnY1MvcEVhVXB1NUtm?=
- =?utf-8?B?VUYzcXhKc0dFL2RlLy8waUtpcVFqYVNlN1JmWEJFZFhnOGo3VkRxVUQxcHV0?=
- =?utf-8?Q?3lSJ9CzkZpc/19hVDDu2IniL1BST7ZmU?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?eGlIcStpa2t4T2VhZU1wWXR3YzlrbWYrQkFXQkhaSk9aOGl2aGJlQmxyR1h6?=
- =?utf-8?B?U3diTE1nWlI5TkZBL2VaWmlCN3BydWsvcnhib2xhUllieklJSFhJVnpVVTBy?=
- =?utf-8?B?SEx6TWhmMkF4M3h0NW9YdUhLQXBNKzVLR3Fnc3d3RkFTWWRQWmhybEhHVUF1?=
- =?utf-8?B?VGR6WEx4d3J5MEprWTNEVWFzUkRrU3hVdDVOYitoZHNYa1dvSUZFRXF6ZW8v?=
- =?utf-8?B?MHd3T3U0UWlRL1dWeUNNUDIyN3VXa0o1UzNIRWg0a3dUV0Z6cndjZWZQTXpT?=
- =?utf-8?B?YWFjd255ZnZkclhYU214V1JJZnI2YmUrcGsrWXB1VHd2ZjQyVDJ4eUs2eXZ5?=
- =?utf-8?B?ZHNGZ3Jxc21jVU4xcnhpSU8wSkdKMVRCT2tjbWVZeVlmdDRGR0hQV3BYZFEz?=
- =?utf-8?B?eW5qd3NNS1pROFdzYWZmTzFQd0xOWGRBdi9lYjFsVk5GNS92VkZINjdWVHRj?=
- =?utf-8?B?aW8xVWpZRTB4R1Nicm5ocFpJeXJENlJWaUFTT24xR1F1WUpZcTdYSkVnQUxt?=
- =?utf-8?B?YkZCMEp3bjRoSjhZRlYxcTJWcWU5bldEeFhKVDE3UHdlT2Jjby9ObkpwVzNE?=
- =?utf-8?B?d1o5eTJMMXF4UnZZMzlEZ0JCTzBZa2YrWEZQTFhEN2paU2xOY0Zjcit6YTgv?=
- =?utf-8?B?TlZINVE3b2ZGaTRmNExmSi8yT0ZSZ1NkWFBHNU5TRXdsbXBTc0pyNjFkU2hp?=
- =?utf-8?B?Ky9GdVJYZG55aCtoU0JVd0llc3N2elpUbU1GenVIZnE0UjZpQ21qUkFSV0Rz?=
- =?utf-8?B?Z2VYcFlFRXAwVzlOYWlBRjkvSk50RWs1TjJCNnRlK1Vyc05UY1BxVFlIQXZw?=
- =?utf-8?B?bitselkraTVrdkVxbnBhUzVyaW9wRGY1Y3BXN29DbHU0Z3dLelI0aE96K1I0?=
- =?utf-8?B?ZHgwSzNWZ09VYk43UDNlMUhCdFFHcmlwQlhIU0xaSDZrbnVJZjBzYUVNaU5K?=
- =?utf-8?B?NDA0a0xNQWI0MlhWUGFVR0JMbXpldi9XeGZJdHgxaUM0Y1dnNGNEYVdWN013?=
- =?utf-8?B?U3M3dFdCSzNob3YvMGFSakpKZVF5aGU4V2tlNVNCYTNFMXBvWHFjdVlJSktx?=
- =?utf-8?B?ajAvMlppTUp4dk1paUhZc0pzRXRMaEtVUlFBQTN3aVJzMkp6Q2hHbTl3dHdO?=
- =?utf-8?B?bVhnbkozUzFCcy9IWldTbnc0M3FIMlNRSjE5cE5xOEFNdDFRTG5GelRBVzN2?=
- =?utf-8?B?eG81MkFHdi9zNkVaalhqTmNQT1IxOEhPNEZhQkd6Y2xKZThCUXV6cjh5OWNz?=
- =?utf-8?B?dHhYTzRic3c5QUhUTU5rZzNUTUY4bE9aL0FGZmpQYms1bUpYRWRadysvUGFI?=
- =?utf-8?B?Nmo2T1RZem9OR2RhdXJ6TW5TdHFML2NLNUtGdWtEYm51TUU5dnlpcmV2akw3?=
- =?utf-8?B?eEs5QTIwM3BKNDBQNkcyRFFQSzJsMDZIbVZzcWx3eDB5TkpNaXJVK3JFWkhq?=
- =?utf-8?B?TUxpcjgySWZ4Ly8yR0t0REVBeUdTMmF5TWMyZ0tCOXdQcCs3SHNZSUMrZ2N1?=
- =?utf-8?B?NGNVTStQNjc1YTN0S2plQlF1Rmx1ai9tTlVUZ1FJZDE1djBkaGhoVTNOYjRu?=
- =?utf-8?B?VlFnNUxnTTl5VkljN3d1NyszS25OQ2s4cmFJd3g1NmV2N3MzVUh2bEZBenZS?=
- =?utf-8?B?bVNXSWdlMWIxQnAwaE5IU1lKQ3dqWTNFZ3NaY3FGL09PRmR2Y3pwWFphamMr?=
- =?utf-8?B?NHdOdGNrS0lzUGR5K1lTZmN2a244ZEJVQ0RwMkN6YW1SWGNIdTZUYm5DaEZh?=
- =?utf-8?B?aVZvTkEyRSsrVTZMdHczVGczVXg4cXp4bVVTRm5QYkxaaS9yaVhRYmRZSXVk?=
- =?utf-8?B?a3N1WXRvblp1ejNBMEZKMjd5UTVLOUNtOEZoZW9mSER3L1AyS3JYV0tqdkZE?=
- =?utf-8?B?RU45VnVQYTJhWEpTZjdiRXYzWWdRdDBqWnlzYVdSNERXZUlpM1FDK0ZhU3k3?=
- =?utf-8?B?d1NraS9WWjFtVVZTbTVyb2FRTGNlcm8rOU9zTUdWWmhpcStpQTYvd1c1bUQr?=
- =?utf-8?B?akRTelZLYmhvWUluT3BpdWV5em1vN1hjR2syM3pHV1U5N25obDdadnRqUUhU?=
- =?utf-8?B?S3RqN0U1R1o5VW1GS2VYWWw0Mk5LTjdWN0lQaS9PdXlQU1hlSjFHVFgyS2py?=
- =?utf-8?Q?j7as=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 731e8f9c-b60d-4276-3b36-08de2bf791ce
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2025 07:52:23.8753
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 16CZxhQLlZ/L3npoTbLLx7cTGsdJAYsoMf2GBWCVD5e8+YdLNUx66reAAGzKfdz3
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6805
+Content-Type: multipart/mixed; boundary="tRrhOE+gN6X1WlJJ"
+Content-Disposition: inline
+In-Reply-To: <aSErtOOG5X5JG8Kl@sultan-box>
 
-T24gMTEvMjUvMjUgMDM6MDEsIOmrmOe/lCB3cm90ZToNCj4+wqBJbiBnZW5lcmFsIHF1aXRlIG5p
-Y2UgdG8gaGF2ZSwgYnV0IHRoaXMgbmVlZHMgYSBiaXQgbW9yZSBleHBsYW5hdGlvbiB3aHkgeW91
-IG5lZWQgaXQuDQo+IA0KPiBJIHdhbnQgdG8gdHJhY2sgdGhlIHN0YXR1cyBvZiBkbWFidWYgaW4g
-cmVhbCB0aW1lIGluIHRoZSBwcm9kdWN0aW9uIGVudmlyb25tZW50Lg0KDQpQbGVhc2UgYWRkIHRo
-YXQgdG8gdGhlIGNvbW1pdCBtZXNzYWdlLg0KDQo+IA0KPj7CoEkgaGF2ZSBzdHJvbmdseSBkb3Vi
-dHMgdGhhdCB0aGlzIGlzIHlvdXIgbGVnYWwgbmFtZSA6KQ0KPj7CoFBsZWFzZSBnb29nbGUgdGhl
-IHJlcXVpcmVtZW50cyBmb3IgYSBTaWduZWQtb2ZmLWJ5IGxpbmUuDQo+IFRoYXQncyBteSByZWFs
-IG5hbWUsIGdhb3hpYW5nLiBIb3dldmVyLCB0aGVyZSBhcmUgcXVpdGUgYSBmZXcgcGVvcGxlIHdp
-dGggdGhlIHNhbWUgbmFtZSBpbiB0aGUgY29tcGFueSwgYW5kIEkgcmFuayAxN3RoLg0KDQpJdCBk
-b2Vzbid0IG1hdHRlciB3aGF0IHlvdXIgZU1haWwgYWRkcmVzcyBpcywgYnV0IHRoZSBuYW1lIGlu
-IGEgU2lnbmVkLW9mZi1ieSBtdXN0IGJlIHlvdXIgbGVnYWwgbmFtZS4NCg0KSW4gb3RoZXIgd29y
-ZHMgdGhlIHNhbWUgd2hhdCB5b3Ugd291bGQgdXNlIG9uIGEgY29udHJhY3QsIHVzdWFsbHkgaW5j
-bHVkaW5nIGZpcnN0IGFuZCBsYXN0IG5hbWUuDQoNCkl0IGNvdWxkIGJlIHRoYXQgZ2FveGlhbmcg
-aXMgcGVyZmVjdGx5IGZpbmUgaW4geW91ciByZXN0cmljYXRpb24sIGJ1dCB0aGUgbnVtYmVyIDE3
-IGNlcnRhaW5seSBsb29rcyBvZGQuDQoNCj4gQW5kwqAgdGhlIHByZXZpb3VzIHBhdGNoZXMgYWxs
-IHVzZWQgdGhpcyBuYW1lLg0KPiANCj4+wqBkbWFidWYtPm5hbWUgY2FuJ3QgYmUgYWNjZXNzZWQg
-d2l0aG91dCBob2xkaW5nIHRoZSBhcHByb3ByaWF0ZSBsb2NrLCBzYW1lIG9mIGFsbCBvdGhlciBj
-YXNlcy4NCj4gb2ssIHRoYW5rcy7CoCBJdCBjYW4gYmUgYWNjZXNzZWQgd2l0aCBob2xkaW5nwqBk
-bWFidWYtPm5hbWVfbG9jay4NCg0KVGhhdCBzaG91bGQgd29yaywgeWVzLg0KDQpSZWdhcmRzLA0K
-Q2hyaXN0aWFuLg0KDQo+IA0KPiANCj4gDQo+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiAq5Y+R
-5Lu25Lq6OiogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPg0KPiAq
-5Y+R6YCB5pe26Ze0OiogMjAyNeW5tDEx5pyIMjTml6UgMjI6MjE6NTcNCj4gKuaUtuS7tuS6ujoq
-IFhpYW5nIEdhbzsgc3VtaXQuc2Vtd2FsQGxpbmFyby5vcmc7IHJvc3RlZHRAZ29vZG1pcy5vcmc7
-IG1oaXJhbWF0QGtlcm5lbC5vcmcNCj4gKuaKhOmAgToqIGxpbnV4LW1lZGlhQHZnZXIua2VybmVs
-Lm9yZzsgZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZzsgbGluYXJvLW1tLXNpZ0BsaXN0
-cy5saW5hcm8ub3JnOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyBtYXRoaWV1LmRlc25v
-eWVyc0BlZmZpY2lvcy5jb207IGRob3dlbGxzQHJlZGhhdC5jb207IGt1YmFAa2VybmVsLm9yZzsg
-YnJhdW5lckBrZXJuZWwub3JnOyBha3BtQGxpbnV4LWZvdW5kYXRpb24ub3JnOyBsaW51eC10cmFj
-ZS1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyDpq5jnv5QNCj4gKuS4u+mimDoqIFtFeHRlcm5hbCBN
-YWlsXVJlOiBbUEFUQ0hdIGRtYS1idWY6IGFkZCBzb21lIHRyYWNlcG9pbnRzIHRvIGRlYnVnLg0K
-PiDCoA0KPiBb5aSW6YOo6YKu5Lu2XSDmraTpgq7ku7bmnaXmupDkuo7lsI/nsbPlhazlj7jlpJbp
-g6jvvIzor7fosKjmhY7lpITnkIbjgILoi6Xlr7npgq7ku7blronlhajmgKflrZjnlpHvvIzor7fl
-sIbpgq7ku7bovazlj5Hnu5ltaXNlY0B4aWFvbWkuY29t6L+b6KGM5Y+N6aaIDQo+IA0KPiBPbiAx
-MS8yNC8yNSAxNDozNiwgWGlhbmcgR2FvIHdyb3RlOg0KPj4gRnJvbTogZ2FveGlhbmcxNyA8Z2Fv
-eGlhbmcxN0B4aWFvbWkuY29tPg0KPj4NCj4+IFdpdGggdGhlc2UgdHJhY2Vwb2ludHMsIHdlIGNh
-biB0cmFjayBkbWFidWYgaW4gcmVhbCB0aW1lLg0KPj4NCj4+IEZvciBleGFtcGxlOg0KPj7CoMKg
-wqAgYmluZGVyOjMwMjVfMy0xMDUyNMKgwqAgWzAwMF0gLi4uLi7CoMKgIDU1My4zMTAzMTM6IGRt
-YV9idWZfZXhwb3J0OiBleHBfbmFtZT1xY29tLHN5c3RlbSBuYW1lPShudWxsKSBzaXplPTEyNzcx
-MzI4IGlubz0yNzk5DQo+PsKgwqDCoCBiaW5kZXI6MzAyNV8zLTEwNTI0wqDCoCBbMDAwXSAuLi4u
-LsKgwqAgNTUzLjMxMDMxODogZG1hX2J1Zl9mZDogZXhwX25hbWU9cWNvbSxzeXN0ZW0gbmFtZT0o
-bnVsbCkgc2l6ZT0xMjc3MTMyOCBpbm89Mjc5OSBmZD04DQo+PsKgwqDCoMKgIFJlbmRlclRocmVh
-ZC05MzA3wqDCoMKgIFswMDBdIC4uLi4uwqDCoCA1NTMuMzEwODY5OiBkbWFfYnVmX2dldDogZXhw
-X25hbWU9cWNvbSxzeXN0ZW0gbmFtZT1ibGFzdEJ1ZmZlclF1ZXVlIGZvciBzY2FsZVVwRG93IHNp
-emU9MTI3NzEzMjggaW5vPTI3OTkgZmQ9NjczIGZfcmVmPTQNCj4+wqDCoMKgwqAgUmVuZGVyVGhy
-ZWFkLTkzMDfCoMKgwqAgWzAwMF0gLi4uLi7CoMKgIDU1My4zMTA4NzE6IGRtYV9idWZfYXR0YWNo
-OiBkZXZfbmFtZT1rZ3NsLTNkMCBleHBfbmFtZT1xY29tLHN5c3RlbSBuYW1lPWJsYXN0QnVmZmVy
-UXVldWUgZm9yIHNjYWxlVXBEb3cgc2l6ZT0xMjc3MTMyOCBpbm89Mjc5OQ0KPj7CoMKgwqDCoCBS
-ZW5kZXJUaHJlYWQtOTMwN8KgwqDCoCBbMDAwXSAuLi4uLsKgwqAgNTUzLjMxMDk0NjogZG1hX2J1
-Zl9tbWFwX2ludGVybmFsOiBleHBfbmFtZT1xY29tLHN5c3RlbSBuYW1lPWJsYXN0QnVmZmVyUXVl
-dWUgZm9yIHNjYWxlVXBEb3cgc2l6ZT0xMjc3MTMyOCBpbm89Mjc5OQ0KPj7CoMKgwqDCoCBSZW5k
-ZXJUaHJlYWQtOTMwN8KgwqDCoCBbMDA0XSAuLi4uLsKgwqAgNTUzLjMxNTA4NDogZG1hX2J1Zl9k
-ZXRhY2g6IGV4cF9uYW1lPXFjb20sc3lzdGVtIG5hbWU9Ymxhc3RCdWZmZXJRdWV1ZSBmb3Igc2Nh
-bGVVcERvdyBzaXplPTEyNzcxMzI4IGlubz0yNzk5DQo+PsKgwqDCoMKgIFJlbmRlclRocmVhZC05
-MzA3wqDCoMKgIFswMDRdIC4uLi4uwqDCoCA1NTMuMzE1MDg0OiBkbWFfYnVmX3B1dDogZXhwX25h
-bWU9cWNvbSxzeXN0ZW0gbmFtZT1ibGFzdEJ1ZmZlclF1ZXVlIGZvciBzY2FsZVVwRG93IHNpemU9
-MTI3NzEzMjggaW5vPTI3OTkgZl9yZWY9NQ0KPiANCj4gSW4gZ2VuZXJhbCBxdWl0ZSBuaWNlIHRv
-IGhhdmUsIGJ1dCB0aGlzIG5lZWRzIGEgYml0IG1vcmUgZXhwbGFuYXRpb24gd2h5IHlvdSBuZWVk
-IGl0Lg0KPiANCj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBnYW94aWFuZzE3IDxnYW94aWFuZzE3QHhp
-YW9taS5jb20+DQo+IA0KPiBJIGhhdmUgc3Ryb25nbHkgZG91YnRzIHRoYXQgdGhpcyBpcyB5b3Vy
-IGxlZ2FsIG5hbWUgOikNCj4gDQo+IFBsZWFzZSBnb29nbGUgdGhlIHJlcXVpcmVtZW50cyBmb3Ig
-YSBTaWduZWQtb2ZmLWJ5IGxpbmUuDQo+IA0KPj4gLS0tDQo+PsKgIGRyaXZlcnMvZG1hLWJ1Zi9k
-bWEtYnVmLmPCoMKgwqDCoMKgIHzCoCAxOSArKysNCj4+wqAgaW5jbHVkZS90cmFjZS9ldmVudHMv
-ZG1hX2J1Zi5oIHwgMjQ1ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKw0KPj7CoCAy
-IGZpbGVzIGNoYW5nZWQsIDI2NCBpbnNlcnRpb25zKCspDQo+PsKgIGNyZWF0ZSBtb2RlIDEwMDY0
-NCBpbmNsdWRlL3RyYWNlL2V2ZW50cy9kbWFfYnVmLmgNCj4+DQo+PiBkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9kbWEtYnVmL2RtYS1idWYuYyBiL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMNCj4+IGlu
-ZGV4IDJiY2Y5Y2VjYTk5Ny4uOGI1YWY3M2YwMjE4IDEwMDY0NA0KPj4gLS0tIGEvZHJpdmVycy9k
-bWEtYnVmL2RtYS1idWYuYw0KPj4gKysrIGIvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYw0KPj4g
-QEAgLTM1LDYgKzM1LDkgQEANCj4+DQo+PsKgICNpbmNsdWRlICJkbWEtYnVmLXN5c2ZzLXN0YXRz
-LmgiDQo+Pg0KPj4gKyNkZWZpbmUgQ1JFQVRFX1RSQUNFX1BPSU5UUw0KPj4gKyNpbmNsdWRlIDx0
-cmFjZS9ldmVudHMvZG1hX2J1Zi5oPg0KPj4gKw0KPj7CoCBzdGF0aWMgaW5saW5lIGludCBpc19k
-bWFfYnVmX2ZpbGUoc3RydWN0IGZpbGUgKik7DQo+Pg0KPj7CoCBzdGF0aWMgREVGSU5FX01VVEVY
-KGRtYWJ1Zl9saXN0X211dGV4KTsNCj4+IEBAIC0yMjAsNiArMjIzLDggQEAgc3RhdGljIGludCBk
-bWFfYnVmX21tYXBfaW50ZXJuYWwoc3RydWN0IGZpbGUgKmZpbGUsIHN0cnVjdCB2bV9hcmVhX3N0
-cnVjdCAqdm1hKQ0KPj7CoMKgwqDCoMKgwqDCoMKgwqDCoCBkbWFidWYtPnNpemUgPj4gUEFHRV9T
-SElGVCkNCj4+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gLUVJTlZBTDsNCj4+
-DQo+PiArwqDCoMKgwqAgdHJhY2VfZG1hX2J1Zl9tbWFwX2ludGVybmFsKGRtYWJ1Zik7DQo+PiAr
-DQo+PsKgwqDCoMKgwqDCoCByZXR1cm4gZG1hYnVmLT5vcHMtPm1tYXAoZG1hYnVmLCB2bWEpOw0K
-Pj7CoCB9DQo+Pg0KPj4gQEAgLTc0NSw2ICs3NTAsOCBAQCBzdHJ1Y3QgZG1hX2J1ZiAqZG1hX2J1
-Zl9leHBvcnQoY29uc3Qgc3RydWN0IGRtYV9idWZfZXhwb3J0X2luZm8gKmV4cF9pbmZvKQ0KPj4N
-Cj4+wqDCoMKgwqDCoMKgIF9fZG1hX2J1Zl9saXN0X2FkZChkbWFidWYpOw0KPj4NCj4+ICvCoMKg
-wqDCoCB0cmFjZV9kbWFfYnVmX2V4cG9ydChkbWFidWYpOw0KPj4gKw0KPj7CoMKgwqDCoMKgwqAg
-cmV0dXJuIGRtYWJ1ZjsNCj4+DQo+PsKgIGVycl9kbWFidWY6DQo+PiBAQCAtNzc5LDYgKzc4Niw4
-IEBAIGludCBkbWFfYnVmX2ZkKHN0cnVjdCBkbWFfYnVmICpkbWFidWYsIGludCBmbGFncykNCj4+
-DQo+PsKgwqDCoMKgwqDCoCBmZF9pbnN0YWxsKGZkLCBkbWFidWYtPmZpbGUpOw0KPj4NCj4+ICvC
-oMKgwqDCoCB0cmFjZV9kbWFfYnVmX2ZkKGRtYWJ1ZiwgZmQpOw0KPj4gKw0KPj7CoMKgwqDCoMKg
-wqAgcmV0dXJuIGZkOw0KPj7CoCB9DQo+PsKgIEVYUE9SVF9TWU1CT0xfTlNfR1BMKGRtYV9idWZf
-ZmQsICJETUFfQlVGIik7DQo+PiBAQCAtODA1LDYgKzgxNCw4IEBAIHN0cnVjdCBkbWFfYnVmICpk
-bWFfYnVmX2dldChpbnQgZmQpDQo+PsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJu
-IEVSUl9QVFIoLUVJTlZBTCk7DQo+PsKgwqDCoMKgwqDCoCB9DQo+Pg0KPj4gK8KgwqDCoMKgIHRy
-YWNlX2RtYV9idWZfZ2V0KGZkLCBmaWxlKTsNCj4+ICsNCj4+wqDCoMKgwqDCoMKgIHJldHVybiBm
-aWxlLT5wcml2YXRlX2RhdGE7DQo+PsKgIH0NCj4+wqAgRVhQT1JUX1NZTUJPTF9OU19HUEwoZG1h
-X2J1Zl9nZXQsICJETUFfQlVGIik7DQo+PiBAQCAtODI1LDYgKzgzNiw4IEBAIHZvaWQgZG1hX2J1
-Zl9wdXQoc3RydWN0IGRtYV9idWYgKmRtYWJ1ZikNCj4+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCByZXR1cm47DQo+Pg0KPj7CoMKgwqDCoMKgwqAgZnB1dChkbWFidWYtPmZpbGUpOw0KPj4g
-Kw0KPj4gK8KgwqDCoMKgIHRyYWNlX2RtYV9idWZfcHV0KGRtYWJ1Zik7DQo+PsKgIH0NCj4+wqAg
-RVhQT1JUX1NZTUJPTF9OU19HUEwoZG1hX2J1Zl9wdXQsICJETUFfQlVGIik7DQo+Pg0KPj4gQEAg
-LTk5OCw2ICsxMDExLDggQEAgRVhQT1JUX1NZTUJPTF9OU19HUEwoZG1hX2J1Zl9keW5hbWljX2F0
-dGFjaCwgIkRNQV9CVUYiKTsNCj4+wqAgc3RydWN0IGRtYV9idWZfYXR0YWNobWVudCAqZG1hX2J1
-Zl9hdHRhY2goc3RydWN0IGRtYV9idWYgKmRtYWJ1ZiwNCj4+wqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgc3RydWN0IGRldmljZSAqZGV2KQ0KPj7CoCB7DQo+PiArwqDCoMKgwqAgdHJhY2VfZG1hX2J1
-Zl9hdHRhY2goZG1hYnVmLCBkZXYpOw0KPj4gKw0KPj7CoMKgwqDCoMKgwqAgcmV0dXJuIGRtYV9i
-dWZfZHluYW1pY19hdHRhY2goZG1hYnVmLCBkZXYsIE5VTEwsIE5VTEwpOw0KPj7CoCB9DQo+PsKg
-IEVYUE9SVF9TWU1CT0xfTlNfR1BMKGRtYV9idWZfYXR0YWNoLCAiRE1BX0JVRiIpOw0KPj4gQEAg
-LTEwMjQsNiArMTAzOSw4IEBAIHZvaWQgZG1hX2J1Zl9kZXRhY2goc3RydWN0IGRtYV9idWYgKmRt
-YWJ1Ziwgc3RydWN0IGRtYV9idWZfYXR0YWNobWVudCAqYXR0YWNoKQ0KPj7CoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIGRtYWJ1Zi0+b3BzLT5kZXRhY2goZG1hYnVmLCBhdHRhY2gpOw0KPj4N
-Cj4+wqDCoMKgwqDCoMKgIGtmcmVlKGF0dGFjaCk7DQo+PiArDQo+PiArwqDCoMKgwqAgdHJhY2Vf
-ZG1hX2J1Zl9kZXRhY2goZG1hYnVmKTsNCj4+wqAgfQ0KPj7CoCBFWFBPUlRfU1lNQk9MX05TX0dQ
-TChkbWFfYnVmX2RldGFjaCwgIkRNQV9CVUYiKTsNCj4+DQo+PiBAQCAtMTQ4OCw2ICsxNTA1LDgg
-QEAgaW50IGRtYV9idWZfbW1hcChzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmLCBzdHJ1Y3Qgdm1fYXJl
-YV9zdHJ1Y3QgKnZtYSwNCj4+wqDCoMKgwqDCoMKgIHZtYV9zZXRfZmlsZSh2bWEsIGRtYWJ1Zi0+
-ZmlsZSk7DQo+PsKgwqDCoMKgwqDCoCB2bWEtPnZtX3Bnb2ZmID0gcGdvZmY7DQo+Pg0KPj4gK8Kg
-wqDCoMKgIHRyYWNlX2RtYV9idWZfbW1hcChkbWFidWYpOw0KPj4gKw0KPj7CoMKgwqDCoMKgwqAg
-cmV0dXJuIGRtYWJ1Zi0+b3BzLT5tbWFwKGRtYWJ1Ziwgdm1hKTsNCj4+wqAgfQ0KPj7CoCBFWFBP
-UlRfU1lNQk9MX05TX0dQTChkbWFfYnVmX21tYXAsICJETUFfQlVGIik7DQo+PiBkaWZmIC0tZ2l0
-IGEvaW5jbHVkZS90cmFjZS9ldmVudHMvZG1hX2J1Zi5oIGIvaW5jbHVkZS90cmFjZS9ldmVudHMv
-ZG1hX2J1Zi5oDQo+PiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPj4gaW5kZXggMDAwMDAwMDAwMDAw
-Li43OTZhZTQ0NGY2YWUNCj4+IC0tLSAvZGV2L251bGwNCj4+ICsrKyBiL2luY2x1ZGUvdHJhY2Uv
-ZXZlbnRzL2RtYV9idWYuaA0KPj4gQEAgLTAsMCArMSwyNDUgQEANCj4+ICsvKiBTUERYLUxpY2Vu
-c2UtSWRlbnRpZmllcjogR1BMLTIuMCAqLw0KPj4gKyN1bmRlZiBUUkFDRV9TWVNURU0NCj4+ICsj
-ZGVmaW5lIFRSQUNFX1NZU1RFTSBkbWFfYnVmDQo+PiArDQo+PiArI2lmICFkZWZpbmVkKF9UUkFD
-RV9ETUFfQlVGX0gpIHx8IGRlZmluZWQoVFJBQ0VfSEVBREVSX01VTFRJX1JFQUQpDQo+PiArI2Rl
-ZmluZSBfVFJBQ0VfRE1BX0JVRl9IDQo+PiArDQo+PiArI2luY2x1ZGUgPGxpbnV4L2RtYS1idWYu
-aD4NCj4+ICsjaW5jbHVkZSA8bGludXgvdHJhY2Vwb2ludC5oPg0KPj4gKw0KPj4gK1RSQUNFX0VW
-RU5UKGRtYV9idWZfZXhwb3J0LA0KPj4gKw0KPj4gK8KgwqDCoMKgIFRQX1BST1RPKHN0cnVjdCBk
-bWFfYnVmICpkbWFidWYpLA0KPj4gKw0KPj4gK8KgwqDCoMKgIFRQX0FSR1MoZG1hYnVmKSwNCj4+
-ICsNCj4+ICvCoMKgwqDCoCBUUF9TVFJVQ1RfX2VudHJ5KA0KPj4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCBfX3N0cmluZyhleHBfbmFtZSwgZG1hYnVmLT5leHBfbmFtZSkNCj4+ICvCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgX19zdHJpbmcobmFtZSwgZG1hYnVmLT5uYW1lKQ0KPiANCj4gZG1h
-YnVmLT5uYW1lIGNhbid0IGJlIGFjY2Vzc2VkIHdpdGhvdXQgaG9sZGluZyB0aGUgYXBwcm9wcmlh
-dGUgbG9jaywgc2FtZSBvZiBhbGwgb3RoZXIgY2FzZXMuDQo+IA0KPiBSZWdhcmRzLA0KPiBDaHJp
-c3RpYW4uDQo+IA0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX2ZpZWxkKHNpemVfdCwg
-c2l6ZSkNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19maWVsZChpbm9fdCwgaW5vKQ0K
-Pj4gK8KgwqDCoMKgICksDQo+PiArDQo+PiArwqDCoMKgwqAgVFBfZmFzdF9hc3NpZ24oDQo+PiAr
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fYXNzaWduX3N0cihleHBfbmFtZSk7DQo+PiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fYXNzaWduX3N0cihuYW1lKTsNCj4+ICvCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgX19lbnRyeS0+c2l6ZSA9IGRtYWJ1Zi0+c2l6ZTsNCj4+ICvCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgX19lbnRyeS0+aW5vID0gZG1hYnVmLT5maWxlLT5mX2lub2RlLT5p
-X2lubzsNCj4+ICvCoMKgwqDCoCApLA0KPj4gKw0KPj4gK8KgwqDCoMKgIFRQX3ByaW50aygiZXhw
-X25hbWU9JXMgbmFtZT0lcyBzaXplPSV6dSBpbm89JWx1IiwNCj4+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgIF9fZ2V0X3N0cihleHBfbmFtZSksDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCBfX2dldF9zdHIobmFtZSksDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBfX2VudHJ5LT5zaXplLA0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19l
-bnRyeS0+aW5vKQ0KPj4gKyk7DQo+PiArDQo+PiArVFJBQ0VfRVZFTlQoZG1hX2J1Zl9mZCwNCj4+
-ICsNCj4+ICvCoMKgwqDCoCBUUF9QUk9UTyhzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmLCBpbnQgZmQp
-LA0KPj4gKw0KPj4gK8KgwqDCoMKgIFRQX0FSR1MoZG1hYnVmLCBmZCksDQo+PiArDQo+PiArwqDC
-oMKgwqAgVFBfU1RSVUNUX19lbnRyeSgNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19z
-dHJpbmcoZXhwX25hbWUsIGRtYWJ1Zi0+ZXhwX25hbWUpDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIF9fc3RyaW5nKG5hbWUsIGRtYWJ1Zi0+bmFtZSkNCj4+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgX19maWVsZChzaXplX3QsIHNpemUpDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIF9fZmllbGQoaW5vX3QsIGlubykNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19m
-aWVsZChpbnQsIGZkKQ0KPj4gK8KgwqDCoMKgICksDQo+PiArDQo+PiArwqDCoMKgwqAgVFBfZmFz
-dF9hc3NpZ24oDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fYXNzaWduX3N0cihleHBf
-bmFtZSk7DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fYXNzaWduX3N0cihuYW1lKTsN
-Cj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19lbnRyeS0+c2l6ZSA9IGRtYWJ1Zi0+c2l6
-ZTsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19lbnRyeS0+aW5vID0gZG1hYnVmLT5m
-aWxlLT5mX2lub2RlLT5pX2lubzsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19lbnRy
-eS0+ZmQgPSBmZDsNCj4+ICvCoMKgwqDCoCApLA0KPj4gKw0KPj4gK8KgwqDCoMKgIFRQX3ByaW50
-aygiZXhwX25hbWU9JXMgbmFtZT0lcyBzaXplPSV6dSBpbm89JWx1IGZkPSVkIiwNCj4+ICvCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fZ2V0X3N0cihleHBfbmFtZSksDQo+PiArwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX2dldF9zdHIobmFtZSksDQo+PiArwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCBfX2VudHJ5LT5zaXplLA0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgX19lbnRyeS0+aW5vLA0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-X19lbnRyeS0+ZmQpDQo+PiArKTsNCj4+ICsNCj4+ICtUUkFDRV9FVkVOVChkbWFfYnVmX21tYXBf
-aW50ZXJuYWwsDQo+PiArDQo+PiArwqDCoMKgwqAgVFBfUFJPVE8oc3RydWN0IGRtYV9idWYgKmRt
-YWJ1ZiksDQo+PiArDQo+PiArwqDCoMKgwqAgVFBfQVJHUyhkbWFidWYpLA0KPj4gKw0KPj4gK8Kg
-wqDCoMKgIFRQX1NUUlVDVF9fZW50cnkoDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9f
-c3RyaW5nKGV4cF9uYW1lLCBkbWFidWYtPmV4cF9uYW1lKQ0KPj4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCBfX3N0cmluZyhuYW1lLCBkbWFidWYtPm5hbWUpDQo+PiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIF9fZmllbGQoc2l6ZV90LCBzaXplKQ0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBfX2ZpZWxkKGlub190LCBpbm8pDQo+PiArwqDCoMKgwqAgKSwNCj4+ICsNCj4+ICvCoMKg
-wqDCoCBUUF9mYXN0X2Fzc2lnbigNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19hc3Np
-Z25fc3RyKGV4cF9uYW1lKTsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19hc3NpZ25f
-c3RyKG5hbWUpOw0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX2VudHJ5LT5zaXplID0g
-ZG1hYnVmLT5zaXplOw0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX2VudHJ5LT5pbm8g
-PSBkbWFidWYtPmZpbGUtPmZfaW5vZGUtPmlfaW5vOw0KPj4gK8KgwqDCoMKgICksDQo+PiArDQo+
-PiArwqDCoMKgwqAgVFBfcHJpbnRrKCJleHBfbmFtZT0lcyBuYW1lPSVzIHNpemU9JXp1IGlubz0l
-bHUiLA0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19nZXRfc3RyKGV4cF9uYW1l
-KSwNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fZ2V0X3N0cihuYW1lKSwNCj4+
-ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fZW50cnktPnNpemUsDQo+PiArwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX2VudHJ5LT5pbm8pDQo+PiArKTsNCj4+ICsNCj4+ICtU
-UkFDRV9FVkVOVChkbWFfYnVmX21tYXAsDQo+PiArDQo+PiArwqDCoMKgwqAgVFBfUFJPVE8oc3Ry
-dWN0IGRtYV9idWYgKmRtYWJ1ZiksDQo+PiArDQo+PiArwqDCoMKgwqAgVFBfQVJHUyhkbWFidWYp
-LA0KPj4gKw0KPj4gK8KgwqDCoMKgIFRQX1NUUlVDVF9fZW50cnkoDQo+PiArwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgIF9fc3RyaW5nKGV4cF9uYW1lLCBkbWFidWYtPmV4cF9uYW1lKQ0KPj4gK8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX3N0cmluZyhuYW1lLCBkbWFidWYtPm5hbWUpDQo+PiAr
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fZmllbGQoc2l6ZV90LCBzaXplKQ0KPj4gK8KgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCBfX2ZpZWxkKGlub190LCBpbm8pDQo+PiArwqDCoMKgwqAgKSwN
-Cj4+ICsNCj4+ICvCoMKgwqDCoCBUUF9mYXN0X2Fzc2lnbigNCj4+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgX19hc3NpZ25fc3RyKGV4cF9uYW1lKTsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgX19hc3NpZ25fc3RyKG5hbWUpOw0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBf
-X2VudHJ5LT5zaXplID0gZG1hYnVmLT5zaXplOw0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCBfX2VudHJ5LT5pbm8gPSBkbWFidWYtPmZpbGUtPmZfaW5vZGUtPmlfaW5vOw0KPj4gK8KgwqDC
-oMKgICksDQo+PiArDQo+PiArwqDCoMKgwqAgVFBfcHJpbnRrKCJleHBfbmFtZT0lcyBuYW1lPSVz
-IHNpemU9JXp1IGlubz0lbHUiLA0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19n
-ZXRfc3RyKGV4cF9uYW1lKSwNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fZ2V0
-X3N0cihuYW1lKSwNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fZW50cnktPnNp
-emUsDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX2VudHJ5LT5pbm8pDQo+PiAr
-KTsNCj4+ICsNCj4+ICtUUkFDRV9FVkVOVChkbWFfYnVmX2F0dGFjaCwNCj4+ICsNCj4+ICvCoMKg
-wqDCoCBUUF9QUk9UTyhzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmLCBzdHJ1Y3QgZGV2aWNlICpkZXYp
-LA0KPj4gKw0KPj4gK8KgwqDCoMKgIFRQX0FSR1MoZG1hYnVmLCBkZXYpLA0KPj4gKw0KPj4gK8Kg
-wqDCoMKgIFRQX1NUUlVDVF9fZW50cnkoDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9f
-c3RyaW5nKGRuYW1lLCBkZXZfbmFtZShkZXYpKQ0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCBfX3N0cmluZyhleHBfbmFtZSwgZG1hYnVmLT5leHBfbmFtZSkNCj4+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgX19zdHJpbmcobmFtZSwgZG1hYnVmLT5uYW1lKQ0KPj4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBfX2ZpZWxkKHNpemVfdCwgc2l6ZSkNCj4+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgX19maWVsZChpbm9fdCwgaW5vKQ0KPj4gK8KgwqDCoMKgICksDQo+PiArDQo+PiAr
-wqDCoMKgwqAgVFBfZmFzdF9hc3NpZ24oDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9f
-YXNzaWduX3N0cihkbmFtZSk7DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fYXNzaWdu
-X3N0cihleHBfbmFtZSk7DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fYXNzaWduX3N0
-cihuYW1lKTsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19lbnRyeS0+c2l6ZSA9IGRt
-YWJ1Zi0+c2l6ZTsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19lbnRyeS0+aW5vID0g
-ZG1hYnVmLT5maWxlLT5mX2lub2RlLT5pX2lubzsNCj4+ICvCoMKgwqDCoCApLA0KPj4gKw0KPj4g
-K8KgwqDCoMKgIFRQX3ByaW50aygiZGV2X25hbWU9JXMgZXhwX25hbWU9JXMgbmFtZT0lcyBzaXpl
-PSV6dSBpbm89JWx1IiwNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fZ2V0X3N0
-cihkbmFtZSksDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX2dldF9zdHIoZXhw
-X25hbWUpLA0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19nZXRfc3RyKG5hbWUp
-LA0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19lbnRyeS0+c2l6ZSwNCj4+ICvC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fZW50cnktPmlubykNCj4+ICspOw0KPj4gKw0K
-Pj4gK1RSQUNFX0VWRU5UKGRtYV9idWZfZGV0YWNoLA0KPj4gKw0KPj4gK8KgwqDCoMKgIFRQX1BS
-T1RPKHN0cnVjdCBkbWFfYnVmICpkbWFidWYpLA0KPj4gKw0KPj4gK8KgwqDCoMKgIFRQX0FSR1Mo
-ZG1hYnVmKSwNCj4+ICsNCj4+ICvCoMKgwqDCoCBUUF9TVFJVQ1RfX2VudHJ5KA0KPj4gK8KgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCBfX3N0cmluZyhleHBfbmFtZSwgZG1hYnVmLT5leHBfbmFtZSkN
-Cj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19zdHJpbmcobmFtZSwgZG1hYnVmLT5uYW1l
-KQ0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX2ZpZWxkKHNpemVfdCwgc2l6ZSkNCj4+
-ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19maWVsZChpbm9fdCwgaW5vKQ0KPj4gK8KgwqDC
-oMKgICksDQo+PiArDQo+PiArwqDCoMKgwqAgVFBfZmFzdF9hc3NpZ24oDQo+PiArwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIF9fYXNzaWduX3N0cihleHBfbmFtZSk7DQo+PiArwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgIF9fYXNzaWduX3N0cihuYW1lKTsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgX19lbnRyeS0+c2l6ZSA9IGRtYWJ1Zi0+c2l6ZTsNCj4+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgX19lbnRyeS0+aW5vID0gZG1hYnVmLT5maWxlLT5mX2lub2RlLT5pX2lubzsNCj4+
-ICvCoMKgwqDCoCApLA0KPj4gKw0KPj4gK8KgwqDCoMKgIFRQX3ByaW50aygiZXhwX25hbWU9JXMg
-bmFtZT0lcyBzaXplPSV6dSBpbm89JWx1IiwNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIF9fZ2V0X3N0cihleHBfbmFtZSksDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCBfX2dldF9zdHIobmFtZSksDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX2Vu
-dHJ5LT5zaXplLA0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19lbnRyeS0+aW5v
-KQ0KPj4gKyk7DQo+PiArDQo+PiArVFJBQ0VfRVZFTlQoZG1hX2J1Zl9nZXQsDQo+PiArDQo+PiAr
-wqDCoMKgwqAgVFBfUFJPVE8oaW50IGZkLCBzdHJ1Y3QgZmlsZSAqZmlsZSksDQo+PiArDQo+PiAr
-wqDCoMKgwqAgVFBfQVJHUyhmZCwgZmlsZSksDQo+PiArDQo+PiArwqDCoMKgwqAgVFBfU1RSVUNU
-X19lbnRyeSgNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19zdHJpbmcoZXhwX25hbWUs
-ICgoc3RydWN0IGRtYV9idWYgKilmaWxlLT5wcml2YXRlX2RhdGEpLT5leHBfbmFtZSkNCj4+ICvC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19zdHJpbmcobmFtZSwgKChzdHJ1Y3QgZG1hX2J1ZiAq
-KWZpbGUtPnByaXZhdGVfZGF0YSktPm5hbWUpDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IF9fZmllbGQoc2l6ZV90LCBzaXplKQ0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX2Zp
-ZWxkKGlub190LCBpbm8pDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fZmllbGQoaW50
-LCBmZCkNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19maWVsZChsb25nLCBmX3JlZikN
-Cj4+ICvCoMKgwqDCoCApLA0KPj4gKw0KPj4gK8KgwqDCoMKgIFRQX2Zhc3RfYXNzaWduKA0KPj4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX2Fzc2lnbl9zdHIoZXhwX25hbWUpOw0KPj4gK8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX2Fzc2lnbl9zdHIobmFtZSk7DQo+PiArwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIF9fZW50cnktPnNpemUgPSAoKHN0cnVjdCBkbWFfYnVmICopZmlsZS0+
-cHJpdmF0ZV9kYXRhKS0+c2l6ZTsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19lbnRy
-eS0+aW5vID0gKChzdHJ1Y3QgZG1hX2J1ZiAqKWZpbGUtPnByaXZhdGVfZGF0YSktPmZpbGUtPmZf
-aW5vZGUtPmlfaW5vOw0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX2VudHJ5LT5mZCA9
-IGZkOw0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX2VudHJ5LT5mX3JlZiA9IGZpbGVf
-cmVmX2dldCgmZmlsZS0+Zl9yZWYpOw0KPj4gK8KgwqDCoMKgICksDQo+PiArDQo+PiArwqDCoMKg
-wqAgVFBfcHJpbnRrKCJleHBfbmFtZT0lcyBuYW1lPSVzIHNpemU9JXp1IGlubz0lbHUgZmQ9JWQg
-Zl9yZWY9JWxkIiwNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fZ2V0X3N0cihl
-eHBfbmFtZSksDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX2dldF9zdHIobmFt
-ZSksDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX2VudHJ5LT5zaXplLA0KPj4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19lbnRyeS0+aW5vLA0KPj4gK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgX19lbnRyeS0+ZmQsDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCBfX2VudHJ5LT5mX3JlZikNCj4+ICspOw0KPj4gKw0KPj4gK1RSQUNFX0VWRU5U
-KGRtYV9idWZfcHV0LA0KPj4gKw0KPj4gK8KgwqDCoMKgIFRQX1BST1RPKHN0cnVjdCBkbWFfYnVm
-ICpkbWFidWYpLA0KPj4gKw0KPj4gK8KgwqDCoMKgIFRQX0FSR1MoZG1hYnVmKSwNCj4+ICsNCj4+
-ICvCoMKgwqDCoCBUUF9TVFJVQ1RfX2VudHJ5KA0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCBfX3N0cmluZyhleHBfbmFtZSwgZG1hYnVmLT5leHBfbmFtZSkNCj4+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgX19zdHJpbmcobmFtZSwgZG1hYnVmLT5uYW1lKQ0KPj4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBfX2ZpZWxkKHNpemVfdCwgc2l6ZSkNCj4+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgX19maWVsZChpbm9fdCwgaW5vKQ0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCBfX2ZpZWxkKGxvbmcsIGZfcmVmKQ0KPj4gK8KgwqDCoMKgICksDQo+PiArDQo+PiArwqDCoMKg
-wqAgVFBfZmFzdF9hc3NpZ24oDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fYXNzaWdu
-X3N0cihleHBfbmFtZSk7DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fYXNzaWduX3N0
-cihuYW1lKTsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19lbnRyeS0+c2l6ZSA9IGRt
-YWJ1Zi0+c2l6ZTsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19lbnRyeS0+aW5vID0g
-ZG1hYnVmLT5maWxlLT5mX2lub2RlLT5pX2lubzsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgX19lbnRyeS0+Zl9yZWYgPSBmaWxlX3JlZl9nZXQoJmRtYWJ1Zi0+ZmlsZS0+Zl9yZWYpOw0K
-Pj4gK8KgwqDCoMKgICksDQo+PiArDQo+PiArwqDCoMKgwqAgVFBfcHJpbnRrKCJleHBfbmFtZT0l
-cyBuYW1lPSVzIHNpemU9JXp1IGlubz0lbHUgZl9yZWY9JWxkIiwNCj4+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIF9fZ2V0X3N0cihleHBfbmFtZSksDQo+PiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBfX2dldF9zdHIobmFtZSksDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCBfX2VudHJ5LT5zaXplLA0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-X19lbnRyeS0+aW5vLA0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19lbnRyeS0+
-Zl9yZWYpDQo+PiArKTsNCj4+ICsNCj4+ICsjZW5kaWYgLyogX1RSQUNFX0RNQV9CVUZfSCAqLw0K
-Pj4gKw0KPj4gKy8qIFRoaXMgcGFydCBtdXN0IGJlIG91dHNpZGUgcHJvdGVjdGlvbiAqLw0KPj4g
-KyNpbmNsdWRlIDx0cmFjZS9kZWZpbmVfdHJhY2UuaD4NCj4gDQoNCg==
+
+--tRrhOE+gN6X1WlJJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Fri, Nov 21, 2025 at 07:19:16PM -0800, Sultan Alsawaf wrote:
+> On Fri, Nov 21, 2025 at 06:55:10PM -0800, Sultan Alsawaf wrote:
+> > On Fri, Nov 21, 2025 at 12:20:36AM -0800, Sultan Alsawaf wrote:
+> > > On Wed, Nov 19, 2025 at 06:14:17PM +0800, Du, Bin wrote:
+> > > > 
+> > > > 
+> > > > On 11/18/2025 3:35 PM, Sultan Alsawaf wrote:
+> > > > > On Wed, Nov 12, 2025 at 06:21:33PM +0800, Du, Bin wrote:
+> > > > > > 
+> > > > > > 
+> > > > > > On 11/12/2025 3:38 PM, Sultan Alsawaf wrote:
+> > > > > > > On Tue, Nov 11, 2025 at 11:06:41PM -0800, Sultan Alsawaf wrote:
+> > > > > > > > On Wed, Nov 12, 2025 at 02:32:51PM +0800, Du, Bin wrote:
+> > > > > > > > > Thanks Sultan for your information.
+> > > > > > > > > 
+> > > > > > > > > On 11/12/2025 9:21 AM, Sultan Alsawaf wrote:
+> > > > > > > > > > On Tue, Nov 11, 2025 at 03:33:42PM -0800, Sultan Alsawaf wrote:
+> > > > > > > > > > > On Tue, Nov 11, 2025 at 05:58:10PM +0800, Du, Bin wrote:
+> > > > > > > > > > > > 
+> > > > > > > > > > > > On 11/11/2025 5:05 PM, Sultan Alsawaf wrote:
+> > > > > > > > > > > > 
+> > > > > > > > > > > > > On Mon, Nov 10, 2025 at 05:46:28PM +0800, Du, Bin wrote:
+> > > > > > > > > > > > > > Thank you, Sultan, for your time, big effort, and constant support.
+> > > > > > > > > > > > > > Apologies for my delayed reply for being occupied a little with other
+> > > > > > > > > > > > > > matters.
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > On 11/10/2025 4:33 PM, Sultan Alsawaf wrote:
+> > > > > > > > > > > > > > > Hi Bin,
+> > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > On Wed, Nov 05, 2025 at 01:25:58AM -0800, Sultan Alsawaf wrote:
+> > > > > > > > > > > > > > > > Hi Bin,
+> > > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > > To expedite review, I've attached a patch containing a bunch of fixes I've made
+> > > > > > > > > > > > > > > > on top of v5. Most of my changes should be self-explanatory; feel free to ask
+> > > > > > > > > > > > > > > > further about specific changes if you have any questions.
+> > > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > > I haven't had a chance to review all of the v4 -> v5 changes yet, but I figured
+> > > > > > > > > > > > > > > > I should send what I've got so far.
+> > > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > > FYI, there is a regression in isp4if_dequeue_buffer() where the bufq lock isn't
+> > > > > > > > > > > > > > > > protecting the list_del() anymore. I also checked the compiler output when using
+> > > > > > > > > > > > > > > > guard() versus scoped_guard() in that function and there is no difference:
+> > > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > >        sha1sum:
+> > > > > > > > > > > > > > > >        5652a0306da22ea741d80a9e03a787d0f71758a8  isp4_interface.o // guard()
+> > > > > > > > > > > > > > > >        5652a0306da22ea741d80a9e03a787d0f71758a8  isp4_interface.o // scoped_guard()
+> > > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > > So guard() should be used there again, which I've done in my patch.
+> > > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > > I also have a few questions:
+> > > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > > 1. Does ISP FW provide a register interface to disable the IRQ? If so, it is
+> > > > > > > > > > > > > > > >         faster to use that than using disable_irq_nosync() to disable the IRQ from
+> > > > > > > > > > > > > > > >         the CPU's side.
+> > > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > > 2. When the IRQ is re-enabled in isp4sd_fw_resp_func(), is there anything
+> > > > > > > > > > > > > > > >         beforehand to mask all pending interrupts from the ISP so that there isn't a
+> > > > > > > > > > > > > > > >         bunch of stale interrupts firing as soon the IRQ is re-enabled?
+> > > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > > 3. Is there any risk of deadlock due to the stream kthread racing with the ISP
+> > > > > > > > > > > > > > > >         when the ISP posts a new response _after_ the kthread determines there are no
+> > > > > > > > > > > > > > > >         more new responses but _before_ the enable_irq() in isp4sd_fw_resp_func()?
+> > > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > > 4. Why are some lines much longer than before? It seems inconsistent that now
+> > > > > > > > > > > > > > > >         there is a mix of several lines wrapped to 80 cols and many lines going
+> > > > > > > > > > > > > > > >         beyond 80 cols. And there are multiple places where code is wrapped before
+> > > > > > > > > > > > > > > >         reaching 80 cols even with lots of room left, specifically for cases where it
+> > > > > > > > > > > > > > > >         wouldn't hurt readability to put more characters onto each line.
+> > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > I've attached a new, complete patch of changes to apply on top of v5. You may
+> > > > > > > > > > > > > > > ignore the incomplete patch from my previous email and use the new one instead.
+> > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > I made many changes and also answered questions 1-3 myself.
+> > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > Please apply this on top of v5 and let me know if you have any questions.
+> > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > Sure, will review, apply and test your patch accordingly. Your contribution
+> > > > > > > > > > > > > > is greatly appreciated, will let you know if there is any question or
+> > > > > > > > > > > > > > problem.
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > BTW, I noticed a strange regression in v5 even without any of my changes: every
+> > > > > > > > > > > > > > > time you use cheese after using it one time, the video will freeze after 30-60
+> > > > > > > > > > > > > > > seconds with this message printed to dmesg:
+> > > > > > > > > > > > > > >        [ 2032.716559] amd_isp_capture amd_isp_capture: -><- fail respid unknown respid(0x30002)
+> > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > > And the video never unfreezes. I haven't found the cause for the regression yet;
+> > > > > > > > > > > > > > > can you try to reproduce it?
+> > > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > Really weird, we don't see this issue either in dev or QA test. Is it 100%
+> > > > > > > > > > > > > > reproducible and any other fail or err in the log?
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > Yes, it's 100% reproducible. There's no other message in dmesg, only that one.
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > Sometimes there is a stop stream error when I close cheese after it froze:
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > >       [  656.540307] amd_isp_capture amd_isp_capture: fail to disable stream
+> > > > > > > > > > > > >       [  657.046633] amd_isp_capture amd_isp_capture: fail to stop steam
+> > > > > > > > > > > > >       [  657.047224] amd_isp_capture amd_isp_capture: disabling streaming failed (-110)
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > When I revert to v4 I cannot reproduce it at all. It seems to be something in
+> > > > > > > > > > > > > v4 -> v5 that is not fixed by any of my changes.
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > 
+> > > > > > > > > > > > Hi Sultan, could you please try following modifications on top of v5 to see
+> > > > > > > > > > > > if it helps?
+> > > > > > > > > > > > 
+> > > > > > > > > > > > diff --git a/drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h
+> > > > > > > > > > > > b/drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h
+> > > > > > > > > > > > index 39c2265121f9..d571b3873edb 100644
+> > > > > > > > > > > > --- a/drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h
+> > > > > > > > > > > > +++ b/drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h
+> > > > > > > > > > > > @@ -97,7 +97,7 @@
+> > > > > > > > > > > > 
+> > > > > > > > > > > > #define ADDR_SPACE_TYPE_GPU_VA          4
+> > > > > > > > > > > > 
+> > > > > > > > > > > > -#define FW_MEMORY_POOL_SIZE             (200 * 1024 * 1024)
+> > > > > > > > > > > > +#define FW_MEMORY_POOL_SIZE             (100 * 1024 * 1024)
+> > > > > > > > > > > > 
+> > > > > > > > > > > > /*
+> > > > > > > > > > > >      * standard ISP mipicsi=>isp
+> > > > > > > > > > > > diff --git a/drivers/media/platform/amd/isp4/isp4_subdev.c
+> > > > > > > > > > > > b/drivers/media/platform/amd/isp4/isp4_subdev.c
+> > > > > > > > > > > > index 248d10076ae8..acbc80aa709e 100644
+> > > > > > > > > > > > --- a/drivers/media/platform/amd/isp4/isp4_subdev.c
+> > > > > > > > > > > > +++ b/drivers/media/platform/amd/isp4/isp4_subdev.c
+> > > > > > > > > > > > @@ -697,7 +697,7 @@ static int isp4sd_stop_resp_proc_threads(struct
+> > > > > > > > > > > > isp4_subdev *isp_subdev)
+> > > > > > > > > > > >            return 0;
+> > > > > > > > > > > > }
+> > > > > > > > > > > > 
+> > > > > > > > > > > > -static int isp4sd_pwroff_and_deinit(struct isp4_subdev *isp_subdev)
+> > > > > > > > > > > > +static int isp4sd_pwroff_and_deinit(struct isp4_subdev *isp_subdev, bool
+> > > > > > > > > > > > irq_enabled)
+> > > > > > > > > > > > {
+> > > > > > > > > > > >            struct isp4sd_sensor_info *sensor_info = &isp_subdev->sensor_info;
+> > > > > > > > > > > >            unsigned int perf_state = ISP4SD_PERFORMANCE_STATE_LOW;
+> > > > > > > > > > > > @@ -716,8 +716,9 @@ static int isp4sd_pwroff_and_deinit(struct isp4_subdev
+> > > > > > > > > > > > *isp_subdev)
+> > > > > > > > > > > >                    return 0;
+> > > > > > > > > > > >            }
+> > > > > > > > > > > > 
+> > > > > > > > > > > > -       for (int i = 0; i < ISP4SD_MAX_FW_RESP_STREAM_NUM; i++)
+> > > > > > > > > > > > -               disable_irq(isp_subdev->irq[i]);
+> > > > > > > > > > > > +       if (irq_enabled)
+> > > > > > > > > > > > +               for (int i = 0; i < ISP4SD_MAX_FW_RESP_STREAM_NUM; i++)
+> > > > > > > > > > > > +                       disable_irq(isp_subdev->irq[i]);
+> > > > > > > > > > > > 
+> > > > > > > > > > > >            isp4sd_stop_resp_proc_threads(isp_subdev);
+> > > > > > > > > > > >            dev_dbg(dev, "isp_subdev stop resp proc streads suc");
+> > > > > > > > > > > > @@ -813,7 +814,7 @@ static int isp4sd_pwron_and_init(struct isp4_subdev
+> > > > > > > > > > > > *isp_subdev)
+> > > > > > > > > > > > 
+> > > > > > > > > > > >            return 0;
+> > > > > > > > > > > > err_unlock_and_close:
+> > > > > > > > > > > > -       isp4sd_pwroff_and_deinit(isp_subdev);
+> > > > > > > > > > > > +       isp4sd_pwroff_and_deinit(isp_subdev, false);
+> > > > > > > > > > > >            return -EINVAL;
+> > > > > > > > > > > > }
+> > > > > > > > > > > > 
+> > > > > > > > > > > > @@ -985,7 +986,7 @@ static int isp4sd_set_power(struct v4l2_subdev *sd, int
+> > > > > > > > > > > > on)
+> > > > > > > > > > > >            if (on)
+> > > > > > > > > > > >                    return isp4sd_pwron_and_init(isp_subdev);
+> > > > > > > > > > > >            else
+> > > > > > > > > > > > -               return isp4sd_pwroff_and_deinit(isp_subdev);
+> > > > > > > > > > > > +               return isp4sd_pwroff_and_deinit(isp_subdev, true);
+> > > > > > > > > > > > }
+> > > > > > > > > > > > 
+> > > > > > > > > > > > static const struct v4l2_subdev_core_ops isp4sd_core_ops = {
+> > > > > > > > > > > 
+> > > > > > > > > > > No difference sadly; same symptoms as before. FYI, your email client broke the
+> > > > > > > > > > > patch formatting so I couldn't apply it; it hard wrapped some lines to 80 cols,
+> > > > > > > > > > > replaced tabs with spaces, and removed leading spaces on each context line, so I
+> > > > > > > > > > > had to apply it manually. To confirm I applied it correctly, here is my diff:
+> > > > > > > > > > > 
+> > > > > > > > > > > diff --git a/drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h b/drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h
+> > > > > > > > > > > index 39c2265121f9..d571b3873edb 100644
+> > > > > > > > > > > --- a/drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h
+> > > > > > > > > > > +++ b/drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h
+> > > > > > > > > > > @@ -97,7 +97,7 @@
+> > > > > > > > > > >     #define ADDR_SPACE_TYPE_GPU_VA          4
+> > > > > > > > > > > -#define FW_MEMORY_POOL_SIZE             (200 * 1024 * 1024)
+> > > > > > > > > > > +#define FW_MEMORY_POOL_SIZE             (100 * 1024 * 1024)
+> > > > > > > > > > >     /*
+> > > > > > > > > > >      * standard ISP mipicsi=>isp
+> > > > > > > > > > > diff --git a/drivers/media/platform/amd/isp4/isp4_subdev.c b/drivers/media/platform/amd/isp4/isp4_subdev.c
+> > > > > > > > > > > index 4bd2ebf0f694..500ef0af8a41 100644
+> > > > > > > > > > > --- a/drivers/media/platform/amd/isp4/isp4_subdev.c
+> > > > > > > > > > > +++ b/drivers/media/platform/amd/isp4/isp4_subdev.c
+> > > > > > > > > > > @@ -669,7 +669,7 @@ static int isp4sd_stop_resp_proc_threads(struct isp4_subdev *isp_subdev)
+> > > > > > > > > > >     	return 0;
+> > > > > > > > > > >     }
+> > > > > > > > > > > -static int isp4sd_pwroff_and_deinit(struct isp4_subdev *isp_subdev)
+> > > > > > > > > > > +static int isp4sd_pwroff_and_deinit(struct isp4_subdev *isp_subdev, bool irq_enabled)
+> > > > > > > > > > >     {
+> > > > > > > > > > >     	struct isp4sd_sensor_info *sensor_info = &isp_subdev->sensor_info;
+> > > > > > > > > > >     	unsigned int perf_state = ISP4SD_PERFORMANCE_STATE_LOW;
+> > > > > > > > > > > @@ -688,8 +688,9 @@ static int isp4sd_pwroff_and_deinit(struct isp4_subdev *isp_subdev)
+> > > > > > > > > > >     		return 0;
+> > > > > > > > > > >     	}
+> > > > > > > > > > > -	for (int i = 0; i < ISP4SD_MAX_FW_RESP_STREAM_NUM; i++)
+> > > > > > > > > > > -		disable_irq(isp_subdev->irq[i]);
+> > > > > > > > > > > +	if (irq_enabled)
+> > > > > > > > > > > +		for (int i = 0; i < ISP4SD_MAX_FW_RESP_STREAM_NUM; i++)
+> > > > > > > > > > > +			disable_irq(isp_subdev->irq[i]);
+> > > > > > > > > > >     	isp4sd_stop_resp_proc_threads(isp_subdev);
+> > > > > > > > > > >     	dev_dbg(dev, "isp_subdev stop resp proc streads suc");
+> > > > > > > > > > > @@ -785,7 +786,7 @@ static int isp4sd_pwron_and_init(struct isp4_subdev *isp_subdev)
+> > > > > > > > > > >     	return 0;
+> > > > > > > > > > >     err_unlock_and_close:
+> > > > > > > > > > > -	isp4sd_pwroff_and_deinit(isp_subdev);
+> > > > > > > > > > > +	isp4sd_pwroff_and_deinit(isp_subdev, false);
+> > > > > > > > > > >     	return -EINVAL;
+> > > > > > > > > > >     }
+> > > > > > > > > > > @@ -957,7 +958,7 @@ static int isp4sd_set_power(struct v4l2_subdev *sd, int on)
+> > > > > > > > > > >     	if (on)
+> > > > > > > > > > >     		return isp4sd_pwron_and_init(isp_subdev);
+> > > > > > > > > > >     	else
+> > > > > > > > > > > -		return isp4sd_pwroff_and_deinit(isp_subdev);
+> > > > > > > > > > > +		return isp4sd_pwroff_and_deinit(isp_subdev, true);
+> > > > > > > > > > >     }
+> > > > > > > > > > >     static const struct v4l2_subdev_core_ops isp4sd_core_ops = {
+> > > > > > > > > > > 
+> > > > > > > > > > > > On the other hand, please also add the patch in amdgpu which sets *bo to
+> > > > > > > > > > > > NULL in isp_kernel_buffer_alloc() which you mentioned in another thread.
+> > > > > > > > > > > 
+> > > > > > > > > > > Yep, I have been doing all v5 testing with that patch applied.
+> > > > > > > > > > > 
+> > > > > > > > > > > BTW, I have verified the IRQ changes are not the cause for the regression; I
+> > > > > > > > > > > tested with IRQs kept enabled all the time and the issue still occurs.
+> > > > > > > > > > > 
+> > > > > > > > > > > I did observe that ISP stops sending interrupts when the video stream freezes.
+> > > > > > > > > > > And, if I replicate the bug enough times, it seems to permanently break FW until
+> > > > > > > > > > > a full machine reboot. Reloading amd_capture with the v4 driver doesn't recover
+> > > > > > > > > > > the ISP when this happens.
+> > > > > > > > > > > 
+> > > > > > > > > > > As an improvement to the driver, can we do a hard reset of ISP on driver probe?
+> > > > > > > > > > > I am assuming hardware doesn't need too long to settle after hard reset, maybe
+> > > > > > > > > > > a few hundred milliseconds? This would ensure ISP FW is always in a working
+> > > > > > > > > > > state when the driver is loaded.
+> > > > > > > > > > > 
+> > > > > > > > > 
+> > > > > > > > > Actually, each time the camera is activated, the ISP driver powers on the
+> > > > > > > > > ISP and initiates its firmware from the beginning; when the camera is
+> > > > > > > > > closed, the ISP is powered off..
+> > > > > > > > 
+> > > > > > > > Hmm, well I am able to put the ISP in a completely unusable state that doesn't
+> > > > > > > > recover when I unload and reload amd_capture. Or maybe it is the sensor that is
+> > > > > > > > stuck in a broken state?
+> > > > > > > 
+> > > > > > > Here is the log output when I try to start cheese after unloading and reloading
+> > > > > > > amd_capture, where the ISP is in the broken state that requires rebooting the
+> > > > > > > laptop (annotated with notes of what I saw/did at each point in time):
+> > > > > > > 
+> > > > > > > ==> opened cheese
+> > > > > > > ==> cheese froze after a few seconds
+> > > > > > > ==> closed cheese
+> > > > > > >     [   34.570823] amd_isp_capture amd_isp_capture: fail to disable stream
+> > > > > > >     [   35.077503] amd_isp_capture amd_isp_capture: fail to stop steam
+> > > > > > >     [   35.077525] amd_isp_capture amd_isp_capture: disabling streaming failed (-110)
+> > > > > > > ==> unloaded amd_capture
+> > > > > > > ==> loaded amd_capture
+> > > > > > > ==> opened cheese
+> > > > > > >     [  308.039721] amd_isp_capture amd_isp_capture: ISP CCPU FW boot failed
+> > > > > > >     [  308.043961] amd_isp_capture amd_isp_capture: fail to start isp_subdev interface
+> > > > > > >     [  308.044188] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.044194] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.044196] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.044197] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.044198] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.044198] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.044199] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.044200] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.044200] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.044201] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.044202] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.065226] amd_isp_capture amd_isp_capture: power up isp fail -22
+> > > > > > >     [  308.174814] amd_isp_capture amd_isp_capture: ISP CCPU FW boot failed
+> > > > > > >     [  308.177807] amd_isp_capture amd_isp_capture: fail to start isp_subdev interface
+> > > > > > >     [  308.178036] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.178043] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.178044] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.178045] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.178046] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.178047] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.178048] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.178048] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.178049] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.178050] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.178050] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.198776] amd_isp_capture amd_isp_capture: power up isp fail -22
+> > > > > > >     [  308.306835] amd_isp_capture amd_isp_capture: ISP CCPU FW boot failed
+> > > > > > >     [  308.311533] amd_isp_capture amd_isp_capture: fail to start isp_subdev interface
+> > > > > > >     [  308.311723] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.311723] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.311724] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.311725] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.311725] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.311726] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.311726] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.311726] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.311727] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.311727] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.311727] amd_isp_capture amd_isp_capture: invalid mem_info
+> > > > > > >     [  308.335281] amd_isp_capture amd_isp_capture: power up isp fail -22
+> > > > > > > 
+> > > > > > 
+> > > > > > Thanks Sultan for the detailed info, I agree with you, tend to believe it
+> > > > > > may related to the sensor, I will follow up with the FW team to investigate
+> > > > > > further.
+> > > > > > 
+> > > > > > > > > > > Thanks,
+> > > > > > > > > > > Sultan
+> > > > > > > > > > 
+> > > > > > > > > > A small update: I reproduced the issue on v4, but it took several more cycles of
+> > > > > > > > > > closing/opening cheese and waiting 30s compared to v5.
+> > > > > > > > > > 
+> > > > > > > > > > Right now my best guess is that this is a timing issue with respect to FW that
+> > > > > > > > > > was exposed by the v5 changes. v5 introduced slight changes in code timing, like
+> > > > > > > > > > with the mutex locks getting replaced by spin locks.
+> > > > > > > > > > 
+> > > > > > > > > > I'll try to insert mdelays to see if I can expose the issue that way on v4.
+> > > > > > > > > > 
+> > > > > > > > > 
+> > > > > > > > > Could you kindly provide the FW used?
+> > > > > > > > 
+> > > > > > > >     commit a89515d3ff79f12099f7a51b0f4932b881b7720e
+> > > > > > > >     Author: Pratap Nirujogi <pratap.nirujogi@amd.com>
+> > > > > > > >     Date:   Thu Aug 21 15:40:45 2025 -0400
+> > > > > > > > 
+> > > > > > > >         amdgpu: Update ISP FW for isp v4.1.1
+> > > > > > > >         From internal git commit:
+> > > > > > > >         24557b7326e539183b3bc44cf8e1496c74d383d6
+> > > > > > > >         Signed-off-by: Pratap Nirujogi <pratap.nirujogi@amd.com>
+> > > > > > > > 
+> > > > > > > > Sultan
+> > > > > > > 
+> > > > > > > Sultan
+> > > > > > 
+> > > > > > -- 
+> > > > > > Regards,
+> > > > > > Bin
+> > > > > > 
+> > > > > 
+> > > > > Thanks, Bin. I looked deeper at the code and didn't find any reason the issue
+> > > > > could be due to the driver. Also, the problem happens outside of cheese for me
+> > > > > (like in Chromium with Zoom meetings), so v5 of the driver is pretty much
+> > > > > unusable for me until this issue is fixed. :(
+> > > > > 
+> > > > 
+> > > > Oh, really sad to hear that :(, there must be some difference between our
+> > > > platforms because we still can't reproduce the issue you mentioned, to help
+> > > > on this, would you share more info like your Ubuntu version, Kernel
+> > > > version/source, ISP driver version, BIOS version, .config used to build the
+> > > > kernel, FW: commit a89515d3ff79f12099f7a51b0f4932b881b7720e.
+> > > > Just wondering, if possible, could you provide the kernel image either so we
+> > > > can directly test on it. Also, the HW is not broken, right?
+> > > 
+> > > I figured out why you cannot reproduce the issue. You need to pass amd_iommu=off
+> > > on the kernel command line to trigger the issue.
+> > > 
+> > > The reason I am using amd_iommu=off is because this laptop otherwise doesn't
+> > > ever wake from suspend under Linux once it reaches the S0i3 state. The keyboard,
+> > > power button, and lid do not respond to wake up the laptop from suspend. This
+> > > happens 100% of the time once S0i3 is reached, and occurs on the OEM Ubuntu
+> > > image from HP as well. The only fix I have found is to pass amd_iommu=off, which
+> > > other owners of this laptop also found fixes the issue.
+> > > 
+> > > > 
+> > > > > I've attached a v2 of my big patch, which includes more improvements and another
+> > > > > ringbuffer bug fix. Please check the ringbuffer logic on the FW side to make
+> > > > > sure FW doesn't have the same bug, where it may let rd_ptr == wr_ptr upon
+> > > > > filling the ringbuffer, even though rd_ptr == wr_ptr is supposed to indicate the
+> > > > > ringbuffer is empty.
+> > > > > 
+> > > > 
+> > > > Thank you for your huge contribution. We'll review, verify, and merge as
+> > > > much as possible into v6 and hope this marks the final significant update.
+> > > > We typically avoid large changes to reduce regression risks and minimize
+> > > > additional debugging, testing, and schedule impact.
+> > > 
+> > > I understand. Don't worry, that is indeed the final significant update. Please
+> > > let me know which changes you don't merge in, since it could be an important
+> > > change. And thank you for considering my changes! :)
+> > > 
+> > > And please be sure to check the ringbuffer code in FW to see if it has the same
+> > > bug I found in the driver.
+> > > 
+> > > > > Also, I have a suggestion for a FW change to improve IRQ handling in the driver:
+> > > > > 
+> > > > > 1. Change ISP_SYS_INT0_ACK behavior so that it also clears the acked interrupts
+> > > > >     from ISP_SYS_INT0_EN.
+> > > > > 
+> > > > 
+> > > > Based on my understanding, this pertains to the hardware design and cannot
+> > > > be modified.
+> > > > 
+> > > > > 2. Change ISP_SYS_INT0_EN behavior so that it only enables the interrupts in the
+> > > > >     provided mask, so RMW of ISP_SYS_INT0_EN in the driver won't be necessary to
+> > > > >     re-enable interrupts for a stream.
+> > > > > 
+> > > > 
+> > > > I'm not sure I understand your point. Are you saying that ISP_SYS_INT0_EN
+> > > > only considers '1' in the mask and ignores '0'? If that's the case, I'm
+> > > > curious about how to disable an interrupt. Also, this is also determined by
+> > > > the hardware design.
+> > > 
+> > > No worries, it's not a big deal. Just a small optimization I thought of.
+> > > 
+> > > My idea was:
+> > > 
+> > > 1. Current behavior of ISP_SYS_INT0_ACK:
+> > >      isp4hw_wreg(mmio, ISP_SYS_INT0_ACK, intr_ack) results in:
+> > > 
+> > >          regmap[ISP_SYS_INT0_STATUS] &= ~intr_ack;
+> > > 
+> > >    Proposed behavior of ISP_SYS_INT0_ACK:
+> > >      isp4hw_wreg(mmio, ISP_SYS_INT0_ACK, intr_ack) results in:
+> > > 
+> > >          regmap[ISP_SYS_INT0_STATUS] &= ~intr_ack;
+> > >          regmap[ISP_SYS_INT0_EN] &= ~intr_ack;
+> > > 
+> > > 2. Current behavior of ISP_SYS_INT0_EN:
+> > >      isp4hw_wreg(mmio, ISP_SYS_INT0_EN, intr_en) results in:
+> > > 
+> > >          regmap[ISP_SYS_INT0_EN] = intr_en;
+> > > 
+> > >    Proposed behavior of ISP_SYS_INT0_EN:
+> > >      isp4hw_wreg(mmio, ISP_SYS_INT0_EN, intr_en) results in:
+> > > 
+> > >          regmap[ISP_SYS_INT0_EN] |= intr_en;
+> > > 
+> > > 
+> > > And to disable an interrupt with this design, you can write to ISP_SYS_INT0_ACK.
+> > > 
+> > > Sultan
+> > 
+> > Hi Bin,
+> > 
+> > Thanks to Mario's help, I'm running with the IOMMU enabled now and as a result,
+> > I'm able to use the v5 driver without issue. No more freezes!
+> > 
+> > Since I'm able to use v5 now, I was able to perform more testing on my big
+> > v2-media-platform-amd-Big-squash-of-fixes-cleanup-on.patch I sent before.
+> > 
+> > I found a regression in my big patch where stopping the stream would fail 100%
+> > of the time, tested by opening and then closing cheese. I've attached a small
+> > fix for this.
+> > 
+> > Please apply media-platform-amd-Don-t-wait-for-cmd_done-under-isp.patch on top
+> > of v2-media-platform-amd-Big-squash-of-fixes-cleanup-on.patch.
+> > 
+> > With these two patches applied on top of v5, everything works well for me. :)
+> > 
+> > FYI, I think there is an issue in the FW's error handling, because that bug in
+> > my big patch breaks the ISP until I reboot the laptop, with the same symptoms as
+> > what I reported before when I was testing v5 with IOMMU disabled (and _without_
+> > any of my changes to the driver).
+> > 
+> > Maybe you can take advantage of the bug I caused, and use it to find why the ISP
+> > or sensor never recovers after the driver fails to disable the stream.
+> > 
+> > Cheers,
+> > Sultan
+> 
+> Oops, I based media-platform-amd-Don-t-wait-for-cmd_done-under-isp.patch on top
+> of v1 of my big patch on accident, so it doesn't apply cleanly on v2 big patch.
+> 
+> I've attached a corrected version that is based on top of _v2_ of my big patch.
+> 
+> Sorry for the churn!
+> 
+> Sultan
+
+Hi Bin,
+
+I have attached another fix for a regression caused by my big patch.
+
+To summarize, apply the following patches on top of the v5 driver in this order:
+
+1. v2-media-platform-amd-Big-squash-of-fixes-cleanup-on.patch [1]
+2. v2-media-platform-amd-Don-t-wait-for-cmd_done-under-.patch [2]
+3. media-platform-amd-Fix-inverted-logic-typo-in-isp4if.patch [attached]
+
+[1] https://lore.kernel.org/all/aRwhuNmPRlPGxIia@sultan-box/2-v2-media-platform-amd-Big-squash-of-fixes-cleanup-on.patch
+[2] https://lore.kernel.org/all/aSErtOOG5X5JG8Kl@sultan-box/2-v2-media-platform-amd-Don-t-wait-for-cmd_done-under-.patch
+
+Thanks,
+Sultan
+
+--tRrhOE+gN6X1WlJJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment;
+	filename=media-platform-amd-Fix-inverted-logic-typo-in-isp4if.patch
+
+From 5a1091ddbfa9858633085d14b31c86e11c57c858 Mon Sep 17 00:00:00 2001
+From: Sultan Alsawaf <sultan@kerneltoast.com>
+Date: Mon, 24 Nov 2025 18:48:19 -0800
+Subject: [PATCH] media: platform: amd: Fix inverted logic typo in
+ isp4if_is_cmdq_rb_full()
+
+Fixes a regression from "[PATCH v2] media: platform: amd: Big squash of
+fixes/cleanup on top of v5 patchset".
+
+When bytes_free is *less than or equal to* the size of a fw command, then
+the ringbuf is full. Fix the inverted logic typo that used `>` instead of
+`<=` for the comparison.
+
+Resolves low preview frame rate observed in Zoom.
+
+Signed-off-by: Sultan Alsawaf <sultan@kerneltoast.com>
+---
+ drivers/media/platform/amd/isp4/isp4_interface.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/media/platform/amd/isp4/isp4_interface.c b/drivers/media/platform/amd/isp4/isp4_interface.c
+index 90585b8a4e8c..65e660d715be 100644
+--- a/drivers/media/platform/amd/isp4/isp4_interface.c
++++ b/drivers/media/platform/amd/isp4/isp4_interface.c
+@@ -260,7 +260,7 @@ static bool isp4if_is_cmdq_rb_full(struct isp4_interface *ispif, enum isp4if_str
+ 	 * wr_ptr when the ringbuf is full, because rd_ptr == wr_ptr is supposed
+ 	 * to indicate that the ringbuf is empty.
+ 	 */
+-	return bytes_free > sizeof(struct isp4fw_cmd);
++	return bytes_free <= sizeof(struct isp4fw_cmd);
+ }
+ 
+ struct isp4if_cmd_element *isp4if_rm_cmd_from_cmdq(struct isp4_interface *ispif, u32 seq_num,
+-- 
+2.52.0
+
+
+--tRrhOE+gN6X1WlJJ--
 
