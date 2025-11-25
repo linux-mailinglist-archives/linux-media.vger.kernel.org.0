@@ -1,147 +1,139 @@
-Return-Path: <linux-media+bounces-47699-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47700-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71FA3C85260
-	for <lists+linux-media@lfdr.de>; Tue, 25 Nov 2025 14:20:21 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BA3FC852CB
+	for <lists+linux-media@lfdr.de>; Tue, 25 Nov 2025 14:28:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 3B6544E7FC7
-	for <lists+linux-media@lfdr.de>; Tue, 25 Nov 2025 13:20:14 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 1AE98347DFB
+	for <lists+linux-media@lfdr.de>; Tue, 25 Nov 2025 13:28:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78B302248B0;
-	Tue, 25 Nov 2025 13:20:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03E193242D8;
+	Tue, 25 Nov 2025 13:28:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ursulin.net header.i=@ursulin.net header.b="JaBuEQvS"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="pVSN/Bee"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F322B1EB1A4
-	for <linux-media@vger.kernel.org>; Tue, 25 Nov 2025 13:20:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E7153242CD;
+	Tue, 25 Nov 2025 13:28:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764076810; cv=none; b=sYAq0u5uJ/C5npzLNoX5k81RtN2nX0Ygxf2DvnBkIU9onSdJOgRP6P+RI2XFgRjxcxvTqSdxOQppU0E12k2Mnlds+cWO9MUVNqBa4hTX34DsPEPGoYR3CEeSDJLg6qoEGUCO7mtFEKPhZ8Z2+7MJGc/Wt/OpHsdhmjPGRe0NN+Q=
+	t=1764077311; cv=none; b=Bmb2km2bg+EPugFTdGpI2D0m68780+gEm+baWHhi9wOHhQwSG1GtUknNVejiXs84NnMVLa2Th84XiTgjrWFum2VG6F3P255G8+hnJPxXyQKlQmfdUqpai/oM3p8dFKw1bD8VTXAo6M7uqFk+DhRDxF8wp31/KUdFi4Lz1LZLTXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764076810; c=relaxed/simple;
-	bh=GIAJQymOEiw7oQ9NIRxAqQCBFkIfZg8pmCcS8xtayzg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GO1VxCDh//74aa7K9S0mUp/2Jmx9aHW7yf3bK/MhbQSjs9t3N7DfzDWwWlbKv/dRGBSBB20VBx9bSVmQbcu4ypU2CHRODlHAYw7/yMOfV52MEFzcoXNpjTYGc/pfm6y1YQ1L6j9ZSDlrqMqwwd0V1+J55WDZKcnbzxgGtQAZTMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net; spf=pass smtp.mailfrom=ursulin.net; dkim=pass (2048-bit key) header.d=ursulin.net header.i=@ursulin.net header.b=JaBuEQvS; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ursulin.net
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-477563e28a3so37583855e9.1
-        for <linux-media@vger.kernel.org>; Tue, 25 Nov 2025 05:20:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ursulin.net; s=google; t=1764076807; x=1764681607; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=aprKDYKlrTiFqlYRX/ECW07g4Q7VGo6Tvic7fnoqVWQ=;
-        b=JaBuEQvSOmZdZDV18SN7wjd45K+deXUciAphhpnIUieuxtiurlK6PecaL2tUB8dCk8
-         ZjG7fhFZgUyIYzW1OOQjMSnKetozzdqaN4OiTQ7sGxKs+ptZqO/ij1an269tLN7ZycPf
-         jw7d2JGbNOMBioOoenIzr0xgwdCyd0BfGzWixTa5nmsdaGIlsBgk99odMjuk6DU5lt0m
-         mnRLa4S82Bqux8qqXnwNe6sqBGROrvpb0MNUsXbUk9p+HMsyei4Ss4bNmHO03qB74YCj
-         1bJiM/N2aKs7PaGvEriWwQ1DWhXSCS/Xxx5+fbsavmn0VDypLrgiptcOSiGXGmNpmDz/
-         Rg3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764076807; x=1764681607;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aprKDYKlrTiFqlYRX/ECW07g4Q7VGo6Tvic7fnoqVWQ=;
-        b=la8uVYtH+4HJcMpXrVKJaPlh54gwjP9yza2AhLa3hxVQ1LIUw/Bff4Tf83L6MMIVFH
-         UGRZYww0bmh+CoU5x9PnCwTWqkeVbI59v3zdTOTCF/PyAtHi6SfPtQ7nkpIgOkcRNR1y
-         WEBS3F+RV1fOfxENYh+Hw9rEK+ltzMRVvPL7HW0dtB6ku1G8lkka8XzTzwRD4W/o8Bsu
-         bHTbGgjTLObs1ovCrhV8njGJQx5fcQE6R0Y2lTdI/YHx1I6E3eM3b5o0pd/6E2eS/1K7
-         LrwEvQ+8YpN6pr4QGjmDQx3/lqZBH5zRT65c+MkO+yLhavO8/wmRJJ+ggoE8zashux8y
-         ztcw==
-X-Gm-Message-State: AOJu0YwR18YslaRo7E+MR5Bd/WjDkc5AcLd00Tt34LLl69farwG07NzC
-	QNCM8fEWNvg8VM6omctCiFf1JGMAZ/zswSwI43YCKZ4n/xQ6uz4Uwt9dnahzv8jafSg=
-X-Gm-Gg: ASbGncuIUBWZ1ATvJhGl8UCTA8AsJ9PKUP5LhF6YGfPmj5jZzxKZDOTUQHy8Kr/EpNb
-	72UcOJq33PaIR+bAWlLB2bardE6vOPAI0aCjBnpaOXVWuSdkSy7rPiRdywteRqKywH6X+Cgt4md
-	EvscQZF/bHP2xCul1jhfcgHd/njQtV0LJICTJF1cZZmGd8Kmhdj1iGLG78VlJzFrrFd6/C0Od17
-	0gLpaasNlHPnBaNl9OoBsLvCT/7tN3ElmLJ+7S+2GV3imDUKlbg7lj46/gGhBRJlbmip3v2womq
-	13Xk7v5uqXfTYfKuMihfxYCIMREticDRG/DOIjx1zW8AeCwa5X/kgnqgnbECikintWCokWYkenF
-	YyM6Jdn87y9G+KgKkcq+yUy7AJ4l2zKZFaZ8om5axFrBQmh1M6YwcDBzPQPKN/EVDdCEM73X3yZ
-	FoFuE/Fskha7QgzT7R9RhMr46Kn37eWUms
-X-Google-Smtp-Source: AGHT+IHQEznJBdhJdN1tPju1HTTqm2y8/XXE3XsJpkME6k/iECmmqiOWumbCD4N2hJu6XfqgUDRWEA==
-X-Received: by 2002:a05:600c:c0c3:20b0:477:a71c:d200 with SMTP id 5b1f17b1804b1-477b9ee4fdbmr151348115e9.11.1764076807041;
-        Tue, 25 Nov 2025 05:20:07 -0800 (PST)
-Received: from [192.168.0.101] ([90.240.106.137])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477bf198a67sm264938725e9.0.2025.11.25.05.20.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Nov 2025 05:20:06 -0800 (PST)
-Message-ID: <44d30056-612f-4563-ad9f-92696c5a803a@ursulin.net>
-Date: Tue, 25 Nov 2025 13:20:06 +0000
+	s=arc-20240116; t=1764077311; c=relaxed/simple;
+	bh=0j30iTfu3HCLzVwhD2pMTl/Wst+eEePVrLZHIVhrXLE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=kYlPUV/ENDSmI6sJX7rWQfSmOwm2xSwqR8JYwXf50F57ajnQff/MnKYxVqdLjbg6svXM7lNEawwVPiqsB6UGDPyr5xexCvAo+i5UixSvVUeNoX8yR3E9xI+KTmhVeEBTECkxOmLMtmSTfuOYWH1i6AANxcnmUQJhW9xIOnQmwdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=pVSN/Bee; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4dG3RR23KVz9tGQ;
+	Tue, 25 Nov 2025 14:28:19 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1764077299; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SvEYEAgfetSiQtd3hbQ329ZV6SuQkLikEh+RnSIy9Ck=;
+	b=pVSN/BeeDZQxi29oaSuvHenyB9uZf8BRmnIk65z83iklSwtrCy6z5+yy8L9H2A8wvkQIcE
+	lH77SgLOtfRYktVtq2fsUD6wUlqqR1N0LLb7NXKTYNDQCG1h9DkTT2OZy/DN5pTvlGBqu+
+	BNVOYbomZIvXssFmxoNU8bdpAaVM0xhwlOve0mus6FWf+o2xFLFCO9A4Ql9nBoWYz4xlGp
+	OZTWBVsDtMrKvR6G7BPaRcTZaatQd2TNpQDf5bxJAwR8vENKe2pGLgMP9cxdvwgHPERUe+
+	VLIF3zyDt2+uFfRxSc5OxKy6t0N+QYuxJY/laLijz4xoNYW5hr8NFvl8QkplPA==
+Message-ID: <afaace6487f15c8ba51f3f2e9cddf13e1a749696.camel@mailbox.org>
+Subject: Re: [PATCH 2/2] dma-buf/dma-fence: Unify return codes for signalled
+ fences
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Tvrtko Ursulin <tursulin@ursulin.net>, Philipp Stanner
+ <phasta@kernel.org>,  Sumit Semwal <sumit.semwal@linaro.org>, Gustavo
+ Padovan <gustavo@padovan.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Daniel Almeida <daniel.almeida@collabora.com>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org
+Date: Tue, 25 Nov 2025 14:28:14 +0100
+In-Reply-To: <44d30056-612f-4563-ad9f-92696c5a803a@ursulin.net>
+References: <20251125104443.82974-2-phasta@kernel.org>
+	 <20251125104443.82974-3-phasta@kernel.org>
+	 <44d30056-612f-4563-ad9f-92696c5a803a@ursulin.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] dma-buf/dma-fence: Unify return codes for signalled
- fences
-To: Philipp Stanner <phasta@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
- <gustavo@padovan.org>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Daniel Almeida <daniel.almeida@collabora.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20251125104443.82974-2-phasta@kernel.org>
- <20251125104443.82974-3-phasta@kernel.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20251125104443.82974-3-phasta@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: tnkcsrph5bnq7f5su6qf9tftdqroueug
+X-MBO-RS-ID: c2d8e951c74feaac195
+
+On Tue, 2025-11-25 at 13:20 +0000, Tvrtko Ursulin wrote:
+>=20
+> On 25/11/2025 10:44, Philipp Stanner wrote:
+> > Almost all users of dma_fence_signal() ignore the return code which
+> > would indicate that the fence was already signaled. The same return cod=
+e
+> > by dma_fence_add_callback() cannot be ignored, however, because it's
+> > needed to detect races.
+> >=20
+> > For an already signaled fence, dma_fence_signal() returns -EINVAL,
+> > whereas dma_fence_add_callback() returns -ENOENT.
+> >=20
+> > Unify the error codes by having dma_fence_signal() return -ENOENT, too.
+> >=20
+> > Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> > ---
+> > =C2=A0 drivers/dma-buf/dma-fence.c | 2 +-
+> > =C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> > index 3a48896ded62..09d97624e647 100644
+> > --- a/drivers/dma-buf/dma-fence.c
+> > +++ b/drivers/dma-buf/dma-fence.c
+> > @@ -373,7 +373,7 @@ int dma_fence_signal_timestamp_locked(struct dma_fe=
+nce *fence,
+> > =C2=A0=C2=A0	lockdep_assert_held(fence->lock);
+> > =C2=A0=20
+> > =C2=A0=C2=A0	if (unlikely(__dma_fence_is_signaled(fence)))
+> > -		return -EINVAL;
+> > +		return -ENOENT;
+> > =C2=A0=20
+> > =C2=A0=C2=A0	/* Stash the cb_list before replacing it with the timestam=
+p */
+> > =C2=A0=C2=A0	list_replace(&fence->cb_list, &cb_list);
+>=20
+> Story checks out AFAICT - only two callers fetch the error, xe and kfd,=
+=20
+> and neither does anything with it. So I'd say it makes sense to unify
+> the errno.
+>=20
+> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>=20
+> Regards,
+>=20
+> Tvrtko
+>=20
+> P.S. Just not sure of the 1/2 on which this one ends depending on. I=20
+> *think* I suggested the helper in the context of some discussion long
+> long time ago but what it was? And what about all the drivers which look=
+=20
+> at the signaled bit directly?
+
+That was in a discussion where we could have needed such a function to
+solve a bug in Nouveau where dma_fence_is_signaled() unexpetedely
+signaled a fence. AFAIR that caused locking issues in that context.
+
+The other test_bit() users could be ported, of course.
 
 
-On 25/11/2025 10:44, Philipp Stanner wrote:
-> Almost all users of dma_fence_signal() ignore the return code which
-> would indicate that the fence was already signaled. The same return code
-> by dma_fence_add_callback() cannot be ignored, however, because it's
-> needed to detect races.
-> 
-> For an already signaled fence, dma_fence_signal() returns -EINVAL,
-> whereas dma_fence_add_callback() returns -ENOENT.
-> 
-> Unify the error codes by having dma_fence_signal() return -ENOENT, too.
-> 
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> ---
->   drivers/dma-buf/dma-fence.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> index 3a48896ded62..09d97624e647 100644
-> --- a/drivers/dma-buf/dma-fence.c
-> +++ b/drivers/dma-buf/dma-fence.c
-> @@ -373,7 +373,7 @@ int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
->   	lockdep_assert_held(fence->lock);
->   
->   	if (unlikely(__dma_fence_is_signaled(fence)))
-> -		return -EINVAL;
-> +		return -ENOENT;
->   
->   	/* Stash the cb_list before replacing it with the timestamp */
->   	list_replace(&fence->cb_list, &cb_list);
-
-Story checks out AFAICT - only two callers fetch the error, xe and kfd, 
-and neither does anything with it. So I'd say it makes sense to unify 
-the errno.
-
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-
-Regards,
-
-Tvrtko
-
-P.S. Just not sure of the 1/2 on which this one ends depending on. I 
-*think* I suggested the helper in the context of some discussion long 
-long time ago but what it was? And what about all the drivers which look 
-at the signaled bit directly?
+P.
 
