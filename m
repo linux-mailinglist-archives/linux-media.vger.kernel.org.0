@@ -1,82 +1,82 @@
-Return-Path: <linux-media+bounces-47715-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47716-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F380C86D4A
-	for <lists+linux-media@lfdr.de>; Tue, 25 Nov 2025 20:40:36 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29D77C87015
+	for <lists+linux-media@lfdr.de>; Tue, 25 Nov 2025 21:21:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AF7DF3B2FE1
-	for <lists+linux-media@lfdr.de>; Tue, 25 Nov 2025 19:40:34 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 473B24E8D53
+	for <lists+linux-media@lfdr.de>; Tue, 25 Nov 2025 20:21:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F227B33AD80;
-	Tue, 25 Nov 2025 19:40:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9D8133BBA0;
+	Tue, 25 Nov 2025 20:21:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lX59330w"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZENXJvBD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 884B5274B59
-	for <linux-media@vger.kernel.org>; Tue, 25 Nov 2025 19:40:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4216D329C58
+	for <linux-media@vger.kernel.org>; Tue, 25 Nov 2025 20:21:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764099622; cv=none; b=IMPyHsQg9b25sQtpbB8uCYq8Av1hJvAq6Wx59A8vqUIGu0eIk5m/aO40xBLmgiiVElh4ELU9WbaZTF/ZKJG2XbtqVRzehkNHcXAft079r39pM/8udWL44mu+EACO43r/IMDqZj/l7huSuN0EVjAMgR6Jl+oauI2vQrfBsGIfQms=
+	t=1764102074; cv=none; b=Ar6fjcPjl0OY5yEU42R7fCiGIwyPupp7yRJPl+dyovj6ygLSL/basAsVYQVB3/Ho5CRFgGjw9p8tviGHtD4P2nUtc58MrCcMdKE8he4pww6IquImb7uSJSbV+eoh47fYPJ2UF9XN5xtbTTsOSbZC6rAwVWKPrij9HG7C96aYCJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764099622; c=relaxed/simple;
-	bh=55KLs212Dn8sTkvNUHAgTA9I9hiZ2MXbrlzA2dcyhk4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UvVa08YiBhr/0/Knd176g0U8/K5+nZnpsjfye/0vQkwABGd7OXr1rLp8zmUKBl2BNmMFqlQHfIgwZ72pii0prliK/J4o+6ACkY8FHNLV7MKffwHzux20NZGhryJH0S38OeSP1d+JZDZ7iKi9xr/lYvj9BE2tYQrCJk4NCQUS464=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lX59330w; arc=none smtp.client-ip=209.85.128.53
+	s=arc-20240116; t=1764102074; c=relaxed/simple;
+	bh=4wjxY4sYzggxS4/vzJWqTLnmS32brncjktgX4hPqSQo=;
+	h=Content-Type:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To; b=Sh/W3HCSA0T7+cX+xyjnptg4ddnaFt8ZWdCW8WZL+xfouduATb9uXILtBxtKX1DYyz1upwYaZ9ZGRSfUT0Siy7nnp6f9t5p2ZMzzMjkib+uUYmZhoyy2vf4+tNFQHkuC6rjPbYzIBq/e6P1RlunTRjeiBgZ7XgVArAnYAlyuqI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZENXJvBD; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-477b198f4bcso39120225e9.3
-        for <linux-media@vger.kernel.org>; Tue, 25 Nov 2025 11:40:20 -0800 (PST)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-298145fe27eso92903975ad.1
+        for <linux-media@vger.kernel.org>; Tue, 25 Nov 2025 12:21:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764099619; x=1764704419; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=F+mYioxWgzcz5tqtizOnI1Ne46KDyU7fg8afEAzl4P4=;
-        b=lX59330w6ZKGrDncB/Dj6T4JJGTrkq1f9IPZxOCmJWuHlE7ipbmWslGLZsPsstSfWM
-         5F2gEEU2zV5v4u1sH1DzcKPfG8gjox6BUe4YLavuSmK4Arrkv0102hJmT4ZaD9It27ug
-         q9gLRyjwP3pEsVpns5Y6S+iga/fVBqZ8B6wCg8nQrlaGACdM7I1VJH9MMBNFhQVG7Juq
-         f1088WxUmHtpqFHZ1rtZ5g0vgdVBYQamSEnU6ymbvAs2j9v77zP9HzDicGsUBKz2jIA6
-         +BVgrj+KruQsFSe9Hdtxr7kWdkfDWk1lpYa+vZhHm2s98p1ZxUsCnnZ6/evEUiOyLTlA
-         yCGQ==
+        d=gmail.com; s=20230601; t=1764102071; x=1764706871; darn=vger.kernel.org;
+        h=in-reply-to:from:content-language:subject:references:cc:to
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4wjxY4sYzggxS4/vzJWqTLnmS32brncjktgX4hPqSQo=;
+        b=ZENXJvBDRFHz52Eoy2c/3C7f5BSIviisvng/IUBLU53amjQzF5rX+5fpekY4tBF1Tb
+         go9kRayw9XIDQmmYgtcj4hEqJNFJJx94owKf0kl5AuEmrycSfqcS2Vg7uE4tr35RI92u
+         8NqLSOsw2tk50vC5GFWBGr7Ya9RkViVy6FhFGZzNyWKC9EtGuPkovlWlgZrbZqOXzN3e
+         dTahXyQOkrihB7cv/3HMI2jkAYfjF3TikRnV7WkBMw/HpcFeEKOxEfAvHTU/CWrN4E0p
+         tZUw4X2W1B9vQXoyqa/Xv0PMD1eja2vCtTu+11FDGD6UeQsPkFk0NqEXylrulWCz6Vot
+         1TfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764099619; x=1764704419;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=F+mYioxWgzcz5tqtizOnI1Ne46KDyU7fg8afEAzl4P4=;
-        b=DrgKbvA/DJ4Kl0WvmuXhbB3ThaV7kqQ6HIWW/1MUvZFz1foZfVnMqxo0Q3wwKmJrgp
-         kJiTLtKDF6RAzn/7VBbI3qXzxAcBNMEdhd1AVLesj+Fza9e+2GqsVuxS7TBdOlTlMoi5
-         ETwXzbJb3FuTSqewW5QploMPEh7AaNUpXk8wktIM0tZx/Fc6ujwC2dvp3LAWevToIyG5
-         vpN+Asm89l9AbYbYGHSwIS6YT2/MeK0/3NhCrlkwa4jz6L6fqU6GoQ3PIRUm1PhnCwny
-         vf/QE69rxeuezcSNUMT+C5/cYKJY1NIL7e/F9sjwqmmZtWvb5jv+qkHQo7clbHXpmKzd
-         Lp9A==
-X-Forwarded-Encrypted: i=1; AJvYcCURXrwc9lNkHCQ57hBRYynjUV4XiovufbkKP7+essGdsVL0W2tT5NcHyL4v5CPLz5EpcuZMiT3zKX2okg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKGm68xQ1V8ZRiZGs0ulVW8sTNuEmv/1nZV0zXGNDXeLe7s+rX
-	4vp4egNXLTpt2OLK2pFz+7tUMVLb3+p5eIlGc9l+qKObnRAD8OIHwzBn
-X-Gm-Gg: ASbGnctCQbkiS367jfUL6ms4HiGGffTz6P/s/HxBts2dBXLwRtSmHMro2JHHQwuR5H8
-	34ey63Kb8iHAAuLvE9prBjFaGPEwhmo1O+6JNxVsq+FP+qb1WlL2SQN29xAOR7jrESrmy3g4AMh
-	nu/4L8dMLjwzkSLGcuG8GjQsz1QZpVSFhhAT30hr5hmKzd1mI9wsFixRGEpOL30Te++M30oztH8
-	SaSu65PNCqg2VWo/fsuaQTKa21tOe/eUScQp/htDBjZCqIY/LTmGjpQZCeoNXhWefahhZIGjAB1
-	ceLpxVL2VIYu51y8CAM3onQd5gApeD3kyF/aw+Ig7ZltCE3HJN7hACGy7gtETQu8JOvek+7dGdG
-	V5LPRHzkIbSYeYakDS0mHZepmb8YJpDS1M7hZuFEQkXh+8GaoO9vP2OgVoWj5FTQFiwbRSEGp5I
-	TPzSM4qyjxNo4G1PLVaWEz/2XNaqjUa/Xjv66NkTKoA7+4mqGHGkJA8uI0BuOEDg==
-X-Google-Smtp-Source: AGHT+IFpWZeUDyopyguGNmEbgYIRF/Mo2eq9v5oFLJoUC93zNjBvPZO9k5dPUiOZ58x4X8B/LhlhcQ==
-X-Received: by 2002:a05:600c:1c88:b0:477:9cdb:e337 with SMTP id 5b1f17b1804b1-477c0165badmr197645055e9.7.1764099618711;
-        Tue, 25 Nov 2025 11:40:18 -0800 (PST)
-Received: from ?IPV6:2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c? ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4790add608bsm5321225e9.5.2025.11.25.11.40.17
+        d=1e100.net; s=20230601; t=1764102071; x=1764706871;
+        h=in-reply-to:from:content-language:subject:references:cc:to
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4wjxY4sYzggxS4/vzJWqTLnmS32brncjktgX4hPqSQo=;
+        b=NOoFH4UOJpqotYykmw/zhjOHOsuwc4OQfFSBE7iRFNfB/SxW6ZhM70zfSi7QBGmCNZ
+         /69D3XkZ8upO4rKuFFziA2h2K5l4T/3Fkbsfz/mMPOPhuKMMQYdkkXmHpMiN5MtMzhcD
+         Q5vxApuhIt9q+zlhLUAaf+6RV0ccfrDt9WtjHNWrmuJS1oMX28s61fhNCXI1rpqTrjfT
+         IpIV8+lH9Z6JrcktlDLTpCvYusBmLC1ge+X5hP6r4+lSawLHUCbcLuQ78e3g71+jZMjj
+         ZV+fqWtMsObSzheNBydeFKDvf6oS7oSqHEPd6rQHjWmQWNP2pqyc2FqG+pGEaVo0d6yM
+         pbPw==
+X-Forwarded-Encrypted: i=1; AJvYcCUU9mI+OqH8L/jtDiyAbOZhZ69PfZc89G4VBH8d5wgFpTuVFizuGGCI05VbaDceIx7PFrUFxqb8sVqFnw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyXeCQ6kAwYBMqbLf8tDS2sfO5Dq89/bfBH5zU4c+eh9ctajzeE
+	kziMG6KIqSxMDqlhI2H1DbT0DX34SCIeRYpisr6aDz7JOZdSkgBJPhmr
+X-Gm-Gg: ASbGnctue3Tsu0+KKfg9LRoZmu8BgMSFWVxmg1bmWGU/D/ntMsYL+4+xNPDDAv5KUUP
+	3h/GrqeflFoYM4aPdzA2CkJksigFp/eEzl8Rcd+kkb2vDT3hGAhdsU6bw5usYFTGISyXDJR5RXk
+	4vJZT2FpwJL4a1LAs+0UYR2h362OKvRRlc+cdqJT+Hw644nFOvMhQzIB1LWmvtUSQ4flBLk6nUH
+	rnKXRljklWyn+A7xcaCh90ZPk7juEphfdMEkevguGIsnOQ6t8h+15t6R1mr3YPyO5O6FV85FJEJ
+	KUm9/yulfF4vHwJFBCYTq5dA/84a1sjzqP3wKkoKE85R8ieY2D21D+ApitQbcAFOWFFRyUto5sT
+	lETRW3qQ6ADwKSocoWU7blANvyeMwgEB4drPzkpQX/4FKE+Ivt7q+WRvpFhaV+NuH6EZdQlKqZr
+	ZZDrViuy7J5hnSs370q0ZiA804ZeI3scYtM55IXYzQaDki8nxu+55H4sM=
+X-Google-Smtp-Source: AGHT+IG26j2v4ze8bwOyp1fDtfCRo9gPEbsPVdvgYjvubX9YM3fdTEpXSYr1oj4ijBGMhrHDZlqPXw==
+X-Received: by 2002:a17:902:ebc8:b0:297:d6c0:90b3 with SMTP id d9443c01a7336-29baafb376cmr41510835ad.23.1764102071342;
+        Tue, 25 Nov 2025 12:21:11 -0800 (PST)
+Received: from ?IPV6:2405:201:31:d869:2a74:b29f:f7bf:865c? ([2405:201:31:d869:2a74:b29f:f7bf:865c])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3476a5dc48esm267003a91.16.2025.11.25.12.21.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Nov 2025 11:40:18 -0800 (PST)
-Message-ID: <478ea064-3a2f-4529-81f3-ac2346fe32f0@gmail.com>
-Date: Tue, 25 Nov 2025 19:40:15 +0000
+        Tue, 25 Nov 2025 12:21:10 -0800 (PST)
+Content-Type: multipart/mixed; boundary="------------tqFVRas0Am0gERKk0yPf60YQ"
+Message-ID: <50389e6f-a379-44cd-a18b-ded86d0b9f7e@gmail.com>
+Date: Wed, 26 Nov 2025 01:51:04 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -84,101 +84,66 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v2 00/11] Add dmabuf read/write via io_uring
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-block@vger.kernel.org, io-uring@vger.kernel.org
-Cc: Vishal Verma <vishal1.verma@intel.com>, tushar.gohad@intel.com,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-References: <cover.1763725387.git.asml.silence@gmail.com>
- <fd10fe48-f278-4ed0-b96b-c4f5a91b7f95@amd.com>
- <905ff009-0e02-4a5b-aa8d-236bfc1a404e@gmail.com>
- <53be1078-4d67-470f-b1af-1d9ac985fbe2@amd.com>
- <a80a1e7d-e387-448f-8095-0aa22a07af17@gmail.com>
- <0d0d2a6a-a90c-409c-8d60-b17bad32af94@amd.com>
+To: syzbot+a41b73dce23962a74c72@syzkaller.appspotmail.com
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+References: <692560ec.a70a0220.2ea503.0087.GAE@google.com>
+Subject: Re: [syzbot] [media?] [usb?] memory leak in
+ v4l2_ctrl_handler_init_class (2)
 Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <0d0d2a6a-a90c-409c-8d60-b17bad32af94@amd.com>
+From: shaurya <ssranevjti@gmail.com>
+In-Reply-To: <692560ec.a70a0220.2ea503.0087.GAE@google.com>
+
+This is a multi-part message in MIME format.
+--------------tqFVRas0Am0gERKk0yPf60YQ
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 11/25/25 14:21, Christian König wrote:
-> On 11/25/25 14:52, Pavel Begunkov wrote:
->> On 11/24/25 14:17, Christian König wrote:
->>> On 11/24/25 12:30, Pavel Begunkov wrote:
->>>> On 11/24/25 10:33, Christian König wrote:
->>>>> On 11/23/25 23:51, Pavel Begunkov wrote:
->>>>>> Picking up the work on supporting dmabuf in the read/write path.
->>>>>
->>>>> IIRC that work was completely stopped because it violated core dma_fence and DMA-buf rules and after some private discussion was considered not doable in general.
->>>>>
->>>>> Or am I mixing something up here?
->>>>
->>>> The time gap is purely due to me being busy. I wasn't CC'ed to those private
->>>> discussions you mentioned, but the v1 feedback was to use dynamic attachments
->>>> and avoid passing dma address arrays directly.
->>>>
->>>> https://lore.kernel.org/all/cover.1751035820.git.asml.silence@gmail.com/
->>>>
->>>> I'm lost on what part is not doable. Can you elaborate on the core
->>>> dma-fence dma-buf rules?
->>>
->>> I most likely mixed that up, in other words that was a different discussion.
->>>
->>> When you use dma_fences to indicate async completion of events you need to be super duper careful that you only do this for in flight events, have the fence creation in the right order etc...
->>
->> I'm curious, what can happen if there is new IO using a
->> move_notify()ed mapping, but let's say it's guaranteed to complete
->> strictly before dma_buf_unmap_attachment() and the fence is signaled?
->> Is there some loss of data or corruption that can happen?
-> 
-> The problem is that you can't guarantee that because you run into deadlocks.
-> 
-> As soon as a dma_fence() is created and published by calling add_fence it can be memory management loops back and depends on that fence.
+#syz test:
+git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+--------------tqFVRas0Am0gERKk0yPf60YQ
+Content-Type: text/x-patch; charset=UTF-8;
+ name="0001-media-radio-keene-fix-memory-leak-in-error-path.patch"
+Content-Disposition: attachment;
+ filename*0="0001-media-radio-keene-fix-memory-leak-in-error-path.patch"
+Content-Transfer-Encoding: base64
 
-I think I got the idea, thanks
+RnJvbSAwYjRlYjQ2YzZmOWY0ZGJmOWRjOWQ5YjA3YTViYzhiNWVjZTA0YjhkIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBTaGF1cnlhIFJhbmUgPHNzcmFuZV9iMjNAZWUudmp0
+aS5hYy5pbj4KRGF0ZTogV2VkLCAyNiBOb3YgMjAyNSAwMTo0Nzo0MSArMDUzMApTdWJqZWN0
+OiBbUEFUQ0hdIG1lZGlhOiByYWRpby1rZWVuZTogZml4IG1lbW9yeSBsZWFrIGluIGVycm9y
+IHBhdGgKCkZpeCBhIG1lbW9yeSBsZWFrIGluIHVzYl9rZWVuZV9wcm9iZSgpIHdoZW4gdjRs
+Ml9kZXZpY2VfcmVnaXN0ZXIoKQpmYWlscy4gVGhlIHY0bDIgY29udHJvbCBoYW5kbGVyIHdh
+cyBpbml0aWFsaXplZCBhbmQgY29udHJvbHMgd2VyZQphZGRlZCwgYnV0IGlmIHY0bDJfZGV2
+aWNlX3JlZ2lzdGVyKCkgZmFpbGVkLCB0aGUgaGFuZGxlciB3YXMgbmV2ZXIKZnJlZWQsIGxl
+YWtpbmcgdGhlIGFsbG9jYXRlZCBtZW1vcnkgZm9yIHRoZSBoYW5kbGVyIGJ1Y2tldHMgYW5k
+CmNvbnRyb2wgc3RydWN0dXJlcy4KCkNvbnNvbGlkYXRlIHRoZSBlcnJvciBoYW5kbGluZyBi
+eSBhZGRpbmcgYW4gZXJyX2hkbCBsYWJlbCB0aGF0CmVuc3VyZXMgdjRsMl9jdHJsX2hhbmRs
+ZXJfZnJlZSgpIGlzIGNhbGxlZCBmb3IgYWxsIGVycm9yIHBhdGhzCmFmdGVyIHRoZSBoYW5k
+bGVyIGlzIGluaXRpYWxpemVkLgoKUmVwb3J0ZWQtYnk6IHN5emJvdCthNDFiNzNkY2UyMzk2
+MmE3NGM3MkBzeXprYWxsZXIuYXBwc3BvdG1haWwuY29tCkNsb3NlczogaHR0cHM6Ly9zeXpr
+YWxsZXIuYXBwc3BvdC5jb20vYnVnP2V4dGlkPWE0MWI3M2RjZTIzOTYyYTc0YzcyCkZpeGVz
+OiBmYzM5ZjQ2YjhlODIgKCJbbWVkaWFdIHJhZGlvLWtlZW5lOiBhZGQgYSBkcml2ZXIgZm9y
+IHRoZSBLZWVuZSBGTSBUcmFuc21pdHRlciIpClNpZ25lZC1vZmYtYnk6IFNoYXVyeWEgUmFu
+ZSA8c3NyYW5lX2IyM0BlZS52anRpLmFjLmluPgotLS0KIGRyaXZlcnMvbWVkaWEvcmFkaW8v
+cmFkaW8ta2VlbmUuYyB8IDggKysrKy0tLS0KIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlv
+bnMoKyksIDQgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9yYWRp
+by9yYWRpby1rZWVuZS5jIGIvZHJpdmVycy9tZWRpYS9yYWRpby9yYWRpby1rZWVuZS5jCmlu
+ZGV4IGYzYjU3ZjBjYjFlYy4uODQ5MTZiNWViY2IyIDEwMDY0NAotLS0gYS9kcml2ZXJzL21l
+ZGlhL3JhZGlvL3JhZGlvLWtlZW5lLmMKKysrIGIvZHJpdmVycy9tZWRpYS9yYWRpby9yYWRp
+by1rZWVuZS5jCkBAIC0zMzcsMTQgKzMzNywxMiBAQCBzdGF0aWMgaW50IHVzYl9rZWVuZV9w
+cm9iZShzdHJ1Y3QgdXNiX2ludGVyZmFjZSAqaW50ZiwKIAlyYWRpby0+c3RlcmVvID0gdHJ1
+ZTsKIAlpZiAoaGRsLT5lcnJvcikgewogCQlyZXR2YWwgPSBoZGwtPmVycm9yOwotCi0JCXY0
+bDJfY3RybF9oYW5kbGVyX2ZyZWUoaGRsKTsKLQkJZ290byBlcnJfdjRsMjsKKwkJZ290byBl
+cnJfaGRsOwogCX0KIAlyZXR2YWwgPSB2NGwyX2RldmljZV9yZWdpc3RlcigmaW50Zi0+ZGV2
+LCAmcmFkaW8tPnY0bDJfZGV2KTsKIAlpZiAocmV0dmFsIDwgMCkgewogCQlkZXZfZXJyKCZp
+bnRmLT5kZXYsICJjb3VsZG4ndCByZWdpc3RlciB2NGwyX2RldmljZVxuIik7Ci0JCWdvdG8g
+ZXJyX3Y0bDI7CisJCWdvdG8gZXJyX2hkbDsKIAl9CiAKIAltdXRleF9pbml0KCZyYWRpby0+
+bG9jayk7CkBAIC0zODMsNiArMzgxLDggQEAgc3RhdGljIGludCB1c2Jfa2VlbmVfcHJvYmUo
+c3RydWN0IHVzYl9pbnRlcmZhY2UgKmludGYsCiAKIGVycl92ZGV2OgogCXY0bDJfZGV2aWNl
+X3VucmVnaXN0ZXIoJnJhZGlvLT52NGwyX2Rldik7CitlcnJfaGRsOgorCXY0bDJfY3RybF9o
+YW5kbGVyX2ZyZWUoJnJhZGlvLT5oZGwpOwogZXJyX3Y0bDI6CiAJa2ZyZWUocmFkaW8tPmJ1
+ZmZlcik7CiAJa2ZyZWUocmFkaW8pOwotLSAKMi4zNC4xCgo=
 
-> So you actually can't issue any new IO which might block the unmap operation.
-> 
->>
->> sg_table = map_attach()         |
->> move_notify()                   |
->>    -> add_fence(fence)           |
->>                                  | issue_IO(sg_table)
->>                                  | // IO completed
->> unmap_attachment(sg_table)      |
->> signal_fence(fence)             |
->>
->>> For example once the fence is created you can't make any memory allocations any more, that's why we have this dance of reserving fence slots, creating the fence and then adding it.
->>
->> Looks I have some terminology gap here. By "memory allocations" you
->> don't mean kmalloc, right? I assume it's about new users of the
->> mapping.
-> 
-> kmalloc() as well as get_free_page() is exactly what is meant here.
-> 
-> You can't make any memory allocation any more after creating/publishing a dma_fence.
-
-I see, thanks
-
-> The usually flow is the following:
-> 
-> 1. Lock dma_resv object
-> 2. Prepare I/O operation, make all memory allocations etc...
-> 3. Allocate dma_fence object
-> 4. Push I/O operation to the HW, making sure that you don't allocate memory any more.
-> 5. Call dma_resv_add_fence(with fence allocate in #3).
-> 6. Unlock dma_resv object
-> 
-> If you stride from that you most likely end up in a deadlock sooner or later.
--- 
-Pavel Begunkov
-
+--------------tqFVRas0Am0gERKk0yPf60YQ--
 
