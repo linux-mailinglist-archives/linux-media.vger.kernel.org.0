@@ -1,90 +1,99 @@
-Return-Path: <linux-media+bounces-47722-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47723-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2AEAC873AE
-	for <lists+linux-media@lfdr.de>; Tue, 25 Nov 2025 22:29:26 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B88FC8774B
+	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 00:24:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8DEC94E36F2
-	for <lists+linux-media@lfdr.de>; Tue, 25 Nov 2025 21:29:21 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id CF13135150D
+	for <lists+linux-media@lfdr.de>; Tue, 25 Nov 2025 23:24:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00A7D2FD67B;
-	Tue, 25 Nov 2025 21:29:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F6CF2F0C68;
+	Tue, 25 Nov 2025 23:24:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g7nFf9MQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 562AE2264A9
-	for <linux-media@vger.kernel.org>; Tue, 25 Nov 2025 21:29:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D90EE232785;
+	Tue, 25 Nov 2025 23:24:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764106149; cv=none; b=LmmpskkGEIrPnTPfX5jiz4hEBWzjA0erTt7tzNzHnhFIXox3/V+4GmNhhU53Rv3MPblbekMiLsuetKVRrgxxX77IBUKn33AHpFZnMfG2XQ1Um5doJ49gYVgK4Eqn5O4s7SyuFXvKC2FOBMPspRR0BHLlV0/jEyCeDgVq3aWnPWs=
+	t=1764113082; cv=none; b=S9TxM+hlsYHJOD3JvDsadSckn9FDUpvrZa1bGmp7CKKm+VemeF4OhEbUOp5+OmEILL6xKLB3sGf8W9fRzxMLbxVNi6ixAujrpY8Edu/cSQ93eHCvaYgtU1RZQVy86Zrs4F+PnT9rgaKA5OU7/KvhlUQ+ar3O1b03BP2Qb0QXA3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764106149; c=relaxed/simple;
-	bh=Zdpii0LSGFDbxKbo7AhO4oOhZM3qOinDvvZATCa/Sow=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=EIHitWALl18lgB3wNduGxvDp8jmUoxwlAogUcoZrHQNVjQfq3SnRznIs6r+d3VOxOj6CJn1YOKyXRvHOEvix9Z0G2JAmRoDURVNt4QjzfJiVWdTsmQOAFOFS52OjTkILJmYXuDwqikapDn5TSFdrttWGlceO2l5Wvi1KpR5/bPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-4330ead8432so53780455ab.0
-        for <linux-media@vger.kernel.org>; Tue, 25 Nov 2025 13:29:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764106146; x=1764710946;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dHAA01S5qV0ahBi2iQTagcMAT0dAavilbuefhw3nVeE=;
-        b=dHgliixK5KvaeNrXhlwFWxQjLTwLRH2fgD5M+st+Cufn5AkEPUW/nfrd6ILDAJun09
-         jbPOlAvM3UpCx/dsq44+NUyDhuKwcas0OnguySANe7X/hb65K4HvH7ZqZ0G1UHZOCDSF
-         qRsRIylz9wYsAkxG85vVlZIxa5L4bfXT5xb1v6dmprPuxW9nrTp610LK0oU/ClGWMNGV
-         8AaYVU7vH2+xzT8hlH2BxMuwoYbdvDi/ahQhQxeH8jgepAsNyotmk+W7R42IFq+Y3uQU
-         MhCYA5JfUAI2bZRIYHJ0yJQ65/7kul19YmhQwJnVC7Q3hCbtTpqzKwdRVPAlgMKlbVAI
-         Lsfg==
-X-Forwarded-Encrypted: i=1; AJvYcCWx2K/OBKSap4POYZD+gfYnmFDdE5nD4hMwlDi9jlq0GZejNIwqKhen2WRAUnSl31Yrx84LOxME6lL/og==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDGs3/Jr+fDXW8ndX27ILt2U+6sknfFZItJHYNsXnPjXPpGgRD
-	8XgVd/vZSqn5Y6apGpTDn+Q8r1qXPk4WqEXEhupqaLVnwO9Blmac6zMEk8K0oSZfvSJFwOo7ojR
-	bddhd3vtm4b49UTxqjzeE99SP3GlRHzZ8kwnQUGlDSJwnXdVWxfBs9mTcCBA=
-X-Google-Smtp-Source: AGHT+IEi9qrOcWMQCAiUQzBf4+A5vGHRO1b2ucfssRVjfdWi9zJVJjB4av6fs55BrITFZw6Lh6vw2CNLFtVAwSAiUL6CLrVek4P8
+	s=arc-20240116; t=1764113082; c=relaxed/simple;
+	bh=U/erlr2rlFOjCA245qufrp4kvf5z/BfajqGnUCclX1M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sVzddIG+W7YZeKDL7gwgtXCUAomt73H1JCOBNW/+1+vyvFmu4v9NailaYx4Pzns3FNyt8Xq7UENB0h7zjyh7DkcCzuKtJpn1P3vzuk86rym8QpvRCv0AlqYS17/UeAGbhfI1E8br5h4ew35EfP+cqPLjHcUSvp5j5EeAr2c3F1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g7nFf9MQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 353E0C4CEF1;
+	Tue, 25 Nov 2025 23:24:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764113082;
+	bh=U/erlr2rlFOjCA245qufrp4kvf5z/BfajqGnUCclX1M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=g7nFf9MQYUody1di+VBbmSA7wphjmsemPUJ1gc5WeAgS+KzHslnYNtxFFC0YWjU81
+	 4Dibb6IVzBNIHXNCRsHVeGjSDxitbXqmDzCwn7L2s/38RdCtGPQU5/+kT4xjlFCWUn
+	 DzpjfQn/IgOrIrQ7CIf2uA5p/BImr/dXBNFB5jFg/2cre7CpK7SVDiJGisq+sPsM6+
+	 UAKPz+hRJDSl2hsko9BdtUYuRXg2S3AFPOH6NLmWOJpHD+TETptB1wM40nVpCHd81e
+	 W94n8a77zhTTReBB5OlLXUWNQxGUvClHjxmuXdKQwtY89+VqoBK1fnEz9VSLCQxPiP
+	 GxBmcdAoT0zwg==
+Date: Tue, 25 Nov 2025 16:24:38 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, Josh Poimboeuf <jpoimboe@kernel.org>,
+	Ingo Molnar <mingo@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/1] media: ccs: Avoid possible division by zero
+Message-ID: <20251125232438.GA193422@ax162>
+References: <20251124184441.GB1084995@ax162>
+ <20251124230045.3188417-1-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1561:b0:434:96ea:ff59 with SMTP id
- e9e14a558f8ab-435dd1254d7mr36666915ab.34.1764106146615; Tue, 25 Nov 2025
- 13:29:06 -0800 (PST)
-Date: Tue, 25 Nov 2025 13:29:06 -0800
-In-Reply-To: <50389e6f-a379-44cd-a18b-ded86d0b9f7e@gmail.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69261fa2.a70a0220.d98e3.00be.GAE@google.com>
-Subject: Re: [syzbot] [media?] [usb?] memory leak in v4l2_ctrl_handler_init_class
- (2)
-From: syzbot <syzbot+a41b73dce23962a74c72@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-usb@vger.kernel.org, ssranevjti@gmail.com, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251124230045.3188417-1-sakari.ailus@linux.intel.com>
 
-Hello,
+On Tue, Nov 25, 2025 at 01:00:45AM +0200, Sakari Ailus wrote:
+> Calculating maximum M for scaler configuration involves dividing by
+> MIN_X_OUTPUT_SIZE limit register's value. Albeit the value is presumably
+> non-zero, the driver was missing the check it in fact was. Fix this.
+> 
+> Reported-by: Josh Poimboeuf <jpoimboe@kernel.org>
+> Closes: https://lore.kernel.org/all/ahukd6b3wonye3zgtptvwzvrxldcruazs2exfvll6etjhmcxyj@vq3eh6pd375b/
+> Fixes: ccfc97bdb5ae ("[media] smiapp: Add driver")
+> Cc: stable@vger.kernel.org # for 5.15 and later
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
 
-syzbot has tested the proposed patch and the reproducer did not trigger any issue:
+This clears up the objtool warning for me.
 
-Reported-by: syzbot+a41b73dce23962a74c72@syzkaller.appspotmail.com
-Tested-by: syzbot+a41b73dce23962a74c72@syzkaller.appspotmail.com
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+Tested-by: Nathan Chancellor <nathan@kernel.org> # build
 
-Tested on:
-
-commit:         30f09200 Merge tag 'arm64-fixes' of git://git.kernel.o..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=16d25612580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=f30cc590c4f6da44
-dashboard link: https://syzkaller.appspot.com/bug?extid=a41b73dce23962a74c72
-compiler:       gcc (Debian 12.2.0-14+deb12u1) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=1099cf42580000
-
-Note: testing is done by a robot and is best-effort only.
+>  drivers/media/i2c/ccs/ccs-core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
+> index f8523140784c..dadff8c50679 100644
+> --- a/drivers/media/i2c/ccs/ccs-core.c
+> +++ b/drivers/media/i2c/ccs/ccs-core.c
+> @@ -2346,7 +2346,7 @@ static void ccs_set_compose_scaler(struct v4l2_subdev *subdev,
+>  		* CCS_LIM(sensor, SCALER_N_MIN) / sel->r.height;
+>  	max_m = crops[CCS_PAD_SINK]->width
+>  		* CCS_LIM(sensor, SCALER_N_MIN)
+> -		/ CCS_LIM(sensor, MIN_X_OUTPUT_SIZE);
+> +		/ (CCS_LIM(sensor, MIN_X_OUTPUT_SIZE) ?: 1);
+>  
+>  	a = clamp(a, CCS_LIM(sensor, SCALER_M_MIN),
+>  		  CCS_LIM(sensor, SCALER_M_MAX));
+> -- 
+> 2.47.3
+> 
 
