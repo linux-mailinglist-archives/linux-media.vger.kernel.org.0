@@ -1,152 +1,133 @@
-Return-Path: <linux-media+bounces-47764-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47765-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C2CFC8A380
-	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 15:12:29 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED063C8AACB
+	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 16:35:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 71BCB3AE988
-	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 14:10:29 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A2A714ECF83
+	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 15:34:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E74492FF66D;
-	Wed, 26 Nov 2025 14:09:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9A6633A6E6;
+	Wed, 26 Nov 2025 15:34:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="PE/GCtNF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="exZ223Hw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 874AF2DF145;
-	Wed, 26 Nov 2025 14:09:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6119D33A003;
+	Wed, 26 Nov 2025 15:34:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764166189; cv=none; b=dOMs+7ITvZLLYmcmwycxN8fFIB9xx23Z92+43EwAftPbayAR1Aa6TcUWa/OrGA5w/OpBOpcSh69iO6QkkVWB1gOxgkyR2IKcxECG2Y9BSlIe/MhJOq0hFuW3U5pTp5wOwUetNaTHD1vrm2q0jdOeOMDZEh/bwt1QI9/1jsYb958=
+	t=1764171264; cv=none; b=p3IqjZWFGz86o9tv8L07/uSlnNY2mn9rVbGsP8HaPUUaru1L98KF0Cr72bwC03EK+oXds8Wk3AqmEckGWBXphTQFQAbOTC9RTkt+ojLn5+b9CyppfQX/CELs/hBxCF4NxMkXtYJwidB4+f3w7TXGhi1WbQIO0pw0X9xAdaXgIyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764166189; c=relaxed/simple;
-	bh=DmRHcXHYF1BHpb8VfMZZq6dar989WGMZcrYiKm4u1P4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=aEcROgd8K5Q2LTuFH2PyOKXK+wcSdTDK8dS4hOwsZTs0Zqk6mcPjT0kHmQKPynqpeP8VjjrjttQIco90MhthBxw8I18O1dO3fJg4Xh9UnB0ppIE3ydi70tVUPoKSslJhKjhFIqnoeXF4sa7UZAvJY9QaMVYqoSeklQumsccymCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=PE/GCtNF; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4dGhJf3tP1z9tcd;
-	Wed, 26 Nov 2025 15:09:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1764166178; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DmRHcXHYF1BHpb8VfMZZq6dar989WGMZcrYiKm4u1P4=;
-	b=PE/GCtNFXUhbjzXJdWR/gD4m00NSINuH49EL55fKe7aGFUYC4Ge/PJf2Ma4cBbhjTKNffz
-	2+z9XS0g/j0UO8gNWoHsABYoMxn+fw4dgv2jLNU0+IMV7GNFw0sMUVA0ts9KFjzP5/Ax58
-	+GOEkRpMlv5VeHhX6w+bpMlRzQyW74iUlKtsK55fUO/oBriC4hYyV6B2dHx8sBN7GynYxv
-	tRCctxkqNU0DvqURQ+i6raZDUFihHqWeJQd7mQLFA5VG4mqWgUaK9vo9gNqwrpzEYZL7QA
-	BI+K9rzzkLvUQbN8xFGbt4lovABNKLUakNT+E9q9ZNwqWxClbUY8RPelnfWfWw==
-Message-ID: <f74664fdf1cf0adba9a8b19b00db4823ee3f7f1b.camel@mailbox.org>
-Subject: Re: [PATCH 0/6] dma-fence: Remove return code of dma_fence_signal()
- et al.
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Philipp
- Stanner <phasta@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>, Felix Kuehling
- <Felix.Kuehling@amd.com>, Alex Deucher <alexander.deucher@amd.com>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,  Matthew Brost
- <matthew.brost@intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Lucas De Marchi
- <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
- <thomas.hellstrom@linux.intel.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
-	amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
-	intel-xe@lists.freedesktop.org, rust-for-linux@vger.kernel.org
-Date: Wed, 26 Nov 2025 15:09:26 +0100
-In-Reply-To: <48352d7e-5e43-4683-9f00-b77ae571d8f6@amd.com>
-References: <20251126131914.149445-2-phasta@kernel.org>
-	 <48352d7e-5e43-4683-9f00-b77ae571d8f6@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1764171264; c=relaxed/simple;
+	bh=CCug/MBOMnHF2yMXUk/0NXt665eJWKaxeq4tP0rPVE8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Q6FdwLqCKGTUEyqys+D6pXTGN7JUo8z06NYVwZ+Wr4N6wvcIRAqiAt2YXW24XWlzBuf5XyMKF4x9UT4WkkKRWrsVoAZUb2rb/2yl1lQuGPGzDd7Q2nuERLPrr1K5E0BJKFK1jM/Oqu8ls2FqfqrCH1WMQqLBgRV+w7S3enTFHqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=exZ223Hw; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764171262; x=1795707262;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=CCug/MBOMnHF2yMXUk/0NXt665eJWKaxeq4tP0rPVE8=;
+  b=exZ223Hw07yNJKukwCw8799oJHdPUHOJYvfveCujWvi+gp9uReBfnq+b
+   dZKyeyUrEGsqEGYPtAXrrDC5dFGOFSOR4O7qKgroFA33LIUiv4Xhyl0aY
+   0GaDPLiHneRIAlzkwylCN91BeHf4EsPjkpvqrWt4jnEZJysStiQaOJ7UW
+   0ZYbVZrKnbd1kO5lfOtXE52QB4VXBbhtZK9hhj8H7lL5PpH5U3b6tWcfY
+   9rS8dXahEoygFwxKVDgiu7Yh46ppN9kKEnQK1SvHu8DdSUpGpeVdLEf+N
+   L7q4K/nIIo8JIl1u8Vu0yiHT23rR7WlFV5H8c0XzPWpFtSfHX21911t/2
+   g==;
+X-CSE-ConnectionGUID: o+MIKUsxSRO9shnV9ssikA==
+X-CSE-MsgGUID: KoG/9HDuSXS54YqHxEOIVw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="77684742"
+X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; 
+   d="scan'208";a="77684742"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 07:34:21 -0800
+X-CSE-ConnectionGUID: scrlhLSzSdSsZostakmPdA==
+X-CSE-MsgGUID: By7fM+D4Ska02rjESYC85Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; 
+   d="scan'208";a="216326569"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO [10.245.245.178]) ([10.245.245.178])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 07:34:19 -0800
+Message-ID: <7346d42b-3ad7-4170-900f-73d8ed356f71@linux.intel.com>
+Date: Wed, 26 Nov 2025 16:34:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-ID: 9184d60e51ec9d03be1
-X-MBO-RS-META: ppa4nssdwpc8dthds1b9du1r4cc734jt
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 19/28] drm/ttm: rework pipelined eviction fence
+ handling
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20251121101315.3585-1-pierre-eric.pelloux-prayer@amd.com>
+ <20251121101315.3585-20-pierre-eric.pelloux-prayer@amd.com>
+ <414584f0-3fdb-41e2-aa26-3776dc514184@amd.com>
+Content-Language: en-US
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In-Reply-To: <414584f0-3fdb-41e2-aa26-3776dc514184@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2025-11-26 at 15:02 +0100, Christian K=C3=B6nig wrote:
-> On 11/26/25 14:19, Philipp Stanner wrote:
-> > Barely anyone uses dma_fence_signal()'s (and similar functions') return
-> > code. Checking it is pretty much useless anyways, because what are you
-> > going to do if a fence was already signal it? Unsignal it and signal it
-> > again? ;p
->=20
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com> for the enti=
-re series.
->=20
-> Please push to drm-misc-next or leave me a note when I should pick it up.
+Hey,
 
-Thx! I can push it. Let's wait a while to see if some of the other
-folks have sth to say.
+Den 2025-11-21 kl. 16:12, skrev Christian König:
+> On 11/21/25 11:12, Pierre-Eric Pelloux-Prayer wrote:
+>> Until now ttm stored a single pipelined eviction fence which means
+>> drivers had to use a single entity for these evictions.
+>>
+>> To lift this requirement, this commit allows up to 8 entities to
+>> be used.
+>>
+>> Ideally a dma_resv object would have been used as a container of
+>> the eviction fences, but the locking rules makes it complex.
+>> dma_resv all have the same ww_class, which means "Attempting to
+>> lock more mutexes after ww_acquire_done." is an error.
+>>
+>> One alternative considered was to introduced a 2nd ww_class for
+>> specific resv to hold a single "transient" lock (= the resv lock
+>> would only be held for a short period, without taking any other
+>> locks).
+>>
+>> The other option, is to statically reserve a fence array, and
+>> extend the existing code to deal with N fences, instead of 1.
+>>
+>> The driver is still responsible to reserve the correct number
+>> of fence slots.
+>>
+>> ---
+>> v2:
+>> - simplified code
+>> - dropped n_fences
+>> - name changes
+>> v3: use ttm_resource_manager_cleanup
+>> ---
+>>
+>> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+> 
+> Reviewed-by: Christian König <christian.koenig@amd.com>
+> 
+> Going to push separately to drm-misc-next on Monday.
+> 
+Pushing this broke drm-tip, the amd driver fails to build, as it's not using the eviction_fences array.
 
->=20
-> > Removing the return code simplifies the API and makes it easier for me
-> > to sit on top with Rust DmaFence.
->=20
-> BTW, I have an rb for embedding the lock and I'm now writing test cases.
->=20
-> When that is done you should be able to base the Rust DmaFence abstractio=
-n on that as well.
-
-Yeah, thank you, that will actually help since I was in the process of
-solving the same life time issues in Rust.
-
-I will give your series a review ~tomorrow, too. Or should I wait for
-v4 with the tests?
-
-P.
-
->=20
-> Regards,
-> Christian.
->=20
-> >=20
-> > Philipp Stanner (6):
-> > =C2=A0 dma-buf/dma-fence: Add dma_fence_test_signaled_flag()
-> > =C2=A0 amd/amdkfd: Ignore return code of dma_fence_signal()
-> > =C2=A0 drm/gpu/xe: Ignore dma_fenc_signal() return code
-> > =C2=A0 dma-buf: Don't misuse dma_fence_signal()
-> > =C2=A0 drm/ttm: Remove return check of dma_fence_signal()
-> > =C2=A0 dma-buf/dma-fence: Remove return code of signaling-functions
-> >=20
-> > =C2=A0drivers/dma-buf/dma-fence.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | =
-59 ++++++-------------
-> > =C2=A0drivers/dma-buf/st-dma-fence.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 7 +--
-> > =C2=A0drivers/gpu/drm/amd/amdkfd/kfd_process.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 |=C2=A0 5 +-
-> > =C2=A0.../gpu/drm/ttm/tests/ttm_bo_validate_test.c=C2=A0 |=C2=A0 3 +-
-> > =C2=A0drivers/gpu/drm/xe/xe_hw_fence.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 5 +-
-> > =C2=A0include/linux/dma-fence.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 | 33 ++++++++---
-> > =C2=A06 files changed, 53 insertions(+), 59 deletions(-)
-> >=20
->=20
-
+Kind regards,
+~Maarten Lankhorst
 
