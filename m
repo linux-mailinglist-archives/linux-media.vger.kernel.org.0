@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-47756-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47757-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60447C89F96
-	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 14:20:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 466EDC89FAB
+	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 14:20:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 81F1A4E5B56
-	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 13:20:27 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D58C64E4A1F
+	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 13:20:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E29A325700;
-	Wed, 26 Nov 2025 13:20:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C56FA32861A;
+	Wed, 26 Nov 2025 13:20:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bg/rra/0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R6nsMVaK"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C06D826D4F9;
-	Wed, 26 Nov 2025 13:20:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2162626D4F9;
+	Wed, 26 Nov 2025 13:20:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764163209; cv=none; b=Y3F+NTfK6qDAOcnqAmYz1OXKgKXh3avqgwZXym4zOYWlaxPap+ZPxFOUYLz08FG8EiieQZpfb8CERFlJxyrGONVJK2XkWjP7QbJvZQWgT2GMoJzCoJg+trdW/Kpi0rmuA03GJfXGg5lj2yBuOhhFBJZUjZ42A/M/+S80I1SJCWA=
+	t=1764163215; cv=none; b=shYJGY6qJjApLucoDRA8WJwM633fXqRtcuGYc6cHicPG+iqioUxs5S3MSfZQNcDuwHSTM/kdl2fsTlvcqI/yUI8ptnQgslnvMq2wF8/0RerNaw/Cp5XCUq+iI92NEvaggmPX9MHk3GhK5R6nceTV9F/nhEoWmK8DzvMC5rbACAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764163209; c=relaxed/simple;
-	bh=KbS42U1qFlYFL5sleuJnRbKXaGff7v361nDoJWGgUJc=;
+	s=arc-20240116; t=1764163215; c=relaxed/simple;
+	bh=ltdOJycY3sDDX0uPBNfRJ/CZ9LopyY+2sk6yZsVKKWQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bm3OG3grp93BoIs+KVbquDnXjgFGUjLIPJmNQCbIOOcXGYK4LGv7Ya1IY0LB8JxhXTsY4Outo5zp3vld7qJ8Yi3XPrI7eDjNj/J82Q0sT1S7BrrheOGET31K5+KnHACT8WsVfkp2uB+Vc5UPOB/6JzjufTAUGx99ZEIitaxeG1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bg/rra/0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BD03C116B1;
-	Wed, 26 Nov 2025 13:20:01 +0000 (UTC)
+	 MIME-Version:Content-Type; b=Vs2CBAXgufvyTXha49ldhGbya4NMHbzjU6ljp9nVPuXoBTZo/dhKpw4Mi0RpJW0Ka+tqtUpJHaifSDF1ZAe7nKyliLehdhK4bn5MCBSyHnCtRYOn/yuSmNKmFKT0aefRSRhjcA13v0yxEQumI+2u5sjUbZ0VIk83DBKM+wEPtsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R6nsMVaK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC226C116C6;
+	Wed, 26 Nov 2025 13:20:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764163208;
-	bh=KbS42U1qFlYFL5sleuJnRbKXaGff7v361nDoJWGgUJc=;
+	s=k20201202; t=1764163214;
+	bh=ltdOJycY3sDDX0uPBNfRJ/CZ9LopyY+2sk6yZsVKKWQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bg/rra/0CVDd38GC+JM3UPYJMGAtWN6a2xKH5FHkwEKvc4UK8v9gdVQz4nEMq4VU1
-	 retBOj2Xy0M0UTUvbhGqfazajUowYQ6uVv/WHzEQg2uoFc+Z8GUbglEIowKIBDKM+H
-	 yUI8DvjgoRw2Dwz2WgAyoDQDCjziDkXyG+ekwhtPLtuYYGjcGmQIXx0fiSMk/mfXpI
-	 MGUn9Bo9HTGWjLl9GCh1pDocnWuQ5lU13TgZ5mQPGzzUh2pUzBVuk/RoAACdZdiun3
-	 OqkujnIQo7bixifkEvnxzq7a2mlIC26vbwJNL8YXyP7oiOkovBBYX5BxIEnEeeFRKo
-	 k7t2S97/02ArA==
+	b=R6nsMVaKLj1Y2h5Ioo+V9XAsLOzvKmNbMLQ0j3D2jrrzIzb0TDhhOI/B4NIt5txT2
+	 3RvDpCssxHjcZwqL1cwsyYUsScnL2b6bir3kVh4XMRms0Sa6w7LYpVyjQaB5I32zhd
+	 WXB9sJhr4m7EaQkVjZXI/Y3zCbWLisj54C1CyG6fyXzz+mIUpSbTaIHiJeccZ105H9
+	 5N7cA9lI9CuUL0hXYElx9TpWe86JRCBbmEQpC0+UxQGxRohhECN/otmgwoycbH5sLG
+	 PxtJvcM3npDalTTZdtJENGNZ3y3zfy5qTUglAcdgefDlZUx1KFYFLclOX1DDbd8Ic4
+	 5l6r0aJjXAolg==
 From: Philipp Stanner <phasta@kernel.org>
 To: Sumit Semwal <sumit.semwal@linaro.org>,
 	Gustavo Padovan <gustavo@padovan.org>,
@@ -69,11 +69,10 @@ Cc: linux-media@vger.kernel.org,
 	intel-gfx@lists.freedesktop.org,
 	intel-xe@lists.freedesktop.org,
 	rust-for-linux@vger.kernel.org,
-	Philipp Stanner <phasta@kernel.org>,
-	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Subject: [PATCH 1/6] dma-buf/dma-fence: Add dma_fence_test_signaled_flag()
-Date: Wed, 26 Nov 2025 14:19:10 +0100
-Message-ID: <20251126131914.149445-3-phasta@kernel.org>
+	Philipp Stanner <phasta@kernel.org>
+Subject: [PATCH 2/6] amd/amdkfd: Ignore return code of dma_fence_signal()
+Date: Wed, 26 Nov 2025 14:19:11 +0100
+Message-ID: <20251126131914.149445-4-phasta@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20251126131914.149445-2-phasta@kernel.org>
 References: <20251126131914.149445-2-phasta@kernel.org>
@@ -83,157 +82,46 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The dma_fence framework checks at many places whether the signaled flag
-of a fence is already set. The code can be simplified and made more
-readable by providing a helper function for that.
+The return code of dma_fence_signal() is not really useful as there is
+nothing reasonable to do if a fence was already signaled. That return
+code shall be removed from the kernel.
 
-Add dma_fence_test_signaled_flag(), which only checks whether a fence is
-signaled. Use it internally.
+Ignore dma_fence_signal()'s return code.
 
-Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Suggested-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Philipp Stanner <phasta@kernel.org>
 ---
- drivers/dma-buf/dma-fence.c | 19 +++++++++----------
- include/linux/dma-fence.h   | 24 ++++++++++++++++++++++--
- 2 files changed, 31 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/amd/amdkfd/kfd_process.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index 39e6f93dc310..25117a906846 100644
---- a/drivers/dma-buf/dma-fence.c
-+++ b/drivers/dma-buf/dma-fence.c
-@@ -372,8 +372,7 @@ int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+index ddfe30c13e9d..950fafa4b3c3 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+@@ -1986,7 +1986,6 @@ kfd_process_gpuid_from_node(struct kfd_process *p, struct kfd_node *node,
+ static int signal_eviction_fence(struct kfd_process *p)
+ {
+ 	struct dma_fence *ef;
+-	int ret;
  
- 	lockdep_assert_held(fence->lock);
- 
--	if (unlikely(test_and_set_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
--				      &fence->flags)))
-+	if (unlikely(dma_fence_test_signaled_flag(fence)))
+ 	rcu_read_lock();
+ 	ef = dma_fence_get_rcu_safe(&p->ef);
+@@ -1994,10 +1993,10 @@ static int signal_eviction_fence(struct kfd_process *p)
+ 	if (!ef)
  		return -EINVAL;
  
- 	/* Stash the cb_list before replacing it with the timestamp */
-@@ -545,7 +544,7 @@ void dma_fence_release(struct kref *kref)
- 	trace_dma_fence_destroy(fence);
+-	ret = dma_fence_signal(ef);
++	dma_fence_signal(ef);
+ 	dma_fence_put(ef);
  
- 	if (!list_empty(&fence->cb_list) &&
--	    !test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags)) {
-+	    !dma_fence_test_signaled_flag(fence)) {
- 		const char __rcu *timeline;
- 		const char __rcu *driver;
- 		unsigned long flags;
-@@ -602,7 +601,7 @@ static bool __dma_fence_enable_signaling(struct dma_fence *fence)
- 	was_set = test_and_set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
- 				   &fence->flags);
+-	return ret;
++	return 0;
+ }
  
--	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-+	if (dma_fence_test_signaled_flag(fence))
- 		return false;
- 
- 	if (!was_set && fence->ops->enable_signaling) {
-@@ -666,7 +665,7 @@ int dma_fence_add_callback(struct dma_fence *fence, struct dma_fence_cb *cb,
- 	if (WARN_ON(!fence || !func))
- 		return -EINVAL;
- 
--	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags)) {
-+	if (dma_fence_test_signaled_flag(fence)) {
- 		INIT_LIST_HEAD(&cb->node);
- 		return -ENOENT;
- 	}
-@@ -783,7 +782,7 @@ dma_fence_default_wait(struct dma_fence *fence, bool intr, signed long timeout)
- 
- 	spin_lock_irqsave(fence->lock, flags);
- 
--	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-+	if (dma_fence_test_signaled_flag(fence))
- 		goto out;
- 
- 	if (intr && signal_pending(current)) {
-@@ -800,7 +799,7 @@ dma_fence_default_wait(struct dma_fence *fence, bool intr, signed long timeout)
- 	cb.task = current;
- 	list_add(&cb.base.node, &fence->cb_list);
- 
--	while (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags) && ret > 0) {
-+	while (!dma_fence_test_signaled_flag(fence) && ret > 0) {
- 		if (intr)
- 			__set_current_state(TASK_INTERRUPTIBLE);
- 		else
-@@ -832,7 +831,7 @@ dma_fence_test_signaled_any(struct dma_fence **fences, uint32_t count,
- 
- 	for (i = 0; i < count; ++i) {
- 		struct dma_fence *fence = fences[i];
--		if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags)) {
-+		if (dma_fence_test_signaled_flag(fence)) {
- 			if (idx)
- 				*idx = i;
- 			return true;
-@@ -1108,7 +1107,7 @@ const char __rcu *dma_fence_driver_name(struct dma_fence *fence)
- 	RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
- 			 "RCU protection is required for safe access to returned string");
- 
--	if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-+	if (!dma_fence_test_signaled_flag(fence))
- 		return fence->ops->get_driver_name(fence);
- 	else
- 		return "detached-driver";
-@@ -1140,7 +1139,7 @@ const char __rcu *dma_fence_timeline_name(struct dma_fence *fence)
- 	RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
- 			 "RCU protection is required for safe access to returned string");
- 
--	if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-+	if (!dma_fence_test_signaled_flag(fence))
- 		return fence->ops->get_timeline_name(fence);
- 	else
- 		return "signaled-timeline";
-diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-index 64639e104110..19972f5d176f 100644
---- a/include/linux/dma-fence.h
-+++ b/include/linux/dma-fence.h
-@@ -401,6 +401,26 @@ void dma_fence_enable_sw_signaling(struct dma_fence *fence);
- const char __rcu *dma_fence_driver_name(struct dma_fence *fence);
- const char __rcu *dma_fence_timeline_name(struct dma_fence *fence);
- 
-+/*
-+ * dma_fence_test_signaled_flag - Only check whether a fence is signaled yet.
-+ * @fence: the fence to check
-+ *
-+ * This function just checks whether @fence is signaled, without interacting
-+ * with the fence in any way. The user must, therefore, ensure through other
-+ * means that fences get signaled eventually.
-+ *
-+ * This function uses test_bit(), which is thread-safe. Naturally, this function
-+ * should be used opportunistically; a fence could get signaled at any moment
-+ * after the check is done.
-+ *
-+ * Return: true if signaled, false otherwise.
-+ */
-+static inline bool
-+dma_fence_test_signaled_flag(struct dma_fence *fence)
-+{
-+	return test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags);
-+}
-+
- /**
-  * dma_fence_is_signaled_locked - Return an indication if the fence
-  *                                is signaled yet.
-@@ -418,7 +438,7 @@ const char __rcu *dma_fence_timeline_name(struct dma_fence *fence);
- static inline bool
- dma_fence_is_signaled_locked(struct dma_fence *fence)
- {
--	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-+	if (dma_fence_test_signaled_flag(fence))
- 		return true;
- 
- 	if (fence->ops->signaled && fence->ops->signaled(fence)) {
-@@ -448,7 +468,7 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
- static inline bool
- dma_fence_is_signaled(struct dma_fence *fence)
- {
--	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-+	if (dma_fence_test_signaled_flag(fence))
- 		return true;
- 
- 	if (fence->ops->signaled && fence->ops->signaled(fence)) {
+ static void evict_process_worker(struct work_struct *work)
 -- 
 2.49.0
 
