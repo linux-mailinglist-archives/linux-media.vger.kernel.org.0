@@ -1,130 +1,143 @@
-Return-Path: <linux-media+bounces-47741-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47742-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9690CC88CDF
-	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 09:59:07 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7286BC88DA6
+	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 10:07:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3E237351817
-	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 08:59:07 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 784054EB884
+	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 09:06:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FB3331AF15;
-	Wed, 26 Nov 2025 08:59:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D11F31A56C;
+	Wed, 26 Nov 2025 09:06:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="faarhEay"
+	dkim=pass (1024-bit key) header.d=rosa.ru header.i=@rosa.ru header.b="aeR4UvF+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from forward202b.mail.yandex.net (forward202b.mail.yandex.net [178.154.239.155])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D95A12C11F8
-	for <linux-media@vger.kernel.org>; Wed, 26 Nov 2025 08:58:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD0E30BF74;
+	Wed, 26 Nov 2025 09:06:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764147541; cv=none; b=Q1Ye5pRjzFzR5VtpuImqNKrfkASEtFZV5z0d9+q+bLlah5fJMMZmXaOR3MRrNla1djqHZdbEeA9N82dh0bwowfMKBTf/qZaMFDgoQdrqERW9rEeP8uebAxf102wibx3gr4LTt8j8KYOIqnb/QxAPig5Usp/6dHFc4ge661vD0Fg=
+	t=1764147968; cv=none; b=Ur144X8jUaWI4SZtp5hr+6tD2p+RNnp8y1ZI411ySkxNOHKPuPC7fHmlMSGs0ZtkquH+F3ZvwLsCB9TRAO5QJNc+zvxSVzaFcqqIG6OLdQ/1WtdZWxRiejETNNGSw1SSIjMGvWTsNJ2tiJDlv7D3W2mlARM/b93+RUVguLnuzRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764147541; c=relaxed/simple;
-	bh=nU9T+5BRaB/fG6RWKtMtWKMNEJMLJZh0XG1iyTeeGec=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nVm63MKbcCJNBvnAFehVbtn7tZydKBam0ZVAg2RxTgTcFPZ15tMITAc0vU5qnx1Vf141L/RjtWGzpCIYgIsEWme7wjtgkSol1c/3cs41FdxqQIlMu31LB4OlEdpTEiiC5OPdWjp8Td9kOYRw4VhUVbYk/L0axBLPo+LzZIrzW2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=faarhEay; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-42b427cda88so4347037f8f.0
-        for <linux-media@vger.kernel.org>; Wed, 26 Nov 2025 00:58:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1764147538; x=1764752338; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/42H8lhYTk9A336jJOzqFf4ArqhwdfQJRSwAMTmYgKw=;
-        b=faarhEayto4ghep1tOnl20UpBjexmnHOVnmxXLl3q7YnaBHo57suwzR+jobYILlhbW
-         vjvuTt0doFCVqQVYZ99A5aZsxDVGJV/W3xf4plFJjwGJqVCgwQoP28yBdMkXHn0hmITq
-         PqrDqdSa8TJz9WvkEhqzkj+McyOXLLBY4smijwK+F88/WAG4o2QjatQbvbgXNIbIKwWl
-         1Fn83oIcoE0VqVOmDqsa70d6lYZUlL8G28f7IOg479d1jKCMGclWB2ewE81Q9Zr9s9hI
-         wJDqnxLLTzbHekVBc1deRLlTrb2C4Z2obOFiHBYfJ6y0VTW+QzwYjtOn2VMJGGNuy2bO
-         9oKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764147538; x=1764752338;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/42H8lhYTk9A336jJOzqFf4ArqhwdfQJRSwAMTmYgKw=;
-        b=CtaqcY1zL/peESS0JsDStTETgjAFYsfIF4JAdABhO+zJ2SEZvpzVVNfGEVxtNvmQY8
-         moaw+5WM+MfvhSwbLvqaxCnA2LGOouBw/CBbMTuec82GFj0aiFAaHsYghxNk28hitkA+
-         SmgwtYikE9yw1xhLgTnj/sY4ja89fbDy1THswLWCDFrP/PFAXdWX99Ci1H5NakCPC1d6
-         UDWJvxiSM8J75nYYyLyl48PmTSWHmKZjwXvhqFgFKTUir5NRHDAxHTqzmLa+2SE6jr+U
-         NkYQ6BmB44Pj5p+ld4qiPQfgNxzLlXqucb/P9/QRNuPeo224bpU4LaNUPTfgxX1EiLke
-         KxJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV1SG6Bdt/rqWTYKvXb0LwMJyIALgA2+J5dQXQ0ce2BAQKEz1udiKX/Nas/F8MuNcHvCPm1BVdjRIuvAw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzTQ9HG23nQ+9dxgJtIRkJ+YAKgK1exA4AI6/dyCpTksaFzPP34
-	/FBLLy9gK6kDSGps+06hathPBQgfS/UwoM9Gx1nbPCw22HWkGf8nXDldqK1LwGWEj8k=
-X-Gm-Gg: ASbGncs+HJyTXP8VzQhpIjcDQ8DT+lBLkSfCJ1JBKUXCuhVNCDMXu9nNN73bqkmIc1a
-	3O6wjoY5PiYwKicBl8nzPBrOsZGKuErd84gDEDxWhhMxdpx/RWZDJY8rM1qrdb0T0949PpxDGcj
-	FdfbuhvOd7gqlBc+Bd7wBXHEQ7sJiPznCan4UbFPTZ/loSuxlfsuvQzMYYxn9lSMBqUZIJo1Qi9
-	zKB/vkKVeCj0y7ZUOuJPqKYjmz3hc7vVCIf2H6QPPTCUrKBqHaEg8qtDvEutSgIJUcDm4fwLVqu
-	vA1KfF2itPNSrTOZnewKRO6RgsCIrk9QyK+TuxwEFUkkWDN+iJ6YlcDTV3SqaBi6RGYnAXrb7mk
-	qtSgKZ1GS/16kPWA/NRD2YapwTI9wuyDbaEGLTpGwMhygIzCfGa3Fe/S6WZ+8CIWZGtUCLW2Uc2
-	b5mSgMDe+2QsatfZcZ
-X-Google-Smtp-Source: AGHT+IFv1Ops8n0OeoStz9TaphopQIFsUQ0FZ2Z6R6T+mCfhb8iJ7KwfJE3DEPeRt9VhmuTMP2gI6A==
-X-Received: by 2002:a5d:5848:0:b0:427:8c85:a4ac with SMTP id ffacd0b85a97d-42cc1d0c9d6mr20256329f8f.47.1764147538171;
-        Wed, 26 Nov 2025 00:58:58 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-42cb7fba20esm39223866f8f.37.2025.11.26.00.58.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Nov 2025 00:58:57 -0800 (PST)
-Date: Wed, 26 Nov 2025 11:58:52 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Dharanitharan R <dharanitharan725@gmail.com>
-Cc: thierry.reding@gmail.com, jonathanh@nvidia.com, skomatineni@nvidia.com,
-	luca.ceresoli@bootlin.com, mchehab@kernel.org,
-	gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-	linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] media: tegra: vi: replace devm_kzalloc with kzalloc
- in probe
-Message-ID: <aSbBTPXdk2wXQm7R@stanley.mountain>
-References: <20251126065242.12186-1-dharanitharan725@gmail.com>
+	s=arc-20240116; t=1764147968; c=relaxed/simple;
+	bh=t2D9zTi3yzpM1US3TyIIKlUvKQWN7AbPD6Vsej4C2j8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iXp3ugRnjQxZqhbSWyLG6igPzyZjtmN40susgfPkGFgy0PMpaQw3PEHiwX/2usZtP9sHhnUqGedK+9g6eJOpWoWsYBKLcPmsIwDxEoTb3jqVRXAVbTm0jJluhJSgjPvF/Tf0BVbxZ9c3ce3ebTewnnjr6Ec5SiBvPq7Cx5l1vGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosa.ru; spf=pass smtp.mailfrom=rosa.ru; dkim=pass (1024-bit key) header.d=rosa.ru header.i=@rosa.ru header.b=aeR4UvF+; arc=none smtp.client-ip=178.154.239.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosa.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosa.ru
+Received: from forward100b.mail.yandex.net (forward100b.mail.yandex.net [IPv6:2a02:6b8:c02:900:1:45:d181:d100])
+	by forward202b.mail.yandex.net (Yandex) with ESMTPS id D70ABC6B69;
+	Wed, 26 Nov 2025 12:05:57 +0300 (MSK)
+Received: from mail-nwsmtp-smtp-production-main-60.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-60.sas.yp-c.yandex.net [IPv6:2a02:6b8:c24:25b4:0:640:a124:0])
+	by forward100b.mail.yandex.net (Yandex) with ESMTPS id 9C9FF80AE4;
+	Wed, 26 Nov 2025 12:05:49 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-60.sas.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id k5Z5KF9LtCg0-myeGhbKl;
+	Wed, 26 Nov 2025 12:05:49 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosa.ru; s=mail;
+	t=1764147949; bh=NVaWNxH7aw+f30xafEBllRkp2WBQzlLrZm8JIY4pRms=;
+	h=Message-ID:Date:Cc:Subject:To:From;
+	b=aeR4UvF+6Q6PU7HJ6YhKUZMLb1D/cUmzn6rMov6VRA6lZGkiq/YSIjAmC1BMuNQgf
+	 qPZU9YvIsKACTgSsBFUtmAmYFz5qR7aSmGHIIaxVMuGvcnBAn0J27k8EQGolN49Qm7
+	 nWW26SdR2/kPjoNvGXy0VGq9+/tGJISF9deYo3lE=
+Authentication-Results: mail-nwsmtp-smtp-production-main-60.sas.yp-c.yandex.net; dkim=pass header.i=@rosa.ru
+From: Alexei Safin <a.safin@rosa.ru>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: a.safin@rosa.ru,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	lvc-project@linuxtesting.org,
+	stable@vger.kernel.org
+Subject: [PATCH] media: ipu6: isys: csi2: guard remote pad/subdev and zero link freq
+Date: Wed, 26 Nov 2025 12:05:43 +0300
+Message-ID: <20251126090545.97411-1-a.safin@rosa.ru>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251126065242.12186-1-dharanitharan725@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 26, 2025 at 06:52:42AM +0000, Dharanitharan R wrote:
-> Replace devm_kzalloc() (line 1881) with kzalloc() in tegra_vi_probe()
-> since memory must be freed manually in error paths. Freed via kfree() in
-> rpm_disable, as recommended in the file comment (line 1204).
-> 
+media_pad_remote_pad_first() may return NULL when the media link is absent
+or disabled. The code dereferenced remote_pad->entity unconditionally in
+ipu6_isys_csi2_enable_streams() and ipu6_isys_csi2_disable_streams(),
+leading to a possible NULL dereference.
 
-drivers/staging/media/tegra-video/vi.c
-  1197  static int tegra_vi_channel_alloc(struct tegra_vi *vi, unsigned int port_num,
-  1198                                    struct device_node *node, unsigned int lanes)
-  1199  {
-  1200          struct tegra_vi_channel *chan;
-  1201          unsigned int i;
-  1202  
-  1203          /*
-  1204           * Do not use devm_kzalloc as memory is freed immediately
-  1205           * when device instance is unbound but application might still
-  1206           * be holding the device node open. Channel memory allocated
-  1207           * with kzalloc is freed during video device release callback.
-  1208           */
-  1209          chan = kzalloc(sizeof(*chan), GFP_KERNEL);
-  1210          if (!chan)
-  1211                  return -ENOMEM;
-  1212  
+Guard the remote pad/subdev: in enable path return -ENOLINK/-ENODEV, in
+disable path always shut down the local stream first and return 0 if the
+remote side is missing. This keeps local shutdown semantics intact and
+prevents a crash when the graph is partially torn down.
 
-The comment is specific to "chan".
+Also, ipu6_isys_csi2_calc_timing() passes link_freq into calc_timing()
+where it is used as a divisor. v4l2_get_link_freq() may yield 0; add an
+explicit check and return -EINVAL to avoid division by zero.
 
-Your patch introduces a number of memory leaks and it's not
-correct.
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-regards,
-dan carpenter
+Fixes: 3a5c59ad926b ("media: ipu6: Rework CSI-2 sub-device streaming control")
+Cc: stable@vger.kernel.org
+Signed-off-by: Alexei Safin <a.safin@rosa.ru>
+---
+ drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+index d1fece6210ab..58944918c344 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
++++ b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+@@ -171,6 +171,10 @@ ipu6_isys_csi2_calc_timing(struct ipu6_isys_csi2 *csi2,
+ 	if (link_freq < 0)
+ 		return link_freq;
+ 
++	/* Avoid division by zero in calc_timing() if link frequency is zero */
++	if (!link_freq)
++		return -EINVAL;
++
+ 	timing->ctermen = calc_timing(CSI2_CSI_RX_DLY_CNT_TERMEN_CLANE_A,
+ 				      CSI2_CSI_RX_DLY_CNT_TERMEN_CLANE_B,
+ 				      link_freq, accinv);
+@@ -352,7 +356,12 @@ static int ipu6_isys_csi2_enable_streams(struct v4l2_subdev *sd,
+ 	int ret;
+ 
+ 	remote_pad = media_pad_remote_pad_first(&sd->entity.pads[CSI2_PAD_SINK]);
++	if (!remote_pad)
++		return -ENOLINK;
++
+ 	remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
++	if (!remote_sd)
++		return -ENODEV;
+ 
+ 	sink_streams =
+ 		v4l2_subdev_state_xlate_streams(state, pad, CSI2_PAD_SINK,
+@@ -389,7 +398,16 @@ static int ipu6_isys_csi2_disable_streams(struct v4l2_subdev *sd,
+ 						&streams_mask);
+ 
+ 	remote_pad = media_pad_remote_pad_first(&sd->entity.pads[CSI2_PAD_SINK]);
++	if (!remote_pad) {
++		ipu6_isys_csi2_set_stream(sd, NULL, 0, false);
++		return 0;
++	}
++
+ 	remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
++	if (!remote_sd) {
++		ipu6_isys_csi2_set_stream(sd, NULL, 0, false);
++		return 0;
++	}
+ 
+ 	ipu6_isys_csi2_set_stream(sd, NULL, 0, false);
+ 
+-- 
+2.50.1 (Apple Git-155)
 
 
