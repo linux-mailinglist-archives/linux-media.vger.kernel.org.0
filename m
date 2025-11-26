@@ -1,96 +1,89 @@
-Return-Path: <linux-media+bounces-47780-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47781-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E922C8B832
-	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 20:01:15 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77B24C8B854
+	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 20:04:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id CD2CE359A5E
-	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 19:01:03 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 69F684E123F
+	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 19:04:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E519314B72;
-	Wed, 26 Nov 2025 19:00:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9D003126BC;
+	Wed, 26 Nov 2025 19:04:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UFqwOaoW"
+	dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b="TXG6QltB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680DB2641D8
-	for <linux-media@vger.kernel.org>; Wed, 26 Nov 2025 19:00:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37BE233A033
+	for <linux-media@vger.kernel.org>; Wed, 26 Nov 2025 19:04:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764183658; cv=none; b=lSBxrRr533g7p+LQWxGHqKNpUnZGNhEktfzntCIcolw2bLPGe8jR4ZremJ2+GMauSqGSz0auW3PsDdZ6jeU9LhlFL68PsDNGgVtf/OpUQ4cg9hoVYM9o2BZbkgz2dqDkoYz+v+adwizw5m9J/1a+5fydkC31P9ZSj5H2GI19FpQ=
+	t=1764183868; cv=none; b=WzMoXuG2RYOn59zBwtzt9/c9GcTCbIg1Cj3YiOoVN1kpi3RcAcEq+ZUzYD2QDB+R2ioggrHDIT/LprdZlMEOhJKDUQxgauuCnOPOHtegX9v4FQbA93CuYwQxgo2stOTuO9l4cHQ/H+hki3NYYgO2TCqzMVlulJQbRD59Ls7TVPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764183658; c=relaxed/simple;
-	bh=BGo71SitEPWVhYqtjLnWis5t1q4AdHwCwZUqh2i5jSk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qrtDFM++z5hl9+Oa2zFmkPl2HlRDQKwv21iXNY2UXGzSwpCBVNvwekirm5qFgzrZ4uqTLQ5sxfx8/20yRh8M0YaiuZSivGkw7CIExPetXrJ38yGAHQeR8eyw7tBafc5Do8ukD4ShWnQVZNmn3Xp+8GE63hszA6I1dnsutjtw5mg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UFqwOaoW; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7b90db89b09so6521b3a.0
-        for <linux-media@vger.kernel.org>; Wed, 26 Nov 2025 11:00:57 -0800 (PST)
+	s=arc-20240116; t=1764183868; c=relaxed/simple;
+	bh=TZD2Ey6Z8WvlpW2dfjWUC5ho1c+Z3cypZpbXGhlo5HQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hH98GpSEdEVc8hJ5fVXOpeEpfw4OKFcFe7t9egVae2rpb1gEQ0Vo3O6JQuL5dUmkzYuBkMqepzbHR5VP9/3QSVW128qh8eJxmhdkUbQAVwS8YF+se+DedethBLGaZQaAePsow75du3QDM5lE2TSFWbjC4dLQFyZE16HLRiRh29g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in; spf=none smtp.mailfrom=ee.vjti.ac.in; dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b=TXG6QltB; arc=none smtp.client-ip=209.85.210.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ee.vjti.ac.in
+Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-7b9387df58cso64046b3a.3
+        for <linux-media@vger.kernel.org>; Wed, 26 Nov 2025 11:04:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764183657; x=1764788457; darn=vger.kernel.org;
+        d=vjti.ac.in; s=google; t=1764183865; x=1764788665; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wdAfofPkZqBP7fas8//QaNlK+QG5oYJgN4CCWeJps6o=;
-        b=UFqwOaoW1Wxtaz201C9W7eoxEIMBQ9SqcLC9oRq1PVzLco3dV2Sne1zx8Mj64LRR0x
-         mecmLE7de9TErE5V5HQKUUrUPx3SGXCOyOknHvtv9WT3zWOffxJWuR74CzWuGBSVwLGv
-         DDd6p5zdDyqZLm712ZZ76IQIl7ww0Bda62lDeg657I0iq+tilfGtfFYhAPQa2IpGmfh4
-         l/o0gakDEMhKfib2E20gcXn1jZkcOC/fmhjkcX4F726vq40vQw9R4MQBP9yUlNKTFW+h
-         0u0HVYgky1eLzLhMFRtlNXHAvRP4L+NTn0v5i1AWzc5oIxAYVBVcIqlXIes3jCTmG6vF
-         z6UA==
+        bh=04+GJw/QeAhZXEl0aXKPi//aV7HxxJ1aVYtljym3uF0=;
+        b=TXG6QltBQThwMSyXaeR3cKbGaPaPxcxaIQ9vV5gPV9aLv3gDlJ5LE616qZoBsGwtN1
+         gHf6jy2fUy3Y9WkGTRPu9wCC1ZmmrVFppBaTZ+lU4cg4yygkjoevMoWGI+N0+VOTpOt/
+         E5ZfHTi5hj3Pl73tQ6e/ViMZ9dypWq33o5pdU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764183657; x=1764788457;
+        d=1e100.net; s=20230601; t=1764183865; x=1764788665;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wdAfofPkZqBP7fas8//QaNlK+QG5oYJgN4CCWeJps6o=;
-        b=qk77qtpEETYrF5HBOUge2zbXBlwdeQMeGc83iBymw/L+2X8qKvGKDaWYcm4Vh25UzB
-         JZoCM3Mm/pHNE0XeEDB71LCRKlKKrBv1VlwWf2JaN1spRAfOmW3W6B2yEnEeH6AXW3wx
-         DpvxAWELhAVFRJPxYQrtSLLGvOsVcjZ3Z1lMo8BK+8srrhMeYtTDajrpPcspIi3n07Uq
-         b+BZ2rpP6EigKkUTdtv3wsZLEukzEepXdm4GG2O5qihyKng5lTD2aOgXTlCTaytQb19B
-         cny8mOjcJOWIKT6OY/ug6dBdwj52L+ACejJSCuWOXw2trw7m8lbOPQjxNlGJALkvThOB
-         lHOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWueYq837875f9MC18kwaLIJ78Ob7Kpm1COT8KMM74tLd+kYXFKSESMuOWgnHrDHhir3SxyjGloJOAdXA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxCfkO1VpymtWqm1UYyxFuzFZ86w3HWZXnV4cZS1HnO9zG7Ut5k
-	3/MKymq0XG4ArFbbQBMHFJNikOymGmNdrEbon5GepfoQvOf4mS3mO9pO
-X-Gm-Gg: ASbGnctugLAtHNCyrD23mb3DvovNrBqoPD3DSZf7H8MYJl6iZB/3KYwAhnwajGDCr0z
-	4wThGGrWPHrgqsgqClcM/Hq01eFjUF76tSu+/8h+oVY64/qB4uILMaGpsS7437CUtjAhkZBvTh/
-	vTsQdQUzvn52bWwNbtbdwAsYXEFV962iHXv3tLwZcWtA6COlgG1VYFe+kctUmvm4Cg7AKKIKvkx
-	tgAM+V2c45IBEcLn2ptBpcdmG5fz3WT6DRh0jWI1Mp2aMDSBkfy7i5B7DVp/m15ShgHn8lLh9dd
-	7s4qF3xTWsN5KrBIhUTNcYbVBz//wMFvwW1IDdpKg6szSNSksKV2GPzU+uYq1g9rtLcmbtNa4yo
-	+Kxio1tt3yav3DPSi9qShtxfljGk3RKnot4JYSRWGVJgCmD2OXBpfDGrPoaCLkaXMTATY4Ctdro
-	UA2+sr7Hj0t7sfvQ==
-X-Google-Smtp-Source: AGHT+IHU+aXAA0q0Iz7Eeb8GCZpYyoyccizXCz9DRoBSI+UPrt3ldISBrusLfd+O3KCjNgSZPWLuyg==
-X-Received: by 2002:a05:6a20:9184:b0:342:8c38:ec2 with SMTP id adf61e73a8af0-36153f618f1mr12615631637.1.1764183656362;
-        Wed, 26 Nov 2025 11:00:56 -0800 (PST)
-Received: from Kai.localdomain ([106.222.235.6])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-bd76129de4dsm19925972a12.36.2025.11.26.11.00.52
+        bh=04+GJw/QeAhZXEl0aXKPi//aV7HxxJ1aVYtljym3uF0=;
+        b=psOY+ZtQ1oTnNZ09wVTc3nnFGNFH3TbLR3cm32/W6un+gtvVeyN9n2gQbsCpK9P3Uh
+         OxlLa4Cf17fvFC6LSDw/OEYABMAfWoG7zjQYd0iydjtudtYs/u+nbXWyqF9kb/YeCIGF
+         Q2BXb6YEntpRwcxynPR1MqZeYY+4wtmMQUqV0M9DPeK3wDUZ0eeCgcH5LCAbFimfBSc1
+         m6YgUqdnFxIaVnhJynVgqBukpH3etC7i3sjgJzJGOivVQM5wjFFMj0BrtDqsFqwSwLsb
+         FtMiOZ2gU1pC3mJhlVxIA0xoAGUMiuxys6BHCf57IreVpGVlo65GSqWp3qKjaB7ygvPr
+         dz3g==
+X-Forwarded-Encrypted: i=1; AJvYcCWGsLobIGh8FeZ5beR6O8kUcO4ZQ2dOM7tNF9JGZR7PFYJyupHyztFDc95ibRiOKGIjTOKc5LCBFf8mcA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfR/KW84ry8iNeqKofTvpRxiws9PUNFtKrG6KGVXx3ste+qIDr
+	YeTtXWCxaWS3fc6QCYabAC7ORCZ22dgLBOdbN2S5CESpKkeMhvKKJ3MAMUpWVW2g+bU=
+X-Gm-Gg: ASbGncudK4BkmdsK/o8uqyWPIBnwLZSygUtAoRj1xnTQq3LFy3qTHLlKD93i+JnNT1C
+	404dxAPZ6PQxrq4V7ZERGIPVQnhO2xL+g2DQMP/OV2ZDbSzVU7dPJg8rXpCgmTMcXC33AXa3PkS
+	DIlRoo72AHF4uPE7YkAnVpwI9qcMRdWsmudB93VcINPWt2RDqbR5WPAV4fr2yV33Fxwlv3AYeQc
+	ZaBMZz5Pxrgrh6TMxng4GAf17rn90Jqa0PIf2U/TgMQx7q0BjUkR3MZTZQn38X9PvuvDCVUUitX
+	yVRiB91hamWKlUhZRSNVlvyHlajPlJNS6286yUEDpVIxYkFcjIApDqpKWkwQ+rWDnHazH5zfaZQ
+	DnVgBgo3BgMNe0g8jy2SzCHJ6ZCqyFeZhsdUKUNiUrOypjrHHEfRtJYbKSYVQh/vnqfgev+0mcX
+	JTKPdpokQTro4MIdB98LCaUCMptAjQuq6iQE7Ubs+xNKYD4vvg9ImhEzE6foveGzwdeNLhvw==
+X-Google-Smtp-Source: AGHT+IFm+MfJvs/Wf+g788FjoV56T+TV2tLXBCMUGkU9nJcP6d6Kcmdlz0QOSTBOZdqGTzkoz5n/2A==
+X-Received: by 2002:a05:6a00:3a0b:b0:7b8:7c1a:7f68 with SMTP id d2e1a72fcca58-7ca8a1392b4mr8897925b3a.32.1764183865271;
+        Wed, 26 Nov 2025 11:04:25 -0800 (PST)
+Received: from ranegod-HP-ENVY-x360-Convertible-13-bd0xxx.. ([2409:40c0:20:6a17:674c:cac:c69:59f5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7c3ed471f80sm22541529b3a.24.2025.11.26.11.04.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Nov 2025 11:00:55 -0800 (PST)
-From: Ayush Kumar <ayushkr0s@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org
-Cc: sakari.ailus@linux.intel.com,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org,
-	hverkuil@kernel.org,
-	ribalda@chromium.org,
-	abdelrahmanfekry375@gmail.com,
-	santiagorr@riseup.net,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	kernel-newbies@vger.kernel.org,
-	Ayush Kumar <ayushkr0s@gmail.com>
-Subject: [PATCH] media: atomisp: coding style: Move trailing statements to next line
-Date: Wed, 26 Nov 2025 19:00:26 +0000
-Message-ID: <20251126190026.37436-1-ayushkr0s@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Wed, 26 Nov 2025 11:04:24 -0800 (PST)
+From: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
+To: Hans Verkuil <hverkuil@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	khalid@kernel.org,
+	Shaurya Rane <ssrane_b23@ee.vjti.ac.in>,
+	syzbot+a41b73dce23962a74c72@syzkaller.appspotmail.com
+Subject: [PATCH v3] media: radio-keene: fix memory leak in error path
+Date: Thu, 27 Nov 2025 00:34:10 +0530
+Message-Id: <20251126190410.94933-1-ssrane_b23@ee.vjti.ac.in>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -99,48 +92,51 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Adhering to Linux kernel coding style guidelines (Chapter 3: Indentation).
+Fix a memory leak in usb_keene_probe(). The v4l2 control handler is
+initialized and controls are added, but if v4l2_device_register() or
+video_register_device() fails afterward, the handler was never freed,
+leaking memory.
 
-Signed-off-by: Ayush Kumar <ayushkr0s@gmail.com>
+Add v4l2_ctrl_handler_free() call in the err_v4l2 error path to ensure
+the control handler is properly freed for all error paths after it is
+initialized.
+
+Reported-by: syzbot+a41b73dce23962a74c72@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=a41b73dce23962a74c72
+Fixes: 1bf20c3a0c61 ("[media] radio-keene: add a driver for the Keene FM Transmitter")
+Signed-off-by: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
 ---
- drivers/staging/media/atomisp/pci/sh_css_params.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+v3:
+  - Put v4l2_ctrl_handler_free() in err_v4l2 label
+    covering all error paths with a single call.
+v2:
+  - Simplified fix: call v4l2_ctrl_handler_free() inline before goto
+    instead of adding a new error label.
+---
+ drivers/media/radio/radio-keene.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
-index 11d62313c908..5ead15dd7f84 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_params.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
-@@ -875,7 +875,8 @@ ia_css_process_kernel(struct ia_css_stream *stream,
+diff --git a/drivers/media/radio/radio-keene.c b/drivers/media/radio/radio-keene.c
+index f3b57f0cb1ec..c133305fd019 100644
+--- a/drivers/media/radio/radio-keene.c
++++ b/drivers/media/radio/radio-keene.c
+@@ -338,7 +338,6 @@ static int usb_keene_probe(struct usb_interface *intf,
+ 	if (hdl->error) {
+ 		retval = hdl->error;
  
- 		/* update the other buffers to the pipe specific copies */
- 		for (stage = pipeline->stages; stage; stage = stage->next) {
--			if (!stage || !stage->binary) continue;
-+			if (!stage || !stage->binary)
-+				continue;
- 			process(pipeline->pipe_id, stage, params);
- 		}
+-		v4l2_ctrl_handler_free(hdl);
+ 		goto err_v4l2;
  	}
-@@ -3045,7 +3046,8 @@ process_kernel_parameters(unsigned int pipe_id,
- 	/* Call parameter process functions for all kernels */
- 	/* Skip SC, since that is called on a temp sc table */
- 	for (param_id = 0; param_id < IA_CSS_NUM_PARAMETER_IDS; param_id++) {
--		if (param_id == IA_CSS_SC_ID) continue;
-+		if (param_id == IA_CSS_SC_ID)
-+			continue;
- 		if (params->config_changed[param_id])
- 			ia_css_kernel_process_param[param_id](pipe_id, stage, params);
- 	}
-@@ -3600,7 +3602,8 @@ sh_css_params_write_to_ddr_internal(
- 						    IA_CSS_PARAM_CLASS_PARAM, mem);
- 		size_t size = isp_data->size;
- 
--		if (!size) continue;
-+		if (!size)
-+			continue;
- 		buff_realloced = reallocate_buffer(&ddr_map->isp_mem_param[stage_num][mem],
- 						&ddr_map_size->isp_mem_param[stage_num][mem],
- 						size,
+ 	retval = v4l2_device_register(&intf->dev, &radio->v4l2_dev);
+@@ -384,6 +383,7 @@ static int usb_keene_probe(struct usb_interface *intf,
+ err_vdev:
+ 	v4l2_device_unregister(&radio->v4l2_dev);
+ err_v4l2:
++	v4l2_ctrl_handler_free(&radio->hdl);
+ 	kfree(radio->buffer);
+ 	kfree(radio);
+ err:
 -- 
-2.43.0
+2.34.1
 
 
