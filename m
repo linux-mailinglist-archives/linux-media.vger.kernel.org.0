@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-47759-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47760-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EABBC89FB4
-	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 14:21:17 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92191C89FBA
+	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 14:21:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D2CF33B2B0C
-	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 13:21:15 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9C70A4E5E74
+	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 13:21:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4914329C47;
-	Wed, 26 Nov 2025 13:20:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DBC8329E48;
+	Wed, 26 Nov 2025 13:20:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TwtlcmIl"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SlzUKnq7"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E3826D4F9;
-	Wed, 26 Nov 2025 13:20:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE632FFDDC;
+	Wed, 26 Nov 2025 13:20:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764163228; cv=none; b=NaEnlDRbSt+pEoVekJshuLLQIMcSfJ3T9GTDen9Zg+DG12muJz7mNUHiUVuPfPVBsDczL5Adgdj4naPsVkMyoJECNc57Ylsmil1kpW5rbVUbz4ETJta8UNVjD3EB4p3oY6Ms05sR+cI2/jYl48YL1I5xJKkFwi4RU0Ual3al+0E=
+	t=1764163234; cv=none; b=ZGBjY0FZlJKwI4QEkmE4d6s05LAGXgrgZcQIzJG6q8SFJPu1EbJbk9+0ISb125C7TC22EDiQ+2eeai5ZH6LhR9rNnZ+RowKam/TDuwW+xBZ06xJtEqs08l+QULGMe2MyfASwkm/2n4dxkme3mfJxNI8GK/GDSPHBYT+bodgXC3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764163228; c=relaxed/simple;
-	bh=UWZRmAEzkRqq5oGLP1a96kp5nn+UOgdKzQBXsbq4Mcc=;
+	s=arc-20240116; t=1764163234; c=relaxed/simple;
+	bh=lgAu6095fUG7URUtB5h9h1pWeOKehgRUT+IfEnrX0L8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=j5Afq09ffDhECgCvmkfwymoVrNIKAHyd8exLlqgNTeJxHmMXMaNrFGqhKmdKLoAJi+flkuYVfVazLPB8OOy/T6tU8InJMS/5KyV8M2m+4mUmmi3Y76ElqkW5VwOpdV1TrMPzBYeNYaZg+i8WweFGjYhcJ3CBD75A2V8z6JQ1hU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TwtlcmIl; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89199C116B1;
-	Wed, 26 Nov 2025 13:20:21 +0000 (UTC)
+	 MIME-Version:Content-Type; b=kZY3CiAb+JwJbsGBN3uksVJ9ZwoZQbH7wwud9OploVRoteKBjoY6dFXuUl9PiYt14DOSNLZuq7RBmqVSutOa03n4lRe/3e/w74ssFd38VKvZAlj7qc3fJxdfqq3z7nSeTO8KtiCXO2rpC5ukGqSYq0ocJtRkSPhLvrbsBFsINH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SlzUKnq7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06F58C113D0;
+	Wed, 26 Nov 2025 13:20:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764163227;
-	bh=UWZRmAEzkRqq5oGLP1a96kp5nn+UOgdKzQBXsbq4Mcc=;
+	s=k20201202; t=1764163234;
+	bh=lgAu6095fUG7URUtB5h9h1pWeOKehgRUT+IfEnrX0L8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=TwtlcmIlc7KO7bkTPkzH6jVSl0c0R12kc6TX9T7fQ2Z88iPp6WbrfIkqrHVAY8oyV
-	 sTD4ZtmpevXeOQ8otE8u/HMIAOCWUNURuiB8yFzWBH+4THH8FAGv6kXCTfUpp1Rfyj
-	 3A/rYMsX0hPycQYG/bp+iKnWpoRPl5Djqyv0/6nj76SU4aGAPZHcOK8QiZv8ez9kJR
-	 d0KFSmR0lj6gdUB2bU/9mwbdzzfYfNOZFrK+GhnugiPGBOmbHkEG5+KO7HCSxYj7ii
-	 d1VDQ2ToDs0voceBmjaEJLdXGjuv3FR3ffa+lZW1Hez+8c7Z2WhjDyVnuGi0oS1VLD
-	 Ui6T8oE/fHQVg==
+	b=SlzUKnq7+JYkCPIISBxuVSJtdfIbgnro2PHCDrhP1dJKS3DVMtUcilQacvEz/ee17
+	 n/rAZbBLl1tDeiGBZMIfP903XFYmcmrpBfkc8FMNkSMAS5rh0UfG9DP0he9+bjVsGh
+	 X8NmWUTmwUR3GL7sikPHs0vQ2bTo45s6VLia93pI3VaJ0ZubUQToiKczIjcBU3OYJH
+	 76rPpa7YG4R/HdNwlS3tq9eBfDQfTnu4JO+iNOIJ01Ta2z0h+YCkqh/kjqfGUp2F4F
+	 Hm0Zlee+s4KQs9RusVyTgY9xIZfMwbSIzZxLh5C2T1MI6nNapaHJFzmkrvgHBUK7NB
+	 bgrvQM/LDGb7A==
 From: Philipp Stanner <phasta@kernel.org>
 To: Sumit Semwal <sumit.semwal@linaro.org>,
 	Gustavo Padovan <gustavo@padovan.org>,
@@ -70,9 +70,9 @@ Cc: linux-media@vger.kernel.org,
 	intel-xe@lists.freedesktop.org,
 	rust-for-linux@vger.kernel.org,
 	Philipp Stanner <phasta@kernel.org>
-Subject: [PATCH 4/6] dma-buf: Don't misuse dma_fence_signal()
-Date: Wed, 26 Nov 2025 14:19:13 +0100
-Message-ID: <20251126131914.149445-6-phasta@kernel.org>
+Subject: [PATCH 5/6] drm/ttm: Remove return check of dma_fence_signal()
+Date: Wed, 26 Nov 2025 14:19:14 +0100
+Message-ID: <20251126131914.149445-7-phasta@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20251126131914.149445-2-phasta@kernel.org>
 References: <20251126131914.149445-2-phasta@kernel.org>
@@ -85,46 +85,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The return code of dma_fence_signal() is not really useful as there is
-nothing reasonable to do if a fence was already signaled. That return
-code shall be removed from the kernel.
+The return code of dma_fence_signal() is not useful and shall be removed
+from the kernel. To do so, all users must be removed.
 
-Moreover, dma_fence_signal() should not be used to check whether fences
-are signaled. That's what dma_fence_is_signaled() and
-dma_fence_test_signaled_flag() exist for.
-
-Replace the non-canonical usage of dma_fence_signal().
+Remove usage of dma_fence_signal()'s return code.
 
 Suggested-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Philipp Stanner <phasta@kernel.org>
 ---
- drivers/dma-buf/st-dma-fence.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/dma-buf/st-dma-fence.c b/drivers/dma-buf/st-dma-fence.c
-index 27a36045410b..9fc93859f36f 100644
---- a/drivers/dma-buf/st-dma-fence.c
-+++ b/drivers/dma-buf/st-dma-fence.c
-@@ -126,17 +126,14 @@ static int test_signaling(void *arg)
- 		goto err_free;
- 	}
+diff --git a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
+index 1bcc67977f48..34957624910f 100644
+--- a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
++++ b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
+@@ -692,7 +692,8 @@ static int threaded_fence_signal(void *arg)
  
--	if (dma_fence_signal(f)) {
--		pr_err("Fence reported being already signaled\n");
--		goto err_free;
--	}
-+	dma_fence_signal(f);
+ 	msleep(20);
  
- 	if (!dma_fence_is_signaled(f)) {
- 		pr_err("Fence not reporting signaled\n");
- 		goto err_free;
- 	}
+-	return dma_fence_signal(fence);
++	dma_fence_signal(fence);
++	return 0;
+ }
  
--	if (!dma_fence_signal(f)) {
-+	if (!dma_fence_test_signaled_flag(f)) {
- 		pr_err("Fence reported not being already signaled\n");
- 		goto err_free;
- 	}
+ static void ttm_bo_validate_move_fence_not_signaled(struct kunit *test)
 -- 
 2.49.0
 
