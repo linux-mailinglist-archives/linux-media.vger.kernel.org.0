@@ -1,98 +1,125 @@
-Return-Path: <linux-media+bounces-47784-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47785-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80C54C8BD53
-	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 21:25:29 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC02EC8BDB9
+	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 21:28:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 08EA83B0421
-	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 20:25:07 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id A1BF63458D5
+	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 20:28:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF1A434321F;
-	Wed, 26 Nov 2025 20:24:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B70EF34402C;
+	Wed, 26 Nov 2025 20:27:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Ow1qOeTT"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ok95PXRf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0D5C34250F;
-	Wed, 26 Nov 2025 20:24:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BC05342158;
+	Wed, 26 Nov 2025 20:27:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764188644; cv=none; b=aLSLKopLattC39zGTZ8wDJMQTDCIgmKCF4dt2DwxFfTn/qnDtiFUsvSwEgDCdEuJ9M3LoPiZVwLclUzBjsg19/6bBhMtp23YgRWKq/mITBCZJlwpDMndfiMbXSQMKtID7E544PMDzI5pkt+m1D2zkBBAbYvpieCEUtK+puvU4UY=
+	t=1764188856; cv=none; b=jGdFhELLfHhVHsSH84LHenLyHjLshC/EDTs7vKYzcwVpQaWs5Qn18xtdnfWl7sYonF22Vf2xDcnD5iEinokXisDHo3VF3IQwYZhw5/qZwIQD4s+FVifR7PifW4Jcg/99ttoAfkttj5GRQMzJcE22ST0Oa+jfQ/HDXWg95QTrXgw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764188644; c=relaxed/simple;
-	bh=6ppHddaRqYMsI6Dz0YKB1UjjTovHL62t6tMf6G5uGxg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QkxkUdnadKNHoWXnjxpjrW8KC7prV1rmaA1IBCFG0Yx1eP3TDyiOdVE3PRgHxh5zmluuSY+/Jp2ivLoMP8gqiGkl/5E7i0+66QuTBpFNpZgLew0NlhTLVSGyCzCbP2ekD4PYvR931xziHCDwQBgJHbeziNH3fjHs+tU/RSJbiUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Ow1qOeTT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D887FC4CEF7;
-	Wed, 26 Nov 2025 20:24:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1764188643;
-	bh=6ppHddaRqYMsI6Dz0YKB1UjjTovHL62t6tMf6G5uGxg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ow1qOeTTaWPmjaDfSD80Tvoq46crHMsTDz5Zp/W0jZnZEisxNllOzOJpgYoKuDG4y
-	 8YQg7s09Czyea8Po/JrYzvJ3uw2Zu+TrAJ/Aan6fk3r/xoX12CGNWYFzW+KVTakIJN
-	 48r+qBLTbtFlefVag1sr1UeuZhQmgCrndHU/HnkU=
-Date: Wed, 26 Nov 2025 21:23:59 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Ayush Kumar <ayushkr0s@gmail.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
-	andy@kernel.org, hverkuil@kernel.org, ribalda@chromium.org,
-	abdelrahmanfekry375@gmail.com, santiagorr@riseup.net,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, kernel-newbies@vger.kernel.org
-Subject: Re: [PATCH] media: atomisp: coding style: Move trailing statements
- to next line
-Message-ID: <2025112631-unvarying-android-15a6@gregkh>
-References: <20251126190026.37436-1-ayushkr0s@gmail.com>
+	s=arc-20240116; t=1764188856; c=relaxed/simple;
+	bh=OpcbLyKYxZlxHhsaZdpZh0uLt6gJOnXWPmZWcJ0p0KY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hcJEPLvQDu3agjUs8JxXg3RvULMHrIUpW6GFxtVDVasDtOv+XUwkYbfAtle+J3iIrGPriA9olePCNUUw/wuG9Vrplp1yMw6eT6BLujE7ehzyW9TZCKBkDSEQFMBQkLMQ0nmX8zY5XE+IiSIXqP1O793ajLttt2NViNEohvbCi2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ok95PXRf; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1764188851;
+	bh=OpcbLyKYxZlxHhsaZdpZh0uLt6gJOnXWPmZWcJ0p0KY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ok95PXRf1zTCFm0YnE0co+79ZEXCN6iHKtdfeBvVFGEnFfol70oUDdzQnxPoNtNhA
+	 4vgiQgF8zBakJ4YELldWOM95ZlndMvGGD6x9j6wPtfZqb0VQM7QS0ZfQYA4Zq2aAZg
+	 B9VNerwVPKXD2Isn7jYFoVYmkbVLzAvmDo5AGTYlgMgiqqIi4wWYdJp0nIWMuAundz
+	 GBE34vN2Borx3yFEHTqArWTmMki2+u09xe+JI123WkPlp0YFyHt6i6W6PtO1FO48Ci
+	 TT/dGWd1oEhVvzp7yJxUPwhCPH5O0eV3b2mb7Gf79I6HsLVJKpvrX7/ENQ1NyaHeU+
+	 ehucfjHs5TzgQ==
+Received: from [10.40.0.100] (185-67-175-126.lampert.tv [185.67.175.126])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: mriesch)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 7E64117E101A;
+	Wed, 26 Nov 2025 21:27:30 +0100 (CET)
+Message-ID: <f53af05d-ac10-43d5-8563-dadafbeb2379@collabora.com>
+Date: Wed, 26 Nov 2025 21:27:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251126190026.37436-1-ayushkr0s@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH next] media: rockchip: rkcif: fix off by one bugs
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Mehdi Djait <mehdi.djait@linux.intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Hans Verkuil <hverkuil+cisco@kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, linux-media@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+References: <aR17UkYsfAxCZ4fe@stanley.mountain>
+Content-Language: en-US
+From: Michael Riesch <michael.riesch@collabora.com>
+In-Reply-To: <aR17UkYsfAxCZ4fe@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 26, 2025 at 07:00:26PM +0000, Ayush Kumar wrote:
-> Adhering to Linux kernel coding style guidelines (Chapter 3: Indentation).
+Hi Dan,
+
+Thanks for the patch, good catch!
+
+On 11/19/25 09:09, Dan Carpenter wrote:
+> Change these comparisons from > vs >= to avoid accessing one element
+> beyond the end of the arrays.
 > 
-> Signed-off-by: Ayush Kumar <ayushkr0s@gmail.com>
+> Fixes: 1f2353f5a1af ("media: rockchip: rkcif: add support for rk3568 vicap mipi capture")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+
+Reviewed-by: Michael Riesch <michael.riesch@collabora.com>
+
+Best regards,
+Michael
+
 > ---
->  drivers/staging/media/atomisp/pci/sh_css_params.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
+>  .../media/platform/rockchip/rkcif/rkcif-capture-mipi.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.c b/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.c
+> index 1b81bcc067ef..a933df682acc 100644
+> --- a/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.c
+> +++ b/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.c
+> @@ -489,8 +489,8 @@ static inline unsigned int rkcif_mipi_get_reg(struct rkcif_interface *interface,
+>  
+>  	block = interface->index - RKCIF_MIPI_BASE;
+>  
+> -	if (WARN_ON_ONCE(block > RKCIF_MIPI_MAX - RKCIF_MIPI_BASE) ||
+> -	    WARN_ON_ONCE(index > RKCIF_MIPI_REGISTER_MAX))
+> +	if (WARN_ON_ONCE(block >= RKCIF_MIPI_MAX - RKCIF_MIPI_BASE) ||
+> +	    WARN_ON_ONCE(index >= RKCIF_MIPI_REGISTER_MAX))
+>  		return RKCIF_REGISTER_NOTSUPPORTED;
+>  
+>  	offset = rkcif->match_data->mipi->blocks[block].offset;
+> @@ -510,9 +510,9 @@ static inline unsigned int rkcif_mipi_id_get_reg(struct rkcif_stream *stream,
+>  	block = stream->interface->index - RKCIF_MIPI_BASE;
+>  	id = stream->id;
+>  
+> -	if (WARN_ON_ONCE(block > RKCIF_MIPI_MAX - RKCIF_MIPI_BASE) ||
+> -	    WARN_ON_ONCE(id > RKCIF_ID_MAX) ||
+> -	    WARN_ON_ONCE(index > RKCIF_MIPI_ID_REGISTER_MAX))
+> +	if (WARN_ON_ONCE(block >= RKCIF_MIPI_MAX - RKCIF_MIPI_BASE) ||
+> +	    WARN_ON_ONCE(id >= RKCIF_ID_MAX) ||
+> +	    WARN_ON_ONCE(index >= RKCIF_MIPI_ID_REGISTER_MAX))
+>  		return RKCIF_REGISTER_NOTSUPPORTED;
+>  
+>  	offset = rkcif->match_data->mipi->blocks[block].offset;
 
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/process/submitting-patches.rst for what is needed in
-  order to properly describe the change.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
 
