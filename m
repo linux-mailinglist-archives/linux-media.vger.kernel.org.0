@@ -1,66 +1,77 @@
-Return-Path: <linux-media+bounces-47742-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47743-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7286BC88DA6
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59EADC88DA3
 	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 10:07:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 784054EB884
-	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 09:06:42 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 5ACD13481CD
+	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 09:07:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D11F31A56C;
-	Wed, 26 Nov 2025 09:06:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C00F31B11E;
+	Wed, 26 Nov 2025 09:06:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rosa.ru header.i=@rosa.ru header.b="aeR4UvF+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CldMlNi9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from forward202b.mail.yandex.net (forward202b.mail.yandex.net [178.154.239.155])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD0E30BF74;
-	Wed, 26 Nov 2025 09:06:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B6D30BF74
+	for <linux-media@vger.kernel.org>; Wed, 26 Nov 2025 09:06:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764147968; cv=none; b=Ur144X8jUaWI4SZtp5hr+6tD2p+RNnp8y1ZI411ySkxNOHKPuPC7fHmlMSGs0ZtkquH+F3ZvwLsCB9TRAO5QJNc+zvxSVzaFcqqIG6OLdQ/1WtdZWxRiejETNNGSw1SSIjMGvWTsNJ2tiJDlv7D3W2mlARM/b93+RUVguLnuzRc=
+	t=1764147987; cv=none; b=Ne2QYHKIiylotL0gBCRmRTBctzKndvaZpz1AGgZvVraVXcP6EJnaMPaI+qtuxmT27cIthUfEZ88m//+r/ul7eahMd54fV8V86Om2oavy7Sj210c3KZvdmahw+k6oy2e0akwApm/amh11MHpV9Cm1SDq0+DjL9Q+jBX/+BCT3V/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764147968; c=relaxed/simple;
-	bh=t2D9zTi3yzpM1US3TyIIKlUvKQWN7AbPD6Vsej4C2j8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iXp3ugRnjQxZqhbSWyLG6igPzyZjtmN40susgfPkGFgy0PMpaQw3PEHiwX/2usZtP9sHhnUqGedK+9g6eJOpWoWsYBKLcPmsIwDxEoTb3jqVRXAVbTm0jJluhJSgjPvF/Tf0BVbxZ9c3ce3ebTewnnjr6Ec5SiBvPq7Cx5l1vGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosa.ru; spf=pass smtp.mailfrom=rosa.ru; dkim=pass (1024-bit key) header.d=rosa.ru header.i=@rosa.ru header.b=aeR4UvF+; arc=none smtp.client-ip=178.154.239.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosa.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosa.ru
-Received: from forward100b.mail.yandex.net (forward100b.mail.yandex.net [IPv6:2a02:6b8:c02:900:1:45:d181:d100])
-	by forward202b.mail.yandex.net (Yandex) with ESMTPS id D70ABC6B69;
-	Wed, 26 Nov 2025 12:05:57 +0300 (MSK)
-Received: from mail-nwsmtp-smtp-production-main-60.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-60.sas.yp-c.yandex.net [IPv6:2a02:6b8:c24:25b4:0:640:a124:0])
-	by forward100b.mail.yandex.net (Yandex) with ESMTPS id 9C9FF80AE4;
-	Wed, 26 Nov 2025 12:05:49 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-60.sas.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id k5Z5KF9LtCg0-myeGhbKl;
-	Wed, 26 Nov 2025 12:05:49 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosa.ru; s=mail;
-	t=1764147949; bh=NVaWNxH7aw+f30xafEBllRkp2WBQzlLrZm8JIY4pRms=;
-	h=Message-ID:Date:Cc:Subject:To:From;
-	b=aeR4UvF+6Q6PU7HJ6YhKUZMLb1D/cUmzn6rMov6VRA6lZGkiq/YSIjAmC1BMuNQgf
-	 qPZU9YvIsKACTgSsBFUtmAmYFz5qR7aSmGHIIaxVMuGvcnBAn0J27k8EQGolN49Qm7
-	 nWW26SdR2/kPjoNvGXy0VGq9+/tGJISF9deYo3lE=
-Authentication-Results: mail-nwsmtp-smtp-production-main-60.sas.yp-c.yandex.net; dkim=pass header.i=@rosa.ru
-From: Alexei Safin <a.safin@rosa.ru>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: a.safin@rosa.ru,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org,
-	stable@vger.kernel.org
-Subject: [PATCH] media: ipu6: isys: csi2: guard remote pad/subdev and zero link freq
-Date: Wed, 26 Nov 2025 12:05:43 +0300
-Message-ID: <20251126090545.97411-1-a.safin@rosa.ru>
-X-Mailer: git-send-email 2.50.1
+	s=arc-20240116; t=1764147987; c=relaxed/simple;
+	bh=5wxGmobjXbWZzG99g1BKBjEvaZBd9dafwgvAgdjAyh8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NCgzIVxQqfdFf4+/L8X8eNluYhFvVEHiZWPV4bCdxSytK2xAfwv6YJHkSg3fKoQKMZO1Ygpi6ptif0b56rwtUifDYiYQFLU1bTaw4RI0FLL3pq4DylGbyakHgiBItoszJ9TmF+G94jp6DoCZaYYGCPHPkp+V8NL3zXT17RBbDEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CldMlNi9; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764147986; x=1795683986;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=5wxGmobjXbWZzG99g1BKBjEvaZBd9dafwgvAgdjAyh8=;
+  b=CldMlNi9m2NIlqqsx8RZ8hYxO2theemfgWdku8vIt3mviF+bxWTbJ8Y4
+   fYwTc1ndNp8GibvpGt2LAjTyUkBCbd//p9J3FgnhKr7ojt15r4QBc5cg6
+   YBI1oYmRi6Z+Et2B6E4slze8IyzBwaHRBaslOErhO7817X4wu0eiubev4
+   ZN2SYl/40iaU494n0juGvGjW67fN5A781/Nnaw3Jl43mTLoxdqPmAIn9W
+   MjTQFZPTKd9n9+JcrbkPUA5lofK4yg5L6l3V4VyEDh2Vh/cDNa27XPCek
+   unnXi9FkZTA0Hezcs5svb/wRilU/M7wpCTu3Hp9f3paWS/UHFdOo3qx5M
+   A==;
+X-CSE-ConnectionGUID: URkZGGo0SBGoLn8YonjV7w==
+X-CSE-MsgGUID: 8pqztH4CQ5WuEuNnpF9QYQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="65888358"
+X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; 
+   d="scan'208";a="65888358"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 01:06:26 -0800
+X-CSE-ConnectionGUID: GEMPzd5bQjO26MQt1gslpg==
+X-CSE-MsgGUID: 9Xn7nZH/S/yLyl0a8TQ+0g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; 
+   d="scan'208";a="192532194"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.86])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 01:06:24 -0800
+Received: from punajuuri.localdomain (unknown [192.168.240.130])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 6FA9711F869;
+	Wed, 26 Nov 2025 11:06:25 +0200 (EET)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
+	(envelope-from <sakari.ailus@linux.intel.com>)
+	id 1vOBTk-0000000GWCq-30jn;
+	Wed, 26 Nov 2025 11:06:24 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: "Yew, Chang Ching" <chang.ching.yew@intel.com>
+Subject: [PATCH 1/1] media: v4l2-async: Fix error handling on steps after finding a match
+Date: Wed, 26 Nov 2025 11:06:24 +0200
+Message-ID: <20251126090624.3937040-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -69,75 +80,124 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-media_pad_remote_pad_first() may return NULL when the media link is absent
-or disabled. The code dereferenced remote_pad->entity unconditionally in
-ipu6_isys_csi2_enable_streams() and ipu6_isys_csi2_disable_streams(),
-leading to a possible NULL dereference.
+Once an async connection is found to be matching with an fwnode, a
+sub-device may be registered (in case it wasn't already), its bound
+operation is called, ancillary links are created, the async connection
+is added to the sub-device's list of connections and removed from the
+global waiting connection list. Further on, the sub-device's possible own
+notifier is searched for possible additional matches.
 
-Guard the remote pad/subdev: in enable path return -ENOLINK/-ENODEV, in
-disable path always shut down the local stream first and return 0 if the
-remote side is missing. This keeps local shutdown semantics intact and
-prevents a crash when the graph is partially torn down.
+Fix these specific issues:
 
-Also, ipu6_isys_csi2_calc_timing() passes link_freq into calc_timing()
-where it is used as a divisor. v4l2_get_link_freq() may yield 0; add an
-explicit check and return -EINVAL to avoid division by zero.
+- If v4l2_async_match_notify() failed before the sub-notifier handling,
+  the async connection was unbound and its entry removed from the
+  sub-device's async connection list. The latter part was also done in
+  v4l2_async_match_notify().
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+- The async connection's sd field was only set after creating ancillary
+  links in v4l2_async_match_notify(). It was however dereferenced in
+  v4l2_async_unbind_subdev_one(), which was called on error path of
+  v4l2_async_match_notify() failure.
 
-Fixes: 3a5c59ad926b ("media: ipu6: Rework CSI-2 sub-device streaming control")
-Cc: stable@vger.kernel.org
-Signed-off-by: Alexei Safin <a.safin@rosa.ru>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Tested-by: "Yew, Chang Ching" <chang.ching.yew@intel.com>
 ---
- drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ drivers/media/v4l2-core/v4l2-async.c | 45 +++++++++++++++++++---------
+ 1 file changed, 31 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
-index d1fece6210ab..58944918c344 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
-@@ -171,6 +171,10 @@ ipu6_isys_csi2_calc_timing(struct ipu6_isys_csi2 *csi2,
- 	if (link_freq < 0)
- 		return link_freq;
- 
-+	/* Avoid division by zero in calc_timing() if link frequency is zero */
-+	if (!link_freq)
-+		return -EINVAL;
-+
- 	timing->ctermen = calc_timing(CSI2_CSI_RX_DLY_CNT_TERMEN_CLANE_A,
- 				      CSI2_CSI_RX_DLY_CNT_TERMEN_CLANE_B,
- 				      link_freq, accinv);
-@@ -352,7 +356,12 @@ static int ipu6_isys_csi2_enable_streams(struct v4l2_subdev *sd,
+diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+index ee884a8221fb..1c08bba9ecb9 100644
+--- a/drivers/media/v4l2-core/v4l2-async.c
++++ b/drivers/media/v4l2-core/v4l2-async.c
+@@ -343,7 +343,6 @@ static int v4l2_async_match_notify(struct v4l2_async_notifier *notifier,
+ 				   struct v4l2_subdev *sd,
+ 				   struct v4l2_async_connection *asc)
+ {
+-	struct v4l2_async_notifier *subdev_notifier;
+ 	bool registered = false;
  	int ret;
  
- 	remote_pad = media_pad_remote_pad_first(&sd->entity.pads[CSI2_PAD_SINK]);
-+	if (!remote_pad)
-+		return -ENOLINK;
+@@ -389,6 +388,25 @@ static int v4l2_async_match_notify(struct v4l2_async_notifier *notifier,
+ 	dev_dbg(notifier_dev(notifier), "v4l2-async: %s bound (ret %d)\n",
+ 		dev_name(sd->dev), ret);
+ 
++	return 0;
 +
- 	remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
-+	if (!remote_sd)
-+		return -ENODEV;
- 
- 	sink_streams =
- 		v4l2_subdev_state_xlate_streams(state, pad, CSI2_PAD_SINK,
-@@ -389,7 +398,16 @@ static int ipu6_isys_csi2_disable_streams(struct v4l2_subdev *sd,
- 						&streams_mask);
- 
- 	remote_pad = media_pad_remote_pad_first(&sd->entity.pads[CSI2_PAD_SINK]);
-+	if (!remote_pad) {
-+		ipu6_isys_csi2_set_stream(sd, NULL, 0, false);
-+		return 0;
-+	}
++err_call_unbind:
++	v4l2_async_nf_call_unbind(notifier, sd, asc);
++	list_del(&asc->asc_subdev_entry);
 +
- 	remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
-+	if (!remote_sd) {
-+		ipu6_isys_csi2_set_stream(sd, NULL, 0, false);
-+		return 0;
-+	}
++err_unregister_subdev:
++	if (registered)
++		v4l2_device_unregister_subdev(sd);
++
++	return ret;
++}
++
++static int
++v4l2_async_nf_try_subdev_notifier(struct v4l2_async_notifier *notifier,
++				  struct v4l2_subdev *sd)
++{
++	struct v4l2_async_notifier *subdev_notifier;
++
+ 	/*
+ 	 * See if the sub-device has a notifier. If not, return here.
+ 	 */
+@@ -404,16 +422,6 @@ static int v4l2_async_match_notify(struct v4l2_async_notifier *notifier,
+ 	subdev_notifier->parent = notifier;
  
- 	ipu6_isys_csi2_set_stream(sd, NULL, 0, false);
+ 	return v4l2_async_nf_try_all_subdevs(subdev_notifier);
+-
+-err_call_unbind:
+-	v4l2_async_nf_call_unbind(notifier, sd, asc);
+-	list_del(&asc->asc_subdev_entry);
+-
+-err_unregister_subdev:
+-	if (registered)
+-		v4l2_device_unregister_subdev(sd);
+-
+-	return ret;
+ }
  
+ /* Test all async sub-devices in a notifier for a match. */
+@@ -445,6 +453,10 @@ v4l2_async_nf_try_all_subdevs(struct v4l2_async_notifier *notifier)
+ 		if (ret < 0)
+ 			return ret;
+ 
++		ret = v4l2_async_nf_try_subdev_notifier(notifier, sd);
++		if (ret < 0)
++			return ret;
++
+ 		/*
+ 		 * v4l2_async_match_notify() may lead to registering a
+ 		 * new notifier and thus changing the async subdevs
+@@ -829,7 +841,11 @@ int __v4l2_async_register_subdev(struct v4l2_subdev *sd, struct module *module)
+ 			ret = v4l2_async_match_notify(notifier, v4l2_dev, sd,
+ 						      asc);
+ 			if (ret)
+-				goto err_unbind;
++				goto err_unlock;
++
++			ret = v4l2_async_nf_try_subdev_notifier(notifier, sd);
++			if (ret)
++				goto err_unbind_one;
+ 
+ 			ret = v4l2_async_nf_try_complete(notifier);
+ 			if (ret)
+@@ -853,9 +869,10 @@ int __v4l2_async_register_subdev(struct v4l2_subdev *sd, struct module *module)
+ 	if (subdev_notifier)
+ 		v4l2_async_nf_unbind_all_subdevs(subdev_notifier);
+ 
+-	if (asc)
+-		v4l2_async_unbind_subdev_one(notifier, asc);
++err_unbind_one:
++	v4l2_async_unbind_subdev_one(notifier, asc);
+ 
++err_unlock:
+ 	mutex_unlock(&list_lock);
+ 
+ 	sd->owner = NULL;
 -- 
-2.50.1 (Apple Git-155)
+2.47.3
 
 
