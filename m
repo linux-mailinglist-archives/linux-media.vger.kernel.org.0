@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-47757-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47758-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 466EDC89FAB
-	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 14:20:53 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80609C89FB1
+	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 14:21:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D58C64E4A1F
-	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 13:20:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9DA793B2E90
+	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 13:21:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C56FA32861A;
-	Wed, 26 Nov 2025 13:20:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 313C5328B77;
+	Wed, 26 Nov 2025 13:20:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R6nsMVaK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KLN6C2Wx"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2162626D4F9;
-	Wed, 26 Nov 2025 13:20:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843CE26D4F9;
+	Wed, 26 Nov 2025 13:20:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764163215; cv=none; b=shYJGY6qJjApLucoDRA8WJwM633fXqRtcuGYc6cHicPG+iqioUxs5S3MSfZQNcDuwHSTM/kdl2fsTlvcqI/yUI8ptnQgslnvMq2wF8/0RerNaw/Cp5XCUq+iI92NEvaggmPX9MHk3GhK5R6nceTV9F/nhEoWmK8DzvMC5rbACAk=
+	t=1764163221; cv=none; b=MElx0zux+IcdOvQaIDxIfL+GwfesWTqczbwSvdRY2Us3gLEGgWEUR6IfuRqkXUPYUMNdw4NxJQVrhqMZwiHIKmdRkIagAc2iDFWt1naMNs98IZ1SB+6bLCK78ndh+8yD4hKHVjUWQK0v1fyCJt5RBwelhrKugdeEQR5BMRXABfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764163215; c=relaxed/simple;
-	bh=ltdOJycY3sDDX0uPBNfRJ/CZ9LopyY+2sk6yZsVKKWQ=;
+	s=arc-20240116; t=1764163221; c=relaxed/simple;
+	bh=MN344wm2Ixu5X6Egt125oaRBPXXL6wOJJ8cpucZ04iA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Vs2CBAXgufvyTXha49ldhGbya4NMHbzjU6ljp9nVPuXoBTZo/dhKpw4Mi0RpJW0Ka+tqtUpJHaifSDF1ZAe7nKyliLehdhK4bn5MCBSyHnCtRYOn/yuSmNKmFKT0aefRSRhjcA13v0yxEQumI+2u5sjUbZ0VIk83DBKM+wEPtsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R6nsMVaK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC226C116C6;
-	Wed, 26 Nov 2025 13:20:08 +0000 (UTC)
+	 MIME-Version:Content-Type; b=hh2UnZX7KDTBPDKUmdXnLWsWbPokKm33jtmtfowR81zUvBI0n08L0GBQMvNfL65AmZbgkGExD6fd93zhj8iwe8eGGNUEoD7y1nB+MC4zaFm+VPF6kedJemu7K+C/lxPPz2S3hoRlXfVUGiy32j6HLNzO2XSXMQOwtN/hnJyZ25s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KLN6C2Wx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D077C113D0;
+	Wed, 26 Nov 2025 13:20:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764163214;
-	bh=ltdOJycY3sDDX0uPBNfRJ/CZ9LopyY+2sk6yZsVKKWQ=;
+	s=k20201202; t=1764163221;
+	bh=MN344wm2Ixu5X6Egt125oaRBPXXL6wOJJ8cpucZ04iA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=R6nsMVaKLj1Y2h5Ioo+V9XAsLOzvKmNbMLQ0j3D2jrrzIzb0TDhhOI/B4NIt5txT2
-	 3RvDpCssxHjcZwqL1cwsyYUsScnL2b6bir3kVh4XMRms0Sa6w7LYpVyjQaB5I32zhd
-	 WXB9sJhr4m7EaQkVjZXI/Y3zCbWLisj54C1CyG6fyXzz+mIUpSbTaIHiJeccZ105H9
-	 5N7cA9lI9CuUL0hXYElx9TpWe86JRCBbmEQpC0+UxQGxRohhECN/otmgwoycbH5sLG
-	 PxtJvcM3npDalTTZdtJENGNZ3y3zfy5qTUglAcdgefDlZUx1KFYFLclOX1DDbd8Ic4
-	 5l6r0aJjXAolg==
+	b=KLN6C2WxyaGLUphoRIvUajESUcR/xNOR+7fMO/ABWSP+mXxmpoAAqQVtXfRLExvTc
+	 SHrYcieFx+oJIAIIpPsikBV7AlKohQDi3P3L9XlfRc/R0rQyx3hXhfkOxgi1TVkpGR
+	 vu3+lvtFLZrjiqNSZ3DSkk7SvXT2C7IGLmlY7IAE/e2YBZHik2G2uG86XzNj3goi7q
+	 oFQqGbp0EeUdB7hxktU5GTHGrf4Ugn2d6Z/GlxFvP8yVotOajkcvYV+PercoshxZqo
+	 QMnkU/DrukJ2Zqfh5CB4FFW5NbPNqCHSZez5AxeD+gRPeP6pPbCCSHSjlPCt/IGkrw
+	 38tlRKl6OYtRA==
 From: Philipp Stanner <phasta@kernel.org>
 To: Sumit Semwal <sumit.semwal@linaro.org>,
 	Gustavo Padovan <gustavo@padovan.org>,
@@ -70,9 +70,9 @@ Cc: linux-media@vger.kernel.org,
 	intel-xe@lists.freedesktop.org,
 	rust-for-linux@vger.kernel.org,
 	Philipp Stanner <phasta@kernel.org>
-Subject: [PATCH 2/6] amd/amdkfd: Ignore return code of dma_fence_signal()
-Date: Wed, 26 Nov 2025 14:19:11 +0100
-Message-ID: <20251126131914.149445-4-phasta@kernel.org>
+Subject: [PATCH 3/6] drm/gpu/xe: Ignore dma_fenc_signal() return code
+Date: Wed, 26 Nov 2025 14:19:12 +0100
+Message-ID: <20251126131914.149445-5-phasta@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20251126131914.149445-2-phasta@kernel.org>
 References: <20251126131914.149445-2-phasta@kernel.org>
@@ -94,34 +94,33 @@ Ignore dma_fence_signal()'s return code.
 Suggested-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Philipp Stanner <phasta@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_process.c | 5 ++---
+ drivers/gpu/drm/xe/xe_hw_fence.c | 5 ++---
  1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-index ddfe30c13e9d..950fafa4b3c3 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-@@ -1986,7 +1986,6 @@ kfd_process_gpuid_from_node(struct kfd_process *p, struct kfd_node *node,
- static int signal_eviction_fence(struct kfd_process *p)
+diff --git a/drivers/gpu/drm/xe/xe_hw_fence.c b/drivers/gpu/drm/xe/xe_hw_fence.c
+index b2a0c46dfcd4..959b30dde724 100644
+--- a/drivers/gpu/drm/xe/xe_hw_fence.c
++++ b/drivers/gpu/drm/xe/xe_hw_fence.c
+@@ -85,7 +85,6 @@ void xe_hw_fence_irq_finish(struct xe_hw_fence_irq *irq)
  {
- 	struct dma_fence *ef;
--	int ret;
+ 	struct xe_hw_fence *fence, *next;
+ 	unsigned long flags;
+-	int err;
+ 	bool tmp;
  
- 	rcu_read_lock();
- 	ef = dma_fence_get_rcu_safe(&p->ef);
-@@ -1994,10 +1993,10 @@ static int signal_eviction_fence(struct kfd_process *p)
- 	if (!ef)
- 		return -EINVAL;
- 
--	ret = dma_fence_signal(ef);
-+	dma_fence_signal(ef);
- 	dma_fence_put(ef);
- 
--	return ret;
-+	return 0;
- }
- 
- static void evict_process_worker(struct work_struct *work)
+ 	if (XE_WARN_ON(!list_empty(&irq->pending))) {
+@@ -93,9 +92,9 @@ void xe_hw_fence_irq_finish(struct xe_hw_fence_irq *irq)
+ 		spin_lock_irqsave(&irq->lock, flags);
+ 		list_for_each_entry_safe(fence, next, &irq->pending, irq_link) {
+ 			list_del_init(&fence->irq_link);
+-			err = dma_fence_signal_locked(&fence->dma);
++			XE_WARN_ON(dma_fence_test_signaled_flag(&fence->dma));
++			dma_fence_signal_locked(&fence->dma);
+ 			dma_fence_put(&fence->dma);
+-			XE_WARN_ON(err);
+ 		}
+ 		spin_unlock_irqrestore(&irq->lock, flags);
+ 		dma_fence_end_signalling(tmp);
 -- 
 2.49.0
 
