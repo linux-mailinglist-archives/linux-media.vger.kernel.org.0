@@ -1,267 +1,201 @@
-Return-Path: <linux-media+bounces-47768-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47769-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71E2CC8ABEB
-	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 16:49:13 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34284C8ADCF
+	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 17:11:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 3A6A94EBBD8
-	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 15:48:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AF9C93B93BC
+	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 16:09:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DA6533BBCB;
-	Wed, 26 Nov 2025 15:48:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54AF233CEBD;
+	Wed, 26 Nov 2025 16:09:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="5IqU6Tkb"
+	dkim=pass (2048-bit key) header.d=fb.com header.i=@fb.com header.b="CATY9ftr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011010.outbound.protection.outlook.com [40.107.208.10])
+Received: from mx0a-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3784C33A6E6;
-	Wed, 26 Nov 2025 15:48:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764172096; cv=fail; b=Qvp1Zpweblp0b/1342UhJsvLqIhP7/Y6n3n+HVqdYXKC116QwQEFE64UAxt/Z6Z5LgvJkWP7J6PlwWPsoZ83kas/7yoMEenBXBGmkS8Orx5JMwGT6VfBPeU/Q8ZFk9YbL10vPatrzRVxM6nHgoufog1aqc/Mi4QGvC4G5hLstps=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764172096; c=relaxed/simple;
-	bh=RQzoBROU6J0sXDsGZNEKG38ZCpZyApVVR3lMKsXjjN0=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=d8S2Rsy9Z+V1MqecWBYPFI03JGtkarNy/tNy0jBrgCAlPhKGdeywjAShfVoZ3OIBU3k0k6cwGhA7w/uJ7m0pycWeMjhawIBPDGcFORjUZ9rjgn+1+0Ao4qcNUTZdumJ+cBVmrhB03v9OP6ER8spdOHDtye1uN1X46tGEb2J80Lo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=5IqU6Tkb; arc=fail smtp.client-ip=40.107.208.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=T/eR9PODV0ISGQ2Hv4CgZyX2wC4TQJkNFwho/odNdcJFlPMmTtlBBj8T3NW7NWmVn5j8/NpNBtXM7t123X6G20+USAIU0+MCm1d+sL0V04x0yZOJheesc7tH1nlChTdQDLF/bxGNlunF+cuju+wd7p3XtrR6vDytCu2YfewdlqgQYUf6xeyiOIgfcr7yIsic8dGzdVUyKo0paJxN18QIt/TrelNHkKPyYeY0Q350GSLXsxrU92iCqvNFTdsTDOb9FlFy9C4PU0OVIhtrpheEeHbGs3dq4X7qQNfqgIuajv/3BsAQlXX8nOcJsVX3hPH7722aVmHJY1rLcGNtc4HLPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RMz5/JDciLe7MxBvllKP6uj3IbN1oaFpG6vij4gtDJI=;
- b=J+IfjjFih/nweUyLgRJwp5ZBjBJhoeRLR+P990bGaDOBoR6Ey4Gl7Kx9v85aKmNcElbYbx2W8Ll145WWCckegWgedBa3E78ewDp/ahequ4blckcm460zsvs0+3/ngAyHuAUiYIFbBt8h8NMamNfKWcT4Np09+NrB7QPHEFVbN5HlY4v9BCO7wpShUL+prj8+x+9tjZKdNKZ+0D9u2REytjm6RmvM+8pGQlZ19HEL/DKCfdsDi34+xB3V4ClQsxiNWCFxDi8sSeEJEi+kR2UWjn4kpj3wcOZLkNbLV3GVqzikgwcX6R2gxlKIKVzN6IJCWr+LPW+2yZqzJO2/xteZzg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RMz5/JDciLe7MxBvllKP6uj3IbN1oaFpG6vij4gtDJI=;
- b=5IqU6TkbCUhywNRG07e7vE+CbtutO87ZpfpqAxRE31/9n53Ke2AHx4G966YcrXUqa0gbkMMDwZlnu7tZku6nCw+F1u/SdJKd5jKOUp8152pXUUO2J8ZZPhGx1J/wu+DulV7HapPlaIYEiyjzDValAuXnKyVJQDRrUtv9grNL6/Y=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SA1PR12MB8164.namprd12.prod.outlook.com (2603:10b6:806:338::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.12; Wed, 26 Nov
- 2025 15:48:12 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9366.009; Wed, 26 Nov 2025
- 15:48:11 +0000
-Message-ID: <b12b952b-1e32-439f-8d96-78e449cbbde7@amd.com>
-Date: Wed, 26 Nov 2025 16:48:05 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 19/28] drm/ttm: rework pipelined eviction fence
- handling
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20251121101315.3585-1-pierre-eric.pelloux-prayer@amd.com>
- <20251121101315.3585-20-pierre-eric.pelloux-prayer@amd.com>
- <414584f0-3fdb-41e2-aa26-3776dc514184@amd.com>
- <7346d42b-3ad7-4170-900f-73d8ed356f71@linux.intel.com>
- <cc43a512-b979-4c11-a413-ab5108dab466@amd.com>
- <847eb5a7-7464-40f2-81ea-7bf2ff009a31@linux.intel.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <847eb5a7-7464-40f2-81ea-7bf2ff009a31@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BN9PR03CA0460.namprd03.prod.outlook.com
- (2603:10b6:408:139::15) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A21433A024;
+	Wed, 26 Nov 2025 16:09:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.153.30
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764173352; cv=none; b=T0IR3WAeDcMtp2tFboSga4eHo4ALqWib3fvjprZs7i2fEBnRtgw8s2m7tNmxoeazYtK4OuXlhd0EAHH/JVBVbDJb0oLKdd7IYjW34vGV8UoqrQjiBzbm/+PIgZPTXvJAAE8r/yrTzDkUzd8SYAQET9rLkDOVTflaCzIWPY/zNFE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764173352; c=relaxed/simple;
+	bh=rnuPj8l3nxRD30Mzwohmphj0ozjaGXooltYOoIP3XdE=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S8ZtdDZnbqnfF9W2kG+StBWf+NSLiL09Tmgvh2QTCp6sl7t5B/K6spXo/XAKHAx6OApIuWx6WwQqO2+HiPbTfg+d2ALRSntjzEdQztsFs0DWNSbmkdKFsOC+Io/nZAA8PlIN9NoWmO7Ji0rESDmGPMg3eEBpZy+39+KUratymy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=fb.com header.i=@fb.com header.b=CATY9ftr; arc=none smtp.client-ip=67.231.153.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
+Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
+	by m0089730.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 5AQEPbd43733913;
+	Wed, 26 Nov 2025 08:08:31 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=s2048-2025-q2; bh=oZmYh6YpHcTCE9H3NEMw
+	SXw1R9ZP1diRqyx6ns/UxKM=; b=CATY9ftrmS7XqrrPh2Kw2+U4yOLTDIOhQo4t
+	fT++bE5QnXUTTDj1SISKs+UQWWlWXESUt4Vk/Uw4ZSdu3sXkySe9GBFHO/GtOEWQ
+	411l/Uycz4QsElZjqmNLTTOC03Bk3xrahRxGe2dTAYG3Xw8/u0qaXvlwf4Qf+gzA
+	RQRz/m6jwIWn7OkNdO9JgYCJ3G1u1eeNgwfmMCUjXO0Y/Z5VrkUOlbGe0Sigp71N
+	fPi2jhyinHmV7dk2u+LQ68tQs+O+aJ2d0sCNzYiAXKyb0pPsIXMYGocj6ADUHnCK
+	VMnCClf+dI7uC/6KbcFfIu8b90bADDeEXqso0Amh6UxzsGo6vA==
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by m0089730.ppops.net (PPS) with ESMTPS id 4ap3a78uqy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 26 Nov 2025 08:08:31 -0800 (PST)
+Received: from devgpu015.cco6.facebook.com (2620:10d:c085:208::7cb7) by
+ mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.29; Wed, 26 Nov 2025 16:08:29 +0000
+Date: Wed, 26 Nov 2025 08:08:24 -0800
+From: Alex Mastro <amastro@fb.com>
+To: Pranjal Shrivastava <praan@google.com>
+CC: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+        Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
+        Robin
+ Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+        Will Deacon
+	<will@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Jason
+ Gunthorpe <jgg@ziepe.ca>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan
+ Corbet <corbet@lwn.net>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian
+ =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Kees Cook
+	<kees@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Ankit
+ Agrawal <ankita@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
+        Shameer
+ Kolothum <skolothumtho@nvidia.com>,
+        Kevin Tian <kevin.tian@intel.com>, Alex
+ Williamson <alex@shazbot.org>,
+        Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs
+	<mochs@nvidia.com>,
+        <linux-pci@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <iommu@lists.linux.dev>,
+        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>, <kvm@vger.kernel.org>,
+        <linux-hardening@vger.kernel.org>, Nicolin Chen <nicolinc@nvidia.com>,
+        Jason
+ Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v9 06/11] dma-buf: provide phys_vec to scatter-gather
+ mapping routine
+Message-ID: <aScl+LCPN2TiN7Pd@devgpu015.cco6.facebook.com>
+References: <20251120-dmabuf-vfio-v9-0-d7f71607f371@nvidia.com>
+ <20251120-dmabuf-vfio-v9-6-d7f71607f371@nvidia.com>
+ <aSZHO6otK0Heh+Qj@devgpu015.cco6.facebook.com>
+ <aSb8yH6fSlwk1oZZ@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA1PR12MB8164:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2cfc13f9-ad91-425d-4331-08de2d0333cd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|366016|1800799024|376014|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?NUNrZ0hhR1pFcVRhbDdzYjNmMTIrNnA0ZWg5Tlh4TEU1UFk5Yzd4OGJmWXoz?=
- =?utf-8?B?K0VJQUtuZFBScm9VcTY5U0RLVEMvbE9DK09DREhmMzBRS0pvL2FUSjZTNGdS?=
- =?utf-8?B?WjdtZGVvTUdnczFIbHU3RHBPSUxiTEJOdVNxK1dnT21GQ3V5Vy9BYk9HVGEv?=
- =?utf-8?B?MitkbTNpbko5ZGJybXFkaUZHZjR2a09aRy9tUitGMDFLcStOOVRVMUJhV3J1?=
- =?utf-8?B?VlBtYWNCMUJRS3c0WStFNWtnSW1RQ01LaVlZODBZQ1M3MVFaWWFNUUpSWTVZ?=
- =?utf-8?B?QmFDTHBEeTlwSUt6RVRBU3dNZFV5MVRJSm9XYlQwMXdad05wOWVGSG5OWHVz?=
- =?utf-8?B?NC9BdFBvaGRkd296ZkVHeDRGN1doY2dmZVJJeWlxYlFweVBhaG5JcW5lR3g1?=
- =?utf-8?B?LzE3a0NCdUJZMm5sYWUyN0p0MUNVN0grY0xxNFN1ZWQ5WWwrbjhXeGd5ZGZm?=
- =?utf-8?B?cWI2dG91R3p6SW1DVVpOYXU4YWpvUENSRzhBd3dTZlp3SjZac0cyTnJzT0RK?=
- =?utf-8?B?U0xKZEhNSUFRWEZmaUMwVjlabGMwNCsvNnFWSExKb1YvR2RyNzdaTnFHbkxh?=
- =?utf-8?B?TUErS2REVWNNOWZzTDhGNGtTeHFIYWFiTHlzdDU4OVBJTUlEck1Tdk5YK2hD?=
- =?utf-8?B?aEF5NHNLamNZblFDQTVEUCs4Nk9QVWVBU0JrU1ZsQnpQa2Z6RC9oZnovek8z?=
- =?utf-8?B?cHJjT3VFUXRCb2FKU3NiRklKbXlrU2N2aUg3WXZzWXFiODBnODBDcXdObTdk?=
- =?utf-8?B?ZUVUaGczKzdweEJzSmFvNlFEakYyL1lyUlhiQ280RlYrdU1yMU1wRllLaHlo?=
- =?utf-8?B?WTBPYzV6VVFFMjRyVUordXMvOFJnYS93RlhGY2lxdDAyd3ZWOUsramJIeWY3?=
- =?utf-8?B?ZW9nQmJGNGJObEs0Yi9OMmV3d3RDQ0xlOFBKVlN3VGIzS1dJdGkyZ3RRbHpa?=
- =?utf-8?B?OHg0VzlDbUZJa1NJNTQxQkZ2ZHZuelBRUExOQ1hmYkZ3R0pQVkluemU1Mnhn?=
- =?utf-8?B?YUsxdS8velYwOFhXcGRYK05lOFFrTVJsY0MwWHl6NjhmZEFoeVUyZk1tY3RJ?=
- =?utf-8?B?U3NzWWhSNW8zaXV3NlR2WTJjVWxKRzNHdUxybHdxNThjVEI4dFhtd2E0ZDA2?=
- =?utf-8?B?YjMzWHRna3I3anZtSCs1Z29EWTZFck1UVE1VQ3l0YTM3SjlLQlB6Q0xsMWNO?=
- =?utf-8?B?M2VjZ3FMeit5SEhkSTVuM01GeFlDUTkzZTVLc2VvbnI0WElKTXEzUExVSHMr?=
- =?utf-8?B?TWhKclZreEpKUkNZU21DNmFpak9NNU53V1NnSmhTd2w0UmxZS044MmxPMUht?=
- =?utf-8?B?TFFqcXZpSjZMemZFMXZHdWFhcHVRZERib0NySlNHSWNJWW95SDg3cllDUUdz?=
- =?utf-8?B?UFBkMzQraTYyMHFad1NYOW5HZ3UzLzhzY21Tb0pDanUyNXpMNitkc1pqVzJP?=
- =?utf-8?B?Wk9NcjFYVVJMY0JaYXZncUtKOUxEWlZZWmtWemlPYVNSTDFvTUNwTlhVSlRk?=
- =?utf-8?B?RmJEUWR6ZFR3dkJSNmFNSnk2a1p1TjFLelZ5WDFuYkM2TjBVY3dRS1kzU3NB?=
- =?utf-8?B?eXBOOTlWbEtTdDB3bElySEVKc0l3bnJ4eFlwUlYvQnJWSWc5MW9rYWtwZkFB?=
- =?utf-8?B?WkRtUUJEYkZMalNOUGZUMVloUVowT2I4TFJXUDM1RXBBbE05bDJ2MmovTEt3?=
- =?utf-8?B?NEcvd2pXbURjaVBJbUx1SFdKa0ZJYU1oZG9MUG12RzZpS3dJUmhuQjlOSUJn?=
- =?utf-8?B?eWpkc3hXV2RxVUdTWmlhTk5GWnBTUVNlNmNvT2RCSDNEanNNcTFCQVlJNFQz?=
- =?utf-8?B?TmpKS1RSbHJlNUVZVDh3NGI2VXprU2l2WUVHOElsT1JPMmthcDRmVGFxT1Fl?=
- =?utf-8?B?V3lmZ0x3eXhndVZNR0VMckwxZXhTZS9CSVV5aXVvZW5oV25wUmRLVGxNUG1a?=
- =?utf-8?B?ZzlwVklxamJ4WkxCWjRzMEVzdWJVWWs2VTlDdDBXdnVFcUNEZWRZb1RvMkkx?=
- =?utf-8?Q?4WeNOprzoNZIHlx66ntzzmqdJrUDTI=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(1800799024)(376014)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QjlNQ1JmNEdTeVc1VldaUk5DNC9zdkQ0d3Zob0xtWlk0cmgwT3RXbm84YUNR?=
- =?utf-8?B?cG12b3FvQmVYa0d0RVc1WW0vb1NHK0l2aXVNei9OaHdDa0ZrV1A2bzl2MkRq?=
- =?utf-8?B?Z01ISUJaMHhiYWNZZ2pDd21UUUlLL1hKMTRNNlIyWmxzRTVZWlZrR1Y3KzVk?=
- =?utf-8?B?K1ZHQTNZVVVLODRXelk2Z1NlQUdEVzdXbkR1YkkrU0llUnpZS1BmcG9mUlhs?=
- =?utf-8?B?RFJlSGpWeVdsbGdpdEhOWDNadm51MThpT1BhTUdXUTVHYlUrQjV4Wk9WNy9v?=
- =?utf-8?B?MzVpYnZpZFI1RlBvaVBobWVsUDlndlhWUk96MHRTV0hMcVFDZE9GSUltaElT?=
- =?utf-8?B?UXV6ZS9JamFUdk9RWkFCaTZOWUY2SjNUVHQyQ1RNb2FObGhrY1dybzQ5V3Er?=
- =?utf-8?B?N0tORXFGMzBVeXFLSEhSY1VqazhZUlFpVllWdHlVenNBazBuMHVIRnZueTFv?=
- =?utf-8?B?WjJKemIrN2xQU1NxOGhJMTZJU0ZjVkUwUENXZWpRcDlkb240c1A2R0hWSGRU?=
- =?utf-8?B?RU4xQ2x1Q2crOGpyZzB1UGJvQTNHQUtrTGlLYTlFbEtqVW1KWWlzZ2lHZzBY?=
- =?utf-8?B?Um4rUlpJUVdCUGdqcnNPbDlyUHY3QnVHb3FOcG1NVEJ5c3Q4UHVPVU9jZ3FL?=
- =?utf-8?B?RWlWVUtoajk5TnBHR2RNWmZGemZ1TUFtYXZlWVhtdUh4bHBnd3dnTDVLVkVZ?=
- =?utf-8?B?ejVSUGE3SkR6M3ozTTBYekhrUDZ3TENTODQwUTNSdWZyTHJ2RFN0Y0VpY3E1?=
- =?utf-8?B?bjdWOUZNak4xelV1TXVMYnFUSGRDKy9CMkNNR3NaR21JOWJiaERwVGtUR25E?=
- =?utf-8?B?eUlZSk9hR0UzNFZjT3ZCcUVzM0JkRXl3YWdOVXY3RDU2ZWNlRkZqaGlrTlpG?=
- =?utf-8?B?ZUxZb3NVRFA2aUgwa0tOa3oyVXhvbGlOZ0VsU0s1ekVZLzJOMndrSTZFV2xM?=
- =?utf-8?B?ZVoyenl5VHg0NkJxNW1UcjVmL2pGck84dEdjM2xYekcwNTlLd1YyT093dUxX?=
- =?utf-8?B?TFo3bFFSTFR5Y0plN1oza09aeS9KRmZneXBTU2hkRmhSTkhiS0p6d01rR0to?=
- =?utf-8?B?OUJWN1F0U1NHcml1SExvTFVtNzg3NWxHRTdCODNWU2swd0NNSndjUC9UbVZp?=
- =?utf-8?B?U1FqcFNtT0xJREJRbGwrcmZHM2RyMW9mS2E3VkNEYWZiRk8xWTNwa2E4bU5Q?=
- =?utf-8?B?c0hWeTNITXF3Q0M4dXJHNVZFWWo5YVRrN3pnTCtQdTJEdFZsOTkrekI1Y0xO?=
- =?utf-8?B?VTlWQ1JWRFErKzFPdFV5NUxtTWVrZTF2WDhnSkVzQzFPRmU4UGZtT0orT20y?=
- =?utf-8?B?bi8zKzJHTkljTmo1UDdaaWluQXk0UWNFbFZQNy9LZ1M2QWdESzBLRmJXL0tY?=
- =?utf-8?B?WnB2UW9LcUxVNExKWDhxT1d4cEhzTEQ4V3JOTnRiMDByOHBWWWsxRGtXRkM2?=
- =?utf-8?B?RE04bUFHNE9NTWwxSHgvcVcyR3ZZUFRPZ1p4MVNjQzBqdllkR1d1TUJlZFFZ?=
- =?utf-8?B?bXk3Nzd3djZ3UkRxS05laGxaL3JpM1pmeGZHTDM4aU42TEtUVGhMNTdpU2Yy?=
- =?utf-8?B?Qm56bS9JbFhwcmZscmcxWW1wR0tCbXE5d0pkT3dCUDl3RDRjMnh1c3NObWdC?=
- =?utf-8?B?OFl6YXVJcU0yaDVMRjNPQzNHTGRDU0tTUmF2dGl1bktrRWJhemlHOG9OdDJQ?=
- =?utf-8?B?NVpyLzlCRFpnMEpKMENDOFRLY0VBYUpCY2h5MUxZYmxhdmM1TVArQU5HYkJX?=
- =?utf-8?B?aWtqNjcwUENVZWJ2T1ZnaFN5MW5RRFZpSGhsT3BlbnNTZmZ0Y2haY1pWaFNp?=
- =?utf-8?B?ODBUN1hqaW5OTFpFMTRKWVRvak9PZGs1ZXdSRmZFNSt4K2JXcU0xQVozK0d2?=
- =?utf-8?B?aExFZFdvMXk2amFkN3hMU21kTHp3ZmRRNWllZHdvOUhIVzNXNTlJSGoyVXpu?=
- =?utf-8?B?aVFYbGI2ODRucWcwRXF6d0dLTE9FNm5oR1lQaW1vZGtjK3pIT0tGejRZRHQx?=
- =?utf-8?B?a2RMMkFYR2l1ZlYzSDlRVE1sWFFlLysyY3UrTFBYaHpIY2hNUUJ6cysrVyta?=
- =?utf-8?B?L2RVNTdIVVQ2QXRrNG5Uc3VqMlo3VFRSUVVScmlYQWNSK3ZmM2NLOTNJaXFk?=
- =?utf-8?Q?7p4O3k666MhVcqfKZZvvi5omw?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2cfc13f9-ad91-425d-4331-08de2d0333cd
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2025 15:48:11.2397
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HUTPpLs5DsfA3p5bUZSX8d8Fd1O6uBViPJz5N/4oXdOf4zUC8eGzDwEDifPbu49W
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8164
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <aSb8yH6fSlwk1oZZ@google.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI2MDEzMiBTYWx0ZWRfX3bFJkIqQfPcn
+ LWbsluc+XiO7FtO07pm/tzene/bBlAJbYXetaCM2lBsQPJ7MYrk9CERNphaL5xKMK0Fnvy9OfVQ
+ Y+bU9q7WY0Uh4Ys8J+otFMneIfwxv0xQluXqaIjHKTPEMVRe0iLSwQwQAHlspppJcXBPJ55pvJz
+ JZGujlxTRi2Y6L0eYmj2p7cT3nMIZvFmJX5h1nMX2rkgpOumcUuD7Oe2fNXk47TY9k+6i3mWPRm
+ +1gsqEAXdsAGhXv5RuZTmDTEo722fCpYhIfmTOQnzXGxfUvfRTUYuIHNc7jrvUJJ3yy8os7MmWa
+ fQzyxL3akPGWodtrtHsYmp6smX1T/MBPHuER3U7LA5bJUfQjB0xkE91sw0JPQLAlnjtXtOu0oRF
+ 6D5ufStP6OnrcDNfC66Kegl4bp3vwg==
+X-Authority-Analysis: v=2.4 cv=AJKKJ3lP c=1 sm=1 tr=0 ts=692725ff cx=c_pps
+ a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
+ a=kj9zAlcOel0A:10 a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=B5NVPXpBE_52QoX4XTUA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-ORIG-GUID: jOyqyM0SasvNGLs4etkYDuX4vfn-Z9b2
+X-Proofpoint-GUID: jOyqyM0SasvNGLs4etkYDuX4vfn-Z9b2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-25_02,2025-11-26_01,2025-10-01_01
 
-On 11/26/25 16:39, Maarten Lankhorst wrote:
-> Hey,
+On Wed, Nov 26, 2025 at 01:12:40PM +0000, Pranjal Shrivastava wrote:
+> On Tue, Nov 25, 2025 at 04:18:03PM -0800, Alex Mastro wrote:
+> > On Thu, Nov 20, 2025 at 11:28:25AM +0200, Leon Romanovsky wrote:
+> > > +static struct scatterlist *fill_sg_entry(struct scatterlist *sgl, size_t length,
+> > > +					 dma_addr_t addr)
+> > > +{
+> > > +	unsigned int len, nents;
+> > > +	int i;
+> > > +
+> > > +	nents = DIV_ROUND_UP(length, UINT_MAX);
+> > > +	for (i = 0; i < nents; i++) {
+> > > +		len = min_t(size_t, length, UINT_MAX);
+> > > +		length -= len;
+> > > +		/*
+> > > +		 * DMABUF abuses scatterlist to create a scatterlist
+> > > +		 * that does not have any CPU list, only the DMA list.
+> > > +		 * Always set the page related values to NULL to ensure
+> > > +		 * importers can't use it. The phys_addr based DMA API
+> > > +		 * does not require the CPU list for mapping or unmapping.
+> > > +		 */
+> > > +		sg_set_page(sgl, NULL, 0, 0);
+> > > +		sg_dma_address(sgl) = addr + i * UINT_MAX;
+> > 
+> > (i * UINT_MAX) happens in 32-bit before being promoted to dma_addr_t for
+> > addition with addr. Overflows for i >=2 when length >= 8 GiB. Needs a cast:
+> > 
+> > 		sg_dma_address(sgl) = addr + (dma_addr_t)i * UINT_MAX;
+> > 
+> > Discovered this while debugging why dma-buf import was failing for
+> > an 8 GiB dma-buf using my earlier toy program [1]. It was surfaced by
+> > ib_umem_find_best_pgsz() returning 0 due to malformed scatterlist, which bubbles
+> > up as an EINVAL.
+> >
 > 
-> Den 2025-11-26 kl. 16:36, skrev Christian König:
->> On 11/26/25 16:34, Maarten Lankhorst wrote:
->>> Hey,
->>>
->>> Den 2025-11-21 kl. 16:12, skrev Christian König:
->>>> On 11/21/25 11:12, Pierre-Eric Pelloux-Prayer wrote:
->>>>> Until now ttm stored a single pipelined eviction fence which means
->>>>> drivers had to use a single entity for these evictions.
->>>>>
->>>>> To lift this requirement, this commit allows up to 8 entities to
->>>>> be used.
->>>>>
->>>>> Ideally a dma_resv object would have been used as a container of
->>>>> the eviction fences, but the locking rules makes it complex.
->>>>> dma_resv all have the same ww_class, which means "Attempting to
->>>>> lock more mutexes after ww_acquire_done." is an error.
->>>>>
->>>>> One alternative considered was to introduced a 2nd ww_class for
->>>>> specific resv to hold a single "transient" lock (= the resv lock
->>>>> would only be held for a short period, without taking any other
->>>>> locks).
->>>>>
->>>>> The other option, is to statically reserve a fence array, and
->>>>> extend the existing code to deal with N fences, instead of 1.
->>>>>
->>>>> The driver is still responsible to reserve the correct number
->>>>> of fence slots.
->>>>>
->>>>> ---
->>>>> v2:
->>>>> - simplified code
->>>>> - dropped n_fences
->>>>> - name changes
->>>>> v3: use ttm_resource_manager_cleanup
->>>>> ---
->>>>>
->>>>> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
->>>>
->>>> Reviewed-by: Christian König <christian.koenig@amd.com>
->>>>
->>>> Going to push separately to drm-misc-next on Monday.
->>>>
->>> Pushing this broke drm-tip, the amd driver fails to build, as it's not using the eviction_fences array.
->>
->> Thanks for the note! But hui? We changed amdgpu to not touch the move fence.
->>
->> Give me a second.commit 13bec21f5f4cdabdf06725e5a8dee0b9b56ff671 (HEAD -> drm-tip, drm-tip/drm-tip, drm-tip/HEAD)
+> Thanks a lot for testing & reporting this!
 > 
-> Author: Christian König <christian.koenig@amd.com>
-> Date:   Wed Nov 26 13:13:03 2025 +0100
-> 
->     drm-tip: 2025y-11m-26d-12h-12m-41s UTC integration manifest
-> 
-> drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:2188:34: error: ‘struct ttm_resource_manager’ has no member named ‘move’
->  2188 |                 dma_fence_put(man->move);
->       |                                  ^~
-> drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:2189:20: error: ‘struct ttm_resource_manager’ has no member named ‘move’
->  2189 |                 man->move = NULL;
->       |                    ^~
-> 
-> Is what I see.
+> However, I believe the casting approach is a little fragile (and
+> potentially prone to issues depending on how dma_addr_t is sized on
+> different platforms). Thus, approaching this with accumulation seems
+> better as it avoids the multiplication logic entirely, maybe something
+> like the following (untested) diff ?
 
-Ah, crap, I know what's going on.
+If the function input range is well-formed, then all values in
+[addr..addr+length) must be expressible by dma_addr_t, so I don't think overflow
+after casting is possible as long as nents is valid.
 
-The patch to remove those lines is queued up to go upstream through amd-staging-drm-next instead of drm-misc-next.
-
-I will push this patch to drm-misc-next and sync up with Alex that it shouldn't go upstream through amd-staging-drm-next.
-
-Going to build test drm-tip the next time.
-
-Thanks,
-Christian.
-
+That said, `nents = DIV_ROUND_UP(length, UINT_MAX)` is simply broken on any
+system where size_t is 32b. I don't know if that's a practical consideration for
+these code paths though.
 
 > 
-> Kind regards,
-> ~Maarten Lankhorst
-
+> --- a/drivers/dma-buf/dma-buf-mapping.c
+> +++ b/drivers/dma-buf/dma-buf-mapping.c
+> @@ -252,14 +252,14 @@ static struct scatterlist *fill_sg_entry(struct scatterlist *sgl, size_t length,
+>  	nents = DIV_ROUND_UP(length, UINT_MAX);
+>  	for (i = 0; i < nents; i++) {
+>  		len = min_t(size_t, length, UINT_MAX);
+> -		length -= len;
+>  		/*
+>  		 * DMABUF abuses scatterlist to create a scatterlist
+>  		 * that does not have any CPU list, only the DMA list.
+>  		 * Always set the page related values to NULL to ensure
+>  		 * importers can't use it. The phys_addr based DMA API
+>  		 * does not require the CPU list for mapping or unmapping.
+>  		 */
+>  		sg_set_page(sgl, NULL, 0, 0);
+> -		sg_dma_address(sgl) = addr + i * UINT_MAX;
+> +		sg_dma_address(sgl) = addr;
+>  		sg_dma_len(sgl) = len;
+> +
+> +		addr += len;
+> +		length -= len;
+>  		sgl = sg_next(sgl);
+>  	}
+> 
+> Thanks,
+> Praan
 
