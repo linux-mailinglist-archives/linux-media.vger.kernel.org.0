@@ -1,182 +1,132 @@
-Return-Path: <linux-media+bounces-47733-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47734-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1408C884E2
-	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 07:44:19 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3E6AC88527
+	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 07:53:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8275C3AA521
-	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 06:44:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 811443AA948
+	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 06:53:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37A96315D4E;
-	Wed, 26 Nov 2025 06:44:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD52531691A;
+	Wed, 26 Nov 2025 06:53:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PEeVV90V"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016041E49F;
-	Wed, 26 Nov 2025 06:44:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A541A31281F
+	for <linux-media@vger.kernel.org>; Wed, 26 Nov 2025 06:52:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764139451; cv=none; b=bWiIFS/X2UO+FduXQmpdAtYM1YfcaoAa1G/dayDHmaDT58zc5/Z1JbbbZQ2XrY7aGmKQb1b6Hwh8BQEBqJ9LYnDxVM+5Vl9bsxhSDG5QwIus6QmJb4QOtB30Lh8GPsHmFcj12Pvc2+5GskpoDzT4sF7AaoUS0Vfl6uoWgDD8/Rc=
+	t=1764139981; cv=none; b=pFT1evyeNRwwRZCL2CwtNFbyw/ps7w2XoyKG2mAuV1PvX5sM+Okn8ke6QQamA8LhiG7n+eyia8ouZ461mFodVc0psLaiEc7dH3d3dngMSF6r6i/4Qz6ZBugCXuj9Cx0tN49vZs54UlC6l5UO8WQbTy//8JgwjdBU764i488hGvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764139451; c=relaxed/simple;
-	bh=UiPvJROLzLibReK5zuFzhX5ExRjj/5w3uVUubpH21e8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Y0vixMSp6PT0ZJgAMGLfISgm2D2bJwBmXroYDS+ridWRHvhOTHceEdNs/fGOw/qwRZTv+hPLElYUYV9qcgAVUgZmj6nB9gdihMo00o5hPKYEbtZCHtX037/lTRyiEj25A+kgUyy/TGopLiZl2ZhPpmlmEP6D2GdQtPAEuFrJ65E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 46b82220ca9311f0a38c85956e01ac42-20251126
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.6,REQID:3558539c-333a-4f29-a0d0-35fd183da0cc,IP:0,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
-	elease,TS:0
-X-CID-META: VersionHash:a9d874c,CLOUDID:5287c8469b42ebd3089eb99a2324a166,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|898,TC:nil,Content:0|15|
-	52,EDM:-3,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OS
-	I:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 46b82220ca9311f0a38c85956e01ac42-20251126
-X-User: dengjie03@kylinos.cn
-Received: from [10.42.12.246] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <dengjie03@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 1418164439; Wed, 26 Nov 2025 14:43:54 +0800
-Message-ID: <51841aa1-686e-4ae3-9397-c4dadd389b27@kylinos.cn>
-Date: Wed, 26 Nov 2025 14:43:51 +0800
+	s=arc-20240116; t=1764139981; c=relaxed/simple;
+	bh=BK+tZ9pD5eAAc9qRGUcd0m51Raok99lisnLY6sDj8Js=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YvQGs3ghN+QYHropqvP5j324l9jSTVraf4pfsRB5WIKD0CMKVPZ3H47wJjyIOBWBExl4msuOIOrQeXiw8oy2K9rFm5TAm5kWVinN3x9djP2sbY0KZn23VPpYigPlHba0e5GV5lVxY2y2Du7czGS2gAbCWpoAe1VKUUVfPGs9RNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PEeVV90V; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7b7828bf7bcso7867484b3a.2
+        for <linux-media@vger.kernel.org>; Tue, 25 Nov 2025 22:52:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764139979; x=1764744779; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HgOIexVeDfDtUYQCupJMpajtM+/Y7OYtN4nw8vkU+0g=;
+        b=PEeVV90V3ZslaH3uCF8eDUidMWQH/QCmR7B95vxckTFul5xmW56JI1ZERvupwnaiCr
+         l35s1Zp4tzygchqDvFE22CZ8gCZbaK+sO7m1V1VyrWo/AMNf1NuKVUz3xdHyuPgIVB4U
+         5sYR8K1zv50V7LUmXYDtMiEQKdujDjAAdNPOXmDGSc3YL6VXT6yzI3XZQH7CakvAGoIt
+         RJaMcyp/tqk4ifxPpj05RtLtmnpl7ZeAKCucdinxokljxOZvVk3NT5LsPuaeP6yxe2Se
+         ZWE4thp0qLsDqIFKPjmp83iBLetkDjKeHQZAHKlLameyGG4fCrEKqHMEIl+gkf9+Y1DM
+         K3cQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764139979; x=1764744779;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HgOIexVeDfDtUYQCupJMpajtM+/Y7OYtN4nw8vkU+0g=;
+        b=eQ9ux1zSuxPo7DbICeP/nnGaYVn7mBvRyFx1N9jx6uX2cUVgSWOfOr4Jwhjxy6wn75
+         +xRLOxz/32xYxCY7obUYZNdrt3kjTI49M8D+gNrfNGX2s5rFUonbeUqKHEd/amOxRoMf
+         RXToSQbwXdvuvcz2DKaCrwW/BP0QGI+8h/EjnW6BFFsQY4l+VIoEdwDMawYBH9kKsN2j
+         cFKMvUQ23kJuyWR2ozkzH5+bLOLaXn4yes8J0RKPHM8Tlf8TJrqqWuhtYrTP1QOHSTxo
+         /c4Vp+a9mA23npb4jOQqdym8Bv2yEBN7lappPQc7xk/OBg3aGoxVYOFDFe8K+ITHhw4Z
+         GQrQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU0ZAmiQZACWHGXnztBcnSMnSgTpXflnxfLwxCZ4IGyAu8/W47warObOzrRY/R/9ADpfqeDrQS72cnH8g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/zd77uipeTX4jBypmHwVNcprdQ8jmF0izWubVLMXi623PayNf
+	OPO6s7cnD4TEoKPMRwn7Z8Oyycgt4bstJKdlvIaKtmkjXyFqvO0v7c1f
+X-Gm-Gg: ASbGncu22U6Fdc988CnYufDIsDlhXb5J6wOBmrnM6QbbDX/AimYRLXWZXMhdSOyzjTB
+	gLcBZdIL93JBDYCHTpquplN1SzAFrDOG84kKvb3kmijzgdf5uyhshOAam8ZZwknUku7LP00kn1Y
+	xPSghIxekKNaeRBC2N81RRkIqM1K4QgmMJRwm0Bte6eCg702w46kZRfwT4d6zI+36Cdtr5j6m/K
+	aIdDAn2jRp/rUiFTm5YGfcPpN1pvToTqxJWqWtC9wgzou+OzHN0cfzzbgNZnfwLBlCkGj0aYRBT
+	WOmTnerfdyN2KXa89i9PdsieawcB7relx+H6bxdux5cW1I7EBAwes05GAKmoaRytFwjhUbeYxV0
+	xPpN2KDgx9HtDR+uvSHdtD7bpBSADu4CruDPJUC/0yyGOT+Njub3tYTfBe8W2/UCQ0pGqPB4nix
+	jcflq2F3XA2SVlYgEzkDCGjHMXzIB2O/T2+4Fs
+X-Google-Smtp-Source: AGHT+IEE4CTbu1c5peHPM99zicrUlC0JsRXRgiT1+i7EQCCIG5zPCF+CYZG2Zt6NXjE83or4Omrl3A==
+X-Received: by 2002:a05:6a00:92a2:b0:7b8:e02d:d5b1 with SMTP id d2e1a72fcca58-7c58e609950mr19280180b3a.16.1764139978740;
+        Tue, 25 Nov 2025 22:52:58 -0800 (PST)
+Received: from LAPTOP-6H9JJHSF.mshome.net ([61.1.189.195])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7c3f174c9dasm20077037b3a.65.2025.11.25.22.52.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Nov 2025 22:52:58 -0800 (PST)
+From: Dharanitharan R <dharanitharan725@gmail.com>
+To: thierry.reding@gmail.com
+Cc: jonathanh@nvidia.com,
+	skomatineni@nvidia.com,
+	luca.ceresoli@bootlin.com,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Dharanitharan R <dharanitharan725@gmail.com>
+Subject: [PATCH v1] media: tegra: vi: replace devm_kzalloc with kzalloc in probe
+Date: Wed, 26 Nov 2025 06:52:42 +0000
+Message-ID: <20251126065242.12186-1-dharanitharan725@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] media: usb: uvc: Fix NULL pointer dereference during
- USB device hot-unplug
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: laurent.pinchart@ideasonboard.com, hansg@kernel.org, mchehab@kernel.org,
- kieran.bingham@ideasonboard.com, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251122072558.2604753-1-dengjie03@kylinos.cn>
- <CANiDSCuJZU9di2T_zQbk7NVr0--JyPUZkXGur11HKZF8qe3N2Q@mail.gmail.com>
- <65a0e74c-a9ee-4237-b8c9-9863e4de64b5@kylinos.cn>
- <CANiDSCtNuYbxH9JH1=1NisDQy+b+SahpvGw3BjyvT4PXX=FO_w@mail.gmail.com>
- <5ebb9c9b-ed8a-4872-80b6-a0da815ad77b@kylinos.cn>
- <CANiDSCtmU=7fGnKE1U-=Xnv70rVR8SzknPLZHFcPTg5QDVE-Qw@mail.gmail.com>
-From: Jie Deng <dengjie03@kylinos.cn>
-In-Reply-To: <CANiDSCtmU=7fGnKE1U-=Xnv70rVR8SzknPLZHFcPTg5QDVE-Qw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+Replace devm_kzalloc() (line 1881) with kzalloc() in tegra_vi_probe()
+since memory must be freed manually in error paths. Freed via kfree() in
+rpm_disable, as recommended in the file comment (line 1204).
 
-在 2025/11/25 16:29, Ricardo Ribalda 写道:
-> Hi Jie
->
->
-> On Tue, 25 Nov 2025 at 04:14, Jie Deng <dengjie03@kylinos.cn> wrote:
->> Hi Ricardo
->>
->> Thank you for your reply
->>
->> 在 2025/11/24 17:06, Ricardo Ribalda 写道:
->>> Hi Jie
->>>
->>>
->>>
->>> On Mon, 24 Nov 2025 at 04:08, Jie Deng <dengjie03@kylinos.cn> wrote:
->>>> Hi Ricardo
->>>>
->>>> Thank you for your reply
->>>>
->>>> 在 2025/11/22 16:17, Ricardo Ribalda 写道:
->>>>> Hi Jie
->>>>>
->>>>> On Sat, 22 Nov 2025 at 08:26, Jie Deng <dengjie03@kylinos.cn> wrote:
->>>>>> Add safety checks to prevent kernel panic during the race window in
->>>>>> USB device disconnection.
->>>>> Can you share the kernel version that you are using?
->>>> The kernel version I'm using is 5.4.18
->>>>> This patch
->>>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c93d73c9c2cfa7658f7100d201a47c4856746222
->>>>> Should prevent the race that you are describing.
->>>>>
->>>>>
->>>>> In your trace you have a reference to uvc_queue_streamoff that was
->>>>> deleted by that patch
->>>> This patch may indeed eliminate the problem I described.
->>>>
->>>> The 5.4 longterm version should not have synchronized this patch？
->>> Seems that the patch that fixed the issue:
->>>
->>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/media/usb/uvc/uvc_driver.c?id=c9ec6f1736363b2b2bb4e266997389740f628441
->> 1. What this patch does:
->>
->> Problem scenario: When a USB device is disconnected, the kernel
->> initiates the
->>
->> unregistration process, but the device might still be in a streaming state.
->>
->>
->> 2. The issue fixed by my patch submission:
->> 1）Problem scenario: When userspace actively stops streaming, the USB
->> device gets
->>
->> disconnected during the stopping process.
->>
->> 2）Fix method: In the stream stopping function, check whether the USB
->> device is still
->>
->> connected to avoid accessing structures of already disconnected devices.
->> This is fixed
->>
->> by adding null pointer checks.
-> Your patch only reduces the window for the race condition, but does
-> not solve it.
->
-> If the device is disconnected between the NULL check and the structure
-> use, there will still be a kernel panic.
->
-> The proper way to fix it is with:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c93d73c9c2cfa7658f7100d201a47c4856746222
-> or
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c9ec6f1736363b2b2bb4e266997389740f628441
->
-> Those patches were not backported to 5.4, only to 5.10. 5.4 will be
-> EOL in 5 days
->
-> Please move your product to a newer kernel (ideally the latest
-> released by Linus)
->
-> Regards!
->
->> The patch I submitted addresses a different race condition.
->>
->>
->> Thanks,
->>
->> Jie Deng
->>
->>> Was only backported until 5.10
->>>
->>> 5.4 is EOL this December. So it is probably not worth doing anything more.
->>>
->>> Regards!
+Signed-off-by: Dharanitharan R <dharanitharan725@gmail.com>
+---
+ drivers/staging/media/tegra-video/vi.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Ok. Thank you for your guidance.
+diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+index c9276ff76157..73127ea6ee49 100644
+--- a/drivers/staging/media/tegra-video/vi.c
++++ b/drivers/staging/media/tegra-video/vi.c
+@@ -1878,7 +1878,7 @@ static int tegra_vi_probe(struct platform_device *pdev)
+ 	struct tegra_vi *vi;
+ 	int ret;
+ 
+-	vi = devm_kzalloc(&pdev->dev, sizeof(*vi), GFP_KERNEL);
++	vi = kzalloc(sizeof(*vi), GFP_KERNEL);
+ 	if (!vi)
+ 		return -ENOMEM;
+ 
+@@ -1941,6 +1941,7 @@ static int tegra_vi_probe(struct platform_device *pdev)
+ 	if (vi->ops->vi_enable)
+ 		vi->ops->vi_enable(vi, false);
+ 	pm_runtime_disable(&pdev->dev);
++	kfree(vi);
+ 	return ret;
+ }
+ 
+-- 
+2.43.0
 
-Jie Deng
-
->>>
->>>> Thanks,
->>>>
->>>> Jie Deng
->>>>
->
->
 
