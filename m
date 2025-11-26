@@ -1,135 +1,182 @@
-Return-Path: <linux-media+bounces-47732-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47733-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C0BCC88470
-	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 07:30:42 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1408C884E2
+	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 07:44:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id F0674351455
-	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 06:30:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8275C3AA521
+	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 06:44:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DA503164A9;
-	Wed, 26 Nov 2025 06:30:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b="JTppPQB+"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37A96315D4E;
+	Wed, 26 Nov 2025 06:44:12 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com [209.85.216.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56CE230E856
-	for <linux-media@vger.kernel.org>; Wed, 26 Nov 2025 06:30:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016041E49F;
+	Wed, 26 Nov 2025 06:44:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764138625; cv=none; b=QI59puZluGLmPMF12JiX3Nn3kuNllY2S3G4AZjnG2sPY+D2ZcEz8PSCspahm8ZjC2OhtEJKX7AzTxeoG+AkuFWtCQ61aSNdHFmppAd1tBW1dlVpLsAc6vX5JUYUyDSdO8hx8IXu0RO7IpmbDrcjXOfXbOQE879zZOzF3KT4UZZA=
+	t=1764139451; cv=none; b=bWiIFS/X2UO+FduXQmpdAtYM1YfcaoAa1G/dayDHmaDT58zc5/Z1JbbbZQ2XrY7aGmKQb1b6Hwh8BQEBqJ9LYnDxVM+5Vl9bsxhSDG5QwIus6QmJb4QOtB30Lh8GPsHmFcj12Pvc2+5GskpoDzT4sF7AaoUS0Vfl6uoWgDD8/Rc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764138625; c=relaxed/simple;
-	bh=U6bQmkUxd70UqE5e2zL7MVt9+dVE77Ehtb/US7OhAYg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mfI3ijIXrJ2XWr7F2KXPLSR5IyLkEFFqA3xEWpwSavMjVKCYEgpWTFTWzo6/iO6a6azfJOrsxggW5xXo9VOUUJ/5vYynMHqAWBzsRWTpBP0GnYwdoN2EtfndFa3Xv49lXzqYKMt/DSlKm9ANCzwME0ZPIyqqDFgnceN09k17Rhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in; spf=none smtp.mailfrom=ee.vjti.ac.in; dkim=pass (1024-bit key) header.d=vjti.ac.in header.i=@vjti.ac.in header.b=JTppPQB+; arc=none smtp.client-ip=209.85.216.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ee.vjti.ac.in
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ee.vjti.ac.in
-Received: by mail-pj1-f65.google.com with SMTP id 98e67ed59e1d1-3418ad69672so4033756a91.3
-        for <linux-media@vger.kernel.org>; Tue, 25 Nov 2025 22:30:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vjti.ac.in; s=google; t=1764138623; x=1764743423; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IzRkGTCq3jZ+jOaGIzMctMlQ71AdgQEN3oB90COYnDU=;
-        b=JTppPQB+1X7vktBDdv7BdsW1wouObmrt/ltyeVaeRbKpWb3ZCwWd5q2uyYPqOd8c5K
-         ifMXX0zEowWEmm2U9WHPPCNRWmcmaS5E/zqAgO4VHK6tlAnMSL/fAAzqsFT8OqL3rsJv
-         c1L+uKfD8ZH0G0M91dfM71ILEnzxLK4mDk8MY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764138623; x=1764743423;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IzRkGTCq3jZ+jOaGIzMctMlQ71AdgQEN3oB90COYnDU=;
-        b=khDRNy4ggaNQ5NJ9CI2tMmD5RWQzW8v6b5bNC68WYTlrrmMbhE44n6uuhQvQjM6qR8
-         Gto4kRd7SAS9nJ6tLCbsesb3Rraf8KU0QyiQqGxKdgk0nu0S6ByogdFUq7K1Kdu4hew5
-         iCGaHKp8kVnXiCOirUxtx0fzr6De7w/a5aSIi5hvq6Hw+BBkii6JwBCXC2gTY34vrdK3
-         1/3jNicsRXu4BxN9dYeZ1Hv6vDGxSVne92bgRDzTSnXyb/ez3AxtWo2Vs3xRQ9Dv6p5s
-         WsRARfYKAdShBe30NK2b/x75KIWdiXuf68THXyym0x1C5gG+2wVg8e7QTnyz5jC3Nive
-         d7JA==
-X-Gm-Message-State: AOJu0Yxcf50cGjJNz+MvsczRZBdF0e9m+XQuCq31Vjttt9Xo5yIyzFZo
-	Y3KO7JNN9swNNjg5ynEQEmJ912F0hnfB8aKKzaIrr94L/nZZkYtNUjKJdYStf93wWw8=
-X-Gm-Gg: ASbGncsLrhWhJypkaSkcKWDDLXyBC5Wr85SebKtE7bmlDsywh9GVi9ktp+PkUbAX7+g
-	Cl3z0XIM1VldR2Tt72jfATOImSuWPoNZPMI/SXC5gJ5d7tqzlbCKgB9AjE5632UGZDZHB1e5uFD
-	1LTtz16/Dg0/oImUVNFNd0rP27MeteN88x+OyAiYIoATMqIeS3olBpZdJ/C1iGLjm810aou9npY
-	RG4t/PPJkf+JDNsc0VI6Z5HTNxEdyJXRf83Flk71raHcAKoV/SlY4Ho+wvsJMC7K8ABFI4Yz54h
-	fU0Xk2RmXBGvQw/JQXnXGiNYokXblLMHvU7zpr1Bw2BP93D/gVH1A194AoryVlnXaeaXex3DLCw
-	IH5RFBJsbfxWB41IsHPI+0yojF6HfMXGyzpkDVEBWCoyJL5USnw7QpiJZHR820+A5QVMOfDQx/n
-	PYi4e1dFXFOY0ubGD3PQdccrcsg3ttp5N2nFyjlIgoR9KZ3oOuxKN6+uoC
-X-Google-Smtp-Source: AGHT+IEuaHOrzBEFxv16/3EUkSrMUsaXs6T/9SLzDvNZQkcQxKIdKmZkZuFocPDxwf8ehClgPQYvyQ==
-X-Received: by 2002:a17:90b:4b8c:b0:340:d578:f2a2 with SMTP id 98e67ed59e1d1-34733e4cb74mr19340413a91.6.1764138622659;
-        Tue, 25 Nov 2025 22:30:22 -0800 (PST)
-Received: from ranegod-HP-ENVY-x360-Convertible-13-bd0xxx.. ([2405:201:31:d869:7ab4:fdd5:842b:6bfe])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7c3f0b63dbcsm20088553b3a.50.2025.11.25.22.30.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Nov 2025 22:30:22 -0800 (PST)
-From: ssrane_b23@ee.vjti.ac.in
-X-Google-Original-From: ssranevjti@gmail.com
-To: Hans Verkuil <hverkuil@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	david.hunter.linux@gmail.com,
-	khalid@kernel.org,
-	Shaurya Rane <ssrane_b23@ee.vjti.ac.in>,
-	syzbot+a41b73dce23962a74c72@syzkaller.appspotmail.com
-Subject: [PATCH v2] media: radio-keene: fix memory leak in error path
-Date: Wed, 26 Nov 2025 12:00:00 +0530
-Message-Id: <20251126063000.28493-1-ssranevjti@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1764139451; c=relaxed/simple;
+	bh=UiPvJROLzLibReK5zuFzhX5ExRjj/5w3uVUubpH21e8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Y0vixMSp6PT0ZJgAMGLfISgm2D2bJwBmXroYDS+ridWRHvhOTHceEdNs/fGOw/qwRZTv+hPLElYUYV9qcgAVUgZmj6nB9gdihMo00o5hPKYEbtZCHtX037/lTRyiEj25A+kgUyy/TGopLiZl2ZhPpmlmEP6D2GdQtPAEuFrJ65E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 46b82220ca9311f0a38c85956e01ac42-20251126
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.6,REQID:3558539c-333a-4f29-a0d0-35fd183da0cc,IP:0,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:0
+X-CID-META: VersionHash:a9d874c,CLOUDID:5287c8469b42ebd3089eb99a2324a166,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|898,TC:nil,Content:0|15|
+	52,EDM:-3,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OS
+	I:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 46b82220ca9311f0a38c85956e01ac42-20251126
+X-User: dengjie03@kylinos.cn
+Received: from [10.42.12.246] [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <dengjie03@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
+	with ESMTP id 1418164439; Wed, 26 Nov 2025 14:43:54 +0800
+Message-ID: <51841aa1-686e-4ae3-9397-c4dadd389b27@kylinos.cn>
+Date: Wed, 26 Nov 2025 14:43:51 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] media: usb: uvc: Fix NULL pointer dereference during
+ USB device hot-unplug
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: laurent.pinchart@ideasonboard.com, hansg@kernel.org, mchehab@kernel.org,
+ kieran.bingham@ideasonboard.com, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20251122072558.2604753-1-dengjie03@kylinos.cn>
+ <CANiDSCuJZU9di2T_zQbk7NVr0--JyPUZkXGur11HKZF8qe3N2Q@mail.gmail.com>
+ <65a0e74c-a9ee-4237-b8c9-9863e4de64b5@kylinos.cn>
+ <CANiDSCtNuYbxH9JH1=1NisDQy+b+SahpvGw3BjyvT4PXX=FO_w@mail.gmail.com>
+ <5ebb9c9b-ed8a-4872-80b6-a0da815ad77b@kylinos.cn>
+ <CANiDSCtmU=7fGnKE1U-=Xnv70rVR8SzknPLZHFcPTg5QDVE-Qw@mail.gmail.com>
+From: Jie Deng <dengjie03@kylinos.cn>
+In-Reply-To: <CANiDSCtmU=7fGnKE1U-=Xnv70rVR8SzknPLZHFcPTg5QDVE-Qw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-From: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
 
-Fix a memory leak in usb_keene_probe() when v4l2_device_register()
-fails. The v4l2 control handler was initialized and controls were
-added, but if v4l2_device_register() failed, the handler was never
-freed, leaking the allocated memory for the handler buckets and
-control structures.
+在 2025/11/25 16:29, Ricardo Ribalda 写道:
+> Hi Jie
+>
+>
+> On Tue, 25 Nov 2025 at 04:14, Jie Deng <dengjie03@kylinos.cn> wrote:
+>> Hi Ricardo
+>>
+>> Thank you for your reply
+>>
+>> 在 2025/11/24 17:06, Ricardo Ribalda 写道:
+>>> Hi Jie
+>>>
+>>>
+>>>
+>>> On Mon, 24 Nov 2025 at 04:08, Jie Deng <dengjie03@kylinos.cn> wrote:
+>>>> Hi Ricardo
+>>>>
+>>>> Thank you for your reply
+>>>>
+>>>> 在 2025/11/22 16:17, Ricardo Ribalda 写道:
+>>>>> Hi Jie
+>>>>>
+>>>>> On Sat, 22 Nov 2025 at 08:26, Jie Deng <dengjie03@kylinos.cn> wrote:
+>>>>>> Add safety checks to prevent kernel panic during the race window in
+>>>>>> USB device disconnection.
+>>>>> Can you share the kernel version that you are using?
+>>>> The kernel version I'm using is 5.4.18
+>>>>> This patch
+>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c93d73c9c2cfa7658f7100d201a47c4856746222
+>>>>> Should prevent the race that you are describing.
+>>>>>
+>>>>>
+>>>>> In your trace you have a reference to uvc_queue_streamoff that was
+>>>>> deleted by that patch
+>>>> This patch may indeed eliminate the problem I described.
+>>>>
+>>>> The 5.4 longterm version should not have synchronized this patch？
+>>> Seems that the patch that fixed the issue:
+>>>
+>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/media/usb/uvc/uvc_driver.c?id=c9ec6f1736363b2b2bb4e266997389740f628441
+>> 1. What this patch does:
+>>
+>> Problem scenario: When a USB device is disconnected, the kernel
+>> initiates the
+>>
+>> unregistration process, but the device might still be in a streaming state.
+>>
+>>
+>> 2. The issue fixed by my patch submission:
+>> 1）Problem scenario: When userspace actively stops streaming, the USB
+>> device gets
+>>
+>> disconnected during the stopping process.
+>>
+>> 2）Fix method: In the stream stopping function, check whether the USB
+>> device is still
+>>
+>> connected to avoid accessing structures of already disconnected devices.
+>> This is fixed
+>>
+>> by adding null pointer checks.
+> Your patch only reduces the window for the race condition, but does
+> not solve it.
+>
+> If the device is disconnected between the NULL check and the structure
+> use, there will still be a kernel panic.
+>
+> The proper way to fix it is with:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c93d73c9c2cfa7658f7100d201a47c4856746222
+> or
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c9ec6f1736363b2b2bb4e266997389740f628441
+>
+> Those patches were not backported to 5.4, only to 5.10. 5.4 will be
+> EOL in 5 days
+>
+> Please move your product to a newer kernel (ideally the latest
+> released by Linus)
+>
+> Regards!
+>
+>> The patch I submitted addresses a different race condition.
+>>
+>>
+>> Thanks,
+>>
+>> Jie Deng
+>>
+>>> Was only backported until 5.10
+>>>
+>>> 5.4 is EOL this December. So it is probably not worth doing anything more.
+>>>
+>>> Regards!
 
-Consolidate the error handling by adding an err_hdl label that
-ensures v4l2_ctrl_handler_free() is called for all error paths
-after the handler is initialized.
+Ok. Thank you for your guidance.
 
-Reported-by: syzbot+a41b73dce23962a74c72@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=a41b73dce23962a74c72
-Fixes: 1bf20c3a0c61 ("[media] radio-keene: add a driver for the Keene FM Transmitter")
-Signed-off-by: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
----
-v2:
-  - Simplified fix: call v4l2_ctrl_handler_free() inline before goto
-    instead of adding a new error label, avoiding unused label warning
-    reported by Media CI.
----
- drivers/media/radio/radio-keene.c | 1 +
- 1 file changed, 1 insertion(+)
+Jie Deng
 
-diff --git a/drivers/media/radio/radio-keene.c b/drivers/media/radio/radio-keene.c
-index f3b57f0cb1ec..4a203e958a4f 100644
---- a/drivers/media/radio/radio-keene.c
-+++ b/drivers/media/radio/radio-keene.c
-@@ -344,6 +344,7 @@ static int usb_keene_probe(struct usb_interface *intf,
- 	retval = v4l2_device_register(&intf->dev, &radio->v4l2_dev);
- 	if (retval < 0) {
- 		dev_err(&intf->dev, "couldn't register v4l2_device\n");
-+		v4l2_ctrl_handler_free(hdl);
- 		goto err_v4l2;
- 	}
- 
--- 
-2.34.1
-
+>>>
+>>>> Thanks,
+>>>>
+>>>> Jie Deng
+>>>>
+>
+>
 
