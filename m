@@ -1,368 +1,178 @@
-Return-Path: <linux-media+bounces-47773-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47774-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76EEDC8B16C
-	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 17:56:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42138C8B287
+	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 18:15:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id DCAB74E26B4
-	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 16:56:20 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 1B0014E27C0
+	for <lists+linux-media@lfdr.de>; Wed, 26 Nov 2025 17:15:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAC8533F382;
-	Wed, 26 Nov 2025 16:56:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F26D8267714;
+	Wed, 26 Nov 2025 17:15:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jYxqL6Rr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fp2hNaKZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8CB830EF75;
-	Wed, 26 Nov 2025 16:56:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764176174; cv=fail; b=uQh2E8fhhfh4bm+NMKGHHszArAQV7zY/aSW5E53z3do0D/maNkp3wH2gIJYGKniS073kUsKtdh6DIWFpHxIXNq/yKc4S/c9JWYnDQNeV3UfFohvIgKJeybJHfCdiRbtJ3x9mwhCCo3BIowrPceUQJSMIucSlqnOniPJSPhNkhaQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764176174; c=relaxed/simple;
-	bh=NXEfju2n9/4MvAnxuMCYm1j1fSmCYHV+pj6AKkH0l2s=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=S++iX20+EmXG/lAeUWZdxJSwqi9gpO846f9MC4YbEWR4X4K0A+IEV0ZmUmLe9FzsloMaYZa7e5McXR1VScz0LmKQRG9Y7NbKFRR2D0ZL2eptd1f7hTMDlrt+vh/W4D9MBmL5WD472JYckoSOD5YuO0ZZe76h9Ye/hpmVZYcfByY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jYxqL6Rr; arc=fail smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6614533E354;
+	Wed, 26 Nov 2025 17:15:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764177302; cv=none; b=kuwAxUGWQtwsfukczevd1xvcTbE6aUrAd8Fns6OwUior64NgHalo0UWKY+JYF31RyqS9r47O7DKq5bdZheYe1lKxv9oRM8ocyYHEHk4aAO5yrGIprN1F0bh7JSW/ameYS/zjCkDXwbzfwbenAsKLoQVPvO7o2sBYuPrP3VZ8Kfk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764177302; c=relaxed/simple;
+	bh=XpXTi22h1lQyNqutX7n5OVEjFZ0vyoINVMrIpbkzf1Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cadDEY9NF1kUV8dcOU7gpY5C2OUplaFDXAk7etK9pckWLe2TYTcEXY3C+L4Rf8DU0TO9W2FNrIVPaPyhp2/WSVYgMpPQDPpNY+t2ESb1KXryp8GBZTswWLRs76eGx1VgaCHluaI9mHCX9g8zrQmPw2hphwODSAqiejyeINawz5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fp2hNaKZ; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764176172; x=1795712172;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=NXEfju2n9/4MvAnxuMCYm1j1fSmCYHV+pj6AKkH0l2s=;
-  b=jYxqL6Rr55g84OgyaqMwRfuMY8E/HjeabIWbCSW3eNKiSDFGuE/YTrFY
-   p6tuDXc4/LrbI3cBCn1CEwAmC7psZjcIkbe16zedNnSxYXXuNN6Pm/44N
-   leBASvraEsrN4h/d/eqr/73navmiZCkToPIyrY5Jp49n9y7LBtd469V7x
-   zckWvVD7mj27mV14CsmX2fFbG1BvFjmgTKZmnXm5wzvWGcqf4vMdrIy3z
-   OCLlAFCe9bhJM/qDey4+QY08BIKWVNbc7RWU8poahPoVbaUk2inYEBT7R
-   n9EEDQ/hzYLSiKDKYroXYV6L0oSNwJAkz19N+Lt4NS4aKNt0VhFZSRuyP
-   Q==;
-X-CSE-ConnectionGUID: MUOfA2MvRXaBc+vka4OEfQ==
-X-CSE-MsgGUID: 8KPxhybVTr2ZjB/nsXdGSg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="66296571"
+  t=1764177301; x=1795713301;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=XpXTi22h1lQyNqutX7n5OVEjFZ0vyoINVMrIpbkzf1Y=;
+  b=Fp2hNaKZuttZYfgtk60oEKnpjVJuQf/kKRmxAn8LZEBHfzD0Syhyj9zy
+   EX2R5SqCd8Nnj9dkckwEC5aGJJsNx2u6/Z3A3vYul8FeMk0asrtD+O0s8
+   GrkZqQTIflexGtTG8QEgdER09qUZSBX2jraKV+0QQgDxH+LxqspQhGnsb
+   J9kForrW1JQbT1IDq5Ui4GlB1UrkRG7CF5cflT9b9oX/vdpXZ5Ht6lH5b
+   pNreR5VzdOYNwDx0eBZN4wNE8nAF1BCqcyIjwMCZm6UsgcULJH83T5wRb
+   1ZBuYNNj2+UuC9QeJ9SP7suck9WfneDtU6P8ZKv2VPrqg27y4KctT/4wy
+   A==;
+X-CSE-ConnectionGUID: bPRCTBvbTvmGGT4/aOOtCA==
+X-CSE-MsgGUID: lGdEqQzMTZOZxp2WkuNEyg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="66254356"
 X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; 
-   d="scan'208";a="66296571"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 08:56:02 -0800
-X-CSE-ConnectionGUID: a7Sqrf4MRByhjD8XK0JPqQ==
-X-CSE-MsgGUID: /5yPeZh+T66CQMMJXlLV+g==
+   d="scan'208";a="66254356"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 09:15:01 -0800
+X-CSE-ConnectionGUID: T/rFJVtsTEW6SEEyte7elA==
+X-CSE-MsgGUID: j5+qzM/uRhKhpwTkPVow6Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; 
-   d="scan'208";a="192240783"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 08:56:01 -0800
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Wed, 26 Nov 2025 08:56:00 -0800
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Wed, 26 Nov 2025 08:56:00 -0800
-Received: from BL2PR02CU003.outbound.protection.outlook.com (52.101.52.53) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Wed, 26 Nov 2025 08:56:00 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Fnu+uhIDXJdJJnTbG7kDRQahP23o+EI4laOMvzjbbhXuhcV6TEwvOd94GL8M6l1Hrg2mjErkRoWGGfEd8srfFmxFbE+po6riIee1LRnEf32yowl9A6+nrj3t1O4C1fembSCLy60DHmOLNCqMUGDP3+0GeHzgZ5E/KOoQ0gGZqJkKiMLRZrZ2s8OxpQVkmxzGRfOcJYPpAyaEBMMs2BARFwB7XbIaM25Ibsg5LhHzcIpYDsIIt5y/lq6hY526/JGIDOBwlnGi87RuOtxGfLsTLEIRQprxqlq/Q4ulMV/MPW4bulIjesT6RMLANKRO1H8SVaArPDovfrwAvYWK6kqU7A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ITrg8htAmcUkNC0cOn1nzxvXssGE91/zWK6DxcwPcnY=;
- b=tQHH/Dz26+AYoBWESo4db3XIVhrUHCS5RD1kKdZbfgGhL18J80Hx2ue/cGNmKNCIVqk2+FMdkIO0FUZsKVAPD5Xc4qKPcNPHm05N+zH2bwO7M7/M003Aen7jT5abH7DRawTEFSvaGhbUzMfcS7oRIAFalNuFfs+0867nwRq7PjKTwOgQrKeDBi20CL5kyHzIxFUXVgNlvLZmbyU8qkGUzsnsqUL/CSVmrJ7M1utGqO5Q5Z1mZ+6i4HP+0wqIlFzVp+rnLDooly1MV34pA5hOrbUTMn4ihcdhagMTIix/8DZduQKpQ0HdhsKrQgO3lr20O2XrvoRqlhSf10ysnDKJ+w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by CH3PR11MB7372.namprd11.prod.outlook.com (2603:10b6:610:145::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.11; Wed, 26 Nov
- 2025 16:55:56 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%7]) with mapi id 15.20.9366.009; Wed, 26 Nov 2025
- 16:55:56 +0000
-Date: Wed, 26 Nov 2025 08:55:52 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Philipp Stanner <phasta@kernel.org>
-CC: Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
-	<gustavo@padovan.org>, Christian =?iso-8859-1?Q?K=F6nig?=
-	<christian.koenig@amd.com>, Felix Kuehling <Felix.Kuehling@amd.com>, "Alex
- Deucher" <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
-	"Simona Vetter" <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
-	"Joonas Lahtinen" <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
-	<rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui
-	<ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>, Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>, Lucas De Marchi
-	<lucas.demarchi@intel.com>, Thomas =?iso-8859-1?Q?Hellstr=F6m?=
-	<thomas.hellstrom@linux.intel.com>, <linux-media@vger.kernel.org>,
-	<dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
-	<linux-kernel@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>,
-	<intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
-	<rust-for-linux@vger.kernel.org>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Subject: Re: [PATCH 1/6] dma-buf/dma-fence: Add dma_fence_test_signaled_flag()
-Message-ID: <aScxGDYeNeN1WYja@lstrano-desk.jf.intel.com>
-References: <20251126131914.149445-2-phasta@kernel.org>
- <20251126131914.149445-3-phasta@kernel.org>
- <aSctt3QFiEIB61Gr@lstrano-desk.jf.intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <aSctt3QFiEIB61Gr@lstrano-desk.jf.intel.com>
-X-ClientProxiedBy: MW4PR04CA0373.namprd04.prod.outlook.com
- (2603:10b6:303:81::18) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+   d="scan'208";a="193007523"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO [10.245.245.194]) ([10.245.245.194])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 09:14:57 -0800
+Message-ID: <702ac955-32ad-4f24-88cd-c98f9d2f2552@linux.intel.com>
+Date: Wed, 26 Nov 2025 18:14:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|CH3PR11MB7372:EE_
-X-MS-Office365-Filtering-Correlation-Id: f73647cb-50b4-4d97-7e1f-08de2d0caab1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?oJxjR3psbw3NMJHrDQERuuGpC5pZ3A+F09qgRiMzoc8KXQFrmmOSqARpyfod?=
- =?us-ascii?Q?fyZamGEWy9YEtU4VlGDJFn+Iq2y0I3TtR5YUYuo0hiGtOrStgz61/Og9UJHH?=
- =?us-ascii?Q?1sVd3B6S7nUBzj19u1cEMD+w1FKM19nLJJvaMT1VyCJMVPRbQ82D4uXbovlK?=
- =?us-ascii?Q?TNxy0ondfF/RKWQuqKO4QwSLyzaDupc1IldA65QRgDgnojwx6Ku107tpPxBY?=
- =?us-ascii?Q?pJ4/kVzBMGYGdaL7hqK68LLXYmKC8p2RvdYhdGnApO0xcIfbV0yF9O4YzDmM?=
- =?us-ascii?Q?mmVlBM1grXpTD6R6WmWufsOSXIr1b2KfQmwqflMNaaLBAr+CG4+FlOOMr6y/?=
- =?us-ascii?Q?2ENYCmu0sA4W/WkvXGsfb6hnUyp7TNofTYSVpTgnoxFGMgtGAFINUwyYe0RO?=
- =?us-ascii?Q?GEFNMPF+E5ZdKX2myFI9RdifraAMR8cjSzMqJB92gzcjQ3ozik30Ua+GJAOt?=
- =?us-ascii?Q?+nAG4FfTQS6ZmP/k29ZpuwZWD2Wty7MkuBDBKbGcsSgKCUBW6DssIPqryrIR?=
- =?us-ascii?Q?YD8NFF3RPS607M/1wLtM3xqBEBbMYYKI9uo+Y+UX0UUdux+mk1AkdMjKJSSd?=
- =?us-ascii?Q?tMjeI+O5DqxgMT8XkuW4aYdFJkuRbykppCwH192q6e43ueeSRKSrAdmRmpIV?=
- =?us-ascii?Q?Ilu3gAWlL5so7ahvU0ES/GW4cRCftwkhDoMm4XoTGRpxru4oTTrj8Cfd0M+6?=
- =?us-ascii?Q?yhUvWjkWYzT/4t3wc7yas1Dv87S39apbBjMqiH+8XRYyTyHfTAKgHw9i8mPD?=
- =?us-ascii?Q?XOORC4rc6C5+Us0tYZPE19iEsBVULCG1s/FD8MKBld3HJe7Vu/ALQklAOUyr?=
- =?us-ascii?Q?DJLYZTJiDI+dhg9e32ZtNjeUBpvJfVnBFey4mPrG9CSQ1b+xKaP453nxiSZx?=
- =?us-ascii?Q?6P2PlSPY52Zc38cmebi53xcG3oQPmi+g9pUV2oN5JYyVF9Nj66TzkNJy3pA6?=
- =?us-ascii?Q?GPAha/KpTURENDP+j6iWlRqBCn16xhpgLOca80xqqr3ozO60MFMZV7By6gAM?=
- =?us-ascii?Q?wr1SYq6bMJ10oRh6kWoLlinA6ozDucqZ2BcZ/Fa9jbk/TIt6S/IL+gWGh/uJ?=
- =?us-ascii?Q?NEIXXwZjdgEPfbBxa1TLMxbJ5d3Tnm00YwoC7Vhy6rSOo5KagYuPp5gJdnkP?=
- =?us-ascii?Q?zeqaFpDCpYWB4bjUblZjGR2lbeS+CLqZo7g3rGD0rmi6/ZSG4B9ZCSB1Q61t?=
- =?us-ascii?Q?fSdXvv31QHfIqcoxHjL5Tchiqk1Zr4Az3lMUVGYDSRR8G0UkAPp1cbU/H31K?=
- =?us-ascii?Q?O2lYbSqF+8264shrWeM7dSAV3CUTxMAmh2woctv2rVdnFB+ORew1H/43Dogn?=
- =?us-ascii?Q?V6+0DjPraJavY3pNMNfRXfqXIDyp9P/wh6weyx/qsxikjt/NDLzHkEw9EhsA?=
- =?us-ascii?Q?ZNxIPauGm74lMZFB2VGd8v94hlYF3fwR3f6oIAObZLdvV/3xd9ozqaaHEh4Y?=
- =?us-ascii?Q?IdjUfeCnCfPLVkD8i+u2qkZ4QnvhdgW/?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB6522.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?KfDkIfejZ6jkBE5nyiXL++AwXHyRxANHHdGaqu4qfZLe8KWgD0gX7asMqtjS?=
- =?us-ascii?Q?47X0OrhJDFJ3S0FkFe0QXOUnWV4r5+iF0hPL8Om69eBT/6nFwd+VAzkCyeIL?=
- =?us-ascii?Q?Hv85lCbcufYNv0ZWbO9SSZ8jEnRNJvUG2S9bLypczb7y42CglZmKGiZp30b7?=
- =?us-ascii?Q?XatYDyF2qIhB6epTcAvULzqGTSzJ8T02sZf+AjegXe8hnAWxXkKc7wbAhW7Z?=
- =?us-ascii?Q?hgt2KQfABoj7JMMzEohr/2fb5xpCwVCcgfUPH/oGuxt4XuBp+CPWxDsf2BSy?=
- =?us-ascii?Q?Ox1nS4mnvDdBAkChMOO+0oJOtwx+hDLj7IUmm4tFANj9BymuvRTAuXQC5Q1a?=
- =?us-ascii?Q?bWUjnG+svGcPz2xwt0Jl5h/6eu2XPHupDhMhw6UCsAzYfJeFpV+XTGXV2IDk?=
- =?us-ascii?Q?tDMpp17CUrUpYld+F887FyDp+jjzhB+E00DRksEwcX9LMpjowVbuO0QddMjh?=
- =?us-ascii?Q?npl7nD8s5VGPNwnifYA0++yn+V3su7j0gaznqX90Cx/eRHPFAszWaAm7Ey5g?=
- =?us-ascii?Q?ZP9g9Blrf0IPdL+yj02PFXuHHL8fsh5e9DDC4r7bPeblmCJUAAhyDVqzDVFS?=
- =?us-ascii?Q?UKjGwHCsFBuVJNXBMyWPEviARzUA1jRDFnoFdsSprpgfrx/OOOjaqxfqSiRS?=
- =?us-ascii?Q?9k7c+DDACO8rmiDwiyRjRGNvNWoILBlrFurJ0Dh53V1xAAgGqUInbA6SEbtL?=
- =?us-ascii?Q?pR2GFR/IK+QCX3Aei6fM4NSFA0RDdjYHdKkGLt+9oe5K9RVqGVUpVUoArqse?=
- =?us-ascii?Q?hv8/M6ph11dBEOHGiWFtGu0ZeJZK6I+faex/0rOGi9OwdpMJNbD7KM6UG9ZT?=
- =?us-ascii?Q?+o+3cU1QDJ7IMmmcR3RENyiO0bNB/BNw8lZMCGNvK/ON/I2AWnxFjKJYOc4D?=
- =?us-ascii?Q?jvAOYiAr2TAbMAUrsi6t4WaQbYAvY5hmwuvq9rgoxW3KCIh1RsZkBeqUJBKJ?=
- =?us-ascii?Q?JfFdZjUooCR3KOS73eT9b9eNW62YY8eZdhQJ1K+7MkHM8MtODW+4C263Qocg?=
- =?us-ascii?Q?xjH3qGW9aI+KTaaxAZ+lAqwKm1nutausqbrob8yi/QzgHniA/Dn1MYzOtVe3?=
- =?us-ascii?Q?OMVJIMmpwPtcvbO/c3Ljw56/ALTkqLpmH36IQZA10QFPWYgpj6GqcaKmkQiC?=
- =?us-ascii?Q?A6D4w/f17ayp4JkQ4sp/neH3UBjF9L940Zpq67YSBBA7urizAmHAT9iLECPh?=
- =?us-ascii?Q?QITVrv0qCbFVi6t+MGgQnzZ7q1VBE5hMDgqhE5tReia+wlFmDZlqXkMJmrvy?=
- =?us-ascii?Q?NTbpaZnIdc/2iqGepcCjzALVEXPRXn8xvZaX2XlvaLptL+pKtZYHTDi1EgeI?=
- =?us-ascii?Q?YytNyEq//3rfl7rvb3ZtCh8HHUvq8PggXulycAIWQmSXExbGFtnnTXo/GVxr?=
- =?us-ascii?Q?AFeY4PlusUp0/v8Oh2ekwHT2umehg+tUkGwxl1qoCq6BraFue1Vc0lR2mw14?=
- =?us-ascii?Q?OF75BcYxmYeDQWUapvdwXo7UKzZrOgdOojUJnEvlK76FbcmWyvqfJfjvNBnB?=
- =?us-ascii?Q?KNDUFLG52unSEcBAbQ66nADd7VplKFiiZNNF8bfwv+CzLjdP3Z2dihW5iYCx?=
- =?us-ascii?Q?SmnInZQKmEnmdbQqNLYEifrVVfHo3JminS9bIko1+QnV2SQoSVdXmlgyi+uB?=
- =?us-ascii?Q?5g=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: f73647cb-50b4-4d97-7e1f-08de2d0caab1
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2025 16:55:56.0952
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Lr/Pss4VxbrFA3MqY6V0UQqb5A2gByxhpphC8B/99qD90IdJceiPPkEUM4Jtt6YdJwpR2PYGpLb0YrnZG8619Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7372
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 19/28] drm/ttm: rework pipelined eviction fence
+ handling
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20251121101315.3585-1-pierre-eric.pelloux-prayer@amd.com>
+ <20251121101315.3585-20-pierre-eric.pelloux-prayer@amd.com>
+ <414584f0-3fdb-41e2-aa26-3776dc514184@amd.com>
+ <7346d42b-3ad7-4170-900f-73d8ed356f71@linux.intel.com>
+ <cc43a512-b979-4c11-a413-ab5108dab466@amd.com>
+ <847eb5a7-7464-40f2-81ea-7bf2ff009a31@linux.intel.com>
+ <b12b952b-1e32-439f-8d96-78e449cbbde7@amd.com>
+Content-Language: en-US
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In-Reply-To: <b12b952b-1e32-439f-8d96-78e449cbbde7@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 26, 2025 at 08:41:27AM -0800, Matthew Brost wrote:
-> On Wed, Nov 26, 2025 at 02:19:10PM +0100, Philipp Stanner wrote:
-> > The dma_fence framework checks at many places whether the signaled flag
-> > of a fence is already set. The code can be simplified and made more
-> > readable by providing a helper function for that.
-> > 
-> > Add dma_fence_test_signaled_flag(), which only checks whether a fence is
-> > signaled. Use it internally.
-> > 
-> > Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> > Signed-off-by: Philipp Stanner <phasta@kernel.org>
+Hey,
+
+Den 2025-11-26 kl. 16:48, skrev Christian König:
+> On 11/26/25 16:39, Maarten Lankhorst wrote:
+>> Hey,
+>>
+>> Den 2025-11-26 kl. 16:36, skrev Christian König:
+>>> On 11/26/25 16:34, Maarten Lankhorst wrote:
+>>>> Hey,
+>>>>
+>>>> Den 2025-11-21 kl. 16:12, skrev Christian König:
+>>>>> On 11/21/25 11:12, Pierre-Eric Pelloux-Prayer wrote:
+>>>>>> Until now ttm stored a single pipelined eviction fence which means
+>>>>>> drivers had to use a single entity for these evictions.
+>>>>>>
+>>>>>> To lift this requirement, this commit allows up to 8 entities to
+>>>>>> be used.
+>>>>>>
+>>>>>> Ideally a dma_resv object would have been used as a container of
+>>>>>> the eviction fences, but the locking rules makes it complex.
+>>>>>> dma_resv all have the same ww_class, which means "Attempting to
+>>>>>> lock more mutexes after ww_acquire_done." is an error.
+>>>>>>
+>>>>>> One alternative considered was to introduced a 2nd ww_class for
+>>>>>> specific resv to hold a single "transient" lock (= the resv lock
+>>>>>> would only be held for a short period, without taking any other
+>>>>>> locks).
+>>>>>>
+>>>>>> The other option, is to statically reserve a fence array, and
+>>>>>> extend the existing code to deal with N fences, instead of 1.
+>>>>>>
+>>>>>> The driver is still responsible to reserve the correct number
+>>>>>> of fence slots.
+>>>>>>
+>>>>>> ---
+>>>>>> v2:
+>>>>>> - simplified code
+>>>>>> - dropped n_fences
+>>>>>> - name changes
+>>>>>> v3: use ttm_resource_manager_cleanup
+>>>>>> ---
+>>>>>>
+>>>>>> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+>>>>>
+>>>>> Reviewed-by: Christian König <christian.koenig@amd.com>
+>>>>>
+>>>>> Going to push separately to drm-misc-next on Monday.
+>>>>>
+>>>> Pushing this broke drm-tip, the amd driver fails to build, as it's not using the eviction_fences array.
+>>>
+>>> Thanks for the note! But hui? We changed amdgpu to not touch the move fence.
+>>>
+>>> Give me a second.commit 13bec21f5f4cdabdf06725e5a8dee0b9b56ff671 (HEAD -> drm-tip, drm-tip/drm-tip, drm-tip/HEAD)
+>>
+>> Author: Christian König <christian.koenig@amd.com>
+>> Date:   Wed Nov 26 13:13:03 2025 +0100
+>>
+>>     drm-tip: 2025y-11m-26d-12h-12m-41s UTC integration manifest
+>>
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:2188:34: error: ‘struct ttm_resource_manager’ has no member named ‘move’
+>>  2188 |                 dma_fence_put(man->move);
+>>       |                                  ^~
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:2189:20: error: ‘struct ttm_resource_manager’ has no member named ‘move’
+>>  2189 |                 man->move = NULL;
+>>       |                    ^~
+>>
+>> Is what I see.
 > 
-> This is a nice cleanp:
-> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+> Ah, crap, I know what's going on.
 > 
-> > ---
-> >  drivers/dma-buf/dma-fence.c | 19 +++++++++----------
-> >  include/linux/dma-fence.h   | 24 ++++++++++++++++++++++--
-> >  2 files changed, 31 insertions(+), 12 deletions(-)
-> > 
-> > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> > index 39e6f93dc310..25117a906846 100644
-> > --- a/drivers/dma-buf/dma-fence.c
-> > +++ b/drivers/dma-buf/dma-fence.c
-> > @@ -372,8 +372,7 @@ int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
-> >  
-> >  	lockdep_assert_held(fence->lock);
-> >  
-> > -	if (unlikely(test_and_set_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
-> > -				      &fence->flags)))
+> The patch to remove those lines is queued up to go upstream through amd-staging-drm-next instead of drm-misc-next.
+> 
+> I will push this patch to drm-misc-next and sync up with Alex that it shouldn't go upstream through amd-staging-drm-next.
+> 
+> Going to build test drm-tip the next time.
+Thank you, drm-tip now builds cleanly again!
 
-I need to read a little better, I think this change isn't quite right.
-The original code is test and set, the updated code is test only (i.e.,
-you are missing the set step). So maybe just leave this line as is.
+> 
+> Thanks,
+> Christian.
+> 
+> 
 
-Matt
-
-> > +	if (unlikely(dma_fence_test_signaled_flag(fence)))
-> >  		return -EINVAL;
-> >  
-> >  	/* Stash the cb_list before replacing it with the timestamp */
-> > @@ -545,7 +544,7 @@ void dma_fence_release(struct kref *kref)
-> >  	trace_dma_fence_destroy(fence);
-> >  
-> >  	if (!list_empty(&fence->cb_list) &&
-> > -	    !test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags)) {
-> > +	    !dma_fence_test_signaled_flag(fence)) {
-> >  		const char __rcu *timeline;
-> >  		const char __rcu *driver;
-> >  		unsigned long flags;
-> > @@ -602,7 +601,7 @@ static bool __dma_fence_enable_signaling(struct dma_fence *fence)
-> >  	was_set = test_and_set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
-> >  				   &fence->flags);
-> >  
-> > -	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-> > +	if (dma_fence_test_signaled_flag(fence))
-> >  		return false;
-> >  
-> >  	if (!was_set && fence->ops->enable_signaling) {
-> > @@ -666,7 +665,7 @@ int dma_fence_add_callback(struct dma_fence *fence, struct dma_fence_cb *cb,
-> >  	if (WARN_ON(!fence || !func))
-> >  		return -EINVAL;
-> >  
-> > -	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags)) {
-> > +	if (dma_fence_test_signaled_flag(fence)) {
-> >  		INIT_LIST_HEAD(&cb->node);
-> >  		return -ENOENT;
-> >  	}
-> > @@ -783,7 +782,7 @@ dma_fence_default_wait(struct dma_fence *fence, bool intr, signed long timeout)
-> >  
-> >  	spin_lock_irqsave(fence->lock, flags);
-> >  
-> > -	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-> > +	if (dma_fence_test_signaled_flag(fence))
-> >  		goto out;
-> >  
-> >  	if (intr && signal_pending(current)) {
-> > @@ -800,7 +799,7 @@ dma_fence_default_wait(struct dma_fence *fence, bool intr, signed long timeout)
-> >  	cb.task = current;
-> >  	list_add(&cb.base.node, &fence->cb_list);
-> >  
-> > -	while (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags) && ret > 0) {
-> > +	while (!dma_fence_test_signaled_flag(fence) && ret > 0) {
-> >  		if (intr)
-> >  			__set_current_state(TASK_INTERRUPTIBLE);
-> >  		else
-> > @@ -832,7 +831,7 @@ dma_fence_test_signaled_any(struct dma_fence **fences, uint32_t count,
-> >  
-> >  	for (i = 0; i < count; ++i) {
-> >  		struct dma_fence *fence = fences[i];
-> > -		if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags)) {
-> > +		if (dma_fence_test_signaled_flag(fence)) {
-> >  			if (idx)
-> >  				*idx = i;
-> >  			return true;
-> > @@ -1108,7 +1107,7 @@ const char __rcu *dma_fence_driver_name(struct dma_fence *fence)
-> >  	RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
-> >  			 "RCU protection is required for safe access to returned string");
-> >  
-> > -	if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-> > +	if (!dma_fence_test_signaled_flag(fence))
-> >  		return fence->ops->get_driver_name(fence);
-> >  	else
-> >  		return "detached-driver";
-> > @@ -1140,7 +1139,7 @@ const char __rcu *dma_fence_timeline_name(struct dma_fence *fence)
-> >  	RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
-> >  			 "RCU protection is required for safe access to returned string");
-> >  
-> > -	if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-> > +	if (!dma_fence_test_signaled_flag(fence))
-> >  		return fence->ops->get_timeline_name(fence);
-> >  	else
-> >  		return "signaled-timeline";
-> > diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> > index 64639e104110..19972f5d176f 100644
-> > --- a/include/linux/dma-fence.h
-> > +++ b/include/linux/dma-fence.h
-> > @@ -401,6 +401,26 @@ void dma_fence_enable_sw_signaling(struct dma_fence *fence);
-> >  const char __rcu *dma_fence_driver_name(struct dma_fence *fence);
-> >  const char __rcu *dma_fence_timeline_name(struct dma_fence *fence);
-> >  
-> > +/*
-> > + * dma_fence_test_signaled_flag - Only check whether a fence is signaled yet.
-> > + * @fence: the fence to check
-> > + *
-> > + * This function just checks whether @fence is signaled, without interacting
-> > + * with the fence in any way. The user must, therefore, ensure through other
-> > + * means that fences get signaled eventually.
-> > + *
-> > + * This function uses test_bit(), which is thread-safe. Naturally, this function
-> > + * should be used opportunistically; a fence could get signaled at any moment
-> > + * after the check is done.
-> > + *
-> > + * Return: true if signaled, false otherwise.
-> > + */
-> > +static inline bool
-> > +dma_fence_test_signaled_flag(struct dma_fence *fence)
-> > +{
-> > +	return test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags);
-> > +}
-> > +
-> >  /**
-> >   * dma_fence_is_signaled_locked - Return an indication if the fence
-> >   *                                is signaled yet.
-> > @@ -418,7 +438,7 @@ const char __rcu *dma_fence_timeline_name(struct dma_fence *fence);
-> >  static inline bool
-> >  dma_fence_is_signaled_locked(struct dma_fence *fence)
-> >  {
-> > -	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-> > +	if (dma_fence_test_signaled_flag(fence))
-> >  		return true;
-> >  
-> >  	if (fence->ops->signaled && fence->ops->signaled(fence)) {
-> > @@ -448,7 +468,7 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
-> >  static inline bool
-> >  dma_fence_is_signaled(struct dma_fence *fence)
-> >  {
-> > -	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-> > +	if (dma_fence_test_signaled_flag(fence))
-> >  		return true;
-> >  
-> >  	if (fence->ops->signaled && fence->ops->signaled(fence)) {
-> > -- 
-> > 2.49.0
-> > 
+Kind regards,
+~Maarten Lankhorst
 
