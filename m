@@ -1,48 +1,102 @@
-Return-Path: <linux-media+bounces-47826-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47827-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 437B2C8DD61
-	for <lists+linux-media@lfdr.de>; Thu, 27 Nov 2025 11:50:17 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9AC1C8E173
+	for <lists+linux-media@lfdr.de>; Thu, 27 Nov 2025 12:47:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E70533AF405
-	for <lists+linux-media@lfdr.de>; Thu, 27 Nov 2025 10:50:15 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 2291F35059E
+	for <lists+linux-media@lfdr.de>; Thu, 27 Nov 2025 11:47:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC727329E4F;
-	Thu, 27 Nov 2025 10:50:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 240F532C95F;
+	Thu, 27 Nov 2025 11:47:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D5FliBhU"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="NcQ9hhOm";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="OM16Inbk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38565299924;
-	Thu, 27 Nov 2025 10:50:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18BD33246EC
+	for <linux-media@vger.kernel.org>; Thu, 27 Nov 2025 11:47:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764240609; cv=none; b=ht+v2KYOF6AO5coEuSSwYQAaNCVB6/6KfNmHFeGjVPfHRrjc6LZuDAJpTwK13u27FC7b2uIOhlB1hxSqx7KKzglYGFOOEGMTZqaLz12zKbuDf/sjFFRD+gua/2Z2oQHNTZoBnybgurnNvvsJZvMvJdgLZsWR8oBy1i8HU9ZGNo4=
+	t=1764244045; cv=none; b=J3BKZECQkfVUIkByjd5Db/WfmFQIyuSgt0hEXHQYIVHRBF8ERgRAUgZgHl8ieGJft+qgfxKsKP7n4CUfmm030Po1YZP9ln4hXnOjHz+JDaGJy5NbSVFYmTt0MSWTsJ7QwkROjNeNXXaPknDF5ad+IHtL3ntwibOpogHyKSJPJXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764240609; c=relaxed/simple;
-	bh=H0FETUPmgKipNj2wiCGKNSw0ozJMw8NXDeBsuhkmv9I=;
+	s=arc-20240116; t=1764244045; c=relaxed/simple;
+	bh=+X3+94lwOmi0u7SCPKjv9X3UO1pZjgIpwxWjWXZl0c0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hrcbRxtYVQyj7NEis6RXzrIvcL2k3hAXcOg45IdVJmdVQ5bhG6XqGfuup7/I/cr/Z34F3UBQ37aJqF0GU4ZD8jmeUVvSNtG8kuEdt7hblxfsbqukNSsB1Skrvg4a+CTMjwxJAiCja/TjzXLSIWcKfVAmrAtEIFTwkPD7f62nxTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D5FliBhU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FBD1C4CEF8;
-	Thu, 27 Nov 2025 10:50:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764240609;
-	bh=H0FETUPmgKipNj2wiCGKNSw0ozJMw8NXDeBsuhkmv9I=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=D5FliBhUTSWD80bvkqhutJ3odJLO5BDN1e2MoJ2OK+LTE5yEQJaiQWr+UVikH3kN8
-	 bGdLir+iQJ0h+xqNJLYhStf3z/F2T8MNOi3SeqKxSZHBkzaUTyaZ1Wn4F9MQCFdf8J
-	 lcW9LuICKRCi/ym6RdBWz/P+Y31EgIzfANZ6BYaJNGhelP1DxyJRlFsML+unnW9Ewf
-	 h4A7HLW+A68mf55M7gMjE16qT0zIjNqQDqMe6bGR3LLVsfGI8Mwspr3BHB7Z8UM/vJ
-	 JXoRcb4O9kxDbmUiEpX7IXkQQrfN3la80C54Kvv4H2wJDLY9H+OScVbOQtFtmKD5X4
-	 EBi2kd8u8P4Kg==
-Message-ID: <319062a7-f72b-4d9c-a8fc-14ad954bf2da@kernel.org>
-Date: Thu, 27 Nov 2025 10:50:04 +0000
+	 In-Reply-To:Content-Type; b=DfsQjIW9+UqTF0Y/AXBdqu2DZJApzVPpBQI2cRIBgCkLyPB12EiRuRyMKJyrnlbLsukhqecfujIqUW2X+4hTRqPRd4Qqx6TLrY3tDiYfBv+fuA+C1uw3UX6SJH4wOs3YsbFgSNEqbvM3F1QPiyPXdhXwb9wsjtC/bg9+34FBZqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=NcQ9hhOm; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=OM16Inbk; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5AR9JDCO1667742
+	for <linux-media@vger.kernel.org>; Thu, 27 Nov 2025 11:47:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	4/RzqhvLeO73dOkNIHPYAf57nLA0gWJO5DL8nIR799E=; b=NcQ9hhOmBQZcoBBy
+	GAPckl7O4+fagCfKuLGJPe+JEF93c08dak98J+ZU30OiQyApBKfWsNFxJiF/Lggh
+	r4nrYJ5XHWGyjfyje7uPZj6ygtkW78Wrb4haDx4iRBqXgN0GN2b+eAntixRONw3a
+	yfq57ctL9XLyBoC609Cg5mJxFYPV+Yj/u2+UlhxVP/C52kTD4rV7NgIVWBm2zPvx
+	vZPSXtMnVM2I3QTFE3gP0EyjrqVfNc+yZsuOF2dMJh6c8C0l3dqQIF6kf4rjQF6L
+	KHK7YGuRwpqvqHVTXWkC9Bt31a8pGXBSphAsAD+agZ81MkpKzZbzFPGyFONDX8Kd
+	bx58LA==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ap0bmunx8-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Thu, 27 Nov 2025 11:47:23 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4edaa289e0dso3395151cf.3
+        for <linux-media@vger.kernel.org>; Thu, 27 Nov 2025 03:47:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1764244042; x=1764848842; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4/RzqhvLeO73dOkNIHPYAf57nLA0gWJO5DL8nIR799E=;
+        b=OM16Inbkm47hyhMsVmtFgmVn4tH13SDkVa6h08Ac6SfR8C1jMCxMaIec58KxNdBRa8
+         j1ohL896XDYBD6ZlE2b9gEfO3RlFTqpazFadWqyW9PLHI5Z6jTyyC0mwvzYR2nuZsdpR
+         svP52eL4gLw1qdqmB5lmFG5jfhaQrYfH1fYSvS7Ay8JXAVUcjhNwy65lA/3EA3AiOxgA
+         cRdmPQi6ewHAJcgDX+oi9X4YVMEcZwO0EO3w/hpNMoPoCzjQwROsm0zAkzovNMf07+6K
+         2bCN47Ph9VyCoMPf9xktnwHAN6Z0uG/7UkE+6Kkwjaorh5/AyqrosnVIQ3Qhtx/LnIVK
+         DubQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764244042; x=1764848842;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4/RzqhvLeO73dOkNIHPYAf57nLA0gWJO5DL8nIR799E=;
+        b=h1lB097O877OQ2LgNKggdKjNsaU1d7OTe44GfjUEc7Vyt3Q0XULkbE5Qh05+gy8RGI
+         CcEOejJa6719OeMe7nwKXxN1w1qaZUOdm3zG4lAeuN9ZKS9pSlwie2ocQK+FC6uKGsjk
+         8W6q0hfCoLQx4W4CleT0D7IIUzWl6yacHkF+PCnv/T76fGZbuKik+gFbeTbLEHjkElC4
+         QzqVdVTUK7o5iGsK5+yOSaTVKxTbZanWtEWMCFpia5xkTNTENIxR4GNY5a9DUFUwmjL/
+         yZkyYbFgQxuVA4t5wrmsURLcggDT9VwP5T5qTTBSP7xxCjZRS6GQZ9k+hiVnCnZLUFtB
+         RZ0Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXNBrZB2BxWY4+mH5r11GYXT5AyxGMkgyA9EihSiP9IQOnO6/3J5E8g4fPhN8DVG9oxxa9ERwqMbIifLw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEbd2/74gJs4Iz4yFXvqvYZZJh+QzUDtyrNuzB29LzHaaOygRD
+	0N6LX7+RiVZfIkiBrTe25cXYtKt+Kfvw9Dvhxe9bdEthwmdiwkzcfW2lWCuQmwyjyP2iG3D5g+3
+	6xWTDmLbeXMDFjIYLBkTwSfWNQrmmxPyOdQl+B6DNJGNMagrZmwwCbpeY3f4LB05Xjg==
+X-Gm-Gg: ASbGncsA57G0lYEQzFlfiQk//ZnrFuAp+fHW/tPJ1NpxIAtKCj7/sKMSVhbcIqqYrF2
+	Qsol12EwdHDVt31/6O/QC1mRxoXgWNmfvHXFR24XFKuTETz/SaH7BZm5E+ASRO9f2zW/9TvOHSw
+	eiuRPzbYB8fDl0k36bSylBOTlBs+XjLWjshFIkFGhgrcghKTpprW+70R1ChQDWfZiUIOLmTm+X0
+	8AKyUbEUAQD/j++75ElkQSJaVIHC2ogz4MIxzO8cQrJN2nZCa2plOaTLbSkJFNzdhKvi5cBnqsj
+	FDwkGRpwuzpl0YJFWJhMzjYBReCVn9yMVZ0W/vOYCJPxMLBDDXY+4FfBQ2aGyEkPtcpv0aJFTwz
+	nH1mws5fjw8AoRJ6YNpPP0PSyhOzAyG7SgapvW0Ft63+FTtXlMoBbwYUqeaUYAsLx0PY=
+X-Received: by 2002:a05:622a:1108:b0:4ed:a574:64cb with SMTP id d75a77b69052e-4ee58850982mr231591181cf.3.1764244042331;
+        Thu, 27 Nov 2025 03:47:22 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHhxaIf+g9okytCq4TlpAS+LV2z9LubN/g6fb6B3B32+bqXFcjKeoz6+qy+/7HmKg43sCJreA==
+X-Received: by 2002:a05:622a:1108:b0:4ed:a574:64cb with SMTP id d75a77b69052e-4ee58850982mr231591001cf.3.1764244041799;
+        Thu, 27 Nov 2025 03:47:21 -0800 (PST)
+Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-64750a90d45sm1373506a12.8.2025.11.27.03.47.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Nov 2025 03:47:21 -0800 (PST)
+Message-ID: <6eb8681d-d82e-457f-907d-3ba5b94267f2@oss.qualcomm.com>
+Date: Thu, 27 Nov 2025 12:47:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,512 +104,65 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] media: qcom: iris: Add hierarchical coding support
- for encoder
-To: Wangao Wang <wangao.wang@oss.qualcomm.com>,
- Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: quic_qiweil@quicinc.com, Renjiang Han <renjiang.han@oss.qualcomm.com>,
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251127-batch2_iris_encoder_enhancements-v1-0-5ea78e2de2ae@oss.qualcomm.com>
- <QDBXgyF8pqFmyCDIkZAePruxy5dmwaF51gez3ucRXrNsciPUy0iySAeYmJSIfDvW8gElL8pVNXnkBbTDZ2ULag==@protonmail.internalid>
- <20251127-batch2_iris_encoder_enhancements-v1-4-5ea78e2de2ae@oss.qualcomm.com>
-From: Bryan O'Donoghue <bod@kernel.org>
+Subject: Re: [PATCH] media: venus: assign unique bus_info strings for encoder
+ and decoder
+To: Jorge Ramirez <jorge.ramirez@oss.qualcomm.com>
+Cc: vikash.garodia@oss.qualcomm.com, dikshita.agarwal@oss.qualcomm.com,
+        bod@kernel.org, mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20251121184306.218169-1-jorge.ramirez@oss.qualcomm.com>
+ <249ccbbc-7990-43f0-b205-d5f33a1c9ad3@oss.qualcomm.com>
+ <aSWnTE-jeHEg12N3@trex>
 Content-Language: en-US
-In-Reply-To: <20251127-batch2_iris_encoder_enhancements-v1-4-5ea78e2de2ae@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <aSWnTE-jeHEg12N3@trex>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=AKyLkLWT c=1 sm=1 tr=0 ts=69283a4b cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=g2FNSR5juNlgVfHlpaMA:9
+ a=QEXdDO2ut3YA:10 a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI3MDA4NyBTYWx0ZWRfXyMI+ezhgLHl3
+ Cxh4JFwBWAhdDgzpvx/bDJeGDBGHkbUgV/GJw+voFy54tMV0nfxzTlhJl7/OXs0hAcTWjhiQMhK
+ Epe6EYlYiOGFPPxD0yc/Z/FvmfKb2BY/zPP00jOzAkiCp6LcVIYC5hjN9efIIj7dh37WZe2HjXG
+ xgCiEEOS588GuE+ihoGHiQcZJXJygi77EA/Uxgd/AarxT9ewgmb92MjHyQlkWWwhLIhrVVSJ5je
+ LtQ+ORDHnr+ftNYMjFz42LpxIM2kSqv4NPp/GQ4Hgsz10ItH3QqHW/vG6bsWV5MHWgdsyDNAW0n
+ FRU1Tk1ttX7teXr2QbS6HnydEPWx3SYbWFbZJW9SDPfO295zfFnVmeCQUNSY+eYiGkgxHEKbzME
+ BTsx1tompnAQWm0RYDL4+65nZ1MbvQ==
+X-Proofpoint-GUID: 288HH3z8keDVe1HpKzU0sjXE5Nf20ECY
+X-Proofpoint-ORIG-GUID: 288HH3z8keDVe1HpKzU0sjXE5Nf20ECY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-25_02,2025-11-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 bulkscore=0 clxscore=1015 spamscore=0 lowpriorityscore=0
+ priorityscore=1501 suspectscore=0 adultscore=0 malwarescore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511270087
 
-On 27/11/2025 07:44, Wangao Wang wrote:
-> Add hierarchical coding support for both gen1 and gen2 encoders by enabling
->   the following V4L2 controls:
-> H264:
-> V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING,
-> V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING_TYPE,
-> V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING_LAYER
-> HEVC(gen2 only):
-> V4L2_CID_MPEG_VIDEO_HEVC_HIER_CODING_TYPE,
-> V4L2_CID_MPEG_VIDEO_HEVC_HIER_CODING_LAYER
+On 11/25/25 1:55 PM, Jorge Ramirez wrote:
+> On 21/11/25 20:22:13, Konrad Dybcio wrote:
+>> On 11/21/25 7:43 PM, Jorge Ramirez-Ortiz wrote:
+>>> The Venus encoder and decoder video devices currently report the same
+>>> bus_info string ("platform:qcom-venus").
+>>>
+>>> Assign unique bus_info identifiers by appending ":dec" and ":enc" to the
+>>> parent device name. With this change v4l2-ctl will display two separate
+>>> logical devices
+>>>
+>>> Signed-off-by: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
+>>> ---
+>>
+>> Perhaps that's a stupid question, but is there a reason they're
+>> separate at all?
 > 
-> Key changes:
-> Added capability IDs for hierarchical coding enable, type, and layer count.
-> Implemented handlers for layer type and layer count (gen1/gen2).
-> Defined new HFI properties and enums for hierarchical coding.
-> Updated platform capability tables and buffer logic to handle hierarchical
->   coding.
-> 
-> Signed-off-by: Wangao Wang <wangao.wang@oss.qualcomm.com>
-> ---
->   drivers/media/platform/qcom/iris/iris_ctrls.c      | 150 +++++++++++++++++++++
->   drivers/media/platform/qcom/iris/iris_ctrls.h      |   3 +
->   .../platform/qcom/iris/iris_hfi_gen1_command.c     |  14 ++
->   .../platform/qcom/iris/iris_hfi_gen1_defines.h     |   2 +
->   .../platform/qcom/iris/iris_hfi_gen2_defines.h     |   9 ++
->   drivers/media/platform/qcom/iris/iris_instance.h   |   4 +
->   .../platform/qcom/iris/iris_platform_common.h      |  11 ++
->   .../media/platform/qcom/iris/iris_platform_gen1.c  |  26 ++++
->   .../media/platform/qcom/iris/iris_platform_gen2.c  |  48 +++++++
->   drivers/media/platform/qcom/iris/iris_vpu_buffer.c |  21 +++
->   10 files changed, 288 insertions(+)
-> 
-> diff --git a/drivers/media/platform/qcom/iris/iris_ctrls.c b/drivers/media/platform/qcom/iris/iris_ctrls.c
-> index 9aec8a2006e9f8e545d05e40cb68ef0ae8502f79..99b6cfdd726258f753b3d1920144044e5aa76f29 100644
-> --- a/drivers/media/platform/qcom/iris/iris_ctrls.c
-> +++ b/drivers/media/platform/qcom/iris/iris_ctrls.c
-> @@ -116,6 +116,16 @@ static enum platform_inst_fw_cap_type iris_get_cap_id(u32 id)
->   		return MARK_LTR;
->   	case V4L2_CID_MPEG_VIDEO_B_FRAMES:
->   		return B_FRAME;
-> +	case V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING:
-> +		return LAYER_ENABLE;
-> +	case V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING_TYPE:
-> +		return LAYER_TYPE_H264;
-> +	case V4L2_CID_MPEG_VIDEO_HEVC_HIER_CODING_TYPE:
-> +		return LAYER_TYPE_HEVC;
-> +	case V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING_LAYER:
-> +		return LAYER_COUNT_H264;
-> +	case V4L2_CID_MPEG_VIDEO_HEVC_HIER_CODING_LAYER:
-> +		return LAYER_COUNT_HEVC;
->   	default:
->   		return INST_FW_CAP_MAX;
->   	}
-> @@ -221,6 +231,16 @@ static u32 iris_get_v4l2_id(enum platform_inst_fw_cap_type cap_id)
->   		return V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX;
->   	case B_FRAME:
->   		return V4L2_CID_MPEG_VIDEO_B_FRAMES;
-> +	case LAYER_ENABLE:
-> +		return V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING;
-> +	case LAYER_TYPE_H264:
-> +		return V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING_TYPE;
-> +	case LAYER_TYPE_HEVC:
-> +		return V4L2_CID_MPEG_VIDEO_HEVC_HIER_CODING_TYPE;
-> +	case LAYER_COUNT_H264:
-> +		return V4L2_CID_MPEG_VIDEO_H264_HIERARCHICAL_CODING_LAYER;
-> +	case LAYER_COUNT_HEVC:
-> +		return V4L2_CID_MPEG_VIDEO_HEVC_HIER_CODING_LAYER;
->   	default:
->   		return 0;
->   	}
-> @@ -1173,6 +1193,136 @@ int iris_set_intra_period(struct iris_inst *inst, enum platform_inst_fw_cap_type
->   					     &intra_period, sizeof(intra_period));
->   }
-> 
-> +int iris_set_layer_type(struct iris_inst *inst, enum platform_inst_fw_cap_type cap_id)
-> +{
-> +	const struct iris_hfi_command_ops *hfi_ops = inst->core->hfi_ops;
-> +	u32 layer_enable = inst->fw_caps[LAYER_ENABLE].value;
-> +	u32 hfi_id = inst->fw_caps[cap_id].hfi_id;
-> +	u32 layer_type;
-> +
-> +	if (inst->hfi_rc_type == HFI_RATE_CONTROL_CQ ||
-> +	    inst->hfi_rc_type == HFI_RATE_CONTROL_OFF)
-> +		return -EINVAL;
-> +
-> +	if (inst->codec == V4L2_PIX_FMT_H264) {
-> +		if (!layer_enable || !inst->fw_caps[LAYER_COUNT_H264].value)
-> +			return -EINVAL;
-> +
-> +		if (inst->fw_caps[LAYER_TYPE_H264].value ==
-> +			V4L2_MPEG_VIDEO_H264_HIERARCHICAL_CODING_P) {
-> +			if (inst->hfi_rc_type == HFI_RC_VBR_CFR)
-> +				layer_type = HFI_HIER_P_HYBRID_LTR;
-> +			else
-> +				layer_type = HFI_HIER_P_SLIDING_WINDOW;
-> +		} else if (inst->fw_caps[LAYER_TYPE_HEVC].value ==
-> +			V4L2_MPEG_VIDEO_HEVC_HIERARCHICAL_CODING_B) {
-> +			if (inst->hfi_rc_type == HFI_RC_VBR_CFR)
-> +				layer_type = HFI_HIER_B;
-> +			else
-> +				return -EINVAL;
-> +		} else {
-> +			return -EINVAL;
-> +		}
-> +	} else if (inst->codec == V4L2_PIX_FMT_HEVC) {
-> +		if (!inst->fw_caps[LAYER_COUNT_HEVC].value)
-> +			return -EINVAL;
-> +
-> +		if (inst->fw_caps[LAYER_TYPE_HEVC].value ==
-> +			V4L2_MPEG_VIDEO_HEVC_HIERARCHICAL_CODING_P) {
-> +			layer_type = HFI_HIER_P_SLIDING_WINDOW;
-> +		} else if (inst->fw_caps[LAYER_TYPE_HEVC].value ==
-> +			V4L2_MPEG_VIDEO_HEVC_HIERARCHICAL_CODING_B) {
-> +			if (inst->hfi_rc_type == HFI_RC_VBR_CFR)
-> +				layer_type = HFI_HIER_B;
-> +			else
-> +				return -EINVAL;
-> +		} else {
-> +			return -EINVAL;
-> +		}
-> +	}
-> +
-> +	inst->hfi_layer_type = layer_type;
-> +
-> +	return hfi_ops->session_set_property(inst, hfi_id,
-> +					     HFI_HOST_FLAGS_NONE,
-> +					     iris_get_port_info(inst, cap_id),
-> +					     HFI_PAYLOAD_U32_ENUM,
-> +					     &layer_type, sizeof(u32));
-> +}
-> +
-> +int iris_set_layer_count_gen1(struct iris_inst *inst, enum platform_inst_fw_cap_type cap_id)
-> +{
-> +	const struct iris_hfi_command_ops *hfi_ops = inst->core->hfi_ops;
-> +	struct vb2_queue *sq = v4l2_m2m_get_src_vq(inst->m2m_ctx);
-> +	struct vb2_queue *dq = v4l2_m2m_get_dst_vq(inst->m2m_ctx);
-> +	u32 layer_enable = inst->fw_caps[LAYER_ENABLE].value;
-> +	u32 layer_count = inst->fw_caps[cap_id].value;
-> +	u32 hfi_id;
-> +
-> +	if (!layer_enable || !layer_count)
-> +		return -EINVAL;
-> +
-> +	inst->hfi_layer_count = layer_count;
-> +
-> +	if (!vb2_is_streaming(sq) && !vb2_is_streaming(dq)) {
-> +		hfi_id = HFI_PROPERTY_PARAM_VENC_HIER_P_MAX_NUM_ENH_LAYER;
-> +		hfi_ops->session_set_property(inst, hfi_id,
-> +					      HFI_HOST_FLAGS_NONE,
-> +					      iris_get_port_info(inst, cap_id),
-> +					      HFI_PAYLOAD_U32,
-> +					      &layer_count, sizeof(u32));
+> not sure I understand, enc/dec support different APIs, v4l2 controls..is
+> that what you mean?
 
-Shouldn't you catch the result code and bug out if this fails ?
+Perhaps that shows my lack of knowledge about V4L2. I had imagined that
+a single video device could implement (non-colliding) enc_xyz and dec_xyz
+operations and was wondering why we need two.
 
-> +	}
-> +
-> +	hfi_id = inst->fw_caps[cap_id].hfi_id;
-> +	return hfi_ops->session_set_property(inst, hfi_id,
-> +					     HFI_HOST_FLAGS_NONE,
-> +					     iris_get_port_info(inst, cap_id),
-> +					     HFI_PAYLOAD_U32,
-> +					     &layer_count, sizeof(u32));
-> +}
-> +
-> +int iris_set_layer_count_gen2(struct iris_inst *inst, enum platform_inst_fw_cap_type cap_id)
-> +{
-> +	const struct iris_hfi_command_ops *hfi_ops = inst->core->hfi_ops;
-> +	u32 hfi_id = inst->fw_caps[cap_id].hfi_id;
-> +	u32 layer_type = inst->hfi_layer_type;
-> +	u32 layer_count, layer_count_max;
-> +
-> +	layer_count = (inst->codec == V4L2_PIX_FMT_H264) ?
-> +		inst->fw_caps[LAYER_COUNT_H264].value :
-> +		inst->fw_caps[LAYER_COUNT_HEVC].value;
-> +
-> +	if (!layer_type || !layer_count)
-> +		return -EINVAL;
-> +
-> +	if (layer_type == HFI_HIER_B) {
-> +		layer_count_max = MAX_LAYER_HB;
-> +	} else if (layer_type == HFI_HIER_P_HYBRID_LTR) {
-> +		layer_count_max = MAX_AVC_LAYER_HP_HYBRID_LTR;
-> +	} else if (layer_type == HFI_HIER_P_SLIDING_WINDOW) {
-> +		if (inst->codec == V4L2_PIX_FMT_H264) {
-> +			layer_count_max = MAX_AVC_LAYER_HP_SLIDING_WINDOW;
-> +		} else {
-> +			if (inst->hfi_rc_type == HFI_RC_VBR_CFR)
-> +				layer_count_max = MAX_HEVC_VBR_LAYER_HP_SLIDING_WINDOW;
-> +			else
-> +				layer_count_max = MAX_HEVC_LAYER_HP_SLIDING_WINDOW;
-> +		}
-> +	}
-> +
-> +	if (layer_count > layer_count_max)
-> +		layer_count = layer_count_max;
-> +
-> +	layer_count += 1; /* base layer */
-> +	inst->hfi_layer_count = layer_count;
-> +
-> +	return hfi_ops->session_set_property(inst, hfi_id,
-> +					     HFI_HOST_FLAGS_NONE,
-> +					     iris_get_port_info(inst, cap_id),
-> +					     HFI_PAYLOAD_U32,
-> +					     &layer_count, sizeof(u32));
-> +}
-> +
->   int iris_set_properties(struct iris_inst *inst, u32 plane)
->   {
->   	const struct iris_hfi_command_ops *hfi_ops = inst->core->hfi_ops;
-> diff --git a/drivers/media/platform/qcom/iris/iris_ctrls.h b/drivers/media/platform/qcom/iris/iris_ctrls.h
-> index 609258c81517b71523b682ca994786cdd020b07f..d7db8749273c73348e7dc1c344d720a97d571e24 100644
-> --- a/drivers/media/platform/qcom/iris/iris_ctrls.h
-> +++ b/drivers/media/platform/qcom/iris/iris_ctrls.h
-> @@ -42,6 +42,9 @@ int iris_set_use_ltr(struct iris_inst *inst, enum platform_inst_fw_cap_type cap_
->   int iris_set_mark_ltr(struct iris_inst *inst, enum platform_inst_fw_cap_type cap_id);
->   int iris_set_use_and_mark_ltr(struct iris_inst *inst, enum platform_inst_fw_cap_type cap_id);
->   int iris_set_intra_period(struct iris_inst *inst, enum platform_inst_fw_cap_type cap_id);
-> +int iris_set_layer_type(struct iris_inst *inst, enum platform_inst_fw_cap_type cap_id);
-> +int iris_set_layer_count_gen1(struct iris_inst *inst, enum platform_inst_fw_cap_type cap_id);
-> +int iris_set_layer_count_gen2(struct iris_inst *inst, enum platform_inst_fw_cap_type cap_id);
->   int iris_set_properties(struct iris_inst *inst, u32 plane);
-> 
->   #endif
-> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
-> index fe51eccb903be146e83a4fb2faf4b4092875dea4..1e001e2639a1d913c81ed643f8071cd561767651 100644
-> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
-> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
-> @@ -726,6 +726,20 @@ iris_hfi_gen1_packet_session_set_property(struct hfi_session_set_property_pkt *p
->   		packet->shdr.hdr.size += sizeof(u32) + sizeof(*intra_period);
->   		break;
->   	}
-> +	case HFI_PROPERTY_PARAM_VENC_HIER_P_MAX_NUM_ENH_LAYER: {
-> +		u32 *in = pdata;
-> +
-> +		packet->data[1] = *in;
-> +		packet->shdr.hdr.size += sizeof(u32) * 2;
-> +		break;
-> +	}
-> +	case HFI_PROPERTY_CONFIG_VENC_HIER_P_ENH_LAYER: {
-> +		u32 *in = pdata;
-> +
-> +		packet->data[1] = *in;
-> +		packet->shdr.hdr.size += sizeof(u32) * 2;
-
-This feels inconsistent.
-
-You have a u32 header part and then a u32 data part right ?
-
-> +		break;
-> +	}
->   	default:
->   		return -EINVAL;
->   	}
-> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h b/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h
-> index 476177add1ec860d46d85960dd09617ad347f60a..7ecfd23a925c83d82912c1ab4ca148e5cc35e142 100644
-> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h
-> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h
-> @@ -154,11 +154,13 @@
-> 
->   #define HFI_PROPERTY_PARAM_VENC_LTRMODE				0x200501c
->   #define HFI_PROPERTY_PARAM_VENC_MAX_NUM_B_FRAMES		0x2005020
-> +#define HFI_PROPERTY_PARAM_VENC_HIER_P_MAX_NUM_ENH_LAYER	0x2005026
->   #define HFI_PROPERTY_CONFIG_VENC_TARGET_BITRATE			0x2006001
->   #define HFI_PROPERTY_CONFIG_VENC_INTRA_PERIOD			0x2006003
->   #define HFI_PROPERTY_CONFIG_VENC_MARKLTRFRAME			0x2006009
->   #define HFI_PROPERTY_CONFIG_VENC_USELTRFRAME			0x200600a
->   #define HFI_PROPERTY_CONFIG_VENC_SYNC_FRAME_SEQUENCE_HEADER	0x2006008
-> +#define HFI_PROPERTY_CONFIG_VENC_HIER_P_ENH_LAYER		0x200600b
-> 
->   struct hfi_pkt_hdr {
->   	u32 size;
-> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h b/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
-> index 2b8c87c25a066ead30bb1b134bdc3fe1e84e8f05..3a689d3f53b4e8750a33e8bc78a8df7a023d7a56 100644
-> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
-> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
-> @@ -74,6 +74,15 @@ enum hfi_rate_control {
->   #define HFI_PROP_LTR_COUNT			0x03000134
->   #define HFI_PROP_LTR_MARK			0x03000135
->   #define HFI_PROP_LTR_USE			0x03000136
-> +
-> +enum hfi_layer_encoding_type {
-> +	HFI_HIER_P_SLIDING_WINDOW	= 0x1,
-> +	HFI_HIER_P_HYBRID_LTR		= 0x2,
-> +	HFI_HIER_B			= 0x3,
-> +};
-> +
-> +#define HFI_PROP_LAYER_ENCODING_TYPE		0x03000138
-> +#define HFI_PROP_LAYER_COUNT			0x03000139
->   #define HFI_PROP_TOTAL_BITRATE			0x0300013b
->   #define HFI_PROP_MAX_GOP_FRAMES			0x03000146
->   #define HFI_PROP_MAX_B_FRAMES			0x03000147
-> diff --git a/drivers/media/platform/qcom/iris/iris_instance.h b/drivers/media/platform/qcom/iris/iris_instance.h
-> index 0a0d4ace0bb6bee6ab11bd47fddb27432cd524f7..f4aa904f94ebb3c87bcdeeb6c3732b616d030b96 100644
-> --- a/drivers/media/platform/qcom/iris/iris_instance.h
-> +++ b/drivers/media/platform/qcom/iris/iris_instance.h
-> @@ -73,6 +73,8 @@ struct iris_fmt {
->    * @enc_raw_height: source image height for encoder instance
->    * @enc_scale_width: scale width for encoder instance
->    * @enc_scale_height: scale height for encoder instance
-> + * @hfi_layer_type: hierarchical coding layer type
-> + * @hfi_layer_count: hierarchical coding layer count
->    */
-> 
->   struct iris_inst {
-> @@ -115,6 +117,8 @@ struct iris_inst {
->   	u32				enc_raw_height;
->   	u32				enc_scale_width;
->   	u32				enc_scale_height;
-> +	u32				hfi_layer_type;
-> +	u32				hfi_layer_count;
->   };
-> 
->   #endif
-> diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
-> index 34deb32eb5be0899fee779ff99b3f4b8bd91529f..db80617dbdc865c5a10708968f34987972d935f7 100644
-> --- a/drivers/media/platform/qcom/iris/iris_platform_common.h
-> +++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
-> @@ -32,6 +32,12 @@ struct iris_inst;
->   #define INVALID_DEFAULT_MARK_OR_USE_LTR		-1
->   #define MAX_LTR_FRAME_COUNT_GEN1		4
->   #define MAX_LTR_FRAME_COUNT_GEN2		2
-> +#define MAX_LAYER_HB				3
-> +#define MAX_AVC_LAYER_HP_HYBRID_LTR		5
-> +#define MAX_AVC_LAYER_HP_SLIDING_WINDOW		3
-> +#define MAX_HEVC_LAYER_HP_SLIDING_WINDOW	3
-> +#define MAX_HEVC_VBR_LAYER_HP_SLIDING_WINDOW	5
-> +#define MAX_HIER_CODING_LAYER_GEN1		6
-> 
->   enum stage_type {
->   	STAGE_1 = 1,
-> @@ -156,6 +162,11 @@ enum platform_inst_fw_cap_type {
->   	MARK_LTR,
->   	B_FRAME,
->   	INTRA_PERIOD,
-> +	LAYER_ENABLE,
-> +	LAYER_TYPE_H264,
-> +	LAYER_TYPE_HEVC,
-> +	LAYER_COUNT_H264,
-> +	LAYER_COUNT_HEVC,
->   	INST_FW_CAP_MAX,
->   };
-> 
-> diff --git a/drivers/media/platform/qcom/iris/iris_platform_gen1.c b/drivers/media/platform/qcom/iris/iris_platform_gen1.c
-> index b76f0ecaa721f3469bc63b7ff4ce5fc6ea19a8e1..ba5d0ddb87f4b3dc21f81027e7011a6acda3854d 100644
-> --- a/drivers/media/platform/qcom/iris/iris_platform_gen1.c
-> +++ b/drivers/media/platform/qcom/iris/iris_platform_gen1.c
-> @@ -296,6 +296,32 @@ static const struct platform_inst_fw_cap inst_fw_cap_sm8250_enc[] = {
->   		.flags = CAP_FLAG_OUTPUT_PORT,
->   		.set = iris_set_intra_period,
->   	},
-> +	{
-> +		.cap_id = LAYER_ENABLE,
-> +		.min = 0,
-> +		.max = 1,
-> +		.step_or_mask = 1,
-> +		.value = 0,
-> +		.flags = CAP_FLAG_OUTPUT_PORT,
-> +	},
-> +	{
-> +		.cap_id = LAYER_TYPE_H264,
-> +		.min = V4L2_MPEG_VIDEO_H264_HIERARCHICAL_CODING_P,
-> +		.max = V4L2_MPEG_VIDEO_H264_HIERARCHICAL_CODING_P,
-> +		.step_or_mask = BIT(V4L2_MPEG_VIDEO_H264_HIERARCHICAL_CODING_P),
-> +		.value = V4L2_MPEG_VIDEO_H264_HIERARCHICAL_CODING_P,
-> +		.flags = CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
-> +	},
-> +	{
-> +		.cap_id = LAYER_COUNT_H264,
-> +		.min = 0,
-> +		.max = MAX_HIER_CODING_LAYER_GEN1,
-> +		.step_or_mask = 1,
-> +		.value = 0,
-> +		.hfi_id = HFI_PROPERTY_CONFIG_VENC_HIER_P_ENH_LAYER,
-> +		.flags = CAP_FLAG_OUTPUT_PORT,
-> +		.set = iris_set_layer_count_gen1,
-> +	},
->   };
-> 
->   static struct platform_inst_caps platform_inst_cap_sm8250 = {
-> diff --git a/drivers/media/platform/qcom/iris/iris_platform_gen2.c b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
-> index 7c9a71755685d195a7adc8064523e1c33a572089..e9c4a62a891c34bc0969c0fd4ea33a9d9b11c93d 100644
-> --- a/drivers/media/platform/qcom/iris/iris_platform_gen2.c
-> +++ b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
-> @@ -677,6 +677,54 @@ static const struct platform_inst_fw_cap inst_fw_cap_sm8550_enc[] = {
->   		.flags = CAP_FLAG_OUTPUT_PORT,
->   		.set = iris_set_u32,
->   	},
-> +	{
-> +		.cap_id = LAYER_ENABLE,
-> +		.min = 0,
-> +		.max = 1,
-> +		.step_or_mask = 1,
-> +		.value = 0,
-> +		.flags = CAP_FLAG_OUTPUT_PORT,
-> +	},
-> +	{
-> +		.cap_id = LAYER_TYPE_H264,
-> +		.min = V4L2_MPEG_VIDEO_H264_HIERARCHICAL_CODING_B,
-> +		.max = V4L2_MPEG_VIDEO_H264_HIERARCHICAL_CODING_P,
-> +		.step_or_mask = BIT(V4L2_MPEG_VIDEO_H264_HIERARCHICAL_CODING_B) |
-> +				BIT(V4L2_MPEG_VIDEO_H264_HIERARCHICAL_CODING_P),
-> +		.value = V4L2_MPEG_VIDEO_H264_HIERARCHICAL_CODING_P,
-> +		.hfi_id = HFI_PROP_LAYER_ENCODING_TYPE,
-> +		.flags = CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
-> +	},
-> +	{
-> +		.cap_id = LAYER_TYPE_HEVC,
-> +		.min = V4L2_MPEG_VIDEO_HEVC_HIERARCHICAL_CODING_B,
-> +		.max = V4L2_MPEG_VIDEO_HEVC_HIERARCHICAL_CODING_P,
-> +		.step_or_mask = BIT(V4L2_MPEG_VIDEO_HEVC_HIERARCHICAL_CODING_B) |
-> +				BIT(V4L2_MPEG_VIDEO_HEVC_HIERARCHICAL_CODING_P),
-> +		.value = V4L2_MPEG_VIDEO_HEVC_HIERARCHICAL_CODING_P,
-> +		.hfi_id = HFI_PROP_LAYER_ENCODING_TYPE,
-> +		.flags = CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
-> +		.set = iris_set_layer_type,
-> +	},
-> +	{
-> +		.cap_id = LAYER_COUNT_H264,
-> +		.min = 0,
-> +		.max = 5,
-> +		.step_or_mask = 1,
-> +		.value = 0,
-> +		.hfi_id = HFI_PROP_LAYER_COUNT,
-> +		.flags = CAP_FLAG_OUTPUT_PORT | CAP_FLAG_DYNAMIC_ALLOWED,
-> +	},
-> +	{
-> +		.cap_id = LAYER_COUNT_HEVC,
-> +		.min = 0,
-> +		.max = 5,
-> +		.step_or_mask = 1,
-> +		.value = 0,
-> +		.hfi_id = HFI_PROP_LAYER_COUNT,
-> +		.flags = CAP_FLAG_OUTPUT_PORT | CAP_FLAG_DYNAMIC_ALLOWED,
-> +		.set = iris_set_layer_count_gen2,
-> +	}
->   };
-> 
->   static struct platform_inst_caps platform_inst_cap_sm8550 = {
-> diff --git a/drivers/media/platform/qcom/iris/iris_vpu_buffer.c b/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
-> index 4a854a4dab322eabb16a52b1cf816c18d78acc81..dfdffcf08b6837936b7be1f1a1f109d2bb8203c6 100644
-> --- a/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
-> +++ b/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
-> @@ -670,6 +670,8 @@ static u32 iris_vpu_enc_bin_size(struct iris_inst *inst)
-> 
->   static inline u32 hfi_buffer_get_recon_count(struct iris_inst *inst)
->   {
-> +	u32 layer_count = inst->hfi_layer_count;
-> +	u32 layer_type = inst->hfi_layer_type;
->   	u32 bframe_count, ltr_count;
->   	u32 num_ref = 1;
-> 
-> @@ -679,9 +681,28 @@ static inline u32 hfi_buffer_get_recon_count(struct iris_inst *inst)
->   	if (bframe_count)
->   		num_ref = 2;
-> 
-> +	if (layer_type == HFI_HIER_P_HYBRID_LTR)
-> +		num_ref = (layer_count + 1) >> 1;
-> +
-> +	if (layer_type == HFI_HIER_P_SLIDING_WINDOW) {
-> +		if (inst->codec == V4L2_PIX_FMT_HEVC)
-> +			num_ref = (layer_count + 1) >> 1;
-> +		else if (inst->codec == V4L2_PIX_FMT_H264 && layer_count < 4)
-> +			num_ref = (layer_count - 1);
-> +		else
-> +			num_ref = layer_count;
-> +	}
-
-Why are some of these num_refs shifted but others are not ?
-
-> +
->   	if (ltr_count)
->   		num_ref = num_ref + ltr_count;
-> 
-> +	if (layer_type == HFI_HIER_B) {
-> +		if (inst->codec == V4L2_PIX_FMT_HEVC)
-> +			num_ref	= layer_count;
-> +		else
-> +			num_ref = (1 << (layer_count - 2)) + 1;
-> +	}
-> +
->   	return num_ref + 1;
->   }
-> 
-> 
-> --
-> 2.43.0
-> 
-
+Konrad
 
