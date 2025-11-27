@@ -1,146 +1,139 @@
-Return-Path: <linux-media+bounces-47808-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47809-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A709C8D7C3
-	for <lists+linux-media@lfdr.de>; Thu, 27 Nov 2025 10:16:33 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F1A8C8D9D9
+	for <lists+linux-media@lfdr.de>; Thu, 27 Nov 2025 10:45:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id EAC8234F962
-	for <lists+linux-media@lfdr.de>; Thu, 27 Nov 2025 09:16:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4C48F3A86EB
+	for <lists+linux-media@lfdr.de>; Thu, 27 Nov 2025 09:45:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC976328253;
-	Thu, 27 Nov 2025 09:16:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD0C5329E6B;
+	Thu, 27 Nov 2025 09:45:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="oMA0l5GF"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xsh/ow1q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70FF3288CA6;
-	Thu, 27 Nov 2025 09:16:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39694329E71
+	for <linux-media@vger.kernel.org>; Thu, 27 Nov 2025 09:45:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764234984; cv=none; b=ShPu95JxtInScmscMfBNDjM9QunU8ggiTAlNNMd0U6Co9AFZOwIO2AlinCVzVWAygKGx5rWRDozqnxLaThxCX/UNA1Lfs7BShBPK1qqs0JJJoRFElQKGHfgJ+WYdox5X+uChoOvUDK8BSbWp/wxi260p3fBhpZOi8HpoYiS4hYU=
+	t=1764236702; cv=none; b=k+2pil4iXZGQtRzMIfQK4x5ov2Y0daAQzVmi9ZWrhR1RevtlLqpEv5uAycfkiCPu/50rPEGJxUiBYvO5oSucwEN1J1H9IgcKn8EqvsoPZhQjqGcXXytHJB8mNUVGVFUeLgPnODVdv7+PJ2pTUUaPe6Xf3fx6mNPRjDmbd5HpqUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764234984; c=relaxed/simple;
-	bh=LSTWpZ694gmrqMwIjxj3UrOdrcrNuYsAYGwhIa5HCXk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=F7U4tDKlmoBIR2ec/QT/soVb2lFLZmmFEqn9xYoY/256V7sWCVj34VBBIqKhJVn81uh0P7aVlL1UJcTofwQ5Hc984DgWQ24WIzwMbXswUtRC0JQoOR3o37eYXq7eo6WrrEkXOiLm4j8BQnvVe+cczdJzqhiXTweFvlk10/FpKG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=oMA0l5GF; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4dH9ld1kxhz9tZ4;
-	Thu, 27 Nov 2025 10:16:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1764234973; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XFgdH560T3YiZGXpnSavHS2fNWjlZmWfX61HED3oDlY=;
-	b=oMA0l5GF20+89bOALj2AZEzZ3KIYCQ0sQV3nKIuCRZQwgA60GoBHIUvo5JRwMguBCc9aZn
-	F5inZjQemfWXADIy+1xs76rtlYJFo92RNRet6w4peIdc++GW6ttRGWxsCSXZqLLJ1K10VW
-	QLkDmrkejRTh1VxfNJZ4pklrXpAKF9HotuRSmTJqVuPBFkros9P2+ivH/W1otk+mQpr0t9
-	mnTm79fYRIiStVef/JAOqBwscFVop7s6hLDvpyU/Arc28NFYHaNpXsDjbYT9vMO0+bOAVO
-	gzwkxgjeZWdYc3mg70heVVNEMMx2BkFm+1Edzdqkw9Qv9hGCakXTyIbg4+8BCQ==
-Message-ID: <35189892c0cb774155e2012d41371b4d3f8e7d0f.camel@mailbox.org>
-Subject: Re: [PATCH 1/6] dma-buf/dma-fence: Add
- dma_fence_test_signaled_flag()
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Matthew
- Brost <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
- <gustavo@padovan.org>, Felix Kuehling <Felix.Kuehling@amd.com>, Alex
- Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>,  Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui
- <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,  Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Lucas De
- Marchi <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
- <thomas.hellstrom@linux.intel.com>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org,  linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org,  amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org,  intel-xe@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Date: Thu, 27 Nov 2025 10:16:01 +0100
-In-Reply-To: <f1864f6d-8403-406d-81a0-00a71495cae8@amd.com>
-References: <20251126131914.149445-2-phasta@kernel.org>
-	 <20251126131914.149445-3-phasta@kernel.org>
-	 <aSctt3QFiEIB61Gr@lstrano-desk.jf.intel.com>
-	 <aScxGDYeNeN1WYja@lstrano-desk.jf.intel.com>
-	 <f1864f6d-8403-406d-81a0-00a71495cae8@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1764236702; c=relaxed/simple;
+	bh=8XhADblrsw7crDzwA4YYBlsruSjUl3pdlJRhOO76TFs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MTYDYEHekzFrJMKXn9Z2I2Cu30/ih0xgw/Y1gBJCgUs8dvbXoyqhNCtu0BEnsYbPMlh8HX/ieiV6sSMppxnIuiFZSK/F4MK7+1zpctZ+LvWpYeZevAekBMBt/u2UTK4F7yNK94W9uUUOHj2/U+jwOzk+sW+oiUd4nx32lj5wBpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xsh/ow1q; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-47798ded6fcso3071645e9.1
+        for <linux-media@vger.kernel.org>; Thu, 27 Nov 2025 01:45:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1764236698; x=1764841498; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KUyjSzf+6qkKbRlbXTsyYQMvsZwUMyzkw7vuF4dlBN8=;
+        b=xsh/ow1qwYSJWHi5hQsmJv6QOKd4U/XBAmjrNyesJXCKV61PKmbYFnIbHxaczS57aA
+         9Kw+sh593UWvqoHWOO79nNYB5m85I2p8p8JH93OzPfksMmY7tj3qDh2/F+HuuKYypR42
+         PWmJpEw4PLCg/s9vJ9syguhGHbA8Uh34KH4fj73ANKfHKilsYel2b/xUTywfW6luzhOF
+         E744STY4RsJjGUtypKkkEJRYTXHlYJoGdwEH9yOq5LcnYxgQWFy6hCSH9ra1jCUhZelr
+         iwufsO5yogq9L4rDVLNrqt1vdOv43r31NnD8XD0ylz2//Klz8IeLsVR6UMIUGF+B/ArF
+         5r4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764236699; x=1764841499;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KUyjSzf+6qkKbRlbXTsyYQMvsZwUMyzkw7vuF4dlBN8=;
+        b=FD8QXxnSDp2y8yH4Cj9Bjlmb32KItbueU6nCmucQqUIBoeCBXVjq9Ws/ua2hhH70Gd
+         9mR+KtsN14k+jKzNj/OeW8Qrry5ZsT3Ur+pAmv4jxS5RgnvjDW6oGahTOhjiTFQPxhr8
+         EPBy/t6hAxpiDv8mHzX5WrRitoVeaMor/mKWFFOVk8w3zKO+plZAPqwSztgPfnVnC6g9
+         q6zKDR8FKZQI1jn1zxQmZmpGlqM3Txnv/T9oNEsrWLNkwOyZVeKdrzLWaerBaS5a10ZW
+         6mCWlwyMXcFhGeEWE27poW/TEKph4lBbW97tLJDFLZLGbIvTcNBx89hyOnN+vfcLLs0S
+         08iA==
+X-Forwarded-Encrypted: i=1; AJvYcCVLguWebzzd1cNiwu4o1/gh0ExgWLPn73fEmMC9hmn3j3LDIqBh92VxdrykDBC0cEy9PkPbzSuDzaSJGQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxn3PSsvYeKVCNktgXBgwfv40DyLlWCpUqoNGGkTC3wo49mU4cS
+	MPGEP3FsbeiyZmeQI3eSLU4ZO+FdfGoc78HiRXkZ0XYffbgNGSvqAFx7/vsZCBmgHUaraSo+fbt
+	J6Q/ESgM=
+X-Gm-Gg: ASbGncukah2hAmY0rmSpHQ9CGz2cMhrQMWVWqdJCeJrILQzMRBrDB1Fmudo3xz771PK
+	wk1Hm/Yrat4lF9oz4l3n4jTi+sGgWyL3Xr44qxJtBI+sEOW6/bQ2lISZOXwW2VM7GZDlmEthJUc
+	tiKyEUOn9KtwZkXjaaJRa/y/ZD3fqmdCKhu+mZelmG4k8AMwH47RiwEhqFJSRjBoguwHNhBnys/
+	f5rT8iYaTbVBTJkqC1w2zcVFBuh2XUuIUv4pSwWQVuWfKQiX71UPA2uJVXFgWh2I+7UwjvUNEAi
+	mJXRhBokDul0YJtwaloXGKQxVc0hWrLuKjmYDGwsFjMcTTa+ZtoC+et8SpQq18OcD7nFyvtsG+8
+	7bGiu/ErY7XwbmhKFQ8xq+tabyuBdZjqm01N6Z3+KpVyEalp/RLJ4gdSsJQDqV4fxoeyTcG8niq
+	QbUuCGdJzzmZVc6qT6UW4SwRyj3Zm6g98FhyvY6P4wny5fY6PXU1zm
+X-Google-Smtp-Source: AGHT+IEPdwKsbg3Zp0AsKlru/Ylx+PdP+Q8dS3H5IQzMopRv9eF2iSzXCwIE5M8ELtc1p21MvXd50w==
+X-Received: by 2002:a05:600c:c490:b0:477:b734:8c41 with SMTP id 5b1f17b1804b1-477c10c8596mr213198165e9.1.1764236698497;
+        Thu, 27 Nov 2025 01:44:58 -0800 (PST)
+Received: from [192.168.0.27] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42e1c5c3c8csm3238104f8f.2.2025.11.27.01.44.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Nov 2025 01:44:57 -0800 (PST)
+Message-ID: <c5b629b8-2bee-4027-9205-6e7f74cda133@linaro.org>
+Date: Thu, 27 Nov 2025 09:44:55 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-META: bgpghhhhrg9u5u445qr6ka3upg67j9jx
-X-MBO-RS-ID: a7092e291bad71bbc06
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/7] dt-bindings: i2c: qcom-cci: Document SM8750
+ compatible
+To: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>,
+ Loic Poulain <loic.poulain@oss.qualcomm.com>, Robert Foss
+ <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, jeyaprakash.soundrapandian@oss.qualcomm.com,
+ Vijay Kumar Tumati <vijay.tumati@oss.qualcomm.com>
+References: <20251126-add-support-for-camss-on-sm8750-v1-0-646fee2eb720@oss.qualcomm.com>
+ <20251126-add-support-for-camss-on-sm8750-v1-1-646fee2eb720@oss.qualcomm.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <20251126-add-support-for-camss-on-sm8750-v1-1-646fee2eb720@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, 2025-11-27 at 09:11 +0100, Christian K=C3=B6nig wrote:
-> On 11/26/25 17:55, Matthew Brost wrote:
-> > On Wed, Nov 26, 2025 at 08:41:27AM -0800, Matthew Brost wrote:
-> > > On Wed, Nov 26, 2025 at 02:19:10PM +0100, Philipp Stanner wrote:
-> > > > The dma_fence framework checks at many places whether the signaled =
-flag
-> > > > of a fence is already set. The code can be simplified and made more
-> > > > readable by providing a helper function for that.
-> > > >=20
-> > > > Add dma_fence_test_signaled_flag(), which only checks whether a fen=
-ce is
-> > > > signaled. Use it internally.
-> > > >=20
-> > > > Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> > > > Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> > >=20
-> > > This is a nice cleanp:
-> > > Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-> > >=20
-> > > > ---
-> > > > =C2=A0drivers/dma-buf/dma-fence.c | 19 +++++++++----------
-> > > > =C2=A0include/linux/dma-fence.h=C2=A0=C2=A0 | 24 ++++++++++++++++++=
-++++--
-> > > > =C2=A02 files changed, 31 insertions(+), 12 deletions(-)
-> > > >=20
-> > > > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fenc=
-e.c
-> > > > index 39e6f93dc310..25117a906846 100644
-> > > > --- a/drivers/dma-buf/dma-fence.c
-> > > > +++ b/drivers/dma-buf/dma-fence.c
-> > > > @@ -372,8 +372,7 @@ int dma_fence_signal_timestamp_locked(struct dm=
-a_fence *fence,
-> > > > =C2=A0
-> > > > =C2=A0	lockdep_assert_held(fence->lock);
-> > > > =C2=A0
-> > > > -	if (unlikely(test_and_set_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
-> > > > -				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &fence->flags)))
-> >=20
-> > I need to read a little better, I think this change isn't quite right.
-> > The original code is test and set, the updated code is test only (i.e.,
-> > you are missing the set step). So maybe just leave this line as is.
->=20
-> Oh, good point! I've totally missed that as well.
-
-Oh dear; I also just saw it when opening the mail client ._.
-
->=20
-> But that means that this patch set hasn't even been smoke tested.
-
-I've built it and did some basic testing with my Nouveau system. Any
-suggestions? Do you have a CI that one can trigger?
-
-Thx
-P.
+On 26/11/2025 09:38, Hangxiang Ma wrote:
+> Add SM8750 compatible consistent with CAMSS CCI interfaces.
+> 
+> Signed-off-by: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
+> ---
+>   Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml b/Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml
+> index 33852a5ffca8..a3fe1eea6aec 100644
+> --- a/Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml
+> +++ b/Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml
+> @@ -38,6 +38,7 @@ properties:
+>                 - qcom,sm8450-cci
+>                 - qcom,sm8550-cci
+>                 - qcom,sm8650-cci
+> +              - qcom,sm8750-cci
+>                 - qcom,x1e80100-cci
+>             - const: qcom,msm8996-cci # CCI v2
+>   
+> @@ -132,6 +133,7 @@ allOf:
+>               enum:
+>                 - qcom,kaanapali-cci
+>                 - qcom,qcm2290-cci
+> +              - qcom,sm8750-cci
+>       then:
+>         properties:
+>           clocks:
+> 
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
