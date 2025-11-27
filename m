@@ -1,181 +1,150 @@
-Return-Path: <linux-media+bounces-47840-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47841-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AA64C8FECB
-	for <lists+linux-media@lfdr.de>; Thu, 27 Nov 2025 19:35:00 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B4A2C9022B
+	for <lists+linux-media@lfdr.de>; Thu, 27 Nov 2025 21:44:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2842E4E19B3
-	for <lists+linux-media@lfdr.de>; Thu, 27 Nov 2025 18:34:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 238783A9F03
+	for <lists+linux-media@lfdr.de>; Thu, 27 Nov 2025 20:44:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A51882D9485;
-	Thu, 27 Nov 2025 18:34:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 691CD314D03;
+	Thu, 27 Nov 2025 20:44:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="UMs+FfiM";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="gZbcpLr3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IqCIinIG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5EA12D97AC
-	for <linux-media@vger.kernel.org>; Thu, 27 Nov 2025 18:34:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 632BF30AAB3
+	for <linux-media@vger.kernel.org>; Thu, 27 Nov 2025 20:44:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764268493; cv=none; b=PHDWKtN+WxzKrNL4c/3WLo4VQ0fWIuObnvSbBbFPzQclEd2ti8rbeV/DjuwR8dQWx5wURMBAkwUjw7urdsRNZdPyprn4N/nLmvDEfngvm8X15Sx61cdgNS5j5JcqWkToNOcCd5S745kqjY4VZltf0Qwuo+3BZKRu7vqzFrMsYKw=
+	t=1764276248; cv=none; b=o16+T0H8bJKhPRlfUan89L/b+1lrPPmgfNxLwtSjdQitwoj6rtxUoagv5zoZBBK4EKM0EPvjzhS1pu5+rdH6YsYdL2nkd9izfVq91i385Q/VOS+M4wvyyqIMR9myK1bAKIPJI9JI8QEKlfH0AZaC/jYqhjEDg2NnsMvTUOIILqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764268493; c=relaxed/simple;
-	bh=CyqAt8eyHK/sR9OuQQqTRXOD5oCRUVXplse9uxEzUww=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V8CojqcTOrUScqTP5CK5Iz0wzIz6UmG01ReAky51D07rUHYv44BrA9kP9uTKs2iy1mDBI0lNWxE5+JQEivmRnLO+WnsG7aJfq2j6MGeXrxinu65rHPjnT7ZN34aRNlS41Zj1IYaMkvtHRT0MYemqFMEi4vYrHvIqNUg//lnDHGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=UMs+FfiM; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=gZbcpLr3; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5ARH2jdm1592190
-	for <linux-media@vger.kernel.org>; Thu, 27 Nov 2025 18:34:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	NdXRaByfg6g6aJmackd7z8wHbCYRNUZLHSta2o+aHQc=; b=UMs+FfiMgCb9oBmk
-	1Xs/gFOWqXgXhf//5DdFunv0vvfgCUO4EOcQIPeC9G90HRoZSmrW1w3qZtNUhv0o
-	GyNf0fWwYa0PcBmVgmQ71gy5u4AO7iMTjLcoUE0TG4hILGT6iXeElu+lw9Scmewd
-	IPZo4AXxjqmueldmoEfNYUzQFogmny3tLCTjKXjzaP6COG4VLHl8s2suo+ptUKUb
-	PvBEIELL/lQR8ZwmKLRyM37LaN/UOaodlRDfLNSohVBbBpOODFn4CWkeCYH5hQCq
-	lNVfZoZAIIbHIICWte2VSYcjqaHQV11Yfpbn1Yuhhy9JtGQX05WAq5xlLUnpjywW
-	DSX3Vw==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4aptpu85qt-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 27 Nov 2025 18:34:50 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4edaa289e0dso4605241cf.3
-        for <linux-media@vger.kernel.org>; Thu, 27 Nov 2025 10:34:50 -0800 (PST)
+	s=arc-20240116; t=1764276248; c=relaxed/simple;
+	bh=+q94ekbOkWlr5XHRAMBwHoZqmgtW6nF/flUzq2kN7/M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Czpjs7yH26Zt/Aqay2iDk8oAZCKk+mdE+UEHPqfxQcor0zENfl1S/Rseveh/qet2/tBjNC2JNGH1S+RWMl39pEH9ZGs6uA0Nhje8TJuDe84d3mZMLyJixLZUmJmkBjXpwr98eL53QrBespCsZQrMQ9P6ZgleH+LOKLPqXD7axRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IqCIinIG; arc=none smtp.client-ip=209.85.219.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-88242fc32c9so13813146d6.1
+        for <linux-media@vger.kernel.org>; Thu, 27 Nov 2025 12:44:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1764268490; x=1764873290; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NdXRaByfg6g6aJmackd7z8wHbCYRNUZLHSta2o+aHQc=;
-        b=gZbcpLr35yTpS009S0pxb2uMl4k/Ced3o2eWZ9aNuHuJJC2g5RWy9MM25h42jMLmjG
-         iR4GDQ368GuPBQ67kLpSpgEbTBJDEB+vTlXhLgmgwrkFvz56gQ8Fd4Tgmw0rLRQKbMAZ
-         1u7R9JtMZjqvsKC7F4pxamb2F2mia/jTYgpqZl9s45IE9douVZL5n0LtGhUF5hdlowD1
-         3rBRe0NZZiTEpcuNJ4AgZQf7bq4pWMHEkDj0hhZK3s4TxV18v9WqIFr3oijVh18MLdMK
-         OOpXoto3YRvmLZr4tF81jUVh5S3V/5dSxKJcVs/YWo/Iw+Fz8QrVL8GXUOxKdDduL1xQ
-         DpAg==
+        d=gmail.com; s=20230601; t=1764276246; x=1764881046; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=qwCD3atudzQaR/LDn9XgIygiEi/nCI5QmZX0e0EMwzk=;
+        b=IqCIinIGOdZ61KCdIdAqdUe4mwCU7zB2x0LnjbLjnzijloCWr2U+BtUgGZ5CfxEnCC
+         DvlPe3beVmP+lprePLXZc7YAVurUljkHLBcE4eNBmyYXaBiUQqtyC6YmEvGKUW3CkeJ/
+         W7br7dRMtSf6TZ2rL+gB8EaS55KGHsVQlc9l7+9qcWPbHV83Hob67gh4ciIFaQjlIBMl
+         D/vrUGlX/kCfdCOSofrYN2yFHMTpAjbK25atbuhoe4e8i9ZMKn10NNs4TrLrnXQqzV96
+         WSs3neALbaZb2W1X29Gp/2yagb6sWGs4lrJ8jHtdX5mn4YUkxayjGGFfEZKor12uqJnB
+         fViw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764268490; x=1764873290;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NdXRaByfg6g6aJmackd7z8wHbCYRNUZLHSta2o+aHQc=;
-        b=GVTW9ZKrSLWLPug9sz8mK9QrU8uu06yZTKtSa355ZKe0+ezZhXJI04KaHhU1xqGBUF
-         MuUTnfGXzd0aNCSGzY/YcLeEdHVt1hF7xWqMRF/G4K44dgCXbyeT5S/Idf/WcbH6j9Zh
-         2z2qfxQKzkMqe1Glxi21O1GRRA+grVsAJlKv8oYyfF4pI3+7YU0vfhfGckGhokXY878T
-         6LQUspBFNHnLBfFfQZX+BW2xtB38tcUdyxAMZ55a2GhVgM8snUbWzN728loIU+NJiDc7
-         1PeY3GxtRSJEGomZHLm0KYe60cH/5cqVPUax2JDNMo1PCbD1Ixb8XEUb7FklTAIEdrPx
-         tRfA==
-X-Forwarded-Encrypted: i=1; AJvYcCUwFpcbUFin9oEam34YatIK3N0hEIzh2XlNy/4FR78o3ev8Po7HK3xXwrqjMW9Bl+odJSp2yfE4wULxWw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwC11fOxVVNg+8W+50zg/XXLRPC/39cLS/MRsiAhiJJq36Adj9C
-	CwAjy3oh+F4Kiv1+R1y/OBjFHsRJG3ONS9OInQV9cirvUiF6fttvoWw0U9AOSx9272GHWU/IbOH
-	KOPPVmjf3RJyftNroHGkykpbkoHkZHRq1l+zT84eX/pQFfgtOzRwj3Vigh39RT11aDw==
-X-Gm-Gg: ASbGncurcco7BCwci+rSxaTgp5AS7tqnJnQsHuyInjbnRoQuDaXcr7jcbk3A+IMbBiI
-	2w469R8ZEU4HjgMfd4fAOwTyd/W3BR8ZL3nwLeOCuRZ74muJrnMxRgPtMdN616pKQAsUviZdgmu
-	t95tpPhJNLiRXnBtLJRQ2+BzdgCE3IMGilEdFY5M5hQN0cFD8LrNJEBvgvEdxP4U+Q8X9XNTGxb
-	Puhbs18Ajb4wROpcWRvhM0/zWc3VbOJfyjn6UA7ZjbmwNA3XG1hguRls+7sz1JFZ6vAMbSNywm9
-	yIn0HxmHyGMLrQBJkd4AcQUb/grG52ewqg3lPZ0XRVaQuO9l01ikV7pGbXHIffudEGmI2VkPDgt
-	4yir8j/clfMUS1KK/3saDjlknCLvxHrvi3pjzqNqYDCUoJ/nYE7wau3sUSWfExanz1Qs=
-X-Received: by 2002:a05:622a:1a9b:b0:4ee:1e33:bc45 with SMTP id d75a77b69052e-4ee5887286amr271533621cf.5.1764268489804;
-        Thu, 27 Nov 2025 10:34:49 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGZG3UQ/f/J/2CXIPraZWvUkXW8+fbMv65eK//ZWApgcMmgaOemOv+yiLDqVMqmhCALXLXUSw==
-X-Received: by 2002:a05:622a:1a9b:b0:4ee:1e33:bc45 with SMTP id d75a77b69052e-4ee5887286amr271533341cf.5.1764268489394;
-        Thu, 27 Nov 2025 10:34:49 -0800 (PST)
-Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b76f59a6a74sm229597766b.45.2025.11.27.10.34.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Nov 2025 10:34:48 -0800 (PST)
-Message-ID: <edbb4ed5-dada-4451-b883-2e3cf535fb52@oss.qualcomm.com>
-Date: Thu, 27 Nov 2025 19:34:47 +0100
+        d=1e100.net; s=20230601; t=1764276246; x=1764881046;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qwCD3atudzQaR/LDn9XgIygiEi/nCI5QmZX0e0EMwzk=;
+        b=We+3AvLVcoYOn044w6Z+yia1C/ul0mml4HxACDpBzIXm90qGxzQ0KwjHp4+4ABbil7
+         DN5FgLZokCtNtMMKsfZnZHFIxn+IUfR0fzQyQdxI+bkQgcUC2HOmhsv07EpfLG0NsYd8
+         jDJb9BChvSkdMg9I0riB2ITtM8kSJF5nQtkCiWI65XtLYtrMtFyJl8/RB482Vw2/4Sdk
+         C2w64O864C9XvHDeCqig3NDu6niajs2jjk+M4RqWvgHkpV9ygeLVp7B58j2Gse/EZuGf
+         Q8EVr6DEmrW/PYje2EBEPxcgFWKNgTowvU8XWxQBQslL6FktOkWIK62EQ2k8sPw3kTpU
+         j7RQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUIKxMGxZPiWtBoJ9rpj+JDV2nyJ61ZR5ITf0gCcokv5Cqjkjvo5hznaUnlbStkg6fX7N84WRfoQqokzQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy1jwZvBRKE1mNA/iaYYi2EhW72PIDABAnZUBrJ4Ojf443iQ3L4
+	AbDSrhi8r1qRyFbYlvxohJZ8aG8GWUnnYXBJcpH6QRTOPTcCf1w0XqP4Jb25jEulYKdYKNVBhO5
+	sOeNIrJ9YNbMaRDy48HCHUbON31Xx4T6uakZM8lriWQ==
+X-Gm-Gg: ASbGncuqpxoh8QqAnLoXqUL7zqCmEZRrejpY3fJKZC9K7QWrIWX2pPQGnmmwkIV07hi
+	lwiNfHUf62nwylcMXXLoJR3XIj94lVYbkEjHVgqKmkJiDdIFfc7nWTyohNH3e6DyVwp/upz9BNJ
+	uEVmNd4FJL5Fbu3pWNtTMkajwH1Cx+WglabPMwPSmJgoMMI3lqUl3KIMQ6UjF+SXpRQ0RYWJ55m
+	7deMBs6MQHRueH9nYEcLVystrj8ivxqLK+VtnQCFUImOrwTfOSIxZj0PghCUmLS94Mw/A==
+X-Google-Smtp-Source: AGHT+IE7voQiHDKLB4NwV8zGSE3REVdUO0e8yn38MIWlpfXSI6ZQdpofqkZUcP8t3D35swjRjPiF80F/keI36AiYhgc=
+X-Received: by 2002:a05:6214:4018:b0:880:4c02:c49 with SMTP id
+ 6a1803df08f44-8847c49a3ffmr351784406d6.23.1764276246078; Thu, 27 Nov 2025
+ 12:44:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: venus: assign unique bus_info strings for encoder
- and decoder
-To: Jorge Ramirez <jorge.ramirez@oss.qualcomm.com>
-Cc: vikash.garodia@oss.qualcomm.com, dikshita.agarwal@oss.qualcomm.com,
-        bod@kernel.org, mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20251121184306.218169-1-jorge.ramirez@oss.qualcomm.com>
- <249ccbbc-7990-43f0-b205-d5f33a1c9ad3@oss.qualcomm.com>
- <aSWnTE-jeHEg12N3@trex>
- <6eb8681d-d82e-457f-907d-3ba5b94267f2@oss.qualcomm.com>
- <aSiGU4Z81Lr0twpj@trex>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <aSiGU4Z81Lr0twpj@trex>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: QJ-nhiw3ZbvLLo5fIwMKAXr1_l7h_flm
-X-Proofpoint-ORIG-GUID: QJ-nhiw3ZbvLLo5fIwMKAXr1_l7h_flm
-X-Authority-Analysis: v=2.4 cv=WIZyn3sR c=1 sm=1 tr=0 ts=692899cb cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=bB1j1K4SiuvE0lrpVroA:9
- a=QEXdDO2ut3YA:10 a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI3MDEzOSBTYWx0ZWRfX8ChE5s7+M0X9
- fNOKk+RKF8RiSvQz9vovFbo2RNsV4sY0QAs/JlguynOsHUfxlC9hFdZS41Sv/ymEkucHZtWhDEi
- 3hJ7P/Gs3OustXsHWvhPVr8krsb1nGi3CXmzHdE6RUufPvQXwX72dCT+YKQ5584UAvfWLnwdYKZ
- Qtzzr2zOTDTeMEVRDb4yFgy3KqaG6IuO7vHEg0lMgTHLRGS9ghkhuVuHnbWq1AkvHLBJKMekt0e
- G2pGxHoh5ixJhbYaRbmJBa470PQbsjTFj9hJGYAJ6o1B3RqxfIX6JKi34QuW3i62BivBP5EIaKq
- +Ehy7T80UBwIk91/BpLWX4lHu7RK+5WOZlHNIl+J3JZ1aMQ0tJ72vf6QDogKeo/71kRkcpSvd8k
- B8u/68pfCuc/6C//npkLH1QsDpJ7pw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-25_02,2025-11-27_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 suspectscore=0 impostorscore=0 malwarescore=0 spamscore=0
- priorityscore=1501 bulkscore=0 adultscore=0 lowpriorityscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511270139
+References: <20251122090343.81243-1-21cnbao@gmail.com> <aSiB-UsunuE7u295@milan>
+In-Reply-To: <aSiB-UsunuE7u295@milan>
+From: Barry Song <21cnbao@gmail.com>
+Date: Fri, 28 Nov 2025 04:43:54 +0800
+X-Gm-Features: AWmQ_bn1BA-EHgk099B5JdrbxARNS1wqxvNFJMmU7BmZqAfXIiS6yKlNivY5AG4
+Message-ID: <CAGsJ_4z21fN2KSg6jt_qveYgrKZw1Vsi_kb+uhed=RJAbujMHw@mail.gmail.com>
+Subject: Re: [PATCH RFC] mm/vmap: map contiguous pages in batches whenever possible
+To: Uladzislau Rezki <urezki@gmail.com>
+Cc: akpm@linux-foundation.org, linux-mm@kvack.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	linux-kernel@vger.kernel.org, Barry Song <v-songbaohua@oppo.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, John Stultz <jstultz@google.com>, 
+	Maxime Ripard <mripard@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On 11/27/25 6:11 PM, Jorge Ramirez wrote:
-> On 27/11/25 12:47:19, Konrad Dybcio wrote:
->> On 11/25/25 1:55 PM, Jorge Ramirez wrote:
->>> On 21/11/25 20:22:13, Konrad Dybcio wrote:
->>>> On 11/21/25 7:43 PM, Jorge Ramirez-Ortiz wrote:
->>>>> The Venus encoder and decoder video devices currently report the same
->>>>> bus_info string ("platform:qcom-venus").
->>>>>
->>>>> Assign unique bus_info identifiers by appending ":dec" and ":enc" to the
->>>>> parent device name. With this change v4l2-ctl will display two separate
->>>>> logical devices
->>>>>
->>>>> Signed-off-by: Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>
->>>>> ---
->>>>
->>>> Perhaps that's a stupid question, but is there a reason they're
->>>> separate at all?
->>>
->>> not sure I understand, enc/dec support different APIs, v4l2 controls..is
->>> that what you mean?
->>
->> Perhaps that shows my lack of knowledge about V4L2. I had imagined that
->> a single video device could implement (non-colliding) enc_xyz and dec_xyz
->> operations and was wondering why we need two.
->>
-> 
-> I think the main issue is that the pipelines have very different
-> flows/states and semantics so even if the IP block serves both, the
-> v4l2 abstraction needs to have them separate (plus we want concurrency).
+> >
+> > +     /*
+> > +      * Some users may allocate pages from high-order down to order 0.
+> > +      * We roughly check if the first page is a compound page. If so,
+> > +      * there is a chance to batch multiple pages together.
+> > +      */
+> >       if (!IS_ENABLED(CONFIG_HAVE_ARCH_HUGE_VMALLOC) ||
+> > -                     page_shift == PAGE_SHIFT)
+> > +                     (page_shift == PAGE_SHIFT && !PageCompound(pages[0])))
+> >
+> Do we support __GFP_COMP as vmalloc/vmap flag? As i see from latest:
 
-Ah right, that makes sense
+This is not the case for vmalloc, but applies to dma-bufs that are allocated
+using alloc_pages() with GFP_COMP.
 
-Thanks!
+#define LOW_ORDER_GFP (GFP_HIGHUSER | __GFP_ZERO)
+#define HIGH_ORDER_GFP  (((GFP_HIGHUSER | __GFP_ZERO | __GFP_NOWARN \
+                                | __GFP_NORETRY) & ~__GFP_RECLAIM) \
+                                | __GFP_COMP)
 
-Konrad
+>
+> /*
+>  * See __vmalloc_node_range() for a clear list of supported vmalloc flags.
+>  * This gfp lists all flags currently passed through vmalloc. Currently,
+>  * __GFP_ZERO is used by BPF and __GFP_NORETRY is used by percpu. Both drm
+>  * and BPF also use GFP_USER. Additionally, various users pass
+>  * GFP_KERNEL_ACCOUNT. Xfs uses __GFP_NOLOCKDEP.
+>  */
+> #define GFP_VMALLOC_SUPPORTED (GFP_KERNEL | GFP_ATOMIC | GFP_NOWAIT |\
+>                                __GFP_NOFAIL |  __GFP_ZERO | __GFP_NORETRY |\
+>                                GFP_NOFS | GFP_NOIO | GFP_KERNEL_ACCOUNT |\
+>                                GFP_USER | __GFP_NOLOCKDEP)
+>
+> Could you please clarify when PageCompound(pages[0]) returns true?
+>
+
+In this case, dma-buf attempts to allocate as many compound high-order pages
+as possible, falling back to 0-order allocations if necessary.
+
+Then, dma_buf_vmap() is called by the GPU drivers:
+
+ 1    404  drivers/accel/amdxdna/amdxdna_gem.c <<amdxdna_gem_obj_vmap>>
+             dma_buf_vmap(abo->dma_buf, map);
+   2   1568  drivers/dma-buf/dma-buf.c <<dma_buf_vmap_unlocked>>
+             ret = dma_buf_vmap(dmabuf, map);
+   3    354  drivers/gpu/drm/drm_gem_shmem_helper.c
+<<drm_gem_shmem_vmap_locked>>
+             ret = dma_buf_vmap(obj->import_attach->dmabuf, map);
+   4     85  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+<<etnaviv_gem_prime_vmap_impl>>
+             ret = dma_buf_vmap(etnaviv_obj->base.import_attach->dmabuf, &map);
+   5    433  drivers/gpu/drm/vmwgfx/vmwgfx_blit.c <<map_external>>
+             ret = dma_buf_vmap(bo->tbo.base.dma_buf, map);
+   6     88  drivers/gpu/drm/vmwgfx/vmwgfx_gem.c <<vmw_gem_vmap>>
+             ret = dma_buf_vmap(obj->import_attach->dmabuf, map);
+
+Thanks
+Barry
 
