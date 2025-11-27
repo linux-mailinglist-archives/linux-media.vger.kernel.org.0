@@ -1,124 +1,148 @@
-Return-Path: <linux-media+bounces-47838-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47839-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3B0BC8FACE
-	for <lists+linux-media@lfdr.de>; Thu, 27 Nov 2025 18:29:11 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC26FC8FE40
+	for <lists+linux-media@lfdr.de>; Thu, 27 Nov 2025 19:18:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 185DF4E8661
-	for <lists+linux-media@lfdr.de>; Thu, 27 Nov 2025 17:28:15 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 9DC6E34FE18
+	for <lists+linux-media@lfdr.de>; Thu, 27 Nov 2025 18:17:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 335A12E62A8;
-	Thu, 27 Nov 2025 17:19:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D37D301030;
+	Thu, 27 Nov 2025 18:17:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c0KfnE/y"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="MrrmR/Eb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AB422ECD1D;
-	Thu, 27 Nov 2025 17:19:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764263971; cv=none; b=F8f3DtsGkYpRwZO/jGjNb33ORg8ARoW2AxlStofmqkEKZWN2iZ+mK2Py3T8cJYNfZfRGAdbdQnyaU6Pg5d1BLxZFzXKbfmUCjERdvaXgvZROYBb90Zp3CKQiCO335+mzAA30tGNUSke6AYiTMOw1YToCHJFTn5etIZ3vWXgZxd4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764263971; c=relaxed/simple;
-	bh=+8mv6i8YDqflMNXf6rSyL0ngsI4DSuUXQc+IAsMcIoc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fd3Oxx/ktppvuYBnJlOshGrcf8Y4DBEIA3GTAkq01O1p3AmFHSHuxA0hNRVYlLdKK+jhxgqOnu3QWszcZILnMuZ6OflMhFxKdseQMrZFQznUB/ZnngbPem02vqpyXVDIYU2BAJIGRD4WN+ONSiI95+5qaBwtC3+0MIY10RaTRFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c0KfnE/y; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECF0EC113D0;
-	Thu, 27 Nov 2025 17:19:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764263970;
-	bh=+8mv6i8YDqflMNXf6rSyL0ngsI4DSuUXQc+IAsMcIoc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=c0KfnE/yW9mBtNrtCv44gXHVw6SA0/m6sGRU7msy3eAgPWadTZyvHIkYKGNDUnM7W
-	 28ftgpbYM2BNqaIQH038Kl27gGXNVq7FV/E7oQRx3VLgZ6RFLtdff8s2iwtizMjgcg
-	 xeQzJCXOCOTb0EatsXDdloTWKGrDRCysTipTKHEftdjOa1ssf4m16kgkv0UgbXYc+4
-	 odbVSb8qMOxIkoimUTTcrsI13GEY0gYhIUAaRjZPomLyF0JlNFjl6w6aanfeYFQfA2
-	 lkq/9R63TZDx3yK+SxPvcsaAr1pNoICpg/TmokPgvFqSNd8ZcRbmaDKmPvRKVOfZ9s
-	 rAI1CjOpXsKAA==
-Date: Thu, 27 Nov 2025 18:19:27 +0100
-From: Andi Shyti <andi.shyti@kernel.org>
-To: phasta@kernel.org
-Cc: Matthew Brost <matthew.brost@intel.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan <gustavo@padovan.org>, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, Felix Kuehling <Felix.Kuehling@amd.com>, 
-	Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>, 
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>, 
-	Matthew Auld <matthew.auld@intel.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Lucas De Marchi <lucas.demarchi@intel.com>, 
-	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH 3/6] drm/gpu/xe: Ignore dma_fenc_signal() return code
-Message-ID: <enlnwawk3qtcbgfm7dmuyefb4tx3hxsrmzozkabpeixxsi3y24@pukuuth2zlke>
-References: <20251126131914.149445-2-phasta@kernel.org>
- <20251126131914.149445-5-phasta@kernel.org>
- <nrrk4kug6a42fztx7ryuz5bk6uy7roiszjhiivlvtrw3uvunps@wn44moyetzff>
- <aSeTsINKklqqJyIs@lstrano-desk.jf.intel.com>
- <q2kvwmnxomqlcx7zgvlvyhupduytfubcu5vghuf6ztrdaq55pb@gq4tg7qughun>
- <63274dd281ac94f2680a4aa91f541de82435fda5.camel@mailbox.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A979A2773DE;
+	Thu, 27 Nov 2025 18:17:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764267462; cv=pass; b=mQrkinFpyYsJ05Fk51I9hKp1Ml/+WS74Q/077Rg+39i+KvNZW5rjPLPSX11EOm/MI6FiVTky0S+q8mzQEUmg52u2tocgRYOJv7MjL+fDYq3CBN15FmGbutPgHOqysxdrDF64QyN15pHRAuslk6AOzp+vt2m8kIC0AwyajSLtSC4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764267462; c=relaxed/simple;
+	bh=Am9z6NB1hWcUKAtK2Wd4vEeA4UQDmYpPUuhYvTNI8BM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QqhvkhWz17105av0MafZHeOXNp8bBso5CfWJbj+x9agrq/3QNgQ28EklmDcAbW1OQkA6QcGbs4DKbTdLLtugV0BEshl2pMAdfNwncEAJYMbzMz9eyovTxbqhCC+mJJ6pa+Ee2mui5xbQR3j51tef3kKNTo9aq62bUd3/+YH0v3w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b=MrrmR/Eb; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1764267379; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=VHNPgFqZa0o6809/T+8jHJoMCBYjd2yZiYvEH43ecdDw0RDEoZBASvS8GXIRjf443u9HWsC87weywb65C5DIBcudiiLSfw66tyl4FaLNKaejlEIJIohOY954WwUx+6cfKsQdPDjAUxOAHUCJW2JVa5BuwC53SzyModibprg79Xg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1764267379; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=GA9FTV2ejX5xguOwyiDUL1hpvKOTwyB0xhI2crLeIWM=; 
+	b=VzgCDjp9rcRegJe18G1VoZpp248pQnSYb2nnPRvNYWxHUdyyrlHItaUgv2yGSNf+L6cT0ioGjEOUEpK+K0iTAkjcNQ9RhPc7ICm06mhWm7aOWDC7aTqGKcy/QGw9e2DvPfDfeB5pm0C9OwDjdwtPltUGw2ChGO1r7cznhhdiZRQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
+	dmarc=pass header.from=<ariel.dalessandro@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1764267379;
+	s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=GA9FTV2ejX5xguOwyiDUL1hpvKOTwyB0xhI2crLeIWM=;
+	b=MrrmR/EbOR0f5Gb5Xbhy3YhzRySSoWvRdfWRmCgcQVrMezcKplDmR9LS92M5F8YU
+	44hmR7lvwMtOD/5nw3ELxQb8PadU5cfnfMx7ngMJ02a3mou1wD1bDW4FltRjo9ZXijV
+	BVrAa/6yr4xsF2CvbF/50U6ILU5JghWfinyStD5c=
+Received: by mx.zohomail.com with SMTPS id 1764267377521567.410213066609;
+	Thu, 27 Nov 2025 10:16:17 -0800 (PST)
+Message-ID: <2dd059f5-96d4-44a1-84be-b14dce28cf06@collabora.com>
+Date: Thu, 27 Nov 2025 15:15:47 -0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 03/12] dt-bindings: net: Convert Marvell 8897/8997
+ bindings to DT schema
+To: Rob Herring <robh@kernel.org>
+Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
+ andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
+ broonie@kernel.org, chunkuang.hu@kernel.org, conor+dt@kernel.org,
+ davem@davemloft.net, dmitry.torokhov@gmail.com, edumazet@google.com,
+ flora.fu@mediatek.com, heiko@sntech.de, houlong.wei@mediatek.com,
+ jeesw@melfas.com, kernel@collabora.com, krzk+dt@kernel.org, kuba@kernel.org,
+ lgirdwood@gmail.com, linus.walleij@linaro.org,
+ louisalexis.eyraud@collabora.com, luiz.dentz@gmail.com,
+ maarten.lankhorst@linux.intel.com, marcel@holtmann.org,
+ matthias.bgg@gmail.com, mchehab@kernel.org, minghsiu.tsai@mediatek.com,
+ mripard@kernel.org, p.zabel@pengutronix.de, pabeni@redhat.com,
+ sean.wang@kernel.org, simona@ffwll.ch, support.opensource@diasemi.com,
+ tiffany.lin@mediatek.com, tzimmermann@suse.de, yunfei.dong@mediatek.com,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-sound@vger.kernel.org, netdev@vger.kernel.org
+References: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
+ <20250911151001.108744-4-ariel.dalessandro@collabora.com>
+ <20250912140619.GA1293647-robh@kernel.org>
+ <fb20e4fe-df0a-4089-a7cf-e82bfe1f8e00@collabora.com>
+ <CAL_Jsq+eeiw9oaqQPWt2=rZSX98Pak_oB=tfQFvEehwLZ=S52g@mail.gmail.com>
+Content-Language: en-US
+From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+In-Reply-To: <CAL_Jsq+eeiw9oaqQPWt2=rZSX98Pak_oB=tfQFvEehwLZ=S52g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <63274dd281ac94f2680a4aa91f541de82435fda5.camel@mailbox.org>
+X-ZohoMailClient: External
 
-On Thu, Nov 27, 2025 at 02:51:39PM +0100, Philipp Stanner wrote:
-> On Thu, 2025-11-27 at 14:37 +0100, Andi Shyti wrote:
-> > On Wed, Nov 26, 2025 at 03:56:32PM -0800, Matthew Brost wrote:
-> > > On Wed, Nov 26, 2025 at 11:56:57PM +0100, Andi Shyti wrote:
-> > > > > @@ -85,7 +85,6 @@ void xe_hw_fence_irq_finish(struct xe_hw_fence_irq *irq)
-> > > > > @@ -93,9 +92,9 @@ void xe_hw_fence_irq_finish(struct xe_hw_fence_irq *irq)
-> > > > >  		spin_lock_irqsave(&irq->lock, flags);
-> > > > >  		list_for_each_entry_safe(fence, next, &irq->pending, irq_link) {
-> > > > >  			list_del_init(&fence->irq_link);
-> > > > > -			err = dma_fence_signal_locked(&fence->dma);
-> > > > 
-> > > > why don't we do
-> > > > 
-> > > > XE_WARN_ON(dma_fence_signal_locked(..))
+Hi Rob,
+
+On 11/24/25 3:54 PM, Rob Herring wrote:
+> On Wed, Oct 1, 2025 at 12:28â€¯PM Ariel D'Alessandro
+> <ariel.dalessandro@collabora.com> wrote:
+>>
+>> Rob,
+>>
+>> On 9/12/25 11:06 AM, Rob Herring wrote:
+>>> On Thu, Sep 11, 2025 at 12:09:52PM -0300, Ariel D'Alessandro wrote:
+>>>> Convert the existing text-based DT bindings for Marvell 8897/8997
+>>>> (sd8897/sd8997) bluetooth devices controller to a DT schema.
+>>>>
+>>>> While here:
+>>>>
+>>>> * bindings for "usb1286,204e" (USB interface) are dropped from the DT
+>>>>     schema definition as these are currently documented in file [0].
+>>>> * DT binding users are updated to use bluetooth generic name
+>>>>     recommendation.
+>>>>
+>>>> [0] Documentation/devicetree/bindings/net/btusb.txt
+>>>>
+>>>> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+>>>> ---
+>>>>    .../net/bluetooth/marvell,sd8897-bt.yaml      | 79 ++++++++++++++++++
+>>>>    .../devicetree/bindings/net/btusb.txt         |  2 +-
+>>>>    .../bindings/net/marvell-bt-8xxx.txt          | 83 -------------------
+>>>
+>>>>    .../dts/rockchip/rk3288-veyron-fievel.dts     |  2 +-
+>>>>    .../boot/dts/rockchip/rk3288-veyron-jaq.dts   |  2 +-
+>>>>    arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi  |  2 +-
+>>>
+>>> .dts files should be separate patches. Please send the bindings patches
+>>> separately per subsystem so subsystem maintainers can apply them. All
+>>> the Mediatek dts changes can be 1 series.
+>>
+>> Ack, will fix in v3.
 > 
-> because it's impossible because the series is about removing the return
-> codes from the dma_fence_signal_* functions.
+> Are you going to send v3 still?
 
-oh yes, the last patch. Sorry, I went on reviewing and lost the
-final target from sight.
+Yes, will be sending out v3 asap, with the remaining changes.
+Sorry for the delay.
 
-> > > > 
-> > > 
-> > > IIRC the above statement can compile out. So the patch looks correct to me.
-> > 
-> > you have defined XE_WARN_ON as WARN_ON that should always
-> > evaluate the content and, depending on the configuration, it
-> > prints the logs or not.
-> > 
-> > What I don't like from this patch is that we end up checking
-> > twice for the DMA_FENCE_FLAG_SIGNALED_BIT bit.
-> 
-> Depends on what you mean by "we". The Xe code checks it only once, with
-> dma_fence_test_signaled_flag(). The dma_fence backend checks it yet
-> again, as it always does, to avoid signaling a signaled fence.
-> 
-> That's not racy here, however, because the fence lock is already being
-> held, as evidenced by the current usage of dma_fence_signal_locked().
+-- 
+Ariel D'Alessandro
+Software Engineer
 
-I haven't said it's racy, I just didn't like that we are testing
-for the DMA_FENCE_FLAG_SIGNALED_BIT twice. On the other hand,
-with dma_fence_signal_locked() being void, I wouldn't know how to
-do it better. So that I guess it's fine.
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
+Registered in England & Wales, no. 5513718
 
-Andi
 
