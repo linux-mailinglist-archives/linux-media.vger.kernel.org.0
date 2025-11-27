@@ -1,349 +1,404 @@
-Return-Path: <linux-media+bounces-47802-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47803-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81166C8D463
-	for <lists+linux-media@lfdr.de>; Thu, 27 Nov 2025 09:07:24 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E0F6C8D48D
+	for <lists+linux-media@lfdr.de>; Thu, 27 Nov 2025 09:10:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id F289034A39F
-	for <lists+linux-media@lfdr.de>; Thu, 27 Nov 2025 08:07:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 393CE3AC28E
+	for <lists+linux-media@lfdr.de>; Thu, 27 Nov 2025 08:10:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEFF331BC8D;
-	Thu, 27 Nov 2025 08:07:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BF35320A31;
+	Thu, 27 Nov 2025 08:10:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Fpdg8Znw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ANCh9v21"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010070.outbound.protection.outlook.com [52.101.46.70])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62FAB30F815;
-	Thu, 27 Nov 2025 08:07:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.70
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764230835; cv=fail; b=jY4n0L4hpXfOjsqa9VtoHzX2t48VPVF9ZPTr8mvaKJAkqaKLgzpC2eHwoFK2fxnDKyqd5hgWl6XAYGYgkFE+tELnTwcDr0OL9uE9X8hMUTVI3RlCChi1FXPy4GV2UT4R9nB9rzdt01DCEqy4CUNUcwTVNA70gMaR5TES0PViYv4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764230835; c=relaxed/simple;
-	bh=ZehYamgZqnXXnmFqghjnc9WZAqttbU2nDX1gmw02lyg=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=H2sTGgT/RX901dWIFCpoZiT8iI+JU35F35Im7JBX4gpFNShX0qGckah3FycHaxVs52l3Fu6PWXUXmHyAqqANfP7zsjkdj3A6rMKFkxteGeQu/oB0zDC0a0SYr9RR0/3kFnOOCmuKHXwkcgi30EPARR5Lzvog9ROA1zy6xXyQUaI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Fpdg8Znw; arc=fail smtp.client-ip=52.101.46.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oHkKuAz+nqznPJTfbXH7WpC7nHMQfLvF+bntNtE5TAwuHy8gs4wp37QSpDnQLN6OhcETkOxcx8JeT+nH05AW6f6vH0kgB5Ev7mjrGw+SplXs3PZYy3e6y0xuP/5ux8Hutj6RX9ougZmru1sv82nsxskigiihQReYvBCu9R8bEfXmdzJmf/JVsE1WJuqEpLJZHxmNT9iw2Bn/8tYSemYRKn+B9KcChuwy/h/8XjJrhk17VMf4uEtCprZuo0sI1sGSSbm/R1cbGkWwMi480v2NEFwzpE72WQNpvlxbnivPw4BORvgHPp8kxHXvl3oCj2fBAX2gY6lhr0KqnUtmVVgCjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tih2qnJxlY99My/GU3kHzSLia5o8n5diB9aHN4aG2jU=;
- b=AWDtnGfBmleBfsdclpJsqvvB19cw5hK5oC7qCkztraLFddLlkMcotk400ilhwiIJ6YQd1acRPQiYfod23hmi0dIhQiDGt3QhtU7cyQLwUdIIdtPbQ0dY5sdUf8lojChG23JAk5NzCxHawxh06kTnYRYH6AQIEmR4UYwV3r38M5IDYA7i5EX1DrmZHlcELv0dzaApKEAMxMEYxozSwdFZUQ4c3ROvk0EWtbraUJvhr/XPC0MgaDsCA/pKzelWvtPUesB5FnNQzZWQC4a/h3/plaqHEKOzqArHVnuS3LsG27geYixpIpPNxbXxwjOqt3uRbyGPZFdT+wFM2DdxaEbYtQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tih2qnJxlY99My/GU3kHzSLia5o8n5diB9aHN4aG2jU=;
- b=Fpdg8Znw/FgFlPE/NzYB11Y5zmZHlcIMWfqlNwPVp7GuNAvkJruEMD6C5puanYPSRTmFW0t78uSz8E9ZpHj+3O2Q5kB8KPuYEywjOz8rZhAPYt7WYqBw5pj8XyLes6PeFWHcAxpijufVK8q92zDNBS6RrqIfcSsu5cKOZXFuEx8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MW4PR12MB6876.namprd12.prod.outlook.com (2603:10b6:303:208::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.12; Thu, 27 Nov
- 2025 08:07:10 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9366.012; Thu, 27 Nov 2025
- 08:07:09 +0000
-Message-ID: <8d5ae067-e1bf-46a7-9137-d5936197ad5c@amd.com>
-Date: Thu, 27 Nov 2025 09:07:06 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-buf: add no-op stubs when CONFIG_DMA_SHARED_BUFFER is
- disabled
-To: Viresh Kumar <viresh.kumar@linaro.org>,
- Sumit Semwal <sumit.semwal@linaro.org>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-References: <6202945f4af2d10e0fb6602b25ff9cb454c1ee85.1764229204.git.viresh.kumar@linaro.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <6202945f4af2d10e0fb6602b25ff9cb454c1ee85.1764229204.git.viresh.kumar@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0384.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f7::18) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B231E1C84D7;
+	Thu, 27 Nov 2025 08:10:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764231010; cv=none; b=NH9LSZS4/FFaLIFz9PLjmf0aYE1eOiCxSHvXDh5asiutIloLHMaL4j3XStxrI6LfPuIcCwDsS17REymnqpX8jPdAZrX+T2s8MGJVumVZlgyVtvseyKrFXcvpWGq3ydRq/z5IKhuE7BHO/XxzQqWA5tSaTGsHTHpmho7jK+6tf4g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764231010; c=relaxed/simple;
+	bh=PdrV2s211vzsOKAkVUJkuhuqZI/NLZfBDOnRCXc94H8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q3QpZtzw8yarfWjygzIYWXWQ0ru4t5kWXlr5Pn6apqIkpazes02KJXBIXmQIyaZBQGCPa3vNR/eOm5TmeWpLOVVnijpOZDEhoJ7TkTOCdkb0bGAtxqxqC1OUlZA1E3j8wolqsyTSbGVDD300mvikdiaOg+XY9O8FpxGk2ZsY/B0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ANCh9v21; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BD7DC4CEF8;
+	Thu, 27 Nov 2025 08:10:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764231010;
+	bh=PdrV2s211vzsOKAkVUJkuhuqZI/NLZfBDOnRCXc94H8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ANCh9v21kSrU7qAWFhYhC/uM4h4IB+EBTeT1eADxILm5UbTYQ6H5OPw4fcR50vQ4O
+	 EXldBMkBNLFvn65r8swmaAkLL3r43LwthtavXFU0u5sRF1x70th9yYLbRCH8p9/z3L
+	 El4Vn9SuhqQpo65+kEI04lIuyq/8JnvCo1iP1KhGoHhFanz0HkVLhI5Wi/20Q/VCCN
+	 71w1i99WeoaFR9v0tRrBrUq+pwFNTQnv+Ch2+yquMtsjPDgZ7m3kam/p1LzVrvgnvv
+	 vtsa2FzWEFb3sCA3i+XyOFrXQ1mCnPKglxZrjracYJ8kEj9waeKBHPdVXYAjQztVNj
+	 2doO4IpWrd4Sg==
+Date: Thu, 27 Nov 2025 09:10:08 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
+Cc: Loic Poulain <loic.poulain@oss.qualcomm.com>, 
+	Robert Foss <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>, linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	jeyaprakash.soundrapandian@oss.qualcomm.com, Vijay Kumar Tumati <vijay.tumati@oss.qualcomm.com>
+Subject: Re: [PATCH 2/7] media: dt-bindings: Add CAMSS device for SM8750
+Message-ID: <20251127-smart-tuatara-of-downpour-88c16d@kuoka>
+References: <20251126-add-support-for-camss-on-sm8750-v1-0-646fee2eb720@oss.qualcomm.com>
+ <20251126-add-support-for-camss-on-sm8750-v1-2-646fee2eb720@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MW4PR12MB6876:EE_
-X-MS-Office365-Filtering-Correlation-Id: 058c7690-0df0-4aa5-e20d-08de2d8bf6a3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?R1FNdm1reWc1ME9ZZGVJeHNrc2hpSERqQ2llU001bzZHbTJTd2FweFIyQW42?=
- =?utf-8?B?Q2NRSmI3TnlPczhVQzk0eXQrSVFISldkZHEraU1EWVpwWG5Wc0xmMUlKcENK?=
- =?utf-8?B?RlFCM0p4SFJiTU1FQU50ZmF3Q0QyOW1sZGVVcWh5b2FBQkJUay9ZUWlkdW9k?=
- =?utf-8?B?MVZjNUYyKzhoNDl3UnJHOG5vTHpyMW9ZM3lvS1B0VjZnTkdlME05OVdCUUc4?=
- =?utf-8?B?Z2w5bHNxU0wyRElCc0JNOHZYZ2t1MzZEWXp6UFdIRWlFMEVERjN2aGdpMC9o?=
- =?utf-8?B?VThLNDBRZGFqZHBlcW02NmJndzhuQk5XWmQ0QjdSOXpQQ1BERU15Y2Z5NllX?=
- =?utf-8?B?RS96OGQ4L1hNUlgxc3RWdDVPQ2Q5eWU0Z1Rpd3FOVSt6K2QvMzJaOXE1NGpn?=
- =?utf-8?B?Z2p1VWFEOHkxeHR1bGY0S1g4VlRHcEY0dkxtVDBIcThYSXdkSUFJczBSMHBl?=
- =?utf-8?B?S2owNnRMdDFoeUhJT0tZWkgzNGM0SFNZWnBaSVI4Zy8vVi9GZENSQnRJTlFT?=
- =?utf-8?B?V0MwVXk5YmFyaml6Ym5wMGJCTHdqQVVRdzgvZW9YVmJCRWhhcnRZdGQ3REtz?=
- =?utf-8?B?b2p0ckV3OFdZWXd1aVNBOGRldUhyaG9MOXUva3MrR2FrSmFZSWpta09USVcr?=
- =?utf-8?B?NmQwcWhsU0RXL3VPK25WVWx6RzZQVEx4dFVFd0tROUxZOFFZUXo0WGltU2Fq?=
- =?utf-8?B?T01VZDl2VmtQYlRSdzZENE5keVMzcnB6akFiQlV4YmF1UmtYWUlFdUNRUWZD?=
- =?utf-8?B?M1BuMCtXc3dSTkpjMTRuTGZrOURkSm9qQnVTN3RkWDdzSHVIRXlTL0EvU3Ri?=
- =?utf-8?B?UWxPYnJsSWVoRmVHNTRGL0pxRVN2R1pkWExNYkxvalNYc0l3Uk9aei9TYzBt?=
- =?utf-8?B?YjdLNzcvQjFGeTZBUE1Na3h2blkvRUF3SEowZ1RaL2hnUWNDUlZsalYxSmV5?=
- =?utf-8?B?L1Npc0ZGM1luY3RBQW5FeWxvajMxSzZGTG90UGxkY2dJdjZxTjJRUVpId2xE?=
- =?utf-8?B?MWJnOGpuMVc2Z3F4VGNxU0M4eHp0QXY4M0RVRGszN0RleFVQM3Z6bnNveUYx?=
- =?utf-8?B?Tnlkak5aWHc1SnRUb2daQU5RZzlnOWtLQ0MvMEhMbWNWSHI1MzFRN3dVVHF2?=
- =?utf-8?B?cmpLRnk0R2dVWlFjb1FuZERIL0g0TDgxOEFsRXNzdHRubllrMm5ZRDErOFZR?=
- =?utf-8?B?NmFTY2lUdyt6bkRTWkxFRnBuWXBibVgyV2t5VmdkVTRaelRObzZBclhBdm9S?=
- =?utf-8?B?N3FVditPa1o0ODhqQlFsaXJEbWlhaWpmcTZiU0hGdldWRHJyUk5ReXJIZVVu?=
- =?utf-8?B?UFg4SFptMGZlUVlXcVB6V1c4dXN6Nmk2V0NVanI0ZWptaXJseE82V1lsVlVF?=
- =?utf-8?B?amx3NURNY2FiVG8vTTZiUGVRaWQ0K2FLOUtqa05nQVdPS0JndU43OTVBSUZ2?=
- =?utf-8?B?dCtic01ZYUZZY0g2VmdycmlPdFJlNEtFdmNnN3h0RFRYNlZJTXhoR1dSN3FK?=
- =?utf-8?B?T0V5N2haSzQ5YmpYZDFRWmMxamV3Q2hld3FJOTMzQk04M0dON1BMZ0k5Z0ZJ?=
- =?utf-8?B?MUp0QmJDOXYwRW82Sm4yOTBXeVhQdzRSTmFBaEtILzVUSHFEYUVRNWdUK1h4?=
- =?utf-8?B?N2lVR0RCVEJnS2F5WDFSYUt0WEhyMytQMnhGaEZzYy9lUE4zVE9xMVk5S1VE?=
- =?utf-8?B?bkRqV2JjS1QzdDRDQkJrSW9FbWpoclVkNE9QekJ4NGE1bHd5TVdYRXFUNENp?=
- =?utf-8?B?WmdtSnNaa0krZncvRzRwZHZGeXF5UG1ZZnB1V0c0eDA0L0ZldGk5NXozVjNn?=
- =?utf-8?B?bnowaTB0K3UxRml1TjEwRUZsR1NTN3JlZ2dwaHBTbVNWV0tsQ2VMbnRrenJH?=
- =?utf-8?B?WGQ2N1NNUm96RDduV080aXFnVld5cVp2b1dIN0ZwV2NOZjcyS0doL1prVE9W?=
- =?utf-8?Q?/2VoIymhkur5IjgcE1fakFFcQeIeJN4j?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SXM4SldnVno2OGlKREN0YzRBalB2T0hXdnM3SDNGenNUM2lqLzM4cDhGVFdP?=
- =?utf-8?B?cll2VW9WalpiYXRqY29YeEVrWU5ZU3cvQjZQUmhYSlNvR2gyeFhQVHo3OWo1?=
- =?utf-8?B?TC9Mb3ZoYWJqbGpJR1dWc3F1MVlTK01aeitGR0ZRR3FyZ0hreWYxekVBZk9I?=
- =?utf-8?B?em12Z0VvLy8wVEhSTmpoOEs4QzJNblI4MmVtS2xaZTRwK2FSVmYxeWFGS2s5?=
- =?utf-8?B?OVZRVTc5alFGQVVSNjd2a1k5M1gzOGxScjdhZFliNTFibnp1Rk1JOEwzbVl4?=
- =?utf-8?B?UWpxK21MN0dUK1Z6THppS01pVTVhdW5FaEg5WWFpc0dkZDZCU2l5emNkNW5j?=
- =?utf-8?B?eUN1N1ZRV1lYT0daNTQyZENuaG1QWGhmeE8rUWU2OXVOSksyUmpRZkROVHJx?=
- =?utf-8?B?eFh6RVdwQ3pYaytWSEFZU1hOREIzTGd5MzZQT2tYaityWmorNUZpbjZUYkU1?=
- =?utf-8?B?akY3WXVTU012eXNoZ090R1Z4VnpGNDA5YjY0VnUzWlZwMmVPQ0lTbTFQYkp2?=
- =?utf-8?B?UU5SdFNocXRyc3Q5TTh3QTRHODd1dThrOGQwMmJqWEttKzExb2hNTFFJbGly?=
- =?utf-8?B?TnFNdk4wdEJISzBUY1p6bTYrQWpnTnl3STJSRzJmM3Q0Um02TkVRSThtc0V5?=
- =?utf-8?B?eWoxdkpzVzFWNXJtcnVSZWVzSlR0WmdpZjlmakhhTmZ6SWV6UEVuTmVFaGFy?=
- =?utf-8?B?ZHVJYjFUTjlFVzgrTUlxZVlqaTdxVkxLM0VncjVsNS95Wk9kcTU3Wm9ibFp0?=
- =?utf-8?B?RE1pSmd0aXo2bG9MWlloUzZUYk43alZReVhVN1p3RkRtZmNqQ1F5RUpiNTZU?=
- =?utf-8?B?Si82M1gwVkdKSlBVN05TaS8xS1pZUWJ6QXlNQ0MwYkdYeWd6dS8yYkxoWVZ6?=
- =?utf-8?B?NnVPK1pJY0JPYjVZcEFuajljeDV2NHp3TjltOVVLNFdPQ1NSUUxmRERvVlhu?=
- =?utf-8?B?MWxrUmwvOVdRT2dIcmpDd0VFSzYyNXVtbExmVGsyL3ovUlc0djN3V3dKbkFu?=
- =?utf-8?B?VTk2aVhSd3Yrc1M1NEZwalFKWXNtOS83d3poZzdmTmV2YitlUkxuZkN6U1dP?=
- =?utf-8?B?M2pFUGRLWS9ZbnM1Wm5kTE5ia05rVzVqd1dnQW13L3daTk1BWWVMWnJDc2lo?=
- =?utf-8?B?YU9VSUxNQ2U4S1pFYUxmV2psUXR1YXhVaEZGWEFKdzhmVmlSUXhid3c1K0Ux?=
- =?utf-8?B?c25pT0U1cnYvbkdPdUsxbTByVGRDdnd1VkNzY3hmUzV5dFI1a1hEZWVSQ3ND?=
- =?utf-8?B?dStkcFNnZHp1aUFNU3pwZCs3bFVINkQwY3lhY2RVVE1vOHlZOTd2dVc1VFhM?=
- =?utf-8?B?WGhIaWxqSmFHWnRHbVhacjAzQ1RXUzRSaXJ4blE1d29PcGY2a0FQRzJHTHhJ?=
- =?utf-8?B?TmN3QWsrdmtiQUY0UTBzRHZEMlE5SFJ2ZDN3UnBGSTRFdGRYSFlOVjExdXgv?=
- =?utf-8?B?ZWIyeitUN3QwSWt6TWduT0xqTGNWVFcvbW1xZ0RLNGNrNHFFZWdaVExoNFo4?=
- =?utf-8?B?VXlQTXFka2RWYVVnQmNwSnZLMnJEOEhnV2g3clNhTk5CZURtZHlISzMyUVcy?=
- =?utf-8?B?d20xd1llSjExWi81aW5sQzJwZE9lS3lUWTU0QjNXVXc0RlAySEMvR2Rqa0RR?=
- =?utf-8?B?RjJRdFJyRmtVeHBJN1ZDdi9IU1I2SG9nN2NvY2w1ZkRTUlMyT21uNUw0eW1w?=
- =?utf-8?B?cnJKZnU4UE5RSnFTdTRGcHFUeXMwdWYxU3dYbGxObGEvSm5NbkZGcFdHWkc3?=
- =?utf-8?B?UFp6RUxRRnAzWXM2ZUlWN3c1bGtkNDFVRWpwTGovOFZXYWtYQkpSMGpYb3Rz?=
- =?utf-8?B?dE1oVFA1aUs5OXpLTm5IdHp6TjRqeWZFUXBHaGE1OVltUUNZbkNjNmNDRUZo?=
- =?utf-8?B?QVM5OVNDVGQ2K3gxVmpyYkQ1YVBRZEFoV0lUOWtITnpkKzJDNldEQWFKeHls?=
- =?utf-8?B?d1M4em16VXRUZEtXcEZrTHF6bmV2V0NnMzA5MGdZMXV6dHZOTjhVNEQwMEFq?=
- =?utf-8?B?K1lobHhlM3JLY1VuWkh5ZG1ad0IzcExoait5RW8wc2ZieG4rRUxURjFlb2VL?=
- =?utf-8?B?ejZ1emtOQ1YxNWR3UE5GU1Z6Mk5ibFh5YS9vV2liTnBacnoxVHpZc1JpMk5z?=
- =?utf-8?Q?kABcdQZ2zo9nPNkpY5XBD9AcE?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 058c7690-0df0-4aa5-e20d-08de2d8bf6a3
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2025 08:07:09.5987
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XVbLdKe9TgwJcGLNwreGFdF93QRVq3HfN7rkWrHWzSglLQHDlvWuQWsD13rgfiBW
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6876
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251126-add-support-for-camss-on-sm8750-v1-2-646fee2eb720@oss.qualcomm.com>
 
-On 11/27/25 08:40, Viresh Kumar wrote:
-> Move several dma-buf function declarations under
-> CONFIG_DMA_SHARED_BUFFER and provide static inline no-op implementations
-> for the disabled case to allow the callers to build when the feature is
-> not compiled in.
+On Wed, Nov 26, 2025 at 01:38:35AM -0800, Hangxiang Ma wrote:
+> Add the compatible string "qcom,sm8750-camss" to support the Camera
 
-Good point, but which driver actually needs that?
+s/to support the/for the/
 
-At least the whole DRM subsystem selects CONFIG_DMA_SHARED_BUFFER and others (like V4L) usually don't compile their whole infrastructure when that option isn't selected.
+Bindings do not support hardware.
 
-In other words there should be a concrete example of what breaks in the commit message.
-
+> Subsystem (CAMSS) on the Qualcomm SM8750 platform.
 > 
-> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+> The SM8750 platform provides:
+> - 3 x VFE, 5 RDI per VFE
+> - 2 x VFE Lite, 4 RDI per VFE Lite
+> - 3 x CSID
+> - 2 x CSID Lite
+> - 6 x CSIPHY
+> - 2 x ICP
+> - 1 x IPE
+> - 2 x JPEG DMA & Downscaler
+> - 2 x JPEG Encoder
+> - 1 x OFE
+> - 5 x RT CDM
+> - 3 x TPG
+> 
+> Signed-off-by: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
 > ---
->  include/linux/dma-buf.h | 116 ++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 116 insertions(+)
+>  .../bindings/media/qcom,sm8750-camss.yaml          | 664 +++++++++++++++++++++
+>  1 file changed, 664 insertions(+)
 > 
-> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> index d58e329ac0e7..06e494d8f6b0 100644
-> --- a/include/linux/dma-buf.h
-> +++ b/include/linux/dma-buf.h
-> @@ -568,6 +568,7 @@ static inline bool dma_buf_is_dynamic(struct dma_buf *dmabuf)
->  	return !!dmabuf->ops->pin;
->  }
->  
-> +#ifdef CONFIG_DMA_SHARED_BUFFER
->  struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
->  					  struct device *dev);
->  struct dma_buf_attachment *
-> @@ -609,4 +610,119 @@ int dma_buf_vmap_unlocked(struct dma_buf *dmabuf, struct iosys_map *map);
->  void dma_buf_vunmap_unlocked(struct dma_buf *dmabuf, struct iosys_map *map);
->  struct dma_buf *dma_buf_iter_begin(void);
->  struct dma_buf *dma_buf_iter_next(struct dma_buf *dmbuf);
+> diff --git a/Documentation/devicetree/bindings/media/qcom,sm8750-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sm8750-camss.yaml
+> new file mode 100644
+> index 000000000000..6b2b0b5a7e19
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/qcom,sm8750-camss.yaml
+> @@ -0,0 +1,664 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/qcom,sm8750-camss.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +#else
-> +static inline struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
-> +							struct device *dev)
-> +{
-> +	return NULL;
+> +title: Qualcomm SM8750 Camera Subsystem (CAMSS)
+> +
+> +maintainers:
+> +  - Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
+> +
+> +description:
+> +  This binding describes the camera subsystem hardware found on SM8750 Qualcomm
 
-This should probably be an ERR_PTR(-EOPNOTSUPP);
+s/This binding ..../SM8750 CAMSS (Camera Subsystem) is foo bar..../
 
-> +}
-> +
-> +static inline struct dma_buf_attachment *
-> +dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
-> +		       const struct dma_buf_attach_ops *importer_ops,
-> +		       void *importer_priv)
-> +{
-> +	return NULL;
+or any other form which will describe the hardware. There is no point to
+say that binding describes hardware. It cannot describe anything else.
 
-Same here, ERR_PTR(-EOPNOTSUPP).
+> +  SoCs. It includes submodules such as CSIPHY (CSI Physical layer) and CSID
+> +  (CSI Decoder), which comply with the MIPI CSI2 protocol.
+> +
+> +  The subsystem also integrates a set of real-time image processing engines and
+> +  their associated configuration modules, as well as non-real-time engines.
+> +
+> +  Additionally, it encompasses a test pattern generator (TPG) submodule.
+> +
+> +properties:
+> +  compatible:
+> +    const: qcom,sm8750-camss
+> +
+> +  reg:
+> +    items:
+> +      - description: Registers for CSID 0
+> +      - description: Registers for CSID 1
+> +      - description: Registers for CSID 2
+> +      - description: Registers for CSID Lite 0
+> +      - description: Registers for CSID Lite 1
+> +      - description: Registers for CSIPHY 0
+> +      - description: Registers for CSIPHY 1
+> +      - description: Registers for CSIPHY 2
+> +      - description: Registers for CSIPHY 3
+> +      - description: Registers for CSIPHY 4
+> +      - description: Registers for CSIPHY 5
+> +      - description: Registers for VFE (Video Front End) 0
+> +      - description: Registers for VFE 1
+> +      - description: Registers for VFE 2
+> +      - description: Registers for VFE Lite 0
+> +      - description: Registers for VFE Lite 1
+> +      - description: Registers for ICP (Imaging Control Processor) 0
+> +      - description: Registers for ICP SYS 0
+> +      - description: Registers for ICP 1
+> +      - description: Registers for ICP SYS 1
+> +      - description: Registers for IPE (Image Processing Engine)
+> +      - description: Registers for JPEG DMA & Downscaler 0
+> +      - description: Registers for JPEG Encoder 0
+> +      - description: Registers for JPEG DMA & Downscaler 1
+> +      - description: Registers for JPEG Encoder 1
+> +      - description: Registers for OFE (Offline Front End)
+> +      - description: Registers for RT CDM (Camera Data Mover) 0
+> +      - description: Registers for RT CDM 1
+> +      - description: Registers for RT CDM 2
+> +      - description: Registers for RT CDM 3
+> +      - description: Registers for RT CDM 4
+> +      - description: Registers for TPG 0
+> +      - description: Registers for TPG 1
+> +      - description: Registers for TPG 2
+> +
+> +  reg-names:
+> +    items:
+> +      - const: csid0
+> +      - const: csid1
+> +      - const: csid2
+> +      - const: csid_lite0
+> +      - const: csid_lite1
+> +      - const: csiphy0
+> +      - const: csiphy1
+> +      - const: csiphy2
+> +      - const: csiphy3
+> +      - const: csiphy4
+> +      - const: csiphy5
 
-> +}
-> +
-> +static inline void dma_buf_detach(struct dma_buf *dmabuf,
-> +				  struct dma_buf_attachment *attach) { }
-> +
-> +static inline int dma_buf_pin(struct dma_buf_attachment *attach)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +static inline void dma_buf_unpin(struct dma_buf_attachment *attach) { }
-> +
-> +static inline struct dma_buf *
-> +dma_buf_export(const struct dma_buf_export_info *exp_info)
-> +{
-> +	return NULL;
-> +}
-> +
-> +
-> +static inline int dma_buf_fd(struct dma_buf *dmabuf, int flags)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +
-> +static inline struct dma_buf *dma_buf_get(int fd)
-> +{
-> +	return NULL;
+I had impression there were talks and plans to split CSI PHY out of
+camss. Some other patches got blocked by this, so unfortunately this as
+well. Your cover letter does not answer on this, so unfortuntaly this
+concludes the review.
 
-And here ERR_PTR(-EINVAL).
+> +      - const: vfe0
+> +      - const: vfe1
+> +      - const: vfe2
+> +      - const: vfe_lite0
+> +      - const: vfe_lite1
+> +      - const: icp0
+> +      - const: icp0_sys
+> +      - const: icp1
+> +      - const: icp1_sys
+> +      - const: ipe
+> +      - const: jpeg_dma0
+> +      - const: jpeg_enc0
+> +      - const: jpeg_dma1
+> +      - const: jpeg_enc1
+> +      - const: ofe
+> +      - const: rt_cdm0
+> +      - const: rt_cdm1
+> +      - const: rt_cdm2
+> +      - const: rt_cdm3
+> +      - const: rt_cdm4
+> +      - const: tpg0
+> +      - const: tpg1
+> +      - const: tpg2
+> +
+> +  clocks:
+> +    maxItems: 61
+> +
+> +  clock-names:
+> +    items:
+> +      - const: camnoc_nrt_axi
+> +      - const: camnoc_rt_axi
+> +      - const: camnoc_rt_vfe0
+> +      - const: camnoc_rt_vfe1
+> +      - const: camnoc_rt_vfe2
+> +      - const: camnoc_rt_vfe_lite
+> +      - const: cam_top_ahb
 
-> +}
-> +
-> +static inline void dma_buf_put(struct dma_buf *dmabuf) { }
-> +
-> +static inline struct sg_table *
-> +dma_buf_map_attachment(struct dma_buf_attachment *, enum dma_data_direction)
-> +{
-> +	return NULL;
+cpas_ahb?
 
-ERR_PTR(-EINVAL)
+> +      - const: cam_top_fast_ahb
 
-> +}
-> +
-> +static inline void dma_buf_unmap_attachment(struct dma_buf_attachment *,
-> +					    struct sg_table *,
-> +					    enum dma_data_direction) { }
-> +
-> +static inline void dma_buf_move_notify(struct dma_buf *dma_buf) { }
-> +
-> +static inline int dma_buf_begin_cpu_access(struct dma_buf *dma_buf,
-> +					   enum dma_data_direction dir)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +static inline int dma_buf_end_cpu_access(struct dma_buf *dma_buf,
-> +					 enum dma_data_direction dir)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +static inline struct sg_table *
-> +dma_buf_map_attachment_unlocked(struct dma_buf_attachment *attach,
-> +				enum dma_data_direction direction)
-> +{
-> +	return NULL;
+Isn't this cpas_fast_ahb? Why every schema comes with its own naming...
 
-ERR_PTR(-EINVAL)
+> +      - const: csid
+> +      - const: csid_csiphy_rx
+> +      - const: csiphy0
+> +      - const: csiphy0_timer
+> +      - const: csiphy1
+> +      - const: csiphy1_timer
+> +      - const: csiphy2
+> +      - const: csiphy2_timer
+> +      - const: csiphy3
+> +      - const: csiphy3_timer
+> +      - const: csiphy4
+> +      - const: csiphy4_timer
+> +      - const: csiphy5
+> +      - const: csiphy5_timer
+> +      - const: gcc_hf_axi
 
-> +}
-> +
-> +static inline void
-> +dma_buf_unmap_attachment_unlocked(struct dma_buf_attachment *attach,
-> +				  struct sg_table *sg_table,
-> +				  enum dma_data_direction direction) { }
-> +
-> +static inline int dma_buf_mmap(struct dma_buf *, struct vm_area_struct *,
-> +			       unsigned long)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +static inline int dma_buf_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +static inline void dma_buf_vunmap(struct dma_buf *dmabuf, struct iosys_map *map)
-> +{ }
-> +
-> +static inline int dma_buf_vmap_unlocked(struct dma_buf *dmabuf,
-> +					struct iosys_map *map)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +static inline void dma_buf_vunmap_unlocked(struct dma_buf *dmabuf,
-> +					   struct iosys_map *map) { }
-> +
+Look at previous generation how this is called: gcc_axi_hf. Use that
+name.
 
-
-> +static inline struct dma_buf *dma_buf_iter_begin(void)
-> +{
-> +	return NULL;
-> +}
+> +      - const: vfe0
+> +      - const: vfe0_fast_ahb
+> +      - const: vfe1
+> +      - const: vfe1_fast_ahb
+> +      - const: vfe2
+> +      - const: vfe2_fast_ahb
+> +      - const: vfe_lite
+> +      - const: vfe_lite_ahb
+> +      - const: vfe_lite_cphy_rx
+> +      - const: vfe_lite_csid
+> +      - const: qdss_debug_xo
+> +      - const: camnoc_ipe_nps
+> +      - const: camnoc_ofe
+> +      - const: gcc_sf_axi
+> +      - const: icp0
+> +      - const: icp0_ahb
+> +      - const: icp1
+> +      - const: icp1_ahb
+> +      - const: ipe_nps
+> +      - const: ipe_nps_ahb
+> +      - const: ipe_nps_fast_ahb
+> +      - const: ipe_pps
+> +      - const: ipe_pps_fast_ahb
+> +      - const: jpeg0
+> +      - const: jpeg1
+> +      - const: ofe_ahb
+> +      - const: ofe_anchor
+> +      - const: ofe_anchor_fast_ahb
+> +      - const: ofe_hdr
+> +      - const: ofe_hdr_fast_ahb
+> +      - const: ofe_main
+> +      - const: ofe_main_fast_ahb
+> +      - const: vfe0_bayer
+> +      - const: vfe0_bayer_fast_ahb
+> +      - const: vfe1_bayer
+> +      - const: vfe1_bayer_fast_ahb
+> +      - const: vfe2_bayer
+> +      - const: vfe2_bayer_fast_ahb
 > +
-> +static inline struct dma_buf *dma_buf_iter_next(struct dma_buf *dmbuf)
-> +{
-> +	return NULL;
-> +}
+> +  interrupts:
+> +    maxItems: 32
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: csid0
+> +      - const: csid1
+> +      - const: csid2
+> +      - const: csid_lite0
+> +      - const: csid_lite1
+> +      - const: csiphy0
+> +      - const: csiphy1
+> +      - const: csiphy2
+> +      - const: csiphy3
+> +      - const: csiphy4
+> +      - const: csiphy5
+> +      - const: vfe0
+> +      - const: vfe1
+> +      - const: vfe2
+> +      - const: vfe_lite0
+> +      - const: vfe_lite1
+> +      - const: camnoc_nrt
+> +      - const: camnoc_rt
+> +      - const: icp0
+> +      - const: icp1
+> +      - const: jpeg_dma0
+> +      - const: jpeg_enc0
+> +      - const: jpeg_dma1
+> +      - const: jpeg_enc1
+> +      - const: rt_cdm0
+> +      - const: rt_cdm1
+> +      - const: rt_cdm2
+> +      - const: rt_cdm3
+> +      - const: rt_cdm4
+> +      - const: tpg0
+> +      - const: tpg1
+> +      - const: tpg2
+> +
+> +  interconnects:
+> +    maxItems: 4
+> +
+> +  interconnect-names:
+> +    items:
+> +      - const: ahb
+> +      - const: hf_mnoc
+> +      - const: sf_icp_mnoc
+> +      - const: sf_mnoc
 
-Those two are only for BPF and not driver use.
+Which previous generation you used as ordering style? X1E has it
+different.
 
-Regards,
-Christian.
+> +
+> +  iommus:
+> +    items:
+> +      - description: VFE non-protected stream
+> +      - description: ICP0 shared stream
+> +      - description: ICP1 shared stream
+> +      - description: IPE CDM non-protected stream
+> +      - description: IPE non-protected stream
+> +      - description: JPEG non-protected stream
+> +      - description: OFE CDM non-protected stream
+> +      - description: OFE non-protected stream
+> +      - description: VFE / VFE Lite CDM non-protected stream
+> +
+> +  power-domains:
+> +    items:
+> +      - description:
+> +          VFE0 GDSC - Global Distributed Switch Controller for VFE0.
+> +      - description:
+> +          VFE1 GDSC - Global Distributed Switch Controller for VFE1.
+> +      - description:
+> +          VFE2 GDSC - Global Distributed Switch Controller for VFE2.
+> +      - description:
+> +          Titan GDSC - Global Distributed Switch Controller for the entire camss.
+> +      - description:
+> +          IPE GDSC - Global Distributed Switch Controller for IPE.
+> +      - description:
+> +          OFE GDSC - Block Global Distributed Switch Controller for OFE.
+> +
+> +  power-domain-names:
+> +    items:
+> +      - const: vfe0
+> +      - const: vfe1
+> +      - const: vfe2
 
-> +#endif /* CONFIG_DMA_SHARED_BUFFER */
->  #endif /* __DMA_BUF_H__ */
+Previous generations call these IFE, I already raised this and you
+changed to ife in Kaanapali. So are all future devices going to use
+rather VFE name?
+
+> +      - const: top
+> +      - const: ipe
+> +      - const: ofe
+> +
+> +  vdd-csiphy0-0p88-supply:
+
+88->8, so: vdd-csiphy0-0p8-supply:
+
+Same in other places. This is how it is called for every binding.
+
+> +    description:
+> +      Phandle to a 0.88V regulator supply to CSIPHY0 core block.
+> +
+> +  vdd-csiphy0-1p2-supply:
+> +    description:
+> +      Phandle to a 1.2V regulator supply to CSIPHY0 pll block.
+> +
+> +  vdd-csiphy1-0p88-supply:
+> +    description:
+> +      Phandle to a 0.88V regulator supply to CSIPHY1 core block.
+
+Best regards,
+Krzysztof
 
 
