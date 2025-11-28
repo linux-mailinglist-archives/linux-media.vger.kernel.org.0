@@ -1,199 +1,159 @@
-Return-Path: <linux-media+bounces-47878-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47879-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BD4FC93086
-	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 20:37:24 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF4DDC930CE
+	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 20:46:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 35CFB3439ED
-	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 19:37:23 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id CF6B84E5B58
+	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 19:46:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EAD2332EAC;
-	Fri, 28 Nov 2025 19:37:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2E353358D5;
+	Fri, 28 Nov 2025 19:45:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="YI8HbVTR"
+	dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b="V81EV6Ig";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="odbFk64x"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from fhigh-b1-smtp.messagingengine.com (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF6411713;
-	Fri, 28 Nov 2025 19:37:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF41335075;
+	Fri, 28 Nov 2025 19:45:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764358632; cv=none; b=iCpFUZTnoT7lrJZTwahrDVgx53QLBBW3P6Ytxz8Xa/p+qtFW5jNr8/1eeeVgKDw4miDov05qOxCEvysisSMJq1lCiTr+MgMXF2AJ+AG4sRWPMlA7nM+tm+8JnN9G/66NjZUYiTODCyCocHLcpOnoJMhdKgkKsvj1ZFu/Mosk37k=
+	t=1764359105; cv=none; b=KW6e7aiyC6l6yg/QpIv/J94UHoBOiXJPXh+MziBf6UAxfisIAmu43d88MYZqolTJZ84Jp1SLqRybFENn2s0fTpVQjjOyKHsUnOB9wnRIvB149i6TJuAxxDs1zQQwu3jY2zPfIqQ427EwLMz0WTXleHA5SAR4WjrVob0sfgWul/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764358632; c=relaxed/simple;
-	bh=29W6ZIeHLPW/7jIaIT7iDOYPvYQApsGIf7wJHoduuVw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=UvUZu9ygqOMQRnOB3Pw/qibYukE3LCIUFVTnlTa3bhbtH8PdUNSKIs9RfZaQvMiNyqWpAdsLdeVUuGDzytfwAlqAVNAhS/5l7+Dl+kpHGHIHc1TwkEd59bPRSFl9OGlsAcj5pBvM3HrSO/5+Jej8T5eeto7aXSd6yGotszfJMdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=YI8HbVTR; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1764358626;
-	bh=29W6ZIeHLPW/7jIaIT7iDOYPvYQApsGIf7wJHoduuVw=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=YI8HbVTRkeyUuIxu1Y6Q/8D7BHCHY+apWLA5MwT12EaRlS+AJmU0DPxOKYUXo0WeA
-	 TsL9qI6iXMttsOT0oWr4JeND5XBC4HUug8qpOInBVAqjiIzKneY+9MuCYcRG6eQamk
-	 9Vbp22GpsnfNd/9SsD2g9HEZtGCoWQjRiDxGiq4aHS/6gBjz7zQTEfL4H3QQ+uOL8t
-	 vNZf0/jDgM4Iuz9WGs9LlNOUdi6+uPi757MxtnZS6rM3xJCMRRJC318WR6P0kGAFcJ
-	 CaGTqvHlTuyjn2pxOr/37J8R/HgRIN2m/poaV9f4hXKiOys9mj1UgNBwXxOqhFs9fL
-	 S/hJDvlbZo9qg==
-Received: from [IPv6:2606:6d00:17:7b4b::c41] (unknown [IPv6:2606:6d00:17:7b4b::c41])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id CADE117E0A30;
-	Fri, 28 Nov 2025 20:37:04 +0100 (CET)
-Message-ID: <b7f925404bcfb75a15948e890ed097e96f9353ea.camel@collabora.com>
-Subject: Re: [PATCH v2 07/14] media: mediatek: vcodec: define MT8196 vcodec
- levels.
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Yunfei Dong <yunfei.dong@mediatek.com>, =?ISO-8859-1?Q?N=EDcolas?= "F .
- R . A . Prado" <nfraprado@collabora.com>, Sebastian Fricke
- <sebastian.fricke@collabora.com>, Hans Verkuil	 <hverkuil-cisco@xs4all.nl>,
- AngeloGioacchino Del Regno	 <angelogioacchino.delregno@collabora.com>,
- Benjamin Gaignard	 <benjamin.gaignard@collabora.com>, Nathan Hebert
- <nhebert@chromium.org>,  Daniel Almeida <daniel.almeida@collabora.com>
-Cc: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig
- <frkoenig@chromium.org>,  Daniel Vetter <daniel@ffwll.ch>, Steve Cho
- <stevecho@chromium.org>, linux-media@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	Project_Global_Chrome_Upstream_Group@mediatek.com
-Date: Fri, 28 Nov 2025 14:37:03 -0500
-In-Reply-To: <20250815085232.30240-8-yunfei.dong@mediatek.com>
-References: <20250815085232.30240-1-yunfei.dong@mediatek.com>
-	 <20250815085232.30240-8-yunfei.dong@mediatek.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-8uhTyl6v012TRyNuCN40"
-User-Agent: Evolution 3.58.1 (3.58.1-1.fc43) 
+	s=arc-20240116; t=1764359105; c=relaxed/simple;
+	bh=aaRSE0aY95YTt3AnVGyvhoJg584DMOgMif6FGpR1lFw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=b9o2/IkoQaewaFm6hsJ5CRsHHjTqQ7jSgQeudX/Q92cV3IyVXbljKdVaDWKOmCfYemudu8wH0vw3/dfgNiQ+EMo7H+/CdEk0++Yl7argPwuRIelBZVk+piHo4eldhW72iAMj1jOBPPT6V7tpDU9oC61ur7dqlnwcxadV0fYYD04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org; spf=pass smtp.mailfrom=shazbot.org; dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b=V81EV6Ig; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=odbFk64x; arc=none smtp.client-ip=202.12.124.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 3ED8A7A07D6;
+	Fri, 28 Nov 2025 14:45:02 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Fri, 28 Nov 2025 14:45:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1764359102;
+	 x=1764445502; bh=mFJPp3he5bKOdHbL7iltjchRS9EPwpMYVau74+gkFUE=; b=
+	V81EV6IgzoPoo41bQFggdHF53ocwk+Gs+sBunW3xqvk13yNtrufRrcAjtjNGg4Th
+	nIlAwBVl+KTgj3OHB9nI3FDRWS7theJ9K4GwtmUJ35Hc/BcfHVjI1ozgd8fuKzIu
+	R3IYVUrB08Paa4kEef5+1ZTrLRdsSvzG3OSlR5GQFwYorsYcVjZxgomLLC+WDTlr
+	jTNImTxchKwBD8UzSJ1wTIaYoCrt32JJOBDGp9oFKmmDki6YXBTMz75hGTLJLBEK
+	7OtSkR+EfxWtAD5pQuCNlc1kWae4QlDwH27uqfw6sFIQhmr4u3N94DbTAUdFk3Eb
+	t0HuHGdRwozuseQ3zzxyiQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1764359102; x=
+	1764445502; bh=mFJPp3he5bKOdHbL7iltjchRS9EPwpMYVau74+gkFUE=; b=o
+	dbFk64xFUz7Sg0hyv+fVOI8E3K+sj63ZpinESSKvMSNtJnhtoci3PqdvY7k/5rjW
+	HIf4VR1UddBZgALVP/vBO1PRg0BY1ReYtGK09h8GsBlkFimMhI+vyV3PdGlhEOIt
+	qOnW3KR5oFr1+YHriPWixw9Vi6+uyKmJvILoKRMGs23XItQIEnKPlwDsgzYst/am
+	pBiKOAIRgsqaDflZPDpnyCVFX6PBgDFyMKTrLYtrImaDk2+jlsAufjk1vvvrS5Zg
+	tVgE3jLRtm7xpF+ufB3nQXBTxjAzP1qK4VjLkzWSSzhxzx3ngRLhsn9WKs9cD0w1
+	96Z2tkdj6Ldj1dHg8OAvQ==
+X-ME-Sender: <xms:vfspad6yIjiSKyCW1m-K0jx3sYoDuYBHVKwt6TnVsWvQqNkeEx5sbg>
+    <xme:vfspaQHkoaxYH70JoEQOJEN2v9G1odlG9pi5p8M3bwNAxfyabGGVM7OO6qfSptoE2
+    F6mbMT5j9SbY-JuFv1OpXTm9vNKNhbClkAcZ4MrLby5xCKnGYv7>
+X-ME-Received: <xmr:vfspaX2CHSKhHzAgTj5gKxMKooWNdBzdtS2N0421HAAcYU7ZTETxEIbV>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvhedtjeehucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkjghfgggtgfesthejredttddtvdenucfhrhhomheptehlvgigucgh
+    ihhllhhirghmshhonhcuoegrlhgvgiesshhhrgiisghothdrohhrgheqnecuggftrfgrth
+    htvghrnhephedvtdeuveejudffjeefudfhueefjedvtefgffdtieeiudfhjeejhffhfeeu
+    vedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
+    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrlhgvgiesshhhrgiisghothdrohhrghdp
+    nhgspghrtghpthhtohepudefpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegrmh
+    grshhtrhhosehfsgdrtghomhdprhgtphhtthhopehsuhhmihhtrdhsvghmfigrlheslhhi
+    nhgrrhhordhorhhgpdhrtghpthhtoheptghhrhhishhtihgrnhdrkhhovghnihhgsegrmh
+    gurdgtohhmpdhrtghpthhtoheplhgvohhnsehkvghrnhgvlhdrohhrghdprhgtphhtthho
+    pehjghhgseiiihgvphgvrdgtrgdprhgtphhtthhopehkvghvihhnrdhtihgrnhesihhnth
+    gvlhdrtghomhdprhgtphhtthhopehnihgtohhlihhntgesnhhvihguihgrrdgtohhmpdhr
+    tghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprh
+    gtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdho
+    rhhg
+X-ME-Proxy: <xmx:vfspaVocJ1krkbmCjKBD2AguK5QMNwj-_uyC7ipyhDbUjsaCynq2qg>
+    <xmx:vfspacOBkyqnB4CgxMFP3k4sNAedI2KxMg5607ChGXV59CpXSJQT8Q>
+    <xmx:vfspafXxB6J2xO-zngFiAZBKxpbEvKGXSB8jyjhowr7CDYtFWSg34w>
+    <xmx:vfspaXu0W-dhKMQg21_V272bqiBa8kMgmXDfzdXL3bmKEOGqOnJJAQ>
+    <xmx:vvspaQyZX1cqH3oyFc0moWoh315DbLZutHd_U5PthUpqWI3zFdrKPEii>
+Feedback-ID: i03f14258:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 28 Nov 2025 14:45:00 -0500 (EST)
+Date: Fri, 28 Nov 2025 12:44:47 -0700
+From: Alex Williamson <alex@shazbot.org>
+To: Alex Mastro <amastro@fb.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Leon Romanovsky <leon@kernel.org>, Jason
+ Gunthorpe <jgg@ziepe.ca>, "Kevin Tian" <kevin.tian@intel.com>, Nicolin Chen
+ <nicolinc@nvidia.com>, <linux-media@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
+ <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>, Ankit Agrawal
+ <ankita@nvidia.com>
+Subject: Re: [PATCH] dma-buf: fix integer overflow in fill_sg_entry() for
+ buffers >= 8GiB
+Message-ID: <20251128124447.0c5156b5.alex@shazbot.org>
+In-Reply-To: <20251125-dma-buf-overflow-v1-1-b70ea1e6c4ba@fb.com>
+References: <20251125-dma-buf-overflow-v1-1-b70ea1e6c4ba@fb.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-
-
---=-8uhTyl6v012TRyNuCN40
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Le vendredi 15 ao=C3=BBt 2025 =C3=A0 16:52 +0800, Yunfei Dong a =C3=A9crit=
-=C2=A0:
-> The supported level and profile are not the same for different
-> codecs and architecture. Select the correct one.
->=20
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-
-Would be nicer inside the match data. Though, its a cheap switch here (not =
-sure
-why it was strcmp in previous patch. That one is at least acceptable, but w=
-e can
-do better.
-
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-
-Nicolas
-
-> ---
-> =C2=A0.../mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 | 6 ++++++
-> =C2=A01 file changed, 6 insertions(+)
->=20
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_de=
-c_stateless.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_d=
-ec_stateless.c
-> index d873159b9b30..c1cef78471a9 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_state=
-less.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_state=
-less.c
-> @@ -555,6 +555,7 @@ static void mtk_vcodec_dec_fill_h264_level(struct v4l=
-2_ctrl_config *cfg,
-> =C2=A0		cfg->max =3D V4L2_MPEG_VIDEO_H264_LEVEL_5_2;
-> =C2=A0		break;
-> =C2=A0	case MTK_VDEC_MT8195:
-> +	case MTK_VDEC_MT8196:
-> =C2=A0		cfg->max =3D V4L2_MPEG_VIDEO_H264_LEVEL_6_0;
-> =C2=A0		break;
-> =C2=A0	case MTK_VDEC_MT8183:
-> @@ -573,6 +574,7 @@ static void mtk_vcodec_dec_fill_h264_profile(struct v=
-4l2_ctrl_config *cfg,
-> =C2=A0	switch (ctx->dev->chip_name) {
-> =C2=A0	case MTK_VDEC_MT8188:
-> =C2=A0	case MTK_VDEC_MT8195:
-> +	case MTK_VDEC_MT8196:
-> =C2=A0		cfg->max =3D V4L2_MPEG_VIDEO_H264_PROFILE_HIGH_10;
-> =C2=A0		break;
-> =C2=A0	default:
-> @@ -589,6 +591,7 @@ static void mtk_vcodec_dec_fill_h265_level(struct v4l=
-2_ctrl_config *cfg,
-> =C2=A0		cfg->max =3D V4L2_MPEG_VIDEO_HEVC_LEVEL_5_1;
-> =C2=A0		break;
-> =C2=A0	case MTK_VDEC_MT8195:
-> +	case MTK_VDEC_MT8196:
-> =C2=A0		cfg->max =3D V4L2_MPEG_VIDEO_HEVC_LEVEL_5_2;
-> =C2=A0		break;
-> =C2=A0	default:
-> @@ -603,6 +606,7 @@ static void mtk_vcodec_dec_fill_h265_profile(struct v=
-4l2_ctrl_config *cfg,
-> =C2=A0	switch (ctx->dev->chip_name) {
-> =C2=A0	case MTK_VDEC_MT8188:
-> =C2=A0	case MTK_VDEC_MT8195:
-> +	case MTK_VDEC_MT8196:
-> =C2=A0		cfg->max =3D V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10;
-> =C2=A0		break;
-> =C2=A0	default:
-> @@ -620,6 +624,7 @@ static void mtk_vcodec_dec_fill_vp9_level(struct v4l2=
-_ctrl_config *cfg,
-> =C2=A0		cfg->max =3D V4L2_MPEG_VIDEO_VP9_LEVEL_5_1;
-> =C2=A0		break;
-> =C2=A0	case MTK_VDEC_MT8195:
-> +	case MTK_VDEC_MT8196:
-> =C2=A0		cfg->max =3D V4L2_MPEG_VIDEO_VP9_LEVEL_5_2;
-> =C2=A0		break;
-> =C2=A0	case MTK_VDEC_MT8186:
-> @@ -637,6 +642,7 @@ static void mtk_vcodec_dec_fill_vp9_profile(struct v4=
-l2_ctrl_config *cfg,
-> =C2=A0	switch (ctx->dev->chip_name) {
-> =C2=A0	case MTK_VDEC_MT8188:
-> =C2=A0	case MTK_VDEC_MT8195:
-> +	case MTK_VDEC_MT8196:
-> =C2=A0		cfg->max =3D V4L2_MPEG_VIDEO_VP9_PROFILE_2;
-> =C2=A0		break;
-> =C2=A0	default:
-
---=-8uhTyl6v012TRyNuCN40
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
------BEGIN PGP SIGNATURE-----
+On Tue, 25 Nov 2025 17:11:18 -0800
+Alex Mastro <amastro@fb.com> wrote:
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaSn53wAKCRDZQZRRKWBy
-9PtxAQCpn3r4qq5H2bjoAmnv0R7EeaqEnxVyEx9fjHJxtN9AOAEAxtK3of5abf2K
-2KCmCFo606cdnnTNEe42n6hKVEFn+AU=
-=4mzz
------END PGP SIGNATURE-----
+> fill_sg_entry() splits large DMA buffers into multiple scatter-gather
+> entries, each holding up to UINT_MAX bytes. When calculating the DMA
+> address for entries beyond the second one, the expression (i * UINT_MAX)
+> causes integer overflow due to 32-bit arithmetic.
+> 
+> This manifests when the input arg length >= 8 GiB results in looping for
+> i >= 2.
+> 
+> Fix by casting i to dma_addr_t before multiplication.
+> 
+> Fixes: 3aa31a8bb11e ("dma-buf: provide phys_vec to scatter-gather mapping routine")
+> Signed-off-by: Alex Mastro <amastro@fb.com>
+> ---
+> More color about how I discovered this in [1] for the commit at [2]:
+> 
+> [1] https://lore.kernel.org/all/aSZHO6otK0Heh+Qj@devgpu015.cco6.facebook.com
+> [2] https://lore.kernel.org/all/20251120-dmabuf-vfio-v9-6-d7f71607f371@nvidia.com
+> ---
+>  drivers/dma-buf/dma-buf-mapping.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/dma-buf/dma-buf-mapping.c b/drivers/dma-buf/dma-buf-mapping.c
+> index b4819811a64a..b7352e609fbd 100644
+> --- a/drivers/dma-buf/dma-buf-mapping.c
+> +++ b/drivers/dma-buf/dma-buf-mapping.c
+> @@ -24,7 +24,7 @@ static struct scatterlist *fill_sg_entry(struct scatterlist *sgl, size_t length,
+>  		 * does not require the CPU list for mapping or unmapping.
+>  		 */
+>  		sg_set_page(sgl, NULL, 0, 0);
+> -		sg_dma_address(sgl) = addr + i * UINT_MAX;
+> +		sg_dma_address(sgl) = addr + (dma_addr_t)i * UINT_MAX;
+>  		sg_dma_len(sgl) = len;
+>  		sgl = sg_next(sgl);
+>  	}
+> 
 
---=-8uhTyl6v012TRyNuCN40--
+Applied to vfio next branch for v6.19.  Thanks,
+
+Alex
 
