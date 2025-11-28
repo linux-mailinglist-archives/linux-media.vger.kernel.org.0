@@ -1,276 +1,194 @@
-Return-Path: <linux-media+bounces-47853-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47856-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 259EAC916A0
-	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 10:21:39 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5BE6C9173D
+	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 10:32:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0F3EB3A9E07
-	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 09:21:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 254913A6508
+	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 09:32:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82B33304BCC;
-	Fri, 28 Nov 2025 09:20:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE7AA302CC2;
+	Fri, 28 Nov 2025 09:32:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="pgQwZV6R"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QJZUNhrs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013029.outbound.protection.outlook.com [40.93.196.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 828C0303C8F;
-	Fri, 28 Nov 2025 09:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.29
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764321631; cv=fail; b=byGpDGImKLjE81E1m2ok2m3oxbHRQHxnqZLj7ti5JSSSEVhHU6AZfMMw2R5K8BOKca6hJdu4hc0TPc9dTn/cuaIoEClZmtwLLIuKSJAfiQwxRJVcVvhYcFrlLGxctDh6nllV2LEGbBYvvdVNeIDeyPLNsM9S3qu50i4G/5VcO2Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764321631; c=relaxed/simple;
-	bh=VqaKGs5GC4+VwSwomfOLfAZcdY3RTwKr9xADgAF+dOM=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=i41LNEQwiAvXWrUdynNoq+1RNeUJeBmPmA0GAPqazAu4AgFvf+paXlg7WxpzpU9q/LPh+jqvnHoPwDeAHQXYA54s/+RRgJBlNIzJG6V8osgs5XmfcUpNGILsW/Jpwgz/Bn8ahuX+TDnO4oLnuA4g88bq3eY5O17puvTBs37x7Is=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=pgQwZV6R; arc=fail smtp.client-ip=40.93.196.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ugwMqTNshgJjZfr5K7IFYvr1oXqlzXRCodsPJzLNzlKJ1YN4rGkt8GsFMDGA5kW2Hv8BnJrHRAreEpGlJ52g+JRd7IBEGr8UDEWoXE7GlQwwe1dHhqMxsvFIdrnBbjtiLuLQY7KDhMkRvR/r7cxtAtIWWVohZwha6DMtPFGTxKVr9Lm1MPY5fzOIfg6JaWcate9E+YuHPtsqkHgqmTN9UXjI9SysPXQatTppQF2Ng9273ZwcSjVvycyU0OM1NAcJ+hdAeS8zznqlJPiWV4azEiMJEokswZWrhvDnC/AwWbzF52qm37TYM2Qb7j+2mvBXMW3CccYQLG2MeSkTzqPopw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vD5/tvLCzDURBVoq9TkyCVI5Tx6gEsa6IHDU+rSUyWo=;
- b=IuNTOOhPHBbFck8jvHin/lKMzXG/8KAVmJw94zhjdkad4e6s2rHQOQryXdW7bw5fOeH41ubYIsQJXEBSoz+/CP3/NCXHitDSg62ATXXdjJHbqLcqlDI/idKlJBvN9LrA25ClAXGINIBfAJUK4nGwd8LRddMvpU23gE9gSA+vJ5h10RVPcVDV+ihlURcNOKPEyzcdxUYK5P3jsRVbz99FQyQ1pq1ZSYukZNp8MaYNor0ONp1StL5Dx2C6D+2TZiabCfNzbCxN9YD9MFCQzuscO/vn9VEwEn3wBIRSxaL2xMQfGsnh1PRcZmG7bXP8R7rLjqolKNC8oOYIAxI0/PRcLQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vD5/tvLCzDURBVoq9TkyCVI5Tx6gEsa6IHDU+rSUyWo=;
- b=pgQwZV6RghcqeG3gV6fyyCBl0ATgCKLYucWlkTyz8DWTWtgy3FaV5+tFYjJoFLNyVvbJN8RFKNrQ4NBJLdxTpbrvMTdS0O0j/OM0rUgWneBCF/+u1DllO+Yr+r+Lk7f4cTpd5vTBvlSe5NY5S4nW29a0dyUEG7SGvYKT8t8Sn8k=
-Received: from DM6PR03CA0100.namprd03.prod.outlook.com (2603:10b6:5:333::33)
- by CH1PR12MB9717.namprd12.prod.outlook.com (2603:10b6:610:2b2::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Fri, 28 Nov
- 2025 09:20:25 +0000
-Received: from DS3PEPF000099D9.namprd04.prod.outlook.com
- (2603:10b6:5:333:cafe::d7) by DM6PR03CA0100.outlook.office365.com
- (2603:10b6:5:333::33) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.16 via Frontend Transport; Fri,
- 28 Nov 2025 09:20:25 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- DS3PEPF000099D9.mail.protection.outlook.com (10.167.17.10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9366.7 via Frontend Transport; Fri, 28 Nov 2025 09:20:25 +0000
-Received: from 555e2b870847.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 28 Nov
- 2025 03:20:20 -0600
-From: Bin Du <Bin.Du@amd.com>
-To: <mchehab@kernel.org>, <hverkuil@xs4all.nl>,
-	<laurent.pinchart+renesas@ideasonboard.com>, <bryan.odonoghue@linaro.org>,
-	<sakari.ailus@linux.intel.com>, <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	<linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<sultan@kerneltoast.com>
-CC: <pratap.nirujogi@amd.com>, <benjamin.chan@amd.com>, <king.li@amd.com>,
-	<gjorgji.rosikopulos@amd.com>, <Phil.Jawich@amd.com>,
-	<Dominic.Antony@amd.com>, <mario.limonciello@amd.com>,
-	<richard.gong@amd.com>, <anson.tsao@amd.com>, <bin.du@amd.com>, Bin Du
-	<Bin.Du@amd.com>, Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>, "Mario
- Limonciello" <superm1@kernel.org>, Alexey Zagorodnikov <xglooom@gmail.com>
-Subject: [PATCH v6 7/7] Documentation: add documentation of AMD isp 4 driver
-Date: Fri, 28 Nov 2025 17:19:29 +0800
-Message-ID: <20251128091929.165272-8-Bin.Du@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251128091929.165272-1-Bin.Du@amd.com>
-References: <20251128091929.165272-1-Bin.Du@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8882F2417DE
+	for <linux-media@vger.kernel.org>; Fri, 28 Nov 2025 09:31:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764322321; cv=none; b=L/0/xBu/j9YVkG/W/qRjVukqhASPvpymkHjG485JORavfy8SOf9PHNJVqV5ArjrNh9IWxPUaaT0rnf0ePAJBRzrFRU9Ixqaky+eZ7moexV8V5gaPEB9JgWU2L7cWznsvfXCciLLgUQBRMaC3zMf0C1epauIPIhG0ptc4Y/jQ1Wk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764322321; c=relaxed/simple;
+	bh=g6gZ69KHMbTGsZcNJI8VXZWGdc5rG+2mHogCEUq+Rso=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rUi+jBx3nRfXwC+v55ZChQCCfQh8ViGFx5OyUNJfkIvkoqrRs/O+1i+XdGE6yIpMcxDTPWGtpTDsavg3SnDKuuQy0RwEy7xZQf0mUefDItfKADpkvQkrkvIRAbfqGaOf53w3/ibCWUL8tWLVYzQ078uv1AvSarreHq1uU9kk0lc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QJZUNhrs; arc=none smtp.client-ip=209.85.222.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-8b29ff9d18cso150206985a.3
+        for <linux-media@vger.kernel.org>; Fri, 28 Nov 2025 01:31:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764322318; x=1764927118; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OI0OcmHjeFyb484sjgiydBSlKc/rrUkdQjscOLrNcP0=;
+        b=QJZUNhrsGu0NbjLozUtwtVP+0Mz/46NZSq3uARD6wJ6r5zulYfu4RCuy/FpdCnGDkk
+         5CizUQK7MZBbw7mII9J71e1tL7OVJAJj/2HABFA4JdGDd/xPChMoEIeQqApngY3JV/z8
+         6wownLlG8LRLJPE3ie2P4v+YiqfBBJuh9zxlQhk41GEe9zTBXLYoPL6TL4SLwImAcvhN
+         6b7/TNL9WRv95tzTqU7Sq9VsRTKkDVVeTyEaSlX7BnRYELKgzLzYMVsJR2J3MB/Zap2b
+         pC1Vn3IQ5/j75n+hE0KyFRvD6HYs5w4CDfFCWqhgKEcH3T+VrCz+YnuMHrUOZoP29x69
+         c0yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764322318; x=1764927118;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=OI0OcmHjeFyb484sjgiydBSlKc/rrUkdQjscOLrNcP0=;
+        b=BGDzwAAOT369D8rnkEPE28MFa3rCCLPAguXDkjOKlfrcTyP5c2cNjYvfmTAxNJ3nje
+         qK9ds21vRjc+lcP1Z+13fViqQh/ApWwMvaC9u34wMuKE4GGuk735bC3s0jI36jw64Qkw
+         ZvJlQLRZsca7d7gwr+VWnmcpInXXJZ1TpE20c4cODoZJ0dSRpUcY1pJ3dN29Km1b2FWw
+         KVdMR5Qssmld/wkyYQn5jcFgw+qTJfVZToXwZcRnqjgikIBs4Iy5RsM2NPxCzclJRODe
+         KqPYGmXOmiG9glxm3OGRxae+Q1gifioYlzkE1y80qUyFSUnC2ImYh7bASjRCbmaXkz9P
+         DDUg==
+X-Forwarded-Encrypted: i=1; AJvYcCWoWG8wGOxKoC05eQaMq99Zj2We2QO48bOmtrJiaSJsU4aBULsHenX+iHJKN1CP7WQrhzXk/3gk/2MZBQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxTvdnJWmh4G7jbh3JPf8JPtA8XrI7puPzbUA3ac34/4pYL6T1R
+	4NSm+P1UIP6nPNoZVQBUwMD9Nps1OxV715FNCF6MaS38Db/NGQ7L4Kr2VAYPlY5S2xKGQ1xNopc
+	DTa+K0QRILm+YJ+TCxnZFvMgUFytuCPA=
+X-Gm-Gg: ASbGncu/ZUKvbYJ40ydqjxxXFueoxm+7mk/fOdjMDO8ipUu0ZjGUNuPEM/I/Z/EIf4b
+	u6w/dcJbyrD3uZD3IgexjTshsYGrgmids9FeA1W0xpUgv54Fu4ZXI9pah/zu1w0qJYnnh0/1Ddh
+	qazMf+Cy4cdK0D3wbZDfKxdk4idYWi8NcZNQuu4BYUtuQK9HYnzSlwNbLb4Z0x0Qrv0IsxvVuf+
+	bgldd+Wy943xr5cVo3uC5rITR71WaTV9xJ1c4JuzFm1oktX7wFzQ/c5q3J6DIHblsi4DPAt4rUb
+	AlQY
+X-Google-Smtp-Source: AGHT+IE4dLyJsJbrTAn1B7Yr4GO+0YuLUAXeUBEruxFfx8P+JadOGQI4/wwbpqcWoRl4WtDLsxhuJc9tFjSM6xJVzGA=
+X-Received: by 2002:a05:620a:2988:b0:8b2:74e5:b36 with SMTP id
+ af79cd13be357-8b33d469d5emr3375756385a.68.1764322318278; Fri, 28 Nov 2025
+ 01:31:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF000099D9:EE_|CH1PR12MB9717:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2ae3408f-0269-42b2-cc48-08de2e5f5d3d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?zthzgLi3Xy7eJt8n12uUL7e9Scgz++pSLH/wqr77tXynd4Wx8L3s43/Xqkfj?=
- =?us-ascii?Q?r7SI1pNIPUuxjv0e17WmQapU8OZcgLeo8JpRfzq+LCJM9DzeRMJ0IOIpoDWm?=
- =?us-ascii?Q?IViE8oJ1d/YxNSmFRQ8FkyB9IhloEcJk0eCkM+TXRKfJPU2UnAFi1mZBH5IT?=
- =?us-ascii?Q?au7X62p26Cpsw7mrxzEny/be2j/AY26mg0+t1hMBnUKrf9ntmGPApsnQQ0JO?=
- =?us-ascii?Q?TuzKpATbFz3UWseS3Id6AzrVeXJKYyUcTAfd8pHpBlzzPb3fjsXL36yH4+VM?=
- =?us-ascii?Q?aOPpM5uswf5iKl0JH3C2xyphTqDJGk6LETQrMmYQSoq1xqOhx16WFBZAKTvM?=
- =?us-ascii?Q?ndmks3sD+YUXJDf7jck9R5VdeyZ/MCfxwiL5OPCPEs4jAAx6YkLNI8ngT/KK?=
- =?us-ascii?Q?9+0r1T4Z3RhI22e4mGWLO9xa+6RsrzgB1C4g9/JoW5fwMm4cCPrbI4Qv9h0Z?=
- =?us-ascii?Q?NUPCC9SftMJUS50MngC0++gN4FejlzwNUmG6YSxtYznM2Uzo5hyeHLaGAZX8?=
- =?us-ascii?Q?eOk2ViQGQWWzIGsGke7ZYotyRgww/1BEuwtNNS5Jyvt0n1/MBXWcfnvS3Hu4?=
- =?us-ascii?Q?nvj6TMC4i9DJzdjfAjZDAkL376pAWZC1jOKPruuVqQgfAUZZ8cwORXg41tNa?=
- =?us-ascii?Q?Xc3qL9P+4jMMUpOHaC58RX51+mWOp2RrEDQnZr69h4GT6SIesfPWa6K4FyJr?=
- =?us-ascii?Q?i2sE9/pB+JQupx2vXC1HxfqFWPgo9jWvA1skRAJow2rIxyp1SORt+vf67CSj?=
- =?us-ascii?Q?zVFIKXTxRT3p1Yz8n3lsOR3S6zNRe+rGou5umYQ6/xnF/wBt6qMRGXOo4Rqs?=
- =?us-ascii?Q?1MzuWmvMO9ZdjZI094t7m8NboxoYhu/RsBShLIAKsfdpS09CsE4iqhKvuflj?=
- =?us-ascii?Q?BNXBXXPyuolXbeJZCTlSAgY+P4Yhvwh2YE6RAyZfzH1PlhhavJRtgBL9fZOi?=
- =?us-ascii?Q?db7+S2Hp08m32SrqIDe3SfMqMexeUhHLHVnFUqgOxcmrk3VEt7ijUC1moVEQ?=
- =?us-ascii?Q?Qb6gUY0p4QhzXlU1q3FPgLByl3Da4MYEhL9R6Q1Oa3GmZKhpFEikGiUnd91E?=
- =?us-ascii?Q?SCBFFPaSOhSNLICQeM/lXPxXcgwMuIIy5oOzG9OfE/n9oF22ZNMzkRv0Boc2?=
- =?us-ascii?Q?8gEZCjLHyZlrcJfj0zwyAwuZHj4aUCCBg5wFPnmrhFLKhq3oFoGMY5gxeod6?=
- =?us-ascii?Q?8QG/4xRLPBWXTvsZcqi2RbiiRTgQtVTicivy4T0G13tVSxPrtlL6kSD0NEyI?=
- =?us-ascii?Q?XaV8kpaY66xRWLUpEKH2/tXXMmnrq2la5bmDwjfglDJ8g2vzl49WdFAbs9Xs?=
- =?us-ascii?Q?Zf5o5vve4BT2eUE9iMtAMtfI4lbWKvBq91TbPRQLalsi5dw40yDasnDvb55E?=
- =?us-ascii?Q?36cITaBGvXuLLKq3a188xeDNNMeosx5SgFyMkEgkk3d1Kpk4NZamW7b9/ST1?=
- =?us-ascii?Q?1+JaVxQhL9V5CNq6irkD0WMx6JZyiBPy9keleU1RH9rnCmUfNmxjKG3OfhTF?=
- =?us-ascii?Q?vWxORqjGY5uVOAEPiyclcLL+uVjzQjXqKQioZaes/E+RPhlhZupqdHySBeeZ?=
- =?us-ascii?Q?wq870Q1lqhfPOlD27C4=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Nov 2025 09:20:25.3486
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2ae3408f-0269-42b2-cc48-08de2e5f5d3d
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DS3PEPF000099D9.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH1PR12MB9717
+References: <20251128085215.550100-1-gxxa03070307@gmail.com>
+In-Reply-To: <20251128085215.550100-1-gxxa03070307@gmail.com>
+From: Barry Song <21cnbao@gmail.com>
+Date: Fri, 28 Nov 2025 17:31:46 +0800
+X-Gm-Features: AWmQ_bnxT-AMRvL6QfqA8HugYaI3Ly525_HuvsNqNPfROHBjXW-vjwdRajjQ0jk
+Message-ID: <CAGsJ_4y0zc_nh2q=w4uR04vtveCf6L7+hgafznHuL8ByWbyNOQ@mail.gmail.com>
+Subject: Re: [PATCH v4] dma-buf: add some tracepoints to debug.
+To: Xiang Gao <gxxa03070307@gmail.com>
+Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, rostedt@goodmis.org, 
+	mhiramat@kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	mathieu.desnoyers@efficios.com, dhowells@redhat.com, kuba@kernel.org, 
+	brauner@kernel.org, akpm@linux-foundation.org, 
+	linux-trace-kernel@vger.kernel.org, gaoxiang17 <gaoxiang17@xiaomi.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add documentation for AMD ISP 4 and describe the main components
+On Fri, Nov 28, 2025 at 4:53=E2=80=AFPM Xiang Gao <gxxa03070307@gmail.com> =
+wrote:
+>
+> From: gaoxiang17 <gaoxiang17@xiaomi.com>
+>
+> I want to track the status of dmabuf in real time in the production envir=
+onment.
+> But now we can only check it by traversing the fd in the process or dmabu=
+f_list.
 
-Co-developed-by: Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>
-Signed-off-by: Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>
-Signed-off-by: Bin Du <Bin.Du@amd.com>
-Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
-Tested-by: Alexey Zagorodnikov <xglooom@gmail.com>
----
- Documentation/admin-guide/media/amdisp4-1.rst | 63 +++++++++++++++++++
- Documentation/admin-guide/media/amdisp4.dot   |  6 ++
- .../admin-guide/media/v4l-drivers.rst         |  1 +
- MAINTAINERS                                   |  2 +
- 4 files changed, 72 insertions(+)
- create mode 100644 Documentation/admin-guide/media/amdisp4-1.rst
- create mode 100644 Documentation/admin-guide/media/amdisp4.dot
+might be:
 
-diff --git a/Documentation/admin-guide/media/amdisp4-1.rst b/Documentation/admin-guide/media/amdisp4-1.rst
-new file mode 100644
-index 000000000000..878141154f96
---- /dev/null
-+++ b/Documentation/admin-guide/media/amdisp4-1.rst
-@@ -0,0 +1,63 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: <isonum.txt>
-+
-+====================================
-+AMD Image Signal Processor (amdisp4)
-+====================================
-+
-+Introduction
-+============
-+
-+This file documents the driver for the AMD ISP4 that is part of
-+AMD Ryzen AI Max 300 Series.
-+
-+The driver is located under drivers/media/platform/amd/isp4 and uses
-+the Media-Controller API.
-+
-+The driver exposes one video capture device to userspace and provide
-+web camera like interface. Internally the video device is connected
-+to the isp4 sub-device responsible for communication with the CCPU FW.
-+
-+Topology
-+========
-+
-+.. _amdisp4_topology_graph:
-+
-+.. kernel-figure:: amdisp4.dot
-+     :alt:   Diagram of the media pipeline topology
-+     :align: center
-+
-+
-+
-+The driver has 1 sub-device: Representing isp4 image signal processor.
-+The driver has 1 video device: Capture device for retrieving images.
-+
-+- ISP4 Image Signal Processing Subdevice Node
-+
-+---------------------------------------------
-+
-+The isp4 is represented as a single V4L2 subdev, the sub-device does not
-+provide interface to the user space. The sub-device is connected to one video node
-+(isp4_capture) with immutable active link. The sub-device represents ISP with
-+connected sensor similar to smart cameras (sensors with integrated ISP).
-+sub-device has only one link to the video device for capturing the frames.
-+The sub-device communicates with CCPU FW for streaming configuration and
-+buffer management.
-+
-+
-+- isp4_capture - Frames Capture Video Node
-+
-+------------------------------------------
-+
-+Isp4_capture is a capture device to capture frames to memory.
-+The entity is connected to isp4 sub-device. The video device
-+provides web camera like interface to userspace. It supports
-+mmap and dma buf types of memory.
-+
-+Capturing Video Frames Example
-+==============================
-+
-+.. code-block:: bash
-+
-+         v4l2-ctl "-d" "/dev/video0" "--set-fmt-video=width=1920,height=1080,pixelformat=NV12" "--stream-mmap" "--stream-count=10"
-diff --git a/Documentation/admin-guide/media/amdisp4.dot b/Documentation/admin-guide/media/amdisp4.dot
-new file mode 100644
-index 000000000000..978f30c1a31a
---- /dev/null
-+++ b/Documentation/admin-guide/media/amdisp4.dot
-@@ -0,0 +1,6 @@
-+digraph board {
-+	rankdir=TB
-+	n00000001 [label="{{} | amd isp4\n | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000001:port0 -> n00000003 [style=bold]
-+	n00000003 [label="Preview\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
-+}
-diff --git a/Documentation/admin-guide/media/v4l-drivers.rst b/Documentation/admin-guide/media/v4l-drivers.rst
-index 3bac5165b134..6027416e5373 100644
---- a/Documentation/admin-guide/media/v4l-drivers.rst
-+++ b/Documentation/admin-guide/media/v4l-drivers.rst
-@@ -9,6 +9,7 @@ Video4Linux (V4L) driver-specific documentation
- .. toctree::
- 	:maxdepth: 2
- 
-+	amdisp4-1
- 	bttv
- 	c3-isp
- 	cafe_ccic
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8478789ac265..c34137e27b55 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1139,6 +1139,8 @@ M:	Nirujogi Pratap <pratap.nirujogi@amd.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media.git
-+F:	Documentation/admin-guide/media/amdisp4-1.rst
-+F:	Documentation/admin-guide/media/amdisp4.dot
- F:	drivers/media/platform/amd/Kconfig
- F:	drivers/media/platform/amd/Makefile
- F:	drivers/media/platform/amd/isp4/Kconfig
--- 
-2.34.1
+Since we can only inspect dmabuf by iterating over process FDs or the
+dmabuf_list, we need to add our own tracepoints to track its status in
+real time in production.
 
+>
+> For example:
+>    binder:3031_4-18348   [005] ...1.   545.568275: dma_buf_export: exp_na=
+me=3Dqcom,system name=3D(null) size=3D217088 ino=3D2750
+>    binder:3031_4-18348   [005] ...1.   545.568284: dma_buf_fd: exp_name=
+=3Dqcom,system name=3D(null) size=3D217088 ino=3D2750 fd=3D8
+>    binder:3031_4-18348   [005] ...1.   545.568399: dma_buf_mmap_internal:=
+ exp_name=3Dqcom,system name=3Dqcom,system size=3D28672 ino=3D2751
+>      kworker/5:1-130     [005] ...1.   545.570193: dma_buf_put: exp_name=
+=3Dqcom,system name=3Dab size=3D28672 ino=3D2751
+>     RenderThread-18891   [005] ...1.   545.602994: dma_buf_get: exp_name=
+=3Dqcom,system name=3Dab size=3D217088 ino=3D2750 fd=3D1087
+>     RenderThread-9409    [000] .n.1.   545.745004: dma_buf_dynamic_attach=
+: exp_name=3Dqcom,system name=3Dab size=3D217088 ino=3D2750 is_dynamic=3D0 =
+dev_name=3Dkgsl-3d0
+>     RenderThread-9409    [005] ...1.   545.747802: dma_buf_detach: exp_na=
+me=3Dqcom,system name=3Dbq size=3D12771328 ino=3D2764 is_dynamic=3D0 dev_na=
+me=3Dkgsl-3d0
+>
+> Signed-off-by: Xiang Gao <gaoxiang17@xiaomi.com>
+> ---
+>  drivers/dma-buf/dma-buf.c      |  48 +++++++++-
+>  include/trace/events/dma_buf.h | 160 +++++++++++++++++++++++++++++++++
+>  2 files changed, 207 insertions(+), 1 deletion(-)
+>  create mode 100644 include/trace/events/dma_buf.h
+>
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 2bcf9ceca997..6e04e12f149e 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -35,6 +35,9 @@
+>
+>  #include "dma-buf-sysfs-stats.h"
+>
+> +#define CREATE_TRACE_POINTS
+> +#include <trace/events/dma_buf.h>
+> +
+>  static inline int is_dma_buf_file(struct file *);
+>
+>  static DEFINE_MUTEX(dmabuf_list_mutex);
+> @@ -220,6 +223,11 @@ static int dma_buf_mmap_internal(struct file *file, =
+struct vm_area_struct *vma)
+>             dmabuf->size >> PAGE_SHIFT)
+>                 return -EINVAL;
+>
+> +       if (trace_dma_buf_mmap_internal_enabled()) {
+> +               guard(spinlock)(&dmabuf->name_lock);
+> +               trace_dma_buf_mmap_internal(dmabuf);
+> +       }
+> +
+>         return dmabuf->ops->mmap(dmabuf, vma);
+>  }
+>
+> @@ -745,6 +753,11 @@ struct dma_buf *dma_buf_export(const struct dma_buf_=
+export_info *exp_info)
+>
+>         __dma_buf_list_add(dmabuf);
+>
+> +       if (trace_dma_buf_export_enabled()) {
+> +               guard(spinlock)(&dmabuf->name_lock);
+> +               trace_dma_buf_export(dmabuf);
+> +       }
+> +
+
+perhaps a macro similar to the one below
+
+#define DMA_BUF_TRACE(FUNC, ...)                  \
+    do {                                          \
+        if (FUNC##_enabled()) {                   \
+            guard(spinlock)(&dmabuf->name_lock); \
+            FUNC(__VA_ARGS__);                    \
+        }                                         \
+    } while (0)
+
+
+This would help us avoid duplicating a lot of code.
+
+could be:
+DMA_BUF_TRACE(trace_dma_buf_put, dmabuf);
+DMA_BUF_TRACE(trace_dma_buf_attach, dmabuf, dev);
+
+?
 
