@@ -1,163 +1,162 @@
-Return-Path: <linux-media+bounces-47860-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47861-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id C89DDC91B4E
-	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 11:48:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6138BC923D2
+	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 15:14:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 1A93B4E07F4
-	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 10:48:53 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 3363B4E33E3
+	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 14:14:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 880ED30DED3;
-	Fri, 28 Nov 2025 10:48:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E238242D8B;
+	Fri, 28 Nov 2025 14:14:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FKrYjBlm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sgoci-sdnproxy-4.icoremail.net (sgoci-sdnproxy-4.icoremail.net [129.150.39.64])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4406D30DD10;
-	Fri, 28 Nov 2025 10:48:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.150.39.64
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EA7A30FC08
+	for <linux-media@vger.kernel.org>; Fri, 28 Nov 2025 14:14:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764326922; cv=none; b=bodCRfsP9DF7qOkgwSn2bU91v/mK4PaDdJnR+6I/liLtJ2+osR9giqMUTZ0rkKam5mZ8SgJ+tf7J7d+tbOa63gGLOoUEYNK7UDw+gbwVLd/g0qN7WHDmJvns/WmtiotCHDeQSknsrqxeMs7FDwduAJYqZzIWiI2eV2FVuPcDRB0=
+	t=1764339271; cv=none; b=uyE74fN5Am+5UDdTXyXRe25qfnTfoLoUcOQptuktxQLB5tvPmKKFpDUTcihIPGSCu6Yjf4Z12WfIB/c1LJag5bA2uYMMABuOYeH9AVvBZC20Et7krDQZQGepBra7IGSCM3i9pK9tpLgC4vumi3QYmlqGKvJmZv0uw8U85hYfSoo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764326922; c=relaxed/simple;
-	bh=++QQz+fDQSXp2wxnYajiRIbIGoYp0tgrN6Cs06rk9o4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=GDJWG2m74ilOU0152CfClJDC3V/hZy+hSxZYgcqo3aLApm9qgnD2ZiVQvNFd6OaTIQd3fryNvGk3qH37BdknnCsjyiGrnEpm15sZegaEjSEo61TaKdKZ7PnFCW87cQIva5PlNui9pOPvaKMovc/ZbDYwODmgBKrf4FPkFFb4i90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=phytium.com.cn; spf=pass smtp.mailfrom=phytium.com.cn; arc=none smtp.client-ip=129.150.39.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=phytium.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=phytium.com.cn
-Received: from prodtpl.icoremail.net (unknown [10.12.1.20])
-	by hzbj-icmmx-7 (Coremail) with SMTP id AQAAfwAHDZn2fSlp0ni+Ag--.9S2;
-	Fri, 28 Nov 2025 18:48:22 +0800 (CST)
-Received: from wangmin$phytium.com.cn ( [218.76.62.144] ) by
- ajax-webmail-mail (Coremail) ; Fri, 28 Nov 2025 18:48:08 +0800 (GMT+08:00)
-Date: Fri, 28 Nov 2025 18:48:08 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: =?UTF-8?B?546L5pWP?= <wangmin@phytium.com.cn>
-To: "Jammy Huang" <jammy_huang@aspeedtech.com>
-Cc: "Eddie James" <eajames@linux.ibm.com>,
-	"Mauro Carvalho Chehab" <mchehab@kernel.org>,
-	"Joel Stanley" <joel@jms.id.au>,
-	"Andrew Jeffery" <andrew@codeconstruct.com.au>,
-	"Philipp Zabel" <p.zabel@pengutronix.de>,
-	linux-media@vger.kernel.org, openbmc@lists.ozlabs.org,
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?B?6IiS5aWV5qOL?= <shuyiqi@phytium.com.cn>
-Subject: Re: [PATCH] media: aspeed: Fix dram hang at res-change
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2024.3-cmXT6 build
- 20250512(e7b47ee3) Copyright (c) 2002-2025 www.mailtech.cn OP_ICM_ICMVM
-In-Reply-To: <20251124-video_dram_reset-v1-1-9d37229e4ec5@aspeedtech.com>
-References: <20251124-video_dram_reset-v1-1-9d37229e4ec5@aspeedtech.com>
-Content-Transfer-Encoding: base64
-X-CM-CTRLDATA: TCYTXGZvb3Rlcl90eHQ9NDMxNTozODM=
-Content-Type: text/plain; charset=UTF-8
+	s=arc-20240116; t=1764339271; c=relaxed/simple;
+	bh=YUJy7negUaDa3i/z93UmgA296mGxFrrof52RqnC+Knc=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=VTaEE/qOotvPshP/IQ8nP5jsp3k5iVc8waOT0gH85eD8CIGKapdLHbPUiZqD1M9meE05j3OljLqfCXfBDg5e/Ie13/8+qH5iPT81egTT2tmE0CclEGkSESip8odI1wylkNuEOpw9HgTBUJc330UGRIfjV4X45AnwRMBsN6/BSUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FKrYjBlm; arc=none smtp.client-ip=209.85.128.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-477a1e2b372so15012735e9.2
+        for <linux-media@vger.kernel.org>; Fri, 28 Nov 2025 06:14:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1764339268; x=1764944068; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=zhHL3BMFDuZhN/57WOJfnY5bammkP52DxCSg9ZesAV8=;
+        b=FKrYjBlmoSXQQjnw84xwuYZzRR44TpFpkruyuFJqfRWgMcmWXldg1TqmNC+Nb6s06C
+         TR1iDOt/R69NlNvzAaqAFakN7BdG21nDFz6+u905JKVKMiO22+ZcXYVJiYuk4Biwcjk8
+         NOrpYo7oSFvAMNdkRCgS5uziyiRom9IAw6WEyGyWRKOFJa8MsZgjFYEKN0E79xaRHQrU
+         f6Rbklj7fuGKiy2p+dg66zCG0dTZS4QzHdMP6AVKrA9fgsZRNNEJg3HwDIv95xtN5ns3
+         7rQR0zbcQSNlEcoojHnX5UFk5MmoCKkAXGRojFwy6yIiJIJlJeorycbBxtFljIXpEvJK
+         dirw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764339268; x=1764944068;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zhHL3BMFDuZhN/57WOJfnY5bammkP52DxCSg9ZesAV8=;
+        b=xVXTPRxl2lS+sIxFkQutXlsJ9aywplO+4c/mq3Qxk22WvxTqLL8VBoTEnyDnwLAR/P
+         i2qtlFBWsP/pNeYStbGGceWrMIp521lZG0Ux5ixH9JvbGWkpCeP297FQdoq8nqkY9znt
+         Hl8LHsoD4KdJLiXRUinXrsHIKO4SuC0HycwIi5bSAvxXQ/mWOHJN60TFxdtMdXc2hesr
+         CK8lG0vEfvFr9R91c+0ER2CY4yCL7CLe6alPVJV1RW678pzHjwxg0vejYzDQYux9F/Lq
+         m5fPw7bZCOEmJSGe7p+dItT3sVZj1ppZ+9mfmPlLSzkMTN94+xYWgoJX8pvTmxD1r2BL
+         Vz1A==
+X-Forwarded-Encrypted: i=1; AJvYcCWWEfZd/IwqDjR7y/BZ37/YqwvV9qvMVNewhoc/ytIfgzvJfaH/Ysd4+Njgi/vl1NjmJlo1s9mVkurpFg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzh4bTi4SCzN79rbHBl2ZvaK4+Tmeyu8wEufdSmED7qFgkZz2qS
+	2k4Agr7Z00Tqf4vQV3ylUOoo40jVS0IJss1yeVszXajvPwq4nT3U5wtuRR1coW1sdK9p6Q/3cYD
+	u8gK3Nr2wZ343dZUpCA==
+X-Google-Smtp-Source: AGHT+IGWyokfoxvVAeT84HHEwKkD03sQllI97v9KLdFvEaRTwW3WBOhmDf1Nxj/s6YQQl7dQASa85gm3ScQahxM=
+X-Received: from wmbjq9.prod.google.com ([2002:a05:600c:55c9:b0:477:5c35:1b95])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:1994:b0:46f:c55a:5a8d with SMTP id 5b1f17b1804b1-477c0176437mr295297385e9.4.1764339268358;
+ Fri, 28 Nov 2025 06:14:28 -0800 (PST)
+Date: Fri, 28 Nov 2025 14:14:14 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Message-ID: <120162b9.3256.19aca13d4e0.Coremail.wangmin@phytium.com.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:AQAAfwA3j+zofSlpISQIAA--.9978W
-X-CM-SenderInfo: 5zdqwzdlq61x51wl3zoofrzhdfq/1tbiAQAICGkosKwG5wACs-
-Authentication-Results: hzbj-icmmx-7; spf=neutral smtp.mail=wangmin@ph
-	ytium.com.cn;
-X-Coremail-Antispam: 1Uk129KBjvJXoWfGryUXrykGF1kAF18AF47Jwb_yoWDKrWfp3
-	Wxt3y8Aw1UK3W7J39ayw18AryrA3y5Gr47Jw1Iq3yUAw1UJrsIgrnxKFWDJ3Wjg3y0vrs8
-	tr1qqrs8Xr1UtwUanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-	DUYxn0WfASr-VFAU7a7-sFnT9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUU
-	UUUUU
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIADauKWkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1NDQyML3fSC0rJc3aLS4hLdJHNDy+TEZCPzxBQzJaCGgqLUtMwKsGHRsbW 1AINOf21cAAAA
+X-Change-Id: 20251128-gpuvm-rust-b719cac27ad6
+X-Developer-Key: i=aliceryhl@google.com; a=openpgp; fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1915; i=aliceryhl@google.com;
+ h=from:subject:message-id; bh=YUJy7negUaDa3i/z93UmgA296mGxFrrof52RqnC+Knc=;
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBpKa4+Ob9zfXNKSCD2DFuIEJCWhazHrkpyvwSJo
+ grxNOXFGJaJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCaSmuPgAKCRAEWL7uWMY5
+ Rs2LD/0QRiHXFNcsZ2UklzNBRGR+4GXh5VPmeo0TsfZfMCGPmTcBU9l1WecM8NywQUPp8ZomNB/
+ rwHrXrvSsnUse/tDhhhk/e9OTimR8oPwJeESKrQv9nz6zzeAjX659YQu500CDt/WT2t2jsjjEAl
+ CNtQRslkrFsfdypRq9MpxlittBcgMxXK/e0fJhVNpxGxYnk2pWI871g28GawhxjNJyrGBlf/g7g
+ fUSepFjOCu3Xkho19aoO7I5fVZxjjbTG0EKs55RHfX1gwkmEO7aWO5kf4uhoemwqS2fHAvVeFNa
+ BdVUXvDpPHF+pykOAyiNApNvuEwnYy9L1DhrctFxYr9YBQBo9G6kNvV/vi7ayj8vfTW5j55mFOz
+ Id04xAmbps5UenSTRvSs3wNbVeT9ucvdli2v6FZEg5xrtxLg+vxNLgbR4+GwhHqfGlxOGW6ha6s
+ cvrA4DL9Qgo7r1+bcqCAJuCDq0myOvN2O2j5cYQ7Z0DyYd2DKRpbxWsnVujocaMxY1/m2rMr4vj
+ GYY+V3U+U2BdvMWNUWdYUvtgtQcpyefH1P1JcV1EzsB33B4TZx+UcIDUiliWIB7+4cfURnadtVI
+ VUx0tRJwBnfii0nwY4yFFNBjzHPStgTKBzg6kfBXZ8Gfy6covgoZ8LEjfSTYaRUYArQyGr89AyP eGFLCahwk9vk6AA==
+X-Mailer: b4 0.14.2
+Message-ID: <20251128-gpuvm-rust-v1-0-ebf66bf234e0@google.com>
+Subject: [PATCH 0/4] Rust GPUVM support
+From: Alice Ryhl <aliceryhl@google.com>
+To: Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>
+Cc: Matthew Brost <matthew.brost@intel.com>, 
+	"=?utf-8?q?Thomas_Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Boris Brezillon <boris.brezillon@collabora.com>, Steven Price <steven.price@arm.com>, 
+	Liviu Dudau <liviu.dudau@arm.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	"=?utf-8?q?Bj=C3=B6rn_Roy_Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, 
+	Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+	Abhinav Kumar <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
+	Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+	Lyude Paul <lyude@redhat.com>, Lucas De Marchi <lucas.demarchi@intel.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	"=?utf-8?q?Christian_K=C3=B6nig?=" <christian.koenig@amd.com>, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+	nouveau@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
+	Alice Ryhl <aliceryhl@google.com>, Asahi Lina <lina+kernel@asahilina.net>
+Content-Type: text/plain; charset="utf-8"
 
-CgoKPiAtLS0tLeWOn+Wni+mCruS7ti0tLS0tCj4g5Y+R5Lu25Lq6OiAiSmFtbXkgSHVhbmciIDxq
-YW1teV9odWFuZ0Bhc3BlZWR0ZWNoLmNvbT4KPiDlj5HpgIHml7bpl7Q6MjAyNS0xMS0yNCAxMTow
-NToxNCAo5pif5pyf5LiAKQo+IOaUtuS7tuS6ujogIkVkZGllIEphbWVzIiA8ZWFqYW1lc0BsaW51
-eC5pYm0uY29tPiwgIk1hdXJvIENhcnZhbGhvIENoZWhhYiIgPG1jaGVoYWJAa2VybmVsLm9yZz4s
-ICJKb2VsIFN0YW5sZXkiIDxqb2VsQGptcy5pZC5hdT4sICJBbmRyZXcgSmVmZmVyeSIgPGFuZHJl
-d0Bjb2RlY29uc3RydWN0LmNvbS5hdT4sICJQaGlsaXBwIFphYmVsIiA8cC56YWJlbEBwZW5ndXRy
-b25peC5kZT4KPiDmioTpgIE6IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZywgb3BlbmJtY0Bs
-aXN0cy5vemxhYnMub3JnLCBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmcsIGxp
-bnV4LWFzcGVlZEBsaXN0cy5vemxhYnMub3JnLCBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3Jn
-LCAiSmFtbXkgSHVhbmciIDxqYW1teV9odWFuZ0Bhc3BlZWR0ZWNoLmNvbT4KPiDkuLvpopg6IFtQ
-QVRDSF0gbWVkaWE6IGFzcGVlZDogRml4IGRyYW0gaGFuZyBhdCByZXMtY2hhbmdlCj4gCj4gRHJh
-bSBoYW5nIGNvdWxkIGhhcHBlbiBpbiB0aGUgc3RlcHMgYmVsb3c6Cj4gMS4gc3RhcnQgY2FwdHVy
-ZS9jb21wcmVzc2lvbgo+IDIuIG91dC1vZi1sb2NrIHdhdGNoZG9nIHJhaXNlIGlycSBiZWNhdXNl
-IG9mIHJlcy1jaGFuZ2UuCj4gMy4gYXNwZWVkX3ZpZGVvX2lycV9yZXNfY2hhbmdlIGRvIGNsay1v
-ZmYKPiAKPiBBdCBzdGVwMywgY2FwdHVyZS9jb21wcmVzc2lvbiBjb3VsZCBiZSBub3QgYWNjb21w
-bGlzaGVkIHlldC4gSWYgY2xrLW9mZgo+IGluIHRoZSBtaWRkbGUgb2YgdmlkZW8gb3BlcmF0aW9u
-LCBkcmFtIGNvbnRyb2xsZXIgY291bGQgaGFuZyBhdCBhc3QyNTAwLgo+IAo+IFVzZSByZXNldCBy
-YXRoZXIgdGhhbiBjbGstb2ZmL29uIHRvIGF2b2lkIHRoaXMgcHJvYmxlbS4KPiAKPiBTaWduZWQt
-b2ZmLWJ5OiBKYW1teSBIdWFuZyA8amFtbXlfaHVhbmdAYXNwZWVkdGVjaC5jb20+Cj4gLS0tCj4g
-T24gQXNwZWVkIEtWTSB0ZXN0aW5nLCB3ZSBmb3VuZCBpdCBjb3VsZCBsZWFkIHRvIGRyYW0taGFu
-ZyBpZgo+IHJlcy1jaGFuZ2UuIEFsdGhvdWdoIHRoZSBpc3N1ZSByYXJlbHkgaGFwcGVucywgdGhl
-IGltcGFjdCBpcyBzZXJpb3VzLgoKQ2FwdHVyaW5nIGFuZCBjb21wcmVzc2luZyB0aGUgdmlkZW8g
-c3RyZWFtIHRha2VzIGxvbmdlciB0aGFuIHRoZSB2aWRlbyBlbmdpbmXigJlzIGlkbGUgcGVyaW9k
-LiAKSWYgdGhpcyBpcyBub3QgdGhlIGludGVuZGVkIGJlaGF2aW9yLCBwbGVhc2UgaW5jcmVhc2Ug
-dGhlIGZyYW1lIHJhdGUuIFRoaXMgbWFrZXMgcmVzb2x1dGlvbiAKc3dpdGNoZXMgbW9yZSBwcm9u
-ZSB0byBoYXBwZW4gd2hlbiB0aGUgdmlkZW8gZW5naW5lIGlzIHdvcmtpbmcuIEhvd2V2ZXIsIGFj
-Y29yZGluZyB0byB5b3VyIAplbWFpbCwgdGhpcyBpc3N1ZSByYXJlbHkgb2NjdXJzLiBJcyB0aGVy
-ZSBhIHNpbWlsYXIgaXNzdWUgb24gdGhlIEFTVDI2MDAgU29DPwoKPiAKPiBUbyBhdm9pZCB0aGlz
-IGlzc3VlLCB3ZSB1c2UgcmVzZXQgb25seSByYXRoYXIgdGhhbiBjbGstb2ZmL29uIGluCj4gcmVz
-LWNoYW5nZSB0byBhdm9pZCB0aGlzIGlzc3VlLgo+IC0tLQo+ICBkcml2ZXJzL21lZGlhL3BsYXRm
-b3JtL2FzcGVlZC9hc3BlZWQtdmlkZW8uYyB8IDIyICsrKysrKysrKysrKysrKysrKystLS0KPiAg
-MSBmaWxlIGNoYW5nZWQsIDE5IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCj4gCj4gZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vYXNwZWVkL2FzcGVlZC12aWRlby5jIGIv
-ZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9hc3BlZWQvYXNwZWVkLXZpZGVvLmMKPiBpbmRleCBiODNl
-NDMyNDUyLi40MWNiOTZmNjAxIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0v
-YXNwZWVkL2FzcGVlZC12aWRlby5jCj4gKysrIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9hc3Bl
-ZWQvYXNwZWVkLXZpZGVvLmMKPiBAQCAtMjYsNiArMjYsNyBAQAo+ICAjaW5jbHVkZSA8bGludXgv
-d29ya3F1ZXVlLmg+Cj4gICNpbmNsdWRlIDxsaW51eC9kZWJ1Z2ZzLmg+Cj4gICNpbmNsdWRlIDxs
-aW51eC9rdGltZS5oPgo+ICsjaW5jbHVkZSA8bGludXgvcmVzZXQuaD4KPiAgI2luY2x1ZGUgPGxp
-bnV4L3JlZ21hcC5oPgo+ICAjaW5jbHVkZSA8bGludXgvbWZkL3N5c2Nvbi5oPgo+ICAjaW5jbHVk
-ZSA8bWVkaWEvdjRsMi1jdHJscy5oPgo+IEBAIC0zMTAsNiArMzExLDcgQEAgc3RydWN0IGFzcGVl
-ZF92aWRlbyB7Cj4gIAl2b2lkIF9faW9tZW0gKmJhc2U7Cj4gIAlzdHJ1Y3QgY2xrICplY2xrOwo+
-ICAJc3RydWN0IGNsayAqdmNsazsKPiArCXN0cnVjdCByZXNldF9jb250cm9sICpyZXNldDsKPiAg
-Cj4gIAlzdHJ1Y3QgZGV2aWNlICpkZXY7Cj4gIAlzdHJ1Y3QgdjRsMl9jdHJsX2hhbmRsZXIgY3Ry
-bF9oYW5kbGVyOwo+IEBAIC03MjAsNiArNzIyLDEzIEBAIHN0YXRpYyB2b2lkIGFzcGVlZF92aWRl
-b19vbihzdHJ1Y3QgYXNwZWVkX3ZpZGVvICp2aWRlbykKPiAgCXNldF9iaXQoVklERU9fQ0xPQ0tT
-X09OLCAmdmlkZW8tPmZsYWdzKTsKPiAgfQo+ICAKPiArc3RhdGljIHZvaWQgYXNwZWVkX3ZpZGVv
-X3Jlc2V0KHN0cnVjdCBhc3BlZWRfdmlkZW8gKnYpCj4gK3sKPiArCXJlc2V0X2NvbnRyb2xfYXNz
-ZXJ0KHYtPnJlc2V0KTsKPiArCXVzbGVlcF9yYW5nZSgxMDAsIDE1MCk7Cj4gKwlyZXNldF9jb250
-cm9sX2RlYXNzZXJ0KHYtPnJlc2V0KTsKPiArfQo+ICsKPiAgc3RhdGljIHZvaWQgYXNwZWVkX3Zp
-ZGVvX2J1ZnNfZG9uZShzdHJ1Y3QgYXNwZWVkX3ZpZGVvICp2aWRlbywKPiAgCQkJCSAgIGVudW0g
-dmIyX2J1ZmZlcl9zdGF0ZSBzdGF0ZSkKPiAgewo+IEBAIC03NDIsNyArNzUxLDkgQEAgc3RhdGlj
-IHZvaWQgYXNwZWVkX3ZpZGVvX2lycV9yZXNfY2hhbmdlKHN0cnVjdCBhc3BlZWRfdmlkZW8gKnZp
-ZGVvLCB1bG9uZyBkZWxheSkKPiAgCj4gIAl2aWRlby0+djRsMl9pbnB1dF9zdGF0dXMgPSBWNEwy
-X0lOX1NUX05PX1NJR05BTDsKPiAgCj4gLQlhc3BlZWRfdmlkZW9fb2ZmKHZpZGVvKTsKPiArCWFz
-cGVlZF92aWRlb193cml0ZSh2aWRlbywgVkVfSU5URVJSVVBUX0NUUkwsIDApOwo+ICsJYXNwZWVk
-X3ZpZGVvX3dyaXRlKHZpZGVvLCBWRV9JTlRFUlJVUFRfU1RBVFVTLCAweGZmZmZmZmZmKTsKPiAr
-CWFzcGVlZF92aWRlb19yZXNldCh2aWRlbyk7Cj4gIAlhc3BlZWRfdmlkZW9fYnVmc19kb25lKHZp
-ZGVvLCBWQjJfQlVGX1NUQVRFX0VSUk9SKTsKPiAgCj4gIAlzY2hlZHVsZV9kZWxheWVkX3dvcmso
-JnZpZGVvLT5yZXNfd29yaywgZGVsYXkpOwo+IEBAIC0xOTg0LDggKzE5OTUsNyBAQCBzdGF0aWMg
-dm9pZCBhc3BlZWRfdmlkZW9fc3RvcF9zdHJlYW1pbmcoc3RydWN0IHZiMl9xdWV1ZSAqcSkKPiAg
-CQkgKiBOZWVkIHRvIGZvcmNlIHN0b3AgYW55IERNQSBhbmQgdHJ5IGFuZCBnZXQgSFcgaW50byBh
-IGdvb2QKPiAgCQkgKiBzdGF0ZSBmb3IgZnV0dXJlIGNhbGxzIHRvIHN0YXJ0IHN0cmVhbWluZyBh
-Z2Fpbi4KPiAgCQkgKi8KPiAtCQlhc3BlZWRfdmlkZW9fb2ZmKHZpZGVvKTsKPiAtCQlhc3BlZWRf
-dmlkZW9fb24odmlkZW8pOwo+ICsJCWFzcGVlZF92aWRlb19yZXNldCh2aWRlbyk7Cj4gIAo+ICAJ
-CWFzcGVlZF92aWRlb19pbml0X3JlZ3ModmlkZW8pOwo+ICAKPiBAQCAtMjIzMCw2ICsyMjQwLDEy
-IEBAIHN0YXRpYyBpbnQgYXNwZWVkX3ZpZGVvX2luaXQoc3RydWN0IGFzcGVlZF92aWRlbyAqdmlk
-ZW8pCj4gIAl9Cj4gIAlkZXZfaW5mbyh2aWRlby0+ZGV2LCAiaXJxICVkXG4iLCBpcnEpOwo+ICAK
-PiArCXZpZGVvLT5yZXNldCA9IGRldm1fcmVzZXRfY29udHJvbF9nZXQoZGV2LCBOVUxMKTsKPiAr
-CWlmIChJU19FUlIodmlkZW8tPnJlc2V0KSkgewo+ICsJCWRldl9lcnIoZGV2LCAiVW5hYmxlIHRv
-IGdldCByZXNldFxuIik7Cj4gKwkJcmV0dXJuIFBUUl9FUlIodmlkZW8tPnJlc2V0KTsKPiArCX0K
-PiArCj4gIAl2aWRlby0+ZWNsayA9IGRldm1fY2xrX2dldChkZXYsICJlY2xrIik7Cj4gIAlpZiAo
-SVNfRVJSKHZpZGVvLT5lY2xrKSkgewo+ICAJCWRldl9lcnIoZGV2LCAiVW5hYmxlIHRvIGdldCBF
-Q0xLXG4iKTsKPiAKPiAtLS0KPiBiYXNlLWNvbW1pdDogYWMzZmQwMWU0YzFlZmNlOGYyYzA1NGNk
-ZWIyZGRkMmZjMGZiMTUwZAo+IGNoYW5nZS1pZDogMjAyNTExMjQtdmlkZW9fZHJhbV9yZXNldC1j
-NTMxZjZiYTU3M2YKPiAKPiBCZXN0IHJlZ2FyZHMsCj4gLS0gCj4gSmFtbXkgSHVhbmcgPGphbW15
-X2h1YW5nQGFzcGVlZHRlY2guY29tPgo+CgoKDQoNCuS/oeaBr+WuieWFqOWjsOaYju+8muacrOmC
-ruS7tuWMheWQq+S/oeaBr+W9kuWPkeS7tuS6uuaJgOWcqOe7hOe7h+aJgOaciSzlj5Hku7bkurrm
-iYDlnKjnu4Tnu4flr7nor6Xpgq7ku7bmi6XmnInmiYDmnInmnYPliKnjgILor7fmjqXmlLbogIXm
-s6jmhI/kv53lr4Ys5pyq57uP5Y+R5Lu25Lq65Lmm6Z2i6K645Y+vLOS4jeW+l+WQkeS7u+S9lees
-rOS4ieaWuee7hOe7h+WSjOS4quS6uumAj+mcsuacrOmCruS7tuaJgOWQq+S/oeaBr+OAgg0KSW5m
-b3JtYXRpb24gU2VjdXJpdHkgTm90aWNlOiBUaGUgaW5mb3JtYXRpb24gY29udGFpbmVkIGluIHRo
-aXMgbWFpbCBpcyBzb2xlbHkgcHJvcGVydHkgb2YgdGhlIHNlbmRlcidzIG9yZ2FuaXphdGlvbi5U
-aGlzIG1haWwgY29tbXVuaWNhdGlvbiBpcyBjb25maWRlbnRpYWwuUmVjaXBpZW50cyBuYW1lZCBh
-Ym92ZSBhcmUgb2JsaWdhdGVkIHRvIG1haW50YWluIHNlY3JlY3kgYW5kIGFyZSBub3QgcGVybWl0
-dGVkIHRvIGRpc2Nsb3NlIHRoZSBjb250ZW50cyBvZiB0aGlzIGNvbW11bmljYXRpb24gdG8gb3Ro
-ZXJzLg==
+This makes a few changes to the way immediate mode works, and then it
+implements a Rust immediate mode GPUVM abstraction on top of that.
+
+Please see the following branch for example usage in Tyr:
+https://gitlab.freedesktop.org/panfrost/linux/-/merge_requests/53
+
+For context, please see this previous patch:
+https://lore.kernel.org/rust-for-linux/20250621-gpuvm-v3-1-10203da06867@collabora.com/
+and the commit message of the last patch.
+
+Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+---
+Alice Ryhl (4):
+      drm/gpuvm: take GEM lock inside drm_gpuvm_bo_obtain_prealloc()
+      drm/gpuvm: drm_gpuvm_bo_obtain() requires lock and staged mode
+      drm/gpuvm: use const for drm_gpuva_op_* ptrs
+      rust: drm: add GPUVM immediate mode abstraction
+
+ MAINTAINERS                            |   1 +
+ drivers/gpu/drm/drm_gpuvm.c            |  80 ++++--
+ drivers/gpu/drm/imagination/pvr_vm.c   |   2 +-
+ drivers/gpu/drm/msm/msm_gem.h          |   2 +-
+ drivers/gpu/drm/msm/msm_gem_vma.c      |   2 +-
+ drivers/gpu/drm/nouveau/nouveau_uvmm.c |   2 +-
+ drivers/gpu/drm/panthor/panthor_mmu.c  |  10 -
+ drivers/gpu/drm/xe/xe_vm.c             |   4 +-
+ include/drm/drm_gpuvm.h                |  12 +-
+ rust/bindings/bindings_helper.h        |   2 +
+ rust/helpers/drm_gpuvm.c               |  43 +++
+ rust/helpers/helpers.c                 |   1 +
+ rust/kernel/drm/gpuvm/mod.rs           | 394 +++++++++++++++++++++++++++
+ rust/kernel/drm/gpuvm/sm_ops.rs        | 469 +++++++++++++++++++++++++++++++++
+ rust/kernel/drm/gpuvm/va.rs            | 148 +++++++++++
+ rust/kernel/drm/gpuvm/vm_bo.rs         | 213 +++++++++++++++
+ rust/kernel/drm/mod.rs                 |   1 +
+ 17 files changed, 1337 insertions(+), 49 deletions(-)
+---
+base-commit: 77b686f688126a5f758b51441a03186e9eb1b0f1
+change-id: 20251128-gpuvm-rust-b719cac27ad6
+
+Best regards,
+-- 
+Alice Ryhl <aliceryhl@google.com>
 
 
