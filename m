@@ -1,89 +1,97 @@
-Return-Path: <linux-media+bounces-47891-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47892-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FEEEC931CE
-	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 21:26:33 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BC99C9331A
+	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 22:28:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 338744E3BB6
-	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 20:26:32 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 202F934C66E
+	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 21:28:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 487872DAFBA;
-	Fri, 28 Nov 2025 20:26:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF7422D8DCA;
+	Fri, 28 Nov 2025 21:28:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="GDshfTct"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="JGwyx5ta"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 994F8265CA4;
-	Fri, 28 Nov 2025 20:26:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4107A2C2365
+	for <linux-media@vger.kernel.org>; Fri, 28 Nov 2025 21:28:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764361582; cv=none; b=cj8xL5oQsBHbTBmDtixfDg9LH103ip5vEZYygWOobFB/NcvH/1KrOwn5wpjZKXudSvFTThsb6zhmoJDLZut57CMymqOdxmcmqwufJKjMbgAxxDqikK0Z8DG1p2kaDp+C2yExdYIcFWJBwn6dnVgEPQFYb2Hd5gu52qRYb2nCevM=
+	t=1764365327; cv=none; b=ftwyEKQ/qaogK4BeATfh76jmg9m7oqkVHG6E6T2XGSDhAkbjsxJs/yTnLeKhhEHxDZvDVxr4SrTdn+fJGma6yTk0AFeqXO037f8oF27EsIE0O2pjlxdRGDcpxSQZs/pEOw+fGz9vl2nw10SjlvNXyPxXefsYVYDJQhWJyaaHl08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764361582; c=relaxed/simple;
-	bh=Hi4j04Aklo1CBvVuC1Ce2J2J6oYAfTYWfYxJwWPZDys=;
+	s=arc-20240116; t=1764365327; c=relaxed/simple;
+	bh=tmVTnuvxR0wK6ZuW9OPVuqO+nqK/SMC9A1+2qGeSvSQ=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=JTyl+E78gV4dbZfliZ8KDs4swDDarGB+g1IMAM4K9Speqk2aN98mkF9zUz9QdQ/kpxsBErLJK0lIiIfq3rh/zU1GTvU4Ay0XT4SiNT0J6v5hTXNl2UM1Sxz3Vl8k9Mi+CcrVfG2Rsk067xV+RnDhpRAu6rR3Sf0QZXIaMdraH3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=GDshfTct; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1764361578;
-	bh=Hi4j04Aklo1CBvVuC1Ce2J2J6oYAfTYWfYxJwWPZDys=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=GDshfTctUp3IzfYsXpx4/3wr/N17y3rNNTJuBbNIqwdOgKZ7cRHw/Y5Hrne9pydvr
-	 gwqxnZC0HnFerQ0aGhcWpeB3Ac09YC2BBoOl425sCRXxbGaViey+/tmfa8orKBQFZY
-	 HybYnlJh9O6D7qNay06sHhQUowUfpEm9nzDGkqs5vVnikmwIGgCkxI4HiVK8H1RMu4
-	 2HWk7cHhYI/BS2c83vfMzVDGjlrGGQxyVrlwb2zprcLwSOZLJsaiKBbb37Bh0V/hIB
-	 6TE0Y7xlr1Mo4u+7M/DWBNW46L8I+mM8xHgAvI5ZVAascoUcFF91cJ5FvguFx+fJu/
-	 lFq8pXE05ntow==
-Received: from [IPv6:2606:6d00:17:7b4b::c41] (unknown [IPv6:2606:6d00:17:7b4b::c41])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id D395D17E0A28;
-	Fri, 28 Nov 2025 21:26:16 +0100 (CET)
-Message-ID: <1f1191bb664bf0c437deabbd9f947d127b5b4dd2.camel@collabora.com>
-Subject: Re: [PATCH v2 14/14] media: mediatek: decoder: support av1 extend
- vsi
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Yunfei Dong <yunfei.dong@mediatek.com>, =?ISO-8859-1?Q?N=EDcolas?= "F .
- R . A . Prado" <nfraprado@collabora.com>, Sebastian Fricke
- <sebastian.fricke@collabora.com>, Hans Verkuil	 <hverkuil-cisco@xs4all.nl>,
- AngeloGioacchino Del Regno	 <angelogioacchino.delregno@collabora.com>,
- Benjamin Gaignard	 <benjamin.gaignard@collabora.com>, Nathan Hebert
- <nhebert@chromium.org>,  Daniel Almeida <daniel.almeida@collabora.com>
-Cc: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig
- <frkoenig@chromium.org>,  Daniel Vetter <daniel@ffwll.ch>, Steve Cho
- <stevecho@chromium.org>, linux-media@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	Project_Global_Chrome_Upstream_Group@mediatek.com
-Date: Fri, 28 Nov 2025 15:26:15 -0500
-In-Reply-To: <20250815085232.30240-15-yunfei.dong@mediatek.com>
-References: <20250815085232.30240-1-yunfei.dong@mediatek.com>
-	 <20250815085232.30240-15-yunfei.dong@mediatek.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Organization: Collabora Canada
+	 Content-Type:MIME-Version; b=sbbsyRH0vUSHZN6pskOnb1PDqWkKltFfqDoAi6QImMa4roV/o8O9bMA2Jw2Q/blDqmsKbv2qZMR13ADD0H/lYzyNUwpab2Ubl22tMEcqoWrdd2L4KZh51HuotzRfaMmse2csYkPkBDr+pZqJIsbB/uU+2c4SDVhALQFblHTTjW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=JGwyx5ta; arc=none smtp.client-ip=209.85.219.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-880570bdef8so23962996d6.3
+        for <linux-media@vger.kernel.org>; Fri, 28 Nov 2025 13:28:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1764365323; x=1764970123; darn=vger.kernel.org;
+        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
+         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=g6w8QrfrOXi6sp9Fe0hRWKIBPis0Rvyzh9m6dBqHPME=;
+        b=JGwyx5taRneXtdLYvLmKTCuMZqI79i5BQO8Wt9liXJFf6HqgWyJ+YAS12DcoLylpzf
+         YmoiNRmyDVzLYmCWOs4qm+CNj3e+CRNDye9pHLTVdXW3Hm23siKXIH22BlibQXrQAn1a
+         n7aRatf+EWErjjy83pHTpm78npCZHakKBol6R89R7TauiPMl1OtrzNon+9jqgycRZn+M
+         Q5MqiygisTr4Uh/QMknPLbPOp1pT1bc25Jv4mGE0quH5tEtpNkRFXOBXspEoYj8Fz7Ml
+         uaijetL+B0cQXy2feUoIDUNZhlvmOBYuasOS8d7r/aO18bNYv8vnVhORKhZiF1RmzhQF
+         RObw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764365323; x=1764970123;
+        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
+         :subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=g6w8QrfrOXi6sp9Fe0hRWKIBPis0Rvyzh9m6dBqHPME=;
+        b=TynfiYES0lROgTKcdCd3Pl+CSaDMssXnW6OKRmm0hfmQq0+ziQHaS+pPW1nXUI9+ah
+         fMgxzorYkAFy3DbBiq5bFkdZlWIYf5TyG9/3eRbmT/RC2EaRd3NtjBJoj0ij8T7tX3Xp
+         XYgQTzbAMNlVqTVbYTzNN700Ay4rSSyjbOcluNflFLiwbHk+5Uxjv3KjZL4RtMykp6Bf
+         claXDW2LQktAfo6fJrtRqBs3VZ4fLBzuqCtQjujH9GorOfVySgz2BeBv+DGKT3dO/+im
+         PfhY/d+TIu9AZkAk1KQGnyPjQWDRjb4nusfN7IDyAm1xaGhzCfsG/OZHKff5bLKxZMxM
+         /Uww==
+X-Forwarded-Encrypted: i=1; AJvYcCXb7zOggv0WUlseKKj0mAlwHdsCvV4pPHgGHf+EgdVXgXfUMqKym5LC8lLH1OcJU3YfWxn0WZi2bKTb8Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzBRIcbhhNvfQqCQdszfsxHQ2Em+JY4Fo/CDeghD7MVJMIJqP30
+	bIc5QEHrZMI96B8kH6HdBd3T2RZj0ohsVzUNWT8ZBNdEy8f1cWsCgFc3n1FEbN0pxcs=
+X-Gm-Gg: ASbGnctA8xLsSYnr+0MHCRE0E4xLL7S+Yrud4oRjte02dBTWVfOUsjasfh43GrHHQDP
+	X3dgOiwbWhq433+F93GUZN2n72B6mwr7FjgZo5e6QztX+AmqJFe35+hWk6TVkjH74Z2YYiCAAAp
+	TRVy3GbG3sdxWblahWD4BdNatEn3iFvKNkhbkFK4uCvJePFhY+U040s79jZEMDGeWRd0n1+L7yj
+	bONeivNLFYjIe/JhxzGbgKIOiH3uClTuNwDxpPEYDi2xnPBLu+Xnlws6YfEdXaaW26pfO/NjT3E
+	qVnIyoh5Bqiq56p2snmnPJk748qLoJtJrpkb5ijkvDFABYouuJ/jg6X9qVbni02jdGuQ+jVAyEc
+	q0AqidxIDMM7k4u/PM+eE3v/Hyez91+sX2WRtgUQu+MzWFLiBfUxV/+thMwGYFBPYoZR+EsP61x
+	FA95RX92t4kbuHZMj5
+X-Google-Smtp-Source: AGHT+IF5rpKVWKhhH5X99ZzJRg/cYQ5xHYiK2flb6+MOxSeRJ2HbYvrgV+3FUbcl1ZVy3O+iyDvm2Q==
+X-Received: by 2002:a05:6214:2a89:b0:798:acd7:2bb with SMTP id 6a1803df08f44-8863af9edcfmr276981516d6.51.1764365322897;
+        Fri, 28 Nov 2025 13:28:42 -0800 (PST)
+Received: from ?IPv6:2606:6d00:17:7b4b::c41? ([2606:6d00:17:7b4b::c41])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88652b4afe8sm35038726d6.29.2025.11.28.13.28.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Nov 2025 13:28:42 -0800 (PST)
+Message-ID: <46e9a5a881946d879d1b2af3421d574b26256ae3.camel@ndufresne.ca>
+Subject: Re: [PATCH v2 2/2] media: verisilicon: Avoid G2 bus error while
+ decoding H.264 and HEVC
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: ming.qian@oss.nxp.com, linux-media@vger.kernel.org
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl, 
+	benjamin.gaignard@collabora.com, p.zabel@pengutronix.de, 
+	sebastian.fricke@collabora.com, shawnguo@kernel.org,
+ ulf.hansson@linaro.org, 	s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, 	linux-imx@nxp.com, l.stach@pengutronix.de,
+ Frank.li@nxp.com, peng.fan@nxp.com, 	eagle.zhou@nxp.com,
+ imx@lists.linux.dev, linux-pm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Date: Fri, 28 Nov 2025 16:28:39 -0500
+In-Reply-To: <20251128025117.535-2-ming.qian@oss.nxp.com>
+References: <20251128025117.535-1-ming.qian@oss.nxp.com>
+	 <20251128025117.535-2-ming.qian@oss.nxp.com>
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-kbs5W3umSJp+X2PmDwWI"
+	protocol="application/pgp-signature"; boundary="=-Wt1eyF/4iRLYXSmGIIpE"
 User-Agent: Evolution 3.58.1 (3.58.1-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -93,195 +101,212 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 
---=-kbs5W3umSJp+X2PmDwWI
+--=-Wt1eyF/4iRLYXSmGIIpE
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-Le vendredi 15 ao=C3=BBt 2025 =C3=A0 16:52 +0800, Yunfei Dong a =C3=A9crit=
-=C2=A0:
-> The driver can't access tile buffer address for extend architecture,
-> set tile group information in vcp and share it with kernel.
+Le vendredi 28 novembre 2025 =C3=A0 10:51 +0800, ming.qian@oss.nxp.com a =
+=C3=A9crit=C2=A0:
+> From: Ming Qian <ming.qian@oss.nxp.com>
 >=20
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> For the i.MX8MQ platform, there is a hardware limitation: the g1 VPU and
+> g2 VPU cannot decode simultaneously; otherwise, it will cause below bus
+> error and produce corrupted pictures, even led to system hang.
+>=20
+> [=C2=A0 110.527986] hantro-vpu 38310000.video-codec: frame decode timed o=
+ut.
+> [=C2=A0 110.583517] hantro-vpu 38310000.video-codec: bus error detected.
+>=20
+> Therefore, it is necessary to ensure that g1 and g2 operate alternately.
+> Then this allows for successful multi-instance decoding of H.264 and HEVC=
+.
+>=20
+> To achieve this, we can have g1 and g2 share the same v4l2_m2m_dev, and
+> then the v4l2_m2m_dev can handle the scheduling.
+>=20
+> Fixes: cb5dd5a0fa518 ("media: hantro: Introduce G2/HEVC decoder")
+> Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
+
+I like where this is going.
 > ---
-> =C2=A0.../vcodec/decoder/vdec/vdec_av1_req_lat_if.c | 46 ++++++++++++++++=
----
-> =C2=A01 file changed, 39 insertions(+), 7 deletions(-)
+> v2
+> - Abandon the waiting approach.
+> - Switch to a shared v4l2_m2m_dev solution.
 >=20
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1=
-_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av=
-1_req_lat_if.c
-> index 6070485e26c4..43541faeea87 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_la=
-t_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_la=
-t_if.c
-> @@ -25,6 +25,8 @@
-> =C2=A0
-> =C2=A0#define AV1_INVALID_IDX			-1
-> =C2=A0
-> +#define AV1_NON_EXT_VSI_SIZE		0xD50
-> +
-> =C2=A0#define AV1_DIV_ROUND_UP_POW2(value, n)			\
-> =C2=A0({							\
-> =C2=A0	typeof(n) _n=C2=A0 =3D n;				\
-> @@ -641,6 +643,8 @@ struct vdec_av1_slice_fb {
-> =C2=A0 * @frame:		current frame info
-> =C2=A0 * @state:		status after decode done
-> =C2=A0 * @cur_lst_tile_id:	tile id for large scale
-> + * @tile_group:	tile group info
-> + * @reserved:		reserved
+> =C2=A0drivers/media/platform/verisilicon/hantro.h=C2=A0=C2=A0 |=C2=A0 2 +
+> =C2=A0.../media/platform/verisilicon/hantro_drv.c=C2=A0=C2=A0 | 41 ++++++=
++++++++++++--
+> =C2=A0.../media/platform/verisilicon/imx8m_vpu_hw.c |=C2=A0 2 +
+> =C2=A03 files changed, 42 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/=
+platform/verisilicon/hantro.h
+> index e0fdc4535b2d..8a0583f95417 100644
+> --- a/drivers/media/platform/verisilicon/hantro.h
+> +++ b/drivers/media/platform/verisilicon/hantro.h
+> @@ -77,6 +77,7 @@ struct hantro_irq {
+> =C2=A0 * @double_buffer:		core needs double buffering
+> =C2=A0 * @legacy_regs:		core uses legacy register set
+> =C2=A0 * @late_postproc:		postproc must be set up at the end of the job
+> + * @shared_resource:		flag of shared resource
 > =C2=A0 */
-> =C2=A0struct vdec_av1_slice_vsi {
-> =C2=A0	/* lat */
-> @@ -665,6 +669,8 @@ struct vdec_av1_slice_vsi {
-> =C2=A0	struct vdec_av1_slice_frame frame;
-> =C2=A0	struct vdec_av1_slice_state state;
-> =C2=A0	u32 cur_lst_tile_id;
-> +	struct vdec_av1_slice_tile_group tile_group;
-> +	unsigned int reserved[4];
+> =C2=A0struct hantro_variant {
+> =C2=A0	unsigned int enc_offset;
+> @@ -101,6 +102,7 @@ struct hantro_variant {
+> =C2=A0	unsigned int double_buffer : 1;
+> =C2=A0	unsigned int legacy_regs : 1;
+> =C2=A0	unsigned int late_postproc : 1;
+> +	unsigned int shared_resource : 1;
+
+Instead of that, I'd make an array of compatible node we are going to share=
+ the
+with.
+
 > =C2=A0};
 > =C2=A0
 > =C2=A0/**
-> @@ -1394,13 +1400,18 @@ static int vdec_av1_slice_setup_tile_group(struct=
- vdec_av1_slice_instance *insta
-> =C2=A0					=C2=A0=C2=A0 struct vdec_av1_slice_vsi *vsi)
+> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/me=
+dia/platform/verisilicon/hantro_drv.c
+> index 60b95b5d8565..f42b2df86806 100644
+> --- a/drivers/media/platform/verisilicon/hantro_drv.c
+> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
+> @@ -35,6 +35,10 @@ module_param_named(debug, hantro_debug, int, 0644);
+> =C2=A0MODULE_PARM_DESC(debug,
+> =C2=A0		 "Debug level - higher value produces more verbose messages");
+> =C2=A0
+> +static DEFINE_MUTEX(shared_dev_lock);
+> +static atomic_t shared_dev_ref_cnt =3D ATOMIC_INIT(0);
+> +static struct v4l2_m2m_dev *shared_m2m_dev;
+> +
+> =C2=A0void *hantro_get_ctrl(struct hantro_ctx *ctx, u32 id)
 > =C2=A0{
-> =C2=A0	struct v4l2_ctrl_av1_tile_group_entry *ctrl_tge;
-> -	struct vdec_av1_slice_tile_group *tile_group =3D &instance->tile_group;
-> +	struct vdec_av1_slice_tile_group *tile_group;
-> =C2=A0	struct vdec_av1_slice_uncompressed_header *uh =3D &vsi->frame.uh;
-> =C2=A0	struct vdec_av1_slice_tile *tile =3D &uh->tile;
 > =C2=A0	struct v4l2_ctrl *ctrl;
-> =C2=A0	u32 tge_size;
-> =C2=A0	int i;
-> =C2=A0
-> +	if (IS_VDEC_SUPPORT_EXT(instance->ctx->dev->dec_capability))
-> +		tile_group =3D &vsi->tile_group;
-> +	else
-> +		tile_group =3D &instance->tile_group;
-> +
-> =C2=A0	ctrl =3D v4l2_ctrl_find(&instance->ctx->ctrl_hdl, V4L2_CID_STATELE=
-SS_AV1_TILE_GROUP_ENTRY);
-> =C2=A0	if (!ctrl)
-> =C2=A0		return -EINVAL;
-> @@ -1601,6 +1612,7 @@ static void vdec_av1_slice_setup_lat_buffer(struct =
-vdec_av1_slice_instance *inst
-> =C2=A0					=C2=A0=C2=A0=C2=A0 struct vdec_lat_buf *lat_buf)
-> =C2=A0{
-> =C2=A0	struct vdec_av1_slice_work_buffer *work_buffer;
-> +	u32 num_tiles;
-> =C2=A0	int i;
-> =C2=A0
-> =C2=A0	vsi->bs.dma_addr =3D bs->dma_addr;
-> @@ -1635,12 +1647,18 @@ static void vdec_av1_slice_setup_lat_buffer(struc=
-t vdec_av1_slice_instance *inst
-> =C2=A0
-> =C2=A0	vsi->tile.buf =3D instance->tile.dma_addr;
-> =C2=A0	vsi->tile.size =3D instance->tile.size;
-> -	memcpy(lat_buf->tile_addr.va, instance->tile.va, 64 * instance->tile_gr=
-oup.num_tiles);
-
-Can you define the magic number 64 please.
-
-> =C2=A0
-> =C2=A0	vsi->cdf_table.buf =3D instance->cdf_table.dma_addr;
-> =C2=A0	vsi->cdf_table.size =3D instance->cdf_table.size;
-> =C2=A0	vsi->iq_table.buf =3D instance->iq_table.dma_addr;
-> =C2=A0	vsi->iq_table.size =3D instance->iq_table.size;
-> +
-> +	if (IS_VDEC_SUPPORT_EXT(instance->ctx->dev->dec_capability))
-> +		num_tiles =3D vsi->tile_group.num_tiles;
-> +	else
-> +		num_tiles =3D instance->tile_group.num_tiles;
-> +
-> +	memcpy(lat_buf->tile_addr.va, instance->tile.va, 64 * num_tiles);
-
-I bet its shared.
-
+> @@ -1035,6 +1039,37 @@ static int hantro_disable_multicore(struct hantro_=
+dev *vpu)
+> =C2=A0	return 0;
 > =C2=A0}
 > =C2=A0
-> =C2=A0static void vdec_av1_slice_setup_seg_buffer(struct vdec_av1_slice_i=
-nstance *instance,
-> @@ -1663,7 +1681,7 @@ static void vdec_av1_slice_setup_tile_buffer(struct=
- vdec_av1_slice_instance *ins
-> =C2=A0					=C2=A0=C2=A0=C2=A0=C2=A0 struct vdec_av1_slice_vsi *vsi,
-> =C2=A0					=C2=A0=C2=A0=C2=A0=C2=A0 struct mtk_vcodec_mem *bs)
-> =C2=A0{
-> -	struct vdec_av1_slice_tile_group *tile_group =3D &instance->tile_group;
-> +	struct vdec_av1_slice_tile_group *tile_group;
-> =C2=A0	struct vdec_av1_slice_uncompressed_header *uh =3D &vsi->frame.uh;
-> =C2=A0	struct vdec_av1_slice_tile *tile =3D &uh->tile;
-> =C2=A0	u32 tile_num, tile_row, tile_col;
-> @@ -1674,6 +1692,11 @@ static void vdec_av1_slice_setup_tile_buffer(struc=
-t vdec_av1_slice_instance *ins
-> =C2=A0	u32 *tile_info_buf =3D instance->tile.va;
-> =C2=A0	u64 pa =3D (u64)bs->dma_addr;
-> =C2=A0
-> +	if (IS_VDEC_SUPPORT_EXT(instance->ctx->dev->dec_capability))
-> +		tile_group =3D &vsi->tile_group;
-> +	else
-> +		tile_group =3D &instance->tile_group;
+> +static struct v4l2_m2m_dev *hantro_get_v4l2_m2m_dev(struct hantro_dev *v=
+pu)
+> +{
+> +	if (!vpu->variant || !vpu->variant->shared_resource)
+> +		return v4l2_m2m_init(&vpu_m2m_ops);
 > +
-
-Second time this is repeated, perhaps make a small helper ?
-
-> =C2=A0	if (uh->disable_cdf_update =3D=3D 0)
-> =C2=A0		allow_update_cdf =3D 1;
-> =C2=A0
-> @@ -1887,7 +1910,7 @@ static int vdec_av1_slice_init(struct mtk_vcodec_de=
-c_ctx *ctx)
-> =C2=A0{
-> =C2=A0	struct vdec_av1_slice_instance *instance;
-> =C2=A0	struct vdec_av1_slice_init_vsi *vsi;
-> -	int ret;
-> +	int ret, vsi_size =3D AV1_NON_EXT_VSI_SIZE;
-> =C2=A0
-> =C2=A0	instance =3D kzalloc(sizeof(*instance), GFP_KERNEL);
-> =C2=A0	if (!instance)
-> @@ -1926,9 +1949,18 @@ static int vdec_av1_slice_init(struct mtk_vcodec_d=
-ec_ctx *ctx)
-> =C2=A0		goto error_vsi;
-> =C2=A0	}
-> =C2=A0
-> -	if (vsi->vsi_size !=3D sizeof(struct vdec_av1_slice_vsi))
-> -		mtk_vdec_err(ctx, "remote vsi size 0x%x mismatch! expected: 0x%zx\n",
-> -			=C2=A0=C2=A0=C2=A0=C2=A0 vsi->vsi_size, sizeof(struct vdec_av1_slice_=
-vsi));
-> +	if (IS_VDEC_SUPPORT_EXT(ctx->dev->dec_capability)) {
-> +		vsi_size =3D sizeof(struct vdec_av1_slice_vsi);
-> +		vsi->iq_table_size =3D AV1_IQ_TABLE_SIZE;
-> +		vsi->cdf_table_size =3D AV1_CDF_SIZE;
+> +	scoped_guard(mutex, &shared_dev_lock) {
+> +		if (atomic_inc_return(&shared_dev_ref_cnt) =3D=3D 1) {
+> +			shared_m2m_dev =3D v4l2_m2m_init(&vpu_m2m_ops);
+> +			if (IS_ERR(shared_m2m_dev))
+> +				atomic_dec(&shared_dev_ref_cnt);
+> +		}
 > +	}
 > +
-> +	if (vsi->vsi_size !=3D vsi_size) {
-> +		mtk_vdec_err(ctx, "remote vsi size 0x%x mismatch! expected: 0x%x\n",
-> +			=C2=A0=C2=A0=C2=A0=C2=A0 vsi->vsi_size, vsi_size);
-> +		ret =3D -EINVAL;
-> +		goto error_vsi;
+> +	return shared_m2m_dev;
+> +}
+> +
+> +static void hantro_put_v4l2_m2m_dev(struct hantro_dev *vpu)
+> +{
+> +	if (!vpu->variant || !vpu->variant->shared_resource)
+> +		v4l2_m2m_release(vpu->m2m_dev);
+> +
+> +	scoped_guard(mutex, &shared_dev_lock) {
+> +		if (!atomic_dec_return(&shared_dev_ref_cnt)) {
+> +			if (!IS_ERR(shared_m2m_dev)) {
+> +				v4l2_m2m_release(shared_m2m_dev);
+> +				shared_m2m_dev =3D NULL;
+> +			}
+> +		}
 > +	}
-> =C2=A0
-> =C2=A0	instance->irq_enabled =3D 1;
-> =C2=A0	instance->inneracing_mode =3D IS_VDEC_INNER_RACING(instance->ctx->=
-dev->dec_capability);
+> +}
 
-cheers,
+Then instead of this, I would like to add a kref to v4l2_m2m_dec, I checked
+already and this is both safe and backward compatible.
+
+Then in the get function, you will walk over the compatible that are differ=
+ent
+from the currently probe node. If you find one that is initialized, you wil=
+l
+call v4l2_m2m_get() to obtained a shared reference. In _remove() you will s=
+imply
+do v4l2_m2m_put() instead of v4l2_m2m_release().
+
+Hope the others are happy with this. For Hantro drivers, this will make it =
+a
+much more powerfull mechanism.
+
 Nicolas
 
---=-kbs5W3umSJp+X2PmDwWI
+> +
+> =C2=A0static int hantro_probe(struct platform_device *pdev)
+> =C2=A0{
+> =C2=A0	const struct of_device_id *match;
+> @@ -1186,7 +1221,7 @@ static int hantro_probe(struct platform_device *pde=
+v)
+> =C2=A0	}
+> =C2=A0	platform_set_drvdata(pdev, vpu);
+> =C2=A0
+> -	vpu->m2m_dev =3D v4l2_m2m_init(&vpu_m2m_ops);
+> +	vpu->m2m_dev =3D hantro_get_v4l2_m2m_dev(vpu);
+> =C2=A0	if (IS_ERR(vpu->m2m_dev)) {
+> =C2=A0		v4l2_err(&vpu->v4l2_dev, "Failed to init mem2mem device\n");
+> =C2=A0		ret =3D PTR_ERR(vpu->m2m_dev);
+> @@ -1225,7 +1260,7 @@ static int hantro_probe(struct platform_device *pde=
+v)
+> =C2=A0	hantro_remove_enc_func(vpu);
+> =C2=A0err_m2m_rel:
+> =C2=A0	media_device_cleanup(&vpu->mdev);
+> -	v4l2_m2m_release(vpu->m2m_dev);
+> +	hantro_put_v4l2_m2m_dev(vpu)
+
+> =C2=A0err_v4l2_unreg:
+> =C2=A0	v4l2_device_unregister(&vpu->v4l2_dev);
+> =C2=A0err_clk_unprepare:
+> @@ -1248,7 +1283,7 @@ static void hantro_remove(struct platform_device *p=
+dev)
+> =C2=A0	hantro_remove_dec_func(vpu);
+> =C2=A0	hantro_remove_enc_func(vpu);
+> =C2=A0	media_device_cleanup(&vpu->mdev);
+> -	v4l2_m2m_release(vpu->m2m_dev);
+> +	hantro_put_v4l2_m2m_dev(vpu);
+> =C2=A0	v4l2_device_unregister(&vpu->v4l2_dev);
+> =C2=A0	clk_bulk_unprepare(vpu->variant->num_clocks, vpu->clocks);
+> =C2=A0	reset_control_assert(vpu->resets);
+> diff --git a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c b/drivers/=
+media/platform/verisilicon/imx8m_vpu_hw.c
+> index 5be0e2e76882..5111ce5c36f3 100644
+> --- a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
+> +++ b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
+> @@ -356,6 +356,7 @@ const struct hantro_variant imx8mq_vpu_g1_variant =3D=
+ {
+> =C2=A0	.num_irqs =3D ARRAY_SIZE(imx8mq_irqs),
+> =C2=A0	.clk_names =3D imx8mq_g1_clk_names,
+> =C2=A0	.num_clocks =3D ARRAY_SIZE(imx8mq_g1_clk_names),
+> +	.shared_resource =3D 1,
+> =C2=A0};
+> =C2=A0
+> =C2=A0const struct hantro_variant imx8mq_vpu_g2_variant =3D {
+> @@ -371,6 +372,7 @@ const struct hantro_variant imx8mq_vpu_g2_variant =3D=
+ {
+> =C2=A0	.num_irqs =3D ARRAY_SIZE(imx8mq_g2_irqs),
+> =C2=A0	.clk_names =3D imx8mq_g2_clk_names,
+> =C2=A0	.num_clocks =3D ARRAY_SIZE(imx8mq_g2_clk_names),
+> +	.shared_resource =3D 1,
+> =C2=A0};
+> =C2=A0
+> =C2=A0const struct hantro_variant imx8mm_vpu_g1_variant =3D {
+
+--=-Wt1eyF/4iRLYXSmGIIpE
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaSoFZwAKCRDZQZRRKWBy
-9G9nAP9f3jKncAeZP8CtA1yeryBxkTnMsufkhbsP3nZQSWkzYgEA9ITGOcIhkE8F
-oCr8bCZBMF6wfW7MvO4y3Z9TCEbNQwA=
-=OuhJ
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaSoUCAAKCRDZQZRRKWBy
+9H6pAP9Yhdngbwt8OH8RGhvCSHfsb/fie3vizZPWTzJzx3viGAEAsoVoim+8k68z
+i06SAHMjZlxmNSWFIYqN873wNoWfWAs=
+=xBWz
 -----END PGP SIGNATURE-----
 
---=-kbs5W3umSJp+X2PmDwWI--
+--=-Wt1eyF/4iRLYXSmGIIpE--
 
