@@ -1,234 +1,413 @@
-Return-Path: <linux-media+bounces-47846-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47847-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C8FAC90E9B
-	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 06:58:07 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED758C9150C
+	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 09:53:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BC93F3AC9C0
-	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 05:58:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8C6D43A98F6
+	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 08:53:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 015E52C2346;
-	Fri, 28 Nov 2025 05:58:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF6AC2FD668;
+	Fri, 28 Nov 2025 08:53:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="FxgTNdvo"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jgHiR29Q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013053.outbound.protection.outlook.com [40.107.159.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF230296BD1
-	for <linux-media@vger.kernel.org>; Fri, 28 Nov 2025 05:57:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764309482; cv=fail; b=OEUTLXHKsWIabjoM25jwntTgEuqHUJlRAZjuVQc9HMpUTIsWoiq3Yvo32M+uE6iyq8VLUy2YkCTxU2naY4qyNhF8peNcef8MmpNWgU4IAntCOpZVjfOVnnj0Yu3bP9LuXfB/LhobbCZZWCyLK7o5vpFSnkBK03MtvsFhEPxJVAs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764309482; c=relaxed/simple;
-	bh=u78Gd45Q9fHV8oi4bZIYWe9zugXxqoZkEkD3YhLWUPU=;
-	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=oASFrOFRQIfjjH6iwmRQnPlyeStw+KKmu3mgsUZDxLzOOXAAThNi49yAR1FAmeJaFd0xWR86RahTn/8UpCPW4FMtMm+Qw/zR6B5gYXWTzuqVRbe0/O8Z4JAkn6Q8S02J1xudtZQIanL2rMsvN3o602x3KYkB7d0bZwjJvlFJeSE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=FxgTNdvo; arc=fail smtp.client-ip=40.107.159.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=B+oY8/hiJ9YFD3lyAihDCHd+yJS4Z5MlM4cM0rx5+2QEhm1FZv06EZ9Ci1ivLUjxckKGPIzoXkLxR6qLeOuVmllIOUosM8q3v9OyvKf45Hph02rUrTTx7sy5V8dLC4BDq/NWDZV0M0zLcVFsahCSerSSK160I9WM5FyFDl1iRnb7wrOe8RqHv6SBQE1oOP6DID76KJDcTILRWo5Bk76OwI0CRuhCHU363raB/yVqbHJUcJpcGzjkrHL2fX8fHj//+xXZ71soZS9GK1w0S3F47rJL4je8mKLHKekzIh7uTuGnpWMieOfyEGZ/4EDM1w3ySSXs4fiIT/d7Ojp8uRqQ4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YZadliOtTfwVMtDM2D9WKpfGblbtEolTCRn0dFekO3Y=;
- b=DuoLOrV3pg7T0ZXU/gGLll/eraFkr8gZXf+TR5MFPL44SHhXA4UwsSbT0yYADlBb0uM9/To0BOMDMZrmLRCX1hvUKOJiVseVNMOpKdIfQQuTFFk27HLsNR4giIFw2DA+BrhvQVF8JlmYp4NCPuvN7o0mbj800UVKE3NWJvTsECxplV9jSLK7n5gsDSIUqIb969kdlVSe7ghb97jPgRaJDXp1kvzZF7BKkTKm1tWsoFP/bur29Q2iCwr+Kd3JvZXOxQRAtl/aIsFD9cmZ4sFUE0w1Zf89N+YcdSVv9hUzle99PziMgAy4z76n7pqOi6Xb/N+R56gQZ0hqEwaC+P8XpA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YZadliOtTfwVMtDM2D9WKpfGblbtEolTCRn0dFekO3Y=;
- b=FxgTNdvobRbcvE6T3sr9Dqqp9fqCGCJoJYrJ9+pWVkByPbznrVLzYtNba1OSbSE1WBbB7vfLdCX5J43BPo/VIPdUMRKt+wUkJ3f01hprm7V+lR4MOOEYCCFfzasvtOmmWwO1o9BZG6Oh9Nmb1bYin8HW7EnDqp6MSzm+4yjphD5ezT5jXepnFa4qRApYCypqh/YyU6A1dH+B02ipGSYDzmpnXZ9TQhog/v1WNSZdbYWEltdQMj5Zux8feg6/lcfZVXFiCy+iey566UCK9JfAMgYDhwsz7h6381mVmaXwDpnCdmKWE7qeagxjbO/QgRWZ2OV0dbED4+rrdTwtG9FEpQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB8254.eurprd04.prod.outlook.com (2603:10a6:102:1cd::24)
- by AM9PR04MB7538.eurprd04.prod.outlook.com (2603:10a6:20b:2d8::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.13; Fri, 28 Nov
- 2025 05:57:54 +0000
-Received: from PAXPR04MB8254.eurprd04.prod.outlook.com
- ([fe80::2755:55ac:5d6f:4f87]) by PAXPR04MB8254.eurprd04.prod.outlook.com
- ([fe80::2755:55ac:5d6f:4f87%4]) with mapi id 15.20.9366.012; Fri, 28 Nov 2025
- 05:57:54 +0000
-Message-ID: <a5bf0f9b-e9db-478a-986c-736121e43724@oss.nxp.com>
-Date: Fri, 28 Nov 2025 13:57:48 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v2,1/2] pmdomain: imx8m-blk-ctrl: Remove separate rst and clk
- mask for 8mq vpu
-To: linux-media@vger.kernel.org
-References: <20251128025117.535-1-ming.qian@oss.nxp.com>
- <69292671.920a0220.251399.2344@mx.google.com>
-From: "Ming Qian(OSS)" <ming.qian@oss.nxp.com>
-In-Reply-To: <69292671.920a0220.251399.2344@mx.google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SI1PR02CA0041.apcprd02.prod.outlook.com
- (2603:1096:4:1f6::18) To PAXPR04MB8254.eurprd04.prod.outlook.com
- (2603:10a6:102:1cd::24)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 939E42DF151
+	for <linux-media@vger.kernel.org>; Fri, 28 Nov 2025 08:53:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764319993; cv=none; b=uYUW+ytfWbrN+Tf9q8q2hXR3i8Ep4EaCF+SJxNlUEK/KUnwEhrufnZ6E6VNKShl8Ba7h+oLt0KI3AlGnza9UMmUIMu7mwfEcrRBjTSUyYfDiaYSoZGPsUkzcBc9s16VxiON5muqXE6AeKkyyKuTyUOsZPPyOO6uYQJX6Gg/+cC0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764319993; c=relaxed/simple;
+	bh=yf/N3q8A0ZS1jptQxIjufR78F3K9pXD3/Vrasv6ztBM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Hnq/Lem2Z0ShdJNFIZSxg6IrgQamDBE+9RSb1x5EaOZjPwW3Qe4a5T4l4it+V1EXlHQvpW+4QJJf+vgvlAqGB44YONbTsBF+aQ/+5E0dFg1EMkkUXioZ+KUe/3gEMFZmdlFCs0B6wYonbMELIhMcjVjxj5Oi0gKfxpl5LE6q0Ow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jgHiR29Q; arc=none smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-341988c720aso1385508a91.3
+        for <linux-media@vger.kernel.org>; Fri, 28 Nov 2025 00:53:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764319991; x=1764924791; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eL0U7zmB1gT10wwBCtl159d+vX25hEIj58mzemed9/Q=;
+        b=jgHiR29QK9nT9M/EDrTB7aUDjWj4eZS2JmgFsNfIWQrOACj08N5Ww/DfeSIIf+UlfW
+         +kTK2xdW/Yk17CVyTwluDIA4EzCgho1L7A0qneyv+PkXfR5TSNm2KZ5Hhxa9CbzGSHa1
+         JxLwMdeXE3qmZlTxpA2bL58JRm9nyfKosI4tWJm5JICWjD8DujHX56CSug9qKAbzfWTl
+         4YuBPNbtLn//GONsFZVjAGqEpIm2KtSVaMHoX2xybykSJqnmvbc+06v25Kyg82bhAUAi
+         5MOUCcZYl95m8zaoodHgS+pymyhdGACPU43ZEPoqM64VIp2k3r92I6YicZpIw2b1Yh5w
+         Ftiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764319991; x=1764924791;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eL0U7zmB1gT10wwBCtl159d+vX25hEIj58mzemed9/Q=;
+        b=e26lqGOGUZNGSk1785eVXQKV0DAbCYmpaMWp9hgc7B/rxJVY+JT1JeZpAGYuDMBE9a
+         6qtrs3UjkKcnyPWU4+hZ4GmgQMxlhvnTRiyhPjT3HSXi6tZ8PH4YOvIUhpPuSKSnamN3
+         Mw/vGrr1/g1TiqEoDf5fuks7q3Edt0DioTf4PgwbZXrKBaE+XArcFfeXJoXNy5ZevUnj
+         ZN/RidfBsFNLh360lOSVIPWW9ISoig4pgImx0I8R3JxEeO/V2PAO7q9CnxgrK8Agb1ni
+         LzkLHOVfi7Ft//Q0Fae9AsMghwZJ6Anv+iNIHSv2hp0qniY1pBde3ZnQL2qAK7axJHSK
+         /JIA==
+X-Gm-Message-State: AOJu0Yyuyxieth1TpKnmLBsDUv7wDjW6PnMvm5M/7+nnC6gBp5mpxvgr
+	A0uzytcJSeGOgpqNwDVYCzW4dzlD7tabxKZhNHXzG+AyPDr6J4pEWTwK
+X-Gm-Gg: ASbGnctpUQPvwjPNsRQxSIoxqvFoguOS8W1XTJWNeQuf2O23d9YVPepoJ7p/TNjXoi4
+	AH4ag1dY7Ds8ckiBYB6g2Fu3Q7gSQb6AUaHwcC3iE1Cn9hWbR7efe9UBkby7rYSHEtf1hnYkzuH
+	0sSJKlOjRIasvXXL5wpmlMdlC8s9HrHgaEDr3e8RrRgPXrpyAjrBMT+eIje1RLHIoF3sDkKjZzt
+	dVX3Rr0KKVGTfSCkWjYOTRiZHTleDQPU+DhpE4f0Y/klJMPkDKoqHYLvu78tp2KwdpDFWnVEit7
+	knhaqfWnhJN5/3DEB88VhitJ8ustPnP46EzB9mBqoHvq/EnGoMN+LVBaxAp/WvYj6F6l7/zl1TV
+	3e8xXTg98qnKUnf+JAA6rBrv3CWuhBrZQ0wufMMd72Ls6c1xo3TyYbChrpS5Uq8TRITjDMYmbqz
+	CtWTg/4ESGvrPmOe1ys9f3
+X-Google-Smtp-Source: AGHT+IGhvbpVFcjEpLATAzAUhW5W40T3P1QD6+AfVb9g4d1Wfoo3l+g8ulGKiN+/KZRkWEKYmuoAzw==
+X-Received: by 2002:a17:90a:d00c:b0:340:e529:5572 with SMTP id 98e67ed59e1d1-34733e6cac7mr23773546a91.8.1764319990845;
+        Fri, 28 Nov 2025 00:53:10 -0800 (PST)
+Received: from xiao.mioffice.cn ([43.224.245.230])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3477b74b8f1sm4081125a91.14.2025.11.28.00.53.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Nov 2025 00:53:10 -0800 (PST)
+From: Xiang Gao <gxxa03070307@gmail.com>
+To: sumit.semwal@linaro.org,
+	christian.koenig@amd.com,
+	rostedt@goodmis.org,
+	mhiramat@kernel.org
+Cc: linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	mathieu.desnoyers@efficios.com,
+	dhowells@redhat.com,
+	kuba@kernel.org,
+	brauner@kernel.org,
+	akpm@linux-foundation.org,
+	linux-trace-kernel@vger.kernel.org,
+	gaoxiang17 <gaoxiang17@xiaomi.com>
+Subject: [PATCH v4] dma-buf: add some tracepoints to debug.
+Date: Fri, 28 Nov 2025 16:52:15 +0800
+Message-Id: <20251128085215.550100-1-gxxa03070307@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8254:EE_|AM9PR04MB7538:EE_
-X-MS-Office365-Filtering-Correlation-Id: 23bcff35-11ce-44e8-27e7-08de2e431217
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|19092799006;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?bTlmVmVPTmp1dnJrUFdRNHdQdG8ya0VSRDFlOG55VUpmeklvZVh1Qkluellu?=
- =?utf-8?B?blVDcy9HallseEpSSm1jTjVRYkxPOS9CQmRES25sTUlEQ3EvbkVxUWRZZXMy?=
- =?utf-8?B?L29ienJNNXZXOWhZNG1ia2NKdm84ZHg2NzU3SFI0RzlvVk1aVW9LL2JHcGFw?=
- =?utf-8?B?RWlnNzh0dDcyUXRDSm1DYkk2amVwZ2huNTFxRGZLdGdSRnFZMldYckxIRmpV?=
- =?utf-8?B?UXRQRkNOeEtOZTIzS1lSUGZxMkZSRTdicEVFSkNHajZteldJMW52ZTBzNnRi?=
- =?utf-8?B?dTZGVUgwZGZ2NUtGMjZDVWFrZGJGWG9ESUdjQ05XUkQxaVJ2cjdMaHhGTGNP?=
- =?utf-8?B?OEU4NGMwMG1hUzhqZmR0eE4raGU1VTk2enh5K25IS21FNjlrM3MwcXczVVF0?=
- =?utf-8?B?SmpTNjJYbkpTRTc1OGpQN2g2bnQrZnlUZktHSnNQdGQ1TnBlTW5seUp6bU94?=
- =?utf-8?B?VGRHNjUyd1pTTFA3a1ZJU25Vc2l0OEoyRHhtV0RQWG1CZlorSDBIdXYxVzk2?=
- =?utf-8?B?ZDYyZmhvbjllNFJFZ3JUQW5uVGVsV0FVRlpKazV0MFNQSzE1M3ZkdWNKWU5q?=
- =?utf-8?B?aUk1YkpYQlRCbk9qcTlSNFl5S1hvOWZYMzFOQTBQelRKNzg4WVhQTHd2RTNS?=
- =?utf-8?B?OUlLTnZCaERPVWtiVy8vcjRFZ3BxalJoV3AvSzQ2U05rQ09XODljemd0VkJn?=
- =?utf-8?B?V0xiK05kcEJ3cTRseVZrbStCRFRVT3VKS1c4SWRzT0pzOS9CYkdwL2ozR1ZN?=
- =?utf-8?B?Q2FGaFgxVUhScjNYUmhOVW4wcjJIR283UWxwcjNkUk5MNjVEWkxMVHdoeXBo?=
- =?utf-8?B?ZXpOSEtncjNjbEwwNng0amt3L2hRNTNTbFdZbXNWZEFDQ0oyWVlEU2hzTDN5?=
- =?utf-8?B?SnpkajJVOW5UekFvV0xiTnZMbjJVais3Tm9hN2d2cVdYc2x6SHJvVjRDY3p0?=
- =?utf-8?B?ZGxUYmZkTjFIVVNGSTJVWHZxQnRwL1BpcTc3bTFHczl5T0d5ZmtOTklHdUhO?=
- =?utf-8?B?dmZzR0RLZjFnYUNkdnJHZDIzWUZTRDY2YkxLVU1qQVExSjc0c0tsRndzZngv?=
- =?utf-8?B?eDlMYU52Z2pVK2gxbEplSGlJcDIzU09aeVdDZ3llMmdlMjI0WVpIL09KcTEw?=
- =?utf-8?B?YWtmcjZJYWNwdkZSbzZOM1pGSVFVRmh3ekhxTDBDaGN6SFF4VHN6eUlmMjVL?=
- =?utf-8?B?ejJHL3QzWjN6RDdhdHBldDR6UGpyMVlWRXJJaEkwekJGbysvMjRtMStCdm5N?=
- =?utf-8?B?KzJMRk9qajNxNVJaT2oxRDVjcUgyQUgzOFVRRnZZN3NJUmlNVmpOVVdWNHhl?=
- =?utf-8?B?allENlh3OUc3SXJPOEVjU2lxYmJuK0ZtU0NtQi9Id0ZPS2lEYUZFQ0Y0ZDRC?=
- =?utf-8?B?VGR0TDZnaW1jVUdHZHR3MEJSZFBVSS9CdVVMby9aNmlxSXBWRFBCRmsrbFlP?=
- =?utf-8?B?bGI0emtrOUdvVzZMNGFHZ1pvY2lYTGMxbzZlb0FHRExCTmxoWmppc0pIYVFW?=
- =?utf-8?B?MitzMzBsWllhaTE4TERRWjZCVlBkZndlcXhzclJzVDlYVkY1NnhOS1NxelBz?=
- =?utf-8?B?TVp5a214UDVnZHRQTUJBb2ZzMkxOelFUd0NmZ1V5a0NWMkswTnVsYTJWOWlU?=
- =?utf-8?B?U1FuR0d0ZWx1b2w1MnBNamZDVWV3T1hTWUZOVHdrZ3puTm5NREhOYzNnZ1V5?=
- =?utf-8?B?UmZtWTM2U1VoQUlRSkdabzFyUkdRQVBaQU8wRjZRMk4xNzZYTkhqS28zZ05t?=
- =?utf-8?B?bURRUDUyMlNYdEo1Um95M3pOSW9BU21McWtKcDkxQ0h4Y3B3d3FxMzhnNE9i?=
- =?utf-8?B?dFEraHUvUzNTZ2dXaHlrRTE1VWlIbitmanBJdWdpUHk2cHJNcWQwcUZMdkdn?=
- =?utf-8?B?YkwrdnNmY2M0WkJwbGxOdXlzWnlKZm5DVkxrRkd3T0RDeGc9PQ==?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8254.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(19092799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Qm11Q2Jhak93Q1l6YlFUVmMxZTdzNUR6NkVqbCszWHhVL1ZzOFhkRUczUDhX?=
- =?utf-8?B?K1QxcGc5ZmppWG14alhlczJhaTZpckJHS05QS0kvdFk4MXN2MktDaHJ2c1Bh?=
- =?utf-8?B?VnBDeWZlc2dtd01nM0Y5YTV1MXlWNTJKSmZJdm4zblpMbEM5Tk9WbVJaVVZz?=
- =?utf-8?B?Q1hlSXdURzVDQUFLL1E0eGlmUEROQkp4cDdISkRNbmFQQzNWQytjNW1iTTdj?=
- =?utf-8?B?UFdaditEaFlocG95RzJrYXh0eEhVVERiTlJRQVdLU2xEUDZyU3Q0WHNjeENk?=
- =?utf-8?B?UHQxNXM1U252UGllUmNHZHlNNUI1SnFleWJJZDVsc3NEQ2N5NXRZQzFqU210?=
- =?utf-8?B?QnltUURrRm9RbFdUangwWnBQUitFNkp4bXdzZzZQdGhSSUJFaUIxcTZnaVZj?=
- =?utf-8?B?S1piVHRsbDVSSHVYUGJ2Q1FJaXJJa3Y1b3BCbGsrNU5jaEtZM0Y3RU83TTRR?=
- =?utf-8?B?OUpPMSsyS0Zkbnl3WXdhN2p3WWNkeHZscTZnRDc2TXpYR0VTVW14Z241aGh5?=
- =?utf-8?B?dW5OK1hFRFVGaWxBOVZvWmM4S05CQVZ2MXBIWmFGRnMrdkhkeUJwWEJqcXo2?=
- =?utf-8?B?Y0ZMUTl1NnBVNWovbURaQzN2Y0MyU21vMnZuVmlTbGh6cTdmTkNZNjFoY2VC?=
- =?utf-8?B?R3BjOHBYbWdlbGNTWWQ3cEsyblNqWXNtS0VOa1RXUC81RUVFdlRleUZuMXhl?=
- =?utf-8?B?ZHhmdEkxdW9JaFY3OVYwYUNaUXhZNmRPWmZXb0x5dzlXL0crZ01lOUQ2cm13?=
- =?utf-8?B?Sm5VS0g2cHFTakVyRWhhOGExRktiQytoT3Q3RHpyTEF0cldid2NSUitwRzhw?=
- =?utf-8?B?cEZWN0RrQ2tra1ZWbUdDa25yMElEV2pqNklvNFNvaTIyWTBtZWloOGoxRTN2?=
- =?utf-8?B?R2tvSnZNVzcwS244NDVPQk5aRncvbmtEU2pGcVhVRXVBRUJ1WEN0amFNMFhL?=
- =?utf-8?B?cWdZdnp3VEhtTVI4N2lhUlBPSEZUQnlBR244RGJuckRuYTVGQnlzNmFUUXlQ?=
- =?utf-8?B?N1JzRWloMHhWNUdBVnZqNFZnZFJEZjB1WlV2OVBsUDdFb1E0MDdORlhHZm5U?=
- =?utf-8?B?S2pvL0tXQUNiZjllZUJQL2NtbXo2OFZMbjhlSlM0ejZoYnFaUTN2L01LMkdU?=
- =?utf-8?B?UU4zTDV6ZjdzczduRnJIUW80azBYYVhXNk1KRmxsTkVrcEZZNUliZG96N3Rl?=
- =?utf-8?B?aGN3YVFOQkxCV0Z2aG9nbUZYS0ZaUE82VzUwWU5KNlg2bEVkMkhvNllSeUpD?=
- =?utf-8?B?aWhOVlZZVmVyVU9EMVpDRFpKRDkrUTlHVnZzVTdXVVZWMmhPTWhkaXliVjdm?=
- =?utf-8?B?d3dqNUFhaEdOWjZ2UjdCYXF1ZCtndDJ4VUNjc043OUpycnA3REhiTXg3WFR4?=
- =?utf-8?B?eGZYMmFLUU9HbzJ4VjN4clE1akQ3RHRqdHYwMVdSUWJ1MktoQmk1R3piMEtJ?=
- =?utf-8?B?NE1Mb2VDeElhaS96UDBUNXVTaGlDSWU5SGx4TTJoS09FSzBWaVd5bVB2WGVV?=
- =?utf-8?B?K0RhRVNFSXJBejhxWFpoYi96SmQzQ2FIcXloU0I3RFdSL1FQeTZtdlh0cC8y?=
- =?utf-8?B?YW1ZREd5N0lVMG82SklGQTMyanllZ2xISHFnalJIMXYvNEtPSEFtS0tyb1d6?=
- =?utf-8?B?WjdCYTYwZ295b1ByUGZlL3NhWGxmelNGdXZKYU1YQnIzVFZXOVUvbHdMQ2lB?=
- =?utf-8?B?ZmdvTytjaThRNnpXMXRrMlpCWXFxVkluWjFhOEkrZjNIOVNTNHloWWsrQ3JY?=
- =?utf-8?B?RmhRMkFXdlcwNU9DelNoek9UNmREa0l0aW82MkRQVGxSVnhNd2lnSUVObG9w?=
- =?utf-8?B?OWNkM1FvVDdVUFJsZTZ2Wit4MHBDSytyeVJCVVgvdVBaTTIrY1RMeWdxemFS?=
- =?utf-8?B?UUIzSTlBOHZKODA0Zi9pcU9RYmhMeVZjSGpCOWl5ZU4vdmVjRDA1dEVIOU9N?=
- =?utf-8?B?UXd4WU9XbnFTak1NcFpzNXBneHBtSHVjMlMwOE03TUV2K21hTE44eC9JeDEv?=
- =?utf-8?B?Vzcvc3oxTm9tOUZVWjJ3dkpUTzQ0b1pWTmUzd3JXTUwzQ0prR3VqV0VJd2VC?=
- =?utf-8?B?L0w0VmQvL2dseVo4SHNlRXpWY0ZjUGg4VWZCK3NvZHp6S3lic2l3OW1CVXpE?=
- =?utf-8?Q?6OFBfisPHBNiXncCnoLVhUoBD?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 23bcff35-11ce-44e8-27e7-08de2e431217
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8254.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Nov 2025 05:57:54.5870
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XPGcrYZDOf61RxohR+BnFyr8PG02iu15bCVPK8IIv7BJcGxioaUiJuUZxOvrc0JCkTc6hFvmi7Ysw/1dJP/3zQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB7538
+Content-Transfer-Encoding: 8bit
 
-Is this warning due to a file path change?
-The file patch is changed in the following commit:
+From: gaoxiang17 <gaoxiang17@xiaomi.com>
 
-e2ad626f8f40 ("pmdomain: Rename the genpd subsystem to pmdomain")
+I want to track the status of dmabuf in real time in the production environment.
+But now we can only check it by traversing the fd in the process or dmabuf_list.
 
-I have confirmed that the commit id '608d7c325e85' exists.
+For example:
+   binder:3031_4-18348   [005] ...1.   545.568275: dma_buf_export: exp_name=qcom,system name=(null) size=217088 ino=2750
+   binder:3031_4-18348   [005] ...1.   545.568284: dma_buf_fd: exp_name=qcom,system name=(null) size=217088 ino=2750 fd=8
+   binder:3031_4-18348   [005] ...1.   545.568399: dma_buf_mmap_internal: exp_name=qcom,system name=qcom,system size=28672 ino=2751
+     kworker/5:1-130     [005] ...1.   545.570193: dma_buf_put: exp_name=qcom,system name=ab size=28672 ino=2751
+    RenderThread-18891   [005] ...1.   545.602994: dma_buf_get: exp_name=qcom,system name=ab size=217088 ino=2750 fd=1087
+    RenderThread-9409    [000] .n.1.   545.745004: dma_buf_dynamic_attach: exp_name=qcom,system name=ab size=217088 ino=2750 is_dynamic=0 dev_name=kgsl-3d0
+    RenderThread-9409    [005] ...1.   545.747802: dma_buf_detach: exp_name=qcom,system name=bq size=12771328 ino=2764 is_dynamic=0 dev_name=kgsl-3d0
 
-commit 608d7c325e855cb4a853afef3cd9f0df594bd12d
-Author: Lucas Stach <l.stach@pengutronix.de>
-Date:   Tue Jan 25 11:11:21 2022 -0600
+Signed-off-by: Xiang Gao <gaoxiang17@xiaomi.com>
+---
+ drivers/dma-buf/dma-buf.c      |  48 +++++++++-
+ include/trace/events/dma_buf.h | 160 +++++++++++++++++++++++++++++++++
+ 2 files changed, 207 insertions(+), 1 deletion(-)
+ create mode 100644 include/trace/events/dma_buf.h
 
-     soc: imx: imx8m-blk-ctrl: add i.MX8MQ VPU blk-ctrl
-
-     This adds the necessary bits to drive the VPU blk-ctrl on the 
-i.MX8MQ, to
-     avoid putting more of this functionality into the decoder driver.
-
-     Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-     Signed-off-by: Adam Ford <aford173@gmail.com>
-     Signed-off-by: Shawn Guo <shawnguo@kernel.org>
-
-  drivers/soc/imx/imx8m-blk-ctrl.c | 66 
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  1 file changed, 66 insertions(+)
-
-On 11/28/2025 12:34 PM, Patchwork Integration wrote:
-> Dear Ming Qian(OSS):
-> 
-> Thanks for your patches! Unfortunately the Media CI robot detected some
-> issues:
-> 
-> # Test checkpatch:./0001-pmdomain-imx8m-blk-ctrl-Remove-separate-rst-and-clk-.patch checkpatch
-> WARNING: Unknown commit id '608d7c325e85', maybe rebased or not pulled?
-> #13:
-> Fixes: 608d7c325e85 ("soc: imx: imx8m-blk-ctrl: add i.MX8MQ VPU blk-ctrl")
-> 
-> total: 0 errors, 1 warnings, 0 checks, 16 lines checked
-> 
-> 
-> 
-> Please fix your series, and upload a new version. If you have a patchwork
-> account, do not forget to mark the current series as Superseded.
-> 
-> For more details, check the full report at:
-> https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/88804646/artifacts/report.htm .
-> 
-> 
-> 
-> Best regards, and Happy Hacking!
-> Media CI robot on behalf of the linux-media community.
-> 
-> ---
-> Check the latest rules for contributing your patches at:
-> https://docs.kernel.org/driver-api/media/maintainer-entry-profile.html
-> 
-> If you believe that the CI is wrong, kindly open an issue at
-> https://gitlab.freedesktop.org/linux-media/media-ci/-/issues or reply-all
-> to this message.
-> 
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 2bcf9ceca997..6e04e12f149e 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -35,6 +35,9 @@
+ 
+ #include "dma-buf-sysfs-stats.h"
+ 
++#define CREATE_TRACE_POINTS
++#include <trace/events/dma_buf.h>
++
+ static inline int is_dma_buf_file(struct file *);
+ 
+ static DEFINE_MUTEX(dmabuf_list_mutex);
+@@ -220,6 +223,11 @@ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
+ 	    dmabuf->size >> PAGE_SHIFT)
+ 		return -EINVAL;
+ 
++	if (trace_dma_buf_mmap_internal_enabled()) {
++		guard(spinlock)(&dmabuf->name_lock);
++		trace_dma_buf_mmap_internal(dmabuf);
++	}
++
+ 	return dmabuf->ops->mmap(dmabuf, vma);
+ }
+ 
+@@ -745,6 +753,11 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+ 
+ 	__dma_buf_list_add(dmabuf);
+ 
++	if (trace_dma_buf_export_enabled()) {
++		guard(spinlock)(&dmabuf->name_lock);
++		trace_dma_buf_export(dmabuf);
++	}
++
+ 	return dmabuf;
+ 
+ err_dmabuf:
+@@ -779,6 +792,11 @@ int dma_buf_fd(struct dma_buf *dmabuf, int flags)
+ 
+ 	fd_install(fd, dmabuf->file);
+ 
++	if (trace_dma_buf_fd_enabled()) {
++		guard(spinlock)(&dmabuf->name_lock);
++		trace_dma_buf_fd(dmabuf, fd);
++	}
++
+ 	return fd;
+ }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_fd, "DMA_BUF");
+@@ -794,6 +812,7 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_fd, "DMA_BUF");
+ struct dma_buf *dma_buf_get(int fd)
+ {
+ 	struct file *file;
++	struct dma_buf *dmabuf;
+ 
+ 	file = fget(fd);
+ 
+@@ -805,7 +824,14 @@ struct dma_buf *dma_buf_get(int fd)
+ 		return ERR_PTR(-EINVAL);
+ 	}
+ 
+-	return file->private_data;
++	dmabuf = file->private_data;
++
++	if (trace_dma_buf_get_enabled()) {
++		guard(spinlock)(&dmabuf->name_lock);
++		trace_dma_buf_get(dmabuf, fd);
++	}
++
++	return dmabuf;
+ }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_get, "DMA_BUF");
+ 
+@@ -825,6 +851,11 @@ void dma_buf_put(struct dma_buf *dmabuf)
+ 		return;
+ 
+ 	fput(dmabuf->file);
++
++	if (trace_dma_buf_put_enabled()) {
++		guard(spinlock)(&dmabuf->name_lock);
++		trace_dma_buf_put(dmabuf);
++	}
+ }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_put, "DMA_BUF");
+ 
+@@ -979,6 +1010,11 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
+ 	list_add(&attach->node, &dmabuf->attachments);
+ 	dma_resv_unlock(dmabuf->resv);
+ 
++	if (trace_dma_buf_dynamic_attach_enabled()) {
++		guard(spinlock)(&dmabuf->name_lock);
++		trace_dma_buf_dynamic_attach(dmabuf, dma_buf_attachment_is_dynamic(attach), dev);
++	}
++
+ 	return attach;
+ 
+ err_attach:
+@@ -1023,6 +1059,11 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
+ 	if (dmabuf->ops->detach)
+ 		dmabuf->ops->detach(dmabuf, attach);
+ 
++	if (trace_dma_buf_detach_enabled()) {
++		guard(spinlock)(&dmabuf->name_lock);
++		trace_dma_buf_detach(dmabuf, dma_buf_attachment_is_dynamic(attach), attach->dev);
++	}
++
+ 	kfree(attach);
+ }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_detach, "DMA_BUF");
+@@ -1488,6 +1529,11 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
+ 	vma_set_file(vma, dmabuf->file);
+ 	vma->vm_pgoff = pgoff;
+ 
++	if (trace_dma_buf_mmap_enabled()) {
++		guard(spinlock)(&dmabuf->name_lock);
++		trace_dma_buf_mmap(dmabuf);
++	}
++
+ 	return dmabuf->ops->mmap(dmabuf, vma);
+ }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_mmap, "DMA_BUF");
+diff --git a/include/trace/events/dma_buf.h b/include/trace/events/dma_buf.h
+new file mode 100644
+index 000000000000..f4b6ba5241fa
+--- /dev/null
++++ b/include/trace/events/dma_buf.h
+@@ -0,0 +1,160 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#undef TRACE_SYSTEM
++#define TRACE_SYSTEM dma_buf
++
++#if !defined(_TRACE_DMA_BUF_H) || defined(TRACE_HEADER_MULTI_READ)
++#define _TRACE_DMA_BUF_H
++
++#include <linux/dma-buf.h>
++#include <linux/tracepoint.h>
++
++DECLARE_EVENT_CLASS(dma_buf,
++
++	TP_PROTO(struct dma_buf *dmabuf),
++
++	TP_ARGS(dmabuf),
++
++	TP_STRUCT__entry(
++		__string(exp_name, dmabuf->exp_name)
++		__string(name, dmabuf->name)
++		__field(size_t, size)
++		__field(ino_t, ino)
++	),
++
++	TP_fast_assign(
++		__assign_str(exp_name);
++		__assign_str(name);
++		__entry->size = dmabuf->size;
++		__entry->ino = dmabuf->file->f_inode->i_ino;
++	),
++
++	TP_printk("exp_name=%s name=%s size=%zu ino=%lu",
++		  __get_str(exp_name),
++		  __get_str(name),
++		  __entry->size,
++		  __entry->ino)
++);
++
++DECLARE_EVENT_CLASS(dma_buf_attach_dev,
++
++	TP_PROTO(struct dma_buf *dmabuf, bool is_dynamic, struct device *dev),
++
++	TP_ARGS(dmabuf, is_dynamic, dev),
++
++	TP_STRUCT__entry(
++		__string(dev_name, dev_name(dev))
++		__string(exp_name, dmabuf->exp_name)
++		__string(name, dmabuf->name)
++		__field(size_t, size)
++		__field(ino_t, ino)
++		__field(bool, is_dynamic)
++	),
++
++	TP_fast_assign(
++		__assign_str(dev_name);
++		__assign_str(exp_name);
++		__assign_str(name);
++		__entry->size = dmabuf->size;
++		__entry->ino = dmabuf->file->f_inode->i_ino;
++		__entry->is_dynamic = is_dynamic;
++	),
++
++	TP_printk("exp_name=%s name=%s size=%zu ino=%lu is_dynamic=%d dev_name=%s",
++		  __get_str(exp_name),
++		  __get_str(name),
++		  __entry->size,
++		  __entry->ino,
++		  __entry->is_dynamic,
++		  __get_str(dev_name))
++);
++
++DECLARE_EVENT_CLASS(dma_buf_fd,
++
++	TP_PROTO(struct dma_buf *dmabuf, int fd),
++
++	TP_ARGS(dmabuf, fd),
++
++	TP_STRUCT__entry(
++		__string(exp_name, dmabuf->exp_name)
++		__string(name, dmabuf->name)
++		__field(size_t, size)
++		__field(ino_t, ino)
++		__field(int, fd)
++	),
++
++	TP_fast_assign(
++		__assign_str(exp_name);
++		__assign_str(name);
++		__entry->size = dmabuf->size;
++		__entry->ino = dmabuf->file->f_inode->i_ino;
++		__entry->fd = fd;
++	),
++
++	TP_printk("exp_name=%s name=%s size=%zu ino=%lu fd=%d",
++		  __get_str(exp_name),
++		  __get_str(name),
++		  __entry->size,
++		  __entry->ino,
++		  __entry->fd)
++);
++
++DEFINE_EVENT(dma_buf, dma_buf_export,
++
++	TP_PROTO(struct dma_buf *dmabuf),
++
++	TP_ARGS(dmabuf)
++);
++
++DEFINE_EVENT(dma_buf, dma_buf_mmap_internal,
++
++	TP_PROTO(struct dma_buf *dmabuf),
++
++	TP_ARGS(dmabuf)
++);
++
++DEFINE_EVENT(dma_buf, dma_buf_mmap,
++
++	TP_PROTO(struct dma_buf *dmabuf),
++
++	TP_ARGS(dmabuf)
++);
++
++DEFINE_EVENT(dma_buf, dma_buf_put,
++
++	TP_PROTO(struct dma_buf *dmabuf),
++
++	TP_ARGS(dmabuf)
++);
++
++DEFINE_EVENT(dma_buf_attach_dev, dma_buf_dynamic_attach,
++
++	TP_PROTO(struct dma_buf *dmabuf, bool is_dynamic, struct device *dev),
++
++	TP_ARGS(dmabuf, is_dynamic, dev)
++);
++
++DEFINE_EVENT(dma_buf_attach_dev, dma_buf_detach,
++
++	TP_PROTO(struct dma_buf *dmabuf, bool is_dynamic, struct device *dev),
++
++	TP_ARGS(dmabuf, is_dynamic, dev)
++);
++
++DEFINE_EVENT(dma_buf_fd, dma_buf_fd,
++
++	TP_PROTO(struct dma_buf *dmabuf, int fd),
++
++	TP_ARGS(dmabuf, fd)
++);
++
++DEFINE_EVENT(dma_buf_fd, dma_buf_get,
++
++	TP_PROTO(struct dma_buf *dmabuf, int fd),
++
++	TP_ARGS(dmabuf, fd)
++);
++
++#endif /* _TRACE_DMA_BUF_H */
++
++/* This part must be outside protection */
++#include <trace/define_trace.h>
+-- 
+2.34.1
 
 
