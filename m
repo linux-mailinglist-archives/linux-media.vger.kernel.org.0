@@ -1,57 +1,56 @@
-Return-Path: <linux-media+bounces-47869-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47870-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61BBCC92FED
-	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 20:17:06 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4CB7C92FF3
+	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 20:17:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 8C84534D2EE
-	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 19:17:05 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 4007534D308
+	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 19:17:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B2BA32F74A;
-	Fri, 28 Nov 2025 19:16:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95A22334371;
+	Fri, 28 Nov 2025 19:16:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="B0mXFOiO"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Ptnia/WQ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3DA5244671;
-	Fri, 28 Nov 2025 19:16:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E50A224A058;
+	Fri, 28 Nov 2025 19:16:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764357416; cv=none; b=aFcFBW7VMkYofCbRhR4IVljqrHCJYhhF0yhT4rogrEOXmxWkqsvm7PPaxOQiIk7keinXi19fuFKZmVQ5N3XmkekmbV2xAk8H8sgxlnyJkqDX4sUkhpggWveBaFuRHPkDAAw1Xdv5RDV9DnulqfezrdzdzerIFIbR2A//NjkNbMY=
+	t=1764357419; cv=none; b=quakxbHs0pJ9ycjz8CbbFluaQT54nLfycoVWjj6RbemtA+0DISPPHerSeqBawxqVBg9L2UWsihq+RIqGhRPL1p0BZ1Idn9pzjoyAZHvoACHaE+SbPGWdNJ2gdd9IN23vWVg3EOto4McuCBd97HQL2AgjrYIs7ix+NOamFZN21qg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764357416; c=relaxed/simple;
-	bh=AY05pPPYRyIkwHY2jYjGyXB2V1r/E/eXdhrGvfk1BG4=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=q45LBp83O0Vp0MyVs94sNCgZykdChqeJmONek6wku0lZ/57R5SOimgbzO1lVg9EinuKZ+0IXrd2vXKHdAUKZAD95/+6+883cUy7IMiZcLVzHLJPpGiTSUzXmwEOLxd2uGakQh2EIm9izs0IgbAhAt35RT8gTqZG9OhjPALhx9DM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=B0mXFOiO; arc=none smtp.client-ip=148.251.105.195
+	s=arc-20240116; t=1764357419; c=relaxed/simple;
+	bh=upYgvQfvCaZv2V+FrW0kF40lwPHlCilL/v6b6lsQpK8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=Z6j2wJIW/rGCwZYsrfZB7BqgUpJj6vCCm48Gulh4HmwL+q1+u+ikvS4OcV9sS5xz403UfVYlAAaGoxQa36EaYGOd3kmjY67PMW5jvdE69CmB011ktiWqSi55QVjJ/XXZ772TkuQCv/aoZfwswSs6MhZrz0HVvguQOTgXAxnL3DU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Ptnia/WQ; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1764357413;
-	bh=AY05pPPYRyIkwHY2jYjGyXB2V1r/E/eXdhrGvfk1BG4=;
-	h=From:Subject:Date:To:Cc:From;
-	b=B0mXFOiOkXV9DEzAy0vWd31+aQGp54mnkgUvqHZNK9nDQUVDJ5DUH6XGPnP4pg+x3
-	 +OWG+TohHiPhZi/ScTQBXYhl6pfGBKx0R721ffngHPfd4scNnQPe7WUwokbEGj3yiA
-	 tlvxw7zDd913jIv/AEYRIbXksCpesh1Z7zKYhqW3uSD5H8Ka/ITHpP4Q5EImWuD4tQ
-	 KIqgN2aKx/w9ImuEW3zZydjxiXSMeUCdQdF4B0tV8GD3gEhuef3h+ViJ5hWceduPv2
-	 y3pK0lR0aB/DZ172BqSAR77o0rWJkvkDRSrdTalDrwmdbzyjZkclPDQiyovjhHgfrY
-	 S/sKITOn8Dxrw==
+	s=mail; t=1764357415;
+	bh=upYgvQfvCaZv2V+FrW0kF40lwPHlCilL/v6b6lsQpK8=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=Ptnia/WQRwVtMBbwl2kYkC7e0z/G+nUof3Q20uEHAyScBmGdqD89bKnmfy+FseRhw
+	 RruMLe8ygcYEKH42LTQ4pAUkLsEn4sOS7fR65iFgHPvFuhvxno3nSII2JDId/VtPQ5
+	 22oY3f4fbfTYwt525xx6VrS1eqne1bHupHS3mrPU7+YzDzm9fzK182DZJFWMJ9S9CS
+	 WffTGdrujg39Ak+HnlNuecLf7u5qUXyooMdFrtdN6wpKNyquSmUW9mWeqqVmsMPe0y
+	 JW4pYmuPWEehxnv24mdoNmjnt2M+Iaed9yXBMT5e/oh27ykNPgFHCiFrl3D1rPGoTQ
+	 1Cx6Uem8Izs9Q==
 Received: from [192.168.13.3] (unknown [IPv6:2606:6d00:17:7b4b::c73])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 70A3417E0EDB;
-	Fri, 28 Nov 2025 20:16:51 +0100 (CET)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 7650117E10F2;
+	Fri, 28 Nov 2025 20:16:53 +0100 (CET)
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: [PATCH v4 0/5] Add manual request completion to the MediaTek
- VCodec driver
-Date: Fri, 28 Nov 2025 14:16:11 -0500
-Message-Id: <20251128-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v4-0-c166bdd4625c@collabora.com>
+Date: Fri, 28 Nov 2025 14:16:12 -0500
+Subject: [PATCH v4 1/5] media: mc: add manual request completion
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -60,12 +59,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAPv0KWkC/63P207EIBAG4FfZcC2GU6nsle9hDOEwtcQurMCiZ
- tN3l25iNjFe9vInM3z/XFGBHKCg4+GKMrRQQoo9iIcDcrOJb4CD7xkxwgbCKcMFrCk1mDjl4N4
- BN5c8OH0y8WIWneHjAqVql07nBWr/TH+GOutSTYU+5OYQAUsumRunJ2KoQF06Z5jC163Fy2vPc
- yg15e9bqUa3119f7OI3igkegI2j4V6qwT67tCzGpmwe+ybaOjR2dwUl+7hsc61S4IgYCMj/XH5
- 3JdnpXt5dSbi3YhTKK/LXXdf1Bye6daMKAgAA
-X-Change-ID: 20250312-sebastianfricke-vcodec_manual_request_completion_with_state_machine-6362c7f80a14
+Message-Id: <20251128-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v4-1-c166bdd4625c@collabora.com>
+References: <20251128-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v4-0-c166bdd4625c@collabora.com>
+In-Reply-To: <20251128-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v4-0-c166bdd4625c@collabora.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -83,96 +79,175 @@ Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  Hans Verkuil <hverkuil@kernel.org>, Hans Verkuil <hverkuil@kernel.org>
 X-Mailer: b4 0.14.2
 
-This set introduces the manual request completion API by the author Hans
-Verkuil and implements it within the MediaTek VCodec driver.
+From: Hans Verkuil <hverkuil@kernel.org>
 
-Why is this needed?
+By default when the last request object is completed, the whole
+request completes as well.
 
-The VCodec driver supports a hardware containing two separate cores, the
-CORE and the LAT, these are working in a serial manner without this
-series. This series solves two issues, the first being that the current
-code runs into a problem, that occurs when the last request object is
-unbound from the request, before the v4l2_ctrl_request_complete function
-is called, causing an implicit transition to the COMPLETE state.
-This issues has been found in applications which didn't attach the
-controls for the very first request (which is supposed to enable the
-driver to sniff out the correct formats, etc.).
-The second issue is that the VCodec driver can not utilize the full
-performance of both cores, when the LAT core has to wait for the CORE
-core to finishing processing the decode. Thus by enabling the LAT core
-to process the next bitstream, right after processing the last we can
-increase the performance of the driver.
-With the manual request completion API, we can separate the
-completion of the request objects of a request and from the completion
-of the request itself, which allows to send a new bitstream after the
-LAT core has processed the previous and while the CORE core decodes the
-previous bitstream, so both cores can work in a parallel manner, but
-while keeping the request alive during both steps.
+But sometimes you want to delay this completion to an arbitrary point in
+time so add a manual complete mode for this.
 
-The request in VCodec have been extended with a kref that allows to
-properly delay the completion of the request. This kref was necessary
-to handle the re-entrant callbacks that occurs when the core worker
-finishes the work before the lat worker function finishes.
+In req_queue the driver marks the request for manual completion by
+calling media_request_mark_manual_completion, and when the driver
+wants to manually complete the request it calls
+media_request_manual_complete().
 
-Additionally, this series adds a small patch to avoid trying to handle a
-scenario, which is not supported by the hardware and thus runs into a
-timeout.
-
-Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 ---
-Changes in v4:
-- Patch 1&3: Applied the review comments, but ignored the media ref work
-- Patch 4: Rewrote the delayed completion around a kref
-- Link to v3: https://lore.kernel.org/r/20250604-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v3-0-603db4749d90@collabora.com
+ drivers/media/mc/mc-request.c | 41 +++++++++++++++++++++++++++++++++++++++--
+ include/media/media-request.h | 38 +++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 76 insertions(+), 3 deletions(-)
 
-Changes in v3:
-- Patch 1: Applied suggested documentation fixes to the manual completion API
-- Patch 4: Moved MTK VCODEC request helper into the decoder driver
-- Patch 4: Matched MTK driver namespaces
-- Patch 4: Set MTK request to CORE_DONE state if LAT failed
-- Patch 4: Dropped Angelo's Rb, its better to review again
-- Link to v2: https://lore.kernel.org/r/20250410-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v2-0-5b99ec0450e6@collabora.com
+diff --git a/drivers/media/mc/mc-request.c b/drivers/media/mc/mc-request.c
+index f66f728b1b43dcd1cf51de46e828bf806f014f8d..512e6969152792558537dd8a0736df82847ae210 100644
+--- a/drivers/media/mc/mc-request.c
++++ b/drivers/media/mc/mc-request.c
+@@ -54,6 +54,7 @@ static void media_request_clean(struct media_request *req)
+ 	req->access_count = 0;
+ 	WARN_ON(req->num_incomplete_objects);
+ 	req->num_incomplete_objects = 0;
++	req->manual_completion = false;
+ 	wake_up_interruptible_all(&req->poll_wait);
+ }
+ 
+@@ -313,6 +314,7 @@ int media_request_alloc(struct media_device *mdev, int *alloc_fd)
+ 	req->mdev = mdev;
+ 	req->state = MEDIA_REQUEST_STATE_IDLE;
+ 	req->num_incomplete_objects = 0;
++	req->manual_completion = false;
+ 	kref_init(&req->kref);
+ 	INIT_LIST_HEAD(&req->objects);
+ 	spin_lock_init(&req->lock);
+@@ -459,7 +461,7 @@ void media_request_object_unbind(struct media_request_object *obj)
+ 
+ 	req->num_incomplete_objects--;
+ 	if (req->state == MEDIA_REQUEST_STATE_QUEUED &&
+-	    !req->num_incomplete_objects) {
++	    !req->num_incomplete_objects && !req->manual_completion) {
+ 		req->state = MEDIA_REQUEST_STATE_COMPLETE;
+ 		completed = true;
+ 		wake_up_interruptible_all(&req->poll_wait);
+@@ -488,7 +490,7 @@ void media_request_object_complete(struct media_request_object *obj)
+ 	    WARN_ON(req->state != MEDIA_REQUEST_STATE_QUEUED))
+ 		goto unlock;
+ 
+-	if (!--req->num_incomplete_objects) {
++	if (!--req->num_incomplete_objects && !req->manual_completion) {
+ 		req->state = MEDIA_REQUEST_STATE_COMPLETE;
+ 		wake_up_interruptible_all(&req->poll_wait);
+ 		completed = true;
+@@ -499,3 +501,38 @@ void media_request_object_complete(struct media_request_object *obj)
+ 		media_request_put(req);
+ }
+ EXPORT_SYMBOL_GPL(media_request_object_complete);
++
++void media_request_manual_complete(struct media_request *req)
++{
++	bool completed = false;
++	unsigned long flags;
++
++	if (WARN_ON_ONCE(!req))
++		return;
++
++	spin_lock_irqsave(&req->lock, flags);
++
++	if (WARN_ON_ONCE(!req->manual_completion))
++		goto unlock;
++
++	if (WARN_ON_ONCE(req->state != MEDIA_REQUEST_STATE_QUEUED))
++		goto unlock;
++
++	req->manual_completion = false;
++	/*
++	 * It is expected that all other objects in this request are
++	 * completed when this function is called. WARN if that is
++	 * not the case.
++	 */
++	if (!WARN_ON(req->num_incomplete_objects)) {
++		req->state = MEDIA_REQUEST_STATE_COMPLETE;
++		wake_up_interruptible_all(&req->poll_wait);
++		completed = true;
++	}
++
++unlock:
++	spin_unlock_irqrestore(&req->lock, flags);
++	if (completed)
++		media_request_put(req);
++}
++EXPORT_SYMBOL_GPL(media_request_manual_complete);
+diff --git a/include/media/media-request.h b/include/media/media-request.h
+index bb500b2f9da46f5a9a84272759a137720b094a80..3256fcf3709da58878a59d90722bee3224d97af6 100644
+--- a/include/media/media-request.h
++++ b/include/media/media-request.h
+@@ -56,6 +56,9 @@ struct media_request_object;
+  * @access_count: count the number of request accesses that are in progress
+  * @objects: List of @struct media_request_object request objects
+  * @num_incomplete_objects: The number of incomplete objects in the request
++ * @manual_completion: if true, then the request won't be marked as completed
++ * when @num_incomplete_objects reaches 0. Call media_request_manual_complete()
++ * to complete the request after @num_incomplete_objects == 0.
+  * @poll_wait: Wait queue for poll
+  * @lock: Serializes access to this struct
+  */
+@@ -68,6 +71,7 @@ struct media_request {
+ 	unsigned int access_count;
+ 	struct list_head objects;
+ 	unsigned int num_incomplete_objects;
++	bool manual_completion;
+ 	wait_queue_head_t poll_wait;
+ 	spinlock_t lock;
+ };
+@@ -218,6 +222,38 @@ media_request_get_by_fd(struct media_device *mdev, int request_fd);
+ int media_request_alloc(struct media_device *mdev,
+ 			int *alloc_fd);
+ 
++/**
++ * media_request_mark_manual_completion - Enable manual completion
++ *
++ * @req: The request
++ *
++ * Mark that the request has to be manually completed by calling
++ * media_request_manual_complete().
++ *
++ * This function shall be called in the req_queue callback.
++ */
++static inline void
++media_request_mark_manual_completion(struct media_request *req)
++{
++	req->manual_completion = true;
++}
++
++/**
++ * media_request_manual_complete - Mark the request as completed
++ *
++ * @req: The request
++ *
++ * This function completes a request that was marked for manual completion by an
++ * earlier call to media_request_mark_manual_completion(). The request's
++ * @manual_completion field is reset to false.
++ *
++ * All objects contained in the request must have been completed previously. It
++ * is an error to call this function otherwise. If such an error occurred, the
++ * function will WARN and the object completion will be delayed until
++ * @num_incomplete_objects is 0.
++ */
++void media_request_manual_complete(struct media_request *req);
++
+ #else
+ 
+ static inline void media_request_get(struct media_request *req)
+@@ -336,7 +372,7 @@ void media_request_object_init(struct media_request_object *obj);
+  * @req: The media request
+  * @ops: The object ops for this object
+  * @priv: A driver-specific priv pointer associated with this object
+- * @is_buffer: Set to true if the object a buffer object.
++ * @is_buffer: Set to true if the object is a buffer object.
+  * @obj: The object
+  *
+  * Bind this object to the request and set the ops and priv values of
 
-Changes in v2:
-- The implementation patch for V1 was using an outdated version of the
-  "media: vcodec: Implement manual request completion" patch, update it
-  to the most recent one which doesn't use the state machine globally
-  but instead per request, thus having no conflicts between multiple
-  concurrent threads
-- The kernel test robot found an issue because a function which I only
-  use locally was defined without the static keyword
-- Link to v1: https://lore.kernel.org/r/20250314-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v1-0-5e277a3d695b@collabora.com
-
----
-Hans Verkuil (3):
-      media: mc: add manual request completion
-      media: vicodec: add support for manual completion
-      media: mc: add debugfs node to keep track of requests
-
-Nicolas Dufresne (1):
-      media: mtk-vcodec: Don't try to decode 422/444 VP9
-
-Sebastian Fricke (1):
-      media: vcodec: Implement manual request completion
-
- drivers/media/mc/mc-device.c                       |  30 ++++++
- drivers/media/mc/mc-devnode.c                      |   5 +
- drivers/media/mc/mc-request.c                      |  47 ++++++++-
- .../mediatek/vcodec/decoder/mtk_vcodec_dec.c       |   4 +-
- .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h   |  17 +++
- .../vcodec/decoder/mtk_vcodec_dec_stateless.c      | 115 +++++++++++++++------
- drivers/media/test-drivers/vicodec/vicodec-core.c  |  21 +++-
- include/media/media-device.h                       |   9 ++
- include/media/media-devnode.h                      |   4 +
- include/media/media-request.h                      |  40 ++++++-
- 10 files changed, 251 insertions(+), 41 deletions(-)
----
-base-commit: 1f2353f5a1af995efbf7bea44341aa0d03460b28
-change-id: 20250312-sebastianfricke-vcodec_manual_request_completion_with_state_machine-6362c7f80a14
-
-Best regards,
 -- 
-Nicolas Dufresne <nicolas.dufresne@collabora.com>
+2.51.0
 
 
