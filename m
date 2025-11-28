@@ -1,281 +1,306 @@
-Return-Path: <linux-media+bounces-47881-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47882-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B07D7C9310D
-	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 21:02:40 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E86BC9312F
+	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 21:05:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ECD3C3ACCD5
-	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 20:02:17 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3C0FB34ADB3
+	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 20:05:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B04351DF247;
-	Fri, 28 Nov 2025 20:02:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 938F42D7DE3;
+	Fri, 28 Nov 2025 20:05:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="df9WLmuW"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Wa92lpgZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0BDE27874F;
-	Fri, 28 Nov 2025 20:02:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764360131; cv=fail; b=CcrQ46R7/apWrzKAUBPgcOEIfV/2N3Sbfca/6DS56LZV1rXLV2qhOjcBgcxOm2bP//vhy0gbranL1oZg1ngpXXv1oWH08i4FNSKNZ0Omx3ORbLrSk015klKd84rTOQM3RZ1HziDUzMTPs66uEfpNL4UUCJTdxREMGJyb2j4zewQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764360131; c=relaxed/simple;
-	bh=MOBjPJBp8SAq5DpZ/ptjgHzbc8aAaAn/XdRwM5y7sCg=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=uxjIIMaZSXytwm84wUvu2Dct4GX9G3Oaz4a+pU2luK/xYPpBAuJjciSunwy3lI3bKiL3UbAygR8oqmIjq6u/YkBnWob1Am7jP9onUOnv8b8Uiim89IWdJuXowqHCSfqrjPEfSoKJ2MHhV2lV0c6pXrDNg2NgMZzps/ZMxT4zl3g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=df9WLmuW; arc=fail smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764360128; x=1795896128;
-  h=date:from:to:cc:subject:message-id:references:
-   content-transfer-encoding:in-reply-to:mime-version;
-  bh=MOBjPJBp8SAq5DpZ/ptjgHzbc8aAaAn/XdRwM5y7sCg=;
-  b=df9WLmuWVJVeEQZngKfuqmdKKFqFaz9szGesf9wVOswTv8/cIJkgFSTB
-   mza8X7K2+rOEYHHyx0C2s4HZe5v5OOuORsebT58c7Zo9Xs1sK9eH6Vy2c
-   3P1CaHlklv0FFxobIvuiuX6mkMHg7yd90L83yId9S3/eSHlhSJYK3vcn+
-   kaRm3soFej+MTnM7KwXwG0YlKH+sqq2LCSAwGbiaU1hDGhZ1sPzG2YRqD
-   O3Y/B53bk5Hs98AT/T3bR/i2/4f981eauJUZvJZxue15y5X4Z54xHpc29
-   EoVHvd/hHIYUyckuyWRBkwowyCFV9MA6jRdHuR4LpnvQLk6e3H7mC4re/
-   A==;
-X-CSE-ConnectionGUID: In8GHac7QZCxBfYM3Q6OrQ==
-X-CSE-MsgGUID: ttsZ43XVRKKVRB3oGnifEw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11627"; a="70256205"
-X-IronPort-AV: E=Sophos;i="6.20,234,1758610800"; 
-   d="scan'208";a="70256205"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2025 12:02:06 -0800
-X-CSE-ConnectionGUID: GJWcecTkSNy/62MQk2TKHw==
-X-CSE-MsgGUID: Fh87YhBlQEWur9Vjuqz3hw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,234,1758610800"; 
-   d="scan'208";a="194311552"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2025 12:02:06 -0800
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Fri, 28 Nov 2025 12:02:04 -0800
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Fri, 28 Nov 2025 12:02:04 -0800
-Received: from CH5PR02CU005.outbound.protection.outlook.com (40.107.200.11) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Fri, 28 Nov 2025 12:02:04 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rTzlSjRgHT7IKpAtpD+3DbBzfCOtmTKzoPnrd47yk6og2qNXkJUQtSYdtET7t/ThMfoWzZ6wsmpAhra9+des8ZnzYOnkEfK3Oms77D2QzbTJhFQ0lLVFDgg8NVnWN2FpIZ4dNf5uwRmSPbtOruu3B3NeXADfK2A3zbNZTbKGtAAMNe10deis3g3A8xUDioaEgJhfTHfZbjIgh3qDsa3pWWQwkwUeXQfkBsQXZSCWLC1omqRDON3QDvZNG0CaNej0BbQDvHPQdwx9m1Vm0mzyAmdt0vv51Xp6oMgyhci8JqUDCQmGX9gKmR6NbL1TFZ9spxoIIeDyXxvIhSFVewZpWg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2d3ez9o/GwElTZfY/PA4LMjxfHttxv6lcraorXwl2vo=;
- b=yts1uDpRhckLk+dHjyx9cn4KxVNLcKrK/GRbDF0hS8KPLAYdHqIF8Lnx7+B1k6dXZ5eZ+Mt+L4ztW1rbudmveD0Fw/nq6ALahoHspVTtlwEYNWqAalj406K97BEFQnI58/E2xd67eMQyEgduP1oDGl2cCaQ32xaCicYqCDsWL3LGUCEItGLHafjLKhMAcEUsge8YaKwCN4j17DiFiBqDxdUmxCmyKXKRlNdIVIgQl2wQHlZWPCinU8iglRA2QOAJMwNAnYHK6X96I+JFRZIpf75saG6fq+MhFX7mExtcyTKTtL/LcKuHSK/ylU8j0uNuaZEjFLvaOjn+6i6lJJeZzw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by PH7PR11MB8455.namprd11.prod.outlook.com (2603:10b6:510:30d::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Fri, 28 Nov
- 2025 20:02:01 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%7]) with mapi id 15.20.9366.012; Fri, 28 Nov 2025
- 20:02:01 +0000
-Date: Fri, 28 Nov 2025 12:01:57 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: <phasta@kernel.org>
-CC: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, "Sumit
- Semwal" <sumit.semwal@linaro.org>, Gustavo Padovan <gustavo@padovan.org>,
-	Felix Kuehling <Felix.Kuehling@amd.com>, Alex Deucher
-	<alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>, Simona Vetter
-	<simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
-	<joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
-	"Matthew Auld" <matthew.auld@intel.com>, Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>, Lucas De Marchi
-	<lucas.demarchi@intel.com>, Thomas =?iso-8859-1?Q?Hellstr=F6m?=
-	<thomas.hellstrom@linux.intel.com>, <linux-media@vger.kernel.org>,
-	<dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
-	<linux-kernel@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>,
-	<intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
-	<rust-for-linux@vger.kernel.org>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Subject: Re: [PATCH 1/6] dma-buf/dma-fence: Add dma_fence_test_signaled_flag()
-Message-ID: <aSn/tXWKuA+y1A4a@lstrano-desk.jf.intel.com>
-References: <20251126131914.149445-2-phasta@kernel.org>
- <20251126131914.149445-3-phasta@kernel.org>
- <aSctt3QFiEIB61Gr@lstrano-desk.jf.intel.com>
- <aScxGDYeNeN1WYja@lstrano-desk.jf.intel.com>
- <f1864f6d-8403-406d-81a0-00a71495cae8@amd.com>
- <35189892c0cb774155e2012d41371b4d3f8e7d0f.camel@mailbox.org>
- <adfd840e-fcc8-4cdb-8fd8-d0e48ee32247@amd.com>
- <89c04c8b3ca0fadf73452ca20ffd61cb106d762a.camel@mailbox.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <89c04c8b3ca0fadf73452ca20ffd61cb106d762a.camel@mailbox.org>
-X-ClientProxiedBy: MW4PR03CA0059.namprd03.prod.outlook.com
- (2603:10b6:303:8e::34) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97CE41E0B9C;
+	Fri, 28 Nov 2025 20:05:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764360311; cv=none; b=H5QIIGaWuXbxjf1mw/j1zf1uxGJcpIXzxso8r+jR4yrKOSS3tKLZKWI4Vnva+4XJU3QqBbrqnv51yn4YHXk3c+CYENzPR0FCZq11YD6KlYNpPpBTM+u3YwTQU5gBGArdgxPfr+sCQ0oKRCO8MEe4skrsoLjYXqgfBCPeqMRCX3M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764360311; c=relaxed/simple;
+	bh=VjoV6gpry4RYrUpUB+biOExP5E7Izn1G2x7SoQ5EGD4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=SSwNSjD0hDkaCspP3JLm+hdd+cxQG2fJA+G6JD9L+7Gdk/H8tGuaRjqsEcEl75ArNxqXi58eB6ShfBO+JSEQbnYOkxxed0QZ+BtuvyjT5zSJQOgC45lJWVx4O11MLHSAxUT8vvqic+j/LhdsN3eJOKyndua9Mb+P0u5EE1gt1NE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Wa92lpgZ; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1764360304;
+	bh=VjoV6gpry4RYrUpUB+biOExP5E7Izn1G2x7SoQ5EGD4=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=Wa92lpgZaz/ECSlN6NxX19dCt2V8Wp0kXssWGJ4XJ7IWr0pGLAi58NX01O9ZVlN5T
+	 mL5FmRuQxJ/q+GL/NbrZlryBKByHjWanfxF4wg/7pJCFeVaFMT+lTy2Ob7L8IN4ExI
+	 sHxmi2C1Lqm1CXqdjA33hmRanZdDF5Y6ahoR4LG0mjOwi5um7nNHtZO3XKTo1g5ZYv
+	 kYU2xZo/quhyT8V55COtKNNh+U7IOmrm1BVeyDcnTeCN9dQrcnxA6C582ZdVRkcoh7
+	 nuRDCA7JjO1Y7JQiU6PfSUX0e+3X1XVWD3KD+tLhP9O20sBppF0ON5hTiG+IyLm0M8
+	 0f/X/aQSzu8IQ==
+Received: from [IPv6:2606:6d00:17:7b4b::c41] (unknown [IPv6:2606:6d00:17:7b4b::c41])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id CEBFC17E013C;
+	Fri, 28 Nov 2025 21:05:02 +0100 (CET)
+Message-ID: <f606c4f24df8392a5aab9205eaf1627c8f30bad4.camel@collabora.com>
+Subject: Re: [PATCH v2 04/14] media: mediatek: vcodec: add driver to support
+ vcp encoder
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Yunfei Dong <yunfei.dong@mediatek.com>, =?ISO-8859-1?Q?N=EDcolas?= "F .
+ R . A . Prado" <nfraprado@collabora.com>, Sebastian Fricke
+ <sebastian.fricke@collabora.com>, Hans Verkuil	 <hverkuil-cisco@xs4all.nl>,
+ AngeloGioacchino Del Regno	 <angelogioacchino.delregno@collabora.com>,
+ Benjamin Gaignard	 <benjamin.gaignard@collabora.com>, Nathan Hebert
+ <nhebert@chromium.org>,  Daniel Almeida <daniel.almeida@collabora.com>
+Cc: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig
+ <frkoenig@chromium.org>,  Daniel Vetter <daniel@ffwll.ch>, Steve Cho
+ <stevecho@chromium.org>, linux-media@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	Project_Global_Chrome_Upstream_Group@mediatek.com
+Date: Fri, 28 Nov 2025 15:05:01 -0500
+In-Reply-To: <20250815085232.30240-5-yunfei.dong@mediatek.com>
+References: <20250815085232.30240-1-yunfei.dong@mediatek.com>
+	 <20250815085232.30240-5-yunfei.dong@mediatek.com>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-vmuWrJ7jZ/55kt51eeVZ"
+User-Agent: Evolution 3.58.1 (3.58.1-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|PH7PR11MB8455:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2debb5b3-f71d-465c-051e-08de2eb8fe6e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?R3nzNtkUIqE21La52wItEzAvfZahgIFBiZO94m9xhFcYxVISBQ4peN1jTj?=
- =?iso-8859-1?Q?mXbPFlflzA0FnyL7EBfWPVbBYmVNtnZLkMhf21kjC1/TBTBiTQsV2sj+tK?=
- =?iso-8859-1?Q?Lb7bkx4Rjh7TydkuD7j1t3ZSArLBVtGtn/W4ZaBac7B8O7HZAWeLU5O5KZ?=
- =?iso-8859-1?Q?eyKBRZEmhwpDJCsYCKJj1AGX8vhrhSoHObcXMZ24R3TKBwxerwqV9TYLfR?=
- =?iso-8859-1?Q?FL9Y/7uAy/Bq0UblOOI2ddcth6iait5rzQh5o+7EyBLO9dlZ3Q5TO86cEv?=
- =?iso-8859-1?Q?lO8OpdjRZTt+cwEP3ig0hKCEnzZQ67M7KKLOIbF3RVnkRl1VWLHmx/bD2U?=
- =?iso-8859-1?Q?+QsWduPU+c6EEtgvXj5XmVfw/alssFUwoXE2UydkMLXTJtJAPTl4aFh/Ov?=
- =?iso-8859-1?Q?eoWIEbv0PecX4JpHPGeqRVll4qWvhgQ8KlNnEMf/nW7s5flYgrxcEWvlvK?=
- =?iso-8859-1?Q?6VZdBPoQwHzGOqnJUuE38sG2M1SDJJFr9uwVT3zEWJBVmV9rfkOahVa3FB?=
- =?iso-8859-1?Q?waz0XxsuvL3FoFoIRlxP7zKeHKexTiUovqRcPi9E6d78eEeI2z9JhAeVQQ?=
- =?iso-8859-1?Q?8h4I8QaOeEyJTEChAvOITX/33PyDZ5JVVVU3BItHhneU+j5FQNJRj2RTYO?=
- =?iso-8859-1?Q?wFycmtvfB2FEzSRaeiByLlfswZYCUehqhu0SVoqijdvbCdCCxhAjyRlVNB?=
- =?iso-8859-1?Q?YltQGHNbD04UrdjQ+vk0aZemNucOejYrhzhhCEjd2KeGcjr8K4VUSIBHCM?=
- =?iso-8859-1?Q?jBqLxzxSACp32HjQ8hLc78BMFALIMtZpMAR2bk1mH6bkUidj/4AdBLzb28?=
- =?iso-8859-1?Q?aKCW2YfQbaiEoJ47Ts6HrPJCEWS9rP5W8j/TKr95T8Xb2AIjGc+/D17i0b?=
- =?iso-8859-1?Q?XVjsh1HEHONEfsWpYdbQHvBgPkJfEpCRWIBHzeU+djyMqoBJlaF4DgPgrw?=
- =?iso-8859-1?Q?NxX1GFYbWPJStCEza1ml7GLjoSnmZaCqFCnZYYP6h1gohF4fp4jSgU1xc/?=
- =?iso-8859-1?Q?qaendU5s5WlpNvcYbtDWbLWairI56i4enTAXaRkUufEkxZU3dKItaXhBWJ?=
- =?iso-8859-1?Q?oyeisJ4npGkxaMwtHuRtMqROdh0mWH6RaMXt1n398cf39EnJVHsw7lgygD?=
- =?iso-8859-1?Q?NcrnSQ/a6QLu1xbEd/CcFaOcEXIG9n3A18Vqvaxc0QnznFDJ2VoH8iK5kT?=
- =?iso-8859-1?Q?jrzxKWwqc29xWJ6tJz82NSzBu8H37hwLZmvtAYSLqEH06fPM7wtUBYNJ8v?=
- =?iso-8859-1?Q?eb+pFsanE/DseR71ejn3U/cAFvd1eWUX5tNEBPmQ6j9FWRPqgszV3yqJTa?=
- =?iso-8859-1?Q?XMS61/f0sr1xRKhWdp03YF10iX92p7un7LhaMFZ+Cjb0R7mVORq/ahHb/9?=
- =?iso-8859-1?Q?NLxegOKpexhhFG03vO+s/dZpsF6ZslCaFBTpkxELnipuafN3WM9WgYtMBq?=
- =?iso-8859-1?Q?Qkecflv/zJsOein5JgiDJFCZtl7vNwiX5AFJUQ=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB6522.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?2X+eT5NGI/2pB3SRvc31R4EWCgTys8N5yGsVBa4O3I242u3YMLJ5B+Vwer?=
- =?iso-8859-1?Q?3rVXem6P/tE9EmlWISEl0KDDo477U59nMs0/sPhv91u4athw5z/ymkb18B?=
- =?iso-8859-1?Q?d47BPILdwj5cIajyIoE1Vws3FRPZuIUO929yLPSA2EXfGNKHj0SQk2Q1HD?=
- =?iso-8859-1?Q?bxp7d5QEHw2xeMt+LErjqf8sDyuXhc8lJxmzAl3tSpbMdfKdSOwCnAFmD8?=
- =?iso-8859-1?Q?JWc/7eVkwysarQuk+mtsYnF7ShWG9j35sYmPntgKfvwQ9iW1hY3Yxq+VLx?=
- =?iso-8859-1?Q?KPErNpLh4odN/YK6c3FgWSjnAS4zPdgyvHAJ5sPsiImIhJGUP2SG+4oD6g?=
- =?iso-8859-1?Q?1e75NQFACi6MczASlFbk7I3/XI7pl5gjXQa9R+7gR5SRJg0Rgp8PNvngZx?=
- =?iso-8859-1?Q?XXIVgBxWmG3NjTK1/749t3Xi5JcFyPqlqvathIVOmMvalTJCGENyonPrOD?=
- =?iso-8859-1?Q?FdhYC0+A1TqQJI0YyTvYe49xz0gSI/1ZVHwZGF31GrpS2UHJ3I7iJ2/+SO?=
- =?iso-8859-1?Q?penSfyuhkFy7kQet0DAuII37WPqIlfDMg165zkAHeU1X0TKROkdpTPNUlq?=
- =?iso-8859-1?Q?BPrmq1Lcj2nUYWs1NCqMIRNEEYA87QuTIzCc/EoPirpvRIAgQ0q5zW4MoJ?=
- =?iso-8859-1?Q?vUnl2Dnkwd8yCDOZA+cHLd92x6NFWKAEhfSYx3Us8Wq1zwM68FusMPKWxB?=
- =?iso-8859-1?Q?Oml+Pja9Yyk0hcjCWJGz4HDr5KTW2ac4OIPT0daBaaNQdeBhIHxsBaRZG6?=
- =?iso-8859-1?Q?yQ2ES3iHQVXjP01I7KsSHcejzhJxZZNRUNka1ApyalwxAIXDvcAYZ8iF7l?=
- =?iso-8859-1?Q?r00tUKSC6B93cX8ZUSEPEOpS/Z3WA8xlKszsoBOv39O79LQOnyuQMSVCx5?=
- =?iso-8859-1?Q?LhPxbHKzjppZR+Yx5+B1XJq3zQfMRkfabuYOyh0qRNhvuyf4BE/87ROY1b?=
- =?iso-8859-1?Q?/Q1wbVtYW6YN6YW6FDMYrr/iBZZsEfcIHhu3hJdgmlGAThO5LgmDSI0/b1?=
- =?iso-8859-1?Q?tZogsl4W5uC6TQW1kTs0mSDgQoh4oHr7mqozIeRMhcfliBervyidIT1OWD?=
- =?iso-8859-1?Q?9aaKvcEjvlYLKpeMqqFiZWM0MAO1fXBIIntNtHXJS+HPKj1yWJMTjjkldo?=
- =?iso-8859-1?Q?uDZRTqt7aQi1ChS2bOelf2Ao4J2F0sc+whnlxF8KEbIieEztQxtGETJhfV?=
- =?iso-8859-1?Q?xYaZ5DPnKJEsjZGih6Mm5IkGvg7L/aw2lc9EUD8rmIacYqZSkyvUoHUKWK?=
- =?iso-8859-1?Q?Xf2Gpf66dTHjiQ9zbT6kRXmBtviIYhjltetcaiaHRxq4X8uask8kM8kH1A?=
- =?iso-8859-1?Q?M5ASp4ft3L4gC4+G80/XXZALIrUzEfxMR4sg5vCMb4mP3c6z2mgd26O3Ww?=
- =?iso-8859-1?Q?+vhLu6Jur7HJLBkDbLUCirvGit42BtFk6Q8Q9oTgyiJY7JyVKHDMsEztcc?=
- =?iso-8859-1?Q?G/rawMZG2E2JaUv8Zq7dG5+L1FSPSmtVN3c9+d/dl92upSvAB5gRsKqsYJ?=
- =?iso-8859-1?Q?TrWlPBUs2C8Nvp+g6I9Q9B0gfx5y7RiXIjLf2jknhWsRdRUcEhNs2O6xuX?=
- =?iso-8859-1?Q?bjinHLBCUK7pNrXkzpbe+/pqBBqHviK1MFmTW6cnT/oOe4BtToZpxoCWvS?=
- =?iso-8859-1?Q?5PECLuMCLThnK/u5IUzwOyrqjDKDyvThrfK3D6vTAFezKXacMnACEoBg?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2debb5b3-f71d-465c-051e-08de2eb8fe6e
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Nov 2025 20:02:01.7621
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dt2fiaMkhQEKy3JZGkxgwpQbOk3SWPq+rUDLU5k6365ZHr/nwHb8d1emqBH4k1b8W5H9ZVMrlYseeX08vOnOBg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB8455
-X-OriginatorOrg: intel.com
 
-On Thu, Nov 27, 2025 at 11:16:26AM +0100, Philipp Stanner wrote:
-> On Thu, 2025-11-27 at 11:01 +0100, Christian König wrote:
-> > On 11/27/25 10:16, Philipp Stanner wrote:
-> > > On Thu, 2025-11-27 at 09:11 +0100, Christian König wrote:
-> > > > On 11/26/25 17:55, Matthew Brost wrote:
-> > > > > On Wed, Nov 26, 2025 at 08:41:27AM -0800, Matthew Brost wrote:
-> > > > > > On Wed, Nov 26, 2025 at 02:19:10PM +0100, Philipp Stanner wrote:
-> > > > > > > The dma_fence framework checks at many places whether the signaled flag
-> > > > > > > of a fence is already set. The code can be simplified and made more
-> > > > > > > readable by providing a helper function for that.
-> > > > > > > 
-> > > > > > > Add dma_fence_test_signaled_flag(), which only checks whether a fence is
-> > > > > > > signaled. Use it internally.
-> > > > > > > 
-> > > > > > > Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> > > > > > > Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> > > > > > 
-> > > > > > This is a nice cleanp:
-> > > > > > Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-> > > > > > 
-> > > > > > > ---
-> > > > > > >  drivers/dma-buf/dma-fence.c | 19 +++++++++----------
-> > > > > > >  include/linux/dma-fence.h   | 24 ++++++++++++++++++++++--
-> > > > > > >  2 files changed, 31 insertions(+), 12 deletions(-)
-> > > > > > > 
-> > > > > > > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> > > > > > > index 39e6f93dc310..25117a906846 100644
-> > > > > > > --- a/drivers/dma-buf/dma-fence.c
-> > > > > > > +++ b/drivers/dma-buf/dma-fence.c
-> > > > > > > @@ -372,8 +372,7 @@ int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
-> > > > > > >  
-> > > > > > >  	lockdep_assert_held(fence->lock);
-> > > > > > >  
-> > > > > > > -	if (unlikely(test_and_set_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
-> > > > > > > -				      &fence->flags)))
-> > > > > 
-> > > > > I need to read a little better, I think this change isn't quite right.
-> > > > > The original code is test and set, the updated code is test only (i.e.,
-> > > > > you are missing the set step). So maybe just leave this line as is.
-> > > > 
-> > > > Oh, good point! I've totally missed that as well.
-> > > 
-> > > Oh dear; I also just saw it when opening the mail client ._.
-> > > 
-> > > > 
-> > > > But that means that this patch set hasn't even been smoke tested.
-> > > 
-> > > I've built it and did some basic testing with my Nouveau system. Any
-> > > suggestions? Do you have a CI that one can trigger?
 
-Intel's Xe list will trigger CI - you are authorized to trigger that
-flow. Navigate to Intel's list patchworks [1], find your series and see
-the results. It is noisy, so also certainly to say failure but I let you
-know if anything is actually a problem.
+--=-vmuWrJ7jZ/55kt51eeVZ
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Matt
+Le vendredi 15 ao=C3=BBt 2025 =C3=A0 16:52 +0800, Yunfei Dong a =C3=A9crit=
+=C2=A0:
+> Encoder also need to call vcp interface to communicate with vcp,
+> add driver to support encoder.
+>=20
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+> =C2=A0.../vcodec/common/mtk_vcodec_fw_vcp.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 | 40 +++++++++++++++----
+> =C2=A0.../vcodec/common/mtk_vcodec_fw_vcp.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0 1 +
+> =C2=A0.../mediatek/vcodec/encoder/mtk_vcodec_enc.c=C2=A0 |=C2=A0 1 -
+> =C2=A0.../mediatek/vcodec/encoder/mtk_vcodec_enc.h=C2=A0 |=C2=A0 2 +
+> =C2=A04 files changed, 36 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_=
+vcp.c b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vcp.c
+> index 227310c116c6..c9e5cde40aef 100644
+> --- a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vcp.c
+> +++ b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vcp.c
+> @@ -13,6 +13,8 @@
+> =C2=A0
+> =C2=A0#include "../decoder/mtk_vcodec_dec_drv.h"
+> =C2=A0#include "../decoder/vdec_ipi_msg.h"
+> +#include "../encoder/mtk_vcodec_enc.h"
+> +#include "../encoder/mtk_vcodec_enc_drv.h"
+> =C2=A0#include "mtk_vcodec_fw_priv.h"
+> =C2=A0
+> =C2=A0#define IPI_SEND_TIMEOUT_MS=C2=A0 100U
+> @@ -189,8 +191,8 @@ static int mtk_vcodec_vcp_msg_ipi_send(struct mtk_vco=
+dec_fw *fw, int id, void *b
+> =C2=A0	}
+> =C2=A0
+> =C2=A0	mutex_lock(msg_mutex);
+> -	feature_id =3D VDEC_FEATURE_ID;
+> -	mailbox_id =3D IPI_OUT_VDEC_1;
+> +	feature_id =3D (fw->fw_use =3D=3D ENCODER) ? VENC_FEATURE_ID : VDEC_FEA=
+TURE_ID;
+> +	mailbox_id =3D (fw->fw_use =3D=3D ENCODER) ? IPI_OUT_VENC_0 : IPI_OUT_V=
+DEC_1;
+> =C2=A0
+> =C2=A0	timeout_jiffies =3D jiffies + msecs_to_jiffies(VCP_SYNC_TIMEOUT_MS=
+);
+> =C2=A0	while (!vcp_device->ops->vcp_is_ready(feature_id)) {
+> @@ -300,10 +302,10 @@ static int mtk_vcodec_vcp_load_firmware(struct mtk_=
+vcodec_fw *fw)
+> =C2=A0
+> =C2=A0	vcp_device =3D fw->vcp->vcp_device;
+> =C2=A0
+> -	feature_id =3D VDEC_FEATURE_ID;
+> -	mem_id =3D VDEC_MEM_ID;
+> -	mailbox_id =3D IPI_IN_VDEC_1;
+> -	ipi_id =3D VCP_IPI_LAT_DECODER;
+> +	feature_id =3D fw->fw_use =3D=3D ENCODER ? VENC_FEATURE_ID : VDEC_FEATU=
+RE_ID;
+> +	mem_id =3D fw->fw_use =3D=3D ENCODER ? VENC_MEM_ID : VDEC_MEM_ID;
+> +	mailbox_id =3D fw->fw_use =3D=3D ENCODER ? IPI_IN_VENC_0 : IPI_IN_VDEC_=
+1;
+> +	ipi_id =3D fw->fw_use =3D=3D ENCODER ? VCP_IPI_ENCODER : VCP_IPI_LAT_DE=
+CODER;
 
-[1] https://patchwork.freedesktop.org/project/intel-xe/series/?ordering=-last_updated
+That is hard to read, please make a branch with a scope, something like:
 
-> > 
-> > DMA-buf has CONFIG_DMABUF_SELFTESTS which should be able to catch things like that.
-> > 
-> > But even running Nouveau should have found this since basically no fence at would signal any more.
-> 
-> They will signal and execute their callbacks, but all is_signaled()
-> checks are then broken.
-> 
-> Thx for the feedback, I'll be more careful with changes like those and
-> test more extensively.
-> 
-> P.
+if (fw->fw_use =3D=3D ENCODER) {
+	feature_id =3D VENC_FEATURE_ID;
+	mem_id =3D VENC_MEM_ID;
+	mailbox_id =3D IPI_IN_VENC_0;
+	ipi_id =3D VCP_IPI_ENCODER;
+} else {
+	feature_id =3D VDEC_FEATURE_ID;
+	mem_id =3D VDEC_MEM_ID;
+	mailbox_id =3D IPI_IN_VDEC_1;
+	ipi_id =3D VCP_IPI_LAT_DECODER;
+}
+
+Same applies elsewhere.
+
+> =C2=A0
+> =C2=A0	ret =3D mtk_vcp_mbox_ipc_register(vcp_get_ipidev(vcp_device), mail=
+box_id,
+> =C2=A0					mtk_vcodec_vcp_msg_ack_isr, fw, &fw->vcp->share_data);
+> @@ -322,6 +324,20 @@ static int mtk_vcodec_vcp_load_firmware(struct mtk_v=
+codec_fw *fw)
+> =C2=A0	mutex_init(&fw->vcp->ipi_desc[ipi_id].lock);
+> =C2=A0	mutex_init(&fw->vcp->ipi_mutex);
+> =C2=A0
+> +	if (fw->fw_use =3D=3D ENCODER) {
+> +		kthread_run(mtk_vcodec_vcp_msg_process_thread, fw, "vcp_enc_msq_thread=
+");
+> +
+> +		fw->vcp->vsi_addr =3D vcp_device->ops->vcp_get_mem_virt(mem_id);
+> +		fw->vcp->vsi_size =3D vcp_device->ops->vcp_get_mem_size(mem_id);
+> +		fw->vcp->iova_addr =3D vcp_device->ops->vcp_get_mem_iova(mem_id);
+> +
+> +		dev_dbg(&fw->pdev->dev, "enc vcp init done =3D> va: %p size:0x%x iova:=
+%pad.\n",
+> +			fw->vcp->vsi_addr, fw->vcp->vsi_size, &fw->vcp->iova_addr);
+> +
+> +		init_waitqueue_head(&fw->vcp->msg_wq[VCP_IPI_ENCODER]);
+> +		return 0;
+> +	}
+> +
+> =C2=A0	kthread_run(mtk_vcodec_vcp_msg_process_thread, fw, "vcp_vdec_msq_t=
+hread");
+> =C2=A0
+> =C2=A0	fw->vcp->vsi_addr =3D vcp_device->ops->vcp_get_mem_virt(mem_id);
+> @@ -345,6 +361,11 @@ static unsigned int mtk_vcodec_vcp_get_vdec_capa(str=
+uct mtk_vcodec_fw *fw)
+> =C2=A0	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MTK_VDEC_IS_SUPPORT_10BIT | M=
+TK_VDEC_IS_SUPPORT_EXT;
+> =C2=A0}
+> =C2=A0
+> +static unsigned int mtk_vcodec_vcp_get_venc_capa(struct mtk_vcodec_fw *f=
+w)
+> +{
+> +	return MTK_VENC_4K_CAPABILITY_ENABLE;
+> +}
+> +
+> =C2=A0static void *mtk_vcodec_vcp_dm_addr(struct mtk_vcodec_fw *fw, u32 d=
+tcm_dmem_addr)
+> =C2=A0{
+> =C2=A0	return NULL;
+> @@ -396,6 +417,7 @@ static void mtk_vcodec_vcp_release(struct mtk_vcodec_=
+fw *fw)
+> =C2=A0static const struct mtk_vcodec_fw_ops mtk_vcodec_vcp_msg =3D {
+> =C2=A0	.load_firmware =3D mtk_vcodec_vcp_load_firmware,
+> =C2=A0	.get_vdec_capa =3D mtk_vcodec_vcp_get_vdec_capa,
+> +	.get_venc_capa =3D mtk_vcodec_vcp_get_venc_capa,
+> =C2=A0	.map_dm_addr =3D mtk_vcodec_vcp_dm_addr,
+> =C2=A0	.ipi_register =3D mtk_vcodec_vcp_set_ipi_register,
+> =C2=A0	.ipi_send =3D mtk_vcodec_vcp_ipi_send,
+> @@ -409,7 +431,11 @@ struct mtk_vcodec_fw *mtk_vcodec_fw_vcp_init(void *p=
+riv, enum mtk_vcodec_fw_use
+> =C2=A0	struct mtk_vcodec_fw *fw;
+> =C2=A0	int i;
+> =C2=A0
+> -	if (fw_use =3D=3D DECODER) {
+> +	if (fw_use =3D=3D ENCODER) {
+> +		struct mtk_vcodec_enc_dev *enc_dev =3D priv;
+> +
+> +		plat_dev =3D enc_dev->plat_dev;
+> +	} else if (fw_use =3D=3D DECODER) {
+> =C2=A0		struct mtk_vcodec_dec_dev *dec_dev =3D priv;
+> =C2=A0
+> =C2=A0		plat_dev =3D dec_dev->plat_dev;
+> diff --git a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_=
+vcp.h b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vcp.h
+> index 40f5481d1889..53080ed12c69 100644
+> --- a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vcp.h
+> +++ b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vcp.h
+> @@ -16,6 +16,7 @@ typedef void (*vcp_ipi_handler_t) (void *data, unsigned=
+ int len, void *priv);
+> =C2=A0
+> =C2=A0/* enum mtk_vcp_ipi_index - index used to separate different hardwa=
+re */
+> =C2=A0enum mtk_vcp_ipi_index {
+> +	VCP_IPI_ENCODER,
+> =C2=A0	VCP_IPI_LAT_DECODER,
+> =C2=A0	VCP_IPI_CORE_DECODER,
+> =C2=A0	VCP_IPI_MAX,
+> diff --git a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_en=
+c.c b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
+> index a01dc25a7699..dcafb1303c29 100644
+> --- a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
+> +++ b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
+> @@ -26,7 +26,6 @@
+> =C2=A0
+> =C2=A0#define MTK_DEFAULT_FRAMERATE_NUM 1001
+> =C2=A0#define MTK_DEFAULT_FRAMERATE_DENOM 30000
+> -#define MTK_VENC_4K_CAPABILITY_ENABLE BIT(0)
+> =C2=A0
+> =C2=A0static void mtk_venc_worker(struct work_struct *work);
+> =C2=A0
+> diff --git a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_en=
+c.h b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.h
+> index 908d8179b2d2..84156c102d8d 100644
+> --- a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.h
+> +++ b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.h
+> @@ -23,6 +23,8 @@
+> =C2=A0#define MTK_VENC_IRQ_STATUS_OFFSET	0x05C
+> =C2=A0#define MTK_VENC_IRQ_ACK_OFFSET	0x060
+> =C2=A0
+> +#define MTK_VENC_4K_CAPABILITY_ENABLE BIT(0)
+> +
+> =C2=A0/**
+> =C2=A0 * struct mtk_video_enc_buf - Private data related to each VB2 buff=
+er.
+> =C2=A0 * @m2m_buf:	M2M buffer
+
+regards,
+Nicolas
+
+--=-vmuWrJ7jZ/55kt51eeVZ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaSoAbQAKCRDZQZRRKWBy
+9FB4AQCO6hy81JDlIpJ5zEoWPQaHY4RzUwev1C5dJKtK3pgawgD/Sb2uVUUtO/m2
+he0tHxKOv9EZRmuEUus9N1LV5g6kOA0=
+=3xq7
+-----END PGP SIGNATURE-----
+
+--=-vmuWrJ7jZ/55kt51eeVZ--
 
