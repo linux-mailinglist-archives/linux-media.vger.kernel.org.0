@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-47854-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47853-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2C3DC916C7
-	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 10:23:36 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 259EAC916A0
+	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 10:21:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 194C234ECB5
-	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 09:21:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0F3EB3A9E07
+	for <lists+linux-media@lfdr.de>; Fri, 28 Nov 2025 09:21:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66368303A28;
-	Fri, 28 Nov 2025 09:20:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82B33304BCC;
+	Fri, 28 Nov 2025 09:20:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="PuJYndDF"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="pgQwZV6R"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010006.outbound.protection.outlook.com [52.101.193.6])
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013029.outbound.protection.outlook.com [40.93.196.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 844AA3043DA;
-	Fri, 28 Nov 2025 09:20:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 828C0303C8F;
+	Fri, 28 Nov 2025 09:20:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.29
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764321634; cv=fail; b=nRplnaIDDxteWHG9P46Y4QVWF5Q6OvXyjUTWMRI+A7MK8K2uJ8Inc3JOYfcNbz+bzO8/JizrquC7adMhX8FixiaTOehtAri64yWk4NQzCYkeeEQ6CGBZckEl7oGW5DZooMBdN0XRAfVeNi2qoeWJPQ7B/wcUiVLPI46YiIc2QCQ=
+	t=1764321631; cv=fail; b=byGpDGImKLjE81E1m2ok2m3oxbHRQHxnqZLj7ti5JSSSEVhHU6AZfMMw2R5K8BOKca6hJdu4hc0TPc9dTn/cuaIoEClZmtwLLIuKSJAfiQwxRJVcVvhYcFrlLGxctDh6nllV2LEGbBYvvdVNeIDeyPLNsM9S3qu50i4G/5VcO2Q=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764321634; c=relaxed/simple;
-	bh=9ky7rS4T1VGIU69OuodThjBoQS91uj+mCLbrXAqUXKc=;
+	s=arc-20240116; t=1764321631; c=relaxed/simple;
+	bh=VqaKGs5GC4+VwSwomfOLfAZcdY3RTwKr9xADgAF+dOM=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Da+AkSVi34Nks+riXrW2ymuh1R5VmdHNb8vUUVYml0D7qTWkgNYbBU34FvJ/Bwx9UhwLJ9MZYDb/uN4TNAfk7JB7Kfj7ac9zKV39+TH7UphRoaptWrfLiI4dtNN4cZn6xSKlhBysrBtXQoF96fw0HCjbk45gRJP7DbWpoL4Jr5s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=PuJYndDF; arc=fail smtp.client-ip=52.101.193.6
+	 MIME-Version:Content-Type; b=i41LNEQwiAvXWrUdynNoq+1RNeUJeBmPmA0GAPqazAu4AgFvf+paXlg7WxpzpU9q/LPh+jqvnHoPwDeAHQXYA54s/+RRgJBlNIzJG6V8osgs5XmfcUpNGILsW/Jpwgz/Bn8ahuX+TDnO4oLnuA4g88bq3eY5O17puvTBs37x7Is=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=pgQwZV6R; arc=fail smtp.client-ip=40.93.196.29
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=e9NJYNo2WfELVWUcfwxhydqeX+SuGhB1MU+sMc3DTVlwgmkqnxgk8g2zt5gYyF6ymHZpOrwNjPe2Y3uL+Y+zS2aS7rocJi+8EX+0ZD5iRNGs+K0TvsbwK7BJQprAZGGItDHav8Af+/DMzl5G7RwUM0APp+GTAfX+vTDt/ioI/ys2M4hTuYV5xfQC/erScleC0F5CK53GSMXhI48HcqfNmPeMDbVxX0v8/KRUFTdNzU1+hI4/SkYvs/NpU4uG057T5k9dF4gQdSj9HThpYEpRbDi3yuE5ifsXDo6YrN7nUZX7uAp7SE6D5De5Epn2YKPRyKiXw+uT/sID7SnWnghBbQ==
+ b=ugwMqTNshgJjZfr5K7IFYvr1oXqlzXRCodsPJzLNzlKJ1YN4rGkt8GsFMDGA5kW2Hv8BnJrHRAreEpGlJ52g+JRd7IBEGr8UDEWoXE7GlQwwe1dHhqMxsvFIdrnBbjtiLuLQY7KDhMkRvR/r7cxtAtIWWVohZwha6DMtPFGTxKVr9Lm1MPY5fzOIfg6JaWcate9E+YuHPtsqkHgqmTN9UXjI9SysPXQatTppQF2Ng9273ZwcSjVvycyU0OM1NAcJ+hdAeS8zznqlJPiWV4azEiMJEokswZWrhvDnC/AwWbzF52qm37TYM2Qb7j+2mvBXMW3CccYQLG2MeSkTzqPopw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7/gof+3S4EiK7auScqZcbCvwJOpA7Xa8RKDi1eaqIjU=;
- b=V3DsYvmABNqy3lhUc9B9faeaMaAqruHe1S2jHbARJKkF2ns8oQ6PdqRiy7OPtgiQNCwkwPcDTvcKtwd9HluDzlmPmNltSOT0f0rv++A24/mfNSIQFc9mSRuNmNuVPgkO43pED8l4UlckfyYxwnT/sD8DF5zXv5+80vsvY96KbrPKNOiWbxL63xib51OV7XHSuszO2Yrgrv80LYGqpZD9nrfZf+Kzj0f8y7xR3mXvZs185YDgIqoQhHcdtqj/fz9D4rPtztLQeQqeXV71xgBGdxvIY0+CAZHBHLGaetUrUKArNFl/7bOx23wqs1BzdpP7/BvSSeha0zkUdDwW8Dfa3w==
+ bh=vD5/tvLCzDURBVoq9TkyCVI5Tx6gEsa6IHDU+rSUyWo=;
+ b=IuNTOOhPHBbFck8jvHin/lKMzXG/8KAVmJw94zhjdkad4e6s2rHQOQryXdW7bw5fOeH41ubYIsQJXEBSoz+/CP3/NCXHitDSg62ATXXdjJHbqLcqlDI/idKlJBvN9LrA25ClAXGINIBfAJUK4nGwd8LRddMvpU23gE9gSA+vJ5h10RVPcVDV+ihlURcNOKPEyzcdxUYK5P3jsRVbz99FQyQ1pq1ZSYukZNp8MaYNor0ONp1StL5Dx2C6D+2TZiabCfNzbCxN9YD9MFCQzuscO/vn9VEwEn3wBIRSxaL2xMQfGsnh1PRcZmG7bXP8R7rLjqolKNC8oOYIAxI0/PRcLQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7/gof+3S4EiK7auScqZcbCvwJOpA7Xa8RKDi1eaqIjU=;
- b=PuJYndDFZRD+ISrtllyUec5s/BfjDyS2bs9uUrR3dmxCpWvdy5+ulNyADVNtTHA1hGRxEPsA50wM96OL+mV3yrfsi/4BbVo3hWnsaoFnwZOowdWQWnccgTH43omrAa9F6TROAUKQ6uRS+qra6O+nZLeO7ChS2SedbV/2IcmUKjc=
-Received: from BY3PR05CA0051.namprd05.prod.outlook.com (2603:10b6:a03:39b::26)
- by CH1PPF9C964DBFE.namprd12.prod.outlook.com (2603:10b6:61f:fc00::61e) with
+ bh=vD5/tvLCzDURBVoq9TkyCVI5Tx6gEsa6IHDU+rSUyWo=;
+ b=pgQwZV6RghcqeG3gV6fyyCBl0ATgCKLYucWlkTyz8DWTWtgy3FaV5+tFYjJoFLNyVvbJN8RFKNrQ4NBJLdxTpbrvMTdS0O0j/OM0rUgWneBCF/+u1DllO+Yr+r+Lk7f4cTpd5vTBvlSe5NY5S4nW29a0dyUEG7SGvYKT8t8Sn8k=
+Received: from DM6PR03CA0100.namprd03.prod.outlook.com (2603:10b6:5:333::33)
+ by CH1PR12MB9717.namprd12.prod.outlook.com (2603:10b6:610:2b2::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.16; Fri, 28 Nov
- 2025 09:20:20 +0000
-Received: from SJ5PEPF000001F4.namprd05.prod.outlook.com
- (2603:10b6:a03:39b:cafe::9f) by BY3PR05CA0051.outlook.office365.com
- (2603:10b6:a03:39b::26) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9388.6 via Frontend Transport; Fri,
- 28 Nov 2025 09:20:20 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Fri, 28 Nov
+ 2025 09:20:25 +0000
+Received: from DS3PEPF000099D9.namprd04.prod.outlook.com
+ (2603:10b6:5:333:cafe::d7) by DM6PR03CA0100.outlook.office365.com
+ (2603:10b6:5:333::33) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.16 via Frontend Transport; Fri,
+ 28 Nov 2025 09:20:25 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -63,13 +63,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
 Received: from satlexmb07.amd.com (165.204.84.17) by
- SJ5PEPF000001F4.mail.protection.outlook.com (10.167.242.72) with Microsoft
+ DS3PEPF000099D9.mail.protection.outlook.com (10.167.17.10) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9366.7 via Frontend Transport; Fri, 28 Nov 2025 09:20:20 +0000
+ 15.20.9366.7 via Frontend Transport; Fri, 28 Nov 2025 09:20:25 +0000
 Received: from 555e2b870847.amd.com (10.180.168.240) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 28 Nov
- 2025 03:20:15 -0600
+ 2025 03:20:20 -0600
 From: Bin Du <Bin.Du@amd.com>
 To: <mchehab@kernel.org>, <hverkuil@xs4all.nl>,
 	<laurent.pinchart+renesas@ideasonboard.com>, <bryan.odonoghue@linaro.org>,
@@ -80,11 +80,11 @@ CC: <pratap.nirujogi@amd.com>, <benjamin.chan@amd.com>, <king.li@amd.com>,
 	<gjorgji.rosikopulos@amd.com>, <Phil.Jawich@amd.com>,
 	<Dominic.Antony@amd.com>, <mario.limonciello@amd.com>,
 	<richard.gong@amd.com>, <anson.tsao@amd.com>, <bin.du@amd.com>, Bin Du
-	<Bin.Du@amd.com>, Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>, "Alexey
- Zagorodnikov" <xglooom@gmail.com>
-Subject: [PATCH v6 6/7] media: platform: amd: isp4 debug fs logging and  more descriptive errors
-Date: Fri, 28 Nov 2025 17:19:28 +0800
-Message-ID: <20251128091929.165272-7-Bin.Du@amd.com>
+	<Bin.Du@amd.com>, Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>, "Mario
+ Limonciello" <superm1@kernel.org>, Alexey Zagorodnikov <xglooom@gmail.com>
+Subject: [PATCH v6 7/7] Documentation: add documentation of AMD isp 4 driver
+Date: Fri, 28 Nov 2025 17:19:29 +0800
+Message-ID: <20251128091929.165272-8-Bin.Du@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251128091929.165272-1-Bin.Du@amd.com>
 References: <20251128091929.165272-1-Bin.Du@amd.com>
@@ -100,643 +100,176 @@ X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001F4:EE_|CH1PPF9C964DBFE:EE_
-X-MS-Office365-Filtering-Correlation-Id: 325e3007-29b2-419e-94d9-08de2e5f5a32
+X-MS-TrafficTypeDiagnostic: DS3PEPF000099D9:EE_|CH1PR12MB9717:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2ae3408f-0269-42b2-cc48-08de2e5f5d3d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|82310400026|36860700013;
+	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|7416014|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?a3Rnve9Bv5xYDdWJxkK+0D92G1LwNI31tLWhoW2qqqMqPqyXUzO2u8S85nEK?=
- =?us-ascii?Q?7ZQUynq3JQdq+cc46/qYDbxXjEuAkPzxb6Dm8z0B6RfBEmhxcCPoALVdWlHW?=
- =?us-ascii?Q?U4wtLaZfA2enUqTp2lQT3120rugGG/Swi4WSKQkcsBxtnqsHSbeoPiHCAznp?=
- =?us-ascii?Q?v94GjSuL9cwqH3mKwXgVB0yURSP0iLYfS/xTLL+McIuBII6qiS5L06ETrS/j?=
- =?us-ascii?Q?qsyqBomSHLpAHXq2DZmzYl0NPAMfGSS7FtvvD6L562A8+hFeyU7g0gV/Pwz2?=
- =?us-ascii?Q?MNKllOEwTfWx8YT6ZCPkCa/DUtVWPCYm8G7Sz5ZRGwqoZXj4Rd3dq+pXctgl?=
- =?us-ascii?Q?gbAnuUJgoH/87KDQnZQtjr6JV74vMeldX9hX9Kx9txSBHju8UOM5YK1Zy6bv?=
- =?us-ascii?Q?9l9YF43x04xk37exbhgmgAzelZbMS98WUH7A1NwA2y5L5HUdK8+ZrRpZzAh4?=
- =?us-ascii?Q?KZNC7yR0FCNr0ZYwTeWsrrgyIzDOkpc/+V/WG7GUiQ6eKmaL4gK9rn9mnxYF?=
- =?us-ascii?Q?CyQl5WW57xSRPCBujfBxyLubijVJfo3h6KrBqzbVYzDBl5a1nFJ/UQLRZ+cC?=
- =?us-ascii?Q?DOTRXBkBwHAzM9ryD27VeN3h29sTW0bSiLATqJ7N5sh12HIklA5KOHbNobAx?=
- =?us-ascii?Q?HsoEk0lJWZloEtKvy0ewZGRCqDxxVtDo0U70ovyYGEsEMrh5JN/NCeBSl8ZS?=
- =?us-ascii?Q?1V+MPMLHNIU+nC96q3+WpW6Fw7aNkO9iJVn9UXErCRQMXPg2RS7ZupeRTxTM?=
- =?us-ascii?Q?OHP+m+OZTKUuKjzRnnhDGSI8yAGzQaqO79mH2/dn2aHD4FL4oxmvSThWSxKI?=
- =?us-ascii?Q?vatjDSdvFxzZZ+kgOsLFzAwKO7clZLdC/VUzG31ii274fQCYU73I7EnAHGRR?=
- =?us-ascii?Q?ybDPcWelIHmRcLj/IEuPTEvJi8ffru2BrK8RzIK385nhdsYamByMdRP5lO9A?=
- =?us-ascii?Q?toxorMeuyWuy+DE1Xxem9CLQ8U4x3HLCbv2oYltMEd+i7j3KNUcPl6HOgu1I?=
- =?us-ascii?Q?AU88KrVR/gGFXo1RlmC5+Nnj6ekbSPRbjMniX56510/DcoD545h3Basu3JvU?=
- =?us-ascii?Q?C5F0BoRwl5FfXQjtTI6ctKtS30UUDyAYHmyl0U2CgW9IWHDzgWBklEA7VN7a?=
- =?us-ascii?Q?hteb82HFCNvwIEbPI7GgzX/sJhSeeC20/vIsxwkb50Gjz8TCgu4IRFLN1Bgf?=
- =?us-ascii?Q?epaMwC8PAOIGE0L/YhR66EEgwpNv9JAJlrjzxRiC83Q/saXOCwLP4s90Zns5?=
- =?us-ascii?Q?EomlDktegmarhVTSqk6XmzGoTK2/Wb3IVa97jWzMnwm0YohihvDGUL6BFsNR?=
- =?us-ascii?Q?sKnwtQ/o7W0pZ51bB0Xa1MXBnfXL9VMrUQNgxb6iXBCjVFD8+nadwQ3kvMPg?=
- =?us-ascii?Q?BCgf+yEZdLJNyiToIjH8dkmMJ9ogtwNh0Flj/GAvi8wfgrRml/z6A7XF/mtc?=
- =?us-ascii?Q?7KT7lKlWPNH5h6pR/ewmzI0x3ZvIlCsCh5OEoPGm5Xm6RRm7qWpmWq0wO+H8?=
- =?us-ascii?Q?pNsM+8qpX006BpFKEQ0fuefjoNmuPsf3FmuxKapV0h8bX+Vlh4Qljjb9U4zd?=
- =?us-ascii?Q?lsr0t8mi0AqANdSLBlk=3D?=
+	=?us-ascii?Q?zthzgLi3Xy7eJt8n12uUL7e9Scgz++pSLH/wqr77tXynd4Wx8L3s43/Xqkfj?=
+ =?us-ascii?Q?r7SI1pNIPUuxjv0e17WmQapU8OZcgLeo8JpRfzq+LCJM9DzeRMJ0IOIpoDWm?=
+ =?us-ascii?Q?IViE8oJ1d/YxNSmFRQ8FkyB9IhloEcJk0eCkM+TXRKfJPU2UnAFi1mZBH5IT?=
+ =?us-ascii?Q?au7X62p26Cpsw7mrxzEny/be2j/AY26mg0+t1hMBnUKrf9ntmGPApsnQQ0JO?=
+ =?us-ascii?Q?TuzKpATbFz3UWseS3Id6AzrVeXJKYyUcTAfd8pHpBlzzPb3fjsXL36yH4+VM?=
+ =?us-ascii?Q?aOPpM5uswf5iKl0JH3C2xyphTqDJGk6LETQrMmYQSoq1xqOhx16WFBZAKTvM?=
+ =?us-ascii?Q?ndmks3sD+YUXJDf7jck9R5VdeyZ/MCfxwiL5OPCPEs4jAAx6YkLNI8ngT/KK?=
+ =?us-ascii?Q?9+0r1T4Z3RhI22e4mGWLO9xa+6RsrzgB1C4g9/JoW5fwMm4cCPrbI4Qv9h0Z?=
+ =?us-ascii?Q?NUPCC9SftMJUS50MngC0++gN4FejlzwNUmG6YSxtYznM2Uzo5hyeHLaGAZX8?=
+ =?us-ascii?Q?eOk2ViQGQWWzIGsGke7ZYotyRgww/1BEuwtNNS5Jyvt0n1/MBXWcfnvS3Hu4?=
+ =?us-ascii?Q?nvj6TMC4i9DJzdjfAjZDAkL376pAWZC1jOKPruuVqQgfAUZZ8cwORXg41tNa?=
+ =?us-ascii?Q?Xc3qL9P+4jMMUpOHaC58RX51+mWOp2RrEDQnZr69h4GT6SIesfPWa6K4FyJr?=
+ =?us-ascii?Q?i2sE9/pB+JQupx2vXC1HxfqFWPgo9jWvA1skRAJow2rIxyp1SORt+vf67CSj?=
+ =?us-ascii?Q?zVFIKXTxRT3p1Yz8n3lsOR3S6zNRe+rGou5umYQ6/xnF/wBt6qMRGXOo4Rqs?=
+ =?us-ascii?Q?1MzuWmvMO9ZdjZI094t7m8NboxoYhu/RsBShLIAKsfdpS09CsE4iqhKvuflj?=
+ =?us-ascii?Q?BNXBXXPyuolXbeJZCTlSAgY+P4Yhvwh2YE6RAyZfzH1PlhhavJRtgBL9fZOi?=
+ =?us-ascii?Q?db7+S2Hp08m32SrqIDe3SfMqMexeUhHLHVnFUqgOxcmrk3VEt7ijUC1moVEQ?=
+ =?us-ascii?Q?Qb6gUY0p4QhzXlU1q3FPgLByl3Da4MYEhL9R6Q1Oa3GmZKhpFEikGiUnd91E?=
+ =?us-ascii?Q?SCBFFPaSOhSNLICQeM/lXPxXcgwMuIIy5oOzG9OfE/n9oF22ZNMzkRv0Boc2?=
+ =?us-ascii?Q?8gEZCjLHyZlrcJfj0zwyAwuZHj4aUCCBg5wFPnmrhFLKhq3oFoGMY5gxeod6?=
+ =?us-ascii?Q?8QG/4xRLPBWXTvsZcqi2RbiiRTgQtVTicivy4T0G13tVSxPrtlL6kSD0NEyI?=
+ =?us-ascii?Q?XaV8kpaY66xRWLUpEKH2/tXXMmnrq2la5bmDwjfglDJ8g2vzl49WdFAbs9Xs?=
+ =?us-ascii?Q?Zf5o5vve4BT2eUE9iMtAMtfI4lbWKvBq91TbPRQLalsi5dw40yDasnDvb55E?=
+ =?us-ascii?Q?36cITaBGvXuLLKq3a188xeDNNMeosx5SgFyMkEgkk3d1Kpk4NZamW7b9/ST1?=
+ =?us-ascii?Q?1+JaVxQhL9V5CNq6irkD0WMx6JZyiBPy9keleU1RH9rnCmUfNmxjKG3OfhTF?=
+ =?us-ascii?Q?vWxORqjGY5uVOAEPiyclcLL+uVjzQjXqKQioZaes/E+RPhlhZupqdHySBeeZ?=
+ =?us-ascii?Q?wq870Q1lqhfPOlD27C4=3D?=
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(82310400026)(36860700013);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Nov 2025 09:20:20.2140
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Nov 2025 09:20:25.3486
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 325e3007-29b2-419e-94d9-08de2e5f5a32
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ae3408f-0269-42b2-cc48-08de2e5f5d3d
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	SJ5PEPF000001F4.namprd05.prod.outlook.com
+	DS3PEPF000099D9.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH1PPF9C964DBFE
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH1PR12MB9717
 
-Add debug fs for isp4 driver and add more detailed descriptive error info
-to some of the log message
+Add documentation for AMD ISP 4 and describe the main components
 
-Co-developed-by: Sultan Alsawaf <sultan@kerneltoast.com>
-Signed-off-by: Sultan Alsawaf <sultan@kerneltoast.com>
 Co-developed-by: Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>
 Signed-off-by: Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>
 Signed-off-by: Bin Du <Bin.Du@amd.com>
+Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
 Tested-by: Alexey Zagorodnikov <xglooom@gmail.com>
 ---
- MAINTAINERS                                   |   2 +
- drivers/media/platform/amd/isp4/Makefile      |   1 +
- drivers/media/platform/amd/isp4/isp4.c        |   4 +
- drivers/media/platform/amd/isp4/isp4_debug.c  | 271 ++++++++++++++++++
- drivers/media/platform/amd/isp4/isp4_debug.h  |  41 +++
- .../media/platform/amd/isp4/isp4_interface.c  |  21 +-
- drivers/media/platform/amd/isp4/isp4_subdev.c |  30 +-
- drivers/media/platform/amd/isp4/isp4_subdev.h |   5 +
- 8 files changed, 356 insertions(+), 19 deletions(-)
- create mode 100644 drivers/media/platform/amd/isp4/isp4_debug.c
- create mode 100644 drivers/media/platform/amd/isp4/isp4_debug.h
+ Documentation/admin-guide/media/amdisp4-1.rst | 63 +++++++++++++++++++
+ Documentation/admin-guide/media/amdisp4.dot   |  6 ++
+ .../admin-guide/media/v4l-drivers.rst         |  1 +
+ MAINTAINERS                                   |  2 +
+ 4 files changed, 72 insertions(+)
+ create mode 100644 Documentation/admin-guide/media/amdisp4-1.rst
+ create mode 100644 Documentation/admin-guide/media/amdisp4.dot
 
+diff --git a/Documentation/admin-guide/media/amdisp4-1.rst b/Documentation/admin-guide/media/amdisp4-1.rst
+new file mode 100644
+index 000000000000..878141154f96
+--- /dev/null
++++ b/Documentation/admin-guide/media/amdisp4-1.rst
+@@ -0,0 +1,63 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: <isonum.txt>
++
++====================================
++AMD Image Signal Processor (amdisp4)
++====================================
++
++Introduction
++============
++
++This file documents the driver for the AMD ISP4 that is part of
++AMD Ryzen AI Max 300 Series.
++
++The driver is located under drivers/media/platform/amd/isp4 and uses
++the Media-Controller API.
++
++The driver exposes one video capture device to userspace and provide
++web camera like interface. Internally the video device is connected
++to the isp4 sub-device responsible for communication with the CCPU FW.
++
++Topology
++========
++
++.. _amdisp4_topology_graph:
++
++.. kernel-figure:: amdisp4.dot
++     :alt:   Diagram of the media pipeline topology
++     :align: center
++
++
++
++The driver has 1 sub-device: Representing isp4 image signal processor.
++The driver has 1 video device: Capture device for retrieving images.
++
++- ISP4 Image Signal Processing Subdevice Node
++
++---------------------------------------------
++
++The isp4 is represented as a single V4L2 subdev, the sub-device does not
++provide interface to the user space. The sub-device is connected to one video node
++(isp4_capture) with immutable active link. The sub-device represents ISP with
++connected sensor similar to smart cameras (sensors with integrated ISP).
++sub-device has only one link to the video device for capturing the frames.
++The sub-device communicates with CCPU FW for streaming configuration and
++buffer management.
++
++
++- isp4_capture - Frames Capture Video Node
++
++------------------------------------------
++
++Isp4_capture is a capture device to capture frames to memory.
++The entity is connected to isp4 sub-device. The video device
++provides web camera like interface to userspace. It supports
++mmap and dma buf types of memory.
++
++Capturing Video Frames Example
++==============================
++
++.. code-block:: bash
++
++         v4l2-ctl "-d" "/dev/video0" "--set-fmt-video=width=1920,height=1080,pixelformat=NV12" "--stream-mmap" "--stream-count=10"
+diff --git a/Documentation/admin-guide/media/amdisp4.dot b/Documentation/admin-guide/media/amdisp4.dot
+new file mode 100644
+index 000000000000..978f30c1a31a
+--- /dev/null
++++ b/Documentation/admin-guide/media/amdisp4.dot
+@@ -0,0 +1,6 @@
++digraph board {
++	rankdir=TB
++	n00000001 [label="{{} | amd isp4\n | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
++	n00000001:port0 -> n00000003 [style=bold]
++	n00000003 [label="Preview\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
++}
+diff --git a/Documentation/admin-guide/media/v4l-drivers.rst b/Documentation/admin-guide/media/v4l-drivers.rst
+index 3bac5165b134..6027416e5373 100644
+--- a/Documentation/admin-guide/media/v4l-drivers.rst
++++ b/Documentation/admin-guide/media/v4l-drivers.rst
+@@ -9,6 +9,7 @@ Video4Linux (V4L) driver-specific documentation
+ .. toctree::
+ 	:maxdepth: 2
+ 
++	amdisp4-1
+ 	bttv
+ 	c3-isp
+ 	cafe_ccic
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 80c966fde0b4..8478789ac265 100644
+index 8478789ac265..c34137e27b55 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1145,6 +1145,8 @@ F:	drivers/media/platform/amd/isp4/Kconfig
- F:	drivers/media/platform/amd/isp4/Makefile
- F:	drivers/media/platform/amd/isp4/isp4.c
- F:	drivers/media/platform/amd/isp4/isp4.h
-+F:	drivers/media/platform/amd/isp4/isp4_debug.c
-+F:	drivers/media/platform/amd/isp4/isp4_debug.h
- F:	drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h
- F:	drivers/media/platform/amd/isp4/isp4_hw_reg.h
- F:	drivers/media/platform/amd/isp4/isp4_interface.c
-diff --git a/drivers/media/platform/amd/isp4/Makefile b/drivers/media/platform/amd/isp4/Makefile
-index 398c20ea7866..607151c0a2be 100644
---- a/drivers/media/platform/amd/isp4/Makefile
-+++ b/drivers/media/platform/amd/isp4/Makefile
-@@ -4,6 +4,7 @@
- 
- obj-$(CONFIG_AMD_ISP4) += amd_capture.o
- amd_capture-objs := isp4.o \
-+		    isp4_debug.o \
- 		    isp4_interface.o \
- 		    isp4_subdev.o \
- 		    isp4_video.o
-diff --git a/drivers/media/platform/amd/isp4/isp4.c b/drivers/media/platform/amd/isp4/isp4.c
-index 91b4439a4b57..f35bc8f1a259 100644
---- a/drivers/media/platform/amd/isp4/isp4.c
-+++ b/drivers/media/platform/amd/isp4/isp4.c
-@@ -10,6 +10,7 @@
- #include <media/v4l2-ioctl.h>
- 
- #include "isp4.h"
-+#include "isp4_debug.h"
- #include "isp4_hw_reg.h"
- 
- #define ISP4_DRV_NAME "amd_isp_capture"
-@@ -185,6 +186,7 @@ static int isp4_capture_probe(struct platform_device *pdev)
- 	}
- 
- 	platform_set_drvdata(pdev, isp_dev);
-+	isp_debugfs_create(isp_dev);
- 
- 	return 0;
- 
-@@ -204,6 +206,8 @@ static void isp4_capture_remove(struct platform_device *pdev)
- 	struct isp4_device *isp_dev = platform_get_drvdata(pdev);
- 	struct device *dev = &pdev->dev;
- 
-+	isp_debugfs_remove(isp_dev);
-+
- 	media_device_unregister(&isp_dev->mdev);
- 	isp4sd_deinit(&isp_dev->isp_subdev);
- 	v4l2_device_unregister(&isp_dev->v4l2_dev);
-diff --git a/drivers/media/platform/amd/isp4/isp4_debug.c b/drivers/media/platform/amd/isp4/isp4_debug.c
-new file mode 100644
-index 000000000000..c6d957ea9132
---- /dev/null
-+++ b/drivers/media/platform/amd/isp4/isp4_debug.c
-@@ -0,0 +1,271 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Copyright (C) 2025 Advanced Micro Devices, Inc.
-+ */
-+
-+#include "isp4.h"
-+#include "isp4_debug.h"
-+#include "isp4_hw_reg.h"
-+#include "isp4_interface.h"
-+
-+#define ISP4DBG_FW_LOG_RINGBUF_SIZE (2 * 1024 * 1024)
-+#define ISP4DBG_MACRO_2_STR(X) #X
-+#define ISP4DBG_MAX_ONE_TIME_LOG_LEN 510
-+
-+#ifdef CONFIG_DEBUG_FS
-+
-+void isp_debugfs_create(struct isp4_device *isp_dev)
-+{
-+	isp_dev->isp_subdev.debugfs_dir = debugfs_create_dir("amd_isp", NULL);
-+	debugfs_create_bool("fw_log_enable", 0644,
-+			    isp_dev->isp_subdev.debugfs_dir,
-+			    &isp_dev->isp_subdev.enable_fw_log);
-+	isp_dev->isp_subdev.fw_log_output =
-+		devm_kzalloc(isp_dev->isp_subdev.dev,
-+			     ISP4DBG_FW_LOG_RINGBUF_SIZE + 32,
-+			     GFP_KERNEL);
-+}
-+
-+void isp_debugfs_remove(struct isp4_device *isp_dev)
-+{
-+	debugfs_remove_recursive(isp_dev->isp_subdev.debugfs_dir);
-+	isp_dev->isp_subdev.debugfs_dir = NULL;
-+}
-+
-+static u32 isp_fw_fill_rb_log(struct isp4_subdev *isp, void *sys, u32 rb_size)
-+{
-+	struct isp4_interface *ispif = &isp->ispif;
-+	char *buf = isp->fw_log_output;
-+	struct device *dev = isp->dev;
-+	u32 rd_ptr, wr_ptr;
-+	u32 total_cnt = 0;
-+	u32 offset = 0;
-+	u32 cnt;
-+
-+	if (!sys || !rb_size)
-+		return 0;
-+
-+	guard(mutex)(&ispif->isp4if_mutex);
-+
-+	rd_ptr = isp4hw_rreg(isp->mmio, ISP_LOG_RB_RPTR0);
-+	wr_ptr = isp4hw_rreg(isp->mmio, ISP_LOG_RB_WPTR0);
-+
-+	do {
-+		if (wr_ptr > rd_ptr)
-+			cnt = wr_ptr - rd_ptr;
-+		else if (wr_ptr < rd_ptr)
-+			cnt = rb_size - rd_ptr;
-+		else
-+			goto quit;
-+
-+		if (cnt > rb_size) {
-+			dev_err(dev, "fail bad fw log size %u\n", cnt);
-+			goto quit;
-+		}
-+
-+		memcpy(buf + offset, sys + rd_ptr, cnt);
-+
-+		offset += cnt;
-+		total_cnt += cnt;
-+		rd_ptr = (rd_ptr + cnt) % rb_size;
-+	} while (rd_ptr < wr_ptr);
-+
-+	isp4hw_wreg(isp->mmio, ISP_LOG_RB_RPTR0, rd_ptr);
-+
-+quit:
-+	return total_cnt;
-+}
-+
-+void isp_fw_log_print(struct isp4_subdev *isp)
-+{
-+	struct isp4_interface *ispif = &isp->ispif;
-+	char *fw_log_buf = isp->fw_log_output;
-+	u32 cnt;
-+
-+	if (!isp->enable_fw_log || !fw_log_buf)
-+		return;
-+
-+	cnt = isp_fw_fill_rb_log(isp, ispif->fw_log_buf->sys_addr,
-+				 ispif->fw_log_buf->mem_size);
-+
-+	if (cnt) {
-+		char *line_end;
-+		char temp_ch;
-+		char *str;
-+		char *end;
-+
-+		str = (char *)fw_log_buf;
-+		end = ((char *)fw_log_buf + cnt);
-+		fw_log_buf[cnt] = 0;
-+
-+		while (str < end) {
-+			line_end = strchr(str, 0x0A);
-+			if ((line_end && (str + ISP4DBG_MAX_ONE_TIME_LOG_LEN) >= line_end) ||
-+			    (!line_end && (str + ISP4DBG_MAX_ONE_TIME_LOG_LEN) >= end)) {
-+				if (line_end)
-+					*line_end = 0;
-+
-+				if (*str != '\0')
-+					dev_dbg(isp->dev,
-+						"%s", str);
-+
-+				if (line_end) {
-+					*line_end = 0x0A;
-+					str = line_end + 1;
-+				} else {
-+					break;
-+				}
-+			} else {
-+				u32 tmp_len = ISP4DBG_MAX_ONE_TIME_LOG_LEN;
-+
-+				temp_ch = str[tmp_len];
-+				str[tmp_len] = 0;
-+				dev_dbg(isp->dev, "%s", str);
-+				str[tmp_len] = temp_ch;
-+				str = &str[tmp_len];
-+			}
-+		}
-+	}
-+}
-+#endif
-+
-+char *isp4dbg_get_buf_src_str(u32 src)
-+{
-+	switch (src) {
-+	case BUFFER_SOURCE_STREAM:
-+		return ISP4DBG_MACRO_2_STR(BUFFER_SOURCE_STREAM);
-+	default:
-+		return "Unknown buf source";
-+	}
-+}
-+
-+char *isp4dbg_get_buf_done_str(u32 status)
-+{
-+	switch (status) {
-+	case BUFFER_STATUS_INVALID:
-+		return ISP4DBG_MACRO_2_STR(BUFFER_STATUS_INVALID);
-+	case BUFFER_STATUS_SKIPPED:
-+		return ISP4DBG_MACRO_2_STR(BUFFER_STATUS_SKIPPED);
-+	case BUFFER_STATUS_EXIST:
-+		return ISP4DBG_MACRO_2_STR(BUFFER_STATUS_EXIST);
-+	case BUFFER_STATUS_DONE:
-+		return ISP4DBG_MACRO_2_STR(BUFFER_STATUS_DONE);
-+	case BUFFER_STATUS_LACK:
-+		return ISP4DBG_MACRO_2_STR(BUFFER_STATUS_LACK);
-+	case BUFFER_STATUS_DIRTY:
-+		return ISP4DBG_MACRO_2_STR(BUFFER_STATUS_DIRTY);
-+	case BUFFER_STATUS_MAX:
-+		return ISP4DBG_MACRO_2_STR(BUFFER_STATUS_MAX);
-+	default:
-+		return "Unknown Buf Done Status";
-+	}
-+}
-+
-+char *isp4dbg_get_img_fmt_str(int fmt /* enum isp4fw_image_format * */)
-+{
-+	switch (fmt) {
-+	case IMAGE_FORMAT_NV12:
-+		return "NV12";
-+	case IMAGE_FORMAT_YUV422INTERLEAVED:
-+		return "YUV422INTERLEAVED";
-+	default:
-+		return "unknown fmt";
-+	}
-+}
-+
-+void isp4dbg_show_bufmeta_info(struct device *dev, char *pre,
-+			       void *in, void *orig_buf)
-+{
-+	struct isp4fw_buffer_meta_info *p;
-+	struct isp4if_img_buf_info *orig;
-+
-+	if (!in)
-+		return;
-+
-+	if (!pre)
-+		pre = "";
-+
-+	p = in;
-+	orig = orig_buf;
-+
-+	dev_dbg(dev, "%s(%s) en:%d,stat:%s(%u),src:%s\n", pre,
-+		isp4dbg_get_img_fmt_str(p->image_prop.image_format),
-+		p->enabled, isp4dbg_get_buf_done_str(p->status), p->status,
-+		isp4dbg_get_buf_src_str(p->source));
-+
-+	dev_dbg(dev, "%p,0x%llx(%u) %p,0x%llx(%u) %p,0x%llx(%u)\n",
-+		orig->planes[0].sys_addr, orig->planes[0].mc_addr,
-+		orig->planes[0].len, orig->planes[1].sys_addr,
-+		orig->planes[1].mc_addr, orig->planes[1].len,
-+		orig->planes[2].sys_addr, orig->planes[2].mc_addr,
-+		orig->planes[2].len);
-+}
-+
-+char *isp4dbg_get_buf_type(u32 type)
-+{
-+	/* enum isp4fw_buffer_type */
-+	switch (type) {
-+	case BUFFER_TYPE_PREVIEW:
-+		return ISP4DBG_MACRO_2_STR(BUFFER_TYPE_PREVIEW);
-+	case BUFFER_TYPE_META_INFO:
-+		return ISP4DBG_MACRO_2_STR(BUFFER_TYPE_META_INFO);
-+	case BUFFER_TYPE_MEM_POOL:
-+		return ISP4DBG_MACRO_2_STR(BUFFER_TYPE_MEM_POOL);
-+	default:
-+		return "unknown type";
-+	}
-+}
-+
-+char *isp4dbg_get_cmd_str(u32 cmd)
-+{
-+	switch (cmd) {
-+	case CMD_ID_START_STREAM:
-+		return ISP4DBG_MACRO_2_STR(CMD_ID_START_STREAM);
-+	case CMD_ID_STOP_STREAM:
-+		return ISP4DBG_MACRO_2_STR(CMD_ID_STOP_STREAM);
-+	case CMD_ID_SEND_BUFFER:
-+		return ISP4DBG_MACRO_2_STR(CMD_ID_SEND_BUFFER);
-+	case CMD_ID_SET_STREAM_CONFIG:
-+		return ISP4DBG_MACRO_2_STR(CMD_ID_SET_STREAM_CONFIG);
-+	case CMD_ID_SET_OUT_CHAN_PROP:
-+		return ISP4DBG_MACRO_2_STR(CMD_ID_SET_OUT_CHAN_PROP);
-+	case CMD_ID_ENABLE_OUT_CHAN:
-+		return ISP4DBG_MACRO_2_STR(CMD_ID_ENABLE_OUT_CHAN);
-+	default:
-+		return "unknown cmd";
-+	}
-+}
-+
-+char *isp4dbg_get_resp_str(u32 cmd)
-+{
-+	switch (cmd) {
-+	case RESP_ID_CMD_DONE:
-+		return ISP4DBG_MACRO_2_STR(RESP_ID_CMD_DONE);
-+	case RESP_ID_NOTI_FRAME_DONE:
-+		return ISP4DBG_MACRO_2_STR(RESP_ID_NOTI_FRAME_DONE);
-+	default:
-+		return "unknown respid";
-+	}
-+}
-+
-+char *isp4dbg_get_if_stream_str(u32 stream /* enum fw_cmd_resp_stream_id */)
-+{
-+	switch (stream) {
-+	case ISP4IF_STREAM_ID_GLOBAL:
-+		return "STREAM_GLOBAL";
-+	case ISP4IF_STREAM_ID_1:
-+		return "STREAM1";
-+	default:
-+		return "unknown streamID";
-+	}
-+}
-+
-+char *isp4dbg_get_out_ch_str(int ch /* enum isp4fw_pipe_out_ch */)
-+{
-+	switch ((enum isp4fw_pipe_out_ch)ch) {
-+	case ISP_PIPE_OUT_CH_PREVIEW:
-+		return "prev";
-+	default:
-+		return "unknown channel";
-+	}
-+}
-diff --git a/drivers/media/platform/amd/isp4/isp4_debug.h b/drivers/media/platform/amd/isp4/isp4_debug.h
-new file mode 100644
-index 000000000000..1a13762af502
---- /dev/null
-+++ b/drivers/media/platform/amd/isp4/isp4_debug.h
-@@ -0,0 +1,41 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+/*
-+ * Copyright (C) 2025 Advanced Micro Devices, Inc.
-+ */
-+
-+#ifndef _ISP4_DEBUG_H_
-+#define _ISP4_DEBUG_H_
-+
-+#include <linux/printk.h>
-+#include <linux/dev_printk.h>
-+
-+#include "isp4_subdev.h"
-+
-+#ifdef CONFIG_DEBUG_FS
-+struct isp4_device;
-+
-+void isp_debugfs_create(struct isp4_device *isp_dev);
-+void isp_debugfs_remove(struct isp4_device *isp_dev);
-+void isp_fw_log_print(struct isp4_subdev *isp);
-+
-+#else
-+
-+/* to avoid checkpatch warning */
-+#define isp_debugfs_create(cam) ((void)(cam))
-+#define isp_debugfs_remove(cam) ((void)(cam))
-+#define isp_fw_log_print(isp) ((void)(isp))
-+
-+#endif /* CONFIG_DEBUG_FS */
-+
-+void isp4dbg_show_bufmeta_info(struct device *dev, char *pre, void *p,
-+			       void *orig_buf /* struct sys_img_buf_handle */);
-+char *isp4dbg_get_img_fmt_str(int fmt /* enum _image_format_t */);
-+char *isp4dbg_get_out_ch_str(int ch /* enum _isp_pipe_out_ch_t */);
-+char *isp4dbg_get_cmd_str(u32 cmd);
-+char *isp4dbg_get_buf_type(u32 type);/* enum _buffer_type_t */
-+char *isp4dbg_get_resp_str(u32 resp);
-+char *isp4dbg_get_buf_src_str(u32 src);
-+char *isp4dbg_get_buf_done_str(u32 status);
-+char *isp4dbg_get_if_stream_str(u32 stream);
-+
-+#endif /* _ISP4_DEBUG_H_ */
-diff --git a/drivers/media/platform/amd/isp4/isp4_interface.c b/drivers/media/platform/amd/isp4/isp4_interface.c
-index 2ab5029d39a9..bf7cf7996e01 100644
---- a/drivers/media/platform/amd/isp4/isp4_interface.c
-+++ b/drivers/media/platform/amd/isp4/isp4_interface.c
-@@ -5,6 +5,7 @@
- 
- #include <linux/iopoll.h>
- 
-+#include "isp4_debug.h"
- #include "isp4_fw_cmd_resp.h"
- #include "isp4_hw_reg.h"
- #include "isp4_interface.h"
-@@ -297,8 +298,8 @@ static int isp4if_insert_isp_fw_cmd(struct isp4_interface *ispif, enum isp4if_st
- 	rd_ptr = isp4hw_rreg(ispif->mmio, rreg);
- 	wr_ptr = isp4hw_rreg(ispif->mmio, wreg);
- 	if (rd_ptr >= len || wr_ptr >= len) {
--		dev_err(dev, "rb invalid: stream=%u, rd=%u, wr=%u, len=%u, cmd_sz=%u\n",
--			stream, rd_ptr, wr_ptr, len, cmd_sz);
-+		dev_err(dev, "rb invalid: stream=%u(%s), rd=%u, wr=%u, len=%u, cmd_sz=%u\n",
-+			stream, isp4dbg_get_if_stream_str(stream), rd_ptr, wr_ptr, len, cmd_sz);
- 		return -EINVAL;
- 	}
- 
-@@ -379,7 +380,8 @@ static int isp4if_send_fw_cmd(struct isp4_interface *ispif, u32 cmd_id, const vo
- 			u32 wr_ptr = isp4hw_rreg(ispif->mmio, rb_config->reg_wptr);
- 
- 			dev_err(dev,
--				"failed to get free cmdq slot, stream (%d),rd %u, wr %u\n",
-+				"failed to get free cmdq slot, stream %s(%d),rd %u, wr %u\n",
-+				isp4dbg_get_if_stream_str(stream),
- 				stream, rd_ptr, wr_ptr);
- 			ret = -ETIMEDOUT;
- 			goto free_ele;
-@@ -403,7 +405,8 @@ static int isp4if_send_fw_cmd(struct isp4_interface *ispif, u32 cmd_id, const vo
- 
- 		ret = isp4if_insert_isp_fw_cmd(ispif, stream, &cmd);
- 		if (ret) {
--			dev_err(dev, "fail for insert_isp_fw_cmd cmd_id (0x%08x)\n", cmd_id);
-+			dev_err(dev, "fail for insert_isp_fw_cmd cmd_id %s(0x%08x)\n",
-+				isp4dbg_get_cmd_str(cmd_id), cmd_id);
- 			goto err_dequeue_ele;
- 		}
- 	}
-@@ -648,17 +651,17 @@ int isp4if_f2h_resp(struct isp4_interface *ispif, enum isp4if_stream_id stream,
- 	if (checksum != resp->resp_check_sum) {
- 		dev_err(dev, "resp checksum 0x%x,should 0x%x,rptr %u,wptr %u\n",
- 			checksum, resp->resp_check_sum, rd_ptr, wr_ptr);
--		dev_err(dev, "(%u), seqNo %u, resp_id (0x%x)\n",
--			stream, resp->resp_seq_num,
--			resp->resp_id);
-+		dev_err(dev, "%s(%u), seqNo %u, resp_id %s(0x%x)\n",
-+			isp4dbg_get_if_stream_str(stream), stream, resp->resp_seq_num,
-+			isp4dbg_get_resp_str(resp->resp_id), resp->resp_id);
- 		return -EINVAL;
- 	}
- 
- 	return 0;
- 
- err_rb_invalid:
--	dev_err(dev, "rb invalid: stream=%u, rd=%u, wr=%u, len=%u, resp_sz=%u\n",
--		stream, rd_ptr, wr_ptr, len, resp_sz);
-+	dev_err(dev, "rb invalid: stream=%u(%s), rd=%u, wr=%u, len=%u, resp_sz=%u\n",
-+		stream, isp4dbg_get_if_stream_str(stream), rd_ptr, wr_ptr, len, resp_sz);
- 	return -EINVAL;
- }
- 
-diff --git a/drivers/media/platform/amd/isp4/isp4_subdev.c b/drivers/media/platform/amd/isp4/isp4_subdev.c
-index 0fa646e37e8c..2612ca283fc0 100644
---- a/drivers/media/platform/amd/isp4/isp4_subdev.c
-+++ b/drivers/media/platform/amd/isp4/isp4_subdev.c
-@@ -6,6 +6,7 @@
- #include <linux/pm_domain.h>
- #include <linux/units.h>
- 
-+#include "isp4_debug.h"
- #include "isp4_fw_cmd_resp.h"
- #include "isp4_interface.h"
- #include "isp4.h"
-@@ -255,9 +256,9 @@ static int isp4sd_setup_output(struct isp4_subdev *isp_subdev,
- 		return -EINVAL;
- 	}
- 
--	dev_dbg(dev, "channel:%d,fmt %d,w:h=%u:%u,lp:%u,cp%u\n",
--		cmd_ch_prop.ch,
--		cmd_ch_prop.image_prop.image_format,
-+	dev_dbg(dev, "channel:%s,fmt %s,w:h=%u:%u,lp:%u,cp%u\n",
-+		isp4dbg_get_out_ch_str(cmd_ch_prop.ch),
-+		isp4dbg_get_img_fmt_str(cmd_ch_prop.image_prop.image_format),
- 		cmd_ch_prop.image_prop.width, cmd_ch_prop.image_prop.height,
- 		cmd_ch_prop.image_prop.luma_pitch,
- 		cmd_ch_prop.image_prop.chroma_pitch);
-@@ -285,7 +286,7 @@ static int isp4sd_setup_output(struct isp4_subdev *isp_subdev,
- 		return ret;
- 	}
- 
--	dev_dbg(dev, "enable channel %d\n", cmd_ch_en.ch);
-+	dev_dbg(dev, "enable channel %s\n", isp4dbg_get_out_ch_str(cmd_ch_en.ch));
- 
- 	if (!sensor_info->start_stream_cmd_sent) {
- 		ret = isp4sd_kickoff_stream(isp_subdev,
-@@ -392,8 +393,9 @@ static void isp4sd_fw_resp_cmd_done(struct isp4_subdev *isp_subdev,
- 		isp4if_rm_cmd_from_cmdq(ispif, para->cmd_seq_num, para->cmd_id);
- 	struct device *dev = isp_subdev->dev;
- 
--	dev_dbg(dev, "stream %d,cmd (0x%08x)(%d),seq %u, ele %p\n",
-+	dev_dbg(dev, "stream %d,cmd %s(0x%08x)(%d),seq %u, ele %p\n",
- 		stream_id,
-+		isp4dbg_get_cmd_str(para->cmd_id),
- 		para->cmd_id, para->cmd_status, para->cmd_seq_num,
- 		ele);
- 
-@@ -468,9 +470,10 @@ static void isp4sd_fw_resp_frame_done(struct isp4_subdev *isp_subdev,
- 		return;
- 	}
- 
--	dev_dbg(dev, "ts:%llu,streamId:%d,poc:%u,preview_en:%u,(%i)\n",
-+	dev_dbg(dev, "ts:%llu,streamId:%d,poc:%u,preview_en:%u,%s(%i)\n",
- 		ktime_get_ns(), stream_id, meta->poc,
- 		meta->preview.enabled,
-+		isp4dbg_get_buf_done_str(meta->preview.status),
- 		meta->preview.status);
- 
- 	if (meta->preview.enabled &&
-@@ -479,6 +482,8 @@ static void isp4sd_fw_resp_frame_done(struct isp4_subdev *isp_subdev,
- 	     meta->preview.status == BUFFER_STATUS_DIRTY)) {
- 		prev = isp4if_dequeue_buffer(ispif);
- 		if (prev) {
-+			isp4dbg_show_bufmeta_info(dev, "prev", &meta->preview,
-+						  &prev->buf_info);
- 			isp4vid_handle_frame_done(&isp_subdev->isp_vdev,
- 						  &prev->buf_info);
- 			isp4if_dealloc_buffer_node(prev);
-@@ -486,8 +491,9 @@ static void isp4sd_fw_resp_frame_done(struct isp4_subdev *isp_subdev,
- 			dev_err(dev, "fail null prev buf\n");
- 		}
- 	} else if (meta->preview.enabled) {
--		dev_err(dev, "fail bad preview status %u\n",
--			meta->preview.status);
-+		dev_err(dev, "fail bad preview status %u(%s)\n",
-+			meta->preview.status,
-+			isp4dbg_get_buf_done_str(meta->preview.status));
- 	}
- 
- 	if (isp_subdev->sensor_info.status == ISP4SD_START_STATUS_STARTED)
-@@ -504,6 +510,9 @@ static void isp4sd_fw_resp_func(struct isp4_subdev *isp_subdev,
- 	struct device *dev = isp_subdev->dev;
- 	struct isp4fw_resp resp;
- 
-+	if (stream_id == ISP4IF_STREAM_ID_1)
-+		isp_fw_log_print(isp_subdev);
-+
- 	while (true) {
- 		if (isp4if_f2h_resp(ispif, stream_id, &resp)) {
- 			/* Re-enable the interrupt */
-@@ -532,7 +541,9 @@ static void isp4sd_fw_resp_func(struct isp4_subdev *isp_subdev,
- 						  &resp.param.frame_done);
- 			break;
- 		default:
--			dev_err(dev, "-><- fail respid (0x%x)\n", resp.resp_id);
-+			dev_err(dev, "-><- fail respid %s(0x%x)\n",
-+				isp4dbg_get_resp_str(resp.resp_id),
-+				resp.resp_id);
- 			break;
- 		}
- 	}
-@@ -880,7 +891,6 @@ static int isp4sd_ioc_send_img_buf(struct v4l2_subdev *sd,
- 
- error_release_buf_node:
- 	isp4if_dealloc_buffer_node(buf_node);
--
- 	return ret;
- }
- 
-diff --git a/drivers/media/platform/amd/isp4/isp4_subdev.h b/drivers/media/platform/amd/isp4/isp4_subdev.h
-index 2d3844cf0152..ed4c6fac6b6a 100644
---- a/drivers/media/platform/amd/isp4/isp4_subdev.h
-+++ b/drivers/media/platform/amd/isp4/isp4_subdev.h
-@@ -116,6 +116,11 @@ struct isp4_subdev {
- 	int irq[ISP4SD_MAX_FW_RESP_STREAM_NUM];
- 	bool irq_enabled;
- 	spinlock_t irq_lock;
-+#ifdef CONFIG_DEBUG_FS
-+	bool enable_fw_log;
-+	struct dentry *debugfs_dir;
-+	char *fw_log_output;
-+#endif
- };
- 
- int isp4sd_init(struct isp4_subdev *isp_subdev, struct v4l2_device *v4l2_dev,
+@@ -1139,6 +1139,8 @@ M:	Nirujogi Pratap <pratap.nirujogi@amd.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
++F:	Documentation/admin-guide/media/amdisp4-1.rst
++F:	Documentation/admin-guide/media/amdisp4.dot
+ F:	drivers/media/platform/amd/Kconfig
+ F:	drivers/media/platform/amd/Makefile
+ F:	drivers/media/platform/amd/isp4/Kconfig
 -- 
 2.34.1
 
