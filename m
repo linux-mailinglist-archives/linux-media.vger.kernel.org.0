@@ -1,118 +1,258 @@
-Return-Path: <linux-media+bounces-47894-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47895-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id E91AAC9371A
-	for <lists+linux-media@lfdr.de>; Sat, 29 Nov 2025 04:13:06 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id C45C9C938A4
+	for <lists+linux-media@lfdr.de>; Sat, 29 Nov 2025 07:12:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2B94E4E1BC1
-	for <lists+linux-media@lfdr.de>; Sat, 29 Nov 2025 03:13:04 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3772D344563
+	for <lists+linux-media@lfdr.de>; Sat, 29 Nov 2025 06:12:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28A53226863;
-	Sat, 29 Nov 2025 03:12:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68761257459;
+	Sat, 29 Nov 2025 06:12:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jrv3pmRf"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GinDFJPP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB851223DEC
-	for <linux-media@vger.kernel.org>; Sat, 29 Nov 2025 03:12:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 004C722259A
+	for <linux-media@vger.kernel.org>; Sat, 29 Nov 2025 06:12:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764385978; cv=none; b=FfVertusCnZhB1Kwl4qUsWg9R6ZlfFa+ubBKVyqjHDmka+UhOkHwQJGMsAFH/pnOOQrRCwwBcPsftfV3ua8OwNy3eAR/biXNTEMlOkCkifWQEFpAKpvC33C+kxtJA5iDG2Q350skNz1xUw6YBbpXONwmlTE9/qfw3x8PQTf3fcg=
+	t=1764396771; cv=none; b=k20UVnipZ02W/k7AMO2HuedCF4AKzt8jxFVuuUyH9VW8itZIFi4la9ep+rFzrwtb7Mz5y7R4Oc/DCGb7YFGEA53c4guLOLql3YlvQmG4V0k6tDCtmxDgdFeQflnf+SrrpPJaB9pfQ7N0ofFvt4iBs9nEncTnjtwRrmjozl2yXTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764385978; c=relaxed/simple;
-	bh=gBqvj1synVy8RMn1mCeUyNXxSszTPGrL2RT3kUA25q8=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=FYKhxI2UpEivpsehGK02NeDUkVKCRlYyOJDC//eVdAxn4v0XCwGrrjMbuxgCfVAum7lBRXEFYLnJyV4r0ovPrvAwg/Whh1lOgRiVw8bfG3z6rB+BQC+8zRDtoXZQbvuiI3hTPkVvuJiWXA5BHUJb3w6N/yNBWoJsy04ZmkIzapE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jrv3pmRf; arc=none smtp.client-ip=209.85.208.51
+	s=arc-20240116; t=1764396771; c=relaxed/simple;
+	bh=pwhk6KUC9aj1bO1CnKCgI1WgBJAeVfM9l/gwJMBdHX8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=orPpYwSC/b1r4UnG91e9rHPxfy11dg6X+oiVf9Eu8xwnlHsTyPYS6ftFLBnywfbbJzNyUZzwrT+mlsMc6tph1n4fKcNqz9jpLMcCS/dt4izku4KHH4Gm6jHXZ/VDBqb8mgMZPQOylQzxd9GmKnxg51udyRFzHMUcPBbgReVa7oM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GinDFJPP; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-6418b55f86dso4390593a12.1
-        for <linux-media@vger.kernel.org>; Fri, 28 Nov 2025 19:12:56 -0800 (PST)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-42b3108f41fso1571873f8f.3
+        for <linux-media@vger.kernel.org>; Fri, 28 Nov 2025 22:12:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764385975; x=1764990775; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=7uQOgD/5jZCPoHKqIzx3j94PJzXU8RNCbb29emXOAD4=;
-        b=jrv3pmRfz5UmaxehhzFxsfdxn2zx2kr3AIwNUBXLit9qpploVSD9WfaBgFxoyYEx9a
-         mZ7QHniIVL+v4RY/hLxh1MpHn9cm5O3AJmdewRU5h8DrevINTJEgh3/jMtLxdFLE0nSs
-         200W6TLXZ/a+ELjaVEABGWd6JW9hj+C3oyrMMryTGifSz8+xistZYfduMzNmt0cIxpQx
-         Z6u3ZvmWKCCChcK02cE9ebleUy7S/tmT2WBy4/JCgrgcIqYSWkGF8UNyXH0bZArb+EiP
-         aT8JUCdhEoSvrod1otb/oDmu/ZHJsPG+vZqV0w6p+s2mVXWUZjhx8LYINK4yBd21mHk9
-         FRhw==
+        d=gmail.com; s=20230601; t=1764396768; x=1765001568; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3fiwCuDBn6bCR36wBmkPpqkRzBcsOHTvfCQX1x7iMNw=;
+        b=GinDFJPP5xcOU74CLFdmchDuoiUAiaE9CbupwOZz7lOsSjGUQPjxR7QNOJcQA3vCE2
+         qPpbVP0rCsVDrZk1NGlcYpfZzVM/B70LkBekIOhpw8HV4vZgSCFVsjg6FTfMYfQw1yAx
+         tBuHapBGYnwBRENl71dZC66lV1BnkvxFyX4RTnn70lyVx1hStpfsme9EFRKq5bCS8CAp
+         gOJ5kXdGJsXUPbM7hiYRUGPBPpn66wJoDarMbTYwZ9NN0kmhVV1vPud8hwd+woGbGeYd
+         fKOitWifFLfBcJ9/tzB4QPHyDB8DohShQR2o/g9OSXoIK2Rwq46R5A6Fe3phGU0ZkDxQ
+         UWSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764385975; x=1764990775;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7uQOgD/5jZCPoHKqIzx3j94PJzXU8RNCbb29emXOAD4=;
-        b=GoaTKceNz6qj9drEM11i8pcXxagc5u+7gG/epg56+eKTElaTQiTIv9JJulMuhbZd96
-         H3OEwiI5ZQz/hOg8JwoIihlqw8T2zAOPmBroljf0L8gA+oZ6jKaNyTzZ5MlwvaSkh7mF
-         ZyeKRnk7UkD08HEBFhfAzd49N5zZ3Ppzagu8/X68FQoRt05pH+SxyVGGStAXPRgjBVYV
-         EUQlYEOMkxBlZA4STZXilGWkaDAy9eoMJsiP9pzjzZA2DeQ6gwtypDiYB010AcS4yJNk
-         4XNym1aKaKolfJewXBN1q3hOk91P43oNTBCC9PgD+OJPMz9vpl2PeU7kw5TaIFJAU93y
-         ICtw==
-X-Forwarded-Encrypted: i=1; AJvYcCWCXBLCsLplvoI8c9XsEGHcAvri1WDGS4hvL/MZTNCWU7A3N2xcyCBI8M/pySOspLsnx7REMCdF37f8Sg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzAr1Qc0hsnjSA9NIC/3bBW8xg0ISWp/0kd6YYQ4oZqYyA9fHRO
-	1BTEAqSK8AUqSdShgB7FA6moounnyMuce9ZE863xVHhtzY6/DINROMyhfaNK8o9tg9tEc/ZbE4E
-	3DR863imyrie/4h1bt+sBtt173Wi02IM=
-X-Gm-Gg: ASbGncu4+NSRoDbnK9s3N3TOz679Pu99ciRLPxmmrpRyLNRYCIwjJLc2pIC40L/bh/x
-	4x+HFPRQpgAgJZAfaIZOYEk0Mob6//QQy79ewfOMdmXIV5h9D4Nj290uFjV9N/hXMq3aUHtqPhj
-	0uSbY1Zps7OQaZN7ZSGFjQqO8HILbvEoZ8cK35w4n9Mndtoj9SLbH0IXkj9UpD7Jk8YPdam2fnM
-	xPkGMJNUn9J38avfcyYpoZgobifILKXhDz4bvfshkUGa85LhWsEOpC4xN6FzCKTvLaL/fMJgXgN
-	Tl0f/j4=
-X-Google-Smtp-Source: AGHT+IHvpzSGkBukOTWMR73+sOile9X8cv5+wm7bdrLvaMI0DYfUV6Jzjv0ZzRtXRW2Wt2uW5t78Dn1xyMQ59IizN/o=
-X-Received: by 2002:a05:6402:42ca:b0:640:b373:205e with SMTP id
- 4fb4d7f45d1cf-64554469ef2mr30194946a12.15.1764385975144; Fri, 28 Nov 2025
- 19:12:55 -0800 (PST)
+        d=1e100.net; s=20230601; t=1764396768; x=1765001568;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3fiwCuDBn6bCR36wBmkPpqkRzBcsOHTvfCQX1x7iMNw=;
+        b=U0cjKfa7UyMSLeKGIiVNVyMcrJrJyPaEaxoVRfYsy38h4S77XR72kzYuZ51pC4Ki+e
+         6/ovyFFPQfEhjx0dHjZwLhrgr+0a+KR31bn8OTBI8f0SxxCXV6HIKdnONDLKXZRSDRsj
+         otimjiE8rxcOJoMHpjygoE3gS38i2+3FYT7xd6+ckxNumdB41Jj2kTo0GpcHfjtV+NLv
+         U+xZRWMeIdvsoy3OE4oSOHzTAaPJFk96YsJ1aDEmAmlVLsDVndNhMCIxPZm5iTXgRHu6
+         MnfaD80NElCngcs7L1dIOc/w+tecJaMGcsr8wnyNHa0ZvwXuddTglz5P/KUWsR52mAei
+         KA0w==
+X-Forwarded-Encrypted: i=1; AJvYcCVXiqoCY5NG9yhNHJS+zpbNhpn4pC7aOvkxCae9dt6xQlDA/cQh6aXR8Hh0/19JCTCiCJDih9um/FFKLw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzNL4paahAZZ/qQ0+Csu8aNJfv9K1XWdsL1Mf+3CPzlTmbJyg+W
+	BzeLNnw1RFJdClWZ9547sqGPG0P4Xe0Ppd1iVKBcdctHQidihmVi0Lgp
+X-Gm-Gg: ASbGncuDTe+L5dLsol9l1mlaWcQMz18SUfdhcDLDuz6Hy3p/6YBRlzRA4wF5fA9pmWG
+	T+nrGOQFr1QY4IEygKNb6xSae/QJLkAFvAF2jdCIsCRU6L+KtDRShcXjQCrkwJexjQBoc3PE8zn
+	6IefyMYpHi2GPisrJRv8TOmISiT6IVFGtedSR7emRLLYADHri30X4sJSWnQeGpT8OIUcM2020lI
+	CLuFf9h4PvmMIGXb1oWlJ7rIh/h5XEHWwZLwPDnNHXRK2JBYB5DjmTzFT/kVgynmkAGom5fFH/O
+	a5sMUp48mXXCfDAAiwPunowARTPbi6shCddlOEsDYxqNFL4vtlOFF29xEnyYPolX0HIRjZkPb9Q
+	iYkHZ/A8aNa3nD1bXAedz13GSSsa+vlQpbOHzNiSZYRwT3JGn/ctgVA+hcSqHs/P73RxzmdsQGT
+	3YgXQmpv8HCz54aQ==
+X-Google-Smtp-Source: AGHT+IHQ+0VjmmaEZNp55jPFWS27fq/ncIV93c7qAUFgJU59OllCnHsJo3akw3S5TwbkSGCIvSatYg==
+X-Received: by 2002:a5d:5f51:0:b0:42b:5448:7b1a with SMTP id ffacd0b85a97d-42cc1d0c768mr32010097f8f.39.1764396768020;
+        Fri, 28 Nov 2025 22:12:48 -0800 (PST)
+Received: from hamdan-pc.. ([39.34.128.191])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42e1c5c304csm13395224f8f.8.2025.11.28.22.12.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Nov 2025 22:12:47 -0800 (PST)
+From: Hamdan Khan <hamdankhan212@gmail.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	andy@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Hamdan Khan <hamdankhan212@gmail.com>
+Subject: [PATCH] staging: media: atomisp: Fix typos and comments alignment issue in include/linux/* header files
+Date: Sat, 29 Nov 2025 11:12:28 +0500
+Message-ID: <20251129061228.6286-1-hamdankhan212@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Sashank Karri <sashank.karri@gmail.com>
-Date: Fri, 28 Nov 2025 21:12:44 -0600
-X-Gm-Features: AWmQ_bnaoCTkQp7Azh-ZPyPEKL2qZDcbgGWSO3CVDvhkeW9g26p4S5q-sMHQ8zs
-Message-ID: <CAL3XFnZ3XatQkR2HXpyfT6BK7bCjjGcaS5LjtK0DxPfHX0Q-dg@mail.gmail.com>
-Subject: Re: [PATCH v6 0/7] Add AMD ISP4 driver
-To: bin.du@amd.com
-Cc: Dominic.Antony@amd.com, Phil.Jawich@amd.com, anson.tsao@amd.com, 
-	benjamin.chan@amd.com, bryan.odonoghue@linaro.org, 
-	gjorgji.rosikopulos@amd.com, hverkuil@xs4all.nl, king.li@amd.com, 
-	laurent.pinchart+renesas@ideasonboard.com, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, mario.limonciello@amd.com, mchehab@kernel.org, 
-	prabhakar.mahadev-lad.rj@bp.renesas.com, pratap.nirujogi@amd.com, 
-	richard.gong@amd.com, sakari.ailus@linux.intel.com, sultan@kerneltoast.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Dear Bin,
+This patch fixes minor comment and code alignment issues in
+atomisp/include/linux/*.h header files. Some of them were warnings
+generated by checkpatch.pl (missing * at the start of the line or */
+present in the same line)
 
-I apologize if this is the wrong place to ask this question and
-suggest this very slight edit if I understand how ISP4 on the Ryzen AI
-Max+ 300 series SoCs works.  So the ASUS Rog Flow Z13 2025 also uses
-the same Strix Halo chips, albeit using the non-PRO series.  On the
-Windows side, the 13MP sensor, also from Omnivision, requires an AMD
-Camera Driver, something speciifcally also required by the  5.2 MP
-camera on the HP ZBook Ultra G1a.  So if both MIPI-capable cameras use
-the ISP4 technology on the Strix Halo SoC (do they?), this Linux ISP4
-driver should apply to both cameras, right? If so, shouldn't the ACPI
-ID for the 13MP sensor also be hardcoded into this code
+The changes are code-style related only and don't affect the
+functionality.
 
-> drm/amd/amdgpu: Declare isp firmware binary file (https://gitlab.freedesktop.org/agd5f/linux/-/commit/35345917bc9f7c86152b270d9d93c220230b667f)
+Signed-off-by: Hamdan Khan <hamdankhan212@gmail.com>
+---
+ .../media/atomisp/include/linux/atomisp.h     | 30 +++++++++++--------
+ .../include/linux/atomisp_gmin_platform.h     |  7 ++---
+ .../atomisp/include/linux/atomisp_platform.h  | 21 +++++++------
+ 3 files changed, 32 insertions(+), 26 deletions(-)
 
-Adam J. Sypniewski suggested hardcoding the ACPI ID into the I2C
-driver here to have the 13MP camera to work (the ASUS specific ACPI ID
-for the sensor can be found here):
-https://lore.kernel.org/lkml/aPeqy11m-TxwbzJV@garrus/
+diff --git a/drivers/staging/media/atomisp/include/linux/atomisp.h b/drivers/staging/media/atomisp/include/linux/atomisp.h
+index 3c8fa3f5808d..bce4e5f1bfc7 100644
+--- a/drivers/staging/media/atomisp/include/linux/atomisp.h
++++ b/drivers/staging/media/atomisp/include/linux/atomisp.h
+@@ -146,8 +146,7 @@ struct atomisp_3a_config {
+ 	unsigned int ae_y_coef_r;	/* [gain] Weight of R for Y */
+ 	unsigned int ae_y_coef_g;	/* [gain] Weight of G for Y */
+ 	unsigned int ae_y_coef_b;	/* [gain] Weight of B for Y */
+-	unsigned int awb_lg_high_raw;	/* [intensity]
+-					   AWB level gate high for raw */
++	unsigned int awb_lg_high_raw;	/* [intensity] AWB level gate high for raw */
+ 	unsigned int awb_lg_low;	/* [intensity] AWB level gate low */
+ 	unsigned int awb_lg_high;	/* [intensity] AWB level gate high */
+ 	int af_fir1_coef[7];	/* [factor] AF FIR coefficients of fir1 */
+@@ -272,8 +271,10 @@ struct atomisp_wb_config {
+ /* Color Space Conversion settings */
+ struct atomisp_cc_config {
+ 	unsigned int fraction_bits;
+-	int matrix[3 * 3];	/* RGB2YUV Color matrix, signed
+-				   <13-fraction_bits>.<fraction_bits> */
++	/* RGB2YUV Color matrix, signed
++	 * <13-fraction_bits>.<fraction_bits>
++	 */
++	int matrix[3 * 3];
+ };
+ 
+ /* De pixel noise configuration */
+@@ -425,10 +426,8 @@ struct atomisp_parameters {
+ 	struct atomisp_3a_config   *a3a_config; /* 3A Statistics config */
+ 	struct atomisp_xnr_config  *xnr_config; /* eXtra Noise Reduction */
+ 	struct atomisp_dz_config   *dz_config;  /* Digital Zoom */
+-	struct atomisp_cc_config *yuv2rgb_cc_config; /* Color
+-							Correction config */
+-	struct atomisp_cc_config *rgb2yuv_cc_config; /* Color
+-							Correction config */
++	struct atomisp_cc_config *yuv2rgb_cc_config; /* Color Correction config */
++	struct atomisp_cc_config *rgb2yuv_cc_config; /* Color Correction config */
+ 	struct atomisp_macc_table  *macc_table;
+ 	struct atomisp_gamma_table *gamma_table;
+ 	struct atomisp_ctc_table   *ctc_table;
+@@ -538,7 +537,8 @@ struct atomisp_ctc_table {
+ 
+ /* Parameter for overlay image loading */
+ struct atomisp_overlay {
+-	/* the frame containing the overlay data The overlay frame width should
++	/*
++	 * the frame containing the overlay data The overlay frame width should
+ 	 * be the multiples of 2*ISP_VEC_NELEMS. The overlay frame height
+ 	 * should be the multiples of 2.
+ 	 */
+@@ -562,10 +562,12 @@ struct atomisp_overlay {
+ 	/* the blending percent of overlay data for V subpixels */
+ 	unsigned char blend_overlay_perc_v;
+ 	/* the overlay start x pixel position on output frame It should be the
+-	   multiples of 2*ISP_VEC_NELEMS. */
++	 * multiples of 2*ISP_VEC_NELEMS.
++	 */
+ 	unsigned int overlay_start_x;
+ 	/* the overlay start y pixel position on output frame It should be the
+-	   multiples of 2. */
++	 * multiples of 2.
++	 */
+ 	unsigned int overlay_start_y;
+ };
+ 
+@@ -836,8 +838,10 @@ enum atomisp_burst_capture_options {
+ #define V4L2_CID_ATOMISP_LOW_LIGHT \
+ 	(V4L2_CID_PRIVATE_BASE + 5)
+ 
+-/* Camera class:
+- * Exposure, Flash and privacy (indicator) light controls, to be upstreamed */
++/*
++ * Camera class:
++ * Exposure, Flash and privacy (indicator) light controls, to be upstreamed
++ */
+ #define V4L2_CID_CAMERA_LASTP1             (V4L2_CID_CAMERA_CLASS_BASE + 1024)
+ 
+ #define V4L2_CID_RUN_MODE			(V4L2_CID_CAMERA_LASTP1 + 20)
+diff --git a/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h b/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h
+index 426c5ee4ec18..415b265505c7 100644
+--- a/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h
++++ b/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h
+@@ -15,8 +15,7 @@ int atomisp_gmin_remove_subdev(struct v4l2_subdev *sd);
+ int gmin_get_var_int(struct device *dev, bool is_gmin,
+ 		     const char *var, int def);
+ struct camera_sensor_platform_data *
+-gmin_camera_platform_data(
+-    struct v4l2_subdev *subdev,
+-    enum atomisp_input_format csi_format,
+-    enum atomisp_bayer_order csi_bayer);
++gmin_camera_platform_data(struct v4l2_subdev *subdev,
++			  enum atomisp_input_format csi_format,
++			  enum atomisp_bayer_order csi_bayer);
+ #endif
+diff --git a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
+index 6146555fe9cf..2378a21ee961 100644
+--- a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
++++ b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
+@@ -72,10 +72,12 @@ enum atomisp_input_format {
+ 
+ 	/* CSI2-MIPI specific format: YUV data.
+ 	 */
+-	ATOMISP_INPUT_FORMAT_YUV420_8_SHIFT,  /* YUV420 8-bit (Chroma Shifted
+-						 Pixel Sampling) */
+-	ATOMISP_INPUT_FORMAT_YUV420_10_SHIFT, /* YUV420 8-bit (Chroma Shifted
+-						 Pixel Sampling) */
++	ATOMISP_INPUT_FORMAT_YUV420_8_SHIFT,   /* YUV420 8-bit (Chroma Shifted
++						* Pixel Sampling)
++						*/
++	ATOMISP_INPUT_FORMAT_YUV420_10_SHIFT,  /* YUV420 10-bit (Chroma Shifted
++						* Pixel Sampling)
++						*/
+ 
+ 	/* CSI2-MIPI specific format: Generic long packet data
+ 	 */
+@@ -105,7 +107,7 @@ struct intel_v4l2_subdev_table {
+ };
+ 
+ /*
+- *  Sensor of external ISP can send multiple streams with different mipi data
++ * Sensor of external ISP can send multiple streams with different mipi data
+  * type in the same virtual channel. This information needs to come from the
+  * sensor or external ISP
+  */
+@@ -119,13 +121,14 @@ struct atomisp_input_stream_info {
+ 	enum atomisp_input_stream_id stream;
+ 	u8 enable;
+ 	/* Sensor driver fills ch_id with the id
+-	   of the virtual channel. */
++	 * of the virtual channel.
++	 */
+ 	u8 ch_id;
+ 	/* Tells how many streams in this virtual channel. If 0 ignore rest
+-	 * and the input format will be from mipi_info */
++	 * and the input format will be from mipi_info
++	 */
+ 	u8 isys_configs;
+-	/*
+-	 * if more isys_configs is more than 0, sensor needs to configure the
++	/* If isys_configs is more than 0, sensor needs to configure the
+ 	 * input format differently. width and height can be 0. If width and
+ 	 * height is not zero, then the corresponding data needs to be set
+ 	 */
+-- 
+2.43.0
 
-I'm entirely new to the Linux kernel mailing list and very unfamiliar
-with webcam interfaces and how ASUS has chosen to interface the 13 MP
-sensor with the system, but I can confirm that it does not work yet in
-the Linux desktop, so I was wondering if the work on this new driver
-is necessary to get it to work.
-
-Sashank
 
