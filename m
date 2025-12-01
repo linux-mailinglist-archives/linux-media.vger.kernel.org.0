@@ -1,134 +1,139 @@
-Return-Path: <linux-media+bounces-47929-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47930-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CD23C96809
-	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 10:56:48 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id C992AC969DF
+	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 11:22:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CE6A73A2158
-	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 09:56:42 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 98CAD4E12F8
+	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 10:22:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2EA02FCC17;
-	Mon,  1 Dec 2025 09:55:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E62D302CB4;
+	Mon,  1 Dec 2025 10:22:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ahXOM0cQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XycC24qm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CFD4301034
-	for <linux-media@vger.kernel.org>; Mon,  1 Dec 2025 09:55:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81BCD21CC4F
+	for <linux-media@vger.kernel.org>; Mon,  1 Dec 2025 10:22:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764582905; cv=none; b=hPDRpP1AdywEXyep/17SGlnTjaA5dgX/2rUCxiI2E8HGdAjLuUVg/XImEVD00cDzh/CA+x42vAxJsCx108VBsq61ovE7bwB+OzMxDFhcZ6fOeTMSjwTK//ooQBhISoxioHLy+EgsFBeX3RBc49GkGiBpK8qnEuAcY8AIuGYHf3k=
+	t=1764584534; cv=none; b=BuMp8s91p7fmNePEi5OZMW/xYMw3mAhf6nUL6Cxh1QzC6LOl/QS6VBMf7H9+hf1D743U6pOtqLOHY6+WkaWwcbRCTIxJPUklrQJ9xNf+qlHHJJatllwZ2Xh8hKMT5bogcCuBjbpVxAEG5mrqH/IZQTcq6C5ueO1Aiq0NJ5fzbAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764582905; c=relaxed/simple;
-	bh=qQliQQ50xmA8nSOzImbhq3Vz4boRpMYBIDIh6ji/bLQ=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=TTV5r/6wN3RUbLBnhOoTSG+EPfeccz2tRK46dTOZzXYLLj8UMLoKzsG4v1nQ28jmMbM+QNI5EZ6nXJrbYAMjCOczzU4UZGYi8GgRk+HJeFnbED4g8I7RO15Rt6i9xUQc4tc+lrtX1KNm9pDuSLyZLUhxCEgax7BW7/6Ndf1l5ww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ahXOM0cQ; arc=none smtp.client-ip=209.85.128.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-477771366cbso24362425e9.0
-        for <linux-media@vger.kernel.org>; Mon, 01 Dec 2025 01:55:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1764582902; x=1765187702; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=72s8cxP8m32nLOQlBnrTppnRNNSnWx6bZ8vmeua9AuM=;
-        b=ahXOM0cQBjRw3muTL6UFcCsTa8oh+L5YBJRK1MXdw1G74secpZ+F34f6W2eDPXb/42
-         2FiHc5vvQRzGFh6Bdh4T3R+cnk7yy4agX2huQRfv9BYbCfpm/ySfFKBauVmZA8m43veM
-         YWR5NPoqn4Up0MGGqeleFcBk1veENSPl0ZkBPjh5kuqW6wkNVWt1tAjFnc4GBIZmBuU4
-         5c2B+Xnmu3lIevTsQVtkXFe8+QkO/gN/JnEYGJUTdlmpsau0+yNaP8nPw7bAUJBXr0aw
-         HiPwqCsGSqnYcdqlJ5H7bxEI1I7ydSkvB+/r720ljCRWr+iO4ekkPaVLR/hCMK/JstBN
-         jDXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764582902; x=1765187702;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=72s8cxP8m32nLOQlBnrTppnRNNSnWx6bZ8vmeua9AuM=;
-        b=Or0GGN3us04yZHcs6e4IPfOph2Aa2jirRNU59bHoWEsi3pMoyXBGhF+CJ/ovmPmpKP
-         j0WEfcmOyCytM/XW9O+i2AqoQJxfgketBTxocVkkKO3xtPGTfNOCYkvGsfjMsEyJGsJZ
-         sKIfP2RjxIyOsQycO2se5rd2OL9kn2iiN/UX1JQLC9B6DREdpSQsjHAOrBUg2ovZE6sA
-         TPmx9RyjqZIffae5PGjrlqwVcDzxnsew36ZGkgjI7zOEvWBhCtZGRCx6AOWyYK+lg1SO
-         rhlhkDrJ3hxpeOV27a37BqZfd1LzgLfXJ2HzQ8uFAhn5juKpgQBMo2oEcQPNFTC9zaln
-         pcBw==
-X-Forwarded-Encrypted: i=1; AJvYcCVCpS97S1OaegM1qvjKcan0MOGY3QFkQJSedMZYhhGLYJZZBW9UuCogJ8B6E7hK/CVVsfwYa7s7L+2kOA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxlrq4aZ13fUknEKjF8Lpvx04mEOvTDiOKSVLv6cTUW0avoqSJl
-	nf89Vkoq+XYddBNbIGlWZIZmUbZW4W7qs4OVOBOcGteUvNZ8AHFtDqd5GVRLsXtEd3qwyYZmPno
-	aSMvkNW3eXNBNHFxVbA==
-X-Google-Smtp-Source: AGHT+IHR/gzeFh7+KeD1MsGLOFVqoY8R7VwUnjkirrmR28Kdsu+0Qy8DFoIl1J3N86VCTwEGoZO2EDfdb0ODTEY=
-X-Received: from wmba22.prod.google.com ([2002:a05:600c:6dd6:b0:477:7ad9:2aa])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:4f4c:b0:475:da1a:53f9 with SMTP id 5b1f17b1804b1-477c0184b1emr414720285e9.14.1764582901820;
- Mon, 01 Dec 2025 01:55:01 -0800 (PST)
-Date: Mon, 1 Dec 2025 09:55:00 +0000
-In-Reply-To: <20251128152403.72aedafa@fedora>
+	s=arc-20240116; t=1764584534; c=relaxed/simple;
+	bh=NUvejo8feWFJm1jwQbZvluG19HxaH/1MRmoiBS+9vyg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EiUVl45FgVSTw+2B6t8iq86+V1LMVpjx6hb0vVeJSNyV4ajW0WTDsR4aAoCpaC2iNnbXx5ds12dipbt0qOoOjIi8f25zgj2HlsnDvnbgQCLhd6pg15BO9shbP5ChuJOqd38FLCp9N7HjOt0HeE+zioDtCYbkG5LpbcFpQYuZx1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XycC24qm; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764584533; x=1796120533;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NUvejo8feWFJm1jwQbZvluG19HxaH/1MRmoiBS+9vyg=;
+  b=XycC24qmLCFc6E6ZlmsHY8WVVG8RPGzU9v1HtbPbdnae92AGBYE7O42K
+   KjANqkdKp4VLHSd3AVhZl6d+6ysst0aJid8qcG/RNu1sa0to9hNF6Dc++
+   9iGfzC/dV79KYi/yZ+cnLVaEuuPL7ZcINyKvf8y+BuGNRSAc0bYjTWXyL
+   kD4a9vrA4fqxTYSEhCT3mCdGeII8S9SM2+cwVJPeKPykIti5Kirki4Lzj
+   FvL+bCpupi8Xwbd/sl9JsKZfq014JQPPWLbCtm6UeEnGkXRtzcYXx3A6S
+   rd85R/HWF+oKss2X66cYURUIxGonPqS4Q30mpTWJivhpECcPqijulZwqU
+   A==;
+X-CSE-ConnectionGUID: vz3ID3nrQfuQfnDjWqAxzQ==
+X-CSE-MsgGUID: unbFDd97QtG1p0YEqSAkdw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="66682353"
+X-IronPort-AV: E=Sophos;i="6.20,240,1758610800"; 
+   d="scan'208";a="66682353"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2025 02:22:12 -0800
+X-CSE-ConnectionGUID: eytThOqiRrqsoqEhzokmZg==
+X-CSE-MsgGUID: BKQdy18wQZ+ED/DeQnLG0A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,240,1758610800"; 
+   d="scan'208";a="198386128"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.162])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2025 02:22:11 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id E167111FA74;
+	Mon, 01 Dec 2025 12:22:12 +0200 (EET)
+Date: Mon, 1 Dec 2025 12:22:12 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH 03/14] media: omap3isp: isp_video_mbus_to_pix/pix_to_mbus
+ fixes
+Message-ID: <aS1sVLJsj2iDk2qD@kekkonen.localdomain>
+References: <cover.1760707611.git.hverkuil+cisco@kernel.org>
+ <1e7330bdeb61565bef5254fa35717a260d9e4633.1760707611.git.hverkuil+cisco@kernel.org>
+ <aPiMWDmqbYwBacpJ@kekkonen.localdomain>
+ <4788af27-120e-4e01-b3d1-f30e466b4980@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20251128-gpuvm-rust-v1-0-ebf66bf234e0@google.com>
- <20251128-gpuvm-rust-v1-1-ebf66bf234e0@google.com> <20251128152403.72aedafa@fedora>
-Message-ID: <aS1l9Mm9smUzAJ3A@google.com>
-Subject: Re: [PATCH 1/4] drm/gpuvm: take GEM lock inside drm_gpuvm_bo_obtain_prealloc()
-From: Alice Ryhl <aliceryhl@google.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Matthew Brost <matthew.brost@intel.com>, 
-	"Thomas =?utf-8?Q?Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, 
-	Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
-	Abhinav Kumar <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
-	Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
-	Lyude Paul <lyude@redhat.com>, Lucas De Marchi <lucas.demarchi@intel.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	"Christian =?utf-8?B?S8O2bmln?=" <christian.koenig@amd.com>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
-	nouveau@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4788af27-120e-4e01-b3d1-f30e466b4980@kernel.org>
 
-On Fri, Nov 28, 2025 at 03:24:03PM +0100, Boris Brezillon wrote:
-> On Fri, 28 Nov 2025 14:14:15 +0000
-> Alice Ryhl <aliceryhl@google.com> wrote:
+Hi Hans,
+
+On Mon, Dec 01, 2025 at 09:27:55AM +0100, Hans Verkuil wrote:
+> Hi Sakari,
 > 
-> > When calling drm_gpuvm_bo_obtain_prealloc() and using immediate mode,
-> > this may result in a call to ops->vm_bo_free(vm_bo) while holding the
-> > GEMs gpuva mutex. This is a problem if ops->vm_bo_free(vm_bo) performs
-> > any operations that are not safe in the fence signalling critical path,
-> > and it turns out that Panthor (the only current user of the method)
-> > calls drm_gem_shmem_unpin() which takes a resv lock internally.
+> On 22/10/2025 09:48, Sakari Ailus wrote:
+> > Hi Hans,
 > > 
-> > This constitutes both a violation of signalling safety and lock
-> > inversion. To fix this, we modify the method to internally take the GEMs
-> > gpuva mutex so that the mutex can be unlocked before freeing the
-> > preallocated vm_bo.
+> > Thanks for the set.
 > > 
-> > Note that this modification introduces a requirement that the driver
-> > uses immediate mode to call drm_gpuvm_bo_obtain_prealloc() as it would
-> > otherwise take the wrong lock.
+> > On Fri, Oct 17, 2025 at 03:26:40PM +0200, Hans Verkuil wrote:
+> >> The isp_video_mbus_to_pix/pix_to_mbus functions did not take
+> >> the last empty entry { 0, } of the formats array into account.
+> >>
+> >> As a result, isp_video_mbus_to_pix would accept code 0 and
+> >> isp_video_pix_to_mbus would select code 0 if no match was found.
+> >>
+> >> Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+> >> ---
+> >>  drivers/media/platform/ti/omap3isp/ispvideo.c | 6 +++---
+> >>  1 file changed, 3 insertions(+), 3 deletions(-)
+> >>
+> >> diff --git a/drivers/media/platform/ti/omap3isp/ispvideo.c b/drivers/media/platform/ti/omap3isp/ispvideo.c
+> >> index 46609045e2c8..864d38140b87 100644
+> >> --- a/drivers/media/platform/ti/omap3isp/ispvideo.c
+> >> +++ b/drivers/media/platform/ti/omap3isp/ispvideo.c
+> >> @@ -148,12 +148,12 @@ static unsigned int isp_video_mbus_to_pix(const struct isp_video *video,
+> >>  	pix->width = mbus->width;
+> >>  	pix->height = mbus->height;
+> >>  
+> >> -	for (i = 0; i < ARRAY_SIZE(formats); ++i) {
+> >> +	for (i = 0; i < ARRAY_SIZE(formats) - 1; ++i) {
 > > 
-> > Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+> > As it seems all users of the formats array depend on the size of the array
+> > and not its contents, could we remove the sentinel entry from the array
+> > instead?
 > 
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Probably, but see this comment just before the sentinel in the array:
 > 
-> Should we add a Fixes tag?
+>         /* Empty entry to catch the unsupported pixel code (0) used by the CCDC
+>          * module and avoid NULL pointer dereferences.
+>          */
+>         { 0, }
+> 
+> Now, I wonder if this comment is out of date, since I don't see code 0 being used
+> by CDDC. If you can confirm that that's indeed the case, then I can drop the sentinel.
 
-Yeah, let's add:
+Yes, please!
 
-Fixes: 63e919a31625 ("panthor: use drm_gpuva_unlink_defer()")
+-- 
+Kind regards,
 
-Alice
+Sakari Ailus
 
