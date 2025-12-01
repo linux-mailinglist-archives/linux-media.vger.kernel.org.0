@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-47931-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47932-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32D5FC96A60
-	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 11:29:11 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1944C96AEA
+	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 11:36:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 7DFE034382E
-	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 10:28:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8DEC63A145C
+	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 10:36:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2C923043C7;
-	Mon,  1 Dec 2025 10:28:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CC99302CC6;
+	Mon,  1 Dec 2025 10:36:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VsiaKfU9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ttqxnQUl"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4148D3043A4
-	for <linux-media@vger.kernel.org>; Mon,  1 Dec 2025 10:28:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C410513959D;
+	Mon,  1 Dec 2025 10:36:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764584908; cv=none; b=ZAtrcUD6AmKRVJDxy4IWCCnk1vPxkFUUKkHM7SZVwK3TWtB+cu7ytLCQ0xFRon7SHmngspX1kPuuU0XGZjX9IDOWtTGYwWEJ/AfYRmnYcwcYahx1ZjnoI64YuzCASOkO1mLaXdUUV8lkqt9rTRTOTnN6Jln9VBwR5IS69lWgcek=
+	t=1764585399; cv=none; b=HRp+AF0iKARFa3sR/xWR1liv9n7wVAeJw3rLfXOyG4kfe61yTNsCIrDs3N5EwND3S3BdLCF90fgievtZFi4ZqG2IiAKxUopHUlI41mQedqmy4jyQzJntYyKXQ6uexbw7XDHEuyvA/3y7F6Q4jtKDnzUKXhjvGX4nZFNp2XqNqEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764584908; c=relaxed/simple;
-	bh=q0K/UZugDta9PkBOQNFNg+M9B3mcQtp9kEwD7PruyiI=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=NAN+2TwuBs6nttOxv9XZS2J+G5rVfWOpQYTsBbiau9c61U800GcunIk5Jnc6ZLbfW7ODpwrvbskYwtfUy11MToNc8+9Tj5R1kkw7zR5l3lcsOZbjZuVZ+HAUFw3G9WpWbcXe0j+CXioRQIA7E/zP6BTSRtWBMjjfFIrZj0pJ3VI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VsiaKfU9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A094C4AF09;
-	Mon,  1 Dec 2025 10:28:26 +0000 (UTC)
+	s=arc-20240116; t=1764585399; c=relaxed/simple;
+	bh=i/3/Rip96GcKSnLsnoJCi2BaWt5AlEQD9LD5Gy2yr64=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=a9jrG5EkrGu9oDRK0M2J9NrdWQRzRzLUbUmC7HYMA1uzZ8sT7r4ZEeFZgnxGnXJ2t/4K/EEBWk/zTayvraGPaM8pT1MsfpAf1AciDmGKE/DQnU5LmCk5cojikn9LJMnVAZSpPzwpJW7zcknrb0l9gmuJ96pVh4Kx8XlDPZNO9hs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ttqxnQUl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0535CC4CEF1;
+	Mon,  1 Dec 2025 10:36:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764584907;
-	bh=q0K/UZugDta9PkBOQNFNg+M9B3mcQtp9kEwD7PruyiI=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=VsiaKfU93d2LmuiOtwOF5GtpCoGZ0EOki9VsrF+BFyxQ56E93ifvkFg2iZIHapwpD
-	 FoAeV+IXrPrvAhYH7C7Gh43lF/ymjbn4SNcsm7OzC7I6haq9KnQQlbGKdDwx8DaLNg
-	 mi5if0Svi9R6tS4K+QHVIDzfw2XZ2B6nCR18hNEQofXqiFBu+wKFdXnOObk0D5kCBA
-	 L4T/PgyE0+ygLekPjG6vGaPzZHj3yYZqeoG8yq6PzNqqGrnwxpOA8L9ku41LnmpIHH
-	 LFwVEVFMSIdhOP2rTVDbKrF8e4NPHCKsYkSEr4aJJAYlqHGMalDxP8fYRzANB16G7X
-	 alKcBROqJePZQ==
-Message-ID: <b3c22527-7d92-44b0-b7cd-2f1fe2c42a36@kernel.org>
-Date: Mon, 1 Dec 2025 11:28:25 +0100
+	s=k20201202; t=1764585399;
+	bh=i/3/Rip96GcKSnLsnoJCi2BaWt5AlEQD9LD5Gy2yr64=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ttqxnQUlMyZ735APhYyyPQlNfKCxrJ7vr/YSfKPCFR/vDFgL5eOPDW09v0LT0lpDU
+	 ivEril84GprJ+EjxGUybk0u36RrkTSTOptCgRjdaVWZr9v6m4kzG/4rxC7D8gIjlLg
+	 x9L89WwPTIOM0SklBRUx3nfizT1F98V85iPW0HzxOWSuSouOGJXt8bSSuie3N6CKQX
+	 v0aWu63LNuFVFVOuT6a7PFDevwj8J4ygb9f+9ABPHjimzoxqrBD4txoLI9eR6nynSH
+	 LZPhMTEMQ3aGx4iBMHTVXXD89hmehrEftHm/iHMnsfKYW8uDA0XD02v5GozAldSMPq
+	 yvKsa4tXDLWbw==
+Message-ID: <ed7701d7-28c8-4760-9ccb-f22fc1e9528e@kernel.org>
+Date: Mon, 1 Dec 2025 11:36:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,98 +50,123 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH 09/14] media: omap3isp: better VIDIOC_G/S_PARM handling
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
-References: <cover.1760707611.git.hverkuil+cisco@kernel.org>
- <659149538833acf06f40a5660d03809f9f1c7ef6.1760707611.git.hverkuil+cisco@kernel.org>
- <aPiRLPbzWoW4GFXt@kekkonen.localdomain>
-Content-Language: en-US, nl
-In-Reply-To: <aPiRLPbzWoW4GFXt@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH RFC] mm/vmap: map contiguous pages in batches whenever
+ possible
+To: Barry Song <21cnbao@gmail.com>, akpm@linux-foundation.org,
+ linux-mm@kvack.org
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ Barry Song <v-songbaohua@oppo.com>, Uladzislau Rezki <urezki@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, John Stultz <jstultz@google.com>,
+ Maxime Ripard <mripard@kernel.org>
+References: <20251122090343.81243-1-21cnbao@gmail.com>
+From: "David Hildenbrand (Red Hat)" <david@kernel.org>
+Content-Language: en-US
+In-Reply-To: <20251122090343.81243-1-21cnbao@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 22/10/2025 10:09, Sakari Ailus wrote:
-> Hi Hans,
+On 11/22/25 10:03, Barry Song wrote:
+> From: Barry Song <v-songbaohua@oppo.com>
 > 
-> On Fri, Oct 17, 2025 at 03:26:46PM +0200, Hans Verkuil wrote:
->> Fix various v4l2-compliance errors relating to timeperframe.
->>
->> VIDIOC_G/S_PARM is only supported for Video Output, so disable
->> these ioctls for Capture devices.
->>
->> Ensure numerator and denominator are never 0.
->>
->> Set missing V4L2_CAP_TIMEPERFRAME capability for VIDIOC_S_PARM.
->>
->> v4l2-compliance:
->>
->> 	fail: v4l2-test-formats.cpp(1388): out->timeperframe.numerator == 0 || out->timeperframe.denominator == 0
->> test VIDIOC_G/S_PARM: FAIL
->>
->> Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
->> ---
->>  drivers/media/platform/ti/omap3isp/ispvideo.c | 11 +++++++++--
->>  1 file changed, 9 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/media/platform/ti/omap3isp/ispvideo.c b/drivers/media/platform/ti/omap3isp/ispvideo.c
->> index 471defa6e7fb..5603586271f5 100644
->> --- a/drivers/media/platform/ti/omap3isp/ispvideo.c
->> +++ b/drivers/media/platform/ti/omap3isp/ispvideo.c
->> @@ -928,7 +928,10 @@ isp_video_set_param(struct file *file, void *fh, struct v4l2_streamparm *a)
->>  
->>  	if (a->parm.output.timeperframe.denominator == 0)
->>  		a->parm.output.timeperframe.denominator = 1;
->> +	if (a->parm.output.timeperframe.numerator == 0)
->> +		a->parm.output.timeperframe.numerator = 1;
+> In many cases, the pages passed to vmap() may include
+> high-order pages—for example, the systemheap often allocates
+> pages in descending order: order 8, then 4, then 0. Currently,
+> vmap() iterates over every page individually—even the pages
+> inside a high-order block are handled one by one. This patch
+> detects high-order pages and maps them as a single contiguous
+> block whenever possible.
 > 
-> I believe S_PARM support has probably been added for v4l2-compliance in the
-> past. Should there be either a dummy implementation for more or less all
-> Media device centric drivers or could this be simply omitted?
-
-v4l2-compliance has seen quite a few changes w.r.t. the G/S_PARM tests,
-and I think it is fine to just drop support for these ioctls.
-
-I'll test this a bit more, and if I don't find any issues, then I'll
-just remove support for these ioctls in omap3isp.
-
-Regards,
-
-	Hans
-
+> Another possibility is to implement a new API, vmap_sg().
+> However, that change seems to be quite large in scope.
 > 
->>  
->> +	a->parm.output.capability = V4L2_CAP_TIMEPERFRAME;
->>  	vfh->timeperframe = a->parm.output.timeperframe;
->>  
->>  	return 0;
->> @@ -1413,6 +1416,7 @@ static int isp_video_open(struct file *file)
->>  	handle->format.fmt.pix.colorspace = V4L2_COLORSPACE_SRGB;
->>  	isp_video_pix_to_mbus(&handle->format.fmt.pix, &fmt);
->>  	isp_video_mbus_to_pix(video, &fmt, &handle->format.fmt.pix);
->> +	handle->timeperframe.numerator = 1;
->>  	handle->timeperframe.denominator = 1;
->>  
->>  	handle->video = video;
->> @@ -1532,12 +1536,15 @@ int omap3isp_video_init(struct isp_video *video, const char *name)
->>  	video->video.vfl_type = VFL_TYPE_VIDEO;
->>  	video->video.release = video_device_release_empty;
->>  	video->video.ioctl_ops = &isp_video_ioctl_ops;
->> -	if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
->> +	if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
->>  		video->video.device_caps = V4L2_CAP_VIDEO_CAPTURE
->>  					 | V4L2_CAP_STREAMING | V4L2_CAP_IO_MC;
->> -	else
->> +		v4l2_disable_ioctl(&video->video, VIDIOC_S_PARM);
->> +		v4l2_disable_ioctl(&video->video, VIDIOC_G_PARM);
->> +	} else {
->>  		video->video.device_caps = V4L2_CAP_VIDEO_OUTPUT
->>  					 | V4L2_CAP_STREAMING | V4L2_CAP_IO_MC;
->> +	}
->>  
->>  	video->pipe.stream_state = ISP_PIPELINE_STREAM_STOPPED;
->>  
+> When vmapping a 128MB dma-buf using the systemheap,
+> this RFC appears to make system_heap_do_vmap() 16× faster:
 > 
+> W/ patch:
+> [   51.363682] system_heap_do_vmap took 2474000 ns
+> [   53.307044] system_heap_do_vmap took 2469008 ns
+> [   55.061985] system_heap_do_vmap took 2519008 ns
+> [   56.653810] system_heap_do_vmap took 2674000 ns
+> 
+> W/o patch:
+> [    8.260880] system_heap_do_vmap took 39490000 ns
+> [   32.513292] system_heap_do_vmap took 38784000 ns
+> [   82.673374] system_heap_do_vmap took 40711008 ns
+> [   84.579062] system_heap_do_vmap took 40236000 ns
+> 
+> Cc: Uladzislau Rezki <urezki@gmail.com>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: John Stultz <jstultz@google.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Barry Song <v-songbaohua@oppo.com>
+> ---
+>   mm/vmalloc.c | 49 +++++++++++++++++++++++++++++++++++++++++++------
+>   1 file changed, 43 insertions(+), 6 deletions(-)
+> 
+> diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+> index 0832f944544c..af2e3e8c052a 100644
+> --- a/mm/vmalloc.c
+> +++ b/mm/vmalloc.c
+> @@ -642,6 +642,34 @@ static int vmap_small_pages_range_noflush(unsigned long addr, unsigned long end,
+>   	return err;
+>   }
+>   
+> +static inline int get_vmap_batch_order(struct page **pages,
+> +		unsigned int stride,
+> +		int max_steps,
+> +		unsigned int idx)
 
+These fit into less lines.
+
+ideally
+
+\t\tunsigned int stride, int max_steps, unsigned int idx)
+
+> +{
+
+int order, nr_pages, i;
+struct page *base;
+
+But I think you can just drop "base". And order.
+
+> +	/*
+> +	 * Currently, batching is only supported in vmap_pages_range
+> +	 * when page_shift == PAGE_SHIFT.
+> +	 */
+> +	if (stride != 1)
+> +		return 0;
+> +
+> +	struct page *base = pages[idx];
+> +	if (!PageHead(base))
+> +		return 0;
+> +
+> +	int order = compound_order(base);
+> +	int nr_pages = 1 << order;
+
+
+You can drop the head check etc and simply do
+
+nr_pages = compound_nr(pages[idx]);
+if (nr_pages == 1)
+	return 0;
+
+Which raises the question: are these things folios? I assume not.
+
+> +
+> +	if (max_steps < nr_pages)
+> +		return 0;
+> +
+> +	for (int i = 0; i < nr_pages; i++)
+> +		if (pages[idx + i] != base + i)
+> +			return 0;
+
+if (num_pages_contiguous(&pages[idx], nr_pages) == nr_pages)
+	return compound_order(pages[idx]);
+return 0;
+
+-- 
+Cheers
+
+David
 
