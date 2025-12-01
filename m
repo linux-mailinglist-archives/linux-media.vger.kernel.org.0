@@ -1,196 +1,127 @@
-Return-Path: <linux-media+bounces-47983-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47984-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BF16C981C4
-	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 16:51:13 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 635B7C98209
+	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 16:53:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 26B883A45F5
-	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 15:50:51 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B22994E1FB1
+	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 15:53:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53D2F33342A;
-	Mon,  1 Dec 2025 15:50:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B8B7333424;
+	Mon,  1 Dec 2025 15:53:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="itQUXyVO"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="sBbSHmzs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4F9E332EBD;
-	Mon,  1 Dec 2025 15:50:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 088853321D9;
+	Mon,  1 Dec 2025 15:53:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764604246; cv=none; b=gOYyyEkTQoJc6S/VKl38FmlII9RZL9UEmsJJMLAvy9bM1thqp3xFPuWO8pv0iyhywmZkgdfqpJ/hKGEy5Xzz5nZnicFsgGJD8JDmeoXbSfhYV6ZSUc41x2AsFZpz1n9TPeUvteShc92apXMq0B/8KL6+YSR1XiuilMMwh6tFAYU=
+	t=1764604417; cv=none; b=eg3pnslD3s/CrEO6oGCdSE6Hnok36s5Fjsd/boQb/AhLcMWEh5l80HYJJfOJXtoHzEeUMkPQ1yCjf8A2qaSe5nGgOB4UtTb7zyaS0sjhT6kGo4nUL5KoQcf33DTAhtpvVNqdbwHoGL8CulT8m5rgX5rw7jHCc3jtmtf6IuIeAM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764604246; c=relaxed/simple;
-	bh=RPOV0/K3agKHfWiaDX9fzUjkflEVPIyTOubNJMJlfMo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eYb/RBBLmWNjfD0FOgJ99D20UGzPH29Ny27WNU8OPGJA/4tQRh0KDJyeKVf4aBSX43XRqX8bHT0d2G+45M0WnidsFPgg7YmPmpSYIdth78HQmszI2LT8ewiRtx9Pn1SPNDMQ7HwWbni5++fbwYABTv/An3Mm7CXptdk9xCpoU0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=itQUXyVO; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A660B6DF;
-	Mon,  1 Dec 2025 16:48:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1764604108;
-	bh=RPOV0/K3agKHfWiaDX9fzUjkflEVPIyTOubNJMJlfMo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=itQUXyVOMu7lWo3z+QPxRwuim1ehUvcepthaRD6JVTt+9/ZyKm1ZFAeJkCtZ0zx5k
-	 ER18R8anxc0qjLjYKAxiUEXHG9oasaadYJmiprWW/Ts64ah2WMPe+Lqzg+TlNYS1dp
-	 XBz2gVqI9bHDSkD2z11UIE5L9k+0j7MlQw8NTsEY=
-Date: Mon, 1 Dec 2025 16:50:39 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Jacopo Mondi <jacopo@jmondi.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Naushir Patuck <naush@raspberrypi.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, David Plowman <david.plowman@raspberrypi.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Peter Robinson <pbrobinson@gmail.com>, 
-	Stefan Wahren <wahrenst@gmx.net>, "Ivan T. Ivanov" <iivanov@suse.de>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH v2 16/16] media: i2c: ov5647: Add V4L2_CID_LINK_FREQUENCY
- control
-Message-ID: <5e2lwyzel45ejbb4mch2johetncaj7arpidjst2tjpatseklvn@vlv6hnwzfmwj>
-References: <20251118-b4-rpi-ov5647-v2-0-5e78e7cb7f9b@ideasonboard.com>
- <20251118-b4-rpi-ov5647-v2-16-5e78e7cb7f9b@ideasonboard.com>
+	s=arc-20240116; t=1764604417; c=relaxed/simple;
+	bh=ZtbPB0Z9jBZIWmO3OTf4OrZtUZ7WN04pUFUQ93COB14=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=gq8rt0krJmAHnjXuXngjwDKTdbK7V3Sk85SRHiBQq8in1h7tv8JKbjpuvNZMaXVip5rOy839PX27VPF1e+FcfQlVO+K12v1aA8k6HjWAmMO+iAVN6hlz2i5eCKQ2bleWxocYBYPvxo+VajJY5kF2HOviMLBEjunzlHS/7fo2Bj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=sBbSHmzs; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4dKpND1qYnz9sSq;
+	Mon,  1 Dec 2025 16:53:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1764604412; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eGqYb67ev6KtdX+YTXDxiPnVVJgPnz1zCF5EHXt4hqo=;
+	b=sBbSHmzsi3wPuWYFAAsh7dTsB5/2BthPcSteomaBpjOOXqjRl4JVBPb/opZ+0TvekWfWh6
+	kkrhVaI5rHlsptkCOOV1cEZ+1Vk+ont6Rbwmv+8a8aCIMhACUF9VPbT2CaCITeqRij/2/r
+	oH2zKPUBjgeXVl0q3fmw/SMlM1xCI1nLQuAbHnv2USqCf+waiCIjoR+lAAn7YbTh6E0CON
+	/sEKdCwDOW3RiLQr5wGRrqkI2ZosLT1xcI3/LP/R7DrfLIjoeJQ1PveMpvTCwtzC6ZEWew
+	MSsck3FBtmzJ65blZyfmgt2caSH/5QIFj8wSQdMiEOTCnuVWVIHlwC/zRTJiWQ==
+Message-ID: <247185f833edd075cd4aac8c39ac8ae5b5aabe07.camel@mailbox.org>
+Subject: Re: [PATCH v2 2/8] dma-buf/dma-fence: Add
+ dma_fence_check_and_signal()
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
+ phasta@kernel.org, Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
+ <gustavo@padovan.org>, Felix Kuehling <Felix.Kuehling@amd.com>, Alex
+ Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>,  Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui
+ <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,  Matthew Brost
+ <matthew.brost@intel.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
+	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Date: Mon, 01 Dec 2025 16:53:25 +0100
+In-Reply-To: <93a4f4e4-af7a-4c84-a7a2-5db785f2a5a8@amd.com>
+References: <20251201105011.19386-2-phasta@kernel.org>
+	 <20251201105011.19386-4-phasta@kernel.org>
+	 <80554ed2-4454-489b-873f-533d68c8d2ae@amd.com>
+	 <2a9c83b4a428bb3cc993499c39d0da01f9563278.camel@mailbox.org>
+	 <93a4f4e4-af7a-4c84-a7a2-5db785f2a5a8@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251118-b4-rpi-ov5647-v2-16-5e78e7cb7f9b@ideasonboard.com>
+X-MBO-RS-ID: 1308e1c837b3c1f5430
+X-MBO-RS-META: ijujsb3wwab53aghs3jk89kkrxiqj4um
 
-Hi Jai
+On Mon, 2025-12-01 at 16:20 +0100, Christian K=C3=B6nig wrote:
+> On 12/1/25 14:55, Philipp Stanner wrote:
+> > On Mon, 2025-12-01 at 14:23 +0100, Christian K=C3=B6nig wrote:
+> > > On 12/1/25 11:50, Philipp Stanner wrote:
+> > > > The overwhelming majority of users of dma_fence signaling functions
+> > > > don't care about whether the fence had already been signaled by som=
+eone
+> > > >=20
+> >=20
 
-On Tue, Nov 18, 2025 at 05:33:09PM +0530, Jai Luthra wrote:
-> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
->
-> The link frequency can vary between modes, so add it as a
-> control.
->
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-> ---
->  drivers/media/i2c/ov5647.c | 24 +++++++++++++++++++++++-
->  1 file changed, 23 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-> index 71107d74f2900b39233a52b29a229282bd087963..de27e76b487957bfa0a072359f28194425950eaf 100644
-> --- a/drivers/media/i2c/ov5647.c
-> +++ b/drivers/media/i2c/ov5647.c
-> @@ -97,6 +97,13 @@ static const char * const ov5647_supply_names[] = {
->
->  #define OV5647_NUM_SUPPLIES ARRAY_SIZE(ov5647_supply_names)
->
-> +#define FREQ_INDEX_FULL		0
-> +#define FREQ_INDEX_VGA		1
-> +static const s64 ov5647_link_freqs[] = {
-> +	[FREQ_INDEX_FULL]	= 218750000,
-> +	[FREQ_INDEX_VGA]	= 208333000,
-> +};
-> +
->  struct regval_list {
->  	u16 addr;
->  	u8 data;
-> @@ -106,6 +113,7 @@ struct ov5647_mode {
->  	struct v4l2_mbus_framefmt	format;
->  	struct v4l2_rect		crop;
->  	u64				pixel_rate;
-> +	unsigned int			link_freq_index;
->  	int				hts;
->  	int				vts;
->  	const struct regval_list	*reg_list;
-> @@ -128,6 +136,7 @@ struct ov5647 {
->  	struct v4l2_ctrl		*exposure;
->  	struct v4l2_ctrl		*hflip;
->  	struct v4l2_ctrl		*vflip;
-> +	struct v4l2_ctrl		*link_freq;
->  };
->
->  static inline struct ov5647 *to_sensor(struct v4l2_subdev *sd)
-> @@ -376,6 +385,7 @@ static const struct ov5647_mode ov5647_modes[] = {
->  			.height		= 1944
->  		},
->  		.pixel_rate	= 87500000,
-> +		.link_freq_index = FREQ_INDEX_FULL,
->  		.hts		= 2844,
->  		.vts		= 0x7b0,
->  		.reg_list	= ov5647_2592x1944_10bpp,
-> @@ -397,6 +407,7 @@ static const struct ov5647_mode ov5647_modes[] = {
->  			.height		= 1080,
->  		},
->  		.pixel_rate	= 87500000,
-> +		.link_freq_index = FREQ_INDEX_FULL,
->  		.hts		= 2416,
->  		.vts		= 0x450,
->  		.reg_list	= ov5647_1080p30_10bpp,
-> @@ -418,6 +429,7 @@ static const struct ov5647_mode ov5647_modes[] = {
->  			.height		= 1944,
->  		},
->  		.pixel_rate	= 87500000,
-> +		.link_freq_index = FREQ_INDEX_FULL,
->  		.hts		= 1896,
->  		.vts		= 0x59b,
->  		.reg_list	= ov5647_2x2binned_10bpp,
-> @@ -439,6 +451,7 @@ static const struct ov5647_mode ov5647_modes[] = {
->  			.height		= 1920,
->  		},
->  		.pixel_rate	= 55000000,
+[=E2=80=A6]
 
-I now read again v1 13/13 and this mode seems to have a different pixel
-rate and a lower link freq ?
+> > >=20
+> > > > +{
+> > > > +	unsigned long flags;
+> > > > +	bool ret;
+> > > > +
+> > > > +	spin_lock_irqsave(fence->lock, flags);
+> > > > +	ret =3D dma_fence_check_and_signal_locked(fence);
+> > > > +	spin_unlock_irqrestore(fence->lock, flags);
+> > >=20
+> > > Could this use guard(fence->lock, flags) ?
+> >=20
+> > guard? You mean a lockdep guard? Do you have a pointer to someplace in
+> > dma_fence who does what you mean / want?
+>=20
+> E.g. like guard(spinlock_irqsave)(&fence->lock);
 
-> +		.link_freq_index = FREQ_INDEX_VGA,
->  		.hts		= 1852,
->  		.vts		= 0x1f8,
->  		.reg_list	= ov5647_640x480_10bpp,
-> @@ -927,6 +940,8 @@ static int ov5647_set_pad_fmt(struct v4l2_subdev *sd,
->  					 sensor->exposure->minimum,
->  					 exposure_max, sensor->exposure->step,
->  					 exposure_def);
-> +
-> +		__v4l2_ctrl_s_ctrl(sensor->link_freq, mode->link_freq_index);
->  	}
->  	*fmt = mode->format;
->  	/* The code we pass back must reflect the current h/vflips. */
-> @@ -1236,7 +1251,7 @@ static int ov5647_init_controls(struct ov5647 *sensor)
->  	int hblank, exposure_max, exposure_def;
->  	struct device *dev = &client->dev;
->
-> -	v4l2_ctrl_handler_init(&sensor->ctrls, 13);
-> +	v4l2_ctrl_handler_init(&sensor->ctrls, 14);
->
->  	v4l2_ctrl_new_std(&sensor->ctrls, &ov5647_ctrl_ops,
->  			  V4L2_CID_AUTOGAIN, 0, 1, 1, 0);
-> @@ -1292,6 +1307,13 @@ static int ov5647_init_controls(struct ov5647 *sensor)
->  	sensor->vflip = v4l2_ctrl_new_std(&sensor->ctrls, &ov5647_ctrl_ops,
->  					  V4L2_CID_VFLIP, 0, 1, 1, 0);
->
-> +	sensor->link_freq =
-> +		v4l2_ctrl_new_int_menu(&sensor->ctrls, NULL, V4L2_CID_LINK_FREQ,
-> +				       ARRAY_SIZE(ov5647_link_freqs) - 1, 0,
 
-The default control value should follow the default mode.
-You can use mode->link_req_index to retrieve it
+Hmm, but why?
+It's obvious to all readers that I do spin_unlock_irqrestore() here.
+It's very simple code, lock, 1 line, unlock. What would the guard
+improve?
 
-> +				       ov5647_link_freqs);
-> +	if (sensor->link_freq)
-> +		sensor->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> +
->  	v4l2_fwnode_device_parse(dev, &props);
->
->  	v4l2_ctrl_new_fwnode_properties(&sensor->ctrls, &ov5647_ctrl_ops,
->
-> --
-> 2.51.1
->
+
+P.
 
