@@ -1,291 +1,292 @@
-Return-Path: <linux-media+bounces-47957-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47958-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD679C97924
-	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 14:22:54 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 499CEC97996
+	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 14:28:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 0BF574E1303
-	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 13:22:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B46F73A1C2B
+	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 13:24:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A902031328E;
-	Mon,  1 Dec 2025 13:22:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62981313525;
+	Mon,  1 Dec 2025 13:24:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Q8gP6OMK"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="J3aJZC8g"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010070.outbound.protection.outlook.com [40.93.198.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ECD530E0D8;
-	Mon,  1 Dec 2025 13:22:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764595366; cv=none; b=gkh0xo9uC1sWtPoKI0fH3ry6fpyav12tMtq16cBk/vZMRJDwe99N0F7WAbkPEI5gpgsruW06rSORdbOsgk/dg+kfz27op5K9xZRd7OTjblka/bsUXGpX7UtcWnvlrljLA5R+Metf4nhiB8ZcTJj/R0RyOgKxxVl0CcaKM3vZuhY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764595366; c=relaxed/simple;
-	bh=n5faNjLlToEyQN5R1HxfBd4hxXELofaKmnNwdPdzeUM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=m8YpqunCErCqTGPFHOaOL9M98Z+tpqz2foAAIxiqPSQ4TRoO2PFKI84LH5ZwjphSBRipn1L4UEZvoZ5EXObSPc+3PBniuoTEoEtp8vs6Iylmd06j8roCvTbwVtLisxpPv9SwK7zKepO465dkihqC4MWXVbGZoYViYXDyHxp3U08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Q8gP6OMK; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8F555111D;
-	Mon,  1 Dec 2025 14:20:26 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1764595227;
-	bh=n5faNjLlToEyQN5R1HxfBd4hxXELofaKmnNwdPdzeUM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Q8gP6OMK6W94fv+SJH5itvhPQWzQqqHmDZvOLnB1cfG8cVF1CcCY7bTKZxWzkKGx3
-	 AgdqLRACMb79EAg2EXLclQlpIrew8rusUe8ZiWz9uenZCBvWMWNB0KeQ1ezpbmSbh0
-	 wslPYSAHAjX7OgGT7TDAFnhGq/PQpLHfs3Y+/Cfs=
-Message-ID: <032b441e-eefc-4574-bf7a-5c4d09599925@ideasonboard.com>
-Date: Mon, 1 Dec 2025 15:22:36 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D48F30FC12;
+	Mon,  1 Dec 2025 13:24:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.70
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764595492; cv=fail; b=AnPyMuhz+z60S8j1Fk7EktPmC5+Zvn7/rYUI9mL6RdpB9YP+QDRJDgunBXhX1V0Bd2vZthKND9+y9w5LHqeSIFVETZvWphn6XGTzukJ+OjYQ/ZS5o9ziGZFRfWg17l7RJyXAhnR+JTY3hfWhnrzR+0Q+7SdZnKOPpqZGS4qP4vk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764595492; c=relaxed/simple;
+	bh=UTAkFWLn2g7IuIuAf1XIfD9SwRQOdWhLo1OwJiMZSHs=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=MCFaVQ58ypy7Dnau8ML8R4SV0qTpZ4kO2uK2V1Qyod1nAFHRPt+hb9WxHAh14UpXGZyK21rHGOzmzZ0wrNZnKdoZNpAxe8gR5xN4Myf/5mQGIaABBD4Wg+fkIQU7kTyuQZu5Fo0gwMOExCM7GpWtRLQDryI/aMgDHAifQ1fAub8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=J3aJZC8g; arc=fail smtp.client-ip=40.93.198.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=v5kWBtYfl3v5zO/mHScBQOunHgVTJYobsi0lW4ARkMFTFaEKO4WftwrL6SsbhCpbhZzUnuLnIlk4gAW8g589pfNE+pDNuuHw79iTRKKfXysZdmx93AQ83QMjRFUUPrZN/iwih13OCtEXSuucUjiyxBo0dRxT/AxQnyY6xpuA+XJyIIO8nUYI1JUU31CVtZ+r5+VKqgBA53CtR/VzX5z28IHwOXR/0+0vpBgGU1THIY1Yt83k7PVnuGL7+pB/mLIERXCf202yKRZGypoKSiBdRHDCiq/2Kn2aRWvNrf7jPtuIA6p2nTs8O01tha1pJIAjpA+qBSVN43cMGHeAobtNAQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lojJqS+bMiFqy7xf3LTQ/ud6lgD9jDkcNe/RJiqcClY=;
+ b=ZsorALqLVKU+d8gbB2mzfVj99M4yQ2e0ovixm3NvTySjHuoYRYk1siUcc2x0ppYO+vCAtqbjCzEplFuUagCDKS8adEtDEXvcjOqPmYJSPuH75j+CqI+/GiOYiiR24v+25LG2lzLsqsEoXT57EoivdO+VtL2bQm2fcNk0KdMDX1agG9ooZ/aGnJB+TYZ7dh3PI+UzFpx0RlCUxr4tDX0UdybardliHUf/jXuJTKpXOPq4DtE/HJAjRW6auR9+DNn4AyjLd1uVeR74qldpZIfRiTskR4MAQ9rwn7dF7xmnGQiCH+9uMoEIbaGPXTxDpxZHxmS/P/sPSf48TjYsqGrdGg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lojJqS+bMiFqy7xf3LTQ/ud6lgD9jDkcNe/RJiqcClY=;
+ b=J3aJZC8g5Q8ev1xjFr6nkyt+TX8FK3bC1OhXH5i4+IPb9Y+gkaf72XXuREqs8TkNW9pSEsWSnKQPbzJyl7lFA+raK4cJT0doFRwDGjiZJS0AVpYKiYyPlQEsC1c8E/UvVNJi118sXaPtuRAOdgeAUGmpj7DnRFOD3PLfN8ttyW0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SJ1PR12MB6145.namprd12.prod.outlook.com (2603:10b6:a03:45c::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Mon, 1 Dec
+ 2025 13:23:30 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9366.012; Mon, 1 Dec 2025
+ 13:23:30 +0000
+Message-ID: <80554ed2-4454-489b-873f-533d68c8d2ae@amd.com>
+Date: Mon, 1 Dec 2025 14:23:21 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/8] dma-buf/dma-fence: Add
+ dma_fence_check_and_signal()
+To: Philipp Stanner <phasta@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
+ <gustavo@padovan.org>, Felix Kuehling <Felix.Kuehling@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+References: <20251201105011.19386-2-phasta@kernel.org>
+ <20251201105011.19386-4-phasta@kernel.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20251201105011.19386-4-phasta@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BN9PR03CA0456.namprd03.prod.outlook.com
+ (2603:10b6:408:139::11) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 17/18] media: ti: j721e-csi2rx: Support runtime suspend
-To: Rishikesh Donadkar <r-donadkar@ti.com>, jai.luthra@linux.dev,
- laurent.pinchart@ideasonboard.com, mripard@kernel.org
-Cc: y-abhilashchandra@ti.com, devarsht@ti.com, s-jain1@ti.com,
- vigneshr@ti.com, mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- p.zabel@pengutronix.de, conor+dt@kernel.org, sakari.ailus@linux.intel.com,
- hverkuil-cisco@xs4all.nl, jai.luthra@ideasonboard.com,
- changhuang.liang@starfivetech.com, jack.zhu@starfivetech.com,
- sjoerd@collabora.com, dan.carpenter@linaro.org, hverkuil+cisco@kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20251112115459.2479225-1-r-donadkar@ti.com>
- <20251112115459.2479225-18-r-donadkar@ti.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Content-Language: en-US
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20251112115459.2479225-18-r-donadkar@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ1PR12MB6145:EE_
+X-MS-Office365-Filtering-Correlation-Id: 68886683-3ac5-45a9-f6ec-08de30dcd17d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|376014|7416014|1800799024|366016|7053199007|921020;
+X-Microsoft-Antispam-Message-Info:
+ =?utf-8?B?Z0pYbEgxaXh5bGc3ZndaTXlSQkVuRzZtRDBSTEpWRWY1TzRCc1dHZGVrL2lT?=
+ =?utf-8?B?MDhES2t6UTRWVGVnazkzVzRaR2MyTUdpTnBjTFNsR0JjOHNjTCs5QVJ1RVJq?=
+ =?utf-8?B?WDlZcjZyT1owMCt1OHdLamJUazJiMlc2OXBMQkdrTlEway9CQTArVkNQS01H?=
+ =?utf-8?B?NFE5Qjc2UXpSTmtDN1ZGKzVzZThSZldUY0JpK3dZSmZqOXlVRTQvanVRZTQ5?=
+ =?utf-8?B?SUV4MmRSaHJkTENnNkJWb1FZSU94bVhCNDVBcU0zdCtkZUtobnhpbW5JZGtF?=
+ =?utf-8?B?MEtIT0h4T0FGdVdMbEFGVldwMG1mZTVEUjJHTFZVdUpaVkowaFZhcE5jNXBY?=
+ =?utf-8?B?emN4R2E5UUFRandSVEduTnhwR0ZiemtPdDB2V0tyRmlobGVCclEvL3JsMFNj?=
+ =?utf-8?B?T0srMDJxNktuMGwzekZSblRLRUp0Y0lOSHFBaXM5WUc1eVhwQ1AySFBFdWxj?=
+ =?utf-8?B?TmQrQVRXeERPNmIxbllaU2dncm5od3ZZL1dYbUQrY0JCdWNFOGpudHdVbGJX?=
+ =?utf-8?B?ZGo2VlRjb056MUxGTUJCcWY5L0lsZlJ6eEtyTktuQm9TSlhoWEVzTlQ2aGRQ?=
+ =?utf-8?B?RWZvOHZwQlJLM0RuWVMycGdNRDRlTkJhUnQxQVBydEg4OStXL2JTamlJb3Za?=
+ =?utf-8?B?NUE4R1ZCa0NySXdHRHRzcVhYNFBMR0lYckQvZjlLVEpDVnM3K0NCZ1ZRd1E1?=
+ =?utf-8?B?RDZPc1dFZWZZUis4TDlRbnF4OEFtOHI0c2IxT09VeFg4VzhwWnhCWGF5VE9F?=
+ =?utf-8?B?UU1EN0V0VllMTGFHQk5UNHJoZDZLSTZPVkcwNThKQTQ3blFqbUd2OHkxVTdT?=
+ =?utf-8?B?dWJRRE9jYUVkamJaQ29MMGhhYkJoNVNHQkFiUkxVcmVOYVYrQWxHS01KOGRm?=
+ =?utf-8?B?ckp1YkJtRXYyRnpuMHlWNForekRPU2NlQmVxMVFMeHpyVkcvUEFzSUxKaUdV?=
+ =?utf-8?B?QzVXaVF2MWh0REhvS1d5dE9xeGhDaStaSjduK1pTWVpkcEhhdmJ6Vk5MZUlx?=
+ =?utf-8?B?bmRyZ29pdlpKYkJrNUdRa21vSGs0bS94Q01SbTdrWEVwYnlWR0M3V05WUlhS?=
+ =?utf-8?B?OEYvYlJ4YW0xVExTVEwrMWFLMzUyYUVYYWtuRHNCVzNtOE9HdFF4R3M1ZGlO?=
+ =?utf-8?B?alNkR1FWamtIQ2RMUXNvaFBsSFQ4UFZKdUV1OWFqSWRubnJqbExZMENvQ3BM?=
+ =?utf-8?B?ekloaXVEMkljTElXbUQwaEdrZDhsNGsvVUtPb0poRDBxWnRpMVpTUVFieGdz?=
+ =?utf-8?B?NVk5blQ4YVN2Q3VRT1BZenZZb2dkZDNCMTA2TDV2VFQvWVpNVzRLNXNVbElV?=
+ =?utf-8?B?UHZNWXN5UVY3TUNuNXFTa1pqQ0Q3R29ycGFWSU8yREdIN2w5MEVKdCt1TzZp?=
+ =?utf-8?B?eERxbkdDOFpDOWhUanpYOWtWempIbDFyYU5HMXQyd3pvck9QZmwyQmpic0dm?=
+ =?utf-8?B?TjVSdG1XTDFaYnNNWm1zS3N2cTI5T3FweVJYWnM3NWJNWG9tbUZ5bHgwaXVE?=
+ =?utf-8?B?YlVEU0ExU3lHT0dVVUpLMyszWjNtTUxJUExKS081d2FXSWEyUWJEK1ZxMGdP?=
+ =?utf-8?B?akdYc2pLVnVJTXJjY2dTdGZIZnpNOHNQa0NpRmhkazFrVWZ1RU5KQVpUMDZ2?=
+ =?utf-8?B?d3JnTGdSYUpETEM4eFJia0VQZ2xnSHJlTVl6RGN6SlpZQXNLNHVneDN0cER2?=
+ =?utf-8?B?WEgzN2FaaW5rMVFoMWtZdytuZjd3UnVhL21MNW1kODh1dWdSb25pMDNvZUx4?=
+ =?utf-8?B?eTFjTGdneTZDRTBDZGw1YUZrNGtXZGJNUzBMaUxEejBaKzEzRXBvR2hNVkhE?=
+ =?utf-8?B?ak55dFBSdytnN1dYS1gzdjVrZUNuUVo4NVhwWlQzVXBDOW1RVXBBcHhsdEVa?=
+ =?utf-8?B?RmhPNFc0OENsZHgrM3BsaG96eVBrV1dHWiswWkZDQ0dtNEtoTzlVa3NIYkFr?=
+ =?utf-8?B?SitOWXhXRDl4VVAyaEx0WFhRQkYyc2UyQlJxMmFWdmpZK2tMaE81L1lXU3J4?=
+ =?utf-8?Q?uQGNNiaSV+55BTWofXFTa66i9qIcrM=3D?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(7053199007)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?utf-8?B?eDc1ck5RVzEzNmVNMUxoaVBLcEtMdDdZZlpjdEVudVkwMDhwbm9IejR4OTJC?=
+ =?utf-8?B?dWxwSktlVWwycnc0WFBsVGp4MXZ6d0dVTlgxOWdZTFkrSmdFUGpDeUFnUEd1?=
+ =?utf-8?B?NVNwS3lHdy9iQ2ZpNGxTUjFEaEoyZktZaEJJMWdwU2tVM01CNWpOKzlvcTBm?=
+ =?utf-8?B?dWF6YW85UWEwenQ2dDRBVDV5dlU5T0lqQ05HVVBOTGs0ZElmbVVaUytrQWRa?=
+ =?utf-8?B?Vm1PRzNrclhFYTRncmlTUnRuTDBhNW1LajF1UnQrenJ4NWZ2Sko3ZEtYNDB6?=
+ =?utf-8?B?bkp2MTl5bW4rWXdMRmJNdHNJRHprQmhRZkJ4V2xCMEJyUzNQNzhzRnRzVU5J?=
+ =?utf-8?B?bzZnSzlXVlMwNEpleUN4dFkzSVQyTjg5NmI5Z0J5Q1Z3NVp2a0xoTVppMTRw?=
+ =?utf-8?B?L1VjS25GVVFMcXExMVJCYXJGSjlIejBCVndaeTZuTE1yK2RpeitBTU9vK3Fm?=
+ =?utf-8?B?ZDFrL2c1NXg1WUQ4NHlpd3FCdi9EOVZQdDNMaHFvSGZWYzY4Y2lhR2xsTEtu?=
+ =?utf-8?B?NDR2RHpETWtzeUJjNDBCMnlUSEUvcnNuMXBEVlpOZEZYQ3ZPOG1GOXJCVUVD?=
+ =?utf-8?B?STZEOTZRQm1Ld1I0ZUhLc0RUcC9pUzVLZzJLRHdJOERmR1pwTE5RQ1duMFB4?=
+ =?utf-8?B?NzF5dm1pRjdWQlltZzdPdXk1MG96Rmp1KzdjV0RYdzdkRmxwTXZJWXpBekRN?=
+ =?utf-8?B?V2FCQks0MWlzUktJWFh6aEpFK0hhSmpNNXB3dXhBWFZwV0VwVDZSU3JkM0NX?=
+ =?utf-8?B?eGw2UWo3VHErWnd4Sk1Vc0ZEZEFMY1ZpcXNCSEJhd2o1SVdrZ3NzdlY3ODl5?=
+ =?utf-8?B?dXA5ZnhjbWc5SjBXRmNBNjdibGZIaUNJSUNTaFM2NnNGaWxwTFQvVEdUR2dX?=
+ =?utf-8?B?RXlaa3FkckFEdGxJN0dJSXRqdStlRHZxRjlURTY3VUg1VDFmTmVCRElMTzdl?=
+ =?utf-8?B?Ui9kNTJXaEI0WG5PeFhKUDVIVXlpTSt0VmpxQXNLTElPZURpUGFOSW1XSXp5?=
+ =?utf-8?B?TDI0Y2Z6VnFqQWs1VS9YQU5tT1d6NTNCbzR4Z0tnQXBRaC9WMU4zOGNTcmdL?=
+ =?utf-8?B?UndPcEQvWjF6OWZLUkZKb3VkZGE4bzQzZld6dUxueTFwanBJUVdYSE1tUmtE?=
+ =?utf-8?B?V1BWcjV1OEVyMi96NW5EbE5UNjdyb1c3aTMrUWRiaWV0LzdjSzVyRUhHZ3JI?=
+ =?utf-8?B?OFlhT3MxaHN6VVRwbVhJcGp1aE40dXRVVmNqcjh3Rm5NSER2UUdzZ09ZcWpN?=
+ =?utf-8?B?c3puM1BSWVQ2cjJNbDJYanZ6Lzg4NnYybnBlcmJ5K1p3TDErRy9wMmtJeDJ5?=
+ =?utf-8?B?OW1nNCtETkhhc3k2S3lHbWRUUkJDUEo1QkI5bVAxalRFa1ZBOVJMcmJ5ekpB?=
+ =?utf-8?B?T0hKSDlQeXJmVWp6dVYvMFhMWjQ0cEN6aW5tOFRUTEc1WmE5ZlgvcStaeUhj?=
+ =?utf-8?B?bWJrQ09vYlNNNlF0YklLNUw5Tnk5THNiM1hQNklHWXRuNVpaY1phMW9NU1Iz?=
+ =?utf-8?B?OTJESEQxWkdBK3FjRmR3cGRTUnRIb1AyUDdMS3lNa0lJbmY4YWZYc0x1cSto?=
+ =?utf-8?B?Vk5QaGhrV3Zxc0pYTmxMUHM3WmgwL0xiRzJpTDluUzY5Zm5ENWVrdlE4OG5M?=
+ =?utf-8?B?QjhINGxaMG1pQ0JzelNKaWxYVjdGSUNuQVBFMWFPSWZHclVueGJjbm5XQnQ5?=
+ =?utf-8?B?QmszODRhc2cxMS84cFdMb0dFRk5YSC9LZXRjY3drRDBDckNvcGFBQWhzWDgv?=
+ =?utf-8?B?VEJuMDdZSE05MGRaSUQ0bFd3QWZWVHpqS0FER0M2THNnVVdoVHJHN1gzQWZG?=
+ =?utf-8?B?MHMxRENlbHBrZ0J5YThtMUs2dndIa2oyMFpjQnAxaUxSTnp1aDlBODRTc3hu?=
+ =?utf-8?B?N0t2VnFmMGhHc3JjTTUrK29vTCtpTVJCcm4wdVZEVVlNQlJzaW5qL0svQy9n?=
+ =?utf-8?B?SjBYUXhaaTZHZ1pkVWErYmxRMWtWMVowY3FoSHd0d2ttWFc1VjNjODNSc244?=
+ =?utf-8?B?NzQ1YTBUaVNCSSt1K1E2TWcyUENxVE1NelBwR09OYy9HL1BZeEMzUWdsU3lJ?=
+ =?utf-8?B?a3FXUTA4VXBZdWpTMEZqV05IUktWSGdpYW5lRE0rL29UbkdNSGJ4a3NnT0dm?=
+ =?utf-8?Q?TSJLMA2XvHk4e87m1poU2x7Dg?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 68886683-3ac5-45a9-f6ec-08de30dcd17d
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2025 13:23:29.9992
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ufsm0fs770OGI7Wzy+YL0vll9oZkIGnVmdZW6sTeTP2ppa8tRZHJAuEVedbiY3sp
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6145
 
-Hi,
-
-On 12/11/2025 13:54, Rishikesh Donadkar wrote:
-> From: Jai Luthra <jai.luthra@ideasonboard.com>
+On 12/1/25 11:50, Philipp Stanner wrote:
+> The overwhelming majority of users of dma_fence signaling functions
+> don't care about whether the fence had already been signaled by someone
+> else. Therefore, the return code shall be removed from those functions.
 > 
-> Add support for runtime power-management to enable powering off the
-> shared power domain between Cadence CSI2RX and TI CSI2RX wrapper when
-> the device(s) are not in use.
+> For the few users who rely on the check, a new, specialized function
+> shall be provided.
 > 
-> When powering off the IP, the PSI-L endpoint loses the paired DMA
-> channels. Thus we have to release the DMA channels at runtime suspend
-> and request them again at resume.
-
-I'm not an expert on the dmaengine, but to me this sounds like a bug in
-the dma driver. It just sounds very wrong...
-
-> Tested-by: Rishikesh Donadkar <r-donadkar@ti.com>
-> Reviewed-by: Rishikesh Donadkar <r-donadkar@ti.com>
-> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-> Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
+> Add dma_fence_check_and_signal(), which signals a fence if it had not
+> yet been signaled, and informs the user about that.
+> 
+> Add a counter part, dma_fence_check_and_signal_locked(), which doesn't
+> take the spinlock.
+> 
+> Signed-off-by: Philipp Stanner <phasta@kernel.org>
 > ---
->  drivers/media/platform/ti/Kconfig             |  1 +
->  .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 55 ++++++++++++++++++-
->  2 files changed, 54 insertions(+), 2 deletions(-)
+>  drivers/dma-buf/dma-fence.c | 44 +++++++++++++++++++++++++++++++++++++
+>  include/linux/dma-fence.h   |  2 ++
+>  2 files changed, 46 insertions(+)
 > 
-> diff --git a/drivers/media/platform/ti/Kconfig b/drivers/media/platform/ti/Kconfig
-> index 3bc4aa35887e6..a808063e24779 100644
-> --- a/drivers/media/platform/ti/Kconfig
-> +++ b/drivers/media/platform/ti/Kconfig
-> @@ -70,6 +70,7 @@ config VIDEO_TI_J721E_CSI2RX
->  	depends on VIDEO_CADENCE_CSI2RX
->  	depends on PHY_CADENCE_DPHY_RX || COMPILE_TEST
->  	depends on ARCH_K3 || COMPILE_TEST
-> +	depends on PM
->  	select VIDEOBUF2_DMA_CONTIG
->  	select V4L2_FWNODE
->  	help
-> diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> index 528041ee78cf3..21e032c64b901 100644
-> --- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> +++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> @@ -13,6 +13,7 @@
->  #include <linux/module.h>
->  #include <linux/of_platform.h>
->  #include <linux/platform_device.h>
-> +#include <linux/pm_runtime.h>
->  #include <linux/property.h>
->  
->  #include <media/cadence/cdns-csi2rx.h>
-> @@ -963,12 +964,16 @@ static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
->  	unsigned long flags;
->  	int ret = 0;
->  
-> +	ret = pm_runtime_resume_and_get(csi->dev);
-> +	if (ret)
-> +		return ret;
-> +
->  	spin_lock_irqsave(&dma->lock, flags);
->  	if (list_empty(&dma->queue))
->  		ret = -EIO;
->  	spin_unlock_irqrestore(&dma->lock, flags);
->  	if (ret)
-> -		return ret;
-> +		goto err;
->  
->  	ret = video_device_pipeline_start(&ctx->vdev, &csi->pipe);
->  	if (ret)
-> @@ -1024,6 +1029,8 @@ static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
->  	writel(0, csi->shim + SHIM_DMACNTX(ctx->idx));
->  err:
->  	ti_csi2rx_cleanup_buffers(ctx, VB2_BUF_STATE_QUEUED);
-> +	pm_runtime_put(csi->dev);
-> +
->  	return ret;
+> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> index 96d72ffc0750..146de62887cf 100644
+> --- a/drivers/dma-buf/dma-fence.c
+> +++ b/drivers/dma-buf/dma-fence.c
+> @@ -445,6 +445,50 @@ int dma_fence_signal_locked(struct dma_fence *fence)
 >  }
+>  EXPORT_SYMBOL(dma_fence_signal_locked);
 >  
-> @@ -1055,6 +1062,7 @@ static void ti_csi2rx_stop_streaming(struct vb2_queue *vq)
->  
->  	ti_csi2rx_stop_dma(ctx);
->  	ti_csi2rx_cleanup_buffers(ctx, VB2_BUF_STATE_ERROR);
-> +	pm_runtime_put(csi->dev);
->  }
->  
->  static const struct vb2_ops csi_vb2_qops = {
-> @@ -1261,7 +1269,9 @@ static void ti_csi2rx_cleanup_notifier(struct ti_csi2rx_dev *csi)
->  
->  static void ti_csi2rx_cleanup_ctx(struct ti_csi2rx_ctx *ctx)
->  {
-> -	dma_release_channel(ctx->dma.chan);
-> +	if (!pm_runtime_status_suspended(ctx->csi->dev))
-> +		dma_release_channel(ctx->dma.chan);
-> +
->  	vb2_queue_release(&ctx->vidq);
->  
->  	video_unregister_device(&ctx->vdev);
-> @@ -1512,6 +1522,39 @@ static int ti_csi2rx_init_ctx(struct ti_csi2rx_ctx *ctx)
->  	return ret;
->  }
->  
-> +static int ti_csi2rx_runtime_suspend(struct device *dev)
+> +/**
+> + * dma_fence_check_and_signal_locked - signal the fence if it's not yet signaled
+> + * @fence: the fence to check and signal
+> + *
+> + * Checks whether a fence was signaled and signals it if it was not yet signaled.
+> + *
+> + * Unlike dma_fence_check_and_signal(), this function must be called with
+> + * &struct dma_fence.lock being held.
+> + *
+> + * Return: true if fence has been signaled already, false otherwise.
+> + */
+> +bool dma_fence_check_and_signal_locked(struct dma_fence *fence)
+
+I'm seriously considering to nuke all the unlocked variants of dma_fence functions and just make it mandatory for callers to grab the lock manually.
+
 > +{
-> +	struct ti_csi2rx_dev *csi = dev_get_drvdata(dev);
-> +	int i;
+> +	bool ret;
 > +
-> +	if (csi->enable_count != 0)
-> +		return -EBUSY;
+> +	ret = dma_fence_test_signaled_flag(fence);
+> +	dma_fence_signal_locked(fence);
 > +
-> +	for (i = 0; i < csi->num_ctx; i++)
-> +		dma_release_channel(csi->ctx[i].dma.chan);
-> +
-> +	return 0;
+> +	return ret;
 > +}
+> +EXPORT_SYMBOL(dma_fence_check_and_signal_locked);
 > +
-> +static int ti_csi2rx_runtime_resume(struct device *dev)
+> +/**
+> + * dma_fence_check_and_signal - signal the fence if it's not yet signaled
+> + * @fence: the fence to check and signal
+> + *
+> + * Checks whether a fence was signaled and signals it if it was not yet signaled.
+> + * All this is done in a race-free manner.
+> + *
+> + * Return: true if fence has been signaled already, false otherwise.
+> + */
+> +bool dma_fence_check_and_signal(struct dma_fence *fence)
+
+So I think we should name this one here dma_fence_check_and_signal_unlocked() and drop the postfix from the locked variant.
+
 > +{
-> +	struct ti_csi2rx_dev *csi = dev_get_drvdata(dev);
-> +	int ret, i;
+> +	unsigned long flags;
+> +	bool ret;
 > +
-> +	for (i = 0; i < csi->num_ctx; i++) {
-> +		ret = ti_csi2rx_init_dma(&csi->ctx[i]);
+> +	spin_lock_irqsave(fence->lock, flags);
+> +	ret = dma_fence_check_and_signal_locked(fence);
+> +	spin_unlock_irqrestore(fence->lock, flags);
 
-If runtime_resume always requests the dma channels, is the call to
-ti_csi2rx_init_dma() in ti_csi2rx_init_ctx() needed? If not, you could
-inline the code from ti_csi2rx_init_dma() to here and also drop the
-dma_release_channel() call from ti_csi2rx_cleanup_ctx(), making the flow
-more understandable.
+Could this use guard(fence->lock, flags) ?
 
-> +		if (ret)
-> +			return ret;
-> +	}
+Regards,
+Christian.
+
 > +
-> +	return 0;
+> +	return ret;
 > +}
+> +EXPORT_SYMBOL(dma_fence_check_and_signal);
 > +
-> +static const struct dev_pm_ops ti_csi2rx_pm_ops = {
-> +	RUNTIME_PM_OPS(ti_csi2rx_runtime_suspend, ti_csi2rx_runtime_resume,
-> +		       NULL)
-> +};
-> +
->  static int ti_csi2rx_probe(struct platform_device *pdev)
->  {
->  	struct device_node *np = pdev->dev.of_node;
-> @@ -1579,6 +1622,10 @@ static int ti_csi2rx_probe(struct platform_device *pdev)
->  		goto err_notifier;
->  	}
+>  /**
+>   * dma_fence_signal - signal completion of a fence
+>   * @fence: the fence to signal
+> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> index 19972f5d176f..0504afe52c2a 100644
+> --- a/include/linux/dma-fence.h
+> +++ b/include/linux/dma-fence.h
+> @@ -365,6 +365,8 @@ static inline void __dma_fence_might_wait(void) {}
+>  #endif
 >  
-> +	pm_runtime_set_active(csi->dev);
-> +	pm_runtime_enable(csi->dev);
-> +	pm_request_idle(csi->dev);
-
-I always forget what exactly the runtime_pm funcs do. What's the idea
-here? If you do something else than the plain standard
-pm_runtime_enable(), I think it's good to mention what/why in a comment.
-
->  	return 0;
->  
->  err_notifier:
-> @@ -1609,6 +1656,9 @@ static void ti_csi2rx_remove(struct platform_device *pdev)
->  	mutex_destroy(&csi->mutex);
->  	dma_free_coherent(csi->dev, csi->drain.len, csi->drain.vaddr,
->  			  csi->drain.paddr);
-> +	pm_runtime_disable(&pdev->dev);
-> +	pm_runtime_set_suspended(&pdev->dev);
-> +
->  }
->  
->  static const struct of_device_id ti_csi2rx_of_match[] = {
-> @@ -1623,6 +1673,7 @@ static struct platform_driver ti_csi2rx_pdrv = {
->  	.driver = {
->  		.name = TI_CSI2RX_MODULE_NAME,
->  		.of_match_table = ti_csi2rx_of_match,
-> +		.pm		= &ti_csi2rx_pm_ops,
->  	},
->  };
->  
+>  int dma_fence_signal(struct dma_fence *fence);
+> +bool dma_fence_check_and_signal(struct dma_fence *fence);
+> +bool dma_fence_check_and_signal_locked(struct dma_fence *fence);
+>  int dma_fence_signal_locked(struct dma_fence *fence);
+>  int dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp);
+>  int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
 
 
