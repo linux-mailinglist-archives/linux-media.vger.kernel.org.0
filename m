@@ -1,253 +1,230 @@
-Return-Path: <linux-media+bounces-47916-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47917-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ADE4C95E88
-	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 07:47:49 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1951C95FCD
+	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 08:19:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E799F4E0F06
-	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 06:47:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AA85C3A20F1
+	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 07:19:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED1A32877E8;
-	Mon,  1 Dec 2025 06:47:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="fZjdPh1F"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F23729E0E7;
+	Mon,  1 Dec 2025 07:18:46 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010062.outbound.protection.outlook.com [52.101.193.62])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 875D810F1;
-	Mon,  1 Dec 2025 06:47:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.62
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764571630; cv=fail; b=bG5xL2128kdsQW5ur9Pzgb4WO7u7DAJ2tkY/i/RKM17L4/b5+xrybqKJBk9rj8/BLWxpnkGDRJRQNbSip510o93OVeBQ4SAebNdoW0JGH8DbRrlfA077A0DhIQ65vB4DZzgtSS4/0PkM0bW8hO2jAZJETnpwJKSqoM1BpNEY/4g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764571630; c=relaxed/simple;
-	bh=0cozOsnc7PYXMDIji6tkGckFDGC6aNeJDFTwfPw0abA=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=KOJH6Kf00L7Ag7+5L4VwnvONm7/G2SU1vbIK6s5o80t2lldjJ1NF/WewcULpdcMFopFmCCVdEvNWEXDF/0Dt0MZyVBlgHXc6ZAkqVDdcpJ85cbuAc3uo7mLgezSFBUITzHyfCGAqMucs1GgrsqIAAwoAX7wJbTUksaNmJHvT11g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=fZjdPh1F; arc=fail smtp.client-ip=52.101.193.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dk9htYd2mzFACGVI9xBkX8hzLT5HMTKyjANlOTm9pGTFGr1IbtljIADNh4gH5PlPTpFR6vyxCTRACOUqt+DZ5KDyVbYZ+rwA+S0DnhIoQMq6tqgZHgl5+NE3NoULW/SWuYgaIrMrimNqjW6R8C3WvS8VTyTi7KMLnx2kPQM6YWY6uo9gijE6+FTJ2Xz7vG0441tthip6iuX8X2l6p3Y6D+ahJZSTunj0+zQs8CLxaSQZVLczzVrVa73tj4QipZxvro61wu8vlc9fea5G1BwvlCFbxjSxhC4tKMChnSUi4fyvfgkrugayRpOxjI/480neTu09Tze5sq+NAdqKsujMOg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EhpKabEQfFLDbT1mFjS3Hd1BZ9BqrwU41gPd9gQkhAY=;
- b=RGjD9/ffa6hsGsvlvrQx/IOFFZ1chCqP2R/WBtF5PDX18Gto01/RZuvnvrmpi4LT/2ed7BN3DNQBv0ESG5PfRCeLlixTWn9Z53wRXKfp/4805wSn6DIByZHp88/NrGoq7/336ox8Z2n7f2th6I/lopigZz2lw2ihnjwnAtD+pXx1r+B+scfU7CqCNwJxpf3ntXx/qtgU5p/mbtugrEX2QQkzlHM2FNzM1sKs9trYkKwkrVXEmrD/V2DYWKTrv23ZlaHlbU8cWecGn8VZUPeu3Hhpv21qAe6RB+BtgrRrSUfvIEse2cZvaskBL/UJxL/vBqvZZJRUhnuxqeDa202Uaw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EhpKabEQfFLDbT1mFjS3Hd1BZ9BqrwU41gPd9gQkhAY=;
- b=fZjdPh1FQaRyaH5ORiEvTxlYhgcK1UCMVakz2JmneyuNMGY59PIc0B4ExeiEgVgk6AQs7kINM/8QGry2vRyHubj3rIfgJOrHtBqAIcMf28Uk2jErrAR7MtaTYkDFWqfySeDUfvQ4eq0GZ6+KjiaLc8zzRpONGVULbe+28dbl29M=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from LV9PR12MB9829.namprd12.prod.outlook.com (2603:10b6:408:2eb::9)
- by DM4PR12MB6639.namprd12.prod.outlook.com (2603:10b6:8:be::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Mon, 1 Dec
- 2025 06:47:06 +0000
-Received: from LV9PR12MB9829.namprd12.prod.outlook.com
- ([fe80::c47f:251d:7b84:e6b4]) by LV9PR12MB9829.namprd12.prod.outlook.com
- ([fe80::c47f:251d:7b84:e6b4%6]) with mapi id 15.20.9366.012; Mon, 1 Dec 2025
- 06:47:05 +0000
-Message-ID: <17db5acd-2bb7-45cf-b8e4-b796c49e3baf@amd.com>
-Date: Mon, 1 Dec 2025 14:46:54 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 0/7] Add AMD ISP4 driver
-To: Mario Limonciello <superm1@kernel.org>,
- Sashank Karri <sashank.karri@gmail.com>
-Cc: Dominic.Antony@amd.com, Phil.Jawich@amd.com, anson.tsao@amd.com,
- benjamin.chan@amd.com, bryan.odonoghue@linaro.org,
- gjorgji.rosikopulos@amd.com, hverkuil@xs4all.nl, king.li@amd.com,
- laurent.pinchart+renesas@ideasonboard.com, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, mario.limonciello@amd.com, mchehab@kernel.org,
- prabhakar.mahadev-lad.rj@bp.renesas.com, pratap.nirujogi@amd.com,
- richard.gong@amd.com, sakari.ailus@linux.intel.com, sultan@kerneltoast.com,
- "Adam J. Sypniewski" <ajsyp@syptech.net>
-References: <CAL3XFnZ3XatQkR2HXpyfT6BK7bCjjGcaS5LjtK0DxPfHX0Q-dg@mail.gmail.com>
- <3a671359-b05a-4d58-84ca-f29385088e5c@kernel.org>
-Content-Language: en-US
-From: "Du, Bin" <bin.du@amd.com>
-In-Reply-To: <3a671359-b05a-4d58-84ca-f29385088e5c@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: KL1P15301CA0057.APCP153.PROD.OUTLOOK.COM
- (2603:1096:820:3d::19) To LV9PR12MB9829.namprd12.prod.outlook.com
- (2603:10b6:408:2eb::9)
+Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A89029AB02;
+	Mon,  1 Dec 2025 07:18:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764573525; cv=none; b=jFheUykKVUrzXLbVncfUApvjKYpAkcEtoOFBlNwv8Nk0nlS8umKLo9Wq3oyu4LPNhoSeHu0ARbD79gudy972LXBvKt8F2CXYzTnixfCh6oD8YcCbFwU0ARgiAX0zMBBRIZpovBpC/xZ3fYp043mkHhNWrelmWeTabX+5bQAKAnE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764573525; c=relaxed/simple;
+	bh=9mfff0zf0WYT7Y1m0h9SwdlbThjNAg6ePi3np+RzYlQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XmUiSbkKbWlqc5X6aqvcAoucppiqP33xsXrqcYdIrAc6QoIFYuffmDXyurpkeMaQ2f4eUt6YCoLWqYWCYNh62mCgsVqHWzEZuv7i93fQlZvslTDZBIayc3utQjD/AuRDerEARxqkm3xIWp9v069umj4iLac9QoIzL85ySxpSQfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
+X-AuditID: a67dfc5b-c2dff70000001609-83-692d41486292
+Date: Mon, 1 Dec 2025 16:18:27 +0900
+From: Byungchul Park <byungchul@sk.com>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: linux-kernel@vger.kernel.org, kernel_team@skhynix.com,
+	torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
+	linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
+	linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
+	will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
+	joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
+	duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org,
+	tytso@mit.edu, david@fromorbit.com, amir73il@gmail.com,
+	gregkh@linuxfoundation.org, kernel-team@lge.com, linux-mm@kvack.org,
+	akpm@linux-foundation.org, mhocko@kernel.org, minchan@kernel.org,
+	hannes@cmpxchg.org, vdavydov.dev@gmail.com, sj@kernel.org,
+	jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
+	penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
+	ngupta@vflare.org, linux-block@vger.kernel.org,
+	josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
+	jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
+	djwong@kernel.org, dri-devel@lists.freedesktop.org,
+	rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
+	hamohammed.sa@gmail.com, harry.yoo@oracle.com,
+	chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
+	max.byungchul.park@gmail.com, boqun.feng@gmail.com,
+	longman@redhat.com, yunseong.kim@ericsson.com, ysk@kzalloc.com,
+	yeoreum.yun@arm.com, netdev@vger.kernel.org,
+	matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net,
+	catalin.marinas@arm.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, luto@kernel.org,
+	sumit.semwal@linaro.org, gustavo@padovan.org,
+	christian.koenig@amd.com, andi.shyti@kernel.org, arnd@arndb.de,
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+	rppt@kernel.org, surenb@google.com, mcgrof@kernel.org,
+	petr.pavlu@suse.com, da.gomez@kernel.org, samitolvanen@google.com,
+	paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
+	joelagnelf@nvidia.com, josh@joshtriplett.org, urezki@gmail.com,
+	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+	qiang.zhang@linux.dev, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
+	chuck.lever@oracle.com, neil@brown.name, okorniev@redhat.com,
+	Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
+	anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
+	clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
+	kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
+	broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk,
+	shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
+	yuzhao@google.com, baolin.wang@linux.alibaba.com,
+	usamaarif642@gmail.com, joel.granados@kernel.org,
+	richard.weiyang@gmail.com, geert+renesas@glider.be,
+	tim.c.chen@linux.intel.com, linux@treblig.org,
+	alexander.shishkin@linux.intel.com, lillian@star-ark.net,
+	chenhuacai@kernel.org, francesco@valla.it,
+	guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
+	masahiroy@kernel.org, brauner@kernel.org,
+	thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
+	andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+	rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v17 44/47] dept: introduce APIs to set page usage and use
+ subclasses_evt for the usage
+Message-ID: <20251201071827.GA70324@system.software.com>
+References: <20251002081247.51255-1-byungchul@sk.com>
+ <20251002081247.51255-45-byungchul@sk.com>
+ <20251119105312.GA11582@system.software.com>
+ <aR3WHf9QZ_dizNun@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV9PR12MB9829:EE_|DM4PR12MB6639:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4949dbda-d9bc-496d-da79-08de30a570f0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?Mk9KUnZoVjVWQXZuU29HbHg5MjhKN1FJcmZuMnJjK0pOUEI3UEtibkYvd09M?=
- =?utf-8?B?MUN2WjdBUUhpa3Brc3F6QVFDbzRXZkFJRFJkYTBNRXNHU3c5a1FrenUySTFG?=
- =?utf-8?B?TnByNG5ReDFoRWFkc2VOeXd5TEZmb3dvU0VGN0tQTG9xa1lCZUpDaW1FeWx4?=
- =?utf-8?B?SDJZOG1WemZpZytPeGdvOWdQcFJwOTRoQW9mbk9MTytBb2dmQVI0UmdJUXhQ?=
- =?utf-8?B?ZVNrNHk3RmpzOEo2U3QxTkcyeFNPVWswWEphMmgzWm1YdUxhcG00ZmJLZG5W?=
- =?utf-8?B?TkdXblVVTll1VnZKK3lIaXVVQ09vZC9Ta0syVlZHby9uaFJZb1BmRklqYTNQ?=
- =?utf-8?B?RElHQTdaT3JsV2Uwd0pDTnN2Ui96RzJBNjBPdlIwUVlvT1g3dlpya1p6SUZw?=
- =?utf-8?B?eXBEWmpHV1dxNjJCenVkMU4wbG1LMFgrbTNFdW55Nm1UR1hlY2VXVzVrZFU2?=
- =?utf-8?B?SFhMR2owQnE3ZmZ1eGhlREtEc3AwaTNOZ3FHVmpkRU9JQTRvM1JJVHQvZUpk?=
- =?utf-8?B?Nm1LY2RMVmU3N1NFekJWRVd6WDV1RTlQYk9BU2lKTEhBbUIrUCtlZlpiZEla?=
- =?utf-8?B?NUpmWXl1cmZteUdDb1JhajdpMytaM2h0Wk4wcXVTRXpkeUU5c3hpMHpXSUZ5?=
- =?utf-8?B?YklUZG85ZW5XSVBubzF2UVMrL25mZkpVSmJnN3VGWTJwUmhXenFSZXM4OUpw?=
- =?utf-8?B?OUIvS1NLbWRLTUZ5NGIxRVdXazdSS1kxa3Zkb1BjS3BaQm1FNzZCVGlsYnF6?=
- =?utf-8?B?WVg1ZVFKdlZNRkZqbFcrRkJPM2dsL0kyTlAzVkNRd3RmMm5nRHZoM05mN1F6?=
- =?utf-8?B?cDNWczNSc0hZQklxWkxLSmJJZm5MNUhDc2FQSVRjZ24vZ3ZBZTl4K2NkOUl2?=
- =?utf-8?B?QmlZamVFOXdyRGNlNWFua3VtaUJrZWtCaUQ0UzFGZmlxbTVwOWhRTjhqTGZ2?=
- =?utf-8?B?M3dIbDNwa3NDU0p4cTlJcmtUL0hoMzhOZmRkTnBPVExnVkpPZ0NnK0tySFlG?=
- =?utf-8?B?M0dHNnloUXFoc1h0RDR0akZlNHVVVUk5eCtSWW9FQlY1QTlvRW1ZV3N0VklM?=
- =?utf-8?B?cTBkMEs2QVdXWTY2MXpUZXgwNkNSS1BpZGhPOHFPbElNN21Zc29yaFc1Vm0y?=
- =?utf-8?B?VmxRK2k3QmVnUnhheW1iOCswU0UyQzZvQXh3YTc3b0J1Vk10Y1AxQU1BZVNr?=
- =?utf-8?B?K0JjSCtPcGJobDR5dlBSUU9ncDlTWUhJeU43dStxdUIzOXM0QThiOTlIZ0Jh?=
- =?utf-8?B?SUdCM2RhTXdnZ2pYc3NBdC9GVzM0TkgranpWS3JqVjMyOTc0VVZMczlQVUdI?=
- =?utf-8?B?RzFjelRlRXdQNGxNSkZDOWx4bWVCaVpmTGRpa3gvbkEzbm1sNVphYjVTOHkv?=
- =?utf-8?B?QkFWVWZ3OVIyZ0g0NVpaKzU5MUhmRTc5dmt5Wm5pSExVemdFblFYajVvUVNC?=
- =?utf-8?B?WEJPdTZIek8rVk9qQlRoemkwZm9PSnQ1VnhwLzd0ZG8ycnZ1Z3lxWjlTSXR3?=
- =?utf-8?B?MmI1dlpZN3VQdVNxMmZOSkJsMVVjUlNEaENCZ2NENWFoYmhFT2t6QlFKQksw?=
- =?utf-8?B?VkFtUTdFMWVxclc2bmdtclh3RjJKUDZRZ2tVT0xQQXh2NDZsbjA3NVRSVkY4?=
- =?utf-8?B?ZTA0d0JSc3dwcHJzcTJJQk1jQytkeVhTZThpN3ZvSEZsVyt1QnZnL1Z4ck5a?=
- =?utf-8?B?UnVXY2RkYjBpQmJ0VExhbStvT3BxZ3RKNC9GUDVnWXdZb1JEL1kweGtBNzc2?=
- =?utf-8?B?Z2lmb0NRTDdRYzNnVStnSU8yTlhvNVppZEY2NW00cWZwdEo4aTJERWNiRTdm?=
- =?utf-8?B?cjN4V1dKcTVMU1k5SjIvRGw5K0E0RnJnKzB4cTczZVVtQmJvbFE0TWtIL28v?=
- =?utf-8?B?OUhaa2poOFFnZEpDTmppS3QyL2FqRnNCNWRIRy82eUlUUUE9PQ==?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV9PR12MB9829.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bUQ5OUhzUTQrYnZ1QUVmUVcvMGdteFlvcVJvUzJ3enJPckxQenp6eHdDc0Ey?=
- =?utf-8?B?SDRVbFJMem1CbjFvL3h3WWg1dTNMdm55dGtJUWFpd29VOTJhMUswOC9vQVBq?=
- =?utf-8?B?dEpkTFYwSDlmbDVNWkxFZG5vRE85T1I5UW1sOTlYOWxIajAweFZQNEQ5elRx?=
- =?utf-8?B?QitOYnBzUlE4VlN4d2FkVmszRkRUMUZKTFFSWlViUGRZQlowVUh6RmUwbHBp?=
- =?utf-8?B?TUoyeUFsODBZTGl4VE5GVy9aQ3c2aHg2cDM1bTJwWEhHT1BFRTl3RmxmeU1o?=
- =?utf-8?B?a2ZtMmkya3lhekdubEhjQ0RFK1lMNzZOeCtUclZhUUxQeXhwMmxaN2FvcW9s?=
- =?utf-8?B?SkN0MENHTnkvNkNuWkx0Q3hRQ3Q0TEF2TVg0NXJLY3lDR21qN1BGZHorQVlM?=
- =?utf-8?B?bkh2YitwM1dQWGJQV1hSYUlCcWUwTmVsZGt4L3NhaFRRdFpVTEJUeG55NlNL?=
- =?utf-8?B?MGtocHpSVEdyT3hLc1RwME15YVJDNXVGZ3lieWlWd2lMaXRxczZQM3BCU3Jq?=
- =?utf-8?B?WmJFdjRFeUEvNWE4STUyT3hvbnN0NjdLcnZ6aGdCVlZrK2EwdCs2YmkzdTYv?=
- =?utf-8?B?d00rajkwWll5ZVRSTGtRaXd6YnpiZkx0TzBXOEJOdnhzOU1EU1VTN3hFdFdN?=
- =?utf-8?B?WXZHbnJ2Vlc2ODB1akZ3dzRxYXdTV21OdWx5ZzVnY3c2S0xmcW5SYnZXcjBw?=
- =?utf-8?B?RGUwOU5zT0xzeWJxVE55c1pVOHlTWHJGYXNsMXNUZHoxbFlDS2FDR3hPdlJR?=
- =?utf-8?B?VmN1QXJhQlFXMTlOcFEyWUVRTmxWcHdXWXdCbUxSZlRjTXBEUUJkVVJhcWFx?=
- =?utf-8?B?MVBuekw2NFNaQUhjZ3dDVDRpbmx4bktsVm1PYUZJMlVIQ0RNU1VTdE9XVDNJ?=
- =?utf-8?B?TzlvZGVmOUprbktUeEdvNVhEWmFjM2pFZE9qb0dtUit4cE8zNlRQZGtXYUpU?=
- =?utf-8?B?UWh5U1VPZ3pNbnZ0OE93ODJPOGViUnYyL1dBcDB5YmZBd2RZKzk4Q016RHhk?=
- =?utf-8?B?QVBTWTdIeXFkY3dRMVlUbzNTMTRqK1N1WmdYWFN1UWJKdG81eEZNQllWSG9R?=
- =?utf-8?B?bk50b21VZXJqZ1JwRXdKZU5LMFNmMzA2ZVZPbFNXQWw2Y1JQNTRkQTI3VjRE?=
- =?utf-8?B?MStwMTh1bTlnUERSSjJHSnBvMzJMbzhFV1BEekF2bmN3RVA1Vkd5WElxS01u?=
- =?utf-8?B?RDBocDIxUmZqSENzM056OXVhNGtQRFdsMkdOMFpJMHk0VWRUZ2V2c2N2aTJj?=
- =?utf-8?B?YTl0WDJPaFBFZDJLZ1l5WERsdmxzb21KNzY0TnV2bTVIU2Z5V1g4RnFlT05W?=
- =?utf-8?B?Z2Q5Zm1ITWtSeG81aVY4K0wyVVF4QUJkOWhHL3VXY0syNGZ0Uld1Q1ZwUXE3?=
- =?utf-8?B?RGhUWlc2RHFRTTBQaDNnNUlvdnRpMnozWlZrMkRqSExoN1BnWHg3QVFkMHA2?=
- =?utf-8?B?enJUZ2tja1pMWktZUmlUbUN4U0RFQzJTMGVZbDdVU3ZvTXFYNndWZ1RhOVR2?=
- =?utf-8?B?Z3p3N1A1UmhJSDdOTXZ2Wm9CcW5ldmdZOG9TNHJ6QkJOTUpRVTFZemlVTGYw?=
- =?utf-8?B?STRmaWZPNG9NbFh2byt2VFNQeW5kWkUwNC9MZlo0RHNaV0pWZkpsV01KZWVN?=
- =?utf-8?B?RWR2NUVkZGZkQXB0cjhJWERwb3A2c0ZVbXpOUnhvUTBPaVQrUXdwZ1kzRnNM?=
- =?utf-8?B?Z1QreUdxSUxDUGNvNFVNL1hBUHBWU1ZmZFJjVHB3NXRNRzFFWnc3c3NoSFN1?=
- =?utf-8?B?ZzhINlBFNUhJTlNTTkN3VUFEc3lQMWQwM3VaSTd6Y3dHWVZKamJBenhOejlM?=
- =?utf-8?B?T1dIZ1BJb3FyY0Y4MlU3aE9CK1lTZmIrSkZLc01icXJaeG80Mk9TWEZaYmNX?=
- =?utf-8?B?WThIUUp5Zk9Rb0l2eTBPVDJCbHpUV3BMK05DOEV0YTkvTGxvcnJickpNUGhM?=
- =?utf-8?B?VFhHZWIzN0tQUG4xUGhFWHM2dkFDWENiOG5ERDczSUhKcE9mdnhYaWdncGhD?=
- =?utf-8?B?REVIWDNIbWxFenptQytXMXBEVkhwSUJ6WTIyaWlnYk45b1F6OXM4RDhIRHBX?=
- =?utf-8?B?M0FGbldKQ056elhBQUdSVWhGdVVMck5LeXBvbjdYV0h6UGZLLzYrTUFuQWtx?=
- =?utf-8?Q?b7m0=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4949dbda-d9bc-496d-da79-08de30a570f0
-X-MS-Exchange-CrossTenant-AuthSource: LV9PR12MB9829.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2025 06:47:05.9007
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: i7uK6bmr6cA00S2lnZcA34CnY4WaFrXL72aWeiTCOtCXMlf/KJjJqs33hjaN4Xh9
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6639
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aR3WHf9QZ_dizNun@casper.infradead.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxTZxTHfe597tPbjppr5+QO3OLqFjYcbDg+nET34pLF6zcz/KDbktnI
+	jXQrxRRFWGLCpih2jkGXQiwvwTK6hncBCYidlWGxvsSCDDoDxWoHY6WSCK1vtbV3xsxvv5z/
+	P7+ckxyWVtWTFFar3y8a9BqdmiiwIpRkzdi2JUP7/qm5JAgvl2Oo62wj4OloRTATLkdQNhDH
+	8MTkkkHc4UJQPWqiYakrRiD4xz0EZn+AwKLtBIL5i1thMrKAwBaIURBwHkNQY/YgcNh/IHAj
+	sBLGw4sE3OYfCYRG6yi420WgvtaE4HBTJ4HRYJSCqWoTBTO2WQw18wSqTydDbc1hCh7aWmRw
+	tWkKQ9SfBfHGAnC1zslg+mczBrdvgoHgrInAzMhRBpbH/RSUnw1j6L6TCBw3N8DJhikC5xxu
+	DOVPlhG4+m9TcKLrDAO+tjgDpbX3GRhr9WC44rqE4frZdgaaJ0cp8N/yMtBz7SoNkYpU8FT9
+	xIC38m8E7XetidMjNhps4UUZjDkbqU9yhftlFVho6emjhLaGNiQ8fmRCQlllgo70HBSarywQ
+	4VH4TyJUXcsQBizTMqGx+4BwZDjECD32dKHp3Dwl3Ax+KHS3HCfbN3yh2Jwr6rRFouG9j3Yr
+	8qYrl/G+wdeLLWMfl6LZZCOSszyXzdtb/eQ5zw0ZKYkx9yZf7/DJJCZcGu/1PqSNiGVXc2/z
+	C70bjUjB0pw1lW+/fIGROi9zOj4y3PFfX8kBf+P3DloqqbhBxI8fPc08C1bx7pMBLDHNpfPe
+	2DwlSWkulf8txkpjeWKHv6zHaIlf4dbzzr4RSvLw3G05750M0c8WfZW/YPfiSsRZXtBaXtBa
+	/tc2IroFqbT6onyNVpedmVei1xZn7inI70aJp7Udin7Zj+55coYQxyJ1kvISvKtVMZqiwpL8
+	IcSztHq1Ul2cGClzNSXfiYaCrw0HdGLhEEplsTpZuTFyMFfF7dXsF78VxX2i4XlKsfKUUtQ8
+	8XiJ8772zs6R6Bvu2L++rcKEHHfZ085s7t/DpH1a7ZFT/3yQs2bTul2bhCyS6VxheaniutM9
+	8v3ayRWXnb+49Au/horOH+q9deer7OBSThyqjNt2ftbQa36rJnJqQCXboewbXptdxzWtubjl
+	85S8CiZ9av3gg3XWVbs7v3mwMupT48I8TVY6bSjUPAXJGGhesAMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Sa0xTZxjOd77vXOhWc8ZYOIFkP+rM0Igbi0ve3S8/1i8zW/ZvixpHM462
+	tlzSYge6LVxkYFlYaVKILUxWY2VQELlFJCUVJ5s6xFIvbLMi2IGMW8IKCpR27ZZl/nnzvM/l
+	zfPjFXByhE0TdHmFsjFPY1BxCqL48LXyTPpOpu7FR20quFXqI7AcriLQcMbDQVXncRaut7ci
+	GF+uQvBw3Ymhoi9GYMM2xEN49XceYt4hBHV+GwZPdykDf3VEOZi9uITAPhHioH6mlMCi+xsE
+	jiknDzOX1DA/3s9CLDjNwO2VOQTuUJSBkK8SwUadHk64ujhYHx7BUG+/juD7iSCGBx1xsXvo
+	LgJvcxkHf1h7MARCm+DG8iIHl+3VHMz7GxhY6OCgqczLQqPThqD85BkO6ho7CfTdO8+DfzbC
+	wJ06GwOtnR/AuHuKwFWri4n3i7vOpoKzvpyJjwcM2Nv6GVh1t/Dwy8k7BNwlW8A5HGBhstnB
+	Q2QiC2JN+TDUOs1D8Fs7gfb5EfZtO6IPK2oIbenqZWjF6AZHPd95EF1fsyEaPlWOaYU1vl6c
+	W8T0aNfn9NTVOY6uLd/kqHelidArLonWDmfSPkeQp0cHfuM/enW34vUc2aAzy8YX3sxWaIPW
+	MCnof7bIMfpWCZpKtaAkQRJ3StODFiaBific1Oi9yycwJz4vjY2tYgsShBQxQ5rrfsmCFAIW
+	XelS25ULbMLztGiQVn5s/8evFEEKDLTjhClZ7EfSja/Psv8KT0mXj4dIAmNxmzQWnWESR7GY
+	Lp2OCgk6Kd7hV1clTuBnxM2Sr/cnxoqUjsfSjsfSjv/TTQi3oBRdnjlXozO8vMOk1xbn6Yp2
+	fJaf24niP+n+MlJ7DoUD6kEkCkj1pNKXtV2XzGrMpuLcQSQJWJWiVBXFKWWOpviwbMz/1HjI
+	IJsGUbpAVKnK9z+Ws5PFA5pCWS/LBbLxP5URktJK0KUv+gw379uqLT0/74vM9h47uLB1tDn7
+	vVfozO0cbYqbS8uoqVnV7iI7B7aqf2iIXdsYOFK2J0N9f+Keb61Mv3tL4ea9ud1Lfx6RGw9W
+	F+yvqZy/9u4bS/vMh4NVZv9X0U88PXseHTpREqhd2zSyt239Qv2Cfpf3Ftq/3R89P3nsiUm1
+	ipi0mqxt2GjS/A2TVMQejwMAAA==
+X-CFilter-Loop: Reflected
 
+On Wed, Nov 19, 2025 at 02:37:17PM +0000, Matthew Wilcox wrote:
+> On Wed, Nov 19, 2025 at 07:53:12PM +0900, Byungchul Park wrote:
+> > On Thu, Oct 02, 2025 at 05:12:44PM +0900, Byungchul Park wrote:
+> > > False positive reports have been observed since dept works with the
+> > > assumption that all the pages have the same dept class, but the class
+> > > should be split since the problematic call paths are different depending
+> > > on what the page is used for.
+> > >
+> > > At least, ones in block device's address_space and ones in regular
+> > > file's address_space have exclusively different usages.
+> > >
+> > > Thus, define usage candidates like:
+> > >
+> > >    DEPT_PAGE_REGFILE_CACHE /* page in regular file's address_space */
+> > >    DEPT_PAGE_BDEV_CACHE    /* page in block device's address_space */
+> > >    DEPT_PAGE_DEFAULT       /* the others */
+> >
+> > 1. I'd like to annotate a page to DEPT_PAGE_REGFILE_CACHE when the page
+> >    starts to be associated with a page cache for fs data.
+> >
+> > 2. And I'd like to annotate a page to DEPT_PAGE_BDEV_CACHE when the page
+> >    starts to be associated with meta data of fs e.g. super block.
+> >
+> > 3. Lastly, I'd like to reset the annotated value if any, that has been
+> >    set in the page, when the page ends the assoication with either page
+> >    cache or meta block of fs e.g. freeing the page.
+> >
+> > Can anyone suggest good places in code for the annotation 1, 2, 3?  It'd
+> > be totally appreciated. :-)
+> 
+> I don't think it makes sense to track lock state in the page (nor
+> folio).  Partly bcause there's just so many of them, but also because
+> the locking rules don't really apply to individual folios so much as
+> they do to the mappings (or anon_vmas) that contain folios.
 
+I've been trying to fully understand what you meant but maybe failed.
 
-On 12/1/2025 10:43 AM, Mario Limonciello wrote:
-> + "Adam J. Sypniewski" <ajsyp@syptech.net>
-> 
-> On 11/28/25 9:12 PM, Sashank Karri wrote:
->> Dear Bin,
->>
->> I apologize if this is the wrong place to ask this question and
->> suggest this very slight edit if I understand how ISP4 on the Ryzen AI
->> Max+ 300 series SoCs works.  So the ASUS Rog Flow Z13 2025 also uses
->> the same Strix Halo chips, albeit using the non-PRO series.  On the
->> Windows side, the 13MP sensor, also from Omnivision, requires an AMD
->> Camera Driver, something speciifcally also required by the  5.2 MP
->> camera on the HP ZBook Ultra G1a.  So if both MIPI-capable cameras use
->> the ISP4 technology on the Strix Halo SoC (do they?), this Linux ISP4
->> driver should apply to both cameras, right? If so, shouldn't the ACPI
->> ID for the 13MP sensor also be hardcoded into this code
->>
->>> drm/amd/amdgpu: Declare isp firmware binary file (https:// 
->>> gitlab.freedesktop.org/agd5f/linux/-/ 
->>> commit/35345917bc9f7c86152b270d9d93c220230b667f)
->>
->> Adam J. Sypniewski suggested hardcoding the ACPI ID into the I2C
->> driver here to have the 13MP camera to work (the ASUS specific ACPI ID
->> for the sensor can be found here):
->> https://lore.kernel.org/lkml/aPeqy11m-TxwbzJV@garrus/
-> 
-> Two things:
-> 
-> 1) Does this work?  I wouldn't expect it's enough to make everything 
-> work 100%.
-> 
-> 2) AFAICT the Flow Z13 has a USB camera for the front camera, but the 
-> rear camera is the one that uses the ISP4.
-> 
-> So I'm confused by the commit message saying that the front facing 
-> camera needs it.  Is that a mistake?
-> 
->>
->> I'm entirely new to the Linux kernel mailing list and very unfamiliar
->> with webcam interfaces and how ASUS has chosen to interface the 13 MP
->> sensor with the system, but I can confirm that it does not work yet in
->> the Linux desktop, so I was wondering if the work on this new driver
->> is necessary to get it to work.
->>
->> Sashank
->>
-> 
-> I think it's going to be a bit more than just an ACPI ID the ISP4 driver 
-> though to enable it however.  amdgpu has a list of sensors that it 
-> supports (you can see isp_v4_1_1.c for details).  This currently only 
-> will recognize and configure the GPIOs for ACPI _HID OMNI5C10.
-> 
-> For ACPI _HID OMNI13B1 a new entry would be needed there along with the 
-> correct GPIO tables that match.  This will wire up the pinctrl-amdisp 
-> driver to have the right GPIOs.
-> 
-> Bin and Pratap can comment more on the feasibility.  But for now I think 
-> we should treat this as TODO for after the initial series lands with 
-> support for the sensor in the HP ZBook Ultra G1a.
+FWIW, dept is working based on classification, not instance by instance,
+that is similar to lockdep.  This patch is for resolving issues that
+might come from the fact that there is a **single class** for PG_locked,
+by splitting the class to several ones according to their usages.
 
-Thanks, Mario. Some more comments, Windows and Linux have different 
-architectures. Windows uses ISP and dedicated sensor drivers, while 
-Linux places all sensor initialization and control in the ISP firmware, 
-functioning like a webcam. Adding new sensors requires updates to both 
-the ISP firmware and kernel drivers. For now, only Ov05c10 is supported 
-on HP ZBook Ultra G1a.
+> If you're looking to find deadlock scenarios, I think it makes more
+> sense to track all folio locks in a given mapping as the same lock
+> type rather than track each folio's lock status.
+> 
+> For example, let's suppose we did something like this in the
+> page fault path:
+> 
+> Look up and lock a folio (we need folios locked to insert them into
+> the page tables to avoid a race with truncate)
+> Try to allocate a page table
+> Go into reclaim, attempt to reclaim a folio from this mapping
 
--- 
-Regards,
-Bin
+I think you are talking about nested lock patterns involving PG_locked.
 
+Even though dept can do much more jobs than just tracking nested lock
+patterns within a single context, of course, nested lock patterns
+involving PG_locked should be handled appropriately, maybe with the
+useful information you gave.  When I work on handling nested locks esp.
+involving PG_locked, I will try to get you again.  Thanks.
+
+However, I have no choice but to keep this approach for the **single
+class** issue.  Feel free to ask if any.
+
+	Byungchul
+
+> We ought to detect that as a potential deadlock, regardless of which
+> folio in the mapping we attempt to reclaim.  So can we track folio
+> locking at the mapping/anon_vma level instead?
+> 
+> ---
+> 
+> My current understanding of folio locking rules:
+> 
+> If you hold a lock on folio A, you can take a lock on folio B if:
+> 
+> 1. A->mapping == B->mapping and A->index < B->index
+>    (for example writeback; we take locks on all folios to be written
+>     back in order)
+> 2. !S_ISBLK(A->mapping->host) and S_ISBLK(B->mapping->host)
+> 3. S_ISREG(A->mapping->host) and S_ISREG(B->mapping->host) with
+>    inode_lock() held on both and A->index < B->index
+>    (the remap_range code)
 
