@@ -1,366 +1,170 @@
-Return-Path: <linux-media+bounces-47905-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47906-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CD97C958BA
-	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 02:52:44 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD7B5C959BE
+	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 03:43:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D7C4A3A18F9
-	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 01:52:41 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id C5AFE4E07AB
+	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 02:43:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61AAD2628D;
-	Mon,  1 Dec 2025 01:52:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85A301A08DB;
+	Mon,  1 Dec 2025 02:43:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="esJQvvDw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YgH4KlaU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012015.outbound.protection.outlook.com [52.101.66.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79BA42556E;
-	Mon,  1 Dec 2025 01:52:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764553955; cv=fail; b=LStf4CAvrg5tMO21sWcB2QOxIVM+eEoOozVSAN/Dom504IHJUPIDO7xoMC7efqJCfJjqWHHGZV9e/YA08ggCgDYllakZN3q12y+BMaHIvHfBCDuizRwqQFbh7J1EqoMqfjV4b5l8zJetXyCA26hlvHh8mcmJMvj68/zEhTX4eEw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764553955; c=relaxed/simple;
-	bh=bmBT1czJ8tlK3YTkT9Q/Qk/ayidoZp1Z2ibVUGh3q6E=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=XkIDUfFjUNNxajsKyUko765aPHaxgxFu+8MnrjO7x5Nmc5ksBAl6AWnlwBJYI12jomhdJSg52W2azmXNRec6FZiD4rM2O+lXuHph8vIvRNTf6zOkjbhn3Z6/fNGwRtR+QkL5f1wIfjuIEGpwpdJoUp6DtES/NZNak3E6tI8EB00=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=esJQvvDw; arc=fail smtp.client-ip=52.101.66.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SlOdTQXWAyF5ahH22gkPr52hx3CtNPIzzytugbyLBlkVpMVS39p07/Rcjc2a971heeWB0A/+FSFnGuqg620Zjkn29wuZYBHzxCvQN2kY3CFEMs2D2mUhixgy91t/mqpPj7vlfoZEEijAJBZLEk2aCV1L8CEmrb7v/v6tT9167vR5sxx1BVbtsffJDi+Th/SExTQbi8CvhS3mSz+HcSreNXO6dVwEDZxdXTL6m95xaw+6jaWrCxqfNcWESOjyNh0XfmUyjzt5oVgBgQDMEcfjK8dREIUhuKG4881Vk2aU4oqDDVPOdqE1A0wJS5fEQgr/mZlCm4Y/4019WNqNlod3Mw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AeR1edaGi3dM3bZD6lireq5WEauAfqHVWPLFwGH/t6A=;
- b=JpixVFGQG3f38bxbUHAHmrMwz2KdQnsfbBfllp/m5Dfx/ssS3JJk6006QnnoWYXbwHhkMGIg7jmPS/gndnhKRzmrlY+gfhcDNiwjDnu+Q6OMf/AV5QSuqHWoacH/jgy0FrydImWJqXK9BanruX0Ej+3f5xsb3U3rHbTHpxgup0jWpSaQ9k5DYd0WTAnd+GOhg8NOcxYU5oHp53Hjtu7jowPxr9GqYmR8+YdUZ5mWVYNZ4cKADgSUVTVazbeN4zEJMviAZHGWnLo60hQVXFBwmYSXR3Cf48mXOSaiRSTLjisDmWf9U5x9NPM1Tp2kwQXWOJVNTXGkjwnVOKvQMFFMwg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AeR1edaGi3dM3bZD6lireq5WEauAfqHVWPLFwGH/t6A=;
- b=esJQvvDwAodnPkpB7S0p+Gn9rbq2TyuBR+RkvJ+sO6P4vGSL2HYgnYXFL1RGgUtTIdrTieX72XkG5lQ4B1e11vmYt7EJKvyNjETNfqTQuKPADZH4BXEGJX1K83/lfEA+peSQmKh2R9ODn2Ptn2Qu0oWyWzPyEf3AJrnDM22hA3F3JTYE88WVP2eza9UerAVFFdClvxKjXUEUXueJnHnYnZ+JpVTmL37U1gQ2fpSw7G8o41way0sD1+keshDbAQciIGk6u2WZFcp1+LR3qjNN9rCos1MS88MfTFxrZuVcteMDL6c5TtqNA5D0I7eGXgEXs21nGNWJNLc6miwvWnF7ZA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB8254.eurprd04.prod.outlook.com (2603:10a6:102:1cd::24)
- by PAXPR04MB8317.eurprd04.prod.outlook.com (2603:10a6:102:1ce::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Mon, 1 Dec
- 2025 01:52:29 +0000
-Received: from PAXPR04MB8254.eurprd04.prod.outlook.com
- ([fe80::2755:55ac:5d6f:4f87]) by PAXPR04MB8254.eurprd04.prod.outlook.com
- ([fe80::2755:55ac:5d6f:4f87%4]) with mapi id 15.20.9366.012; Mon, 1 Dec 2025
- 01:52:29 +0000
-Message-ID: <64ad3d66-4edf-4a0b-8992-0db0e90a32b0@oss.nxp.com>
-Date: Mon, 1 Dec 2025 09:52:19 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] media: verisilicon: Avoid G2 bus error while
- decoding H.264 and HEVC
-To: Nicolas Dufresne <nicolas@ndufresne.ca>, linux-media@vger.kernel.org
-Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
- benjamin.gaignard@collabora.com, p.zabel@pengutronix.de,
- sebastian.fricke@collabora.com, shawnguo@kernel.org, ulf.hansson@linaro.org,
- s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
- linux-imx@nxp.com, l.stach@pengutronix.de, Frank.li@nxp.com,
- peng.fan@nxp.com, eagle.zhou@nxp.com, imx@lists.linux.dev,
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-References: <20251128025117.535-1-ming.qian@oss.nxp.com>
- <20251128025117.535-2-ming.qian@oss.nxp.com>
- <46e9a5a881946d879d1b2af3421d574b26256ae3.camel@ndufresne.ca>
-From: "Ming Qian(OSS)" <ming.qian@oss.nxp.com>
-In-Reply-To: <46e9a5a881946d879d1b2af3421d574b26256ae3.camel@ndufresne.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SI2PR02CA0039.apcprd02.prod.outlook.com
- (2603:1096:4:196::9) To PAXPR04MB8254.eurprd04.prod.outlook.com
- (2603:10a6:102:1cd::24)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4792032D;
+	Mon,  1 Dec 2025 02:43:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764556999; cv=none; b=nMNkOMaVDN2GHlMJql5eXP8bpnzL8n4wa5ga1n+gnd1kkIZDSWwk8B7aom4xiUf9+lcPuoKaY8e5GZmE45WgloUTuLeUxX1ji9iHsgzJO6X7CKt7JnzMRVz2qkhVdGKFuFeRIbxMJOLvb+oGqwfeyRzuJhcoP3GAf49BaIzUGJk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764556999; c=relaxed/simple;
+	bh=UXUNNJ8fVZIaUx+gZGmSjfEQppJSD5hXQrejrxMxJNw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VXaMVtpU4979re5So6/znhbR6GFFCOHWxsz2+IeYaDeg70XSRt3iTxvJJwhI8PelTlxfzWiG8Z5kszjcKk3tY0yxlthZcH39/+KPblH+sh+peFNfSY9BYwmp8jBGLlFo/rXoyRgOVkL+zn0miX3kgVdK2V7FM9WS1yPzl5++SWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YgH4KlaU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E812AC4CEFB;
+	Mon,  1 Dec 2025 02:43:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764556998;
+	bh=UXUNNJ8fVZIaUx+gZGmSjfEQppJSD5hXQrejrxMxJNw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=YgH4KlaUU8p2H0/dFXi0sgyvelj3km81a+g6zN833WjWCSVnIvJXY2bKHepQLFYcU
+	 75s4VBSgeIzhYeKp2oM7espFz3dbCs22wxsuTKgMbE1cLJwkwFJ7PgcS0//PZzZFUK
+	 8A5JH2enoqSJ6zwNEZYVXhQgK0FmHey/OkJs2A6cIBHihZBamYjbvwQRAP1RVTQ0L/
+	 bZ4C60tSeJcrGxl4TzpZD3KLrPN7JEXgLlRQP6cF1xqS1UePi86RhdeA0wUdwtaZxh
+	 dNpNF/O/gMyrv5RbkC0SigH0LtKfonh38OnOYCAU8rHnv66GOrV+EinEJ+vnm6yg1H
+	 6iE6F7bQk499A==
+Message-ID: <3a671359-b05a-4d58-84ca-f29385088e5c@kernel.org>
+Date: Sun, 30 Nov 2025 20:43:15 -0600
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8254:EE_|PAXPR04MB8317:EE_
-X-MS-Office365-Filtering-Correlation-Id: aadda413-b7e0-42cd-1002-08de307c48bb
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|1800799024|366016|19092799006;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?dDBGVk45bEhPQ0hIc3NWRlNUczE5SkcvOUFaUWFsMFhodURseFJWd0VMTHRU?=
- =?utf-8?B?MDdMZXpiUC8xNVVjV2ZpMzVwWWZ0VUdoaHh5aTltanQyM2lkcDRhTUJiODdV?=
- =?utf-8?B?N0tacTJkMU9CcElVQU1sVjJVM1lieUhoeExTdWZCbFZVNThHdFhvNjZWK0Q4?=
- =?utf-8?B?NjZ5T2g2cjUyRjB4dmNST1g0Q1M2VndHM3FycURaSWdaaldXWjFqYlVqZGpZ?=
- =?utf-8?B?Ulh5ZW53aUl3QjkxQy8wNTZuWElsejE0V1hlZksrQzlIVWYvRktGcUJwZ0Zh?=
- =?utf-8?B?UEN5MkE1N091SEQyV1A4Mkp6WGcrWDMwY3ZSUnh1MmZma0JldlU0bHd5ejV1?=
- =?utf-8?B?Zm84SkJ2MWVndjdvZ3lxU2JrVHBaZnk4Uy9tTmhESTV3bld2Y1IrK293VUFP?=
- =?utf-8?B?dnVTbjJOZTBzUENnSlErK1RLK0s4SlV2SzAvVzlzUUd4VDU4NFpIOHltYjB6?=
- =?utf-8?B?TVNDM3FtRllrK2l2ZHdBSzBwU3ZHa3RwSmNubExxN0tqQ29sM0k0WXg2TnZs?=
- =?utf-8?B?UHc1UWZVcWpYRGRweWZ4ZXJXTFNHa2Q3T0RsVkxqSzV2c2U1VE4wUWVrV3lK?=
- =?utf-8?B?c0RTOWtYMEczNE4vRGN1UGVJNjN6THpzem9heWFIZEhQcFROK0ttZ0tsaTFr?=
- =?utf-8?B?bW0vNzFldS8xV0FEYkVIeUNvUjlEa050dFlPU3hNaERaNGJIS1I4TTRTK2Fj?=
- =?utf-8?B?WGJ4TjZROUV5YnRQSjJhSHJpdWQ0VmhYZzBUNDFiczBlTGYwQldvTUZ3S1Vq?=
- =?utf-8?B?K2JBdUxFVGtpaUNDS2Z0c293OWVxZWdyR1hBMjZCWmtsYTcwbXBWSUJxLzdY?=
- =?utf-8?B?UkpRdXJnOUlKZmxXekwyVG1leWV5UHpBZ0wySXg3eUdlc3c2SzFyMGh5WXVE?=
- =?utf-8?B?ZzN5UERzK1VTTU9BZzZBakpyU2pGTXF3WmVpWjdLVzJaelhha1RJbDl1Vnlr?=
- =?utf-8?B?QXJQZEpWK1pTNzdLZzBSYVlubk9WT2hITHd4M2VHSG10N05lbHNFaGtsdXV3?=
- =?utf-8?B?VjRyMVp3KzQxZ3RCWXVGOEI3TlJ1eWgrNmF0RGVIMXE5NE1aakxMRkEyVDBz?=
- =?utf-8?B?cnlKY2JzcU9Fc3dnYmEyeTZnQnJXVEVKUS9uTHdzMmVBV1g3dFVRSFVWQTVx?=
- =?utf-8?B?ZTc2amRNQVdpc2NKMjlDZEVDWWxDVlBxa21hSGRDc2RMY3dlOGVJK2RublQ2?=
- =?utf-8?B?Q0xhbE4xOFlYWHRVekNNdHdCMDBjMlloMWZvSVZNSnkxWmFQUitTRmk3R3Z0?=
- =?utf-8?B?L2U2V2tOQXZveHFyLzBnazBMa25hV1BQeVZad0VyeXFwcmJqOXQyQXNoUWk2?=
- =?utf-8?B?SDhPU0FHdGttY1FER2g4bThPaFR6L2NobGxGdUphSjZBdUdDcmtnZ3pzMzdK?=
- =?utf-8?B?dXlibVZUcDZzV3FsTnRNbFNDdGJDT1hMdDdqcSthSE9JT2lBL0RZZDNvcFRF?=
- =?utf-8?B?cHpWZmM1NUwrOWwzMkc4QldvUGlXK3ZKOWVxUjltc09UaC9mSC9YeC9kanlK?=
- =?utf-8?B?RXNZVTdLQVhhbWNnYXpyRDQ3M0ZuOG43TVMvOE1ZZFlUV2ViQlRSdXNUOThw?=
- =?utf-8?B?b3BBdmQwZmxzWkR2a2pCcURJeCtjUHY3bnJobnFMTzhYNUdGOW9HR1FkWnYy?=
- =?utf-8?B?QTBHdXdSaXI4Skd5c0dycXNxdi9NL1ZBVWZsS1I3S2JjUFNPQ3VtanAxSFF2?=
- =?utf-8?B?ZlhaVTZtZnYvMmFJTTZ3R2RlN1FyNkVROHNjTWY0aUt1ZmMvQkRZc3dId0pX?=
- =?utf-8?B?U3lNQlYzTGtBTTVhQ0ZDYTZVZ0dpakZ1eVZmeldyTTBqb2VkS0hnODRyWkVV?=
- =?utf-8?B?Z1FMMGlFRjFnZWJYR0ZJM2psQlU4Tk5zQzQwMTlsRnZYU3RjVlhYWU9WR3Jy?=
- =?utf-8?B?MC9ZamU4R2UzVmtWejdSV0FiUWc0NDB3OFFtMUpSemMzUmhzQlM3T2JpS2Zn?=
- =?utf-8?Q?uY8sIqBfulEVCYk5nAIeFo6P+SsafVzZ?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8254.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(19092799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?K3lVWXRZL1ZoK0h6VWNDd1RXbmIvOUcvQXl3K1NkMytmaFUwQW14eG5aQ3Y1?=
- =?utf-8?B?WXBhcm52dUlNR3BuNnlBUUhtc1pxelpZa3Nld09HeXJsUTBSNlRFMEg4MGF3?=
- =?utf-8?B?eFJRaEdIUUx4cFlUazgwWXBhSzRVbE9vMEoxb0dCYmJsNGhNWlBCRDhSNHFq?=
- =?utf-8?B?L1NNS1daTXFjV1h6VnM1THdrR0wzTGxWZzlzb01obkwydXBBU1phSWVsRkta?=
- =?utf-8?B?OGNVM2M1eVpGSU92TUFOMU9BYUwyc3l4TmU0dXlZdUthWHk4N2I0RjZWY29k?=
- =?utf-8?B?T2YydmI2c01ycjRvMmFFUlBFdzU4d0tQRzhWMW9EdEU4YU5jV2h0VVFlRHBI?=
- =?utf-8?B?d29IZVFJVEcyMEkvYitwbE1GS0QwUGVHMGF1a01PTktZYVZ0bDlVRXNrR1FK?=
- =?utf-8?B?bUt0YnRGUUtrSjB2bUVvTGo5cDkzMURXdFJvaUNXTi9tNmhZUXZtNEdRbDBS?=
- =?utf-8?B?M2E0cUVZcWdDN2w2WVErRWlxWWNUUGZzSmJxdHluMFJNcEI3RU5waG5pa1BP?=
- =?utf-8?B?d3grbzlkZ1crU2tpc3hGSEFmdWNHTzc0NUVaWnR2Z2dNUldwMUVEZmYxR3N2?=
- =?utf-8?B?eWdkUDNLa0RLaVVMTGZLa1RkbWlibllyQ1FOYVJDWUE2RSs1MWFFdUdaMnFy?=
- =?utf-8?B?ZGtKSTZTRnBNSnZVZnFicUJLVDQxb2pXQ3BwQ0hua0RMZUZOVWJTanRCRkwr?=
- =?utf-8?B?eHkwT1V6b0N2bE1BbHN3OVlhV1VobVZNdUEyZTYwYjVTMEF6REhEalJCZ1ZX?=
- =?utf-8?B?QTFMb0YxWXpkbUM3ems3S2ViTHN2UkJpaDVROE5YOGViRlpCd3Y0NWhuSVNw?=
- =?utf-8?B?MU92QTFZam9USXdDZ1p1T05OZWdwK0x2TFpIeFM3YUVKV1lyTFgxQ2lqTzc0?=
- =?utf-8?B?VWgrTDlSTDNjOU9TNUJtTjhvK3lneUxOSlFNS2ZVbnllUUdLck5hSmxIYng5?=
- =?utf-8?B?c0s1amRVV2ZjNCtrWm9MOWI5bXpmYzlTZFdsTUZkbkpWaU14Qys4MXpZYkJR?=
- =?utf-8?B?RkliY01wRDh6MFVOSjdGejVRWDVheXVBZmNXeFVBaE1SZEhVdVcvVWI0NVJT?=
- =?utf-8?B?bkQvZU9hMjUwMjd2clVpVDY2bHg2KzJNaDh1RE9wa0ZtYWppQzY3Yk1PUHgw?=
- =?utf-8?B?ZVhDWXVZdmdwUWNhNXk5VmVta05KcU9MRDhURFJuQ1Z6czBmc3p0Nm5QZ0sr?=
- =?utf-8?B?WXBTaFU3Z0IwR0xLNnduR0hpL0xFZllHR2dGWVRnb0hjaWMvNng1ZVFLUmdD?=
- =?utf-8?B?Y1RQcStqNFlNa3VVUm9IQUx6S0hmQ1dMMFVqSnJHMXFGMS9FWnhIVktxTVNP?=
- =?utf-8?B?NzMrdFRBc2o5ZXhzaVFOK2FIcmVHUW9wQXNadFRza1lOY0ZDVFIzME41QW1Y?=
- =?utf-8?B?S3VOV1dBbTlMUmFQMURGejY1eGxnR08rQmpQZktjTk5WdnlXdDNBQStHSzR6?=
- =?utf-8?B?c2JWYTl3ZGJuVWtwMFgxTktVZnFrT3lWQWI3Tk5BRGxjWS9JWWVQemw2ZUNT?=
- =?utf-8?B?Wk1GeW45VVpPcHFGNEw1bU5DQ0xtOW1NYm4vZDRadVhNMUdkZVRycGNycmo4?=
- =?utf-8?B?cmYyV0gxN01rckYrcVVmaDRHbGxKVllrSGZacjY4R2xVOFBuWGN3ZHd0MFdE?=
- =?utf-8?B?VktvSTlQWCtZaThTRndSTGZuWUxKbE84a2tLMFdBUzAxczE4S1pLcUJEWkRZ?=
- =?utf-8?B?WmMvWU9VZEJ2VE45WFVNUkt0S0pHemZzRm9BdlBjL3hDQVVEVFQ2TTNqWHRM?=
- =?utf-8?B?WUtJV3RSOVJIdXdjRGpCL0RDM25pazJJWG94SnU4cnlSdkh2RXEycHlMQktQ?=
- =?utf-8?B?akd3a3dnTUdKOW5ycVdTdi9jeElUcmpHVnczQ0NVOGxZVW13enZtK0VlTkVq?=
- =?utf-8?B?bW5ZYjYrUGY5WWUzNXRxWnBuK2pycnpPdnpUb1JmL3VEWmJYMnJydnlrcmlu?=
- =?utf-8?B?Nk5hekttVnRDZE1hL21SU2Zxajc1YkxmVWhOekJBT2NUTnVKQ01BRmNSWHZ6?=
- =?utf-8?B?R24xektheWgyaGk4RHlzVVAvS0pnclpDZ1JSK0YwZ2Yycmc4TGw5b2p1Tlh6?=
- =?utf-8?B?VmhCOVBETjdoZUZON0IvQWZmV3pUdys4ZktiLzg4Q2F6Zm9HLzYwYmFyZ0sx?=
- =?utf-8?Q?4KOuf4KX4qrN39hkDegQ1kQ0j?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aadda413-b7e0-42cd-1002-08de307c48bb
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8254.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2025 01:52:29.0836
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TzPMbqhUog8PEhYaq0ihqgR+s12zDC16PiFe4iKZTk42sJIWeXTvvGOe1g+TotFikjk4/D7ypxoucvNYxl2Obg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8317
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 0/7] Add AMD ISP4 driver
+To: Sashank Karri <sashank.karri@gmail.com>, bin.du@amd.com
+Cc: Dominic.Antony@amd.com, Phil.Jawich@amd.com, anson.tsao@amd.com,
+ benjamin.chan@amd.com, bryan.odonoghue@linaro.org,
+ gjorgji.rosikopulos@amd.com, hverkuil@xs4all.nl, king.li@amd.com,
+ laurent.pinchart+renesas@ideasonboard.com, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, mario.limonciello@amd.com, mchehab@kernel.org,
+ prabhakar.mahadev-lad.rj@bp.renesas.com, pratap.nirujogi@amd.com,
+ richard.gong@amd.com, sakari.ailus@linux.intel.com, sultan@kerneltoast.com,
+ "Adam J. Sypniewski" <ajsyp@syptech.net>
+References: <CAL3XFnZ3XatQkR2HXpyfT6BK7bCjjGcaS5LjtK0DxPfHX0Q-dg@mail.gmail.com>
+Content-Language: en-US
+From: Mario Limonciello <superm1@kernel.org>
+X-Enigmail-Draft-Status: N11222
+Autocrypt: addr=superm1@gmail.com; keydata=
+ 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
+In-Reply-To: <CAL3XFnZ3XatQkR2HXpyfT6BK7bCjjGcaS5LjtK0DxPfHX0Q-dg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Nicolas,
++ "Adam J. Sypniewski" <ajsyp@syptech.net>
 
-On 11/29/2025 5:28 AM, Nicolas Dufresne wrote:
-> Hi,
+On 11/28/25 9:12 PM, Sashank Karri wrote:
+> Dear Bin,
 > 
-> Le vendredi 28 novembre 2025 à 10:51 +0800, ming.qian@oss.nxp.com a écrit :
->> From: Ming Qian <ming.qian@oss.nxp.com>
->>
->> For the i.MX8MQ platform, there is a hardware limitation: the g1 VPU and
->> g2 VPU cannot decode simultaneously; otherwise, it will cause below bus
->> error and produce corrupted pictures, even led to system hang.
->>
->> [  110.527986] hantro-vpu 38310000.video-codec: frame decode timed out.
->> [  110.583517] hantro-vpu 38310000.video-codec: bus error detected.
->>
->> Therefore, it is necessary to ensure that g1 and g2 operate alternately.
->> Then this allows for successful multi-instance decoding of H.264 and HEVC.
->>
->> To achieve this, we can have g1 and g2 share the same v4l2_m2m_dev, and
->> then the v4l2_m2m_dev can handle the scheduling.
->>
->> Fixes: cb5dd5a0fa518 ("media: hantro: Introduce G2/HEVC decoder")
->> Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
+> I apologize if this is the wrong place to ask this question and
+> suggest this very slight edit if I understand how ISP4 on the Ryzen AI
+> Max+ 300 series SoCs works.  So the ASUS Rog Flow Z13 2025 also uses
+> the same Strix Halo chips, albeit using the non-PRO series.  On the
+> Windows side, the 13MP sensor, also from Omnivision, requires an AMD
+> Camera Driver, something speciifcally also required by the  5.2 MP
+> camera on the HP ZBook Ultra G1a.  So if both MIPI-capable cameras use
+> the ISP4 technology on the Strix Halo SoC (do they?), this Linux ISP4
+> driver should apply to both cameras, right? If so, shouldn't the ACPI
+> ID for the 13MP sensor also be hardcoded into this code
 > 
-> I like where this is going.
->> ---
->> v2
->> - Abandon the waiting approach.
->> - Switch to a shared v4l2_m2m_dev solution.
->>
->>   drivers/media/platform/verisilicon/hantro.h   |  2 +
->>   .../media/platform/verisilicon/hantro_drv.c   | 41 +++++++++++++++++--
->>   .../media/platform/verisilicon/imx8m_vpu_hw.c |  2 +
->>   3 files changed, 42 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/platform/verisilicon/hantro.h
->> index e0fdc4535b2d..8a0583f95417 100644
->> --- a/drivers/media/platform/verisilicon/hantro.h
->> +++ b/drivers/media/platform/verisilicon/hantro.h
->> @@ -77,6 +77,7 @@ struct hantro_irq {
->>    * @double_buffer:		core needs double buffering
->>    * @legacy_regs:		core uses legacy register set
->>    * @late_postproc:		postproc must be set up at the end of the job
->> + * @shared_resource:		flag of shared resource
->>    */
->>   struct hantro_variant {
->>   	unsigned int enc_offset;
->> @@ -101,6 +102,7 @@ struct hantro_variant {
->>   	unsigned int double_buffer : 1;
->>   	unsigned int legacy_regs : 1;
->>   	unsigned int late_postproc : 1;
->> +	unsigned int shared_resource : 1;
+>> drm/amd/amdgpu: Declare isp firmware binary file (https://gitlab.freedesktop.org/agd5f/linux/-/commit/35345917bc9f7c86152b270d9d93c220230b667f)
 > 
-> Instead of that, I'd make an array of compatible node we are going to share the
-> with.
+> Adam J. Sypniewski suggested hardcoding the ACPI ID into the I2C
+> driver here to have the 13MP camera to work (the ASUS specific ACPI ID
+> for the sensor can be found here):
+> https://lore.kernel.org/lkml/aPeqy11m-TxwbzJV@garrus/
+
+Two things:
+
+1) Does this work?  I wouldn't expect it's enough to make everything 
+work 100%.
+
+2) AFAICT the Flow Z13 has a USB camera for the front camera, but the 
+rear camera is the one that uses the ISP4.
+
+So I'm confused by the commit message saying that the front facing 
+camera needs it.  Is that a mistake?
+
 > 
->>   };
->>   
->>   /**
->> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
->> index 60b95b5d8565..f42b2df86806 100644
->> --- a/drivers/media/platform/verisilicon/hantro_drv.c
->> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
->> @@ -35,6 +35,10 @@ module_param_named(debug, hantro_debug, int, 0644);
->>   MODULE_PARM_DESC(debug,
->>   		 "Debug level - higher value produces more verbose messages");
->>   
->> +static DEFINE_MUTEX(shared_dev_lock);
->> +static atomic_t shared_dev_ref_cnt = ATOMIC_INIT(0);
->> +static struct v4l2_m2m_dev *shared_m2m_dev;
->> +
->>   void *hantro_get_ctrl(struct hantro_ctx *ctx, u32 id)
->>   {
->>   	struct v4l2_ctrl *ctrl;
->> @@ -1035,6 +1039,37 @@ static int hantro_disable_multicore(struct hantro_dev *vpu)
->>   	return 0;
->>   }
->>   
->> +static struct v4l2_m2m_dev *hantro_get_v4l2_m2m_dev(struct hantro_dev *vpu)
->> +{
->> +	if (!vpu->variant || !vpu->variant->shared_resource)
->> +		return v4l2_m2m_init(&vpu_m2m_ops);
->> +
->> +	scoped_guard(mutex, &shared_dev_lock) {
->> +		if (atomic_inc_return(&shared_dev_ref_cnt) == 1) {
->> +			shared_m2m_dev = v4l2_m2m_init(&vpu_m2m_ops);
->> +			if (IS_ERR(shared_m2m_dev))
->> +				atomic_dec(&shared_dev_ref_cnt);
->> +		}
->> +	}
->> +
->> +	return shared_m2m_dev;
->> +}
->> +
->> +static void hantro_put_v4l2_m2m_dev(struct hantro_dev *vpu)
->> +{
->> +	if (!vpu->variant || !vpu->variant->shared_resource)
->> +		v4l2_m2m_release(vpu->m2m_dev);
->> +
->> +	scoped_guard(mutex, &shared_dev_lock) {
->> +		if (!atomic_dec_return(&shared_dev_ref_cnt)) {
->> +			if (!IS_ERR(shared_m2m_dev)) {
->> +				v4l2_m2m_release(shared_m2m_dev);
->> +				shared_m2m_dev = NULL;
->> +			}
->> +		}
->> +	}
->> +}
+> I'm entirely new to the Linux kernel mailing list and very unfamiliar
+> with webcam interfaces and how ASUS has chosen to interface the 13 MP
+> sensor with the system, but I can confirm that it does not work yet in
+> the Linux desktop, so I was wondering if the work on this new driver
+> is necessary to get it to work.
 > 
-> Then instead of this, I would like to add a kref to v4l2_m2m_dec, I checked
-> already and this is both safe and backward compatible.
-> 
-> Then in the get function, you will walk over the compatible that are different
-> from the currently probe node. If you find one that is initialized, you will
-> call v4l2_m2m_get() to obtained a shared reference. In _remove() you will simply
-> do v4l2_m2m_put() instead of v4l2_m2m_release().
-> 
-> Hope the others are happy with this. For Hantro drivers, this will make it a
-> much more powerfull mechanism.
-> 
-> Nicolas
+> Sashank
 > 
 
-For v4l2_m2m_get() and v4l2_m2m_put(), do you mean defining these two
-functions in v4l2 m2m, instead of just adding them in the hantro driver?
+I think it's going to be a bit more than just an ACPI ID the ISP4 driver 
+though to enable it however.  amdgpu has a list of sensors that it 
+supports (you can see isp_v4_1_1.c for details).  This currently only 
+will recognize and configure the GPIOs for ACPI _HID OMNI5C10.
 
-Regards,
-Ming
+For ACPI _HID OMNI13B1 a new entry would be needed there along with the 
+correct GPIO tables that match.  This will wire up the pinctrl-amdisp 
+driver to have the right GPIOs.
 
->> +
->>   static int hantro_probe(struct platform_device *pdev)
->>   {
->>   	const struct of_device_id *match;
->> @@ -1186,7 +1221,7 @@ static int hantro_probe(struct platform_device *pdev)
->>   	}
->>   	platform_set_drvdata(pdev, vpu);
->>   
->> -	vpu->m2m_dev = v4l2_m2m_init(&vpu_m2m_ops);
->> +	vpu->m2m_dev = hantro_get_v4l2_m2m_dev(vpu);
->>   	if (IS_ERR(vpu->m2m_dev)) {
->>   		v4l2_err(&vpu->v4l2_dev, "Failed to init mem2mem device\n");
->>   		ret = PTR_ERR(vpu->m2m_dev);
->> @@ -1225,7 +1260,7 @@ static int hantro_probe(struct platform_device *pdev)
->>   	hantro_remove_enc_func(vpu);
->>   err_m2m_rel:
->>   	media_device_cleanup(&vpu->mdev);
->> -	v4l2_m2m_release(vpu->m2m_dev);
->> +	hantro_put_v4l2_m2m_dev(vpu)
-> 
->>   err_v4l2_unreg:
->>   	v4l2_device_unregister(&vpu->v4l2_dev);
->>   err_clk_unprepare:
->> @@ -1248,7 +1283,7 @@ static void hantro_remove(struct platform_device *pdev)
->>   	hantro_remove_dec_func(vpu);
->>   	hantro_remove_enc_func(vpu);
->>   	media_device_cleanup(&vpu->mdev);
->> -	v4l2_m2m_release(vpu->m2m_dev);
->> +	hantro_put_v4l2_m2m_dev(vpu);
->>   	v4l2_device_unregister(&vpu->v4l2_dev);
->>   	clk_bulk_unprepare(vpu->variant->num_clocks, vpu->clocks);
->>   	reset_control_assert(vpu->resets);
->> diff --git a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
->> index 5be0e2e76882..5111ce5c36f3 100644
->> --- a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
->> +++ b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
->> @@ -356,6 +356,7 @@ const struct hantro_variant imx8mq_vpu_g1_variant = {
->>   	.num_irqs = ARRAY_SIZE(imx8mq_irqs),
->>   	.clk_names = imx8mq_g1_clk_names,
->>   	.num_clocks = ARRAY_SIZE(imx8mq_g1_clk_names),
->> +	.shared_resource = 1,
->>   };
->>   
->>   const struct hantro_variant imx8mq_vpu_g2_variant = {
->> @@ -371,6 +372,7 @@ const struct hantro_variant imx8mq_vpu_g2_variant = {
->>   	.num_irqs = ARRAY_SIZE(imx8mq_g2_irqs),
->>   	.clk_names = imx8mq_g2_clk_names,
->>   	.num_clocks = ARRAY_SIZE(imx8mq_g2_clk_names),
->> +	.shared_resource = 1,
->>   };
->>   
->>   const struct hantro_variant imx8mm_vpu_g1_variant = {
+Bin and Pratap can comment more on the feasibility.  But for now I think 
+we should treat this as TODO for after the initial series lands with 
+support for the sensor in the HP ZBook Ultra G1a.
 
