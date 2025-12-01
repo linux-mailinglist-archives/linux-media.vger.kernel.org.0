@@ -1,45 +1,46 @@
-Return-Path: <linux-media+bounces-47998-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47999-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28319C9916E
-	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 21:53:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B9A0C99178
+	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 21:54:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9554C3A18C2
-	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 20:53:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6EBEE3A41BB
+	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 20:54:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2140D27147D;
-	Mon,  1 Dec 2025 20:53:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2BFE27146A;
+	Mon,  1 Dec 2025 20:54:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="K9SHJIs1"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QqsGdDCb"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55B4223DEF;
-	Mon,  1 Dec 2025 20:53:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA06223DEF;
+	Mon,  1 Dec 2025 20:54:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764622420; cv=none; b=qgQ76JytGJh6rOIVIa5+Ff8ssnry3X4I11YqcZgOK4f7NbtJzO4/uvkwUuLHn9sE0njKalBghM/QZ83ZtPagPOevfXcpA3VotdMxpaJm5FsBGjEyJD6prlZbJ6tpD/ImMjMzeLEpaIl8AQwHIYgjXtYSakO/4deXlSYrN1/BqEU=
+	t=1764622457; cv=none; b=ghLs53bnYhPmzw2jvVvxTNchrweMDjztF+0DD0Cwoey5hKQ7wQMzlDBmh/7xbUuEcwXTErIgx8llPrk4Im+P8VOZawPc2n6jrIGiJkyC57v6IUuuoCsH37OuVGa7ZRGpNXBPbywI7oNwnZ1jASdSLb1vPDsvfBm0Y7qORmXpVlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764622420; c=relaxed/simple;
-	bh=NKPb9OC67JtbcGiQx8Ruwgcg11ef9AedAmCCxfv6qvo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IUxo9o/+yIO76Pp6f0DOvTYsFhhDyWehQ0+SxeILYsrHRc+czmefFXq4LOt2GDB6+e4o1vbehTQa+66hSTwA8v7VUDQMS66kjfy+VFJoSqvltlSRH2RocBc1Jdn5HV3DPpyF/sBdRqqVgKWlRhb6Om3xRs6kcMCd57eVdk1uT6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=K9SHJIs1; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1764622457; c=relaxed/simple;
+	bh=arZO94CvoyZJrbIODUiQ/h4kmJbICjOtXQI878yFKyc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=CFWa7l7N/aEYFsCuhL8Cm9jxW2jv2qi28KvVqtRUoR/avkSr/py8G0UHCY4T48FEWSxtEZK6gr4vBVToUv2mAEUEdVBarf/xCiRwBRzVSaGeGkd7SAey5LhhiHDXzmTLbTj1nMZfHP+m0fRdGkd9F5NYhM8r2Kw0myDCKfvRdUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QqsGdDCb; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from rui-Precision-7560.local (unknown [209.216.103.65])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B779E6AC;
-	Mon,  1 Dec 2025 21:51:20 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0E84BC6E;
+	Mon,  1 Dec 2025 21:51:57 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1764622282;
-	bh=NKPb9OC67JtbcGiQx8Ruwgcg11ef9AedAmCCxfv6qvo=;
-	h=From:To:Cc:Subject:Date:From;
-	b=K9SHJIs1TWz4kwVqVpUf7r09a6NG6uucS+90iDJwDGeMD1v/NVNXLPbvsAzehVX/3
-	 JtJvVIFo0x1PTyGOnq/+1jOqqkn/3LNJ0I2Hc8GN1n5fM9tf/EtIM+rOlaXgYEeUKP
-	 YQM+wyn+vVh+vd8kF+Luw+T0dxTvJplzLDWVxKIM=
+	s=mail; t=1764622319;
+	bh=arZO94CvoyZJrbIODUiQ/h4kmJbICjOtXQI878yFKyc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=QqsGdDCbf4exnH8iWwBFwGlQbobzgdVvTZIXcaCrUJKggRf2rRUZbkZymoDmoLVX4
+	 DHFtFYs0StN15cw6ZAFXnlG41Lierzavtw2+gzbyDQjspoai+X8awbr677oMzd59gX
+	 uPYxtfQKT/2N+iLht4TyJACP1WdQS7oqNsllL974=
 From: Rui Wang <rui.wang@ideasonboard.com>
 To: linux-media@vger.kernel.org,
 	dafna@fastmail.com,
@@ -49,11 +50,14 @@ To: linux-media@vger.kernel.org,
 	linux-rockchip@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Cc: libcamera-devel@lists.libcamera.org
-Subject: 
-Date: Mon,  1 Dec 2025 15:50:54 -0500
-Message-ID: <20251201205309.528858-1-rui.wang@ideasonboard.com>
+Cc: libcamera-devel@lists.libcamera.org,
+	Rui Wang <rui.wang@ideasonboard.com>
+Subject: [PATCH v3] media: rkisp1: Fix filter mode register configuration
+Date: Mon,  1 Dec 2025 15:50:55 -0500
+Message-ID: <20251201205309.528858-2-rui.wang@ideasonboard.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251201205309.528858-1-rui.wang@ideasonboard.com>
+References: <20251201205309.528858-1-rui.wang@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -62,25 +66,41 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi,
+The rkisp1_flt_config() function performs an initial direct write to
+RKISP1_CIF_ISP_FILT_MODE without including the RKISP1_CIF_ISP_FLT_ENA
+bit, which clears the filter enable bit in the hardware.
 
-This series contains a single patch that fixes an issue in the rkisp1
-filter mode configuration logic.
+The subsequent read/modify/write sequence then reads back the register
+with the enable bit already cleared and cannot restore it, resulting in
+the filter being inadvertently disabled.
 
-The rkisp1_flt_config() function performs a direct write to the
-FILT_MODE register before the read/modify/write update. This write
-does not include the RKISP1_CIF_ISP_FLT_ENA bit, which clears the
-enable bit in hardware. After that, the read/modify/write sequence
-cannot restore the original enable state, causing the filter to be
-disabled unintentionally.
+Remove the redundant direct write. The read/modify/write sequence alone
+correctly preserves the existing enable bit state while updating the
+DNR mode and filter configuration bits.
 
-The patch removes the redundant direct write. The remaining
-read/modify/write sequence correctly updates the mode fields while
-preserving the existing enable bit.
+Signed-off-by: Rui Wang <rui.wang@ideasonboard.com>
+---
+ drivers/media/platform/rockchip/rkisp1/rkisp1-params.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-Please review.
-
-Thanks,
-Rui Wang
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+index c9f88635224c..6442436a5e42 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+@@ -411,12 +411,6 @@ static void rkisp1_flt_config(struct rkisp1_params *params,
+ 	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_FILT_LUM_WEIGHT,
+ 		     arg->lum_weight);
+ 
+-	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_FILT_MODE,
+-		     (arg->mode ? RKISP1_CIF_ISP_FLT_MODE_DNR : 0) |
+-		     RKISP1_CIF_ISP_FLT_CHROMA_V_MODE(arg->chr_v_mode) |
+-		     RKISP1_CIF_ISP_FLT_CHROMA_H_MODE(arg->chr_h_mode) |
+-		     RKISP1_CIF_ISP_FLT_GREEN_STAGE1(arg->grn_stage1));
+-
+ 	/* avoid to override the old enable value */
+ 	filt_mode = rkisp1_read(params->rkisp1, RKISP1_CIF_ISP_FILT_MODE);
+ 	filt_mode &= RKISP1_CIF_ISP_FLT_ENA;
+-- 
+2.43.0
 
 
