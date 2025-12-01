@@ -1,209 +1,144 @@
-Return-Path: <linux-media+bounces-47969-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47970-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20A0DC97F08
-	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 16:00:07 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9F61C97FB0
+	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 16:11:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1AD6D3A3DDD
-	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 15:00:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 384803A41C1
+	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 15:10:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0E8031D372;
-	Mon,  1 Dec 2025 14:59:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C15331A049;
+	Mon,  1 Dec 2025 15:10:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="eL99zanm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dMVAl9HH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74F1230EF80;
-	Mon,  1 Dec 2025 14:59:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF34313E0C
+	for <linux-media@vger.kernel.org>; Mon,  1 Dec 2025 15:10:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764601196; cv=none; b=n9DSCjexOEWOwWkkZ6eFpFw+IMO41ZPlT3l1xfLTXFuwdA0KoJxSSdCT4HTtyNHDMW0vwrxFB8iRxLErekhUi7aDliUErYFpCoKPfeCJMkEXhUMYdhzQAtN38amE+WwypnqaASld3PqCIXxoA0AGWr3Epz2VLk0vN8ZzS5tGIfA=
+	t=1764601829; cv=none; b=jXmPqHszqSFx3eASdfSIcEOtXL7BKlEkmcLJ+oGhJb4KcI43eXx+o5YhBDJW/+Da6vy4eCIg/GKN4d5WTBlnzcAiHDrKB/Bjs/zoq6Pvt27ZdxsCwZj0m8bbrF/3VZDwxuUSzhzlXqrNdI0bF/QoO0Zs6ybCRb4T63Ru8oWxLPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764601196; c=relaxed/simple;
-	bh=ulh2bn+2WKDluX5GWhwlkG5/dY2gOP3lEy3gmhehvQw=;
+	s=arc-20240116; t=1764601829; c=relaxed/simple;
+	bh=A5ybvPkccLEYHJ6fjzebBHlTf44tFdmB80xWoIASSOY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hxLyfHERo7SGGBCR1lqxA29QpEKfMR1f9MhqCdoqBPJVV7oLi6Gkmc8GbpQdE+GHxSW9Letfu39240a7oa1jBUFafwQ84t4hn/LC19cCNElZoNnyaYqOBeE6hWHAkezpAXcxVAMUAeE2+ecG/9Jdc1PfMZjrbU3yL3Sl5KShQgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=eL99zanm; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2EE824F1;
-	Mon,  1 Dec 2025 15:57:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1764601058;
-	bh=ulh2bn+2WKDluX5GWhwlkG5/dY2gOP3lEy3gmhehvQw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eL99zanm38HXDrhOXmTsTbb5SvdTAZd9bJ31yvRgKYDJbj2PPEPzzBe9SalqyI2hW
-	 I8YcyP4X+HgasgYw/uxHtbC7jrfDUTwIp8GVuYn51JEZ9Pe+llfUA3gvtDXhrsxqcK
-	 rxnBlVGmHz54ImzhMaWOJHFsAQDTM8Aek+qbCc48=
-Date: Mon, 1 Dec 2025 15:59:48 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Jacopo Mondi <jacopo@jmondi.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Naushir Patuck <naush@raspberrypi.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, David Plowman <david.plowman@raspberrypi.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Peter Robinson <pbrobinson@gmail.com>, 
-	Stefan Wahren <wahrenst@gmx.net>, "Ivan T. Ivanov" <iivanov@suse.de>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH v2 06/16] media: i2c: ov5647: Add support for regulator
- control
-Message-ID: <te5zzhmux2dbwrudgiugjyqsxdmj5qqqued3ys5nnav4gys5wh@zuglcnehcyv2>
-References: <20251118-b4-rpi-ov5647-v2-0-5e78e7cb7f9b@ideasonboard.com>
- <20251118-b4-rpi-ov5647-v2-6-5e78e7cb7f9b@ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=gHm/WkG5HYXiMSYbPnLSPoK3wmGhmcNFCX6LTXpV4AZqeJo7ZytJ0nw576OLnxh9iO3BZIw3947bwR0tzc2Msneu7xcD4vUP0AOs+5IetBpKbQpDxYOHauIWpTUmomHOwh8UMLXZhCqVV7dVpmSkGv/gQMI3HfLgWT+YfDi8G/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dMVAl9HH; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764601827; x=1796137827;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=A5ybvPkccLEYHJ6fjzebBHlTf44tFdmB80xWoIASSOY=;
+  b=dMVAl9HH/LGyBF8WjBLdDI1a4U54jnhorxRLxKuNwYSLqx6+3An910YD
+   z6hneKIg6tq3ipg9FoJzakuEeFH5H9IELAUXlFP+/lGm1fON4bfYS2gAX
+   lMPUCI0pKUo6mqeNlWhR4ebcXyAPME5KgOo6N0rZxtnXlBxxhbWMtzUVD
+   GarAxoiIDNDjhN8RgvLw8mD+uLiiuET+hk2yWa9Q8A1mmfB6qc0reCWVL
+   SC65TCRI7TjBuqRuxtiLBPsX2O8FkKl5asPdhX/FWXv9dKwPvlHyGm3M8
+   1EEmksk1PL2G9aa2/k902x1lTcroxi0QaK2qHAOvT2OJI2z7LLhXrdJHI
+   Q==;
+X-CSE-ConnectionGUID: Ir2CXAhARdiOD9al8QSyoQ==
+X-CSE-MsgGUID: RQO/qXUURgynpAK6ZalmNA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="66434933"
+X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; 
+   d="scan'208";a="66434933"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2025 07:10:23 -0800
+X-CSE-ConnectionGUID: wEPT43qDT2SgluMGU8m3wQ==
+X-CSE-MsgGUID: 6UbHIKRbQKCpcvVHclTEaA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; 
+   d="scan'208";a="225075029"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.19])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2025 07:10:21 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 82C8711F8A6;
+	Mon, 01 Dec 2025 17:10:24 +0200 (EET)
+Date: Mon, 1 Dec 2025 17:10:24 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH 09/14] media: omap3isp: better VIDIOC_G/S_PARM handling
+Message-ID: <aS2v4IwRNf2ZTTed@kekkonen.localdomain>
+References: <cover.1760707611.git.hverkuil+cisco@kernel.org>
+ <659149538833acf06f40a5660d03809f9f1c7ef6.1760707611.git.hverkuil+cisco@kernel.org>
+ <aPiRLPbzWoW4GFXt@kekkonen.localdomain>
+ <b3c22527-7d92-44b0-b7cd-2f1fe2c42a36@kernel.org>
+ <e8344b04-aa20-4971-aca7-8f77691dca19@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251118-b4-rpi-ov5647-v2-6-5e78e7cb7f9b@ideasonboard.com>
+In-Reply-To: <e8344b04-aa20-4971-aca7-8f77691dca19@kernel.org>
 
-Hi Jai
+Hi Hans,
 
-On Tue, Nov 18, 2025 at 05:32:59PM +0530, Jai Luthra wrote:
-> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
->
-> The driver supported using GPIOs to control the shutdown line,
-> but no regulator control.
->
-> Add regulator hooks.
->
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-> ---
->  drivers/media/i2c/ov5647.c | 43 ++++++++++++++++++++++++++++++++++++++++---
->  1 file changed, 40 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-> index c0f1121b025e5592d6fd4d5fd23e4262dde2d84c..dbc134af06a26e0e31b12a6360d794afa8bad5dd 100644
-> --- a/drivers/media/i2c/ov5647.c
-> +++ b/drivers/media/i2c/ov5647.c
-> @@ -20,6 +20,7 @@
->  #include <linux/module.h>
->  #include <linux/of_graph.h>
->  #include <linux/pm_runtime.h>
-> +#include <linux/regulator/consumer.h>
->  #include <linux/slab.h>
->  #include <linux/videodev2.h>
->  #include <media/v4l2-ctrls.h>
-> @@ -81,6 +82,15 @@
->  #define OV5647_EXPOSURE_DEFAULT		1000
->  #define OV5647_EXPOSURE_MAX		65535
->
-> +/* regulator supplies */
-> +static const char * const ov5647_supply_names[] = {
-> +	"avdd",		/* Analog power */
-> +	"dovdd",	/* Digital I/O power */
-> +	"dvdd",		/* Digital core power */
-> +};
-> +
-> +#define OV5647_NUM_SUPPLIES ARRAY_SIZE(ov5647_supply_names)
-> +
->  struct regval_list {
->  	u16 addr;
->  	u8 data;
-> @@ -102,6 +112,7 @@ struct ov5647 {
->  	struct mutex			lock;
->  	struct clk			*xclk;
->  	struct gpio_desc		*pwdn;
-> +	struct regulator_bulk_data	supplies[OV5647_NUM_SUPPLIES];
->  	bool				clock_ncont;
->  	struct v4l2_ctrl_handler	ctrls;
->  	const struct ov5647_mode	*mode;
-> @@ -777,11 +788,20 @@ static int ov5647_power_on(struct device *dev)
->
->  	dev_dbg(dev, "OV5647 power on\n");
->
-> -	if (sensor->pwdn) {
-> -		gpiod_set_value_cansleep(sensor->pwdn, 0);
-> -		msleep(PWDN_ACTIVE_DELAY_MS);
-> +	ret = regulator_bulk_enable(OV5647_NUM_SUPPLIES, sensor->supplies);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to enable regulators: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = gpiod_set_value_cansleep(sensor->pwdn, 0);
-> +	if (ret < 0) {
-> +		dev_err(dev, "pwdn gpio set value failed: %d\n", ret);
-> +		goto error_reg_disable;
->  	}
->
-> +	msleep(PWDN_ACTIVE_DELAY_MS);
-> +
+On Mon, Dec 01, 2025 at 02:40:38PM +0100, Hans Verkuil wrote:
+> On 01/12/2025 11:28, Hans Verkuil wrote:
+> > On 22/10/2025 10:09, Sakari Ailus wrote:
+> >> Hi Hans,
+> >>
+> >> On Fri, Oct 17, 2025 at 03:26:46PM +0200, Hans Verkuil wrote:
+> >>> Fix various v4l2-compliance errors relating to timeperframe.
+> >>>
+> >>> VIDIOC_G/S_PARM is only supported for Video Output, so disable
+> >>> these ioctls for Capture devices.
+> >>>
+> >>> Ensure numerator and denominator are never 0.
+> >>>
+> >>> Set missing V4L2_CAP_TIMEPERFRAME capability for VIDIOC_S_PARM.
+> >>>
+> >>> v4l2-compliance:
+> >>>
+> >>> 	fail: v4l2-test-formats.cpp(1388): out->timeperframe.numerator == 0 || out->timeperframe.denominator == 0
+> >>> test VIDIOC_G/S_PARM: FAIL
+> >>>
+> >>> Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+> >>> ---
+> >>>  drivers/media/platform/ti/omap3isp/ispvideo.c | 11 +++++++++--
+> >>>  1 file changed, 9 insertions(+), 2 deletions(-)
+> >>>
+> >>> diff --git a/drivers/media/platform/ti/omap3isp/ispvideo.c b/drivers/media/platform/ti/omap3isp/ispvideo.c
+> >>> index 471defa6e7fb..5603586271f5 100644
+> >>> --- a/drivers/media/platform/ti/omap3isp/ispvideo.c
+> >>> +++ b/drivers/media/platform/ti/omap3isp/ispvideo.c
+> >>> @@ -928,7 +928,10 @@ isp_video_set_param(struct file *file, void *fh, struct v4l2_streamparm *a)
+> >>>  
+> >>>  	if (a->parm.output.timeperframe.denominator == 0)
+> >>>  		a->parm.output.timeperframe.denominator = 1;
+> >>> +	if (a->parm.output.timeperframe.numerator == 0)
+> >>> +		a->parm.output.timeperframe.numerator = 1;
+> >>
+> >> I believe S_PARM support has probably been added for v4l2-compliance in the
+> >> past. Should there be either a dummy implementation for more or less all
+> >> Media device centric drivers or could this be simply omitted?
+> > 
+> > v4l2-compliance has seen quite a few changes w.r.t. the G/S_PARM tests,
+> > and I think it is fine to just drop support for these ioctls.
+> > 
+> > I'll test this a bit more, and if I don't find any issues, then I'll
+> > just remove support for these ioctls in omap3isp.
+> 
+> Actually, S_PARM is used to set the max framerate for the output of the omap3isp.
+> 
+> So it is in use.
+> 
+> I'm keeping this patch.
 
-That's loooong
+You're right; it's used on OUTPUT buffers indeed.
 
-But a comment on the delay seems to justify it and it was there
-already, so
-
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
-Thanks
-  j
-
->  	ret = clk_prepare_enable(sensor->xclk);
->  	if (ret < 0) {
->  		dev_err(dev, "clk prepare enable failed\n");
-> @@ -808,6 +828,8 @@ static int ov5647_power_on(struct device *dev)
->  	clk_disable_unprepare(sensor->xclk);
->  error_pwdn:
->  	gpiod_set_value_cansleep(sensor->pwdn, 1);
-> +error_reg_disable:
-> +	regulator_bulk_disable(OV5647_NUM_SUPPLIES, sensor->supplies);
->
->  	return ret;
->  }
-> @@ -837,6 +859,7 @@ static int ov5647_power_off(struct device *dev)
->
->  	clk_disable_unprepare(sensor->xclk);
->  	gpiod_set_value_cansleep(sensor->pwdn, 1);
-> +	regulator_bulk_disable(OV5647_NUM_SUPPLIES, sensor->supplies);
->
->  	return 0;
->  }
-> @@ -1284,6 +1307,16 @@ static const struct v4l2_ctrl_ops ov5647_ctrl_ops = {
->  	.s_ctrl = ov5647_s_ctrl,
->  };
->
-> +static int ov5647_configure_regulators(struct device *dev,
-> +				       struct ov5647 *sensor)
-> +{
-> +	for (unsigned int i = 0; i < OV5647_NUM_SUPPLIES; i++)
-> +		sensor->supplies[i].supply = ov5647_supply_names[i];
-> +
-> +	return devm_regulator_bulk_get(dev, OV5647_NUM_SUPPLIES,
-> +				       sensor->supplies);
-> +}
-> +
->  static int ov5647_init_controls(struct ov5647 *sensor)
->  {
->  	struct i2c_client *client = v4l2_get_subdevdata(&sensor->sd);
-> @@ -1416,6 +1449,10 @@ static int ov5647_probe(struct i2c_client *client)
->  		return -EINVAL;
->  	}
->
-> +	ret = ov5647_configure_regulators(dev, sensor);
-> +	if (ret)
-> +		dev_err_probe(dev, ret, "Failed to get power regulators\n");
-> +
->  	mutex_init(&sensor->lock);
->
->  	sensor->mode = OV5647_DEFAULT_MODE;
->
-> --
-> 2.51.1
->
->
+-- 
+Sakari Ailus
 
