@@ -1,48 +1,82 @@
-Return-Path: <linux-media+bounces-47924-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47925-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2999AC96436
-	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 09:54:58 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5515C965AE
+	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 10:21:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 1F7844E1058
-	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 08:54:57 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 573AD341404
+	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 09:21:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F40B42FCC16;
-	Mon,  1 Dec 2025 08:54:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BEEB2F7AA8;
+	Mon,  1 Dec 2025 09:20:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i4AyL1Bk"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ASxw0RCW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012001.outbound.protection.outlook.com [52.101.53.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6B82E3B0D
-	for <linux-media@vger.kernel.org>; Mon,  1 Dec 2025 08:54:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764579293; cv=none; b=RC7ly+4WIRPhhStoijRWX/yac1piznW74em6278WsiUFM9vK8WVwwgIFI5e1CdyeBHht1btHCvX0s3zK/AaiNjOePcGZbQd326CiB+OiiUMnpP2pmPGkVIQidTxV2x9qdEAdtkCdTPeOqyRG3HrPnyqsLAaW7U7rMo7FWBbXbzE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764579293; c=relaxed/simple;
-	bh=BO5x05QTMx0LB+GhiJgKoO99qfi4CVdra5MFbtS4Twk=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=HTxPaInc/uyja/MH48H0MJ9epvgoI9k3JxOgYhx7MSq/t/frJ1Uzi4O8STeQZZVkhAkU+siruevh4+zg6gXJBTjw8r0uHxgYRjxUD0B6DurS+tOL6hgfmY26oPxOKpYPeUhPP68W1y5Ipi2Oe62pF+iR+koFEvt7m32Y2WDwDUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i4AyL1Bk; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4895FC4CEF1;
-	Mon,  1 Dec 2025 08:54:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764579293;
-	bh=BO5x05QTMx0LB+GhiJgKoO99qfi4CVdra5MFbtS4Twk=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=i4AyL1Bk8Orhnf0Vq76Q1ePjWh/7crL0nEATWHzAsuz8/GdsI6vfYUNq6tW5k1zPq
-	 WQrwCei5E6dQhGIMbkV8zp6jggf222y1KS48/2nqCyP1N6TnXrF0TfkSvp/87b3VuG
-	 MQHmBbLs5oZYKDI9c8cjUW1ojJixMo6cowV4Tdb/lMW+HfiKNBbvvki6XcDUfVp5BJ
-	 dqO4XTSuLwZKuDGlQxADMD2sRyeDTJCDrXGB0iMOtBSCinbDoqkXDzm6kvSFR+7x2K
-	 naXNf1P8SE+Yz1/9Nuk9FGBl9aE5FRQ9L81FGrfWQGDMLJuIayk/Gc2mKViylDwLFz
-	 RKAfebYJTT5bw==
-Message-ID: <ffb6123b-40d3-43bb-b42e-bc3f3a58a4c2@kernel.org>
-Date: Mon, 1 Dec 2025 09:54:50 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D41FA1C5D72
+	for <linux-media@vger.kernel.org>; Mon,  1 Dec 2025 09:20:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.1
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764580857; cv=fail; b=bx0gg4459N3T78yIluDQLi28rbiRiO29yeviSpz7XPE2I9nLEJn+dcIIKjVERszCdmezBaVYAOxhrtZ3sULiAQHJxWu7X8FQt5uRC/rQJNjWfROIXalxxdQxat8vDNU+Ucbxi8cu8tKB22dYIDHcdtPCi0bKrc1+/RQhyBUdu6Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764580857; c=relaxed/simple;
+	bh=73Qp3wDA4OAZF9gPjixCmxwoPS4cO1BH40En1yoxEck=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=qmCI90kpoUlL9PTIDSden8u9/LSDYTvlqaDoEnKp7IIaPd+LBBfji9nm16G0XqWrI1420/K/M8i2/6eJbRSeyJJFw9uWk9ejJxybmZlo2vV9e66TJsafQIv91SaXD22GxXEnjw3RA1QX0HDwaCmu20FSAT7DVhYV9833X9ao4Lk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ASxw0RCW; arc=fail smtp.client-ip=52.101.53.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=r6xqZRR+w+GAwhLs8Lbv3YRATScMrklc1sjayuihT7gcIpHwGCvuySmldNCndTQwqYn+e+4sUvBKzKzcTXKIKXC/HCuVTO/P3Vwr/E8Y9aIMIEKK1e4D0ahEU7uE9C3MUl4tU7W0ekzXDA3ADh84niOA/CjFVnLV17iaeufx2nkGLe5EppSBFj6PPtB69tTcjKLBIhtsaZ8Ib99F6ZIZ1+XgyEnm3la27qJshGhz8ECVWeqMy247fw0I9mGPP057w5+obcz65ujSSkYZ6CG6wFMjUjEBJdoUr3X0tGXXOWqRPpQIybDfEErtQ2lcEmFWnxrLPT66Y+qgH23yBYDxDQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=s8mPR5CRXGdC+GCT3JS8pnbhb5XGaHg0GwzpaasRb4M=;
+ b=FFR95bCWECLPTagcxd6D4fiK+Vx5F+Xi+Inp3vSOgjBYCt5/xSh3jjorCQBwNW79n+t5dY+4rQJD+uJhlDAezo0RGaperTFXmHVQcYGP0ZuwLqZpRGe+GvpO094QlTD8hxRczDrDU88sG85SjLWqCVBHgwTT0G1cRFxVEA+wn4ixpq3Xz2WVL7hd0R67/yRIDutGcrHVo7PtIg9XgVSK003dWoGqlI4/XxCiqcJFNHLis7ggqQNYzeODKJ6P2/eV8YZYj8CXukefbdy9C2XL7D66ELSqYvA+BjX9AxXftsRIlOHIXEQ56HsS3eoQEWr4GKrvJPIOKLm8UiIEXLTacg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=linaro.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=s8mPR5CRXGdC+GCT3JS8pnbhb5XGaHg0GwzpaasRb4M=;
+ b=ASxw0RCW9gtBNBCk5D0enBoPiGFCRdJ6yFzOxE+ziZ3T+3uXwrSXRBn3j9+mS9LCb1oF9qGZm0hmsGvbHnISmTzJDNVZaH+jAmF8K97U3w9GCcKCIVJUfIahiOKIUa7ZwhQfuIJW9kXQ/afuYB5uO+/DtPL4ELNNXqHN1mZcrt9PIHIop/KmTFcnQsDqf9i+Y7GtxAgALzxG4u4WJ6id5iqG6THSHY14V+BOh1WdlIVidTw011KmfX/kWVQjeE8srG5hX7TqfYAmJTNLGC6wpMojGt24/eBm9ybzLCchZAHzqup/j7D7/C4vEQKCZF3JB4bZUSsM6SWinkKxj17yqA==
+Received: from PH7PR10CA0011.namprd10.prod.outlook.com (2603:10b6:510:23d::12)
+ by MN2PR12MB4095.namprd12.prod.outlook.com (2603:10b6:208:1d1::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Mon, 1 Dec
+ 2025 09:20:52 +0000
+Received: from CO1PEPF000044F6.namprd21.prod.outlook.com
+ (2603:10b6:510:23d:cafe::2f) by PH7PR10CA0011.outlook.office365.com
+ (2603:10b6:510:23d::12) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.17 via Frontend Transport; Mon,
+ 1 Dec 2025 09:20:45 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ CO1PEPF000044F6.mail.protection.outlook.com (10.167.241.196) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9412.0 via Frontend Transport; Mon, 1 Dec 2025 09:20:51 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 1 Dec
+ 2025 01:20:26 -0800
+Received: from [10.221.129.205] (10.126.231.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 1 Dec
+ 2025 01:20:23 -0800
+Message-ID: <f00bdc19-58cd-45a6-a57d-7b7612197c71@nvidia.com>
+Date: Mon, 1 Dec 2025 10:20:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,156 +84,111 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH 08/14] media: omap3isp: implement create/prepare_bufs
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
-References: <cover.1760707611.git.hverkuil+cisco@kernel.org>
- <cc4ae2ac6aae997ad63bc0e694b7ca53a0a6ad32.1760707611.git.hverkuil+cisco@kernel.org>
- <aPiQbZBFfzzWvCbV@kekkonen.localdomain>
-Content-Language: en-US, nl
-In-Reply-To: <aPiQbZBFfzzWvCbV@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH] dma-buf: heaps: Clear CMA pages with clear_page()
+To: Linus Walleij <linus.walleij@linaro.org>, Sumit Semwal
+	<sumit.semwal@linaro.org>, Benjamin Gaignard
+	<benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>,
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+CC: <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+	<linaro-mm-sig@lists.linaro.org>
+References: <20251130-dma-buf-heap-clear-page-v1-1-a8dcea2a88ee@linaro.org>
+Content-Language: en-US
+From: Nirmoy Das <nirmoyd@nvidia.com>
+In-Reply-To: <20251130-dma-buf-heap-clear-page-v1-1-a8dcea2a88ee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000044F6:EE_|MN2PR12MB4095:EE_
+X-MS-Office365-Filtering-Correlation-Id: 31a4a39b-3955-4bb5-e315-08de30baebe1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|82310400026|7416014|376014|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?emtLQmV6dUhYZWl6QmVqU2dtREtCcVpnbGs5VGpYV0xqcHZXYjhnSnAwdk90?=
+ =?utf-8?B?Wm11YlV6bHdLYTh6MlBxb3d5UFUxcFNPejBIaE1RUkU5eFU2blhleWM4Nmxk?=
+ =?utf-8?B?eFY1YmVnWmdNZk1rR1RWbzRqLzlTbjhETzdubEppazF2RmFoOHFOT0Zid1VD?=
+ =?utf-8?B?czJUK3cxWmk1WkU0NXIyUmVNajFJbGFnUVFXaW5qdmhtN2o4L2t4Yzl3cmY5?=
+ =?utf-8?B?dk9rT2VyN2hWeWxkSFhBOWdwZjI4R0hjRHoxWTMwWTEvL0lEZDh1ZVRIbDZ3?=
+ =?utf-8?B?QXRCellGQkU0ckRWRmlheHVhWXlLbk1icjNudkpobStRS213Y0lHRm1XWHpa?=
+ =?utf-8?B?eUMvQjNXMk1vYWRHVTBERHNzbmJzcXJXaG5ZQ3ltN0Zub0FaVjQrZUhJS3FY?=
+ =?utf-8?B?RzFpZU1FY2N3VVpNVDdZeHgvdVpRSVd5U2JVYnJlRE9nZFozZkZBZHJhTjBr?=
+ =?utf-8?B?TnN2YnVDRC9SSXVMaFJRQmhDaVBWRlcwcUhLV09QSkljQzFMR0F3ekxXYU5M?=
+ =?utf-8?B?STVLV0JhcVo2SXRPSXdyYzBGLzJvSDVIeksvT1p3cUpHQlA3QUMzdXl4YWxu?=
+ =?utf-8?B?d2ZYT2xNd3lPWGkvQlgxc1BSNnBMQjFwS2hQL3lsNVdXbmlTSjFMS3pkNmVV?=
+ =?utf-8?B?b0pBN2NCR1RSelowMlVBbXdGa05zdC9obFQ1MUY0eTZicEw0ZTQrNDFZUmJI?=
+ =?utf-8?B?V05abkNueEtQYW9vaVVaeVV3QjlTVjdEcFlBcWlpSThXZGFxa1JzamR6NTJM?=
+ =?utf-8?B?SHphNnFRcjhneEJwZmVZWTB1UnZUQ2U5elUwbXZWbmVZSnY2Y3JEZkNDRzVz?=
+ =?utf-8?B?cXAwRkNQN1kvR0VtWTBTeDRSeC8vMW1jLzBnaEtsZWRRa2dXQkloRUhSSDdS?=
+ =?utf-8?B?SzR1QzExc0JONFQxc1laREVScFVTVVdQcksxekRBVlJocVZpT1hBUllhdk1C?=
+ =?utf-8?B?b20xK0RiVWozRWw5R0I4VkJsNlNuVXR3V005bForYm5QalRwcDhBbGRwbFdD?=
+ =?utf-8?B?dFlYK2QvbDFzVlVKSGJTdHpMMUNpSDRmd0VqSm81c0wweGpzb2JmUndqSmZS?=
+ =?utf-8?B?ZUp4d0ZLWkhaL0hYK01KOFZ6dFRtMUtRSzhEYXdDRDc4cXlNYmR2SCtKQkwx?=
+ =?utf-8?B?T2R0enNjTDN5RFdBcGlYcjJpQkJqbzNiemlWOCsyUXVrU3ZJdXN4dkFXL2Ra?=
+ =?utf-8?B?ZDVWU3k3QXFpRnIxZFpOZmQ5bHNqWCszcVA4SzN4blVSL2NocDlCVUxiUjI2?=
+ =?utf-8?B?VHI1aFJ5VG05Sm1pVDhSUWNRN2RaN0lWSVc5R0NTdDV6bm5VaExJUS8vaUxH?=
+ =?utf-8?B?TmQ3ZWhBMTZ1MXhSUi9lR1lhMG5CbkZ1UDV4K2FCVStUU1BiZHJBVXVIblcw?=
+ =?utf-8?B?UmpJaVhQWUExTTZQL0hYcHFZeFFGcVJGTFAyRTJYQWQxdkJGbEtscjJsM1JQ?=
+ =?utf-8?B?Qk9jOHVkWkJQOURsdDRzL1UzOG92dXEzV25raUlpcjBJUEpFdUVxQU50R0NK?=
+ =?utf-8?B?SGxMQlpORU1DcGJaSlBHMTlydnFQN3F0SzJrVmgyRWtZcHR4aXVRY1NXMjNH?=
+ =?utf-8?B?TnJkZ3RVOHR0MDlNRFcvUS9HS3UzU1drOEdaejVvTmlJRXI2Zml3VTA5K0Q4?=
+ =?utf-8?B?NWR3VlBsY0JaUncxSVIwdXNiTWFpMGZCUDl4ZzdJY2JOWlBGcjNhb3pUNUY4?=
+ =?utf-8?B?Zm4vS2RxMVJROTNrb3pyT3VWcUpJSER4WWJ3RXJlR2lFa1U4VlArcXFDSm1F?=
+ =?utf-8?B?QWRUdEhZMGxHYk9FSzJjcHE4WHVmSkxidGN4a2pGMjhGMHd6SnAzaWNOclZ4?=
+ =?utf-8?B?VEgvWGpNaTBwUUc1NklYZjBDb2ZtSWYyVEZsQ1BpSnJvVE44TFNxUmJnQkNF?=
+ =?utf-8?B?bWRnVEsvVk53eWpFYkNycFB3MXlTcVBHS1pnMXlyNExpN1FNK21WaTRRc0pE?=
+ =?utf-8?B?SVdzemdvZDBUekIvZjBIdkcvK0NzYWFuK1VJb1lBZURvSW1VNmhJdFphTitn?=
+ =?utf-8?B?YTlGaVRXRU9yc3RaanB4Q3ZDNEdQd250ZU1CQ20xd1Z5L2NnK1J2V1lsZjVW?=
+ =?utf-8?B?SFppN3c3d2NZSE1aMWo4bk5TKzBhakltbUl4MnJMZkxiSVVqNmJ1QzRtN3d2?=
+ =?utf-8?Q?GNMM=3D?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(7416014)(376014)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2025 09:20:51.1791
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 31a4a39b-3955-4bb5-e315-08de30baebe1
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CO1PEPF000044F6.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4095
 
-On 22/10/2025 10:06, Sakari Ailus wrote:
-> Hi Hans,
-> 
-> On Fri, Oct 17, 2025 at 03:26:45PM +0200, Hans Verkuil wrote:
->> Add missing ioctls. This makes v4l2-compliance happier:
->>
->> 	warn: v4l2-test-buffers.cpp(813): VIDIOC_CREATE_BUFS not supported
->> test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->>
->> Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
->> ---
->>  drivers/media/platform/ti/omap3isp/ispvideo.c | 47 ++++++++++++++++++-
->>  1 file changed, 45 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/media/platform/ti/omap3isp/ispvideo.c b/drivers/media/platform/ti/omap3isp/ispvideo.c
->> index 69d17e4dcd36..471defa6e7fb 100644
->> --- a/drivers/media/platform/ti/omap3isp/ispvideo.c
->> +++ b/drivers/media/platform/ti/omap3isp/ispvideo.c
->> @@ -325,6 +325,13 @@ static int isp_video_queue_setup(struct vb2_queue *queue,
->>  	struct isp_video_fh *vfh = vb2_get_drv_priv(queue);
->>  	struct isp_video *video = vfh->video;
->>  
->> +	if (*num_planes) {
->> +		if (*num_planes != 1)
->> +			return -EINVAL;
->> +		if (sizes[0] < vfh->format.fmt.pix.sizeimage)
->> +			return -EINVAL;
->> +		return 0;
->> +	}
->>  	*num_planes = 1;
->>  
->>  	sizes[0] = vfh->format.fmt.pix.sizeimage;
->> @@ -340,6 +347,7 @@ static int isp_video_buffer_prepare(struct vb2_buffer *buf)
->>  {
->>  	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(buf);
->>  	struct isp_video_fh *vfh = vb2_get_drv_priv(buf->vb2_queue);
->> +	unsigned int size = vfh->format.fmt.pix.sizeimage;
->>  	struct isp_buffer *buffer = to_isp_buffer(vbuf);
->>  	struct isp_video *video = vfh->video;
->>  	dma_addr_t addr;
->> @@ -360,8 +368,13 @@ static int isp_video_buffer_prepare(struct vb2_buffer *buf)
->>  		return -EINVAL;
->>  	}
->>  
->> -	vb2_set_plane_payload(&buffer->vb.vb2_buf, 0,
->> -			      vfh->format.fmt.pix.sizeimage);
->> +	if (vb2_plane_size(&buffer->vb.vb2_buf, 0) < size) {
->> +		dev_dbg(video->isp->dev,
->> +			"data will not fit into plane (%lu < %u)\n",
->> +			vb2_plane_size(&buffer->vb.vb2_buf, 0), size);
->> +		return -EINVAL;
->> +	}
->> +	vb2_set_plane_payload(&buffer->vb.vb2_buf, 0, size);
->>  	buffer->dma = addr;
->>  
->>  	return 0;
->> @@ -935,6 +948,20 @@ isp_video_reqbufs(struct file *file, void *fh, struct v4l2_requestbuffers *rb)
->>  	return ret;
->>  }
->>  
->> +static int
->> +isp_video_create_bufs(struct file *file, void *fh, struct v4l2_create_buffers *p)
->> +{
->> +	struct isp_video_fh *vfh = file_to_isp_video_fh(file);
->> +	struct isp_video *video = video_drvdata(file);
->> +	int ret;
->> +
->> +	mutex_lock(&video->queue_lock);
->> +	ret = vb2_create_bufs(&vfh->queue, p);
->> +	mutex_unlock(&video->queue_lock);
->> +
->> +	return ret;
->> +}
->> +
->>  static int
->>  isp_video_querybuf(struct file *file, void *fh, struct v4l2_buffer *b)
->>  {
->> @@ -949,6 +976,20 @@ isp_video_querybuf(struct file *file, void *fh, struct v4l2_buffer *b)
->>  	return ret;
->>  }
->>  
->> +static int
->> +isp_video_prepare_buf(struct file *file, void *fh, struct v4l2_buffer *b)
->> +{
->> +	struct isp_video_fh *vfh = file_to_isp_video_fh(file);
->> +	struct isp_video *video = video_drvdata(file);
->> +	int ret;
->> +
->> +	mutex_lock(&video->queue_lock);
->> +	ret = vb2_prepare_buf(&vfh->queue, video->video.v4l2_dev->mdev, b);
->> +	mutex_unlock(&video->queue_lock);
->> +
->> +	return ret;
-> 
-> Also:
-> 
-> #include <linux/cleanup.h>
-> 
-> ...
-> 
-> 	guard(mutex)(&video->queue_lock);
-> 
-> 	return vb2_prepare_buf(&vfh->queue, video->video.v4l2_dev->mdev, b);
-> 
-> Same for create_bufs implementation.
 
-Hmm, I'm hesitant to do that for two reasons:
-
-1) Consistency with existing vb2 callbacks
-2) It's harder to backport this to older kernels.
-
-Since this is an old driver, the chances someone might want to backport this
-to an old kernel is higher than usual.
-
-If you really want this, then I prefer to make a new patch that introduces
-the guards for all vb2 callbacks in this driver.
-
-Regards,
-
-	Hans
-
-> 
-> 
->> +}
->> +
->>  static int
->>  isp_video_qbuf(struct file *file, void *fh, struct v4l2_buffer *b)
->>  {
->> @@ -1303,7 +1344,9 @@ static const struct v4l2_ioctl_ops isp_video_ioctl_ops = {
->>  	.vidioc_g_parm			= isp_video_get_param,
->>  	.vidioc_s_parm			= isp_video_set_param,
->>  	.vidioc_reqbufs			= isp_video_reqbufs,
->> +	.vidioc_create_bufs		= isp_video_create_bufs,
->>  	.vidioc_querybuf		= isp_video_querybuf,
->> +	.vidioc_prepare_buf		= isp_video_prepare_buf,
->>  	.vidioc_qbuf			= isp_video_qbuf,
->>  	.vidioc_dqbuf			= isp_video_dqbuf,
->>  	.vidioc_streamon		= isp_video_streamon,
-> 
-
+On 30.11.25 11:54, Linus Walleij wrote:
+> clear_page() translates into memset(*p, 0, PAGE_SIZE) on some
+> architectures, but on the major architectures it will call
+> an optimized assembly snippet so use this instead of open
+> coding a memset().
+>
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+Reviewed-by: Nirmoy Das <nirmoyd@nvidia.com>
+> ---
+>   drivers/dma-buf/heaps/cma_heap.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+> index 0df007111975..9eaff80050f2 100644
+> --- a/drivers/dma-buf/heaps/cma_heap.c
+> +++ b/drivers/dma-buf/heaps/cma_heap.c
+> @@ -315,7 +315,7 @@ static struct dma_buf *cma_heap_allocate(struct dma_heap *heap,
+>   		while (nr_clear_pages > 0) {
+>   			void *vaddr = kmap_local_page(page);
+>   
+> -			memset(vaddr, 0, PAGE_SIZE);
+> +			clear_page(vaddr);
+>   			kunmap_local(vaddr);
+>   			/*
+>   			 * Avoid wasting time zeroing memory if the process
+>
+> ---
+> base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
+> change-id: 20251129-dma-buf-heap-clear-page-248bb236e4c4
+>
+> Best regards,
 
