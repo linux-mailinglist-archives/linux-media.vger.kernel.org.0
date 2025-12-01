@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-47920-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47922-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08107C961B5
-	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 09:28:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 964B5C9636C
+	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 09:41:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B7AFE3A1D62
-	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 08:28:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0055D3A2B6B
+	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 08:41:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F3EE2E54DE;
-	Mon,  1 Dec 2025 08:27:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA60A2EA468;
+	Mon,  1 Dec 2025 08:41:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VlNH2LRf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rkbeof+Q"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8794222560
-	for <linux-media@vger.kernel.org>; Mon,  1 Dec 2025 08:27:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12DBC33985
+	for <linux-media@vger.kernel.org>; Mon,  1 Dec 2025 08:41:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764577678; cv=none; b=PC+6HnylA3o6ogOnzoVzrMsHMsSHsVF/AemuNCdaenczcsNIGerfszn44zQDQe7PsIMzkBBgcJy1EF58g/vLxSOo1Yzz1OyyxHgVh+WmMYmCF0x2F04ra+CAVpy6R469Cm1hmRfHVGSUYa9kD2NCPnUwNpjAN0ApKhnfUQ4qgW4=
+	t=1764578462; cv=none; b=eSp9gl8O/UizBX8akaJiyvp7tIF64uz2EcZwwwLpoTC2TOx69aKd2hEbsI+CEPPh7FZisAaLra1rxwUiTMoBEW5yFC6IvJXOM+4wUhTEPINE8+ubuIdXN7U8AGAn+1dMwAzM5aQO8sEdSFGsIQYAQTrbskSBdzj+VOMd0Sd5p+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764577678; c=relaxed/simple;
-	bh=gk7+qvGJFTtBTdGnp6xMKDUYkLniOZKg96ntmeLeLlE=;
+	s=arc-20240116; t=1764578462; c=relaxed/simple;
+	bh=o4jy+qzQneLroLHV0jSTCegOykenZZvD9onAZZsUmyI=;
 	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=m1LFL0rWWGWX/9WykUsg/J1y5wCTLCMKZ3OMyDw+fHNyl8a6YOUGPV+jtSCuuM1RiTKS81Jsir413dJ6NyiRwHPZCXdUcK77mzdU2RnXnkJiY+EG7Mahm7I2EiegN5g2kitIcv4Hcut3OX14vFvsQfC+KXsMNX6Lxzw8EOa/qfQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VlNH2LRf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BB30C4CEF1;
-	Mon,  1 Dec 2025 08:27:56 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=TZ+RRhqMal0PLdF7RTEQBlIdsmoKWtuYBNTl64AmgLfjbrhdZzR8y9KRz29XoFD9LjnHZNmAqNToUhO2UlcyVfYm0XbhsDcoMCDgaWUBJYmTebtGkfYxBnzhKFrwVbJuMMB1NAhfCA1DuIUEBQkiKKqS4zF3CQli0hLG/YesJBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rkbeof+Q; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA989C4CEF1;
+	Mon,  1 Dec 2025 08:40:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764577677;
-	bh=gk7+qvGJFTtBTdGnp6xMKDUYkLniOZKg96ntmeLeLlE=;
+	s=k20201202; t=1764578460;
+	bh=o4jy+qzQneLroLHV0jSTCegOykenZZvD9onAZZsUmyI=;
 	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=VlNH2LRfF2QGcyKF1yJWMtdGwACBek822rHxKiCcMkRp+YdkjkIPEU+LBFDZvsw7/
-	 btzrXHBABvEVwByCQxEZzumE4p6jMsQntXABuIR9mL1G+sDgYgudfa/QRtkBxZkUz9
-	 OKYU/sJuLucpSos6bT1Nr5xoMt30gAAgnjCEueolDT8WDEa4FCfw7URjyF3gCqWEMD
-	 YQkwsgAeUfoqcIoBf4bt3xvBluVXyHyKZq7gA37umuaHOjF0K6DDEBJzWdOtt7re4U
-	 x64RSxNKEO4zaegV878LRQTmGdvwW1Kx1efqeHBj+ET5J+YsBBDSsK+cSFdAKfKzBS
-	 UZE5QbC8LUN9g==
-Message-ID: <4788af27-120e-4e01-b3d1-f30e466b4980@kernel.org>
-Date: Mon, 1 Dec 2025 09:27:55 +0100
+	b=rkbeof+QDh+exQHAptaXqHiKeZZbVxI8jLmH24Fl21mjq0VPChSS8Ov8jKJROkCX1
+	 WSRboarXuq3Ytvry2e4BHFxbT6pcy1laRcmu8FRubhtvzzU6ukqJbCcCZYvSwAwVDM
+	 jPfzCbLULnpClFnClwsdKayy5Gi4I9E6HToLAJ9bYFLfIPcz5aXgJ3snsHvkUCBGyY
+	 54Ije4ceiHv82TOUUuRRWJabmlIoRCsmjDc81RoJu1PCqZJt2QP+kJZm/zkK1RWYdw
+	 Tx+lfc6BsVxJZGYhW6ECnkOy3hXiKAwbBmKjJuNOmRggApNjijmDTVxmVBYHwg0mE8
+	 m7nqeSoBOqE3Q==
+Message-ID: <9cd8b533-95fb-4495-a67b-bdf5c7774a74@kernel.org>
+Date: Mon, 1 Dec 2025 09:40:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -51,85 +51,112 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH 03/14] media: omap3isp: isp_video_mbus_to_pix/pix_to_mbus
- fixes
+Subject: Re: [PATCH 04/14] media: omap3isp: implement enum_fmt_vid_cap/out
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
 References: <cover.1760707611.git.hverkuil+cisco@kernel.org>
- <1e7330bdeb61565bef5254fa35717a260d9e4633.1760707611.git.hverkuil+cisco@kernel.org>
- <aPiMWDmqbYwBacpJ@kekkonen.localdomain>
+ <30813a3e81f2d8a6f42f637eba6fba2481b535cf.1760707611.git.hverkuil+cisco@kernel.org>
+ <aPiOIoe24l5NNz6z@kekkonen.localdomain>
 Content-Language: en-US, nl
-In-Reply-To: <aPiMWDmqbYwBacpJ@kekkonen.localdomain>
+In-Reply-To: <aPiOIoe24l5NNz6z@kekkonen.localdomain>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Sakari,
-
-On 22/10/2025 09:48, Sakari Ailus wrote:
+On 22/10/2025 09:56, Sakari Ailus wrote:
 > Hi Hans,
 > 
-> Thanks for the set.
-> 
-> On Fri, Oct 17, 2025 at 03:26:40PM +0200, Hans Verkuil wrote:
->> The isp_video_mbus_to_pix/pix_to_mbus functions did not take
->> the last empty entry { 0, } of the formats array into account.
+> On Fri, Oct 17, 2025 at 03:26:41PM +0200, Hans Verkuil wrote:
+>> Add missing ioctls. This makes v4l2-compliance happier:
 >>
->> As a result, isp_video_mbus_to_pix would accept code 0 and
->> isp_video_pix_to_mbus would select code 0 if no match was found.
+>> fail: v4l2-test-formats.cpp(516): pixelformat 59565955 (UYVY) for buftype 1 not reported by ENUM_FMT
+>> 	test VIDIOC_G_FMT: FAIL
+>> fail: v4l2-test-formats.cpp(516): pixelformat 59565955 (UYVY) for buftype 1 not reported by ENUM_FMT
+>> 	test VIDIOC_TRY_FMT: FAIL
+>> fail: v4l2-test-formats.cpp(516): pixelformat 56595559 (YUYV) for buftype 1 not reported by ENUM_FMT
+>> 	test VIDIOC_S_FMT: FAIL
 >>
 >> Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 >> ---
->>  drivers/media/platform/ti/omap3isp/ispvideo.c | 6 +++---
->>  1 file changed, 3 insertions(+), 3 deletions(-)
+>>  drivers/media/platform/ti/omap3isp/ispvideo.c | 34 +++++++++++++++++++
+>>  1 file changed, 34 insertions(+)
 >>
 >> diff --git a/drivers/media/platform/ti/omap3isp/ispvideo.c b/drivers/media/platform/ti/omap3isp/ispvideo.c
->> index 46609045e2c8..864d38140b87 100644
+>> index 864d38140b87..77beea00d507 100644
 >> --- a/drivers/media/platform/ti/omap3isp/ispvideo.c
 >> +++ b/drivers/media/platform/ti/omap3isp/ispvideo.c
->> @@ -148,12 +148,12 @@ static unsigned int isp_video_mbus_to_pix(const struct isp_video *video,
->>  	pix->width = mbus->width;
->>  	pix->height = mbus->height;
+>> @@ -652,6 +652,38 @@ isp_video_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
+>>  	return 0;
+>>  }
 >>  
->> -	for (i = 0; i < ARRAY_SIZE(formats); ++i) {
->> +	for (i = 0; i < ARRAY_SIZE(formats) - 1; ++i) {
+>> +static int
+>> +isp_video_enum_format(struct file *file, void *fh, struct v4l2_fmtdesc *f)
+>> +{
+>> +	struct isp_video *video = video_drvdata(file);
+>> +	unsigned int i, j;
+>> +	unsigned int skip_last_fmts = 1;
+>> +
+>> +	if (f->type != video->type)
+>> +		return -EINVAL;
+>> +
+>> +	/*
+>> +	 * The last two formats have the same pixelformat as the two
+>> +	 * formats before them, but they do have different mediabus
+>> +	 * codes. So to avoid reporting duplicate pixelformats we skip
+>> +	 * those two, provided f->mbus_code is 0.
+>> +	 */
+>> +	if (!f->mbus_code)
+>> +		skip_last_fmts += 2;
+>> +	for (i = 0, j = 0; i < ARRAY_SIZE(formats) - skip_last_fmts; i++) {
+>> +		if (f->mbus_code && formats[i].code != f->mbus_code)
+>> +			continue;
 > 
-> As it seems all users of the formats array depend on the size of the array
-> and not its contents, could we remove the sentinel entry from the array
-> instead?
+> How about, instead of the skip_last_fmts thingy, using this:
+> 
+> 		/* Weed out pixelformats with the same mbus code. */
+> 		if (i && formats[i - 1].code == formats[i].code)
+> 			continue;
 
-Probably, but see this comment just before the sentinel in the array:
+Good idea, but it should be this:
 
-        /* Empty entry to catch the unsupported pixel code (0) used by the CCDC
-         * module and avoid NULL pointer dereferences.
-         */
-        { 0, }
+               /* Weed out duplicate pixelformats with different mbus codes */
+               if (!f->mbus_code && i &&
+                   formats[i - 1].pixelformat == formats[i].pixelformat)
+                       continue;
 
-Now, I wonder if this comment is out of date, since I don't see code 0 being used
-by CDDC. If you can confirm that that's indeed the case, then I can drop the sentinel.
+And the duplicate pixelformats in the formats array must be together in the
+array for this to work. Easy enough to change.
 
 Regards,
 
 	Hans
 
 > 
->>  		if (formats[i].code == mbus->code)
->>  			break;
->>  	}
+>> +
+>> +		if (j == f->index) {
+>> +			f->pixelformat = formats[i].pixelformat;
+>> +			return 0;
+>> +		}
+>> +		j++;
+>> +	}
+>> +
+>> +	return -EINVAL;
+>> +}
+>> +
+>>  static int
+>>  isp_video_get_format(struct file *file, void *fh, struct v4l2_format *format)
+>>  {
+>> @@ -1258,9 +1290,11 @@ isp_video_s_input(struct file *file, void *fh, unsigned int input)
 >>  
->> -	if (WARN_ON(i == ARRAY_SIZE(formats)))
->> +	if (WARN_ON(i == ARRAY_SIZE(formats) - 1))
->>  		return 0;
->>  
->>  	min_bpl = pix->width * formats[i].bpp;
->> @@ -191,7 +191,7 @@ static void isp_video_pix_to_mbus(const struct v4l2_pix_format *pix,
->>  	/* Skip the last format in the loop so that it will be selected if no
->>  	 * match is found.
->>  	 */
->> -	for (i = 0; i < ARRAY_SIZE(formats) - 1; ++i) {
->> +	for (i = 0; i < ARRAY_SIZE(formats) - 2; ++i) {
->>  		if (formats[i].pixelformat == pix->pixelformat)
->>  			break;
->>  	}
+>>  static const struct v4l2_ioctl_ops isp_video_ioctl_ops = {
+>>  	.vidioc_querycap		= isp_video_querycap,
+>> +	.vidioc_enum_fmt_vid_cap	= isp_video_enum_format,
+>>  	.vidioc_g_fmt_vid_cap		= isp_video_get_format,
+>>  	.vidioc_s_fmt_vid_cap		= isp_video_set_format,
+>>  	.vidioc_try_fmt_vid_cap		= isp_video_try_format,
+>> +	.vidioc_enum_fmt_vid_out	= isp_video_enum_format,
+>>  	.vidioc_g_fmt_vid_out		= isp_video_get_format,
+>>  	.vidioc_s_fmt_vid_out		= isp_video_set_format,
+>>  	.vidioc_try_fmt_vid_out		= isp_video_try_format,
 > 
 
 
