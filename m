@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-47959-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47960-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD60CC97A71
-	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 14:40:46 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D25C97B58
+	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 14:48:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 71CF63A27B2
-	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 13:40:45 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 73D353477FB
+	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 13:46:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C23A7311C22;
-	Mon,  1 Dec 2025 13:40:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AEB930EF87;
+	Mon,  1 Dec 2025 13:44:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qgi9rk1y"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IVs7Iz4F"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25E9431196F
-	for <linux-media@vger.kernel.org>; Mon,  1 Dec 2025 13:40:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 599F83128D0
+	for <linux-media@vger.kernel.org>; Mon,  1 Dec 2025 13:44:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764596441; cv=none; b=j9D+FCNMB/zxTlDXWqUOsCKv7rlH3Whxq5pmLUc//vAWPZL3FgO012mD5CHx9uMsjUJMOAqLthvLE92qS1kTacCZEqUTBrDuURKEN0hHzHDSKqz1Xr4GklZgb7IGhu6U1f8N68kiYxcmwXVO8pAZbnKKJVO+GtkpVz/ED0Hh5lU=
+	t=1764596690; cv=none; b=uAfDyFwSzATMGpZszx0Jt+nBhxY59WKQhZFjQoJBs3z/rglAdhEAeKu2Jlm1EYes7Qmba+emoI6OY3Wn083Eaylsv38RDbaVwAwHOubEvh8dHZw39ABYzvO1r4gQ23HLdAJbzZieix89CEVSN3GrOZu0vuMQ1mSViwicUQd3MTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764596441; c=relaxed/simple;
-	bh=CTytIZMUAMT8oDhfrb5CQPdAFPw4zfEgnA+Q2iWGlQo=;
+	s=arc-20240116; t=1764596690; c=relaxed/simple;
+	bh=3gnS2Uypo/AYmIYNnGKsmKaSEUhD/BALvbmDrBYrbCw=;
 	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=hEzSteALCbyNDzkkgDVeEKOBmRyDOB48wOPElJzGNuVcAR+7upU4kXL27UCr5IScf90LOCxvGFIj6T+s4E5Hs8tlaLWHpl9tEXRCp6Dq8gW7I/PbZwdyaUoof1aETWHOWJOvz8Ug5lxNAWl5qxjpJN65xSvmdcl20mv+ycxFjjg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qgi9rk1y; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23E3CC4CEF1;
-	Mon,  1 Dec 2025 13:40:39 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=X0sa7fgClixAdIuRgy4P0kEFUaI7nJzfGp/aVFPEBL73/3KGi2MEizZ3Q+hSHZIVd0Gtz4nxzI3Uiyj4c2JqaSrCdXPXcbrNYSimkCAxx5JYSxV8DJdvttlefTdRM7ZrsRbIYyI4swo/6dLN4lAnrAWb2PIKmRfmt97hLREKPqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IVs7Iz4F; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 929EFC4CEF1;
+	Mon,  1 Dec 2025 13:44:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764596440;
-	bh=CTytIZMUAMT8oDhfrb5CQPdAFPw4zfEgnA+Q2iWGlQo=;
+	s=k20201202; t=1764596686;
+	bh=3gnS2Uypo/AYmIYNnGKsmKaSEUhD/BALvbmDrBYrbCw=;
 	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=qgi9rk1yMe9dU+GOkrtHQ/TBHOdjwnR9DvZMws7So0VyYplvpLPOfiXuvelhF6zbL
-	 r282tjdEEElVR/BKrdliD6XpJ6TD8V1c4BB1QFDfV7R1/itxH6KMSIRGk25dWZEMmi
-	 fuI1FVvEU8GTYGPiIJ0u7/rkDYcdMKvjMN5BvfGtP4IMGRQIu2vsLfmWZl4/2o7eVj
-	 KecbgCPWuU4t80C6lUi0JbMuaHlTxg9gc9ff5NFqakP/Us8zDWwEpZTVNr5GHGVa6n
-	 1+oSNEvAqe45KKn/Hyi7Wejhk0OGU6j7GW8eQGxXBW6uFLnVpZ6FddUbNW3Hye0+Rg
-	 y8XctmrlFss+w==
-Message-ID: <e8344b04-aa20-4971-aca7-8f77691dca19@kernel.org>
-Date: Mon, 1 Dec 2025 14:40:38 +0100
+	b=IVs7Iz4F7/lKVv71drk5VvBd2qfLtPlNkOyKK9FZaUXVC3rY3wONRtS41vu6ZayR9
+	 fvw+1hPW5jSXJIgf4/ekqjZzc/si5g3CP6VRxI0PBL9Nb8llnlE9E2cMDbb/yjLP8M
+	 HpHB0phUIV20IhiJd94KJGS0mPnCWLgD4nOzHhLTDULGI9xk0EUOI+1WCmBJT9/MFX
+	 oZ0OH1w5rTS7Q+F8ILTZAHqfm7CbzP/TPzi6nre6I94Hn//k9tBZErbJmO7U1m/xiy
+	 tE8kON9MUztOH9vGP/PTcLv/18pLem2RQLFCPsNSmWJ68EN+qVTah1TiFmhJvn5l+Z
+	 TJ/MYTQtIxABA==
+Message-ID: <beaf6c94-c705-476d-a12b-d7ef42c9244c@kernel.org>
+Date: Mon, 1 Dec 2025 14:44:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -51,112 +51,115 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH 09/14] media: omap3isp: better VIDIOC_G/S_PARM handling
+Subject: Re: [PATCH 04/14] media: omap3isp: implement enum_fmt_vid_cap/out
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
 References: <cover.1760707611.git.hverkuil+cisco@kernel.org>
- <659149538833acf06f40a5660d03809f9f1c7ef6.1760707611.git.hverkuil+cisco@kernel.org>
- <aPiRLPbzWoW4GFXt@kekkonen.localdomain>
- <b3c22527-7d92-44b0-b7cd-2f1fe2c42a36@kernel.org>
+ <30813a3e81f2d8a6f42f637eba6fba2481b535cf.1760707611.git.hverkuil+cisco@kernel.org>
+ <aPiOIoe24l5NNz6z@kekkonen.localdomain>
+ <9cd8b533-95fb-4495-a67b-bdf5c7774a74@kernel.org>
+ <aS19g3Z38hAAcBkw@kekkonen.localdomain>
 Content-Language: en-US, nl
-In-Reply-To: <b3c22527-7d92-44b0-b7cd-2f1fe2c42a36@kernel.org>
+In-Reply-To: <aS19g3Z38hAAcBkw@kekkonen.localdomain>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 01/12/2025 11:28, Hans Verkuil wrote:
-> On 22/10/2025 10:09, Sakari Ailus wrote:
->> Hi Hans,
->>
->> On Fri, Oct 17, 2025 at 03:26:46PM +0200, Hans Verkuil wrote:
->>> Fix various v4l2-compliance errors relating to timeperframe.
->>>
->>> VIDIOC_G/S_PARM is only supported for Video Output, so disable
->>> these ioctls for Capture devices.
->>>
->>> Ensure numerator and denominator are never 0.
->>>
->>> Set missing V4L2_CAP_TIMEPERFRAME capability for VIDIOC_S_PARM.
->>>
->>> v4l2-compliance:
->>>
->>> 	fail: v4l2-test-formats.cpp(1388): out->timeperframe.numerator == 0 || out->timeperframe.denominator == 0
->>> test VIDIOC_G/S_PARM: FAIL
->>>
->>> Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
->>> ---
->>>  drivers/media/platform/ti/omap3isp/ispvideo.c | 11 +++++++++--
->>>  1 file changed, 9 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/media/platform/ti/omap3isp/ispvideo.c b/drivers/media/platform/ti/omap3isp/ispvideo.c
->>> index 471defa6e7fb..5603586271f5 100644
->>> --- a/drivers/media/platform/ti/omap3isp/ispvideo.c
->>> +++ b/drivers/media/platform/ti/omap3isp/ispvideo.c
->>> @@ -928,7 +928,10 @@ isp_video_set_param(struct file *file, void *fh, struct v4l2_streamparm *a)
->>>  
->>>  	if (a->parm.output.timeperframe.denominator == 0)
->>>  		a->parm.output.timeperframe.denominator = 1;
->>> +	if (a->parm.output.timeperframe.numerator == 0)
->>> +		a->parm.output.timeperframe.numerator = 1;
->>
->> I believe S_PARM support has probably been added for v4l2-compliance in the
->> past. Should there be either a dummy implementation for more or less all
->> Media device centric drivers or could this be simply omitted?
+On 01/12/2025 12:35, Sakari Ailus wrote:
+> Hi Hans,
 > 
-> v4l2-compliance has seen quite a few changes w.r.t. the G/S_PARM tests,
-> and I think it is fine to just drop support for these ioctls.
+> On Mon, Dec 01, 2025 at 09:40:58AM +0100, Hans Verkuil wrote:
+>> On 22/10/2025 09:56, Sakari Ailus wrote:
+>>> Hi Hans,
+>>>
+>>> On Fri, Oct 17, 2025 at 03:26:41PM +0200, Hans Verkuil wrote:
+>>>> Add missing ioctls. This makes v4l2-compliance happier:
+>>>>
+>>>> fail: v4l2-test-formats.cpp(516): pixelformat 59565955 (UYVY) for buftype 1 not reported by ENUM_FMT
+>>>> 	test VIDIOC_G_FMT: FAIL
+>>>> fail: v4l2-test-formats.cpp(516): pixelformat 59565955 (UYVY) for buftype 1 not reported by ENUM_FMT
+>>>> 	test VIDIOC_TRY_FMT: FAIL
+>>>> fail: v4l2-test-formats.cpp(516): pixelformat 56595559 (YUYV) for buftype 1 not reported by ENUM_FMT
+>>>> 	test VIDIOC_S_FMT: FAIL
+>>>>
+>>>> Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+>>>> ---
+>>>>  drivers/media/platform/ti/omap3isp/ispvideo.c | 34 +++++++++++++++++++
+>>>>  1 file changed, 34 insertions(+)
+>>>>
+>>>> diff --git a/drivers/media/platform/ti/omap3isp/ispvideo.c b/drivers/media/platform/ti/omap3isp/ispvideo.c
+>>>> index 864d38140b87..77beea00d507 100644
+>>>> --- a/drivers/media/platform/ti/omap3isp/ispvideo.c
+>>>> +++ b/drivers/media/platform/ti/omap3isp/ispvideo.c
+>>>> @@ -652,6 +652,38 @@ isp_video_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
+>>>>  	return 0;
+>>>>  }
+>>>>  
+>>>> +static int
+>>>> +isp_video_enum_format(struct file *file, void *fh, struct v4l2_fmtdesc *f)
+>>>> +{
+>>>> +	struct isp_video *video = video_drvdata(file);
+>>>> +	unsigned int i, j;
+>>>> +	unsigned int skip_last_fmts = 1;
+>>>> +
+>>>> +	if (f->type != video->type)
+>>>> +		return -EINVAL;
+>>>> +
+>>>> +	/*
+>>>> +	 * The last two formats have the same pixelformat as the two
+>>>> +	 * formats before them, but they do have different mediabus
+>>>> +	 * codes. So to avoid reporting duplicate pixelformats we skip
+>>>> +	 * those two, provided f->mbus_code is 0.
+>>>> +	 */
+>>>> +	if (!f->mbus_code)
+>>>> +		skip_last_fmts += 2;
+>>>> +	for (i = 0, j = 0; i < ARRAY_SIZE(formats) - skip_last_fmts; i++) {
+>>>> +		if (f->mbus_code && formats[i].code != f->mbus_code)
+>>>> +			continue;
+>>>
+>>> How about, instead of the skip_last_fmts thingy, using this:
+>>>
+>>> 		/* Weed out pixelformats with the same mbus code. */
+>>> 		if (i && formats[i - 1].code == formats[i].code)
+>>> 			continue;
+>>
+>> Good idea, but it should be this:
+>>
+>>                /* Weed out duplicate pixelformats with different mbus codes */
+>>                if (!f->mbus_code && i &&
+>>                    formats[i - 1].pixelformat == formats[i].pixelformat)
+>>                        continue;
 > 
-> I'll test this a bit more, and if I don't find any issues, then I'll
-> just remove support for these ioctls in omap3isp.
+> I think you shouldn't add !f->mbus_code check here, there's already a check
+> for that right after the for ... line.
 
-Actually, S_PARM is used to set the max framerate for the output of the omap3isp.
+Ah, no. If you search with non-zero f->mbus_code, then you want to
+see all matching formats for that mbus_code.
 
-So it is in use.
+Without the '!f->mbus_code' condition you would incorrectly skip entries in
+the formats array.
 
-I'm keeping this patch.
+E.g. if f->mbus_code is set to MEDIA_BUS_FMT_UYVY8_2X8, then it would fail to
+find V4L2_PIX_FMT_UYVY as a match.
 
 Regards,
 
 	Hans
 
 > 
-> Regards,
-> 
-> 	Hans
-> 
 >>
->>>  
->>> +	a->parm.output.capability = V4L2_CAP_TIMEPERFRAME;
->>>  	vfh->timeperframe = a->parm.output.timeperframe;
->>>  
->>>  	return 0;
->>> @@ -1413,6 +1416,7 @@ static int isp_video_open(struct file *file)
->>>  	handle->format.fmt.pix.colorspace = V4L2_COLORSPACE_SRGB;
->>>  	isp_video_pix_to_mbus(&handle->format.fmt.pix, &fmt);
->>>  	isp_video_mbus_to_pix(video, &fmt, &handle->format.fmt.pix);
->>> +	handle->timeperframe.numerator = 1;
->>>  	handle->timeperframe.denominator = 1;
->>>  
->>>  	handle->video = video;
->>> @@ -1532,12 +1536,15 @@ int omap3isp_video_init(struct isp_video *video, const char *name)
->>>  	video->video.vfl_type = VFL_TYPE_VIDEO;
->>>  	video->video.release = video_device_release_empty;
->>>  	video->video.ioctl_ops = &isp_video_ioctl_ops;
->>> -	if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
->>> +	if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
->>>  		video->video.device_caps = V4L2_CAP_VIDEO_CAPTURE
->>>  					 | V4L2_CAP_STREAMING | V4L2_CAP_IO_MC;
->>> -	else
->>> +		v4l2_disable_ioctl(&video->video, VIDIOC_S_PARM);
->>> +		v4l2_disable_ioctl(&video->video, VIDIOC_G_PARM);
->>> +	} else {
->>>  		video->video.device_caps = V4L2_CAP_VIDEO_OUTPUT
->>>  					 | V4L2_CAP_STREAMING | V4L2_CAP_IO_MC;
->>> +	}
->>>  
->>>  	video->pipe.stream_state = ISP_PIPELINE_STREAM_STOPPED;
->>>  
->>
+>> And the duplicate pixelformats in the formats array must be together in the
+>> array for this to work. Easy enough to change.
 > 
+> The pixelformats in formats array would need to be sorted for this -- right
+> now they're not (16- vs. 8-bit YUV formats at the end of the table). So I
+> think this should be:
+> 
+> 		if (f->mbus_code && formats[i].code != f->mbus_code)
+> 			continue;
+> 
+> 		/* Weed up duplicate pixelformats. */
+> 		if (i && formats[i - 1].pixelformat == formats[i].pixelformat)
+> 			continue;
 > 
 
 
