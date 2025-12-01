@@ -1,164 +1,127 @@
-Return-Path: <linux-media+bounces-47946-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47948-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6097C97383
-	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 13:21:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7B81C97530
+	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 13:42:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id AABA24E16CA
-	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 12:21:38 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id CB2014E2185
+	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 12:41:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8962430C36C;
-	Mon,  1 Dec 2025 12:20:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 425B730DEAD;
+	Mon,  1 Dec 2025 12:41:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="M3NJGuGP";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="CtGi2OZB"
+	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="hIL5Dqc7";
+	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="0oKmwJ/v"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CEF930BB8A
-	for <linux-media@vger.kernel.org>; Mon,  1 Dec 2025 12:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A23A30C373;
+	Mon,  1 Dec 2025 12:41:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764591630; cv=none; b=F6SFE8YFX9ENJuspuYXoagbRUX6r4GJYLICvvIISTr7D1htVnRQPWQilqc6rm8zrgapHAT0ppZEvLXIHK7wxQ0lVsiGkUdDJzHPpjfOj5hjj+uGlWP4KhbRsi4ZBcoPZBdXZ2AgCJQnZek4ALjdsZ+hqNQkrts8ZKu6zRDAjg3Y=
+	t=1764592888; cv=none; b=APpoabY+AOh0gCrrsAgTO8DcTv5XukQBLtCU2luFw4DbM5kKb93YRCf6aO0/qJV8l+uMmL082yx2pMDWunONvjPqSzB7zcOYRNgzSosKP7X6OOS0NZiGsG6+1euibyB2WS5IPLwlNJwHG5CD6kGMlWen/1huSduRZy40u+XeOG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764591630; c=relaxed/simple;
-	bh=eY2f/OQiXjvQ99EgQG+7NrC52FpWQ+O8IZO2TLGmBJw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kMXdnhfHfytJQn5bZyoob7QSEBAPe9umZXlbLVP778Pz5c6Z7PQEzAWpo1iECiTztyM6KA5Tm48ROk4WtwpzQn3bA4fk3YiKXI11Cw3qMyJwG2ntYV0J89Goi4do3rpUYSujrCc67MtFH0KMT+zYnXuv/RPVQfESCv4Ik8MpEuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=M3NJGuGP; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=CtGi2OZB; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B18V3dm2743827
-	for <linux-media@vger.kernel.org>; Mon, 1 Dec 2025 12:20:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	eY2f/OQiXjvQ99EgQG+7NrC52FpWQ+O8IZO2TLGmBJw=; b=M3NJGuGPgS5tRI7J
-	+bWh5iXyWN5ciH8Mo15hMRm19CPDbq1bBkcpt1H2rXLjVMSzXZ8LX7OwbSUf8v+Y
-	GfjSALoKlJ1adGV6+l1x3DaJn6YqtXLlRNUFI5cuRkFmn2TqYVsDftXDJfAM3dXv
-	6Nr5VYWkg//PH8uOnHmgCw9kHb/pLJJppRTcelVCXN6iRI/dNkuGJC9CED7j7CwI
-	2DfBGJXpB29hSAdpNk4S8t3SUUTsY0zSH1a6kTI0M7V/uomdPF02ArXu7k37sUnK
-	kV7klO9iLIxVyTgXk2jqBxwQmVSKDSZcv/1OcO/dS5Of/vFzwSXRsu0iE5q8UW62
-	CjRyBg==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4arwnvswxg-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Mon, 01 Dec 2025 12:20:28 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4ee07f794fcso8037451cf.2
-        for <linux-media@vger.kernel.org>; Mon, 01 Dec 2025 04:20:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1764591627; x=1765196427; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eY2f/OQiXjvQ99EgQG+7NrC52FpWQ+O8IZO2TLGmBJw=;
-        b=CtGi2OZBQSSrN1+0g1Rcg2g6crUsUwdjZLoWmvIlO0XSAybN6u7d/ZmTFShOT9Oe2V
-         kfGMaRgINQnUkj24i6ENhohahq19HLE/yrS+k4bLySAotVFCq8063mK5skUV2nfPdV+q
-         XlafhGhMY9gkEk+pQUe7EF86BdB8AFDtIc1/UBUXDvMJme+sBbQVM8y+HNI9YNkQt9Xb
-         v6hnOSBaCNfpD7Krofsblvt1cGp27mmMVvr5L71kNxe7tiab2YYjlLUYuPHkgrcZvpSM
-         dPi1i0+6foMPT1SA5NyeMnecSV7e0CLRcBAsPboG9yd3lZNjEeAPWb1KHPR4v6hCIF+d
-         nj+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764591627; x=1765196427;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eY2f/OQiXjvQ99EgQG+7NrC52FpWQ+O8IZO2TLGmBJw=;
-        b=UPanpRO61nI7lFG9S4fV0puUmZFtEavk/bRGMqrcx2104AMqmfevMxJPDTrmzeXv/Y
-         6Zf/9+iUHHsk7iIjvJydWl4GvbMiTaZ+95dTQyHR5TC7MxiUIHxHHNASN+/tU74EcAel
-         wVXHeDiAZAN6pDckDH1z9ud7NZPlav5ZnNqIVdFGuTs2a0O0Z7+4rKg8WgBRT+nEcImC
-         jXsPjea1QNrN05tdIw5ttJb38XiS64ev6HIFLVSCJktFIIwS2xWyhxfU4Li0am2QZ1T6
-         WO1Ywq5VfhZMdbs+j84uLBuhwKEwVPJMtDQL1/dHxomAetbcuKZWQwRtSOmHOT8uSrv/
-         Mu4g==
-X-Forwarded-Encrypted: i=1; AJvYcCUYDM5EZqzYW/JeW825Ja9NMY2hi5beOoF2XCKrv7VkDlS45fTZJXQ+aBA+ujLM+0lg2HpSDHxblemc6w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLov5jgOS7CP1Lpzmjqc6WRew2IE8Top1UVo+zWlm4Nrz5/+54
-	UcpifNJ0Ai2bqlR7uyF3hp/v2mm0/vXp7uFk3R4ly/89AevzxR4yZSK8YFiROZQ/WOw7qIJeL4n
-	h4obrWYi4+o0gGfLZcnKpIPz2vfDVVPksb4rkvDdK/MnkCjybRRrdVD8/EHqrYjjLzQ==
-X-Gm-Gg: ASbGncuIn+OulTq1aVk7EjHBuMiEABRNrs2d0hwJpI7XUCxIR3olYCGuEpjUoUHq45M
-	t+NDIdaLDP1Xs+RPDTVDVx4MIiit1tZXO7T/NFQ5FVvCq/xmoiyCtF0gX6X4nEJ274gk9eKHmxj
-	Sjxh1bsuqYfHxPXytiQp59AB7N+6MWwwiKg94oC+w45SwahW14kUlD9mrugdOhixo2YVRW8llPU
-	HKw9ETt1AVcNVf7U+JPYKJn5+0sf0DO79pnIWVtr01WP4Ghfh2OyJXSeaA65p5dTmVSIuIIXN4j
-	aGPPwR44aEOSQg7P+uYZPKQ0flIR/MiDI/dJp9Ds7b4w+IPzdoyheX3f8WF0jKpbxLry+vSh7Xl
-	LVAaubSiyJHBjBU3E8XB1FPnswZKLVnMSexbR00G1LsU0DU2Jj+N8jUYtE0YXEfTSJ1A=
-X-Received: by 2002:a05:622a:1388:b0:4ee:1a3:2e79 with SMTP id d75a77b69052e-4ee589272d9mr392682101cf.8.1764591627374;
-        Mon, 01 Dec 2025 04:20:27 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGJKlfp8WVWHfI6G33XR+NIj+3I4kVuSnGH8T8BZFtRFo3N6WDtyo+7PMNn0O3wAizbedoOOA==
-X-Received: by 2002:a05:622a:1388:b0:4ee:1a3:2e79 with SMTP id d75a77b69052e-4ee589272d9mr392681551cf.8.1764591626827;
-        Mon, 01 Dec 2025 04:20:26 -0800 (PST)
-Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b76f59e93acsm1186657866b.50.2025.12.01.04.20.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Dec 2025 04:20:26 -0800 (PST)
-Message-ID: <ae056a82-e5d4-4a73-b478-37533ce2e0ed@oss.qualcomm.com>
-Date: Mon, 1 Dec 2025 13:20:23 +0100
+	s=arc-20240116; t=1764592888; c=relaxed/simple;
+	bh=+6R2Dm3f0PWsrFTZH6ZutnaKbYK6hSXwOT1Aim7DcUg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=XQjzHZ/hm11kyV6f0SwqIxCahV1CS8RW6qwQ/zzn8cvYx0kv7Ks0LobI/U1dROKs/dLR8ttK/W65h/v1TD0g2V+N/fB+hlj92MjaEV5V+nQvR3xmyK2gkDXm6UGph1OXSqhRogcSaaA7QRhyzmCdsy47DaXTIV6kHo8xBKs9iVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=hIL5Dqc7; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=0oKmwJ/v; arc=none smtp.client-ip=5.75.144.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
+	h=To:Message-Id:Date:Subject:From; t=1764592855; bh=sZSoiCqr6jnkXFHZB09/EO6
+	ISHkyMj98KPx4jfDfSHQ=; b=hIL5Dqc7Ax0vnHw4rtOzg8J1GUk32G02PYL+cjMaOR07vvYZGd
+	kft54/SSQ9TFHBBR+pZuvEGkjMi/diEPNdTNCBNQ25N1D2yxhkX/wM1bdzTo1YBt1TnHdEhj1wE
+	hwkUGANPKykfs8/Y2FDXkPU0tXDMXvb979Kvn1bFHzaEtOYA+hA0VIimuRijw52GoHQdOXnOv0G
+	NwdPiSWk0Sg8UNQkD1qud5Vg2MJFk2ypuGgvS3tKoN3iiyd3icdFdAh+TAWm5x9zIeP2s5B+UiQ
+	tY//lgGotKn8O9Pa6qImpJzmC5dqtl9Mm24Edv4SRJl+s3oAoY/EiVC3qdxQA4aFDyg==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
+	h=To:Message-Id:Date:Subject:From; t=1764592855; bh=sZSoiCqr6jnkXFHZB09/EO6
+	ISHkyMj98KPx4jfDfSHQ=; b=0oKmwJ/vk1Im2g9WGsDi2X+OOVgWoaRxACBHQPENcfhvNawBVR
+	/hh4wiNSF+Bj9fRzODRYYrZtZsuPVkkPeHBw==;
+From: Vasiliy Doylov <nekocwd@mainlining.org>
+Subject: [PATCH v3 0/3] media: i2c: lc898217xc: initial driver
+Date: Mon, 01 Dec 2025 15:40:42 +0300
+Message-Id: <20251201-media-i2c-lc898217xc-initial-driver-v3-0-46e23897e921@mainlining.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND] media: camss: csiphy: Make CSIPHY status macro
- cross-platform
-To: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>,
-        Loic Poulain <loic.poulain@oss.qualcomm.com>,
-        Robert Foss
- <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-References: <20251130-make-csiphy-status-macro-cross-platform-v1-1-334664c6cf70@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20251130-make-csiphy-status-macro-cross-platform-v1-1-334664c6cf70@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: YCh2MDCjaOPzhKcJjKNoiNL7AJzXtx8E
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjAxMDEwMCBTYWx0ZWRfX+gilWAfN708k
- +g5mAegyV+p6029Bw4iayoQ2gG3xglNlM5HyFJLSgEJPawWDRcwDEB6mskifaN63y2btELJejkt
- LLTElZst0Cz4JrpJpEr3qQj/FAsapNPkB6tkx//okibcjGQhD2FcMMQKPLpPJmpdKJklW8gQ4wg
- Is59l/K+e8HrroSEqoPHySpxsXTou6zk7rBtHm8LevSyG4UadYSicxcVpEWbo05iD6AfrTD19Ob
- F5QQ3CJ6bThPWZ6qlxZCIm5RevkRbNpSRFwQ3e8ceBZhG68Ku5DR6ucZwubsSQ4GaKVL7pS32cl
- prCYTJJbtX8UDhYRvdswlG78T8PWrm9uZwUe067gyV9mQ7jDU1evICETobpaCpb+M3VcLZpjJma
- bhuBWnJPT71jHS/nhwnaakAJk6MKyQ==
-X-Authority-Analysis: v=2.4 cv=Urxu9uwB c=1 sm=1 tr=0 ts=692d880c cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=yCSNFImgYS9KtUgOuK0A:9 a=QEXdDO2ut3YA:10
- a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-GUID: YCh2MDCjaOPzhKcJjKNoiNL7AJzXtx8E
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-28_08,2025-11-27_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 suspectscore=0 phishscore=0 malwarescore=0 lowpriorityscore=0
- priorityscore=1501 impostorscore=0 clxscore=1015 adultscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512010100
+X-B4-Tracking: v=1; b=H4sIAMqMLWkC/53NQQ6CMBCF4auYrh1TphTQlfcwLko7hUmwmEIaj
+ eHuFly6MS7fZPL9LzFRZJrEafcSkRJPPIY81H4nbG9CR8Aub4EStUSs4UaODTBaGGxzbLCoHxY
+ 48MxmABc5UQRXt1qaQmlLWmTpHsnzY6tcrnn3PM1jfG7RhOv14ytZ/uQnBAmVKStlySsyzflmO
+ Az5K3SHMXZijaTiD7jIMKH3Dlv0TtMXvCzLGwpr9oE0AQAA
+X-Change-ID: 20250227-media-i2c-lc898217xc-initial-driver-d7b50a135ce5
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, david@ixit.cz
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org, 
+ Vitalii Skorkin <nikroks@mainlining.org>, 
+ Antonio Rische <nt8r@protonmail.com>, 
+ Vasiliy Doylov <nekocwd@mainlining.org>, 
+ Krzysztof Kozlowski <krzk@kernel.org>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1903;
+ i=nekocwd@mainlining.org; h=from:subject:message-id;
+ bh=+6R2Dm3f0PWsrFTZH6ZutnaKbYK6hSXwOT1Aim7DcUg=;
+ b=owGbwMvMwCXGd//xporA/cmMp9WSGDJ1e64f+H1orZNsQvimk/NUWL4G8PzW5EyOcln27d6sE
+ J/MeayLOkpZGMS4GGTFFFn+Gy6SO3BD2bMuN/UZzBxWJpAhDFycAjARsY+MDDc1J8i9eubE0iLl
+ 693wb7nLIqE398wjLyjEpOU4na30n8jwz4bL038+R2i714WOC91SBzZcrPFfFbzm3hqOKYsS/XQ
+ 1GAA=
+X-Developer-Key: i=nekocwd@mainlining.org; a=openpgp;
+ fpr=FF31A21EC0D823497E6D65E60EDFE3B27851BF63
 
-On 12/1/25 7:25 AM, Hangxiang Ma wrote:
-> The current value of '0xb0' that represents the offset to the status
-> registers within the common registers of the CSIPHY has been changed on
-> the newer SOCs and it requires generalizing the macro using a new
-> variable 'common_status_offset'. This variable is initialized in the
-> csiphy_init() function.
+LX898217XC is a 11 bit DAC, designed for linear control
+of voice coil motor. This driver creates a V4L2 subdevice
+and provides control to set the desired focus.
 
-"offset" + "common_status_offset" is confusing
+Tested on Oneplus 6 (oneplus-enchilada)
 
-Let's maybe add some platform data where we store the actual offset of
-the registers in question and pass a csiphy ptr as an argument
+Co-developed-by: Vitalii Skorkin <nikroks@mainlining.org>
+Signed-off-by: Vitalii Skorkin <nikroks@mainlining.org>
+Co-developed-by: Antonio Rische <nt8r@protonmail.com>
+Signed-off-by: Antonio Rische <nt8r@protonmail.com>
+Signed-off-by: Vasiliy Doylov <nekocwd@mainlining.org>
+---
+Changes in v3:
+- Fixed MAINTAINERS (Krzysztof)
+- Reordered commits (Krzysztof)
+- Removed blank line from device-tree documentation (Krzysztof)
+- Refactored to use CCI regmap
+- Refactored to use dev_err_probe in probe
+- Link to v2: https://lore.kernel.org/all/20250304-media-i2c-lc898217xc-initial-driver-v2-0-6a463cef3ea8@mainlining.org/
+Changes in v2:
+- PM functions annotated as __maybe_unused.
+- Fixed dt bindings documentation commit message
+- Added v4l2 events (now v4l2-compliance shows no failed tests)
+- Link to v1: https://lore.kernel.org/r/20250304-media-i2c-lc898217xc-initial-driver-v1-0-e2ffd2b2fd5e@mainlining.org
 
-Konrad
+---
+Vasiliy Doylov (3):
+      media: dt-bindings: Add LC898217XC documentation
+      media: i2c: Add driver for LC898217XC VCM
+      MAINTAINERS: Add entry for Onsemi LC898217XC lens voice coil driver
+
+ .../bindings/media/i2c/onnn,lc898217xc.yaml        |  53 +++++
+ MAINTAINERS                                        |   7 +
+ drivers/media/i2c/Kconfig                          |   9 +
+ drivers/media/i2c/Makefile                         |   1 +
+ drivers/media/i2c/lc898217xc.c                     | 254 +++++++++++++++++++++
+ 5 files changed, 324 insertions(+)
+---
+base-commit: 7d31f578f3230f3b7b33b0930b08f9afd8429817
+change-id: 20250227-media-i2c-lc898217xc-initial-driver-d7b50a135ce5
+
+Best regards,
+-- 
+Vasiliy Doylov <nekocwd@mainlining.org>
+
 
