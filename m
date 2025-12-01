@@ -1,159 +1,175 @@
-Return-Path: <linux-media+bounces-47942-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47943-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B47EC96C05
-	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 11:53:47 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43835C96CE7
+	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 12:08:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 583663A4957
-	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 10:52:40 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BD03E4E13F4
+	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 11:08:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16CC0305066;
-	Mon,  1 Dec 2025 10:51:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65C133064B2;
+	Mon,  1 Dec 2025 11:08:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DU6NroHJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LZLOia1r"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48418305E18;
-	Mon,  1 Dec 2025 10:51:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F58129E0E9
+	for <linux-media@vger.kernel.org>; Mon,  1 Dec 2025 11:08:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764586274; cv=none; b=dpMqubVyh2FK1pbikyMUTMHLqoBFYC6/2CC8QnPJHhK36LWtozWcCI0nj2rWMfunoh8H5pmoNTlnu9Vq9EeuSPP5pIlU5HXVaheehRUOtkCRtBnh0B1Lb4hBmz1m9wg1SJ9K7h+Y17d31oPvQvBBnVZeFcmCKVSvI+co9imnDGM=
+	t=1764587309; cv=none; b=CB6q+0D07f/tucqmotDU4P+p8viY9lnly6G9aVHeH2ils286DU1XODSnq1Ud28ESLuRQRffLy6LHf3P9Tq71aBFHH7pkYAYoRPck10P4/YIFd+KbN7xi3ypaizg4yNbRPros7YPf77TY/oUpE8pgwl37Sg9QLnDOkxnAPBHa1xM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764586274; c=relaxed/simple;
-	bh=mj9yMjkJYnq6gG3lH605LhmJYpglfLnEKicH3/+ivuE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AQlqe62Mp2QZn0AaLc06WfIC6/k/IllsIPR2xIx+oMfJWjBcTahD6FASp13yv8+cWTL4rC3UPl0T8GaTTn7Vgpbni9Uwf2u1qPFKmmPM1A+/NupH+inzgZh22uLSOlcV2Awf8/y4Ppmurr2de0KqMVEjiCuUmJWLkGuOrZ5gCdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DU6NroHJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BE25C4CEF1;
-	Mon,  1 Dec 2025 10:51:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764586273;
-	bh=mj9yMjkJYnq6gG3lH605LhmJYpglfLnEKicH3/+ivuE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DU6NroHJll/euhP3rvFLbh4NSOf5U8rJJz3hOoQYb4qeBnETbcZs6C0qbiKr4Adyp
-	 PSB0UMovD7mRiU5pk9HmDmCMV7Co/inKdC1vzlOr+iqm17MXNje7ZOMn02KwBOKHzv
-	 9AGvrL7EAa9MFaPQQdJRrexqOD2mHNK57M4ED+4FKHSW8y0mWIRcyRJI7ufzJuLqEE
-	 CUPuQFI5s3XOuXEg1JAItdeD85228dnhKp/Uj71pygEXhVcn2ouXqF7+BWqaJ6Am4s
-	 O9jtI3z3AHSjNDsNIwkBBtlukpKGqTcfM9leHHbTO/81aoLJgVP2rmnolE/PdLH/8a
-	 /U/GtbReIIYIA==
-From: Philipp Stanner <phasta@kernel.org>
-To: Sumit Semwal <sumit.semwal@linaro.org>,
-	Gustavo Padovan <gustavo@padovan.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Felix Kuehling <Felix.Kuehling@amd.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Huang Rui <ray.huang@amd.com>,
-	Matthew Auld <matthew.auld@intel.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Cc: linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org,
-	Philipp Stanner <phasta@kernel.org>
-Subject: [PATCH v2 8/8] drm/xe: Use dma_fence_test_signaled_flag()
-Date: Mon,  1 Dec 2025 11:50:12 +0100
-Message-ID: <20251201105011.19386-10-phasta@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20251201105011.19386-2-phasta@kernel.org>
-References: <20251201105011.19386-2-phasta@kernel.org>
+	s=arc-20240116; t=1764587309; c=relaxed/simple;
+	bh=hdIAAEJwogwmZ9Pz1q+1QustFFAcLoa+OS+FSTnlAZ4=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cen+FXBppGEAZXI31UlhGyPWf+9rYDxRaSygqriIfluZsiCzQWX94Cn6U7LWJVRQodH90wn/XCyrq5xn2WKjCLc1XQV/zkcc9DJBYzFSjAtYNRXo41zdQ1w4Ncj2agAO/XeSddDiIt94ILRi+AG0o0RMiYJiCx1BuG1wvkOuvbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LZLOia1r; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-37a415a22ecso37739931fa.0
+        for <linux-media@vger.kernel.org>; Mon, 01 Dec 2025 03:08:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764587306; x=1765192106; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=apPnjqLgYv5KFdQVAUozAIQDApH/iP9GbYj6xjZKpNk=;
+        b=LZLOia1r0TdUPFB4dHVVkOlDMIBtzU0AknzbBoNKZFIDs+dgidrg5QdHMzpwZeYCKr
+         K3JFI5fBRy6qkdKdjVrPDqSs2A8cpMMSXR88DBQJNvye3urmDh+/YG5KCu+J1NhsZMcF
+         hnOQUrLJK4v7azoe2Jsv30yTkae9iaM7CEWChJj1G3jsOh8ZWeIO2aw50OqLO4PvxaoR
+         ZUdwWNyrNkkks9Xm/kYThZAid0l2DRc7pnfipHKKJIgRfRuKjUtJnQnDyCCZ9m7quPVP
+         33XLQx8Ly5L5B+kl8tmAxNtogr+mb1eC4TQLU9kFFnmtYdWp3mzoSNy9JNCilrz1HpW/
+         laoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764587306; x=1765192106;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=apPnjqLgYv5KFdQVAUozAIQDApH/iP9GbYj6xjZKpNk=;
+        b=HvhfheaEiG7EulJMeFakiQPKqAIyhBIQbGQscrl1LopJez6soeSkhNK8q4l51ayXyN
+         EOf5n5LnVtnAQNRIkA4WtdaWAffWM59lPqLLHSc8h4Ztuh9AW+skPlJRP8VCspwn8gnK
+         rDx5Bgn4+lF5jmxtwuGyh793xM7ClGv6Tzfw6KeooBq0RPqZjoSKA3yIF7JZtSH0Za07
+         NxFbiUx0IRUW10E6GTSSLQpSYHQIdFQa9ZMjSXIsWQD9iDiiZQNzbiVEECpY/7sR7Ngw
+         KkINaJQ3Z7P7dJoPG7d6bz102PDlID69GEIBTtrjMMCNmXpd0xPafk89QEE2HHpeRuRR
+         YzMg==
+X-Forwarded-Encrypted: i=1; AJvYcCUPmJBZDdsmx8oPglgJQK+Kw54rJrnpjTNpybXFzqE9Z+OxGzTlAK0UlWH4ckpaBSXGIcyTVLHrdOEWfw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3AL8IK8GKiqAU4WMNt7y1Aeq3SQYtetggE7TRQG45xnB9HYpn
+	3poRbMd/CEwJbfnX1sJ4VprTL0NPLyNLzSE5Z1N9xpUkwMRijLbwvqd6
+X-Gm-Gg: ASbGncueAj4Sh7aIuHlkWfOmEei+NPWPRn5FZOjW7+QpjkHD+23O9Wm8rIpad8YzaFu
+	iRyWKzGLRayFzmiLktCrN1SYyiVPmUCGMgTgLOlhNI3sEKbcnz7M0LAWo2WuW/iGU5nNknD9YX+
+	so27vFdbqSKzXQAVw6tAUdCCpSgqfgZTEx2f/PBeK/Mummo/kMAXXht7jaWq5Dgas8HZaH06J6b
+	Shv+bJhWZgtyoSOBNa/NGzv3ewbZNOIJJEn30Rciw973+KQY00mcykmEbmyRrT/mEcMiWpea308
+	0jIG2BetPhJoJtaRJ9EEz55TIkGV0YiCpPdu11ntmNVNAwmLu/Q8DfAR52IbTcsm+pn8o2QSWqs
+	We3gR44j8nPEnBjK56MJT+T2KP1FX0MHnszYeNiBFLBfYjH11hgehsg==
+X-Google-Smtp-Source: AGHT+IFYuTqVq/XXzpVDPZNlji0QpaJTMsgY/VJiO3ObVzX6tMfBu+vPiuyhJLxl2QXQDIY11tZWpg==
+X-Received: by 2002:a2e:bc26:0:b0:376:41f5:a6ca with SMTP id 38308e7fff4ca-37cc8213bf3mr101258641fa.0.1764587306127;
+        Mon, 01 Dec 2025 03:08:26 -0800 (PST)
+Received: from milan ([2001:9b1:d5a0:a500::24b])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-37d240981cbsm27895361fa.24.2025.12.01.03.08.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Dec 2025 03:08:25 -0800 (PST)
+From: Uladzislau Rezki <urezki@gmail.com>
+X-Google-Original-From: Uladzislau Rezki <urezki@milan>
+Date: Mon, 1 Dec 2025 12:08:23 +0100
+To: Barry Song <21cnbao@gmail.com>
+Cc: Uladzislau Rezki <urezki@gmail.com>, akpm@linux-foundation.org,
+	linux-mm@kvack.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	linux-kernel@vger.kernel.org, Barry Song <v-songbaohua@oppo.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	John Stultz <jstultz@google.com>,
+	Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH RFC] mm/vmap: map contiguous pages in batches whenever
+ possible
+Message-ID: <aS13J6U-QMOrwwbs@milan>
+References: <20251122090343.81243-1-21cnbao@gmail.com>
+ <aSiB-UsunuE7u295@milan>
+ <CAGsJ_4z21fN2KSg6jt_qveYgrKZw1Vsi_kb+uhed=RJAbujMHw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAGsJ_4z21fN2KSg6jt_qveYgrKZw1Vsi_kb+uhed=RJAbujMHw@mail.gmail.com>
 
-There is a new dma_fence helper which simplifies testing for a fence's
-signaled_flag. Use it in xe.
+On Fri, Nov 28, 2025 at 04:43:54AM +0800, Barry Song wrote:
+> > >
+> > > +     /*
+> > > +      * Some users may allocate pages from high-order down to order 0.
+> > > +      * We roughly check if the first page is a compound page. If so,
+> > > +      * there is a chance to batch multiple pages together.
+> > > +      */
+> > >       if (!IS_ENABLED(CONFIG_HAVE_ARCH_HUGE_VMALLOC) ||
+> > > -                     page_shift == PAGE_SHIFT)
+> > > +                     (page_shift == PAGE_SHIFT && !PageCompound(pages[0])))
+> > >
+> > Do we support __GFP_COMP as vmalloc/vmap flag? As i see from latest:
+> 
+> This is not the case for vmalloc, but applies to dma-bufs that are allocated
+> using alloc_pages() with GFP_COMP.
+> 
+> #define LOW_ORDER_GFP (GFP_HIGHUSER | __GFP_ZERO)
+> #define HIGH_ORDER_GFP  (((GFP_HIGHUSER | __GFP_ZERO | __GFP_NOWARN \
+>                                 | __GFP_NORETRY) & ~__GFP_RECLAIM) \
+>                                 | __GFP_COMP)
+> 
+> >
+> > /*
+> >  * See __vmalloc_node_range() for a clear list of supported vmalloc flags.
+> >  * This gfp lists all flags currently passed through vmalloc. Currently,
+> >  * __GFP_ZERO is used by BPF and __GFP_NORETRY is used by percpu. Both drm
+> >  * and BPF also use GFP_USER. Additionally, various users pass
+> >  * GFP_KERNEL_ACCOUNT. Xfs uses __GFP_NOLOCKDEP.
+> >  */
+> > #define GFP_VMALLOC_SUPPORTED (GFP_KERNEL | GFP_ATOMIC | GFP_NOWAIT |\
+> >                                __GFP_NOFAIL |  __GFP_ZERO | __GFP_NORETRY |\
+> >                                GFP_NOFS | GFP_NOIO | GFP_KERNEL_ACCOUNT |\
+> >                                GFP_USER | __GFP_NOLOCKDEP)
+> >
+> > Could you please clarify when PageCompound(pages[0]) returns true?
+> >
+> 
+> In this case, dma-buf attempts to allocate as many compound high-order pages
+> as possible, falling back to 0-order allocations if necessary.
+> 
+OK, it is folio who uses it.
 
-Signed-off-by: Philipp Stanner <phasta@kernel.org>
----
- drivers/gpu/drm/xe/xe_exec_queue.c | 9 +++------
- drivers/gpu/drm/xe/xe_pt.c         | 3 +--
- drivers/gpu/drm/xe/xe_sched_job.c  | 2 +-
- 3 files changed, 5 insertions(+), 9 deletions(-)
+> Then, dma_buf_vmap() is called by the GPU drivers:
+> 
+>  1    404  drivers/accel/amdxdna/amdxdna_gem.c <<amdxdna_gem_obj_vmap>>
+>              dma_buf_vmap(abo->dma_buf, map);
+>    2   1568  drivers/dma-buf/dma-buf.c <<dma_buf_vmap_unlocked>>
+>              ret = dma_buf_vmap(dmabuf, map);
+>    3    354  drivers/gpu/drm/drm_gem_shmem_helper.c
+> <<drm_gem_shmem_vmap_locked>>
+>              ret = dma_buf_vmap(obj->import_attach->dmabuf, map);
+>    4     85  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+> <<etnaviv_gem_prime_vmap_impl>>
+>              ret = dma_buf_vmap(etnaviv_obj->base.import_attach->dmabuf, &map);
+>    5    433  drivers/gpu/drm/vmwgfx/vmwgfx_blit.c <<map_external>>
+>              ret = dma_buf_vmap(bo->tbo.base.dma_buf, map);
+>    6     88  drivers/gpu/drm/vmwgfx/vmwgfx_gem.c <<vmw_gem_vmap>>
+>              ret = dma_buf_vmap(obj->import_attach->dmabuf, map);
+> 
+Thank you for clarification. That would be good to reflect it in the
+commit message. Also, please note that:
 
-diff --git a/drivers/gpu/drm/xe/xe_exec_queue.c b/drivers/gpu/drm/xe/xe_exec_queue.c
-index cb5f204c08ed..06736f52fbaa 100644
---- a/drivers/gpu/drm/xe/xe_exec_queue.c
-+++ b/drivers/gpu/drm/xe/xe_exec_queue.c
-@@ -1037,8 +1037,7 @@ struct dma_fence *xe_exec_queue_last_fence_get(struct xe_exec_queue *q,
- 
- 	xe_exec_queue_last_fence_lockdep_assert(q, vm);
- 
--	if (q->last_fence &&
--	    test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &q->last_fence->flags))
-+	if (q->last_fence && dma_fence_test_signaled_flag(q->last_fence))
- 		xe_exec_queue_last_fence_put(q, vm);
- 
- 	fence = q->last_fence ? q->last_fence : dma_fence_get_stub();
-@@ -1064,8 +1063,7 @@ struct dma_fence *xe_exec_queue_last_fence_get_for_resume(struct xe_exec_queue *
- 
- 	lockdep_assert_held_write(&q->hwe->hw_engine_group->mode_sem);
- 
--	if (q->last_fence &&
--	    test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &q->last_fence->flags))
-+	if (q->last_fence && dma_fence_test_signaled_flag(q->last_fence))
- 		xe_exec_queue_last_fence_put_unlocked(q);
- 
- 	fence = q->last_fence ? q->last_fence : dma_fence_get_stub();
-@@ -1106,8 +1104,7 @@ int xe_exec_queue_last_fence_test_dep(struct xe_exec_queue *q, struct xe_vm *vm)
- 
- 	fence = xe_exec_queue_last_fence_get(q, vm);
- 	if (fence) {
--		err = test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags) ?
--			0 : -ETIME;
-+		err = dma_fence_test_signaled_flag(fence) ? 0 : -ETIME;
- 		dma_fence_put(fence);
- 	}
- 
-diff --git a/drivers/gpu/drm/xe/xe_pt.c b/drivers/gpu/drm/xe/xe_pt.c
-index 07f96bda638a..1ca2dec18e51 100644
---- a/drivers/gpu/drm/xe/xe_pt.c
-+++ b/drivers/gpu/drm/xe/xe_pt.c
-@@ -1208,8 +1208,7 @@ static bool no_in_syncs(struct xe_sync_entry *syncs, u32 num_syncs)
- 	for (i = 0; i < num_syncs; i++) {
- 		struct dma_fence *fence = syncs[i].fence;
- 
--		if (fence && !test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
--				       &fence->flags))
-+		if (fence && !dma_fence_test_signaled_flag(fence))
- 			return false;
- 	}
- 
-diff --git a/drivers/gpu/drm/xe/xe_sched_job.c b/drivers/gpu/drm/xe/xe_sched_job.c
-index d21bf8f26964..1c9ba49a325b 100644
---- a/drivers/gpu/drm/xe/xe_sched_job.c
-+++ b/drivers/gpu/drm/xe/xe_sched_job.c
-@@ -188,7 +188,7 @@ static bool xe_fence_set_error(struct dma_fence *fence, int error)
- 	bool signaled;
- 
- 	spin_lock_irqsave(fence->lock, irq_flags);
--	signaled = test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags);
-+	signaled = dma_fence_test_signaled_flag(fence);
- 	if (!signaled)
- 		dma_fence_set_error(fence, error);
- 	spin_unlock_irqrestore(fence->lock, irq_flags);
--- 
-2.49.0
+>       if (!IS_ENABLED(CONFIG_HAVE_ARCH_HUGE_VMALLOC) ||
+> -                     page_shift == PAGE_SHIFT)
+> +                     (page_shift == PAGE_SHIFT && !PageCompound(pages[0])))
+>
+we rely on page_shift == PAGE_SHIFT condition for the non-sleep vmalloc()
+allocations(GFP_ATOMIC, GFP_NOWAIT), so we go via vmap_small_pages_range_noflush()
+path. Your patch adds !PageCompound(pages[0]) also. It is not a problem
+since it is vmap() path but we need to comment that.
 
+--
+Uladzislau Rezki
 
