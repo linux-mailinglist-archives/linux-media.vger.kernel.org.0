@@ -1,228 +1,125 @@
-Return-Path: <linux-media+bounces-47962-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47963-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1B09C97BD6
-	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 14:55:57 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28A10C97C03
+	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 14:59:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3E942344933
-	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 13:55:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9B1893A2D3C
+	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 13:58:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFEE7314A62;
-	Mon,  1 Dec 2025 13:55:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B76F314B88;
+	Mon,  1 Dec 2025 13:58:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="plcljVeq"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JWl2k74K"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E072312816;
-	Mon,  1 Dec 2025 13:55:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B4E72622;
+	Mon,  1 Dec 2025 13:58:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764597351; cv=none; b=JK8hdWXfPnn3dWA2B9wi5+ZI+Gi9dmSiZvpTYLQsfjxlfOJSG6VseRHJSLBSacsIqc6ETen8MrMaZbIDsa0aPHt9rh+LmbBiLXBnez633+TAXUnsaM4+4bEBFoGIafEKLxwh36J25ca03ussXZ9IFc1hhXHwtQgwXahiu/ogXHk=
+	t=1764597507; cv=none; b=h8OEHgf1UGq+QDR6OF1IMerJZr2qFhluVe5B9XvKzTo6LQSPr6PnzizVSfP5r3iMOmvHrm+yvdXpGqRs6qHgHPhls74B/TREz+mjWZNsIsOHRwae02fJaWDRFanTmlHZa62TC1V713MWoZgZ1EJt2rLgxwigWv6llC8XD+uC86A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764597351; c=relaxed/simple;
-	bh=CrhUM5JgFiZtvOoe80ytVcEEd/jPidNqrPHOXIlKGWw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=EGiXudBNs+TMH4cLSnzYIACxIhFRLe8PiTxvGo2CaJqPkpdwxY7iEPAIElkWCV1lSue26q6hie+QDnGSONyKZdBqkAEXnJQM0sG63hzldMhC3zJo7KXE9sk9R8XuP0ktLODUfU1gVIqaYOhrSmAQY7lPumiyjTHyJSmIhPypS9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=plcljVeq; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4dKlmJ3765z9tKR;
-	Mon,  1 Dec 2025 14:55:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1764597344; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7rg+qhwib/8O51wxToBYimy9Y6f9JgB1Dve23+PJJ9c=;
-	b=plcljVequGv0OMIsFPb86XNV4g2m9g3I+RHMEU8zV0rghuZsg0MzGDQHsXqkSQFGTku3CO
-	aTeIELWAFnJMKOxoDTK16nzwjM19+EdhEain46pjNjdjrDSrRKqVVYa6fJWkuQtobynU4J
-	YoXAbCw302S+z+S+nfAWczEYDmgQ8sAbU8YwrrT3t7sl29U0hGEdqV55lqtfo2NmjHcwvc
-	IPUfI+GE/z+9qMgq3kJgNnOv4AQkckPMr7TwKfefnvdAEzM5K1TxQyjJeAlmgah1y/jZ4a
-	28V2etrXFlq8B6oHzClbjtCUfUwM9TjCV1r9IdIk0iopGll+KYhuS+NznsHJMg==
-Message-ID: <2a9c83b4a428bb3cc993499c39d0da01f9563278.camel@mailbox.org>
-Subject: Re: [PATCH v2 2/8] dma-buf/dma-fence: Add
- dma_fence_check_and_signal()
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Philipp
- Stanner <phasta@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>, Felix Kuehling
- <Felix.Kuehling@amd.com>, Alex Deucher <alexander.deucher@amd.com>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,  Matthew Brost
- <matthew.brost@intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Lucas De Marchi
- <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
- <thomas.hellstrom@linux.intel.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Date: Mon, 01 Dec 2025 14:55:36 +0100
-In-Reply-To: <80554ed2-4454-489b-873f-533d68c8d2ae@amd.com>
-References: <20251201105011.19386-2-phasta@kernel.org>
-	 <20251201105011.19386-4-phasta@kernel.org>
-	 <80554ed2-4454-489b-873f-533d68c8d2ae@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1764597507; c=relaxed/simple;
+	bh=zHD5i3VtRwVHKtO6HDuK6HWHuZ+m71EHvuPu7LGHDI8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UvaflD9ICLdsC6Z7CL8pFvK7QquAWU39Dt5Tn1GmLr59SLFnP1nSL6P8u6TnlTFsPvaZkVnljkcu8wql1LoRnji6TMBnX6yLqGVqIpDoZcIcZUeKGUWf/LnRUzOIDr4aGGytsZSj0hvWKmpI7gxvTwhnvfTei9H5b+3JMmH7R5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JWl2k74K; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 45895161;
+	Mon,  1 Dec 2025 14:56:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1764597369;
+	bh=zHD5i3VtRwVHKtO6HDuK6HWHuZ+m71EHvuPu7LGHDI8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JWl2k74K5XuOwJ9YMF0vCHjB0jo9g/O9VUI81poYih/uoGjDR7LZ9KJGuIQox/yrx
+	 W40xG1Zc3wEv8EH16Ko9FKV6rtLd4C9gjd8ed1jPtN0R/FkRqdamwHmI/FzC+Z4dzL
+	 wmkILF1NExIXUs0utu0UuNuR1xswZpsgylGHA9PI=
+Date: Mon, 1 Dec 2025 14:58:19 +0100
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: johannes.goede@oss.qualcomm.com, 
+	Xiaolei Wang <xiaolei.wang@windriver.com>, dave.stevenson@raspberrypi.com, jacopo@jmondi.org, 
+	mchehab@kernel.org, prabhakar.mahadev-lad.rj@bp.renesas.com, 
+	laurent.pinchart@ideasonboard.com, hverkuil+cisco@kernel.org, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Jai Luthra <jai.luthra@ideasonboard.com>
+Subject: Re: [PATCH] media: i2c: ov5647: use our own mutex for the ctrl lock
+Message-ID: <cp4pq3myb3gjwau2hzhkui5fx5mnp275ry5moas67qy5nrrigb@zezne7db74ov>
+References: <20251201000026.690298-1-xiaolei.wang@windriver.com>
+ <4553d9ed-ba4e-4f83-b48e-e819e7979293@oss.qualcomm.com>
+ <aS2R0z_pHd64fpOf@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-ID: 0547f98a82f20db491e
-X-MBO-RS-META: mgfutdw3e6i3579mwk8uso567ryge67a
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aS2R0z_pHd64fpOf@kekkonen.localdomain>
 
-On Mon, 2025-12-01 at 14:23 +0100, Christian K=C3=B6nig wrote:
-> On 12/1/25 11:50, Philipp Stanner wrote:
-> > The overwhelming majority of users of dma_fence signaling functions
-> > don't care about whether the fence had already been signaled by someone
-> > else. Therefore, the return code shall be removed from those functions.
-> >=20
-> > For the few users who rely on the check, a new, specialized function
-> > shall be provided.
-> >=20
-> > Add dma_fence_check_and_signal(), which signals a fence if it had not
-> > yet been signaled, and informs the user about that.
-> >=20
-> > Add a counter part, dma_fence_check_and_signal_locked(), which doesn't
-> > take the spinlock.
-> >=20
-> > Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> > ---
-> > =C2=A0drivers/dma-buf/dma-fence.c | 44 ++++++++++++++++++++++++++++++++=
-+++++
-> > =C2=A0include/linux/dma-fence.h=C2=A0=C2=A0 |=C2=A0 2 ++
-> > =C2=A02 files changed, 46 insertions(+)
-> >=20
-> > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> > index 96d72ffc0750..146de62887cf 100644
-> > --- a/drivers/dma-buf/dma-fence.c
-> > +++ b/drivers/dma-buf/dma-fence.c
-> > @@ -445,6 +445,50 @@ int dma_fence_signal_locked(struct dma_fence *fenc=
-e)
-> > =C2=A0}
-> > =C2=A0EXPORT_SYMBOL(dma_fence_signal_locked);
-> > =C2=A0
-> > +/**
-> > + * dma_fence_check_and_signal_locked - signal the fence if it's not ye=
-t signaled
-> > + * @fence: the fence to check and signal
-> > + *
-> > + * Checks whether a fence was signaled and signals it if it was not ye=
-t signaled.
-> > + *
-> > + * Unlike dma_fence_check_and_signal(), this function must be called w=
-ith
-> > + * &struct dma_fence.lock being held.
-> > + *
-> > + * Return: true if fence has been signaled already, false otherwise.
-> > + */
-> > +bool dma_fence_check_and_signal_locked(struct dma_fence *fence)
->=20
-> I'm seriously considering to nuke all the unlocked variants of dma_fence =
-functions and just make it mandatory for callers to grab the lock manually.
->=20
+Hello
 
-You mean "nuke the *locked* variants.
+On Mon, Dec 01, 2025 at 03:02:11PM +0200, Sakari Ailus wrote:
+> Hi Hans, Xiaolei,
+>
+> On Mon, Dec 01, 2025 at 10:31:59AM +0100, johannes.goede@oss.qualcomm.com wrote:
+> > Hi,
+> >
+> > On 1-Dec-25 1:00 AM, Xiaolei Wang wrote:
+> > > __v4l2_ctrl_handler_setup() and __v4l2_ctrl_modify_range()
+> > > contains an assertion to verify that the v4l2_ctrl_handler::lock
+> > > is held, as it should only be called when the lock has already
+> > > been acquired. Therefore use our own mutex for the ctrl lock,
+> > > otherwise a warning will be  reported.
+> > >
+> > > Signed-off-by: Xiaolei Wang <xiaolei.wang@windriver.com>
+> >
+> > Generally speaking as a default locking setup for sensor
+> > drivers we are moving in the direction of removing driver
+> > specific locks and instead using the control-handler
+> > lock everywhere, including using it as the active state
+> > lock, see e.g. :
+> >
+> > https://lore.kernel.org/linux-media/20250313184314.91410-14-hdegoede@redhat.com/
+> >
+> > which sets ov02c10->sd.state_lock = ov02c10->ctrl_handler.lock
+> > and then removes a bunch of manual mutex_lock / unlock calls
+> > since all ops which get called with a sd_state will already
+> > have the lock called when operating on the active_state
+> > (and when called in try mode they should not touch anything
+> > needing locking).
+> >
+> > Note if you also want to make the ctrl_handler lock
+> > the active state lock then you need to add calls to
+> > v4l2_subdev_init_finalize() / v4l2_subdev_cleanup()
+> > to allocate the active-state to probe().
+>
+> I agree with the above, but the driver is old and it uses its own lock to
+> serialise access to its data structures while it uses the control lock
+> separately. So this looks like a bugfix that could be backported.
+>
+> I wonder if anyone still has a system with this sensor.
 
-Why, though? Aren't they enough for most users?
-I suppose you have all those subtle races in mind..
+ov5647 is the rpi camera module v1, so I guess it's still around even
+if a bit old. Dave in cc is the expert and maintainer of this driver.
 
-> > +{
-> > +	bool ret;
-> > +
-> > +	ret =3D dma_fence_test_signaled_flag(fence);
-> > +	dma_fence_signal_locked(fence);
-> > +
-> > +	return ret;
-> > +}
-> > +EXPORT_SYMBOL(dma_fence_check_and_signal_locked);
-> > +
-> > +/**
-> > + * dma_fence_check_and_signal - signal the fence if it's not yet signa=
-led
-> > + * @fence: the fence to check and signal
-> > + *
-> > + * Checks whether a fence was signaled and signals it if it was not ye=
-t signaled.
-> > + * All this is done in a race-free manner.
-> > + *
-> > + * Return: true if fence has been signaled already, false otherwise.
-> > + */
-> > +bool dma_fence_check_and_signal(struct dma_fence *fence)
->=20
-> So I think we should name this one here dma_fence_check_and_signal_unlock=
-ed() and drop the postfix from the locked variant.
+Jai has a series in review to upstream all the remaining BSP patches
+for this driver.
+https://lore.kernel.org/all/20251118-b4-rpi-ov5647-v2-0-5e78e7cb7f9b@ideasonboard.com/
 
-postfix?
+I'll cc him as well
 
-Well, now, IDK. Can't we, for this series, keep the _locked() variant
-so that it's congruent with all the other dma_fence code?
-
-And then later if you want to force manual locking you can add that
-kernel-wide in a separate series, since it'll be a discussion-worthy,
-bigger chunk of work.
-
-That's cleaner, and my series here won't prevent that once merged.
-
->=20
-> > +{
-> > +	unsigned long flags;
-> > +	bool ret;
-> > +
-> > +	spin_lock_irqsave(fence->lock, flags);
-> > +	ret =3D dma_fence_check_and_signal_locked(fence);
-> > +	spin_unlock_irqrestore(fence->lock, flags);
->=20
-> Could this use guard(fence->lock, flags) ?
-
-guard? You mean a lockdep guard? Do you have a pointer to someplace in
-dma_fence who does what you mean / want?
-
-
-P.
-
->=20
+>
+> --
 > Regards,
-> Christian.
->=20
-> > +
-> > +	return ret;
-> > +}
-> > +EXPORT_SYMBOL(dma_fence_check_and_signal);
-> > +
-> > =C2=A0/**
-> > =C2=A0 * dma_fence_signal - signal completion of a fence
-> > =C2=A0 * @fence: the fence to signal
-> > diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> > index 19972f5d176f..0504afe52c2a 100644
-> > --- a/include/linux/dma-fence.h
-> > +++ b/include/linux/dma-fence.h
-> > @@ -365,6 +365,8 @@ static inline void __dma_fence_might_wait(void) {}
-> > =C2=A0#endif
-> > =C2=A0
-> > =C2=A0int dma_fence_signal(struct dma_fence *fence);
-> > +bool dma_fence_check_and_signal(struct dma_fence *fence);
-> > +bool dma_fence_check_and_signal_locked(struct dma_fence *fence);
-> > =C2=A0int dma_fence_signal_locked(struct dma_fence *fence);
-> > =C2=A0int dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t t=
-imestamp);
-> > =C2=A0int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
->=20
-
+>
+> Sakari Ailus
+>
 
