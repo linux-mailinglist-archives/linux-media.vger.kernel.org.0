@@ -1,217 +1,163 @@
-Return-Path: <linux-media+bounces-47980-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47981-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D9EDC98173
-	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 16:46:59 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8CCBC98179
+	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 16:47:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B0DBA3A4097
-	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 15:46:57 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id DEDAC342BD5
+	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 15:47:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7326B332902;
-	Mon,  1 Dec 2025 15:46:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7CAF332902;
+	Mon,  1 Dec 2025 15:47:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XdeUoHWt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C972D308F0B;
-	Mon,  1 Dec 2025 15:46:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4433732D0F9
+	for <linux-media@vger.kernel.org>; Mon,  1 Dec 2025 15:47:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764604012; cv=none; b=TQlhcnFSBWbDFFYmnuCiocT+DcZdQKn+HLODUkQ8e64fLlJVXz4AMqwjkJ2ip/P+RI1cUaJ/nL9yFNl+OsYBEPLb1zpFXdBbHKVQvL7Rl4v8hnoASs8T1boD3Vrsm62R3LZb9jbbk2JBGQRVz5/0ZlHhCS4oGW5QufLRgq0IACU=
+	t=1764604030; cv=none; b=oE847jQ/+jS+2RKwrG/5bRG8IZDwpwbpDW4H1H6dA0UaBWaPoCwyHOAUvyKeYGmuICwVm97BrapcZtcVb3Iu4UyZ+mZO8TrED7Eh/3CTH8kCZtGEDPTywvi51nJJNfuFEVOZoCzAFvtlnP2uhh+WuMY1Q0rpM3axKUKb3Q6oN5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764604012; c=relaxed/simple;
-	bh=uF9mh/hr0nBDIUk082fbY2jhtKKsE97bSkUaP0vXvAI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=enX0UVxRZFqHgW8TXVmcjLi95iZt7zTHj0cI6ORIO88K7QELo5R9UngU9hh3SO8gBIFMPOYArLEfQOZJm1hLVy+ey6PdrkbnV/8cyDCccWMTesB6iD2E1udrlB+UhAb2ouChIRf1fjXWGAIhfSHt+MEhYZJcgrB2/ir70vEvzE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8F52C153B;
-	Mon,  1 Dec 2025 07:46:39 -0800 (PST)
-Received: from [10.57.76.143] (unknown [10.57.76.143])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 26CD63F66E;
-	Mon,  1 Dec 2025 07:46:44 -0800 (PST)
-Message-ID: <1d9cef1f-3b51-42a9-b1e8-794d67f8e328@arm.com>
-Date: Mon, 1 Dec 2025 15:46:42 +0000
+	s=arc-20240116; t=1764604030; c=relaxed/simple;
+	bh=N0+rgJWGb2CPxHLGLtmbJwyw2mauR/WPQ8omqsVP8yc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cWFYbxLn1sYGf2zcJwXpmB6PKbOsMcTuGyOYj4ysVpqCjjVRFuchnZQuNb8y0ombtjpeYlPk+7q7X0LO3pz4T3OONSBYBs3LXqR2jJxBLk5Dm07KMgjY1Dy0PdHMjB5T4pizinQxUzWLsqfLjPyA9jZr5YZ25AYygSS4xc2k16Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=XdeUoHWt; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (p9411226-ipngn12302marunouchi.tokyo.ocn.ne.jp [153.160.235.226])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 7EB156DF;
+	Mon,  1 Dec 2025 16:44:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1764603893;
+	bh=N0+rgJWGb2CPxHLGLtmbJwyw2mauR/WPQ8omqsVP8yc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XdeUoHWtRGipNaeqDnHSExOu40p6F1Xdyf9nbXvwOXtqq5Rbv162JVnednjOTlgrv
+	 rS8BNuK1GxYJmTFQGXJFyEcSmcF16zIUI4H+mcC/X98B4bVl/3rPAJqHfbVCMcsKjw
+	 q03z4/p29CMUFRjun9rqTF+cf7LHpvmSj2jCQ8cc=
+Date: Tue, 2 Dec 2025 00:46:46 +0900
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCHv2] media: v4l2-event: keep place in event list when
+ combining events
+Message-ID: <20251201154646.GB32430@pendragon.ideasonboard.com>
+References: <d4319e94-15c5-43a6-9bab-b9eb1d6c0d7c@kernel.org>
+ <aQMl32qFeMNmG598@kekkonen.localdomain>
+ <79f4a4f2-a7b9-4ee6-af29-6e9970d2ed7a@kernel.org>
+ <aQMyNttmOOVCBRym@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dma-buf: Add __dma_fence_is_signaled()
-To: Philipp Stanner <phasta@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
- <gustavo@padovan.org>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Daniel Almeida <daniel.almeida@collabora.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-References: <20251125104443.82974-2-phasta@kernel.org>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20251125104443.82974-2-phasta@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aQMyNttmOOVCBRym@kekkonen.localdomain>
 
-On 25/11/2025 10:44, Philipp Stanner wrote:
-> The dma_fence framework checks at many places whether the signaled bit
-> of a fence is already set. The code can be simplified and made more
-> readable by providing a helper function for that.
+On Thu, Oct 30, 2025 at 11:39:02AM +0200, Sakari Ailus wrote:
+> On Thu, Oct 30, 2025 at 10:07:49AM +0100, Hans Verkuil wrote:
+> > On 10/30/25 09:46, Sakari Ailus wrote:
+> > > On Fri, Oct 10, 2025 at 01:35:02PM +0200, Hans Verkuil wrote:
+> > >> When subscribing to an event a fixed circular buffer of N (N >= 1) events
+> > >> is allocated for that file handle.
+> > >>
+> > >> New events of the same type are added to that buffer and eventually the
+> > >> oldest event is removed from the buffer when VIDIOC_DQEVENT is called.
+> > >>
+> > >> If the circular buffer is full, then the event framework will
+> > >> merge the two oldest events (what 'merge' means is event type
+> > >> specific).
+> > >>
+> > >> So far, so good.
+> > >>
+> > >> There is also a per-filehandle list of pending events for all event
+> > >> types. VIDIOC_DQEVENT always dequeues the oldest of that event list,
+> > >> and that event is removed from the corresponding circular buffer.
+> > >>
+> > >> The problem occurs when the circular buffer is full and a new event
+> > >> arrives. Then the two oldest events are merged, but instead of
+> > >> keeping the position in the list of pending events, the merged
+> > >> event is added to the *end* of the list of pending events.
+> > >>
+> > >> So if a lot of events are generated, then events can continually
+> > >> be pushed to the end of the list of pending events, and so are never
+> > >> or much later dequeued by the application.
+> > >>
+> > >> Effectively this is a denial-of-service situation were the
+> > >> event is never seen by the application even though there are
+> > >> actually a lot of events.
+> > >>
+> > >> So if you subscribe to events from control A and B, then
+> > >> change control A, then change control B, then change control A
+> > >> again, and now call VIDIOC_DQEVENT, you will get the event from
+> > >> control B followed by A, even though A was changed first.
+> > >>
+> > >> This patch keeps the oldest event in its place in the 'pending
+> > >> events' list rather then moving it to the end, and in the test
+> > >> above you will now receive the event from control A first.
+> > > 
+> > > Typically events are queued faster than they're generated, it is an
+> > 
+> > You mean 'dequeued' instead of 'queued'?
+> > 
+> > > exception when they are not. The application certainly won't work very well
+> > > if it consumes events slower than they're produced, whether or not the
+> > > ordering of events fits for the use case.
+> > 
+> > The problem isn't the application, the problem is that with the current
+> > code events never reach the application, they can be continuously pushed
+> > back to the end of the queue. This is not theory, it's how I discovered
+> > something was wrong. Some events were delayed by seconds.
+
+But that's still related to applications not dequeuing events fast
+enough, isn't it ? If there's enough space in the events queue for new
+events, would the problem still occur ?
+
+> > > For instance, for frame sync events, the latest event is more relevant than
+> > > than earlier such events and the latest event should be kept instead of an
+> > > earlier event.
+
+Sure, but I don't think this patch prevents that, does it ? When merging
+frame sync events we can drop the older event and keep the newer one
+while storing the newer event in the position of the old one in the
+queue, can't we ?
+
+> > > I wouldn't change this, or alternatively I'd make it
+> > > dependent on the event type, but in I wonder if that's worth the
+> > > complexity.
+> > 
+> > This might be an option. Another option is to extend struct v4l2_event_subscription:
+> > a flag that says how to handle this specific case (drop the oldest event or
+> > update the contents of the oldest event), and a field to set the size of the
+> > queue for that event.
+
+Unless I'm missing something, this problem seems solvable without having
+to increase the completexity of the UAPI.
+
+> > Right now the number of events for a (type, id) tuple is set by the driver,
+> > but for situations like this it can be useful to be able to configure it by
+> > the application.
+> > 
+> > It would certainly help if I can configure this for the specific use-case I am
+> > dealing with.
 > 
-> Add __dma_fence_is_signaled(), which _only_ checks whether a fence is
-> signaled. Use it internally.
-> 
-> Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> ---
->  drivers/dma-buf/dma-fence.c | 19 +++++++++----------
->  include/linux/dma-fence.h   | 24 ++++++++++++++++++++++--
->  2 files changed, 31 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> index 39e6f93dc310..3a48896ded62 100644
-> --- a/drivers/dma-buf/dma-fence.c
-> +++ b/drivers/dma-buf/dma-fence.c
-> @@ -372,8 +372,7 @@ int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
->  
->  	lockdep_assert_held(fence->lock);
->  
-> -	if (unlikely(test_and_set_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
-> -				      &fence->flags)))
-> +	if (unlikely(__dma_fence_is_signaled(fence)))
+> Sounds good to me, implementation-wise. But to benefit from that,
+> applications would need to set the flag. If that's enough, then we don't
+> need e.g. defaults per event type (and don't need another flag).
 
-Here you are replacing test_and_set_bit(), but the helper just does
-test_bit() - so this is changing the behaviour (and I suspect is wrong).
+-- 
+Regards,
 
-Thanks,
-Steve
-
->  		return -EINVAL;
->  
->  	/* Stash the cb_list before replacing it with the timestamp */
-> @@ -545,7 +544,7 @@ void dma_fence_release(struct kref *kref)
->  	trace_dma_fence_destroy(fence);
->  
->  	if (!list_empty(&fence->cb_list) &&
-> -	    !test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags)) {
-> +	    !__dma_fence_is_signaled(fence)) {
->  		const char __rcu *timeline;
->  		const char __rcu *driver;
->  		unsigned long flags;
-> @@ -602,7 +601,7 @@ static bool __dma_fence_enable_signaling(struct dma_fence *fence)
->  	was_set = test_and_set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
->  				   &fence->flags);
->  
-> -	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-> +	if (__dma_fence_is_signaled(fence))
->  		return false;
->  
->  	if (!was_set && fence->ops->enable_signaling) {
-> @@ -666,7 +665,7 @@ int dma_fence_add_callback(struct dma_fence *fence, struct dma_fence_cb *cb,
->  	if (WARN_ON(!fence || !func))
->  		return -EINVAL;
->  
-> -	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags)) {
-> +	if (__dma_fence_is_signaled(fence)) {
->  		INIT_LIST_HEAD(&cb->node);
->  		return -ENOENT;
->  	}
-> @@ -783,7 +782,7 @@ dma_fence_default_wait(struct dma_fence *fence, bool intr, signed long timeout)
->  
->  	spin_lock_irqsave(fence->lock, flags);
->  
-> -	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-> +	if (__dma_fence_is_signaled(fence))
->  		goto out;
->  
->  	if (intr && signal_pending(current)) {
-> @@ -800,7 +799,7 @@ dma_fence_default_wait(struct dma_fence *fence, bool intr, signed long timeout)
->  	cb.task = current;
->  	list_add(&cb.base.node, &fence->cb_list);
->  
-> -	while (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags) && ret > 0) {
-> +	while (!__dma_fence_is_signaled(fence) && ret > 0) {
->  		if (intr)
->  			__set_current_state(TASK_INTERRUPTIBLE);
->  		else
-> @@ -832,7 +831,7 @@ dma_fence_test_signaled_any(struct dma_fence **fences, uint32_t count,
->  
->  	for (i = 0; i < count; ++i) {
->  		struct dma_fence *fence = fences[i];
-> -		if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags)) {
-> +		if (__dma_fence_is_signaled(fence)) {
->  			if (idx)
->  				*idx = i;
->  			return true;
-> @@ -1108,7 +1107,7 @@ const char __rcu *dma_fence_driver_name(struct dma_fence *fence)
->  	RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
->  			 "RCU protection is required for safe access to returned string");
->  
-> -	if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-> +	if (!__dma_fence_is_signaled(fence))
->  		return fence->ops->get_driver_name(fence);
->  	else
->  		return "detached-driver";
-> @@ -1140,7 +1139,7 @@ const char __rcu *dma_fence_timeline_name(struct dma_fence *fence)
->  	RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
->  			 "RCU protection is required for safe access to returned string");
->  
-> -	if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-> +	if (!__dma_fence_is_signaled(fence))
->  		return fence->ops->get_timeline_name(fence);
->  	else
->  		return "signaled-timeline";
-> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> index 64639e104110..d32bf1b5b07d 100644
-> --- a/include/linux/dma-fence.h
-> +++ b/include/linux/dma-fence.h
-> @@ -401,6 +401,26 @@ void dma_fence_enable_sw_signaling(struct dma_fence *fence);
->  const char __rcu *dma_fence_driver_name(struct dma_fence *fence);
->  const char __rcu *dma_fence_timeline_name(struct dma_fence *fence);
->  
-> +/*
-> + * __dma_fence_is_signaled - Only check whether a fence is signaled yet.
-> + * @fence: the fence to check
-> + *
-> + * This function just checks whether @fence is signaled, without interacting
-> + * with the fence in any way. The user must, therefore, ensure through other
-> + * means that fences get signaled eventually.
-> + *
-> + * This function uses test_bit(), which is thread-safe. Naturally, this function
-> + * should be used opportunistically; a fence could get signaled at any moment
-> + * after the check is done.
-> + *
-> + * Return: true if signaled, false otherwise.
-> + */
-> +static inline bool
-> +__dma_fence_is_signaled(struct dma_fence *fence)
-> +{
-> +	return test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags);
-> +}
-> +
->  /**
->   * dma_fence_is_signaled_locked - Return an indication if the fence
->   *                                is signaled yet.
-> @@ -418,7 +438,7 @@ const char __rcu *dma_fence_timeline_name(struct dma_fence *fence);
->  static inline bool
->  dma_fence_is_signaled_locked(struct dma_fence *fence)
->  {
-> -	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-> +	if (__dma_fence_is_signaled(fence))
->  		return true;
->  
->  	if (fence->ops->signaled && fence->ops->signaled(fence)) {
-> @@ -448,7 +468,7 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
->  static inline bool
->  dma_fence_is_signaled(struct dma_fence *fence)
->  {
-> -	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-> +	if (__dma_fence_is_signaled(fence))
->  		return true;
->  
->  	if (fence->ops->signaled && fence->ops->signaled(fence)) {
-
+Laurent Pinchart
 
