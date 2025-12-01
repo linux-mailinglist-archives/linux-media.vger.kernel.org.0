@@ -1,242 +1,171 @@
-Return-Path: <linux-media+bounces-47975-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47976-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06BA2C9807A
-	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 16:23:35 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCE42C980C5
+	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 16:28:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 24A19344E1D
-	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 15:21:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 710403A35B8
+	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 15:28:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C166A32B9B1;
-	Mon,  1 Dec 2025 15:21:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B782E32D0D4;
+	Mon,  1 Dec 2025 15:27:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="YT4z9Na6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WiDNkItp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011024.outbound.protection.outlook.com [40.107.208.24])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C043532B9BC;
-	Mon,  1 Dec 2025 15:21:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.24
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764602509; cv=fail; b=Qn7lB8HFDEgcNQry/Miks1INaQwyZjVZ7vdNersjDbN1XJsT3/5IuzIceWNkcA2MNkkyzWKDRENfwns7+o36tRgXZr20a8sct/vq+HlGDMp/S3HFj4rYe+dE3hQnT5L5ngd1lonJe3sH6evVUsE8gxoipbpBoLQv0j3wF4aFQhk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764602509; c=relaxed/simple;
-	bh=H8xTf+o05Ru4jtWBOM43fGgn9NNhDioKBaw5+F8AYFs=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=sciv2wj18yzQxpNPQZBwoxavVBt8cxQ4+7BPaURI/N67h/lmPilzeX77YHlnnybNoB4OuZAXlMwf3jv+m+cnLhnJ8bCp/eVl1UribnsdF9N2KiVPoE47DBxrBlNMmdi3gZP3wByTx8V2wpjonDeWhb1phYa8YWWBNDvdzoeAdwQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=YT4z9Na6; arc=fail smtp.client-ip=40.107.208.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aqN+LpnDeISME6b57zdjCz6JDv1sB7f/vvRqg/i0FWRn6BCoXIjAMrJhZMAbUvsRDOoRugRUmzlo4xpuSkwDbbxtWoVKn7t1VyOOBA/5MoyOQ1oOAAqbWF4FZWfBZdarone7LX0jqdxOZu097zkwgNDOSl+/5R5hXB0VYWKNOgZkMml0s0+zg8cuWN5NAzfwxmUI4DsYN1m8jZKEZFR3H2tsQ5B86xyfIZWHaR74eWX7oiqQAPdTyd3EvWL1uDjG1kE9CzT5e8TX/ugM30qTl4Dgw3LvV7ns/WAmFeCuHyLvucTVJt9GaKtv0Wcg8qnTIP/mh+PLWOT7awocNyZUBw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=X6LQVIB09ji7eJugYej8C+aATqyje7OM/mz/F+NQP/k=;
- b=LgyCC4Cz1IxMRjCURHwg2/P5z7JEaBzyR3vdi4mn88/9cUXXc3xVxo1GtBAbwGI5iQqx3MosCfDPiw69xoo+4/20riorE4+gcqWU8BofkOPMfwwHf5LPmfQIr0T1lyTChUDXV4TL1bQ0YNSXA1emFA4Gu4UTPNSvH/8zhOq5AFmIOvaz+MqOrl+C3w5KAEvLZOdpDy4BAcnOAwGlMh5kFRCPo9FhUn1KGqTF6xganMbvXOl2mVXYH+dpSjdd2tlP1B3Baxyv6jHcKxVGKhVKOsX9mvV5zEWIZLDUKhSurdM70BRmyhOkRAdWS91nS+EaptjaaabUbjbUzpUMWZJsUg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=X6LQVIB09ji7eJugYej8C+aATqyje7OM/mz/F+NQP/k=;
- b=YT4z9Na69Gh1J18iqGMc7l9GtAH9T+zZiXo9gpPw/vpnhYgIutWV/fBu+eWgrZkL6nlMSx9xHsZveYscJR9YE0Nh/C/xbOt8YHqLSLstPmbRSQCJTVK2mqT/so+MTf1tnLi8RfbbZiMln5orLbUutZWpPsNYw25zYa5q8G3MxEQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by SN7PR12MB6931.namprd12.prod.outlook.com (2603:10b6:806:261::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Mon, 1 Dec
- 2025 15:21:43 +0000
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::9269:317f:e85:cf81]) by BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::9269:317f:e85:cf81%6]) with mapi id 15.20.9366.012; Mon, 1 Dec 2025
- 15:21:42 +0000
-Message-ID: <49184653-66b9-4b7e-89ce-bb8f28946694@amd.com>
-Date: Mon, 1 Dec 2025 10:21:39 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/8] amd/amdkfd: Use dma_fence_check_and_signal()
-To: Philipp Stanner <phasta@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
- <gustavo@padovan.org>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-References: <20251201105011.19386-2-phasta@kernel.org>
- <20251201105011.19386-5-phasta@kernel.org>
-Content-Language: en-US
-From: Felix Kuehling <felix.kuehling@amd.com>
-Organization: AMD Inc.
-In-Reply-To: <20251201105011.19386-5-phasta@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQZPR01CA0134.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:87::11) To BN9PR12MB5115.namprd12.prod.outlook.com
- (2603:10b6:408:118::14)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15BBD32C948
+	for <linux-media@vger.kernel.org>; Mon,  1 Dec 2025 15:27:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764602873; cv=none; b=q/7/OkHK0ROX4Y9F39RWZHbIz/POHXc5uk+EEuwF96ypR42YBh9wE3lfY05ISOSrPDOaKZr3pGaWh16YEwZ3mH6+LkXe5kI015sxVfXHE9i9dJIFBBd/S0J85gtPE2u7BIWQjdHpN608WyT8Rwvz4x2oWvanHLGVZ3Ys1CilQ7M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764602873; c=relaxed/simple;
+	bh=Y5lthDoftkEWiUA013MD0XXwyhBvWoZme8GTjowySTo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g29/o/6vB+ElwMVIdnmvexmkKSH+JfW+eBHRK+EaWZTQOGBDKWrX2O6acsnMsi7ifJNWkY+/7UMxDzSAvIQ4WpEdmoL/EpP7OmTd1RMJS9cirzgkFT0wk88+mw+VeutB1fcBUrAXOQSAm509XYMpL/PLpNnowPcZ65Y7mCfTv+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WiDNkItp; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764602871; x=1796138871;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Y5lthDoftkEWiUA013MD0XXwyhBvWoZme8GTjowySTo=;
+  b=WiDNkItp2ZxgsZ+V4VGYTyFV6qsS5sQQu1LlLCJf92sjHBYVX8IoC9E5
+   IN0POdOIWCfQ6apk2IUDssb/PYe0z0hN4CD5uGWp7fdBroRrApHalTN+h
+   pIY/1mtsx9UF3usWL0FKmvXt57GEU9FLvDMcz+vRB2g4YmAkMNVoe8Jsg
+   WlIUFiJjgdPmFIR7953lZ2sNhO8dejFvQJ3JEXtJ8v+EdWROQTaOLFoGw
+   FsT+xgOzDt4xNgYbIk6YYtlhbGuwdc3fzGJ8UF/1ienMqIqmkg4jLdX7x
+   TTqlQA5nGycZISw2V8ss0rhXnPCWebuzpf5Q7YVBZLN7khZBMm5i1OOZo
+   g==;
+X-CSE-ConnectionGUID: SSrzdI/zR36BlPLSWaEuwg==
+X-CSE-MsgGUID: 4tAuJcQ1QM6t59GPb5zpoA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="70157212"
+X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; 
+   d="scan'208";a="70157212"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2025 07:27:51 -0800
+X-CSE-ConnectionGUID: o0SsgrlmQ5CuWPLH/EAc3Q==
+X-CSE-MsgGUID: O0wUw0ElTDGxsj/5Be2EKg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; 
+   d="scan'208";a="193759528"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.19])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2025 07:27:49 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 4D08D11F8A6;
+	Mon, 01 Dec 2025 17:27:52 +0200 (EET)
+Date: Mon, 1 Dec 2025 17:27:52 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH 04/14] media: omap3isp: implement enum_fmt_vid_cap/out
+Message-ID: <aS2z-PF8L11LPSYq@kekkonen.localdomain>
+References: <cover.1760707611.git.hverkuil+cisco@kernel.org>
+ <30813a3e81f2d8a6f42f637eba6fba2481b535cf.1760707611.git.hverkuil+cisco@kernel.org>
+ <aPiOIoe24l5NNz6z@kekkonen.localdomain>
+ <9cd8b533-95fb-4495-a67b-bdf5c7774a74@kernel.org>
+ <aS19g3Z38hAAcBkw@kekkonen.localdomain>
+ <beaf6c94-c705-476d-a12b-d7ef42c9244c@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|SN7PR12MB6931:EE_
-X-MS-Office365-Filtering-Correlation-Id: bd22b417-efbf-44f0-85bd-08de30ed5517
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|921020|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?UjFZbW5GSlZzTHlqY1NvWW54TGxWdzFnbDczWisvYklMSzQ2TUdOQ1RSeEFp?=
- =?utf-8?B?c2ZVR1ljUWM1NnI2UGtlZnZhNXJjQ1lwSjFHZWtJRUE3UENRYXFmcFNGcStV?=
- =?utf-8?B?Q2VhN05jaEk5ZU9pNGZ5TWQvOVhWMVZCRVhCdG9ZMXFFMzJ2YkFYZXBUMWNL?=
- =?utf-8?B?MGdxdzVodG1LRzk5dDRHYWoyc0N6dlJYZ3paeU44TXo1UFJaSFlNMCtEMUNO?=
- =?utf-8?B?azZRcjNXRzBjakVGRWhGZWEvMThKalJwVkdpUWV5N1ZKcXdVcklvYVRnTHgw?=
- =?utf-8?B?bkJtZVhJNFBwUXEwL0lzSzM2UVMxeFFyS3d6VGNsOHFOeE15d3kramRzUWsr?=
- =?utf-8?B?SnZwM2ZOREd4UVVySFAxRTFwM0xRbFdlWm9RMDNQSFE3Q21LUXNsbHAwb1pZ?=
- =?utf-8?B?K1ZIdlRtdXYyREhWczZuUG1DZUl4eFhGZWsybDZ2b3RhTHhSNXNHTEhhdFp3?=
- =?utf-8?B?K2ZKWFh2N2VVY0NDWVlWZzhKckdQNmpoY1NBRytQR1FoSTFIUDlZU1Nld2FD?=
- =?utf-8?B?b0pJUWJ6aHg3STA0V0l2cG9oSGZiYTY0NGVyU3ErQkdSaWNTUFllaXJUUnh0?=
- =?utf-8?B?R2MzcXcxUmwrWm1YamhYVjUzdTRYVmI1OSsraGN2MncxSUlncnN1NFRINWlP?=
- =?utf-8?B?emZ2MnN3SzI1WWhGYUpLMlMvMVJ4T1V3anhsZkhhclJqbXE5YThyRXdNZTJK?=
- =?utf-8?B?WXQvcmdObkxrM2RJSGFHRTAxRDh2ek9FaW1UdlJxUkcrenpJdEI3YytDdjlM?=
- =?utf-8?B?NktIWlhWZzREQ3dRaWVQZjQrWFNMaTkzYWhMZWVzMk4wOTQvY2Q3dktNRXgv?=
- =?utf-8?B?ZkZiMmFXdTZ6MGZuQzE4a01mYnhwY0dWd1dzNUVqa2VDZGVtY2U5UkJGeTBw?=
- =?utf-8?B?NkhIcnAxT3R3R2RnTVpDcFMvVlNMT0hrbWg0T09OOUJ5S1I5RFhPalphcCty?=
- =?utf-8?B?eVFsbjlxUDU0ZGhNTk9Zd0srdXhsaTZyY012cTdBUmxVN2ZWeXNQeEVvcEE0?=
- =?utf-8?B?REsvVUk2Nmpyc1c4RDE2Q2pNYk9HbUJIZ1FjRTJJcjZkRFNqbCtGN0VPb3VK?=
- =?utf-8?B?WmdzZ0tDSHdsOW5TVnNOQzhwYzRrUDZxR1JnZFowd1ZVeUxZTGtqeXJEbU8x?=
- =?utf-8?B?SVVQRFd2UW44eVVNSU1SM1RqMDFWT1lOSUhUTGk3aHYzOWZQTWVnbTE2cno1?=
- =?utf-8?B?Z0lWT0F5UWE2b2tEbTJ1QmcrZ3crYU1lbXk3eUlOc0h3ZDNXcW02NzhNZjlz?=
- =?utf-8?B?RVR5U2dvd1R1eE5YVldlOHBwRDRxWHIzSkRTY3VIRllOSlZtT0tLOGdDQ0xV?=
- =?utf-8?B?VUtId1dMMkNFZmlTeXFtKytQanplTG1aYzJUbXljKzlvZlhMOXZhL2svMVZZ?=
- =?utf-8?B?RENTQ1V0Z0FwaGh1bWNMWm5qbzhCNnEzSWlyMU5KK1dKOXZkN1E5bGFPK2E3?=
- =?utf-8?B?K04rUGFZY1BpaTVpUXFwZ24rbURUVVN5Ukd2aGx6QW5XWlBjUGxmOFNhQ294?=
- =?utf-8?B?Y1ljNG5laXJkSkkvTU1pbHBMeTR3cW85SEhTYkRoWEVCZmtMYVNqZ2NxQ1Bt?=
- =?utf-8?B?enZEdkdYUTZPS0JzZy9TRngxSmRlbDRGajNSV3hVNmhTenREWk5PeVpHb1I1?=
- =?utf-8?B?c2VPL1hPQnhOaHFReWlDZmhhTklqb3YwandlYWlvWUU4SEswR1FLUlljdHBu?=
- =?utf-8?B?WkRXRlplc0lXTkVlVC9TZnZteFgxdE80ZVg0eUs1WGpvTmxQVmdIcFY3cWw3?=
- =?utf-8?B?VzdwS0Q2MHZNRUtnQ09sWTN2dlJteXFZMlZua3plTDV1cWo2YVZsVUw0M3ov?=
- =?utf-8?B?OHoxUmFtaklqYUZJSUJrTGlwSnpRM1BMTklZOUJkZGxxSXZxU1RDNE1EaWhY?=
- =?utf-8?B?UnVJcVlnTDB2K2RJbWlqRmNhQkRieDZydEYrUzRqbVhINzVPd09BOXZOYVlq?=
- =?utf-8?B?SVhJR3FMSGE5cmVrZTh5cjJncG10RFhXWlFyR3QzSE9uQW85TWNFbmdvZlEy?=
- =?utf-8?Q?TqGaYtZgQbWz12z5LW6u66ywsL5mRI=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5115.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(921020)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?dXgvUGtYSDJCN1JGYmZFdHZNc3hnZ205Z2pvN1hZbmNieTBxTTBVa0E0ZTV2?=
- =?utf-8?B?MHBpQkQvNDZsQ0pzMWdFaXNFUk40dTBNUnRNeUcvU0t4UjVWd3BhbnlYUG95?=
- =?utf-8?B?eHprd2gxUERnTkw3THpkcWVQVTdjb2kvaFZMT1ZERTFSdVlNU1MwV3VNQmdZ?=
- =?utf-8?B?cHNqZEg5QlF0SVpGeTlHNzFmMU9NRlB5Q213NERidXE0anVLQ1NXWnNCcVI3?=
- =?utf-8?B?TkZtYlp6RzNTcG9ER1lRL2xzejExamlnNjRRMjg1enR2NHc2L0VFWmpxOTRs?=
- =?utf-8?B?MnlJZXYrYUpXSE0vdFROWTA1WCsvalJsSWxKK09BcTQ0Sm94ZmxTc3dvemFM?=
- =?utf-8?B?N3REbE1FTG9xYjUzRjFybEVGTC94SUlFcmhsOFFuSmJ2djRmZEl2d21WTmdO?=
- =?utf-8?B?aGltc3psZmhQQkZmYWtLemRpTEgwVEt0Wktmcm5XdWlsU0VleXJuUE1BQThz?=
- =?utf-8?B?UWZWV0kvSFY4QldDQ1cvUmtYMjNweEVhWDNPWFNrZkRlbWRRV1VacTBpQXNn?=
- =?utf-8?B?MTNFSlpLOUMra0xqdUNjUnNLSmQwd0xweHlCZVFwSzN2Z3lINVVWOGgvQita?=
- =?utf-8?B?RXQrdTIrMzdXWmx3TzN2dEZJaytscHdrTkc0c3U2eFFMNWF3SnBBMVB3RDQy?=
- =?utf-8?B?ZVQ3MWVTTWRsZStENU9zTFRLN0hGMzhSTEFwS3p4S29xR3hzK3ROa2VLQ1hZ?=
- =?utf-8?B?UnBVdWkvcjJlZjFZS1pBYk1HMFgzMGY2T05uQW9GdEhUbTJwcG50cjZyMVZs?=
- =?utf-8?B?UDByaE5HMDhzQk9zQ2xpTnBCRks1RktzNXhxR09rbjJnRi9RVFptTFFpVUdw?=
- =?utf-8?B?QlVvSlJob0duNDlwWjNEdlJLUHAxWWVzSkRzUlFjQ2FSajFjUDNMTVdVU1lH?=
- =?utf-8?B?SUJHUExOT2YxSzVEaklsQzhDYmN0dEdjMjFDMmlwNHJiblAwcWxDZlVBeENR?=
- =?utf-8?B?VUVvcWJ0Sm5QenFCWnRKNzJlRCtzbEx6TFVTdDNVbkMwWlB1TURFUklRMGRQ?=
- =?utf-8?B?M2szNDU2K2o2dkM4SVN1UkRDdUgyNVFxTDVENWFuM2w4TTEydUw1cjQvc2xz?=
- =?utf-8?B?TDZNL3hkbGtCckphWlNkZTVUWGtYRURKRDBjOGhxU0pGZzM0ODJ6OHFMMVEx?=
- =?utf-8?B?Tm9EdHZOa2MvTmc4N2x0WlozOU5JQjF0Z3JiaVhld0kzbmQ3VWJlRk1FaTBC?=
- =?utf-8?B?eU96UkU0eGZST1VQUHVGamhUUERYWE9JKzRoU29FMFpuUU9hLzZuaEFyMUhH?=
- =?utf-8?B?ZHVkeGIwVUhuVS9pRlc1N1l2cForSDFKYVpxVVFTZ3gxTlI5dko2cDBtZWE3?=
- =?utf-8?B?eWFzZFhvcHhweFBZdWVoTjJuNXk2TEhmcndBVkpFaVlqVXNHdGpEUk5ac05F?=
- =?utf-8?B?MlZoYWxUVHJWSGs5UzM0QlBPMFdqa2o0cU1hbEJWSE1IUTlkdnhqUFBkWW5N?=
- =?utf-8?B?c2paM1NETGxKd2hiUVN1WCtnSUprUGFiQTlCS2psT000YzZGMGVXcGVrYzk3?=
- =?utf-8?B?QytzUXkvWi9ZQlgvUmpQQ01LbjdIWEl5YjVsMEowQnB3V0FqQ0RKQWcxTjAx?=
- =?utf-8?B?c3F5K3RIdHhYNlBkOFA1cUx3Y29aUVJEVzI3czJTd25pNUYvYjg2QUdiVHZ4?=
- =?utf-8?B?YjZJM3lxeVVJQnlRT0Y3THlwVXB0a1F5QVRnY0FVMjF4NVAxTFA1bmxxeW84?=
- =?utf-8?B?QlJxcUdVV3VOa1dlYnNXanRFcTlsRnVwdjRXakxRYjBaU2pzcVp4VzhwNlhI?=
- =?utf-8?B?YWEyM29xQUNoQlNIay92c0RVVS9kMEpwMGdIRlQxdmI3SzI2VjNuOHQ0Z3Zj?=
- =?utf-8?B?S0JUOS9aWXRQbFpLekh1M0J6SzdUa3VrQ2pST2llT0pYM2hLeFFPcG53NTJw?=
- =?utf-8?B?SDhwSmE1ZDd0WE54ajdKTTc4WDdjdjhJU1R1bnJlTm8rUzB1NGdDbGZGVFlX?=
- =?utf-8?B?MnRYWVFLQjQyWC9PUWM3WlJUdVFkN05UOVpHbWFYMlQxQzlzWHFzSjB2bytv?=
- =?utf-8?B?RjFhM2dkUTBuR3RwZnlaMElYcER5K29sR2hjejdzenl2WFJ0dGlLbEZ0Um5H?=
- =?utf-8?B?aVlaVkFoYVBoVjRzVWhpd3poZTkzVHhTMkJpTTVzaEtNb2wwNkRCM1RuM1JZ?=
- =?utf-8?Q?k48i1Z3AwHEI1f1UPlC8Asgk7?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bd22b417-efbf-44f0-85bd-08de30ed5517
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2025 15:21:42.7622
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: z4vOpOVjcAuiaWozieJasi6CEzf9RD1Xwo5JnbzDlQfhxT7Pv4kwE7aikfsXRTdvfzG0MfYnrTUND5zJ7UmdjA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6931
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <beaf6c94-c705-476d-a12b-d7ef42c9244c@kernel.org>
 
-On 2025-12-01 05:50, Philipp Stanner wrote:
-> amdkfd is one of the few users which relies on the return code of
-> dma_fence_signal(), which, so far, informs the caller whether the fence
-> had already been signaled.
->
-> As there are barely any users, dma_fence signaling functions shall get
-> the return value void. To do so, the few users must be ported to a
-> function which preserves the old behavior.
->
-> Replace the call to dma_fence_signal() with one to
-> dma_fence_check_and_signal().
->
-> Suggested-by: Christian König <christian.koenig@amd.com>
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+Hi Hans,
 
-This patch is
+On Mon, Dec 01, 2025 at 02:44:44PM +0100, Hans Verkuil wrote:
+> On 01/12/2025 12:35, Sakari Ailus wrote:
+> > Hi Hans,
+> > 
+> > On Mon, Dec 01, 2025 at 09:40:58AM +0100, Hans Verkuil wrote:
+> >> On 22/10/2025 09:56, Sakari Ailus wrote:
+> >>> Hi Hans,
+> >>>
+> >>> On Fri, Oct 17, 2025 at 03:26:41PM +0200, Hans Verkuil wrote:
+> >>>> Add missing ioctls. This makes v4l2-compliance happier:
+> >>>>
+> >>>> fail: v4l2-test-formats.cpp(516): pixelformat 59565955 (UYVY) for buftype 1 not reported by ENUM_FMT
+> >>>> 	test VIDIOC_G_FMT: FAIL
+> >>>> fail: v4l2-test-formats.cpp(516): pixelformat 59565955 (UYVY) for buftype 1 not reported by ENUM_FMT
+> >>>> 	test VIDIOC_TRY_FMT: FAIL
+> >>>> fail: v4l2-test-formats.cpp(516): pixelformat 56595559 (YUYV) for buftype 1 not reported by ENUM_FMT
+> >>>> 	test VIDIOC_S_FMT: FAIL
+> >>>>
+> >>>> Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+> >>>> ---
+> >>>>  drivers/media/platform/ti/omap3isp/ispvideo.c | 34 +++++++++++++++++++
+> >>>>  1 file changed, 34 insertions(+)
+> >>>>
+> >>>> diff --git a/drivers/media/platform/ti/omap3isp/ispvideo.c b/drivers/media/platform/ti/omap3isp/ispvideo.c
+> >>>> index 864d38140b87..77beea00d507 100644
+> >>>> --- a/drivers/media/platform/ti/omap3isp/ispvideo.c
+> >>>> +++ b/drivers/media/platform/ti/omap3isp/ispvideo.c
+> >>>> @@ -652,6 +652,38 @@ isp_video_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
+> >>>>  	return 0;
+> >>>>  }
+> >>>>  
+> >>>> +static int
+> >>>> +isp_video_enum_format(struct file *file, void *fh, struct v4l2_fmtdesc *f)
+> >>>> +{
+> >>>> +	struct isp_video *video = video_drvdata(file);
+> >>>> +	unsigned int i, j;
+> >>>> +	unsigned int skip_last_fmts = 1;
+> >>>> +
+> >>>> +	if (f->type != video->type)
+> >>>> +		return -EINVAL;
+> >>>> +
+> >>>> +	/*
+> >>>> +	 * The last two formats have the same pixelformat as the two
+> >>>> +	 * formats before them, but they do have different mediabus
+> >>>> +	 * codes. So to avoid reporting duplicate pixelformats we skip
+> >>>> +	 * those two, provided f->mbus_code is 0.
+> >>>> +	 */
+> >>>> +	if (!f->mbus_code)
+> >>>> +		skip_last_fmts += 2;
+> >>>> +	for (i = 0, j = 0; i < ARRAY_SIZE(formats) - skip_last_fmts; i++) {
+> >>>> +		if (f->mbus_code && formats[i].code != f->mbus_code)
+> >>>> +			continue;
+> >>>
+> >>> How about, instead of the skip_last_fmts thingy, using this:
+> >>>
+> >>> 		/* Weed out pixelformats with the same mbus code. */
+> >>> 		if (i && formats[i - 1].code == formats[i].code)
+> >>> 			continue;
+> >>
+> >> Good idea, but it should be this:
+> >>
+> >>                /* Weed out duplicate pixelformats with different mbus codes */
+> >>                if (!f->mbus_code && i &&
+> >>                    formats[i - 1].pixelformat == formats[i].pixelformat)
+> >>                        continue;
+> > 
+> > I think you shouldn't add !f->mbus_code check here, there's already a check
+> > for that right after the for ... line.
+> 
+> Ah, no. If you search with non-zero f->mbus_code, then you want to
+> see all matching formats for that mbus_code.
+> 
+> Without the '!f->mbus_code' condition you would incorrectly skip entries in
+> the formats array.
+> 
+> E.g. if f->mbus_code is set to MEDIA_BUS_FMT_UYVY8_2X8, then it would fail to
+> find V4L2_PIX_FMT_UYVY as a match.
 
-Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
+Ack, sounds good.
 
-
-> ---
->   drivers/gpu/drm/amd/amdkfd/kfd_process.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-> index ddfe30c13e9d..4dc46ac6a65e 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-> @@ -1983,10 +1983,10 @@ kfd_process_gpuid_from_node(struct kfd_process *p, struct kfd_node *node,
->   	return -EINVAL;
->   }
->   
-> -static int signal_eviction_fence(struct kfd_process *p)
-> +static bool signal_eviction_fence(struct kfd_process *p)
->   {
->   	struct dma_fence *ef;
-> -	int ret;
-> +	bool ret;
->   
->   	rcu_read_lock();
->   	ef = dma_fence_get_rcu_safe(&p->ef);
-> @@ -1994,7 +1994,7 @@ static int signal_eviction_fence(struct kfd_process *p)
->   	if (!ef)
->   		return -EINVAL;
->   
-> -	ret = dma_fence_signal(ef);
-> +	ret = dma_fence_check_and_signal(ef);
->   	dma_fence_put(ef);
->   
->   	return ret;
+-- 
+Sakari Ailus
 
