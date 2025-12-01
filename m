@@ -1,254 +1,198 @@
-Return-Path: <linux-media+bounces-47987-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-47989-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 028D0C98312
-	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 17:11:00 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53473C983A0
+	for <lists+linux-media@lfdr.de>; Mon, 01 Dec 2025 17:24:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 901F234106D
-	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 16:09:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F36373A3AB8
+	for <lists+linux-media@lfdr.de>; Mon,  1 Dec 2025 16:24:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D9A333438C;
-	Mon,  1 Dec 2025 16:08:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DD5A335064;
+	Mon,  1 Dec 2025 16:24:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="1pOx1JuB"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="DercMkVd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010024.outbound.protection.outlook.com [52.101.61.24])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EE4F334379;
-	Mon,  1 Dec 2025 16:08:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.24
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764605305; cv=fail; b=KQOJbHDrHWUc49iQJrNLIubbGizH0XxMLoGz82Z05lXlN6S5JQNh8zdXqQjXKZ1wIxwXrggxNaSMllEASQjNl6bptAFYNtWyA5niPdljc2xjWsa/hNxwmd/qckABy56s3UEJJE5y0Phzuoj13uZsQ1fclXAcClu49b2ZiCvRpbc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764605305; c=relaxed/simple;
-	bh=5ZK73/aNRdXVKBu1/GH3YswsnMP7QpcOHD/20aCrMSM=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=D6gI5BAoVt+X8LBPGS25PZ8BvMP2NNxm2n0iHOSB5EUNcq6M1JqIE42Q42QoSQu0lPqvauqsofWU/FbggDWP24Ysf9k7HdmHm1e1xrIdLdPsEBxuTFbrtUdaT+2vzG21sMLSCAnuHH/xHmmMOQwkBZw/KZbA6ymw9f/72ZCf6SQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=1pOx1JuB; arc=fail smtp.client-ip=52.101.61.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VQqBI4z9/Fqnm6Y0x2AOJ3lqbEPcPhDyG/VCxqPtvCQ/B+H+pjW+l1Z2zbAg309t6fmmFai0arGAgAYg6lT67/DR0DuzLBFDFmTlVQvK6PWJZRE2p44PqD0wrrwk2pS9M/ZCOAsygJaCe7C9wrPHeFWW1+Pe0zqxae+ddBDWF0piupcher3tLafYWE0/cWm2RmC78w3RWZyLwTRWixZ/UyZ+ckhH+EZ1a2e9JMrduw+7Pmvgm9vNZWDQTaBf9smtcrccmlqQTmQsdYLZH7fK26iqjwSNa0xcJ235uw/hu+YBwercSf1sIWxQZuhZEdAx9GdLXONMP5Qwj6BtwjsVGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DNQcfMPWK2u9QzNMBHGetnKo8pgbPYhwTKfEBnruC+A=;
- b=qLW3ovBtvrNzN1kptPe0ayotNs5ahCTJLZnyXzNxdbj0DEQxqhF2CRMo796nkhkfYGdxkXklAMn283u1Q7b5TW/KUuuAza62zfDY6h/4tYJJJypCMpX+dvgvA2ZlZrh+I8d4tDOrvJCCD1W9mILvqWeAbtnVF8Lafi0nlICW6xRCcW4N07v7dpXk4iLBhB5XVjMkL9z6qqYGOUkoIzYnoxIDBu/TJyLA2DK52uZ7KCx2IcqGboz0dZdmDvsW0kHZ7Fwj18YYl3l6N1u2emojszS0ohECUvbCZFJaDPB/YGuB9HgmXZPVcQJ1jrgfP6/pjEiQm+9mchTYXXe7XXm2Lg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DNQcfMPWK2u9QzNMBHGetnKo8pgbPYhwTKfEBnruC+A=;
- b=1pOx1JuBmhlxhcVpnx0TrEWX1gEV5cvw35RRPUCKHPfAaMAhpMch6Rq331oe+HKbcewXwf2b7ONU1Gc6tupCkPJe/8Nh608EMJgEie2LivDd5h/3yR1df5r56qCYrouhaV848tKJEaZG6ZFEPLkDZbKTEAdpnn9XTltO9u82iyo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SA1PR12MB9491.namprd12.prod.outlook.com (2603:10b6:806:458::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Mon, 1 Dec
- 2025 16:08:18 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9366.012; Mon, 1 Dec 2025
- 16:08:18 +0000
-Message-ID: <07cd6a0c-9975-48ef-bb2e-5e53a042888e@amd.com>
-Date: Mon, 1 Dec 2025 17:08:10 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/8] dma-buf/dma-fence: Add
- dma_fence_check_and_signal()
-To: phasta@kernel.org, Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-References: <20251201105011.19386-2-phasta@kernel.org>
- <20251201105011.19386-4-phasta@kernel.org>
- <80554ed2-4454-489b-873f-533d68c8d2ae@amd.com>
- <2a9c83b4a428bb3cc993499c39d0da01f9563278.camel@mailbox.org>
- <93a4f4e4-af7a-4c84-a7a2-5db785f2a5a8@amd.com>
- <247185f833edd075cd4aac8c39ac8ae5b5aabe07.camel@mailbox.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <247185f833edd075cd4aac8c39ac8ae5b5aabe07.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0375.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f8::10) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2404C3346AF
+	for <linux-media@vger.kernel.org>; Mon,  1 Dec 2025 16:24:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764606253; cv=none; b=hEcdT0zxA3fUpzYPPrmCKrYoHSaCXYgCpMVAvdF2nXs1Qy6c20gbcxpZKV6l/9zU//hSFhowXR0xVO70LraolPXGubLpb9FIJpemdQOh2pPH63CHqd2DG//Uoo8T5tDKUbMHGcsJzVjte5XNqs4G7Ymgvu8d0tILCpbscd5cv8U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764606253; c=relaxed/simple;
+	bh=1ZYMqjwBnfl897xiSXiJfpMH4OTfdxEwAfQV2db7y6w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=br4iJmjxMpZrhrWhQO2K3wD3TK70KaR+CR9SThMmLVvVJlKw/SeFdrVWvlJixq6MQftTgC5o7li2r/12kpbc7tKklyVxRmdEb4kmLZ+OioCegF3yP6ju0CmHtc2IvaCkWYPfz5r60hASag05VjYLyceJVNuTFFSn3RNG4D9To8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=DercMkVd; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (p9411226-ipngn12302marunouchi.tokyo.ocn.ne.jp [153.160.235.226])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 481E3110;
+	Mon,  1 Dec 2025 17:21:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1764606116;
+	bh=1ZYMqjwBnfl897xiSXiJfpMH4OTfdxEwAfQV2db7y6w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DercMkVdczhus/hJshBxJ1O7kQGCCnbF2OWPMSuorB66z2VhyjkusRr3soCdg5VTJ
+	 rrV8aYSlNIYfcteqESOrye1+4qj9/ndOD+DhN9sR5mttXthigLzg5d3UDP0k/Bt0SL
+	 Mh0FnEtOO+xYlSMTXqIJlj93TjRaq535fJetFLE0=
+Date: Tue, 2 Dec 2025 01:23:49 +0900
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Matthias =?utf-8?Q?Wei=C3=9Fer?= <m.weisser.m@gmail.com>
+Cc: linux-media@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
+	Purism Kernel Team <kernel@puri.sm>,
+	Martin Kepplinger <martin.kepplinger@puri.sm>
+Subject: Re: imx7-media-csi: Adding BT656 format
+Message-ID: <20251201162349.GC32430@pendragon.ideasonboard.com>
+References: <CAO8h3eEz=-LfrHcsGMcQ3kQHZKZgkQw9gwygBmeC1ASdMHg3YQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA1PR12MB9491:EE_
-X-MS-Office365-Filtering-Correlation-Id: e6f079be-d283-4258-3fd5-08de30f3d776
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?UzNCaWZoOGdlaG1Oc2VOMk1KVU0zZG9idEZhSTk1SzlHRmltTjV1eEtxTDRB?=
- =?utf-8?B?eUo3MWVJaFlZcjN6SmpMNWNhZ1VKWjBNWHBIQzVNdldtTzFXaGdmUlk5RUg3?=
- =?utf-8?B?bmhIZGNKWWc4Y3B1akZMUHVUa1diRUJhYmhVdnY0Q0FFeGNibkFRcWZZNmpu?=
- =?utf-8?B?TmJBQm5OMVMxYXg5RXlCeHB5Zjc2REtLNjdrWW1KZlFnZEhFSXMvREdyMmdD?=
- =?utf-8?B?N0hoQzVzOVFoc1ZHZzk5U0RCTjRUcjBPTGZ5MFU3ZW9BMEcxR0N4Vnhsejls?=
- =?utf-8?B?WW9FZi9CRWxCZ203VUd6eWg3UHVId0hjOXdvaHlCamZSSFNhb3JENG1sZFpX?=
- =?utf-8?B?V3ZzRVU5OHY4WEpPckFiUzA4RTRNb2ZMQnF2a1NjVlJFNU4ySUwvMGoxVTVG?=
- =?utf-8?B?Q2h4THE3ZEFPclJ4cUpFM2t1c1lNRkdFelZrTU8wWGg3bTU0OVNtRk9kRHNR?=
- =?utf-8?B?amNYT2hBQ2wzZ0k1c1g4Sk1VVkk5VFUzZmNIYzI0cjRtK0RTd2ZScHZ1WTgz?=
- =?utf-8?B?MHFxcndyY1FqRDUwSHMzdUt6VTZaMy9YTmZqYmgvNURJTnlBekNOWUdzbHNp?=
- =?utf-8?B?YlFoUXYrdUFYekxVNGFOVWYzZnNkRXpXY044SW56MVB3emJSSmgwa0NxTTNp?=
- =?utf-8?B?cHlnYVpjaCs5ZitJZEhHZVdKLzJJTUZnUWY5L0RXN3c2TmRzVlpqSGVTZW1W?=
- =?utf-8?B?S0kyYnk5NWpCajY5VFBDc2QyV0doMkJSN3JXbTBlMkhkbExJUmdHdytiYnkr?=
- =?utf-8?B?Ri94VThNcjFtdXMyb2dSbG1MaUQrdCtib2pKbE5JczNpZ254OWoramEvUWg1?=
- =?utf-8?B?aTBDN21OMmdFMXFRQ05ndnBPNG5UZHh1UUNvQ2llQnpoUWd0QzcrQVZLT1JH?=
- =?utf-8?B?VmxsV253ZmRNWmdPTGVIdGYzS1lhV0pEZFkyMWNkMVMxN0kyTXRXWnkxbU5k?=
- =?utf-8?B?N2YvZVpRWVdxL20zRTNIaTdQUGtIU2JPRHJ3VDBZSEFQb29McVRIeExIK1Jz?=
- =?utf-8?B?ZWJheSt3YjR5M2ZFaitBUkwzelVBaEM4SlZnU2pQVU1aekdsT2Rtb2hZTTFa?=
- =?utf-8?B?b3Uxa2kydDVRNE4wSDBsVDV6emlYajQwQ2NQSkFzYWIybkF6MElVMWZjRWti?=
- =?utf-8?B?VFJmQklRMEg5QktBMFN6OXhxV3BHL0pJb3dpZVlOZFp3Ny9zNnlqQUxCbGp4?=
- =?utf-8?B?L0VhVnB5QW1PMDN2cXMrMFBFYStqOXoxMTMzbmxCSGhHR3NnRDRoRHJHODhR?=
- =?utf-8?B?c01rRi80b3NEWlVvaGNHWFJYcG1FbWQrRSs2Vm9iY09ZTlFOVHJkalcrb2pQ?=
- =?utf-8?B?eDF6Q1NKM2dsTUlESmdjUjluMGFVTlRsTEpxbkdMOU5uSEoyd2VyaEd1UDVD?=
- =?utf-8?B?SVVyMUViek52cDRkcytISms4VFh3M1ZRTW9rT0c1MFV6UjhFZGJNZlZ1Zlkz?=
- =?utf-8?B?M1pXQzdIL1BZZGcrbzJQak9NMHhRZml3WDhRd2pBRU5UaSt3a2xwbFhYbHNo?=
- =?utf-8?B?VU94V1gzd2dMbi84ZzVGQ29jT05Fd2ZqeU1oSEVUVmlDRU9ocWJuMDFPM0l2?=
- =?utf-8?B?WFd5Z3FleEJlUjVTSTJmbTdTU0ZHNzZGaW96QTZsMFRFNFRRSU9hbi9UZEky?=
- =?utf-8?B?Wjk0WWVHbGFDTDBjcFJjakVMUVVuQitkLzViQnZSZWUrckJKUDhPdkVZVkYz?=
- =?utf-8?B?RkpFbjlkWjFaY0JBOFl4dEExRVc4WFM5VGI1c0VvTkNVM05DYVpmdmVLTU9B?=
- =?utf-8?B?MHJwNFFhNGlBdVM0b1hqNmtyYnlpandJYk93d05LZy9UUmlJRFAxSHdFTEtB?=
- =?utf-8?B?RGpYdzI3VDM3T3VBc1hBY25LME9XWFZJYUN4M1JXLytBS3JnWjJnMEpoNzcx?=
- =?utf-8?B?VklQSTloWmkrcGk1ZUQ2Q3FBd25HQjh2Q0Fid1c4c1VRbUpXMFFxVG93NXNY?=
- =?utf-8?B?VllEaEIyN1dpS1YxRFo2cmtFaklhMG83MzFrOE9aUEg5Q1JDVEp5TFF5dmRC?=
- =?utf-8?Q?/afX3TNFWCspwBwDR5QvOwDRtCinXc=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?K0UrK1ArOWNWVEk2U3BUc205NXNJbW44Uno2aXVYWElOSU44a0wxc0FLRmYx?=
- =?utf-8?B?MlBhR0NoMi80cExKZkJ0VFM5ZDVaS213c1ZFd2JZWkJET2JYVDZwL1dsd1Ex?=
- =?utf-8?B?VHlYY1paT3kzT2JEL1VFd25wQVlXZEcva2dsckRUUS9JL3lMMHRKSEhyai9C?=
- =?utf-8?B?TUZYRksxMUI2aDhVdlByZ1pDS0RCQnMycUVlNUVvRXlBUFNvVStBU1FsN3Ix?=
- =?utf-8?B?UXplZkxwQWNLcVJLMTNyTUxsSktVMTRBR3RtTjJYc1pOZDNhNGRkenBPd0Z5?=
- =?utf-8?B?dUVLbWFNdWYxaHhuQzJpWm9JTkhCMk5qcDJaT2dlc3hFVHBzSUY5Q1g1REg2?=
- =?utf-8?B?eEVvZ0g5ZXhIb2hoMjhPU1FGVHI2d1NLeWZlMDA5UkwveUlqanFtNDU3bnRs?=
- =?utf-8?B?NW5aQzBOVEZzREtaOSs0R0tHYWMvL1BvS1A3UEZuNWtIS0ZiNlNONnh3RXpt?=
- =?utf-8?B?cHkvaFVCR254NGZBeWJzV2psWlpSWHZGdGJwOUpzQWNxWjc3ZE40TWpxREJC?=
- =?utf-8?B?RWR0eUQ2dEhMMVpKZE1FdHBwNHBvOWkwbHZKUC9SYVc2QjJLT2JHYzFDZWxU?=
- =?utf-8?B?RTBrcXh6VlAwZmR2Z1VLd0lLMlBSeEtvMGdQOUxtcTBDMGZTQVVUc215TEMy?=
- =?utf-8?B?Qyt4MnlhK20rS2w5Z1k4cXV5NUdDd2lUTTFSWG55MlBEV2Qyb25hY1RBLzNI?=
- =?utf-8?B?Zmt2bTkzM0FhdzM1REpjNENKRjFIU0FaSVNsZXU1RS9rYTdIVVAvSzY5WUov?=
- =?utf-8?B?Zkp3Rk5RckF0UXRsMndtaG15SWR4Qnh2NEI1Vk9ORXhwdDU2aFdPalRZZ1o2?=
- =?utf-8?B?SVFqVk5hL2ZRNnFvaGVPL1NuMUpvaHJDb1VlRWppYzlJWS9OZXJIQzVrV3RD?=
- =?utf-8?B?NWZhZjVYckg3cFFOckt2UDBKSUpxT3JjNEU4Q3Rnbk9RdnpDb2RKYldYSDN2?=
- =?utf-8?B?c290VWl4WVhXaC95eldiYmcrVmRqSVNjOTZTUXlzZHR0Z2FQa2FvMVJyWDcx?=
- =?utf-8?B?ZWlkbmF3RDJXL0lQQTdna0ZqcHloU0ZTNzVqdkZuSWJnKzNuZkdaMDVWWXd4?=
- =?utf-8?B?eklWUVVVaGZSdi9JeHZISFdtVEcrWDhkbHg5ek9kd2JYdmIxRFZHYmo0N3Ev?=
- =?utf-8?B?OWFzVnNXcmY3aEpJOHpxajJRaVNmZkoxdFZnSTN1U0dHNFJSOXFyVWc1R3Zo?=
- =?utf-8?B?ZWlhRTZqREpDTjQzWTExTTdiMTRTNjFHb09USjFHV1VjZXJpK2RkMXNLR0ZN?=
- =?utf-8?B?clBONHZZc0NSZ0NINkpUWk12Y1FncTh0bXlvWE1iUmM4MUJ1VnR2eHRRbDJJ?=
- =?utf-8?B?djRpS2hJZ3FxYVFVaFp5MXlvYXBpNDhuVDFSU003RzRUOEVZMUVYS1kzVml6?=
- =?utf-8?B?T0xPcTJqR2FOSmJFbFJDYk52VlNuWEMreU1RYWFXdnZYZ3FmNTZLdXN2TXdj?=
- =?utf-8?B?YVoyR2lSaFoycTlHb2J3cDYxSWQ5SFhzTFdkdm5pT3l6MlRnWE5sYkdpMmho?=
- =?utf-8?B?TDVOZnA4R1VocnpUUVczNVY5eDNDYUhFL20zSlR2VDY2ZE1xUnRzN1ZHeDZH?=
- =?utf-8?B?cTZ4SDBqNkdNdlkxanJ0TEg0VUZUMFJDK1pnUDVCTDVDY1dvQlZ4WkVmaFFW?=
- =?utf-8?B?Y3RYR0ROaFZIQ0d3dDJpMjN1OXFxUzk0V0JGSE41TnU0M3NRSllLWW1ZaEZL?=
- =?utf-8?B?d2dvZ1FFcFladXQzenpxVUE4a0JSM1VrWDZUNmFQODdjMDYrVDFFRW9ZVE10?=
- =?utf-8?B?RlA3QUZnV21FZVZRYU5ON2M5amJ2RUo0M01CY1YvT3dJQVQ0OUUycnlheERp?=
- =?utf-8?B?TnpuVUxlekd6WVJEakFSRUM5VHpnK0dhNUlDS05SOU5wQ00yUkFMdkU4ZW9S?=
- =?utf-8?B?NW9LN3k4a0ZZdklaazhSR0FlSUJKenZJNHpKUmp0K1phcFlaYW5veW83d0tu?=
- =?utf-8?B?dm9NN3BwMWVRVk1DWmloRHVFZjBMbVVxVGs3Zlc4VG4ydlZYQXNiVEFTaisr?=
- =?utf-8?B?V1JIT1YwQzllMkpXMEY1M3FVMWdpVW5qejRic1QvckE3QjdBUFI0QktQNzFQ?=
- =?utf-8?B?SEx5bmdmRUpSMU9TRGFIcXNzbXc4cnA1RFg3N3Ird2tZSkNndDRhQzcwMzVs?=
- =?utf-8?Q?gE0koRg7VG/XdHYt57DCzeRWf?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e6f079be-d283-4258-3fd5-08de30f3d776
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2025 16:08:18.4720
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mgQRxBPN74kv78/o2oQVwgVU6jEND5G2Yo5VzZH5ef7OrDQnn2LB1DjYlyOHY+72
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB9491
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAO8h3eEz=-LfrHcsGMcQ3kQHZKZgkQw9gwygBmeC1ASdMHg3YQ@mail.gmail.com>
 
-On 12/1/25 16:53, Philipp Stanner wrote:
-> On Mon, 2025-12-01 at 16:20 +0100, Christian König wrote:
->> On 12/1/25 14:55, Philipp Stanner wrote:
->>> On Mon, 2025-12-01 at 14:23 +0100, Christian König wrote:
->>>> On 12/1/25 11:50, Philipp Stanner wrote:
->>>>> The overwhelming majority of users of dma_fence signaling functions
->>>>> don't care about whether the fence had already been signaled by someone
->>>>>
->>>
+Hi Matthias,
+
+On Tue, Nov 18, 2025 at 04:39:57PM +0100, Matthias Weißer wrote:
+> Hi
 > 
-> […]
+> I am hoping for some basic help here regarding a feature I want to add to
+> to imx7-media-csi.c.
 > 
->>>>
->>>>> +{
->>>>> +	unsigned long flags;
->>>>> +	bool ret;
->>>>> +
->>>>> +	spin_lock_irqsave(fence->lock, flags);
->>>>> +	ret = dma_fence_check_and_signal_locked(fence);
->>>>> +	spin_unlock_irqrestore(fence->lock, flags);
->>>>
->>>> Could this use guard(fence->lock, flags) ?
->>>
->>> guard? You mean a lockdep guard? Do you have a pointer to someplace in
->>> dma_fence who does what you mean / want?
->>
->> E.g. like guard(spinlock_irqsave)(&fence->lock);
+> (taking the maintainers in CC, hoping this is okay)
 > 
+> If this is not the right place to ask my stupid questions please advice.
+
+This is the right place, and your question isn't stupid.
+
+> I have a custom board with a TW9990 analog video decoder connected
+> to an iMX6SX. For the TW9990 I use a slightly modified version of
+> tw9910.c. I use the following DT:
 > 
-> Hmm, but why?
-> It's obvious to all readers that I do spin_unlock_irqrestore() here.
-> It's very simple code, lock, 1 line, unlock. What would the guard
-> improve?
+> &i2c3 {
+>     tvin1@44 {
+>         compatible = "renesas,tw9990";
+>         reg = <0x44>;
+> 
+>         port {
+>             tw9990_1_to_parallel: endpoint {
+>                 remote-endpoint = <&parallel_from_tw9990_1>;
+>                 bus-width = <8>;
+>                 data-shift = <2>; /* your board wiring */
+>                 hsync-active = <0>;
+>                 vsync-active = <0>;
+>                 pclk-sample = <1>;
+>                 bus-type = <MEDIA_BUS_TYPE_BT656>;
+>             };
+>         };
+>     };
+> };
+> 
+> &csi1 {
+>     pinctrl-names = "default";
+>     pinctrl-0 = <&pinctrl_csi1>;
+>     status = "okay";
+> 
+>     port {
+>         parallel_from_tw9990_1: endpoint {
+>             remote-endpoint = <&tw9990_1_to_parallel>;
+>             bus-width = <8>;
+>             bus-type = <MEDIA_BUS_TYPE_BT656>;
+>         };
+>     };
+> };
+> 
+> Issuing this command
+> 
+> # v4l2-ctl -d /dev/video0 --stream-mmap --stream-count=50 --stream-to=frame.raw
+> 
+> enables the TW9990 and it starts streaming the analog video signal in
+> BT656 format to the iMX. I verified that using an osscilloscope.
+> But I see no interrupt generated by the CSI module. I am sure I have to
+> add BT656 format handling to the driver but have no idea where to start.
 
-Well you can save using the local variables.
+The driver indeed doesn't seem to support BT656. 
 
-So this:
+> I have also verified that the hardware is working correctly by implementing
+> a simple capture driver, not in the context of v4l2, but with my own very
+> hakish uio implementation.
 
-	unsigned long flags;
-	bool ret;
+Does that mean that you know what register values to set to get it
+working ? If so things shouldn't be too difficult. The driver should
+call v4l2_fwnode_endpoint_parse() to parse the endpoint and get the bus
+type (external sync or BT656). The information should be stored in the
+imx7_csi structure, and the registers should then be configured
+accordingly (likely in imx7_csi_configure()).
 
-	spin_lock_irqsave(fence->lock, flags);
-	ret = dma_fence_check_and_signal_locked(fence);
-	spin_unlock_irqrestore(fence->lock, flags);
+Interlaced mode seems to be implemented in the driver, so if you're
+lucky the above will be all you need. If there are issues with the
+interlace implementation (I don't think it has been tested as
+extensively as progressive mode) then more work may be required.
 
-	return ret;
+> Some maybe helpful outputs:
+> 
+> # media-ctl -v -p
+> Opening media device /dev/media0
+> Enumerating entities
+> looking up device: 81:1
+> looking up device: 81:0
+> looking up device: 81:2
+> Found 3 entities
+> Enumerating pads and links
+> Media controller API version 6.6.52
+> 
+> Media device information
+> ------------------------
+> driver          imx7-csi
+> model           imx-media
+> serial
+> bus info        platform:2214000.csi
+> hw revision     0x0
+> driver version  6.6.52
+> 
+> Device topology
+> Streams API not supported
+> - entity 1: csi (2 pads, 2 links, 0 routes)
+>             type V4L2 subdev subtype Unknown flags 0
+>             device node name /dev/v4l-subdev0
+>         pad0: SINK
+>                 [stream:0 fmt:UYVY8_2X8/640x480 field:none
+> colorspace:smpte170m xfer:709 ycbcr:601 quantization:lim-range]
+>                 <- "tw9910 2-0044":0 [ENABLED,IMMUTABLE]
+>         pad1: SOURCE
+>                 [stream:0 fmt:UYVY8_2X8/640x480 field:none
+> colorspace:smpte170m xfer:709 ycbcr:601 quantization:lim-range]
+>                 -> "csi capture":0 [ENABLED,IMMUTABLE]
+> 
+> - entity 4: csi capture (1 pad, 1 link)
+>             type Node subtype V4L flags 0
+>             device node name /dev/video0
+>         pad0: SINK
+>                 <- "csi":1 [ENABLED,IMMUTABLE]
+> 
+> Streams API not supported
+> - entity 10: tw9910 2-0044 (1 pad, 1 link, 0 routes)
+>              type V4L2 subdev subtype Decoder flags 0
+>              device node name /dev/v4l-subdev1
+>         pad0: SOURCE
+>                 [stream:0 fmt:UYVY8_2X8/640x480 field:interlaced-bt
+> colorspace:smpte170m
+>                  crop.bounds:(0,0)/640x480
+>                  crop:(0,0)/640x480]
+>                 -> "csi":0 [ENABLED,IMMUTABLE]
 
-Becomes just:
-
-	guard(spinlock_irqsave)(&fence->lock);
-	return dma_fence_check_and_signal_locked(fence);
-
+-- 
 Regards,
-Christian.
 
-> 
-> 
-> P.
-
+Laurent Pinchart
 
