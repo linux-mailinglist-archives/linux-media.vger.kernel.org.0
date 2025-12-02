@@ -1,164 +1,152 @@
-Return-Path: <linux-media+bounces-48014-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48015-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94877C9A687
-	for <lists+linux-media@lfdr.de>; Tue, 02 Dec 2025 08:17:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8840EC9A690
+	for <lists+linux-media@lfdr.de>; Tue, 02 Dec 2025 08:18:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id EA0C84E29DD
-	for <lists+linux-media@lfdr.de>; Tue,  2 Dec 2025 07:17:45 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8E85B4E2B00
+	for <lists+linux-media@lfdr.de>; Tue,  2 Dec 2025 07:18:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B55082FD668;
-	Tue,  2 Dec 2025 07:17:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1542245019;
+	Tue,  2 Dec 2025 07:18:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Nb9qQDjt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pQLLNBYr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 864E2220F2A;
-	Tue,  2 Dec 2025 07:17:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48C40235BE2
+	for <linux-media@vger.kernel.org>; Tue,  2 Dec 2025 07:18:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764659860; cv=none; b=M4YLEXf1NtS8id00i352qKCrcxf7yIbFWbIIlrDDJpjjCA24VJGRjeUD9UKliiz684XMdZRNY4NgY7D0UFYcat4oNAvrdor8UHlLt8sddNXp0R1J7YaABPlqSJkKsB+8gjotjqYcZC38PT0bBy/RVNBHl/3RTgOsIgX6M8dj3F4=
+	t=1764659883; cv=none; b=JBYSiJeo4FORnJ3c73/Vj/i250Hwcd2suvhPLK3tkFMspz8gHiifzA3jmZrmSb08OMa+2u801LLBI5NzjGXdM+1bKFRoRnfCqYPivARHkwlJEsXqKIJ0LPEbGcOsA5pES3NbKQhUmYzImptS2nflunrguvPHiQ1gvO6JEUge/hA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764659860; c=relaxed/simple;
-	bh=WfCqlfNhdxyNZ7YbUdT/AEmYaKAq6wG3gmAAvSAKFc8=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=VCMzRKL/bqAlWAHoeaqkbSGL3lQeGCPt6vE485Y7twM7NZW68earNnYt4SlGdV8txhwkadEX+FYOd8wtvOd/CU5MTX/q+UkQNbuyl2pdHO3iKL0MHA3pmCUer91S7YPp2EHbPG3YavTlWrhZ37QDvkqnGgB2KBHgTDk4ryuu6ZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Nb9qQDjt; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4dLBtJ2Cdcz9tQR;
-	Tue,  2 Dec 2025 08:17:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1764659848; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cvYlzThd7v1Kn3YwhmxsymsCQ2EmPWq7s2Dps/0YHys=;
-	b=Nb9qQDjtSxtNnaI9B/lYBHnlMi9qdhjt49k01xfaRmMdo7g+Cpm9o/NVEaN/68NlTInQ9r
-	baJzXM36vj1J/0Z0b+PDWLUqUZF5Nu3k45Uiw6uXNN0ggxIfp4KBVljPn0A7X9I99wypiG
-	NvQTKn1EvFoO8i2FH+zx1kKSMUxQOOm8wJn1+n+EW7uHUIwvWu36yD2LTFQIHEwwRb1n6y
-	uuOzVZmjCqG9hqAGL1qIaSRHzoUlEhX4xJp0qRfbPqJ4uEYYXlqJcpRqDPnz7k6mqkODdf
-	wokX4Zs0jhWkMAIjUMvVXYIVqvfkZwIagWV5bVZy/FQTcIMLNDvtzW87A5gyAQ==
-Message-ID: <e2799662727a10b77b77ceb2fc2cdabe27537e3e.camel@mailbox.org>
-Subject: Re: [PATCH v2 4/8] drm/xe: Use dma_fence_check_and_signal_locked()
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: Matthew Brost <matthew.brost@intel.com>, Philipp Stanner
- <phasta@kernel.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
- <gustavo@padovan.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Felix Kuehling <Felix.Kuehling@amd.com>, Alex
- Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>,  Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui
- <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,  Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Lucas De
- Marchi <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
- <thomas.hellstrom@linux.intel.com>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org,  linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org,  intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org
-Date: Tue, 02 Dec 2025 08:17:17 +0100
-In-Reply-To: <aS3uycB40j2CptOf@lstrano-desk.jf.intel.com>
-References: <20251201105011.19386-2-phasta@kernel.org>
-	 <20251201105011.19386-6-phasta@kernel.org>
-	 <aS3uycB40j2CptOf@lstrano-desk.jf.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1764659883; c=relaxed/simple;
+	bh=UtS+3zQqgh81RgonVH9si/Isd5ikI25m4qfxeoySlG8=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=XaUhc/dtxyCJg2+arePDsilg6NteEnVFVDTazbjbbS6gi73VSlsfLhM/DENSi12G/lmPYQSAKGHlZF+rZEgyGr6NcgYr2iEtnnJMBExpEOWnP2P2DXeqxASATppe4s7mgiBSfODulxiPDLUMKuQRpcvY+oqsVFpx3tXKTfw4j00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pQLLNBYr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10F28C4CEF1;
+	Tue,  2 Dec 2025 07:18:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764659882;
+	bh=UtS+3zQqgh81RgonVH9si/Isd5ikI25m4qfxeoySlG8=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=pQLLNBYrAa11RhZWMZvvvdNvd0WXftHZHAG98pOSld+7pGDqmanGdKAxflNfsSldN
+	 Z/ehQcDFEYe7NafAJ5EYExSpddCCpu8n2KsFx4kIKDYMqhqJIM2D4aIyQm6+YyB8r+
+	 pfbX8pgt1ruWt3x1NV3eztPukOss6NfV6Unzm74r6XwyNvviDUtzy/aRxNTu7W2Dmc
+	 jOM6zw3/f3T67AdW7iQFqcJwh3RKOq4zvEXsrsgPjzKop+egwFPK01svWKXbbklnQW
+	 y8JZBd/vC9sPiMQzzMOh/1rsh9aq/fDRTFJRtc2mBpT9r10auRxepC3Jlr2GDjQijC
+	 YZT4+OAFgVNIg==
+Message-ID: <ed7dda8f-e0a5-4edb-aec1-b2d2f3f787d5@kernel.org>
+Date: Tue, 2 Dec 2025 08:18:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-ID: 702b4ab20e6fde04118
-X-MBO-RS-META: ncm8u3cindi4bqsz41sdpt7zknz4tbdg
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH 03/14] media: omap3isp: isp_video_mbus_to_pix/pix_to_mbus
+ fixes
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
+References: <cover.1760707611.git.hverkuil+cisco@kernel.org>
+ <1e7330bdeb61565bef5254fa35717a260d9e4633.1760707611.git.hverkuil+cisco@kernel.org>
+ <aPiMWDmqbYwBacpJ@kekkonen.localdomain>
+ <4788af27-120e-4e01-b3d1-f30e466b4980@kernel.org>
+ <aS1sVLJsj2iDk2qD@kekkonen.localdomain>
+ <aS2QkaTtBq53AGeM@kekkonen.localdomain>
+ <ed704af1-3ec9-45a9-ac5b-c33fe9975822@kernel.org>
+ <aS3FukU32gxMKuwt@kekkonen.localdomain>
+Content-Language: en-US, nl
+In-Reply-To: <aS3FukU32gxMKuwt@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, 2025-12-01 at 11:38 -0800, Matthew Brost wrote:
-> On Mon, Dec 01, 2025 at 11:50:08AM +0100, Philipp Stanner wrote:
-> > Xe is one of the few users utilizing the return code of
-> > dma_fence_signal() to check whether a fence had already been signaled b=
-y
-> > someone else.
-> >=20
-> > To clean up and simplify the dma_fence API, the few kernel users relyin=
-g
-> > on that behavior shall be ported to an alternative function.
-> >=20
-> > Replace dma_fence_signal_locked() with
-> > dma_fence_check_and_signal_locked().
-> >=20
-> > Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> > ---
-> > =C2=A0drivers/gpu/drm/xe/xe_hw_fence.c | 4 +---
-> > =C2=A01 file changed, 1 insertion(+), 3 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/xe/xe_hw_fence.c b/drivers/gpu/drm/xe/xe_h=
-w_fence.c
-> > index b2a0c46dfcd4..f6057456e460 100644
-> > --- a/drivers/gpu/drm/xe/xe_hw_fence.c
-> > +++ b/drivers/gpu/drm/xe/xe_hw_fence.c
-> > @@ -85,7 +85,6 @@ void xe_hw_fence_irq_finish(struct xe_hw_fence_irq *i=
-rq)
-> > =C2=A0{
-> > =C2=A0	struct xe_hw_fence *fence, *next;
-> > =C2=A0	unsigned long flags;
-> > -	int err;
-> > =C2=A0	bool tmp;
-> > =C2=A0
-> > =C2=A0	if (XE_WARN_ON(!list_empty(&irq->pending))) {
-> > @@ -93,9 +92,8 @@ void xe_hw_fence_irq_finish(struct xe_hw_fence_irq *i=
-rq)
-> > =C2=A0		spin_lock_irqsave(&irq->lock, flags);
-> > =C2=A0		list_for_each_entry_safe(fence, next, &irq->pending, irq_link) =
-{
-> > =C2=A0			list_del_init(&fence->irq_link);
-> > -			err =3D dma_fence_signal_locked(&fence->dma);
-> > +			XE_WARN_ON(dma_fence_check_and_signal_locked(&fence->dma));
->=20
-> I think XE_WARN_ON can compile out in certain builds. Best to leave warn =
-on logic as is.
+On 01/12/2025 17:43, Sakari Ailus wrote:
+> Hi Hans,
+> 
+> On Mon, Dec 01, 2025 at 04:35:23PM +0100, Hans Verkuil wrote:
+>> On 01/12/2025 13:56, Sakari Ailus wrote:
+>>> On Mon, Dec 01, 2025 at 12:22:12PM +0200, Sakari Ailus wrote:
+>>>> Hi Hans,
+>>>>
+>>>> On Mon, Dec 01, 2025 at 09:27:55AM +0100, Hans Verkuil wrote:
+>>>>> Hi Sakari,
+>>>>>
+>>>>> On 22/10/2025 09:48, Sakari Ailus wrote:
+>>>>>> Hi Hans,
+>>>>>>
+>>>>>> Thanks for the set.
+>>>>>>
+>>>>>> On Fri, Oct 17, 2025 at 03:26:40PM +0200, Hans Verkuil wrote:
+>>>>>>> The isp_video_mbus_to_pix/pix_to_mbus functions did not take
+>>>>>>> the last empty entry { 0, } of the formats array into account.
+>>>>>>>
+>>>>>>> As a result, isp_video_mbus_to_pix would accept code 0 and
+>>>>>>> isp_video_pix_to_mbus would select code 0 if no match was found.
+>>>>>>>
+>>>>>>> Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+>>>>>>> ---
+>>>>>>>  drivers/media/platform/ti/omap3isp/ispvideo.c | 6 +++---
+>>>>>>>  1 file changed, 3 insertions(+), 3 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/drivers/media/platform/ti/omap3isp/ispvideo.c b/drivers/media/platform/ti/omap3isp/ispvideo.c
+>>>>>>> index 46609045e2c8..864d38140b87 100644
+>>>>>>> --- a/drivers/media/platform/ti/omap3isp/ispvideo.c
+>>>>>>> +++ b/drivers/media/platform/ti/omap3isp/ispvideo.c
+>>>>>>> @@ -148,12 +148,12 @@ static unsigned int isp_video_mbus_to_pix(const struct isp_video *video,
+>>>>>>>  	pix->width = mbus->width;
+>>>>>>>  	pix->height = mbus->height;
+>>>>>>>  
+>>>>>>> -	for (i = 0; i < ARRAY_SIZE(formats); ++i) {
+>>>>>>> +	for (i = 0; i < ARRAY_SIZE(formats) - 1; ++i) {
+>>>>>>
+>>>>>> As it seems all users of the formats array depend on the size of the array
+>>>>>> and not its contents, could we remove the sentinel entry from the array
+>>>>>> instead?
+>>>>>
+>>>>> Probably, but see this comment just before the sentinel in the array:
+>>>>>
+>>>>>         /* Empty entry to catch the unsupported pixel code (0) used by the CCDC
+>>>>>          * module and avoid NULL pointer dereferences.
+>>>>>          */
+>>>>>         { 0, }
+>>>>>
+>>>>> Now, I wonder if this comment is out of date, since I don't see code 0 being used
+>>>>> by CDDC. If you can confirm that that's indeed the case, then I can drop the sentinel.
+>>>>
+>>>> Yes, please!
+>>>
+>>> Actually it's omap3isp_video_format_info() I understand ispccdc.c relies
+>>> not to return NULL. I might add a separate variable for that, to get rid of
+>>> this obscure arrangement.
+>>
+>> So ispccdc.c can call omap3isp_video_format_info with a code value of 0?
+>> Can you give an example where that happens? If true, then this feels very
+>> fragile.
+> 
+> It is fragile, yes. I can't point to a place where this happens but the
+> driver relies on every mbus code ever used to be on that table, and this
+> not holding will result in NULL dereference. In other words, it's not easy
+> at all to figure out it won't happen.
+> 
 
-OK, will adjust.
+I think I prefer to stick to my original patch, keeping the sentinel.
 
->=20
-> Also a little confused by this new helper... Doesn't
-> dma_fence_signal_locked already check if a fence is already signaled and
-> bail? Running out the door so I don't have time dig in here, but can you
-> explain?
+I don't want to spend too much time on this, it was just a bunch of patches
+that I accumulated while working on the vb2 wait_prepare/finish callback
+removal. There are a lot more issues that v4l2-compliance found that I
+never spend time on.
 
-Yes, that is what dma_fence_signal_locked() *currently* does. The
-series, however, is about removing that check from the default
-interfaces because barely anyone uses dma_fence_signal() et.al.'s
-return code. To simplify the interfaces.
-The 2-3 users who need the code get this new function. See cover
-letter.
+I'll put the sentinel back and post a new v2 series later this week.
 
+Regards,
 
-P.
-
->=20
-> Matt
->=20
-> > =C2=A0			dma_fence_put(&fence->dma);
-> > -			XE_WARN_ON(err);
-> > =C2=A0		}
-> > =C2=A0		spin_unlock_irqrestore(&irq->lock, flags);
-> > =C2=A0		dma_fence_end_signalling(tmp);
-> > --=20
-> > 2.49.0
-> >=20
-
+	Hans
 
