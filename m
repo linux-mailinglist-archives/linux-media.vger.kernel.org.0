@@ -1,203 +1,171 @@
-Return-Path: <linux-media+bounces-48086-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48087-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id D80ABC9BB40
-	for <lists+linux-media@lfdr.de>; Tue, 02 Dec 2025 15:03:37 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CAE2C9BCE5
+	for <lists+linux-media@lfdr.de>; Tue, 02 Dec 2025 15:37:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 4EBB24E3864
-	for <lists+linux-media@lfdr.de>; Tue,  2 Dec 2025 14:03:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 383D03A4499
+	for <lists+linux-media@lfdr.de>; Tue,  2 Dec 2025 14:37:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78131322A15;
-	Tue,  2 Dec 2025 14:03:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R9kSqZuZ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D418A238171;
+	Tue,  2 Dec 2025 14:36:58 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C9D2315D27
-	for <linux-media@vger.kernel.org>; Tue,  2 Dec 2025 14:03:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9857D221F0A
+	for <linux-media@vger.kernel.org>; Tue,  2 Dec 2025 14:36:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764684197; cv=none; b=Q1xgCpB9wTsil9nGP91JQe2KWJGSueE335yNb44mp2Kj20H6dFC2eaJp7zLdSxBwFAJOjtZ9jwKv7nuIXa/8BObqHE0mQgwChCGkSl09Ft0zxuR1N+5nQX93rG4GeAW4gq/zXX4UGqbQgfnsktKX5w4pnXG7SNinQ341EEVh3yg=
+	t=1764686218; cv=none; b=qwOb1ZZCD9LeRty4cOvI0a/CJLuxwHUtZV31Wtu/hcho2f5nJHkEMFoTzVhZU8tGOOr8KL6qEbB9r2saVXbRx5jRvSqds2FlIviMFSFA1v2GUEIcWSitBc2k76mPB4WwdjCWHC6JaffCpbDJLq1frU4cZ2VhRQ0mX6bjlkSKuuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764684197; c=relaxed/simple;
-	bh=51HA4kszeefbLH/zdthS5lnS/8T7ynKQZgoCCZI4TKc=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o1CLA+NWeoLblICQVlshDA7tH1gVTOFy3++CrMg6AHLxsuZKZer3irMr6uLY4fD19UpOAaRA4FFpOMv/66nDDQunIikG90vpBhQG9H9dUl07be0OoE+kIAVDJP6fla5fzY+h5RR5A52z4ppfjwfiIFDi/jnVVL1d6l5yrGUyDP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R9kSqZuZ; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5957f617ff0so6283454e87.2
-        for <linux-media@vger.kernel.org>; Tue, 02 Dec 2025 06:03:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764684194; x=1765288994; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Qv1K7J2piWEBLYsmYS5El8b8US/OwNpgXHLpQ7GMrlY=;
-        b=R9kSqZuZyJLw9gcmKpvFSiz2VvEA4njON40Msc/9GljFQpGX50ZcgyeNOsHz+7rBxx
-         EsV0Gj6R8cjkCbGaWOPyfwfILRjbqXzylWkPsoEaK3BqEFkTmlA8uf12F4QrXagxmf8l
-         8ztGVpvPB+Ie+f/siSfMGVXYAD0ghWP7mhPJpu3XsOf8nxqGOiMuBH/BnGgm1pMbL/YP
-         jzQXABJ15REh6Cw6jCA0rC03bnMRdLqDfdMAl9uPKwYsHbuIbzgJAI3bhNy2TA4dDbOb
-         bWVU/F5Lv7ecWjoCuoazz0olO9+4yTtBKfhox5YLziNbaswDPu7FIOo2MosNtEmvspug
-         nxBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764684194; x=1765288994;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qv1K7J2piWEBLYsmYS5El8b8US/OwNpgXHLpQ7GMrlY=;
-        b=KDv3AYwoK3nH1+Nn6Zeswx4qqyEJ6wKqI/Ls0czgtYK3W4YW+garv+yHXdGnoG+S79
-         czOsixSiCuljwrwvlQsOAZQZtJQQsoQYGplRBsCVUWd2b4Xco2DaUTiimHG03mdynBWi
-         rR7zfK24i6Bc87jIpZ+0n0TLRXorcg+Nt7T7U/DGcaKreAqTbA/u4PqvViLLyl55yjpi
-         Hi39BmgH4dwPMDdZfuECQKuUhr7gh0Azmc8vMcmTOE+iG7ougEe9jFL/Docq4wQ9cuDX
-         yrR2C/4xBQ0h2q+53JK6ouJfPRvgXuybmDGE5uRRqopYyIsy+24rFum3NSiMe2TtWsJm
-         fSsw==
-X-Forwarded-Encrypted: i=1; AJvYcCWPJo0IVdruxguSrdn9CBFN4lfgB/0b4Zzfgf9dvgMNZXLcpqA6Hk9NG2xW2VtvAXCx70k/lpDWs5YoXQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9J5dEsw7hbc8uPT62pzAtelVuqRX8TJ5GV+8Iom6B+AyoSMTx
-	MM3F9kzWpOEc1QkwmJu74X6BXLLRxLswYekDHQ4ebwJBsc60Mxj1k4mC
-X-Gm-Gg: ASbGnctE4iwUK6dROkfB3mRipYbcy3+JxDM7SrAIA2sQ3wsAk0DkFyNDAu+mv6Xuwle
-	yuiNyh19cTBqI1tMNFQq1YbPIuTO73oRqcSGv+xg63as5VyAdqPxBR38Xg3RZUgYF+B1JRhQt2m
-	z7AgbKPNFzY0We/kDDEz/KS32Zwh0QncGsZxyeaX6lyhDO1ahK7uGiXb9wvz1lR7d+qpiysfIMO
-	HAFNCGodUl4rSxrQ/ie73G/zNSlZCz8LIsz2VL9hgwiXgM1JpZO745eA/aYaI1voITnL+UWaiDT
-	zlDRkZITiFvnxCowKmDeEH4P1HnSEUujVbfkwr3VtaVlbP68KNz6hBKpAB34UpUPaDCF522o/3T
-	RhMCmBW7uth6Iplk/nj0jrHiNb198343mipY+jTSjpbUleS78LrnMnjYpNfQNHstpImAA2yexWo
-	HFlmmgaMFEFU6g+IOIb7HoR/GMa6uuzHxr
-X-Google-Smtp-Source: AGHT+IFMPwW4Ci4ma2kd/bf6E5zfBDbaLqbg0ejouUGZkkjz6Fd31OThqfP5IxcvJU8zZMZi6pGF4A==
-X-Received: by 2002:a05:6512:1149:b0:595:90f9:b9d2 with SMTP id 2adb3069b0e04-596a3ea67c2mr17072594e87.3.1764684193847;
-        Tue, 02 Dec 2025 06:03:13 -0800 (PST)
-Received: from pc636 (host-95-203-3-14.mobileonline.telia.com. [95.203.3.14])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-596bfa48c5dsm4644152e87.77.2025.12.02.06.03.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Dec 2025 06:03:12 -0800 (PST)
-From: Uladzislau Rezki <urezki@gmail.com>
-X-Google-Original-From: Uladzislau Rezki <urezki@pc636>
-Date: Tue, 2 Dec 2025 15:03:10 +0100
-To: Barry Song <21cnbao@gmail.com>
-Cc: Uladzislau Rezki <urezki@gmail.com>, akpm@linux-foundation.org,
-	linux-mm@kvack.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	linux-kernel@vger.kernel.org, Barry Song <v-songbaohua@oppo.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	John Stultz <jstultz@google.com>,
-	Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH RFC] mm/vmap: map contiguous pages in batches whenever
- possible
-Message-ID: <aS7xnhxNhJ71cJRb@pc636>
-References: <20251122090343.81243-1-21cnbao@gmail.com>
- <aSiB-UsunuE7u295@milan>
- <CAGsJ_4z21fN2KSg6jt_qveYgrKZw1Vsi_kb+uhed=RJAbujMHw@mail.gmail.com>
- <aS13J6U-QMOrwwbs@milan>
- <CAGsJ_4yGLdhk84Ent8VRcE4_2Am_U=bXTVdV2LHDBtD2OZs8xg@mail.gmail.com>
+	s=arc-20240116; t=1764686218; c=relaxed/simple;
+	bh=+EeVH2acrEQebb7pmkKa4F50vfoIxeK7NnaPgJHaqgs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BsO/B1h38+sCkGLBZu3B4noUtWq/DEM0vvZhC+QH+K3ltyjyDhr1J6ZQA/RGvLU5pOcdi0WoCZkGIWlDl/JcSVKWvxUnb0RO9Kvoas1+MO8+oU+mcn5ei3fBwoT+8VLL12Dv6ykCbfe5Ahszqvou1slZhl1YMWjCjYzyuFj8RNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <s.pueschel@pengutronix.de>)
+	id 1vQRUa-0004ex-Pi; Tue, 02 Dec 2025 15:36:36 +0100
+Message-ID: <2dc6c675-9c69-40a1-b2ed-ff1d22157228@pengutronix.de>
+Date: Tue, 2 Dec 2025 15:36:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 03/16] media: rockchip: rga: align stride to 16 bytes
+To: Nicolas Dufresne <nicolas@ndufresne.ca>,
+ Jacob Chen <jacob-chen@iotwrt.com>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, kernel@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+References: <20251007-spu-rga3-v1-0-36ad85570402@pengutronix.de>
+ <20251007-spu-rga3-v1-3-36ad85570402@pengutronix.de>
+ <db7030790063d0ebe6d254c7053e758184b9d7cc.camel@ndufresne.ca>
+Content-Language: en-US
+From: =?UTF-8?Q?Sven_P=C3=BCschel?= <s.pueschel@pengutronix.de>
+In-Reply-To: <db7030790063d0ebe6d254c7053e758184b9d7cc.camel@ndufresne.ca>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGsJ_4yGLdhk84Ent8VRcE4_2Am_U=bXTVdV2LHDBtD2OZs8xg@mail.gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: s.pueschel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
-On Tue, Dec 02, 2025 at 06:05:56AM +0800, Barry Song wrote:
-> On Mon, Dec 1, 2025 at 7:08 PM Uladzislau Rezki <urezki@gmail.com> wrote:
-> >
-> > On Fri, Nov 28, 2025 at 04:43:54AM +0800, Barry Song wrote:
-> > > > >
-> > > > > +     /*
-> > > > > +      * Some users may allocate pages from high-order down to order 0.
-> > > > > +      * We roughly check if the first page is a compound page. If so,
-> > > > > +      * there is a chance to batch multiple pages together.
-> > > > > +      */
-> > > > >       if (!IS_ENABLED(CONFIG_HAVE_ARCH_HUGE_VMALLOC) ||
-> > > > > -                     page_shift == PAGE_SHIFT)
-> > > > > +                     (page_shift == PAGE_SHIFT && !PageCompound(pages[0])))
-> > > > >
-> > > > Do we support __GFP_COMP as vmalloc/vmap flag? As i see from latest:
-> > >
-> > > This is not the case for vmalloc, but applies to dma-bufs that are allocated
-> > > using alloc_pages() with GFP_COMP.
-> > >
-> > > #define LOW_ORDER_GFP (GFP_HIGHUSER | __GFP_ZERO)
-> > > #define HIGH_ORDER_GFP  (((GFP_HIGHUSER | __GFP_ZERO | __GFP_NOWARN \
-> > >                                 | __GFP_NORETRY) & ~__GFP_RECLAIM) \
-> > >                                 | __GFP_COMP)
-> > >
-> > > >
-> > > > /*
-> > > >  * See __vmalloc_node_range() for a clear list of supported vmalloc flags.
-> > > >  * This gfp lists all flags currently passed through vmalloc. Currently,
-> > > >  * __GFP_ZERO is used by BPF and __GFP_NORETRY is used by percpu. Both drm
-> > > >  * and BPF also use GFP_USER. Additionally, various users pass
-> > > >  * GFP_KERNEL_ACCOUNT. Xfs uses __GFP_NOLOCKDEP.
-> > > >  */
-> > > > #define GFP_VMALLOC_SUPPORTED (GFP_KERNEL | GFP_ATOMIC | GFP_NOWAIT |\
-> > > >                                __GFP_NOFAIL |  __GFP_ZERO | __GFP_NORETRY |\
-> > > >                                GFP_NOFS | GFP_NOIO | GFP_KERNEL_ACCOUNT |\
-> > > >                                GFP_USER | __GFP_NOLOCKDEP)
-> > > >
-> > > > Could you please clarify when PageCompound(pages[0]) returns true?
-> > > >
-> > >
-> > > In this case, dma-buf attempts to allocate as many compound high-order pages
-> > > as possible, falling back to 0-order allocations if necessary.
-> > >
-> > OK, it is folio who uses it.
-> >
-> > > Then, dma_buf_vmap() is called by the GPU drivers:
-> > >
-> > >  1    404  drivers/accel/amdxdna/amdxdna_gem.c <<amdxdna_gem_obj_vmap>>
-> > >              dma_buf_vmap(abo->dma_buf, map);
-> > >    2   1568  drivers/dma-buf/dma-buf.c <<dma_buf_vmap_unlocked>>
-> > >              ret = dma_buf_vmap(dmabuf, map);
-> > >    3    354  drivers/gpu/drm/drm_gem_shmem_helper.c
-> > > <<drm_gem_shmem_vmap_locked>>
-> > >              ret = dma_buf_vmap(obj->import_attach->dmabuf, map);
-> > >    4     85  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-> > > <<etnaviv_gem_prime_vmap_impl>>
-> > >              ret = dma_buf_vmap(etnaviv_obj->base.import_attach->dmabuf, &map);
-> > >    5    433  drivers/gpu/drm/vmwgfx/vmwgfx_blit.c <<map_external>>
-> > >              ret = dma_buf_vmap(bo->tbo.base.dma_buf, map);
-> > >    6     88  drivers/gpu/drm/vmwgfx/vmwgfx_gem.c <<vmw_gem_vmap>>
-> > >              ret = dma_buf_vmap(obj->import_attach->dmabuf, map);
-> > >
-> > Thank you for clarification. That would be good to reflect it in the
-> > commit message. Also, please note that:
-> 
-> Sure.
-> 
-> >
-> > >       if (!IS_ENABLED(CONFIG_HAVE_ARCH_HUGE_VMALLOC) ||
-> > > -                     page_shift == PAGE_SHIFT)
-> > > +                     (page_shift == PAGE_SHIFT && !PageCompound(pages[0])))
-> > >
-> > we rely on page_shift == PAGE_SHIFT condition for the non-sleep vmalloc()
-> > allocations(GFP_ATOMIC, GFP_NOWAIT), so we go via vmap_small_pages_range_noflush()
-> > path. Your patch adds !PageCompound(pages[0]) also. It is not a problem
-> > since it is vmap() path but we need to comment that.
-> 
-> Sure. Would the following work?
-> 
->         /*
->          * For vmap(), users may allocate pages from high orders down
-> to order 0,
->          * while always using PAGE_SHIFT as the page_shift.
->          * We first check whether the initial page is a compound page. If so,
->          * there may be an opportunity to batch multiple pages together.
->          */
->         if (!IS_ENABLED(CONFIG_HAVE_ARCH_HUGE_VMALLOC) ||
->                         (page_shift == PAGE_SHIFT && !PageCompound(pages[0])))
->                 return vmap_small_pages_range_noflush(addr, end, prot, pages);
-> 
-Sounds good!
+Hi Nicolas,
 
-Thank you.
+On 10/7/25 8:19 PM, Nicolas Dufresne wrote:
+> Hi,
+>
+>
+> Le mardi 07 octobre 2025 à 10:31 +0200, Sven Püschel a écrit :
+>> Align the stride to a multiple of 16 according to the RGA3 requirements
+>> mentioned in the datasheet. This also ensures that the stride of the RGA2
+>> is aligned to 4 bytes, as it needs to divide the value by 4 (one word)
+>> before storing it in the register.
+>>
+>> Increasing the stride for the alignment also requires to increase the
+>> sizeimage value. This is usually handled by v4l2_fill_pixfmt_mp, but
+>> it doesn't allow to set a stride alignment. Therefore use the generated
+>> values to calculate the total number of lines to properly update the
+>> sizeimage value after the bytesperline has been aligned.
+>>
+>> Signed-off-by: Sven Püschel <s.pueschel@pengutronix.de>
+>> ---
+>>   drivers/media/platform/rockchip/rga/rga.c | 21 +++++++++++++++++++++
+>>   1 file changed, 21 insertions(+)
+>>
+>> diff --git a/drivers/media/platform/rockchip/rga/rga.c
+>> b/drivers/media/platform/rockchip/rga/rga.c
+>> index
+>> 6438119a6c7aeff1e89e7aa95dcd5d2921fefa08..3cb7ce470c47e39d694e8176875a75fad271
+>> 7f96 100644
+>> --- a/drivers/media/platform/rockchip/rga/rga.c
+>> +++ b/drivers/media/platform/rockchip/rga/rga.c
+>> @@ -459,6 +459,25 @@ static int vidioc_enum_fmt(struct file *file, void *priv,
+>> struct v4l2_fmtdesc *f
+>>   	return 0;
+>>   }
+>>   
+>> +static void align_pixfmt(struct v4l2_pix_format_mplane *pix_fmt)
+>> +{
+>> +	int lines;
+>> +	struct v4l2_plane_pix_format *fmt;
+>> +
+>> +	/*
+>> +	 * Align stride to 16 for the RGA3 (based on the datasheet)
+>> +	 * To not dismiss the v4l2_fill_pixfmt_mp helper
+>> +	 * (and manually write it again), we're approximating the new
+>> sizeimage
+>> +	 */
+>> +	for (fmt = pix_fmt->plane_fmt;
+>> +	     fmt < pix_fmt->plane_fmt + pix_fmt->num_planes;
+>> +	     fmt++) {
+>> +		lines = DIV_ROUND_UP(fmt->sizeimage, fmt->bytesperline);
+>> +		fmt->bytesperline = (fmt->bytesperline + 0xf) & ~0xf;
+>> +		fmt->sizeimage = fmt->bytesperline * lines;
+> Instead of open coding this, describe this with struct v4l2_frmsize_stepwise and
+> then use v4l2_apply_frmsize_constraints().
+Looking into v4l2_frmsize_stepwise, it only applies to the width/height 
+values, whereas I'm interested to control the stride 
+byte-alignment/stepping (allowing free range widths/heights).
 
---
-Uladzislau Rezki
+Do you intent that I (mis)use it like this: 
+v4l2_apply_frmsize_constraints(&fmt->bytesperline, &lines, &constraints)  ?
+
+This only replaces one of the three lines in the for loop (where i 
+manually do the alignment with & ~0xf) and would also look odd, as i use 
+a value in bytes as a width parameter (expected to be in pixels).
+
+Technically the core problem is that the v4l2_fill_pixfmt_mp helper 
+doesn't allow to specify a stride byte alignment and just aligns the 
+stride based on the format requirements. Therefore I think that maybe 
+creating a new v4l2_fill_pixfmt_mp_aligned helper would probably be the 
+better solution to get the correct bytesperline value right from the 
+start instead of adjusting it afterwards.
+
+Sincerely
+     Sven
+>
+> Nicolas
+>
+>> +	}
+>> +}
+>> +
+>>   static int vidioc_g_fmt(struct file *file, void *priv, struct v4l2_format *f)
+>>   {
+>>   	struct v4l2_pix_format_mplane *pix_fmt = &f->fmt.pix_mp;
+>> @@ -474,6 +493,7 @@ static int vidioc_g_fmt(struct file *file, void *priv,
+>> struct v4l2_format *f)
+>>   		return PTR_ERR(frm);
+>>   
+>>   	v4l2_fill_pixfmt_mp(pix_fmt, frm->fmt->fourcc, frm->width, frm-
+>>> height);
+>> +	align_pixfmt(pix_fmt);
+>>   
+>>   	pix_fmt->field = V4L2_FIELD_NONE;
+>>   	pix_fmt->colorspace = frm->colorspace;
+>> @@ -496,6 +516,7 @@ static int vidioc_try_fmt(struct file *file, void *priv,
+>> struct v4l2_format *f)
+>>   				(u32)MIN_HEIGHT, (u32)MAX_HEIGHT);
+>>   
+>>   	v4l2_fill_pixfmt_mp(pix_fmt, fmt->fourcc, pix_fmt->width, pix_fmt-
+>>> height);
+>> +	align_pixfmt(pix_fmt);
+>>   	pix_fmt->field = V4L2_FIELD_NONE;
+>>   
+>>   	return 0;
 
