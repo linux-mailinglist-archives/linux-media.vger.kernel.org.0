@@ -1,45 +1,45 @@
-Return-Path: <linux-media+bounces-48067-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48070-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0394C9AF25
-	for <lists+linux-media@lfdr.de>; Tue, 02 Dec 2025 10:50:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EEA0C9AF46
+	for <lists+linux-media@lfdr.de>; Tue, 02 Dec 2025 10:50:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8EF233A5946
-	for <lists+linux-media@lfdr.de>; Tue,  2 Dec 2025 09:50:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B751B3A52EE
+	for <lists+linux-media@lfdr.de>; Tue,  2 Dec 2025 09:50:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64E473126D3;
-	Tue,  2 Dec 2025 09:48:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3E49313528;
+	Tue,  2 Dec 2025 09:48:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="U5HN5oAS"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="eQwv2cRR"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC7330F938;
-	Tue,  2 Dec 2025 09:48:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06273101BC;
+	Tue,  2 Dec 2025 09:48:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764668898; cv=none; b=lzcuiJ06Kzy9VPVCkUJx+QkL/aNZwmb630MgXNdm6Kfkm72pqRhnZbJpj/y+2Qff5Ocp0ZeG0+LO095PidaSvBroIuuV4usSpXoNdlQ4esMriU0TWWMigRBfvInxAw++dbI0zPBK7/dK527/e6Ij5PIMa0wtLSGa9NIOLusDkxA=
+	t=1764668900; cv=none; b=omR5e5e0M8nhbzEJHGgNjvJtjODDailqhfvEkpRMY95jImn3Lk5RSpNhEbE8TflTvOeqaH3fUKaBWJR28Hgjv0mZBfyyhKPyvg1I3Cp1fCc1jiJaG32nbWNCD586aE1ig54VPSedf8Cu29vea2Ej8LtG7T5uUFf8jwuWzqYiwZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764668898; c=relaxed/simple;
-	bh=DUD+IG20g8nBszI9RxMqAx00g5pguJIOzHrEekSkUUU=;
+	s=arc-20240116; t=1764668900; c=relaxed/simple;
+	bh=LmveSk1X0P8PvNuoNGMBRtTdSRAiXzOXs1HGHPzhZpc=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aJUWCb7HYcCI5P5+mIp+cLk6AMDwNFH8onTFQBJLsFUVN0uRUuYhY7ga5s5xRdIhuZAkCFQCkfuRtqjFEAF4sLyXh03Iqfd3n+IhRxU7f8ljgOUqDc1i8eRPrTCc10MV4JOU7Ti0xuR3lQ7HOglreb/KPRXoF088VbvC1j9PgGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=U5HN5oAS; arc=none smtp.client-ip=60.244.123.138
+	 MIME-Version:Content-Type; b=G9h0RHzmm1VFu+GdsWg0zY5fR0LskHGZnXKl4uqXzBoEfbPzN1TTzJaCWNw3OVSX42T2FJJrWKcQOMXO2Tv5qmbxVNKG8CHkgf6rTEHFkhfIPzZ+vjO8c4CMkJpg+qeDiSxKERjbTdjTyg285e+ZPE7cr4rAvRfkgt2KyZX7e7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=eQwv2cRR; arc=none smtp.client-ip=60.244.123.138
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 02b14856cf6411f0b2bf0b349165d6e0-20251202
+X-UUID: 0317971ecf6411f0b2bf0b349165d6e0-20251202
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From; bh=ViQArR1ogSjKsas39yr97vtLVmmd76w4W76GCjYsi14=;
-	b=U5HN5oASaum6Xelr55LeKUmsZnwWvpC94gZvBDBhwP3BpTP9mXpZ/vKioCWYVqNQhEWKz9pn+SuPERbBj8Pe9ET4L+iCN6uAXWEV+oR6E8cNpOH4ciqz2iLny1uBFM6bsNxBAW0tOqtwy3Jp8goMn9P/57FJQoEurYU80pP1u6o=;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From; bh=P8nMQyvqAEvTMNFloU8dimln6zLZ/iOTUuTzZmxrUrs=;
+	b=eQwv2cRR7um5wxL7ITF/W4YZV0u9HYX7/4F2eBHoUTYf0qcr59CDqeBPA/AhSwsLBlHGyAUvWIfeu6Q+ijm6h5qPI+qbrPfUsdltzYjPGiFCYtSBNPlr/cHFZHe3UaFP0TjeteoEm5Lv+sbb6AGveMqYq8is+BLoXHEJ4lsP9Nc=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.6,REQID:30191727-d274-4a69-a9f4-4e262b8681d6,IP:0,UR
+X-CID-O-INFO: VERSION:1.3.6,REQID:5a420ef8-9260-4ac2-a203-d27a1476e0f9,IP:0,UR
 	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
 	elease,TS:0
-X-CID-META: VersionHash:a9d874c,CLOUDID:544bbca9-6421-45b1-b8b8-e73e3dc9a90f,B
+X-CID-META: VersionHash:a9d874c,CLOUDID:5b455002-1fa9-44eb-b231-4afc61466396,B
 	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|836|888|898,TC:-5,Content:
 	0|15|50,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,BEC:nil,COL:0,OS
 	I:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
@@ -47,18 +47,18 @@ X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 02b14856cf6411f0b2bf0b349165d6e0-20251202
-Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by mailgw01.mediatek.com
+X-UUID: 0317971ecf6411f0b2bf0b349165d6e0-20251202
+Received: from mtkmbs09n1.mediatek.inc [(172.21.101.35)] by mailgw01.mediatek.com
 	(envelope-from <kyrie.wu@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 355303269; Tue, 02 Dec 2025 17:48:09 +0800
+	with ESMTP id 620156547; Tue, 02 Dec 2025 17:48:10 +0800
 Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.1748.26; Tue, 2 Dec 2025 17:48:08 +0800
 Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
  mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1748.26 via Frontend Transport; Tue, 2 Dec 2025 17:48:07 +0800
+ 15.2.1748.26 via Frontend Transport; Tue, 2 Dec 2025 17:48:08 +0800
 From: Kyrie Wu <kyrie.wu@mediatek.com>
 To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab
 	<mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
@@ -68,9 +68,9 @@ To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab
 	<linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
 	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
 	<linux-mediatek@lists.infradead.org>
-Subject: [PATCH v11 07/12] media: mediatek: jpeg: fix decoding resolution change operation
-Date: Tue, 2 Dec 2025 17:47:55 +0800
-Message-ID: <20251202094800.6140-8-kyrie.wu@mediatek.com>
+Subject: [PATCH v11 08/12] media: mediatek: jpeg: fix remove buffer operation for multi-core
+Date: Tue, 2 Dec 2025 17:47:56 +0800
+Message-ID: <20251202094800.6140-9-kyrie.wu@mediatek.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20251202094800.6140-1-kyrie.wu@mediatek.com>
 References: <20251202094800.6140-1-kyrie.wu@mediatek.com>
@@ -84,56 +84,57 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-MTK: N
 
-1.add a judgement for src buffer to avoid kernel crash
-in the stop streaming function;
-2.When a resolution changing occurs, it needs to set new
-resolution parameter immediately and then report this event.
-Otherwise, if the original software process is maintained,
-the resolution change event is reported firstly, the CPU is
-dispatched to the app to process the event, and the driver
-does not set a new resolution, which will cause parameter errors.
-3.After a resolution change occurred, decoding should not continue,
-needs to wait until new buffers are ready and the state machine
-changed.
+move remove buffer code to spinlock protect area for multi-core
 
-Fixes: dedc21500334 ("media: mtk-jpegdec: add jpeg decode worker interface")
+Fixes: 86379bd9d399 ("media: mtk-jpeg: Fixes jpeg enc&dec worker sw flow")
 
 Signed-off-by: Kyrie Wu <kyrie.wu@mediatek.com>
 ---
- drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-index 5ffaee4dcd19..9233bbfe2d97 100644
+index 9233bbfe2d97..da1ca494ed4b 100644
 --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
 +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-@@ -887,7 +887,8 @@ static void mtk_jpeg_dec_stop_streaming(struct vb2_queue *q)
- 
- 		vb = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
- 		src_buf = mtk_jpeg_vb2_to_srcbuf(&vb->vb2_buf);
--		mtk_jpeg_set_queue_data(ctx, &src_buf->dec_param);
-+		if (!IS_ERR_OR_NULL(src_buf))
-+			mtk_jpeg_set_queue_data(ctx, &src_buf->dec_param);
- 		ctx->state = MTK_JPEG_RUNNING;
- 	} else if (V4L2_TYPE_IS_OUTPUT(q->type)) {
- 		ctx->state = MTK_JPEG_INIT;
-@@ -1749,11 +1750,15 @@ static void mtk_jpegdec_worker(struct work_struct *work)
- 
- 	if (mtk_jpeg_check_resolution_change(ctx,
- 					     &jpeg_src_buf->dec_param)) {
--		mtk_jpeg_queue_src_chg_event(ctx);
-+		mtk_jpeg_set_queue_data(ctx, &jpeg_src_buf->dec_param);
- 		ctx->state = MTK_JPEG_SOURCE_CHANGE;
-+		mtk_jpeg_queue_src_chg_event(ctx);
- 		goto getbuf_fail;
+@@ -1665,9 +1665,6 @@ static void mtk_jpegenc_worker(struct work_struct *work)
+ 		goto enc_end;
  	}
  
-+	if (ctx->state == MTK_JPEG_SOURCE_CHANGE)
-+		goto getbuf_fail;
-+
- 	mtk_jpegdec_set_hw_param(ctx, hw_id, src_buf, dst_buf);
- 	ret = pm_runtime_resume_and_get(comp_jpeg[hw_id]->dev);
- 	if (ret < 0) {
+-	v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
+-	v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
+-
+ 	schedule_delayed_work(&comp_jpeg[hw_id]->job_timeout_work,
+ 			      msecs_to_jiffies(MTK_JPEG_HW_TIMEOUT_MSEC));
+ 
+@@ -1685,6 +1682,8 @@ static void mtk_jpegenc_worker(struct work_struct *work)
+ 			     &src_buf->vb2_buf);
+ 	mtk_jpeg_set_enc_params(ctx, comp_jpeg[hw_id]->reg_base);
+ 	mtk_jpeg_enc_start(comp_jpeg[hw_id]->reg_base);
++	v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
++	v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
+ 	jpeg_buf_queue_inc(ctx);
+ 	v4l2_m2m_job_finish(jpeg->m2m_dev, ctx->fh.m2m_ctx);
+ 	spin_unlock_irqrestore(&comp_jpeg[hw_id]->hw_lock, flags);
+@@ -1767,9 +1766,6 @@ static void mtk_jpegdec_worker(struct work_struct *work)
+ 		goto dec_end;
+ 	}
+ 
+-	v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
+-	v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
+-
+ 	mtk_jpeg_set_dec_src(ctx, &src_buf->vb2_buf, &bs);
+ 	if (mtk_jpeg_set_dec_dst(ctx,
+ 				 &jpeg_src_buf->dec_param,
+@@ -1794,6 +1790,8 @@ static void mtk_jpegdec_worker(struct work_struct *work)
+ 				jpeg_src_buf->bs_size,
+ 				&bs,
+ 				&fb);
++	v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
++	v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
+ 	mtk_jpeg_dec_start(comp_jpeg[hw_id]->reg_base);
+ 	jpeg_buf_queue_inc(ctx);
+ 	v4l2_m2m_job_finish(jpeg->m2m_dev, ctx->fh.m2m_ctx);
 -- 
 2.45.2
 
