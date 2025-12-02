@@ -1,54 +1,54 @@
-Return-Path: <linux-media+bounces-48049-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48050-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2FAAC9A905
-	for <lists+linux-media@lfdr.de>; Tue, 02 Dec 2025 08:52:59 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 089F1C9A908
+	for <lists+linux-media@lfdr.de>; Tue, 02 Dec 2025 08:53:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CB1B33A5FF4
-	for <lists+linux-media@lfdr.de>; Tue,  2 Dec 2025 07:52:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 17D743A6119
+	for <lists+linux-media@lfdr.de>; Tue,  2 Dec 2025 07:52:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B99A302745;
-	Tue,  2 Dec 2025 07:52:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 255963043D4;
+	Tue,  2 Dec 2025 07:52:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iluSwDC0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SiFvjxtV"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF3A302772
-	for <linux-media@vger.kernel.org>; Tue,  2 Dec 2025 07:52:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86153302CC6
+	for <linux-media@vger.kernel.org>; Tue,  2 Dec 2025 07:52:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764661963; cv=none; b=pWEkLGKzMlvCvu9xdVAHqWBgcKoTY/07m147eiQShXAoY01sOknl0FbpgcDpYnCSPQHx3zZQY4EeI/ttaBz8g1q1D2ijfgvdvsfrpvR94uKPIHMbLqcBYijSt55Qk/uyCgZLjOSKMc0B63poTXi5mqTAuNLrz0/kGYUaajMleLw=
+	t=1764661965; cv=none; b=NpLYxFzTDjHvsa+bYfep/r0/+lMtSr+DSTFsUInWgCL+KIix98taN+2ZaNxcRitftlAzafRmPu9l28OUnZkShe7dc7P8tnP8k5k0RJNbu5ualODXDwnSBRUNtHuhMkEaeZxh3yhzxaZ1WBy64zXCslR9t00WeXNzz1GslZHn32Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764661963; c=relaxed/simple;
-	bh=l+jU2o4Cp/fMly8PA41JYwzAIBTQAddqleVXLYuHVwU=;
+	s=arc-20240116; t=1764661965; c=relaxed/simple;
+	bh=l+1kDlQwSj8hi9St1QMK0LThX9ivBWy30d2SFpWDN2s=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PhQGQHd9RzTUKBiu0zHXeLjPXbNE+idf9ALnIjvSlEWK9fBCMk42TO/YItyVdVZ5C8dWslt1rQC3qJqc91EyiYsihW5iKdTSJOTCe/OniWj1P84D2WNjicv43JsKjf68teioEV5J5GMIe6QnZqZe+QpYhlLsxT1A/lIoGodmMtA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iluSwDC0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BDECC4CEF1;
-	Tue,  2 Dec 2025 07:52:41 +0000 (UTC)
+	 MIME-Version; b=R7ZTVlzgYkQAw9SntU1WhB5KJYbPTcYgr/qeYumFZkGgEZubk1Z1x4M32Y3axyZ/DKQ/k4Q0kXgtvXkxBkO7ayx2uQmlXbUo62iWAo21IpbAlvKklzOiARZm6Dhlh5BXd1K6nJTqHSVwS3/m8K9BWZOcZVP5jHSpx42rwG+V5bc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SiFvjxtV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 038EBC4CEF1;
+	Tue,  2 Dec 2025 07:52:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764661963;
-	bh=l+jU2o4Cp/fMly8PA41JYwzAIBTQAddqleVXLYuHVwU=;
+	s=k20201202; t=1764661965;
+	bh=l+1kDlQwSj8hi9St1QMK0LThX9ivBWy30d2SFpWDN2s=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=iluSwDC0bKAkB7yYVLJ3IGTOh9OCyT9iUy5cDYJ0lkoDiucam7KblRLIyMC3X3ppv
-	 wgrtQFsfG+m6vkQzR1taOiPM4TOa2fhkBPTnOqvGL2jXGYQv8WfZ5B4uwqvdcKND0Z
-	 ViRlbwBRcGOCqGtqUOQG6O+Gx5Oc5nReDwgK6vWg9738qtUXCi4kc6lfeDh158u5m+
-	 MXTOFABVV0+MppV10NhIohu4HqsOCsBFWUAKr/ATd0VRaSdXKRW8tJb7jjuras8+vT
-	 Sf3HsCXebLj5Btt5qGseZVKwfNyg0dzWD3eBwrFuRxlalYGfnDDaZ68bHgGhi/6hjI
-	 svzz1OGhiTrtA==
+	b=SiFvjxtVjpaL02gJ90rVtpZewSkAKckdCj/r1d+iGmY+7/ovk1IL/CgM8huhGvmfw
+	 iuyZUGef4vGF0lBeY6NtjvQwpb5pWPmlgtNA7aTUKDmxfaDHEbaY/v8+8+9ZsCmfLy
+	 f8I+0S8Vg/JQYKBHk+nk0v3h5aB1pGMExVrllp6n7Qx3nEIdkoBgOAOkaiu4J6xfhh
+	 EyvpirnGUmpgne9fb7pKGaeoL/i3QABme8wrABOAvUT+IUhj7Iz9XbTWuFIXKMt4WE
+	 EwphCJkdz0YIburSyIbtr6b70ErNxN/WFDXOcOJG2kuPm7XLZbRLlnkv5lJd5gBRh9
+	 7uTRXZ0hjvzvA==
 From: Hans Verkuil <hverkuil+cisco@kernel.org>
 To: linux-media@vger.kernel.org
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	laurent.pinchart@ideasonboard.com,
 	Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: [PATCHv3 06/12] media: omap3isp: set initial format
-Date: Tue,  2 Dec 2025 08:51:14 +0100
-Message-ID: <ba1f29fa4919cee573074cc86813614982588776.1764661880.git.hverkuil+cisco@kernel.org>
+Subject: [PATCHv3 07/12] media: omap3isp: rework isp_video_try/set_format
+Date: Tue,  2 Dec 2025 08:51:15 +0100
+Message-ID: <610abc890990a72d9803aaed4bc50c7d2fb5a395.1764661880.git.hverkuil+cisco@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1764661880.git.hverkuil+cisco@kernel.org>
 References: <cover.1764661880.git.hverkuil+cisco@kernel.org>
@@ -60,43 +60,105 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Initialize the v4l2_format to a default. Empty formats are
-not allowed in V4L2, so this fixes v4l2-compliance issues:
+isp_video_set_format now calls isp_video_try_format first, ensuring
+consistent behavior and removing duplicate code in both functions.
 
-	fail: v4l2-test-formats.cpp(514): !pix.width || !pix.height
-test VIDIOC_G_FMT: FAIL
+This fixes an v4l2-compliance error:
+
+	fail: v4l2-test-formats.cpp(519): !pix.sizeimage
+test VIDIOC_S_FMT: FAIL
 
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 ---
- drivers/media/platform/ti/omap3isp/ispvideo.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/media/platform/ti/omap3isp/ispvideo.c | 59 ++++++++++---------
+ 1 file changed, 30 insertions(+), 29 deletions(-)
 
 diff --git a/drivers/media/platform/ti/omap3isp/ispvideo.c b/drivers/media/platform/ti/omap3isp/ispvideo.c
-index 5ce8736ca5bd..c52312b39598 100644
+index c52312b39598..adea39b6d930 100644
 --- a/drivers/media/platform/ti/omap3isp/ispvideo.c
 +++ b/drivers/media/platform/ti/omap3isp/ispvideo.c
-@@ -1319,6 +1319,7 @@ static const struct v4l2_ioctl_ops isp_video_ioctl_ops = {
- static int isp_video_open(struct file *file)
+@@ -700,11 +700,15 @@ isp_video_get_format(struct file *file, void *fh, struct v4l2_format *format)
+ }
+ 
+ static int
+-isp_video_set_format(struct file *file, void *fh, struct v4l2_format *format)
++isp_video_try_format(struct file *file, void *fh, struct v4l2_format *format)
  {
+-	struct isp_video_fh *vfh = file_to_isp_video_fh(file);
  	struct isp_video *video = video_drvdata(file);
-+	struct v4l2_mbus_framefmt fmt;
- 	struct isp_video_fh *handle;
- 	struct vb2_queue *queue;
- 	int ret = 0;
-@@ -1361,6 +1362,13 @@ static int isp_video_open(struct file *file)
+-	struct v4l2_mbus_framefmt fmt;
++	struct v4l2_subdev_format fmt = {
++		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
++	};
++	struct v4l2_subdev *subdev;
++	u32 pad;
++	int ret;
  
- 	memset(&handle->format, 0, sizeof(handle->format));
- 	handle->format.type = video->type;
-+	handle->format.fmt.pix.width = 720;
-+	handle->format.fmt.pix.height = 480;
-+	handle->format.fmt.pix.pixelformat = V4L2_PIX_FMT_UYVY;
-+	handle->format.fmt.pix.field = V4L2_FIELD_NONE;
-+	handle->format.fmt.pix.colorspace = V4L2_COLORSPACE_SRGB;
-+	isp_video_pix_to_mbus(&handle->format.fmt.pix, &fmt);
-+	isp_video_mbus_to_pix(video, &fmt, &handle->format.fmt.pix);
- 	handle->timeperframe.denominator = 1;
+ 	if (format->type != video->type)
+ 		return -EINVAL;
+@@ -744,32 +748,11 @@ isp_video_set_format(struct file *file, void *fh, struct v4l2_format *format)
+ 		break;
+ 	}
  
- 	handle->video = video;
+-	/* Fill the bytesperline and sizeimage fields by converting to media bus
+-	 * format and back to pixel format.
+-	 */
+-	isp_video_pix_to_mbus(&format->fmt.pix, &fmt);
+-	isp_video_mbus_to_pix(video, &fmt, &format->fmt.pix);
+-
+-	mutex_lock(&video->mutex);
+-	vfh->format = *format;
+-	mutex_unlock(&video->mutex);
+-
+-	return 0;
+-}
+-
+-static int
+-isp_video_try_format(struct file *file, void *fh, struct v4l2_format *format)
+-{
+-	struct isp_video *video = video_drvdata(file);
+-	struct v4l2_subdev_format fmt = {
+-		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+-	};
+-	struct v4l2_subdev *subdev;
+-	u32 pad;
+-	int ret;
+-
+-	if (format->type != video->type)
+-		return -EINVAL;
++	if (video->type == V4L2_BUF_TYPE_VIDEO_OUTPUT) {
++		isp_video_pix_to_mbus(&format->fmt.pix, &fmt.format);
++		isp_video_mbus_to_pix(video, &fmt.format, &format->fmt.pix);
++		return 0;
++	}
+ 
+ 	subdev = isp_video_remote_subdev(video, &pad);
+ 	if (subdev == NULL)
+@@ -786,6 +769,24 @@ isp_video_try_format(struct file *file, void *fh, struct v4l2_format *format)
+ 	return 0;
+ }
+ 
++static int
++isp_video_set_format(struct file *file, void *fh, struct v4l2_format *format)
++{
++	struct isp_video_fh *vfh = file_to_isp_video_fh(file);
++	struct isp_video *video = video_drvdata(file);
++	int ret;
++
++	ret = isp_video_try_format(file, fh, format);
++	if (ret)
++		return ret;
++
++	mutex_lock(&video->mutex);
++	vfh->format = *format;
++	mutex_unlock(&video->mutex);
++
++	return 0;
++}
++
+ static int
+ isp_video_get_selection(struct file *file, void *fh, struct v4l2_selection *sel)
+ {
 -- 
 2.51.0
 
