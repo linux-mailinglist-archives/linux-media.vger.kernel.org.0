@@ -1,438 +1,299 @@
-Return-Path: <linux-media+bounces-48084-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48085-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F328C9BA54
-	for <lists+linux-media@lfdr.de>; Tue, 02 Dec 2025 14:43:41 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6DF8C9BAF6
+	for <lists+linux-media@lfdr.de>; Tue, 02 Dec 2025 14:59:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 6ACB14E33AE
-	for <lists+linux-media@lfdr.de>; Tue,  2 Dec 2025 13:43:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7C3C63A6BA3
+	for <lists+linux-media@lfdr.de>; Tue,  2 Dec 2025 13:59:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95026318144;
-	Tue,  2 Dec 2025 13:43:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C660D321434;
+	Tue,  2 Dec 2025 13:59:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="Ur0QWbxy"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="x00jzQT+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC952BE020;
-	Tue,  2 Dec 2025 13:43:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764683006; cv=pass; b=HxtQstCeIghtMb1U+C2jltfry5GGfXLYfvg7sUOATGF5GdMgAeK66KJ4yOvYAaQ6Sg67NFOM8kqpb87rKdb7v+r2qvWgC8Mjgwa/2MZwtFBD0F1/tkUDQwJLyZ+hdjrTMF0S1vUeRLziKTzRoqvkBs54LEooiLyDOTQ13sJTDgY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764683006; c=relaxed/simple;
-	bh=3qSApASyGRPJkQrCqpPnvtGN2d7c41CKx2SD9EboM7Y=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=BHmhGEilNb3QQwh4ZjGaRPGBdRyBVirht4XFgqV27PKtvzgrzPVXbIodkBGdrjoR1ugks7d+zq9VqjxurMcB79OslOfhZvBdnAFHgD0cQjzlaURJPKNkobjQ2ib25XpNmGrh1OGya+ORin7a+71MBtDAY/X9ZPF/jSg/ap7MTk4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=Ur0QWbxy; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1764682964; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=J5deUpTOyfLgWnRYXLaCiZ03EGaxwW0kt/0yekjjDNostrWcaRdy0yOgBdL0doJiqIssx/0yAKflWnrl6Ac9TDoiAAm5Brhm6sYegPEyHEioe3JYe8zvrc9LvUW4DYAcwuq0z9oMcJgl8xM+qsk1oD+ik2JlvZBYvVN8B+sGSSQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1764682964; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=yxkYvGGrptWLGrGGwE3MPFxIX3T7694Py55+2kGg0W4=; 
-	b=Fi1N2V9tGzzIMAYbDcKDXVs+e40qBPSTDoN5Bw3/gp1tgCQhaC0O6NROEl65Ufb4jdQvMjhqULM1I4WLL04BafQaD6wzlZM3/Wbyirwxroz/JKi1JmVcreSw5p+RbECfSnOtsXsi6nVaGTmoGyIBHmJRU0wJ7bj7/3ahvJxs4wQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
-	dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1764682964;
-	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
-	h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
-	bh=yxkYvGGrptWLGrGGwE3MPFxIX3T7694Py55+2kGg0W4=;
-	b=Ur0QWbxyte3VimXITPe7fKzCdcPj497RtWW093nZ3y4JuyzsjvgKxHLIozCWfwqw
-	HiIxPXzSjkRcWbsxjlFsvANrzaXFKHiPinFznThI/GPIIZ8hZKCwjjn6YmlSv4OYC5t
-	W14f3yELfaok3Y5GRLhmUgX6jkmWXogjPnoj0Obc=
-Received: by mx.zohomail.com with SMTPS id 1764682962561352.7419515680556;
-	Tue, 2 Dec 2025 05:42:42 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1940F315772
+	for <linux-media@vger.kernel.org>; Tue,  2 Dec 2025 13:59:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764683957; cv=none; b=IRUEirJ/+C264J/tcvmKX7z5et8BoKFP0Q/JuHg+FHU/j1r9OSUUSpDz4VAbknx7jjxYNKYBYdnvFIn2EM9skN53RCwR/QZYIYCybRtd6f1drMx3282NBC6p3cQrKrWqkoQ/Mlw/aPdA++BOdDZU9lqYC9A92D1zB8nKB8BGX98=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764683957; c=relaxed/simple;
+	bh=HmaqoQIuPwqbMuc4xvu1kJ7krWxxfT7T6CGXIcKTfPE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NWwTlU7KzyhaDye4yPb4lIB8QLfY1R5a364BlzcfPCBTnt2PHWb0+/5Nco/C62lOH1DHCC7cr3xhn3CvHh+fV7x4JVOti0ywn86vlG2mlap6fIHHAWErtdU29MAVcw8x0/YaTFGir5pMevR6HKF7KUh23gd2Vq68nX3BtpK9Y3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=x00jzQT+; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-37a4ab6aa55so3266131fa.3
+        for <linux-media@vger.kernel.org>; Tue, 02 Dec 2025 05:59:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1764683953; x=1765288753; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DNSMC7M9xl88C1slHGyNkETiEDgHYTw4VftIhWKCaB8=;
+        b=x00jzQT+JVQdt8pBJv9imkGZdpnyn/sGqUZFS5rwzM6m0m4g6s3SVOl7j9ATO4zDwa
+         YhXGzNth4l/foZpj2Vsvwhms+xYATWfCt2tEgpcj1neKYLHohXDGwQuum6MMyon2LPgl
+         GGFY3b4atMowb9AbQfuubuhq7VtHj4SvetHS2xKZxa8V0P2zcblbd8E2FP9jVeAP+vaD
+         06pHMQzQnuDBmu1C3pOigxYVDYMXXlEK5JGulh/VkIBRPh7pSwOEC4zZ2rXhiUEeXXVi
+         HB1trdJxXmL4FVJi+MkWTGigZ4/bE5ahtWP2NiJ/QlW8d/egp11tLWBGGTjg0PM3OIs6
+         l70Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764683953; x=1765288753;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DNSMC7M9xl88C1slHGyNkETiEDgHYTw4VftIhWKCaB8=;
+        b=P94QIYpSXdZQgljvphMy+FxMH8svGMKvtMe+fT4uQU2Rh91zD3DqiaQznWC/hmCZrl
+         IZyvF7QQ9auETSXI1sovPIyKV71rAcv/iN4yjYhf9gBFZ96h6fYfClQrOz3zFPacQx7X
+         0AD2sFrA6Axf7kCDY+RsbqxmnQRPXNDVqOUZq2TlBjjqOzUMG8cer7npC4+7aJIf1zkR
+         R0JtpBIOi5/qtWxtIzH6rZ0MmZ9Ab6W6LX/eKt2tJU2THdJCvlkTSNZFsZFoL/xv6NrG
+         eczhc5oNpnH8ISzXmFOAdnRRRxTWhJBhl95gC7KbkCilZvZwSGa0w6SOEoWtTwjYLIaL
+         s+sg==
+X-Forwarded-Encrypted: i=1; AJvYcCVrqhsrAzak+/lX/fjJWRNzQCIL4SfzYJo0LegmkhyOQ5DzezCi4yzea+n+pVj2fRtDYFBCJyJIzoyYhg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwvdwZdhDUETec5naoU91eZS/VQtVFwUkfXdbipHGOo0CXlQ2Kt
+	p/u1LW3NNmli3wD00+2e0QP9yT73hXIXSmnmKGF2rikKz+6zywZ0N5wQJCjrV/JRtXw=
+X-Gm-Gg: ASbGncuZq5/d8Dj6i3mNY88EmasSTqjnek1B7OJV2OJhbjxfNfkCK/glowwlhY27dIc
+	hiByEM3MXOlZQXa9pg52mZJ8yXAeorWYHv81CUEEhfQULQfdpQlPjO7U4ugSyjJkU2gwMh8tH09
+	a9Jp80AELeJIgbwQhKkXZ7reZYLmLFXBtCrgCGJOxv1MYlDWRTTuyXhf+lr/DG7w9hgdSNQmxVg
+	F5A5+BnM00fMorC6dl8e7mRWvCjnycGYrCaGc5+ofK7UVZojqXiCz+/hOYCxP5BCvRkUgHbBVj7
+	b5GcmpVj4NWLPEct2DOVR5HmVPqAMuI//INlCtMW/Hvr/c2FTTYBFzxvCOLwjuNZmClKcTvOvdP
+	KqUki9jQCLFkf6LCRqQPlBq1N4M50ET1lhpOTwjOUR5YjZf69W6WPpuh/wSQjFqi+6/gY3rF1Eu
+	/7xoIRzN2VoJeqmCpQLXnomWB1ucSx14hDrNL5aDzbbgGzKzmzVFqjnEKZBQ8MBYdOyg==
+X-Google-Smtp-Source: AGHT+IFD4ygiTUwpVetjY+YcyYspKUcJU2+mn6x1QGz+FyWnrBex+TX+bFnUsxdCU1JKBbVgW8WtTQ==
+X-Received: by 2002:a05:651c:221f:b0:378:f0d6:8fb1 with SMTP id 38308e7fff4ca-37cdc416570mr63309411fa.5.1764683953036;
+        Tue, 02 Dec 2025 05:59:13 -0800 (PST)
+Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-37d2412a091sm38320371fa.50.2025.12.02.05.59.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Dec 2025 05:59:12 -0800 (PST)
+Message-ID: <8ff6ab79-a3d3-48e3-9340-8b91a9ce1b27@linaro.org>
+Date: Tue, 2 Dec 2025 15:59:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
-Subject: Re: [PATCH 4/4] rust: drm: add GPUVM immediate mode abstraction
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <aS6lz12BIysBVHSV@google.com>
-Date: Tue, 2 Dec 2025 10:42:23 -0300
-Cc: Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- =?utf-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Miguel Ojeda <ojeda@kernel.org>,
- Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Trevor Gross <tmgross@umich.edu>,
- Frank Binns <frank.binns@imgtec.com>,
- Matt Coster <matt.coster@imgtec.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Lyude Paul <lyude@redhat.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org,
- linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org,
- nouveau@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org,
- linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org,
- Asahi Lina <lina+kernel@asahilina.net>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <A15F2FAB-3D7C-4DF6-9399-DCFCF34C4D8F@collabora.com>
-References: <20251128-gpuvm-rust-v1-0-ebf66bf234e0@google.com>
- <20251128-gpuvm-rust-v1-4-ebf66bf234e0@google.com>
- <3727982A-91A4-447C-B53C-B6037DA02FF9@collabora.com>
- <aS6lz12BIysBVHSV@google.com>
-To: Alice Ryhl <aliceryhl@google.com>
-X-Mailer: Apple Mail (2.3826.700.81)
-X-ZohoMailClient: External
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/3] arm64: dts: qcom: qcs8300: Add CCI definitions
+To: Vikram Sharma <quic_vikramsa@quicinc.com>, rfoss@kernel.org,
+ todor.too@gmail.com, bryan.odonoghue@linaro.org, mchehab@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ andersson@kernel.org, konradybcio@kernel.org, hverkuil-cisco@xs4all.nl,
+ cros-qcom-dts-watchers@chromium.org, catalin.marinas@arm.com, will@kernel.org
+Cc: linux-arm-kernel@lists.infradead.org, nihalkum@qti.qualcomm.com,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Ravi Shankar <quic_rshankar@quicinc.com>,
+ Vishal Verma <quic_vishverm@quicinc.com>,
+ Suresh Vankadara <quic_svankada@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+References: <20251126081057.4191122-1-quic_vikramsa@quicinc.com>
+ <20251126081057.4191122-3-quic_vikramsa@quicinc.com>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20251126081057.4191122-3-quic_vikramsa@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 11/26/25 10:10, Vikram Sharma wrote:
+> From: Nihal Kumar Gupta <quic_nihalkum@quicinc.com>
+> 
+> Qualcomm QCS8300 SoC contains three Camera Control Interface (CCI).
+> Compared to Lemans, the key difference is in SDA/SCL GPIO assignments
+> and number of CCIs.
+> 
+> Signed-off-by: Nihal Kumar Gupta <quic_nihalkum@quicinc.com>
+> Co-developed-by: Ravi Shankar <quic_rshankar@quicinc.com>
+> Signed-off-by: Ravi Shankar <quic_rshankar@quicinc.com>
+> Co-developed-by: Vishal Verma <quic_vishverm@quicinc.com>
+> Signed-off-by: Vishal Verma <quic_vishverm@quicinc.com>
+> Co-developed-by: Suresh Vankadara <quic_svankada@quicinc.com>
+> Signed-off-by: Suresh Vankadara <quic_svankada@quicinc.com>
+> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+> Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> ---
+>   arch/arm64/boot/dts/qcom/monaco.dtsi | 345 +++++++++++++++++++++++++++
+>   1 file changed, 345 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/monaco.dtsi b/arch/arm64/boot/dts/qcom/monaco.dtsi
+> index 774255c3f6fc..7c575e1c5e10 100644
+> --- a/arch/arm64/boot/dts/qcom/monaco.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/monaco.dtsi
+> @@ -4776,6 +4776,117 @@ videocc: clock-controller@abf0000 {
+>   			#power-domain-cells = <1>;
+>   		};
+>   
+> +		cci0: cci@ac13000 {
+> +			compatible = "qcom,qcs8300-cci", "qcom,msm8996-cci";
+> +			reg = <0x0 0x0ac13000 0x0 0x1000>;
+> +
+> +			interrupts = <GIC_SPI 460 IRQ_TYPE_EDGE_RISING>;
+> +
+> +			clocks = <&camcc CAM_CC_CPAS_AHB_CLK>,
+> +				 <&camcc CAM_CC_CCI_0_CLK>;
+> +			clock-names = "cpas_ahb",
+> +				      "cci";
+> +
+> +			power-domains = <&camcc CAM_CC_TITAN_TOP_GDSC>;
+> +
+> +			pinctrl-0 = <&cci0_0_default &cci0_1_default>;
+> +			pinctrl-1 = <&cci0_0_sleep &cci0_1_sleep>;
+> +			pinctrl-names = "default", "sleep";
+> +
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +
+> +			status = "disabled";
+> +
+> +			cci0_i2c0: i2c-bus@0 {
+> +				reg = <0>;
+> +				clock-frequency = <1000000>;
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +			};
+> +
+> +			cci0_i2c1: i2c-bus@1 {
+> +				reg = <1>;
+> +				clock-frequency = <1000000>;
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +			};
+> +		};
+> +
+> +		cci1: cci@ac14000 {
+> +			compatible = "qcom,qcs8300-cci", "qcom,msm8996-cci";
+> +			reg = <0x0 0x0ac14000 0x0 0x1000>;
+> +
+> +			interrupts = <GIC_SPI 271 IRQ_TYPE_EDGE_RISING>;
+> +
+> +			clocks = <&camcc CAM_CC_CPAS_AHB_CLK>,
+> +				 <&camcc CAM_CC_CCI_1_CLK>;
+> +			clock-names = "cpas_ahb",
+> +				      "cci";
+> +
+> +			power-domains = <&camcc CAM_CC_TITAN_TOP_GDSC>;
+> +
+> +			pinctrl-0 = <&cci1_0_default &cci1_1_default>;
+> +			pinctrl-1 = <&cci1_0_sleep &cci1_1_sleep>;
+> +			pinctrl-names = "default", "sleep";
+> +
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +
+> +			status = "disabled";
+> +
+> +			cci1_i2c0: i2c-bus@0 {
+> +				reg = <0>;
+> +				clock-frequency = <1000000>;
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +			};
+> +
+> +			cci1_i2c1: i2c-bus@1 {
+> +				reg = <1>;
+> +				clock-frequency = <1000000>;
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +			};
+> +		};
+> +
+> +		cci2: cci@ac15000 {
+> +			compatible = "qcom,qcs8300-cci", "qcom,msm8996-cci";
+> +			reg = <0x0 0x0ac15000 0x0 0x1000>;
+> +
+> +			interrupts = <GIC_SPI 651 IRQ_TYPE_EDGE_RISING>;
+> +
+> +			clocks = <&camcc CAM_CC_CPAS_AHB_CLK>,
+> +				 <&camcc CAM_CC_CCI_2_CLK>;
+> +			clock-names = "cpas_ahb",
+> +				      "cci";
+> +
+> +			power-domains = <&camcc CAM_CC_TITAN_TOP_GDSC>;
+> +
+> +			pinctrl-0 = <&cci2_0_default &cci2_1_default>;
+> +			pinctrl-1 = <&cci2_0_sleep &cci2_1_sleep>;
+> +			pinctrl-names = "default", "sleep";
+> +
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +
+> +			status = "disabled";
+> +
+> +			cci2_i2c0: i2c-bus@0 {
+> +				reg = <0>;
+> +				clock-frequency = <1000000>;
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +			};
+> +
+> +			cci2_i2c1: i2c-bus@1 {
+> +				reg = <1>;
+> +				clock-frequency = <1000000>;
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +			};
+> +		};
+> +
+>   		camss: isp@ac78000 {
+>   			compatible = "qcom,qcs8300-camss";
+>   
+> @@ -5071,6 +5182,240 @@ tlmm: pinctrl@f100000 {
+>   			#interrupt-cells = <2>;
+>   			wakeup-parent = <&pdc>;
+>   
+> +			cam0_avdd_2v8_en_default: cam0-avdd-2v8-en-state {
+> +				pins = "gpio73";
+> +				function = "gpio";
+> +				drive-strength = <2>;
+> +				bias-disable;
+> +			};
+> +
+> +			cam0_default: cam0-default-state {
+> +				pins = "gpio67";
+> +				function = "cam_mclk";
+> +				drive-strength = <2>;
+> +				bias-disable;
+> +			};
+> +
+> +			cam1_avdd_2v8_en_default: cam1-avdd-2v8-en-state {
+> +				pins = "gpio74";
+> +				function = "gpio";
+> +				drive-strength = <2>;
+> +				bias-disable;
+> +			};
+> +
+> +			cam1_default: cam1-default-state {
+> +				pins = "gpio68";
+> +				function = "cam_mclk";
+> +				drive-strength = <2>;
+> +				bias-disable;
+> +			};
 
+MCLK pad function declatarions has nothing in common with the CCI, thus it
+should be split into a separate commit.
 
-> On 2 Dec 2025, at 05:39, Alice Ryhl <aliceryhl@google.com> wrote:
->=20
-> On Mon, Dec 01, 2025 at 12:16:09PM -0300, Daniel Almeida wrote:
->> Hi Alice,
->>=20
->> I find it a bit weird that we reverted to v1, given that the previous =
-gpuvm
->> attempt was v3. No big deal though.
->>=20
->>=20
->>> On 28 Nov 2025, at 11:14, Alice Ryhl <aliceryhl@google.com> wrote:
->>>=20
->>> Add a GPUVM abstraction to be used by Rust GPU drivers.
->>>=20
->>> GPUVM keeps track of a GPU's virtual address (VA) space and manages =
-the
->>> corresponding virtual mappings represented by "GPU VA" objects. It =
-also
->>> keeps track of the gem::Object<T> used to back the mappings through
->>> GpuVmBo<T>.
->>>=20
->>> This abstraction is only usable by drivers that wish to use GPUVM in
->>> immediate mode. This allows us to build the locking scheme into the =
-API
->>> design. It means that the GEM mutex is used for the GEM gpuva list, =
-and
->>> that the resv lock is used for the extobj list. The evicted list is =
-not
->>> yet used in this version.
->>>=20
->>> This abstraction provides a special handle called the GpuVmCore, =
-which
->>> is a wrapper around ARef<GpuVm> that provides access to the interval
->>> tree. Generally, all changes to the address space requires mutable
->>> access to this unique handle.
->>>=20
->>> Some of the safety comments are still somewhat WIP, but I think the =
-API
->>> should be sound as-is.
->>>=20
->>> Co-developed-by: Asahi Lina <lina+kernel@asahilina.net>
->>> Signed-off-by: Asahi Lina <lina+kernel@asahilina.net>
->>> Co-developed-by: Daniel Almeida <daniel.almeida@collabora.com>
->>> Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
->>> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
->=20
->>> +//! DRM GPUVM in immediate mode
->>> +//!
->>> +//! Rust abstractions for using GPUVM in immediate mode. This is =
-when the GPUVM state is updated
->>> +//! during `run_job()`, i.e., in the DMA fence signalling critical =
-path, to ensure that the GPUVM
->>=20
->> IMHO: We should initially target synchronous VM_BINDS, which are the =
-opposite
->> of what you described above.
->=20
-> Immediate mode is a locking scheme. We have to pick one of them
-> regardless of whether we do async VM_BIND yet.
->=20
-> (Well ok immediate mode is not just a locking scheme: it also =
-determines
-> whether vm_bo cleanup is postponed or not.)
->=20
->>> +/// A DRM GPU VA manager.
->>> +///
->>> +/// This object is refcounted, but the "core" is only accessible =
-using a special unique handle. The
->>=20
->> I wonder if `Owned<T>` is a good fit here? IIUC, Owned<T> can be =
-refcounted,
->> but there is only ever one handle on the Rust side? If so, this seems =
-to be
->> what we want here?
->=20
-> Yes, Owned<T> is probably a good fit.
->=20
->>> +/// core consists of the `core` field and the GPUVM's interval =
-tree.
->>> +#[repr(C)]
->>> +#[pin_data]
->>> +pub struct GpuVm<T: DriverGpuVm> {
->>> +    #[pin]
->>> +    vm: Opaque<bindings::drm_gpuvm>,
->>> +    /// Accessed only through the [`GpuVmCore`] reference.
->>> +    core: UnsafeCell<T>,
->>=20
->> This UnsafeCell has been here since Lina=E2=80=99s version. I must =
-say I never
->> understood why, and perhaps now is a good time to clarify it given =
-the changes
->> we=E2=80=99re making w.r.t to the =E2=80=9Cunique handle=E2=80=9D =
-thing.
->>=20
->> This is just some driver private data. It=E2=80=99s never shared with =
-C. I am not
->> sure why we need this wrapper.
->=20
-> The sm_step_* methods receive a `&mut T`. This is UB if other code has
-> an `&GpuVm<T>` and the `T` is not wrapped in an `UnsafeCell` because
-> `&GpuVm<T>` implies that the data is not modified.
->=20
->>> +    /// Shared data not protected by any lock.
->>> +    #[pin]
->>> +    shared_data: T::SharedData,
->>=20
->> Should we deref to this?
->=20
-> We can do that.
->=20
->>> +    /// Creates a GPUVM instance.
->>> +    #[expect(clippy::new_ret_no_self)]
->>> +    pub fn new<E>(
->>> +        name: &'static CStr,
->>> +        dev: &drm::Device<T::Driver>,
->>> +        r_obj: &T::Object,
->>=20
->> Can we call this =E2=80=9Creservation_object=E2=80=9D, or similar?
->>=20
->> We should probably briefly explain what it does, perhaps linking to =
-the C docs.
->=20
-> Yeah agreed, more docs are probably warranted here.
->=20
->> I wonder if we should expose the methods below at this moment. We =
-will not need
->> them in Tyr until we start submitting jobs. This is still a bit in =
-the future.
->>=20
->> I say this for a few reasons:
->>=20
->> a) Philipp is still working on the fence abstractions,
->>=20
->> b) As a result from the above, we are taking raw fence pointers,
->>=20
->> c) Onur is working on a WW Mutex abstraction [0] that includes a Rust
->> implementation of drm_exec (under another name, and useful in other =
-contexts
->> outside of DRM). Should we use them here?
->>=20
->> I think your current design with the ExecToken is also ok and perhaps =
-we should
->> stick to it, but it's good to at least discuss this with the others.
->=20
-> I don't think we can postpone adding the "obtain" method. It's =
-required
-> to call sm_map, which is needed for VM_BIND.
->=20
->>> +    /// Returns a [`GpuVmBoObtain`] for the provided GEM object.
->>> +    #[inline]
->>> +    pub fn obtain(
->>> +        &self,
->>> +        obj: &T::Object,
->>> +        data: impl PinInit<T::VmBoData>,
->>> +    ) -> Result<GpuVmBoObtain<T>, AllocError> {
->>=20
->> Perhaps this should be called GpuVmBo? That=E2=80=99s what you want =
-to =E2=80=9Cobtain=E2=80=9D in the first place.
->>=20
->> This is indeed a question, by the way.
->=20
-> One could possibly use Owned<_> here.
->=20
->>> +/// A lock guard for the GPUVM's resv lock.
->>> +///
->>> +/// This guard provides access to the extobj and evicted lists.
->>=20
->> Should we bother with evicted objects at this stage?
->=20
-> The abstractions don't actually support them right now. The resv lock =
-is
-> currently only here because it's used internally in these =
-abstractions.
-> It won't be useful to drivers until we add evicted objects.
->=20
->>> +///
->>> +/// # Invariants
->>> +///
->>> +/// Holds the GPUVM resv lock.
->>> +pub struct GpuvmResvLockGuard<'a, T: DriverGpuVm>(&'a GpuVm<T>);
->>> +
->>> +impl<T: DriverGpuVm> GpuVm<T> {
->>> +    /// Lock the VM's resv lock.
->>=20
->> More docs here would be nice.
->>=20
->>> +    #[inline]
->>> +    pub fn resv_lock(&self) -> GpuvmResvLockGuard<'_, T> {
->>> +        // SAFETY: It's always ok to lock the resv lock.
->>> +        unsafe { bindings::dma_resv_lock(self.raw_resv_lock(), =
-ptr::null_mut()) };
->>> +        // INVARIANTS: We took the lock.
->>> +        GpuvmResvLockGuard(self)
->>> +    }
->>=20
->> You can call this more than once and deadlock. Perhaps we should warn =
-about this, or forbid it?
->=20
-> Same as any other lock. I don't think we need to do anything special.
->=20
->>> +    /// Use the pre-allocated VA to carry out this map operation.
->>> +    pub fn insert(self, va: GpuVaAlloc<T>, va_data: impl =
-PinInit<T::VaData>) -> OpMapped<'op, T> {
->>> +        let va =3D va.prepare(va_data);
->>> +        // SAFETY: By the type invariants we may access the =
-interval tree.
->>> +        unsafe { =
-bindings::drm_gpuva_map(self.vm_bo.gpuvm().as_raw(), va, self.op) };
->>> +        // SAFETY: The GEM object is valid, so the mutex is =
-properly initialized.
->>=20
->>> +        unsafe { bindings::mutex_lock(&raw mut =
-(*self.op.gem.obj).gpuva.lock) };
->>=20
->> Should we use Fujita=E2=80=99s might_sleep() support here?
->=20
-> Could make sense yeah.
->=20
->>> +/// ```
->>> +/// struct drm_gpuva_op_unmap {
->>> +/// /**
->>> +/// * @va: the &drm_gpuva to unmap
->>> +/// */
->>> +/// struct drm_gpuva *va;
->>> +///
->>> +/// /**
->>> +/// * @keep:
->>> +/// *
->>> +/// * Indicates whether this &drm_gpuva is physically contiguous =
-with the
->>> +/// * original mapping request.
->>> +/// *
->>> +/// * Optionally, if &keep is set, drivers may keep the actual page =
-table
->>> +/// * mappings for this &drm_gpuva, adding the missing page table =
-entries
->>> +/// * only and update the &drm_gpuvm accordingly.
->>> +/// */
->>> +/// bool keep;
->>> +/// };
->>> +/// ```
->>=20
->> I think the docs could improve here ^
->=20
-> Yeah I can look at it.
->=20
->>> +impl<T: DriverGpuVm> GpuVmCore<T> {
->>> +    /// Create a mapping, removing or remapping anything that =
-overlaps.
->>> +    #[inline]
->>> +    pub fn sm_map(&mut self, req: OpMapRequest<'_, T>) -> Result {
->>=20
->> I wonder if we should keep this =E2=80=9Csm=E2=80=9D prefix. Perhaps
->> =E2=80=9Cmap_region=E2=80=9D or =E2=80=9Cmap_range=E2=80=9D would be =
-better names IMHO.
->=20
-> I'll wait for Danilo to weigh in on this. I'm not sure where "sm"
-> actually comes from.
+> +
+> +			cam2_avdd_2v8_en_default: cam2-avdd-2v8-en-state {
+> +				pins = "gpio75";
+> +				function = "gpio";
+> +				drive-strength = <2>;
+> +				bias-disable;
+> +			};
 
-sm probably is a reference to =E2=80=9Csplit/merge=E2=80=9D.
+All declarations of GPIOs to enable regulators shall be moved to a board
+specific .dts file.
 
->=20
->>> +/// Represents that a given GEM object has at least one mapping on =
-this [`GpuVm`] instance.
->>> +///
->>> +/// Does not assume that GEM lock is held.
->>> +#[repr(C)]
->>> +#[pin_data]
->>> +pub struct GpuVmBo<T: DriverGpuVm> {
->>=20
->> Oh, we already have GpuVmBo, and GpuVmBoObtain. I see.
->=20
-> Yeah, GpuVmBoObtain and GpuVmBoAlloc are pointers to GpuVmBo.
->=20
->>> +    #[pin]
->>> +    inner: Opaque<bindings::drm_gpuvm_bo>,
->>> +    #[pin]
->>> +    data: T::VmBoData,
->>> +}
->>> +
->>> +impl<T: DriverGpuVm> GpuVmBo<T> {
->>> +    pub(super) const ALLOC_FN: Option<unsafe extern "C" fn() -> =
-*mut bindings::drm_gpuvm_bo> =3D {
->>> +        use core::alloc::Layout;
->>> +        let base =3D Layout::new::<bindings::drm_gpuvm_bo>();
->>> +        let rust =3D Layout::new::<Self>();
->>> +        assert!(base.size() <=3D rust.size());
->>=20
->> We should default to something else instead of panicking IMHO.
->=20
-> This is const context, which makes it a build assertion.
->=20
->> My overall opinion is that we=E2=80=99re adding a lot of things that =
-will only be
->> relevant when we=E2=80=99re more advanced on the job submission =
-front. This
->> includes the things that Phillip is working on (i.e.: Fences + =
-JobQueue).
->>=20
->> Perhaps we should keep this iteration downstream (so we=E2=80=99re =
-sure it works
->> when the time comes) and focus on synchronous VM_BINDS upstream.
->> The Tyr demo that you=E2=80=99ve tested this on is very helpful for =
-this purpose.
->=20
-> Yeah let's split out the prepare, GpuVmExec, and resv_add_fence stuff =
-to
-> a separate patch.
-
-Ack
-
->=20
-> I don't think sync vs async VM_BIND changes much in which methods or
-> structs are required here. Only difference is whether you call the
-> methods from a workqueue or not.
->=20
-> Alice
-
-
+-- 
+Best wishes,
+Vladimir
 
