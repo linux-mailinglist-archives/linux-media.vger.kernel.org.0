@@ -1,53 +1,54 @@
-Return-Path: <linux-media+bounces-48088-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48089-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4915C9C02D
-	for <lists+linux-media@lfdr.de>; Tue, 02 Dec 2025 16:47:57 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 875C1C9C027
+	for <lists+linux-media@lfdr.de>; Tue, 02 Dec 2025 16:47:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A06C23A7449
-	for <lists+linux-media@lfdr.de>; Tue,  2 Dec 2025 15:47:34 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 070EB348FD1
+	for <lists+linux-media@lfdr.de>; Tue,  2 Dec 2025 15:47:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10634320CBB;
-	Tue,  2 Dec 2025 15:47:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11AB73242C8;
+	Tue,  2 Dec 2025 15:47:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b="Z3rECSJd"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b="neux1nwv"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lx20.hoststar.hosting (lx20.hoststar.hosting [168.119.41.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 047183128A6;
-	Tue,  2 Dec 2025 15:47:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6299F3168FB;
+	Tue,  2 Dec 2025 15:47:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.41.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764690451; cv=none; b=EvGDUrbvFKV+c/WuzsQjM0MMAl3jfsmgLamT/tso5rbIDbqzOR5kYxQ4ToIr0+qLkRjm3qWyymBrxw37k7BO1utDHa3y4UztzXV7M+7PGteFRrW4GOT5udKBV+bHu8uu1Ty0F9tz3iao0ScLOBzU0k5Pu1LgsmOWrYiEUCrkPHQ=
+	t=1764690456; cv=none; b=i9IJBjgqdeoX0jy7oe5iQnjRpkEBHpyPG8FIgy4BuukcZJFjPL4oe3n5M6LIVA7CQyVgzd1BGa7GMy0wVgJEPQq2ToGI92dRZ85t1/7RxGBDl9jaT6bd+g205OUpKV8SFIiH9g3XyZeeERqZLBwJ5bO4hDdmyytK9TcQiSzT+V0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764690451; c=relaxed/simple;
-	bh=gSdya4Wc7YKa+XJwiCgd8Iniw87/R6yO9R6sfjKs+NI=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=T8cEUv9m2B1yS/cHx4L04qpplhzxIoF9AW2LvcKezpKSlLVbUrTk3f76MFSOcRMlEUBOcR7uO5bBAOqstR+Awp4NwmtFKFaz2LgOZEJN/RvF8MLacBcnuiukZqYhROFUZq7tdCKGl7qe0+84Ttvrsj28o31E+qzdtn8CFCxu0l0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=pass smtp.mailfrom=emfend.at; dkim=pass (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b=Z3rECSJd; arc=none smtp.client-ip=168.119.41.54
+	s=arc-20240116; t=1764690456; c=relaxed/simple;
+	bh=YKSugf51H1JnRcjrFgz/9h4NpqU7ZP4OtI2uaWyPhrM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=Ypry+In3cn/juLo9pQIVqS4YHh9+PezbYPTOeExhkSC0IiLVmzcHQfPIVz9WJAlV84iyB5Da5c6xQjKdKZQhaCVn7ChSbz9dSPjqfzli3jkoqL0nDsm789oed+G/A0hHyZnYeUzWt2Wq0VBVGjx57Sb7eLgQLdIYukfs91d6r4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=pass smtp.mailfrom=emfend.at; dkim=pass (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b=neux1nwv; arc=none smtp.client-ip=168.119.41.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emfend.at
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=emfend.at;
-	 s=mail; h=Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:
-	Message-Id:Date:Subject:From:Sender:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	 s=mail; h=Cc:To:In-Reply-To:References:Message-Id:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Subject:Date:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=RWksKhk/pbMCbT8+cKxQy/BeVPxaIq/JwHDTAGugDv8=; b=Z3rECSJdfmjjwi7tROKYWHO2FS
-	geGKHaky7s1cIyuu2PT+tP/WKTjHgMzD8/UGXAoP3YBYUiXPulwXBanLLXiV5Af6cVybRgKm1ZRKr
-	V1r8QViDtgXe+Ztpv8I+yMWIG8nJeMeWyG3uJ3wabOTYL+7axVKaaBu3RWEMP32UHz28=;
+	bh=Pr4U89L1e/AT9Ue8ngXyhvhVUy5xZCJI/g7vkiGwmF0=; b=neux1nwvMmDlrtWJ0kMOJyViOJ
+	3enyA/b7J8gPw80ISZ4p16wSTPkZrw8eJlQRbwKOLHFgtZw+msbWbVXZGLF8bpnxqBXczoDnaQ39b
+	S91DRr6jv1oC08QiX3zdTWbeuLv+Uz0883+Zw5oOJWK2LdT8k1mp/HxvjoMJ1phe7YOw=;
 Received: from 194-208-208-245.tele.net ([194.208.208.245]:55814 helo=[127.0.1.1])
 	by lx20.hoststar.hosting with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.93)
 	(envelope-from <matthias.fend@emfend.at>)
-	id 1vQSGg-005WQW-6K; Tue, 02 Dec 2025 16:26:19 +0100
+	id 1vQSGi-005WQW-9L; Tue, 02 Dec 2025 16:26:20 +0100
 From: Matthias Fend <matthias.fend@emfend.at>
-Subject: [PATCH v6 0/2] media: add Himax HM1246 image sensor
-Date: Tue, 02 Dec 2025 16:26:04 +0100
-Message-Id: <20251202-hm1246-v6-0-3e96ed6b3ffa@emfend.at>
+Date: Tue, 02 Dec 2025 16:26:05 +0100
+Subject: [PATCH v6 1/2] media: dt-bindings: i2c: add Himax HM1246 image
+ sensor
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,12 +57,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAwFL2kC/2XNO27DMBBF0a0YrMNgOBz+UmUfgQt+IxaWDckQY
- hjaeygXVKCUb8Bz+WRznmqe2cfpyaa81Llexzb024nFwY/fmdfUNkNABQSSDxeBpLnTAWLywRg
- ZWXt8m3KpP6/Q17ntoc736/R4dRexXf8lFsGBS3AOkhEhEn7mS8ljevd3tiUW3JlC3Rk2poO1a
- NF46dWRyZ05gZ3J7bdgXSGTiid5ZNSZAGE6o8aylNZmjwVsPDK1MwHUmWrMmWgLqqBIuL9sXdd
- froh44HgBAAA=
-X-Change-ID: 20250403-hm1246-96b0cdab773c
+Message-Id: <20251202-hm1246-v6-1-3e96ed6b3ffa@emfend.at>
+References: <20251202-hm1246-v6-0-3e96ed6b3ffa@emfend.at>
+In-Reply-To: <20251202-hm1246-v6-0-3e96ed6b3ffa@emfend.at>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, 
@@ -86,187 +84,197 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, Hao Yao <hao.yao@intel.com>, 
  Matthias Fend <matthias.fend@emfend.at>
 X-Mailer: b4 0.14.2
-X-Spam-Score: 
-X-Spam-Bar: 
-X-Spam-Report: 
-
-Hello,
-
-this series adds support for the Himax HM1246 image sensor.
-The Himax HM1246-AWD is a 1/3.7-Inch CMOS image sensor SoC with an active
-array size of 1296 x 976.
-Currently, only the native RAW mode is supported. Other modes and the
-internal image signal processing pipeline are not currently supported.
-The data sheet is available on the manufacturer's website [1].
-Tested on i.MX8MP hardware. A Toshiba TC358746 bridge was used to convert
-the sensor's parallel video output into MIPI signals for the i.MX8MP.
-
-Best regards
- ~Matthias
+X-Spam-Score: -1.0
+X-Spam-Bar: -
+X-Spam-Report: Spam detection software, running on the system "lx20.hoststar.hosting",
+ has NOT identified this incoming email as spam.  The original
+ message has been attached to this so you can view it or label
+ similar future email.  If you have any questions, see
+ the administrator of that system for details.
  
-[1] https://www.himax.com.tw/wp-content/uploads/2024/03/HM1246-AWD_DS_v01.pdf
+ Content preview:  Hello, this series adds support for the Himax HM1246 image
+    sensor. The Himax HM1246-AWD is a 1/3.7-Inch CMOS image sensor SoC with an
+    active array size of 1296 x 976. Currently, only the native RAW mode is s
+    [...] 
+ 
+ Content analysis details:   (-1.0 points, 5.0 required)
+ 
+  pts rule name              description
+ ---- ---------------------- --------------------------------------------------
+ -1.0 ALL_TRUSTED            Passed through trusted hosts only via SMTP
+  0.0 TVD_RCVD_IP            Message was received from an IP address
+  0.0 URIBL_DBL_BLOCKED_OPENDNS ADMINISTRATOR NOTICE: The query to
+                             dbl.spamhaus.org was blocked due to usage
+                             of an open resolver. See
+                             https://www.spamhaus.org/returnc/pub/
+                             [URIs: himax.com.tw]
+  0.0 URIBL_BLOCKED          ADMINISTRATOR NOTICE: The query to URIBL was
+                             blocked.  See
+                             http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
+                              for more information.
+                             [URIs: himax.com.tw]
+  0.0 URIBL_ZEN_BLOCKED_OPENDNS ADMINISTRATOR NOTICE: The query to
+                             zen.spamhaus.org was blocked due to usage
+                             of an open resolver. See
+                             https://www.spamhaus.org/returnc/pub/
+                             [URIs: himax.com.tw]
+  0.0 KAM_DMARC_STATUS       Test Rule for DKIM or SPF Failure with Strict
+                             Alignment (older systems)
+  0.0 Local_hs_NotToHoststar Recipient is NOT hoststar.(ch|at|com)
+  0.0 Local_hs_NotFromHoststar Sender is NOT hoststar.(ch|at|com)
 
-v4l2-compliance 1.28.1, 64 bits, 64-bit time_t
+Add YAML device tree binding for Himax HM1246 image sensor.
 
-Compliance test for device /dev/v4l-subdev4:
-
-Driver Info:
-        Driver version   : 6.12.0
-        Capabilities     : 0x00000000
-        Client Capabilities: 0x0000000000000003
-streams interval-uses-which
-Required ioctls:
-        test VIDIOC_SUDBEV_QUERYCAP: OK
-        test invalid ioctls: OK
-
-Allow for multiple opens:
-        test second /dev/v4l-subdev4 open: OK
-        test VIDIOC_SUBDEV_QUERYCAP: OK
-        test for unlimited opens: OK
-
-Debug ioctls:
-        test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-        test VIDIOC_ENUMAUDIO: OK (Not Supported)
-        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-        test VIDIOC_G/S_AUDIO: OK (Not Supported)
-        Inputs: 0 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-        Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-        test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls:
-        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-        test VIDIOC_QUERYCTRL: OK
-        test VIDIOC_G/S_CTRL: OK
-        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-        Standard Controls: 15 Private Controls: 0
-
-Format ioctls:
-        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
-        test VIDIOC_G/S_PARM: OK (Not Supported)
-        test VIDIOC_G_FBUF: OK (Not Supported)
-        test VIDIOC_G_FMT: OK (Not Supported)
-        test VIDIOC_TRY_FMT: OK (Not Supported)
-        test VIDIOC_S_FMT: OK (Not Supported)
-        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-        test Cropping: OK (Not Supported)
-        test Composing: OK (Not Supported)
-        test Scaling: OK (Not Supported)
-
-Codec ioctls:
-        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls:
-        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
-        test CREATE_BUFS maximum buffers: OK
-        test VIDIOC_REMOVE_BUFS: OK
-        test VIDIOC_EXPBUF: OK (Not Supported)
-        test Requests: OK (Not Supported)
-
-Total for device /dev/v4l-subdev4: 45, Succeeded: 45, Failed: 0, Warnings: 0
-
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
 ---
-Changes in v6:
-- Rework includes to follow include-what-you-use (Andy)
-- Replace 'fsleep(6000)' with 'fsleep(6 * USEC_PER_MSEC)' (Andy)
-- Simplify hm1246_get_selection() return (Andy)
-- Use explicit indexes for test pattern array (Andy)
-- Improve some line-wrappings (Andy)
-- Avoid using __maybe_unused (Andy)
-- Drop an unnecessary type cast (Andy)
-- Use '0' instead of '0x0' (Andy)
-- Reword comments about timings (Andy)
-- Simplify error handling of hm1246_init_controls() (Sakari)
-- Revert 'rework PLL calc to use goto' (Andy, Sakari)
-- Link to v5: https://lore.kernel.org/r/20251104-hm1246-v5-0-97c8f25b5419@emfend.at
+ .../bindings/media/i2c/himax,hm1246.yaml           | 117 +++++++++++++++++++++
+ MAINTAINERS                                        |   7 ++
+ 2 files changed, 124 insertions(+)
 
-Changes in v5:
-- Converted to lower case hexadecimals
-- Use consistent returns in switch of hm1246_get_selection()
-- Adjust some variable types/attributes
-- Removed redundant parentheses
-- Rework PLL calc to use goto
-- Simplified some function returns
-- Use array definition for test patterns
-- Source format adjustments
-- Properly init minimum of pixel_rate control
-- dropped hm1246_update_controls()
-- require and check DT link frequencies
-- Link to v4: https://lore.kernel.org/r/20251017-hm1246-v4-0-e3388ea2f08c@emfend.at
+diff --git a/Documentation/devicetree/bindings/media/i2c/himax,hm1246.yaml b/Documentation/devicetree/bindings/media/i2c/himax,hm1246.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..5ab748259294fc46d7e71e783cf36a64639154f2
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/himax,hm1246.yaml
+@@ -0,0 +1,117 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright 2025 Matthias Fend <matthias.fend@emfend.at>
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/himax,hm1246.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Himax HM1246-AWD 1/3.7-Inch megapixel SoC image sensor
++
++maintainers:
++  - Matthias Fend <matthias.fend@emfend.at>
++
++description:
++  The Himax HM1246-AWD is a 1/3.7-Inch CMOS image sensor SoC with an active
++  array size of 1296 x 976. It is programmable through an I2C interface and
++  connected via parallel bus.
++
++allOf:
++  - $ref: /schemas/media/video-interface-devices.yaml#
++
++properties:
++  compatible:
++    const: himax,hm1246
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    description: Input reference clock (6 - 27 MHz)
++    maxItems: 1
++
++  reset-gpios:
++    description: Active low XSHUTDOWN pin
++    maxItems: 1
++
++  avdd-supply:
++    description: Power for analog circuit (3.0 - 3.6 V)
++
++  iovdd-supply:
++    description: Power for I/O circuit (1.7 - 3.6 V)
++
++  dvdd-supply:
++    description: Power for digital circuit (1.5 / 1.8 V)
++
++  port:
++    $ref: /schemas/graph.yaml#/$defs/port-base
++    additionalProperties: false
++    description: Parallel video output port
++
++    properties:
++      endpoint:
++        $ref: /schemas/media/video-interfaces.yaml#
++        unevaluatedProperties: false
++
++        properties:
++          hsync-active:
++            default: 1
++
++          vsync-active:
++            default: 1
++
++          pclk-sample:
++            default: 0
++
++        required:
++          - link-frequencies
++
++    required:
++      - endpoint
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - avdd-supply
++  - iovdd-supply
++  - dvdd-supply
++  - port
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/media/video-interfaces.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        sensor@24 {
++            compatible =  "himax,hm1246";
++            reg = <0x24>;
++
++            clocks = <&hm1246_clk>;
++
++            reset-gpios = <&gpio0 0 GPIO_ACTIVE_LOW>;
++
++            avdd-supply = <&hm1246_avdd>;
++            iovdd-supply = <&hm1246_iovdd>;
++            dvdd-supply = <&hm1246_dvdd>;
++
++            orientation = <2>;
++            rotation = <0>;
++
++            port {
++                endpoint {
++                    remote-endpoint = <&isp_par_in>;
++                    bus-width = <10>;
++                    hsync-active = <1>; /* active high */
++                    vsync-active = <1>; /* active high */
++                    pclk-sample = <1>; /* sample on rising edge */
++                    link-frequencies = /bits/ 64 <42174000>;
++                };
++            };
++        };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 4205ca007e076f869613032b51e8cc5bff06b98e..a1683090a0bd9a843e1cddf61213159f44597bbe 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -11183,6 +11183,13 @@ L:	linux-kernel@vger.kernel.org
+ S:	Maintained
+ F:	drivers/misc/hisi_hikey_usb.c
+ 
++HIMAX HM1246 SENSOR DRIVER
++M:	Matthias Fend <matthias.fend@emfend.at>
++L:	linux-media@vger.kernel.org
++S:	Maintained
++T:	git git://linuxtv.org/media_tree.git
++F:	Documentation/devicetree/bindings/media/i2c/himax,hm1246.yaml
++
+ HIMAX HX83112B TOUCHSCREEN SUPPORT
+ M:	Job Noorman <job@noorman.info>
+ L:	linux-input@vger.kernel.org
 
-Changes in v4:
-- Split changes to MAINTAINERS into commits
-- Fix comma after statement (use semicolon)
-- Replace abs() with abs_diff() in PLL calculation
-- Inverse needs_cmu_update logic
-- Drop mode from hm1246_set_ctrl()
-- Return if xclk frequency is out of range
-- Fix reset_gpio dev_err_probe()
-- Rebased on media-committers/next
-- Link to v3: https://lore.kernel.org/r/20250912-hm1246-v3-0-3b89f47dfa43@emfend.at
-
-Changes in v3:
-- Bindings: Remove bus-type and add default polarity values
-- Select V4L2_CCI_I2C
-- Convert additional macros to use HZ_PER_*
-- Replace cur_mode with v4l2_find_nearest_size()
-- Remove duplicates in the register init sequence
-- Use container_of_const
-- Check return of hm1246_update_controls()
-- Correct multi-line comments
-- Replace hm1246_cci_write_cmu()
-- Consistently use hm1246->dev
-- Use pm_runtime_put_autosuspend()
-- Remove v4l2 event handling
-- Convert to devm_v4l2_sensor_clk_get()
-- Configure PM before registering subdev
-- Link to v2: https://lore.kernel.org/r/20250526-hm1246-v2-0-6b882827a3a5@emfend.at
-- Depends-on: https://lore.kernel.org/all/20250707143253.167910-1-mehdi.djait@linux.intel.com/
-
-Changes in v2:
-- Use macros for 64-bit division
-- Avoid compiler warnings about potentially uninitialized variables
-- Fix two uses of dev_err_probe
-- Link to v1: https://lore.kernel.org/r/20250403-hm1246-v1-0-30990d71bc42@emfend.at
-
----
-Matthias Fend (2):
-      media: dt-bindings: i2c: add Himax HM1246 image sensor
-      media: i2c: add Himax HM1246 image sensor driver
-
- .../bindings/media/i2c/himax,hm1246.yaml           |  117 ++
- MAINTAINERS                                        |    8 +
- drivers/media/i2c/Kconfig                          |   10 +
- drivers/media/i2c/Makefile                         |    1 +
- drivers/media/i2c/hm1246.c                         | 1353 ++++++++++++++++++++
- 5 files changed, 1489 insertions(+)
----
-base-commit: 1f2353f5a1af995efbf7bea44341aa0d03460b28
-change-id: 20250403-hm1246-96b0cdab773c
-
-Best regards,
 -- 
-Matthias Fend <matthias.fend@emfend.at>
+2.34.1
 
 
