@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-48080-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48081-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C159C9B1D3
-	for <lists+linux-media@lfdr.de>; Tue, 02 Dec 2025 11:23:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A25BC9B1DD
+	for <lists+linux-media@lfdr.de>; Tue, 02 Dec 2025 11:24:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 10AEE346C23
-	for <lists+linux-media@lfdr.de>; Tue,  2 Dec 2025 10:23:32 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 8CFC03466A2
+	for <lists+linux-media@lfdr.de>; Tue,  2 Dec 2025 10:23:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE51530DECD;
-	Tue,  2 Dec 2025 10:22:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78E27311C07;
+	Tue,  2 Dec 2025 10:22:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="rhEQteIN"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="azMYPUdE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012016.outbound.protection.outlook.com [52.101.48.16])
+Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011071.outbound.protection.outlook.com [52.101.62.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 202F830BF52;
-	Tue,  2 Dec 2025 10:22:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992FA3115A5;
+	Tue,  2 Dec 2025 10:22:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.71
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764670969; cv=fail; b=achw47e4v8GVU/XlOviR6Lf6D9J6rycKXqUvBatEOqVcwOolNTtsT/OVhsXXLMu5v3L4Fdr0veAs8rGT+px5/Ms5IQyre0xS5wwf0ig6vlnbdvWSHlXSfFYmSm1cuYldlM949NeaRoJrE2JZTr1fW3Mma438mK5FT+JfdjVCG0g=
+	t=1764670976; cv=fail; b=RePQki5EtpeF+1YWQtZhhcn0h7d3d2r26meq9bnmIORPJIKnjLuU3iLghqbcWAi9wkLbdrFCnfVyeO+3x01S0RZphb5ukYLdibcDdMrevRU9bzoZReiO3UMSl+AUkEODWBxTZomgtv3nEx7DXpK5o06G0aYGflj6YpUIOgf9eRw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764670969; c=relaxed/simple;
-	bh=Nich7ALe0WQy8yb0zmOhyptoLTZenzb3fdFi0Ub4NlU=;
+	s=arc-20240116; t=1764670976; c=relaxed/simple;
+	bh=i2nZKl3m/ZX5OVaMkFWbJHGkco+AMG1+YV4UzeVipdM=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nGoG9SrA04WGjk6ulSN9nTAX9grzkrOr1XeKuD8LxXjCHkZiAgj0DXy5jqpWZwX80yS7F+3lekvSabpCA/BOM7X1B5j5IA+dMYo/5UvfmJem+sSVdz8m7I/q4kU171T/x6B3DO61MfymRBPnlAkyqdu/vdQ8RjsN7RWyYrTSMPY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=rhEQteIN; arc=fail smtp.client-ip=52.101.48.16
+	 MIME-Version:Content-Type; b=eZqi8D7cLpfyQ1gFFDfOxULzrqrrxTbIVDz0QZl23z36TQPPG/okyKkXmuGpjoQWbqe8Vk7RKFqZBS+JxLPZTN+Wdrj107BfUzx5uyN9Yp6QWNK0Gkgw96ELCaI6QIBKtLVaWOB0FLDDvVEmQP/C8lHDeJwG5hX9dYVHbwSOdds=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=azMYPUdE; arc=fail smtp.client-ip=52.101.62.71
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pibGIK3JlrC2jxkhXD2Ktxh+hWHKUK1xhaZjAHL9PaufxvOI+gEIL0fyw1WkFgW5/Ga1b1bb17QKHyG1ZmrtJaMkXDjLUPpNCguRWfytdBFkGmwSDAHi3IF3ARGYQW7Tuj5cE98G6PU0kHVCi64/nrH4gLnUIbjEKvQIQGOsP70TwtihiHD3n3SKdm81GS3Uk8AlJfNywyI1t9V3GaeZm6a6G6b1ZIPJOwqYWXIGNfHR2gdIoGMWnI7RWZOH9ZmaclYdqnJfIts495qFfS6jNZNIALK0EHC+bFpbhKB0VPdwZXEtN8xz6r5vPcPdTjZQ/UA/9+2E0zFvrA7elaJwIQ==
+ b=OgI1C7Y9IE0x91ib8srh12oP1NQyKv2zISwqo72EhMBfxhVMA2r9DNvjyxuWnTxs0ch0qcLUh9qrJ7we5kNlfioqf7DBrMugQt0Y/00wqPXleTYwSz7UwXX3r9aSxZnkQ1bYd1hRk4kjsfSZc6ObxNk7J3XYxcglZYdDZPqkpCkOT5aVIvtwNd1LFqa03s2ogZmQC6PoqbALIC/U+m1krYpX2KCZ+5twQAwZW5R5B7Wr0u8Oj3D21RJ0bTRB6DuAO6m31aXzej8/4cElPD9IiO9YjZAKiFNPqI9MjGXsiCVq5BH1rzboN+nM7839c7zG9XEVzeA14VgqsdJjmLroCw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ijK1q6UU+CO6bJpglSWIJvFC+zEtOCwZB4GZER4qmxM=;
- b=xnCTcIJTw84yBjzfKRDbZa/yxlLOG+SVdafFPVRVAiEQOqcSuAcpXURKitK9XtY79J0anERQ9tG8mNGsbq5pTcdkvGcfHJIXw7bwq8SegoHDBkfL1cnBsBZp3uSOqlP+pJ5pLA8ocrC1/4NsNN4CHZzVCiP8XobzXaiQpK415vYLZdxnAYSiXVMxWQpF2wp1SVIrWBuDpyRsvgDcVGmR7IB/+Rjo96hy4giMMsr9sws/dzsnxTTelLujyOxqUwnU8dZZS4HACD3FEdriY5Bo4ZG7Hk0rg4ih2NuHnSuNicJPUDqiGsa2jxXhMV8E3pDxi7TIlFfcVYH4PIQDOGyuZg==
+ bh=mbEW61FbmCEwv2JsQtz3THp0ZOs+jClWwvDf9FIRpfk=;
+ b=k+zjpSNZdZcommPuJfmpBeImeI1WTL9I52V/tx2HyMcGWyGAcCWXPVltYiTxUaNH5c0ylD/J9RqASCiF8GueDip2YkifDiiXzZuVIFBekBdGmFJHn061mLwLdb+9OaG9oYovJZ9FwX1TTk0ZeErBiVDW8o1mi0imsloHXOrg8g8Ps40pjWPHGJ8pKfedH0X13Pd/xSNBfSzl+85uUqAeE0mkSpJyPIFfLLuS+6Yb9y7Z0FJvoOpVKf2e9NiXp5C3rAuKo5wnhlQ0v9JctoDpkHWCVc4aE1rUzeVjLUTqEn/AafH8QrsQ5iHWqzQHyFhzW7MqyakJC8SzCaynkK55TQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  198.47.21.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
  dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ijK1q6UU+CO6bJpglSWIJvFC+zEtOCwZB4GZER4qmxM=;
- b=rhEQteINthu3x0uXe/O8XMfiPgTSQsV0E+NdxrGfOarLOzJrThzEeVJxHuCL+jBAVyUMXJ0pWZmAULFM7KC/x6qcnusqtd35w5XbgFzAGlkkZIs6Waq9s/+krs74GPphYXQLcSUPA9vxsPgAABVtWvk4U8QTElkefSjs2ygjfxk=
-Received: from BYAPR07CA0054.namprd07.prod.outlook.com (2603:10b6:a03:60::31)
- by MW4PR10MB6322.namprd10.prod.outlook.com (2603:10b6:303:1e3::19) with
+ bh=mbEW61FbmCEwv2JsQtz3THp0ZOs+jClWwvDf9FIRpfk=;
+ b=azMYPUdElpPr2ZNY63GSRArnqsCUOn/fGu1zfinvbvD1LtclC4n47EoWlIOdttXBdPjOixPjmkvXnhCbhMgc/G/4bxSB8QdT918x6Ny6PhCJfaDNtsSSpkoE7f+cYY3B9hVZElNfU/sQ8bYxUrQI3bjUAmoLBwSFK3Cr4a6HAbk=
+Received: from SJ0PR03CA0039.namprd03.prod.outlook.com (2603:10b6:a03:33e::14)
+ by BN0PR10MB5189.namprd10.prod.outlook.com (2603:10b6:408:117::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.15; Tue, 2 Dec
- 2025 10:22:45 +0000
-Received: from CO1PEPF000075EE.namprd03.prod.outlook.com
- (2603:10b6:a03:60:cafe::d2) by BYAPR07CA0054.outlook.office365.com
- (2603:10b6:a03:60::31) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.17 via Frontend Transport; Tue,
- 2 Dec 2025 10:22:44 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.9; Tue, 2 Dec
+ 2025 10:22:52 +0000
+Received: from CO1PEPF000075F4.namprd03.prod.outlook.com
+ (2603:10b6:a03:33e:cafe::4) by SJ0PR03CA0039.outlook.office365.com
+ (2603:10b6:a03:33e::14) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9388.9 via Frontend Transport; Tue, 2
+ Dec 2025 10:22:51 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
  smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
  action=none header.from=ti.com;
@@ -63,24 +63,24 @@ Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
  198.47.21.194 as permitted sender) receiver=protection.outlook.com;
  client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
 Received: from flwvzet200.ext.ti.com (198.47.21.194) by
- CO1PEPF000075EE.mail.protection.outlook.com (10.167.249.37) with Microsoft
+ CO1PEPF000075F4.mail.protection.outlook.com (10.167.249.43) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9388.8 via Frontend Transport; Tue, 2 Dec 2025 10:22:43 +0000
-Received: from DFLE203.ent.ti.com (10.64.6.61) by flwvzet200.ext.ti.com
+ 15.20.9388.8 via Frontend Transport; Tue, 2 Dec 2025 10:22:50 +0000
+Received: from DFLE207.ent.ti.com (10.64.6.65) by flwvzet200.ext.ti.com
  (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 2 Dec
- 2025 04:22:39 -0600
-Received: from DFLE205.ent.ti.com (10.64.6.63) by DFLE203.ent.ti.com
- (10.64.6.61) with Microsoft SMTP Server (version=TLS1_2,
+ 2025 04:22:46 -0600
+Received: from DFLE213.ent.ti.com (10.64.6.71) by DFLE207.ent.ti.com
+ (10.64.6.65) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 2 Dec
- 2025 04:22:39 -0600
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE205.ent.ti.com
- (10.64.6.63) with Microsoft SMTP Server (version=TLS1_2,
+ 2025 04:22:45 -0600
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE213.ent.ti.com
+ (10.64.6.71) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Tue, 2 Dec 2025 04:22:39 -0600
+ Transport; Tue, 2 Dec 2025 04:22:45 -0600
 Received: from abhilash-HP.dhcp.ti.com (abhilash-hp.dhcp.ti.com [10.24.68.198])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5B2AMDKS2072084;
-	Tue, 2 Dec 2025 04:22:34 -0600
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5B2AMDKT2072084;
+	Tue, 2 Dec 2025 04:22:40 -0600
 From: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
 To: <tomi.valkeinen@ideasonboard.com>, <mchehab@kernel.org>,
 	<robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
@@ -92,9 +92,9 @@ CC: <hansg@kernel.org>, <mehdi.djait@linux.intel.com>, <ribalda@chromium.org>,
 	<jai.luthra@linux.dev>, <linux-media@vger.kernel.org>,
 	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
 	<y-abhilashchandra@ti.com>
-Subject: [PATCH V2 3/4] media: dt-bindings: ti,ds90ub960: Add support for DS90UB954-Q1
-Date: Tue, 2 Dec 2025 15:52:07 +0530
-Message-ID: <20251202102208.80713-4-y-abhilashchandra@ti.com>
+Subject: [PATCH V2 4/4] media: i2c: ds90ub960: Add support for DS90UB954-Q1
+Date: Tue, 2 Dec 2025 15:52:08 +0530
+Message-ID: <20251202102208.80713-5-y-abhilashchandra@ti.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251202102208.80713-1-y-abhilashchandra@ti.com>
 References: <20251202102208.80713-1-y-abhilashchandra@ti.com>
@@ -109,401 +109,361 @@ Content-Type: text/plain
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000075EE:EE_|MW4PR10MB6322:EE_
-X-MS-Office365-Filtering-Correlation-Id: 41dbfcfd-75e9-4484-70e3-08de318cbaef
+X-MS-TrafficTypeDiagnostic: CO1PEPF000075F4:EE_|BN0PR10MB5189:EE_
+X-MS-Office365-Filtering-Correlation-Id: 164b6365-1b57-4d55-aa71-08de318cbf0a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|376014|7416014;
+	BCL:0;ARA:13230040|36860700013|376014|7416014|1800799024|82310400026;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?9fXo2l0w3FyI8NqZNSvpLJauHqAnHWUUO4o2hk7dFxLlZbNwkraE71jXfVtN?=
- =?us-ascii?Q?PbNakE3rha3lF5km36xLWHNdxCgwJWTMFnxVBuQDQk3jbI/8+qKumHbuVK2M?=
- =?us-ascii?Q?P2bnr2jXVqpKSAtYBptVoeWVOlx5wINC2oirTHgxwSbSaofVLlNXIyNXTrn4?=
- =?us-ascii?Q?6N1OcvSUoEbsU32RgROvz3F7CLuqxR+9OnHz52Ts34O5n2WLXhBfpCYlLUmM?=
- =?us-ascii?Q?kN7tb7o2CeRtF4MnLLKOaPx1DLX/bC+7VvrP7crMmDrTyisg8DDIkLMHOXxW?=
- =?us-ascii?Q?OXsUjHVvvToP/fW+ltHDU37e9YT3WbwcVOa1IZvc/7H0y0yney9qqX7wiP/H?=
- =?us-ascii?Q?e6WFzeKpkuiH3EVCUkPGSzN/pMQk9QJdPOacV5vj4IAbXyoBad9szt8RNeg2?=
- =?us-ascii?Q?3I+RnFR0YK2OAzIhrx45Qd9lUW+vjW+LNRux7grS46kWkri6M3rAhaC/elPv?=
- =?us-ascii?Q?DuUXzhhYJRZEU0cLmZnvhfJ2TuRIo3BDJ5UP3jAm5NW+n+o7Sh+xpUq21aLW?=
- =?us-ascii?Q?7qTc5BwTF/F11HSyc9vKuDtwr3/7YYtqGc5byF+IIODHCNiDAl7jYYjmub2n?=
- =?us-ascii?Q?WYBQiq2hhRKBRxqfN77Sje8f2ZLfx4Eovtlr0Pu7ji++SSRnq04UiIhUUfjw?=
- =?us-ascii?Q?bVwWrM/q2JyLzOF8+JaH5u1av/dylZq5BTqmxMFjWNSSPiok7mW/lExHmR6z?=
- =?us-ascii?Q?6mam3pLgQp3qL9FbRAgQo09aAcRQC7XkJtyjQ5ypIeeTKab6AfZ0aPjZF6RB?=
- =?us-ascii?Q?wF7Nqf0qodp8xX9nDEQ7xZ/8TlpxrTRh4kx/hCcAUBTg4Vw3JnObKJX7U/l9?=
- =?us-ascii?Q?LY6GCrJeeffvG1tZGcIk9DkdvKHqQp2R7GP+EY/ihH6+oafNMG9tu3o48iOm?=
- =?us-ascii?Q?kwMnslIazzBuufLNSiRdTTmoiCLnPVjwX2/dqCQNKPfWY8fNjQJn8dFZQbWg?=
- =?us-ascii?Q?vScaDaA0kGC8gf23fRTXQ5UkM7cxCKc9a6cGwdlDFcwpUeD5gHkYcZWCRh0C?=
- =?us-ascii?Q?CSZBMRj/56S9kXSb68KeXEOeaqwR/yQyBHRhr7L6AXW7JEm9pTVc67SMdNDC?=
- =?us-ascii?Q?gWbC/NlBcwti3YbTqSA/tDrc3/5ZaCCtV9Ryn1bhThBH1d5L8+an7FS0hOUc?=
- =?us-ascii?Q?xPcmCS4AQ0wp2YGarDH0XtJqAlvawt39QQrqCWJ/OkL0yV2fa3u2KWnh3/I2?=
- =?us-ascii?Q?HAMYxaJUbMT/bQCv0y+ZnCcNOhgak1Prg+6IIOkquRk4UyWZGs8WDzQ90j/L?=
- =?us-ascii?Q?IDbuNmUhrT2Ip2XG2FdN2M7R7dbqjWb9mGZrzNAxKcsTycOBaHvMPlrnZjvV?=
- =?us-ascii?Q?AkL7k+bOodPeK9+HEO0XQbzQvtuCgngNof7EATK8V1wsC6n/eGDsWzhNC0er?=
- =?us-ascii?Q?TVeFFg3g2yxMJtpJooxjbjIHO4MF71DNDUcuddVAz066zK3+0GaIzrXi6vEd?=
- =?us-ascii?Q?WzoJsgbAeBux6Wm0AVA15SjJWtaNVoZxibiWh9dSmm7e0P1/zAnyDNRLzPdL?=
- =?us-ascii?Q?vR7kjprFK7YN/auPSACD2mVcg6OdT7NPj0Jf9xyCNca8nS3QIi90BF1QbxyM?=
- =?us-ascii?Q?t/9r78p524wSf7wm9Eo=3D?=
+	=?us-ascii?Q?7xgrkiElLnw+VLhBROezTV2dRTpEk88wi9JC1Xz9PxcjCdGs/Hcob7WkSWTZ?=
+ =?us-ascii?Q?E5H2Rm/qJgp5vlcEXUt5un11bHo3j6ExRX65meQY6u3GhzkTxO6tLJ31RCnc?=
+ =?us-ascii?Q?63JrZ35p25pp0NoHcWmM/p9ZyJc6PFDGi7dllWZvHuic8DA4cgQ4lSuDcxmO?=
+ =?us-ascii?Q?La/OdA1Nkoza9TQDHRs2R/7hJhfn+XCarbinQpaeHqSVFRc0pfNf04ZU0Qq7?=
+ =?us-ascii?Q?7ivFcL93LlLUhuUA66bBX7hZb3y12X/irGpaaol195qGyV5UfZcWf3bJnCkL?=
+ =?us-ascii?Q?ehF7Am9AjyRAfQ1X1JVESVwMcYfz8U/BY6LeEx9kZJw/1PytkEoRm6wrFMHq?=
+ =?us-ascii?Q?InzU3H12mXPedT2iEKLiMHqo+sPshxyarR4eQmUkBXHboAOpk6VLTiFxSEu5?=
+ =?us-ascii?Q?gnyiGV/1/vwAEMmBfuMDSt3mJ0TcNWEkFVRdqhOPPVkyaQux+CJLk9iQDIEQ?=
+ =?us-ascii?Q?J2m1wRWjNSsIWwDpz9ZrsO1zyBFABU+2Jf0flL67HCCyLBU6ywlvlzdosnnD?=
+ =?us-ascii?Q?hOYErczZSmbq3Oa/w+K7AgT1amvRRhqstyJ9fZ+xI6SBcNuFg+jtdnvTel87?=
+ =?us-ascii?Q?uyNpgkoj6iLWlRbAWpnkZ8n0lGNbVj+hhVRKqU6aSTzqB8JqKe6GK0Xe61UH?=
+ =?us-ascii?Q?7blj07JI7S9ypj1HfGuXcer4aabPBkTvV6qUZjBp+0QWTuNdl6VZez4bLnFU?=
+ =?us-ascii?Q?mZiV8JN8X0TbXsubYfIBXIL5JOnZugX2aQkwmIlaz89XoDU04ObRUStvVLQP?=
+ =?us-ascii?Q?WlH0yRUFYeMMGBfAzQmuRN2FJnGefhy+Xr5U/zdzTrhqqYe/zV5WHDkqng8C?=
+ =?us-ascii?Q?o41WCtMjFlZEavs/ChwffJfRRv+jXj/j4QbC074SsJwl9orn79KixZ4w/UaX?=
+ =?us-ascii?Q?abNGCoBp+1VFdkYdg6H8INWHMGTEE7vH1MhhuaiDgLyE/qF5kjrMookWwZnL?=
+ =?us-ascii?Q?k5feW0477X2k1gLQpK8moT6TLKvQYVaT7QfxdHL2dIXmdV+k8mSjrXUjzxjJ?=
+ =?us-ascii?Q?9cBp2ksAXi8ibMMuHonxlvgZPr/vuYSouOe0nthgy4xzbD3fDUfwRuOKXFW2?=
+ =?us-ascii?Q?rN0un/H1BY8NioT+XEKB6bEtccxkfRHySFsk1Po1KL2A3kLF+Nk7pKvm6oAe?=
+ =?us-ascii?Q?nDtgcGAgvhJZLM/WlcmvHw6uU7nfOOk/LVtIlLhm+aZWq7KiEA9h5DoTZXLD?=
+ =?us-ascii?Q?0/ox+DHkVhvh5SrUI6upzlxQ1OaGCIbUr6ihy+IVT8tVYY/KyWq6EcJVxJcO?=
+ =?us-ascii?Q?mNS9R1lrKvjwQU3S/RTpDxdJepSlmEytXUnMV9nmlGJ7gZXdgWH1CWZrldzO?=
+ =?us-ascii?Q?SnbplYBPmsVejHr1/q8V51V/lW9JSzlfuSieHHkdUu3tLNgVU42fzhVqw054?=
+ =?us-ascii?Q?OWOUrl208OoQRmcSjeAfCY23IRGCaIW/JQqjp02qOPIbXfDyPNAEoybbyVQl?=
+ =?us-ascii?Q?q9rA0IG6WGvwJNoSeqpD1T1m88S1XPYmItsBu4oilnKzLMyFWK4JdCd2mLJp?=
+ =?us-ascii?Q?A4Auiz/En5qaMYH7supbXjAMXd3ZACKcdPWlE6Ko4e6KZh+vexDiXZhiSqU4?=
+ =?us-ascii?Q?/ZwmE3fYRvsxjo3Pf5T1Kq7S9UmQX3q1Z9x+qLzm?=
 X-Forefront-Antispam-Report:
-	CIP:198.47.21.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet200.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
+	CIP:198.47.21.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet200.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(36860700013)(376014)(7416014)(1800799024)(82310400026);DIR:OUT;SFP:1101;
 X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2025 10:22:43.3398
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2025 10:22:50.2292
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 41dbfcfd-75e9-4484-70e3-08de318cbaef
+X-MS-Exchange-CrossTenant-Network-Message-Id: 164b6365-1b57-4d55-aa71-08de318cbf0a
 X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.194];Helo=[flwvzet200.ext.ti.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	CO1PEPF000075EE.namprd03.prod.outlook.com
+	CO1PEPF000075F4.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR10MB6322
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR10MB5189
 
 DS90UB954-Q1 is an FPDLink-III deserializer that is mostly register
-compatible with DS90UB960-Q1. The main difference is that it supports
-half of the RX and TX ports, i.e. 2x FPDLink RX ports and 1x CSI TX
-port. Therefore, add support for DS90UB954 within the existing bindings.
+compatible with DS90UB960-Q1. The main difference is that it supports half
+of the RX and TX ports, i.e. 2x FPDLink RX ports and 1x CSI TX port.
+
+A couple of differences are between the status registers and the
+strobe setting registers. Hence accommodate these differences in
+the UB960 driver so that we can reuse a large part of the existing code.
 
 Link: https://www.ti.com/lit/gpn/ds90ub954-q1
 Signed-off-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
 ---
- .../bindings/media/i2c/ti,ds90ub960.yaml      | 300 +++++++++++++++---
- 1 file changed, 264 insertions(+), 36 deletions(-)
+Refer table 5.2.1 STROBE_SET Register in [1] for DS90UB954 strobe
+setting register.
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
-index 6a78288aebaa..1ef977c2e479 100644
---- a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
-@@ -13,12 +13,10 @@ description:
-   The TI DS90UB9XX devices are FPD-Link video deserializers with I2C and GPIO
-   forwarding.
+[1]: https://www.ti.com/lit/an/snla301/snla301.pdf
+
+ drivers/media/i2c/Kconfig     |   4 +-
+ drivers/media/i2c/ds90ub960.c | 165 +++++++++++++++++++++++++---------
+ 2 files changed, 125 insertions(+), 44 deletions(-)
+
+diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+index 745819c625d6..52104f76e371 100644
+--- a/drivers/media/i2c/Kconfig
++++ b/drivers/media/i2c/Kconfig
+@@ -1703,8 +1703,8 @@ config VIDEO_DS90UB960
+ 	select V4L2_FWNODE
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	help
+-	  Device driver for the Texas Instruments DS90UB960
+-	  FPD-Link III Deserializer and DS90UB9702 FPD-Link IV Deserializer.
++	  Device driver for the Texas Instruments DS90UB954, DS90UB960
++	  FPD-Link III Deserializers and DS90UB9702 FPD-Link IV Deserializer.
  
--allOf:
--  - $ref: /schemas/i2c/i2c-atr.yaml#
--
- properties:
-   compatible:
-     enum:
-+      - ti,ds90ub954-q1
-       - ti,ds90ub960-q1
-       - ti,ds90ub9702-q1
+ config VIDEO_MAX96714
+ 	tristate "Maxim MAX96714 GMSL2 deserializer"
+diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
+index 45494fcaf095..7d3e5a87bb17 100644
+--- a/drivers/media/i2c/ds90ub960.c
++++ b/drivers/media/i2c/ds90ub960.c
+@@ -396,6 +396,12 @@
+ #define UB960_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY	BIT(3)
+ #define UB960_IR_RX_ANA_STROBE_SET_DATA_DELAY_MASK	GENMASK(2, 0)
  
-@@ -129,39 +127,6 @@ properties:
-       Ports represent FPD-Link inputs to the deserializer and CSI TX outputs from the deserializer.
-       Their number is model-dependent.
++#define UB954_IR_RX_ANA_STROBE_SET_CLK_DATA		0x08
++#define UB954_IR_RX_ANA_STROBE_SET_CLK_NO_EXTRA_DELAY	BIT(3)
++#define UB954_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY	BIT(7)
++#define UB954_IR_RX_ANA_STROBE_SET_CLK_DELAY_MASK	GENMASK(2, 0)
++#define UB954_IR_RX_ANA_STROBE_SET_DATA_DELAY_MASK	GENMASK(4, 6)
++
+ /* UB9702 Registers */
  
--    properties:
--      port@0:
--        $ref: '#/$defs/FPDLink-input-port'
--        description: FPD-Link input 0
--
--      port@1:
--        $ref: '#/$defs/FPDLink-input-port'
--        description: FPD-Link input 1
--
--      port@2:
--        $ref: '#/$defs/FPDLink-input-port'
--        description: FPD-Link input 2
--
--      port@3:
--        $ref: '#/$defs/FPDLink-input-port'
--        description: FPD-Link input 3
--
--      port@4:
--        $ref: '#/$defs/CSI2-output-port'
--        description: CSI-2 Output 0
--
--      port@5:
--        $ref: '#/$defs/CSI2-output-port'
--        description: CSI-2 Output 1
--
--    required:
--      - port@0
--      - port@1
--      - port@2
--      - port@3
--      - port@4
--      - port@5
--
- required:
-   - compatible
-   - reg
-@@ -204,9 +169,86 @@ $defs:
-           - data-lanes
-           - link-frequencies
+ #define UB9702_SR_CSI_EXCLUSIVE_FWD2		0x3c
+@@ -455,6 +461,7 @@
+ #define UB960_NUM_EQ_LEVELS (UB960_MAX_EQ_LEVEL - UB960_MIN_EQ_LEVEL + 1)
  
-+allOf:
-+  - $ref: /schemas/i2c/i2c-atr.yaml#
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - ti,ds90ub960-q1
-+              - ti,ds90ub9702-q1
-+    then:
-+      properties:
-+        ports:
-+          properties:
-+            port@0:
-+              $ref: '#/$defs/FPDLink-input-port'
-+              description: FPD-Link input 0
-+
-+            port@1:
-+              $ref: '#/$defs/FPDLink-input-port'
-+              description: FPD-Link input 1
-+
-+            port@2:
-+              $ref: '#/$defs/FPDLink-input-port'
-+              description: FPD-Link input 2
-+
-+            port@3:
-+              $ref: '#/$defs/FPDLink-input-port'
-+              description: FPD-Link input 3
-+
-+            port@4:
-+              $ref: '#/$defs/CSI2-output-port'
-+              description: CSI-2 Output 0
-+
-+            port@5:
-+              $ref: '#/$defs/CSI2-output-port'
-+              description: CSI-2 Output 1
-+
-+          required:
-+            - port@0
-+            - port@1
-+            - port@2
-+            - port@3
-+            - port@4
-+            - port@5
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: ti,ds90ub954-q1
-+    then:
-+      properties:
-+        ports:
-+          properties:
-+            port@0:
-+              $ref: '#/$defs/FPDLink-input-port'
-+              description: FPD-Link input 0
-+
-+            port@1:
-+              $ref: '#/$defs/FPDLink-input-port'
-+              description: FPD-Link input 1
-+
-+            port@2:
-+              $ref: '#/$defs/CSI2-output-port'
-+              description: CSI-2 Output 0
-+
-+          required:
-+            - port@0
-+            - port@1
-+            - port@2
-+
-+        links:
-+          properties:
-+            link@2: false
-+            link@3: false
-+
- unevaluatedProperties: false
+ enum chip_type {
++	UB954,
+ 	UB960,
+ 	UB9702,
+ };
+@@ -1000,6 +1007,10 @@ static int ub960_txport_select(struct ub960_data *priv, u8 nport)
  
- examples:
-+  # Example with ds90ub960 Deserializer
-   - |
-     #include <dt-bindings/gpio/gpio.h>
+ 	lockdep_assert_held(&priv->reg_lock);
  
-@@ -406,4 +448,190 @@ examples:
-         };
-       };
-     };
++	/* UB954 has only 1 CSI TX. Hence, no need to select */
++	if (priv->hw_data->chip_type == UB954)
++		return 0;
 +
-+  # Example with ds90ub954 Deserializer
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
+ 	if (priv->reg_current.txport == nport)
+ 		return 0;
+ 
+@@ -1424,10 +1435,11 @@ static int ub960_parse_dt_txport(struct ub960_data *priv,
+ 	priv->tx_link_freq[0] = vep.link_frequencies[0];
+ 	priv->tx_data_rate = priv->tx_link_freq[0] * 2;
+ 
+-	if (priv->tx_data_rate != MHZ(1600) &&
+-	    priv->tx_data_rate != MHZ(1200) &&
+-	    priv->tx_data_rate != MHZ(800) &&
+-	    priv->tx_data_rate != MHZ(400)) {
++	if ((priv->tx_data_rate != MHZ(1600) &&
++	     priv->tx_data_rate != MHZ(1200) &&
++	     priv->tx_data_rate != MHZ(800) &&
++	     priv->tx_data_rate != MHZ(400)) ||
++	     (priv->hw_data->chip_type == UB954 && priv->tx_data_rate == MHZ(1200))) {
+ 		dev_err(dev, "tx%u: invalid 'link-frequencies' value\n", nport);
+ 		ret = -EINVAL;
+ 		goto err_free_vep;
+@@ -1551,22 +1563,44 @@ static int ub960_rxport_get_strobe_pos(struct ub960_data *priv,
+ 	u8 clk_delay, data_delay;
+ 	int ret;
+ 
+-	ret = ub960_read_ind(priv, UB960_IND_TARGET_RX_ANA(nport),
+-			     UB960_IR_RX_ANA_STROBE_SET_CLK, &v, NULL);
+-	if (ret)
+-		return ret;
++	/*
++	 * DS90UB960 has two separate registers for clk and data delay whereas
++	 * DS90UB954 has a single combined register. Hence read accordingly
++	 */
++	if (priv->hw_data->chip_type == UB954) {
++		ret = ub960_read_ind(priv, UB960_IND_TARGET_RX_ANA(nport),
++				     UB954_IR_RX_ANA_STROBE_SET_CLK_DATA, &v, NULL);
++		if (ret)
++			return ret;
+ 
+-	clk_delay = (v & UB960_IR_RX_ANA_STROBE_SET_CLK_NO_EXTRA_DELAY) ?
+-			    0 : UB960_MANUAL_STROBE_EXTRA_DELAY;
++		clk_delay = (v & UB954_IR_RX_ANA_STROBE_SET_CLK_NO_EXTRA_DELAY) ?
++			     0 : UB960_MANUAL_STROBE_EXTRA_DELAY;
+ 
+-	ret = ub960_read_ind(priv, UB960_IND_TARGET_RX_ANA(nport),
+-			     UB960_IR_RX_ANA_STROBE_SET_DATA, &v, NULL);
+-	if (ret)
+-		return ret;
++		ret = ub960_read_ind(priv, UB960_IND_TARGET_RX_ANA(nport),
++				     UB954_IR_RX_ANA_STROBE_SET_CLK_DATA, &v, NULL);
++		if (ret)
++			return ret;
 +
-+    i2c {
-+      clock-frequency = <400000>;
-+      #address-cells = <1>;
-+      #size-cells = <0>;
++		data_delay = (v & UB954_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY) ?
++			      0 : UB960_MANUAL_STROBE_EXTRA_DELAY;
++	} else {
++		ret = ub960_read_ind(priv, UB960_IND_TARGET_RX_ANA(nport),
++				     UB960_IR_RX_ANA_STROBE_SET_CLK, &v, NULL);
++		if (ret)
++			return ret;
+ 
+-	data_delay = (v & UB960_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY) ?
++		clk_delay = (v & UB960_IR_RX_ANA_STROBE_SET_CLK_NO_EXTRA_DELAY) ?
+ 			     0 : UB960_MANUAL_STROBE_EXTRA_DELAY;
+ 
++		ret = ub960_read_ind(priv, UB960_IND_TARGET_RX_ANA(nport),
++				     UB960_IR_RX_ANA_STROBE_SET_DATA, &v, NULL);
++		if (ret)
++			return ret;
 +
-+      deser@3d {
-+        compatible = "ti,ds90ub954-q1";
-+        reg = <0x3d>;
++		data_delay = (v & UB960_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY) ?
++			      0 : UB960_MANUAL_STROBE_EXTRA_DELAY;
++	}
 +
-+        clock-names = "refclk";
-+        clocks = <&fixed_clock>;
+ 	ret = ub960_rxport_read(priv, nport, UB960_RR_SFILTER_STS_0, &v, NULL);
+ 	if (ret)
+ 		return ret;
+@@ -1590,8 +1624,17 @@ static int ub960_rxport_set_strobe_pos(struct ub960_data *priv,
+ 	u8 clk_delay, data_delay;
+ 	int ret = 0;
+ 
+-	clk_delay = UB960_IR_RX_ANA_STROBE_SET_CLK_NO_EXTRA_DELAY;
+-	data_delay = UB960_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY;
++	/*
++	 * DS90UB960 has two separate registers for clk and data delay whereas
++	 * DS90UB954 has a single combined register. Hence assign accordingly.
++	 */
++	if (priv->hw_data->chip_type == UB954) {
++		clk_delay = UB954_IR_RX_ANA_STROBE_SET_CLK_NO_EXTRA_DELAY;
++		data_delay = UB954_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY;
++	} else {
++		clk_delay = UB960_IR_RX_ANA_STROBE_SET_CLK_NO_EXTRA_DELAY;
++		data_delay = UB960_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY;
++	}
+ 
+ 	if (strobe_pos < UB960_MIN_AEQ_STROBE_POS)
+ 		clk_delay = abs(strobe_pos) - UB960_MANUAL_STROBE_EXTRA_DELAY;
+@@ -1602,11 +1645,25 @@ static int ub960_rxport_set_strobe_pos(struct ub960_data *priv,
+ 	else if (strobe_pos > 0)
+ 		data_delay = strobe_pos | UB960_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY;
+ 
+-	ub960_write_ind(priv, UB960_IND_TARGET_RX_ANA(nport),
+-			UB960_IR_RX_ANA_STROBE_SET_CLK, clk_delay, &ret);
+-
+-	ub960_write_ind(priv, UB960_IND_TARGET_RX_ANA(nport),
+-			UB960_IR_RX_ANA_STROBE_SET_DATA, data_delay, &ret);
++	/*
++	 * DS90UB960 has two separate registers for clk and data delay whereas
++	 * DS90UB954 has a single combined register. Hence write the registers accordingly.
++	 */
++	if (priv->hw_data->chip_type == UB954) {
++		ub960_ind_update_bits(priv, UB960_IND_TARGET_RX_ANA(nport),
++				      UB954_IR_RX_ANA_STROBE_SET_CLK_DATA,
++				      UB954_IR_RX_ANA_STROBE_SET_CLK_NO_EXTRA_DELAY,
++				      clk_delay, &ret);
++		ub960_ind_update_bits(priv, UB960_IND_TARGET_RX_ANA(nport),
++				      UB954_IR_RX_ANA_STROBE_SET_CLK_DATA,
++				      UB954_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY,
++				      data_delay, &ret);
++	} else {
++		ub960_write_ind(priv, UB960_IND_TARGET_RX_ANA(nport),
++				UB960_IR_RX_ANA_STROBE_SET_CLK, clk_delay, &ret);
++		ub960_write_ind(priv, UB960_IND_TARGET_RX_ANA(nport),
++				UB960_IR_RX_ANA_STROBE_SET_DATA, data_delay, &ret);
++	}
+ 
+ 	return ret;
+ }
+@@ -4176,33 +4233,40 @@ static int ub960_log_status(struct v4l2_subdev *sd)
+ 		dev_info(dev, "\tsync %u, pass %u\n", v & (u8)BIT(1),
+ 			 v & (u8)BIT(0));
+ 
+-		ret = ub960_read16(priv, UB960_SR_CSI_FRAME_COUNT_HI(nport),
+-				   &v16, NULL);
+-		if (ret)
+-			return ret;
++		/*
++		 * Frame counter, frame error counter, line counter and line error counter
++		 * registers are marked as reserved in the UB954 datasheet. Hence restrict
++		 * the following register reads only for UB960 and UB9702.
++		 */
++		if (priv->hw_data->chip_type != UB954) {
++			ret = ub960_read16(priv, UB960_SR_CSI_FRAME_COUNT_HI(nport),
++					   &v16, NULL);
++			if (ret)
++				return ret;
+ 
+-		dev_info(dev, "\tframe counter %u\n", v16);
++			dev_info(dev, "\tframe counter %u\n", v16);
+ 
+-		ret = ub960_read16(priv, UB960_SR_CSI_FRAME_ERR_COUNT_HI(nport),
+-				   &v16, NULL);
+-		if (ret)
+-			return ret;
++			ret = ub960_read16(priv, UB960_SR_CSI_FRAME_ERR_COUNT_HI(nport),
++					   &v16, NULL);
++			if (ret)
++				return ret;
+ 
+-		dev_info(dev, "\tframe error counter %u\n", v16);
++			dev_info(dev, "\tframe error counter %u\n", v16);
+ 
+-		ret = ub960_read16(priv, UB960_SR_CSI_LINE_COUNT_HI(nport),
+-				   &v16, NULL);
+-		if (ret)
+-			return ret;
++			ret = ub960_read16(priv, UB960_SR_CSI_LINE_COUNT_HI(nport),
++					   &v16, NULL);
++			if (ret)
++				return ret;
+ 
+-		dev_info(dev, "\tline counter %u\n", v16);
++			dev_info(dev, "\tline counter %u\n", v16);
+ 
+-		ret = ub960_read16(priv, UB960_SR_CSI_LINE_ERR_COUNT_HI(nport),
+-				   &v16, NULL);
+-		if (ret)
+-			return ret;
++			ret = ub960_read16(priv, UB960_SR_CSI_LINE_ERR_COUNT_HI(nport),
++					   &v16, NULL);
++			if (ret)
++				return ret;
+ 
+-		dev_info(dev, "\tline error counter %u\n", v16);
++			dev_info(dev, "\tline error counter %u\n", v16);
++		}
+ 	}
+ 
+ 	for_each_rxport(priv, it) {
+@@ -5023,6 +5087,9 @@ static int ub960_enable_core_hw(struct ub960_data *priv)
+ 	}
+ 
+ 	switch (priv->hw_data->chip_type) {
++	case UB954:
++		model = "UB954";
++		break;
+ 	case UB960:
+ 		model = "UB960";
+ 		break;
+@@ -5039,6 +5106,11 @@ static int ub960_enable_core_hw(struct ub960_data *priv)
+ 	if (ret)
+ 		goto err_pd_gpio;
+ 
++	/*
++	 * UB954 REFCLK_FREQ is not synchronized, so multiple reads are recommended
++	 * by the datasheet. However, we use the same logic as UB960 (single read),
++	 * as practical testing showed this is sufficient and stable for UB954 as well.
++	 */
+ 	if (priv->hw_data->chip_type == UB9702)
+ 		ret = ub960_read(priv, UB9702_SR_REFCLK_FREQ, &refclk_freq,
+ 				 NULL);
+@@ -5198,6 +5270,13 @@ static void ub960_remove(struct i2c_client *client)
+ 	mutex_destroy(&priv->reg_lock);
+ }
+ 
++static const struct ub960_hw_data ds90ub954_hw = {
++	.chip_type = UB954,
++	.chip_family = FAMILY_FPD3,
++	.num_rxports = 2,
++	.num_txports = 1,
++};
 +
-+        powerdown-gpios = <&pca9555 7 GPIO_ACTIVE_LOW>;
-+
-+        i2c-alias-pool = <0x4a 0x4b 0x4c>;
-+
-+        ports {
-+          #address-cells = <1>;
-+          #size-cells = <0>;
-+
-+          /* Port 0, Camera 0 */
-+          port@0 {
-+            reg = <0>;
-+
-+            ub954_fpd3_1_in: endpoint {
-+              remote-endpoint = <&ub953_2_out>;
-+            };
-+          };
-+
-+          /* Port 1, Camera 1 */
-+          port@1 {
-+            reg = <1>;
-+
-+            ub954_fpd3_2_in: endpoint {
-+              remote-endpoint = <&ub913_3_out>;
-+              hsync-active = <0>;
-+              vsync-active = <1>;
-+            };
-+          };
-+
-+          /* Port 2, CSI-2 TX */
-+          port@2 {
-+            reg = <2>;
-+            ds90ub954_0_csi_out: endpoint {
-+              data-lanes = <1 2 3 4>;
-+              link-frequencies = /bits/ 64 <800000000>;
-+              remote-endpoint = <&csi2_phy0>;
-+            };
-+          };
-+        };
-+
-+        links {
-+          #address-cells = <1>;
-+          #size-cells = <0>;
-+
-+          /* Link 0 has DS90UB953 serializer and IMX274 sensor */
-+
-+          link@0 {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            reg = <0>;
-+            i2c-alias = <0x44>;
-+
-+            ti,rx-mode = <3>;
-+
-+            serializer3: serializer@30 {
-+              compatible = "ti,ds90ub953-q1";
-+              reg = <0x30>;
-+
-+              gpio-controller;
-+              #gpio-cells = <2>;
-+
-+              #clock-cells = <0>;
-+
-+              ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                port@0 {
-+                  reg = <0>;
-+                  ub953_2_in: endpoint {
-+                    data-lanes = <1 2 3 4>;
-+                    remote-endpoint = <&sensor_3_out>;
-+                  };
-+                };
-+
-+                port@1 {
-+                  reg = <1>;
-+
-+                  ub953_2_out: endpoint {
-+                    remote-endpoint = <&ub954_fpd3_1_in>;
-+                  };
-+                };
-+              };
-+
-+              i2c {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                sensor@1a {
-+                  compatible = "sony,imx274";
-+                  reg = <0x1a>;
-+
-+                  clocks = <&serializer>;
-+                  clock-names = "inck";
-+
-+                  reset-gpios = <&serializer3 0 GPIO_ACTIVE_LOW>;
-+
-+                  port {
-+                    sensor_3_out: endpoint {
-+                      remote-endpoint = <&ub953_2_in>;
-+                    };
-+                  };
-+                };
-+              };
-+            };
-+          };  /* End of link@0 */
-+
-+          /* Link 1 has DS90UB913 serializer and MT9V111 sensor */
-+
-+          link@1 {
-+            reg = <1>;
-+            i2c-alias = <0x45>;
-+
-+            ti,rx-mode = <0>;
-+
-+            serializer4: serializer {
-+              compatible = "ti,ds90ub913a-q1";
-+
-+              gpio-controller;
-+              #gpio-cells = <2>;
-+
-+              clocks = <&clk_cam_48M>;
-+              clock-names = "clkin";
-+
-+              #clock-cells = <0>;
-+
-+              ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                port@0 {
-+                  reg = <0>;
-+                  ub913_3_in: endpoint {
-+                    remote-endpoint = <&sensor_4_out>;
-+                    pclk-sample = <1>;
-+                  };
-+                };
-+
-+                port@1 {
-+                  reg = <1>;
-+
-+                  ub913_3_out: endpoint {
-+                    remote-endpoint = <&ub954_fpd3_2_in>;
-+                  };
-+                };
-+              };
-+
-+              i2c {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                sensor@48 {
-+                  compatible = "aptina,mt9v111";
-+                  reg = <0x48>;
-+
-+                  clocks = <&serializer4>;
-+
-+                  port {
-+                    sensor_4_out: endpoint {
-+                      remote-endpoint = <&ub913_3_in>;
-+                    };
-+                  };
-+                };
-+              };
-+            };
-+          }; /* End of link@1 */
-+        };
-+      };
-+    };
- ...
+ static const struct ub960_hw_data ds90ub960_hw = {
+ 	.chip_type = UB960,
+ 	.chip_family = FAMILY_FPD3,
+@@ -5213,6 +5292,7 @@ static const struct ub960_hw_data ds90ub9702_hw = {
+ };
+ 
+ static const struct i2c_device_id ub960_id[] = {
++	{ "ds90ub954-q1", (kernel_ulong_t)&ds90ub954_hw },
+ 	{ "ds90ub960-q1", (kernel_ulong_t)&ds90ub960_hw },
+ 	{ "ds90ub9702-q1", (kernel_ulong_t)&ds90ub9702_hw },
+ 	{}
+@@ -5220,6 +5300,7 @@ static const struct i2c_device_id ub960_id[] = {
+ MODULE_DEVICE_TABLE(i2c, ub960_id);
+ 
+ static const struct of_device_id ub960_dt_ids[] = {
++	{ .compatible = "ti,ds90ub954-q1", .data = &ds90ub954_hw },
+ 	{ .compatible = "ti,ds90ub960-q1", .data = &ds90ub960_hw },
+ 	{ .compatible = "ti,ds90ub9702-q1", .data = &ds90ub9702_hw },
+ 	{}
 -- 
 2.34.1
 
