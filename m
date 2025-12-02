@@ -1,54 +1,54 @@
-Return-Path: <linux-media+bounces-48045-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48046-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32F64C9A8F9
-	for <lists+linux-media@lfdr.de>; Tue, 02 Dec 2025 08:52:44 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1A0CC9A8FC
+	for <lists+linux-media@lfdr.de>; Tue, 02 Dec 2025 08:52:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id D01CE34606C
-	for <lists+linux-media@lfdr.de>; Tue,  2 Dec 2025 07:52:43 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 75D094E2DE6
+	for <lists+linux-media@lfdr.de>; Tue,  2 Dec 2025 07:52:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A257D302745;
-	Tue,  2 Dec 2025 07:52:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C99C8303CB2;
+	Tue,  2 Dec 2025 07:52:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d57ORW2H"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QtPS/f9w"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B9042FAC17
-	for <linux-media@vger.kernel.org>; Tue,  2 Dec 2025 07:52:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32EC0302CB0
+	for <linux-media@vger.kernel.org>; Tue,  2 Dec 2025 07:52:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764661956; cv=none; b=hTaE/y8wnCQ7TJL480NB3fCDFM26Um5M1C2UW0UkS3+RNk5Ai0GdT9Tyn/j9jIqCIJ4mSoBZDBNMGbiHxIg8X82iZv77U76PL0T8mi4Jf0pTvxJTo+gnFKdTtCqWRryDbp9zrNxShTccr9lxx9nXITTu5YwpPNvgMXVdHO2spVI=
+	t=1764661958; cv=none; b=rdKjpFRFBOTSWur6vo+Lo0eCUVb2pUcu7Bd1oybeIzbKsQHyU5SkmLeU0MDpKc97/70NwlgQF0zVitMlJra2sLH2U36j014ipS6tgH2r14hozpAqYEY4dwgwVi9U6JW0v0ZVcLbwjdZWpbEa0D4Iy2zNXjXkDS0kGttoVcc2OW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764661956; c=relaxed/simple;
-	bh=29SfeHUGCE6rbGrUJOuGECvSaTE4V8Eivk/mBXk7zaM=;
+	s=arc-20240116; t=1764661958; c=relaxed/simple;
+	bh=Q0RWrGOrxCxP4grYbnVH/DtV4XeE6Sjc4ee1hshFWhA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Wjkn7wPJCobwQdzwuWrNNdv7RJ6Rx34QIquj3KzJkrbQ1KyZi1U9eSitvwwLyP/YrIQEvqkev2PdRJTO7ZdlsM/wgN40uP6kpaJn0TMn8vAZh2LfawxmtEr2a7vAxxseH7GQXEaEw3je24pOLALnd1m1tfrUeGcpJY+LyRVJGJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d57ORW2H; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D7E9C116B1;
-	Tue,  2 Dec 2025 07:52:34 +0000 (UTC)
+	 MIME-Version; b=b/s9hvTEjJdBYHSYrLFA1YKgnl4j/OarzL1qSsEE5jExC8sRzgfFkavpvzaqvc7D+jy51+VxBGZt/GrJrW73+/SDbtmfMoIzHr1AalUwgg9y7yDAL0cM9F1o/VrZ5C7abQOdthvAF6kjGr5Wc5muB1Sj6j4l3if1PL/x7OfLL8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QtPS/f9w; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65359C116B1;
+	Tue,  2 Dec 2025 07:52:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764661955;
-	bh=29SfeHUGCE6rbGrUJOuGECvSaTE4V8Eivk/mBXk7zaM=;
+	s=k20201202; t=1764661957;
+	bh=Q0RWrGOrxCxP4grYbnVH/DtV4XeE6Sjc4ee1hshFWhA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=d57ORW2Hh/3xCMCpfvt7ukv5x4XcoiTD+MXpH3+S7UELq80L++ylUQ6kVYcl6FC4P
-	 XJxoXbu6PSpvPaSUJ6m5+8Xe5yuY6F5yKv0SvW1uEE2SPIQ90xrMihLDEuJ1oEAZtE
-	 O1oCz4PdzFfoHST84fNlMC4kSVQouw0DFE1FQH+AjhyaPOy3RC8zE9sCLhJq3xyW83
-	 HfUMkfJXzpEhXnRYReniQ6+1KfKfR0JwdGtPb1hjd7tGkmmvwzKoFIrfItRK4xebz2
-	 BK6TAptcu8pwmZ4Tbx/0Nb64vceuI416a20YgtVL49syGkA9gwrsHMKGOCS1WtQFED
-	 puz0/Lfoz2HRA==
+	b=QtPS/f9whSEhpQSFNbpvQ9qq0PLlRerrCbl5x6UbqaBio5utiALlK2tWbO6LxKGvq
+	 Gbln9Io8YzU6P/3MADO4UGcK9RcqB6678VEqQBll+ufgI3MMSGu2vCHwhAHx7PbCAe
+	 6PBfDO4KPD4dyMq3hOMt1Ld1YVtzDODtD64fjgVQyDrYVxv9gW0gxVjGL9P/u7KbQ1
+	 whK3O3HCoLT8UeZiwOcgmQ3KUWLmA79NsWmACSzr3WqKq4gDbLicJ7qhaXNk0V6K3S
+	 p3obIRyY5FevgTxn3Wg7tExU2k20lgvXkg/h3XNDP05+zf9woRSTV+cksVeh3Tqe6p
+	 ++TojRbpz/8sQ==
 From: Hans Verkuil <hverkuil+cisco@kernel.org>
 To: linux-media@vger.kernel.org
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	laurent.pinchart@ideasonboard.com,
 	Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: [PATCHv3 02/12] media: omap3isp: add V4L2_CAP_IO_MC and don't set bus_info
-Date: Tue,  2 Dec 2025 08:51:10 +0100
-Message-ID: <304753821eac7504f2177c4369ace8c589083b4d.1764661880.git.hverkuil+cisco@kernel.org>
+Subject: [PATCHv3 03/12] media: omap3isp: isp_video_mbus_to_pix/pix_to_mbus fixes
+Date: Tue,  2 Dec 2025 08:51:11 +0100
+Message-ID: <2fbd7561e6c2d600d0bad9ddc3525f767db6e8d1.1764661880.git.hverkuil+cisco@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1764661880.git.hverkuil+cisco@kernel.org>
 References: <cover.1764661880.git.hverkuil+cisco@kernel.org>
@@ -60,49 +60,45 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Since this is a media-centric device set the V4L2_CAP_IO_MC
-capability. Also don't set bus_info, leave that to the v4l2 core.
+The isp_video_mbus_to_pix/pix_to_mbus functions did not take
+the last empty entry { 0, } of the formats array into account.
 
-This fixes v4l2-compliance errors:
-
-test MC information (see 'Media Driver Info' above): OK
-	fail: v4l2-compliance.cpp(661): missing bus_info prefix ('media')
+As a result, isp_video_mbus_to_pix would accept code 0 and
+isp_video_pix_to_mbus would select code 0 if no match was found.
 
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 ---
- drivers/media/platform/ti/omap3isp/ispvideo.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/media/platform/ti/omap3isp/ispvideo.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/media/platform/ti/omap3isp/ispvideo.c b/drivers/media/platform/ti/omap3isp/ispvideo.c
-index 0e7f0bf2b346..46609045e2c8 100644
+index 46609045e2c8..864d38140b87 100644
 --- a/drivers/media/platform/ti/omap3isp/ispvideo.c
 +++ b/drivers/media/platform/ti/omap3isp/ispvideo.c
-@@ -645,11 +645,9 @@ isp_video_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
+@@ -148,12 +148,12 @@ static unsigned int isp_video_mbus_to_pix(const struct isp_video *video,
+ 	pix->width = mbus->width;
+ 	pix->height = mbus->height;
  
- 	strscpy(cap->driver, ISP_VIDEO_DRIVER_NAME, sizeof(cap->driver));
- 	strscpy(cap->card, video->video.name, sizeof(cap->card));
--	strscpy(cap->bus_info, "media", sizeof(cap->bus_info));
+-	for (i = 0; i < ARRAY_SIZE(formats); ++i) {
++	for (i = 0; i < ARRAY_SIZE(formats) - 1; ++i) {
+ 		if (formats[i].code == mbus->code)
+ 			break;
+ 	}
  
- 	cap->capabilities = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_VIDEO_OUTPUT
--		| V4L2_CAP_STREAMING | V4L2_CAP_DEVICE_CAPS;
--
-+		| V4L2_CAP_STREAMING | V4L2_CAP_DEVICE_CAPS | V4L2_CAP_IO_MC;
+-	if (WARN_ON(i == ARRAY_SIZE(formats)))
++	if (WARN_ON(i == ARRAY_SIZE(formats) - 1))
+ 		return 0;
  
- 	return 0;
- }
-@@ -1451,10 +1449,10 @@ int omap3isp_video_init(struct isp_video *video, const char *name)
- 	video->video.ioctl_ops = &isp_video_ioctl_ops;
- 	if (video->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
- 		video->video.device_caps = V4L2_CAP_VIDEO_CAPTURE
--					 | V4L2_CAP_STREAMING;
-+					 | V4L2_CAP_STREAMING | V4L2_CAP_IO_MC;
- 	else
- 		video->video.device_caps = V4L2_CAP_VIDEO_OUTPUT
--					 | V4L2_CAP_STREAMING;
-+					 | V4L2_CAP_STREAMING | V4L2_CAP_IO_MC;
- 
- 	video->pipe.stream_state = ISP_PIPELINE_STREAM_STOPPED;
- 
+ 	min_bpl = pix->width * formats[i].bpp;
+@@ -191,7 +191,7 @@ static void isp_video_pix_to_mbus(const struct v4l2_pix_format *pix,
+ 	/* Skip the last format in the loop so that it will be selected if no
+ 	 * match is found.
+ 	 */
+-	for (i = 0; i < ARRAY_SIZE(formats) - 1; ++i) {
++	for (i = 0; i < ARRAY_SIZE(formats) - 2; ++i) {
+ 		if (formats[i].pixelformat == pix->pixelformat)
+ 			break;
+ 	}
 -- 
 2.51.0
 
