@@ -1,136 +1,174 @@
-Return-Path: <linux-media+bounces-48030-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48019-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FBC6C9A852
-	for <lists+linux-media@lfdr.de>; Tue, 02 Dec 2025 08:42:59 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68A91C9A7E9
+	for <lists+linux-media@lfdr.de>; Tue, 02 Dec 2025 08:40:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 4F09B347275
-	for <lists+linux-media@lfdr.de>; Tue,  2 Dec 2025 07:42:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F38343A62AC
+	for <lists+linux-media@lfdr.de>; Tue,  2 Dec 2025 07:40:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A295307AD7;
-	Tue,  2 Dec 2025 07:41:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A0232FE059;
+	Tue,  2 Dec 2025 07:40:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="UenBuqXT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C3D653Dq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A1D5303CAE;
-	Tue,  2 Dec 2025 07:40:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D276A3FF1
+	for <linux-media@vger.kernel.org>; Tue,  2 Dec 2025 07:40:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764661261; cv=none; b=XgoIbjfvQr/OHrftg+CoL0JfjZ/5oJYzLI1+MxIa50pFv3V7oTQbK6hXWE2Vo9TbbyEFyBlXdpGg0yStT3OcPh2S1eigoeNHG8ss7unyrwHDKY2i+4XmlDIy/RDjusFQX6OjBe5nzngeMvkmDRQOLluV5JmljaZabCVOl+nUehk=
+	t=1764661247; cv=none; b=j+VJCQucN/AT+91xAhlZEtfLXA0IARPX3k6tpSeBFbvPycCXkH3qdM9yye76P5zMVVVNXeIyov/zDrG2szjwHpjiAwC8k6ohUEHei+VkMD1NM2Urj4Z32VrRVdeb3yfqOKP6uvRruyrXdMcfvymOXebJg2smRkdkY/C8glxxito=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764661261; c=relaxed/simple;
-	bh=TyPRgqP5ilBN/5LTjgqjSIX4zkdjTc3tpcdZs19ohBo=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mzFifIIV7pXjUNfwMjkkpIq93Suzpwfkxfb3FwCWtsz1krIMaiGFLneN3baG99tq1yhbMoRWK/lJ8KTQ+4Z9Cs6BTcNiLIt1gr8vtoTBFN0d5QdZTRKkVt4e4sg0N+9Dyb9C3K9vQ9wvCCDIaJ9doUw7Jeadi7Oxo0NWHZKCgVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=UenBuqXT; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 3cbb1faccf5211f0b2bf0b349165d6e0-20251202
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=qTUsYDSTagKkAf/Ece9RBzP/NXD4wJBex3RnV/GnCZk=;
-	b=UenBuqXTkOw0Mi0Tc+8gbPaN9Cl9/HtivaasZmp2+QpUwJRXS8e25y9OaJJZ+ICap4AHGx2+n82wCxcVepVDFh9AEzZmpzW1n4Cbuom/LiSI/qYpcpSI26RFWEOggR7P12c6yILVd5W4Wub1vWlLNktyivQyPlvfK9ZiPLplYcU=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.6,REQID:5786b74b-5d9a-4f76-a7d6-43d2b868a80b,IP:0,UR
-	L:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:-5
-X-CID-META: VersionHash:a9d874c,CLOUDID:f4bfbaa9-6421-45b1-b8b8-e73e3dc9a90f,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|836|888|898,TC:-5,Content:
-	0|15|50,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,BEC:nil,COL:0,OS
-	I:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 3cbb1faccf5211f0b2bf0b349165d6e0-20251202
-Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw01.mediatek.com
-	(envelope-from <kyrie.wu@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1898564184; Tue, 02 Dec 2025 15:40:56 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Tue, 2 Dec 2025 15:40:54 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1748.26 via Frontend Transport; Tue, 2 Dec 2025 15:40:53 +0800
-From: Kyrie Wu <kyrie.wu@mediatek.com>
-To: Tiffany Lin <tiffany.lin@mediatek.com>, Andrew-CT Chen
-	<andrew-ct.chen@mediatek.com>, Yunfei Dong <yunfei.dong@mediatek.com>, "Mauro
- Carvalho Chehab" <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, Kyrie Wu <kyrie.wu@mediatek.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>, Nicolas Dufresne
-	<nicolas.dufresne@collabora.com>, Nathan Hebert <nhebert@chromium.org>, "Arnd
- Bergmann" <arnd@arndb.de>, Irui Wang <irui.wang@mediatek.com>, George Sun
-	<george.sun@mediatek.com>, <linux-media@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>
-CC: Neil Armstrong <neil.armstrong@linaro.org>, Andrzej Pietrasiewicz
-	<andrzejtp2010@gmail.com>, Yilong Zhou <yilong.zhou@mediatek.com>
-Subject: [PATCH v6 10/10] media: mediatek: encoder: Add MT8189 encoder compatible data
-Date: Tue, 2 Dec 2025 15:40:37 +0800
-Message-ID: <20251202074038.3173-11-kyrie.wu@mediatek.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20251202074038.3173-1-kyrie.wu@mediatek.com>
-References: <20251202074038.3173-1-kyrie.wu@mediatek.com>
+	s=arc-20240116; t=1764661247; c=relaxed/simple;
+	bh=BWl3Wyb39JP+eI9kf6mWZoSqRE/nXw1ixlSIuEmBDAY=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=bWB+LRfV9kNJLH9cXk22L2li2eSuHzUy1zCw+S7Su4MQWu72Tx4yuyoj+2ACGn0QC72anVmcTaDXSpMhQMbSSFCfdjZY7BIglIrvn5/pKnlV1e/ZNDgmB8FMHZW8JraeCLAh8/y3GvZlM4e8bFaqOfXCbFZFTZsi1P8A/xF/ID8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C3D653Dq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2137EC4CEF1;
+	Tue,  2 Dec 2025 07:40:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764661246;
+	bh=BWl3Wyb39JP+eI9kf6mWZoSqRE/nXw1ixlSIuEmBDAY=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=C3D653DqFG1ZoMZ0NzvNcslb5uV17T91yZ6fBLvRLu4exVkcTqkcNfuT/6EznOeDC
+	 RKlSC4X9qr7oyMqFGmhO0H7lX8feGDrvLIXGFEGGu4X+FyfnmlhmHm2wQ1VD09uUFD
+	 oLr6xMNBm+ZprPeb2E1Wk4tDMTkscyfg5+Lxt3FRPXfwQPI5D6h3egnJBmcI1LkiQy
+	 WmkvGl6vu5YGskJefUkhEuUYbtAMaImRcSfPUDdGYXBsKJVIcFmQ+AjLwgCeURe2sE
+	 zjFw2AFyxcKoOCqf8qJBCu55WhJ/63/f+SPoMx14rlzRRVAk3eeHkFxcgVkbMsJfi8
+	 Y1vyCaGX2n/fw==
+Message-ID: <c1fe9d2e-1a2c-4ba2-b188-343b34a15e7b@kernel.org>
+Date: Tue, 2 Dec 2025 08:40:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCHv2] media: v4l2-event: keep place in event list when
+ combining events
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <d4319e94-15c5-43a6-9bab-b9eb1d6c0d7c@kernel.org>
+ <aQMl32qFeMNmG598@kekkonen.localdomain>
+ <79f4a4f2-a7b9-4ee6-af29-6e9970d2ed7a@kernel.org>
+ <aQMyNttmOOVCBRym@kekkonen.localdomain>
+ <20251201154646.GB32430@pendragon.ideasonboard.com>
+Content-Language: en-US, nl
+In-Reply-To: <20251201154646.GB32430@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-add MT8189 compatible data to initialize platform data for encoder.
+On 01/12/2025 16:46, Laurent Pinchart wrote:
+> On Thu, Oct 30, 2025 at 11:39:02AM +0200, Sakari Ailus wrote:
+>> On Thu, Oct 30, 2025 at 10:07:49AM +0100, Hans Verkuil wrote:
+>>> On 10/30/25 09:46, Sakari Ailus wrote:
+>>>> On Fri, Oct 10, 2025 at 01:35:02PM +0200, Hans Verkuil wrote:
+>>>>> When subscribing to an event a fixed circular buffer of N (N >= 1) events
+>>>>> is allocated for that file handle.
+>>>>>
+>>>>> New events of the same type are added to that buffer and eventually the
+>>>>> oldest event is removed from the buffer when VIDIOC_DQEVENT is called.
+>>>>>
+>>>>> If the circular buffer is full, then the event framework will
+>>>>> merge the two oldest events (what 'merge' means is event type
+>>>>> specific).
+>>>>>
+>>>>> So far, so good.
+>>>>>
+>>>>> There is also a per-filehandle list of pending events for all event
+>>>>> types. VIDIOC_DQEVENT always dequeues the oldest of that event list,
+>>>>> and that event is removed from the corresponding circular buffer.
+>>>>>
+>>>>> The problem occurs when the circular buffer is full and a new event
+>>>>> arrives. Then the two oldest events are merged, but instead of
+>>>>> keeping the position in the list of pending events, the merged
+>>>>> event is added to the *end* of the list of pending events.
+>>>>>
+>>>>> So if a lot of events are generated, then events can continually
+>>>>> be pushed to the end of the list of pending events, and so are never
+>>>>> or much later dequeued by the application.
+>>>>>
+>>>>> Effectively this is a denial-of-service situation were the
+>>>>> event is never seen by the application even though there are
+>>>>> actually a lot of events.
+>>>>>
+>>>>> So if you subscribe to events from control A and B, then
+>>>>> change control A, then change control B, then change control A
+>>>>> again, and now call VIDIOC_DQEVENT, you will get the event from
+>>>>> control B followed by A, even though A was changed first.
+>>>>>
+>>>>> This patch keeps the oldest event in its place in the 'pending
+>>>>> events' list rather then moving it to the end, and in the test
+>>>>> above you will now receive the event from control A first.
+>>>>
+>>>> Typically events are queued faster than they're generated, it is an
+>>>
+>>> You mean 'dequeued' instead of 'queued'?
+>>>
+>>>> exception when they are not. The application certainly won't work very well
+>>>> if it consumes events slower than they're produced, whether or not the
+>>>> ordering of events fits for the use case.
+>>>
+>>> The problem isn't the application, the problem is that with the current
+>>> code events never reach the application, they can be continuously pushed
+>>> back to the end of the queue. This is not theory, it's how I discovered
+>>> something was wrong. Some events were delayed by seconds.
+> 
+> But that's still related to applications not dequeuing events fast
+> enough, isn't it ? If there's enough space in the events queue for new
+> events, would the problem still occur ?
+> 
+>>>> For instance, for frame sync events, the latest event is more relevant than
+>>>> than earlier such events and the latest event should be kept instead of an
+>>>> earlier event.
+> 
+> Sure, but I don't think this patch prevents that, does it ? When merging
+> frame sync events we can drop the older event and keep the newer one
+> while storing the newer event in the position of the old one in the
+> queue, can't we ?
+> 
+>>>> I wouldn't change this, or alternatively I'd make it
+>>>> dependent on the event type, but in I wonder if that's worth the
+>>>> complexity.
+>>>
+>>> This might be an option. Another option is to extend struct v4l2_event_subscription:
+>>> a flag that says how to handle this specific case (drop the oldest event or
+>>> update the contents of the oldest event), and a field to set the size of the
+>>> queue for that event.
+> 
+> Unless I'm missing something, this problem seems solvable without having
+> to increase the completexity of the UAPI.
+> 
+>>> Right now the number of events for a (type, id) tuple is set by the driver,
+>>> but for situations like this it can be useful to be able to configure it by
+>>> the application.
+>>>
+>>> It would certainly help if I can configure this for the specific use-case I am
+>>> dealing with.
+>>
+>> Sounds good to me, implementation-wise. But to benefit from that,
+>> applications would need to set the flag. If that's enough, then we don't
+>> need e.g. defaults per event type (and don't need another flag).
+> 
 
-Signed-off-by: Kyrie Wu <kyrie.wu@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- .../mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c   | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+I plan to rework this, once I find some more time. Allowing userspace to set the
+size of the event queue will help a lot, and that's actually a trivial change.
 
-diff --git a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c
-index 6b3d2e72fad9..2cc92a8f7a0d 100644
---- a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c
-+++ b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c
-@@ -467,6 +467,19 @@ static const struct mtk_vcodec_enc_pdata mt8196_pdata = {
- 	.set_dma_bit_mask = true,
- };
- 
-+static const struct mtk_vcodec_enc_pdata mt8189_pdata = {
-+	.venc_model_num = 8189,
-+	.capture_formats = mtk_video_formats_capture_h264,
-+	.num_capture_formats = ARRAY_SIZE(mtk_video_formats_capture_h264),
-+	.output_formats = mtk_video_formats_output,
-+	.num_output_formats = ARRAY_SIZE(mtk_video_formats_output),
-+	.min_bitrate = 64,
-+	.max_bitrate = 100000000,
-+	.core_id = VENC_SYS,
-+	.uses_common_fw_iface = true,
-+	.set_dma_bit_mask = true,
-+};
-+
- static const struct of_device_id mtk_vcodec_enc_match[] = {
- 	{.compatible = "mediatek,mt8173-vcodec-enc",
- 			.data = &mt8173_avc_pdata},
-@@ -477,6 +490,7 @@ static const struct of_device_id mtk_vcodec_enc_match[] = {
- 	{.compatible = "mediatek,mt8192-vcodec-enc", .data = &mt8192_pdata},
- 	{.compatible = "mediatek,mt8195-vcodec-enc", .data = &mt8195_pdata},
- 	{.compatible = "mediatek,mt8196-vcodec-enc", .data = &mt8196_pdata},
-+	{.compatible = "mediatek,mt8189-vcodec-enc", .data = &mt8189_pdata},
- 	{},
- };
- MODULE_DEVICE_TABLE(of, mtk_vcodec_enc_match);
--- 
-2.45.2
+In the end it comes down to what to do when a new event arrives and the queue is
+full: do you want to drop the oldest event or the new event? That depends on
+what event it is. Allowing the driver to make that choice would be nice.
 
+Regards,
+
+	Hans
 
