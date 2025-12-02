@@ -1,54 +1,54 @@
-Return-Path: <linux-media+bounces-48048-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48049-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 970BFC9A902
-	for <lists+linux-media@lfdr.de>; Tue, 02 Dec 2025 08:52:58 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2FAAC9A905
+	for <lists+linux-media@lfdr.de>; Tue, 02 Dec 2025 08:52:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3E7C134603D
-	for <lists+linux-media@lfdr.de>; Tue,  2 Dec 2025 07:52:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CB1B33A5FF4
+	for <lists+linux-media@lfdr.de>; Tue,  2 Dec 2025 07:52:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55A723043C9;
-	Tue,  2 Dec 2025 07:52:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B99A302745;
+	Tue,  2 Dec 2025 07:52:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZUqA3Egj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iluSwDC0"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5046302CB0
-	for <linux-media@vger.kernel.org>; Tue,  2 Dec 2025 07:52:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF3A302772
+	for <linux-media@vger.kernel.org>; Tue,  2 Dec 2025 07:52:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764661961; cv=none; b=dz3QYobMwH4XYWVMqgL+ZCNrlkAmy6bKcv2RCjgKgCS/JBydSm9dn2iAMg3JTHVm5vbV4iWfJEqsNU+Iq8aApyMTtpx1zMa7PMAfcTLAD3uuUiPkpg2K8eYlBXNzlCKF23Sn8CcMaeh+BpdCHPuEz4tsOfrbRQZ78m9IXv44muI=
+	t=1764661963; cv=none; b=pWEkLGKzMlvCvu9xdVAHqWBgcKoTY/07m147eiQShXAoY01sOknl0FbpgcDpYnCSPQHx3zZQY4EeI/ttaBz8g1q1D2ijfgvdvsfrpvR94uKPIHMbLqcBYijSt55Qk/uyCgZLjOSKMc0B63poTXi5mqTAuNLrz0/kGYUaajMleLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764661961; c=relaxed/simple;
-	bh=9W+ZkiZF8RrPzB6qu8FA9+JATPd6DBh/eT33HlRBEqQ=;
+	s=arc-20240116; t=1764661963; c=relaxed/simple;
+	bh=l+jU2o4Cp/fMly8PA41JYwzAIBTQAddqleVXLYuHVwU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=t+I4tXNlDAHNUNrxGAP7yhL/qsT0yGGcnHVzADm1c/DdbNXZd1YFml5cvqj3uZJfqN/TSAVPzNoW7mxmv6pou4QMdounYigYjFYYJYUL9IhKFQWw8rPmuNtdSi/Me2zkuq6/kAEoTV6Q3iou7f0Nld6heykP9RjaHEclJd/AA6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZUqA3Egj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33ADEC116B1;
-	Tue,  2 Dec 2025 07:52:40 +0000 (UTC)
+	 MIME-Version; b=PhQGQHd9RzTUKBiu0zHXeLjPXbNE+idf9ALnIjvSlEWK9fBCMk42TO/YItyVdVZ5C8dWslt1rQC3qJqc91EyiYsihW5iKdTSJOTCe/OniWj1P84D2WNjicv43JsKjf68teioEV5J5GMIe6QnZqZe+QpYhlLsxT1A/lIoGodmMtA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iluSwDC0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BDECC4CEF1;
+	Tue,  2 Dec 2025 07:52:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764661961;
-	bh=9W+ZkiZF8RrPzB6qu8FA9+JATPd6DBh/eT33HlRBEqQ=;
+	s=k20201202; t=1764661963;
+	bh=l+jU2o4Cp/fMly8PA41JYwzAIBTQAddqleVXLYuHVwU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZUqA3EgjFcSlFLXwOpFlxMWFhcRvdRg4gnT/PmaMS1vpv9e+mu6vgzK/bKAquoj1l
-	 PBLcnjYmIaBvymRl9yemGyp2r7HUycXDFVV7JlIUkUlu7jdAnK6I38WUQVtSNAK6zQ
-	 ko4Ua32K2U20fpG9on7oEJ7sJOeGnYEwSTy269Xa3J6e2NJpC66kq8ZAn+16a9ttm9
-	 TSv6vliA19+lIw5itPN9WY9e+vTz0oicMJoYLt+2rO3stOt4hXJVMH2RTQzx5GgYSC
-	 8dCoh1Ct5njpBOdVj5+iR41qAMoQFL67vU6JWOKruDcbXikf2V3NXPiCJ+p7tO5Cxg
-	 US/i/3JH3rUGg==
+	b=iluSwDC0bKAkB7yYVLJ3IGTOh9OCyT9iUy5cDYJ0lkoDiucam7KblRLIyMC3X3ppv
+	 wgrtQFsfG+m6vkQzR1taOiPM4TOa2fhkBPTnOqvGL2jXGYQv8WfZ5B4uwqvdcKND0Z
+	 ViRlbwBRcGOCqGtqUOQG6O+Gx5Oc5nReDwgK6vWg9738qtUXCi4kc6lfeDh158u5m+
+	 MXTOFABVV0+MppV10NhIohu4HqsOCsBFWUAKr/ATd0VRaSdXKRW8tJb7jjuras8+vT
+	 Sf3HsCXebLj5Btt5qGseZVKwfNyg0dzWD3eBwrFuRxlalYGfnDDaZ68bHgGhi/6hjI
+	 svzz1OGhiTrtA==
 From: Hans Verkuil <hverkuil+cisco@kernel.org>
 To: linux-media@vger.kernel.org
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	laurent.pinchart@ideasonboard.com,
 	Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: [PATCHv3 05/12] media: omap3isp: use V4L2_COLORSPACE_SRGB instead of _JPEG
-Date: Tue,  2 Dec 2025 08:51:13 +0100
-Message-ID: <296516c08fe01c5ed8626b22c3c2ae1b31ccaee5.1764661880.git.hverkuil+cisco@kernel.org>
+Subject: [PATCHv3 06/12] media: omap3isp: set initial format
+Date: Tue,  2 Dec 2025 08:51:14 +0100
+Message-ID: <ba1f29fa4919cee573074cc86813614982588776.1764661880.git.hverkuil+cisco@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1764661880.git.hverkuil+cisco@kernel.org>
 References: <cover.1764661880.git.hverkuil+cisco@kernel.org>
@@ -60,45 +60,43 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-JPEG colorspace should generally not be used unless it is actually
-dealing with JPG data. This fixes v4l2-compliance errors:
+Initialize the v4l2_format to a default. Empty formats are
+not allowed in V4L2, so this fixes v4l2-compliance issues:
 
-	fail: v4l2-test-formats.cpp(416): pixelformat != V4L2_PIX_FMT_JPEG && pixelformat != V4L2_PIX_FMT_MJPEG && colorspace == V4L2_COLORSPACE_JPEG
-	fail: v4l2-test-formats.cpp(521): testColorspace(!node->is_io_mc, pix.pixelformat, pix.colorspace, pix.ycbcr_enc, pix.quantization)
-test VIDIOC_TRY_FMT: FAIL
+	fail: v4l2-test-formats.cpp(514): !pix.width || !pix.height
+test VIDIOC_G_FMT: FAIL
 
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 ---
- drivers/media/platform/ti/omap3isp/isppreview.c | 2 +-
- drivers/media/platform/ti/omap3isp/ispresizer.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/platform/ti/omap3isp/ispvideo.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/media/platform/ti/omap3isp/isppreview.c b/drivers/media/platform/ti/omap3isp/isppreview.c
-index 26f7167d1f4f..9992db782870 100644
---- a/drivers/media/platform/ti/omap3isp/isppreview.c
-+++ b/drivers/media/platform/ti/omap3isp/isppreview.c
-@@ -1796,7 +1796,7 @@ static void preview_try_format(struct isp_prev_device *prev,
- 		fmt->width = crop->width;
- 		fmt->height = crop->height;
+diff --git a/drivers/media/platform/ti/omap3isp/ispvideo.c b/drivers/media/platform/ti/omap3isp/ispvideo.c
+index 5ce8736ca5bd..c52312b39598 100644
+--- a/drivers/media/platform/ti/omap3isp/ispvideo.c
++++ b/drivers/media/platform/ti/omap3isp/ispvideo.c
+@@ -1319,6 +1319,7 @@ static const struct v4l2_ioctl_ops isp_video_ioctl_ops = {
+ static int isp_video_open(struct file *file)
+ {
+ 	struct isp_video *video = video_drvdata(file);
++	struct v4l2_mbus_framefmt fmt;
+ 	struct isp_video_fh *handle;
+ 	struct vb2_queue *queue;
+ 	int ret = 0;
+@@ -1361,6 +1362,13 @@ static int isp_video_open(struct file *file)
  
--		fmt->colorspace = V4L2_COLORSPACE_JPEG;
-+		fmt->colorspace = V4L2_COLORSPACE_SRGB;
- 		break;
- 	}
+ 	memset(&handle->format, 0, sizeof(handle->format));
+ 	handle->format.type = video->type;
++	handle->format.fmt.pix.width = 720;
++	handle->format.fmt.pix.height = 480;
++	handle->format.fmt.pix.pixelformat = V4L2_PIX_FMT_UYVY;
++	handle->format.fmt.pix.field = V4L2_FIELD_NONE;
++	handle->format.fmt.pix.colorspace = V4L2_COLORSPACE_SRGB;
++	isp_video_pix_to_mbus(&handle->format.fmt.pix, &fmt);
++	isp_video_mbus_to_pix(video, &fmt, &handle->format.fmt.pix);
+ 	handle->timeperframe.denominator = 1;
  
-diff --git a/drivers/media/platform/ti/omap3isp/ispresizer.c b/drivers/media/platform/ti/omap3isp/ispresizer.c
-index 5dff48489394..ad0127f5b5cb 100644
---- a/drivers/media/platform/ti/omap3isp/ispresizer.c
-+++ b/drivers/media/platform/ti/omap3isp/ispresizer.c
-@@ -1405,7 +1405,7 @@ static void resizer_try_format(struct isp_res_device *res,
- 		break;
- 	}
- 
--	fmt->colorspace = V4L2_COLORSPACE_JPEG;
-+	fmt->colorspace = V4L2_COLORSPACE_SRGB;
- 	fmt->field = V4L2_FIELD_NONE;
- }
- 
+ 	handle->video = video;
 -- 
 2.51.0
 
