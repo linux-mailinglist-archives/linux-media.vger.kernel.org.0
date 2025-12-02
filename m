@@ -1,287 +1,160 @@
-Return-Path: <linux-media+bounces-48059-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48060-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68CBEC9AC7A
-	for <lists+linux-media@lfdr.de>; Tue, 02 Dec 2025 10:04:14 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB046C9AD30
+	for <lists+linux-media@lfdr.de>; Tue, 02 Dec 2025 10:19:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 9E7C5345679
-	for <lists+linux-media@lfdr.de>; Tue,  2 Dec 2025 09:04:13 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 06AC34E315B
+	for <lists+linux-media@lfdr.de>; Tue,  2 Dec 2025 09:19:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F07F73081DF;
-	Tue,  2 Dec 2025 09:04:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFE2F30BB8F;
+	Tue,  2 Dec 2025 09:19:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="RZbmUcv7"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="il/eUsMM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013021.outbound.protection.outlook.com [40.93.196.21])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D60324886E;
-	Tue,  2 Dec 2025 09:04:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.21
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764666244; cv=fail; b=cN0ruzbBuBfv6yhgHUK7+BRcuYEeG/Q3nb8oWrvP0DZLJhsZ+jvQDtTokexIe6r66EKGTFTwMelshZRp5y5PMq692M7JQhyWV2vkqZHH8+qA57n8PAdytFTstsLozsy4DUenX0N4FkrsW4I0ke0hmetBX8yQj9FzdSHcWHAytlU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764666244; c=relaxed/simple;
-	bh=EhTVTYxisid8c/m8sV1bC1Lsh3Tg/5cWigB7djeBEG8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=bXUh+Ku/DljQvr058fIsTiSN5F93lDxtS23gC9yFGS8dLQO2gDV4D5oX2pvRvokNTS3OB9nvWn4Ac+XZjp/HanapacaWSLDS2FC+cATjNTxDsYAWaQLeA7oVmCqmLfINzH3xwZJxDR21l2R/l43NJOgfzzR+CDE3xrY2iep7aoQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=RZbmUcv7; arc=fail smtp.client-ip=40.93.196.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DIgTP7crFOii7RMvlRB/HcqX1Xz/UdYEZo5FFdhrxUINRCllp/OGUf5m/SiBFSplf1zjt3Dj19DN8xuy6pdFwb+Pwg7yYJdLbNTojiVFy4AnwtfRdiwTwT9F7+i831YUbGGd4QKU6BOohhAtkhyx7j7UwJznNEReqAOj/sfB6PZ6crY1NxUpTwFSZuWCDpaocqS5hMy6QWBVmR7GAbtRYWhKJO3/V6Y0rr3SV+j62woOzcoooaromVS3glkYM5wuLr+4fAkSssMtylxLy90CdZQpFthIjAn+Dx6HJ7ro66K/ZNvmUYBFmZHepdEMU1ZXUcFqI4VSEHG5Fn/ZRy6bog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uw81YclL+r+ooTLj9ydtg0p0Ny6BgaFC5DUIvU9Lpo8=;
- b=vUSyH7oZXvzYgRMiLvt2Cj0Yo/3nO9i2lVYE9RgesUeerVZvDbka8/blDlhbB7Q8X4IR9bCCucpkWwtSTyTzvFxopiEbUm3JlVFYQ2sa+gGkapFK9+hcMtAKbERq0DlV2KpNUCPeBliBjEoz80MiPmtUyCxeCDy+hrIfpJ3RzGxoMEUsMXBruHNegv4jYHJot36YerUYKfOgX+zm6gnwPlkJE5HlTj7/WlxwEzOXZzF0PEz89awLC9oQiSvMrBblanfqfkvAninRx7i9D2IyMe9SOaoJed3k0cu71a0a1fyv0OLEG7McNzgVkcY46Auy4Eqdu4W3hGEvK1oMZb6kAg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uw81YclL+r+ooTLj9ydtg0p0Ny6BgaFC5DUIvU9Lpo8=;
- b=RZbmUcv7dtVQtQeVnmYSLXL56udVM+oJbGPgxmRITdp1+ixscbf5l//5Gfm5eibGzUyo2zJfD0P3QIhi3mhUMmleHaDdhiF0vJsDtUNaCmKlYAzocFVZgJHzts5Tfx5AorIirLqx4ew4RtIBRctCJIyIGz08D+zz95fVPdN2nqk=
-Received: from BLAPR03CA0113.namprd03.prod.outlook.com (2603:10b6:208:32a::28)
- by DS0PR10MB7092.namprd10.prod.outlook.com (2603:10b6:8:148::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Tue, 2 Dec
- 2025 09:03:57 +0000
-Received: from BL02EPF0002992B.namprd02.prod.outlook.com
- (2603:10b6:208:32a:cafe::93) by BLAPR03CA0113.outlook.office365.com
- (2603:10b6:208:32a::28) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.17 via Frontend Transport; Tue,
- 2 Dec 2025 09:03:57 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
-Received: from lewvzet200.ext.ti.com (198.47.23.194) by
- BL02EPF0002992B.mail.protection.outlook.com (10.167.249.56) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9388.8 via Frontend Transport; Tue, 2 Dec 2025 09:03:56 +0000
-Received: from DLEE205.ent.ti.com (157.170.170.85) by lewvzet200.ext.ti.com
- (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 2 Dec
- 2025 03:03:53 -0600
-Received: from DLEE200.ent.ti.com (157.170.170.75) by DLEE205.ent.ti.com
- (157.170.170.85) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 2 Dec
- 2025 03:03:53 -0600
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE200.ent.ti.com
- (157.170.170.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Tue, 2 Dec 2025 03:03:53 -0600
-Received: from [172.24.233.149] (ws.dhcp.ti.com [172.24.233.149])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5B293lwn1963805;
-	Tue, 2 Dec 2025 03:03:47 -0600
-Message-ID: <16e0daf1-1508-462e-8d3c-f5447a803961@ti.com>
-Date: Tue, 2 Dec 2025 14:33:46 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EAC1309F01;
+	Tue,  2 Dec 2025 09:19:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764667180; cv=none; b=ioLdacIvLH5qV8JsnjfrJ6hnjK52ag1Cr50FVWAaGZ2KrisNIfnKYzU2ROgxthAKNGBiL33wrTEiUXBCGirtuqIlXyodmtxCQUxKhFPhuyxpPKqK8pJAsgy5XEalOuMvI1pZ8w7VYMLtKRD1E3prieVlRTsST32V8d3ASkFjgi4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764667180; c=relaxed/simple;
+	bh=o3dUYhIRRutIwIb0qNAK7iYiuoA1yQ/Oh0azB7MiW/w=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=uYPBJP6MIQF79fBkva4ErWefHh25KIMNLNurgKhCnmGyOwTwZE5hSlgk9EhhrpIAeBAYp2rG4G/l0IXWrJFMuurrnLeHUTWNMrOGGNGSx4HSVOqxxhUkVVxX90nXSgwNwjgchr+jyYjMIIJtBEAZ5JDbHIJo47dlB+rT9TQLIio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=il/eUsMM; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4dLFb41cf3z9spF;
+	Tue,  2 Dec 2025 10:19:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1764667168; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=q8Y1OU0Q+Bol5U/MPFfzGP28CcuUiYKdthv47THRxek=;
+	b=il/eUsMMmTGh9GD/DnjHcdipYrZx4Bnp/W8SmT4Rhvtieu4WLMXE1QfRoapTjZMjPj7LRI
+	o//dVBIiqL677W9dpkG9++H2ZzgSgq2h2nzdvIVmUoQFBcImTdC/IdaqyXM8Y3cdFeU3kN
+	4Syh4pa0m6+RY5Imt5wIsyTRyZLDWvTyVS3qgj2Mf0D8EaL2/oFyDiamW9Iqx4LLl7FWf9
+	AyGH79vdedTAdp35ypPh/hoj03z/jMSl7PQ4unIaR8UDe18AdJk+ctcnCLzxTRpHe4FIaa
+	BorrZ0RWQlO3JziTfJ7cbwRDMw4Ku8uCWL/+APW5Ut2KoA8e93mAwYi3N0KX/A==
+Message-ID: <d7956d8e8401f7dd9951d93752a74d2f8f660830.camel@mailbox.org>
+Subject: Re: [PATCH v2 2/8] dma-buf/dma-fence: Add
+ dma_fence_check_and_signal()
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
+ phasta@kernel.org, Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
+ <gustavo@padovan.org>, Felix Kuehling <Felix.Kuehling@amd.com>, Alex
+ Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>,  Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui
+ <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,  Matthew Brost
+ <matthew.brost@intel.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
+	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Date: Tue, 02 Dec 2025 10:19:09 +0100
+In-Reply-To: <07cd6a0c-9975-48ef-bb2e-5e53a042888e@amd.com>
+References: <20251201105011.19386-2-phasta@kernel.org>
+	 <20251201105011.19386-4-phasta@kernel.org>
+	 <80554ed2-4454-489b-873f-533d68c8d2ae@amd.com>
+	 <2a9c83b4a428bb3cc993499c39d0da01f9563278.camel@mailbox.org>
+	 <93a4f4e4-af7a-4c84-a7a2-5db785f2a5a8@amd.com>
+	 <247185f833edd075cd4aac8c39ac8ae5b5aabe07.camel@mailbox.org>
+	 <07cd6a0c-9975-48ef-bb2e-5e53a042888e@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 10/18] media: cadence: csi2rx: add get_frame_desc
- wrapper
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, <jai.luthra@linux.dev>,
-	<laurent.pinchart@ideasonboard.com>, <mripard@kernel.org>
-CC: <y-abhilashchandra@ti.com>, <devarsht@ti.com>, <s-jain1@ti.com>,
-	<vigneshr@ti.com>, <mchehab@kernel.org>, <robh@kernel.org>,
-	<krzk+dt@kernel.org>, <p.zabel@pengutronix.de>, <conor+dt@kernel.org>,
-	<sakari.ailus@linux.intel.com>, <hverkuil-cisco@xs4all.nl>,
-	<jai.luthra@ideasonboard.com>, <changhuang.liang@starfivetech.com>,
-	<jack.zhu@starfivetech.com>, <sjoerd@collabora.com>,
-	<dan.carpenter@linaro.org>, <hverkuil+cisco@kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-	<devicetree@vger.kernel.org>
-References: <20251112115459.2479225-1-r-donadkar@ti.com>
- <20251112115459.2479225-11-r-donadkar@ti.com>
- <ecae251f-3f2e-4f80-8423-09d0e8679416@ideasonboard.com>
-Content-Language: en-US
-From: Rishikesh Donadkar <r-donadkar@ti.com>
-In-Reply-To: <ecae251f-3f2e-4f80-8423-09d0e8679416@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0002992B:EE_|DS0PR10MB7092:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6af68dbd-b0ce-4d67-6cf7-08de3181b9c8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|82310400026|376014|36860700013|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?MnZ3Vno2VDBJei9EVVVXT3N3UVVKNlg5QTR3K2NtTnFqYkNrYkdsUzBEcWNS?=
- =?utf-8?B?NE9WMVhicGJ4NWhmY040alZEdlIwTEF6UEM2QmdCUndBeWlNdVdiTXZLdmxG?=
- =?utf-8?B?cks5MllrUEJJT2pCZlkrZEtuR0JRZlFOSGN1T3duREtMWEI4T2gyY1JMRFRN?=
- =?utf-8?B?bGxLYWo4M0xIVnFEakJoNlh3L1BwTlc0TE84V2VqQ3FRYVhpS2VQK2s5VmM3?=
- =?utf-8?B?UzdIQkNoM3hnNE95bUtIdjhmRWFIRUtKUWhWd2RISmF3UlRPR0tCdlo2MzQy?=
- =?utf-8?B?cldhQy9vWVlhVkxFcVJUUWpQVXNGcGxJRGxlaXVsTHVHcTV4T29Rdmx2TmF4?=
- =?utf-8?B?N25rd3BwUkVSTWpwdmFmTjlKZlE4UmVWUk1GcGRHaG53WVhnUktsNWk4UlJq?=
- =?utf-8?B?byt0MDNpVnlvSndoeDR6YjJKWXN0dmxTRzRjVE56d2VtY21ESkZTMldPUTUy?=
- =?utf-8?B?RkN4cjNPdnhITkxKeDMxQTZyQkZxTUpTdEJ6VHdSb3E2cmxkNFk5TGxBd1Jy?=
- =?utf-8?B?N1Rkb2taTDFFSk93S0xQUlJqSE54bWs2QWRpSGJLMDJoZkVQcDR0UU5KRTIr?=
- =?utf-8?B?RkR2eFZvZW1XN0xackhJamkvaU1OdzczZVhUMStYS0tRSS9ZS0VlNE9EWTJn?=
- =?utf-8?B?Sk5TSFUyVjZhcTVYK1dmbVVZbTdIeGxMNWRoN2poWXh3UFh4NC96ekVUcHh6?=
- =?utf-8?B?TGwxMktGcnVKL21qQjM3TTE3TStIZFl0NkI3QXFrU0V1NHJRc3d2NkNyaHlM?=
- =?utf-8?B?MWljcU1aVTkzVmEvWVd5WG02WjdVTjNqTmVrSU94QWY5M0t3bXZ0Rnh6R2Uw?=
- =?utf-8?B?RHR3VFBTN25wR0Y3ZkgxTmw2azNxd25YeHJZN21WWG52NFAxRGh5Ry96MzBm?=
- =?utf-8?B?MEVVaDRpOVJ2YWd2TGR0clg0VEdydkgrcUV3WE5UQk9pVWl6dThOVk1DNW9Y?=
- =?utf-8?B?OG5WVVN5bVpaWmNZVVNnb2dqNnpTNlFMbTVkZGNIWjJqVmlmT2ZHajRnUkta?=
- =?utf-8?B?aDNoa05HYW9nVFRWaHdjUzY4OWdOOTZGOE1acUxiREl5SHFZdzRXelV4Tkw5?=
- =?utf-8?B?Z2FjOXNxKzZxL24xOVRBUGJZZUNabUplMXdsT0szUWRsSndzWHJ2R2ZXazZU?=
- =?utf-8?B?ZHNkMTlMa201NHZ0Q2tueXFrSlRsaTNhbVZXS1NrRkJubkJHUm8rYXFiQ1NT?=
- =?utf-8?B?cXEwMHMrSEx4MXFEY1FoS2FjK0I1OTQwSzl2VzlwTTA1NXhrR2lYN0hvVUtD?=
- =?utf-8?B?cjc4QmlsQzJaWWFYTXdsQ2JGQzhPSFU0UXRCYzJGRndsVlpNMVFuVDVHVVAx?=
- =?utf-8?B?dUpmdm1KL3p6Q0IwRVI0bkNDQlZ4eUF2TnQyNGVib0t1Y0VRczYreWJicndX?=
- =?utf-8?B?SEJSQi9vUVdDd2w1YkxFS0gwNTIvTkpBbnh1cUNqcms2MzEzVUphakNuaHhX?=
- =?utf-8?B?VXROdDBkclY3bWQrUWlQbzROV1BPMUlmWVFkK2R3TjJKcjlTMEN1ekR1MVhG?=
- =?utf-8?B?c09VRmhkU1BOSVhIcElOdENsSmdndjdGeUhuY0xFWDExcU5iSXFZcHpnTG9m?=
- =?utf-8?B?WUt0M3VCOUhuQU9MancwOVg4T2pyVTZPUnV6WG4xaVFKS2V2S1ppUmZOYnhE?=
- =?utf-8?B?SjZIQzRMdjZZdWRzUyt4OWNMWnpHQUEzK3FSNkNHS1NoM0tPRlI0VEZUekla?=
- =?utf-8?B?RnljQnVnVzQ0VytTQXpTSy83VkN3WHlOWXYweVg3cHJoNSt3bkdjckhDL1BD?=
- =?utf-8?B?VDNCdU9RaGNpY0NXTWZvaGwrNGd4THdSR1NOWWYvcjRzWkY5akdldFBvRHVq?=
- =?utf-8?B?TjJkYmxBK2FQRnJvc1lscTJDMTVQdGtHK3J0S0lacnlTaktBNmJ4aEJMWkcx?=
- =?utf-8?B?cjlTMUxxK3gvNWJFdFkybERXTFlIZWhFVGo4SXRqaDI5WmNrWGhBTWxkTlRY?=
- =?utf-8?B?emRMcDNwaWRmUWRuaFQySU1XRGZMK2xEblNDNTlLOERNU0R4disvZmdqMWlH?=
- =?utf-8?B?YjJKSDFwb040VUhjdDZadFEvOElvUmRycFJyWTNlcm4rMlNVVklHaEl5RWpB?=
- =?utf-8?B?TXhCUTNna3ovNU1Vbnp3QysxdDhkaGRuS001b1lmSjFDdnNSNGY4SWpsK3VT?=
- =?utf-8?Q?UdsU=3D?=
-X-Forefront-Antispam-Report:
-	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(82310400026)(376014)(36860700013)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2025 09:03:56.9472
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6af68dbd-b0ce-4d67-6cf7-08de3181b9c8
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL02EPF0002992B.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB7092
+X-MBO-RS-ID: 27d8c8638880777556e
+X-MBO-RS-META: 33hpokdgbkw758zqyymwdksfr37hc4fg
+
+On Mon, 2025-12-01 at 17:08 +0100, Christian K=C3=B6nig wrote:
+> On 12/1/25 16:53, Philipp Stanner wrote:
+> > On Mon, 2025-12-01 at 16:20 +0100, Christian K=C3=B6nig wrote:
+> > > On 12/1/25 14:55, Philipp Stanner wrote:
+> > > > On Mon, 2025-12-01 at 14:23 +0100, Christian K=C3=B6nig wrote:
+> > > > > On 12/1/25 11:50, Philipp Stanner wrote:
+> > > > > > The overwhelming majority of users of dma_fence signaling funct=
+ions
+> > > > > > don't care about whether the fence had already been signaled by=
+ someone
+> > > > > >=20
+> > > >=20
+> >=20
+> > [=E2=80=A6]
+> >=20
+> > > > >=20
+> > > > > > +{
+> > > > > > +	unsigned long flags;
+> > > > > > +	bool ret;
+> > > > > > +
+> > > > > > +	spin_lock_irqsave(fence->lock, flags);
+> > > > > > +	ret =3D dma_fence_check_and_signal_locked(fence);
+> > > > > > +	spin_unlock_irqrestore(fence->lock, flags);
+> > > > >=20
+> > > > > Could this use guard(fence->lock, flags) ?
+> > > >=20
+> > > > guard? You mean a lockdep guard? Do you have a pointer to someplace=
+ in
+> > > > dma_fence who does what you mean / want?
+> > >=20
+> > > E.g. like guard(spinlock_irqsave)(&fence->lock);
+> >=20
+> >=20
+> > Hmm, but why?
+> > It's obvious to all readers that I do spin_unlock_irqrestore() here.
+> > It's very simple code, lock, 1 line, unlock. What would the guard
+> > improve?
+>=20
+> Well you can save using the local variables.
+>=20
+> So this:
+>=20
+> 	unsigned long flags;
+> 	bool ret;
+>=20
+> 	spin_lock_irqsave(fence->lock, flags);
+> 	ret =3D dma_fence_check_and_signal_locked(fence);
+> 	spin_unlock_irqrestore(fence->lock, flags);
+>=20
+> 	return ret;
+>=20
+> Becomes just:
+>=20
+> 	guard(spinlock_irqsave)(&fence->lock);
+> 	return dma_fence_check_and_signal_locked(fence);
+
+Mhm, I guess I agree that __cleanup is a cool new feature that can be
+useful at many places. But in this case I think it's actually less
+readable and doesn't really give lots of advantages. And don't I have
+to use a DEFINE_GUARD or DEFINE_FREE in the first place?
+
+If it's your maintainer preference, I can look into that though..
+
+P.
 
 
-On 20/11/25 18:10, Tomi Valkeinen wrote:
->
-> On 12/11/2025 13:54, Rishikesh Donadkar wrote:
->> From: Pratyush Yadav <p.yadav@ti.com>
->>
->> J721E wrapper CSI2RX driver needs to get the frame descriptor from the
->> source to find out info about virtual channel. This driver itself does
->> not touch the routing or virtual channels in any way. So simply pass the
->> descriptor through from the source.
 
-
-Hi Tomi,
-
-> Unfortunately I think that doesn't work.
->
-> E.g. we have a fpdllink deser and the cdns csi2rx.
->
-> Deser's routing table (pad/stream):
->
-> 0/0 -> 4/15
-> 0/1 -> 4/33
->
-> So we have two streams coming into the deser's pad 0, with stream IDs 0
-> and 1. They are routed by the user to output pad 4, with stream IDs 15
-> and 33.
->
-> cdns csi2rx routing table:
->
-> 0/15 -> 1/0
-> 0/33 -> 1/1
->
-> So cdns csi2rx routes the streams through, as stream IDs 0 and 1 on the
-> output side.
->
-> With this patch, if the j2 csi2rx asks frame desc from cdns csi2rx, it
-> gets a frame desc with two streams, stream IDs 15 and 33.
-
-
-Thank you for pointing out, I will change the body of get_frame_desc() 
-in this subdev driver set the stream field of the fd to the sink_stream 
-of the corresponding route.
-
-
-Rishikesh
-
->
-> I made this series for the issue above, but it hasn't been merged:
->
-> https://lore.kernel.org/all/20250324-frame-desc-passthrough-v4-0-dbe2412297cc%40ideasonboard.com/
->
->   Tomi
->
->> Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
->> Signed-off-by: Jai Luthra <j-luthra@ti.com>
->> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->> Reviewed-by: Changhuang Liang <changhuang.liang@starfivetech.com>
->> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->> Reviewed-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
->> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
->> ---
->>   drivers/media/platform/cadence/cdns-csi2rx.c | 24 ++++++++++++++++++++
->>   1 file changed, 24 insertions(+)
->>
->> diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
->> index 34da81893308b..3688077fa8347 100644
->> --- a/drivers/media/platform/cadence/cdns-csi2rx.c
->> +++ b/drivers/media/platform/cadence/cdns-csi2rx.c
->> @@ -229,6 +229,21 @@ static const struct csi2rx_fmt *csi2rx_get_fmt_by_code(u32 code)
->>   	return NULL;
->>   }
->>   
->> +static int csi2rx_get_frame_desc_from_source(struct csi2rx_priv *csi2rx,
->> +					     struct v4l2_mbus_frame_desc *fd)
->> +{
->> +	struct media_pad *remote_pad;
->> +
->> +	remote_pad = media_entity_remote_source_pad_unique(&csi2rx->subdev.entity);
->> +	if (!remote_pad) {
->> +		dev_err(csi2rx->dev, "No remote pad found for sink\n");
->> +		return -ENODEV;
->> +	}
->> +
->> +	return v4l2_subdev_call(csi2rx->source_subdev, pad, get_frame_desc,
->> +				remote_pad->index, fd);
->> +}
->> +
->>   static inline
->>   struct csi2rx_priv *v4l2_subdev_to_csi2rx(struct v4l2_subdev *subdev)
->>   {
->> @@ -611,12 +626,21 @@ int cdns_csi2rx_negotiate_ppc(struct v4l2_subdev *subdev, unsigned int pad,
->>   }
->>   EXPORT_SYMBOL_FOR_MODULES(cdns_csi2rx_negotiate_ppc, "j721e-csi2rx");
->>   
->> +static int csi2rx_get_frame_desc(struct v4l2_subdev *subdev, unsigned int pad,
->> +				 struct v4l2_mbus_frame_desc *fd)
->> +{
->> +	struct csi2rx_priv *csi2rx = v4l2_subdev_to_csi2rx(subdev);
->> +
->> +	return csi2rx_get_frame_desc_from_source(csi2rx, fd);
->> +}
->> +
->>   static const struct v4l2_subdev_pad_ops csi2rx_pad_ops = {
->>   	.enum_mbus_code	= csi2rx_enum_mbus_code,
->>   	.get_fmt	= v4l2_subdev_get_fmt,
->>   	.set_fmt	= csi2rx_set_fmt,
->>   	.enable_streams         = csi2rx_enable_streams,
->>   	.disable_streams        = csi2rx_disable_streams,
->> +	.get_frame_desc	= csi2rx_get_frame_desc,
->>   };
->>   
->>   static const struct v4l2_subdev_core_ops csi2rx_core_ops = {
 
