@@ -1,79 +1,100 @@
-Return-Path: <linux-media+bounces-48073-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48077-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEEE3C9AF94
-	for <lists+linux-media@lfdr.de>; Tue, 02 Dec 2025 10:52:18 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FA14C9B1E5
+	for <lists+linux-media@lfdr.de>; Tue, 02 Dec 2025 11:24:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 109A8347E9E
-	for <lists+linux-media@lfdr.de>; Tue,  2 Dec 2025 09:51:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 02FEC3A6CFD
+	for <lists+linux-media@lfdr.de>; Tue,  2 Dec 2025 10:22:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD0553164C2;
-	Tue,  2 Dec 2025 09:48:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C839630DEDE;
+	Tue,  2 Dec 2025 10:22:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="tNfOMlSe"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="LnmjGyoy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011019.outbound.protection.outlook.com [40.107.208.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797EC312801;
-	Tue,  2 Dec 2025 09:48:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764668902; cv=none; b=Oz3UtaeZhU9HhzeQ6rdL3gzyUXx9Cvqazanpvs0MieI+6kXTu3bDmQWewsFp/NCXA7RM2mbafLUOqNIG/CDeAd7lP74czbiV19c7oTAT96eHOV0bvToITfI0EJWUeMVLoHSq2xucEhWg7qqH6JxQeh0pJ3lb287VZaKhFT9N+LQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764668902; c=relaxed/simple;
-	bh=wUr2HpwIJuST4uB++UPSkdMlaO8+9jx9c+ZnYzBf2io=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Um4coff7mHsc6dHT2qruW+PzZ0fg35Y30/BUwCy0DqN3mULs806c9R91zmofRqLC5MC9px9kK1s85kPzO4UgtX4IMzljD8KbC6qPz6tPxQaAz4+10uDXW3SMsjkHtCLkBiT0Xy2S7PFlWjuy3KkxzJ19VuvHaIAdrfTyJlVhAxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=tNfOMlSe; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 05152310cf6411f0b2bf0b349165d6e0-20251202
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From; bh=IuxrjQGkPURWMxOhrzqIZDhazzA4UeBlX38l8eJK1zg=;
-	b=tNfOMlSeuoBxFpg9aFDwM4uu9OVLPVqWy63MLZRWWGSE4Y7GtS3uK4Dal/o36xx5Mx6AQ4LXesxq6yeuzXwDlHsxjGRXe4p6TOIG2zwZW+N1SIi2gwrN8AmIMTiQ3F56Y9dFsVWvKKyfvzkEN1psfVHP6H2aIG1YkfugW58kIfg=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.6,REQID:07600075-f341-4cc8-a7e9-3caf11a67b59,IP:0,UR
-	L:0,TC:0,Content:0,EDM:-20,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-20
-X-CID-META: VersionHash:a9d874c,CLOUDID:7c455002-1fa9-44eb-b231-4afc61466396,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|836|888|898,TC:-5,Content:
-	0|15|50,EDM:1,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI
-	:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 05152310cf6411f0b2bf0b349165d6e0-20251202
-Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by mailgw01.mediatek.com
-	(envelope-from <kyrie.wu@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 88952954; Tue, 02 Dec 2025 17:48:13 +0800
-Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Tue, 2 Dec 2025 17:48:12 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1748.26 via Frontend Transport; Tue, 2 Dec 2025 17:48:11 +0800
-From: Kyrie Wu <kyrie.wu@mediatek.com>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab
-	<mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
-	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
-	<matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, Kyrie Wu <kyrie.wu@mediatek.com>,
-	<linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-mediatek@lists.infradead.org>
-Subject: [PATCH v11 12/12] media: mediatek: jpeg: add jpeg smmu sid setting
-Date: Tue, 2 Dec 2025 17:48:00 +0800
-Message-ID: <20251202094800.6140-13-kyrie.wu@mediatek.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20251202094800.6140-1-kyrie.wu@mediatek.com>
-References: <20251202094800.6140-1-kyrie.wu@mediatek.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D9C11E9B3D;
+	Tue,  2 Dec 2025 10:22:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.19
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764670951; cv=fail; b=BBHF564cBHN0r3fs3EAPmI1enO6l6Jj6vsuuAK3XoB9UdolUfrBJNn/PHYHBViWaoiVUZPanAISYgRg/InZCBJEZoSQfOO+2a1u3NJU/SaiOuKW83VItCknR0uWmPnl3Xq8foTgni60HQ89liuLAv3D9YRRiDIXZZSPAJWfK+jU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764670951; c=relaxed/simple;
+	bh=2VgFyZf3brvp2+fj2KyVP1xmRg5io1llAELyt5gnjOo=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Iwvq+1zLz0xk7Cn6BQcsXEK15c4PMiiLBRmhylHGGd/EfoNHC+pll9ffCCaxfCDC7WPVoT2r1Eg8zbQBBsa3k9zqRVbwAtHwAg7KCT2pEB6ABbBX3enjz3iJTYHd7tqIkOdX/MElBqZ8d9MZgNALRP8geWUw3pD/rcecwck737w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=LnmjGyoy; arc=fail smtp.client-ip=40.107.208.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RgI+lMwNp6rFBiHZPbgIrBvhObcC5Et8LqWc823R2zddX8KrA1jrdDm3rTQ7My4mSrsXO9vyniKdFJWEG++hBOY9HZxVUrNjnSWy++QYJ0TK9eLl+U9kwWbUiNXoBKlQh20zPO7W457fMEqTn1yhB0DT4XdJv3NDQ6H0lEAzX0v/8mEWnrmlMVPZXzDc58kGfTFw07z6b3tbTEAa2igUqdgHVO7shsEfC/IXN0QWZjos6aUiUyBqvjXVEQKI4wy0t1xzd9X+SFSPKfukxliJblxKtD2XJ5yox99lkTEtRt5gWT7nsgPMLFxC4DQv3PNZfgTlosI0FaXzhkpRmHy5CA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gmcS6vPulqWlvbjXKirL4AcC8RUILI97lsKtLPXHGhE=;
+ b=UHiVPcdyX9rNgxmlwlLB/Gie0CR+Om93ptqxnru2EnE4ifqkTVBkznE4XkOqKiHOqNBZCKcnyKBpq04v2+t+PsxjSGI7lLPVD1L/N0vhRXjKM4VNR6R2d4u1hXvyHbqGEoD3B/5dV+cmIoJtMkhDek+QcPCbslOuFKv3NklKGgC1kZW+qXcLZSOd+D4BvGVOfiJw/BuehEDYvdE0dBHi0GY0fL4TPbuE6hF6QkxOAI4Vwhp2hn3MpKJGnQpJIEoC9/WH18vw4SwuoJ/RVmpM9IMoCnQryq7afJyt788dmigOV9kHrKRfygwIWzcB6qvO8123v4BKE2znBguLLvOUtQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.195) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gmcS6vPulqWlvbjXKirL4AcC8RUILI97lsKtLPXHGhE=;
+ b=LnmjGyoyntQtdJiBcsQX8hFNB6cazOTYL42eXtgcYdn79kHG+0EfI/ykA97VmYd5KOSJImrp8cBFuZ66Vq/lD6OQZfgh1h4glnh0A+S6k9atDVSbtCbyaigww0c/FZ6/ovlhUgRoh46mxwOJTbotGaCpuJuLr84vRUnJGJD4ZeM=
+Received: from MN2PR05CA0050.namprd05.prod.outlook.com (2603:10b6:208:236::19)
+ by SJ0PR10MB4510.namprd10.prod.outlook.com (2603:10b6:a03:2d6::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Tue, 2 Dec
+ 2025 10:22:25 +0000
+Received: from BL02EPF0001A102.namprd05.prod.outlook.com
+ (2603:10b6:208:236:cafe::9b) by MN2PR05CA0050.outlook.office365.com
+ (2603:10b6:208:236::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9388.9 via Frontend Transport; Tue, 2
+ Dec 2025 10:22:13 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
+Received: from flwvzet201.ext.ti.com (198.47.21.195) by
+ BL02EPF0001A102.mail.protection.outlook.com (10.167.241.134) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9388.8 via Frontend Transport; Tue, 2 Dec 2025 10:22:23 +0000
+Received: from DFLE207.ent.ti.com (10.64.6.65) by flwvzet201.ext.ti.com
+ (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 2 Dec
+ 2025 04:22:19 -0600
+Received: from DFLE209.ent.ti.com (10.64.6.67) by DFLE207.ent.ti.com
+ (10.64.6.65) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 2 Dec
+ 2025 04:22:19 -0600
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE209.ent.ti.com
+ (10.64.6.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Tue, 2 Dec 2025 04:22:19 -0600
+Received: from abhilash-HP.dhcp.ti.com (abhilash-hp.dhcp.ti.com [10.24.68.198])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5B2AMDKP2072084;
+	Tue, 2 Dec 2025 04:22:14 -0600
+From: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
+To: <tomi.valkeinen@ideasonboard.com>, <mchehab@kernel.org>,
+	<robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+	<hverkuil@xs4all.nl>, <sakari.ailus@linux.intel.com>,
+	<laurent.pinchart@ideasonboard.com>
+CC: <hansg@kernel.org>, <mehdi.djait@linux.intel.com>, <ribalda@chromium.org>,
+	<git@apitzsch.eu>, <vladimir.zapolskiy@linaro.org>,
+	<benjamin.mugnier@foss.st.com>, <dongcheng.yan@intel.com>, <u-kumar1@ti.com>,
+	<jai.luthra@linux.dev>, <linux-media@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<y-abhilashchandra@ti.com>
+Subject: [PATCH V2 0/4] Add support for DS90UB954-Q1
+Date: Tue, 2 Dec 2025 15:52:04 +0530
+Message-ID: <20251202102208.80713-1-y-abhilashchandra@ti.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,266 +103,96 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-MTK: N
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A102:EE_|SJ0PR10MB4510:EE_
+X-MS-Office365-Filtering-Correlation-Id: def63466-726b-4c8f-06a3-08de318caf23
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|36860700013|82310400026|376014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?+DcehsaQNqIqTPDQFxSbv9RENGOXUHS3xBvjZvj81/+sTNh4xAfbRk+SAEz/?=
+ =?us-ascii?Q?Rn4at1CvDD1u52YrCGPWCNzzfBhMB+6Yx5pqF6Dy5m8eyFuB4rciLR6/H8GU?=
+ =?us-ascii?Q?yeKqsqLt6Tomjy4coa9U9tuXQqHClb1XzT1lsWIQPqYoTiqZ32B8dsiEFwz8?=
+ =?us-ascii?Q?eAeLMBd5whrPn2zxxOa+1cekGCavXdhKvgRu2Wh53zWLFRVRiklPPHzXG6Js?=
+ =?us-ascii?Q?nXFSOIzObIg4WsbP387FrjLFTBfA0yM1QqOBmJqg/rm3tk13hb9lzvkUc72e?=
+ =?us-ascii?Q?+Lv+RKMZWj2nYOYgahKwytlboDGrRmvT+z0kOCc1YISJ68iAYOs4O5MfsWJ9?=
+ =?us-ascii?Q?ux7uO9uGTdzS/vJHhjkNymqiZUQ+pH+a1MPBnTA0F/ID6LGjKMZtJUSpbmdr?=
+ =?us-ascii?Q?0u3MfJg46RBs4bfidJd2Yt6vXZX6p1l7jlBc/8rlo/xanH8PlSMQaWUWsMmk?=
+ =?us-ascii?Q?WKbnJ1gIXWAjIFamn3IMB62CY6uGEA1H06RT4DvBgpqjpd7K49BsFJRI2cRU?=
+ =?us-ascii?Q?YLkeGiEvAcRysgzplwqNcChhp3fP/8yeaBZPrRugc/fGrfuXwhzMGMkt+47K?=
+ =?us-ascii?Q?X7SclDNk1ezhiUQd4PdfPWfiYdXOozf4RFs4nwaXq7HGc5lvAFfP51wP9Rp+?=
+ =?us-ascii?Q?ThSh/g3GbPxguhLZFrlt2FtUtt4vbyas2xoFhc8H9xc0caPVIefbYcjBF6y1?=
+ =?us-ascii?Q?SE9JWCKoi7e8i5zCLrHJXST2Ph6rjJq27xWjulH5khYEI9us4QD7jUbaTjUE?=
+ =?us-ascii?Q?ACshHwdOlzf9gnsspG2NfYuum4uV7sDveHwZ/FhtmVI/JNYir4FhVck+PjBU?=
+ =?us-ascii?Q?PnUBzGTAv6QquZB64oPP75ceJG7BWhl4e6a/fvxOm+FKqcY5VgFcpCZl+Nkc?=
+ =?us-ascii?Q?SSMiNo+wypxI1QEFiFngzFMNrP4IVOxHMLdAzTp3yeL2YbG3YtsH8g5yqZyu?=
+ =?us-ascii?Q?v+hTl19TJpKKxoGIcGMsLKpYy1Lk4l0eN/hc0oIV/Hm8kY9jGNyy9NJ501r1?=
+ =?us-ascii?Q?f7zhJZq2CWGcXNISkiUrqfW7qdS1M4qNdYGA1rJ+zbCRYGRy72UlmLj8808h?=
+ =?us-ascii?Q?vHvXst7yc30Zuhc2feSvdP4GcGhEyaXEDwdDO3yB63pCkIZxfESxt2QWuGP+?=
+ =?us-ascii?Q?x4SLWZgJwsFl9KnJ4iUNOhWqDvkniMuIEcKnvA6LcNyRl/JNUfbTRnQW0haB?=
+ =?us-ascii?Q?mdheVevogiLttbvaqBUkeYktcZ4nE1xmtD+KUiIUwjLUBzqHxXQuOHrclWjm?=
+ =?us-ascii?Q?bEMR6UvMKJ2akv2U0R4GFzgkAs+dBVi2SZ9AAupZnqiy1loJCPp+MItb7nqo?=
+ =?us-ascii?Q?2gunvKnZRtg4GeAArok31Ld9WAJO/4PsSpSVkCpdCf6bJKDmGQX1b4fU6A4U?=
+ =?us-ascii?Q?hvgmO7EkK2XQg6Nxj+YyYLEp/OvW3Y8a/NfLXzmvhPZloi4ZTXah4qvKtVzF?=
+ =?us-ascii?Q?+i8fIgq43ylRRIYryseI++n2NJAFLwR//BMn/BVaQTajFEWu9DTmDVIpXdIo?=
+ =?us-ascii?Q?VNN/n3L4IEsW7lH6kuuKL+TRxjhg2P2thAK49wlbcIILIex+1dJS5As9ABRA?=
+ =?us-ascii?Q?ZdnYovkI+I2uk97Baq4=3D?=
+X-Forefront-Antispam-Report:
+	CIP:198.47.21.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet201.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(7416014)(36860700013)(82310400026)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2025 10:22:23.5590
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: def63466-726b-4c8f-06a3-08de318caf23
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.195];Helo=[flwvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL02EPF0001A102.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4510
 
-Add a configuration to set jpeg dec & enc smmu sid
+DS90UB954-Q1 is an FPDLink-III deserializer that is mostly register
+compatible with DS90UB960-Q1. The main difference is that it supports
+half of the RX and TX ports, i.e. 2x FPDLink RX ports and 1x CSI TX
+port. Therefore, add support for DS90UB954 within the existing DS90UB960
+bindings and the driver.
 
-Signed-off-by: Kyrie Wu <kyrie.wu@mediatek.com>
----
- .../platform/mediatek/jpeg/mtk_jpeg_core.c    | 37 +++++++++++++++++++
- .../platform/mediatek/jpeg/mtk_jpeg_core.h    | 15 ++++++++
- .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.c  | 23 ++++++++++++
- .../platform/mediatek/jpeg/mtk_jpeg_enc_hw.c  | 23 ++++++++++++
- 4 files changed, 98 insertions(+)
+Changelog:
+Changes in v2:
+- Refactor the port definitions in the DT bindings and then add support for the DS90UB954.
+- Use enums for the chip type and chip family.
+- Some status registers are reserved on the DS90UB954 and always read as zero in log_status.
+  Skip these registers.
+- Move the link-frequency check for the DS90UB954 into the existing block that validates
+  allowed link frequencies for the DS90UB960, and check for DS90UB954 first and then 1200 MHz
+  next, as this ordering is more logical to readers.
+- The strobe setting registers differ slightly between the DS90UB960 and the DS90UB954. Update
+  the code to accommodate these differences.
+- Although REFCLK_FREQ measurement is not synchronized on the DS90UB954, a single read is
+  practically sufficient. Remove the loop that performs two reads.
+- Fix a few minor issues in the Kconfig description and code comments.
 
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-index 10a588b92e76..625dfa8468e1 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-@@ -15,6 +15,7 @@
- #include <linux/of_platform.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-+#include <linux/regmap.h>
- #include <linux/slab.h>
- #include <linux/spinlock.h>
- #include <media/v4l2-event.h>
-@@ -1613,6 +1614,20 @@ static irqreturn_t mtk_jpeg_enc_done(struct mtk_jpeg_dev *jpeg)
- 	return IRQ_HANDLED;
- }
- 
-+static void mtk_jpeg_enc_set_smmu_sid(struct mtk_jpegenc_comp_dev *jpeg)
-+{
-+	struct mtk_jpeg_dev *mjpeg = jpeg->master_dev;
-+
-+	if (!mjpeg->variant->support_smmu || !jpeg->smmu_regmap)
-+		return;
-+
-+	regmap_update_bits(jpeg->smmu_regmap, JPEG_ENC_SMMU_SID,
-+			   JPG_REG_GUSER_ID_MASK <<
-+			   JPG_REG_ENC_GUSER_ID_SHIFT,
-+			   JPG_REG_GUSER_ID_ENC_SID <<
-+			   JPG_REG_ENC_GUSER_ID_SHIFT);
-+}
-+
- static void mtk_jpegenc_worker(struct work_struct *work)
- {
- 	struct mtk_jpegenc_comp_dev *comp_jpeg[MTK_JPEGENC_HW_MAX];
-@@ -1674,6 +1689,9 @@ static void mtk_jpegenc_worker(struct work_struct *work)
- 	jpeg_dst_buf->frame_num = ctx->total_frame_num;
- 	ctx->total_frame_num++;
- 	mtk_jpeg_enc_reset(comp_jpeg[hw_id]->reg_base);
-+
-+	mtk_jpeg_enc_set_smmu_sid(comp_jpeg[hw_id]);
-+
- 	mtk_jpeg_set_enc_dst(ctx,
- 			     comp_jpeg[hw_id]->reg_base,
- 			     &dst_buf->vb2_buf);
-@@ -1701,6 +1719,20 @@ static void mtk_jpegenc_worker(struct work_struct *work)
- 	v4l2_m2m_job_finish(jpeg->m2m_dev, ctx->fh.m2m_ctx);
- }
- 
-+static void mtk_jpeg_dec_set_smmu_sid(struct mtk_jpegdec_comp_dev *jpeg)
-+{
-+	struct mtk_jpeg_dev *mjpeg = jpeg->master_dev;
-+
-+	if (!mjpeg->variant->support_smmu || !jpeg->smmu_regmap)
-+		return;
-+
-+	regmap_update_bits(jpeg->smmu_regmap, JPEG_DEC_SMMU_SID,
-+			   JPG_REG_GUSER_ID_MASK <<
-+			   JPG_REG_DEC_GUSER_ID_SHIFT,
-+			   JPG_REG_GUSER_ID_DEC_SID <<
-+			   JPG_REG_DEC_GUSER_ID_SHIFT);
-+}
-+
- static void mtk_jpegdec_worker(struct work_struct *work)
- {
- 	struct mtk_jpeg_ctx *ctx = container_of(work, struct mtk_jpeg_ctx,
-@@ -1784,6 +1816,9 @@ static void mtk_jpegdec_worker(struct work_struct *work)
- 	jpeg_dst_buf->frame_num = ctx->total_frame_num;
- 	ctx->total_frame_num++;
- 	mtk_jpeg_dec_reset(comp_jpeg[hw_id]->reg_base);
-+
-+	mtk_jpeg_dec_set_smmu_sid(comp_jpeg[hw_id]);
-+
- 	mtk_jpeg_dec_set_config(comp_jpeg[hw_id]->reg_base,
- 				jpeg->variant->support_34bit,
- 				&jpeg_src_buf->dec_param,
-@@ -1943,6 +1978,7 @@ static struct mtk_jpeg_variant mtk8196_jpegenc_drvdata = {
- 	.cap_q_default_fourcc = V4L2_PIX_FMT_JPEG,
- 	.multi_core = true,
- 	.jpeg_worker = mtk_jpegenc_worker,
-+	.support_smmu = true,
- };
- 
- static const struct mtk_jpeg_variant mtk8195_jpegdec_drvdata = {
-@@ -1969,6 +2005,7 @@ static const struct mtk_jpeg_variant mtk8196_jpegdec_drvdata = {
- 	.cap_q_default_fourcc = V4L2_PIX_FMT_YUV420M,
- 	.multi_core = true,
- 	.jpeg_worker = mtk_jpegdec_worker,
-+	.support_smmu = true,
- };
- 
- static const struct of_device_id mtk_jpeg_match[] = {
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h
-index 33f7fbc4ca5e..6e8304680393 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h
-@@ -11,6 +11,7 @@
- 
- #include <linux/clk.h>
- #include <linux/interrupt.h>
-+#include <linux/mfd/syscon.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-fh.h>
-@@ -34,6 +35,14 @@
- 
- #define MTK_JPEG_MAX_EXIF_SIZE	(64 * 1024)
- 
-+#define JPEG_DEC_SMMU_SID				0
-+#define JPEG_ENC_SMMU_SID				0
-+#define JPG_REG_GUSER_ID_MASK			0x7
-+#define JPG_REG_GUSER_ID_DEC_SID		0x4
-+#define JPG_REG_GUSER_ID_ENC_SID		0x5
-+#define JPG_REG_DEC_GUSER_ID_SHIFT		8
-+#define JPG_REG_ENC_GUSER_ID_SHIFT		4
-+
- #define MTK_JPEG_ADDR_MASK GENMASK(1, 0)
- 
- /**
-@@ -65,6 +74,7 @@ enum mtk_jpeg_ctx_state {
-  * @multi_core:		mark jpeg hw is multi_core or not
-  * @jpeg_worker:		jpeg dec or enc worker
-  * @support_34bit:	flag to check support for 34-bit DMA address
-+ * @support_smmu:	flag to check if support smmu
-  */
- struct mtk_jpeg_variant {
- 	struct clk_bulk_data *clks;
-@@ -82,6 +92,7 @@ struct mtk_jpeg_variant {
- 	bool multi_core;
- 	void (*jpeg_worker)(struct work_struct *work);
- 	bool support_34bit;
-+	bool support_smmu;
- };
- 
- struct mtk_jpeg_src_buf {
-@@ -150,6 +161,7 @@ struct mtk_jpegdec_clk {
-  * @hw_param:		jpeg encode hw parameters
-  * @hw_state:		record hw state
-  * @hw_lock:		spinlock protecting the hw device resource
-+ * @smmu_regmap:	SMMU registers mapping
-  */
- struct mtk_jpegenc_comp_dev {
- 	struct device *dev;
-@@ -163,6 +175,7 @@ struct mtk_jpegenc_comp_dev {
- 	enum mtk_jpeg_hw_state hw_state;
- 	/* spinlock protecting the hw device resource */
- 	spinlock_t hw_lock;
-+	struct regmap *smmu_regmap;
- };
- 
- /**
-@@ -177,6 +190,7 @@ struct mtk_jpegenc_comp_dev {
-  * @hw_param:			jpeg decode hw parameters
-  * @hw_state:			record hw state
-  * @hw_lock:			spinlock protecting hw
-+ * @smmu_regmap:		SMMU registers mapping
-  */
- struct mtk_jpegdec_comp_dev {
- 	struct device *dev;
-@@ -190,6 +204,7 @@ struct mtk_jpegdec_comp_dev {
- 	enum mtk_jpeg_hw_state hw_state;
- 	/* spinlock protecting the hw device resource */
- 	spinlock_t hw_lock;
-+	struct regmap *smmu_regmap;
- };
- 
- /**
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
-index e453a1634f33..da753a636eaa 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
-@@ -624,6 +624,25 @@ static int mtk_jpegdec_hw_init_irq(struct mtk_jpegdec_comp_dev *dev)
- 	return 0;
- }
- 
-+static int mtk_jpegdec_smmu_init(struct mtk_jpegdec_comp_dev *dev)
-+{
-+	struct mtk_jpeg_dev *master_dev = dev->master_dev;
-+
-+	if (!master_dev->variant->support_smmu)
-+		return 0;
-+
-+	dev->smmu_regmap =
-+		syscon_regmap_lookup_by_phandle(dev->plat_dev->dev.of_node,
-+						"mediatek,smmu-config");
-+	if (IS_ERR(dev->smmu_regmap)) {
-+		return dev_err_probe(dev->dev, PTR_ERR(dev->smmu_regmap),
-+				     "mmap smmu_base failed(%ld)\n",
-+				     PTR_ERR(dev->smmu_regmap));
-+	}
-+
-+	return 0;
-+}
-+
- static int mtk_jpegdec_hw_probe(struct platform_device *pdev)
- {
- 	struct mtk_jpegdec_clk *jpegdec_clk;
-@@ -677,6 +696,10 @@ static int mtk_jpegdec_hw_probe(struct platform_device *pdev)
- 	dev->master_dev = master_dev;
- 	master_dev->max_hw_count++;
- 
-+	ret = mtk_jpegdec_smmu_init(dev);
-+	if (ret)
-+		return ret;
-+
- 	platform_set_drvdata(pdev, dev);
- 	pm_runtime_enable(&pdev->dev);
- 	ret = devm_clk_bulk_get(dev->dev,
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
-index b30c728c3712..8a61d5537315 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
-@@ -348,6 +348,25 @@ static int mtk_jpegenc_hw_init_irq(struct mtk_jpegenc_comp_dev *dev)
- 	return 0;
- }
- 
-+static int mtk_jpegenc_smmu_init(struct mtk_jpegenc_comp_dev *dev)
-+{
-+	struct mtk_jpeg_dev *master_dev = dev->master_dev;
-+
-+	if (!master_dev->variant->support_smmu)
-+		return 0;
-+
-+	dev->smmu_regmap =
-+		syscon_regmap_lookup_by_phandle(dev->plat_dev->dev.of_node,
-+						"mediatek,smmu-config");
-+	if (IS_ERR(dev->smmu_regmap)) {
-+		return dev_err_probe(dev->dev, PTR_ERR(dev->smmu_regmap),
-+				     "mmap smmu_base failed(%ld)\n",
-+				     PTR_ERR(dev->smmu_regmap));
-+	}
-+
-+	return 0;
-+}
-+
- static int mtk_jpegenc_hw_probe(struct platform_device *pdev)
- {
- 	struct mtk_jpegenc_clk *jpegenc_clk;
-@@ -399,6 +418,10 @@ static int mtk_jpegenc_hw_probe(struct platform_device *pdev)
- 	dev->master_dev = master_dev;
- 	master_dev->max_hw_count++;
- 
-+	ret = mtk_jpegenc_smmu_init(dev);
-+	if (ret)
-+		return ret;
-+
- 	platform_set_drvdata(pdev, dev);
- 	pm_runtime_enable(&pdev->dev);
- 	ret = devm_clk_bulk_get(dev->dev,
+Note: I did not collect the ACK from Conor since there is significant change in the bindings in v2.
+
+Test logs: https://gist.github.com/Yemike-Abhilash-Chandra/ca582375fe682221c6597e60f247d92f
+DT binding check results: https://gist.github.com/Yemike-Abhilash-Chandra/bd6050d021f72a78ac82b3b342e923f2
+Link for v1: https://lore.kernel.org/all/20250523083655.3876005-1-y-abhilashchandra@ti.com/
+
+Yemike Abhilash Chandra (4):
+  media: dt-bindings: ti,ds90ub960: Refactor port definitions
+  media: i2c: ds90ub960: Use enums for chip type and chip family
+  media: dt-bindings: ti,ds90ub960: Add support for DS90UB954-Q1
+  media: i2c: ds90ub960: Add support for DS90UB954-Q1
+
+ .../bindings/media/i2c/ti,ds90ub960.yaml      | 400 +++++++++++++-----
+ drivers/media/i2c/Kconfig                     |   4 +-
+ drivers/media/i2c/ds90ub960.c                 | 221 +++++++---
+ 3 files changed, 461 insertions(+), 164 deletions(-)
+
 -- 
-2.45.2
+2.34.1
 
 
