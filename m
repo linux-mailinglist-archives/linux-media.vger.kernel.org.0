@@ -1,341 +1,172 @@
-Return-Path: <linux-media+bounces-48076-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48062-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93061C9AFCA
-	for <lists+linux-media@lfdr.de>; Tue, 02 Dec 2025 10:54:20 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73E1CC9AEE6
+	for <lists+linux-media@lfdr.de>; Tue, 02 Dec 2025 10:48:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4C3B43A333E
-	for <lists+linux-media@lfdr.de>; Tue,  2 Dec 2025 09:54:19 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 825E84E352E
+	for <lists+linux-media@lfdr.de>; Tue,  2 Dec 2025 09:48:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38A7D3126A8;
-	Tue,  2 Dec 2025 09:50:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE65830C34E;
+	Tue,  2 Dec 2025 09:48:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="N0SJe3W1"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="Kgohop/j"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010018.outbound.protection.outlook.com [52.101.46.18])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4A1277C86;
-	Tue,  2 Dec 2025 09:50:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.18
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764669036; cv=fail; b=O8Kril/2sqcdXsxsm21MlYXMXABD2OHJFjxOBfmSha2FH6hJ8IfdYI0Z7QiHKwUfosTaXjQzzCLmEPjZ0NvDL3+KRd4fnPCzjsPc4IaEqJMf6PUvzpxWxrbhjX7+8qFC83912dWgADzkL/UY4NqKlfMYe9s7bbIiLEuxAulpJAU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764669036; c=relaxed/simple;
-	bh=mljtoojYxBwkXSVzzztFt8RFWz6zwxWwECyckPmOG78=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EYLAgDWn0sr9l8dw8Dtc29qxJmSbsjLwhXXQQzBt3i2VRn5Asqda1Z4+lBPtxXyoP/V8ksmCMOTzPBhyj+ezWVaw/Vxu29v8XNdgZ5G3MqoA1SdaPU0pfLRC7FDZprjeYdHDMUw+Oir0dPvzW6FjFGh7LJRicSswkVnfOz7vXsk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=N0SJe3W1; arc=fail smtp.client-ip=52.101.46.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oLxRNq5Su0BuVozzMaGd7ShM5u4FOOS8E74pqF2q+8/xJx1bujKodXH58eR6F18cW/wLb+ZvAh2vDr/373Eeck/y74xYd+wzeoyB4OAOua/JcCMpJkHIIOcz8MmlB0qR9RZO73qkLb4h2S7RxL+LiSmYQ0huB7xty3fP5jlSUNyyRjVsavMNGwQXIt5cRiFM1iZfDuuUzmsrCKQdrHCPr0hlDEOJdhEWzahRM0HwxIDwSOIcpfbrVp7pOmTRxdo+hegWOQv7cOQWn+1EO7H2hNzgxrbLLsD4DtLqqLdkaUqaDukG8c8atKi5xLyTYtrenmDP728+q+ee583ERXJYZw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LffYM3hmBUdv7peVjQA/bmRVkai2shIYvofF4EqTcGY=;
- b=YiwfiqUfVIR+0/fp9gN1x/sgYQiLi15gxamWd1aXWFssNhQpVuEH4WxQFoLMnhsGUsqT2vQlp17xoOQebGeAr7h6Lz51DqWg1eeWaOc1URZgjUDeZrgcN63H+vpNDfY9ygMzqEmdMqJld5bJSbWUowYgmWWx/a3x4jyHWGly42fezXnUojWnM0Af+xf5prx4lLBPwYNy+POmD6njYGUq2DIOwm9CExZ/z5zNBTAu6Dc7tTcmYkVFzKuNsNOGoVX1vGtefiPQZ1QbqhTTwmqRgnmnADDxuw1L9eDmXuPRcQ7wva4M+pF1n+RKdcoWlcQUwdY/MzQf4XsLGhyQBdPF7w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LffYM3hmBUdv7peVjQA/bmRVkai2shIYvofF4EqTcGY=;
- b=N0SJe3W19Cha1PSGETECFavMQJ5eHm2MPBcnu1gW1EImiSFgr8ApXmRBMd+FlxZJGo0xlQ/nrRkpVgYh/oZZxxR4Us1FhvjeZ1sb747NuVOuRudiWVDMk1b5Cc/uNmh8HflIVCTDQgNgRt8bRodWsi/O7zXojeBsKkkbfZ9SPDY=
-Received: from BY3PR05CA0029.namprd05.prod.outlook.com (2603:10b6:a03:254::34)
- by SA0PR12MB4447.namprd12.prod.outlook.com (2603:10b6:806:9b::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.9; Tue, 2 Dec
- 2025 09:50:30 +0000
-Received: from MWH0EPF000A6731.namprd04.prod.outlook.com
- (2603:10b6:a03:254:cafe::52) by BY3PR05CA0029.outlook.office365.com
- (2603:10b6:a03:254::34) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9388.8 via Frontend Transport; Tue, 2
- Dec 2025 09:50:22 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- MWH0EPF000A6731.mail.protection.outlook.com (10.167.249.23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9388.8 via Frontend Transport; Tue, 2 Dec 2025 09:50:30 +0000
-Received: from FRAPPELLOUX01-WSLPUB.amd.com (10.180.168.240) by
- satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4C7F212548;
+	Tue,  2 Dec 2025 09:48:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764668894; cv=none; b=NfvhvpxK9mDQ32+ut/nGoe1ahSY5R8Sc3kpsVj9eEuGjEYC3sV2vEkWGgq0Kj6wwJjuYkkQsxQJDWL9uTQ4lvDSCOBbcsYJJ2mWOrb/if3kdxllZMA3ZnMXj+nqh2SyxgqBDr4nBH+PWbFUiz2McUUE1ng0Op1MUyiIzOr2SP84=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764668894; c=relaxed/simple;
+	bh=8G25LQzjTGIJB5ZgW6XJvkQwhzr5enzYI6bZkflT6Lo=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=TToK1lucTaQif28fVVJIX0KUSDYdv8g/Z0JTdeljYUWOe4OKQJSvoq+AOzNZj5FkPC2qHWcgmmAGdaLdOsVZX5LXEzGdklrQkABZnxnEAD3oYMXsSZinuR2Gw5KAi6WXn0WwZ8RpUWwNNKsmJMl7i7aL2Kbs8/udF2nFuujKbbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=Kgohop/j; arc=none smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: fef8fecacf6311f0b2bf0b349165d6e0-20251202
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:To:From; bh=guA+QB2P6R3BPkrbN5CwOJVp0V4jK40YB0OxLJnUQzM=;
+	b=Kgohop/j7EQHq082gtuVo4zWcupWVCizIInr9jH5iUmqcaGlSL2AZy1npC58of4LOBmKwRVZrfohht4WiiwBs4htOWSvCPTOInA0gdLhxSK9a77Ncmm64csIzhmW5dxO4K3wnW2jlaeww9jTYlL7WlYKjPHVDLPastB6UR8DZb4=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.6,REQID:82112f70-ebd4-48d8-9a28-d5e5df46cd73,IP:0,UR
+	L:0,TC:0,Content:0,EDM:-20,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-20
+X-CID-META: VersionHash:a9d874c,CLOUDID:0b4bbca9-6421-45b1-b8b8-e73e3dc9a90f,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102|836|888|898,TC:-5,Content:0|15|5
+	0,EDM:1,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA
+	:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: fef8fecacf6311f0b2bf0b349165d6e0-20251202
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw01.mediatek.com
+	(envelope-from <kyrie.wu@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 303227762; Tue, 02 Dec 2025 17:48:03 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Tue, 2 Dec 2025 03:50:19 -0600
-From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, David Airlie
-	<airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Felix Kuehling
-	<Felix.Kuehling@amd.com>, Sumit Semwal <sumit.semwal@linaro.org>
-CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, "Felix
- Kuehling" <felix.kuehling@amd.com>, <amd-gfx@lists.freedesktop.org>,
-	<dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
-	<linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>
-Subject: [PATCH v4 05/13] drm/amdgpu: pass the entity to use to ttm public functions
-Date: Tue, 2 Dec 2025 10:47:15 +0100
-Message-ID: <20251202094738.15614-6-pierre-eric.pelloux-prayer@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251202094738.15614-1-pierre-eric.pelloux-prayer@amd.com>
-References: <20251202094738.15614-1-pierre-eric.pelloux-prayer@amd.com>
+ 15.2.1748.26; Tue, 2 Dec 2025 17:48:02 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1748.26 via Frontend Transport; Tue, 2 Dec 2025 17:48:01 +0800
+From: Kyrie Wu <kyrie.wu@mediatek.com>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+	<matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Kyrie Wu <kyrie.wu@mediatek.com>,
+	<linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>
+Subject: [PATCH v11 00/12] Enable jpeg enc & dec multi-hardwares for MT8196
+Date: Tue, 2 Dec 2025 17:47:48 +0800
+Message-ID: <20251202094800.6140-1-kyrie.wu@mediatek.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000A6731:EE_|SA0PR12MB4447:EE_
-X-MS-Office365-Filtering-Correlation-Id: 958b039e-1ff6-4659-3b51-08de31883ab8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|36860700013|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?cXdtMVdRS3RWLzlFcmttWktaYkZEdUw5R1hTc2tJVTRJbis3QUIzekN3MzVQ?=
- =?utf-8?B?M3RRenA0eHoveXZ5c0dhb0Q3QlhNdkdyMFNWSHRnRTVjancyWVJFNnIzWStZ?=
- =?utf-8?B?MDRLVDg5aWNvMTBjUEVrZFg1bjVkN1hVbTBDS2p5bnhCMmlhUTRTdTNKeGhj?=
- =?utf-8?B?SmVqNzltOFhzaU5BNE1zaHZxWTdkYjFPVFQwdi9hZTc1TlA2S2JzSUJ5UGZ3?=
- =?utf-8?B?OUpUdEhZMWl3TGR2Q3VLeDJ1b0k5eWlxNU5FNGFPL0VjRVM3ZDNsMG4yRU5l?=
- =?utf-8?B?L09JWkhIL0pCWGtXM0hUQ0Q4SHRyeEhkYzhHRndGR09EMGZaODNiRTJRS0Iw?=
- =?utf-8?B?S1hLcWhsdzRQbDA1elBQSHNVQ20vQkpDT3lzVkZSTGhGSjdiOFVkajV3UWJy?=
- =?utf-8?B?K3RhNENzc2grSmd5aFJPZUROL0F4T0Zxa3c3dm5BeFZQRnJpOWdpQWxVTEpM?=
- =?utf-8?B?ODduNU8wcUZmazEzYVV0cERRRXdCeHE0c0hoRnFkZnVjNTEzdC9nUmNxcS83?=
- =?utf-8?B?a2ZIRTNMYlhwVDdINFhoNkFJd3c4L1ZRTlBJQnRaWVpub0JvVWowZkFmQUg2?=
- =?utf-8?B?SThjRy9hc25GYkpxaTRnVi9UaUs1aHVSaUVKaUVzcVpoS2NvZmErUlA0RHVI?=
- =?utf-8?B?M1Y2VG4rSWZDb3gvZTZvR1FTZ3pJNmVQNGRCWjNRckU4aXdXNTJvaXFSS1Zv?=
- =?utf-8?B?RWtoSXBsN2pEUEhxMVFhWGIreWk5YmlhanpJRVVPektSWGRWVWMyRCs5VS8z?=
- =?utf-8?B?Wi9OZEJ5U2RQNkwwY1QyWmVXZ1lKcS93RVV0N1p4REhYaGFBMXNJV0ZwR0NX?=
- =?utf-8?B?T0p4UVVZZXk3cmZwOTdPSGR0SmNOY2htY0pLSnh0RFQwR0wyTTE5enNQYXJ5?=
- =?utf-8?B?RW0wWnIzSDU2Z1RSZHJyWDFFYVNremNSaGc4MU9EU05NZStyVkI3aVQ0aDVy?=
- =?utf-8?B?cjVER0F6WnN4MVpEaldGb3FKWTU3VnJ6NExCWmJiRjZOMWZWWkIwRExZaGRQ?=
- =?utf-8?B?NUtvUTBQdXUzMVg4NUpKWVNVbDlqRG00U2h3S0pPNGxCYWVuUkE0dzA3b1Rk?=
- =?utf-8?B?MUxIY2M3QTM0MWFPVmV0Y3ovallFUVF4RXloaGJNSTF3RHV3eDZqbUpiUGRU?=
- =?utf-8?B?SVZITnZiQzZ5SjcycWtXNDI1Zzl3cWpROUQrUlRvZEU0bW1xT01ZMXR0b2Fn?=
- =?utf-8?B?YS8vMkJIRTY5NURkUDk2WW1UNVZDSGoxTys0aklheGNORmpZNTd1MkcrWHVE?=
- =?utf-8?B?VDcwZU0wSTVLWEI2aTNTbTVVMDRPVXg0T21vdmc4QTVFb2xwRUMvOTlDbDBZ?=
- =?utf-8?B?L0NZN1pvT2VFaVZJZTY0dVU5VVdOWnMzNFBTMVE4dmZlSDVHRjkwbXluOXl2?=
- =?utf-8?B?NHZObXA0Nmk5S3h4cGVQcUZlNGwyT05uTEF3ZkNrQWozTk5BM1F3RDV3eGZH?=
- =?utf-8?B?UlB3K25zTXI2TDUxUmUwaWp3YlF4TjNCZW1XeUY1S0NSTkpxMHdTZGhiOHBT?=
- =?utf-8?B?Z0dZd3d3a3FOSTRYYzJUaCtmME9pSWY0Zk1iRHZjd2FNZi9NT2YxYStxS3VH?=
- =?utf-8?B?TzU3QlVUdkV2RDF1ZXptc29YQlRtMER6SUNzRi85VUNUNVZXMFNyUU9xS3Zl?=
- =?utf-8?B?RENiUkt5MlAzNlRLRzQ0aXF5OVB4ZVFVZFJSeG5JZjNsdGF4WktraTNVcXo2?=
- =?utf-8?B?K0dlc2lNTmljUWY3MDl2clRPcEpuOEFWcHRhL0cyZ0MvREtrdFJkbTg1WVlN?=
- =?utf-8?B?VmEycFVGTGUrbU9mWUtjQVVrbUpvM2p3Z3Q3NFdtQzNzZktWMjZJM1FMTzhU?=
- =?utf-8?B?TXJDNXFib3d6SWZsb0JjTHp6RzdsWGZqOWlxYko5dGhDY3Jjd0NLWHVYdGJ6?=
- =?utf-8?B?YUk5NWtZTWt4MHN1ejNmTHhwVFNhL0ZidXArNEZCbVh6VnlGUlFvVzNGUkVQ?=
- =?utf-8?B?RUJacW0yaktGNi9RVmVHdXg4b291RTZUem4rU3AzZCt5NVZNRFZuSTlKZHMy?=
- =?utf-8?B?U1BqVVBpb1h6dUtLWVVQU1FEZHJmeTRnZURDUmluaW5QZ0FBWkJ6QXhDbExQ?=
- =?utf-8?B?dm9BRTNRTUNiWXFPblM0azlKUWV5OE0vZ1BHNWVzYnVjbmxJMGJBOWR0RGdK?=
- =?utf-8?Q?CTsc=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(36860700013)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2025 09:50:30.2319
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 958b039e-1ff6-4659-3b51-08de31883ab8
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	MWH0EPF000A6731.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4447
+Content-Type: text/plain
+X-MTK: N
 
-This way the caller can select the one it wants to use.
+This series have the follow changing:
+Firstly fix some bugs, including resolution change handleing, stop
+streaming sw flow, fix buffer layout and clock setting to support multi-hw
+jpeg working and others.
+Secondly add mt8196 jpegdec and jpegenc compatible to support MT8196
+kernel driver.
+Lastly, Add smmu setting to support smmu and iommu at the same time.
 
-Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Acked-by: Felix Kuehling <felix.kuehling@amd.com>
+This series has been tested with MT8196 tast test.
+Encoding and decoding worked for this chip.
+
+Patches 1 fix jpeg hw count setting to support different chips.
+Patches 2 fix jpeg buffer payload setting to handle buffer
+size bug while resolution changed.
+Patches 3 fix jpeg dst buffer layout.
+Patches 4 fix multi-core stop streaming flow
+Patches 5 fix multi-core clk suspend/resume setting
+Patches 6 fix decoding buffer number setting timing issue
+Patches 7 fix decoding resolution change operation
+Patches 8 fix remove buffer operation
+Patches 9-11 Adds jpeg encoder and decoder compatible.
+Patches 12 add jpeg smmu sid setting.
+
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c |  3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c    |  4 +--
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       | 35 +++++++++----------
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h       | 16 +++++----
- drivers/gpu/drm/amd/amdkfd/kfd_migrate.c      |  3 +-
- 5 files changed, 32 insertions(+), 29 deletions(-)
+Changes compared with v10:
+--Rebased on top of the latest media tree
+--add reviewer to commit messages
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c
-index 3636b757c974..a050167e76a4 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c
-@@ -37,7 +37,8 @@ static int amdgpu_benchmark_do_move(struct amdgpu_device *adev, unsigned size,
- 
- 	stime = ktime_get();
- 	for (i = 0; i < n; i++) {
--		r = amdgpu_copy_buffer(adev, saddr, daddr, size, NULL, &fence,
-+		r = amdgpu_copy_buffer(adev, &adev->mman.default_entity,
-+				       saddr, daddr, size, NULL, &fence,
- 				       false, 0);
- 		if (r)
- 			goto exit_do_move;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-index 926a3f09a776..858eb9fa061b 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-@@ -1322,8 +1322,8 @@ void amdgpu_bo_release_notify(struct ttm_buffer_object *bo)
- 	if (r)
- 		goto out;
- 
--	r = amdgpu_fill_buffer(abo, 0, &bo->base._resv, &fence, true,
--			       AMDGPU_KERNEL_JOB_ID_CLEAR_ON_RELEASE);
-+	r = amdgpu_fill_buffer(&adev->mman.clear_entity, abo, 0, &bo->base._resv,
-+			       &fence, AMDGPU_KERNEL_JOB_ID_CLEAR_ON_RELEASE);
- 	if (WARN_ON(r))
- 		goto out;
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index cc4e0aaa5ffa..a5048cd8e10d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -356,7 +356,7 @@ static int amdgpu_ttm_copy_mem_to_mem(struct amdgpu_device *adev,
- 							     write_compress_disable));
- 		}
- 
--		r = amdgpu_copy_buffer(adev, from, to, cur_size, resv,
-+		r = amdgpu_copy_buffer(adev, entity, from, to, cur_size, resv,
- 				       &next, true, copy_flags);
- 		if (r)
- 			goto error;
-@@ -411,8 +411,9 @@ static int amdgpu_move_blit(struct ttm_buffer_object *bo,
- 	    (abo->flags & AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE)) {
- 		struct dma_fence *wipe_fence = NULL;
- 
--		r = amdgpu_fill_buffer(abo, 0, NULL, &wipe_fence,
--				       false, AMDGPU_KERNEL_JOB_ID_MOVE_BLIT);
-+		r = amdgpu_fill_buffer(&adev->mman.move_entity,
-+				       abo, 0, NULL, &wipe_fence,
-+				       AMDGPU_KERNEL_JOB_ID_MOVE_BLIT);
- 		if (r) {
- 			goto error;
- 		} else if (wipe_fence) {
-@@ -2255,7 +2256,9 @@ static int amdgpu_ttm_prepare_job(struct amdgpu_device *adev,
- 						   DMA_RESV_USAGE_BOOKKEEP);
- }
- 
--int amdgpu_copy_buffer(struct amdgpu_device *adev, uint64_t src_offset,
-+int amdgpu_copy_buffer(struct amdgpu_device *adev,
-+		       struct amdgpu_ttm_buffer_entity *entity,
-+		       uint64_t src_offset,
- 		       uint64_t dst_offset, uint32_t byte_count,
- 		       struct dma_resv *resv,
- 		       struct dma_fence **fence,
-@@ -2279,7 +2282,7 @@ int amdgpu_copy_buffer(struct amdgpu_device *adev, uint64_t src_offset,
- 	max_bytes = adev->mman.buffer_funcs->copy_max_bytes;
- 	num_loops = DIV_ROUND_UP(byte_count, max_bytes);
- 	num_dw = ALIGN(num_loops * adev->mman.buffer_funcs->copy_num_dw, 8);
--	r = amdgpu_ttm_prepare_job(adev, &adev->mman.move_entity, num_dw,
-+	r = amdgpu_ttm_prepare_job(adev, entity, num_dw,
- 				   resv, vm_needs_flush, &job,
- 				   AMDGPU_KERNEL_JOB_ID_TTM_COPY_BUFFER);
- 	if (r)
-@@ -2408,22 +2411,18 @@ int amdgpu_ttm_clear_buffer(struct amdgpu_bo *bo,
- 	return r;
- }
- 
--int amdgpu_fill_buffer(struct amdgpu_bo *bo,
--			uint32_t src_data,
--			struct dma_resv *resv,
--			struct dma_fence **f,
--			bool delayed,
--			u64 k_job_id)
-+int amdgpu_fill_buffer(struct amdgpu_ttm_buffer_entity *entity,
-+		       struct amdgpu_bo *bo,
-+		       uint32_t src_data,
-+		       struct dma_resv *resv,
-+		       struct dma_fence **f,
-+		       u64 k_job_id)
- {
- 	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
--	struct amdgpu_ttm_buffer_entity *entity;
- 	struct dma_fence *fence = NULL;
- 	struct amdgpu_res_cursor dst;
- 	int r;
- 
--	entity = delayed ? &adev->mman.clear_entity :
--			   &adev->mman.move_entity;
--
- 	if (!adev->mman.buffer_funcs_enabled) {
- 		dev_err(adev->dev,
- 			"Trying to clear memory with ring turned off.\n");
-@@ -2440,13 +2439,13 @@ int amdgpu_fill_buffer(struct amdgpu_bo *bo,
- 		/* Never fill more than 256MiB at once to avoid timeouts */
- 		cur_size = min(dst.size, 256ULL << 20);
- 
--		r = amdgpu_ttm_map_buffer(&adev->mman.default_entity,
--					  &bo->tbo, bo->tbo.resource, &dst,
-+		r = amdgpu_ttm_map_buffer(entity, &bo->tbo, bo->tbo.resource, &dst,
- 					  1, false, &cur_size, &to);
- 		if (r)
- 			goto error;
- 
--		r = amdgpu_ttm_fill_mem(adev, entity, src_data, to, cur_size, resv,
-+		r = amdgpu_ttm_fill_mem(adev, entity,
-+					src_data, to, cur_size, resv,
- 					&next, true, k_job_id);
- 		if (r)
- 			goto error;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-index 41bbc25680a2..9288599c9c46 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-@@ -167,7 +167,9 @@ int amdgpu_ttm_init(struct amdgpu_device *adev);
- void amdgpu_ttm_fini(struct amdgpu_device *adev);
- void amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev,
- 					bool enable);
--int amdgpu_copy_buffer(struct amdgpu_device *adev, uint64_t src_offset,
-+int amdgpu_copy_buffer(struct amdgpu_device *adev,
-+		       struct amdgpu_ttm_buffer_entity *entity,
-+		       uint64_t src_offset,
- 		       uint64_t dst_offset, uint32_t byte_count,
- 		       struct dma_resv *resv,
- 		       struct dma_fence **fence,
-@@ -175,12 +177,12 @@ int amdgpu_copy_buffer(struct amdgpu_device *adev, uint64_t src_offset,
- int amdgpu_ttm_clear_buffer(struct amdgpu_bo *bo,
- 			    struct dma_resv *resv,
- 			    struct dma_fence **fence);
--int amdgpu_fill_buffer(struct amdgpu_bo *bo,
--			uint32_t src_data,
--			struct dma_resv *resv,
--			struct dma_fence **fence,
--			bool delayed,
--			u64 k_job_id);
-+int amdgpu_fill_buffer(struct amdgpu_ttm_buffer_entity *entity,
-+		       struct amdgpu_bo *bo,
-+		       uint32_t src_data,
-+		       struct dma_resv *resv,
-+		       struct dma_fence **f,
-+		       u64 k_job_id);
- 
- int amdgpu_ttm_alloc_gart(struct ttm_buffer_object *bo);
- void amdgpu_ttm_recover_gart(struct ttm_buffer_object *tbo);
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-index ade1d4068d29..9c76f1ba0e55 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-@@ -157,7 +157,8 @@ svm_migrate_copy_memory_gart(struct amdgpu_device *adev, dma_addr_t *sys,
- 			goto out_unlock;
- 		}
- 
--		r = amdgpu_copy_buffer(adev, gart_s, gart_d, size * PAGE_SIZE,
-+		r = amdgpu_copy_buffer(adev, entity,
-+				       gart_s, gart_d, size * PAGE_SIZE,
- 				       NULL, &next, true, 0);
- 		if (r) {
- 			dev_err(adev->dev, "fail %d to copy memory\n", r);
+Changes compared with v9:
+--Rebased on top of the latest media tree
+
+Changes compared with v8:
+--Rebased on top of the latest media tree
+
+Changes compared with v7:
+--Rebased on top of the latest media tree
+
+Changes compared with v6:
+--Rebased on top of the latest media tree
+
+Changes compared with v5:
+--reorder the patches set.
+--fix commit message of patch 1-8.
+
+Changes compared with v4:
+--fix kernel robot build errors for patch 4.
+--add reviewer for patch 1 and patch 2.
+
+Changes compared with v3:
+--change patch subject of jpeg encoder and decoder compatible.
+
+Changes compared with v2:
+--refactor smmu sid setting function interface
+--Some modifications for patch v2's review comments.
+
+Changes compared with v1:
+--refine jpeg dt-bindings for MT8196
+--optimize software code to manage jpeg HW count
+--refactor smmu sid setting function interface
+--Some modifications for patch v1's review comments.
+
+Kyrie Wu (12):
+  media: mediatek: jpeg: fix jpeg hw count setting
+  media: mediatek: jpeg: fix jpeg buffer payload setting
+  media: mediatek: jpeg: fix jpeg buffer layout
+  media: mediatek: jpeg: fix stop streaming flow for multi-core
+  media: mediatek: jpeg: fix multi-core clk suspend and resume setting
+  media: mediatek: jpeg: fix decoding buffer number setting timing issue
+  media: mediatek: jpeg: fix decoding resolution change operation
+  media: mediatek: jpeg: fix remove buffer operation for multi-core
+  media: dt-bindings: mediatek,jpeg: Add mediatek, mt8196-jpgdec
+    compatible
+  media: dt-bindings: mediatek,jpeg: Add mediatek, mt8196-jpgenc
+    compatible
+  media: mediatek: jpeg: add jpeg compatible
+  media: mediatek: jpeg: add jpeg smmu sid setting
+
+ .../media/mediatek,mt8195-jpegdec.yaml        |   8 +-
+ .../media/mediatek,mt8195-jpegenc.yaml        |   8 +-
+ .../platform/mediatek/jpeg/mtk_jpeg_core.c    | 170 +++++++++++++-----
+ .../platform/mediatek/jpeg/mtk_jpeg_core.h    |  21 ++-
+ .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.c  | 112 +++++++++++-
+ .../platform/mediatek/jpeg/mtk_jpeg_enc_hw.c  | 112 +++++++++++-
+ 6 files changed, 376 insertions(+), 55 deletions(-)
+
 -- 
-2.43.0
+2.45.2
 
 
