@@ -1,57 +1,53 @@
-Return-Path: <linux-media+bounces-48042-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48043-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3C41C9A8DE
-	for <lists+linux-media@lfdr.de>; Tue, 02 Dec 2025 08:49:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 841F8C9A8F3
+	for <lists+linux-media@lfdr.de>; Tue, 02 Dec 2025 08:52:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5927C3A658F
-	for <lists+linux-media@lfdr.de>; Tue,  2 Dec 2025 07:49:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EE0783A5DDB
+	for <lists+linux-media@lfdr.de>; Tue,  2 Dec 2025 07:52:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8AA5302CB0;
-	Tue,  2 Dec 2025 07:49:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7F44302CB4;
+	Tue,  2 Dec 2025 07:52:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bTd18HCK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sefxXJqm"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 520EE302CC4
-	for <linux-media@vger.kernel.org>; Tue,  2 Dec 2025 07:49:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 408FD2FDC43
+	for <linux-media@vger.kernel.org>; Tue,  2 Dec 2025 07:52:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764661759; cv=none; b=ux9Gy/zXz4iY4nziGNFoRt0EBgXSRnGFB6xhAbqdwfjO5kUGSFn92eHklh2AJdXg+SgKDyI3pTKrX1F4TfxqB+SdfxQ20OrzWLWlJ/Xg3X/I2kdSZmd2RFNN4TlpM2f3E0wErerherwj2OYqrfetwDVeY6bDz9h8BTmoNW04SYk=
+	t=1764661952; cv=none; b=CNpwuOjMgI0jgUadiSbj2qh7/+uhtYCpD4bnk+wUhLiUmnCGOLb4jV+E735v3MjD0XVeFY4xK13P4UdcUhnx80zscWVbUpi3eq3l0CE0H42F6+hGPfN7D1WutQd05EG4EGuCxJO4TOQJSjxGCMRFF+P2+XHLXuolsrwR+M75/Aw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764661759; c=relaxed/simple;
-	bh=Fxdl+qkjTp4qNBwdwHOkqx+o8ivGaUbUxjGHT8MqB5E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=heapk/Ghwfk8HjPKnH62U9G9c1f9ZB4sS62K+oVR01yprYYdByHjuodDTLDpYVmyt3z2Yxu8yPYHcbD1WxXiZSgp5tteEyC9LW/QqF0KEGToTCnqo+Fzp1yzopr6nrm2tffxwRHbIuCKZAskbFB4nrdVehMPPuEYzHmICNb7wX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bTd18HCK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E45DBC4CEF1;
-	Tue,  2 Dec 2025 07:49:17 +0000 (UTC)
+	s=arc-20240116; t=1764661952; c=relaxed/simple;
+	bh=nDFNgRCrkKgcSsFpK7bwh+l4OH3KGzniGWO/xMhgaPw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mqn+DsxrzzXyBnKEV2oq8IYs4X+00dhuqyt2chH8cqg7fpiezWCtZVeyUKcejjOmeS+MUovwLBZrglUL4xN5fMSjs3fJQ7J1Pq4453Fjx/kaqDXXN0Lg57PjHFpo7pFe65quLw7ciBocTlDNMpk9qcqA0rQ4KyLf0sIKZgo0ZLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sefxXJqm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB2ADC4CEF1;
+	Tue,  2 Dec 2025 07:52:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764661759;
-	bh=Fxdl+qkjTp4qNBwdwHOkqx+o8ivGaUbUxjGHT8MqB5E=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bTd18HCKaKd/zgPtuaWnZS3z5EMxF93MXptVfHwA2n/5lLLoDY+oAjqYVwoKumw2S
-	 QZPjnJd0IEB6215LSzbz4InQz53P6SZgllOTCDSs96n1h+sezO5m7sbyuS34BSo4z/
-	 0C0odn2734jUxVAwHuh2kVuIxhVgq7yzuI/LCRuCccFxJBDgKTyn/oK9kctMKy5Bja
-	 SylTGsJuAbN5XLcBn1vFUO3StQzUBS1bHNnSJpcFGnAk8FJ6izSgDPlm+s6tJ1P/PN
-	 MFSlDdNpc0F5NjVB3K163R+zWmwk7BcWUMLbfDeiWI+jjCYPuYfhULVuUpa8bfngn1
-	 ZLX9G5vtAlOJA==
+	s=k20201202; t=1764661952;
+	bh=nDFNgRCrkKgcSsFpK7bwh+l4OH3KGzniGWO/xMhgaPw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=sefxXJqm7HaWQo70AWaIujH9WxUqOk1WH3Ta5EwubIK2bfW3GGQCf7nj0l3eyiuwS
+	 GmWFKkwCOw0CNdfw3HEuUOchk9hGM0MDvSsyHewzQyrJaOj6skN3PP9NreA6fzZh1J
+	 HMcbrZRhvvarBt3bqzHkpb03tyAD/UZ/VZw35XFpYFpfXHjy8p/QmWIUBBho/0YctJ
+	 u5XC9eJxUmvX2CgAP5J7LnqQN5vKSiI8ntDs95XkbFNuQS8cM6bzjBw+RMUtpUJJji
+	 I72miAkvLZqWPZmb0WK1pMtHTX6ypm1/hy5IO6qcz8Df2luan0CIQNyaKAhJgC8lDb
+	 yPa5Mn94FnqUA==
 From: Hans Verkuil <hverkuil+cisco@kernel.org>
 To: linux-media@vger.kernel.org
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	laurent.pinchart@ideasonboard.com,
-	Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: [PATCHv2 11/11] media: omap3isp: isppreview: always clamp in preview_try_format()
-Date: Tue,  2 Dec 2025 08:48:12 +0100
-Message-ID: <e2e22fe86adc6df606b82df34871addef3b13e4d.1764661692.git.hverkuil+cisco@kernel.org>
+	laurent.pinchart@ideasonboard.com
+Subject: [PATCHv3 00/12] media: omap3isp: v4l2-compliance fixes
+Date: Tue,  2 Dec 2025 08:51:08 +0100
+Message-ID: <cover.1764661880.git.hverkuil+cisco@kernel.org>
 X-Mailer: git-send-email 2.51.0
-In-Reply-To: <cover.1764661692.git.hverkuil+cisco@kernel.org>
-References: <cover.1764661692.git.hverkuil+cisco@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -60,55 +56,59 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If prev->input != PREVIEW_INPUT_MEMORY the width and height weren't
-clamped. Just always clamp.
+When I worked on the patch series to remove the vb2 wait_prepare/finish
+callbacks, I had to test that series on my Beagle xM board with a
+Leopard Imaging li5m03 camera.
 
-This fixes a v4l2-compliance error:
+Since I wanted to use v4l2-compliance to test the vb2 change, I first had
+to fix a bunch of other compliance problems in this driver so it would
+actually be able to run the streaming tests.
 
-	fail: v4l2-test-subdevs.cpp(171): fse.max_width == ~0U || fse.max_height == ~0U
-	fail: v4l2-test-subdevs.cpp(270): ret && ret != ENOTTY
-test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: FAIL
+This series contains the fixes I made to get to that point.
 
-Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
----
- .../media/platform/ti/omap3isp/isppreview.c   | 21 +++++++------------
- 1 file changed, 8 insertions(+), 13 deletions(-)
+It depends on one sensor driver fix (posted separately):
 
-diff --git a/drivers/media/platform/ti/omap3isp/isppreview.c b/drivers/media/platform/ti/omap3isp/isppreview.c
-index 8720c6b38e79..601fffec8733 100644
---- a/drivers/media/platform/ti/omap3isp/isppreview.c
-+++ b/drivers/media/platform/ti/omap3isp/isppreview.c
-@@ -1742,22 +1742,17 @@ static void preview_try_format(struct isp_prev_device *prev,
- 
- 	switch (pad) {
- 	case PREV_PAD_SINK:
--		/* When reading data from the CCDC, the input size has already
--		 * been mangled by the CCDC output pad so it can be accepted
--		 * as-is.
--		 *
--		 * When reading data from memory, clamp the requested width and
--		 * height. The TRM doesn't specify a minimum input height, make
-+		/*
-+		 * Clamp the requested width and height.
-+		 * The TRM doesn't specify a minimum input height, make
- 		 * sure we got enough lines to enable the noise filter and color
- 		 * filter array interpolation.
- 		 */
--		if (prev->input == PREVIEW_INPUT_MEMORY) {
--			fmt->width = clamp_t(u32, fmt->width, PREV_MIN_IN_WIDTH,
--					     preview_max_out_width(prev));
--			fmt->height = clamp_t(u32, fmt->height,
--					      PREV_MIN_IN_HEIGHT,
--					      PREV_MAX_IN_HEIGHT);
--		}
-+		fmt->width = clamp_t(u32, fmt->width, PREV_MIN_IN_WIDTH,
-+				     preview_max_out_width(prev));
-+		fmt->height = clamp_t(u32, fmt->height,
-+				      PREV_MIN_IN_HEIGHT,
-+				      PREV_MAX_IN_HEIGHT);
- 
- 		fmt->colorspace = V4L2_COLORSPACE_SRGB;
- 
+https://patchwork.linuxtv.org/project/linux-media/patch/554fb9d7-374b-4868-b91b-959b8fd69b4d@kernel.org/
+
+This series doesn't fix all compliance problems, but at least it is
+a lot better now.
+
+Regards,
+
+        Hans
+
+Changes since v2:
+- restored the first patch ("configure entity functions") that I
+  accidentally dropped in v2.
+
+Changes since v1:
+- Simplify isp_video_enum_format by checking for duplicate pixelformats
+- Drop -ENOTTY to -EINVAL change in isp_video_try_format.
+
+
+Hans Verkuil (12):
+  media: omap3isp: configure entity functions
+  media: omap3isp: add V4L2_CAP_IO_MC and don't set bus_info
+  media: omap3isp: isp_video_mbus_to_pix/pix_to_mbus fixes
+  media: omap3isp: implement enum_fmt_vid_cap/out
+  media: omap3isp: use V4L2_COLORSPACE_SRGB instead of _JPEG
+  media: omap3isp: set initial format
+  media: omap3isp: rework isp_video_try/set_format
+  media: omap3isp: implement create/prepare_bufs
+  media: omap3isp: better VIDIOC_G/S_PARM handling
+  media: omap3isp: support ctrl events for isppreview
+  media: omap3isp: ispccp2: always clamp in ccp2_try_format()
+  media: omap3isp: isppreview: always clamp in preview_try_format()
+
+ drivers/media/platform/ti/omap3isp/ispccdc.c  |   1 +
+ drivers/media/platform/ti/omap3isp/ispccp2.c  |   3 +-
+ drivers/media/platform/ti/omap3isp/ispcsi2.c  |   1 +
+ .../media/platform/ti/omap3isp/isppreview.c   |  26 ++-
+ .../media/platform/ti/omap3isp/ispresizer.c   |   3 +-
+ drivers/media/platform/ti/omap3isp/ispstat.c  |   1 +
+ drivers/media/platform/ti/omap3isp/ispvideo.c | 178 +++++++++++++-----
+ 7 files changed, 152 insertions(+), 61 deletions(-)
+
 -- 
 2.51.0
 
