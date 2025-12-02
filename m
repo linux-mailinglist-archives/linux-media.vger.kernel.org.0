@@ -1,160 +1,205 @@
-Return-Path: <linux-media+bounces-48060-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48074-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB046C9AD30
-	for <lists+linux-media@lfdr.de>; Tue, 02 Dec 2025 10:19:47 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EFB5C9AFAC
+	for <lists+linux-media@lfdr.de>; Tue, 02 Dec 2025 10:53:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 06AC34E315B
-	for <lists+linux-media@lfdr.de>; Tue,  2 Dec 2025 09:19:45 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id F34E4347B74
+	for <lists+linux-media@lfdr.de>; Tue,  2 Dec 2025 09:52:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFE2F30BB8F;
-	Tue,  2 Dec 2025 09:19:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC23E30DEB7;
+	Tue,  2 Dec 2025 09:49:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="il/eUsMM"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="rL3Bjg5D"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012058.outbound.protection.outlook.com [40.93.195.58])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EAC1309F01;
-	Tue,  2 Dec 2025 09:19:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764667180; cv=none; b=ioLdacIvLH5qV8JsnjfrJ6hnjK52ag1Cr50FVWAaGZ2KrisNIfnKYzU2ROgxthAKNGBiL33wrTEiUXBCGirtuqIlXyodmtxCQUxKhFPhuyxpPKqK8pJAsgy5XEalOuMvI1pZ8w7VYMLtKRD1E3prieVlRTsST32V8d3ASkFjgi4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764667180; c=relaxed/simple;
-	bh=o3dUYhIRRutIwIb0qNAK7iYiuoA1yQ/Oh0azB7MiW/w=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=uYPBJP6MIQF79fBkva4ErWefHh25KIMNLNurgKhCnmGyOwTwZE5hSlgk9EhhrpIAeBAYp2rG4G/l0IXWrJFMuurrnLeHUTWNMrOGGNGSx4HSVOqxxhUkVVxX90nXSgwNwjgchr+jyYjMIIJtBEAZ5JDbHIJo47dlB+rT9TQLIio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=il/eUsMM; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4dLFb41cf3z9spF;
-	Tue,  2 Dec 2025 10:19:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1764667168; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=q8Y1OU0Q+Bol5U/MPFfzGP28CcuUiYKdthv47THRxek=;
-	b=il/eUsMMmTGh9GD/DnjHcdipYrZx4Bnp/W8SmT4Rhvtieu4WLMXE1QfRoapTjZMjPj7LRI
-	o//dVBIiqL677W9dpkG9++H2ZzgSgq2h2nzdvIVmUoQFBcImTdC/IdaqyXM8Y3cdFeU3kN
-	4Syh4pa0m6+RY5Imt5wIsyTRyZLDWvTyVS3qgj2Mf0D8EaL2/oFyDiamW9Iqx4LLl7FWf9
-	AyGH79vdedTAdp35ypPh/hoj03z/jMSl7PQ4unIaR8UDe18AdJk+ctcnCLzxTRpHe4FIaa
-	BorrZ0RWQlO3JziTfJ7cbwRDMw4Ku8uCWL/+APW5Ut2KoA8e93mAwYi3N0KX/A==
-Message-ID: <d7956d8e8401f7dd9951d93752a74d2f8f660830.camel@mailbox.org>
-Subject: Re: [PATCH v2 2/8] dma-buf/dma-fence: Add
- dma_fence_check_and_signal()
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
- phasta@kernel.org, Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
- <gustavo@padovan.org>, Felix Kuehling <Felix.Kuehling@amd.com>, Alex
- Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>,  Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui
- <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,  Matthew Brost
- <matthew.brost@intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Lucas De Marchi
- <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
- <thomas.hellstrom@linux.intel.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Date: Tue, 02 Dec 2025 10:19:09 +0100
-In-Reply-To: <07cd6a0c-9975-48ef-bb2e-5e53a042888e@amd.com>
-References: <20251201105011.19386-2-phasta@kernel.org>
-	 <20251201105011.19386-4-phasta@kernel.org>
-	 <80554ed2-4454-489b-873f-533d68c8d2ae@amd.com>
-	 <2a9c83b4a428bb3cc993499c39d0da01f9563278.camel@mailbox.org>
-	 <93a4f4e4-af7a-4c84-a7a2-5db785f2a5a8@amd.com>
-	 <247185f833edd075cd4aac8c39ac8ae5b5aabe07.camel@mailbox.org>
-	 <07cd6a0c-9975-48ef-bb2e-5e53a042888e@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A0CA30B508;
+	Tue,  2 Dec 2025 09:49:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.58
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764668948; cv=fail; b=oZOqkOyMVepR2/oUCcpnBncBYwT9/RxRslwXVcoxNgGDS181+HRJ7Btwxxl56bwB/PGfQvhEUfFr1wr3ZaKbvuISL5KN/yYlkEvJ/hWV8l9bWzg5DDJvJXSIPb9JeZYUH0OyRtOWy+Vu6hcVkKJtsjhMpwRpG6aWv5iD6WoO+1I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764668948; c=relaxed/simple;
+	bh=JB/KuuAmAlxAA1Mn9qNnJxj/0JGj+YL6KisQXwRNQcg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=vGXwdHYPoJxDHTwHgpvb1wOru8NWsNHA3nlNUWKQauJXw21vmI+NUNEhlrRuXoKP9ow+urH9Bv/6FcXQpPswu322I3ctL6IX9AbklgSl9ONJW2a1pSyQhCEPKZmpM9mMHTLldYWB3oxORLGp8bu4GqYjld5m9ffd0ona4opOxxs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=rL3Bjg5D; arc=fail smtp.client-ip=40.93.195.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Riqm10c42eA1sNNlj3lUPTFONIofZj+mTE+BXip0wHYwIOac3Vgfz/2SS74wWtln81HbG4Epp5s5PvI33yZhwWh/S3Oo6Y9PU5gW38E7K3lEaDBCxCEKYAWp0kEJ2Ndh8oR9PCaoSB6npHSYkNsp/fLpwyJ8FMqB6vK48wFXoWKYT40KyGS7/mtRI2xuc5Xg3yUIe4cQP8lHdqm2QiCbURAKDPXfUuFY+aDxrDOX2oI5p1BLvIH95GwDzWZVyOcIb/KQmVlGswi1lih8x0f9MjT6Ow+lgxDgo308eEgUxtfyPXuGYaO5klZuhkvmkQ+Q7+DkwZu4YdupRnIg/Md5cw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jF3dRtfvMEVsQX7S4SoN7R/ZvkiVjaxyDa8dCNpr920=;
+ b=CEQysSBX9WrkYmoKyd0EtlFUZ79qn9Calf/UF2ad0A25uqYfcT5+k+ATQZp6w3/vKvN8OB/TuwHPHiFT+jQvst7+G+VWRWcmgOVIqJQyqHZ45AOIEClzKHrBhNEqZRUQhdpvNyIGwO8k5ThTp4wYXQlz+6zYPGYhOeptd02kAaqNQstTQX+e9/OwR8RIuZRISF3EHLnwohvE/bv0s1MrOxiDg5mPleajMwbUsTXbAHXMQsHQ3B6mlCvlRIdDOtzoHJCuZYAhKeRxfVetQradZx0mK3CrA4PBBQcqHVrLcY/IrgUgYnWpJjUfym+sRZMZcO2IU9Ac6/stF0YDTGT/uQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jF3dRtfvMEVsQX7S4SoN7R/ZvkiVjaxyDa8dCNpr920=;
+ b=rL3Bjg5DEJQljPLJ7iI4xheOcNVTUXi8DWSuUcqStpI5QbSH+5TY1S27FuB6DboCwddMDs6Drj8TpmX2wbHqaFKqn6cIOaXw+C562zwnH3Gz1IdIjyWU/+W8tahuDF2vdvvY2FqBOtaXeKAyeolBSjq8YFcjdLONiOkU5qqa9sM=
+Received: from BY3PR05CA0018.namprd05.prod.outlook.com (2603:10b6:a03:254::23)
+ by CY5PR12MB6550.namprd12.prod.outlook.com (2603:10b6:930:42::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Tue, 2 Dec
+ 2025 09:48:59 +0000
+Received: from MWH0EPF000A6731.namprd04.prod.outlook.com
+ (2603:10b6:a03:254:cafe::36) by BY3PR05CA0018.outlook.office365.com
+ (2603:10b6:a03:254::23) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9388.9 via Frontend Transport; Tue, 2
+ Dec 2025 09:48:56 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ MWH0EPF000A6731.mail.protection.outlook.com (10.167.249.23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9388.8 via Frontend Transport; Tue, 2 Dec 2025 09:48:58 +0000
+Received: from FRAPPELLOUX01-WSLPUB.amd.com (10.180.168.240) by
+ satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Tue, 2 Dec 2025 03:48:50 -0600
+From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+To:
+CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, Alex Deucher
+	<alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>, Felix Kuehling
+	<Felix.Kuehling@amd.com>, Simona Vetter <simona@ffwll.ch>, Sumit Semwal
+	<sumit.semwal@linaro.org>, <amd-gfx@lists.freedesktop.org>,
+	<dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
+	<linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>
+Subject: [PATCH v4 00/13] drm/amdgpu: preparation patchs for the use all SDMA instances series
+Date: Tue, 2 Dec 2025 10:47:10 +0100
+Message-ID: <20251202094738.15614-1-pierre-eric.pelloux-prayer@amd.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-ID: 27d8c8638880777556e
-X-MBO-RS-META: 33hpokdgbkw758zqyymwdksfr37hc4fg
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000A6731:EE_|CY5PR12MB6550:EE_
+X-MS-Office365-Filtering-Correlation-Id: b28aeca4-07b5-41cc-cbae-08de318803f2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|376014|1800799024|82310400026|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?NG04aG44cGdZdzhQdDVPbkxwd29hQ0E4alBMRnBzTmY1NUowcGEvUTdlR29t?=
+ =?utf-8?B?TnVENzg4VDJHeUVXNDUwMk9NQng1M3pwVFVaOC9GazBCK0lJNnZmVWFsVVlW?=
+ =?utf-8?B?QmpKOHhsaG8ycHowNGdSMTAyclRhb2M1V2dkRWg4UmdtbGFjMC81K2lYOXdS?=
+ =?utf-8?B?c2FEd1FSY3VMS255RXI0aWdIR0REc0FhK1JCT3dMMFprZU1meG9INjdPdDJr?=
+ =?utf-8?B?NU9WZXpvU3RDc2JJUDRhTFRibk5PYlI5UU5WblZHLzRkZjhFN3FDVnBGNSty?=
+ =?utf-8?B?SWVPV0hYVHhvV1VFVjkwUDY5UFUwQkVYNEppM1JlQXFtUWtpUkhQaEtoV3BN?=
+ =?utf-8?B?bkVvbVlJK1VweGJObjhKNTN6RjNpK3Nmc1p0ekF1T2UzaTZua2Q1ajE0M0FN?=
+ =?utf-8?B?bVlmMktmMkZNbThReVpqWmNRRllTSVVKUFI3R1QyTktGWWppeUxYbDBkSit1?=
+ =?utf-8?B?aW16ZUgvcllGcCthVFN6azhIeVZzTnlrYm5DVjV5ZVF0S3dJU1RDZXZnb2Ny?=
+ =?utf-8?B?Y2t1cURlNFNTZnVyQ1pFTWlOZkNiZkRWall2OUxOalNqdGdtNWMvV3dtNlds?=
+ =?utf-8?B?YVlHVWZrelBQa0Q5UFg4dkFqSWVnV3hhVmZiZGY5TjVKWmNKbzM5YVNRQ1J6?=
+ =?utf-8?B?U1hrSHZIVUtJWCtXNEdKcEp5eWh3dmZjaU9Od0Jrd1BZSlJBZXhWUzM0ZGNL?=
+ =?utf-8?B?TkEvTlExRmlkc0M4SFJoaUlqbHgvZzZMVmFuSUw0S2p6SDZ0cHhtUWtRL3Fp?=
+ =?utf-8?B?a1NZMWM4QXIvY0JxT2tCZE1FdU9ra0lLMTBLOFErTXRyS3N6c25ZNTJKeUJl?=
+ =?utf-8?B?cUZjdXdMc1h0cWNHSksxUkZxTVV0WnBzSGg3NFlrTEd0UG5OOFVFdXovSXZ4?=
+ =?utf-8?B?WEowVnU5UWhlSE1xcTFmWVJoQU44TFhpbUJKNmg2U2R6a25rQ3ZWUVczSXJh?=
+ =?utf-8?B?OEdSdHBRb0N4VldzVG9LTGxSemJtMnN2UEVpMitpeVdGd3Bwc2lKUEZrRVpN?=
+ =?utf-8?B?TVpCeFNiSi9EcWlCdVFVc1lTamFuQjZwdnRLcHlZeitzZjdJeDZ0aXRYTHN3?=
+ =?utf-8?B?RlNZa082YmtnZVQ4L050SkUrb2g1L0hYRnZmYTMyZmdlUytldjU5VGlRRTlT?=
+ =?utf-8?B?MFFROXV6aC8xOEJjdlFwb1lFOTRibEo2RE9qcTFWSGpkOEFVSlZHRkZnaFgw?=
+ =?utf-8?B?RVQrS0ZRVzlkS3NYd09JVGg0UlJhQ3EyazVmWGNxeUowNzFPaUp6T2FNaXY2?=
+ =?utf-8?B?V0JOcENLNU9RNlBkMzFoSjZrVEpXWXRlYlYrQjNwc3ZLbmNKbDdFTUMzMUJF?=
+ =?utf-8?B?YmtPZ2l3Mnk5TWRYcDBwY1R1NitXMkZkWU02bUc3b1dxYkR6K0J1WFlCOXBT?=
+ =?utf-8?B?SkRYamhWSGFKWVl5ak9VV3BIUlJQZEZ2c0pOTDZTdHBiN0FTQ1YyWXRqUy9y?=
+ =?utf-8?B?WXVQd1VnM2F6SVh0aG5ETHFJNmVraSsyRzU5US9PNEtleHJlaTllRlBMa0F5?=
+ =?utf-8?B?V0tKdGw1K3MrcUt0WXowUkxieDJXVHdtY2xNdXlJL0ZFWGdFOWNLdEtQcngy?=
+ =?utf-8?B?Z256a09FSFZuR2dhNkgyb0doREpKUXVVdDNIODBhMHh1SVNmSkNkTHFNbFA2?=
+ =?utf-8?B?N3lNOW8rMGZRdzBwNGdqenlPMm9zOCs0cElZL1ZacndVb2podVYxQkw1TzIy?=
+ =?utf-8?B?TFhidm5lcEs2Y1JjUTZDb2NmeTd5NHZyWkkzdG1mSEZWSzNIeDZHRXp2QXk0?=
+ =?utf-8?B?elorTFA2eFFvVGV3SmZiR3FEK0RNOW13Ylc3L214Mkw4M2pLUlNqRXZ4QjJi?=
+ =?utf-8?B?Y0tTNnk5c2sxWFRPWGdlWVlsYmJiam1hVVRsNHdlb3R0SlNLY2pnZ2JubWJL?=
+ =?utf-8?B?dEFNVTJBMWNFZGFnVnZZQ3pBWmdyT2NHUlM4OUUxMmJPU0hCaEFYUWtINDAw?=
+ =?utf-8?B?ZmhpRVpLYUlJTUZacWlINGZobWwvNjZZaXlJZzljNFo0TG9sSi9wN2VrbDdv?=
+ =?utf-8?B?eXRPK1h6dTRKWHJvUWU4N0gxb0xMUTJvWCtPNkJoQlg4N003WDdpcldwN21q?=
+ =?utf-8?B?WHdTQWcya1R1VzlqNWJjVytyYkRuRmFjVmxNcjN0R1FVVmpPRWRuZ3Q4TUs4?=
+ =?utf-8?Q?Zp5c=3D?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(376014)(1800799024)(82310400026)(13003099007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2025 09:48:58.3429
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b28aeca4-07b5-41cc-cbae-08de318803f2
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	MWH0EPF000A6731.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6550
 
-On Mon, 2025-12-01 at 17:08 +0100, Christian K=C3=B6nig wrote:
-> On 12/1/25 16:53, Philipp Stanner wrote:
-> > On Mon, 2025-12-01 at 16:20 +0100, Christian K=C3=B6nig wrote:
-> > > On 12/1/25 14:55, Philipp Stanner wrote:
-> > > > On Mon, 2025-12-01 at 14:23 +0100, Christian K=C3=B6nig wrote:
-> > > > > On 12/1/25 11:50, Philipp Stanner wrote:
-> > > > > > The overwhelming majority of users of dma_fence signaling funct=
-ions
-> > > > > > don't care about whether the fence had already been signaled by=
- someone
-> > > > > >=20
-> > > >=20
-> >=20
-> > [=E2=80=A6]
-> >=20
-> > > > >=20
-> > > > > > +{
-> > > > > > +	unsigned long flags;
-> > > > > > +	bool ret;
-> > > > > > +
-> > > > > > +	spin_lock_irqsave(fence->lock, flags);
-> > > > > > +	ret =3D dma_fence_check_and_signal_locked(fence);
-> > > > > > +	spin_unlock_irqrestore(fence->lock, flags);
-> > > > >=20
-> > > > > Could this use guard(fence->lock, flags) ?
-> > > >=20
-> > > > guard? You mean a lockdep guard? Do you have a pointer to someplace=
- in
-> > > > dma_fence who does what you mean / want?
-> > >=20
-> > > E.g. like guard(spinlock_irqsave)(&fence->lock);
-> >=20
-> >=20
-> > Hmm, but why?
-> > It's obvious to all readers that I do spin_unlock_irqrestore() here.
-> > It's very simple code, lock, 1 line, unlock. What would the guard
-> > improve?
->=20
-> Well you can save using the local variables.
->=20
-> So this:
->=20
-> 	unsigned long flags;
-> 	bool ret;
->=20
-> 	spin_lock_irqsave(fence->lock, flags);
-> 	ret =3D dma_fence_check_and_signal_locked(fence);
-> 	spin_unlock_irqrestore(fence->lock, flags);
->=20
-> 	return ret;
->=20
-> Becomes just:
->=20
-> 	guard(spinlock_irqsave)(&fence->lock);
-> 	return dma_fence_check_and_signal_locked(fence);
+This series is a subset of the "use all SDMA instances" series.
+It starts at the first modified patch and ends at the last patch
+before the drm/ttm patch that got merged through drm-misc-next.
 
-Mhm, I guess I agree that __cleanup is a cool new feature that can be
-useful at many places. But in this case I think it's actually less
-readable and doesn't really give lots of advantages. And don't I have
-to use a DEFINE_GUARD or DEFINE_FREE in the first place?
+v3 of the full series:
+  https://lists.freedesktop.org/archives/dri-devel/2025-November/537830.html
 
-If it's your maintainer preference, I can look into that though..
+Pierre-Eric Pelloux-Prayer (13):
+  drm/amdgpu: introduce amdgpu_ttm_buffer_entity
+  drm/amdgpu: add amdgpu_ttm_job_submit helper
+  drm/amdgpu: fix error handling in amdgpu_copy_buffer
+  drm/amdgpu: pass the entity to use to amdgpu_ttm_map_buffer
+  drm/amdgpu: pass the entity to use to ttm public functions
+  drm/amdgpu: statically assign gart windows to ttm entities
+  drm/amdgpu: remove AMDGPU_GTT_NUM_TRANSFER_WINDOWS
+  drm/amdgpu: add missing lock in amdgpu_benchmark_do_move
+  drm/amdgpu: check entity lock is held in amdgpu_ttm_job_submit
+  drm/amdgpu: double AMDGPU_GTT_MAX_TRANSFER_SIZE
+  drm/amdgpu: use larger gart window when possible
+  drm/amdgpu: introduce amdgpu_sdma_set_vm_pte_scheds
+  drm/amdgpu: move sched status check inside
+    amdgpu_ttm_set_buffer_funcs_status
 
-P.
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h           |   2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c |   5 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |  13 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c       |   8 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c   |   8 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c    |   4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       | 295 ++++++++++++------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h       |  54 +++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c       |   6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vce.h       |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        |  17 +
+ drivers/gpu/drm/amd/amdgpu/cik_sdma.c         |  31 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v2_4.c        |  31 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v3_0.c        |  31 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c        |  35 +--
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c      |  35 +--
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c        |  31 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c        |  31 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c        |  29 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v7_0.c        |  29 +-
+ drivers/gpu/drm/amd/amdgpu/si_dma.c           |  31 +-
+ drivers/gpu/drm/amd/amdgpu/vce_v1_0.c         |  12 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_migrate.c      |  25 +-
+ 23 files changed, 381 insertions(+), 385 deletions(-)
 
-
+-- 
+2.43.0
 
 
