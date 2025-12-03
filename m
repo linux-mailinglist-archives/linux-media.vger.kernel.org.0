@@ -1,266 +1,175 @@
-Return-Path: <linux-media+bounces-48154-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48155-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10B1BC9F187
-	for <lists+linux-media@lfdr.de>; Wed, 03 Dec 2025 14:15:29 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D13AC9F1B2
+	for <lists+linux-media@lfdr.de>; Wed, 03 Dec 2025 14:18:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 85480342963
-	for <lists+linux-media@lfdr.de>; Wed,  3 Dec 2025 13:15:28 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D71114E06FA
+	for <lists+linux-media@lfdr.de>; Wed,  3 Dec 2025 13:18:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 314422F616D;
-	Wed,  3 Dec 2025 13:15:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EAB02E7659;
+	Wed,  3 Dec 2025 13:18:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="RP11vFtA"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bu6jtpT1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010048.outbound.protection.outlook.com [52.101.56.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FD4013A258;
-	Wed,  3 Dec 2025 13:15:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764767720; cv=fail; b=MVf+pNXDdi22vWlCvVhfYRexOJI4A8Q8r6vucctIf1DWWEE02lpVkVn2+vkWttjooslaggfMJXfMOLZBIfQvmzaQyUNMQyQYY/dR0t/zXKG85KZnChRBXjwEgbgJI2OOSGo29P+q2w9qIjK3znN1kz4sa2wPiAdpRTYwojbdrq8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764767720; c=relaxed/simple;
-	bh=a6h1o6o6QRbOpkBvMhS2yr+HIGrz9O8Y8d7QXKNmwA4=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=i6EhHmKfRfs6Xsti48f+danZX3NNDd8NcsfaAP/He+dymGvQL4E7de8oJ6ZZ0rn2CnuYMfZl5GT7Yjy830d41qqTxO6qqvLiaIuPalEwNyja/gExCL9pul81hTJLMcZ/teKIE4QqfjD1XrEL7hDeeyGZJZgryxg49flFeNUTM70=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=RP11vFtA; arc=fail smtp.client-ip=52.101.56.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rxUh6x+mBjFHjNhrxvX764LOyDyg4C3Z63cLWnQLz1+rDGvzpGerN21xsLlo58oAQ0VosSg8LdP+jreHU99VznnnL/jFxTNDoS+KuYdTYQvOw58Y/uuuECBvjIa8v2QDL5HSVHfUldLLDEaSnm5Bf9cQgJeB05bNczUChetqqNdPgtn/CHBlUE4r+844KhOt1+4dkbKteaIxI0QyT9rTyaxVq4iro6bjLP5rQt255Q5iMUI/z/i1cLZNf35R+hLl5zKbHRZK5oj9XKYk8L6I/ozSXoq+yVamd79nVU+hoJoLcRPw8x1T7sIPDqJfhL3PjzRGMrorGNT0cgxMdbHe8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nCZhMYfcvyGuIaFbRrt8GUJwulHsd2VezmNZsQ8haTU=;
- b=GMs9GeHlXggL2Otuz9oc36aZdZFKgjXZ7nR5Y9vnpZq5UEg3/i045bt/yNPbBVsFYx8r4qfrcBjWtWsxaR+PDNaX6GTl4eXNQdfq48J08nLT6G89RGtMcmGxB15Wx2Xm8LIgr/OQqP5p81m+OVGD9Y/L0Cw70fVPGLNmLdjWCbECZNQ4rgVSsYJN8rprh/eUx2E9N8esIz0lmIa6uz4ZN1CB2qjmmdXwa2f6Ys1AuiufqbVf36sfYxpPYcH5ReAhuMF/tN7p8LodAxz/iij+mgiZxUI86aV02efqqbVMhhA/IGAp/sDVRUjSFm6MAnMCcLp3WwIwB77lNP6/t0kr4w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nCZhMYfcvyGuIaFbRrt8GUJwulHsd2VezmNZsQ8haTU=;
- b=RP11vFtARTJQmUpsu5EBvaby3pUA3uZGkW9ikZQY5JtU/fsvMDR8tO38GOSOz9JPbB+C7u/3vx8rZXI/VYSs9yWytKEXjEprNIHgv9xldPD8yNHqAr5cdDeQL2akDLBbSQKJWV2wiNr0P0AxSAZvkUZLiM6Kjbo1GfO1xEzm4Q8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SA0PR12MB4479.namprd12.prod.outlook.com (2603:10b6:806:95::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.9; Wed, 3 Dec
- 2025 13:15:15 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9388.003; Wed, 3 Dec 2025
- 13:15:15 +0000
-Message-ID: <e67b12d1-111f-484a-8374-4152d3b9f328@amd.com>
-Date: Wed, 3 Dec 2025 14:15:07 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 8/8] drm/xe: Use dma_fence_test_signaled_flag()
-To: Philipp Stanner <phasta@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
- <gustavo@padovan.org>, Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-References: <20251201105011.19386-2-phasta@kernel.org>
- <20251201105011.19386-10-phasta@kernel.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20251201105011.19386-10-phasta@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0276.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:e6::6) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ECB31F181F
+	for <linux-media@vger.kernel.org>; Wed,  3 Dec 2025 13:18:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764767884; cv=none; b=qufqPoMmQ02jVlYR5Kz8e2arXr/XX/KrmIAT8OZhjLAgTqHaPHLLZJpYg0I/UEld+bu/RcxByGmPRnHMDNawHowibqIhCTF8mwmneMlzXzSqasFhfu086iLGZWA6ac5nwellHvXSzhaW2GPkgA4zzH60s4T1k9carjAS3O8XuYE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764767884; c=relaxed/simple;
+	bh=reVDA7x3hNUdYQrDUdDx+qmrjkFvJpDTrMTWj2ujyFk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BwaFY1CvloZGO9lvRj8BecH3CHHWZlpAM1yYJ+f/N6uOXJdzGYvTPO6Di1zAk6+lx2Mo0z65Qy8nqNL0O5wancSLkNb0slX4auqgEbTMepvruiJ8kr/k/gIPx/FCw4h6tcWnp6zM4wk8cwTtei9fwfHFkdn3CKvz0HAowZ9ZGc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=bu6jtpT1; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-59431f57bf6so7549995e87.3
+        for <linux-media@vger.kernel.org>; Wed, 03 Dec 2025 05:18:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1764767881; x=1765372681; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=P5S4Rk+sFIYtI41p7btxGAQ+EtPF7agT5NetpnNswgo=;
+        b=bu6jtpT1XHuAw5Ii/005poc/gbgtQ5/FF2ENiSVhpDQfJrob8+YlODIZ18NOz+wmLn
+         Ohx3BOUWrJWWJOajswM4TvRCKhbifrFzAHScwQKkUAuUzBDKqsqcuMohF1h+4ji0A/1X
+         W0qzeMwyX2JZiGtDl3aje3B5Wq7nGSEMH+fqg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764767881; x=1765372681;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=P5S4Rk+sFIYtI41p7btxGAQ+EtPF7agT5NetpnNswgo=;
+        b=Dq2O0X+WcSGr+XvYpMK/pfix1uk5ZYBpwDBF604LNhrATltAise2OUP/MpsiJw+RII
+         6qpir6eoN66HzSvbUt6pgnhX8NguKAT1gqnQTYTwZ9wIUcFnsXdTMeqwsAnUgJHYmJGS
+         4iQp1gTxEFpXMKnAc/5oytdEWqdX484Q2yQMkwktrCoGEmMurP2c1Eu45icFlFj4D9SG
+         oTcIQzECn2fcboHNayULvFSDF4Uxy5Os9g8FEa/1eC6ocVNx1pcLaxJIbnt0T9i+guDt
+         VjNDgetUP7zbDiiysJ9aq5/hztsKYiByLHekSWnwmMH2clmr+Fy6SL2s/wMvcB0Fa/1F
+         jGDw==
+X-Forwarded-Encrypted: i=1; AJvYcCWC+2/aO5ioz1otxvPdlkuGHwvqu8moQbMzDPudv02bR4OVNMkYx6JDWskKnVxk5hgFtHxPZsV7RxjLFw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzYk6jbR78w/5YEvcQxgAl5CoyNx0EB8Yayn05cleGdNz8x0HQA
+	cZPU2LUL7eKBMvCIn73O+c8OIMYDNL6LgEBYFnj3udPzKTOvNqT+8dAWweO1sCx/odc2jtsNovV
+	l9xkLXw==
+X-Gm-Gg: ASbGncvAqK/6zw1A/e1dLZ+6kLtgYuAdnXPijDGpNiDfHjQm65gQxtVjD1OjwcdlqWb
+	WaZx1ILbJFwvh781csZe1KFpZ4Dy7q/7tyahMiRPVUjFJvf/25W3fIZxjdWHGFcAgp4p2rDpvCD
+	aFiGSmuZkO+JIrYRQrCCjj4j1H6cQEmP6T56KF8XGFWuIV2yAuygVh6zoQ1Pen+WQUEw7iUurN2
+	FFN5Scb5aILmGpGUYzo7HE3J2puQi3wFydRigXa5x0IwKHUm2i/KsPfIryLHL4F2UcG30WUxgeO
+	t3jNlxjvO3ZxXinq9q5Vk9k93fHJUHpFXFvP+HEpamRsU6FBXTG1sOv/Jh5q+fKMfXGq8wNDN/f
+	paLYkZVHuaho0KhtA0Pl/67TDk7+eT0xC0LH9C1EaYdISwlAc9Et+J2lK20Ws1lasGJbhbpSBMs
+	NsowfPehMj3ifjZ2otDd3/OeUr2r6I0Hy79/wrgOnMJ8V2m9GkH8+T4l7f4Ao=
+X-Google-Smtp-Source: AGHT+IG3O7A+IUO2LSC9YlSPIKFBji0ILlnsm3bQ/sM0tgQhWP2SSlM4t7Hcpiyk9osufD9Xw+/DVg==
+X-Received: by 2002:a05:6512:12c7:b0:587:7f2d:2580 with SMTP id 2adb3069b0e04-597d3fc488bmr1036228e87.32.1764767880699;
+        Wed, 03 Dec 2025 05:18:00 -0800 (PST)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com. [209.85.167.52])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-596bfa43ebesm5707939e87.57.2025.12.03.05.17.59
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Dec 2025 05:17:59 -0800 (PST)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5957c929a5eso9777205e87.1
+        for <linux-media@vger.kernel.org>; Wed, 03 Dec 2025 05:17:59 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWKf2BM2NHzhC+n0v1Q+7kVz0Qzq5g2XB6S8Hql0PTfV45vCjwkU31Y86StkXSj8TOY7MOjdHiOCmpKRw==@vger.kernel.org
+X-Received: by 2002:a05:6512:2354:b0:595:83f5:c33f with SMTP id
+ 2adb3069b0e04-597d3f729fdmr900528e87.19.1764767878697; Wed, 03 Dec 2025
+ 05:17:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA0PR12MB4479:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1c7689f1-77f7-4b72-7e72-08de326dffaf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|921020|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?d2htS0pDV0JXelZVSkJ0YWMrOUFRd0orSTg5KzhzR0ptcnB2cnVIL0dBbkJ4?=
- =?utf-8?B?R0h6Qko5eUsyRTVySFI1TkRQS1VMa1ppL3pUNUEvQ0JWWTVDMU9DaE9wK1RE?=
- =?utf-8?B?MFQwRUVLenRXTXh4RVloT2NnT0NuWlFzNWkrcktjQ2ZXQjM2bFV1Ly8zZngy?=
- =?utf-8?B?b0tTeCtMamI1MzhrMXkySVp5bmZ0Q0U3WWM5SzdaUDU0bXhTWHZkTnJoZWF0?=
- =?utf-8?B?UDhPRWFWNVUxVU5OMW1HZ0FNQVFmeDF2VDFQdERaeHhHTXZLS3FpZVVwRFZ4?=
- =?utf-8?B?L0o4N2pWbktxcEFrL3UvdCtybUgxRlNiK2pJZDA1VEFiMEVUUTJQWjRicHpR?=
- =?utf-8?B?UjRsSWcySWRHOGVONmpOMGw3allTMEk4ZFIyNW9HWXNaRTBTMXhMbDArMFFO?=
- =?utf-8?B?QktQN2dyYzZZMEEreUVLVngyayt0MGc5YlJnam5HL09zWTVVWC9GUEF3KytM?=
- =?utf-8?B?M1FjTjVyb2s3endoejFRWmk2UHlPMHpBRWN4QlVhVUNUcmd4MmxXaStCR1BE?=
- =?utf-8?B?Q1hxalVIZWZoU0g1eDVJYy84Rnp3ekFpcW80ajNJVzRlb1hyK2FaNDFUcjRw?=
- =?utf-8?B?anhRSkVMMW5qM0dBUElRRy9CRCtYYzNlaUpuc3JVQzA1bzBYblRIbm1uelRV?=
- =?utf-8?B?R24wTDJXRHp1ZGVMdHNCS0IyelBIczhhMmVKa3U1bVNzaEFvTkR1NS9zZmU0?=
- =?utf-8?B?R2VDWWZWbmYydjBIYlFhYnhmM3hnV0lLWk9sOXdDVmhIb2tNTHdqazRpM2xi?=
- =?utf-8?B?RHNZdnlkOXdBeHB6SnMxWTgycDNBV2Jzaml2ZzNiSTl4NlBlcWtIT253VmRS?=
- =?utf-8?B?bDVlYnppVnhhM1gxSDZsUi90clhpM0Q1ODFHL01RSEFFYWNNdkJNV0orRmQ3?=
- =?utf-8?B?b3pJTVlKZlJKZVozbVJIMnNHY1pTZkc4a0o3NzdjZFVSRlcwNmJ3ZlhOYW5G?=
- =?utf-8?B?TjVFVlNIQWY4engzNk83R1pQUytZL3dNNGxnVG5BQUE0QlFjMEdLbEg2Ni9T?=
- =?utf-8?B?dytTZFduZWxlS05oU0hjYk5hWVFVUVlKMlhQa0tPdTBjajlBMnpzSExwaFB0?=
- =?utf-8?B?U1pwTnRTV05xSzdVZ3QzTVdGRzcwcnc0bm9SMXBmY1Zlb0pNRjdvMytiVVRa?=
- =?utf-8?B?RVdVMHBmMWE1TDVpeTJPWlpVWFhsMTVtNUxYT2NHbkJnNG5pcmxKUFlHczFp?=
- =?utf-8?B?QU9HUmQ3MTAvVDgwVXFxYlZnSTdpK2ZCWDJBUFJDZEtPY2lLaThXN3ByY29t?=
- =?utf-8?B?Y2RMbnUxVTdZTnZRckpPRUZIbHRwcTJiWUFjSG9jWjFHRllnYkk2QUI2bmtU?=
- =?utf-8?B?VEhLc3NmNUkvMTlSUkVUS2JmYm4vV3puZCtRVnB5cWtMS2NwUTdRV0hGaTlQ?=
- =?utf-8?B?TDJhR0owQk9wSmQwenNmSG5IeUVoTTR6elpuakZsRDd0ZmtXS2lYREQrbUZx?=
- =?utf-8?B?aVZMQmlLSnlYdFBmK3hmUmphbWZXejlJUE5KM0x1a2RoS09HMytwNTFXMGJw?=
- =?utf-8?B?anoyOXJrZ29XaCtvRytSaWJhSGdpRE1iekxVZ0FtWTBMSG9YRXUzTVphdUVl?=
- =?utf-8?B?blpHMGtmN3N2N1I3REpDM3hqNHJtSjRGWm56UVFlblEwcFRLenhTbTlhem90?=
- =?utf-8?B?OVhoWFhBeDA1dWtKQ2F5TTFRZUUrcFVYVDJRdzRabnBvbDJuTVg0aElqNHNG?=
- =?utf-8?B?N0xPZGdEcDA0cG51U0dUdXB5TXBqeldmMXVUQ2h1amRVbS9Pa2JhNzRwMnZ0?=
- =?utf-8?B?bGtYbUI3TFZsV3IwNjNjcUllbkhQck9ncWk1YWJaMW9hd0pBZWcvUVVIdjAw?=
- =?utf-8?B?MG5jVEpzYjcvYXdhcjZ1bXZpUmlnelRuUFB1ZFlDS1BXRVA2NE5qSVhselE1?=
- =?utf-8?B?Qm9HNlE4NUprR0k2dkFWNzVmZldzM0ZCa3EvZzNDMjdNN3paSHg4enpxcm5M?=
- =?utf-8?B?Y243UVZqQW1rbE14NXVuZllXNERZTFNRTW01NVh0RVk4cWVNa2pzQk8ydHg0?=
- =?utf-8?Q?UkU6KWnjOclyGt5lGNzxD6fEX7yX2U=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(921020)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?V2ZKb1Y2cU90a3ZnWW1vK1A0eGp5bW9qMTdZdGlaVExMblhVeHAzQzdwSUpB?=
- =?utf-8?B?VCt2MFhDUmxWSVFQT29rcGF5dkVwWHQ5R0lHejNWMjdld0xLZTZHWHRCalh4?=
- =?utf-8?B?QkZwNTJERi9zRnFvdW1UNnF2a3F2TnQ4UE8wZ0Q2TDMyaTRaWHBKblhSakFx?=
- =?utf-8?B?OXgrMVNYaGdoVFk2RmtDMTZaYlJkK1BGSmpBV3BMclVaOERXVXEzL2ZsY1Ax?=
- =?utf-8?B?SG1jSXpXdEpYYkJvb2JjQk9QeHFOWHByalFJSU40elZTaW9wUEtoMUVUZWtn?=
- =?utf-8?B?Ny9UdlBCdjdwY1gzUFpXMzYyMm5XR3ZVZDdUSnlBYTFvVC94cG84ZGlvdGd3?=
- =?utf-8?B?a05VNFlvOHRrWlBFQXJ0eWRlWlI2UDhwQnZDaW9YNU1SMnhsb1FGcmNCcW5a?=
- =?utf-8?B?UWJzUW9pOVdEMmh2WWlsNUNkTUVXQXJvcXY5OUt3dExlZkZoeXphNnI5TWpn?=
- =?utf-8?B?d0h1NmJNcnY5RmxENnJjTkFBVEJGWHNQdFJBMjhndWhqb1Y5NWk0SXM4ZGFV?=
- =?utf-8?B?aUs4YWVpUjl6UUs0RHUvMVZZemw2NkxneDViN2NCU2dKYXpEMmNPOEc5ckRZ?=
- =?utf-8?B?NlV0YUNMMnFFYTMxb0NSL0RaL2Y5RkRTWTJGQTBGeE0zMnFPZHZrT1RqMXJN?=
- =?utf-8?B?aHdXU2JiYmVWTy93ZDZoTllreVNVM3R1Rnl6R0dTTFVKU1B4SVppZlBnZXVo?=
- =?utf-8?B?cURyMnRrbk92Qk1OdzRoSEdYeGd0VzFVaDdONUtwYk13dTUxVDFFQTdJUWRp?=
- =?utf-8?B?TGFkOVF0bVkvMkNoOXZzcmlFSEZMaVlMT1ZMR21FOGNsbW1LcXU3dUtiTGFl?=
- =?utf-8?B?Rjl4NW5qVk1LSDdaaHFBWWlnT203clozdmNGUWFYN3dWeFNBdDhZS3lIRzNw?=
- =?utf-8?B?Q0xJRmJPZWFtQXNuekl3aGxrYmxvbXpVVy9BQ2ViTUU5d3VrOVRnbWFtRW52?=
- =?utf-8?B?YllJd0FMOEo3Nm5tL0pnV3JKRStkM1l3NjJyNFFKODF6Y08zRnRWLzh0Nldi?=
- =?utf-8?B?Ymt3S09LeFdkUkpFcytUL3VLeG9aeTBhajhlcEZSSWVTS0lNdUhKbG1SZnlD?=
- =?utf-8?B?Z1BsSzczUjE3a3ZtU0E2czlUVkNHNmNGN0lrMzVjSHgzUHV4RmFXRWh5SGdk?=
- =?utf-8?B?UGlDd1pYRWFmblZtN0tqQmVSVU5DNVRBNEZkZEtVK1lPVnQ0S25qeEZkNllz?=
- =?utf-8?B?VEFaRzhGYnViNHBzTFRKMmtZRHZaamRYMkZxMi9ybmtTUWNLK3FEMW9UdlBn?=
- =?utf-8?B?U3NYbXg3eEI4U2ZPUUI2QVlsUkpsSlhXaFFuU1lYVXR2OFlCK0FLdEM3ZmRp?=
- =?utf-8?B?TE40RlRkaWFjNEhkTzNuWVR4QzRFaXVrYysyYk5IKzd3eTZZVnBidzhHb1lp?=
- =?utf-8?B?aXovQjhWN1RJUHN3WGNnRVFYRk50YVo1a0hsNy82YXZlSlJJdTR0SVpaSm04?=
- =?utf-8?B?MjFoazY1Y1k5RHBvUk1PalNYWWNJYjFZcDF4SDhwdXlrVm05bG1zY3ErQ0Va?=
- =?utf-8?B?WC93V2NTYmU5cEN1Rk1QZEw2SFZvanpNMTRtMVhzYmpYdVdoOFJNSzFpc2ZK?=
- =?utf-8?B?Ky9hZGlIOU9FUnprMTlCajM5VmF2Qk1KRWQwZE9Md0p3TTl3WGlhYUJRNERh?=
- =?utf-8?B?SEo4MkZwT2g4LzR4YXBqdGQvUEh2cVN5VTJuazBQcVdVY0w2Y3lFeG1VN21o?=
- =?utf-8?B?d05vK3JPSWZwbDFEZFNFdjZhaGxXdGtndFJ5bDBKcFh4ZTg1bWVraHlpWlA0?=
- =?utf-8?B?VHdsODlEMmJpejRZN1BjUmJiMTRmamNIUmUwK0ViRDdyWDQ2NDJRZitrN2J0?=
- =?utf-8?B?T3BYUkhRZzVOMUIxcFl3bjZTS0s4R1d0QmRrSjVYV0JVd3JGaFhuU0lKS21o?=
- =?utf-8?B?QlVhRXZBekhMNDJZQUlnNytOY2E5cnRWcUhnZHhLdktOdUo1cTlGQjNiZVo1?=
- =?utf-8?B?VGg4YWV4L1V4bFBLd2FZdjBVZU1iZUkxK3cwZUVZOFJHVWhReXFaZ1NNcE1m?=
- =?utf-8?B?c2RKckdReGhUMDA1NXhRc1NGdWdnU1U2NC9UdC9HTHQ1TG1VaDE3aEpMQUVX?=
- =?utf-8?B?dHhpWDQ0UjNLemdQc3ZtVjcxRkJTcndoVFV0RGRkZ2V6d0JjSGFPU0xKK3k3?=
- =?utf-8?Q?h9Kg9EDjaU1EgSZ7rFMlbyC2m?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1c7689f1-77f7-4b72-7e72-08de326dffaf
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2025 13:15:15.8391
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 08ce0fRk9T9YNgB2HvEqtVsBal41Kkfs+uD4KeSr0f6uxvHLcUCw5kdICbeAq8H3
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4479
+References: <20251203-warnings-6-19-v1-0-25308e136bca@chromium.org>
+ <20251203-warnings-6-19-v1-2-25308e136bca@chromium.org> <20251203091649.GA13064@pendragon.ideasonboard.com>
+In-Reply-To: <20251203091649.GA13064@pendragon.ideasonboard.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Wed, 3 Dec 2025 14:17:45 +0100
+X-Gmail-Original-Message-ID: <CANiDSCvbZ+kUCCYV0OKEBXha5Mfpk4-vkhSWcnvjzh89LfLufQ@mail.gmail.com>
+X-Gm-Features: AWmQ_blUSRjZVyg4YIgU-ywSdUHU1lQSr3F3WW-ElU_ZLNp7Yz4ryrusstxNQOs
+Message-ID: <CANiDSCvbZ+kUCCYV0OKEBXha5Mfpk4-vkhSWcnvjzh89LfLufQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] media: iris: Document difference in size during allocation
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Keke Li <keke.li@amlogic.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Daniel Scally <dan.scally@ideasonboard.com>, Hans Verkuil <hverkuil+cisco@kernel.org>, 
+	Vikash Garodia <vikash.garodia@oss.qualcomm.com>, 
+	Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
+	"Bryan O'Donoghue" <bod@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 12/1/25 11:50, Philipp Stanner wrote:
-> There is a new dma_fence helper which simplifies testing for a fence's
-> signaled_flag. Use it in xe.
-> 
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+Hi Laurent
 
-Acked-by: Christian König <christian.koenig@amd.com>
 
-> ---
->  drivers/gpu/drm/xe/xe_exec_queue.c | 9 +++------
->  drivers/gpu/drm/xe/xe_pt.c         | 3 +--
->  drivers/gpu/drm/xe/xe_sched_job.c  | 2 +-
->  3 files changed, 5 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/xe/xe_exec_queue.c b/drivers/gpu/drm/xe/xe_exec_queue.c
-> index cb5f204c08ed..06736f52fbaa 100644
-> --- a/drivers/gpu/drm/xe/xe_exec_queue.c
-> +++ b/drivers/gpu/drm/xe/xe_exec_queue.c
-> @@ -1037,8 +1037,7 @@ struct dma_fence *xe_exec_queue_last_fence_get(struct xe_exec_queue *q,
->  
->  	xe_exec_queue_last_fence_lockdep_assert(q, vm);
->  
-> -	if (q->last_fence &&
-> -	    test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &q->last_fence->flags))
-> +	if (q->last_fence && dma_fence_test_signaled_flag(q->last_fence))
->  		xe_exec_queue_last_fence_put(q, vm);
->  
->  	fence = q->last_fence ? q->last_fence : dma_fence_get_stub();
-> @@ -1064,8 +1063,7 @@ struct dma_fence *xe_exec_queue_last_fence_get_for_resume(struct xe_exec_queue *
->  
->  	lockdep_assert_held_write(&q->hwe->hw_engine_group->mode_sem);
->  
-> -	if (q->last_fence &&
-> -	    test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &q->last_fence->flags))
-> +	if (q->last_fence && dma_fence_test_signaled_flag(q->last_fence))
->  		xe_exec_queue_last_fence_put_unlocked(q);
->  
->  	fence = q->last_fence ? q->last_fence : dma_fence_get_stub();
-> @@ -1106,8 +1104,7 @@ int xe_exec_queue_last_fence_test_dep(struct xe_exec_queue *q, struct xe_vm *vm)
->  
->  	fence = xe_exec_queue_last_fence_get(q, vm);
->  	if (fence) {
-> -		err = test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags) ?
-> -			0 : -ETIME;
-> +		err = dma_fence_test_signaled_flag(fence) ? 0 : -ETIME;
->  		dma_fence_put(fence);
->  	}
->  
-> diff --git a/drivers/gpu/drm/xe/xe_pt.c b/drivers/gpu/drm/xe/xe_pt.c
-> index 07f96bda638a..1ca2dec18e51 100644
-> --- a/drivers/gpu/drm/xe/xe_pt.c
-> +++ b/drivers/gpu/drm/xe/xe_pt.c
-> @@ -1208,8 +1208,7 @@ static bool no_in_syncs(struct xe_sync_entry *syncs, u32 num_syncs)
->  	for (i = 0; i < num_syncs; i++) {
->  		struct dma_fence *fence = syncs[i].fence;
->  
-> -		if (fence && !test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
-> -				       &fence->flags))
-> +		if (fence && !dma_fence_test_signaled_flag(fence))
->  			return false;
->  	}
->  
-> diff --git a/drivers/gpu/drm/xe/xe_sched_job.c b/drivers/gpu/drm/xe/xe_sched_job.c
-> index d21bf8f26964..1c9ba49a325b 100644
-> --- a/drivers/gpu/drm/xe/xe_sched_job.c
-> +++ b/drivers/gpu/drm/xe/xe_sched_job.c
-> @@ -188,7 +188,7 @@ static bool xe_fence_set_error(struct dma_fence *fence, int error)
->  	bool signaled;
->  
->  	spin_lock_irqsave(fence->lock, irq_flags);
-> -	signaled = test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags);
-> +	signaled = dma_fence_test_signaled_flag(fence);
->  	if (!signaled)
->  		dma_fence_set_error(fence, error);
->  	spin_unlock_irqrestore(fence->lock, irq_flags);
 
+On Wed, 3 Dec 2025 at 10:17, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> On Wed, Dec 03, 2025 at 08:55:35AM +0000, Ricardo Ribalda wrote:
+> > As we get ready for kzalloc checking for invalid sizes, let's add
+> > documentation for the cases where the size is different but valid.
+> >
+> > This patch fixes this cocci warning:
+> > ./platform/qcom/iris/iris_hfi_gen2_command.c:1215:9-25: WARNING: casting value returned by memory allocation function to (struct iris_inst *) is useless.
+> >
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >  drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c | 10 +++++++++-
+> >  1 file changed, 9 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+> > index f9129553209922fda548ca320494ae6ae797854c..ab91afd0597045bd876d0411b08b5a3421b12c70 100644
+> > --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+> > +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+> > @@ -1212,5 +1212,13 @@ void iris_hfi_gen2_command_ops_init(struct iris_core *core)
+> >
+> >  struct iris_inst *iris_hfi_gen2_get_instance(void)
+> >  {
+> > -     return (struct iris_inst *)kzalloc(sizeof(struct iris_inst_hfi_gen2), GFP_KERNEL);
+> > +     struct iris_inst_hfi_gen2 *out;
+> > +
+> > +     /*
+> > +      * The allocation is intentionally larger. The first member of
+> > +      * struct iris_hfi_gen2 is struct iris_inst.
+> > +      */
+> > +     out = kzalloc(sizeof(*out), GFP_KERNEL);
+> > +
+> > +     return (struct iris_inst *)out;
+>
+>         return &out->inst;
+>
+> would be more readable. You can then drop the comment.
+
+It looks better, and it is more robust. Thanks
+
+I prefer to leave a small comment though:
+
++       struct iris_inst_hfi_gen2 *out;
++
++       /* The allocation is intentionally larger than struct iris_inst. */
++       out = kzalloc(sizeof(*out), GFP_KERNEL);
++
++       return &out->inst;
+
+
+Regards
+
+>
+> >  }
+> >
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+
+
+
+-- 
+Ricardo Ribalda
 
