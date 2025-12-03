@@ -1,408 +1,623 @@
-Return-Path: <linux-media+bounces-48140-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48141-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 022A8C9E915
-	for <lists+linux-media@lfdr.de>; Wed, 03 Dec 2025 10:46:44 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B17DC9E960
+	for <lists+linux-media@lfdr.de>; Wed, 03 Dec 2025 10:50:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 80C1834A254
-	for <lists+linux-media@lfdr.de>; Wed,  3 Dec 2025 09:46:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0AC3C3A988C
+	for <lists+linux-media@lfdr.de>; Wed,  3 Dec 2025 09:50:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E151B2E0B5C;
-	Wed,  3 Dec 2025 09:43:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sw/F2zq9"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10F3A2E0B58;
+	Wed,  3 Dec 2025 09:49:55 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A3F42DFA25
-	for <linux-media@vger.kernel.org>; Wed,  3 Dec 2025 09:43:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDD962DFF1D
+	for <linux-media@vger.kernel.org>; Wed,  3 Dec 2025 09:49:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764755013; cv=none; b=oZGE/fhFSYgf0Po+zz+P7SOdtRHQNI2nVyekssvchc+iMVcrSWkYxVRmhal318RXYNDxwWOmnAfvRoK2it7HQ0fryXHmtDn71NrKpaa8CZsX/Y7Wb2eBuWkoLPRgFXmc/bq6rDC+B4CjjdUkDuskWBG+iTaexBbMLcuZzuy4e+M=
+	t=1764755394; cv=none; b=WOpWUMP0LFqxZOM5+xZhyqHHNXxmnyLWEcReLPrAXOaQxdoB07GYQu5UWvyeDtcLzGm7pD1hZZbgsp8jt0aP7T0kXDbAqEWvMZCBuQLbxqmW61IeiUDfWz+9HlJxZVvIL+5hW0+BFRStHIis3RAedCfs+Xvzp0yPA9qmc5cfjwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764755013; c=relaxed/simple;
-	bh=kUlEYGQkjYzJQUhbW8VU2g6MHOzbbVG5SIWSrGwR3v0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iJVqXwNmr1vwR9iEPx/kbcUvWLzIoQ857fY+WvRgQ0i3pI8lAfiq+cRS/0ufYRwOZ2/J9rytsbs9MoefMqjRB3esDSUYAtCeEEnUmbkuezoGJggO/IlP6ISmCozh4mZBFTAONBln52RnzS4lzGrE0w3mGThmKi95B5pw/VZ6Lkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sw/F2zq9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16603C4CEFB;
-	Wed,  3 Dec 2025 09:43:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764755012;
-	bh=kUlEYGQkjYzJQUhbW8VU2g6MHOzbbVG5SIWSrGwR3v0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=sw/F2zq9Yx4/KUbxb2IxG5QiVVmenkBM/DGaBr8j7vZh3QNJcMo30ui75hilXkfyd
-	 OinZnfrCFOlE6oLDeXCF4yiiAu7OWOKyK5JrpXTqcgDBNtWFGT87ozDYBdtKOpnmmo
-	 CgIuVWEPdmlccGJL8Lm9QZo6LFX5swoUbJ0YVyLy/o3227nwTuq+kHa+MteHvhJgrv
-	 X1xc3q4zPcqZkb8oJDa8I6J67T93dl2ufD3eOj4jCK9oe5IyYrbpggQCxNEJ9FKrUx
-	 Pag+fUJMsfLprV7jWcHPxMybKa2ZDYQHZpseSHbdn4sUsqOvZwkq3eeI0L5rHBTnBa
-	 shqWpQ7lqV4lQ==
-Date: Wed, 3 Dec 2025 10:43:28 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: linux-media@vger.kernel.org, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Sean Young <sean@mess.org>, Nicolas
- Dufresne <nicolas.dufresne@collabora.com>, Bryan O'Donoghue
- <bryan.odonoghue@linaro.org>, Ricardo Ribalda <ribalda@chromium.org>
-Subject: Re: [PATCHv6 1/3] docs: media: update maintainer-entry-profile for
- multi-committers
-Message-ID: <20251203104328.23d3139c@foz.lan>
-In-Reply-To: <1495ec4ccdcdfab788fa9d02e11a6028a455e31b.1761571713.git.hverkuil+cisco@kernel.org>
-References: <cover.1761571713.git.hverkuil+cisco@kernel.org>
-	<1495ec4ccdcdfab788fa9d02e11a6028a455e31b.1761571713.git.hverkuil+cisco@kernel.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1764755394; c=relaxed/simple;
+	bh=8EQcR2mgmJWR+sQvme5IyNvtZQUyzmjltmqBS8NqIXQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ABDLYAQTjrcoNYAbJ63RlWk2Z4XfuLrs7S1UrODMmcn7caBGGxF2CXDBdlW497kP/Ai+XFGe5NEMwdhcGSGWF99kYtS6zsXGcsJvPUjnaC55gbACEu/l0Ehb1PFdvWnns8wbxBJsgySPNF+7Qnb2dym0GFq5N4hO76qfLguQIoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <s.pueschel@pengutronix.de>)
+	id 1vQjUH-0002vN-LP; Wed, 03 Dec 2025 10:49:29 +0100
+Message-ID: <ccdcf1c3-4afd-45b7-92d0-c35a31be2188@pengutronix.de>
+Date: Wed, 3 Dec 2025 10:49:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 16/16] media: rockchip: rga: add rga3 support
+To: Nicolas Dufresne <nicolas@ndufresne.ca>,
+ Jacob Chen <jacob-chen@iotwrt.com>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, kernel@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+References: <20251007-spu-rga3-v1-0-36ad85570402@pengutronix.de>
+ <20251007-spu-rga3-v1-16-36ad85570402@pengutronix.de>
+ <cfe8d17416184f11a93e56872c30a6bcaf017ef5.camel@ndufresne.ca>
+Content-Language: en-US
+From: =?UTF-8?Q?Sven_P=C3=BCschel?= <s.pueschel@pengutronix.de>
+In-Reply-To: <cfe8d17416184f11a93e56872c30a6bcaf017ef5.camel@ndufresne.ca>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: s.pueschel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
-Em Mon, 27 Oct 2025 14:28:31 +0100
-Hans Verkuil <hverkuil+cisco@kernel.org> escreveu:
+Hi Nicolas,
 
-> From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> 
-> As the media subsystem will experiment with a multi-committers model,
-> update the Maintainer's entry profile to the new rules.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-> Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
-> ---
->  .../media/maintainer-entry-profile.rst        | 368 +++++++++++++++---
->  1 file changed, 308 insertions(+), 60 deletions(-)
-> 
-> diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
-> index 2127e5b15e8f..af499e79b23e 100644
-> --- a/Documentation/driver-api/media/maintainer-entry-profile.rst
-> +++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
-> @@ -4,19 +4,25 @@ Media Subsystem Profile
->  Overview
->  --------
->  
-> -The media subsystem covers support for a variety of devices: stream
-> -capture, analog and digital TV streams, cameras, remote controllers, HDMI CEC
-> -and media pipeline control.
-> +The Linux Media Community (aka: the LinuxTV Community) is formed of
-> +developers working on Linux Kernel Media Subsystem, together with users
-> +who also play an important role in testing the code.
->  
-> -It covers, mainly, the contents of those directories:
-> +The Media Subsystem has code to support a wide variety of media-related
-> +devices: stream capture, analog and digital TV streams, cameras,
-> +video codecs, video processing (resizers, etc.), radio, remote controllers,
-> +HDMI CEC and media pipeline control.
-> +
-> +The Media Subsystem consists of the following directories in the kernel
-> +tree:
->  
->    - drivers/media
->    - drivers/staging/media
-> +  - include/media
-> +  - Documentation/devicetree/bindings/media/\ [1]_
->    - Documentation/admin-guide/media
->    - Documentation/driver-api/media
->    - Documentation/userspace-api/media
-> -  - Documentation/devicetree/bindings/media/\ [1]_
-> -  - include/media
->  
->  .. [1] Device tree bindings are maintained by the
->         OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS maintainers
-> @@ -27,19 +33,264 @@ It covers, mainly, the contents of those directories:
->  Both media userspace and Kernel APIs are documented and the documentation
->  must be kept in sync with the API changes. It means that all patches that
->  add new features to the subsystem must also bring changes to the
-> -corresponding API files.
-> +corresponding API documentation.
->  
-> -Due to the size and wide scope of the media subsystem, media's
-> -maintainership model is to have sub-maintainers that have a broad
-> -knowledge of a specific aspect of the subsystem. It is the sub-maintainers'
-> -task to review the patches, providing feedback to users if the patches are
-> -following the subsystem rules and are properly using the media kernel and
-> -userspace APIs.
-> +A small subsystem will typically consist of driver maintainers (as listed
-> +in the MAINTAINERS file) and one or two subsystem maintainers who merge
-> +the patches when ready, maintain the subsystem core code and make the pull
-> +requests to Linus. Due to the size and wide scope of the Media Subsystem
-> +this does not scale and more maintainance layers are needed.
+On 10/7/25 9:41 PM, Nicolas Dufresne wrote:
+> Hi,
+>
+> Le mardi 07 octobre 2025 à 10:32 +0200, Sven Püschel a écrit :
+>
+>> +}
+>> +
+>> +static void rga3_cmd_enable_win0(struct rga_ctx *ctx)
+>> +{
+>> +	u32 *cmd = ctx->rga->cmdbuf_virt;
+>> +	unsigned int reg;
+>> +
+>> +	reg = RGA3_WIN0_RD_CTRL - RGA3_FIRST_CMD_REG;
+>> +	cmd[reg >> 2] |= FIELD_PREP(RGA3_WIN_ENABLE, 1);
+>> +}
+>> +
+>> +static void rga3_cmd_set_wr_format(struct rga_ctx *ctx)
+>> +{
+>> +	u32 *cmd = ctx->rga->cmdbuf_virt;
+>> +	const struct rga3_fmt *out = ctx->out.fmt;
+>> +	u8 wr_format;
+>> +	unsigned int reg;
+>> +
+>> +	if (out->semi_planar)
+>> +		wr_format = RGA3_RDWR_FORMAT_SEMI_PLANAR;
+>> +	else
+>> +		wr_format = RGA3_RDWR_FORMAT_INTERLEAVED;
+>> +
+>> +	reg = RGA3_WR_CTRL - RGA3_FIRST_CMD_REG;
+>> +	cmd[reg >> 2] |= FIELD_PREP(RGA3_WR_PIC_FORMAT, out->hw_format)
+>> +		      |  FIELD_PREP(RGA3_WR_YC_SWAP, out->yc_swap)
+>> +		      |  FIELD_PREP(RGA3_WR_RBUV_SWAP, out->rbuv_swap)
+>> +		      |  FIELD_PREP(RGA3_WR_FORMAT, wr_format);
+>> +}
+>> +
+>> +static void rga3_cmd_disable_wr_limitation(struct rga_ctx *ctx)
+>> +{
+>> +	u32 *cmd = ctx->rga->cmdbuf_virt;
+>> +	unsigned int reg;
+>> +
+>> +	/* Use the max value to avoid limiting the write speed */
+>> +	reg = RGA3_WR_CTRL - RGA3_FIRST_CMD_REG;
+>> +	cmd[reg >> 2] |= FIELD_PREP(RGA3_WR_SW_OUTSTANDING_MAX, 63);
+> No issue with the code, but quite an interesting feature. We did discussed in
+> pas about using the target framerate (well frame duration in v4l2) to avoid
+> bursting the memory.
 
-I didn't like this paragraph. media maintainer's profile is not the right
-place to tell how a small subsystem would be maintained or not. Dropping
-that out-of-scope part, we have only:
+Do you have any links to these discussions or some actual implementation?
 
-	Due to the size and wide scope of the Media Subsystem
-	this does not scale and more maintainance layers are needed.
+ From the API perspective I didn't really find the desired API to 
+support this feature. While VIDIOC_S_PARM would allow setting an frame 
+interval, the documentation doesn't really encompass this use case (as 
+we won't configure the RGA3 depending on this nor drop frames if the 
+RGA3 is too slow).
 
-Which doesn't say much. Also, it defeats the goal of this paragraph: to
-describe the maintainership model we're adopting, and what a media 
-contributor should know about it. On version 5, we had:
+Also limiting the potential burst size only seems practical, when it 
+causes latency issues. Otherwise it should be more efficient to have big 
+bursts (bandwidth and potentially even power consumption wise).
 
-	Due to the size and wide scope of the media subsystem, the media's
-	maintainance model recognizes committers that have a broad knowledge of
-	a specific aspect of the subsystem. It is the committers' task to
-	review the patches, providing feedback to users if the patches are
-	following the subsystem rules and are properly using the media kernel and
-	userspace APIs.
+Sincerely
+     Sven
 
-On my view, v5 text is more aligned to what it is needed here.
-
-
-> -Patches for the media subsystem must be sent to the media mailing list
-> -at linux-media@vger.kernel.org as plain text only e-mail. Emails with
-> -HTML will be automatically rejected by the mail server. It could be wise
-> -to also copy the sub-maintainer(s).
-
-> +Media Maintainers
-> +-----------------
-
-While it is fine to keep this name here, there's a lack of consistency
-after your rename:
-
-	Media committers -> Media maintainers (all 3 committers group below)
-
-	1. committers -> Media maintainers
-	2. core committers -> Media core maintainers
-	3. subsystem maintainers -> Media subsystem maintainers
-
-This is very confusing, as "Media maintainers" refer to the group of
-people that aren't core committers/subsystem maintainers and to the
-entire group.
-
-Also, everybody listed in MAINTAINERS is a maintainer. Any maintainer
-for something under drivers/media would be referred as
-"a media maintainer" by other kernel developers.
-
-More importantly, being listed as a media maintainer at MAINTAINERS
-doesn't imply receiving commit rights at the media.git tree.
-
-So, in the lack of a better terminology, better to stick with 
-nomenclature we already agreed up to v5.
-
-> +
-> +The media subsystem has three layers of media maintainers:
-
-"three layers" seems to imply that a patch need to pass to 3
-different levels of committers. I would write it as:
-
-	The media subsystem maintainership consists of:
-
-And then, add a new type there to remind people about the
-MAINTAINERS file entries:
-
-	1. Media maintainers and reviewers
-
-	Everyone that has an entry at MAINTAINERS file for a component
- 	inside the media tree. They're typically authors and senior
-	developers responsible for maintaining one or more components at
-	the media subsystem.
-
-	Patches affecting such components should be copied to their
-	corresponding media maintainers and reviewers when submitted to
-	the linux-media@vger.kernel.org mailing list.
-
-> +
-> +- Media Maintainer:
-
-
-    2. Media Committers:
-
-> +    Responsible for a group of drivers within the Media Subsystem. Typically
-> +    these are all drivers that have something in common, e.g. codec drivers
-> +    or drivers from the same vendor. 
-
-OK
-
-> +    Media Maintainers provide feedback if the
-> +    patches are not following the subsystem rules, or are not using the
-> +    media kernel or userspace APIs correctly, or have poor code quality. They
-> +    also keep patchwork up to date, decide when patches are ready for merging,
-> +    and create Pull Requests for the Media Subsystem Maintainers to merge.
-> +
-> +    A Media Maintainer is not just someone who is capable of creating code, but
-> +    someone who has demonstrated their ability to collaborate with the team, get
-> +    the most knowledgeable people to review code, contribute high-quality code,
-> +    and follow through to fix issues (in code or tests).
-
-Those duties also apply to all types of committers. Better place at the
-end.
-
-> +
-> +- Media Core Maintainer:
-
-3. Media Core Committers:
-
-> +    Media Maintainers who are also responsible for one or more media core
-> +    frameworks.
-> +
-> +    Core framework changes are done via consensus between the relevant Media
-> +    Core Maintainers. Media Maintainers may include core framework changes in
-> +    their Pull Requests if they are signed off by the relevant Media Core
-> +    Maintainers.
-
-Nomenclature needs update at the above paragraph.
-
-> +
-> +- Media Subsystem Maintainers:
-
-4. Media Subsystem Maintainers:
-
-> +    Responsible for the subsystem as a whole, with access to the
-> +    entire subsystem. Responsible for merging Pull Requests from other
-> +    Media Maintainers.
-> +
-> +    Userspace API/ABI changes are done via consensus between Media Subsystem
-> +    Maintainers\ [2]_. Media (Core) Maintainers may include API/ABI changes in
-> +    their Pull Requests if they are signed off by the all Media Subsystem
-> +    Maintainers.
-
-Nomenclature needs update at the above paragraphs.
-
-After listing the 4 types of roles, we can place here:
-
-	Media Maintainers provide feedback if the patches are not following the 
-	subsystem rules, or are not using the media kernel or userspace APIs
-	correctly, or have poor code quality.
-
-	Media Committers, core Committers and Media Subsystem Maintainers have
-	commit rights at the media development tree. We refer to all of
-	them as "Committers" inside the media documentation.
-
-	Committers keep patchwork up to date, decide when patches are ready for merging
-	and create Pull	Requests when patches are ready to merge.
-
-	A Committer is not just someone who is capable of creating code, but 
-	someone who has demonstrated their ability to collaborate with the team,
-	get the most knowledgeable people to review code, contribute high-quality
-	code and follow through to fix issues (in code or tests).
-
-> +All Media Maintainers shall explicitly agree with the Kernel development process
-> +as described at Documentation/process/index.rst and to the Kernel
-> +development rules inside the Kernel documentation, including its code of
-> +conduct.
-
-All Media Maintainers -> Committers 
-
-> +
-> +All Media Maintainers shall ensure that patchwork will reflect the current
-> +status, e.g. patches shall be delegated to the Media Maintainer who is
-> +handling them and the patch status shall be updated according to these rules:
-
-All Media Maintainers -> Committers 
-
-> +
-> +- ``Under Review``: Used if the patch requires a second opinion
-> +  or when it is part of a pull request;
-> +- ``Accepted``: Once a patch is merged in the multi-committer tree.
-> +- ``Superseded``: There is a newer version of the patch posted to the
-> +  mailing list.
-> +- ``Duplicated``: There was another patch doing the same thing from someone
-> +  else that was accepted.
-> +- ``Not Applicable``: Use for patch series that are not merged at media.git
-> +  tree (e.g. drm, dmabuf, upstream merge, etc.) but were cross-posted to the
-> +  linux-media mailing list.
-> +
-> +If the Media Maintainer decides not to accept a patch, then reply by email to
-> +the patch authors, explaining why it is not accepted, and patchwork shall be
-> +updated accordingly with either:
-
-the Media Maintainer -> the Committer
-
-(same change everywhere inside this doc)
-
-> +
-> +- ``Changes Requested``: if a new revision was requested;
-> +- ``Rejected``: if the proposed change is not acceptable at all.
-> +
-> +.. Note::
-> +
-> +   Patchwork supports a couple of clients to help semi-automating
-> +   status updates via its REST interface:
-> +
-> +   https://patchwork.readthedocs.io/en/latest/usage/clients/
-> +
-> +Media Maintainers are reachable via the #linux-media IRC channel at OFTC.
-> +
-> +.. [2] Everything that would break backward compatibility with existing
-> +       non-kernel code are API/ABI changes. This includes ioctl and sysfs
-> +       interfaces, v4l2 controls, and their behaviors.
-> +
-> +Becoming a Media Maintainer
-> +---------------------------
-> +
-> +The most important aspect of volunteering to be a Media Maintainer is that you
-> +have demonstrated the ability to give good code reviews. So we are looking for
-> +whether or not we think you will be good at doing that.
-> +
-> +As such, potential maintainers must earn enough credibility and trust from the
-> +Linux Media Community. To do that, developers shall be familiar with the open
-> +source model and have been active in the Linux Kernel community for some time,
-> +and, in particular, in the media subsystem.
-> +
-> +In addition to actually making the code changes, you are basically
-> +demonstrating your:
-> +
-> +- commitment to the project;
-> +- ability to collaborate with the team and communicate well;
-> +- understand of how upstream and the Linux Media Community work
-> +  (policies, processes for testing, code review, ...)
-> +- reasonable knowledge about:
-> +
-> +  - the Kernel development process:
-> +    Documentation/process/index.rst
-> +
-> +  - the Media development profile:
-> +    Documentation/driver-api/media/maintainer-entry-profile.rst
-> +
-> +- understanding of the projects' code base and coding style;
-> +- ability to provide feedback to the patch authors;
-> +- ability to judge when a patch might be ready for review and to submit;
-> +- ability to write good code (last but certainly not least).
-> +
-> +Developers that desire to become maintainers are encouraged to participate
-> +at the yearly Linux Media Summit, typically co-located with a Linux related
-> +conference. These summits will be announced at the linux-media mailing list.
-> +
-> +If you are doing such tasks and have become a valued developer, an
-> +existing Media Maintainer can nominate you to the Media Subsystem Maintainers.
-> +
-> +The ultimate responsibility for accepting a nominated maintainer is up to
-> +the subsystem's maintainers. The nominated maintainer must have earned a trust
-> +relationship with all Media Subsystem Maintainers, as, by becoming Media
-> +Maintainer, you will take over part of their maintenance tasks.
-> +
-
-> +Media Committers
-> +----------------
-> +
-> +Experienced and trusted Media (Core) Maintainers may be granted commit rights
-> +which allow them to directly push patches to the media development tree instead
-> +of posting a Pull Request for the Media Subsystem Maintainers. This helps
-> +offloading some of the work of the Media Subsystem Maintainers.
-
-This one sounds confusing.
-
-On your version, there are 6 types of maintainers related to media
-subsytem, plus the ones on MAINTAINERS, as one could potentially be
-a "media maintainer", a "core maintainer" or even a "subsystem maintainer",
-being responsible to update patchwork but still not having commit rights.
-
-I don't think we want that.
-
----
-
-I'll stop the review here, as IMHO we need first to address the 
-nomenclature. Then check if the terms are properly used along the
-docs in a consistent way.
-
-Thanks,
-Mauro
+>
+>> +}
+>> +
+>> +static void rga3_cmd_set(struct rga_ctx *ctx,
+>> +			 struct rga_vb_buffer *src, struct rga_vb_buffer *dst)
+>> +{
+>> +	struct rockchip_rga *rga = ctx->rga;
+>> +
+>> +	memset(rga->cmdbuf_virt, 0, RGA3_CMDBUF_SIZE * 4);
+>> +
+>> +	rga3_cmd_set_win0_addr(ctx, &src->dma_addrs);
+>> +	rga3_cmd_set_wr_addr(ctx, &dst->dma_addrs);
+>> +
+>> +	rga3_cmd_set_win0_format(ctx);
+>> +	rga3_cmd_enable_win0(ctx);
+>> +	rga3_cmd_set_trans_info(ctx);
+>> +	rga3_cmd_set_wr_format(ctx);
+>> +	rga3_cmd_disable_wr_limitation(ctx);
+>> +
+>> +	rga_write(rga, RGA3_CMD_ADDR, rga->cmdbuf_phy);
+>> +
+>> +	/* sync CMD buf for RGA */
+>> +	dma_sync_single_for_device(rga->dev, rga->cmdbuf_phy,
+>> +				   PAGE_SIZE, DMA_BIDIRECTIONAL);
+>> +}
+>> +
+>> +static void rga3_hw_start(struct rockchip_rga *rga,
+>> +			  struct rga_vb_buffer *src, struct rga_vb_buffer *dst)
+>> +{
+>> +	struct rga_ctx *ctx = rga->curr;
+>> +
+>> +	rga3_cmd_set(ctx, src, dst);
+>> +
+>> +	/* set to master mode and start the conversion */
+>> +	rga_write(rga, RGA3_SYS_CTRL,
+>> +		  FIELD_PREP(RGA3_CMD_MODE, RGA3_CMD_MODE_MASTER));
+>> +	rga_write(rga, RGA3_INT_EN,
+>> +		  FIELD_PREP(RGA3_INT_FRM_DONE, 1) |
+>> +		  FIELD_PREP(RGA3_INT_DMA_READ_BUS_ERR, 1) |
+>> +		  FIELD_PREP(RGA3_INT_WIN0_FBC_DEC_ERR, 1) |
+>> +		  FIELD_PREP(RGA3_INT_WIN0_HOR_ERR, 1) |
+>> +		  FIELD_PREP(RGA3_INT_WIN0_VER_ERR, 1) |
+>> +		  FIELD_PREP(RGA3_INT_WR_VER_ERR, 1) |
+>> +		  FIELD_PREP(RGA3_INT_WR_HOR_ERR, 1) |
+>> +		  FIELD_PREP(RGA3_INT_WR_BUS_ERR, 1) |
+>> +		  FIELD_PREP(RGA3_INT_WIN0_IN_FIFO_WR_ERR, 1) |
+>> +		  FIELD_PREP(RGA3_INT_WIN0_IN_FIFO_RD_ERR, 1) |
+>> +		  FIELD_PREP(RGA3_INT_WIN0_HOR_FIFO_WR_ERR, 1) |
+>> +		  FIELD_PREP(RGA3_INT_WIN0_HOR_FIFO_RD_ERR, 1) |
+>> +		  FIELD_PREP(RGA3_INT_WIN0_VER_FIFO_WR_ERR, 1) |
+>> +		  FIELD_PREP(RGA3_INT_WIN0_VER_FIFO_RD_ERR, 1));
+>> +	rga_write(rga, RGA3_CMD_CTRL,
+>> +		  FIELD_PREP(RGA3_CMD_LINE_START_PULSE, 1));
+>> +}
+>> +
+>> +static void rga3_soft_reset(struct rockchip_rga *rga)
+>> +{
+>> +	u32 i;
+>> +
+>> +	rga_write(rga, RGA3_SYS_CTRL,
+>> +		  FIELD_PREP(RGA3_CCLK_SRESET, 1) |
+>> +		  FIELD_PREP(RGA3_ACLK_SRESET, 1));
+>> +
+>> +	for (i = 0; i < RGA3_RESET_TIMEOUT; i++) {
+>> +		if (FIELD_GET(RGA3_RO_SRST_DONE, rga_read(rga, RGA3_RO_SRST)))
+>> +			break;
+>> +
+>> +		udelay(1);
+> Did you measure this IP soft reset speed ? Perhaps this delay can be tune to
+> avoid hugging on a CPU core ?
+>
+>> +	}
+>> +
+>> +	if (i == RGA3_RESET_TIMEOUT)
+>> +		pr_err("Timeout of %d usec reached while waiting for an rga3 soft reset\n", i);
+> What next if it failed ? System lockup, or just bunch of errors ?
+>
+>> +
+>> +	rga_write(rga, RGA3_SYS_CTRL, 0);
+>> +	rga_iommu_restore(rga);
+>> +}
+>> +
+>> +static enum rga_irq_result rga3_handle_irq(struct rockchip_rga *rga)
+>> +{
+>> +	u32 intr;
+>> +
+>> +	intr = rga_read(rga, RGA3_INT_RAW);
+>> +	/* clear all interrupts */
+>> +	rga_write(rga, RGA3_INT_CLR, intr);
+>> +
+>> +	if (FIELD_GET(RGA3_INT_FRM_DONE, intr))
+>> +		return RGA_IRQ_DONE;
+>> +	if (FIELD_GET(RGA3_INT_DMA_READ_BUS_ERR, intr) ||
+>> +	    FIELD_GET(RGA3_INT_WIN0_FBC_DEC_ERR, intr) ||
+>> +	    FIELD_GET(RGA3_INT_WIN0_HOR_ERR, intr) ||
+>> +	    FIELD_GET(RGA3_INT_WIN0_VER_ERR, intr) ||
+>> +	    FIELD_GET(RGA3_INT_WR_VER_ERR, intr) ||
+>> +	    FIELD_GET(RGA3_INT_WR_HOR_ERR, intr) ||
+>> +	    FIELD_GET(RGA3_INT_WR_BUS_ERR, intr) ||
+>> +	    FIELD_GET(RGA3_INT_WIN0_IN_FIFO_WR_ERR, intr) ||
+>> +	    FIELD_GET(RGA3_INT_WIN0_IN_FIFO_RD_ERR, intr) ||
+>> +	    FIELD_GET(RGA3_INT_WIN0_HOR_FIFO_WR_ERR, intr) ||
+>> +	    FIELD_GET(RGA3_INT_WIN0_HOR_FIFO_RD_ERR, intr) ||
+>> +	    FIELD_GET(RGA3_INT_WIN0_VER_FIFO_WR_ERR, intr) ||
+>> +	    FIELD_GET(RGA3_INT_WIN0_VER_FIFO_RD_ERR, intr)) {
+>> +		rga3_soft_reset(rga);
+>> +		return RGA_IRQ_ERROR;
+> Are you certain all these errors are fatal in the first place ? That being said,
+> since you "soft reset", I bet this basically abort any pending operation, so it
+> should not matter.
+>
+>> +	}
+>> +
+>> +	return RGA_IRQ_IGNORE;
+>> +}
+>> +
+>> +static void rga3_get_version(struct rockchip_rga *rga)
+>> +{
+>> +	u32 version = rga_read(rga, RGA3_VERSION_NUM);
+>> +
+>> +	rga->version.major = FIELD_GET(RGA3_VERSION_NUM_MAJOR, version);
+>> +	rga->version.minor = FIELD_GET(RGA3_VERSION_NUM_MINOR, version);
+>> +}
+>> +
+>> +static struct rga3_fmt rga3_formats[] = {
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_RGB24,
+>> +		.hw_format = RGA3_COLOR_FMT_BGR888,
+>> +		.rbuv_swap = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_BGR24,
+>> +		.hw_format = RGA3_COLOR_FMT_BGR888,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_ABGR32,
+>> +		.hw_format = RGA3_COLOR_FMT_BGRA8888,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_RGBA32,
+>> +		.hw_format = RGA3_COLOR_FMT_BGRA8888,
+>> +		.rbuv_swap = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_XBGR32,
+>> +		.hw_format = RGA3_COLOR_FMT_BGRA8888,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_RGBX32,
+>> +		.hw_format = RGA3_COLOR_FMT_BGRA8888,
+>> +		.rbuv_swap = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_RGB565,
+>> +		.hw_format = RGA3_COLOR_FMT_BGR565,
+>> +		.rbuv_swap = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_NV12M,
+>> +		.hw_format = RGA3_COLOR_FMT_YUV420,
+>> +		.semi_planar = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_NV12,
+>> +		.hw_format = RGA3_COLOR_FMT_YUV420,
+>> +		.semi_planar = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_NV21M,
+>> +		.hw_format = RGA3_COLOR_FMT_YUV420,
+>> +		.rbuv_swap = 1,
+>> +		.semi_planar = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_NV21,
+>> +		.hw_format = RGA3_COLOR_FMT_YUV420,
+>> +		.rbuv_swap = 1,
+>> +		.semi_planar = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_NV16M,
+>> +		.hw_format = RGA3_COLOR_FMT_YUV422,
+>> +		.semi_planar = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_NV16,
+>> +		.hw_format = RGA3_COLOR_FMT_YUV422,
+>> +		.semi_planar = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_NV61M,
+>> +		.hw_format = RGA3_COLOR_FMT_YUV422,
+>> +		.rbuv_swap = 1,
+>> +		.semi_planar = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_NV61,
+>> +		.hw_format = RGA3_COLOR_FMT_YUV422,
+>> +		.rbuv_swap = 1,
+>> +		.semi_planar = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_YUYV,
+>> +		.hw_format = RGA3_COLOR_FMT_YUV422,
+>> +		.yc_swap = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_YVYU,
+>> +		.hw_format = RGA3_COLOR_FMT_YUV422,
+>> +		.yc_swap = 1,
+>> +		.rbuv_swap = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_UYVY,
+>> +		.hw_format = RGA3_COLOR_FMT_YUV422,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_VYUY,
+>> +		.hw_format = RGA3_COLOR_FMT_YUV422,
+>> +		.rbuv_swap = 1,
+> Any chance you could add 10bit formats ? It can handle NV15 and P010. So far
+> this had been the main reason people have been interested in RGA3 (that and its
+> AFBC feature, but the later is quite some more work, since we don't have the
+> common code to compute the header sizes in media/ yet).
+>
+>> +	},
+>> +	/* Input only formats last to keep rga3_enum_format simple */
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_ARGB32,
+>> +		.hw_format = RGA3_COLOR_FMT_ABGR8888,
+>> +		.rbuv_swap = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_BGRA32,
+>> +		.hw_format = RGA3_COLOR_FMT_ABGR8888,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_XRGB32,
+>> +		.hw_format = RGA3_COLOR_FMT_ABGR8888,
+>> +		.rbuv_swap = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_BGRX32,
+>> +		.hw_format = RGA3_COLOR_FMT_ABGR8888,
+>> +	},
+>> +};
+>> +
+>> +static int rga3_enum_format(struct v4l2_fmtdesc *f)
+>> +{
+>> +	struct rga3_fmt *fmt;
+>> +
+>> +	if (f->index >= ARRAY_SIZE(rga3_formats))
+>> +		return -EINVAL;
+>> +
+>> +	fmt = &rga3_formats[f->index];
+>> +	if (V4L2_TYPE_IS_CAPTURE(f->type) && !rga3_can_capture(fmt))
+>> +		return -EINVAL;
+>> +
+>> +	f->pixelformat = fmt->fourcc;
+>> +	return 0;
+>> +}
+>> +
+>> +static void *rga3_try_format(u32 *fourcc, bool is_output)
+> This is not really a try_format function, but a tiny subset. If you really like
+> the "try", perhaps call it rga3_try_pixelformat() ?
+>
+>> +{
+>> +	unsigned int i;
+>> +
+>> +	if (!fourcc)
+>> +		return &rga3_formats[0];
+>> +
+>> +	for (i = 0; i < ARRAY_SIZE(rga3_formats); i++) {
+>> +		if (!is_output && !rga3_can_capture(&rga3_formats[i]))
+>> +			continue;
+>> +
+>> +		if (rga3_formats[i].fourcc == *fourcc)
+>> +			return &rga3_formats[i];
+>> +	}
+>> +
+>> +	*fourcc = rga3_formats[0].fourcc;
+>> +	return &rga3_formats[0];
+>> +}
+>> +
+>> +const struct rga_hw rga3_hw = {
+>> +	.card_type = "rga3",
+>> +	.has_internal_iommu = false,
+>> +	.cmdbuf_size = RGA3_CMDBUF_SIZE,
+>> +	.min_width = RGA3_MIN_WIDTH,
+>> +	.min_height = RGA3_MIN_HEIGHT,
+>> +	.max_width = RGA3_MAX_INPUT_WIDTH,
+>> +	.max_height = RGA3_MAX_INPUT_HEIGHT,
+>> +
+>> +	.start = rga3_hw_start,
+>> +	.handle_irq = rga3_handle_irq,
+>> +	.get_version = rga3_get_version,
+>> +	.enum_format = rga3_enum_format,
+>> +	.try_format = rga3_try_format,
+>> +};
+>> diff --git a/drivers/media/platform/rockchip/rga/rga3-hw.h b/drivers/media/platform/rockchip/rga/rga3-hw.h
+>> new file mode 100644
+>> index 0000000000000000000000000000000000000000..3829469e310706c11ecc52f40d3d1eb43a61d9c2
+>> --- /dev/null
+>> +++ b/drivers/media/platform/rockchip/rga/rga3-hw.h
+>> @@ -0,0 +1,186 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>> +/*
+>> + * Copyright (C) Pengutronix e.K.
+>> + * Author: Sven Püschel <s.pueschel@pengutronix.de>
+>> + */
+>> +#ifndef __RGA3_HW_H__
+>> +#define __RGA3_HW_H__
+>> +
+>> +#include <linux/types.h>
+>> +
+>> +#define RGA3_CMDBUF_SIZE 0x2e
+>> +
+>> +#define RGA3_MIN_WIDTH 128
+>> +#define RGA3_MIN_HEIGHT 128
+>> +#define RGA3_MAX_INPUT_WIDTH (8192 - 16)
+>> +#define RGA3_MAX_INPUT_HEIGHT (8192 - 16)
+>> +#define RGA3_RESET_TIMEOUT 1000
+>> +
+>> +/* Registers address */
+>> +/* sys reg */
+>> +#define RGA3_SYS_CTRL				0x000
+>> +#define RGA3_CMD_CTRL				0x004
+>> +#define RGA3_CMD_ADDR				0x008
+>> +#define RGA3_MI_GROUP_CTRL			0x00c
+>> +#define RGA3_ARQOS_CTRL				0x010
+>> +#define RGA3_VERSION_NUM			0x018
+>> +#define RGA3_VERSION_TIM			0x01c
+>> +#define RGA3_INT_EN				0x020
+>> +#define RGA3_INT_RAW				0x024
+>> +#define RGA3_INT_MSK				0x028
+>> +#define RGA3_INT_CLR				0x02c
+>> +#define RGA3_RO_SRST				0x030
+>> +#define RGA3_STATUS0				0x034
+>> +#define RGA3_SCAN_CNT				0x038
+>> +#define RGA3_CMD_STATE				0x040
+>> +
+>> +/* cmd reg */
+>> +#define RGA3_WIN0_RD_CTRL			0x100
+>> +#define RGA3_FIRST_CMD_REG			RGA3_WIN0_RD_CTRL
+>> +#define RGA3_WIN0_Y_BASE			0x110
+>> +#define RGA3_WIN0_U_BASE			0x114
+>> +#define RGA3_WIN0_V_BASE			0x118
+>> +#define RGA3_WIN0_VIR_STRIDE			0x11c
+>> +#define RGA3_WIN0_FBC_OFF			0x120
+>> +#define RGA3_WIN0_SRC_SIZE			0x124
+>> +#define RGA3_WIN0_ACT_OFF			0x128
+>> +#define RGA3_WIN0_ACT_SIZE			0x12c
+>> +#define RGA3_WIN0_DST_SIZE			0x130
+>> +#define RGA3_WIN0_SCL_FAC			0x134
+>> +#define RGA3_WIN0_UV_VIR_STRIDE			0x138
+>> +#define RGA3_WIN1_RD_CTRL			0x140
+>> +#define RGA3_WIN1_Y_BASE			0x150
+>> +#define RGA3_WIN1_U_BASE			0x154
+>> +#define RGA3_WIN1_V_BASE			0x158
+>> +#define RGA3_WIN1_VIR_STRIDE			0x15c
+>> +#define RGA3_WIN1_FBC_OFF			0x160
+>> +#define RGA3_WIN1_SRC_SIZE			0x164
+>> +#define RGA3_WIN1_ACT_OFF			0x168
+>> +#define RGA3_WIN1_ACT_SIZE			0x16c
+>> +#define RGA3_WIN1_DST_SIZE			0x170
+>> +#define RGA3_WIN1_SCL_FAC			0x174
+>> +#define RGA3_WIN1_UV_VIR_STRIDE			0x178
+>> +#define RGA3_OVLP_CTRL				0x180
+>> +#define RGA3_OVLP_OFF				0x184
+>> +#define RGA3_OVLP_TOP_KEY_MIN			0x188
+>> +#define RGA3_OVLP_TOP_KEY_MAX			0x18c
+>> +#define RGA3_OVLP_TOP_CTRL			0x190
+>> +#define RGA3_OVLP_BOT_CTRL			0x194
+>> +#define RGA3_OVLP_TOP_ALPHA			0x198
+>> +#define RGA3_OVLP_BOT_ALPHA			0x19c
+>> +#define RGA3_WR_CTRL				0x1a0
+>> +#define RGA3_WR_FBCE_CTRL			0x1a4
+>> +#define RGA3_WR_VIR_STRIDE			0x1a8
+>> +#define RGA3_WR_PL_VIR_STRIDE			0x1ac
+>> +#define RGA3_WR_Y_BASE				0x1b0
+>> +#define RGA3_WR_U_BASE				0x1b4
+>> +#define RGA3_WR_V_BASE				0x1b8
+>> +
+>> +/* Registers value */
+>> +#define RGA3_COLOR_FMT_YUV420		0x0
+>> +#define RGA3_COLOR_FMT_YUV422		0x1
+>> +#define RGA3_COLOR_FMT_YUV420_10B	0x2
+>> +#define RGA3_COLOR_FMT_YUV422_10B	0x3
+>> +/*
+>> + * Use memory ordering names
+>> + * instead of the datasheet naming RGB formats in big endian order
+>> + */
+>> +#define RGA3_COLOR_FMT_BGR565		0x4
+>> +#define RGA3_COLOR_FMT_BGR888		0x5
+>> +#define RGA3_COLOR_FMT_FIRST_HAS_ALPHA	RGA3_COLOR_FMT_BGRA8888
+>> +#define RGA3_COLOR_FMT_BGRA8888		0x6
+>> +#define RGA3_COLOR_FMT_LAST_OUTPUT	RGA3_COLOR_FMT_BGRA8888
+>> +/* the following are only supported as inputs */
+>> +#define RGA3_COLOR_FMT_ABGR8888		0x7
+>> +/*
+>> + * the following seem to be unnecessary,
+>> + * as they can be achieved with RB swaps
+>> + */
+>> +#define RGA3_COLOR_FMT_RGBA8888		0x8
+>> +#define RGA3_COLOR_FMT_ARGB8888		0x9
+>> +
+>> +#define RGA3_RDWR_FORMAT_SEMI_PLANAR	0x1
+>> +#define RGA3_RDWR_FORMAT_INTERLEAVED	0x2
+>> +
+>> +#define RGA3_CMD_MODE_MASTER 0x1
+>> +
+>> +#define RGA3_WIN_CSC_MODE_BT601_F 0x2
+>> +
+>> +/* RGA masks */
+>> +/* SYS_CTRL */
+>> +#define RGA3_CCLK_SRESET BIT(4)
+>> +#define RGA3_ACLK_SRESET BIT(3)
+>> +#define RGA3_CMD_MODE BIT(1)
+>> +
+>> +/* CMD_CTRL */
+>> +#define RGA3_CMD_LINE_START_PULSE BIT(0)
+>> +
+>> +/* VERSION_NUM */
+>> +#define RGA3_VERSION_NUM_MAJOR GENMASK(31, 28)
+>> +#define RGA3_VERSION_NUM_MINOR GENMASK(27, 20)
+>> +
+>> +/* INT_* */
+>> +#define RGA3_INT_FRM_DONE BIT(0)
+>> +#define RGA3_INT_DMA_READ_BUS_ERR BIT(2)
+>> +#define RGA3_INT_WIN0_FBC_DEC_ERR BIT(5)
+>> +#define RGA3_INT_WIN0_HOR_ERR BIT(6)
+>> +#define RGA3_INT_WIN0_VER_ERR BIT(7)
+>> +#define RGA3_INT_WR_VER_ERR BIT(13)
+>> +#define RGA3_INT_WR_HOR_ERR BIT(14)
+>> +#define RGA3_INT_WR_BUS_ERR BIT(15)
+>> +#define RGA3_INT_WIN0_IN_FIFO_WR_ERR BIT(16)
+>> +#define RGA3_INT_WIN0_IN_FIFO_RD_ERR BIT(17)
+>> +#define RGA3_INT_WIN0_HOR_FIFO_WR_ERR BIT(18)
+>> +#define RGA3_INT_WIN0_HOR_FIFO_RD_ERR BIT(19)
+>> +#define RGA3_INT_WIN0_VER_FIFO_WR_ERR BIT(20)
+>> +#define RGA3_INT_WIN0_VER_FIFO_RD_ERR BIT(21)
+>> +
+>> +/* RO_SRST */
+>> +#define RGA3_RO_SRST_DONE GENMASK(5, 0)
+>> +
+>> +/* *_SIZE */
+>> +#define RGA3_HEIGHT GENMASK(28, 16)
+>> +#define RGA3_WIDTH GENMASK(12, 0)
+>> +
+>> +/* SCL_FAC */
+>> +#define RGA3_SCALE_VER_FAC GENMASK(31, 16)
+>> +#define RGA3_SCALE_HOR_FAC GENMASK(15, 0)
+>> +
+>> +/* WINx_CTRL */
+>> +#define RGA3_WIN_CSC_MODE GENMASK(27, 26)
+>> +#define RGA3_WIN_R2Y BIT(25)
+>> +#define RGA3_WIN_Y2R BIT(24)
+>> +#define RGA3_WIN_SCALE_VER_UP BIT(23)
+>> +#define RGA3_WIN_SCALE_VER_BYPASS BIT(22)
+>> +#define RGA3_WIN_SCALE_HOR_UP BIT(21)
+>> +#define RGA3_WIN_SCALE_HOR_BYPASS BIT(20)
+>> +#define RGA3_WIN_YC_SWAP BIT(13)
+>> +#define RGA3_WIN_RBUV_SWAP BIT(12)
+>> +#define RGA3_WIN_RD_FORMAT GENMASK(9, 8)
+>> +#define RGA3_WIN_PIC_FORMAT GENMASK(7, 4)
+>> +#define RGA3_WIN_ENABLE BIT(0)
+>> +
+>> +/* COLOR_CTRL */
+>> +#define RGA3_OVLP_GLOBAL_ALPHA GENMASK(23, 16)
+>> +#define RGA3_OVLP_COLOR_MODE BIT(0)
+>> +
+>> +/* ALPHA_CTRL */
+>> +#define RGA3_ALPHA_SELECT_MODE BIT(4)
+>> +#define RGA3_ALPHA_BLEND_MODE GENMASK(3, 2)
+>> +
+>> +/* WR_CTRL */
+>> +#define RGA3_WR_YC_SWAP BIT(20)
+>> +#define RGA3_WR_SW_OUTSTANDING_MAX GENMASK(18, 13)
+>> +#define RGA3_WR_RBUV_SWAP BIT(12)
+>> +#define RGA3_WR_FORMAT GENMASK(9, 8)
+>> +#define RGA3_WR_PIC_FORMAT GENMASK(7, 4)
+>> +
+>> +struct rga3_fmt {
+>> +	u32 fourcc;
+>> +	u8 hw_format;
+>> +	bool rbuv_swap;
+>> +	bool yc_swap;
+>> +	bool semi_planar;
+>> +};
+>> +
+>> +#endif
 
