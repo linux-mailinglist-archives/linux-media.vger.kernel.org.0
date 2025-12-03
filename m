@@ -1,39 +1,39 @@
-Return-Path: <linux-media+bounces-48168-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48167-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7036BC9FC68
-	for <lists+linux-media@lfdr.de>; Wed, 03 Dec 2025 17:01:22 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE500C9FB63
+	for <lists+linux-media@lfdr.de>; Wed, 03 Dec 2025 16:55:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8DC6E3014D94
-	for <lists+linux-media@lfdr.de>; Wed,  3 Dec 2025 15:54:26 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 446A9301472D
+	for <lists+linux-media@lfdr.de>; Wed,  3 Dec 2025 15:54:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D7F933A012;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8968233A023;
 	Wed,  3 Dec 2025 15:54:01 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FFFD33892D
-	for <linux-media@vger.kernel.org>; Wed,  3 Dec 2025 15:53:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 640423385BF
+	for <linux-media@vger.kernel.org>; Wed,  3 Dec 2025 15:53:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764777238; cv=none; b=qpMH+Bzhzv+gRDO5Du5skuvnOZH5bzeAQcXfWiZsSh5wAAndkFbx5+PW6LrnlnNA4OGOnt67ldCb2c2qBjh1axn6DFJHlslg6nilraVCrMM6L2aK1Q9OoKsLhkVNO3efafcVCfMlcMnhGVD810WLpymIh7lQ2FDx0aJGSGMV1oQ=
+	t=1764777237; cv=none; b=aYaQKJoZRz7wOl2oygtMG8KNEn/JnsXq9EJur0XW6OeGTEmK13mx2t9KF66URPrABzHQgJp7E8A2fFw0tzzb2ao8KO4X8MSawGPd3oGvj2rC/5bJF44m68Uj95/Bj5/Vmta+cVod2fNEqyTaiVXiVpD9c6nusd76NbzNS0L4DjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764777238; c=relaxed/simple;
-	bh=qGXiLoOdYCTswwIRAfav7TuJ1ncuYLuXShD62j9dHa4=;
+	s=arc-20240116; t=1764777237; c=relaxed/simple;
+	bh=9HzTHn5gf13iYqMGQmwCqPcqOCTeW1bMs7Bc/KZhHQs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pzOxuJw+oXIdE85cI472AbZgfiD8fN0fKjcsv/p51vV/fUCclhJKvID35Rs7bKBsPYJlvsOCQGM9Qv0BYY8iLBO0MEqUsnk+8RPqmRPT4FCRsOiooguNllApUg1o37+Bpl6j2Z+CDroApoO6jFM4A94ZLI3qk62FTGycpA1IAjE=
+	 In-Reply-To:To:Cc; b=azs1Ivj/rzFLaGdluu4yhBy0GXlbqtQR4J/G6ILfSsiQnEL748hVa3cE8BNsiuLbsH8MHXzcEZUhLgQy+TJfKTnlguTsCDAcy12fZWM994yCl9Cg78DUqjzh8pGD+yEVFh/KsLHq2XWI2Zr7j1e9mcfTVb/TBAjF8HHi85/y4dE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=peter.mobile.pengutronix.de)
 	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
 	(envelope-from <s.pueschel@pengutronix.de>)
-	id 1vQpAd-0007dW-Gg; Wed, 03 Dec 2025 16:53:35 +0100
+	id 1vQpAd-0007dW-K6; Wed, 03 Dec 2025 16:53:35 +0100
 From: =?utf-8?q?Sven_P=C3=BCschel?= <s.pueschel@pengutronix.de>
-Date: Wed, 03 Dec 2025 16:52:32 +0100
-Subject: [PATCH v2 10/22] media: rockchip: rga: prepare cmdbuf on streamon
+Date: Wed, 03 Dec 2025 16:52:33 +0100
+Subject: [PATCH v2 11/22] media: rockchip: rga: check scaling factor
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -42,7 +42,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20251203-spu-rga3-v2-10-989a67947f71@pengutronix.de>
+Message-Id: <20251203-spu-rga3-v2-11-989a67947f71@pengutronix.de>
 References: <20251203-spu-rga3-v2-0-989a67947f71@pengutronix.de>
 In-Reply-To: <20251203-spu-rga3-v2-0-989a67947f71@pengutronix.de>
 To: Jacob Chen <jacob-chen@iotwrt.com>, 
@@ -61,110 +61,158 @@ X-SA-Exim-Mail-From: s.pueschel@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
-Prepare the command buffer on streamon to reuse it's contents instead of
-completely writing it for every frame. Due to the stream settings being
-fixed after a streamon we only need to replace the source and destination
-addresses for each frame. This reduces the amount of CPU and memory
-operations done in each frame.
+Check the scaling factor to avoid potential problems. This is relevant
+for the upcoming RGA3 support, as it can hang when the scaling factor
+is exceeded.
+
+There are two relevant scenarios that have to be considered to protect
+against invalid scaling values:
+
+When the output or capture is already streaming, setting the format on
+the other side should consider the max scaling factor and clamp it
+accordingly. This is only done in the streaming case, as it otherwise
+may unintentionally clamp the value when the application sets the first
+format (due to a default format on the other side).
+
+When the format is set on both sides first, then the format won't be
+corrected by above means. Therefore the second streamon call has to
+check the scaling factor and fail otherwise.
 
 Signed-off-by: Sven Püschel <s.pueschel@pengutronix.de>
 ---
- drivers/media/platform/rockchip/rga/rga-hw.c | 13 +++++++++----
- drivers/media/platform/rockchip/rga/rga.c    | 13 ++++++++++++-
+ drivers/media/platform/rockchip/rga/rga-hw.c |  1 +
+ drivers/media/platform/rockchip/rga/rga-hw.h |  1 +
+ drivers/media/platform/rockchip/rga/rga.c    | 60 +++++++++++++++++++++++++---
  drivers/media/platform/rockchip/rga/rga.h    |  1 +
- 3 files changed, 22 insertions(+), 5 deletions(-)
+ 4 files changed, 58 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/media/platform/rockchip/rga/rga-hw.c b/drivers/media/platform/rockchip/rga/rga-hw.c
-index 56a2558539bfb..8cdfe089fd636 100644
+index 8cdfe089fd636..2ed4f22a999d5 100644
 --- a/drivers/media/platform/rockchip/rga/rga-hw.c
 +++ b/drivers/media/platform/rockchip/rga/rga-hw.c
-@@ -408,8 +408,6 @@ static void rga_cmd_set(struct rga_ctx *ctx,
- {
- 	struct rockchip_rga *rga = ctx->rga;
- 
--	memset(ctx->cmdbuf_virt, 0, RGA_CMDBUF_SIZE * 4);
--
- 	rga_cmd_set_src_addr(ctx, src->dma_desc_pa);
- 	/*
- 	 * Due to hardware bug,
-@@ -418,11 +416,9 @@ static void rga_cmd_set(struct rga_ctx *ctx,
- 	rga_cmd_set_src1_addr(ctx, dst->dma_desc_pa);
- 
- 	rga_cmd_set_dst_addr(ctx, dst->dma_desc_pa);
--	rga_cmd_set_mode(ctx);
- 
- 	rga_cmd_set_src_info(ctx, &src->offset);
- 	rga_cmd_set_dst_info(ctx, &dst->offset);
--	rga_cmd_set_trans_info(ctx);
- 
- 	rga_write(rga, RGA_CMD_BASE, ctx->cmdbuf_phy);
- 
-@@ -431,6 +427,14 @@ static void rga_cmd_set(struct rga_ctx *ctx,
- 				   PAGE_SIZE, DMA_BIDIRECTIONAL);
- }
- 
-+static void rga_hw_setup_cmdbuf(struct rga_ctx *ctx)
-+{
-+	memset(ctx->cmdbuf_virt, 0, RGA_CMDBUF_SIZE * 4);
-+
-+	rga_cmd_set_mode(ctx);
-+	rga_cmd_set_trans_info(ctx);
-+}
-+
- static void rga_hw_start(struct rockchip_rga *rga,
- 			 struct rga_vb_buffer *src,  struct rga_vb_buffer *dst)
- {
-@@ -622,6 +626,7 @@ const struct rga_hw rga2_hw = {
+@@ -624,6 +624,7 @@ const struct rga_hw rga2_hw = {
+ 	.max_width = MAX_WIDTH,
+ 	.min_height = MIN_HEIGHT,
  	.max_height = MAX_HEIGHT,
++	.max_scaling_factor = MAX_SCALING_FACTOR,
  	.stride_alignment = 4,
  
-+	.setup_cmdbuf = rga_hw_setup_cmdbuf,
- 	.start = rga_hw_start,
- 	.handle_irq = rga_handle_irq,
- 	.get_version = rga_get_version,
+ 	.setup_cmdbuf = rga_hw_setup_cmdbuf,
+diff --git a/drivers/media/platform/rockchip/rga/rga-hw.h b/drivers/media/platform/rockchip/rga/rga-hw.h
+index f4752aa823051..fffcab0131225 100644
+--- a/drivers/media/platform/rockchip/rga/rga-hw.h
++++ b/drivers/media/platform/rockchip/rga/rga-hw.h
+@@ -14,6 +14,7 @@
+ 
+ #define MIN_WIDTH 34
+ #define MIN_HEIGHT 34
++#define MAX_SCALING_FACTOR 16
+ 
+ #define RGA_TIMEOUT 500
+ 
 diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
-index 592c977a07cf3..f02ae02de26ca 100644
+index f02ae02de26ca..46dc94db6f85e 100644
 --- a/drivers/media/platform/rockchip/rga/rga.c
 +++ b/drivers/media/platform/rockchip/rga/rga.c
-@@ -523,6 +523,17 @@ static int vidioc_s_selection(struct file *file, void *priv,
+@@ -346,18 +346,47 @@ static int vidioc_g_fmt(struct file *file, void *priv, struct v4l2_format *f)
+ static int vidioc_try_fmt(struct file *file, void *priv, struct v4l2_format *f)
+ {
+ 	struct v4l2_pix_format_mplane *pix_fmt = &f->fmt.pix_mp;
+-	struct rockchip_rga *rga = video_drvdata(file);
++	struct rga_ctx *ctx = file_to_rga_ctx(file);
++	struct rockchip_rga *rga = ctx->rga;
+ 	const struct rga_hw *hw = rga->hw;
+ 	struct rga_fmt *fmt;
++	u32 min_width = hw->min_width;
++	u32 max_width = hw->max_width;
++	u32 min_height = hw->min_height;
++	u32 max_height = hw->max_height;
+ 
+ 	fmt = rga_fmt_find(rga, pix_fmt->pixelformat);
+ 	if (!fmt)
+ 		fmt = &hw->formats[0];
+ 
+-	pix_fmt->width = clamp(pix_fmt->width,
+-			       hw->min_width, hw->max_width);
+-	pix_fmt->height = clamp(pix_fmt->height,
+-				hw->min_height, hw->max_height);
++	if (V4L2_TYPE_IS_OUTPUT(f->type) &&
++	    v4l2_m2m_get_dst_vq(ctx->fh.m2m_ctx)->streaming) {
++		min_width =
++			MAX(min_width, DIV_ROUND_UP(ctx->out.pix.width,
++						    hw->max_scaling_factor));
++		max_width = MIN(max_width,
++				ctx->out.pix.width * hw->max_scaling_factor);
++		min_height =
++			MAX(min_height, DIV_ROUND_UP(ctx->out.pix.height,
++						     hw->max_scaling_factor));
++		max_height = MIN(max_height,
++				 ctx->out.pix.height * hw->max_scaling_factor);
++	} else if (V4L2_TYPE_IS_CAPTURE(f->type) &&
++		   v4l2_m2m_get_src_vq(ctx->fh.m2m_ctx)->streaming) {
++		min_width =
++			MAX(min_width, DIV_ROUND_UP(ctx->in.pix.width,
++						    hw->max_scaling_factor));
++		max_width = MIN(max_width,
++				ctx->in.pix.width * hw->max_scaling_factor);
++		min_height =
++			MAX(min_height, DIV_ROUND_UP(ctx->in.pix.height,
++						     hw->max_scaling_factor));
++		max_height = MIN(max_height,
++				 ctx->in.pix.height * hw->max_scaling_factor);
++	}
++
++	pix_fmt->width = clamp(pix_fmt->width, min_width, max_width);
++	pix_fmt->height = clamp(pix_fmt->height, min_height, max_height);
+ 
+ 	v4l2_fill_pixfmt_mp_aligned(pix_fmt, pix_fmt->pixelformat,
+ 				    pix_fmt->width, pix_fmt->height, hw->stride_alignment);
+@@ -523,12 +552,33 @@ static int vidioc_s_selection(struct file *file, void *priv,
  	return ret;
  }
  
-+static int vidioc_streamon(struct file *file, void *priv,
-+			   enum v4l2_buf_type type)
++static bool check_scaling(const struct rga_hw *hw, u32 src_size, u32 dst_size)
 +{
-+	struct rga_ctx *ctx = file_to_rga_ctx(file);
-+	const struct rga_hw *hw = ctx->rga->hw;
-+
-+	hw->setup_cmdbuf(ctx);
-+
-+	return v4l2_m2m_streamon(file, ctx->fh.m2m_ctx, type);
++	if (src_size < dst_size)
++		return src_size * hw->max_scaling_factor >= dst_size;
++	else
++		return dst_size * hw->max_scaling_factor >= src_size;
 +}
 +
- static const struct v4l2_ioctl_ops rga_ioctl_ops = {
- 	.vidioc_querycap = vidioc_querycap,
+ static int vidioc_streamon(struct file *file, void *priv,
+ 			   enum v4l2_buf_type type)
+ {
+ 	struct rga_ctx *ctx = file_to_rga_ctx(file);
+ 	const struct rga_hw *hw = ctx->rga->hw;
  
-@@ -547,7 +558,7 @@ static const struct v4l2_ioctl_ops rga_ioctl_ops = {
- 	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
- 	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
++	if ((V4L2_TYPE_IS_OUTPUT(type) &&
++	     v4l2_m2m_get_dst_vq(ctx->fh.m2m_ctx)->streaming) ||
++	    (V4L2_TYPE_IS_CAPTURE(type) &&
++	     v4l2_m2m_get_src_vq(ctx->fh.m2m_ctx)->streaming)) {
++		/*
++		 * As the other side is already streaming,
++		 * check that the max scaling factor isn't exceeded.
++		 */
++		if (!check_scaling(hw, ctx->in.pix.width, ctx->out.pix.width) ||
++		    !check_scaling(hw, ctx->in.pix.height, ctx->out.pix.height))
++			return -EINVAL;
++	}
++
+ 	hw->setup_cmdbuf(ctx);
  
--	.vidioc_streamon = v4l2_m2m_ioctl_streamon,
-+	.vidioc_streamon = vidioc_streamon,
- 	.vidioc_streamoff = v4l2_m2m_ioctl_streamoff,
- 
- 	.vidioc_g_selection = vidioc_g_selection,
+ 	return v4l2_m2m_streamon(file, ctx->fh.m2m_ctx, type);
 diff --git a/drivers/media/platform/rockchip/rga/rga.h b/drivers/media/platform/rockchip/rga/rga.h
-index 0aef348dddb95..93162b118d069 100644
+index 93162b118d069..d02d5730b4e3b 100644
 --- a/drivers/media/platform/rockchip/rga/rga.h
 +++ b/drivers/media/platform/rockchip/rga/rga.h
-@@ -154,6 +154,7 @@ struct rga_hw {
+@@ -152,6 +152,7 @@ struct rga_hw {
+ 	size_t cmdbuf_size;
+ 	u32 min_width, min_height;
  	u32 max_width, max_height;
++	u8 max_scaling_factor;
  	u8 stride_alignment;
  
-+	void (*setup_cmdbuf)(struct rga_ctx *ctx);
- 	void (*start)(struct rockchip_rga *rga,
- 		      struct rga_vb_buffer *src, struct rga_vb_buffer *dst);
- 	bool (*handle_irq)(struct rockchip_rga *rga);
+ 	void (*setup_cmdbuf)(struct rga_ctx *ctx);
 
 -- 
 2.52.0
