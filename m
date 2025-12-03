@@ -1,77 +1,79 @@
-Return-Path: <linux-media+bounces-48110-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48111-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01003C9DB2C
-	for <lists+linux-media@lfdr.de>; Wed, 03 Dec 2025 05:03:08 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD293C9DB35
+	for <lists+linux-media@lfdr.de>; Wed, 03 Dec 2025 05:03:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 947433A26C6
-	for <lists+linux-media@lfdr.de>; Wed,  3 Dec 2025 04:03:06 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3DB6034AFA4
+	for <lists+linux-media@lfdr.de>; Wed,  3 Dec 2025 04:03:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A837D26ED2B;
-	Wed,  3 Dec 2025 04:03:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C84C270EBA;
+	Wed,  3 Dec 2025 04:03:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RxwtyGir"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="J5jdYb10"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF75241690
-	for <linux-media@vger.kernel.org>; Wed,  3 Dec 2025 04:02:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F40C626F476
+	for <linux-media@vger.kernel.org>; Wed,  3 Dec 2025 04:03:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764734582; cv=none; b=kcnHCk4fA0FJ7uFCVLcIV/5AiPmrmGRK2zenHFF25nxp+X6F+VpPA7pon255t5e+8eNn+17+0GCPdUHJ4QHzMDAifzuVp76xXmYpxnEs8exz9AWbOw2VXE5DH4SXazDOs2DGf7VbVXUBmJy7vbl1pRgcY8c4cCMNF1EijREuFwY=
+	t=1764734584; cv=none; b=uzGHPeO5+hNmHUTQD8+U1Tywy69N6MG/rTY4IUKftToIkDUdc4dqHwTnPC4R7GG4tqxYvrxS/diq2IvTz6ykvQKG24+4OrJE76abyjIGg6mxinaktOYQT3x3v7tDrTjrR56jokOQSSHeGyS4kCp3VPQkGepQtGHQqtQO1Z7IJPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764734582; c=relaxed/simple;
-	bh=R6Cr8ocb0oEl2uodBSv6KebYw4TmgNZ0DrKfzvEkPs0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NvvmNkhSgO4oH1murgDIKbm+0aj8hokOxgdt1KjLLA38be/RCDVAyTq8o3tmkGXGxHBviSgvJZyVIqHAm8aPvg1Ukb5Baa4Wp95RV7OaAS12bXtk5Bf0/+1VvzflpwgzrK3RmS1+gcP8NP9A52grFKfohymjauRlnkVJf+VIKr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RxwtyGir; arc=none smtp.client-ip=209.85.167.41
+	s=arc-20240116; t=1764734584; c=relaxed/simple;
+	bh=saWiG8xBbWrVikPvLcHvf4svNuw21bKNWGsW61HfF4U=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=hn6yqnPxyHAWg8TVhtKWWChzHkCWNOVNSl3SkZAGdf+VOet9CCAMANZrJbzoMuYixe5XrzS7IONpZRVxSGyuC/mQ1RXyKBYzQLQZyYGzfGt8j3gJe7/iQEt5Zmha/nQJpvVLd6+TvOia7oU7L3aC7wbx/rH8Icn7UedV6EEZSdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=J5jdYb10; arc=none smtp.client-ip=209.85.167.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-594285eed50so521415e87.0
-        for <linux-media@vger.kernel.org>; Tue, 02 Dec 2025 20:02:59 -0800 (PST)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-596a55d3c0cso454897e87.2
+        for <linux-media@vger.kernel.org>; Tue, 02 Dec 2025 20:03:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1764734578; x=1765339378; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dhshrMAQHNXfy+sz4qwei88JokhQtbQdlKMxj/ILfBU=;
-        b=RxwtyGirZkzdbzBVze/HmSLmJAcOVe9udRfiSVKwIA55C4A9x++YxFhsMA1OQrUM96
-         ZCVjASfHHP+QA+MfxsN3u5ym7+wxTX+oCEGKQ4/2ilMt461RzFk01xEfc6Ty+jSU78oB
-         Eau4CsT4wwMfP0rSQpbUcxRV2Gy5nqKbI8MAe7LeDFThghhOb/8xPlD4EZYSONIasgQZ
-         J//uspvTSYsuOBfHUyVN5GqQUh04neQiQ1cdheSQQ2iFyjObGNvZmooyfnWW/JovXpJd
-         1I0uo5S9+VM/zLIvid66IFiRDUZgGO8e7aVksHAhzGMHjFIFadqClvlFmbBFdctJZ++J
-         MHNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764734578; x=1765339378;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=linaro.org; s=google; t=1764734581; x=1765339381; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dhshrMAQHNXfy+sz4qwei88JokhQtbQdlKMxj/ILfBU=;
-        b=LKKlQ5pjrws6Rrkia9m4MvjH/IM1u0EIc4JUWd3yDmApVRcHD4nG9L3l59cqNjNXvs
-         eRkT39OYBp1sI5c2daysDemTtn+ION4tWeRkanNTD+gXA4dMijtOKkH6T9Onf/hxwUTS
-         Hp/wJ8Rmjw7mbq9WqAJWc0/M+C6NTma5X3BZN1F6vIzKlr/oEz20BkZYYl8TpMqx213I
-         FYuZhpRyiHhPIL9/7VAbz6BXALbAjIx+Lx/1jt0clmnfXHovAdS8WF/eyg5eHaChv4pp
-         JvFAxsuyLzT8k3vAuRQyV+KiPdWR3n19otX4O/OUXELk5j+F5CXXpIjSJcY04mb2kkZ5
-         Dlkw==
-X-Forwarded-Encrypted: i=1; AJvYcCWpvr8YkxnnuC9gaG3Hlalz/SHWQkoYjOZs55UmMRfd3uj8Pkfqw7RIt0r1hLNlkOmp80Zrkglg5SujLA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyfXSyaQQOUyyFfaCIJhRssebFZZRiGR00FEsJ8chI0YHbsT79R
-	K+e8xChVsLKzjX5P30wNU8uRHcqRqNKLsB3eHPFjMgjhZMXmlgr+SlfHMl8g7jLIng4=
-X-Gm-Gg: ASbGnctPexergUG+hb8yV+jvzkeG/gACZSy6OQqwQSuZCpxA0csyO/QBuGle8pFW86d
-	G/luFJE82mF+IaLphJ1VTYn7fppNDn+BPI1210hcKiGj6hTrhdbzY/eZfnhUPPYPD/xISUbClm9
-	ilNcTtJbmSTQ0CXEejKxHDeaYTnzo+kFE9zDn0+1SYwXyaPMw+n1eKR+jC5BZra8HB0WgSanSZE
-	eIV1B17SOsWp/ddeS+a4kpk9AHCaPgbiCS+Otvk3TtCOC16k4b8GURwbU3LsFVI48pv5Ex4BCcD
-	OeLcelBrilVe4NqrypJ5IzMeXhh80PFSjvJED8lGLTfPvaRqxr0jT1/TQjea1rcZte8VOWexD5K
-	VTe2uwX/sxf2G/Qy/s+UYbnduuekbvKdOTY5MIVPTwSZBxwS+PwajL72RU1eEl05YrezaI/g3OS
-	aEcydv7LrWcg1QCZ/favNRKuJzsXqHYEU3yCDP9C+XczZWS5Lp6enInicdu8lmUXB5
-X-Google-Smtp-Source: AGHT+IFEYAvgAL87C4nbXwzIlruIun8/JDmoS0wwNVH8z5rBpHTQmugtqTwD/DfgXo+9EANlBG6JSA==
-X-Received: by 2002:ac2:4e16:0:b0:57e:ed2d:190f with SMTP id 2adb3069b0e04-597d3f9e010mr145270e87.7.1764734577889;
-        Tue, 02 Dec 2025 20:02:57 -0800 (PST)
+        bh=dYjS3XR8Me4P3FqI+QDyTGuqgkr9+a18DJhvBYko5Og=;
+        b=J5jdYb10IX6zCyc8IfZ6WskcMYb4d3iGANeOdIiaDAMgXxkA4l4XJIDTI88Pg2Hh+U
+         dllN//m5KNd2QHqS57/xRUrEiqMz/quaZz3NWULDBc9Se3vVOhHY19EoJ6ZlhRp30spf
+         Ykpt1FxpsXPKDKikl9Hy9E1a+a/1jMD81hhKRoprmzrR5wWAVegouzg1Hp9jY7b2d1ww
+         GEW+kjnYpyTpJxDYplfhSv0U0U5l6DfvbF7cJ7FpgIRrlolOtcBqQdZAOq/nKi2wTMy2
+         3w/M24EGr02jZ1txtjEe5IEmEDaKoG5tQt8rxex4Q7iVmB5aWCzAr61BuKtQW+WyRXAa
+         fE8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764734581; x=1765339381;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=dYjS3XR8Me4P3FqI+QDyTGuqgkr9+a18DJhvBYko5Og=;
+        b=btfJ5rYqHPnj+HXlnWfFS6ldDromLPO+MU3BuAJYSpeF1ozPwIL+WRzjqY+vssJRyS
+         hs1phEQalq7jCMcenBNkofc6KFgcLXVZmwZkCAmtaxTRs/fj/weMHfk0js+k0KgcjQ2d
+         PLvVvYXMZNmlPzQxR+hUSeLY3hgQIEquJjtZTmDTqHvqsiqyTSd0xqWJaInnmcNtLGVL
+         cV1tzCL9SCzOKSoyFFLqhI5q0kvVWmZ3ppVLtY+oB1XRxCHQQzcYiyFL9qGSDNYkN7EP
+         ZbgGEkYAVqmOh+/x1odn99RPIN6dGeRG2iCnZXP81ERDjvwWowgqDHyWTiCExeuF4Ip3
+         Q1HQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX8epQBUthEd19kij2y5h3gBR/WU/mXnkGIcmDXN67Qe1rF5N2u14RXAt0SvNva/ZjCgaOAqqfNMaoxOg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwWT3yZPbdruisZggfq3d4yay3kRy4PZ3jj2sglRRNNDSI04Stw
+	qTYX1Ivjk1kyRak12JaiGjDSFzc9lliNHUEz0txhe4k5Pl6jRM0bUf10tWz7WMN6Fc8=
+X-Gm-Gg: ASbGncvQHMHTWp0/BhFNdt6yJP2j3So7h6A9esLRzzvhmvMqaCvjL8+nt2aojOik6rF
+	t0Trtxv8P6R4Tz/oxnHtyK7jLnwqh4FEsRMjstS+A6j4ntpgWqkRpRJKzx0cXerBgZNH0fyQldu
+	RM6u0IMqaQs+/GQOTqvqEDfs1r05xCS8K1a6AAV2Dg2GjAZfX88xhT8jryK7LHs8h3uG+s4DiPb
+	EU26mVrVyOnK8DYdK0lra5UksA2gCTNNy9D4cjXouu1OZ/RhVSxrNDPcCZniZiv0EQy4AyYRlth
+	9aDzwM2BD0tTRaMSj5uOsRqfb5oZLWaFOx1q/TxFiq4hor37fDNOupgPaTFQ39D1I83J1wJ5X01
+	F7GhWdjeDGjZbbeUPr//KRI7JxO2Eq5/e783prHdBzM2IPOyi+AMFFEsvXOxjiNfPy/muZB+e0q
+	fXswMv1D6/2EGg3FNzRyXaUu4uHPQWHnsVb6FOUz+VkTsGE1DOzROXjg==
+X-Google-Smtp-Source: AGHT+IFcfTM3kqM9LjvHHlSYO4A2jT/l8RAigc8DvbluGZOZhp8NJ+AXKJI58lTKG7cb4Quq1CSoLA==
+X-Received: by 2002:ac2:4c49:0:b0:595:9161:f837 with SMTP id 2adb3069b0e04-597d4afbd47mr1375e87.4.1764734580981;
+        Tue, 02 Dec 2025 20:03:00 -0800 (PST)
 Received: from thyme.. (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-596bf8b1082sm5210181e87.29.2025.12.02.20.02.56
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-596bf8b1082sm5210181e87.29.2025.12.02.20.02.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Dec 2025 20:02:56 -0800 (PST)
+        Tue, 02 Dec 2025 20:02:59 -0800 (PST)
 From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh@kernel.org>,
@@ -81,11 +83,14 @@ Cc: Conor Dooley <conor+dt@kernel.org>,
 	Hans Verkuil <hverkuil@kernel.org>,
 	Neil Armstrong <neil.armstrong@linaro.org>,
 	devicetree@vger.kernel.org,
-	linux-media@vger.kernel.org
-Subject: [PATCH v2 0/2] media: i2c: Add Samsung S5K3M5 13MP camera sensor driver
-Date: Wed,  3 Dec 2025 06:02:38 +0200
-Message-ID: <20251203040241.71018-1-vladimir.zapolskiy@linaro.org>
+	linux-media@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v2 1/2] dt-bindings: media: i2c: Add Samsung S5K3M5 image sensor
+Date: Wed,  3 Dec 2025 06:02:39 +0200
+Message-ID: <20251203040241.71018-2-vladimir.zapolskiy@linaro.org>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20251203040241.71018-1-vladimir.zapolskiy@linaro.org>
+References: <20251203040241.71018-1-vladimir.zapolskiy@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -94,120 +99,124 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Samsung S5K3M5 (ISOCELL 3M5) is a 13MP image sensor, it produces
-Bayer GRBG (2x2) frames in RAW10 output format, the maximum supported
-output resolution is 4208x3120 at 30 frames per second rate.
+Add device tree bindings documentation for Samsung S5K3M5 image sensor.
 
-The changeset supports two output resolutions 4208x3120@30 and 2104x1184@60,
-PLL configuration is done for 24MHz external clock, in future it would be
-possible to add a setup for 19.2MHz external clock also.
-
-The next V4L2 controls are supported by the driver: vertical/horizontal flip,
-exposure, analogue gain, vertical/horizontal blanking and test pattern.
-
-The sensor is present and tested on SM8550-QRD and on SM8550-HDK board with
-a Rear Camera Card.
-
-Changes from v1 to v2:
-1) added Tested-by and Reviewed-by tags from Neil and Krzysztof respectively,
-2) specified optional data-lanes property (Sakari),
-3) renamed voltage supply properties to match pad names by Samsung (Luca),
-4) added minor requested updates to s5k3m5_probe() (Sakari),
-5) added minor requested updated s5k3m5_init_controls() (Sakari),
-6) added a simple .get_selection to support the basic crop controls (Sakari),
-7) set default number of CSI lanes (Sakari),
-8) changed a helper function to calculate pixel rate to get frequency parameter,
-9) removed .link_freq_index since there is only one supported option.
-
-Link to v1:
-- https://lore.kernel.org/linux-media/20251012231102.1797408-1-vladimir.zapolskiy@linaro.org/
-
-----8<----8<----8<----8<----8<----8<----
-
-% v4l2-compliance -d /dev/v4l-subdev30
-v4l2-compliance SHA: not available, 64 bits, 64-bit time_t
-
-Compliance test for device /dev/v4l-subdev30:
-
-Required ioctls:
-
-Allow for multiple opens:
-        test second /dev/v4l-subdev30 open: OK
-        test for unlimited opens: OK
-
-        test invalid ioctls: OK
-Debug ioctls:
-        test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-        test VIDIOC_ENUMAUDIO: OK (Not Supported)
-        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-        test VIDIOC_G/S_AUDIO: OK (Not Supported)
-        Inputs: 0 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-        Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-        test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls:
-        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-        test VIDIOC_QUERYCTRL: OK
-        test VIDIOC_G/S_CTRL: OK
-        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-        Standard Controls: 12 Private Controls: 0
-
-Format ioctls:
-        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
-        test VIDIOC_G/S_PARM: OK (Not Supported)
-        test VIDIOC_G_FBUF: OK (Not Supported)
-        test VIDIOC_G_FMT: OK (Not Supported)
-        test VIDIOC_TRY_FMT: OK (Not Supported)
-        test VIDIOC_S_FMT: OK (Not Supported)
-        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-        test Cropping: OK (Not Supported)
-        test Composing: OK (Not Supported)
-        test Scaling: OK (Not Supported)
-
-Codec ioctls:
-        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls:
-        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
-        test VIDIOC_EXPBUF: OK (Not Supported)
-        test Requests: OK (Not Supported)
-
-Total for device /dev/v4l-subdev30: 41, Succeeded: 41, Failed: 0, Warnings: 0
-
-Vladimir Zapolskiy (2):
-  dt-bindings: media: i2c: Add Samsung S5K3M5 image sensor
-  media: i2c: Add Samsung S5K3M5 13MP camera sensor driver
-
- .../bindings/media/i2c/samsung,s5k3m5.yaml    |  103 ++
- MAINTAINERS                                   |    8 +
- drivers/media/i2c/Kconfig                     |   10 +
- drivers/media/i2c/Makefile                    |    1 +
- drivers/media/i2c/s5k3m5.c                    | 1377 +++++++++++++++++
- 5 files changed, 1499 insertions(+)
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+---
+ .../bindings/media/i2c/samsung,s5k3m5.yaml    | 103 ++++++++++++++++++
+ 1 file changed, 103 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/media/i2c/samsung,s5k3m5.yaml
- create mode 100644 drivers/media/i2c/s5k3m5.c
 
+diff --git a/Documentation/devicetree/bindings/media/i2c/samsung,s5k3m5.yaml b/Documentation/devicetree/bindings/media/i2c/samsung,s5k3m5.yaml
+new file mode 100644
+index 000000000000..434f15f64bcd
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/samsung,s5k3m5.yaml
+@@ -0,0 +1,103 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/samsung,s5k3m5.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Samsung S5K3M5 Image Sensor
++
++description:
++  Samsung S5K3M5 (ISOCELL 3M5) image sensor is a 13MP image sensor.
++  The sensor is controlled over a serial camera control bus protocol,
++  the widest supported output image frame size is 4208x3120 at 30 frames
++  per second, data output format is RAW10 transferred over 4-lane
++  MIPI D-PHY interface.
++
++maintainers:
++  - Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
++
++allOf:
++  - $ref: /schemas/media/video-interface-devices.yaml#
++
++properties:
++  compatible:
++    const: samsung,s5k3m5
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    description: MCLK supply clock.
++    maxItems: 1
++
++  reset-gpios:
++    description: Active low GPIO connected to RESET pad of the sensor.
++    maxItems: 1
++
++  afvdd-supply:
++    description: Autofocus actuator voltage supply, 2.8-3.0 volts.
++
++  vdda-supply:
++    description: Analogue voltage supply, 2.8 volts.
++
++  vddd-supply:
++    description: Digital core voltage supply, 1.05 volts.
++
++  vddio-supply:
++    description: Digital I/O voltage supply, 2.8 or 1.8 volts.
++
++  port:
++    $ref: /schemas/graph.yaml#/$defs/port-base
++    additionalProperties: false
++
++    properties:
++      endpoint:
++        $ref: /schemas/media/video-interfaces.yaml#
++        unevaluatedProperties: false
++
++        properties:
++          data-lanes:
++            items:
++              - const: 1
++              - const: 2
++              - const: 3
++              - const: 4
++
++        required:
++          - link-frequencies
++
++required:
++  - compatible
++  - reg
++  - port
++
++unevaluatedProperties: false
++
++examples:
++  - |
++      #include <dt-bindings/gpio/gpio.h>
++
++      i2c {
++          #address-cells = <1>;
++          #size-cells = <0>;
++
++          camera@10 {
++              compatible = "samsung,s5k3m5";
++              reg = <0x10>;
++              clocks = <&camera_mclk 0>;
++              assigned-clocks = <&camera_mclk 0>;
++              assigned-clock-rates = <24000000>;
++              reset-gpios = <&gpio1 10 GPIO_ACTIVE_LOW>;
++              vdda-supply = <&vreg_2p8>;
++              vddd-supply = <&vreg_1p05>;
++              vddio-supply = <&vreg_1p8>;
++
++              port {
++                  endpoint {
++                      link-frequencies = /bits/ 64 <602500000>;
++                      remote-endpoint = <&mipi_csi2_ep>;
++                  };
++              };
++          };
++      };
++...
 -- 
 2.49.0
 
