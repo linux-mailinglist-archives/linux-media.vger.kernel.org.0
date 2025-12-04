@@ -1,214 +1,211 @@
-Return-Path: <linux-media+bounces-48242-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48245-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B145CA486D
-	for <lists+linux-media@lfdr.de>; Thu, 04 Dec 2025 17:34:55 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF870CA4A02
+	for <lists+linux-media@lfdr.de>; Thu, 04 Dec 2025 17:58:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 107293026BEE
-	for <lists+linux-media@lfdr.de>; Thu,  4 Dec 2025 16:33:19 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B65CC303B7EA
+	for <lists+linux-media@lfdr.de>; Thu,  4 Dec 2025 16:52:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB0823002B9;
-	Thu,  4 Dec 2025 16:32:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D75E5285CA2;
+	Thu,  4 Dec 2025 16:45:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ROBf9lFo"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="h4+G0yu8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D75F92FBDE2;
-	Thu,  4 Dec 2025 16:32:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 476282FFDE6
+	for <linux-media@vger.kernel.org>; Thu,  4 Dec 2025 16:45:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764865968; cv=none; b=C/6aZn+iutr+CPIWscOtNiou/tMeMeoVc5EVbz2nLvJ22p4Ghuoz/ya7XzEDzYUqvUZfbwkboa0U7soz+8vJyKnU+vPZwjLdCNverEI9Ujc40IwgsBWMiIImwMqbNe88Cw5BliGEdFvIcPBnCq3We/rWXgvGmf/N8+rqX0JwDaE=
+	t=1764866718; cv=none; b=se25B3pC19I9qIZTdQJULTxzHlwJsV28FkYUXqlNY3mFu4k5NDDb9UH50vr/T1YVb9DiZE2ZXUxV80yP6svRAKhDuY2sRdHV/VCzjEU9g9lKZ/+XbTtqoW0B0XypmYvrhtlaQVzglTRK7w/SaoPMjt1095H14IwxpAQZakx+gHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764865968; c=relaxed/simple;
-	bh=Lzd+d6ieW5CartjptTmOhf3AJteTtZmGLAkDwoaVU0U=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=u5hUGfbyX+IOLm210ucnv4NvdEqiDDUERhkP0iwK4U5/saBahOOUFOiSDN81Dt85ZyB7iSg99i4zpEqqVet9ShbEuVeGbtkpBZhAWhXRoa0Igcz1Cl057V/8Wknm7WnSgtomqZLwVYhCPLMmZcNIHJVyD171MKeAdQZFtlZ6bc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ROBf9lFo; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 887EAC19423;
-	Thu,  4 Dec 2025 16:32:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764865967;
-	bh=Lzd+d6ieW5CartjptTmOhf3AJteTtZmGLAkDwoaVU0U=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=ROBf9lFoPcawAKsxMzsTVMIHfKh4Tg86EKtBSlXIKlY6rfvc6jl3CYkuj7zaCyXbc
-	 QML2HJlI7E8DSyuRWDWPBYlYVBwmK3MB2dGxQowEr/1oTOybQc7IvM7FXLmoVY3xkf
-	 HnpZpi6C+StWeA5BDhQMtGPgXvtxB9QqCM7dmhxh1sQwBQFyITKH/JCOPRWTPF/Ibw
-	 6K6gSnpWKiTRPdr2ody4gow1K5TFjo0R6oeKJdnNvAQPBOwGkbvVBdorsxzTvE5BrV
-	 SbCPfkN2tzXsiwN3JmfBWnkWedDODiU5zk/y5ldowDxGtnxVu7eX2BjsxulAtD6Y5j
-	 RYI4kBmCkh24Q==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F31DD216AE;
-	Thu,  4 Dec 2025 16:32:47 +0000 (UTC)
-From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Thu, 04 Dec 2025 17:32:42 +0100
-Subject: [PATCH WIP v2 8/8] media: qcom: camss: Account for C-PHY when
- calculating link frequency
+	s=arc-20240116; t=1764866718; c=relaxed/simple;
+	bh=c3ezqcDqU/SvIrFCM+Nr0gLUzPc4tq7ZG8H0xdUNAd0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=J1XzVK1wLz1oMmZwy1nyOOMH1OqZ84219GMl50fgYO38SHjC53G3sslHd9H5mTNdFdjV0g7NGY1cIjzjuVDfopZghwtccUw073bQ+IQTrbzMVPsbVWJFgu7s0DKZsVr+J6qe5Cn9Fu5hQW2F2M/7klFCfd1s01Gxa3jfcH2BPWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=h4+G0yu8; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4779a4fb9bfso73145e9.0
+        for <linux-media@vger.kernel.org>; Thu, 04 Dec 2025 08:45:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1764866712; x=1765471512; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0CyQocRCpW9wkr09JiCgFa32QuaN7pvC+ueWitNv43g=;
+        b=h4+G0yu8ODixk01zt5PQP1HApNvNDjASxvJzOwRzDKhXVC/K/slR2z7tzqMn3ZC0iN
+         IUwyMGOq+5UWwhQRjwZXNdomRQkz6ExnY42BsmLgMuLNK7rZDSKWuiWEtldaOrj13vLV
+         TT41V5CY8Ue9gY1lXtfCpBLsDtHsT4THaBPfE9fUrL/JMbv5nLQlxA8n5h8hulQKvIUW
+         PsrwLEq9QKWU5kwCHjhp6H9glTVMVBwwkMSFeizONfOW7ocNLXtXXevmcvJ++yTAqAAF
+         RN3PE9YGrD0cT2Un0KjqAFPtiS07RpO4CTyc/Y103Sb7Pz+jvDf1bocIB40qtril6HYz
+         Rr9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764866712; x=1765471512;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=0CyQocRCpW9wkr09JiCgFa32QuaN7pvC+ueWitNv43g=;
+        b=I0s5IPMTuyCSCkaKC8us/iSkg8Isd0oN6+n3orbR+QR4r3YpYzMUvg1LLV8GEEqd3W
+         BuvLjFIHm+OSRehNfEHJ0D0dHa4OVJVrx+7VX8ZaYv2tbU3Q7Axxkvf73ZPiUZmK0iRp
+         Ii2/fLPlnHZGcS7hqy7Lkof4Hfq7AzMUup36U85FgvmXwPS1T/ZQ35c4WLuxqZfTNoia
+         8FYciBxMNEj3G7HvRP+SeqOK6Ue+wD0gQxUaDUeUzOF8bRoKN/zMd+MVdQb1cObS9IUx
+         O4UbBYpBkZzlWFTsZsQeRkyzYcBabWv5+Ffpl7r1FQlAHCG/nfav3+daxL5F+62CDEDg
+         VEkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU/dVdjzwuhzCjogJXldUdAOc5YVgDZB6F+9TdDyMEPdaolqQIP2oOLNh0uM9jnMC0zQ3tCsDd/v3Kn8w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzltbDIvlFhlqnSr/zZqipWqy/Oe/tx0kP2vuvfXVpBKnG/cuz5
+	HMlcvKAKe/YZoqIyz5WWx/Yh67cK+i6xWmbSUeSqv4WPaGwtOeLoqipBibj4UdseGRyFntypgRJ
+	LSCWwwwRPmmi842E5Of+Ti7GPllfCh4RE9uS+1RQ+
+X-Gm-Gg: ASbGnctakzlQiMqxqALdLtvAJMjkPs8mz200GgpJ/ZSrWxf8SuuMDsnJyH7gwIvsoqM
+	0jPgni8HXtWuHAGL9YDOJBsiOku8l0t3+AzBqEI7Tm4RbGMLsMDeMYGYlPncQ9Iqy9iQOYWg7e6
+	bf8LmiCTxKZi7/8J2sadaYo1YqyVc25g3DcLM9bgPflV2EvrDA4OKL7cFGuXK7n2Gok34jc98Xl
+	DyeY+M5GYfW7FilyG9o3Nc/NsjGqk25EXUb+X/EcMc0Leib44PY3L7ngt5/yNownvtrRfkDt+fH
+	7nzpglIVauLFCjeC6ndd5uyYyunFAimp6nyOy1vhwwDNjhDRiWmBcNnoClwPQg==
+X-Google-Smtp-Source: AGHT+IE0KMhH3k7qWdeBVVuAP+IUq1UipXwO7m3nwOYJmd54XwgIknZR5FukbGSdeibG3Qv+NPqrhPE4p5p9ITMRKrU=
+X-Received: by 2002:a05:600c:581a:b0:477:86fd:fb18 with SMTP id
+ 5b1f17b1804b1-47932e04338mr205795e9.8.1764866712062; Thu, 04 Dec 2025
+ 08:45:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251204-qcom-cphy-v2-8-6b35ef8b071e@ixit.cz>
-References: <20251204-qcom-cphy-v2-0-6b35ef8b071e@ixit.cz>
-In-Reply-To: <20251204-qcom-cphy-v2-0-6b35ef8b071e@ixit.cz>
-To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Luca Weiss <luca.weiss@fairphone.com>, Petr Hodina <phodina@protonmail.com>, 
- Casey Connolly <casey.connolly@linaro.org>, "Dr. Git" <drgitx@gmail.com>
-Cc: Joel Selvaraj <foss@joelselvaraj.com>, 
- Kieran Bingham <kbingham@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- phone-devel@vger.kernel.org, David Heidelberg <david@ixit.cz>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5230; i=david@ixit.cz;
- h=from:subject:message-id;
- bh=b1nclvoHacIkz7OV2Q02X6ymuveqnuBFG4Fw6qspG18=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpMbetO8v9IP/fCl+iBxVyeBnOtgKMpCe6yBF3S
- wFhmEpWu5qJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaTG3rQAKCRBgAj/E00kg
- cl+9EACfXP/Tbp6aGoowpOVft73F4HARvALH0Cr4oFK3BECz02pgSBIq1Huv9OWvV9xwd8jDNv7
- 8Ofzv2dqg1MNzlc+B24wGsh9gBCvexmRtC/MARlAcS9gzNd8dDk+S6fOU2gO7IRklOisRIyDGMu
- hkSIZlJnvKlXW/vi25ndaI5VY9hrg18OXGWDtosCn4pNYfIWaax+iUxndE9GNGrm7gIxQiYdC+R
- 4Y/vgVX7VtfrR4PF6ZR25DsE381R0/n5fJt2tXTuoBxaBhKufAbbwn7v2SuVVH3VejZheCr8jOh
- fQbh+YTeDED8Z6jPSNggCmHbYFhWWsDX1n5FgFIhQINEbyJ80k/Ihp5Qg0U5S0efOFxnnsvnsP8
- mSkBCrCgGtpKyJ7Vz0fNsY+rCpyGGq8EW9fkQztzQYy7BDosIvuNzrDG1BNFHDEwC0uN12rl3hg
- Afe9lHXD4qZEPaGBhWrLkHBJx5uIOprgnt75vETEkJGtxGpv+/RPf1RI8Ja/M7w6HfR81MvBW+r
- SJxOKZAxyPx59BUXNVZ2mKGwiE7+OiQbiFcNmlmnlMOEEgbmVOfgiwdq6PtkO3KukqySNsDWdab
- 5iLrT5waOzglhzAajmBQolnj4Amwna9w9Bo3gmCKuvM4vvWEKFGzuAyc1GDV3eLSVGqnBH0Pzlb
- 3s9/bzkunvFTUrw==
-X-Developer-Key: i=david@ixit.cz; a=openpgp;
- fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
-X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
-X-Original-From: David Heidelberg <david@ixit.cz>
-Reply-To: david@ixit.cz
+References: <20251204000348.1413593-1-tjmercier@google.com> <20251204000348.1413593-2-tjmercier@google.com>
+In-Reply-To: <20251204000348.1413593-2-tjmercier@google.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Thu, 4 Dec 2025 08:44:59 -0800
+X-Gm-Features: AWmQ_bnxDs0Em9c_P-3hJ2uCc6BRD7h1aEC-DbAd-yhfuFNLkrr8DTNbaj0gPCw
+Message-ID: <CABdmKX0LxoPJPA755bzN8vRjUOQ0c4XucGhDX8QgbxqYXdB1pA@mail.gmail.com>
+Subject: Re: [PATCH bpf 2/2] selftests/bpf: Add test for truncated dmabuf_iter reads
+To: yonghong.song@linux.dev, ast@kernel.org, daniel@iogearbox.net, 
+	andrii@kernel.org, martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org, 
+	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
+	haoluo@google.com, jolsa@kernel.org, shuah@kernel.org, bpf@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	android-mm@google.com
+Cc: christian.koenig@amd.com, sumit.semwal@linaro.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: David Heidelberg <david@ixit.cz>
+On Wed, Dec 3, 2025 at 4:05=E2=80=AFPM T.J. Mercier <tjmercier@google.com> =
+wrote:
+>
+> If many dmabufs are present, reads of the dmabuf iterator can be
+> truncated at PAGE_SIZE or user buffer size boundaries before the fix in
+> "selftests/bpf: Add test for open coded dmabuf_iter".
 
-Ensure that the link frequency divider correctly accounts for C-PHY
-operation. The divider differs between D-PHY and C-PHY, as described
-in the MIPI CSI-2 specification.
+Copy/paste error here. This should be "bpf: Fix truncated dmabuf
+iterator reads" from the previous commit in patch 1. I didn't include
+the sha because I don't think they're guaranteed to be stable at this
+point.
 
-For more details, see:
-https://docs.kernel.org/driver-api/media/tx-rx.html#pixel-rate
+I also saw the warning from CI about the extra newline before
+subtest_dmabuf_iter_check_open_coded, but the current CI failures look
+unrelated to this change.
 
-Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Signed-off-by: David Heidelberg <david@ixit.cz>
----
- drivers/media/platform/qcom/camss/camss-csid.c   |  2 +-
- drivers/media/platform/qcom/camss/camss-csiphy.c |  6 ++++--
- drivers/media/platform/qcom/camss/camss.c        | 16 +++++++++++++---
- drivers/media/platform/qcom/camss/camss.h        |  2 +-
- 4 files changed, 19 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
-index d9026fd829d61..437f51dc86f9f 100644
---- a/drivers/media/platform/qcom/camss/camss-csid.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid.c
-@@ -545,7 +545,7 @@ static int csid_set_clock_rates(struct csid_device *csid)
- 	fmt = csid_get_fmt_entry(csid->res->formats->formats, csid->res->formats->nformats,
- 				 csid->fmt[MSM_CSIPHY_PAD_SINK].code);
- 	link_freq = camss_get_link_freq(&csid->subdev.entity, fmt->bpp,
--					csid->phy.lane_cnt);
-+					csid->phy.lane_cnt, csid->phy.cphy);
- 	if (link_freq < 0)
- 		link_freq = 0;
- 
-diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.c b/drivers/media/platform/qcom/camss/camss-csiphy.c
-index a734fb7dde0a4..bac3a9fa3be50 100644
---- a/drivers/media/platform/qcom/camss/camss-csiphy.c
-+++ b/drivers/media/platform/qcom/camss/camss-csiphy.c
-@@ -144,8 +144,9 @@ static int csiphy_set_clock_rates(struct csiphy_device *csiphy)
- 	u8 bpp = csiphy_get_bpp(csiphy->res->formats->formats, csiphy->res->formats->nformats,
- 				csiphy->fmt[MSM_CSIPHY_PAD_SINK].code);
- 	u8 num_lanes = csiphy->cfg.csi2->lane_cfg.num_data;
-+	bool cphy = csiphy->cfg.csi2->lane_cfg.phy_cfg == V4L2_MBUS_CSI2_CPHY;
- 
--	link_freq = camss_get_link_freq(&csiphy->subdev.entity, bpp, num_lanes);
-+	link_freq = camss_get_link_freq(&csiphy->subdev.entity, bpp, num_lanes, cphy);
- 	if (link_freq < 0)
- 		link_freq  = 0;
- 
-@@ -270,9 +271,10 @@ static int csiphy_stream_on(struct csiphy_device *csiphy)
- 	u8 bpp = csiphy_get_bpp(csiphy->res->formats->formats, csiphy->res->formats->nformats,
- 				csiphy->fmt[MSM_CSIPHY_PAD_SINK].code);
- 	u8 num_lanes = csiphy->cfg.csi2->lane_cfg.num_data;
-+	bool cphy = csiphy->cfg.csi2->lane_cfg.phy_cfg == V4L2_MBUS_CSI2_CPHY;
- 	u8 val;
- 
--	link_freq = camss_get_link_freq(&csiphy->subdev.entity, bpp, num_lanes);
-+	link_freq = camss_get_link_freq(&csiphy->subdev.entity, bpp, num_lanes, cphy);
- 
- 	if (link_freq < 0) {
- 		dev_err(csiphy->camss->dev,
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index 414646760ae6b..6333f5dd73b53 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -32,6 +32,14 @@
- #define CAMSS_CLOCK_MARGIN_NUMERATOR 105
- #define CAMSS_CLOCK_MARGIN_DENOMINATOR 100
- 
-+/*
-+ * C-PHY encodes data by 16/7 ~ 2.28 bits/symbol
-+ * D-PHY doesn't encode data, thus 16/16 = 1 b/s
-+ */
-+#define CAMSS_COMMON_PHY_DIVIDENT 16
-+#define CAMSS_CPHY_DIVISOR 7
-+#define CAMSS_DPHY_DIVISOR 16
-+
- static const struct parent_dev_ops vfe_parent_dev_ops;
- 
- static const struct camss_subdev_resources csiphy_res_8x16[] = {
-@@ -3912,20 +3920,22 @@ struct media_pad *camss_find_sensor_pad(struct media_entity *entity)
-  * camss_get_link_freq - Get link frequency from sensor
-  * @entity: Media entity in the current pipeline
-  * @bpp: Number of bits per pixel for the current format
-- * @lanes: Number of lanes in the link to the sensor
-+ * @nr_of_lanes: Number of lanes in the link to the sensor
-  *
-  * Return link frequency on success or a negative error code otherwise
-  */
- s64 camss_get_link_freq(struct media_entity *entity, unsigned int bpp,
--			unsigned int lanes)
-+			unsigned int nr_of_lanes, bool cphy)
- {
- 	struct media_pad *sensor_pad;
-+	unsigned int div = nr_of_lanes * 2 * (cphy ? CAMSS_CPHY_DIVISOR :
-+						     CAMSS_DPHY_DIVISOR);
- 
- 	sensor_pad = camss_find_sensor_pad(entity);
- 	if (!sensor_pad)
- 		return -ENODEV;
- 
--	return v4l2_get_link_freq(sensor_pad, bpp, 2 * lanes);
-+	return v4l2_get_link_freq(sensor_pad, CAMSS_COMMON_PHY_DIVIDENT * bpp, div);
- }
- 
- /*
-diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
-index 9d9a62640e25d..0ab908b0c037f 100644
---- a/drivers/media/platform/qcom/camss/camss.h
-+++ b/drivers/media/platform/qcom/camss/camss.h
-@@ -162,7 +162,7 @@ int camss_enable_clocks(int nclocks, struct camss_clock *clock,
- void camss_disable_clocks(int nclocks, struct camss_clock *clock);
- struct media_pad *camss_find_sensor_pad(struct media_entity *entity);
- s64 camss_get_link_freq(struct media_entity *entity, unsigned int bpp,
--			unsigned int lanes);
-+			unsigned int lanes, bool cphy);
- int camss_get_pixel_clock(struct media_entity *entity, u64 *pixel_clock);
- int camss_pm_domain_on(struct camss *camss, int id);
- void camss_pm_domain_off(struct camss *camss, int id);
-
--- 
-2.51.0
-
-
+Add a test to
+> confirm truncation does not occur.
+>
+> Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> ---
+>  .../selftests/bpf/prog_tests/dmabuf_iter.c    | 47 +++++++++++++++++--
+>  1 file changed, 42 insertions(+), 5 deletions(-)
+>
+> diff --git a/tools/testing/selftests/bpf/prog_tests/dmabuf_iter.c b/tools=
+/testing/selftests/bpf/prog_tests/dmabuf_iter.c
+> index 6c2b0c3dbcd8..e442be9dde7e 100644
+> --- a/tools/testing/selftests/bpf/prog_tests/dmabuf_iter.c
+> +++ b/tools/testing/selftests/bpf/prog_tests/dmabuf_iter.c
+> @@ -73,12 +73,10 @@ static int create_udmabuf(void)
+>         return -1;
+>  }
+>
+> -static int create_sys_heap_dmabuf(void)
+> +static int create_sys_heap_dmabuf(size_t bytes)
+>  {
+> -       sysheap_test_buffer_size =3D 20 * getpagesize();
+> -
+>         struct dma_heap_allocation_data data =3D {
+> -               .len =3D sysheap_test_buffer_size,
+> +               .len =3D bytes,
+>                 .fd =3D 0,
+>                 .fd_flags =3D O_RDWR | O_CLOEXEC,
+>                 .heap_flags =3D 0,
+> @@ -110,7 +108,9 @@ static int create_sys_heap_dmabuf(void)
+>  static int create_test_buffers(void)
+>  {
+>         udmabuf =3D create_udmabuf();
+> -       sysheap_dmabuf =3D create_sys_heap_dmabuf();
+> +
+> +       sysheap_test_buffer_size =3D 20 * getpagesize();
+> +       sysheap_dmabuf =3D create_sys_heap_dmabuf(sysheap_test_buffer_siz=
+e);
+>
+>         if (udmabuf < 0 || sysheap_dmabuf < 0)
+>                 return -1;
+> @@ -219,6 +219,26 @@ static void subtest_dmabuf_iter_check_default_iter(s=
+truct dmabuf_iter *skel)
+>         close(iter_fd);
+>  }
+>
+> +static void subtest_dmabuf_iter_check_lots_of_buffers(struct dmabuf_iter=
+ *skel)
+> +{
+> +       int iter_fd;
+> +       char buf[1024];
+> +       size_t total_bytes_read =3D 0;
+> +       ssize_t bytes_read;
+> +
+> +       iter_fd =3D bpf_iter_create(bpf_link__fd(skel->links.dmabuf_colle=
+ctor));
+> +       if (!ASSERT_OK_FD(iter_fd, "iter_create"))
+> +               return;
+> +
+> +       while ((bytes_read =3D read(iter_fd, buf, sizeof(buf))) > 0)
+> +               total_bytes_read +=3D bytes_read;
+> +
+> +       ASSERT_GT(total_bytes_read, getpagesize(), "total_bytes_read");
+> +
+> +       close(iter_fd);
+> +}
+> +
+> +
+>  static void subtest_dmabuf_iter_check_open_coded(struct dmabuf_iter *ske=
+l, int map_fd)
+>  {
+>         LIBBPF_OPTS(bpf_test_run_opts, topts);
+> @@ -275,6 +295,23 @@ void test_dmabuf_iter(void)
+>                 subtest_dmabuf_iter_check_no_infinite_reads(skel);
+>         if (test__start_subtest("default_iter"))
+>                 subtest_dmabuf_iter_check_default_iter(skel);
+> +       if (test__start_subtest("lots_of_buffers")) {
+> +               size_t NUM_BUFS =3D 100;
+> +               int buffers[NUM_BUFS];
+> +               int i;
+> +
+> +               for (i =3D 0; i < NUM_BUFS; ++i) {
+> +                       buffers[i] =3D create_sys_heap_dmabuf(getpagesize=
+());
+> +                       if (!ASSERT_OK_FD(buffers[i], "dmabuf_fd"))
+> +                               goto cleanup_bufs;
+> +               }
+> +
+> +               subtest_dmabuf_iter_check_lots_of_buffers(skel);
+> +
+> +cleanup_bufs:
+> +               for (--i; i >=3D 0; --i)
+> +                       close(buffers[i]);
+> +       }
+>         if (test__start_subtest("open_coded"))
+>                 subtest_dmabuf_iter_check_open_coded(skel, map_fd);
+>
+> --
+> 2.52.0.177.g9f829587af-goog
+>
 
