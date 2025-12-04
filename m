@@ -1,148 +1,197 @@
-Return-Path: <linux-media+bounces-48197-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48199-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54786CA1B5E
-	for <lists+linux-media@lfdr.de>; Wed, 03 Dec 2025 22:46:38 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20559CA204D
+	for <lists+linux-media@lfdr.de>; Thu, 04 Dec 2025 01:06:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id C510F300AB28
-	for <lists+linux-media@lfdr.de>; Wed,  3 Dec 2025 21:46:36 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 45D02301D65F
+	for <lists+linux-media@lfdr.de>; Thu,  4 Dec 2025 00:05:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AB2D2566E9;
-	Wed,  3 Dec 2025 21:46:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9963C8E6;
+	Thu,  4 Dec 2025 00:05:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XJXNXZJf"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fJrWGvgF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5F762BDC00
-	for <linux-media@vger.kernel.org>; Wed,  3 Dec 2025 21:46:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23328EAE7
+	for <linux-media@vger.kernel.org>; Thu,  4 Dec 2025 00:05:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764798393; cv=none; b=UyAuu3+H0oulxRwY5uAUusQBsT7Hp9d4jOl4PhxshsvPhCRAwp74+2iFxMoYATcIYuIpM5s1s2DxgmX2cACVqwCKquKdTCEGD8Jy3PmO42gVccp9XBNlYEdOwAMbH3uMlmya7Hy+x+Sot5SAQIQx/G+8HBp42omuJNbzUFyLLVA=
+	t=1764806724; cv=none; b=AQ4X30nZHjm7dIYbNGBlU4EbIKo/CihkBWoWLIn0a/kZiZruZ7kDjEXTwmlneqDno5nhwqo1NK+/9dJMUYvH7fHzObRJPxGtCwr2crtCvt4nTJmVjvSpyyfyZ59dfqeBGDCuSThfPTtFBOqlCMuw+Gra4VTCJCsilsyD1NOeTnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764798393; c=relaxed/simple;
-	bh=LW4lF+HH7tPDvaO0olYxEhH3URnBMluWxNHc4QvhG8A=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:
-	 References:In-Reply-To; b=jdMDrFXNvioWaY2tAOXDs3ZK6dYgclihjZsJ6DpaYGjeyDhcB5yAP+S6koPZJ8YyE+ubr8XqM3/LZR1OVmBGqIB9uiseOa8ty3kCEHaxIln+E4MzVsQGojvOP7OxFe7wVz4Q6Yk4A5Ppm6RxmpZzzQ9K0uf0ZXIEf7XIPvcFBtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XJXNXZJf; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4775ae5684fso1234635e9.1
-        for <linux-media@vger.kernel.org>; Wed, 03 Dec 2025 13:46:31 -0800 (PST)
+	s=arc-20240116; t=1764806724; c=relaxed/simple;
+	bh=Ng2mAL+3jbbmbK2kdWqTVXksLagXb5kbG5DAQ3Lamwo=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=alfOraI6iIgkqx9ESrM0o9JLdyEfJWB5daCLLrX8RND2IgDfrNFtoIitq30KI6QML72534TCGpUHdUuVIJkcgBsEdJoTZ6WZvBKlgcrxeY63617ukNRDLn99uPwQ3srsyOPxAzeJq/Da7WRshgtyIPNIq7ojhzHc6MVfGzHFYdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fJrWGvgF; arc=none smtp.client-ip=209.85.214.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-29845b18d1aso5604015ad.1
+        for <linux-media@vger.kernel.org>; Wed, 03 Dec 2025 16:05:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764798390; x=1765403190; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ml6i+iixnqZ1+myXTzc7GR7t48tkR/Xa8KrRUoyFSXM=;
-        b=XJXNXZJfHi/Wg8IbjztJ2lxUAXJYV1FUyZdrIIvsh9CxbNIdVWBaL+aaW8KxGOdIvP
-         JHLl1S0N4tdO6Wrt9cxU+tADz5Wy1Dkuv0mKchq6cOUj0yaIq6kdkQb3G49LDY3O8rKQ
-         KQfp/r4ov1bUCxF2xjvEQVLPnDgEknoHwZczfCnaq0VQt2wW5eSkvtMj9zI0+kSBma+e
-         jWYKw96ki5O8ROzA9llgIpCJg8HePdVd3bhFPt+z+viULhltv0dFrAP9GC+0qdwYBBc7
-         vvKcwSTTXiTdiQ89j6CeH0T85mqr10TLiBZ9sgG02G1po6ARa/4BWkXBT1RA9Dd+QuF4
-         26Jw==
+        d=google.com; s=20230601; t=1764806720; x=1765411520; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=tG99E2G74NBlCqMFEbuJyuFU682bdGjo6IlyusySJck=;
+        b=fJrWGvgFndxNAVZtqHcyVqORi0lZgFmg2RoMxlGwmkVMrZQdthVaYR1hFC6Ly5dzQP
+         /O334Uc9hzQbXTaBJBDQpxUV8fClAuQyV+mSvhXft49O5xvrscyOD0tIVtaeER892oz/
+         bCrMwusGyc1YxMFNHWfEpA9kvAeVWAG+8WlcWq+/ksmsqkeTuAVDfFQDRKFGmuzsJBvL
+         e9UvbzJE/bDfImjPR7c25dS1Wf0t60WB+zUp053+8sdPqxIeXAnUJRwMDmfuuPRk9kh4
+         GnB/l58IokpUZO1K7nsuloIUNbGVR2Ys4IGebn4jXvNZI9iXbbkOpBftOM93oV8woYmW
+         ZBfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764798390; x=1765403190;
-        h=in-reply-to:references:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+        d=1e100.net; s=20230601; t=1764806720; x=1765411520;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ml6i+iixnqZ1+myXTzc7GR7t48tkR/Xa8KrRUoyFSXM=;
-        b=nVXkx6v9GjsiQd5Db9FRv6z74vje1IrOdFhAC8eXhgIVeD+urXzNh7P7rBQjkLF51F
-         FtBYxv9h59wmtGO9wjPeds3hIdkBZ1ev8qjhYnEC/IabAQlmPOXGUgiuJoows0TXTHNm
-         q8UqqF3Rsc1g0L0nHzDAhyHQg/WTy5k2vJ+Kbtb/L4LrBjGpZDNbFj14ElN3jW+GY1wV
-         nFRUtrXrfVUakt9jl8QCwjjc1o3gEAkXq+N3fJRIsJtkSrtTDvloWK8VsdIDAFj6aAKH
-         /TEb2buSo+IDA3+H83QPW80gy7eWLSFjKY0zxL1nSnHXPI5lPvT1bREXxFB/Xvep5u71
-         2hZw==
-X-Forwarded-Encrypted: i=1; AJvYcCXJ7ZxdAalBiGJT2Wkb7WKl1s9XUEZaREUHM9mJUWsa7mPyTCphwPZ1AiTv1nhN/SqugI8G0O9OUAu4QQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzvkQWJTd4vR612Osx5Lg+rWRFsgkTS9NeUbmEGlCLIvQgGj1UQ
-	+X4Brpgw0uOLN9/806Lhp6vlkt4Vm5Z1Frkjrm2Gt7MVieyGUk5gXJJ8
-X-Gm-Gg: ASbGncuOB/ggQrpCtTsrFOvCtCIqtbGI4bipU56PfGTgNC3b7XEgIo1k81AVAH6Psq8
-	SZuzwMBvEgBZNQGZv/YiLxKruSRskIffzrIsnEVX4V1AbdWD1HS2lhlJyA8e2akS9xL3DXTm2Sp
-	93rp4l1J3ddBlgOduZASlG34/V8Ofn1MSAgmbitjSI7elEMRYXvmdYaBHrKaD80QTYllBdqka3M
-	ZSWTS2Pjx9wXUUHnJ03ekBIJ4APlY5ee2VXv+bihDXv1OEmPUa7b69gEsUstJ+4kgMkuR6jKvTC
-	o2Z2jKmD90o7xbKcDPNSVJb1JWJw/3u8Iz9gPUW8RvAnf06FA1Ja78i98ASEAstww9quHN3aQXC
-	nfUzlxBDhbHiIxUcTQXwjVNCwuzpenQ4TGHvMFPkC3WP/UqAJXiDseSLFYKOqc+ThYbdlKg==
-X-Google-Smtp-Source: AGHT+IEwjZ0JPXBovvmIeAz1rFRWiLXUiZvR3mpMDAoWQKC9a0d3PqIr2JyudmYb/szjyUbanTeZYg==
-X-Received: by 2002:a05:600c:4693:b0:477:8a2a:1244 with SMTP id 5b1f17b1804b1-4792aee38c7mr38832705e9.11.1764798389787;
-        Wed, 03 Dec 2025 13:46:29 -0800 (PST)
-Received: from localhost (a109-48-201-233.cpe.netcabo.pt. [109.48.201.233])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4792b61bceasm26934465e9.2.2025.12.03.13.46.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Dec 2025 13:46:28 -0800 (PST)
+        bh=tG99E2G74NBlCqMFEbuJyuFU682bdGjo6IlyusySJck=;
+        b=ZH4WtQk/3HP4h5jsnFjPjgk3FXKWzi+MUEXtRbAqSn/YalqIYBd2ueIv8DpGJr+gvI
+         kJuE9U8IGZRDnP7ligCgn/3H9qcxUfIcWpPjSFzrFvIxortMQLVEW7bVsu+NJehoelOk
+         3+OK8vXoyVYmrSWZgaFBxPU26rqN8pvE8hF1Iuzn+qZut79JjSUYp8um0CdqyDhdHaAK
+         pwkHxs/3zudAuf6rrT7OQwP9FEaXFmaaEk/CmMU5yNq7l5uH7+IrK0Ly000m3EDye53x
+         fIrCZjHbGtOCHvUvyR23kGTvTouvLTTiIzy+vpZG+yI5JqqDDlPFvbMxAGmvUD0/uETa
+         w3XQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWQurAKwEEL4Hydc0Jmdr9XCYl25ZR9kEOMiSahraWjfB1bxBS31e9PpApM6ohljukEO30xtWHB6mWwbQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YylewmX2pa3zCOe1jdOYTdBxbmShnY7IXXm3oH4hdMbD4xevY0D
+	ZM7tDKei232TtlAsYCpI8/XjerYB4kBi0L3GYofdakmCnNwosALNFrduDX5KWc6ujrVB5QYJi0A
+	tots/PKgT4rEL9MZGAQ==
+X-Google-Smtp-Source: AGHT+IGeC714EhBu/T29Z7FIKq0MljnotPa6j758d1YJabmaYRlvO/lv9fc69gFjzEtkHLe56aPYXjQBQYBtJtQ=
+X-Received: from plbbb9.prod.google.com ([2002:a17:902:bc89:b0:29d:5afa:2c4])
+ (user=tjmercier job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:902:e943:b0:296:5ea8:ed7c with SMTP id d9443c01a7336-29d68344bf3mr55170825ad.17.1764806720435;
+ Wed, 03 Dec 2025 16:05:20 -0800 (PST)
+Date: Wed,  3 Dec 2025 16:03:47 -0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 03 Dec 2025 21:46:27 +0000
-Message-Id: <DEOWTEQ7X9OX.2CNNQEE5IOLSB@gmail.com>
-Subject: Re: [PATCH 1/1] MAINTAINERS: Promote Frank Li as i.MX7/8 media
- maintainer
-From: "Rui Miguel Silva" <rmfrfs@gmail.com>
-To: "Frank Li" <Frank.Li@nxp.com>, <mchehab@kernel.org>,
- <laurent.pinchart@ideasonboard.com>, <hverkuil@kernel.org>,
- <nicolas.dufresne@collabora.com>, <guoniu.zhou@nxp.com>,
- <ming.qian@oss.nxp.com>, <linux-media@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <rui.silva@linaro.org>
-References: <20251203212205.1320623-1-Frank.Li@nxp.com>
-In-Reply-To: <20251203212205.1320623-1-Frank.Li@nxp.com>
+X-Mailer: git-send-email 2.52.0.177.g9f829587af-goog
+Message-ID: <20251204000348.1413593-1-tjmercier@google.com>
+Subject: [PATCH bpf 1/2] bpf: Fix truncated dmabuf iterator reads
+From: "T.J. Mercier" <tjmercier@google.com>
+To: yonghong.song@linux.dev, ast@kernel.org, daniel@iogearbox.net, 
+	andrii@kernel.org, martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org, 
+	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
+	haoluo@google.com, jolsa@kernel.org, shuah@kernel.org, bpf@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	android-mm@google.com
+Cc: christian.koenig@amd.com, sumit.semwal@linaro.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, "T.J. Mercier" <tjmercier@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hey Frank,
-Thanks a lot. And sorry for keep you waiting.
+If there is a large number (hundreds) of dmabufs allocated, the text
+output generated from dmabuf_iter_seq_show can exceed common user buffer
+sizes (e.g. PAGE_SIZE) necessitating multiple start/stop cycles to
+iterate through all dmabufs. However the dmabuf iterator currently
+returns NULL in dmabuf_iter_seq_start for all non-zero pos values, which
+results in the truncation of the output before all dmabufs are handled.
 
-On Wed Dec 3, 2025 at 9:22 PM WET, Frank Li wrote:
+After dma_buf_iter_begin / dma_buf_iter_next, the refcount of the buffer
+is elevated so that the BPF iterator program can run without holding any
+locks. When a stop occurs, instead of immediately dropping the reference
+on the buffer, stash a pointer to the buffer in seq->priv until
+either start is called or the iterator is released. This also enables
+the resumption of iteration without first walking through the list of
+dmabufs based on the pos value.
 
-> Move Rui Miguel Silva to reviewer since he does not have sufficient time =
-to
-> maintain i.MX7/8 media drivers. Frank Li has the hardware, complete
-> documentation, and has participated actively in patch review. Promote him
-> as the i.MX7/8 media drivers maintainer.
->
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+Fixes: 76ea95534995 ("bpf: Add dmabuf iterator")
+Signed-off-by: T.J. Mercier <tjmercier@google.com>
+---
+ kernel/bpf/dmabuf_iter.c | 56 +++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 49 insertions(+), 7 deletions(-)
 
-Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
+diff --git a/kernel/bpf/dmabuf_iter.c b/kernel/bpf/dmabuf_iter.c
+index 4dd7ef7c145c..cd500248abd9 100644
+--- a/kernel/bpf/dmabuf_iter.c
++++ b/kernel/bpf/dmabuf_iter.c
+@@ -6,10 +6,33 @@
+ #include <linux/kernel.h>
+ #include <linux/seq_file.h>
+ 
++struct dmabuf_iter_priv {
++	/*
++	 * If this pointer is non-NULL, the buffer's refcount is elevated to
++	 * prevent destruction between stop/start. If reading is not resumed and
++	 * start is never called again, then dmabuf_iter_seq_fini drops the
++	 * reference when the iterator is released.
++	 */
++	struct dma_buf *dmabuf;
++};
++
+ static void *dmabuf_iter_seq_start(struct seq_file *seq, loff_t *pos)
+ {
+-	if (*pos)
+-		return NULL;
++	struct dmabuf_iter_priv *p = seq->private;
++
++	if (*pos) {
++		struct dma_buf *dmabuf = p->dmabuf;
++
++		if (!dmabuf)
++			return NULL;
++
++		/*
++		 * Always resume from where we stopped, regardless of the value
++		 * of pos.
++		 */
++		p->dmabuf = NULL;
++		return dmabuf;
++	}
+ 
+ 	return dma_buf_iter_begin();
+ }
+@@ -54,8 +77,11 @@ static void dmabuf_iter_seq_stop(struct seq_file *seq, void *v)
+ {
+ 	struct dma_buf *dmabuf = v;
+ 
+-	if (dmabuf)
+-		dma_buf_put(dmabuf);
++	if (dmabuf) {
++		struct dmabuf_iter_priv *p = seq->private;
++
++		p->dmabuf = dmabuf;
++	}
+ }
+ 
+ static const struct seq_operations dmabuf_iter_seq_ops = {
+@@ -71,11 +97,27 @@ static void bpf_iter_dmabuf_show_fdinfo(const struct bpf_iter_aux_info *aux,
+ 	seq_puts(seq, "dmabuf iter\n");
+ }
+ 
++static int dmabuf_iter_seq_init(void *priv, struct bpf_iter_aux_info *aux)
++{
++	struct dmabuf_iter_priv *p = (struct dmabuf_iter_priv *)priv;
++
++	p->dmabuf = NULL;
++	return 0;
++}
++
++static void dmabuf_iter_seq_fini(void *priv)
++{
++	struct dmabuf_iter_priv *p = (struct dmabuf_iter_priv *)priv;
++
++	if (p->dmabuf)
++		dma_buf_put(p->dmabuf);
++}
++
+ static const struct bpf_iter_seq_info dmabuf_iter_seq_info = {
+ 	.seq_ops		= &dmabuf_iter_seq_ops,
+-	.init_seq_private	= NULL,
+-	.fini_seq_private	= NULL,
+-	.seq_priv_size		= 0,
++	.init_seq_private	= dmabuf_iter_seq_init,
++	.fini_seq_private	= dmabuf_iter_seq_fini,
++	.seq_priv_size		= sizeof(struct dmabuf_iter_priv),
+ };
+ 
+ static struct bpf_iter_reg bpf_dmabuf_reg_info = {
 
-> ---
-> According to discussion at
-> https://lore.kernel.org/linux-media/DEOKQZMPDTLY.3H4NBUEC3LNHE@linaro.com=
-/,
-> Rui agrees that Frank Li will maintain i.MX7/8 media drivers, and moves
-> himself to reviewer due to workload. Thanks to Rui for his contributions
-> and maintenance of these drivers in the past
-Agree and good luck
-
-Cheers,
-    Rui
-> ---
->  MAINTAINERS | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 48810529994a5..900d5237f3ff2 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -15704,11 +15704,11 @@ F:	include/linux/imx-media.h
->  F:	include/media/imx.h
-> =20
->  MEDIA DRIVERS FOR FREESCALE IMX7/8
-> -M:	Rui Miguel Silva <rmfrfs@gmail.com>
->  M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> +M:	Frank Li <Frank.Li@nxp.com>
->  M:	Martin Kepplinger-Novakovic <martink@posteo.de>
-> +R:	Rui Miguel Silva <rmfrfs@gmail.com>
->  R:	Purism Kernel Team <kernel@puri.sm>
-> -R:	Frank Li <Frank.Li@nxp.com>
->  L:	imx@lists.linux.dev
->  L:	linux-media@vger.kernel.org
->  S:	Maintained
-> --=20
-> 2.34.1
-
-
+base-commit: 30f09200cc4aefbd8385b01e41bde2e4565a6f0e
+-- 
+2.52.0.177.g9f829587af-goog
 
 
