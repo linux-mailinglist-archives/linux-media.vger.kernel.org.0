@@ -1,153 +1,224 @@
-Return-Path: <linux-media+bounces-48232-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48233-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id A232CCA3F2A
-	for <lists+linux-media@lfdr.de>; Thu, 04 Dec 2025 15:10:49 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1892FCA4259
+	for <lists+linux-media@lfdr.de>; Thu, 04 Dec 2025 16:05:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 36ADF301AE0D
-	for <lists+linux-media@lfdr.de>; Thu,  4 Dec 2025 14:10:48 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8C50C3091CF6
+	for <lists+linux-media@lfdr.de>; Thu,  4 Dec 2025 15:00:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A390B33F8C9;
-	Thu,  4 Dec 2025 14:10:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D43C6284674;
+	Thu,  4 Dec 2025 14:59:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="B8+o1niV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eM8lUImr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81ABA398F90;
-	Thu,  4 Dec 2025 14:10:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CA59233707
+	for <linux-media@vger.kernel.org>; Thu,  4 Dec 2025 14:59:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764857444; cv=none; b=YaLBLFHjO3YZxlE/YCsXxIeTJ59GbHKLgWWbIsRqJcWo+hot34FU4rfM+mx8BwLBjOd9+zgtA7xUUAJ107rrVr4qhW955HI7SG8GL43Gocgj7wV1pnEI7y+d0NLa+kdCBqZbn54qg8nKF9A+0Qb1MgqUDvaMdSbT+IEyYtodnVE=
+	t=1764860398; cv=none; b=AiDDjyRt545Kl/7BUlIF9uD+qgzh0BQOkK1CTDNEx3MRis0wx9nDWs0+dSAyRU7+gBPJQhO81kMw6PBstgMsyOa1wtoA3cLgPr1ienTQvnBNiMUHArn1qz0rFquDNXUyoaszsXxikA8rOVcKdS20tntgsxfK/WfUu5J/K9ByuLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764857444; c=relaxed/simple;
-	bh=ETFPcwGc/J2gqxbT5eNzy5JQ7vh5rybLlhQczEy0HVs=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=B/aGI4EtQiLT7pPuZHjypsEk5wox9qGkQMsApofaCmgDUVzyZDsE+nsgsx9pM5WlcP22mxXdVExDcD2KhXU/r3NvXf137vJlBjQU7JX11nDOC2LGyhYfMcGDux6WMVt2zZLRW568ABhj9IlIRsR37Bo39scWI08PVuAzWrgMoZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=B8+o1niV; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4dMby10gV1z9tV8;
-	Thu,  4 Dec 2025 15:10:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1764857433; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ETFPcwGc/J2gqxbT5eNzy5JQ7vh5rybLlhQczEy0HVs=;
-	b=B8+o1niVzxQD7p2rFN3T9F93gW94B6fyBYvTVWNbzRp9/C8r5mhaT1J1aETTXwAwnh7tzE
-	zmpFQQ/DeaZ5t6zd9AmJk5Mhar5qihcJqpcqZk1qFLr6WImByk/iA39iQoyXLtBTxQT5TY
-	iYfiggT/0Zi9qF/iYFKoTBHGv18jC83gNUUXz79P5Vz6p8NY8DWX7Eb4NkBb26haaNgNRk
-	BKI8JM/cc0X/flp4oSoFnR0NAktiaBUZRQBUsXPf/CGQkcOObo0/v3DGftTe6PTX2l8eBV
-	RB6zemkjeNOAAi7TgMACkk42o2kDGraRnxK5hMUj9ORbOkPQ2sgbLJFadbZ21A==
-Message-ID: <53354e12b55d7c558b4418d876598641d862737f.camel@mailbox.org>
-Subject: Re: [PATCH 0/6] dma-fence: Remove return code of dma_fence_signal()
- et al.
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: Philipp Stanner <phasta@kernel.org>, Sumit Semwal
- <sumit.semwal@linaro.org>,  Gustavo Padovan <gustavo@padovan.org>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Felix
- Kuehling <Felix.Kuehling@amd.com>, Alex Deucher
- <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>, Joonas
- Lahtinen <joonas.lahtinen@linux.intel.com>,  Rodrigo Vivi
- <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui
- <ray.huang@amd.com>,  Matthew Auld <matthew.auld@intel.com>, Matthew Brost
- <matthew.brost@intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Lucas De Marchi
- <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
- <thomas.hellstrom@linux.intel.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Date: Thu, 04 Dec 2025 15:10:11 +0100
-In-Reply-To: <20251201105011.19386-2-phasta@kernel.org>
-References: <20251201105011.19386-2-phasta@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1764860398; c=relaxed/simple;
+	bh=23CUdHSqwZrdcCD9gS3do6I3nTXEJpBlLM9jRZrvpjQ=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Dly0hRHqR1peqJcGN8KVO+AzJwO1dYyQG9F2ZvUkkFLVffhA2ZILJFasamevbyoevlFDvfSyuXjSZNc3qP0xsgfdawwBvqzhmGhOh5UsGeqvnvTQQ9XMbw0gjw+Zfb5MwE7ydCc137yTlpzT/RAeepxJ6Dl1SQPJvL3+1Yy0f4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eM8lUImr; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-42e2e6aa22fso543985f8f.2
+        for <linux-media@vger.kernel.org>; Thu, 04 Dec 2025 06:59:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764860395; x=1765465195; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SQkEoJ9MFKVqqKXaYJBrPLqj/enkBTJ1LhHId5TSfKc=;
+        b=eM8lUImrMLUkvmbzYNpN8dRKeg+ivgZkB/WLwNQ9Q0iJAD8jK1JkA4bGklCgx1mONL
+         BLilmZpZCiKPurcsL6l+tOmXjznifcEka7m0gfRGpKjc0KnatcwjD6pzI8wlMtfTUQ0j
+         N+9BBeYROQByhaPnXhxVOe+5rD5lAT/agxsaq6oUxpaH0lxSgOg0MxvmicpHi3pudaL+
+         d4e5wU+rb0rbl9ZX2R+Z8LTR7G07o5VB5OjWXA5XzUM7Q7XOGgc9zaG1quUzwAn+7PdM
+         lXHPGwp5EpZUvK73BqGar3xQ8QKAUh8C4d0PGdtpRcsd+fzr7Av+w9bhtInpiHS9LZt6
+         vG/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764860395; x=1765465195;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SQkEoJ9MFKVqqKXaYJBrPLqj/enkBTJ1LhHId5TSfKc=;
+        b=ET8SDrEhEmHGvs9ymYvy6lQ8PDR4gixA5D7yIaYglEVCN0gqRCOrKyep3zykHaZfd6
+         VSowwEKsxoJo/iZs8ackzW28FtGsUIYPyTvqqJnMo6DKH+fGwLiJGOBlbvhEzf7bBU6h
+         vi1GYIoCWrM027V/U43JbY3Zqm8D/sA8d22Wsu8iCHLpw514OwBHPrSMmVUY31nSJGt0
+         C/kALrZZGXgdd3zxmySZc8ZxHXPKiSNtybEAdqDKUYWTyNMALpWhRPX45GEYTRJIq0zC
+         VrcsABnCl/9E9Pf+dQX3QD94mEDGIIgAXe7iIg+Xlaeg2TTuL9TU/Ey72WY7CPTsfRY2
+         myCw==
+X-Forwarded-Encrypted: i=1; AJvYcCULJGyzGTknvJ0SKt4lNdK8GD0SsS6i7b27OPJugavPh90h5GXky4/QZ9FSSIISa0+ZvtwA8wYyrj1wcw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxh/HVWFkk/OjQcM+2Ym7HFoS/Qd91HVdPlMlGsC16uy6ejmwOn
+	vP2i5PyhWr2g0rYsLH/sBIFvSP1cTd2w400zLoexhXj1hPcI37VbmjE2
+X-Gm-Gg: ASbGncuKQRfkAZyPmZEbu6SfttPpX6pZhTHlZdD9kBUFNPC7jGkOYlaNtmJbi2LwpkE
+	nRQZzQRzlWYYmBZJEXcCcoP/Sn7wIdcNF3e6oG/SDTy3FnMI9OzdvgJgwDiO6KPKUwrUuyzb2nK
+	xMXcjnMTik37fqFQlYBJGI7TiRFY/Yc9gt4dpc3j/lxbKvWVRfJFWLxODwCHW2IEK9k54z9mVLr
+	4D12+fJq5MhqQrKl+zgXm0PeEQk/TGSi5gpV0FsFW0uOv17BEG/LWa9+H6/Wac8zn0ephauuIXW
+	FCJVKE3P39aI0jVEFEDDwHq7aIswMHcFt4+zvNnpik6ABPhyZImDMnx1HN4O7YjDKWszxtCbYah
+	APPnNJWl3KjLL8hkvHsLdiLsYe27ZfxlHHmdPEkE+DScYxOQbeTj0hCdSr2Fs5KRWYfEnm6f+ok
+	PTCkqP22cnLS1vTNYigKJ3WQQ=
+X-Google-Smtp-Source: AGHT+IFwu7JW/Xgfu086XVAKU85p92ZgvuSF9cmbHbDPgEySuByIW32VzQBsGlUWUivmDHHBV2Jk7A==
+X-Received: by 2002:a05:6000:220b:b0:429:cbba:b246 with SMTP id ffacd0b85a97d-42f794b35a0mr3950582f8f.0.1764860394438;
+        Thu, 04 Dec 2025 06:59:54 -0800 (PST)
+Received: from able.fritz.box ([2a00:e180:1591:1600:c95:ff70:a9ae:a00c])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42f7d331af5sm3473291f8f.31.2025.12.04.06.59.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Dec 2025 06:59:53 -0800 (PST)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+To: sumit.semwal@linaro.org,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	simona.vetter@ffwll.ch
+Subject: [PATCH 1/2] dma-buf: improve sg_table debugging hack v2
+Date: Thu,  4 Dec 2025 15:59:51 +0100
+Message-ID: <20251204145952.7052-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-ID: b1b04ac58f4f528a2cf
-X-MBO-RS-META: xix6kpmj83m8hwiqzjwsu31pur87u4tw
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2025-12-01 at 11:50 +0100, Philipp Stanner wrote:
-> Tested this with dma_buf selftests and drm_sched tests.
->=20
-> Changes in v2:
-> =C2=A0 - Fix bug and don't turn the kernel into a smoking pile of ashes b=
-y
-> =C2=A0=C2=A0=C2=A0 not setting the signaled-bit=E2=80=A6
-> =C2=A0 - Add functions (dma_fence_check_and_signal()) preserving the old
-> =C2=A0=C2=A0=C2=A0 behavior of dma_fence_signal() & Co. (Felix)
-> =C2=A0 - Use those new functions in amdkfd, xe, ttm and st-dma-fence.
-> =C2=A0 - Be a bit less aggressive and keep the git-diff smaller.
-> =C2=A0 - Add a patch using the flag-helper in Xe. (Matthew)
->=20
-> Barely anyone uses dma_fence_signal()'s (and similar functions') return
-> code. Checking it is pretty much useless anyways, because what are you
-> going to do if a fence was already signal it? Unsignal it and signal it
-> again? ;p
->=20
-> Removing the return code simplifies the API and makes it easier for me
-> to sit on top with Rust DmaFence.
->=20
-> Philipp Stanner (8):
-> =C2=A0 dma-buf/dma-fence: Add dma_fence_test_signaled_flag()
-> =C2=A0 dma-buf/dma-fence: Add dma_fence_check_and_signal()
-> =C2=A0 amd/amdkfd: Use dma_fence_check_and_signal()
-> =C2=A0 drm/xe: Use dma_fence_check_and_signal_locked()
-> =C2=A0 dma-buf: Don't misuse dma_fence_signal()
-> =C2=A0 drm/ttm: Use dma_fence_check_and_signal()
-> =C2=A0 dma-buf/dma-fence: Remove return code of signaling-functions
+This debugging hack is important to enforce the rule that importers
+should *never* touch the underlying struct page of the exporter.
 
-Applied those 7 patches to drm-misc-next. Had to do a tiny rebase
-because 033559473dd3b55558b535aa37b8848c207b5cbb is not yet in drm-
-misc-next (dma-fence series was based on master at first, which
-contains that commit).
+Instead of just mangling the page link create a copy of the sg_table
+but only copy over the DMA addresses and not the pages.
 
-> =C2=A0 drm/xe: Use dma_fence_test_signaled_flag()
+This will cause a NULL pointer de-reference if the importer tries to
+touch the struct page. Still quite a hack but this at least allows the
+exporter to properly keeps it's sg_table intact while allowing the
+DMA-buf maintainer to find and fix misbehaving importers and finally
+switch over to using a different data structure in the future.
 
-Left for Matthow to pick up whenever he wishes.
+v2: improve the hack further by using a wrapper structure and explaining
+the background a bit more in the commit message.
 
+Signed-off-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Michael J. Ruhl <michael.j.ruhl@intel.com> (v1)
+---
+ drivers/dma-buf/dma-buf.c | 72 +++++++++++++++++++++++++++++++--------
+ 1 file changed, 58 insertions(+), 14 deletions(-)
 
-P.
-
->=20
-> =C2=A0drivers/dma-buf/dma-fence.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 100=
- +++++++++++-------
-> =C2=A0drivers/dma-buf/st-dma-fence.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 4 +-
-> =C2=A0drivers/gpu/drm/amd/amdkfd/kfd_process.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0=C2=A0 6 +-
-> =C2=A0.../gpu/drm/ttm/tests/ttm_bo_validate_test.c=C2=A0 |=C2=A0=C2=A0 2 =
-+-
-> =C2=A0drivers/gpu/drm/xe/xe_exec_queue.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 9 +-
-> =C2=A0drivers/gpu/drm/xe/xe_hw_fence.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 4 +-
-> =C2=A0drivers/gpu/drm/xe/xe_pt.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- |=C2=A0=C2=A0 3 +-
-> =C2=A0drivers/gpu/drm/xe/xe_sched_job.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
-> =C2=A0include/linux/dma-fence.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 35 ++++--
-> =C2=A09 files changed, 102 insertions(+), 63 deletions(-)
->=20
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 2305bb2cc1f1..8c4afd360b72 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -35,6 +35,12 @@
+ 
+ #include "dma-buf-sysfs-stats.h"
+ 
++/* Wrapper to hide the sg_table page link from the importer */
++struct dma_buf_sg_table_wrapper {
++	struct sg_table *original;
++	struct sg_table wrapper;
++};
++
+ static inline int is_dma_buf_file(struct file *);
+ 
+ static DEFINE_MUTEX(dmabuf_list_mutex);
+@@ -828,21 +834,57 @@ void dma_buf_put(struct dma_buf *dmabuf)
+ }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_put, "DMA_BUF");
+ 
+-static void mangle_sg_table(struct sg_table *sg_table)
++static int dma_buf_mangle_sg_table(struct sg_table **sg_table)
+ {
+-#ifdef CONFIG_DMABUF_DEBUG
+-	int i;
+-	struct scatterlist *sg;
+-
+-	/* To catch abuse of the underlying struct page by importers mix
+-	 * up the bits, but take care to preserve the low SG_ bits to
+-	 * not corrupt the sgt. The mixing is undone on unmap
+-	 * before passing the sgt back to the exporter.
++	struct scatterlist *to_sg, *from_sg;
++	struct sg_table *from = *sg_table;
++	struct dma_buf_sg_table_wrapper *to;
++	int i, ret;
++
++	if (!IS_ENABLED(CONFIG_DMABUF_DEBUG))
++		return 0;
++
++	/*
++	 * To catch abuse of the underlying struct page by importers copy the
++	 * sg_table without copying the page_link and give only the copy back to
++	 * the importer.
+ 	 */
+-	for_each_sgtable_sg(sg_table, sg, i)
+-		sg->page_link ^= ~0xffUL;
+-#endif
++	to = kzalloc(sizeof(*to), GFP_KERNEL);
++	if (!to)
++		return -ENOMEM;
++
++	ret = sg_alloc_table(&to->wrapper, from->nents, GFP_KERNEL);
++	if (ret)
++		goto free_to;
++
++	to_sg = to->wrapper.sgl;
++	for_each_sgtable_dma_sg(from, from_sg, i) {
++		sg_set_page(to_sg, NULL, 0, 0);
++                sg_dma_address(to_sg) = sg_dma_address(from_sg);
++                sg_dma_len(to_sg) = sg_dma_len(from_sg);
++		to_sg = sg_next(to_sg);
++	}
+ 
++	to->original = from;
++	*sg_table = &to->wrapper;
++	return 0;
++
++free_to:
++	kfree(to);
++	return ret;
++}
++
++static void dma_buf_demangle_sg_table(struct sg_table **sg_table)
++{
++	struct dma_buf_sg_table_wrapper *copy;
++
++	if (!IS_ENABLED(CONFIG_DMABUF_DEBUG))
++		return;
++
++	copy = container_of(*sg_table, typeof(*copy), wrapper);
++	*sg_table = copy->original;
++	sg_free_table(&copy->wrapper);
++	kfree(copy);
+ }
+ 
+ static inline bool
+@@ -1139,7 +1181,9 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
+ 		if (ret < 0)
+ 			goto error_unmap;
+ 	}
+-	mangle_sg_table(sg_table);
++	ret = dma_buf_mangle_sg_table(&sg_table);
++	if (ret)
++		goto error_unmap;
+ 
+ 	if (IS_ENABLED(CONFIG_DMA_API_DEBUG)) {
+ 		struct scatterlist *sg;
+@@ -1220,7 +1264,7 @@ void dma_buf_unmap_attachment(struct dma_buf_attachment *attach,
+ 
+ 	dma_resv_assert_held(attach->dmabuf->resv);
+ 
+-	mangle_sg_table(sg_table);
++	dma_buf_demangle_sg_table(&sg_table);
+ 	attach->dmabuf->ops->unmap_dma_buf(attach, sg_table, direction);
+ 
+ 	if (dma_buf_pin_on_map(attach))
+-- 
+2.43.0
 
 
