@@ -1,211 +1,271 @@
-Return-Path: <linux-media+bounces-48245-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48246-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF870CA4A02
-	for <lists+linux-media@lfdr.de>; Thu, 04 Dec 2025 17:58:07 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C2B5CA4BE5
+	for <lists+linux-media@lfdr.de>; Thu, 04 Dec 2025 18:23:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B65CC303B7EA
-	for <lists+linux-media@lfdr.de>; Thu,  4 Dec 2025 16:52:06 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 4BC6F30084A3
+	for <lists+linux-media@lfdr.de>; Thu,  4 Dec 2025 17:23:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D75E5285CA2;
-	Thu,  4 Dec 2025 16:45:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F08A02F2613;
+	Thu,  4 Dec 2025 17:23:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="h4+G0yu8"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="fbrukrAm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013018.outbound.protection.outlook.com [40.107.159.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 476282FFDE6
-	for <linux-media@vger.kernel.org>; Thu,  4 Dec 2025 16:45:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764866718; cv=none; b=se25B3pC19I9qIZTdQJULTxzHlwJsV28FkYUXqlNY3mFu4k5NDDb9UH50vr/T1YVb9DiZE2ZXUxV80yP6svRAKhDuY2sRdHV/VCzjEU9g9lKZ/+XbTtqoW0B0XypmYvrhtlaQVzglTRK7w/SaoPMjt1095H14IwxpAQZakx+gHA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764866718; c=relaxed/simple;
-	bh=c3ezqcDqU/SvIrFCM+Nr0gLUzPc4tq7ZG8H0xdUNAd0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=J1XzVK1wLz1oMmZwy1nyOOMH1OqZ84219GMl50fgYO38SHjC53G3sslHd9H5mTNdFdjV0g7NGY1cIjzjuVDfopZghwtccUw073bQ+IQTrbzMVPsbVWJFgu7s0DKZsVr+J6qe5Cn9Fu5hQW2F2M/7klFCfd1s01Gxa3jfcH2BPWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=h4+G0yu8; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4779a4fb9bfso73145e9.0
-        for <linux-media@vger.kernel.org>; Thu, 04 Dec 2025 08:45:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1764866712; x=1765471512; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0CyQocRCpW9wkr09JiCgFa32QuaN7pvC+ueWitNv43g=;
-        b=h4+G0yu8ODixk01zt5PQP1HApNvNDjASxvJzOwRzDKhXVC/K/slR2z7tzqMn3ZC0iN
-         IUwyMGOq+5UWwhQRjwZXNdomRQkz6ExnY42BsmLgMuLNK7rZDSKWuiWEtldaOrj13vLV
-         TT41V5CY8Ue9gY1lXtfCpBLsDtHsT4THaBPfE9fUrL/JMbv5nLQlxA8n5h8hulQKvIUW
-         PsrwLEq9QKWU5kwCHjhp6H9glTVMVBwwkMSFeizONfOW7ocNLXtXXevmcvJ++yTAqAAF
-         RN3PE9YGrD0cT2Un0KjqAFPtiS07RpO4CTyc/Y103Sb7Pz+jvDf1bocIB40qtril6HYz
-         Rr9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764866712; x=1765471512;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=0CyQocRCpW9wkr09JiCgFa32QuaN7pvC+ueWitNv43g=;
-        b=I0s5IPMTuyCSCkaKC8us/iSkg8Isd0oN6+n3orbR+QR4r3YpYzMUvg1LLV8GEEqd3W
-         BuvLjFIHm+OSRehNfEHJ0D0dHa4OVJVrx+7VX8ZaYv2tbU3Q7Axxkvf73ZPiUZmK0iRp
-         Ii2/fLPlnHZGcS7hqy7Lkof4Hfq7AzMUup36U85FgvmXwPS1T/ZQ35c4WLuxqZfTNoia
-         8FYciBxMNEj3G7HvRP+SeqOK6Ue+wD0gQxUaDUeUzOF8bRoKN/zMd+MVdQb1cObS9IUx
-         O4UbBYpBkZzlWFTsZsQeRkyzYcBabWv5+Ffpl7r1FQlAHCG/nfav3+daxL5F+62CDEDg
-         VEkQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU/dVdjzwuhzCjogJXldUdAOc5YVgDZB6F+9TdDyMEPdaolqQIP2oOLNh0uM9jnMC0zQ3tCsDd/v3Kn8w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzltbDIvlFhlqnSr/zZqipWqy/Oe/tx0kP2vuvfXVpBKnG/cuz5
-	HMlcvKAKe/YZoqIyz5WWx/Yh67cK+i6xWmbSUeSqv4WPaGwtOeLoqipBibj4UdseGRyFntypgRJ
-	LSCWwwwRPmmi842E5Of+Ti7GPllfCh4RE9uS+1RQ+
-X-Gm-Gg: ASbGnctakzlQiMqxqALdLtvAJMjkPs8mz200GgpJ/ZSrWxf8SuuMDsnJyH7gwIvsoqM
-	0jPgni8HXtWuHAGL9YDOJBsiOku8l0t3+AzBqEI7Tm4RbGMLsMDeMYGYlPncQ9Iqy9iQOYWg7e6
-	bf8LmiCTxKZi7/8J2sadaYo1YqyVc25g3DcLM9bgPflV2EvrDA4OKL7cFGuXK7n2Gok34jc98Xl
-	DyeY+M5GYfW7FilyG9o3Nc/NsjGqk25EXUb+X/EcMc0Leib44PY3L7ngt5/yNownvtrRfkDt+fH
-	7nzpglIVauLFCjeC6ndd5uyYyunFAimp6nyOy1vhwwDNjhDRiWmBcNnoClwPQg==
-X-Google-Smtp-Source: AGHT+IE0KMhH3k7qWdeBVVuAP+IUq1UipXwO7m3nwOYJmd54XwgIknZR5FukbGSdeibG3Qv+NPqrhPE4p5p9ITMRKrU=
-X-Received: by 2002:a05:600c:581a:b0:477:86fd:fb18 with SMTP id
- 5b1f17b1804b1-47932e04338mr205795e9.8.1764866712062; Thu, 04 Dec 2025
- 08:45:12 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE6D398F81;
+	Thu,  4 Dec 2025 17:23:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.18
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764869018; cv=fail; b=r8bQajXFECWpBrcYSMTWQfjE+74MbG6QeRpVdnbD2W00H3W/wPBQgpfJ9Mwv7qbm1F8odcr6mHnhgzxUdg8jZk1S9tkZcs3Jtq/VXLoCLQPxRzRkRanf9w3W6I5rTZTi/5wfnKqiDNDTLmOa5/lN2dLWSlIQej643RWfJY2O2i4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764869018; c=relaxed/simple;
+	bh=cukJ/OqYymoznefLbE5REetxehPKXPLXL/ZNEvEEYfU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=LgAtvULr6TsyTy15qxL6P5gUSeti9ZsEOzo8HF4N7osKrASW3e5108mXqIjsdPITEplzyUELhQc1xPvcH9uDtaHge/nYHfRaQUgeU6c8IIrWKC/GYbQSostdWofJJGLlrWS5mgCWBDbo5lE5BX7W1gbwmsWy1eQV+RM5DhQGpRA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=fbrukrAm; arc=fail smtp.client-ip=40.107.159.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FZ75UiWXJ1vahhYz/kxHp3ZPjJ9epNLKnmbR+Qc9sHOr2aTZ0DP+sFUCw/QjQeIfeMSSZDW+LU+sOoRfz0a9VJYtp0zfLJr0AqGBXZeir3DEQLM6vrUMylH3+hMFCcYsFHJ04zY7ZggjaY1H+apqiFdIwusheGwCP8gy2IXFlrQAVPTVh9up2hRVTjSQdX0hnzUMSyZp0hnXkHfphfxVbeMEA5rhtNcZ+ea9pz1qCA/xqO7TEEQI+JCmM+/6w/y0P/faccT2WEjsEdzCM8dWLCCUkfcQ9EmefPgzRRkvg2yWs4Er861peDcqa3k/BCvZo2wfhzTzME0Cv3hAEVDAqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GTR/crLhK/jv5t/UyXOjQru8DsDEkTS/DdlZpttXbu0=;
+ b=KGGyhImoUjBX8H77d445S7u7EaeB/PI6bw2j7019zOitPU4xz841OHDqWbgrQBzTy/zBrruZfXdzkNUTzqBB0SPatWR0mbdmVo/E/qM82XvGnEqUKwNmBHRxXznZhu+CAoI0PwRsFULWoyHecKFDihy1ez2aPynGZd+aUtfFwe3Uqov9vg393fNmfu1IcugQ96aYElDR2BGEi61zsd9s1e9zLSkfQRJtgtPBluybz88U6/PxwtF9FZIfEGwyPjfXBZGn6D3rwshc9RETtNGQXzL9ORuKC1H6H/hczfIQLGcsidwOEtlg97j6JdDMuZzIgyas+6qpHcTnSBQiaHg//w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GTR/crLhK/jv5t/UyXOjQru8DsDEkTS/DdlZpttXbu0=;
+ b=fbrukrAmTPCBrV1NTY+tRVP/ZYBqtzxId4SyIhBKW88PY8NVq2YqFfESZGA903WRLdxNWD4YYDneitaoSJIWAl6rlhXtd93JMaq45xWMzFBXOEco0MWi3w+tYHcvLIZc4KBvTROUGBVvfpZE3YkFYvKgWfCUO05SxKNzJq9gWLf4Pwu/zsUl5WY0u32mgrJ04EO/kLsjpOcJ8sPvevmPx8f91tXyjQJyoV34gXhJK4Fb1wZZgqzI1K2fLbbq6GoAnzq6P+76lq0fBD+VTwfykMoo3YzNjpQGLUnIlT+Ukhyh63FYLvl1I4Z5Fm8ZhIP4qv1QTsSo09WedM5gMtUXiA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXPR04MB8957.eurprd04.prod.outlook.com (2603:10a6:102:20c::5)
+ by VI1PR04MB7072.eurprd04.prod.outlook.com (2603:10a6:800:12c::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.9; Thu, 4 Dec
+ 2025 17:23:32 +0000
+Received: from PAXPR04MB8957.eurprd04.prod.outlook.com
+ ([fe80::9c5d:8cdf:5a78:3c5]) by PAXPR04MB8957.eurprd04.prod.outlook.com
+ ([fe80::9c5d:8cdf:5a78:3c5%3]) with mapi id 15.20.9388.003; Thu, 4 Dec 2025
+ 17:23:32 +0000
+Date: Thu, 4 Dec 2025 12:23:21 -0500
+From: Frank Li <Frank.li@nxp.com>
+To: ming.qian@oss.nxp.com
+Cc: linux-media@vger.kernel.org, mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl, nicolas@ndufresne.ca,
+	benjamin.gaignard@collabora.com, p.zabel@pengutronix.de,
+	sebastian.fricke@collabora.com, shawnguo@kernel.org,
+	ulf.hansson@linaro.org, s.hauer@pengutronix.de,
+	kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+	l.stach@pengutronix.de, peng.fan@nxp.com, eagle.zhou@nxp.com,
+	imx@lists.linux.dev, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v3 1/3] media: v4l2-mem2mem: Add a kref to the
+ v4l2_m2m_dev structure
+Message-ID: <aTHDiVI6ZB3E7Anh@lizhi-Precision-Tower-5810>
+References: <20251204090813.595-1-ming.qian@oss.nxp.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251204090813.595-1-ming.qian@oss.nxp.com>
+X-ClientProxiedBy: BYAPR02CA0033.namprd02.prod.outlook.com
+ (2603:10b6:a02:ee::46) To DU2PR04MB8951.eurprd04.prod.outlook.com
+ (2603:10a6:10:2e2::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251204000348.1413593-1-tjmercier@google.com> <20251204000348.1413593-2-tjmercier@google.com>
-In-Reply-To: <20251204000348.1413593-2-tjmercier@google.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Thu, 4 Dec 2025 08:44:59 -0800
-X-Gm-Features: AWmQ_bnxDs0Em9c_P-3hJ2uCc6BRD7h1aEC-DbAd-yhfuFNLkrr8DTNbaj0gPCw
-Message-ID: <CABdmKX0LxoPJPA755bzN8vRjUOQ0c4XucGhDX8QgbxqYXdB1pA@mail.gmail.com>
-Subject: Re: [PATCH bpf 2/2] selftests/bpf: Add test for truncated dmabuf_iter reads
-To: yonghong.song@linux.dev, ast@kernel.org, daniel@iogearbox.net, 
-	andrii@kernel.org, martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org, 
-	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
-	haoluo@google.com, jolsa@kernel.org, shuah@kernel.org, bpf@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	android-mm@google.com
-Cc: christian.koenig@amd.com, sumit.semwal@linaro.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB8957:EE_|VI1PR04MB7072:EE_
+X-MS-Office365-Filtering-Correlation-Id: e26b470a-ffe8-44bc-f6ea-08de3359d8c0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|366016|52116014|1800799024|19092799006|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?S6vY92RSLLlX7VRoVto4y/0aTLxz9aWVwwnV6aXqQsS2r+AIt3yMx7cMcMws?=
+ =?us-ascii?Q?BDAY5YMGx+M+nsAG9jNbCPuJMzVw480r6Zrr6V2wp7Ao+Y3CrY6lQ8ip1P7z?=
+ =?us-ascii?Q?qq1Elrbgx2NNHQM7NsY77yrgNfH32S6fGogqu5qwYYhEdsfrlJHyeadBpZTN?=
+ =?us-ascii?Q?fA5vuSwQyBfWWv10Mkmfye3Ldun6/Q2uSFDXj0eYsferBJr6KYw15rcJOkAJ?=
+ =?us-ascii?Q?bQsW9HsidMnJfpkuIuAEudxgBsmotXscqmxv3k/ze0s8jsNlyzLMZlJuijHz?=
+ =?us-ascii?Q?2QU4RgRxTkdUd0Dj8Gxq7a+CCBHHXZBhtvFGt0Vy0DILua5j0+QX/wOmLCJj?=
+ =?us-ascii?Q?S+VV2pTFyqjdtHFiKvdG/4UCkgqpKxJin6H7N7sqElk0dGDly2mL+ILjwv8M?=
+ =?us-ascii?Q?75kZOYtJmpZkl6cZ0SIJBuei26KC6Mr6hx1HItUmFRTfHmD/VFoDHcEj4lAf?=
+ =?us-ascii?Q?L14iGTpEo+D8Gs/gwrUDxqBZkolajFRB96FHwA5/rgGbFKQQzzjrCYUpUrYJ?=
+ =?us-ascii?Q?2vYLMPWicKEf+Mc34B1CisZVHdoDBcPWoXgqRSbne5Xp9AK9p8vhqRoCaTR/?=
+ =?us-ascii?Q?ihclNPjCwDdBk2USQ3eEwosj7B/a4/Yxbfbfw3haX3oBH3gJbGG8BkXkUgn0?=
+ =?us-ascii?Q?uwmdKPw1R2conK8zYxso6yH9dcaDvPO/u2fAmxCGgZGbanO0+fsJ3xUA/1Jo?=
+ =?us-ascii?Q?rlEMKFH3alAeD0oAvTu0013+g4U+8nGACIMteHYl12Nd8QGbjvduj+jaJEca?=
+ =?us-ascii?Q?eq8HKiYytp598txLFou9AyllVc6M2Pm9M8SjDfjiPmuu+hvFwkWLLqdk+72X?=
+ =?us-ascii?Q?Cjkc+9lbY4EGAoBu72Lgt4RUkIQlhSZYfhLkeuKwIC0WRW/cbvFcSPjggovO?=
+ =?us-ascii?Q?QblCfp4T5COLh21glpSehlPKML59rF6N1n7h8Q/4kAWjBAYXKzVdFLR1sQnV?=
+ =?us-ascii?Q?18WBRQcNl22V0GklrIrBfx8x1LbI/diIlxMskNU2SguHWff+XWghZnswID5X?=
+ =?us-ascii?Q?eIFbiQ5qD2InXwYA8atEKJwgelbpWCsbii6X55owRil5oR0/hxi/wmI+MQ/7?=
+ =?us-ascii?Q?KZIxZM9JDlOpo+EeeEZ1NnUNr7cCrWNMlnJ4cskwQ9qpvEFFz7NsZGK1mYJV?=
+ =?us-ascii?Q?wXpPsT5O/VTQxtSa9CPZWZ0MItqoeSCqNWW6MChyi+6qGG3d8JFkhlCW8GLC?=
+ =?us-ascii?Q?O6mxsG0ytikIWoTFVywhen6z2c/xf6oGbE9Vry0SHVqIbeFp16/zliket3rG?=
+ =?us-ascii?Q?eRczJgChptYTXjvWsL7WCy/VaiJ4EVkAH3ptU/BMOle1cUrhbCJSOHq2EWeQ?=
+ =?us-ascii?Q?cnyVl4h16krp3wDkGm1sBcMU7Ofy/dNMIyA3G3ZLgn7aBvzFhpCL0uMjdPtd?=
+ =?us-ascii?Q?G6teL9dh+KdeJkxcTaIh8nllU9hP+/lNjWl5jjSpQAm8i0AVW/ShroLjYFWM?=
+ =?us-ascii?Q?BDyh2txl/D7LUjNOXcA3TGflPIlOXW9WvL3T575e/5mt24e5ecU0gXZXXr/U?=
+ =?us-ascii?Q?bwlMh4f8Mmcf6axsaIhXP+uTYfFMjAInJEsb?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8957.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(52116014)(1800799024)(19092799006)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?ShBUhi+xbMOf3dziE8hbBoY9VF6/RFp54f1aJf8vuBz0Ua9DXTv4b96k+9c/?=
+ =?us-ascii?Q?/un1BRK3CD+uJ9uIXR8MttkAX4jzzMJboI/vN32PTPdmzWb8P0fuZIx7TdlW?=
+ =?us-ascii?Q?E5q0jVpP3XzowY6OWlGfSN0qGJkcbyhqqBcPUHN3Sh1tTPNi0XauTYh4RTQL?=
+ =?us-ascii?Q?bIke+dpuZWdWHQwMNYQ1sDKthJLVwzsrWSus1EAV+c5JAt1K4x8mJMXDF27g?=
+ =?us-ascii?Q?0vPxYu729hqqkUMDFcrE3bdKSCkIz3md7hnwQK+9A76GXf3drAw4W/dgzlDO?=
+ =?us-ascii?Q?L47zAO9Oi+RGvdID/f/wG8v9nP0IQP+GyU4aeJ6bvND7L6HMfmMd97Ii+iNJ?=
+ =?us-ascii?Q?hPlmMOkl5poOmTSh2sF8tUlRpqcDKbjZN9Z6dOUrA+Mlfd3esLkoaJ+X+gwx?=
+ =?us-ascii?Q?Uw573u+2aHhaY9+CyH6u7BZixqXWMTASrNX7g96oFqukpIR7YpprK+4OqILw?=
+ =?us-ascii?Q?xXmXsiQjNAdb0Z1dz02B6k2LZw4rWO3clrSsCRiODQE38AzDh9761wUV3/f0?=
+ =?us-ascii?Q?hoGQH0nlARncLQ8/voFCE/rWI+ETY2GRJUFCldY/PfZYRrefCC6sCGR4JBB6?=
+ =?us-ascii?Q?GOprNMTvaXxmgLh6m2pCQyH8CmXQ65HcLKCgC/kXlF+9JC9w5cFBQn3gAfVQ?=
+ =?us-ascii?Q?07im8p42CwB0GdcYniFSAP45BUSMrYTpVbLRF4MypAyec7koUkoFK9AVjZOa?=
+ =?us-ascii?Q?bcJiiPzsA1AB0V23LstzJ5WDEKAFzh2WBOZPzf2XHVmjUSVOTqlO+iiIpWN9?=
+ =?us-ascii?Q?pOAYH/JZDVSGQ/uXBnXyU4g64Ije74B0wlExcEsgK3zICgd2ZAFUslcH93NP?=
+ =?us-ascii?Q?nvvx3M5O5LuQO+/qRPRTHGa43ezOwvmrGyV5Kb0SEkl+2uQdLtG7l3+Qs25q?=
+ =?us-ascii?Q?nrtT262u19thqhUYs3DRJAPBQVyf54/XQ/ox/lkcCrrhTp1H2q3vWiFk2/uO?=
+ =?us-ascii?Q?BYHbX/+gLBHOo3bi7rLBy+WY3/VhnVGDzhyN2neL4C0Tap8+4EVrd3gh1Spg?=
+ =?us-ascii?Q?g5ZSnIJLTwENHX8ilCTYMN0QfarOUllXTjSS4KSWRkjQ4KyiWMSV8hOSMg2A?=
+ =?us-ascii?Q?sggtX92cXjecQajfZbrJYwxozpq6FSMZYc6W75XW29X3O/2XI7Vv9C3m04c0?=
+ =?us-ascii?Q?u8Lzx7HmPWdIbZyey3vbyfupO42Z6ohyAe/vR+C5oQeuBbVUb7i4owCQ5+rH?=
+ =?us-ascii?Q?sFtaRdZPngk323zU/Lgg+fn+h/zqB1yjxxoQ4kfNz50uoS/cODSPC+7DCwAR?=
+ =?us-ascii?Q?LZr9Aa+Lvw8RfqsROa2r4YEVETEwTOsNQVIA4eo/0aQYuLzYxWHHMUJh98yB?=
+ =?us-ascii?Q?CTxHWCMRj5n/r1E2kBCSKUpV8rtoYtqCFg70s4lJPVfvmoJEVknGOCyzaIKB?=
+ =?us-ascii?Q?YWXBvbDMDpSC2eb5iF7/HhTxo6WO99v2sbD/R3EHlJkKa1g3WiTNakNVIRhu?=
+ =?us-ascii?Q?xHZfzIaSrxvHa+KyFH0oU9XQ6/9sDhLogY19zU1TseHlqDWw6uSAvZZ1nnpR?=
+ =?us-ascii?Q?wLNo/4Gobz+MoQqfhJL+0I1x9pj70OqQJ7v5b3dslxhJAPopeAFlTaQ6mGkB?=
+ =?us-ascii?Q?pPvpzoXxjG496iEADoJQa6IQujNqmBuoX0LyAjUM?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e26b470a-ffe8-44bc-f6ea-08de3359d8c0
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8951.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2025 17:23:32.4826
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: m2p9/YmXDdH3jrLTBNrAq/ByS5FcuKLDeUqyF531Qty6s1gQImyLEnXUmY9ssu9vV+Y1PyCf+oHfGqbMXc6/nw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB7072
 
-On Wed, Dec 3, 2025 at 4:05=E2=80=AFPM T.J. Mercier <tjmercier@google.com> =
-wrote:
+On Thu, Dec 04, 2025 at 05:08:09PM +0800, ming.qian@oss.nxp.com wrote:
+> From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 >
-> If many dmabufs are present, reads of the dmabuf iterator can be
-> truncated at PAGE_SIZE or user buffer size boundaries before the fix in
-> "selftests/bpf: Add test for open coded dmabuf_iter".
-
-Copy/paste error here. This should be "bpf: Fix truncated dmabuf
-iterator reads" from the previous commit in patch 1. I didn't include
-the sha because I don't think they're guaranteed to be stable at this
-point.
-
-I also saw the warning from CI about the extra newline before
-subtest_dmabuf_iter_check_open_coded, but the current CI failures look
-unrelated to this change.
-
-Add a test to
-> confirm truncation does not occur.
+> Adding a reference count to the v4l2_m2m_dev structure allow safely
+> sharing it across multiple hardware nodes. This can be used to prevent
+> running jobs concurrently on m2m cores that have some internal resource
+> sharing.
 >
-> Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
+Also need your s-o-b, or just said refer to other thread if it already
+posted.
+
+Frank
 > ---
->  .../selftests/bpf/prog_tests/dmabuf_iter.c    | 47 +++++++++++++++++--
->  1 file changed, 42 insertions(+), 5 deletions(-)
+>  drivers/media/v4l2-core/v4l2-mem2mem.c | 23 +++++++++++++++++++++++
+>  include/media/v4l2-mem2mem.h           | 21 +++++++++++++++++++++
+>  2 files changed, 44 insertions(+)
 >
-> diff --git a/tools/testing/selftests/bpf/prog_tests/dmabuf_iter.c b/tools=
-/testing/selftests/bpf/prog_tests/dmabuf_iter.c
-> index 6c2b0c3dbcd8..e442be9dde7e 100644
-> --- a/tools/testing/selftests/bpf/prog_tests/dmabuf_iter.c
-> +++ b/tools/testing/selftests/bpf/prog_tests/dmabuf_iter.c
-> @@ -73,12 +73,10 @@ static int create_udmabuf(void)
->         return -1;
->  }
+> diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
+> index fec93c1a9231..ae0de54d4c3e 100644
+> --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
+> +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
+> @@ -90,6 +90,7 @@ static const char * const m2m_entity_name[] = {
+>   * @job_work:		worker to run queued jobs.
+>   * @job_queue_flags:	flags of the queue status, %QUEUE_PAUSED.
+>   * @m2m_ops:		driver callbacks
+> + * @kref:		device reference count
+>   */
+>  struct v4l2_m2m_dev {
+>  	struct v4l2_m2m_ctx	*curr_ctx;
+> @@ -109,6 +110,8 @@ struct v4l2_m2m_dev {
+>  	unsigned long		job_queue_flags;
 >
-> -static int create_sys_heap_dmabuf(void)
-> +static int create_sys_heap_dmabuf(size_t bytes)
->  {
-> -       sysheap_test_buffer_size =3D 20 * getpagesize();
-> -
->         struct dma_heap_allocation_data data =3D {
-> -               .len =3D sysheap_test_buffer_size,
-> +               .len =3D bytes,
->                 .fd =3D 0,
->                 .fd_flags =3D O_RDWR | O_CLOEXEC,
->                 .heap_flags =3D 0,
-> @@ -110,7 +108,9 @@ static int create_sys_heap_dmabuf(void)
->  static int create_test_buffers(void)
->  {
->         udmabuf =3D create_udmabuf();
-> -       sysheap_dmabuf =3D create_sys_heap_dmabuf();
+>  	const struct v4l2_m2m_ops *m2m_ops;
 > +
-> +       sysheap_test_buffer_size =3D 20 * getpagesize();
-> +       sysheap_dmabuf =3D create_sys_heap_dmabuf(sysheap_test_buffer_siz=
-e);
+> +	struct kref kref;
+>  };
 >
->         if (udmabuf < 0 || sysheap_dmabuf < 0)
->                 return -1;
-> @@ -219,6 +219,26 @@ static void subtest_dmabuf_iter_check_default_iter(s=
-truct dmabuf_iter *skel)
->         close(iter_fd);
+>  static struct v4l2_m2m_queue_ctx *get_queue_ctx(struct v4l2_m2m_ctx *m2m_ctx,
+> @@ -1200,6 +1203,7 @@ struct v4l2_m2m_dev *v4l2_m2m_init(const struct v4l2_m2m_ops *m2m_ops)
+>  	INIT_LIST_HEAD(&m2m_dev->job_queue);
+>  	spin_lock_init(&m2m_dev->job_spinlock);
+>  	INIT_WORK(&m2m_dev->job_work, v4l2_m2m_device_run_work);
+> +	kref_init(&m2m_dev->kref);
+>
+>  	return m2m_dev;
 >  }
+> @@ -1211,6 +1215,25 @@ void v4l2_m2m_release(struct v4l2_m2m_dev *m2m_dev)
+>  }
+>  EXPORT_SYMBOL_GPL(v4l2_m2m_release);
 >
-> +static void subtest_dmabuf_iter_check_lots_of_buffers(struct dmabuf_iter=
- *skel)
+> +void v4l2_m2m_get(struct v4l2_m2m_dev *m2m_dev)
 > +{
-> +       int iter_fd;
-> +       char buf[1024];
-> +       size_t total_bytes_read =3D 0;
-> +       ssize_t bytes_read;
+> +	kref_get(&m2m_dev->kref);
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_m2m_get);
 > +
-> +       iter_fd =3D bpf_iter_create(bpf_link__fd(skel->links.dmabuf_colle=
-ctor));
-> +       if (!ASSERT_OK_FD(iter_fd, "iter_create"))
-> +               return;
+> +static void v4l2_m2m_release_from_kref(struct kref *kref)
+> +{
+> +	struct v4l2_m2m_dev *m2m_dev = container_of(kref, struct v4l2_m2m_dev, kref);
 > +
-> +       while ((bytes_read =3D read(iter_fd, buf, sizeof(buf))) > 0)
-> +               total_bytes_read +=3D bytes_read;
-> +
-> +       ASSERT_GT(total_bytes_read, getpagesize(), "total_bytes_read");
-> +
-> +       close(iter_fd);
+> +	v4l2_m2m_release(m2m_dev);
 > +}
 > +
+> +void v4l2_m2m_put(struct v4l2_m2m_dev *m2m_dev)
+> +{
+> +	kref_put(&m2m_dev->kref, v4l2_m2m_release_from_kref);
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_m2m_put);
 > +
->  static void subtest_dmabuf_iter_check_open_coded(struct dmabuf_iter *ske=
-l, int map_fd)
->  {
->         LIBBPF_OPTS(bpf_test_run_opts, topts);
-> @@ -275,6 +295,23 @@ void test_dmabuf_iter(void)
->                 subtest_dmabuf_iter_check_no_infinite_reads(skel);
->         if (test__start_subtest("default_iter"))
->                 subtest_dmabuf_iter_check_default_iter(skel);
-> +       if (test__start_subtest("lots_of_buffers")) {
-> +               size_t NUM_BUFS =3D 100;
-> +               int buffers[NUM_BUFS];
-> +               int i;
-> +
-> +               for (i =3D 0; i < NUM_BUFS; ++i) {
-> +                       buffers[i] =3D create_sys_heap_dmabuf(getpagesize=
-());
-> +                       if (!ASSERT_OK_FD(buffers[i], "dmabuf_fd"))
-> +                               goto cleanup_bufs;
-> +               }
-> +
-> +               subtest_dmabuf_iter_check_lots_of_buffers(skel);
-> +
-> +cleanup_bufs:
-> +               for (--i; i >=3D 0; --i)
-> +                       close(buffers[i]);
-> +       }
->         if (test__start_subtest("open_coded"))
->                 subtest_dmabuf_iter_check_open_coded(skel, map_fd);
+>  struct v4l2_m2m_ctx *v4l2_m2m_ctx_init(struct v4l2_m2m_dev *m2m_dev,
+>  		void *drv_priv,
+>  		int (*queue_init)(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq))
+> diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
+> index bf6a09a04dcf..ca295c660c7f 100644
+> --- a/include/media/v4l2-mem2mem.h
+> +++ b/include/media/v4l2-mem2mem.h
+> @@ -547,6 +547,27 @@ v4l2_m2m_register_media_controller(struct v4l2_m2m_dev *m2m_dev,
+>   */
+>  void v4l2_m2m_release(struct v4l2_m2m_dev *m2m_dev);
 >
+> +/**
+> + * v4l2_m2m_get() - take a reference to the m2m_dev structure
+> + *
+> + * @m2m_dev: opaque pointer to the internal data to handle M2M context
+> + *
+> + * This is used to share the M2M device across multiple devices. This
+> + * can be used to avoid scheduling two hardware nodes concurrently.
+> + */
+> +void v4l2_m2m_get(struct v4l2_m2m_dev *m2m_dev);
+> +
+> +/**
+> + * v4l2_m2m_put() - remove a reference to the m2m_dev structure
+> + *
+> + * @m2m_dev: opaque pointer to the internal data to handle M2M context
+> + *
+> + * Once the M2M device have no more references, v4l2_m2m_realse() will be
+> + * called automatically. Users of this method should never call
+> + * v4l2_m2m_release() directly. See v4l2_m2m_get() for more details.
+> + */
+> +void v4l2_m2m_put(struct v4l2_m2m_dev *m2m_dev);
+> +
+>  /**
+>   * v4l2_m2m_ctx_init() - allocate and initialize a m2m context
+>   *
 > --
-> 2.52.0.177.g9f829587af-goog
+> 2.52.0
 >
 
