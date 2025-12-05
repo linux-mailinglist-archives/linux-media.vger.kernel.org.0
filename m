@@ -1,63 +1,52 @@
-Return-Path: <linux-media+bounces-48322-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48326-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 053C6CA78FA
-	for <lists+linux-media@lfdr.de>; Fri, 05 Dec 2025 13:25:42 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05611CA781B
+	for <lists+linux-media@lfdr.de>; Fri, 05 Dec 2025 13:04:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 6F004345AD3E
-	for <lists+linux-media@lfdr.de>; Fri,  5 Dec 2025 11:11:25 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 03A02314835F
+	for <lists+linux-media@lfdr.de>; Fri,  5 Dec 2025 12:03:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6427C329E5C;
-	Fri,  5 Dec 2025 11:11:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29D972F6907;
+	Fri,  5 Dec 2025 12:03:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T8EmBOts"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="KIqmwyoK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from ixit.cz (ip-94-112-25-9.bb.vodafone.cz [94.112.25.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D2AE32C31D
-	for <linux-media@vger.kernel.org>; Fri,  5 Dec 2025 11:10:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF042C027B;
+	Fri,  5 Dec 2025 12:03:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.112.25.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764933064; cv=none; b=hRInu6n5f13M8wvZ8r3qRpmIWxV6ld2fgYVgcYVFujKbp+mSCScoFG2w+se5BLgKmtQypG2UI0HhbMTWxBxZKgsKIeCzDD7+coxlORVBgWhW/EA2CE0TNw0vztQ/me9qShrV/PGXVLxK/YahzUPoUw3AzVuITwDRSX8D2nLE9gU=
+	t=1764936200; cv=none; b=UavOn4u5fb2iS3mzxDsyDUWESJJ5ZBwmSuvr8UGxEO6azlPim6FDbSsfWoE4GXDHmtRNQhJIQJkvpB6WTP5fDqTTk5/5KL+Vjeg54hy6I1RkpcWKz70QIebLFPqMhGPU5f/XYsTO0R6vRFflGlkurLwsRfm/SDbuWz6s7wx1QWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764933064; c=relaxed/simple;
-	bh=pGopNyeHsvBW3go2mhsIpNS7bzOqTQ9RMlM6PkX0h+Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=gXmciu4o7TjupVSu30/k7zzn47EacB3ZomIttJfXZEBhecfxUXd45XhnRzYDFg4YxDTDtOXxZbH8yDUeXU4JjcP9A+fr7/pM/wWJfoKDBTdoSX3SMl/tQZ0KMCWNd52yKJ/2tvqmLF6l72yfprmpBSgRcW+ZUAETmvDcrvlaLw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T8EmBOts; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764933054; x=1796469054;
-  h=message-id:date:mime-version:subject:to:references:from:
-   in-reply-to:content-transfer-encoding;
-  bh=pGopNyeHsvBW3go2mhsIpNS7bzOqTQ9RMlM6PkX0h+Y=;
-  b=T8EmBOtsyvShO+48CFevRe2gl8fUOqfvmA8X0oMLOJRzlT633RxbkN79
-   OehK9EO4PrLj0GEmqYOEsktGRpw93eCdzCK+RlSPPXyzK8HJdbOz3U9Pc
-   74IvZzVMIhpnkUKT+N0ytM32WM68Z0Gl18+TlpEAFgg7UPzM4dWOj3Aql
-   wLln1w1jiQTak6CX/W9mELdUbVnCnid62qXMhIBk7cbTiHsXABoVPluAT
-   42RWoriebk+meWm8DYdMGEwb40FukR+3z/L0NewC6OQJn7YSZP8IwB0DE
-   O20BPxTme8GjMMYY+aOWjJ4Lo0mUgOKCvzcYuH/DLx4QzOThOz7MTsA5V
-   g==;
-X-CSE-ConnectionGUID: NcCJJiyMTTiw3xE4AxcH1w==
-X-CSE-MsgGUID: vW46hHBqSvuxqvzJA/zxWQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="66689793"
-X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
-   d="scan'208";a="66689793"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 03:10:51 -0800
-X-CSE-ConnectionGUID: cF6XzfUWQIilNYFQQ9wzQw==
-X-CSE-MsgGUID: GbtHloDOSLy5SmLUPkF1Mw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
-   d="scan'208";a="195706412"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO [10.245.244.110]) ([10.245.244.110])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 03:10:50 -0800
-Message-ID: <23d8391c-4568-4b31-acb3-9426b0bf085e@intel.com>
-Date: Fri, 5 Dec 2025 11:10:47 +0000
+	s=arc-20240116; t=1764936200; c=relaxed/simple;
+	bh=WOlQCXinGaB4iAljSEK4J/5flasv5OaR5WalNI1693w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uF7TylBxYwn5Yj8o58FH/hFo9v4snP1/84C+9TdgngaEKG2FWdlCkoYbULsu4KabTWBZowhCsa2rlt1MfkknlF0M2DuFPQAmviYs15vomOA073OH3C74ad1UbkJ0Wyd/07+hgXG1BHp2HywZ3+W/r1jKIKp7JMdPk5qG6lP90UM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=KIqmwyoK; arc=none smtp.client-ip=94.112.25.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+Received: from [10.0.0.200] (unknown [10.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ixit.cz (Postfix) with ESMTPSA id 0E7D65340CA1;
+	Fri, 05 Dec 2025 12:56:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+	t=1764935776;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=meFCyDuprjVE+jc4Sjs7pYJr+2hQmHIrdJPBx8t8Z94=;
+	b=KIqmwyoKZD0rxs4etg8hSDmLGFzFRi7ng58cy9xohyC144toNLSJxCEhQnJ9sy0MrAlRH5
+	WpmI7++FO0lYZOkJsERzMnT+TSTY9UTw4OnMrNBklf4DQQrZHcTNkyuELnSgIeDTSzK7sq
+	2ExzfJAHbrYp9v5OYfbx3fHvwGWEg1M=
+Message-ID: <03c137aa-bd31-43d7-aea8-489ec0102ab3@ixit.cz>
+Date: Fri, 5 Dec 2025 12:56:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,173 +54,133 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dma-buf: improve sg_table debugging hack v2
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- sumit.semwal@linaro.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- simona.vetter@ffwll.ch
-References: <20251204145952.7052-1-christian.koenig@amd.com>
- <3e09719d-af1b-4c5d-83fb-6ef5f41739b5@intel.com>
- <e21cc071-0133-4b07-a52f-67ed4d80cbcd@gmail.com>
-Content-Language: en-GB
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <e21cc071-0133-4b07-a52f-67ed4d80cbcd@gmail.com>
+Subject: Re: [PATCH WIP v2 5/8] media: qcom: camss: csiphy-3ph: Add Gen2 v1.1
+ MIPI CSI-2 CPHY init
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Luca Weiss <luca.weiss@fairphone.com>, Petr Hodina <phodina@protonmail.com>,
+ Casey Connolly <casey.connolly@linaro.org>, "Dr. Git" <drgitx@gmail.com>
+Cc: Joel Selvaraj <foss@joelselvaraj.com>,
+ Kieran Bingham <kbingham@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ phone-devel@vger.kernel.org
+References: <20251204-qcom-cphy-v2-0-6b35ef8b071e@ixit.cz>
+ <20251204-qcom-cphy-v2-5-6b35ef8b071e@ixit.cz>
+ <b7fac86c-15fd-400b-955a-c331c8bc681d@oss.qualcomm.com>
+Content-Language: en-US
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+In-Reply-To: <b7fac86c-15fd-400b-955a-c331c8bc681d@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 05/12/2025 10:41, Christian König wrote:
-> On 12/4/25 16:51, Matthew Auld wrote:
->> On 04/12/2025 14:59, Christian König wrote:
->>> This debugging hack is important to enforce the rule that importers
->>> should *never* touch the underlying struct page of the exporter.
->>>
->>> Instead of just mangling the page link create a copy of the sg_table
->>> but only copy over the DMA addresses and not the pages.
->>>
->>> This will cause a NULL pointer de-reference if the importer tries to
->>> touch the struct page. Still quite a hack but this at least allows the
->>> exporter to properly keeps it's sg_table intact while allowing the
->>> DMA-buf maintainer to find and fix misbehaving importers and finally
->>> switch over to using a different data structure in the future.
->>>
->>> v2: improve the hack further by using a wrapper structure and explaining
->>> the background a bit more in the commit message.
->>>
->>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>> Reviewed-by: Michael J. Ruhl <michael.j.ruhl@intel.com> (v1)
->>> ---
->>>    drivers/dma-buf/dma-buf.c | 72 +++++++++++++++++++++++++++++++--------
->>>    1 file changed, 58 insertions(+), 14 deletions(-)
->>>
->>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
->>> index 2305bb2cc1f1..8c4afd360b72 100644
->>> --- a/drivers/dma-buf/dma-buf.c
->>> +++ b/drivers/dma-buf/dma-buf.c
->>> @@ -35,6 +35,12 @@
->>>      #include "dma-buf-sysfs-stats.h"
->>>    +/* Wrapper to hide the sg_table page link from the importer */
->>> +struct dma_buf_sg_table_wrapper {
->>> +    struct sg_table *original;
->>> +    struct sg_table wrapper;
->>> +};
->>> +
->>>    static inline int is_dma_buf_file(struct file *);
->>>      static DEFINE_MUTEX(dmabuf_list_mutex);
->>> @@ -828,21 +834,57 @@ void dma_buf_put(struct dma_buf *dmabuf)
->>>    }
->>>    EXPORT_SYMBOL_NS_GPL(dma_buf_put, "DMA_BUF");
->>>    -static void mangle_sg_table(struct sg_table *sg_table)
->>> +static int dma_buf_mangle_sg_table(struct sg_table **sg_table)
->>>    {
->>> -#ifdef CONFIG_DMABUF_DEBUG
->>> -    int i;
->>> -    struct scatterlist *sg;
->>> -
->>> -    /* To catch abuse of the underlying struct page by importers mix
->>> -     * up the bits, but take care to preserve the low SG_ bits to
->>> -     * not corrupt the sgt. The mixing is undone on unmap
->>> -     * before passing the sgt back to the exporter.
->>> +    struct scatterlist *to_sg, *from_sg;
->>> +    struct sg_table *from = *sg_table;
->>> +    struct dma_buf_sg_table_wrapper *to;
->>> +    int i, ret;
->>> +
->>> +    if (!IS_ENABLED(CONFIG_DMABUF_DEBUG))
->>> +        return 0;
->>> +
->>> +    /*
->>> +     * To catch abuse of the underlying struct page by importers copy the
->>> +     * sg_table without copying the page_link and give only the copy back to
->>> +     * the importer.
->>>         */
->>> -    for_each_sgtable_sg(sg_table, sg, i)
->>> -        sg->page_link ^= ~0xffUL;
->>> -#endif
->>> +    to = kzalloc(sizeof(*to), GFP_KERNEL);
->>> +    if (!to)
->>> +        return -ENOMEM;
->>> +
->>> +    ret = sg_alloc_table(&to->wrapper, from->nents, GFP_KERNEL);
->>> +    if (ret)
->>> +        goto free_to;
->>> +
->>> +    to_sg = to->wrapper.sgl;
->>> +    for_each_sgtable_dma_sg(from, from_sg, i) {
->>> +        sg_set_page(to_sg, NULL, 0, 0);
+On 05/12/2025 10:54, Konrad Dybcio wrote:
+> On 12/4/25 5:32 PM, David Heidelberg via B4 Relay wrote:
+>> From: Casey Connolly <casey.connolly@linaro.org>
 >>
->> Are we still allowed to pass NULL page here? There looks to be the recently added:
+>> Add a PHY configuration sequence for the sdm845 which uses a Qualcomm
+>> Gen 2 version 1.1 CSI-2 PHY.
 >>
->> VM_WARN_ON_ONCE(!page_range_contiguous(page, ALIGN(len + offset, PAGE_SIZE) / PAGE_SIZE));
+>> The PHY can be configured as two phase or three phase in C-PHY or D-PHY
+>> mode. This configuration supports three-phase C-PHY mode.
 >>
->> And if page_range_contiguous() does not just return true, it potentially wants to dereference the page, like with page_to_pfn()?
+>> Signed-off-by: Casey Connolly <casey.connolly@linaro.org>
+>> Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+>> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>> Co-developed-by: David Heidelberg <david@ixit.cz>
+>> Signed-off-by: David Heidelberg <david@ixit.cz>
+>> ---
+>>   .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     | 74 +++++++++++++++++++++-
+>>   1 file changed, 72 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+>> index 3d30cdce33f96..7121aa97a19c4 100644
+>> --- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+>> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+>> @@ -145,6 +145,7 @@ csiphy_lane_regs lane_regs_sa8775p[] = {
+>>   };
+>>   
+>>   /* GEN2 1.0 2PH */
+>> +/* 5 entries: clock + 4 lanes */
+>>   static const struct
+>>   csiphy_lane_regs lane_regs_sdm845[] = {
+>>   	{0x0004, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> @@ -219,6 +220,69 @@ csiphy_lane_regs lane_regs_sdm845[] = {
+>>   	{0x0664, 0x7F, 0x00, CSIPHY_DEFAULT_PARAMS},
+>>   };
+>>   
+>> +/* GEN2 1.0 3PH */
+>> +/* 3 entries: 3 lanes (C-PHY) */
+>> +static const struct
+>> +csiphy_lane_regs lane_regs_sdm845_3ph[] = {
 > 
-> Good point.
+> Here's a downstream snippet which seems to have more up-to-date settings
+> (checked against a doc and it seems to have changes made at the time of
+> the last edit of the doc)
 > 
-> It doesn't crash at the moment because page_to_pfn() also works with NULL as page, but it is clearly not the nicest thing to do.
+> You'll notice it's split into 3 arrays of register sets - that's because
+> it applies setting for each lane.. something to keep in mind we could
+> optimize upstream data storage for (they are identical per lane in this
+> instance) one day
 
-There does look to be:
+see 87c2c2716523 ("media: qcom: camss: csiphy-3ph: Remove redundant PHY 
+init sequence control loop")
 
-https://elixir.bootlin.com/linux/v6.18/source/include/asm-generic/memory_model.h#L56
+for the reason to flatten the regs array (thou outside the scope of this 
+patchset).
 
-So not completely sure it can't crash here?
+Regarding to the different value, I can test them, can you point to docs 
+regarding why these regs has been changed and what the values means?
 
-> 
-> I will switch over to using sg_assign_page() instead.
-> 
->>
->>
->>> +                sg_dma_address(to_sg) = sg_dma_address(from_sg);
->>> +                sg_dma_len(to_sg) = sg_dma_len(from_sg);
->>
->> Nit: formatting looks off here.
-> 
-> Oh, indeed.
-> 
-> Thanks,
-> Christian.
-> 
->>
->>> +        to_sg = sg_next(to_sg);
->>> +    }
->>>    +    to->original = from;
->>> +    *sg_table = &to->wrapper;
->>> +    return 0;
->>> +
->>> +free_to:
->>> +    kfree(to);
->>> +    return ret;
->>> +}
->>> +
->>> +static void dma_buf_demangle_sg_table(struct sg_table **sg_table)
->>> +{
->>> +    struct dma_buf_sg_table_wrapper *copy;
->>> +
->>> +    if (!IS_ENABLED(CONFIG_DMABUF_DEBUG))
->>> +        return;
->>> +
->>> +    copy = container_of(*sg_table, typeof(*copy), wrapper);
->>> +    *sg_table = copy->original;
->>> +    sg_free_table(&copy->wrapper);
->>> +    kfree(copy);
->>>    }
->>>      static inline bool
->>> @@ -1139,7 +1181,9 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
->>>            if (ret < 0)
->>>                goto error_unmap;
->>>        }
->>> -    mangle_sg_table(sg_table);
->>> +    ret = dma_buf_mangle_sg_table(&sg_table);
->>> +    if (ret)
->>> +        goto error_unmap;
->>>          if (IS_ENABLED(CONFIG_DMA_API_DEBUG)) {
->>>            struct scatterlist *sg;
->>> @@ -1220,7 +1264,7 @@ void dma_buf_unmap_attachment(struct dma_buf_attachment *attach,
->>>          dma_resv_assert_held(attach->dmabuf->resv);
->>>    -    mangle_sg_table(sg_table);
->>> +    dma_buf_demangle_sg_table(&sg_table);
->>>        attach->dmabuf->ops->unmap_dma_buf(attach, sg_table, direction);
->>>          if (dma_buf_pin_on_map(attach))
->>
-> 
+I thought it's some default seq, but as you show there is multiple 
+versions, it make sense to properly document what these regs do.
 
+David
+[...]
 
