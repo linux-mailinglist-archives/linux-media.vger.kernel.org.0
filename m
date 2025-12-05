@@ -1,622 +1,311 @@
-Return-Path: <linux-media+bounces-48339-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48340-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3ABDCA85FB
-	for <lists+linux-media@lfdr.de>; Fri, 05 Dec 2025 17:28:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C86E5CA8C73
+	for <lists+linux-media@lfdr.de>; Fri, 05 Dec 2025 19:25:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id BE8D33067C15
-	for <lists+linux-media@lfdr.de>; Fri,  5 Dec 2025 16:28:01 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id BC05D301D9EB
+	for <lists+linux-media@lfdr.de>; Fri,  5 Dec 2025 18:25:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10CCA313E13;
-	Fri,  5 Dec 2025 16:27:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF752341060;
+	Fri,  5 Dec 2025 18:25:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="HcdheTRK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AjQO9g7Z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012063.outbound.protection.outlook.com [52.101.53.63])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4785338935;
-	Fri,  5 Dec 2025 16:27:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.63
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67DB32FDC52
+	for <linux-media@vger.kernel.org>; Fri,  5 Dec 2025 18:25:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.13
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764952071; cv=fail; b=TsJPa+VPGc00s+OSbOcac4PS3jTxc903avL3h+cnLrzgdu+157EsBmP9HJ4hkcZpFC8dyRVje/2+6sQPnQ1PDmpjnK5EZTozGvH+ZXI4ixR1JJwfjkVE5tVajUbvIjIFwCCn515Z2S7SYZToeaGCo6lm05yB+2/GVtBMLybR6hk=
+	t=1764959122; cv=fail; b=GIMz1D7I+pEyM0iU9VwvBX1g84FQU5AZ3GDmSP6oIO6ly8vIOTF8TUSqX4n2l+GfglWVmGjAGO3Jaz82CyrqoaMnhkBXLBAf68OUfk0Udsjk1fzjxhJ05lkNt0mZs9f9terr7WaRZeMSV505eYmJbISq/sWrFcliIBAGdUh6Ht8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764952071; c=relaxed/simple;
-	bh=VEA/Fgs2myN6su9EF2x48D2WDSqZLqiDErWpbXW2Ys8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=duOUY5LKiAR9VEYJozl1SE+AsY5v4fiOZIxjz40tznf87zDrUW+oWYFQATzeyC02YV41aAVgPS+oHPKKqO4JSnHax2YGwqHBXuxKqzQVV+d21AB9thaLR+QhymtsHejpmg/H4FwNOdotPH3e5Zrf32cE2wqBtXC8QMKOvkMa5mg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=HcdheTRK; arc=fail smtp.client-ip=52.101.53.63
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1764959122; c=relaxed/simple;
+	bh=60RRZZAXAUyFvA/5I4jYImgT8FzKvjUh4lnnIkoElJM=;
+	h=From:To:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=H5/oVg9KtYqAukwEpvzSK6+akVd0WSovCp6H9ejvxkrUjJ8YHLVPyeRxb7lOdxz3hxJ3CgH/XGSZhbbBexZuoch9XhvScfZnIWsCtm7Z2+hbEXZQk1HMUk8wRy046abbphzsUFAORfMP+qNjGKOchshven/bgxFUglqWKn3oxwg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AjQO9g7Z; arc=fail smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764959121; x=1796495121;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=60RRZZAXAUyFvA/5I4jYImgT8FzKvjUh4lnnIkoElJM=;
+  b=AjQO9g7Z4zQEbssWnW6r2IMxueKYsmqn7OFIu49qD8J97aywkKQyzI0U
+   C5VCQ9W9/hbPiL8UkJebuzf0KynGMug6ajP6e8LslNKHVJtd9pV8hXIuS
+   qcKw8Na2pNf1dNm5ZH50VGQKFrIW1dDNx21tckl9kwKO9yfPjjW2mzZGS
+   cWbbktlnHH41ZWZI5ApTppjvZ+ueIfWkpE5pt7lm/850dsRGMr+o6SvYY
+   w7NPNYuVizYJq1RfKm41gmF3GdCgAie85ftG9YSgfo4ne7XX7Plr4b2i+
+   ULYn3xUJIwkxnvX7C6s7jRIrM0KLOWmnraA91IjvtfUCaCv7IPWQQXe2b
+   Q==;
+X-CSE-ConnectionGUID: LAhzWsJ/QNe7LRdYbNUO7g==
+X-CSE-MsgGUID: jcshrCGkRra8RKTuS5snOQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11633"; a="78109285"
+X-IronPort-AV: E=Sophos;i="6.20,252,1758610800"; 
+   d="scan'208";a="78109285"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 10:25:20 -0800
+X-CSE-ConnectionGUID: DB6XWYoTS8Wl8402VJQA1w==
+X-CSE-MsgGUID: uUy8PXVURyGh9KP+6+u9iA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,252,1758610800"; 
+   d="scan'208";a="200499638"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 10:25:20 -0800
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Fri, 5 Dec 2025 10:25:19 -0800
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29 via Frontend Transport; Fri, 5 Dec 2025 10:25:19 -0800
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (40.93.194.10)
+ by edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Fri, 5 Dec 2025 10:25:18 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=J7+/57W+Amen6X161m1P4SMfbwy9XXRKUxCsV/61Irt/Eu3iCNzKxjNocSZBfpgZq9oWQQ4DxX0Fv6JcOlsCqA3sbJcmmLaSsrgNz9WgzlVrSYTvATX5lCMVIEJheS00W2pabN+V9U6UP+DVEn5XFnsRE9G2VTL0xT26CZNo6iXZaf6LiFACDODKpYANG0LuKTtdeR+kjp43iJ8SS0+bPPtECvnZPygO+kpcj9RB80JokAj2jkWj2QiAwHmGvo02mYquYNbTq0ATRSEMuNVr+AVB5lQnMKSqfJ7pln+8oaVg7/46xPXfSf+eZbqyW3YILF4tcC2V10zzvNWiJG7vKw==
+ b=Nu8CYU/TbGfQYi9sp1goDTomABIChFi+HGfqLyH9HEtv9UPnWkxF7LunszdGRRy6Duu3pzCexFA+iAUO3EHzK9XuO9nXHgP41oywp8T0TX7agy2MsYkkKIfSIkpTYUVV4U3owndYWA5zs65jv3tHs88W7isegc7PS2BFhNiC7z0JCtCmaDreCGVW4GunGkMHzCfP0isniMgQvbct04PjUFEwudwtvYKCiQ2xThnUcLvUDNsZ/EnnJFzUolPY3F0dG14mYewXndnVa1BNkOZCUpPimnX+ErBhNytOIDHz5uEpUW10ZQnUmPemBlycvZ/QU979jgbOVX1PJwyQNYa21g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vdKqZujOhWa4CsQXlegyNtSZ7ISvJ0jRdS63h421GNQ=;
- b=LXc9J3PPlxp9qjlVwq9kB6qt+HeWNZewpPULFMda+jdgXhaaKekvwNlPALokuU5UkXMxj2XVu8V77umP/8a0IED93LdYAUl4GRRL9VFIg/Ov00I4nHleZjefnea04MDIsq2EhdsKcoJuVOdg6djQ9sk2flnrwhcOrxxg39Hf0AcKvYGGCY3danjWOa7xCQQv43Yv/00+kvAtZn1n5d+vx7GIdTHNxRY7jleUOHE8NDQFXaMPBpYP27uXD1XnDPeG/AiSWg598nQSXhO7nVCrxz1OjKWm544hrbKjLRhjo/vZPqMvoJE0Mn926sDgMGcgsI8CZNWwXsDxqEmpQ78dXQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.195) smtp.rcpttodomain=lists.linaro.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vdKqZujOhWa4CsQXlegyNtSZ7ISvJ0jRdS63h421GNQ=;
- b=HcdheTRKWfzVopXnVruGVLHeNxOLXdZKHUby89P7cUGurCWigiTNEiB/E2VpAtBtIUPBIh55ppkxHD67dGOiQwOVigMuFVyKPVCODemyrH8iYkkbt4PiEFEkZbGoqJ0kv1WU78aJWae7dY8CccdL6IQqve/ED50V9UN+E8R3FsE=
-Received: from CH0PR03CA0441.namprd03.prod.outlook.com (2603:10b6:610:10e::34)
- by DS0PR10MB6797.namprd10.prod.outlook.com (2603:10b6:8:13d::10) with
+ bh=60RRZZAXAUyFvA/5I4jYImgT8FzKvjUh4lnnIkoElJM=;
+ b=T/icx301cy0NucfGxKqTdzi8l6Jfme/SCo7YW5a932cZA6F1ylLGZmQKrMzjdsDVYcq5EZ5lcgQw1XFd4z1rPLBvglqubA520l/V64LLJOkBE4q+K8fC6G6d8IGJ6oc7dMThRR4C1FamiQ8EU38iSEqX9bQbU7pRy8qsIBxLAnhWf006Eq0Dt+kvKsJvtnfLHOyryE0Tl46O0RU50HIArNwzSlD3/0mPaoPuo+34fxF6N1Y6Y8rx1HYCdYNDddfR9KYfDeThf8vpyVBoSH9UgcEB5b55TeMIPcZswIGgfroHQUazkS86Q0ZSO3+IUeeLy5hGTRvfsOnhBW3hhQQecA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from IA1PR11MB6418.namprd11.prod.outlook.com (2603:10b6:208:3aa::18)
+ by SJ0PR11MB5790.namprd11.prod.outlook.com (2603:10b6:a03:422::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.11; Fri, 5 Dec
- 2025 16:27:37 +0000
-Received: from DS3PEPF000099DC.namprd04.prod.outlook.com
- (2603:10b6:610:10e:cafe::95) by CH0PR03CA0441.outlook.office365.com
- (2603:10b6:610:10e::34) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9388.9 via Frontend Transport; Fri, 5
- Dec 2025 16:27:24 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
-Received: from lewvzet201.ext.ti.com (198.47.23.195) by
- DS3PEPF000099DC.mail.protection.outlook.com (10.167.17.198) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9412.4 via Frontend Transport; Fri, 5 Dec 2025 16:27:36 +0000
-Received: from DLEE211.ent.ti.com (157.170.170.113) by lewvzet201.ext.ti.com
- (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 5 Dec
- 2025 10:27:30 -0600
-Received: from DLEE203.ent.ti.com (157.170.170.78) by DLEE211.ent.ti.com
- (157.170.170.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 5 Dec
- 2025 10:27:29 -0600
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE203.ent.ti.com
- (157.170.170.78) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Fri, 5 Dec 2025 10:27:29 -0600
-Received: from [10.247.23.136] (lt5cd3044tj5.dhcp.ti.com [10.247.23.136])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5B5GRSQa3577388;
-	Fri, 5 Dec 2025 10:27:28 -0600
-Message-ID: <f0a961cb-d0ec-4f53-8c51-5b1c5bba8b1a@ti.com>
-Date: Fri, 5 Dec 2025 10:27:28 -0600
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.9; Fri, 5 Dec
+ 2025 18:25:14 +0000
+Received: from IA1PR11MB6418.namprd11.prod.outlook.com
+ ([fe80::68b8:5391:865e:a83]) by IA1PR11MB6418.namprd11.prod.outlook.com
+ ([fe80::68b8:5391:865e:a83%2]) with mapi id 15.20.9388.011; Fri, 5 Dec 2025
+ 18:25:14 +0000
+From: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
+To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
+	=?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <ckoenig.leichtzumerken@gmail.com>,
+	"Auld, Matthew" <matthew.auld@intel.com>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>, "linaro-mm-sig@lists.linaro.org"
+	<linaro-mm-sig@lists.linaro.org>, "simona.vetter@ffwll.ch"
+	<simona.vetter@ffwll.ch>
+Subject: RE: [PATCH 1/2] dma-buf: improve sg_table debugging hack v3
+Thread-Topic: [PATCH 1/2] dma-buf: improve sg_table debugging hack v3
+Thread-Index: AQHcZef8cMFbsvg/aE2xRC96RvXeprUTM9KggAApL+A=
+Date: Fri, 5 Dec 2025 18:25:14 +0000
+Message-ID: <IA1PR11MB641817BDC348839815581744C1A7A@IA1PR11MB6418.namprd11.prod.outlook.com>
+References: <20251205130604.1582-1-christian.koenig@amd.com>
+ <IA1PR11MB64181483C8F0AF277B2A874AC1A7A@IA1PR11MB6418.namprd11.prod.outlook.com>
+In-Reply-To: <IA1PR11MB64181483C8F0AF277B2A874AC1A7A@IA1PR11MB6418.namprd11.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA1PR11MB6418:EE_|SJ0PR11MB5790:EE_
+x-ms-office365-filtering-correlation-id: 8a8d81fd-4385-4c95-96a3-08de342ba27e
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|38070700021;
+x-microsoft-antispam-message-info: =?utf-8?B?ZDZ5dkNvcDN0Y3lzeUJyNWdMNWIxNVJ4RTFQSExWdFFOZUNMNEp4MWc4bmxa?=
+ =?utf-8?B?QXRsbGxCZHQ0T29NWkhJVXFkTjgwbHBCMHMySXZxV0c5eXZzbG9TUXV2MlJQ?=
+ =?utf-8?B?NmdtNER5U2ZqbW0vbjAvcGxHYW1tanUvaVVvc2xBSmw5VkczbW41Z3lUNTRt?=
+ =?utf-8?B?ekEzOG9JWUdGMjJiVXRGL2c5aWZZVlBQN29jekdDZDlGUDZCaEMzVS9adGli?=
+ =?utf-8?B?SjhsTEl1QWNmR3B2ME9qekI0UGxsVTVTaEpWc1QvVUNqdmppNm5PclpqSlMr?=
+ =?utf-8?B?NlIvYmNxK3RvZ29IK2Z6ZHMrZjVWMys4VjB0RVNUTWVpcFRqL01RZGlEOVRH?=
+ =?utf-8?B?TkRZZ04veUNYRy9yTnBWUk52dlkxbDlKekFTS3lBT2prKzh3a0FnYUt2TWVv?=
+ =?utf-8?B?WEVlZFFkOUM1M0poUk0wb21BbTRiM01qVjE2ZktXNTBMVFgxc3oyeUxkdVNo?=
+ =?utf-8?B?b2ZURjIzbGZwaE5rd1oxQjUvWFBNWWNlczc0eEpqUkd1d2JBbTNLdy9kYVBY?=
+ =?utf-8?B?WDVSMVJscWNZYVN3U3FJWHdrbmtWU0R2MkVqaldTZXBqVmUxYXBYWmp6WmRH?=
+ =?utf-8?B?VkRERi9HY3c5ZmttbHViVTkzSU1ZdHcwaGMvRnhidmwwWEgrM2V2VFpxNUcw?=
+ =?utf-8?B?RUxwU0VldEpETlNjWVE5d0hIREpBTENwZDZUTUd4QzY5Y28rc1pQZWcwbHdq?=
+ =?utf-8?B?cWp5UVhxbzNFL1VMOWpoTjZSLzlQdmhtQU5ObVVKU0tiYTBKUmZJeTNiaGNM?=
+ =?utf-8?B?clo1QWpOQklGb29OMFJhcTN0T3lsUTVTOWJiZU9mTmVjYlRPZnF3NmU4T3gv?=
+ =?utf-8?B?SkZ5dW9OK1hqSnloQU1kQzFpcmdDU0pjZGVUN0FBcnBJY1ZBcTd4b2Yxa2E4?=
+ =?utf-8?B?QytoSkxYZzBTaGdGOStLcnNQcWx0QjVKbXZTK0pBK3pWK0pHYkZOajk2ajNX?=
+ =?utf-8?B?RHM5VTZBQTJBRi9PWDdXazZTcXdFMXlDbmpzZWtYUjRaQ3VJMUtEOFc1am8x?=
+ =?utf-8?B?SWh6SXRXSlU4RHVyb0dRdzJwWE5FMi9CdlJCQlIrR0RjTzNOL2QvWU9HNWRZ?=
+ =?utf-8?B?eVYvZmxtaVJmaUN5ZG1yV3Y1ZmNhT0laT2lpK0UxZWk1SkxEcVVRY3ZzdVM3?=
+ =?utf-8?B?dXkzamd1R1gyNnk2OFozV0tsU201ZDByTzZ4Ry9pbDV5WGZudk5NeW1VMkFN?=
+ =?utf-8?B?dmNmcGFaS0xYdXlwSlY3YVJaMjQ1RDBXOFJrcVZVSFMrbXFFelhxWlFFMHVq?=
+ =?utf-8?B?S2w4OVRham85ZnAwQVhMYWpkcXNYbzc4MVdCRUVqdVkybXBEV3o1ZzVkeWo4?=
+ =?utf-8?B?Q2gzYVJtWkczSTNhcXdualp3ZFkyM28reHhlN21NQkRTcTZ1dDJ6NUVQOFA0?=
+ =?utf-8?B?d2pRTWVzOW9ULzZRVzBzUXB1N2t2S1hySGplVlRIUnRTTWF1OEh6R296ektq?=
+ =?utf-8?B?SFcxcXBrazQwMlREVmFidWZaTGtubXNnREVCVW51dmQxaTRoMWpqOUg5TjRa?=
+ =?utf-8?B?SitRWThValJ5ejhQK3JjT1BHOGdRMzVZWEIyOE9RY1VIYTR4d1QrdmJ6Y0xk?=
+ =?utf-8?B?MkZ1dUJLRHY4VzdlV0U3Y2IralNYMm9yY1J5WlA3cVF0R3p1bzFaU1U0RTVh?=
+ =?utf-8?B?Si9qcXRKb3BLY3M1VDF3OVhpc2pTZ2NtWWJYSStZOE1nUUNtNmRITzlBQWFR?=
+ =?utf-8?B?Y3ROaDBZbzZhdGRPaVh6UzJDUGtKNkxUOVBQclFaVmJLL05mQkYzcVA0RXFp?=
+ =?utf-8?B?bGZLRThteS9TdlB6OGN0ZVh5NkVkWVIrVEw3NWlBOHl4ME5DZ0JtNXhGVDJN?=
+ =?utf-8?B?UFhBYTNmWHhjWHQrSGZ3OElrbDdQdmVZREpQUzJ4WUN1VU5TdGY4VmNNRktC?=
+ =?utf-8?B?SHlkVDg5engxMVZTcHArV1lnem92TTBxZ0ZiSmVQTTRVb1NDK1ZvaVFmZGwr?=
+ =?utf-8?B?Z1lnZHltdDhhSmttTU9YYlRRZkdnWVZFOFMyQ2tJRnlGeG5ISWtoRFhSTFNr?=
+ =?utf-8?B?SXNJWG1QZzJVeHZyNEc3cVNUU0w2UVBkcFFYS3pIYnd5VmMyd2JnMjdjd2g1?=
+ =?utf-8?Q?UwzjY4?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR11MB6418.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Qm1TN1pIdFI2MGpCZmNpSjFnWU5HZWVXN0dPNW9WL0s1RjBTT1NHb0tKNGxl?=
+ =?utf-8?B?TVErOXphakwvOElrUis4Zm5MeTBYTHBOZTlTN0FDT3lWRVFvZnJZajBWU3E2?=
+ =?utf-8?B?UGZyWW54aG8xK3dmZ1NjVE1xL0ZLbktzeUNmQ2NKbEpLM001LzAvV3lZeXNq?=
+ =?utf-8?B?cmFKa09ETytHdE5PSlh0MDlSdFJUYmVVcTRsOXJQOFl1Q3lCNUo2U2UzVDcv?=
+ =?utf-8?B?MzlDM3pTRGtiem8wYStwVXJaeEs5cmJqTTdpTFZNd2RQYlBYY09GMXNIUGVM?=
+ =?utf-8?B?b2tTTTBJbFZQVXpaTnR4SFZ2ZDBVNVh1S3dVS0xJdFd2ejRmczVzNzNyMURX?=
+ =?utf-8?B?Q01wQ1N0cWZGK2t5MEgvVzRFRXlRRkN1LzJpeXlZcTdZV0lZRnF5cmNNOERt?=
+ =?utf-8?B?SXRzM3NvYk9lUzhzakNwdjhvNSt5emlkVGVkSWJjbmkvRGNySUpSMzJRNUxv?=
+ =?utf-8?B?S1VjYTFqNStDSEhNRUk1UnhrMml5NzN5dGRvc3pBRXJiTlNYNG1wSEUyRnRY?=
+ =?utf-8?B?dW11bE9JQWdWODVmQWQxSHpiUGFXZFVHMGdRSWNWUmRSb3diQjBKYWQwOXky?=
+ =?utf-8?B?ejFKQXBiSGx6VGhSWWFGallvM2RraFZzSUF2K1k2M05LYStTKyswbCtsTzlX?=
+ =?utf-8?B?SEN1UGQ1dGlCZ2VCZDR5TVlHY3U1QURkTGpQTWhudVlaWkVoSXIvckh3bTgw?=
+ =?utf-8?B?NVRsVU5TZUxOcDAybUR1WVBSc00wNXdWMXdyYkh3Zk5weFZNL1NMT2hXYXlk?=
+ =?utf-8?B?NFBaUmdqTEZIOEt3c0RUK1dHYnpwU3BFQmRsYkh3OTUvTVI4S3UxUnY5YzNJ?=
+ =?utf-8?B?cFNNRUxoN0VzRjRNa0JrQUpTckY1WXMwU3c0eWdHV1owYVltUjBoMC91c0JU?=
+ =?utf-8?B?dk9CRHlxeG12Y253T1E4WElnRU1ua3B6SW9NdktmeU0rSmF2bVU2UW9WUXcy?=
+ =?utf-8?B?aHJpVXRaWHQyRWtnK0RlUDYrT3gvcTNUZUNjTmFndmFIcHZwV04rcXV0VGIw?=
+ =?utf-8?B?MWJiSTgvWWZsKzBrdHVZaG9nOHVIcDZ4UEpPT1NPdUtuUmNpc3RtUlRQVHJj?=
+ =?utf-8?B?NG4yRGVXaEtnMndkK0pIVUtyWU9BS3d4QzQzZTRLSnhsUG9yMGtud0ZDRnY5?=
+ =?utf-8?B?M0xwOEdjdmNsaWRvK1dmbnFOWVRsaitZamJSclVmcXFrUVd2TlhIUzhRaXNj?=
+ =?utf-8?B?UFRWalIvejJWcEFYcFBteUhFNG9LU2V3OFVLQlpjbG9Ha3J1dGlwaW9YVjEw?=
+ =?utf-8?B?VTlPYytPWnoyMzVoMnlCdU1UaGgyWnlTNURaL0Z3ZkxLa0g4SWdkbml1WUJU?=
+ =?utf-8?B?OHU3ZmdJcXdBeFZFajYyQU9WN0hiSWZuMkJtK2ZpTUlSVFZHcDFzNnpEUVY0?=
+ =?utf-8?B?a0I5bjNLNWNkZjBLYUROYThyN0pzRzZuaGdSS282UldkT3ppdUhncUNRUURt?=
+ =?utf-8?B?cEl6a2o3eHNucFdnZmU5Y1ZLcUhaN1h4cllhNVcvL2Q0eUVQYmxxbzV5MzhS?=
+ =?utf-8?B?TFJYK2xyOVh2QnhFb0Zrd0VpVUtHTnMwUkFMY3JYN21FbGZ3ZDVYTnozWVNs?=
+ =?utf-8?B?dFlpam1xMm5jYVJSL09XR1psOHFnUFJ4WmJUWUd5Vm1mQ2toU28yNEQxM2U4?=
+ =?utf-8?B?VnRWS1pXM3FQOUxFcVFvK2dZTjRhdDZqQm4wWkRDQ1B2VkxXRStzVndTak8y?=
+ =?utf-8?B?aFZtbFNIRHFKV1FxbDBtNnZ3ekp3M3lUbHRuQ3FZTTB5MXpBZEJsc3JGNnhZ?=
+ =?utf-8?B?Y0xMcEY3THFYZkxubG81MzVWS2ZQZzZXWTAzUmF2SDJCcXRrRjBucUwzbTJR?=
+ =?utf-8?B?S3RRWm4zVWlhTjZVdm1wT2JtekMvdmxiZy9VRGJOUXNhanpMYXFWUFpYUmVY?=
+ =?utf-8?B?MEhhL0ZZZGpicEd1MFU1M0tKUXFZL29zNXJvMU9odDFiQ2ZUbFZFbE1IODM1?=
+ =?utf-8?B?Q29GU1AxblZsSzE0NWxLYUJHZm1EdysyQXJuMG9SL1ZkUEFIa2wwZXlDS1A5?=
+ =?utf-8?B?K3BGSFdMSXJmMkdDRWZLRldaLzlvcW9USGIxK0VRemZocktCL2dZbVl5UHRq?=
+ =?utf-8?B?aC9yRkhvNUtEeWVPbkhmaXRNRkF4eklZRWpoZEhGallkZG1Ga2RpVThmZldk?=
+ =?utf-8?Q?Z1j/MdYz+YT3shRVstSAQLEgp?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 5/7] net: ethernet: ti: am65-cpsw: Add AF_XDP
- zero copy for TX
-To: Roger Quadros <rogerq@kernel.org>, Siddharth Vadapalli
-	<s-vadapalli@ti.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Alexei Starovoitov
-	<ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, "Jesper Dangaard
- Brouer" <hawk@kernel.org>, John Fastabend <john.fastabend@gmail.com>, "Sumit
- Semwal" <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?=
-	<christian.koenig@amd.com>, Stanislav Fomichev <sdf@fomichev.me>, "Simon
- Horman" <horms@kernel.org>
-CC: <srk@ti.com>, Meghana Malladi <m-malladi@ti.com>,
-	<netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<bpf@vger.kernel.org>, <linux-media@vger.kernel.org>,
-	<dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>
-References: <20251109-am65-cpsw-xdp-zc-v2-0-858f60a09d12@kernel.org>
- <20251109-am65-cpsw-xdp-zc-v2-5-858f60a09d12@kernel.org>
-Content-Language: en-US
-From: "Qiu, Daolin" <d-qiu@ti.com>
-In-Reply-To: <20251109-am65-cpsw-xdp-zc-v2-5-858f60a09d12@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF000099DC:EE_|DS0PR10MB6797:EE_
-X-MS-Office365-Filtering-Correlation-Id: e1b71f4b-8070-41a5-e3e1-08de341b33c6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|82310400026|376014|1800799024|36860700013|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?QTdqQ3RLZll6SHFiYU5hRGJlTStQYStnREUzTWhheUgyb3N4V0EyZWdOSUNv?=
- =?utf-8?B?NFJzN1lqWE9LOW5qdFNDZ3VhOUZxS21Ld1A3a3BkUGV5Z215NHdBUCt5Y1d0?=
- =?utf-8?B?Z2lnVmk0YWU1SERKQTVLQUlNU0lLUjNORVpNZUF5Zi9rbWE2ZGZ1RXJqMXhj?=
- =?utf-8?B?MnhrNzdROGExZjdTV3pCT2t5MzVjSTNyeHUvQldRcDVBclU3LzNqUjRROTEr?=
- =?utf-8?B?NjVjMnd3b0tUZHhiR1FzY0grNnFjRkxMM0xFelVqVTZWOThkYWpYUFJnZUhP?=
- =?utf-8?B?MmlRQkI3ZVpFUEJwVEdJMVRDNWhsa1Jyeit2R1JoUGdlQjNzREg1eVBuZnY4?=
- =?utf-8?B?T0ZSY2R3WVk5T3FFMklIYTh6MGdXT2VXZ2sxOGdSQ2poTFR0eU5LZDgzSmlY?=
- =?utf-8?B?NUthMTBDaHl1VTlDZDBvNkFxVERGUG50SWRTbWdtb0plcTQvQ0MyVEY4N2Nu?=
- =?utf-8?B?TTBwMFo3V1ovRGovRWhrV3U0T2Z6RHBPVXRDOFk5dkpMWnRsQm4vM1l5U1Zn?=
- =?utf-8?B?bmVHMG1MbklSV3Jpb2FJdDUwSHFGQW9DRFY1eW9nVVJMU2IwSTI4SzBtbHdn?=
- =?utf-8?B?NGppL1JVMTZkUHZZRmdIdlA5MXlxNE5hdEVNSmt0Tm96b3YxbjloZW1PQUMv?=
- =?utf-8?B?QU1wS2hlcE5vdGVETDNVbVplWjNvU2FQamxETVJIclgrQlYwVmNWV0VmVGdG?=
- =?utf-8?B?emFPM0xYTEdSbmdHRmJUcHFpK3JnM2xGQzdaOW41V2xjTVBMalhKWDkwTGpQ?=
- =?utf-8?B?WkpiV01QeHpyWjZUUGhjQ0ZpYzJVZzIzQmZhdkdFSURrbEpybU5jd0p2anQr?=
- =?utf-8?B?M1FRS1ZlckV5U1F6NjVXMlV0L3lvK0VMd0FCczlhTlR1Y1o0Y0dpRFlJZzIy?=
- =?utf-8?B?RGdxditZL1dtTUM0RFcxYkNBSEZDMnFUZXpWR0x5TVZ4WG1XbHVTS1A5L3Fs?=
- =?utf-8?B?U1hmYkFMRjNnUEx3RnE0OENyK2R4dFhEOG94emdGMmNNa01JVUtuTTJPY3JZ?=
- =?utf-8?B?QU5McGg4NXlMVk9wLzlCUVYxUW4wYXJwNEhUL2FzMlhuWlNIWFBLWVIwQ2NQ?=
- =?utf-8?B?eXFrUGgrRnhOMHFIL3lTWVpsbHdWQ284OG5xZGhCcnBMYWhpV3FGd0IrUldj?=
- =?utf-8?B?V21RblJNckpobTFTcVZLSkpsV2xpdjExdmdUbHptOFRxUitqcGplQW5GT1F2?=
- =?utf-8?B?Yzd3aWthWFI3OVkwZXRldU5TZ0xVMjBBLzRzdElmQ3R5ekUwVVVnV2NJOFNH?=
- =?utf-8?B?WDMzdWJkQVJqcDlmM2ZYZGJMTFNiOWNTZGlmd3pCNitoc215RWFDdXZwTHdU?=
- =?utf-8?B?eFZlR2svbnIvWWhVT1V6WXdjNysydTJZK0lZUVhOa2JpcTJnTGlKN2VhMnpi?=
- =?utf-8?B?SVpVS25hbU1HZ2pBS0tXM3JaRzl2bWcvMk1Hb1dKRjJYQWlaV3hELzNtSFJC?=
- =?utf-8?B?TVVsWFpTeE5Ya1J4NzFNMm9relB6aFpURStsS2pJZFJ4d1YyajdYZFpTUkJC?=
- =?utf-8?B?YU1oU2lvTyttbEdFZG9jWGdmb0lwZkx6R1Q3MWRNZDA0SnNWVnp2YnhYLzNz?=
- =?utf-8?B?djJXbXJ5UGtkUm5hZWJYL2NscFB5WlBXQmhXL1M3dmVWZGwvVWRFODYrRnNr?=
- =?utf-8?B?bG83LzllL2F6Q1p4MTBoOE52RmhVVkp0dmhxU1N1RlN4T3VTekpYclMwb0U1?=
- =?utf-8?B?QktYblNJTEhZRDVjMWQ2QlVCTzV5WlcweFRadVpRazJRTTZ5MFRZNStIU1or?=
- =?utf-8?B?SUE4bEY4NnIvNi9zN0Qyb25tWXB2SktBczJCODlWQVpvTkNBN3hWTDVOK0wr?=
- =?utf-8?B?UzQvakkrUjR1b2k4YnlOZ0kxRlh4L2g3MTZpcS91d3Z6L0IxVTBaQVBYQmRw?=
- =?utf-8?B?YitUYnkrMmRXai9GRXc0YTlKN0psMTRwZ0xLVzNIOExDVE81SW8wcWt4UWdz?=
- =?utf-8?B?V0VLNEJ5YTk3b2wvR0crUWRCUmNNZGxOQlpzMXNIMDE4SnBZaFNaREpENEgy?=
- =?utf-8?B?WEtkZ1NIdnhhZHc3QlNBYlRyZ2M2VTEydEkyVVNVNVF2L3FKcXo3TnUwY2VZ?=
- =?utf-8?Q?CHv5Fa?=
-X-Forefront-Antispam-Report:
-	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(82310400026)(376014)(1800799024)(36860700013)(921020);DIR:OUT;SFP:1101;
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Dec 2025 16:27:36.9771
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB6418.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8a8d81fd-4385-4c95-96a3-08de342ba27e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Dec 2025 18:25:14.7382
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e1b71f4b-8070-41a5-e3e1-08de341b33c6
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DS3PEPF000099DC.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB6797
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: bJZ8VBEl8xlt1sj0deNLpbvhnCo5hfVXb63sZhv5mC7G/YijN+Wa9mwED1fYv9np2C3kZS9kKRCNPZd61xCy+Ky0Jkv9PkkWTgLFjilm7l0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5790
+X-OriginatorOrg: intel.com
 
-
-Hi Roger,
-
-My name is Daolin (a colleague of Meghana's).
-
-This is my first time responding to a Linux Kernel mailing list so 
-please be patient if I'm potentially violating any conventions or rules 
-in my message.
-
-Recently, I've encountered the same kernel crash that Meghana faced 
-(https://gist.github.com/MeghanaMalladiTI/784fd2262d95b19fe9573c553c4a6a24 
-) when I was testing the eth1 interface of the CPSW with your patches on 
-an AM62x EVM and found a potential source of the problem (see below).
-
-On 11/9/2025 3:37 PM, Roger Quadros wrote:
-> Add zero copy support to TX path.
->
-> Introduce xsk_pool and xsk_port_id to struct am65_cpsw_tx_chn.
-> This way we can quickly check if the flow is setup as XSK pool
-> and for which port.
->
-> If the TX channel is setup as XSK pool then get the frames from
-> the pool and send it to the TX channel.
->
-> Signed-off-by: Roger Quadros <rogerq@kernel.org>
-> ---
->   drivers/net/ethernet/ti/am65-cpsw-nuss.c | 171 ++++++++++++++++++++++++++++---
->   drivers/net/ethernet/ti/am65-cpsw-nuss.h |   5 +
->   drivers/net/ethernet/ti/am65-cpsw-xdp.c  |  11 +-
->   3 files changed, 171 insertions(+), 16 deletions(-)
->
-> diff --git a/drivers/net/ethernet/ti/am65-cpsw-nuss.c b/drivers/net/ethernet/ti/am65-cpsw-nuss.c
-> index afc0c8836fe242d8bf47ce9bcd3e6b725ca37bf9..2e06e7df23ad5249786d081e51434f87dd2a76b5 100644
-> --- a/drivers/net/ethernet/ti/am65-cpsw-nuss.c
-> +++ b/drivers/net/ethernet/ti/am65-cpsw-nuss.c
-> @@ -758,6 +758,8 @@ void am65_cpsw_destroy_txq(struct am65_cpsw_common *common, int id)
->   	k3_udma_glue_reset_tx_chn(tx_chn->tx_chn, tx_chn,
->   				  am65_cpsw_nuss_tx_cleanup);
->   	k3_udma_glue_disable_tx_chn(tx_chn->tx_chn);
-> +	tx_chn->xsk_pool = NULL;
-> +	tx_chn->xsk_port_id = -EINVAL;
->   }
->   
->   static void am65_cpsw_destroy_txqs(struct am65_cpsw_common *common)
-> @@ -786,12 +788,25 @@ static void am65_cpsw_destroy_txqs(struct am65_cpsw_common *common)
->   int am65_cpsw_create_txq(struct am65_cpsw_common *common, int id)
->   {
->   	struct am65_cpsw_tx_chn *tx_chn = &common->tx_chns[id];
-> -	int ret;
-> +	int port, ret;
->   
->   	ret = k3_udma_glue_enable_tx_chn(tx_chn->tx_chn);
->   	if (ret)
->   		return ret;
->   
-> +	/* get first port with XSK pool & XDP program set */
-> +	for (port = 0; port < common->port_num; port++) {
-> +		if (!common->ports[port].ndev)
-> +			continue;
-> +
-> +		tx_chn->xsk_pool = am65_cpsw_xsk_get_pool(&common->ports[port],
-> +							  id);
-> +		if (tx_chn->xsk_pool)
-> +			break;
-> +	}
-> +
-> +	tx_chn->xsk_port_id = tx_chn->xsk_pool ?
-> +			      common->ports[port].port_id : -EINVAL;
->   	napi_enable(&tx_chn->napi_tx);
->   
->   	return 0;
-> @@ -892,15 +907,18 @@ static void am65_cpsw_nuss_rx_cleanup(void *data, dma_addr_t desc_dma)
->   }
->   
->   static void am65_cpsw_nuss_xmit_free(struct am65_cpsw_tx_chn *tx_chn,
-> -				     struct cppi5_host_desc_t *desc)
-> +				     struct cppi5_host_desc_t *desc,
-> +				     enum am65_cpsw_tx_buf_type buf_type)
->   {
->   	struct cppi5_host_desc_t *first_desc, *next_desc;
->   	dma_addr_t buf_dma, next_desc_dma;
->   	u32 buf_dma_len;
->   
->   	first_desc = desc;
-> -	next_desc = first_desc;
-> +	if (buf_type == AM65_CPSW_TX_BUF_TYPE_XSK_TX)
-> +		goto free_pool;
->   
-> +	next_desc = first_desc;
->   	cppi5_hdesc_get_obuf(first_desc, &buf_dma, &buf_dma_len);
->   	k3_udma_glue_tx_cppi5_to_dma_addr(tx_chn->tx_chn, &buf_dma);
->   
-> @@ -923,6 +941,7 @@ static void am65_cpsw_nuss_xmit_free(struct am65_cpsw_tx_chn *tx_chn,
->   		k3_cppi_desc_pool_free(tx_chn->desc_pool, next_desc);
->   	}
->   
-> +free_pool:
->   	k3_cppi_desc_pool_free(tx_chn->desc_pool, first_desc);
->   }
->   
-> @@ -932,21 +951,32 @@ static void am65_cpsw_nuss_tx_cleanup(void *data, dma_addr_t desc_dma)
->   	enum am65_cpsw_tx_buf_type buf_type;
->   	struct am65_cpsw_tx_swdata *swdata;
->   	struct cppi5_host_desc_t *desc_tx;
-> +	struct xsk_buff_pool *xsk_pool;
->   	struct xdp_frame *xdpf;
->   	struct sk_buff *skb;
->   
->   	desc_tx = k3_cppi_desc_pool_dma2virt(tx_chn->desc_pool, desc_dma);
->   	swdata = cppi5_hdesc_get_swdata(desc_tx);
->   	buf_type = am65_cpsw_nuss_buf_type(tx_chn, desc_dma);
-> -	if (buf_type == AM65_CPSW_TX_BUF_TYPE_SKB) {
-> +	switch (buf_type) {
-> +	case AM65_CPSW_TX_BUF_TYPE_SKB:
->   		skb = swdata->skb;
->   		dev_kfree_skb_any(skb);
-> -	} else {
-> +		break;
-> +	case AM65_CPSW_TX_BUF_TYPE_XDP_TX:
-> +	case AM65_CPSW_TX_BUF_TYPE_XDP_NDO:
->   		xdpf = swdata->xdpf;
->   		xdp_return_frame(xdpf);
-> +		break;
-> +	case AM65_CPSW_TX_BUF_TYPE_XSK_TX:
-> +		xsk_pool = swdata->xsk_pool;
-> +		xsk_tx_completed(xsk_pool, 1);
-> +		break;
-> +	default:
-> +		break;
->   	}
->   
-> -	am65_cpsw_nuss_xmit_free(tx_chn, desc_tx);
-> +	am65_cpsw_nuss_xmit_free(tx_chn, desc_tx, buf_type);
->   }
->   
->   static struct sk_buff *am65_cpsw_build_skb(void *page_addr,
-> @@ -1189,6 +1219,82 @@ static int am65_cpsw_nuss_ndo_slave_open(struct net_device *ndev)
->   	return ret;
->   }
->   
-> +static int am65_cpsw_xsk_xmit_zc(struct net_device *ndev,
-> +				 struct am65_cpsw_tx_chn *tx_chn)
-> +{
-> +	struct am65_cpsw_common *common = tx_chn->common;
-> +	struct xsk_buff_pool *pool = tx_chn->xsk_pool;
-> +	struct xdp_desc *xdp_descs = pool->tx_descs;
-> +	struct cppi5_host_desc_t *host_desc;
-> +	struct am65_cpsw_tx_swdata *swdata;
-> +	dma_addr_t dma_desc, dma_buf;
-> +	int num_tx = 0, pkt_len;
-> +	int descs_avail, ret;
-> +	int i;
-> +
-> +	descs_avail = k3_cppi_desc_pool_avail(tx_chn->desc_pool);
-> +	/* ensure that TX ring is not filled up by XDP, always MAX_SKB_FRAGS
-> +	 * will be available for normal TX path and queue is stopped there if
-> +	 * necessary
-> +	 */
-> +	if (descs_avail <= MAX_SKB_FRAGS)
-> +		return 0;
-> +
-> +	descs_avail -= MAX_SKB_FRAGS;
-> +	descs_avail = xsk_tx_peek_release_desc_batch(pool, descs_avail);
-> +
-> +	for (i = 0; i < descs_avail; i++) {
-> +		host_desc = k3_cppi_desc_pool_alloc(tx_chn->desc_pool);
-> +		if (unlikely(!host_desc))
-> +			break;
-> +
-> +		am65_cpsw_nuss_set_buf_type(tx_chn, host_desc,
-> +					    AM65_CPSW_TX_BUF_TYPE_XSK_TX);
-> +		dma_buf = xsk_buff_raw_get_dma(pool, xdp_descs[i].addr);
-> +		pkt_len = xdp_descs[i].len;
-> +		xsk_buff_raw_dma_sync_for_device(pool, dma_buf, pkt_len);
-> +
-> +		cppi5_hdesc_init(host_desc, CPPI5_INFO0_HDESC_EPIB_PRESENT,
-> +				 AM65_CPSW_NAV_PS_DATA_SIZE);
-> +		cppi5_hdesc_set_pkttype(host_desc, AM65_CPSW_CPPI_TX_PKT_TYPE);
-> +		cppi5_hdesc_set_pktlen(host_desc, pkt_len);
-> +		cppi5_desc_set_pktids(&host_desc->hdr, 0,
-> +				      AM65_CPSW_CPPI_TX_FLOW_ID);
-> +		cppi5_desc_set_tags_ids(&host_desc->hdr, 0,
-> +					tx_chn->xsk_port_id);
-> +
-> +		k3_udma_glue_tx_dma_to_cppi5_addr(tx_chn->tx_chn, &dma_buf);
-> +		cppi5_hdesc_attach_buf(host_desc, dma_buf, pkt_len, dma_buf,
-> +				       pkt_len);
-> +
-> +		swdata = cppi5_hdesc_get_swdata(host_desc);
-> +		swdata->ndev = ndev;
-> +		swdata->xsk_pool = pool;
-> +
-> +		dma_desc = k3_cppi_desc_pool_virt2dma(tx_chn->desc_pool,
-> +						      host_desc);
-> +		if (AM65_CPSW_IS_CPSW2G(common)) {
-> +			ret = k3_udma_glue_push_tx_chn(tx_chn->tx_chn,
-> +						       host_desc, dma_desc);
-> +		} else {
-> +			spin_lock_bh(&tx_chn->lock);
-> +			ret = k3_udma_glue_push_tx_chn(tx_chn->tx_chn,
-> +						       host_desc, dma_desc);
-> +			spin_unlock_bh(&tx_chn->lock);
-> +		}
-> +
-> +		if (ret) {
-> +			ndev->stats.tx_errors++;
-> +			k3_cppi_desc_pool_free(tx_chn->desc_pool, host_desc);
-> +			break;
-> +		}
-> +
-> +		num_tx++;
-> +	}
-> +
-> +	return num_tx;
-> +}
-> +
->   static int am65_cpsw_xdp_tx_frame(struct net_device *ndev,
->   				  struct am65_cpsw_tx_chn *tx_chn,
->   				  struct xdp_frame *xdpf,
-> @@ -1716,15 +1822,19 @@ static int am65_cpsw_nuss_tx_compl_packets(struct am65_cpsw_common *common,
->   	struct netdev_queue *netif_txq;
->   	unsigned int total_bytes = 0;
->   	struct net_device *ndev;
-> +	int xsk_frames_done = 0;
->   	struct xdp_frame *xdpf;
->   	unsigned int pkt_len;
->   	struct sk_buff *skb;
->   	dma_addr_t desc_dma;
->   	int res, num_tx = 0;
-> +	int xsk_tx = 0;
->   
->   	tx_chn = &common->tx_chns[chn];
->   
->   	while (true) {
-> +		pkt_len = 0;
-> +
->   		if (!single_port)
->   			spin_lock(&tx_chn->lock);
->   		res = k3_udma_glue_pop_tx_chn(tx_chn->tx_chn, &desc_dma);
-> @@ -1746,25 +1856,36 @@ static int am65_cpsw_nuss_tx_compl_packets(struct am65_cpsw_common *common,
->   		swdata = cppi5_hdesc_get_swdata(desc_tx);
->   		ndev = swdata->ndev;
->   		buf_type = am65_cpsw_nuss_buf_type(tx_chn, desc_dma);
-> -		if (buf_type == AM65_CPSW_TX_BUF_TYPE_SKB) {
-> +		switch (buf_type) {
-> +		case AM65_CPSW_TX_BUF_TYPE_SKB:
->   			skb = swdata->skb;
->   			am65_cpts_tx_timestamp(tx_chn->common->cpts, skb);
->   			pkt_len = skb->len;
->   			napi_consume_skb(skb, budget);
-> -		} else {
-> +			total_bytes += pkt_len;
-> +			break;
-> +		case AM65_CPSW_TX_BUF_TYPE_XDP_TX:
-> +		case AM65_CPSW_TX_BUF_TYPE_XDP_NDO:
->   			xdpf = swdata->xdpf;
->   			pkt_len = xdpf->len;
-> +			total_bytes += pkt_len;
->   			if (buf_type == AM65_CPSW_TX_BUF_TYPE_XDP_TX)
->   				xdp_return_frame_rx_napi(xdpf);
->   			else
->   				xdp_return_frame(xdpf);
-> +			break;
-> +		case AM65_CPSW_TX_BUF_TYPE_XSK_TX:
-> +			pkt_len = cppi5_hdesc_get_pktlen(desc_tx);
-> +			xsk_frames_done++;
-> +			break;
-> +		default:
-> +			break;
->   		}
->   
-> -		total_bytes += pkt_len;
->   		num_tx++;
-> -		am65_cpsw_nuss_xmit_free(tx_chn, desc_tx);
-> +		am65_cpsw_nuss_xmit_free(tx_chn, desc_tx, buf_type);
->   		dev_sw_netstats_tx_add(ndev, 1, pkt_len);
-> -		if (!single_port) {
-> +		if (!single_port && buf_type != AM65_CPSW_TX_BUF_TYPE_XSK_TX) {
->   			/* as packets from multi ports can be interleaved
->   			 * on the same channel, we have to figure out the
->   			 * port/queue at every packet and report it/wake queue.
-> @@ -1781,6 +1902,19 @@ static int am65_cpsw_nuss_tx_compl_packets(struct am65_cpsw_common *common,
->   		am65_cpsw_nuss_tx_wake(tx_chn, ndev, netif_txq);
->   	}
->   
-> +	if (tx_chn->xsk_pool) {
-> +		if (xsk_frames_done)
-> +			xsk_tx_completed(tx_chn->xsk_pool, xsk_frames_done);
-> +
-> +		if (xsk_uses_need_wakeup(tx_chn->xsk_pool))
-> +			xsk_set_tx_need_wakeup(tx_chn->xsk_pool);
-> +
-> +		ndev = common->ports[tx_chn->xsk_port_id].ndev;
-
-I found that the source of the crash is likely due to ndev being a null 
-pointer. This can be proved by adding some print statements, see 
-https://gist.github.com/dao-qiu/817e8ee1098a517eab5b2f1b1681382d for my 
-print statements and the resulting log.
-
-I noticed that when eth1 is used, the xsk_port_id is 2. I'm assuming 
-common->ports[] is 0-indexed so I was wondering if the null pointer may 
-be due to indexing beyond the port array size. I'm also assuming 
-common->port_num will give the total expected number of ports that is 
-possible for indexing common->ports[] but I haven't tried printing it 
-out yet.
-
-To test my theory, I modified "ndev = common->ports[tx_chn->xsk_port_id 
-- 1].ndev;" to include the tx_chn->xsk_port_id - 1 and the crash appears 
-to not happen anymore.
-
-Along the same lines, when eth0 is used and xsk_port_id is 1, would this 
-be inadvertently setting the ndev for eth1 instead? When testing eth0, 
-the crash does not happen.
-
-Please let me know if you agree if this might be the problem.
-
-> +		netif_txq = netdev_get_tx_queue(ndev, chn);
-> +		txq_trans_cond_update(netif_txq);
-> +		xsk_tx = am65_cpsw_xsk_xmit_zc(ndev, tx_chn);
-> +	}
-> +
->   	dev_dbg(dev, "%s:%u pkt:%d\n", __func__, chn, num_tx);
->   
->   	return num_tx;
-> @@ -1791,7 +1925,11 @@ static enum hrtimer_restart am65_cpsw_nuss_tx_timer_callback(struct hrtimer *tim
->   	struct am65_cpsw_tx_chn *tx_chns =
->   			container_of(timer, struct am65_cpsw_tx_chn, tx_hrtimer);
->   
-> -	enable_irq(tx_chns->irq);
-> +	if (tx_chns->irq_disabled) {
-> +		tx_chns->irq_disabled = false;
-> +		enable_irq(tx_chns->irq);
-> +	}
-> +
->   	return HRTIMER_NORESTART;
->   }
->   
-> @@ -1811,7 +1949,8 @@ static int am65_cpsw_nuss_tx_poll(struct napi_struct *napi_tx, int budget)
->   			hrtimer_start(&tx_chn->tx_hrtimer,
->   				      ns_to_ktime(tx_chn->tx_pace_timeout),
->   				      HRTIMER_MODE_REL_PINNED);
-> -		} else {
-> +		} else if (tx_chn->irq_disabled) {
-> +			tx_chn->irq_disabled = false;
->   			enable_irq(tx_chn->irq);
->   		}
->   	}
-> @@ -1834,6 +1973,7 @@ static irqreturn_t am65_cpsw_nuss_tx_irq(int irq, void *dev_id)
->   {
->   	struct am65_cpsw_tx_chn *tx_chn = dev_id;
->   
-> +	tx_chn->irq_disabled = true;
->   	disable_irq_nosync(irq);
->   	napi_schedule(&tx_chn->napi_tx);
->   
-> @@ -1998,14 +2138,14 @@ static netdev_tx_t am65_cpsw_nuss_ndo_slave_xmit(struct sk_buff *skb,
->   	return NETDEV_TX_OK;
->   
->   err_free_descs:
-> -	am65_cpsw_nuss_xmit_free(tx_chn, first_desc);
-> +	am65_cpsw_nuss_xmit_free(tx_chn, first_desc, AM65_CPSW_TX_BUF_TYPE_SKB);
->   err_free_skb:
->   	ndev->stats.tx_dropped++;
->   	dev_kfree_skb_any(skb);
->   	return NETDEV_TX_OK;
->   
->   busy_free_descs:
-> -	am65_cpsw_nuss_xmit_free(tx_chn, first_desc);
-> +	am65_cpsw_nuss_xmit_free(tx_chn, first_desc, AM65_CPSW_TX_BUF_TYPE_SKB);
->   busy_stop_q:
->   	netif_tx_stop_queue(netif_txq);
->   	return NETDEV_TX_BUSY;
-> @@ -2259,6 +2399,7 @@ static const struct net_device_ops am65_cpsw_nuss_netdev_ops = {
->   	.ndo_xdp_xmit		= am65_cpsw_ndo_xdp_xmit,
->   	.ndo_hwtstamp_get       = am65_cpsw_nuss_hwtstamp_get,
->   	.ndo_hwtstamp_set       = am65_cpsw_nuss_hwtstamp_set,
-> +	.ndo_xsk_wakeup		= am65_cpsw_xsk_wakeup,
->   };
->   
->   static void am65_cpsw_disable_phy(struct phy *phy)
-> diff --git a/drivers/net/ethernet/ti/am65-cpsw-nuss.h b/drivers/net/ethernet/ti/am65-cpsw-nuss.h
-> index 2bf4d12f92764706719cc1d65001dbb53da58c38..ac2d9d32e95b932665131a317df8316cb6cb7f96 100644
-> --- a/drivers/net/ethernet/ti/am65-cpsw-nuss.h
-> +++ b/drivers/net/ethernet/ti/am65-cpsw-nuss.h
-> @@ -72,6 +72,7 @@ enum am65_cpsw_tx_buf_type {
->   	AM65_CPSW_TX_BUF_TYPE_SKB,
->   	AM65_CPSW_TX_BUF_TYPE_XDP_TX,
->   	AM65_CPSW_TX_BUF_TYPE_XDP_NDO,
-> +	AM65_CPSW_TX_BUF_TYPE_XSK_TX,
->   };
->   
->   struct am65_cpsw_host {
-> @@ -97,6 +98,9 @@ struct am65_cpsw_tx_chn {
->   	unsigned char dsize_log2;
->   	char tx_chn_name[128];
->   	u32 rate_mbps;
-> +	struct xsk_buff_pool *xsk_pool;
-> +	int xsk_port_id;
-> +	bool irq_disabled;
->   };
->   
->   struct am65_cpsw_rx_flow {
-> @@ -118,6 +122,7 @@ struct am65_cpsw_tx_swdata {
->   	union {
->   		struct sk_buff *skb;
->   		struct xdp_frame *xdpf;
-> +		struct xsk_buff_pool *xsk_pool;
->   	};
->   };
->   
-> diff --git a/drivers/net/ethernet/ti/am65-cpsw-xdp.c b/drivers/net/ethernet/ti/am65-cpsw-xdp.c
-> index 0e37c27f77720713430a3e70f6c4b3dfb048cfc0..9adf13056f70fea36d9aeac157b7da0cae2c011e 100644
-> --- a/drivers/net/ethernet/ti/am65-cpsw-xdp.c
-> +++ b/drivers/net/ethernet/ti/am65-cpsw-xdp.c
-> @@ -109,8 +109,10 @@ int am65_cpsw_xsk_wakeup(struct net_device *ndev, u32 qid, u32 flags)
->   	struct am65_cpsw_common *common = am65_ndev_to_common(ndev);
->   	struct am65_cpsw_port *port = am65_ndev_to_port(ndev);
->   	struct am65_cpsw_rx_flow *rx_flow;
-> +	struct am65_cpsw_tx_chn *tx_ch;
->   
->   	rx_flow = &common->rx_chns.flows[qid];
-> +	tx_ch = &common->tx_chns[qid];
->   
->   	if (!netif_running(ndev) || !netif_carrier_ok(ndev))
->   		return -ENETDOWN;
-> @@ -121,9 +123,16 @@ int am65_cpsw_xsk_wakeup(struct net_device *ndev, u32 qid, u32 flags)
->   	if (qid >= common->rx_ch_num_flows || qid >= common->tx_ch_num)
->   		return -EINVAL;
->   
-> -	if (!rx_flow->xsk_pool)
-> +	if (!rx_flow->xsk_pool && !tx_ch->xsk_pool)
->   		return -EINVAL;
->   
-> +	if (flags & XDP_WAKEUP_TX) {
-> +		if (!napi_if_scheduled_mark_missed(&tx_ch->napi_tx)) {
-> +			if (likely(napi_schedule_prep(&tx_ch->napi_tx)))
-> +				__napi_schedule(&tx_ch->napi_tx);
-> +		}
-> +	}
-> +
->   	if (flags & XDP_WAKEUP_RX) {
->   		if (!napi_if_scheduled_mark_missed(&rx_flow->napi_rx)) {
->   			if (likely(napi_schedule_prep(&rx_flow->napi_rx)))
-
-Best regards,
-
-Daolin
-
-Texas Instruments Sitara MPU Systems Applications
-
+Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogZHJpLWRldmVsIDxkcmktZGV2ZWwt
+Ym91bmNlc0BsaXN0cy5mcmVlZGVza3RvcC5vcmc+IE9uIEJlaGFsZiBPZiBSdWhsLA0KPk1pY2hh
+ZWwgSg0KPlNlbnQ6IEZyaWRheSwgRGVjZW1iZXIgNSwgMjAyNSAxMTowMiBBTQ0KPlRvOiBDaHJp
+c3RpYW4gS8O2bmlnIDxja29lbmlnLmxlaWNodHp1bWVya2VuQGdtYWlsLmNvbT47IEF1bGQsIE1h
+dHRoZXcNCj48bWF0dGhldy5hdWxkQGludGVsLmNvbT47IGxpbnV4LW1lZGlhQHZnZXIua2VybmVs
+Lm9yZzsgZHJpLQ0KPmRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZzsgbGluYXJvLW1tLXNpZ0Bs
+aXN0cy5saW5hcm8ub3JnOw0KPnNpbW9uYS52ZXR0ZXJAZmZ3bGwuY2gNCj5TdWJqZWN0OiBSRTog
+W1BBVENIIDEvMl0gZG1hLWJ1ZjogaW1wcm92ZSBzZ190YWJsZSBkZWJ1Z2dpbmcgaGFjayB2Mw0K
+Pg0KPj4tLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPj5Gcm9tOiBkcmktZGV2ZWwgPGRyaS1k
+ZXZlbC1ib3VuY2VzQGxpc3RzLmZyZWVkZXNrdG9wLm9yZz4gT24gQmVoYWxmIE9mDQo+PkNocmlz
+dGlhbiBLw7ZuaWcNCj4+U2VudDogRnJpZGF5LCBEZWNlbWJlciA1LCAyMDI1IDg6MDYgQU0NCj4+
+VG86IEF1bGQsIE1hdHRoZXcgPG1hdHRoZXcuYXVsZEBpbnRlbC5jb20+OyBsaW51eC1tZWRpYUB2
+Z2VyLmtlcm5lbC5vcmc7DQo+PmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IGxpbmFy
+by1tbS1zaWdAbGlzdHMubGluYXJvLm9yZzsNCj4+c2ltb25hLnZldHRlckBmZndsbC5jaDsgUnVo
+bCwgTWljaGFlbCBKIDxtaWNoYWVsLmoucnVobEBpbnRlbC5jb20+DQo+PlN1YmplY3Q6IFtQQVRD
+SCAxLzJdIGRtYS1idWY6IGltcHJvdmUgc2dfdGFibGUgZGVidWdnaW5nIGhhY2sgdjMNCj4+DQo+
+PlRoaXMgZGVidWdnaW5nIGhhY2sgaXMgaW1wb3J0YW50IHRvIGVuZm9yY2UgdGhlIHJ1bGUgdGhh
+dCBpbXBvcnRlcnMNCj4+c2hvdWxkICpuZXZlciogdG91Y2ggdGhlIHVuZGVybHlpbmcgc3RydWN0
+IHBhZ2Ugb2YgdGhlIGV4cG9ydGVyLg0KPj4NCj4+SW5zdGVhZCBvZiBqdXN0IG1hbmdsaW5nIHRo
+ZSBwYWdlIGxpbmsgY3JlYXRlIGEgY29weSBvZiB0aGUgc2dfdGFibGUNCj4+YnV0IG9ubHkgY29w
+eSBvdmVyIHRoZSBETUEgYWRkcmVzc2VzIGFuZCBub3QgdGhlIHBhZ2VzLg0KPj4NCj4+VGhpcyB3
+aWxsIGNhdXNlIGEgTlVMTCBwb2ludGVyIGRlLXJlZmVyZW5jZSBpZiB0aGUgaW1wb3J0ZXIgdHJp
+ZXMgdG8NCj4+dG91Y2ggdGhlIHN0cnVjdCBwYWdlLiBTdGlsbCBxdWl0ZSBhIGhhY2sgYnV0IHRo
+aXMgYXQgbGVhc3QgYWxsb3dzIHRoZQ0KPj5leHBvcnRlciB0byBwcm9wZXJseSBrZWVwcyBpdCdz
+IHNnX3RhYmxlIGludGFjdCB3aGlsZSBhbGxvd2luZyB0aGUNCj4+RE1BLWJ1ZiBtYWludGFpbmVy
+IHRvIGZpbmQgYW5kIGZpeCBtaXNiZWhhdmluZyBpbXBvcnRlcnMgYW5kIGZpbmFsbHkNCj4+c3dp
+dGNoIG92ZXIgdG8gdXNpbmcgYSBkaWZmZXJlbnQgZGF0YSBzdHJ1Y3R1cmUgaW4gdGhlIGZ1dHVy
+ZS4NCj4+DQo+PnYyOiBpbXByb3ZlIHRoZSBoYWNrIGZ1cnRoZXIgYnkgdXNpbmcgYSB3cmFwcGVy
+IHN0cnVjdHVyZSBhbmQgZXhwbGFpbmluZw0KPj50aGUgYmFja2dyb3VuZCBhIGJpdCBtb3JlIGlu
+IHRoZSBjb21taXQgbWVzc2FnZS4NCj4+djM6IGZpeCBzb21lIHdoaXRlc3BhY2UgaXNzdWVzLCB1
+c2Ugc2dfYXNzaWduX3BhZ2UoKS4NCj4+DQo+PlNpZ25lZC1vZmYtYnk6IENocmlzdGlhbiBLw7Zu
+aWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4NCj4+UmV2aWV3ZWQtYnk6IE1pY2hhZWwgSi4g
+UnVobCA8bWljaGFlbC5qLnJ1aGxAaW50ZWwuY29tPiAodjEpDQo+Pi0tLQ0KPj4gZHJpdmVycy9k
+bWEtYnVmL2RtYS1idWYuYyB8IDc0ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKystLS0N
+Cj4tLQ0KPj4tLS0NCj4+IDEgZmlsZSBjaGFuZ2VkLCA2MCBpbnNlcnRpb25zKCspLCAxNCBkZWxl
+dGlvbnMoLSkNCj4+DQo+PmRpZmYgLS1naXQgYS9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jIGIv
+ZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYw0KPj5pbmRleCAyMzA1YmIyY2MxZjEuLjk0NGY0MTAz
+YjVjYyAxMDA2NDQNCj4+LS0tIGEvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYw0KPj4rKysgYi9k
+cml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jDQo+PkBAIC0zNSw2ICszNSwxMiBAQA0KPj4NCj4+ICNp
+bmNsdWRlICJkbWEtYnVmLXN5c2ZzLXN0YXRzLmgiDQo+Pg0KPj4rLyogV3JhcHBlciB0byBoaWRl
+IHRoZSBzZ190YWJsZSBwYWdlIGxpbmsgZnJvbSB0aGUgaW1wb3J0ZXIgKi8NCj4+K3N0cnVjdCBk
+bWFfYnVmX3NnX3RhYmxlX3dyYXBwZXIgew0KPj4rCXN0cnVjdCBzZ190YWJsZSAqb3JpZ2luYWw7
+DQo+PisJc3RydWN0IHNnX3RhYmxlIHdyYXBwZXI7DQo+Pit9Ow0KPj4rDQo+PiBzdGF0aWMgaW5s
+aW5lIGludCBpc19kbWFfYnVmX2ZpbGUoc3RydWN0IGZpbGUgKik7DQo+Pg0KPj4gc3RhdGljIERF
+RklORV9NVVRFWChkbWFidWZfbGlzdF9tdXRleCk7DQo+PkBAIC04MjgsMjEgKzgzNCw1OSBAQCB2
+b2lkIGRtYV9idWZfcHV0KHN0cnVjdCBkbWFfYnVmICpkbWFidWYpDQo+PiB9DQo+PiBFWFBPUlRf
+U1lNQk9MX05TX0dQTChkbWFfYnVmX3B1dCwgIkRNQV9CVUYiKTsNCj4+DQo+Pi1zdGF0aWMgdm9p
+ZCBtYW5nbGVfc2dfdGFibGUoc3RydWN0IHNnX3RhYmxlICpzZ190YWJsZSkNCj4+K3N0YXRpYyBp
+bnQgZG1hX2J1Zl9tYW5nbGVfc2dfdGFibGUoc3RydWN0IHNnX3RhYmxlICoqc2dfdGFibGUpDQo+
+DQo+eW91IGFyZSBub3QgcmVhbGx5IG1hbmdsaW5nIHRoaXMgYW55bW9yZS4uLg0KPg0KPmRtYV9i
+dWZfY2xvbmVfc2dfdGFibGUoKQ0KPmRtYV9idWZfdW5jbG9uZV9zZ190YWJsZSgpDQo+DQo+bWF5
+YmU/DQo+DQo+DQo+PiB7DQo+Pi0jaWZkZWYgQ09ORklHX0RNQUJVRl9ERUJVRw0KPj4tCWludCBp
+Ow0KPj4tCXN0cnVjdCBzY2F0dGVybGlzdCAqc2c7DQo+Pi0NCj4+LQkvKiBUbyBjYXRjaCBhYnVz
+ZSBvZiB0aGUgdW5kZXJseWluZyBzdHJ1Y3QgcGFnZSBieSBpbXBvcnRlcnMgbWl4DQo+Pi0JICog
+dXAgdGhlIGJpdHMsIGJ1dCB0YWtlIGNhcmUgdG8gcHJlc2VydmUgdGhlIGxvdyBTR18gYml0cyB0
+bw0KPj4tCSAqIG5vdCBjb3JydXB0IHRoZSBzZ3QuIFRoZSBtaXhpbmcgaXMgdW5kb25lIG9uIHVu
+bWFwDQo+Pi0JICogYmVmb3JlIHBhc3NpbmcgdGhlIHNndCBiYWNrIHRvIHRoZSBleHBvcnRlci4N
+Cj4+KwlzdHJ1Y3Qgc2NhdHRlcmxpc3QgKnRvX3NnLCAqZnJvbV9zZzsNCj4+KwlzdHJ1Y3Qgc2df
+dGFibGUgKmZyb20gPSAqc2dfdGFibGU7DQo+PisJc3RydWN0IGRtYV9idWZfc2dfdGFibGVfd3Jh
+cHBlciAqdG87DQo+PisJaW50IGksIHJldDsNCj4+Kw0KPj4rCWlmICghSVNfRU5BQkxFRChDT05G
+SUdfRE1BQlVGX0RFQlVHKSkNCj4+KwkJcmV0dXJuIDA7DQo+PisNCj4+KwkvKg0KPj4rCSAqIFRv
+IGNhdGNoIGFidXNlIG9mIHRoZSB1bmRlcmx5aW5nIHN0cnVjdCBwYWdlIGJ5IGltcG9ydGVycyBj
+b3B5IHRoZQ0KPj4rCSAqIHNnX3RhYmxlIHdpdGhvdXQgY29weWluZyB0aGUgcGFnZV9saW5rIGFu
+ZCBnaXZlIG9ubHkgdGhlIGNvcHkgYmFjaw0KPj50bw0KPj4rCSAqIHRoZSBpbXBvcnRlci4NCj4+
+IAkgKi8NCj4+LQlmb3JfZWFjaF9zZ3RhYmxlX3NnKHNnX3RhYmxlLCBzZywgaSkNCj4+LQkJc2ct
+PnBhZ2VfbGluayBePSB+MHhmZlVMOw0KPj4tI2VuZGlmDQo+PisJdG8gPSBremFsbG9jKHNpemVv
+ZigqdG8pLCBHRlBfS0VSTkVMKTsNCj4+KwlpZiAoIXRvKQ0KPj4rCQlyZXR1cm4gLUVOT01FTTsN
+Cj4+Kw0KPj4rCXJldCA9IHNnX2FsbG9jX3RhYmxlKCZ0by0+d3JhcHBlciwgZnJvbS0+bmVudHMs
+IEdGUF9LRVJORUwpOw0KPj4rCWlmIChyZXQpDQo+PisJCWdvdG8gZnJlZV90bzsNCj4+Kw0KPj4r
+CXRvX3NnID0gdG8tPndyYXBwZXIuc2dsOw0KPj4rCWZvcl9lYWNoX3NndGFibGVfZG1hX3NnKGZy
+b20sIGZyb21fc2csIGkpIHsNCj4+KwkJdG9fc2ctPm9mZnNldCA9IDA7DQo+PisJCXRvX3NnLT5s
+ZW5ndGggPSAwOw0KPj4rCQlzZ19hc3NpZ25fcGFnZSh0b19zZywgTlVMTCk7DQo+DQo+c2dfc2V0
+X3BhZ2UodG9fc2csIE5VTEwsIDAsIDApOyA/DQoNCkp1c3Qgd2h5IHlvdSBhcmUgdXNpbmcgdGhp
+cyBvbmUuLi4gaWdub3JlIHRoaXMgdGhvdWdodC4uLg0KDQo+SnVzdCB0aG91Z2h0cy4uLiBUaGlz
+IGxvb2tzIHJlYXNvbmFibGUgdG8gbWUuDQo+DQo+V2l0aCBvciB3aXRob3V0IHRoZXNlIGNoYW5n
+ZXM6DQo+DQo+UmV2aWV3ZWQtYnk6IE1pY2hhZWwgSi4gUnVobCA8bWljaGFlbC5qLnJ1aGxAaW50
+ZWwuY29tPg0KPg0KPk0NCj4NCj4+KwkJc2dfZG1hX2FkZHJlc3ModG9fc2cpID0gc2dfZG1hX2Fk
+ZHJlc3MoZnJvbV9zZyk7DQo+PisJCXNnX2RtYV9sZW4odG9fc2cpID0gc2dfZG1hX2xlbihmcm9t
+X3NnKTsNCj4+KwkJdG9fc2cgPSBzZ19uZXh0KHRvX3NnKTsNCj4+Kwl9DQo+Pg0KPj4rCXRvLT5v
+cmlnaW5hbCA9IGZyb207DQo+PisJKnNnX3RhYmxlID0gJnRvLT53cmFwcGVyOw0KPj4rCXJldHVy
+biAwOw0KPj4rDQo+PitmcmVlX3RvOg0KPj4rCWtmcmVlKHRvKTsNCj4+KwlyZXR1cm4gcmV0Ow0K
+Pj4rfQ0KPj4rDQo+PitzdGF0aWMgdm9pZCBkbWFfYnVmX2RlbWFuZ2xlX3NnX3RhYmxlKHN0cnVj
+dCBzZ190YWJsZSAqKnNnX3RhYmxlKQ0KPj4rew0KPj4rCXN0cnVjdCBkbWFfYnVmX3NnX3RhYmxl
+X3dyYXBwZXIgKmNvcHk7DQo+PisNCj4+KwlpZiAoIUlTX0VOQUJMRUQoQ09ORklHX0RNQUJVRl9E
+RUJVRykpDQo+PisJCXJldHVybjsNCj4+Kw0KPj4rCWNvcHkgPSBjb250YWluZXJfb2YoKnNnX3Rh
+YmxlLCB0eXBlb2YoKmNvcHkpLCB3cmFwcGVyKTsNCj4+Kwkqc2dfdGFibGUgPSBjb3B5LT5vcmln
+aW5hbDsNCj4+KwlzZ19mcmVlX3RhYmxlKCZjb3B5LT53cmFwcGVyKTsNCj4+KwlrZnJlZShjb3B5
+KTsNCj4+IH0NCj4+DQo+PiBzdGF0aWMgaW5saW5lIGJvb2wNCj4+QEAgLTExMzksNyArMTE4Myw5
+IEBAIHN0cnVjdCBzZ190YWJsZSAqZG1hX2J1Zl9tYXBfYXR0YWNobWVudChzdHJ1Y3QNCj4+ZG1h
+X2J1Zl9hdHRhY2htZW50ICphdHRhY2gsDQo+PiAJCWlmIChyZXQgPCAwKQ0KPj4gCQkJZ290byBl
+cnJvcl91bm1hcDsNCj4+IAl9DQo+Pi0JbWFuZ2xlX3NnX3RhYmxlKHNnX3RhYmxlKTsNCj4+Kwly
+ZXQgPSBkbWFfYnVmX21hbmdsZV9zZ190YWJsZSgmc2dfdGFibGUpOw0KPj4rCWlmIChyZXQpDQo+
+PisJCWdvdG8gZXJyb3JfdW5tYXA7DQo+Pg0KPj4gCWlmIChJU19FTkFCTEVEKENPTkZJR19ETUFf
+QVBJX0RFQlVHKSkgew0KPj4gCQlzdHJ1Y3Qgc2NhdHRlcmxpc3QgKnNnOw0KPj5AQCAtMTIyMCw3
+ICsxMjY2LDcgQEAgdm9pZCBkbWFfYnVmX3VubWFwX2F0dGFjaG1lbnQoc3RydWN0DQo+PmRtYV9i
+dWZfYXR0YWNobWVudCAqYXR0YWNoLA0KPj4NCj4+IAlkbWFfcmVzdl9hc3NlcnRfaGVsZChhdHRh
+Y2gtPmRtYWJ1Zi0+cmVzdik7DQo+Pg0KPj4tCW1hbmdsZV9zZ190YWJsZShzZ190YWJsZSk7DQo+
+PisJZG1hX2J1Zl9kZW1hbmdsZV9zZ190YWJsZSgmc2dfdGFibGUpOw0KPj4gCWF0dGFjaC0+ZG1h
+YnVmLT5vcHMtPnVubWFwX2RtYV9idWYoYXR0YWNoLCBzZ190YWJsZSwgZGlyZWN0aW9uKTsNCj4+
+DQo+PiAJaWYgKGRtYV9idWZfcGluX29uX21hcChhdHRhY2gpKQ0KPj4tLQ0KPj4yLjQzLjANCg0K
 
