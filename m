@@ -1,192 +1,257 @@
-Return-Path: <linux-media+bounces-48331-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48332-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC65FCA8417
-	for <lists+linux-media@lfdr.de>; Fri, 05 Dec 2025 16:50:48 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51131CA868B
+	for <lists+linux-media@lfdr.de>; Fri, 05 Dec 2025 17:40:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 81CF933ADAC7
-	for <lists+linux-media@lfdr.de>; Fri,  5 Dec 2025 15:40:48 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 55A6D30439DC
+	for <lists+linux-media@lfdr.de>; Fri,  5 Dec 2025 16:33:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C92233D6D8;
-	Fri,  5 Dec 2025 15:03:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B9E134B42B;
+	Fri,  5 Dec 2025 15:07:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="RBJK/j6R"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ot1-f80.google.com (mail-ot1-f80.google.com [209.85.210.80])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010037.outbound.protection.outlook.com [52.101.69.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26673331228
-	for <linux-media@vger.kernel.org>; Fri,  5 Dec 2025 15:03:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.80
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764947011; cv=none; b=fDAr/VIsPFJ1rzS+HwvtZWxaWZLXiu+wvzJzt/ihnulWbm5V9apYf6CcTXPz7Ugv4msPP18aPZ5N5eVW/gbmeppuaub19JVvBVZoGTszJeNOxWAqhADvpHHOgp2IQtPRTbGWKqxwbt7Sn//+wdGOj4ia/lelncZ5SDwqOeIBQcY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764947011; c=relaxed/simple;
-	bh=H8d8ZgxBp+MJmziHi/e+b235tqYhFPQdWYXwUDtYYwA=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=YvJ7IlotBCz92rHRdY3vHp+2XyoSiEOvB5DQz6pfOg4eNRrIVMKI7Pahp+pp14fDvVDmD4ED+Q4vRH60HvLJDj77qqvkhUFcaX47sci6lR4wbxB/atYRQECv+rJbFG/vhq/v+nX22i0ypEaPs7FZy89aqsavXHExiBecRjIOPEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f80.google.com with SMTP id 46e09a7af769-7c673f5f4b6so5871073a34.1
-        for <linux-media@vger.kernel.org>; Fri, 05 Dec 2025 07:03:26 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764947005; x=1765551805;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mZKFrS8XaCz5ZAVZPhJSZM2i//Nrp4m2i8bb62103AU=;
-        b=X/6jWiRWWXyf6tm7CrB7S1fU2x6Tbnbx07jzxUEG2xCibxVHGPIGOYQYqoBpOIu3Qy
-         KY4/e3lU1Mj9ZFgwx7IjD3P2w8igd98A/uR/bYTexZvoGKEmkREfpF6pARNW8QcsaaOx
-         5UWBnlXC0f9xS6jpJ1b0JgJFfHL66D289FVJTzu401qq7UJPmmoq3ErtomzoBxcKj48O
-         CJ1XsA6zuSiSSRp4X30RVp7E+pQjXF6kSxghSTJFqpPlk9S/+wI1/uMapCAbFrmlPfiw
-         /vOHo4fBUraDwrOEQLfwbmUskZnm8CUX6gQ6ocA8GpHh8rKW40Z1qgb7gQ4qrXlap7ys
-         T6IQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUFfEE9bo/my+su9SUHnHNHxqKQYEhuu+X6hCFO3oDB126ebg3QwvLEoKq+KDvbF8ufwfiKip/J1Bj38A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyiki/VZ+tlyKKarScYICxk+KOPiZZx90ygehIX4kSbdmXcEmmq
-	FhCip9mWs2u6eV9UKxhj0Z4FhFRw9iJ6wEsa3Zaj/yaYW1nUXixq3q99lVQIilGi7Tsu4UvLzv4
-	JEsEyLkUXZ7lwyoKlnYZc5dmkotPl4g++GTg8eUKPmdFk9T8kl+g2KuIyoIg=
-X-Google-Smtp-Source: AGHT+IHoCMSNZxkfLUxmG4WkZE2nzhRHxjsZBfDI/5hxG3CFpHHTxb4vc9kfXHV2SzD2x6XCnzwyVNRUAkEnBfJafNtJQOFsy/r3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A576C34A771;
+	Fri,  5 Dec 2025 15:07:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764947269; cv=fail; b=S8o5QsaTiCwJk2a2snUMpKcd3PaoeyfCFA8bXFwmOS1X/6Ak3+K9k511PSltHRaexPzwY2ydpSHhKEeyiNbpHoOWPHGPUqY/EYmfWrjVklxrcWtn+BPEA9tDyJ+zjIqKL2qt7wOAL7YJFN7+J5Jg6zh7IVl71XAQZpGykrCh+so=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764947269; c=relaxed/simple;
+	bh=igHeO10QKYcZdKMMjhz90C6sdjTPJcUdPNq7rfiE0A8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=YItaXf5SfrVGVlWYEI3BRDNhhvT8atiekYzs5yeAh0+ZVC/uP4+jyxusDQJMosqZeEHMnoCiYoPHYllAqbUFwDXQIZ8pL40z/tWJ+V37YMFE7aGnaa3pmGo2nXTPK2+UvyuOjeATb9ayz3D0WZdxzdDaE7YzbUm6J+GkI0S7N5A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=fail (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=RBJK/j6R reason="signature verification failed"; arc=fail smtp.client-ip=52.101.69.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=I6oxgi63gB/IA3BGAczzQwUzhlkWmnmS9hzBns5wpCF6yso4A8p5elVRYWmn4ZlefYIFIO+xLG4Hul+V5gf+vUfy3EsbsQ4HEt7iPW3EMRTy8yJvtYzEM8ttR9AtKPm1X7h/viYwAmBsauRZSoAbQY5mFYo5o3Zn07tMRYd7WHYkcArSmFBeDEXLF6jH3aWWRFZjDHuHNEqO2gzPGN5kP495aq6AfD/mM9YuF4l6YPm70EnvM27tHuMcbEOB0tDtxQHVn5wCNP0ILOgqRCGIqS+NPz5Jkso9sK94wB/Yy6nqxWhlZBF+hPQkSChj08xDbaE8Mm1zWoqxY0wp7w4m4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2yb6HSKnkby4sGZ2UNQq0wNSjmEmvE/LjFi+qA8XXZY=;
+ b=JRD/MzR2gds6b7muh1UwCqnHjaN7VzT4Pjkzn9+vg+8SusrZDRj9mBCYvao/4U4si5X4hyps2Zhv5sTCyE8+zLc9+A9FcgXfF4SxveeWanPxdwqExuL/1cRtJqgxr37WFfjraE+JU773s1IuU1dh5yLv7PeKj+0MY/2bK9m1pSrbyOHlntv13PQ5XyvSgzUXEilz97pD1HW7j5IHy088umi1WlER7XU2GfkUXdlBTOFHkKSVXem9tyxkEznlOoBp9yGmdnPoROAYjOLGCbrpG5Ut6soFsVmk+wysrmhG9e87Y7VZUBzx7Lzxvx5T1sn7f7Vo1SwOV1LCq5XXruPmKw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2yb6HSKnkby4sGZ2UNQq0wNSjmEmvE/LjFi+qA8XXZY=;
+ b=RBJK/j6Rtd3eItpBz5sHffpM263DhNOIeBFIkuvv8ONU0hcVYKfODwncQsaMMEZ3WfozmcgzeucWadMHl34NoxQwIiHUKXr/AuW/fJuH85ceqAvj8I8+goTNiGQcpoOsHyKd3MfFdGxgcTTZc/YN+5umcx6qD4Ia+Z5FUvCTg7TQsBLd/qPkSrPw5QIaJ4YWIyjEWt5oi22omNBwAiTqEb1B1wBlV3w6LuFbW1XovRngH+8fEFT+5nP/qPGFu1iKmBwwRvR1oA8OuyFWUlOzuwTRvcaglhlpx++cZPv2UQKH9ny3BTYTyad9CUBMSU83+klNnrV3gUQK9NG1Oqny/w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DU2PR04MB8951.eurprd04.prod.outlook.com (2603:10a6:10:2e2::22)
+ by DB8PR04MB7068.eurprd04.prod.outlook.com (2603:10a6:10:fe::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.11; Fri, 5 Dec
+ 2025 15:07:42 +0000
+Received: from DU2PR04MB8951.eurprd04.prod.outlook.com
+ ([fe80::753c:468d:266:196]) by DU2PR04MB8951.eurprd04.prod.outlook.com
+ ([fe80::753c:468d:266:196%4]) with mapi id 15.20.9388.003; Fri, 5 Dec 2025
+ 15:07:42 +0000
+Date: Fri, 5 Dec 2025 10:07:34 -0500
+From: Frank Li <Frank.li@nxp.com>
+To: Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc: ming.qian@oss.nxp.com, linux-media@vger.kernel.org, mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl, benjamin.gaignard@collabora.com,
+	p.zabel@pengutronix.de, sebastian.fricke@collabora.com,
+	shawnguo@kernel.org, ulf.hansson@linaro.org, s.hauer@pengutronix.de,
+	kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+	l.stach@pengutronix.de, peng.fan@nxp.com, eagle.zhou@nxp.com,
+	imx@lists.linux.dev, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v3 3/3] media: verisilicon: Avoid G2 bus error while
+ decoding H.264 and HEVC
+Message-ID: <aTL1NrZyeq8g/4Ft@lizhi-Precision-Tower-5810>
+References: <20251204090813.595-1-ming.qian@oss.nxp.com>
+ <20251204090813.595-3-ming.qian@oss.nxp.com>
+ <aTHGJzVKa7PbEifJ@lizhi-Precision-Tower-5810>
+ <9f38bda2f1753645a1ae392ce5364ea0165fdc01.camel@ndufresne.ca>
+ <aTIRwcocnye0Y6yV@lizhi-Precision-Tower-5810>
+ <b45a73845e66355080cfad0f0040b6e7a9d78241.camel@ndufresne.ca>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b45a73845e66355080cfad0f0040b6e7a9d78241.camel@ndufresne.ca>
+X-ClientProxiedBy: PH7PR03CA0011.namprd03.prod.outlook.com
+ (2603:10b6:510:339::12) To DU2PR04MB8951.eurprd04.prod.outlook.com
+ (2603:10a6:10:2e2::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:3008:b0:441:8f74:fc8 with SMTP id
- 5614622812f47-45379ddf7c9mr3526983b6e.53.1764947005487; Fri, 05 Dec 2025
- 07:03:25 -0800 (PST)
-Date: Fri, 05 Dec 2025 07:03:25 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6932f43d.a70a0220.38f243.0002.GAE@google.com>
-Subject: [syzbot] [pvrusb2?] [usb?] WARNING in pvr2_send_request_ex
-From: syzbot <syzbot+405dcd13121ff75a9e16@syzkaller.appspotmail.com>
-To: isely@pobox.com, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-usb@vger.kernel.org, mchehab@kernel.org, pvrusb2@isely.net, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU2PR04MB8951:EE_|DB8PR04MB7068:EE_
+X-MS-Office365-Filtering-Correlation-Id: e3fbae2b-da0c-4d59-766c-08de341009e7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|19092799006|7416014|376014|52116014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?iso-8859-1?Q?ygX5e90x21fOM2wOBsPvKPf9/RgZe4ogcYPnLqGs/EEGOUe/WvhpgGM9l9?=
+ =?iso-8859-1?Q?CAZufUzCSq9sLC9Gm2/rlE4Ugp0B8NSNIgQHxZorxabUHi4W25evw4ob4e?=
+ =?iso-8859-1?Q?UCOiaHdzPMvUEregMsYNeCmOu/ebLKgvDvaMpun4CP8gIq/clrOo2p+mPu?=
+ =?iso-8859-1?Q?HPlUKFQbhy6S48OKcQfAjiliSW0qMGUtW/dr96h9fBvjiMFHtG3B+DRFrP?=
+ =?iso-8859-1?Q?fYUTlAKYmVm+E8BRUJMEkPuveWji0QDkSFoe1o0tYOEsp1PCAAJ3kakf8g?=
+ =?iso-8859-1?Q?bZnzRjljIWIT+/gyxGjP5Uvpmpwh/AUHtgD3J3hBCnEfACL+XfuGJ9g6DY?=
+ =?iso-8859-1?Q?/dL7PFHV0hCHJYQkE3swUPjN5Rci+hhkj72u6I8+hKpGWwRIGI5aSWTQib?=
+ =?iso-8859-1?Q?3ZSzI2hzdx5Qo5OWD/jEcluZCuLgW/lNDh7ARHDeeMsVrdw8tmFYe8cbwO?=
+ =?iso-8859-1?Q?OW6rg5If6Hb6jVTeuYw9+f8sx5Ei/NCwale9Jhr3NsTVJlrIr69o8VKw7L?=
+ =?iso-8859-1?Q?qSQCZhNxtBHWh49Y3uuGavATMUTwEyILSfZUto5gJ4qTi072NLGmwdYUEJ?=
+ =?iso-8859-1?Q?ht0LhDgTvrAiatJ/E8XBkqLrxBGGHNngCRlXQ/urPtOLuTg05MdgvGN59j?=
+ =?iso-8859-1?Q?qvR8795H7MUKiEoP1w+OZBHJax+J4mWOkQDcUrR55uSTz6Fue2V3QSBo4C?=
+ =?iso-8859-1?Q?FR7hqcnICTZtqIhtlKeu93gaVBzsSqlfnVtmoI6DCIqQsv/5tt+fyuD7gL?=
+ =?iso-8859-1?Q?XRRl1M6jjJxLP+ISPGBKtprGd4zgWfnSNRPZ+q1G1v1czwRQ+p9NpZCHY2?=
+ =?iso-8859-1?Q?6Dr+RI6e8RH2+y0zJlfMUQ/tTgEObjV/skhU9kF5YMLZhMlH8Fp9j2jcTy?=
+ =?iso-8859-1?Q?6uHt09qhJjV2kdVHxyRguD8T02VRYpUHESODFKsS9uhM2tIHtSIQgEYIWL?=
+ =?iso-8859-1?Q?8Bdrix98XaLeX2hSodPo/KQbbAKwtraSXaW252QJj6MeFiKWiN8E5PKxoP?=
+ =?iso-8859-1?Q?4AeuWCiAufomGs7dKjwKZJIZ5LYAQ29LSzZ6sx4zElUUTj8NjOsERT3Ju6?=
+ =?iso-8859-1?Q?u7FwTfJU/WIcjzfdu05PlSH2PW0PdBfQtCtjuPi3Q5Zjq57s2KgxBXfRR1?=
+ =?iso-8859-1?Q?yelHutlKHUCN0Qv5B/ITn9BzPDIgL5iCPe+5JrVS1TzL51khBTMysc4aN+?=
+ =?iso-8859-1?Q?EFzJfSRx4d3WLlv5UOqI+HZtOwuCInzLG3pdDNyTfvn0Mh9/KRot7cK9za?=
+ =?iso-8859-1?Q?86t4FX5geg2mtb1UFaJmL7vQRfJMgMVVHLEuQ6Lw5Dx2ggfmP6rHajvLgI?=
+ =?iso-8859-1?Q?jfBisW7K4b1jbe8izieq9SiuKgnbIZIBESnnlYdE7+gn9tgIZqXl8I0HT9?=
+ =?iso-8859-1?Q?4Anws9sAcwoqoVmEKsSmtAKW1OEaa3HCFat7crEqlRnIMjUQc4RqD4SBhh?=
+ =?iso-8859-1?Q?suhw+8A4KZ8GZpPQN1KKwHB4HWcwQOLJCvm7BFWJz5L5do8QmXjh5ddE8b?=
+ =?iso-8859-1?Q?7niSVvHxkkatGXGeEhOYa2ynXHHrQySXDxcas8as3/vF4MIwsf4Ph5gltJ?=
+ =?iso-8859-1?Q?HKDIUkE72+bg8lVlmXoueeABf/qS?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8951.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(19092799006)(7416014)(376014)(52116014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?iso-8859-1?Q?Yv8TJtr126SC62l6oCBbjKBDir//ZKaALqy3ATxaqME7+zK2mNppc2bA82?=
+ =?iso-8859-1?Q?OL0fXKy7fy8Z+k+jd4WIc6r0UNyXA+/6biwVlQ0ilfBEweMWh9Rdus66Ps?=
+ =?iso-8859-1?Q?uhK2hyI8hFNivp8gR5YWRxmmL0a1L4AJ7jY4ifDS6zuyAZ3c9wHWzXiRpQ?=
+ =?iso-8859-1?Q?ZTHZW78jL8zxsPFRsOLA1O1W7vj1sw3RElCwkkPYDz8oAcjfuhZdBqU1CU?=
+ =?iso-8859-1?Q?fE0afL+UOnHJxWrUaZW8juuoGDxabNHFfKehKqXVWzcv9qPQ5oS6RG+OG4?=
+ =?iso-8859-1?Q?ez9+fTIdA17VK+jwHAdkBkxhtuOel1GyO9vbf/iWZaZDz4NoOZLLpnW0hF?=
+ =?iso-8859-1?Q?77UU3AiUov4z8oRvw538itrNWqwWD2gTvPpiZ2sFjB3/l1MsQDYY/jGi10?=
+ =?iso-8859-1?Q?8KEj43g8wPyV6BsNMZyBVTypirtzOY80OXXlqga3xwr+jwGQ8lEVdElBJv?=
+ =?iso-8859-1?Q?K48DD2e+CqWKoE3DV0cncH7HHqZv1M8Y8dNrhm119dvk2l8eCLhXtRCqhN?=
+ =?iso-8859-1?Q?GT4bOJSqpt6nILIDL86t/jJDPI3x7BH37613mZU1b+SpBaggj25bt06Ud4?=
+ =?iso-8859-1?Q?MR9RmgGNkxPcRSHszbAAdE3wDvLLZfDEgrtGohIBNpJSWKnPs0sSV1R6/x?=
+ =?iso-8859-1?Q?WZU1NO49csWrF1E3o+mEEYmig+4aQJTJ1hSTbl3wYjpHMLbuEcW1tO2NzJ?=
+ =?iso-8859-1?Q?TUVtctKEsc4r8kF8MVlazANvoXAnPHmdRv6sbECsp/dNdThFgdopd0mRKo?=
+ =?iso-8859-1?Q?MtfgF2ekA1ebg0itBFoWA0Jt8mHCIIQQI1uiBti1RVJ4ADzgwOYwSa+j+y?=
+ =?iso-8859-1?Q?/6NhIBlEfqdszxJP/GLURvrkwycc3RTL4fYyyp33HRonFAcJchyqwtCfIi?=
+ =?iso-8859-1?Q?Ibkl7uzObkWL0LdnjOQRTr5eD1mBNAqyyDE9a4I3+Y7yclgzrrkKB133p2?=
+ =?iso-8859-1?Q?9lHDKMWmUCZlFgFTMZfpXN9Zl6bNwYU5dNz4WbFmvEONjA6hsgD9aG2tkd?=
+ =?iso-8859-1?Q?Det8g7mHXU+XMrzB0nsLhCk5w02iZHcNJtpUVSxZvc8HBG8qkc62wa2Y6C?=
+ =?iso-8859-1?Q?ctcOJQkX3rexjPqnmt4ERKfOeJRe/Ro98OUf9A6zR+IkB+DPVMq/foE+T2?=
+ =?iso-8859-1?Q?OY+KfexElISIVrbIL9tykRodYiwqz9DTmkx7jAmSy+etaS+B8VFgR3+oyp?=
+ =?iso-8859-1?Q?dzdOerEiZXYk8gbEFw1ngCBrzTxOTiUC/HoNrDO/vTyQ7iGWRrS5jdyEgp?=
+ =?iso-8859-1?Q?Qf1zX+F2I0zEjYLqxANi2kwPzL7zogT7BqsXXktPmxbbay1A5cBxIJclOZ?=
+ =?iso-8859-1?Q?NlQeNEbhEuyfbD9LsFJdUVjLgFRloYMCdVnSKyOny999UNZzaE0ztY5qdv?=
+ =?iso-8859-1?Q?rpuIvGWA6yoFO9nkbAkJWtrRp5heRjocogtNp/CWlRSYq9/iN/Nv+7u0j2?=
+ =?iso-8859-1?Q?5kSiIc9HgY+uWfHiS33r7cLumfVlyaYKy1kACfNKNyO2BrgIzSaZF1BqEq?=
+ =?iso-8859-1?Q?0Bqa0/PqSQH448lgbNSPtlPL2TQjjF5hifCT5jUbAvVM2FaFllh0TTph4t?=
+ =?iso-8859-1?Q?U10NK7DJ3yEQPfznWdT1nVcVtmZxMBrAoNJDXNVCICXhy4fdqG/JjtOVAv?=
+ =?iso-8859-1?Q?AP2IAnIL17B2aHIZMIYS1TzjG+4IjCsXIN?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e3fbae2b-da0c-4d59-766c-08de341009e7
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8951.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Dec 2025 15:07:42.4936
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZmnT3jBaPgwf4TdSa6OebaCaRrDaZcKvRoF6BLBf+PvYwR0w/xoa/CdQS7FZ7xEkw+n8iw1Q933ESKeuE/u/8Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB7068
 
-Hello,
+On Thu, Dec 04, 2025 at 07:05:01PM -0500, Nicolas Dufresne wrote:
+> Le jeudi 04 décembre 2025 à 17:57 -0500, Frank Li a écrit :
+> > On Thu, Dec 04, 2025 at 01:15:35PM -0500, Nicolas Dufresne wrote:
+> > > Hi Frank,
+> > >
+> > > Le jeudi 04 décembre 2025 à 12:34 -0500, Frank Li a écrit :
+> > > > > +static struct v4l2_m2m_dev *hantro_get_v4l2_m2m_dev(struct hantro_dev *vpu)
+> > > > > +{
+> > > > > +	struct device_node *node;
+> > > > > +	struct hantro_dev *shared_vpu;
+> > > > > +
+> > > > > +	if (!vpu->variant || !vpu->variant->shared_devices)
+> > > > > +		goto init_new_m2m_dev;
+> > > >
+> > > > I found only use shared_devices here, how to  ensure that g1 and g2 operate
+> > > > alternately by using shared_devices?
+> > >
+> > > shared_devices is an array of of_device_id we match against. All the matching
+> > > devices will share the same v4l2_m2m_dev (aka m2m scheduler). Typically, both
+> > > cores will be schedule as one. This achieve what alternate operations without
+> > > active polling or blocking locks/mutex.
+> >
+> > Okay, but this code require shared_devices==NULL's device probe firstly.
+> > generally not order guaranteed, if there are not depentance at DT.
+>
+> shared_devices is a constant array that is set inside the variant. It is
+> normally NULL, except for the imx8mq SoC, for which its always set.
+>
+> >
+> > Does VPU always probe before g1/g2?
+> >
+> > and if there are two VPU instances, what's happen?
+>
+> Since there is two VPU, g1 and g2, we will enter this loop:
+>
+> > +	for_each_matching_node(node, vpu->variant->shared_devices) {
+>
+> On imx8mq, this will match twice.
+>
+> > +		struct platform_device *pdev;
+> > +		struct v4l2_m2m_dev *m2m_dev;
+> > +
+> > +		pdev = of_find_device_by_node(node);
+> > +		of_node_put(node);
+> > +
+> > +		if (!pdev)
+> > +			continue;
+>
+> If the match does not have a device yet (not probe yet), we skip.
+>
+> > +
+> > +		shared_vpu = platform_get_drvdata(pdev);
+> > +		if (IS_ERR_OR_NULL(shared_vpu) || shared_vpu == vpu) {
+> > +			platform_device_put(pdev);
+> > +			continue;
+> > +		}
+>
+> If its the current VPU, we also skip.
+>
+> > +
+> > +		v4l2_m2m_get(shared_vpu->m2m_dev);
+> > +		m2m_dev = shared_vpu->m2m_dev;
+> > +		platform_device_put(pdev);
+>
+> Finally, if the other VPU was initialized, we ref the v4l2_m2m_dev. We will then
+> create m2m_ctx from it which will cause the two VPU to be scheduled one after
+> the other.
+>
+> > +
+> > +		return m2m_dev;
+> > +	}
+>
+> > +
+> > +init_new_m2m_dev:
+> > +	return v4l2_m2m_init(&vpu_m2m_ops);
+>
+> Otherwhise we create a fresh one.
+>
+> Does it make sense now ?
 
-syzbot found the following issue on:
+Yes, thanks for detial explain.
 
-HEAD commit:    7d31f578f323 Add linux-next specific files for 20251128
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=12e42192580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=ec890b8333fce099
-dashboard link: https://syzkaller.appspot.com/bug?extid=405dcd13121ff75a9e16
-compiler:       Debian clang version 20.1.8 (++20250708063551+0c9f909b7976-1~exp1~20250708183702.136), Debian LLD 20.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10de0512580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17392512580000
+Frank
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/9bcc6eb60940/disk-7d31f578.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/895bc1bfae48/vmlinux-7d31f578.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/48f15e4679f3/bzImage-7d31f578.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+405dcd13121ff75a9e16@syzkaller.appspotmail.com
-
-pvrusb2: Invalid read control endpoint
-------------[ cut here ]------------
-URB ffff88814e172b00 submitted while active
-WARNING: drivers/usb/core/urb.c:380 at 0x0, CPU#0: pvrusb2-context/2345
-Modules linked in:
-CPU: 0 UID: 0 PID: 2345 Comm: pvrusb2-context Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/25/2025
-RIP: 0010:usb_submit_urb+0x7e/0x18d0 drivers/usb/core/urb.c:380
-Code: 89 f0 48 c1 e8 03 42 80 3c 38 00 74 08 4c 89 f7 e8 07 cf 20 fb 49 83 3e 00 74 40 e8 6c 82 ba fa 48 8d 3d e5 1e c8 08 48 89 de <67> 48 0f b9 3a b8 f0 ff ff ff eb 11 e8 51 82 ba fa eb 05 e8 4a 82
-RSP: 0018:ffffc90004f268a0 EFLAGS: 00010293
-RAX: ffffffff870770c4 RBX: ffff88814e172b00 RCX: ffff88802a5c8000
-RDX: 0000000000000000 RSI: ffff88814e172b00 RDI: ffffffff8fcf8fb0
-RBP: ffffc90004f26b00 R08: 0000000000000000 R09: 0000000000000000
-R10: dffffc0000000000 R11: fffffbfff1f85a8f R12: 0000000000000cc0
-R13: ffff88806783d5f8 R14: ffff88814e172b08 R15: dffffc0000000000
-FS:  0000000000000000(0000) GS:ffff888125a03000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f910bc43e9c CR3: 000000000e13a000 CR4: 00000000003526f0
-Call Trace:
- <TASK>
- pvr2_send_request_ex+0xc2a/0x2030 drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3676
- pvr2_send_request+0x38/0x50 drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3819
- pvr2_i2c_read drivers/media/usb/pvrusb2/pvrusb2-i2c-core.c:130 [inline]
- pvr2_i2c_basic_op+0x44e/0x930 drivers/media/usb/pvrusb2/pvrusb2-i2c-core.c:172
- pvr2_i2c_xfer+0x9e3/0xda0 drivers/media/usb/pvrusb2/pvrusb2-i2c-core.c:445
- __i2c_transfer+0x871/0x2110 drivers/i2c/i2c-core-base.c:-1
- i2c_smbus_xfer_emulated drivers/i2c/i2c-core-smbus.c:470 [inline]
- __i2c_smbus_xfer+0xf80/0x1e40 drivers/i2c/i2c-core-smbus.c:608
- i2c_smbus_xfer+0x275/0x3c0 drivers/i2c/i2c-core-smbus.c:546
- i2c_smbus_read_byte_data+0xfe/0x1c0 drivers/i2c/i2c-core-smbus.c:143
- saa711x_detect_chip drivers/media/i2c/saa7115.c:1710 [inline]
- saa711x_probe+0x1c1/0x1570 drivers/media/i2c/saa7115.c:1816
- i2c_device_probe+0x87e/0xc00 drivers/i2c/i2c-core-base.c:592
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x26d/0xad0 drivers/base/dd.c:659
- __driver_probe_device+0x18c/0x320 drivers/base/dd.c:801
- driver_probe_device+0x4f/0x240 drivers/base/dd.c:831
- __device_attach_driver+0x279/0x430 drivers/base/dd.c:959
- bus_for_each_drv+0x251/0x2e0 drivers/base/bus.c:500
- __device_attach+0x2b8/0x430 drivers/base/dd.c:1031
- device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1086
- bus_probe_device+0x12a/0x220 drivers/base/bus.c:574
- device_add+0x7b6/0xb80 drivers/base/core.c:3689
- i2c_new_client_device+0xa11/0x1150 drivers/i2c/i2c-core-base.c:1019
- v4l2_i2c_new_subdev_board+0x86/0x250 drivers/media/v4l2-core/v4l2-i2c.c:81
- v4l2_i2c_new_subdev+0x14a/0x1e0 drivers/media/v4l2-core/v4l2-i2c.c:136
- pvr2_hdw_load_subdev drivers/media/usb/pvrusb2/pvrusb2-hdw.c:-1 [inline]
- pvr2_hdw_load_modules drivers/media/usb/pvrusb2/pvrusb2-hdw.c:2074 [inline]
- pvr2_hdw_setup_low drivers/media/usb/pvrusb2/pvrusb2-hdw.c:2155 [inline]
- pvr2_hdw_setup drivers/media/usb/pvrusb2/pvrusb2-hdw.c:2261 [inline]
- pvr2_hdw_initialize+0xe18/0x3ac0 drivers/media/usb/pvrusb2/pvrusb2-hdw.c:2338
- pvr2_context_check drivers/media/usb/pvrusb2/pvrusb2-context.c:111 [inline]
- pvr2_context_thread_func+0x487/0xaf0 drivers/media/usb/pvrusb2/pvrusb2-context.c:158
- kthread+0x711/0x8a0 kernel/kthread.c:463
- ret_from_fork+0x599/0xb30 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:246
- </TASK>
-----------------
-Code disassembly (best guess):
-   0:	89 f0                	mov    %esi,%eax
-   2:	48 c1 e8 03          	shr    $0x3,%rax
-   6:	42 80 3c 38 00       	cmpb   $0x0,(%rax,%r15,1)
-   b:	74 08                	je     0x15
-   d:	4c 89 f7             	mov    %r14,%rdi
-  10:	e8 07 cf 20 fb       	call   0xfb20cf1c
-  15:	49 83 3e 00          	cmpq   $0x0,(%r14)
-  19:	74 40                	je     0x5b
-  1b:	e8 6c 82 ba fa       	call   0xfaba828c
-  20:	48 8d 3d e5 1e c8 08 	lea    0x8c81ee5(%rip),%rdi        # 0x8c81f0c
-  27:	48 89 de             	mov    %rbx,%rsi
-* 2a:	67 48 0f b9 3a       	ud1    (%edx),%rdi <-- trapping instruction
-  2f:	b8 f0 ff ff ff       	mov    $0xfffffff0,%eax
-  34:	eb 11                	jmp    0x47
-  36:	e8 51 82 ba fa       	call   0xfaba828c
-  3b:	eb 05                	jmp    0x42
-  3d:	e8                   	.byte 0xe8
-  3e:	4a                   	rex.WX
-  3f:	82                   	.byte 0x82
+>
+> Nicolas
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
 
