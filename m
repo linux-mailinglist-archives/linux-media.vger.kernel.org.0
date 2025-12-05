@@ -1,46 +1,63 @@
-Return-Path: <linux-media+bounces-48321-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48322-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 938A2CA751F
-	for <lists+linux-media@lfdr.de>; Fri, 05 Dec 2025 12:11:09 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 053C6CA78FA
+	for <lists+linux-media@lfdr.de>; Fri, 05 Dec 2025 13:25:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 73AFD3027731
-	for <lists+linux-media@lfdr.de>; Fri,  5 Dec 2025 11:11:05 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6F004345AD3E
+	for <lists+linux-media@lfdr.de>; Fri,  5 Dec 2025 11:11:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDC8732D0CD;
-	Fri,  5 Dec 2025 11:10:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6427C329E5C;
+	Fri,  5 Dec 2025 11:11:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="H3GgpSYX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T8EmBOts"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 820352F692F;
-	Fri,  5 Dec 2025 11:10:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D2AE32C31D
+	for <linux-media@vger.kernel.org>; Fri,  5 Dec 2025 11:10:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764933052; cv=none; b=T2NYSi+ECa3eI1GJV/bJMsozX9KJmw6GbHyy2gTnpCIwKNu9cvKAO9w5L2KaKNP6EKNJ2fgn7d2BNos7lOtYCfW8PiWv/cq+4LU9SsMFlJbxxRx6ACQgh5Jsyl5brp5vtodapNZOLwQft0FF1WgMo8+9JPX1keSR60LxBoFxt0A=
+	t=1764933064; cv=none; b=hRInu6n5f13M8wvZ8r3qRpmIWxV6ld2fgYVgcYVFujKbp+mSCScoFG2w+se5BLgKmtQypG2UI0HhbMTWxBxZKgsKIeCzDD7+coxlORVBgWhW/EA2CE0TNw0vztQ/me9qShrV/PGXVLxK/YahzUPoUw3AzVuITwDRSX8D2nLE9gU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764933052; c=relaxed/simple;
-	bh=7/jdxAGyLizEv+MMB75f57qgu8yKlN9khKDAOCWpMyg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Sx4yyL44j+sH7jqlO/myostbLrU85UCpd1o7zykQrLsMLLO+SLrHiBJQcW6WNJAuECN0CbPIbsXGalbJJCWVpHbutuflnPNu8yQ0oT40+/BRbVtdsHzenmfmdqjGH1Fe01yVcd4mbzic+pZEUDFaRZdv0IIRwgVzDzt/boAiaAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=H3GgpSYX; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 01687E7C;
-	Fri,  5 Dec 2025 12:08:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1764932898;
-	bh=7/jdxAGyLizEv+MMB75f57qgu8yKlN9khKDAOCWpMyg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=H3GgpSYXo1vjVfoiRI92RDBD004gpMS9lDrfaAWk4eBYVUMK6uM07qfnxql7OaxIB
-	 7cJHRo+jFa1DQ4LbR/RUjlwLJtQUABr3H5lt2mlKt6ifNE3vpbhxASDYyImrHRhGAX
-	 1fl1F8x9bWiifiLbvKoDkqF6Bk4R4HHmn7cy8CM8=
-Message-ID: <c387b053-82b1-4de4-946a-5f2b9270224f@ideasonboard.com>
-Date: Fri, 5 Dec 2025 13:10:29 +0200
+	s=arc-20240116; t=1764933064; c=relaxed/simple;
+	bh=pGopNyeHsvBW3go2mhsIpNS7bzOqTQ9RMlM6PkX0h+Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=gXmciu4o7TjupVSu30/k7zzn47EacB3ZomIttJfXZEBhecfxUXd45XhnRzYDFg4YxDTDtOXxZbH8yDUeXU4JjcP9A+fr7/pM/wWJfoKDBTdoSX3SMl/tQZ0KMCWNd52yKJ/2tvqmLF6l72yfprmpBSgRcW+ZUAETmvDcrvlaLw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T8EmBOts; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764933054; x=1796469054;
+  h=message-id:date:mime-version:subject:to:references:from:
+   in-reply-to:content-transfer-encoding;
+  bh=pGopNyeHsvBW3go2mhsIpNS7bzOqTQ9RMlM6PkX0h+Y=;
+  b=T8EmBOtsyvShO+48CFevRe2gl8fUOqfvmA8X0oMLOJRzlT633RxbkN79
+   OehK9EO4PrLj0GEmqYOEsktGRpw93eCdzCK+RlSPPXyzK8HJdbOz3U9Pc
+   74IvZzVMIhpnkUKT+N0ytM32WM68Z0Gl18+TlpEAFgg7UPzM4dWOj3Aql
+   wLln1w1jiQTak6CX/W9mELdUbVnCnid62qXMhIBk7cbTiHsXABoVPluAT
+   42RWoriebk+meWm8DYdMGEwb40FukR+3z/L0NewC6OQJn7YSZP8IwB0DE
+   O20BPxTme8GjMMYY+aOWjJ4Lo0mUgOKCvzcYuH/DLx4QzOThOz7MTsA5V
+   g==;
+X-CSE-ConnectionGUID: NcCJJiyMTTiw3xE4AxcH1w==
+X-CSE-MsgGUID: vW46hHBqSvuxqvzJA/zxWQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="66689793"
+X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
+   d="scan'208";a="66689793"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 03:10:51 -0800
+X-CSE-ConnectionGUID: cF6XzfUWQIilNYFQQ9wzQw==
+X-CSE-MsgGUID: GbtHloDOSLy5SmLUPkF1Mw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
+   d="scan'208";a="195706412"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO [10.245.244.110]) ([10.245.244.110])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 03:10:50 -0800
+Message-ID: <23d8391c-4568-4b31-acb3-9426b0bf085e@intel.com>
+Date: Fri, 5 Dec 2025 11:10:47 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -48,401 +65,173 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 4/4] media: i2c: ds90ub960: Add support for
- DS90UB954-Q1
-To: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
-Cc: hansg@kernel.org, mehdi.djait@linux.intel.com, ribalda@chromium.org,
- git@apitzsch.eu, vladimir.zapolskiy@linaro.org,
- benjamin.mugnier@foss.st.com, dongcheng.yan@intel.com, u-kumar1@ti.com,
- jai.luthra@linux.dev, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, hverkuil@xs4all.nl, sakari.ailus@linux.intel.com,
- laurent.pinchart@ideasonboard.com
-References: <20251202102208.80713-1-y-abhilashchandra@ti.com>
- <20251202102208.80713-5-y-abhilashchandra@ti.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Content-Language: en-US
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20251202102208.80713-5-y-abhilashchandra@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 1/2] dma-buf: improve sg_table debugging hack v2
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ sumit.semwal@linaro.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ simona.vetter@ffwll.ch
+References: <20251204145952.7052-1-christian.koenig@amd.com>
+ <3e09719d-af1b-4c5d-83fb-6ef5f41739b5@intel.com>
+ <e21cc071-0133-4b07-a52f-67ed4d80cbcd@gmail.com>
+Content-Language: en-GB
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <e21cc071-0133-4b07-a52f-67ed4d80cbcd@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi,
-
-On 02/12/2025 12:22, Yemike Abhilash Chandra wrote:
-> DS90UB954-Q1 is an FPDLink-III deserializer that is mostly register
-> compatible with DS90UB960-Q1. The main difference is that it supports half
-> of the RX and TX ports, i.e. 2x FPDLink RX ports and 1x CSI TX port.
+On 05/12/2025 10:41, Christian König wrote:
+> On 12/4/25 16:51, Matthew Auld wrote:
+>> On 04/12/2025 14:59, Christian König wrote:
+>>> This debugging hack is important to enforce the rule that importers
+>>> should *never* touch the underlying struct page of the exporter.
+>>>
+>>> Instead of just mangling the page link create a copy of the sg_table
+>>> but only copy over the DMA addresses and not the pages.
+>>>
+>>> This will cause a NULL pointer de-reference if the importer tries to
+>>> touch the struct page. Still quite a hack but this at least allows the
+>>> exporter to properly keeps it's sg_table intact while allowing the
+>>> DMA-buf maintainer to find and fix misbehaving importers and finally
+>>> switch over to using a different data structure in the future.
+>>>
+>>> v2: improve the hack further by using a wrapper structure and explaining
+>>> the background a bit more in the commit message.
+>>>
+>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>> Reviewed-by: Michael J. Ruhl <michael.j.ruhl@intel.com> (v1)
+>>> ---
+>>>    drivers/dma-buf/dma-buf.c | 72 +++++++++++++++++++++++++++++++--------
+>>>    1 file changed, 58 insertions(+), 14 deletions(-)
+>>>
+>>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+>>> index 2305bb2cc1f1..8c4afd360b72 100644
+>>> --- a/drivers/dma-buf/dma-buf.c
+>>> +++ b/drivers/dma-buf/dma-buf.c
+>>> @@ -35,6 +35,12 @@
+>>>      #include "dma-buf-sysfs-stats.h"
+>>>    +/* Wrapper to hide the sg_table page link from the importer */
+>>> +struct dma_buf_sg_table_wrapper {
+>>> +    struct sg_table *original;
+>>> +    struct sg_table wrapper;
+>>> +};
+>>> +
+>>>    static inline int is_dma_buf_file(struct file *);
+>>>      static DEFINE_MUTEX(dmabuf_list_mutex);
+>>> @@ -828,21 +834,57 @@ void dma_buf_put(struct dma_buf *dmabuf)
+>>>    }
+>>>    EXPORT_SYMBOL_NS_GPL(dma_buf_put, "DMA_BUF");
+>>>    -static void mangle_sg_table(struct sg_table *sg_table)
+>>> +static int dma_buf_mangle_sg_table(struct sg_table **sg_table)
+>>>    {
+>>> -#ifdef CONFIG_DMABUF_DEBUG
+>>> -    int i;
+>>> -    struct scatterlist *sg;
+>>> -
+>>> -    /* To catch abuse of the underlying struct page by importers mix
+>>> -     * up the bits, but take care to preserve the low SG_ bits to
+>>> -     * not corrupt the sgt. The mixing is undone on unmap
+>>> -     * before passing the sgt back to the exporter.
+>>> +    struct scatterlist *to_sg, *from_sg;
+>>> +    struct sg_table *from = *sg_table;
+>>> +    struct dma_buf_sg_table_wrapper *to;
+>>> +    int i, ret;
+>>> +
+>>> +    if (!IS_ENABLED(CONFIG_DMABUF_DEBUG))
+>>> +        return 0;
+>>> +
+>>> +    /*
+>>> +     * To catch abuse of the underlying struct page by importers copy the
+>>> +     * sg_table without copying the page_link and give only the copy back to
+>>> +     * the importer.
+>>>         */
+>>> -    for_each_sgtable_sg(sg_table, sg, i)
+>>> -        sg->page_link ^= ~0xffUL;
+>>> -#endif
+>>> +    to = kzalloc(sizeof(*to), GFP_KERNEL);
+>>> +    if (!to)
+>>> +        return -ENOMEM;
+>>> +
+>>> +    ret = sg_alloc_table(&to->wrapper, from->nents, GFP_KERNEL);
+>>> +    if (ret)
+>>> +        goto free_to;
+>>> +
+>>> +    to_sg = to->wrapper.sgl;
+>>> +    for_each_sgtable_dma_sg(from, from_sg, i) {
+>>> +        sg_set_page(to_sg, NULL, 0, 0);
+>>
+>> Are we still allowed to pass NULL page here? There looks to be the recently added:
+>>
+>> VM_WARN_ON_ONCE(!page_range_contiguous(page, ALIGN(len + offset, PAGE_SIZE) / PAGE_SIZE));
+>>
+>> And if page_range_contiguous() does not just return true, it potentially wants to dereference the page, like with page_to_pfn()?
 > 
-> A couple of differences are between the status registers and the
-> strobe setting registers. Hence accommodate these differences in
-> the UB960 driver so that we can reuse a large part of the existing code.
+> Good point.
 > 
-> Link: https://www.ti.com/lit/gpn/ds90ub954-q1
-> Signed-off-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
-> ---
-> Refer table 5.2.1 STROBE_SET Register in [1] for DS90UB954 strobe
-> setting register.
+> It doesn't crash at the moment because page_to_pfn() also works with NULL as page, but it is clearly not the nicest thing to do.
+
+There does look to be:
+
+https://elixir.bootlin.com/linux/v6.18/source/include/asm-generic/memory_model.h#L56
+
+So not completely sure it can't crash here?
+
 > 
-> [1]: https://www.ti.com/lit/an/snla301/snla301.pdf
+> I will switch over to using sg_assign_page() instead.
 > 
->  drivers/media/i2c/Kconfig     |   4 +-
->  drivers/media/i2c/ds90ub960.c | 165 +++++++++++++++++++++++++---------
->  2 files changed, 125 insertions(+), 44 deletions(-)
+>>
+>>
+>>> +                sg_dma_address(to_sg) = sg_dma_address(from_sg);
+>>> +                sg_dma_len(to_sg) = sg_dma_len(from_sg);
+>>
+>> Nit: formatting looks off here.
 > 
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index 745819c625d6..52104f76e371 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -1703,8 +1703,8 @@ config VIDEO_DS90UB960
->  	select V4L2_FWNODE
->  	select VIDEO_V4L2_SUBDEV_API
->  	help
-> -	  Device driver for the Texas Instruments DS90UB960
-> -	  FPD-Link III Deserializer and DS90UB9702 FPD-Link IV Deserializer.
-> +	  Device driver for the Texas Instruments DS90UB954, DS90UB960
-> +	  FPD-Link III Deserializers and DS90UB9702 FPD-Link IV Deserializer.
->  
->  config VIDEO_MAX96714
->  	tristate "Maxim MAX96714 GMSL2 deserializer"
-> diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
-> index 45494fcaf095..7d3e5a87bb17 100644
-> --- a/drivers/media/i2c/ds90ub960.c
-> +++ b/drivers/media/i2c/ds90ub960.c
-> @@ -396,6 +396,12 @@
->  #define UB960_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY	BIT(3)
->  #define UB960_IR_RX_ANA_STROBE_SET_DATA_DELAY_MASK	GENMASK(2, 0)
->  
-> +#define UB954_IR_RX_ANA_STROBE_SET_CLK_DATA		0x08
-> +#define UB954_IR_RX_ANA_STROBE_SET_CLK_NO_EXTRA_DELAY	BIT(3)
-> +#define UB954_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY	BIT(7)
-> +#define UB954_IR_RX_ANA_STROBE_SET_CLK_DELAY_MASK	GENMASK(2, 0)
-> +#define UB954_IR_RX_ANA_STROBE_SET_DATA_DELAY_MASK	GENMASK(4, 6)
-> +
->  /* UB9702 Registers */
->  
->  #define UB9702_SR_CSI_EXCLUSIVE_FWD2		0x3c
-> @@ -455,6 +461,7 @@
->  #define UB960_NUM_EQ_LEVELS (UB960_MAX_EQ_LEVEL - UB960_MIN_EQ_LEVEL + 1)
->  
->  enum chip_type {
-> +	UB954,
->  	UB960,
->  	UB9702,
->  };
-> @@ -1000,6 +1007,10 @@ static int ub960_txport_select(struct ub960_data *priv, u8 nport)
->  
->  	lockdep_assert_held(&priv->reg_lock);
->  
-> +	/* UB954 has only 1 CSI TX. Hence, no need to select */
-> +	if (priv->hw_data->chip_type == UB954)
-> +		return 0;
-> +
->  	if (priv->reg_current.txport == nport)
->  		return 0;
->  
-> @@ -1424,10 +1435,11 @@ static int ub960_parse_dt_txport(struct ub960_data *priv,
->  	priv->tx_link_freq[0] = vep.link_frequencies[0];
->  	priv->tx_data_rate = priv->tx_link_freq[0] * 2;
->  
-> -	if (priv->tx_data_rate != MHZ(1600) &&
-> -	    priv->tx_data_rate != MHZ(1200) &&
-> -	    priv->tx_data_rate != MHZ(800) &&
-> -	    priv->tx_data_rate != MHZ(400)) {
-> +	if ((priv->tx_data_rate != MHZ(1600) &&
-> +	     priv->tx_data_rate != MHZ(1200) &&
-> +	     priv->tx_data_rate != MHZ(800) &&
-> +	     priv->tx_data_rate != MHZ(400)) ||
-> +	     (priv->hw_data->chip_type == UB954 && priv->tx_data_rate == MHZ(1200))) {
->  		dev_err(dev, "tx%u: invalid 'link-frequencies' value\n", nport);
->  		ret = -EINVAL;
->  		goto err_free_vep;
-> @@ -1551,22 +1563,44 @@ static int ub960_rxport_get_strobe_pos(struct ub960_data *priv,
->  	u8 clk_delay, data_delay;
->  	int ret;
->  
-> -	ret = ub960_read_ind(priv, UB960_IND_TARGET_RX_ANA(nport),
-> -			     UB960_IR_RX_ANA_STROBE_SET_CLK, &v, NULL);
-> -	if (ret)
-> -		return ret;
-> +	/*
-> +	 * DS90UB960 has two separate registers for clk and data delay whereas
-> +	 * DS90UB954 has a single combined register. Hence read accordingly
-> +	 */
-
-Why do you read the single register twice? In any case, I don't think
-the comment is needed, as it's quite clear from the code. Unless there's
-some extra complication with the registers.
-
-> +	if (priv->hw_data->chip_type == UB954) {
-> +		ret = ub960_read_ind(priv, UB960_IND_TARGET_RX_ANA(nport),
-> +				     UB954_IR_RX_ANA_STROBE_SET_CLK_DATA, &v, NULL);
-> +		if (ret)
-> +			return ret;
->  
-> -	clk_delay = (v & UB960_IR_RX_ANA_STROBE_SET_CLK_NO_EXTRA_DELAY) ?
-> -			    0 : UB960_MANUAL_STROBE_EXTRA_DELAY;
-> +		clk_delay = (v & UB954_IR_RX_ANA_STROBE_SET_CLK_NO_EXTRA_DELAY) ?
-> +			     0 : UB960_MANUAL_STROBE_EXTRA_DELAY;
->  
-> -	ret = ub960_read_ind(priv, UB960_IND_TARGET_RX_ANA(nport),
-> -			     UB960_IR_RX_ANA_STROBE_SET_DATA, &v, NULL);
-> -	if (ret)
-> -		return ret;
-> +		ret = ub960_read_ind(priv, UB960_IND_TARGET_RX_ANA(nport),
-> +				     UB954_IR_RX_ANA_STROBE_SET_CLK_DATA, &v, NULL);
-> +		if (ret)
-> +			return ret;
-> +
-> +		data_delay = (v & UB954_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY) ?
-> +			      0 : UB960_MANUAL_STROBE_EXTRA_DELAY;
-> +	} else {
-> +		ret = ub960_read_ind(priv, UB960_IND_TARGET_RX_ANA(nport),
-> +				     UB960_IR_RX_ANA_STROBE_SET_CLK, &v, NULL);
-> +		if (ret)
-> +			return ret;
->  
-> -	data_delay = (v & UB960_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY) ?
-> +		clk_delay = (v & UB960_IR_RX_ANA_STROBE_SET_CLK_NO_EXTRA_DELAY) ?
->  			     0 : UB960_MANUAL_STROBE_EXTRA_DELAY;
->  
-> +		ret = ub960_read_ind(priv, UB960_IND_TARGET_RX_ANA(nport),
-> +				     UB960_IR_RX_ANA_STROBE_SET_DATA, &v, NULL);
-> +		if (ret)
-> +			return ret;
-> +
-> +		data_delay = (v & UB960_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY) ?
-> +			      0 : UB960_MANUAL_STROBE_EXTRA_DELAY;
-> +	}
-> +
->  	ret = ub960_rxport_read(priv, nport, UB960_RR_SFILTER_STS_0, &v, NULL);
->  	if (ret)
->  		return ret;
-> @@ -1590,8 +1624,17 @@ static int ub960_rxport_set_strobe_pos(struct ub960_data *priv,
->  	u8 clk_delay, data_delay;
->  	int ret = 0;
->  
-> -	clk_delay = UB960_IR_RX_ANA_STROBE_SET_CLK_NO_EXTRA_DELAY;
-> -	data_delay = UB960_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY;
-> +	/*
-> +	 * DS90UB960 has two separate registers for clk and data delay whereas
-> +	 * DS90UB954 has a single combined register. Hence assign accordingly.
-> +	 */
-> +	if (priv->hw_data->chip_type == UB954) {
-> +		clk_delay = UB954_IR_RX_ANA_STROBE_SET_CLK_NO_EXTRA_DELAY;
-> +		data_delay = UB954_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY;
-> +	} else {
-> +		clk_delay = UB960_IR_RX_ANA_STROBE_SET_CLK_NO_EXTRA_DELAY;
-> +		data_delay = UB960_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY;
-> +	}
->  
->  	if (strobe_pos < UB960_MIN_AEQ_STROBE_POS)
->  		clk_delay = abs(strobe_pos) - UB960_MANUAL_STROBE_EXTRA_DELAY;
-> @@ -1602,11 +1645,25 @@ static int ub960_rxport_set_strobe_pos(struct ub960_data *priv,
->  	else if (strobe_pos > 0)
->  		data_delay = strobe_pos | UB960_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY;
->  
-> -	ub960_write_ind(priv, UB960_IND_TARGET_RX_ANA(nport),
-> -			UB960_IR_RX_ANA_STROBE_SET_CLK, clk_delay, &ret);
-> -
-> -	ub960_write_ind(priv, UB960_IND_TARGET_RX_ANA(nport),
-> -			UB960_IR_RX_ANA_STROBE_SET_DATA, data_delay, &ret);
-> +	/*
-> +	 * DS90UB960 has two separate registers for clk and data delay whereas
-> +	 * DS90UB954 has a single combined register. Hence write the registers accordingly.
-> +	 */
-> +	if (priv->hw_data->chip_type == UB954) {
-> +		ub960_ind_update_bits(priv, UB960_IND_TARGET_RX_ANA(nport),
-> +				      UB954_IR_RX_ANA_STROBE_SET_CLK_DATA,
-> +				      UB954_IR_RX_ANA_STROBE_SET_CLK_NO_EXTRA_DELAY,
-> +				      clk_delay, &ret);
-> +		ub960_ind_update_bits(priv, UB960_IND_TARGET_RX_ANA(nport),
-> +				      UB954_IR_RX_ANA_STROBE_SET_CLK_DATA,
-> +				      UB954_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY,
-> +				      data_delay, &ret);
-
-Here, too. It's a single register, why write it twice?
-
-And I don't think this is correct at all... Did you validate this? The
-above only sets the EXTRA_DELAY bits, not the values at all. And the
-code that sets clk_delay and data_delay use UB960's bit positions, which
-are not the same on UB954.
-
-> +	} else {
-> +		ub960_write_ind(priv, UB960_IND_TARGET_RX_ANA(nport),
-> +				UB960_IR_RX_ANA_STROBE_SET_CLK, clk_delay, &ret);
-> +		ub960_write_ind(priv, UB960_IND_TARGET_RX_ANA(nport),
-> +				UB960_IR_RX_ANA_STROBE_SET_DATA, data_delay, &ret);
-> +	}
->  
->  	return ret;
->  }
-> @@ -4176,33 +4233,40 @@ static int ub960_log_status(struct v4l2_subdev *sd)
->  		dev_info(dev, "\tsync %u, pass %u\n", v & (u8)BIT(1),
->  			 v & (u8)BIT(0));
->  
-> -		ret = ub960_read16(priv, UB960_SR_CSI_FRAME_COUNT_HI(nport),
-> -				   &v16, NULL);
-> -		if (ret)
-> -			return ret;
-> +		/*
-> +		 * Frame counter, frame error counter, line counter and line error counter
-> +		 * registers are marked as reserved in the UB954 datasheet. Hence restrict
-> +		 * the following register reads only for UB960 and UB9702.
-> +		 */
-> +		if (priv->hw_data->chip_type != UB954) {
-
-It is better to check for the chips that have the registers, unless
-we're sure that this particular chip, ub954, is and will be the only
-outlier.
-
-> +			ret = ub960_read16(priv, UB960_SR_CSI_FRAME_COUNT_HI(nport),
-> +					   &v16, NULL);
-> +			if (ret)
-> +				return ret;
->  
-> -		dev_info(dev, "\tframe counter %u\n", v16);
-> +			dev_info(dev, "\tframe counter %u\n", v16);
->  
-> -		ret = ub960_read16(priv, UB960_SR_CSI_FRAME_ERR_COUNT_HI(nport),
-> -				   &v16, NULL);
-> -		if (ret)
-> -			return ret;
-> +			ret = ub960_read16(priv, UB960_SR_CSI_FRAME_ERR_COUNT_HI(nport),
-> +					   &v16, NULL);
-> +			if (ret)
-> +				return ret;
->  
-> -		dev_info(dev, "\tframe error counter %u\n", v16);
-> +			dev_info(dev, "\tframe error counter %u\n", v16);
->  
-> -		ret = ub960_read16(priv, UB960_SR_CSI_LINE_COUNT_HI(nport),
-> -				   &v16, NULL);
-> -		if (ret)
-> -			return ret;
-> +			ret = ub960_read16(priv, UB960_SR_CSI_LINE_COUNT_HI(nport),
-> +					   &v16, NULL);
-> +			if (ret)
-> +				return ret;
->  
-> -		dev_info(dev, "\tline counter %u\n", v16);
-> +			dev_info(dev, "\tline counter %u\n", v16);
->  
-> -		ret = ub960_read16(priv, UB960_SR_CSI_LINE_ERR_COUNT_HI(nport),
-> -				   &v16, NULL);
-> -		if (ret)
-> -			return ret;
-> +			ret = ub960_read16(priv, UB960_SR_CSI_LINE_ERR_COUNT_HI(nport),
-> +					   &v16, NULL);
-> +			if (ret)
-> +				return ret;
->  
-> -		dev_info(dev, "\tline error counter %u\n", v16);
-> +			dev_info(dev, "\tline error counter %u\n", v16);
-> +		}
->  	}
->  
->  	for_each_rxport(priv, it) {
-> @@ -5023,6 +5087,9 @@ static int ub960_enable_core_hw(struct ub960_data *priv)
->  	}
->  
->  	switch (priv->hw_data->chip_type) {
-> +	case UB954:
-> +		model = "UB954";
-> +		break;
->  	case UB960:
->  		model = "UB960";
->  		break;
-> @@ -5039,6 +5106,11 @@ static int ub960_enable_core_hw(struct ub960_data *priv)
->  	if (ret)
->  		goto err_pd_gpio;
->  
-> +	/*
-> +	 * UB954 REFCLK_FREQ is not synchronized, so multiple reads are recommended
-> +	 * by the datasheet. However, we use the same logic as UB960 (single read),
-> +	 * as practical testing showed this is sufficient and stable for UB954 as well.
-> +	 */
-
-I think the important point is that the clk rate is only used for a
-debug print.
-
->  	if (priv->hw_data->chip_type == UB9702)
->  		ret = ub960_read(priv, UB9702_SR_REFCLK_FREQ, &refclk_freq,
->  				 NULL);
-> @@ -5198,6 +5270,13 @@ static void ub960_remove(struct i2c_client *client)
->  	mutex_destroy(&priv->reg_lock);
->  }
->  
-> +static const struct ub960_hw_data ds90ub954_hw = {
-> +	.chip_type = UB954,
-> +	.chip_family = FAMILY_FPD3,
-> +	.num_rxports = 2,
-> +	.num_txports = 1,
-> +};
-> +
->  static const struct ub960_hw_data ds90ub960_hw = {
->  	.chip_type = UB960,
->  	.chip_family = FAMILY_FPD3,
-> @@ -5213,6 +5292,7 @@ static const struct ub960_hw_data ds90ub9702_hw = {
->  };
->  
->  static const struct i2c_device_id ub960_id[] = {
-> +	{ "ds90ub954-q1", (kernel_ulong_t)&ds90ub954_hw },
->  	{ "ds90ub960-q1", (kernel_ulong_t)&ds90ub960_hw },
->  	{ "ds90ub9702-q1", (kernel_ulong_t)&ds90ub9702_hw },
->  	{}
-> @@ -5220,6 +5300,7 @@ static const struct i2c_device_id ub960_id[] = {
->  MODULE_DEVICE_TABLE(i2c, ub960_id);
->  
->  static const struct of_device_id ub960_dt_ids[] = {
-> +	{ .compatible = "ti,ds90ub954-q1", .data = &ds90ub954_hw },
->  	{ .compatible = "ti,ds90ub960-q1", .data = &ds90ub960_hw },
->  	{ .compatible = "ti,ds90ub9702-q1", .data = &ds90ub9702_hw },
->  	{}
-
- Tomi
+> Oh, indeed.
+> 
+> Thanks,
+> Christian.
+> 
+>>
+>>> +        to_sg = sg_next(to_sg);
+>>> +    }
+>>>    +    to->original = from;
+>>> +    *sg_table = &to->wrapper;
+>>> +    return 0;
+>>> +
+>>> +free_to:
+>>> +    kfree(to);
+>>> +    return ret;
+>>> +}
+>>> +
+>>> +static void dma_buf_demangle_sg_table(struct sg_table **sg_table)
+>>> +{
+>>> +    struct dma_buf_sg_table_wrapper *copy;
+>>> +
+>>> +    if (!IS_ENABLED(CONFIG_DMABUF_DEBUG))
+>>> +        return;
+>>> +
+>>> +    copy = container_of(*sg_table, typeof(*copy), wrapper);
+>>> +    *sg_table = copy->original;
+>>> +    sg_free_table(&copy->wrapper);
+>>> +    kfree(copy);
+>>>    }
+>>>      static inline bool
+>>> @@ -1139,7 +1181,9 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
+>>>            if (ret < 0)
+>>>                goto error_unmap;
+>>>        }
+>>> -    mangle_sg_table(sg_table);
+>>> +    ret = dma_buf_mangle_sg_table(&sg_table);
+>>> +    if (ret)
+>>> +        goto error_unmap;
+>>>          if (IS_ENABLED(CONFIG_DMA_API_DEBUG)) {
+>>>            struct scatterlist *sg;
+>>> @@ -1220,7 +1264,7 @@ void dma_buf_unmap_attachment(struct dma_buf_attachment *attach,
+>>>          dma_resv_assert_held(attach->dmabuf->resv);
+>>>    -    mangle_sg_table(sg_table);
+>>> +    dma_buf_demangle_sg_table(&sg_table);
+>>>        attach->dmabuf->ops->unmap_dma_buf(attach, sg_table, direction);
+>>>          if (dma_buf_pin_on_map(attach))
+>>
+> 
 
 
