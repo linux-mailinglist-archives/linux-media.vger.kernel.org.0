@@ -1,166 +1,116 @@
-Return-Path: <linux-media+bounces-48315-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48316-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04800CA7E74
-	for <lists+linux-media@lfdr.de>; Fri, 05 Dec 2025 15:13:08 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80357CA72D6
+	for <lists+linux-media@lfdr.de>; Fri, 05 Dec 2025 11:34:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 48EF8318D17E
-	for <lists+linux-media@lfdr.de>; Fri,  5 Dec 2025 10:19:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4425D3012265
+	for <lists+linux-media@lfdr.de>; Fri,  5 Dec 2025 10:33:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58FEA278E63;
-	Fri,  5 Dec 2025 10:19:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E49BD2D94B0;
+	Fri,  5 Dec 2025 10:33:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WAPuSSs3"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SBrWa9c9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 961CB301464;
-	Fri,  5 Dec 2025 10:19:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 039F6318124
+	for <linux-media@vger.kernel.org>; Fri,  5 Dec 2025 10:33:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764929956; cv=none; b=UHRzxE6zCfFDGO+NzV6eghBemKrER/8/env0npUi9JVRhmEbZcs51X9RK7Ul8PpNh2ptVLUFCISxPEHMLXD+7sTZ7sWEmaB22wqMrKFRj7RRyHOLlkugtknzPrnHMTdmnB//NXTSzvP7TvHZNTjD+zJDcMWu5pIuRe+19JPQnEg=
+	t=1764930829; cv=none; b=ulZKFpIdWV7Lvyu4yn8OUpzxklpQ4P0MEA8FmBft5Lc+KlySpa4dh3Hdvd3MTWxtOiZS6Ib7tSfHgCrMv0lflS3A0tapho2Zs144llv3psKJNMDYzNdFfeSdNPFG7+E5J95vTZWB5Rj3l1R4Uip1y5kj8MPxrvSBqPAJAYVuhRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764929956; c=relaxed/simple;
-	bh=D/Doo3abSR1DIEzTfe4U7Cnrr7n0KQebGwLKQh5/+24=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=YuuEl0gHlaXOnbti3h1cifHoIyc0eCh6+gAFaK6X8geaWzrGdXn0Iw4i4z0G7rj3owkSdpyos6BVV2BpngwQqo3IjIAlpmDhNfMdXFRuHi4OduGPF9VpaqlFEI5hbzJBtTnzaYiVZ2MJN6MXqCWkIZ8fFf4g6ZW+w7eFgKSvjqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WAPuSSs3; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764929950; x=1796465950;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=D/Doo3abSR1DIEzTfe4U7Cnrr7n0KQebGwLKQh5/+24=;
-  b=WAPuSSs31qikcsJdocUY313AXXnKnSp4rOR9pUpnQRtDGPhw2s5z470N
-   jjypc7cJ+3PIe9uR2knTSyfPPHz+HMwpVycqK/Qrbsi2crizIN9L68Rc1
-   14kHZUjt/Uk/wAOJycgO+sscquKKFBrjZKoEBqB65d8T5bNi4H06abJ5U
-   Wyh+o79tdLhMNq1WlQSbkt8PAyu8DuVdt8ynWTwkxiL0M8UPlWZNRcjYG
-   YkIG7y8tAT/E6MMbpHSdFe0MP2JXA55Gl2ge/wvN9qCtBM91EAcPRACmQ
-   kDxU/8tZ/W+mhsR/QN1GVtRrft03zwRRAhz54O3GpyMoT8dgKUFwfCyis
-   A==;
-X-CSE-ConnectionGUID: BJm6glBHT+ubILt7t1C6Aw==
-X-CSE-MsgGUID: DCBhQInHSeaAa6Z2zhmz3Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="78427484"
-X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
-   d="scan'208";a="78427484"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 02:19:03 -0800
-X-CSE-ConnectionGUID: L7q2jMhuS+O7IOo27Ng83w==
-X-CSE-MsgGUID: 0w6DkOz3TBaIEE5COFTxHw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; 
-   d="scan'208";a="200386249"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.153.130]) ([10.238.153.130])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 02:19:01 -0800
-Subject: Re: [PATCH] platform/x86: int3472: Use actual clock frequency for DSM
- method
-To: Hao Yao <hao.yao@intel.com>, platform-driver-x86@vger.kernel.org,
- hdegoede@redhat.com, dan.scally@ideasonboard.com,
- sakari.ailus@linux.intel.com, ilpo.jarvinen@linux.intel.com
-Cc: bingbu.cao@intel.com, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251205095525.1264971-1-hao.yao@intel.com>
-From: Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <d4f08e2d-8257-ec95-9f67-7514240a4f82@linux.intel.com>
-Date: Fri, 5 Dec 2025 18:10:10 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+	s=arc-20240116; t=1764930829; c=relaxed/simple;
+	bh=2zQVkXy8AVVI1kFEAu+O+ca58FKkvPeE77EeUvuPheI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=f/7oA4Ck8MJJE5Tnqa3Gv5xT98Prk/Hg2z4rraq4gGL1eHdRuWCjSP0dFEY9R2HRFnhHFJSGE7ZjRs5nFS7H9N9liI1Ho9ZlzNR694AopSyI9pvN3wNnz5K5CAQGXfF16ikiuK5kN/+/MhASA4mf0NYAbXVL8BoBKVek01bSAUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SBrWa9c9; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-42e2d44c727so998294f8f.0
+        for <linux-media@vger.kernel.org>; Fri, 05 Dec 2025 02:33:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1764930820; x=1765535620; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vAzLPSLG7AtJee+XVA0Hp+yvy+eodAcCDH7vUMbwv0A=;
+        b=SBrWa9c9PfRq+QJukl83WM5I5bvPCk1IpTqyzG82YdE/4+pKsE35ZtWmdqbFu0Im0e
+         7euHmSXiPj6JbVfW9lb39KiU/7htBPusriEciZsOkAQu2D8Ggtc5IbVQI++38WB7JpfL
+         uyiJAvzaf3cxXDA0XDnqKaU2Eaaf4065OAK8YL19dkvFFoVC03/eB48mUA8b2SEYo2EW
+         KB7ljuC8MOHuw9Q6YB1Mkhm7uRCNx49Teou4vNF00fToikZHTQuHV4SA+lwCzVrZJxaY
+         32JQAhlm7SkcKUxXgbEWjeVIeg0nhGz7VveOgLbposWYD1ZnVlHX9VvrMUKJzqZVqkH4
+         s/1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764930820; x=1765535620;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vAzLPSLG7AtJee+XVA0Hp+yvy+eodAcCDH7vUMbwv0A=;
+        b=DuVBw2GeRVNLyR1t/MD7ZsbtTswAQg7KKKUocBBAuW+8UmBQTHUY5YxTIDCIiMctDO
+         X91T6D7omIb7kj1Xw2B9JgxpsXGZs2bRUQ+YP66oh+G955V2QRfUWYuaOjRTvAERm4cs
+         UW4Px6Z6jhQUvwyTgKALcQpTIGBLy6vaoQCTsKwXdso5B2HkqoKKt07zSYMGpvAozLt1
+         3F5x00C8Jp2qeZLnPGnElXeO/955H9IdtI3pQRxDHbdCHG6Km0ZVdzJWm27YWm+RMx5p
+         9bh6pvgFlTej5Vj74OScRkN/XCBfPnKOdMBlW7S2QIjU0lyBHyPmGdjyihUrztOpy07e
+         mx7g==
+X-Forwarded-Encrypted: i=1; AJvYcCUM+c/qzP2LSlrv4qa5uZQ7wWyPBe2U3S/uo2QQJZ9nWSe1ZQhL4CR2iQ43p/Na7b9JIAw67sfUWXFK9w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwvjE96D3A1oXfzEvF41p6ileVgCwETt3Jp4tUWGve+oRbdY5Vo
+	BQTP/kEjogfp+7k7kZkaVkGjrGowvyrN2hZh8gUCJfnlWVaJ79H0etDJspcCeL39gZI=
+X-Gm-Gg: ASbGncvW4QW8o2Il/cIaZ6beoiJzBp9RKqaUfIeys2qHI1AGI0f6B1PMEyHNCHJpR4c
+	UyVhya+VUVj9PvDPvbZdYgo4lZOQ3gC9FilP8VU82kUAqcGLPbqr3SaGVqrfWfGgAusICpcBYeA
+	QSXoX68rhVGu772j/aNxHZFUHxYhZsbXgcOklvmpnkMiJaW/IIw4pduPBrCt6mtWwnUrVUgJdxa
+	sS9l8suLzj0ubJ0zfAHQczuPaf8kh5fZGPtVOWPYhGXU2CTT3uQ4luXVx8EVdjVr5sun03bzAAz
+	xHFs1u6b58hmf0fJxxf7QaJNTUgz0oOfRy2mLomt6XA+N3erqMmD46iTbkjzec/+0tzHtvjfLNS
+	3LhPONSy/ZEScpRLElFZNVoZJ1T5EeRM3nYslMnKQwIe7/Q6UG46uZPUrnmMSLyoO8V2UqFqdCU
+	VCysPcbA7lvo7nEwnUFoji69mEHdQLKGJCNi4Hcz4SY1Gf0wpsgkGe
+X-Google-Smtp-Source: AGHT+IGmr8vG9r+BJjkWvvjU7SasEQlgu0FAyDtwLcxQqvgN22qOU1pGX5mKZsJ2hiueUbXQHUz4hw==
+X-Received: by 2002:a05:6000:1449:b0:429:d170:b3d1 with SMTP id ffacd0b85a97d-42f7320bea0mr9668770f8f.59.1764930820250;
+        Fri, 05 Dec 2025 02:33:40 -0800 (PST)
+Received: from [192.168.0.40] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42f7cbfee50sm8133308f8f.14.2025.12.05.02.33.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 05 Dec 2025 02:33:39 -0800 (PST)
+Message-ID: <f76aef3b-5886-43d8-b15e-6513abf8e58e@linaro.org>
+Date: Fri, 5 Dec 2025 10:33:37 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20251205095525.1264971-1-hao.yao@intel.com>
-Content-Type: text/plain; charset=windows-1252
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH WIP v2 2/8] media: qcom: camss: csiphy-3ph: Use odd bits
+ for configuring C-PHY lanes
+To: david@ixit.cz, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Luca Weiss <luca.weiss@fairphone.com>, Petr Hodina <phodina@protonmail.com>,
+ Casey Connolly <casey.connolly@linaro.org>, "Dr. Git" <drgitx@gmail.com>
+Cc: Joel Selvaraj <foss@joelselvaraj.com>,
+ Kieran Bingham <kbingham@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ phone-devel@vger.kernel.org
+References: <20251204-qcom-cphy-v2-0-6b35ef8b071e@ixit.cz>
+ <20251204-qcom-cphy-v2-2-6b35ef8b071e@ixit.cz>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Content-Language: en-US
+In-Reply-To: <20251204-qcom-cphy-v2-2-6b35ef8b071e@ixit.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hao,
-
-Thanks for the patch.
-
-On 12/5/25 5:51 PM, Hao Yao wrote:
-> The third argument (args[2]) to the _DSM method was hardcoded to 1,
-> which corresponds to 19.2MHz. However, this argument should reflect
-> the actual clock frequency from the sensor's ACPI data.
-> 
-> According to the DSM specification:
-> - 1 = 19.2MHz
-> - 3 = 24MHz
->
-
-What are the value 0 and 2? I think there are other frequencies.
-
-> Read the frequency from clk->frequency and set the DSM argument
-> accordingly, with 19.2MHz as the default for unsupported frequencies.
-> 
-> This ensures the sensor receives the correct clock frequency as
-> specified in its ACPI configuration.
-> 
-> Signed-off-by: Hao Yao <hao.yao@intel.com>
-> ---
->  .../x86/intel/int3472/clk_and_regulator.c     | 21 ++++++++++++++++++-
->  1 file changed, 20 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/platform/x86/intel/int3472/clk_and_regulator.c b/drivers/platform/x86/intel/int3472/clk_and_regulator.c
-> index 9e052b164a1a..0502876284ee 100644
-> --- a/drivers/platform/x86/intel/int3472/clk_and_regulator.c
-> +++ b/drivers/platform/x86/intel/int3472/clk_and_regulator.c
-> @@ -19,23 +19,42 @@ static const guid_t img_clk_guid =
->  	GUID_INIT(0x82c0d13a, 0x78c5, 0x4244,
->  		  0x9b, 0xb1, 0xeb, 0x8b, 0x53, 0x9a, 0x8d, 0x11);
->  
-> +/*
-> + * The PCH clock frequency argument to the _DSM method:
-> + * PCH_CLK_FREQ_19M = 19.2MHz (default)
-> + * PCH_CLK_FREQ_24M = 24MHz
-> + */
-> +#define PCH_CLK_FREQ_19M	1
-
-I like 19P2MHZ.
-
-> +#define PCH_CLK_FREQ_24M	3
-> +
->  static void skl_int3472_enable_clk(struct int3472_clock *clk, int enable)
->  {
->  	struct int3472_discrete_device *int3472 = to_int3472_device(clk);
->  	union acpi_object args[3];
->  	union acpi_object argv4;
-> +	u32 dsm_freq_arg;
->  
->  	if (clk->ena_gpio) {
->  		gpiod_set_value_cansleep(clk->ena_gpio, enable);
->  		return;
->  	}
->  
-> +	switch (clk->frequency) {
-> +	case 24000000:
-> +		dsm_freq_arg = PCH_CLK_FREQ_24M;
+On 04/12/2025 16:32, David Heidelberg via B4 Relay wrote:
+> +	case V4L2_MBUS_CSI2_CPHY:
+> +		for (int i = 0; i < lane_cfg->num_data; i++)
+> +			lane_mask |= (1 << lane_cfg->data[i].pos) + 1;
 > +		break;
-> +	case 19200000:
-> +	default:
-> +		dsm_freq_arg = PCH_CLK_FREQ_19M;
-> +		break;
-> +	}
-> +
->  	args[0].integer.type = ACPI_TYPE_INTEGER;
->  	args[0].integer.value = clk->imgclk_index;
->  	args[1].integer.type = ACPI_TYPE_INTEGER;
->  	args[1].integer.value = enable;
->  	args[2].integer.type = ACPI_TYPE_INTEGER;
-> -	args[2].integer.value = 1;
-> +	args[2].integer.value = dsm_freq_arg;
->  
->  	argv4.type = ACPI_TYPE_PACKAGE;
->  	argv4.package.count = 3;
-> 
 
--- 
-Best regards,
-Bingbu Cao
+What does the DTS configuration for this lane mask look like ?
+
+---
+bod
 
