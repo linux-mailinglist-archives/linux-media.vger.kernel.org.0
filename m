@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-48320-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48321-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E616ACA73BD
-	for <lists+linux-media@lfdr.de>; Fri, 05 Dec 2025 11:46:46 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 938A2CA751F
+	for <lists+linux-media@lfdr.de>; Fri, 05 Dec 2025 12:11:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id DF223301139D
-	for <lists+linux-media@lfdr.de>; Fri,  5 Dec 2025 10:46:43 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 73AFD3027731
+	for <lists+linux-media@lfdr.de>; Fri,  5 Dec 2025 11:11:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6D2F315D47;
-	Fri,  5 Dec 2025 10:46:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDC8732D0CD;
+	Fri,  5 Dec 2025 11:10:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="uvLWsUpC"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="H3GgpSYX"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF626329361;
-	Fri,  5 Dec 2025 10:46:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 820352F692F;
+	Fri,  5 Dec 2025 11:10:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764931594; cv=none; b=o5m3+MxcTVMcJiLnDyQwJDvdkwrKPU+beLoF5jsgN4/aIH8ZIZqj6HgGUpujDXbViasKrG7u3vHOwPQleQuo+vxB1Tx8wg5TXAtXPEc3wcxwq5/wqI6+Tk+Tfi4F+GjO7ffBVZ7shlBcaD10sCWwtMBDZUJeljmrasyI4pEmijg=
+	t=1764933052; cv=none; b=T2NYSi+ECa3eI1GJV/bJMsozX9KJmw6GbHyy2gTnpCIwKNu9cvKAO9w5L2KaKNP6EKNJ2fgn7d2BNos7lOtYCfW8PiWv/cq+4LU9SsMFlJbxxRx6ACQgh5Jsyl5brp5vtodapNZOLwQft0FF1WgMo8+9JPX1keSR60LxBoFxt0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764931594; c=relaxed/simple;
-	bh=wiiGOHoRmff2Ap6D9e0QCetLOYf/pjSo9XmfM4DWCjE=;
+	s=arc-20240116; t=1764933052; c=relaxed/simple;
+	bh=7/jdxAGyLizEv+MMB75f57qgu8yKlN9khKDAOCWpMyg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZP9+4wA3f0AGUXltOjfhj+bR2uUOsOXli5lvRmgaKaIESl/gCdPMD1euSDpxYlxcTCqiNV6P4TRTMG6dhiP/RbCCywfLzCE9XWyoAlSWkux0EF/veBnW77ZhSZ9HWMPJymZptvkCsmYj3WE2aYKjCXToONM28h7TU+LKC6lW2Do=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=uvLWsUpC; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=Sx4yyL44j+sH7jqlO/myostbLrU85UCpd1o7zykQrLsMLLO+SLrHiBJQcW6WNJAuECN0CbPIbsXGalbJJCWVpHbutuflnPNu8yQ0oT40+/BRbVtdsHzenmfmdqjGH1Fe01yVcd4mbzic+pZEUDFaRZdv0IIRwgVzDzt/boAiaAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=H3GgpSYX; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F3F8EE52;
-	Fri,  5 Dec 2025 11:44:05 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 01687E7C;
+	Fri,  5 Dec 2025 12:08:16 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1764931447;
-	bh=wiiGOHoRmff2Ap6D9e0QCetLOYf/pjSo9XmfM4DWCjE=;
+	s=mail; t=1764932898;
+	bh=7/jdxAGyLizEv+MMB75f57qgu8yKlN9khKDAOCWpMyg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=uvLWsUpCh2REH9myZGZG5iJktcTBW/A8X0qroVQC5s3pgXBs3aREniP8GU0ORBdSY
-	 +n4vNsa9aEsRcQBbXq8F57+O7airp5enXFAoRK4NvVChsjBA5r3qlohx2imZonC0fG
-	 IrdlHii2McYnuigqbrKvXN1EUZiZEKiABAK/E3k4=
-Message-ID: <3fb1b12c-2f54-4bdf-8a33-a42b4852d651@ideasonboard.com>
-Date: Fri, 5 Dec 2025 12:46:18 +0200
+	b=H3GgpSYXo1vjVfoiRI92RDBD004gpMS9lDrfaAWk4eBYVUMK6uM07qfnxql7OaxIB
+	 7cJHRo+jFa1DQ4LbR/RUjlwLJtQUABr3H5lt2mlKt6ifNE3vpbhxASDYyImrHRhGAX
+	 1fl1F8x9bWiifiLbvKoDkqF6Bk4R4HHmn7cy8CM8=
+Message-ID: <c387b053-82b1-4de4-946a-5f2b9270224f@ideasonboard.com>
+Date: Fri, 5 Dec 2025 13:10:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -48,8 +48,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 2/4] media: i2c: ds90ub960: Use enums for chip type and
- chip family
+Subject: Re: [PATCH V2 4/4] media: i2c: ds90ub960: Add support for
+ DS90UB954-Q1
 To: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
 Cc: hansg@kernel.org, mehdi.djait@linux.intel.com, ribalda@chromium.org,
  git@apitzsch.eu, vladimir.zapolskiy@linaro.org,
@@ -60,7 +60,7 @@ Cc: hansg@kernel.org, mehdi.djait@linux.intel.com, ribalda@chromium.org,
  conor+dt@kernel.org, hverkuil@xs4all.nl, sakari.ailus@linux.intel.com,
  laurent.pinchart@ideasonboard.com
 References: <20251202102208.80713-1-y-abhilashchandra@ti.com>
- <20251202102208.80713-3-y-abhilashchandra@ti.com>
+ <20251202102208.80713-5-y-abhilashchandra@ti.com>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Content-Language: en-US
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -106,192 +106,342 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20251202102208.80713-3-y-abhilashchandra@ti.com>
+In-Reply-To: <20251202102208.80713-5-y-abhilashchandra@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
 On 02/12/2025 12:22, Yemike Abhilash Chandra wrote:
-> Replace chip-specific boolean flags with chip_type and chip_family enums.
-> This simplifies the process of adding support for newer devices and also
-> improves code readability.
+> DS90UB954-Q1 is an FPDLink-III deserializer that is mostly register
+> compatible with DS90UB960-Q1. The main difference is that it supports half
+> of the RX and TX ports, i.e. 2x FPDLink RX ports and 1x CSI TX port.
 > 
+> A couple of differences are between the status registers and the
+> strobe setting registers. Hence accommodate these differences in
+> the UB960 driver so that we can reuse a large part of the existing code.
+> 
+> Link: https://www.ti.com/lit/gpn/ds90ub954-q1
 > Signed-off-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
 > ---
->  drivers/media/i2c/ds90ub960.c | 56 ++++++++++++++++++++++++-----------
->  1 file changed, 38 insertions(+), 18 deletions(-)
+> Refer table 5.2.1 STROBE_SET Register in [1] for DS90UB954 strobe
+> setting register.
 > 
+> [1]: https://www.ti.com/lit/an/snla301/snla301.pdf
+> 
+>  drivers/media/i2c/Kconfig     |   4 +-
+>  drivers/media/i2c/ds90ub960.c | 165 +++++++++++++++++++++++++---------
+>  2 files changed, 125 insertions(+), 44 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index 745819c625d6..52104f76e371 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -1703,8 +1703,8 @@ config VIDEO_DS90UB960
+>  	select V4L2_FWNODE
+>  	select VIDEO_V4L2_SUBDEV_API
+>  	help
+> -	  Device driver for the Texas Instruments DS90UB960
+> -	  FPD-Link III Deserializer and DS90UB9702 FPD-Link IV Deserializer.
+> +	  Device driver for the Texas Instruments DS90UB954, DS90UB960
+> +	  FPD-Link III Deserializers and DS90UB9702 FPD-Link IV Deserializer.
+>  
+>  config VIDEO_MAX96714
+>  	tristate "Maxim MAX96714 GMSL2 deserializer"
 > diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
-> index 5a83218e64ab..45494fcaf095 100644
+> index 45494fcaf095..7d3e5a87bb17 100644
 > --- a/drivers/media/i2c/ds90ub960.c
 > +++ b/drivers/media/i2c/ds90ub960.c
-> @@ -454,12 +454,21 @@
->  #define UB960_MAX_EQ_LEVEL  14
+> @@ -396,6 +396,12 @@
+>  #define UB960_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY	BIT(3)
+>  #define UB960_IR_RX_ANA_STROBE_SET_DATA_DELAY_MASK	GENMASK(2, 0)
+>  
+> +#define UB954_IR_RX_ANA_STROBE_SET_CLK_DATA		0x08
+> +#define UB954_IR_RX_ANA_STROBE_SET_CLK_NO_EXTRA_DELAY	BIT(3)
+> +#define UB954_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY	BIT(7)
+> +#define UB954_IR_RX_ANA_STROBE_SET_CLK_DELAY_MASK	GENMASK(2, 0)
+> +#define UB954_IR_RX_ANA_STROBE_SET_DATA_DELAY_MASK	GENMASK(4, 6)
+> +
+>  /* UB9702 Registers */
+>  
+>  #define UB9702_SR_CSI_EXCLUSIVE_FWD2		0x3c
+> @@ -455,6 +461,7 @@
 >  #define UB960_NUM_EQ_LEVELS (UB960_MAX_EQ_LEVEL - UB960_MIN_EQ_LEVEL + 1)
 >  
-> +enum chip_type {
-> +	UB960,
-> +	UB9702,
-> +};
-> +
-> +enum chip_family {
-> +	FAMILY_FPD3,
-> +	FAMILY_FPD4,
-> +};
-> +
->  struct ub960_hw_data {
-> -	const char *model;
-> +	enum chip_type chip_type;
-> +	enum chip_family chip_family;
->  	u8 num_rxports;
->  	u8 num_txports;
-> -	bool is_ub9702;
-> -	bool is_fpdlink4;
+>  enum chip_type {
+> +	UB954,
+>  	UB960,
+>  	UB9702,
 >  };
+> @@ -1000,6 +1007,10 @@ static int ub960_txport_select(struct ub960_data *priv, u8 nport)
 >  
->  enum ub960_rxport_mode {
-> @@ -1933,7 +1942,7 @@ static int ub960_rxport_wait_locks(struct ub960_data *priv,
->  		if (ret)
->  			return ret;
+>  	lockdep_assert_held(&priv->reg_lock);
 >  
-> -		if (priv->hw_data->is_ub9702) {
-> +		if (priv->hw_data->chip_type == UB9702) {
->  			dev_dbg(dev, "\trx%u: locked, freq %llu Hz\n",
->  				nport, ((u64)v * HZ_PER_MHZ) >> 8);
->  		} else {
-> @@ -2195,7 +2204,7 @@ static int ub960_rxport_add_serializer(struct ub960_data *priv, u8 nport)
+> +	/* UB954 has only 1 CSI TX. Hence, no need to select */
+> +	if (priv->hw_data->chip_type == UB954)
+> +		return 0;
+> +
+>  	if (priv->reg_current.txport == nport)
+>  		return 0;
 >  
->  	ser_pdata->port = nport;
->  	ser_pdata->atr = priv->atr;
-> -	if (priv->hw_data->is_ub9702)
-> +	if (priv->hw_data->chip_type == UB9702)
->  		ser_pdata->bc_rate = ub960_calc_bc_clk_rate_ub9702(priv, rxport);
->  	else
->  		ser_pdata->bc_rate = ub960_calc_bc_clk_rate_ub960(priv, rxport);
-> @@ -2361,7 +2370,7 @@ static int ub960_init_tx_ports(struct ub960_data *priv)
->  {
+> @@ -1424,10 +1435,11 @@ static int ub960_parse_dt_txport(struct ub960_data *priv,
+>  	priv->tx_link_freq[0] = vep.link_frequencies[0];
+>  	priv->tx_data_rate = priv->tx_link_freq[0] * 2;
+>  
+> -	if (priv->tx_data_rate != MHZ(1600) &&
+> -	    priv->tx_data_rate != MHZ(1200) &&
+> -	    priv->tx_data_rate != MHZ(800) &&
+> -	    priv->tx_data_rate != MHZ(400)) {
+> +	if ((priv->tx_data_rate != MHZ(1600) &&
+> +	     priv->tx_data_rate != MHZ(1200) &&
+> +	     priv->tx_data_rate != MHZ(800) &&
+> +	     priv->tx_data_rate != MHZ(400)) ||
+> +	     (priv->hw_data->chip_type == UB954 && priv->tx_data_rate == MHZ(1200))) {
+>  		dev_err(dev, "tx%u: invalid 'link-frequencies' value\n", nport);
+>  		ret = -EINVAL;
+>  		goto err_free_vep;
+> @@ -1551,22 +1563,44 @@ static int ub960_rxport_get_strobe_pos(struct ub960_data *priv,
+>  	u8 clk_delay, data_delay;
 >  	int ret;
 >  
-> -	if (priv->hw_data->is_ub9702)
-> +	if (priv->hw_data->chip_type == UB9702)
->  		ret = ub960_init_tx_ports_ub9702(priv);
->  	else
->  		ret = ub960_init_tx_ports_ub960(priv);
-> @@ -3633,7 +3642,7 @@ static int ub960_configure_ports_for_streaming(struct ub960_data *priv,
->  
->  		case RXPORT_MODE_CSI2_SYNC:
->  		case RXPORT_MODE_CSI2_NONSYNC:
-> -			if (!priv->hw_data->is_ub9702) {
-> +			if (priv->hw_data->chip_type != UB9702) {
+> -	ret = ub960_read_ind(priv, UB960_IND_TARGET_RX_ANA(nport),
+> -			     UB960_IR_RX_ANA_STROBE_SET_CLK, &v, NULL);
+> -	if (ret)
+> -		return ret;
+> +	/*
+> +	 * DS90UB960 has two separate registers for clk and data delay whereas
+> +	 * DS90UB954 has a single combined register. Hence read accordingly
+> +	 */
 
-While the above is correct, I think it's better to do 'if
-(what-we-need-here)'. So rather check for UB960.
+Why do you read the single register twice? In any case, I don't think
+the comment is needed, as it's quite clear from the code. Unless there's
+some extra complication with the registers.
 
->  				/* Map all VCs from this port to the same VC */
->  				ub960_rxport_write(priv, nport, UB960_RR_CSI_VC_MAP,
->  						   (vc << UB960_RR_CSI_VC_MAP_SHIFT(3)) |
-> @@ -4259,7 +4268,7 @@ static int ub960_log_status(struct v4l2_subdev *sd)
+> +	if (priv->hw_data->chip_type == UB954) {
+> +		ret = ub960_read_ind(priv, UB960_IND_TARGET_RX_ANA(nport),
+> +				     UB954_IR_RX_ANA_STROBE_SET_CLK_DATA, &v, NULL);
+> +		if (ret)
+> +			return ret;
 >  
->  		dev_info(dev, "\tcsi_err_counter %u\n", v);
+> -	clk_delay = (v & UB960_IR_RX_ANA_STROBE_SET_CLK_NO_EXTRA_DELAY) ?
+> -			    0 : UB960_MANUAL_STROBE_EXTRA_DELAY;
+> +		clk_delay = (v & UB954_IR_RX_ANA_STROBE_SET_CLK_NO_EXTRA_DELAY) ?
+> +			     0 : UB960_MANUAL_STROBE_EXTRA_DELAY;
 >  
-> -		if (!priv->hw_data->is_ub9702) {
-> +		if (priv->hw_data->chip_type != UB9702) {
-
-Same here.
-
->  			ret = ub960_log_status_ub960_sp_eq(priv, nport);
->  			if (ret)
->  				return ret;
-> @@ -4417,7 +4426,7 @@ ub960_parse_dt_rxport_link_properties(struct ub960_data *priv,
->  		return -EINVAL;
->  	}
+> -	ret = ub960_read_ind(priv, UB960_IND_TARGET_RX_ANA(nport),
+> -			     UB960_IR_RX_ANA_STROBE_SET_DATA, &v, NULL);
+> -	if (ret)
+> -		return ret;
+> +		ret = ub960_read_ind(priv, UB960_IND_TARGET_RX_ANA(nport),
+> +				     UB954_IR_RX_ANA_STROBE_SET_CLK_DATA, &v, NULL);
+> +		if (ret)
+> +			return ret;
+> +
+> +		data_delay = (v & UB954_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY) ?
+> +			      0 : UB960_MANUAL_STROBE_EXTRA_DELAY;
+> +	} else {
+> +		ret = ub960_read_ind(priv, UB960_IND_TARGET_RX_ANA(nport),
+> +				     UB960_IR_RX_ANA_STROBE_SET_CLK, &v, NULL);
+> +		if (ret)
+> +			return ret;
 >  
-> -	if (!priv->hw_data->is_fpdlink4 && cdr_mode == RXPORT_CDR_FPD4) {
-> +	if (priv->hw_data->chip_family != FAMILY_FPD4 && cdr_mode == RXPORT_CDR_FPD4) {
->  		dev_err(dev, "rx%u: FPD-Link 4 CDR not supported\n", nport);
->  		return -EINVAL;
->  	}
-> @@ -4976,6 +4985,7 @@ static int ub960_get_hw_resources(struct ub960_data *priv)
->  static int ub960_enable_core_hw(struct ub960_data *priv)
->  {
->  	struct device *dev = &priv->client->dev;
-> +	const char *model;
->  	u8 rev_mask;
->  	int ret;
->  	u8 dev_sts;
-> @@ -5012,14 +5022,24 @@ static int ub960_enable_core_hw(struct ub960_data *priv)
->  		goto err_pd_gpio;
->  	}
+> -	data_delay = (v & UB960_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY) ?
+> +		clk_delay = (v & UB960_IR_RX_ANA_STROBE_SET_CLK_NO_EXTRA_DELAY) ?
+>  			     0 : UB960_MANUAL_STROBE_EXTRA_DELAY;
 >  
-> -	dev_dbg(dev, "Found %s (rev/mask %#04x)\n", priv->hw_data->model,
-> -		rev_mask);
-> +	switch (priv->hw_data->chip_type) {
-> +	case UB960:
-> +		model = "UB960";
-> +		break;
-> +	case UB9702:
-> +		model = "Ub9702";
-> +		break;
-> +	default:
-> +		model = "Unknown";
-> +		break;
+> +		ret = ub960_read_ind(priv, UB960_IND_TARGET_RX_ANA(nport),
+> +				     UB960_IR_RX_ANA_STROBE_SET_DATA, &v, NULL);
+> +		if (ret)
+> +			return ret;
+> +
+> +		data_delay = (v & UB960_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY) ?
+> +			      0 : UB960_MANUAL_STROBE_EXTRA_DELAY;
 > +	}
-> +	dev_dbg(dev, "Found %s (rev/mask %#04x)\n", model, rev_mask);
+> +
+>  	ret = ub960_rxport_read(priv, nport, UB960_RR_SFILTER_STS_0, &v, NULL);
+>  	if (ret)
+>  		return ret;
+> @@ -1590,8 +1624,17 @@ static int ub960_rxport_set_strobe_pos(struct ub960_data *priv,
+>  	u8 clk_delay, data_delay;
+>  	int ret = 0;
 >  
->  	ret = ub960_read(priv, UB960_SR_DEVICE_STS, &dev_sts, NULL);
+> -	clk_delay = UB960_IR_RX_ANA_STROBE_SET_CLK_NO_EXTRA_DELAY;
+> -	data_delay = UB960_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY;
+> +	/*
+> +	 * DS90UB960 has two separate registers for clk and data delay whereas
+> +	 * DS90UB954 has a single combined register. Hence assign accordingly.
+> +	 */
+> +	if (priv->hw_data->chip_type == UB954) {
+> +		clk_delay = UB954_IR_RX_ANA_STROBE_SET_CLK_NO_EXTRA_DELAY;
+> +		data_delay = UB954_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY;
+> +	} else {
+> +		clk_delay = UB960_IR_RX_ANA_STROBE_SET_CLK_NO_EXTRA_DELAY;
+> +		data_delay = UB960_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY;
+> +	}
+>  
+>  	if (strobe_pos < UB960_MIN_AEQ_STROBE_POS)
+>  		clk_delay = abs(strobe_pos) - UB960_MANUAL_STROBE_EXTRA_DELAY;
+> @@ -1602,11 +1645,25 @@ static int ub960_rxport_set_strobe_pos(struct ub960_data *priv,
+>  	else if (strobe_pos > 0)
+>  		data_delay = strobe_pos | UB960_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY;
+>  
+> -	ub960_write_ind(priv, UB960_IND_TARGET_RX_ANA(nport),
+> -			UB960_IR_RX_ANA_STROBE_SET_CLK, clk_delay, &ret);
+> -
+> -	ub960_write_ind(priv, UB960_IND_TARGET_RX_ANA(nport),
+> -			UB960_IR_RX_ANA_STROBE_SET_DATA, data_delay, &ret);
+> +	/*
+> +	 * DS90UB960 has two separate registers for clk and data delay whereas
+> +	 * DS90UB954 has a single combined register. Hence write the registers accordingly.
+> +	 */
+> +	if (priv->hw_data->chip_type == UB954) {
+> +		ub960_ind_update_bits(priv, UB960_IND_TARGET_RX_ANA(nport),
+> +				      UB954_IR_RX_ANA_STROBE_SET_CLK_DATA,
+> +				      UB954_IR_RX_ANA_STROBE_SET_CLK_NO_EXTRA_DELAY,
+> +				      clk_delay, &ret);
+> +		ub960_ind_update_bits(priv, UB960_IND_TARGET_RX_ANA(nport),
+> +				      UB954_IR_RX_ANA_STROBE_SET_CLK_DATA,
+> +				      UB954_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY,
+> +				      data_delay, &ret);
+
+Here, too. It's a single register, why write it twice?
+
+And I don't think this is correct at all... Did you validate this? The
+above only sets the EXTRA_DELAY bits, not the values at all. And the
+code that sets clk_delay and data_delay use UB960's bit positions, which
+are not the same on UB954.
+
+> +	} else {
+> +		ub960_write_ind(priv, UB960_IND_TARGET_RX_ANA(nport),
+> +				UB960_IR_RX_ANA_STROBE_SET_CLK, clk_delay, &ret);
+> +		ub960_write_ind(priv, UB960_IND_TARGET_RX_ANA(nport),
+> +				UB960_IR_RX_ANA_STROBE_SET_DATA, data_delay, &ret);
+> +	}
+>  
+>  	return ret;
+>  }
+> @@ -4176,33 +4233,40 @@ static int ub960_log_status(struct v4l2_subdev *sd)
+>  		dev_info(dev, "\tsync %u, pass %u\n", v & (u8)BIT(1),
+>  			 v & (u8)BIT(0));
+>  
+> -		ret = ub960_read16(priv, UB960_SR_CSI_FRAME_COUNT_HI(nport),
+> -				   &v16, NULL);
+> -		if (ret)
+> -			return ret;
+> +		/*
+> +		 * Frame counter, frame error counter, line counter and line error counter
+> +		 * registers are marked as reserved in the UB954 datasheet. Hence restrict
+> +		 * the following register reads only for UB960 and UB9702.
+> +		 */
+> +		if (priv->hw_data->chip_type != UB954) {
+
+It is better to check for the chips that have the registers, unless
+we're sure that this particular chip, ub954, is and will be the only
+outlier.
+
+> +			ret = ub960_read16(priv, UB960_SR_CSI_FRAME_COUNT_HI(nport),
+> +					   &v16, NULL);
+> +			if (ret)
+> +				return ret;
+>  
+> -		dev_info(dev, "\tframe counter %u\n", v16);
+> +			dev_info(dev, "\tframe counter %u\n", v16);
+>  
+> -		ret = ub960_read16(priv, UB960_SR_CSI_FRAME_ERR_COUNT_HI(nport),
+> -				   &v16, NULL);
+> -		if (ret)
+> -			return ret;
+> +			ret = ub960_read16(priv, UB960_SR_CSI_FRAME_ERR_COUNT_HI(nport),
+> +					   &v16, NULL);
+> +			if (ret)
+> +				return ret;
+>  
+> -		dev_info(dev, "\tframe error counter %u\n", v16);
+> +			dev_info(dev, "\tframe error counter %u\n", v16);
+>  
+> -		ret = ub960_read16(priv, UB960_SR_CSI_LINE_COUNT_HI(nport),
+> -				   &v16, NULL);
+> -		if (ret)
+> -			return ret;
+> +			ret = ub960_read16(priv, UB960_SR_CSI_LINE_COUNT_HI(nport),
+> +					   &v16, NULL);
+> +			if (ret)
+> +				return ret;
+>  
+> -		dev_info(dev, "\tline counter %u\n", v16);
+> +			dev_info(dev, "\tline counter %u\n", v16);
+>  
+> -		ret = ub960_read16(priv, UB960_SR_CSI_LINE_ERR_COUNT_HI(nport),
+> -				   &v16, NULL);
+> -		if (ret)
+> -			return ret;
+> +			ret = ub960_read16(priv, UB960_SR_CSI_LINE_ERR_COUNT_HI(nport),
+> +					   &v16, NULL);
+> +			if (ret)
+> +				return ret;
+>  
+> -		dev_info(dev, "\tline error counter %u\n", v16);
+> +			dev_info(dev, "\tline error counter %u\n", v16);
+> +		}
+>  	}
+>  
+>  	for_each_rxport(priv, it) {
+> @@ -5023,6 +5087,9 @@ static int ub960_enable_core_hw(struct ub960_data *priv)
+>  	}
+>  
+>  	switch (priv->hw_data->chip_type) {
+> +	case UB954:
+> +		model = "UB954";
+> +		break;
+>  	case UB960:
+>  		model = "UB960";
+>  		break;
+> @@ -5039,6 +5106,11 @@ static int ub960_enable_core_hw(struct ub960_data *priv)
 >  	if (ret)
 >  		goto err_pd_gpio;
 >  
-> -	if (priv->hw_data->is_ub9702)
-> +	if (priv->hw_data->chip_type == UB9702)
+> +	/*
+> +	 * UB954 REFCLK_FREQ is not synchronized, so multiple reads are recommended
+> +	 * by the datasheet. However, we use the same logic as UB960 (single read),
+> +	 * as practical testing showed this is sufficient and stable for UB954 as well.
+> +	 */
+
+I think the important point is that the clk rate is only used for a
+debug print.
+
+>  	if (priv->hw_data->chip_type == UB9702)
 >  		ret = ub960_read(priv, UB9702_SR_REFCLK_FREQ, &refclk_freq,
 >  				 NULL);
->  	else
-> @@ -5038,7 +5058,7 @@ static int ub960_enable_core_hw(struct ub960_data *priv)
->  		goto err_pd_gpio;
->  
->  	/* release GPIO lock */
-> -	if (priv->hw_data->is_ub9702) {
-> +	if (priv->hw_data->chip_type == UB9702) {
->  		ret = ub960_update_bits(priv, UB960_SR_RESET,
->  					UB960_SR_RESET_GPIO_LOCK_RELEASE,
->  					UB960_SR_RESET_GPIO_LOCK_RELEASE,
-> @@ -5111,7 +5131,7 @@ static int ub960_probe(struct i2c_client *client)
->  	if (ret)
->  		goto err_free_ports;
->  
-> -	if (priv->hw_data->is_ub9702)
-> +	if (priv->hw_data->chip_type == UB9702)
->  		ret = ub960_init_rx_ports_ub9702(priv);
->  	else
->  		ret = ub960_init_rx_ports_ub960(priv);
-> @@ -5179,17 +5199,17 @@ static void ub960_remove(struct i2c_client *client)
+> @@ -5198,6 +5270,13 @@ static void ub960_remove(struct i2c_client *client)
+>  	mutex_destroy(&priv->reg_lock);
 >  }
 >  
->  static const struct ub960_hw_data ds90ub960_hw = {
-> -	.model = "ub960",
-> +	.chip_type = UB960,
+> +static const struct ub960_hw_data ds90ub954_hw = {
+> +	.chip_type = UB954,
 > +	.chip_family = FAMILY_FPD3,
-
-I think we can keep the model name here. It's a bit duplicate with the
-chip_type, but allows us to drop that switch-case from probe.
-
->  	.num_rxports = 4,
->  	.num_txports = 2,
->  };
->  
->  static const struct ub960_hw_data ds90ub9702_hw = {
-> -	.model = "ub9702",
-> +	.chip_type = UB9702,
-> +	.chip_family = FAMILY_FPD4,
->  	.num_rxports = 4,
->  	.num_txports = 2,
-> -	.is_ub9702 = true,
-> -	.is_fpdlink4 = true,
+> +	.num_rxports = 2,
+> +	.num_txports = 1,
+> +};
+> +
+>  static const struct ub960_hw_data ds90ub960_hw = {
+>  	.chip_type = UB960,
+>  	.chip_family = FAMILY_FPD3,
+> @@ -5213,6 +5292,7 @@ static const struct ub960_hw_data ds90ub9702_hw = {
 >  };
 >  
 >  static const struct i2c_device_id ub960_id[] = {
+> +	{ "ds90ub954-q1", (kernel_ulong_t)&ds90ub954_hw },
+>  	{ "ds90ub960-q1", (kernel_ulong_t)&ds90ub960_hw },
+>  	{ "ds90ub9702-q1", (kernel_ulong_t)&ds90ub9702_hw },
+>  	{}
+> @@ -5220,6 +5300,7 @@ static const struct i2c_device_id ub960_id[] = {
+>  MODULE_DEVICE_TABLE(i2c, ub960_id);
+>  
+>  static const struct of_device_id ub960_dt_ids[] = {
+> +	{ .compatible = "ti,ds90ub954-q1", .data = &ds90ub954_hw },
+>  	{ .compatible = "ti,ds90ub960-q1", .data = &ds90ub960_hw },
+>  	{ .compatible = "ti,ds90ub9702-q1", .data = &ds90ub9702_hw },
+>  	{}
 
  Tomi
 
