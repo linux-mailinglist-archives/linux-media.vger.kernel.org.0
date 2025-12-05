@@ -1,100 +1,52 @@
-Return-Path: <linux-media+bounces-48325-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48327-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A083CA77E5
-	for <lists+linux-media@lfdr.de>; Fri, 05 Dec 2025 13:01:03 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4BB7CA7F74
+	for <lists+linux-media@lfdr.de>; Fri, 05 Dec 2025 15:32:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 410223084A87
-	for <lists+linux-media@lfdr.de>; Fri,  5 Dec 2025 12:00:57 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 1502F30EC7D1
+	for <lists+linux-media@lfdr.de>; Fri,  5 Dec 2025 12:11:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C2BA32F76C;
-	Fri,  5 Dec 2025 12:00:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A51432ED53;
+	Fri,  5 Dec 2025 12:11:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="I9VjNx5d";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="g3Qx2Wzn"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="ZbgpSJWp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from ixit.cz (ip-94-112-25-9.bb.vodafone.cz [94.112.25.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E53259C80
-	for <linux-media@vger.kernel.org>; Fri,  5 Dec 2025 12:00:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DF3031A046;
+	Fri,  5 Dec 2025 12:11:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.112.25.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764936055; cv=none; b=gVAkVjm/T3eTL0LKmprDIvufrtHH5EUWZjlrHobE6L4g8aVz7q3Sv6UfY8MWK9uFdsN+1AK+fNjsLJgiNala1OJrLVWuRTG8dclsXpdZF/3csRkozxTcFo3PLm1dsNtP3GJN9Bu5//ydy+sr3iBMxNl4tgVdOzprjCOyNCi4m8o=
+	t=1764936704; cv=none; b=pTFzD3ocU/Wmmz43mqWfLWSmM3FL3aMP7PBvjblZVRQGLcNl+GPKNM/WqozoY0XoXjKOwz1MmwcRtysV/OdBTvCOKavRuQ/LX23ufzf4L0jFCsFFCDt56JJcXywzgXChUcIib0BH7IQjdhyWnu3HEs3fDJrETCz0JOTaBuCwgUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764936055; c=relaxed/simple;
-	bh=5GJYnPeEXYloCmknrlsTIN+1ez280CnAJeaeZAgoVMk=;
+	s=arc-20240116; t=1764936704; c=relaxed/simple;
+	bh=48k4AgX+q3IBIkf0IGLJcXM2KiZiFNbkddmehWxWCIo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IkxfAmRm7ml2di4U+h3IAb2P8Ju5S05XLGAYZWyBpK7x8YiktmcrGNiRRzuwekRhLP57Tv/52XFsBHKWIc312KFqdlaDvhQWN01KLSptfIo14gwVnt3uFV6A/F3QB2sDBVHC2k0vPDZGrwCkFiKUegDdfSiUyHPCHkRN1Oo3AwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=I9VjNx5d; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=g3Qx2Wzn; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B57ueU92408066
-	for <linux-media@vger.kernel.org>; Fri, 5 Dec 2025 12:00:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	3+9AN/HxdHG5JU3qIa6IofBm9MTQMtmCFXG7ehrSIBg=; b=I9VjNx5dktPJBIbH
-	SGP4LpsRexqizAUcMPmmDNz10KZg5qRv9xGwWoQXC4N1kXrKcaeT4HaqT9Mu79my
-	fHGi/Mox9vu1t34j1EZcnwN/9ZgutyeDJZlyTmPCsvp8kO69fkmgmerFkCrWd4nP
-	XHsX9TLflro50QaLUtw4kFLKHxWAzmQR1xlFfxlB/45+scf4eoatbhcSZgkBsvxo
-	42eGE7jn2l9ePivBF3WMUAenGHCG5rAjvLbl+WohVton3y03SXXD8/HOcAESQBBn
-	ULQpvpnAgKlvSwvE0IFdJIfQjci5FybWfMjRqZgMlTwlme9tlasC87T/NLbPzdRF
-	+DTLlA==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4auhtya53e-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Fri, 05 Dec 2025 12:00:49 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4ee00f2b7d7so5154831cf.0
-        for <linux-media@vger.kernel.org>; Fri, 05 Dec 2025 04:00:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1764936048; x=1765540848; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3+9AN/HxdHG5JU3qIa6IofBm9MTQMtmCFXG7ehrSIBg=;
-        b=g3Qx2WznfENg+IIMcznVoF3Xspnp4nw8A3ZkDslj9Y75ALE+CbjoWQ7rqACJcNBi+s
-         UtHdviv9hv5mQUUDTEiYuRULj1N7g+HlczaSRw+vMaAQlo346pv+usYxeQ89it2Vk/Ie
-         jzJ3sbEuxdl+5QQntLVe7dPuSD//Ks2XLM5hq/ETXBdDqIPqYxxt+QQKW+Nx/gDcuJLS
-         gcrUI2+m7MeD1dbE6H8iPuQZMKjjIoCicxe5wxbHCYDIbcY4v9hYf3i7lE8PVnA3WGgt
-         KeCCJpUCX3YfFEy3OF5xbbAGDlePnL7XV+Hf4NqthpgVDmsBaKKq2YbTbly9Mxq5USDP
-         vy1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764936048; x=1765540848;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3+9AN/HxdHG5JU3qIa6IofBm9MTQMtmCFXG7ehrSIBg=;
-        b=mxoZRE2lyRkwOJlCtFWoEFzO3t/zVpuACUI6XJygVUsNTIkrdxHNksdTQVYTD4OQ0x
-         YWPeELr60AM+jBPnF/ZIraRKVZM5UJ7miYvPk/y9RkLK3Je0mSTN95YI4tDMt+aIP7yp
-         hX5cOAUQY35LFIpjvu19WnyZtIG2/KOPTLNNoQbMrFEZl62ei0qjdhX90LzjkufWAtDV
-         hpcGUbTyZgPb/Lo8134XV9AjooURrettNDEKXoKKV8vC3/OwAvs4NZCX+GWeIMixq6To
-         g9qUXnNcQzyhdxmN2Wh6j+czRFw6k3LSB8iEcURa3fdPIXCepJzgtuALDwYNvyHcE6lY
-         Qk2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWiqJdEAXwICIzuFFuzFfuNIJC/gocAIxchLmtw0HCt9Y7UO06e6z9agEGeU5lTwpkprhRwWtJlA5TUDQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfluzKrqd8WRGSyjxYu/eQstiIRuA4JRYgvWoTFPQ4Z0pLMt83
-	/5HHhq6FmR9ufijxk1uVom4BKUsxqiA3edt9hpEgLGIgIOhIv8+esHMtfWRaBWgJO3wO9Fb7Lx6
-	gq5inPe9MiE9mMxS4zvVT4DXdhgPxr+CiMC5jVR4AhRBbuwc+4/LYw6QD5S46gV7RQw==
-X-Gm-Gg: ASbGncsbEZMMLMi7DlKDAuzc1ux7yZ3zG1aBZwxWzYMG4E2FHWXVful8+Aq90qB6S0+
-	R/FLuWMuusmyDR3Z9Jh6uZ60BYZJEt/o1QsMzu4TYhFft7LggL5lEQWAjWYYHQ5o/+TekrRsndH
-	Wfa7SHeMO95qonXi2hoqx69oBXVly2JNVwY3kOfrsRATQFxn9FkelwrCkGNWElGiKSroGEGdr/0
-	wBwQpWzvo5MX4PFPc3TPJ92YD7NMxEa4f2IhUhJWMQW/UhXx+Jczht5V/lmWaxFCoF1+zIQqZju
-	a3OvcgSkGjaPAI5/AnAtO9WXfTsnSTE/cnlwoeS93sLFnrAN89ro1iEhTXsl7t5lXsWbnkYSpUs
-	g59ZLLCnUyHXNiQDasZJwo5NCY24wM1u+MQaAmZD0Lv7xEpFAi+XhxAmgydnEbC43Qg==
-X-Received: by 2002:a05:620a:448e:b0:8a1:a5c5:ef18 with SMTP id af79cd13be357-8b5f94f51d0mr796612485a.7.1764936047307;
-        Fri, 05 Dec 2025 04:00:47 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IG4YCoMEsE/aEBJ2TvQLIePmhNsDzgggaoMgJ7OsQXvHMsZAMZDO44pmTESXMg5rtykjNpNsA==
-X-Received: by 2002:a05:620a:448e:b0:8a1:a5c5:ef18 with SMTP id af79cd13be357-8b5f94f51d0mr796600285a.7.1764936045678;
-        Fri, 05 Dec 2025 04:00:45 -0800 (PST)
-Received: from [192.168.119.72] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-647b2c5575fsm3700985a12.0.2025.12.05.04.00.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Dec 2025 04:00:44 -0800 (PST)
-Message-ID: <f04d27a2-88c9-44ac-b4fa-33059a9806b2@oss.qualcomm.com>
-Date: Fri, 5 Dec 2025 13:00:43 +0100
+	 In-Reply-To:Content-Type; b=KdtmHM+iJ0uquDKnovSlWir+p3/D75r4yl/JFo5djInt5BRhhswoRK28ZDWpEOjSI8WR/TZdxk4lVbkjh8xbt4fCD2Op22QXeTO0IjxQK6Mbghr//TIQdekBWLBIfMtLlVMYI8kX5CXszowsQQCfq3wD4riFB9atXT4Cb/zUul4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=ZbgpSJWp; arc=none smtp.client-ip=94.112.25.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+Received: from [10.0.0.200] (unknown [10.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ixit.cz (Postfix) with ESMTPSA id 4EAA653400DF;
+	Fri, 05 Dec 2025 13:11:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+	t=1764936697;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=9K3BaIAz1YO5eT1F/Xdh0sXF5lL51JkibNNOPjMJcng=;
+	b=ZbgpSJWpOBwS4UeAc0/p6zmcwnX+1JzC94XEZoFKNFCfqR19SzV+PWWHzZi0D0+KTEmRG3
+	9ffTmXDX73KnoswkhtzNK3a7liIqCMhgPA202Y3tWFBiXL46Ey4ylMGUuzle4nui977W/j
+	0vEpEI3qGjX4naySG+Y6MWZCvip8eDs=
+Message-ID: <df1ce093-163d-4d80-a27a-fe42e5cfea53@ixit.cz>
+Date: Fri, 5 Dec 2025 13:11:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -104,116 +56,150 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH WIP v2 5/8] media: qcom: camss: csiphy-3ph: Add Gen2 v1.1
  MIPI CSI-2 CPHY init
-To: David Heidelberg <david@ixit.cz>, Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Luca Weiss <luca.weiss@fairphone.com>,
-        Petr Hodina <phodina@protonmail.com>,
-        Casey Connolly <casey.connolly@linaro.org>,
-        "Dr. Git" <drgitx@gmail.com>
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Luca Weiss <luca.weiss@fairphone.com>, Petr Hodina <phodina@protonmail.com>,
+ Casey Connolly <casey.connolly@linaro.org>, "Dr. Git" <drgitx@gmail.com>
 Cc: Joel Selvaraj <foss@joelselvaraj.com>,
-        Kieran Bingham <kbingham@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org
+ Kieran Bingham <kbingham@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ phone-devel@vger.kernel.org
 References: <20251204-qcom-cphy-v2-0-6b35ef8b071e@ixit.cz>
  <20251204-qcom-cphy-v2-5-6b35ef8b071e@ixit.cz>
  <b7fac86c-15fd-400b-955a-c331c8bc681d@oss.qualcomm.com>
  <03c137aa-bd31-43d7-aea8-489ec0102ab3@ixit.cz>
+ <f04d27a2-88c9-44ac-b4fa-33059a9806b2@oss.qualcomm.com>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <03c137aa-bd31-43d7-aea8-489ec0102ab3@ixit.cz>
-Content-Type: text/plain; charset=UTF-8
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+In-Reply-To: <f04d27a2-88c9-44ac-b4fa-33059a9806b2@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA1MDA4NiBTYWx0ZWRfX2qmY2r187G+D
- DR28GzCm0ILipLhwDHLbj0YJITLmgH++x0FnPloGIrslZklv2otv+if9qzZYywJKby1ntgxWd4h
- 733mrpf6JrOhdDWAwlvPKeQ+2XReuJuUaQ6sNuulGMqkgfcyCnTjhQ6y76Bgb2EQ0iK2ilWliGU
- TdIXbY24eznFC56/7FnPO/tqsgSGVxqcLA+Tz6BxJwL/+zu52Dju09g3eAHqCX5XKSv4pYOBl+R
- jAYXzXbU3Q17qw/WWUCRooBo91V0oMCVpgEf3Z8RKdYzHdxIZ+VRo1+LLIYISTAe++QcmC/mIBi
- g4p0FvHQxESjWSKt1XhPVE1IlW9d5dUPu4eE2aorjNKA07iNaf7SgkVxPDsOuoZdsdXKBsHqOlm
- eW//WpAEhRqbxm7KkR0D4fputhsq4Q==
-X-Proofpoint-ORIG-GUID: 6cOv-Ay0SsTXWMfSLf0aoe_Ha4_OsjIG
-X-Authority-Analysis: v=2.4 cv=DplbOW/+ c=1 sm=1 tr=0 ts=6932c971 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=KKAkSRfTAAAA:8 a=LQYBDm9UNitWhpxzWCUA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: 6cOv-Ay0SsTXWMfSLf0aoe_Ha4_OsjIG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-05_04,2025-12-04_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 clxscore=1015 priorityscore=1501
- lowpriorityscore=0 bulkscore=0 spamscore=0 adultscore=0 malwarescore=0
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2512050086
 
-On 12/5/25 12:56 PM, David Heidelberg wrote:
-> On 05/12/2025 10:54, Konrad Dybcio wrote:
->> On 12/4/25 5:32 PM, David Heidelberg via B4 Relay wrote:
->>> From: Casey Connolly <casey.connolly@linaro.org>
+On 05/12/2025 13:00, Konrad Dybcio wrote:
+> On 12/5/25 12:56 PM, David Heidelberg wrote:
+>> On 05/12/2025 10:54, Konrad Dybcio wrote:
+>>> On 12/4/25 5:32 PM, David Heidelberg via B4 Relay wrote:
+>>>> From: Casey Connolly <casey.connolly@linaro.org>
+>>>>
+>>>> Add a PHY configuration sequence for the sdm845 which uses a Qualcomm
+>>>> Gen 2 version 1.1 CSI-2 PHY.
+>>>>
+>>>> The PHY can be configured as two phase or three phase in C-PHY or D-PHY
+>>>> mode. This configuration supports three-phase C-PHY mode.
+>>>>
+>>>> Signed-off-by: Casey Connolly <casey.connolly@linaro.org>
+>>>> Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+>>>> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>>>> Co-developed-by: David Heidelberg <david@ixit.cz>
+>>>> Signed-off-by: David Heidelberg <david@ixit.cz>
+>>>> ---
+>>>>    .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     | 74 +++++++++++++++++++++-
+>>>>    1 file changed, 72 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+>>>> index 3d30cdce33f96..7121aa97a19c4 100644
+>>>> --- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+>>>> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+>>>> @@ -145,6 +145,7 @@ csiphy_lane_regs lane_regs_sa8775p[] = {
+>>>>    };
+>>>>      /* GEN2 1.0 2PH */
+>>>> +/* 5 entries: clock + 4 lanes */
+>>>>    static const struct
+>>>>    csiphy_lane_regs lane_regs_sdm845[] = {
+>>>>        {0x0004, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
+>>>> @@ -219,6 +220,69 @@ csiphy_lane_regs lane_regs_sdm845[] = {
+>>>>        {0x0664, 0x7F, 0x00, CSIPHY_DEFAULT_PARAMS},
+>>>>    };
+>>>>    +/* GEN2 1.0 3PH */
+>>>> +/* 3 entries: 3 lanes (C-PHY) */
+>>>> +static const struct
+>>>> +csiphy_lane_regs lane_regs_sdm845_3ph[] = {
 >>>
->>> Add a PHY configuration sequence for the sdm845 which uses a Qualcomm
->>> Gen 2 version 1.1 CSI-2 PHY.
+>>> Here's a downstream snippet which seems to have more up-to-date settings
+>>> (checked against a doc and it seems to have changes made at the time of
+>>> the last edit of the doc)
 >>>
->>> The PHY can be configured as two phase or three phase in C-PHY or D-PHY
->>> mode. This configuration supports three-phase C-PHY mode.
->>>
->>> Signed-off-by: Casey Connolly <casey.connolly@linaro.org>
->>> Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
->>> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->>> Co-developed-by: David Heidelberg <david@ixit.cz>
->>> Signed-off-by: David Heidelberg <david@ixit.cz>
->>> ---
->>>   .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     | 74 +++++++++++++++++++++-
->>>   1 file changed, 72 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
->>> index 3d30cdce33f96..7121aa97a19c4 100644
->>> --- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
->>> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
->>> @@ -145,6 +145,7 @@ csiphy_lane_regs lane_regs_sa8775p[] = {
->>>   };
->>>     /* GEN2 1.0 2PH */
->>> +/* 5 entries: clock + 4 lanes */
->>>   static const struct
->>>   csiphy_lane_regs lane_regs_sdm845[] = {
->>>       {0x0004, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
->>> @@ -219,6 +220,69 @@ csiphy_lane_regs lane_regs_sdm845[] = {
->>>       {0x0664, 0x7F, 0x00, CSIPHY_DEFAULT_PARAMS},
->>>   };
->>>   +/* GEN2 1.0 3PH */
->>> +/* 3 entries: 3 lanes (C-PHY) */
->>> +static const struct
->>> +csiphy_lane_regs lane_regs_sdm845_3ph[] = {
+>>> You'll notice it's split into 3 arrays of register sets - that's because
+>>> it applies setting for each lane.. something to keep in mind we could
+>>> optimize upstream data storage for (they are identical per lane in this
+>>> instance) one day
 >>
->> Here's a downstream snippet which seems to have more up-to-date settings
->> (checked against a doc and it seems to have changes made at the time of
->> the last edit of the doc)
+>> see 87c2c2716523 ("media: qcom: camss: csiphy-3ph: Remove redundant PHY init sequence control loop")
 >>
->> You'll notice it's split into 3 arrays of register sets - that's because
->> it applies setting for each lane.. something to keep in mind we could
->> optimize upstream data storage for (they are identical per lane in this
->> instance) one day
+>> for the reason to flatten the regs array (thou outside the scope of this patchset).
+>>
+>> Regarding to the different value, I can test them, can you point to docs regarding why these regs has been changed and what the values means?
+>>
+>> I thought it's some default seq, but as you show there is multiple versions, it make sense to properly document what these regs do.
 > 
-> see 87c2c2716523 ("media: qcom: camss: csiphy-3ph: Remove redundant PHY init sequence control loop")
+> I'll make that point to the relevant folks when they get around to refreshing
+> this driver, I'm not sure I can just tell you what all the magic sequences do..
 > 
-> for the reason to flatten the regs array (thou outside the scope of this patchset).
-> 
-> Regarding to the different value, I can test them, can you point to docs regarding why these regs has been changed and what the values means?
-> 
-> I thought it's some default seq, but as you show there is multiple versions, it make sense to properly document what these regs do.
+> The high-level description for all post-release PHY sequence updates is pretty
+> much always improves robustness as a result of "more better" electrical tuning.
+> It's also the case this time around.
 
-I'll make that point to the relevant folks when they get around to refreshing
-this driver, I'm not sure I can just tell you what all the magic sequences do..
+Since the original version works, but maybe it could work better (I'll 
+do testing), I would do "upgrade" commit, so at least we know tho regs 
+setups which works and someone can try deduct or document it in the future.
 
-The high-level description for all post-release PHY sequence updates is pretty
-much always improves robustness as a result of "more better" electrical tuning.
-It's also the case this time around.
+If you try to poke the right people, that would be awesome.
 
-Konrad
+Thank you for noticing the new regs! :)
+
+David
+
+> 
+> Konrad
+
+-- 
+David Heidelberg
+
 
