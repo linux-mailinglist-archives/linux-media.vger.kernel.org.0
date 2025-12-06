@@ -1,79 +1,46 @@
-Return-Path: <linux-media+bounces-48359-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48360-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87270CAAF52
-	for <lists+linux-media@lfdr.de>; Sun, 07 Dec 2025 00:38:28 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53763CAAF9A
+	for <lists+linux-media@lfdr.de>; Sun, 07 Dec 2025 00:57:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id EF73930AE99B
-	for <lists+linux-media@lfdr.de>; Sat,  6 Dec 2025 23:36:13 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E0B063064544
+	for <lists+linux-media@lfdr.de>; Sat,  6 Dec 2025 23:56:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B62E2DA756;
-	Sat,  6 Dec 2025 23:36:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 998D72DC765;
+	Sat,  6 Dec 2025 23:56:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="O93fM6QY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bzpK36ZL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 478F41D7E5C
-	for <linux-media@vger.kernel.org>; Sat,  6 Dec 2025 23:36:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC7A4296BBD;
+	Sat,  6 Dec 2025 23:56:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765064171; cv=none; b=BwCd3saL+eI1U07nXFUB8AvD1YCJPufuMQixfpc/Yy1VPnsgFArxBAsE9OCxOk4qy9BwGvv59kIlUjJgqrH2/6Q1hdQvw3WBoMVPfFP9uvAXqMRJxgm4VtPxFQ44pyHVBXZgSGP8DigMXX+bVOeJ5nUwYHYLOqwF18Vtxwdg9m0=
+	t=1765065397; cv=none; b=QJzo8BDIIqGO0MMxvCiQs3K2EQxvxI/yHNhvSZXB14+DS+Dweh808o3mgKF9tnbg14CLjl3c0E1mZ2SQpCD0eu9qXxG19oYjLIUWAdyRCvTewjXZ23cYDkrnX1WE01W8g4GdKg2pNY+wB6mucQ8Fo50oBVHRMueYpUmgptCYkMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765064171; c=relaxed/simple;
-	bh=n39ZtZQpgqh0rmdsLr3Dvs7oradJKbLY8rLQkbdX4Vg=;
+	s=arc-20240116; t=1765065397; c=relaxed/simple;
+	bh=s/TyOeDY6EYqBlrXN5BR6NnJMBkrTUR1FU2VsfYuvD0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Dc8Q1jGfV2JVxfbwH0PAXSsVVE/+Rih3xvNspShkb/jdiUmrLfhd1uiA3r43Lizh8pG2Ac5M2dRSPN/tjS8g/KPN1S+UD+CUM55UEoAxdEQVenc3hDU9sYs//us9K1nJb9Kvvp0T5W0VKLzJUbro4OMCvL3NF68AojEZSbRX+qs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=O93fM6QY; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4779cb0a33fso42749645e9.0
-        for <linux-media@vger.kernel.org>; Sat, 06 Dec 2025 15:36:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1765064167; x=1765668967; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6OJJA8csQgRWCs4kKgByCAwLtWKbPHN0nnLUeeHWkOI=;
-        b=O93fM6QYZtSOR+9TPhShlYS1/SQYKdyJeOmZQy/J2yZadFv8fHDVSWmXJ3Xznwr3Yj
-         7y2rhexgh5N8GlwOLRCh9sbtUsIb8Ls7573/M17CQTHP/zf/6LG9RO5zTsGEhf3aY9MR
-         nyOC/lto3APVNwefIqk+grhSs6d3s0HKcR4MQXK+2P9PQvf8q9uU69aRn0V+QAPFZSl5
-         vmw74HurIax0u1Xz1vcdPX5yigfQsIO2uETYzVc8sTvxPkAXIBnJCRQ68s/t7VjMrD5p
-         FpFyqOsG2jEeCokucIx0FvvpJIktIVH1IJiO1MipzNzjZKoAL8/ogWn9Tg5SwGajBzmX
-         b8IA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765064167; x=1765668967;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6OJJA8csQgRWCs4kKgByCAwLtWKbPHN0nnLUeeHWkOI=;
-        b=kfchTS23tPpsgCLmaGHrfEzlRPpwTEBd4aeAe59PWuhhzB4As+Zk9eCPLw9wloHdcm
-         xrLkyuVznjm2714zfCpszPbjJcwcFx8irglf0J65QAd3q9XAZ+inGmCsY+SEfqz9/tR5
-         LmHvgo/pHB5eE+Dk3pp3WBkotQBvy0hCm0pNGaLbXvaFF5vLBxDT4FQG1oOA13fK9mAC
-         6yW+xPsaqmv0uv9vzAxTIZAiVYhhFBzq0JW56YDIo4zDPqLFvVEV5wKRR/ekTWYyyald
-         gGT/rB1yUWBUtjykRTn5QVluVdkjuLXTJM2ffqxE/GuGTu/K9kQ1cNkpIIhUPXbqhSGX
-         y5hA==
-X-Gm-Message-State: AOJu0YxpZfdxqIMNTaamU5U4AknX0qld2Iz28gd4ZAlkpV8tCR+iT50A
-	VYTWkhAmXvErDMK3v1mBA5wbAZm/8iHHyBFyNbCTEaOyBD3Wtm8AD//3+tfFCWHZ86s=
-X-Gm-Gg: ASbGnctsbLgVTRt8bqFPaXPyTGd4XNFHPM3jeByiE+Y4scK1ktaC3H9/aIVjCxAcP3q
-	K0/Z45PoZ4OYK0A4l1aqbWXkNHv42l+FEtEjszYe544qEadWn72AYjAbrUGNoQf8UazK1MviTNB
-	J/WdXOJYU9g6wol3M4W48UhjR0eKr2h6wZoQGhKY8X4zB11enCjx1w8J2Hcjqo6L32RS1M3RA/e
-	mreuwqcBdWGdpSkr6/LLHYUoQNWe2MySbVZc+WdzUz1uZHmi/hAkO9UVL4dLuPRCdlULhAXie9s
-	90jGc4YNvV4VL0j36747156QKBsKihmG+ivC+YxoL8JJPTryPVfGJlA/EquBDxFT+jx4ixoB/uC
-	anHok5UAOAPzKe9dHRYvDuyzvKe72tosIWw5vTngWpOp8+Mlb7lfzz9ORTUb0CEBnh+PZo7grfP
-	VIAkicN2pDHFx+SSgKjKz1ZrZfola9qkjJ39PLXOGo1StWakjHnxj7
-X-Google-Smtp-Source: AGHT+IEQf012fIeorUGnrSpMbj1n0JAaRqvn4fJv5//pu7fi5eLlEUQnRB82jRweo5J65VWhlj78SA==
-X-Received: by 2002:a05:600c:8284:b0:477:5aaa:57a3 with SMTP id 5b1f17b1804b1-47939df534amr37167615e9.2.1765064167485;
-        Sat, 06 Dec 2025 15:36:07 -0800 (PST)
-Received: from [192.168.0.40] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42f7d331e62sm17312118f8f.35.2025.12.06.15.36.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 06 Dec 2025 15:36:06 -0800 (PST)
-Message-ID: <422cf96b-9f5e-4497-b151-7050f4f11924@linaro.org>
-Date: Sat, 6 Dec 2025 23:36:04 +0000
+	 In-Reply-To:Content-Type; b=NXOpMdIPvyxyw8Z64KH4mAu94G9gjDDgO3vCo8B3OkfpIucOW0tWFIsmriq27Vt83Ul7xDGBr4hncCqUBlixbxmD6WtJbm0VoxUj16U2yevIZ7BLh072Te1CKx7qsYicBJw8/Mn6ZtRbyh4Xj23bqIYI2KnS1gw5wtuqEfTtzE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bzpK36ZL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B2AAC4CEF5;
+	Sat,  6 Dec 2025 23:56:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765065396;
+	bh=s/TyOeDY6EYqBlrXN5BR6NnJMBkrTUR1FU2VsfYuvD0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=bzpK36ZLF8FUFN473r2Gyxa5b7dwpZzSatWegNcKA+HwfkpfFBNzagUhwBzQ5lI26
+	 DTBbfohduQq4YXM7rBnIFgU84pOJhm6gDhln2l+x3HXAPVaXGyaImqjtIcxIM1gOvF
+	 X2G4468qAr/eAGvYMDcBtNikGMz7CqXW3gHlwb61bcONhxeS8Pkb+DL0C4MupKh25p
+	 tuXPkIW0Kq7m/ZfChVxY6y6Gqao+MLkPsMS8JbHP65epWGcJQFnX5UEp5kMrOyyZfk
+	 fMu+LTiZ0QSvxG1zPRt19yK/f+ljWxAa7TqFViKNiS9D3WBYEnwoHeHZAdGoPX6EiE
+	 +AioHp/YMDz2w==
+Message-ID: <5516cc69-de15-44df-bfbf-8263e71c919a@kernel.org>
+Date: Sat, 6 Dec 2025 23:56:32 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,50 +48,90 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 4/5] media: iris: Define AV1-specific platform
- capabilities and properties
-To: Deepa Guthyappa Madivalara <deepa.madivalara@oss.qualcomm.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
+Subject: Re: [PATCH] media: venus: vdec: fix error state assignment for zero
+ bytesused
+To: Renjiang Han <renjiang.han@oss.qualcomm.com>,
  Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
  Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>, Bryan O'Donoghue <bod@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, kernel test robot <lkp@intel.com>
-References: <20251110-av1d_stateful_v3-v7-0-9913a15339ce@oss.qualcomm.com>
- <20251110-av1d_stateful_v3-v7-4-9913a15339ce@oss.qualcomm.com>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <3TiW-6pGFzHye29VWlJBXCdsteVQOc5LlAPyURHQMjIMusStSaLFbZE_dWv8B9GPFjM91n17iLSlulpcBpy4ow==@protonmail.internalid>
+ <20251126-fix-error-state-v1-1-34f943a8b165@oss.qualcomm.com>
+From: Bryan O'Donoghue <bod@kernel.org>
 Content-Language: en-US
-In-Reply-To: <20251110-av1d_stateful_v3-v7-4-9913a15339ce@oss.qualcomm.com>
+In-Reply-To: <20251126-fix-error-state-v1-1-34f943a8b165@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/11/2025 17:21, Deepa Guthyappa Madivalara wrote:
->   #define HFI_PROP_BUFFER_MARK			0x0300016c
-> +#define HFI_PROP_WORST_COMPRESSION_RATIO	0x03000174
-> +#define HFI_PROP_WORST_COMPLEXITY_FACTOR	0x03000175
->   #define HFI_PROP_RAW_RESOLUTION		0x03000178
->   #define HFI_PROP_TOTAL_PEAK_BITRATE		0x0300017C
-> -#define HFI_PROP_OPB_ENABLE			0x03000184
-> +#define HFI_PROP_AV1_FILM_GRAIN_PRESENT		0x03000180
-> +#define HFI_PROP_AV1_SUPER_BLOCK_ENABLED	0x03000181
-> +#define HFI_PROP_AV1_OP_POINT				0x03000182
-> +#define HFI_PROP_OPB_ENABLE                 0x03000184
-> +#define HFI_PROP_AV1_TILE_ROWS_COLUMNS      0x03000187
-> +#define HFI_PROP_AV1_DRAP_CONFIG            0x03000189
->   #define HFI_PROP_COMV_BUFFER_COUNT		0x03000193
-> +#define HFI_PROP_AV1_UNIFORM_TILE_SPACING	0x03000197
+On 26/11/2025 04:23, Renjiang Han wrote:
+> Previously, the check for zero bytesused and the assignment of error
+> state was performed outside the V4L2_BUF_FLAG_LAST branch, which could
+> incorrectly set the error state during drain operations. 
 
-I'll fix this for you because I'm infinitely sound BUT
+This deserves more elaboration.
 
-#define HFI_PROP_AV1_FILM_GRAIN_PRESENT         0x03000180
-#define HFI_PROP_AV1_SUPER_BLOCK_ENABLED        0x03000181
-#define HFI_PROP_AV1_OP_POINT                           0x03000182
-#define HFI_PROP_OPB_ENABLE                 0x03000184
-#define HFI_PROP_AV1_TILE_ROWS_COLUMNS      0x03000187
-#define HFI_PROP_AV1_DRAP_CONFIG            0x03000189
+Instead of saying previously - talk about what it currently does and the 
+precise circumstances under which it goes wrong. Try to make the 
+description as plain and concise as possible.
 
-please stop using whitespace for tabs !
+This patch
+> moves the zero-bytesused check inside the 'else' branch, ensuring that
+> the error state is only set for non-EOS buffers with zero payload.
+> 
+> Additionally, the patch keeps the rest of the buffer state handling
+> logic unchanged, including handling of HFI_BUFFERFLAG_DATACORRUPT and
+> HFI_BUFFERFLAG_DROP_FRAME.
 
----
-bod
+I don't think you need to tell us what's not touched in your commit log.
+
+- Tell us what is wrong directly and plainly.
+   Include how the bug you are fixing can come about i.e. under what
+   circumstances we would see the error.
+
+- Then tell us how you've fixed it.
+
+- And include a Fixes: tag please.
+   Since this is a bug fix you are proposing, it needs to be backported.
+
+> 
+> Signed-off-by: Renjiang Han <renjiang.han@oss.qualcomm.com>
+> ---
+> This patch refines the error state assignment logic in the Venus vdec
+> driver for Qualcomm platforms. Specifically, it ensures that the buffer
+> state is only set to VB2_BUF_STATE_ERROR for non-EOS capture buffers
+> with zero bytesused, preventing false error reporting during drain
+> operations.
+> ---
+>   drivers/media/platform/qcom/venus/vdec.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+> index 4a6641fdffcf79705893be58c7ec5cf485e2fab9..d0bd2d86a31f9a18cb68b08ba66affdf8fc5092d 100644
+> --- a/drivers/media/platform/qcom/venus/vdec.c
+> +++ b/drivers/media/platform/qcom/venus/vdec.c
+> @@ -1440,10 +1440,10 @@ static void vdec_buf_done(struct venus_inst *inst, unsigned int buf_type,
+>   				inst->drain_active = false;
+>   				inst->codec_state = VENUS_DEC_STATE_STOPPED;
+>   			}
+> +		} else {
+> +			if (!bytesused)
+> +				state = VB2_BUF_STATE_ERROR;
+>   		}
+> -
+> -		if (!bytesused)
+> -			state = VB2_BUF_STATE_ERROR;
+>   	} else {
+>   		vbuf->sequence = inst->sequence_out++;
+>   	}
+> 
+> ---
+> base-commit: 663d0d1af3faefe673cabf4b6b077149a87ad71f
+> change-id: 20251126-fix-error-state-24183a8538cd
+> 
+> Best regards,
+> --
+> Renjiang Han <renjiang.han@oss.qualcomm.com>
+> 
+
 
