@@ -1,262 +1,199 @@
-Return-Path: <linux-media+bounces-48355-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48356-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30BF0CAA5BB
-	for <lists+linux-media@lfdr.de>; Sat, 06 Dec 2025 12:53:13 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4F7CCAA758
+	for <lists+linux-media@lfdr.de>; Sat, 06 Dec 2025 14:43:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 778B43019BB6
-	for <lists+linux-media@lfdr.de>; Sat,  6 Dec 2025 11:51:38 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 5B3ED3009FE9
+	for <lists+linux-media@lfdr.de>; Sat,  6 Dec 2025 13:43:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 417EA2BE05B;
-	Sat,  6 Dec 2025 11:51:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFEA22FC86B;
+	Sat,  6 Dec 2025 13:43:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nJidwe4T"
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="nEndZ23B";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="odThNdki"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D689F22127A
-	for <linux-media@vger.kernel.org>; Sat,  6 Dec 2025 11:51:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCC842FC011;
+	Sat,  6 Dec 2025 13:43:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765021896; cv=none; b=LDGSOfiUcFpKApbmoA4gKgQyfc0lp0dQG64UIeHUsgTCA2y/nB9EenjxXnKvyqLadEEV/V5y4kRP5kWW+snebiU9KLKMTqa8ZsJJ+zd/9hyLWkzS/hB6l5l41F6djlhRl4Cy8ASrRAmTYga3kernYj6gy3M42F9Q6122e0s8LpI=
+	t=1765028584; cv=none; b=DFcgLEgUXxtRWb9yEhMNxTuZnobiNOIZ+RHeouYDxc4tFW2C+kj6hxMQIi7CgwxKlJwfR/whHQm1tqpYHt0wYWmDQXAbiAJQfQykv77I2EvqB0Y4/Ef2ELjmppzyybUxgQYvZgJCM7/R/dyLoGSYDDoPSzXhq6UhHZrxz+ozefM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765021896; c=relaxed/simple;
-	bh=m5XQ03NkmU7Dyvrl3uNqx25v8w2wEU616h/uh5i28kk=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=EK2xNR7ZVz93Inqs50dTbDyaK1jA2VINZNzyXnYh+XmBQfwGZ0evpWRM57IBelTn16ttDYE2dbgR2tM1M9NngVBOd0gs6Ex0yKYG0Iu2GVU5+QaS6xefh/Gsx/8yw7cNf6sp1EEQLOiNMId7ook88GUpxlA8eUkWVj6olJucVkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nJidwe4T; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-594270ec7f9so3386547e87.3
-        for <linux-media@vger.kernel.org>; Sat, 06 Dec 2025 03:51:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765021893; x=1765626693; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HePzOK2YwREM++8Zxr7PF7Xhi3Zuwv6TtIklSs2K0TA=;
-        b=nJidwe4TK++my4JJzH/xfRk+9LJQmDeg6f1hd+rG4z43WwmHfJArc5WYikHUuPzrbl
-         cYZTypn1pJ/drONCOH1hA2jOmy5S4kSllbut83EsZiep1MLNjR32lA0xDtz6buizIO/F
-         6CEyNqOa0dG5UdCr5ih61GsJonkzMbBA+9YmjB3bfBSix19oOyc3fU2fgXr5zuQmsceG
-         +0ibi9l0QSp/jgD5OGiE7v2GkMEG7QRxKCMsmzCMVP66edTbA6Vsey0raVXf4Ffwcijk
-         0IxTuE6OseCWoJrb6KLykUn9EZzRP3ZW+tX5himD0rhwt9VBHf/kpuqc2R5MYbJ55EMG
-         yXqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765021893; x=1765626693;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=HePzOK2YwREM++8Zxr7PF7Xhi3Zuwv6TtIklSs2K0TA=;
-        b=iQzC+llVoQaRAVNB0Uv85QNuKR3nc1CfZNwQg0PUTXHVblCXUNYGhDnU91bV8J/MGg
-         4E6CXpe8h5FY0ZeEtQVRjEtzEDmRydMS2KIOeu+BTeaGiv7h+IyMpUXpf4f1LwkHrlD5
-         YSYCnoukbFd9qXwPvUcUwNw/Y5q+dIELLBWXO5KrucnXASY5ycraDQeuK7D78BIliq2P
-         Y+vBdWDlaxE757kYi3sFG/xPoCAjV1kvi6RKrjqh0i33PWu9potVb1xEC8pdQrWG2MK6
-         piwD+SGdagahdgMJrqMLOI4YIHf7IpRwUBoqqzExCFx7G7sfM7E8RueKsd22fw1ET1Ic
-         jcZg==
-X-Forwarded-Encrypted: i=1; AJvYcCWSxmY/KSaGh6GG0qghK0/NVgXFZbecdHkft818C3KMUcPB8q+CHOuRVDds98EiA25+XxJ07mw7PTNQGg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx2Mii4BAwycKhKUg3eC8tDECMNCHyPevdgw2VxqDmNqefxlpLj
-	6j3RnE2DDOVL9et1CsBMGkQ22te6PhkI5O1Cyj/mgRfVuSoT7iboJKs6
-X-Gm-Gg: ASbGncsyTzfdZcBNSpRHA57DsATlFE+K1Gm8DeLTnNPOpXWdTNzx//WKh1kJR9hgKbq
-	jvNJJ9fXnzHsJwyBBLtRDrOrVC+cdXvxPHQizEt01wxTjBCQ+K5jndlwx07yMthYhWT7ideWLGo
-	AcqMtFtuP70X1ttO57Rglz0W/uEz866+c6zRWI4zZEKlS90dj3YSsBOxGj2VQQa+Sgk1f1C4J6H
-	5l1gQ86D5ZuiiGMSmeoybkbNZJPCPVOPMiMMWLvqdLGoFC/02I/RGBGRNlQL62pMLYwOHq2Li0m
-	s7C6GrvR2KBL090NySv2H7wjnD1Odm+KHFsjjiIuihkusBwBAFv6qoThUThWTD8CIiy+019pm8I
-	QfhpGI2vEXguPp0GCbOoAMtqLc8Tz9egOvVpeXa5cgKENQLvYOM0bqkoG4qYJPhF6PVcEEbaEvH
-	G//hAeA3MiVY3VfddBc22okSBgXQ==
-X-Google-Smtp-Source: AGHT+IHLtSSBaH5vwkicDwq4VHYkBOA2QyJRB3rOh/XN2E2xH2ybmyHraxYc+LAfhlTKju/XpBChLA==
-X-Received: by 2002:a05:600c:828d:b0:477:7b16:5fb1 with SMTP id 5b1f17b1804b1-47939df0045mr23564235e9.7.1765015327245;
-        Sat, 06 Dec 2025 02:02:07 -0800 (PST)
-Received: from toolbox.. ([87.200.95.144])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-479310c802bsm126055205e9.6.2025.12.06.02.02.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Dec 2025 02:02:06 -0800 (PST)
-From: Christian Hewitt <christianshewitt@gmail.com>
-To: Detlev Casanova <detlev.casanova@collabora.com>,
-	=?UTF-8?q?Olivier=20Cr=C3=AAte?= <olivier.crete@collabora.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Diederik de Haas <diederik@cknow-tech.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Dragan Simic <dsimic@manjaro.org>,
-	Chukun Pan <amadeus@jmu.edu.cn>,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/4] media: rkvdec: Add support for the VDPU346 variant
-Date: Sat,  6 Dec 2025 10:01:58 +0000
-Message-Id: <20251206100158.2041439-2-christianshewitt@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251206100158.2041439-1-christianshewitt@gmail.com>
-References: <20251206100158.2041439-1-christianshewitt@gmail.com>
+	s=arc-20240116; t=1765028584; c=relaxed/simple;
+	bh=iRsFVm3/tHRY7F+K/1LFywwcvYyypQXo/0UOECEZtdE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hOIaZUalanstOopE4UCpk3sNcUyK/cnQwEQSWzt2jgobndRoJOI9b2zudpPFfJ9UEW7bGxiLFWPafbRWkRU3xb3NTVc/C27MZhcCuJsT97/b/ilrjnFOOiDzfdr9fv3VAxPFwWpSzQfhWVsl00ZG2n0PRb1Q0H5G97sOsjOBH98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=nEndZ23B; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=odThNdki; arc=none smtp.client-ip=202.12.124.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfout.stl.internal (Postfix) with ESMTP id 5AFF31D000B2;
+	Sat,  6 Dec 2025 08:43:00 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Sat, 06 Dec 2025 08:43:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1765028580; x=1765114980; bh=t4o08eCYHl
+	EJY6FVGVNnMYAccSZ4Ut22BuwBX+NWmfA=; b=nEndZ23BKZ81fbvX8guKKtaYq0
+	MN1GPl51//5L095iWH3zhIq65aKrcutyVQoJYBe4KYkJi6b7+WtEUNr6QfbhCrVx
+	hvq3uwZpdjpz0fEHtDLNc0LxKeocblBreFJw8MWNM00gbk86CyX04V9Y0GWJx/WB
+	nxvJH0WLLN2TrQ/anPAchR6f5KJR+L06hEesrB8kqRlWsKtM1oGKu8nhy9o9JU32
+	ADjbFC0OpNtQGsdU9OJ0+j/u8ERdCj353nPUS/F+T9hgzCbvEMvglPx7MyKxe+wt
+	YYRpWLJIl/cJwA5+vc07QwgS3JkVMl84vocCdbKla51aFivP2mkZwFDEEahg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1765028580; x=1765114980; bh=t4o08eCYHlEJY6FVGVNnMYAccSZ4Ut22Buw
+	BX+NWmfA=; b=odThNdkidIdTuUAu/SA6FCQsysFAq8IUORAwGJvabMZ/RGqzeFi
+	zyUfQs+hpYaaJjZQnEQvv8tHmRNFvxPlLeX622sbE6J4zeLIKLvY45VD7j55SJd/
+	KWbxh7YhXv+jt8gYeXHQcsUGSSZ9DmjTtdqUAsl2SjiZcmTLW7SM29V/h1Gitj62
+	dlZV20nq6tr5D56ev9L0m27VENAsQjZtHUqS9yhzJhJbtyfKp1UHLRCqmuMZNxwe
+	fsLoo2iXb92byBYT60WaFv0Y6wmx4LFX//O1vvpr5vDDCeJQ5Mwe2m+oMSlObBmM
+	Ujqi/riVA3JzyQb4ILxKBKPufgkQyKML9eA==
+X-ME-Sender: <xms:4zI0abi6s9dIIQLYHHlxQYORgkLJ6bwOXzx17w7ZUKcr18z9VHPVxA>
+    <xme:4zI0aZGHmOreMOwmlPMoEUamZf8IUjhgyWDYapxoqA7sUqfriT-LCWAfyd74DLc-1
+    mI1Nvf6zg2G2uOGRft7kn9thucdpFbFDI7H0sO1PUZiEdNUx7L-V5g>
+X-ME-Received: <xmr:4zI0aeDT8drWuSbEK5qSXG_OHoJDXAdghurPCAli4zJvG7KGeI4XEh_yJ2bdr5Rht7fMmO5UHQ4UNNonkMOqu-PbBnFikqIfFms>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduuddtkecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpeflrghnnhgvucfi
+    rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepgfdvff
+    evleegudejfeefheehkeehleehfefgjefffeetudegtefhuedufeehfeetnecuvehluhhs
+    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurd
+    hnvghtpdhnsggprhgtphhtthhopedviedpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
+    oheplhihuhguvgesrhgvughhrghtrdgtohhmpdhrtghpthhtohepughrihdquggvvhgvlh
+    eslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehruhhsthdq
+    fhhorhdqlhhinhhugiesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegrlh
+    hitggvrhihhhhlsehgohhoghhlvgdrtghomhdprhgtphhtthhopegurghnihgvlhdrrghl
+    mhgvihgurgestgholhhlrggsohhrrgdrtghomhdprhgtphhtthhopegurghkrheskhgvrh
+    hnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgv
+    rhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhgrsegrshgrhhhilhhinhgrrdhnvghtpd
+    hrtghpthhtohepohhjvggurgeskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:4zI0aV-8rGL69jnGDjKnwKtYygMWhOARJD2aB_6XLENuZEhwAPehZQ>
+    <xmx:4zI0aRhKrlxzRNFIl2g0wtE9aaaiUaeZEai3W55nCFyVKU1jMxJytQ>
+    <xmx:4zI0aea0K5UKJEpvIYsxqgYXz74Ywl-0WeiCfl-FtEetqaMwA_MasQ>
+    <xmx:4zI0aTQC7yp5KdqGYNXR-dDE7MiOrFkJ0cze8A0yrjRXajHWMgV3Xg>
+    <xmx:5DI0aV-tlYWhqVuYKxAFDsB6tyTFw6bx4vaElocBckUxQE-NVYZVJwJD>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 6 Dec 2025 08:42:58 -0500 (EST)
+Date: Sat, 6 Dec 2025 14:42:57 +0100
+From: Janne Grunau <j@jannau.net>
+To: Lyude Paul <lyude@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+	Alice Ryhl <aliceryhl@google.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Danilo Krummrich <dakr@kernel.org>, linux-kernel@vger.kernel.org,
+	Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,	Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>,
+	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>,	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Asahi Lina <lina+kernel@asahilina.net>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Tamir Duberstein <tamird@gmail.com>,
+	FUJITA Tomonori <fujita.tomonori@gmail.com>,
+	Krishna Ketan Rai <prafulrai522@gmail.com>,
+	"open list:DMA BUFFER SHARING
+ FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b"
+ <linux-media@vger.kernel.org>,
+	"moderated list:DMA BUFFER SHARING
+ FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b"
+ <linaro-mm-sig@lists.linaro.org>
+Subject: Re: [PATCH v6 2/8] rust: helpers: Add bindings/wrappers for
+ dma_resv_lock
+Message-ID: <20251206134257.GA1097212@robin.jannau.net>
+References: <20251202220924.520644-1-lyude@redhat.com>
+ <20251202220924.520644-3-lyude@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251202220924.520644-3-lyude@redhat.com>
 
-VDPU346 is derived from VDPU381 but with a single core and limited
-to 4K60 media. It is also limited to H264 L5.1 and omits AV1 and
-AVS2 capabilities. It is used with RK3566 and RK3568.
+On Tue, Dec 02, 2025 at 05:03:28PM -0500, Lyude Paul wrote:
+> From: Asahi Lina <lina@asahilina.net>
+> 
+> This is just for basic usage in the DRM shmem abstractions for implied
+> locking, not intended as a full DMA Reservation abstraction yet.
+> 
+> Signed-off-by: Asahi Lina <lina@asahilina.net>
+> Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
+> Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> ---
+>  rust/bindings/bindings_helper.h |  1 +
+>  rust/helpers/dma-resv.c         | 13 +++++++++++++
+>  rust/helpers/helpers.c          |  1 +
+>  3 files changed, 15 insertions(+)
+>  create mode 100644 rust/helpers/dma-resv.c
+> 
+> diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
+> index 2e43c66635a2c..07f79e125c329 100644
+> --- a/rust/bindings/bindings_helper.h
+> +++ b/rust/bindings/bindings_helper.h
+> @@ -48,6 +48,7 @@
+>  #include <linux/cpumask.h>
+>  #include <linux/cred.h>
+>  #include <linux/debugfs.h>
+> +#include <linux/dma-resv.h>
+>  #include <linux/device/faux.h>
+>  #include <linux/dma-direction.h>
+>  #include <linux/dma-mapping.h>
 
-Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
----
- .../media/platform/rockchip/rkvdec/rkvdec.c   | 110 ++++++++++++++++++
- 1 file changed, 110 insertions(+)
+nit: alphabetical order
 
-diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-index a1c02ef3a97c..cf68454b2217 100644
---- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-+++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-@@ -295,6 +295,62 @@ static const struct rkvdec_ctrls rkvdec_h264_ctrls = {
- 	.num_ctrls = ARRAY_SIZE(rkvdec_h264_ctrl_descs),
- };
- 
-+static const struct rkvdec_ctrl_desc vdpu346_hevc_ctrl_descs[] = {
-+	{
-+		.cfg.id = V4L2_CID_STATELESS_HEVC_DECODE_PARAMS,
-+	},
-+	{
-+		.cfg.id = V4L2_CID_STATELESS_HEVC_SPS,
-+		.cfg.ops = &rkvdec_ctrl_ops,
-+	},
-+	{
-+		.cfg.id = V4L2_CID_STATELESS_HEVC_PPS,
-+	},
-+	{
-+		.cfg.id = V4L2_CID_STATELESS_HEVC_SCALING_MATRIX,
-+	},
-+	{
-+		.cfg.id = V4L2_CID_STATELESS_HEVC_DECODE_MODE,
-+		.cfg.min = V4L2_STATELESS_HEVC_DECODE_MODE_FRAME_BASED,
-+		.cfg.max = V4L2_STATELESS_HEVC_DECODE_MODE_FRAME_BASED,
-+		.cfg.def = V4L2_STATELESS_HEVC_DECODE_MODE_FRAME_BASED,
-+	},
-+	{
-+		.cfg.id = V4L2_CID_STATELESS_HEVC_START_CODE,
-+		.cfg.min = V4L2_STATELESS_HEVC_START_CODE_ANNEX_B,
-+		.cfg.def = V4L2_STATELESS_HEVC_START_CODE_ANNEX_B,
-+		.cfg.max = V4L2_STATELESS_HEVC_START_CODE_ANNEX_B,
-+	},
-+	{
-+		.cfg.id = V4L2_CID_MPEG_VIDEO_HEVC_PROFILE,
-+		.cfg.min = V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN,
-+		.cfg.max = V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10,
-+		.cfg.menu_skip_mask =
-+			BIT(V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_STILL_PICTURE),
-+		.cfg.def = V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN,
-+	},
-+	{
-+		.cfg.id = V4L2_CID_MPEG_VIDEO_HEVC_LEVEL,
-+		.cfg.min = V4L2_MPEG_VIDEO_HEVC_LEVEL_1,
-+		.cfg.max = V4L2_MPEG_VIDEO_HEVC_LEVEL_5_1,
-+	},
-+	{
-+		.cfg.id = V4L2_CID_STATELESS_HEVC_EXT_SPS_ST_RPS,
-+		.cfg.ops = &rkvdec_ctrl_ops,
-+		.cfg.dims = { 65 },
-+	},
-+	{
-+		.cfg.id = V4L2_CID_STATELESS_HEVC_EXT_SPS_LT_RPS,
-+		.cfg.ops = &rkvdec_ctrl_ops,
-+		.cfg.dims = { 65 },
-+	},
-+};
-+
-+static const struct rkvdec_ctrls vdpu346_hevc_ctrls = {
-+	.ctrls = vdpu346_hevc_ctrl_descs,
-+	.num_ctrls = ARRAY_SIZE(vdpu346_hevc_ctrl_descs),
-+};
-+
- static const struct rkvdec_ctrl_desc vdpu38x_hevc_ctrl_descs[] = {
- 	{
- 		.cfg.id = V4L2_CID_STATELESS_HEVC_DECODE_PARAMS,
-@@ -449,6 +505,43 @@ static const struct rkvdec_coded_fmt_desc rkvdec_coded_fmts[] = {
- 	}
- };
- 
-+static const struct rkvdec_coded_fmt_desc vdpu346_coded_fmts[] = {
-+	{
-+		.fourcc = V4L2_PIX_FMT_H264_SLICE,
-+		.frmsize = {
-+			.min_width = 64,
-+			.max_width =  65520,
-+			.step_width = 64,
-+			.min_height = 64,
-+			.max_height =  65520,
-+			.step_height = 16,
-+		},
-+		.ctrls = &rkvdec_h264_ctrls,
-+		.ops = &rkvdec_vdpu381_h264_fmt_ops,
-+		.num_decoded_fmts = ARRAY_SIZE(rkvdec_h264_decoded_fmts),
-+		.decoded_fmts = rkvdec_h264_decoded_fmts,
-+		.subsystem_flags = VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF,
-+		.capability = RKVDEC_CAPABILITY_H264,
-+	},
-+	{
-+		.fourcc = V4L2_PIX_FMT_HEVC_SLICE,
-+		.frmsize = {
-+			.min_width = 64,
-+			.max_width = 65472,
-+			.step_width = 64,
-+			.min_height = 64,
-+			.max_height = 65472,
-+			.step_height = 16,
-+		},
-+		.ctrls = &vdpu346_hevc_ctrls,
-+		.ops = &rkvdec_vdpu381_hevc_fmt_ops,
-+		.num_decoded_fmts = ARRAY_SIZE(rkvdec_hevc_decoded_fmts),
-+		.decoded_fmts = rkvdec_hevc_decoded_fmts,
-+		.subsystem_flags = VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF,
-+		.capability = RKVDEC_CAPABILITY_HEVC,
-+	},
-+};
-+
- static const struct rkvdec_coded_fmt_desc vdpu381_coded_fmts[] = {
- 	{
- 		.fourcc = V4L2_PIX_FMT_H264_SLICE,
-@@ -1654,6 +1747,19 @@ static const struct rkvdec_variant rk3399_rkvdec_variant = {
- 			RKVDEC_CAPABILITY_VP9,
- };
- 
-+static const struct rkvdec_variant rk3568_vdpu346_variant = {
-+	.coded_fmts = vdpu346_coded_fmts,
-+	.num_coded_fmts = ARRAY_SIZE(vdpu346_coded_fmts),
-+	.rcb_sizes = vdpu381_rcb_sizes,
-+	.num_rcb_sizes = ARRAY_SIZE(vdpu381_rcb_sizes),
-+	.irq_handler = vdpu381_irq_handler,
-+	.colmv_size = rkvdec_colmv_size,
-+	.flatten_matrices = transpose_and_flatten_matrices,
-+	.named_regs = true,
-+	.capabilities = RKVDEC_CAPABILITY_H264 |
-+			RKVDEC_CAPABILITY_HEVC,
-+};
-+
- static const struct rkvdec_variant rk3588_vdpu381_variant = {
- 	.coded_fmts = vdpu381_coded_fmts,
- 	.num_coded_fmts = ARRAY_SIZE(vdpu381_coded_fmts),
-@@ -1693,6 +1799,10 @@ static const struct of_device_id of_rkvdec_match[] = {
- 		.compatible = "rockchip,rk3399-vdec",
- 		.data = &rk3399_rkvdec_variant,
- 	},
-+	{
-+		.compatible = "rockchip,rk3568-vdec",
-+		.data = &rk3568_vdpu346_variant,
-+	},
- 	{
- 		.compatible = "rockchip,rk3588-vdec",
- 		.data = &rk3588_vdpu381_variant,
--- 
-2.34.1
+> diff --git a/rust/helpers/dma-resv.c b/rust/helpers/dma-resv.c
+> new file mode 100644
+> index 0000000000000..05501cb814513
+> --- /dev/null
+> +++ b/rust/helpers/dma-resv.c
+> @@ -0,0 +1,13 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +#include <linux/dma-resv.h>
+> +
+> +int rust_helper_dma_resv_lock(struct dma_resv *obj, struct ww_acquire_ctx *ctx)
+> +{
+> +	return dma_resv_lock(obj, ctx);
+> +}
+> +
+> +void rust_helper_dma_resv_unlock(struct dma_resv *obj)
+> +{
+> +	dma_resv_unlock(obj);
+> +}
+> diff --git a/rust/helpers/helpers.c b/rust/helpers/helpers.c
+> index 551da6c9b5064..36d40f911345c 100644
+> --- a/rust/helpers/helpers.c
+> +++ b/rust/helpers/helpers.c
+> @@ -25,6 +25,7 @@
+>  #include "cred.c"
+>  #include "device.c"
+>  #include "dma.c"
+> +#include "dma-resv.c"
+>  #include "drm.c"
+>  #include "err.c"
+>  #include "irq.c"
 
+with that fixed
+
+Reviewed-by: Janne Grunau <j@jananu.net>
+
+Janne
 
