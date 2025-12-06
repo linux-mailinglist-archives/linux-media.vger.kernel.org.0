@@ -1,166 +1,159 @@
-Return-Path: <linux-media+bounces-48343-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48345-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88740CA9D79
-	for <lists+linux-media@lfdr.de>; Sat, 06 Dec 2025 02:23:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86FAFCA9FE4
+	for <lists+linux-media@lfdr.de>; Sat, 06 Dec 2025 04:49:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D324630463A1
-	for <lists+linux-media@lfdr.de>; Sat,  6 Dec 2025 01:19:31 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1C9393067D17
+	for <lists+linux-media@lfdr.de>; Sat,  6 Dec 2025 03:49:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1058274BE1;
-	Sat,  6 Dec 2025 01:19:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89AC2227599;
+	Sat,  6 Dec 2025 03:49:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="LqUKy4KO";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ay+Pb9Yt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oo1-f80.google.com (mail-oo1-f80.google.com [209.85.161.80])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 104131EA7CC
-	for <linux-media@vger.kernel.org>; Sat,  6 Dec 2025 01:19:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 313A71F19A
+	for <linux-media@vger.kernel.org>; Sat,  6 Dec 2025 03:48:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764983969; cv=none; b=e9alGWdRjjZ4qeh+enA49adO8XXeirRA+BEagB8mn73NQYWDCmd6C6BgbImzTvJpptKpPsdLP0l9FPOxKiuNy+KPd6yM2WOsZVzZXRs1LMbGKOD/FfRVVEvxP5dPqkX0M56tqvDyHITmAI92Qw4axdnN4t6KijaA9uRoLOcT3tI=
+	t=1764992941; cv=none; b=BK7r5rNKoUNvaQL++ik/YMofqv71yQdsKGt4ym54NAT2dmt+FeTR50AIXi1+GvCX8PfTGtMqLeisOugEfX8RBCuEBdjKamTUjwjllcOXOgs3Cvkm/rDbZHe4Tv6r/3jK+/eDv3hHCoYGDD+HldnT3zdtfTOSpukbIWZKyD9efRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764983969; c=relaxed/simple;
-	bh=DxTa8UKIVjRkjmLDcd3huCRnhUNnF9PY7u//r3LuyjM=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=O5kii88Dbo1EIeZ9enUNcaD9rp0KowAtHMDtlwWse6umeavXhKcsj8syh3tp+HFIsGvlAEFbZc1YwGp+dzXgAlvvnO6RQMqvPv7x8BvU+vWeOgI5yJHtccNSW0TppG85GMc1zcCMFoZ1yvueU6k3FezDTY87NWFRJb5s/JDWzdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f80.google.com with SMTP id 006d021491bc7-656bc3a7ab3so3564262eaf.2
-        for <linux-media@vger.kernel.org>; Fri, 05 Dec 2025 17:19:27 -0800 (PST)
+	s=arc-20240116; t=1764992941; c=relaxed/simple;
+	bh=x+9cqPLCKW4K0GKwhFelsaYmydnMqWc0ZhRT9opzhR0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V7LuhVWOg6nWrRmU5A8rnKPmgf29dRcvACo841C6BwjMgBSQ96IwN4LyMrgDG8UKtA+Bd8YakTNcuIIXwsbMCC/p6tRLK9OrrXq5ypAYp1MlKisUBXgECJzuBrXvegki8SPNolIYHKlRV1yf/DMDJ0bfcAsgULN3ePA8CEMsHC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=LqUKy4KO; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ay+Pb9Yt; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B5KXr5E825252
+	for <linux-media@vger.kernel.org>; Sat, 6 Dec 2025 03:48:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=05nIEVTH/I6ehlNORXgT9VtO
+	AtvZr13dqFzv01ipRhM=; b=LqUKy4KOWAcy1a7ncySj2gSHLMiHssL0R6GVAo9r
+	Gl18qZ2MnTMNwsfMlcRvi3OQfQDt94CSHmqi1g40BwAws5OhgbnPWXyk2gTTetBH
+	nWuMwYfDv65V+faGua8rQmW2SE2NRJHCEfq4BISKIeCVlW/D3Fygcb/dBp7BMzST
+	zVUjX0LJpXtWb6TQKtt34w38FPX5xfg5szSHi7FqZ+8KaVTk1+IXmDu80JDWL6ZT
+	X0s8d1sHuhjFZJ4F2GAH9RCfkq8cwdMowXdv7a+c2eoO1lrln9ykGqqu6m2c1SfG
+	H78zvnnyh2iDCWNqil3r5VfCd4xOvN1bo14IqgM7bt5OnA==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4av6hu0s26-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Sat, 06 Dec 2025 03:48:57 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8b22ab98226so841012385a.2
+        for <linux-media@vger.kernel.org>; Fri, 05 Dec 2025 19:48:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1764992936; x=1765597736; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=05nIEVTH/I6ehlNORXgT9VtOAtvZr13dqFzv01ipRhM=;
+        b=ay+Pb9YtJ54e1Rl1XcIhYpatSVZWPITICMnHrdu+s6Y9P0kE77BreJ/0E/Sd6Xkrlz
+         M/nI2b5Jss3sobCi6b9sQi6LLmYi5p2fwGSafqWpwAE6xPj4R0Cgoxu7WmdBR4P9bCea
+         vEUxyLBRi0kGpv1Iw4tyg5oVHzOaVUuz0YwJtC6qIHhq5vW3ZkNiEbQp0Oxm6LdulAR0
+         RGXooVOtsMV4eZQ4d7IbvcG99PFN6AriViKhTKy8DloITHjKV2ES+v3IXToqbMG13rvQ
+         AhRCuoM4KZjpE8WBNeHuwZgH1oGCFssIbV40wkkCc2dUQ51eenYC+qA0Ng2mS2wjCwcL
+         et7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764983967; x=1765588767;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=iamnrkElp7j3TjhockSVR4ojhUOK2ChBJfnCvlBuTjI=;
-        b=UfRIHQNXUJElcmuZMUO+wBHHJY7TrqE63vSmJMHmEWb1oQkBlmR3MGJP1HulkV/1ZU
-         ImKIRjj0gvKLrrD4fl4FT8mBEphViQBXMS+0HzOmLOmH5wA5MdItRL8q97xjid1HfDci
-         jxm0hyqK/EFnl4zwkNA078gNSrGbKzJBCFCMSrIvyDQn3NCmxczMp7A42nGieufNYJsV
-         1UDzAbd+WUapooixl0rLVEOv8WqsU5O2Uq9/y+WnIc0muDDdz8Y5OhsiISiuSTtMoUxj
-         mKHmDZZavi+43Gm4QDz4CgooHufHN53ulOrlfN6/BkacW3ug2BwuN/HEWi87LLbdmHPC
-         Mi7w==
-X-Forwarded-Encrypted: i=1; AJvYcCUEAs9tenzyoffRL2Q/jdSFdFGDCynNiWyVZlrOi6JTEnMS8NwbhXqYasNVB26A2VRH1uU7LtB8nJMG0Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUTxtQ3A1T54pioe4np0qRBmHwZLim837Ne8TbUF/ptFrU6j0P
-	oeVA3z1rtReXTvd3potqEshPG+/a3LuvGHEfA6IOpF9spqP5pQGXhGyzoA6cvSKPh9AXCh2Xj4D
-	UefOoUV7JCDdaJ+fFdlhPrd/Dz3OZD7IXWCH0nHiMCNYIQiFnmzJrh/fflh4=
-X-Google-Smtp-Source: AGHT+IFTXBAiajNCFxz6p22lgnqCsewrHy8l5CrMbwVzmSF0kEp1CYnit5k/Ep3FZ7GrUryFn1zjUnrbHOfW4JgI/VmPkCkDcaZq
+        d=1e100.net; s=20230601; t=1764992936; x=1765597736;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=05nIEVTH/I6ehlNORXgT9VtOAtvZr13dqFzv01ipRhM=;
+        b=V+b6wcfN7vR8iXJUbPFv+L20wBmNLGgHrTv/9wKS+DawWc+IzDgdgAHQvVoavxYszb
+         smbLf2xWi6R5YQR0gYfn8EWMtxFksMb/ZdeQumIxlnxitld8BYK6PRhhWhs2Tc76k/qD
+         aswdZMzIWw9F4Si81wUF+2pL70FgBaI5fSTl2dtJa9gBQeMN7s+nNM1/0TLSGkc6kph6
+         cbLN1iYyKUM7k4zSIuv9K/0AJ54G56Pzx8w8/KZAD1ZlyAWpTBpjZT2kmHEWbb+bHk+G
+         eZri3cytl8agipJmeN3xTsH3hbDfkjaJZj7iLWGdFSD4P264v31UCkM+5neJscFD0ZWk
+         DYwg==
+X-Forwarded-Encrypted: i=1; AJvYcCUT7a7KttA2yq0Qkdcj1JGXjCjkkYLDlhVLUxHZaCQay56Q4Rkvoy/G5q8dQMzEH3BY8HbrZlGpseDO/Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywdk5CQTwGFRVTupg5y3tRwKqsilCx9Kve8oXBhwcASI6ME/nDy
+	J8KnFl8LGM7sP9YcZUn6SjFVxlOdtw2WvOhp5Ahhf7nVJ33WT0xcKz69lKKMSqiQSNa7Zg1yKSI
+	Bq4hoBJz4mX1ZiL4iCfO2E29aj3/9/48/rsMv2HKB99jIon8ffDVKa6Z5cPxMcDs+9lxM5jlTBQ
+	==
+X-Gm-Gg: ASbGncvd56lt1QvVFxKuYbjdyUkluwtsABL1Ni1bI4R/A8WlirFHEzx7v75NQcz0D02
+	IIbRKsfcvuQEun2oDDu8U3+Tn7ZeJrbWiUvrHDIMX0VwmaTG5S78ZJXY8/h2MHMW7pus7II0Q9f
+	QUZZgLoEUeX+Cbg72JeXJZwn5suB4WBO6jVoMhKrO39gVYtEnWzIdb8YqZXQGoMq33XR39+d9Pc
+	TrstkcVp+00hhjv9u0BgSqhol7dn6sLSTOkVzUVvC5tXV8/vQ47VgdNIg3otWF9hjbnBB3iwrnE
+	w+BPjEkMhMIlcQAUCC50a0Ra1IieJE1mUzs84AeV5ES8xoqQboJibD6yUISoLRjSXk5st8enuVe
+	mdzeVQ+H+3t/vc+BguP09dEPJFQP6b1O8olThkEytm01fqborJBjc2QVMwLZTJ76I/hIPWwDTTV
+	1iKp1LADppS47ADRFSyz5oavY=
+X-Received: by 2002:a05:620a:4515:b0:8b2:e5da:d310 with SMTP id af79cd13be357-8b6a2332c66mr181349085a.9.1764992936321;
+        Fri, 05 Dec 2025 19:48:56 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IF93lWjddbirMGOfjDSwFVrDvnZOh98/DfM2siqrj7J5NATC0XYA3TxsVHkWUdjITrz5J/VKA==
+X-Received: by 2002:a05:620a:4515:b0:8b2:e5da:d310 with SMTP id af79cd13be357-8b6a2332c66mr181347585a.9.1764992935876;
+        Fri, 05 Dec 2025 19:48:55 -0800 (PST)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-37e6feab896sm18951691fa.17.2025.12.05.19.48.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Dec 2025 19:48:55 -0800 (PST)
+Date: Sat, 6 Dec 2025 05:48:53 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>
+Cc: bryan.odonoghue@linaro.org, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vladimir.zapolskiy@linaro.org
+Subject: Re: [PATCH v2] media: qcom: camss: csid-340: Fix unused variables
+Message-ID: <o7i53tr4glcpahvinghklmltbeepqdpye47bfcwd32tltp36jp@nhnedmhdtnmv>
+References: <20251204090325.82140-1-loic.poulain@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:f03:b0:659:9a49:8fcd with SMTP id
- 006d021491bc7-6599a9774f2mr508232eaf.70.1764983967246; Fri, 05 Dec 2025
- 17:19:27 -0800 (PST)
-Date: Fri, 05 Dec 2025 17:19:27 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6933849f.a70a0220.243dc6.0026.GAE@google.com>
-Subject: [syzbot] [media?] [dri?] WARNING in dma_buf_vmap
-From: syzbot <syzbot+4317d7108e14e5d56308@syzkaller.appspotmail.com>
-To: christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, sumit.semwal@linaro.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251204090325.82140-1-loic.poulain@oss.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA2MDAyOCBTYWx0ZWRfX7Mly2fNfPImh
+ GmlsraZKbNWSdc9aEhReALXMxopstSu2Uj+9Xi3IKSYH1QAfXtz5Jm7U1roQ/pPgouux3miwiMb
+ 0rsapX5OkPGKZAOjg+cEMRGetPjTefMmVq7uwUgR3oC+kFiFMrh5s7tSqoLL/j/2zdUROCEh9g8
+ zRzCwvWN/BWFwFkSUBtYxyS6TngfULUyOoFYQWWw0ee8LX9tX0KaNYkvpWs1efpyK1aZeZSQrva
+ d/f9J2nleElyYD0kq080s7Ku/Puirvdo3EUpgS6CK6RstaK7Hx48QJXlRaSbdoRj6vAlTXlyMbF
+ Vn3eS/LtSKnjoKsetAvxvc8ZMrljzB+hK6CnWQ/nHWaMZH5mwzCagEstOlXjFEl/CqRMbv1aB0Y
+ jn1LwX5KPGzH0hHm0u4wcpUByMvZ7Q==
+X-Authority-Analysis: v=2.4 cv=NPHYOk6g c=1 sm=1 tr=0 ts=6933a7a9 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8 a=a11_dG-raeqLMxrPIc4A:9 a=CjuIK1q_8ugA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: xvKeFuw7QTzim8uwl8aw79hMl_U4Onqk
+X-Proofpoint-ORIG-GUID: xvKeFuw7QTzim8uwl8aw79hMl_U4Onqk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-05_09,2025-12-04_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 spamscore=0 impostorscore=0 bulkscore=0 clxscore=1015
+ suspectscore=0 malwarescore=0 adultscore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2512060028
 
-Hello,
+On Thu, Dec 04, 2025 at 10:03:25AM +0100, Loic Poulain wrote:
+> The CSID driver has some unused variables and function parameters
+> that are no longer needed (due to refactoring). This patch cleans
 
-syzbot found the following issue on:
+See Documentation/process/submitting-patches.rst, "This patch"
 
-HEAD commit:    1d18101a644e Merge tag 'kernel-6.19-rc1.cred' of git://git..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=13fba192580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=a1db0fea040c2a9f
-dashboard link: https://syzkaller.appspot.com/bug?extid=4317d7108e14e5d56308
-compiler:       Debian clang version 20.1.8 (++20250708063551+0c9f909b7976-1~exp1~20250708183702.136), Debian LLD 20.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1055e2b4580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16ddf484580000
+> up those unused elements:
+> 
+> - Removing the `vc` parameter from `__csid_configure_rx()`.
+> - Dropping the unused `lane_cnt` variable.
+> - Adjusting calls to `__csid_configure_rx()` accordingly.
+> 
+> Fixes: f0fc808a466a ("media: qcom: camss: Add CSID 340 support")
+> Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>  v2: Correct the commit ID in the Fixes: tag
+> 
 
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-1d18101a.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/98f78b52cccd/vmlinux-1d18101a.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/7a8898061bfb/bzImage-1d18101a.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+4317d7108e14e5d56308@syzkaller.appspotmail.com
-
-Total swap = 124996kB
-393083 pages RAM
-0 pages HighMem/MovableOnly
-184478 pages reserved
-0 pages cma reserved
-------------[ cut here ]------------
-WARNING: CPU: 0 PID: 5488 at drivers/dma-buf/dma-buf.c:1536 dma_buf_vmap+0x306/0x3b0 drivers/dma-buf/dma-buf.c:1536
-Modules linked in:
-CPU: 0 UID: 0 PID: 5488 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
-RIP: 0010:dma_buf_vmap+0x306/0x3b0 drivers/dma-buf/dma-buf.c:1536
-Code: 64 05 cc e8 0c 99 d7 fb 90 0f 0b 90 b8 ea ff ff ff eb bc e8 fc 98 d7 fb 90 0f 0b 90 e9 0d fe ff ff e8 ee 98 d7 fb 44 89 f0 90 <0f> 0b 90 49 bd 00 00 00 00 00 fc ff df eb 91 e8 c6 9c 61 05 48 c7
-RSP: 0018:ffffc90002bbf3a0 EFLAGS: 00010293
-RAX: 00000000fffffff4 RBX: ffff888000e02428 RCX: ffff888000eb4900
-RDX: 0000000000000000 RSI: 00000000fffffff4 RDI: 0000000000000000
-RBP: ffffc90002bbf450 R08: ffffc90002bbf227 R09: 1ffff92000577e44
-R10: dffffc0000000000 R11: fffff52000577e45 R12: ffffffff85ea4500
-R13: ffff888000e02430 R14: 00000000fffffff4 R15: 1ffff110001c0485
-FS:  0000555591ecc500(0000) GS:ffff88808d722000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 000055859af10a08 CR3: 00000000589bb000 CR4: 0000000000352ef0
-Call Trace:
- <TASK>
- drm_gem_shmem_vmap_locked+0x14c/0x790 drivers/gpu/drm/drm_gem_shmem_helper.c:354
- drm_gem_vmap_locked drivers/gpu/drm/drm_gem.c:1279 [inline]
- drm_gem_vmap+0x10a/0x1d0 drivers/gpu/drm/drm_gem.c:1321
- drm_gem_fb_vmap+0xaa/0x8d0 drivers/gpu/drm/drm_gem_framebuffer_helper.c:368
- drm_atomic_helper_prepare_planes+0x2d6/0xb60 drivers/gpu/drm/drm_atomic_helper.c:2760
- drm_atomic_helper_commit+0x19a/0xb10 drivers/gpu/drm/drm_atomic_helper.c:2189
- drm_atomic_commit+0x262/0x2c0 drivers/gpu/drm/drm_atomic.c:1577
- drm_atomic_helper_update_plane+0x248/0x3b0 drivers/gpu/drm/drm_atomic_helper.c:3348
- drm_mode_cursor_universal drivers/gpu/drm/drm_plane.c:1256 [inline]
- drm_mode_cursor_common+0xb7e/0x12d0 drivers/gpu/drm/drm_plane.c:1315
- drm_mode_cursor_ioctl+0xbf/0x110 drivers/gpu/drm/drm_plane.c:1365
- drm_ioctl_kernel+0x2cf/0x390 drivers/gpu/drm/drm_ioctl.c:797
- drm_ioctl+0x67f/0xb10 drivers/gpu/drm/drm_ioctl.c:894
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:597 [inline]
- __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:583
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0xfa/0xfa0 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fcd9898f7c9
-Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffe37777948 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 00007fcd98be5fa0 RCX: 00007fcd9898f7c9
-RDX: 0000200000000280 RSI: 00000000c01c64a3 RDI: 0000000000000003
-RBP: 00007ffe377779a0 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000002
-R13: 00007fcd98be5fa0 R14: 00007fcd98be5fa0 R15: 0000000000000003
- </TASK>
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+-- 
+With best wishes
+Dmitry
 
