@@ -1,121 +1,158 @@
-Return-Path: <linux-media+bounces-48348-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48352-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 305F2CAA20A
-	for <lists+linux-media@lfdr.de>; Sat, 06 Dec 2025 07:56:08 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C91D6CAA39D
+	for <lists+linux-media@lfdr.de>; Sat, 06 Dec 2025 11:00:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 01CA830131E1
-	for <lists+linux-media@lfdr.de>; Sat,  6 Dec 2025 06:55:57 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 83BE630F61CC
+	for <lists+linux-media@lfdr.de>; Sat,  6 Dec 2025 10:00:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C1F22D8DB9;
-	Sat,  6 Dec 2025 06:55:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3D112F12AD;
+	Sat,  6 Dec 2025 10:00:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jqgsbzj+"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O7M4hfjK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB362D837E;
-	Sat,  6 Dec 2025 06:55:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8D31D31B9
+	for <linux-media@vger.kernel.org>; Sat,  6 Dec 2025 10:00:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765004152; cv=none; b=SjR5ayupbu2bFyB3Y27wE9ffqmaUTjm/frqKtCK2GaBw62aUANUAmahwBNPXTS8aCwt0hyPzcqXihBFHUvPjflzLUu5/hf5ybEPoROVlrlZi2v4MF1Zam/QeKXcSUZ1L1T5OdEosdfBaVS63k6T1vTKiohXGhMcuuCEAdWscptY=
+	t=1765015203; cv=none; b=TbhuTb5JJe0w3rVe7J48c9jqkKu4hTebBP706LGwA5+NgIihGOCuxp6duG9kHRYm5kgaaZRNl5cP9tyKyCncZLByDlTIq2i1a7kP9zhsHabGTOn9XXvmln/K6Oo5pbkwrCSUYvDaT5oWnBYahZHSPAyslgCJwYb2Zbx7Q7CZ0vE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765004152; c=relaxed/simple;
-	bh=GXFNWKU7EpQDMWxUoTAxizG31A/gD1pqyuzXmG3Azi8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qs45hl31PvwVoKSgOWyHGaNBdAJJSFgVUyPQI9lbZs/t2J5x8Z/GfPO91QYrd+UJDKWY1a3iKrEWA0+PoM31Z/NfdBM2TixgIdpIWMwQpQSxbQrOlPAjD6ibBZpwqC+CgzHZNKUwMYfqGNcsUU2O70pgnTXtxAbWt2HDdS5Iv4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jqgsbzj+; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765004152; x=1796540152;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GXFNWKU7EpQDMWxUoTAxizG31A/gD1pqyuzXmG3Azi8=;
-  b=jqgsbzj+WlMcuGz3fdlqhH4OgBRWn3EYtNRKbJ/s6goouphLCJCPJkUB
-   /ki5irpvlW3gDHRjjXbMwlusTbrigCwHqEA6O/P9rKiepTAzHNuROygfW
-   CR2tt5SYlk2xoYL99hleyJlbwN8eDsOW4FLLamNqX5rZBM1X449aUwiIh
-   1dOhNrO3bDx3eWRm47922lTFDoxFwn9/zu9o2tris7sJaxxEvaUtZLZ3Q
-   YFmhO4Q1eBb10aoCMEZ1HjBYz2GDE4kX0d4wNHJQpl1Rr8zWRXcUj92Pp
-   hvb94+QN5yzoYvlc9zKRH2cQUPqt1zURz9/4jWZGLtUi1bZtaAO8JejsE
-   Q==;
-X-CSE-ConnectionGUID: L0dcVvUbSkSbyYhOccJnag==
-X-CSE-MsgGUID: zojrJ4oXRNOwy4HSdpvEjQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11633"; a="77353532"
-X-IronPort-AV: E=Sophos;i="6.20,254,1758610800"; 
-   d="scan'208";a="77353532"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2025 22:55:51 -0800
-X-CSE-ConnectionGUID: JfK9f9K0RUuGfn8c8Z/W0Q==
-X-CSE-MsgGUID: x8IeWcC9Rf6xIbCOhqfozA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,254,1758610800"; 
-   d="scan'208";a="195548765"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 05 Dec 2025 22:55:47 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vRmCm-00000000FxV-1CGg;
-	Sat, 06 Dec 2025 06:55:44 +0000
-Date: Sat, 6 Dec 2025 14:55:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>,
-	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	s=arc-20240116; t=1765015203; c=relaxed/simple;
+	bh=/ahlrs1yQ6z3JUaM/Sxqc6wFL/tkbsIVPryicW9j2H8=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type; b=rOKhSxkIl0fAtm4/Xz0goqCRuPdhqIMKS4pf01+2iZGdNmyeyzlM8aCjeGAh7D4LN/hTSx71egrzSXzLU9We8f+qxSS4CORjhrgl/Ae/QV8TzbXq8H10RXcWq+mVu3xHiq7oBit6iDepNCiGPzVpuJC7FFuIz3vS8H8EBZ2PSVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O7M4hfjK; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-477632b0621so21232675e9.2
+        for <linux-media@vger.kernel.org>; Sat, 06 Dec 2025 02:00:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765015199; x=1765619999; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iiDwBzndnl96hSb/q/NLb44uNYBwPkjb4oD5H7teprs=;
+        b=O7M4hfjKdTBbWu8pRDsLwWdkLgnlW8YJKLbovNnT7V4xxCdDzOLFgX17+PND7bS7CV
+         JoSQWU7GJOHYtXjSJF1nSassHFe7W7KFmamNN0iB7XbIBF54DR5wdT+D/GgfwMgZQk1R
+         BLeLEv1uAPQ84Xhl+zJUcC3iCkhzdqv9w8pGQGAQksy8kPIYN/m5QGqidD/8EUnyvach
+         a+yQrHEpH7sGvphgGOBO64AVe6Q0Mm6HtsKA2U8EM9ztw2v8cf6R4fzFUlqR1T4x9X1d
+         Z8yhx9DX+paalacbXiGO+HoUnDrZNkcIDoaIPIr4tHr5BbVUc7EQQ4coJTdtWHeHgEVA
+         JmOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765015199; x=1765619999;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iiDwBzndnl96hSb/q/NLb44uNYBwPkjb4oD5H7teprs=;
+        b=Hza6C+6flmQXt9DYFJPLJtsxSHqSwlRwskD+d5OaxV7/miCYFqSTq4NVEqeFskU69M
+         uzRhuTFGctXqz6QUdI/jU2rgQ88dD9YSF3Sc+u1wB+NunbKwUTWSK7g6nsNNf/7K9H7D
+         GSOAkcAd/de15ooB8rjNZBVNwQI7Ha7ucrE2y7+6yotylmfeWzHI7EtTzfjoD7tdM417
+         0JMGWQLKq5MMa4fKaau72cWzLoG1RzW1YASN+bbEe3Hza9460j99QLsEZUsysg//G45v
+         G63q4N2pv/9AkDXLriLDIlJ/6Rs9DSJ/viDNoSXtxHDK/C6FeSDpwA7eyynv7fjQqBaq
+         0RxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVJqTpypCeuzf3mpClyv+xxfi+m4aDYMutP2M3i0Cffb5iv79tOYHUONJSLG70OPkwwSEH3vK5spQ9zEQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx529qSpd1xQjn90DDibDTYqWVcyORwujCsrpbAPnZObv1nqCR6
+	FFA3rQBCuwLFiuGT6oeyndMN6KRZD/N4h2S+rUel1Ks3B+EXEIpuHg6NYj2Y1h/fa7k=
+X-Gm-Gg: ASbGncskLKGwdxoQfENc6Z3tAy9qbFifGNCO2WIgjyPBQ5upUaJJX1HTSucbv1naGnP
+	SaETpNzR8z3llLLKUZN0AuJ0C8+BnrpZATXwJttREI/ak2n5/y2XT/IiT2p7E4oiZ26BXjPvFiC
+	IKscLgGnl3hJEVnexsMvsZlrFuG9Cz5MKzaoMySsOkspCZzEbGCrI056HTmh0lRndGEaRdDuM3+
+	1TsSlS6931fyVVPjcQRE4iYszzB2BTcmlTW5Lpe6SjDYWglc2A3CHQaXS5tqD+pWOYt09z2r+Bz
+	KigyRHNQwP55c0clpCnAigOXVHzTlThPbraHXmgcpXImIovgsAPlCZyrTqhqSnicu/ujbswgzI4
+	w0qy6eXJ4vOrqMJsn2j6sizIsTK2G39IpQjGwF5sOprMONDFoXMVHQffg8EhBrITY0NYM6JJdJQ
+	7hByBC0N3mU8AWu1HhvfjR4laMmA==
+X-Google-Smtp-Source: AGHT+IHCCSKpPzDS66jMH4ALE7X9BZR5z4AUj5KRqSpHUrEc/DwbowSb3EPWCQS5cwLW9Z47DlGV3A==
+X-Received: by 2002:a05:600c:1c0c:b0:477:5cc6:7e44 with SMTP id 5b1f17b1804b1-47939dfa46dmr19757195e9.11.1765009694011;
+        Sat, 06 Dec 2025 00:28:14 -0800 (PST)
+Received: from toolbox.. ([87.200.95.144])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-479310a6d9dsm123094705e9.2.2025.12.06.00.28.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 06 Dec 2025 00:28:13 -0800 (PST)
+From: Christian Hewitt <christianshewitt@gmail.com>
+To: Detlev Casanova <detlev.casanova@collabora.com>,
+	=?UTF-8?q?Olivier=20Cr=C3=AAte?= <olivier.crete@collabora.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Luca Weiss <luca.weiss@fairphone.com>,
-	Petr Hodina <phodina@protonmail.com>,
-	Casey Connolly <casey.connolly@linaro.org>,
-	"Dr. Git" <drgitx@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Joel Selvaraj <foss@joelselvaraj.com>,
-	Kieran Bingham <kbingham@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	phone-devel@vger.kernel.org, David Heidelberg <david@ixit.cz>
-Subject: Re: [PATCH WIP v2 8/8] media: qcom: camss: Account for C-PHY when
- calculating link frequency
-Message-ID: <202512061404.uEUcsCh1-lkp@intel.com>
-References: <20251204-qcom-cphy-v2-8-6b35ef8b071e@ixit.cz>
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Diederik de Haas <diederik@cknow-tech.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Dragan Simic <dsimic@manjaro.org>,
+	Chukun Pan <amadeus@jmu.edu.cn>,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/4] media: rockchip: rkvdec: add support for the VDPU346 variant
+Date: Sat,  6 Dec 2025 08:28:05 +0000
+Message-Id: <20251206082809.2040679-1-christianshewitt@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251204-qcom-cphy-v2-8-6b35ef8b071e@ixit.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi David,
+This series depends upon Detlev Casanova's current v5 series for VDPU381 and
+VDPU383 support [0]. Patch 1 is marked DO-NOT-MERGE as it contains fixups
+for minor nits spotted in Detlev's series. I've flagged them on IRC after v2
+but the messages may have been missed as they are still present in v5.
 
-kernel test robot noticed the following build warnings:
+Patches 2/3/4 add support for the VDPU346 IP block used for H264, HEVC and
+(in future work) VP9 on the RK356X boards. VDPU346 appears to be a close
+relation to VDPU381 used with RK3588, except with a single core, output
+limited to 4K, and minor feature differences, e.g. HEVC level 5.1 on VDPU346
+vs 6.1 on VDPU381. To handle differences we declare a new compatible.
 
-[auto build test WARNING on bc04acf4aeca588496124a6cf54bfce3db327039]
+The device-tree changes are derived from prior-art in Detlev's patches for
+RK3576 and RK3588, the vendor kernel [1], and some earlier patch attempts
+from Piotr Oniszczuk and Diederik de Haas.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Heidelberg-via-B4-Relay/media-qcom-camss-csiphy-Introduce-PHY-configuration/20251205-004233
-base:   bc04acf4aeca588496124a6cf54bfce3db327039
-patch link:    https://lore.kernel.org/r/20251204-qcom-cphy-v2-8-6b35ef8b071e%40ixit.cz
-patch subject: [PATCH WIP v2 8/8] media: qcom: camss: Account for C-PHY when calculating link frequency
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20251206/202512061404.uEUcsCh1-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251206/202512061404.uEUcsCh1-lkp@intel.com/reproduce)
+The register differences between VDPU346 and VDPU381 appear to be minimal so
+we currently and intentionally reuse the VDPU381 h264, hevc, and regs files
+to avoid duplicating code. If further register analysis requires separate
+files for VDPU346 the refactoring to Detlev's drivers is a little beyond my
+current beginner level c skills. As the overall minor changeset to VDPU381
+it would be awesome if this series could be absorbed. I had some discussion
+with Olivier Crête during VideoLan Dev Days last month that suggested this
+might be possible? - hence sending now. If not, I'll wait until Detlev's
+series has been merged before sending a next iteration of these patches.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512061404.uEUcsCh1-lkp@intel.com/
+Testing with Jellyfish files of varying bitrates shows that RK356X starts
+to experience jerky playback above 10mbps, which seems rather low compared
+to RK3588 which can play 300mbps media without issues. The vendor kernel
+documents 'advanced' assigned-clock-rates but increasing them does not have
+any obvious impact so the difference looks to be something deeper. NB: The
+same is also seen with Detlev's patches for RK3576 (max 15mpbs) so further
+or follow-up work is likely required. Despite the apparent limitation real-
+world media from my collection plays well.
 
-All warnings (new ones prefixed by >>):
+[0] https://patchwork.kernel.org/project/linux-rockchip/list/?series=1015221
+[1] https://github.com/rockchip-linux/kernel/blob/develop-6.6/arch/arm64/boot/dts/rockchip/rk356x.dtsi#L1539
 
->> Warning: drivers/media/platform/qcom/camss/camss.c:3928 function parameter 'cphy' not described in 'camss_get_link_freq'
->> Warning: drivers/media/platform/qcom/camss/camss.c:3928 function parameter 'cphy' not described in 'camss_get_link_freq'
+Christian Hewitt (4):
+  media: rkvdec: minor fixes for current DETLEV patches
+  media: dt-bindings: rockchip: Add RK3568 Video Decoder bindings
+  media: rkvdec: Add support for the VDPU346 variant
+  arm64: dts: rockchip: Add the vdpu346 Video Decoders on RK356X
+
+ .../bindings/media/rockchip,vdec.yaml         |   2 +
+ arch/arm64/boot/dts/rockchip/rk356x-base.dtsi |  49 ++++++++
+ .../rockchip/rkvdec/rkvdec-vdpu381-regs.h     |   4 +-
+ .../rockchip/rkvdec/rkvdec-vdpu383-hevc.c     |   6 +-
+ .../media/platform/rockchip/rkvdec/rkvdec.c   | 110 ++++++++++++++++++
+ 5 files changed, 166 insertions(+), 5 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
 
