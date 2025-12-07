@@ -1,46 +1,101 @@
-Return-Path: <linux-media+bounces-48360-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48361-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53763CAAF9A
-	for <lists+linux-media@lfdr.de>; Sun, 07 Dec 2025 00:57:29 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4930CAB635
+	for <lists+linux-media@lfdr.de>; Sun, 07 Dec 2025 15:43:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E0B063064544
-	for <lists+linux-media@lfdr.de>; Sat,  6 Dec 2025 23:56:39 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A3F1D3017EC9
+	for <lists+linux-media@lfdr.de>; Sun,  7 Dec 2025 14:43:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 998D72DC765;
-	Sat,  6 Dec 2025 23:56:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF44D22D795;
+	Sun,  7 Dec 2025 14:43:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bzpK36ZL"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="BKHHXiJ+";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="jfGtuU5e"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC7A4296BBD;
-	Sat,  6 Dec 2025 23:56:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21F8E2877C3
+	for <linux-media@vger.kernel.org>; Sun,  7 Dec 2025 14:43:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765065397; cv=none; b=QJzo8BDIIqGO0MMxvCiQs3K2EQxvxI/yHNhvSZXB14+DS+Dweh808o3mgKF9tnbg14CLjl3c0E1mZ2SQpCD0eu9qXxG19oYjLIUWAdyRCvTewjXZ23cYDkrnX1WE01W8g4GdKg2pNY+wB6mucQ8Fo50oBVHRMueYpUmgptCYkMA=
+	t=1765118626; cv=none; b=tvRKTmw6ga7QqGhWZrNg4mrGvL/p/aoSw29R/5Cn9s0VVG330+3MTTavXqBc1URPpZss283Av6fnrRD23VQV7Z1hWfPA9GeE3ZgFU8jcX6chF9Wii+sAltT9c/EguHg7/B6yXPs5rsWkJ/y0P1vAnRQyY/OYyIDhm9f+j6DCfR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765065397; c=relaxed/simple;
-	bh=s/TyOeDY6EYqBlrXN5BR6NnJMBkrTUR1FU2VsfYuvD0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NXOpMdIPvyxyw8Z64KH4mAu94G9gjDDgO3vCo8B3OkfpIucOW0tWFIsmriq27Vt83Ul7xDGBr4hncCqUBlixbxmD6WtJbm0VoxUj16U2yevIZ7BLh072Te1CKx7qsYicBJw8/Mn6ZtRbyh4Xj23bqIYI2KnS1gw5wtuqEfTtzE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bzpK36ZL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B2AAC4CEF5;
-	Sat,  6 Dec 2025 23:56:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765065396;
-	bh=s/TyOeDY6EYqBlrXN5BR6NnJMBkrTUR1FU2VsfYuvD0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=bzpK36ZLF8FUFN473r2Gyxa5b7dwpZzSatWegNcKA+HwfkpfFBNzagUhwBzQ5lI26
-	 DTBbfohduQq4YXM7rBnIFgU84pOJhm6gDhln2l+x3HXAPVaXGyaImqjtIcxIM1gOvF
-	 X2G4468qAr/eAGvYMDcBtNikGMz7CqXW3gHlwb61bcONhxeS8Pkb+DL0C4MupKh25p
-	 tuXPkIW0Kq7m/ZfChVxY6y6Gqao+MLkPsMS8JbHP65epWGcJQFnX5UEp5kMrOyyZfk
-	 fMu+LTiZ0QSvxG1zPRt19yK/f+ljWxAa7TqFViKNiS9D3WBYEnwoHeHZAdGoPX6EiE
-	 +AioHp/YMDz2w==
-Message-ID: <5516cc69-de15-44df-bfbf-8263e71c919a@kernel.org>
-Date: Sat, 6 Dec 2025 23:56:32 +0000
+	s=arc-20240116; t=1765118626; c=relaxed/simple;
+	bh=N/AlMPNy9lcY4VhplAEjXH+tZcWwQ6XaS+OqFJZACXY=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=OFaak2cwZ7BiI1+Nl4HYw/yaU9MbVYn1CkgUKPJ1EaY5yYUMjhbUP6eckwPp5CgkxG7ZSdP/xxvSR5WUdQ1Mkss7PFNFtvAdI4nY41p6o8vssy+bQ04sT1xiVuHDtUuMWJZnhKxzorG4XgPMyPXR08uJ9BwERlNeYNH0Aabd7gQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=BKHHXiJ+; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=jfGtuU5e; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B78tKEq739670
+	for <linux-media@vger.kernel.org>; Sun, 7 Dec 2025 14:43:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	l/aaJFyQoXHpvQwzDEFmgidOgL9qCsCAZ9X7taPnYrc=; b=BKHHXiJ+nUEgoKku
+	Fvdz+fmK+FjsgKxZvxrHErBn1BTMTXrQtN6eF4q+UmlcdMVIoiLfQoTWqkRKrz3Q
+	NnvkBLXs2STX9raqgwHxWKLOZtVpbFqWsroT21Nvw+ZGvzMdD4ZDLlfqA4wA93oj
+	nxs1RacIE7DhSoQOixd2ymfpIp1UDMrFNf3Zq+sWidv/x00ef8EjN1gbcxDt8wtl
+	ycdaIk48S9hSodcpgkOOqwIEPVbu8ihMcCBpXjuAkbl0i8apeTOeeXB7yZYGwF9j
+	fTpFkN6IvxkexpQPdH908sxJfjUG6w61KnwfxA4FxhhTKoeKX4BkhqyQWIU32YMW
+	rhGyVg==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4avdnjtf40-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Sun, 07 Dec 2025 14:43:36 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8b6963d1624so386253985a.0
+        for <linux-media@vger.kernel.org>; Sun, 07 Dec 2025 06:43:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1765118616; x=1765723416; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=l/aaJFyQoXHpvQwzDEFmgidOgL9qCsCAZ9X7taPnYrc=;
+        b=jfGtuU5eF7mVO1xeSjNI20lNYgGrcjIqDL4eRZfedWoj2gWlrI2SIkwnGAGwvuonpE
+         BMCRmU4Wc1WzNjkTovuYWyZmY+bTDSgQOnoRTfEm4vzMGJfcvs6nK5F05gfi2PJCvTFg
+         0rg2REjzJ++BshJ7WP9rWclEOTqVghNnSPgJcV+OwBQlW3Tjgkcn242HB9kR+L04lrXF
+         KifUFE8Nqmkl7BqiGy+fEqBKeWu4bvivVaLxp9lG1WuVPa/85joTvyiUAHO98sBqUfiw
+         ZQF5zCNZIBkLTtmELyNglHN1dVHtVhba5BZxEkY3uxaFceU4NRj6LsI+RuLLDAW12kSG
+         CNNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765118616; x=1765723416;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=l/aaJFyQoXHpvQwzDEFmgidOgL9qCsCAZ9X7taPnYrc=;
+        b=J+V6sb3A26kOSg8OFHw2+WIzEkCHdKfORP7RSIAUE6XTUgAdnTUk4HEPFCx6THTiAW
+         6Rup8eBNbwHVqyig0yWu3xkBvSUf4JIpmQy6AEnITC+4Hy2ofR6FLsjdyMsii/yZ/yQP
+         24cj1sZqlwjixMF7sLmOI4pXZmQXq7ROpMHnX2x4sRo7IvJTSniV3E8qlEAJy/dqIPDz
+         sMkCiV2kzHf4wF9ExYfCGqF3TA3PXhutmaczSVNN1l6C4IRdh8BI8AcBPjNq8th2z1Hq
+         P4Y9BWoj1HPT0U+oUPVKVSt1AFn0uRJSCPJXqHSIQl+kctmhvLHJXV7bfHqe/06W4Ed1
+         jSvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXkzPOpeFWRA0bjgRnUKImzcy/IUs2RcVxTPwwKn3FGw9+p6vqQ5l3YXvU+UWhj7epm4fyvc5oxJeNbBA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz1Nc/9fzcYMDri8AeCfnQ25ToJPud/g8JT24mvNDnnLbaiczDm
+	5fx0SIxs36RbdfvVcGmbdvUApvwR7w8RTlxk7/ufLg6jsqtM9wDXyY0YWNvRa7W6UPvHZvH8fL1
+	IniecA/gOYICnG/18CxRi/cOZrKlVFaI3KVQE+nas4iRxnYUwX05q5UGTTc+xXKV3+w==
+X-Gm-Gg: ASbGnctCpBmtcj7njYkp/+id35g+XRvGNi5Re0XQBABEg1z2oW7SDrGK3BXScmd2rNY
+	e8Evid3N4yhM6O8Q/uJyjLkyM2BVNQJNbdoBYuA4PMAf1hHkBjlU5JWqtNl5redh0pz40uxLYwy
+	hxJ77E2RXt6J9t7UZQMMVd0OEXIWuj5/ZebtalncJk2AFfq/a0lEGaR20G9mh4QeYDjfXnida9K
+	KKKMKXHm/43cRwjGLx3xxFnP3X4l73BTpGESttR4hu9kXdbxu3F/rlFgumagHA5Ux0nPylFvbXO
+	+16vYaTY3BbOBxyx5FJv7rdwsSwjPl3lngluxuPNEiTTxEwON9VCS/zzddU2UaoX4EW2XCu7vsI
+	taWwfD9r5Qf9SQKdaJpwBo+omrn0BvDVjU4apl7TIiPbjSVjQQx3eOSKuixyxpE5w/AO6r1/gT4
+	K7Qr4wNZb2UzwQhKQR0F6QSIYwF6HtSfVvN0n4FdCDB1vPnCxvSzo4qa4cLNyoZBZwbTVa4vg/f
+	5+n
+X-Received: by 2002:a05:620a:2a11:b0:8b2:e7db:253d with SMTP id af79cd13be357-8b6a2388c05mr637280085a.38.1765118615659;
+        Sun, 07 Dec 2025 06:43:35 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IH0XFmkIf34WFVbXKGLe44+OBlysT3op2/v7IyhvdnovY4Uv/rO0mzOwvjhifu9aaaI5NRsOQ==
+X-Received: by 2002:a05:620a:2a11:b0:8b2:e7db:253d with SMTP id af79cd13be357-8b6a2388c05mr637277785a.38.1765118615137;
+        Sun, 07 Dec 2025 06:43:35 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b79f49d24a6sm847908466b.54.2025.12.07.06.43.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 07 Dec 2025 06:43:34 -0800 (PST)
+Message-ID: <d036f6dc-1150-4478-a3a2-cdb5723ae4c7@oss.qualcomm.com>
+Date: Sun, 7 Dec 2025 15:43:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -48,90 +103,66 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: venus: vdec: fix error state assignment for zero
- bytesused
-To: Renjiang Han <renjiang.han@oss.qualcomm.com>,
- Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <3TiW-6pGFzHye29VWlJBXCdsteVQOc5LlAPyURHQMjIMusStSaLFbZE_dWv8B9GPFjM91n17iLSlulpcBpy4ow==@protonmail.internalid>
- <20251126-fix-error-state-v1-1-34f943a8b165@oss.qualcomm.com>
-From: Bryan O'Donoghue <bod@kernel.org>
-Content-Language: en-US
-In-Reply-To: <20251126-fix-error-state-v1-1-34f943a8b165@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: johannes.goede@oss.qualcomm.com
+Subject: Re: [PATCH] platform/x86: int3472: Use actual clock frequency for DSM
+ method
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@linux.intel.com>
+Cc: Hao Yao <hao.yao@intel.com>, platform-driver-x86@vger.kernel.org,
+        hdegoede@redhat.com, dan.scally@ideasonboard.com,
+        ilpo.jarvinen@linux.intel.com, bingbu.cao@intel.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20251205095525.1264971-1-hao.yao@intel.com>
+ <d4f08e2d-8257-ec95-9f67-7514240a4f82@linux.intel.com>
+ <aTMs6PB2O58KbikU@kekkonen.localdomain>
+Content-Language: en-US, nl
+In-Reply-To: <aTMs6PB2O58KbikU@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: Qv8CtIu73yJr2JnaVNe-F0srD5iQ4ZCT
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA3MDEyOSBTYWx0ZWRfXyVCpWqTYG1zz
+ AA1ERhF9HpaNFgoUb/WP3CFm2C9KKMbvMAMuDrKGXgTIsLYUE2FvCu4tsxR/O671OVcprl9w1ON
+ LJTjyg8L8Lx7TwU5UeRsddKHxoonOBNft77kMpluf/fifVb8zILX/N1lc/M5sbHC2P6rIhMh+WM
+ TAy88neAJr1D9khSCsEnhhKYrE1M8ynlNVv/xV0OeU/BCimwLFZbmVmtprFpCMb8Qr8NG5SEg+9
+ P9HDK21ogXQY6LzhrW/DjMG9XPS+Ou9Q7QS42Xmi/eiR9lKJU3o95Nr5VtrcKWZZCkkJiY4aLeh
+ s/RdOhz6T+hHCkmX2IHBE/bZl4PUThEWMVlqM7Z3QfP5q8a1Ap9dHLb+OYiFdmM6D7VRolaLSXV
+ 7Vvg4QD++rasS/NGQJZ7KAk8YkaABw==
+X-Authority-Analysis: v=2.4 cv=RvbI7SmK c=1 sm=1 tr=0 ts=69359298 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=EUspDBNiAAAA:8 a=AdU8BewJLfuzazTBXZYA:9 a=QEXdDO2ut3YA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-ORIG-GUID: Qv8CtIu73yJr2JnaVNe-F0srD5iQ4ZCT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-06_02,2025-12-04_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 spamscore=0 adultscore=0 clxscore=1015 bulkscore=0
+ malwarescore=0 phishscore=0 impostorscore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2512070129
 
-On 26/11/2025 04:23, Renjiang Han wrote:
-> Previously, the check for zero bytesused and the assignment of error
-> state was performed outside the V4L2_BUF_FLAG_LAST branch, which could
-> incorrectly set the error state during drain operations. 
+Hi,
 
-This deserves more elaboration.
-
-Instead of saying previously - talk about what it currently does and the 
-precise circumstances under which it goes wrong. Try to make the 
-description as plain and concise as possible.
-
-This patch
-> moves the zero-bytesused check inside the 'else' branch, ensuring that
-> the error state is only set for non-EOS buffers with zero payload.
+On 5-Dec-25 8:05 PM, Sakari Ailus wrote:
+> On Fri, Dec 05, 2025 at 06:10:10PM +0800, Bingbu Cao wrote:
+>>> +#define PCH_CLK_FREQ_19M	1
+>>
+>> I like 19P2MHZ.
 > 
-> Additionally, the patch keeps the rest of the buffer state handling
-> logic unchanged, including handling of HFI_BUFFERFLAG_DATACORRUPT and
-> HFI_BUFFERFLAG_DROP_FRAME.
+> How about simply PCH_CLK_FREQ_19M2?
 
-I don't think you need to tell us what's not touched in your commit log.
++1 for this, this is the standard way to write fractional
+MHz clocks.
 
-- Tell us what is wrong directly and plainly.
-   Include how the bug you are fixing can come about i.e. under what
-   circumstances we would see the error.
+With that fixed / so for v2:
 
-- Then tell us how you've fixed it.
+Reviewed-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
 
-- And include a Fixes: tag please.
-   Since this is a bug fix you are proposing, it needs to be backported.
+Regards,
 
-> 
-> Signed-off-by: Renjiang Han <renjiang.han@oss.qualcomm.com>
-> ---
-> This patch refines the error state assignment logic in the Venus vdec
-> driver for Qualcomm platforms. Specifically, it ensures that the buffer
-> state is only set to VB2_BUF_STATE_ERROR for non-EOS capture buffers
-> with zero bytesused, preventing false error reporting during drain
-> operations.
-> ---
->   drivers/media/platform/qcom/venus/vdec.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-> index 4a6641fdffcf79705893be58c7ec5cf485e2fab9..d0bd2d86a31f9a18cb68b08ba66affdf8fc5092d 100644
-> --- a/drivers/media/platform/qcom/venus/vdec.c
-> +++ b/drivers/media/platform/qcom/venus/vdec.c
-> @@ -1440,10 +1440,10 @@ static void vdec_buf_done(struct venus_inst *inst, unsigned int buf_type,
->   				inst->drain_active = false;
->   				inst->codec_state = VENUS_DEC_STATE_STOPPED;
->   			}
-> +		} else {
-> +			if (!bytesused)
-> +				state = VB2_BUF_STATE_ERROR;
->   		}
-> -
-> -		if (!bytesused)
-> -			state = VB2_BUF_STATE_ERROR;
->   	} else {
->   		vbuf->sequence = inst->sequence_out++;
->   	}
-> 
-> ---
-> base-commit: 663d0d1af3faefe673cabf4b6b077149a87ad71f
-> change-id: 20251126-fix-error-state-24183a8538cd
-> 
-> Best regards,
-> --
-> Renjiang Han <renjiang.han@oss.qualcomm.com>
-> 
+Hans
+
 
 
