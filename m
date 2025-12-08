@@ -1,470 +1,213 @@
-Return-Path: <linux-media+bounces-48362-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48363-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7225CAB7BB
-	for <lists+linux-media@lfdr.de>; Sun, 07 Dec 2025 17:32:07 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80978CABBCA
+	for <lists+linux-media@lfdr.de>; Mon, 08 Dec 2025 02:45:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 90AC93016352
-	for <lists+linux-media@lfdr.de>; Sun,  7 Dec 2025 16:32:00 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id CFE6E30038F1
+	for <lists+linux-media@lfdr.de>; Mon,  8 Dec 2025 01:45:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83C882C1596;
-	Sun,  7 Dec 2025 16:31:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 022F7222590;
+	Mon,  8 Dec 2025 01:45:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hanne.name header.i=@hanne.name header.b="YxjUXn9x"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="j5K+B8Pu";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="QiP6k69k"
 X-Original-To: linux-media@vger.kernel.org
-Received: from dd11108.kasserver.com (dd11108.kasserver.com [85.13.147.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F7DF239E9D
-	for <linux-media@vger.kernel.org>; Sun,  7 Dec 2025 16:31:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.13.147.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB79021CC7B
+	for <linux-media@vger.kernel.org>; Mon,  8 Dec 2025 01:45:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765125118; cv=none; b=MMH+2GMECbrUoQrHoKmr/fSCSKxaJa5PymTiWu4nvJZAAquwPUFYHybOnJCbxe8I6PbjoTzLhWez2b1vNvxzRT816HrhgqsBk5gfFM4FSIYhxZ32HkKic3OcUfSlTLQ7Sr2ILjxuIv7JGWbSqX8dMFDaNfCug1yIvevPi2K3m5k=
+	t=1765158303; cv=none; b=Qw2PXc8THFIGJTDMqXm+bRIGSJLq+Ef8b6t6qeAT6D3EzPuC/KsfT+tsf/gOyzrbC3Ds8t5C3urk8V0EOkO3PPcBweVWbT5ICtK/wAR5b7O9D1iyeudnlZ738m7b90wHcvAr2hnyUBJfkCLv0WKGEb1C3rOJxN46Zc2xGTu/AK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765125118; c=relaxed/simple;
-	bh=n2kIue6XYk4W7qjXFHuZmd3iqi4mnvFGccURHBgZNrA=;
-	h=Subject:To:From:MIME-Version:Content-Type:Message-Id:Date; b=fTz3A0or76tW8XP+q1VbqVybxHq0vN+UPJXVyTweQGT4/8rizD79SnP45gGlGsJrajH8XiGgns68v2WYHSZCUlsZLzfyaaoxMCr63z9/oOe7F1F4B0Is6tFWcIqqxvNnPPvtfRjBPTSD9Cfbf4WSNeLnNAzd6oU+yXOymGPgOp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jf.hanne.name; spf=none smtp.mailfrom=jf.hanne.name; dkim=pass (2048-bit key) header.d=hanne.name header.i=@hanne.name header.b=YxjUXn9x; arc=none smtp.client-ip=85.13.147.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jf.hanne.name
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=jf.hanne.name
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hanne.name;
-	s=kas202509041024; t=1765124799;
-	bh=FrXthLRjRHojQji9uxqidvbyg6DecFw8ZiSjIA0Y+mg=;
-	h=Subject:To:From:Date:From;
-	b=YxjUXn9xTEBuftKbUAW3vHz+wDe2o+fiDxdtwR2GuJv334/1IiSoaHqoHYPA7V4gg
-	 9VRND7NeV+LEP4h2CMnaZ0UJXqgQxhLzX11DjrQvNXp5SO+FbuAKDZxxC2bqxPwWT+
-	 b4zj/11Gkp6GeNWQEOp87msvpnSr73UWjJ1OFuwiA4JulbGyo6RTA3NCUc95lwFkBn
-	 qf7tlcwaAvOoo3qS3uvMjncwEaw5fMfC1U/SIHpYFB8uQ8NYlTcJzBoMF+9nSwezqM
-	 RzwHFk3WhYj65JI+1usWsadPMQKpe8hEhcWDYO0HeJgQIyFE8K9/zUVfivTQWA/ahA
-	 +/yxWXb5OQU9A==
-Received: from dd11108.kasserver.com (dd0802.kasserver.com [85.13.143.1])
-	by dd11108.kasserver.com (Postfix) with ESMTPSA id 191BB2FC0C02
-	for <linux-media@vger.kernel.org>; Sun,  7 Dec 2025 17:26:39 +0100 (CET)
-Subject: [PATCH] media: Add support for Johann's Receiver Board
-To: linux-media@vger.kernel.org
-From: "J. Hanne" <media@jf.hanne.name>
-User-Agent: ALL-INKL Webmail 2.11
-X-SenderIP: 79.254.117.192
+	s=arc-20240116; t=1765158303; c=relaxed/simple;
+	bh=wyUAR8rdo1VP/fVrBoh29x21Xg+ywxFyINBfBNEKrrw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rEIqunzo7onu73e1r7bYQMypOj2FUkmuw3iv65JSbDuTH5joClS+7HeuP32BGy0RnEvr4ywfM3a4bsPN7bUAI7RlcmR/9Moc0JqJC1BZ2uRA2v5N52rw3wns91liKSUY3JDI7eQr0+0ym9KHZHijF8ZMi+PJD04S5k9UYZ6ln9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=j5K+B8Pu; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=QiP6k69k; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B7MQ2L22488906
+	for <linux-media@vger.kernel.org>; Mon, 8 Dec 2025 01:45:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	s/5Td7nAdECmiMY6x3WUmyCCB0m8xAINpFEXzjXf/j0=; b=j5K+B8Pue9Wc5uWH
+	4+OlqfAzGrtYGYd1ubiEOs4qzyn2GcvnxZ2HAJH31t+mXHhW9cq4cNXlXUo8vM2M
+	4GhudBf1WasHagbOCOtrXUydFqgV/8+/ltF7vwcfDQi/UwX5qo9afGCrUt1UalMn
+	8ioxJuzAThrM2eKl4JYPk8arqbqL7ScWmRW36HSfxQpUMWEUc8zSwBG+s4mKLgkv
+	w7HUzdrMQYxnUIu6ypED7zXrHbXro5aC/aXktjKWkTANAPyyqsePEx2gJ9N/hKVQ
+	Kd3fZ3EYjU8MK7e0Hc5fPI5ys4bKp4Je6vcbkAAk1QpHmyytOkr422+86oCeb+s8
+	JgI6rw==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4awha1g97u-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Mon, 08 Dec 2025 01:45:00 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4ee0c1c57bcso128792661cf.2
+        for <linux-media@vger.kernel.org>; Sun, 07 Dec 2025 17:45:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1765158299; x=1765763099; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=s/5Td7nAdECmiMY6x3WUmyCCB0m8xAINpFEXzjXf/j0=;
+        b=QiP6k69kwbEbjDPUR+OXnvPr2Jy0PSuBlfE+UmVJbpV5NxQISHrmD/LZlxYDqpkPzt
+         Jab6QutLXy9UMbH1Nv1qdLhzLEXBoU8Zm7u6p8K9d7SGyWuU3erM4RVlBN0Mer3rrkqR
+         zRP/lp8PtY9vsQOwkPmArt0XXmMueeg0UXiAY1vx6L9eff3YpoAQERGRof9187lmv2Dl
+         7BzdWYj5CKVpAPFc/hRkytjuok51EfdbTZe4TTpwRN8XVrsOoKz25vxewo/66/yEEO2B
+         a8YHaPT81r5tQvdMvG8G3/c4M8u4Bdc4IZGWCCQUWA6Lg0R+tW5SuAPnlH5uVQ6wvObw
+         sKlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765158299; x=1765763099;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=s/5Td7nAdECmiMY6x3WUmyCCB0m8xAINpFEXzjXf/j0=;
+        b=oDwcRzMhs6+ZjMVBhMJdYgqLGaDvflNnMRRoqo05BVIO1yk0ITSThTMTezOgvamvVz
+         xf4aAiLxcYW8qq1Tv+vk3pg6D/4Ec9/vrrGXALIcfF7OjrQTja/bH+awmTYqZWaX7z3i
+         wKJSu9x0dspR/70TEM6RW+k+HUMVMMi791rUjK2WfGHLmHoEWyazXLAgCE0Chr6uIK7J
+         +aaP3RwyW3BpzY4ciKwDJZvxPlppju6tVaeqpoSIlNx4vXL6b6O5ID+dMTzkIv2DoGaX
+         UA8/rVFksdLRH2Zu7GNQ0+1JbmE3x9KC3W6lzn1R9T43Q6kLW5hl1yKCJ5rdZyMvuIQ7
+         QHRg==
+X-Forwarded-Encrypted: i=1; AJvYcCU8prF7MAccgm33AfUrI6XiL+tPKuBacC3J9DWODjjvGnmdkmJ/scdAx+i0bDmg5N39tb9qCCfeHzJWEg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzve+G9U7wjHdcgf14JjonZQseEICDuMRk5QKVAnifgoiFU21+N
+	DTade69i9gogXHwhwmCkCKSO2wXLAFC/XDBEl2YWOzNH87Y9M4b9YBB5JgEU3QV4osG9S8nH8tc
+	vyi3s0oNHXWRNykGn75+5tOGlqub0yKToNEBNqE71h6rvjeGsN92MyJYiomH1bLi2cryAYnJOXw
+	==
+X-Gm-Gg: ASbGncuae4ODh7Lr5wOs6m1vMhfpCyZNQVkxppy49Ndb4bAKL/4DjnU2FCI0tdBg98Y
+	4a1rjEPyANojp7XDjUxnyy3FvbvW72XG9pyCX95+dO5ub+K069DlSCdbFureXMXC9Q+aHghsKKT
+	KDB78cfmLGoNnuhE8r8FtV8hfzGfk3cKIvHvq9w2RiiwSmW4/3vq0ULv5x6g11tD22K9ndAESmQ
+	wLTvDl+EaOOXOH1jut37oN8Fxeo0O0HoBmGq/bRzPJIoKkSMidT4i4KxNxz8EqPk9sfyK+7HCba
+	gwG/5jtopEd+UbmZc1ctlyw/lLodSfocWQ1ObL0zkDDjlzu3pclZaUGixBxnk6+o+K/+417oBMl
+	OPbLiSjRxl8FppIlT/FV+zWz5Dm9tSvmAhQAOCeM1d6w8tWrkn94YK4yzbzgW3ECxG4NSA5C8/x
+	1XatyNg0v8GUvxuzh64+HtN0c=
+X-Received: by 2002:a05:622a:550f:b0:4ee:146d:771e with SMTP id d75a77b69052e-4f03fde5843mr110993791cf.29.1765158299600;
+        Sun, 07 Dec 2025 17:44:59 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFG5tMeMcoAMyr/D6y7kUXHS4WQHquHkfAyh9CnnpFda/YPztbmumK9vpF5MSdg5rUxQsDKwA==
+X-Received: by 2002:a05:622a:550f:b0:4ee:146d:771e with SMTP id d75a77b69052e-4f03fde5843mr110993631cf.29.1765158299212;
+        Sun, 07 Dec 2025 17:44:59 -0800 (PST)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-597d7b24730sm3748827e87.33.2025.12.07.17.44.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 07 Dec 2025 17:44:57 -0800 (PST)
+Date: Mon, 8 Dec 2025 03:44:55 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>,
+        Loic Poulain <loic.poulain@oss.qualcomm.com>,
+        Robert Foss <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        aiqun.yu@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
+        trilok.soni@oss.qualcomm.com, yijie.yang@oss.qualcomm.com,
+        Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
+        Atiya Kailany <atiya.kailany@oss.qualcomm.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v8 1/5] media: dt-bindings: Add CAMSS device for Kaanapali
+Message-ID: <2tvkcuipfaa7cn7goynt6jfzlcxg2d7yvvjqizb6p7sf5oqwuj@drqiyr3khoyf>
+References: <20251130-add-support-for-camss-on-kaanapali-v8-0-143a8265e6e8@oss.qualcomm.com>
+ <20251130-add-support-for-camss-on-kaanapali-v8-1-143a8265e6e8@oss.qualcomm.com>
+ <f4d29f9b-98ce-4e57-9916-5a37927db2a7@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Message-Id: <20251207162639.191BB2FC0C02@dd11108.kasserver.com>
-Date: Sun,  7 Dec 2025 17:26:39 +0100 (CET)
-X-Spamd-Bar: ----
+In-Reply-To: <f4d29f9b-98ce-4e57-9916-5a37927db2a7@linaro.org>
+X-Authority-Analysis: v=2.4 cv=b6q/I9Gx c=1 sm=1 tr=0 ts=69362d9c cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=xq3W2uTSAAAA:8 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8 a=VwQbUJbxAAAA:8
+ a=b7N2CkzV7mNB1x08AMEA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=dawVfQjAaf238kedN5IG:22 a=P5L7wpMTXyg1GfFA3Gwx:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: Uku2frA-khdWc5B6YHMmWRwbyJB6EypL
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA4MDAxMiBTYWx0ZWRfX3gJD10kzcUzW
+ /+Av6/9bhM1rsk4G9FBkc0jEwXyYK3oS9nCnmBz3cHZYXyqMxzd6J4JkEofC8cOl+MoyBfPWsiz
+ kiRCAjZBJ4BdONV3Afdih5KTr+zkBXs8+ikgUznqvDeXiPDmMucnQOYGKHaLCtW1DfgwOlUXDGJ
+ D09mHuhj3bsAxvkUw3eUWaQWTjo/pVEivXbKGMT3TWcLdX0XKGwKxfohymD40ghY4U5IcLpwU3C
+ GPI9XY/hE3i8G4ryc8xdW0f0QIrS/WjFhcv5PZ8kBjjfMOx6G57rWXQ8jaiLCRj5uI1jIGgU6M5
+ 4wkmNWotGnik/yYzOmesJRjXddS2tSF1eccnj4L21OIL2yllEH931OMx/XVhJsqdKdmFWIhjCe1
+ QlVEgEYkGXtKXMqCPY0/qALhWC6Y3Q==
+X-Proofpoint-ORIG-GUID: Uku2frA-khdWc5B6YHMmWRwbyJB6EypL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-06_02,2025-12-04_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 malwarescore=0 lowpriorityscore=0 impostorscore=0 phishscore=0
+ spamscore=0 priorityscore=1501 suspectscore=0 adultscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512080012
 
-Hi,
+On Sat, Dec 06, 2025 at 10:11:20PM +0000, Bryan O'Donoghue wrote:
+> On 01/12/2025 06:30, Hangxiang Ma wrote:
+> > Add the compatible string "qcom,kaanapali-camss" to describe the Camera
+> > Subsystem (CAMSS) on the Qualcomm Kaanapali platform.
+> > 
+> > The Kaanapali platform provides:
+> > - 3 x VFE, 5 RDI per VFE
+> > - 2 x VFE Lite, 4 RDI per VFE Lite
+> > - 3 x CSID
+> > - 2 x CSID Lite
+> > - 6 x CSIPHY
+> > - 2 x ICP
+> > - 1 x IPE
+> > - 2 x JPEG DMA & Downscaler
+> > - 2 x JPEG Encoder
+> > - 1 x OFE
+> > - 5 x RT CDM
+> > - 3 x TPG
+> > 
+> > Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> > Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+> > Signed-off-by: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
+> > ---
+> >   .../bindings/media/qcom,kaanapali-camss.yaml       | 647 +++++++++++++++++++++
+> >   1 file changed, 647 insertions(+)
+> > 
 
-this adds support for the open hardware DVB-S2 USB receiver board at https://codeberg.org/jonnyh/jorebo
+> > +      - const: gcc_hf_axi
+> 
+> https://patchwork.linuxtv.org/project/linux-media/patch/20251126-add-support-for-camss-on-sm8750-v1-2-646fee2eb720@oss.qualcomm.com/
+> 
+> Pointed out by Krzysztof in the 8750 patches but the name of this clock is
+> gcc_axi_hf.
+> 
+> ~/Development/worktree/qcom-linux-next
+> ➞  grep gcc_axi_hf * -r | wc -l              [git:platform-qcom-next] ✖
+> 48
+> 
+> ~/Development/worktree/qcom-linux-next
+> ➞  grep gcc_hf_axi * -r | wc -l              [git:platform-qcom-next] ✖
+> 0
 
-Regards,
-  Johann
+My 2c: it should be none of those. gcc_axi_hf is the _source_ of the
+clock, while the bindings (in my opinion) should be describing the
+function of the clock on the consumer side (e.g. bus, iface, something
+else, etc).
 
----
+> 
+> Please resolve the other inconsitencies pointed out by Krzysztof in that
+> thread here also.
+> 
+> I will have to skip application of this series in the meantime.
+> 
+> ---
+> bod
 
-diff -uNr a/drivers/media/usb/dvb-usb-v2/Kconfig b/drivers/media/usb/dvb-usb-v2/Kconfig
---- a/drivers/media/usb/dvb-usb-v2/Kconfig	2025-12-07 17:06:51
-+++ b/drivers/media/usb/dvb-usb-v2/Kconfig	2025-12-07 17:10:41
-@@ -175,4 +175,12 @@
- 	help
- 	  Say Y here to support the ZyDAS ZD1301 DVB USB receiver.
- 
-+config DVB_USB_JOREBO
-+	tristate "Johann's Receiver Board"
-+	depends on DVB_USB_V2
-+	select DVB_M88DS3103 if MEDIA_SUBDRV_AUTOSELECT
-+	select DVB_TS2020 if MEDIA_SUBDRV_AUTOSELECT
-+	help
-+	  Say Y here to support the Johann's Receiver Board DVB-S2 USB receiver.
-+
- endif
-diff -uNr a/drivers/media/usb/dvb-usb-v2/Makefile b/drivers/media/usb/dvb-usb-v2/Makefile
---- a/drivers/media/usb/dvb-usb-v2/Makefile	2025-12-07 17:06:51
-+++ b/drivers/media/usb/dvb-usb-v2/Makefile	2025-12-07 17:12:45
-@@ -44,6 +44,9 @@
- dvb-usb-zd1301-objs := zd1301.o
- obj-$(CONFIG_DVB_USB_ZD1301) += zd1301.o
- 
-+dvb-usb-jorebo-objs := jorebo.o
-+obj-$(CONFIG_DVB_USB_JOREBO) += jorebo.o
-+
- ccflags-y += -I$(srctree)/drivers/media/dvb-frontends
- ccflags-y += -I$(srctree)/drivers/media/tuners
- ccflags-y += -I$(srctree)/drivers/media/common
-diff -uNr a/drivers/media/usb/dvb-usb-v2/jorebo.c b/drivers/media/usb/dvb-usb-v2/jorebo.c
---- a/drivers/media/usb/dvb-usb-v2/jorebo.c	1970-01-01 01:00:00
-+++ b/drivers/media/usb/dvb-usb-v2/jorebo.c	2025-12-07 16:41:02
-@@ -0,0 +1,367 @@
-+// SPDX-License-Identifier: MIT or GPL-2.0-only
-+/*
-+ * Driver for Johann's Receiver Board
-+ * Copyright (C) 2025 Johann Hanne
-+ */
-+
-+#include <linux/module.h>
-+
-+#include "dvb_usb.h"
-+#include "m88ds3103.h"
-+#include "ts2020.h"
-+
-+DVB_DEFINE_MOD_OPT_ADAPTER_NR(adapter_nr);
-+
-+struct jorebo_state {
-+	struct i2c_client *i2c_client_demod;
-+	struct i2c_client *i2c_client_tuner;
-+	u8 buf[64];
-+};
-+
-+static int jorebo_identify_state(struct dvb_usb_device *d, const char **name)
-+{
-+	struct usb_device *ud = d->udev;
-+
-+	if (ud->descriptor.iManufacturer == 0 &&
-+	    ud->descriptor.iProduct == 0 &&
-+	    ud->descriptor.iSerialNumber == 0) {
-+		return COLD;
-+	}
-+
-+	return WARM;
-+}
-+
-+static int jorebo_download_firmware(struct dvb_usb_device *d,
-+				    const struct firmware *fw)
-+{
-+	int retval = 0;
-+	struct usb_device *ud = d->udev;
-+	unsigned int pipe = usb_sndctrlpipe(ud, 0);
-+	int r;
-+	u8 *buf = 0;
-+	int i;
-+
-+	buf = kmalloc(64, GFP_KERNEL);
-+	if (buf == 0) {
-+		retval = -ENOMEM;
-+		goto cleanup;
-+	}
-+
-+	buf[0] = 1;
-+	r = usb_control_msg(ud, pipe, 0xa0, USB_DIR_OUT | USB_TYPE_VENDOR,
-+			    0xe600, 0, buf, 1, 2000);
-+	if (r != 1) {
-+		retval = -EIO;
-+		goto cleanup;
-+	}
-+
-+	for (i = 0; i < fw->size; i += 64) {
-+		memcpy(buf, fw->data + i, 64);
-+
-+		r = usb_control_msg(ud, pipe, 0xa0,
-+				    USB_DIR_OUT | USB_TYPE_VENDOR, i, 0, buf,
-+				    64, 2000);
-+		if (r != 64) {
-+			retval = -EIO;
-+			goto cleanup;
-+		}
-+	}
-+
-+	buf[0] = 0;
-+	r = usb_control_msg(ud, pipe, 0xa0, USB_DIR_OUT | USB_TYPE_VENDOR,
-+			    0xe600, 0, buf, 1, 2000);
-+	if (r != 1) {
-+		retval = -EIO;
-+		goto cleanup;
-+	}
-+
-+cleanup:
-+
-+	if (buf != 0) {
-+		kfree(buf);
-+	}
-+
-+	return retval;
-+}
-+
-+static int jorebo_set_voltage(struct dvb_frontend *fe,
-+			      enum fe_sec_voltage voltage)
-+{
-+	struct dvb_usb_device *d = fe_to_d(fe);
-+	struct usb_device *ud = d->udev;
-+	unsigned int pipe;
-+	u16 value;
-+	int r;
-+
-+	switch (voltage) {
-+	case SEC_VOLTAGE_13:
-+		value = 1;
-+		break;
-+	case SEC_VOLTAGE_18:
-+		value = 2;
-+		break;
-+	case SEC_VOLTAGE_OFF:
-+		value = 0;
-+		break;
-+	}
-+
-+	pipe = usb_sndctrlpipe(ud, 0);
-+	r = usb_control_msg(ud, pipe, 0xb1, USB_DIR_OUT | USB_TYPE_VENDOR,
-+			    value, 0, 0, 0, 2000);
-+
-+	return 0;
-+}
-+
-+static int jorebo_frontend_attach(struct dvb_usb_adapter *adap)
-+{
-+	struct jorebo_state *state = adap_to_priv(adap);
-+	struct dvb_usb_device *d = adap_to_d(adap);
-+	struct i2c_adapter *i2c_adapter;
-+	struct m88ds3103_platform_data m88ds3103_pdata = {};
-+	struct ts2020_config ts2020_config = {};
-+
-+	m88ds3103_pdata.clk = 27000000;
-+	m88ds3103_pdata.i2c_wr_max = 33;
-+	m88ds3103_pdata.ts_mode = M88DS3103_TS_PARALLEL;
-+	m88ds3103_pdata.ts_clk = 14000;
-+	m88ds3103_pdata.clk_out = M88DS3103_CLOCK_OUT_DISABLED;
-+	m88ds3103_pdata.ts_clk_pol = 0;
-+	m88ds3103_pdata.spec_inv = 0;
-+	m88ds3103_pdata.agc = 0x99;
-+	m88ds3103_pdata.agc_inv = 0;
-+	m88ds3103_pdata.envelope_mode = 0;
-+	m88ds3103_pdata.lnb_hv_pol = 0;
-+	m88ds3103_pdata.lnb_en_pol = 0;
-+
-+	state->i2c_client_demod = dvb_module_probe(
-+		"m88ds3103", NULL, &d->i2c_adap, 0x68, &m88ds3103_pdata);
-+	if (state->i2c_client_demod == NULL) {
-+		return -ENODEV;
-+	}
-+
-+	adap->fe[0] = m88ds3103_pdata.get_dvb_frontend(state->i2c_client_demod);
-+	i2c_adapter = m88ds3103_pdata.get_i2c_adapter(state->i2c_client_demod);
-+
-+	ts2020_config.frequency_div = 1103000;
-+	ts2020_config.loop_through = 1;
-+	ts2020_config.clk_out = TS2020_CLK_OUT_ENABLED;
-+	ts2020_config.clk_out_div = 1;
-+	ts2020_config.dont_poll = 0;
-+	ts2020_config.fe = adap->fe[0];
-+	ts2020_config.get_agc_pwm = m88ds3103_get_agc_pwm;
-+
-+	state->i2c_client_tuner = dvb_module_probe(
-+		"ts2020", NULL, i2c_adapter, 0x60, &ts2020_config);
-+	if (state->i2c_client_tuner == NULL) {
-+		dvb_module_release(state->i2c_client_demod);
-+		return -ENODEV;
-+	}
-+
-+	/* LNB voltage is controlled via FX2 GPIOs, not via demod */
-+	adap->fe[0]->ops.set_voltage = jorebo_set_voltage;
-+
-+	return 0;
-+}
-+
-+static int jorebo_frontend_detach(struct dvb_usb_adapter *adap)
-+{
-+	struct dvb_usb_device *d = adap_to_d(adap);
-+	struct jorebo_state *state = d_to_priv(d);
-+
-+	dvb_module_release(state->i2c_client_tuner);
-+	dvb_module_release(state->i2c_client_demod);
-+
-+	return 0;
-+}
-+
-+static int jorebo_streaming_ctrl(struct dvb_frontend *fe, int onoff)
-+{
-+	return 0;
-+}
-+
-+static int jorebo_init(struct dvb_usb_device *d)
-+{
-+	return 0;
-+}
-+
-+static int jorebo_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
-+			   int num)
-+{
-+	int retval = num;
-+	struct dvb_usb_device *d = i2c_get_adapdata(adap);
-+	struct usb_device *ud = d->udev;
-+	unsigned int pipe;
-+	struct jorebo_state *state = d_to_priv(d);
-+	u8 *buf = state->buf;
-+	int r;
-+	u16 value;
-+	u16 index;
-+
-+	if (mutex_lock_interruptible(&d->i2c_mutex) < 0) {
-+		return -EAGAIN;
-+	}
-+
-+	if (num == 1) {
-+		if (msgs[0].len > 64) {
-+			retval = -ENOTSUPP;
-+			goto cleanup;
-+		}
-+
-+		if (msgs[0].flags == 0) {
-+			value = msgs[0].addr;
-+
-+			/* 1- or 2-byte I2C write data can be squeezed into the
-+			   wIndex field of the setup packet; for more, the data
-+			   stage must be used */
-+			if (msgs[0].len == 1) {
-+				value |= 0x0100;
-+				index = (u16)msgs[0].buf[0];
-+
-+				pipe = usb_sndctrlpipe(ud, 0);
-+				r = usb_control_msg(ud, pipe, 0xb0,
-+					USB_DIR_OUT | USB_TYPE_VENDOR,
-+					value, index, 0, 0, 2000);
-+				if (r != 0) {
-+					retval = -EIO;
-+					goto cleanup;
-+				}
-+			} else if (msgs[0].len == 2) {
-+				value |= 0x0200;
-+				index = (u16)msgs[0].buf[0] |
-+					((u16)msgs[0].buf[1] << 8);
-+
-+				pipe = usb_sndctrlpipe(ud, 0);
-+				r = usb_control_msg(ud, pipe, 0xb0,
-+					USB_DIR_OUT | USB_TYPE_VENDOR,
-+					value, index, 0, 0, 2000);
-+				if (r != 0) {
-+					retval = -EIO;
-+					goto cleanup;
-+				}
-+			} else {
-+				memcpy(buf, msgs[0].buf, msgs[0].len);
-+				pipe = usb_sndctrlpipe(ud, 0);
-+				r = usb_control_msg(
-+					ud, pipe, 0xb0,
-+					USB_DIR_OUT | USB_TYPE_VENDOR, value, 0,
-+					buf, msgs[0].len, 2000);
-+				if (r != msgs[0].len) {
-+					retval = -EIO;
-+					goto cleanup;
-+				}
-+			}
-+		} else if (msgs[0].flags == I2C_M_RD) {
-+			pipe = usb_rcvctrlpipe(ud, 0);
-+			r = usb_control_msg(ud, pipe, 0xb0,
-+					    USB_DIR_IN | USB_TYPE_VENDOR,
-+					    msgs[0].addr, 0, buf, msgs[0].len,
-+					    2000);
-+			if (r != msgs[0].len) {
-+				retval = -EIO;
-+				goto cleanup;
-+			}
-+			memcpy(msgs[0].buf, buf, msgs[0].len);
-+		} else {
-+			retval = -ENOTSUPP;
-+			goto cleanup;
-+		}
-+
-+	} else if (num == 2 && msgs[0].flags == 0 &&
-+		   msgs[1].flags == I2C_M_RD && msgs[0].addr == msgs[1].addr) {
-+
-+		if (msgs[0].len > 2 || msgs[1].len > 64) {
-+			retval = -ENOTSUPP;
-+			goto cleanup;
-+		}
-+
-+		value = msgs[0].addr;
-+
-+		if (msgs[0].len >= 1) {
-+			index = (u16)msgs[0].buf[0];
-+
-+			if (msgs[0].len == 2) {
-+				value |= 0x0200;
-+				index |= (u16)msgs[0].buf[1] << 8;
-+			} else {
-+				value |= 0x0100;
-+			}
-+		} else {
-+			index = 0;
-+		}
-+
-+		pipe = usb_rcvctrlpipe(ud, 0);
-+		r = usb_control_msg(ud, pipe, 0xb0,
-+				    USB_DIR_IN | USB_TYPE_VENDOR, value, index,
-+				    buf, msgs[1].len, 2000);
-+		if (r != msgs[1].len) {
-+			retval = -EIO;
-+			goto cleanup;
-+		}
-+		memcpy(msgs[1].buf, buf, msgs[1].len);
-+	} else {
-+		retval = -ENOTSUPP;
-+		goto cleanup;
-+	}
-+
-+cleanup:
-+
-+	mutex_unlock(&d->i2c_mutex);
-+
-+	return retval;
-+}
-+
-+static u32 jorebo_i2c_functionality(struct i2c_adapter *adap)
-+{
-+	return I2C_FUNC_I2C;
-+}
-+
-+static struct i2c_algorithm jorebo_i2c_algo = {
-+	.master_xfer = jorebo_i2c_xfer,
-+	.functionality = jorebo_i2c_functionality,
-+};
-+
-+static struct dvb_usb_device_properties jorebo_props = {
-+	.driver_name = KBUILD_MODNAME,
-+	.owner = THIS_MODULE,
-+	.adapter_nr = adapter_nr,
-+	.size_of_priv = sizeof(struct jorebo_state),
-+
-+	.identify_state = jorebo_identify_state,
-+	.firmware = "dvb-usb-jorebo.fw",
-+	.download_firmware = jorebo_download_firmware,
-+
-+	.i2c_algo = &jorebo_i2c_algo,
-+
-+	.num_adapters = 1,
-+	.adapter = { {
-+		.stream = DVB_USB_STREAM_BULK(0x82, 8, 4096),
-+	} },
-+
-+	.frontend_attach = jorebo_frontend_attach,
-+	.frontend_detach = jorebo_frontend_detach,
-+	.streaming_ctrl = jorebo_streaming_ctrl,
-+	.init = jorebo_init,
-+};
-+
-+static const struct usb_device_id jorebo_id_table[] = {
-+	{ DVB_USB_DEVICE(0x1209, 0x4747, &jorebo_props, "jorebo", NULL) },
-+	{},
-+};
-+
-+static struct usb_driver jorebo_usb_driver = {
-+	.name = KBUILD_MODNAME,
-+	.id_table = jorebo_id_table,
-+	.probe = dvb_usbv2_probe,
-+	.disconnect = dvb_usbv2_disconnect,
-+	.suspend = dvb_usbv2_suspend,
-+	.resume = dvb_usbv2_resume,
-+	.reset_resume = dvb_usbv2_reset_resume,
-+	.no_dynamic_id = 1,
-+	.soft_unbind = 1,
-+};
-+
-+module_usb_driver(jorebo_usb_driver);
-+
-+MODULE_AUTHOR("Johann Hanne");
-+MODULE_DESCRIPTION("Driver for Johann's Receiver Board");
-+MODULE_LICENSE("Dual MIT/GPL");
+-- 
+With best wishes
+Dmitry
 
