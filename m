@@ -1,427 +1,236 @@
-Return-Path: <linux-media+bounces-48443-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48444-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3BDDCAE2E7
-	for <lists+linux-media@lfdr.de>; Mon, 08 Dec 2025 22:03:18 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id F32B8CAE304
+	for <lists+linux-media@lfdr.de>; Mon, 08 Dec 2025 22:06:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 061F4300C20D
-	for <lists+linux-media@lfdr.de>; Mon,  8 Dec 2025 21:03:18 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 176DE30806A7
+	for <lists+linux-media@lfdr.de>; Mon,  8 Dec 2025 21:06:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B7C52D7803;
-	Mon,  8 Dec 2025 21:03:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02A9B2DE1E4;
+	Mon,  8 Dec 2025 21:06:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="EPvu0I/U";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="WsHHh333"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BhcSHoYR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D086C1DE4CE
-	for <linux-media@vger.kernel.org>; Mon,  8 Dec 2025 21:03:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765227794; cv=none; b=RNWHapz2p2XFAVQIVbuoMpFXWXOj1C61kFk/UjVFj5MrDMSLTM5QOq0sCNoA/PXuZgf2UVP6l1QJyosOKmD2ROXCaECnIxZcNuaTyeWoDs/YZJBAId2jA4zfQ7vK+TuBMecu0TSmi/LubP9p9FyogOKHgilQDO75tXrHmS/FbPQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765227794; c=relaxed/simple;
-	bh=M50YPCi1zz5JyV41NvIqBkDQ1nKv4YEJGAXl98wk7A8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cyaB3VfFypWoDU73kExb2jG0vjs1h8Fx2s5GplvoCCPJXpqNStAIsqVRCGsEx78r9QkeJ4HXh7xUel3McK73tncPgvIxua8DkDQCakDl0zm+avNkzTopkU9W+HdR32lNv/iAMAR5U34k/r00v+ujuzIoQj0au+niDhcjURypCJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=EPvu0I/U; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=WsHHh333; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B8ChfST850781
-	for <linux-media@vger.kernel.org>; Mon, 8 Dec 2025 21:03:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	RwXU4yEkS5GKD6FWOwlvuTVQTw1siF03sQUIknd3y7o=; b=EPvu0I/U5hPRkEyc
-	Yr1HmliDK6SE4UhoTCFQhrX7kBdWvcvySMTlwj/Sw9uDlZvhM+Vu5Xwu1dlzB9SW
-	OUZ3COW+MTMYNwum/cP+5Cj7JPl/h1QxNv4ZdwzZgRQlRJGk8wDGDYv6jaBO/CYN
-	7znAKZrbLlS/4WXU/U9MXnuEO//8zFlIhUUJrXFZQW3jh4q9bjoDOfj9qUrrPlvQ
-	Iwi9tYJrmimP4RSs5CGmen6tHJG0IHQN8wUW7DY18ColhgwKMigIFAS/41QFkOoi
-	lp31po2Sq73qM5mv4rAzxh/ynh/N69xoYB7jE2YSzu1nnIRB5Ls3wBdLFqtBvwCr
-	qvOi6g==
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4awxxc1dtg-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Mon, 08 Dec 2025 21:03:10 +0000 (GMT)
-Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-bde2d88e5e3so8478190a12.2
-        for <linux-media@vger.kernel.org>; Mon, 08 Dec 2025 13:03:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1765227790; x=1765832590; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RwXU4yEkS5GKD6FWOwlvuTVQTw1siF03sQUIknd3y7o=;
-        b=WsHHh333sZHWi6yvuuqr90IfJL6N88nvErv4F+++Ck5YJd6asj6LYt355UDSU8r7Jb
-         NNO+n488dapIGnAKGKaLduTFnjBwmf2JXBpVfm0OKcz07BYdWSZ1xU96WGpjLibKiRE2
-         xm9byGMgVHB4kiJfDFTzdwsrFCzcSRG44tfZeWhSsEh1VLOX0vBonktvDlUGiuoOpk4m
-         QDasd5AbvvrdfeM9djWWBBGJqeiR7mj/9vysFaogEecvlecuws/yluXadOIIOAQaLs5k
-         ytGvIwDB+dSUWqHDzzz8eCIYOTMZZeMjsxqdM5kn15m6h08u/0BuxQPNUp8HDl5h7WbJ
-         7+cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765227790; x=1765832590;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RwXU4yEkS5GKD6FWOwlvuTVQTw1siF03sQUIknd3y7o=;
-        b=RPVe/tEYqFt9FnBlAxnLzrc47k/vP+TGz4LmJWjuVMhfFhR5Pupd7AbsIjrb1U8rWh
-         ulcTo+LfIzzQo5k+Ub9rG+HQrtWLIvC40N05HWV3KpJhmHG7lVSERYS/v3fT92t/nrFI
-         bK9dAKSFVGXvhi+zsijDrlL8z+jHZyxnV9Bbshep/5zU0zSqks+sbFXTlkt2Qa7dZYN+
-         Bar/MohoDy8CNn5dV8sDlwzlCcyWpiJTSPvto21j7mony0zx7HsbknBSf/nQLYJXFhGC
-         KjA9m26XTXOT3yXO/g03HDyRpUr4xdtbrNNZK1s0cW+TFNG/E7uuPVBUfGdLVwOVKdVL
-         KoWg==
-X-Forwarded-Encrypted: i=1; AJvYcCXZJSxLWIJbn6oMq/izeAx2qPfwSoAATa1xqVVNEVLN3bBDcvwCvzRKcPiElBINMHrlKbVVNKbIXK7AyQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzk21Y85T1faUSORnrnDGlIMh48Jq0pmZdLOLSFKuDkrYlKKWCU
-	pVIBvemZV3JkRjPEi2Q5/jVdrJPy1+DyuwaJhgiRA4ZTQlQwJqLreL4ZTMYvqstpyUAvkQA9rL/
-	MK8uZgBZ/xixSh1TqEvkEXoGmBEccPcHFNkOMyWEpltM8XQhofJ0ChnqTC7LWVeGklQ==
-X-Gm-Gg: ASbGncvZ82HGfo5YGdypYhJb7j9m/yzDkpR5Rf/t0Iaai3qkPWxD5GqwY2TMn9Uoxdb
-	Sll2qaTZoqpfxSCqQuwLScPgxrf8VrEEk78oailGVbr8K0czDS7nPu5WTawdz+9vpHWEtPCZ0hP
-	nGDoqxpW9ttodNZhhh9/k5p40C777hLptP/g5WCrCDDR4r1YL2Z7CQad2u37P0ZDdzn5VgPySvE
-	c5hs5XBMpG07i0fhIVr2YTb2dwHVBxVRAMxnBEBrKrg93ZyRcXFs6E7Dld0qi6H/5n8SkajHF/C
-	kGFBS1/aR0nxoTVZ87c9F0fIf8rqQ17PByvrSeK9zCaThk9CJyVuRqOLsCmxJQODJ3lSCQHUHmK
-	q5zNrfKGaKlNEHStWE8foNKgUpMzR7Yu/3f/9w/XSfyfo1YxZqjDC3AvkUmNUtqEkOw==
-X-Received: by 2002:a05:7301:140a:b0:2a4:3593:6459 with SMTP id 5a478bee46e88-2abc713ea04mr5771205eec.9.1765227789451;
-        Mon, 08 Dec 2025 13:03:09 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGN1LdEcW/YLLvxDBKJ/l2/Lyj31m2mxmL4gDtQGuQFuf5uGzERDWxMd6xhnIhCeNeevDqypA==
-X-Received: by 2002:a05:7301:140a:b0:2a4:3593:6459 with SMTP id 5a478bee46e88-2abc713ea04mr5771173eec.9.1765227788816;
-        Mon, 08 Dec 2025 13:03:08 -0800 (PST)
-Received: from [10.62.37.112] (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2aba8395d99sm59454493eec.1.2025.12.08.13.03.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Dec 2025 13:03:08 -0800 (PST)
-Message-ID: <458a7841-e422-4cad-83de-f5b5c1b683a6@oss.qualcomm.com>
-Date: Mon, 8 Dec 2025 13:03:06 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33696288C22;
+	Mon,  8 Dec 2025 21:06:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.19
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765227968; cv=fail; b=kXJensgcvNtZkZ5iHNG5ZIsvarWXsWNQTGvTDYveHdFWNRmOjS2ebqnfcTi9ytYUOUSzoZdz9wB8rk9pPCGmflQhWgyQf4MMsVY3xqnkhIklHAtiJzAOHKMaQmnnb8ZoaEGPaGZYz6jMnvk914EjZV4KL5cCSumwZ0hZuDMM7xc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765227968; c=relaxed/simple;
+	bh=CeEtj3C0Yxi2us5+NR/13RlfRjuMVdqR58g2jZ5utFQ=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=fhVcz7ANP3DABsFvMjadmkPI43Y0ccQJjpRnFsH99ehU8c3ZVy+3sJA1cch7bETdKswdR4M7dGU//bgVxR+oZGvX3d8/9SPDzfBA6V+VIbQ0a7s1VEUlmdhUmr7R69EKsYSM68hYFMHfQX3ymsMK5KAFnfzh2q0JNI3AE5lXl4E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BhcSHoYR; arc=fail smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765227963; x=1796763963;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=CeEtj3C0Yxi2us5+NR/13RlfRjuMVdqR58g2jZ5utFQ=;
+  b=BhcSHoYRA/FT/C3VdroSXMJJXiSNvL7I1F09vLZm6sWbe40+tD/k3kjB
+   SmogCjxbVsPIHOmFqwDB0BdITD/Ig/2JzYssdmzuKLkzrLcg/ueOXyHv0
+   Ok3nzuB6v0LY06jlznJoms3Uab9xcc/aYpB/uhGErDJ92TbFSEKBh05ZR
+   oWxCuUlz9IQeIYssvWt28KulVdyjWpOO7jGCuqlAGWwwl6DBwwgdQ2wB/
+   IK4a5SUK7+I3h8X1polC70IxJU3awpneGKCS3JFMS2jBwL5sh7oLwvPuX
+   J3m11rBunjX0ucx2v7zjFAtWmoKjxMUZA6FGRAIEIgMD6fHVrSA3FOce8
+   g==;
+X-CSE-ConnectionGUID: 4XbDC6n/SYO2Fz1Ji2a62A==
+X-CSE-MsgGUID: mmn3cV8xR42A5HpjZPawww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="67062492"
+X-IronPort-AV: E=Sophos;i="6.20,259,1758610800"; 
+   d="scan'208";a="67062492"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 13:06:02 -0800
+X-CSE-ConnectionGUID: IGmo+mTHRkCKvbNiIhxMtg==
+X-CSE-MsgGUID: 8wLC5tcVS/yJ90bx2H1Zkg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,259,1758610800"; 
+   d="scan'208";a="200953472"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 13:05:59 -0800
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Mon, 8 Dec 2025 13:05:59 -0800
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29 via Frontend Transport; Mon, 8 Dec 2025 13:05:59 -0800
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (52.101.43.35) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Mon, 8 Dec 2025 13:05:58 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Zpamf+PikB7agLR5w6dVm9fuXUeRTjZKmwFGWxA+7wzgvki/tK+mhZVtFJ9DdphWja3cHwZxNSePFjemAfVx/273GzZy4cKv1NgddNhXPBlFu2hAS3l9Nl8DhZOBpNSt2kCV3ZhHy4N/I7+9Jj0tTWk+NK9Ye6x/mfBsXn2zaxYEkLP4cN9VSCTGjIo1HR78B4pk/1cLOd8e8o4I2yRW7hbRUFFDPOD2wiaB/1JerFZR4oflvuC1NriVxwSdciDDgl/6GiEfHMKDcoTu5AqHml+vtqzXZUF3gVGgf+8zSu150ahvMB2Gns0wywZuq0qZF9SK92R4rXujPsQi84gEcA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1Hc50Ot3KNDjKg9x09Jzgk+zwvm39HXUGVKNebdmhfU=;
+ b=c2XpvBPagjxgTxx54+MXxgLPNgXz9DMwwhBcR0zlyEeHZym6daxfulltTyZzZZQMnUEjLRQfMuYTOZuhwJPUkc7OeykQVO4szRErx8BftGFW0xD2bcKeUMbeyT0cHN/w+ywL9IAPYO7Y8U9nVnDSa5FTI5tvQvNvfd6QpVla2SdHuacPH5OqgJJycCHAreOWyYkzSbx0v83FaNcEJZURq3oMbTfXrAgJYp1TTGP8i44r3fThBPusMdqwzTJiy42Sd5IMbH2QeZQXTnJxDu+uVVhiGKJ3HZ+c3QdCToY/a9zaaK8150JfMZ6Hzq2YP64ufHClfU1yuGiUmCJ4gts3Xg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
+ by CH0PR11MB8166.namprd11.prod.outlook.com (2603:10b6:610:182::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.13; Mon, 8 Dec
+ 2025 21:05:56 +0000
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::acfd:b7e:b73b:9361]) by SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::acfd:b7e:b73b:9361%7]) with mapi id 15.20.9388.013; Mon, 8 Dec 2025
+ 21:05:56 +0000
+Date: Mon, 8 Dec 2025 13:05:55 -0800
+From: "Luck, Tony" <tony.luck@intel.com>
+To: Kees Cook <kees@kernel.org>
+CC: Luis Chamberlain <mcgrof@kernel.org>, Rusty Russell
+	<rusty@rustcorp.com.au>, Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez
+	<da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
+	<linux-modules@vger.kernel.org>, Malcolm Priestley <tvboxspy@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
+	<hverkuil@kernel.org>, Uwe =?iso-8859-1?Q?Kleine-K=F6nig?=
+	<u.kleine-koenig@pengutronix.de>, <linux-kernel@vger.kernel.org>,
+	<linux-media@vger.kernel.org>, <linux-hardening@vger.kernel.org>
+Subject: Re: [PATCH 3/3] module: Add compile-time check for embedded NUL
+ characters
+Message-ID: <aTc9s210am0YqMV4@agluck-desk3>
+References: <20251008033844.work.801-kees@kernel.org>
+ <20251008035938.838263-3-kees@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20251008035938.838263-3-kees@kernel.org>
+X-ClientProxiedBy: SJ0PR03CA0013.namprd03.prod.outlook.com
+ (2603:10b6:a03:33a::18) To SJ1PR11MB6083.namprd11.prod.outlook.com
+ (2603:10b6:a03:48a::9)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 1/5] media: dt-bindings: Add CAMSS device for Kaanapali
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
-Cc: Loic Poulain <loic.poulain@oss.qualcomm.com>,
-        Robert Foss <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        Krzysztof Kozlowski <krzk@kernel.org>
-References: <20251208-add-support-for-camss-on-kaanapali-v9-0-3fcd31258415@oss.qualcomm.com>
- <20251208-add-support-for-camss-on-kaanapali-v9-1-3fcd31258415@oss.qualcomm.com>
- <scnexmcrpemu6vcms3dmq7qjvx54h5pyumjvgqduospao4x2kt@hoi7zfygjq4f>
-Content-Language: en-US
-From: Vijay Kumar Tumati <vijay.tumati@oss.qualcomm.com>
-In-Reply-To: <scnexmcrpemu6vcms3dmq7qjvx54h5pyumjvgqduospao4x2kt@hoi7zfygjq4f>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: 9y_nvfbwGxc3JVsNeCJ46SqK0kYXD8VS
-X-Proofpoint-ORIG-GUID: 9y_nvfbwGxc3JVsNeCJ46SqK0kYXD8VS
-X-Authority-Analysis: v=2.4 cv=AKf9OaRj c=1 sm=1 tr=0 ts=69373d0e cx=c_pps
- a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=gEfo2CItAAAA:8 a=KKAkSRfTAAAA:8 a=VwQbUJbxAAAA:8
- a=EUspDBNiAAAA:8 a=MBzK6yPb57EjR2ONl-4A:9 a=QEXdDO2ut3YA:10
- a=x9snwWr2DeNwDh03kgHS:22 a=sptkURWiP4Gy88Gu7hUp:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA4MDE3OCBTYWx0ZWRfX5K9DUMkJ4cwu
- RNiDqjipqzV/0v1kFBIKSSEwGQYmWsPoIJRd6Ge4/Z0bBLqlCAepA1QwF46aDl+VvJcVvwripnl
- 7h5VTpP6Ekohqr+29h8ubQkQcojp92J5a85/F9cm5iMjD03coFvDesztUyElAAA5LQwQ98AmF+/
- kioMEqqveQlGrnUF9awA8c1tThMjDoMDxlHAewT4zFo3e78ipYgRoNx+FgatLVqEMHT3FooHa/U
- fm4DQhZ1s49RkctLhhH3X7ZCLtPnKC+CYiTUrLkAraq0F/VLwpYnRpqoG6gzuFT8/ddDIrSyAjD
- GxBVDD9i2ICMa0jXGpDvsaMjawa2uUX6wKAU2OgujX1I8Lx7cPxxB2AnLZpWoGHcbQ5n57BPTW8
- bpbN1p2NW3UG+rvLIFzxf3qKdt2gsQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-06_02,2025-12-04_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0 lowpriorityscore=0 adultscore=0 suspectscore=0
- clxscore=1015 impostorscore=0 phishscore=0 bulkscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512080178
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PR11MB6083:EE_|CH0PR11MB8166:EE_
+X-MS-Office365-Filtering-Correlation-Id: 524c18c4-1f69-47ea-490e-08de369d94b1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?P7cuuUPC/D2BfRzuCdEUEHJ8kARy2e85mvVGgX5AqpzWwKZ2JOCLqKIO0zcL?=
+ =?us-ascii?Q?8sUVdo9Ho8oUoxMtoNjiCV/ouzPBmzBGJ/WMWNvYcmWiQe/EVKgjlH0ZxmVa?=
+ =?us-ascii?Q?pRxBkA0hOAgFKM4JookqMZ0wN9ov8pTMSnfT7y1TKAmNv0Ea6ebZi3bRj8Hx?=
+ =?us-ascii?Q?HzM2E3NwZmrcj2d4qWF/urXFfIS/iMN2IpZIBqhTe4mGCLNO6hsklqRwR4lS?=
+ =?us-ascii?Q?u7VZR1T/pHC4hau8FbZSOqGrx32tGl1NjiIyMNLrR7uzZsjqOrXMGU5Ysup5?=
+ =?us-ascii?Q?oaBM0fJX5tjjDbU+931eE9v1urJGqCFu3fV1orJK8NIdNzdw1ssl97NVV4sn?=
+ =?us-ascii?Q?K7M+fe35GIdKMvTaHgE/jGiE3V9ueyIZ0oWJCCYPy1x8Fl8mZG0oZcJPbv1U?=
+ =?us-ascii?Q?/4h8w4TTuZItnmtCD6Netri6YEkdGUSU3HF4geP9ed5cN6eib/qSSICmEEKN?=
+ =?us-ascii?Q?KCPB+e9BfaHJHqRR2JCVcq9F+lFUhj/bc3inFDgHQNAJ67FrNpjzmCD31ub7?=
+ =?us-ascii?Q?KJPYvhBhLV7hLHs05feiohsna932PTJ96dNQqjaAcXw4J4fIR93Z7a+rAExt?=
+ =?us-ascii?Q?GR2k84SA1jMJVn8mITt+VBjfxoFpg9nlKq0Y4oaInBXGBFBi98FTUgB6RS5I?=
+ =?us-ascii?Q?Um+dEyKMAhp7OPBwEwkoqmUBzLFLE3gg8mUgFvn+NS0DREsiTVB5zcBdRyp/?=
+ =?us-ascii?Q?KyoNFpUt5fd5XBIHTCCagV5Px5LPlGzY5x9+5UwPrvlFTwPS33OIdbcJO5Lw?=
+ =?us-ascii?Q?MnFqcB7M0fQscvVUmm9a2bFMyvg5EiuzaokZ+4V2If7QyIoG2kVpQEc7BCFi?=
+ =?us-ascii?Q?W6xXhOFExUSqyDe9N1iCrNJoMfzR3a+d15yOf74MvJLd6Mgn78g/058ej/Gu?=
+ =?us-ascii?Q?OE0rhEV15+6GxsDgxquEt2oONANTE+478hR8I44i9l5vg02KgLq3g6Z3Kwu2?=
+ =?us-ascii?Q?6naeaDczRLoe+CDBlLiRktLiGwN85Uw4ZtUxJvIxKtlxamD9hWgpui4vxIXT?=
+ =?us-ascii?Q?c4zC/eu4NWlveZS/nlWSPO4YVgGPAy7LVCCABdM7njQjcTQODFLNizFzNDg7?=
+ =?us-ascii?Q?gbspf20+fedL7uLpWz9FZWxJAl7RoWON2oDuEc1nisnFMTbD1MtdOU3WDRla?=
+ =?us-ascii?Q?1N675BhlzySJzUWsOFopcloj8trP1D6r3Slj6F51eOGE6YyYmsQAbWYzHHJw?=
+ =?us-ascii?Q?Bfp6y/wYiw057fFHjcl83xrQ/xRT1og02GSFRKoCFbKwURaWLzhYSLUFsHWN?=
+ =?us-ascii?Q?q6ioPUJ6l3xmVW+1NBicZlhVJ709fgvUVRJVXQl8sNzBjV+6a2TsVLdACii+?=
+ =?us-ascii?Q?lrZ25Ss+7iKan1MF0ulBz2fNC7nGbRxmwrG8N6HVYNTsFdsE8xqM4AqJGdsg?=
+ =?us-ascii?Q?yBqpYHlt859lu5+YHQSsDgVato6tg73lBAVr9i/mbmOEmfq1XHxDdHopcraX?=
+ =?us-ascii?Q?CBH1h3Aj+FMmuI3+Ezo2cMFSGk7RaZz0?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1iR6yteizZ5ed9jYjZxFfKUA758IIuf3foiMgZmwIc5qJj1cLeqhmNCwPa4g?=
+ =?us-ascii?Q?LzRucpwNhc9uUzm1HeG8Hm133jfgGkWrhRQGnhE4QhuB/e5h6lqbvR1cJN6T?=
+ =?us-ascii?Q?yeSA8KYOvqq5BurbIAYWmKyo3qCaB9CW5SQ9uZZPSb5/8qJq+0auxs4e87jU?=
+ =?us-ascii?Q?YtZuNJ5TDI/kwXa/0vJbO6fzUC8VI/TWkBwEGWXxDejYjWT56gqMSeBLPDer?=
+ =?us-ascii?Q?pquTpXjdQ379TnnETj0A5wOp/Oowx/KLPjnz48LDlvfkxAjuSB6Fl+CtCiVO?=
+ =?us-ascii?Q?ULeAPXgDjODfo58YNKUiNf8IjfIKSvoHykcfOkWd3qPHF042YZyPANuJ5eoV?=
+ =?us-ascii?Q?/rheJbP4jdQ9POo4C8k+/yoCBTkoIlN/zTL3sadDhnwXrVuoNfSfG2Y22PXu?=
+ =?us-ascii?Q?WtYAGYUagqPD7B8ifSKPiKvKTa/uAPaVCaDtThrlqFGhQS8uGjc5NGEQTJaM?=
+ =?us-ascii?Q?xBVdBf6nfhCb45sIHxDpDxDoltIqKG8DtCUWeF+x04+qj0t3DUTE9KfvxgSq?=
+ =?us-ascii?Q?rhyXL1JYMtrPESDJ5W6V4o9QJ7cIlYK4cjqWmCtlAV2DcjjQUxZE4zukNfYT?=
+ =?us-ascii?Q?8dDuVBJXsKOMQSDeRKMzU4WFWeX15ZFLMSUd+6C/Jw8Q7YQof1igeEvlv4Xr?=
+ =?us-ascii?Q?xrRPsfPDiyMks/A1r03RPU8EJyukBjqzFNT4gd9/oe82g2z0izH5xakGlnbY?=
+ =?us-ascii?Q?kvymxfTWQ3If0x2QKrH28m78gpFUyes0En0i3OYZzlSuvVEJ8Z/T9UcjBq7m?=
+ =?us-ascii?Q?bw247QL78IC5o+Osgo4giCKQpk1OIXEfnurK6C/fX/rWBFJoT1qsYosVQbWM?=
+ =?us-ascii?Q?OhAXwOQ5oOd04CyGbz+SZhjmXT8WPgRIZPKx1QyXjVCr4Bx/DClRXGxkJwlj?=
+ =?us-ascii?Q?y0m1ulpYuz38r6/BUsYSZv9dpl1xgFMotEzx0FfuRHaQk7Z4JuYx0swdsp60?=
+ =?us-ascii?Q?+JRU3KFFUZ8iLmlDnSk2yyyx7sSIqtwVJ6AXmTakiZ6Y2CdOioLT3jBvwGuI?=
+ =?us-ascii?Q?jsL49yxGqco8ufrAy7DCNAzR2TnfWh++ihaWKbQDB57fVIQ+MYgL2C5yn4j1?=
+ =?us-ascii?Q?YpTGh5htVUJXawoLZWnzYdRJTQDaPPZuhiLzr1I3F7b64wIUVwCd4sl1eRxX?=
+ =?us-ascii?Q?QzycHZi590aOh5e6NvoGHd6cmiCnALSP0TP9hd/Tyg/8WXOE3vQzV2P0hItj?=
+ =?us-ascii?Q?kgDbjY99Z5PcRkgsCAedtdXczhPhk/GIVSNMBaS7vBHNDshAbWjJkZ+owy6q?=
+ =?us-ascii?Q?8QCMUoUva3tmJWmXnfqPcASON1tJ3D89UMYkLG4CrYlLkzoNlabwQzCJWapD?=
+ =?us-ascii?Q?Azrin0fpfX6NFQIZvn2FnNhc2L24qrA+Tuiii6/DmpIaUZltDXjZcJhOydUY?=
+ =?us-ascii?Q?Ckr4yVKnRZWcKmZCs8HvmQCXQoYFUbWWNr+7/N6Gctzfs7BfysonLSO98eSi?=
+ =?us-ascii?Q?JKl/U7aUO4rO1oYN2ZXvXLwRkTk0Cm+j2vJu1PmHGsc8V/hCtsrcmMsYu/nM?=
+ =?us-ascii?Q?W99by3F6VC8YnmJBZF0+3yPL9s3ZmMkPp4Dit++wnTVXpJSou6foQxenoC12?=
+ =?us-ascii?Q?HJTictlj6QHkj9Yg0Q6iT/rGWO0m3+XG4SLoztwF?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 524c18c4-1f69-47ea-490e-08de369d94b1
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2025 21:05:56.7336
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2+yAz8OYPNTnHSuC7jks0cJxI15Wu8Uc9/t/O+8vIJYinufnS6IoW/JIJOXaKEFEFJJqO7E23Z/55Gs4cXa5zg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB8166
+X-OriginatorOrg: intel.com
 
+On Tue, Oct 07, 2025 at 08:59:35PM -0700, Kees Cook wrote:
+> Long ago, the kernel module license checks were bypassed by embedding a
+> NUL character in the MODULE_LICENSE() string[1]. By using a string like
+> "GPL\0proprietary text", the kernel would only read "GPL" due to C string
+> termination at the NUL byte, allowing proprietary modules to avoid kernel
+> tainting and access GPL-only symbols.
+> 
+> The MODULE_INFO() macro stores these strings in the .modinfo ELF
+> section, and get_next_modinfo() uses strcmp()-family functions
+> which stop at the first NUL. This split the embedded string into two
+> separate .modinfo entries, with only the first part being processed by
+> license_is_gpl_compatible().
+> 
+> Add a compile-time check using _Static_assert that compares the full
+> string length (sizeof - 1) against __builtin_strlen(), which stops at
+> the first NUL. If they differ, compilation fails with a clear error
+> message.
+> 
+> While this check can still be circumvented by modifying the ELF binary
+> post-compilation, it prevents accidental embedded NULs and forces
+> intentional abuse to require deliberate binary manipulation rather than
+> simple source-level tricks.
+> 
+> Build tested with test modules containing both valid and invalid license
+> strings. The check correctly rejects:
+> 
+>     MODULE_LICENSE("GPL\0proprietary")
+> 
+> while accepting normal declarations:
+> 
+>     MODULE_LICENSE("GPL")
 
-On 12/8/2025 11:53 AM, Dmitry Baryshkov wrote:
-> On Mon, Dec 08, 2025 at 04:39:47AM -0800, Hangxiang Ma wrote:
->> Add bindings for qcom,kaanapali-camss to support the Camera Subsystem
->> (CAMSS) on the Qualcomm Kaanapali platform.
->>
->> The Kaanapali platform provides:
->>
->> - 3 x VFE, 5 RDI per VFE
->> - 2 x VFE Lite, 4 RDI per VFE Lite
->> - 3 x CSID
->> - 2 x CSID Lite
->> - 6 x CSIPHY
->> - 2 x ICP
->> - 1 x IPE
->> - 2 x JPEG DMA & Downscaler
->> - 2 x JPEG Encoder
->> - 1 x OFE
->> - 5 x RT CDM
->> - 3 x TPG
-> Please describe the acronyms.
-Ack.
->> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->> Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
->> Signed-off-by: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
->> ---
->>   .../bindings/media/qcom,kaanapali-camss.yaml       | 646 +++++++++++++++++++++
->>   1 file changed, 646 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/media/qcom,kaanapali-camss.yaml b/Documentation/devicetree/bindings/media/qcom,kaanapali-camss.yaml
->> new file mode 100644
->> index 000000000000..3b54620e14c6
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/media/qcom,kaanapali-camss.yaml
->> @@ -0,0 +1,646 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/media/qcom,kaanapali-camss.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Qualcomm Kaanapali Camera Subsystem (CAMSS)
->> +
->> +maintainers:
->> +  - Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
->> +
->> +description:
->> +  Kaanapali camera subsystem includes submodules such as CSIPHY (CSI Physical layer)
->> +  and CSID (CSI Decoder), which comply with the MIPI CSI2 protocol.
->> +
->> +  The subsystem also integrates a set of real-time image processing engines and their
->> +  associated configuration modules, as well as non-real-time engines.
->> +
->> +  Additionally, it encompasses a test pattern generator (TPG) submodule.
->> +
->> +properties:
->> +  compatible:
->> +    const: qcom,kaanapali-camss
->> +
->> +  reg:
->> +    items:
->> +      - description: Registers for CSID 0
->> +      - description: Registers for CSID 1
->> +      - description: Registers for CSID 2
->> +      - description: Registers for CSID Lite 0
->> +      - description: Registers for CSID Lite 1
->> +      - description: Registers for CSIPHY 0
->> +      - description: Registers for CSIPHY 1
->> +      - description: Registers for CSIPHY 2
->> +      - description: Registers for CSIPHY 3
->> +      - description: Registers for CSIPHY 4
->> +      - description: Registers for CSIPHY 5
->> +      - description: Registers for VFE (Video Front End) 0
->> +      - description: Registers for VFE 1
->> +      - description: Registers for VFE 2
->> +      - description: Registers for VFE Lite 0
->> +      - description: Registers for VFE Lite 1
->> +      - description: Registers for ICP (Imaging Control Processor) 0
->> +      - description: Registers for ICP 0 SYS
->> +      - description: Registers for ICP 1
->> +      - description: Registers for ICP 1 SYS
->> +      - description: Registers for IPE (Image Processing Engine)
->> +      - description: Registers for JPEG DMA & Downscaler
->> +      - description: Registers for JPEG Encoder
->> +      - description: Registers for OFE (Offline Front End)
->> +      - description: Registers for RT CDM (Camera Data Mover) 0
->> +      - description: Registers for RT CDM 1
->> +      - description: Registers for RT CDM 2
->> +      - description: Registers for RT CDM 3
->> +      - description: Registers for RT CDM 4
->> +      - description: Registers for TPG 0
->> +      - description: Registers for TPG 1
->> +      - description: Registers for TPG 2
->> +
->> +  reg-names:
->> +    items:
->> +      - const: csid0
->> +      - const: csid1
->> +      - const: csid2
->> +      - const: csid_lite0
->> +      - const: csid_lite1
->> +      - const: csiphy0
->> +      - const: csiphy1
->> +      - const: csiphy2
->> +      - const: csiphy3
->> +      - const: csiphy4
->> +      - const: csiphy5
->> +      - const: vfe0
->> +      - const: vfe1
->> +      - const: vfe2
->> +      - const: vfe_lite0
->> +      - const: vfe_lite1
->> +      - const: icp0
->> +      - const: icp0_sys
->> +      - const: icp1
->> +      - const: icp1_sys
->> +      - const: ipe
->> +      - const: jpeg_dma
->> +      - const: jpeg_enc
->> +      - const: ofe
->> +      - const: rt_cdm0
->> +      - const: rt_cdm1
->> +      - const: rt_cdm2
->> +      - const: rt_cdm3
->> +      - const: rt_cdm4
->> +      - const: tpg0
->> +      - const: tpg1
->> +      - const: tpg2
->> +
->> +  clocks:
->> +    maxItems: 60
->> +
->> +  clock-names:
->> +    items:
->> +      - const: camnoc_nrt_axi
->> +      - const: camnoc_rt_axi
->> +      - const: camnoc_rt_vfe0
->> +      - const: camnoc_rt_vfe1
->> +      - const: camnoc_rt_vfe2
->> +      - const: camnoc_rt_vfe_lite
->> +      - const: cpas_ahb
->> +      - const: cpas_fast_ahb
->> +      - const: csid
->> +      - const: csid_csiphy_rx
->> +      - const: csiphy0
->> +      - const: csiphy0_timer
->> +      - const: csiphy1
->> +      - const: csiphy1_timer
->> +      - const: csiphy2
->> +      - const: csiphy2_timer
->> +      - const: csiphy3
->> +      - const: csiphy3_timer
->> +      - const: csiphy4
->> +      - const: csiphy4_timer
->> +      - const: csiphy5
->> +      - const: csiphy5_timer
->> +      - const: gcc_axi_hf
-> This clock (and gcc_axi_sf below) still have the gcc_ prefix and GCC name. Why?
-> It was pointed out in the previous review: clock names should be
-> describing their purpose, not their source.
-Hi Dmitry, let me add a bit more detail on this clock. As confirmed by 
-the HW team, the logic that runs based on this clock is still inside the 
-CAMNOC_PDX, just that it is on the CX / MMNOC domain side. Do you think 
-"axi_hf_cx" and "axi_sf_cx" makes sense?
->> +      - const: vfe0
->> +      - const: vfe0_fast_ahb
->> +      - const: vfe1
->> +      - const: vfe1_fast_ahb
->> +      - const: vfe2
->> +      - const: vfe2_fast_ahb
->> +      - const: vfe_lite
->> +      - const: vfe_lite_ahb
->> +      - const: vfe_lite_cphy_rx
->> +      - const: vfe_lite_csid
->> +      - const: qdss_debug_xo
->> +      - const: camnoc_ipe_nps
->> +      - const: camnoc_ofe
->> +      - const: gcc_axi_sf
->> +      - const: icp0
->> +      - const: icp0_ahb
->> +      - const: icp1
->> +      - const: icp1_ahb
->> +      - const: ipe_nps
->> +      - const: ipe_nps_ahb
->> +      - const: ipe_nps_fast_ahb
->> +      - const: ipe_pps
->> +      - const: ipe_pps_fast_ahb
->> +      - const: jpeg
->> +      - const: ofe_ahb
->> +      - const: ofe_anchor
->> +      - const: ofe_anchor_fast_ahb
->> +      - const: ofe_hdr
->> +      - const: ofe_hdr_fast_ahb
->> +      - const: ofe_main
->> +      - const: ofe_main_fast_ahb
->> +      - const: vfe0_bayer
->> +      - const: vfe0_bayer_fast_ahb
->> +      - const: vfe1_bayer
->> +      - const: vfe1_bayer_fast_ahb
->> +      - const: vfe2_bayer
->> +      - const: vfe2_bayer_fast_ahb
->> +
->> +  interrupts:
->> +    maxItems: 30
->> +
->> +  interrupt-names:
->> +    items:
->> +      - const: csid0
->> +      - const: csid1
->> +      - const: csid2
->> +      - const: csid_lite0
->> +      - const: csid_lite1
->> +      - const: csiphy0
->> +      - const: csiphy1
->> +      - const: csiphy2
->> +      - const: csiphy3
->> +      - const: csiphy4
->> +      - const: csiphy5
->> +      - const: vfe0
->> +      - const: vfe1
->> +      - const: vfe2
->> +      - const: vfe_lite0
->> +      - const: vfe_lite1
->> +      - const: camnoc_nrt
->> +      - const: camnoc_rt
->> +      - const: icp0
->> +      - const: icp1
->> +      - const: jpeg_dma
->> +      - const: jpeg_enc
->> +      - const: rt_cdm0
->> +      - const: rt_cdm1
->> +      - const: rt_cdm2
->> +      - const: rt_cdm3
->> +      - const: rt_cdm4
->> +      - const: tpg0
->> +      - const: tpg1
->> +      - const: tpg2
->> +
->> +  interconnects:
->> +    maxItems: 4
->> +
->> +  interconnect-names:
->> +    items:
->> +      - const: ahb
->> +      - const: hf_mnoc
->> +      - const: sf_icp_mnoc
->> +      - const: sf_mnoc
-> You know... Failure to look around is a sin. What are the names of
-> interconnects used by other devices? What do they actually describe?
->
-> This is an absolute NAK.
+ 
+I did a "make W=1 C=1" and found that sparse is now unhappy with all MODULE_LICENSE(),
+MODULE_PARM_DESC(), MODULE_DESCRIPTION(), MODULE_AUTHOR() defintions (with no NUL byte).
 
-Please feel free to correct me here but, a couple things.
+I see:
 
-1. This is consistent with 
-Documentation/devicetree/bindings/media/qcom,qcm2290-camss.yaml. no?
+error: bad integer constant expression
+error: static assertion failed: "MODULE_INFO(parmtype, ...) contains embedded NUL byte"
 
-2. If you are referring to some other targets that use, "cam_" prefix, 
-we may not need that , isn't it? If we look at these interconnects from 
-camera side, as you advised for other things like this?
+for every use.
 
->
->> +
->> +  iommus:
->> +    items:
->> +      - description: VFE non-protected stream
->> +      - description: ICP0 shared stream
->> +      - description: ICP1 shared stream
->> +      - description: IPE CDM non-protected stream
->> +      - description: IPE non-protected stream
->> +      - description: JPEG non-protected stream
->> +      - description: OFE CDM non-protected stream
->> +      - description: OFE non-protected stream
->> +      - description: VFE / VFE Lite CDM non-protected stream
-> This will map all IOMMUs to the same domain. Are you sure that this is
-> what we want? Or do we wait for iommu-maps to be fixed?
+-Tony
 
