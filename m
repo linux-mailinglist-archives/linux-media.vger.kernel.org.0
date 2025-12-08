@@ -1,118 +1,216 @@
-Return-Path: <linux-media+bounces-48391-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48392-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72B6ACACF66
-	for <lists+linux-media@lfdr.de>; Mon, 08 Dec 2025 12:12:49 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68A1ACACF7B
+	for <lists+linux-media@lfdr.de>; Mon, 08 Dec 2025 12:16:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 9F88A301D9F3
-	for <lists+linux-media@lfdr.de>; Mon,  8 Dec 2025 11:12:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0424C304067C
+	for <lists+linux-media@lfdr.de>; Mon,  8 Dec 2025 11:16:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 836793128DC;
-	Mon,  8 Dec 2025 11:12:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 962833128C1;
+	Mon,  8 Dec 2025 11:16:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qcrkwxH1"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VqEErDaK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com [209.85.167.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D83F486331;
-	Mon,  8 Dec 2025 11:12:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46C22227B8E
+	for <linux-media@vger.kernel.org>; Mon,  8 Dec 2025 11:16:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765192365; cv=none; b=dcXlmih9taRyjphbPWHclDvsNvjyemWGy0LFw9ZQPryw4Fd1rLezo8Y84OBIQhcdECIQExtfnH78wPIEg7ArDYBkANVQyDWn3ORyaRxXn9VLeCOKA9fib9ioUxPdWGYfNl3Flg6nle8YbDkzML6VVUvhpNhKLjn7UrHI0oJBvOw=
+	t=1765192612; cv=none; b=lhY3C+6PJbncVzEv9HpwccN/MGJzH4Mambjspkv+5bjSAibqe0zph2Gfk311/ZjEAtkdEgQScZk/GcIr+IL4yz/IBUd1C997Nwdmxx6m4vYehJsUvGkiBj9Kt2qeqwHfHBuC3uvKhy7G0OTrY9nNne5i2TyWo/ZUTV2myJ9pPmY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765192365; c=relaxed/simple;
-	bh=ws3vZtn6Sg1vffHndnGTK3LdQzV9c4BEEfcicCq/QUY=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=TTSQPs/8pvDsbHIr/6qMoDBcZv0u64xEUbUKNucN2sJzLRahTogT+UPDd9TsUZNxZODfsqXurLXAcpZGWy2K9/LwycJuC2ksNr60J6SJZOu+olXb9Rpw4U5DwzbrJL7rOZ0qcWC0D/EuejqCP6cVszd7wKdGDtLepdrnsB+8hFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qcrkwxH1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E8B7C4CEF1;
-	Mon,  8 Dec 2025 11:12:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765192364;
-	bh=ws3vZtn6Sg1vffHndnGTK3LdQzV9c4BEEfcicCq/QUY=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=qcrkwxH1C/7plRy81GlwpgoYg173D+V+bfbTcuGZBb+KhZv1KbQLQqGB5u7wCCMRE
-	 sXjEceTfNXyzfIJlfXuMrgqnJ03iUPJaVZWZY/beWTazVAdsq89MWSq8iOdof1Sd2e
-	 kOV76E8BjDiBG+yoJhXVz0U7XT47VIppwAGlp0rNrZQrNHgMrxyVmToOE/abGpqwQe
-	 yMMS8Nk3rx2q/sZOet79x4jrA1pZg+hoVGWEkH5gbJkRJav/MpHpJ6hAI8OxZSXjfo
-	 4kocYtahuRdDlC5ZzvIK5gVJa5RjMkf3WONQA7MUYnxuRccrc3Scty0aq7Qn3yHfSU
-	 m1n6tsa29rQVA==
-Message-ID: <1ea79ef0-ceba-43b3-9190-7a92c823e3d2@kernel.org>
-Date: Mon, 8 Dec 2025 12:12:39 +0100
+	s=arc-20240116; t=1765192612; c=relaxed/simple;
+	bh=SOUqlzQpcjCK0fTaxI1RTsijxJFfgOEwIrAYv7Vz+lk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rPghwegg0JrP22MrCKjYR1Z9WOepJCG9Icz+v6Ih21ol/OzOHYXyE5qWKLA6wSOlq2+WYmZzISLDj77N0dGw0hFya2904wMHNJnJt8eUh6/sEyMKpHFWBFHFYD/BAlIgbz4AAS2odYCNEK0zu2YWbVdhdEQizh5m5mRSLbZONCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VqEErDaK; arc=none smtp.client-ip=209.85.167.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f67.google.com with SMTP id 2adb3069b0e04-5943b62c47dso4260657e87.1
+        for <linux-media@vger.kernel.org>; Mon, 08 Dec 2025 03:16:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765192608; x=1765797408; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=k1FcJaTt57JlbJy66zrOJwhugl21WOuVNYEAfr8aZYo=;
+        b=VqEErDaKPyr6weReXIM1+Q3kai+gMtGc0a8mbfJs73zF0NUg5WkfEurwUkjTIg0Zuj
+         3gOsHk0514wQkhc5btjSHOGO2G0xCLjg3EXD1YRFlsWgKQIS9KlAuAnxI+iduZr01Lg5
+         KfHP+SAnw8NhD6tx2Bw2SCqV5eUf1NQ0HpHacR+aNsmGm/N/DyncnAo547yhR0ACuZUX
+         /gUy9yAHDjGOe7nZvxxxQxuyyx5G2+OauF0ZmJnWNo0Bkl/iq/B8tZ6tjV7aL2uY106P
+         Jkh0hKnJaI/O8xEFcSTBbiRkm0KbfQMC+8ceRqT5QmjNSMxzWCWpJNTEXKL3qBXnX6aD
+         1r3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765192608; x=1765797408;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k1FcJaTt57JlbJy66zrOJwhugl21WOuVNYEAfr8aZYo=;
+        b=rZJq7tr67W3exJyI5sa2xQzBJsDJI4hskzJoeczBLGQBSLH44WXncXXEMkgIBtMiE+
+         5sWDfdqPMbGU5UKHD64eAxJ0KTfmDN1/BwQwNVqqdtlcb77mIykr7RgKdEHL/hobQHyt
+         u+xcwxWigtog4xDN/TUcS78q78IRh1/d72U7h1sKoK4AvuYKY6+wK00VLuGOkmPwCXUx
+         3lMHDIOYx+k/b3ubeQTjNLCRkfVM7QyoVXj45fIL2n1ogXDZRtAC7RH4N/LbqIKTo4Ya
+         sX9R4SR2CECoz0ODyGHfe7gzHSzsXiQndR8LldgA0JmPi0u4QnandTojHZ1j/OUAhnhz
+         achQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWWDDXw5oageDt9z0Os4tjKDzeVBofaZ3S5uP0+Ip/8VRj8AhclNzWwzXaU2y5XZMmLmuxVVXwx+6dkgw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwSfDjCh4WRdIRpfIGyHb5o1sii4OSVkXFtKvebjYmN89rCqd0R
+	67vtjd8wC232T36+udHpsmZYF4P84xI1RN0TEIgT3L3DD07FamUJ467D
+X-Gm-Gg: ASbGnctDEJ82+9r42v7ig+nYaFhGnwkxWzOxxKeVoZshBkxh+A2dQ28bDwSIq0CaS9p
+	F+ssLuz1qALiibn7JWhp/MRyOlQfekJ4MmAK5ThRdw6Bqf2iLHovOvtaXzUo1OYTXbSZfA4/hsj
+	09Mh54x9/AKTZqPA3fdJ+oCq5JWcw1j29ELnC5/zwRH59ojfN149ZeZMcl1wMWXyqBT4CgAwp4Q
+	nPXmmSpQhtljkJnKQpBr7exiqfKRkNdIpH335YsCzR6f9YC0UUXoNIOb06ODvbexNd6f8aeWnHk
+	ug8L+i/yEAUigmapcd7cV5Em7C/bPxg/rgN8mK7EfGFu18vLRfDLLTzLF6NU3/V6E65UtY6evWd
+	PGhssdfSyfQZHVhh5NUr8iEVtAT/voFfaIfVgni5F0kUQyWm4RvJOC94nDxcIq+Z8BDo/BbhTBO
+	QbpnVUCcvY8Z4hk3ICh7QP1aBNR0fhNIHo7Wktc6x60PIjP/f8G0j7vGBP0g==
+X-Google-Smtp-Source: AGHT+IFU4R3moE77eHxDxOCHEP0tsIAxCKnS+8bBbj0g/HYxCv24Zem1PsGdmmHLOWneqk3oWD3pdA==
+X-Received: by 2002:a05:6512:234b:b0:594:5545:b743 with SMTP id 2adb3069b0e04-5987f918492mr2689851e87.27.1765192608021;
+        Mon, 08 Dec 2025 03:16:48 -0800 (PST)
+Received: from rbta-msk-lt-302690.astralinux.ru.astracloud.ru ([89.107.11.60])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-597d7c1e405sm3975815e87.49.2025.12.08.03.16.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Dec 2025 03:16:47 -0800 (PST)
+From: Alexandra Diupina <dyupina99999@gmail.com>
+To: Hans de Goede <hansg@kernel.org>
+Cc: Alexandra Diupina <dyupina99999@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alan Cox <alan@linux.intel.com>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	lvc-project@linuxtesting.org
+Subject: [PATCH v2] media: atomisp: avoid memory leak in ia_css_pipe_create_cas_scaler_desc_single_output()
+Date: Mon,  8 Dec 2025 14:16:17 +0300
+Message-Id: <20251208111617.21966-1-dyupina99999@gmail.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/6] media: uvcvideo: Import standard controls from
- uvcdynctrl
-From: Hans de Goede <hansg@kernel.org>
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, Manav Gautama <bandwidthcrunch@gmail.com>,
- Martin Rubli <martin_rubli@logitech.com>
-References: <20251119-uvcdynctrl-v2-0-0359ffb98c9e@chromium.org>
- <20251119-uvcdynctrl-v2-2-0359ffb98c9e@chromium.org>
- <779a1a39-64f9-4985-b733-92f8673f3d3e@kernel.org>
-Content-Language: en-US, nl
-In-Reply-To: <779a1a39-64f9-4985-b733-92f8673f3d3e@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+ia_css_pipe_create_cas_scaler_desc_single_output() may fail,
+so add cleanup by ia_css_pipe_destroy_cas_scaler_desc()
+rather than simply exiting the function. Also add error handling
+for kcalloc() in load_video_binaries() and load_primary_binaries().
 
-On 8-Dec-25 12:02 PM, Hans de Goede wrote:
-> Hi Ricardo,
-> 
-> Thank you very much for doing this, this has been on my own TODO list for
-> a long time, so it is great to finally see this happen.
-> 
-> On 19-Nov-25 8:37 PM, Ricardo Ribalda wrote:
->> The uvcdynctrl tool from libwebcam:
->> https://sourceforge.net/projects/libwebcam/
->> maps proprietary controls into v4l2 controls using the UVCIOC_CTRL_MAP
->> ioctl.
->>
->> The tool has not been updated for 10+ years now, and there is no reason
->> for the UVC driver to not do the mapping by itself.
->>
->> This patch adds the mappings from the uvcdynctrl into the driver. Hopefully
->> this effort can help in deprecating the UVCIOC_CTRL_MAP ioctl.
-> 
-> ...
-> 
-> Question what happens if uvcdynctrl is run after applying this patch ?
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-Answering my own question here, we will hit:
+Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
+Signed-off-by: Alexandra Diupina <dyupina99999@gmail.com>
+---
+v2: add kcalloc() error handling
+ drivers/staging/media/atomisp/pci/sh_css.c | 41 ++++++++++++++--------
+ 1 file changed, 26 insertions(+), 15 deletions(-)
 
-drivers/media/usb/uvc/uvc_ctrl.c: 3166:
-
-        list_for_each_entry(map, &ctrl->info.mappings, list) {
-                if (mapping->id == map->id) {
-                        uvc_dbg(dev, CONTROL,
-                                "Can't add mapping '%s', control id 0x%08x already exists\n",
-                                uvc_map_get_name(mapping), mapping->id);
-                        ret = -EEXIST;
-                        goto done;
-                }
-        }
-
-So uvcdynctrl will see an EEXIST error. I think we need to add an -EEXIST check
-to uvc_ctrl_add_mapping() )or uvc_ioctl_xu_ctrl_map() which is the only caller of
-uvc_ctrl_add_mapping()) and if -EEXIST is returned do a uvc_warn_once() that duplicate
-mappings are being ignored and return 0 instead of -EEXIST to avoid breaking existing
-userspace.
-
-Regards,
-
-Hans
-
+diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+index 73bd87f43a8c..c1239e910fdc 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css.c
++++ b/drivers/staging/media/atomisp/pci/sh_css.c
+@@ -4528,21 +4528,20 @@ static int load_video_binaries(struct ia_css_pipe *pipe)
+ 			  NULL,
+ 			  &cas_scaler_descr);
+ 		if (err)
+-			return err;
++			goto ERR;
+ 		mycs->num_yuv_scaler = cas_scaler_descr.num_stage;
+ 		mycs->yuv_scaler_binary = kcalloc(cas_scaler_descr.num_stage,
+ 						  sizeof(struct ia_css_binary),
+ 						  GFP_KERNEL);
+ 		if (!mycs->yuv_scaler_binary) {
+-			mycs->num_yuv_scaler = 0;
+ 			err = -ENOMEM;
+-			return err;
++			goto ERR;
+ 		}
+ 		mycs->is_output_stage = kcalloc(cas_scaler_descr.num_stage,
+ 						sizeof(bool), GFP_KERNEL);
+ 		if (!mycs->is_output_stage) {
+ 			err = -ENOMEM;
+-			return err;
++			goto ERR;
+ 		}
+ 		for (i = 0; i < cas_scaler_descr.num_stage; i++) {
+ 			struct ia_css_binary_descr yuv_scaler_descr;
+@@ -4556,12 +4555,19 @@ static int load_video_binaries(struct ia_css_pipe *pipe)
+ 			err = ia_css_binary_find(&yuv_scaler_descr,
+ 						 &mycs->yuv_scaler_binary[i]);
+ 			if (err) {
+-				kfree(mycs->is_output_stage);
+-				mycs->is_output_stage = NULL;
+-				return err;
++				goto ERR;
+ 			}
+ 		}
++ERR:
+ 		ia_css_pipe_destroy_cas_scaler_desc(&cas_scaler_descr);
++		if (err) {
++			mycs->num_yuv_scaler = 0;
++			kfree(mycs->yuv_scaler_binary);
++			mycs->yuv_scaler_binary = NULL;
++			kfree(mycs->is_output_stage);
++			mycs->is_output_stage = NULL;
++			return err;
++		}
+ 	}
+ 
+ 	{
+@@ -5106,8 +5112,7 @@ static int load_primary_binaries(
+ 			  NULL,
+ 			  &cas_scaler_descr);
+ 		if (err) {
+-			IA_CSS_LEAVE_ERR_PRIVATE(err);
+-			return err;
++			goto ERR;
+ 		}
+ 		mycs->num_yuv_scaler = cas_scaler_descr.num_stage;
+ 		mycs->yuv_scaler_binary = kcalloc(cas_scaler_descr.num_stage,
+@@ -5115,15 +5120,13 @@ static int load_primary_binaries(
+ 						  GFP_KERNEL);
+ 		if (!mycs->yuv_scaler_binary) {
+ 			err = -ENOMEM;
+-			IA_CSS_LEAVE_ERR_PRIVATE(err);
+-			return err;
++			goto ERR;
+ 		}
+ 		mycs->is_output_stage = kcalloc(cas_scaler_descr.num_stage,
+ 						sizeof(bool), GFP_KERNEL);
+ 		if (!mycs->is_output_stage) {
+ 			err = -ENOMEM;
+-			IA_CSS_LEAVE_ERR_PRIVATE(err);
+-			return err;
++			goto ERR;
+ 		}
+ 		for (i = 0; i < cas_scaler_descr.num_stage; i++) {
+ 			struct ia_css_binary_descr yuv_scaler_descr;
+@@ -5137,11 +5140,19 @@ static int load_primary_binaries(
+ 			err = ia_css_binary_find(&yuv_scaler_descr,
+ 						 &mycs->yuv_scaler_binary[i]);
+ 			if (err) {
+-				IA_CSS_LEAVE_ERR_PRIVATE(err);
+-				return err;
++				goto ERR;
+ 			}
+ 		}
++ERR:
+ 		ia_css_pipe_destroy_cas_scaler_desc(&cas_scaler_descr);
++		if (err) {
++			kfree(mycs->yuv_scaler_binary);
++			mycs->yuv_scaler_binary = NULL;
++			kfree(mycs->is_output_stage);
++			mycs->is_output_stage = NULL;
++			IA_CSS_LEAVE_ERR_PRIVATE(err);
++			return err;
++		}
+ 
+ 	} else {
+ 		capt_pp_out_info = pipe->output_info[0];
+-- 
+2.30.2
 
 
