@@ -1,38 +1,99 @@
-Return-Path: <linux-media+bounces-48385-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48386-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4D04CACE60
-	for <lists+linux-media@lfdr.de>; Mon, 08 Dec 2025 11:38:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D72DCACE75
+	for <lists+linux-media@lfdr.de>; Mon, 08 Dec 2025 11:41:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4C97A305FA85
-	for <lists+linux-media@lfdr.de>; Mon,  8 Dec 2025 10:38:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8F43A303FE0D
+	for <lists+linux-media@lfdr.de>; Mon,  8 Dec 2025 10:41:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11179311972;
-	Mon,  8 Dec 2025 10:38:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 045AB3115B1;
+	Mon,  8 Dec 2025 10:41:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="CaK2i+Wi";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="XCmk6ghw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81A4F2DF155;
-	Mon,  8 Dec 2025 10:38:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C01235975
+	for <linux-media@vger.kernel.org>; Mon,  8 Dec 2025 10:41:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765190285; cv=none; b=s1uWXJaGCH7Fyk7QMQ1OChRVd283GCGM06Y5D5e444pS5ISsAk/JLcohCzotobQ1gmRTY+a8oB54cmTAOObjGCcZLHM5n7YqmSok412WQUBm6a+Vh7C4vx9hYsbzpSZNpkTyhNC7weJ1pxgmm3tN3qIs81qQHy+eVuMXUOEF8Cw=
+	t=1765190502; cv=none; b=uf1zR3jn354yktLkcDM1apS1QjCfZWHSoaW+X0MLQMk9iJYZZSFSpSTOcig0RZ1ldcW3njbtbYEMaZFAuVjBVNSWIwofM852SYppsdNgDIIA7DaxHAZZ+vBp/klksx+EBgtcgksp7HcXUoHcYxr/Mw6IFlJixR6KXXIfj6avD88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765190285; c=relaxed/simple;
-	bh=4Z1jdVne24jxPqhdFcs7OpGQFESzT4vb3wGNXqbKFl8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qdqTlQg43MLucZcXzOUKb4ZBtvxWS57e/WVpT/XlM7GGhghsAI8Hv8BG9iolwgRPAgemz1r4k3VKx3DSaIXI/GIlz/tt63FNPzW5S6Y0ZHIQRXejZRRYpUQ4fdjupeRyFb5u9zOrvpF4YQPdakFXkbaDOOtKQual06I1dY8gsDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 236421691;
-	Mon,  8 Dec 2025 02:37:54 -0800 (PST)
-Received: from [10.1.30.155] (XHFQ2J9959.cambridge.arm.com [10.1.30.155])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1A6B23F740;
-	Mon,  8 Dec 2025 02:37:58 -0800 (PST)
-Message-ID: <6f891b70-7ee9-44a3-92a1-bbeb4d2b9fee@arm.com>
-Date: Mon, 8 Dec 2025 10:37:57 +0000
+	s=arc-20240116; t=1765190502; c=relaxed/simple;
+	bh=kMby2H/F/tsIt94HtLsZY50MHiaTi/KpsERd2wJG3pI=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=qKpkuBKNZ4GuZzXso0xIMilK5mTfUTnS74+q9uLutX1AnOemqu+01Z7ECiMtlaiXLt6PKfLu4vpW0K23fe7W3uX3wy6+s88WoH2ED1eG8W/N7j2b6Ohigl38eXUVzm8S8HYbtmU/aVWEyNy2Mp+MPQXTz7Dh5gURj8DzVHu2I0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=CaK2i+Wi; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=XCmk6ghw; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B8A4ArD009203
+	for <linux-media@vger.kernel.org>; Mon, 8 Dec 2025 10:41:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Z7XPWUE3E6BRdaTZcWB/4aVz/ZIDITOvIlBF35IogVQ=; b=CaK2i+WiDeeaeuXH
+	qSODsEtfafSjagfU757cn/fLRKg5i64ppYSnjRLKfq1z8LtgrrQffScWI5HP0FiK
+	l+SKxGbf6ghdfiHqsasGnxGYpIhygX6HFIy0P63XM+FOqGc7+6zcP+EnvGGkWzdv
+	K2IA09MopaiH0QJ9sX3r3ikX4o+foRKH/fK3ZtMz8aKptQZ44uvD8ueTQkZIrnZP
+	xtlyPEYTrk1rSEpIOPtSTpc36tgss1U1UJ2N7OfQXrTZNec8ZnuJPBmksfsbKO1I
+	aNggnrhvBb6IjEITA9ck5ssmNd7zeTazV53tTC2DVHW1Q7J3z+urucqvXcfeVF9W
+	zil3Kg==
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4awvke038n-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Mon, 08 Dec 2025 10:41:39 +0000 (GMT)
+Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-880444afa2cso65317806d6.1
+        for <linux-media@vger.kernel.org>; Mon, 08 Dec 2025 02:41:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1765190498; x=1765795298; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Z7XPWUE3E6BRdaTZcWB/4aVz/ZIDITOvIlBF35IogVQ=;
+        b=XCmk6ghwbGdZQkxjTR61g4qy7hJ5ODsWxamm49OkZk6U/SGfYjt2x8u7nLybOvyVkx
+         t5RuYu76xlhLr1kFo0B/rxUTkX8c3qlaOd1eHNDhx/xsn5KOEfbfBSAsTN1mL3klZOFm
+         4oapFeLlwumE3xRmXiEb5NUI+gHaXeQhe87Mjdd7ft3HkRf//eQpK7H5jpu3BpR+jbuR
+         fDtD9sETph/eS1Q1Ffi2v5vrGOHRc+DNeeXmWq3IcLDevBESIX4NnOLy9vAWaeVc+b4O
+         CcUZwEeRjsEEGYGtxWFt6mzIOgKDYgcQi9/Zo+ovoeNeg2mJNUp3HGRbHhPorxOV0G/y
+         Y2Sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765190498; x=1765795298;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z7XPWUE3E6BRdaTZcWB/4aVz/ZIDITOvIlBF35IogVQ=;
+        b=H/oU2SLM19KPihicqkrvu49/ki4IlkXsNfD7D5FznFQQxoqFe5Wu/gltjSNvpPm6UI
+         5/Q0ZGyMTpHdRFTk2gncsailwnTW2XxTxav7MXnnA4oY2kqTOTaMvonDJBcnpVZwGaBm
+         wrAbwlDH/SOSPfnqv4pGRcwWMucEvdSiWmvHXsTxSpsFo9cN568dALjTeDQGMD7CC64E
+         yXKIVe8MRXD26MmIEdLwCS3shWhECnOAAFc2BWGBUjoXU6lulAQQC6KDDgwSzE71eE77
+         viddhriZVjicqL+sq3XdJ+7tOM+vkjXjnkN0Gy6h+IyqBClFRQRvSyZvKejzpEuuGooR
+         M3zw==
+X-Gm-Message-State: AOJu0YxyzwBcCwDo6jFVyGIPlwfvd02N22gbbT1qQB3te8SZfecGzkjM
+	FBy72RI2c3kHaqKPAMIRdys2sxWMPnfe2fD0XNGQ5tBUhK/Gom8I276w7yb/9lZswYDsZtNLLvG
+	JeDqxsi8fhM/pfbUbwkCXBntPOZ8p4KTdvhUbd82nVxWITG4ZHfHopp/Sm8Hnbo1tuA+i+MHNcg
+	==
+X-Gm-Gg: ASbGnctaWb17Qj9sagWu2cKklxhfFse9jQjxUBr1kRyeU0fCjGw3Nku4Cgxxufp7z3v
+	2FYuKdjHQAWcXBq+E9viDeD+OjgmIUtE5bpmdkri4bPkX1O6m4tZAiTMCApO0KqOWPYdDez5f9w
+	LlavBAwPCxdWg5xhe42YXBm1LWMhJI/D1M25/Pf1mRv8H7YK3PYRzgTwQ39zTiygmlHK0UHYn1a
+	aSIN7K7CkvUfGSSdXRTQfT6w6F+u+L3LQ+iQmcfJaVWak/4Iy13JSAXZ4XDshpBn2H/D08GRawp
+	nXsjNwYhLdipp2JdfKJMFPWQeAtjaiMaD7sjVw9knr+EewUb8ZgjyVaBA5SiXd1PIksZRkX/BlP
+	4QsInMVf2DqCEmUvXiSVt0Y7/D12P
+X-Received: by 2002:a05:6214:f07:b0:882:3ecd:20ec with SMTP id 6a1803df08f44-8883dc42bedmr107754476d6.60.1765190498477;
+        Mon, 08 Dec 2025 02:41:38 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHPHkM6AYJTRAEVX5sv3FTI33hgMrCwFDdKcVwFv2aiLc7PA0LqX4GCUcN3/1YoKrmpEDZBTw==
+X-Received: by 2002:a05:6214:f07:b0:882:3ecd:20ec with SMTP id 6a1803df08f44-8883dc42bedmr107754156d6.60.1765190497896;
+        Mon, 08 Dec 2025 02:41:37 -0800 (PST)
+Received: from [10.40.99.10] ([78.108.130.194])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b79f4498947sm1042456766b.15.2025.12.08.02.41.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Dec 2025 02:41:37 -0800 (PST)
+Message-ID: <4402b9bd-b74d-4a92-90b6-3edd38db8cc9@oss.qualcomm.com>
+Date: Mon, 8 Dec 2025 11:41:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -40,103 +101,150 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC] dma-buf: system_heap: add PTE_CONT for larger contiguous
-Content-Language: en-GB
-To: Barry Song <21cnbao@gmail.com>, gao xu <gaoxu2@honor.com>
-Cc: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T.J. Mercier" <tjmercier@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "surenb@google.com" <surenb@google.com>,
- zhouxiaolong <zhouxiaolong9@honor.com>
-References: <3da6a916cd6d489690b05d2bd64a2b3a@honor.com>
- <CAGsJ_4w-XtJ8zzc8H4OwW4XV21T8FWGxeoMnfAxmAgBhzrvxWQ@mail.gmail.com>
-From: Ryan Roberts <ryan.roberts@arm.com>
-In-Reply-To: <CAGsJ_4w-XtJ8zzc8H4OwW4XV21T8FWGxeoMnfAxmAgBhzrvxWQ@mail.gmail.com>
+From: johannes.goede@oss.qualcomm.com
+Subject: Re: uvc_video issue: Panasonic S1II initialization fails in webcam
+ mode
+To: Lynne <dev@lynne.ee>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org
+References: <91137e13-102b-41a6-8f14-14fb33a3e554@lynne.ee>
+ <20251122151401.GC15447@pendragon.ideasonboard.com>
+ <7ce47ae4-f45d-49f6-919d-98f301aaaa75@lynne.ee>
+Content-Language: en-US, nl
+In-Reply-To: <7ce47ae4-f45d-49f6-919d-98f301aaaa75@lynne.ee>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: OTIse5geANFr34_Jxjaxh1eMIwTsLvMG
+X-Proofpoint-ORIG-GUID: OTIse5geANFr34_Jxjaxh1eMIwTsLvMG
+X-Authority-Analysis: v=2.4 cv=UvBu9uwB c=1 sm=1 tr=0 ts=6936ab63 cx=c_pps
+ a=oc9J++0uMp73DTRD5QyR2A==:117 a=rrvG0T/C2D967D07Ol03YQ==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=_Yd_BS_N7A8Er3USgEkA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=iYH6xdkBrDN1Jqds4HTS:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA4MDA5MCBTYWx0ZWRfX/HBLEi26kirT
+ jrdBMZeIcex2bT5fRfAtizepfoEV2DPgunVJBAa06EZrFswyV8hnZRAU8X/fgUI41njwXKpyHSi
+ LJRUtQpyz7VvAjimuj8+4ZW46pzi/bQEYufi7h31JN582+iPnVHFpkKOOQWES6eSrIRXHVBatyv
+ abnpmJMTSDV+PExZdE1GkvNVVNf8oZfFKO/S02mpGqW6xl/VlWJerlJyogYICOr0MzGrdk6nqxR
+ gZefDEFLHr80Vggir4pOwc4YbB+OB+dxEhUAfYznKNaOygNuRN8AkYOxhSaf8NsAEE1TDDGXNza
+ OzHGYjB5c+0zsQKP47t742Bh5L1uzTo4MhXXy592Yn3Z2gRnmaqWLKoblBUEPF8yt7LBMLwPiAk
+ v3lJVwDN0r5BsVD18i5iAtkYAgKBqw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-06_02,2025-12-04_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 clxscore=1015 lowpriorityscore=0 bulkscore=0 suspectscore=0
+ adultscore=0 impostorscore=0 phishscore=0 priorityscore=1501 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512080090
 
-On 08/12/2025 09:52, Barry Song wrote:
-> On Mon, Dec 8, 2025 at 5:41 PM gao xu <gaoxu2@honor.com> wrote:
+Hi,
+
+On 22-Nov-25 6:58 PM, Lynne wrote:
+> On 22/11/2025 16:14, Laurent Pinchart wrote:
+>> Hi Lynne,
 >>
->> commit 04c7adb5871a ("dma-buf: system_heap: use larger contiguous mappings
->> instead of per-page mmap") facilitates the use of PTE_CONT. The system_heap
->> allocates pages of order 4 and 8 that meet the alignment requirements for
->> PTE_CONT. enabling PTE_CONT for larger contiguous mappings.
-> 
-> Unfortunately, we don't have pte_cont for architectures other than
-> AArch64. On the other hand, AArch64 isn't automatically mapping
-> cont_pte for mmap. It might be better if this were done
-> automatically by the ARM code.
-
-Yes indeed; CONT_PTE_MASK and PTE_CONT are arm64-specific macros that cannot be
-used outside of the arm64 arch code.
-
-> 
-> Ryan(Cced) is the expert on automatically setting cont_pte for
-> contiguous mapping, so let's ask for some advice from Ryan.
-
-arm64 arch code will automatically and transparently apply PTE_CONT whenever it
-detects suitable conditions. Those suitable conditions include:
-
-  - physically contiguous block of 64K, aligned to 64K
-  - virtually contiguous block of 64K, aligned to 64K
-  - 64K block has the same access permissions
-  - 64K block all belongs to the same folio
-  - not a special mapping
-
-The last 2 requirements are the tricky ones here: We require that every page in
-the block belongs to the same folio because a contigous mapping only maintains a
-single access and dirty bit for the whole 64K block, so we are losing fidelity
-vs per-page mappings. But the kernel tracks access/dirty per folio, so the extra
-fidelity we get for per-page mappings is ingored by the kernel anyway if the
-contiguous mapping only maps pages from a single folio. We reject special
-mappings because they are not backed by a folio at all.
-
-For your case, remap_pfn_range() will create special mappings so we will never
-set the PTE_CONT bit.
-
-Likely we are being a bit too conservative here and we may be able to relax this
-requirement if we know that nothing will ever consume the access/dirty
-information for special mappings? I'm not if that is the case in general though
-- it would need some investigation.
-
-With that issue resolved, there is still a second issue; there are 2 ways the
-arm64 arch code detects suitable contiguous mappings. The primary way is via a
-call to set_ptes(). This part of the "PTE batching" API and explicitly tells the
-implementaiton that all the conditions are met (including the memory being
-backed by a folio). This is the most efficient approach. See contpte_set_ptes().
-
-There is a second (hacky) approach which attempts to recognise when the last PTE
-of a contiguous block is set and automatically "fold" the mapping. See
-contpte_try_fold(). This approach has a cost because (for systems without
-BBML2_NOABORT) we have to issue a TLBI when we fold the range.
-
-For remap_pfn_range(), we would be relying on the second approach since it is
-not currently batched (and could not use set_ptes() as currently spec'ed due to
-there being no folio). If we are going to add support for contiguous pfn-mapped
-PTEs, it would be preferable to add equivalent batching APIs (or relax set_ptes()).
-
-I think this would be a useful improvement, but it's not as straightforward as
-adding PTE_CONT in system_heap_mmap().
-
-Thanks,
-Ryan
-
-> 
+>> On Sat, Nov 22, 2025 at 12:28:48PM +0100, Lynne wrote:
+>>> The issue I'd like to report is that the kernel fails to initialize the
+>>> Panasonic S1II DSLR camera in webcam mode as a webcam.
+>>> Seems like most queries time out or error out with a generic protocol
+>>> error return.
+>>> I tried increasing UVC_CTRL_CONTROL_TIMEOUT just in case, but it did not
+>>> seem to help.
 >>
->> After applying this patch, TLB misses are reduced by approximately 5% when
->> opening the camera on Android systems.
->>
->> Signed-off-by: gao xu <gaoxu2@honor.com>
->> ---
+>> I see in the log that the USB audio driver fails as well. There are
+>> quite a few devices that exhibit issues in the interactions between the
+>> audio and video interfaces. Could you test blacklisting the
+>> snd_usb_audio module to prevent it from loading (and unloading it if
+>> it's loaded already), and replug your camera ?
 > 
-> Thanks
-> Barry
+> Hi,
+> I dug around some more. When the device is first connected, everything runs fine, actually. Upon unplugging and plugging it back in, I get the log I posted initially. Unloading the uvcvideo/uvc moedule and loading it makes the camera work again.
+> Disabling snd_usb_audio did not help.
+> 
+> Here's the log of the device being plugged in for the first time.
+> <same as before>
+> [  +0.000001] usb 2-3: SerialNumber: 00000Z12FB009251
+> [  +0.094425] videodev: Linux video capture interface: v2.00
+> [  +0.017217] usb 2-3: Found UVC 1.10 device DC-S1M2 (04da:2385)
+> [  +0.000493] usb 2-3: Failed to query (GET_INFO) UVC error code control 2 on unit 2: -32 (exp. 1).
+> [  +0.000264] usb 2-3: Failed to query (GET_INFO) UVC error code control 2 on unit 1: -32 (exp. 1).
+> [  +0.000407] usbcore: registered new interface driver uvcvideo
+> [  +0.007960] usb 2-3: Failed to query (GET_DEF) UVC error code control 2 on unit 2: -32 (exp. 1).
+> [  +0.000004] usb 2-3: UVC non compliance: permanently disabling control 980900 (Brightness), due to error -32
+> [  +0.000425] usb 2-3: Failed to query (GET_DEF) UVC error code control 2 on unit 1: -32 (exp. 1).
+> [  +0.000001] usb 2-3: UVC non compliance: permanently disabling control 9a0901 (Auto Exposure), due to error -32
+> [  +1.091011] usb 2-3: Failed to query (GET_DEF) UVC error code control 2 on unit 2: -32 (exp. 1).
+> [  +0.000442] usb 2-3: Failed to query (GET_DEF) UVC error code control 2 on unit 1: -32 (exp. 1).
+> [  +0.000762] usb 2-3: Failed to query (GET_DEF) UVC error code control 2 on unit 2: -32 (exp. 1).
+> [  +0.000426] usb 2-3: Failed to query (GET_DEF) UVC error code control 2 on unit 1: -32 (exp. 1).
+> [Nov22 18:50] usb 2-3: USB disconnect, device number 2
+> 
+> Maybe some state gets corrupted?
+
+I think this maybe a timing issue, where if we talk to the device to quickly after
+plugging in it is unhappy.
+
+The first time there will be some delay because the uvcvideo module needs to be loaded.
+
+Can you try the following:
+
+1. 'echo blacklist uvcvideo | sudo tee /etc/modprobe.d/uvcvideo-blacklist.conf'
+2. 'sudo rmmod uvcvideo'
+3. plugin the camera, then wait 1 second
+4. 'sudo modprobe uvcvideo'
+5. Camera now works?
+6. unplug the camera
+7. 'sudo rmmod uvcvideo'
+8. plugin the camera, then wait 1 second
+9. 'sudo modprobe uvcvideo'
+
+If the camera now works on the second plugin then we've some timing issue.
+
+If it does not work then try:
+
+1. unplug the camera
+2. turn the camera fully off
+3. wait 10 seconds
+4. turn the camera back on
+5. plug in the camera
+
+Since it may also be the case that the camera fw somehow ends up in a bad state after
+being plugged in once and that the camera fw needs to be reset before plugging it in
+a second time.
+
+When you plug in the camera the first time and it works properly, was the camera
+on when you plugged it in; or did you plug it on while the camera was off and
+did plugging it in wake it up (or did you turn it on after plugging it in)?
+
+It might also make a difference of if you plugin first and then turn on
+the camera vs plugging in while the camera is already on.
+
+Regards,
+
+Hans
+
+
+
+
+> 
+>>> Full log is below:
+>>>
+>>> [Nov22 12:11] usb 4-4: new SuperSpeed Plus Gen 2x1 USB device number 10 using xhci_hcd
+>>> [  +0.017315] usb 4-4: New USB device found, idVendor=04da, idProduct=2385, bcdDevice= 1.00
+>>> [  +0.000008] usb 4-4: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+>>> [  +0.000004] usb 4-4: Product: DC-S1M2
+>>> [  +0.000002] usb 4-4: Manufacturer: Panasonic
+>>> [  +0.000002] usb 4-4: SerialNumber: 00000Z12FB009251
+>>> [  +0.019222] usb 4-4: Found UVC 1.10 device DC-S1M2 (04da:2385)
+>>> [  +5.127335] usb 4-4: Failed to query (GET_INFO) UVC control 2 on unit 2: -110 (exp. 1).
+>>> [  +5.119884] usb 4-4: Failed to query (GET_INFO) UVC control 2 on unit 1: -110 (exp. 1).
+>>> [ +10.239937] usb 4-4: UVC non compliance - GET_DEF(PROBE) not supported. Enabling workaround.
+>>> [  +0.008264] uvcvideo 4-4:1.1: Failed to query (GET_CUR) UVC probe control : -71 (exp. 34).
+>>> [  +0.000013] uvcvideo 4-4:1.1: Failed to initialize the device (-71).
+>>> [  +0.000026] uvcvideo 4-4:1.0: probe with driver uvcvideo failed with error -71
+>>> [  +0.103095] usb 4-4: 3:1: cannot set freq 48000 to ep 0x83
+>>> [  +0.359825] usb 4-4: 3:1: usb_set_interface failed (-71)
+>>> [  +0.320056] usb 4-4: 3:1: usb_set_interface failed (-71)
+> 
+> 
 
 
