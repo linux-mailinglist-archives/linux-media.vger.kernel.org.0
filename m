@@ -1,101 +1,46 @@
-Return-Path: <linux-media+bounces-48389-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48390-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99478CACEC6
-	for <lists+linux-media@lfdr.de>; Mon, 08 Dec 2025 11:54:37 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20B8BCACF1B
+	for <lists+linux-media@lfdr.de>; Mon, 08 Dec 2025 12:03:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 08B26301B12D
-	for <lists+linux-media@lfdr.de>; Mon,  8 Dec 2025 10:54:33 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B21A6306B156
+	for <lists+linux-media@lfdr.de>; Mon,  8 Dec 2025 11:02:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38A35312837;
-	Mon,  8 Dec 2025 10:54:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F1A631195B;
+	Mon,  8 Dec 2025 11:02:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="aVBxkF1d";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="CP8khLrX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fRaIJleY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28DCB31079B
-	for <linux-media@vger.kernel.org>; Mon,  8 Dec 2025 10:54:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEA002EA156;
+	Mon,  8 Dec 2025 11:02:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765191271; cv=none; b=KYPaeOnwnVMXM2GBHvx4FP/OWMotGfwOza2FB37yjWxm8FT3jGl9UlthJLU4eyMwOy0HfcLPI6z2yVidfUe0srXY8YL71/ZUUyUOuwL4hzZ0n9P+ebRzEoMAJYXOvdYs0jfYt9kaclrXyfShpAsbKgZ599jGxYgERf/ZX27gwmw=
+	t=1765191730; cv=none; b=IqKe9YEZjQJ8mvuqwk84XHAkRQe+o3e6v3SN5L2lVdy1yuBTi71miRuIM8ywGp6a1xPa8s2BI3ltmArL9rCd51m6SI0t/7ZZf4wvd1Tpf7hQQrtWdTuwNv9hjQjM5fG0brFOSD8DZnUl/Ylt6039bSO8SFEaV41Dvt6IdLXjegM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765191271; c=relaxed/simple;
-	bh=L2PFKeWLruFT7HhSZW1fWbSIekQGNtX6aWxeUgNX2rE=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=cL05n43eq60mYCbpojFodtxzZoMvTt8u1Pd4TcUrGQKMvam4HwXb9MckepCZi5Y+QhOoJumOWSqgZFtH58d44zu2LEUjCDthuQWuYY01l4czfRyflUDGY5dM1rS6CdHGTi4dmwts4rrWpwX4plPV7qiI6DLWshsdIpf3OJO7ViQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=aVBxkF1d; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=CP8khLrX; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B88Rx2u3946042
-	for <linux-media@vger.kernel.org>; Mon, 8 Dec 2025 10:54:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	6YGYntBelCU0BbNsavFK91z9JODq2w5Zuuf+jwFRJWo=; b=aVBxkF1dh5l/ICM4
-	bDpHw40Cs9ex8+0MJYHeIXSwfBvUUXwT7R9xZxOeK6f5xlvT1OiLYRVIH837A88O
-	cQswzKOeN/IDYeb6YUyLjE2MbVrfqlI4w03CMcPUt3WKELZe+w+vq5GViSqPwWP2
-	HLb+blE1/OaXeiI4aXEqXnlobKepSqOpJtNxAcU+8WJ4n55MXsYRqElOXbliE8iC
-	Np8hWHAaXfd0s5Gvt+TZv7aLZUtCd0Apt9xQFQFGZWgzDGyS20lVqWecCqjOElGW
-	TZu4FqDYpkyCqWB0s6sSKBpsu5T/YMjenST21BS2UsZdE6Y0+TPX82W1Ju+DA3C5
-	KrxTmA==
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4avbga4smc-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Mon, 08 Dec 2025 10:54:27 +0000 (GMT)
-Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-7b96038aa68so3342788b3a.0
-        for <linux-media@vger.kernel.org>; Mon, 08 Dec 2025 02:54:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1765191266; x=1765796066; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:cc:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6YGYntBelCU0BbNsavFK91z9JODq2w5Zuuf+jwFRJWo=;
-        b=CP8khLrXUzJbgG8tIbkC7TSjRRTYXXv3D29wHgB18j5OjRETqi4tPpnw6GACRuDyK3
-         RbGEQGwd5Bm1KLfFjmsVp1uk5R/2TVsQeZwSgTfPvcg8saGCM0zUdjShg2ZwHF0mPd9p
-         I0Z9cV20+eIOh6R8ZFcuWgdTKtRJLkJ5Zdu3agDVO2EXoOW2ch/yrwggagKMnpPJqLor
-         a/bv/YG95JHN7QxjSYvoilxd8BTq0jYy93M3EjHrA8C9uaQujH2wUPoyBLhO2MWMqjVn
-         wbPBUebafJiw5MYymZYxyPalYQ0EHO5SX/VLkoMp47pa7yTq88X4rBfbP12pgvRVk/4A
-         ojng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765191266; x=1765796066;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:cc:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6YGYntBelCU0BbNsavFK91z9JODq2w5Zuuf+jwFRJWo=;
-        b=J130uUtsXdPafDxHf8RlbApfAvBylRQwA8ez/L0R1lPl2RImihTq4J8FDGz7wg3AbI
-         qinleZUMg+Y3HaonzEPUtNyG7KXJCLO+uy8XK+tMGq6M5zUTHJYf+Spx1g33tJQJ1KUt
-         ub6TIlHFi684P7pr5T26cBNaHNy8R9IbmDiN1SDywSHpV39Ua0DiBbMgzBnHpb5EuMuS
-         wC1sfV4qOOjKUH1j6qUdaKRb4Gxzc0E2P9WCKHmFCQ7fYYp7jBMciytjVHT9Xo/qwwOy
-         tc3CaME2e1Lzj8uxSp8v0qc9BilC1mgSzgcEibE94kY/SyMys3+tWIrsIuIrRb0nYbPz
-         WOUA==
-X-Forwarded-Encrypted: i=1; AJvYcCUsK1rD6KW73QBQDD2ajMCv5Ovx5HtaM44/tB8afeVMILmNejZiU3+HuKZUYX7f0LtAegCBc+VWLYOY6Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YziMrkXrhjoIo6TohEiKu0bBUMMYgMvkxMnkOXIlxjQy9lV+r4O
-	2FOip4uALT/cVAwguydfpX5vz+bFqaCTSr4PC8RRGUr4ziw32ovuFmN6kT20XkIMFfJl+6LX4u0
-	naINbUjupEBBa114kVG39HxK30S+x+vKQJ1YiJbcLlp1kLPoqhKS6wj4bIA1DGfrB/Q==
-X-Gm-Gg: ASbGncs3zED+f3/v3UnfPrsYryiHagX0Cg6FsWe7bXiQ4HuZBLDMjDPu65SXAxt4ySu
-	pXdbKOhsQPXH51PjwsotncASyLj/sg52mH1umvTnxBIe3JDMXYU75yukCtdY6BUoRBVQ1XGspZh
-	kWu3jGi4BRTi3p9TpF5W+EoX4KajgbPsmQOqwVNW/buNb5B3ZKuOOAU2cfWHI2uzOTUnfOnvikh
-	XnTPbkU/AN4GniQgVlsykJjVEqdEMCLYvrKUwQS5wpOQm21znfkmswKq+56Gg3nqH+pDq2XziP0
-	ugCjrY8WQofVa5JzA1qJek92XcBoCtgI1zDxJpFn9j83xVNN/SGekFbeo+KjE5aQ9zK5W7kHpV1
-	c2R972+MTLtTEmZv22y6I/hyg/FDUXlnX5ndu2gG5DTShiLpxDIiy2RRT7ewPmykTcz3FbjLOqJ
-	7l2rY=
-X-Received: by 2002:a05:6a00:94c3:b0:7aa:d1d4:bb7b with SMTP id d2e1a72fcca58-7e8ba3e05bcmr5969925b3a.16.1765191266368;
-        Mon, 08 Dec 2025 02:54:26 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEVJ4BfiayXI3USMdJhTQB/6nSjE5qeDOWZsrG9ZJqjSZ3nCF4lPkB00yUa8weUUa1tLSsWEg==
-X-Received: by 2002:a05:6a00:94c3:b0:7aa:d1d4:bb7b with SMTP id d2e1a72fcca58-7e8ba3e05bcmr5969907b3a.16.1765191265865;
-        Mon, 08 Dec 2025 02:54:25 -0800 (PST)
-Received: from [10.249.8.129] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7e29ff6b56esm12804088b3a.20.2025.12.08.02.54.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Dec 2025 02:54:25 -0800 (PST)
-Message-ID: <161da76e-b05f-4267-a4b8-bf290b74f85e@oss.qualcomm.com>
-Date: Mon, 8 Dec 2025 18:54:21 +0800
+	s=arc-20240116; t=1765191730; c=relaxed/simple;
+	bh=ygi8r+Ojd81EB1wBcl12AKRYtRElrE/CWfRGiVEYkDw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IL0lgzWfeucgYkF49lgZdVpnOq5GPgQI7dsic9qWW6PjVcqh0rIEOf1kKT2NL5AQknptxUDu2/ESqyInTGrMgrcJ9LeJwfx4dlOxfyYCO2fvaC2uicFvmqZnM1kVWAFG3qn11JW/gHv9wnLHUhpma19DnX9CblnCBoY7Rr6NtIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fRaIJleY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64D45C4CEF1;
+	Mon,  8 Dec 2025 11:02:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765191730;
+	bh=ygi8r+Ojd81EB1wBcl12AKRYtRElrE/CWfRGiVEYkDw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=fRaIJleY+UINIW69lOVZOeNCTSIZf7WF6xXjr08UHA/gtRQ6NnuVvJ1Yc//L0YPUr
+	 YzPRt3hIlBdf8e/hiZeD0/EP/vazhftWW/qqbAEuLt5wZmzTsqawJAC6MEzzRV17Du
+	 UBrbl7JcBL4szmryMWwon7w0n/nip7iXd/c/pJ9T24gQDwrdOUFgE8b+p+4F/G8Qe6
+	 c1G/BolY/5Eh020TjLMAeuMSkLhAEe26JRGKbAcyCM9m6m+P2Ky58EDpB01q1j9b4F
+	 Y1cDzJJNCDympUBLE64VGyVKoGHQwlUO73AVNmjXQnKmOLf95tNTd0EU0xMtzohR6g
+	 2BGobVPXbD19A==
+Message-ID: <779a1a39-64f9-4985-b733-92f8673f3d3e@kernel.org>
+Date: Mon, 8 Dec 2025 12:02:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -103,105 +48,270 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Cc: wangao.wang@oss.qualcomm.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        kernel test robot <lkp@intel.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: Re: [PATCH v8 4/5] media: iris: Define AV1-specific platform
- capabilities and properties
-To: Deepa Guthyappa Madivalara <deepa.madivalara@oss.qualcomm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>
-References: <20251202-av1d_stateful_v3-v8-0-2f74a81773b4@oss.qualcomm.com>
- <20251202-av1d_stateful_v3-v8-4-2f74a81773b4@oss.qualcomm.com>
-Content-Language: en-US
-From: Wangao Wang <wangao.wang@oss.qualcomm.com>
-In-Reply-To: <20251202-av1d_stateful_v3-v8-4-2f74a81773b4@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v2 2/6] media: uvcvideo: Import standard controls from
+ uvcdynctrl
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, Manav Gautama <bandwidthcrunch@gmail.com>,
+ Martin Rubli <martin_rubli@logitech.com>
+References: <20251119-uvcdynctrl-v2-0-0359ffb98c9e@chromium.org>
+ <20251119-uvcdynctrl-v2-2-0359ffb98c9e@chromium.org>
+Content-Language: en-US, nl
+From: Hans de Goede <hansg@kernel.org>
+In-Reply-To: <20251119-uvcdynctrl-v2-2-0359ffb98c9e@chromium.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=d4z4CBjE c=1 sm=1 tr=0 ts=6936ae63 cx=c_pps
- a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=xfU0YH49k9lLscIIeUMA:9 a=QEXdDO2ut3YA:10
- a=OpyuDcXvxspvyRM73sMx:22
-X-Proofpoint-GUID: 5uQHhL6HXOcLg7tK7q7FpX8NkTwRr5lQ
-X-Proofpoint-ORIG-GUID: 5uQHhL6HXOcLg7tK7q7FpX8NkTwRr5lQ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA4MDA5MCBTYWx0ZWRfX211GwBjQV0Z7
- UEr37w1UI+f75SaIfHmrJrV8U883gVfLjUGUMHVCDhKxK6iviSdEldkCjLAKEyTWTzEVdV9u7ME
- TMuY6ZXsmoV9oKmwNdWP7SNjGfUBlYdUW+HjMbD/to7ozKlvhEH7xnCxM08IcuwtGhetSmVx6uL
- Y4XPwByqxfTadrSbMiKINHNZm7tARtHvg90NexGo9yTb4Mykxg/nyKqBTDTEhBeNViigasuP3t9
- gDt9lwY8XfHEdto/ioT0BqlOoNIGiGsj6sWOVB4IT87dtSE0JL2OK+u27Nn8y6NDS8xsuG+kNX0
- qG59m+J9M71bVpnxU71iYwXKEUHHgNRkU4KfjJFqf1x/7k6cWNI3AmlbLGkvj8rgIcde/t9XFRq
- 06dkKk/ext7ouQ9aHU217TnenarvYw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-06_02,2025-12-04_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0 priorityscore=1501 malwarescore=0
- lowpriorityscore=0 clxscore=1015 impostorscore=0 phishscore=0 adultscore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2512080090
+
+Hi Ricardo,
+
+Thank you very much for doing this, this has been on my own TODO list for
+a long time, so it is great to finally see this happen.
+
+On 19-Nov-25 8:37 PM, Ricardo Ribalda wrote:
+> The uvcdynctrl tool from libwebcam:
+> https://sourceforge.net/projects/libwebcam/
+> maps proprietary controls into v4l2 controls using the UVCIOC_CTRL_MAP
+> ioctl.
+> 
+> The tool has not been updated for 10+ years now, and there is no reason
+> for the UVC driver to not do the mapping by itself.
+> 
+> This patch adds the mappings from the uvcdynctrl into the driver. Hopefully
+> this effort can help in deprecating the UVCIOC_CTRL_MAP ioctl.
+
+...
+
+Question what happens if uvcdynctrl is run after applying this patch ?
+
+We already have the ctrl-info + mappings now, does the code detect this
+and ignore the duplicate info, or ... ?
 
 
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index 2905505c240c060e5034ea12d33b59d5702f2e1f..57ce486f22bbc404a1f127539eb2d12373431631 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -385,6 +385,99 @@ static const struct uvc_control_info uvc_ctrls[] = {
+>  				| UVC_CTRL_FLAG_GET_RANGE
+>  				| UVC_CTRL_FLAG_RESTORE,
+>  	},
+> +	/*
+> +	 * Allows the control of pan/tilt motor movements for camera models
+> +	 * that support mechanical pan/tilt.
+> +	 *
+> +	 * Bits 0 to 15 control pan, bits 16 to 31 control tilt.
+> +	 * The unit of the pan/tilt values is 1/64th of a degree and the
+> +	 * resolution is 1 degree.
+> +	 */
+> +	{
+> +		.entity         = UVC_GUID_LOGITECH_MOTOR_CONTROL_V1,
+> +		.selector       = 1,
+> +		.index          = 0,
+> +		.size           = 4,
+> +		.flags          = UVC_CTRL_FLAG_GET_DEF
+> +				| UVC_CTRL_FLAG_GET_MAX
+> +				| UVC_CTRL_FLAG_GET_MIN
+> +				| UVC_CTRL_FLAG_SET_CUR,
+> +	},
+> +	/*
+> +	 * Reset the pan/tilt motors to their original position for camera
+> +	 * models that support mechanical pan/tilt.
+> +	 *
+> +	 * Setting bit 0 resets the pan position.
+> +	 * Setting bit 1 resets the tilt position.
+> +	 *
+> +	 * Both bits can be set at the same time to reset both, pan and tilt,
+> +	 * at the same time.
+> +	 */
+> +	{
+> +		.entity         = UVC_GUID_LOGITECH_MOTOR_CONTROL_V1,
+> +		.selector       = 2,
+> +		.index          = 1,
+> +		.size           = 1,
+> +		.flags          = UVC_CTRL_FLAG_GET_DEF
+> +				| UVC_CTRL_FLAG_GET_MAX
+> +				| UVC_CTRL_FLAG_GET_MIN
+> +				| UVC_CTRL_FLAG_SET_CUR,
+> +	},
+> +	/*
+> +	 * Allows the control of focus motor movements for camera models that
+> +	 * support mechanical focus.
+> +	 *
+> +	 * Bits 0 to 7 allow selection of the desired lens position.
+> +	 * There are no physical units, instead, the focus range is spread over
+> +	 * 256 logical units with 0 representing infinity focus and 255 being
+> +	 * macro focus.
+> +	 */
+> +	{
+> +		.entity         = UVC_GUID_LOGITECH_MOTOR_CONTROL_V1,
+> +		.selector       = 3,
+> +		.index          = 2,
+> +		.size           = 6,
+> +		.flags          = UVC_CTRL_FLAG_GET_CUR
+> +				| UVC_CTRL_FLAG_GET_DEF
+> +				| UVC_CTRL_FLAG_GET_MAX
+> +				| UVC_CTRL_FLAG_GET_MIN
+> +				| UVC_CTRL_FLAG_SET_CUR,
+> +	},
+> +	/*
+> +	 * Allows the control of pan/tilt motor movements for camera models
+> +	 * that support mechanical pan/tilt.
+> +	 *
+> +	 * Bits 0 to 15 control pan, bits 16 to 31 control tilt.
+> +	 */
+> +	{
+> +		.entity         = UVC_GUID_LOGITECH_PERIPHERAL,
 
-On 2025/12/3 7:03, Deepa Guthyappa Madivalara wrote:
-> @@ -805,11 +909,14 @@ const struct iris_platform_data sm8550_data = {
->   		sm8550_vdec_input_config_param_vp9,
->   	.dec_input_config_params_vp9_size =
->   		ARRAY_SIZE(sm8550_vdec_input_config_param_vp9),
-> +	.dec_input_config_params_av1 =
-> +		sm8550_vdec_input_config_param_av1,
-> +	.dec_input_config_params_av1_size =
-> +		ARRAY_SIZE(sm8550_vdec_input_config_param_av1),
->   	.dec_output_config_params =
->   		sm8550_vdec_output_config_params,
->   	.dec_output_config_params_size =
->   		ARRAY_SIZE(sm8550_vdec_output_config_params),
-> -
->   	.enc_input_config_params =
->   		sm8550_venc_input_config_params,
->   	.enc_input_config_params_size =
-> @@ -830,6 +937,9 @@ const struct iris_platform_data sm8550_data = {
->   	.dec_output_prop_vp9 = sm8550_vdec_subscribe_output_properties_vp9,
->   	.dec_output_prop_vp9_size =
->   		ARRAY_SIZE(sm8550_vdec_subscribe_output_properties_vp9),
-> +	.dec_output_prop_av1 = sm8550_vdec_subscribe_output_properties_av1,
-> +	.dec_output_prop_av1_size =
-> +		ARRAY_SIZE(sm8550_vdec_subscribe_output_properties_av1),
->   
->   	.dec_ip_int_buf_tbl = sm8550_dec_ip_int_buf_tbl,
->   	.dec_ip_int_buf_tbl_size = ARRAY_SIZE(sm8550_dec_ip_int_buf_tbl),
-> @@ -899,6 +1009,10 @@ const struct iris_platform_data sm8650_data = {
->   		sm8550_vdec_input_config_param_vp9,
->   	.dec_input_config_params_vp9_size =
->   		ARRAY_SIZE(sm8550_vdec_input_config_param_vp9),
-> +	.dec_input_config_params_av1 =
-> +		sm8550_vdec_input_config_param_av1,
-> +	.dec_input_config_params_av1_size =
-> +		ARRAY_SIZE(sm8550_vdec_input_config_param_av1),
->   	.dec_output_config_params =
->   		sm8550_vdec_output_config_params,
->   	.dec_output_config_params_size =
-> @@ -924,6 +1038,9 @@ const struct iris_platform_data sm8650_data = {
->   	.dec_output_prop_vp9 = sm8550_vdec_subscribe_output_properties_vp9,
->   	.dec_output_prop_vp9_size =
->   		ARRAY_SIZE(sm8550_vdec_subscribe_output_properties_vp9),
-> +	.dec_output_prop_av1 = sm8550_vdec_subscribe_output_properties_av1,
-> +	.dec_output_prop_av1_size =
-> +		ARRAY_SIZE(sm8550_vdec_subscribe_output_properties_av1),
->   
->   	.dec_ip_int_buf_tbl = sm8550_dec_ip_int_buf_tbl,
->   	.dec_ip_int_buf_tbl_size = ARRAY_SIZE(sm8550_dec_ip_int_buf_tbl),
+At a first read I thought this was duplicate with the pan/tilt motor
+control mapping above but this is for UVC_GUID_LOGITECH_PERIPHERAL, where
+as the ctrl_info above is for UVC_GUID_LOGITECH_MOTOR_CONTROL_V1 .
 
-dec_input_config_params_av1 also needs to be added for other platforms 
-if they support AV1.
+I wonder if this is worth a comment ? One difference here is is
+the support of UVC_CTRL_FLAG_GET_RES .
 
--- 
-Best Regards,
-Wangao
+> +		.selector       = 1,
+> +		.index          = 0,
+> +		.size           = 4,
+> +		.flags          = UVC_CTRL_FLAG_GET_DEF
+> +				| UVC_CTRL_FLAG_GET_MAX
+> +				| UVC_CTRL_FLAG_GET_MIN
+> +				| UVC_CTRL_FLAG_GET_RES
+> +				| UVC_CTRL_FLAG_SET_CUR,
+> +	},
+> +	/*
+> +	 * Reset the pan/tilt motors to their original position for camera
+> +	 * models that support mechanical pan/tilt.
+> +	 *
+> +	 * Setting bit 0 resets the pan position.
+> +	 * Setting bit 1 resets the tilt position.
+> +	 */
+> +	{
+> +		.entity         = UVC_GUID_LOGITECH_PERIPHERAL,
+> +		.selector       = 2,
+> +		.index          = 1,
+> +		.size           = 1,
+> +		.flags          = UVC_CTRL_FLAG_GET_DEF
+> +				| UVC_CTRL_FLAG_GET_MAX
+> +				| UVC_CTRL_FLAG_GET_MIN
+> +				| UVC_CTRL_FLAG_GET_RES
+> +				| UVC_CTRL_FLAG_SET_CUR,
+> +	},
+>  };
+>  
+>  static const u32 uvc_control_classes[] = {
+> @@ -1009,6 +1102,87 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
+>  		.menu_mask	= BIT(V4L2_COLORFX_VIVID) |
+>  				  BIT(V4L2_COLORFX_NONE),
+>  	},
+> +	{
+> +		.id             = V4L2_CID_PAN_RELATIVE,
+> +		.entity         = UVC_GUID_LOGITECH_MOTOR_CONTROL_V1,
+> +		.selector       = 1,
+> +		.size           = 16,
+> +		.offset         = 0,
+> +		.v4l2_type      = V4L2_CTRL_TYPE_INTEGER,
+> +		.data_type      = UVC_CTRL_DATA_TYPE_SIGNED,
+> +	},
+> +	{
+> +		.id             = V4L2_CID_TILT_RELATIVE,
+> +		.entity         = UVC_GUID_LOGITECH_MOTOR_CONTROL_V1,
+> +		.selector       = 1,
+> +		.size           = 16,
+> +		.offset         = 16,
+> +		.v4l2_type      = V4L2_CTRL_TYPE_INTEGER,
+> +		.data_type      = UVC_CTRL_DATA_TYPE_SIGNED,
+> +	},
+> +	{
+> +		.id             = V4L2_CID_PAN_RESET,
+> +		.entity         = UVC_GUID_LOGITECH_MOTOR_CONTROL_V1,
+> +		.selector       = 2,
+> +		.size           = 1,
+> +		.offset         = 0,
+> +		.v4l2_type      = V4L2_CTRL_TYPE_BUTTON,
+> +		.data_type      = UVC_CTRL_DATA_TYPE_UNSIGNED,
+> +	},
+> +	{
+> +		.id             = V4L2_CID_TILT_RESET,
+> +		.entity         = UVC_GUID_LOGITECH_MOTOR_CONTROL_V1,
+> +		.selector       = 2,
+> +		.size           = 1,
+> +		.offset         = 1,
+> +		.v4l2_type      = V4L2_CTRL_TYPE_BUTTON,
+> +		.data_type      = UVC_CTRL_DATA_TYPE_UNSIGNED,
+> +	},
+> +	{
+> +		.id             = V4L2_CID_PAN_RELATIVE,
+> +		.entity         = UVC_GUID_LOGITECH_PERIPHERAL,
+> +		.selector       = 1,
+> +		.size           = 16,
+> +		.offset         = 0,
+> +		.v4l2_type      = V4L2_CTRL_TYPE_INTEGER,
+> +		.data_type      = UVC_CTRL_DATA_TYPE_SIGNED,
+> +	},
+> +	{
+> +		.id             = V4L2_CID_TILT_RELATIVE,
+> +		.entity         = UVC_GUID_LOGITECH_PERIPHERAL,
+> +		.selector       = 1,
+> +		.size           = 16,
+> +		.offset         = 16,
+> +		.v4l2_type      = V4L2_CTRL_TYPE_INTEGER,
+> +		.data_type      = UVC_CTRL_DATA_TYPE_SIGNED,
+> +	},
+> +	{
+> +		.id             = V4L2_CID_PAN_RESET,
+> +		.entity         = UVC_GUID_LOGITECH_PERIPHERAL,
+> +		.selector       = 2,
+> +		.size           = 1,
+> +		.offset         = 0,
+> +		.v4l2_type      = V4L2_CTRL_TYPE_BUTTON,
+> +		.data_type      = UVC_CTRL_DATA_TYPE_UNSIGNED,
+> +	},
+> +	{
+> +		.id             = V4L2_CID_TILT_RESET,
+> +		.entity         = UVC_GUID_LOGITECH_PERIPHERAL,
+> +		.selector       = 2,
+> +		.size           = 1,
+> +		.offset         = 1,
+> +		.v4l2_type      = V4L2_CTRL_TYPE_BUTTON,
+> +		.data_type      = UVC_CTRL_DATA_TYPE_UNSIGNED,
+> +	},
+> +	{
+> +		.id             = V4L2_CID_FOCUS_ABSOLUTE,
+> +		.entity         = UVC_GUID_LOGITECH_MOTOR_CONTROL_V1,
+> +		.selector       = 3,
+> +		.size           = 8,
+> +		.offset         = 0,
+> +		.v4l2_type      = V4L2_CTRL_TYPE_INTEGER,
+> +		.data_type      = UVC_CTRL_DATA_TYPE_UNSIGNED,
+> +	},
+>  };
+>  
+>  /* ------------------------------------------------------------------------
+> diff --git a/include/linux/usb/uvc.h b/include/linux/usb/uvc.h
+> index 22e0dab0809e296e089940620ae0e8838e109701..b939a01da11466747249c64c72a3ea40cd364a59 100644
+> --- a/include/linux/usb/uvc.h
+> +++ b/include/linux/usb/uvc.h
+> @@ -35,6 +35,12 @@
+>  #define UVC_GUID_MSXU_1_5 \
+>  	{0xdc, 0x95, 0x3f, 0x0f, 0x32, 0x26, 0x4e, 0x4c, \
+>  	 0x92, 0xc9, 0xa0, 0x47, 0x82, 0xf4, 0x3b, 0xc8}
+> +#define UVC_GUID_LOGITECH_MOTOR_CONTROL_V1 \
+> +	{0x82, 0x06, 0x61, 0x63, 0x70, 0x50, 0xab, 0x49, \
+> +	 0xb8, 0xcc, 0xb3, 0x85, 0x5e, 0x8d, 0x22, 0x56 }
+> +#define UVC_GUID_LOGITECH_PERIPHERAL \
+> +	{0x21, 0x2d, 0xe5, 0xff, 0x30, 0x80, 0x2c, 0x4e, \
+> +	 0x82, 0xd9, 0xf5, 0x87, 0xd0, 0x05, 0x40, 0xbd }
+>  
+>  /* https://learn.microsoft.com/en-us/windows-hardware/drivers/stream/uvc-extensions-1-5#222-extension-unit-controls */
+>  #define UVC_MSXU_CONTROL_FOCUS			0x01
+> 
+
+Regards,
+
+Hans
+
 
 
