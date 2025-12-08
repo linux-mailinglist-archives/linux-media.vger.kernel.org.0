@@ -1,98 +1,209 @@
-Return-Path: <linux-media+bounces-48379-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48380-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADC13CACB62
-	for <lists+linux-media@lfdr.de>; Mon, 08 Dec 2025 10:42:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D99B6CACC02
+	for <lists+linux-media@lfdr.de>; Mon, 08 Dec 2025 10:52:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id DC2E2301D30D
-	for <lists+linux-media@lfdr.de>; Mon,  8 Dec 2025 09:42:36 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 251783020157
+	for <lists+linux-media@lfdr.de>; Mon,  8 Dec 2025 09:52:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECF59314B66;
-	Mon,  8 Dec 2025 09:41:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB32F2E7F3F;
+	Mon,  8 Dec 2025 09:51:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PuMUtBkg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mta21.hihonor.com (mta21.honor.com [81.70.160.142])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF77314A74;
-	Mon,  8 Dec 2025 09:41:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.70.160.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F068C2D3EDE;
+	Mon,  8 Dec 2025 09:51:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765186898; cv=none; b=aEPgbRQ4Aijs8qHk0uD6tQn9z3cMC39u73jKF9O/CPXJ9EDHOoPVsY7hmugW3YYT9+4ZtAam4QHCQyMDtQnWmZO6LZiqyxBe8RSerJaULMdt62Q5SHHEoBa/dlhG/ZWyUY1ZkginTP2/wBVj7Xk3XcH5HmWO9jSsxlzPzILIFkI=
+	t=1765187518; cv=none; b=uU6TXM1zHiLsWecn4UxfybJOTMdXyWUiBZ1cqbeaN+22M2FhX7hihtouuyFcVoAGenl0Y3Qd0U56WgsGthwY5pR8D4cPurY0TP9T6G8XsfZWiE1qNxDVFGVj2RBlIFuidcAWvJRnjJ43XFEMkd4T/KTi9cpYd8kIc6uGWAHArCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765186898; c=relaxed/simple;
-	bh=849Oo5alFZyVsC8b8C5uNYB8oJ+zNuEajBlX9I2FgT8=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=o/N7mkM2z3PbiTTv8A7z+piIhWZTIzlNRhlK7+m9hCsWEekUaR+PXLSA46WHe61uiSwRlPe0CIGUM9tzoTWHITAZDgZRkGGO4eYMDhqDSB8OsL/yZg9x8DoLmJa/d56O7PcRCJOCdvj2WS/FrePOg1SKDlmXE6WyYnkoVQnnYpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com; spf=pass smtp.mailfrom=honor.com; arc=none smtp.client-ip=81.70.160.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=honor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=honor.com
-Received: from w012.hihonor.com (unknown [10.68.27.189])
-	by mta21.hihonor.com (SkyGuard) with ESMTPS id 4dPxkp0TvQzYmbLG;
-	Mon,  8 Dec 2025 17:38:58 +0800 (CST)
-Received: from a009.hihonor.com (10.68.30.244) by w012.hihonor.com
- (10.68.27.189) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 8 Dec
- 2025 17:41:27 +0800
-Received: from a008.hihonor.com (10.68.30.56) by a009.hihonor.com
- (10.68.30.244) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 8 Dec
- 2025 17:41:27 +0800
-Received: from a008.hihonor.com ([fe80::b6bf:fc6a:207:6851]) by
- a008.hihonor.com ([fe80::b6bf:fc6a:207:6851%6]) with mapi id 15.02.2562.027;
- Mon, 8 Dec 2025 17:41:27 +0800
-From: gao xu <gaoxu2@honor.com>
-To: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>
-CC: Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey
-	<Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, "\"T.J. Mercier\""
-	<tjmercier@google.com>, =?utf-8?B?IkNocmlzdGlhbiBLw7ZuaWci?=
-	<christian.koenig@amd.com>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
-	<dri-devel@lists.freedesktop.org>, "linaro-mm-sig@lists.linaro.org"
-	<linaro-mm-sig@lists.linaro.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, Barry Song <21cnbao@gmail.com>,
-	"surenb@google.com" <surenb@google.com>, zhouxiaolong
-	<zhouxiaolong9@honor.com>
-Subject: [RFC] dma-buf: system_heap: add PTE_CONT for larger contiguous
-Thread-Topic: [RFC] dma-buf: system_heap: add PTE_CONT for larger contiguous
-Thread-Index: AdxoJnlSUP8R1FJ1RaylLS1xKeCkOw==
-Date: Mon, 8 Dec 2025 09:41:27 +0000
-Message-ID: <3da6a916cd6d489690b05d2bd64a2b3a@honor.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1765187518; c=relaxed/simple;
+	bh=Xw2iBNxEsfLHLYyj6T0lr2n/XtvbD3HgfDh5pPer8o8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IFbcFtO6zoPgiNRMYBsCshKDN/7oGxXmFA1IjeST9cjnmwpLYAZhUoVNxIA7Lh5KIhFUIShdjdyDL+11fwrjX4EqKok2gIvhXn8ebuDcT/dlt25hR7vOxRROW3wq3WFyFjKOUR4LiMobxymSfM2gqQPfwOOPd/gJ1qceUdYGCXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PuMUtBkg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5641C4CEF1;
+	Mon,  8 Dec 2025 09:51:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765187517;
+	bh=Xw2iBNxEsfLHLYyj6T0lr2n/XtvbD3HgfDh5pPer8o8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=PuMUtBkgJmK2N/lYUA6rXhSho+XhXUj7z2cCr09/jqzhoWg5gDniMfiNROJfvZ1iy
+	 TJe9IBxYz6Nbde9qN65QrmpsAZcXJo98IHbL/xQAk69hQk779zfA/ZlRNPF+rsUp8t
+	 KElBdQ1B5xb6EUYbGrwOJ4lNFhgmNrZvzB5DAnLFi1v09+uADuZxwB9txGKuSWitS3
+	 6MPzJYpbs8FaCfhDYflPXx4e8wPiezixCU3bAeDSCqoHw17BNiZzIQZOYGu+vaESMP
+	 /vhDYRME776fHY8F066zFwnEI8NKdOCIzPdSexVIubRamIItNAfvC8Mrvg+JeU4hwd
+	 0zcrDAdE8f+EA==
+Message-ID: <d5691fc8-df8c-4c85-999c-ba6f848e64ed@kernel.org>
+Date: Mon, 8 Dec 2025 10:51:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] media: uvcvideo: Fix support for
+ V4L2_CTRL_FLAG_HAS_WHICH_MIN_MAX
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil@kernel.org>, Yunke Cao <yunkec@google.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20251119-uvc-fix-which-v2-1-67d1520d0ee8@chromium.org>
+Content-Language: en-US, nl
+From: Hans de Goede <hansg@kernel.org>
+In-Reply-To: <20251119-uvc-fix-which-v2-1-67d1520d0ee8@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Y29tbWl0IDA0YzdhZGI1ODcxYSAoImRtYS1idWY6IHN5c3RlbV9oZWFwOiB1c2UgbGFyZ2VyIGNv
-bnRpZ3VvdXMgbWFwcGluZ3MNCmluc3RlYWQgb2YgcGVyLXBhZ2UgbW1hcCIpIGZhY2lsaXRhdGVz
-IHRoZSB1c2Ugb2YgUFRFX0NPTlQuIFRoZSBzeXN0ZW1faGVhcA0KYWxsb2NhdGVzIHBhZ2VzIG9m
-IG9yZGVyIDQgYW5kIDggdGhhdCBtZWV0IHRoZSBhbGlnbm1lbnQgcmVxdWlyZW1lbnRzIGZvcg0K
-UFRFX0NPTlQuIGVuYWJsaW5nIFBURV9DT05UIGZvciBsYXJnZXIgY29udGlndW91cyBtYXBwaW5n
-cy4NCg0KQWZ0ZXIgYXBwbHlpbmcgdGhpcyBwYXRjaCwgVExCIG1pc3NlcyBhcmUgcmVkdWNlZCBi
-eSBhcHByb3hpbWF0ZWx5IDUlIHdoZW4NCm9wZW5pbmcgdGhlIGNhbWVyYSBvbiBBbmRyb2lkIHN5
-c3RlbXMuDQoNClNpZ25lZC1vZmYtYnk6IGdhbyB4dSA8Z2FveHUyQGhvbm9yLmNvbT4NCi0tLQ0K
-IGRyaXZlcnMvZG1hLWJ1Zi9oZWFwcy9zeXN0ZW1faGVhcC5jIHwgNiArKysrKy0NCiAxIGZpbGUg
-Y2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQoNCmRpZmYgLS1naXQgYS9k
-cml2ZXJzL2RtYS1idWYvaGVhcHMvc3lzdGVtX2hlYXAuYyBiL2RyaXZlcnMvZG1hLWJ1Zi9oZWFw
-cy9zeXN0ZW1faGVhcC5jDQppbmRleCA0Yzc4MmZlMzMuLjEwM2IwNmY4OSAxMDA2NDQNCi0tLSBh
-L2RyaXZlcnMvZG1hLWJ1Zi9oZWFwcy9zeXN0ZW1faGVhcC5jDQorKysgYi9kcml2ZXJzL2RtYS1i
-dWYvaGVhcHMvc3lzdGVtX2hlYXAuYw0KQEAgLTIwMiwxMiArMjAyLDE2IEBAIHN0YXRpYyBpbnQg
-c3lzdGVtX2hlYXBfbW1hcChzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmLCBzdHJ1Y3Qgdm1fYXJlYV9z
-dHJ1Y3QgKnZtYSkNCiAJCXVuc2lnbmVkIGxvbmcgbiA9IChzZy0+bGVuZ3RoID4+IFBBR0VfU0hJ
-RlQpIC0gcGdvZmY7DQogCQlzdHJ1Y3QgcGFnZSAqcGFnZSA9IHNnX3BhZ2Uoc2cpICsgcGdvZmY7
-DQogCQl1bnNpZ25lZCBsb25nIHNpemUgPSBuIDw8IFBBR0VfU0hJRlQ7DQorCQlwZ3Byb3RfdCBw
-cm90ID0gdm1hLT52bV9wYWdlX3Byb3Q7DQogDQogCQlpZiAoYWRkciArIHNpemUgPiB2bWEtPnZt
-X2VuZCkNCiAJCQlzaXplID0gdm1hLT52bV9lbmQgLSBhZGRyOw0KIA0KKwkJaWYgKCgoYWRkciB8
-IHNpemUpICYgfkNPTlRfUFRFX01BU0spID09IDApDQorCQkJcHJvdCA9IF9fcGdwcm90KHBncHJv
-dF92YWwocHJvdCkgfCBQVEVfQ09OVCk7DQorDQogCQlyZXQgPSByZW1hcF9wZm5fcmFuZ2Uodm1h
-LCBhZGRyLCBwYWdlX3RvX3BmbihwYWdlKSwNCi0JCQkJc2l6ZSwgdm1hLT52bV9wYWdlX3Byb3Qp
-Ow0KKwkJCQlzaXplLCBwcm90KTsNCiAJCWlmIChyZXQpDQogCQkJcmV0dXJuIHJldDsNCiANCi0t
-IA0KMi40Mi4wDQo=
+Hi,
+
+On 19-Nov-25 9:17 PM, Ricardo Ribalda wrote:
+> The VIDIOC_G_EXT_CTRLS with which V4L2_CTRL_WHICH_(MIN|MAX)_VAL can only
+> work for controls that have previously announced support for it.
+> 
+> This patch fixes the following v4l2-compliance error:
+> 
+>   info: checking extended control 'User Controls' (0x00980001)
+>   fail: v4l2-test-controls.cpp(980): ret != EINVAL (got 13)
+>         test VIDIOC_G/S/TRY_EXT_CTRLS: FAIL
+> 
+> Fixes: 39d2c891c96e ("media: uvcvideo: support V4L2_CTRL_WHICH_MIN/MAX_VAL")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+
+Thanks patch looks good to me:
+
+Reviewed-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
+
+I've merged this into my local uvc/for-next branch which I will push out later
+today.
+
+Note: I've also rebased uvc/for-next on top of the latest media-committers/next
+so this will be a forced push.
+
+Regards,
+
+Hans
+
+
+
+> ---
+> Changes in v2, Thanks Laurent:
+> - Remove redundant ioctl check
+> - CodeStyle
+> - Link to v1: https://lore.kernel.org/r/20251028-uvc-fix-which-v1-1-a7e6b82672a3@chromium.org
+> ---
+>  drivers/media/usb/uvc/uvc_ctrl.c | 14 ++++++++++++--
+>  drivers/media/usb/uvc/uvc_v4l2.c | 10 ++++++----
+>  drivers/media/usb/uvc/uvcvideo.h |  2 +-
+>  3 files changed, 19 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index 2905505c240c060e5034ea12d33b59d5702f2e1f..2738ef74c7373b185b67611da57610fd0b442080 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -1432,7 +1432,7 @@ static bool uvc_ctrl_is_readable(u32 which, struct uvc_control *ctrl,
+>   * auto_exposure=1, exposure_time_absolute=251.
+>   */
+>  int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
+> -			   const struct v4l2_ext_controls *ctrls,
+> +			   const struct v4l2_ext_controls *ctrls, u32 which,
+>  			   unsigned long ioctl)
+>  {
+>  	struct uvc_control_mapping *master_map = NULL;
+> @@ -1442,14 +1442,24 @@ int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
+>  	s32 val;
+>  	int ret;
+>  	int i;
+> +	/*
+> +	 * There is no need to check the ioctl, all the ioctls except
+> +	 * VIDIOC_G_EXT_CTRLS use which=V4L2_CTRL_WHICH_CUR_VAL.
+> +	 */
+> +	bool is_which_min_max = which == V4L2_CTRL_WHICH_MIN_VAL ||
+> +				which == V4L2_CTRL_WHICH_MAX_VAL;
+>  
+>  	if (__uvc_query_v4l2_class(chain, v4l2_id, 0) >= 0)
+> -		return -EACCES;
+> +		return is_which_min_max ? -EINVAL : -EACCES;
+>  
+>  	ctrl = uvc_find_control(chain, v4l2_id, &mapping);
+>  	if (!ctrl)
+>  		return -EINVAL;
+>  
+> +	if ((!(ctrl->info.flags & UVC_CTRL_FLAG_GET_MIN) ||
+> +	     !(ctrl->info.flags & UVC_CTRL_FLAG_GET_MAX)) && is_which_min_max)
+> +		return -EINVAL;
+> +
+>  	if (ioctl == VIDIOC_G_EXT_CTRLS)
+>  		return uvc_ctrl_is_readable(ctrls->which, ctrl, mapping);
+>  
+> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> index 9e4a251eca88085a1b4e0e854370015855be92ee..30c160daed8cb057b31ec00d665107dfdf4be1dc 100644
+> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> @@ -765,14 +765,15 @@ static int uvc_ioctl_query_ext_ctrl(struct file *file, void *priv,
+>  
+>  static int uvc_ctrl_check_access(struct uvc_video_chain *chain,
+>  				 struct v4l2_ext_controls *ctrls,
+> -				 unsigned long ioctl)
+> +				 u32 which, unsigned long ioctl)
+>  {
+>  	struct v4l2_ext_control *ctrl = ctrls->controls;
+>  	unsigned int i;
+>  	int ret = 0;
+>  
+>  	for (i = 0; i < ctrls->count; ++ctrl, ++i) {
+> -		ret = uvc_ctrl_is_accessible(chain, ctrl->id, ctrls, ioctl);
+> +		ret = uvc_ctrl_is_accessible(chain, ctrl->id, ctrls, which,
+> +					     ioctl);
+>  		if (ret)
+>  			break;
+>  	}
+> @@ -806,7 +807,7 @@ static int uvc_ioctl_g_ext_ctrls(struct file *file, void *priv,
+>  		which = V4L2_CTRL_WHICH_CUR_VAL;
+>  	}
+>  
+> -	ret = uvc_ctrl_check_access(chain, ctrls, VIDIOC_G_EXT_CTRLS);
+> +	ret = uvc_ctrl_check_access(chain, ctrls, which, VIDIOC_G_EXT_CTRLS);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> @@ -840,7 +841,8 @@ static int uvc_ioctl_s_try_ext_ctrls(struct uvc_fh *handle,
+>  	if (!ctrls->count)
+>  		return 0;
+>  
+> -	ret = uvc_ctrl_check_access(chain, ctrls, ioctl);
+> +	ret = uvc_ctrl_check_access(chain, ctrls, V4L2_CTRL_WHICH_CUR_VAL,
+> +				    ioctl);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index ed7bad31f75ca474c1037d666d5310c78dd764df..d583425893a5f716185153a07aae9bfe20182964 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -786,7 +786,7 @@ int uvc_ctrl_get(struct uvc_video_chain *chain, u32 which,
+>  		 struct v4l2_ext_control *xctrl);
+>  int uvc_ctrl_set(struct uvc_fh *handle, struct v4l2_ext_control *xctrl);
+>  int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
+> -			   const struct v4l2_ext_controls *ctrls,
+> +			   const struct v4l2_ext_controls *ctrls, u32 which,
+>  			   unsigned long ioctl);
+>  
+>  int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
+> 
+> ---
+> base-commit: c218ce4f98eccf5a40de64c559c52d61e9cc78ee
+> change-id: 20251028-uvc-fix-which-c3ba1fb68ed5
+> 
+> Best regards,
+
 
