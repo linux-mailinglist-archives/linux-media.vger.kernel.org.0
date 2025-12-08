@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-48393-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48394-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53CFCCACF88
-	for <lists+linux-media@lfdr.de>; Mon, 08 Dec 2025 12:17:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD42BCACF9D
+	for <lists+linux-media@lfdr.de>; Mon, 08 Dec 2025 12:19:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3ABCB3049B15
-	for <lists+linux-media@lfdr.de>; Mon,  8 Dec 2025 11:17:26 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D8C9D3049D38
+	for <lists+linux-media@lfdr.de>; Mon,  8 Dec 2025 11:19:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5698313293;
-	Mon,  8 Dec 2025 11:17:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9ED731352F;
+	Mon,  8 Dec 2025 11:19:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GTcSHui8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tj+lQZy8"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 267AA26F2BC;
-	Mon,  8 Dec 2025 11:17:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34B192EA730;
+	Mon,  8 Dec 2025 11:19:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765192644; cv=none; b=SWmxcHEZPdJq3gNOkdj+4Nr02L858gb8EHBXaSTunthOC4Xc/Zgg7FwmkZimmIE/GkkDHJ+qX5FUh1P7inZi8TsC7v0aakUvHmkMk54y7K1C65VJuzSWHmt5L/TbdWCTtKaXOqT7Fc/budjFpb2qgAPIAHquSjcmGKxYcEgwldc=
+	t=1765192784; cv=none; b=c3is4pBCxf9+HCRzsUAgsuo1PyCDXCVNiJzn73K0CcOlP+65khcLNWX0kSC7Lf9n7CdrYiGIL1Lgf7x+VFgDi2JWlvOBnzKp4im1TEuH4169Q8lsp8aCaDHbowitARLWd/IkZGNrzHsm9gyaetinIz89J2/JUoyDNNmVZbt4eeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765192644; c=relaxed/simple;
-	bh=KtiMXHJh3DbH72E44rdVV48QnYHAuTBc6+cg6He4i2E=;
+	s=arc-20240116; t=1765192784; c=relaxed/simple;
+	bh=ouM4nqEOH1mPEBEmwmybUs/1AZY+VQRDjo8H3w870tE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QLAQjm+nL7p1qoyOVJ7VzIXxqfIECVk2kRC1bhFc+BTkLY0vxX9lxWnsb45liUHKsfzpdpNPRcZlP0/Gla1DcrS+j6lV1A42Q9PELukxHxz4vxRfazF71pvS+sUeDTZpi9qxSHp00EpqRyurCOHanOrsKrmPyvl/l7pO2PYejeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GTcSHui8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DA0AC4CEF1;
-	Mon,  8 Dec 2025 11:17:22 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=SxZhbVbHvBAsB91NCHDt31ixOrf8SyRRbwIocZy+D7tYqd8v8qGSRfa0jjM1mUOz98BMA/DZ+2EeFOpjYUNA6F5RqgogDkymMkZTUpjazN8d3rLSGX+ubh5NCmJhfFHU9YAr8fISCiV9QnMBv4/vdZSfg1ar6ebjPQrXuO+Qthc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tj+lQZy8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C830C4CEF1;
+	Mon,  8 Dec 2025 11:19:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765192644;
-	bh=KtiMXHJh3DbH72E44rdVV48QnYHAuTBc6+cg6He4i2E=;
+	s=k20201202; t=1765192783;
+	bh=ouM4nqEOH1mPEBEmwmybUs/1AZY+VQRDjo8H3w870tE=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=GTcSHui8ZALxrlcF1MdNvZetfPhnqCB+SqIOYdzIK8OZN7wXNVyF24xf3ciC3m502
-	 EwF0qAUIMY0qoTlQhJSIOUPmqq5eTqZ7HoADE+vpkioxKOKp3nCovG7k+8sXPcgJk3
-	 fkob5xQkhRx1lIy9L7rCG7ecmYUnOKH9cHCeE875nHvIE7EhZKvtt9gJyU0p8/lS5S
-	 GUArhMfbr9VVdTU1KdotBmo+LLcKeYKiLWUAnaAVsiTRH6DzA+iK3PqCB0KQfwzLz4
-	 H1mgOoYT4PoMtht/OFxyFocdwS1RcFmDtqnjrsASC968FAgVUZXsG3JseXF2SeOAj+
-	 gSgyjVzL49bsg==
-Message-ID: <f7cbf5ab-7564-4c81-84c9-b38b09e977f9@kernel.org>
-Date: Mon, 8 Dec 2025 12:17:21 +0100
+	b=tj+lQZy8byWE4C1qodH5yqjakB3iPp/4Lz2ysXBdxktT/dEcxDznoWaFtFMa5BHpA
+	 yE5AbBrFtIun9Cs25mrgWlNMhU+Bkt3KOSmgiLiKgw1zxVttpQJ1TrvCBBt1lHJo5E
+	 RsG1WXVBZAmmalnYBhQj0qRzA1m5AKzu8DcvFyyt52NlB5NDolzRfMmdSWl3huPJLt
+	 IVpn1RwLVxR2sgIspkhExrt6I6tcZL7M+pZ3NUiWgX8IR0eZ9HQF3pbDCYYqacB30x
+	 lHjT/F/0kHvlOuSrony33pyeEXzvdkik8KhjmiIUSoOQcsB0xazdDEiukVgOq56IvZ
+	 4htq/JNPh8atA==
+Message-ID: <93931a19-43a5-411b-9f81-60da07a8229b@kernel.org>
+Date: Mon, 8 Dec 2025 12:19:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -48,8 +48,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/6] media: uvcvideo: Announce deprecation intentions
- for UVCIOC_CTRL_MAP
+Subject: Re: [PATCH v2 4/6] media: uvcvideo: Document how to format GUIDs
 To: Ricardo Ribalda <ribalda@chromium.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -57,85 +56,58 @@ To: Ricardo Ribalda <ribalda@chromium.org>,
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-usb@vger.kernel.org
 References: <20251119-uvcdynctrl-v2-0-0359ffb98c9e@chromium.org>
- <20251119-uvcdynctrl-v2-3-0359ffb98c9e@chromium.org>
+ <20251119-uvcdynctrl-v2-4-0359ffb98c9e@chromium.org>
 Content-Language: en-US, nl
 From: Hans de Goede <hansg@kernel.org>
-In-Reply-To: <20251119-uvcdynctrl-v2-3-0359ffb98c9e@chromium.org>
+In-Reply-To: <20251119-uvcdynctrl-v2-4-0359ffb98c9e@chromium.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
 On 19-Nov-25 8:37 PM, Ricardo Ribalda wrote:
-> The UVCIOC_CTRL_MAP lets userspace create a mapping for a custom
-> control.
+> Manual formatting the GUIDs can lead to errors, document a
+> programmatically way to format the GUIDs from lsusb into something tha
+> the driver can use.
 > 
-> This mapping is usually created by the uvcdynctrl userspace utility. We
-> would like to get the mappings into the driver instead.
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  Documentation/userspace-api/media/drivers/uvcvideo.rst | 2 ++
->  drivers/media/usb/uvc/uvc_v4l2.c                       | 4 ++++
->  2 files changed, 6 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/drivers/uvcvideo.rst b/Documentation/userspace-api/media/drivers/uvcvideo.rst
-> index dbb30ad389ae4d53bc734b4269ebea20ecdd7535..b09d2f8ba66ecde67f1e35fd77858a505ad44eb1 100644
-> --- a/Documentation/userspace-api/media/drivers/uvcvideo.rst
-> +++ b/Documentation/userspace-api/media/drivers/uvcvideo.rst
-> @@ -109,6 +109,8 @@ IOCTL reference
->  UVCIOC_CTRL_MAP - Map a UVC control to a V4L2 control
->  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->  
-> +**This IOCTL is deprecated and will be eventually removed**
-> +
->  Argument: struct uvc_xu_control_mapping
->  
->  **Description**:
-> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> index 9e4a251eca88085a1b4e0e854370015855be92ee..03c64b5698bf4331fed8437fa6e9c726a07450bd 100644
-> --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> @@ -1044,6 +1044,8 @@ static long uvc_ioctl_default(struct file *file, void *priv, bool valid_prio,
->  	switch (cmd) {
->  	/* Dynamic controls. */
->  	case UVCIOC_CTRL_MAP:
-> +		pr_warn_once("uvcvideo: " DEPRECATED
-> +			     "UVCIOC_CTRL_MAP ioctl will be eventually removed.\n");
->  		return uvc_ioctl_xu_ctrl_map(chain, arg);
->  
->  	case UVCIOC_CTRL_QUERY:
 
-Deprecating and then removing this is going to be a long slow process.
+Thanks patch looks good to me:
 
-I was thinking that rather then remove it we would keep accepting the ioctl but instead
-of calling uvc_ioctl_xu_ctrl_map() we would simply return 0. E.g. change the above to:
+Reviewed-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
 
-  	case UVCIOC_CTRL_MAP:
-		pr_warn_once("uvcvideo: " DEPRECATED
-			     "UVCIOC_CTRL_MAP ioctl will eventually be ignored.\n");
-  		return uvc_ioctl_xu_ctrl_map(chain, arg);
-
-And then say in one year after a kernel with the above is released change it to:
-
-  	case UVCIOC_CTRL_MAP:
-		pr_warn_once("uvcvideo: " DEPRECATED
-			     "UVCIOC_CTRL_MAP ioctls are ignored.\n");
-  		return 0;
-
-
-I think removing it in 1 year is too soon, but ignoring it is ok. This does mean
-that people will loose the custom v4l2-ctrls for which patch 2/6 is not adding
-mappings into the driver in 1 year after a kernel with the warning is released...
-
-I'm not 100% sure about this plan, so please let me know what you think. For
-outright deprecation warning + full removal I think we need to wait at least
-2 years after shipping a kernel with the deprecation warning.
+Since this is independent of the rest of the series I've merged this into my local
+uvc/for-next branch which I will push out later today.
 
 Regards,
 
 Hans
 
+
+
+> ---
+>  include/linux/usb/uvc.h | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/include/linux/usb/uvc.h b/include/linux/usb/uvc.h
+> index b939a01da11466747249c64c72a3ea40cd364a59..dea23aabbad48270c807463c1a7e1c0d1b79fc1f 100644
+> --- a/include/linux/usb/uvc.h
+> +++ b/include/linux/usb/uvc.h
+> @@ -10,6 +10,14 @@
+>  
+>  /* ------------------------------------------------------------------------
+>   * GUIDs
+> + *
+> + * The GUID returned by lsusb can be converted to this format with the
+> + * following python snippet:
+> + *
+> + * import uuid
+> + * id = "{01234567-89ab-cdef-0123-456789abcdef}"
+> + * le = uuid.UUID(id).bytes_le
+> + * print("{" + ", ".join([f"0x{b:02x}" for b in le]) + "}")
+>   */
+>  #define UVC_GUID_UVC_CAMERA \
+>  	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
+> 
 
 
