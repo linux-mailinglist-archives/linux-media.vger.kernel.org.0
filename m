@@ -1,225 +1,154 @@
-Return-Path: <linux-media+bounces-48364-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48365-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DB8ACABD85
-	for <lists+linux-media@lfdr.de>; Mon, 08 Dec 2025 03:30:06 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BAB50CABEF6
+	for <lists+linux-media@lfdr.de>; Mon, 08 Dec 2025 04:13:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AE74230102B3
-	for <lists+linux-media@lfdr.de>; Mon,  8 Dec 2025 02:29:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6C86E30271AF
+	for <lists+linux-media@lfdr.de>; Mon,  8 Dec 2025 03:13:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A78B1254B03;
-	Mon,  8 Dec 2025 02:29:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B853D274FE8;
+	Mon,  8 Dec 2025 03:13:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="FlnPPFmB";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="j76cw5Tg"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ht+4OzrG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3919B2236E9
-	for <linux-media@vger.kernel.org>; Mon,  8 Dec 2025 02:29:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B415820487E
+	for <linux-media@vger.kernel.org>; Mon,  8 Dec 2025 03:13:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765160992; cv=none; b=KiHroaTplRIjp6AKI0sB9PInhCxxhvg8ZRsKmwz4GlOUYoyjecuBr4H+mUB/+lkd17Yba5vUpcSnNj2WvNUGJpFMjcBVdlQaQlnRxGJxV9a3ymazhOhXzI6d7YssMLOMVhY/hNG6O8Mu/zgwsOP57hU2Gibwb69VfdSxRX2JN44=
+	t=1765163587; cv=none; b=Qv2oBX+DXcbfSuwi4L6sytOCQ2kr50IUa2Hmihbef/lC+SfjXUyr1t3iakUeDSaFSQdqDFLu9bARR8P93TjURRcgMJfrtOde2kC74WaqVmQQAu6RlAVjFTd8zr5Hyc098hVdHg979QHo8T7ILxUfKt7LDWjZfksjwyTOhdVNcd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765160992; c=relaxed/simple;
-	bh=hzc8C19r7uH0dsdvAPpDbmQcPxhEeBMAJ7Ie42BTpJg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CggLo2pFCSjNh4frljKlJ41WJQqRXGTgLRctd/FAOpyfmxyzf9Hc3dbq7R99gQQjkpiWfSfOMQAEFE3FiGiF9+wj0N9yGupTR8ff5NryqKYqTUqAClr6gphHqwn4Dp0n5DNMUaSGk9rC+ERwSKBwSzHN7NeNv37GR1k8i4owDZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=FlnPPFmB; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=j76cw5Tg; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B7LwJP53567175
-	for <linux-media@vger.kernel.org>; Mon, 8 Dec 2025 02:29:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Bmi1w9LBw44P51v6VUD3hZr1/SiIEf8YjqeuvDA6TzQ=; b=FlnPPFmB0TBzjFNC
-	AQQTeuaGXqB+Dpl9mdDvUNRvbLvrEjPssBFwq3oDKIRatXk19ovX6u/EzboTPaEO
-	RRnCLwbs2agAg/3FIs47HaSxOnRc7i5b2XjUcUDnvw7ro5as5S9ND+/c4wbyHrXJ
-	nKJtZAHCeqoPykK2tXCslQMI9BBkW9hCsd1+lJqM5ODnnQbDAg9EqiJPCrtelBee
-	A5gBAFfviWKLbeIGU8LWg9VTFLjpgMJj5cSuUA6PECInBOrggy79qIbY5GLlQm0r
-	ZMyaIevV6V89wMr7KvCEeYa1kODHlgEq+ZgKEkHBSZRdCt6ARepxtzdUCFGqm93n
-	Txoarg==
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4avc2wkcjb-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Mon, 08 Dec 2025 02:29:48 +0000 (GMT)
-Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-7b80de683efso6396055b3a.3
-        for <linux-media@vger.kernel.org>; Sun, 07 Dec 2025 18:29:48 -0800 (PST)
+	s=arc-20240116; t=1765163587; c=relaxed/simple;
+	bh=rAvl13OFCVxdaYtaQPBo+tUQXCa6gdUpoP7Bx2fKdVA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Dw+RoOmHLC6SMBnj8qdNOL6zZ4CeYhcqr9NxeGGtHmkKZoVJBrru3lXxOGnHb0LH0Xp+9cknYbt3KxKcZxwO4EdjIJf7eTVhJHsShgF/v5IIGVzxvz5t97LkNAR4emvHFKlJgpROL5sku3NMaaC/+NYevsd15xzaNlizyWbgbc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ht+4OzrG; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-29555b384acso40114005ad.1
+        for <linux-media@vger.kernel.org>; Sun, 07 Dec 2025 19:13:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1765160988; x=1765765788; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Bmi1w9LBw44P51v6VUD3hZr1/SiIEf8YjqeuvDA6TzQ=;
-        b=j76cw5TgD4TckWC9vqvGaKJA5La/y/OGdFj0G5guqPo8ybguxpRUu5w8+yMb4PoR41
-         sXZ2s+Y6nafovP40bmFxQ2HRIxVLaA1iNk4WBgsEIeF1JrbW4TyHC7m181Y+R9XMmFF5
-         Nvy7QlwmkaIkn7SgHgusM6W5bahH+YYqcxQRT3SLw5eWR6DXTr/9r4qfpIEJtGsAoru7
-         dGToXEKfHBNRyd7FPMQm41tlo1HELcBv4vaFtTjmuE98y8AsL6f+JHznv4MSqCR10T1b
-         5953SwZFWbyVd/AXjJRZRd1eswFc9ZC0xL/QRiLkz9JrYjGG7lsHaYGxrDlklR++Wcn/
-         eBfQ==
+        d=gmail.com; s=20230601; t=1765163585; x=1765768385; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jYX2ooIlQ0+ulIrJRn/Q40MXHBfq+kRpa2QUKgQDnTU=;
+        b=ht+4OzrGrkvakYezHkmWLZ2o1DLSgIoAQc/P2B0+ObgBLQQwQh6lAyAVGJWVisvzur
+         IxCpkkEjpF6e/RwcdWj1MvzfJJJ6E1WAZmukJLSQwGKjzVBufj0sv7wbrxP4r5dybTt8
+         gMSmBhby9LoDPGo93n0LpbwhkHgt9Hz7+BDRAy4wlfk7zfB+1x4qEsnhey3M7r2JuT7Y
+         zym5AlvpvQ3vdc669x0LTAC6NZ4jY29WdI8hfjmoyVwKYUOt2J3Hxx0ZnkaWxAaWcaVL
+         s0bE1xCHU+xSMXh7VJsatbpgFdhiD7n5Cn+rZvQvdH7KiSL2Cp2biLKpFLPFvyJkebOS
+         dmGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765160988; x=1765765788;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Bmi1w9LBw44P51v6VUD3hZr1/SiIEf8YjqeuvDA6TzQ=;
-        b=oBmRGK5XHD+6VDMbbp8322EL00KjkXqkijo/17Mb3K5XekbFmYLYJP4kF8VWjRUCkj
-         VmTR+eAU6B8N8va6fza6E8EOJr8x/hfhg1um5md+xlznGsEr0ihQcDZGsa93QhtLfg0Y
-         qkc/lOajOHgSJnMTeTOMjZEtq4MmHQkecr4Mc5bkZiCEwHj08pGmo91qb1WQiV+/Gpew
-         bop88rePvHygRqG61OnNjFExs+tbPL8peERigLikLXfhysu7ZGc2w0YlbSly/lb18dao
-         uBOvypfXhSo3cSlEYuSnAchg1BhpAnZrZ4nlycs/ZNL+d3zJGtsbvF6ciZ66ThRDsEEP
-         zm3A==
-X-Gm-Message-State: AOJu0Yw/CwrWB+bBOR9CiGZHPnSxrKe2w0ZphDce3QIFRc6ahJueeLNY
-	xnQ/iCf0989Rx8AzX+ym9Q+DOce4hwMZ2sRfthosJN2TjS1RTmNRO+UiMhXHlD9C/LpIU2nsPZC
-	eeZ5tmjg66vgPNn6Dur/YKC1E4EacfkbN968aHwknruS+xZlCdanyBNBPT2tnFq/QDA==
-X-Gm-Gg: ASbGncuKi4Vu+0xq0qVWprShla10DFJqZrq8frQdDjPPkqruhA+cNhUdmHLmzFxejIy
-	8qODczfHroLRzI2uOFGLtJ5ZLFd892Hf585Z+dHTeN/MnCW2CxaMnhUCXTwySxuFwKFwLMEaHz/
-	xNXVnqUl7uI1uuUwTUhibAks1eBX5cPsj2lVsmoUVdmOkM9F1kEQfRzfacHwrMdWzo8+OFG6S2A
-	TAwvMzEhTHA91i7UIJh/XndtzfbQbKc/FVMogMDhLWDy6Wfb93a92/ALDTlOINrlf+zK7bF8ehy
-	xi9FOvK2Z/epzexl6C55dVieVKNLtXExQUMhzVI0z2OmhzRzddUMyuvrVS5aqLyTeQg0MSVwbh3
-	kxGPLEMUm32quHGpqZFKfw2IoRSiik4tJ1dhyySHABRbHZpUu5Hu61aB8v5lpjVK1nxile+8k3h
-	v50luOvg==
-X-Received: by 2002:a05:6a00:12c6:b0:7e8:450c:61c5 with SMTP id d2e1a72fcca58-7e8c561fabdmr6053057b3a.53.1765160987596;
-        Sun, 07 Dec 2025 18:29:47 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEvFA5MAKIrZF6hTwwV49e2Ex0RmYD0kAZYHj4bWBKUpGSCC5rnpUZc4TaQgn6L+cw1qN12KA==
-X-Received: by 2002:a05:6a00:12c6:b0:7e8:450c:61c5 with SMTP id d2e1a72fcca58-7e8c561fabdmr6053038b3a.53.1765160987126;
-        Sun, 07 Dec 2025 18:29:47 -0800 (PST)
-Received: from [10.133.33.217] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7e801c6a1fcsm6496521b3a.4.2025.12.07.18.29.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 07 Dec 2025 18:29:46 -0800 (PST)
-Message-ID: <32bf8a1a-9e9b-438c-89c7-9fa0c88e9ca2@oss.qualcomm.com>
-Date: Mon, 8 Dec 2025 10:29:41 +0800
+        d=1e100.net; s=20230601; t=1765163585; x=1765768385;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jYX2ooIlQ0+ulIrJRn/Q40MXHBfq+kRpa2QUKgQDnTU=;
+        b=cVKdakPYa7HU/fKawhWqoRtR9ZzBcRFiDeB+qm4Gce/UMYSRbujGUHL0EI2CtskHNH
+         7F98i+slZpgEBQYuQnMEw60JSRmjCG5MYFVUgflzIASVJnN41zCBz3TEbxStGe2beZ99
+         ob312oZZTI57lyGByRSlSy16BdryiUAi06oZDv27l/ns4t7gDz1vJxhpYVFsM7pa9kWN
+         BCjF7eoeoZg1clyKc4bKS9wG6DftrqqPoO6iaTNTcp2RHrJnBCzYVkWzj7X2AKzjlEOT
+         bP3oGbPiUw7tjYXhWZRaBLgleQi9EuUz+FP3gEcaNou++4a5O7d278MA8OqIqnt81+/t
+         og5Q==
+X-Gm-Message-State: AOJu0YzuMbncbUSFMmoVB2vIisWu9xZ2dtP384Y+0Kn5FSnn8+YWhHdl
+	FHMW1VZZT2JRA3FLCQTxSv6tWTYRGBzJZkFulB+iHXKCPpJSnswYaZyFW+yH6hs8
+X-Gm-Gg: ASbGncu8EC4Bg2zpna8yxEWknkToofi3bMkjHE6EbsjxeT7Mdu0u/bmQj7Rstab/7dY
+	3taQjaKveLVY1sX7eG8SNcZ4xKnioZUvMMcP8fSsAd6lHS45s8yoJmGOSq96l82LzOV6EP5EgJ6
+	qzPlYviedhXJxUz27kSq892esLd1SZqg1F4Rqs4qq/Hord1t3H8FUSw0kpAS8NcQivvmFdGDV4K
+	shXLAYAh9Ax8b/5er97J6yGFItu5Ze8jWj7ni2KlAJLcHZXEkVlTZW8QjYa0b7S/ntDkrk9jfaM
+	NN4fM+UUfDM36y3o3c7Rqwol7Lca+65nr57sFDLcxyYnO/5gj0o2PMD562WmR9KGa3UOX5zKesu
+	puy783QYWOEFoPlFW/vz3Pf//NWsoa/ZEM4ehqDbCc5CYdl5HaHgcnuD/pxXmDlcAWvLCtY0ZZS
+	aaFmzY+HMOKghqwGgzMsfhMaoT+AuiAIAI4MmIB6pjuIg=
+X-Google-Smtp-Source: AGHT+IF6KtQs08mOWinVqBkLg5gqwqjXDMb5wznNC0Q1/S5ZIcJAiOTQnqnlSi5N8EWBIixq1pUWBA==
+X-Received: by 2002:a17:902:e812:b0:295:6427:87e4 with SMTP id d9443c01a7336-29df871034fmr69099735ad.40.1765163584729;
+        Sun, 07 Dec 2025 19:13:04 -0800 (PST)
+Received: from localhost.localdomain ([38.224.232.243])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29dae99effasm109800685ad.57.2025.12.07.19.13.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 07 Dec 2025 19:13:04 -0800 (PST)
+From: Dharanitharan R <dharanitharan725@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	mchehab@kernel.org,
+	micha@freedict.org,
+	syzkaller-bugs@googlegroups.com,
+	syzbot+d99f3a288cc7d8ef60fb@syzkaller.appspotmail.com,
+	Dharanitharan R <dharanitharan725@gmail.com>
+Subject: [PATCH] media: dw2102: validate I2C messages in su3000_i2c_transfer()
+Date: Mon,  8 Dec 2025 03:12:25 +0000
+Message-ID: <20251208031224.10579-2-dharanitharan725@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: venus: vdec: fix error state assignment for zero
- bytesused
-To: Bryan O'Donoghue <bod@kernel.org>,
-        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <3TiW-6pGFzHye29VWlJBXCdsteVQOc5LlAPyURHQMjIMusStSaLFbZE_dWv8B9GPFjM91n17iLSlulpcBpy4ow==@protonmail.internalid>
- <20251126-fix-error-state-v1-1-34f943a8b165@oss.qualcomm.com>
- <5516cc69-de15-44df-bfbf-8263e71c919a@kernel.org>
-Content-Language: en-US
-From: Renjiang Han <renjiang.han@oss.qualcomm.com>
-In-Reply-To: <5516cc69-de15-44df-bfbf-8263e71c919a@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: uLZI4jFFVRqIdkhaT9d_9fFKgNjSgqJN
-X-Proofpoint-ORIG-GUID: uLZI4jFFVRqIdkhaT9d_9fFKgNjSgqJN
-X-Authority-Analysis: v=2.4 cv=d774CBjE c=1 sm=1 tr=0 ts=6936381c cx=c_pps
- a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=Wn1kp30-KnWUW-RVUJoA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=IoOABgeZipijB_acs4fv:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA4MDAxOSBTYWx0ZWRfXyKv+50kReE2G
- WtmbgtUVMkGcGrD1mbVeUJwvIU4Nc6ZH9DhvoXgGdCIHJb7Ob8Q/33pfiePmck2CxUT9LqRgGeQ
- NuNHS54gTkNZsqg5RaphypR/EOuiRdmkqg0xE95/QZfXfugC4yaFg8RbBRx1hzjTp1gMYQM0Lbx
- NRSRUiHjzqDWOPc6g1pejyUqZqffPPhqKfv1uSG3Ku52FhIt86olwokw21A8yvDFLSZdiHW1G8S
- X5hm6zngqphpqZdcBC93hNJftB/r4XLjkWwGa0QoCT9DAcxiKAEaS72/8b/Foyp5P4/J2zl4vDr
- LiNv9HEA8AE52HHOPLc3Ygyo1KoghBiWbtGjDULB1GSv6V+Z+F2hCn3R7kD6TQKL0T+JPJcUQOL
- NxQoaFr1USrfQyBpSBD2K3q1aHYp7A==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-06_02,2025-12-04_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 clxscore=1015 impostorscore=0 phishscore=0
- adultscore=0 lowpriorityscore=0 spamscore=0 suspectscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512080019
 
+syzbot reports a general protection fault caused by su3000_i2c_transfer()
+dereferencing msg->buf without validating the message length or buffer
+pointer. Although i2c-dev blocks zero-length messages, malformed I²C
+messages can still reach the driver through the DVB USB subsystem.
 
-On 12/7/2025 7:56 AM, Bryan O'Donoghue wrote:
-> On 26/11/2025 04:23, Renjiang Han wrote:
->> Previously, the check for zero bytesused and the assignment of error
->> state was performed outside the V4L2_BUF_FLAG_LAST branch, which could
->> incorrectly set the error state during drain operations. 
->
-> This deserves more elaboration.
->
-> Instead of saying previously - talk about what it currently does and 
-> the precise circumstances under which it goes wrong. Try to make the 
-> description as plain and concise as possible.
->
-> This patch
->> moves the zero-bytesused check inside the 'else' branch, ensuring that
->> the error state is only set for non-EOS buffers with zero payload.
->>
->> Additionally, the patch keeps the rest of the buffer state handling
->> logic unchanged, including handling of HFI_BUFFERFLAG_DATACORRUPT and
->> HFI_BUFFERFLAG_DROP_FRAME.
->
-> I don't think you need to tell us what's not touched in your commit log.
->
-> - Tell us what is wrong directly and plainly.
->   Include how the bug you are fixing can come about i.e. under what
->   circumstances we would see the error.
->
-> - Then tell us how you've fixed it.
->
-> - And include a Fixes: tag please.
->   Since this is a bug fix you are proposing, it needs to be backported.
-sure, thanks for your comments.
->
->>
->> Signed-off-by: Renjiang Han <renjiang.han@oss.qualcomm.com>
->> ---
->> This patch refines the error state assignment logic in the Venus vdec
->> driver for Qualcomm platforms. Specifically, it ensures that the buffer
->> state is only set to VB2_BUF_STATE_ERROR for non-EOS capture buffers
->> with zero bytesused, preventing false error reporting during drain
->> operations.
->> ---
->>   drivers/media/platform/qcom/venus/vdec.c | 6 +++---
->>   1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/media/platform/qcom/venus/vdec.c 
->> b/drivers/media/platform/qcom/venus/vdec.c
->> index 
->> 4a6641fdffcf79705893be58c7ec5cf485e2fab9..d0bd2d86a31f9a18cb68b08ba66affdf8fc5092d 
->> 100644
->> --- a/drivers/media/platform/qcom/venus/vdec.c
->> +++ b/drivers/media/platform/qcom/venus/vdec.c
->> @@ -1440,10 +1440,10 @@ static void vdec_buf_done(struct venus_inst 
->> *inst, unsigned int buf_type,
->>                   inst->drain_active = false;
->>                   inst->codec_state = VENUS_DEC_STATE_STOPPED;
->>               }
->> +        } else {
->> +            if (!bytesused)
->> +                state = VB2_BUF_STATE_ERROR;
->>           }
->> -
->> -        if (!bytesused)
->> -            state = VB2_BUF_STATE_ERROR;
->>       } else {
->>           vbuf->sequence = inst->sequence_out++;
->>       }
->>
->> ---
->> base-commit: 663d0d1af3faefe673cabf4b6b077149a87ad71f
->> change-id: 20251126-fix-error-state-24183a8538cd
->>
->> Best regards,
->> -- 
->> Renjiang Han <renjiang.han@oss.qualcomm.com>
->>
->
+#syz test
+
+Add strict validation of each message to prevent NULL-pointer
+dereferences.
+
+Reported-by: syzbot+d99f3a288cc7d8ef60fb@syzkaller.appspotmail.com
+Fixes: 0e148a522b84 ("media: dw2102: Don't translate i2c read into write")
+Signed-off-by: Dharanitharan R <dharanitharan725@gmail.com>
+---
+ drivers/media/usb/dvb-usb/dw2102.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
+
+diff --git a/drivers/media/usb/dvb-usb/dw2102.c b/drivers/media/usb/dvb-usb/dw2102.c
+index 4fecf2f965e9..0dd210ea16f3 100644
+--- a/drivers/media/usb/dvb-usb/dw2102.c
++++ b/drivers/media/usb/dvb-usb/dw2102.c
+@@ -733,6 +733,36 @@ static int su3000_i2c_transfer(struct i2c_adapter *adap, struct i2c_msg msg[],
+ 		return -EAGAIN;
+ 	}
+ 
++		/* Validate incoming I²C messages */
++	if (!msg || num <= 0) {
++		mutex_unlock(&d->data_mutex);
++        mutex_unlock(&d->i2c_mutex);
++		return -EINVAL;
++	}
++
++	for (j = 0; j < num; j++) {
++		/* msg buffer must exist */
++		if (!msg[j].buf) {
++			mutex_unlock(&d->data_mutex);
++            mutex_unlock(&d->i2c_mutex);
++			return -EINVAL;
++		}
++
++		/* zero or negative length is invalid */
++		if (msg[j].len <= 0) {
++			mutex_unlock(&d->data_mutex);
++            mutex_unlock(&d->i2c_mutex);
++			return -EINVAL;
++		}
++
++		/* protect against unreasonable sizes */
++		if (msg[j].len > 256) {
++			mutex_unlock(&d->data_mutex);
++            mutex_unlock(&d->i2c_mutex);
++			return -EOPNOTSUPP;
++		}
++	}
++
+ 	j = 0;
+ 	while (j < num) {
+ 		switch (msg[j].addr) {
 -- 
-Best regards,
-Renjiang Han
+2.43.0
 
 
