@@ -1,113 +1,111 @@
-Return-Path: <linux-media+bounces-48394-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48395-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD42BCACF9D
-	for <lists+linux-media@lfdr.de>; Mon, 08 Dec 2025 12:19:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AD4ECACFFA
+	for <lists+linux-media@lfdr.de>; Mon, 08 Dec 2025 12:28:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D8C9D3049D38
-	for <lists+linux-media@lfdr.de>; Mon,  8 Dec 2025 11:19:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 504DD304E555
+	for <lists+linux-media@lfdr.de>; Mon,  8 Dec 2025 11:27:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9ED731352F;
-	Mon,  8 Dec 2025 11:19:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D01E9313537;
+	Mon,  8 Dec 2025 11:27:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tj+lQZy8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BAKr1EA1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34B192EA730;
-	Mon,  8 Dec 2025 11:19:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69E3D3B8D7E;
+	Mon,  8 Dec 2025 11:26:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765192784; cv=none; b=c3is4pBCxf9+HCRzsUAgsuo1PyCDXCVNiJzn73K0CcOlP+65khcLNWX0kSC7Lf9n7CdrYiGIL1Lgf7x+VFgDi2JWlvOBnzKp4im1TEuH4169Q8lsp8aCaDHbowitARLWd/IkZGNrzHsm9gyaetinIz89J2/JUoyDNNmVZbt4eeA=
+	t=1765193221; cv=none; b=CLpplVhHnoyKhVxqwZemii8V9cjAkGhIxs0+UEVMbERkhylgOf+f7htvTZXCGsEujL9QiojllKlU0g/N8MoDXR3bS0KX8Lk0rC7Km+mNTRnuXaCTuYtHmEFoKhxLMnzr+w6iYY412mGrQD0fDzYgZ1Xj0Txo35eFFQgLpysFWcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765192784; c=relaxed/simple;
-	bh=ouM4nqEOH1mPEBEmwmybUs/1AZY+VQRDjo8H3w870tE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SxZhbVbHvBAsB91NCHDt31ixOrf8SyRRbwIocZy+D7tYqd8v8qGSRfa0jjM1mUOz98BMA/DZ+2EeFOpjYUNA6F5RqgogDkymMkZTUpjazN8d3rLSGX+ubh5NCmJhfFHU9YAr8fISCiV9QnMBv4/vdZSfg1ar6ebjPQrXuO+Qthc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tj+lQZy8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C830C4CEF1;
-	Mon,  8 Dec 2025 11:19:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765192783;
-	bh=ouM4nqEOH1mPEBEmwmybUs/1AZY+VQRDjo8H3w870tE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=tj+lQZy8byWE4C1qodH5yqjakB3iPp/4Lz2ysXBdxktT/dEcxDznoWaFtFMa5BHpA
-	 yE5AbBrFtIun9Cs25mrgWlNMhU+Bkt3KOSmgiLiKgw1zxVttpQJ1TrvCBBt1lHJo5E
-	 RsG1WXVBZAmmalnYBhQj0qRzA1m5AKzu8DcvFyyt52NlB5NDolzRfMmdSWl3huPJLt
-	 IVpn1RwLVxR2sgIspkhExrt6I6tcZL7M+pZ3NUiWgX8IR0eZ9HQF3pbDCYYqacB30x
-	 lHjT/F/0kHvlOuSrony33pyeEXzvdkik8KhjmiIUSoOQcsB0xazdDEiukVgOq56IvZ
-	 4htq/JNPh8atA==
-Message-ID: <93931a19-43a5-411b-9f81-60da07a8229b@kernel.org>
-Date: Mon, 8 Dec 2025 12:19:40 +0100
+	s=arc-20240116; t=1765193221; c=relaxed/simple;
+	bh=8TK0z9g2TG4c9mm0ptsGqYfvqmJs4L0BChHEIzmR0g4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qJsAbIlBV1jGmGClei57OkDUp26ooCOyllqeTsT05A7QFWmPJOck/IxQX0ElPVdpQFGg2iQi7qupXQRKygMrDPOzbsZ0/hn6uTXxAE3iymJWVjBv+0LLggojzKNhWuPVUk8ExWLYeLjKfyh2XTcpOtZ2nv1ocb5KMgiUYJqYCbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BAKr1EA1; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765193220; x=1796729220;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8TK0z9g2TG4c9mm0ptsGqYfvqmJs4L0BChHEIzmR0g4=;
+  b=BAKr1EA1zIBUy41tJE2+8K+3g/B4V2tQhlGAYX7H2epxsWe43SeE7+Xl
+   Nhc3uMyanvX7IA/8D27RcY5Y1arUUA4ox3J+C4ownF7W4ZkHTxRpI9BdM
+   rceUFGGELYfhRErgUfL2SpK8CJ1DMbr/urpEqS+lJzDFcaYnHsUkN6F1Z
+   OFuz9QZwccQZj0ss+mxTA+E5lh5lHzbGJawFx55EEilf9iNwPPiR8R4mE
+   XRzNqkJfd+cFrU3Q8RmcD74sW+ohdyOBQNAlFIROru67C4oafB2bhbYnY
+   JZBiZII3qIF/3rsQ2BuTucNiX7FXpsPT9T1BUbzvmBvCNTls59sf0ivfU
+   g==;
+X-CSE-ConnectionGUID: hsQf6QQLRKGaTft2ZRi9nw==
+X-CSE-MsgGUID: zd/2XjpjS6Gi15uvjW3mCg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="67062394"
+X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
+   d="scan'208";a="67062394"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 03:26:59 -0800
+X-CSE-ConnectionGUID: qWuj+ijiSyKcLpgvip9zNA==
+X-CSE-MsgGUID: nGnpMCE7QMutp4ZR1cPf4g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,258,1758610800"; 
+   d="scan'208";a="194967023"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.255])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 03:26:57 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 6E0C71207CE;
+	Mon, 08 Dec 2025 13:27:03 +0200 (EET)
+Date: Mon, 8 Dec 2025 13:27:03 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Hao Yao <hao.yao@intel.com>
+Cc: platform-driver-x86@vger.kernel.org, johannes.goede@oss.qualcomm.com,
+	dan.scally@ideasonboard.com, ilpo.jarvinen@linux.intel.com,
+	bingbu.cao@intel.com, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] platform/x86: int3472: Use actual clock frequency for
+ DSM method
+Message-ID: <aTa2B3p-6PmJR6DZ@kekkonen.localdomain>
+References: <20251208035122.2147678-1-hao.yao@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/6] media: uvcvideo: Document how to format GUIDs
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org
-References: <20251119-uvcdynctrl-v2-0-0359ffb98c9e@chromium.org>
- <20251119-uvcdynctrl-v2-4-0359ffb98c9e@chromium.org>
-Content-Language: en-US, nl
-From: Hans de Goede <hansg@kernel.org>
-In-Reply-To: <20251119-uvcdynctrl-v2-4-0359ffb98c9e@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251208035122.2147678-1-hao.yao@intel.com>
 
-Hi,
+Hi Hao,
 
-On 19-Nov-25 8:37 PM, Ricardo Ribalda wrote:
-> Manual formatting the GUIDs can lead to errors, document a
-> programmatically way to format the GUIDs from lsusb into something tha
-> the driver can use.
+On Mon, Dec 08, 2025 at 11:51:14AM +0800, Hao Yao wrote:
+> The third argument (args[2]) to the _DSM method was hardcoded to 1,
+> which corresponds to 19.2MHz. However, this argument should reflect
+> the actual clock frequency from the sensor's ACPI data.
 > 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-
-Thanks patch looks good to me:
-
-Reviewed-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
-
-Since this is independent of the rest of the series I've merged this into my local
-uvc/for-next branch which I will push out later today.
-
-Regards,
-
-Hans
-
-
-
-> ---
->  include/linux/usb/uvc.h | 8 ++++++++
->  1 file changed, 8 insertions(+)
+> According to the DSM specification:
+> - 1 = 19.2MHz
+> - 3 = 24MHz
 > 
-> diff --git a/include/linux/usb/uvc.h b/include/linux/usb/uvc.h
-> index b939a01da11466747249c64c72a3ea40cd364a59..dea23aabbad48270c807463c1a7e1c0d1b79fc1f 100644
-> --- a/include/linux/usb/uvc.h
-> +++ b/include/linux/usb/uvc.h
-> @@ -10,6 +10,14 @@
->  
->  /* ------------------------------------------------------------------------
->   * GUIDs
-> + *
-> + * The GUID returned by lsusb can be converted to this format with the
-> + * following python snippet:
-> + *
-> + * import uuid
-> + * id = "{01234567-89ab-cdef-0123-456789abcdef}"
-> + * le = uuid.UUID(id).bytes_le
-> + * print("{" + ", ".join([f"0x{b:02x}" for b in le]) + "}")
->   */
->  #define UVC_GUID_UVC_CAMERA \
->  	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
+> Read the frequency from clk->frequency and set the DSM argument
+> accordingly, with 19.2MHz as the default for unsupported frequencies.
 > 
+> This ensures the sensor receives the correct clock frequency as
+> specified in its ACPI configuration.
+> 
+> Signed-off-by: Hao Yao <hao.yao@intel.com>
 
+Thanks for the update.
+
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
