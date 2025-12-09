@@ -1,165 +1,106 @@
-Return-Path: <linux-media+bounces-48469-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48470-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 238EACAFE95
-	for <lists+linux-media@lfdr.de>; Tue, 09 Dec 2025 13:24:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DF87CAFEF7
+	for <lists+linux-media@lfdr.de>; Tue, 09 Dec 2025 13:32:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D9B383012970
-	for <lists+linux-media@lfdr.de>; Tue,  9 Dec 2025 12:24:34 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id AF217301411E
+	for <lists+linux-media@lfdr.de>; Tue,  9 Dec 2025 12:32:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15AB6322B69;
-	Tue,  9 Dec 2025 12:24:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76A6932720E;
+	Tue,  9 Dec 2025 12:32:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JUxqUeoW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34EB6B640;
-	Tue,  9 Dec 2025 12:24:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA50A32695F;
+	Tue,  9 Dec 2025 12:31:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765283072; cv=none; b=XStXfWSzMeqCyDQ40yRg+Llmr+yEgXO0icQtgro3/KD8ED9NRGGthdX0eMY5URQVRJmMFcPJNAFlKEZ2rjujmAL6BTaB0sBfbdlQiqgYPP8pUJH5Px1/Rfy6a21CunIx7VAj5Cr/MuTYVkT46gqdyC2R+HtcIVHUkDTyh9g/Qnc=
+	t=1765283520; cv=none; b=DuK9uV7ox2hh1HGkbG+pK6dE/LJ74DK4VOghuTehVYZrUI0yqhnkPA/sWlQf+DPo6GBztVEsXSi4Ss3fn5nhz1qpIxuOmyrfTuo1Nj/6dNdqbHV6RfwNkp3at34xUkPbDGWHdRRbPPxP+A4crkJwqULRkS+NmBcg0/qug68o6xk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765283072; c=relaxed/simple;
-	bh=VGYbBJ4vzOehgu7Yb4/Z919bg2TW5DrOjCCHML+XLuA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AOt8ZTrrkF7QPWOQXhQOQJ5ThGR2o6Noemnjufi8GurmcxAzMF4cCsSOOb2LDoECqGm/5N3hRgH4i8Xsk0cvCcNckDKo2/V9ot0M4S8xUtMeSUVS7w0fXMXV4FWv2Evp9ao/8efgbE5uzXE9KVJLs/XDLaGCyLkGPRAiAJl8cjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2B4FF1691;
-	Tue,  9 Dec 2025 04:24:22 -0800 (PST)
-Received: from [10.1.36.174] (unknown [10.1.36.174])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 595E93F740;
-	Tue,  9 Dec 2025 04:24:27 -0800 (PST)
-Message-ID: <081a44f5-9400-4c62-8760-6896011fa3e2@arm.com>
-Date: Tue, 9 Dec 2025 12:24:25 +0000
+	s=arc-20240116; t=1765283520; c=relaxed/simple;
+	bh=6nkPAaFnJtZWqHjfWRExA7w5rIBqcrVJKOcMVmoZAco=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YaOsMzkzJ0sARD1aaeuWujaXoJVA4LMKVl0QCJfbXMXGGVNQtngc/yvUfvOrWn9pigHPhU7IATrPFNwFtM4Kb9eJW6KlXwYzU/L+dcbhkzCE18ivrPuszFPi8hODzuSFwvJGUV7JgBJ0Fgs1xjt6mnIyBiZVQNR/PctKfX9f3uY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JUxqUeoW; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from isaac-ThinkPad-T16-Gen-2.infra.iob (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BC3FB667;
+	Tue,  9 Dec 2025 13:31:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1765283507;
+	bh=6nkPAaFnJtZWqHjfWRExA7w5rIBqcrVJKOcMVmoZAco=;
+	h=From:To:Cc:Subject:Date:From;
+	b=JUxqUeoWHQEzltin3ct5hFJ7jAkR+R1h1zg5u1N2eDxMa1RczSFmwUF0cXsIMH943
+	 JFOAq/BZaybEL8nD1+a4+KOrWNRV7kiisVCfeNmU2ELWVdptbPA3tpbFDtgj9D935K
+	 05ovnCbcFDSpLpmOn36lAY3HFI3vM15EWef5LMeA=
+From: Isaac Scott <isaac.scott@ideasonboard.com>
+To: dafna@fastmail.com
+Cc: laurent.pinchart@ideasonboard.com,
+	mchehab@kernel.org,
+	heiko@sntech.de,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Isaac Scott <isaac.scott@ideasonboard.com>
+Subject: [RFC PATCH 0/6] media: rkisp1: Add YUV bypass support for rkisp1 
+Date: Tue,  9 Dec 2025 12:31:30 +0000
+Message-ID: <20251209123136.273938-1-isaac.scott@ideasonboard.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC] dma-buf: system_heap: add PTE_CONT for larger contiguous
-Content-Language: en-GB
-To: Barry Song <21cnbao@gmail.com>
-Cc: gao xu <gaoxu2@honor.com>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T.J. Mercier" <tjmercier@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "surenb@google.com" <surenb@google.com>,
- zhouxiaolong <zhouxiaolong9@honor.com>
-References: <3da6a916cd6d489690b05d2bd64a2b3a@honor.com>
- <CAGsJ_4w-XtJ8zzc8H4OwW4XV21T8FWGxeoMnfAxmAgBhzrvxWQ@mail.gmail.com>
- <6f891b70-7ee9-44a3-92a1-bbeb4d2b9fee@arm.com>
- <CAGsJ_4xb--mwsPHVFXzcpnZ29Wh8N-OTZNyNVW2CZd-U00A_ww@mail.gmail.com>
-From: Ryan Roberts <ryan.roberts@arm.com>
-In-Reply-To: <CAGsJ_4xb--mwsPHVFXzcpnZ29Wh8N-OTZNyNVW2CZd-U00A_ww@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 09/12/2025 11:37, Barry Song wrote:
-> On Mon, Dec 8, 2025 at 6:38 PM Ryan Roberts <ryan.roberts@arm.com> wrote:
->>
->> On 08/12/2025 09:52, Barry Song wrote:
->>> On Mon, Dec 8, 2025 at 5:41 PM gao xu <gaoxu2@honor.com> wrote:
->>>>
->>>> commit 04c7adb5871a ("dma-buf: system_heap: use larger contiguous mappings
->>>> instead of per-page mmap") facilitates the use of PTE_CONT. The system_heap
->>>> allocates pages of order 4 and 8 that meet the alignment requirements for
->>>> PTE_CONT. enabling PTE_CONT for larger contiguous mappings.
->>>
->>> Unfortunately, we don't have pte_cont for architectures other than
->>> AArch64. On the other hand, AArch64 isn't automatically mapping
->>> cont_pte for mmap. It might be better if this were done
->>> automatically by the ARM code.
->>
->> Yes indeed; CONT_PTE_MASK and PTE_CONT are arm64-specific macros that cannot be
->> used outside of the arm64 arch code.
->>
->>>
->>> Ryan(Cced) is the expert on automatically setting cont_pte for
->>> contiguous mapping, so let's ask for some advice from Ryan.
->>
->> arm64 arch code will automatically and transparently apply PTE_CONT whenever it
->> detects suitable conditions. Those suitable conditions include:
->>
->>   - physically contiguous block of 64K, aligned to 64K
->>   - virtually contiguous block of 64K, aligned to 64K
->>   - 64K block has the same access permissions
->>   - 64K block all belongs to the same folio
->>   - not a special mapping
->>
->> The last 2 requirements are the tricky ones here: We require that every page in
->> the block belongs to the same folio because a contigous mapping only maintains a
->> single access and dirty bit for the whole 64K block, so we are losing fidelity
->> vs per-page mappings. But the kernel tracks access/dirty per folio, so the extra
->> fidelity we get for per-page mappings is ingored by the kernel anyway if the
->> contiguous mapping only maps pages from a single folio. We reject special
->> mappings because they are not backed by a folio at all.
->>
->> For your case, remap_pfn_range() will create special mappings so we will never
->> set the PTE_CONT bit.
->>
->> Likely we are being a bit too conservative here and we may be able to relax this
->> requirement if we know that nothing will ever consume the access/dirty
->> information for special mappings? I'm not if that is the case in general though
->> - it would need some investigation.
->>
->> With that issue resolved, there is still a second issue; there are 2 ways the
->> arm64 arch code detects suitable contiguous mappings. The primary way is via a
->> call to set_ptes(). This part of the "PTE batching" API and explicitly tells the
->> implementaiton that all the conditions are met (including the memory being
->> backed by a folio). This is the most efficient approach. See contpte_set_ptes().
->>
->> There is a second (hacky) approach which attempts to recognise when the last PTE
->> of a contiguous block is set and automatically "fold" the mapping. See
->> contpte_try_fold(). This approach has a cost because (for systems without
->> BBML2_NOABORT) we have to issue a TLBI when we fold the range.
->>
->> For remap_pfn_range(), we would be relying on the second approach since it is
->> not currently batched (and could not use set_ptes() as currently spec'ed due to
->> there being no folio). If we are going to add support for contiguous pfn-mapped
->> PTEs, it would be preferable to add equivalent batching APIs (or relax set_ptes()).
->>
-> 
-> Thanks a lot, Ryan. It seems quite tricky to support automatic cont_pte.
-> 
->> I think this would be a useful improvement, but it's not as straightforward as
->> adding PTE_CONT in system_heap_mmap().
-> 
-> Since it's just a driver, I'm not sure if it's acceptable to use CONFIG_ARM64.
-> However, I can find many instances of it in drivers.
-> drivers % git grep CONFIG_ARM64 | wc -l
->      127
-> 
-> On the other hand, a corner case is when the dma-buf is partially unmapped.
-> I assume cont_pte can still be automatically unfolded, even for
-> special mappings?
+Hi All,
 
-I think unfolding will probably happen to work, but you're definitely in the
-neighbourhood of "horrible hack that may not work as intended in some corner cases".
+The rkisp1 features the capability to use YUV bypass, which lets input
+YUV streams to bypass all ISP blocks, and be presented at the output of
+the ISP without being modified. This functionality is uimplemented
+currently.
 
-I think it would be much better to support batching for pfn-mapped ptes. That
-would generalize to many more users. (and I might be interested in taking a look
-at some point next year if nobody else gets to it).
+At the moment, it is possible to get YUV streams at the output of the
+rkisp1, but only if the input is a bayer format. This series allows
+YUV to be accepted as both an input and output format, when the YUV data
+contains embedded H/VSYNC signals, which are interpreted as the data
+start/stop signals for frame data.
 
-We deliberately didn't want to expose the idea of a single, specific contiguous
-size to the generic code so that the arch could make more fine-grained decisions. :)
+This series is tested and works on the Debix Model A iMX8 MPlus with a
+GC2145 camera sensor outputting UYVY8_1X16, compiled on top of
+media/next.
 
-Thanks,
-Ryan
+I am marking this series as RFC because I am keen to know if any other
+developers have any ideas on how to improve the series, or if there are
+other considerations / edge cases that I need to address.
 
+Thank you very much!
 
+Best wishes,
+Isaac
 
-> 
-> Thanks
-> Barry
+Isaac Scott (6):
+  media: rkisp1-resizer: Add YUV source formats to resizer
+  media: rkisp1-isp: Add in_bypass flag for YUV bypass
+  media: rkisp1-isp: Add target_format
+  media: rkisp1: Set input configuration to data mode in bypass
+  media: Propagate sink -> source format in YUV passthough
+  media: rkisp1: Give buffers back instead of dropping in bypass mode
+
+ .../platform/rockchip/rkisp1/rkisp1-capture.c |  5 ++++
+ .../platform/rockchip/rkisp1/rkisp1-common.h  |  1 +
+ .../platform/rockchip/rkisp1/rkisp1-isp.c     | 25 +++++++++++++------
+ .../platform/rockchip/rkisp1/rkisp1-resizer.c | 16 ++++++++++++
+ 4 files changed, 40 insertions(+), 7 deletions(-)
+
+-- 
+2.43.0
 
 
