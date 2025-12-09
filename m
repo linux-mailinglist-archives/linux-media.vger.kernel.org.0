@@ -1,146 +1,120 @@
-Return-Path: <linux-media+bounces-48464-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48465-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30B15CAFA8E
-	for <lists+linux-media@lfdr.de>; Tue, 09 Dec 2025 11:37:05 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC68FCAFC11
+	for <lists+linux-media@lfdr.de>; Tue, 09 Dec 2025 12:24:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 792C930303A4
-	for <lists+linux-media@lfdr.de>; Tue,  9 Dec 2025 10:36:42 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 441923094E23
+	for <lists+linux-media@lfdr.de>; Tue,  9 Dec 2025 11:23:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A915B2F5496;
-	Tue,  9 Dec 2025 10:36:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 037B13203B5;
+	Tue,  9 Dec 2025 11:23:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="IF7lHoCB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kjMIUFxw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA8CE2C08DC;
-	Tue,  9 Dec 2025 10:36:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 555DE3016F4;
+	Tue,  9 Dec 2025 11:23:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765276600; cv=none; b=GypQeeGA4vO06kl4/H9gw75oAcjWHEeeH5KztTSFw4fyTTsP2wpBpl80JtcSD9D6OCegJoR6apn1BRp+8JP6hxDURFcAssPx9k50Mrj+muyjyNBogTh/pq/OmV6NNNGh6d5kyHJmocHXb0Rx1z8ylYbRCFFlqrgiA6LQ/BN+veA=
+	t=1765279412; cv=none; b=dIFVignUJiN6785fChYHMVecVbY7CRW2AeM+NR3dgEFoROLS2XDHudFV/njYK3b7ioeaFaNk87t+iqkCaAsSJWEaU0OAf4NtAiDxjl1pvkTSP6oQR1nAGayrXc+YPJ05rQGAoYLlg4Lbw+Dgf1EQcIna0LgaL/U1vEX+X5hrZq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765276600; c=relaxed/simple;
-	bh=xahUIlaehVh5FxxfTPdwDxMO0j0MxgfWUvmLAcXksMs=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=VzcmLc2hyMalXaE+ouQWNLBuuqwR3gfoECpFfu9qqJASY+7K6iv9Mmn+XnA3guZAesWs669MqfyCwdbqx0R0pj/px46XxFTwvT2V82kgx66f6dCbvCIhx+7Ustq+mkSZFTW55dzzvhjJfTPgmnxA7m7cOOH6Sqzfoewvme17bZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=IF7lHoCB; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c31:3dca:74fd:8a0a:9c63:1c11])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D4C4E89A;
-	Tue,  9 Dec 2025 11:34:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1765276443;
-	bh=xahUIlaehVh5FxxfTPdwDxMO0j0MxgfWUvmLAcXksMs=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=IF7lHoCBINGUw91elaq/7JG9ch89ucyRlwOgI/55MSLa0QEsV+IJ8VJqABKvGzQST
-	 GCOYtmlOklAW1XyOzF0ovRN3FQ2KOcisoIED618NV0fjJNC1FYcBCO6bAU3reCC8iq
-	 EQn/7bDJ/MdFRcemLXdfdLrJt1g86r70ObdTiHzk=
+	s=arc-20240116; t=1765279412; c=relaxed/simple;
+	bh=N5oJIVp+4IALpgljQBRJEjliA1jkAOpQR+JVZluWVnc=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=cJpC/6bMO/z7ypFW5lCcMFDP/JC6MHJZY7ryCh79oVIfl8K87XAH5u5J2KCrBJA8FnhPD9U06LOwMPzTg/GyNpaGhE22qs/omlxqmnC+e+jdsmRGpTIDDLAHB6o1SKkmOXxDs4HV3VCsh28mrhpSc7RMl1n4V3FNv3jitzkIR+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kjMIUFxw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF406C4CEF5;
+	Tue,  9 Dec 2025 11:23:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765279412;
+	bh=N5oJIVp+4IALpgljQBRJEjliA1jkAOpQR+JVZluWVnc=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=kjMIUFxw1fkTw9SBIzFE1S94R3JvpSXq12qXUjtx1/q7EVHAVwAn9fE+QPCtMblGX
+	 76v+buU+MAM5cTicAj8bD9ShwNNSmV62z3sYkBFCgtoWDbtSAfTTeG3+uP6FQBB/ss
+	 DXWOQGq2/YYiOgA00j8UNS/LjC+D5GE3Bn9Y7vrPVYREuRIHcoOT6LymqzQ42nTuZH
+	 eCjTW1gDKisYcCIgNDF/vIrBhJ2B15tZCZCodqD6Dls70L5oTjvRBng0KjQtKJEYBI
+	 QQb5/geFjVwwS1lbcqW4shnzy4/A3BkJypks7Gr0gA6VztOv+a+Vx4bhjF6F2kKXys
+	 ytKavmzqclXbg==
+Date: Tue, 09 Dec 2025 05:23:29 -0600
 Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <719ee15a-92fd-4597-b25e-196f4a906a5a@ti.com>
-References: <20251112115459.2479225-1-r-donadkar@ti.com> <20251112115459.2479225-14-r-donadkar@ti.com> <1e7be0c3-b7da-4eac-9a39-147c1e627cbb@ideasonboard.com> <719ee15a-92fd-4597-b25e-196f4a906a5a@ti.com>
-Subject: Re: [PATCH v8 13/18] media: ti: j721e-csi2rx: add multistream support
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: y-abhilashchandra@ti.com, devarsht@ti.com, s-jain1@ti.com, vigneshr@ti.com, mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org, p.zabel@pengutronix.de, conor+dt@kernel.org, sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl, changhuang.liang@starfivetech.com, jack.zhu@starfivetech.com, sjoerd@collabora.com, dan.carpenter@linaro.org, hverkuil+cisco@kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, devicetree@vger.kernel.org
-To: Rishikesh Donadkar <r-donadkar@ti.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, jai.luthra@linux.dev, laurent.pinchart@ideasonboard.com, mripard@kernel.org
-Date: Tue, 09 Dec 2025 16:06:16 +0530
-Message-ID: <176527657688.20066.3405220622225469005@freya>
-User-Agent: alot/0.12.dev62+gb9d6144a6
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Dongcheng Yan <dongcheng.yan@intel.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+ Jingjing Xiong <jingjing.xiong@intel.com>, 
+ Hans Verkuil <hverkuil@kernel.org>, sakari.ailus@linux.intel.com, 
+ Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
+ Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>, 
+ Sylvain Petinot <sylvain.petinot@foss.st.com>, 
+ Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Hans de Goede <hansg@kernel.org>, linux-kernel@vger.kernel.org, 
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, 
+ linux-media@vger.kernel.org, Mehdi Djait <mehdi.djait@linux.intel.com>, 
+ krzk+dt@kernel.org, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
+To: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
+In-Reply-To: <20251209100017.302518-2-himanshu.bhavani@siliconsignals.io>
+References: <20251209100017.302518-1-himanshu.bhavani@siliconsignals.io>
+ <20251209100017.302518-2-himanshu.bhavani@siliconsignals.io>
+Message-Id: <176527940928.4137935.15790932269373813508.robh@kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: media: i2c: Add os05b10 sensor
 
-Hi Rishikesh,
 
-Quoting Rishikesh Donadkar (2025-12-09 15:38:33)
->=20
-> On 01/12/25 18:33, Tomi Valkeinen wrote:
-> > Hi,
->=20
->=20
-> Hi Tomi,
->=20
-> Thank you for the review !
->=20
-> >
-> > On 12/11/2025 13:54, Rishikesh Donadkar wrote:
-> >> From: Jai Luthra <j-luthra@ti.com>
-> >>
-> >> Each CSI2 stream can be multiplexed into 4 independent streams, each
-> > Well, that's not true, at least generally speaking (there can be more
-> > than 4). Is that specific to TI hardware?
->=20
->=20
-> Yes, The commit message talks about how TI CSI does the multiplexing of=20
-> CSI stream from the sensor into 4 streams as show in the Figure 12-388=20
-> in AM62A TRM[1]. I will modify the commit message to mention that this=20
-> is TI CSI specific.
+On Tue, 09 Dec 2025 15:30:05 +0530, Himanshu Bhavani wrote:
+> From: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
+> 
+> Add bindings for Omnivision OS05B10 sensor.
+> 
+> Add MAINTAINERS entry for Omnivision OS05B10 binding documentation
+> 
+> Signed-off-by: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
+> Signed-off-by: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
+> ---
+>  .../bindings/media/i2c/ovti,os05b10.yaml      | 103 ++++++++++++++++++
+>  MAINTAINERS                                   |   7 ++
+>  2 files changed, 110 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,os05b10.yaml
+> 
 
-Figure 12-388 shows the internal pixel stream coming from Cadence to
-different hardware blocks like TI's Shim (DMA) and VP0 (ISP) and VP1. I
-don't see that being related to CSI2 VC/DT support, which is handled by the
-Shim using different DMA contexts and channels.
+My bot found errors running 'make dt_binding_check' on your patch:
 
-In the TRM, under 12.6.1.1.1 CSI_RX_IF Features, I see:
- * Compliant to MIPI CSI v1.3
- * Supports up to 16 virtual channels per input (partial MIPI CSI v2.0 feat=
-ure)
+yamllint warnings/errors:
 
-So 16 VCs is supported by TI's CSI pipeline, despite it being MIPI CSI2
-v1.3 compliant otherwise. I think I might have been confused with DS90UB960
-while writing this commit message originally, which strictly supports a
-maximum of 4 VCs.
+dtschema/dtc warnings/errors:
+Error: Documentation/devicetree/bindings/media/i2c/ovti,os05b10.example.dts:44.5-6 syntax error
+FATAL ERROR: Unable to parse input tree
+make[2]: *** [scripts/Makefile.dtbs:141: Documentation/devicetree/bindings/media/i2c/ovti,os05b10.example.dtb] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1559: dt_binding_check] Error 2
+make: *** [Makefile:248: __sub-make] Error 2
 
-Secondly, even with just CSI2 v1.0 compliant source, this could
-theoretically handle 8 "streams" of data with 4 different VCs x 2 data
-types each. So please update the paragraph in next revision.
+doc reference errors (make refcheckdocs):
 
-Thanks,
-    Jai
+See https://patchwork.kernel.org/project/devicetree/patch/20251209100017.302518-2-himanshu.bhavani@siliconsignals.io
 
->=20
->=20
-> [1]:=20
-> https://www.ti.com/lit/ug/spruj16c/spruj16c.pdf?ts=3D1765273774405&ref_ur=
-l=3Dhttps%253A%252F%252Fwww.ti.com%252Fproduct%252FAM62A7
->=20
->=20
-> >
-> >> identified by its virtual channel number and data type. The incoming
-> >> data from these streams can be filtered on the basis of either the
-> >> virtual channel or the data type.
-> >>
-> >> To capture this multiplexed stream, the application needs to tell
-> >> the driver how it wants to route the data. It needs to specify
-> >> which context should process which stream. This is done via the
-> >> new routing APIs.
-> >>
-> >> Add ioctls to accept routing information from the application and save
-> >> that in the driver. This can be used when starting streaming on a
-> >> context to determine which route and consequently which virtual channel
-> >> it should process.
-> >>
-> >> De-assert the pixel interface reset on first start_streaming() and ass=
-ert
-> >> it on the last stop_streaming().
-> >>
-> >> Reviewed-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
-> >> Co-developed-by: Pratyush Yadav <p.yadav@ti.com>
-> >> Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
-> >> Signed-off-by: Jai Luthra <j-luthra@ti.com>
-> >> Co-developed-by: Rishikesh Donadkar <r-donadkar@ti.com>
-> >> Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
-> >> ---
-> >>   .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 224 ++++++++++++++--=
---
-> >>   1 file changed, 179 insertions(+), 45 deletions(-)
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
-[snip]
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
 
