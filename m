@@ -1,176 +1,166 @@
-Return-Path: <linux-media+bounces-48478-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48479-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EB5CCB0823
-	for <lists+linux-media@lfdr.de>; Tue, 09 Dec 2025 17:09:59 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20103CB0805
+	for <lists+linux-media@lfdr.de>; Tue, 09 Dec 2025 17:06:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 73B5C30FC0C9
+	by tor.lore.kernel.org (Postfix) with ESMTP id 994813018B99
 	for <lists+linux-media@lfdr.de>; Tue,  9 Dec 2025 16:06:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E02B63009D3;
-	Tue,  9 Dec 2025 16:06:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EC0B271457;
+	Tue,  9 Dec 2025 16:06:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="VHNPKuxZ";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="LZYn5+lz"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="RSboq6GS";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Ly0BIEDs"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E06052D0C66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7FAE1FF5E3
 	for <linux-media@vger.kernel.org>; Tue,  9 Dec 2025 16:06:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765296389; cv=none; b=E38Fbjav85HoWSice4ihAdF44R/ctG7wey39monjAs9ikUS95Bt9+PS3iM05c3E4yCu0qjB+ei7QsqzAymhFh6K7FYIvk8VnKYayy6HOAOJcn4ZUY14U9mxtL2ibKJN8hVH3cjAX3ae+Swbj8GY8Qz8bPHS9GTpd3e59Xyh4zE4=
+	t=1765296390; cv=none; b=hvp/oBY85GW4de1zSwQ0x9WG9CcVeWt0G4qwQMwtI0xmDAaK27cB9lPKd3oVchERR6AMQ4IxTD/SkoZQI33hgi3PMkqzCmEt5mk93KVULwkVNfE5Ug2s8wnNOCiEAaqw/Jj7hcddCDHy8xoq+LJFS27v+yrwB8xzcEGdL9+p1Rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765296389; c=relaxed/simple;
-	bh=ONzgzYH/miAFCEJscBT6mQAHabr5g4owlxPIQa67lqE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=P3EVIOqdB0CoDjbh3x9cCLPVApq6ASMwDljDhJSy0dnzuLrG8dQDN61PIhi4bK4+p6vXkD9ITg0xt/U1UqJVU8WgXCmz56m3FoGzGtqw4cdCVTK2LWGRmYzheTHGM9dDWZUa4sjOXV0109l60DWuB/M4KKXEHbq95CK6khPdMm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=VHNPKuxZ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=LZYn5+lz; arc=none smtp.client-ip=205.220.168.131
+	s=arc-20240116; t=1765296390; c=relaxed/simple;
+	bh=z5Fss1otRuENp1ZYRWidO1D8HTvR7wg70oWa9sJRZVY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ow/tCRCweo/B9Qh+SdQIDdMxMSd+APO1pvjRTEp/DRBFYW1asQXnwW2uAs5lwvHNjHI6YJdm266rE+Q0XoFZ18rGz5TwNLGb5da2/mEv9+VaUUXA0hkpzv+MZ6QhzIfsUC/DqLj0xhkWFxfszavxWCn/nXhfquULSTCj6v/I4dA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=RSboq6GS; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Ly0BIEDs; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B9G1Cwd4160295
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5B9Fhhu83960943
 	for <linux-media@vger.kernel.org>; Tue, 9 Dec 2025 16:06:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=rOo4s5XJ3nomNiD4/eDQrl
-	wkalGwIGNN7esoHt62xnE=; b=VHNPKuxZ8PLOFHvmVEaPCmFmwqQaWBnl1Z62ZQ
-	GwmciAZ7Szn18AD3uKUxG07t8U1svNhy8dnFEv9yV+EVDqr23TcKv/ZhJGUpsPi4
-	d1VGV4X9ciVc+AmcWcYVkyEIzhcDWVwCkY8azxy8t8nj405AXrAiOgYDw3taVtEy
-	ZV358E5JIeB0V2BsSYBskDW/wn2o37E+4Gkb8YvGFEl4bBstRXE+hTQNKcNgcAfl
-	PTHZv6abwVluob6NYbxTWWNF5ztCyjWaiKNWq2AGRRxBtlH5/F4clF8hjq9/kYPT
-	4jwMOa6LcLvzAe8wmKxeW+dIZWcGuavdWCCf+QpCUIdgwhiw==
-Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com [209.85.221.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4axpx180y4-1
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=2pbtjhxC4eV
+	7PD5NCpiUxhV9IH0jDpFIsG5St2ZYJ6w=; b=RSboq6GSrHCHxM9kSZp2zUp9YvC
+	J3BDYgZ9zcx7lPqZovW8TIiDddqR6dY0R1H1VQYqsKaRL1GOOFUODCQV2L0rIPcx
+	e5xFv9BJ844eW1LsxzqJs2YNvKuxTwGLGDJ7N2JvNoXCD1ZbM1fzDWp1Z+uJtW3y
+	tSRKtpCfeMCIkP29OyaRYaKdxhrHDtF1Prz8tW+F6ufbGVKrOK1zoRks+iVb2MV+
+	S4x1HrF28S1ogaR3JD1S298UQKIs1SdzSaHeDxyOTtjeV2gb5/a2KqGGo9jC9dFx
+	FckwzcUwZpQQy9IxTpRqyr72CMpUJGdVldVF06QHsceq3bh8mTvTXz2cM0w==
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4axjk5109t-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
 	for <linux-media@vger.kernel.org>; Tue, 09 Dec 2025 16:06:26 +0000 (GMT)
-Received: by mail-vk1-f200.google.com with SMTP id 71dfb90a1353d-55fc6725c86so1009714e0c.3
+Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-4538a8bc513so6674753b6e.2
         for <linux-media@vger.kernel.org>; Tue, 09 Dec 2025 08:06:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=oss.qualcomm.com; s=google; t=1765296386; x=1765901186; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rOo4s5XJ3nomNiD4/eDQrlwkalGwIGNN7esoHt62xnE=;
-        b=LZYn5+lzGB1HKRFpRlCIw8s8WO5Lz9M2us8eCVYe3/3qezjhHjN4XwrfqbToA+LCDO
-         p1o3fSz/FWV56oe76eUU60JBjaz4DMCR12te0K9Q7UUHU8P79HvYgLX4e2fDBGDPqVaq
-         3Vy27zmhHFrdGoE/X+jWH60JzScIDBnQM4mlf/tnxE8Dy5jNmhOnPAOr0q7LP3F5Q/V9
-         Q0NfdozYPi+zdZa3sdnXB7tkt7HoMCCYThEOmbARyQ1VeFd/48/DSQFt3eDoUSp03I7O
-         lVQzgWd9pzy2Hq15XtTIIuOssLTcZZADMXcHlBuPjXdzBGYJHaXcbxf8xKrw1GuF6MX2
-         0ekQ==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2pbtjhxC4eV7PD5NCpiUxhV9IH0jDpFIsG5St2ZYJ6w=;
+        b=Ly0BIEDsAnB6wTQXaZljDQgKaVU8vC0dmOe5RkMfzBifO3F+ztujYc3nc2oXDxyxHh
+         FSzWVCBBwkAgJDjOD3AHeynlfY/nQ6MlxRUjj1tFZGZAbZD/aMA6JlR1XjNRge0V68uX
+         F6H85f7e9OtBAaVwEZQdp6bhlRb+b9ZEATXm5DHwHmmpdoNDUg0Gr2npFO3cycF50Fzc
+         qcC7eFzs2SBGbYjDpnosJTWmkx4dTOYHwTi2khxPSi5JkOsvbexvnJq+WqklGh6q41eL
+         6LaNSkoci+3FkQXkz4b8E/REe9G8mwgqn6JBeCkvi3ykYXmIiYo9pzc7i4xemK0ecECg
+         0SAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1765296386; x=1765901186;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rOo4s5XJ3nomNiD4/eDQrlwkalGwIGNN7esoHt62xnE=;
-        b=IMcl6NIdQwIsc1DQfAeg7GdJxR1qvnJofsXsJMRfhZvSm5elqXH8hBR8hAXcHZWhRk
-         HWUGyTZDJ4SDoJ3jOWWogakW4C7wE/dNMNPOdb4720hjzipCDpkqNlDx4zFWdKiB545l
-         cfDmj5wmnrpctvge2MfkuzP3Tyb3Xqlno13fqgaQXVAkFTwHIhlXvd0qh0T97yDDqeXN
-         talD7j70uTGLR9eAnK02WQV220FYdRlUBDAIYHeCOgZJlCIaeDHkUQDS05feQt4aJlTF
-         iiePkVVdlkCYlO53qX0Xn9JpqIC39CGOZUBokTHhhNSBJDS8z83YAkIYWYIAU1b9fVta
-         Ns1A==
-X-Forwarded-Encrypted: i=1; AJvYcCVAQAyarKWKcG016c71COcrRsUpOihmeFViWnQwilVkrTTbL5AT9ltgMSyb8zLXT2iA67eq9vNP8zbwSQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwITNIET432UqkRdMvlLTrd0YMLnNtI1lry1rFK8s3APTtJzuon
-	oCit3/zAk0I7YYo8YyRWCUAx87JxK+GANdWJwh4R5WRUIEYFlUEyiIyXn9qKu1S9KnyNrUFXcYv
-	HbOKD2G4D4+mcVmVOTud69agyF/T+YMO4p/7QU3VGQuakA5EaOVedecnX9E4ppUe/kQ==
-X-Gm-Gg: ASbGncvAWK0w7pkkKg4uXkZHWXuefTWnYFNN2b0VjEjn7o1KQkMN9Gta0UUt5lsxI1x
-	fHQRcjeswZOgLkokjFg3RF0flP4IRkFBAmIS0cJU3NXDE1I8/dPhzE6Xe66Tls7VOjWUcczL5iq
-	NeGYepzQR/uZbPImmp81t2MhFQC8s6S76otsb7n0zpmhl6OB9l8VCaS05WnoOgPXTRdKE2ZqxxT
-	JOrpUPqHs8p6ZaQh2KjBH1RF60kHh44C+PRYJgTNmMNCJM+375W9EK5nvJRdBK0f6pUqT3/YwAY
-	YlIwER4moC+IPkDhNbpigH2EcyDUc5VsNqAoOCzSobt1lh3acpwMdGmgCSigr3aUNrfJfi76aEE
-	+8pVghng58Uyy7I0KmcfBV1Sz3z0kyLBkcIdqUOmyN7/MSuxkw+AVok8rXC2aKMV51jSUq4EAu/
-	mVbBd2N4MGwsjyq4XK6PVzWUecFNVbwMfxb5qcQWRuc/ej6w==
-X-Received: by 2002:a05:6122:d27:b0:559:f0a2:4aa1 with SMTP id 71dfb90a1353d-55e84710613mr3815265e0c.12.1765296385566;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=2pbtjhxC4eV7PD5NCpiUxhV9IH0jDpFIsG5St2ZYJ6w=;
+        b=Q6786EBv3obGl3gEDBrRkFjNwuXdEFFf0Q++9r7N7zQ3soH/WrhfwNLnXtHUMQGZlM
+         JwmlDVn28g9pyIcx5B+cnjSVkx742BHx5RcmJqVZif5wTH6n+FVn44eGpEpJ6+SAn16e
+         jJ5v573hduC0eUqORle7oB40cF3RvQHl49EjQ9mdX3EX6P4kSaHQLK6UB6xDmYGBl6Bl
+         PPPrcZF09fWebR0RF1qPUnNTyP5LFZrrC92er8a6DTDLLayPYaWvMWZ8kb86g5/vWbRy
+         bCJ3BGHf0H8+bDImFecVF+DqotAQFUFi/oe6NEaGQVE6SedJxF5PYMtRsJmrzDlS4CHz
+         mNCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWh2a5WDksqbV/oe0lDb/68home3M8QZwKIZDZiMPDPId3wX1wqs+/YHHWw49habrBTvOY7RuOqclCSqg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywf+aRshjp/vypS4fKQhNvKpLEeeYHcHcmcIWaCtdExx2pcTHFz
+	aM0qXtysmBD8OQLucKLjeCp1xsggFmdccAvfCXopomuUDBTidlVxr8JnjrJc53udPidDi1KhbNM
+	98iJISDlIzcIqOp7hAlfzWUZVzL74s3aPaL//LmMD9axPpQxRFyH1AkaTRi2xCuGhRQ==
+X-Gm-Gg: ASbGnctGBhlJYE3ax2S+Mex29XbZWYJjWINGmkUWoEpM2oqxc2rRvhaIAgjk3YeTiJW
+	+AHKWERvz2HIUVkE9bbq0Q4xmOV2GsVrl0GCPKpU9iO+AdSFheI8/5f08CiyIrTqv8Q9dNz3HBn
+	VR5aypdhi8AhF949k6jcjAdHOqk8pW8mDRG+b/fIcC6v5cCuuokyDlQbMxjJEp9Nym15+XCmTwo
+	ueSr3RUPAis7DHHBnSnIlmzyicg1VOBl90MOsyK4u3QJgO0LJhwVC3lYi0Mui3f4yJPr7REt2n4
+	V4FQQqjCMgesq/GE3WMMUWCXucUu4Q3dlGsxb1u2YF/U5wncDxzn/f3XnKyq/bGEM36MWO27kc1
+	lOcolifmlVVZ10oBFUXninC5ooqcFDMZa2Y3je23TXJ4tOBVmCTR2qVHKcCflPcHUPE7fyb5SMS
+	IRaJJX6/mHtdPyY6e2EiUqsJjxpklJD7MrAryXzSNtXVJx2A==
+X-Received: by 2002:a05:6808:1790:b0:43d:6a69:7752 with SMTP id 5614622812f47-4539deda1b6mr4258577b6e.2.1765296386131;
+        Tue, 09 Dec 2025 08:06:26 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE+V1FVd6N2FNNCGlJ3kEfiMsRc9DWM6m4UauVbWWoZ+X2Muwa8Jbe0GEZ+AdEkqHv7QavWGQ==
+X-Received: by 2002:a05:6808:1790:b0:43d:6a69:7752 with SMTP id 5614622812f47-4539deda1b6mr4258556b6e.2.1765296385747;
         Tue, 09 Dec 2025 08:06:25 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHYh2MVMWhuIqdQFthO4OcIHHVfBb7+A/Z2LHJf2xYV+VjZr0ktS2TCtOAC/6s+itvUBpQJ2w==
-X-Received: by 2002:a05:6122:d27:b0:559:f0a2:4aa1 with SMTP id 71dfb90a1353d-55e84710613mr3815010e0c.12.1765296383703;
-        Tue, 09 Dec 2025 08:06:23 -0800 (PST)
 Received: from t14s.space.revspace.nl (2001-1c00-2a07-3a01-8e96-3679-0b9c-de47.cable.dynamic.v6.ziggo.nl. [2001:1c00:2a07:3a01:8e96:3679:b9c:de47])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-647b3599050sm14324838a12.17.2025.12.09.08.06.22
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-647b3599050sm14324838a12.17.2025.12.09.08.06.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Dec 2025 08:06:22 -0800 (PST)
+        Tue, 09 Dec 2025 08:06:24 -0800 (PST)
 From: Hans de Goede <johannes.goede@oss.qualcomm.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>,
         Bryan O'Donoghue <bod@kernel.org>
 Cc: Hans de Goede <johannes.goede@oss.qualcomm.com>,
         Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-        linux-media@vger.kernel.org
-Subject: [PATCH regression fixes for 6.19 0/5] media: ov02c10: h/vflip fixes
-Date: Tue,  9 Dec 2025 17:06:16 +0100
-Message-ID: <20251209160621.6854-1-johannes.goede@oss.qualcomm.com>
+        linux-media@vger.kernel.org, Sebastian Reichel <sre@kernel.org>
+Subject: [PATCH 1/5] media: ov02c10: Fix bayer-pattern change after default vflip change
+Date: Tue,  9 Dec 2025 17:06:17 +0100
+Message-ID: <20251209160621.6854-2-johannes.goede@oss.qualcomm.com>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20251209160621.6854-1-johannes.goede@oss.qualcomm.com>
+References: <20251209160621.6854-1-johannes.goede@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: pEPnfpP9gX70L4qBB2FaKUHoq6rARCed
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA5MDEyMCBTYWx0ZWRfX4miJZnRI5AIH
- tULF2difIbxK0xqDdZWK+MT23I3d+EZ7Y/rrn5ej6WxjR5eRilRJQ7d7nPtcAwfEFomYeRU8fpP
- CGS763gYigWPYnzbBgHR5ZewB54Lhk7ZNwYKvGqmQWfRftMICk8T2jP/Cn+lb1C7a2MX0gnhtmF
- 3oe7WksSa+owjUNRY302Qqa/QmmaH1LVee+Y9qIyACYLSeg83gmVsPfa8DVCDkGk7PlLgTQw947
- qTMhdpWQZGnM3uCMPcuKYj6TFXaYt+lpd9+EAipbLFMjxGXN0Mwx/j/txTh54zxo3TKgnI0ddM/
- bcq75ZMLHzpntWellMP7bwDF4qIZi3mXYnLIDSCg2YxwSqDBycOlbAJvu+Do7J5OKh3MWUJlivF
- /q6k9qY17Bsig2WXMB7f7H3Fp5SOSQ==
-X-Proofpoint-GUID: pEPnfpP9gX70L4qBB2FaKUHoq6rARCed
-X-Authority-Analysis: v=2.4 cv=Su6dKfO0 c=1 sm=1 tr=0 ts=69384902 cx=c_pps
- a=wuOIiItHwq1biOnFUQQHKA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VFhOKFnpEkSlfxSC7dUA:9 a=QEXdDO2ut3YA:10 a=XD7yVLdPMpWraOa8Un9W:22
+X-Proofpoint-ORIG-GUID: qzFjAd6NRWlP41bsxroK_6ZMeZeM1bh-
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA5MDEyMSBTYWx0ZWRfX6bmZiFCBTthR
+ NLREUSaGLa/uyhB4IN5imAXSzHvZYtJgHFgObSi00EVoTZH2seKo+YeYj2oPNTLlF/HMWLppY5J
+ 5Wgzv9Se/Jz0gpKpw8A966udp7G8MFthmJTqd35oRvzomK0HSVqirq4TWI1KVihgLXlCc3Bzp4b
+ GVxtaZwKrHWngCRrauT88HiHXjXtHNpqu2ZY7keUDBJLZq1mVsVsFZruMDwidxf4V2W47Ypb7ov
+ iVLebLrt8yY/4reqKJM/vOl6kdGjNaks7tBesSAhACNYnDtlDAz5NYUMVpQRPHKxx5paX897Znv
+ e852FuDM2hcoEGfMNemNOH6DsC4Bxkpc1r1blYJVW8BY4P2ILOK35xTAeIKRtcD4LgQ/99upTnu
+ KyJTpUJTMoQV8icbG+yhX5E5ps08lg==
+X-Proofpoint-GUID: qzFjAd6NRWlP41bsxroK_6ZMeZeM1bh-
+X-Authority-Analysis: v=2.4 cv=RqvI7SmK c=1 sm=1 tr=0 ts=69384902 cx=c_pps
+ a=WJcna6AvsNCxL/DJwPP1KA==:117 a=xqWC_Br6kY4A:10 a=wP3pNCr1ah4A:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=zB1yXfqWNuH8b4Bk64IA:9 a=_Y9Zt4tPzoBS9L09Snn2:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-09_04,2025-12-09_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 phishscore=0 malwarescore=0 impostorscore=0 suspectscore=0
- priorityscore=1501 lowpriorityscore=0 clxscore=1015 bulkscore=0 spamscore=0
+ adultscore=0 clxscore=1015 priorityscore=1501 malwarescore=0 suspectscore=0
+ bulkscore=0 lowpriorityscore=0 phishscore=0 impostorscore=0 spamscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512090120
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512090121
 
-Hi All,
+After commit 69fe27173396 ("media: ov02c10: Fix default vertical flip")
+the reported bayer-pattern of MEDIA_BUS_FMT_SGRBG10_1X10 is no longer
+correct.
 
-Commit 69fe27173396 ("media: ov02c10: Fix default vertical flip") which
-has been merged this merge window is causing various problems for
-laptops with a ov02c10 sensors:
+Change the 16-bit x-win register (0x3810) value from 2 to 1 so that
+the sensor will generate data in GRBG bayer-order again.
 
-1. This changes the vflip default but does not update the bayer-order
-   leading to debayer artifacts and wrong colors
+Fixes: 69fe27173396 ("media: ov02c10: Fix default vertical flip")
+Cc: Sebastian Reichel <sre@kernel.org>
+Cc: Bryan O'Donoghue <bod@kernel.org>
+Signed-off-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
+---
+ drivers/media/i2c/ov02c10.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-2. The ov02c10 driver was originally developed on a XPS 16 9640 which
-   has its sensor upside down. Changing the vflip (and hflip) default
-   values fixes the image being upside down on other laptops, but will
-   cause a regression on Dell XPS models causing the image to be upside
-   down there.
-
-3. The mentioned commit only changes vflip, so the image now is upside-up,
-   but it is still mirrored.
-
-Patches 1-4 of this series fixes these issues. Patch 5 is a follow-up
-cleanup patch.
-
-Hans Verkuil, can you please queue these up as fixes for 6.19?
-
-Regards,
-
-Hans
-
-
-Hans de Goede (5):
-  media: ov02c10: Fix bayer-pattern change after default vflip change
-  media: ov02c10: Adjust x-win/y-win when changing flipping to preserve
-    bayer-pattern
-  media: ov02c10: Fix the horizontal flip control
-  media: ipu-bridge: Add DMI quirk for Dell XPS laptops with upside down
-    sensors
-  media: ov02c10: Remove unnecessary hflip and vflip pointers
-
- drivers/media/i2c/ov02c10.c          | 28 +++++++++++----------------
- drivers/media/pci/intel/ipu-bridge.c | 29 ++++++++++++++++++++++++++++
- 2 files changed, 40 insertions(+), 17 deletions(-)
-
+diff --git a/drivers/media/i2c/ov02c10.c b/drivers/media/i2c/ov02c10.c
+index b1e540eb8326..6369841de88b 100644
+--- a/drivers/media/i2c/ov02c10.c
++++ b/drivers/media/i2c/ov02c10.c
+@@ -168,7 +168,7 @@ static const struct reg_sequence sensor_1928x1092_30fps_setting[] = {
+ 	{0x3810, 0x00},
+ 	{0x3811, 0x02},
+ 	{0x3812, 0x00},
+-	{0x3813, 0x02},
++	{0x3813, 0x01},
+ 	{0x3814, 0x01},
+ 	{0x3815, 0x01},
+ 	{0x3816, 0x01},
 -- 
 2.52.0
 
