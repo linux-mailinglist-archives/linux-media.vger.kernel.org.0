@@ -1,91 +1,99 @@
-Return-Path: <linux-media+bounces-48494-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48495-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26348CB12C0
-	for <lists+linux-media@lfdr.de>; Tue, 09 Dec 2025 22:20:35 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A938CCB11DE
+	for <lists+linux-media@lfdr.de>; Tue, 09 Dec 2025 22:11:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D067230F4DBD
-	for <lists+linux-media@lfdr.de>; Tue,  9 Dec 2025 21:18:35 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id CB311300447E
+	for <lists+linux-media@lfdr.de>; Tue,  9 Dec 2025 21:11:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6BA831DDBB;
-	Tue,  9 Dec 2025 20:57:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDC641D63EF;
+	Tue,  9 Dec 2025 21:01:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="ig2CwViB"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="WlWK3jXW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C27631D744
-	for <linux-media@vger.kernel.org>; Tue,  9 Dec 2025 20:57:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B14D3D76
+	for <linux-media@vger.kernel.org>; Tue,  9 Dec 2025 21:01:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765313857; cv=none; b=D012chn9MzV6sWObM7psLNzkPg3taZLBhnp41ucgn2kvx+Ju9YcAGtMsQI8cNVadptMU2ea6C+koFh7oXg8D0mJzpF26XruuY0oYjXwxQLuBgTz8PO2PM4NE+PD3zYO2cYg0dTJlAX4svkesJRjxsZyRH3uwxiMdDWbaNa+YrtA=
+	t=1765314109; cv=none; b=uPyDUza1l/YJ4XR5xqKE9p1u+wmXzxFD3wUHGmqy4SRiGJcSaGdpzXAS3pjVCkq3vkP8MDP3DegIT+gIlHBJLSI/gG8UIJeOCeJUixg7KrePZBDLGnUjPfiQ882c5h117IIxS5TicgGhCxbRmTuljfStncimc7fOGJsZhBSofHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765313857; c=relaxed/simple;
-	bh=fjyq+RNUjNnOTZdRG12RmpzNexwI9SlRNjx52n4aYlQ=;
+	s=arc-20240116; t=1765314109; c=relaxed/simple;
+	bh=DytixCgKzPYMWkGLjIDT6E4coq1ku349GOMMd7byWFw=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=OTNo/DQTZqKkjFPYre6taY1LRiILAwb9vibZDvaV/iAAB9Q91+qRNez6EyJw7yXM13iEolezWgw3vzYjMADkwW2i0c44WigWOw3Tufz1sexlzJsuj9NhJg5B7VaRn7eHOInEUm2BWIywzVAOuXZNrO+7HEi09JRrHw9vW3e7aZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=ig2CwViB; arc=none smtp.client-ip=209.85.222.173
+	 Content-Type:MIME-Version; b=CxNVp2MP/ETCzfgDjy4vNtY8oiwpWOp9ZzbobAuMevdK5gf+kMylOT1QwT0fbhew8Xlzaz5P9n/IlOfXBfkBYpsr1CZtS9Q+48m+c1j54+doc4ABOxCw+3RonMtCSJ6PrUDu1kYq5tSWlo5lQON/X/zyhA8p/9V6noWZj10/lLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=WlWK3jXW; arc=none smtp.client-ip=209.85.222.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-8a3eac7ca30so371588485a.2
-        for <linux-media@vger.kernel.org>; Tue, 09 Dec 2025 12:57:35 -0800 (PST)
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-8b2f0f9e4cbso20881585a.0
+        for <linux-media@vger.kernel.org>; Tue, 09 Dec 2025 13:01:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1765313854; x=1765918654; darn=vger.kernel.org;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1765314106; x=1765918906; darn=vger.kernel.org;
         h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
          :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=ks4rfgwcPnh21bBJ5QetQ/t2Y7bRA0w+3d0dKO5oFWI=;
-        b=ig2CwViBiHFunbVPEIbOch+YCTpkxIrmbSd87u2rKaxbUuLFjxTSBdhLHgPm8F7ues
-         wYY3JXFey6PO3tMdNfhuPO3QEFrM3U6HjpRCBZkBWiZzI+QS7BC4+142XOuE79MG+dfw
-         Ey4BexlYWaH1YyhdbRZWsJFPjdZb90Fnz7zPU3McTEIG5ImIeBeQuZ7hByM0A28dinM2
-         OKtpGIdyOdHKYMaqcJ+yQM4UOxtjLHPrj9sTP6iEo8WoVw8rZiPu2+2TmiUoedXbvVE+
-         oF77Se74o+mf5qvg2cDwq7ct0ZR3dKxNR+D5sxqA078pyvM0T9dpXo/KqM6F7nzplEbp
-         gpzQ==
+        bh=bdB60+eboYB8mcQkNMp1+tLftnngs0TeTeQCleurBBU=;
+        b=WlWK3jXW5/0RBDEyKSGbOEQrZcpyxsKuXRT+U2np4FiQdALLVILyUs9EJkbOV/+ihh
+         yFMxZcmIU9f8zFNjedwuC7D/OHSP+MvfsYMlOzblIRBfXKSktSf8arejQd3GsIyXBLLt
+         FGwYeukZO2kUfeS07t3hU22Q1PyLkt8wpRiYF3489G8yKopi8Df1JghbDSz6yBR8zrDU
+         q+9wSUVMgIvBYvImPPPm29j/xQBX28Bw16oq1zGyXqnYtR1D5ARiD2MJ8GAMk0hLppgu
+         3iLQL6m6Qz0DxlwO5nJijIi/uLPwU0N825i7L+Fb62AwwuIW+ptXWOlXVIkmsO4Tr9Qu
+         FObQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765313854; x=1765918654;
+        d=1e100.net; s=20230601; t=1765314106; x=1765918906;
         h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
          :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ks4rfgwcPnh21bBJ5QetQ/t2Y7bRA0w+3d0dKO5oFWI=;
-        b=XSY8qSVxOgCK0Ip/oiyEWFZgj7Bzs65NxLus7sK3FE9p32uKbnBuTWaCblNNk6aEjs
-         5+cIrfSIlP6JxW8y6KNGg8gsSKoS639z0t1IqygS7HaOtawsaLxmDjDbBf03qm0QDNRU
-         qatE71xxunHrRHxQ9IZaMdwJU0emv8cIuoLGMf6/Zuw1kdxMWY1Dc2Yuw68i9QlSATnX
-         +kwLEW4jV3CPXDikjwxVPSBTLcVKJ9hfJfDReRoQRXtRRmcPpZpBwfTm0pL76U4qbvpo
-         eVAkbQPL2w3WBY0ANiVIpl+Z255p103gB+2hGjhRfU+OMYGSy8M87IhJspQam5PK4lwv
-         hG2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXx/CMnJsAIaajbSXLYrinWICI2O6MVXy2Wf81cQHLwN2XT/PDJ63xdri17VZfq1T3A20COuHJb6Si+mQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyYrFTLyen6V62iPa9/I5GcODmduzsfsSjttHt3y47HT90hyj2e
-	krM9xSdIlSw9nmWT9S5r2cxUtfOUf4qSd/Gz2B5vyPHyOA6dKWwubHpXv7qQ18QIRiQ=
-X-Gm-Gg: ASbGnctYEm8oUkLyGZIa3mtBwco7731qROl5XzwQtx8xSQmtFPMaL287s5vv081x9pS
-	kfYBwcqYHWFPeVyOrInWt3GF13MpoHmqxxzfVmDv6WM8AaYBz/cKLE2uX0UFEbTx8uFJ9H7KYwr
-	Pz7wsjHfFnAK9+OQRPJa3qFgiY8ty75fl85AI/eYDzZHhOiEP0o7afv5L4Yj/EeYb3pP/J6MgFP
-	tCFw2CZJtgL7tE2oq6Rx5KZMjGRGbomqyZdPcX782Us/z/WxQHpzPKsVYXO+4ah4ZSHmc+WGLlL
-	upkPcSJUeotdcvSVzpsKEqQZNo6Xvk3df7dqn4P6kfgAx3eCsdB/wTXWpK5rGZNua70RYFHASFF
-	KmO9TC3QHsx+3v+92etYjqxHTL8yXOzV9taG6nzC6X9b+ytb9+KAG+e3FdR+69aNoycV1wM8tf4
-	xsHr7Vwg+tcmvhk6Hli9Ec0YN78VY=
-X-Google-Smtp-Source: AGHT+IEXuP3gduHDjZ+BJ+UcY5fM7ciYm9iPLAaAwZ5toDAd6Y+XsgFLolUEdBbI7QgsGC3wyhqL+A==
-X-Received: by 2002:ac8:7d48:0:b0:4e8:a850:e7db with SMTP id d75a77b69052e-4f1b1acb520mr453381cf.71.1765313854144;
-        Tue, 09 Dec 2025 12:57:34 -0800 (PST)
+        bh=bdB60+eboYB8mcQkNMp1+tLftnngs0TeTeQCleurBBU=;
+        b=miXT7yOCJ1jLhws0pEP6KSqEGo8jZpZR5mY5VNHgwNEaxsn/ebD5pT9/vBlndJNZqJ
+         BzKNwoPsneotcyikzim6g+xikLuk6t1EJm4pb/27Voyi6bKivdBgsUUeW7p4XX5s5k7U
+         tLhOEdDktjCVSbOIzOcSM6rPtGge4uymRgyQKtkH+AvwB8paZ2ok0J6H6oJJDxe5cPPB
+         sm2cRWJ5vBmjJk+y54m2vsS/VAQXA09307u6KhjUUHtoPlbd2itIG1SE2Z2BmniJOE7r
+         QR4el2YuvKZziwj/CfKwM27GmVkZIyaYpgEiP+rcWP0Jl4Wr9MQFHnHWD0G9BLZJNkZC
+         /4Og==
+X-Forwarded-Encrypted: i=1; AJvYcCUjPaCWSIjBMlRbWnPZtVEmYKQ7hiYpvQn+fN7vFSiE5tPY2UuwXCeNhKSdgvVAJy5p7+a9E8Yc0EXpFg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz1qULlgY0oGnVh+mcxIx7WfQD42mHV1dgBMQprGwO+x/QgS3mQ
+	HMEnBNnXzkzvBHxdA37cPib2jxwqcKxQDaAUAr+ZBnl9Uem2iCYHoTfvTnUsHvSb3kU=
+X-Gm-Gg: ASbGnctth5EmuPCqm/j5OH3GkJ03KLlGQEXhypeDfy9GktWipJ9LFhLEkfjadMc5y4m
+	PHRYrhifkZ+PovldZ8z/rESfga4rpCHoW5VU1R8hP54iZ5wH0C2I6SANSGi1TUk8HEAyiJ0U5Cd
+	lJqzjqDGYDN5TQOqvXAqqFKP5QhB+8Ow8h3BG7Yefk12jaS7nB3ji+kskHXtMhIScIZtigitKV1
+	FRpVYjKAXHNXwju9aC1J/C+6fJD40FcZxlAdBnuOAQ6DNm8TqsNybXCm55jfnXO9RvdjzcJlhgl
+	Rk02Pi/uPqjpVX9EeL+C8MYE8+QsZUCufECOCChQVKUv9rfO5AkApuQOIjN3av822UHpGau0ba/
+	RJuRI6o/wGjX29nJfrA4x5ScbkDdZrx/YMEyd1aL3xvAbz+zgobijQI+I48DpX5ysaKIZO4x0hy
+	rnoDvNOWCyJ+aCWVYb
+X-Google-Smtp-Source: AGHT+IE70E6Yg8SvO7c4cluG29AN/MEVghrbdBWJ2DadPgU4cJuuz1Fy4vVBOHbqQWY07mt5r6xw3Q==
+X-Received: by 2002:a05:620a:31a6:b0:891:8c16:283b with SMTP id af79cd13be357-8b9ccd08e72mr386130085a.9.1765314106344;
+        Tue, 09 Dec 2025 13:01:46 -0800 (PST)
 Received: from ?IPv6:2606:6d00:17:7b4b::c41? ([2606:6d00:17:7b4b::c41])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4f02cdaf4e6sm100873991cf.3.2025.12.09.12.57.33
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8b6252b61f1sm1375838185a.17.2025.12.09.13.01.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Dec 2025 12:57:33 -0800 (PST)
-Message-ID: <7e24110636db36e8c0a877d90d2ed9570c4aecf5.camel@ndufresne.ca>
-Subject: Re: [PATCH] media: platform: mtk-mdp3: add WQ_PERCPU to
- alloc_workqueue users
+        Tue, 09 Dec 2025 13:01:45 -0800 (PST)
+Message-ID: <ae08e53e055a238cde639dc9d9c7263fa296af5f.camel@ndufresne.ca>
+Subject: Re: [PATCH v7 17/20] media: platform: mtk-mdp3: Use
+ cmdq_pkt_jump_rel() without shift_pa
 From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Marco Crivellari <marco.crivellari@suse.com>, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
- Frederic Weisbecker	 <frederic@kernel.org>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>,  Michal Hocko <mhocko@suse.com>, Mauro Carvalho
- Chehab <mchehab@kernel.org>, Matthias Brugger	 <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno	 <angelogioacchino.delregno@collabora.com>
-Date: Tue, 09 Dec 2025 15:57:32 -0500
-In-Reply-To: <20251107141303.223254-1-marco.crivellari@suse.com>
-References: <20251107141303.223254-1-marco.crivellari@suse.com>
+To: Jason-JH Lin <jason-jh.lin@mediatek.com>, Rob Herring <robh@kernel.org>,
+  Krzysztof Kozlowski	 <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jassi Brar	 <jassisinghbrar@gmail.com>, Chun-Kuang
+ Hu <chunkuang.hu@kernel.org>,  AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>, Nancy Lin	
+ <nancy.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>, Paul-PL
+ Chen	 <paul-pl.chen@mediatek.com>, Moudy Ho <moudy.ho@mediatek.com>,
+ Xiandong Wang	 <xiandong.wang@mediatek.com>, Sirius Wang
+ <sirius.wang@mediatek.com>, Fei Shao	 <fshao@chromium.org>, Chen-yu Tsai
+ <wenst@chromium.org>, 	Project_Global_Chrome_Upstream_Group@mediatek.com,
+ devicetree@vger.kernel.org, 	linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 	linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, 	linux-media@vger.kernel.org
+Date: Tue, 09 Dec 2025 16:01:44 -0500
+In-Reply-To: <20250827114006.3310175-18-jason-jh.lin@mediatek.com>
+References: <20250827114006.3310175-1-jason-jh.lin@mediatek.com>
+	 <20250827114006.3310175-18-jason-jh.lin@mediatek.com>
 Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
  keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
  /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
@@ -100,7 +108,7 @@ Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
  ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
  bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-UeS4cSZwWRtHwAn48Sle"
+	protocol="application/pgp-signature"; boundary="=-Pkgq2xxV7UQeyr3akCzT"
 User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -110,103 +118,93 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 
---=-UeS4cSZwWRtHwAn48Sle
+--=-Pkgq2xxV7UQeyr3akCzT
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-Le vendredi 07 novembre 2025 =C3=A0 15:13 +0100, Marco Crivellari a =C3=A9c=
-rit=C2=A0:
-> Currently if a user enqueues a work item using schedule_delayed_work() th=
-e
-> used wq is "system_wq" (per-cpu wq) while queue_delayed_work() use
-> WORK_CPU_UNBOUND (used when a cpu is not specified). The same applies to
-> schedule_work() that is using system_wq and queue_work(), that makes use
-> again of WORK_CPU_UNBOUND.
-> This lack of consistency cannot be addressed without refactoring the API.
+Le mercredi 27 ao=C3=BBt 2025 =C3=A0 19:37 +0800, Jason-JH Lin a =C3=A9crit=
+=C2=A0:
+> With the removal of the shift_pa parameter, cmdq_pkt_jump_rel_temp()
+> can be replaced by the new cmdq_pkt_jump_rel() without shift_pa.
 >=20
-> alloc_workqueue() treats all queues as per-CPU by default, while unbound
-> workqueues must opt-in via WQ_UNBOUND.
+> Then, remove the cmdq_shift_pa variable in the mdp_dev structure for
+> each mbox client.
 >=20
-> This default is suboptimal: most workloads benefit from unbound queues,
-> allowing the scheduler to place worker threads where they=E2=80=99re need=
-ed and
-> reducing noise when CPUs are isolated.
+> Fixes: ade176534112 ("soc: mediatek: cmdq: Add parameter shift_pa to cmdq=
+_pkt_jump()")
+> Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
+> ---
+> =C2=A0drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c | 2 +-
+> =C2=A0drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c | 2 --
+> =C2=A0drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.h | 1 -
+> =C2=A03 files changed, 1 insertion(+), 4 deletions(-)
 >=20
-> This continues the effort to refactor workqueue APIs, which began with
-> the introduction of new workqueues and a new alloc_workqueue flag in:
->=20
-> commit 128ea9f6ccfb ("workqueue: Add system_percpu_wq and system_dfl_wq")
-> commit 930c2ea566af ("workqueue: Add new WQ_PERCPU flag")
->=20
-> This change adds a new WQ_PERCPU flag to explicitly request
-> alloc_workqueue() to be per-cpu when WQ_UNBOUND has not been specified.
->=20
-> With the introduction of the WQ_PERCPU flag (equivalent to !WQ_UNBOUND),
-> any alloc_workqueue() caller that doesn=E2=80=99t explicitly specify WQ_U=
-NBOUND
-> must now use WQ_PERCPU.
->=20
-> Once migration is complete, WQ_UNBOUND can be removed and unbound will
-> become the implicit default.
+> diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c b/drive=
+rs/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
+> index 7575ec376367..c35fe0e3a4d5 100644
+> --- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
+> +++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
+> @@ -638,7 +638,7 @@ static struct mdp_cmdq_cmd *mdp_cmdq_prepare(struct m=
+dp_dev *mdp,
+> =C2=A0		goto err_free_path;
+> =C2=A0	}
+> =C2=A0	cmdq_pkt_eoc(&cmd->pkt);
+> -	cmdq_pkt_jump_rel_temp(&cmd->pkt, CMDQ_INST_SIZE, mdp->cmdq_shift_pa[pp=
+_idx]);
+> +	cmdq_pkt_jump_rel(&cmd->pkt, CMDQ_INST_SIZE);
 
-I have to admit, there is likely no review here due to the lack of knowledg=
-e, so
-in order to help educate myself (hopefully its not just me), can you explai=
-n why
-the new default of WQ_UNBOUND would not be a fit for this driver ? After al=
-l,
-the author didn't care and didn't make a choice, so I feel like its worth
-asking.
+That effectively revert another patch that is pending, and remove the use o=
+f the
+new cmdq_pkt_jump_rel_temp(). I don't follow what is doing on here, I think=
+ some
+context must be lost.
 
-cheers,
 Nicolas
 
->=20
-> Suggested-by: Tejun Heo <tj@kernel.org>
-> Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
-> ---
-> =C2=A0drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c | 6 ++++--
-> =C2=A01 file changed, 4 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
-> b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
-> index 6559d72d5d42..9083367ae2e4 100644
+> =C2=A0
+> =C2=A0	for (i =3D 0; i < num_comp; i++) {
+> =C2=A0		s32 inner_id =3D MDP_COMP_NONE;
+> diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c b/drive=
+rs/media/platform/mediatek/mdp3/mtk-mdp3-core.c
+> index 8de2c8e4d333..2f8147481bd6 100644
 > --- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
 > +++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
-> @@ -255,14 +255,16 @@ static int mdp_probe(struct platform_device *pdev)
-> =C2=A0		goto err_free_mutex;
+> @@ -293,8 +293,6 @@ static int mdp_probe(struct platform_device *pdev)
+> =C2=A0			ret =3D PTR_ERR(mdp->cmdq_clt[i]);
+> =C2=A0			goto err_mbox_destroy;
+> =C2=A0		}
+> -
+> -		mdp->cmdq_shift_pa[i] =3D cmdq_get_shift_pa(mdp->cmdq_clt[i]->chan);
 > =C2=A0	}
 > =C2=A0
-> -	mdp->job_wq =3D alloc_workqueue(MDP_MODULE_NAME, WQ_FREEZABLE, 0);
-> +	mdp->job_wq =3D alloc_workqueue(MDP_MODULE_NAME,
-> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 WQ_FREEZABLE | WQ_PERCPU, 0);
-> =C2=A0	if (!mdp->job_wq) {
-> =C2=A0		dev_err(dev, "Unable to create job workqueue\n");
-> =C2=A0		ret =3D -ENOMEM;
-> =C2=A0		goto err_deinit_comp;
-> =C2=A0	}
+> =C2=A0	init_waitqueue_head(&mdp->callback_wq);
+> diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.h b/drive=
+rs/media/platform/mediatek/mdp3/mtk-mdp3-core.h
+> index 05cade1d098e..430251f63754 100644
+> --- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.h
+> +++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.h
+> @@ -126,7 +126,6 @@ struct mdp_dev {
+> =C2=A0	u32					id_count;
+> =C2=A0	struct ida				mdp_ida;
+> =C2=A0	struct cmdq_client			*cmdq_clt[MDP_PP_MAX];
+> -	u8					cmdq_shift_pa[MDP_PP_MAX];
+> =C2=A0	wait_queue_head_t			callback_wq;
 > =C2=A0
-> -	mdp->clock_wq =3D alloc_workqueue(MDP_MODULE_NAME "-clock",
-> WQ_FREEZABLE,
-> +	mdp->clock_wq =3D alloc_workqueue(MDP_MODULE_NAME "-clock",
-> +					WQ_FREEZABLE | WQ_PERCPU,
-> =C2=A0					0);
-> =C2=A0	if (!mdp->clock_wq) {
-> =C2=A0		dev_err(dev, "Unable to create clock workqueue\n");
+> =C2=A0	struct v4l2_device			v4l2_dev;
 
---=-UeS4cSZwWRtHwAn48Sle
+--=-Pkgq2xxV7UQeyr3akCzT
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaTiNPAAKCRDZQZRRKWBy
-9FiwAP0fJ+8iO5Ik0RjPFylUjAq7S8bsNJJcC+1KzXvIKpRkNQEA3unsVtcMYzBe
-Tyv8O0zclWEEPN7vZaUVvfJOXbdoVwU=
-=UyuZ
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaTiOOAAKCRDZQZRRKWBy
+9OdCAP9jVzg+QpGog3Qs+E1aiutQSW6I8TrxlaZxB+Nqe/V4dQEAvcTe47Q5IdHE
+la5jsdG9ICyO0vG59Lcb7msMNvmnEg4=
+=ZEQI
 -----END PGP SIGNATURE-----
 
---=-UeS4cSZwWRtHwAn48Sle--
+--=-Pkgq2xxV7UQeyr3akCzT--
 
