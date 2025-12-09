@@ -1,50 +1,50 @@
-Return-Path: <linux-media+bounces-48462-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48463-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 496D1CAFA6A
-	for <lists+linux-media@lfdr.de>; Tue, 09 Dec 2025 11:34:19 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83035CAFA73
+	for <lists+linux-media@lfdr.de>; Tue, 09 Dec 2025 11:34:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id DBA1D3011593
-	for <lists+linux-media@lfdr.de>; Tue,  9 Dec 2025 10:34:16 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AF76230393C6
+	for <lists+linux-media@lfdr.de>; Tue,  9 Dec 2025 10:34:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7346C2DE6EF;
-	Tue,  9 Dec 2025 10:34:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22E192F6591;
+	Tue,  9 Dec 2025 10:34:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Pn8XU/OU"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="VbL+huk3"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5E681C84D7;
-	Tue,  9 Dec 2025 10:34:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4052E093B;
+	Tue,  9 Dec 2025 10:34:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765276452; cv=none; b=f1XO5d4YXMZBVMRpvPg5qNM9t5M8cXta7uVbEC5wT2krZO2Q5gHSa/n6aqRTt8j2HYkLFQkf7QdO+arCgofguGPOMSHkpNa8gT1Uvc4l0eS30vYu/aFZLeLmBEVV/aKh0BvtUfJfIY88XC6ImVQnABJbXSfNrwrB51aPQ+4IpOk=
+	t=1765276466; cv=none; b=hF2e1BbOeXD2lPvQBmsKDAqr4L50xwG7wynOfqt88RHm8XiO0ckRU5EhXiHbv4zmRIRDhe+J++gVsOpXWR6fuJ0hrTT4K2dIRQ6Zvtka7IlpXjM8ymW+E1cbNGCkfxfD2CJYi6uCRJP3wF37OIuAuAt7mQmaWOAwBKTNKNJ9v+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765276452; c=relaxed/simple;
-	bh=Q2dXtR2D1boXS39jDjWL1hbt8apwzkSNEh5YyxFa0Bs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=orKMPrEnNJxhFJRdYUMy9JXobYAS7vmwWhFKBzFIFjJWifgYjT1sdrooJ6Y1hKTSZRMujk2c5QspnkREUKNu5KUISnkwULXdSp8gHJNprO2gpmLwzfnwmaoJ5cwCkg7TYL1B1INFv38g6wAn6ZLcRD+7x5aijzPL5yOpvdHD50U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Pn8XU/OU; arc=none smtp.client-ip=148.251.105.195
+	s=arc-20240116; t=1765276466; c=relaxed/simple;
+	bh=SGzx6Y6h73rZhJ/XlDZgJtNuHxNiFSCSI+vKYl0sD4c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eXu08HZyvKk1LqMmS/Kx9qxuA8rAc5Rcyz+gR5hFBMBp4bJFvIWotgGt+Rfcv106RhxKZ+kDdiOyo3ySKrvRX2m4irXGpmxSHvGAP+JxECoi8HIOybNIuWk0eF5UGEg7Vf6qWdg1HkDZZ5fU88B5YrF/sfNBJOoP8yhjgV3UfjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=VbL+huk3; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1765276446;
-	bh=Q2dXtR2D1boXS39jDjWL1hbt8apwzkSNEh5YyxFa0Bs=;
+	s=mail; t=1765276462;
+	bh=SGzx6Y6h73rZhJ/XlDZgJtNuHxNiFSCSI+vKYl0sD4c=;
 	h=From:To:Cc:Subject:Date:From;
-	b=Pn8XU/OUEiW9tIQe6KZn6ZTy4uOrbGn5nfEzjyHUNRTeRxJGcqrdO3ZZdkE6DEH1p
-	 0U8sNjEJaBIFxFV62E/j4Yye5myk8+jyAiotvr2okQCSLgUYxh5akP8mh8zKdglQd3
-	 sSymLjzOziTXiFdQN6Dns5fGwVRuPBsDGkuMTMtjrI9vrXx1kByd9G1YMIuWhLjFOR
-	 QuTabJPc/WqN/llsOP6d62N33Dw065daEPSAT4uIKA11KMOIfI8sPnNg2yWq/QJWng
-	 mLCQ5pwJ3Sj/JLsRQM6z2QNzjpavuMBNQCFgcz4AC3oRORfrxwvieMb2dAkXDMNJSU
-	 QaIPAkMurLUiw==
+	b=VbL+huk3oLxZ6uOD2TRLlO3udMAYmoCxWhlq7ahucLf5waifua2yf2JyQRKWWh+/7
+	 YekQlmJ4btcliQpdEI7gEDFjTGeoNK0Nlwo20iqoaweHtxIdLuUPydp0FeeQmHS3iQ
+	 fNc+EijSN+OK9OJOWu9VSKsT6ZCpkXKyEw5EStIK7vReKmNnp+XKHD0zRCd3biWfyC
+	 18GpXkbYe1WNt24Kk86fzMOPjUZDnEcUtTZyxd+PB4cu3Cwk79ZOIi1iisAE8YLa7L
+	 MStTvp8am+UNNNR9o+kIZNUZ98kgLzbqjWhhJMhgJroi/5xMrubA7V41ZwVCwIMyra
+	 nN/J25MIqBalw==
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:2285:5e2d:9392:bcdf])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 47B4A17E1155;
-	Tue,  9 Dec 2025 11:34:06 +0100 (CET)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 363F017E0330;
+	Tue,  9 Dec 2025 11:34:22 +0100 (CET)
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: nicolas.dufresne@collabora.com,
 	p.zabel@pengutronix.de,
@@ -56,11 +56,10 @@ Cc: linux-media@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Jianfeng Liu <liujianfeng1994@gmail.com>
-Subject: [PATCH v2] media: verisilicon: AV1: Fix enable cdef computation
-Date: Tue,  9 Dec 2025 11:34:01 +0100
-Message-ID: <20251209103401.21943-1-benjamin.gaignard@collabora.com>
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v2] media: verisilicon: AV1: Fix tx mode bit setting
+Date: Tue,  9 Dec 2025 11:34:17 +0100
+Message-ID: <20251209103417.21966-1-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -70,49 +69,76 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If all the fields of the CDEF parameters are zero (which is the default),
-then av1_enable_cdef register needs to be unset
-(despite the V4L2_AV1_SEQUENCE_FLAG_ENABLE_CDEF possibly being set).
+AV1 specification describes 3 possibles tx modes: 4x4 only,
+largest and select.
+Hardware allows 5 possibles tx modes: 4x4 only, 8x8, 16x16,
+32x32 and select.
+Since the both aren't exactly matching we need to add a mapping
+function to set the correct mode on hardware.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 Fixes: 727a400686a2c ("media: verisilicon: Add Rockchip AV1 decoder")
-Reported-by: Jianfeng Liu <liujianfeng1994@gmail.com>
-Closes: https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/4786
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 ---
- .../platform/verisilicon/rockchip_vpu981_hw_av1_dec.c  | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ .../verisilicon/rockchip_vpu981_hw_av1_dec.c  | 27 ++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c b/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
-index e4703bb6be7c..f4f7cb45b1f1 100644
+index f4f7cb45b1f1..f52b8208e6b9 100644
 --- a/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
 +++ b/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
-@@ -1396,8 +1396,16 @@ static void rockchip_vpu981_av1_dec_set_cdef(struct hantro_ctx *ctx)
- 	u16 luma_sec_strength = 0;
- 	u32 chroma_pri_strength = 0;
- 	u16 chroma_sec_strength = 0;
-+	bool enable_cdef;
- 	int i;
+@@ -72,6 +72,14 @@
+ 		: AV1_DIV_ROUND_UP_POW2((_value_), (_n_)));		\
+ })
  
-+	enable_cdef = !(cdef->bits == 0 &&
-+			cdef->damping_minus_3 == 0 &&
-+			cdef->y_pri_strength[0] == 0 &&
-+			cdef->y_sec_strength[0] == 0 &&
-+			cdef->uv_pri_strength[0] == 0 &&
-+			cdef->uv_sec_strength[0] == 0);
-+	hantro_reg_write(vpu, &av1_enable_cdef, enable_cdef);
- 	hantro_reg_write(vpu, &av1_cdef_bits, cdef->bits);
- 	hantro_reg_write(vpu, &av1_cdef_damping, cdef->damping_minus_3);
++enum rockchip_av1_tx_mode {
++	ROCKCHIP_AV1_TX_MODE_ONLY_4X4	= 0,
++	ROCKCHIP_AV1_TX_MODE_8X8	= 1,
++	ROCKCHIP_AV1_TX_MODE_16x16	= 2,
++	ROCKCHIP_AV1_TX_MODE_32x32	= 3,
++	ROCKCHIP_AV1_TX_MODE_SELECT	= 4,
++};
++
+ struct rockchip_av1_film_grain {
+ 	u8 scaling_lut_y[256];
+ 	u8 scaling_lut_cb[256];
+@@ -1935,11 +1943,26 @@ static void rockchip_vpu981_av1_dec_set_reference_frames(struct hantro_ctx *ctx)
+ 	rockchip_vpu981_av1_dec_set_other_frames(ctx);
+ }
  
-@@ -1953,8 +1961,6 @@ static void rockchip_vpu981_av1_dec_set_parameters(struct hantro_ctx *ctx)
- 			 !!(ctrls->frame->flags & V4L2_AV1_FRAME_FLAG_SHOW_FRAME));
- 	hantro_reg_write(vpu, &av1_switchable_motion_mode,
- 			 !!(ctrls->frame->flags & V4L2_AV1_FRAME_FLAG_IS_MOTION_MODE_SWITCHABLE));
--	hantro_reg_write(vpu, &av1_enable_cdef,
--			 !!(ctrls->sequence->flags & V4L2_AV1_SEQUENCE_FLAG_ENABLE_CDEF));
- 	hantro_reg_write(vpu, &av1_allow_masked_compound,
- 			 !!(ctrls->sequence->flags
- 			    & V4L2_AV1_SEQUENCE_FLAG_ENABLE_MASKED_COMPOUND));
++static int rockchip_vpu981_av1_get_hardware_tx_mode(enum v4l2_av1_tx_mode tx_mode)
++{
++	switch (tx_mode) {
++	case V4L2_AV1_TX_MODE_ONLY_4X4:
++		return ROCKCHIP_AV1_TX_MODE_ONLY_4X4;
++	case V4L2_AV1_TX_MODE_LARGEST:
++		return ROCKCHIP_AV1_TX_MODE_32x32;
++	case V4L2_AV1_TX_MODE_SELECT:
++		return ROCKCHIP_AV1_TX_MODE_SELECT;
++	}
++
++	return ROCKCHIP_AV1_TX_MODE_32x32;
++}
++
+ static void rockchip_vpu981_av1_dec_set_parameters(struct hantro_ctx *ctx)
+ {
+ 	struct hantro_dev *vpu = ctx->dev;
+ 	struct hantro_av1_dec_hw_ctx *av1_dec = &ctx->av1_dec;
+ 	struct hantro_av1_dec_ctrls *ctrls = &av1_dec->ctrls;
++	int tx_mode;
+ 
+ 	hantro_reg_write(vpu, &av1_skip_mode,
+ 			 !!(ctrls->frame->flags & V4L2_AV1_FRAME_FLAG_SKIP_MODE_PRESENT));
+@@ -2005,7 +2028,9 @@ static void rockchip_vpu981_av1_dec_set_parameters(struct hantro_ctx *ctx)
+ 			 !!(ctrls->frame->flags & V4L2_AV1_FRAME_FLAG_ALLOW_HIGH_PRECISION_MV));
+ 	hantro_reg_write(vpu, &av1_comp_pred_mode,
+ 			 (ctrls->frame->flags & V4L2_AV1_FRAME_FLAG_REFERENCE_SELECT) ? 2 : 0);
+-	hantro_reg_write(vpu, &av1_transform_mode, (ctrls->frame->tx_mode == 1) ? 3 : 4);
++
++	tx_mode = rockchip_vpu981_av1_get_hardware_tx_mode(ctrls->frame->tx_mode);
++	hantro_reg_write(vpu, &av1_transform_mode, tx_mode);
+ 	hantro_reg_write(vpu, &av1_max_cb_size,
+ 			 (ctrls->sequence->flags
+ 			  & V4L2_AV1_SEQUENCE_FLAG_USE_128X128_SUPERBLOCK) ? 7 : 6);
 -- 
 2.43.0
 
