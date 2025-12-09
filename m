@@ -1,145 +1,146 @@
-Return-Path: <linux-media+bounces-48463-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48464-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83035CAFA73
-	for <lists+linux-media@lfdr.de>; Tue, 09 Dec 2025 11:34:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30B15CAFA8E
+	for <lists+linux-media@lfdr.de>; Tue, 09 Dec 2025 11:37:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AF76230393C6
-	for <lists+linux-media@lfdr.de>; Tue,  9 Dec 2025 10:34:28 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 792C930303A4
+	for <lists+linux-media@lfdr.de>; Tue,  9 Dec 2025 10:36:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22E192F6591;
-	Tue,  9 Dec 2025 10:34:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A915B2F5496;
+	Tue,  9 Dec 2025 10:36:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="VbL+huk3"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="IF7lHoCB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4052E093B;
-	Tue,  9 Dec 2025 10:34:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA8CE2C08DC;
+	Tue,  9 Dec 2025 10:36:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765276466; cv=none; b=hF2e1BbOeXD2lPvQBmsKDAqr4L50xwG7wynOfqt88RHm8XiO0ckRU5EhXiHbv4zmRIRDhe+J++gVsOpXWR6fuJ0hrTT4K2dIRQ6Zvtka7IlpXjM8ymW+E1cbNGCkfxfD2CJYi6uCRJP3wF37OIuAuAt7mQmaWOAwBKTNKNJ9v+E=
+	t=1765276600; cv=none; b=GypQeeGA4vO06kl4/H9gw75oAcjWHEeeH5KztTSFw4fyTTsP2wpBpl80JtcSD9D6OCegJoR6apn1BRp+8JP6hxDURFcAssPx9k50Mrj+muyjyNBogTh/pq/OmV6NNNGh6d5kyHJmocHXb0Rx1z8ylYbRCFFlqrgiA6LQ/BN+veA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765276466; c=relaxed/simple;
-	bh=SGzx6Y6h73rZhJ/XlDZgJtNuHxNiFSCSI+vKYl0sD4c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eXu08HZyvKk1LqMmS/Kx9qxuA8rAc5Rcyz+gR5hFBMBp4bJFvIWotgGt+Rfcv106RhxKZ+kDdiOyo3ySKrvRX2m4irXGpmxSHvGAP+JxECoi8HIOybNIuWk0eF5UGEg7Vf6qWdg1HkDZZ5fU88B5YrF/sfNBJOoP8yhjgV3UfjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=VbL+huk3; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1765276462;
-	bh=SGzx6Y6h73rZhJ/XlDZgJtNuHxNiFSCSI+vKYl0sD4c=;
-	h=From:To:Cc:Subject:Date:From;
-	b=VbL+huk3oLxZ6uOD2TRLlO3udMAYmoCxWhlq7ahucLf5waifua2yf2JyQRKWWh+/7
-	 YekQlmJ4btcliQpdEI7gEDFjTGeoNK0Nlwo20iqoaweHtxIdLuUPydp0FeeQmHS3iQ
-	 fNc+EijSN+OK9OJOWu9VSKsT6ZCpkXKyEw5EStIK7vReKmNnp+XKHD0zRCd3biWfyC
-	 18GpXkbYe1WNt24Kk86fzMOPjUZDnEcUtTZyxd+PB4cu3Cwk79ZOIi1iisAE8YLa7L
-	 MStTvp8am+UNNNR9o+kIZNUZ98kgLzbqjWhhJMhgJroi/5xMrubA7V41ZwVCwIMyra
-	 nN/J25MIqBalw==
-Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:2285:5e2d:9392:bcdf])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 363F017E0330;
-	Tue,  9 Dec 2025 11:34:22 +0100 (CET)
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: nicolas.dufresne@collabora.com,
-	p.zabel@pengutronix.de,
-	mchehab@kernel.org,
-	heiko@sntech.de,
-	hverkuil@kernel.org
-Cc: linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v2] media: verisilicon: AV1: Fix tx mode bit setting
-Date: Tue,  9 Dec 2025 11:34:17 +0100
-Message-ID: <20251209103417.21966-1-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1765276600; c=relaxed/simple;
+	bh=xahUIlaehVh5FxxfTPdwDxMO0j0MxgfWUvmLAcXksMs=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=VzcmLc2hyMalXaE+ouQWNLBuuqwR3gfoECpFfu9qqJASY+7K6iv9Mmn+XnA3guZAesWs669MqfyCwdbqx0R0pj/px46XxFTwvT2V82kgx66f6dCbvCIhx+7Ustq+mkSZFTW55dzzvhjJfTPgmnxA7m7cOOH6Sqzfoewvme17bZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=IF7lHoCB; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c31:3dca:74fd:8a0a:9c63:1c11])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D4C4E89A;
+	Tue,  9 Dec 2025 11:34:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1765276443;
+	bh=xahUIlaehVh5FxxfTPdwDxMO0j0MxgfWUvmLAcXksMs=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=IF7lHoCBINGUw91elaq/7JG9ch89ucyRlwOgI/55MSLa0QEsV+IJ8VJqABKvGzQST
+	 GCOYtmlOklAW1XyOzF0ovRN3FQ2KOcisoIED618NV0fjJNC1FYcBCO6bAU3reCC8iq
+	 EQn/7bDJ/MdFRcemLXdfdLrJt1g86r70ObdTiHzk=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <719ee15a-92fd-4597-b25e-196f4a906a5a@ti.com>
+References: <20251112115459.2479225-1-r-donadkar@ti.com> <20251112115459.2479225-14-r-donadkar@ti.com> <1e7be0c3-b7da-4eac-9a39-147c1e627cbb@ideasonboard.com> <719ee15a-92fd-4597-b25e-196f4a906a5a@ti.com>
+Subject: Re: [PATCH v8 13/18] media: ti: j721e-csi2rx: add multistream support
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: y-abhilashchandra@ti.com, devarsht@ti.com, s-jain1@ti.com, vigneshr@ti.com, mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org, p.zabel@pengutronix.de, conor+dt@kernel.org, sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl, changhuang.liang@starfivetech.com, jack.zhu@starfivetech.com, sjoerd@collabora.com, dan.carpenter@linaro.org, hverkuil+cisco@kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, devicetree@vger.kernel.org
+To: Rishikesh Donadkar <r-donadkar@ti.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, jai.luthra@linux.dev, laurent.pinchart@ideasonboard.com, mripard@kernel.org
+Date: Tue, 09 Dec 2025 16:06:16 +0530
+Message-ID: <176527657688.20066.3405220622225469005@freya>
+User-Agent: alot/0.12.dev62+gb9d6144a6
 
-AV1 specification describes 3 possibles tx modes: 4x4 only,
-largest and select.
-Hardware allows 5 possibles tx modes: 4x4 only, 8x8, 16x16,
-32x32 and select.
-Since the both aren't exactly matching we need to add a mapping
-function to set the correct mode on hardware.
+Hi Rishikesh,
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Fixes: 727a400686a2c ("media: verisilicon: Add Rockchip AV1 decoder")
----
- .../verisilicon/rockchip_vpu981_hw_av1_dec.c  | 27 ++++++++++++++++++-
- 1 file changed, 26 insertions(+), 1 deletion(-)
+Quoting Rishikesh Donadkar (2025-12-09 15:38:33)
+>=20
+> On 01/12/25 18:33, Tomi Valkeinen wrote:
+> > Hi,
+>=20
+>=20
+> Hi Tomi,
+>=20
+> Thank you for the review !
+>=20
+> >
+> > On 12/11/2025 13:54, Rishikesh Donadkar wrote:
+> >> From: Jai Luthra <j-luthra@ti.com>
+> >>
+> >> Each CSI2 stream can be multiplexed into 4 independent streams, each
+> > Well, that's not true, at least generally speaking (there can be more
+> > than 4). Is that specific to TI hardware?
+>=20
+>=20
+> Yes, The commit message talks about how TI CSI does the multiplexing of=20
+> CSI stream from the sensor into 4 streams as show in the Figure 12-388=20
+> in AM62A TRM[1]. I will modify the commit message to mention that this=20
+> is TI CSI specific.
 
-diff --git a/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c b/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
-index f4f7cb45b1f1..f52b8208e6b9 100644
---- a/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
-+++ b/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
-@@ -72,6 +72,14 @@
- 		: AV1_DIV_ROUND_UP_POW2((_value_), (_n_)));		\
- })
- 
-+enum rockchip_av1_tx_mode {
-+	ROCKCHIP_AV1_TX_MODE_ONLY_4X4	= 0,
-+	ROCKCHIP_AV1_TX_MODE_8X8	= 1,
-+	ROCKCHIP_AV1_TX_MODE_16x16	= 2,
-+	ROCKCHIP_AV1_TX_MODE_32x32	= 3,
-+	ROCKCHIP_AV1_TX_MODE_SELECT	= 4,
-+};
-+
- struct rockchip_av1_film_grain {
- 	u8 scaling_lut_y[256];
- 	u8 scaling_lut_cb[256];
-@@ -1935,11 +1943,26 @@ static void rockchip_vpu981_av1_dec_set_reference_frames(struct hantro_ctx *ctx)
- 	rockchip_vpu981_av1_dec_set_other_frames(ctx);
- }
- 
-+static int rockchip_vpu981_av1_get_hardware_tx_mode(enum v4l2_av1_tx_mode tx_mode)
-+{
-+	switch (tx_mode) {
-+	case V4L2_AV1_TX_MODE_ONLY_4X4:
-+		return ROCKCHIP_AV1_TX_MODE_ONLY_4X4;
-+	case V4L2_AV1_TX_MODE_LARGEST:
-+		return ROCKCHIP_AV1_TX_MODE_32x32;
-+	case V4L2_AV1_TX_MODE_SELECT:
-+		return ROCKCHIP_AV1_TX_MODE_SELECT;
-+	}
-+
-+	return ROCKCHIP_AV1_TX_MODE_32x32;
-+}
-+
- static void rockchip_vpu981_av1_dec_set_parameters(struct hantro_ctx *ctx)
- {
- 	struct hantro_dev *vpu = ctx->dev;
- 	struct hantro_av1_dec_hw_ctx *av1_dec = &ctx->av1_dec;
- 	struct hantro_av1_dec_ctrls *ctrls = &av1_dec->ctrls;
-+	int tx_mode;
- 
- 	hantro_reg_write(vpu, &av1_skip_mode,
- 			 !!(ctrls->frame->flags & V4L2_AV1_FRAME_FLAG_SKIP_MODE_PRESENT));
-@@ -2005,7 +2028,9 @@ static void rockchip_vpu981_av1_dec_set_parameters(struct hantro_ctx *ctx)
- 			 !!(ctrls->frame->flags & V4L2_AV1_FRAME_FLAG_ALLOW_HIGH_PRECISION_MV));
- 	hantro_reg_write(vpu, &av1_comp_pred_mode,
- 			 (ctrls->frame->flags & V4L2_AV1_FRAME_FLAG_REFERENCE_SELECT) ? 2 : 0);
--	hantro_reg_write(vpu, &av1_transform_mode, (ctrls->frame->tx_mode == 1) ? 3 : 4);
-+
-+	tx_mode = rockchip_vpu981_av1_get_hardware_tx_mode(ctrls->frame->tx_mode);
-+	hantro_reg_write(vpu, &av1_transform_mode, tx_mode);
- 	hantro_reg_write(vpu, &av1_max_cb_size,
- 			 (ctrls->sequence->flags
- 			  & V4L2_AV1_SEQUENCE_FLAG_USE_128X128_SUPERBLOCK) ? 7 : 6);
--- 
-2.43.0
+Figure 12-388 shows the internal pixel stream coming from Cadence to
+different hardware blocks like TI's Shim (DMA) and VP0 (ISP) and VP1. I
+don't see that being related to CSI2 VC/DT support, which is handled by the
+Shim using different DMA contexts and channels.
 
+In the TRM, under 12.6.1.1.1 CSI_RX_IF Features, I see:
+ * Compliant to MIPI CSI v1.3
+ * Supports up to 16 virtual channels per input (partial MIPI CSI v2.0 feat=
+ure)
+
+So 16 VCs is supported by TI's CSI pipeline, despite it being MIPI CSI2
+v1.3 compliant otherwise. I think I might have been confused with DS90UB960
+while writing this commit message originally, which strictly supports a
+maximum of 4 VCs.
+
+Secondly, even with just CSI2 v1.0 compliant source, this could
+theoretically handle 8 "streams" of data with 4 different VCs x 2 data
+types each. So please update the paragraph in next revision.
+
+Thanks,
+    Jai
+
+>=20
+>=20
+> [1]:=20
+> https://www.ti.com/lit/ug/spruj16c/spruj16c.pdf?ts=3D1765273774405&ref_ur=
+l=3Dhttps%253A%252F%252Fwww.ti.com%252Fproduct%252FAM62A7
+>=20
+>=20
+> >
+> >> identified by its virtual channel number and data type. The incoming
+> >> data from these streams can be filtered on the basis of either the
+> >> virtual channel or the data type.
+> >>
+> >> To capture this multiplexed stream, the application needs to tell
+> >> the driver how it wants to route the data. It needs to specify
+> >> which context should process which stream. This is done via the
+> >> new routing APIs.
+> >>
+> >> Add ioctls to accept routing information from the application and save
+> >> that in the driver. This can be used when starting streaming on a
+> >> context to determine which route and consequently which virtual channel
+> >> it should process.
+> >>
+> >> De-assert the pixel interface reset on first start_streaming() and ass=
+ert
+> >> it on the last stop_streaming().
+> >>
+> >> Reviewed-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
+> >> Co-developed-by: Pratyush Yadav <p.yadav@ti.com>
+> >> Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
+> >> Signed-off-by: Jai Luthra <j-luthra@ti.com>
+> >> Co-developed-by: Rishikesh Donadkar <r-donadkar@ti.com>
+> >> Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
+> >> ---
+> >>   .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 224 ++++++++++++++--=
+--
+> >>   1 file changed, 179 insertions(+), 45 deletions(-)
+
+[snip]
 
