@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-48498-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48501-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CBF2CB1534
-	for <lists+linux-media@lfdr.de>; Tue, 09 Dec 2025 23:45:01 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC6F1CB1552
+	for <lists+linux-media@lfdr.de>; Tue, 09 Dec 2025 23:45:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 8AD553027198
+	by sea.lore.kernel.org (Postfix) with ESMTP id CEE7F312E14B
 	for <lists+linux-media@lfdr.de>; Tue,  9 Dec 2025 22:45:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF0472F3C0F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6DAA2F5A08;
 	Tue,  9 Dec 2025 22:44:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="NGjp4Tvs"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="TbBb3oWH"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1E7F2236E3;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B052ECE9D;
 	Tue,  9 Dec 2025 22:44:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765320292; cv=none; b=ilI1h/PTYi2thZ2TFePRmCG81JlFTSOAFxkBRE62zt9LXZIlYj7lRf70oLj2jsEJZNWmC9UvU8ZcVPoquZTntPEyLfVyzWEpjmlp0FYVAiAhE+wojWZJNtqEA/bA6LUrfxJc47DR63tsD4rKn9YG7mbkve6QEMmtJc6BA+1KS+k=
+	t=1765320292; cv=none; b=QkkcL8s9VkXloJ0Vhs6NBcyWO1Q10OtLGLZeEQeeA4IvvglgdaCQ1F2hOSzlCre5koGJYMV6yQRyGTb8Y8cuyKLGrejKQk0XY3Acj6ZEeEOvyinJzR8Qgn6KlioFZFadSxBcELGZSqkfpPigPpeC8F5go4j95ipMuMo3vdgzJMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1765320292; c=relaxed/simple;
-	bh=UANwLOgcj9WwONW3K+0Sy55FYPHJ20LKps0TM9A7gAM=;
+	bh=NcaeZW4e+lsXcDe5hqIbtTdEyfKMzNjpGnhp1vovOxM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=meHaqvQH5z1qA0+eOpQxTeKCjiH6vtSmXNlKjornqcBK4PBt8N34VuZQBDSpfOvCnQncF7kXZx7GuGgZQziKS0RjE22YwoZMabNH+B/X3QP40cD6Bb1ne8vYpchta7ylma/e6UrDTQTYe7BS/RpOx3LfuPOvacxka2s0waxWd9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=NGjp4Tvs; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9FCDEC116B1;
+	 In-Reply-To:To:Cc; b=R4w59v0+xMtXO4O0sZ0pv6rVP9YJWo5fB0en3vgx17u7hKgtX2hjYYY5eg9NJEqYhjU+oj/B02u1xO6kqEWeEyK5Kj9uFavIw8tad+nCrnPLMFOemP0DJpgm43yvk9bsO5aA2+kCVAG0+lyfkbkJvMBNMdGEDe0thiILofaKGvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=TbBb3oWH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AF516C19424;
 	Tue,  9 Dec 2025 22:44:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux.dev; s=korg;
-	t=1765320291; bh=UANwLOgcj9WwONW3K+0Sy55FYPHJ20LKps0TM9A7gAM=;
+	t=1765320291; bh=NcaeZW4e+lsXcDe5hqIbtTdEyfKMzNjpGnhp1vovOxM=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=NGjp4TvsbcJEjq1WwMrgwzoSy4StB6d/TtBOiq/bWVaOXJEDUun/uglnLfrLbznC8
-	 /k/Y7bJ6W3tAr5Mep7oV8XSytYHVcF5p/k22Fiv/r30Dabn5Tb39rxVFW6bytKYTs2
-	 5WgznrQsKg//u9qXi12WnPUbVrbBozcOVNMbzKLc=
+	b=TbBb3oWHAhhsMpiTLOV6Rcs7jNZoYVLefwgb+zgjjTDm6iUk0s6wB0ty2G7EFxfEv
+	 UWfyMlSEkvPDz9Hykeq/dNUJfJ3nInSf/GUqzsLZtP1uZDVmR3Ypb1/ND3GWDl687D
+	 ZDJjGnHT/o+M3Tv4aRlTlKeq9+frz+bE7I3AvhqY=
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D8F9D3B9A4;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FDF7D3B982;
 	Tue,  9 Dec 2025 22:44:51 +0000 (UTC)
 From: Richard Leitner <richard.leitner@linux.dev>
-Date: Tue, 09 Dec 2025 23:44:36 +0100
-Subject: [PATCH v10 1/8] media: v4l: ctrls: add a control for flash/strobe
- duration
+Date: Tue, 09 Dec 2025 23:44:37 +0100
+Subject: [PATCH v10 2/8] media: v4l: ctrls: add a control for enabling
+ strobe output
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251209-ov9282-flash-strobe-v10-1-0117cab82e2d@linux.dev>
+Message-Id: <20251209-ov9282-flash-strobe-v10-2-0117cab82e2d@linux.dev>
 References: <20251209-ov9282-flash-strobe-v10-0-0117cab82e2d@linux.dev>
 In-Reply-To: <20251209-ov9282-flash-strobe-v10-0-0117cab82e2d@linux.dev>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -62,51 +62,54 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-leds@vger.kernel.org, Richard Leitner <richard.leitner@linux.dev>, 
  Hans Verkuil <hverkuil@kernel.org>
 X-Mailer: b4 0.15-dev-a3fc8
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1765320290; l=1820;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1765320290; l=1947;
  i=richard.leitner@linux.dev; s=20250225; h=from:subject:message-id;
- bh=UANwLOgcj9WwONW3K+0Sy55FYPHJ20LKps0TM9A7gAM=;
- b=90c+MeYUo+cxxo48yiJUmMrs5kCI6EIBoKt4A5H+otNxAzgIZY4S4KVO1Qyk+TB30lJOwFMKu
- dZ988WtoH1KD+Q6hPxe01+a5Jl/WrDz517Q//GjUHiKQjFvIKDEnDtz
+ bh=NcaeZW4e+lsXcDe5hqIbtTdEyfKMzNjpGnhp1vovOxM=;
+ b=5rJ+2YO21XNdLRU2oLJ9WRbWJ6FJ0jiE2cSfJwKQEtRLv56slooLnQ1Mu6dBbcxvTDyHShU47
+ i902FFZWDEeCwPggkkR1sFZkQBoSXeOoQ01G29CnP81hoIDgK+WqJ6w
 X-Developer-Key: i=richard.leitner@linux.dev; a=ed25519;
  pk=8hZNyyyQFqZ5ruVJsSGBSPIrmJpfDm5HwHU4QVOP1Pk=
 X-Endpoint-Received: by B4 Relay for richard.leitner@linux.dev/20250225
  with auth_id=350
 
-Add a V4L2_CID_FLASH_DURATION control to set the duration of a
-flash/strobe pulse. This controls the length of the flash/strobe pulse
-output by device (typically a camera sensor) and connected to the flash
-controller. This is different to the V4L2_CID_FLASH_TIMEOUT control,
-which is implemented by the flash controller and defines a limit after
-which the flash is "forcefully" turned off again.
+Add a control V4L2_CID_FLASH_STROBE_OE to en- or disable the
+strobe output of v4l2 devices (most likely sensors).
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
 ---
- drivers/media/v4l2-core/v4l2-ctrls-defs.c | 1 +
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c | 2 ++
  include/uapi/linux/v4l2-controls.h        | 1 +
- 2 files changed, 2 insertions(+)
+ 2 files changed, 3 insertions(+)
 
 diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-index ad41f65374e23..4848423205ff7 100644
+index 4848423205ff7..765aeeec84fe5 100644
 --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
 +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-@@ -1135,6 +1135,7 @@ const char *v4l2_ctrl_get_name(u32 id)
- 	case V4L2_CID_FLASH_FAULT:		return "Faults";
+@@ -1136,6 +1136,7 @@ const char *v4l2_ctrl_get_name(u32 id)
  	case V4L2_CID_FLASH_CHARGE:		return "Charge";
  	case V4L2_CID_FLASH_READY:		return "Ready to Strobe";
-+	case V4L2_CID_FLASH_DURATION:		return "Strobe Duration";
+ 	case V4L2_CID_FLASH_DURATION:		return "Strobe Duration";
++	case V4L2_CID_FLASH_STROBE_OE:		return "Strobe Output Enable";
  
  	/* JPEG encoder controls */
  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+@@ -1282,6 +1283,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+ 	case V4L2_CID_FLASH_STROBE_STATUS:
+ 	case V4L2_CID_FLASH_CHARGE:
+ 	case V4L2_CID_FLASH_READY:
++	case V4L2_CID_FLASH_STROBE_OE:
+ 	case V4L2_CID_MPEG_VIDEO_DECODER_MPEG4_DEBLOCK_FILTER:
+ 	case V4L2_CID_MPEG_VIDEO_DECODER_SLICE_INTERFACE:
+ 	case V4L2_CID_MPEG_VIDEO_DEC_DISPLAY_DELAY_ENABLE:
 diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index 2d30107e047ee..9830833b48a52 100644
+index 9830833b48a52..32ba3b5fb1dd5 100644
 --- a/include/uapi/linux/v4l2-controls.h
 +++ b/include/uapi/linux/v4l2-controls.h
-@@ -1186,6 +1186,7 @@ enum v4l2_flash_strobe_source {
- 
+@@ -1187,6 +1187,7 @@ enum v4l2_flash_strobe_source {
  #define V4L2_CID_FLASH_CHARGE			(V4L2_CID_FLASH_CLASS_BASE + 11)
  #define V4L2_CID_FLASH_READY			(V4L2_CID_FLASH_CLASS_BASE + 12)
-+#define V4L2_CID_FLASH_DURATION			(V4L2_CID_FLASH_CLASS_BASE + 13)
+ #define V4L2_CID_FLASH_DURATION			(V4L2_CID_FLASH_CLASS_BASE + 13)
++#define V4L2_CID_FLASH_STROBE_OE		(V4L2_CID_FLASH_CLASS_BASE + 14)
  
  
  /* JPEG-class control IDs */
