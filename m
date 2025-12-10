@@ -1,178 +1,202 @@
-Return-Path: <linux-media+bounces-48566-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48567-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 015CACB35D1
-	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 16:50:22 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E9F3CB3667
+	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 16:59:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DF62B310E02D
-	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 15:48:05 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 388A130161F8
+	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 15:58:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AD90219E8;
-	Wed, 10 Dec 2025 15:48:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F140929A32D;
+	Wed, 10 Dec 2025 15:58:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Q12QHbkD";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="X84+AkV3"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="IoL6qZFz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 562C626299
-	for <linux-media@vger.kernel.org>; Wed, 10 Dec 2025 15:48:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9CCD2874FF
+	for <linux-media@vger.kernel.org>; Wed, 10 Dec 2025 15:58:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765381683; cv=none; b=JwHfbPEpLIlheg+LzPoSq7y0MX/z39or6MlQAI91CW2Bj+UgBmatSaD6wCxahS86UXz7L0qXuFkuGSJs0r9WxYmf0VBXT6oVhHigVAjUCl85E5VXeJogbjawSSdJUyo2Ug5hfQH6EuvPUFVsFnlfrI/uhkQNAlBydrYpJ7gLeh0=
+	t=1765382328; cv=none; b=YP1p3iKNE1vqhuuLmihd7AwSQ+Ga6WdeZkjjwBfCOB+3eoIK1mwHn098h93RNxzDXepSYnRgVIAEamZGMyqU+P4tusmVezvq0lWPAu7E5AfvCBvJsH5Lqg9RqnGLw2SGbc7r/AVNTFmWdWuDqYN1EiI5ERytsfknJzArYnuOhjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765381683; c=relaxed/simple;
-	bh=zxzWHkHdlNOMeXVncXhQukYbqBLI1caIuljfXw/kOX0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Y4XC2dq9ONhZ6K7r/xqLji/KnmqXgtBEcjJzqW+bWuTX1hsmZurAY9M+CE5Y6HSk7usEnozV5nM4iWKvk7WI3FcGczRQs3keTofWRLBJoxYqTajsyal39R7xwrduddz/On2qyCFim/b+dgM5O+lJCTKL+5FVW/zWGM1j02c0PLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Q12QHbkD; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=X84+AkV3; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BAASXIi1802621
-	for <linux-media@vger.kernel.org>; Wed, 10 Dec 2025 15:48:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Qk1oxQfFmW1j0BGoNAZUI72PM8JpbvA0GKEGOSMYVA0=; b=Q12QHbkDzh8vdiiX
-	mUAdJvIjWkpqvqb8U4CZm86VLnMJrNpg5tZbgPfjZKRY8LJoC0eAL9OeQxp+UO5q
-	DcNnYg+de4lKr1T9nLEzIekiPJgTQaDEoHGG7lqJSd2foiV2j5l8b42lP9jZ0J/X
-	ttUcvg5OgRXp39kTDu88XRxEdfeh6M4VoozB4im9obttfl+CE3Qs1mj5wCh8MLcu
-	Vf0DAqs7aH+/ykIJbINBlVIJOwKzF0rjANRIToy31t3YgSnxNK4xqvLnZRrlOCoZ
-	fX1XeHM60qpwGSvfdmyZeZAWs1qdYLSCv6my+qs3c3G3ut7MGAp23g0zEuqa5eKL
-	FW4lSw==
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ay753rxx6-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 10 Dec 2025 15:48:01 +0000 (GMT)
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-295595cd102so129487575ad.3
-        for <linux-media@vger.kernel.org>; Wed, 10 Dec 2025 07:48:01 -0800 (PST)
+	s=arc-20240116; t=1765382328; c=relaxed/simple;
+	bh=7ZfKB29CS941eF8OI9vfnt+kl1s9mmpEJVDq1VWjTQs=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=eakDydo1nQ5jtrNNhMSvh5RvueTXK9RHdzfUgPaCsOCDoF3AEyFAE7JM6KT2w+eIFWuKMPKUgtQboRa7lZ+b9roaNI+uo4Y4GHs6TSFuvQcUqNW7VfkEw2meL0WAiS0o6h6aoGmAUrNVvswlYA8A5TQ1bhiCEiFJuzdTLCNyPgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=IoL6qZFz; arc=none smtp.client-ip=209.85.219.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
+Received: by mail-qv1-f66.google.com with SMTP id 6a1803df08f44-8845498be17so79997836d6.3
+        for <linux-media@vger.kernel.org>; Wed, 10 Dec 2025 07:58:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1765381681; x=1765986481; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Qk1oxQfFmW1j0BGoNAZUI72PM8JpbvA0GKEGOSMYVA0=;
-        b=X84+AkV3g/fgZHuMeUwR3yKuYxf2C3M0DOyt/7t8BhNixsJxCayipskvsb6B6C7XMl
-         6C0RHpR+UsgThpExNm9EZ2Qq0mbv/c+dmVl//v+SA0rAmnDcc+34IMy+voKmIlq0fbh0
-         9wSAchvJPUO2HxR2Z9q6E1/UQnZzrXax0M3zLK2HdEroh4v3XesW1yZetlVG3Wrxt8li
-         Gx7DgDIp7uHyllN0jo8ZAdo52aWWEYtGbxo7gT1AyeWCpKaLz+5XkdDPtOSyvfH8z5ht
-         pfCq+45lmocUQVWMgr3vSidungvFjDZJOb/gqBfnCf36od9WJOWcMmNciHs+sPCRv98i
-         zC6g==
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1765382324; x=1765987124; darn=vger.kernel.org;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=1GE5RptosWdqJy/yyq4WzVzSYS2R40OO8bXPy8Eb35g=;
+        b=IoL6qZFzOaeQmb1+v2U2RUgr+HlxkWts1ibGqSrLePP6ww2CS8HFAQc7b3hnlAOENC
+         ZdmVfnOjA5WjHL8Gr84JdCahDrL1XtReXLQyPv4yZ4XWWC2bSoV8YThQQvHjzo5IBqB1
+         nUPkHK4On92YtK0nFWWxPgotktk59RhC0dHa9H2yDTNx8SCOsVvLiiz9fR+MRLJNHTVW
+         1SFCNYT96m4+IicWZWzKwi82zGUKe0htcqE19G6/XG409OlmuiinyZKm8Au2M5Gef7iP
+         /5aCruAttaKbWKUqyspbvf9mXDbDnN9c5CkFHXQyAZAlFopF4soub5Q+QOOnhMKnGn8i
+         J2yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765381681; x=1765986481;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Qk1oxQfFmW1j0BGoNAZUI72PM8JpbvA0GKEGOSMYVA0=;
-        b=MJakaD+uveAffZmzaLmW1oskSwZ6Shj12ufvLYgns427BJdXWdMR4yaw6G3uQwXgIO
-         l09QBEc2tTVGSJ5RIHcLbfXrnRk6fLrwcauV8k+1Bmrn8g4WLwWsk5flJpbU3cFRzCWZ
-         Q+4Kzdtrw/Y46utk2gGecYb47std29NncI2oESXQdPNAh0TbVjd6DuvOQiV/EEm1ahzL
-         I8ybHyrYrKlhSNo85NiCZrY0PfW3vXubRfi+SsGJQG50FusYZis706QrZDFP1YeoHFhp
-         17ROah7u5VbATr4J3vF9YlIaPQcDvTeLhfE6Hdpm65jUYc7dTSmEKzS+UkuGCtOyLPCw
-         zVwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCULolKU7Ij3Npa835dq1ujdOv3etkqabk3RpllLBRR6ZsBFKQQrfLtNljsSAyD78uVImkraKQiGivlCWw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKkp1Z71OZ4vbYMiIU2tGPER358cNVloy6mnfK4c6RCjC+ZQMZ
-	UV83j4MmF9Q5e/GQjbocPvlE76vtGY9WGFnJ2AAw4bpeZgA4Dz3nem93va0nk5aKd/dwTjQ83fI
-	ulpR/i8Ign2K6CJSiFBCWEoFQsCvn54oHruAvzIwlaWkBFpfAMGOS72zsVdrUZtl0hA==
-X-Gm-Gg: AY/fxX6fZVE1JaxPvtdwSyBLT3M9DiVjwWsR27VyW+fnAO7UqUyVXTAhnUy/cMf8hGT
-	l1AKIcJU3Ng4vUjF+JTSxcbd2L2uxvWvEoBkALs6iDldhhfVh/cWd8ZaAH8UFMpMTGld6LR7K9N
-	KMZ9lcIHDTz6Xl+A4m8fWullHfcBdNTaCOfUJZbppCyU654g4njtsVlA+caexE8+T65DacdYq8/
-	Mqq5MVoaiKPgKQMkLiSMzKu9yodKXixmsjL7+qug3/6lgY/HiA2ZXE3Z5OcS+SlpZ7KZlAdBgUd
-	EyS6oC5LG6Qua2aJuwgWUwc3FGI69fRI63Bsx/6wHhlwSskz6d7XzGkosMB5qwcdLMJRjS+khvW
-	1O7AhGNTv/8pDQHmVRVf1stBFL3SZJVJa+BQM4Rgvzc0n
-X-Received: by 2002:a17:902:ea05:b0:298:68e:405e with SMTP id d9443c01a7336-29ec27f9101mr34852905ad.59.1765381680931;
-        Wed, 10 Dec 2025 07:48:00 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFjaz47RPM3BTgq+t2/uAuzI8RhqBQTqzjbVQ00bNUJHKcVw/21DQ6pw9tCiddYKcvs3IuIsA==
-X-Received: by 2002:a17:902:ea05:b0:298:68e:405e with SMTP id d9443c01a7336-29ec27f9101mr34852465ad.59.1765381680496;
-        Wed, 10 Dec 2025 07:48:00 -0800 (PST)
-Received: from [192.168.0.171] ([49.205.251.140])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29dae4cf9acsm185291845ad.28.2025.12.10.07.47.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Dec 2025 07:48:00 -0800 (PST)
-Message-ID: <4411f6ee-478f-487e-8f95-bf0959363e97@oss.qualcomm.com>
-Date: Wed, 10 Dec 2025 21:17:54 +0530
+        d=1e100.net; s=20230601; t=1765382324; x=1765987124;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1GE5RptosWdqJy/yyq4WzVzSYS2R40OO8bXPy8Eb35g=;
+        b=F3w+8X+n1zr5K8JZdYVuNHBMenogtfH+da2eXYtc+elDDc70wFIu4MKp8jhogyh6nr
+         CQFqy6MNPzWMKujJfUQxjvhhxGbJ6BjZDTtMOmwnmDdZ3YQS+mBgF/lDueloUp8tSt2l
+         cgvVAVH/QtOQ8krcdFVrZzsDfXVn86fLlHL9DIp7+E9T70/1qjdan6P3w9q7L/q4mTws
+         uYeAEQxLRww0HakuYvojmH7725Hlk6VmPp4vtYeEMpzV/OWwverrkuGgBpY5WaHfcTVX
+         C28AfoC8oAqdNK9+yjJwiNILzU03DDxNB+u/rZxwpj/0ChthOhoRAaNAvPozNtMA0NLM
+         VIVw==
+X-Forwarded-Encrypted: i=1; AJvYcCUAGTmQ5BbXGSbDNzyb6vSdvjTqv4peEXoRh0PO8SQwL6zWZCFweLrXL1b0dWvMjHrP6gohIjgRBLfnmA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyIuALqs3hX/OVxl0pjE0t7w8xja7p9wOhy2ts6XZOnho9FRZMW
+	SBsThnDOUmmSwGpS4vsLsCIXw6UHorI1U0IFb7qzeA+AwVJ/hoSrRfS9BCYIM5HvWHk=
+X-Gm-Gg: AY/fxX6MKbJieXAlSR/WETX1sbfeDQZSQFULGTrQYNMPh+WmsRpvAx78Smogv6UcIRo
+	cv+cvhonGBEdoQhCWaobOtrJrq9eUnsd64oguMMTlYRWflRQGHt0euiAeyvzAxL6Gem7qr3k6rw
+	m1Ihs4lpKYzDvcsmuZ4NH6bozXPzre8pvEQd7Do3fpreot19REVF7UOP8oiEqeRVd83XLE0n1pH
+	Uja1kMlI0U//4jFaWN1uimqwD2trwJDJPeDsyAgo835TYVsnBataA6/AiFq94IAmUfS77IGJH7z
+	nZPCA7g1X0dosjQ1r6pzQO4lbPm3zChy152mgPKp3VB9B2ed5XzpFT4ANUtAbB8/rZ5gjdk4IMq
+	mPIuH+N5ZIo7i5xuhJzJDdEzpOq2WZCWcqc8q7NolBZQe8blxztS/LBJ2P/1i2/XldArOuGbJxC
+	iek200IL1cMxH4bRXeaVYd/KQWx4w=
+X-Google-Smtp-Source: AGHT+IF6i0V89RApudcP5yeANqOOTTwCYv/qsuj7/dQsvJiJLLv2PXtBBDPe+3zPaacPXUeT/ZONBw==
+X-Received: by 2002:a05:6214:d08:b0:882:401c:e37d with SMTP id 6a1803df08f44-88863ad3a25mr40591616d6.63.1765382323629;
+        Wed, 10 Dec 2025 07:58:43 -0800 (PST)
+Received: from ?IPv6:2606:6d00:17:7b4b::c41? ([2606:6d00:17:7b4b::c41])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8886ec2d32esm333676d6.5.2025.12.10.07.58.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Dec 2025 07:58:42 -0800 (PST)
+Message-ID: <78aeb9303f3d57a28b2edc3b6b2b2f45498ee3fd.camel@ndufresne.ca>
+Subject: Re: [PATCH v2 2/2] media: mediatek: amend vpu_get_plat_device()
+ documentation
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Johan Hovold <johan@kernel.org>
+Cc: Minghsiu Tsai <minghsiu.tsai@mediatek.com>, Houlong Wei	
+ <houlong.wei@mediatek.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
+ Mauro Carvalho Chehab	 <mchehab@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>,  AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Tiffany Lin
+ <tiffany.lin@mediatek.com>, Yunfei Dong	 <yunfei.dong@mediatek.com>,
+ linux-media@vger.kernel.org, 	linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Date: Wed, 10 Dec 2025 10:58:41 -0500
+In-Reply-To: <aTjnH_i0q0xyLysD@hovoldconsulting.com>
+References: <20251028100454.4086-1-johan@kernel.org>
+	 <20251028100454.4086-3-johan@kernel.org>
+	 <836bcbc3e35c267abd93a4d2174a3e570ca9e181.camel@ndufresne.ca>
+	 <aTjnH_i0q0xyLysD@hovoldconsulting.com>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-+J+gL0rfBvLlL7o9z/0H"
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/6] media: iris: Move vpu register defines to common
- header file
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Vishnu Reddy <busanna.reddy@oss.qualcomm.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-References: <20251210-knp_video-v4-0-8d11d840358a@oss.qualcomm.com>
- <20251210-knp_video-v4-4-8d11d840358a@oss.qualcomm.com>
- <4pxuzfdcwr56gtt4rjgodvtmf6cgprpb3czyrqjktx6qk5kryb@njj7xwtnnjpi>
-Content-Language: en-US
-From: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-In-Reply-To: <4pxuzfdcwr56gtt4rjgodvtmf6cgprpb3czyrqjktx6qk5kryb@njj7xwtnnjpi>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=cYjfb3DM c=1 sm=1 tr=0 ts=69399631 cx=c_pps
- a=IZJwPbhc+fLeJZngyXXI0A==:117 a=oHgmLS9T6KHqMfKxrEeemw==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8
- a=9GnT8YxiTCS33XBb7xIA:9 a=QEXdDO2ut3YA:10 a=uG9DUKGECoFWVXl0Dc02:22
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: J1vBMR_1TAeBlggJvTuibiNU-SKY8ubN
-X-Proofpoint-GUID: J1vBMR_1TAeBlggJvTuibiNU-SKY8ubN
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjEwMDEyOCBTYWx0ZWRfX3wul+IffGYLl
- cNfTWBWXE1HJMVODi8oGcZ4hYlv5Jgt1qlBuI98FFwZzI9CUri8F3yxsywnu97OYMsyJOfjDpl7
- 0SgzzXtnPU0cumgEzrVMzBqaNXloji+TyPPh83pUkg9eti6hy1a4zOLwNG2Q6BIbgIHo9E7izcJ
- dN6U9qkVDTEHbTi6dKqo4buiLF/o8Gtiju3fA/Hp53zLKgN/vq2grvCUFYAodyHGeUqb32H8jDL
- 7/kg8cHH1SnmVBr0zCBgxnubXOr04z+D+rMeB1AJcr89EEeNRr8cvlu03CuIYS7CHO7V2Z+yePp
- GKL137Ejy+gvp5Pty5QcvdVnr0WSoK1Laja/+GuOTtqlU6EmMcFL3GtfmuMan8/oujdR1ciKdDd
- vdmLYspKzOwW24dorlt0cTohGcWirg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-10_01,2025-12-09_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 bulkscore=0 priorityscore=1501 spamscore=0 suspectscore=0
- clxscore=1015 impostorscore=0 phishscore=0 adultscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512100128
 
 
-On 12/10/2025 8:33 PM, Dmitry Baryshkov wrote:
-> On Wed, Dec 10, 2025 at 06:06:02PM +0530, Vikash Garodia wrote:
->> Some of vpu4 register defines are common with vpu3x. Move those into the
->> common register defines header. This is done to reuse the defines for
->> vpu4 in subsequent patch which enables the power sequence for vpu4.
->>
->> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->> Co-developed-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
->> Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
->> Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-> 
-> You have missed my CdB / SoB tags here.
+--=-+J+gL0rfBvLlL7o9z/0H
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Sure thing.
+Le mercredi 10 d=C3=A9cembre 2025 =C3=A0 12:21 +0900, Johan Hovold a =C3=A9=
+crit=C2=A0:
+> On Tue, Dec 09, 2025 at 03:43:30PM -0500, Nicolas Dufresne wrote:
+> > Hi,
+> >=20
+> > Le mardi 28 octobre 2025 =C3=A0 11:04 +0100, Johan Hovold a =C3=A9crit=
+=C2=A0:
+> > > Add a comment to the vpu_get_plat_device() documentation to make it
+> > > clear that the VPU platform device is returned with an incremented
+> > > reference count (which needs to be dropped after use).
+> > >=20
+> > > Signed-off-by: Johan Hovold <johan@kernel.org>
+> > > ---
+> > > =C2=A0drivers/media/platform/mediatek/vpu/mtk_vpu.h | 2 +-
+> > > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/drivers/media/platform/mediatek/vpu/mtk_vpu.h
+> > > b/drivers/media/platform/mediatek/vpu/mtk_vpu.h
+> > > index da05f3e74081..5808311d2b15 100644
+> > > --- a/drivers/media/platform/mediatek/vpu/mtk_vpu.h
+> > > +++ b/drivers/media/platform/mediatek/vpu/mtk_vpu.h
+> > > @@ -120,7 +120,7 @@ int vpu_ipi_send(struct platform_device *pdev,
+> > > =C2=A0 *		device for using VPU API.
+> > > =C2=A0 *
+> > > =C2=A0 * Return: Return NULL if it is failed.
+> > > - * otherwise it is VPU's platform device
+> > > + * otherwise it is VPU's platform device with incremented reference =
+count
+> >=20
+> > I picked this patch but rewrote with what felt like better and dense.
+> >=20
+> > - * Return: Return NULL if it is failed.
+> > - * otherwise it is VPU's platform device
+> > + * Return: a reference to the VPU's platform device, or NULL on failur=
+e.
+> >=20
+> > hope its ok with you,
+>=20
+> Sure, my only concern is that just saying "reference" is too subtle,
+> that's why I explicitly mentioned the refcount.
 
-Bryan,
+For me everyone should read "a reference" as a kref based reference counted
+structure.  A quick grep across out documentation, this is the vast majorit=
+y of
+the wording. Though, I spent limited time looking.
 
-let me know if you can add while raising the PR, or else i can send a 
-new revision.
+>=20
+> Btw, why is patch 2/2 marked obsolete? That leak is still there both on
+> probe errors (which I saw someone else posted a fix for) and on driver
+> unbind.
 
-Regards,
-Vikash
+I had two patches fixing the same thing, it just happen that I ended up pic=
+king
+the other one first, and liked you documentation fix, except it was replica=
+ting
+obvious weird english such as "if it is failed", and documenting the error
+before the expected outcome (opposite of my preference, not sure there is a=
+ny
+rules or guidelines).
 
+https://lore.kernel.org/all/20251008090156.14224-1-haoxiang_li2024@163.com/
+
+cheers,
+Nicolas
+
+>=20
+> Johan
+
+--=-+J+gL0rfBvLlL7o9z/0H
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaTmYsQAKCRDZQZRRKWBy
+9LyKAP9enelzywFizrpad8u/0Za3pIfyQ9BcWEt7RBs2neM1GAD/XXHUI1c9UEpL
+yRRdzGOwhD2B25O6fXVKtUS2AKIoNQY=
+=Bzdj
+-----END PGP SIGNATURE-----
+
+--=-+J+gL0rfBvLlL7o9z/0H--
 
