@@ -1,155 +1,159 @@
-Return-Path: <linux-media+bounces-48532-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48533-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DCBCCB209A
-	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 06:56:51 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4855CB2110
+	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 07:23:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 6BDDB30223A2
-	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 05:56:48 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5700F30D3318
+	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 06:23:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26FA73126B9;
-	Wed, 10 Dec 2025 05:56:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6220F2C0278;
+	Wed, 10 Dec 2025 06:23:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J9XEo5rx"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ENESRYdS";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="kV1b3B4O"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34BE730F819
-	for <linux-media@vger.kernel.org>; Wed, 10 Dec 2025 05:56:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68F2D2F656E
+	for <linux-media@vger.kernel.org>; Wed, 10 Dec 2025 06:23:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765346206; cv=none; b=KQE5mHw5Pm5N9z6nDQyrSq3kcsWGfgFD1RZpiahnUeMbUFZ6HlMEmsEd2Jf2HDMPD/p10joB/UQeS5YZ6Eq8A+dSUY2gHpt1jpjC9Gd7fDygOjnjqVPaEn0gVjYmA34QbamsL3GMkDpDgI/V4jOk/p5R17tr/JABvmpXgPYzh5Q=
+	t=1765347794; cv=none; b=XH/h2YW3fm22wN0wmWKB7N6ZkTAwHUo+CaGsTb3vLlLbvOUvIp5lwIumH91MFz+qBzAGeXFluqTS8DrcTG6usGQZ03I61X9avxneGqWYF/J1prGzJGSXpYfak/YwlfciYZ7r8VxQ25yLecQ/l7JlvL81NADARMgfp1fTFHz4DHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765346206; c=relaxed/simple;
-	bh=3VrvE79aK98YEd8Nk0OCa9UWFkNGSHnO3fUoP8RMrCY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QwP/DkpL7gCoqrio+ovwJPObAbMJwCCO5kPzfkThC3WHtoQPMc1U/3dFUanbGo3y+E3CYYjnTmPxVjB2WuI3g+1yvxS5EFpZ6uoinsP8FfDzyogoYVEZbfOQ6PR8Rsn93LpxO4380jJ08qiadgiKL6SHIVsiTSsRWDZKFSnvOB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J9XEo5rx; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-29e93ab7ff5so19281155ad.3
-        for <linux-media@vger.kernel.org>; Tue, 09 Dec 2025 21:56:44 -0800 (PST)
+	s=arc-20240116; t=1765347794; c=relaxed/simple;
+	bh=KshUgy5d0lXs2WTaSgxpD+0zvJhzbpqn0Iwqzjo5oQo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=erCOzQWxPR4lhI+nuvDxP8iRJWNVvQS3bDlBPXSwOQxmo0+YSWrGgg0U15SJSAnFZMbmuV3iOsiefh5vFxa5eNb1InSjs8etvwsAyhilMEhxIkA+arqZA5A8YIyR2nxbNe35r9FGU7R+zR1D6Nf0C7LoR3xrxER7qO6APDOT9Ro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ENESRYdS; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=kV1b3B4O; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BA6DvMZ1046570
+	for <linux-media@vger.kernel.org>; Wed, 10 Dec 2025 06:23:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	jV9m2DgughyhakGYAa0qNgzBkw/sBE90T2QUQ+XIiDk=; b=ENESRYdSiXNEOTBd
+	mjqm49eOHo+EM65iHGzDSTvJn9Te0OaAH2LgaFy4d+r2ihsdfiK1/2IhW0LI8RLK
+	iQKFUl7nMHYHmicZnkxFyelICrwZ+SJSSfZfW8J6R4B/6Zmqd7amtD7nefdQhrfB
+	fwYSf7clT06UGyW+oeuZydr8FY1HnlH5TJhGT/uDwY6uu9AH6yV70133cbO1qVNM
+	5oYzrlJmRdbIE+dE7yykRUuuJFIZrHBDkqCkTFF4H3DJiB9xY9JrjsVRxSRPLci2
+	uGklgN3IAhQPejbcEpflBJ1pqdyAwytRNqEBpD8E7CLEEUvWpewrJ+W+yjkE7F8G
+	KaSw7w==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4axwbf17pg-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 10 Dec 2025 06:23:12 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2956cdcdc17so70137645ad.3
+        for <linux-media@vger.kernel.org>; Tue, 09 Dec 2025 22:23:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765346204; x=1765951004; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8IDQig3y5Ta7nqnpRczp5de7VIJ3mi4WA81mEUrsxxk=;
-        b=J9XEo5rxGF5KFgzMmyvWeFzuicpLzrz6pNdV5F0NnRrGHYJCLGTud/I5SUGaxRWL3K
-         rJKc7+N1XKm/TOWeaKOb1c9rnGSF8XRPhCmwxJlM1onwHvQKvHyb2gWIXQ9ndnNThaUk
-         wpFmNN2Qw0/5FeZnEKN2nFC5CvFWecpuyuaKv18iqyACUZJv9J8edRuej6uZQWI81gbn
-         391EBV1IvidZrrGlDgzVgaFCrdVlEB8R8npGfxjY1w33lzPv4yG+oMfJZO3zdYTNOR3z
-         LeEmmaHd+wdYzOgemIno7p3Y9CUR7VTiWGlCh9VrBXeqomDeGjP3F7nqzr1+3Y76qWP/
-         674g==
+        d=oss.qualcomm.com; s=google; t=1765347792; x=1765952592; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jV9m2DgughyhakGYAa0qNgzBkw/sBE90T2QUQ+XIiDk=;
+        b=kV1b3B4OMKuBu/Y3uGPBPyia5CAD/XIRMtKxRGLP81PgezJWP0HGOCVQmA+W1fGzOp
+         xvAxtrDun4vw2jz8x0QAjeMbueZQ/N/YaZ9hnUBfFk6UD6om4+xFg1PIct/5JPORbNt2
+         Wptu0KzWxHtY9vNF56n9AVFiZAOc/F7GRl1Cw78T89hqVUJV86hoPniNC2C2SS4L1Yh3
+         1+wS6GCJ0VggQuB/0UpnnvdQhhpt3V85zg0rxZykexMi8Oen5xd5MZTcWGzdnB9jQl2H
+         QW2MpXm9f1RI7JJyM7EFdLFJWpnLMcUcnK5RboTzTd4wJCwZOFqnsxnvVUHEywG6y+PV
+         dzxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765346204; x=1765951004;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8IDQig3y5Ta7nqnpRczp5de7VIJ3mi4WA81mEUrsxxk=;
-        b=XNL7SifqUXbsyMSR7Pl0wisGiRs02fsC+3R8BeiSct0p5DANaJAWV5gEvTjKa7viwt
-         bM3yqzpTV8L0culY0aru2JohzNOsOPfPLwxXJG8u/IV9mFo2gaodjnA3CjbA+6iZArMM
-         nfUW5Lz0NnzjK8YQPcn+ebXOH/TUBs97LRrz7Z2i+/60gjVSVkjAxZsgXMwFIAI6swvZ
-         agwGGIjnY5Q8auIyfJU4pxu2RZvSxbElEI3ZuOZRBAwO9QdbqfOxb/8qxburczZnAqqP
-         dcgnkqoColiDihQ7uWKL020IR6EcVzAadIOeagyoXEQt/01BOTzMPew8+aspnSkpJjrK
-         A0gw==
-X-Gm-Message-State: AOJu0Yzawo+Z4u6Ag5IrDQhCKN0VGuVx90vYHxK8+paGmU4JF6smqsR6
-	qNkQbYANb+sDkLFmRAGqtA/zcgVjcosabpt4GAf01OmGr8sKno1UR9KC01WDI06N
-X-Gm-Gg: AY/fxX69az2znwEWBJSl1xAq2nOHzIsGVRtw5o68eWfvQQ68S1dp/5BcJ6WysbCr/BE
-	FIwXEv4SHdaaqoi++U86528eZvcJ9oImkPU6w0SW30PSPrYklQpGmdPwHebNak15TqhJqN4JPu5
-	aYKYmgIN8/FeIrxDmSnEgZESp7DZ+U4rCsL7tok3gs83AkWgdZkAoGJC0iPnHVdHKwO+FdaPqGi
-	YUACCVjwy9d9epdh1hJvVUPBI/RQKRzzSehoJt7VjzWjYkCoRGCL6UJgimtJNDinws6IUpeIthj
-	6xQf/0aqJzj0MFBxoFcSVvcZxK7Tot8B3X9+XjrySQENQWMiN1HJn7YbijM6+QVOi3/f+MHq+9c
-	qYbqMKaQBBojNBrGdWEWZP/Wkth2YgO/pPywIIh9rgRhCHF8izoMsz5zTvNmoxOR3+zUiaYoI2h
-	4wDjO9RIHv2ro/rUiwHt6+8vEFvcWG72HN
-X-Google-Smtp-Source: AGHT+IEt5LhlIKtAeP5QvPrTGN2SDdkW9Yk6hicFPvLxo0MckItbfuwnVdzVsDPTVn7BhFWCHNsR5A==
-X-Received: by 2002:a17:903:2347:b0:295:395c:ebf9 with SMTP id d9443c01a7336-29ec27f1742mr12787495ad.55.1765346204228;
-        Tue, 09 Dec 2025 21:56:44 -0800 (PST)
-Received: from localhost.localdomain ([38.134.139.135])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29dae49caa4sm173741385ad.15.2025.12.09.21.56.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Dec 2025 21:56:43 -0800 (PST)
-From: Dharanitharan R <dharanitharan725@gmail.com>
-To: linux-media@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	mchehab@kernel.org,
-	micha@freedict.org,
-	syzkaller-bugs@googlegroups.com,
-	syzbot+d99f3a288cc7d8ef60fb@syzkaller.appspotmail.com,
-	dharanitharan725@gmail.com,
-	stable@vger.kernel.org
-Subject: [PATCH v2] media: dw2102: validate I2C messages in su3000_i2c_transfer()
-Date: Wed, 10 Dec 2025 05:55:33 +0000
-Message-ID: <20251210055532.25737-2-dharanitharan725@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1765347792; x=1765952592;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jV9m2DgughyhakGYAa0qNgzBkw/sBE90T2QUQ+XIiDk=;
+        b=LOsYctMhA+cVFaA+L5Uc87Y2U4oqaqA+withcDkqom5ByMssUWdogmqM5DjFTggkMs
+         xzKOHNSjD5QCvMI6NGDue9vF6PQ6ERugWPJp4mmVxNdXBnZGonOVUmrKDjKOAlQcEQk4
+         SBy2i93N68yWQvxyby3lKLflPu9rYgXEhgjkRflZWC5jKhGxNK/ssbKwfKsJEKJXh+0Y
+         DUv/R0+efT8a2TEi9YCpwI2v/sgB9XTlGLcN5AVoH41BVVcTSJq8YOAE56oRJX8n/62d
+         bG0IBWKjZrK4b5zZRyR7NkpKOgPnPMmCYBez5PSRUCq+g4E41FurQ1QcFjlb+y6NDXei
+         x1kA==
+X-Gm-Message-State: AOJu0Yy5tGzXhYfF3Nzu5BeRQRraL6yI9rdE0UpdTpQm+fB/pKa6nKQe
+	8VTzoMr//yAmg6E3iw748NosEGYrxM9j2SZs1kdZmrEF7q/aXNvzBd93oyXAwuLdBNMh1HvKkbu
+	L23M94u7nGAGAYW6+shhbQ0WOL8m+cyRMAd8ay2jHRacbnDOVzGmAmothvZRV99vA4g==
+X-Gm-Gg: AY/fxX4sylg40TL66jCU+p+1vWT88cyVmquB0j4s2RlNMyOvHTMAGXDguxEQIJq1vnY
+	g/8QEk0cePuTCKHPXko2ExorfUrUa3EnvGzUkTkPEne/zrC3/7PpHNSUKcwjY7Dx1jTcbnz5Zkw
+	aXqa103aAKwwEUn6NTdtdfgfUD3dbIyNgs6d2xTMevgaIsn2i0G9gA/44vySSE/Vtuq3MsKt7bv
+	OrRyr8oDsR+7zerBawyLaCg0+JR90IfbWpOvUlPPUsHvs7HlKy9t+MTOB84OE1IRyJObBUirqxu
+	92R51IyKDxrf4nGrcHtnibScHpBbCz/4Ipov/ncQOn/c1vBgIMgm7S/bHmrrAl83UlacPYtVPQ/
+	qPjJuBxxy59c/1yxS0+qQ+Ibb9ca9CSomPL19kxvCIw==
+X-Received: by 2002:a17:903:3508:b0:27d:c542:fe25 with SMTP id d9443c01a7336-29ec2d6fdb6mr11316825ad.41.1765347791913;
+        Tue, 09 Dec 2025 22:23:11 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEvM4IwNHrM97R2/FYKkNJGb0vlU8TIrlQbRy+8cA3XEWXE6yBkxLChH0cpZHrwYFHrHhhY0A==
+X-Received: by 2002:a17:903:3508:b0:27d:c542:fe25 with SMTP id d9443c01a7336-29ec2d6fdb6mr11316675ad.41.1765347791363;
+        Tue, 09 Dec 2025 22:23:11 -0800 (PST)
+Received: from [10.204.100.70] ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29dae4cf968sm174496635ad.34.2025.12.09.22.23.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Dec 2025 22:23:10 -0800 (PST)
+Message-ID: <0c7314a6-960a-4ab6-9238-3a1ddeaf6949@oss.qualcomm.com>
+Date: Wed, 10 Dec 2025 11:53:05 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 0/5] Enable support for AV1 stateful decoder
+To: Bryan O'Donoghue <bod@kernel.org>,
+        Deepa Guthyappa Madivalara <deepa.madivalara@oss.qualcomm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, kernel test robot <lkp@intel.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Hans Verkuil <hverkuil+cisco@kernel.org>
+References: <XWtaMcg7lGClZ4pwr8czLvqGdhEXidF54raCx36v4Rahfsker2E__wKY0i87ff9Os9OAZxAepPTDFO00wvXLlg==@protonmail.internalid>
+ <20251209-av1d_stateful_v3-v9-0-718e3b3934b1@oss.qualcomm.com>
+ <611c84b8-e982-419c-9d58-284319b226e0@kernel.org>
+Content-Language: en-US
+From: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+In-Reply-To: <611c84b8-e982-419c-9d58-284319b226e0@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: eNXT6aXYTCJA5e3RQUfoC--HxmO1rJPV
+X-Proofpoint-ORIG-GUID: eNXT6aXYTCJA5e3RQUfoC--HxmO1rJPV
+X-Authority-Analysis: v=2.4 cv=f/dFxeyM c=1 sm=1 tr=0 ts=693911d0 cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=wZqRJUKcRvhJrFRvfkEA:9 a=QEXdDO2ut3YA:10
+ a=1OuFwYUASf3TG4hYMiVC:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjEwMDA1MiBTYWx0ZWRfX2LoXnR4xJ0SN
+ 67M7nLky2Jn490TvHZF8BUYl+iLbfFmDqUqUAEm0519WILOE4sN9fwVkGh+5LAvca4JGmK1Qle2
+ 3dSNho62DABiMDYdUKCQTLhpNK5yC3UbBr0/LCTtcW82xRDBU7xspWNLXEaEeqrvgzycY3Vzznn
+ gmrxUlIbe8NS4mO3dty7GmG0ifzomhJznfx1CNR+FaU1qBHt1kUR0wX4F1E5th/OFw+Dt/fHkDD
+ 5048UPk8H9bwboavvcKDXpnBBLKJIHt8E4IF0vhPWKxaGYv+kX5hYFsROVuF7hNCvCQv5lpa36C
+ E5yKE+zcQBU8E61FojXyPDvyMGpAD6jtHvSbow18ERlUiMvc7W059zCLMc2qpSmfOr3kfK44HOM
+ 1RWvKHmmsf+KyNupB6gDkwvYEMa8rg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-09_05,2025-12-09_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 impostorscore=0
+ phishscore=0 clxscore=1015 priorityscore=1501 adultscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512100052
 
-syzbot reports a general protection fault caused by su3000_i2c_transfer()
-dereferencing msg->buf without validating the message length or buffer
-pointer. Although i2c-dev blocks zero-length messages, malformed I²C
-messages can still reach the driver through the DVB USB subsystem.
 
-Add strict validation of each message to prevent NULL-pointer
-dereferences.
+On 12/10/2025 6:11 AM, Bryan O'Donoghue wrote:
+> On 10/12/2025 00:39, Deepa Guthyappa Madivalara wrote:
+>> - Add inst_iris_fmts tp all the platforms in gen2 (Wangao)
+> 
+> Is this part tested or just added ?
+> 
 
-Reported-by: syzbot+d99f3a288cc7d8ef60fb@syzkaller.appspotmail.com
-Fixes: 0e148a522b84 ("media: dw2102: Don't translate i2c read into write")
-Closes: https://syzkaller.appspot.com/bug?extid=d99f3a288cc7d8ef60fb
-Cc: stable@vger.kernel.org
-Signed-off-by: Dharanitharan R <dharanitharan725@gmail.com>
----
- drivers/media/usb/dvb-usb/dw2102.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+This is tested on lemans, monaco, sm8550, kaanapali, sm8250/sc7280 (NA, 
+as AV1d is not supported by hardware).
 
-diff --git a/drivers/media/usb/dvb-usb/dw2102.c b/drivers/media/usb/dvb-usb/dw2102.c
-index 4fecf2f965e9..0dd210ea16f3 100644
---- a/drivers/media/usb/dvb-usb/dw2102.c
-+++ b/drivers/media/usb/dvb-usb/dw2102.c
-@@ -733,6 +733,36 @@ static int su3000_i2c_transfer(struct i2c_adapter *adap, struct i2c_msg msg[],
- 		return -EAGAIN;
- 	}
- 
-+	/* Validate incoming I²C messages */
-+	if (!msg || num <= 0) {
-+		mutex_unlock(&d->data_mutex);
-+        	mutex_unlock(&d->i2c_mutex);
-+		return -EINVAL;
-+	}
-+
-+	for (j = 0; j < num; j++) {
-+		/* msg buffer must exist */
-+		if (!msg[j].buf) {
-+			mutex_unlock(&d->data_mutex);
-+            		mutex_unlock(&d->i2c_mutex);
-+			return -EINVAL;
-+		}
-+
-+		/* zero or negative length is invalid */
-+		if (msg[j].len <= 0) {
-+			mutex_unlock(&d->data_mutex);
-+            		mutex_unlock(&d->i2c_mutex);
-+			return -EINVAL;
-+		}
-+
-+		/* protect against unreasonable sizes */
-+		if (msg[j].len > 256) {
-+			mutex_unlock(&d->data_mutex);
-+            		mutex_unlock(&d->i2c_mutex);
-+			return -EOPNOTSUPP;
-+		}
-+	}
-+
- 	j = 0;
- 	while (j < num) {
- 		switch (msg[j].addr) {
--- 
-2.43.0
-
+Regards,
+Vikash
 
