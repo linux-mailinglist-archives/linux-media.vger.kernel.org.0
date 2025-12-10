@@ -1,54 +1,54 @@
-Return-Path: <linux-media+bounces-48592-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48593-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AEBECB3F95
-	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 21:35:29 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D8A2CB3F9B
+	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 21:36:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 7B58C300EA39
-	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 20:35:28 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C6EED300EA2D
+	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 20:36:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DCC232C935;
-	Wed, 10 Dec 2025 20:35:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6702A32C935;
+	Wed, 10 Dec 2025 20:36:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="EjPicjF3"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="cLgudJDm"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFEAF1C6FF5;
-	Wed, 10 Dec 2025 20:35:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0673029617D;
+	Wed, 10 Dec 2025 20:36:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765398926; cv=none; b=U/DAwKwnACJg7QRdQR1qYZGqye7gGT60jqAFlodoE9n8jLRUghUkMiPm/PxUCRZiyBFPLxkWMG+d3NoRr0OXqjiyAVNJueNNjQVHrh3kKHba6/VHJ4T+b5YBxXFMZIYnKts+LRgTPqya7LCz+H8EkfG8jTpLBDLQvlYANe6o6V4=
+	t=1765398975; cv=none; b=RcJ665GNqbFxep6zCMswzKERf0m16p3DETkQClUu84Qxkj/SiUAFTFjT8oDF03CWa0EidIzwtMQV0slX4buzHZQ7wccJLB0gIfR7G9xZTrOrcVsbHnASppTklD6vPzLiqsK8cP0q/0I834tVemCIniWvrOjFbz4htH7e45hna7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765398926; c=relaxed/simple;
-	bh=5+vrNwl93Id1PXIw96xyGGMRLHpDWV+CK4wM+7xVGX4=;
+	s=arc-20240116; t=1765398975; c=relaxed/simple;
+	bh=iu9EENtffABAM+nQix4N6mAUaqqYO+v7S6GOZmMWLFg=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=V0mJ4wuU8A5zwqE+CDT7Xt4aOm65xMINqcqT44SJ0euGtIyyMY1WGxC/uBa6StQHJexo+8QZNT/r/xLtwCE0BNzVTzDCLIz4mOoLFF+rnjny/f+jhIvIcck5dVBho/siQlTDFTq1CP48b1eyZpdc6npLBPrb8rfp8M4+rGEdHFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=EjPicjF3; arc=none smtp.client-ip=148.251.105.195
+	 Content-Type:MIME-Version; b=DhAwopikZHbo4a+A2gUTYSyC6QJirw8J+94VRIW6HS+PUievtrga/edmrtvEwtoreiZAf+o9pnltiJT4uOYLuH3AdTYrL8Ao+xdaCBW1zOx4ITZoexktkxnfYoOTZnvexNn1/DdoPxQIcs+GPcG2XSmV+7hcxdIinUV6P0hUQ38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=cLgudJDm; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1765398922;
-	bh=5+vrNwl93Id1PXIw96xyGGMRLHpDWV+CK4wM+7xVGX4=;
+	s=mail; t=1765398972;
+	bh=iu9EENtffABAM+nQix4N6mAUaqqYO+v7S6GOZmMWLFg=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=EjPicjF3iCUtuciZMpSN5Mxya31F0ctqetMe+YrPhdQ43DmJi+ivkJS+SnzrCRyY9
-	 mnRCP/8y6mBsq5XQVgK1dGokXlDL5tu0lUehc59i4qblXZqaiw/a5U/Y4B5zs+FriQ
-	 8NU78Bgbwq/Rr0pFM18ewTt8UyR+jIwAWbAW9q80gYtOV/zILSFfkZJ4bATtzxYLLT
-	 QZvru2wnV/ujppTQgtcfOY1nFMbl/EvIRTwI0KAmCq3JvOW1/yFofFSW65ru+GrwAa
-	 kySRFmW7Rn1OyEqDCIHIEtMCasRlomhFVPh8luUXQ70xJd+UU/5VyOfcFg0nLqm7qC
-	 vs9Qo6g3/J4uw==
+	b=cLgudJDmlC8ds4/zhPeAe43sonWlyKa8Af4g/IrvpPGW7ITltpE7FvBfZHUQFhtvn
+	 uA2Y9BRY2tuzqbKUaL7Ti0xtXLzDdIjdkwkUBy9niiVWDFUCT1KCGtynqmcAqlM6vi
+	 KKFUnJ2O3LWud3aGAGTNi83y2Svzj+yF/uxVVaM2p7c7HRI6XWC3Yzu65oCq57O7+c
+	 fmXHIsDLgTcUNya9QjpJiAptEx2kDJz46FJD/ZfGKDTo5VQMBM5s+IywOTvdmnvYP4
+	 6uOGYQTU9NdZQAv68LbeCL39FqC1+QvNvpwT/LTqDRk5RTpC0PJjHZXiktSOElRVmZ
+	 XBtt3FwCHHusA==
 Received: from [IPv6:2606:6d00:17:7b4b::c41] (unknown [IPv6:2606:6d00:17:7b4b::c41])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits))
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 2C53917E12FE;
-	Wed, 10 Dec 2025 21:35:20 +0100 (CET)
-Message-ID: <4c66b55f96577cd615d114cb1b7482f5fc6a991a.camel@collabora.com>
-Subject: Re: [PATCH v4 10/15] media: rkvdec: Support per-variant interrupt
- handler
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 3666617E12FE;
+	Wed, 10 Dec 2025 21:36:10 +0100 (CET)
+Message-ID: <1ba983fd1b805bd18406e8d614bc9c72a109a0f9.camel@collabora.com>
+Subject: Re: [PATCH v4 11/15] media: rkvdec: Enable all clocks without
+ naming them
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 To: Detlev Casanova <detlev.casanova@collabora.com>, 
 	linux-kernel@vger.kernel.org
@@ -61,10 +61,10 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Ezequiel Garcia
  <james.cowgill@blaize.com>, linux-media@vger.kernel.org,
  linux-rockchip@lists.infradead.org, 	linux-arm-kernel@lists.infradead.org,
  kernel@collabora.com, Diederik de Haas	 <didi.debian@cknow.org>
-Date: Wed, 10 Dec 2025 15:35:19 -0500
-In-Reply-To: <20251022174508.284929-11-detlev.casanova@collabora.com>
+Date: Wed, 10 Dec 2025 15:36:09 -0500
+In-Reply-To: <20251022174508.284929-12-detlev.casanova@collabora.com>
 References: <20251022174508.284929-1-detlev.casanova@collabora.com>
-	 <20251022174508.284929-11-detlev.casanova@collabora.com>
+	 <20251022174508.284929-12-detlev.casanova@collabora.com>
 Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
  /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
@@ -80,7 +80,7 @@ Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
 Organization: Collabora Canada
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-Ny7raT137ieRFwbGvR1e"
+	protocol="application/pgp-signature"; boundary="=-BOSFWzxNrTjctTINGeR2"
 User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -90,103 +90,122 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 
---=-Ny7raT137ieRFwbGvR1e
+--=-BOSFWzxNrTjctTINGeR2
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Le mercredi 22 octobre 2025 =C3=A0 13:45 -0400, Detlev Casanova a =C3=A9cri=
 t=C2=A0:
-> Preparation commit for supporting different variants with different
-> interrupt management.
+> For other variants, the clock names and number will differ.
+>=20
+> There is no need to keep track of the clock names in the driver so drop
+> them to avoid having a list for each variant.
 >=20
 > Tested-by: Diederik de Haas <didi.debian@cknow.org>=C2=A0 # Rock 5B
 > Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
 > ---
-> =C2=A0drivers/media/platform/rockchip/rkvdec/rkvdec.c | 15 ++++++++++++--=
--
-> =C2=A0drivers/media/platform/rockchip/rkvdec/rkvdec.h |=C2=A0 1 +
-> =C2=A02 files changed, 13 insertions(+), 3 deletions(-)
+> =C2=A0.../media/platform/rockchip/rkvdec/rkvdec.c=C2=A0=C2=A0 | 24 +++++-=
+-------------
+> =C2=A0.../media/platform/rockchip/rkvdec/rkvdec.h=C2=A0=C2=A0 |=C2=A0 1 +
+> =C2=A02 files changed, 7 insertions(+), 18 deletions(-)
 >=20
 > diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c b/drivers/me=
 dia/platform/rockchip/rkvdec/rkvdec.c
-> index 5dd486edd64d..b0e90c9b826e 100644
+> index b0e90c9b826e..aa92b586429e 100644
 > --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
 > +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-> @@ -1218,10 +1218,9 @@ static void rkvdec_iommu_restore(struct rkvdec_dev=
- *rkvdec)
-> =C2=A0	}
-> =C2=A0}
-> =C2=A0
-> -static irqreturn_t rkvdec_irq_handler(int irq, void *priv)
-> +static irqreturn_t rk3399_irq_handler(struct rkvdec_ctx *ctx)
-> =C2=A0{
-> -	struct rkvdec_dev *rkvdec =3D priv;
-> -	struct rkvdec_ctx *ctx =3D v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
-> +	struct rkvdec_dev *rkvdec =3D ctx->dev;
-> =C2=A0	enum vb2_buffer_state state;
-> =C2=A0	u32 status;
-> =C2=A0
-> @@ -1242,6 +1241,15 @@ static irqreturn_t rkvdec_irq_handler(int irq, voi=
-d *priv)
-> =C2=A0	return IRQ_HANDLED;
-> =C2=A0}
-> =C2=A0
-> +static irqreturn_t rkvdec_irq_handler(int irq, void *priv)
-> +{
-> +	struct rkvdec_dev *rkvdec =3D priv;
-> +	struct rkvdec_ctx *ctx =3D v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
-> +	const struct rkvdec_config *cfg =3D rkvdec->variant->config;
-> +
-> +	return cfg->irq_handler(ctx);
-> +}
-> +
-> =C2=A0static void rkvdec_watchdog_func(struct work_struct *work)
-> =C2=A0{
-> =C2=A0	struct rkvdec_dev *rkvdec;
-> @@ -1260,6 +1268,7 @@ static void rkvdec_watchdog_func(struct work_struct=
- *work)
-> =C2=A0static const struct rkvdec_config config_rkvdec =3D {
-> =C2=A0	.coded_fmts =3D rkvdec_coded_fmts,
-> =C2=A0	.coded_fmts_num =3D ARRAY_SIZE(rkvdec_coded_fmts),
-> +	.irq_handler =3D rk3399_irq_handler,
+> @@ -1311,15 +1311,10 @@ static const struct of_device_id of_rkvdec_match[=
+] =3D {
 > =C2=A0};
+> =C2=A0MODULE_DEVICE_TABLE(of, of_rkvdec_match);
 > =C2=A0
-> =C2=A0static const struct rkvdec_variant rk3288_rkvdec_variant =3D {
+> -static const char * const rkvdec_clk_names[] =3D {
+> -	"axi", "ahb", "cabac", "core"
+> -};
+> -
+> =C2=A0static int rkvdec_probe(struct platform_device *pdev)
+> =C2=A0{
+> =C2=A0	const struct rkvdec_variant *variant;
+> =C2=A0	struct rkvdec_dev *rkvdec;
+> -	unsigned int i;
+> =C2=A0	int ret, irq;
+> =C2=A0
+> =C2=A0	variant =3D of_device_get_match_data(&pdev->dev);
+> @@ -1336,19 +1331,12 @@ static int rkvdec_probe(struct platform_device *p=
+dev)
+> =C2=A0	mutex_init(&rkvdec->vdev_lock);
+> =C2=A0	INIT_DELAYED_WORK(&rkvdec->watchdog_work, rkvdec_watchdog_func);
+> =C2=A0
+> -	rkvdec->clocks =3D devm_kcalloc(&pdev->dev, ARRAY_SIZE(rkvdec_clk_names=
+),
+> -				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sizeof(*rkvdec->clocks), GFP_KERNEL);
+> -	if (!rkvdec->clocks)
+> -		return -ENOMEM;
+> -
+> -	for (i =3D 0; i < ARRAY_SIZE(rkvdec_clk_names); i++)
+> -		rkvdec->clocks[i].id =3D rkvdec_clk_names[i];
+> -
+> -	ret =3D devm_clk_bulk_get(&pdev->dev, ARRAY_SIZE(rkvdec_clk_names),
+> -				rkvdec->clocks);
+> -	if (ret)
+> +	ret =3D devm_clk_bulk_get_all_enabled(&pdev->dev, &rkvdec->clocks);
+> +	if (ret < 0)
+> =C2=A0		return ret;
+> =C2=A0
+> +	rkvdec->clk_count =3D ret;
+> +
+> =C2=A0	rkvdec->regs =3D devm_platform_ioremap_resource(pdev, 0);
+> =C2=A0	if (IS_ERR(rkvdec->regs))
+> =C2=A0		return PTR_ERR(rkvdec->regs);
+> @@ -1426,7 +1414,7 @@ static int rkvdec_runtime_resume(struct device *dev=
+)
+> =C2=A0{
+> =C2=A0	struct rkvdec_dev *rkvdec =3D dev_get_drvdata(dev);
+> =C2=A0
+> -	return clk_bulk_prepare_enable(ARRAY_SIZE(rkvdec_clk_names),
+> +	return clk_bulk_prepare_enable(rkvdec->clk_count,
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rkvdec->clocks);
+> =C2=A0}
+> =C2=A0
+> @@ -1434,7 +1422,7 @@ static int rkvdec_runtime_suspend(struct device *de=
+v)
+> =C2=A0{
+> =C2=A0	struct rkvdec_dev *rkvdec =3D dev_get_drvdata(dev);
+> =C2=A0
+> -	clk_bulk_disable_unprepare(ARRAY_SIZE(rkvdec_clk_names),
+> +	clk_bulk_disable_unprepare(rkvdec->clk_count,
+> =C2=A0				=C2=A0=C2=A0 rkvdec->clocks);
+> =C2=A0	return 0;
+> =C2=A0}
 > diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.h b/drivers/me=
 dia/platform/rockchip/rkvdec/rkvdec.h
-> index 74f71542e031..dfafb2c2cbc1 100644
+> index dfafb2c2cbc1..4094f92f8a44 100644
 > --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.h
 > +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.h
-> @@ -121,6 +121,7 @@ struct rkvdec_config {
-> =C2=A0	size_t coded_fmts_num;
-> =C2=A0	const struct rcb_size_info *rcb_size_info;
-> =C2=A0	size_t rcb_num;
-> +	irqreturn_t (*irq_handler)(struct rkvdec_ctx *ctx);
+> @@ -131,6 +131,7 @@ struct rkvdec_dev {
+> =C2=A0	struct v4l2_m2m_dev *m2m_dev;
+> =C2=A0	struct device *dev;
+> =C2=A0	struct clk_bulk_data *clocks;
+> +	unsigned int clk_count;
+> =C2=A0	void __iomem *regs;
+> =C2=A0	struct mutex vdev_lock; /* serializes ioctls */
+> =C2=A0	struct delayed_work watchdog_work;
 
-Its a tiny little odd to mix function pointers and configuration. I don't h=
-ave a
-great proposal, is that going to be the only function pointer ? perhaps cg-=
->ops
-? I'm not sure. Its just a small annoyance, I'll leave to you.
-
-Nicolas
-
-> =C2=A0};
-> =C2=A0
-> =C2=A0struct rkvdec_dev {
-
---=-Ny7raT137ieRFwbGvR1e
+--=-BOSFWzxNrTjctTINGeR2
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaTnZhwAKCRDZQZRRKWBy
-9E+TAP9vPu64XdAbrUUglQBq9Zdsz4UdT7SgeSBvND6Al4EaJAEA7SiFSCEoKzPk
-W5MLqn8zueRe9lhG/LQ6sGolfYirQwY=
-=1uI4
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaTnZuQAKCRDZQZRRKWBy
+9F6KAQDX1FEF60r8WQBClfvUjzbKSFzJivRiwGSduzc79HUnwwD+Ou+JClfBX7PQ
+q3xdbXwqLdQDLySMfUZPJVv1WiJeIgg=
+=+GsG
 -----END PGP SIGNATURE-----
 
---=-Ny7raT137ieRFwbGvR1e--
+--=-BOSFWzxNrTjctTINGeR2--
 
