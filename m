@@ -1,79 +1,46 @@
-Return-Path: <linux-media+bounces-48508-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48509-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DF21CB1741
-	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 00:52:44 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9A4CCB1790
+	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 01:19:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4B6553022880
-	for <lists+linux-media@lfdr.de>; Tue,  9 Dec 2025 23:52:42 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 1BBD930295B4
+	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 00:19:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FB5018DB37;
-	Tue,  9 Dec 2025 23:52:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7901313D503;
+	Wed, 10 Dec 2025 00:19:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lkSqskGI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ow4uY7dx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7F1E19CCF5
-	for <linux-media@vger.kernel.org>; Tue,  9 Dec 2025 23:52:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6CEF322A
+	for <linux-media@vger.kernel.org>; Wed, 10 Dec 2025 00:19:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765324358; cv=none; b=V08Gf4d07Y6eMPi3p7K1zeTGOdzK1pNnb4wOK8hL2a73FTO6eEeFuGfwkN4IRJE5YqWeqEJBfwmn9Fo8luN4S5Lob2oXcMAsiPJTuO9d7SODieChoFB8gWYACoUI8hYLe0pxWQS9YnkGnmKJS9Yz62oJXFQT9nB86O1jAa33sX8=
+	t=1765325990; cv=none; b=htGecRcnTqMJK75xYfU0lO82Gdzd8WBdUx5MrjHB0MRaPM81HAMJykRtqa9h5qqkRjRx3/dgkPEs7s6q/HDlL3BQS/NiJxiS3GgTVvfhoMQ11msl2yGWG6Re38nzNJOnPAnhu7nUiQWe0SEh6DZMybQTZTl62q33A/Pu/SJtiqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765324358; c=relaxed/simple;
-	bh=FB2vQks+igHiNI9Y+kOnKP5A7htEPkxUtaa7VDeWOAk=;
+	s=arc-20240116; t=1765325990; c=relaxed/simple;
+	bh=KG9kikyKapZJ9drmBH4ke3g73C+H/gTt31KQganL3SE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mXAtVMbf9v4ClNw13FuzQcOOl86cTqoU5ZcFsKM3pL0jZjeG5shKTMg9hpG3iCtLJWLvBDfx8n1ebUkS5K7hFrnx4vj80Kvd2UdB0QI9fFxFYrgZzSvqyiRV6uSIB0dHXFoB7UuMHJxejJVTmrhPOvMFR5qMHTB8ZyA/VlX3O2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lkSqskGI; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5957a623c7fso1177481e87.0
-        for <linux-media@vger.kernel.org>; Tue, 09 Dec 2025 15:52:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1765324355; x=1765929155; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XRGeMzTEuwWQLcxMfP6PvfviIxT8PkGX80rLUdW1OWg=;
-        b=lkSqskGIB+1pMTs5KLl4TKcgrCyr3Ns0E2N+qKuyRZxh5qySd36wVOkuqLvXXm5WtW
-         U5IJ4TB06DHZA/ZhaJ89zS8xc6qGC55Yal32DBchqkVNX4Q7zCgks2rDe2iA9XdJoOvC
-         mS1SzvZWRKnrakkhmfWpPswp6Q9xGL06tyMsGHS52YIim0+jFRhF9GRQBZq0PQ8xQ55S
-         CcXQ0a2tOffValP6oTztdgzFATlCQ9tVjraRmSdBEnFqKq+q27Mknq9BfacWkVDEcC6B
-         1Lv8dM+BpC9OE1g2W+nCtfI8qBMSsYU90jI/Z8nMWcJOOpetIj5EhddVWpUbVXsF+xVf
-         6h2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765324355; x=1765929155;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XRGeMzTEuwWQLcxMfP6PvfviIxT8PkGX80rLUdW1OWg=;
-        b=bptVLBXl6zRoYkWTxqistE58yDQctDZBZkjDnI0B1VG8gDWjfQP6Oi+09eW3X4X+G4
-         bz3O0JZr+GSfwmOuFku8sPlrFGZvfA8txQF6SEk7JCj7Mx2ofDQnMyCDMIhMyWFqCvS2
-         hL2uZknf4XiOGjjWcDWv7Npn599WKXKZgMbmM10al6+LaBtlvW/HsewPmPaJgfrVUYLT
-         xX41YsnuN/ULTI2fzWtt2ApJ9MO4SFOq5HiYsFSyuKm1onVNUaarWbnkgWdAJQKtmba5
-         jH2hhfiz3v+rUcyEG5glgUFLqWs6sejd9wwfaW/lVLolsvUh+pb4YawfJ9ICyyDzjfod
-         /CwA==
-X-Gm-Message-State: AOJu0YwH209UJIBAhBfD7q+IWO8cX6A/PKXKmFkuLSZPebOJQpiqijYJ
-	CxDhqkQcsac5g32KDDilmq/ubLCiTuWQ+hIvbj8iTVtoDDaTgsmBu6P4mQJLfrMeUREUJAcZBS+
-	9QTiSmxY=
-X-Gm-Gg: ASbGnculQGz5rUgrdg4oum14ovTkr+RrLaqojEt5cVsVyjXZzQfyU64VEAt4vtWFlPn
-	7lYKd2gH+PgDoUmvPRCHXnwtW0k46w2dugnGtxM40z13fljqNt5moO1TWq3CYU78sqlsaChd6+W
-	wJvBYnihBxwrfM9Ygc8IuwBWIC4mftBNFFvMu34OugLpsmvs8Dv8McEYxil91UyphSoQp8/OHt9
-	QRT9CljH9JCuOUx2KCTZDtWgbs4dg1WQzapcs6gIZRQfNrEs/Y7c+mayYjxZRHPHHO8GKf8kj6p
-	AJ1MQOB76ZvBiVgNwStdPtWPkMN9FZlQUUUxFPArIocReYk07I5CryiysFCjRLzyK5aS88x1sVY
-	6kcC5LXE89l6RkLgMsS+BJUr7e6wQst1np4HZU6yQrsNjQJak5ViV5b97z0ksWkoCryA9SzZPV2
-	8ht6K9J6mv8oyntVGL8d1YMAH9Jbhkwn/20g343LFabG/S4lkRcUnfjJtUOBzwB4+w1g==
-X-Google-Smtp-Source: AGHT+IHmcbfcXnyvTArAMUdIsNMmjB8Vj9LV1IMYb6SP55nzn6yRzaVgluPgLeZF6A3fBkVa8UI4Rg==
-X-Received: by 2002:a05:6512:3f03:b0:594:4c87:a8f9 with SMTP id 2adb3069b0e04-598ee595bd8mr138830e87.4.1765324354773;
-        Tue, 09 Dec 2025 15:52:34 -0800 (PST)
-Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-597d7c1e2acsm5719262e87.61.2025.12.09.15.52.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Dec 2025 15:52:34 -0800 (PST)
-Message-ID: <5b521bb2-00e7-4a43-868a-025e786de88c@linaro.org>
-Date: Wed, 10 Dec 2025 01:52:24 +0200
+	 In-Reply-To:Content-Type; b=i2KQ50/wCK3xR3fOOVsQo2F1m1l9WM5Q95aGsTSgd35Sz4ImeNsawazvIF+kolLIAYKgJk66rFhLOLq2voyY5V0/OHFVnvAnoV8My4NbVTcvH8PNAZJD6u14RBXgLJiq+4S7iSFM6oAAQKxccLMFFrgE1xB55CVeiCyNTyxkUeE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ow4uY7dx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 000B5C113D0;
+	Wed, 10 Dec 2025 00:19:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765325990;
+	bh=KG9kikyKapZJ9drmBH4ke3g73C+H/gTt31KQganL3SE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ow4uY7dxUhV3xNfTx2KGJ60MxSorEfxoDLwvI/1UykF5nyFO136WuGiFfhvGScJJQ
+	 I2qILKpnubx9p/xQOna+dacr3cb4oFYCKz8FnuX+6sLm8YdrYyR0ijuuXiZWp+Lcnk
+	 0o+mSBD2tncrL+q3eyKBRfY5FdaVBrDZbzVigaVuaBctSXW60/o+Otyt6StVEmsNjN
+	 Z4I2gE2NHtDU56+eSMXEtCnE1mn7J9ynrzUPvO+MPCrZQWiPYz3pj2EJKFS//ektCS
+	 XFuaAzu++shKehi/Vst7yg2gigfYswbHSkSESxMe2NLUannxaisDFR+x0u+DBX3l4D
+	 w9K6Su4BWSXOA==
+Message-ID: <8ede3907-8191-49a5-a1dd-cbc6f20edb50@kernel.org>
+Date: Wed, 10 Dec 2025 00:19:39 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,86 +48,70 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] media: qcom: camss: csid-340: Fix unused variables
-To: Loic Poulain <loic.poulain@oss.qualcomm.com>, bryan.odonoghue@linaro.org,
- mchehab@kernel.org
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
-References: <20251204090325.82140-1-loic.poulain@oss.qualcomm.com>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <20251204090325.82140-1-loic.poulain@oss.qualcomm.com>
+Subject: Re: [PATCH regression fixes for 6.19 0/5] media: ov02c10: h/vflip
+ fixes
+To: Hans de Goede <johannes.goede@oss.qualcomm.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+ linux-media@vger.kernel.org
+References: <O5Gex5D3AY7Qx5JRN_QeWluQpNM8uye-XD90s-asNy5IJgdUAK9-D2UDDW5dXOL1vgSw1CeY1U70nwxr6aXm3A==@protonmail.internalid>
+ <20251209160621.6854-1-johannes.goede@oss.qualcomm.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bod@kernel.org>
+In-Reply-To: <20251209160621.6854-1-johannes.goede@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Loic.
-
-On 12/4/25 11:03, Loic Poulain wrote:
-> The CSID driver has some unused variables and function parameters
-> that are no longer needed (due to refactoring). This patch cleans
-> up those unused elements:
+On 09/12/2025 16:06, Hans de Goede wrote:
+> Hi All,
 > 
-> - Removing the `vc` parameter from `__csid_configure_rx()`.
-> - Dropping the unused `lane_cnt` variable.
-> - Adjusting calls to `__csid_configure_rx()` accordingly.
+> Commit 69fe27173396 ("media: ov02c10: Fix default vertical flip") which
+> has been merged this merge window is causing various problems for
+> laptops with a ov02c10 sensors:
 > 
-> Fixes: f0fc808a466a ("media: qcom: camss: Add CSID 340 support")
-
-This change is not a fix, please remove the Fixes tag.
-
-> Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
-> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
->   v2: Correct the commit ID in the Fixes: tag
+> 1. This changes the vflip default but does not update the bayer-order
+>     leading to debayer artifacts and wrong colors
 > 
->   drivers/media/platform/qcom/camss/camss-csid-340.c | 10 +++-------
->   1 file changed, 3 insertions(+), 7 deletions(-)
+> 2. The ov02c10 driver was originally developed on a XPS 16 9640 which
+>     has its sensor upside down. Changing the vflip (and hflip) default
+>     values fixes the image being upside down on other laptops, but will
+>     cause a regression on Dell XPS models causing the image to be upside
+>     down there.
 > 
-> diff --git a/drivers/media/platform/qcom/camss/camss-csid-340.c b/drivers/media/platform/qcom/camss/camss-csid-340.c
-> index 22a30510fb79..2b50f9b96a34 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csid-340.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csid-340.c
-> @@ -55,8 +55,7 @@
->   #define CSID_RDI_CTRL_HALT_AT_FRAME_BOUNDARY		0
->   #define CSID_RDI_CTRL_RESUME_AT_FRAME_BOUNDARY		1
->   
-> -static void __csid_configure_rx(struct csid_device *csid,
-> -				struct csid_phy_config *phy, int vc)
-> +static void __csid_configure_rx(struct csid_device *csid, struct csid_phy_config *phy)
->   {
->   	u32 val;
->   
-> @@ -81,13 +80,9 @@ static void __csid_configure_rdi_stream(struct csid_device *csid, u8 enable, u8
->   	const struct csid_format_info *format = csid_get_fmt_entry(csid->res->formats->formats,
->   								   csid->res->formats->nformats,
->   								   input_format->code);
-> -	u8 lane_cnt = csid->phy.lane_cnt;
->   	u8 dt_id;
->   	u32 val;
->   
-> -	if (!lane_cnt)
-> -		lane_cnt = 4;
-> -
->   	/*
->   	 * DT_ID is a two bit bitfield that is concatenated with
->   	 * the four least significant bits of the five bit VC
-> @@ -120,10 +115,11 @@ static void csid_configure_stream(struct csid_device *csid, u8 enable)
->   {
->   	int i;
->   
-> +	__csid_configure_rx(csid, &csid->phy);
-> +
->   	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++) {
->   		if (csid->phy.en_vc & BIT(i)) {
->   			__csid_configure_rdi_stream(csid, enable, i);
-> -			__csid_configure_rx(csid, &csid->phy, i);
->   			__csid_ctrl_rdi(csid, enable, i);
->   		}
->   	}
+> 3. The mentioned commit only changes vflip, so the image now is upside-up,
+>     but it is still mirrored.
+> 
+> Patches 1-4 of this series fixes these issues. Patch 5 is a follow-up
+> cleanup patch.
+> 
+> Hans Verkuil, can you please queue these up as fixes for 6.19?
+> 
+> Regards,
+> 
+> Hans
+> 
+> 
+> Hans de Goede (5):
+>    media: ov02c10: Fix bayer-pattern change after default vflip change
+>    media: ov02c10: Adjust x-win/y-win when changing flipping to preserve
+>      bayer-pattern
+>    media: ov02c10: Fix the horizontal flip control
+>    media: ipu-bridge: Add DMI quirk for Dell XPS laptops with upside down
+>      sensors
+>    media: ov02c10: Remove unnecessary hflip and vflip pointers
+> 
+>   drivers/media/i2c/ov02c10.c          | 28 +++++++++++----------------
+>   drivers/media/pci/intel/ipu-bridge.c | 29 ++++++++++++++++++++++++++++
+>   2 files changed, 40 insertions(+), 17 deletions(-)
+> 
+> --
+> 2.52.0
+> 
 
-Otherwise looks good.
+I thought of this at the time but, assumed it was tested, on submission.
 
-Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Should have asked.
 
--- 
-Best wishes,
-Vladimir
+---
+bod
 
