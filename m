@@ -1,175 +1,213 @@
-Return-Path: <linux-media+bounces-48526-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48527-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4434FCB18F8
-	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 02:02:05 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F3CFCB1B23
+	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 03:11:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0A47730ACEA6
-	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 01:00:34 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 1A4E8301B62C
+	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 02:11:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F401021A92F;
-	Wed, 10 Dec 2025 01:00:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F6B018787A;
+	Wed, 10 Dec 2025 02:11:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kgKyzH2s"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="YYVv8sqE";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Zhgud5Ys"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C711F4C96
-	for <linux-media@vger.kernel.org>; Wed, 10 Dec 2025 01:00:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F236B640
+	for <linux-media@vger.kernel.org>; Wed, 10 Dec 2025 02:11:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765328431; cv=none; b=W6Tm/GOLg1wKQgPcarE6YfdBgqcJ56wuWoBu8L1FkuKAjqpsIhlTdmSEjf1xFdnaTDYJGaycTs8pUKfHZnuY6qBYg0JEIwlGxVubN/oAhc8q36l/SBzHluRWmwl3B9IMo508JuiRVnWJJGL9x1I2WgL0qT/IvlM3c3CanE0ByLA=
+	t=1765332712; cv=none; b=Exo3Opis3YR3S1mCvfHRB+3AiW1zJ4maYw54yBRDvkK4D0iAT7p5ljU4/7JJMzn5OMdKq5NYHsCmacZChoW8WKsgyhoBeUllynWjdfObO2Sesyu9DwU3l3Cl9ZCEoyS0aJV9RtFJnWas+nLwA+2mI5B+WQ5XhOnp56c8v3o1Mrw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765328431; c=relaxed/simple;
-	bh=3ajHi0yHPov0SKg4O4bcCBy0K1fDiVaVSenJjs4a1bQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MFGABg5fc5Kn3HfEvH5ipmuC6yNRZayu3e6fX5LBj1jHV1mg7fJBTmMvuQOUa1UEmIa0tbctvuwnH/7exBmyy/vIwYfvJGC+I5zySR/FdfTZNpT1/sUdOzTVkTJ3YbsjZo7ifH7//3BLMrkA483z618i9m0TRhMMqgWCvQrQfXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kgKyzH2s; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-297e13bf404so99145ad.0
-        for <linux-media@vger.kernel.org>; Tue, 09 Dec 2025 17:00:28 -0800 (PST)
+	s=arc-20240116; t=1765332712; c=relaxed/simple;
+	bh=xnH/dYr6Tbcz5LyRL8zwdXYLOF1pAKGeDZXraGcxNOs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WqhNulu1li1vec1KgCNEt0K1+KIx8yhQpyMl9fs3ywiMs83brb57+pbpnw/duhzBFDonCcM8sWz+P6Y1Dg+2YsyrNXTU2lR80M2YZ+w7mplLpdqOGpugt7duTXISCshRCTI7obzsMIZdmn1iVY2in/pCbi0bl4Ehi/jnKqhuQ7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=YYVv8sqE; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Zhgud5Ys; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BA0OiDE1438880
+	for <linux-media@vger.kernel.org>; Wed, 10 Dec 2025 02:11:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	KPbqbtc7HcYJPrik81jdvnPoUbNPmJIJ/+tZEL/7JcU=; b=YYVv8sqE9Xs5AcEq
+	Qk163CgGQWGEM6fhbsXe+TSe8GBJImGlDFT32xL18bEE5bab8XWUmsjBAT3sZUTu
+	EPcbyrMi+wO/Jl/Rgpu1O+juIfhfw1/IoDJBRn5REgBGzeOsmi/6P4Q9YBl3Plv+
+	L9mjZriao9cTOBftIC6oE/YM8U+oRONGRStcEeiX4cuAwfRoeE1qmIApE9Qx7pLD
+	wExfVBZYXTIWrMCq1hDEAjXoDk+KW4DE2eCuJPE7UQw6VFxU34RI7uTG7hPPCQmy
+	Hl0JeHs01tO8f47dZK7Deh/lsmEafDUoA9uPSnAl1H0MzO6165+5FGIVeE79kXgW
+	RzLDSQ==
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4axm9cafgm-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 10 Dec 2025 02:11:50 +0000 (GMT)
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-295592eb5dbso117633265ad.0
+        for <linux-media@vger.kernel.org>; Tue, 09 Dec 2025 18:11:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1765328428; x=1765933228; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=691lAnJLGf8S4+TJC63j4SAsoo3YOyh4dWuPiM7IB1Y=;
-        b=kgKyzH2swSxVXBMaeFB7gJNTGVVgRjudOLs5hyYnbuQNDZYS3DQU5oDVuypi7nzWg9
-         UoL+4TIYLG/v7OPda7a+tAnkkmJ99+fzXqQD+m3yO1/Ha/p3V85KH7NdXFrAOiyo0m3i
-         u2tNWXzPMA9rX/jwPHk9jlYKQap0e0xHDMIAE/jkQzpulvbUSO4e/mwHjOtPwzVBIcue
-         vedJDref403j9C210J/b2na+jJ5GArAgTkXCoCx1P+NPuRnGGOjE/YFnvoh5FldRbm9R
-         FNEMj5Obb9gRP0A692VrbA8jYKtIC3y5ccADwF5EWJa8Zzy/eIoj2kXZU+PgZsDB7WqZ
-         CBFA==
+        d=oss.qualcomm.com; s=google; t=1765332709; x=1765937509; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KPbqbtc7HcYJPrik81jdvnPoUbNPmJIJ/+tZEL/7JcU=;
+        b=Zhgud5YsSrZ+z4NaLSvKJ1n3jGRva5r1Wfx4y6DNqGCm3X3SmPd1eaPwb6jwDNeBUj
+         gUKkYWo0XnYnx7KO6Q7FBqnbYXmS4pHbYDtkrvDkpxBHsHe3er8D/7asJ/rvuIlGnKR8
+         lNtwsXe60ncz4s0z7bTHkgk9DP8z3qAbZ1aL8OzOr1EBNNC3HQARbSlT10nQr4mjWCqo
+         tD9ry/4kwLRTrHDOJyV3y3K2N2opwD80mlaIueZp8l8Y1q2qK2p96Xk57fa61fHEntdI
+         M8n25oT7UVu8VfIDha8kX+sZ3y9BOFMGCt+sIdhB14lCP/crFRUC5DY51WIpmDrWuF4J
+         dE8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765328428; x=1765933228;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=691lAnJLGf8S4+TJC63j4SAsoo3YOyh4dWuPiM7IB1Y=;
-        b=uaMGfDfVyuIa0AsWmuj87nely+SGDLoNDzn28CQ7mQb18506riLBDxlDwG9cBjBDRP
-         x79F+/DXiH4gHrPS2LtbwPyWsQu+2X5EP0gCf0tbmLnWI0owrpmS0yogJNDAderkeP+t
-         SS4g96gtSzdZU/aaw0BhHWZHfMb7R3w0zvevYM80NXo1s4O+Paid8/YzHZjxCYyms5KJ
-         eDHCzBKOF+gblA72emQvckqUm3/Wbi8desE46V1tnWxG070xoKvtFiAVpiBtdFhH9Kti
-         EyUfAOLLOujYOuy0h6927xIWRux2Gtxt74+R+p9hw+Vx54RqHh7x13fyS2EpFcbxq377
-         QtQw==
-X-Forwarded-Encrypted: i=1; AJvYcCX7rzzu6lZwE1sne/UHLh0Drz5/WneClE0GVWz1nt8+sJTE3mbbrfsmWqCYKenNSXu2oy1sNW3uC1nsMw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGH82e/jHLWfkwsk8/MKl1hCmGHreZn63jlv0rpP6AA3oQ33lH
-	MWgKngT6EraktxZmi0ZA9hzn9NU7CKdvwlz1gipbD/nJbGY01rwa3Fo9ieOpTN3UNg==
-X-Gm-Gg: AY/fxX6xi9u4CJWNEYH7XAH3UzB4kPXDLmaflcpxQv+MTsQYk4GGk7k0b2utfYteY+4
-	KgBgiPTGP7wOB5xr/FcgSfhLM5WIxu7k9N5/kObrz61nQ7Oi6qoXEdgMTqiXYuCyCQwWROj6IHz
-	IA2L1q4AqcxzHC0r3irGlm9bnrxAYl8/Tq/c4ZJtoh5tGhBECiLtYUUPapaj5EHiQD/v/Oxp/DU
-	kpWmvg0EAXxjDC9wOEV40GdV2irHt6QWbxzvwyT8vKHa2g7eCi2HJ/LKm2VokluIt0NAwNtusqw
-	//1BNzQyHHUg5vawpYpy7I/YAMOTRYNy1Ffs7rR6UIDgfl00SXrPdiAuUJtcgTafrdtnM1kTTzT
-	lfW3X85TFNI/wioFV/KM+CgmLO0CILHfgjt2SsWJe5RxS6wDPmTb9OzYqhYVaNMQq6LdbUeUnlm
-	Bog5XFd7KvPCOfJ+oo1dVVRaksci+nngVc2jAxMu/Ej5PS92vIAnm0HGY=
-X-Google-Smtp-Source: AGHT+IHwazsr/LFDDUVLr6lpCN1u73yiv9zYWPNsYlgfC/SF2jnbI472ByJ0qhQLxPF8fI22SQq4QA==
-X-Received: by 2002:a17:902:d4c2:b0:295:1351:f63e with SMTP id d9443c01a7336-29ebf8ce459mr1596665ad.10.1765328427004;
-        Tue, 09 Dec 2025 17:00:27 -0800 (PST)
-Received: from google.com (99.181.125.34.bc.googleusercontent.com. [34.125.181.99])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7e2a07213b6sm17205315b3a.26.2025.12.09.17.00.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Dec 2025 17:00:26 -0800 (PST)
-Date: Wed, 10 Dec 2025 01:00:20 +0000
-From: Sami Tolvanen <samitolvanen@google.com>
-To: "Luck, Tony" <tony.luck@intel.com>
-Cc: Daniel Gomez <da.gomez@kernel.org>, Eric Biggers <ebiggers@kernel.org>,
-	Kees Cook <kees@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
-	Rusty Russell <rusty@rustcorp.com.au>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	"linux-modules@vger.kernel.org" <linux-modules@vger.kernel.org>,
-	Malcolm Priestley <tvboxspy@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>
-Subject: Re: [PATCH 3/3] module: Add compile-time check for embedded NUL
- characters
-Message-ID: <20251210010020.GA2522829@google.com>
-References: <20251008033844.work.801-kees@kernel.org>
- <20251008035938.838263-3-kees@kernel.org>
- <aTc9s210am0YqMV4@agluck-desk3>
- <20251209001139.GA7982@quark>
- <d3dd8fc8-ab46-4cf1-87a9-0324685ba2e0@kernel.org>
- <SJ1PR11MB6083C6D97484ED4E4710268EFCA3A@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <aThSGiKwJRYOB6kx@agluck-desk3>
- <aThqcq0iGge1pQCr@agluck-desk3>
+        d=1e100.net; s=20230601; t=1765332709; x=1765937509;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KPbqbtc7HcYJPrik81jdvnPoUbNPmJIJ/+tZEL/7JcU=;
+        b=Lf00uC7614gPUR+UgzfNrYII1sw6+bDGe/K7cHF8wNbKblD3mbZLW8A4m8hWjBKCxm
+         UFKIuUYb3vetlcpYeJB/yM+GsrHJMM0dAwpDRMcbbl0Evk7kmcmpiK7qS6uU6sCT4E8Q
+         P+e/boaxf2Q2wi62EwFKLbx/Jr1GsyJIKVfTJgBXaYyES1tIgHKbfrsPn8DJ88CikKjW
+         MWED+O9ipdoVyzANQcqihFV8lmG9XmVcb+YW9C44zAyISZ7RiDuaFWCqlVHTtepCjKbk
+         SJP5g0D5GVfmePRsMdnxUhYVK84EINvlA4/GdhYD8gr3gGR7L1EIY9SoGOE0sWoa+1cI
+         glyw==
+X-Forwarded-Encrypted: i=1; AJvYcCU3gvEJ/PMLGCdvrOTjYXWkjzk9o9r8U9fDN0S/cfBXf2CqxzQyE6T3yqs+V9L2kGib6LHc4PsjnKRtVA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhUDxmPp3tc/jHlClRlOutHJsut3vODZDG287j4kMxPzXMB6Nx
+	/RryHLHaAeMiAl2Zd37HN81AjFK1h6ePeyuYLGwoLiVhD73o75VQto8pV+ev+XtgmiKEAx4h9t7
+	L4oayCSUTCiGXoyWctmhSaQZ/f3cZEt4H8hBP/vlIRC2BAYTRLn7QvdSniivPvfEv5g==
+X-Gm-Gg: AY/fxX6b3p35j0bCqQE0FK3BUC2zLyWLVeFfSOwLOW0/fyCON5TODuQMaycBnUBU3AR
+	n1mzsu8bMGxBN8qMpqVNlIZ9u6cPw82IRePBGozuAviGn1T8dGyraOEwFfgvwPdDk+vtyUooRDf
+	m4BsjR87c2mFd4vvxXUcWYTaVqRgcKL9vGyLz4HMB3EUxNo5wsDRymGJ6RQUDS0j9f3blA98Ut2
+	i8qt57PaI4qTnhn4JRuT2Y4e5hLX2p6l+/BwO3f5TFiUAdqQo+ZIa+wcvIvDobL1Qg4CZ2OYuSg
+	rLW8tfn4kn2rkfNdcbcEnqevvNlscCebfc+Phu9S/qxxKtBy7Rcg6egbKZiKLab5P+GeFKLHKT6
+	V5xIlimb/MjpYJRv5Pv/lZaH+M1S7KedfB6JUHtBOfkaZPpdOvwxquWP9rxrJI1WbSLeLR9RQV8
+	BLxxZnLg==
+X-Received: by 2002:a17:903:2311:b0:295:9cb5:ae07 with SMTP id d9443c01a7336-29ec25a7010mr7459075ad.38.1765332709215;
+        Tue, 09 Dec 2025 18:11:49 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEXspY0nDKRpyjv6slIy3q0/KUNCNs3aIMdRf45UIyhjR+Tt32D1VTq2WRYPh0TFXFVXlD6hA==
+X-Received: by 2002:a17:903:2311:b0:295:9cb5:ae07 with SMTP id d9443c01a7336-29ec25a7010mr7458745ad.38.1765332708664;
+        Tue, 09 Dec 2025 18:11:48 -0800 (PST)
+Received: from [10.133.33.217] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29dae99fa59sm168140965ad.58.2025.12.09.18.11.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Dec 2025 18:11:48 -0800 (PST)
+Message-ID: <f5aaa9e3-a709-421a-917a-34b25c58fae7@oss.qualcomm.com>
+Date: Wed, 10 Dec 2025 10:11:42 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aThqcq0iGge1pQCr@agluck-desk3>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] media: venus: vdec: fix error state assignment for
+ zero bytesused
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab
+ <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20251208-fix-error-state-v2-1-255b62ee2eb6@oss.qualcomm.com>
+ <bqu2hcyy6nbjlzcrowcq4i4bwdycfidgl5l4ocbr4rcanhsi3l@lsyb6h3sn55b>
+Content-Language: en-US
+From: Renjiang Han <renjiang.han@oss.qualcomm.com>
+In-Reply-To: <bqu2hcyy6nbjlzcrowcq4i4bwdycfidgl5l4ocbr4rcanhsi3l@lsyb6h3sn55b>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjEwMDAxNyBTYWx0ZWRfX8hKR4RmG9nLw
+ 9oDYIoa+Ja/K6IIuM3WGEgC2fG75hY4F0pmZP3osxuGiUgR3u1cfk36OyamFm/aKOWdnFGmfGQm
+ 8G7TeBua1uXwYkmXvT2Ak6y6tbiSUGi4DbYgJtTMMEX4ceO31+bBgBMsRjKghkmsCqlyUD161oA
+ D4+zGaZa1T8EShDANq3DVt1O9xhW/sAh+sRUS/1iu/VScLQPwSabGlVMxJPUuxdsPzqF6swEiN2
+ kolptRqwPauwzmTVg26jEdDPCE5plH896vQX2PmU/cPQYKIgs/lBcVfIwSWXpf1hitzLQwdKrSo
+ nAMZlLlurSKKmFt7+f6C3nZrjIElBfJ2xk2QF7Fg9jGc1CTNHSi7YeScY00RAR13vjUvzzZqwtk
+ b1/wy90xdkNKVlcrq0aSXOfFJ2JQbQ==
+X-Proofpoint-ORIG-GUID: D_MPYJEBQTZ6qJvyntlztPpKRrImtK47
+X-Authority-Analysis: v=2.4 cv=Vcj6/Vp9 c=1 sm=1 tr=0 ts=6938d6e6 cx=c_pps
+ a=JL+w9abYAAE89/QcEU+0QA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=l48zq0wRcjR2jSCBNtYA:9 a=QEXdDO2ut3YA:10 a=324X-CrmTo6CU4MGRt3R:22
+X-Proofpoint-GUID: D_MPYJEBQTZ6qJvyntlztPpKRrImtK47
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-09_05,2025-12-09_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015 malwarescore=0 impostorscore=0 suspectscore=0
+ adultscore=0 priorityscore=1501 bulkscore=0 spamscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512100017
 
-On Tue, Dec 09, 2025 at 10:29:06AM -0800, Luck, Tony wrote:
-> On Tue, Dec 09, 2025 at 08:45:14AM -0800, Luck, Tony wrote:
-> > On Tue, Dec 09, 2025 at 04:20:06PM +0000, Luck, Tony wrote:
-> > > >> Likewise, I just got the following kernel test robot report sent to me,
-> > > >> where it's warning about MODULE_LICENSE("GPL"):
-> > > >> https://lore.kernel.org/all/202512090359.7BkUaiC9-lkp@intel.com/
-> > > >
-> > > > Can you both confirm which version of sparse are you using?
-> > > >
-> > > > My understanding was that this patch fixed that problem:
-> > > > >https://lore.kernel.org/linux-sparse/CACePvbVG2KrGQq4cNKV=wbO5h=jp3M0RO1SdfX8kV4OukjPG8A@mail.gmail.com/T/#mf838b3e2e3245d88c30a801ea7473d5a5c0eb121
-> > > 
-> > > > The patch is already merged into the sparse tree, and I was not able to
-> > > > reproduce the issue.
-> > > 
-> > > I pulled the latest sparse source and re-checked before reporting. Top commit I have is the one you mention:
-> > > 
-> > > fbdde3127b83 ("builtin: implement __builtin_strlen() for constants")
-> > > 
-> > > I'm building latest Linus tree from the current merge window (well latest as-of yesterday):
-> > > 
-> > > c2f2b01b74be ("Merge tag 'i3c/for-6.19' of git://git.kernel.org/pub/scm/linux/kernel/git/i3c/linux")
-> > 
-> > I added a debug trace to the new expand_strlen() function added to
-> > sparse. It is being called and doing the right thing. My trace says:
-> > 
-> > 	len(GPL) = 3
-> 
-> Simple test case:
-> 
-> $ cat -n s.c
->      1
->      2  _Static_assert(sizeof("GPL") - 1 == 3, "sizeof");
->      3
->      4  _Static_assert(__builtin_strlen("GPL") == 3, "strlen");
-> 
-> $ sparse s.c
-> s.c:4:40: error: bad integer constant expression
-> s.c:4:40: error: static assertion failed: "strlen"
-> 
-> So the "sizeof" bit is OK. But the __builtin_strlen() isn't.
 
-This looks like a bug in Sparse. The CEF_ICE flag isn't propagated to
-the comparison expression, which it presumably should be when both
-sides are integer constant expressions.
+On 12/10/2025 7:11 AM, Dmitry Baryshkov wrote:
+> On Mon, Dec 08, 2025 at 09:03:42AM +0530, Renjiang Han wrote:
+>> When hfi_session_flush is issued, all queued buffers are returned to
+>> the V4L2 driver. Some of these buffers are not processed and have
+>> bytesused = 0. Currently, the driver marks such buffers as error even
+>> during drain operations, which can incorrectly flag EOS buffers.
+>>
+>> This patch moves the zero-bytesused check inside the non-EOS branch
+> Documentation/process/submitting-patches.rst, "This patch".
+OK, thanks for your reminder. I will update it.
+>
+>> so that only capture buffers with zero payload (and not EOS) are
+>> marked with VB2_BUF_STATE_ERROR.
+>>
+>> Fixes: 51df3c81ba10b ("media: venus: vdec: Mark flushed buffers with error state")
+>>
+>> Signed-off-by: Renjiang Han <renjiang.han@oss.qualcomm.com>
+> No empty lines between tags.
+OK, thanks for your comment. I will update it.
+>
+>> ---
+>> This patch refines the error state assignment logic in the Venus vdec
+>> driver for Qualcomm platforms. Specifically, it ensures that the buffer
+>> state is only set to VB2_BUF_STATE_ERROR for non-EOS capture buffers
+>> with zero bytesused, preventing false error reporting during drain
+>> operations.
+>> ---
+>> Changes in v2:
+>> - 1. Update commit message.
+>> - 2. Add a Fixes tag.
+>> - Link to v1: https://lore.kernel.org/r/20251126-fix-error-state-v1-1-34f943a8b165@oss.qualcomm.com
+>> ---
+>>   drivers/media/platform/qcom/venus/vdec.c | 6 +++---
+>>   1 file changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+>> index 4a6641fdffcf79705893be58c7ec5cf485e2fab9..d0bd2d86a31f9a18cb68b08ba66affdf8fc5092d 100644
+>> --- a/drivers/media/platform/qcom/venus/vdec.c
+>> +++ b/drivers/media/platform/qcom/venus/vdec.c
+>> @@ -1440,10 +1440,10 @@ static void vdec_buf_done(struct venus_inst *inst, unsigned int buf_type,
+>>   				inst->drain_active = false;
+>>   				inst->codec_state = VENUS_DEC_STATE_STOPPED;
+>>   			}
+>> +		} else {
+>> +			if (!bytesused)
+>> +				state = VB2_BUF_STATE_ERROR;
+>>   		}
+>> -
+>> -		if (!bytesused)
+>> -			state = VB2_BUF_STATE_ERROR;
+>>   	} else {
+>>   		vbuf->sequence = inst->sequence_out++;
+>>   	}
+>>
+>> ---
+>> base-commit: 663d0d1af3faefe673cabf4b6b077149a87ad71f
+>> change-id: 20251126-fix-error-state-24183a8538cd
+>>
+>> Best regards,
+>> -- 
+>> Renjiang Han <renjiang.han@oss.qualcomm.com>
+>>
+-- 
+Best regards,
+Renjiang Han
 
-I'm not really familiar enough with Sparse to know whether this is the
-correct place to handle this case, but this quick hack fixes the issue
-for me:
-
-diff --git a/expand.c b/expand.c
-index f14e7181..71221d35 100644
---- a/expand.c
-+++ b/expand.c
-@@ -535,6 +535,8 @@ static int expand_compare(struct expression *expr)
- 			expr->taint = 0;
- 			return 0;
- 		}
-+		if (left->flags & CEF_ICE && right->flags & CEF_ICE)
-+			expr->flags |= CEF_SET_ICE;
- 		if (simplify_cmp_binop(expr, left->ctype))
- 			return 0;
- 		if (simplify_float_cmp(expr, left->ctype))
-
-Sami
 
