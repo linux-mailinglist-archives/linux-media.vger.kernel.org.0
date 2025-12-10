@@ -1,202 +1,276 @@
-Return-Path: <linux-media+bounces-48567-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48568-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E9F3CB3667
-	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 16:59:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 144E5CB3676
+	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 17:01:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 388A130161F8
-	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 15:58:55 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 139CA3011ECE
+	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 16:01:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F140929A32D;
-	Wed, 10 Dec 2025 15:58:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A0CB2FD686;
+	Wed, 10 Dec 2025 16:01:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="IoL6qZFz"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="QCgaLdqQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9CCD2874FF
-	for <linux-media@vger.kernel.org>; Wed, 10 Dec 2025 15:58:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.66
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765382328; cv=none; b=YP1p3iKNE1vqhuuLmihd7AwSQ+Ga6WdeZkjjwBfCOB+3eoIK1mwHn098h93RNxzDXepSYnRgVIAEamZGMyqU+P4tusmVezvq0lWPAu7E5AfvCBvJsH5Lqg9RqnGLw2SGbc7r/AVNTFmWdWuDqYN1EiI5ERytsfknJzArYnuOhjM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765382328; c=relaxed/simple;
-	bh=7ZfKB29CS941eF8OI9vfnt+kl1s9mmpEJVDq1VWjTQs=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=eakDydo1nQ5jtrNNhMSvh5RvueTXK9RHdzfUgPaCsOCDoF3AEyFAE7JM6KT2w+eIFWuKMPKUgtQboRa7lZ+b9roaNI+uo4Y4GHs6TSFuvQcUqNW7VfkEw2meL0WAiS0o6h6aoGmAUrNVvswlYA8A5TQ1bhiCEiFJuzdTLCNyPgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=IoL6qZFz; arc=none smtp.client-ip=209.85.219.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qv1-f66.google.com with SMTP id 6a1803df08f44-8845498be17so79997836d6.3
-        for <linux-media@vger.kernel.org>; Wed, 10 Dec 2025 07:58:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1765382324; x=1765987124; darn=vger.kernel.org;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=1GE5RptosWdqJy/yyq4WzVzSYS2R40OO8bXPy8Eb35g=;
-        b=IoL6qZFzOaeQmb1+v2U2RUgr+HlxkWts1ibGqSrLePP6ww2CS8HFAQc7b3hnlAOENC
-         ZdmVfnOjA5WjHL8Gr84JdCahDrL1XtReXLQyPv4yZ4XWWC2bSoV8YThQQvHjzo5IBqB1
-         nUPkHK4On92YtK0nFWWxPgotktk59RhC0dHa9H2yDTNx8SCOsVvLiiz9fR+MRLJNHTVW
-         1SFCNYT96m4+IicWZWzKwi82zGUKe0htcqE19G6/XG409OlmuiinyZKm8Au2M5Gef7iP
-         /5aCruAttaKbWKUqyspbvf9mXDbDnN9c5CkFHXQyAZAlFopF4soub5Q+QOOnhMKnGn8i
-         J2yA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765382324; x=1765987124;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1GE5RptosWdqJy/yyq4WzVzSYS2R40OO8bXPy8Eb35g=;
-        b=F3w+8X+n1zr5K8JZdYVuNHBMenogtfH+da2eXYtc+elDDc70wFIu4MKp8jhogyh6nr
-         CQFqy6MNPzWMKujJfUQxjvhhxGbJ6BjZDTtMOmwnmDdZ3YQS+mBgF/lDueloUp8tSt2l
-         cgvVAVH/QtOQ8krcdFVrZzsDfXVn86fLlHL9DIp7+E9T70/1qjdan6P3w9q7L/q4mTws
-         uYeAEQxLRww0HakuYvojmH7725Hlk6VmPp4vtYeEMpzV/OWwverrkuGgBpY5WaHfcTVX
-         C28AfoC8oAqdNK9+yjJwiNILzU03DDxNB+u/rZxwpj/0ChthOhoRAaNAvPozNtMA0NLM
-         VIVw==
-X-Forwarded-Encrypted: i=1; AJvYcCUAGTmQ5BbXGSbDNzyb6vSdvjTqv4peEXoRh0PO8SQwL6zWZCFweLrXL1b0dWvMjHrP6gohIjgRBLfnmA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyIuALqs3hX/OVxl0pjE0t7w8xja7p9wOhy2ts6XZOnho9FRZMW
-	SBsThnDOUmmSwGpS4vsLsCIXw6UHorI1U0IFb7qzeA+AwVJ/hoSrRfS9BCYIM5HvWHk=
-X-Gm-Gg: AY/fxX6MKbJieXAlSR/WETX1sbfeDQZSQFULGTrQYNMPh+WmsRpvAx78Smogv6UcIRo
-	cv+cvhonGBEdoQhCWaobOtrJrq9eUnsd64oguMMTlYRWflRQGHt0euiAeyvzAxL6Gem7qr3k6rw
-	m1Ihs4lpKYzDvcsmuZ4NH6bozXPzre8pvEQd7Do3fpreot19REVF7UOP8oiEqeRVd83XLE0n1pH
-	Uja1kMlI0U//4jFaWN1uimqwD2trwJDJPeDsyAgo835TYVsnBataA6/AiFq94IAmUfS77IGJH7z
-	nZPCA7g1X0dosjQ1r6pzQO4lbPm3zChy152mgPKp3VB9B2ed5XzpFT4ANUtAbB8/rZ5gjdk4IMq
-	mPIuH+N5ZIo7i5xuhJzJDdEzpOq2WZCWcqc8q7NolBZQe8blxztS/LBJ2P/1i2/XldArOuGbJxC
-	iek200IL1cMxH4bRXeaVYd/KQWx4w=
-X-Google-Smtp-Source: AGHT+IF6i0V89RApudcP5yeANqOOTTwCYv/qsuj7/dQsvJiJLLv2PXtBBDPe+3zPaacPXUeT/ZONBw==
-X-Received: by 2002:a05:6214:d08:b0:882:401c:e37d with SMTP id 6a1803df08f44-88863ad3a25mr40591616d6.63.1765382323629;
-        Wed, 10 Dec 2025 07:58:43 -0800 (PST)
-Received: from ?IPv6:2606:6d00:17:7b4b::c41? ([2606:6d00:17:7b4b::c41])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8886ec2d32esm333676d6.5.2025.12.10.07.58.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Dec 2025 07:58:42 -0800 (PST)
-Message-ID: <78aeb9303f3d57a28b2edc3b6b2b2f45498ee3fd.camel@ndufresne.ca>
-Subject: Re: [PATCH v2 2/2] media: mediatek: amend vpu_get_plat_device()
- documentation
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Johan Hovold <johan@kernel.org>
-Cc: Minghsiu Tsai <minghsiu.tsai@mediatek.com>, Houlong Wei	
- <houlong.wei@mediatek.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
- Mauro Carvalho Chehab	 <mchehab@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,  AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Tiffany Lin
- <tiffany.lin@mediatek.com>, Yunfei Dong	 <yunfei.dong@mediatek.com>,
- linux-media@vger.kernel.org, 	linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Date: Wed, 10 Dec 2025 10:58:41 -0500
-In-Reply-To: <aTjnH_i0q0xyLysD@hovoldconsulting.com>
-References: <20251028100454.4086-1-johan@kernel.org>
-	 <20251028100454.4086-3-johan@kernel.org>
-	 <836bcbc3e35c267abd93a4d2174a3e570ca9e181.camel@ndufresne.ca>
-	 <aTjnH_i0q0xyLysD@hovoldconsulting.com>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-+J+gL0rfBvLlL7o9z/0H"
-User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C41202F1FC3;
+	Wed, 10 Dec 2025 16:01:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765382476; cv=pass; b=AqD0pdOYp39SWYyN2HOANktntbXqxopOsxMaLgmX6X5Mo4gk/pOE/hLObo3dgas3SmU6YVc4iEWAYZkgeTaW9ECb28C1SAi+YPjGSd01IWvJgwcYvINMgphuOLyYsV2rqN620Bys6VChXHVu3+2AmMDrS1toNh6pAkKY9Oc/Qfg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765382476; c=relaxed/simple;
+	bh=ro5BfhDBn0uLk9Kw9D3XDXJmSAi4EsJB0axFC2yUcck=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Un+bUZmF05/AT37mqatQnBy+3Qp/QNdzXDyLpIzah8Ljg3UDGVD2vcGnEkIS2OnoV8y6TKQk4NHqXX2HA8znCjyZ320DwvmTWmU6k2/6PHIjUtiHmpFM4pm0guOwVzFIeq9BQnGpv+12ilyhLxABtCvoUau3YUjpbOcRk2OpS/Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=QCgaLdqQ; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1765382430; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=kSHy13hAwgpa/5ZJSYe6IGxE2tt3qAGUaTlZYC9fG3Xj/dzFq8Og3HnX2Xog06Td4B3kKsf7HaIyWFiNDU6963tt1IynW3E58AdTRj3injHhQ41qUcc0Nreciobk5Cs5m/ingwOS2VgWWjP/uaVOvPR2vC8mLyWNlMS9pKQ+X6s=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1765382430; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=QIHlXyZ9eSlbG2IaJDRO0O2znKkeqfI3nu17FC9NmwA=; 
+	b=M3jcY2q20BHi1f0Vy27RBAnOLX0N9OVUaCemcN2J2Wq9aPkvlrXtYao8I0756M1QgC8C5GxWcsBODj5JTR5sQ2ak8gea+B1XXSLjwHX3pM0JLV6Bb5XXfdf+TGmj8EoIy049Gqrui1uWdEwGkDJevoB/BjC3E+bnbilJtKArFSk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+	dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765382430;
+	s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=QIHlXyZ9eSlbG2IaJDRO0O2znKkeqfI3nu17FC9NmwA=;
+	b=QCgaLdqQoehU0jvTx1d1WjuKcRoZb/j26YTpmhn8hcwR3drY4gIJs8z/YzGnf/t0
+	aXi0xdYGOJ6Tfr2kMbHJ0mLzpPY+vPIwLiUQGLZRmO+lhP5XCukj09SVxxJFWrgRNcu
+	+QjVJf0alIASJ5ST6rV7GmVzds7eJuoiOdQhWh5E=
+Received: by mx.zohomail.com with SMTPS id 1765382427995508.4432954640066;
+	Wed, 10 Dec 2025 08:00:27 -0800 (PST)
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	jose.abreu@synopsys.com,
+	nelson.costa@synopsys.com,
+	shawn.wen@rock-chips.com,
+	nicolas.dufresne@collabora.com,
+	Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: kernel@collabora.com,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rockchip@lists.infradead.org
+Subject: [PATCH v3] media: synopsys: hdmirx: Detect broken interrupt
+Date: Wed, 10 Dec 2025 19:00:06 +0300
+Message-ID: <20251210160006.528997-1-dmitry.osipenko@collabora.com>
+X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
+Downstream version of RK3588 U-Boot uses customized TF-A that remaps
+HDMIRX hardware interrupt, routing it via firmware that isn't supported
+by upstream driver.
 
---=-+J+gL0rfBvLlL7o9z/0H
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Detect broken interrupt and print a clarifying error message about a need
+to use open-source TF-A with this driver.
 
-Le mercredi 10 d=C3=A9cembre 2025 =C3=A0 12:21 +0900, Johan Hovold a =C3=A9=
-crit=C2=A0:
-> On Tue, Dec 09, 2025 at 03:43:30PM -0500, Nicolas Dufresne wrote:
-> > Hi,
-> >=20
-> > Le mardi 28 octobre 2025 =C3=A0 11:04 +0100, Johan Hovold a =C3=A9crit=
-=C2=A0:
-> > > Add a comment to the vpu_get_plat_device() documentation to make it
-> > > clear that the VPU platform device is returned with an incremented
-> > > reference count (which needs to be dropped after use).
-> > >=20
-> > > Signed-off-by: Johan Hovold <johan@kernel.org>
-> > > ---
-> > > =C2=A0drivers/media/platform/mediatek/vpu/mtk_vpu.h | 2 +-
-> > > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/drivers/media/platform/mediatek/vpu/mtk_vpu.h
-> > > b/drivers/media/platform/mediatek/vpu/mtk_vpu.h
-> > > index da05f3e74081..5808311d2b15 100644
-> > > --- a/drivers/media/platform/mediatek/vpu/mtk_vpu.h
-> > > +++ b/drivers/media/platform/mediatek/vpu/mtk_vpu.h
-> > > @@ -120,7 +120,7 @@ int vpu_ipi_send(struct platform_device *pdev,
-> > > =C2=A0 *		device for using VPU API.
-> > > =C2=A0 *
-> > > =C2=A0 * Return: Return NULL if it is failed.
-> > > - * otherwise it is VPU's platform device
-> > > + * otherwise it is VPU's platform device with incremented reference =
-count
-> >=20
-> > I picked this patch but rewrote with what felt like better and dense.
-> >=20
-> > - * Return: Return NULL if it is failed.
-> > - * otherwise it is VPU's platform device
-> > + * Return: a reference to the VPU's platform device, or NULL on failur=
-e.
-> >=20
-> > hope its ok with you,
->=20
-> Sure, my only concern is that just saying "reference" is too subtle,
-> that's why I explicitly mentioned the refcount.
+Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+---
 
-For me everyone should read "a reference" as a kref based reference counted
-structure.  A quick grep across out documentation, this is the vast majorit=
-y of
-the wording. Though, I spent limited time looking.
+Changelog:
 
->=20
-> Btw, why is patch 2/2 marked obsolete? That leak is still there both on
-> probe errors (which I saw someone else posted a fix for) and on driver
-> unbind.
+v3: - Added r-b from Sebastian Reichel.
 
-I had two patches fixing the same thing, it just happen that I ended up pic=
-king
-the other one first, and liked you documentation fix, except it was replica=
-ting
-obvious weird english such as "if it is failed", and documenting the error
-before the expected outcome (opposite of my preference, not sure there is a=
-ny
-rules or guidelines).
+v2: - Added PHY r/w lock and moved the clarifying error message as
+      was suggested by Sebastian Reichel.
 
-https://lore.kernel.org/all/20251008090156.14224-1-haoxiang_li2024@163.com/
+ .../platform/synopsys/hdmirx/snps_hdmirx.c    | 90 ++++++++++++++++++-
+ .../platform/synopsys/hdmirx/snps_hdmirx.h    |  2 +
+ 2 files changed, 90 insertions(+), 2 deletions(-)
 
-cheers,
-Nicolas
+diff --git a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
+index c3007e09bc9f..9cceffa4ce25 100644
+--- a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
++++ b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
+@@ -132,12 +132,14 @@ struct snps_hdmirx_dev {
+ 	struct delayed_work delayed_work_hotplug;
+ 	struct delayed_work delayed_work_res_change;
+ 	struct hdmirx_cec *cec;
++	struct mutex phy_rw_lock; /* to protect phy r/w configuration */
+ 	struct mutex stream_lock; /* to lock video stream capture */
+ 	struct mutex work_lock; /* to lock the critical section of hotplug event */
+ 	struct reset_control_bulk_data resets[HDMIRX_NUM_RST];
+ 	struct clk_bulk_data *clks;
+ 	struct regmap *grf;
+ 	struct regmap *vo1_grf;
++	struct completion cr_read_done;
+ 	struct completion cr_write_done;
+ 	struct completion timer_base_lock;
+ 	struct completion avi_pkt_rcv;
+@@ -796,11 +798,50 @@ static int wait_reg_bit_status(struct snps_hdmirx_dev *hdmirx_dev, u32 reg,
+ 	return 0;
+ }
+ 
++static int hdmirx_phy_register_read(struct snps_hdmirx_dev *hdmirx_dev,
++				    u32 phy_reg, u32 *val)
++{
++	struct device *dev = hdmirx_dev->dev;
++	u32 status;
++
++	guard(mutex)(&hdmirx_dev->phy_rw_lock);
++
++	reinit_completion(&hdmirx_dev->cr_read_done);
++	/* clear irq status */
++	hdmirx_clear_interrupt(hdmirx_dev, MAINUNIT_2_INT_CLEAR, 0xffffffff);
++	/* en irq */
++	hdmirx_update_bits(hdmirx_dev, MAINUNIT_2_INT_MASK_N,
++			   PHYCREG_CR_READ_DONE, PHYCREG_CR_READ_DONE);
++	/* write phy reg addr */
++	hdmirx_writel(hdmirx_dev, PHYCREG_CONFIG1, phy_reg);
++	/* config read enable */
++	hdmirx_writel(hdmirx_dev, PHYCREG_CONTROL, PHYCREG_CR_PARA_READ_P);
++
++	if (!wait_for_completion_timeout(&hdmirx_dev->cr_read_done,
++					 msecs_to_jiffies(20))) {
++		dev_err(dev, "%s wait cr read done failed\n", __func__);
++		return -ETIMEDOUT;
++	}
++
++	/* read phy reg value */
++	status = hdmirx_readl(hdmirx_dev, PHYCREG_STATUS);
++	if (!(status & PHYCREG_CR_PARA_DATAVALID)) {
++		dev_err(dev, "%s cr read failed\n", __func__);
++		return -EINVAL;
++	}
++
++	*val = status & PHYCREG_CR_PARA_RD_DATA_MASK;
++
++	return 0;
++}
++
+ static int hdmirx_phy_register_write(struct snps_hdmirx_dev *hdmirx_dev,
+ 				     u32 phy_reg, u32 val)
+ {
+ 	struct device *dev = hdmirx_dev->dev;
+ 
++	guard(mutex)(&hdmirx_dev->phy_rw_lock);
++
+ 	reinit_completion(&hdmirx_dev->cr_write_done);
+ 	/* clear irq status */
+ 	hdmirx_clear_interrupt(hdmirx_dev, MAINUNIT_2_INT_CLEAR, 0xffffffff);
+@@ -1814,6 +1855,13 @@ static void mainunit_2_int_handler(struct snps_hdmirx_dev *hdmirx_dev,
+ 		*handled = true;
+ 	}
+ 
++	if (status & PHYCREG_CR_READ_DONE) {
++		hdmirx_update_bits(hdmirx_dev, MAINUNIT_2_INT_MASK_N,
++				   PHYCREG_CR_READ_DONE, 0);
++		complete(&hdmirx_dev->cr_read_done);
++		*handled = true;
++	}
++
+ 	if (status & TMDSVALID_STABLE_CHG) {
+ 		process_signal_change(hdmirx_dev);
+ 		v4l2_dbg(2, debug, v4l2_dev, "%s: TMDSVALID_STABLE_CHG\n", __func__);
+@@ -2313,18 +2361,51 @@ static void hdmirx_disable_all_interrupts(struct snps_hdmirx_dev *hdmirx_dev)
+ 	hdmirx_clear_interrupt(hdmirx_dev, CEC_INT_CLEAR, 0xffffffff);
+ }
+ 
+-static void hdmirx_init(struct snps_hdmirx_dev *hdmirx_dev)
++static int hdmirx_detect_broken_interrupt(struct snps_hdmirx_dev *hdmirx_dev)
+ {
++	int ret;
++	u32 val;
++
++	enable_irq(hdmirx_dev->hdmi_irq);
++
++	hdmirx_writel(hdmirx_dev, PHYCREG_CONFIG0, 0x3);
++
++	ret = hdmirx_phy_register_read(hdmirx_dev,
++				       HDMIPCS_DIG_CTRL_PATH_MAIN_FSM_FSM_CONFIG,
++				       &val);
++
++	disable_irq(hdmirx_dev->hdmi_irq);
++
++	return ret;
++}
++
++static int hdmirx_init(struct snps_hdmirx_dev *hdmirx_dev)
++{
++	int ret;
++
+ 	hdmirx_update_bits(hdmirx_dev, PHY_CONFIG, PHY_RESET | PHY_PDDQ, 0);
+ 
+ 	regmap_write(hdmirx_dev->vo1_grf, VO1_GRF_VO1_CON2,
+ 		     (HDMIRX_SDAIN_MSK | HDMIRX_SCLIN_MSK) |
+ 		     ((HDMIRX_SDAIN_MSK | HDMIRX_SCLIN_MSK) << 16));
++
++	/*
++	 * RK3588 downstream version of TF-A remaps HDMIRX interrupt and
++	 * requires use of a vendor-specific FW API that we don't support
++	 * in this driver.
++	 */
++	ret = hdmirx_detect_broken_interrupt(hdmirx_dev);
++	if (ret)
++		dev_err_probe(hdmirx_dev->dev, ret,
++			      "interrupt not functioning, open-source TF-A is required by this driver\n");
++
+ 	/*
+ 	 * Some interrupts are enabled by default, so we disable
+ 	 * all interrupts and clear interrupts status first.
+ 	 */
+ 	hdmirx_disable_all_interrupts(hdmirx_dev);
++
++	return ret;
+ }
+ 
+ /* hdmi-4k-300mhz EDID produced by v4l2-ctl tool */
+@@ -2606,10 +2687,12 @@ static int hdmirx_probe(struct platform_device *pdev)
+ 		return dev_err_probe(dev, PTR_ERR(hdmirx_dev->regs),
+ 				     "failed to remap regs resource\n");
+ 
++	mutex_init(&hdmirx_dev->phy_rw_lock);
+ 	mutex_init(&hdmirx_dev->stream_lock);
+ 	mutex_init(&hdmirx_dev->work_lock);
+ 	spin_lock_init(&hdmirx_dev->rst_lock);
+ 
++	init_completion(&hdmirx_dev->cr_read_done);
+ 	init_completion(&hdmirx_dev->cr_write_done);
+ 	init_completion(&hdmirx_dev->timer_base_lock);
+ 	init_completion(&hdmirx_dev->avi_pkt_rcv);
+@@ -2623,7 +2706,10 @@ static int hdmirx_probe(struct platform_device *pdev)
+ 	hdmirx_dev->timings = cea640x480;
+ 
+ 	hdmirx_enable(dev);
+-	hdmirx_init(hdmirx_dev);
++
++	ret = hdmirx_init(hdmirx_dev);
++	if (ret)
++		goto err_pm;
+ 
+ 	v4l2_dev = &hdmirx_dev->v4l2_dev;
+ 	strscpy(v4l2_dev->name, dev_name(dev), sizeof(v4l2_dev->name));
+diff --git a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h
+index b13f58e31944..31b887e94e87 100644
+--- a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h
++++ b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h
+@@ -116,6 +116,8 @@
+ #define PHYCREG_CR_PARA_WRITE_P			BIT(1)
+ #define PHYCREG_CR_PARA_READ_P			BIT(0)
+ #define PHYCREG_STATUS				0x00f4
++#define PHYCREG_CR_PARA_DATAVALID		BIT(24)
++#define PHYCREG_CR_PARA_RD_DATA_MASK		GENMASK(15, 0)
+ 
+ #define MAINUNIT_STATUS				0x0150
+ #define TMDSVALID_STABLE_ST			BIT(1)
+-- 
+2.51.1
 
->=20
-> Johan
-
---=-+J+gL0rfBvLlL7o9z/0H
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaTmYsQAKCRDZQZRRKWBy
-9LyKAP9enelzywFizrpad8u/0Za3pIfyQ9BcWEt7RBs2neM1GAD/XXHUI1c9UEpL
-yRRdzGOwhD2B25O6fXVKtUS2AKIoNQY=
-=Bzdj
------END PGP SIGNATURE-----
-
---=-+J+gL0rfBvLlL7o9z/0H--
 
