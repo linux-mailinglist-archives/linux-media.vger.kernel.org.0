@@ -1,137 +1,155 @@
-Return-Path: <linux-media+bounces-48531-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48532-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EAFBCB1C84
-	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 04:18:47 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DCBCCB209A
+	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 06:56:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B9DB93009106
-	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 03:18:45 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 6BDDB30223A2
+	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 05:56:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3CB22DAFB5;
-	Wed, 10 Dec 2025 03:18:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26FA73126B9;
+	Wed, 10 Dec 2025 05:56:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CPGin8o8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J9XEo5rx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57E0B2D24B6;
-	Wed, 10 Dec 2025 03:18:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34BE730F819
+	for <linux-media@vger.kernel.org>; Wed, 10 Dec 2025 05:56:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765336717; cv=none; b=c1n1ZbK5d7JDK5R32Any4+ak04Pr5whtKLlWo9C338bs2jdxlj9kjulbuKq7utLu1YwfQgPoHR5NPBFSRm2uQtY5iATBbjtZ7hwL5tlINGHV33kO9inT+GS38MIqj4kZeCOLIjLPmULYa0mruV2wYs7x1D9V+F5jle9n5vgZyzE=
+	t=1765346206; cv=none; b=KQE5mHw5Pm5N9z6nDQyrSq3kcsWGfgFD1RZpiahnUeMbUFZ6HlMEmsEd2Jf2HDMPD/p10joB/UQeS5YZ6Eq8A+dSUY2gHpt1jpjC9Gd7fDygOjnjqVPaEn0gVjYmA34QbamsL3GMkDpDgI/V4jOk/p5R17tr/JABvmpXgPYzh5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765336717; c=relaxed/simple;
-	bh=HTnrHTpkg4dlBAzb/c3lsvZ7TW/iYXn/GA/ChEpNu18=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I29E7yBPzf94fC33gSPChBHYgwPyBoOAOUTSp0sUVjlemrchHxKQmCHbv385a9cuSPLnyDHkO5H214/qFZzuk6XC56AbSQOqBFuaB1I1tOt6T2ILE0e1MgYwS+lK68a6wZVa7kXVwZ5Adbq8FX7Xus4w4LK7vyspZu0TICLELSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CPGin8o8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C70FEC4CEF5;
-	Wed, 10 Dec 2025 03:18:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765336715;
-	bh=HTnrHTpkg4dlBAzb/c3lsvZ7TW/iYXn/GA/ChEpNu18=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CPGin8o8C5hUdY6uDZFP4486rE2KwWH7P6oN2hgY8B0hJZ6GxD+Cg+iIk+75M4Wy3
-	 8Syls95IL73FoT6SAJQVltrejOsILLI7euSmQOU7kssetxMJMjwmlpYDx8G4RrpKqV
-	 RgxK8mHsXMxeg+bYioSe20XpAWDHTisUiK77e2bcPBpXGFAyAuiG173GVmRn3g0Bd9
-	 SbKd1FW+jAuC18+re7pPZBp+IdN5oMM3EkAmO2QDQ50yiWRFu+HKkMnjzaPuguTsEp
-	 HQ8xSglhMTPdrFMi2wBx1M+n5LZoKypGNWIBvA3KWBu1wfTFuVnzIiHJpDfQGmqkgG
-	 drEsk3R3SCpvA==
-Received: from johan by theta with local (Exim 4.99)
-	(envelope-from <johan@kernel.org>)
-	id 1vTAlD-000000008Gf-1FEi;
-	Wed, 10 Dec 2025 12:21:03 +0900
-Date: Wed, 10 Dec 2025 12:21:03 +0900
-From: Johan Hovold <johan@kernel.org>
-To: Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc: Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-	Houlong Wei <houlong.wei@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>, linux-media@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] media: mediatek: amend vpu_get_plat_device()
- documentation
-Message-ID: <aTjnH_i0q0xyLysD@hovoldconsulting.com>
-References: <20251028100454.4086-1-johan@kernel.org>
- <20251028100454.4086-3-johan@kernel.org>
- <836bcbc3e35c267abd93a4d2174a3e570ca9e181.camel@ndufresne.ca>
+	s=arc-20240116; t=1765346206; c=relaxed/simple;
+	bh=3VrvE79aK98YEd8Nk0OCa9UWFkNGSHnO3fUoP8RMrCY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QwP/DkpL7gCoqrio+ovwJPObAbMJwCCO5kPzfkThC3WHtoQPMc1U/3dFUanbGo3y+E3CYYjnTmPxVjB2WuI3g+1yvxS5EFpZ6uoinsP8FfDzyogoYVEZbfOQ6PR8Rsn93LpxO4380jJ08qiadgiKL6SHIVsiTSsRWDZKFSnvOB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J9XEo5rx; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-29e93ab7ff5so19281155ad.3
+        for <linux-media@vger.kernel.org>; Tue, 09 Dec 2025 21:56:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765346204; x=1765951004; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8IDQig3y5Ta7nqnpRczp5de7VIJ3mi4WA81mEUrsxxk=;
+        b=J9XEo5rxGF5KFgzMmyvWeFzuicpLzrz6pNdV5F0NnRrGHYJCLGTud/I5SUGaxRWL3K
+         rJKc7+N1XKm/TOWeaKOb1c9rnGSF8XRPhCmwxJlM1onwHvQKvHyb2gWIXQ9ndnNThaUk
+         wpFmNN2Qw0/5FeZnEKN2nFC5CvFWecpuyuaKv18iqyACUZJv9J8edRuej6uZQWI81gbn
+         391EBV1IvidZrrGlDgzVgaFCrdVlEB8R8npGfxjY1w33lzPv4yG+oMfJZO3zdYTNOR3z
+         LeEmmaHd+wdYzOgemIno7p3Y9CUR7VTiWGlCh9VrBXeqomDeGjP3F7nqzr1+3Y76qWP/
+         674g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765346204; x=1765951004;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8IDQig3y5Ta7nqnpRczp5de7VIJ3mi4WA81mEUrsxxk=;
+        b=XNL7SifqUXbsyMSR7Pl0wisGiRs02fsC+3R8BeiSct0p5DANaJAWV5gEvTjKa7viwt
+         bM3yqzpTV8L0culY0aru2JohzNOsOPfPLwxXJG8u/IV9mFo2gaodjnA3CjbA+6iZArMM
+         nfUW5Lz0NnzjK8YQPcn+ebXOH/TUBs97LRrz7Z2i+/60gjVSVkjAxZsgXMwFIAI6swvZ
+         agwGGIjnY5Q8auIyfJU4pxu2RZvSxbElEI3ZuOZRBAwO9QdbqfOxb/8qxburczZnAqqP
+         dcgnkqoColiDihQ7uWKL020IR6EcVzAadIOeagyoXEQt/01BOTzMPew8+aspnSkpJjrK
+         A0gw==
+X-Gm-Message-State: AOJu0Yzawo+Z4u6Ag5IrDQhCKN0VGuVx90vYHxK8+paGmU4JF6smqsR6
+	qNkQbYANb+sDkLFmRAGqtA/zcgVjcosabpt4GAf01OmGr8sKno1UR9KC01WDI06N
+X-Gm-Gg: AY/fxX69az2znwEWBJSl1xAq2nOHzIsGVRtw5o68eWfvQQ68S1dp/5BcJ6WysbCr/BE
+	FIwXEv4SHdaaqoi++U86528eZvcJ9oImkPU6w0SW30PSPrYklQpGmdPwHebNak15TqhJqN4JPu5
+	aYKYmgIN8/FeIrxDmSnEgZESp7DZ+U4rCsL7tok3gs83AkWgdZkAoGJC0iPnHVdHKwO+FdaPqGi
+	YUACCVjwy9d9epdh1hJvVUPBI/RQKRzzSehoJt7VjzWjYkCoRGCL6UJgimtJNDinws6IUpeIthj
+	6xQf/0aqJzj0MFBxoFcSVvcZxK7Tot8B3X9+XjrySQENQWMiN1HJn7YbijM6+QVOi3/f+MHq+9c
+	qYbqMKaQBBojNBrGdWEWZP/Wkth2YgO/pPywIIh9rgRhCHF8izoMsz5zTvNmoxOR3+zUiaYoI2h
+	4wDjO9RIHv2ro/rUiwHt6+8vEFvcWG72HN
+X-Google-Smtp-Source: AGHT+IEt5LhlIKtAeP5QvPrTGN2SDdkW9Yk6hicFPvLxo0MckItbfuwnVdzVsDPTVn7BhFWCHNsR5A==
+X-Received: by 2002:a17:903:2347:b0:295:395c:ebf9 with SMTP id d9443c01a7336-29ec27f1742mr12787495ad.55.1765346204228;
+        Tue, 09 Dec 2025 21:56:44 -0800 (PST)
+Received: from localhost.localdomain ([38.134.139.135])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29dae49caa4sm173741385ad.15.2025.12.09.21.56.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Dec 2025 21:56:43 -0800 (PST)
+From: Dharanitharan R <dharanitharan725@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	mchehab@kernel.org,
+	micha@freedict.org,
+	syzkaller-bugs@googlegroups.com,
+	syzbot+d99f3a288cc7d8ef60fb@syzkaller.appspotmail.com,
+	dharanitharan725@gmail.com,
+	stable@vger.kernel.org
+Subject: [PATCH v2] media: dw2102: validate I2C messages in su3000_i2c_transfer()
+Date: Wed, 10 Dec 2025 05:55:33 +0000
+Message-ID: <20251210055532.25737-2-dharanitharan725@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="p2LLKI/CbsHhUYRj"
-Content-Disposition: inline
-In-Reply-To: <836bcbc3e35c267abd93a4d2174a3e570ca9e181.camel@ndufresne.ca>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+syzbot reports a general protection fault caused by su3000_i2c_transfer()
+dereferencing msg->buf without validating the message length or buffer
+pointer. Although i2c-dev blocks zero-length messages, malformed I²C
+messages can still reach the driver through the DVB USB subsystem.
 
---p2LLKI/CbsHhUYRj
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Add strict validation of each message to prevent NULL-pointer
+dereferences.
 
-On Tue, Dec 09, 2025 at 03:43:30PM -0500, Nicolas Dufresne wrote:
-> Hi,
->=20
-> Le mardi 28 octobre 2025 =C3=A0 11:04 +0100, Johan Hovold a =C3=A9crit=C2=
-=A0:
-> > Add a comment to the vpu_get_plat_device() documentation to make it
-> > clear that the VPU platform device is returned with an incremented
-> > reference count (which needs to be dropped after use).
-> >=20
-> > Signed-off-by: Johan Hovold <johan@kernel.org>
-> > ---
-> > =C2=A0drivers/media/platform/mediatek/vpu/mtk_vpu.h | 2 +-
-> > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/media/platform/mediatek/vpu/mtk_vpu.h b/drivers/me=
-dia/platform/mediatek/vpu/mtk_vpu.h
-> > index da05f3e74081..5808311d2b15 100644
-> > --- a/drivers/media/platform/mediatek/vpu/mtk_vpu.h
-> > +++ b/drivers/media/platform/mediatek/vpu/mtk_vpu.h
-> > @@ -120,7 +120,7 @@ int vpu_ipi_send(struct platform_device *pdev,
-> > =C2=A0 *		device for using VPU API.
-> > =C2=A0 *
-> > =C2=A0 * Return: Return NULL if it is failed.
-> > - * otherwise it is VPU's platform device
-> > + * otherwise it is VPU's platform device with incremented reference co=
-unt
->=20
-> I picked this patch but rewrote with what felt like better and dense.
->=20
-> - * Return: Return NULL if it is failed.
-> - * otherwise it is VPU's platform device
-> + * Return: a reference to the VPU's platform device, or NULL on failure.
->=20
-> hope its ok with you,
+Reported-by: syzbot+d99f3a288cc7d8ef60fb@syzkaller.appspotmail.com
+Fixes: 0e148a522b84 ("media: dw2102: Don't translate i2c read into write")
+Closes: https://syzkaller.appspot.com/bug?extid=d99f3a288cc7d8ef60fb
+Cc: stable@vger.kernel.org
+Signed-off-by: Dharanitharan R <dharanitharan725@gmail.com>
+---
+ drivers/media/usb/dvb-usb/dw2102.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-Sure, my only concern is that just saying "reference" is too subtle,
-that's why I explicitly mentioned the refcount.
+diff --git a/drivers/media/usb/dvb-usb/dw2102.c b/drivers/media/usb/dvb-usb/dw2102.c
+index 4fecf2f965e9..0dd210ea16f3 100644
+--- a/drivers/media/usb/dvb-usb/dw2102.c
++++ b/drivers/media/usb/dvb-usb/dw2102.c
+@@ -733,6 +733,36 @@ static int su3000_i2c_transfer(struct i2c_adapter *adap, struct i2c_msg msg[],
+ 		return -EAGAIN;
+ 	}
+ 
++	/* Validate incoming I²C messages */
++	if (!msg || num <= 0) {
++		mutex_unlock(&d->data_mutex);
++        	mutex_unlock(&d->i2c_mutex);
++		return -EINVAL;
++	}
++
++	for (j = 0; j < num; j++) {
++		/* msg buffer must exist */
++		if (!msg[j].buf) {
++			mutex_unlock(&d->data_mutex);
++            		mutex_unlock(&d->i2c_mutex);
++			return -EINVAL;
++		}
++
++		/* zero or negative length is invalid */
++		if (msg[j].len <= 0) {
++			mutex_unlock(&d->data_mutex);
++            		mutex_unlock(&d->i2c_mutex);
++			return -EINVAL;
++		}
++
++		/* protect against unreasonable sizes */
++		if (msg[j].len > 256) {
++			mutex_unlock(&d->data_mutex);
++            		mutex_unlock(&d->i2c_mutex);
++			return -EOPNOTSUPP;
++		}
++	}
++
+ 	j = 0;
+ 	while (j < num) {
+ 		switch (msg[j].addr) {
+-- 
+2.43.0
 
-Btw, why is patch 2/2 marked obsolete? That leak is still there both on
-probe errors (which I saw someone else posted a fix for) and on driver
-unbind.
-
-Johan
-
---p2LLKI/CbsHhUYRj
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQQHbPq+cpGvN/peuzMLxc3C7H1lCAUCaTjnFAAKCRALxc3C7H1l
-CD7xAQDkhBeScQ152BZaSbV4ibLwRlxYvwnVCHDXVy5IcQn7PgEAljZlQZKju7EM
-w/ogKHitR+nWXaEDkkt3ylcnfUcGyA4=
-=+thX
------END PGP SIGNATURE-----
-
---p2LLKI/CbsHhUYRj--
 
