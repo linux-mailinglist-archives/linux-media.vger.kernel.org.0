@@ -1,361 +1,147 @@
-Return-Path: <linux-media+bounces-48548-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48549-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4785ECB2940
-	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 10:37:11 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A57FCB2B75
+	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 11:35:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8B36431392BE
-	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 09:34:14 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C289F303268B
+	for <lists+linux-media@lfdr.de>; Wed, 10 Dec 2025 10:33:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D19D2773D3;
-	Wed, 10 Dec 2025 09:34:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0954C314A67;
+	Wed, 10 Dec 2025 10:33:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="AhVdJxAv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NkVGkgd4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010032.outbound.protection.outlook.com [52.101.61.32])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 227A528C860;
-	Wed, 10 Dec 2025 09:34:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765359253; cv=fail; b=aGH7AJFkaAA9pNvMhaOFqCV09rZE249ZqK1etwaB/CQFQVhHYQUyxMjj5Ae+D/sX0HEMqI4Y/E/iPfVXVLoKJlLSE7SnMtpsLl0xwoD2KEcGL0XjRpWVtblcvkRhy9rEWt0p/BFM4vnXVsfyAdkiuDnm1u4l9ZkDy+UHOOO9y6E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765359253; c=relaxed/simple;
-	bh=yNHaqNDxtDP7yymTUvajwKvX+jAsVd7VvELSjWkQ0T0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=rPhpDFXkQ7LX0E2T6aLEK9XC4L0mPM1wa8S7VTbwtLslkMGF3s3jp/86/pbbv56OWywC0MeK0+5wotGYidcxp4lHeVseG37jp6Zp6DYDtlc3vXfKNOL0V/cHEVUQQTCHyoHG573gIydE5okrkJpSCyFBXg0oU7TWwFfGPEJy+l4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=AhVdJxAv; arc=fail smtp.client-ip=52.101.61.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=x0O8ha/YXRNibeeiWkl9ANmui58ayykx1xjC+gd455FHB1H57qTapcbr+tGcOP/CKY5SeFqI7/ELgYVwlyfuyCHGLz3VptQhFYPUJF0uBwmDI7tlCP951OAvBZw/wv8COe8mX91r0sEtYUr9tlgSnILb4qKsqbFgVQYq7lRd71ZL9Po0+XicYo5/EV6fzaJkk6C6Z0Fpqb9dNK21Ogovp/Zc5wOO2W8vuP33gzBZ5WkGxOE+wyZmwSiFPrM/NQahkf/QhcVm75MjiRiSrXb7p0YjFXjd40Z8OIOfkuGabnz6jlX+1mtVRgASOa76dltmjL+YI/Oio1I2Y7fj68W+0g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=B0D4K4DfJYaP256ie72AhUbSgLG0wAPc+6kFcUiFtlg=;
- b=Ilv1P3azRAKkmCFgI4RCyzgcGyOthmVXhBUATzdLTVpeqhmjrQH9HmgsRqjvDUhKvUsG/kvcwUw9tXUfZPGtvKhSMoRhawxjGgUVi+bxTCq4IkHnwNuy9UJuYqaPXElaOZ9vjiGiZr69yxo3br/oNl/qp3gxkAa93ATGB9Z7DMU6Sckz2ljgCwgMQsPaFBeJsUla3HnbyL2MP4ob8YcElfhgX42ft+dkQaAHhPv63+yOGydTsVeX8aR4H7y2x/imaA2ELl0+PLPgoB/vpDOZUST9HiHNUZqlgXaPhK2Ju7MuFhKYIuSSL5jLPqUyk0Oi/ejV5Q1jX18EvAHMqBLm+w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.195) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=B0D4K4DfJYaP256ie72AhUbSgLG0wAPc+6kFcUiFtlg=;
- b=AhVdJxAvpXscZCaQNITlxjfOswnUWpkIPR5OdH/Oa2t9+iTR0xJUF9Fc6enSua/IpYjvlOjc6ZZ5RbnHJU1yEVfCDNq9XpNPk63qqWdlVZjHf24QFfT43dRv91GLrkCigEqu7rKE0IJ386qjpW4Hw1Z4DvResCMVVh3o6yAIaGg=
-Received: from CH2PR16CA0010.namprd16.prod.outlook.com (2603:10b6:610:50::20)
- by BN0PR10MB4869.namprd10.prod.outlook.com (2603:10b6:408:121::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.8; Wed, 10 Dec
- 2025 09:34:08 +0000
-Received: from DS2PEPF00003440.namprd02.prod.outlook.com
- (2603:10b6:610:50:cafe::e5) by CH2PR16CA0010.outlook.office365.com
- (2603:10b6:610:50::20) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9412.7 via Frontend Transport; Wed,
- 10 Dec 2025 09:34:07 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
-Received: from lewvzet201.ext.ti.com (198.47.23.195) by
- DS2PEPF00003440.mail.protection.outlook.com (10.167.18.43) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9412.4 via Frontend Transport; Wed, 10 Dec 2025 09:34:08 +0000
-Received: from DLEE200.ent.ti.com (157.170.170.75) by lewvzet201.ext.ti.com
- (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 10 Dec
- 2025 03:34:05 -0600
-Received: from DLEE210.ent.ti.com (157.170.170.112) by DLEE200.ent.ti.com
- (157.170.170.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 10 Dec
- 2025 03:34:05 -0600
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE210.ent.ti.com
- (157.170.170.112) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Wed, 10 Dec 2025 03:34:05 -0600
-Received: from [10.24.68.198] (abhilash-hp.dhcp.ti.com [10.24.68.198])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5BA9Y0VE2713219;
-	Wed, 10 Dec 2025 03:34:00 -0600
-Message-ID: <df33c967-8dc1-4353-9b3a-e507c7ddd072@ti.com>
-Date: Wed, 10 Dec 2025 15:03:59 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B307E314A7A;
+	Wed, 10 Dec 2025 10:33:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765362798; cv=none; b=q1hLXHLfq2o0WJn+0/OXIxmDr3WgTbybTg36mxGSltM1Z9XhhkfgTDcfe645ES2tDhZYnCv3zxj277c4cwlI4cKDRs/Y/inFKK+B/xPfXk0Jwr57Mxaots/Z2JgDLK6cXB39mqSYqCo+ZpoqS0Hm8jM53Nu97fdKzw0RMCACrU8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765362798; c=relaxed/simple;
+	bh=UsUj9GaciPRcxYu/CgXCrlWKO8WaP9unf5EfzHxcuR4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KnPTP6tF1cde+WMouNBE3LCZ/O80HtF8lh1ejsTIrp3e5HHFNOOms7xgvnEjVXuQwGB3a4hZZLJSODaAixT6LVOL6ALbWCbLbyduOX6pSGd9c0A2jEyX2+A/I6e2Z9S26tBquVuUmRkRIH66zI04P0W1tWyDTk1t1wJoXoyICN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NkVGkgd4; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765362794; x=1796898794;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UsUj9GaciPRcxYu/CgXCrlWKO8WaP9unf5EfzHxcuR4=;
+  b=NkVGkgd49agm/s6hj6JVLgOiTAWlnlYW0z3vrAbrXAGbgCGTjsAvAHY5
+   Dn9DwHLYVwCXh0HOnUhxF9M+P1LzqObAcyfMtwExwctoIi14qGs0C+S0Q
+   G+i1C5YE7jX/I3wiI/+IsyWX8aA0lUZywFyA3HMymrCMvZNmDJrfFBl2b
+   k4REXLbEpC1fTeO/ije3TQMhtlQYj2WHCmpvRc57Qdc3kx/9UARia3jKR
+   8sKMnTHJcXQfVHGPJLS3WaiuqL3sfrZYJykykZ58wQSMhOK/ZQqHnQKk5
+   r+r4p82mxU9CVvoVW3+S8cxduo9ao/Pq2jXwnCR/gkX5S1uoyrM2lvZvC
+   A==;
+X-CSE-ConnectionGUID: DkzwhzrsRae+aXzhUhVlDA==
+X-CSE-MsgGUID: yJ9FhizkRguXU9GnWgNamg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="67369055"
+X-IronPort-AV: E=Sophos;i="6.20,263,1758610800"; 
+   d="scan'208";a="67369055"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 02:33:10 -0800
+X-CSE-ConnectionGUID: mYpdlAPeTtqFXJ1tQ+N4Mw==
+X-CSE-MsgGUID: P/3vIOoTRM2XfABqfIH5EA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,263,1758610800"; 
+   d="scan'208";a="196540256"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 10 Dec 2025 02:33:08 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vTHVK-0000000035d-0tXD;
+	Wed, 10 Dec 2025 10:33:06 +0000
+Date: Wed, 10 Dec 2025 18:32:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans de Goede <johannes.goede@oss.qualcomm.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bryan O'Donoghue <bod@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Hans de Goede <johannes.goede@oss.qualcomm.com>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	linux-media@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH 4/5] media: ipu-bridge: Add DMI quirk for Dell XPS
+ laptops with upside down sensors
+Message-ID: <202512101804.4fea2mY1-lkp@intel.com>
+References: <20251209160621.6854-5-johannes.goede@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 3/4] media: dt-bindings: ti,ds90ub960: Add support for
- DS90UB954-Q1
-To: Rob Herring <robh@kernel.org>
-CC: <tomi.valkeinen@ideasonboard.com>, <mchehab@kernel.org>,
-	<krzk+dt@kernel.org>, <conor+dt@kernel.org>, <hverkuil@xs4all.nl>,
-	<sakari.ailus@linux.intel.com>, <laurent.pinchart@ideasonboard.com>,
-	<hansg@kernel.org>, <mehdi.djait@linux.intel.com>, <ribalda@chromium.org>,
-	<git@apitzsch.eu>, <vladimir.zapolskiy@linaro.org>,
-	<benjamin.mugnier@foss.st.com>, <dongcheng.yan@intel.com>, <u-kumar1@ti.com>,
-	<jai.luthra@linux.dev>, <linux-media@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20251202102208.80713-1-y-abhilashchandra@ti.com>
- <20251202102208.80713-4-y-abhilashchandra@ti.com>
- <20251205151737.GB158904-robh@kernel.org>
-Content-Language: en-US
-From: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
-In-Reply-To: <20251205151737.GB158904-robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PEPF00003440:EE_|BN0PR10MB4869:EE_
-X-MS-Office365-Filtering-Correlation-Id: a0e79891-745f-4874-fcbc-08de37cf44d2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|36860700013|82310400026|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?UlBIZXZ5WWZ5RkhmMHVKL21UcmdkT0tGZXRzc0tpY1JnZGxwQlNNVFBXYjJL?=
- =?utf-8?B?SVI1ZGlTdXF5dlNFRnF1M3lFQzc4RWY2ZUsxZVJVVUxzMmxIZHNJbXQxUzgx?=
- =?utf-8?B?by9YT2ZaTU9BTEc1ZlpweURUSUZZek5qaFI3eUIwZHJpa3J3bmtKYVhMeUxu?=
- =?utf-8?B?NHR4R1BFNy9pVU1CVGNLS0laR2h1dk9ITmY3T1BhZEhySnhaaThCREt1MEJl?=
- =?utf-8?B?TEFsZFJIYmR3M3VhdkVaNlZHcW9RRUZMQlNCNzFSOWc0YWI1Vjgzd1hVbGlh?=
- =?utf-8?B?ZXZDTmpidk1DRS9YZ2xjdFhWeFE3S0t6YVB5ZTBTRUIwb3g0bm12dmdiNUph?=
- =?utf-8?B?TERsZHFuZndTWlNuNVladXA5Q2dBb2U2b1ZOUnJPTnJLYUJ1Sm5xZjJGbDdT?=
- =?utf-8?B?RTV3OFdYWlEwM0lVUGpKc3RXZ21MZ0NBSFVKVExZZnVMSlFRN0JybklCMFJJ?=
- =?utf-8?B?enRRMW9VTVY3QzVxbU1KZUxzU3dtaVNBWmZTTVdWa2F1MEx1L2F0Z0FtWWJG?=
- =?utf-8?B?QTNDL2RFK1dwSnlHL3ZyRHlnTTMvTFpqN3RsbkpFd3BwRGl5TGQweTNqYnox?=
- =?utf-8?B?dGtmRnBreTFMSmVVVEFwSWQwNzhITWxCYW9XMzY3cTdEM0ZGamltUUNrRkFi?=
- =?utf-8?B?dnpSc0ZpVUZ4VmVGN1prQXM2NHdteGwraTJidThJRmxBSkFxbWdyQ2lVSjdK?=
- =?utf-8?B?Q084dlhJdmFublQ4eHV4SlBZbFN2WENXb3dzcFdmVWZ3Q09yQTVMVDl4WWdV?=
- =?utf-8?B?VXEzaHdKRDlDRjI2S3FMbkNMYmVwUDVLRXFOb1lFV3UwTDNpSStqejRydG02?=
- =?utf-8?B?YU8vNTZMS0gvU2JieFgzcWhrWFo2MnBwbW5McWR4bk1XOHJ5OHhzQnlRQ1pV?=
- =?utf-8?B?eGd0YjlSelNlY0w4YWhhNWZabnR1UGJKVTg2Ri9KTmYyYXQ5K0czR29lK1BD?=
- =?utf-8?B?V1U3TGVhbmxQazgwTkx1dmVsM3B1RkhoYVA0bThTeUxlNnUycEZKTlFVc0R5?=
- =?utf-8?B?YkMxR2w1Z2JWZDQxN2N5Tlo4c0FxcEk0NEtFYVBjQWk1UXZ1VkVrMGFLTkNC?=
- =?utf-8?B?TExELzRxTllZdlIvNnJvN2U1NnJhakozUENISmRybFlPVjA2ZlFLTVBTeEQ5?=
- =?utf-8?B?YmRSS0NrVXViN3owK0hsSGl6QjZQZW1ReCtqWFgxWHh1UStxWlJzdGMyV0RD?=
- =?utf-8?B?NG5Jd1NWSFhtWXlaM3B2aGJxeEh6bmVhNjcxVW14bk53QWcxTEV1NHI3bHhx?=
- =?utf-8?B?OTlFZXlDeHNDRHZhY3dndGNlNjBrR0RVOVV5OG5taHlIR295Y2NRT0Voenhw?=
- =?utf-8?B?V1JWNThsVExwblQrWlFHbFowUFNWR09YRVpJcnlNeEt5WjhHRG5HVG1SSHAr?=
- =?utf-8?B?dHdhQStGV3R2K1NKYk9YcXlzRnBpazZ3OUtMUFBpbW9VTi9yNVdnekdtTCtE?=
- =?utf-8?B?UDNrZU1qYUttMGRJVllEbGxPRHkva3cvUGQwSUpaeGZrQzBITDRFNkwzOG8v?=
- =?utf-8?B?aXM0eHV5V2RHNUxYL2xoU1pFeXNhVkVZeDZHZ3JSOXQxMDJaSGRCem1tZEV3?=
- =?utf-8?B?bEY2YXZkVUJiZ1FCOEFZcHRIZ3JQOVRobXlXSm9KMmhBbkpWc2FFdkIyVm1z?=
- =?utf-8?B?SGZzTE5DZFZWMHFvdUFiVGxKMVhScytGbXFtcEgxdUh3NlFCWG1CUHlkTk9i?=
- =?utf-8?B?MEZOUzhENTdaRVhKSXFTT292Vk1HY3hnNHQrQStjRTV2c1lzRm8rajBKY3dE?=
- =?utf-8?B?d3JHaVExdjVXZHVCL2NjNzdkRlNyS1BTQVRMdTRsMkE4dWxyQm5RaVpFZjA1?=
- =?utf-8?B?SkpEUU9YSitSQVBZN21YUTFjeWtoZ29sZEFFNndzRE82ekxHZ1lYQ01mdTBT?=
- =?utf-8?B?SERYM3hyNXNDTHJMTUo4OVFudVhEb0NLenNBNU5IY2VSeUQ2bnRNVW1tYWIy?=
- =?utf-8?B?OWo1ak9CTjNrYWlKeHBkT1dCM2t4YVdoZHFmdWc3UnJoZWFZSWlhalorTkFO?=
- =?utf-8?B?TEtSYlAyNTN0VEZwNVphT1IyYW9jU0JtY1ZMVDlVMHNIY1lRcE4zMUovbWh4?=
- =?utf-8?B?dnVtaFpVTnNuK0RKekFSbXV0MkQvd0VvZlIyVEZCc3ljRTNvL2RHbnR0dGV3?=
- =?utf-8?Q?4sKM=3D?=
-X-Forefront-Antispam-Report:
-	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(36860700013)(82310400026)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2025 09:34:08.4549
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a0e79891-745f-4874-fcbc-08de37cf44d2
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DS2PEPF00003440.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR10MB4869
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251209160621.6854-5-johannes.goede@oss.qualcomm.com>
+
+Hi Hans,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on next-20251210]
+[cannot apply to v6.18]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/media-ov02c10-Fix-bayer-pattern-change-after-default-vflip-change/20251210-001230
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20251209160621.6854-5-johannes.goede%40oss.qualcomm.com
+patch subject: [PATCH 4/5] media: ipu-bridge: Add DMI quirk for Dell XPS laptops with upside down sensors
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20251210/202512101804.4fea2mY1-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 6ec8c4351cfc1d0627d1633b02ea787bd29c77d8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251210/202512101804.4fea2mY1-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512101804.4fea2mY1-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/media/pci/intel/ipu-bridge.c:277:16: error: call to undeclared function 'acpi_dev_hid_match'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     277 |         if (dmi_id && acpi_dev_hid_match(adev, dmi_id->driver_data))
+         |                       ^
+   1 error generated.
 
 
+vim +/acpi_dev_hid_match +277 drivers/media/pci/intel/ipu-bridge.c
 
-On 05/12/25 20:47, Rob Herring wrote:
-> On Tue, Dec 02, 2025 at 03:52:07PM +0530, Yemike Abhilash Chandra wrote:
->> DS90UB954-Q1 is an FPDLink-III deserializer that is mostly register
->> compatible with DS90UB960-Q1. The main difference is that it supports
->> half of the RX and TX ports, i.e. 2x FPDLink RX ports and 1x CSI TX
->> port. Therefore, add support for DS90UB954 within the existing bindings.
->>
->> Link: https://www.ti.com/lit/gpn/ds90ub954-q1
->> Signed-off-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
->> ---
->>   .../bindings/media/i2c/ti,ds90ub960.yaml      | 300 +++++++++++++++---
->>   1 file changed, 264 insertions(+), 36 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
->> index 6a78288aebaa..1ef977c2e479 100644
->> --- a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
->> +++ b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
->> @@ -13,12 +13,10 @@ description:
->>     The TI DS90UB9XX devices are FPD-Link video deserializers with I2C and GPIO
->>     forwarding.
->>   
->> -allOf:
->> -  - $ref: /schemas/i2c/i2c-atr.yaml#
->> -
->>   properties:
->>     compatible:
->>       enum:
->> +      - ti,ds90ub954-q1
->>         - ti,ds90ub960-q1
->>         - ti,ds90ub9702-q1
->>   
->> @@ -129,39 +127,6 @@ properties:
->>         Ports represent FPD-Link inputs to the deserializer and CSI TX outputs from the deserializer.
->>         Their number is model-dependent.
->>   
->> -    properties:
->> -      port@0:
->> -        $ref: '#/$defs/FPDLink-input-port'
->> -        description: FPD-Link input 0
->> -
->> -      port@1:
->> -        $ref: '#/$defs/FPDLink-input-port'
->> -        description: FPD-Link input 1
->> -
->> -      port@2:
->> -        $ref: '#/$defs/FPDLink-input-port'
->> -        description: FPD-Link input 2
->> -
->> -      port@3:
->> -        $ref: '#/$defs/FPDLink-input-port'
->> -        description: FPD-Link input 3
->> -
->> -      port@4:
->> -        $ref: '#/$defs/CSI2-output-port'
->> -        description: CSI-2 Output 0
->> -
->> -      port@5:
->> -        $ref: '#/$defs/CSI2-output-port'
->> -        description: CSI-2 Output 1
->> -
->> -    required:
->> -      - port@0
->> -      - port@1
->> -      - port@2
->> -      - port@3
->> -      - port@4
->> -      - port@5
->> -
->>   required:
->>     - compatible
->>     - reg
->> @@ -204,9 +169,86 @@ $defs:
->>             - data-lanes
->>             - link-frequencies
->>   
->> +allOf:
->> +  - $ref: /schemas/i2c/i2c-atr.yaml#
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            enum:
->> +              - ti,ds90ub960-q1
->> +              - ti,ds90ub9702-q1
->> +    then:
->> +      properties:
->> +        ports:
->> +          properties:
->> +            port@0:
->> +              $ref: '#/$defs/FPDLink-input-port'
->> +              description: FPD-Link input 0
->> +
->> +            port@1:
->> +              $ref: '#/$defs/FPDLink-input-port'
->> +              description: FPD-Link input 1
->> +
->> +            port@2:
->> +              $ref: '#/$defs/FPDLink-input-port'
->> +              description: FPD-Link input 2
->> +
->> +            port@3:
->> +              $ref: '#/$defs/FPDLink-input-port'
->> +              description: FPD-Link input 3
->> +
->> +            port@4:
->> +              $ref: '#/$defs/CSI2-output-port'
->> +              description: CSI-2 Output 0
->> +
->> +            port@5:
->> +              $ref: '#/$defs/CSI2-output-port'
->> +              description: CSI-2 Output 1
->> +
->> +          required:
->> +            - port@0
->> +            - port@1
->> +            - port@2
->> +            - port@3
->> +            - port@4
->> +            - port@5
->> +
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            const: ti,ds90ub954-q1
->> +    then:
->> +      properties:
->> +        ports:
->> +          properties:
->> +            port@0:
->> +              $ref: '#/$defs/FPDLink-input-port'
->> +              description: FPD-Link input 0
->> +
->> +            port@1:
->> +              $ref: '#/$defs/FPDLink-input-port'
->> +              description: FPD-Link input 1
->> +
->> +            port@2:
->> +              $ref: '#/$defs/CSI2-output-port'
->> +              description: CSI-2 Output 0
-> 
-> Wouldn't making this port@4 be more compatible?
-> 
+   270	
+   271	static u32 ipu_bridge_parse_rotation(struct acpi_device *adev,
+   272					     struct ipu_sensor_ssdb *ssdb)
+   273	{
+   274		const struct dmi_system_id *dmi_id;
+   275	
+   276		dmi_id = dmi_first_match(upside_down_sensor_dmi_ids);
+ > 277		if (dmi_id && acpi_dev_hid_match(adev, dmi_id->driver_data))
+   278			return 180;
+   279	
+   280		switch (ssdb->degree) {
+   281		case IPU_SENSOR_ROTATION_NORMAL:
+   282			return 0;
+   283		case IPU_SENSOR_ROTATION_INVERTED:
+   284			return 180;
+   285		default:
+   286			dev_warn(ADEV_DEV(adev),
+   287				 "Unknown rotation %d. Assume 0 degree rotation\n",
+   288				 ssdb->degree);
+   289			return 0;
+   290		}
+   291	}
+   292	
 
-The current driver expects the TX port numbers to start immediately 
-after the RX ports.
-If I change this to port@4, I would also need to update the driver.
-
-Can I keep the port numbering as it is?
-
->> +
->> +          required:
->> +            - port@0
->> +            - port@1
->> +            - port@2
->> +
->> +        links:
->> +          properties:
->> +            link@2: false
->> +            link@3: false
->> +
->>   unevaluatedProperties: false
->>   
->>   examples:
->> +  # Example with ds90ub960 Deserializer
->>     - |
->>       #include <dt-bindings/gpio/gpio.h>
->>   
->> @@ -406,4 +448,190 @@ examples:
->>           };
->>         };
->>       };
->> +
->> +  # Example with ds90ub954 Deserializer
->> +  - |
->> +    #include <dt-bindings/gpio/gpio.h>
-> 
-> I don't think we really need a whole other example for something
-> that's a subset.
-> 
-
-Make sense. I will remove the example in v3.
-
-Thanks and Regards,
-Yemike Abhilash Chandra
-
-> Rob
-> 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
