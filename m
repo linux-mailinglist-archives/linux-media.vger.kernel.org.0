@@ -1,133 +1,252 @@
-Return-Path: <linux-media+bounces-48618-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48619-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65BEDCB519C
-	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 09:29:04 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DC43CB55DB
+	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 10:35:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id C15F530019EF
-	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 08:29:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 50DB4300D17C
+	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 09:35:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AE9F29AAF8;
-	Thu, 11 Dec 2025 08:29:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B3862F616B;
+	Thu, 11 Dec 2025 09:35:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eAt4k5n+"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DeOTeIRC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB5021E9B0B
-	for <linux-media@vger.kernel.org>; Thu, 11 Dec 2025 08:28:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4664A29E101
+	for <linux-media@vger.kernel.org>; Thu, 11 Dec 2025 09:35:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765441740; cv=none; b=c5N86ZgKYNmZVi9mbwD1OJjIYuA81x8YRaiwkHem6Xy6USXANEHA8RWShFmocDddfQDtqeyeHIhBka4fDxVfpUFUVzstWQr3KUavPjd6iFtzSZYIgisBtOopDHFNCe8ek0tViux5uQqKd+WQdAU+rSmrhhwqzuU6nEz7m0WmGuY=
+	t=1765445718; cv=none; b=XvqqumXGoW7QXPdS3K0tEu7Hdg7pZjd2LFq9Vy93A7JJbQs6TVUTH2xrnhoAt7bB+adBxHgmy3cfgqc7A/fQCKiLdTA1xG8SdohXI+wmr9PiE+H9Slpdjdvc8eSuWHWoCV2pQ3KL+f10bbq3k/+jdIof68zF13TV9Js9InmqQBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765441740; c=relaxed/simple;
-	bh=djjr9+IAia3N6sWGx6zJjpQoQTmY5N42PCLnoR0yZyk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jc9Xr/lhnAP0O8XX1yoQgaHzR5G61Z7P5pJcUfu83Z/T8RUk5KNEu4wLWAdjrEFGoowVPjQsVGAUELyWFZbhCyXVhxUEwqrCfBfefLqawzkhnQ9qZA19HRHCUcWsakg4/tgfWvcqzNk5vCcjVs+Fhm/36mmimktBOWQ8Jt88DQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eAt4k5n+; arc=none smtp.client-ip=209.85.221.48
+	s=arc-20240116; t=1765445718; c=relaxed/simple;
+	bh=nJrunBhBQBMvNQw/Fbsfe7jvJ+KN4zVgiCXiLL/YIHI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FNAqzwoDAcryqJ2KVDV0MJaNGP7GIirQOsUPa60byihFPv7Ql3Ee/WV629/vxJ9SBhTT65cZ77d8DD+mC4zrrHBdR31GkM1jSPkdRa9amen+3j05bBMTppkz4r5Xu8Ck8KIDFsW3+Rm6oG8fyQerPtztvbYhdcqUDykAs1BPSoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DeOTeIRC; arc=none smtp.client-ip=209.85.208.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-42f9ece6387so234109f8f.0
-        for <linux-media@vger.kernel.org>; Thu, 11 Dec 2025 00:28:58 -0800 (PST)
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-37a2d728536so256921fa.2
+        for <linux-media@vger.kernel.org>; Thu, 11 Dec 2025 01:35:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1765441737; x=1766046537; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yhOVP0Qk4QJBwZMBL87OrBgZcGud1+QQm5cvOUQeo/M=;
-        b=eAt4k5n+JRFJwicM+0Uo0KHutKyRY0bQJjO05nR/ESPLuWWFqbkc0hUWLV3zQ+5qAr
-         2TFUzA6fVtW9aI95GWe3BtMRSZRgNBYSujxuoy7B8C3+sSzS8ztL0DoM9kFyo0PAr5R/
-         88ex/FKdoaAr/cSz0dyPBE9g27mKszTX15Xdl9pQKWA8Mg4Sn9GwWR/WS9MLFfzpSYi2
-         hC4vC7iY8gxQhPmUuomMTbMPv/naRJKbelNVtVf1ymvKTAt9I3doic4yihYRmJe8BSKa
-         PKccPg3o/5rhA8zmzLwZnmcWANb38sesxBaJkBN+XLK1h34HjOtlMFVkcJT4AU/2j0oF
-         fSrA==
+        d=linaro.org; s=google; t=1765445713; x=1766050513; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gHjKWneZHFEFoK9PkdTJIjwJCl0oEnMit2/JJ/uLhvY=;
+        b=DeOTeIRCxam89wbqzl/aWKdDIg8mGIbTlTiIVhyq/AgpcH7ZBzP69sNFjeNh6EtEji
+         NRbvqZ4GTgL8hnBV7GoG3iTP/ytJ1BZa16qn4uk9zK7f0AREIswrjbj64YJYEjzkxklk
+         uzmbpVYtn8c7Zu9RIApBoxCqGCaZcSNc3e/JB0lfYtBOt0+p05oHrWFfXS20QjVp2Mve
+         KzLa/3478tPY/XkeOS8zsNZF7KO3DqUNIiEWGa8nsiosPpd72PkjTZo0hCuMC7B3g//R
+         XCDr99Th1B/9eKy/0WnmBW2VJPKm3hKW03cZrB8N2TUqrpYYk8reHoATQ/BuqumtA8eR
+         d4KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765441737; x=1766046537;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yhOVP0Qk4QJBwZMBL87OrBgZcGud1+QQm5cvOUQeo/M=;
-        b=khvAuS2/zZ+JIuMSJ0c3l8TIaaDjhKl+zUVcxVSsoSJAFgsS5aJP5/oAD+c8vj41+Z
-         XsInoEGhUO8art66U99cNm1uN3VyXZeZOWkhtG8AdQraO5YAUVBzwyXReiPW80vAJT3p
-         oeGNu9jnK9+JMZIkMfSVkyYSoZefBlDFGtZ6h4FN+sjRYvAw0QwRobjRfWYtHxKx46at
-         smzQTAOhdIdCf/CAuXnThlcevXIZ8Yx7N44wcc4DKKtsXEN4JTVTja0yTik8effNtr9e
-         V7fQ3VQ+RmgrYwwX8xIvLdL2ByDFCpDzsrhgm0Jp8x9nuPaxy07+IgK33Jcv4DhtfS5I
-         8J3A==
-X-Forwarded-Encrypted: i=1; AJvYcCWeE9wAs7qHDZpUk1t2cuG1ErvGp2hSsCz0H5uo0IUqjIMBFWbosQS1AYF+2tC50DkdfqGgsaxhdfroew==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzoqwQ9cvCuJ30BGMmxPxyTt0bA46P0q0yfLj9G7BlOCx412jC7
-	dkXgCsNTLB54WNfpk2f6u4UvPfWdnU3hc8PfMZWye5e0WrwLvbyKL/YIWRCIRrKT/Ss=
-X-Gm-Gg: AY/fxX7ObAXhF4pgqcZmtm10EvCedr7LJ56hL8i+IweQtjfI9tPEpMpBrspbpgfe1wn
-	jA4BIa2M1QLw5xUm9YqsrYCNhFHM0pMyjWnOLkHagz04PBnqrDUL3nal8X3fYkIE72fw7GEEx3Y
-	+jTb/HD2JjUi1twX6isEhU3WAYBKCESQfRw6cixH0B7DfSBPSK5gEAaHGlIWP2ueJAWa4zUNCTw
-	LlWI2Zc3SGwqVtnIdAiMvOBnHyk5P5JNqfJYgz303o69XEZiyAKlP3B4E1kGQfJMH1Acf9qCeLS
-	OaYDSQAHR4nw/GDYmGP5Z8O8iAJsKiG+zJfw5yRZ+Pky2/w6foJvECmoY+2s97Zbu7Psd1Wno4h
-	JA1MvwLF4kWxSghGDwG11laLavz9ybI43rZFdG21m+Jt1ByilyM5EIJDokOHLDuD/1VKptIf+7Z
-	CjX5TYd31YfpfuA+o5
-X-Google-Smtp-Source: AGHT+IFgxdBy65p84fy65/fyiYE3miPmWBnt1+Te9NK6eCwaQurMoPZNR3/Cq1AwdP418CtOTItATQ==
-X-Received: by 2002:a05:6000:2309:b0:429:c711:22d8 with SMTP id ffacd0b85a97d-42fa39d2ef1mr5723924f8f.15.1765441737154;
-        Thu, 11 Dec 2025 00:28:57 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42fa8b9b1f1sm4079889f8f.39.2025.12.11.00.28.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Dec 2025 00:28:56 -0800 (PST)
-Date: Thu, 11 Dec 2025 11:28:53 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: "Luck, Tony" <tony.luck@intel.com>
-Cc: Sami Tolvanen <samitolvanen@google.com>, Chris Li <sparse@chrisli.org>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Eric Biggers <ebiggers@kernel.org>, Kees Cook <kees@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Rusty Russell <rusty@rustcorp.com.au>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	"linux-modules@vger.kernel.org" <linux-modules@vger.kernel.org>,
-	Malcolm Priestley <tvboxspy@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>
-Subject: Re: [PATCH 3/3] module: Add compile-time check for embedded NUL
- characters
-Message-ID: <aTqAxfiVCR2ch4I5@stanley.mountain>
-References: <20251008033844.work.801-kees@kernel.org>
- <20251008035938.838263-3-kees@kernel.org>
- <aTc9s210am0YqMV4@agluck-desk3>
- <20251209001139.GA7982@quark>
- <d3dd8fc8-ab46-4cf1-87a9-0324685ba2e0@kernel.org>
- <SJ1PR11MB6083C6D97484ED4E4710268EFCA3A@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <aThSGiKwJRYOB6kx@agluck-desk3>
- <aThqcq0iGge1pQCr@agluck-desk3>
- <20251210010020.GA2522829@google.com>
- <aTn0WdVv-S_EpQmS@agluck-desk3>
+        d=1e100.net; s=20230601; t=1765445713; x=1766050513;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gHjKWneZHFEFoK9PkdTJIjwJCl0oEnMit2/JJ/uLhvY=;
+        b=XlRZae42ZVqkqs8E2XDy7VyPQ7Opf0Q869iiZvuUX71o8/sjxFRasNcRyUh5DdncGx
+         E8yao64x90tttjuxdNGYPsAkh+PIn7P575Wv7RQMsq3yPuL51Vklm7n1Zn7+1b8S6Lia
+         gf4q14pfSheQx1G51yIF8bUxFid7BHD3l5CnQiCg61pcxSOwQR7R+Xk62dPbT2UtmxPP
+         pQNQ3WA3sdYT709MBPqT8kfmTQmX9yWlFBgwtEYdrfvYbPI+iOpgUonwttLpvQixawwV
+         28KS7yzM7gEMGzNiOA6CQBCanwf5tSVMV4Wb5r8XR6e4B0H2hsuzYYCxrI2DtQKwkdLl
+         IgCA==
+X-Forwarded-Encrypted: i=1; AJvYcCWkxBi2dPc+bCPIwOD/hCCsFWdNKJ/5z0ufNjVR7RnK+EHB0xdJ4ReDlpU5aZLfkt6jHmytzsGm0EtG8g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCIWXWiFT32qUvhRjnCAUQBnp8Ijhd7NdKHJPxOsNNMdN2aNYW
+	tmncFTQHsWbtp/020TpoTDYFg40hAzRRgNM8JfYf+2FXY8BOr+FoAt5lNndk90ml5bQ=
+X-Gm-Gg: AY/fxX7nBsGhjxHDjfkenxrVXta2iCPuV33UzZQPUK5hhzIj01Jwm+QtXUworKicuo2
+	cVYlQ2Fd75mbVcCM9+EbPWh5hQUgS0cY3Xqk+pEENt8ucfwcL8xt9ssYr8JFe2Wg8iOLQjSfbm3
+	T5D48y8SO5t+V7R8OQ5noaOIijTcd4scr8zZmVF9IPEVZp+rbIH1XWf0M1mszll/ZCGHkI+2IS5
+	dbzYJYlsrswUH/TgQ+oNOvjrulBvw4DjorOZVHzp4NgOOPlOKxb9MKk3Zjyuixd1lmqeQSXBwqK
+	ksKxu8yA8TqTnlcd+UgAg3rL016BkHt6ffS9I2E1n1bq+3FB7xi2ydZFn38MCJN3ovOdCy5n8oC
+	Hhy+yBKojkBSmrUtdLTQohaGeSNFzDBquZpuwJL0nk36eLNbyOVrqzBR3O9DAu5WwdD2hCnH8Ld
+	mPk+xHj+9J1+V4aGcwUc/i1PvpyWrzByzjUu8N3XcrD8ah4Z6cFKm5gK8W57NgXY3AJQLEWmzAS
+	uD9
+X-Google-Smtp-Source: AGHT+IFmYQeN0NmklStZ/0kcb9NNDJoQrGwBtmW+zlao4Ey6WBHWnQ/bowNdnSt64t/1gqgeBKnRPg==
+X-Received: by 2002:a05:6512:3ca0:b0:594:253c:20a5 with SMTP id 2adb3069b0e04-598ee53a6d3mr1211114e87.5.1765445711723;
+        Thu, 11 Dec 2025 01:35:11 -0800 (PST)
+Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-598f2f3ef28sm700274e87.24.2025.12.11.01.35.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Dec 2025 01:35:11 -0800 (PST)
+Message-ID: <74d7b5a6-c65d-47be-8e2b-f527b1d0bbc2@linaro.org>
+Date: Thu, 11 Dec 2025 11:35:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aTn0WdVv-S_EpQmS@agluck-desk3>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/5] dt-bindings: media: i2c: Add Sony IMX355
+To: Richard Acayan <mailingradian@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Tianshu Qiu <tian.shu.qiu@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-media@vger.kernel.org
+Cc: Robert Mader <robert.mader@collabora.com>
+References: <20251211014846.16602-1-mailingradian@gmail.com>
+ <20251211014846.16602-2-mailingradian@gmail.com>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20251211014846.16602-2-mailingradian@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Dec 10, 2025 at 02:29:45PM -0800, Luck, Tony wrote:
-> > diff --git a/expand.c b/expand.c
-> > index f14e7181..71221d35 100644
-> > --- a/expand.c
-> > +++ b/expand.c
-> > @@ -535,6 +535,8 @@ static int expand_compare(struct expression *expr)
-> >  			expr->taint = 0;
-> >  			return 0;
-> >  		}
-> > +		if (left->flags & CEF_ICE && right->flags & CEF_ICE)
-> > +			expr->flags |= CEF_SET_ICE;
-> >  		if (simplify_cmp_binop(expr, left->ctype))
-> >  			return 0;
-> >  		if (simplify_float_cmp(expr, left->ctype))
+Hi Richard.
 
-I'm not an expert in the C standard, but this feels correct to me.
+On 12/11/25 03:48, Richard Acayan wrote:
+> The IMX355 camera sensor is a camera sensor that can be found as the
+> front camera in some smartphones, such as the Pixel 3, Pixel 3 XL, Pixel
+> 3a, and Pixel 3a XL. It already has a driver, but needs support for
+> device tree. Document the IMX355 to support defining it in device tree.
+> 
+> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+> ---
+>   .../bindings/media/i2c/sony,imx355.yaml       | 119 ++++++++++++++++++
+>   1 file changed, 119 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx355.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx355.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx355.yaml
+> new file mode 100644
+> index 000000000000..9aa2c7b7ea71
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx355.yaml
+> @@ -0,0 +1,119 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/sony,imx355.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Sony IMX355 Sensor
+> +
+> +maintainers:
+> +  - Richard Acayan <mailingradian@gmail.com>
+> +
+> +description:
+> +  The IMX355 sensor is a 3280x2464 image sensor, commonly found as the front
+> +  camera in smartphones.
+> +
+> +allOf:
+> +  - $ref: /schemas/media/video-interface-devices.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: sony,imx355
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    const: mclk
+> +
+> +  avdd-supply:
+> +    description: Analog power supply.
+> +
+> +  dvdd-supply:
+> +    description: Digital power supply.
+> +
+> +  dovdd-supply:
+> +    description: Interface power supply.
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml
+> +        unevaluatedProperties: false
+> +
+> +        data-lanes:
+> +          items:
+> +            - const: 0
+> +            - const: 1
+> +            - const: 2
+> +            - const: 3
 
-regards,
-dan carpenter
+Please enumerate data lanes starting from 1.
+
+> +
+> +        required:
+> +          - link-frequencies
+> +          - data-lanes
+
+If the sensor does not support any other lanes configuration,
+the property can be optional.
+
+> +
+> +    required:
+> +      - endpoint
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - avdd-supply
+> +  - dvdd-supply
+> +  - dovdd-supply
+> +  - port
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/qcom,camcc-sdm845.h>
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        camera@1a {
+> +            compatible = "sony,imx355";
+> +            reg = <0x1a>;
+> +
+> +            clocks = <&camcc CAM_CC_MCLK2_CLK>;
+> +            clock-names = "mclk";
+> +
+> +            assigned-clocks = <&camcc CAM_CC_MCLK2_CLK>;
+> +            assigned-clock-rates = <24000000>;
+> +
+> +            reset-gpios = <&tlmm 9 GPIO_ACTIVE_HIGH>;
+> +
+> +            avdd-supply = <&cam_front_ldo>;
+> +            dvdd-supply = <&cam_front_ldo>;
+> +            dovdd-supply = <&cam_vio_ldo>;
+> +
+> +            pinctrl-names = "default";
+> +            pinctrl-0 = <&cam_front_default>;
+> +
+> +            rotation = <270>;
+> +            orientation = <0>;
+> +
+> +            port {
+> +                cam_front_endpoint: endpoint {
+> +                    data-lanes = <0 1 2 3>;
+> +                    link-frequencies = /bits/ 64 <360000000>;
+> +                    remote-endpoint = <&camss_endpoint1>;
+> +                };
+> +            };
+> +        };
+> +    };
+
+-- 
+Best wishes,
+Vladimir
 
