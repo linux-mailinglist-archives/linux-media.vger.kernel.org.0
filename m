@@ -1,155 +1,209 @@
-Return-Path: <linux-media+bounces-48620-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48621-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B7EDCB55F9
-	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 10:38:21 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4D30CB56AD
+	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 10:52:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B532A300F30E
-	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 09:38:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 25DC03017F26
+	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 09:51:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C53802F693E;
-	Thu, 11 Dec 2025 09:38:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0961520F08D;
+	Thu, 11 Dec 2025 09:51:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="r8BEZDJ9"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="FubxAGEr";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="KahKCkhT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from ixit.cz (ip-94-112-25-9.bb.vodafone.cz [94.112.25.9])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 094DB20A5F3;
-	Thu, 11 Dec 2025 09:38:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.112.25.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB4A31F5851
+	for <linux-media@vger.kernel.org>; Thu, 11 Dec 2025 09:51:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765445889; cv=none; b=Lh5KW1cgFUjRm8kVhpwQKYTpCzxtSJMnWHOhCH8j2eZDQ4ylh2DebgTqv32S0Tj53pOngn5FMG1uAGF2H0eeL+42mDGh90F1FN8UmrfeGeRLgKWrJ1IebxuSck+TTh7tHb7uCl4vnP4sfVNsITcBhi4fKuXi7Uj6FEqz7752qqI=
+	t=1765446672; cv=none; b=K87HfFfKh54Cs4timoFTQoLi9ATgVcF0Nh23vNABMdXsZH8TuUxcU5Qtm6oOkLC9eLghTxaUA5pnNwAxs5RfXxI1Bvmd4r3CFzO/UJjcQr5ozotJKH9SNBRxuyNEc73UIZKSDkznf1RiKua8C99cMyxigvpUEamMRmdfugBm1KM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765445889; c=relaxed/simple;
-	bh=1srByX+/LraQ+gIdD3WvzsMN5y+Q04+T1f3NzE/oixg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BqMs/UKWjF8chePU+FWB0IZubgzhia9VhkBO2DbP8EO0AKIyji+70KaNLTmotyra8vyY1XJr+lP8cEHf+Pimk3FfuIBofjnKfJGbSpUzk2Lcd40un6/Yi1t6XPHRxWYS28Tm36+ihGS7uRVBi2OMqcG/zdvvOUNcH7AumtGUrm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=r8BEZDJ9; arc=none smtp.client-ip=94.112.25.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
-Received: from [10.0.0.200] (unknown [10.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 763D25340C8E;
-	Thu, 11 Dec 2025 10:37:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1765445876;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=j2riVXOy7inVPehbL0ejE2kU02ghfWh2bs0ZZFiWXL0=;
-	b=r8BEZDJ9rCG/vXIDXjDEKOx1AbRn3wfCW1rcjqpHtCuUFMXJOs8+XF0sqsLy4O2B022Yi4
-	IDe3R4vwoFTU/QUc3EifhsnrDXc4DP727mGBvciws0w6odBz6W8DZJf5q2VlvfryBfM0cZ
-	rF4OqhppX8Z7w89AXZZd8VLP+QhUjXk=
-Message-ID: <9c6c5629-38b2-4e0e-b9b7-9a8e3d3239b6@ixit.cz>
-Date: Thu, 11 Dec 2025 10:37:55 +0100
+	s=arc-20240116; t=1765446672; c=relaxed/simple;
+	bh=Cyr9yX44wGLSvSvCE4NwC+GFqktTTSRroUEpxQNxMSU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=PwkLiI3aQ1EbvkZJUlC2zyp+5eLkNgATlCXO+SQG5jXmpvv/5TG+8xru4YZ/TrmMhqIN7CtbGE+v53IRflPoPT1oqgz3W3aeBvrKhQy7ErnSJ6f+vzm7Zmv9Vxjd+OTfo7za2aJ4InBI6RzwT6RCt6vDXb1aobx2chNCfOb/+9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=FubxAGEr; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=KahKCkhT; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BB9ZTbW1760394
+	for <linux-media@vger.kernel.org>; Thu, 11 Dec 2025 09:51:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=D737rmLvyrPEw/1cTMLYY3
+	h+bX71102iMZlqNuH3bF4=; b=FubxAGErzSqT8zJ0vh+3plJDF79a9pwzZjRth4
+	t/a5mWW67v7tB789y+uYELPc6eAVSp0xVTGeYw29het+kB3iHHsrkK2Vp8FJsA8H
+	5woyU5XY1ThgRbjTQADst7dEIYzB/Ejqs1TFUmwIGki+TYZ0iQs0gyXNqMRDCKg9
+	JYH/uHZpzXHx689bL4enfqq5t1chJ7+dVu6ybKxbO5qmo+NLFBMaOZGQUxmbA5Wi
+	QT62IQfA0RENwZoO0Xn6/Y5qeFzCX3zeKuLeoO1PZxrkQFmMBhYZNfZ7WaCysx+1
+	BfmbQZQBfW4qSLwk0OOHNUWCNoBe4IxDobLCXImbcElSadFA==
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4aygr89vuf-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Thu, 11 Dec 2025 09:51:09 +0000 (GMT)
+Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-343e262230eso952247a91.2
+        for <linux-media@vger.kernel.org>; Thu, 11 Dec 2025 01:51:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1765446668; x=1766051468; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=D737rmLvyrPEw/1cTMLYY3h+bX71102iMZlqNuH3bF4=;
+        b=KahKCkhT1sanwzOedg7fH09kjc+LtNkeoihEli1rx0U/y1WHG6/xik2cV5gsoHzx6h
+         Vn1I7quso7xUbRtQXDZBDeNitTK24HuDb/EDSMuCNMY73sZbMT7KvUKfJjp2e1+m2qkT
+         7tYrX+gdsA6nV2jp5aLVxRGzOxKlKtqm0ZnXwWYH+NZg2C1cD6fWUALEQZKspK4zZTvW
+         Fv9MVwDVng+95pKix4ZGpTmTpY8W85SMlNLxFegpyMnkQ32VZBCVFDACnY3qlUSi8l9U
+         wq9M3naXXrBnbT2ZsbG26zsYPGM+WdBOIiHZUYHrzdV5k9k6zO/MYBqzpRvzcoQVB3UO
+         RqKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765446668; x=1766051468;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=D737rmLvyrPEw/1cTMLYY3h+bX71102iMZlqNuH3bF4=;
+        b=QTWUZLBuU0U+D3ZTE2ieGJCcXMrzKOY6EEgQ+8WCquchRW3v3hJSeXhbq6DUXWamqN
+         tSp1TPJPY0ycQuGHVvDS1Yr9Oh+yXajbsiGbGVylviWvJHWmwoMN4fx3vz3dSga/OTPw
+         +xC0hDbHczZprOlD29U8Xc2z1jRX0h1SncOdVimL5YS6UTMqNpdTlH4srk+eqsbSmVRa
+         e43mNfU1qszV+hUy9HOQDm1EpselKeioDrAyu3Zlk2V1bLh5sbEMIk4oUZOxuItxBGMh
+         me3mmaD784LjwnvgX3aKiSwC+V5rLH/AMTYBNQ/LidDUR67ZARzakTzze3DBaltLpH/g
+         iZqg==
+X-Gm-Message-State: AOJu0YzcidCjtv3Yi1uIE5s4MfMHX32k+eUMgG+kSyuCRMBN1Bf/RO8Z
+	2dnEd6yCMlVUCFkD2+85t3lvM0OZk1GPflabxkL31xgXf01sLLPdDCv3Ti+9B+vLsNbYs36a+k9
+	qH9+HnDhK0ZtxSpXl3Aa4UlWmOhIpmvPqhe31v1II2vs7xempqIt5/d1xarvCxBZBQh++AKip82
+	3k
+X-Gm-Gg: AY/fxX7R9eXwOL531aEfv5/OoUg2B8D356a790yBJOtaqWEQmFUWPwA0DYGECMLERkC
+	hUu5Kw507mdpXkN0eu8PphViiGM7soi0CZXAYptFh8WVoSXm467Mw0DYcNWDIGLKDj+FKtfZzcO
+	Qyy7IyKIuDRKMWr7LMpNGHla2PfBL7FIvF/6N8UTldyN8FzyFdmRVrBu8GSWTsp7rlZ2f2AAI4h
+	8HqggomhosMGI1W3mEYcRVc2me8MbCymaBCbhJ6XDVuWAq+vjUiDOQqok9aX3fG6u4GmlWmot8F
+	Gye23HXsv0Faq/gQQyv0JJpPnG0DLpfarw7SmQA6qP8UZVfs/uqiYWFB2GPHvI/tbFhwSXlNF9p
+	OgJKGJkIHTr7aXZER7avDj96cCPn3nolEcaT23jfh8kf0lyDC07aupFBMqjWptUCKTOrCz7s+IH
+	OyeLfOLTE=
+X-Received: by 2002:a05:6a20:918f:b0:366:5d1a:c738 with SMTP id adf61e73a8af0-366e2999d45mr6085650637.57.1765446668502;
+        Thu, 11 Dec 2025 01:51:08 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE9EjSjJCje3+4SsLuYny8cEuSC1KPnptVacLLagytwJhbAUHyHsgrXRrF7tYD3/2uEw2vxlw==
+X-Received: by 2002:a05:6a20:918f:b0:366:5d1a:c738 with SMTP id adf61e73a8af0-366e2999d45mr6085623637.57.1765446667905;
+        Thu, 11 Dec 2025 01:51:07 -0800 (PST)
+Received: from hu-renjiang-sha.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29eea016c55sm19639485ad.58.2025.12.11.01.51.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Dec 2025 01:51:07 -0800 (PST)
+From: Renjiang Han <renjiang.han@oss.qualcomm.com>
+Date: Thu, 11 Dec 2025 15:20:39 +0530
+Subject: [PATCH v3] media: venus: vdec: fix error state assignment for zero
+ bytesused
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/5] media: i2c: imx355: Support devicetree and power
- management
-To: Richard Acayan <mailingradian@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Tianshu Qiu <tian.shu.qiu@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-media@vger.kernel.org
-Cc: Robert Mader <robert.mader@collabora.com>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-References: <20251211014846.16602-1-mailingradian@gmail.com>
- <20251211014846.16602-3-mailingradian@gmail.com>
-Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <20251211014846.16602-3-mailingradian@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20251211-fix-error-state-v3-1-b429262d151c@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIAO6TOmkC/3XOTU4DMQwF4KuMsibV2PmbdsU9EAtn4tBItKFJO
+ gJVc3fS6YIFsIn0Ivvzu4nKJXEVh+EmCi+ppnzuQT0NYj7S+Y1lCj0LHNEAoJUxfUouJRdZGzW
+ WqGFSNBk1zUH0rY/CfWQTX14fufDl2uH2+BSeKss5n06pHQZrVRgDUFSROLJ1aiYftbd+dA70n
+ iZHwUEUd+uYasvlayu7wIb922sBCVLpuNe9nQdrnnOtu8uV3u+nd/3ZyAV/GByn3wx2Bo3xFpm
+ Rvf2DWdf1G+ajc0FIAQAA
+X-Change-ID: 20251126-fix-error-state-24183a8538cd
+To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Renjiang Han <renjiang.han@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1765446665; l=2217;
+ i=renjiang.han@oss.qualcomm.com; s=20241001; h=from:subject:message-id;
+ bh=Cyr9yX44wGLSvSvCE4NwC+GFqktTTSRroUEpxQNxMSU=;
+ b=D5ucobgnlEvBYxQEiF09fDWs1wj3XGB8fZiMrGSjdaCHl6PxOOfKHGYAXqlJYHvc+QXQBgTFS
+ gYAnj9ynS9FDm7YlG7f6TAA3IkxL7FHrtPKg6Z3V5r7Wi8J/YOxJYFD
+X-Developer-Key: i=renjiang.han@oss.qualcomm.com; a=ed25519;
+ pk=8N59kMJUiVH++5QxJzTyHB/wh/kG5LxQ44j9zhUvZmw=
+X-Authority-Analysis: v=2.4 cv=Fr0IPmrq c=1 sm=1 tr=0 ts=693a940d cx=c_pps
+ a=vVfyC5vLCtgYJKYeQD43oA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=5Ms28dyX6PlKRWIk_uMA:9 a=QEXdDO2ut3YA:10 a=rl5im9kqc5Lf4LNbBjHf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjExMDA3NSBTYWx0ZWRfXwTP1aeKcMOEZ
+ XIvurkt6FY1EjzfWX0+jn9zjNTiULaL7ScxhlRaAqP0ojo1Np74bL+6595o3nHtE9r8rsspRXmH
+ fzAXShzPB/tzM0kAvgy6LxjgdIKZP4lfR0Qf+kXTHRriRtVfrfXH4ZNcCiaNUYnAVcJCPVwLGZ4
+ xQplFuRkROuPMi8TcySfjPImkuEkJib2bTigbPBLMp7QapLGQZ5eP/QbX/iY7G+qVzEoU0E5G4C
+ 61it2qKWxrZpObwn5CfWs4TMkCq4Xs18UvTpXwyn9I6fruFhQhh8zA1WCdzIrRc9Sbdgb+qv4ig
+ Udd4E/MpD2i8bPRuRtk2KlO4M3Gy09t+sriModWWCxcKMDrqRgABs0MbO+G3JlFjbl1yUVlGkfq
+ 08UCHqwD4Pp2scaAd1INLe/Fz3+ANQ==
+X-Proofpoint-ORIG-GUID: qMPa2r0T0JE8YajCP1AjsiAOHoJ8pm5d
+X-Proofpoint-GUID: qMPa2r0T0JE8YajCP1AjsiAOHoJ8pm5d
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-10_03,2025-12-09_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 bulkscore=0 phishscore=0 spamscore=0 adultscore=0
+ suspectscore=0 priorityscore=1501 impostorscore=0 clxscore=1015
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2512110075
 
-On 11/12/2025 02:48, Richard Acayan wrote:
-> A device tree compatible makes it possible for this driver to be used on
-> Open Firmware devices. Initialization of power-managed resources such as
-> the reset GPIO and voltage regulators can be specified in the device
-> tree and handled by the driver. Add support for this so the Pixel 3a can
-> use the driver.
-> 
-> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
-> ---
->   drivers/media/i2c/imx355.c | 118 ++++++++++++++++++++++++++++++++++---
->   1 file changed, 110 insertions(+), 8 deletions(-)
-> 
+When hfi_session_flush is issued, all queued buffers are returned to
+the V4L2 driver. Some of these buffers are not processed and have
+bytesused = 0. Currently, the driver marks such buffers as error even
+during drain operations, which can incorrectly flag EOS buffers.
 
-[...]
+Only capture buffers with zero payload (and not EOS) should be marked
+with VB2_BUF_STATE_ERROR. The check is performed inside the non-EOS
+branch to ensure correct handling.
 
-> -	/* Check module identity */
-> -	ret = imx355_identify_module(imx355);
-> +	ret = devm_regulator_bulk_get(imx355->dev,
-> +				      ARRAY_SIZE(imx355->supplies),
-> +				      imx355->supplies);
->   	if (ret) {
-> -		dev_err(imx355->dev, "failed to find sensor: %d", ret);
-> +		dev_err_probe(imx355->dev, ret, "could not get regulators");
->   		goto error_probe;
->   	}
+Fixes: 51df3c81ba10b ("media: venus: vdec: Mark flushed buffers with error state")
+Signed-off-by: Renjiang Han <renjiang.han@oss.qualcomm.com>
+---
+The error state assignment in the Venus vdec driver for Qualcomm
+platforms is updated to ensure that VB2_BUF_STATE_ERROR is applied
+only to non-EOS capture buffers with zero bytesused. Ensures false
+error reports do not occur during drain operations.
+---
+Changes in v3:
+- 1, Update commit message.
+- 2, Move empty line between tags.
+- 3, Update cover letter message.
+- Link to v2: https://lore.kernel.org/r/20251208-fix-error-state-v2-1-255b62ee2eb6@oss.qualcomm.com
 
-In general patch looks good, but you should use 
-devm_regulator_bulk_get_const here (see some conversions on ML done).
+Changes in v2:
+- 1. Update commit message.
+- 2. Add a Fixes tag.
+- Link to v1: https://lore.kernel.org/r/20251126-fix-error-state-v1-1-34f943a8b165@oss.qualcomm.com
+---
+ drivers/media/platform/qcom/venus/vdec.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-David
+diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+index 4a6641fdffcf79705893be58c7ec5cf485e2fab9..d0bd2d86a31f9a18cb68b08ba66affdf8fc5092d 100644
+--- a/drivers/media/platform/qcom/venus/vdec.c
++++ b/drivers/media/platform/qcom/venus/vdec.c
+@@ -1440,10 +1440,10 @@ static void vdec_buf_done(struct venus_inst *inst, unsigned int buf_type,
+ 				inst->drain_active = false;
+ 				inst->codec_state = VENUS_DEC_STATE_STOPPED;
+ 			}
++		} else {
++			if (!bytesused)
++				state = VB2_BUF_STATE_ERROR;
+ 		}
+-
+-		if (!bytesused)
+-			state = VB2_BUF_STATE_ERROR;
+ 	} else {
+ 		vbuf->sequence = inst->sequence_out++;
+ 	}
 
-[...]
+---
+base-commit: 663d0d1af3faefe673cabf4b6b077149a87ad71f
+change-id: 20251126-fix-error-state-24183a8538cd
+
+Best regards,
 -- 
-David Heidelberg
+Renjiang Han <renjiang.han@oss.qualcomm.com>
 
 
