@@ -1,54 +1,54 @@
-Return-Path: <linux-media+bounces-48653-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48654-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59BDCCB72B3
-	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 21:32:44 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34A13CB72BB
+	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 21:33:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id BA5263015965
-	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 20:32:40 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id EB8413020CE1
+	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 20:33:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A216331D380;
-	Thu, 11 Dec 2025 20:32:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B28631D38F;
+	Thu, 11 Dec 2025 20:33:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="hljhZx4+"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="qSgy7wK8"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4481E288C08;
-	Thu, 11 Dec 2025 20:32:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7F92313E02;
+	Thu, 11 Dec 2025 20:33:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765485158; cv=none; b=BGbvKbR+6CF1+xOV8JBhBFpA1CX/cVldyDy412OJAAE0bLEIcvL0SyZimNdgd3kDMSxX6PQXrJE3cQX7B6nP7FGyfUKx+gEerNlyfE8rCkm9jF8KnltkyaUkRZ9FapGYh5sdcrFc+O7FjhaHFzp8uYiGF6hb07Jv6qD8SVYKjLM=
+	t=1765485201; cv=none; b=jQPDqzLctdHZvB72ELl4FVB0pDSaNs0diJsR7t/bOBWU0ZR9/SJIVAkpqh/VMgjly6Fbxi8WyE/QXc8i+a050CO0vbxA/fmokfYaZLWDQIaZQ9IqzKWdJJGfGeNnxb/czxK78n3/5dFeGhKyDJiztmN27ZJda2ZztZEfVD6tca0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765485158; c=relaxed/simple;
-	bh=G7q1JEkkHwrsqhqOlDvPl2Tn67bvGyBMMPrfM/9YkWc=;
+	s=arc-20240116; t=1765485201; c=relaxed/simple;
+	bh=EvpYuyMSWW3rPM+EGfSJa8//Qidk0b3Vfk2GRGHLY/8=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Ug8rsRdXgaReWgzetcKKhYK3F1Ug/HMvrrHJWOKsZHzA5+KFEKIH0XRqwkW2MEDzB1HAfhLBHQ9OIIUe1fo2Hl86T8dTDdvZY07QXru39N23NpSDhhOkMXceJT0vtLkJoqrlE5wf4A/Fx3cLZAVLflOz9RBHO59bPivFDiiW1NI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=hljhZx4+; arc=none smtp.client-ip=148.251.105.195
+	 Content-Type:MIME-Version; b=P5EhoiTWocyiLWhFd35dwiM0JxI4Piw7Spol/pTHlr+ZiWu1wi3Ow4k56jpj5EkCw0eyWMrgc7tAnJGPvB5hs2OH1fNFsSWxwgb7xl/bt3nTY+2Elw5jYu72MVMTfB4KcxTX/0rX2L+VDBumELVv0hALk+8Kip5VEoNrnjQO4xI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=qSgy7wK8; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1765485154;
-	bh=G7q1JEkkHwrsqhqOlDvPl2Tn67bvGyBMMPrfM/9YkWc=;
+	s=mail; t=1765485198;
+	bh=EvpYuyMSWW3rPM+EGfSJa8//Qidk0b3Vfk2GRGHLY/8=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=hljhZx4+40EmFAPe40tkyy69L4LXOwZ8Zt+CstL7MneCO2B4OX2icxx+Afr+AFr5t
-	 HJyqOcePX/DI0GuB86JVUAmQGTQzEwoJcdQZEp30O/kG6ZxV4F/6J003FCkZfS77Uj
-	 AAkloLCfPGriaAVxR2It+UIlEOVH5tQTkxCdS6AuacdBpj605DAnUW5aGoUCn+tGqo
-	 PvMLWyNvwy6LwD8a9Nz+4pjJ2Akr+d6fGJ5/xWVAFneOhvrbxGdTHKvZshd4UNc4ai
-	 E3JVnuJhU9FvtTJna8ffAUAO54ViGtmxsBFmKWD3xS9Sml6xdbpEFr179ZSS0t0mnE
-	 xGJhUOSkEdllw==
+	b=qSgy7wK8Med80K3RHWdGGbsNc01bbVk8oyulgtDCqZ18UKke5cVBpfamdj+eL/px9
+	 232jaEUiSodL5/lityZjQPvTCUAyfASW+rB9OwCYExIaptoH8hSK1RFeZ1PGBdU4Nf
+	 QK+oMPWdEy1WiEsL3fph3YGPg6yngR1878YyBcyiv/eVf6RaImytPZwbTtifC7iMdJ
+	 xUN86NF67aCktfxkAwa3xiHwuYSS9eHRbrEd3t3gMZNjzLVPSVXhHb/ntdthXMUlx8
+	 AHnzFppiC+WsZQ35X0gwQ+eYrG7IP1QTJv3L/CKhEQC79Gakr35s2xEkL+FMHDD1mJ
+	 EIto9JjnR+Dtg==
 Received: from [IPv6:2606:6d00:17:7b4b::c41] (unknown [IPv6:2606:6d00:17:7b4b::c41])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 280F917E110C;
-	Thu, 11 Dec 2025 21:32:32 +0100 (CET)
-Message-ID: <03d3228206dbeb7f3fdb9466f84511f598ae9d65.camel@collabora.com>
-Subject: Re: [PATCH v6 07/10] media: mediatek: vcodec: Fix vp9 4096x2176
- fail for profile2
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 81F9217E00A8;
+	Thu, 11 Dec 2025 21:33:15 +0100 (CET)
+Message-ID: <66cb982fd78c85a33006647e0d2f1fe4b0c10a86.camel@collabora.com>
+Subject: Re: [PATCH v6 08/10] media: mediatek: vcodec: Fix media device node
+ number
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 To: Kyrie Wu <kyrie.wu@mediatek.com>, Tiffany Lin
  <tiffany.lin@mediatek.com>,  Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
@@ -64,10 +64,10 @@ To: Kyrie Wu <kyrie.wu@mediatek.com>, Tiffany Lin
  linux-arm-kernel@lists.infradead.org, 	linux-mediatek@lists.infradead.org
 Cc: Neil Armstrong <neil.armstrong@linaro.org>, Andrzej Pietrasiewicz
 	 <andrzejtp2010@gmail.com>, Yilong Zhou <yilong.zhou@mediatek.com>
-Date: Thu, 11 Dec 2025 15:32:30 -0500
-In-Reply-To: <20251202074038.3173-8-kyrie.wu@mediatek.com>
+Date: Thu, 11 Dec 2025 15:33:14 -0500
+In-Reply-To: <20251202074038.3173-9-kyrie.wu@mediatek.com>
 References: <20251202074038.3173-1-kyrie.wu@mediatek.com>
-	 <20251202074038.3173-8-kyrie.wu@mediatek.com>
+	 <20251202074038.3173-9-kyrie.wu@mediatek.com>
 Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
  /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
@@ -83,7 +83,7 @@ Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
 Organization: Collabora Canada
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-6GO17q2aWDuQ7cn4Ze+O"
+	protocol="application/pgp-signature"; boundary="=-aFzqfli/yHis0bwpWqQX"
 User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -93,72 +93,60 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 
---=-6GO17q2aWDuQ7cn4Ze+O
+--=-aFzqfli/yHis0bwpWqQX
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Le mardi 02 d=C3=A9cembre 2025 =C3=A0 15:40 +0800, Kyrie Wu a =C3=A9crit=C2=
 =A0:
-> The DRAM address of the VP9 decoder tile info buffers may require
-> as much as 36bits for 4096x2176 resolution. Fold the 4 most significant
-> bits into the lower (padding) four bits of address.
+> change media register device node number to a correct value.
+> The vfd minor is used to record the number of registered
+> video device nodes. The mdev_dec.devnode minor counter is
+> used to record the number of registered media device nodes.
 >=20
-> Fixes: 5d418351ca8f1 ("media: mediatek: vcodec: support stateless VP9 dec=
-oding")
+> Fixes: 41f03c673cb7b ("media: mediatek: vcodec: replace pr_* with dev_* f=
+or v4l2 debug message")
 >=20
 > Signed-off-by: Kyrie Wu <kyrie.wu@mediatek.com>
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
-ora.com>
 
 Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
 > ---
-> =C2=A0.../mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c | 10 +++++++=
-++-
-> =C2=A01 file changed, 9 insertions(+), 1 deletion(-)
+> =C2=A0.../platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 | 3 ++-
+> =C2=A01 file changed, 2 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9=
-_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp=
-9_req_lat_if.c
-> index 36a87b455d11..eca6280098be 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_la=
-t_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_la=
-t_if.c
-> @@ -1134,9 +1134,17 @@ static int vdec_vp9_slice_setup_tile_buffer(struct=
- vdec_vp9_slice_instance *inst
-> =C2=A0					return -EINVAL;
-> =C2=A0			}
-> =C2=A0			tiles->size[i][j] =3D size;
-> +			/*
-> +			 * If the system supports 64-bit DMA addresses, the upper 4 bits
-> +			 * of the address are also encoded into the buffer entry.
-> +			 * The buffer pointer (tb) is incremented after each entry is written=
-.
-> +			 */
-> =C2=A0			if (tiles->mi_rows[i]) {
-> =C2=A0				*tb++ =3D (size << 3) + ((offset << 3) & 0x7f);
-> -				*tb++ =3D pa & ~0xf;
-> +				*tb =3D pa & GENMASK(31, 4);
-> +				if (IS_ENABLED(CONFIG_ARCH_DMA_ADDR_T_64BIT))
-> +					*tb |=3D (pa >> 32) & GENMASK(3, 0);
-> +				tb++;
-> =C2=A0				*tb++ =3D (pa << 3) & 0x7f;
-> =C2=A0				mi_row =3D (tiles->mi_rows[i] - 1) & 0x1ff;
-> =C2=A0				mi_col =3D (tiles->mi_cols[j] - 1) & 0x3f;
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_de=
+c_drv.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv=
+.c
+> index 2d1a545e727c..bf6e792283a1 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c
+> @@ -493,7 +493,8 @@ static int mtk_vcodec_probe(struct platform_device *p=
+dev)
+> =C2=A0			goto err_media_reg;
+> =C2=A0		}
+> =C2=A0
+> -		dev_dbg(&pdev->dev, "media registered as /dev/media%d", vfd_dec->minor=
+);
+> +		dev_dbg(&pdev->dev, "media registered as /dev/media%d",
+> +			dev->mdev_dec.devnode->minor);
+> =C2=A0	}
+> =C2=A0
+> =C2=A0	mtk_vcodec_dbgfs_init(dev, false);
 
---=-6GO17q2aWDuQ7cn4Ze+O
+--=-aFzqfli/yHis0bwpWqQX
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaTsqXgAKCRDZQZRRKWBy
-9AHCAQCIL2oKUruDOqqd+Tp2NG/Cqh8AXUPiefAumbjS9hhj7gD/d+bv4U9ehbuM
-LT9GLyjqJT5Gx1XLLI5owiSgEEcaUAs=
-=/hjj
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaTsqigAKCRDZQZRRKWBy
+9BiiAQChjhkDmde9orwBZUQR53EQisAKugo3JziXe89mHCSXogEA3BhPJG3ZcoKW
+icu7bE/fmHm9hzaHSWtMw21RcYsPtQY=
+=cn28
 -----END PGP SIGNATURE-----
 
---=-6GO17q2aWDuQ7cn4Ze+O--
+--=-aFzqfli/yHis0bwpWqQX--
 
