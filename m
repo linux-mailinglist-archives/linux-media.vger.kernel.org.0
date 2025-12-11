@@ -1,181 +1,152 @@
-Return-Path: <linux-media+bounces-48640-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48641-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F059CB654F
-	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 16:25:23 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8390CB69DE
+	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 18:04:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4E56D3069CA7
-	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 15:20:51 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id F356630334E5
+	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 17:03:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4226B3064BB;
-	Thu, 11 Dec 2025 15:20:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F2F9307AF0;
+	Thu, 11 Dec 2025 17:03:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="HX2f2Ahi"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PPZoVqsE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from ixit.cz (ip-94-112-25-9.bb.vodafone.cz [94.112.25.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D65F2D0C9F;
-	Thu, 11 Dec 2025 15:20:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.112.25.9
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765466445; cv=none; b=Bo3+2g25HaNsFvMzET81hlS4Et8cBZGQBwxjXvu2+UKCuLOYsFp5Wauqm7Tr6DTBKbWun04Q9fDiLhScFprNuCuIMYoRHxjdUDhj4ldOPnjEpwRXqeg0iV2zQEUkI3MTFzoR6M8jnl5Kz5ElLvGWK7UItEkNXva3pVY4lX0ptRw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765466445; c=relaxed/simple;
-	bh=U17Oq66S2MsACzyeVGFg97Yll+ujgWmENIU+J6+X8HE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OpxFMdZ+3NXXm/2Qw18RHNy3ndge+FpY6Z10iWv14v0c3EgyOJBa/xeTa17yszF1dzmiPOAGLsbNUOKwPiKVEi3qkntFmD9r8nJimD6prYgzgix1hEl3oo/lhbxa/vFc5SoFFOfbikjbGXDXbsT/dxQcoTvXT76OOvaQ53McdyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=HX2f2Ahi; arc=none smtp.client-ip=94.112.25.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
-Received: from [10.0.0.200] (unknown [10.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 19AA953409EA;
-	Thu, 11 Dec 2025 16:20:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1765466437;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=tt8mMUNiD7OTlXd6QhMuRKTXiKd4hKlJb4B25sgPgZA=;
-	b=HX2f2AhipQOorhBnNaj1+0lA/lbURVg0o+IXAhOAax/zFaBrUILumr7RRiIPBFPNuBgBjT
-	eCVMJPteLFeE/WguPmPJ3R4W4HboMWCK5NGN9YixMdvQ5cuiWWHvFNcTZXNhZSlf4/6CSn
-	sa5JJr6lTjsqHi7RV7n4eju7Rc9a25E=
-Message-ID: <df5557e2-a086-48ca-b8e7-972cbdb7745a@ixit.cz>
-Date: Thu, 11 Dec 2025 16:20:36 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D066630F922
+	for <linux-media@vger.kernel.org>; Thu, 11 Dec 2025 17:03:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765472622; cv=pass; b=E8UuRAawXvW1XYo5Ra3XjBIoeDGZNWyUKFcgG2p6/tshFHdFv9j1jbVNMm6uAVV9GPhaB5CzFns7gmoQPxS1iHYosA6whaCEOxLzMG5+8Bli26N+qs5ffUvG06aRsWFrjw8VZnqOyUO7e/46QuFMPNN19FQ1uvkfM9GBaU4DsDE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765472622; c=relaxed/simple;
+	bh=dhK4Q7kDIu3zi/kAqk5vEc3dRn/z99FEvKqsdSQw3vU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HLy2wM4rdk4aHSXRwwMo2VrL+KVy2HMSWwPrplek98BCn0UyBuL2hUsjblJ14PSrwOxBFkQ/0r+PIvN7NpNzMVmOAoG0mwG4TzuLOzm8BMKqdMa8oFrFsPmus6Klbp0A4+7gVSANKsqBOZfyk4iae++0JTckCTLKZWhnAu/lG60=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PPZoVqsE; arc=pass smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-64969e4c588so11717a12.1
+        for <linux-media@vger.kernel.org>; Thu, 11 Dec 2025 09:03:40 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1765472619; cv=none;
+        d=google.com; s=arc-20240605;
+        b=T62KOG04F79sjMtPrfDbIAH11n50uOlg/m/iH4tkhYsH+pQ2Cw7jro7U5h2ojwU5zw
+         hBXkf+PkL8Ulhix7VlhLhxFfJ32DJjyepqD+thwIBYtO8BZx5JRXOZLUZYbT3DxrZQX1
+         reR9lsmqVeuoNkZspamShjxXK1p22UxSf/Oyf8hAPF+Bqejcn5j7pc4bRSMjAciYr8NX
+         B+csGfjXZRz00FqDthUPI4YhPXS+vHZl8A0BwpLn1OeW7FAhbCxC1Z1sKXFxxDZKXzY0
+         1tSQyuscKsJ/1gn2l+ABI6G5zfZ77PCtwOaH8dWZp9S68mUGs5QCSZpaFh7dY7ABhmSN
+         SBtQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=PVdcC9AVWtN6X0R2G6LEfvI3W7plOZrvAmF1E2ynVb4=;
+        fh=PdzOFGIxzP8wvq/x2ei7LGH0LEm+V4u3fWKJc5TOkyY=;
+        b=Ocd1/1Iyp8JUXTad9qCSFgkEYlCSzFVWa3ja7RNQhx1ihE1SX0mvSazJDBk3MS6U5b
+         TyP4hjhq7g2r97nWyPV3sLOUN4SDMl08CnYxU5P1+VTIF4z8j2itPRbxWI2XzOBJQ+gs
+         Mb7N4TAJCYTCtEZvomuHVHoqXVnxK1PasE6//yrJPyfxS1FgLPDJmaVxkpxgHHqnqpDl
+         k6BNYd9RE5MdQAFujr5ZeCBIRwKpSCW/0fLsM/yBS1Cm/TuBRb1PiVSQIwnns8orhWjD
+         D+BiDBSGgUZ1z96b4/oS4PQWpAHeHbTUOaRx1gUY2ZVI5DvI9KhXBroTrcxsVoxpUYb8
+         8a/g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1765472619; x=1766077419; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PVdcC9AVWtN6X0R2G6LEfvI3W7plOZrvAmF1E2ynVb4=;
+        b=PPZoVqsEZhurkULXCRc7AZUKzcXInkbTplhWtlxNZQ1WXEXlWBz8AVOTi4zSNj/rtb
+         +AGcVOuDKhLCmcbrN/NOWYaypGHfvuI42h8qoGlk2BD4buODzmRBsdckMLATAqNJzIDI
+         V/MksXyDFHSGT6ulp/LmXtj5AuDm9ZZHap6IeCz0E37BBkxXC9SRekqbDTzroKAhIuSo
+         bsqK9YIRqfqrOtWB7wdNxeGZbOBoB04g+1xBzaN/bP16JET6+/7kW1jKCjLP/ix3Pmkj
+         OqOsLvgizq1cpQZtWLU8hbA9q0qAgTULxKb9Am/XHb1LhFMVxK896fzzWS5s55FhXkXk
+         3MOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765472619; x=1766077419;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=PVdcC9AVWtN6X0R2G6LEfvI3W7plOZrvAmF1E2ynVb4=;
+        b=cEdYEvDRntj1LI+AFJAy+UJZvJMA4HY4IkPECUTJZQgWN7tdu2Cv0E2rELGuDcHzWf
+         h+3EXqS/es/snZosdONr/2cEElKi4X5yp76u8wB8FVJPkB4q33vTp5OWRBMYtTp6+5+9
+         0xD4eLCYpR8wtoiBlPHI8v3zhcpIQLU0y4jZsAydj64QXl7F8V033wFXa02B82DI6M/m
+         1RIG+fWdPd+IVO5gk453iEIHUfvRKz73koo5TWEie8P8boE3OOla4eAMxEvXX47r5a+7
+         MIP12dlFUAe0VnyrBvWswLnNM2jwfxh6GOmC9LWNHaTi46Fyh/0NTpLSFoTPEYXd/aJy
+         Iu/A==
+X-Forwarded-Encrypted: i=1; AJvYcCXhV/jU/yWSFLJdChiZ+c1WXU7s5ggkGXWCsSsJtjnsIMLb4sYw1NbdbEqE+Da92Z4sz6sz/NJs1TsQzA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwkDbeFgOQ/uewxZ7mu/qjxKU8ZQJUJdpR064UYznKsaXg78EY4
+	fR47bDGDYBOreCBnw749ThO1c+KaCCX+C2tDFoTq5TO75UwpVYTod3diUe7CE9au8uQm7wzqqod
+	Lu6KLYYtb+428MGdu4NEe5x2dZ48ehaGJHCQ1v8/j
+X-Gm-Gg: AY/fxX5zhzokEbb3ihFonDlG1GkhaTNL8VqpFIyX4Q5KYeD+40L/GrMtYP1o9GroA3g
+	pJanTdF4xDJuSbNFqa6P/dVuFXVc0oAEcPKLUqoPruN+AngdqB+C5u0uzxjlYqzVeoeDRQFt+ae
+	30qAPfnJUTxa5cVOiEc6C6yB6xHzgfLisPxbzlM+U8tgON273qS2s5dvhqSFjgWe+CuXbPoq/Dm
+	cWffPYqWWKuwm7euL+uf0HohtkTgJzaEgRVhLhQAmIbL8MfvILx1SD7SUuXIlqDSH1XL/QrfeZU
+	oF8=
+X-Google-Smtp-Source: AGHT+IE1/twXkBw6T9ZDd804UY8hfxB7e6+cB8iDcmq/fCjHoXaBhqis+kpZHtSWJX+Enpr6HBPUEcW+9sWfx502HIc=
+X-Received: by 2002:aa7:cb82:0:b0:645:21c1:28f9 with SMTP id
+ 4fb4d7f45d1cf-6498600598amr51468a12.17.1765472618955; Thu, 11 Dec 2025
+ 09:03:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH WIP v2 3/8] media: qcom: camss: Prepare CSID for C-PHY
- support
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Luca Weiss <luca.weiss@fairphone.com>, Petr Hodina <phodina@protonmail.com>,
- Casey Connolly <casey.connolly@linaro.org>, "Dr. Git" <drgitx@gmail.com>
-Cc: Joel Selvaraj <foss@joelselvaraj.com>,
- Kieran Bingham <kbingham@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- phone-devel@vger.kernel.org
-References: <20251204-qcom-cphy-v2-0-6b35ef8b071e@ixit.cz>
- <20251204-qcom-cphy-v2-3-6b35ef8b071e@ixit.cz>
- <9af39b45-581b-4e25-8ab9-19015f00d6bc@oss.qualcomm.com>
-Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <9af39b45-581b-4e25-8ab9-19015f00d6bc@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20251008033844.work.801-kees@kernel.org> <20251008035938.838263-3-kees@kernel.org>
+ <aTc9s210am0YqMV4@agluck-desk3> <20251209001139.GA7982@quark>
+ <d3dd8fc8-ab46-4cf1-87a9-0324685ba2e0@kernel.org> <SJ1PR11MB6083C6D97484ED4E4710268EFCA3A@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <aThSGiKwJRYOB6kx@agluck-desk3> <aThqcq0iGge1pQCr@agluck-desk3>
+ <20251210010020.GA2522829@google.com> <aTn0WdVv-S_EpQmS@agluck-desk3> <aTqAxfiVCR2ch4I5@stanley.mountain>
+In-Reply-To: <aTqAxfiVCR2ch4I5@stanley.mountain>
+From: Sami Tolvanen <samitolvanen@google.com>
+Date: Thu, 11 Dec 2025 09:03:02 -0800
+X-Gm-Features: AQt7F2oUBa6EQ75AaBiCKmXyExf-Brdy_futQsfDUwAYhQV22rWe0uokYAyYkCc
+Message-ID: <CABCJKufWw4VQA_k6Deuf5Bn6401cbYv_St8VV_0-LAau6F0nTw@mail.gmail.com>
+Subject: Re: [PATCH 3/3] module: Add compile-time check for embedded NUL characters
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: "Luck, Tony" <tony.luck@intel.com>, Chris Li <sparse@chrisli.org>, 
+	Daniel Gomez <da.gomez@kernel.org>, Eric Biggers <ebiggers@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Rusty Russell <rusty@rustcorp.com.au>, 
+	Petr Pavlu <petr.pavlu@suse.com>, 
+	"linux-modules@vger.kernel.org" <linux-modules@vger.kernel.org>, Malcolm Priestley <tvboxspy@gmail.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
+	"linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 05/12/2025 10:43, Konrad Dybcio wrote:
-> On 12/4/25 5:32 PM, David Heidelberg via B4 Relay wrote:
->> From: David Heidelberg <david@ixit.cz>
->>
->> Inherit C-PHY information from CSIPHY, so we can configure CSID
->> properly.
->>
->> CSI2_RX_CFG0_PHY_TYPE_SEL must be set to 1, when C-PHY mode is used.
->>
->> Signed-off-by: David Heidelberg <david@ixit.cz>
->> ---
->>   drivers/media/platform/qcom/camss/camss-csid-gen2.c | 1 +
->>   drivers/media/platform/qcom/camss/camss-csid.c      | 1 +
->>   drivers/media/platform/qcom/camss/camss-csid.h      | 1 +
->>   3 files changed, 3 insertions(+)
->>
->> diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen2.c b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
->> index 2a1746dcc1c5b..033036ae28a4f 100644
->> --- a/drivers/media/platform/qcom/camss/camss-csid-gen2.c
->> +++ b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
->> @@ -183,6 +183,7 @@ static void __csid_configure_rx(struct csid_device *csid,
->>   	val = (lane_cnt - 1) << CSI2_RX_CFG0_NUM_ACTIVE_LANES;
->>   	val |= phy->lane_assign << CSI2_RX_CFG0_DL0_INPUT_SEL;
->>   	val |= phy->csiphy_id << CSI2_RX_CFG0_PHY_NUM_SEL;
->> +	val |= csid->phy.cphy << CSI2_RX_CFG0_PHY_TYPE_SEL;
-> 
-> This field is 1-wide, this would be neater:
-> 
-> if (csid->phy.cphy)
-> 	val |= BIT(CSI2_RX_CFG0_PHY_TYPE_SEL);
+On Thu, Dec 11, 2025 at 12:28=E2=80=AFAM Dan Carpenter <dan.carpenter@linar=
+o.org> wrote:
+>
+> On Wed, Dec 10, 2025 at 02:29:45PM -0800, Luck, Tony wrote:
+> > > diff --git a/expand.c b/expand.c
+> > > index f14e7181..71221d35 100644
+> > > --- a/expand.c
+> > > +++ b/expand.c
+> > > @@ -535,6 +535,8 @@ static int expand_compare(struct expression *expr=
+)
+> > >                     expr->taint =3D 0;
+> > >                     return 0;
+> > >             }
+> > > +           if (left->flags & CEF_ICE && right->flags & CEF_ICE)
+> > > +                   expr->flags |=3D CEF_SET_ICE;
+> > >             if (simplify_cmp_binop(expr, left->ctype))
+> > >                     return 0;
+> > >             if (simplify_float_cmp(expr, left->ctype))
+>
+> I'm not an expert in the C standard, but this feels correct to me.
 
-Hello Konrad,
+It only fixes comparisons though, the problem still exists for other
+expressions. For example, while `_Static_assert(__builtin_strlen("")
+=3D=3D 0);` works with this change,
+`_Static_assert(!__builtin_strlen(""));` still fails. Perhaps there's
+a better way to fix this than changing each expression expansion
+function to handle this flag?
 
-while your change make sense as we work with 1-bit.
-On other hand, due to TYPE_SEL naming, it's not very explicit why we set 
-this bit when cphy is on.
-
-Maybe I could propose renaming CSI2_RX_CFG0_PHY_TYPE_SEL to 
-CSI2_RX_CFG0_PHY_TYPE_SEL_CPHY, then setting 1 to it would make sense.
-
-Most clean solution to me would be something like
-
-#define TYPE_SEL_DPHY	0
-#define TYPE_SEL_CPHY	1
-
-val |= (csid->phy.cphy ? TYPE_SEL_CPHY : TYPE_SEL_DPHY) << 
-CSI2_RX_CFG0_PHY_TYPE_SEL
-
-Do I overthinking this? What do you think?
-
-David
-
-> 
-> Konrad
-
--- 
-David Heidelberg
-
+Sami
 
