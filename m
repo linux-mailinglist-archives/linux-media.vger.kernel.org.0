@@ -1,279 +1,253 @@
-Return-Path: <linux-media+bounces-48655-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48656-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C947BCB7396
-	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 22:36:49 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FA39CB73C3
+	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 22:51:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 16208301E1A2
-	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 21:36:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id EE46E3028E64
+	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 21:51:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E5592D23A3;
-	Thu, 11 Dec 2025 21:36:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F6F62D5957;
+	Thu, 11 Dec 2025 21:51:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="hp5CLknB"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="mubyx5H/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010070.outbound.protection.outlook.com [52.101.46.70])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E69B7221FD0;
-	Thu, 11 Dec 2025 21:36:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.70
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765489000; cv=fail; b=hx94ES3x+aSb9Dnl+V6Q+CL0ly+IL0ftHga1LsT6oWbB8MGH2tJL9DNeIxLbXyeFpPqRoju5cTEl5UWEFb3hPAgTyAV2GbGvHdykiM3U/sZkMexX/4/FD39uSGNGAWWXMxeiDeHhKplaxN97eeq+5mN6+Q3Hlial9xWmGlkzQjM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765489000; c=relaxed/simple;
-	bh=/0HkkNH+WhDDOFhs5786O6KgJBshfQPrOFnXFIW4PR0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=r/2mjQ2y8fioodyF9IQG8jOArhJJGR7bUexgZ6A4Tpu7ogOWvI5IR8IHDFibMikcDJyXA6XAEM9T7sd2OAWL54uiqCGOXsE5EENbXLuDjEpFk6oHYUsRpnDKEqL4TXPK1SMKS/qZ0Fc5KnzEMrUEd1OXLX9hHYE8SI1zQkljJp0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=hp5CLknB; arc=fail smtp.client-ip=52.101.46.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=n9qumx+TJL3gNTHR04MJ7PgDD2h4aMtwkYfBADWMUSFz2HuVdCrGV/t2dLaGkZrYQRc9cE5ktYh3orNO10sJAFWwxD8O/abY9Z+XorifVGlnaELfbxzs9kC0+/dV69nLXR4DYKyX/LAfr3mS0omEgypW/pETlNtZSeb4CE6yVcHl0ksFlbrEOjH17kUWkX5/gAIY8AirtIam4UOBBx0V2fpY7z/IuCbUbBj7lrjcbyHE9O7cKAzK1a0M0HKT3CG4YqJWrV/b7lRNiTw0stTDkCsff+4QZ//wSTgfUSQCdrYofIQRZsPr7lua4qO9VD/Qze8BM4YTfzr/vw4wDUPTtA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AtmimK+tDdG/ZqvmAwgiBvdK6fSdG05syi9B8Jt7LIE=;
- b=Duk2WbtWvA16dBS+mbYbeQuhMRJ6z7mW75EAtUhDCLkaNJo8TeYzVtISx0EihBLxF1072iNb1lnMRatghFkP9n8ayX+AN8Gnn/VmK3hKDLJ8jTgzlxjUVaqNpgMJeIVlVJBJeVr95bscWseSoYNPuiS/GYhT0I1B5ajLHGYAxSiQXd1VIcotIWxaxIr9PVf1/gvzHPV2ToUI3t0DBFuNHLXsJ17QRmtgpwRL6GNOWmaNKBn2kSvAPHiNQ57u+WFdiLqtX6ulygkKX3za90CkZAZCCBzbEO3z+gkOVOJyxlorRS0kDjBswMVTgTYJLSCBb8Eu6kD1j7mc3g4gLsOVTQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AtmimK+tDdG/ZqvmAwgiBvdK6fSdG05syi9B8Jt7LIE=;
- b=hp5CLknBDcNU6I+SbvRyw+Unhq5w64MFPlrpgtac+hihw6toBrhuP27nriJgJkoseaYSfS8KLfsCqxppSQBS/QEVcSldxJrSJ2GsRlv7EIDNGyUtDSbZsh68bzidlmn6i0GmpN+D06kFY06GZWL1YcW1N68aotwzjV4dSt87224=
-Received: from SJ0PR03CA0335.namprd03.prod.outlook.com (2603:10b6:a03:39c::10)
- by DM4PR10MB5918.namprd10.prod.outlook.com (2603:10b6:8:ab::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9412.9; Thu, 11 Dec 2025 21:36:34 +0000
-Received: from SJ1PEPF00002319.namprd03.prod.outlook.com
- (2603:10b6:a03:39c:cafe::76) by SJ0PR03CA0335.outlook.office365.com
- (2603:10b6:a03:39c::10) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9388.16 via Frontend Transport; Thu,
- 11 Dec 2025 21:36:20 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
-Received: from lewvzet200.ext.ti.com (198.47.23.194) by
- SJ1PEPF00002319.mail.protection.outlook.com (10.167.242.229) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9388.8 via Frontend Transport; Thu, 11 Dec 2025 21:36:34 +0000
-Received: from DLEE206.ent.ti.com (157.170.170.90) by lewvzet200.ext.ti.com
- (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 11 Dec
- 2025 15:36:30 -0600
-Received: from DLEE203.ent.ti.com (157.170.170.78) by DLEE206.ent.ti.com
- (157.170.170.90) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 11 Dec
- 2025 15:36:30 -0600
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE203.ent.ti.com
- (157.170.170.78) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Thu, 11 Dec 2025 15:36:30 -0600
-Received: from [10.247.25.212] (lt5cg2132ltw.dhcp.ti.com [10.247.25.212])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5BBLaUpQ1112276;
-	Thu, 11 Dec 2025 15:36:30 -0600
-Message-ID: <8ea74bbf-b796-41ac-8500-1956a8a46ba8@ti.com>
-Date: Thu, 11 Dec 2025 15:36:30 -0600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBB8172618;
+	Thu, 11 Dec 2025 21:51:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765489887; cv=none; b=awoQ3LshmuIU87edCyHdeh5PivCCL8qYzS62JCwPFuT0DiaJdh8IN/EV7XzgLZG6aQy3ROCet7SV8tmPyjS2t/HCuwfBt/hSYTVz1khswGfhWLbdqlCF9dPJvm0vKZKpG++KNQ1NdcxYsaXp2AFJtcOJ15Zt53qNY2qsFqem2e0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765489887; c=relaxed/simple;
+	bh=ev/Xj2i7PqHJlTaDWmzF5joPuwC2Sah9RO2UsU8KHAc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ZmQJp1Xx6o4Vcf0SMDIVzcMhwHvcDQ9lwG/w1vb8VNW+30rlT76PQZKqFVzH9aoo+Iq+flx1J4HGUr2GFrdYCQyXimiMv9dwcKdZRxH9st1dlh09wA3imLbNmHrtk0769qDel4JMuJxHZQ7198pb26cimJu9B83/tiqhuWPnJp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=mubyx5H/; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1765489883;
+	bh=ev/Xj2i7PqHJlTaDWmzF5joPuwC2Sah9RO2UsU8KHAc=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=mubyx5H/FZzJt+UtSwiWkSc7jM08h3eRePMprCVbYjEDQMtvC2wFuKEVrUWumjxNv
+	 1Cmnw+nMiNIUBCsOK6HZ7tNFdVQWGf291VMUO/lmDtSa1++kPBfPB9jEkXaM8i2Xkp
+	 zTkksA+8OTYfEKviqg+CmVL7R5o1Qj5f4zU2jynCZ8eQVcrmG7gNoa0dZhSSk9GlS7
+	 Khm8Lup3WmBbcOM+HOFp5JMTWLNLeVU+gK/Cs1lb4qTO+WDS2ASadfRLd6x8Uoscnj
+	 rPGhqiTVAzAoLguqD9MYVns2W3z1lQo0fbXwilCeF7rJJqvfnAnJr+FZEZmFaN38Fk
+	 8DeKKk8mKOe6A==
+Received: from [IPv6:2606:6d00:17:7b4b::c41] (unknown [IPv6:2606:6d00:17:7b4b::c41])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 3674117E04D6;
+	Thu, 11 Dec 2025 22:51:22 +0100 (CET)
+Message-ID: <b17ccc682c636df47055678dacef1c435155f190.camel@collabora.com>
+Subject: Re: [PATCH] media: chips-media: wave5: Fix Potential Probe Resource
+ Leak
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Brandon Brnich <b-brnich@ti.com>, "jackson.lee"	
+ <jackson.lee@chipsnmedia.com>, Nas Chung <nas.chung@chipsnmedia.com>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>, "linux-media@vger.kernel.org"
+ <linux-media@vger.kernel.org>,  "linux-kernel@vger.kernel.org"	
+ <linux-kernel@vger.kernel.org>
+Cc: Darren Etheridge <detheridge@ti.com>
+Date: Thu, 11 Dec 2025 16:51:20 -0500
+In-Reply-To: <8ea74bbf-b796-41ac-8500-1956a8a46ba8@ti.com>
+References: <20251119213152.1442329-1-b-brnich@ti.com>
+	 <SLXP216MB1148CE2E7ABF4280D6C27B44EDD8A@SLXP216MB1148.KORP216.PROD.OUTLOOK.COM>
+	 <fb603b6159766bbba606260d44080733786d290f.camel@collabora.com>
+	 <8ea74bbf-b796-41ac-8500-1956a8a46ba8@ti.com>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-yG+as83aM5QlWgOSIYo5"
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: chips-media: wave5: Fix Potential Probe Resource
- Leak
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>, jackson.lee
-	<jackson.lee@chipsnmedia.com>, Nas Chung <nas.chung@chipsnmedia.com>, "Mauro
- Carvalho Chehab" <mchehab@kernel.org>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-CC: Darren Etheridge <detheridge@ti.com>
-References: <20251119213152.1442329-1-b-brnich@ti.com>
- <SLXP216MB1148CE2E7ABF4280D6C27B44EDD8A@SLXP216MB1148.KORP216.PROD.OUTLOOK.COM>
- <fb603b6159766bbba606260d44080733786d290f.camel@collabora.com>
-Content-Language: en-US
-From: Brandon Brnich <b-brnich@ti.com>
-In-Reply-To: <fb603b6159766bbba606260d44080733786d290f.camel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00002319:EE_|DM4PR10MB5918:EE_
-X-MS-Office365-Filtering-Correlation-Id: 46607a54-454d-413d-d763-08de38fd5b79
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700013|1800799024|376014|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?QlVkOHdzaEZZSzFTb0E0NDdJbVpKVXcxa3c1UVQ5MTFlQWs5TzBmUW9tOXNX?=
- =?utf-8?B?WlVNeGJzb0pNMnVVMFl3U2NDNWtpVWZ2L2ZBVzNtYU15cFV5WXM3cEtkSS8w?=
- =?utf-8?B?S2NpK1Q1aDhXd05mQjRnNDI3dGk5UFM2bzRvSFUwZHZpbzgyUFdRd01nYmh5?=
- =?utf-8?B?TVZuYmJScXY3cHN0VXAxekRPazRKclUrRVIrNHVmQU8xTE5hVEpiVHdqdXpj?=
- =?utf-8?B?eHgrMTZHZ1VJL0xFd0NpLytxTC9jYzRPZGdob09KZ0w1MVdnWEZMT3Q5bkxQ?=
- =?utf-8?B?Q2hyVVlsZS9GTU40T0dLaDZQRllvNkRYSUUvQW5oU29DazU3SFlWUXhrVUFy?=
- =?utf-8?B?Qk00ZHFJRmg2ZzNDL1FER0VtT0U5bjEvRGh0MUFGR2ZBVU9UbEtsS0phblNX?=
- =?utf-8?B?ODZPWDduV1JZb212aTl5M3Z4R1NvR3BoZktXTW1Eb3gvMmwrb0RQbFhPc1li?=
- =?utf-8?B?UzVMeWQ5ck9ndG5TTmdDZU42US9tMGtmRk9sZUVpK0tlWWNHZEF1YVM0NGo1?=
- =?utf-8?B?eEwyM0JubGxEQnA1OWdzbnVzbDY5NlVMRGR3T2ZDSUtpZGhSUExmd25IWWFC?=
- =?utf-8?B?aWhBbThoTnFuYXZGK2VYai9VZTVjTk1ObWVMWnRBQnY0OUtNazM1SWErdnky?=
- =?utf-8?B?M0k4SXZhTlBYQlhxU0xDTGFMZE0xc3VLRk1tbGFySG9QbFg4QWV1T2pBd3FR?=
- =?utf-8?B?QmI3bUlmaHljdEY2azJWRTl6VGlCTGxRdm1vNWM5TWlibkF2S0FqQkMyanBQ?=
- =?utf-8?B?RVF0UkhSellIblJIZGtVS1BPWkx3NFh3TTFNVEZMdHhKd0hmaU5pYkZrRWlu?=
- =?utf-8?B?dU9NeVcvNStYUGpxNFM0WnEzc0dSTWxNZlRJaU5INzZrczNNM3pxZnMrazFB?=
- =?utf-8?B?M0lQN0ErUHJPelJIVVo5cGJ0OHRNK3kwKzhQenlyckwwV1ZKeTB2bU1BZ1R1?=
- =?utf-8?B?ZStoKzE4YkRNcDdYTmIxQkY3ajNiOVgxT1lnOTR1dGswNklSamFORXNuTjU4?=
- =?utf-8?B?MDlIbjlNeUNUTUE5a0MvSXFNU3FHc2FsekRvOVdzcUN1RnVTV0JTYUQ0cTdM?=
- =?utf-8?B?cmNZdEFmTmd6QUJxOGVFWjFoT2hyaS9rTkNlZm1MZDR4MHBnNTNlbGluTEhi?=
- =?utf-8?B?L293c2VwTStzWW9mdCs5WXZuQ1NSNHdZWmlDb1ZUNzNmMDJ1V2hJRnNoUUdv?=
- =?utf-8?B?WDdLWUw1S2pIcFkrcUNEMnUxSEpxc04yUEsraE1FUml3L3RTZUNHbHhaTzE3?=
- =?utf-8?B?eVVjU1E5NFFSRFdTVWVmREF6VjBzWGhZTmdXaTVjOW9HWXU0OElLdzZkczd1?=
- =?utf-8?B?eFJhM1NMWmdOaGNJdHZ3ZktTVkpPcTcrU3NwQ0NwL1hYOTZISldwcmJOMy9m?=
- =?utf-8?B?WDhJSmVIdS8zM0ZMMFRqMHhUQVYrbENqRk5vanpCTjhWYVNZaFAya1pCZC82?=
- =?utf-8?B?UE1ZTzB0M1NGbGJwTUpwa2FiTytTS0htbW1aRDlIUHlvdWtEeVp4VERHRm5B?=
- =?utf-8?B?aTJiaFZhWEdTbytDb3JHREQ4U3hUczFpMGsvYmdqNmFveElMYWREQ2F1QVFY?=
- =?utf-8?B?M2RFUW52SDJ0YldTNE1kNUV4Wnl2SVBoSWZ1QitlSDgvWDRJMDU4eEtLby9V?=
- =?utf-8?B?M3ZYUmpPWVdyTHRaLzZFSmFLcTU3enAyQ1V1YTMxaExIZGNMWXFrVlJsbk02?=
- =?utf-8?B?ZGVuRVM4RG5hVStyU3ZXT2tJS0JCZ0pnMUQvMmh1NGliUFhtRmV4eDIrRHhq?=
- =?utf-8?B?dnIvdzNEWHZjVG1hTXFnTUZ6dVBURVRZVjFvSUx1ZkRLZ1Jkd2hTNlBMaGtP?=
- =?utf-8?B?VXoyRldmMnJSM0s2M05tTkVld0NJbDlJMW4ranVMbDlyVFVWRjY3OC9Jc3RE?=
- =?utf-8?B?NmFFenZLU0g1ME1xR1Fwa1JpNkJGbktXOFFpakJabEhDZE5zMjZhMXZiSjlz?=
- =?utf-8?B?eW15ZkxuSkx3ZUFTRGhRZXZWblZwVFR1OGVzQ1dtYkpkeEE3UGZuSlVhaVNu?=
- =?utf-8?B?QURUMkZReEhHTEZOdXlZUjhyd1dISTE1QVNFSUMwWmFGaEk0R1BabVQ0U3Yx?=
- =?utf-8?B?OGRNb1JnSms1VWN6b2l0UTVWQ1hTQThNejRDRWZHeVFwdmR1V1RaVUhqSzhM?=
- =?utf-8?Q?QW9g=3D?=
-X-Forefront-Antispam-Report:
-	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(1800799024)(376014)(7053199007);DIR:OUT;SFP:1101;
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2025 21:36:34.4531
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 46607a54-454d-413d-d763-08de38fd5b79
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF00002319.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR10MB5918
 
-Hi Jackson and Nicolas,
 
-On 12/11/2025 9:04 AM, Nicolas Dufresne wrote:
-> Hi,
-> 
-> Le mardi 02 décembre 2025 à 02:06 +0000, jackson.lee a écrit :
->> Hi Brandon
->>
->>
->>> -----Original Message-----
->>> From: Brandon Brnich <b-brnich@ti.com>
->>> Sent: Thursday, November 20, 2025 6:32 AM
->>> To: Nas Chung <nas.chung@chipsnmedia.com>; jackson.lee
->>> <jackson.lee@chipsnmedia.com>; Mauro Carvalho Chehab <mchehab@kernel.org>;
->>> linux-media@vger.kernel.org; linux-kernel@vger.kernel.org; Nicolas
->>> Dufresne <nicolas.dufresne@collabora.com>
->>> Cc: Darren Etheridge <detheridge@ti.com>; Brandon Brnich <b-brnich@ti.com>
->>> Subject: [PATCH] media: chips-media: wave5: Fix Potential Probe Resource
->>> Leak
->>>
->>> After kthread creation during probe sequence, a handful of other failures
->>> could occur. If this were to happen, the kthread is never explicitly
->>> deleted which results in a resource leak. Add explicit cleanup of this
->>> resource.
->>>
->>> Signed-off-by: Brandon Brnich <b-brnich@ti.com>
->>> ---
->>>
->>> I am aware that all the dev attributes would be freed since it is
->>> allocated using the devm_* framework. But I did not believe that this
->>> framework would recursively free the thread and stop the timer. These
->>> would just be dangling resources unable to get killed unless deliberately
->>> removed in the probe function.
->>>
->>>   drivers/media/platform/chips-media/wave5/wave5-vpu.c | 5 +++++
->>>   1 file changed, 5 insertions(+)
->>>
->>> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
->>> b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
->>> index e1715d3f43b0..f027b4ac775a 100644
->>> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
->>> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
->>> @@ -339,6 +339,11 @@ static int wave5_vpu_probe(struct platform_device
->>> *pdev)
->>>   	v4l2_device_unregister(&dev->v4l2_dev);
->>>   err_vdi_release:
->>>   	wave5_vdi_release(&pdev->dev);
->>> +
->>> +	if (dev->irq < 0) {
->>> +		kthread_destroy_worker(dev->worker);
->>> +		hrtimer_cancel(&dev->hrtimer);
->>> +	}
->>
->> I'd like to change the above to as below.
->> I think we have to distinguish failure between registering IRQ handler and
->> registering v4l2_device_register.
->>
->> err_irq_release:
->> 	if (dev->irq < 0) {
->> 		kthread_destroy_worker(dev->worker);
->> 		hrtimer_cancel(&dev->hrtimer);
->> 	}
->> err_vdi_release:
-> 
-> That's seems more then just a suggestion, I see that err_vdi_release: is reached
-> on worker creation failure. Checking the kthread code, this will cause a use
-> after free instead of a leak.
+--=-yG+as83aM5QlWgOSIYo5
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Agreed with all above statements. I will update to fix use after free 
-that I introduced in v1.
+Le jeudi 11 d=C3=A9cembre 2025 =C3=A0 15:36 -0600, Brandon Brnich a =C3=A9c=
+rit=C2=A0:
+> Hi Jackson and Nicolas,
+>=20
+> On 12/11/2025 9:04 AM, Nicolas Dufresne wrote:
+> > Hi,
+> >=20
+> > Le mardi 02 d=C3=A9cembre 2025 =C3=A0 02:06 +0000, jackson.lee a =C3=A9=
+crit=C2=A0:
+> > > Hi Brandon
+> > >=20
+> > >=20
+> > > > -----Original Message-----
+> > > > From: Brandon Brnich <b-brnich@ti.com>
+> > > > Sent: Thursday, November 20, 2025 6:32 AM
+> > > > To: Nas Chung <nas.chung@chipsnmedia.com>; jackson.lee
+> > > > <jackson.lee@chipsnmedia.com>; Mauro Carvalho Chehab <mchehab@kerne=
+l.org>;
+> > > > linux-media@vger.kernel.org; linux-kernel@vger.kernel.org; Nicolas
+> > > > Dufresne <nicolas.dufresne@collabora.com>
+> > > > Cc: Darren Etheridge <detheridge@ti.com>; Brandon Brnich <b-brnich@=
+ti.com>
+> > > > Subject: [PATCH] media: chips-media: wave5: Fix Potential Probe Res=
+ource
+> > > > Leak
+> > > >=20
+> > > > After kthread creation during probe sequence, a handful of other fa=
+ilures
+> > > > could occur. If this were to happen, the kthread is never explicitl=
+y
+> > > > deleted which results in a resource leak. Add explicit cleanup of t=
+his
+> > > > resource.
+> > > >=20
+> > > > Signed-off-by: Brandon Brnich <b-brnich@ti.com>
+> > > > ---
+> > > >=20
+> > > > I am aware that all the dev attributes would be freed since it is
+> > > > allocated using the devm_* framework. But I did not believe that th=
+is
+> > > > framework would recursively free the thread and stop the timer. The=
+se
+> > > > would just be dangling resources unable to get killed unless delibe=
+rately
+> > > > removed in the probe function.
+> > > >=20
+> > > > =C2=A0=C2=A0drivers/media/platform/chips-media/wave5/wave5-vpu.c | =
+5 +++++
+> > > > =C2=A0=C2=A01 file changed, 5 insertions(+)
+> > > >=20
+> > > > diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> > > > b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> > > > index e1715d3f43b0..f027b4ac775a 100644
+> > > > --- a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> > > > +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> > > > @@ -339,6 +339,11 @@ static int wave5_vpu_probe(struct platform_dev=
+ice
+> > > > *pdev)
+> > > > =C2=A0=C2=A0	v4l2_device_unregister(&dev->v4l2_dev);
+> > > > =C2=A0=C2=A0err_vdi_release:
+> > > > =C2=A0=C2=A0	wave5_vdi_release(&pdev->dev);
+> > > > +
+> > > > +	if (dev->irq < 0) {
+> > > > +		kthread_destroy_worker(dev->worker);
+> > > > +		hrtimer_cancel(&dev->hrtimer);
+> > > > +	}
+> > >=20
+> > > I'd like to change the above to as below.
+> > > I think we have to distinguish failure between registering IRQ handle=
+r and
+> > > registering v4l2_device_register.
+> > >=20
+> > > err_irq_release:
+> > > 	if (dev->irq < 0) {
+> > > 		kthread_destroy_worker(dev->worker);
+> > > 		hrtimer_cancel(&dev->hrtimer);
+> > > 	}
+> > > err_vdi_release:
+> >=20
+> > That's seems more then just a suggestion, I see that err_vdi_release: i=
+s reached
+> > on worker creation failure. Checking the kthread code, this will cause =
+a use
+> > after free instead of a leak.
+>=20
+> Agreed with all above statements. I will update to fix use after free=20
+> that I introduced in v1.
+>=20
+> >=20
+> > An additional question, aren't we are supposed to also cleanup irq_thre=
+ad ? We
+> > have this code being introduced in the remove function now:
+> >=20
+> >=20
+> > 		if (dev->irq_thread) {
+> > 			kthread_stop(dev->irq_thread);
+> > 			up(&dev->irq_sem);
+> > 			dev->irq_thread =3D NULL;
+> > 		}
+>=20
+> This portion of code is being introduced in Jackson's performance=20
+> series. I did not base my patch on this series since it hasn't been=20
+> accepted yet. I assumed my patch would make it in before since this is=
+=20
+> easier to review than that series. Apologies if I need to base on that=
+=20
+> series. Can rebase this in v2 if requested.
+>=20
+> Otherwise, I suggest Jackson to add irq_thread cleanup in next iteration=
+=20
+> of performance series.
 
-> 
-> An additional question, aren't we are supposed to also cleanup irq_thread ? We
-> have this code being introduced in the remove function now:
-> 
-> 
-> 		if (dev->irq_thread) {
-> 			kthread_stop(dev->irq_thread);
-> 			up(&dev->irq_sem);
-> 			dev->irq_thread = NULL;
-> 		}
+I see, this is good point. I discourage writing code against my upcoming PR
+branch, its not a proper tree, but for this one you may just base you patch
+against it, since it will all be sent together ideally.
 
-This portion of code is being introduced in Jackson's performance 
-series. I did not base my patch on this series since it hasn't been 
-accepted yet. I assumed my patch would make it in before since this is 
-easier to review than that series. Apologies if I need to base on that 
-series. Can rebase this in v2 if requested.
+https://gitlab.freedesktop.org/linux-media/users/ndufresne/-/tree/for-6.20
 
-Otherwise, I suggest Jackson to add irq_thread cleanup in next iteration 
-of performance series.
+regards,
+Nicolas
 
-Best,
-Brandon
+>=20
+> Best,
+> Brandon
+>=20
+> >=20
+> >=20
+> >=20
+> > regards,
+> > Nicolas
+> >=20
+> >=20
+> > >=20
+> > > thanks
+> > > Jackson
+> > >=20
+> > >=20
+> > > > =C2=A0=C2=A0err_clk_dis:
+> > > > =C2=A0=C2=A0	clk_bulk_disable_unprepare(dev->num_clks, dev->clks);
+> > > > =C2=A0=C2=A0err_reset_assert:
+> > > > --
+> > > > 2.34.1
+> > >=20
+>=20
 
-> 
-> 
-> 
-> regards,
-> Nicolas
-> 
-> 
->>
->> thanks
->> Jackson
->>
->>
->>>   err_clk_dis:
->>>   	clk_bulk_disable_unprepare(dev->num_clks, dev->clks);
->>>   err_reset_assert:
->>> --
->>> 2.34.1
->>
+--=-yG+as83aM5QlWgOSIYo5
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaTs82AAKCRDZQZRRKWBy
+9JOPAQDa7MPRF3XjlnL9sz8ECog0ayLpzkB3jKLKKrrswy0VtAD+Mo1DwA38IavT
+XcCQWQhIkw2HDpdICm3epDqZWs/5TAU=
+=b/OT
+-----END PGP SIGNATURE-----
+
+--=-yG+as83aM5QlWgOSIYo5--
 
