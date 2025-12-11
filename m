@@ -1,150 +1,5377 @@
-Return-Path: <linux-media+bounces-48647-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48648-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1648CB705A
-	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 20:41:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0CCACB711A
+	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 20:53:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 700DC30161E9
-	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 19:41:41 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 561CA3015D14
+	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 19:53:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD5AB320CCC;
-	Thu, 11 Dec 2025 19:31:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1948A326D74;
+	Thu, 11 Dec 2025 19:53:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BqUEgWab";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="hTcyi2Si"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="2GiZibeY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD6C93203A1
-	for <linux-media@vger.kernel.org>; Thu, 11 Dec 2025 19:31:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CD4F314B63
+	for <linux-media@vger.kernel.org>; Thu, 11 Dec 2025 19:53:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765481514; cv=none; b=JUObAjstReTk8JMVfZ07lfJKSHgqb8u3ZBNup/DJqY2h8QZ+Qtmda71hfaYaI1y5qeAVgpnPUEMRy7pR2pFole4pXrojxZlQRfGxnYwsm88PdLqF1ABAYLOEKuoG1Abbb7wXZzq5UWBrN8Q1InyvvU7vM4QusIVn0MlchUt1hxA=
+	t=1765482793; cv=none; b=VXQd14+MDBkcSw3G8H7JOHH78W73Z/GBpqiR6EktxOb3eX0sWu/wJQIKHfNMMMN3IJ+HV4lV54hbY63QI4IYQIGSYVte52QP+RKwjFX+7+4o9oj//vUdOY2I8DslWdtSLvZeV29fgPXkL3UG8Q1csgKAalaK3kxkWrUYBx1a6VY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765481514; c=relaxed/simple;
-	bh=2M5IOiqUEuqkSixspo6eExA8XvWawL3eIHVWOiYInnc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-type; b=VI3qlvmrSMcWAgN3TdvQmY33JhKahJwhvtnvu/vWy6SPgLfBxN8aszO+ADPk2jkKEWk/k/StmhaNduYK4XDYfAQQ+0rYYXADCgndXtzA4MsguBNRLrF/lJ+f5BFzAeYfzhHynGTDO3tgV/7m6WLysS5gg2KW+ZBIo/7AX5Hi9dM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BqUEgWab; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=hTcyi2Si; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1765481510;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=9fNQS7Ht+smYBEt8qQi15gMY9oRc7YfucqsNSafaVMY=;
-	b=BqUEgWabxwUfyoNR4Ssc4w+RzJ3si6DqcjWpwT2ldhvaghsvvAe6IJLEsVtaK1ynw6GrSQ
-	c/0Dky58d51S7UYh7gkTLCKTDkGulMjrQDbupgfZHufrH76DJxVs7gacLufY4S/N89w+iQ
-	FCvGzQ+uMAATsQWVv+KMLVCmbEQzuQg=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-272-OXDeWENnMUe9Y04X7zy7sg-1; Thu, 11 Dec 2025 14:31:49 -0500
-X-MC-Unique: OXDeWENnMUe9Y04X7zy7sg-1
-X-Mimecast-MFC-AGG-ID: OXDeWENnMUe9Y04X7zy7sg_1765481509
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-8bb0ae16a63so58124585a.3
-        for <linux-media@vger.kernel.org>; Thu, 11 Dec 2025 11:31:49 -0800 (PST)
+	s=arc-20240116; t=1765482793; c=relaxed/simple;
+	bh=M5o5rIrWFjnwtXEvGJF+x91t/J1RUo5Xw0hvGba+fN4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=jJTvq4hVQFswJfepsJH3In9nQY01I2l7G/+2RwPq4/LLk1JN4hoewWllDM5ZJEnGU9ZkrZ58O1+Jolti7CQfnKrZXNbk7OrmRtyWbsKCZh6ewKUPhueWPbNnVN5L02kora+ajy2bw/nuBEsyOOlAKbyLyFMa1T+LtBIQf0P89LI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=2GiZibeY; arc=none smtp.client-ip=209.85.219.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
+Received: by mail-qv1-f66.google.com with SMTP id 6a1803df08f44-88249766055so6290546d6.1
+        for <linux-media@vger.kernel.org>; Thu, 11 Dec 2025 11:53:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1765481509; x=1766086309; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9fNQS7Ht+smYBEt8qQi15gMY9oRc7YfucqsNSafaVMY=;
-        b=hTcyi2Si/n4XSBzdrX/Wx585cYZNHVNokZudC/OzSwkTDVdEMry3bG+PlLdaBdVfRy
-         5WXy1CmFQUcCwLzzHhYHExZ2EGSskP7eZK2cUubk+LVN+OrDGPx096ARRDJuKY6Lcbug
-         +QuyL9kgtNdnwrR/CJichayKrm8t+AWDu21RF4nff9d7mmAXGg8oZi5A71I8KUNkun0j
-         EATgQD8yfKv2tC3f1DfSziPbaXZO0ipEDRmtuS+Aawpsn4/t8q8C/33w4PRmkClPW5qb
-         UxgTVCJPuAIqsQPk0j6Ztmz4w2oOdr4xNsFopW5lEAqjkDOpjGNavrtN9SEB5c+2E/AP
-         yeHg==
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1765482784; x=1766087584; darn=vger.kernel.org;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZrKXlrovMTKJNNAASAHpfI4c4xvJBiSScYfcWV2+KRM=;
+        b=2GiZibeY+PAzb8sUomTrd2xEmPbi+7cymuC4GkdfBpbT62iaZovGV4HDTP6Vv4s7PG
+         nIkU7/+nip5E4N5JAhF47uu4rKSj98cr+ATn0+5H2JaBQNMhjfPsGJG0P5GghWylPZi8
+         ltKJoFGhwfE1OahlLeM6h31amplLqGOWrQtsJ20GOOavR4YXGK9gSAEjLxY79i7BNQTP
+         Ed6h7lG4oj00s3/qHYvbm1DgPTjLAAZvBBg4q68HZkhCgCoF52L+yH/tX1bpDf9OcWRb
+         HoUMcdv+z+c4qbt9A3pJsrlmx1XV9ISNh8+DX/fykpMswH8ZSl6OS7JrIXrJVQz/ov7o
+         zueA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765481509; x=1766086309;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9fNQS7Ht+smYBEt8qQi15gMY9oRc7YfucqsNSafaVMY=;
-        b=vIWogn4Rk+J0Nvs29JLzApmATzjPmyuwtlkN77SbqmLWmyIEbwY2EvDQSbEfCNhm7d
-         XGjjuxYijMFKBpKeEmkprqxKtSkzszdCpaAKhzYB3wO65dHwqrN92PW41TpwC97REWU7
-         gg6gVkFZouP1qcvgGvEWDp95noo0O0xpSiDKdOf1Eqna+9oC/pJQVsmK+CrhnHvncqTY
-         hfr9wlLdvIeDXTSuz/pdgBSmYoCLvVBTrMk++S8JQem3YeeytFnCjX8jTZHPJQeL90ax
-         ql61T4l2wTSjtPBVvT2TLrd4WIBulKIj2KbdJaK3qHmRtdGNBK6q7/5XI6df+3jbBea7
-         QW+A==
-X-Gm-Message-State: AOJu0YxB4Rd2Y40TpsgboAPJoiDy6ewlIEVzCps9Qah0TTGX5k3QiRyt
-	/lkA4UDFUovLxMJGa7Ue/ZuGka2hnfDKzB6FDGY8eJJSTPDxdt2O/FjMTDezD7l0QlY5j/oT32f
-	oFTYuv2OuRgtYdu5Pjwm7oIygUGpnOp5EuPZGWwfWRR1kE63Hn32C036P69ekoV/N
-X-Gm-Gg: AY/fxX5MegQhg6qbmjrCAN3TvdwcMzBzItXcU0X94SOqn6sDnF/+K4I/JQZOWzww02l
-	hYkg9dVWkNA+vU9xIO6Fmplo986iFjXVir3H7Ycez0gFKr/fAiUSusZxRNUS+ZRAYPtbA+LtZNf
-	xKL2WgNLdSILf6nUx3NqmjBGwJQ05qRPuxjyTmiY07UKlj5A9yKP89WcMNjpIsegwz+xL3ffF5R
-	jFMTw2ReI7QK9g0F8wO906h2MFVwf0K7UagOtsKSsV32Tl5LuTqhJvRZ4KApybpV+Z9tuSU8IzP
-	d8tMdGX04LYhXmk/FHGIinPgdBjT3xBEf2cuO/8df0R9ec9IIdbns65xnXZWHQlW49G/Dl9AMs9
-	+bmP1az96HtK4BFmC4Wb6eBR2MuQF2eMn2kXS3Hx0EvYfvPACQAghSg==
-X-Received: by 2002:a05:620a:190d:b0:8b2:2607:83d5 with SMTP id af79cd13be357-8ba3b20cc7amr1086240285a.75.1765481508540;
-        Thu, 11 Dec 2025 11:31:48 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGjxv4hC6ptOgdZUS2F0ohaHHF/DSOrKZqK5mzPaPV5p8p12y+Xs+J8IIFSF5PnIj57uqbRqw==
-X-Received: by 2002:a05:620a:190d:b0:8b2:2607:83d5 with SMTP id af79cd13be357-8ba3b20cc7amr1086234585a.75.1765481507972;
-        Thu, 11 Dec 2025 11:31:47 -0800 (PST)
-Received: from localhost (pool-100-17-22-234.bstnma.fios.verizon.net. [100.17.22.234])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8bab5452ec6sm292782685a.1.2025.12.11.11.31.47
+        d=1e100.net; s=20230601; t=1765482784; x=1766087584;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZrKXlrovMTKJNNAASAHpfI4c4xvJBiSScYfcWV2+KRM=;
+        b=xVb9JiQHRrCw7XCHrh6mz86O0mGxuEqRecZ2H8l53ZVVDQDRabbDMRzoGXGkvm0WPr
+         KKiUKBONcr/u505vUAsF+lFkBtbVFscfTpS6He87YTqNAPcKUZjs9E1P8dfyJIYDfdXT
+         s4j5PPLS/hfmyFqtgsSU61UYqNEvJEcynR5b0Rl8iMfux6UgZxlp7WNOm4EHZS2dVsF4
+         eOEfV/J+PLXrkMW2xW0cb7C0ArVdEdVBHjEWuulqBij3d3PbESEd2iyw1WAZia00PnUB
+         AKrz1gBBDvLN0/ofccSiaQK427uRbk9S4q08YLYRRrBh81Kfj6gFQU2ZkA7XiyiWfGPc
+         BhPg==
+X-Gm-Message-State: AOJu0YyKjwVhvNWn82t5S/SU0J37FRy0xCGLPqCxbNM+H0BKgN0DXAj6
+	6tQQoOvI49FIXbktdhGIfIGwYHWvAigRPId/i9W1rH1XoV1nLSYYOA2cQNdQfQM2HM4=
+X-Gm-Gg: AY/fxX7E9iJhJ46D7S6BBE6jY2+andj0agsXuHbByqBG8zl7IU2mv5Sx8nomARS9zUS
+	djWBx1F7/mIGvd4AYmm0RaRp+BKg53Y1dvDM6m9G3FFwX2b3gM6itOMo3fUjQ2adxOcOJYb2dTG
+	F3+ridjd0+gg5pRVoI/OpsaCvMa2p/vgfvUguaeZrQhf+DeGB2mTCDLUz88zpHgRnnhLIn0S0bT
+	rhBQxQsodnBqbnLgy3kPBd12axf2Ou4XE6JQTozEE/u3zmCa9YWE4dPUSldQDYkDLMBJQRDngg4
+	Yv5eE8kz+XcSB9iBUq7rPfp3W70Mk382yOXQWH050Ke2giWC3o9/0whg1BAGKATUwjwpMv9KAuI
+	sNMV0cbAS71ewihXGBHKe53FPkMiCp2MDMUP3aVmR5TYdo12zUfXHPUfbCDuD1DBZi58BgP3sPQ
+	otKISYw+8gDByZ9gLi
+X-Google-Smtp-Source: AGHT+IHUzsZCd2bG5kvuRbWsC6FvfrY1qv/39Enaj+wAb59WAi5XXIttIFVZBPwMYloZjLZH8QkDGw==
+X-Received: by 2002:a05:6214:5003:b0:880:45ad:3db3 with SMTP id 6a1803df08f44-88863ace571mr114761126d6.51.1765482783128;
+        Thu, 11 Dec 2025 11:53:03 -0800 (PST)
+Received: from ?IPv6:2606:6d00:17:7b4b::c41? ([2606:6d00:17:7b4b::c41])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8886eef9ee1sm30576626d6.32.2025.12.11.11.53.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Dec 2025 11:31:47 -0800 (PST)
-From: Eric Chanudet <echanude@redhat.com>
-To: Sumit Semwal <sumit.semwal@linaro.org>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Brian Starkey <Brian.Starkey@arm.com>,
-	John Stultz <jstultz@google.com>,
-	"T.J. Mercier" <tjmercier@google.com>,
-	Christian Koenig <christian.koenig@amd.com>,
-	Maxime Ripard <mripard@redhat.com>
-Cc: linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	linux-kernel@vger.kernel.org,
-	Eric Chanudet <echanude@redhat.com>
-Subject: [PATCH] dma-buf: system_heap: account for system heap allocation in memcg
-Date: Thu, 11 Dec 2025 14:31:07 -0500
-Message-ID: <20251211193106.755485-2-echanude@redhat.com>
-X-Mailer: git-send-email 2.52.0
+        Thu, 11 Dec 2025 11:53:01 -0800 (PST)
+Message-ID: <9b74086ac938475328904960add2c284b81efd4a.camel@ndufresne.ca>
+Subject: Re: [PATCH RFC v2 2/3] decoder: Add V4L2 stateless H.264 decoder
+ driver
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: zhentao.guo@amlogic.com, Mauro Carvalho Chehab <mchehab@kernel.org>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley	 <conor+dt@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman	 <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-amlogic@lists.infradead.org
+Date: Thu, 11 Dec 2025 14:53:00 -0500
+In-Reply-To: <20251124-b4-s4-vdec-upstream-v2-2-bdbbce3f11a6@amlogic.com>
+References: <20251124-b4-s4-vdec-upstream-v2-0-bdbbce3f11a6@amlogic.com>
+	 <20251124-b4-s4-vdec-upstream-v2-2-bdbbce3f11a6@amlogic.com>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-bciFiis+pcG/Zs8UnK06"
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
 
-The system dma-buf heap lets userspace allocate buffers from the page
-allocator. However, these allocations are not accounted for in memcg,
-allowing processes to escape limits that may be configured.
 
-Pass the __GFP_ACCOUNT for our allocations to account them into memcg.
+--=-bciFiis+pcG/Zs8UnK06
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Userspace components using the system heap can be constrained with, e.g:
-  systemd-run --user --scope -p MemoryMax=10M ...
+Le lundi 24 novembre 2025 =C3=A0 11:32 +0800, Zhentao Guo via B4 Relay a =
+=C3=A9crit=C2=A0:
+> From: Zhentao Guo <zhentao.guo@amlogic.com>
+>=20
+> Add initial support for V4L2 stateless video decoder
+> driver on Amlogic S4(S805X2) platform. In phase 1,
+> it supports H.264 bitstreams decoding.
 
-Signed-off-by: Eric Chanudet <echanude@redhat.com>
----
- drivers/dma-buf/heaps/system_heap.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Please reflow in next version, you can use something like 72 char. Since th=
+is is
+subset of what the HW can do, some extra information is appreciate, perhaps
+which profiles, pixel depth etc.
 
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index 4c782fe33fd4..c91fcdff4b77 100644
---- a/drivers/dma-buf/heaps/system_heap.c
-+++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -38,10 +38,10 @@ struct dma_heap_attachment {
- 	bool mapped;
- };
- 
--#define LOW_ORDER_GFP (GFP_HIGHUSER | __GFP_ZERO)
-+#define LOW_ORDER_GFP (GFP_HIGHUSER | __GFP_ZERO | __GFP_ACCOUNT)
- #define HIGH_ORDER_GFP  (((GFP_HIGHUSER | __GFP_ZERO | __GFP_NOWARN \
- 				| __GFP_NORETRY) & ~__GFP_RECLAIM) \
--				| __GFP_COMP)
-+				| __GFP_COMP | __GFP_ACCOUNT)
- static gfp_t order_flags[] = {HIGH_ORDER_GFP, HIGH_ORDER_GFP, LOW_ORDER_GFP};
- /*
-  * The selection of the orders used for allocation (1MB, 64K, 4K) is designed
--- 
-2.52.0
+>=20
+> Signed-off-by: Zhentao Guo <zhentao.guo@amlogic.com>
+> ---
+> =C2=A0MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 7 +
+> =C2=A0drivers/media/platform/amlogic/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 1 +
+> =C2=A0drivers/media/platform/amlogic/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 1 +
+> =C2=A0drivers/media/platform/amlogic/vdec/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 16 +
+> =C2=A0drivers/media/platform/amlogic/vdec/Makefile=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 4 +
+> =C2=A0drivers/media/platform/amlogic/vdec/TODO=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 7 +
+> =C2=A0drivers/media/platform/amlogic/vdec/aml_vdec.c=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0 756 ++++++++
+> =C2=A0drivers/media/platform/amlogic/vdec/aml_vdec.h=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0=C2=A0 31 +
+> =C2=A0drivers/media/platform/amlogic/vdec/aml_vdec_drv.c |=C2=A0 239 +++
+> =C2=A0drivers/media/platform/amlogic/vdec/aml_vdec_drv.h |=C2=A0 196 ++
+> =C2=A0drivers/media/platform/amlogic/vdec/aml_vdec_hw.c=C2=A0 |=C2=A0 596=
+ ++++++
+> =C2=A0drivers/media/platform/amlogic/vdec/aml_vdec_hw.h=C2=A0 |=C2=A0 158=
+ ++
+> =C2=A0.../platform/amlogic/vdec/aml_vdec_platform.c=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0=C2=A0 37 +
+> =C2=A0.../platform/amlogic/vdec/aml_vdec_platform.h=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0=C2=A0 62 +
+> =C2=A0drivers/media/platform/amlogic/vdec/h264.c=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 | 1933 ++++++++++++++++++++
+> =C2=A0drivers/media/platform/amlogic/vdec/h264.h=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 300 +++
+> =C2=A0drivers/media/platform/amlogic/vdec/reg_defines.h=C2=A0 |=C2=A0 177=
+ ++
+> =C2=A017 files changed, 4521 insertions(+)
+>=20
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index ec635515c0c4..371c8b828394 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1365,6 +1365,13 @@ S:	Maintained
+> =C2=A0F:	Documentation/devicetree/bindings/spi/amlogic,a4-spisg.yaml
+> =C2=A0F:	drivers/spi/spi-amlogic-spisg.c
+> =C2=A0
+> +AMLOGIC VCODEC DRIVER
+> +M:	Zhentao Guo <zhentao.guo@amlogic.com>
+> +L:	linux-media@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/media/amlogic,s4-vcodec-dec.yaml
+> +F:	drivers/media/platform/amlogic/vdec/
+> +
+> =C2=A0AMPHENOL CHIPCAP 2 DRIVER
+> =C2=A0M:	Javier Carrasco <javier.carrasco.cruz@gmail.com>
+> =C2=A0L:	linux-hwmon@vger.kernel.org
+> diff --git a/drivers/media/platform/amlogic/Kconfig b/drivers/media/platf=
+orm/amlogic/Kconfig
+> index 458acf3d5fa8..7c541ac0d0c3 100644
+> --- a/drivers/media/platform/amlogic/Kconfig
+> +++ b/drivers/media/platform/amlogic/Kconfig
+> @@ -4,3 +4,4 @@ comment "Amlogic media platform drivers"
+> =C2=A0
+> =C2=A0source "drivers/media/platform/amlogic/c3/Kconfig"
+> =C2=A0source "drivers/media/platform/amlogic/meson-ge2d/Kconfig"
+> +source "drivers/media/platform/amlogic/vdec/Kconfig"
+> diff --git a/drivers/media/platform/amlogic/Makefile b/drivers/media/plat=
+form/amlogic/Makefile
+> index c744afcd1b9e..7409de674c0b 100644
+> --- a/drivers/media/platform/amlogic/Makefile
+> +++ b/drivers/media/platform/amlogic/Makefile
+> @@ -2,3 +2,4 @@
+> =C2=A0
+> =C2=A0obj-y +=3D c3/
+> =C2=A0obj-y +=3D meson-ge2d/
+> +obj-y +=3D vdec/
+> diff --git a/drivers/media/platform/amlogic/vdec/Kconfig b/drivers/media/=
+platform/amlogic/vdec/Kconfig
+> new file mode 100644
+> index 000000000000..95424d64cc1f
+> --- /dev/null
+> +++ b/drivers/media/platform/amlogic/vdec/Kconfig
+> @@ -0,0 +1,16 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR MIT)
+> +
+> +config VIDEO_AMLOGIC_VCODEC
+> +=C2=A0=C2=A0=C2=A0 tristate "Amlogic Video Codec Driver"
+> +=C2=A0=C2=A0=C2=A0 depends on ARCH_MESON || COMPILE_TEST
+> +=C2=A0=C2=A0=C2=A0 depends on VIDEO_DEV
+> +=C2=A0=C2=A0=C2=A0 depends on V4L_MEM2MEM_DRIVERS
+> +=C2=A0=C2=A0=C2=A0 select VIDEOBUF2_DMA_CONTIG
+> +=C2=A0=C2=A0=C2=A0 select V4L2_H264
+> +=C2=A0=C2=A0=C2=A0 select V4L2_MEM2MEM_DEV
+> +=C2=A0=C2=A0=C2=A0 select MESON_CANVAS
+> +=C2=A0=C2=A0=C2=A0 help
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 This is a v4l2 driver for Amlogic video c=
+odec driver.
+> +	=C2=A0 This driver is designed to support V4L2 M2M STATELESS
+> +	=C2=A0 interface.
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 To compile this driver as a module choose=
+ m here.
+> diff --git a/drivers/media/platform/amlogic/vdec/Makefile b/drivers/media=
+/platform/amlogic/vdec/Makefile
+> new file mode 100644
+> index 000000000000..1a7dcf1d7562
+> --- /dev/null
+> +++ b/drivers/media/platform/amlogic/vdec/Makefile
+> @@ -0,0 +1,4 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +aml-vdec-drv-objs :=3D aml_vdec.o aml_vdec_drv.o aml_vdec_hw.o aml_vdec_=
+platform.o h264.o\
+> +
+> +obj-$(CONFIG_VIDEO_AMLOGIC_VCODEC) +=3D aml-vdec-drv.o
+> diff --git a/drivers/media/platform/amlogic/vdec/TODO b/drivers/media/pla=
+tform/amlogic/vdec/TODO
+> new file mode 100644
+> index 000000000000..54c60145770e
+> --- /dev/null
+> +++ b/drivers/media/platform/amlogic/vdec/TODO
+> @@ -0,0 +1,7 @@
+> +TODO list for Amlogic V4L2 stateless decoder driver:
+> +
+> +1. Support decoding for HEVC, VP9, AV1, and MPEG-2.
+> +2. Support more SoCs, including the new T7/S7 series and legacy SoCs (e.=
+g., GXL, SM1, G12B).
+> +3. Support 10-bit decoding and P010 output.
+> +=C2=A0=C2=A0 Note: P010 output requires hardware support.
+> +4. Support interlaced stream decoding for H.264, HEVC, and MPEG-2.
+> diff --git a/drivers/media/platform/amlogic/vdec/aml_vdec.c b/drivers/med=
+ia/platform/amlogic/vdec/aml_vdec.c
+> new file mode 100644
+> index 000000000000..3ef2d32a7a73
+> --- /dev/null
+> +++ b/drivers/media/platform/amlogic/vdec/aml_vdec.c
+> @@ -0,0 +1,756 @@
+> +// SPDX-License-Identifier: (GPL-2.0-only OR MIT)
+> +/*
+> + * Copyright (C) 2025 Amlogic, Inc. All rights reserved
+> + */
+> +
+> +#include <media/v4l2-mem2mem.h>
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-event.h>
+> +#include <media/videobuf2-v4l2.h>
+> +#include <media/videobuf2-dma-contig.h>
+> +
+> +#include "aml_vdec.h"
+> +#include "aml_vdec_hw.h"
+> +#include "aml_vdec_platform.h"
+> +
+> +#define VCODEC_DRV_NAME "aml-vdec-drv"
+> +
+> +static const struct aml_vdec_v4l2_ctrl controls[] =3D {
+> +	{
+> +		.codec_type =3D CODEC_TYPE_H264,
+> +		.cfg =3D {
+> +			.id =3D V4L2_CID_STATELESS_H264_DECODE_PARAMS,
+> +		},
+> +	}, {
+> +		.codec_type =3D CODEC_TYPE_H264,
+> +		.cfg =3D {
+> +			.id =3D V4L2_CID_STATELESS_H264_SPS,
+> +		},
+> +	}, {
+> +		.codec_type =3D CODEC_TYPE_H264,
+> +		.cfg =3D {
+> +			.id =3D V4L2_CID_STATELESS_H264_PPS,
+> +		},
+> +	}, {
+> +		.codec_type =3D CODEC_TYPE_H264,
+> +		.cfg =3D {
+> +			.id =3D V4L2_CID_STATELESS_H264_SCALING_MATRIX,
+> +		},
+> +	}, {
+> +		.codec_type =3D CODEC_TYPE_H264,
+> +		.cfg =3D {
+> +			.id =3D V4L2_CID_STATELESS_H264_DECODE_MODE,
+> +			.min =3D V4L2_STATELESS_H264_DECODE_MODE_FRAME_BASED,
+> +			.def =3D V4L2_STATELESS_H264_DECODE_MODE_FRAME_BASED,
+> +			.max =3D V4L2_STATELESS_H264_DECODE_MODE_FRAME_BASED,
+> +		},
+> +	}, {
+> +		.codec_type =3D CODEC_TYPE_H264,
+> +		.cfg =3D {
+> +			.id =3D V4L2_CID_MPEG_VIDEO_H264_LEVEL,
+> +		},
+> +	}, {
+> +		.codec_type =3D CODEC_TYPE_H264,
+> +		.cfg =3D {
+> +			.id =3D V4L2_CID_STATELESS_H264_START_CODE,
+> +			.min =3D V4L2_STATELESS_H264_START_CODE_ANNEX_B,
+> +			.def =3D V4L2_STATELESS_H264_START_CODE_ANNEX_B,
+> +			.max =3D V4L2_STATELESS_H264_START_CODE_ANNEX_B,
+> +		},
+> +	}, {
+> +		.codec_type =3D CODEC_TYPE_H264,
+> +		.cfg =3D {
+> +			.id =3D V4L2_CID_MPEG_VIDEO_H264_PROFILE,
+> +			.min =3D V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE,
+> +			.max =3D V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
+> +			.def =3D V4L2_MPEG_VIDEO_H264_PROFILE_MAIN,
+> +		},
+> +	}
+> +};
+> +
+> +static struct aml_video_fmt aml_video_formats[] =3D {
+> +	{
+> +		.name =3D "H.264",
+> +		.fourcc =3D V4L2_PIX_FMT_H264_SLICE,
+> +		.type =3D AML_FMT_DEC,
+> +		.codec_type =3D CODEC_TYPE_H264,
+> +		.num_planes =3D 1,
+> +		.stepwise =3D {AML_VDEC_MIN_W, AML_VDEC_1080P_MAX_W, 2,
+> +			AML_VDEC_MIN_H, AML_VDEC_1080P_MAX_H, 2},
+> +	},
+> +	{
+> +		.name =3D "NV21M",
+> +		.fourcc =3D V4L2_PIX_FMT_NV21M,
+> +		.type =3D AML_FMT_FRAME,
+> +		.codec_type =3D CODEC_TYPE_FRAME,
+> +		.num_planes =3D 2,
+> +		.stepwise =3D {AML_VDEC_MIN_W, AML_VDEC_1080P_MAX_W, 2,
+> +			AML_VDEC_MIN_H, AML_VDEC_1080P_MAX_H, 2},
 
+You can make a define to initialize this, so you don't repeat it over and o=
+ver.
+Also, try to use readable style, similar to the cfg above.
+
+> +	},
+> +	{
+> +		.name =3D "NV21",
+> +		.fourcc =3D V4L2_PIX_FMT_NV21,
+> +		.type =3D AML_FMT_FRAME,
+> +		.codec_type =3D CODEC_TYPE_FRAME,
+> +		.num_planes =3D 1,
+> +		.stepwise =3D {AML_VDEC_MIN_W, AML_VDEC_1080P_MAX_W, 2,
+> +			AML_VDEC_MIN_H, AML_VDEC_1080P_MAX_H, 2},
+> +	},
+> +	{
+> +		.name =3D "NV12M",
+> +		.fourcc =3D V4L2_PIX_FMT_NV12M,
+> +		.type =3D AML_FMT_FRAME,
+> +		.codec_type =3D CODEC_TYPE_FRAME,
+> +		.num_planes =3D 2,
+> +		.stepwise =3D {AML_VDEC_MIN_W, AML_VDEC_1080P_MAX_W, 2,
+> +			AML_VDEC_MIN_H, AML_VDEC_1080P_MAX_H, 2},
+> +
+> +	},
+> +	{
+> +		.name =3D "NV12",
+> +		.fourcc =3D V4L2_PIX_FMT_NV12,
+> +		.type =3D AML_FMT_FRAME,
+> +		.codec_type =3D CODEC_TYPE_FRAME,
+> +		.num_planes =3D 1,
+> +		.stepwise =3D {AML_VDEC_MIN_W, AML_VDEC_1080P_MAX_W, 2,
+> +			AML_VDEC_MIN_H, AML_VDEC_1080P_MAX_H, 2},
+> +	},
+> +};
+> +
+> +void aml_vdec_set_default_params(struct aml_vdec_ctx *ctx)
+> +{
+> +	struct aml_q_data *q_data =3D NULL;
+> +
+> +	ctx->m2m_ctx->q_lock =3D &ctx->v4l2_intf_lock;
+> +
+> +	ctx->pic_info.colorspace =3D V4L2_COLORSPACE_DEFAULT;
+> +	ctx->pic_info.ycbcr_enc =3D V4L2_YCBCR_ENC_DEFAULT;
+> +	ctx->pic_info.quantization =3D V4L2_QUANTIZATION_DEFAULT;
+> +	ctx->pic_info.xfer_func =3D V4L2_XFER_FUNC_DEFAULT;
+> +
+> +	q_data =3D &ctx->q_data[AML_Q_DATA_SRC];
+> +	memset(q_data, 0, sizeof(struct aml_q_data));
+> +	q_data->visible_width =3D AML_VDEC_MIN_W;
+> +	q_data->visible_height =3D AML_VDEC_MIN_H;
+> +	q_data->coded_width =3D AML_VDEC_MIN_W;
+> +	q_data->coded_height =3D AML_VDEC_MIN_H;
+> +	q_data->filed_flag =3D V4L2_FIELD_NONE;
+> +	q_data->bytesperline[0] =3D 0;
+> +	q_data->sizeimage[0] =3D (1024 * 1024);
+> +	q_data->fmt =3D &aml_video_formats[DEFAULT_OUT_IDX];
+> +
+> +	q_data =3D &ctx->q_data[AML_Q_DATA_DST];
+> +	memset(q_data, 0, sizeof(struct aml_q_data));
+> +	q_data->visible_width =3D AML_VDEC_MIN_W;
+> +	q_data->visible_height =3D AML_VDEC_MIN_H;
+> +	q_data->coded_width =3D AML_VDEC_MIN_W;
+> +	q_data->coded_height =3D AML_VDEC_MIN_H;
+> +	q_data->filed_flag =3D V4L2_FIELD_NONE;
+> +	q_data->bytesperline[0] =3D q_data->coded_width;
+> +	q_data->sizeimage[0] =3D q_data->coded_width * q_data->coded_height;
+> +	q_data->bytesperline[1] =3D q_data->coded_width;
+> +	q_data->sizeimage[1] =3D q_data->sizeimage[0] / 2;
+> +	q_data->fmt =3D &aml_video_formats[DEFAULT_CAP_IDX];
+
+Why do you duplicated visible and coded width ? how can you hold two of the=
+se ?
+Also, to avoid possible deviate in sizeimage/bytesperline calculation, intr=
+oduce
+some reset function, and perhaps make use of your internal implementation o=
+f
+try_fmt.
+
+> +}
+> +
+> +int aml_vdec_ctrls_setup(struct aml_vdec_ctx *ctx)
+> +{
+> +	int i;
+> +	int ctrls_size =3D sizeof(controls) / sizeof(struct aml_vdec_v4l2_ctrl)=
+;
+> +
+> +	v4l2_ctrl_handler_init(&ctx->ctrl_handler, ctrls_size);
+> +	for (i =3D 0; i < ctrls_size; i++) {
+> +		v4l2_ctrl_new_custom(&ctx->ctrl_handler, &controls[i].cfg, NULL);
+> +		if (ctx->ctrl_handler.error) {
+> +			dev_info(&ctx->dev->plat_dev->dev, "add ctrl for (%d) failed%d\n",
+> +				 controls[i].cfg.id, ctx->ctrl_handler.error);
+> +			v4l2_ctrl_handler_free(&ctx->ctrl_handler);
+> +			return ctx->ctrl_handler.error;
+> +		}
+> +	}
+> +	ctx->fh.ctrl_handler =3D &ctx->ctrl_handler;
+> +	return v4l2_ctrl_handler_setup(&ctx->ctrl_handler);
+> +}
+> +
+> +static void m2mops_vdec_device_run(void *m2m_priv)
+> +{
+> +	struct aml_vdec_ctx *ctx =3D (struct aml_vdec_ctx *)m2m_priv;
+
+No need to cast void*
+
+> +	struct aml_vdec_dev *dev =3D ctx->dev;
+> +	struct vb2_v4l2_buffer *src, *dst;
+
+nit: src_buf, dst_buf
+
+> +	struct media_request *src_req;
+> +	const char *fw_path =3D dev->pvdec_data->fw_path[ctx->curr_dec_type];
+> +
+> +	src =3D v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
+> +	dst =3D v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+> +	dev_dbg(&dev->plat_dev->dev, "device run : src buf : %d dst buf %d\n",
+> +		src->vb2_buf.index, dst->vb2_buf.index);
+> +
+> +	src_req =3D src->vb2_buf.req_obj.req;
+> +	if (src_req)
+> +		v4l2_ctrl_request_setup(src_req, &ctx->ctrl_handler);
+
+I'll need to check, not all drivers do these check, yet I haven't found in =
+the
+core where we prevent this from happening. I want the core to prevent this =
+so we
+can remove all these checks, but I'm a bit unsure now.
+
+> +
+> +	dos_enable(dev->dec_hw);
+> +	/* incase of bus hang in stop_streaming */
+> +	ctx->dos_clk_en =3D 1;
+> +	aml_vdec_reset_core(dev->dec_hw);
+> +	load_firmware(dev->dec_hw, fw_path);
+> +
+> +	if (ctx->codec_ops->run)
+> +		ctx->codec_ops->run(ctx);
+
+use if (!BUG_ON(ctx->codec_ops->run =3D=3D NULL)), it would be driver progr=
+amming
+error to not have a fun function.
+
+> +
+> +	v4l2_m2m_buf_copy_metadata(src, dst);
+> +	if (src_req)
+> +		v4l2_ctrl_request_complete(src_req, &ctx->ctrl_handler);
+> +
+> +	v4l2_m2m_buf_done_and_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx, VB2_BU=
+F_STATE_DONE);
+
+This is atypical, normally we call this when we receive the IRQ, that avoid
+having to poll, and remove a useless context switch.
+
+> +}
+> +
+> +const struct v4l2_m2m_ops aml_vdec_m2m_ops =3D {
+> +	.device_run =3D m2mops_vdec_device_run,
+> +};
+> +
+> +static int vidioc_vdec_querycap(struct file *file, void *priv,
+> +				struct v4l2_capability *cap)
+> +{
+> +	strscpy(cap->driver, VCODEC_DRV_NAME, sizeof(cap->driver));
+> +	strscpy(cap->card, "platform:" VCODEC_DRV_NAME, sizeof(cap->card));
+> +
+> +	return 0;
+> +}
+> +
+> +static int vidioc_vdec_enum_fmt(struct v4l2_fmtdesc *f, bool is_output)
+> +{
+> +	struct aml_video_fmt *fmt;
+> +	int fmt_size =3D sizeof(aml_video_formats) / sizeof(struct aml_video_fm=
+t);
+> +	int i =3D 0, j =3D 0;
+> +
+> +	for (; i < fmt_size; i++) {
+> +		fmt =3D &aml_video_formats[i];
+> +		if (is_output && fmt->type !=3D AML_FMT_DEC)
+> +			continue;
+> +		if (!is_output && fmt->type !=3D AML_FMT_FRAME)
+> +			continue;
+> +
+> +		if (j =3D=3D f->index) {
+> +			f->pixelformat =3D fmt->fourcc;
+> +			strscpy(f->description, fmt->name,
+> +				sizeof(f->description));
+
+There is a memory bounded version of this, and these are fixed size char ar=
+ray,
+please use these.
+
+> +			if (strlen(fmt->name) >=3D sizeof(f->description))
+> +				f->description[sizeof(f->description) - 1] =3D '\0';
+
+strcpy() would be the preferred helper for this, no need to fill the leadin=
+g
+zero liek this, see include/linux/string.h
+
+> +			return 0;
+> +		}
+> +		++j;
+> +	}
+> +	return -EINVAL;
+> +}
+> +
+> +static struct aml_q_data *aml_vdec_get_qdata_by_type(struct aml_vdec_ctx=
+ *ctx,
+> +						=C2=A0=C2=A0=C2=A0=C2=A0 enum v4l2_buf_type type)
+> +{
+> +	if (V4L2_TYPE_IS_OUTPUT(type))
+> +		return &ctx->q_data[AML_Q_DATA_SRC];
+> +
+> +	return &ctx->q_data[AML_Q_DATA_DST];
+> +}
+> +
+> +static struct aml_video_fmt *aml_vdec_get_video_fmt(u32 format)
+> +{
+> +	struct aml_video_fmt *fmt;
+> +	unsigned int k;
+> +
+> +	for (k =3D 0; k < (sizeof(aml_video_formats) / sizeof(struct aml_video_=
+fmt)); k++) {
+
+ARRAY_SIZE gain, please apply through the entire patch.
+
+> +		fmt =3D &aml_video_formats[k];
+> +		if (fmt->fourcc =3D=3D format)
+> +			return fmt;
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+> +static int aml_vdec_init_dec_inst(struct aml_vdec_ctx *ctx,
+> +				=C2=A0 struct aml_video_fmt *fmt_out)
+> +{
+> +	struct aml_vdec_dev *dev =3D ctx->dev;
+> +	int ret =3D -1;
+> +
+> +	if (!fmt_out)
+> +		return ret;
+> +
+> +	if (fmt_out->codec_type =3D=3D CODEC_TYPE_FRAME) {
+> +		dev_dbg(&dev->plat_dev->dev, "capture type no need to set\n");
+> +		return 0;
+> +	}
+> +
+> +	ctx->codec_ops =3D &dev->pvdec_data->codec_ops[fmt_out->codec_type];
+> +	if (ctx->codec_ops->init) {
+> +		ret =3D ctx->codec_ops->init(ctx);
+> +		if (ret < 0)
+> +			return ret;
+> +	}
+> +	ctx->curr_dec_type =3D fmt_out->codec_type;
+> +	dev_info(&dev->plat_dev->dev, "%s set curr_dec_type =3D %d\n", __func__=
+, ctx->curr_dec_type);
+
+I not sure I want to see a numerical value of an random enum from the code =
+from
+a dev_info(), please use dev_info() with the mindset that if you need to ch=
+eck
+the code to see what it means, its not a dev_info().
+
+> +
+> +	return ret;
+> +}
+> +
+> +static void set_pic_info(struct aml_vdec_ctx *ctx,
+> +			 struct v4l2_pix_format_mplane *pix_mp,
+> +			 enum v4l2_buf_type type)
+> +{
+> +	struct aml_q_data *q_data;
+> +
+> +	q_data =3D aml_vdec_get_qdata_by_type(ctx, type);
+> +
+> +	ctx->pic_info.colorspace =3D pix_mp->colorspace;
+> +	ctx->pic_info.ycbcr_enc =3D pix_mp->ycbcr_enc;
+> +	ctx->pic_info.quantization =3D pix_mp->quantization;
+> +	ctx->pic_info.xfer_func =3D pix_mp->xfer_func;
+> +
+> +	if (V4L2_TYPE_IS_OUTPUT(type)) {
+> +		q_data->sizeimage[0] =3D pix_mp->plane_fmt[0].sizeimage;
+> +		ctx->pic_info.output_pix_fmt =3D pix_mp->pixelformat;
+> +		ctx->pic_info.coded_width =3D ALIGN(pix_mp->width, 64);
+> +		ctx->pic_info.coded_height =3D ALIGN(pix_mp->height, 64);
+> +		ctx->pic_info.fb_size[0] =3D
+> +		=C2=A0=C2=A0=C2=A0 ctx->pic_info.coded_width * ctx->pic_info.coded_hei=
+ght;
+> +		ctx->pic_info.fb_size[1] =3D ctx->pic_info.fb_size[0] / 2;
+> +		ctx->pic_info.plane_num =3D 1;
+> +	} else {
+> +		ctx->pic_info.plane_num =3D q_data->fmt->num_planes;
+> +		ctx->pic_info.cap_pix_fmt =3D pix_mp->pixelformat;
+> +		q_data->coded_width =3D ctx->pic_info.coded_width;
+> +		q_data->coded_height =3D ctx->pic_info.coded_height;
+> +		q_data->sizeimage[0] =3D ctx->pic_info.fb_size[0];
+> +		q_data->bytesperline[0] =3D ctx->pic_info.coded_width;
+> +		if (q_data->fmt->num_planes > 1) {
+> +			q_data->sizeimage[1] =3D ctx->pic_info.fb_size[1];
+> +			q_data->bytesperline[1] =3D ctx->pic_info.coded_width;
+> +		} else {
+> +			q_data->sizeimage[0] +=3D ctx->pic_info.fb_size[1];
+> +		}
+> +	}
+
+
+Why don't you simply store the format structure ? width/height alignment is=
+ well
+covered in v4l2-common, use the helpers. Re-use your try_fmt implementation=
+ for
+this too, and makes sure the changes are reflected to users.
+
+Finally, don't duplicate the data, its all very error prone. You have pic_i=
+nfo
+stored in 3 places now.
+
+> +}
+> +
+> +static int vidioc_vdec_enum_framesizes(struct file *file, void *priv,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_frmsizeenum *fsize)
+> +{
+> +	struct aml_video_fmt *fmt;
+> +	struct aml_vdec_dev *dev =3D video_drvdata(file);
+> +	u32 max_h, max_w;
+> +
+> +	if (fsize->index !=3D 0)
+> +		return -EINVAL;
+> +
+> +	max_h =3D dev->pvdec_data->dec_fmt->max_height;
+> +	max_w =3D dev->pvdec_data->dec_fmt->max_width;
+> +
+> +	fmt =3D aml_vdec_get_video_fmt(fsize->pixel_format);
+> +	if (!fmt)
+> +		return -EINVAL;
+> +
+> +	fsize->type =3D V4L2_FRMSIZE_TYPE_STEPWISE;
+> +	fsize->stepwise =3D fmt->stepwise;
+> +	fsize->stepwise.max_height =3D max_h;
+> +	fsize->stepwise.max_width =3D max_w;
+
+no min ? Normally under 1x1 is not allowed.
+
+> +
+> +	return 0;
+> +}
+> +
+> +static int vdec_try_fmt_mp(struct aml_vdec_ctx *ctx, struct v4l2_format =
+*f,
+> +			=C2=A0=C2=A0 const struct aml_video_fmt *fmt_mp)
+> +{
+> +	struct v4l2_pix_format_mplane *pix_mp =3D &f->fmt.pix_mp;
+> +	struct aml_q_data *q_data;
+> +	struct aml_vdec_dev *dev =3D ctx->dev;
+> +	u32 max_h, max_w;
+> +	int i;
+> +
+> +	max_h =3D dev->pvdec_data->dec_fmt->max_height;
+> +	max_w =3D dev->pvdec_data->dec_fmt->max_width;
+> +
+> +	pix_mp->field =3D V4L2_FIELD_NONE;
+> +	q_data =3D aml_vdec_get_qdata_by_type(ctx, f->type);
+
+I'm not sure it helps anything to use qdata.
+
+> +
+> +	pix_mp->height =3D clamp(pix_mp->height, AML_VDEC_MIN_H, max_h);
+> +	pix_mp->width =3D clamp(pix_mp->width, AML_VDEC_MIN_H, max_w);
+> +
+> +	if (V4L2_TYPE_IS_OUTPUT(f->type)) {
+> +		pix_mp->num_planes =3D q_data->fmt->num_planes;
+> +		pix_mp->pixelformat =3D q_data->fmt->fourcc;
+> +		pix_mp->plane_fmt[0].bytesperline =3D q_data->bytesperline[0];
+
+What would you use bytesperline (stride) for on a bitstrream buffer ? Reset=
+ this
+to zero at best.
+
+> +		pix_mp->plane_fmt[0].sizeimage =3D q_data->sizeimage[0];
+
+Application should be able to chose a size here. Also it make no sense to u=
+sed
+any cached value. Basically:
+
+1. If its zero, compute a size, check what other drivers do
+2. Otherwise keep application provided size, but align it for your HW
+
+In S_FMT, if that call succeed, and the queue isn't busy, you will reset th=
+e
+CAPTURE format to keep it matching.
+
+> +	} else {
+> +		v4l2_fill_pixfmt_mp(pix_mp, fmt_mp->fourcc, pix_mp->width,
+> +				=C2=A0=C2=A0=C2=A0 pix_mp->height);
+
+With a proper reset, you will simply copy the fmt you have stored already.
+
+> +	}
+> +
+> +	for (i =3D 0; i < pix_mp->num_planes; i++)
+> +		memset(&pix_mp->plane_fmt[i].reserved[0], 0x0,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sizeof(pix_mp->plane_fmt[0].reser=
+ved));
+> +
+> +	memset(pix_mp->reserved, 0x0, sizeof(pix_mp->reserved));
+> +	pix_mp->flags =3D 0;
+
+The core is suppose to take care.
+
+> +
+> +	return 0;
+> +}
+> +
+> +static int vdec_s_fmt(struct aml_vdec_ctx *ctx, struct v4l2_format *f)
+> +{
+> +	struct aml_q_data *q_data;
+> +	struct v4l2_pix_format_mplane *pix_mp =3D &f->fmt.pix_mp;
+> +	struct aml_video_fmt *fmt =3D
+> +	=C2=A0=C2=A0=C2=A0 aml_vdec_get_video_fmt(f->fmt.pix_mp.pixelformat);
+> +
+> +	q_data =3D aml_vdec_get_qdata_by_type(ctx, f->type);
+> +
+> +	if (fmt)	/* default fmt was set in fopen */
+> +		q_data->fmt =3D fmt;
+
+You should not write into the state before try_fmt, and without checking if=
+ the
+queues are busy or not. Als, S_FMT(OUTPUT) will reset the capture format to
+match, so it requires both queues to not be active. Check other drivers ple=
+ase.
+
+I'll stop here, I think you should rework your src/dst format storage. Make=
+ use
+of v4l2-common. Since you plan to make this multi-variant, add structure to
+store th#e alignment per-soc/per-codec etc.
+
+regards,
+Nicolas
+
+> +
+> +	vdec_try_fmt_mp(ctx, f, q_data->fmt);
+> +	set_pic_info(ctx, pix_mp, f->type);
+> +
+> +	return 0;
+> +}
+> +
+> +static int vdec_g_fmt(struct aml_vdec_ctx *ctx, struct v4l2_format *f)
+> +{
+> +	struct v4l2_pix_format_mplane *pix_mp =3D &f->fmt.pix_mp;
+> +	struct aml_q_data *q_data;
+> +
+> +	q_data =3D aml_vdec_get_qdata_by_type(ctx, f->type);
+> +
+> +	pix_mp->field =3D V4L2_FIELD_NONE;
+> +	pix_mp->colorspace =3D ctx->pic_info.colorspace;
+> +	pix_mp->ycbcr_enc =3D ctx->pic_info.ycbcr_enc;
+> +	pix_mp->quantization =3D ctx->pic_info.quantization;
+> +	pix_mp->xfer_func =3D ctx->pic_info.xfer_func;
+> +
+> +	if (V4L2_TYPE_IS_OUTPUT(f->type)) {
+> +		pix_mp->height =3D q_data->coded_height;
+> +		pix_mp->width =3D q_data->coded_width;
+> +		pix_mp->pixelformat =3D q_data->fmt->fourcc;
+> +		pix_mp->num_planes =3D q_data->fmt->num_planes;
+> +		pix_mp->plane_fmt[0].bytesperline =3D q_data->bytesperline[0];
+> +		pix_mp->plane_fmt[0].sizeimage =3D q_data->sizeimage[0];
+> +	} else {
+> +		if (ctx->pic_info.coded_width !=3D 0 && ctx->pic_info.coded_height !=
+=3D 0) {
+> +			pix_mp->width =3D ctx->pic_info.coded_width;
+> +			pix_mp->height =3D ctx->pic_info.coded_height;
+> +		} else {
+> +			pix_mp->height =3D q_data->coded_height;
+> +			pix_mp->width =3D q_data->coded_height;
+> +		}
+> +		v4l2_fill_pixfmt_mp(pix_mp, q_data->fmt->fourcc, pix_mp->width,
+> +				=C2=A0=C2=A0=C2=A0 pix_mp->height);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int vidioc_try_fmt_cap_mplane(struct file *file, void *priv,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_format *f)
+> +{
+> +	struct aml_vdec_ctx *ctx =3D fh_to_dec_ctx(file);
+> +	const struct aml_video_fmt *fmt_mp;
+> +	struct aml_q_data *q_data;
+> +
+> +	q_data =3D aml_vdec_get_qdata_by_type(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE_=
+MPLANE);
+> +
+> +	fmt_mp =3D aml_vdec_get_video_fmt(f->fmt.pix_mp.pixelformat);
+> +	if (!fmt_mp)
+> +		fmt_mp =3D q_data->fmt;
+> +
+> +	return vdec_try_fmt_mp(ctx, f, fmt_mp);
+> +}
+> +
+> +static int vidioc_try_fmt_out_mplane(struct file *file, void *priv,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_format *f)
+> +{
+> +	struct aml_vdec_ctx *ctx =3D fh_to_dec_ctx(file);
+> +	const struct aml_video_fmt *fmt_mp;
+> +	struct aml_q_data *q_data =3D aml_vdec_get_qdata_by_type(ctx,
+> +							=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_BUF_TYPE_VIDEO_OUTPUT_M=
+PLANE);
+> +
+> +	fmt_mp =3D aml_vdec_get_video_fmt(f->fmt.pix_mp.pixelformat);
+> +	if (!fmt_mp)
+> +		fmt_mp =3D q_data->fmt;
+> +
+> +	return vdec_try_fmt_mp(ctx, f, fmt_mp);
+> +}
+> +
+> +static int vidioc_vdec_s_fmt_out_mplane(struct file *file, void *priv,
+> +					struct v4l2_format *f)
+> +{
+> +	struct aml_vdec_ctx *ctx =3D fh_to_dec_ctx(file);
+> +
+> +	return vdec_s_fmt(ctx, f);
+> +}
+> +
+> +static int vidioc_vdec_s_fmt_cap_mplane(struct file *file, void *priv,
+> +					struct v4l2_format *f)
+> +{
+> +	struct aml_vdec_ctx *ctx =3D fh_to_dec_ctx(file);
+> +
+> +	return vdec_s_fmt(ctx, f);
+> +}
+> +
+> +static int vidioc_vdec_g_fmt_out_mplane(struct file *file, void *priv,
+> +					struct v4l2_format *f)
+> +{
+> +	struct aml_vdec_ctx *ctx =3D fh_to_dec_ctx(file);
+> +
+> +	return vdec_g_fmt(ctx, f);
+> +}
+> +
+> +static int vidioc_vdec_g_fmt_cap_mplane(struct file *file, void *priv,
+> +					struct v4l2_format *f)
+> +{
+> +	struct aml_vdec_ctx *ctx =3D fh_to_dec_ctx(file);
+> +
+> +	return vdec_g_fmt(ctx, f);
+> +}
+> +
+> +static int vidioc_vdec_enum_fmt_out_mplane(struct file *file,
+> +					=C2=A0=C2=A0 void *priv, struct v4l2_fmtdesc *f)
+> +{
+> +	return vidioc_vdec_enum_fmt(f, 1);
+> +}
+> +
+> +static int vidioc_vdec_enum_fmt_cap_mplane(struct file *file,
+> +					=C2=A0=C2=A0 void *priv, struct v4l2_fmtdesc *f)
+> +{
+> +	return vidioc_vdec_enum_fmt(f, 0);
+> +}
+> +
+> +const struct v4l2_ioctl_ops aml_vdec_ioctl_ops =3D {
+> +	.vidioc_querycap =3D vidioc_vdec_querycap,
+> +	.vidioc_enum_framesizes =3D vidioc_vdec_enum_framesizes,
+> +
+> +	.vidioc_enum_fmt_vid_cap =3D vidioc_vdec_enum_fmt_cap_mplane,
+> +	.vidioc_try_fmt_vid_cap_mplane =3D vidioc_try_fmt_cap_mplane,
+> +	.vidioc_s_fmt_vid_cap_mplane =3D vidioc_vdec_s_fmt_cap_mplane,
+> +	.vidioc_g_fmt_vid_cap_mplane =3D vidioc_vdec_g_fmt_cap_mplane,
+> +
+> +	.vidioc_enum_fmt_vid_out =3D vidioc_vdec_enum_fmt_out_mplane,
+> +	.vidioc_try_fmt_vid_out_mplane =3D vidioc_try_fmt_out_mplane,
+> +	.vidioc_s_fmt_vid_out_mplane =3D vidioc_vdec_s_fmt_out_mplane,
+> +	.vidioc_g_fmt_vid_out_mplane =3D vidioc_vdec_g_fmt_out_mplane,
+> +
+> +	.vidioc_reqbufs =3D v4l2_m2m_ioctl_reqbufs,
+> +	.vidioc_querybuf =3D v4l2_m2m_ioctl_querybuf,
+> +	.vidioc_qbuf =3D v4l2_m2m_ioctl_qbuf,
+> +	.vidioc_dqbuf =3D v4l2_m2m_ioctl_dqbuf,
+> +	.vidioc_prepare_buf =3D v4l2_m2m_ioctl_prepare_buf,
+> +	.vidioc_create_bufs =3D v4l2_m2m_ioctl_create_bufs,
+> +
+> +	.vidioc_expbuf =3D v4l2_m2m_ioctl_expbuf,
+> +
+> +	.vidioc_decoder_cmd =3D v4l2_m2m_ioctl_stateless_decoder_cmd,
+> +	.vidioc_try_decoder_cmd =3D v4l2_m2m_ioctl_stateless_try_decoder_cmd,
+> +
+> +	.vidioc_subscribe_event =3D v4l2_ctrl_subscribe_event,
+> +	.vidioc_unsubscribe_event =3D v4l2_event_unsubscribe,
+> +
+> +	.vidioc_streamon =3D v4l2_m2m_ioctl_streamon,
+> +	.vidioc_streamoff =3D v4l2_m2m_ioctl_streamoff,
+> +};
+> +
+> +static void aml_vdec_release_instance(struct aml_vdec_ctx *ctx)
+> +{
+> +	if (ctx->codec_ops && ctx->codec_ops->exit)
+> +		ctx->codec_ops->exit(ctx);
+> +}
+> +
+> +static int vb2ops_vdec_queue_setup(struct vb2_queue *vq,
+> +				=C2=A0=C2=A0 unsigned int *nbuffers,
+> +				=C2=A0=C2=A0 unsigned int *nplanes,
+> +				=C2=A0=C2=A0 unsigned int sizes[],
+> +				=C2=A0=C2=A0 struct device *alloc_devs[])
+> +{
+> +	struct aml_vdec_ctx *ctx =3D vb2_get_drv_priv(vq);
+> +	struct aml_q_data *q_data;
+> +	unsigned int i;
+> +
+> +	q_data =3D aml_vdec_get_qdata_by_type(ctx, vq->type);
+> +	if (!q_data) {
+> +		dev_err(&ctx->dev->plat_dev->dev, "not supported vq type\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (*nplanes) {
+> +		if (*nplanes !=3D q_data->fmt->num_planes)
+> +			return -EINVAL;
+> +
+> +		for (i =3D 0; i < *nplanes; i++) {
+> +			if (sizes[i] < q_data->sizeimage[i]) {
+> +				dev_err(&ctx->dev->plat_dev->dev, "not supported sizeimage\n");
+> +				return -EINVAL;
+> +			}
+> +			alloc_devs[i] =3D &ctx->dev->plat_dev->dev;
+> +		}
+> +	} else {
+> +		if (vq->type =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
+> +			*nplanes =3D q_data->fmt->num_planes;
+> +		else if (vq->type =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+> +			*nplanes =3D 1;
+> +
+> +		for (i =3D 0; i < *nplanes; i++) {
+> +			alloc_devs[i] =3D &ctx->dev->plat_dev->dev;
+> +			sizes[i] =3D q_data->sizeimage[i];
+> +		}
+> +	}
+> +
+> +	if (*nplanes) {
+> +		dev_dbg(&ctx->dev->plat_dev->dev, "type: %d, plane: %d, buf cnt: %d, s=
+ize: [Y: %u, C: %u]\n",
+> +			vq->type, *nplanes, *nbuffers, sizes[0], sizes[1]);
+> +		return 0;
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +static int vb2ops_vdec_buf_prepare(struct vb2_buffer *vb)
+> +{
+> +	struct aml_vdec_ctx *ctx =3D vb2_get_drv_priv(vb->vb2_queue);
+> +	struct aml_q_data *q_data;
+> +	unsigned int sizeimage =3D 0;
+> +	int i;
+> +
+> +	q_data =3D aml_vdec_get_qdata_by_type(ctx, vb->type);
+> +	if (!q_data)
+> +		return -EINVAL;
+> +
+> +	for (i =3D 0; i < q_data->fmt->num_planes; i++) {
+> +		sizeimage =3D q_data->sizeimage[i];
+> +		if (vb2_plane_size(vb, i) < sizeimage)
+> +			return -EINVAL;
+> +
+> +		if (V4L2_TYPE_IS_CAPTURE(vb->type))
+> +			vb2_set_plane_payload(vb, i, q_data->sizeimage[i]);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int vb2_ops_vdec_buf_init(struct vb2_buffer *vb)
+> +{
+> +	return 0;
+> +}
+> +
+> +static void vb2_ops_vdec_buf_queue(struct vb2_buffer *vb)
+> +{
+> +	struct aml_vdec_ctx *ctx =3D vb2_get_drv_priv(vb->vb2_queue);
+> +	struct vb2_v4l2_buffer *vb2_v4l2 =3D to_vb2_v4l2_buffer(vb);
+> +
+> +	v4l2_m2m_buf_queue(ctx->fh.m2m_ctx, vb2_v4l2);
+> +}
+> +
+> +static void vb2_ops_vdec_buf_finish(struct vb2_buffer *vb)
+> +{
+> +}
+> +
+> +static int vb2ops_vdec_start_streaming(struct vb2_queue *q, unsigned int=
+ count)
+> +{
+> +	struct aml_vdec_ctx *ctx =3D vb2_get_drv_priv(q);
+> +	struct aml_q_data *q_data;
+> +
+> +	if (V4L2_TYPE_IS_OUTPUT(q->type)) {
+> +		ctx->is_output_streamon =3D 1;
+> +		q_data =3D aml_vdec_get_qdata_by_type(ctx, q->type);
+> +		if (aml_vdec_init_dec_inst(ctx, q_data->fmt) < 0)
+> +			return -EINVAL;
+> +	} else {
+> +		ctx->is_cap_streamon =3D 1;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void vb2ops_vdec_stop_streaming(struct vb2_queue *q)
+> +{
+> +	struct aml_vdec_ctx *ctx =3D vb2_get_drv_priv(q);
+> +	struct vb2_v4l2_buffer *src_buf =3D NULL, *dst_buf =3D NULL;
+> +
+> +	aml_vdec_release_instance(ctx);
+> +
+> +	if (V4L2_TYPE_IS_OUTPUT(q->type)) {
+> +		while ((src_buf =3D v4l2_m2m_src_buf_remove(ctx->m2m_ctx)))
+> +			v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_ERROR);
+> +		ctx->is_output_streamon =3D 0;
+> +	} else {
+> +		while ((dst_buf =3D v4l2_m2m_dst_buf_remove(ctx->m2m_ctx)))
+> +			v4l2_m2m_buf_done(dst_buf, VB2_BUF_STATE_ERROR);
+> +		ctx->is_cap_streamon =3D 0;
+> +	}
+> +}
+> +
+> +static int vb2ops_vdec_out_buf_validate(struct vb2_buffer *vb)
+> +{
+> +	struct vb2_v4l2_buffer *vbuf =3D to_vb2_v4l2_buffer(vb);
+> +
+> +	vbuf->field =3D V4L2_FIELD_NONE;
+> +	return 0;
+> +}
+> +
+> +static void vb2ops_vdec_buf_request_complete(struct vb2_buffer *vb)
+> +{
+> +	struct aml_vdec_ctx *ctx =3D vb2_get_drv_priv(vb->vb2_queue);
+> +
+> +	v4l2_ctrl_request_complete(vb->req_obj.req, &ctx->ctrl_handler);
+> +}
+> +
+> +static const struct vb2_ops aml_vdec_vb2_ops =3D {
+> +	.queue_setup =3D vb2ops_vdec_queue_setup,
+> +	.wait_prepare =3D vb2_ops_wait_prepare,
+> +	.wait_finish =3D vb2_ops_wait_finish,
+> +	.start_streaming =3D vb2ops_vdec_start_streaming,
+> +	.stop_streaming =3D vb2ops_vdec_stop_streaming,
+> +
+> +	.buf_init =3D vb2_ops_vdec_buf_init,
+> +	.buf_prepare =3D vb2ops_vdec_buf_prepare,
+> +	.buf_out_validate =3D vb2ops_vdec_out_buf_validate,
+> +	.buf_queue =3D vb2_ops_vdec_buf_queue,
+> +	.buf_finish =3D vb2_ops_vdec_buf_finish,
+> +	.buf_request_complete =3D vb2ops_vdec_buf_request_complete,
+> +};
+> +
+> +int aml_vdec_queue_init(void *priv, struct vb2_queue *src_vq,
+> +			struct vb2_queue *dst_vq)
+> +{
+> +	struct aml_vdec_ctx *ctx =3D (struct aml_vdec_ctx *)priv;
+> +	struct aml_vdec_dev *dev =3D ctx->dev;
+> +	int ret =3D 0;
+> +
+> +	src_vq->type =3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
+> +	src_vq->io_modes =3D VB2_MMAP | VB2_DMABUF;
+> +	src_vq->mem_ops =3D &vb2_dma_contig_memops;
+> +	src_vq->drv_priv =3D ctx;
+> +	src_vq->ops =3D &aml_vdec_vb2_ops;
+> +	src_vq->lock =3D &ctx->v4l2_intf_lock;
+> +	src_vq->buf_struct_size =3D sizeof(struct v4l2_m2m_buffer);
+> +	src_vq->supports_requests =3D true;
+> +	src_vq->timestamp_flags =3D V4L2_BUF_FLAG_TIMESTAMP_COPY;
+> +	ret =3D vb2_queue_init(src_vq);
+> +	if (ret) {
+> +		v4l2_info(&dev->v4l2_dev,
+> +			=C2=A0 "Failed to initialize videobuf2 queue(output)");
+> +		return ret;
+> +	}
+> +
+> +	dst_vq->type =3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
+> +	dst_vq->io_modes =3D VB2_MMAP | VB2_DMABUF;
+> +	dst_vq->drv_priv =3D ctx;
+> +	dst_vq->mem_ops =3D &vb2_dma_contig_memops;
+> +	dst_vq->ops =3D &aml_vdec_vb2_ops;
+> +	dst_vq->lock =3D &ctx->v4l2_intf_lock;
+> +	dst_vq->buf_struct_size =3D sizeof(struct v4l2_m2m_buffer);
+> +	dst_vq->timestamp_flags =3D V4L2_BUF_FLAG_TIMESTAMP_COPY;
+> +	ret =3D vb2_queue_init(dst_vq);
+> +	if (ret) {
+> +		v4l2_info(&dev->v4l2_dev,
+> +			=C2=A0 "Failed to initialize videobuf2 queue(capture)");
+> +		vb2_queue_release(src_vq);
+> +	}
+> +
+> +	return ret;
+> +}
+> diff --git a/drivers/media/platform/amlogic/vdec/aml_vdec.h b/drivers/med=
+ia/platform/amlogic/vdec/aml_vdec.h
+> new file mode 100644
+> index 000000000000..a9ff93f25043
+> --- /dev/null
+> +++ b/drivers/media/platform/amlogic/vdec/aml_vdec.h
+> @@ -0,0 +1,31 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR MIT) */
+> +/*
+> + * Copyright (C) 2025 Amlogic, Inc. All rights reserved
+> + */
+> +
+> +#ifndef _AML_VDEC_H_
+> +#define _AML_VDEC_H_
+> +
+> +#include "aml_vdec_drv.h"
+> +
+> +#define DEFAULT_OUT_IDX=C2=A0 0	/* set default output format to h264 typ=
+e */
+> +#define DEFAULT_CAP_IDX=C2=A0 2	/* set default capture format to NV21 */
+> +
+> +/**
+> + * struct aml_vdec_v4l2_ctrl - helper type to declare supported ctrls
+> + * @codec_type: codec id this control belong to (CODEC_TYPE_H264, etc.)
+> + * @cfg: control configuration
+> + */
+> +struct aml_vdec_v4l2_ctrl {
+> +	unsigned int codec_type;
+> +	struct v4l2_ctrl_config cfg;
+> +};
+> +
+> +extern const struct v4l2_m2m_ops aml_vdec_m2m_ops;
+> +extern const struct v4l2_ioctl_ops aml_vdec_ioctl_ops;
+> +
+> +int aml_vdec_ctrls_setup(struct aml_vdec_ctx *ctx);
+> +int aml_vdec_queue_init(void *priv, struct vb2_queue *src_vq,
+> +			struct vb2_queue *dst_vq);
+> +void aml_vdec_set_default_params(struct aml_vdec_ctx *ctx);
+> +#endif
+> diff --git a/drivers/media/platform/amlogic/vdec/aml_vdec_drv.c b/drivers=
+/media/platform/amlogic/vdec/aml_vdec_drv.c
+> new file mode 100644
+> index 000000000000..7591e2958f42
+> --- /dev/null
+> +++ b/drivers/media/platform/amlogic/vdec/aml_vdec_drv.c
+> @@ -0,0 +1,239 @@
+> +// SPDX-License-Identifier: (GPL-2.0-only OR MIT)
+> +/*
+> + * Copyright (C) 2025 Amlogic, Inc. All rights reserved
+> + */
+> +
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +#include <media/v4l2-device.h>
+> +#include <media/v4l2-ioctl.h>
+> +
+> +#include "aml_vdec.h"
+> +#include "aml_vdec_hw.h"
+> +#include "aml_vdec_platform.h"
+> +
+> +#define AML_VDEC_DRV_NAME "aml-vdec-drv"
+> +
+> +static int fops_vcodec_open(struct file *file)
+> +{
+> +	struct aml_vdec_dev *dec_dev =3D video_drvdata(file);
+> +	struct aml_vdec_ctx *ctx =3D NULL;
+> +	int ret =3D 0;
+> +
+> +	ctx =3D kzalloc(sizeof(*ctx), GFP_KERNEL);
+> +	if (!ctx)
+> +		return -ENOMEM;
+> +
+> +	mutex_lock(&dec_dev->dev_mutex);
+> +	dec_dev->dec_ctx =3D ctx;
+> +	ctx->dev =3D dec_dev;
+> +	v4l2_fh_init(&ctx->fh, video_devdata(file));
+> +	file->private_data =3D &ctx->fh;
+> +	v4l2_fh_add(&ctx->fh, file);
+> +	dec_dev->filp =3D file;
+> +	mutex_init(&ctx->v4l2_intf_lock);
+> +	init_waitqueue_head(&ctx->queue);
+> +	ctx->int_cond =3D 0;
+> +
+> +	ctx->m2m_ctx =3D v4l2_m2m_ctx_init(dec_dev->m2m_dev_dec, ctx,
+> +					 &aml_vdec_queue_init);
+> +	if (IS_ERR(ctx->m2m_ctx)) {
+> +		ret =3D PTR_ERR((__force void *)ctx->m2m_ctx);
+> +		v4l2_err(&dec_dev->v4l2_dev, "Failed to v4l2_m2m_ctx_init() (%d)", ret=
+);
+> +		goto err_m2m_ctx_init;
+> +	}
+> +
+> +	ctx->fh.m2m_ctx =3D ctx->m2m_ctx;
+> +	ret =3D aml_vdec_ctrls_setup(ctx);
+> +	if (ret) {
+> +		v4l2_err(&dec_dev->v4l2_dev, "Failed to init all ctrls (%d)", ret);
+> +		goto err_ctrls_setup;
+> +	}
+> +
+> +	aml_vdec_set_default_params(ctx);
+> +	mutex_unlock(&dec_dev->dev_mutex);
+> +
+> +	return ret;
+> +
+> +err_ctrls_setup:
+> +	v4l2_m2m_ctx_release(ctx->m2m_ctx);
+> +err_m2m_ctx_init:
+> +	v4l2_fh_del(&ctx->fh, file);
+> +	v4l2_fh_exit(&ctx->fh);
+> +	kfree(ctx);
+> +	mutex_unlock(&dec_dev->dev_mutex);
+> +
+> +	return ret;
+> +}
+> +
+> +static int fops_vcodec_release(struct file *file)
+> +{
+> +	struct aml_vdec_dev *dec_dev =3D video_drvdata(file);
+> +	struct aml_vdec_ctx *ctx =3D fh_to_dec_ctx(file);
+> +
+> +	mutex_lock(&dec_dev->dev_mutex);
+> +	v4l2_ctrl_handler_free(&ctx->ctrl_handler);
+> +	v4l2_m2m_ctx_release(ctx->m2m_ctx);
+> +	v4l2_fh_del(&ctx->fh, file);
+> +	v4l2_fh_exit(&ctx->fh);
+> +	kfree(ctx);
+> +	mutex_unlock(&dec_dev->dev_mutex);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct v4l2_file_operations aml_vdec_fops =3D {
+> +	.owner=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D THIS_MODULE,
+> +	.open=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D fops_vcodec_open,
+> +	.release=C2=A0=C2=A0=C2=A0 =3D fops_vcodec_release,
+> +	.poll=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D v4l2_m2m_fop_poll,
+> +	.unlocked_ioctl=C2=A0=C2=A0=C2=A0 =3D video_ioctl2,
+> +	.mmap=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D v4l2_m2m_fop_mmap,
+> +};
+> +
+> +static const struct video_device dec_dev =3D {
+> +	.name =3D "aml_dev_drv",
+> +	.fops =3D &aml_vdec_fops,
+> +	.ioctl_ops =3D &aml_vdec_ioctl_ops,
+> +	.release =3D video_device_release,
+> +	.vfl_dir =3D VFL_DIR_M2M,
+> +	.device_caps =3D V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING,
+> +};
+> +
+> +static const struct media_device_ops aml_m2m_media_ops =3D {
+> +	.req_validate =3D vb2_request_validate,
+> +	.req_queue =3D v4l2_m2m_request_queue,
+> +};
+> +
+> +static int aml_vdec_drv_probe(struct platform_device *pdev)
+> +{
+> +	struct aml_vdec_dev *dev;
+> +	struct video_device *vfd_dec;
+> +	struct aml_vdec_hw *hw;
+> +	int ret =3D 0;
+> +
+> +	dev =3D devm_kzalloc(&pdev->dev, sizeof(*dev), GFP_KERNEL);
+> +	if (!dev)
+> +		return -ENOMEM;
+> +
+> +	dev->plat_dev =3D pdev;
+> +	mutex_init(&dev->dev_mutex);
+> +
+> +	ret =3D v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
+> +	if (ret)
+> +		return dev_err_probe(&pdev->dev, ret, "v4l2_device_register err\n");
+> +
+> +	vfd_dec =3D video_device_alloc();
+> +	if (!vfd_dec) {
+> +		v4l2_err(&dev->v4l2_dev, "Failed to allocate video device\n");
+> +		ret =3D -ENOMEM;
+> +		goto err_device_alloc;
+> +	}
+> +	*vfd_dec =3D dec_dev;
+> +	vfd_dec->v4l2_dev =3D &dev->v4l2_dev;
+> +	vfd_dec->lock =3D &dev->dev_mutex;
+> +	video_set_drvdata(vfd_dec, dev);
+> +	dev->vfd =3D vfd_dec;
+> +	platform_set_drvdata(pdev, dev);
+> +
+> +	hw =3D devm_kzalloc(&pdev->dev, sizeof(*hw), GFP_KERNEL);
+> +	if (!hw) {
+> +		ret =3D -ENOMEM;
+> +		goto err_dec_mem_init;
+> +	}
+> +	dev->dec_hw =3D hw;
+> +
+> +	dev->pvdec_data =3D of_device_get_match_data(&pdev->dev);
+> +	ret =3D dev->pvdec_data->req_hw_resource(dev);
+> +	if (ret < 0)
+> +		goto err_hw_init;
+> +
+> +	dev->m2m_dev_dec =3D v4l2_m2m_init(&aml_vdec_m2m_ops);
+> +	if (IS_ERR(dev->m2m_dev_dec)) {
+> +		v4l2_err(&dev->v4l2_dev, "Failed to init mem2mem dec device\n");
+> +		ret =3D PTR_ERR((__force void *)dev->m2m_dev_dec);
+> +		goto err_hw_init;
+> +	}
+> +
+> +	ret =3D video_register_device(vfd_dec, VFL_TYPE_VIDEO, -1);
+> +	if (ret) {
+> +		v4l2_err(&dev->v4l2_dev, "Failed to register video device");
+> +		goto err_vid_dev_register;
+> +	}
+> +
+> +	dev->mdev.dev =3D &pdev->dev;
+> +	strscpy(dev->mdev.model, AML_VDEC_DRV_NAME, sizeof(dev->mdev.model));
+> +	media_device_init(&dev->mdev);
+> +	dev->mdev.ops =3D &aml_m2m_media_ops;
+> +	dev->v4l2_dev.mdev =3D &dev->mdev;
+> +
+> +	ret =3D v4l2_m2m_register_media_controller(dev->m2m_dev_dec, vfd_dec,
+> +						 MEDIA_ENT_F_PROC_VIDEO_DECODER);
+> +	if (ret) {
+> +		v4l2_err(&dev->v4l2_dev, "Failed to init mem2mem media controller\n");
+> +		goto error_m2m_mc_register;
+> +	}
+> +
+> +	ret =3D media_device_register(&dev->mdev);
+> +	if (ret) {
+> +		v4l2_err(&dev->v4l2_dev, "Failed to register media device");
+> +		goto err_media_dev_register;
+> +	}
+> +	vdec_enable(dev->dec_hw);
+> +	return 0;
+> +
+> +err_media_dev_register:
+> +	v4l2_m2m_unregister_media_controller(dev->m2m_dev_dec);
+> +error_m2m_mc_register:
+> +	media_device_cleanup(&dev->mdev);
+> +err_vid_dev_register:
+> +	v4l2_m2m_release(dev->m2m_dev_dec);
+> +err_hw_init:
+> +	dev->dec_hw =3D NULL;
+> +err_dec_mem_init:
+> +	video_device_release(vfd_dec);
+> +err_device_alloc:
+> +	v4l2_device_unregister(&dev->v4l2_dev);
+> +	return ret;
+> +}
+> +
+> +static void aml_vdec_drv_remove(struct platform_device *pdev)
+> +{
+> +	struct aml_vdec_dev *dev =3D platform_get_drvdata(pdev);
+> +
+> +	vdec_disable(dev->dec_hw);
+> +
+> +	if (media_devnode_is_registered(dev->mdev.devnode)) {
+> +		media_device_unregister(&dev->mdev);
+> +		media_device_cleanup(&dev->mdev);
+> +	}
+> +
+> +	if (dev->m2m_dev_dec)
+> +		v4l2_m2m_release(dev->m2m_dev_dec);
+> +	if (dev->vfd)
+> +		video_unregister_device(dev->vfd);
+> +	if (dev->dec_hw) {
+> +		dev->pvdec_data->destroy_hw_resource(dev);
+> +		dev->dec_hw =3D NULL;
+> +	}
+> +	v4l2_device_unregister(&dev->v4l2_dev);
+> +}
+> +
+> +static const struct of_device_id aml_vdec_match[] =3D {
+> +	{.compatible =3D "amlogic,s4-vcodec-dec", .data =3D &aml_vdec_s4_pdata}=
+,
+> +	{},
+> +};
+> +
+> +static struct platform_driver aml_vcodec_dec_driver =3D {
+> +	.probe=C2=A0=C2=A0=C2=A0 =3D aml_vdec_drv_probe,
+> +	.remove=C2=A0=C2=A0=C2=A0 =3D aml_vdec_drv_remove,
+> +	.driver=C2=A0=C2=A0=C2=A0 =3D {
+> +		.name=C2=A0=C2=A0=C2=A0 =3D AML_VDEC_DRV_NAME,
+> +		.of_match_table =3D aml_vdec_match,
+> +	},
+> +};
+> +
+> +module_platform_driver(aml_vcodec_dec_driver);
+> +
+> +MODULE_DESCRIPTION("Amlogic V4L2 decoder driver");
+> +MODULE_LICENSE("GPL");
+> diff --git a/drivers/media/platform/amlogic/vdec/aml_vdec_drv.h b/drivers=
+/media/platform/amlogic/vdec/aml_vdec_drv.h
+> new file mode 100644
+> index 000000000000..18659eef87eb
+> --- /dev/null
+> +++ b/drivers/media/platform/amlogic/vdec/aml_vdec_drv.h
+> @@ -0,0 +1,196 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR MIT) */
+> +/*
+> + * Copyright (C) 2025 Amlogic, Inc. All rights reserved
+> + */
+> +
+> +#ifndef _AML_VDEC_DRV_H_
+> +#define _AML_VDEC_DRV_H_
+> +
+> +#include <linux/platform_device.h>
+> +#include <linux/videodev2.h>
+> +#include <linux/clk.h>
+> +
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-device.h>
+> +#include <media/v4l2-ioctl.h>
+> +#include <media/v4l2-mem2mem.h>
+> +#include <media/videobuf2-core.h>
+> +#include <media/videobuf2-dma-contig.h>
+> +
+> +#define AML_VCODEC_MAX_PLANES 3
+> +#define AML_VDEC_MIN_W=C2=A0=C2=A0=C2=A0 64U
+> +#define AML_VDEC_MIN_H=C2=A0=C2=A0=C2=A0 64U
+> +#define AML_VDEC_1080P_MAX_H=C2=A0 1088U
+> +#define AML_VDEC_1080P_MAX_W=C2=A0 1920U
+> +
+> +struct aml_vdec_ctx;
+> +/**
+> + * enum aml_fmt_type - Type of format type
+> + */
+> +enum aml_fmt_type {
+> +	AML_FMT_DEC =3D 0,
+> +	AML_FMT_FRAME =3D 1,
+> +};
+> +
+> +/**
+> + * enum aml_codec_type - Type of codec format
+> + */
+> +enum aml_codec_type {
+> +	CODEC_TYPE_H264 =3D 0,
+> +	CODEC_TYPE_FRAME,
+> +};
+> +
+> +/**
+> + * enum aml_q_type - Type of queue : cap or output
+> + */
+> +enum aml_q_type {
+> +	AML_Q_DATA_SRC =3D 0,
+> +	AML_Q_DATA_DST =3D 1,
+> +};
+> +
+> +/**
+> + * struct aml_video_fmt - aml video decoder fmt information
+> + * @fourcc: FourCC code of the format. See V4L2_PIX_FMT_*.
+> + * @type: Curr queue type: capture or output.
+> + * @codec_type: Codec mode related. See aml_codec_type.
+> + * @num_planes: Num planes of the format.
+> + * @name: Name of the format.
+> + * @stepwise: Supported range of frame sizes (only for bitstream formats=
+).
+> + */
+> +struct aml_video_fmt {
+> +	u32 fourcc;
+> +	enum aml_fmt_type type;
+> +	enum aml_codec_type codec_type;
+> +	u32 num_planes;
+> +	const u8 *name;
+> +	struct v4l2_frmsize_stepwise stepwise;
+> +};
+> +
+> +/**
+> + * struct aml_q_data - aml video queue information
+> + * @visible_width: Width for display.
+> + * @visible_height: Height for display.
+> + * @coded_width: Width for decode, which is 64/32 aligned.
+> + * @coded_height: Height for decode, which is 64/32 aligned.
+> + * @filed_flag: Field pic flag.
+> + * @bytesperline: Byte num of each pixel line.
+> + * @sizeimage: Size of frame in bytes.
+> + * @fmt: Format for curr queue. See struct aml_video_fmt.
+> + */
+> +struct aml_q_data {
+> +	u32 visible_width;
+> +	u32 visible_height;
+> +	u32 coded_width;
+> +	u32 coded_height;
+> +	u32 filed_flag;
+> +	u32 bytesperline[AML_VCODEC_MAX_PLANES];
+> +	u32 sizeimage[AML_VCODEC_MAX_PLANES];
+> +	struct aml_video_fmt *fmt;
+> +};
+> +
+> +/**
+> + * struct aml_vdec_dev - driver data
+> + * @plat_dev: Platform device for the current driver.
+> + * @v4l2_dev: V4L2 device to register video devices for.
+> + * @m2m_dev_dec: Mem2mem device associated to this device.
+> + * @vfd: Video_device associated to this device.
+> + * @mdev: Media_device associated to this device.
+> + * @dec_ctx: Decoder context. See struct aml_vdec_ctx.
+> + * @dec_hw: Decoder hardware resources. See struct aml_vdec_hw.
+> + * @pvdec_data: Decoder platform data. See struct aml_dev_platform_data.
+> + * @dev_mutex: video_device lock.
+> + * @filp: v4l2 file handle pointer.
+> + */
+> +struct aml_vdec_dev {
+> +	struct platform_device *plat_dev;
+> +	struct v4l2_device v4l2_dev;
+> +	struct v4l2_m2m_dev *m2m_dev_dec;
+> +	struct video_device *vfd;
+> +	struct media_device mdev;
+> +
+> +	struct aml_vdec_ctx *dec_ctx;
+> +	struct aml_vdec_hw *dec_hw;
+> +	const struct aml_dev_platform_data *pvdec_data;
+> +
+> +	struct mutex dev_mutex;
+> +	struct file *filp;
+> +};
+> +
+> +/**
+> + * struct dec_pic_info - pic information description
+> + * @colorspace: enum v4l2_colorspace; supplemental to pixelformat
+> + * @ycbcr_enc: enum v4l2_ycbcr_encoding, Y'CbCr encoding
+> + * @xfer_func: enum v4l2_xfer_func, colorspace transfer function
+> + * @quantization: enum v4l2_quantization, colorspace quantization
+> + * @cap_pix_fmt: Pixel format for capture queue.
+> + * @output_pix_fmt: Pixel format for output queue.
+> + * @coded_width: Width for decode.
+> + * @coded_height: Height for decode.
+> + * @fb_size: Frame buffer size for Y or UV.
+> + * @plane_num: Num for planes for curr format.
+> + */
+> +struct dec_pic_info {
+> +	enum v4l2_colorspace colorspace;
+> +	enum v4l2_ycbcr_encoding ycbcr_enc;
+> +	enum v4l2_xfer_func xfer_func;
+> +	enum v4l2_quantization quantization;
+> +	u32 cap_pix_fmt;
+> +	u32 output_pix_fmt;
+> +	u32 coded_width;
+> +	u32 coded_height;
+> +	u32 fb_size[2];
+> +	u32 plane_num;
+> +};
+> +
+> +/**
+> + * struct aml_vdec_ctx - driver instance context
+> + * @dev: pointer to the aml_vdec_dev of the device.
+> + * @fh: struct v4l2 fh.
+> + * @m2m_ctx: pointer to v4l2_m2m_ctx context.
+> + * @ctrl_handler: V4L2 ctrl handler.
+> + * @v4l2_intf_lock: Mutex lock for v4l2 interface.
+> + * @codec_ops: Codec operation functions. See struct aml_codec_ops.
+> + * @int_cond: Variable used by the waitqueue.
+> + * @queue: Waitqueue to wait for the current decode context finish.
+> + * @q_data: feature supported by the current decoder instance.
+> + * @is_cap_streamon: indicates if the current capture stream is on.
+> + * @is_output_streamon: indicates if the current output stream is on.
+> + * @dos_clk_en: indicates if dos clk is enabled.
+> + * @pic_info: Pic information for curr decoder context. See struct dec_p=
+ic_info.
+> + * @curr_dec_type: Current decoder type. (CODEC_TYPE_H264, etc.)
+> + * @codec_priv: Pointer to current decoder instance.
+> + */
+> +struct aml_vdec_ctx {
+> +	struct aml_vdec_dev *dev;
+> +	struct v4l2_fh fh;
+> +	struct v4l2_m2m_ctx *m2m_ctx;
+> +	struct v4l2_ctrl_handler ctrl_handler;
+> +	struct mutex v4l2_intf_lock;
+> +
+> +	const struct aml_codec_ops *codec_ops;
+> +	int int_cond;
+> +	wait_queue_head_t queue;
+> +	struct aml_q_data q_data[2];
+> +
+> +	bool is_cap_streamon;
+> +	bool is_output_streamon;
+> +	bool dos_clk_en;
+> +
+> +	struct dec_pic_info pic_info;
+> +	u32 curr_dec_type;
+> +	void *codec_priv;
+> +};
+> +
+> +static inline struct aml_vdec_ctx *fh_to_dec_ctx(struct file *file)
+> +{
+> +	struct v4l2_fh *file_fh =3D file_to_v4l2_fh(file);
+> +
+> +	return container_of(file_fh, struct aml_vdec_ctx, fh);
+> +}
+> +
+> +static inline struct aml_vdec_ctx *ctrl_to_dec_ctx(struct v4l2_ctrl_hand=
+ler *ctrl)
+> +{
+> +	return container_of(ctrl, struct aml_vdec_ctx, ctrl_handler);
+> +}
+> +
+> +#endif
+> diff --git a/drivers/media/platform/amlogic/vdec/aml_vdec_hw.c b/drivers/=
+media/platform/amlogic/vdec/aml_vdec_hw.c
+> new file mode 100644
+> index 000000000000..1729076de76c
+> --- /dev/null
+> +++ b/drivers/media/platform/amlogic/vdec/aml_vdec_hw.c
+> @@ -0,0 +1,596 @@
+> +// SPDX-License-Identifier: (GPL-2.0-only OR MIT)
+> +/*
+> + * Copyright (C) 2025 Amlogic, Inc. All rights reserved
+> + */
+> +
+> +#include <linux/interrupt.h>
+> +#include <linux/irq.h>
+> +#include <linux/of.h>
+> +#include <linux/of_device.h>
+> +#include <linux/of_platform.h>
+> +#include <linux/of_address.h>
+> +#include <linux/slab.h>
+> +#include <linux/firmware.h>
+> +#include <linux/iopoll.h>
+> +
+> +#include "aml_vdec_drv.h"
+> +#include "aml_vdec_hw.h"
+> +#include "aml_vdec_platform.h"
+> +
+> +#define MHz=C2=A0=C2=A0=C2=A0=C2=A0 (1000000)
+> +#define MC_SIZE (4096 * 16)
+> +
+> +static struct pm_pd_s vdec_domain_data[] =3D {
+> +	[VDEC_1] =3D {.name =3D "vdec", },
+> +	[VDEC_HEVC] =3D {.name =3D "hevc", },
+> +};
+> +
+> +u32 read_dos_reg(struct aml_vdec_hw *hw, u32 addr)
+> +{
+> +	u32 ret_val;
+> +
+> +	regmap_read(hw->map[DOS_BUS], addr, &ret_val);
+> +
+> +	return ret_val;
+> +}
+> +
+> +static void dos_reg_write_bits(struct aml_vdec_hw *hw, u32 reg, u32 val,=
+ int start, int len)
+> +{
+> +	u32 mask =3D (((1L << (len)) - 1) << (start));
+> +
+> +	regmap_update_bits(hw->map[DOS_BUS], reg, mask, val);
+> +}
+> +
+> +void dos_enable(struct aml_vdec_hw *hw)
+> +{
+> +	dos_reg_write_bits(hw, DOS_GCLK_EN0, 0x3ff, 0, 10);
+> +
+> +	regmap_write(hw->map[DOS_BUS], GCLK_EN, 0x3ff);
+> +
+> +	regmap_update_bits(hw->map[DOS_BUS], MDEC_PIC_DC_CTRL, (1 << 31), 0);
+> +}
+> +
+> +void aml_vdec_reset_core(struct aml_vdec_hw *hw)
+> +{
+> +	unsigned int mask =3D 0;
+> +
+> +	mask =3D (1 << 21);
+> +
+> +	regmap_update_bits(hw->map[DMC_BUS], 0x0, mask, 0);
+> +	usleep_range(60, 70);
+> +	regmap_write(hw->map[DOS_BUS], DOS_SW_RESET0,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 3) | (1 << 4) | (1 << 5) | (1 << 7) |
+> +		=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 8) | (1 << 9));
+> +	regmap_write(hw->map[DOS_BUS], DOS_SW_RESET0, 0);
+> +	regmap_update_bits(hw->map[DOS_BUS], VDEC_ASSIST_MMC_CTRL1, 1 << 3, 0);
+> +	regmap_update_bits(hw->map[DOS_BUS], MDEC_PIC_DC_MUX_CTRL, 1 << 31, 0);
+> +	regmap_write(hw->map[DOS_BUS], MDEC_EXTIF_CFG1, 0);
+> +
+> +	regmap_update_bits(hw->map[DMC_BUS], 0x0, mask, mask);
+> +}
+> +
+> +void aml_start_vdec_hw(struct aml_vdec_hw *hw)
+> +{
+> +	u32 reg_read_val;
+> +
+> +	regmap_read(hw->map[DOS_BUS], DOS_SW_RESET0, &reg_read_val);
+> +	regmap_read(hw->map[DOS_BUS], DOS_SW_RESET0, &reg_read_val);
+> +	regmap_read(hw->map[DOS_BUS], DOS_SW_RESET0, &reg_read_val);
+> +
+> +	regmap_write(hw->map[DOS_BUS], DOS_SW_RESET0, (1 << 12) | (1 << 11));
+> +	regmap_write(hw->map[DOS_BUS], DOS_SW_RESET0, 0);
+> +
+> +	regmap_read(hw->map[DOS_BUS], DOS_SW_RESET0, &reg_read_val);
+> +	regmap_read(hw->map[DOS_BUS], DOS_SW_RESET0, &reg_read_val);
+> +	regmap_read(hw->map[DOS_BUS], DOS_SW_RESET0, &reg_read_val);
+> +
+> +	regmap_write(hw->map[DOS_BUS], MPSR, 0x0001);
+> +}
+> +
+> +void aml_stop_vdec_hw(struct aml_vdec_hw *hw)
+> +{
+> +	u32 reg_val =3D 0;
+> +	int ret;
+> +
+> +	regmap_write(hw->map[DOS_BUS], MPSR, 0);
+> +	regmap_write(hw->map[DOS_BUS], CPSR, 0);
+> +
+> +	ret =3D read_poll_timeout_atomic(read_dos_reg, reg_val,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 !(reg_val & 0x8000),
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 10, 100000, true,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 hw, IMEM_DMA_CTRL);
+> +
+> +	ret =3D read_poll_timeout_atomic(read_dos_reg, reg_val,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 !(reg_val & 0x8000),
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 10, 100000, true,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 hw, LMEM_DMA_CTRL);
+> +
+> +	ret =3D read_poll_timeout_atomic(read_dos_reg, reg_val,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 !(reg_val & 0xfff),
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 10, 800000, true,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 hw, WRRSP_LMEM);
+> +	if (ret)
+> +		dev_err(hw->dev, "%s, ctrl %x, rsp %x, pc %x status %x,%x\n",
+> +			__func__, read_dos_reg(hw, LMEM_DMA_CTRL),
+> +			read_dos_reg(hw, WRRSP_LMEM), read_dos_reg(hw, MPC_E),
+> +			read_dos_reg(hw, AV_SCRATCH_J), read_dos_reg(hw, AV_SCRATCH_9));
+> +
+> +	regmap_read(hw->map[DOS_BUS], DOS_SW_RESET0, &reg_val);
+> +	regmap_read(hw->map[DOS_BUS], DOS_SW_RESET0, &reg_val);
+> +	regmap_read(hw->map[DOS_BUS], DOS_SW_RESET0, &reg_val);
+> +
+> +	regmap_write(hw->map[DOS_BUS], DOS_SW_RESET0, (1 << 12) | (1 << 11));
+> +	regmap_write(hw->map[DOS_BUS], DOS_SW_RESET0, 0);
+> +
+> +	regmap_read(hw->map[DOS_BUS], DOS_SW_RESET0, &reg_val);
+> +	regmap_read(hw->map[DOS_BUS], DOS_SW_RESET0, &reg_val);
+> +	regmap_read(hw->map[DOS_BUS], DOS_SW_RESET0, &reg_val);
+> +}
+> +
+> +int load_firmware(struct aml_vdec_hw *hw, const char *path)
+> +{
+> +	const struct firmware *fw;
+> +	struct device *dev =3D hw->dev;
+> +	static u8 *mc_addr;
+> +	static dma_addr_t mc_addr_map;
+> +	int fw_head_len;
+> +	ulong timeout;
+> +	int ret;
+> +
+> +	ret =3D request_firmware(&fw, path, dev);
+> +	if (ret < 0) {
+> +		dev_info(dev, "request_firmware %s failed ret %d\n", path, ret);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (fw->size > MC_SIZE) {
+> +		dev_info(dev, "fw %s oversize\n", path);
+> +		ret =3D -EINVAL;
+> +		goto release_firmware;
+> +	}
+> +
+> +	fw_head_len =3D 512;
+> +	mc_addr =3D dma_alloc_coherent(dev, MC_SIZE, &mc_addr_map, GFP_KERNEL);
+> +	if (!mc_addr) {
+> +		dev_info(dev, "no mem for fw %s\n", path);
+> +		ret =3D -ENOMEM;
+> +		goto release_firmware;
+> +	}
+> +	memset(mc_addr, 0, MC_SIZE);
+> +	memcpy(mc_addr, ((u8 *)fw->data + fw_head_len),
+> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (fw->size - fw_head_len));
+> +
+> +	regmap_write(hw->map[DOS_BUS], MPSR, 0);
+> +	regmap_write(hw->map[DOS_BUS], CPSR, 0);
+> +
+> +	timeout =3D read_dos_reg(hw, MPSR);
+> +	timeout =3D read_dos_reg(hw, MPSR);
+> +
+> +	timeout =3D jiffies + HZ;
+> +
+> +	regmap_write(hw->map[DOS_BUS], IMEM_DMA_ADR, mc_addr_map);
+> +	regmap_write(hw->map[DOS_BUS], IMEM_DMA_COUNT, 0x1000);
+> +	regmap_write(hw->map[DOS_BUS], IMEM_DMA_CTRL, (0x8000 | (7 << 16)));
+> +
+> +	while (read_dos_reg(hw, IMEM_DMA_CTRL) & 0x8000) {
+> +		if (time_before(jiffies, timeout)) {
+> +			schedule();
+> +		} else {
+> +			dev_info(dev, "vdec load mc error\n");
+> +			ret =3D -EBUSY;
+> +			break;
+> +		}
+> +	}
+> +
+> +	/* Only h264 needs this step */
+> +	if (hw->hw_ops.load_firmware_ex) {
+> +		ret =3D hw->hw_ops.load_firmware_ex(hw->curr_ctx,
+> +						=C2=A0 mc_addr,
+> +						=C2=A0 (fw->size - fw_head_len));
+> +		if (ret < 0) {
+> +			ret =3D -EINVAL;
+> +			goto free_dma_mem;
+> +		}
+> +	}
+> +
+> +free_dma_mem:
+> +	dma_free_coherent(dev, MC_SIZE, mc_addr, mc_addr_map);
+> +release_firmware:
+> +	release_firmware(fw);
+> +	return ret;
+> +}
+> +
+> +static int vdec_clock_gate_init(struct aml_vdec_hw *hw)
+> +{
+> +	hw->gates[VDEC].id =3D "vdec";
+> +	hw->gates[VDEC_MUX].id =3D "clk_vdec_mux";
+> +	hw->gates[HEVCF_MUX].id =3D "clk_hevcf_mux";
+> +
+> +	return devm_clk_bulk_get(hw->dev, DOS_CLK_MAX, hw->gates);
+> +}
+> +
+> +static struct clk_bulk_data *vdec_get_clk_by_name(struct aml_vdec_hw *hw=
+,
+> +						=C2=A0 const char *name)
+> +{
+> +	int i;
+> +
+> +	for (i =3D 0; i < DOS_CLK_MAX; i++) {
+> +		if (!strcmp(name, hw->gates[i].id)) {
+> +			if (hw->gates[i].clk)
+> +				return &hw->gates[i];
+> +		}
+> +	}
+> +	return NULL;
+> +}
+> +
+> +static int pm_vdec_power_domain_init(struct aml_vdec_hw *hw)
+> +{
+> +	int i, err;
+> +	const struct power_manager_s *pm =3D hw->pm;
+> +	struct pm_pd_s *pd =3D pm->pd_data;
+> +
+> +	mutex_init(&hw->pm_mutex);
+> +
+> +	for (i =3D 0; i < VDEC_MAX; i++) {
+> +		pd[i].dev =3D dev_pm_domain_attach_by_name(hw->dev, pd[i].name);
+> +		if (IS_ERR_OR_NULL(pd[i].dev)) {
+> +			err =3D PTR_ERR(pd[i].dev);
+> +			dev_dbg(hw->dev, "Get %s failed, pm-domain: %d\n",
+> +				pd[i].name, err);
+> +			continue;
+> +		}
+> +
+> +		pd[i].link =3D device_link_add(hw->dev, pd[i].dev,
+> +					=C2=A0=C2=A0=C2=A0=C2=A0 DL_FLAG_PM_RUNTIME |
+> +					=C2=A0=C2=A0=C2=A0=C2=A0 DL_FLAG_STATELESS);
+> +		if (IS_ERR_OR_NULL(pd[i].link)) {
+> +			dev_err(hw->dev, "Adding %s device link failed!\n", pd[i].name);
+> +			return -ENODEV;
+> +		}
+> +
+> +		dev_dbg(hw->dev, "power domain: name: %s, dev: %p, link: %p\n",
+> +			pd[i].name, pd[i].dev, pd[i].link);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void pm_vdec_power_domain_release(struct aml_vdec_hw *hw)
+> +{
+> +	int i;
+> +	const struct power_manager_s *pm =3D hw->pm;
+> +	struct pm_pd_s *pd =3D pm->pd_data;
+> +
+> +	for (i =3D 0; i < VDEC_MAX; i++) {
+> +		if (!IS_ERR_OR_NULL(pd[i].link))
+> +			device_link_del(pd[i].link);
+> +
+> +		if (!IS_ERR_OR_NULL(pd[i].dev))
+> +			dev_pm_domain_detach(pd[i].dev, true);
+> +	}
+> +}
+> +
+> +static void dos_local_config(struct aml_vdec_hw *hw, bool is_on, int id)
+> +{
+> +	if (is_on) {
+> +		usleep_range(20, 100);
+> +
+> +		switch (id) {
+> +		case VDEC_1:
+> +			regmap_write(hw->map[DOS_BUS], DOS_MEM_PD_VDEC, 0);
+> +			regmap_write(hw->map[DOS_BUS], DOS_SW_RESET0, 0xfffffffc);
+> +			usleep_range(20, 100);
+> +			regmap_write(hw->map[DOS_BUS], DOS_SW_RESET0, 0);
+> +			usleep_range(20, 100);
+> +			regmap_write(hw->map[DOS_BUS], DOS_MEM_PD_VDEC, 0);
+> +			break;
+> +		case VDEC_HEVC:
+> +			regmap_write(hw->map[DOS_BUS], DOS_MEM_PD_HEVC, 0);
+> +			regmap_write(hw->map[DOS_BUS], DOS_SW_RESET3, 0xffffffff);
+> +			usleep_range(20, 100);
+> +			regmap_write(hw->map[DOS_BUS], DOS_SW_RESET3, 0);
+> +			usleep_range(20, 100);
+> +			regmap_write(hw->map[DOS_BUS], DOS_MEM_PD_HEVC, 0);
+> +			break;
+> +		default:
+> +			dev_info(hw->dev, "%s on, not found id %d\n", __func__, id);
+> +			break;
+> +		}
+> +	} else {
+> +		switch (id) {
+> +		case VDEC_1:
+> +			regmap_write(hw->map[DOS_BUS], DOS_SW_RESET0, 0xfffffffc);
+> +			usleep_range(20, 100);
+> +			regmap_write(hw->map[DOS_BUS], DOS_SW_RESET0, 0);
+> +			usleep_range(20, 100);
+> +			regmap_write(hw->map[DOS_BUS], DOS_MEM_PD_VDEC, 0xffffffffUL);
+> +			break;
+> +		case VDEC_HEVC:
+> +			regmap_write(hw->map[DOS_BUS], DOS_SW_RESET3, 0xffffffff);
+> +			usleep_range(20, 100);
+> +			regmap_write(hw->map[DOS_BUS], DOS_SW_RESET3, 0);
+> +			usleep_range(20, 100);
+> +			regmap_write(hw->map[DOS_BUS], DOS_MEM_PD_HEVC, 0xffffffffUL);
+> +			break;
+> +		default:
+> +			dev_info(hw->dev, "%s off, not found id %d\n", __func__, id);
+> +			break;
+> +		}
+> +	}
+> +
+> +	dev_dbg(hw->dev, "%s end, id %d, is_on %d\n", __func__, id, is_on);
+> +}
+> +
+> +static void pm_vdec_power_domain_power_on(struct aml_vdec_hw *hw, int id=
+)
+> +{
+> +	const struct power_manager_s *pm =3D hw->pm;
+> +	struct device *dev =3D pm->pd_data[id].dev;
+> +	struct clk_bulk_data *gate_node;
+> +
+> +	if (id =3D=3D VDEC_1)
+> +		gate_node =3D vdec_get_clk_by_name(hw, "clk_vdec_mux");
+> +	else if (id =3D=3D VDEC_HEVC)
+> +		gate_node =3D vdec_get_clk_by_name(hw, "clk_hevcf_mux");
+> +
+> +	if (gate_node) {
+> +		clk_prepare_enable(gate_node->clk);
+> +		if (id =3D=3D VDEC_1) {
+> +			clk_set_rate(gate_node->clk, 499999992);
+> +			dev_dbg(hw->dev, "after set, vdec mux clock is %lu Hz\n",
+> +				clk_get_rate(gate_node->clk));
+> +		}
+> +		dev_dbg(hw->dev, "the %-15s clock on\n", gate_node->id);
+> +	} else {
+> +		dev_info(hw->dev, "clk %d, unreachable\n", id);
+> +	}
+> +
+> +	if (dev) {
+> +		pm_runtime_get_sync(dev);
+> +		dev_dbg(dev, "dev: %p link %p the %-15s power on\n",
+> +			dev, pm->pd_data[id].link, pm->pd_data[id].name);
+> +	}
+> +
+> +	dos_local_config(hw, 1, id);
+> +}
+> +
+> +static void pm_vdec_power_domain_power_off(struct aml_vdec_hw *hw, int i=
+d)
+> +{
+> +	const struct power_manager_s *pm =3D hw->pm;
+> +	struct device *dev =3D pm->pd_data[id].dev;
+> +	struct clk_bulk_data *gate_node;
+> +
+> +	dos_local_config(hw, 0, id);
+> +
+> +	if (dev) {
+> +		pm_runtime_put_sync(dev);
+> +		dev_dbg(dev, "dev: %p link %p the %-15s power off\n",
+> +			dev, pm->pd_data[id].link, pm->pd_data[id].name);
+> +	}
+> +
+> +	if (id =3D=3D VDEC_1)
+> +		gate_node =3D vdec_get_clk_by_name(hw, "clk_vdec_mux");
+> +	else if (id =3D=3D VDEC_HEVC)
+> +		gate_node =3D vdec_get_clk_by_name(hw, "clk_hevcf_mux");
+> +
+> +	if (gate_node) {
+> +		clk_disable_unprepare(gate_node->clk);
+> +		dev_dbg(hw->dev, "the %-15s clock off\n", gate_node->id);
+> +	} else {
+> +		dev_info(hw->dev, "clk %d, unreachable\n", id);
+> +	}
+> +}
+> +
+> +static bool pm_vdec_power_domain_power_state(struct aml_vdec_hw *hw, int=
+ id)
+> +{
+> +	if (hw->pm->pd_data[id].dev)
+> +		return pm_runtime_active(hw->pm->pd_data[id].dev);
+> +	else
+> +		return false;
+> +}
+> +
+> +static void vdec_poweron(struct aml_vdec_hw *hw, enum vdec_type_e core)
+> +{
+> +	if (core >=3D VDEC_MAX)
+> +		return;
+> +
+> +	mutex_lock(&hw->pm_mutex);
+> +	if (!hw->pm->pd_data[core].dev)
+> +		goto out;
+> +
+> +	hw->pm->pd_data[core].ref_count++;
+> +	if (hw->pm->pd_data[core].ref_count > 1)
+> +		goto out;
+> +
+> +	if (hw->pm->power_state(hw, core))
+> +		goto out;
+> +
+> +	hw->pm->power_on(hw, core);
+> +
+> +out:
+> +	mutex_unlock(&hw->pm_mutex);
+> +}
+> +
+> +static void vdec_poweroff(struct aml_vdec_hw *hw, enum vdec_type_e core)
+> +{
+> +	if (core >=3D VDEC_MAX)
+> +		return;
+> +
+> +	mutex_lock(&hw->pm_mutex);
+> +	if (hw->pm->pd_data[core].ref_count =3D=3D 0)
+> +		goto out;
+> +
+> +	hw->pm->pd_data[core].ref_count--;
+> +	if (hw->pm->pd_data[core].ref_count > 0)
+> +		goto out;
+> +
+> +	hw->pm->power_off(hw, core);
+> +
+> +out:
+> +	mutex_unlock(&hw->pm_mutex);
+> +}
+> +
+> +int vdec_enable(struct aml_vdec_hw *hw)
+> +{
+> +	vdec_poweron(hw, VDEC_1);
+> +
+> +	return 0;
+> +}
+> +
+> +int vdec_disable(struct aml_vdec_hw *hw)
+> +{
+> +	vdec_poweroff(hw, VDEC_1);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct power_manager_s pm[] =3D {
+> +	[AML_PM_PD] =3D {
+> +		.pd_data=C2=A0=C2=A0=C2=A0 =3D vdec_domain_data,
+> +		.init=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D pm_vdec_power_doma=
+in_init,
+> +		.release=C2=A0=C2=A0=C2=A0 =3D pm_vdec_power_domain_release,
+> +		.power_on=C2=A0=C2=A0=C2=A0 =3D pm_vdec_power_domain_power_on,
+> +		.power_off=C2=A0=C2=A0=C2=A0 =3D pm_vdec_power_domain_power_off,
+> +		.power_state =3D pm_vdec_power_domain_power_state,
+> +	},
+> +};
+> +
+> +static irqreturn_t vdec_irq_handler(int irq, void *priv)
+> +{
+> +	struct aml_vdec_dev *dev =3D (struct aml_vdec_dev *)priv;
+> +	struct aml_vdec_hw *hw =3D dev->dec_hw;
+> +	irqreturn_t ret;
+> +
+> +	if (hw->hw_ops.irq_handler)
+> +		ret =3D hw->hw_ops.irq_handler(irq, priv);
+> +
+> +	return ret;
+> +}
+> +
+> +static irqreturn_t vdec_threaded_isr_handler(int irq, void *priv)
+> +{
+> +	struct aml_vdec_dev *dev =3D (struct aml_vdec_dev *)priv;
+> +	struct aml_vdec_hw *hw =3D dev->dec_hw;
+> +	irqreturn_t ret =3D IRQ_HANDLED;
+> +
+> +	if (hw->hw_ops.irq_threaded_func)
+> +		ret =3D hw->hw_ops.irq_threaded_func(irq, priv);
+> +
+> +	return ret;
+> +}
+> +
+> +struct aml_vdec_hw *vdec_get_hw(void *priv)
+> +{
+> +	struct aml_vdec_dev *dev =3D (struct aml_vdec_dev *)priv;
+> +
+> +	return dev->dec_hw;
+> +}
+> +
+> +static const struct regmap_config dos_regmap_conf =3D {
+> +	.reg_bits =3D 32,
+> +	.val_bits =3D 32,
+> +	.reg_stride =3D 4,
+> +	.max_register =3D 0x10000,
+> +};
+> +
+> +static const struct regmap_config dmc_regmap_conf =3D {
+> +	.reg_bits =3D 32,
+> +	.val_bits =3D 32,
+> +	.reg_stride =3D 4,
+> +	.max_register =3D 0x20,
+> +};
+> +
+> +int dev_request_hw_resources(void *priv)
+> +{
+> +	struct aml_vdec_dev *dev =3D (struct aml_vdec_dev *)priv;
+> +	struct aml_vdec_hw *hw;
+> +	struct platform_device *pdev;
+> +	void __iomem *reg_base[MAX_REG_BUS];
+> +	struct resource res;
+> +	int i;
+> +	int ret =3D -1;
+> +
+> +	if (!dev || !dev->dec_hw)
+> +		return -1;
+> +
+> +	pdev =3D dev->plat_dev;
+> +	hw =3D dev->dec_hw;
+> +	hw->dev =3D &pdev->dev;
+> +
+> +	hw->dec_irq =3D platform_get_irq(pdev, VDEC_IRQ_1);
+> +	if (hw->dec_irq < 0) {
+> +		dev_err(&pdev->dev, "get irq failed\n");
+> +		return hw->dec_irq;
+> +	}
+> +	ret =3D devm_request_threaded_irq(&pdev->dev, hw->dec_irq, vdec_irq_han=
+dler,
+> +					vdec_threaded_isr_handler, IRQF_ONESHOT,
+> +					"vdec-1", dev);
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "failed to install irq %d (%d)",
+> +			hw->dec_irq, ret);
+> +		return -1;
+> +	}
+> +
+> +	for (i =3D 0; i < MAX_REG_BUS; i++) {
+> +		if (of_address_to_resource(pdev->dev.of_node, i, &res)) {
+> +			dev_err(&pdev->dev, "of_address_to_resource %d failed\n", i);
+> +			return -EINVAL;
+> +		}
+> +		reg_base[i] =3D devm_ioremap_resource(&pdev->dev, &res);
+> +
+> +		if (IS_ERR(reg_base[i]))
+> +			return PTR_ERR(reg_base[i]);
+> +
+> +		if (i =3D=3D DOS_BUS) {
+> +			hw->map[i] =3D devm_regmap_init_mmio(&pdev->dev, reg_base[i],
+> +							=C2=A0=C2=A0 &dos_regmap_conf);
+> +		} else if (i =3D=3D DMC_BUS) {
+> +			hw->map[i] =3D devm_regmap_init_mmio(&pdev->dev, reg_base[i],
+> +							=C2=A0=C2=A0 &dmc_regmap_conf);
+> +		}
+> +
+> +		if (IS_ERR(hw->map[i]))
+> +			return PTR_ERR(hw->map[i]);
+> +
+> +		dev_dbg(&pdev->dev, "%s, res start %llx, end %llx, iomap: %p\n",
+> +			__func__, (unsigned long long)res.start,
+> +			(unsigned long long)res.end, reg_base[i]);
+> +	}
+> +	hw->canvas =3D meson_canvas_get(&pdev->dev);
+> +	if (IS_ERR(&pdev->dev))
+> +		return PTR_ERR(&pdev->dev);
+> +
+> +	hw->pm =3D &pm[dev->pvdec_data->power_type];
+> +	if (hw->pm->init) {
+> +		ret =3D hw->pm->init(hw);
+> +		if (ret < 0) {
+> +			dev_err(&pdev->dev, "power mgr init failed!\n");
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	ret =3D vdec_clock_gate_init(hw);
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "clk bulk init failed!\n");
+> +		return ret;
+> +	}
+> +
+> +	dev_dbg(&pdev->dev, "##Amlogic hw resource init OK##\n");
+> +
+> +	return 0;
+> +}
+> +
+> +void dev_destroy_hw_resources(void *priv)
+> +{
+> +	struct aml_vdec_dev *dev =3D (struct aml_vdec_dev *)priv;
+> +	struct aml_vdec_hw *hw;
+> +
+> +	if (!dev || !dev->dec_hw)
+> +		return;
+> +
+> +	hw =3D dev->dec_hw;
+> +
+> +	if (hw->pm->release)
+> +		hw->pm->release(hw);
+> +
+> +	dev_dbg(hw->dev, "##Amlogic hw resource release OK##\n");
+> +}
+> diff --git a/drivers/media/platform/amlogic/vdec/aml_vdec_hw.h b/drivers/=
+media/platform/amlogic/vdec/aml_vdec_hw.h
+> new file mode 100644
+> index 000000000000..6aac89a6356c
+> --- /dev/null
+> +++ b/drivers/media/platform/amlogic/vdec/aml_vdec_hw.h
+> @@ -0,0 +1,158 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR MIT) */
+> +/*
+> + * Copyright (C) 2025 Amlogic, Inc. All rights reserved
+> + */
+> +
+> +#ifndef _AML_VDEC_HW_H_
+> +#define _AML_VDEC_HW_H_
+> +
+> +#include <linux/module.h>
+> +#include <linux/clk.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/of.h>
+> +#include <linux/pm_domain.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/delay.h>
+> +#include <linux/regmap.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/soc/amlogic/meson-canvas.h>
+> +#include "reg_defines.h"
+> +
+> +#define VDEC_FIFO_ALIGN=C2=A0=C2=A0=C2=A0=C2=A0 8
+> +#define VLD_PADDING_SIZE=C2=A0=C2=A0=C2=A0 1024
+> +
+> +/**
+> + * struct aml_vdec_hw_ops - codec mode specific operations for hw
+> + * @load_firmware_ex: Load firmware for current dec specific.
+> + * @irq_handler: mandatory call when the ISR triggers
+> + * @irq_threaded_func: mandatory call for the threaded ISR
+> + * @canvas_alloc: Alloc canvas for curr frame
+> + * @canvas_free: Release canvas.
+> + * @config_canvas: Config for curr frame, such as w/h, Y/UV start addr e=
+tc.
+> + */
+> +struct aml_vdec_hw_ops {
+> +	int (*load_firmware_ex)(void *priv, const u8 *data, u32 len);
+> +	irqreturn_t (*irq_handler)(int irq, void *priv);
+> +	irqreturn_t (*irq_threaded_func)(int irq, void *priv);
+> +	int (*canvas_alloc)(u8 *canvas_index);
+> +	void (*canvas_free)(u8 canvas_index);
+> +	void (*config_canvas)(u8 canvas_index,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ulong addr, u32 width, u32 height,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u32 wrap, u32 blkmode, u32 endian);
+> +};
+> +
+> +/**
+> + * enum vdec_type_e - Type of decoder hardware.
+> + */
+> +enum vdec_type_e {
+> +	VDEC_1 =3D 0,
+> +	VDEC_HEVC,
+> +	VDEC_MAX,
+> +};
+> +
+> +/**
+> + * enum vdec_irq_num - Definition of the irq.
+> + */
+> +enum vdec_irq_num {
+> +	VDEC_IRQ_0 =3D 0,
+> +	VDEC_IRQ_1,
+> +	VDEC_IRQ_2,
+> +	VDEC_IRQ_MAX,
+> +};
+> +
+> +/**
+> + * enum vdec_type_e - Type of decoder clock.
+> + */
+> +enum clk_type_e {
+> +	VDEC =3D 0,
+> +	VDEC_MUX,
+> +	HEVCF_MUX,
+> +	DOS_CLK_MAX,
+> +};
+> +
+> +/**
+> + * enum aml_power_type_e - Type of decoder power.
+> + */
+> +enum aml_power_type_e {
+> +	AML_PM_PD =3D 0,
+> +};
+> +
+> +/**
+> + * enum mm_bus_e - Type of decoder hardware bus.
+> + */
+> +enum mm_bus_e {
+> +	DOS_BUS =3D 0,
+> +	DMC_BUS,
+> +	MAX_REG_BUS
+> +};
+> +
+> +/**
+> + * struct pm_pd_s - power domain definition
+> + * @name: Power domain name.
+> + * @dev: Pointer to device structure.
+> + * @mutex: Pointer to device_link structure.
+> + * @ref_count: Curr power domain instance ref count.
+> + */
+> +struct pm_pd_s {
+> +	u8 *name;
+> +	struct device *dev;
+> +	struct device_link *link;
+> +	int ref_count;
+> +};
+> +
+> +/**
+> + * struct aml_vdec_hw - decoder hardware resources definition
+> + * @pdev: Pointer to struct platform_device.
+> + * @dev: Pointer to struct device.
+> + * @regs: Reg base for dos/dmc hardware.
+> + * @pm_mutex: Mutex for pm->pd_data.
+> + * @pm: Pointer to struct power_manager_s.
+> + * @hw_ops: Hardware resource operation functions. See struct aml_vdec_h=
+w_ops.
+> + * @gates: Clk instance used by curr decoder context.
+> + * @dec_irq: Irq registered.
+> + * @curr_ctx: Pointer to curr decoder context.
+> + */
+> +struct aml_vdec_hw {
+> +	struct platform_device *pdev;
+> +	struct device *dev;
+> +	struct regmap *map[MAX_REG_BUS];
+> +	struct mutex pm_mutex;
+> +	struct meson_canvas *canvas;
+> +	const struct power_manager_s *pm;
+> +	struct aml_vdec_hw_ops hw_ops;
+> +	struct clk_bulk_data gates[DOS_CLK_MAX];
+> +	int dec_irq;
+> +	void *curr_ctx;
+> +};
+> +
+> +/**
+> + * struct power_manager_s - Power manager & opertion function
+> + * @pd_data: Pointer to struct pm_pd_s
+> + * @init: Power manager init.
+> + * @release: Power manager release.
+> + * @power_on: Power on for decoder hw.
+> + * @power_off: Power off for decoder hw.
+> + * @power_state: Query the power state.
+> + */
+> +struct power_manager_s {
+> +	struct pm_pd_s *pd_data;
+> +	int (*init)(struct aml_vdec_hw *hw);
+> +	void (*release)(struct aml_vdec_hw *hw);
+> +	void (*power_on)(struct aml_vdec_hw *hw, int id);
+> +	void (*power_off)(struct aml_vdec_hw *hw, int id);
+> +	bool (*power_state)(struct aml_vdec_hw *hw, int id);
+> +};
+> +
+> +int dev_request_hw_resources(void *priv);
+> +void dev_destroy_hw_resources(void *priv);
+> +struct aml_vdec_hw *vdec_get_hw(void *priv);
+> +u32 read_dos_reg(struct aml_vdec_hw *hw, u32 reg_addr);
+> +int vdec_enable(struct aml_vdec_hw *hw);
+> +int vdec_disable(struct aml_vdec_hw *hw);
+> +void dos_enable(struct aml_vdec_hw *hw);
+> +void aml_start_vdec_hw(struct aml_vdec_hw *hw);
+> +void aml_stop_vdec_hw(struct aml_vdec_hw *hw);
+> +int load_firmware(struct aml_vdec_hw *hw, const char *path);
+> +void aml_vdec_reset_core(struct aml_vdec_hw *hw);
+> +
+> +#endif
+> diff --git a/drivers/media/platform/amlogic/vdec/aml_vdec_platform.c b/dr=
+ivers/media/platform/amlogic/vdec/aml_vdec_platform.c
+> new file mode 100644
+> index 000000000000..f1f8ba1f4ff6
+> --- /dev/null
+> +++ b/drivers/media/platform/amlogic/vdec/aml_vdec_platform.c
+> @@ -0,0 +1,37 @@
+> +// SPDX-License-Identifier: (GPL-2.0-only OR MIT)
+> +/*
+> + * Copyright (C) 2025 Amlogic, Inc. All rights reserved
+> + */
+> +
+> +#include "aml_vdec_platform.h"
+> +#include "aml_vdec_drv.h"
+> +#include "aml_vdec_hw.h"
+> +#include "h264.h"
+> +
+> +#define VIDEO_DEC_H264=C2=A0 "s4_h264_multi.bin"
+> +
+> +const struct aml_codec_ops aml_S4_dec_ops[] =3D {
+> +	[CODEC_TYPE_H264] =3D {
+> +		.init =3D aml_h264_init,
+> +		.exit =3D aml_h264_exit,
+> +		.run =3D aml_h264_dec_run,
+> +	},
+> +};
+> +
+> +static const struct aml_video_dec_fmt aml_S4_dec_fmts =3D {
+> +	.max_height =3D AML_VDEC_1080P_MAX_H,
+> +	.max_width =3D AML_VDEC_1080P_MAX_W,
+> +	.align =3D 32,
+> +	.is_10_bit_support =3D 0,
+> +};
+> +
+> +const struct aml_dev_platform_data aml_vdec_s4_pdata =3D {
+> +	.dec_fmt =3D &aml_S4_dec_fmts,
+> +	.codec_ops =3D aml_S4_dec_ops,
+> +	.power_type =3D AML_PM_PD,
+> +	.req_hw_resource =3D dev_request_hw_resources,
+> +	.destroy_hw_resource =3D dev_destroy_hw_resources,
+> +	.fw_path =3D {
+> +		VIDEO_DEC_H264,
+> +	},
+> +};
+> diff --git a/drivers/media/platform/amlogic/vdec/aml_vdec_platform.h b/dr=
+ivers/media/platform/amlogic/vdec/aml_vdec_platform.h
+> new file mode 100644
+> index 000000000000..ff0933f6f074
+> --- /dev/null
+> +++ b/drivers/media/platform/amlogic/vdec/aml_vdec_platform.h
+> @@ -0,0 +1,62 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR MIT) */
+> +/*
+> + * Copyright (C) 2025 Amlogic, Inc. All rights reserved
+> + */
+> +
+> +#ifndef AML_VDEC_PLATFORM_H_
+> +#define AML_VDEC_PLATFORM_H_
+> +
+> +#include <linux/videodev2.h>
+> +
+> +#define MAX_DEC_FORMAT 3
+> +
+> +/**
+> + * struct aml_codec_ops - codec mode specific operations
+> + * @init: Used for decoder initialization.
+> + * @exit: If needed, can be used to undo the .init phase.
+> + * @run: Start a single decoding job. Called from atomic context.
+> + * Caller should ensure that a pair of buffers is ready and the
+> + * hardware is powered on and clk is enabled. Returns zero if OK,
+> + * a negative value in error cases.
+> + */
+> +struct aml_codec_ops {
+> +	int (*init)(void *priv);
+> +	void (*exit)(void *priv);
+> +	int (*run)(void *priv);
+> +};
+> +
+> +/**
+> + * struct aml_video_dec_fmt - codec format required by platform
+> + * @max_height: Max decode frame height of current platform.
+> + * @max_width: Max decode frame width of current platform.
+> + * @align: Align requirement of the current platform.
+> + * @is_10_bit_support: Whether the platform supports 10 bit.
+> + */
+> +struct aml_video_dec_fmt {
+> +	u32 max_height;
+> +	u32 max_width;
+> +	int align;
+> +	int is_10_bit_support;
+> +};
+> +
+> +/**
+> + * struct aml_dev_platform_data - compatible data for each chip.
+> + * @dec_fmt: Support dec format.
+> + * @codec_ops: Codec operation function.
+> + * @req_hw_resource: Operation function to request the hardware resource=
+.
+> + * @destroy_hw_resource: Operation function to release the hardware reso=
+urce.
+> + * @power_type: Type of power that the current chip need. See aml_power_=
+type_e.
+> + * @fw_path: Path of the firmware.bin.
+> + */
+> +struct aml_dev_platform_data {
+> +	const struct aml_video_dec_fmt *dec_fmt;
+> +	const struct aml_codec_ops *codec_ops;
+> +	int (*req_hw_resource)(void *priv);
+> +	void (*destroy_hw_resource)(void *priv);
+> +	int power_type;
+> +	const char *fw_path[MAX_DEC_FORMAT];
+> +};
+> +
+> +extern const struct aml_dev_platform_data aml_vdec_s4_pdata;
+> +
+> +#endif
+> diff --git a/drivers/media/platform/amlogic/vdec/h264.c b/drivers/media/p=
+latform/amlogic/vdec/h264.c
+> new file mode 100644
+> index 000000000000..d8619e160a6b
+> --- /dev/null
+> +++ b/drivers/media/platform/amlogic/vdec/h264.c
+> @@ -0,0 +1,1933 @@
+> +// SPDX-License-Identifier: (GPL-2.0-only OR MIT)
+> +/*
+> + * Copyright (C) 2025 Amlogic, Inc. All rights reserved
+> + */
+> +
+> +#include <media/v4l2-h264.h>
+> +#include <linux/vmalloc.h>
+> +#include "aml_vdec.h"
+> +#include "aml_vdec_hw.h"
+> +#include "h264.h"
+> +
+> +#define INVALID_POC 0xffffffff
+> +
+> +#define H264_SLICE_HEADER_DONE		0x1
+> +#define H264_SLICE_DATA_DONE		0x2
+> +
+> +#define H264_MAX_COL_BUF			32
+> +#define H264_MAX_CANVAS_POS			26
+> +
+> +#define DECODER_TIMEOUT_MS			500
+> +
+> +#define COL_BUFFER_MARGIN			2
+> +#define COL_SIZE_FOR_ONE_MB			96
+> +
+> +struct vdec_h264_stateless_ctrl_ref {
+> +	const struct v4l2_ctrl_h264_decode_params *decode;
+> +	const struct v4l2_ctrl_h264_scaling_matrix *scaling;
+> +	const struct v4l2_ctrl_h264_sps *sps;
+> +	const struct v4l2_ctrl_h264_pps *pps;
+> +};
+> +
+> +enum SliceType {
+> +	P_SLICE =3D 0,
+> +	B_SLICE =3D 1,
+> +	I_SLICE =3D 2,
+> +	SP_SLICE =3D 3,
+> +	SI_SLICE =3D 4,
+> +	MAX_SLICE_TYPES =3D 5
+> +};
+> +
+> +/* Used by firmware */
+> +union param {
+> +	struct {
+> +		unsigned short data[RPM_END - RPM_BEGIN];
+> +	} l;
+> +	struct {
+> +		unsigned short dump[DPB_OFFSET];
+> +		unsigned short dpb_base[FRAME_IN_DPB << 3];
+> +
+> +		unsigned short dpb_max_buffer_frame;
+> +		unsigned short actual_dpb_size;
+> +
+> +		unsigned short colocated_buf_status;
+> +
+> +		unsigned short num_forward_short_term_reference_pic;
+> +		unsigned short num_short_term_reference_pic;
+> +		unsigned short num_reference_pic;
+> +
+> +		unsigned short current_dpb_index;
+> +		unsigned short current_decoded_frame_num;
+> +		unsigned short current_reference_frame_num;
+> +
+> +		unsigned short l0_size;
+> +		unsigned short l1_size;
+> +		/**
+> +		 * [6:5] : nal_ref_idc
+> +		 * [4:0] : nal_unit_type
+> +		 */
+> +		unsigned short NAL_info_mmco;
+> +		/**
+> +		 * [1:0] : 00 - top field, 01 - bottom field,
+> +		 *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 10 - frame, 11 - mb=
+aff frame
+> +		 */
+> +		unsigned short picture_structure_mmco;
+> +		unsigned short frame_num;
+> +		unsigned short pic_order_cnt_lsb;
+> +
+> +		unsigned short num_ref_idx_l0_active_minus1;
+> +		unsigned short num_ref_idx_l1_active_minus1;
+> +
+> +		unsigned short PrevPicOrderCntLsb;
+> +		unsigned short PreviousFrameNum;
+> +
+> +		/* 32 bits variables */
+> +		unsigned short delta_pic_order_cnt_bottom[2];
+> +		unsigned short delta_pic_order_cnt_0[2];
+> +		unsigned short delta_pic_order_cnt_1[2];
+> +
+> +		unsigned short PrevPicOrderCntMsb[2];
+> +		unsigned short PrevFrameNumOffset[2];
+> +
+> +		unsigned short frame_pic_order_cnt[2];
+> +		unsigned short top_field_pic_order_cnt[2];
+> +		unsigned short bottom_field_pic_order_cnt[2];
+> +
+> +		unsigned short colocated_mv_addr_start[2];
+> +		unsigned short colocated_mv_addr_end[2];
+> +		unsigned short colocated_mv_wr_addr[2];
+> +	} dpb;
+> +	struct {
+> +		unsigned short dump[MMCO_OFFSET];
+> +
+> +		/* array base address for offset_for_ref_frame */
+> +		unsigned short offset_for_ref_frame_base[128];
+> +
+> +		/**
+> +		 * 0 - Index in DPB
+> +		 * 1 - Picture Flag
+> +		 *=C2=A0 [2] : 0 - short term reference,
+> +		 *			1 - long term reference
+> +		 *=C2=A0 [1] : bottom field
+> +		 *=C2=A0 [0] : top field
+> +		 * 2 - Picture Number (short term or long term) low 16 bits
+> +		 * 3 - Picture Number (short term or long term) high 16 bits
+> +		 */
+> +		unsigned short reference_base[128];
+> +
+> +		/* command and parameter, until command is 3 */
+> +		unsigned short l0_reorder_cmd[REORDER_CMD_MAX];
+> +		unsigned short l1_reorder_cmd[REORDER_CMD_MAX];
+> +
+> +		/* command and parameter, until command is 0 */
+> +		unsigned short mmco_cmd[44];
+> +
+> +		unsigned short l0_base[40];
+> +		unsigned short l1_base[40];
+> +	} mmco;
+> +	struct {
+> +		/* from ucode lmem, do not change this struct */
+> +	} p;
+> +};
+> +
+> +struct h264_decode_buf_spec {
+> +	struct v4l2_h264_dpb_entry *dpb;
+> +	u32 canvas_pos;
+> +	u32 dpb_index;
+> +	u32 poc;
+> +	int col_buf_index;
+> +	u8 y_canvas_index;
+> +	u8 u_canvas_index;
+> +	u8 v_canvas_index;
+> +	u8 used;
+> +	u8 long_term_flag;
+> +	dma_addr_t y_dma_addr;
+> +	dma_addr_t c_dma_addr;
+> +};
+> +
+> +#define REORDERING_COMMAND_MAX_SIZE	33
+> +struct slice {
+> +	int frame_num;
+> +	/*modification */
+> +	int slice_type;
+> +	int num_ref_idx_l0;
+> +	int num_ref_idx_l1;
+> +	int first_mb_in_slice;
+> +	int ref_pic_list_reordering_flag[2];
+> +	int modification_of_pic_nums_idc[2][REORDERING_COMMAND_MAX_SIZE];
+> +	int abs_diff_pic_num_minus1[2][REORDERING_COMMAND_MAX_SIZE];
+> +	int long_term_pic_idx[2][REORDERING_COMMAND_MAX_SIZE];
+> +	unsigned char dec_ref_pic_marking_buffer_valid;
+> +};
+> +
+> +struct aml_h264_ctx {
+> +	struct aml_vdec_ctx *v4l2_ctx;
+> +	u8 init_flag;
+> +	u8 new_pic_flag;
+> +	u8 mc_cpu_loaded;
+> +	u8 param_set;
+> +	u8 colocated_buf_num;
+> +	u8 reg_iqidct_control_init_flag;
+> +	u32 reg_iqidct_control;
+> +	u32 reg_vcop_ctrl_reg;
+> +	u32 reg_rv_ai_mb_count;
+> +	u32 vld_dec_control;
+> +	u32 save_avscratch_f;
+> +	u32 seq_info;
+> +	u32 decode_pic_count;
+> +	union param dpb_param;
+> +	u32 dec_status;
+> +	struct slice mslice;
+> +	struct h264_decode_buf_spec curr_spec;
+> +	struct h264_decode_buf_spec ref_list0[V4L2_H264_NUM_DPB_ENTRIES + 1];
+> +	struct h264_decode_buf_spec ref_list1[V4L2_H264_NUM_DPB_ENTRIES + 1];
+> +	struct h264_decode_buf_spec ref_list0_unreordered[V4L2_H264_NUM_DPB_ENT=
+RIES + 1];
+> +	struct h264_decode_buf_spec ref_list1_unreordered[V4L2_H264_NUM_DPB_ENT=
+RIES + 1];
+> +	u8 list_size[2];
+> +	dma_addr_t lmem_phy_addr;
+> +	void *lmem_addr;
+> +	dma_addr_t mc_cpu_paddr;
+> +	void *mc_cpu_vaddr;
+> +	dma_addr_t cma_alloc_addr;
+> +	void *cma_alloc_vaddr;
+> +	dma_addr_t collated_cma_addr;
+> +	dma_addr_t collated_cma_addr_end;
+> +	void *collated_cma_vaddr;
+> +	dma_addr_t workspace_offset;
+> +	void *workspace_vaddr;
+> +	u32 col_buf_alloc_size;
+> +	u32 one_col_buf_size;
+> +	u32 colocated_buf_map;
+> +	int colocated_buf_poc[H264_MAX_COL_BUF];
+> +	int canvas_pos_poc[H264_MAX_CANVAS_POS];
+> +
+> +	u32 frame_width;
+> +	u32 frame_height;
+> +	u32 mb_width;
+> +	u32 mb_height;
+> +	u32 mb_total;
+> +	u32 max_num_ref_frames;
+> +
+> +	struct vdec_h264_stateless_ctrl_ref ctrl_ref;
+> +};
+> +
+> +static inline int get_flag(u32 flag, u32 mask)
+> +{
+> +	return (flag & mask) ? 1 : 0;
+> +}
+> +
+> +static inline void write_lmem(unsigned short *base, u32 offset, u32 valu=
+e)
+> +{
+> +	base[offset] =3D value;
+> +}
+> +
+> +static inline uint32_t spec2canvas(struct h264_decode_buf_spec *buf_spec=
+)
+> +{
+> +	return (buf_spec->v_canvas_index << 16) |
+> +		(buf_spec->u_canvas_index << 8) |
+> +		(buf_spec->y_canvas_index << 0);
+> +}
+> +
+> +static struct h264_decode_buf_spec *find_spec_by_dpb_index(struct aml_h2=
+64_ctx *h264_ctx, int index,
+> +							=C2=A0=C2=A0 int list)
+> +{
+> +	int i;
+> +	int size;
+> +	struct h264_decode_buf_spec *ref_list;
+> +
+> +	size =3D h264_ctx->list_size[list];
+> +	if (list =3D=3D 0)
+> +		ref_list =3D &h264_ctx->ref_list0[0];
+> +	else
+> +		ref_list =3D &h264_ctx->ref_list1[0];
+> +
+> +	for (i =3D 0; i < size; i++) {
+> +		if (index =3D=3D ref_list[i].dpb_index)
+> +			return &ref_list[i];
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+> +static int h264_prepare_input(struct aml_vdec_ctx *ctx)
+> +{
+> +	struct aml_vdec_hw *hw =3D vdec_get_hw(ctx->dev);
+> +	struct vb2_v4l2_buffer *src;
+> +	struct vb2_buffer *vb;
+> +	dma_addr_t src_dma;
+> +	u32 payload_size;
+> +	int dummy;
+> +
+> +	src =3D v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
+> +	if (!src) {
+> +		dev_info(hw->dev, "no input buffer available!\n");
+> +		return -1;
+> +	}
+> +	vb =3D &src->vb2_buf;
+> +	payload_size =3D vb2_get_plane_payload(vb, 0);
+> +	src_dma =3D vb2_dma_contig_plane_dma_addr(vb, 0);
+> +
+> +	regmap_write(hw->map[DOS_BUS], VLD_MEM_VIFIFO_CONTROL, 0);
+> +	/* reset VLD fifo for all vdec */
+> +	regmap_write(hw->map[DOS_BUS], DOS_SW_RESET0, (1 << 5) | (1 << 4) | (1 =
+<< 3));
+> +	regmap_write(hw->map[DOS_BUS], DOS_SW_RESET0, 0);
+> +	regmap_write(hw->map[DOS_BUS], POWER_CTL_VLD, 1 << 4);
+> +
+> +	regmap_write(hw->map[DOS_BUS], VLD_MEM_VIFIFO_START_PTR, src_dma);
+> +	regmap_write(hw->map[DOS_BUS], VLD_MEM_VIFIFO_END_PTR, (src_dma + paylo=
+ad_size));
+> +	regmap_write(hw->map[DOS_BUS], VLD_MEM_VIFIFO_CURR_PTR,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0 round_down(src_dma, VDEC_FIFO_ALIGN));
+> +
+> +	regmap_write(hw->map[DOS_BUS], VLD_MEM_VIFIFO_CONTROL, 1);
+> +	regmap_write(hw->map[DOS_BUS], VLD_MEM_VIFIFO_CONTROL, 0);
+> +	regmap_write(hw->map[DOS_BUS], VLD_MEM_VIFIFO_BUF_CNTL, 2);
+> +
+> +	regmap_write(hw->map[DOS_BUS], VLD_MEM_VIFIFO_RP,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0 round_down(src_dma, VDEC_FIFO_ALIGN));
+> +	dummy =3D payload_size + VLD_PADDING_SIZE;
+> +	regmap_write(hw->map[DOS_BUS], VLD_MEM_VIFIFO_WP,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0 round_down((src_dma + dummy), VDEC_FIFO_ALIGN=
+));
+> +
+> +	regmap_write(hw->map[DOS_BUS], VLD_MEM_VIFIFO_BUF_CNTL, 3);
+> +	regmap_write(hw->map[DOS_BUS], VLD_MEM_VIFIFO_BUF_CNTL, 2);
+> +
+> +	regmap_write(hw->map[DOS_BUS], VLD_MEM_VIFIFO_CONTROL,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0 (0x11 << 16) | (1 << 10) | (7 << 3));
+> +
+> +	regmap_write(hw->map[DOS_BUS], AV_SCRATCH_1, 0x0);
+> +	regmap_write(hw->map[DOS_BUS], H264_DECODE_INFO, (1 << 13));
+> +	regmap_write(hw->map[DOS_BUS], H264_DECODE_SIZE, payload_size);
+> +	regmap_write(hw->map[DOS_BUS], VIFF_BIT_CNT, payload_size * 8);
+> +
+> +	return 0;
+> +}
+> +
+> +static void config_sps_params(struct aml_h264_ctx *h264_ctx,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned short *sps_base,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struct v4l2_ctrl_h264_sps *sps)
+> +{
+> +	struct aml_vdec_ctx *ctx =3D h264_ctx->v4l2_ctx;
+> +	struct aml_vdec_hw *hw =3D vdec_get_hw(ctx->dev);
+> +	u32 cfg_tmp =3D 0;
+> +	u32 frame_size;
+> +	u32 offset =3D 0;
+> +	unsigned short data_tmp[0x100];
+> +	int i, ii;
+> +
+> +	memset(sps_base, 0, 0x100);
+> +
+> +	h264_ctx->frame_width =3D (sps->pic_width_in_mbs_minus1 + 1) << 4;
+> +	h264_ctx->frame_height =3D (sps->pic_height_in_map_units_minus1 + 1) <<=
+ 4;
+> +
+> +	data_tmp[offset] =3D PARAM_BASE_VAL;
+> +	offset +=3D 2;
+> +
+> +	data_tmp[offset++] =3D GET_SPS_PROFILE_IDC(sps->profile_idc);
+> +
+> +	data_tmp[offset++] =3D GET_SPS_SEQ_PARAM_SET_ID(sps->seq_parameter_set_=
+id) |
+> +	=C2=A0=C2=A0=C2=A0 GET_SPS_LEVEL_IDC(sps->level_idc);
+> +
+> +	if (sps->profile_idc >=3D 100) {
+> +		data_tmp[offset++] =3D GET_SPS_CHROMA_FORMAT_IDC(sps->chroma_format_id=
+c);
+> +
+> +		data_tmp[offset++] =3D ((sps->chroma_format_idc ^ 1) << 1);
+> +	}
+> +
+> +	data_tmp[offset++] =3D GET_SPS_LOG2_MAX_FRAME_NUM(sps->log2_max_frame_n=
+um_minus4);
+> +	data_tmp[offset++] =3D GET_SPS_PIC_ORDER_TYPE(sps->pic_order_cnt_type);
+> +
+> +	if (sps->pic_order_cnt_type =3D=3D 0) {
+> +		data_tmp[offset++] =3D
+> +			GET_SPS_PIC_ORDER_CNT_LSB(sps->log2_max_pic_order_cnt_lsb_minus4);
+> +	} else if (sps->pic_order_cnt_type =3D=3D 1) {
+> +		data_tmp[offset++] =3D
+> +			get_flag(sps->flags,
+> +				 V4L2_H264_SPS_FLAG_DELTA_PIC_ORDER_ALWAYS_ZERO);
+> +		data_tmp[offset++] =3D
+> +			GET_SPS_OFFSET_FOR_NONREF_PIC_LOW(sps->offset_for_non_ref_pic);
+> +		data_tmp[offset++] =3D
+> +			GET_SPS_OFFSET_FOR_NONREF_PIC_HIGH(sps->offset_for_non_ref_pic);
+> +		data_tmp[offset++] =3D
+> +			GET_SPS_OFFSET_FOR_TOP_BOT_FIELD_LOW(sps->offset_for_top_to_bottom_fi=
+eld);
+> +		data_tmp[offset++] =3D
+> +			GET_SPS_OFFSET_FOR_TOP_BOT_FIELD_HIGH(sps->offset_for_top_to_bottom_f=
+ield);
+> +		data_tmp[offset++] =3D sps->num_ref_frames_in_pic_order_cnt_cycle;
+> +	}
+> +
+> +	data_tmp[offset++] =3D GET_SPS_NUM_REF_FRAMES(sps->max_num_ref_frames) =
+|
+> +	=C2=A0=C2=A0=C2=A0 GET_SPS_GAPS_ALLOWED_FLAG(get_flag(sps->flags,
+> +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_H264_SPS_FLAG_GAPS_IN_FRA=
+ME_NUM_VALUE_ALLOWED));
+> +
+> +	data_tmp[offset++] =3D GET_SPS_PIC_WIDTH_IN_MBS(sps->pic_width_in_mbs_m=
+inus1);
+> +
+> +	data_tmp[offset++] =3D GET_SPS_PIC_HEIGHT_IN_MBS(sps->pic_height_in_map=
+_units_minus1);
+> +	data_tmp[offset++] =3D
+> +		GET_SPS_DIRECT_8X8_FLAGS
+> +				(get_flag(sps->flags,
+> +					=C2=A0 V4L2_H264_SPS_FLAG_DIRECT_8X8_INFERENCE)) |
+> +		GET_SPS_MB_ADAPTIVE_FRAME_FIELD_FLAGS
+> +				(get_flag(sps->flags,
+> +					=C2=A0 V4L2_H264_SPS_FLAG_MB_ADAPTIVE_FRAME_FIELD)) |
+> +		GET_SPS_FRAME_MBS_ONLY_FLAGS
+> +				(get_flag(sps->flags,
+> +					=C2=A0 V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY));
+> +
+> +	for (i =3D 0; i < 0x100; i +=3D 4) {
+> +		for (ii =3D 0; ii < 4; ii++)
+> +			sps_base[i + 3 - ii] =3D data_tmp[i + ii];
+> +	}
+> +
+> +	frame_size =3D (sps->pic_width_in_mbs_minus1 + 1) * (sps->pic_height_in=
+_map_units_minus1 + 1);
+> +	cfg_tmp =3D (get_flag(sps->flags, V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY) <<=
+ 31) |
+> +				(sps->max_num_ref_frames << 24) | (frame_size << 8) |
+> +				(sps->pic_width_in_mbs_minus1 + 1);
+> +	regmap_write(hw->map[DOS_BUS], AV_SCRATCH_1, cfg_tmp);
+> +	h264_ctx->seq_info =3D cfg_tmp;
+> +
+> +	cfg_tmp =3D 0;
+> +	cfg_tmp =3D (get_flag(sps->flags, V4L2_H264_SPS_FLAG_DIRECT_8X8_INFEREN=
+CE) << 15) |
+> +				(sps->chroma_format_idc);
+> +	regmap_write(hw->map[DOS_BUS], AV_SCRATCH_2, cfg_tmp);
+> +
+> +	cfg_tmp =3D 0;
+> +	cfg_tmp =3D (sps->max_num_ref_frames << 8) | (sps->level_idc);
+> +	regmap_write(hw->map[DOS_BUS], AV_SCRATCH_B, cfg_tmp);
+> +
+> +	cfg_tmp =3D ((sps->level_idc & 0xff) << 7) |
+> +	=C2=A0=C2=A0=C2=A0 (get_flag(sps->flags, V4L2_H264_SPS_FLAG_FRAME_MBS_O=
+NLY) << 2);
+> +	regmap_write(hw->map[DOS_BUS], NAL_SEARCH_CTL,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0 read_dos_reg(hw, NAL_SEARCH_CTL) | cfg_tmp);
+> +
+> +	h264_ctx->mb_width =3D (sps->pic_width_in_mbs_minus1 + 4) & 0xfffffffc;
+> +	h264_ctx->mb_height =3D (sps->pic_height_in_map_units_minus1 + 4) & 0xf=
+ffffffc;
+> +	h264_ctx->mb_total =3D h264_ctx->mb_width * h264_ctx->mb_height;
+> +	h264_ctx->max_num_ref_frames =3D sps->max_num_ref_frames;
+> +}
+> +
+> +static void config_pps_params(struct aml_h264_ctx *h264_ctx,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned short *pps_base,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struct v4l2_ctrl_h264_pps *pps)
+> +{
+> +	struct aml_vdec_ctx *ctx =3D h264_ctx->v4l2_ctx;
+> +	struct aml_vdec_hw *hw =3D vdec_get_hw(ctx->dev);
+> +	u32 offset =3D 0;
+> +	unsigned short data_tmp[0x100];
+> +	u32 max_reference_size =3D V4L2_H264_NUM_DPB_ENTRIES;
+> +	u32 max_list_size;
+> +	int i, ii;
+> +
+> +	memset(pps_base, 0, 0x100);
+> +
+> +	data_tmp[offset++] =3D PARAM_BASE_VAL;
+> +
+> +	data_tmp[offset++] =3D
+> +		GET_PPS_PIC_PARAM_SET_ID(pps->pic_parameter_set_id) |
+> +	=C2=A0=C2=A0=C2=A0 GET_PPS_SEQ_PARAM_SET_ID(pps->seq_parameter_set_id) =
+|
+> +	=C2=A0=C2=A0=C2=A0 GET_PPS_ENTROPY_CODING_MODE_FLAG
+> +			(get_flag(pps->flags,
+> +				=C2=A0 V4L2_H264_PPS_FLAG_ENTROPY_CODING_MODE)) |
+> +	=C2=A0=C2=A0=C2=A0 GET_PPS_PIC_ORDER_PRESENT_FLAG
+> +			(get_flag(pps->flags,
+> +				=C2=A0 V4L2_H264_PPS_FLAG_BOTTOM_FIELD_PIC_ORDER_IN_FRAME_PRESENT));
+> +
+> +	data_tmp[offset++] =3D
+> +		GET_PPS_WEIGHTED_BIPRED_IDC(pps->weighted_bipred_idc) |
+> +		GET_PPS_WEIGHTED_PRED_FLAG(get_flag(pps->flags,
+> +						=C2=A0=C2=A0=C2=A0 V4L2_H264_PPS_FLAG_WEIGHTED_PRED)) |
+> +		GET_PPS_NUM_IDX_REF_L1_MINUS1(pps->num_ref_idx_l1_default_active_minus=
+1) |
+> +		GET_PPS_NUM_IDX_REF_L0_MINUS1(pps->num_ref_idx_l0_default_active_minus=
+1);
+> +
+> +	data_tmp[offset++] =3D GET_PPS_INIT_QS_MINUS26(pps->pic_init_qs_minus26=
+) |
+> +	=C2=A0=C2=A0=C2=A0 GET_PPS_INIT_QP_MINUS26(pps->pic_init_qp_minus26);
+> +
+> +	data_tmp[offset] =3D
+> +	=C2=A0=C2=A0=C2=A0 GET_PPS_CHROMA_QP_INDEX_OFFSET(pps->chroma_qp_index_=
+offset) |
+> +	=C2=A0=C2=A0=C2=A0 GET_PPS_DEBLOCK_FILTER_CTRL_PRESENT_FLAG
+> +				(get_flag(pps->flags,
+> +					=C2=A0 V4L2_H264_PPS_FLAG_DEBLOCKING_FILTER_CONTROL_PRESENT)) |
+> +	=C2=A0=C2=A0=C2=A0 GET_PPS_CONSTRAIN_INTRA_PRED_FLAG
+> +				(get_flag(pps->flags,
+> +					=C2=A0 V4L2_H264_PPS_FLAG_CONSTRAINED_INTRA_PRED)) |
+> +	=C2=A0=C2=A0=C2=A0 GET_PPS_REDUNDANT_PIC_CNT_PRESENT_FLAG
+> +				(get_flag(pps->flags,
+> +					=C2=A0 V4L2_H264_PPS_FLAG_REDUNDANT_PIC_CNT_PRESENT));
+> +	if (get_flag
+> +	=C2=A0=C2=A0=C2=A0 (pps->flags,
+> +	=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_H264_PPS_FLAG_TRANSFORM_8X8_MODE |
+> +	=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_H264_PPS_FLAG_SCALING_MATRIX_PRESENT))
+> +		data_tmp[offset] |=3D (1 << 11);
+> +	offset++;
+> +
+> +	data_tmp[offset++] =3D
+> +	=C2=A0=C2=A0=C2=A0 GET_PPS_SCALING_MATRIX_PRESENT_FLAG(get_flag
+> +						(pps->flags,
+> +						 V4L2_H264_PPS_FLAG_SCALING_MATRIX_PRESENT)) |
+> +	=C2=A0=C2=A0=C2=A0 GET_PPS_TRANSFORM_8X8_FLAG(get_flag
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (pps->flags,
+> +					V4L2_H264_PPS_FLAG_TRANSFORM_8X8_MODE));
+> +
+> +	data_tmp[offset++] =3D
+> +		GET_PPS_GET_SECOND_CHROMA_QP_OFFSET(pps->second_chroma_qp_index_offset=
+);
+> +
+> +	max_list_size =3D (pps->num_ref_idx_l1_default_active_minus1 + 1) +
+> +	=C2=A0=C2=A0=C2=A0 (pps->num_ref_idx_l0_default_active_minus1 + 1);
+> +
+> +	h264_ctx->max_num_ref_frames =3D max_list_size > h264_ctx->max_num_ref_=
+frames ?
+> +						max_list_size : h264_ctx->max_num_ref_frames;
+> +
+> +	regmap_write(hw->map[DOS_BUS], AV_SCRATCH_0,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0 ((h264_ctx->max_num_ref_frames + 1) << 24) |
+> +		=C2=A0=C2=A0=C2=A0=C2=A0 (max_reference_size << 16) | (max_reference_s=
+ize << 8));
+> +
+> +	for (i =3D 0; i < 0x100; i +=3D 4) {
+> +		for (ii =3D 0; ii < 4; ii++)
+> +			pps_base[i + 3 - ii] =3D data_tmp[i + ii];
+> +	}
+> +}
+> +
+> +static void h264_config_params(struct aml_vdec_ctx *ctx)
+> +{
+> +	struct aml_h264_ctx *h264_ctx =3D (struct aml_h264_ctx *)ctx->codec_pri=
+v;
+> +	unsigned short *p_sps_base, *p_pps_base;
+> +	struct vdec_h264_stateless_ctrl_ref *ctrls =3D &h264_ctx->ctrl_ref;
+> +	const struct v4l2_ctrl_h264_sps *sps =3D ctrls->sps;
+> +	const struct v4l2_ctrl_h264_pps *pps =3D ctrls->pps;
+> +
+> +	p_sps_base =3D (unsigned short *)(h264_ctx->workspace_vaddr +
+> +		MEM_SPS_BASE + sps->seq_parameter_set_id * 0x400);
+> +	p_pps_base =3D (unsigned short *)(h264_ctx->workspace_vaddr +
+> +		MEM_PPS_BASE + pps->pic_parameter_set_id * 0x200);
+> +
+> +	config_sps_params(h264_ctx, p_sps_base, sps);
+> +	config_pps_params(h264_ctx, p_pps_base, pps);
+> +}
+> +
+> +static void config_decode_canvas(struct aml_vdec_hw *hw,
+> +				 struct h264_decode_buf_spec *buf_spec,
+> +				 u32 mb_width, u32 mb_height)
+> +{
+> +	int canvas_alloc_result =3D 0;
+> +	int blkmode =3D 0x0;
+> +
+> +	canvas_alloc_result =3D meson_canvas_alloc(hw->canvas, &buf_spec->y_can=
+vas_index);
+> +	canvas_alloc_result =3D meson_canvas_alloc(hw->canvas, &buf_spec->u_can=
+vas_index);
+> +	buf_spec->v_canvas_index =3D buf_spec->u_canvas_index;
+> +
+> +	if (!canvas_alloc_result) {
+> +		/* config y canvas */
+> +		meson_canvas_config(hw->canvas,
+> +				=C2=A0=C2=A0=C2=A0 buf_spec->y_canvas_index, buf_spec->y_dma_addr,
+> +				=C2=A0=C2=A0=C2=A0 mb_width << 4, mb_height << 4,
+> +				=C2=A0=C2=A0=C2=A0 MESON_CANVAS_WRAP_NONE, MESON_CANVAS_BLKMODE_LINE=
+AR,
+> +				=C2=A0=C2=A0=C2=A0 MESON_CANVAS_ENDIAN_SWAP64);
+> +		regmap_write(hw->map[DOS_BUS], VDEC_ASSIST_CANVAS_BLK32,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 11) | /* canvas_blk32_wr */
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 (blkmode << 10) |	/* canvas_blk32 */
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 8) |	/* canvas_index_wr */
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 (buf_spec->y_canvas_index << 0)	/* canvas in=
+dex */
+> +		=C2=A0=C2=A0=C2=A0 );
+> +
+> +		/* config uv canvas */
+> +		meson_canvas_config(hw->canvas,
+> +				=C2=A0=C2=A0=C2=A0 buf_spec->u_canvas_index, buf_spec->c_dma_addr,
+> +				=C2=A0=C2=A0=C2=A0 mb_width << 4, mb_height << 3,
+> +				=C2=A0=C2=A0=C2=A0 MESON_CANVAS_WRAP_NONE, MESON_CANVAS_BLKMODE_LINE=
+AR,
+> +				=C2=A0=C2=A0=C2=A0 MESON_CANVAS_ENDIAN_SWAP64);
+> +		regmap_write(hw->map[DOS_BUS], VDEC_ASSIST_CANVAS_BLK32,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 11) | /* canvas_blk32_wr */
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 (blkmode << 10) |	/* canvas_blk32 */
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 (1 << 8) |	/* canvas_index_wr */
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 (buf_spec->u_canvas_index << 0)	/* canvas in=
+dex */
+> +		=C2=A0=C2=A0=C2=A0 );
+> +
+> +		regmap_write(hw->map[DOS_BUS], ANC0_CANVAS_ADDR + (buf_spec->canvas_po=
+s << 2),
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 spec2canvas(buf_spec));
+> +	}
+> +}
+> +
+> +static int allocate_colocate_buf(struct aml_h264_ctx *h264_ctx, int poc)
+> +{
+> +	int i;
+> +	struct aml_vdec_ctx *ctx =3D h264_ctx->v4l2_ctx;
+> +
+> +	for (i =3D 0; i < h264_ctx->colocated_buf_num; i++) {
+> +		if (((h264_ctx->colocated_buf_map >> i) & 0x1) =3D=3D 0) {
+> +			h264_ctx->colocated_buf_map |=3D (1 << i);
+> +			break;
+> +		}
+> +	}
+> +
+> +	if (i =3D=3D h264_ctx->colocated_buf_num)
+> +		return -1;
+> +
+> +	h264_ctx->colocated_buf_poc[i] =3D poc;
+> +	dev_dbg(&ctx->dev->plat_dev->dev, "%s colocated_buf_index %d poc %d\n",=
+ __func__, i,
+> +		h264_ctx->colocated_buf_poc[i]);
+> +
+> +	return i;
+> +}
+> +
+> +static void release_colocate_buf(struct aml_h264_ctx *h264_ctx, int inde=
+x)
+> +{
+> +	struct aml_vdec_ctx *ctx =3D h264_ctx->v4l2_ctx;
+> +
+> +	if (index >=3D 0) {
+> +		if (index >=3D h264_ctx->colocated_buf_num) {
+> +			dev_dbg
+> +			=C2=A0=C2=A0=C2=A0 (&ctx->dev->plat_dev->dev,
+> +				 "%s error, index %d is bigger than buf count %d\n",
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 __func__, index, h264_ctx->max_num_ref_frame=
+s);
+> +		} else {
+> +			if (h264_ctx->colocated_buf_poc[index] !=3D INVALID_POC &&
+> +			=C2=A0=C2=A0=C2=A0 ((h264_ctx->colocated_buf_map >> index) & 0x1) =3D=
+=3D 0x1) {
+> +				h264_ctx->colocated_buf_map &=3D (~(1 << index));
+> +				dev_dbg
+> +				=C2=A0=C2=A0=C2=A0 (&ctx->dev->plat_dev->dev,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 "%s colocated_buf_index %d released poc %d\=
+n",
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 __func__, index,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 h264_ctx->colocated_buf_poc[index]);
+> +			}
+> +			h264_ctx->colocated_buf_poc[index] =3D INVALID_POC;
+> +		}
+> +	}
+> +}
+> +
+> +static int get_col_buf_index_by_poc(struct aml_h264_ctx *h264_ctx, int p=
+oc)
+> +{
+> +	int idx;
+> +
+> +	for (idx =3D 0; idx < h264_ctx->colocated_buf_num; idx++) {
+> +		if (h264_ctx->colocated_buf_poc[idx] =3D=3D poc)
+> +			break;
+> +	}
+> +
+> +	if (idx =3D=3D h264_ctx->colocated_buf_num)
+> +		idx =3D -1;
+> +
+> +	return idx;
+> +}
+> +
+> +static int alloc_colocate_cma(struct aml_h264_ctx *h264_ctx,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct aml_vdec_ctx *ctx)
+> +{
+> +	int alloc_size =3D 0;
+> +	int i;
+> +	struct aml_vdec_hw *hw;
+> +
+> +	if (h264_ctx->collated_cma_vaddr)
+> +		return 0;
+> +
+> +	hw =3D vdec_get_hw(ctx->dev);
+> +	if (!hw)
+> +		return -1;
+> +
+> +	/* 96 :col buf size for each mb */
+> +	h264_ctx->one_col_buf_size =3D h264_ctx->mb_total * 96;
+> +	alloc_size =3D PAGE_ALIGN(h264_ctx->one_col_buf_size *
+> +			(h264_ctx->max_num_ref_frames + COL_BUFFER_MARGIN));
+> +	h264_ctx->collated_cma_vaddr =3D dma_alloc_coherent(hw->dev, alloc_size=
+,
+> +							=C2=A0 &h264_ctx->collated_cma_addr, GFP_KERNEL);
+> +	if (!h264_ctx->collated_cma_vaddr)
+> +		return -ENOMEM;
+> +
+> +	dev_dbg
+> +	=C2=A0=C2=A0=C2=A0 (&ctx->dev->plat_dev->dev,
+> +	=C2=A0=C2=A0=C2=A0 "collated_cma_addr =3D 0x%llx, one_col_buf_size =3D =
+%x alloc_size =3D %x\n",
+> +	=C2=A0=C2=A0=C2=A0=C2=A0 h264_ctx->collated_cma_addr, h264_ctx->one_col=
+_buf_size,
+> +	=C2=A0=C2=A0=C2=A0=C2=A0 alloc_size);
+> +	h264_ctx->collated_cma_addr_end =3D
+> +	=C2=A0=C2=A0=C2=A0 h264_ctx->collated_cma_addr + alloc_size;
+> +	memset(h264_ctx->collated_cma_vaddr, 0, alloc_size);
+> +	h264_ctx->col_buf_alloc_size =3D alloc_size;
+> +	h264_ctx->colocated_buf_map =3D 0;
+> +	h264_ctx->colocated_buf_num =3D h264_ctx->max_num_ref_frames + COL_BUFF=
+ER_MARGIN;
+> +
+> +	for (i =3D 0; i < H264_MAX_COL_BUF; i++)
+> +		h264_ctx->colocated_buf_poc[i] =3D INVALID_POC;
+> +
+> +	return 0;
+> +}
+> +
+> +static void config_p_reflist(struct aml_h264_ctx *h264_ctx,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_h264_reference *v4l2_p0_reflist,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 u32 list_size)
+> +{
+> +	struct vdec_h264_stateless_ctrl_ref *ctrls =3D &h264_ctx->ctrl_ref;
+> +	struct v4l2_ctrl_h264_decode_params *decode =3D
+> +	=C2=A0=C2=A0=C2=A0 (struct v4l2_ctrl_h264_decode_params *)ctrls->decode=
+;
+> +	struct v4l2_h264_dpb_entry *dpb =3D decode->dpb;
+> +	u8 index;
+> +	int i;
+> +
+> +	for (i =3D 0; i < list_size; i++) {
+> +		index =3D v4l2_p0_reflist[i].index;
+> +		h264_ctx->ref_list0[i].used =3D 1;
+> +		h264_ctx->ref_list0[i].dpb =3D &dpb[index];
+> +		h264_ctx->ref_list0[i].poc =3D dpb[index].top_field_order_cnt;
+> +		h264_ctx->ref_list0[i].long_term_flag =3D
+> +		=C2=A0=C2=A0=C2=A0 dpb[index].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TE=
+RM ? true : false;
+> +		h264_ctx->ref_list0[i].dpb_index =3D index;
+> +	}
+> +	h264_ctx->list_size[0] =3D i;
+> +}
+> +
+> +static void config_b_reflist(struct aml_h264_ctx *h264_ctx,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_h264_reference *v4l2_b0_reflist,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_h264_reference *v4l2_b1_reflist,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 u32 list_size)
+> +{
+> +	struct aml_vdec_ctx *ctx =3D h264_ctx->v4l2_ctx;
+> +	struct vdec_h264_stateless_ctrl_ref *ctrls =3D &h264_ctx->ctrl_ref;
+> +	struct v4l2_ctrl_h264_decode_params *decode =3D
+> +	=C2=A0=C2=A0=C2=A0 (struct v4l2_ctrl_h264_decode_params *)ctrls->decode=
+;
+> +	struct v4l2_h264_dpb_entry *dpb =3D decode->dpb;
+> +	struct slice *curr_slice =3D &h264_ctx->mslice;
+> +	u8 index;
+> +	int i, j;
+> +
+> +	h264_ctx->list_size[0] =3D curr_slice->num_ref_idx_l0;
+> +	for (i =3D 0; i < list_size && i < curr_slice->num_ref_idx_l0; i++) {
+> +		index =3D v4l2_b0_reflist[i].index;
+> +		h264_ctx->ref_list0[i].used =3D 1;
+> +		h264_ctx->ref_list0[i].dpb =3D &dpb[index];
+> +		h264_ctx->ref_list0[i].poc =3D dpb[index].top_field_order_cnt;
+> +		h264_ctx->ref_list0[i].long_term_flag =3D
+> +		=C2=A0=C2=A0=C2=A0 dpb[index].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TE=
+RM ? true : false;
+> +		h264_ctx->ref_list0[i].col_buf_index =3D
+> +			get_col_buf_index_by_poc(h264_ctx, dpb[index].top_field_order_cnt);
+> +		h264_ctx->ref_list0[i].dpb_index =3D index;
+> +	}
+> +
+> +	h264_ctx->list_size[1] =3D curr_slice->num_ref_idx_l1;
+> +	for (j =3D 0; j < list_size && j < curr_slice->num_ref_idx_l1; j++) {
+> +		index =3D v4l2_b1_reflist[j].index;
+> +		h264_ctx->ref_list1[j].used =3D 1;
+> +		h264_ctx->ref_list1[j].dpb =3D &dpb[index];
+> +		h264_ctx->ref_list1[j].poc =3D dpb[index].top_field_order_cnt;
+> +		h264_ctx->ref_list1[j].long_term_flag =3D
+> +		=C2=A0=C2=A0=C2=A0 dpb[index].flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TE=
+RM ? true : false;
+> +		h264_ctx->ref_list1[j].col_buf_index =3D
+> +			get_col_buf_index_by_poc(h264_ctx, dpb[index].top_field_order_cnt);
+> +		h264_ctx->ref_list1[j].dpb_index =3D index;
+> +	}
+> +
+> +	if ((h264_ctx->list_size[1] + h264_ctx->list_size[0]) < list_size)
+> +		dev_info(&ctx->dev->plat_dev->dev, "ref list incorrect list0 %d list0 =
+%d list_size%d\n",
+> +			 h264_ctx->list_size[0], h264_ctx->list_size[1], list_size);
+> +}
+> +
+> +static int poc_is_in_dpb(int poc, const struct v4l2_h264_dpb_entry *dpb)
+> +{
+> +	int i;
+> +	int ret =3D 0;
+> +
+> +	for (i =3D 0; i < V4L2_H264_NUM_DPB_ENTRIES; i++) {
+> +		if (poc =3D=3D dpb[i].top_field_order_cnt) {
+> +			ret =3D 1;
+> +			break;
+> +		}
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static int get_ref_list_size(struct aml_h264_ctx *h264_ctx, int cur_list=
+)
+> +{
+> +	struct aml_vdec_ctx *ctx =3D h264_ctx->v4l2_ctx;
+> +	unsigned short override_flag =3D h264_ctx->dpb_param.l.data[REF_IDC_OVE=
+RRIDE_FLAG];
+> +	int num_ref_idx_lx_active_minus1;
+> +
+> +	if (cur_list =3D=3D 0) {
+> +		num_ref_idx_lx_active_minus1 =3D
+> +			h264_ctx->ctrl_ref.pps->num_ref_idx_l0_default_active_minus1;
+> +		if (override_flag)
+> +			num_ref_idx_lx_active_minus1 =3D
+> +				h264_ctx->dpb_param.dpb.num_ref_idx_l0_active_minus1;
+> +	} else {
+> +		num_ref_idx_lx_active_minus1 =3D
+> +			h264_ctx->ctrl_ref.pps->num_ref_idx_l1_default_active_minus1;
+> +	}
+> +	dev_dbg(&ctx->dev->plat_dev->dev, "%s get list %d size %d\n",
+> +		__func__, cur_list, num_ref_idx_lx_active_minus1 + 1);
+> +
+> +	return num_ref_idx_lx_active_minus1 + 1;
+> +}
+> +
+> +static int get_refidx_by_picnum(struct aml_h264_ctx *h264_ctx, int pic_n=
+um,
+> +				int curr_list)
+> +{
+> +	int i;
+> +	struct h264_decode_buf_spec *ref_list;
+> +
+> +	if (curr_list =3D=3D 0)
+> +		ref_list =3D &h264_ctx->ref_list0[0];
+> +	else
+> +		ref_list =3D &h264_ctx->ref_list1[0];
+> +
+> +	for (i =3D 0; ref_list[i].dpb; i++) {
+> +		if (pic_num =3D=3D ref_list[i].dpb->pic_num)
+> +			return i;
+> +	}
+> +
+> +	return -1;
+> +}
+> +
+> +static struct h264_decode_buf_spec *get_st_refpic_by_num(struct aml_h264=
+_ctx *h264_ctx,
+> +							 int pic_num, int curr_list)
+> +{
+> +	int i;
+> +	struct h264_decode_buf_spec *ref_list;
+> +
+> +	if (curr_list =3D=3D 0)
+> +		ref_list =3D &h264_ctx->ref_list0_unreordered[0];
+> +	else
+> +		ref_list =3D &h264_ctx->ref_list1_unreordered[0];
+> +
+> +	for (i =3D 0; ref_list[i].dpb; i++) {
+> +		if (pic_num =3D=3D ref_list[i].dpb->pic_num && ref_list[i].long_term_f=
+lag =3D=3D 0)
+> +			return &ref_list[i];
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+> +static struct h264_decode_buf_spec *get_lt_refpic_by_num(struct aml_h264=
+_ctx *h264_ctx,
+> +							 int pic_num, int curr_list)
+> +{
+> +	int i;
+> +	struct h264_decode_buf_spec *ref_list;
+> +
+> +	if (curr_list =3D=3D 0)
+> +		ref_list =3D &h264_ctx->ref_list0_unreordered[0];
+> +	else
+> +		ref_list =3D &h264_ctx->ref_list1_unreordered[0];
+> +
+> +	for (i =3D 0; ref_list[i].dpb; i++) {
+> +		if (pic_num =3D=3D ref_list[i].dpb->pic_num && ref_list[i].long_term_f=
+lag =3D=3D 1)
+> +			return &ref_list[i];
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+> +static void reorder_short_term(struct slice *curr_slice, int cur_list,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int pic_num_lx, int *ref_idx_lx)
+> +{
+> +	struct aml_h264_ctx *h264_ctx =3D container_of(curr_slice, struct aml_h=
+264_ctx, mslice);
+> +	struct aml_vdec_ctx *ctx =3D h264_ctx->v4l2_ctx;
+> +	int c_idx, n_idx;
+> +	int num_ref_idx_lx_active;
+> +	struct h264_decode_buf_spec *pic_lx =3D NULL;
+> +	struct h264_decode_buf_spec *ref_list_reordered;
+> +
+> +	if (cur_list =3D=3D 0)
+> +		ref_list_reordered =3D &h264_ctx->ref_list0[0];
+> +	else
+> +		ref_list_reordered =3D &h264_ctx->ref_list1[0];
+> +
+> +	num_ref_idx_lx_active =3D get_ref_list_size(h264_ctx, cur_list);
+> +
+> +	/* find short-term ref frame with pic_num is pic_num_lx */
+> +	pic_lx =3D get_st_refpic_by_num(h264_ctx, pic_num_lx, cur_list);
+> +	if (!pic_lx) {
+> +		dev_dbg(&ctx->dev->plat_dev->dev, "cannot find st pic_lx for %d\n", pi=
+c_num_lx);
+> +		return;
+> +	}
+> +
+> +	if (*ref_idx_lx =3D=3D get_refidx_by_picnum(h264_ctx, pic_num_lx, cur_l=
+ist)) {
+> +		dev_dbg(&ctx->dev->plat_dev->dev, "no need to move pic lx %d\n", *ref_=
+idx_lx);
+> +		*ref_idx_lx =3D *ref_idx_lx + 1;
+> +		return;
+> +	}
+> +
+> +	for (c_idx =3D num_ref_idx_lx_active; c_idx > *ref_idx_lx; c_idx--)
+> +		memcpy(&ref_list_reordered[c_idx], &ref_list_reordered[c_idx - 1],
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sizeof(struct h264_decode_buf_spe=
+c));
+> +
+> +	memcpy(&ref_list_reordered[*ref_idx_lx], pic_lx, sizeof(struct h264_dec=
+ode_buf_spec));
+> +	dev_dbg(&ctx->dev->plat_dev->dev, "%s : RefPicListX[%d ] =3D pic %p pic=
+_num(%d)\n", __func__,
+> +		*ref_idx_lx, pic_lx, ref_list_reordered[*ref_idx_lx].dpb->pic_num);
+> +	*ref_idx_lx =3D *ref_idx_lx + 1;
+> +
+> +	n_idx =3D *ref_idx_lx;
+> +	for (c_idx =3D *ref_idx_lx; c_idx <=3D num_ref_idx_lx_active; c_idx++) =
+{
+> +		if (ref_list_reordered[c_idx].long_term_flag || !ref_list_reordered[c_=
+idx].dpb ||
+> +		=C2=A0=C2=A0=C2=A0 ref_list_reordered[c_idx].dpb->pic_num !=3D pic_num=
+_lx)
+> +			memcpy(&ref_list_reordered[n_idx++], &ref_list_reordered[c_idx],
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sizeof(struct h264_decode_buf_sp=
+ec));
+> +	}
+> +
+> +	h264_ctx->list_size[cur_list] =3D num_ref_idx_lx_active;
+> +}
+> +
+> +static void reorder_long_term(struct slice *curr_slice, int cur_list,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int lt_pic_num, int *ref_idx_lx)
+> +{
+> +	struct aml_h264_ctx *h264_ctx =3D container_of(curr_slice, struct aml_h=
+264_ctx, mslice);
+> +	struct aml_vdec_ctx *ctx =3D h264_ctx->v4l2_ctx;
+> +	int num_ref_idx_lx_active;
+> +	int c_idx, n_idx;
+> +	struct h264_decode_buf_spec *ref_list;
+> +	struct h264_decode_buf_spec *pic_lt =3D NULL;
+> +
+> +	if (cur_list =3D=3D 0)
+> +		ref_list =3D &h264_ctx->ref_list0[0];
+> +	else
+> +		ref_list =3D &h264_ctx->ref_list1[0];
+> +
+> +	num_ref_idx_lx_active =3D get_ref_list_size(h264_ctx, cur_list);
+> +
+> +	/* find long-term ref frame with pic_num is lt_pic_num */
+> +	pic_lt =3D get_lt_refpic_by_num(h264_ctx, lt_pic_num, cur_list);
+> +	if (!pic_lt) {
+> +		dev_dbg(&ctx->dev->plat_dev->dev, "cannot find lt pic_lx for %d\n", lt=
+_pic_num);
+> +		return;
+> +	}
+> +
+> +	if (*ref_idx_lx =3D=3D get_refidx_by_picnum(h264_ctx, lt_pic_num, cur_l=
+ist)) {
+> +		dev_dbg(&ctx->dev->plat_dev->dev, "no need to move pic lx %d\n", *ref_=
+idx_lx);
+> +		*ref_idx_lx =3D *ref_idx_lx + 1;
+> +		return;
+> +	}
+> +
+> +	for (c_idx =3D num_ref_idx_lx_active; c_idx > *ref_idx_lx; c_idx--)
+> +		memcpy(&ref_list[c_idx], &ref_list[c_idx - 1], sizeof(struct h264_deco=
+de_buf_spec));
+> +
+> +	memcpy(&ref_list[*ref_idx_lx], pic_lt, sizeof(struct h264_decode_buf_sp=
+ec));
+> +	dev_dbg(&ctx->dev->plat_dev->dev, "%s : RefPicListX[%d ] =3D pic %p pic=
+_num(%d)\n", __func__,
+> +		*ref_idx_lx, pic_lt, ref_list[*ref_idx_lx].dpb->pic_num);
+> +	*ref_idx_lx =3D *ref_idx_lx + 1;
+> +
+> +	n_idx =3D *ref_idx_lx;
+> +	/* Pointer dpb is NULL means this is a dummy frame store */
+> +	for (c_idx =3D *ref_idx_lx; c_idx <=3D num_ref_idx_lx_active; c_idx++) =
+{
+> +		if (!ref_list[c_idx].long_term_flag || !ref_list[c_idx].dpb ||
+> +		=C2=A0=C2=A0=C2=A0 ref_list[c_idx].dpb->pic_num !=3D lt_pic_num)
+> +			memcpy(&ref_list[n_idx++], &ref_list[c_idx],
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sizeof(struct h264_decode_buf_sp=
+ec));
+> +	}
+> +
+> +	h264_ctx->list_size[cur_list] =3D num_ref_idx_lx_active;
+> +}
+> +
+> +static void get_modification_cmd(unsigned short *reorder_cmd, struct sli=
+ce *curr_slice, int list)
+> +{
+> +	int i, j, val;
+> +
+> +	val =3D curr_slice->ref_pic_list_reordering_flag[list];
+> +	if (val) {
+> +		i =3D 0;
+> +		j =3D 0;
+> +		do {
+> +			curr_slice->modification_of_pic_nums_idc[list][i] =3D
+> +				reorder_cmd[j++];
+> +			if (j >=3D REORDER_CMD_MAX) {
+> +				curr_slice->modification_of_pic_nums_idc[list][i] =3D 0;
+> +				break;
+> +			}
+> +
+> +			val =3D curr_slice->modification_of_pic_nums_idc[list][i];
+> +			if (val =3D=3D 0 || val =3D=3D 1)
+> +				curr_slice->abs_diff_pic_num_minus1[list][i] =3D reorder_cmd[j++];
+> +			else if (val =3D=3D 2)
+> +				curr_slice->long_term_pic_idx[list][i] =3D reorder_cmd[j++];
+> +
+> +			i++;
+> +
+> +			if (i >=3D REORDERING_COMMAND_MAX_SIZE) {
+> +				curr_slice->ref_pic_list_reordering_flag[list] =3D 0;
+> +				break;
+> +			};
+> +			if (j > REORDER_CMD_MAX) {
+> +				curr_slice->ref_pic_list_reordering_flag[list] =3D 0;
+> +				break;
+> +			};
+> +		} while (val !=3D 3);
+> +	}
+> +}
+> +
+> +static void reorder_pics(struct aml_h264_ctx *h264_ctx, struct slice *cu=
+rr_slice, int cur_list)
+> +{
+> +	struct aml_vdec_ctx *ctx =3D h264_ctx->v4l2_ctx;
+> +	int *modification_of_pic_nums_idc =3D
+> +		curr_slice->modification_of_pic_nums_idc[cur_list];
+> +	int *abs_diff_pic_num_minus1 =3D
+> +		curr_slice->abs_diff_pic_num_minus1[cur_list];
+> +	int *long_term_pic_idx =3D curr_slice->long_term_pic_idx[cur_list];
+> +	int pic_num_lx_nowarp, pic_num_lx_pred, pic_num_lx;
+> +	int curr_pic_num =3D curr_slice->frame_num;
+> +	int max_pic_num =3D 1 << (4 + h264_ctx->ctrl_ref.sps->log2_max_frame_nu=
+m_minus4);
+> +	int ref_idx_lx =3D 0;
+> +	int nowarp_tmp =3D 0;
+> +	int i;
+> +
+> +	pic_num_lx_pred =3D curr_pic_num;
+> +	for (i =3D 0; i < REORDERING_COMMAND_MAX_SIZE && modification_of_pic_nu=
+ms_idc[i] !=3D 3; i++) {
+> +		if (modification_of_pic_nums_idc[i] > 3) {
+> +			dev_info(&ctx->dev->plat_dev->dev, "error, Invalid modification_of_pi=
+c_nums_idc command\n");
+> +			break;
+> +		}
+> +
+> +		if (modification_of_pic_nums_idc[i] < 2) {
+> +			if (modification_of_pic_nums_idc[i] =3D=3D 0) {
+> +				nowarp_tmp =3D pic_num_lx_pred - (abs_diff_pic_num_minus1[i] + 1);
+> +				pic_num_lx_nowarp =3D nowarp_tmp + (nowarp_tmp < 0 ? max_pic_num : 0=
+);
+> +			} else if (modification_of_pic_nums_idc[i] =3D=3D 1) {
+> +				nowarp_tmp =3D pic_num_lx_pred + (abs_diff_pic_num_minus1[i] + 1);
+> +				pic_num_lx_nowarp =3D nowarp_tmp -
+> +					(nowarp_tmp > max_pic_num ? max_pic_num : 0);
+> +			}
+> +			pic_num_lx_pred =3D pic_num_lx_nowarp;
+> +			if (pic_num_lx_nowarp > curr_pic_num)
+> +				pic_num_lx =3D pic_num_lx_nowarp - max_pic_num;
+> +			else
+> +				pic_num_lx =3D pic_num_lx_nowarp;
+> +
+> +			reorder_short_term(curr_slice, cur_list, pic_num_lx, &ref_idx_lx);
+> +		} else {
+> +			reorder_long_term(curr_slice, cur_list, long_term_pic_idx[i], &ref_id=
+x_lx);
+> +		}
+> +	}
+> +}
+> +
+> +static void copy_ref_list(struct aml_h264_ctx *h264_ctx, int curr_list)
+> +{
+> +	if (curr_list =3D=3D 0)
+> +		memcpy(h264_ctx->ref_list0_unreordered, h264_ctx->ref_list0,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sizeof(h264_ctx->ref_list0));
+> +	else
+> +		memcpy(h264_ctx->ref_list1_unreordered, h264_ctx->ref_list0,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sizeof(h264_ctx->ref_list1));
+> +}
+> +
+> +static void h264_reorder_reflists(struct aml_h264_ctx *h264_ctx)
+> +{
+> +	unsigned short *reorder_cmd;
+> +	struct slice *curr_slice =3D &h264_ctx->mslice;
+> +
+> +	if (curr_slice->slice_type !=3D I_SLICE && curr_slice->slice_type !=3D =
+SI_SLICE) {
+> +		reorder_cmd =3D &h264_ctx->dpb_param.mmco.l0_reorder_cmd[0];
+> +		/* 3:parsed by ucode, means no reorder needed */
+> +		if (reorder_cmd[0] !=3D 3)
+> +			curr_slice->ref_pic_list_reordering_flag[0] =3D 1;
+> +		else
+> +			curr_slice->ref_pic_list_reordering_flag[0] =3D 0;
+> +
+> +		get_modification_cmd(reorder_cmd, curr_slice, 0);
+> +	}
+> +
+> +	if (curr_slice->slice_type =3D=3D B_SLICE) {
+> +		reorder_cmd =3D &h264_ctx->dpb_param.mmco.l1_reorder_cmd[0];
+> +		/* 3:parsed by ucode, means no reorder needed */
+> +		if (reorder_cmd[0] !=3D 3)
+> +			curr_slice->ref_pic_list_reordering_flag[1] =3D 1;
+> +		else
+> +			curr_slice->ref_pic_list_reordering_flag[1] =3D 0;
+> +
+> +		get_modification_cmd(reorder_cmd, curr_slice, 1);
+> +	}
+> +
+> +	if (curr_slice->slice_type !=3D I_SLICE &&
+> +	=C2=A0=C2=A0=C2=A0 curr_slice->slice_type !=3D SI_SLICE &&
+> +	=C2=A0=C2=A0=C2=A0 curr_slice->ref_pic_list_reordering_flag[0] !=3D 0) =
+{
+> +		copy_ref_list(h264_ctx, 0);
+> +		reorder_pics(h264_ctx, curr_slice, 0);
+> +	}
+> +
+> +	if (curr_slice->slice_type =3D=3D B_SLICE && curr_slice->ref_pic_list_r=
+eordering_flag[1] !=3D 0) {
+> +		copy_ref_list(h264_ctx, 1);
+> +		reorder_pics(h264_ctx, curr_slice, 1);
+> +	}
+> +}
+> +
+> +static void h264_config_ref_lists(struct aml_vdec_ctx *ctx)
+> +{
+> +	struct aml_h264_ctx *h264_ctx =3D (struct aml_h264_ctx *)ctx->codec_pri=
+v;
+> +	struct vdec_h264_stateless_ctrl_ref *ctrls =3D &h264_ctx->ctrl_ref;
+> +	struct v4l2_ctrl_h264_decode_params *decode =3D
+> +		(struct v4l2_ctrl_h264_decode_params *)ctrls->decode;
+> +	struct v4l2_ctrl_h264_sps *sps =3D (struct v4l2_ctrl_h264_sps *)ctrls->=
+sps;
+> +	const struct v4l2_h264_dpb_entry *dpb =3D decode->dpb;
+> +	struct v4l2_h264_reflist_builder builder;
+> +	struct v4l2_h264_reference v4l2_p0_reflist[V4L2_H264_REF_LIST_LEN];
+> +	struct v4l2_h264_reference v4l2_b0_reflist[V4L2_H264_REF_LIST_LEN];
+> +	struct v4l2_h264_reference v4l2_b1_reflist[V4L2_H264_REF_LIST_LEN];
+> +
+> +	if (decode->flags =3D=3D V4L2_H264_DECODE_PARAM_FLAG_IDR_PIC)
+> +		return;
+> +
+> +	v4l2_h264_init_reflist_builder(&builder, decode, sps, dpb);
+> +	dev_dbg(&ctx->dev->plat_dev->dev, "%s num_valid =3D %d", __func__, buil=
+der.num_valid);
+> +
+> +	if (decode->flags & V4L2_H264_DECODE_PARAM_FLAG_PFRAME) {
+> +		v4l2_h264_build_p_ref_list(&builder, v4l2_p0_reflist);
+> +		config_p_reflist(h264_ctx, v4l2_p0_reflist, builder.num_valid);
+> +	} else if (decode->flags & V4L2_H264_DECODE_PARAM_FLAG_BFRAME) {
+> +		v4l2_h264_build_b_ref_lists(&builder, v4l2_b0_reflist, v4l2_b1_reflist=
+);
+> +		config_b_reflist(h264_ctx, v4l2_b0_reflist, v4l2_b1_reflist, builder.n=
+um_valid);
+> +	}
+> +}
+> +
+> +static void clear_unused_col_buf(struct aml_h264_ctx *h264_ctx,
+> +				 struct v4l2_ctrl_h264_decode_params *decode)
+> +{
+> +	int i, col_poc;
+> +
+> +	/* flush all col buffers when IDR */
+> +	if (decode->flags =3D=3D V4L2_H264_DECODE_PARAM_FLAG_IDR_PIC) {
+> +		/* 32 : max index of co-locate buffer */
+> +		for (i =3D 0; i < 32; i++)
+> +			release_colocate_buf(h264_ctx, i);
+> +		return;
+> +	}
+> +
+> +	for (i =3D 0; i < h264_ctx->colocated_buf_num; i++) {
+> +		col_poc =3D h264_ctx->colocated_buf_poc[i];
+> +		if (col_poc !=3D INVALID_POC && (poc_is_in_dpb(col_poc, decode->dpb) !=
+=3D 1))
+> +			release_colocate_buf(h264_ctx, i);
+> +	}
+> +}
+> +
+> +static void h264_config_decode_spec(struct aml_vdec_hw *hw, struct aml_v=
+dec_ctx *ctx)
+> +{
+> +	struct aml_h264_ctx *h264_ctx =3D (struct aml_h264_ctx *)hw->curr_ctx;
+> +	struct vdec_h264_stateless_ctrl_ref *ctrls =3D &h264_ctx->ctrl_ref;
+> +	struct v4l2_ctrl_h264_decode_params *decode =3D
+> +		(struct v4l2_ctrl_h264_decode_params *)ctrls->decode;
+> +	struct h264_decode_buf_spec *buf_spec_l0, *buf_spec_l1;
+> +	struct vb2_buffer *vb;
+> +	struct vb2_v4l2_buffer *vb2_v4l2;
+> +	struct vb2_queue *vq;
+> +	int i;
+> +
+> +	clear_unused_col_buf(h264_ctx, decode);
+> +
+> +	vb2_v4l2 =3D v4l2_m2m_next_dst_buf(ctx->m2m_ctx);
+> +	vb =3D &vb2_v4l2->vb2_buf;
+> +
+> +	h264_ctx->curr_spec.y_dma_addr =3D vb2_dma_contig_plane_dma_addr(vb, 0)=
+;
+> +	if (ctx->pic_info.plane_num > 1)
+> +		h264_ctx->curr_spec.c_dma_addr =3D vb2_dma_contig_plane_dma_addr(vb, 1=
+);
+> +	else
+> +		h264_ctx->curr_spec.c_dma_addr =3D
+> +				h264_ctx->curr_spec.y_dma_addr + ctx->pic_info.fb_size[0];
+> +	h264_ctx->curr_spec.canvas_pos =3D 0;
+> +	if (decode->nal_ref_idc)
+> +		h264_ctx->curr_spec.col_buf_index =3D
+> +			allocate_colocate_buf(h264_ctx, decode->top_field_order_cnt);
+> +	else
+> +		h264_ctx->curr_spec.col_buf_index =3D -1;
+> +	h264_ctx->curr_spec.poc =3D decode->top_field_order_cnt;
+> +	config_decode_canvas(hw, &h264_ctx->curr_spec, h264_ctx->mb_width, h264=
+_ctx->mb_height);
+> +	h264_ctx->canvas_pos_poc[0] =3D decode->top_field_order_cnt;
+> +
+> +	h264_config_ref_lists(ctx);
+> +
+> +	vq =3D v4l2_m2m_get_vq(ctx->m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE=
+);
+> +
+> +	for (i =3D 0; i < V4L2_H264_NUM_DPB_ENTRIES; i++) {
+> +		struct v4l2_h264_dpb_entry *dpb =3D &decode->dpb[i];
+> +
+> +		if (!(dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
+> +			break;
+> +
+> +		buf_spec_l0 =3D find_spec_by_dpb_index(h264_ctx, i, 0);
+> +		if (buf_spec_l0) {
+> +			buf_spec_l0->canvas_pos =3D i + 1;
+> +			vb =3D vb2_find_buffer(vq, dpb->reference_ts);
+> +			if (!vb) {
+> +				dev_err(&ctx->dev->plat_dev->dev,
+> +					"ref pic for ts %llu lost\n", dpb->reference_ts);
+> +				continue;
+> +			}
+> +
+> +			buf_spec_l0->y_dma_addr =3D
+> +				vb2_dma_contig_plane_dma_addr(vb, 0);
+> +			if (ctx->pic_info.plane_num > 1)
+> +				buf_spec_l0->c_dma_addr =3D vb2_dma_contig_plane_dma_addr(vb, 1);
+> +			else
+> +				buf_spec_l0->c_dma_addr =3D
+> +					buf_spec_l0->y_dma_addr + ctx->pic_info.fb_size[0];
+> +			config_decode_canvas(hw, buf_spec_l0,
+> +					=C2=A0=C2=A0=C2=A0=C2=A0 h264_ctx->mb_width, h264_ctx->mb_height);
+> +			if (h264_ctx->canvas_pos_poc[buf_spec_l0->canvas_pos] =3D=3D INVALID_=
+POC)
+> +				h264_ctx->canvas_pos_poc[buf_spec_l0->canvas_pos] =3D
+> +					buf_spec_l0->dpb->top_field_order_cnt;
+> +			dev_dbg
+> +			=C2=A0=C2=A0=C2=A0 (&ctx->dev->plat_dev->dev,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 "config canvas for poc %d canvas %d y_dma_ad=
+dr 0x%llx\n",
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 buf_spec_l0->dpb->top_field_order_cnt,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 buf_spec_l0->canvas_pos, buf_spec_l0->y_dma_=
+addr);
+> +		}
+> +
+> +		buf_spec_l1 =3D find_spec_by_dpb_index(h264_ctx, i, 1);
+> +		if (!buf_spec_l0 && buf_spec_l1) {
+> +			buf_spec_l1->canvas_pos =3D i + 1;
+> +			vb =3D vb2_find_buffer(vq, dpb->reference_ts);
+> +			if (!vb) {
+> +				dev_err(&ctx->dev->plat_dev->dev,
+> +					"ref pic for ts %llu lost\n", dpb->reference_ts);
+> +				continue;
+> +			}
+> +
+> +			buf_spec_l1->y_dma_addr =3D
+> +				vb2_dma_contig_plane_dma_addr(vb, 0);
+> +			if (ctx->pic_info.plane_num > 1)
+> +				buf_spec_l1->c_dma_addr =3D vb2_dma_contig_plane_dma_addr(vb, 1);
+> +			else
+> +				buf_spec_l1->c_dma_addr =3D
+> +					buf_spec_l1->y_dma_addr + ctx->pic_info.fb_size[0];
+> +			config_decode_canvas(hw, buf_spec_l1, h264_ctx->mb_width,
+> +					=C2=A0=C2=A0=C2=A0=C2=A0 h264_ctx->mb_height);
+> +			if (h264_ctx->canvas_pos_poc[buf_spec_l1->canvas_pos] =3D=3D INVALID_=
+POC)
+> +				h264_ctx->canvas_pos_poc[buf_spec_l1->canvas_pos] =3D
+> +					buf_spec_l1->dpb->top_field_order_cnt;
+> +			dev_dbg
+> +			=C2=A0=C2=A0=C2=A0 (&ctx->dev->plat_dev->dev,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 "config canvas for poc %d canvas %d y_dma_ad=
+dr 0x%llx\n",
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 buf_spec_l1->dpb->top_field_order_cnt,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 buf_spec_l1->canvas_pos, buf_spec_l1->y_dma_=
+addr);
+> +		} else if (buf_spec_l0 && buf_spec_l1) {
+> +			memcpy(buf_spec_l1, buf_spec_l0, sizeof(struct h264_decode_buf_spec))=
+;
+> +			dev_dbg
+> +				(&ctx->dev->plat_dev->dev,
+> +				 "config canvas for poc %d canvas %d y_dma_addr 0x%llx\n",
+> +				 buf_spec_l1->dpb->top_field_order_cnt,
+> +				 buf_spec_l1->canvas_pos, buf_spec_l1->y_dma_addr);
+> +		}
+> +	}
+> +
+> +	h264_reorder_reflists(h264_ctx);
+> +}
+> +
+> +static int h264_config_decode_buf(struct aml_vdec_hw *hw, struct aml_vde=
+c_ctx *ctx)
+> +{
+> +	struct aml_h264_ctx *h264_ctx =3D (struct aml_h264_ctx *)hw->curr_ctx;
+> +	struct vdec_h264_stateless_ctrl_ref *ctrls =3D &h264_ctx->ctrl_ref;
+> +	struct v4l2_ctrl_h264_decode_params *decode =3D
+> +		(struct v4l2_ctrl_h264_decode_params *)ctrls->decode;
+> +	unsigned int canvas_adr;
+> +	unsigned int ref_cfg;
+> +	unsigned int ref_cfg_once =3D 0;
+> +	struct slice *curr_slice =3D &h264_ctx->mslice;
+> +	unsigned int type_cfg =3D 0x3; /* 0x3: frame type */
+> +	unsigned int colocate_adr_offset =3D 0;
+> +	unsigned int colocate_wr_adr;
+> +	unsigned int info0;
+> +	unsigned int info1;
+> +	unsigned int info2;
+> +	int i, j;
+> +	int h264_buffer_info_data_write_count;
+> +	u8 canvas_pos;
+> +	u8 use_mode_8x8_flag;
+> +	u32 reg_val;
+> +
+> +	regmap_write(hw->map[DOS_BUS], H264_CURRENT_POC_IDX_RESET, 0);
+> +	regmap_write(hw->map[DOS_BUS], H264_CURRENT_POC, decode->top_field_orde=
+r_cnt);
+> +	regmap_write(hw->map[DOS_BUS], H264_CURRENT_POC, decode->top_field_orde=
+r_cnt);
+> +	regmap_write(hw->map[DOS_BUS], H264_CURRENT_POC, decode->bottom_field_o=
+rder_cnt);
+> +	regmap_write(hw->map[DOS_BUS], CURR_CANVAS_CTRL, h264_ctx->curr_spec.ca=
+nvas_pos << 24);
+> +	regmap_read(hw->map[DOS_BUS], CURR_CANVAS_CTRL, &canvas_adr);
+> +	canvas_adr &=3D 0xffffff;
+> +	dev_dbg(hw->dev, "canvas_pos =3D %d canvas_adr 0x%x\n",
+> +		h264_ctx->curr_spec.canvas_pos, canvas_adr);
+> +
+> +	regmap_write(hw->map[DOS_BUS], REC_CANVAS_ADDR, canvas_adr);
+> +	regmap_write(hw->map[DOS_BUS], DBKR_CANVAS_ADDR, canvas_adr);
+> +	regmap_write(hw->map[DOS_BUS], DBKW_CANVAS_ADDR, canvas_adr);
+> +
+> +	regmap_write(hw->map[DOS_BUS], H264_BUFFER_INFO_INDEX, 16);
+> +	info0 =3D 0xf480;
+> +	info1 =3D decode->top_field_order_cnt;
+> +	info2 =3D decode->bottom_field_order_cnt;
+> +	if (decode->bottom_field_order_cnt < decode->top_field_order_cnt)
+> +		info0 |=3D 0x100;
+> +
+> +	regmap_write(hw->map[DOS_BUS], H264_BUFFER_INFO_DATA, info0 | 0xf);
+> +	regmap_write(hw->map[DOS_BUS], H264_BUFFER_INFO_DATA, info1);
+> +	regmap_write(hw->map[DOS_BUS], H264_BUFFER_INFO_DATA, info2);
+> +
+> +	for (j =3D 0; j < V4L2_H264_NUM_DPB_ENTRIES; j++) {
+> +		struct v4l2_h264_dpb_entry *dpb =3D &decode->dpb[j];
+> +
+> +		info0 =3D 0;
+> +		info1 =3D 0;
+> +		info2 =3D 0;
+> +		if (dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE) {
+> +			info0 =3D 0xf480;
+> +			if (dpb->bottom_field_order_cnt < dpb->top_field_order_cnt)
+> +				info0 |=3D 0x100;
+> +			info1 =3D dpb->top_field_order_cnt;
+> +			info2 =3D dpb->bottom_field_order_cnt;
+> +			if (dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM)
+> +				info0 |=3D ((1 << 5) | (1 << 4));
+> +		}
+> +		regmap_write(hw->map[DOS_BUS], H264_BUFFER_INFO_DATA, info0);
+> +		regmap_write(hw->map[DOS_BUS], H264_BUFFER_INFO_DATA, info1);
+> +		regmap_write(hw->map[DOS_BUS], H264_BUFFER_INFO_DATA, info2);
+> +	}
+> +
+> +	regmap_write(hw->map[DOS_BUS], H264_BUFFER_INFO_INDEX, 0);
+> +	/* when frame width <=3D 256, Disable DDR_BYTE64_CACHE */
+> +	if (ctx->pic_info.coded_width <=3D 256) {
+> +		regmap_update_bits(hw->map[DOS_BUS], IQIDCT_CONTROL, (1 << 16), (1 << =
+16));
+> +		regmap_write(hw->map[DOS_BUS], DCAC_DDR_BYTE64_CTL,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 (read_dos_reg(hw, DCAC_DDR_BYTE64_CTL) & (~0=
+xf)) | 0xa);
+> +	} else {
+> +		regmap_update_bits(hw->map[DOS_BUS], IQIDCT_CONTROL, (1 << 16), 0);
+> +		regmap_write(hw->map[DOS_BUS], DCAC_DDR_BYTE64_CTL,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 (read_dos_reg(hw, DCAC_DDR_BYTE64_CTL) & (~0=
+xf)));
+> +	}
+> +
+> +	ref_cfg =3D 0;
+> +	j =3D 0;
+> +
+> +	if (h264_ctx->list_size[0] > 0) {
+> +		for (i =3D 0; i < h264_ctx->list_size[0]; i++) {
+> +			canvas_pos =3D h264_ctx->ref_list0[i].canvas_pos;
+> +			/* bit 0:3 canvas_pos bit 5:6 frame struct cfg */
+> +			ref_cfg_once =3D (canvas_pos & 0x1f) | (type_cfg << 5);
+> +			ref_cfg <<=3D 8;
+> +			ref_cfg |=3D ref_cfg_once;
+> +			j++;
+> +
+> +			if (j =3D=3D 4) {
+> +				regmap_write(hw->map[DOS_BUS], H264_BUFFER_INFO_DATA, ref_cfg);
+> +				dev_dbg(hw->dev, "H264_BUFFER_INFO_DATA: %x\n", ref_cfg);
+> +				h264_buffer_info_data_write_count++;
+> +				j =3D 0;
+> +			}
+> +		}
+> +
+> +		if (j !=3D 0) {
+> +			while (j !=3D 4) {
+> +				ref_cfg <<=3D 8;
+> +				ref_cfg |=3D ref_cfg_once;
+> +				j++;
+> +			}
+> +			regmap_write(hw->map[DOS_BUS], H264_BUFFER_INFO_DATA, ref_cfg);
+> +			dev_dbg(hw->dev, "H264_BUFFER_INFO_DATA: %x\n", ref_cfg);
+> +			h264_buffer_info_data_write_count++;
+> +		}
+> +		ref_cfg =3D (ref_cfg_once << 24) | (ref_cfg_once << 16) |
+> +			(ref_cfg_once << 8) | ref_cfg_once;
+> +		for (j =3D h264_buffer_info_data_write_count; j < 8; j++)
+> +			regmap_write(hw->map[DOS_BUS], H264_BUFFER_INFO_DATA, ref_cfg);
+> +	}
+> +
+> +	regmap_write(hw->map[DOS_BUS], H264_BUFFER_INFO_INDEX, 8);
+> +	j =3D 0;
+> +	ref_cfg =3D 0;
+> +
+> +	if (h264_ctx->list_size[1] > 0) {
+> +		for (i =3D 0; i < h264_ctx->list_size[1]; i++) {
+> +			canvas_pos =3D h264_ctx->ref_list1[i].canvas_pos;
+> +			ref_cfg_once =3D (canvas_pos & 0x1f) | (type_cfg << 5);
+> +			ref_cfg <<=3D 8;
+> +			ref_cfg |=3D ref_cfg_once;
+> +			j++;
+> +
+> +			if (j =3D=3D 4) {
+> +				regmap_write(hw->map[DOS_BUS], H264_BUFFER_INFO_DATA, ref_cfg);
+> +				dev_dbg(hw->dev, "H264_BUFFER_INFO_DATA: %x\n", ref_cfg);
+> +				j =3D 0;
+> +			}
+> +		}
+> +	}
+> +
+> +	if (j !=3D 0) {
+> +		while (j !=3D 4) {
+> +			ref_cfg <<=3D 8;
+> +			ref_cfg |=3D ref_cfg_once;
+> +			j++;
+> +		}
+> +		dev_dbg(hw->dev, "H264_BUFFER_INFO_DATA: %x\n", ref_cfg);
+> +		regmap_write(hw->map[DOS_BUS], H264_BUFFER_INFO_DATA, ref_cfg);
+> +	}
+> +
+> +	if (get_flag(ctrls->sps->flags, V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY) &&
+> +	=C2=A0=C2=A0=C2=A0 get_flag(ctrls->sps->flags, V4L2_H264_SPS_FLAG_DIREC=
+T_8X8_INFERENCE))
+> +		use_mode_8x8_flag =3D 1;
+> +	else
+> +		use_mode_8x8_flag =3D 0;
+> +
+> +	read_poll_timeout(read_dos_reg, reg_val,
+> +			=C2=A0 !(reg_val & 0x800),
+> +			=C2=A0 10, 0, true,
+> +			=C2=A0 hw, H264_CO_MB_RW_CTL);
+> +
+> +	/* col buf for curr frame */
+> +	colocate_adr_offset =3D COL_SIZE_FOR_ONE_MB;
+> +	if (use_mode_8x8_flag)
+> +		colocate_adr_offset >>=3D 2;
+> +	colocate_adr_offset *=3D curr_slice->first_mb_in_slice;
+> +
+> +	if (h264_ctx->curr_spec.col_buf_index >=3D 0 &&
+> +	=C2=A0=C2=A0=C2=A0 h264_ctx->curr_spec.col_buf_index < h264_ctx->coloca=
+ted_buf_num) {
+> +		colocate_wr_adr =3D h264_ctx->collated_cma_addr +
+> +			((h264_ctx->one_col_buf_size * h264_ctx->curr_spec.col_buf_index) >>
+> +			(use_mode_8x8_flag ? 2 : 0));
+> +		if (colocate_adr_offset > h264_ctx->one_col_buf_size ||
+> +		=C2=A0=C2=A0=C2=A0 colocate_wr_adr + h264_ctx->one_col_buf_size >
+> +		=C2=A0=C2=A0=C2=A0 h264_ctx->collated_cma_addr_end) {
+> +			dev_err
+> +			=C2=A0=C2=A0=C2=A0 (hw->dev, "Error, colocate buf is not enough, inde=
+x is %d\n",
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 h264_ctx->curr_spec.col_buf_index);
+> +			return -1;
+> +		}
+> +		regmap_write(hw->map[DOS_BUS], H264_CO_MB_WR_ADDR,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 (colocate_wr_adr + colocate_adr_offset));
+> +		dev_dbg(hw->dev, "col buffer addr =3D 0x%x col_buf_index %d\n",
+> +			(colocate_wr_adr + colocate_adr_offset),
+> +			h264_ctx->curr_spec.col_buf_index);
+> +	} else {
+> +		regmap_write(hw->map[DOS_BUS], H264_CO_MB_WR_ADDR, 0xffffffff);
+> +		dev_dbg(hw->dev, "col buffer addr =3D 0xffffffff\n");
+> +	}
+> +
+> +	if (h264_ctx->list_size[1] > 0) {
+> +		struct h264_decode_buf_spec *colocate_pic =3D &h264_ctx->ref_list1[0];
+> +		struct h264_decode_buf_spec *curr_pic =3D &h264_ctx->curr_spec;
+> +		int l10_structure =3D 2; /* for pic struct =3D=3D FRAME, default to 2 =
+*/
+> +		int cur_colocate_ref_type;
+> +		unsigned int colocate_rd_adr;
+> +		unsigned int colocate_rd_adr_offset =3D 0;
+> +		unsigned int val;
+> +
+> +		cur_colocate_ref_type =3D
+> +			(abs(curr_pic->poc - colocate_pic->dpb->top_field_order_cnt) <
+> +			abs(curr_pic->poc - colocate_pic->dpb->bottom_field_order_cnt)) ?
+> +			0 : 1;
+> +		colocate_rd_adr_offset =3D COL_SIZE_FOR_ONE_MB;
+> +		if (use_mode_8x8_flag)
+> +			colocate_rd_adr_offset >>=3D 2;
+> +
+> +		colocate_rd_adr_offset *=3D curr_slice->first_mb_in_slice;
+> +		if (colocate_pic->col_buf_index >=3D 0 &&
+> +		=C2=A0=C2=A0=C2=A0 colocate_pic->col_buf_index < h264_ctx->colocated_b=
+uf_num) {
+> +			colocate_rd_adr =3D h264_ctx->collated_cma_addr +
+> +				((h264_ctx->one_col_buf_size * colocate_pic->col_buf_index) >>
+> +				(use_mode_8x8_flag ? 2 : 0));
+> +			if (colocate_rd_adr + h264_ctx->one_col_buf_size >
+> +			=C2=A0=C2=A0=C2=A0 h264_ctx->collated_cma_addr_end) {
+> +				dev_err
+> +				=C2=A0=C2=A0=C2=A0 (hw->dev, "Error, colocate rd buf is not enough, =
+index is %d\n",
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 colocate_pic->col_buf_index);
+> +				return -1;
+> +			}
+> +			val=C2=A0 =3D ((colocate_rd_adr_offset + colocate_rd_adr) >> 3) |
+> +				(cur_colocate_ref_type << 29) |
+> +				(l10_structure << 30);
+> +			regmap_write(hw->map[DOS_BUS], H264_CO_MB_RD_ADDR, val);
+> +		} else {
+> +			dev_err
+> +			=C2=A0=C2=A0=C2=A0 (hw->dev, "Error, reference pic has no colocated b=
+uf poc %d\n",
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 curr_pic->poc);
+> +			return -1;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void release_canvas_index(struct aml_vdec_hw *hw,
+> +				 struct h264_decode_buf_spec *buf)
+> +{
+> +	struct aml_h264_ctx *h264_ctx =3D (struct aml_h264_ctx *)hw->curr_ctx;
+> +
+> +	if (h264_ctx->canvas_pos_poc[buf->canvas_pos] =3D=3D INVALID_POC)
+> +		return;
+> +
+> +	if (buf->y_canvas_index >=3D 0) {
+> +		meson_canvas_free(hw->canvas, buf->y_canvas_index);
+> +		buf->y_canvas_index =3D -1;
+> +	}
+> +
+> +	if (buf->u_canvas_index >=3D 0) {
+> +		meson_canvas_free(hw->canvas, buf->u_canvas_index);
+> +		buf->u_canvas_index =3D -1;
+> +		buf->v_canvas_index =3D -1;
+> +	}
+> +	h264_ctx->canvas_pos_poc[buf->canvas_pos] =3D INVALID_POC;
+> +}
+> +
+> +static void h264_release_decode_spec(struct aml_vdec_hw *hw, struct aml_=
+vdec_ctx *ctx)
+> +{
+> +	struct aml_h264_ctx *h264_ctx =3D (struct aml_h264_ctx *)hw->curr_ctx;
+> +	int i;
+> +	struct h264_decode_buf_spec *buf;
+> +
+> +	release_canvas_index(hw, &h264_ctx->curr_spec);
+> +
+> +	if (h264_ctx->list_size[0] > 0) {
+> +		for (i =3D 0; i < h264_ctx->list_size[0]; i++) {
+> +			buf =3D &h264_ctx->ref_list0[i];
+> +			if (buf->used) {
+> +				buf->dpb =3D NULL;
+> +				release_canvas_index(hw, buf);
+> +				buf->used =3D 0;
+> +			}
+> +		}
+> +		h264_ctx->list_size[0] =3D 0;
+> +	}
+> +
+> +	if (h264_ctx->list_size[1] > 0) {
+> +		for (i =3D 0; i < h264_ctx->list_size[1]; i++) {
+> +			buf =3D &h264_ctx->ref_list1[i];
+> +			if (buf->used) {
+> +				buf->dpb =3D NULL;
+> +				release_canvas_index(hw, buf);
+> +				buf->used =3D 0;
+> +			}
+> +		}
+> +		h264_ctx->list_size[1] =3D 0;
+> +	}
+> +}
+> +
+> +static void save_reg_status(struct aml_h264_ctx *h264_ctx)
+> +{
+> +	struct aml_vdec_ctx *ctx =3D h264_ctx->v4l2_ctx;
+> +	struct aml_vdec_hw *hw =3D vdec_get_hw(ctx->dev);
+> +
+> +	regmap_read(hw->map[DOS_BUS], IQIDCT_CONTROL, &h264_ctx->reg_iqidct_con=
+trol);
+> +	h264_ctx->reg_iqidct_control_init_flag =3D 1;
+> +	regmap_read(hw->map[DOS_BUS], VCOP_CTRL_REG, &h264_ctx->reg_vcop_ctrl_r=
+eg);
+> +	regmap_read(hw->map[DOS_BUS], RV_AI_MB_COUNT, &h264_ctx->reg_rv_ai_mb_c=
+ount);
+> +	regmap_read(hw->map[DOS_BUS], VLD_DECODE_CONTROL, &h264_ctx->vld_dec_co=
+ntrol);
+> +}
+> +
+> +static void h264_get_slice_params(struct aml_h264_ctx *h264_ctx)
+> +{
+> +	struct slice *curr_slice =3D &h264_ctx->mslice;
+> +
+> +	memset(curr_slice, 0, sizeof(struct slice));
+> +	/* parsed by ucode */
+> +	curr_slice->slice_type =3D h264_ctx->dpb_param.l.data[SLICE_TYPE];
+> +	curr_slice->first_mb_in_slice =3D h264_ctx->dpb_param.l.data[FIRST_MB_I=
+N_SLICE];
+> +	curr_slice->num_ref_idx_l0 =3D h264_ctx->dpb_param.dpb.num_ref_idx_l0_a=
+ctive_minus1 + 1;
+> +	curr_slice->num_ref_idx_l1 =3D h264_ctx->dpb_param.dpb.num_ref_idx_l1_a=
+ctive_minus1 + 1;
+> +	curr_slice->frame_num =3D h264_ctx->ctrl_ref.decode->frame_num;
+> +}
+> +
+> +static irqreturn_t h264_isr(int irq, void *priv)
+> +{
+> +	struct aml_vdec_dev *dev =3D (struct aml_vdec_dev *)priv;
+> +
+> +	regmap_write(dev->dec_hw->map[DOS_BUS], VDEC_ASSIST_MBOX1_CLR_REG, 1);
+> +
+> +	return IRQ_WAKE_THREAD;
+> +}
+> +
+> +static irqreturn_t h264_threaded_isr_func(int irq, void *priv)
+> +{
+> +	u32 dec_status;
+> +	struct aml_vdec_dev *dev =3D (struct aml_vdec_dev *)priv;
+> +	struct aml_h264_ctx *h264_ctx =3D (struct aml_h264_ctx *)dev->dec_hw->c=
+urr_ctx;
+> +	struct aml_vdec_ctx *ctx =3D (struct aml_vdec_ctx *)dev->dec_ctx;
+> +	struct aml_vdec_hw *hw =3D vdec_get_hw(ctx->dev);
+> +	unsigned short *p =3D (unsigned short *)h264_ctx->lmem_addr;
+> +	int i, ii;
+> +
+> +	regmap_read(hw->map[DOS_BUS], DPB_STATUS_REG, &dec_status);
+> +	h264_ctx->dec_status =3D dec_status;
+> +	dev_dbg
+> +	=C2=A0=C2=A0=C2=A0 (&dev->plat_dev->dev,
+> +		"%s, dec_status 0x%x VIFF_BIT_CNT 0x%x MBY_MBX 0x%x VLD_SHIFT_STATUS 0=
+x%x\n",
+> +	=C2=A0=C2=A0=C2=A0 __func__, dec_status, read_dos_reg(hw, VIFF_BIT_CNT)=
+, read_dos_reg(hw, MBY_MBX),
+> +	=C2=A0=C2=A0=C2=A0 read_dos_reg(hw, VLD_SHIFT_STATUS));
+> +
+> +	regmap_read(hw->map[DOS_BUS], DPB_STATUS_REG, &h264_ctx->save_avscratch=
+_f);
+> +
+> +	switch (dec_status) {
+> +	case H264_SLICE_HEADER_DONE:
+> +		for (i =3D 0; i < 0x400; i +=3D 4)
+> +			for (ii =3D 0; ii < 4; ii++)
+> +				h264_ctx->dpb_param.l.data[i + ii] =3D p[i + 3 - ii];
+> +		save_reg_status(h264_ctx);
+> +		h264_get_slice_params(h264_ctx);
+> +		if (h264_ctx->new_pic_flag =3D=3D 1)
+> +			h264_config_decode_spec(hw, ctx);
+> +
+> +		if (h264_config_decode_buf(hw, ctx) < 0) {
+> +			h264_release_decode_spec(hw, ctx);
+> +			ctx->int_cond =3D 1;
+> +			wake_up_interruptible(&ctx->queue);
+> +			goto irq_handled;
+> +		}
+> +		if (h264_ctx->new_pic_flag =3D=3D 1) {
+> +			regmap_write(hw->map[DOS_BUS], DPB_STATUS_REG, H264_ACTION_DECODE_NEW=
+PIC);
+> +			dev_dbg(&dev->plat_dev->dev, "action decode new pic\n");
+> +			h264_ctx->new_pic_flag =3D 0;
+> +		} else {
+> +			regmap_write(hw->map[DOS_BUS], DPB_STATUS_REG, H264_ACTION_DECODE_SLI=
+CE);
+> +			dev_dbg(&dev->plat_dev->dev, "action decode new slice\n");
+> +		}
+> +		break;
+> +	case H264_SLICE_DATA_DONE:
+> +		h264_release_decode_spec(hw, ctx);
+> +		h264_ctx->decode_pic_count++;
+> +		ctx->int_cond =3D 1;
+> +		wake_up_interruptible(&ctx->queue);
+> +		break;
+> +	default:
+> +		h264_release_decode_spec(hw, ctx);
+> +		ctx->int_cond =3D 1;
+> +		wake_up_interruptible(&ctx->queue);
+> +		break;
+> +	}
+> +irq_handled:
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static int h264_restore_hw_ctx(struct aml_vdec_ctx *ctx)
+> +{
+> +	struct aml_h264_ctx *h264_ctx =3D
+> +		(struct aml_h264_ctx *)ctx->codec_priv;
+> +	struct aml_vdec_hw *hw =3D vdec_get_hw(ctx->dev);
+> +	int i;
+> +
+> +	regmap_write(hw->map[DOS_BUS], POWER_CTL_VLD,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0 (read_dos_reg(hw, POWER_CTL_VLD)
+> +		=C2=A0=C2=A0=C2=A0=C2=A0 | (0 << 10) | (1 << 9) | (1 << 6)));
+> +
+> +	regmap_write(hw->map[DOS_BUS], PSCALE_CTRL, 0);
+> +
+> +	/* clear mailbox interrupt */
+> +	regmap_write(hw->map[DOS_BUS], VDEC_ASSIST_MBOX1_CLR_REG, 1);
+> +
+> +	/* enable mailbox interrupt */
+> +	regmap_write(hw->map[DOS_BUS], VDEC_ASSIST_MBOX1_MASK, 1);
+> +
+> +	regmap_update_bits(hw->map[DOS_BUS], MDEC_PIC_DC_CTRL, (1 << 17), (1 <<=
+ 17));
+> +	if (ctx->q_data[AML_Q_DATA_DST].fmt->fourcc =3D=3D V4L2_PIX_FMT_NV21 ||
+> +	=C2=A0=C2=A0=C2=A0 ctx->q_data[AML_Q_DATA_DST].fmt->fourcc =3D=3D V4L2_=
+PIX_FMT_NV21M)
+> +		regmap_update_bits(hw->map[DOS_BUS], MDEC_PIC_DC_CTRL,
+> +				=C2=A0=C2=A0 (1 << 16), (1 << 16));
+> +	else
+> +		regmap_update_bits(hw->map[DOS_BUS], MDEC_PIC_DC_CTRL, (1 << 16), 0);
+> +
+> +	regmap_update_bits(hw->map[DOS_BUS], MDEC_PIC_DC_CTRL,
+> +			=C2=A0=C2=A0 (0xbf << 24), (0xbf << 24));
+> +	regmap_update_bits(hw->map[DOS_BUS], MDEC_PIC_DC_CTRL, (0xbf << 24), 0)=
+;
+> +	regmap_update_bits(hw->map[DOS_BUS], MDEC_PIC_DC_CTRL, (1 << 31), 0);
+> +
+> +	regmap_update_bits(hw->map[DOS_BUS], MDEC_PIC_DC_MUX_CTRL, (1 << 31), 0=
+);
+> +	regmap_write(hw->map[DOS_BUS], MDEC_EXTIF_CFG1, 0);
+> +	regmap_write(hw->map[DOS_BUS], MDEC_PIC_DC_THRESH, 0x404038aa);
+> +
+> +	regmap_write(hw->map[DOS_BUS], DPB_STATUS_REG, 0);
+> +
+> +	regmap_write(hw->map[DOS_BUS], LMEM_DUMP_ADR, h264_ctx->lmem_phy_addr);
+> +	regmap_write(hw->map[DOS_BUS], FRAME_COUNTER_REG, h264_ctx->decode_pic_=
+count);
+> +	regmap_write(hw->map[DOS_BUS], AV_SCRATCH_8, h264_ctx->workspace_offset=
+);
+> +	regmap_write(hw->map[DOS_BUS], AV_SCRATCH_G, h264_ctx->mc_cpu_paddr);
+> +
+> +	regmap_write(hw->map[DOS_BUS], AV_SCRATCH_F,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0 ((h264_ctx->save_avscratch_f & 0xffffffc3) | =
+(1 << 4)));
+> +	regmap_update_bits(hw->map[DOS_BUS], AV_SCRATCH_F, (1 << 6), 0);
+> +
+> +	regmap_write(hw->map[DOS_BUS], MDEC_PIC_DC_THRESH, 0x404038aa);
+> +
+> +	if (h264_ctx->reg_iqidct_control_init_flag =3D=3D 0)
+> +		regmap_write(hw->map[DOS_BUS], IQIDCT_CONTROL, 0x200);
+> +
+> +	if (h264_ctx->reg_iqidct_control)
+> +		regmap_write(hw->map[DOS_BUS], IQIDCT_CONTROL, h264_ctx->reg_iqidct_co=
+ntrol);
+> +
+> +	if (h264_ctx->reg_vcop_ctrl_reg)
+> +		regmap_write(hw->map[DOS_BUS], VCOP_CTRL_REG, h264_ctx->reg_vcop_ctrl_=
+reg);
+> +
+> +	if (h264_ctx->vld_dec_control)
+> +		regmap_write(hw->map[DOS_BUS], VLD_DECODE_CONTROL, h264_ctx->vld_dec_c=
+ontrol);
+> +
+> +	dev_dbg
+> +	=C2=A0=C2=A0=C2=A0 (hw->dev,
+> +	=C2=A0=C2=A0=C2=A0=C2=A0 "IQIDCT_CONTROL =3D 0x%x, VCOP_CTRL_REG 0x%x V=
+LD_DECODE_CONTROL 0x%x\n",
+> +	=C2=A0=C2=A0=C2=A0=C2=A0 read_dos_reg(hw, IQIDCT_CONTROL), read_dos_reg=
+(hw, VCOP_CTRL_REG),
+> +	=C2=A0=C2=A0=C2=A0=C2=A0 read_dos_reg(hw, VLD_DECODE_CONTROL));
+> +
+> +	for (i =3D 0; i < H264_MAX_CANVAS_POS; i++)
+> +		h264_ctx->canvas_pos_poc[i] =3D INVALID_POC;
+> +
+> +	return 0;
+> +}
+> +
+> +static void *aml_h264_get_ctrl(struct v4l2_ctrl_handler *hdl, u32 id)
+> +{
+> +	struct v4l2_ctrl *ctrl;
+> +
+> +	ctrl =3D v4l2_ctrl_find(hdl, id);
+> +	return ctrl ? ctrl->p_cur.p : NULL;
+> +}
+> +
+> +static int aml_h264_get_stateless_ctrl_ref(struct aml_h264_ctx *h264_ctx=
+)
+> +{
+> +	struct aml_vdec_ctx *ctx =3D h264_ctx->v4l2_ctx;
+> +	struct vdec_h264_stateless_ctrl_ref *ctrls =3D &h264_ctx->ctrl_ref;
+> +
+> +	ctrls->sps =3D
+> +		(struct v4l2_ctrl_h264_sps *)aml_h264_get_ctrl(&ctx->ctrl_handler,
+> +			V4L2_CID_STATELESS_H264_SPS);
+> +	if (WARN_ON(!ctrls->sps))
+> +		return -EINVAL;
+> +
+> +	ctrls->pps =3D
+> +		(struct v4l2_ctrl_h264_pps *)aml_h264_get_ctrl(&ctx->ctrl_handler,
+> +			V4L2_CID_STATELESS_H264_PPS);
+> +	if (WARN_ON(!ctrls->pps))
+> +		return -EINVAL;
+> +
+> +	ctrls->decode =3D
+> +		(struct v4l2_ctrl_h264_decode_params *)aml_h264_get_ctrl(&ctx->ctrl_ha=
+ndler,
+> +			V4L2_CID_STATELESS_H264_DECODE_PARAMS);
+> +	if (WARN_ON(!ctrls->decode))
+> +		return -EINVAL;
+> +
+> +	ctrls->scaling =3D
+> +		(struct v4l2_ctrl_h264_scaling_matrix *)aml_h264_get_ctrl(&ctx->ctrl_h=
+andler,
+> +			V4L2_CID_STATELESS_H264_SCALING_MATRIX);
+> +	if (WARN_ON(!ctrls->scaling))
+> +		return -EINVAL;
+> +
+> +	return 0;
+> +}
+> +
+> +static void copy_mc_cpu_fw(void *mc_cpu_addr, const u8 *data)
+> +{
+> +	/*header */
+> +	memcpy((u8 *)mc_cpu_addr + MC_OFFSET_HEADER,
+> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 data + 0x4000, MC_SWAP_SIZE);
+> +	/*data */
+> +	memcpy((u8 *)mc_cpu_addr + MC_OFFSET_DATA,
+> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 data + 0x2000, MC_SWAP_SIZE);
+> +	/*mmco */
+> +	memcpy((u8 *)mc_cpu_addr + MC_OFFSET_MMCO,
+> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 data + 0x6000, MC_SWAP_SIZE);
+> +	/*list */
+> +	memcpy((u8 *)mc_cpu_addr + MC_OFFSET_LIST,
+> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 data + 0x3000, MC_SWAP_SIZE);
+> +	/*slice */
+> +	memcpy((u8 *)mc_cpu_addr + MC_OFFSET_SLICE,
+> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 data + 0x5000, MC_SWAP_SIZE);
+> +	/*main */
+> +	memcpy((u8 *)mc_cpu_addr + MC_OFFSET_MAIN, data, 0x2000);
+> +	/*data */
+> +	memcpy((u8 *)mc_cpu_addr + MC_OFFSET_MAIN + 0x2000,
+> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 data + 0x2000, 0x1000);
+> +	/*slice */
+> +	memcpy((u8 *)mc_cpu_addr + MC_OFFSET_MAIN + 0x3000,
+> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 data + 0x5000, 0x1000);
+> +}
+> +
+> +static int aml_h264_load_fw_ext(void *priv, const u8 *data, u32 len)
+> +{
+> +	struct aml_h264_ctx *h264_ctx =3D (struct aml_h264_ctx *)priv;
+> +	struct aml_vdec_ctx *ctx =3D (struct aml_vdec_ctx *)h264_ctx->v4l2_ctx;
+> +	struct aml_vdec_hw *dec_hw;
+> +
+> +	if (h264_ctx->mc_cpu_loaded)
+> +		return 0;
+> +
+> +	dec_hw =3D vdec_get_hw(ctx->dev);
+> +	if (!dec_hw)
+> +		return -1;
+> +
+> +	if (len > MC_TOTAL_SIZE) {
+> +		dev_info(dec_hw->dev, "size of mc_cpu_fw id invalid\n");
+> +		return -1;
+> +	}
+> +
+> +	h264_ctx->mc_cpu_vaddr =3D dma_alloc_coherent(dec_hw->dev, MC_TOTAL_SIZ=
+E,
+> +						=C2=A0=C2=A0=C2=A0 &h264_ctx->mc_cpu_paddr,
+> +						=C2=A0=C2=A0=C2=A0 GFP_KERNEL);
+> +	if (!h264_ctx->mc_cpu_vaddr)
+> +		return -ENOMEM;
+> +
+> +	copy_mc_cpu_fw(h264_ctx->mc_cpu_vaddr, data);
+> +
+> +	h264_ctx->mc_cpu_loaded =3D true;
+> +
+> +	dev_dbg(dec_hw->dev, "h264 mccpu fw loaded\n");
+> +
+> +	return 0;
+> +}
+> +
+> +int aml_h264_init(void *priv)
+> +{
+> +	struct aml_vdec_ctx *ctx =3D (struct aml_vdec_ctx *)priv;
+> +	struct aml_vdec_hw *dec_hw;
+> +	struct aml_h264_ctx *h264_ctx;
+> +	int ret =3D 0;
+> +
+> +	h264_ctx =3D kzalloc(sizeof(*h264_ctx), GFP_KERNEL);
+> +	if (!h264_ctx)
+> +		return -ENOMEM;
+> +
+> +	h264_ctx->v4l2_ctx =3D ctx;
+> +	dec_hw =3D vdec_get_hw(ctx->dev);
+> +	if (!dec_hw)
+> +		return -1;
+> +
+> +	h264_ctx->mc_cpu_loaded =3D false;
+> +	dec_hw->hw_ops.irq_handler =3D h264_isr;
+> +	dec_hw->hw_ops.irq_threaded_func =3D h264_threaded_isr_func;
+> +	dec_hw->hw_ops.load_firmware_ex =3D aml_h264_load_fw_ext;
+> +
+> +	h264_ctx->lmem_addr =3D dma_alloc_coherent(dec_hw->dev, LMEM_DUMP_SIZE,
+> +						 &h264_ctx->lmem_phy_addr,
+> +						 GFP_KERNEL);
+> +	if (!h264_ctx->lmem_addr) {
+> +		ret =3D -ENOMEM;
+> +		goto err_alloc_lmem;
+> +	}
+> +
+> +	h264_ctx->cma_alloc_vaddr =3D
+> +	=C2=A0=C2=A0=C2=A0 dma_alloc_coherent(dec_hw->dev, V_BUF_ADDR_OFFSET,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &h264_ctx->cma_alloc_addr, GFP_K=
+ERNEL);
+> +	if (!h264_ctx->cma_alloc_vaddr) {
+> +		ret =3D -ENOMEM;
+> +		goto err_alloc_workspace;
+> +	}
+> +
+> +	h264_ctx->workspace_offset =3D h264_ctx->cma_alloc_addr + DCAC_READ_MAR=
+GIN;
+> +	h264_ctx->workspace_vaddr =3D h264_ctx->cma_alloc_vaddr + DCAC_READ_MAR=
+GIN;
+> +
+> +	ctx->codec_priv =3D h264_ctx;
+> +	dec_hw->curr_ctx =3D h264_ctx;
+> +	h264_ctx->col_buf_alloc_size =3D 0;
+> +	h264_ctx->init_flag =3D 0;
+> +	h264_ctx->new_pic_flag =3D 0;
+> +	h264_ctx->param_set =3D 0;
+> +	h264_ctx->reg_iqidct_control_init_flag =3D 0;
+> +	h264_ctx->decode_pic_count =3D 0;
+> +
+> +	return 0;
+> +
+> +err_alloc_workspace:
+> +	dma_free_coherent(dec_hw->dev, LMEM_DUMP_SIZE,
+> +			=C2=A0 h264_ctx->lmem_addr, h264_ctx->lmem_phy_addr);
+> +err_alloc_lmem:
+> +	kfree(h264_ctx);
+> +
+> +	return ret;
+> +}
+> +
+> +void aml_h264_exit(void *priv)
+> +{
+> +	struct aml_vdec_ctx *ctx =3D (struct aml_vdec_ctx *)priv;
+> +	struct aml_h264_ctx *h264_ctx =3D (struct aml_h264_ctx *)ctx->codec_pri=
+v;
+> +	struct aml_vdec_hw *dec_hw;
+> +
+> +	if (!h264_ctx) {
+> +		dev_info(&ctx->dev->plat_dev->dev, "h264 decoder is already destroyed =
+or not created!\n");
+> +		return;
+> +	}
+> +	dec_hw =3D vdec_get_hw(ctx->dev);
+> +	h264_ctx->param_set =3D 0;
+> +
+> +	if (ctx->dos_clk_en)
+> +		aml_stop_vdec_hw(dec_hw);
+> +
+> +	if (h264_ctx->collated_cma_vaddr) {
+> +		dma_free_coherent(dec_hw->dev, h264_ctx->col_buf_alloc_size,
+> +				=C2=A0 h264_ctx->collated_cma_vaddr,
+> +				=C2=A0 h264_ctx->collated_cma_addr);
+> +		h264_ctx->col_buf_alloc_size =3D 0;
+> +	}
+> +
+> +	if (h264_ctx->mc_cpu_vaddr) {
+> +		dma_free_coherent(dec_hw->dev, MC_TOTAL_SIZE,
+> +				=C2=A0 h264_ctx->mc_cpu_vaddr,
+> +				=C2=A0 h264_ctx->mc_cpu_paddr);
+> +		h264_ctx->mc_cpu_loaded =3D false;
+> +	}
+> +
+> +	if (h264_ctx->lmem_addr)
+> +		dma_free_coherent(dec_hw->dev, LMEM_DUMP_SIZE,
+> +				=C2=A0 h264_ctx->lmem_addr, h264_ctx->lmem_phy_addr);
+> +
+> +	if (h264_ctx->cma_alloc_vaddr)
+> +		dma_free_coherent(dec_hw->dev, V_BUF_ADDR_OFFSET,
+> +				=C2=A0 h264_ctx->cma_alloc_vaddr,
+> +				=C2=A0 h264_ctx->cma_alloc_addr);
+> +
+> +	kfree(ctx->codec_priv);
+> +	dec_hw->curr_ctx =3D NULL;
+> +	ctx->codec_priv =3D NULL;
+> +}
+> +
+> +static void config_decode_mode(struct aml_vdec_ctx *ctx)
+> +{
+> +	struct aml_h264_ctx *h264_ctx =3D (struct aml_h264_ctx *)ctx->codec_pri=
+v;
+> +	struct aml_vdec_hw *hw =3D vdec_get_hw(ctx->dev);
+> +
+> +	regmap_write(hw->map[DOS_BUS], H264_DECODE_MODE, 0x1); /*decode mode fr=
+amebase*/
+> +	regmap_write(hw->map[DOS_BUS], HEAD_PADDING_REG, 0);
+> +	regmap_write(hw->map[DOS_BUS], H264_DECODE_SEQINFO, h264_ctx->seq_info)=
+;
+> +	regmap_write(hw->map[DOS_BUS], INIT_FLAG_REG, 1);
+> +}
+> +
+> +int aml_h264_dec_run(void *priv)
+> +{
+> +	struct aml_vdec_ctx *ctx =3D (struct aml_vdec_ctx *)priv;
+> +	struct aml_h264_ctx *h264_ctx =3D (struct aml_h264_ctx *)ctx->codec_pri=
+v;
+> +	struct aml_vdec_hw *dec_hw =3D vdec_get_hw(ctx->dev);
+> +	int ret =3D -1;
+> +	int i;
+> +
+> +	ret =3D aml_h264_get_stateless_ctrl_ref(h264_ctx);
+> +	if (ret < 0) {
+> +		dev_err(&ctx->dev->plat_dev->dev, "not ctrl ref for h264 decoder\n");
+> +		return ret;
+> +	}
+> +
+> +	h264_config_params(ctx);
+> +
+> +	if (h264_prepare_input(ctx) < 0)
+> +		return ret;
+> +
+> +	if (alloc_colocate_cma(h264_ctx, ctx) < 0)
+> +		return ret;
+> +
+> +	h264_restore_hw_ctx(ctx);
+> +
+> +	config_decode_mode(ctx);
+> +	/* enable stream input hardware */
+> +	regmap_update_bits(dec_hw->map[DOS_BUS], VLD_MEM_VIFIFO_CONTROL, 0x6, 0=
+x6);
+> +	/* enable hardware timer */
+> +	regmap_write(dec_hw->map[DOS_BUS], NAL_SEARCH_CTL,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0 read_dos_reg(dec_hw, NAL_SEARCH_CTL) | (1 << =
+16));
+> +	regmap_write(dec_hw->map[DOS_BUS], MDEC_EXTIF_CFG2,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0 read_dos_reg(dec_hw, MDEC_EXTIF_CFG2) | 0x20)=
+;
+> +	regmap_write(dec_hw->map[DOS_BUS], NAL_SEARCH_CTL,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0 read_dos_reg(dec_hw, NAL_SEARCH_CTL) & (~0x2)=
+);
+> +	regmap_update_bits(dec_hw->map[DOS_BUS], VDEC_ASSIST_MMC_CTRL1,
+> +			=C2=A0=C2=A0 (1 << 3), 0);
+> +
+> +	aml_start_vdec_hw(dec_hw);
+> +	h264_ctx->init_flag =3D 1;
+> +	h264_ctx->new_pic_flag =3D 1;
+> +
+> +	regmap_write(dec_hw->map[DOS_BUS], DPB_STATUS_REG, H264_ACTION_SEARCH_H=
+EAD);
+> +
+> +	ret =3D wait_event_interruptible_timeout(ctx->queue, ctx->int_cond,
+> +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 msecs_to_jiffies(DECODER_TIMEO=
+UT_MS));
+> +	ctx->int_cond =3D 0;
+> +	if (!ret) {
+> +		ret =3D -1;
+> +		dev_err(&ctx->dev->plat_dev->dev, "dec timeout=3D%u\n", DECODER_TIMEOU=
+T_MS);
+> +		for (i =3D 0; i < 16; i++) {	/* 16 : show ucode PC 16 times when timeo=
+ut */
+> +			dev_info(&ctx->dev->plat_dev->dev, "decoder timeout, pc 0x%x\n",
+> +				 read_dos_reg(dec_hw, MPC_E));
+> +			usleep_range(10, 20);
+> +		}
+> +	} else if (-ERESTARTSYS =3D=3D ret) {
+> +		ret =3D -1;
+> +		dev_err(&ctx->dev->plat_dev->dev, "dec inter fail\n");
+> +	}
+> +
+> +	aml_stop_vdec_hw(dec_hw);
+> +	h264_ctx->init_flag =3D 0;
+> +
+> +	return ret;
+> +}
+> diff --git a/drivers/media/platform/amlogic/vdec/h264.h b/drivers/media/p=
+latform/amlogic/vdec/h264.h
+> new file mode 100644
+> index 000000000000..3d3a35a641c9
+> --- /dev/null
+> +++ b/drivers/media/platform/amlogic/vdec/h264.h
+> @@ -0,0 +1,300 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR MIT) */
+> +/*
+> + * Copyright (C) 2025 Amlogic, Inc. All rights reserved
+> + */
+> +#ifndef _H264_H_
+> +#define _H264_H_
+> +
+> +#define RPM_BEGIN=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 0x0
+> +#define FRAME_IN_DPB=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 24
+> +#define RPM_END=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 0x400
+> +#define DPB_OFFSET=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ 0x100
+> +#define MMCO_OFFSET=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x20=
+0
+> +#define SPS_OFFSET=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ 0x100
+> +#define PPS_OFFSET=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ 0x300
+> +#define PARAM_BASE_VAL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x414d
+> +#define MEM_MMCO_BASE=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x01c3000
+> +#define MEM_SPS_BASE=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x01c3c00
+> +#define MEM_PPS_BASE=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x01cbc00
+> +#define MC_TOTAL_SIZE=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ((20 + 16) * S=
+Z_1K)
+> +#define MC_SWAP_SIZE=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (4 * SZ_1=
+K)
+> +#define LMEM_DUMP_SIZE=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 4096
+> +#define V_BUF_ADDR_OFFSET=C2=A0=C2=A0 (0x200000 + 0x8000 + 0x20000 + 0x1=
+000)
+> +#define DCAC_READ_MARGIN=C2=A0=C2=A0=C2=A0 (64 * 1024)
+> +#define MC_OFFSET_HEADER=C2=A0=C2=A0=C2=A0 0x0000
+> +#define MC_OFFSET_DATA=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x1000
+> +#define MC_OFFSET_MMCO=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x2000
+> +#define MC_OFFSET_LIST=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x3000
+> +#define MC_OFFSET_SLICE=C2=A0=C2=A0=C2=A0=C2=A0 0x4000
+> +#define MC_OFFSET_MAIN=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x5000
+> +
+> +/* Rename the dos regs */
+> +#define H264_DECODE_INFO=C2=A0=C2=A0=C2=A0 M4_CONTROL_REG
+> +#define INIT_FLAG_REG=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 AV_SCRATCH_2
+> +#define HEAD_PADDING_REG=C2=A0=C2=A0=C2=A0=C2=A0 AV_SCRATCH_3
+> +#define UCODE_WATCHDOG_REG=C2=A0=C2=A0 AV_SCRATCH_7
+> +#define LMEM_DUMP_ADR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 AV_SCRATCH_L
+> +#define DEBUG_REG1=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ AV_SCRATCH_M
+> +#define DEBUG_REG2=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ AV_SCRATCH_N
+> +#define FRAME_COUNTER_REG=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 AV_SCRATCH=
+_I
+> +#define RPM_CMD_REG=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 AV_SCRATCH_A
+> +#define H264_DECODE_SIZE=C2=A0=C2=A0=C2=A0 AV_SCRATCH_E
+> +#define H264_DECODE_MODE=C2=A0=C2=A0=C2=A0 AV_SCRATCH_4
+> +#define H264_DECODE_SEQINFO=C2=A0=C2=A0=C2=A0 AV_SCRATCH_5
+> +/**
+> + * NAL_SEARCH_CTL: bit 0, enable itu_t35
+> + * NAL_SEARCH_CTL: bit 1, enable mmu
+> + * NAL_SEARCH_CTL: bit 2, detect frame_mbs_only_flag whether switch reso=
+lution
+> + * NAL_SEARCH_CTL: bit 3, recover the correct sps pps
+> + * NAL_SEARCH_CTL: bit 7-14,level_idc
+> + * NAL_SEARCH_CTL: bit 15,bitstream_restriction_flag
+> + */
+> +#define NAL_SEARCH_CTL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 AV_SCRATCH_9
+> +#define DPB_STATUS_REG=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 AV_SCRATCH_J
+> +#define ERROR_STATUS_REG=C2=A0=C2=A0=C2=A0 AV_SCRATCH_9
+> +
+> +#define H264_BUFFER_INFO_INDEX=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 PMV3_X	/* 0=
+xc24 */
+> +#define H264_BUFFER_INFO_DATA=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 PMV2_X=
+	/* 0xc22 */
+> +#define H264_CURRENT_POC_IDX_RESET=C2=A0 LAST_SLICE_MV_ADDR	/* 0xc30 */
+> +#define H264_CURRENT_POC=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 LAST_MVY	/* 0xc32 shared with conceal MV */
+> +#define H264_CO_MB_WR_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 VLD_C38
+> +#define H264_CO_MB_RD_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 VLD_C39
+> +#define H264_CO_MB_RW_CTL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 VLD_C3D
+> +#define MBY_MBX=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MB_MOTION_M=
+ODE
+> +
+> +#define H264_ACTION_SEARCH_HEAD=C2=A0=C2=A0=C2=A0=C2=A0 0xf0
+> +#define H264_ACTION_DECODE_SLICE=C2=A0=C2=A0=C2=A0 0xf1
+> +#define H264_ACTION_CONFIG_DONE=C2=A0=C2=A0=C2=A0=C2=A0 0xf2
+> +#define H264_ACTION_DECODE_NEWPIC=C2=A0=C2=A0 0xf3
+> +#define H264_ACTION_DECODE_START=C2=A0=C2=A0=C2=A0 0xff
+> +
+> +/* RPM memory definition */
+> +#define FIXED_FRAME_RATE_FLAG						0X21
+> +#define OFFSET_DELIMITER_LO						0x2f
+> +#define OFFSET_DELIMITER_HI						0x30
+> +#define REF_IDC_OVERRIDE_FLAG						0x35
+> +#define SLICE_IPONLY_BREAK						0X5C
+> +#define PREV_MAX_REFERENCE_FRAME_NUM					0X5D
+> +#define EOS								0X5E
+> +#define FRAME_PACKING_TYPE						0X5F
+> +#define OLD_POC_PAR_1							0X60
+> +#define OLD_POC_PAR_2							0X61
+> +#define PREV_MBX							0X62
+> +#define PREV_MBY							0X63
+> +#define ERROR_SKIP_MB_NUM						0X64
+> +#define ERROR_MB_STATUS							0X65
+> +#define L0_PIC0_STATUS							0X66
+> +#define TIMEOUT_COUNTER							0X67
+> +#define BUFFER_SIZE							0X68
+> +#define BUFFER_SIZE_HI							0X69
+> +#define CROPPING_LEFT_RIGHT						0X6A
+> +#define CROPPING_TOP_BOTTOM						0X6B
+> +/**
+> + * sps_flags2:
+> + * bit 3, bitstream_restriction_flag
+> + * bit 2, pic_struct_present_flag
+> + * bit 1, vcl_hrd_parameters_present_flag
+> + * bit 0, nal_hrd_parameters_present_flag
+> + */
+> +#define SPS_FLAGS2							0x6C
+> +#define NUM_REORDER_FRAMES						0x6D
+> +#define MAX_BUFFER_FRAME						0X6E
+> +
+> +#define NON_CONFORMING_STREAM						0X70
+> +#define RECOVERY_POINT							0X71
+> +#define POST_CANVAS							0X72
+> +#define POST_CANVAS_H							0X73
+> +#define SKIP_PIC_COUNT							0X74
+> +#define TARGET_NUM_SCALING_LIST						0X75
+> +#define FF_POST_ONE_FRAME						0X76
+> +#define PREVIOUS_BIT_CNT						0X77
+> +#define MB_NOT_SHIFT_COUNT						0X78
+> +#define PIC_STATUS							0X79
+> +#define FRAME_COUNTER							0X7A
+> +#define NEW_SLICE_TYPE							0X7B
+> +#define NEW_PICTURE_STRUCTURE						0X7C
+> +#define NEW_FRAME_NUM							0X7D
+> +#define NEW_IDR_PIC_ID							0X7E
+> +#define IDR_PIC_ID							0X7F
+> +
+> +/* h264 LOCAL */
+> +#define NAL_UNIT_TYPE							0X80
+> +#define NAL_REF_IDC							0X81
+> +#define SLICE_TYPE							0X82
+> +#define LOG2_MAX_FRAME_NUM						0X83
+> +#define FRAME_MBS_ONLY_FLAG						0X84
+> +#define PIC_ORDER_CNT_TYPE						0X85
+> +#define LOG2_MAX_PIC_ORDER_CNT_LSB					0X86
+> +#define PIC_ORDER_PRESENT_FLAG						0X87
+> +#define REDUNDANT_PIC_CNT_PRESENT_FLAG					0X88
+> +#define PIC_INIT_QP_MINUS26						0X89
+> +#define DEBLOCKING_FILTER_CONTROL_PRESENT_FLAG				0X8A
+> +#define NUM_SLICE_GROUPS_MINUS1						0X8B
+> +#define MODE_8X8_FLAGS							0X8C
+> +#define ENTROPY_CODING_MODE_FLAG					0X8D
+> +#define SLICE_QUANT							0X8E
+> +#define TOTAL_MB_HEIGHT							0X8F
+> +#define PICTURE_STRUCTURE						0X90
+> +#define TOP_INTRA_TYPE							0X91
+> +#define RV_AI_STATUS							0X92
+> +#define AI_READ_START							0X93
+> +#define AI_WRITE_START							0X94
+> +#define AI_CUR_BUFFER							0X95
+> +#define AI_DMA_BUFFER							0X96
+> +#define AI_READ_OFFSET							0X97
+> +#define AI_WRITE_OFFSET							0X98
+> +#define AI_WRITE_OFFSET_SAVE						0X99
+> +#define RV_AI_BUFF_START						0X9A
+> +#define I_PIC_MB_COUNT							0X9B
+> +#define AI_WR_DCAC_DMA_CTRL						0X9C
+> +#define SLICE_MB_COUNT							0X9D
+> +#define PICTYPE								0X9E
+> +#define SLICE_GROUP_MAP_TYPE						0X9F
+> +#define MB_TYPE								0XA0
+> +#define MB_AFF_ADDED_DMA						0XA1
+> +#define PREVIOUS_MB_TYPE						0XA2
+> +#define WEIGHTED_PRED_FLAG						0XA3
+> +#define WEIGHTED_BIPRED_IDC						0XA4
+> +/* bit 3:2 - PICTURE_STRUCTURE
+> + * bit 1 - MB_ADAPTIVE_FRAME_FIELD_FLAG
+> + * bit 0 - FRAME_MBS_ONLY_FLAG
+> + */
+> +#define MBFF_INFO							0XA5
+> +#define TOP_INTRA_TYPE_TOP						0XA6
+> +#define RV_AI_BUFF_INC							0xA7
+> +#define DEFAULT_MB_INFO_LO						0xA8
+> +/* 0 -- no need to read
+> + * 1 -- need to wait Left
+> + * 2 -- need to read Intra
+> + * 3 -- need to read back MV
+> + */
+> +#define NEED_READ_TOP_INFO						0xA9
+> +/* 0 -- idle
+> + * 1 -- wait Left
+> + * 2 -- reading top Intra
+> + * 3 -- reading back MV
+> + */
+> +#define READ_TOP_INFO_STATE						0xAA
+> +#define DCAC_MBX							0xAB
+> +#define TOP_MB_INFO_OFFSET						0xAC
+> +#define TOP_MB_INFO_RD_IDX						0xAD
+> +#define TOP_MB_INFO_WR_IDX						0xAE
+> +
+> +#define VLD_NO_WAIT	 0
+> +#define VLD_WAIT_BUFFER 1
+> +#define VLD_WAIT_HOST=C2=A0=C2=A0 2
+> +#define VLD_WAIT_GAP	3
+> +
+> +#define VLD_WAITING							0xAF
+> +
+> +#define MB_X_NUM							0xB0
+> +#define MB_HEIGHT							0xB2
+> +#define MBX								0xB3
+> +#define TOTAL_MBY							0xB4
+> +#define INTR_MSK_SAVE							0xB5
+> +#define NEED_DISABLE_PPE						0xB6
+> +#define IS_NEW_PICTURE							0XB7
+> +#define PREV_NAL_REF_IDC						0XB8
+> +#define PREV_NAL_UNIT_TYPE						0XB9
+> +#define FRAME_MB_COUNT							0XBA
+> +#define SLICE_GROUP_UCODE						0XBB
+> +#define SLICE_GROUP_CHANGE_RATE						0XBC
+> +#define SLICE_GROUP_CHANGE_CYCLE_LEN					0XBD
+> +#define DELAY_LENGTH							0XBE
+> +#define PICTURE_STRUCT							0XBF
+> +#define DCAC_PREVIOUS_MB_TYPE						0xC1
+> +
+> +#define TIME_STAMP							0XC2
+> +#define H_TIME_STAMP							0XC3
+> +#define VPTS_MAP_ADDR							0XC4
+> +#define H_VPTS_MAP_ADDR							0XC5
+> +#define PIC_INSERT_FLAG							0XC7
+> +#define TIME_STAMP_START						0XC8
+> +#define TIME_STAMP_END							0XDF
+> +#define OFFSET_FOR_NON_REF_PIC						0XE0
+> +#define OFFSET_FOR_TOP_TO_BOTTOM_FIELD					0XE2
+> +#define MAX_REFERENCE_FRAME_NUM						0XE4
+> +#define FRAME_NUM_GAP_ALLOWED						0XE5
+> +#define NUM_REF_FRAMES_IN_PIC_ORDER_CNT_CYCLE				0XE6
+> +#define PROFILE_IDC_MMCO						0XE7
+> +#define LEVEL_IDC_MMCO							0XE8
+> +#define FRAME_SIZE_IN_MB						0XE9
+> +#define DELTA_PIC_ORDER_ALWAYS_ZERO_FLAG				0XEA
+> +#define PPS_NUM_REF_IDX_L0_ACTIVE_MINUS1				0XEB
+> +#define PPS_NUM_REF_IDX_L1_ACTIVE_MINUS1				0XEC
+> +#define CURRENT_SPS_ID							0XED
+> +#define CURRENT_PPS_ID							0XEE
+> +/* bit 0 - sequence parameter set may change
+> + * bit 1 - picture parameter set may change
+> + * bit 2 - new dpb just inited
+> + * bit 3 - IDR picture not decoded yet
+> + * bit 5:4 - 0: mb level code loaded 1: picture
+> + * level code loaded 2: slice level code loaded
+> + */
+> +#define DECODE_STATUS							0XEF
+> +#define FIRST_MB_IN_SLICE						0XF0
+> +#define PREV_MB_WIDTH							0XF1
+> +#define PREV_FRAME_SIZE_IN_MB						0XF2
+> +/* bit 0 - aspect_ratio_info_present_flag
+> + * bit 1 - timing_info_present_flag
+> + * bit 2 - nal_hrd_parameters_present_flag
+> + * bit 3 - vcl_hrd_parameters_present_flag
+> + * bit 4 - pic_struct_present_flag
+> + * bit 5 - bitstream_restriction_flag
+> + */
+> +#define VUI_STATUS							0XF4
+> +#define ASPECT_RATIO_IDC						0XF5
+> +#define ASPECT_RATIO_SAR_WIDTH						0XF6
+> +#define ASPECT_RATIO_SAR_HEIGHT						0XF7
+> +#define NUM_UNITS_IN_TICK						0XF8
+> +#define TIME_SCALE							0XFA
+> +#define CURRENT_PIC_INFO						0XFC
+> +#define DPB_BUFFER_INFO							0XFD
+> +#define REFERENCE_POOL_INFO						0XFE
+> +#define REFERENCE_LIST_INFO						0XFF
+> +
+> +#define REORDER_CMD_MAX=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 66
+> +
+> +/* config parameters to DDR lmem */
+> +#define GET_SPS_PROFILE_IDC(x)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (((x)=
+ & 0xff) << 8)
+> +#define GET_SPS_LEVEL_IDC(x)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 ((x) & 0xff)
+> +#define GET_SPS_SEQ_PARAM_SET_ID(x)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+(((x) & 0x1f) << 8)
+> +#define GET_SPS_CHROMA_FORMAT_IDC(x)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ((x) =
+<< 8)
+> +#define GET_SPS_NUM_REF_FRAMES(x)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 ((x) & 0xff)
+> +#define GET_SPS_GAPS_ALLOWED_FLAG(x)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ((x) =
+<< 8)
+> +#define GET_SPS_LOG2_MAX_FRAME_NUM(x)=C2=A0=C2=A0=C2=A0=C2=A0 ((x) + 4)
+> +#define GET_SPS_PIC_ORDER_CNT_LSB(x)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ((x) =
++ 4)
+> +#define GET_SPS_PIC_ORDER_TYPE(x)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 (x)
+> +#define GET_SPS_OFFSET_FOR_NONREF_PIC_HIGH(x)=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 (((x) & 0xffff0000) >> 16)
+> +#define GET_SPS_OFFSET_FOR_NONREF_PIC_LOW(x)=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 ((x) & 0xffff)
+> +#define GET_SPS_OFFSET_FOR_TOP_BOT_FIELD_HIGH(x)=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 (((x) & 0xffff0000) >> 16)
+> +#define GET_SPS_OFFSET_FOR_TOP_BOT_FIELD_LOW(x)=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 ((x) & 0xffff)
+> +#define GET_SPS_PIC_WIDTH_IN_MBS(x)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+((x) + 1)
+> +#define GET_SPS_PIC_HEIGHT_IN_MBS(x)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ((x) =
++ 1)
+> +#define GET_SPS_DIRECT_8X8_FLAGS(x)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+(((x) & 0x1) << 2)
+> +#define GET_SPS_MB_ADAPTIVE_FRAME_FIELD_FLAGS(x)=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 (((x) & 0x1) << 1)
+> +#define GET_SPS_FRAME_MBS_ONLY_FLAGS(x)=C2=A0=C2=A0 ((x) & 0x1)
+> +
+> +#define GET_PPS_PIC_PARAM_SET_ID(x)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+((x) & 0xff)
+> +#define GET_PPS_SEQ_PARAM_SET_ID(x)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+(((x) & 0x1f) << 8)
+> +#define GET_PPS_ENTROPY_CODING_MODE_FLAG(x)=C2=A0 (((x) & 0x1) << 13)
+> +#define GET_PPS_PIC_ORDER_PRESENT_FLAG(x)=C2=A0=C2=A0=C2=A0 (((x) & 0x1)=
+ << 14)
+> +#define GET_PPS_NUM_IDX_REF_L0_MINUS1(x)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 ((x) & 0x1f)
+> +#define GET_PPS_NUM_IDX_REF_L1_MINUS1(x)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 (((x) & 0x1f) << 5)
+> +#define GET_PPS_WEIGHTED_PRED_FLAG(x)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 (((x) & 0x1) << 10)
+> +#define GET_PPS_WEIGHTED_BIPRED_IDC(x)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 (((x) & 0x3) << 11)
+> +#define GET_PPS_INIT_QS_MINUS26(x)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 (((x) & 0xff) << 8)
+> +#define GET_PPS_INIT_QP_MINUS26(x)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 ((x) & 0xff)
+> +#define GET_PPS_CHROMA_QP_INDEX_OFFSET(x)=C2=A0=C2=A0 ((x) & 0xff)
+> +#define GET_PPS_DEBLOCK_FILTER_CTRL_PRESENT_FLAG(x)=C2=A0=C2=A0 (((x) & =
+0x1) << 8)
+> +#define GET_PPS_CONSTRAIN_INTRA_PRED_FLAG(x)=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 (((x) & 0x1) << 9)
+> +#define GET_PPS_REDUNDANT_PIC_CNT_PRESENT_FLAG(x)=C2=A0=C2=A0=C2=A0=C2=
+=A0 (((x) & 0x1) << 10)
+> +#define GET_PPS_SCALING_MATRIX_PRESENT_FLAG(x)=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 (((x) & 0x1) << 1)
+> +#define GET_PPS_TRANSFORM_8X8_FLAG(x)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ((x) & 0x1)
+> +#define GET_PPS_GET_SECOND_CHROMA_QP_OFFSET(x)=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 (x)
+> +
+> +int aml_h264_init(void *priv);
+> +void aml_h264_exit(void *priv);
+> +int aml_h264_dec_run(void *priv);
+> +
+> +#endif
+> diff --git a/drivers/media/platform/amlogic/vdec/reg_defines.h b/drivers/=
+media/platform/amlogic/vdec/reg_defines.h
+> new file mode 100644
+> index 000000000000..ea50018a078d
+> --- /dev/null
+> +++ b/drivers/media/platform/amlogic/vdec/reg_defines.h
+> @@ -0,0 +1,177 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR MIT) */
+> +/*
+> + * Copyright (C) 2025 Amlogic, Inc. All rights reserved
+> + */
+> +
+> +#ifndef _REG_DEFINES_H_
+> +#define _REG_DEFINES_H_
+> +
+> +#define REG_ALIGN(x) ((x) << 2)
+> +
+> +#define VDEC_ASSIST_MMC_CTRL0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+REG_ALIGN(0x0001)
+> +#define VDEC_ASSIST_MMC_CTRL1=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+REG_ALIGN(0x0002)
+> +
+> +#define VDEC_ASSIST_CANVAS_BLK32=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x000=
+5)
+> +
+> +#define VDEC_ASSIST_MBOX1_CLR_REG=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0075)
+> +#define VDEC_ASSIST_MBOX1_MASK=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_A=
+LIGN(0x0076)
+> +
+> +#define MPSR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 REG_ALIGN(0x0301)
+> +#define MPC_P=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 REG_ALIGN(0x0306)
+> +#define MPC_D=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 REG_ALIGN(0x0307)
+> +#define MPC_E=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 REG_ALIGN(0x0308)
+> +#define MPC_W=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 REG_ALIGN(0x0309)
+> +#define CPSR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 REG_ALIGN(0x0321)
+> +#define IMEM_DMA_CTRL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0340)
+> +#define IMEM_DMA_ADR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0341)
+> +#define IMEM_DMA_COUNT=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0342)
+> +#define WRRSP_IMEM=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0343)
+> +#define LMEM_DMA_CTRL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0350)
+> +#define WRRSP_LMEM=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0353)
+> +
+> +#define PSCALE_CTRL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0911)
+> +#define GCLK_EN=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_A=
+LIGN(0x0983)
+> +#define MDEC_PIC_DC_CTRL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x098e)
+> +#define MDEC_PIC_DC_MUX_CTRL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 REG_ALIGN(0x098d)
+> +#define ANC0_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0990)
+> +#define ANC1_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0991)
+> +#define ANC2_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0992)
+> +#define ANC3_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0993)
+> +#define ANC4_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0994)
+> +#define ANC5_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0995)
+> +#define ANC6_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0996)
+> +#define ANC7_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0997)
+> +#define ANC8_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0998)
+> +#define ANC9_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0999)
+> +#define ANC10_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x099a)
+> +#define ANC11_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x099b)
+> +#define ANC12_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x099c)
+> +#define ANC13_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x099d)
+> +#define ANC14_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x099e)
+> +#define ANC15_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x099f)
+> +#define ANC16_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09a0)
+> +#define ANC17_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09a1)
+> +#define ANC18_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09a2)
+> +#define ANC19_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09a3)
+> +#define ANC20_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09a4)
+> +#define ANC21_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09a5)
+> +#define ANC22_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09a6)
+> +#define ANC23_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09a7)
+> +#define ANC24_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09a8)
+> +#define ANC25_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09a9)
+> +#define ANC26_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09aa)
+> +#define ANC27_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09ab)
+> +#define ANC28_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09ac)
+> +#define ANC29_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09ad)
+> +#define ANC30_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09ae)
+> +#define ANC31_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09af)
+> +#define DBKR_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09b0)
+> +#define DBKW_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09b1)
+> +#define REC_CANVAS_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09b2)
+> +#define CURR_CANVAS_CTRL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09b3)
+> +#define MDEC_PIC_DC_THRESH=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 REG_ALIGN(0x09b8)
+> +#define AV_SCRATCH_0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09c0)
+> +#define AV_SCRATCH_1=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09c1)
+> +#define AV_SCRATCH_2=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09c2)
+> +#define AV_SCRATCH_3=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09c3)
+> +#define AV_SCRATCH_4=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09c4)
+> +#define AV_SCRATCH_5=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09c5)
+> +#define AV_SCRATCH_6=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09c6)
+> +#define AV_SCRATCH_7=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09c7)
+> +#define AV_SCRATCH_8=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09c8)
+> +#define AV_SCRATCH_9=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09c9)
+> +#define AV_SCRATCH_A=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09ca)
+> +#define AV_SCRATCH_B=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09cb)
+> +#define AV_SCRATCH_C=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09cc)
+> +#define AV_SCRATCH_D=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09cd)
+> +#define AV_SCRATCH_E=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09ce)
+> +#define AV_SCRATCH_F=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09cf)
+> +#define AV_SCRATCH_G=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09d0)
+> +#define AV_SCRATCH_H=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09d1)
+> +#define AV_SCRATCH_I=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09d2)
+> +#define AV_SCRATCH_J=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09d3)
+> +#define AV_SCRATCH_K=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09d4)
+> +#define AV_SCRATCH_L=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09d5)
+> +#define AV_SCRATCH_M=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09d6)
+> +#define AV_SCRATCH_N=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09d7)
+> +#define WRRSP_VLD=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09=
+da)
+> +#define MDEC_DOUBLEW_CFG0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09db)
+> +#define MDEC_DOUBLEW_CFG1=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09dc)
+> +#define MDEC_DOUBLEW_CFG2=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09dd)
+> +#define MDEC_DOUBLEW_CFG3=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09de)
+> +#define MDEC_DOUBLEW_CFG4=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09df)
+> +#define MDEC_DOUBLEW_CFG5=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09e0)
+> +#define MDEC_DOUBLEW_CFG6=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09e1)
+> +#define MDEC_DOUBLEW_CFG7=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09e2)
+> +#define MDEC_DOUBLEW_STATUS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 REG_ALIGN(0x09e3)
+> +#define MDEC_EXTIF_CFG0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09e4)
+> +
+> +#define MDEC_EXTIF_CFG1=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09e5)
+> +#define MDEC_EXTIF_CFG2=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x09e6)
+> +
+> +#define POWER_CTL_VLD=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0c08)
+> +#define VLD_DECODE_CONTROL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 REG_ALIGN(0x0c18)
+> +
+> +#define PMV1_X=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ REG_ALIGN(0x0c20)
+> +#define PMV1_Y=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ REG_ALIGN(0x0c21)
+> +#define PMV2_X=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ REG_ALIGN(0x0c22)
+> +#define PMV2_Y=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ REG_ALIGN(0x0c23)
+> +#define PMV3_X=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ REG_ALIGN(0x0c24)
+> +#define PMV3_Y=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ REG_ALIGN(0x0c25)
+> +#define PMV4_X=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ REG_ALIGN(0x0c26)
+> +#define PMV4_Y=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ REG_ALIGN(0x0c27)
+> +#define M4_TABLE_SELECT=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0c28)
+> +#define M4_CONTROL_REG=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0c29)
+> +#define BLOCK_NUM=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0c=
+2a)
+> +#define PATTERN_CODE=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0c2b)
+> +#define MB_INFO=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_A=
+LIGN(0x0c2c)
+> +#define VLD_DC_PRED=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0c2d)
+> +#define VLD_ERROR_MASK=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0c2e)
+> +#define VLD_DC_PRED_C=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0c2f)
+> +#define LAST_SLICE_MV_ADDR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 REG_ALIGN(0x0c30)
+> +#define LAST_MVX=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIG=
+N(0x0c31)
+> +#define LAST_MVY=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIG=
+N(0x0c32)
+> +
+> +#define MB_MOTION_MODE=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0c07)
+> +#define VIFF_BIT_CNT=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0c1a)
+> +#define M4_CONTROL_REG=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0c29)
+> +#define VLD_C38=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_A=
+LIGN(0x0c38)
+> +#define VLD_C39=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_A=
+LIGN(0x0c39)
+> +#define VLD_SHIFT_STATUS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0c3b)
+> +#define VLD_C3D=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_A=
+LIGN(0x0c3d)
+> +#define VLD_MEM_VIFIFO_START_PTR=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0c4=
+0)
+> +#define VLD_MEM_VIFIFO_CURR_PTR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(=
+0x0c41)
+> +#define VLD_MEM_VIFIFO_END_PTR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_A=
+LIGN(0x0c42)
+> +#define VLD_MEM_VIFIFO_BYTES_AVAIL=C2=A0=C2=A0 REG_ALIGN(0x0c43)
+> +#define VLD_MEM_VIFIFO_CONTROL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_A=
+LIGN(0x0c44)
+> +#define VLD_MEM_VIFIFO_WP=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0c45)
+> +#define VLD_MEM_VIFIFO_RP=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0c46)
+> +#define VLD_MEM_VIFIFO_LEVEL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 REG_ALIGN(0x0c47)
+> +#define VLD_MEM_VIFIFO_BUF_CNTL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(=
+0x0c48)
+> +
+> +#define VCOP_CTRL_REG=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0e00)
+> +#define RV_AI_MB_COUNT=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0e0c)
+> +#define IQIDCT_CONTROL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x0e0e)
+> +#define DCAC_DDR_BYTE64_CTL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 REG_ALIGN(0x0e1d)
+> +
+> +#define VDEC2_IMEM_DMA_CTRL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 REG_ALIGN(0x2340)
+> +#define VDEC2_IMEM_DMA_ADR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 REG_ALIGN(0x2341)
+> +#define VDEC2_IMEM_DMA_COUNT=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 REG_ALIGN(0x2342)
+> +
+> +#define DOS_SW_RESET0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x3f00)
+> +#define DOS_GCLK_EN0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x3f01)
+> +#define DOS_GCLK_EN1=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x3f09)
+> +#define DOS_GCLK_EN3=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x3f35)
+> +
+> +#define DOS_MEM_PD_VDEC=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x3f30)
+> +#define DOS_MEM_PD_VDEC2=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x3f31)
+> +#define DOS_MEM_PD_HCODEC=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x3f32)
+> +/*add from M8M2*/
+> +#define DOS_MEM_PD_HEVC=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x3f33)
+> +
+> +#define DOS_SW_RESET3=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x3f34)
+> +#define DOS_GCLK_EN3=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x3f35)
+> +#define DOS_HEVC_INT_EN=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 REG_ALIGN(0x3f36)
+> +
+> +#endif
+> +
+
+--=-bciFiis+pcG/Zs8UnK06
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaTshHAAKCRDZQZRRKWBy
+9JirAPkBs0QFIC6QPmO6kPL8TYIw4Y1xfPLCZLfTFXwPYhcT5wD9G2ncTKgJSBjR
+dbPUw2rdXQw83fIvCBo4u2byGNjuhA8=
+=k5IP
+-----END PGP SIGNATURE-----
+
+--=-bciFiis+pcG/Zs8UnK06--
 
