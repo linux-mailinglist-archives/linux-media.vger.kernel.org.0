@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-48613-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48614-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92187CB4B59
-	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 06:03:04 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A909CB4B6B
+	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 06:05:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 23F50300A1E7
-	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 05:02:58 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 53E013009551
+	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 05:05:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 769BC279DB7;
-	Thu, 11 Dec 2025 05:02:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0DAC283FE3;
+	Thu, 11 Dec 2025 05:05:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kMvZWBzo"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q3ZVX5GO"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C023233985;
-	Thu, 11 Dec 2025 05:02:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FCDB26AC3;
+	Thu, 11 Dec 2025 05:05:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765429375; cv=none; b=ognrgKtGJJpxS9Rh1NccWCFcSy0Veljfb85qJW4lqqjGKI254X0nVD0M1pHVU3W/NB+kz6KthMfKQ59WcKvikmYuLfcwelox9a1HbBwaacMrYQD1J+1wuytdegp3LEym666COQgcjGqRJ8V4VT9tQ58BHTmamub3I2Lm6kar5r8=
+	t=1765429533; cv=none; b=TJAD8Lr7+ngAMRgLE2kocNuM0BthAY6LzxHzRe65hnh03aWjPTTxZW2vWimCq6wjgT+HKBl/ecQTmrC74bBCc+jqgqJPWk6PJWbz5ueUw4QixImISkWyOExzSXm9G6g0DsMWE/tznNPxeKzwT0gVD22d0Yscx8ZSe+5EPLUp7S0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765429375; c=relaxed/simple;
-	bh=N+DVqea8PB/xEo/WuV4I4HNrn1s5euNo03gswlFsI1o=;
+	s=arc-20240116; t=1765429533; c=relaxed/simple;
+	bh=ZkchqIL1zs3aWHtM3NkmbrDC5QMmioQV+1z0HaeleoQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O/gbhjOk18GusL7TkqDhJ25w8aVZyVBtqn7yahhHlXGDLFBbYUdUQWv/df7NPxqVlXHmlg0IyI86ROE2pEWB5xKn4Fb1vhyllC6erCe6j8FNCUILET8UvV4ITuqSGCUWTBh13ma1nEMwv4M8NVKJPSda0rC9UOJS4QLjSeqvOvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kMvZWBzo; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7EF2C4CEFB;
-	Thu, 11 Dec 2025 05:02:52 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=ZAkl098xsHTsPd6lYgW//7YxBO71b14uglrH+Lb6kgJgp15MSEDALpppwDBpVrsyLA9l1Tfp/UUfDmX7bq/4ujMc2BkiKPaVP6QMGjG6JVR92+xXyLdAzNNm+B017k4lW5rgrNsH8e4mReK36myzhiozIy9+llck15LbaySB220=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q3ZVX5GO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D4EFC4CEFB;
+	Thu, 11 Dec 2025 05:05:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765429375;
-	bh=N+DVqea8PB/xEo/WuV4I4HNrn1s5euNo03gswlFsI1o=;
+	s=k20201202; t=1765429532;
+	bh=ZkchqIL1zs3aWHtM3NkmbrDC5QMmioQV+1z0HaeleoQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=kMvZWBzor/+L3lJ8pne/HkCdC8IOrtVmzqUFLCQReOtJemIexn2OPJmDx+mkwhJdk
-	 Ck7GdisM2/FkunNQG2r+kI2pk/wPfGwmEVhYEtA/NI6RG3Kir+bOoMjjs6VrUybH4P
-	 rf45aZX/WI6/+vPnYHs9eFMbm+Hu37GJ4K97RM9ZKg2g5dYXjRuYXbsulmNzAMtox+
-	 IyRHgtsMj/1G3QmcFpI366NohuMoVXIyAncSNnLczy7pJiAxudBubrnedGuTQtTcwD
-	 Yj4Jlqn4MbfwXBiyTxM2qM5n4aT/a/7sdBYNMZ+ZDzB4+MVWlzF41HpVJfhQh1sr0D
-	 exunkFi6jwfYw==
-Message-ID: <bc831622-8cbb-4bc6-b96c-9b87fb414725@kernel.org>
-Date: Thu, 11 Dec 2025 06:02:51 +0100
+	b=q3ZVX5GOmx02nw1JtU4PwhUJWzKRTl9NFWjAy8VLJh1zyi4UkFnw3QDw+t/4/f4Bb
+	 dA+SHRjxr1PQPLsLa7qV+WWpeLaPk/QLBhElZN57+pV1w4+ofFukgpztBe01jaAV+N
+	 S3nPC1N000LuPH3DpGZhwQOfCFOB+hsq+jfz22ABpD/y1o+/FLL4AdgFcPyckiVSad
+	 ZnqONhz/I8cJrgWyo+jOKdChCT0HUlnLTGHE31A4lUtVZusnNDGTSOPE423dPKmDlc
+	 e7sFa3k7AYoC38G/HN3rD57nDKdZktCMqVVl503Eo9Yj90U77RF5lppt+tgcA7mZ1b
+	 +RVnk1AxGPxfw==
+Message-ID: <fedeaca3-5549-4d57-8f13-f0ac58d1e4d0@kernel.org>
+Date: Thu, 11 Dec 2025 06:05:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -111,22 +111,32 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 11/12/2025 02:48, Richard Acayan wrote:
+co> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +    additionalProperties: false
 > +
 > +    properties:
 > +      endpoint:
 > +        $ref: /schemas/media/video-interfaces.yaml
 > +        unevaluatedProperties: false
 > +
-
-Ah, here, this obviously was not ever tested. Heh, please do not use the
-community as a testing service. Missing props...
-
 > +        data-lanes:
 > +          items:
 > +            - const: 0
 > +            - const: 1
 > +            - const: 2
 > +            - const: 3
+
+Obviously untested code but another thought: why do you need data-lanes
+if they are fixed? They are implied by the compatible.
+
+
+> +
+> +        required:
+> +          - link-frequencies
+> +          - data-lanes
+> +
 
 
 Best regards,
