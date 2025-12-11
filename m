@@ -1,266 +1,185 @@
-Return-Path: <linux-media+bounces-48630-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48631-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C685FCB59AF
-	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 12:09:49 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84040CB59EB
+	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 12:16:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C47173014631
-	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 11:09:44 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8F9DB3027DB9
+	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 11:15:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A640C306485;
-	Thu, 11 Dec 2025 11:09:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B4C83081B8;
+	Thu, 11 Dec 2025 11:15:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="B8FajkAt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DU5MWrgE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459E22BE7DD
-	for <linux-media@vger.kernel.org>; Thu, 11 Dec 2025 11:09:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EF1A27B359;
+	Thu, 11 Dec 2025 11:15:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765451382; cv=none; b=KBAzRiEr2gQmkxfpkjRX44rY6viFgJKPPpHY3OciGiosgQvMFPBnP1IB8ae1K5Z3spkS/Z/vfzj5g6DcHkBulcrBlcdb+RJZvHcA14Vk4k2D4NDYuhMkAXpnEXC4I0JvcriZQumX4DyczfCx7NTK+mkR4cRrfcB/XemFA292MLk=
+	t=1765451731; cv=none; b=ZXtp6PgtCdPotCEQxZ3u8WOBwJ6CDP8VLXRIgxfphes1Iny0pNdDs1/CHiOgXQOMG4LQzwsTkQ+WIdevv46ZzpJLIgyTs+SBEX4I7Hq1uK7ncAwXEuUthdQ+UmPWB0b966s5tIhLN0Ep/uG0NO+bex74dfnhIAvuGT3pd4QZ8g8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765451382; c=relaxed/simple;
-	bh=CNGxVNdd0BeSWDaYjncbbECd94rZPpRsWPtt8x5bons=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pS1I76KC46rTobW196c+NaemOFMHpoLYB4b3hL7p0/t9yISwxuhARjevs+iKG93F3TP/t+jj+66fbPC5iI/d5hRdENRm2ExDaNRKD7ICLs1kVRGQZtPyjjKQmb970jlM6B3k2sw079jsEMTRYo72r2sL84wrmLKqCy5JGwKuWBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=B8FajkAt; arc=none smtp.client-ip=209.85.208.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-37a5a3f6bc2so460211fa.1
-        for <linux-media@vger.kernel.org>; Thu, 11 Dec 2025 03:09:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1765451378; x=1766056178; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8EyBRZPRp8b/cAnvFkXFeWu8lRTa53gJUQVL0pLmo3o=;
-        b=B8FajkAtELrxs2TFpIPtPiu3a0fbprnsErOn74Sacs2QMnXkAj4z5RFh1D54stvvqe
-         bgHEd8eTOvgsDRtODkZFge6icsUnwrcvs7iv0iJJmHnypcHlw5lRLqpXEcCECaN3emVi
-         yMyf8jcx6M6EpxKN2+mIpZAd2slZWPhtDOg+tdZkcikkQLzxygnRxHNzMwU0PXGy0nsc
-         f1IcfJuOVz5kyo9X1bCxagGxg3LYSVBC28GLngIlX3XccsYMdDiWWaHy2iM395Cx5Xan
-         AMzlUPF4yqnljWB7lVMBWUs8Hb81aHRa0fvDdhTtRILW9qnx+O0itv8Em6/xsOBH2bbC
-         sbqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765451378; x=1766056178;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8EyBRZPRp8b/cAnvFkXFeWu8lRTa53gJUQVL0pLmo3o=;
-        b=bxbn49TtCZ71gtsLzqvkFqU9tEQvC+Z0BUIx58Zh90v0UQcYurM4k6EYtJm+UXMRCE
-         usF3JVVW8sWqzOY574vMw4vzGxJdxrtq1S7nwJF2XMQcQ/r6eY6pnjM6i6X44lMRghnN
-         RD/TUXgRX4azit+jwYVnAPi5HYMizYICr1ET7E5Lqb90GjJwcEcIJl9JL80fdmxIBxkT
-         ta1JgMqhAph8d10LUDhZBW0f6twoGvc2c0LgrZBTx1J9sOWRFPorTnokJ7DCBj5EciNO
-         2zeZjGlI3Gvl03CuAZm4FziS2tJdAKlrkgopPCiVafBBtmHjT/eAzh1tGTQDsDIzCVgf
-         NUAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWHkRMVdSR6z2wjXMozmHiG/TJVY7xxThTcKH3PAHrbsjB7fAAJJwT8tB45OtMFhRe3c5FGZDzedBjWqQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2uYn5wBAnZkoQkMl4aDLVE41gFcPYXcGk8mumrFWtWzSJwvJj
-	UcrlyL/4AxNky6LQX9kNzkrlFSz95XBoSXBMJOfjhCvZmkb66zONvYsoq6MqSg6sbBg=
-X-Gm-Gg: AY/fxX6zKWCounEHaGHxAxeHy2b+QRIB4FWfVWefsOQoaCh68SYWDGb9gp2QuwhvXEB
-	rNfr6n8RDaNxtvYVn6+K8L8KKYpgefrZjGP9OWh118OucH2A/Gkug9pv5UtfusQlayXpxL7PDVA
-	+HHc0b1w+2Xc/jqUIfjYO0SkCtczxN5ts9sI2GjE1obTPYEjguhzkB6utkGmOTKJeOIdzE3x6qC
-	3jTNwuMgsApAvFwyzaJSJ7pq4+KNGfXcpxKqyBcCN1gGiUuScY+TEFwwUfU71W+abTv6BhSvYSs
-	cxkDQ3vr9Dx/l6YF5m40l0WJH6iVk1J1FdjiRDUvUb+aXzEnnfS4BSQ5JJWo4epL8taI/AkfSSH
-	QIwvGzu4J3kFPPyUVafw1nWRnh10HbfDMVsq7dyJCIPjfdcCNl/qZo3y+Zu6A1UHGc2AtNnBVEq
-	5waWk+NosUeBvMFXchX6x62Idtpl9nsxilZkxtRX/fpEQhTOMiOmWN9De64ms0z0awnA==
-X-Google-Smtp-Source: AGHT+IEVhRY0kPCxpKfnu3mkzNfGXD92o3Dd/PndMoowcESrQWjQ+spldYQtJfLrkziZioOdsCo8Vg==
-X-Received: by 2002:a05:6512:3e19:b0:594:5582:f77e with SMTP id 2adb3069b0e04-598ee52a384mr1208087e87.4.1765451378286;
-        Thu, 11 Dec 2025 03:09:38 -0800 (PST)
-Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-598f2fa8702sm763706e87.76.2025.12.11.03.09.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Dec 2025 03:09:37 -0800 (PST)
-Message-ID: <dbd4c202-5be9-4f18-9413-5c5e50d3db88@linaro.org>
-Date: Thu, 11 Dec 2025 13:09:36 +0200
+	s=arc-20240116; t=1765451731; c=relaxed/simple;
+	bh=3xxZObULqpdp4/XmsT6Ns470NNtIpAiZ0xdp3YmMDrM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T1xa7G1RDQHDMVBYCzuZAveXdxbrmXDpSk15NSL0uXo/TzUGwOpN03KlRUcg53fuK3Hm7K1WVSlIYyw2rMK/cbBcW+1huhD5WCpCWg/YOEDGQd0OlvtUhMLCyi7mgCftgFuUw0AtNgklYzrd0YGlybDDWX+OkAb9pbi82mfelEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DU5MWrgE; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765451730; x=1796987730;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3xxZObULqpdp4/XmsT6Ns470NNtIpAiZ0xdp3YmMDrM=;
+  b=DU5MWrgEEvyO2gasWLxUs1vdAszTi6fLpBPOkGFBhntjwwuqWZR+9Law
+   qJO72VBTH25RQOjLVbbCRQnALQty4YP8J0kKyxOi/EXWl1nl+XvQriq9A
+   gU3ZXdzv7HbnSANCzsq34jtRRgrnPhnheeNbO3diSS1OcQdigdLfOgGnV
+   UzqO2W2Iju3wRxWux7cFvfZwaVd9Emd/eMMP1IV/EmjSqxEhvyYQZ7gG9
+   RU6lRevSwPjANfj9yhdO1bvPzdnYomZFBNs05/ct/XaF35KFEl3k5AMy9
+   A5pVqsFwTRTLu2ISKJPR730Uv28cA/0VLZ6UoKDB3q1o8FffYkNeZwoQB
+   A==;
+X-CSE-ConnectionGUID: eSaSHVxyS0mYjTpYpdLh/Q==
+X-CSE-MsgGUID: YwAcqpVoQaqLE6gRJNuuxQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="71297664"
+X-IronPort-AV: E=Sophos;i="6.20,265,1758610800"; 
+   d="scan'208";a="71297664"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 03:15:29 -0800
+X-CSE-ConnectionGUID: UonadOHPR36dNa4PXn5Gjw==
+X-CSE-MsgGUID: 57SuEswyTjiBeuguQHliiA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,265,1758610800"; 
+   d="scan'208";a="201197921"
+Received: from abityuts-desk.ger.corp.intel.com (HELO mdjait-mobl) ([10.245.244.238])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 03:15:24 -0800
+Date: Thu, 11 Dec 2025 12:15:15 +0100
+From: Mehdi Djait <mehdi.djait@linux.intel.com>
+To: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
+Cc: robh@kernel.org, krzk+dt@kernel.org, sakari.ailus@linux.intel.com, 
+	Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, 
+	Hans de Goede <hansg@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, =?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>, 
+	Dongcheng Yan <dongcheng.yan@intel.com>, Sylvain Petinot <sylvain.petinot@foss.st.com>, 
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+	Svyatoslav Ryhel <clamor95@gmail.com>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, 
+	Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>, linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] media: i2c: add os05b10 image sensor driver
+Message-ID: <umcwwm4kqnh3cdgg65zxjhzlgbwh34yd55h2rwqe7xugmsz67d@3uvgtsp6lhgh>
+References: <20251211105427.22374-1-himanshu.bhavani@siliconsignals.io>
+ <20251211105427.22374-3-himanshu.bhavani@siliconsignals.io>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] dt-bindings: media: i2c: Add os05b10 sensor
-Content-Language: ru-RU
-To: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>, robh@kernel.org,
- krzk+dt@kernel.org, sakari.ailus@linux.intel.com
-Cc: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Hans Verkuil <hverkuil@kernel.org>,
- Hans de Goede <hansg@kernel.org>, Mehdi Djait <mehdi.djait@linux.intel.com>,
- =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Dongcheng Yan <dongcheng.yan@intel.com>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Sylvain Petinot <sylvain.petinot@foss.st.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Jingjing Xiong <jingjing.xiong@intel.com>,
- Svyatoslav Ryhel <clamor95@gmail.com>,
- Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251211105427.22374-1-himanshu.bhavani@siliconsignals.io>
- <20251211105427.22374-2-himanshu.bhavani@siliconsignals.io>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <20251211105427.22374-2-himanshu.bhavani@siliconsignals.io>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251211105427.22374-3-himanshu.bhavani@siliconsignals.io>
 
-On 12/11/25 12:54, Himanshu Bhavani wrote:
-> From: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
+Hello Himanshu,
+
+Thank you for the patch!
+
+On Thu, Dec 11, 2025 at 04:24:07PM +0530, Himanshu Bhavani wrote:
+> Add a v4l2 subdevice driver for the Omnivision OS05B10 sensor.
 > 
-> Add bindings for Omnivision OS05B10 sensor.
+> The Omnivision OS05B10 image sensor with an active
+> array size of 2592 x 1944.
 > 
-> Add MAINTAINERS entry for Omnivision OS05B10 binding documentation
+> The following features are supported:
+> - Manual exposure an gain control support
+> - vblank/hblank control support
+> - Supported resolution: 2592 x 1944 @ 60fps (SBGGR10)
 > 
+> Co-developed-by: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
 > Signed-off-by: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
 > Signed-off-by: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
-> ---
->   .../bindings/media/i2c/ovti,os05b10.yaml      | 103 ++++++++++++++++++
->   MAINTAINERS                                   |   7 ++
->   2 files changed, 110 insertions(+)
->   create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,os05b10.yaml
+
+[..]
+
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,os05b10.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,os05b10.yaml
-> new file mode 100644
-> index 000000000000..b16e5333b1ec
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,os05b10.yaml
-> @@ -0,0 +1,103 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/ovti,os05b10.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +config VIDEO_OS05B10
+> +        tristate "OmniVision OS05B10 sensor support"
+> +        select V4L2_CCI_I2C
+> +        help
+> +          This is a Video4Linux2 sensor driver for Omnivision
+> +          OS05B10 camera sensor.
 > +
-> +title: OmniVision OS05B10 Image Sensor
-> +
-> +maintainers:
-> +  - Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
-> +
-> +description:
-> +  The OmniVision OS05B10 is a 5MP (2592x1944) color CMOS image sensor controlled
-> +  through an I2C-compatible SCCB bus. it outputs RAW10/RAW12 format and uses a
-> +  1/2.78"optical format.
+> +	  To compile this driver as a module, choose M here: the
+> +          module's name is ov9734.
 
-A space symbol is missing before 'optical'.
+ov9734 ? copy-paste error ?
 
 > +
-> +properties:
-> +  compatible:
-> +    const: ovti,os05b10
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: XCLK clock
-> +
-> +  avdd-supply:
-> +    description: Analog Domain Power Supply
-> +
-> +  dovdd-supply:
-> +    description: I/O Domain Power Supply
-> +
-> +  dvdd-supply:
-> +    description: Digital Domain Power Supply
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description: Reset Pin GPIO Control (active high)
 
-If you have access to datasheet, what does it say about the reset GPIO?
+[..]
 
-It's very uncommon to see an active high GPIO here, most likely it
-shoud be changed to active low.
+> +static int os05b10_probe(struct i2c_client *client)
+> +{
+> +	struct os05b10 *os05b10;
+> +	unsigned int xclk_freq;
+> +	int ret;
+> +
+> +	os05b10 = devm_kzalloc(&client->dev, sizeof(*os05b10), GFP_KERNEL);
+> +	if (!os05b10)
+> +		return -ENOMEM;
+> +
+> +	os05b10->client = client;
+> +	os05b10->dev = &client->dev;
+> +
+> +	v4l2_i2c_subdev_init(&os05b10->sd, client, &os05b10_subdev_ops);
+> +
+> +	os05b10->cci = devm_cci_regmap_init_i2c(client, 16);
+> +	if (IS_ERR(os05b10->cci))
+> +		return dev_err_probe(os05b10->dev, PTR_ERR(os05b10->cci),
+> +				     "failed to initialize CCI\n");
+> +
+> +	/* Get system clock (xclk) */
 
-> +
-> +  port:
-> +    description: MIPI CSI-2 transmitter port
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          data-lanes:
-> +            oneOf:
-> +              - items:
-> +                  - const: 1
-> +                  - const: 2
-> +                  - const: 3
-> +                  - const: 4
-> +              - items:
-> +                  - const: 1
-> +                  - const: 2
-> +        required:
-> +          - data-lanes
-> +          - link-frequencies
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - avdd-supply
-> +  - dovdd-supply
-> +  - dvdd-supply
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        camera-sensor@36 {
-> +            compatible = "ovti,os05b10";
-> +            reg = <0x36>;
-> +            clocks = <&os05b10_clk>;
-> +            reset-gpios = <&gpio1 7 GPIO_ACTIVE_HIGH>;
-> +
-> +            avdd-supply = <&os05b10_avdd_2v8>;
-> +            dvdd-supply = <&os05b10_dvdd_1v2>;
-> +            dovdd-supply = <&os05b10_dovdd_1v8>;
-> +
-> +            port {
-> +                cam_out: endpoint {
-> +                    remote-endpoint = <&mipi_in_cam>;
-> +                    data-lanes = <1 2 3 4>;
-> +                    link-frequencies = /bits/ 64 <600000000>;
-> +                };
-> +            };
-> +        };
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 663e86eb9ff1..c85915d5d20e 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -19234,6 +19234,13 @@ T:	git git://linuxtv.org/media_tree.git
->   F:	Documentation/devicetree/bindings/media/i2c/ovti,og0ve1b.yaml
->   F:	drivers/media/i2c/og0ve1b.c
->   
-> +OMNIVISION OS05B10 SENSOR DRIVER
-> +M:	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
-> +M:	Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
-> +L:	linux-media@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/media/i2c/ovti,os05b10.yaml
-> +
->   OMNIVISION OV01A10 SENSOR DRIVER
->   M:	Bingbu Cao <bingbu.cao@intel.com>
->   L:	linux-media@vger.kernel.org
+I don't think this comment adds value
 
--- 
-Best wishes,
-Vladimir
+> +	os05b10->xclk = devm_clk_get(os05b10->dev, NULL);
+
+Use devm_v4l2_sensor_clk_get() to get the clock
+
+> +	if (IS_ERR(os05b10->xclk))
+> +		return dev_err_probe(os05b10->dev, PTR_ERR(os05b10->xclk),
+> +				     "failed to get xclk\n");
+> +
+> +	xclk_freq = clk_get_rate(os05b10->xclk);
+> +	if (xclk_freq != OS05B10_XCLK_FREQ)
+> +		return dev_err_probe(os05b10->dev, -EINVAL,
+> +				     "xclk frequency not supported: %d Hz\n",
+> +				     xclk_freq);
+> +
+> +	ret = os05b10_get_regulators(os05b10);
+> +	if (ret)
+> +		return dev_err_probe(os05b10->dev, ret, "failed to get regulators\n");
+> +
+> +	ret = os05b10_parse_endpoint(os05b10);
+> +	if (ret) {
+> +		dev_err_probe(os05b10->dev, ret,
+> +			      "failed to parse endpoint configuration\n");
+> +		return ret;
+
+return dev_err_probe() like above.
+
+> +	}
+> +
+> +	os05b10->reset_gpio = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_LOW);
+> +	if (IS_ERR(os05b10->reset_gpio))
+> +		return dev_err_probe(os05b10->dev, PTR_ERR(os05b10->reset_gpio),
+> +				     "failed to get reset GPIO\n");
+> +
+
+--
+Kind Regards
+Mehdi Djait
 
