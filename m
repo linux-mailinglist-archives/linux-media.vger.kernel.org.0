@@ -1,121 +1,133 @@
-Return-Path: <linux-media+bounces-48617-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48618-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1C5CCB4C2C
-	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 06:27:27 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65BEDCB519C
+	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 09:29:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 9CEA43001631
-	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 05:27:25 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id C15F530019EF
+	for <lists+linux-media@lfdr.de>; Thu, 11 Dec 2025 08:29:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B2132868B4;
-	Thu, 11 Dec 2025 05:27:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AE9F29AAF8;
+	Thu, 11 Dec 2025 08:29:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EUvl1erO"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eAt4k5n+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FE5921CC71
-	for <linux-media@vger.kernel.org>; Thu, 11 Dec 2025 05:27:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB5021E9B0B
+	for <linux-media@vger.kernel.org>; Thu, 11 Dec 2025 08:28:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765430842; cv=none; b=b+rrXetjU47W3uC6WgbCOibT2qk4LQt/AGsgx1s8SN7J4cgfUZxyDCm5ECPjRjJLYdBU39CuA4DvxfFZxbUFSPNT6STbVq9RUJAeMnVPFaEt7HHIdEwqrQqZyAc2tEDmdptogpKn7EVVBLiSGJGtvn7R4aP1y1myc/yvo/rFWIo=
+	t=1765441740; cv=none; b=c5N86ZgKYNmZVi9mbwD1OJjIYuA81x8YRaiwkHem6Xy6USXANEHA8RWShFmocDddfQDtqeyeHIhBka4fDxVfpUFUVzstWQr3KUavPjd6iFtzSZYIgisBtOopDHFNCe8ek0tViux5uQqKd+WQdAU+rSmrhhwqzuU6nEz7m0WmGuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765430842; c=relaxed/simple;
-	bh=Pms9rGKQrV/wWRMG+vyjpUCSrq1fJ3AkYkgjY3zlwIo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IQ3W0GyEqgytc9djsJHDo+vuBEW/exdGFuRgPr7wPHwGi3+mGb4NTs+wVEONnJSC5iTzekCFTKtA3jF5Rpiys5JCH/+lcmbwF+vnMR8ee18BLPN9aqD9oun8jPWAdJIFwwds2auc09sp6P2cVQa3T4plDqEGUaMGPtM0wmt7WZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EUvl1erO; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-3436cbb723fso498970a91.2
-        for <linux-media@vger.kernel.org>; Wed, 10 Dec 2025 21:27:20 -0800 (PST)
+	s=arc-20240116; t=1765441740; c=relaxed/simple;
+	bh=djjr9+IAia3N6sWGx6zJjpQoQTmY5N42PCLnoR0yZyk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jc9Xr/lhnAP0O8XX1yoQgaHzR5G61Z7P5pJcUfu83Z/T8RUk5KNEu4wLWAdjrEFGoowVPjQsVGAUELyWFZbhCyXVhxUEwqrCfBfefLqawzkhnQ9qZA19HRHCUcWsakg4/tgfWvcqzNk5vCcjVs+Fhm/36mmimktBOWQ8Jt88DQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eAt4k5n+; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-42f9ece6387so234109f8f.0
+        for <linux-media@vger.kernel.org>; Thu, 11 Dec 2025 00:28:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765430839; x=1766035639; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=95BH0/uinAOxOXcQXE12PRP1dAEancDYlQp6ik6Xv4U=;
-        b=EUvl1erO/wjmHcz5QKkrrep5MvOl/2mlN5DzlkZh/MmsQzvD71LVaTbg147zjJN3B/
-         f31/Jh2DpOZyCilWNUHuh23BMXeGVG6JRElFOJoKOoSJiSLgdR6nqZQdUN/5bF1qYpfe
-         f38L5x6JRdYH6eTFHzcyAx0Uu2sRb9kJO5ZTIIK6DeK550ypBZcIFk+5woyIDTpLFq22
-         sOQxzVqrg8aciAG/YNCSH5vJXs/QFDtMrG1SCdKRfhaxsBr3qdoo0qfosHgZ0zMc3rhN
-         rKk15TMmK2I/h0ZsdFXYXf8ZJKRWHNiICBXFpKcqKM9hAVB9UDIu0R7VC3C2pzY2Rjr3
-         hpVg==
+        d=linaro.org; s=google; t=1765441737; x=1766046537; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yhOVP0Qk4QJBwZMBL87OrBgZcGud1+QQm5cvOUQeo/M=;
+        b=eAt4k5n+JRFJwicM+0Uo0KHutKyRY0bQJjO05nR/ESPLuWWFqbkc0hUWLV3zQ+5qAr
+         2TFUzA6fVtW9aI95GWe3BtMRSZRgNBYSujxuoy7B8C3+sSzS8ztL0DoM9kFyo0PAr5R/
+         88ex/FKdoaAr/cSz0dyPBE9g27mKszTX15Xdl9pQKWA8Mg4Sn9GwWR/WS9MLFfzpSYi2
+         hC4vC7iY8gxQhPmUuomMTbMPv/naRJKbelNVtVf1ymvKTAt9I3doic4yihYRmJe8BSKa
+         PKccPg3o/5rhA8zmzLwZnmcWANb38sesxBaJkBN+XLK1h34HjOtlMFVkcJT4AU/2j0oF
+         fSrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765430839; x=1766035639;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=95BH0/uinAOxOXcQXE12PRP1dAEancDYlQp6ik6Xv4U=;
-        b=AqVy7UNPcXpziD1BxAR8/Q2MM2fSkNJhPceT6UwoohJGkMTmhI4ilW3bWUPvHwFXeM
-         3gb03WMIHu1+eye1ASF/ue6HoaCoxz09sy5cL3noSoAEtBT6a5YBrxaYJ1/PH+hXaXEW
-         bFT7v2/l4xhkOZBvy2L8dPr2dxAOtD1+uzvA/ALE/NxWTpaOmxgWDmPks/tWZKt2G5l5
-         p8x1IJ6KnfsuMf7PSMQ29pmmRsTOh6hhV5FMI0xh5Qe2YcLWYX++7bOmxQDHRtgnzROt
-         dTx31NwM5YhLWaoWyFdnPbURsHH+Db9SWijNiYrWPLg3m1oB1k/E60c+n9bdQLBMIORm
-         nwMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXRa1M2x5CAUmeKiYjPhGmchspV9/SKPhxiNRnv8M5ttiuil0S8kmV47SmnoYR5v8Q1niZG7YkwNVuQsA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzUno0jquqy/MInXDnBSBP2ugL7ItfvwzsB/7yppMKtJTD2FBar
-	YTyk+bwo9CuVTO2R0SHr9+6lWSMYxXpbBJsL4e8/MiZEGI8gHjYLaXtBumgY5fnB5YE=
-X-Gm-Gg: AY/fxX6K2Ro9B45TO1x/aK6DvyVJAhQojcmMfC91G2c/6J27oXWU8klSYlp4YFPWXtc
-	m70DtYkeLQy7sCLowRfrDoaE2NN0J9RPsGIr7RsSF8j2roakcvbu84FuyZs8lDiodHRTtRrBIrC
-	NS2qtQvPHFfYI5x4o7iUqHhuYWruTTd6u6gjNVOM26R7oiZMd07OjApIMAkMXi2aDA+FTLUdgZq
-	YIeKdjUteiPAvZVTFqktTl8jnAtyqi6lMhEjBS5icAqQ49NHuvizeMVOztp9wTU4rzvGn1WSCSE
-	yz96Sk62qmPqQp5kWRxapZOIfUoWleM+am4QHl9exvIRxwuLyqNjySrdiDrp9v6o3rxG5HA5KLg
-	gkaU5x7eRIutCtz+4SnIgumx4mt57BWb4L0dGAqsSfqKdDE3hJQ9NutwBkrkr1A1wsN8ToyaAfn
-	Y5rqKYMCbMJWaBqLdcZ48NCYqZ48v0
-X-Google-Smtp-Source: AGHT+IHpc88r8xX16Lc+KR4vyNGcDKZ1KjuZYVhX4XpZepWfhgWzWN1KEew9mla9BNXmowCCm58hyA==
-X-Received: by 2002:a17:90b:2590:b0:343:7714:4ca6 with SMTP id 98e67ed59e1d1-34a72875249mr4523986a91.22.1765430839260;
-        Wed, 10 Dec 2025 21:27:19 -0800 (PST)
-Received: from SIQOL-WIN-8.localdomain ([49.36.67.171])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34a92733507sm640351a91.10.2025.12.10.21.27.15
+        d=1e100.net; s=20230601; t=1765441737; x=1766046537;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yhOVP0Qk4QJBwZMBL87OrBgZcGud1+QQm5cvOUQeo/M=;
+        b=khvAuS2/zZ+JIuMSJ0c3l8TIaaDjhKl+zUVcxVSsoSJAFgsS5aJP5/oAD+c8vj41+Z
+         XsInoEGhUO8art66U99cNm1uN3VyXZeZOWkhtG8AdQraO5YAUVBzwyXReiPW80vAJT3p
+         oeGNu9jnK9+JMZIkMfSVkyYSoZefBlDFGtZ6h4FN+sjRYvAw0QwRobjRfWYtHxKx46at
+         smzQTAOhdIdCf/CAuXnThlcevXIZ8Yx7N44wcc4DKKtsXEN4JTVTja0yTik8effNtr9e
+         V7fQ3VQ+RmgrYwwX8xIvLdL2ByDFCpDzsrhgm0Jp8x9nuPaxy07+IgK33Jcv4DhtfS5I
+         8J3A==
+X-Forwarded-Encrypted: i=1; AJvYcCWeE9wAs7qHDZpUk1t2cuG1ErvGp2hSsCz0H5uo0IUqjIMBFWbosQS1AYF+2tC50DkdfqGgsaxhdfroew==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzoqwQ9cvCuJ30BGMmxPxyTt0bA46P0q0yfLj9G7BlOCx412jC7
+	dkXgCsNTLB54WNfpk2f6u4UvPfWdnU3hc8PfMZWye5e0WrwLvbyKL/YIWRCIRrKT/Ss=
+X-Gm-Gg: AY/fxX7ObAXhF4pgqcZmtm10EvCedr7LJ56hL8i+IweQtjfI9tPEpMpBrspbpgfe1wn
+	jA4BIa2M1QLw5xUm9YqsrYCNhFHM0pMyjWnOLkHagz04PBnqrDUL3nal8X3fYkIE72fw7GEEx3Y
+	+jTb/HD2JjUi1twX6isEhU3WAYBKCESQfRw6cixH0B7DfSBPSK5gEAaHGlIWP2ueJAWa4zUNCTw
+	LlWI2Zc3SGwqVtnIdAiMvOBnHyk5P5JNqfJYgz303o69XEZiyAKlP3B4E1kGQfJMH1Acf9qCeLS
+	OaYDSQAHR4nw/GDYmGP5Z8O8iAJsKiG+zJfw5yRZ+Pky2/w6foJvECmoY+2s97Zbu7Psd1Wno4h
+	JA1MvwLF4kWxSghGDwG11laLavz9ybI43rZFdG21m+Jt1ByilyM5EIJDokOHLDuD/1VKptIf+7Z
+	CjX5TYd31YfpfuA+o5
+X-Google-Smtp-Source: AGHT+IFgxdBy65p84fy65/fyiYE3miPmWBnt1+Te9NK6eCwaQurMoPZNR3/Cq1AwdP418CtOTItATQ==
+X-Received: by 2002:a05:6000:2309:b0:429:c711:22d8 with SMTP id ffacd0b85a97d-42fa39d2ef1mr5723924f8f.15.1765441737154;
+        Thu, 11 Dec 2025 00:28:57 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42fa8b9b1f1sm4079889f8f.39.2025.12.11.00.28.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Dec 2025 21:27:18 -0800 (PST)
-From: Arjun Changla <arjunchangla7@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org
-Cc: sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Arjun Changla <arjunchangla7@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: remove trailing whitespace
-Date: Thu, 11 Dec 2025 05:26:52 +0000
-Message-ID: <20251211052652.3589-2-arjunchangla7@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251211052652.3589-1-arjunchangla7@gmail.com>
-References: <20251211052652.3589-1-arjunchangla7@gmail.com>
+        Thu, 11 Dec 2025 00:28:56 -0800 (PST)
+Date: Thu, 11 Dec 2025 11:28:53 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: Sami Tolvanen <samitolvanen@google.com>, Chris Li <sparse@chrisli.org>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Eric Biggers <ebiggers@kernel.org>, Kees Cook <kees@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Rusty Russell <rusty@rustcorp.com.au>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	"linux-modules@vger.kernel.org" <linux-modules@vger.kernel.org>,
+	Malcolm Priestley <tvboxspy@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>
+Subject: Re: [PATCH 3/3] module: Add compile-time check for embedded NUL
+ characters
+Message-ID: <aTqAxfiVCR2ch4I5@stanley.mountain>
+References: <20251008033844.work.801-kees@kernel.org>
+ <20251008035938.838263-3-kees@kernel.org>
+ <aTc9s210am0YqMV4@agluck-desk3>
+ <20251209001139.GA7982@quark>
+ <d3dd8fc8-ab46-4cf1-87a9-0324685ba2e0@kernel.org>
+ <SJ1PR11MB6083C6D97484ED4E4710268EFCA3A@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <aThSGiKwJRYOB6kx@agluck-desk3>
+ <aThqcq0iGge1pQCr@agluck-desk3>
+ <20251210010020.GA2522829@google.com>
+ <aTn0WdVv-S_EpQmS@agluck-desk3>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aTn0WdVv-S_EpQmS@agluck-desk3>
 
-Fix checkpatch error by removing trailing whitespace at line 2021.
+On Wed, Dec 10, 2025 at 02:29:45PM -0800, Luck, Tony wrote:
+> > diff --git a/expand.c b/expand.c
+> > index f14e7181..71221d35 100644
+> > --- a/expand.c
+> > +++ b/expand.c
+> > @@ -535,6 +535,8 @@ static int expand_compare(struct expression *expr)
+> >  			expr->taint = 0;
+> >  			return 0;
+> >  		}
+> > +		if (left->flags & CEF_ICE && right->flags & CEF_ICE)
+> > +			expr->flags |= CEF_SET_ICE;
+> >  		if (simplify_cmp_binop(expr, left->ctype))
+> >  			return 0;
+> >  		if (simplify_float_cmp(expr, left->ctype))
 
-Signed-off-by: Arjun Changla <arjunchangla7@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I'm not an expert in the C standard, but this feels correct to me.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 98704179ad35..ff4e668f199c 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -2018,7 +2018,7 @@ int rtw_restruct_wmm_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, uint in_
- 	return ielength;
- }
- 
--/* Ported from 8185: IsInPreAuthKeyList(). 
-+/* Ported from 8185: IsInPreAuthKeyList().
-  * (Renamed from SecIsInPreAuthKeyList(), 2006-10-13.)
-  * Added by Annie, 2006-05-07.
-  *
--- 
-2.43.0
-
+regards,
+dan carpenter
 
