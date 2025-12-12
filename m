@@ -1,211 +1,133 @@
-Return-Path: <linux-media+bounces-48682-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48683-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6590DCB7A5E
-	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 03:13:34 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9380DCB7A70
+	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 03:16:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 860573020495
-	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 02:13:26 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DBB40302D92F
+	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 02:16:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8E86299948;
-	Fri, 12 Dec 2025 02:13:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 923871A238C;
+	Fri, 12 Dec 2025 02:16:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J0YvlCHP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z3ONK9M+"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ACB73C38;
-	Fri, 12 Dec 2025 02:13:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E72FCAD24;
+	Fri, 12 Dec 2025 02:15:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765505604; cv=none; b=ctF+rt3ZttjCUlhGeQ8Be+pE/L3ePXkh+uIwt9SptR5O1aVZE3Yx0jO69rIHIa4rYnlyk4oTD7bqDSIdcEIdHh8mgGkm56hEcHbF1wfRQJQdLqp9PBgNqvDz9vpIQvmHbvAnv4zO1O0L6IBBiZUOMbCSTMsm+I78BRyvJSLdsbQ=
+	t=1765505760; cv=none; b=DA1z1w7EkocWRjzATHKYU13Mb94Jo8eM4bkz6HMDeEitBft6bHZcnVdpn1Yirg6y9ZaUvNO2qSugyHNNeTee3NjbW8hwYsG+ZqfXu3KXX867Xzq3eOTFHKQ13uCf4aT/a+uaTKLwDjqiiheIP+CdwUnzMuHddEk0i1hoAvNjjR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765505604; c=relaxed/simple;
-	bh=rxgPOEfcuh5Ieg6axTF/2GRA4++f8LLj1/xU6eOMuqU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OXHcRNyIN9iprNhC9NfnAZs8hpNwHKqs/RbooQ9U+3LjeCtfutgL8aVKfKdcthM1jcDy2gQ1BDRkFKIy/aJbzk0LdgoiHEnHVqMbLlQ2mFErG6l81tilKEk2KVj4tk2wKH0w1jOdbRMgF/nRLDM8rkXMwwS7pix4t+w0WS0pYEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J0YvlCHP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A82B9C4CEF7;
-	Fri, 12 Dec 2025 02:13:23 +0000 (UTC)
+	s=arc-20240116; t=1765505760; c=relaxed/simple;
+	bh=stIB81eeipJUREm+3QBOT4GGS9SJRH1LC1y24qIMnmo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pr152a+WldsxuwvVtmY6c+lD+Vw+WTDbGxytQJ3TFU83J7eXzaUk7fbHwXX7sJ4ifnWSkzyYD3SSqlupw7etzXDA++Zp7B88SyluKLCJGmtYIg7NeLGrdXPheoyjLSKaiUOQTHxysgz3398kF55GsaspNfZ48nuNMGcyVefTQME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z3ONK9M+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02553C4CEF7;
+	Fri, 12 Dec 2025 02:15:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765505603;
-	bh=rxgPOEfcuh5Ieg6axTF/2GRA4++f8LLj1/xU6eOMuqU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=J0YvlCHPKWLg4mY4A0rpOUgjKIwq1Y5/upyKLmgDDQ0594Pnq814GhyjI5SG59Yaf
-	 XXeoVCzwAoIAsPCxSMA72POgzVKkNCC3tHS8g/BTEHb0XvUue9QtkwjeB54eaymKGN
-	 lEGrXmjJ5k7g8Ne3XokaG2I5ce+Eb3lfFEhj/txheNe6xrcaMzxLYBrZuoTP95o80E
-	 mHN6/AtkRqI5jhjC6Ozts633YggcD6VTm3c6qiaOSLPN4945VhGlPOdE3RslGwPOeK
-	 Li5y/kQzMrKIvJzGgLw3DHSnK0llm651/NIIhKZfOU7PanoIdh9mre6U9VN6mk+85W
-	 2Hga0vrsCmZwQ==
-Received: by venus (Postfix, from userid 1000)
-	id EF0AE1802EB; Fri, 12 Dec 2025 11:13:21 +0900 (JST)
-Date: Fri, 12 Dec 2025 11:13:21 +0900
-From: Sebastian Reichel <sre@kernel.org>
-To: Hans de Goede <johannes.goede@oss.qualcomm.com>
-Cc: Hans Verkuil <hverkuil@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Bryan O'Donoghue <bod@kernel.org>, 
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, linux-media@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v2 4/5] media: ipu-bridge: Add DMI quirk for Dell XPS
- laptops with upside down sensors
-Message-ID: <gocvnom2lrvk7wd5dm65picx24qkuudq6nfj4mi53oscx65cet@n6rkdjvcp2tp>
-References: <20251210112436.167212-1-johannes.goede@oss.qualcomm.com>
- <20251210112436.167212-5-johannes.goede@oss.qualcomm.com>
+	s=k20201202; t=1765505759;
+	bh=stIB81eeipJUREm+3QBOT4GGS9SJRH1LC1y24qIMnmo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Z3ONK9M+N327N3vWfT5DkdKPX/dIYvQ2koNFAKJxSUivwemUVzkbEBEobjSSh0P0H
+	 F8g7qbCu2ZFfFTgkuKPg6jxTWSDhZds1Tohx4UlxwtyX8LsEj6aJaic+0Q3NpKgfzf
+	 oTQlCO0h9gVvIpqb8JMMF8MqBxAO8lh/C+hdMewM8NUoulXDYM9YflZzqqC2ht476n
+	 X65c4oaaMnCsXwNJex2fdxnNLz+2LnQgWbevnaJ5u9mV5Cr6TKdbShVOBlxuwDAfTO
+	 z6M8tWbXeYvNsDl/OjKTa1aNJZq07WwUSFooG+xqn1PbGZH7Fhrt9uh1zMCekyPTq4
+	 hPVs77+D9/b4g==
+Message-ID: <784ded76-227c-4968-a9f2-eb97822404bf@kernel.org>
+Date: Fri, 12 Dec 2025 02:15:56 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ebywwygo3ofqehqr"
-Content-Disposition: inline
-In-Reply-To: <20251210112436.167212-5-johannes.goede@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] media: venus: vdec: fix error state assignment for
+ zero bytesused
+To: Renjiang Han <renjiang.han@oss.qualcomm.com>,
+ Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+ Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <ZnqX0ohHNwseFNet2fDemk0YpzeQraqTE3Qsd8r2HhjD-eG8CDMirTjuQ70kKtSs3NkgGOaPrxgChDdVu0wTpQ==@protonmail.internalid>
+ <20251211-fix-error-state-v3-1-b429262d151c@oss.qualcomm.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bod@kernel.org>
+In-Reply-To: <20251211-fix-error-state-v3-1-b429262d151c@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-
---ebywwygo3ofqehqr
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 4/5] media: ipu-bridge: Add DMI quirk for Dell XPS
- laptops with upside down sensors
-MIME-Version: 1.0
-
-Hi,
-
-On Wed, Dec 10, 2025 at 12:24:35PM +0100, Hans de Goede wrote:
-> The Dell XPS 13 9350 and XPS 16 9640 both have an upside-down mounted
-> OV02C10 sensor. This rotation of 180=B0 is reported in neither the SSDB n=
-or
-> the _PLD for the sensor (both report a rotation of 0=B0).
->=20
-> Add a DMI quirk mechanism for upside-down sensors and add 2 initial entri=
-es
-> to the DMI quirk list for these 2 laptops.
->=20
-> Note the OV02C10 driver was originally developed on a XPS 16 9640 which
-> resulted in inverted vflip + hflip settings making it look like the sensor
-> was upright on the XPS 16 9640 and upside down elsewhere this has been
-> fixed in commit 69fe27173396 ("media: ov02c10: Fix default vertical flip"=
-).
-> This makes this commit a regression fix since now the video is upside down
-> on these Dell XPS models where it was not before.
->=20
-> Fixes: d5ebe3f7d13d ("media: ov02c10: Fix default vertical flip")
-> Cc: stable@vger.kernel.org
-> Reviewed-by: Bryan O'Donoghue <bod@kernel.org>
-> Signed-off-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
+On 11/12/2025 09:50, Renjiang Han wrote:
+> When hfi_session_flush is issued, all queued buffers are returned to
+> the V4L2 driver. Some of these buffers are not processed and have
+> bytesused = 0. Currently, the driver marks such buffers as error even
+> during drain operations, which can incorrectly flag EOS buffers.
+> 
+> Only capture buffers with zero payload (and not EOS) should be marked
+> with VB2_BUF_STATE_ERROR. The check is performed inside the non-EOS
+> branch to ensure correct handling.
+> 
+> Fixes: 51df3c81ba10b ("media: venus: vdec: Mark flushed buffers with error state")
+> Signed-off-by: Renjiang Han <renjiang.han@oss.qualcomm.com>
 > ---
+> The error state assignment in the Venus vdec driver for Qualcomm
+> platforms is updated to ensure that VB2_BUF_STATE_ERROR is applied
+> only to non-EOS capture buffers with zero bytesused. Ensures false
+> error reports do not occur during drain operations.
+> ---
+> Changes in v3:
+> - 1, Update commit message.
+> - 2, Move empty line between tags.
+> - 3, Update cover letter message.
+> - Link to v2: https://lore.kernel.org/r/20251208-fix-error-state-v2-1-255b62ee2eb6@oss.qualcomm.com
+> 
 > Changes in v2:
-> - Fix fixes tag to use the correct commit hash
-> - Drop || COMPILE_TEST from Kconfig to fix compile errors when ACPI is di=
-sabled
+> - 1. Update commit message.
+> - 2. Add a Fixes tag.
+> - Link to v1: https://lore.kernel.org/r/20251126-fix-error-state-v1-1-34f943a8b165@oss.qualcomm.com
 > ---
+>   drivers/media/platform/qcom/venus/vdec.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+> index 4a6641fdffcf79705893be58c7ec5cf485e2fab9..d0bd2d86a31f9a18cb68b08ba66affdf8fc5092d 100644
+> --- a/drivers/media/platform/qcom/venus/vdec.c
+> +++ b/drivers/media/platform/qcom/venus/vdec.c
+> @@ -1440,10 +1440,10 @@ static void vdec_buf_done(struct venus_inst *inst, unsigned int buf_type,
+>   				inst->drain_active = false;
+>   				inst->codec_state = VENUS_DEC_STATE_STOPPED;
+>   			}
+> +		} else {
+> +			if (!bytesused)
+> +				state = VB2_BUF_STATE_ERROR;
+>   		}
+> -
+> -		if (!bytesused)
+> -			state = VB2_BUF_STATE_ERROR;
+>   	} else {
+>   		vbuf->sequence = inst->sequence_out++;
+>   	}
+> 
+> ---
+> base-commit: 663d0d1af3faefe673cabf4b6b077149a87ad71f
+> change-id: 20251126-fix-error-state-24183a8538cd
+> 
+> Best regards,
+> --
+> Renjiang Han <renjiang.han@oss.qualcomm.com>
+> 
 
-Reviewed-by: Sebastian Reichel <sre@kernel.org>
+Dikshita, Vikash.
 
--- Sebastian
+This change makes sense to me. If you are NAKing please do so now.
 
->  drivers/media/pci/intel/Kconfig      |  2 +-
->  drivers/media/pci/intel/ipu-bridge.c | 29 ++++++++++++++++++++++++++++
->  2 files changed, 30 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/pci/intel/Kconfig b/drivers/media/pci/intel/Kc=
-onfig
-> index d9fcddce028b..3f14ca110d06 100644
-> --- a/drivers/media/pci/intel/Kconfig
-> +++ b/drivers/media/pci/intel/Kconfig
-> @@ -6,7 +6,7 @@ source "drivers/media/pci/intel/ivsc/Kconfig"
-> =20
->  config IPU_BRIDGE
->  	tristate "Intel IPU Bridge"
-> -	depends on ACPI || COMPILE_TEST
-> +	depends on ACPI
->  	depends on I2C
->  	help
->  	  The IPU bridge is a helper library for Intel IPU drivers to
-> diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/int=
-el/ipu-bridge.c
-> index 58ea01d40c0d..6463b2a47d78 100644
-> --- a/drivers/media/pci/intel/ipu-bridge.c
-> +++ b/drivers/media/pci/intel/ipu-bridge.c
-> @@ -5,6 +5,7 @@
->  #include <acpi/acpi_bus.h>
->  #include <linux/cleanup.h>
->  #include <linux/device.h>
-> +#include <linux/dmi.h>
->  #include <linux/i2c.h>
->  #include <linux/mei_cl_bus.h>
->  #include <linux/platform_device.h>
-> @@ -99,6 +100,28 @@ static const struct ipu_sensor_config ipu_supported_s=
-ensors[] =3D {
->  	IPU_SENSOR_CONFIG("XMCC0003", 1, 321468000),
->  };
-> =20
-> +/*
-> + * DMI matches for laptops which have their sensor mounted upside-down
-> + * without reporting a rotation of 180=B0 in neither the SSDB nor the _P=
-LD.
-> + */
-> +static const struct dmi_system_id upside_down_sensor_dmi_ids[] =3D {
-> +	{
-> +		.matches =3D {
-> +			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
-> +			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "XPS 13 9350"),
-> +		},
-> +		.driver_data =3D "OVTI02C1",
-> +	},
-> +	{
-> +		.matches =3D {
-> +			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Dell Inc."),
-> +			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "XPS 16 9640"),
-> +		},
-> +		.driver_data =3D "OVTI02C1",
-> +	},
-> +	{} /* Terminating entry */
-> +};
-> +
->  static const struct ipu_property_names prop_names =3D {
->  	.clock_frequency =3D "clock-frequency",
->  	.rotation =3D "rotation",
-> @@ -249,6 +272,12 @@ static int ipu_bridge_read_acpi_buffer(struct acpi_d=
-evice *adev, char *id,
->  static u32 ipu_bridge_parse_rotation(struct acpi_device *adev,
->  				     struct ipu_sensor_ssdb *ssdb)
->  {
-> +	const struct dmi_system_id *dmi_id;
-> +
-> +	dmi_id =3D dmi_first_match(upside_down_sensor_dmi_ids);
-> +	if (dmi_id && acpi_dev_hid_match(adev, dmi_id->driver_data))
-> +		return 180;
-> +
->  	switch (ssdb->degree) {
->  	case IPU_SENSOR_ROTATION_NORMAL:
->  		return 0;
-> --=20
-> 2.52.0
->=20
-
---ebywwygo3ofqehqr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmk7ekEACgkQ2O7X88g7
-+pqIeQ/9H38iE63S2jxsAWn6Qir6DbziFbdPyVmI2HtW8tKDx3IdLyPyyfyDvSUa
-kiLhK++NgLjdx7aHhdmU4gLvDCTyUfwppYZte6rb1QmfODLq9FvYU66mA0j9X3b6
-BhBdZ/v7NwADZtPjbq0ODnHXMUzZdEn7Nc2p+W9kkShOGTfTFNL0s2dwBUNTkUYf
-OlP1aIQzDBZAyGsQM9ZXVF2FjGle7zXmY1qvaJGZml0V4k8I4ZIjxf75vVgvDd+n
-dm2EzvY/gVA4JLZ9FZdU05gknvLqY9LVpf9c9AhWbUhOu3q3K1cz0YKPD9H9k91E
-DDe0L+XopShIzx//BQBuf196zmEXsmg8kYdcdAtzPzQr8FkcIdYC6Vbhw5IcOKkm
-Fy/e5lQ4J6QqSSGzIIUTWRdGtOBvoOomx8YHubvD7C4oj+KRu7VlzftLDASYD5xf
-AMnL+uNYGGKzaozQCbQql9ynpzGrlInYG9odvMWf+ph+7zDnu/vSJyNlvrcp8DX7
-DgX1MFtaCUmfRkGM0znedmFOHyHVhG2BVefCf0AsyZP9UeP3Khd8Rsvqp9DSWSk7
-jnriKASSrnQ9TUG+Yrj2InUAcFp3o4O/gEcofP4P2qd/1M86yJj8favNd//8na+D
-MXOBMPfvW7iVqu2NTpyuAd53gk/sqHwkVlaL7ZDFcVfO8CITQj0=
-=zl8R
------END PGP SIGNATURE-----
-
---ebywwygo3ofqehqr--
+---
+bod
 
