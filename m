@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-48668-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48669-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A36E5CB78FA
-	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 02:44:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B54FFCB792A
+	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 02:48:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 44BB33029C6B
-	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 01:44:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1860A305D386
+	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 01:45:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 657F12877CB;
-	Fri, 12 Dec 2025 01:44:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C674F28DB46;
+	Fri, 12 Dec 2025 01:45:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZKotTL9P"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hl232s68"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A4619067C;
-	Fri, 12 Dec 2025 01:43:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F4C2882AF;
+	Fri, 12 Dec 2025 01:45:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765503840; cv=none; b=Bgi4GKLpMHcmu8nGQeOvvRsL99WAs1eWL5Z8VLSmu55HHZysGyuxEYlxTKD5NkNIzZdw/kC+KTPLEpmUtqUaa4QiDaE/fT7P/qGZ7CrlxPHD4v3KaBliE68isEah7cgeEHScLSnGml/TIMYsmOSR4UqSjedpUEKw7s72PFF339s=
+	t=1765503942; cv=none; b=SZXybVYcwO/F/hdIzJq5AWgexmXAmhXSPMD/ohv0IZpZnXCJxESgTTvQ2LrUV1Wr5v3plctf8bc97HFuh+0oFuqYZtGhppQmenKpI0tHOno1niqIWwa4rcDAjwrldgqzg9DtyzuLf8fUSUySAqPCVEFbqx0aBrq9+Jx1yow1G3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765503840; c=relaxed/simple;
-	bh=zQb5l/IkBNVdz9JCOWkIm+6zEytlctdy8XhUXW0jpe0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bmSvNN+4R6s1GuXhJ23LDnEXZtxZ3sfK9ZLQxPjasQ+tuxQYnpBpUosegIfXiE+gaMICtEWF1F7OtjBTKmrzS4I4nSAf7/uB2e60TM3savqs0bP4yxnm7ciq3l/cnY+uvQ7WpsxpWRAa0yWMk5pDXKaUqOvsOUtYECKOax+qSy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZKotTL9P; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57F06C4CEF7;
-	Fri, 12 Dec 2025 01:43:54 +0000 (UTC)
+	s=arc-20240116; t=1765503942; c=relaxed/simple;
+	bh=Udh3yOGfWPeYJXQ6K0q/5hbTRlPEMEt5AsDwtxUWo3I=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=qKHHqZCJW3yEgtP8pwlzvEQ+XZrqS6bnoDhKqTkbLO+djqUUFdCCDkEWurmV/Ja8+0SiAfNycOJMy7Mf4/3Q5wCguXfqr3Kn+eyOsnaZ2p5aChNA9bFZF49xfwrJQlsklrTWXXa59m5A4B/cIDQTk+roUkC2N7nAB2JXaasSCK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hl232s68; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99F45C4CEF7;
+	Fri, 12 Dec 2025 01:45:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765503839;
-	bh=zQb5l/IkBNVdz9JCOWkIm+6zEytlctdy8XhUXW0jpe0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ZKotTL9PEzM6qbhdfbYRm1YuVDzaA8LfsrG8UamNWOYXrcpW+9BT1YVI8KvPfi+S+
-	 qmQKu/rBlyRjU8EC4M+pEOmY947e0bNB7AeJkJI1BQ1jXZvEXhRILvDcQh1qNm1Sjh
-	 sSC6r5o7gDyWIysomLbCgngswHo0RGGhMMlz6U1fPS3G2G1VXJL1OBRb0FZhMKjlmO
-	 XmrMWgFlBkmv7XbTqkc09Qc63lHAXPqNsx60BSTb1i7DAGV/wPb9QPll6zVnbwhBWg
-	 yKCT6ZTOKLQJVq9nfX/b56IJQfWJYPiTvZIGGqieGB+mbZ8OklaA8hh88GymxN2T/8
-	 JyD6spVURr3Qw==
-Message-ID: <98fc4559-11de-43ba-b601-7575cb9d246e@kernel.org>
-Date: Fri, 12 Dec 2025 02:43:52 +0100
+	s=k20201202; t=1765503941;
+	bh=Udh3yOGfWPeYJXQ6K0q/5hbTRlPEMEt5AsDwtxUWo3I=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=Hl232s68timbnpVeOmT2CJ6b1xwrYOD5fFdmgBq9ol34dAJAnGnckx5xHlutsuP7Z
+	 4i+P+QJGJgi9SzemGar7pSk7T6VCG9G9Hqbyp37esTkoXE37vp4Lyf9IagxvbbOM9w
+	 lYJDrP4Ny6d4VbAbeVoiBzUXFWJV9srARRPWQbl8Fua6flxAKeLpyQ+1PcoJl3uGC7
+	 H5rdJ3iSQ8FlcjWHsiOChICciH8sdRK6FqkICCWOUZLui8lqPVSehEx+1So4iSNvYX
+	 NnwxJDWIIkjOcyuhcX2WYuaqSYVC4yXqbQ19e5Z1LZxYe/jnH7ysEMhwMDdo+RM1CV
+	 rPEVh0iLIB7rA==
+Message-ID: <ff9d571a-9b47-4f39-8589-d4c7b190d3bd@kernel.org>
+Date: Fri, 12 Dec 2025 02:45:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,6 +50,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v4 2/5] media: i2c: imx355: Support devicetree and power
  management
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Richard Acayan <mailingradian@gmail.com>,
  Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -62,7 +63,7 @@ Cc: Robert Mader <robert.mader@collabora.com>,
  Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 References: <20251211014846.16602-1-mailingradian@gmail.com>
  <20251211014846.16602-3-mailingradian@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <98fc4559-11de-43ba-b601-7575cb9d246e@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -107,25 +108,31 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251211014846.16602-3-mailingradian@gmail.com>
+In-Reply-To: <98fc4559-11de-43ba-b601-7575cb9d246e@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/12/2025 02:48, Richard Acayan wrote:
-> +				    imx355->supplies);
-> +	if (ret) {
-> +		dev_err(dev, "failed to enable regulators: %d\n", ret);
-> +		goto error_disable_clocks;
-> +	}
-> +
-> +	usleep_range(5000, 5100);
-> +	gpiod_set_value_cansleep(imx355->reset_gpio, 1);
+On 12/12/2025 02:43, Krzysztof Kozlowski wrote:
+> On 11/12/2025 02:48, Richard Acayan wrote:
+>> +				    imx355->supplies);
+>> +	if (ret) {
+>> +		dev_err(dev, "failed to enable regulators: %d\n", ret);
+>> +		goto error_disable_clocks;
+>> +	}
+>> +
+>> +	usleep_range(5000, 5100);
+>> +	gpiod_set_value_cansleep(imx355->reset_gpio, 1);
+> 
+> So you just keep device in reset state forever :/
+> 
+> Please see other imx sensor drivers how to fix that.
+> 
+> 
 
-So you just keep device in reset state forever :/
+I already told you this at v1 and you ignored the problem and never
+responded.
 
-Please see other imx sensor drivers how to fix that.
-
-
+NAK
 
 Best regards,
 Krzysztof
