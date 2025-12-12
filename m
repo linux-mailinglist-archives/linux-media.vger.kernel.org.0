@@ -1,175 +1,101 @@
-Return-Path: <linux-media+bounces-48671-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48672-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id F155DCB793C
-	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 02:50:01 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 576B9CB7961
+	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 02:56:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DBDF0302D288
-	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 01:49:54 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7D9CE3027183
+	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 01:55:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCFF6286410;
-	Fri, 12 Dec 2025 01:49:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1392F2877E6;
+	Fri, 12 Dec 2025 01:55:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ki65VuYC"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="jOvFfcEi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B9A41E487;
-	Fri, 12 Dec 2025 01:49:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFC692264DC;
+	Fri, 12 Dec 2025 01:55:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765504192; cv=none; b=Cn3S4hDWd6jvuJ1GRUHRxvhmFaqd/hiqyGL00uASo/3LZOkMdF/Og4bq+5xa21d9WKUjvpDkNbxgw5yZEva/sGEarLzuOP6LFvCLH7skXnUJ7h7foMqfcylFRVFEv+wwwp3vtmm6eP7fSMIvU0DLVLTp/l0zAm3NayqpisKanOU=
+	t=1765504519; cv=none; b=tMjOuFdP3xGNUk77mYPOI2WFHXMconcPigme3qPHBHYvEQtq/OO85xmoMdODw4P/fQDgMsC3MNnTDmbwZGVrC0ipN6kdumJZOQGQ+lXYniJSF3xvm+st5e+AhBEicTDWyjy80W9MOI0pQCSfOpiR23mgUqYVAJRb+TZqg2l4WNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765504192; c=relaxed/simple;
-	bh=BHw/RutHHZ4jE7W6Xa1RAaTNTX1OqWmUtXNlhThVYeQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fR7uTytgUhOos/ADQQWEeg+OzOj+rNk16V713AHeMDb0Wc0s5y+Z0rXI9tdhX5MVXY3C6hgmbcdaLxZeL/eGGqByLY7KQhUDbse3HrhAp+0A7ZDxIconu6TmiXpQSgdnzxPwSRcV1IymNUUtn/n2+btRDNKQ2SrOQYE5BXtpcw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ki65VuYC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D555BC4CEF7;
-	Fri, 12 Dec 2025 01:49:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765504191;
-	bh=BHw/RutHHZ4jE7W6Xa1RAaTNTX1OqWmUtXNlhThVYeQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ki65VuYC+s9J9CponjDL4tqn1qrG3awCQ5xucFAUErPKDnmR+i1boFmnmc2nBeBeI
-	 E4RnT5j5Gw1AhVJMeCd+nHvzdlOnlX2Vjnoa6upXCEiOEOegpi+oZhwmm/DYVuJUKY
-	 kfP21fAOv8VZM3eNfWjpWD5NIsqC/R8Gaq3yY6PtQNN/cVue0K3QFSMZ41kq+m/xlI
-	 2/xjEsbMLjzsTG5WibiYwbbXOfRigf2w5uxQ9FfY1P4HLGP1+ltTS3Fj4UXdHKSOFX
-	 1p4Bdy8/P9jGif5ozGwehlQL42Qzu1hztlku8RgfrGBvTcX7dbQJS3qmU8eLHMpkPq
-	 6kI2Wr9MVIpUQ==
-Message-ID: <6d6c3c08-5e99-4cfa-bf85-b664770f00bc@kernel.org>
-Date: Fri, 12 Dec 2025 01:49:43 +0000
+	s=arc-20240116; t=1765504519; c=relaxed/simple;
+	bh=8ynfXCJ/CDgBq5fvw9y6fAjDQsYQiVIGLoLVtb1eb6Y=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=soizuVVCJenghMMj0xsYAugfZvQBF+Md73Ws7BJqJRnrAAK0a7g/UJzFqpn24Kpah2SLShf/1VbyGIboP3hZXFYPDtzD98bKV/MljGv6nytwU69AcE/uGYfncT6c3ghIHpHy2ZRdarpYqn7tPVApUIvxZPqqsM/FIVoOA6Y0srU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=jOvFfcEi; arc=none smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 98ec25acd6fd11f0b33aeb1e7f16c2b6-20251212
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=14Z0aXIgxAgzXPRgCmolCN6WMCG7n8neHEeuTx5Y7QE=;
+	b=jOvFfcEiiYjig8eGKcJn4NwA0eRxxdouhVe0V/bb9jOBJ0Xd2ynMXCTEBmIuT0p+22rDNOkXWMznIyo8uJ5ec/PY83HbHlWWmtd3TUUJhX8l1ryYA7kXPnRa3HR3Ui2vXsTp6OAcAnxJmG8fJ1JzVdsmHCErHJbdqwBcoSnALng=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.6,REQID:47ecc9b3-9e74-4a51-b101-a95ae47414e2,IP:0,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:0
+X-CID-META: VersionHash:a9d874c,CLOUDID:6b106e28-e3a2-4f78-a442-8c73c4eb9e9d,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102|836|888|898,TC:-5,Content:0|15|5
+	0,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OS
+	A:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 98ec25acd6fd11f0b33aeb1e7f16c2b6-20251212
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw02.mediatek.com
+	(envelope-from <jianhua.lin@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1334044755; Fri, 12 Dec 2025 09:55:12 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ MTKMBS14N2.mediatek.inc (172.21.101.76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Fri, 12 Dec 2025 09:55:11 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1748.26 via Frontend Transport; Fri, 12 Dec 2025 09:55:10 +0800
+From: Jianhua Lin <jianhua.lin@mediatek.com>
+To: <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+	<conor+dt@kernel.org>, <matthias.bgg@gmail.com>,
+	<angelogioacchino.delregno@collabora.com>
+CC: <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-media@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>,
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	<sirius.wang@mediatek.com>, <vince-wl.liu@mediatek.com>,
+	<jh.hsu@mediatek.com>, Jianhua Lin <jianhua.lin@mediatek.com>
+Subject: [PATCH 0/4] Mediatek MT8189 JPEG support
+Date: Fri, 12 Dec 2025 09:52:14 +0800
+Message-ID: <20251212015218.4689-1-jianhua.lin@mediatek.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/5] media: i2c: imx355: Support devicetree and power
- management
-To: Richard Acayan <mailingradian@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Tianshu Qiu <tian.shu.qiu@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-media@vger.kernel.org
-Cc: Robert Mader <robert.mader@collabora.com>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-References: <20251211014846.16602-1-mailingradian@gmail.com>
- <oX9MH9S_YbvFY2xsd7jV6mW7fOQelIb017TSAlCIyunLezBkBasAcuVmvP-CURoqU__oSSH3483zd7AjVdQ3nA==@protonmail.internalid>
- <20251211014846.16602-3-mailingradian@gmail.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bod@kernel.org>
-In-Reply-To: <20251211014846.16602-3-mailingradian@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On 11/12/2025 01:48, Richard Acayan wrote:
-> A device tree compatible makes it possible for this driver to be used on
-> Open Firmware devices. Initialization of power-managed resources such as
-> the reset GPIO and voltage regulators can be specified in the device
-> tree and handled by the driver. Add support for this so the Pixel 3a can
-> use the driver.
-> 
-> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
-> ---
->   drivers/media/i2c/imx355.c | 118 ++++++++++++++++++++++++++++++++++---
->   1 file changed, 110 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/imx355.c b/drivers/media/i2c/imx355.c
-> index 776107efe386..c225bb8959bd 100644
-> --- a/drivers/media/i2c/imx355.c
-> +++ b/drivers/media/i2c/imx355.c
-> @@ -3,9 +3,13 @@
-> 
->   #include <linux/acpi.h>
->   #include <linux/clk.h>
-> +#include <linux/delay.h>
-> +#include <linux/gpio/consumer.h>
->   #include <linux/i2c.h>
->   #include <linux/module.h>
-> +#include <linux/of.h>
->   #include <linux/pm_runtime.h>
-> +#include <linux/regulator/consumer.h>
->   #include <linux/unaligned.h>
-> 
->   #include <media/v4l2-ctrls.h>
-> @@ -125,6 +129,15 @@ struct imx355 {
->   	 * Protect access to sensor v4l2 controls.
->   	 */
->   	struct mutex mutex;
-> +
-> +	struct gpio_desc *reset_gpio;
-> +	struct regulator_bulk_data supplies[3];
-> +};
-> +
-> +static const char * const imx355_supply_names[] = {
-> +	"avdd",
-> +	"dvdd",
-> +	"dovdd",
->   };
-> 
->   static const struct imx355_reg imx355_global_regs[] = {
-> @@ -1515,6 +1528,54 @@ static const struct v4l2_subdev_internal_ops imx355_internal_ops = {
->   	.open = imx355_open,
->   };
-> 
-> +static int imx355_power_off(struct device *dev)
-> +{
-> +	struct i2c_client *client = container_of(dev, struct i2c_client, dev);
-> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> +	struct imx355 *imx355 = to_imx355(sd);
-> +
-> +	gpiod_set_value_cansleep(imx355->reset_gpio, 0);
-> +
-> +	regulator_bulk_disable(ARRAY_SIZE(imx355->supplies), imx355->supplies);
-> +	clk_disable_unprepare(imx355->clk);
-> +
-> +	return 0;
-> +}
-> +
-> +static int imx355_power_on(struct device *dev)
-> +{
-> +	struct i2c_client *client = container_of(dev, struct i2c_client, dev);
-> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> +	struct imx355 *imx355 = to_imx355(sd);
-> +	int ret;
-> +
-> +	ret = clk_prepare_enable(imx355->clk);
-> +	if (ret) {
-> +		dev_err(dev, "failed to enable clocks: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = regulator_bulk_enable(ARRAY_SIZE(imx355->supplies),
-> +				    imx355->supplies);
-> +	if (ret) {
-> +		dev_err(dev, "failed to enable regulators: %d\n", ret);
-> +		goto error_disable_clocks;
-> +	}
-> +
-> +	usleep_range(5000, 5100);
-> +	gpiod_set_value_cansleep(imx355->reset_gpio, 1);
-> +	usleep_range(8000, 8100);
-> +
+This series is based on tag: next-20251211, linux-next/master
 
-I'd suggest taking the chip through an explicit reset sequence - 
-including appropriate delays here.
+Jianhua Lin (4):
+  arm64: dts: mt8188: update JPEG encoder/decoder compatible
+  dt-bindings: media: mediatek-jpeg-decoder: add MT8189 compatible
+    string
+  dt-bindings: media: mediatek-jpeg-encoder: add MT8189 compatible
+    string
+  media: mediatek: jpeg: add compatible for MT8189 SoC
 
-The code as-is assumes the reset line is logic 0, which it may not be.
+ .../bindings/media/mediatek-jpeg-decoder.yaml | 46 +++++++++++++++++--
+ .../bindings/media/mediatek-jpeg-encoder.yaml | 27 ++++++++---
+ arch/arm64/boot/dts/mediatek/mt8188.dtsi      |  9 ++--
+ .../platform/mediatek/jpeg/mtk_jpeg_core.c    | 44 ++++++++++++++++++
+ 4 files changed, 109 insertions(+), 17 deletions(-)
 
-Better to whack reset, give some reasonable amount of time for reset to 
-complete, unwhack - delay and then off you go.
+-- 
+2.45.2
 
-That way you've put the chip into a known state and probably you don't 
-have the documentation but, if you had the documentation you'd see the 
-chip mandates such a start-up sequence anyway.
-
----
-bod
 
