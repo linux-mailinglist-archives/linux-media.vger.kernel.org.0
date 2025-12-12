@@ -1,224 +1,142 @@
-Return-Path: <linux-media+bounces-48677-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48678-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90360CB799C
-	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 02:59:48 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08DA1CB79B1
+	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 03:05:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E97503042FEE
-	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 01:56:35 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 772213014DF7
+	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 02:05:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A8DF2877DC;
-	Fri, 12 Dec 2025 01:56:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 943A621ABD0;
+	Fri, 12 Dec 2025 02:05:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JNkpr9h8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QxttZz4S"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEC6C28850E
-	for <linux-media@vger.kernel.org>; Fri, 12 Dec 2025 01:56:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF5441FDA;
+	Fri, 12 Dec 2025 02:05:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765504573; cv=none; b=VI2YBYgIUftM/epKEH8KcmQsxFwxHgWJ9LI1MjyC68l5sJSSHWAHw0yQhVeuCKsWjQu6XR5EUXbRct3o1A67+Bg93hPMXN5euCIyAZ9ab6QY4IZp5FXiFtEGrLXVdBJLxj54Gf9XwHUfaE9lhH6t11VrEu6NkEhIsf6qwVBwWtc=
+	t=1765505128; cv=none; b=r1PT2An5s/jz/A3msYR5xwUgFqkUtOq+QYbPHOlmWrMNhJVjVvf3ij4+51XGkJFR5TRuEi0/cnqXRIt9dfDPM5le4Cnrx7Tq4TAn8fiR+ILNGNOrGNGjpczYtGD3Uq+fsn/dk4go6NHK/YO02srZN/qlvB6AJuDNcnIirv5SU1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765504573; c=relaxed/simple;
-	bh=YN2oZNmZdtxBobbMK58uZROnBIWaMV+gLny5VUocsy8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F0rws5JkVgSxr4giQ6zTRib1Uv0relMkDYlUXa4xdiYogGHqxXNsKMg8828yKoXPIuuX7mFzZ5WTda0lfQhpHUc8psCpM8HaeulR/Q/VxV5vHnIJO3iBKdNhhQDTbIQNTB+wltsIRbBgIdiTH3hLSEDPoIlXX7t8HO7L/AkBwDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JNkpr9h8; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-29845b06dd2so8562675ad.2
-        for <linux-media@vger.kernel.org>; Thu, 11 Dec 2025 17:56:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765504571; x=1766109371; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZJsiZe/XqcKJjkVqYeKzXPFPwj1/tSmTc15CXhIwXUk=;
-        b=JNkpr9h8tzSgD/ITtuuSPYoPvuKOxTQ+uj9Dd23MtZVSBKijHQkNaEqPUIaerLHbFN
-         jJn/AkTDwdrL2GQkuLZxBpl1I4Funxh83g4z/yd9PKb5P3d82bdxOdElZaan3mi8MYYi
-         Ip7zzxAfHApGTvHpcog4XUR+f3FNfjQ4gO1rZ4mT2YpNpKcugbHUqsIqxQpZ4YhvHK6t
-         0wPJlvUs9Dt8fdrsh5k1fvhH7O1Ws8H2W1Qn5qmUBbSOKgm2ZHkw1atlzL5wbJWvpy+C
-         jQdCPrNbo5wh1+IkjuGRXMl0ZFrOwt+eBWGj9F4kn8ym3WC4brSu1I++jkFefmV2x2UG
-         UzhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765504571; x=1766109371;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZJsiZe/XqcKJjkVqYeKzXPFPwj1/tSmTc15CXhIwXUk=;
-        b=mlrAJvGXXvPbzvoXH1v4DNcZ8agcrXHI6Q2TKA2fmYS087pCpFVOZ3WpYNQ7zR0iET
-         wtyHDzcvb3bvU76reCiMNvhOL1uI8OUFofVY5+RVLaC1LEiM7K4nG4pQTu1CusyinFpn
-         igrgPaQNOKaKyUsSZJzjTuS1D0RtMntqwrqmP6WXYYnS7jhH+QIFXhRX03sZ5wzd3izu
-         JJTAzH4u8vEi/uOImbQPOPNF7ligsuTJT43ML5hSMjuT7mUYTkvP+isiw5iX/7PrRXC6
-         1pA5BdC9Je+5nM4Cs4tJqxvtnQHqaHk8uz999kaIaVG+6HPYQnQ9NToBTs63EBW0ZZgk
-         1SzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUeadSccJbRuVPj2I/nAmpZzsvNGgtzp2iTxCC55n24FVMDFJpdFnx0PyIUQi5G4xJzEste+IFr+O+f4w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSbK31x9dcXvspfXdqfEd5fHN4uD2HBRezCMq+JewrWfFLirSx
-	tsmSv07RPBXRw0gubQGQ7gWQlIQQ5ztaXobRO/OjstfRQzoVsXIU3i8d
-X-Gm-Gg: AY/fxX5PANw1GACHJQsSQpUwoVgWgl5UDdwt0krJYaDEFSBdB+cTlo77YiGo80lInFP
-	kKbMqv+MSKvPMbbsLTFqmORNOqRCXwhIsuKab+mrbzzxrvdbAStsJUWISvWghvWaVq+xkEtA1Fn
-	JeiENk8yJNo3G9YlWh7AmlnhigYqTcBa9S8ZdAE5EsKE5HoQPG9W4QDS5pNqL7LIGaj5Ahh06kR
-	cL6OliOT+9yDlum0T1ONj1InqobFN7SFUr+S9ojmp7dG8HCCGUnq9iz7UON+IjTvZ39A3Pf1i6K
-	30R+Z/Z8nNllIJgRad73RiW9BszvkkOXIgK3F4fHG/FyAzhlKRQkrlICAXXvPJdOPYFDunTFa6Q
-	R11eqIGpGHP0vppjzMGGt7YVShiTIx5+M7T7WpiYR5VsNip4M+dkMEnzRrQ9qdB7O3o4bzkrPK0
-	l/pzzT5TMNXPsBgHOKpuH5tat8iALefz/FV81xDAZn/5k1OPTzPGqfjvfY56fTSas2U8YtxNGYj
-	/kQP7mh+Hc/WgDiOZvV+kABn01LPr33oNQYSbRcNO814q6fDPY=
-X-Google-Smtp-Source: AGHT+IHrNZHNZ799rRWGx+LvO7XaRwwtcVkWXSf4q+3pQ1pJSMCA4DafAXljIyZfD2BV+qpIbTHyew==
-X-Received: by 2002:a17:902:d4c9:b0:29e:ba45:350e with SMTP id d9443c01a7336-29f23cd48c2mr6283765ad.44.1765504570758;
-        Thu, 11 Dec 2025 17:56:10 -0800 (PST)
-Received: from [10.200.8.97] (fs98a57d9c.tkyc007.ap.nuro.jp. [152.165.125.156])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29eea016ac2sm36260535ad.49.2025.12.11.17.56.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Dec 2025 17:56:10 -0800 (PST)
-Message-ID: <eb72c089-a6ba-48df-a215-af35d5dd808b@gmail.com>
-Date: Fri, 12 Dec 2025 01:56:16 +0000
+	s=arc-20240116; t=1765505128; c=relaxed/simple;
+	bh=MSaHZ5+ju60XWpHl4bnexcxKffgfsNVGW5yUkrEcuh0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sEB2NhHh2lOEQF6mLvJUmjrkeixy1TaqDiIq7ZB03ebelxO4AR5tZPYCazEI04MmTsN7mvInSm2y8xQEVjWpOInETAAtlBq1yY89HBZA84XKp+MyhVOGiMr9wvo9PL62pQFK1KrzB1A5iGie2oCsco0cZitsEsz6rAla8nvTR68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QxttZz4S; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61BB1C4CEF7;
+	Fri, 12 Dec 2025 02:05:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765505127;
+	bh=MSaHZ5+ju60XWpHl4bnexcxKffgfsNVGW5yUkrEcuh0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QxttZz4S/6gCz0A8zKu+BB31Sz15VIqHrBUiCjg4cBf4CF5MEFfgNAaF9UOrnCep/
+	 VfMc7ji/vtUUVS6nufLel4maWPwlAG/CHX3ZhSZxzU86mqqrD9HrOS8FX5JGF1t7nV
+	 fwcbLkGQDHZ0uxthRbX5DDJjTjt+L0XikInxRxn2ybmAD+GzlSabU3a8iUxM/BEDNQ
+	 kRZb8LY3go/Odad8Hya9K6xf6iom0IuRuO7b4v1iGFZXw9UyrQwFehJNn9TK9sMhaC
+	 A4Q5GsFqoggnRLlvc9ItA1u84DT60A2+hQ+doql0unmAOyBSZIivrgsx7kgl1/sTOf
+	 8ahtzXKDCLEXg==
+Received: by venus (Postfix, from userid 1000)
+	id 8914D1802EB; Fri, 12 Dec 2025 11:05:25 +0900 (JST)
+Date: Fri, 12 Dec 2025 11:05:25 +0900
+From: Sebastian Reichel <sre@kernel.org>
+To: Hans de Goede <johannes.goede@oss.qualcomm.com>
+Cc: Hans Verkuil <hverkuil@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Bryan O'Donoghue <bod@kernel.org>, 
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, linux-media@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/5] media: ov02c10: Fix bayer-pattern change after
+ default vflip change
+Message-ID: <c2k57kin4kgabvpmdszcn6smwy3iwxqm5ca563z75fusrun5z7@fe2uzmt2ydri>
+References: <20251210112436.167212-1-johannes.goede@oss.qualcomm.com>
+ <20251210112436.167212-2-johannes.goede@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v2 05/11] block: add infra to handle dmabuf tokens
-To: Christoph Hellwig <hch@infradead.org>
-Cc: linux-block@vger.kernel.org, io-uring@vger.kernel.org,
- Vishal Verma <vishal1.verma@intel.com>, tushar.gohad@intel.com,
- Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <cover.1763725387.git.asml.silence@gmail.com>
- <51cddd97b31d80ec8842a88b9f3c9881419e8a7b.1763725387.git.asml.silence@gmail.com>
- <aTFo-7ufbyZnEUzd@infradead.org>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <aTFo-7ufbyZnEUzd@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="xlrdq3uuncn4wzrq"
+Content-Disposition: inline
+In-Reply-To: <20251210112436.167212-2-johannes.goede@oss.qualcomm.com>
 
-On 12/4/25 10:56, Christoph Hellwig wrote:
-> On Sun, Nov 23, 2025 at 10:51:25PM +0000, Pavel Begunkov wrote:
-...
->> +	struct request_queue *q = bdev_get_queue(file_bdev(file));
->> +
->> +	if (!(file->f_flags & O_DIRECT))
->> +		return ERR_PTR(-EINVAL);
-> 
-> Shouldn't the O_DIRECT check be in the caller?
 
-If the interface will get implemented e.g. for net at some point, it
-won't be O_DIRECT. If you want some extra safety for fs implementing
-it, I can add sth like below in the common path:
+--xlrdq3uuncn4wzrq
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 1/5] media: ov02c10: Fix bayer-pattern change after
+ default vflip change
+MIME-Version: 1.0
 
-if (reg_or_block_file(file))
-	// check O_DIRECT
+Hi,
 
-> And a high-level comment explaining the fencing logic would be nice
-> as well.
+On Wed, Dec 10, 2025 at 12:24:32PM +0100, Hans de Goede wrote:
+> After commit d5ebe3f7d13d ("media: ov02c10: Fix default vertical flip")
+> the reported bayer-pattern of MEDIA_BUS_FMT_SGRBG10_1X10 is no longer
+> correct.
+>=20
+> Change the 16-bit x-win register (0x3810) value from 2 to 1 so that
+> the sensor will generate data in GRBG bayer-order again.
+>=20
+> Fixes: d5ebe3f7d13d ("media: ov02c10: Fix default vertical flip")
+> Cc: stable@vger.kernel.org
+> Cc: Sebastian Reichel <sre@kernel.org>
+> Reviewed-by: Bryan O'Donoghue <bod@kernel.org>
+> Signed-off-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
+> ---
 
-I'll add some comments around
+I'm not sure it's worth having this change, considering you are
+dropping the whole setting in the next patch, which also has a
+Fixes tag. In any case:
 
-...
->> +static inline
->> +struct blk_mq_dma_map *blk_mq_get_token_map(struct blk_mq_dma_token *token)
-> 
-> Really odd return value / scope formatting.
+Reviewed-by: Sebastian Reichel <sre@kernel.org>
 
-static inline struct blk_mq_dma_map
-*blk_mq_get_token_map(...)
+-- Sebastian
 
-Do you prefer this? It's too long to sanely fit it in
-either way. Though I didn't have this problem in v3.
+>  drivers/media/i2c/ov02c10.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/media/i2c/ov02c10.c b/drivers/media/i2c/ov02c10.c
+> index b1e540eb8326..6369841de88b 100644
+> --- a/drivers/media/i2c/ov02c10.c
+> +++ b/drivers/media/i2c/ov02c10.c
+> @@ -168,7 +168,7 @@ static const struct reg_sequence sensor_1928x1092_30f=
+ps_setting[] =3D {
+>  	{0x3810, 0x00},
+>  	{0x3811, 0x02},
+>  	{0x3812, 0x00},
+> -	{0x3813, 0x02},
+> +	{0x3813, 0x01},
+>  	{0x3814, 0x01},
+>  	{0x3815, 0x01},
+>  	{0x3816, 0x01},
+> --=20
+> 2.52.0
+>=20
 
-  
->> +{
->> +	struct blk_mq_dma_map *map;
->> +
->> +	guard(rcu)();
->> +
->> +	map = rcu_dereference(token->map);
->> +	if (unlikely(!map || !percpu_ref_tryget_live_rcu(&map->refs)))
->> +		return NULL;
->> +	return map;
-> 
-> Please use good old rcu_read_unlock to make this readable.
+--xlrdq3uuncn4wzrq
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Come on, it's pretty readable and less error prone, especially
-for longer functions. Maybe you prefer scoped guards?
+-----BEGIN PGP SIGNATURE-----
 
-scoped_guard(rcu) {
-	map = token->map;
-	if (!map)
-		return;
-}
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmk7eGEACgkQ2O7X88g7
++prUWxAAic1A57XM+mIl5lyhKCIW7WFSnmEObUTFiUxEJ6A0I1kfZ0AoG9v9GT7Q
+CbIC8eFwiRAlpZ6DHsWd8aZvIaOs6MimzrC5uP2GsBwc9bm6JlqH/hyU3mBKMIma
+ncPbVrMRP/7V/lG6tmrL1Y8nTwcXUAFz9s6uFHp/2prY6Kim/QLtXt95lObkNUp1
+wvrIYZdxsUu/gGD5vgTXeq3oflxupeYJm3CqUDiKS33Js/LUGGUCQkTJVCie7A/X
+UdleG6xzjrAs1J6wo5Azlo4tRqJW3s06Wf/p90dTR16LneTcnHHFE3V93LKcewrg
+vqabJewLDFvUFvNWuttHBuBTNAyS6MaHiYwU+fikYYBEY/QROofuXnCHAB7BjEVB
+krotx3GxFzQM9f8XTayROAWWWio0/o8eemYobhcacLqqeGJMqPCoTA5TdBPB+FZv
+52n1ywUWyq1qKt98R1iNZU7f8RJX3V1Eepfzyxt4EHkOTRicNIcNP89OPlOR+WGh
+jKuiG5jRezCp5ugjIYsjU726saCBcSr3SGqL8dEto/lPfXo6xntgrHGy5bz16Lkd
+SIUcqN6ittJXPO8lftON7f6qC+EfjjfuQSVuJcz44xaEJouwYhQsf3sa23er9QG8
+HiyP7RQhTgsxdSY8589vy3nN3n70f1SLLlYPD+8qEx3mMsvqwoU=
+=/k3u
+-----END PGP SIGNATURE-----
 
-...
->> +blk_status_t blk_rq_assign_dma_map(struct request *rq,
->> +				   struct blk_mq_dma_token *token)
->> +{
->> +	struct blk_mq_dma_map *map;
->> +
->> +	map = blk_mq_get_token_map(token);
->> +	if (map)
->> +		goto complete;
->> +
->> +	if (rq->cmd_flags & REQ_NOWAIT)
->> +		return BLK_STS_AGAIN;
->> +
->> +	map = blk_mq_create_dma_map(token);
->> +	if (IS_ERR(map))
->> +		return BLK_STS_RESOURCE;
-> 
-> Having a few comments, that say this is creating the map lazily
-> would probably helper the reader.  Also why not keep the !map
-> case in the branch, as the map case should be the fast path and
-> thus usually be straight line in the function?
-> 
->> +void blk_mq_dma_map_move_notify(struct blk_mq_dma_token *token)
->> +{
->> +	blk_mq_dma_map_remove(token);
->> +}
-> 
-> Is there a good reason for having this blk_mq_dma_map_move_notify
-> wrapper?
-
-I was reused it before and reusing in the next iteration, maybe
-v2 wasn't for some reason.
-
-> 
->> +	if (bio_flagged(bio, BIO_DMA_TOKEN)) {
->> +		struct blk_mq_dma_token *token;
->> +		blk_status_t ret;
->> +
->> +		token = dma_token_to_blk_mq(bio->dma_token);
->> +		ret = blk_rq_assign_dma_map(rq, token);
->> +		if (ret) {
->> +			if (ret == BLK_STS_AGAIN) {
->> +				bio_wouldblock_error(bio);
->> +			} else {
->> +				bio->bi_status = BLK_STS_RESOURCE;
->> +				bio_endio(bio);
->> +			}
->> +			goto queue_exit;
->> +		}
->> +	}
-> 
-> Any reason to not just keep the dma_token_to_blk_mq?  Also why is this
-> overriding non-BLK_STS_AGAIN errors with BLK_STS_RESOURCE?
-
-Yeah, it should've been errno_to_blk_status()
-
--- 
-Pavel Begunkov
-
+--xlrdq3uuncn4wzrq--
 
