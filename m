@@ -1,79 +1,79 @@
-Return-Path: <linux-media+bounces-48661-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48662-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30742CB772C
-	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 01:23:21 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2E4CCB7769
+	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 01:41:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4841A302532C
-	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 00:23:14 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 88CE6301EC47
+	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 00:41:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72D36214204;
-	Fri, 12 Dec 2025 00:23:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDA6C224AF9;
+	Fri, 12 Dec 2025 00:41:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YK22BrbX"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kPxsSGrk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69AED1DED49
-	for <linux-media@vger.kernel.org>; Fri, 12 Dec 2025 00:23:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0C3621CC5B
+	for <linux-media@vger.kernel.org>; Fri, 12 Dec 2025 00:41:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765498991; cv=none; b=peDHPoMNEhU6jH1kyqWTn5V16RCOp8QGNkRemZTjZv6aC/tmDKPQACKS0uHG3FHya4s5QlKfjcXjJk4rBtSy5hg2Y/jMQCj/9NNo7OFQE8Bn63NZJGZybUgD8VDt8UFXFEbk49+ihG2FePTZHNdME2+1tuijDxVcHaaNpkQKsXQ=
+	t=1765500086; cv=none; b=BQNWnIq7MkM6YymMtG7qqvRGw8XJbli5FFzljAMNk7PtykJv4KmBZHQKOEseLlMNdzXUs1I0MHSE0dJ9uZlKyMma9ZkoR98POsaaYCD9W/pgnJSrD03X4VasDbcpjcEHx7x8PrnPL45h4KWkmwt8g731XafL18SlfuJhtxbMUbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765498991; c=relaxed/simple;
-	bh=VJs0HdDUTreYqiEPWEYMgLI1QKUAgzDJ9UQWKudR/pE=;
+	s=arc-20240116; t=1765500086; c=relaxed/simple;
+	bh=DHD/lZHvN8tPqWWfOwqXtmcNxX6Jp50gNz2N0sxd6BY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n/eBbEtnogbrX+azGNMwqoHbeb0zqC82DRH9KIzf0D0JROBvnS/6/FwwP9/j+w3OqLja60f8gCSbpF7IPUN9VZaSqs3+dJdCdervfwIa4VjP3nzCRip+OSTnecsmG/x7IH6ESLcBLoSndwTGSN1fok1w+pnRiYmHWqQChCV1q44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YK22BrbX; arc=none smtp.client-ip=209.85.219.44
+	 Content-Type:Content-Disposition:In-Reply-To; b=n/LmMVlOirKZfUzkQXV7oUz6yuzA6+YJ1n8O4BKezEETKE1JRKOL2Y4ZVzWzF+d63mtlWTJPPHBIyFLeICBvtyWRZ7pfIZkJUprrUtV5d3JdLJoeGOvlC5BTTIvVi5TJ6JSnDGjaTbNt2y5I71+ahBK5IAiThl80fdYDbZY5qOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kPxsSGrk; arc=none smtp.client-ip=209.85.222.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-8804ca2a730so8676556d6.2
-        for <linux-media@vger.kernel.org>; Thu, 11 Dec 2025 16:23:10 -0800 (PST)
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-8b1bfd4b3deso57374585a.2
+        for <linux-media@vger.kernel.org>; Thu, 11 Dec 2025 16:41:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765498989; x=1766103789; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1765500084; x=1766104884; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ekAwpn4hrC8FLTzr9F7/ywbCXH3vu/SZcsviAIsYxIc=;
-        b=YK22BrbXV5FHxPeIt23zE5zrZcTEt2AnaIRgDN22h+OOV//u+pj6H08XpvQ1i1ph4+
-         hJO/0jveAc4JH6mTHMN0MKywrEvVa7f1WZaS0t+bBH9Qlj1lkZKrhqcJtSivrcGIO2Jb
-         iccIMbASuXSws/a+XVouHcEPAmbO0Y/vURpZo7JXGLs+PZQbQIa7MD89khQ7d7ZrJEnj
-         UfP5PE8B9EEfB7mB1W5Tu2z8UKan+37Z6p+8dRldg/dJWimBYxIIQ4AUkWw8/jqd0aUV
-         FQPYXyOTgdlTeX4Ei8xvBaVGPLM7ocrGKfR8EKledy7G2+s0NzlXpdmHcRmK4IGjk8bd
-         Y8fQ==
+        bh=ITpyggKEhw2+s5AdOrWLt8yqrU4pVMFBZVM7vpDrXUk=;
+        b=kPxsSGrk2hrgtCq8L+zd27mOU1I8UbZn9MExxOta19/8F1gomHw47RH6GOyGROfdh8
+         7NnDyxDT1H4THnqJqYLQN5SrJCVJfEEF2uWHsJjTU7G0hlid++SHUdAh13ts9Xdu1xaw
+         wj8uDc+kaB7Rmwe9Kk1FfhjVBCOi3hRFFLLQYBdd4jTnWZUEnpA5/LpH01LtwSYmqlJe
+         JEjMf6v48lh62bgy7zfYp/r5Ec7T0ae2pTL46Yo6FFhhbFsk7vJEqWGskSv4YtufFpbc
+         UePg6HV1GVRAhxT97/xyuiCMPyHLMrZEhIHejUXStGAlxqvKfoKFeX8hhB6UCoTyWaW4
+         L07w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765498989; x=1766103789;
+        d=1e100.net; s=20230601; t=1765500084; x=1766104884;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ekAwpn4hrC8FLTzr9F7/ywbCXH3vu/SZcsviAIsYxIc=;
-        b=ZXAXWgv3wq5+owcyUqIPYgOJKRpfk1VLBGfph9Ftk9pbvj9D5+nD/Qe2FSWEZtJaAd
-         9hlAVGBe9hMacAOTNimXZQN7BCH+UK6uL0oyUMNVLfd/WUrCHtMonTrjnX80IIAOsK6U
-         On+L2WkYfClMA8bwTqbq6Dj9Nd25udFi2JdiavPc0e2M5kvTV/JlFk6P6Y7POGX0uh1z
-         dsr4PyaTvB2cJneuSBAi39ffa9HBXh8k79mYCO5Zmk1BUaG+6Xd4ocAYXTm8qL3gji5l
-         bg30En/kmG7vUrEshifaL3iEOMJyN+zHNuMMFbt+rXA4N4ZEROggV9MWUVaygqNhB5Sh
-         4Z5A==
-X-Forwarded-Encrypted: i=1; AJvYcCVRV9pTndyC0S2luqfBoBbeYd493y0TiLeRFtb0yDsorQanNQQhLIvsVhVVOdmEPeTHAQMETo6nIHNh5w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzmNb0GZet2+GdMXp37KHbTjCqdkwFJaK1NN8PE8VH+cJSqWHpk
-	SHOgThecrlJMOAI/3wNmWaZtymLTsH3V+O+p45WCSMC0U+544a6p1bsP
-X-Gm-Gg: AY/fxX4/Zmyfd4krZUhiL/OmmU8+8Ql6J9qeSLjeDNNdhCV4dsUxi6OXrOYGjBGmDcG
-	EEPtmZ2/HqI1pt7dHSXrjzcjUDa8APbrAF6lN3KtdZPne9NxLBqu6Xe3mzoFCWJPQ8LV+wQqo4t
-	Z03R/lpxk+7WgDKglV0dOwgReuUVSgsEFZHlA3nNQzJ5Lr5cmXydwp4PaS5eT1sxB7g7eO6ingk
-	YCmvlU39Eie+cLEQC7sRmKF7oBXb2sbhfpnWonRU8Ll8D8SnDAAh+N4GgTVSQ+768hxXq7F+5Ci
-	1YEl64PfLe/P9pe3ctnRMtd/EGl2tRIvs7BNEYfNy8pC5eJ9zehTSmmXPoLhI6Fy3etdxompRDf
-	hrp5TOdTYX23HG+iqb9DchQ0etvhRwd8rvc3NJEjPAtt2mSFU7Y2ED7EH6EFVRvJrp2QeMn+BbS
-	u5i+Gy0+/g+z+GFA==
-X-Google-Smtp-Source: AGHT+IEKDNtd1pW2MAhHOKkF8+slYPOoo67H1JhA1doiQXfU/rc0lm22DiXFt1BHYTZJO8wln/CpTA==
-X-Received: by 2002:a05:6214:400a:b0:882:4b1f:a812 with SMTP id 6a1803df08f44-8887e12cacdmr8674496d6.51.1765498989224;
-        Thu, 11 Dec 2025 16:23:09 -0800 (PST)
+        bh=ITpyggKEhw2+s5AdOrWLt8yqrU4pVMFBZVM7vpDrXUk=;
+        b=VIMj0gvD02XYeEFMYrUomUcxalelHw2zN0jr2mZdBwN4x/5okAhWq9bny9B+6atkAz
+         dtqaEZ5EEtWdjXBKf+eoWmu7aS+jHKjSO4GRHrU4mftFQXhxpQ/SXV11Qe8sY6OVX+jg
+         8cxMhxF3czk5hKlI1colsV11tMzYPLJ81t6UdmzCLFds5siLk61pWxG4V6zioML9pw6Z
+         CXxuYwMBYUPo0SLu486rf97GXDvLSGU0syXEHZV+kOE5AVDjmB2Pt5OLS95V1xvQ1SC4
+         fBRg8yaK6Rw3IjlwbyhAVNmjVxk/jCNbCcB5IknObMpecB7BWLhR8FiUEVpSD9v4ndEU
+         p/Hg==
+X-Forwarded-Encrypted: i=1; AJvYcCUj+GTOOSsFcZAW5O7EZG5haq4hkmLx57EQXHBj8WcVLWVvNL9uXWAUEYak6w67MfuYNTNVJP3XG+xhOA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRsZ6nHnSiyLDoU6Dx+zokbOgX2vOgBoVgvMaILiw8l8iRBirw
+	7BbaiSa/TkXhDYTfoPU1LEofYOYxV8eC/fgwIEwuJCZB7atuJAoG5kvI
+X-Gm-Gg: AY/fxX7u1mrCmhROgjtMcB/s3X7D2N6ErrPO9u0DUAy0tyqFv8c88VpmRNI4tCNv3Pb
+	kL275BDumrsGeG3TAtrc24CGeovdCCP4wVAxCMDjgG0k8Ouxwqou40J1SK8oM43VZXdqycAioIv
+	tZEC4SW1UXs+8GcffeWEe8LLj7EZ1xa9y015YJlZRFUKoJ69ORdQdySVN7eBQh4W3vNcDmRf+P9
+	rCoSmfzaGO4Uub07DkvwFnyWDQSfAJ/qBUWNmUWdXDc8d6qjCDg/PsT8Qr5xtnDdnY8RRmP1Gjv
+	a/97oSYI2FKFeMMQxHZZIQiUkw3zI4CnIZPSiQNElEPTWpzcySZv1HJIDXw7EKvhhyGbDdnA48n
+	w7XznsqWbX7M7NrFIfnOjgovw692a3ySTTbX7W8kjDZWbAeSqhBBb78jfj7JYIIvmjgV/0KoS7f
+	8qeLVdegJ+z0016w==
+X-Google-Smtp-Source: AGHT+IFqGwlA1Aoece/i0Mb65MshHc5N2WWOb7PZJ8AvXpskJF5JitQBe/NZIOlberhGhCtjhAltkg==
+X-Received: by 2002:a05:620a:1791:b0:8b2:dd5b:fe80 with SMTP id af79cd13be357-8bb3a39ba05mr56594185a.79.1765500083610;
+        Thu, 11 Dec 2025 16:41:23 -0800 (PST)
 Received: from localhost ([184.144.58.243])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8886ef30a2asm34637666d6.50.2025.12.11.16.23.08
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8886ec2ff9fsm35002926d6.12.2025.12.11.16.41.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Dec 2025 16:23:08 -0800 (PST)
-Date: Thu, 11 Dec 2025 19:23:22 -0500
+        Thu, 11 Dec 2025 16:41:23 -0800 (PST)
+Date: Thu, 11 Dec 2025 19:41:37 -0500
 From: Richard Acayan <mailingradian@gmail.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Cc: Bjorn Andersson <andersson@kernel.org>,
 	Konrad Dybcio <konradybcio@kernel.org>,
 	Rob Herring <robh@kernel.org>,
@@ -86,11 +86,12 @@ Cc: Bjorn Andersson <andersson@kernel.org>,
 	linux-media@vger.kernel.org,
 	Robert Mader <robert.mader@collabora.com>,
 	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Subject: Re: [PATCH v4 1/5] dt-bindings: media: i2c: Add Sony IMX355
-Message-ID: <aTtgetS9Hx5MeBzY@rdacayan>
+Subject: Re: [PATCH v4 5/5] arm64: dts: qcom: sdm670-google-sargo: add imx355
+ front camera
+Message-ID: <aTtkwQb2gOeWAFuv@rdacayan>
 References: <20251211014846.16602-1-mailingradian@gmail.com>
- <20251211014846.16602-2-mailingradian@gmail.com>
- <bc831622-8cbb-4bc6-b96c-9b87fb414725@kernel.org>
+ <20251211014846.16602-6-mailingradian@gmail.com>
+ <wwpqaecvz42jopgaboasbh353ieelctpvgo3yj6y5tnxoem5oz@j5sbx3yxntot>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -99,20 +100,52 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bc831622-8cbb-4bc6-b96c-9b87fb414725@kernel.org>
+In-Reply-To: <wwpqaecvz42jopgaboasbh353ieelctpvgo3yj6y5tnxoem5oz@j5sbx3yxntot>
 
-On Thu, Dec 11, 2025 at 06:02:51AM +0100, Krzysztof Kozlowski wrote:
-> On 11/12/2025 02:48, Richard Acayan wrote:
+On Thu, Dec 11, 2025 at 07:16:30AM +0200, Dmitry Baryshkov wrote:
+> On Wed, Dec 10, 2025 at 08:48:46PM -0500, Richard Acayan wrote:
+> > The Sony IMX355 is the front camera on the Pixel 3a, mounted in portrait
+> > mode. It is connected to CSIPHY1 and CCI I2C1, and uses MCLK2. Add
+> > support for it.
+> > 
+> > Co-developed-by: Robert Mader <robert.mader@collabora.com>
+> > Signed-off-by: Robert Mader <robert.mader@collabora.com>
+> > Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+> > ---
+> >  .../boot/dts/qcom/sdm670-google-sargo.dts     | 107 ++++++++++++++++++
+> >  1 file changed, 107 insertions(+)
+> > 
+> > @@ -392,6 +420,64 @@ vreg_bob: bob {
+> >  	};
+> >  };
+> >  
+> > +&camss {
+> > +	vdda-phy-supply = <&vreg_l1a_1p225>;
+> > +	vdda-pll-supply = <&vreg_s6a_0p87>;
 > > +
-> > +    properties:
-> > +      endpoint:
-> > +        $ref: /schemas/media/video-interfaces.yaml
-> > +        unevaluatedProperties: false
+> > +	status = "okay";
 > > +
+> > +	ports {
+> > +		port@1 {
+> > +			camss_endpoint1: endpoint {
+> > +				clock-lanes = <7>;
+> > +				data-lanes = <0 1 2 3>;
+> > +				remote-endpoint = <&cam_front_endpoint>;
+> > +			};
+> > +		};
+> > +	};
 > 
-> Ah, here, this obviously was not ever tested. Heh, please do not use the
-> community as a testing service. Missing props...
+> This would be much better:
+> 
+>   &camss_endpoint1: {
+>       clock-lanes, data-lanes, remote-endpoint here
+>   };
 
-Just a rookie mistake, I forgot to test on my smartphone which has the
-dtschema validation.
+I'm not sure what you mean, there might be some typo.
+
+If this is about using the commonly-defined endpoints, Vladimir broke it
+in commit dcf6fb89e6f7 ("media: qcom: camss: remove a check for
+unavailable CAMSS endpoint"). If I do this again and go full circle, I'm
+afraid this could break a second time before even making it to
+linux-next.
 
