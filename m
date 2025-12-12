@@ -1,114 +1,121 @@
-Return-Path: <linux-media+bounces-48695-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48696-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49D65CB8549
-	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 09:55:14 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F4B4CB85A7
+	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 10:00:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 09C95308E490
-	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 08:52:33 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id EF1283009946
+	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 09:00:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 122543101CE;
-	Fri, 12 Dec 2025 08:52:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F6FA31078B;
+	Fri, 12 Dec 2025 09:00:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b="frIILijI"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="QuGjTaIL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E92FF2741A0;
-	Fri, 12 Dec 2025 08:52:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765529551; cv=pass; b=fJYqbtSinI2YbrLn81ykO83E1524k0OCNjBcbT/htrd9zuxllWpFfjuJ5QaX/uNQw7YBNiCZA1mEdd/+822YiT4Ax0iXntBvdlBh0q9E70YpLSK5Eg9MTvS/eIHoYiyZKXBNgajNQS8Llp75YlrMc8cgCduu4VoDDQdN755mOg0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765529551; c=relaxed/simple;
-	bh=BsQ5+N82BLq7h9EPzOmGWZGFXT4FPYACHwV1bAg+AHw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TgpZc5qhC954Pj9mNBx9yiKF67jMObFpwnWwh65NDEvT85XGJP39dadTvy8xabaf1hoO1s7RPOqirv8lalhUZUgHd4KnW1ivR6cw0/T/vCBjfe2Epnw64Og39G3afLTDNgt8/6LyXGHVHYuWvHihbFgLZeH6c6hct2S9TqZYa4A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b=frIILijI; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1765529517; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=G2a/yMRoNYEYX32qsSh9klxJhkz42oM/Rs6xEqUkj0GCib3cTPtgakDODcACfn3fPOSdTjp5nCQ4HrmJngxT8hhyZf7P9E6vA3a5QwC4fSg7T189qetTRc0W3hnqp3yRgbsWkW2LxdAe1R679CZ3AROCYtTbM3vG2pMgTd1muF8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1765529517; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=xnItVhoY0Lh4ZLV1sF8rYZtnMRWqPjsgUKn0khqX+aY=; 
-	b=BI76Zs6kc6v3+Stj5VlhmI+2TOP8RS8JG2lFviNZwApLZgZGTiGjkPb3B23h98BKyjHhWOwR5elzisMyHTr9GLo9tG3k6uQhHC4Zpk8IjIMrPvqVV99Ra4CWOpcZwPRvjoLuY6va0bntFhXR45YVOngOmGaOFbGTDj19AAmBGEE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=benjamin.gaignard@collabora.com;
-	dmarc=pass header.from=<benjamin.gaignard@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765529517;
-	s=zohomail; d=collabora.com; i=benjamin.gaignard@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=xnItVhoY0Lh4ZLV1sF8rYZtnMRWqPjsgUKn0khqX+aY=;
-	b=frIILijI+V7VsU7x9gFc0FgCtswAJVCRHVYaKIzxLkHrpO68qTVpwrcmRFR3+WkL
-	mt4ffUw6Br0SsK57xAw4CqvUYtbl0gczF3m/vK4EvR/LI05DhyHqQ76aHxc/37MVr5V
-	VI/8jNg2/7GGPYhGECQCln5VIG2Jznk0GfV7S9cA=
-Received: by mx.zohomail.com with SMTPS id 1765529515530660.6512833937438;
-	Fri, 12 Dec 2025 00:51:55 -0800 (PST)
-Message-ID: <ea3241f1-14a4-44a0-9d85-3fa2a2f6f1ae@collabora.com>
-Date: Fri, 12 Dec 2025 09:51:50 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A901F2737E7
+	for <linux-media@vger.kernel.org>; Fri, 12 Dec 2025 09:00:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765530053; cv=none; b=PQUsG+j+Hkn6479MPQBFYs/dB37XDz1nfq9JjlSz/ohGosP9NhR3c2PNwbiRlxopw4q5KAAtVdkbUdCaZHuokSkZayP0CPmovGqowHFxLM50MfX6IVPFTvtBq6l1O8+hqJzZZYAYUa2+OmcYwm/4NWs+H1lhZDhvuuEJnzVoW7E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765530053; c=relaxed/simple;
+	bh=0mw2ckxKrCqrlVWik5CQTkeiXSkBsBd0QUuzrYIPgiQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=o1c10WSDxFrczYj43yStktcvtMA3MiFuy8dlH3oIUjpNZ1GgKgC2njtRL1J3iK2VBf9k1ODxOKqs8glYlCrzLkufge4/KtsAzYIBnZ+nwGXSHis4rXz0I2YXCevYr2Etai8nBgXMt7RW4LS5f8445Rl/LsDuoStZcn2BSHfu0TE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=QuGjTaIL; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-59583505988so1298889e87.1
+        for <linux-media@vger.kernel.org>; Fri, 12 Dec 2025 01:00:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1765530050; x=1766134850; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0mw2ckxKrCqrlVWik5CQTkeiXSkBsBd0QUuzrYIPgiQ=;
+        b=QuGjTaILv+/rTrYYEtgNjhvJKJEoxaPhgH76AVWs1wejYUtG8/435v6PWRnVvh32g+
+         aUXAUiX9cDq9j/JEILf4hdm/7t7jAuzARbXO9MdaCaHT0+sULfKw83hJWNTfsX7H7Dcy
+         xZTDHKNq44q7GbNg0Y/z6zKr9q3D5vx0tSNm3NKnRcWKdR/NptGWlm3DpAA9MyHpyrbE
+         JgZD5lFEZtcpieEkOp1brehAQPcdyeUJWv0fCLGRDRlKK/L5PYCb1geAWgD6448TLAl+
+         4QXmLpR9SCxt8blBuMKB7B6t4ZOIAFSBG2WFkGV2HwuvikDyfC2VrjDFopSmwdCa2Qrw
+         /s0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765530050; x=1766134850;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=0mw2ckxKrCqrlVWik5CQTkeiXSkBsBd0QUuzrYIPgiQ=;
+        b=rVR0wcfXeejs/mC3Inc5BlA0itoVxCO3EfKtF8hczsOKxR+yC97oKSxdZKn4CMfN43
+         scIrc2fNt0tVix6AF4txEGL8u5rCvn44S8chNkLJa58iSKLQhMKz9fIYdjA5nivX5fNy
+         z/LvBqJ3LRFx46P6wFmYLbDVxnWjjs47KYxyffEKL9T6HSeCGwlbdT4ym78IrU4l4/gA
+         Nu/yg6rFnR31aUjaL4Ry1Pi4xpDZbr1FL7gF3e/8ToNy/alJ1JByjlE2m8r72A9AwveH
+         89r2lIwCEnCnohjB2vh0bqgXtdkvUzjPfyOTcWQMP5J6wda9lyQ3Z6x97aGhyX/H8rb1
+         J1YQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUAPAoVkpICiwdBs2jwlmg29voKUcbdoewgke5WpDlNv6NMWIZV6ukUMSaAZVRtxfJVnZPlXTWzbnfXPQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy5cKP6MQk/kUATVx+0riy3/zwhq1+4N/0bcY5P7jfosMcbE4l/
+	WJCz48fJwhTPR7plHo9/SMMNbRdyO8XChGRzuz6NZ/TJsBC1XJ86vmoucVhkJHGCjjJL8S35tkR
+	t2U6IJ40FjIZrYLgmwEWn70rTbExmK4rNjxUyIjS1VQ==
+X-Gm-Gg: AY/fxX7dmY63NZIYyfOZMdT/lShvaZ3AlAI6Z3lzKcpKkv23hSGVS241+4b1hKJcINs
+	p4uaHszQCtJOfVZ5DGmGfqa5woHXB1b5fDFCEtRrVlS9JFj1nNht2dTqAYndeCAJU9UwjAEyZzf
+	gCQnfILpO4v81G/mNzg8inliA8uopDUAHjvFwOVO4u0tJkTycszz3cDItURozyimdRWVJiJeOOR
+	n1r+Cjgnj984aalf2E5REUoPCeKHAfnwSXMfKITGCfjRp8/R0meVGBnsACreVP2Rm1zpsbKL4u0
+	ScLgGh6tGj78bx16uB7rwjF8QHpL
+X-Google-Smtp-Source: AGHT+IGHt0jB653fstrXoO4vNaIHzgQTjgWqFmWp/4blz3V3HQcG84keViqz5W7TjXHTBEBk+A9OOWVA1fGP2/OdKUk=
+X-Received: by 2002:a05:6512:39ca:b0:598:f392:897 with SMTP id
+ 2adb3069b0e04-598f3fdf577mr1812272e87.22.1765530048350; Fri, 12 Dec 2025
+ 01:00:48 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 3/7] iommu: Add verisilicon IOMMU driver
-To: Jianfeng Liu <liujianfeng1994@gmail.com>
-Cc: conor+dt@kernel.org, devicetree@vger.kernel.org, heiko@sntech.de,
- iommu@lists.linux.dev, jgg@ziepe.ca, joro@8bytes.org, kernel@collabora.com,
- krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, mchehab@kernel.org,
- nicolas.dufresne@collabora.com, p.zabel@pengutronix.de, robh@kernel.org,
- robin.murphy@arm.com
-References: <20250911155720.180465-4-benjamin.gaignard@collabora.com>
- <20251212033157.3036182-1-liujianfeng1994@gmail.com>
-Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <20251212033157.3036182-1-liujianfeng1994@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20251107141303.223254-1-marco.crivellari@suse.com>
+ <7e24110636db36e8c0a877d90d2ed9570c4aecf5.camel@ndufresne.ca>
+ <CAAofZF44pUoyDPnnv9UUuMkYvqiSWP4gELg4rutgo=3tNpBZsw@mail.gmail.com> <fd401d1b4f1e7b7178699227d31976453de5891e.camel@ndufresne.ca>
+In-Reply-To: <fd401d1b4f1e7b7178699227d31976453de5891e.camel@ndufresne.ca>
+From: Marco Crivellari <marco.crivellari@suse.com>
+Date: Fri, 12 Dec 2025 10:00:36 +0100
+X-Gm-Features: AQt7F2qisoxfgXyJ_Gr6IYtNxxPMB4bbWODY-TGwkyfLroDt6ydW5EY7csE5T24
+Message-ID: <CAAofZF45i42hvn9bN=77WzcRmAj8eGXFjY7uA+cmnSLrJUNaLA@mail.gmail.com>
+Subject: Re: [PATCH] media: platform: mtk-mdp3: add WQ_PERCPU to
+ alloc_workqueue users
+To: Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+	Frederic Weisbecker <frederic@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Michal Hocko <mhocko@suse.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi,
 
-Le 12/12/2025 à 04:31, Jianfeng Liu a écrit :
-> Hi,
->
-> On Thu, 11 Sep 2025 17:57:13 +0200, Benjamin Gaignard wrote:
->> +#ifdef CONFIG_VSI_IOMMU
->> +void vsi_iommu_restore_ctx(struct iommu_domain *domain);
->> +#else
->> +static inline void vsi_iommu_restore_ctx(struct iommu_domain *domain) {}
->> +#endif
-> After applying this patch to v6.18, I get error when building this driver
-> as module:
->
-> drivers/iommu/vsi-iommu.c:541:6: error: redefinition of 'vsi_iommu_restore_ctx'
->    541 | void vsi_iommu_restore_ctx(struct iommu_domain *domain)
->     |      ^~~~~~~~~~~~~~~~~~~~~
-> In file included from drivers/iommu/vsi-iommu.c:31:
-> ./include/linux/vsi-iommu.h:18:20: note: previous definition of 'vsi_iommu_restore_ctx' with type 'void(struct iommu_domain *)'
-> 18 | static inline void vsi_iommu_restore_ctx(struct iommu_domain *domain) {}
->     |                    ^~~~~~~~~~~~~~~~~~~~~
->
-> I have to use:
-> #if IS_ENABLED(CONFIG_VSI_IOMMU)
-> instead.
+On Wed, Dec 10, 2025 at 5:04=E2=80=AFPM Nicolas Dufresne <nicolas@ndufresne=
+.ca> wrote:
+> I don't have strong opinion, if you think this driver can be ported in on=
+e step,
+> that is always my preference, and making things explicit is also nice. Bu=
+t I'm
+> also fine picking this as-is for now. Let me know, your preference, avail=
+able
+> time and safety of not breaking anything is valid argument to me.
 
-I have fix in my internal v10 branch:
-https://gitlab.collabora.com/linux/for-upstream/-/commits/verisilicon_mmu_v10
-I don't plan to send this update because that will change nothing about code duplication remarks.
+I would like to wait before the conversion in this case, to avoid
+breaking the driver.
+So I would like to keep WQ_PERCPU instead, like it is now.
 
-Thanks for the report.
-Regards,
-Benjamin
+Many thanks, and sorry for the late reply.
 
-> Best regards,
-> Jianfeng
->
+--=20
+
+Marco Crivellari
+
+L3 Support Engineer
 
