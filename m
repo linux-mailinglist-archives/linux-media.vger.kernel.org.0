@@ -1,66 +1,64 @@
-Return-Path: <linux-media+bounces-48718-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48719-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75413CB97D7
-	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 18:56:17 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D8BBCB9955
+	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 19:39:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8FC4330B6AC9
-	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 17:54:03 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id C42363014C4B
+	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 18:39:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B872F2F5324;
-	Fri, 12 Dec 2025 17:54:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9591309EE6;
+	Fri, 12 Dec 2025 18:39:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="pwg7RUlX"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="F+HlQZbm"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EB022F39C7;
-	Fri, 12 Dec 2025 17:53:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A18309DDF;
+	Fri, 12 Dec 2025 18:39:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765562041; cv=none; b=aYIGM0VobVVw7AkCr9LenaZyy0QvpLVnz6MRp14Zt8KW5mHsUmPhVrj0V7yZBBpa5bBl9C+ev7jfbnWBkNJAX1V0RatWFLHc6reI/4tqO6bbvDDvGmmg2LyeM1ASSe5snGaXhyoKSXWLgzbpiJnatSw57CJ/fmWjaWihpIIf/BI=
+	t=1765564760; cv=none; b=ea0cpGZ1TkB5OrJokaVuSX9XX4d8Dh6r3wjtE251mX11QlEM00FNCTQqewdC5Aii460Uc/1FelWLasm/Oty/4gcwZJksAaVbmd/qIzeK1g8v7wGBXHb2fWuZLF/nHvVaxa+OTmvz0vbnP2zUkWPWe8z6utWjLr6cgBE/DiIwftQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765562041; c=relaxed/simple;
-	bh=gtkyj6GVsnbIOX5ifyV1wXuJ94FHbpTY0m8F56kuYVE=;
+	s=arc-20240116; t=1765564760; c=relaxed/simple;
+	bh=oxzIUH2ZwNSj3M0nzkdtjbq20VP+3f+HE0zTNH4hVKo=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=cqJGIeiTsyYeY5oVmZzq++Wn+2iniLSDP8xOJ3fQE79+s/H+6lNjeOWxJoT1MlnP+M5L9SdY98E8hqQ39vIrHBqx9wWrZpXirGoyJ7wW+cH4ndbe2kgh57Z9RfnQqpDd9+Xk6gvx2IY9PseLL3W2E+p8YjT4Y5dyf/G2YNqrTig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=pwg7RUlX; arc=none smtp.client-ip=148.251.105.195
+	 Content-Type:MIME-Version; b=pQn7C69vs2I1q8o6M1fZU31SM91w9JSqZK8WaFTQI0w5QP7Vjt6655IOT6bwOfaRmzGfxwSl01ifhfdkkqzgOZGPT1Ba3piSxiwF4ft23W06y2trlW3QSJxz7pLj+cU4sUadq/tFY7SzIZEVGnH1hsUyblgzD/E2DoCVOhy+ClE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=F+HlQZbm; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1765562037;
-	bh=gtkyj6GVsnbIOX5ifyV1wXuJ94FHbpTY0m8F56kuYVE=;
+	s=mail; t=1765564756;
+	bh=oxzIUH2ZwNSj3M0nzkdtjbq20VP+3f+HE0zTNH4hVKo=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=pwg7RUlXd6jlDI3QCZAwaCZFvUfjhLVxRXyz7uodRpiNmbgZc7meqjmjra/RetixY
-	 j9sO8NEsFXlZcMLZV6QVMSZzgAfu/6ZkupsmOz8dwomQl7msb7x0P9X3ENiKsRC0cb
-	 7iXbqe4h3yYtqu0FcHWAO1FL57yumqE2k8A4Q0V3jrjRl+IC+6H8qA9Eqv3WHt4oCd
-	 qrBlk6U7oBJd1FpQETRNIWilRymtHspUmEDW8qWxIN8c2bQ1rswI6f6Nmh35OK26vj
-	 yy9GMT6gbBb0tZTUGKuRKcMDj2znEe2B6vuFpNOK46xVNj7yW9OMirtIQgQyDMbth1
-	 aMoVJ8Fr84HpA==
+	b=F+HlQZbmFigoNGWOJ6/fcq+PsU/dHh+pPPi4vYvN78J7vh+n3fCxc1hHsDWC3Eww8
+	 6hPBn7gJTMS9/AqqgyHhpSSDNWjKz45utOBJxYghZgBemm0X4Wnhc3iHHuFCDXeVJT
+	 vb6FStrYhZPAyfM3TlmxbQ+HqJ8yQA1n52Y+f/5xPmCWam6LGVO898KEQZupbE19XN
+	 kCSM0JHvAZXxHqP+t3tqEuWYOhHrU+CE9n8RL3EA3iikYD/uZMqiCJBTtBwvlf8luI
+	 d0sycpQ8OfHrklgFN63CXQoar35T//LMVzjFEqPpW1d5kx+O7MRn2IgYnm0MKUNUsE
+	 SjlPRqIFa/UbQ==
 Received: from [IPv6:2606:6d00:17:7b4b::5ac] (unknown [IPv6:2606:6d00:17:7b4b::5ac])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id E2F3C17E110C;
-	Fri, 12 Dec 2025 18:53:55 +0100 (CET)
-Message-ID: <8f24c8204984a46bad7d0bb24b78c8115906f748.camel@collabora.com>
-Subject: Re: [PATCH] media: rkvdec: set ctx->image_fmt in
- rkvdec_s_capture_fmt
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 4A43D17E0458;
+	Fri, 12 Dec 2025 19:39:15 +0100 (CET)
+Message-ID: <687cc16deaeb93e696952e563663478ed889834c.camel@collabora.com>
+Subject: Re: [PATCH] media: rkvdec: vp9: Fix probs struct alignment
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Jianfeng Liu <liujianfeng1994@gmail.com>, 
-	linux-rockchip@lists.infradead.org
-Cc: Jonas Karlman <jonas@kwiboo.se>, Detlev Casanova	
- <detlev.casanova@collabora.com>, Ezequiel Garcia
- <ezequiel@vanguardiasur.com.ar>,  Hans Verkuil <hverkuil@kernel.org>, Heiko
- Stuebner <heiko@sntech.de>, Mauro Carvalho Chehab	 <mchehab@kernel.org>,
- linux-arm-kernel@lists.infradead.org, 	linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org
-Date: Fri, 12 Dec 2025 12:53:53 -0500
-In-Reply-To: <20251212154138.3042300-1-liujianfeng1994@gmail.com>
-References: <20251212154138.3042300-1-liujianfeng1994@gmail.com>
+To: Detlev Casanova <detlev.casanova@collabora.com>, 
+	linux-kernel@vger.kernel.org
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab	
+ <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, kernel@collabora.com, kernel test
+ robot	 <lkp@intel.com>
+Date: Fri, 12 Dec 2025 13:39:13 -0500
+In-Reply-To: <20251212160101.146684-1-detlev.casanova@collabora.com>
+References: <20251212160101.146684-1-detlev.casanova@collabora.com>
 Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
  /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
@@ -76,7 +74,7 @@ Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
 Organization: Collabora Canada
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-KGnTfVc2/BqU11O39I7Y"
+	protocol="application/pgp-signature"; boundary="=-ZyLv75oI4qcKGniOcmXP"
 User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -86,104 +84,76 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 
---=-KGnTfVc2/BqU11O39I7Y
+--=-ZyLv75oI4qcKGniOcmXP
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-Le vendredi 12 d=C3=A9cembre 2025 =C3=A0 23:41 +0800, Jianfeng Liu a =C3=A9=
-crit=C2=A0:
-> ctx->image_fmt is initialized as RKVDEC_IMG_FMT_ANY at
-> rkvdec_s_output_fmt, and get set at rkvdec_s_ctrl when userspace sends
-> SPS info via VIDIOC_S_EXT_CTRLS. This works fine with gstreamer because
-> it sends SPS info to kernel driver before requesting capture queue bufs.
+Le vendredi 12 d=C3=A9cembre 2025 =C3=A0 11:01 -0500, Detlev Casanova a =C3=
+=A9crit=C2=A0:
+> When building for arm 32 bits, the struct alignment changes and the compi=
+ler
+> adds 3 padding bits to the anonymous mv struct in
+> rkvdec_vp9_inter_frame_probs.
 >=20
-> But chromium requests capture queue bufs first and then sends SPS info
-> to kernel, then rkvdec_s_ctrl will return -EBUSY, and the video is
-> displayed green.
+> Therefore, the BUILD_BUG_ON used to check that the struct size is aligned
+> to 128 bits (hardware requirement) fails.
 >=20
-> Chromium calls VIDIOC_S_FMT to capture queue instead before requesting
-> capture queue bufs, so setting ctx->image_fmt in rkvdec_s_capture_fmt
-> will make rkvdec_s_ctrl return 0 when the first SPS info sent to driver.
-
-I'm reading you here, and reading the spec again [0], and you are saying th=
-e
-Chromium isn't following the initialization process. That means, it should =
-be
-impossible to allocate 10bit capture buffer, since the SPS in place specify=
- the
-color depth. Other parameters in other codec can influence the reference bu=
-ffer
-size, so you could endup with the wrong allocation.
-
-
-[0] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-stat=
-eless-decoder.html#initialization
-
-
+> As that mv struct is at the end of the global rkvdec_vp9_probs struct
+> and is followed by 11 padding bits, the 3 padding bits can be explicitely
+> set in the mv struct and removed from the 11 following it.
 >=20
-> Signed-off-by: Jianfeng Liu <liujianfeng1994@gmail.com>
-> Fixes: d35c64eccf3b1 ("media: rkvdec: Add get_image_fmt ops")
+> This makes sure that the mv struct is 32 bits aligned.
+>=20
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes:
+> https://lore.kernel.org/oe-kbuild-all/202512110229.R6YCf1Le-lkp@intel.com=
+/
+> Fixes: d968e50b5c26 ("media: rkvdec: Unstage the driver")
+> Suggested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
 > ---
+> =C2=A0drivers/media/platform/rockchip/rkvdec/rkvdec-vp9.c | 4 +++-
+> =C2=A01 file changed, 3 insertions(+), 1 deletion(-)
 >=20
-> =C2=A0drivers/media/platform/rockchip/rkvdec/rkvdec.c | 12 ++++++++++++
-> =C2=A01 file changed, 12 insertions(+)
->=20
-> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-> b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-> index 5af9aa5ab353..e7939d604f64 100644
-> --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-> +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-> @@ -537,6 +537,18 @@ static int rkvdec_s_capture_fmt(struct file *file, v=
-oid
-> *priv,
-> =C2=A0		return ret;
+> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-vp9.c
+> b/drivers/media/platform/rockchip/rkvdec/rkvdec-vp9.c
+> index b4bf01e839ef..23c733ca2e8e 100644
+> --- a/drivers/media/platform/rockchip/rkvdec/rkvdec-vp9.c
+> +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-vp9.c
+> @@ -66,6 +66,8 @@ struct rkvdec_vp9_inter_frame_probs {
+> =C2=A0		u8 fr[2][3];
+> =C2=A0		u8 class0_hp[2];
+> =C2=A0		u8 hp[2];
+> +		/* 32 bit alignment */
+> +		u8 padding6[3];
+> =C2=A0	} mv;
+> =C2=A0};
 > =C2=A0
-> =C2=A0	ctx->decoded_fmt =3D *f;
-> +
-> +	u32 fourcc =3D f->fmt.pix_mp.pixelformat;
-> +
-> +	if (fourcc =3D=3D V4L2_PIX_FMT_NV12)
-> +		ctx->image_fmt =3D RKVDEC_IMG_FMT_420_8BIT;
-> +	else if (fourcc =3D=3D V4L2_PIX_FMT_NV15)
-> +		ctx->image_fmt =3D RKVDEC_IMG_FMT_420_10BIT;
-> +	else if (fourcc =3D=3D V4L2_PIX_FMT_NV16)
-> +		ctx->image_fmt =3D RKVDEC_IMG_FMT_422_8BIT;
-> +	else if (fourcc =3D=3D V4L2_PIX_FMT_NV20)
-> +		ctx->image_fmt =3D RKVDEC_IMG_FMT_422_10BIT;
-
-You cannot accept a format that falls against the color depth in the SPS
-control, and rkvdec does not do color conversion implicitly. This can other=
-wise
-lead to letting the HW overrun the buffer (forcing 8bit with 10bit content)=
-. Can
-you check with Chromium dev if they can perhaps adhere to the spec instead =
-?
-This is all news to me, but I probably never had to test 10bit playback in
-Chromium outside of MTK (which might not be less strict, hopefully done the
-right way).
-
-regards,
-Nicolas
-
-> +
-> =C2=A0	return 0;
-> =C2=A0}
+> @@ -85,7 +87,7 @@ struct rkvdec_vp9_probs {
+> =C2=A0		struct rkvdec_vp9_intra_only_frame_probs intra_only;
+> =C2=A0	};
+> =C2=A0	/* 128 bit alignment */
+> -	u8 padding1[11];
+> +	u8 padding1[8];
+> =C2=A0};
 > =C2=A0
+> =C2=A0/* Data structure describing auxiliary buffer format. */
 
---=-KGnTfVc2/BqU11O39I7Y
+--=-ZyLv75oI4qcKGniOcmXP
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaTxWsQAKCRDZQZRRKWBy
-9MH3AQDUhY3sqERSYtPJTOv2OrLvOyQdReWs2GtPrwGsJMqh2QD+PVv2MeM6/3Va
-0A0tGbG6GO39dojfMxGwmdL9Ady4ggs=
-=sO55
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaTxhUQAKCRDZQZRRKWBy
+9KwmAP9W3XXuSsHllA3UT4YOrlku35Qk+xAlvxxwkp6DVxtqWAD/SyCvlb48F9q2
+ByiCsG1zqo5tziLDbXtpzmdp1y6gAgI=
+=xvKs
 -----END PGP SIGNATURE-----
 
---=-KGnTfVc2/BqU11O39I7Y--
+--=-ZyLv75oI4qcKGniOcmXP--
 
