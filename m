@@ -1,127 +1,144 @@
-Return-Path: <linux-media+bounces-48687-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48688-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71886CB7B77
-	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 04:01:08 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id D078FCB7C4A
+	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 04:30:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 9537B3005F3A
-	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 03:01:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B088630792B3
+	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 03:27:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64A1D2264B8;
-	Fri, 12 Dec 2025 03:01:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01D9E2DC796;
+	Fri, 12 Dec 2025 03:16:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UjtQhNgh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dSinQq1F"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A701122083;
-	Fri, 12 Dec 2025 03:01:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7567B2C21E6;
+	Fri, 12 Dec 2025 03:16:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765508463; cv=none; b=SlhkX2ireHXtEck+F5bwEU9kmFQDpZe/SgLRBUojEFi751A3l+/opF49/vU18hff8uk9LrzIgwbTtjLEj/ebYN5k6GpMgTc9kSM0/BMU3YGm0awxMd8WqtX9b7vkfY4cU3iC2e0zwkiVrQ5jz7Qb+t/FXv+YuiABJPHOjfpsHvg=
+	t=1765509395; cv=none; b=ccfrGNYe0HSWtR+Umx7fMfP7kgsp/H50vpimJvqa0v1oV/pgYEb7C7f5MZLtWtvB5DWgBVQdO5Bv8QPbWSnsanA6oLPQjBTo5399CeGVc1hi3guy63p/VPvUd4VerJ0r/dcIjK1THKWLtjvCNf7VRYmMBB55KDLDmbuNuaxxWUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765508463; c=relaxed/simple;
-	bh=MRVJ17cxjJ/1xqcJyZvQADUaV2QTkzL7dFTtiTT0rNc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=DBhAaSw2Vh8jfEdt061ixAdbUXxN5Qc4XpPwY99Ym6FdSpoqtVb/V7Y2n6mkptWYJsWCpW7TWfrSBQtw3ikNa+RT9RMDypfP6vmTzhHxM0NycMBGLpoqj95upbswX6gYtC7v/Q/eWMp2MqU4HzNySOpERkZEpvUZlTqwE8RfMo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UjtQhNgh; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31830C4CEF7;
-	Fri, 12 Dec 2025 03:01:03 +0000 (UTC)
+	s=arc-20240116; t=1765509395; c=relaxed/simple;
+	bh=l6T1YNEG5gbbAzo8++MsdtRY+Dl0AK1nAgwXDEotX94=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RsHXBOuhv3u2cw70ech0XS0AsMAJvhSbxR5fAwXZbb3Zz/e4NmjP1L90RpexPsDOv/OWBzXQ8m0r9k02PzjUKUHauwn4KWTT2atZ8MqvX5R8gQfesOzN+WE9L5AcANrSGsPulfJKFaVRdFirT+O6M2l2YdSR92ySQ/4mR1jp6cI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dSinQq1F; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0CE9C4CEF1;
+	Fri, 12 Dec 2025 03:16:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765508463;
-	bh=MRVJ17cxjJ/1xqcJyZvQADUaV2QTkzL7dFTtiTT0rNc=;
-	h=From:To:Cc:Subject:Date:From;
-	b=UjtQhNghZMAAuMJiqLhLDHiXRPTmVMKOpejBYlSdfKKvVqvGaLyFagJETYxCqKDuY
-	 B1n3z8HOwJ/dqtHENSG7qWUmFiGlLzqgaEz8qHmJzjh5aSdMVnXO5XQzF5mZnEFjtm
-	 kMQnzJ8KJ6i0IT10D38Sfhs3+xM022CR7NFwUjeXvdHwzpZcpB/x/vKcAlyKTGXzfU
-	 vKsgWd3kBu1IuKYIFdbV2Ga8o+f4X19/dHeahuehfba2f/mbHIsE5vYEJ5/3ue5UBD
-	 9Bp/YX0EXxz3MZvuboFA3hLZaWtnhcTuMMUCb569wukXUh01hLjFCtofV4YUej16ml
-	 h9ISLBLWrReLA==
-From: Kees Cook <kees@kernel.org>
-To: Bluecherry Maintainers <maintainers@bluecherrydvr.com>
-Cc: Kees Cook <kees@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Andrey Utkin <andrey_utkin@fastmail.com>,
-	Ismael Luceno <ismael@iodev.co.uk>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH] media: solo6x10: Check for out of bounds chip_id
-Date: Thu, 11 Dec 2025 19:00:35 -0800
-Message-Id: <20251212030030.work.534-kees@kernel.org>
-X-Mailer: git-send-email 2.34.1
+	s=k20201202; t=1765509394;
+	bh=l6T1YNEG5gbbAzo8++MsdtRY+Dl0AK1nAgwXDEotX94=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=dSinQq1FfW0r5rYTFjlEOvNvFm3MwqLTEyeNn0Lzof2BD2eWO8a+G/OIH9M2qwCuD
+	 Sw7+V6SqiHNjnWYWbG6a9ULCMwa+qssajqDEpTr9YN2nvqnKJ+DM8+l3EW0rq8Em1q
+	 yHQub27OMEpkRv3HIjDDyrv94iWI5PwyLQba+r5zbKaIaLi4nrlOjkXvXKAaeQxRSD
+	 4SXcR3WMFIEKiwIVzicCD+5hbAWed3aH714+ZnxXDrYWAQyffIiHM0ov8UTS4cOK4h
+	 Igj8Sz05m9TxhEc4xXTeT9eSCoizIQgefyAhiRk29B29e6Vq+idvUDtPjhhBsfq3yq
+	 GtbXByeeZR47g==
+Message-ID: <a2810e51-1c59-46be-aa3a-411149001c70@kernel.org>
+Date: Fri, 12 Dec 2025 04:16:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2342; i=kees@kernel.org; h=from:subject:message-id; bh=MRVJ17cxjJ/1xqcJyZvQADUaV2QTkzL7dFTtiTT0rNc=; b=owGbwMvMwCVmps19z/KJym7G02pJDJnWrUFCTv6BhY++G7huc+eQ7k9LclwQdndNmNcE93e+f z6EWy3vKGVhEONikBVTZAmyc49z8XjbHu4+VxFmDisTyBAGLk4BmEhlIsM/vcN7z/b2cfenPjxh kV52J3bO+a8/085XTMl6Ljj7mmjic4Y/vDK1J9cHvJ8vVfa9IGgLo/7vgK9aOj8ucPh/fZbq/fw wDwA=
-X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/4] dt-bindings: media: mediatek-jpeg-decoder: add MT8189
+ compatible string
+To: Jianhua Lin <jianhua.lin@mediatek.com>, mchehab@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com, sirius.wang@mediatek.com,
+ vince-wl.liu@mediatek.com, jh.hsu@mediatek.com
+References: <20251212015218.4689-1-jianhua.lin@mediatek.com>
+ <20251212015218.4689-3-jianhua.lin@mediatek.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
+ QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
+ +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
+ ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
+ 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
+ hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
+ tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
+ 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
+ naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
+ hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
+ whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
+ qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
+ RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
+ Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
+ H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
+ dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
+ AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
+ jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
+ zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
+ XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
+In-Reply-To: <20251212015218.4689-3-jianhua.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Clang with CONFIG_UBSAN_SHIFT=y noticed a condition where a signed type
-(literal "1" is an "int") could end up being shifted beyond 32 bits,
-so instrumentation was added (and due to the double is_tw286x() call
-seen via inlining), Clang decides the second one must now be undefined
-behavior and elides the rest of the function[1]. This is a known problem
-with Clang (that is still being worked on), but we can avoid the entire
-problem by actually checking the existing max chip ID, and now there is
-no runtime instrumentation added at all since everything is known to be
-within bounds.
+On 12/12/2025 02:52, Jianhua Lin wrote:
+> Compared to the previous generation IC, the MT8189 uses 34-bit
+> iova address-space. Therefore, add "mediatek,mt8189-jpgdec"
+> compatible to the binding document.
+> 
+> Signed-off-by: Jianhua Lin <jianhua.lin@mediatek.com>
+> ---
+>  .../bindings/media/mediatek-jpeg-decoder.yaml | 46 +++++++++++++++++--
+>  1 file changed, 41 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.yaml
+> index a4aacd3eb189..935a908465c8 100644
+> --- a/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.yaml
+> +++ b/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.yaml
+> @@ -19,11 +19,15 @@ properties:
+>            - enum:
+>                - mediatek,mt8173-jpgdec
+>                - mediatek,mt2701-jpgdec
+> +              - mediatek,mt8189-jpgdec
+>        - items:
+>            - enum:
+>                - mediatek,mt7623-jpgdec
+> -              - mediatek,mt8188-jpgdec
 
-Additionally use an unsigned value for the shift to remove the
-instrumentation even without the explicit bounds checking.
+That's ABI beak completely unexplained in the commit msg.
 
-Link: https://github.com/ClangBuiltLinux/linux/issues/2144 [1]
-Suggested-by: Nathan Chancellor <nathan@kernel.org>
-Signed-off-by: Kees Cook <kees@kernel.org>
----
-Cc: Bluecherry Maintainers <maintainers@bluecherrydvr.com>
-Cc: Andrey Utkin <andrey_utkin@fastmail.com>
-Cc: Ismael Luceno <ismael@iodev.co.uk>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: <linux-media@vger.kernel.org>
----
- drivers/media/pci/solo6x10/solo6x10-tw28.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+No, please read carefully writing bindings doc before posting next DT patch.
 
-diff --git a/drivers/media/pci/solo6x10/solo6x10-tw28.c b/drivers/media/pci/solo6x10/solo6x10-tw28.c
-index 1b7c22a9bc94..da7b45dea5bc 100644
---- a/drivers/media/pci/solo6x10/solo6x10-tw28.c
-+++ b/drivers/media/pci/solo6x10/solo6x10-tw28.c
-@@ -166,7 +166,7 @@ static const u8 tbl_tw2865_pal_template[] = {
- 	0x64, 0x51, 0x40, 0xaf, 0xFF, 0xF0, 0x00, 0xC0,
- };
- 
--#define is_tw286x(__solo, __id) (!(__solo->tw2815 & (1 << __id)))
-+#define is_tw286x(__solo, __id) (!(__solo->tw2815 & (1U << __id)))
- 
- static u8 tw_readbyte(struct solo_dev *solo_dev, int chip_id, u8 tw6x_off,
- 		      u8 tw_off)
-@@ -686,6 +686,9 @@ int tw28_set_ctrl_val(struct solo_dev *solo_dev, u32 ctrl, u8 ch,
- 	chip_num = ch / 4;
- 	ch %= 4;
- 
-+	if (chip_num >= TW_NUM_CHIP)
-+		return -EINVAL;
-+
- 	if (val > 255 || val < 0)
- 		return -ERANGE;
- 
-@@ -758,6 +761,9 @@ int tw28_get_ctrl_val(struct solo_dev *solo_dev, u32 ctrl, u8 ch,
- 	chip_num = ch / 4;
- 	ch %= 4;
- 
-+	if (chip_num >= TW_NUM_CHIP)
-+		return -EINVAL;
-+
- 	switch (ctrl) {
- 	case V4L2_CID_SHARPNESS:
- 		/* Only 286x has sharpness */
--- 
-2.34.1
+I am not reviewing the rest.
 
+Best regards,
+Krzysztof
 
