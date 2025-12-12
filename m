@@ -1,130 +1,135 @@
-Return-Path: <linux-media+bounces-48723-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48724-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A269CB9A58
-	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 20:38:02 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B199CCB9BB7
+	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 21:11:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 3253B300B8F5
-	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 19:38:01 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C3D033090401
+	for <lists+linux-media@lfdr.de>; Fri, 12 Dec 2025 20:11:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 280A530BBAC;
-	Fri, 12 Dec 2025 19:37:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E7C0245019;
+	Fri, 12 Dec 2025 20:10:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="c5m+1blG"
+	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="kMcM4LWP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAE9828151C
-	for <linux-media@vger.kernel.org>; Fri, 12 Dec 2025 19:37:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC7E2D6E4A
+	for <linux-media@vger.kernel.org>; Fri, 12 Dec 2025 20:10:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765568278; cv=none; b=VIZDWZz7D/5cuOdakkBdgKiPv3wxU6Te7GuLYADchA6l+Zriaizssduu0TcD8mT0uQp0FvpvYuYCI1o0RbnHv957TibBMZyTVL4T+l3F0hV7/DH3zaJILe6MQjNwv2ppdnuoUccS6dAkflgHmFKHv9pKKqwDSh9YANqh6F0JMrQ=
+	t=1765570258; cv=none; b=OiL0vyqZbXKz2yVbQB1fDAzwZr+LbeLScYRD/XY7If+EgpMZ293Mp791KyqydwEGEb0AYoym2oRKxLDObYOapqIwRCgBxid8iaU16AGEfhf5LLN6c8OGw602VQMOwcSdLG2r+Sh38g+rAkwCw2Y/c39IsR5fev/AtTE8h2/dQIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765568278; c=relaxed/simple;
-	bh=VwPoKas3ILAATq/SFSU9txmC5xK1gqUaBfTmIdhRerY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=iGeYa/vZibFIL9b5Fjyd5RrzXqiKM5Ux/tYpHPs8F1pSgYm06oEUsXfnbm0QY//lIXTPa99c/F1I2REZsD5RqK3IXMgdyUfFL0NPxjXYujycxsg+DY4A+Gsums90g1jMKwIoWlTEjmnmci+8jpUj0S29SohKWPnIcX5WovHAvM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=c5m+1blG; arc=none smtp.client-ip=209.85.216.45
+	s=arc-20240116; t=1765570258; c=relaxed/simple;
+	bh=4gfCtO9+aoCvqYEay1XZJUUI1s50LzgL381O6T7z7FE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RfW6hGVCImRjQE1D7f/HTaIhGJuvhVocIdSjnq5/mP6zMtf4erXfjIE+yNea6noOjotOPINvebTzjqD2fjZRLyajMnROOq53rmt0WKLoTiVqxkgm/J1R4CoGcnztHdDqgL3SRWPb/Gv1+5HckGiY7GTSfQALJOpn6Amih+UwLiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=kMcM4LWP; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-343ea89896eso1593195a91.2
-        for <linux-media@vger.kernel.org>; Fri, 12 Dec 2025 11:37:56 -0800 (PST)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-29845b06dd2so19484165ad.2
+        for <linux-media@vger.kernel.org>; Fri, 12 Dec 2025 12:10:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1765568276; x=1766173076; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=StTVbGf1mPsXgZZ3d28QJjsQQzKmymRGuXpSNQalBC0=;
-        b=c5m+1blG6ge3DTAI7nAHPhHVgc+BMSIozQa31FSf7ThS3uIGzs6iGbu5PHP5lZK4mk
-         /W08Ke2mOJQH4C40BdtfgEliG2aCkSUIchXVjP4aGDgkbo0NGKKk4v/sT/pqKhRGdy5o
-         LuZC4srxaPdLlCTyoaenvnA84F1454vR+yjfwWRRy3YKL10qgQesEYH9Rnv6iqwsVcxc
-         I5OR++zJ5pQK/GATzEEFb7QZSCaV9k210EYF57fpDIjshNzaQd1INI+hKc5YULhSkk8s
-         xRrNg//TV/wQ54QZ3F2hmQGV1pIb1fLNpoxJaPgjkMFuahd/64ye/4BaIkJPat3bdR6V
-         Onbw==
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1765570255; x=1766175055; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gsVed5WgXtZPXSfJ2PXjLRbNCmFwRAyF31OH8siBSJw=;
+        b=kMcM4LWPOOW5aofuFjI2DOpQEcNRY9pNxIjsXTaODIbDPKMC5FNcR7RvUO9eXo7mUq
+         6BsGnJ80Xlb32jsfGAp+kCt1gImNMKb/QKdXHMJzk3bvdv8jJhbJphheaDpf4gyuL5OG
+         HydGJQiIETyM9h3gNatOuE/XUa43fmZn6KP8wz9r5te3Ta0LYeDWaXyvX2hZGRTaXuXg
+         /iNRw/JmobBVs/4eJJRU3EsIFK6gjThqYZOWcBvyjw/thYYPRJAIm93s1R1dBxjNosQg
+         yLY2UQskQxlKMiLFwHf+C19An1ecALJSPCTKVzeWTZrQ5wRsmfgnj+Hjun9X4HRLWPjc
+         cWWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765568276; x=1766173076;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=StTVbGf1mPsXgZZ3d28QJjsQQzKmymRGuXpSNQalBC0=;
-        b=s1qJ5GEUqB8cSPEBkeygvklXYfT1iJFWRhK+7lalX0kFd+BPJ+Ag+le+RrLTu+od9G
-         csQXH4UEfCMtT7UfsUSfrNnHOj42ly59UrQeaXudZKN4LpR7a9zp7V7jElCmdYYM4fX7
-         6DQOLsSUrbacs0eq1ZcsMnxGvJF5C3q7I1aCaLWT5QD8Zhsw6iCrtoVY13P1RjTzuv3m
-         fJeqXkThx78qigiTz4H9KRh8rA4Wsgf1+iZoELmpl3MJ9u+dNMs0L+uF8ZV2eIPxl0YS
-         aVMQXSROInuY1yTkRIW0eX20IJzvOi3lAeW1z0h2iTJOKs2GzOTpwYNlJYq3dalmnzQM
-         j6mQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWfuRKH4LUSA1TqKMnJUSPNn5M0sWc+pxjluOISqPyQxtBhupkPSjgrT/qWM3PRP7FEndBji1WzYvcKzw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxf3Dg/IjR+txusvzjcFl/eoFBBqNK384/0G6/Piam/utls8Iwh
-	NbPRzuSxdc9eNwHzGrcFo930XbaQwsLUWN61sroCQWaolRXXVhBgavnLgKar7UTONPA=
-X-Gm-Gg: AY/fxX5Dzo7kpI0ZMAgI1aNPfnD1sZpFqvSRNFwcevt93omkYYTmWQlIz7pdaDFR0pf
-	IC7dG1+OAIqhmCV6ymQ3k6qLF1W14RDJ2ECZuULlz6Ej0PgqxX5C1burlSwffwW5sq0WrNax+G5
-	ipisFij4Hx/pQ594yzW+9tenjOsruLDoj2sOdtSOvHnNlhT8id4wIg9lFBsKk5+pRG0HEXlxjPA
-	YKk0F0wDcp6aIDYdmoXmGb25aOy4u0WxLcpsW+dNJgEG955VjB0qXHSX+LQfMqk8NZ9FOEpk2e8
-	OMewtCyX4mspufBNcBY2ig8InKpxFnjFsChKIoWK/NwohgWzmdrl7sL9bO+IRkUDyQXlofefQ++
-	BctT0ymTOXCP1uw2MrGJjhXFR8vOqSee5uXx7rtKcSihKNLT1L8LZOLXtOqLewfiwWj1DibQUFH
-	/5COWySTkfU+H8PTLZpkW0yS9+rl3cOZ46+xFQJaw0wnOfq5CsEaBL+IQS
-X-Google-Smtp-Source: AGHT+IGRg2Nd8ny+lEY1UTB7dhC5oApF/NmRzRo0kswvAor/xhBJns1Qxh+lICHO2/Y0nRHD/a4u7Q==
-X-Received: by 2002:a05:7022:e1c:b0:11e:354:32cb with SMTP id a92af1059eb24-11f34c39abemr3023356c88.49.1765568275584;
-        Fri, 12 Dec 2025 11:37:55 -0800 (PST)
-Received: from [127.0.0.1] (221x255x142x61.ap221.ftth.ucom.ne.jp. [221.255.142.61])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11f2e2b4867sm20294552c88.6.2025.12.12.11.37.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Dec 2025 11:37:54 -0800 (PST)
-From: Jens Axboe <axboe@kernel.dk>
-To: linux-block@vger.kernel.org, io-uring@vger.kernel.org, 
- Pavel Begunkov <asml.silence@gmail.com>
-Cc: Vishal Verma <vishal1.verma@intel.com>, tushar.gohad@intel.com, 
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
- Sagi Grimberg <sagi@grimberg.me>, Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, 
- linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-In-Reply-To: <cover.1763725387.git.asml.silence@gmail.com>
-References: <cover.1763725387.git.asml.silence@gmail.com>
-Subject: Re: (subset) [RFC v2 00/11] Add dmabuf read/write via io_uring
-Message-Id: <176556827123.851918.9976241171726294701.b4-ty@kernel.dk>
-Date: Fri, 12 Dec 2025 12:37:51 -0700
+        d=1e100.net; s=20230601; t=1765570255; x=1766175055;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gsVed5WgXtZPXSfJ2PXjLRbNCmFwRAyF31OH8siBSJw=;
+        b=dReHmZJYcZD7wWo0/vedK6znQ9K+kHnN1ZsjIC1fo0qj3br3DAmvHsiF/qo+OysukT
+         MyHBxM1Gy2eTIioaePmws6HIp8oZ3NwDaaBCal0BkoSJjbWhkVfDJoh5MCO0MltGK0oy
+         jpe7Z2d8z3HN89Q/5amg270T9BpgSdy99JFTA/DZ3jA4+exEDSGsF2ya3U5rU3pFAoJg
+         W478vTjTx9eNKqK7AymKmEfAyHfS53rAf7yWZtJnhhdAIGgCy7dBqGaF7j6X4VdrJpTs
+         EjSsxEwoZqFpeZoTxKZyh/ryf4GH2Nfsa7+YhzhL7xlMBac8mRscEkLlZ+iBmWG4YED6
+         ij9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUPgSaYwoAvANl7+F/KSn7ShmLf0MAJ9DNrndgCO+GqJviUuKjHDkEeog06jIX6n6aaSrIynkAFmNrt4w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhsLGqV0uUkKqx0/Jc8UKwV7+FBSSgBUiU81UxDrfkoK6N51v4
+	CFF5XrQqXNqp/EkA98uzFmL5pXjzUb7Hp/oJGKdFljaZQjg7g2vhvOrdtATTqPwg0QE=
+X-Gm-Gg: AY/fxX7d661m0rrPGJTQvwlFWT8GSvv2uF4nbEsx0j8YQPqeBVJBBYyyHyRQmIIcG08
+	kQQ7kt0F7XjxOuQ/54oIHWBY/OIwNGrmujZmHMpGeXWia5SEHuJNMXyekJ87xzItu75wYMosr9f
+	l6B0VCqvpUE7pxgKkD6nV5JBxrIZfGQQrrZIas6IP3xHsnI9g3WdEuznLArgyG1W84uisD0gBld
+	mQ0MNGbWYWlLmqgykcUMtL4aQhblt2miwC0Gw18dDfQfkSquEuQ0HHC0FBcOfCRBq4qtUVQ1w80
+	jHNFodbTuXApMBg/Qck3PoZFl7On8/sTHJY/WE6FcOrTJrI2lfIrQkP449WuFu58IK2TEXJgPHA
+	0dOevLHcJDYUpZHpWJXKvr0tDF4kx2S7/tDSFdej/WaAsRoknlthP5wFFXUj2ObqxmUrZHTTg2q
+	eIDYHxMbndxPH1FLdFVBxPcn9c0hLuLl118o0Xgc+/O0n5vWbwgg==
+X-Google-Smtp-Source: AGHT+IH4YKlBbDeLqTy95z05gm75S6dqOblA2F2FrB859WtV1ZEekn7/gpBPyoL8TMFo+3JpfAzaQQ==
+X-Received: by 2002:a17:902:f688:b0:29f:29a8:608b with SMTP id d9443c01a7336-29f29a861cemr19807075ad.13.1765570255065;
+        Fri, 12 Dec 2025 12:10:55 -0800 (PST)
+Received: from [172.20.4.188] (221x255x142x61.ap221.ftth.ucom.ne.jp. [221.255.142.61])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29ee9d38c7fsm62825655ad.39.2025.12.12.12.10.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 Dec 2025 12:10:54 -0800 (PST)
+Message-ID: <2729b31b-ba58-4f32-b71a-75bd07524ac8@kernel.dk>
+Date: Fri, 12 Dec 2025 13:10:50 -0700
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC v2 03/11] block: move around bio flagging helpers
+To: Pavel Begunkov <asml.silence@gmail.com>,
+ Christoph Hellwig <hch@infradead.org>
+Cc: linux-block@vger.kernel.org, io-uring@vger.kernel.org,
+ tushar.gohad@intel.com, Keith Busch <kbusch@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <cover.1763725387.git.asml.silence@gmail.com>
+ <6cb3193d3249ab5ca54e8aecbfc24086db09b753.1763725387.git.asml.silence@gmail.com>
+ <aTFl290ou0_RIT6-@infradead.org>
+ <4ed581b6-af0f-49e6-8782-63f85e02503c@gmail.com>
+From: Jens Axboe <axboe@kernel.dk>
+Content-Language: en-US
+In-Reply-To: <4ed581b6-af0f-49e6-8782-63f85e02503c@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3
 
-
-On Sun, 23 Nov 2025 22:51:20 +0000, Pavel Begunkov wrote:
-> Picking up the work on supporting dmabuf in the read/write path. There
-> are two main changes. First, it doesn't pass a dma addresss directly by
-> rather wraps it into an opaque structure, which is extended and
-> understood by the target driver.
+On 12/11/25 6:08 PM, Pavel Begunkov wrote:
+> On 12/4/25 10:43, Christoph Hellwig wrote:
+>> On Sun, Nov 23, 2025 at 10:51:23PM +0000, Pavel Begunkov wrote:
+>>> We'll need bio_flagged() earlier in bio.h in the next patch, move it
+>>> together with all related helpers, and mark the bio_flagged()'s bio
+>>> argument as const.
+>>>
+>>> Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
+>>
+>> Looks good:
+>>
+>> Reviewed-by: Christoph Hellwig <hch@lst.de>
+>>
+>> Maybe ask Jens to queue it up ASAP to get it out of the way?
 > 
-> The second big change is support for dynamic attachments, which added a
-> good part of complexity (see Patch 5). I kept the main machinery in nvme
-> at first, but move_notify can ask to kill the dma mapping asynchronously,
-> and any new IO would need to wait during submission, thus it was moved
-> to blk-mq. That also introduced an extra callback layer b/w driver and
-> blk-mq.
-> 
-> [...]
+> I was away, so a bit late for that. I definitely wouldn't
+> mind if Jens pulls it in, but for a separate patch I'd need
+> to justify it, and I don't think it brings anything
+> meaningful in itself.
 
-Applied, thanks!
+I like getting prep stuff like that out of the way, and honestly the
+patch makes sense on its own anyway as it's always nicer to have related
+code closer together.
 
-[03/11] block: move around bio flagging helpers
-        commit: d9f514d3e6ee48c34d70d637479b4c9384832d4f
-
-Best regards,
 -- 
 Jens Axboe
-
-
-
 
