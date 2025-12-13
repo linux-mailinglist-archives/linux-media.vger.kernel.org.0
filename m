@@ -1,130 +1,190 @@
-Return-Path: <linux-media+bounces-48732-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48733-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78708CBA5C7
-	for <lists+linux-media@lfdr.de>; Sat, 13 Dec 2025 07:00:13 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4172FCBA6A1
+	for <lists+linux-media@lfdr.de>; Sat, 13 Dec 2025 08:28:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B62D530B5FC7
-	for <lists+linux-media@lfdr.de>; Sat, 13 Dec 2025 06:00:05 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 64D6D301A9B1
+	for <lists+linux-media@lfdr.de>; Sat, 13 Dec 2025 07:28:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 693D726B0B7;
-	Sat, 13 Dec 2025 06:00:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F219427FB03;
+	Sat, 13 Dec 2025 07:28:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lJH5yfhr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GuwYDZsp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 706C1264F9C
-	for <linux-media@vger.kernel.org>; Sat, 13 Dec 2025 06:00:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3351A3C38;
+	Sat, 13 Dec 2025 07:28:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765605603; cv=none; b=bCi7IOE0YDtMpKxk2Ph9SgmYh+ziayMJOb02584jiPzWi0i1URUpmUg+G9XhrqOFgZ1qb5iDCmi92UMgEo4xX1UH58n/mCfNFawsTsjm2VTSFDfzMtHl8ljaz+RtWC7kDMWQTNI140FUOUxjiwBb8WEks+qrEInISN2WTccz5tA=
+	t=1765610923; cv=none; b=kXmb11RP2yR0cWOwglBA9gtrWFMSCOqNY/SJ8EyZ7MU69n2CMxwbj0LkNEFrwj2eENXK4Bv3wyo9bDNcR8hk0vPyMLa6DkxoBtsKfoWx0puohbEGq7HTunLPe9McVbwiy4FjiCSyeC9J0ImSRfnhTyv1C1QcBu2++cRjjUScYmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765605603; c=relaxed/simple;
-	bh=+rwfO26Bv4zxCBRJtW1ytHBz6MhNx4VrLDIQaPsUAv8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=K1ufTvgQuLicvXENEC5RrRX52JraoSa0MIG2t5+WYXJTV6RvVmaMR/wUQ1AyBi+TPQdKtrF2tdhjJ1zLnN6OoZw8+CrjZwOicoXA48n/m0KIjnv5TmeI3L7E9rh0XjSR3WYxW7BMKJu/h3Itk7P4tuzqCte+v55cNxe5TMhRFQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lJH5yfhr; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-349e7fd4536so226232a91.3
-        for <linux-media@vger.kernel.org>; Fri, 12 Dec 2025 22:00:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765605602; x=1766210402; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+rwfO26Bv4zxCBRJtW1ytHBz6MhNx4VrLDIQaPsUAv8=;
-        b=lJH5yfhrV06o8RkDo98s10U+/L3hfOMpImCoJEO3XWwlUCqikER4f0krgiKcDF+PJo
-         lzYlZNYuU1j3yLdBefui+gU/ckJ9bUpfZpyx0bsVORyeYSD7RtDGknjKv2tv196imCf0
-         vNNir9qcXAkQMF5VNWvisphiWtAGQqSR+5rVvT9aqB/G0cwheMyoaomVtVQIwP2+zTYm
-         mvTtDLneTH4EpF4F/gmmkq2eAWoXoKAA2dmucZtrFf/aQhj7B7u1E/vX4cFuHNQkDa38
-         EqIkZfV6qj3Sv2XmC+ipGREDSh52ViLMu4UHyossAaSpsCIcttzVdQdnbvxsfzyxghAQ
-         +IXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765605602; x=1766210402;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+rwfO26Bv4zxCBRJtW1ytHBz6MhNx4VrLDIQaPsUAv8=;
-        b=kU1XjJD55gHGwxgRk4Adrdkyd6LVMSc8N/eHohYKyGds8hY2bOhe/oqNYqidLBoXVf
-         hHsG9q47oaUmIR4CeE4mlCGA+a3lFAUjjd9kvcdN4hMyZX3BJTdnd0lMrkAF2RBTrwPM
-         CkTEmzQ1Xaxbeq9dWWdB+2J+D5eZYytf6K7P+Esp7j3N0ItpMWVSI9pb6Fd11CmntmXn
-         hDbDSJ9RSkgFzaqI1qb0iiWoHHa7x5opK1VXFJt0cjKVUvlm+PsLCsbFPb8wECHlCOHA
-         6oOJLmF6/gQvTzvkJZjN5c8CnDX3k4A4dya3gGguJUtGyhXk6E9jDGQAU8xz9gLOyqMY
-         e3VQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVM3qdqH3SRxmXb1MQ5jn3htarRL9IXHBx0a/2oHUyptwOgSnPo7FPze55Bxws7XX7kb7YfmIf4FzPCgA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6ALcKeWpyQ/uDkPPdQOkqqZSIa73IL5HRVe2gB3lbboVVImHG
-	sLivYeuYxUv4HqUKo8TLg7v0W5p1M5KPZYqUFdIHRTT/Ac00TM3q47xh
-X-Gm-Gg: AY/fxX4oVUUXnS2Oiw6amjp7HmHC4F8/aWWlsOKO5qopLGNT44Ww73bgzvYgCVJCPE3
-	QAEGQGAU9efFH5zHpw4laBMAolp0yt6yFneVYyincmTyk0mrv2Ssb4FgKvoVSyu3lISJQDDWDq0
-	Dj2goAoc1zr2ol4ACZGgrOAmklFjKgXN0edDoaEqm+CP6SpIkCHmaYwJ7sLCGi5DCGaSGxeV9Jt
-	ThJjMF4n5wH4SuhVxXKqO4Otm4ZY0o+iEjPXIau0s759X5t76JyWx8i+5RrsfZww5NoRvFy4ZGO
-	9iRMuBIbtrXtC+xlsvrkDzaa7mWbkx8ZWoB+eVbRytEXYnZ44n+tf2H/zGNhE/IaS23tsluBMtb
-	HsGksohfH6iPn38te5ID7NqAskvsXvIGgOSIhpN4EVQOwjGk66t5Bdllm3gcE0F4D89mpHY+dDW
-	Q6BFQTfokACbb+YSUYttzo5w==
-X-Google-Smtp-Source: AGHT+IGcN/Y+jGJuMAQROSfnsb/2OTBPCk4orf4q1OT3ssFfpsTYdLd+1aqhMRXyMqSoRRC74QwrIA==
-X-Received: by 2002:a17:902:cccb:b0:2a0:879c:ed37 with SMTP id d9443c01a7336-2a0879cf44bmr16150795ad.2.1765605601660;
-        Fri, 12 Dec 2025 22:00:01 -0800 (PST)
-Received: from rock-5b.. ([45.32.55.39])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29eea06b49csm72038125ad.95.2025.12.12.21.59.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Dec 2025 22:00:01 -0800 (PST)
-From: Jianfeng Liu <liujianfeng1994@gmail.com>
-To: nicolas.dufresne@collabora.com
-Cc: detlev.casanova@collabora.com,
-	ezequiel@vanguardiasur.com.ar,
-	heiko@sntech.de,
-	hverkuil@kernel.org,
-	jonas@kwiboo.se,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	liujianfeng1994@gmail.com,
-	mchehab@kernel.org
-Subject: Re: [PATCH] media: rkvdec: set ctx->image_fmt in rkvdec_s_capture_fmt
-Date: Sat, 13 Dec 2025 13:59:42 +0800
-Message-ID: <20251213055942.3046647-1-liujianfeng1994@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <8f24c8204984a46bad7d0bb24b78c8115906f748.camel@collabora.com>
-References: <8f24c8204984a46bad7d0bb24b78c8115906f748.camel@collabora.com>
+	s=arc-20240116; t=1765610923; c=relaxed/simple;
+	bh=I8KHB05J4hzU7RAcGfM4K+COzPxnPfyndjSsOY4V+h8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IimK+2xakRLlAj+bO4wFdAzYVPDfJvNDuiHS+1eVmQzCFxYsV2liVcIrGs1GlYMUOURYe4MEJhX5oWu1Lg2gaEzaD7b3qcFiOH3tpQhHqPFjsHEZ6LOh7r/ojx0imKiCg+kWaFuqGMQQwUJv1WoiCxWbV08UXq8U0/KHGySB6v8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GuwYDZsp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCC7CC116B1;
+	Sat, 13 Dec 2025 07:28:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765610922;
+	bh=I8KHB05J4hzU7RAcGfM4K+COzPxnPfyndjSsOY4V+h8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=GuwYDZspCrlYpM3yidUiAHpYR37T1Q4VnneG1ihkjSwHfoZCcVywhoxvYuSZxWN5D
+	 Z9OqOMjbPCmMPeA+HZln6BeweyVD+Z6hg6CYHPTY2F8ktiPFPwqd7EUpvJtBNp2Z7J
+	 12W9+OAtXmUrabNWkNAh4xCK4M3z/N8saObqde0ZqZJi9lQk6nMuQV2sKRPkXH5RL+
+	 bDXSWd1ekWMCLmmTA+/lANrI+O67Zkbd9rboRmzRU07ULyEBCQC+g16n62r6/C2NVd
+	 LjCCAAmBlmBzwLn7bnH8qpxR1rth9wlsEvgb/Ya1pTXpR2WBu9YiIGDIUUYBc/Q3Ba
+	 eu+3LAX6Sqmtg==
+Message-ID: <37ef8a9e-0ebc-4d31-99e1-3f0512d73412@kernel.org>
+Date: Sat, 13 Dec 2025 07:28:32 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: dt-bindings: Correct camss VDDA PLL supply
+ description
+To: david@ixit.cz, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Vikram Sharma <quic_vikramsa@quicinc.com>,
+ Kapatrala Syed <akapatra@quicinc.com>,
+ Hariram Purushothaman <hariramp@quicinc.com>,
+ Richard Acayan <mailingradian@gmail.com>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ phone-devel@vger.kernel.org
+References: <-p_V50_c9ufrDqGMvZ5pwIXywQxh2C6Rjo4IEUlVAeFJouqq3zlWRt-VsIRsCmGwuvslk9MU3XxtxyTZrXuSSg==@protonmail.internalid>
+ <20251212-docs-camss-fixes-v1-1-5c011505ff59@ixit.cz>
+Content-Language: en-US
+From: Bryan O'Donoghue <bod@kernel.org>
+In-Reply-To: <20251212-docs-camss-fixes-v1-1-5c011505ff59@ixit.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On 12/12/2025 22:55, David Heidelberg via B4 Relay wrote:
+> From: David Heidelberg <david@ixit.cz>
+> 
+> Usually, the supply is around 1.2 V, not 1.8 V. Rather remove mention of
+> voltage from the description.
+> 
+> Fixes: 849139d46d09 ("media: dt-bindings: media: camss: Fixup vdda regulator descriptions sdm845")
+> Signed-off-by: David Heidelberg <david@ixit.cz>
+> ---
+> Added only Fixes tag for the initial commit, not all the copy-paste
+> propagated ones.
+> ---
+>   Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml  | 2 +-
+>   Documentation/devicetree/bindings/media/qcom,sc7280-camss.yaml   | 2 +-
+>   Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml | 2 +-
+>   Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml   | 2 +-
+>   Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml   | 2 +-
+>   Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml   | 2 +-
+>   6 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml
+> index 019caa2b09c32..9009cfe993d75 100644
+> --- a/Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml
+> +++ b/Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml
+> @@ -130,7 +130,7 @@ properties:
+> 
+>     vdda-pll-supply:
+>       description:
+> -      Phandle to 1.8V regulator supply to PHY refclk pll block.
+> +      Phandle to regulator supply to PHY refclk pll block.
+> 
+>     ports:
+>       $ref: /schemas/graph.yaml#/properties/ports
+> diff --git a/Documentation/devicetree/bindings/media/qcom,sc7280-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sc7280-camss.yaml
+> index ee35e3bc97ffd..cb922f90fe900 100644
+> --- a/Documentation/devicetree/bindings/media/qcom,sc7280-camss.yaml
+> +++ b/Documentation/devicetree/bindings/media/qcom,sc7280-camss.yaml
+> @@ -129,7 +129,7 @@ properties:
+> 
+>     vdda-pll-supply:
+>       description:
+> -      Phandle to 1.8V regulator supply to PHY refclk pll block.
+> +      Phandle to regulator supply to PHY refclk pll block.
+> 
+>     ports:
+>       $ref: /schemas/graph.yaml#/properties/ports
+> diff --git a/Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml
+> index c99fe4106eee9..2231d7216f62a 100644
+> --- a/Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml
+> +++ b/Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml
+> @@ -268,7 +268,7 @@ properties:
+> 
+>     vdda-pll-supply:
+>       description:
+> -      Phandle to 1.8V regulator supply to PHY refclk pll block.
+> +      Phandle to regulator supply to PHY refclk pll block.
+> 
+>   required:
+>     - clock-names
+> diff --git a/Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml
+> index 35c40fe223767..8e6ca94c88695 100644
+> --- a/Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml
+> +++ b/Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml
+> @@ -95,7 +95,7 @@ properties:
+> 
+>     vdda-pll-supply:
+>       description:
+> -      Phandle to 1.8V regulator supply to PHY refclk pll block.
+> +      Phandle to regulator supply to PHY refclk pll block.
+> 
+>     ports:
+>       $ref: /schemas/graph.yaml#/properties/ports
+> diff --git a/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
+> index 82bf4689d3300..d50e096b900db 100644
+> --- a/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
+> +++ b/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
+> @@ -211,7 +211,7 @@ properties:
+> 
+>     vdda-pll-supply:
+>       description:
+> -      Phandle to 1.8V regulator supply to PHY refclk pll block.
+> +      Phandle to regulator supply to PHY refclk pll block.
+> 
+>   required:
+>     - clock-names
+> diff --git a/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
+> index ebf68ff4ab961..ccd2d024bfd10 100644
+> --- a/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
+> +++ b/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
+> @@ -300,7 +300,7 @@ properties:
+> 
+>     vdda-pll-supply:
+>       description:
+> -      Phandle to 1.8V regulator supply to PHY refclk pll block.
+> +      Phandle to regulator supply to PHY refclk pll block.
+> 
+>   required:
+>     - clock-names
+> 
+> ---
+> base-commit: d9771d0dbe18dd643760431870a6abf9b0866bb0
+> change-id: 20251212-docs-camss-fixes-0fa525271951
+> 
+> Best regards,
+> --
+> David Heidelberg <david@ixit.cz>
+> 
+> 
+> 
 
-On Fri, 12 Dec 2025 12:53:53 -0500, Nicolas Dufresne wrote:
->I'm reading you here, and reading the spec again [0], and you are saying the
->Chromium isn't following the initialization process. That means, it should be
->impossible to allocate 10bit capture buffer, since the SPS in place specify the
->color depth. Other parameters in other codec can influence the reference buffer
->size, so you could endup with the wrong allocation.
+I think this is copy/paste legacy error.
 
-Chromium does follow the spec when decoding 10bit videos[1], but that is
-still limited to hevc and vp9. For h264 and 8bit video chromium thinks
-this is unnecessary.
+The voltage level should be more usefully encoded in the name anyway.
 
->You cannot accept a format that falls against the color depth in the SPS
->control, and rkvdec does not do color conversion implicitly. This can otherwise
->lead to letting the HW overrun the buffer (forcing 8bit with 10bit content). Can
->you check with Chromium dev if they can perhaps adhere to the spec instead ?
->This is all news to me, but I probably never had to test 10bit playback in
->Chromium outside of MTK (which might not be less strict, hopefully done the
->right way).
-
-I will try to fix chromium to follow the spec. Since rkvdec driver is the
-only driver related, I didn't check the stateless spec.
-
-[1]https://github.com/chromium/chromium/blob/145.0.7577.2/media/gpu/v4l2/v4l2_video_decoder.cc#L648-L650
-
-Best regards,
-Jianfeng
+---
+bod
 
