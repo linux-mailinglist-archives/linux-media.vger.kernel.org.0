@@ -1,137 +1,121 @@
-Return-Path: <linux-media+bounces-48735-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48736-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD30CCBA856
-	for <lists+linux-media@lfdr.de>; Sat, 13 Dec 2025 12:02:04 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C7FDCBB07A
+	for <lists+linux-media@lfdr.de>; Sat, 13 Dec 2025 15:27:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 10D2530D1FE2
-	for <lists+linux-media@lfdr.de>; Sat, 13 Dec 2025 11:01:55 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 16E713075660
+	for <lists+linux-media@lfdr.de>; Sat, 13 Dec 2025 14:27:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2891F301038;
-	Sat, 13 Dec 2025 11:01:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4243930AACD;
+	Sat, 13 Dec 2025 14:27:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="Ni/a3Mpq"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="k9GIAFCL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from ixit.cz (ip-94-112-25-9.bb.vodafone.cz [94.112.25.9])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9B5021D3CC;
-	Sat, 13 Dec 2025 11:01:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.112.25.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF8519E82A;
+	Sat, 13 Dec 2025 14:27:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765623713; cv=none; b=dr4ZrZzEVgVorx8x5qtH167Why97BPvNzAWOF0QNGxhW0U7kg+Q22Xg72HGFueIU5D9lu/sSbKeOAlfF0UwqNmf56Pj1OnLJlA8JdAM8gae+alAuDkiWVBLxR7/g/jtjGV2aI8dl0CXVLjOnLHb030ASjfk8Q0nGajLqsc4CTY0=
+	t=1765636047; cv=none; b=Xn94z/0k+sOisI31GTmrnlgfQrgHUD1UAaqV0j6FLOqWBhpPjMrCD1s734VQ+MlteGSPxWBre4E8Ss0mmtSASBLb3L3G7DegxxDdISk2H5QxHNq+5qNmUEqPP+mtoeWTIb+BbKmjo1SpsQzWRjyG+ofJHkN3HEUi9ErufGtMb1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765623713; c=relaxed/simple;
-	bh=LHuax+9UV7AYi9SwyqUv11/ssW3n/7zu5oAQRs8lVo0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pCBqFf6hadhiJJ8JCIZkeBBYX1vkdl0igUeTXkQ50O8wzKJaYoO/DbfXcFdSCTULlhfzhz2nnR3PMBkxEcCA1j1jazEBaK0X5rBgL2GaAb5pTG+yyJZ9Hu13d/ibw6SJBW66h59sRT5cxYbv8YocxIXC5rLS8EQW2Adi8mIvqAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=Ni/a3Mpq; arc=none smtp.client-ip=94.112.25.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
-Received: from [10.0.0.200] (unknown [10.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	s=arc-20240116; t=1765636047; c=relaxed/simple;
+	bh=mpVof7Odug9SAbcKmOJ7g5O7rAAVK/6mGp9tsqPmEDs=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=qkGO6kw/MuTOD0HOM1aOo48S6bthxELpRKW29/f0mvWONa6Ks5skZDe0WiQ32BMzCpY0S+r8veg0+x13+rFt9RDA4Hqo35042VOHrFj2esbxeJfSeDQQ2ZeEubz74Shj8FZH7cyriFoJVOKfKW/WGZHLSmkrhv7uKsFn7U7DDG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=k9GIAFCL; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1765636043;
+	bh=mpVof7Odug9SAbcKmOJ7g5O7rAAVK/6mGp9tsqPmEDs=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=k9GIAFCLi6SOWBkvA5dekLeBmr/k3lpvQaumsL9oXYph17moLnM/X4nzmNBiBJExI
+	 K/fJuS90+GpTnal7bjf3dDOmkWx6v1c8+1VSjAtk6M3v1gETVBWKI2ccv1OQc1cyHM
+	 xa4jQGsWIdbTQ3N5RvAQ0wnHGgHq++gkMn8RMznsvh1z4lbW5OKZ2d0N6bHa2Ke6VF
+	 RCuHnScsqWER7sIfhZmP9K58XOB6BQjFxv7HGPDpXKTJOtQMQgKRbPG9VaR0eT5OI1
+	 8kXo0HPrTfnmzd8MMntrtWIuIHxoXNoNmmXq5chgjzdYoc7vCLNR+D17fJj2cWXMas
+	 b3bRb+c4gKe8g==
+Received: from [IPv6:2606:6d00:17:7b4b::5ac] (unknown [IPv6:2606:6d00:17:7b4b::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 1A94E5340EBE;
-	Sat, 13 Dec 2025 12:01:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1765623705;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=eWrsVo/60025czWfNNOajTcsxwgSJF8DRN7yclYl+6w=;
-	b=Ni/a3MpqTM6LEBxJaCmzC5Xl4GnJewfhPTImW1EU83hC9RbNj6okL5VJ6qsifGPAg+7Qke
-	2BGog+WDDwTGqGYUf/IFEF7nLjDrDmM8ukpt0SKFOkEuvQkhxLEiR48WythbyRySNG0o/w
-	TpgLw8QBlNdgCAf3TkLUhsqZ9I3mt+0=
-Message-ID: <e43ff45b-3539-451a-b832-f4f4da9da87c@ixit.cz>
-Date: Sat, 13 Dec 2025 12:01:44 +0100
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id A199617E110D;
+	Sat, 13 Dec 2025 15:27:22 +0100 (CET)
+Message-ID: <6810b2c54369a7941d4f01d1013a641412743b62.camel@collabora.com>
+Subject: Re: [PATCH] media: rkvdec: set ctx->image_fmt in
+ rkvdec_s_capture_fmt
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Jianfeng Liu <liujianfeng1994@gmail.com>
+Cc: detlev.casanova@collabora.com, ezequiel@vanguardiasur.com.ar, 
+	heiko@sntech.de, hverkuil@kernel.org, jonas@kwiboo.se, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	mchehab@kernel.org
+Date: Sat, 13 Dec 2025 09:27:20 -0500
+In-Reply-To: <20251213055942.3046647-1-liujianfeng1994@gmail.com>
+References: <8f24c8204984a46bad7d0bb24b78c8115906f748.camel@collabora.com>
+	 <20251213055942.3046647-1-liujianfeng1994@gmail.com>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-UIrld9YNkFZl6dp2g3nc"
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/5] arm64: dts: qcom: sdm670: add camera mclk pins
-To: Richard Acayan <mailingradian@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Tianshu Qiu <tian.shu.qiu@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-media@vger.kernel.org
-Cc: Robert Mader <robert.mader@collabora.com>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-References: <20251211014846.16602-1-mailingradian@gmail.com>
- <20251211014846.16602-5-mailingradian@gmail.com>
-Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <20251211014846.16602-5-mailingradian@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+
+
+--=-UIrld9YNkFZl6dp2g3nc
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+Le samedi 13 d=C3=A9cembre 2025 =C3=A0 13:59 +0800, Jianfeng Liu a =C3=A9cr=
+it=C2=A0:
+> Chromium does follow the spec when decoding 10bit videos[1], but that is
+> still limited to hevc and vp9. For h264 and 8bit video chromium thinks
+> this is unnecessary.
+
+thanks for the pointer, that explains a lot my surprise and slight confusio=
+n.
+Now that you mention, on relevant chromebooks, 10bit is only supported with
+HEVC/VP9 (perhaps AV1 too, not sure).
+
+Nicolas
+
+--=-UIrld9YNkFZl6dp2g3nc
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
-On 11/12/2025 02:48, Richard Acayan wrote:
-> The camera subsystem is added for the SoC common devicetree, but the
-> mclk pins should also be common across the SoC. Add the mclk pins for
-> the cameras.
-> 
-> Suggested-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> Link: https://lore.kernel.org/r/5135823c-f2e4-4873-9e3a-9d190cac0113@oss.qualcomm.com
-> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
-> ---
->   arch/arm64/boot/dts/qcom/sdm670.dtsi | 21 +++++++++++++++++++++
->   1 file changed, 21 insertions(+)
-> 
+-----BEGIN PGP SIGNATURE-----
 
-Reviewed-by: David Heidelberg <david@ixit.cz>
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaT13yAAKCRDZQZRRKWBy
+9LN6AP9kt3JQwQSKEoywb4Qg0hb+LD5J49Oz477ei/ms73TjPAEAnpO8MiNpguWf
+xh3DAL1jT5QsvfC8HyM/OGNutc5hKgM=
+=HAJY
+-----END PGP SIGNATURE-----
 
--- 
-David Heidelberg
-
+--=-UIrld9YNkFZl6dp2g3nc--
 
