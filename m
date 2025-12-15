@@ -1,79 +1,79 @@
-Return-Path: <linux-media+bounces-48798-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48801-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCCFBCBD98F
-	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 12:48:51 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D8D7CBDA70
+	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 12:57:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D6F6A300CA12
-	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 11:48:49 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 939D5305A627
+	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 11:49:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0666A33557E;
-	Mon, 15 Dec 2025 11:48:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97C4233710F;
+	Mon, 15 Dec 2025 11:48:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MAd6h6l4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jugKXGms"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 804743314C8
-	for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 11:48:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D50C336ECE
+	for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 11:48:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765799323; cv=none; b=TTrmgeAlHPP6c5fI9ngiFX21W1Jlab3orftkIj01eF3aioyR6UeBwMrsHzAxXNrkAh3vv9dPsnQcyAq8qdbDuxCePaPBf8DE4Ep17UCXOXRjvohJ9Zbhk15Fnrx8RFNghszXtfaJQeE05UHnKQZNowjDZxVKEfHrNTlHTm2QHVY=
+	t=1765799327; cv=none; b=P8HFviHK+CHy5+vL+N3waoHEIUBpXPOT68vQWOmd8JOXRZw/ZKEtdR8JfNUKv3DlbOxLdpPpMSxw/g2/Cw4n3FdxT/NVWNI55rPXu7l4WOwmlAqlTz6gilzW20/RG4ToQcYW4UkOYXHqAEM66DsaVgJaDsABzaaQK+4KoQtqKLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765799323; c=relaxed/simple;
-	bh=kdwYayfiPuGdbX+6/rKZkI1jkonQkDY24KG3T7ZKuZA=;
+	s=arc-20240116; t=1765799327; c=relaxed/simple;
+	bh=j4BXJJMKUhATWUahdKX0lx9i399WYlQDn9Ep3/iweMY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=F0YG8/XaLonhj+snt4wqZaP2V/7snRi0hOtoeEY4OZoCcmILgoaHHb2xm+R8wyEPUyXCfVluj+dWASVNBBOx3kWGVAJxDhkZTTA1whJCMHS7R+jm7SsqYshIA9RGsLZdKMMlUBYKI80ziRLQs+eFoxwg6JQwnWRp8jmjXoyp3fU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MAd6h6l4; arc=none smtp.client-ip=209.85.214.178
+	 MIME-Version; b=o7WZ62QFLfJIaeBGa0uZoxHtJwluy6rP0YH1ss4z24qzXMadOCZo3lgtWudiah46PGVaq9QG6SszOestU86e3iLdn5lT9znIfr6qJVYX2pDn6Pr/bafHy+N/etRSdLbrvmLiq8StOUmWk4kZZd1WmYn8skzlG82hccld2ExJ/5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jugKXGms; arc=none smtp.client-ip=209.85.216.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2a081c163b0so20802485ad.0
-        for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 03:48:40 -0800 (PST)
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-34c2f52585fso2095625a91.1
+        for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 03:48:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765799320; x=1766404120; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1765799325; x=1766404125; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JUAs+7T6aM5YvKJFQXSXqoVkTtSxZtzq470O+YaXF94=;
-        b=MAd6h6l4/YKSc10LnEFfm3OhEEbVLEKRuYqfPLONcXog2pLTf6OojvodUTKSpLiJCk
-         hJm9lRC4I6IyLOPZy4uZz7WzMI9zvRoeGHTOvJdgXYWcY4SZPosskSgjiLKoHz7zUFh6
-         bQhz1MNPYg1GHlpA+j8THPjt1R5oGeKktMBTQHBFR1q+a+mpKcSg902hA92IYeEqpenf
-         KYyg3sXuv6N4qdzs2XOq7uXib2ucnunNa8MyP9z7TODJagWiisdYEhT3inIPSTtsAF6l
-         n3MkoL0gMOOGDYLeqch/50JvIBVgu3YXwwjQUWzGsq6kdI+nrFMWHijpbp8gMrB082St
-         p92g==
+        bh=HPi/WFWmImBnVQgsxNvJvJyvieXM1xBFzKoWis67Gg4=;
+        b=jugKXGms55KjI7dm+Ngj5mkaNRmEES0y5Y4XUHHbi0cafbA7zcE3YYjZANhHpp1mNX
+         udPxqSNE9bs8fKuDobrDGOQLjqo5sy93hhb+2yTKDIgHzvN/UYLLbvE874kCNAROCX8u
+         xK/ZZHstkmWGuuoNqrknGGmGQE0C4oCK7t8tegdv2wy7W8Yf7eV92nwqyet9rcFRZlLx
+         RPV6oFJl3KZB9hOrZRnX7eyF/t43UWIdx4ZwYg7ty4R3z97ccbApd5GjB2a0zLj3yfWE
+         vRs5Vu7vSGjCB954n8oagczLg3R5uNMOc1hF1lN5KqMqFsjQUFzFuxvjGdKOSCaHfXn3
+         ML0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765799320; x=1766404120;
+        d=1e100.net; s=20230601; t=1765799325; x=1766404125;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=JUAs+7T6aM5YvKJFQXSXqoVkTtSxZtzq470O+YaXF94=;
-        b=eP5NTm9w4RyNmakm1fLpo4zRFdet35OfsscH1mwLba81jlh73D+CmlxU9Xqi3rO9bK
-         5lpschLHeeO2opSYHHoCEZau2VjHWEZat4yeAEr5aO1dGhzndpZTeofHkCyRQ3myfLiA
-         hNjvWOUA0YPDGn7im6dqOA3Slt+6vZXKd0wlEAvodgn8FnbWT4Fk5IvYisCbenEJL4UN
-         yIBrltCNxCCzg7JPmCiBaeb0BIcPSbN4vVInmNwCXFIotvjlGgpyrIkBtPwT1+zaREHq
-         K+o13xlwZePgpHbNy1VVuffCnHfWxdb2mzQjFF/MTPrxIb+fPfmzjXxJCBD2uJW1eMs7
-         yI9A==
-X-Forwarded-Encrypted: i=1; AJvYcCU8PEHKAqdsKaQl/9P5XIqULp8hLMit1B108ha7+C1VLAk1LUQPMoabv/58BUHq7uQ7vC3r372VTA6k2A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPLqBS45OOMRlyQkaJnmC9YwoglecBE33bFx7haWIP21YwwNsl
-	b7ZcMqpQxxjWQ7psVZVQNmMZWrVTodIAlh3plFNMQzQ+e62YOgBLKTwr
-X-Gm-Gg: AY/fxX4iDgBk/Gn0OxhCH2UoHfqO0/EdfPcrxbvaWnqn8on4bSlduZqJzqYkHY0mSWz
-	5KscVYbMroumkptcCpOyQ3rUiGc9PbRYJ7/0Ymm0XvQA7H024F6VcnT3+gYk3Ht0JIBF0jm3eHb
-	vNEWpdbNPXiHCD4ytPMAOtIpGaCrWiX9JcCSye1AaEMYsOF7YX2GvFIRO25OKgE7/u9BOX78uqa
-	iECbOCgBc4VEBxQ53xF5drxqJZuwdKZ/fxsqLKNzcgObxNYIeVvRydrcz9sd6QFKaNUzUZzs5L/
-	f9tmxQJEBjLAiDPLMtMdwavIzPiIfwHjmgAcg5N5UubbDXBkwebQYiwR7d+cTxjQLabFo08YlOA
-	K2qkzx9wiSmQyFCVqiMUmlAp4cK5+JVHbzUtsCwGN5kUBoVonAB0/I6C6P6ul7Dnuc0fxs64tBS
-	QKGsIcWMIHZz0=
-X-Google-Smtp-Source: AGHT+IEA4ldqjntSU1IZe10aX19mQKLjoCVDqCMnCNeqo44SOanRLtLHyqhQX8MxC8RVHbAWKM2xrg==
-X-Received: by 2002:a17:903:1a2e:b0:2a0:b02b:2105 with SMTP id d9443c01a7336-2a0b02b228amr63659225ad.56.1765799319837;
-        Mon, 15 Dec 2025 03:48:39 -0800 (PST)
+        bh=HPi/WFWmImBnVQgsxNvJvJyvieXM1xBFzKoWis67Gg4=;
+        b=vemDTp9Cai/2LfDTT6r2+VyLWZeXvktlMQ11vfn8HGOzqIa3GmczaiFHKdyjG7DGQi
+         nanBWERZiQyHwBu4cmjZZR9q6tDXsU+h7jiv41qXHHr1bxfJgI3+jEUzPuICqW5+DSBL
+         ib9nxjnN8oGHNNAZk5NWcd/o7dSg9D2zfKd8p2CfiPhI/fdej9ah9iAQZJNku7US2tGa
+         E1z0h0DrIqB/Kk6JWp10R2Wwc6Zs8/bIObvDB0YliR7quHmEPiW1dQuAZ1uJ6Clj0oHe
+         kOW5xnN1vH88+lVv4RyMYxkJzmGNU5zN4yWwDkPjoYhmTfyCntm8/zPwS6ATiPOZXrVb
+         W73Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXYUwtl0nTlAs+mzM4iUk6bAmGKNjpmHG+JG39YcQHi1jzVfK0lskFuVHeccud5HwdCDfiGEvCt2Uukuw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwmgXSQLGvOSmmIKHXt0Htx3tFBTOqDA9xSdQbe4o+V0+8UIQ1A
+	Bnv9T0I/P8wujotMwEJJxyQDhciuwua0uk05tx+6qDCJY9zJIUdA+3uy
+X-Gm-Gg: AY/fxX6Agv5wGVwYh3OfBXU0isssccLUAC9nQCaA7FBiu9D1nqFlwuwV0Z+5MdCq4y3
+	j0x7KlGPeSZY8RWREX1LAPL115jzgAur+pSovXPDN22H5z3E4/6eysRgodm+GnkUyKi4Rs/Ii1u
+	YE69RWE/KpB2YXD3nt6uz9x1uhQUMdQGqX4ekSsGn72JHycFc2tc+UkGwLbRuCuidDJkQyXwSag
+	D4SPAv+3rW3oJUQLP3l5JvhGvNRVS6wJBFfHAG/rVLB2jvGpAG9GNLggCiIMgSScZlPEyKipWem
+	kewS1KKDtjJZVT6r/le8JyvqDgnVnsBSNXoKimQjz35SNYUZIUOQ/UVs2L5fTfBjID2PbUjdaWi
+	pMnzcnaU685ZYE/+j1o1OpZzXsXx9gAXtqSSV3xhuHPVmPAYF6RxzS/HyBaa0hcKoA2vmqbMDBF
+	W0RgrfvBXrE8JseO1eUEqz1Q==
+X-Google-Smtp-Source: AGHT+IHySr1buuGxwyvRmyNwB1yX2aGVZnCno4j9FG3NSChYg8gy/QOhSf79+qyZQv+BzWWdtgvcAQ==
+X-Received: by 2002:a17:90b:388a:b0:340:be40:fe0c with SMTP id 98e67ed59e1d1-34abe4a6b3amr9032481a91.36.1765799324639;
+        Mon, 15 Dec 2025 03:48:44 -0800 (PST)
 Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a0867ebe9dsm77190525ad.40.2025.12.15.03.48.39
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34abe3ba59bsm9003471a91.7.2025.12.15.03.48.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Dec 2025 03:48:39 -0800 (PST)
+        Mon, 15 Dec 2025 03:48:42 -0800 (PST)
 Received: by archie.me (Postfix, from userid 1000)
-	id 46E2D447330A; Mon, 15 Dec 2025 18:39:06 +0700 (WIB)
+	id 60C6F447330B; Mon, 15 Dec 2025 18:39:07 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux AMDGPU <amd-gfx@lists.freedesktop.org>,
@@ -161,9 +161,9 @@ Cc: Harry Wentland <harry.wentland@amd.com>,
 	Jilin Yuan <yuanjilin@cdjrlc.com>,
 	Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
 	George Anthony Vernon <contact@gvernon.com>
-Subject: [PATCH 12/14] drm/scheduler: Describe @result in drm_sched_job_done()
-Date: Mon, 15 Dec 2025 18:39:00 +0700
-Message-ID: <20251215113903.46555-13-bagasdotme@gmail.com>
+Subject: [PATCH 13/14] drm/gpusvm: Fix drm_gpusvm_pages_valid_unlocked() kernel-doc comment
+Date: Mon, 15 Dec 2025 18:39:01 +0700
+Message-ID: <20251215113903.46555-14-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251215113903.46555-1-bagasdotme@gmail.com>
 References: <20251215113903.46555-1-bagasdotme@gmail.com>
@@ -173,34 +173,42 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=982; i=bagasdotme@gmail.com; h=from:subject; bh=kdwYayfiPuGdbX+6/rKZkI1jkonQkDY24KG3T7ZKuZA=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJn2n4Pfzvv2aMJ6/2fiW3RmVPTpTFSM/fBW4Nu0ikdP3 J/+EMyq6ShlYRDjYpAVU2SZlMjXdHqXkciF9rWOMHNYmUCGMHBxCsBENP8y/FN2WnBW9dYhDc+y QzUe+4R7v/wRO/L/c0NDkJC4klf71CqG3yyrLnq/ur5px+nadXME75rW9sxVOp7eMOmL58xwZZ6 TlnwA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1611; i=bagasdotme@gmail.com; h=from:subject; bh=j4BXJJMKUhATWUahdKX0lx9i399WYlQDn9Ep3/iweMY=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJn2n0OumS5gNW5/3GqYe0vV4BnvxdVlFyqnrRPWP9PpP u3FMcecjlIWBjEuBlkxRZZJiXxNp3cZiVxoX+sIM4eVCWQIAxenAEykPJ/hF9Pft9/+BqzKa/W8 rdg9vSMz5a6N4PnTByKYzgTJnWZ/P5Hhn+aKvLS4vrtB9w7NNb77cZZgzZ2+T776O+w93L/xls2 5xAgA
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 
-Sphinx reports kernel-doc warning:
+Commit 6364afd532bcab ("drm/gpusvm: refactor core API to use pages struct")
+renames drm_gpusvm_range_pages_valid_unlocked() to
+drm_gpusvm_pages_valid_unlocked(), but its kernel-doc comment gets
+stale, hence kernel-doc complains:
 
-WARNING: ./drivers/gpu/drm/scheduler/sched_main.c:367 function parameter 'result' not described in 'drm_sched_job_done'
+WARNING: ./drivers/gpu/drm/drm_gpusvm.c:1229 function parameter 'svm_pages' not described in 'drm_gpusvm_pages_valid_unlocked'
+WARNING: ./drivers/gpu/drm/drm_gpusvm.c:1229 expecting prototype for drm_gpusvm_range_pages_valid_unlocked(). Prototype was for drm_gpusvm_pages_valid_unlocked() instead
 
-Describe @result parameter to fix it.
+Fix them up.
 
-Fixes: 539f9ee4b52a8b ("drm/scheduler: properly forward fence errors")
+Fixes: 6364afd532bcab ("drm/gpusvm: refactor core API to use pages struct")
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- drivers/gpu/drm/scheduler/sched_main.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/drm_gpusvm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 1d4f1b822e7b76..4f844087fd48eb 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -361,6 +361,7 @@ static void drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
+diff --git a/drivers/gpu/drm/drm_gpusvm.c b/drivers/gpu/drm/drm_gpusvm.c
+index 73e550c8ff8c98..fcfbe8c062bf6d 100644
+--- a/drivers/gpu/drm/drm_gpusvm.c
++++ b/drivers/gpu/drm/drm_gpusvm.c
+@@ -1216,9 +1216,9 @@ bool drm_gpusvm_range_pages_valid(struct drm_gpusvm *gpusvm,
+ EXPORT_SYMBOL_GPL(drm_gpusvm_range_pages_valid);
+ 
  /**
-  * drm_sched_job_done - complete a job
-  * @s_job: pointer to the job which is done
-+ * @result: job result
+- * drm_gpusvm_range_pages_valid_unlocked() - GPU SVM range pages valid unlocked
++ * drm_gpusvm_pages_valid_unlocked() - GPU SVM range pages valid unlocked
+  * @gpusvm: Pointer to the GPU SVM structure
+- * @range: Pointer to the GPU SVM range structure
++ * @svm_pages: Pointer to the GPU SVM pages
   *
-  * Finish the job's fence and resubmit the work items.
-  */
+  * This function determines if a GPU SVM range pages are valid. Expected be
+  * called without holding gpusvm->notifier_lock.
 -- 
 An old man doll... just what I always wanted! - Clara
 
