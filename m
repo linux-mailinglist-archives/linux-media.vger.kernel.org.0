@@ -1,98 +1,263 @@
-Return-Path: <linux-media+bounces-48813-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48814-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 646C5CBE3B1
-	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 15:16:10 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6922CCBE710
+	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 15:58:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 14E8A301FA6A
-	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 14:13:54 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8299C301F5C8
+	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 14:53:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC34533A6F2;
-	Mon, 15 Dec 2025 14:13:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2B1B2ED843;
+	Mon, 15 Dec 2025 14:53:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HflWFVqK"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="4H6uAf/k"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010040.outbound.protection.outlook.com [52.101.193.40])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5F433A039;
-	Mon, 15 Dec 2025 14:13:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765808028; cv=none; b=Hhm1P84nx/eEnKjhryCqo3Rqrq5bZrZ9ndm//dkWglmQZJyAxg1pox/Xs82HOsdMYPWmi0edT1BQWVOwQyOxgtFspUSxzC0v7Ou37WyyQ0SG049HXYuivrmWe4F545dzQ58HSQAg8w4nNypzwWF8r+AzBbh7AR1oUx5GLsroyAo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765808028; c=relaxed/simple;
-	bh=m3i3iwxp5OsOcI8oD68UsVKqQyef/36yw8egizy9blw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YZmtNBUsHwxWINwfMlNLqNI9mn/mPE5F51rzurWFp2cVUpY1bighY5AlOlhO09vaGyMX8ij0qqYBu4LRpcvxJjOtbmJUjoJh+/oMweA+oSek1X4wEfVLXSDydYj9ATsYg2Oze30fVwwQBNLI5pn3KobRM0ZrlAf1VMEo5DqfsDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HflWFVqK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 199BFC4CEF5;
-	Mon, 15 Dec 2025 14:13:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765808027;
-	bh=m3i3iwxp5OsOcI8oD68UsVKqQyef/36yw8egizy9blw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=HflWFVqKNdY2GZEPU09+ZBF7GU/QbHs69ZckCZ9ltDArpslFfuhqbsEfy/f9+DHIL
-	 2LK8Lm/Hsmwrk3GlWl3nRpT/jCOvvx15keGMRT49AxpaPh1M175dB3Iqa6SwKAev4Z
-	 CfdqTMU+v0F7g+zTTo7u0i2YtY+e7+jH9Vxp9OpCIia9es3lubRbNagT0YmvxFHOod
-	 GIih3713M8NB+v0Zt9NaQ6ulgRqEwydI+RkrbinNGq3ydKXYaAK+G+MBA4UPHwVa/N
-	 EAL2cdhNgVTSE4qruTBAa3DE8hV9s43++kZhcVn7dPB1et191p/fa4LVEhiaXT0/vD
-	 nKELDhw/m7g3w==
-From: Christian Brauner <brauner@kernel.org>
-To: Mathias Krause <minipli@grsecurity.net>
-Cc: Christian Brauner <brauner@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH] media: mc: fix potential use-after-free in media_request_alloc()
-Date: Mon, 15 Dec 2025 15:13:24 +0100
-Message-ID: <20251215-zugeparkt-umsonst-2b5755c0bece@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251209210903.603958-1-minipli@grsecurity.net>
-References: <20251209210903.603958-1-minipli@grsecurity.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E5D4199FB0;
+	Mon, 15 Dec 2025 14:53:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.40
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765810415; cv=fail; b=fXLIQTM8RX5cp0jh3chkOgfsGKYgkq2ILOyeehE4DnjzzyL6//0abe5DHNiOMziKg2UtqdBNeane68OcnDxj+AXoZErGYeJAaN9hjL1z3J0POGsCGnkKN+vXHyBB6rJZ2wqKrNO3foIY3XijSBWaWn2h/dVMSgYwd4nX0IX5/xs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765810415; c=relaxed/simple;
+	bh=goNxbg+JW6lP9XDPFwr4eyNnJq6Y/FJyE8kN8IhTCzc=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=cpxGVcnJv6S7LGmEwhe9Em8bUPYrnQANZgCUSq6VrqBhkJ/f9Lyv6ee7thffLerOtn8mQGQsHzoLpNjHTeIWGObe4wZMLIHlbCouxvSnvWLmfbElX322bjepEF+Sz7tVEc8ecs9wjGc0fbur5mcJyHVQer7A4ic0IZspDa2fFk8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=4H6uAf/k; arc=fail smtp.client-ip=52.101.193.40
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LgA8R3w/CvYNRqqKje1YEFtCj0YkKNeoiDtH1NS15Qiw5BBpGrViT8aqrcIrYMvL9VoCqKkOQfx+uXt75Wm1EIYQCNik7nNcFxAWsDMf2CmJ2tA11SXPglt4THjctrxJ4miqQQ5MsgrpehH7dOzPY6qa/HVrbqNkgEAyHdXA0EAgVOuo0onmeRwjl54PnLRa0pKvYV9BtFn3V7ucLCZIx9R9fcf60eThCSbIvyy1AYFPLlvNbtP0y8jrJ5XJD5N2VB0ZBaxQkyZ3Zn9uUwxok/5ohiUpCk3VD4AEYC+Has4GoHTcZKA79cSjnDkh+hLBPD6ciyxVQWHwiQumu53LlA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RdB52pyoPq/3Wb+HhU53o5j1Jn0YeXrhx9opuyMe7Jk=;
+ b=VV7w6IRql6RHrxJrP+1iY1VVGsCubszt1L1fD+LXg4e6UsS7KDEyYKlnl650j3ZXOd5d8AX5u8JXrRIc2x3pU/ivHyktw/b7dBvOx8HHEk7V2VhldSTjtjxsX2QhQUoOPCovZVtlJL0l2JFPdXk6H69OWfr6ozOq9H87sPCeN2LH99U/UbSJh+fytoBtJxNUrDp7aW3UxysPGWoT3qI/qLy2pYH/4bIa4/pEIbpB0M1v66Ms27+7qzLi7tJWvtL+YI8UQwfEMICXCNYQnZ6wHRAiaylg57SnqArhAyB7vKfpbUznA+D1tnqjPXDkTy0I55ot5TPQOrLFmB5Hnzu69A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RdB52pyoPq/3Wb+HhU53o5j1Jn0YeXrhx9opuyMe7Jk=;
+ b=4H6uAf/kKP9sLeFJT4mgPbI1vfOHg+TniO2tRKbkzxcNN4+wZSo7pwyCZqff0KZYVX0dDUnaYa3vpCm6J4Uc7sdchfcvgpyrby3g2hQwV4rI2GPIak+Ao/JhoeSa5iIso5Xg6WHb8nOL8X5J1Noh1f2ScLe7prxUYWeaVYjlKU4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by MN0PR12MB6053.namprd12.prod.outlook.com (2603:10b6:208:3cf::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.13; Mon, 15 Dec
+ 2025 14:53:27 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9412.011; Mon, 15 Dec 2025
+ 14:53:27 +0000
+Message-ID: <ef52d9e9-6abe-421a-98f8-f96353652e1e@amd.com>
+Date: Mon, 15 Dec 2025 15:53:22 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dma-buf: system_heap: account for system heap allocation
+ in memcg
+To: Maxime Ripard <mripard@redhat.com>
+Cc: "T.J. Mercier" <tjmercier@google.com>, Eric Chanudet
+ <echanude@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ "open list:MEMORY MANAGEMENT" <linux-mm@kvack.org>
+References: <20251211193106.755485-2-echanude@redhat.com>
+ <CABdmKX2MPhw121ZG8V+f-XoOReUsCdmcug-cWDg=3WZcJ=NHHA@mail.gmail.com>
+ <20251215-sepia-husky-of-eternity-ecf0ce@penduick>
+ <07cdcce2-7724-4fe9-8032-258f6161e71d@amd.com>
+ <20251215-garnet-cheetah-of-adventure-ca6fdc@penduick>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20251215-garnet-cheetah-of-adventure-ca6fdc@penduick>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YT4PR01CA0236.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:eb::11) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1290; i=brauner@kernel.org; h=from:subject:message-id; bh=m3i3iwxp5OsOcI8oD68UsVKqQyef/36yw8egizy9blw=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQ6iE9f6qNz58P2r61Rcv/afhisTpwf/HOigntGEWPAU wnX2u1zO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACaS8Jbhn22uk0L/zF8ts3JC 781LXLGdq0V0BidrzLvc/LTNS7Wc1zIyNK3SFWZ2afq8z1YgQrLP27c953bBG74ps9Yt67fJcJP jAwA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN0PR12MB6053:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2739a10d-c8bb-41dd-87d0-08de3be9b44e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?bGdlY2lpRHdSRndqRGQwajBBZmFFZkg4UHZKajRDSnRTZ21xMmhUR2MvMzhV?=
+ =?utf-8?B?OVNoWXRRTEdXNXUvOXcvaU9RMDlnaTU5RVMyZ0pPTklsSnFMSWIzaG5VZy90?=
+ =?utf-8?B?RDlUakNvV2djWEJpRnJqRmwwc1FTNkw5RVpZMHhPK0xrZzNsUWZaWlg5ZEFX?=
+ =?utf-8?B?MkJ5cWZuallyR05HbmhKY2RtV1ZtYVYyMzJvTUNXSzVQYTFvVWIrVEprUHA2?=
+ =?utf-8?B?MUI4VjdlM3cvUG9ySzg0WVRCWmtyZHR4NFF2QlV6cFdBUlJjWXY2QnlUOFRi?=
+ =?utf-8?B?SXlpb3VwaDZOenU4eFRpZnRQTVQyU0RoVVVTM3piYXN1YlB2aFZ0N20xeFM1?=
+ =?utf-8?B?L3NhMDlkZWFGdWNFZHpITG5mUTBlR0dkQXNEb1cxS1J5bml0Y2QzV1U2cVJt?=
+ =?utf-8?B?WkNOTWxUSVhIYW9mdUsvazAzbTZaOHU3UUpPdjRub2Y3bENrMk9abktvOVRm?=
+ =?utf-8?B?VE16YWRiaWNWeS9NSUp3R2dNYTlCVFlENlI4c2xYSHBKdkxVYTBDODdHWGYv?=
+ =?utf-8?B?NyttTG1LK0JaTG8wYmliQzZvTWh3YmNjQ21JbEtsMVd6ZXJsR1ptSzNBdjU1?=
+ =?utf-8?B?bVhSUmg5UGNHU2Z2WEFXdFA2Q25ERi9iSnE5YUpnNjRIOFR6cG9TWk5rNGdC?=
+ =?utf-8?B?ZVJjYUhpUzV2eW5tN0FVNXp4Y3o1aFR3dW0ycWJEZGtKRDRhU1dzSkl3Q0U4?=
+ =?utf-8?B?RmhpWWFUOCs5QWNtZXBFS1dNNi9TOTRqRkduNnRXdUwzQzUvMlFqT1dpQ1ZG?=
+ =?utf-8?B?SlB5WmcvdklHcWMweFdmUmlBRW9yK0dpL080b08rWndGd3laTWkxYU42QUxj?=
+ =?utf-8?B?S25McXAra0oyRHloOWhXREwwRFA1YXhobi9OUVQ4MHhuVHIrOUNFMmwxZmNx?=
+ =?utf-8?B?NmdmQzBwanhSN1BmV2Evdlo5VEhMcTl0U09odE84RXljT25wL1lJdlZFVElG?=
+ =?utf-8?B?U1lxM0Mwa3k2VHNsVm5jQklzMkYzb3kydlM3MUEvOXcvNFRnZVhRUnV6bEdm?=
+ =?utf-8?B?alRicU9ENURWdmJON0NHeVNNeElRSlc4V1E4WUlwdXAyWnFYdW13K1F6b00w?=
+ =?utf-8?B?dHlIL3BsblZ5NitxcEUvOGV2eTVxTGxndWxFZkphQ29oVkdxbGJscDlDbVA1?=
+ =?utf-8?B?Y3d0Smo4VWdOYVdibVFFSGtMdSsrVFRYMVFkaEp6SXJNSzN0bG5WUEExQ1Rr?=
+ =?utf-8?B?MG5FOVVjcXRTaUgxQjF3aE55emRXRHVkaW0vdFo3aEJGUWhENG5ianJ2ZHhx?=
+ =?utf-8?B?R1FDMld2cmJzd29aRVlHbXplRTJEalp0UENOZmlIR2VlN3lCdkFxb045eFBo?=
+ =?utf-8?B?Y3J1ZjA5OWRPOTNVQm4wbmlWcitzWnZyeEFQSWsyejQ1RFp1dUdPUEtWQjhR?=
+ =?utf-8?B?ZDVPcHo4VVRrRXVLcEZNLytScU1pMUJhZkhKbW9sV2NoM3BrcnlvUEdXN1JZ?=
+ =?utf-8?B?VFF3cjlRMGg1UlhBUGM1OUZGUzJKOXQwMkk1d1VpV3JhbTNrV1p4a1BwMDJP?=
+ =?utf-8?B?K1VPWTUzZENPbmNPTlpJdVc2YWVyTlZJTmZ2VTBVVUI3eWgrdGx2bkxNMGVX?=
+ =?utf-8?B?MHNrdUdBUlZoOEhuckhISU13WDcrN3lrR0QrWGhTa1pRVVRoRXUyTUg3UG0y?=
+ =?utf-8?B?UEQza3g3Zm44dGI3YXE2NDdOL2FkbE1hYjlINkI3RzU4U2tBSi9WMmZ5Wm9h?=
+ =?utf-8?B?VlhYdC9iczRKcGVBTkhVTFA0NE1Pbk5FQnJIZEpnSm5IdDhabzczZ25mVWRV?=
+ =?utf-8?B?MTZuQWp3TVhFV0hWV1dVeTdQYjRkOTVNSzE2MGhGQzhvaisvZ3lXQ28rOTZi?=
+ =?utf-8?B?Z3VIZzVPVUZWNUZPa3BxMGE4SjAzRnRKaXo0U3o1aTkvNmZrZFVqaW1IU1hK?=
+ =?utf-8?B?aEFzRHJkeEJ4SDErdENCcXZxazlxWXZHVXFrK1pXN0Vrdjdxakt0Vk5LWTNu?=
+ =?utf-8?Q?hLhhrYqe0XymonzaEE/sXQhYpCimrp2j?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?a1lJQlFrN2t5a2JRQkErRks2NW4wZHdwM1diajZHQmxscVlJNXMzVVJjNUg4?=
+ =?utf-8?B?SFlwNlhhUkpYaDBTOVZLb1VSZG5ERkMvcWpRN1hONExBdWFNNUdnb0dJSk9R?=
+ =?utf-8?B?VWUvWk9BYUY1MXpKakx0NkdpcTQ4c08wTjNpTzBtVWFSdzI4QTUzVHhobWhC?=
+ =?utf-8?B?cVpEUTF4eTh2U3lpd1F0VndhOFVjRmlQYXFmOXROYzJLSzdvZjd1RHdoOE9W?=
+ =?utf-8?B?UndXeWdGRjlveWNOVjF3WmhXVWRKR1ZxcnUzSXI4N3RCMXFhWk1QV09objVC?=
+ =?utf-8?B?VXV6UzVHaXI4QklaamduWVdhaDdKNEd3aC9Za0NMTEZWWVI3cVFSQWlYWnFr?=
+ =?utf-8?B?V0FzNTArM2dkM21zckN2U1N6eW5FZjhRNG9Wbmh4R1RnbjhaQUk1WGFQWmk4?=
+ =?utf-8?B?VDg2Q2JvWEQ2WXZBSDRMdTQ5TkJoMDhhYTV1Q2tBcDVKVzV1Njg3QXg5YWdr?=
+ =?utf-8?B?QmRDcXZTZ0IrMjJ6Um5EZ25RTlU0dEdkbTRjRjdaQ0xPcHBUMWFucWo1ZDZn?=
+ =?utf-8?B?d0dyajd5YzJrVjJJRDRlenRiUnFlV09DelpGT1JEaEZEYXdzbU50MThiRWw5?=
+ =?utf-8?B?WjFFOUpXQmo4N2Q4QUZoWS9hbnFUVEd6Rmg4N2pSNldyY08ya1BuODJOczdK?=
+ =?utf-8?B?Y1lrYjJnZlZYYXdXamFidTdlRHRqWjA5VUFlN08yNE5qUllTNUM1enBTS2xI?=
+ =?utf-8?B?SUdEZFBJcTZBRDJpNEo3YmhXaWY4ZnQ4UmJDeWlLTzNjSnFKVTN5d0FrS2dO?=
+ =?utf-8?B?WEdJRzRKTmVXWW43ODNPNWdYdkV5TmJCendTS3lweGx6NUxydjAvUkkyRGhr?=
+ =?utf-8?B?UndQamQ3dWZQQ3RKR2NENUJIcXM3K2ZoMFVRRWlNbk1tcnhDSnpTUmh1TEpr?=
+ =?utf-8?B?MjF5T3BBdXhXVE5rbkN2ZFc0SkRIb3lxTFJTSjh1WnRJaHlZZFVpYVBMay9w?=
+ =?utf-8?B?bkx0NFNUMmJlY1JSZ0pWQnBScjdWYndRS1RpZkJUK0JuODhGL0F2K3Fid1FL?=
+ =?utf-8?B?bHRiQWUyT1p2NmJYR2JpaWhHRDJ3amNTQ0t2VVk3S3YyOERLbHlrVUhzdGNm?=
+ =?utf-8?B?eGZMeW1XTTIrVUM2aXk1QlQ3L25RSmsvekF5NGZWcWNsdHZCMzdjbFdKeTJ4?=
+ =?utf-8?B?MGVxZXN1dFUzeUpETmdTUEVHVDBmR1AvOUdUVjlIZmx6aWp3WGErMlNtRTJ0?=
+ =?utf-8?B?Kyt2Nlk5WGNyM2huenJ2ekNYby8wN3VBbm83MERCK3dUNUoybTY0TUtWdE1y?=
+ =?utf-8?B?Wnd5T0tpN2R1UElQaC9XcVFxcHFZZzBZY0VqL04rZDBJSWwyOUNVOW9WRU13?=
+ =?utf-8?B?M2ExVW1xd2pqN2NicDBrMGtIekdGWlIza2I1NCtJNlFqdmEwSmkybit1VDNG?=
+ =?utf-8?B?TEdleWdaTG5RZ3hzL1dEYk5tNVl3LzZOUVFkSktNOFcxaHplcjM0R0lBZlZT?=
+ =?utf-8?B?eVBjbHBPRFl5R0JWNXJTVGp1c3FxdENEckVMS2RMS0lXTUdkczJZOGtISXIz?=
+ =?utf-8?B?QkNNYWlHWkhRTGdNOVoxY1ZML2VITWtDSHBrZ0s3bGFudS92amVPbjU1VGxq?=
+ =?utf-8?B?dTZyY0VsNmFmMkN3L1MwbmhLYXhEQkZuQllTR1g4QzFXS1FFK0pBUGRTUjEy?=
+ =?utf-8?B?NzByNjRXSnZNWkhZZzdneVBRWEtucTVlL2JtcUVlN3dxd0RWVVFYMFpDK09Z?=
+ =?utf-8?B?bkZaSTAxR2E4cGVDLzl4eXQ5Qld6ZjdOVzNSYWJZVWU4L2xPdzZrcUdDc3Rq?=
+ =?utf-8?B?Q0xJcUtRUlJyRkU4bk41azNoSXVWdGlPbTFxZ1AyWjdYeXpLWDRaekpRTkhj?=
+ =?utf-8?B?M2NkNGtma0hoam9mZmhnd3pvNjJscjZmRGgycGxtOVlYbDBQZkk1N2dld3JR?=
+ =?utf-8?B?N2tFMlhaZUxic1l1Vm9KeEMzWVhrZHJSMjVldFlVc3ZuVFBmZTMybVRlZExQ?=
+ =?utf-8?B?WVR5U3NHRTZ4dWVqcHd5TW5qdUd4anVtSmc5NjVmVUNocERtU01sWUdLbFNk?=
+ =?utf-8?B?YzFPRlZQRzBzdjNhYnBqR2JwSUc0ZFNuVDNjdGxieGVYa2ZpVTNXMWxZOVdJ?=
+ =?utf-8?B?M242NEl3bjdTSTNjTFhZcXByYkNSNWE3QkdwVi9Lb1FhZU1SZCtkV2xxNkdM?=
+ =?utf-8?Q?U9sMRF6dkTHeSKXrTfGrBKl7o?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2739a10d-c8bb-41dd-87d0-08de3be9b44e
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2025 14:53:27.2942
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: a9J6nbpwEgJ3XhPONgv8Bt1bRJ5U2MmXoBVYogt7ug4qYXzD+9/ECqORRHRRCBNV
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6053
 
-On Tue, 09 Dec 2025 22:09:03 +0100, Mathias Krause wrote:
-> Commit 6f504cbf108a ("media: convert media_request_alloc() to
-> FD_PREPARE()") moved the call to fd_install() (now hidden in
-> fd_publish()) before the snprintf(), making the later write to
-> potentially already freed memory, as userland is free to call
-> close() concurrently right after the call to fd_install() which
-> may end up in the request_fops.release() handler freeing 'req'.
+On 12/15/25 14:59, Maxime Ripard wrote:
+> On Mon, Dec 15, 2025 at 02:30:47PM +0100, Christian König wrote:
+>> On 12/15/25 11:51, Maxime Ripard wrote:
+>>> Hi TJ,
+>>>
+>>> On Fri, Dec 12, 2025 at 08:25:19AM +0900, T.J. Mercier wrote:
+>>>> On Fri, Dec 12, 2025 at 4:31 AM Eric Chanudet <echanude@redhat.com> wrote:
+>>>>>
+>>>>> The system dma-buf heap lets userspace allocate buffers from the page
+>>>>> allocator. However, these allocations are not accounted for in memcg,
+>>>>> allowing processes to escape limits that may be configured.
+>>>>>
+>>>>> Pass the __GFP_ACCOUNT for our allocations to account them into memcg.
+>>>>
+>>>> We had a discussion just last night in the MM track at LPC about how
+>>>> shared memory accounted in memcg is pretty broken. Without a way to
+>>>> identify (and possibly transfer) ownership of a shared buffer, this
+>>>> makes the accounting of shared memory, and zombie memcg problems
+>>>> worse. :\
+>>>
+>>> Are there notes or a report from that discussion anywhere?
+>>>
+>>> The way I see it, the dma-buf heaps *trivial* case is non-existent at
+>>> the moment and that's definitely broken. Any application can bypass its
+>>> cgroups limits trivially, and that's a pretty big hole in the system.
+>>
+>> Well, that is just the tip of the iceberg.
+>>
+>> Pretty much all driver interfaces doesn't account to memcg at the
+>> moment, all the way from alsa, over GPUs (both TTM and SHM-GEM) to
+>> V4L2.
 > 
-> [...]
+> Yes, I know, and step 1 of the plan we discussed earlier this year is to
+> fix the heaps.
+> 
+>>> The shared ownership is indeed broken, but it's not more or less broken
+>>> than, say, memfd + udmabuf, and I'm sure plenty of others.
+>>>
+>>> So we really improve the common case, but only make the "advanced"
+>>> slightly more broken than it already is.
+>>>
+>>> Would you disagree?
+>>
+>> I strongly disagree. As far as I can see there is a huge chance we
+>> break existing use cases with that.
+> 
+> Which ones? And what about the ones that are already broken?
 
-Thanks for spotting this, Mathias.
+Well everybody that expects that driver resources are *not* accounted to memcg.
 
----
+>> There has been some work on TTM by Dave but I still haven't found time
+>> to wrap my head around all possible side effects such a change can
+>> have.
+>>
+>> The fundamental problem is that neither memcg nor the classic resource
+>> tracking (e.g. the OOM killer) has a good understanding of shared
+>> resources.
+> 
+> And yet heap allocations don't necessarily have to be shared. But they
+> all have to be allocated.
+> 
+>> For example you can use memfd to basically kill any process in the
+>> system because the OOM killer can't identify the process which holds
+>> the reference to the memory in question. And that is a *MUCH* bigger
+>> problem than just inaccurate memcg accounting.
+> 
+> When you frame it like that, sure. Also, you can use the system heap to
+> DoS any process in the system. I'm not saying that what you're concerned
+> about isn't an issue, but let's not brush off other people legitimate
+> issues as well.
 
-Applied to the vfs.fixes branch of the vfs/vfs.git tree.
-Patches in the vfs.fixes branch should appear in linux-next soon.
+Completely agree, but we should prioritize.
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+That driver allocated memory is not memcg accounted is actually uAPI, e.g. that is not something which can easily change.
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+While fixing the OOM killer looks perfectly doable and will then most likely also show a better path how to fix the memcg accounting.
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+Christian.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.fixes
+> 
+> Maxime
 
-[1/1] media: mc: fix potential use-after-free in media_request_alloc()
-      https://git.kernel.org/vfs/vfs/c/a260bd22a355
 
