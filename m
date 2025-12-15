@@ -1,1363 +1,542 @@
-Return-Path: <linux-media+bounces-48819-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48820-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B071BCBEBFB
-	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 16:48:07 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43679CBF52D
+	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 18:56:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 555193046FA9
-	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 15:40:19 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 0EED3301410D
+	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 17:56:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0948433556C;
-	Mon, 15 Dec 2025 15:40:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC9A33246F0;
+	Mon, 15 Dec 2025 17:56:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b="dWwuQgX8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M3ZbYi41"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PNYPR01CU001.outbound.protection.outlook.com (mail-centralindiaazon11020141.outbound.protection.outlook.com [52.101.225.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3287033342A;
-	Mon, 15 Dec 2025 15:40:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.225.141
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765813215; cv=fail; b=C7XekoO6/aMIpXk0cjX7IYf/ZbIDHmzzueZHX9pg7KYtdVDVz9FC1e/EBYlemVTJXR+jU3/kHsSxir9bqN3JvcgrFajJNrTRVzOwP33EHs8cWRc67IDKSyP+FF+Y/fKqeVD5OLjb6SUO4kjjFar4aP2rJeA/3WhNbLiR0I204pY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765813215; c=relaxed/simple;
-	bh=Nr5jfGzWiDs6S9xL3wqmTwIXzUfJz6gJs/nnOjMx3v0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=NSR6UtUyqfGPwABP5i69hVK0j/f0Rrzg2R7Ps5nZPKvfP0xuNlbxMvx6a43tGz7bV/Ot8gdXicBs/nu2/zAwyb1DP6tMXDeVCTcoACI1hGnFrTMQtoiXrZzC/msojs7X4F/vnyyGEqzIV6Fo1FJ+dL4oUQ2sbwLeeY2JiaZ23cU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b=dWwuQgX8; arc=fail smtp.client-ip=52.101.225.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siliconsignals.io
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ec/JNBpQASjEoprKVDwR0vLYcBpmnmpQbGEoUP77S+R14L9H8LNTEvUR/lOuJXiHCQ4MB48Mhs34NEtGhUlf9h4XToe90VBaW6pnMZ4ZmrEjkMWiwSnN4UFeJ0I9MNjt61GhwT6+DSZ0n6z2QjoN9uWxWUN4mRF3Q/KY4de5lqhnaLi3oynQzatl1Fu3ZGetDhP9qMSNwnu3zSanKP4jQOTQW2Fn6aoSf/kFzt5dE6pBZ89Itk6hDJxHewb3H8AqZoPFuc1V8AEY4gIoKRDxapDUd/ov0Od5xKpPFZRcMExWw+1QHJF0XamSvnCwziCOnKxszhG2UqS/bf0KICd9aA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DoMjTQIsK/osa62u9WbYyUouUBezxBE1jFqK1fhkyGY=;
- b=JDRV+o1Ra+iG2TbcUAdTYh06+qVwgQ9Da4dixV2rQZNKJi9yFAJskg3PiIXntZUq//4b9r5HlGOKFlNLKL+il4nekc0tVRmn2/CXyCHqwlM+M1exvoptBR71QBW6dKbkMbZ+OkV7543Wv+9Rg4YNHJZS85aMxfGTOzgicNbxmTFnQE5pbrmhdbVWp5/4jdDdcl2YmOiW93oRVT6vnb7sfrneRsjEhOwWUYH4Aa6jxVVTwSH9T++h0XIPEr8fx2CRYuXxfiL6AruYqoqP+7GfpR72TZCAQy7HJR88L3qQRwUplzsO4Piv7Xii3bpybn79AV4pDl+caJ3ueOEKIdQRwg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
- header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siliconsignals.io;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DoMjTQIsK/osa62u9WbYyUouUBezxBE1jFqK1fhkyGY=;
- b=dWwuQgX8vmXX0N3Lq6Ws6w/on8zJpIBtfv9yZ2mRTTtFjkIF/s8PbtyWpKrJbGziSNfVf5LErpp9oUaetYEv0++x5g/O6Nyt/X0XjiaGa3okMuL3Fs5qPIqQQ8eoVGXA7U3ZQdkMn9qIAHW+QJfDKENwe4jutQBaWnCi3l5WyWFTYVoOWXBE4BXjWCl6QtuLjhBkhDoyPxE0wDtTtTatlnemHD0HDpZWVo/J7fPVNrAGXLzGBQhx+0TjahQ/Um5zL4GnAM5ba8+RvivjfBVQZJw8ErMABkYFzI3HbXZfyRxLbE2WY1u/G1KwYYu9zyHZwD+TlZDbUwZnFEUXdShX3Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siliconsignals.io;
-Received: from PN0P287MB2019.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:1b8::9)
- by PN3P287MB1192.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:195::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.13; Mon, 15 Dec
- 2025 15:40:08 +0000
-Received: from PN0P287MB2019.INDP287.PROD.OUTLOOK.COM
- ([fe80::ebd8:538d:c705:8432]) by PN0P287MB2019.INDP287.PROD.OUTLOOK.COM
- ([fe80::ebd8:538d:c705:8432%7]) with mapi id 15.20.9412.011; Mon, 15 Dec 2025
- 15:40:08 +0000
-From: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
-To: robh@kernel.org,
-	krzk+dt@kernel.org,
-	sakari.ailus@linux.intel.com
-Cc: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
-	Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	=?UTF-8?q?Andr=C3=A9=20Apitzsch?= <git@apitzsch.eu>,
-	Dongcheng Yan <dongcheng.yan@intel.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Jingjing Xiong <jingjing.xiong@intel.com>,
-	Svyatoslav Ryhel <clamor95@gmail.com>,
-	linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 2/2] media: i2c: add os05b10 image sensor driver
-Date: Mon, 15 Dec 2025 21:09:25 +0530
-Message-Id: <20251215153932.46276-3-himanshu.bhavani@siliconsignals.io>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251215153932.46276-1-himanshu.bhavani@siliconsignals.io>
-References: <20251215153932.46276-1-himanshu.bhavani@siliconsignals.io>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BM1PR01CA0148.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:b00:68::18) To PN0P287MB2019.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:1b8::9)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F8A32727E3
+	for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 17:56:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765821413; cv=none; b=SM9v3gaOgi7SJPed5O9tj3qyirbbDzY2R7Z3K761XfBt7eWb3lzOAo9g50+qoqTKRHIHk5IT+h067mp9wr07aNjJi6ahLs8u6AgBZBX7MnvlycLPmi67UgBqlaIwf0ZKmzGvFHo82/gVi1KRpEmj7YtIsolVL7JVvEG4JluSLSY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765821413; c=relaxed/simple;
+	bh=eTM4vD/GLrblu1tIANeWjN21pSJ+nVb2OOpffLpnuQA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qEPAitY63yI25+8IL8mCgRh7hN4rrTJgQYJDEczGwhKkGyY5U2Qyp7EGtw2V08RoASsf4OGeITcOJxOa5PkC4LE2HsCVRYpf5taKIY0LSg2aYPO63+W3hMklLW20MI6T7H3jmcDsQ4rEyZmgFYwl2fPMs3WXPR01LWYyIVCfZdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M3ZbYi41; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-7bf0ad0cb87so4593817b3a.2
+        for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 09:56:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765821410; x=1766426210; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Zjy31YUGfLkTOdV/LJQ8OzVl78sbEt8Ql8lU5c5X1XM=;
+        b=M3ZbYi41HfNfUiAGboksMx8syx02xFXKnoH1Mm8qilFA/tTNVgBSB9/iG7YLcTbRRm
+         f5+NaNdGYhXS9FvL5CaDi+eEZflWw8ue37DcwTzlyTh/1sA7V3rA2DqmmtH2sCwBjAVd
+         HW1QnuPnwtYotCQeT+rKR9mM5TCbFDz3TQ0wqjmyOGxPOLS2Cb/KVQ2ky6J4xsG603q/
+         4mm+OhAfQawRSBSx6F1fiBnYJQ+0DScP6IS68JvYDQSOQG/qndlprXM5+mUCSNh433+G
+         fnGRIM2v5ht7sP/SAt36Z6aKvK5j49DLhC6ga1C0nrp1IgvS1in4zwRT92exc7Yn/cEe
+         8B9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765821410; x=1766426210;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Zjy31YUGfLkTOdV/LJQ8OzVl78sbEt8Ql8lU5c5X1XM=;
+        b=bOOW+mhe+jxVlK2bLKi4L9WRJRSwnwUR7s5EsgKZoiisx+AAhbhgH3I5iSpjsp/zvG
+         ujDhqYHJdX+lpRqO4DI4uU03yLQC48NUoxGpskQ0YcxWjn6KfB4CZqe4kpxucta7oBE2
+         5HJWVVb5AjD4rXPbs+KzTjCqajt9oPsjZS0RQdM6hReXAksfSkQdJ/nVbXjEzCk8t1zT
+         wQ8LSvtxerTcSJwSaLAvh/if0Jna+OEFwn8+J47oQ1THz9SRAkkWUtSE5dTdlxfDAXHE
+         VDXiaw5lWmMlwaWGTgmMVL96o1Al/IMgLQEn4REkJoQtpnzyd+nw/KjY7yS4QE8MTKb5
+         n+Bw==
+X-Gm-Message-State: AOJu0Yyo1FA2KCxQuXLDf9nJCsUSmsPpqvprpBAy77FzZKHiM/ZdufWM
+	UF/ZUTgPrOrOZufi7OqGBHL5w7Py6wohL6RFmga9w1aKfOEbIV5UcGBV
+X-Gm-Gg: AY/fxX5J3mwJ+iESTzV6LvjRYhVAgcLJRwDUfFrfezpuVnRmhyWko35R3uCLZljlPL8
+	KoqWycWaqAPZH8oF9acktYI4XS9lSradItGqrJyJ6CJnpUIliKPotVXAXWMzzbx8LWtcDamHJEl
+	dC219iIi/+/zRXm+QUEyxLEfTdQidPaZgry25533znrwcJIAqcycEBohalOZjPP4jirDlIo2PnU
+	+mDLMlJGrJSSOOXJvrWjPkznhAy32216tAStw632E/cazNU20niJ/+18rnKtDYy5GFzuk14mk/e
+	keMsYy5QjcQj1cONPbr5fk5XVZVYc8+Sm9zEcOz4pLa9+2vnRKhYl0uKkGb024d34WVdOQVHraE
+	183lkZXAMTL3m9leEtweaD4SpVJZgxnXYPqOZFE7dPpy2WQQNh2K6dzSixqQnFGgQhNZPTEio1c
+	t7e2sSLAM6r5+TamFFgZbthOMdte51PYIq7roJU95bc80aFw==
+X-Google-Smtp-Source: AGHT+IGtZYwtKejQoOFuovNjJaFhF72wzKa/tyvI0qT5HW4xRwabzO+9k2CRNE4A5jL/3vIuG5nD1w==
+X-Received: by 2002:a05:6a21:6d9e:b0:366:14ac:e1dc with SMTP id adf61e73a8af0-369afff2579mr10516001637.66.1765821410248;
+        Mon, 15 Dec 2025 09:56:50 -0800 (PST)
+Received: from nikhil-s-Swift-SFG14-73.. ([101.0.63.245])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c1361b76c59sm5255040a12.34.2025.12.15.09.56.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Dec 2025 09:56:49 -0800 (PST)
+From: Nikhil S <nikhilsunilkumar@gmail.com>
+To: mchehab@kernel.org
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Nikhil S <nikhilsunilkumar@gmail.com>
+Subject: [PATCH] media: dvb-core: fix style violation issues
+Date: Mon, 15 Dec 2025 23:26:28 +0530
+Message-ID: <20251215175639.19377-1-nikhilsunilkumar@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PN0P287MB2019:EE_|PN3P287MB1192:EE_
-X-MS-Office365-Filtering-Correlation-Id: 30f25db0-6c22-43d1-5562-08de3bf039b1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|1800799024|7416014|52116014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?oGyB6doV8dmc5rXL8km1SRLYBnk9ZsXn2kVPAKFOuMtXG3sw5u0qBmuLZJmx?=
- =?us-ascii?Q?oQ2AVP4LDHn8CSerV9H35jvmcnjUnTEdlYXvflR5UPsnDUKpJjbpZgDYh1hs?=
- =?us-ascii?Q?vpl0KB8OqWpGrl/aPrQrvk7ulTzFk3DhiotdOXgVP2nTyBlyg/stOtdkE6kZ?=
- =?us-ascii?Q?lOzyGSBbIVp6FS2YDbzWwVKyJ3efURwR8EAVeUnPKxHf49dv/o3SMnwqT5w9?=
- =?us-ascii?Q?Ie5Wbrg14CXJ/UjYjO1wsVGIJDa+6xFyfLBBHIcd1cb/VlI9/jVQ4zAjqUUb?=
- =?us-ascii?Q?Qjo5D4hsVspoSi7ouJrQ2gKFcu4ihXs7jIgcexVbyAMCwnhr40ewcQA9aPoe?=
- =?us-ascii?Q?O8194BX2lXiVbrAcmOusgCf3vZ/LFRQHzr+x0q5fZ/kHajUVaxoZtf+c+67r?=
- =?us-ascii?Q?7+6jT6Cg2rQsRat7nO0jA6EIFbu+IoukbL7ioniqYAVi1iuFhPd5VImfH568?=
- =?us-ascii?Q?PBsfA5ZkN1iMSjyN6NZ9VPN3IUHmLvg9qIpWeZ3lZ8Axo/R4poeLQwEMOBDh?=
- =?us-ascii?Q?9glzUmAj6hSdr6sPbZtYiFQntr1trYP1zfuHvZE86QEpTMDsPex4r6eiOFVl?=
- =?us-ascii?Q?WGS/moTE0Nj4u7lVbMOqLKNL4QolOrKtDVybPa5f5zfS5cBn0towLgwQaXdd?=
- =?us-ascii?Q?pJIDJvKq7zJjzMbZMJHglMJJZLG0P3H5hmo51NnNOQ4mTOKEp+P7yBVksray?=
- =?us-ascii?Q?kZ8fDS5p2WXOmXoy3VMsJWMNHPJXpq9S7MN/DEMhbfnh1NMKuxuZnDro00RM?=
- =?us-ascii?Q?4/IxfYWtIOlB0guwP0ZBV+L8kJwXjguuNsTRQ7WkZiqLSzL3GdgN6Regyy2K?=
- =?us-ascii?Q?OsN48gg/oGtiD/hol1+hlFsh1U1/WBeSS01fkUaf7tFxMF9ceU2Z/F+wwSlP?=
- =?us-ascii?Q?tBaWuvA/HpvKWjydOUnQ1HR/ylzPGihgb8PHCdVFzuroqrWrfHNNiYzO0r4x?=
- =?us-ascii?Q?YTPoJ3MZM2xxhJa5XffFZAQQyGwGd2cehxLG/3J9W79iMCHvC6hcr0Y6DWlc?=
- =?us-ascii?Q?MTYY6o/kwXCe3oxuKTqdJujN838kCc6/vlBoe5qmgnq6dxtKAidp6z57PLDD?=
- =?us-ascii?Q?MVFTED2Rq3Oo4gq65+/zksN+dgOsF6DMudtQ99lLMnMPTX70RNtsR2gV1I9v?=
- =?us-ascii?Q?DyO8vPQVZcEvJw6K7OXk9RIM4EIP/5rMDlSZy/9L/0v7N/puJT7JNKta9FWf?=
- =?us-ascii?Q?0iTAKkeAv1t1pqxNE1UyUwU6hNVBAC9kUEoEOSyg1ZlYXQS17vZqRYzxUEcN?=
- =?us-ascii?Q?NJdiUIdm0zdOQkWxhawBkleklQ7UGddv/bFwwSvquRXTWZkzFvG8HvW0QMM8?=
- =?us-ascii?Q?73/QRk1KcVa31wekZ/w8DklLsuXjvIx3WQS4oiyF324lWbzTMuqZV8WX+JBY?=
- =?us-ascii?Q?wTJksmQu3ZjQwoQ2FWE13WuSU4zyefodu73+iWauuCSO0t5hEtnfBFptxnps?=
- =?us-ascii?Q?WuBq966XqpdkSJ43WULbaKWc9w1AzUN0R/bxcUMhWlGGftNqvyAGmHRPzOCo?=
- =?us-ascii?Q?4S8+1kkFYbzLx8Sd81SPcFbUqoBXm651mWJ4?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN0P287MB2019.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7416014)(52116014)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?a4O++GgrOLbb9T80fjcvcmY4wUJvtSoZcCJ1vxwSqam+UegISmGTtaIC4tgY?=
- =?us-ascii?Q?34rXlUJTdjHZyF3DSE+UmZvqbbtDreOGMdgF2QsnQt0R1EIrICxsVCSKRWDz?=
- =?us-ascii?Q?smTx4GqIHiw1g6RJGgtxHW4XSNyMpEKcE5MVU+bUt2iYgcTXVQQ1gP0QZm+C?=
- =?us-ascii?Q?pH2OIIM6G0Uw/X2tRKKJHKqGAno8qloNkyfSjXfHpqdlrV3cy4+tlVMDcXrA?=
- =?us-ascii?Q?shrzcpCts7eBmgw326Y7RfT5bWOg5hU4lECgqFCPow3gZjUX803oDzp85hKb?=
- =?us-ascii?Q?L6oJabwA+KmsxFwzLozDTRjNgwWJD2SHhWpe6UKyYmlRnXFjoqNz/6TQCdMf?=
- =?us-ascii?Q?nWLo6r0zfu/FO+faSWhR0O1Yd8QWiBQ1gcFGcE861XCBRzJt71WG73ygBygG?=
- =?us-ascii?Q?0Wkd/U78PiEd8yB/d2mLdQgYcB4QCaf8ouHxilTeqpvamTZNbLCSJuFcH4TX?=
- =?us-ascii?Q?aWszx3SpqtK08ql94W5ktfHexQR1bytV1NKRIQktXv2b+MEk5ijnC37QNuQr?=
- =?us-ascii?Q?u0mUl8aMIeWBSjELh7YNZPRBNdUqnI+7Mkm0CXgJP/P3BgUr3WfjLQ5EsBhx?=
- =?us-ascii?Q?xlxct1TohLITC61wuKHGX5dpjh15eqlwS9cjb3SVmJOsmd8TBEbqcqnUIP/d?=
- =?us-ascii?Q?jr5TekI55OR/4l06zzywRqcu9qD9Xx4VYojJwGQMbnj9OVLfcEdGd8ZI/7pM?=
- =?us-ascii?Q?BEqjlFe1noNsWfoQi30Cjyq0uR3ZCe0JKWKPQx9GISAPkivNRdg/h8nO3eKN?=
- =?us-ascii?Q?M8C++jRFSiqCzMoGhD5Prc+kJF/7Sr68nsRy775VBx2O/G7uYdYHbM9KF0MT?=
- =?us-ascii?Q?xLHAyLQ0HGtV+BKDsPthO76QpimrhrHBJXI4uWxqDN//lpvRCVBRMy39gGLC?=
- =?us-ascii?Q?6k3HABRQ/qwflQFqksrh7T783ZaMu4XCGH5TBuqlwWSxo4C6gkEhbeQczKcF?=
- =?us-ascii?Q?NaeHisHchFhEhd5UFS8I1oJ/kKVCGVSQCm/WA9p5QB968ZkCjhJBGWifwb0N?=
- =?us-ascii?Q?ax+InYFEXh+a0XWRRHhJQOCebYltbJDZylZXYDrfheh2mdczm3BwqNiJ1It7?=
- =?us-ascii?Q?AHoi775JqR6tE5DiFKY3aXteRb2LDoUg+sHBb/5CSBhN29CuxHv4MFhYYUxw?=
- =?us-ascii?Q?WkQHgI/V+rz2iWvXIEAMAQtrjtAXrmLKvIrOEP1tq97SeiKYr6IR8wXv3nJ8?=
- =?us-ascii?Q?gk5EgFvpSRlXv/c4xJWQtWlObTutPn/R+ctPLkjntN7yqJRsrNtRdCji6HyG?=
- =?us-ascii?Q?SfXhHwBGwRXdwkblJbM4R5GGqAmi1fb2E+HGAGsGOv4MSneonURTKvF18UZ4?=
- =?us-ascii?Q?t77wsMfwB55vmh1KWAsr4B6itO8P5GXfFaXghnoUuCSF6lzf80gCJOKR9stp?=
- =?us-ascii?Q?5TwpBSozpPdhBvh9stmIF/HWWAxTikQpWwPRxbc7XUAO+vKRjOWTo0YjJr4n?=
- =?us-ascii?Q?d/OFyT5enluXeOroixp6Uaec/lmAWlQMEQmi7jBbD9bfH0wH42OfW7/GvlaM?=
- =?us-ascii?Q?CicYrHNLk3LT9I0TW3GS7PlG/k+c2lyQay9GZzQNhtBWmKwRr+VMvMvx82Mz?=
- =?us-ascii?Q?j9QXbIz1UnV+hqm0q9AZXeeg0/RZmF5ESSg4JIbMeyo85/XCbIp3lb2+4shn?=
- =?us-ascii?Q?vJMj9fAJGrYRuiNGf9iYB2M=3D?=
-X-OriginatorOrg: siliconsignals.io
-X-MS-Exchange-CrossTenant-Network-Message-Id: 30f25db0-6c22-43d1-5562-08de3bf039b1
-X-MS-Exchange-CrossTenant-AuthSource: PN0P287MB2019.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2025 15:40:08.0579
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IbRqq9kWfg2rA6K386rlBlCIUWUmb/Elm95qiGwTfvDAa3dge4pHbP2M5aUOm3XQobWsQKrmKfh0yp6ixJt9t3asmYgOIYw7Wj5CvISvLF5qV82WPq4YWNd8geB3MsB4
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3P287MB1192
+Content-Transfer-Encoding: 8bit
 
-Add a v4l2 subdevice driver for the Omnivision OS05B10 sensor.
+Fix multiple checkpatch-reported style issues.
 
-The Omnivision OS05B10 image sensor with an active
-array size of 2592 x 1944.
-
-The following features are supported:
-- Manual exposure an gain control support
-- vblank/hblank control support
-- Supported resolution: 2592 x 1944 @ 60fps (SBGGR10)
-
-Co-developed-by: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
-Signed-off-by: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
-Signed-off-by: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
+Signed-off-by: Nikhil S <nikhilsunilkumar@gmail.com>
 ---
- MAINTAINERS                 |    1 +
- drivers/media/i2c/Kconfig   |   10 +
- drivers/media/i2c/Makefile  |    1 +
- drivers/media/i2c/os05b10.c | 1111 +++++++++++++++++++++++++++++++++++
- 4 files changed, 1123 insertions(+)
- create mode 100644 drivers/media/i2c/os05b10.c
+ drivers/media/dvb-core/dvb_net.c | 158 ++++++++++++++++---------------
+ 1 file changed, 80 insertions(+), 78 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c85915d5d20e..c48d04ca38d1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -19240,6 +19240,7 @@ M:	Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/media/i2c/ovti,os05b10.yaml
-+F:	drivers/media/i2c/os05b10.c
-
- OMNIVISION OV01A10 SENSOR DRIVER
- M:	Bingbu Cao <bingbu.cao@intel.com>
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 4b4db8c4f496..9800ba50b9a6 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -371,6 +371,16 @@ config VIDEO_OG0VE1B
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called og0ve1b.
-
-+config VIDEO_OS05B10
-+        tristate "OmniVision OS05B10 sensor support"
-+        select V4L2_CCI_I2C
-+        help
-+          This is a Video4Linux2 sensor driver for Omnivision
-+          OS05B10 camera sensor.
-+
-+	  To compile this driver as a module, choose M here: the
-+          module will be called os05b10.
-+
- config VIDEO_OV01A10
- 	tristate "OmniVision OV01A10 sensor support"
- 	help
-diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index c5f17602454f..561d37939875 100644
---- a/drivers/media/i2c/Makefile
-+++ b/drivers/media/i2c/Makefile
-@@ -84,6 +84,7 @@ obj-$(CONFIG_VIDEO_MT9V032) += mt9v032.o
- obj-$(CONFIG_VIDEO_MT9V111) += mt9v111.o
- obj-$(CONFIG_VIDEO_OG01A1B) += og01a1b.o
- obj-$(CONFIG_VIDEO_OG0VE1B) += og0ve1b.o
-+obj-$(CONFIG_VIDEO_OS05B10) += os05b10.o
- obj-$(CONFIG_VIDEO_OV01A10) += ov01a10.o
- obj-$(CONFIG_VIDEO_OV02A10) += ov02a10.o
- obj-$(CONFIG_VIDEO_OV02C10) += ov02c10.o
-diff --git a/drivers/media/i2c/os05b10.c b/drivers/media/i2c/os05b10.c
-new file mode 100644
-index 000000000000..93078221dfd2
---- /dev/null
-+++ b/drivers/media/i2c/os05b10.c
-@@ -0,0 +1,1111 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * V4L2 Support for the os05b10
-+ *
-+ * Copyright (C) 2025 Silicon Signals Pvt. Ltd.
-+ *
-+ * Inspired from imx219, ov2735 camera drivers.
-+ */
-+
-+#include <linux/array_size.h>
-+#include <linux/bitops.h>
-+#include <linux/cleanup.h>
-+#include <linux/clk.h>
-+#include <linux/container_of.h>
-+#include <linux/delay.h>
-+#include <linux/device/devres.h>
-+#include <linux/err.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/property.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/units.h>
-+#include <linux/types.h>
-+#include <linux/time.h>
-+
-+#include <media/v4l2-cci.h>
-+#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-device.h>
-+#include <media/v4l2-fwnode.h>
-+#include <media/v4l2-mediabus.h>
-+
-+#define OS05B10_XCLK_FREQ		(24 * HZ_PER_MHZ)
-+
-+#define OS05B10_REG_CHIP_ID		CCI_REG24(0x300A)
-+#define OS05B10_CHIP_ID			0x530641
-+
-+#define OS05B10_REG_CTRL_MODE		CCI_REG8(0x0100)
-+#define OS05B10_MODE_STANDBY		0x00
-+#define OS05B10_MODE_STREAMING		0x01
-+
-+#define OS05B10_REG_VTS			CCI_REG16(0x380E)
-+#define OS05B10_VTS_MAX			0xFFFF
-+
-+#define OS05B10_REG_HTS			CCI_REG16(0x380C)
-+
-+#define OS05B10_ANALOG_GAIN		CCI_REG16(0x3508)
-+#define OS05B10_ANALOG_GAIN_MIN		0x80
-+#define OS05B10_ANALOG_GAIN_MAX		0x7C0
-+#define OS05B10_ANALOG_GAIN_STEP	1
-+#define OS05B10_ANALOG_GAIN_DEFAULT     0x80
-+
-+#define OS05B10_EXPOSURE_GAIN		CCI_REG24(0x3500)
-+#define OS05B10_EXPOSURE_MIN		2
-+#define OS05B10_EXPOSURE_STEP		1
-+#define OS05B10_EXPOSURE_MARGIN         8
-+
-+#define OS05B10_PIXEL_RATE		(480 * HZ_PER_MHZ)
-+#define OS05B10_LINK_FREQ_600MHZ	(600 * HZ_PER_MHZ)
-+
-+static const struct v4l2_rect os05b10_native_area = {
-+	.top = 0,
-+	.left = 0,
-+	.width = 2608,
-+	.height = 1960,
-+};
-+
-+static const struct v4l2_rect os05b10_active_area = {
-+	.top = 8,
-+	.left = 8,
-+	.width = 2592,
-+	.height = 1944,
-+};
-+
-+static const char * const os05b10_supply_name[] = {
-+	"avdd", /* Analog supply */
-+	"dvdd", /* Digital core */
-+	"dovdd", /* Digital IO */
-+};
-+
-+static const struct cci_reg_sequence os05b10_common_regs[] = {
-+	{ CCI_REG8(0x0103), 0x01 },
-+	{ CCI_REG8(0x0301), 0x44 },
-+	{ CCI_REG8(0x0303), 0x02 },
-+	{ CCI_REG8(0x0305), 0x32 },
-+	{ CCI_REG8(0x0306), 0x00 },
-+	{ CCI_REG8(0x0325), 0x3b },
-+	{ CCI_REG8(0x3002), 0x21 },
-+	{ CCI_REG8(0x3016), 0x72 },
-+	{ CCI_REG8(0x301e), 0xb4 },
-+	{ CCI_REG8(0x301f), 0xd0 },
-+	{ CCI_REG8(0x3021), 0x03 },
-+	{ CCI_REG8(0x3022), 0x01 },
-+	{ CCI_REG8(0x3107), 0xa1 },
-+	{ CCI_REG8(0x3108), 0x7d },
-+	{ CCI_REG8(0x3109), 0xfc },
-+	{ CCI_REG8(0x3500), 0x00 },
-+	{ CCI_REG8(0x3501), 0x07 },
-+	{ CCI_REG8(0x3502), 0xb6 },
-+	{ CCI_REG8(0x3503), 0x88 },
-+	{ CCI_REG8(0x3508), 0x00 },
-+	{ CCI_REG8(0x3509), 0x80 },
-+	{ CCI_REG8(0x350a), 0x04 },
-+	{ CCI_REG8(0x350b), 0x00 },
-+	{ CCI_REG8(0x350c), 0x00 },
-+	{ CCI_REG8(0x350d), 0x80 },
-+	{ CCI_REG8(0x350e), 0x04 },
-+	{ CCI_REG8(0x350f), 0x00 },
-+	{ CCI_REG8(0x3510), 0x00 },
-+	{ CCI_REG8(0x3511), 0x00 },
-+	{ CCI_REG8(0x3512), 0x20 },
-+	{ CCI_REG8(0x3600), 0x4d },
-+	{ CCI_REG8(0x3601), 0x08 },
-+	{ CCI_REG8(0x3610), 0x87 },
-+	{ CCI_REG8(0x3611), 0x24 },
-+	{ CCI_REG8(0x3614), 0x4c },
-+	{ CCI_REG8(0x3620), 0x0c },
-+	{ CCI_REG8(0x3632), 0x80 },
-+	{ CCI_REG8(0x3633), 0x00 },
-+	{ CCI_REG8(0x3636), 0xcc },
-+	{ CCI_REG8(0x3637), 0x27 },
-+	{ CCI_REG8(0x3660), 0x00 },
-+	{ CCI_REG8(0x3662), 0x10 },
-+	{ CCI_REG8(0x3665), 0x00 },
-+	{ CCI_REG8(0x3666), 0x00 },
-+	{ CCI_REG8(0x366a), 0x14 },
-+	{ CCI_REG8(0x3670), 0x0b },
-+	{ CCI_REG8(0x3671), 0x0b },
-+	{ CCI_REG8(0x3672), 0x0b },
-+	{ CCI_REG8(0x3673), 0x0b },
-+	{ CCI_REG8(0x3678), 0x2b },
-+	{ CCI_REG8(0x367a), 0x11 },
-+	{ CCI_REG8(0x367b), 0x11 },
-+	{ CCI_REG8(0x367c), 0x11 },
-+	{ CCI_REG8(0x367d), 0x11 },
-+	{ CCI_REG8(0x3681), 0xff },
-+	{ CCI_REG8(0x3682), 0x86 },
-+	{ CCI_REG8(0x3683), 0x44 },
-+	{ CCI_REG8(0x3684), 0x24 },
-+	{ CCI_REG8(0x3685), 0x00 },
-+	{ CCI_REG8(0x368a), 0x00 },
-+	{ CCI_REG8(0x368d), 0x2b },
-+	{ CCI_REG8(0x368e), 0x2b },
-+	{ CCI_REG8(0x3690), 0x00 },
-+	{ CCI_REG8(0x3691), 0x0b },
-+	{ CCI_REG8(0x3692), 0x0b },
-+	{ CCI_REG8(0x3693), 0x0b },
-+	{ CCI_REG8(0x3694), 0x0b },
-+	{ CCI_REG8(0x369d), 0x68 },
-+	{ CCI_REG8(0x369e), 0x34 },
-+	{ CCI_REG8(0x369f), 0x1b },
-+	{ CCI_REG8(0x36a0), 0x0f },
-+	{ CCI_REG8(0x36a1), 0x77 },
-+	{ CCI_REG8(0x36b0), 0x30 },
-+	{ CCI_REG8(0x36b2), 0x00 },
-+	{ CCI_REG8(0x36b3), 0x00 },
-+	{ CCI_REG8(0x36b4), 0x00 },
-+	{ CCI_REG8(0x36b5), 0x00 },
-+	{ CCI_REG8(0x36b6), 0x00 },
-+	{ CCI_REG8(0x36b7), 0x00 },
-+	{ CCI_REG8(0x36b8), 0x00 },
-+	{ CCI_REG8(0x36b9), 0x00 },
-+	{ CCI_REG8(0x36ba), 0x00 },
-+	{ CCI_REG8(0x36bb), 0x00 },
-+	{ CCI_REG8(0x36bc), 0x00 },
-+	{ CCI_REG8(0x36bd), 0x00 },
-+	{ CCI_REG8(0x36be), 0x00 },
-+	{ CCI_REG8(0x36bf), 0x00 },
-+	{ CCI_REG8(0x36c0), 0x01 },
-+	{ CCI_REG8(0x36c1), 0x00 },
-+	{ CCI_REG8(0x36c2), 0x00 },
-+	{ CCI_REG8(0x36c3), 0x00 },
-+	{ CCI_REG8(0x36c4), 0x00 },
-+	{ CCI_REG8(0x36c5), 0x00 },
-+	{ CCI_REG8(0x36c6), 0x00 },
-+	{ CCI_REG8(0x36c7), 0x00 },
-+	{ CCI_REG8(0x36c8), 0x00 },
-+	{ CCI_REG8(0x36c9), 0x00 },
-+	{ CCI_REG8(0x36ca), 0x0e },
-+	{ CCI_REG8(0x36cb), 0x0e },
-+	{ CCI_REG8(0x36cc), 0x0e },
-+	{ CCI_REG8(0x36cd), 0x0e },
-+	{ CCI_REG8(0x36ce), 0x0c },
-+	{ CCI_REG8(0x36cf), 0x0c },
-+	{ CCI_REG8(0x36d0), 0x0c },
-+	{ CCI_REG8(0x36d1), 0x0c },
-+	{ CCI_REG8(0x36d2), 0x00 },
-+	{ CCI_REG8(0x36d3), 0x08 },
-+	{ CCI_REG8(0x36d4), 0x10 },
-+	{ CCI_REG8(0x36d5), 0x10 },
-+	{ CCI_REG8(0x36d6), 0x00 },
-+	{ CCI_REG8(0x36d7), 0x08 },
-+	{ CCI_REG8(0x36d8), 0x10 },
-+	{ CCI_REG8(0x36d9), 0x10 },
-+	{ CCI_REG8(0x3701), 0x1d },
-+	{ CCI_REG8(0x3703), 0x2a },
-+	{ CCI_REG8(0x3704), 0x05 },
-+	{ CCI_REG8(0x3709), 0x57 },
-+	{ CCI_REG8(0x370b), 0x63 },
-+	{ CCI_REG8(0x3706), 0x28 },
-+	{ CCI_REG8(0x370a), 0x00 },
-+	{ CCI_REG8(0x370b), 0x63 },
-+	{ CCI_REG8(0x370e), 0x0c },
-+	{ CCI_REG8(0x370f), 0x1c },
-+	{ CCI_REG8(0x3710), 0x00 },
-+	{ CCI_REG8(0x3713), 0x00 },
-+	{ CCI_REG8(0x3714), 0x24 },
-+	{ CCI_REG8(0x3716), 0x24 },
-+	{ CCI_REG8(0x371a), 0x1e },
-+	{ CCI_REG8(0x3724), 0x09 },
-+	{ CCI_REG8(0x3725), 0xb2 },
-+	{ CCI_REG8(0x372b), 0x54 },
-+	{ CCI_REG8(0x3730), 0xe1 },
-+	{ CCI_REG8(0x3735), 0x80 },
-+	{ CCI_REG8(0x3739), 0x10 },
-+	{ CCI_REG8(0x373f), 0xb0 },
-+	{ CCI_REG8(0x3740), 0x28 },
-+	{ CCI_REG8(0x3741), 0x21 },
-+	{ CCI_REG8(0x3742), 0x21 },
-+	{ CCI_REG8(0x3743), 0x21 },
-+	{ CCI_REG8(0x3744), 0x63 },
-+	{ CCI_REG8(0x3745), 0x5a },
-+	{ CCI_REG8(0x3746), 0x5a },
-+	{ CCI_REG8(0x3747), 0x5a },
-+	{ CCI_REG8(0x3748), 0x00 },
-+	{ CCI_REG8(0x3749), 0x00 },
-+	{ CCI_REG8(0x374a), 0x00 },
-+	{ CCI_REG8(0x374b), 0x00 },
-+	{ CCI_REG8(0x3756), 0x00 },
-+	{ CCI_REG8(0x3757), 0x0e },
-+	{ CCI_REG8(0x375d), 0x84 },
-+	{ CCI_REG8(0x3760), 0x11 },
-+	{ CCI_REG8(0x3767), 0x08 },
-+	{ CCI_REG8(0x376f), 0x42 },
-+	{ CCI_REG8(0x3771), 0x00 },
-+	{ CCI_REG8(0x3773), 0x01 },
-+	{ CCI_REG8(0x3774), 0x02 },
-+	{ CCI_REG8(0x3775), 0x12 },
-+	{ CCI_REG8(0x3776), 0x02 },
-+	{ CCI_REG8(0x377b), 0x40 },
-+	{ CCI_REG8(0x377c), 0x00 },
-+	{ CCI_REG8(0x377d), 0x0c },
-+	{ CCI_REG8(0x3782), 0x02 },
-+	{ CCI_REG8(0x3787), 0x24 },
-+	{ CCI_REG8(0x378a), 0x01 },
-+	{ CCI_REG8(0x378d), 0x00 },
-+	{ CCI_REG8(0x3790), 0x1f },
-+	{ CCI_REG8(0x3791), 0x58 },
-+	{ CCI_REG8(0x3795), 0x24 },
-+	{ CCI_REG8(0x3796), 0x01 },
-+	{ CCI_REG8(0x3798), 0x40 },
-+	{ CCI_REG8(0x379c), 0x00 },
-+	{ CCI_REG8(0x379d), 0x00 },
-+	{ CCI_REG8(0x379e), 0x00 },
-+	{ CCI_REG8(0x379f), 0x01 },
-+	{ CCI_REG8(0x37a1), 0x10 },
-+	{ CCI_REG8(0x37a6), 0x00 },
-+	{ CCI_REG8(0x37ab), 0x0e },
-+	{ CCI_REG8(0x37ac), 0xa0 },
-+	{ CCI_REG8(0x37be), 0x0a },
-+	{ CCI_REG8(0x37bf), 0x05 },
-+	{ CCI_REG8(0x37bb), 0x02 },
-+	{ CCI_REG8(0x37bf), 0x05 },
-+	{ CCI_REG8(0x37c2), 0x04 },
-+	{ CCI_REG8(0x37c4), 0x11 },
-+	{ CCI_REG8(0x37c5), 0x80 },
-+	{ CCI_REG8(0x37c6), 0x14 },
-+	{ CCI_REG8(0x37c7), 0x08 },
-+	{ CCI_REG8(0x37c8), 0x42 },
-+	{ CCI_REG8(0x37cd), 0x17 },
-+	{ CCI_REG8(0x37ce), 0x01 },
-+	{ CCI_REG8(0x37d8), 0x02 },
-+	{ CCI_REG8(0x37d9), 0x08 },
-+	{ CCI_REG8(0x37dc), 0x01 },
-+	{ CCI_REG8(0x37e0), 0x0c },
-+	{ CCI_REG8(0x37e1), 0x20 },
-+	{ CCI_REG8(0x37e2), 0x10 },
-+	{ CCI_REG8(0x37e3), 0x04 },
-+	{ CCI_REG8(0x37e4), 0x28 },
-+	{ CCI_REG8(0x37e5), 0x02 },
-+	{ CCI_REG8(0x37ef), 0x00 },
-+	{ CCI_REG8(0x37f4), 0x00 },
-+	{ CCI_REG8(0x37f5), 0x00 },
-+	{ CCI_REG8(0x37f6), 0x00 },
-+	{ CCI_REG8(0x37f7), 0x00 },
-+	{ CCI_REG8(0x3800), 0x01 },
-+	{ CCI_REG8(0x3801), 0x30 },
-+	{ CCI_REG8(0x3802), 0x00 },
-+	{ CCI_REG8(0x3803), 0x00 },
-+	{ CCI_REG8(0x3804), 0x0b },
-+	{ CCI_REG8(0x3805), 0x5f },
-+	{ CCI_REG8(0x3806), 0x07 },
-+	{ CCI_REG8(0x3807), 0xa7 },
-+	{ CCI_REG8(0x3808), 0x0a },
-+	{ CCI_REG8(0x3809), 0x20 },
-+	{ CCI_REG8(0x380a), 0x07 },
-+	{ CCI_REG8(0x380b), 0x98 },
-+	{ CCI_REG8(0x380c), 0x06 },
-+	{ CCI_REG8(0x380d), 0xd0 },
-+	{ CCI_REG8(0x380e), 0x07 },
-+	{ CCI_REG8(0x380f), 0xd6 },
-+	{ CCI_REG8(0x3810), 0x00 },
-+	{ CCI_REG8(0x3811), 0x08 },
-+	{ CCI_REG8(0x3812), 0x00 },
-+	{ CCI_REG8(0x3813), 0x08 },
-+	{ CCI_REG8(0x3814), 0x01 },
-+	{ CCI_REG8(0x3815), 0x01 },
-+	{ CCI_REG8(0x3816), 0x01 },
-+	{ CCI_REG8(0x3817), 0x01 },
-+	{ CCI_REG8(0x3818), 0x00 },
-+	{ CCI_REG8(0x3819), 0x00 },
-+	{ CCI_REG8(0x381a), 0x00 },
-+	{ CCI_REG8(0x381b), 0x01 },
-+	{ CCI_REG8(0x3820), 0x88 },
-+	{ CCI_REG8(0x3821), 0x00 },
-+	{ CCI_REG8(0x3822), 0x12 },
-+	{ CCI_REG8(0x3823), 0x08 },
-+	{ CCI_REG8(0x3824), 0x00 },
-+	{ CCI_REG8(0x3825), 0x20 },
-+	{ CCI_REG8(0x3826), 0x00 },
-+	{ CCI_REG8(0x3827), 0x08 },
-+	{ CCI_REG8(0x3829), 0x03 },
-+	{ CCI_REG8(0x382a), 0x00 },
-+	{ CCI_REG8(0x382b), 0x00 },
-+	{ CCI_REG8(0x3832), 0x08 },
-+	{ CCI_REG8(0x3838), 0x00 },
-+	{ CCI_REG8(0x3839), 0x00 },
-+	{ CCI_REG8(0x383a), 0x00 },
-+	{ CCI_REG8(0x383b), 0x00 },
-+	{ CCI_REG8(0x383d), 0x01 },
-+	{ CCI_REG8(0x383e), 0x00 },
-+	{ CCI_REG8(0x383f), 0x00 },
-+	{ CCI_REG8(0x3843), 0x00 },
-+	{ CCI_REG8(0x3880), 0x16 },
-+	{ CCI_REG8(0x3881), 0x00 },
-+	{ CCI_REG8(0x3882), 0x08 },
-+	{ CCI_REG8(0x389a), 0x00 },
-+	{ CCI_REG8(0x389b), 0x00 },
-+	{ CCI_REG8(0x38a2), 0x02 },
-+	{ CCI_REG8(0x38a3), 0x02 },
-+	{ CCI_REG8(0x38a4), 0x02 },
-+	{ CCI_REG8(0x38a5), 0x02 },
-+	{ CCI_REG8(0x38a7), 0x04 },
-+	{ CCI_REG8(0x38b8), 0x02 },
-+	{ CCI_REG8(0x3c80), 0x3e },
-+	{ CCI_REG8(0x3c86), 0x01 },
-+	{ CCI_REG8(0x3c87), 0x02 },
-+	{ CCI_REG8(0x389c), 0x00 },
-+	{ CCI_REG8(0x3ca2), 0x0c },
-+	{ CCI_REG8(0x3d85), 0x1b },
-+	{ CCI_REG8(0x3d8c), 0x01 },
-+	{ CCI_REG8(0x3d8d), 0xe2 },
-+	{ CCI_REG8(0x3f00), 0xcb },
-+	{ CCI_REG8(0x3f03), 0x08 },
-+	{ CCI_REG8(0x3f9e), 0x07 },
-+	{ CCI_REG8(0x3f9f), 0x04 },
-+	{ CCI_REG8(0x4000), 0xf3 },
-+	{ CCI_REG8(0x4002), 0x00 },
-+	{ CCI_REG8(0x4003), 0x40 },
-+	{ CCI_REG8(0x4008), 0x02 },
-+	{ CCI_REG8(0x4009), 0x0d },
-+	{ CCI_REG8(0x400a), 0x01 },
-+	{ CCI_REG8(0x400b), 0x00 },
-+	{ CCI_REG8(0x4040), 0x00 },
-+	{ CCI_REG8(0x4041), 0x07 },
-+	{ CCI_REG8(0x4090), 0x14 },
-+	{ CCI_REG8(0x40b0), 0x01 },
-+	{ CCI_REG8(0x40b1), 0x01 },
-+	{ CCI_REG8(0x40b2), 0x30 },
-+	{ CCI_REG8(0x40b3), 0x04 },
-+	{ CCI_REG8(0x40b4), 0xe8 },
-+	{ CCI_REG8(0x40b5), 0x01 },
-+	{ CCI_REG8(0x40b7), 0x07 },
-+	{ CCI_REG8(0x40b8), 0xff },
-+	{ CCI_REG8(0x40b9), 0x00 },
-+	{ CCI_REG8(0x40ba), 0x00 },
-+	{ CCI_REG8(0x4300), 0xff },
-+	{ CCI_REG8(0x4301), 0x00 },
-+	{ CCI_REG8(0x4302), 0x0f },
-+	{ CCI_REG8(0x4303), 0x20 },
-+	{ CCI_REG8(0x4304), 0x20 },
-+	{ CCI_REG8(0x4305), 0x83 },
-+	{ CCI_REG8(0x4306), 0x21 },
-+	{ CCI_REG8(0x430d), 0x00 },
-+	{ CCI_REG8(0x4505), 0xc4 },
-+	{ CCI_REG8(0x4506), 0x00 },
-+	{ CCI_REG8(0x4507), 0x60 },
-+	{ CCI_REG8(0x4803), 0x00 },
-+	{ CCI_REG8(0x4809), 0x8e },
-+	{ CCI_REG8(0x480e), 0x00 },
-+	{ CCI_REG8(0x4813), 0x00 },
-+	{ CCI_REG8(0x4814), 0x2a },
-+	{ CCI_REG8(0x481b), 0x40 },
-+	{ CCI_REG8(0x481f), 0x30 },
-+	{ CCI_REG8(0x4825), 0x34 },
-+	{ CCI_REG8(0x4829), 0x64 },
-+	{ CCI_REG8(0x4837), 0x12 },
-+	{ CCI_REG8(0x484b), 0x07 },
-+	{ CCI_REG8(0x4883), 0x36 },
-+	{ CCI_REG8(0x4885), 0x03 },
-+	{ CCI_REG8(0x488b), 0x00 },
-+	{ CCI_REG8(0x4d06), 0x01 },
-+	{ CCI_REG8(0x4e00), 0x2a },
-+	{ CCI_REG8(0x4e0d), 0x00 },
-+	{ CCI_REG8(0x5000), 0xf9 },
-+	{ CCI_REG8(0x5001), 0x09 },
-+	{ CCI_REG8(0x5004), 0x00 },
-+	{ CCI_REG8(0x5005), 0x0e },
-+	{ CCI_REG8(0x5036), 0x00 },
-+	{ CCI_REG8(0x5080), 0x04 },
-+	{ CCI_REG8(0x5082), 0x00 },
-+	{ CCI_REG8(0x5180), 0x00 },
-+	{ CCI_REG8(0x5181), 0x10 },
-+	{ CCI_REG8(0x5182), 0x01 },
-+	{ CCI_REG8(0x5183), 0xdf },
-+	{ CCI_REG8(0x5184), 0x02 },
-+	{ CCI_REG8(0x5185), 0x6c },
-+	{ CCI_REG8(0x5189), 0x48 },
-+	{ CCI_REG8(0x520a), 0x03 },
-+	{ CCI_REG8(0x520b), 0x0f },
-+	{ CCI_REG8(0x520c), 0x3f },
-+	{ CCI_REG8(0x580b), 0x03 },
-+	{ CCI_REG8(0x580d), 0x00 },
-+	{ CCI_REG8(0x580f), 0x00 },
-+	{ CCI_REG8(0x5820), 0x00 },
-+	{ CCI_REG8(0x5821), 0x00 },
-+	{ CCI_REG8(0x3222), 0x03 },
-+	{ CCI_REG8(0x3208), 0x06 },
-+	{ CCI_REG8(0x3701), 0x1d },
-+	{ CCI_REG8(0x37ab), 0x01 },
-+	{ CCI_REG8(0x3790), 0x21 },
-+	{ CCI_REG8(0x38be), 0x00 },
-+	{ CCI_REG8(0x3791), 0x5a },
-+	{ CCI_REG8(0x37bf), 0x1c },
-+	{ CCI_REG8(0x3610), 0x37 },
-+	{ CCI_REG8(0x3208), 0x16 },
-+	{ CCI_REG8(0x3208), 0x07 },
-+	{ CCI_REG8(0x3701), 0x1d },
-+	{ CCI_REG8(0x37ab), 0x0e },
-+	{ CCI_REG8(0x3790), 0x21 },
-+	{ CCI_REG8(0x38be), 0x00 },
-+	{ CCI_REG8(0x3791), 0x5a },
-+	{ CCI_REG8(0x37bf), 0x0a },
-+	{ CCI_REG8(0x3610), 0x87 },
-+	{ CCI_REG8(0x3208), 0x17 },
-+	{ CCI_REG8(0x3208), 0x08 },
-+	{ CCI_REG8(0x3701), 0x1d },
-+	{ CCI_REG8(0x37ab), 0x0e },
-+	{ CCI_REG8(0x3790), 0x21 },
-+	{ CCI_REG8(0x38be), 0x00 },
-+	{ CCI_REG8(0x3791), 0x5a },
-+	{ CCI_REG8(0x37bf), 0x0a },
-+	{ CCI_REG8(0x3610), 0x87 },
-+	{ CCI_REG8(0x3208), 0x18 },
-+	{ CCI_REG8(0x3208), 0x09 },
-+	{ CCI_REG8(0x3701), 0x1d },
-+	{ CCI_REG8(0x37ab), 0x0e },
-+	{ CCI_REG8(0x3790), 0x28 },
-+	{ CCI_REG8(0x38be), 0x00 },
-+	{ CCI_REG8(0x3791), 0x63 },
-+	{ CCI_REG8(0x37bf), 0x0a },
-+	{ CCI_REG8(0x3610), 0x87 },
-+	{ CCI_REG8(0x3208), 0x19 },
-+};
-+
-+struct os05b10 {
-+	struct device *dev;
-+	struct regmap *cci;
-+	struct v4l2_subdev sd;
-+	struct media_pad pad;
-+	struct clk *xclk;
-+	struct i2c_client *client;
-+	struct gpio_desc *reset_gpio;
-+	struct regulator_bulk_data supplies[ARRAY_SIZE(os05b10_supply_name)];
-+
-+	/* V4L2 Controls */
-+	struct v4l2_ctrl_handler handler;
-+	struct v4l2_ctrl *link_freq;
-+	struct v4l2_ctrl *hblank;
-+	struct v4l2_ctrl *vblank;
-+	struct v4l2_ctrl *gain;
-+	struct v4l2_ctrl *exposure;
-+
-+	unsigned long link_freq_index;
-+};
-+
-+struct os05b10_mode {
-+	u32 width;
-+	u32 height;
-+	u32 vts; /* default VTS */
-+	u32 hts; /* default HTS */
-+	u32 exp; /* default exposure */
-+};
-+
-+static const struct os05b10_mode supported_modes_10bit[] = {
-+	{
-+		/* 2592x1944 */
-+		.width = 2592,
-+		.height = 1944,
-+		.vts = 2006,
-+		.hts = 2616,
-+		.exp = 1944,
-+	},
-+};
-+
-+static const s64 link_frequencies[] = {
-+	OS05B10_LINK_FREQ_600MHZ,
-+};
-+
-+static const u32 os05b10_mbus_codes[] = {
-+	MEDIA_BUS_FMT_SBGGR10_1X10,
-+};
-+
-+static inline struct os05b10 *to_os05b10(struct v4l2_subdev *sd)
-+{
-+	return container_of_const(sd, struct os05b10, sd);
-+};
-+
-+static int os05b10_set_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	struct os05b10 *os05b10 = container_of_const(ctrl->handler,
-+						     struct os05b10, handler);
-+	struct v4l2_mbus_framefmt *fmt;
-+	struct v4l2_subdev_state *state;
-+	int vmax, ret;
-+
-+	state = v4l2_subdev_get_locked_active_state(&os05b10->sd);
-+	fmt = v4l2_subdev_state_get_format(state, 0);
-+
-+	if (ctrl->id == V4L2_CID_VBLANK) {
-+		/* Honour the VBLANK limits when setting exposure. */
-+		s64 max = fmt->height + ctrl->val - OS05B10_EXPOSURE_MARGIN;
-+
-+		ret = __v4l2_ctrl_modify_range(os05b10->exposure,
-+					       os05b10->exposure->minimum, max,
-+					       os05b10->exposure->step,
-+					       os05b10->exposure->default_value);
-+
-+		if (ret)
-+			return ret;
-+	}
-+
-+	if (pm_runtime_get_if_in_use(os05b10->dev) == 0)
-+		return 0;
-+
-+	switch (ctrl->id) {
-+	case V4L2_CID_VBLANK:
-+		vmax = fmt->height + ctrl->val;
-+		ret = cci_write(os05b10->cci, OS05B10_REG_VTS, vmax, NULL);
-+		break;
-+	case V4L2_CID_ANALOGUE_GAIN:
-+		ret = cci_write(os05b10->cci, OS05B10_ANALOG_GAIN, ctrl->val,
-+				NULL);
-+		break;
-+	case V4L2_CID_EXPOSURE:
-+		ret = cci_write(os05b10->cci, OS05B10_EXPOSURE_GAIN, ctrl->val,
-+				NULL);
-+		break;
-+	default:
-+		ret = -EINVAL;
-+		break;
-+	}
-+
-+	pm_runtime_put(os05b10->dev);
-+
-+	return ret;
-+}
-+
-+static int os05b10_enum_mbus_code(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_state *sd_state,
-+				  struct v4l2_subdev_mbus_code_enum *code)
-+{
-+	if (code->index >= ARRAY_SIZE(os05b10_mbus_codes))
-+		return -EINVAL;
-+
-+	code->code = os05b10_mbus_codes[code->index];
-+
-+	return 0;
-+}
-+
-+static int os05b10_set_framing_limits(struct os05b10 *os05b10,
-+				      const struct os05b10_mode *mode)
-+{
-+	u32 hblank, vblank, vblank_max, max_exp;
-+	int ret;
-+
-+	hblank = mode->hts - mode->width;
-+	ret = __v4l2_ctrl_modify_range(os05b10->hblank, hblank, hblank, 1, hblank);
-+	if (ret)
-+		return ret;
-+
-+	vblank = mode->vts - mode->height;
-+	vblank_max = OS05B10_VTS_MAX - mode->height;
-+	ret = __v4l2_ctrl_modify_range(os05b10->vblank, 0, vblank_max, 1, vblank);
-+	if (ret)
-+		return ret;
-+
-+	max_exp = mode->vts - OS05B10_EXPOSURE_MARGIN;
-+	return __v4l2_ctrl_modify_range(os05b10->exposure,
-+					OS05B10_EXPOSURE_MIN, max_exp,
-+					OS05B10_EXPOSURE_STEP, mode->exp);
-+}
-+
-+static int os05b10_set_pad_format(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_state *sd_state,
-+				  struct v4l2_subdev_format *fmt)
-+{
-+	const struct os05b10_mode *mode = &supported_modes_10bit[0];
-+	struct os05b10 *os05b10 = to_os05b10(sd);
-+	struct v4l2_mbus_framefmt *format;
-+	int ret;
-+
-+	fmt->format.width = mode->width;
-+	fmt->format.height = mode->height;
-+	fmt->format.field = V4L2_FIELD_NONE;
-+	fmt->format.colorspace = V4L2_COLORSPACE_RAW;
-+	fmt->format.quantization = V4L2_QUANTIZATION_FULL_RANGE;
-+	fmt->format.xfer_func = V4L2_XFER_FUNC_NONE;
-+
-+	format = v4l2_subdev_state_get_format(sd_state, 0);
-+
-+	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-+		ret = os05b10_set_framing_limits(os05b10, mode);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	*format = fmt->format;
-+
-+	return 0;
-+}
-+
-+static int os05b10_get_selection(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_state *sd_state,
-+				 struct v4l2_subdev_selection *sel)
-+{
-+	switch (sel->target) {
-+	case V4L2_SEL_TGT_NATIVE_SIZE:
-+	case V4L2_SEL_TGT_CROP_BOUNDS:
-+		sel->r = os05b10_native_area;
-+		return 0;
-+	case V4L2_SEL_TGT_CROP:
-+	case V4L2_SEL_TGT_CROP_DEFAULT:
-+		sel->r = os05b10_active_area;
-+		return 0;
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static int os05b10_enum_frame_size(struct v4l2_subdev *sd,
-+				   struct v4l2_subdev_state *sd_state,
-+				   struct v4l2_subdev_frame_size_enum *fse)
-+{
-+	if (fse->index >= ARRAY_SIZE(supported_modes_10bit))
-+		return -EINVAL;
-+
-+	fse->min_width = supported_modes_10bit[fse->index].width;
-+	fse->max_width = fse->min_width;
-+	fse->min_height = supported_modes_10bit[fse->index].height;
-+	fse->max_height = fse->min_height;
-+
-+	return 0;
-+}
-+
-+static int os05b10_enable_streams(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_state *state,
-+				  u32 pad, u64 streams_mask)
-+{
-+	struct os05b10 *os05b10 = to_os05b10(sd);
-+	int ret;
-+
-+	ret = pm_runtime_resume_and_get(os05b10->dev);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* Write common registers */
-+	ret = cci_multi_reg_write(os05b10->cci, os05b10_common_regs,
-+				  ARRAY_SIZE(os05b10_common_regs), NULL);
-+	if (ret) {
-+		dev_err(os05b10->dev, "%s failed to write common registers\n",
-+			__func__);
-+		goto err_rpm_put;
-+	}
-+
-+	/* Apply customized user controls */
-+	ret = __v4l2_ctrl_handler_setup(os05b10->sd.ctrl_handler);
-+	if (ret)
-+		goto err_rpm_put;
-+
-+	/* Stream ON */
-+	ret = cci_write(os05b10->cci, OS05B10_REG_CTRL_MODE,
-+			OS05B10_MODE_STREAMING, NULL);
-+	if (ret)
-+		goto err_rpm_put;
-+
-+	return 0;
-+
-+err_rpm_put:
-+	pm_runtime_put(os05b10->dev);
-+	return ret;
-+}
-+
-+static int os05b10_disable_streams(struct v4l2_subdev *sd,
-+				   struct v4l2_subdev_state *state,
-+				   u32 pad, u64 streams_mask)
-+{
-+	struct os05b10 *os05b10 = to_os05b10(sd);
-+	int ret;
-+
-+	ret = cci_write(os05b10->cci, OS05B10_REG_CTRL_MODE,
-+			OS05B10_MODE_STANDBY, NULL);
-+	if (ret)
-+		dev_err(os05b10->dev, "%s failed to set stream off\n", __func__);
-+
-+	pm_runtime_put(os05b10->dev);
-+
-+	return ret;
-+}
-+
-+static int os05b10_init_state(struct v4l2_subdev *sd,
-+			      struct v4l2_subdev_state *state)
-+{
-+	struct v4l2_mbus_framefmt *format;
-+	const struct os05b10_mode *mode;
-+
-+	/* Initialize try_fmt */
-+	format = v4l2_subdev_state_get_format(state, 0);
-+
-+	mode = &supported_modes_10bit[0];
-+	format->code = MEDIA_BUS_FMT_SBGGR10_1X10;
-+
-+	/* Update image pad formate */
-+	format->width = mode->width;
-+	format->height = mode->height;
-+	format->field = V4L2_FIELD_NONE;
-+	format->colorspace = V4L2_COLORSPACE_RAW;
-+	format->quantization = V4L2_QUANTIZATION_FULL_RANGE;
-+	format->xfer_func = V4L2_XFER_FUNC_NONE;
-+
-+	return 0;
-+}
-+
-+static const struct v4l2_subdev_video_ops os05b10_video_ops = {
-+	.s_stream = v4l2_subdev_s_stream_helper,
-+};
-+
-+static const struct v4l2_subdev_pad_ops os05b10_pad_ops = {
-+	.enum_mbus_code = os05b10_enum_mbus_code,
-+	.get_fmt = v4l2_subdev_get_fmt,
-+	.set_fmt = os05b10_set_pad_format,
-+	.get_selection = os05b10_get_selection,
-+	.enum_frame_size = os05b10_enum_frame_size,
-+	.enable_streams = os05b10_enable_streams,
-+	.disable_streams = os05b10_disable_streams,
-+};
-+
-+static const struct v4l2_subdev_internal_ops os05b10_internal_ops = {
-+	.init_state = os05b10_init_state,
-+};
-+
-+static const struct v4l2_subdev_ops os05b10_subdev_ops = {
-+	.video = &os05b10_video_ops,
-+	.pad = &os05b10_pad_ops,
-+};
-+
-+static const struct v4l2_ctrl_ops os05b10_ctrl_ops = {
-+	.s_ctrl = os05b10_set_ctrl,
-+};
-+
-+static int os05b10_identify_module(struct os05b10 *os05b10)
-+{
-+	int ret;
-+	u64 val;
-+
-+	ret = cci_read(os05b10->cci, OS05B10_REG_CHIP_ID, &val, NULL);
-+	if (ret)
-+		return dev_err_probe(os05b10->dev, ret,
-+				     "failed to read chip id %x\n",
-+				     OS05B10_CHIP_ID);
-+
-+	if (val != OS05B10_CHIP_ID)
-+		return dev_err_probe(os05b10->dev, -EIO,
-+				     "chip id mismatch: %x!=%llx\n",
-+				     OS05B10_CHIP_ID, val);
-+	return 0;
-+}
-+
-+static int os05b10_power_on(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct os05b10 *os05b10 = to_os05b10(sd);
-+	unsigned long delay_us;
-+	int ret;
-+
-+	/* Enable power rails */
-+	ret = regulator_bulk_enable(ARRAY_SIZE(os05b10_supply_name),
-+				    os05b10->supplies);
-+	if (ret) {
-+		dev_err(os05b10->dev, "failed to enable regulators\n");
-+		return ret;
-+	}
-+
-+	/* Enable xclk */
-+	ret = clk_prepare_enable(os05b10->xclk);
-+	if (ret) {
-+		dev_err(os05b10->dev, "failed to enable clock\n");
-+		goto err_regulator_off;
-+	}
-+
-+	gpiod_set_value_cansleep(os05b10->reset_gpio, 0);
-+
-+	/* Delay T1 */
-+	fsleep(5 * USEC_PER_MSEC);
-+
-+	/* Delay T2 (8192 cycles before SCCB/I2C access) */
-+	delay_us = DIV_ROUND_UP(8192, OS05B10_XCLK_FREQ / 1000 / 1000);
-+	usleep_range(delay_us, delay_us * 2);
-+
-+	return 0;
-+
-+err_regulator_off:
-+	regulator_bulk_disable(ARRAY_SIZE(os05b10_supply_name),
-+			       os05b10->supplies);
-+	return ret;
-+}
-+
-+static int os05b10_power_off(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct os05b10 *os05b10 = to_os05b10(sd);
-+
-+	gpiod_set_value_cansleep(os05b10->reset_gpio, 1);
-+
-+	regulator_bulk_disable(ARRAY_SIZE(os05b10_supply_name), os05b10->supplies);
-+	clk_disable_unprepare(os05b10->xclk);
-+
-+	return 0;
-+}
-+
-+static int os05b10_parse_endpoint(struct os05b10 *os05b10)
-+{
-+	struct v4l2_fwnode_endpoint bus_cfg = {
-+		.bus_type = V4L2_MBUS_CSI2_DPHY
-+	};
-+	struct fwnode_handle *ep;
-+	int ret;
-+
-+	ep = fwnode_graph_get_next_endpoint(dev_fwnode(os05b10->dev), NULL);
-+	if (!ep) {
-+		dev_err(os05b10->dev, "Failed to get next endpoint\n");
-+		return -ENXIO;
-+	}
-+
-+	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
-+	fwnode_handle_put(ep);
-+	if (ret)
-+		return ret;
-+
-+	if (bus_cfg.bus.mipi_csi2.num_data_lanes != 4) {
-+		ret = dev_err_probe(os05b10->dev, -EINVAL,
-+				    "only 4 data lanes are supported\n");
-+		goto error_out;
-+	}
-+
-+	ret = v4l2_link_freq_to_bitmap(os05b10->dev, bus_cfg.link_frequencies,
-+				       bus_cfg.nr_of_link_frequencies,
-+				       link_frequencies,
-+				       ARRAY_SIZE(link_frequencies),
-+				       &os05b10->link_freq_index);
-+
-+	if (ret)
-+		dev_err(os05b10->dev, "only 600MHz frequency is available\n");
-+
-+error_out:
-+	v4l2_fwnode_endpoint_free(&bus_cfg);
-+
-+	return ret;
-+}
-+
-+static int os05b10_init_controls(struct os05b10 *os05b10)
-+{
-+	struct v4l2_ctrl_handler *ctrl_hdlr;
-+	struct v4l2_fwnode_device_properties props;
-+	const struct os05b10_mode *mode = &supported_modes_10bit[0];
-+	u64 hblank_def, vblank_def, exp_max;
-+	int ret;
-+
-+	ctrl_hdlr = &os05b10->handler;
-+	v4l2_ctrl_handler_init(ctrl_hdlr, 8);
-+
-+	v4l2_ctrl_new_std(ctrl_hdlr, &os05b10_ctrl_ops, V4L2_CID_PIXEL_RATE,
-+			  OS05B10_PIXEL_RATE, OS05B10_PIXEL_RATE,
-+			  1, OS05B10_PIXEL_RATE);
-+
-+	os05b10->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr, &os05b10_ctrl_ops,
-+						    V4L2_CID_LINK_FREQ,
-+						    os05b10->link_freq_index,
-+						    0, link_frequencies);
-+	if (os05b10->link_freq)
-+		os05b10->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+
-+	hblank_def = mode->hts - mode->width;
-+	os05b10->hblank = v4l2_ctrl_new_std(ctrl_hdlr, NULL, V4L2_CID_HBLANK,
-+					    hblank_def, hblank_def, 1, hblank_def);
-+	if (os05b10->hblank)
-+		os05b10->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+
-+	vblank_def = mode->vts - mode->height;
-+	os05b10->vblank = v4l2_ctrl_new_std(ctrl_hdlr, &os05b10_ctrl_ops,
-+					    V4L2_CID_VBLANK, vblank_def,
-+					    OS05B10_VTS_MAX - mode->height,
-+					    1, vblank_def);
-+
-+	exp_max = mode->vts - OS05B10_EXPOSURE_MARGIN;
-+	os05b10->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &os05b10_ctrl_ops,
-+					      V4L2_CID_EXPOSURE,
-+					      OS05B10_EXPOSURE_MIN,
-+					      exp_max, OS05B10_EXPOSURE_STEP,
-+					      mode->exp);
-+
-+	os05b10->gain = v4l2_ctrl_new_std(ctrl_hdlr, &os05b10_ctrl_ops,
-+					  V4L2_CID_ANALOGUE_GAIN,
-+					  OS05B10_ANALOG_GAIN_MIN,
-+					  OS05B10_ANALOG_GAIN_MAX,
-+					  OS05B10_ANALOG_GAIN_STEP,
-+					  OS05B10_ANALOG_GAIN_DEFAULT);
-+
-+	if (ctrl_hdlr->error) {
-+		ret = ctrl_hdlr->error;
-+		dev_err(os05b10->dev, "control init failed (%d)\n", ret);
-+		goto error;
-+	}
-+
-+	ret = v4l2_fwnode_device_parse(os05b10->dev, &props);
-+	if (ret)
-+		goto error;
-+
-+	ret = v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &os05b10_ctrl_ops,
-+					      &props);
-+	if (ret)
-+		goto error;
-+
-+	os05b10->sd.ctrl_handler = ctrl_hdlr;
-+
-+	return 0;
-+
-+error:
-+	v4l2_ctrl_handler_free(ctrl_hdlr);
-+
-+	return ret;
-+}
-+
-+static int os05b10_probe(struct i2c_client *client)
-+{
-+	struct os05b10 *os05b10;
-+	unsigned int xclk_freq;
-+	unsigned int i;
-+	int ret;
-+
-+	os05b10 = devm_kzalloc(&client->dev, sizeof(*os05b10), GFP_KERNEL);
-+	if (!os05b10)
-+		return -ENOMEM;
-+
-+	os05b10->client = client;
-+	os05b10->dev = &client->dev;
-+
-+	v4l2_i2c_subdev_init(&os05b10->sd, client, &os05b10_subdev_ops);
-+
-+	os05b10->cci = devm_cci_regmap_init_i2c(client, 16);
-+	if (IS_ERR(os05b10->cci))
-+		return dev_err_probe(os05b10->dev, PTR_ERR(os05b10->cci),
-+				     "failed to initialize CCI\n");
-+
-+	os05b10->xclk = devm_v4l2_sensor_clk_get(os05b10->dev, NULL);
-+	if (IS_ERR(os05b10->xclk))
-+		return dev_err_probe(os05b10->dev, PTR_ERR(os05b10->xclk),
-+				     "failed to get xclk\n");
-+
-+	xclk_freq = clk_get_rate(os05b10->xclk);
-+	if (xclk_freq != OS05B10_XCLK_FREQ)
-+		return dev_err_probe(os05b10->dev, -EINVAL,
-+				     "xclk frequency not supported: %d Hz\n",
-+				     xclk_freq);
-+
-+	for (i = 0; i < ARRAY_SIZE(os05b10_supply_name); i++)
-+		os05b10->supplies[i].supply = os05b10_supply_name[i];
-+
-+	ret = devm_regulator_bulk_get(os05b10->dev,
-+				      ARRAY_SIZE(os05b10_supply_name),
-+				      os05b10->supplies);
-+	if (ret)
-+		return dev_err_probe(os05b10->dev, ret, "failed to get regulators\n");
-+
-+	ret = os05b10_parse_endpoint(os05b10);
-+	if (ret)
-+		return dev_err_probe(os05b10->dev, ret,
-+				     "failed to parse endpoint configuration\n");
-+
-+	os05b10->reset_gpio = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_LOW);
-+	if (IS_ERR(os05b10->reset_gpio))
-+		return dev_err_probe(os05b10->dev, PTR_ERR(os05b10->reset_gpio),
-+				     "failed to get reset GPIO\n");
-+
-+	ret = os05b10_power_on(os05b10->dev);
-+	if (ret)
-+		return ret;
-+
-+	ret = os05b10_identify_module(os05b10);
-+	if (ret)
-+		goto error_power_off;
-+
-+	/* This needs the pm runtime to be registered. */
-+	ret = os05b10_init_controls(os05b10);
-+	if (ret)
-+		goto error_power_off;
-+
-+	/* Initialize subdev */
-+	os05b10->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-+	os05b10->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-+	os05b10->sd.internal_ops = &os05b10_internal_ops;
-+	os05b10->pad.flags = MEDIA_PAD_FL_SOURCE;
-+
-+	ret = media_entity_pads_init(&os05b10->sd.entity, 1, &os05b10->pad);
-+	if (ret) {
-+		dev_err_probe(os05b10->dev, ret, "failed to init entity pads\n");
-+		goto error_handler_free;
-+	}
-+
-+	os05b10->sd.state_lock = os05b10->handler.lock;
-+	ret = v4l2_subdev_init_finalize(&os05b10->sd);
+diff --git a/drivers/media/dvb-core/dvb_net.c b/drivers/media/dvb-core/dvb_net.c
+index 8bb8dd34c223..4c42d3c7cd14 100644
+--- a/drivers/media/dvb-core/dvb_net.c
++++ b/drivers/media/dvb-core/dvb_net.c
+@@ -57,11 +57,11 @@
+ #include <media/dvb_demux.h>
+ #include <media/dvb_net.h>
+ 
+-static inline __u32 iov_crc32( __u32 c, struct kvec *iov, unsigned int cnt )
++static inline __u32 iov_crc32(__u32 c, struct kvec *iov, unsigned int cnt)
+ {
+ 	unsigned int j;
+ 	for (j = 0; j < cnt; j++)
+-		c = crc32_be( c, iov[j].iov_base, iov[j].iov_len );
++		c = crc32_be(c, iov[j].iov_base, iov[j].iov_len);
+ 	return c;
+ }
+ 
+@@ -133,14 +133,14 @@ static __be16 dvb_net_eth_type_trans(struct sk_buff *skb,
+ 	unsigned char *rawp;
+ 
+ 	skb_reset_mac_header(skb);
+-	skb_pull(skb,dev->hard_header_len);
++	skb_pull(skb, dev->hard_header_len);
+ 	eth = eth_hdr(skb);
+ 
+ 	if (*eth->h_dest & 1) {
+-		if(ether_addr_equal(eth->h_dest,dev->broadcast))
+-			skb->pkt_type=PACKET_BROADCAST;
++		if (ether_addr_equal(eth->h_dest, dev->broadcast))
++			skb->pkt_type = PACKET_BROADCAST;
+ 		else
+-			skb->pkt_type=PACKET_MULTICAST;
++			skb->pkt_type = PACKET_MULTICAST;
+ 	}
+ 
+ 	if (ntohs(eth->h_proto) >= ETH_P_802_3_MIN)
+@@ -178,20 +178,20 @@ static __be16 dvb_net_eth_type_trans(struct sk_buff *skb,
+ 
+ #define ULE_OPTEXTHDR_PADDING 0
+ 
+-static int ule_test_sndu( struct dvb_net_priv *p )
++static int ule_test_sndu(struct dvb_net_priv *p)
+ {
+ 	return -1;
+ }
+ 
+-static int ule_bridged_sndu( struct dvb_net_priv *p )
++static int ule_bridged_sndu(struct dvb_net_priv *p)
+ {
+-	struct ethhdr *hdr = (struct ethhdr*) p->ule_next_hdr;
+-	if(ntohs(hdr->h_proto) < ETH_P_802_3_MIN) {
++	struct ethhdr *hdr = (struct ethhdr *) p->ule_next_hdr;
++
++	if (ntohs(hdr->h_proto) < ETH_P_802_3_MIN) {
+ 		int framelen = p->ule_sndu_len - ((p->ule_next_hdr+sizeof(struct ethhdr)) - p->ule_skb->data);
+ 		/* A frame Type < ETH_P_802_3_MIN for a bridged frame, introduces a LLC Length field. */
+-		if(framelen != ntohs(hdr->h_proto)) {
++		if (framelen != ntohs(hdr->h_proto))
+ 			return -1;
+-		}
+ 	}
+ 	/* Note:
+ 	 * From RFC4326:
+@@ -214,15 +214,15 @@ static int ule_exthdr_padding(struct dvb_net_priv *p)
+  *  Returns: >= 0: nr. of bytes consumed by next extension header
+  *	     -1:   Mandatory extension header that is not recognized or TEST SNDU; discard.
+  */
+-static int handle_one_ule_extension( struct dvb_net_priv *p )
++static int handle_one_ule_extension(struct dvb_net_priv *p)
+ {
+ 	/* Table of mandatory extension header handlers.  The header type is the index. */
+-	static int (*ule_mandatory_ext_handlers[255])( struct dvb_net_priv *p ) =
+-		{ [0] = ule_test_sndu, [1] = ule_bridged_sndu, [2] = NULL,  };
++	static int (*ule_mandatory_ext_handlers[255])(struct dvb_net_priv *p) = {
++			[0] = ule_test_sndu, [1] = ule_bridged_sndu, [2] = NULL,  };
+ 
+ 	/* Table of optional extension header handlers.  The header type is the index. */
+-	static int (*ule_optional_ext_handlers[255])( struct dvb_net_priv *p ) =
+-		{ [0] = ule_exthdr_padding, [1] = NULL, };
++	static int (*ule_optional_ext_handlers[255])(struct dvb_net_priv *p) = {
++			[0] = ule_exthdr_padding, [1] = NULL, };
+ 
+ 	int ext_len = 0;
+ 	unsigned char hlen = (p->ule_sndu_type & 0x0700) >> 8;
+@@ -232,8 +232,8 @@ static int handle_one_ule_extension( struct dvb_net_priv *p )
+ 	if (hlen == 0) {
+ 		/* Mandatory extension header */
+ 		if (ule_mandatory_ext_handlers[htype]) {
+-			ext_len = ule_mandatory_ext_handlers[htype]( p );
+-			if(ext_len >= 0) {
++			ext_len = ule_mandatory_ext_handlers[htype](p);
++			if (ext_len >= 0) {
+ 				p->ule_next_hdr += ext_len;
+ 				if (!p->ule_bridged) {
+ 					p->ule_sndu_type = ntohs(*(__be16 *)p->ule_next_hdr);
+@@ -251,9 +251,9 @@ static int handle_one_ule_extension( struct dvb_net_priv *p )
+ 		ext_len = hlen << 1;
+ 		/* Process the optional extension header according to its type. */
+ 		if (ule_optional_ext_handlers[htype])
+-			(void)ule_optional_ext_handlers[htype]( p );
++			(void)ule_optional_ext_handlers[htype](p);
+ 		p->ule_next_hdr += ext_len;
+-		p->ule_sndu_type = ntohs( *(__be16 *)(p->ule_next_hdr-2) );
++		p->ule_sndu_type = ntohs(*(__be16 *)(p->ule_next_hdr-2));
+ 		/*
+ 		 * note: the length of the next header type is included in the
+ 		 * length of THIS optional extension header
+@@ -263,13 +263,13 @@ static int handle_one_ule_extension( struct dvb_net_priv *p )
+ 	return ext_len;
+ }
+ 
+-static int handle_ule_extensions( struct dvb_net_priv *p )
++static int handle_ule_extensions(struct dvb_net_priv *p)
+ {
+ 	int total_ext_len = 0, l;
+ 
+ 	p->ule_next_hdr = p->ule_skb->data;
+ 	do {
+-		l = handle_one_ule_extension( p );
++		l = handle_one_ule_extension(p);
+ 		if (l < 0)
+ 			return l;	/* Stop extension header processing and discard SNDU. */
+ 		total_ext_len += l;
+@@ -284,7 +284,7 @@ static int handle_ule_extensions( struct dvb_net_priv *p )
+ 
+ 
+ /* Prepare for a new ULE SNDU: reset the decoder state. */
+-static inline void reset_ule( struct dvb_net_priv *p )
++static inline void reset_ule(struct dvb_net_priv *p)
+ {
+ 	p->ule_skb = NULL;
+ 	p->ule_next_hdr = NULL;
+@@ -936,7 +936,8 @@ static void dvb_net_sec(struct net_device *dev,
+ 	/* we have 14 byte ethernet header (ip header follows);
+ 	 * 12 byte MPE header; 4 byte checksum; + 2 byte alignment, 8 byte LLC/SNAP
+ 	 */
+-	if (!(skb = dev_alloc_skb(pkt_len - 4 - 12 + 14 + 2 - snap))) {
++	skb = dev_alloc_skb(pkt_len - 4 - 12 + 14 + 2 - snap);
++	if (!skb) {
+ 		//pr_notice("%s: Memory squeeze, dropping packet.\n", dev->name);
+ 		stats->rx_dropped++;
+ 		return;
+@@ -949,14 +950,14 @@ static void dvb_net_sec(struct net_device *dev,
+ 	memcpy(eth + 14, pkt + 12 + snap, pkt_len - 12 - 4 - snap);
+ 
+ 	/* create ethernet header: */
+-	eth[0]=pkt[0x0b];
+-	eth[1]=pkt[0x0a];
+-	eth[2]=pkt[0x09];
+-	eth[3]=pkt[0x08];
+-	eth[4]=pkt[0x04];
+-	eth[5]=pkt[0x03];
++	eth[0] = pkt[0x0b];
++	eth[1] = pkt[0x0a];
++	eth[2] = pkt[0x09];
++	eth[3] = pkt[0x08];
++	eth[4] = pkt[0x04];
++	eth[5] = pkt[0x03];
+ 
+-	eth[6]=eth[7]=eth[8]=eth[9]=eth[10]=eth[11]=0;
++	eth[6] = eth[7] = eth[8] = eth[9] = eth[10] = eth[11] = 0;
+ 
+ 	if (snap) {
+ 		eth[12] = pkt[18];
+@@ -977,7 +978,7 @@ static void dvb_net_sec(struct net_device *dev,
+ 	skb->protocol = dvb_net_eth_type_trans(skb, dev);
+ 
+ 	stats->rx_packets++;
+-	stats->rx_bytes+=skb->len;
++	stats->rx_bytes += skb->len;
+ 	netif_rx(skb);
+ }
+ 
+@@ -1001,10 +1002,10 @@ static netdev_tx_t dvb_net_tx(struct sk_buff *skb, struct net_device *dev)
+ 	return NETDEV_TX_OK;
+ }
+ 
+-static u8 mask_normal[6]={0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+-static u8 mask_allmulti[6]={0xff, 0xff, 0xff, 0x00, 0x00, 0x00};
+-static u8 mac_allmulti[6]={0x01, 0x00, 0x5e, 0x00, 0x00, 0x00};
+-static u8 mask_promisc[6]={0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
++static u8 mask_normal[6] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
++static u8 mask_allmulti[6] = {0xff, 0xff, 0xff, 0x00, 0x00, 0x00};
++static u8 mac_allmulti[6] = {0x01, 0x00, 0x5e, 0x00, 0x00, 0x00};
++static u8 mask_promisc[6] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+ 
+ static int dvb_net_filter_sec_set(struct net_device *dev,
+ 		   struct dmx_section_filter **secfilter,
+@@ -1013,26 +1014,26 @@ static int dvb_net_filter_sec_set(struct net_device *dev,
+ 	struct dvb_net_priv *priv = netdev_priv(dev);
+ 	int ret;
+ 
+-	*secfilter=NULL;
++	*secfilter = NULL;
+ 	ret = priv->secfeed->allocate_filter(priv->secfeed, secfilter);
+-	if (ret<0) {
 +	if (ret < 0) {
-+		dev_err_probe(os05b10->dev, ret, "subdev init error\n");
-+		goto error_media_entity;
-+	}
-+
-+	pm_runtime_set_active(os05b10->dev);
-+	pm_runtime_enable(os05b10->dev);
-+
-+	ret = v4l2_async_register_subdev_sensor(&os05b10->sd);
-+	if (ret < 0) {
-+		dev_err_probe(os05b10->dev, ret,
-+			      "failed to register os05b10 sub-device\n");
-+		goto error_subdev_cleanup;
-+	}
-+
-+	pm_runtime_idle(os05b10->dev);
-+
-+	return 0;
-+
-+error_subdev_cleanup:
-+	v4l2_subdev_cleanup(&os05b10->sd);
-+	pm_runtime_disable(os05b10->dev);
-+	pm_runtime_set_suspended(os05b10->dev);
-+
-+error_media_entity:
-+	media_entity_cleanup(&os05b10->sd.entity);
-+
-+error_handler_free:
-+	v4l2_ctrl_handler_free(os05b10->sd.ctrl_handler);
-+
-+error_power_off:
-+	os05b10_power_off(os05b10->dev);
-+
-+	return ret;
-+}
-+
-+static void os05b10_remove(struct i2c_client *client)
-+{
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct os05b10 *os05b10 = to_os05b10(sd);
-+
-+	v4l2_async_unregister_subdev(sd);
-+	v4l2_subdev_cleanup(&os05b10->sd);
-+	media_entity_cleanup(&sd->entity);
-+	v4l2_ctrl_handler_free(os05b10->sd.ctrl_handler);
-+
-+	pm_runtime_disable(&client->dev);
-+	if (!pm_runtime_status_suspended(&client->dev)) {
-+		os05b10_power_off(&client->dev);
-+		pm_runtime_set_suspended(&client->dev);
-+	}
-+}
-+
-+static DEFINE_RUNTIME_DEV_PM_OPS(os05b10_pm_ops, os05b10_power_off,
-+				 os05b10_power_on, NULL);
-+
-+static const struct of_device_id os05b10_id[] = {
-+	{ .compatible = "ovti,os05b10" },
-+	{ /* sentinel */ },
-+};
-+
-+MODULE_DEVICE_TABLE(of, os05b10_id);
-+
-+static struct i2c_driver os05b10_driver = {
-+	.driver = {
-+		.name = "os05b10",
-+		.pm = pm_ptr(&os05b10_pm_ops),
-+		.of_match_table = os05b10_id,
-+	},
-+	.probe = os05b10_probe,
-+	.remove = os05b10_remove,
-+};
-+
-+module_i2c_driver(os05b10_driver);
-+
-+MODULE_DESCRIPTION("OS05B10 Camera Sensor Driver");
-+MODULE_AUTHOR("Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>");
-+MODULE_AUTHOR("Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>");
-+MODULE_LICENSE("GPL");
---
-2.34.1
+ 		pr_err("%s: could not get filter\n", dev->name);
+ 		return ret;
+ 	}
+ 
+-	(*secfilter)->priv=(void *) dev;
++	(*secfilter)->priv = (void *) dev;
+ 
+ 	memset((*secfilter)->filter_value, 0x00, DMX_MAX_FILTER_SIZE);
+ 	memset((*secfilter)->filter_mask,  0x00, DMX_MAX_FILTER_SIZE);
+ 	memset((*secfilter)->filter_mode,  0xff, DMX_MAX_FILTER_SIZE);
+ 
+-	(*secfilter)->filter_value[0]=0x3e;
+-	(*secfilter)->filter_value[3]=mac[5];
+-	(*secfilter)->filter_value[4]=mac[4];
+-	(*secfilter)->filter_value[8]=mac[3];
+-	(*secfilter)->filter_value[9]=mac[2];
+-	(*secfilter)->filter_value[10]=mac[1];
+-	(*secfilter)->filter_value[11]=mac[0];
++	(*secfilter)->filter_value[0] = 0x3e;
++	(*secfilter)->filter_value[3] = mac[5];
++	(*secfilter)->filter_value[4] = mac[4];
++	(*secfilter)->filter_value[8] = mac[3];
++	(*secfilter)->filter_value[9] = mac[2];
++	(*secfilter)->filter_value[10] = mac[1];
++	(*secfilter)->filter_value[11] = mac[0];
+ 
+ 	(*secfilter)->filter_mask[0] = 0xff;
+ 	(*secfilter)->filter_mask[3] = mac_mask[5];
+@@ -1040,7 +1041,7 @@ static int dvb_net_filter_sec_set(struct net_device *dev,
+ 	(*secfilter)->filter_mask[8] = mac_mask[3];
+ 	(*secfilter)->filter_mask[9] = mac_mask[2];
+ 	(*secfilter)->filter_mask[10] = mac_mask[1];
+-	(*secfilter)->filter_mask[11]=mac_mask[0];
++	(*secfilter)->filter_mask[11] = mac_mask[0];
+ 
+ 	netdev_dbg(dev, "filter mac=%pM mask=%pM\n", mac, mac_mask);
+ 
+@@ -1059,15 +1060,15 @@ static int dvb_net_feed_start(struct net_device *dev)
+ 	if (priv->tsfeed || priv->secfeed || priv->secfilter || priv->multi_secfilter[0])
+ 		pr_err("%s: BUG %d\n", __func__, __LINE__);
+ 
+-	priv->secfeed=NULL;
+-	priv->secfilter=NULL;
++	priv->secfeed = NULL;
++	priv->secfilter = NULL;
+ 	priv->tsfeed = NULL;
+ 
+ 	if (priv->feedtype == DVB_NET_FEEDTYPE_MPE) {
+ 		netdev_dbg(dev, "alloc secfeed\n");
+-		ret=demux->allocate_section_feed(demux, &priv->secfeed,
++		ret = demux->allocate_section_feed(demux, &priv->secfeed,
+ 					 dvb_net_sec_callback);
+-		if (ret<0) {
++		if (ret < 0) {
+ 			pr_err("%s: could not allocate section feed\n",
+ 			       dev->name);
+ 			goto error;
+@@ -1075,10 +1076,10 @@ static int dvb_net_feed_start(struct net_device *dev)
+ 
+ 		ret = priv->secfeed->set(priv->secfeed, priv->pid, 1);
+ 
+-		if (ret<0) {
++		if (ret < 0) {
+ 			pr_err("%s: could not set section feed\n", dev->name);
+ 			priv->demux->release_section_feed(priv->demux, priv->secfeed);
+-			priv->secfeed=NULL;
++			priv->secfeed = NULL;
+ 			goto error;
+ 		}
+ 
+@@ -1096,13 +1097,13 @@ static int dvb_net_feed_start(struct net_device *dev)
+ 			}
+ 			break;
+ 		case RX_MODE_ALL_MULTI:
+-			priv->multi_num=1;
++			priv->multi_num = 1;
+ 			netdev_dbg(dev, "set multi_secfilter[0]\n");
+ 			dvb_net_filter_sec_set(dev, &priv->multi_secfilter[0],
+ 					       mac_allmulti, mask_allmulti);
+ 			break;
+ 		case RX_MODE_PROMISC:
+-			priv->multi_num=0;
++			priv->multi_num = 0;
+ 			netdev_dbg(dev, "set secfilter\n");
+ 			dvb_net_filter_sec_set(dev, &priv->secfilter, mac, mask_promisc);
+ 			break;
+@@ -1164,10 +1165,10 @@ static int dvb_net_feed_stop(struct net_device *dev)
+ 				netdev_dbg(dev, "release secfilter\n");
+ 				priv->secfeed->release_filter(priv->secfeed,
+ 							      priv->secfilter);
+-				priv->secfilter=NULL;
++				priv->secfilter = NULL;
+ 			}
+ 
+-			for (i=0; i<priv->multi_num; i++) {
++			for (i = 0; i < priv->multi_num; i++) {
+ 				if (priv->multi_secfilter[i]) {
+ 					netdev_dbg(dev, "release multi_filter[%d]\n",
+ 						   i);
+@@ -1189,8 +1190,7 @@ static int dvb_net_feed_stop(struct net_device *dev)
+ 			}
+ 			priv->demux->release_ts_feed(priv->demux, priv->tsfeed);
+ 			priv->tsfeed = NULL;
+-		}
+-		else
++		} else
+ 			pr_err("%s: no ts feed to stop\n", dev->name);
+ 	} else
+ 		ret = -EINVAL;
+@@ -1270,7 +1270,7 @@ static void wq_restart_net_feed (struct work_struct *work)
+ static int dvb_net_set_mac (struct net_device *dev, void *p)
+ {
+ 	struct dvb_net_priv *priv = netdev_priv(dev);
+-	struct sockaddr *addr=p;
++	struct sockaddr *addr = p;
+ 
+ 	eth_hw_addr_set(dev, addr->sa_data);
+ 
+@@ -1330,14 +1330,14 @@ static int get_if(struct dvb_net *dvbnet)
+ {
+ 	int i;
+ 
+-	for (i=0; i<DVB_NET_DEVICES_MAX; i++)
++	for (i = 0; i < DVB_NET_DEVICES_MAX; i++)
+ 		if (!dvbnet->state[i])
+ 			break;
+ 
+ 	if (i == DVB_NET_DEVICES_MAX)
+ 		return -1;
+ 
+-	dvbnet->state[i]=1;
++	dvbnet->state[i] = 1;
+ 	return i;
+ }
+ 
+@@ -1350,7 +1350,8 @@ static int dvb_net_add_if(struct dvb_net *dvbnet, u16 pid, u8 feedtype)
+ 
+ 	if (feedtype != DVB_NET_FEEDTYPE_MPE && feedtype != DVB_NET_FEEDTYPE_ULE)
+ 		return -EINVAL;
+-	if ((if_num = get_if(dvbnet)) < 0)
++	if_num = get_if(dvbnet);
++	if (if_num < 0)
+ 		return -EINVAL;
+ 
+ 	net = alloc_netdev(sizeof(struct dvb_net_priv), "dvb",
+@@ -1387,7 +1388,8 @@ static int dvb_net_add_if(struct dvb_net *dvbnet, u16 pid, u8 feedtype)
+ 
+ 	net->base_addr = pid;
+ 
+-	if ((result = register_netdev(net)) < 0) {
++	result = register_netdev(net);
++	if (result < 0) {
+ 		dvbnet->device[if_num] = NULL;
+ 		free_netdev(net);
+ 		return result;
+@@ -1413,7 +1415,7 @@ static int dvb_net_remove_if(struct dvb_net *dvbnet, unsigned long num)
+ 	flush_work(&priv->restart_net_feed_wq);
+ 	pr_info("removed network interface %s\n", net->name);
+ 	unregister_netdev(net);
+-	dvbnet->state[num]=0;
++	dvbnet->state[num] = 0;
+ 	dvbnet->device[num] = NULL;
+ 	free_netdev(net);
+ 
+@@ -1427,7 +1429,7 @@ static int dvb_net_do_ioctl(struct file *file,
+ 	struct dvb_net *dvbnet = dvbdev->priv;
+ 	int ret = 0;
+ 
+-	if (((file->f_flags&O_ACCMODE)==O_RDONLY))
++	if (((file->f_flags&O_ACCMODE) == O_RDONLY))
+ 		return -EPERM;
+ 
+ 	if (mutex_lock_interruptible(&dvbnet->ioctl_mutex))
+@@ -1449,13 +1451,13 @@ static int dvb_net_do_ioctl(struct file *file,
+ 			goto ioctl_error;
+ 		}
+ 
+-		result=dvb_net_add_if(dvbnet, dvbnetif->pid, dvbnetif->feedtype);
+-		if (result<0) {
++		result = dvb_net_add_if(dvbnet, dvbnetif->pid, dvbnetif->feedtype);
++		if (result < 0) {
+ 			module_put(dvbdev->adapter->module);
+ 			ret = result;
+ 			goto ioctl_error;
+ 		}
+-		dvbnetif->if_num=result;
++		dvbnetif->if_num = result;
+ 		break;
+ 	}
+ 	case NET_GET_IF:
+@@ -1479,8 +1481,8 @@ static int dvb_net_do_ioctl(struct file *file,
+ 		netdev = dvbnet->device[if_num];
+ 
+ 		priv_data = netdev_priv(netdev);
+-		dvbnetif->pid=priv_data->pid;
+-		dvbnetif->feedtype=priv_data->feedtype;
++		dvbnetif->pid = priv_data->pid;
++		dvbnetif->feedtype = priv_data->feedtype;
+ 		break;
+ 	}
+ 	case NET_REMOVE_IF:
+@@ -1515,13 +1517,13 @@ static int dvb_net_do_ioctl(struct file *file,
+ 			goto ioctl_error;
+ 		}
+ 
+-		result=dvb_net_add_if(dvbnet, dvbnetif->pid, DVB_NET_FEEDTYPE_MPE);
+-		if (result<0) {
++		result = dvb_net_add_if(dvbnet, dvbnetif->pid, DVB_NET_FEEDTYPE_MPE);
++		if (result < 0) {
+ 			module_put(dvbdev->adapter->module);
+ 			ret = result;
+ 			goto ioctl_error;
+ 		}
+-		dvbnetif->if_num=result;
++		dvbnetif->if_num = result;
+ 		break;
+ 	}
+ 	case __NET_GET_IF_OLD:
+@@ -1545,7 +1547,7 @@ static int dvb_net_do_ioctl(struct file *file,
+ 		netdev = dvbnet->device[if_num];
+ 
+ 		priv_data = netdev_priv(netdev);
+-		dvbnetif->pid=priv_data->pid;
++		dvbnetif->pid = priv_data->pid;
+ 		break;
+ 	}
+ 	default:
+@@ -1637,7 +1639,7 @@ void dvb_net_release (struct dvb_net *dvbnet)
+ 
+ 	dvb_unregister_device(dvbnet->dvbdev);
+ 
+-	for (i=0; i<DVB_NET_DEVICES_MAX; i++) {
++	for (i = 0; i < DVB_NET_DEVICES_MAX; i++) {
+ 		if (!dvbnet->state[i])
+ 			continue;
+ 		dvb_net_remove_if(dvbnet, i);
+@@ -1655,7 +1657,7 @@ int dvb_net_init (struct dvb_adapter *adap, struct dvb_net *dvbnet,
+ 	mutex_init(&dvbnet->remove_mutex);
+ 	dvbnet->demux = dmx;
+ 
+-	for (i=0; i<DVB_NET_DEVICES_MAX; i++)
++	for (i = 0; i < DVB_NET_DEVICES_MAX; i++)
+ 		dvbnet->state[i] = 0;
+ 
+ 	return dvb_register_device(adap, &dvbnet->dvbdev, &dvbdev_net,
+-- 
+2.43.0
 
 
