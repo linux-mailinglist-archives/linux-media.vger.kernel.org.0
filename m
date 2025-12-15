@@ -1,48 +1,47 @@
-Return-Path: <linux-media+bounces-48807-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48808-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87789CBE0D3
-	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 14:25:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C580BCBE184
+	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 14:38:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 70D6230633AB
-	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 13:21:01 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4012D30552C3
+	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 13:31:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDC7131AAB4;
-	Mon, 15 Dec 2025 13:20:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09890327BFB;
+	Mon, 15 Dec 2025 13:20:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="eKN/XSRv"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="E4AUtIrN"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F6D314D25;
-	Mon, 15 Dec 2025 13:20:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DAA530595C;
+	Mon, 15 Dec 2025 13:20:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765804840; cv=none; b=HrGZ/IZYZipDMVnEG6m80qIL1RIoFjnf4kpTCM+1v5RER+caEkgfuS0p0PhCRhkDMWEGx6MOa19yt8FUUjdvee2c/htCErpiD0ciqbJxcwRVeXywzNcZg4gIbsh9KLorttN45YO5jln42MxjgYYv1gBziNh3y8+ryTRKwEZ8CeI=
+	t=1765804843; cv=none; b=jm4wqFUIzhjCPImWq/LlyUDI6m8+Q2A75Xi9vfqR6qSYrWetM99ql0nLfdgTVarQOQayzmT4G/8V900Ia5ru7j+fJATWkkDBV8InK1LV/PjJDYCuGPyVlejyNpzkLuUSMczHnLXxGxFbcnEb0CkX7myQO+4kIRHDmw4lcVqTlM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765804840; c=relaxed/simple;
-	bh=JrcrIoUY2IRu7tADcVg3SogYhRs0a4TO4Is+ri2AnTQ=;
+	s=arc-20240116; t=1765804843; c=relaxed/simple;
+	bh=0CShGOwgZ5TigEVw+G91rrywFxkq5Qn1I/+QnibNAJ0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ORL8WTfANYVjFU2iaFRzD8p2OJCUtW0mXtWtzgGhxRa3H40tbV7QxFVN5LlKOjocXM2NKdrBqro/nGr54ndjUXKGj0o2P1XfFJuDPK0j40UgeuenkvDwg2zaB7uCL2+LNLcGpHOYDP+DQChMTDsm+MkKXZQoND1I+UFepUwlVKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=eKN/XSRv; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=rcqWBKscmi+99SVmM5F861EEA/0SsiL8R2V8wfvnxmr9PeVk4rUQ+Wxk6iP2A4RtQLo/n7SNyphN0KX/BTBy67iT05pho53adkZ7aOHaI0et0ZOvo5gJe5HQM3pEstXZjqauHeLY+AqUXRGpPVnJm+dotT6HMNrumX7SUyKa1Qw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=E4AUtIrN; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.0.172] (mob-5-90-49-39.net.vodafone.it [5.90.49.39])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 60441C6F;
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EB677EB4;
 	Mon, 15 Dec 2025 14:20:25 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1765804825;
-	bh=JrcrIoUY2IRu7tADcVg3SogYhRs0a4TO4Is+ri2AnTQ=;
+	s=mail; t=1765804826;
+	bh=0CShGOwgZ5TigEVw+G91rrywFxkq5Qn1I/+QnibNAJ0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=eKN/XSRvkkfWYmcip4zNikIAUdk92zv8YVkB4cUOOeCz4NIO4KbKDOK2yrZhKTLsj
-	 9gNELOdBS4jzYvot+WbpZPcHhDpZ4A+mRpVR9QidjCFoaCugQDwO0CYMn3GXGJdQAy
-	 D947d0BCp9Ck8u2QidpbS1zhIOlS2+mcQo31lvzQ=
+	b=E4AUtIrNOFKKUHn8Au6SdoTwRCMlI3I4HGZEtQYBkhWCBu0SCvhzh12i+aD8oUvJN
+	 YoLW+QthcN906u3KoEeJc7AA+4kk2ieVYuGDuIM8IfvQpPs10PLQpANiE9uNaBjwh3
+	 ZlWydopZIfDrmoErdzbzzotc3Sr3iVmT58/4OQQE=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Mon, 15 Dec 2025 14:20:21 +0100
-Subject: [PATCH 1/3] Documentation: media: mali-c55: Use v4l2-isp version
- identifier
+Date: Mon, 15 Dec 2025 14:20:22 +0100
+Subject: [PATCH 2/3] media: mali-c55: Remove duplicated version check
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -51,7 +50,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251215-mali-c55-header-update-for-v6-19-rc1-v1-1-69f56dee3c71@ideasonboard.com>
+Message-Id: <20251215-mali-c55-header-update-for-v6-19-rc1-v1-2-69f56dee3c71@ideasonboard.com>
 References: <20251215-mali-c55-header-update-for-v6-19-rc1-v1-0-69f56dee3c71@ideasonboard.com>
 In-Reply-To: <20251215-mali-c55-header-update-for-v6-19-rc1-v1-0-69f56dee3c71@ideasonboard.com>
 To: Daniel Scally <dan.scally@ideasonboard.com>, 
@@ -60,48 +59,56 @@ To: Daniel Scally <dan.scally@ideasonboard.com>,
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1167;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1307;
  i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=JrcrIoUY2IRu7tADcVg3SogYhRs0a4TO4Is+ri2AnTQ=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBpQAscwy4R9EYj8gj2NYYrF3PepMOVt7gKsJvsC
- MkYuFF7Tw2JAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaUALHAAKCRByNAaPFqFW
- PPPHD/4mU7neMEopvINgAazbVDvprQSDalyoRh0i0cC71W3KFtE0BLoyYQoA1f5G5GnTPPYYYeA
- xPBqfqPTBPdp1H2WhPuMEnQNYI/CLVIZdl8BHzOpyEqQbeh92nJA6JTKbU8KpS+dsTPcJEvgII4
- Jcces9XPdkf8gjEPJ4EJAm1KPzlxVj2wYrLmLtBZERsKr/MnQmGJJbOpyfv8uhkL5CtD4r2YIs6
- 4Il5CApWMjKds1x0WJYp6k0tFdlinpNFPIGW+o0Zm7NfIbYEFhF5t266/0dpI3lfSOwY09c5Iqf
- d7RAleiWHz6kSS48CYQSz6waKX92BpvJ04dveaKoAFq2X3ACIFKzbcUu45jefe1OeA8FtJDJVoa
- esaWcuEZsfqrmJ1ma7cndVRQF/2ORCI3QzZd/4n6B/587L8MLVZQU0NMXdA1eJehG4YMtChY/XE
- x+VVv/a9JjeJ2j8z90xJPrVpFiWzvNUDkEmyiG+AuIGMAwG7qJ24YCie/awkV7186iV1Ty5XnfZ
- 4/IQvPCeuMkLlHUJQu+s4fqTNBB8vrxyAzm/5orKDkqBQphrq+WFT0pbJvkTxNoL+pAvB5HguhK
- 3dXJdpFo6xve9uRseqUlnqXotgJNsEa13C//R65Iq4u4w7xl8pIuMgEkvBED8ViM8VUqLW2yaX6
- 1hR36P+6xhqVKsw==
+ bh=0CShGOwgZ5TigEVw+G91rrywFxkq5Qn1I/+QnibNAJ0=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBpQAscHfusVJvOynlfZGD4zMeE/VwNEB763GtZv
+ ijw0FoPHjmJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaUALHAAKCRByNAaPFqFW
+ PDKbD/4lKcdLO12a65hRL3LjpnK/L9weonr5PuHERs7ZUBa9hf5hR/2t05OPDgo72zTQWJPn0fl
+ Bh/d+G9mlp7pk/pSCa9dksDoAcGs64XbSJF7tCOp7CsAXN/PRyQhdWu1QAUmWXrok+iiMWOtLy/
+ fm5bU7IiYjH11y29gTrfVZ79Ecuwt6WOFy07KTEg/KYxcUQPgy57dD4h5vVYbJf51/THa9gT7R5
+ 6BIyaHSJWXDmDj4Cxq76V77wEhJOk0FOvmCEdQHrQiw5xqvJPEy8LrqExxqCvL/NA73ZFRnBMY9
+ u38Dyr1l/3cImLi+LcILc0AI0B+HSWV3axVR/nqI5llR7Ri9kMxGbXHale3zZTBD+fHoqxSmdqx
+ +HqvWjkTj9gP6YD0aqNUIncLm7PiCEM8lECHmQ359CnBt+/+LRPJXENx2TE9gAowBZGFdCrTddL
+ /qkQrYojyhpyuDZLMCrAdzWeYr33m5Dmi/NdT3PRzNj3YL28FgM2oeIioLXH+1o48asmnmqxdyS
+ +HBoIywGD5689bGJ3mOnQu6JAznxxY52H48V3uXx/hCPk4LeqsJ8ePkOL93sYQsR3XPPMv0cigo
+ Jk2eULM2/tNhDVOOGb8YoshZdaC2ozkKo9cf5Tu0fGG4a7w0OuJItowtfXLhFHmDVyML7G5UG+t
+ qbBd+SHWT4YrYjQ==
 X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
  fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
-The Mali C55 driver uses the v4l2-isp framework, which defines its own
-versioning numbers.
+The Mali C55 driver uses the v4l2-isp framework, which performs
+validation of the parameters buffer versioning in the
+v4l2_isp_params_validate_buffer() function.
 
-Do not use the Mali C55 specific version identifier in the code example
-in the documentation of the Mali C55 stats and params metadata formats.
+It is not necessary to replicate the validation of the parameters buffer
+versioning in the platform-specific implementation.
+
+Remove it.
 
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/arm/mali-c55/mali-c55-params.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst b/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
-index 696e0a645a7e0566921a3e9db3226b76d402f909..f8029bcb528283cddb1ea854b25469af97ecfa54 100644
---- a/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
-+++ b/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
-@@ -44,7 +44,7 @@ member and userspace must populate the type member with a value from
- 	struct v4l2_isp_params_buffer *params =
- 		(struct v4l2_isp_params_buffer *)buffer;
+diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-params.c b/drivers/media/platform/arm/mali-c55/mali-c55-params.c
+index 082cda4f4f63e880162896ff0f893cd774982d51..be0e909bcf29f62c01c75d711c21278faf7c9de5 100644
+--- a/drivers/media/platform/arm/mali-c55/mali-c55-params.c
++++ b/drivers/media/platform/arm/mali-c55/mali-c55-params.c
+@@ -582,13 +582,6 @@ static int mali_c55_params_buf_prepare(struct vb2_buffer *vb)
+ 	struct mali_c55 *mali_c55 = params->mali_c55;
+ 	int ret;
  
--	params->version = MALI_C55_PARAM_BUFFER_V1;
-+	params->version = V4L2_ISP_PARAMS_VERSION_V1;
- 	params->data_size = 0;
- 
- 	void *data = (void *)params->data;
+-	if (config->version != MALI_C55_PARAM_BUFFER_V1) {
+-		dev_dbg(mali_c55->dev,
+-			"Unsupported extensible format version: %u\n",
+-			config->version);
+-		return -EINVAL;
+-	}
+-
+ 	ret = v4l2_isp_params_validate_buffer_size(mali_c55->dev, vb,
+ 			v4l2_isp_params_buffer_size(MALI_C55_PARAMS_MAX_SIZE));
+ 	if (ret)
 
 -- 
 2.52.0
