@@ -1,197 +1,143 @@
-Return-Path: <linux-media+bounces-48765-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48766-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C021BCBCE57
-	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 09:01:41 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 783A9CBCE30
+	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 09:00:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7DF923028DA6
-	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 07:57:38 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 5F4C5300CA0F
+	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 08:00:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BBFC329E77;
-	Mon, 15 Dec 2025 07:57:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6B4B32A3C5;
+	Mon, 15 Dec 2025 07:59:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kqDrxyrC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="maQsA5SJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C41CD329E5A;
-	Mon, 15 Dec 2025 07:57:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A845E329E79
+	for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 07:59:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765785455; cv=none; b=IqskSzSgup5b0vjXBpNO+a/ZrJuNaQPwBHGQEMqnQNx+mtvxwzyuro+KrwY1s/fwCN7TO9f7ce+P1ywvejtp1Sp7P+xaiRulJFvIonyycW3iLDy5I6EHX+c0Q1mttl0few4ArlM5Yf8LkRqCFphLkG9KywZ7Ss46YlgK+u8pX0k=
+	t=1765785597; cv=none; b=Fk38mhiUnKH/4asIymi/dmqhqtevxtH2GM4D0OrhZtjJdY9vXz4PdLxQ99ITAbBq7LShBNoggZ3hlMDBCW5blTX6MstTlLlTCc1C+CuSqCtoybBUawbfVKoTxJbJLsOarED9BLOeIV9ZQIM5uBqk4GQTSWKRc9n/V3eKkXh60eM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765785455; c=relaxed/simple;
-	bh=RBPv+F0kBNaTBazonPjUQ87KOjTOggUdwMnpvARONcs=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=u4c70tUfehLyFYXLCazfR+AudpudRLWqxxbWo5maysq5Elous4uEykXPXDtZIaCvZb7wadXbhSLf0Q+eHnJwvJmquTBpF2vvx0dhXbqKD46B9pXbUwNEqz+YV4b5WxGRRKZYw5ja5yO6eobLNAEFypyacUkmPX8KWGRBzFGOXDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kqDrxyrC; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (unknown [223.190.82.135])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D040D581;
-	Mon, 15 Dec 2025 08:57:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1765785446;
-	bh=RBPv+F0kBNaTBazonPjUQ87KOjTOggUdwMnpvARONcs=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=kqDrxyrCvXiVUQ/vMpozxE0unBumyBLGWK1l/SKd/Kxmhxb1pz8SJTcY0YfF1fcYu
-	 HZ3vmRuTjVmNIaFv41tHPw/LrpIGuLh+CRUQL4PzHTpabpv8v+qhkhRJfg8oBAZ9zE
-	 xZjHFmRCWqoncO+xjlM/kvVZYnoZSdE7XWPG/N/Q=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1765785597; c=relaxed/simple;
+	bh=pYWPUiYByiZkGu4rD+NqHdrKuVDp3YaH1DFpSKGq56s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lx0W8iqsnTD8bNOxUPtLsTJMRibeC1xguLE9CjrRFrojbNNnrKine18tmI6QP0fTjBBJ4qeLiF7PO7rWwUSvU35w5qULmx7pOJ88iRFbIh8I3mx7JMf9LiT2rmN7d3bERj8eDjf+cYS378qqM6nNBUdAmsah8wS1ppHlTrgvcck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=maQsA5SJ; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7b8eff36e3bso4829737b3a.2
+        for <linux-media@vger.kernel.org>; Sun, 14 Dec 2025 23:59:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765785595; x=1766390395; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=J3y8U5/hQxLgvSw1sA3RfHATBZeuvFmSgboI4LGzrUw=;
+        b=maQsA5SJ4QoChi4rx4Tej9TP4SAYp3dKC9R7JC5GxP0pfpmegRm9Hc6JVifRnxmf+r
+         Tx16PpON63Ybi1mbVhd+myrPr1nEF5syCae3M/ibvz+ahBlG7IujgUxIvigWK1chuOOw
+         Dal1BIdQLLh3TGDyhExMDiJQW8qXF90VhP6kCng7AmrvSJf9c9ujtI/PVNE/fQ/U+cWr
+         XMkGB3xYpdkeGy6DuwBi1OFV9ZcfloFFfiIEDBcP8LnYtGmYBnEkj/8umDpivxCZLR1N
+         HfjkX4WfFXVbLVXQFZVHKujIeHRs2n3Nrv08wVJHM/qvlt9ZfV13wytVjqA5ysdxH1/G
+         uu5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765785595; x=1766390395;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=J3y8U5/hQxLgvSw1sA3RfHATBZeuvFmSgboI4LGzrUw=;
+        b=W7DFK1Fzl2nLmimn0aeerkLFlgPk1k4/M5XiSNsZ7r5/DCGyZd0xf/cLiurn0+O3i9
+         WBxWDOkzSxpNc2Fd88sCEKJ/QoRhKGaSm7E+wz+PYv7th++hSYmMKZFdSAIerqGw6DKY
+         3ddajCooXHAhS914+YzFB22aqCPBs13rA1gZoZYRvsZbZ2N+7/0G9Le/NOT7VxiLqek6
+         CcJPUHHpU0ajESe4/LjLJpIqhz9Xag0C22jAYZ+kfP1rx9mngHNd/jzZGY2q9o59Y4Oc
+         yBd61e8Ihp4BhFd8tgRZDodYDcNYsBK3H/JA7sIt5t+5ljKNwaz3mXjc3I+n8Ua9YVMN
+         5Bqw==
+X-Forwarded-Encrypted: i=1; AJvYcCU5Us1ZHt98BI2jBfTSPQkw583/qOWZSxy1YdP8sQmjDCQZUcneaI9pD9K1FlXqiFTIUkwD7aTScmbcpQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVwyfxQ5IrmvB05EeB7W5TTOGYlsSHWUCMJmFlvz9UnnuU0bqn
+	GvviYe4bkgq2JPZ7R/JXFfenFEZIsXqqpV1rmd975L+PuuVrs+30+XOP
+X-Gm-Gg: AY/fxX663ClSVv8yqr5FB0YgpNm5FyxxZygHGYosAYbggjodhO1bjUFTNmGo/aHSuTu
+	Xl5Rg8W+T1g+mxmaIxC3Yzlrx75JPqGIVxFsY88Yyffj9oXkr/sbxqbCu0zYubfaz71M2vF/6eX
+	Oap+DA+6XLDKy1vMaZ6fZ0cBA2BdbnDCxs9/leqR/EjpREIYIeJjXGfcxAZsXK+piXok9Zc/iXq
+	UIP/akslmyIYi9fr6ZS0UWTkN3KeMylYA+9Wx7A1rVa44TOSofMni+vHy+1ql/jnQL1lR3eqY/K
+	lCqC9PLIRWJxGm6GEbcRdzbVQTt/BOdRORVzh5bmN6aH47FHyHnd8rpmAIoYQPCA3aKPNtau9yj
+	4kmz2Q/U52R84P8WUAwGcbkdJ78S+P3Ge6IhhMA/b1QonquHvlw/+18Kr2YbZfHcAzVTaCAqv+O
+	MyYQ/dS6+4ijU=
+X-Google-Smtp-Source: AGHT+IHQQmJ+wLeQ1qi/KuqvZJU/To7Y4dcl5fOzW093dtZDFZfBZPmK7O119hfs7hDvgn6WW0/A7A==
+X-Received: by 2002:a05:7023:d02:b0:11b:9386:7ecc with SMTP id a92af1059eb24-11f34c43d8dmr7717987c88.41.1765785594831;
+        Sun, 14 Dec 2025 23:59:54 -0800 (PST)
+Received: from fedora ([172.59.162.202])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11f2e2ff624sm43637473c88.12.2025.12.14.23.59.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Dec 2025 23:59:54 -0800 (PST)
+From: Alex Tran <alex.t.tran@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Alex Tran <alex.t.tran@gmail.com>
+Subject: [PATCH v2 0/4] media: omap3isp/et8ek8: Add CCP2 CRC configuration support
+Date: Sun, 14 Dec 2025 23:58:31 -0800
+Message-ID: <cover.1765782992.git.alex.t.tran@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20251215-b4-rpi-ov5647-v3-16-4c25e3c883b2@ideasonboard.com>
-References: <20251215-b4-rpi-ov5647-v3-0-4c25e3c883b2@ideasonboard.com> <20251215-b4-rpi-ov5647-v3-16-4c25e3c883b2@ideasonboard.com>
-Subject: Re: [PATCH v3 16/16] media: i2c: ov5647: Add V4L2_CID_LINK_FREQUENCY control
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Kieran Bingham <kieran.bingham@ideasonboard.com>, David Plowman <david.plowman@raspberrypi.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Peter Robinson <pbrobinson@gmail.com>, Stefan Wahren <wahrenst@gmx.net>, Ivan T. Ivanov <iivanov@suse.de>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Conor Dooley <conor+dt@kernel.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, Jacopo Mondi <jacopo@jmondi.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Naushir Patuck <naush@raspberrypi.com>, Rob Herring <robh@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>
-Date: Mon, 15 Dec 2025 13:27:16 +0530
-Message-ID: <176578543675.705443.13098668829486807309@freya>
-User-Agent: alot/0.12.dev62+gb9d6144a6
+Content-Transfer-Encoding: 8bit
 
-Quoting Jai Luthra (2025-12-15 12:58:12)
-> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
->=20
-> The link frequency can vary between modes, so add it as a
-> control.
->=20
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-> ---
->  drivers/media/i2c/ov5647.c | 27 +++++++++++++++++++++++++--
->  1 file changed, 25 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-> index 02d751967ab2c4a8dbe4a504738c2c0b36b6cb68..761eb22f53244b6883439f1ed=
-a7940b30bed1146 100644
-> --- a/drivers/media/i2c/ov5647.c
-> +++ b/drivers/media/i2c/ov5647.c
-> @@ -97,6 +97,13 @@ static const char * const ov5647_supply_names[] =3D {
-> =20
->  #define OV5647_NUM_SUPPLIES ARRAY_SIZE(ov5647_supply_names)
-> =20
-> +#define FREQ_INDEX_FULL                0
-> +#define FREQ_INDEX_VGA         1
-> +static const s64 ov5647_link_freqs[] =3D {
-> +       [FREQ_INDEX_FULL]       =3D 218750000,
-> +       [FREQ_INDEX_VGA]        =3D 208333000,
+This patch series provides support for configuring CRC checksum via device tree
+for et8ek8 sensor and OMAP3 ISP receiver.
 
-Sorry for the noise. Just after sending this I realized that the link
-frequency for VGA mode also needs to be updated as mentioned by Dave in
-response to [PATCH v1 13/13]
+Previously, CRC was hardcoded to enabled (1) in the sensor driver and ISP
+receiver. This series makes it configurable through DT, allowing both
+sides to be aligned, as both must use the same CRC setting for proper CCP2
+communication.
 
-> +};
-> +
->  struct regval_list {
->         u16 addr;
->         u8 data;
-> @@ -106,6 +113,7 @@ struct ov5647_mode {
->         struct v4l2_mbus_framefmt       format;
->         struct v4l2_rect                crop;
->         u64                             pixel_rate;
-> +       unsigned int                    link_freq_index;
->         int                             hts;
->         int                             vts;
->         const struct regval_list        *reg_list;
-> @@ -128,6 +136,7 @@ struct ov5647 {
->         struct v4l2_ctrl                *exposure;
->         struct v4l2_ctrl                *hflip;
->         struct v4l2_ctrl                *vflip;
-> +       struct v4l2_ctrl                *link_freq;
->  };
-> =20
->  static inline struct ov5647 *to_sensor(struct v4l2_subdev *sd)
-> @@ -376,6 +385,7 @@ static const struct ov5647_mode ov5647_modes[] =3D {
->                         .height         =3D 1944
->                 },
->                 .pixel_rate     =3D 87500000,
-> +               .link_freq_index =3D FREQ_INDEX_FULL,
->                 .hts            =3D 2844,
->                 .vts            =3D 0x7b0,
->                 .reg_list       =3D ov5647_2592x1944_10bpp,
-> @@ -397,6 +407,7 @@ static const struct ov5647_mode ov5647_modes[] =3D {
->                         .height         =3D 1080,
->                 },
->                 .pixel_rate     =3D 87500000,
-> +               .link_freq_index =3D FREQ_INDEX_FULL,
->                 .hts            =3D 2416,
->                 .vts            =3D 0x450,
->                 .reg_list       =3D ov5647_1080p30_10bpp,
-> @@ -418,6 +429,7 @@ static const struct ov5647_mode ov5647_modes[] =3D {
->                         .height         =3D 1944,
->                 },
->                 .pixel_rate     =3D 87500000,
-> +               .link_freq_index =3D FREQ_INDEX_FULL,
->                 .hts            =3D 1896,
->                 .vts            =3D 0x59b,
->                 .reg_list       =3D ov5647_2x2binned_10bpp,
-> @@ -438,7 +450,8 @@ static const struct ov5647_mode ov5647_modes[] =3D {
->                         .width          =3D 2560,
->                         .height         =3D 1920,
->                 },
-> -               .pixel_rate     =3D 55000000,
-> +               .pixel_rate     =3D 58333000,
+Changes maintain backward compatibility by defaulting CRC to 1 when the
+property is not specified in the device tree.
 
-And this should go in as a separate Fixes commit before this patch.
+The series also converts both device tree bindings from TXT to YAML
+schema format, as required.
 
-I will fix these and send a v4 in a couple of days.
+Changes in v2:
+- Fixed broken patch threading
+- Added receiver support for reading crc from device tree
+- Converted both sensor and ISP bindings from TXT to YAML format
+- Both sensor and ISP endpoints can now be configured consistently via DT
 
-Thanks,
-Jai
+Alex Tran (4):
+  media: i2c: et8ek8: et8ek8_driver: add support for crc configuration
+    via device tree
+  dt-bindings: media: i2c: et8ek8: document missing crc as optional
+    property
+  media: platform: ti: omap3isp: isp: read crc configuration from device
+    tree for CCP2
+  dt-bindings: media: omap3isp: document missing crc as optional
+    property
 
-> +               .link_freq_index =3D FREQ_INDEX_VGA,
->                 .hts            =3D 1852,
->                 .vts            =3D 0x1f8,
->                 .reg_list       =3D ov5647_640x480_10bpp,
-> @@ -927,6 +940,8 @@ static int ov5647_set_pad_fmt(struct v4l2_subdev *sd,
->                                          sensor->exposure->minimum,
->                                          exposure_max, sensor->exposure->=
-step,
->                                          exposure_def);
-> +
-> +               __v4l2_ctrl_s_ctrl(sensor->link_freq, mode->link_freq_ind=
-ex);
->         }
->         *fmt =3D mode->format;
->         /* The code we pass back must reflect the current h/vflips. */
-> @@ -1231,7 +1246,7 @@ static int ov5647_init_controls(struct ov5647 *sens=
-or)
->         int hblank, exposure_max, exposure_def;
->         struct device *dev =3D &client->dev;
-> =20
-> -       v4l2_ctrl_handler_init(&sensor->ctrls, 13);
-> +       v4l2_ctrl_handler_init(&sensor->ctrls, 14);
-> =20
->         v4l2_ctrl_new_std(&sensor->ctrls, &ov5647_ctrl_ops,
->                           V4L2_CID_AUTOGAIN, 0, 1, 1, 0);
-> @@ -1287,6 +1302,14 @@ static int ov5647_init_controls(struct ov5647 *sen=
-sor)
->         sensor->vflip =3D v4l2_ctrl_new_std(&sensor->ctrls, &ov5647_ctrl_=
-ops,
->                                           V4L2_CID_VFLIP, 0, 1, 1, 0);
-> =20
-> +       sensor->link_freq =3D
-> +               v4l2_ctrl_new_int_menu(&sensor->ctrls, NULL, V4L2_CID_LIN=
-K_FREQ,
-> +                                      ARRAY_SIZE(ov5647_link_freqs) - 1,
-> +                                      sensor->mode->link_freq_index,
-> +                                      ov5647_link_freqs);
-> +       if (sensor->link_freq)
-> +               sensor->link_freq->flags |=3D V4L2_CTRL_FLAG_READ_ONLY;
-> +
->         v4l2_fwnode_device_parse(dev, &props);
-> =20
->         v4l2_ctrl_new_fwnode_properties(&sensor->ctrls, &ov5647_ctrl_ops,
->=20
-> --=20
-> 2.52.0
->
+ .../bindings/media/i2c/toshiba,et8ek8.txt     |  55 -----
+ .../bindings/media/i2c/toshiba,et8ek8.yaml    |  99 +++++++++
+ .../devicetree/bindings/media/ti,omap3isp.txt |  71 -------
+ .../bindings/media/ti,omap3isp.yaml           | 196 ++++++++++++++++++
+ MAINTAINERS                                   |   1 +
+ drivers/media/i2c/et8ek8/et8ek8_driver.c      |  49 ++++-
+ drivers/media/platform/ti/omap3isp/isp.c      |   5 +-
+ 7 files changed, 339 insertions(+), 137 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.txt
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.yaml
+ delete mode 100644 Documentation/devicetree/bindings/media/ti,omap3isp.txt
+ create mode 100644 Documentation/devicetree/bindings/media/ti,omap3isp.yaml
+
+-- 
+2.51.0
+
 
