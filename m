@@ -1,79 +1,79 @@
-Return-Path: <linux-media+bounces-48796-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48794-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B444CBD9C5
-	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 12:49:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A32F1CBD9A1
+	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 12:49:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1B7E830B5247
-	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 11:41:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 31FA63098F80
+	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 11:41:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2432A334372;
-	Mon, 15 Dec 2025 11:39:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6886C333729;
+	Mon, 15 Dec 2025 11:39:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XytzJRAR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QZ2bPcSy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75742332EB8
-	for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 11:39:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA19B2BE65C
+	for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 11:39:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765798768; cv=none; b=hw6aYtP/3ZTLCil357OKO5Peg4JQ84b5lGt9FqKKvrLY5dXACYR+v3+gEPFlP/bcY2jmdAUe8q6GtCF5ix3093gxlhwUrfchsY8h1WhNsFU0KTVLMWK3MWkzOTLp3UTo2RVxdFv6ChjAbxiqal9UcNg6ZAHtoQdK/EMR8B6vAYo=
+	t=1765798766; cv=none; b=kr9g69t1+CSrMrD5TcLleGz6paOuGd27EQO9hNfxRnHTJ5XJbB/h7X9zCsXkDZvACHNLvLjfupHm4m4zsMgzZDphq6o+Ic/Uo+fH77XwEP1MQ852sk4nSgNwjshrr6x12WT5IoHGOrz9tePShxsp8DMLALsuUbYz5T9FH4Q/djU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765798768; c=relaxed/simple;
-	bh=XiWwx/yBvL5qhtur1OJ6r0Qtve5kN/UAKMQDFDv8Kk4=;
+	s=arc-20240116; t=1765798766; c=relaxed/simple;
+	bh=g0JdaQypaND4lTcW0ZqbYUYcFFa4BCtHp67rCXQ3qdI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FK0M+3qriAhkY6VXLanNe4kotdsGhz3aza36LF2vXGaMiCDZAMO2NTIv/J6dDf8UUU48HUvw5+573V3FxaEp83stzrqQ6ZI3oYG5pgogSddzRe+WGt7yOca/jdiBgxuVX0TybQwfyDsJxJPh4b9p0e8FfirAKdt6tieNvQooAxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XytzJRAR; arc=none smtp.client-ip=209.85.216.46
+	 MIME-Version; b=NVk82lBe/kvO/b+q9FSWZeydiBkLdcVXc2DWC/MdPv1rJFMxYemZ8B0fZntDpjlCbzVN5UTKdHJE0dRtx6ADh0z9Zy0UCnIJGvN6GYbck8EYqecSZf1dRk1alu3hbI6iJTNYeX7YRX/yVYS3jP3U3Eh7mCrMDDOJkaVdLBTred4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QZ2bPcSy; arc=none smtp.client-ip=209.85.216.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-34c84dc332cso993283a91.0
-        for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 03:39:24 -0800 (PST)
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-34c277ea011so2178408a91.1
+        for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 03:39:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1765798763; x=1766403563; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KFsNe5Gu995f8GfU2RxaYzwbXM91ZCVhfkD06BV90tM=;
-        b=XytzJRARBFCGn2wkwkzcKGcQxZVspcyrUETa6kb4/Whu+HngPYUDtnXiVcnTNT5THM
-         tluZeafaX/Xu1YjXUj24bBzkauectMVxvfK1wrNtyoTxDAq6YXy5+hoBXfQs8gvFEwQg
-         U2fHhiSAHyiD+0ZHdIsr5XmZTQC/lIbr+scipAN2wO9fBcVQ4az5nIXC2jGSKfefSfJj
-         NJFlRmb6++Mh6N7y4i5xPsgvP4eb31RqyGiy5BjroqqwnZxxThie3Fb8gKJW1slA1ZgK
-         t/b5xtdMAq9prQMyUHZOd/u8JquiqUYMUo6WPyjWxhAn8vTzCvKzNa4q0/BytzCGMVm2
-         8K+Q==
+        bh=c1jHunOtVkIwedmQvRsrzJgL7loZmMhygmTOE5iX6PY=;
+        b=QZ2bPcSyG+tJ9fGX18Feb1vqd5n6XetH4ZtDRsUSqe0yejhEagRkvX3mCWc9U94+os
+         UODT9B5wXa1p5HcV0/d7C76dd+2ygUmpCdkootvGaVvfnhlLHxZ/KdI3X0SXJVnslw7L
+         TwcGhGKgfT1eOdXW9QVdN4wmX8pKMsLeR2c9heaLY49BFjfBZIGrvlKGCDVDTVea54+A
+         MM6Nslk1bnsdoYjnf3uMszpQX236vcsnlq7OtjvnbT7de/tNjHxKkYVFkv8fd45JZ8GK
+         KsDAMNCiVcJ8e3d1MmzQvF8yVqocfFa+3lW3kPt6OUamaQVk9jX7DHYZNtESB8qvJFZg
+         aytA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1765798763; x=1766403563;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=KFsNe5Gu995f8GfU2RxaYzwbXM91ZCVhfkD06BV90tM=;
-        b=HPjfj/HPe+lhIrhScpKD6xDmbmKew3QRx14+xOlhw2Dc2MPQos5J/WRH+LF9I1tB6t
-         KKUuchSdmlQrj6kHyh4rNqDUNSmC7+BoVoBvukjXEw8TzswPgNFysSGKSluME3DfVnSq
-         wLYQo3QUe/wqtAQDzaC8YRIg+8rgYuMku9t7Lt3C179q1krCrAhm6bEjYs7FLufIR5h5
-         XSZ8A7Fra8vZIW3pHOfUDiwTxpnGk23kfRqYU+rF3c2CAp3tfYKGMwyYA7fzOjJW1iDG
-         82sAXDSjXZn9Y+mUf1PMDxvcIopgW/cC0T0R5CqRPnpm5cMcTZ4Ft8/beDDpnb0fc3YW
-         UU6w==
-X-Forwarded-Encrypted: i=1; AJvYcCV9VboExS1qRkNfj8rca5bFFtu8R/sC/kzUvgMzU/aNDTQjCPeI6YY++Z8XtgOQyfilaHb9d3Zf3M0BCQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwARlhLzP6ip9FD7B/N46q9+ApVikF6KWePJNEZyv4ebIjKeArT
-	qiDehGgAiyMnjLWhUTb+4pmbu2qgWSJ6bYUgYXUJi74APjmkedEdfwjJ
-X-Gm-Gg: AY/fxX5gimIRolpojkfT6/loVqJx7hxVLS6173KqYokq3SYdNZoUP357hp84JKOwk+7
-	pCLLWJRSmjpwKW20pY+vY0eyk9qUHae+b2eaTjv1GuUYEOm2fvPt0IMSPyOJ0lQ60wTg713+qxi
-	PVVeusXKn/rnD1NKCDpI72pPYJdqBENZKcTm2Cl99wVcBYBd9Dh3n8yYp1Zi05Wzw6XOvkVPfQg
-	xkZySFKyVKFYGetxMA+4CJYC8vgTh+M6oYRXRNm6zcdfBWMIpnFxZVSVOfwRYi8gabEqhO+g5oX
-	6236GGXXYFTk+cJGM48LgE+p79O1UDjJ/THYONDoiLu7hFtkv3nZY1Ls1ekz3kgnuvLIze9sEpg
-	LuwyzHyY6zbdT5o+ADa/gFMP/UV8mlcLxPwN1rH9czzd88nw8/sUTC4YIE3fksvpPrdNCpFdjGh
-	LrfWOecQ/AIb4=
-X-Google-Smtp-Source: AGHT+IEy2tcNugFFoZ/L1b/kwWL3FdgAjYD+lvIJBPYKZMY6hs2UzwV9S1AhT0ES6IDo2vtVEhI5ug==
-X-Received: by 2002:a17:90b:2811:b0:340:bb51:17eb with SMTP id 98e67ed59e1d1-34abd6d35c0mr9572904a91.15.1765798763360;
-        Mon, 15 Dec 2025 03:39:23 -0800 (PST)
+        bh=c1jHunOtVkIwedmQvRsrzJgL7loZmMhygmTOE5iX6PY=;
+        b=PpJCCtoGYLNxsxG2KsH1l2fJGJCauNzOq0o74o80ET2shnIhGpjfoSVD5ZyJ8bt2Iu
+         DQPVWJloi9dN0KPUpCKafRAaEwxYC1IbYRQTvsfkBWeB0gPLC8BjoPepIP3ff5VjmxMa
+         X7vbj9Mqlm/GFN5WEj8mhzXd6oieluR7r4ZLlGj4jLvEibAYaJtDust/LzCOPm5sT3DA
+         bu4sKJsYqZR41V4FUM1rt5hoCi8WPXuJjtrkiBpfcptrKAL93s+kg571RI4R5sUf4LYq
+         3OS1BJ3xi/UUY8ltapWKKtPXh17+ARTnA4qn2llrRUXYqxtjOLIWizPxgQLsBLyMj9CP
+         ly1g==
+X-Forwarded-Encrypted: i=1; AJvYcCWbImfa2K2JPN9PIpdJMD9IncPwV7EvUw++L5PWvFe4t6FocaaaJsHQJuHE6H5GGSYV0MJWjqwWtDe0kg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YygHGI83ts7pkEE0/Zfq5aw8V9/aUPfqMw6vIvHvXeTaFoAwlmu
+	zZxfJSum1iDgGEa5V5ETwCxDIdu8I664A4FWdD88rTQoI4DLtr5SZ4CA
+X-Gm-Gg: AY/fxX7YOnk9x7Kgb+wCblJChawx6E1Oi+BO0TiPWq9H25cbmgUItwMAK6GrvQ0Z1E/
+	v2KQ3ToHnaePo6jkyORoZDJI59jV62FRs2lHdYWkrEsS9C9RiXBa75V0uIIwGEiDhFvnJQfvKKN
+	DAIA0QTWYHhifHdd4BqyE+og96nQ4vQN8LiwqItjQOADmjWIWuG2RMqkbu1sOYFVcx3hMI7djtP
+	4/A8oDIcj1KHP4cL+VPWWIxAYssEt8zphEUaZfE/8U1/ddH2fyFnygYqntuFQX96nm3967ZSBui
+	ZKDBfjhT777dKmn1nVy59xFbmJazrGRLqtnxOFXqhcdsN8JYrhCdIHOVDfz16dPc/tI3IZ2lfVs
+	3iKdovq/CYU4IOoaIDkXyuA44yKGIjwYPS3JliP2oZ/yIslvMMf1xCOtZ1BNrEMXDwI9tU5ST5M
+	iPDK/cSCR48UE=
+X-Google-Smtp-Source: AGHT+IGkBlvtTJJI36YenJR2Mj5A83uVH+1orPi0BLwAvata7acR5hue/qogcd9VSy03MC0if9MWYQ==
+X-Received: by 2002:a17:902:dad1:b0:2a0:b066:3f55 with SMTP id d9443c01a7336-2a0b06646d5mr58199625ad.10.1765798762558;
+        Mon, 15 Dec 2025 03:39:22 -0800 (PST)
 Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34abe2f34c7sm2908684a91.9.2025.12.15.03.39.14
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29ee9d394easm129684215ad.25.2025.12.15.03.39.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Mon, 15 Dec 2025 03:39:18 -0800 (PST)
 Received: by archie.me (Postfix, from userid 1000)
-	id CA7C1444B397; Mon, 15 Dec 2025 18:39:06 +0700 (WIB)
+	id DE7F144588D6; Mon, 15 Dec 2025 18:39:06 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux AMDGPU <amd-gfx@lists.freedesktop.org>,
@@ -161,9 +161,9 @@ Cc: Harry Wentland <harry.wentland@amd.com>,
 	Jilin Yuan <yuanjilin@cdjrlc.com>,
 	Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
 	George Anthony Vernon <contact@gvernon.com>
-Subject: [PATCH 08/14] VFS: fix __start_dirop() kernel-doc warnings
-Date: Mon, 15 Dec 2025 18:38:56 +0700
-Message-ID: <20251215113903.46555-9-bagasdotme@gmail.com>
+Subject: [PATCH 09/14] drm/amd/display: Don't use kernel-doc comment in dc_register_software_state struct
+Date: Mon, 15 Dec 2025 18:38:57 +0700
+Message-ID: <20251215113903.46555-10-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251215113903.46555-1-bagasdotme@gmail.com>
 References: <20251215113903.46555-1-bagasdotme@gmail.com>
@@ -173,40 +173,36 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1286; i=bagasdotme@gmail.com; h=from:subject; bh=XiWwx/yBvL5qhtur1OJ6r0Qtve5kN/UAKMQDFDv8Kk4=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJn2n4O3vI8WDrMwXuvBLq8mNivp3ZeuaVYeu+cJXRZ0u 9ehPPdrRykLgxgXg6yYIsukRL6m07uMRC60r3WEmcPKBDKEgYtTACbSG8vI8EpCRPb0s1m/77E2 hv9V7O9IOeS06tfyqjLP7/lK/+xuKjL8zzy7NtZA+f5K8VWm3d9utqf1737naLT7ZsEzs3nvY45 PYQUA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1238; i=bagasdotme@gmail.com; h=from:subject; bh=g0JdaQypaND4lTcW0ZqbYUYcFFa4BCtHp67rCXQ3qdI=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJn2n4OZ3cRMgut038Q1Mvx+WnR34qt26aRSjxQZU2vjg 6FirXs7SlkYxLgYZMUUWSYl8jWd3mUkcqF9rSPMHFYmkCEMXJwCMJFN+xkZVrl1e0394/7u+RLu +RrXLfO4ZDZ3GN7cIROa8FQ8sjv1CCPD78WiQS1yNZrTC6Ti9OZz7YjK/sxnP51XNFzRTCM96w0 nAA==
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 
-Sphinx report kernel-doc warnings:
+Sphinx reports kernel-doc warning:
 
-WARNING: ./fs/namei.c:2853 function parameter 'state' not described in '__start_dirop'
-WARNING: ./fs/namei.c:2853 expecting prototype for start_dirop(). Prototype was for __start_dirop() instead
+WARNING: ./drivers/gpu/drm/amd/display/dc/dc.h:2796 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+ * Software state variables used to program register fields across the display pipeline
 
-Fix them up.
+Don't use kernel-doc comment syntax to fix it.
 
-Fixes: ff7c4ea11a05c8 ("VFS: add start_creating_killable() and start_removing_killable()")
+Fixes: b0ff344fe70cd2 ("drm/amd/display: Add interface to capture expected HW state from SW state")
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- fs/namei.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/dc.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/namei.c b/fs/namei.c
-index bf0f66f0e9b92c..91fd3a786704e2 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -2836,10 +2836,11 @@ static int filename_parentat(int dfd, struct filename *name,
- }
+diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/display/dc/dc.h
+index 29edfa51ea2cc0..0a9758a042586f 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc.h
++++ b/drivers/gpu/drm/amd/display/dc/dc.h
+@@ -2793,7 +2793,7 @@ void dc_get_underflow_debug_data_for_otg(struct dc *dc, int primary_otg_inst, st
  
- /**
-- * start_dirop - begin a create or remove dirop, performing locking and lookup
-+ * __start_dirop - begin a create or remove dirop, performing locking and lookup
-  * @parent:       the dentry of the parent in which the operation will occur
-  * @name:         a qstr holding the name within that parent
-  * @lookup_flags: intent and other lookup flags.
-+ * @state:        task state bitmask
-  *
-  * The lookup is performed and necessary locks are taken so that, on success,
-  * the returned dentry can be operated on safely.
+ void dc_get_power_feature_status(struct dc *dc, int primary_otg_inst, struct power_features *out_data);
+ 
+-/**
++/*
+  * Software state variables used to program register fields across the display pipeline
+  */
+ struct dc_register_software_state {
 -- 
 An old man doll... just what I always wanted! - Clara
 
