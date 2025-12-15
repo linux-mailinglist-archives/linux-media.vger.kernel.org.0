@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-48778-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48779-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id C35A1CBD0BC
-	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 09:54:42 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3C56CBD0BF
+	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 09:54:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id CEC4A301A9D5
-	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 08:54:23 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 153C630167AA
+	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 08:54:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87D3332C921;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC77E32C936;
 	Mon, 15 Dec 2025 08:54:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="gYNYswpU"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="nPty4pRQ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0298F32A3F0;
-	Mon, 15 Dec 2025 08:54:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB7B32AAB3;
+	Mon, 15 Dec 2025 08:54:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765788844; cv=none; b=C9yfeYGKmD9tK+MKRr/d2hP6av1HegbQFUOayf7JMi3snPPeNqP4jsblFeOD7fASZoX+W/rPxVL75SCytZ9zYb+v+1cMZBLAAYTe6zoqCpLSTT9efY0oejqzzLHO/cNpQpZz9b1axRcJudg7Hy6AKMZh6xUhOSJlgnzmrfyBadw=
+	t=1765788845; cv=none; b=V3zq5eC19tcuxrl2CzzMqSzWiYBkLHPWWtxZgDshv+Mem4BBR4K6XfeR6tdpRAaYVPorVxd5nDvYNhy+RSZ0mPIxKfTIGXabEBbXZv+jOnTM+sr/PKHPN5h685jNGDL/hCCT/BD/yv/I2MXpYMDYfZGGb+X5b3x0soWDhyfW41Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765788844; c=relaxed/simple;
-	bh=dFDb+uXCI5iHJKzZgaeokj2YXCnxjmhPbpePbOplK+M=;
+	s=arc-20240116; t=1765788845; c=relaxed/simple;
+	bh=Uk/Av2ffrv0/89lUgGqQUjclRzRpB0kJUN/ec67ruho=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cvdXbbx7bArpyCXad5LQpAhMxwU4tOYIxiN+/U25SRZSJ00k/ZG7VHCc+7B0NQbKns7rC3wZsVB57qWG8Mln1qrPvDFE4fsxA4FmMmUrbUe1pIcKRh7GahqcqbIX3tDEaj1nFSPl9kymJBYoX5ua/qYNL24KhSa5YP3WKiSeEZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=gYNYswpU; arc=none smtp.client-ip=148.251.105.195
+	 MIME-Version; b=s7T02JVZIrWtE7sJVYYUeGNj6vk4LsdVgM31o3JFzGe+ECKeGnbOucMmXb49rkK2r9sJm3f/N5Y66mp2UZuWKNhrgeixX1C8SWXfWyuxEO94Coyum3JJk2ygOF6/8csUHV5lMXGwDq1yfQfsopQvZ9kcuVCAnDzLLlQfyFYjNtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=nPty4pRQ; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
 	s=mail; t=1765788839;
-	bh=dFDb+uXCI5iHJKzZgaeokj2YXCnxjmhPbpePbOplK+M=;
+	bh=Uk/Av2ffrv0/89lUgGqQUjclRzRpB0kJUN/ec67ruho=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=gYNYswpU9s2BmDrBPZKR//toSLSx6/pobaSwsrc3HzdoQ1De5M+OfiTAQQwnf1bw6
-	 5m6E2fL9dj2spSHpzk8o31PZ9QvDVCfDx45YoyhdsdW3cvv7VfuIX0981gbHCpKnWg
-	 Mgd+JNqM/Vv9aaxhE5Z2M73URLNOJuZSdvYOAL1vzi35ax8kY9HAUvQ+IIWWJkCkH7
-	 BkVzAp3HTyBrKyeP3hG1XZVa8xe7DOct++ZlQX0fa7qzdEzCGsY2e9crwkv5HasP6t
-	 Aq9yLt3JXKh++pt4Z4S6zBupxL4pFdQvLDZJJo8Puv7EXTtRED/BWNGLAXwvlclRjN
-	 xou7nu+XZjMrg==
+	b=nPty4pRQ9msOHveRYQGlAVJ0KTKQkRlItdiDb1+rSO5N4XRooq6m3087IznV6WtNV
+	 /jeXJygWF2agbrqxkENgocvzo6RbZB0QGZ4xyYgO8sTVWquIZ6MG5bmgk/T5gSmbae
+	 2iE+g7gXldPpD6CCuv70Eotqy45TOvhq73RXpYNabPpz8CpnxLdB31ICbI0x4RS9fj
+	 1r9UZT/aCyhXvz5aT+kGLioXZS0czrqWT4wNfpGQdprBNsurD4ejQdHrOnYoBV0PQ1
+	 3HRuLXaCNx/U0u3s4vv8ZOuNLLQGIhbWBBPe4sphVI6JtSy6iU5oOPdSOOJQ6eY/aR
+	 uoJIM7VwS0M2g==
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:c17e:135b:5095:83a8])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id ADE8817E1517;
-	Mon, 15 Dec 2025 09:53:58 +0100 (CET)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 4D14D17E151E;
+	Mon, 15 Dec 2025 09:53:59 +0100 (CET)
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: joro@8bytes.org,
 	will@kernel.org,
@@ -65,9 +65,9 @@ Cc: iommu@lists.linux.dev,
 	linux-media@vger.kernel.org,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v10 6/7] arm64: dts: rockchip: Add verisilicon IOMMU node on RK3588
-Date: Mon, 15 Dec 2025 09:53:43 +0100
-Message-ID: <20251215085349.10155-7-benjamin.gaignard@collabora.com>
+Subject: [PATCH v10 7/7] arm64: defconfig: enable Verisilicon IOMMU for Rockchip RK3588
+Date: Mon, 15 Dec 2025 09:53:44 +0100
+Message-ID: <20251215085349.10155-8-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251215085349.10155-1-benjamin.gaignard@collabora.com>
 References: <20251215085349.10155-1-benjamin.gaignard@collabora.com>
@@ -79,37 +79,26 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the device tree node for the Verisilicon IOMMU present
-in the RK3588 SoC.
-This IOMMU handles address translation for the VPU hardware blocks.
+Enable Verisilicon IOMMU used by Rockchip RK3588 AV1 hardware codec.
+This hardware block could be found in Radxa Rock 5B board.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- arch/arm64/boot/dts/rockchip/rk3588-base.dtsi | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ arch/arm64/configs/defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-index 2a7921793020..acff8bb3a612 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-@@ -1364,6 +1364,17 @@ av1d: video-codec@fdc70000 {
- 		clock-names = "aclk", "hclk";
- 		power-domains = <&power RK3588_PD_AV1>;
- 		resets = <&cru SRST_A_AV1>, <&cru SRST_P_AV1>, <&cru SRST_A_AV1_BIU>, <&cru SRST_P_AV1_BIU>;
-+		iommus = <&av1d_mmu>;
-+	};
-+
-+	av1d_mmu: iommu@fdca0000 {
-+		compatible = "rockchip,rk3588-av1-iommu", "verisilicon,iommu-1.2";
-+		reg = <0x0 0xfdca0000 0x0 0x600>;
-+		interrupts = <GIC_SPI 109 IRQ_TYPE_LEVEL_HIGH 0>;
-+		clocks = <&cru ACLK_AV1>, <&cru PCLK_AV1>;
-+		clock-names = "core", "iface";
-+		#iommu-cells = <0>;
-+		power-domains = <&power RK3588_PD_AV1>;
- 	};
- 
- 	vop: vop@fdd90000 {
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index 45288ec9eaf7..0106bf1935f8 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -1525,6 +1525,7 @@ CONFIG_ARM_SMMU=y
+ CONFIG_ARM_SMMU_V3=y
+ CONFIG_MTK_IOMMU=y
+ CONFIG_QCOM_IOMMU=y
++CONFIG_VSI_IOMMU=m
+ CONFIG_REMOTEPROC=y
+ CONFIG_IMX_REMOTEPROC=y
+ CONFIG_MTK_SCP=m
 -- 
 2.43.0
 
