@@ -1,174 +1,198 @@
-Return-Path: <linux-media+bounces-48771-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48772-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C93BECBD166
-	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 10:03:07 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BEC3CBD0ED
+	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 09:56:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BE5593074CFB
-	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 08:56:27 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4B5793026A99
+	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 08:54:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36DA4331212;
-	Mon, 15 Dec 2025 08:47:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3F6D28DB54;
+	Mon, 15 Dec 2025 08:53:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mw7VmyHL"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="TKQQJWMC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62DA331204
-	for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 08:47:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 511C5248873;
+	Mon, 15 Dec 2025 08:53:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765788426; cv=none; b=lEqkmDvdfnYZ0txZz4Wxdxl0U2QcwuZA0XkznPjA1xxu/9taNHmtoBUzJxW3CcATSsYe2ghxEtL7G7hN7hE1dQyFIzIjGPKvstcbyUdKAN9Bh9kQoQ5ywb/0sAiLnHUkd3aQvwtt2EkqC1648kzwMICU5HAzrnqH6uzfWqQf5gs=
+	t=1765788839; cv=none; b=TPJAm7CuoM6TMBSmQh4Hg1hYZgU1RMP6IyQqUOaHe/XF1izf6KV1lncFPQD9QSn2j6RwU7q+74sQJ9hB5YXso52Kp3HN7qGDUUMNp7ZuCACAYpfejkvLGFDDiqcbaBSh7fT4z5VaT4ROAHJ6GhtGRlTy4Als4VgLP8mqiPowKmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765788426; c=relaxed/simple;
-	bh=mVwS9orGrDkR1rQjuQdiwtT0QhicjglNEANLHNFmkU4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=q+phVozGBkqiknt4JywZCqjNEXyobfFv2acGY1KIkrCzwBGKU1T1jvbmTZFbK0v5nxxAebh87j4LJo4avXc6KRUU47Malkd50EW9h9Dl00HOqT7YxFm/KzgG/9U54rY4fQJE6cHPvJD754ZxmQvqkBCAE0xV0SaY1XlYxKbel2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=mw7VmyHL; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5942b58ac81so2536479e87.2
-        for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 00:47:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1765788423; x=1766393223; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=F9TDS1TYkE2IPp+H/I+ExxvB0t9lFe3o/hFr/kNiIbA=;
-        b=mw7VmyHLY+ayuDD6bXty60pBsCfo7YI1DWOeXlDtuFobymM4HV5r8qadrQd8oNEA48
-         QeQ8V7LXuTtjxzPKOsXOyaJyFUVHcjkgSBYKbDlHNu8J0HdbCbpCpvxQW6yDfpEVc9Sb
-         8IwgqDfh/CWo11h95vvpy6thesONHpQgZyOzg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765788423; x=1766393223;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=F9TDS1TYkE2IPp+H/I+ExxvB0t9lFe3o/hFr/kNiIbA=;
-        b=laeEyaWkvMMOqIZldM3Aiby2wK7vJTvZU3K3cfYyBibuObNRDVmCDPU/fCfiOLkwyE
-         nr1stu5Lz0WHkowtLupjHlz529tPV/GxlqDVYn2zs2LZFwP7tDeyQoy0Q9G4Mhhmozqd
-         zl7KzOaLtkEqm3aWjsm0WczNJoOfdeUopyC4viwgg2ZLEeRMLo44PG/jFVPsqNwH5CkD
-         6VefznvOp6P2MPulEhVVPGSXtv+l+2wZvKBcBuBPYYJ4HCW9isfse9FM0WMCDj4I6HOR
-         lx1HZrANmcF4cRUoN+QH3+5kuGQR6HLr374vZi6YniC76sUvugwOQuA/a5ojCRbdqjxi
-         rTxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUI4eBv6BOFeWX7oAMLgTpIH/wgp1zXj0/vl7L66flx4HfogvThJ4hMXvX8gWfNVWUIzRGqGyVcec2iqA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+kBU7cYPFX5fBgl5DtAdEKkPSuBZfqsPDs9e6pu/P7MXMzp6/
-	7B5ym3dc3TB/Vun9DLU7gxROjtn0XvmWLw74ISO1Z4h3HP3zS7zn+5VJD4MeXF+T6RA4iTwE9L4
-	PmoA=
-X-Gm-Gg: AY/fxX5tZ5V01He1OK5/rU2O1Sjvanu9gDvVwS+0g+GQfyd7QrN5tkG2GHTK2KnpvxP
-	qQCb1zsrJ4CfIpAkB+9m3j0kLFRSUyXB1bV1jvPAB+zq/l1I4xr83jCB+P6ubRd/VySha1CHCp4
-	/6Ye1MRU7LS4bELr9nQOyCZBlQIcpS0xQ/cSFVQQwqtTHbtNYBVtWAzNy2FIw9Tq4edfxjISUi7
-	T9CAHphxZaANIFJYJeSjUlALRpYTco6Ck57Bh5KqqYtLsWdV8dRwUU/ZgRRuHNDnmnhlBwd5wZn
-	1gPZhkx8rH+uXITWTWSbjo8TywlS2Uxhfj+8ZxXBe1jrRL3QKKVKT56bHDYqN5fPmsgmp2t+aZP
-	BVpz1UK0yGjKMXodcmLpnOhuVUDpmcYDyyBVUZeC0yMf1s6vCeDPWDQxgUnLmXXlygLd9otk3gc
-	qNF8pRci+YlSFhaC7izLqvBI2BUY277yoe6qAP7dGgl3Wr9Axu
-X-Google-Smtp-Source: AGHT+IEyMYtQATBBKOXgDawzqZITbqsNwzh3SW+mIgrf7tjd1Vv5aGavfCfD+dByrbVwQo38GET0PA==
-X-Received: by 2002:a05:6512:110e:b0:571:8fad:ecee with SMTP id 2adb3069b0e04-598faa4e13emr3435051e87.21.1765788422612;
-        Mon, 15 Dec 2025 00:47:02 -0800 (PST)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com. [209.85.167.49])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-598f2f379c8sm5188260e87.10.2025.12.15.00.47.00
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Dec 2025 00:47:00 -0800 (PST)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5943d20f352so3962436e87.0
-        for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 00:47:00 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXjIzVDgZ8ikgh8mqYuBE0SmzJlIXlYQ8fQ7DB1gCWJXEZEm5DbSaGHWigcCd3Fq3rP6R06cuW/rg5PeA==@vger.kernel.org
-X-Received: by 2002:a05:6512:108c:b0:598:ee6c:12dd with SMTP id
- 2adb3069b0e04-598faa9b126mr3308507e87.51.1765788419768; Mon, 15 Dec 2025
- 00:46:59 -0800 (PST)
+	s=arc-20240116; t=1765788839; c=relaxed/simple;
+	bh=aC7H/Tmab4zhybp7BBcY+/SuHj8ed8QSGcvjdAbp5fI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=HE4SQFahBXHr2rQe/vhsBNa+62Z9lp4Yj0AEL0j0D4qAADHixmyJljoVfahmnEFDmeUwZ4Z4HoYr/a81mYngHM6j7rfPVQw9m1nl+edkrAZmp0vm+f80J2rmY+vfYs7A5Njr32qrblelqv0Cfpi4IzfVvhwIQBSB9SLs1UE3Vg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=TKQQJWMC; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1765788835;
+	bh=aC7H/Tmab4zhybp7BBcY+/SuHj8ed8QSGcvjdAbp5fI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=TKQQJWMCtBFnIxbmr4W5ZNB5Q4tP3qsE4yacA4IQTDdWRAeNQzyJjzB+w257Jkg/L
+	 RQEmk4uxadQwZ/tHiuMjCC6eE9zzCjD77ZIf5hJvVX2KofODNmJpc6f2wiwM6OXvEG
+	 nCzlNqPQYOryN8AdHuziyC4NfoLs8xVGjuBnSyfCWAWGeXattFgSryU2r9QRYoepno
+	 TjDKkEWZfLsgjJH25BA7loPx0t8EZ7SMjKvEFvDMexzfHMCNEHrPQFv2DcUmG1Tuwp
+	 g1sXDNDJUg61HKByzWxGvDit3jrBZ3TQBHIS+E+/mfwUzhqGvi0T2BMhfZwGvxjPI2
+	 nraF3V1dyT4Cw==
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:c17e:135b:5095:83a8])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0339017E12A2;
+	Mon, 15 Dec 2025 09:53:54 +0100 (CET)
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: joro@8bytes.org,
+	will@kernel.org,
+	robin.murphy@arm.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	heiko@sntech.de,
+	nicolas.dufresne@collabora.com,
+	p.zabel@pengutronix.de,
+	mchehab@kernel.org
+Cc: iommu@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-media@vger.kernel.org,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v10 0/7] Add support for Verisilicon IOMMU used by media
+Date: Mon, 15 Dec 2025 09:53:37 +0100
+Message-ID: <20251215085349.10155-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251210-dw9174-timing-v1-1-4a5036465727@chromium.org> <023d20e6-23ef-4f64-8ea6-31f973b33c95@oss.qualcomm.com>
-In-Reply-To: <023d20e6-23ef-4f64-8ea6-31f973b33c95@oss.qualcomm.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 15 Dec 2025 09:46:46 +0100
-X-Gmail-Original-Message-ID: <CANiDSCsiu5E0nmm9dAgMGZ4y26cjwr8XKB1KRu2wZSVgdP-Brw@mail.gmail.com>
-X-Gm-Features: AQt7F2r4lu88QeRTULbOhGS9hO4Gi8a_LuCIeFLQGXTFmEr2-Zt5dWHO1BUvnDc
-Message-ID: <CANiDSCsiu5E0nmm9dAgMGZ4y26cjwr8XKB1KRu2wZSVgdP-Brw@mail.gmail.com>
-Subject: Re: [PATCH] media: dw9714: Fix powerup sequence
-To: johannes.goede@oss.qualcomm.com
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Ondrej Jirman <megi@xff.cz>, Hans Verkuil <hverkuil@kernel.org>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	neil.sun@lcfuturecenter.com, naomi.huang@lcfuturecenter.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=y
+Content-Transfer-Encoding: 8bit
 
-Hi Hans
+Hi all,
 
-On Wed, 10 Dec 2025 at 09:21, <johannes.goede@oss.qualcomm.com> wrote:
->
-> Hi,
->
-> On 10-Dec-25 8:53 AM, Ricardo Ribalda wrote:
-> > We have experienced seen multiple I2C errors while doing stress test on
-> > the module:
-> >
-> > dw9714 i2c-PRP0001:01: dw9714_vcm_resume I2C failure: -5
-> > dw9714 i2c-PRP0001:01: I2C write fail
-> >
-> > Inspecting the powerup sequence we found that it does not match the
-> > documentation at:
-> > https://blog.arducam.com/downloads/DW9714A-DONGWOON(Autofocus_motor_manual).pdf
-> >
-> > """
-> > (2) DW9714A requires waiting time of 12ms after power on. During this
-> > waiting time, the offset calibration of internal amplifier is
-> > operating for minimization of output offset current .
-> > """
-> >
-> > This patch increases the powerup delay to follow the documentation.
-> >
-> > Fixes: 9d00ccabfbb5 ("media: i2c: dw9714: Fix occasional probe errors")
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->
-> Thanks, patch looks good to me:
->
-> Reviewed-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
+This patch series adds support for the Verisilicon IOMMU, which is found
+in front
+of hardware encoder and decoder blocks in several SoCs using Verisilicon
+IP. 
+A first implementation of this IOMMU is available on the Rockchip RK3588
+SoC.
 
-Some tags for the record
+Rockchip provides a driver for this hardware in their 6.1 kernel branch:
+https://github.com/rockchip-linux/kernel/blob/develop-6.1/drivers/iommu/rockchip-iommu-av1d.c
 
-Tested-by: Neil Sun <neil.sun@lcfuturecenter.com>
-Co-developed-by: Naomi Huang <naomi.huang@lcfuturecenter.com>
+This series includes:
+- a new binding for the Verisilicon IOMMU
+- a driver implementation
+- DT updates for RK3588
 
+The driver was forward-ported from Rockchip’s 6.1 implementation, 
+the prefix was renamed to vsi for generality, and several fixes were
+applied.
 
->
-> Regards,
->
-> Hans
->
->
->
->
-> > ---
-> >  drivers/media/i2c/dw9714.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/media/i2c/dw9714.c b/drivers/media/i2c/dw9714.c
-> > index 1e7ad355a388cfc37253bd764ec8df98f59beeea..3288de539452ebae41daa0988b2d52f27a790da7 100644
-> > --- a/drivers/media/i2c/dw9714.c
-> > +++ b/drivers/media/i2c/dw9714.c
-> > @@ -149,7 +149,7 @@ static int dw9714_power_up(struct dw9714_device *dw9714_dev)
-> >
-> >       gpiod_set_value_cansleep(dw9714_dev->powerdown_gpio, 0);
-> >
-> > -     usleep_range(1000, 2000);
-> > +     usleep_range(12000, 14000);
-> >
-> >       return 0;
-> >  }
-> >
-> > ---
-> > base-commit: f7231cff1f3ff8259bef02dc4999bc132abf29cf
-> > change-id: 20251210-dw9174-timing-9e58903399c9
-> >
-> > Best regards,
->
+AV1 decoding was tested using the stateless VPU driver and Fluster.
+The test results show a score of 205/239, which confirms that no
+regressions
+were introduced by this series.
 
+Feedback and testing welcome.
+
+changes in version 10:
+- Update vsi_iommu_identity_attach() and vsi_iommu_attach_device()
+  prototypes.
+- Fix build as module issue when Verisilicon video decoder is built-in.
+- Rebase on master branch.
+
+changes in version 9:
+- removing blanks lines.
+
+changes in version 8:
+- Add myself in MAINTAINERS file.
+- Add API to restore VSI iommu context from decoder driver
+- Fix reported checkpatch issues: add comment in pinlock_t declaration
+  and remove blank line.
+- Include board name in defconfig patch commit message
+
+changes in version 7:
+- fix locking issues.
+- add a patch in AV1 video decoder to manage per context iommu domain.
+- fix compilation issues when build as module.
+- remove useless "rockchip,rk3588-av1-iommu" compatible in driver code.
+
+changes in version 6:
+- rework lock schema in vsi_iommu_attach_device() so
+  it protected against concurrent invalidation.
+- flush the cache after changing of domain.
+
+changes in version 5:
+- change locking schema to use 2 spin_locks: one to protect vsi_domain
+  data and one to protect vsi_iommu structure.
+- make suspend/resume more robust by calling disable/enable function.
+- rebased on top of v6.16-rc5
+
+changes in version 4:
+- rename and reorder compatibles fields.
+- Kconfig dependencies
+- Fix the remarks done by Jason and Robin: locking, clocks, macros
+  probing, pm_runtime, atomic allocation.
+
+changes in version 3:
+- Change compatible to "rockchip,rk3588-iommu-1.2"
+- Fix compatible in .yaml
+- Update DT and driver to use "rockchip,rk3588-iommu-1.2" compatible
+- Set CONFIG_VSI_IOMMU as module in defconfig
+- Create an identity domain for the driver
+- Fix double flush issue
+- Rework attach/detach logic
+- Simplify xlate function
+- Discover iommu device like done in ARM driver
+- Remove ARM_DMA_USE_IOMMU from Kconfig
+
+changes in version 2:
+- Add a compatible "rockchip,rk3588-av1-iommu"
+- Fix clock-names in binding 
+- Remove "vsi_mmu" label in binding example.
+- Rework driver probe function
+- Remove double flush
+- Rework driver internal structures and avoid allocate
+  in xlate function.
+- Do not touch to VPU driver anymore (path removed)
+- Add a patch to enable the driver in arm64 defconfig
+
+Benjamin Gaignard (7):
+  dt-bindings: vendor-prefixes: Add Verisilicon
+  dt-bindings: iommu: verisilicon: Add binding for VSI IOMMU
+  iommu: Add verisilicon IOMMU driver
+  MAINTAINERS: Add entry for Verisilicon IOMMU driver
+  media: verisilicon: AV1: Restore IOMMU context before decoding a frame
+  arm64: dts: rockchip: Add verisilicon IOMMU node on RK3588
+  arm64: defconfig: enable Verisilicon IOMMU for Rockchip RK3588
+
+ .../bindings/iommu/verisilicon,iommu.yaml     |  71 ++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ MAINTAINERS                                   |   8 +
+ arch/arm64/boot/dts/rockchip/rk3588-base.dtsi |  11 +
+ arch/arm64/configs/defconfig                  |   1 +
+ drivers/iommu/Kconfig                         |  11 +
+ drivers/iommu/Makefile                        |   1 +
+ drivers/iommu/vsi-iommu.c                     | 808 ++++++++++++++++++
+ drivers/media/platform/verisilicon/Kconfig    |   1 +
+ .../verisilicon/rockchip_vpu981_hw_av1_dec.c  |  15 +
+ include/linux/vsi-iommu.h                     |  21 +
+ 11 files changed, 950 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/iommu/verisilicon,iommu.yaml
+ create mode 100644 drivers/iommu/vsi-iommu.c
+ create mode 100644 include/linux/vsi-iommu.h
 
 -- 
-Ricardo Ribalda
+2.43.0
+
 
