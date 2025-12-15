@@ -1,77 +1,77 @@
-Return-Path: <linux-media+bounces-48768-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48769-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 739ECCBCE99
-	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 09:06:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 146E9CBCEA2
+	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 09:06:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 55FB03020C69
-	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 08:00:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3B7EE3021E6E
+	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 08:00:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA5D732ABF7;
-	Mon, 15 Dec 2025 08:00:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F211132B9B9;
+	Mon, 15 Dec 2025 08:00:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZM2Fk8VT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hJlq8Ycg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 509D332A3C0
-	for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 08:00:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 691DF32AABF
+	for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 08:00:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765785607; cv=none; b=S5jY4cU4OWXSucQDQGO37ZGibiiCEDp7KFv3Bs9Co/hmlsJSgkHXw3vu1KWS0q7+5Y6B/qbdW62GaAafOF8thlPlqb5I+NZlqt3bijcyxJ2KmKgNS3FhLC2qSj60BgWlchqCeVdh8S7YC3tYSyBqD76lpp2y3vzFQlfL71cbyk4=
+	t=1765785608; cv=none; b=IUk8uLQZUkzUxXtzeRMWJ4pmTBqVk/8mNdS0DxAIjq77OohFg50uIpVcumA+Lxl5T2P2Q25Y/eneg0R44dTWo4Era/NgcGdnSQlMPNy/mjgXzLBN+XCewkwXb8giWGCjC73B94hYW4bE/iSYoEj9JZShB+lT3OGIODuUdykS2mc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765785607; c=relaxed/simple;
-	bh=MT6YvlTp/tym7jlAKKvWLPIyFq2L811XHmb/5S7F63A=;
+	s=arc-20240116; t=1765785608; c=relaxed/simple;
+	bh=HPtm98uKiMslXOH21fQlQh3p66ZVT1qfIbtBz84LhxY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HClZM/eQovKELmxRtgrwX8MHKgesRuW5kifOdRBa0sKG7LvcX9swE79k5UyTchhTD0LHJGzPQpp+4bXL6ZYP/H+wMcsPr2RR2rE33a8C9ryacPOwBKjY4e6KUPCX77lMobnEeG5Da4JOJG1hK/wFzuTqptMh4Ub3+CODzhMR7Vw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZM2Fk8VT; arc=none smtp.client-ip=209.85.210.177
+	 MIME-Version; b=u3kIrQ7cpODeQyJj8a1jyKTUWdsri/08j/clbf5oxXmObG2k25fH3B/Uzjb8331tU8DZcMB864oIOllyeAW/1TAaK3r1vhmdQfJz9kL3eB3crH7r47P5/NJlvJe+lM3maNEk+xW2IskxB8A+fg0ue19gg5wx807q1c+w4wQeaM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hJlq8Ycg; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-7b9387df58cso4779131b3a.3
-        for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 00:00:04 -0800 (PST)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2a0b4320665so16027305ad.1
+        for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 00:00:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765785604; x=1766390404; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1765785606; x=1766390406; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AB9GCG9Z4qz6LZxUZn1uvrlMkgDhqoAwRIBcW65zHlM=;
-        b=ZM2Fk8VTa1KypiEMNVnkQGDXHhS478pVhlxIb/eBhichA0eJ66P2Grj4aIxYyUkhoW
-         a4smlojo1X80BwRmvbxN1HLGpmjh9SzdPRXun7ytMn9NTXMd+eHues1HkrFKUz40Xhhf
-         Awxjw4Vm1l25DApkEmNzPxDKoKnaaDRI2d+ma2nh+NnC1akuKlkX+35XWemYIOO8yzO9
-         Hr4kYxl4oRpUbrP+2uQXYKIUsKL+NbS4QVyGPoihpLucex8OmVBkkJzHxNSC6tijwIsQ
-         R1e34/C+BcEf9+DLGV1KB9m0D5dqf8t99hWMKHwO0rk8g3oD74wbVUb7cau37omybFyr
-         Yglg==
+        bh=mn+zeiFRKpp0z4XzuVGxMSjaFqAtsY1VIsxWUC+ubCI=;
+        b=hJlq8YcgwhVul+Od3n3QEU1EID2gYQG4bIuogMDswZe6MO3UC0XbHEdUxK4Oov/m6Z
+         E+oFFI/Q6rXwXqXEcJjLTBbkOrMsNycGNkbQvsn135NLLLsCZV0KIT1sVSRADORAaLmU
+         NKtchW+CjZFoh4HvJT3b4PiKdYgkjCrOwgbhaDMFpMRQmJTRJ30FTXC6Kgu3t8qgOTiu
+         cPOTCCjJ58Y2N8ZWoMcCGwTB2skRWUogiLyQruUABGgsCrX2GdNtsrKEJz0G5Dp0pg1/
+         R49cWPha7BCbt/BLpzNtsJcGFMi79ieDQhkKsB9Dhg1VgEU6nfSCqu+lPNxRjZ+WpiSO
+         rm2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765785604; x=1766390404;
+        d=1e100.net; s=20230601; t=1765785606; x=1766390406;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=AB9GCG9Z4qz6LZxUZn1uvrlMkgDhqoAwRIBcW65zHlM=;
-        b=TNDK+aPJx9pCgHwbk3/kzj5sNkczyOb9JhzlGoWMJCvcpDSu/Aqz7czv6dBzJ2G9Bn
-         P3uM3Rtq73uJ/03XOCAlUKTylgC3zwqTHv6+CKdz+42VOu/IFN2nwRm/1FIiYUfEPsjv
-         m/aclTWld6U1kZILEEtPabmUd2rqYBIq9FfLWS0F7F0aznpdg3tPzfDF+UhoGpwgC620
-         rkXnzKLyjDlZAsGjkntU4eug9WVaWaq6aGQjUMA1jvOVrXYiRC4YbAlDE3z/Lm+eurrk
-         okFVmJ0KXW6+QsvUa5C5CSDjVMwEhpxnkonr6h3eJHo48eNCQY6SiOlYcRJfyFI3tSE+
-         fByw==
-X-Forwarded-Encrypted: i=1; AJvYcCXItIuMOVEg8rSOFY9Gc9GMlRnd59+1exFD9i27CCGmbGeQOu3jFFse9IvIxdxKuiDLn4FhWIumDUMgng==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzpkOAWuWmP/mzN46EvAUePJCIBQ1KszE/QLfo5PtT/BdbEdZ+k
-	kCt02yMQp+MJrKFrln6KIe2arumoyE1wcPjzN/DM/Q2/6/YYiTaqPaDA
-X-Gm-Gg: AY/fxX4yusp2Q5f/f1AcYmzZ/f/+jrMBRWDXLHySmWzW4x1tK58+LPItn6d51jUJsNr
-	tB358/5eOBCbDjczJsAye5L2kNCtH4v0UL6qchiAWX884SD9+6upPiOeiWfUd8gkGOMFEg6Nn/N
-	mraLq8z2zUYjzMj2h3/qLml0eE/XZegnXUn8ysd/a4iyyBveiy5WfVOec9rB+9vNVIL4+F4O+66
-	XPhl8utzBSg3EC7xtqI1SNnn8ozISF8Q9ISdtoU717lM+J2yMpjXsPoGe4wolASF+Qw/wpdAniV
-	l4n7ZumRNXdpYOKEbM9iqT0qWfhEATMG0n403LKk5msUxHZvVAmFiZAwryCVOrVGZYpylt0mpDW
-	KLAggqPZGihU06XbB0OJX6HDVayVpIlULn5PD5PvKXyDuAiIjtFdjnEA79lZma0MjsB26x3sMKK
-	Hsuxvq0xMAVzjMORfu/lFMnQ==
-X-Google-Smtp-Source: AGHT+IHXq6U+vTIbQsfvkxrFr56SYRwXtblPn+sgeZM7nEKQ8GZt2Mzq2fuD3DcFlMA7ExQdoI6fJQ==
-X-Received: by 2002:a05:701b:2719:b0:11d:c86c:652e with SMTP id a92af1059eb24-11f34ac540dmr6432564c88.5.1765785603490;
-        Mon, 15 Dec 2025 00:00:03 -0800 (PST)
+        bh=mn+zeiFRKpp0z4XzuVGxMSjaFqAtsY1VIsxWUC+ubCI=;
+        b=m5w2NcWD/wfTrEV3XBJipOiJ+H/xgdeGxOZbGciAnX0eZlNBJM/T3WiaCF0CwUw9xr
+         /05U+u71V0RIYS6eUkZxiucSRhFoe9lF7eSenanna+Nk46vgZPfHAujRFnvmOf8vBNVO
+         2w8pxx5ge10EtPsUKdYbbmNSVPVK9Ayfa03cH9Y9B6tL4Q4sRmcM3VdADJabjmen0enN
+         OHIMQAujBMn2vcfzgRBMp6tnjUrRnazt3meKSE/87qcgRTkCJ/VEJ9K+qsKDeWUWETZM
+         3SRnTTpZ/lUigYxXE8dfglyF5Y4RYlOJtELy1nWYF3e19g4aC53sUmIlwgIZI1nCJ3AG
+         Nq3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVZ7chWmwjSkHYhF3a0LRKNqfafs2JDzv0fI/nlXT3UnKJ8dXDfCod1LtchKFtaYOxkl2UJDHmLLCLefg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDCgCOksKGZ9tccCP5XhH6+3nPRzyRWKIPsFCRQW0jwJMmo2A6
+	Dkb8wo0XqOziHQ+Apf+SX9NQBzscuO0P9LvfnabJbm84/4qIaHCHlGTe+cWOwoq3
+X-Gm-Gg: AY/fxX6fhdBIC457IDEM8HkLuPY/M4FwBQS9lqSZKs7neLtJ1x9heLLiULQt4k0uAau
+	IiBaSwpalC8WuKup3NQWOzdXH75SnlE2RnEVaPOkkNQJHj7OiAM7t4L+ZJLNXIho2yvBAwOHDuA
+	cUCNXt1MQdhz4FvsHzCvP1Xu2ZLKmlUosEeHNsHfvv/PAHXHECwpTTQZpaQRHVVWypRd+/3DHgy
+	ix++fQJ/uobje4SLZ8ThKUzQl36CyitzilGO7+bBAZgOGTaP4JfRoRmGjp9Bnk8yQmMVAbzMAoa
+	Q5lQpRXlZCsmMdXYhuMcSUn+0UPIP7JU6HLKq97tH8CjPaDMik/Sx2f301vqJlNi0mWGAQlolZt
+	xObIP3m9zYFJaBf+BBQTy/4zBfbE/qq4ZBWg3qnSQ4njuuezMs/BAzXe0D6vY02P4BOphDBcDNJ
+	EXVlK6LOa1g9M=
+X-Google-Smtp-Source: AGHT+IEq2Sf+p9p2X7o3MuL0JatpUn4zPBXWnM3wP3V5EAP3Px6RiLHWn2wyvNZb/sW0cyMzORYkFQ==
+X-Received: by 2002:a05:7022:ec4:b0:11b:a8e3:8468 with SMTP id a92af1059eb24-11f34c30240mr7883689c88.33.1765785605501;
+        Mon, 15 Dec 2025 00:00:05 -0800 (PST)
 Received: from fedora ([172.59.162.202])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11f2e2ff624sm43637473c88.12.2025.12.15.00.00.02
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11f2e2ff624sm43637473c88.12.2025.12.15.00.00.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Dec 2025 00:00:03 -0800 (PST)
+        Mon, 15 Dec 2025 00:00:05 -0800 (PST)
 From: Alex Tran <alex.t.tran@gmail.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: Rob Herring <robh@kernel.org>,
@@ -84,9 +84,9 @@ Cc: Rob Herring <robh@kernel.org>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Alex Tran <alex.t.tran@gmail.com>
-Subject: [PATCH v2 2/4] dt-bindings: media: i2c: et8ek8: document missing crc as optional property
-Date: Sun, 14 Dec 2025 23:58:33 -0800
-Message-ID: <ddb6f986cb54e513ba508fa28fc9d2c8df0e2987.1765782992.git.alex.t.tran@gmail.com>
+Subject: [PATCH v2 3/4] media: platform: ti: omap3isp: isp: read crc configuration from device tree for CCP2
+Date: Sun, 14 Dec 2025 23:58:34 -0800
+Message-ID: <8b91902b1aea867a67aa5679710812650fa2987a.1765782992.git.alex.t.tran@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1765782992.git.alex.t.tran@gmail.com>
 References: <cover.1765782992.git.alex.t.tran@gmail.com>
@@ -98,199 +98,31 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert the et8ek8 sensor device tree binding from TXT to YAML format.
-Add the optional crc property to the endpoint node for the et8ek8 sensor.
-This property enables CRC checksums for the sensor bus and was added to
-match the new driver support for reading it from the device tree.
-Add documentation reference to MAINTAINERS file.
+Allow CCP2 receiver to read the crc configuration from the device tree.
+Default value of 1 is used to maintain backward compatibility with
+existing device trees that don't specify the crc property.
 
 Signed-off-by: Alex Tran <alex.t.tran@gmail.com>
 ---
- .../bindings/media/i2c/toshiba,et8ek8.txt     | 55 -----------
- .../bindings/media/i2c/toshiba,et8ek8.yaml    | 99 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- 3 files changed, 100 insertions(+), 55 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.txt
- create mode 100644 Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.yaml
+ drivers/media/platform/ti/omap3isp/isp.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.txt b/Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.txt
-deleted file mode 100644
-index 8d8e40c56..000000000
---- a/Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.txt
-+++ /dev/null
-@@ -1,55 +0,0 @@
--Toshiba et8ek8 5MP sensor
--
--Toshiba et8ek8 5MP sensor is an image sensor found in Nokia N900 device
--
--More detailed documentation can be found in
--Documentation/devicetree/bindings/media/video-interfaces.txt .
--
--
--Mandatory properties
----------------------
--
--- compatible: "toshiba,et8ek8"
--- reg: I2C address (0x3e, or an alternative address)
--- vana-supply: Analogue voltage supply (VANA), 2.8 volts
--- clocks: External clock to the sensor
--- reset-gpios: XSHUTDOWN GPIO. The XSHUTDOWN signal is active low. The sensor
--  is in hardware standby mode when the signal is in the low state.
--
--
--Optional properties
---------------------
--
--- flash-leds: See ../video-interfaces.txt
--- lens-focus: See ../video-interfaces.txt
--
--
--Endpoint node mandatory properties
------------------------------------
--
--- remote-endpoint: A phandle to the bus receiver's endpoint node.
--
--
--Example
---------
--
--&i2c3 {
--	clock-frequency = <400000>;
--
--	cam1: camera@3e {
--		compatible = "toshiba,et8ek8";
--		reg = <0x3e>;
--		vana-supply = <&vaux4>;
--
--		clocks = <&isp 0>;
--		assigned-clocks = <&isp 0>;
--		assigned-clock-rates = <9600000>;
--
--		reset-gpio = <&gpio4 6 GPIO_ACTIVE_HIGH>; /* 102 */
--		port {
--			csi_cam1: endpoint {
--				remote-endpoint = <&csi_out1>;
--			};
--		};
--	};
--};
-diff --git a/Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.yaml b/Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.yaml
-new file mode 100644
-index 000000000..6e7f60ee9
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.yaml
-@@ -0,0 +1,99 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/i2c/toshiba,et8ek8.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Toshiba et8ek8 5MP sensor
-+
-+maintainers:
-+  - Pavel Machek <pavel@ucw.cz>
-+  - Sakari Ailus <sakari.ailus@iki.fi>
-+
-+description:
-+  Toshiba et8ek8 5MP sensor is an image sensor found in Nokia N900 device
-+
-+properties:
-+  compatible:
-+    const: toshiba,et8ek8
-+
-+  reg:
-+    description:
-+      I2C address (0x3e, or an alternative address)
-+    maxItems: 1
-+
-+  vana-supply:
-+    description:
-+      Analogue voltage supply (VANA), 2.8 volts
-+
-+  clocks:
-+    description:
-+      External clock to the sensor
-+    maxItems: 1
-+
-+  reset-gpios:
-+    description:
-+      XSHUTDOWN GPIO. The XSHUTDOWN signal is active low. The sensor
-+      is in hardware standby mode when the signal is in the low state.
-+    maxItems: 1
-+
-+  flash-leds:
-+    $ref: /schemas/media/video-interfaces.yaml#
-+
-+  lens-focus:
-+    $ref: /schemas/media/video-interfaces.yaml#
-+
-+  port:
-+    $ref: /schemas/graph.yaml#/$defs/port-base
-+    additionalProperties: false
-+
-+    properties:
-+      endpoint:
-+        $ref: /schemas/media/video-interfaces.yaml#
-+        unevaluatedProperties: false
-+
-+        properties:
-+          crc:
-+            $ref: /schemas/types.yaml#/definitions/uint32
-+            enum: [0, 1]
-+            default: 1
-+            description:
-+              Enable CRC checksums.
-+
-+          remote-endpoint: true
-+
-+required:
-+  - compatible
-+  - reg
-+  - vana-supply
-+  - clocks
-+  - reset-gpios
-+  - port
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        camera@3e {
-+            compatible = "toshiba,et8ek8";
-+            reg = <0x3e>;
-+            vana-supply = <&vaux4>;
-+            clocks = <&isp 0>;
-+            assigned-clocks = <&isp 0>;
-+            assigned-clock-rates = <9600000>;
-+            reset-gpios = <&gpio4 6 GPIO_ACTIVE_HIGH>;
-+
-+            port {
-+                csi_cam1: endpoint {
-+                    remote-endpoint = <&csi_out1>;
-+                    crc = <1>;
-+                };
-+            };
-+        };
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8aec054a6..6a9ce4d17 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18308,6 +18308,7 @@ M:	Sakari Ailus <sakari.ailus@iki.fi>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/media/i2c/adi,ad5820.yaml
-+F:	Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.yaml
- F:	drivers/media/i2c/ad5820.c
- F:	drivers/media/i2c/et8ek8
+diff --git a/drivers/media/platform/ti/omap3isp/isp.c b/drivers/media/platform/ti/omap3isp/isp.c
+index 8ac2bdcdf..cd10589ed 100644
+--- a/drivers/media/platform/ti/omap3isp/isp.c
++++ b/drivers/media/platform/ti/omap3isp/isp.c
+@@ -2102,7 +2102,10 @@ static void isp_parse_of_csi1_endpoint(struct device *dev,
+ 	buscfg->bus.ccp2.ccp2_mode = vep->bus_type == V4L2_MBUS_CCP2;
+ 	buscfg->bus.ccp2.vp_clk_pol = 1;
  
+-	buscfg->bus.ccp2.crc = 1;
++	u32 use_crc = 1;
++
++	fwnode_property_read_u32(vep->base.local_fwnode, "crc", &use_crc);
++	buscfg->bus.ccp2.crc = use_crc;
+ }
+ 
+ static struct {
 -- 
 2.51.0
 
