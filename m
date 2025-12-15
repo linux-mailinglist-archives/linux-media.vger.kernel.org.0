@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-48775-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48777-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A74BECBD11D
-	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 09:58:24 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21CFECBD0B6
+	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 09:54:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2BBDA303EF4D
-	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 08:54:12 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 7259A3018619
+	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 08:54:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E53031BC91;
-	Mon, 15 Dec 2025 08:54:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C09F832BF51;
+	Mon, 15 Dec 2025 08:54:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="RaxHWbRS"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="WULtIqpz"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C91313E3D;
-	Mon, 15 Dec 2025 08:53:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05C3F32A3FB;
+	Mon, 15 Dec 2025 08:54:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765788841; cv=none; b=HG5hpc5GOfvwlUEHPI33ZVPhFh9VgKHWuV+0quLlvMbl1xmsz6iELpLzONI5vgtYKj0BgUODSw28rw6st+iMJgPX5sYlGRcvo5ZXJ9JPNkBXI/j/2pinHkXphKaF/7A3vNV4cR3H2q5uVRO6iV1z/ZOMSxDOPhz1tBlQZ+RKcEk=
+	t=1765788843; cv=none; b=hKsZxZ/U5GE6mq0OKivFnL8OIeBnfSL8Ti3+lbAFiaXBY8ovhQNm3j+pRdVcBudHsOA0ZptLU1LsnjT3NB5bQnlea/ZO2oAkFYKUgDcr6yJy/9T0idfsdOYEA5omrRAlep+PFL2YePAQWgsLpSVCE6Y4YHKa7Zj3m4m+U7XWoL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765788841; c=relaxed/simple;
-	bh=a4oJ5h8F6+5H21ppQ4zCYLSP4cr9qDHKi8vQVGfWg0M=;
+	s=arc-20240116; t=1765788843; c=relaxed/simple;
+	bh=eRnEvjh2q0SJ1Tg1mygUFwm603wsxCDIEZ3pEp2Tr80=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Qmixe0vNGRJ0eS3SSUjeJmolE8oS5Lr63F+qLKzb5eWYJ+6tvJ8/dA1GQwRs65qjyen/OSpO95Z4SR0+PtedSs0GghRQoVmLq3jYWrRIPXFLSUlMIOqSaeT76TUJyBADirmfQ8XkBEJo2PynKZ0ibO5h6zS2pCz8MAW6eejH1II=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=RaxHWbRS; arc=none smtp.client-ip=148.251.105.195
+	 MIME-Version; b=OUBScleU/KUESWhsPkwbhYiwYcTepby6EaAIqmYGLI2Lyng5YEJkPpPtZoH74TmuFLHt7+AtxTjW1ysHDUYzEM6tDfJTGzC6AQFGENkUiTkEvE9JqQHiQow+TwAv1OV0Tmk/aepIyoQg64ouYTEKglsSzJW5NhXrj7mt2gpcz9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=WULtIqpz; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
 	s=mail; t=1765788838;
-	bh=a4oJ5h8F6+5H21ppQ4zCYLSP4cr9qDHKi8vQVGfWg0M=;
+	bh=eRnEvjh2q0SJ1Tg1mygUFwm603wsxCDIEZ3pEp2Tr80=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RaxHWbRSswmNgKV7KS4Ai8npfmR0euDswGOgyCcMWV1WsXQegU7ggZuDmQ5G7Hkw1
-	 GY1Wc/zXhsvrp9XnnLahAss6RV7pb+ZBFLtReGyK5JzTyb7Z7KpCDaf46eQkviT0d0
-	 FfwBKfUB4RmZw2sIqaXmQcgqJ/gWvrESrqVRq0y3Wf1pj++lNUVzXNb6qBCvv3dRxB
-	 3yrZZgJSninYhy6apDMT1/Zsp4kjHMC7yhRpoiYxTdCO4fF2b3REzmWR9GYpvsV0Zh
-	 SmhH7Va7Pz7QDD3Ctfl6lE1MiucHsKy8dMdalLpdfCeGtYOO3WjH562DnZ8dBPWEdZ
-	 wAMDuB/tVl8mA==
+	b=WULtIqpzXb7kyp4msQmiZqtbhI97nPFoup0q3fbiZzeO+JjiT0ZPVNerF8/crRanC
+	 ZgT8s/K1xbo2zZsIEEJJWDAkWhn6+Y/bi9TRQbYy2KrkNDLOAK6OP+6aVBpjkbUuXi
+	 xrlf/0S3uXoKy8H4HZdEORxfF+OtErjqU0Im0QsyePDqIqt8T/+JDGsri1BgULp+8+
+	 jl8mesumAvlIsD/ba8r+h2Wxe0Tke7EU8nw/8725PU5GskZv1lsCOCrdoE9eZ9Rno4
+	 oeDUCPooRLSA9vIiRYbrdhfHAb4h/hAAMGFz4A30InYiDpKOknxZLVbxPbrq8aslan
+	 KBTNeiIi9wW/g==
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:c17e:135b:5095:83a8])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 7E66F17E1423;
-	Mon, 15 Dec 2025 09:53:57 +0100 (CET)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 1BB1717E1513;
+	Mon, 15 Dec 2025 09:53:58 +0100 (CET)
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: joro@8bytes.org,
 	will@kernel.org,
@@ -65,9 +65,9 @@ Cc: iommu@lists.linux.dev,
 	linux-media@vger.kernel.org,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v10 4/7] MAINTAINERS: Add entry for Verisilicon IOMMU driver
-Date: Mon, 15 Dec 2025 09:53:41 +0100
-Message-ID: <20251215085349.10155-5-benjamin.gaignard@collabora.com>
+Subject: [PATCH v10 5/7] media: verisilicon: AV1: Restore IOMMU context before decoding a frame
+Date: Mon, 15 Dec 2025 09:53:42 +0100
+Message-ID: <20251215085349.10155-6-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251215085349.10155-1-benjamin.gaignard@collabora.com>
 References: <20251215085349.10155-1-benjamin.gaignard@collabora.com>
@@ -79,32 +79,71 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add maintainer for Verisilicon iommu driver.
+AV1 is a stateless decoder which means multiple AV1 bitstreams could be
+decoded at the same time using the same hardware block. Before decoding
+a frame it is needed to restore the iommu tables to avoid mixing decode
+contexts.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 ---
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+changes in version 10:
+- Fix build as module issue when Verisilicon video decoder is built-in.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c9e416ba74c6..ca67e5333134 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -27296,6 +27296,14 @@ F:	drivers/media/v4l2-core/v4l2-isp.c
- F:	include/media/v4l2-isp.h
- F:	include/uapi/linux/media/v4l2-isp.h
+ drivers/media/platform/verisilicon/Kconfig        |  1 +
+ .../verisilicon/rockchip_vpu981_hw_av1_dec.c      | 15 +++++++++++++++
+ 2 files changed, 16 insertions(+)
+
+diff --git a/drivers/media/platform/verisilicon/Kconfig b/drivers/media/platform/verisilicon/Kconfig
+index 3272a24db71d..e64bc8b55235 100644
+--- a/drivers/media/platform/verisilicon/Kconfig
++++ b/drivers/media/platform/verisilicon/Kconfig
+@@ -49,6 +49,7 @@ config VIDEO_HANTRO_ROCKCHIP
+ 	bool "Hantro VPU Rockchip support"
+ 	depends on VIDEO_HANTRO
+ 	depends on ARCH_ROCKCHIP || COMPILE_TEST
++	select VSI_IOMMU
+ 	default y
+ 	help
+ 	  Enable support for RK3288, RK3328, and RK3399 SoCs.
+diff --git a/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c b/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
+index e4703bb6be7c..d9e68e0ded68 100644
+--- a/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
++++ b/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
+@@ -5,6 +5,9 @@
+  * Author: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+  */
  
-+VERISILICON IOMMU DRIVER
-+M:	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-+L:	iommu@lists.linux.dev
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/iommu/verisilicon,iommu.yaml
-+F:	drivers/iommu/vsi-iommu.c
-+F:	include/linux/vsi-iommu.h
++#include <linux/iommu.h>
++#include <linux/vsi-iommu.h>
 +
- VF610 NAND DRIVER
- M:	Stefan Agner <stefan@agner.ch>
- L:	linux-mtd@lists.infradead.org
+ #include <media/v4l2-mem2mem.h>
+ #include "hantro.h"
+ #include "hantro_v4l2.h"
+@@ -2095,12 +2098,24 @@ rockchip_vpu981_av1_dec_set_output_buffer(struct hantro_ctx *ctx)
+ 	hantro_write_addr(vpu, AV1_TILE_OUT_MV, mv_addr);
+ }
+ 
++static void rockchip_vpu981_av1_restore_iommu(struct hantro_ctx *ctx)
++{
++	struct iommu_domain *domain;
++
++	/* Before decoding any frame iommu context need to be restored */
++	domain = iommu_get_domain_for_dev(ctx->dev->v4l2_dev.dev);
++	if (domain)
++		vsi_iommu_restore_ctx(domain);
++}
++
+ int rockchip_vpu981_av1_dec_run(struct hantro_ctx *ctx)
+ {
+ 	struct hantro_dev *vpu = ctx->dev;
+ 	struct vb2_v4l2_buffer *vb2_src;
+ 	int ret;
+ 
++	rockchip_vpu981_av1_restore_iommu(ctx);
++
+ 	hantro_start_prepare_run(ctx);
+ 
+ 	ret = rockchip_vpu981_av1_dec_prepare_run(ctx);
 -- 
 2.43.0
 
