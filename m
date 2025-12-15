@@ -1,79 +1,79 @@
-Return-Path: <linux-media+bounces-48792-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48793-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA1DDCBD950
-	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 12:46:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98186CBD9D1
+	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 12:50:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4204F305F7EE
-	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 11:39:47 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 881893025319
+	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 11:40:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0169E22D4C3;
-	Mon, 15 Dec 2025 11:39:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4280332EC4;
+	Mon, 15 Dec 2025 11:39:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="amKR7JsN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bdmUpkgj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE5B33314A0
-	for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 11:39:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA8932B9BE
+	for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 11:39:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765798759; cv=none; b=Aq9+yWYgRTAMgsSxodXxyY4a6rHXv5Ehjp/tmnEtaQs6k2x0XYCR2ptXpatiKB2o8CiTCxwb/TQDug6zUWnLBYozt6YLSaEpbRVz6C9PlnlLhVs3D2bbqYl47Ou8+GAmha/bWbpYUsub0gGJEBnqm7vJm9qwa2FxiJcV2DbMPyk=
+	t=1765798762; cv=none; b=ZxCymJab+XEJ5q/Q7f8oDGFHb9HJaBGxDZQVo2/ajfWjsbiHeBHiFIJ7WKdonUw+I2U0N3vwsg999YS/JVuo003UF2Tor7kAOQ/El3bzEJ42xwryF53yKzNxhAaImu1w21ro7mnFnJTEBVx8K+bBogpFsp5sMV6w1V6JHkJXhlw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765798759; c=relaxed/simple;
-	bh=bVwk3E00Ao0/BsL4XlONNDCfpFF0qzpzGvJu4GqJ/kY=;
+	s=arc-20240116; t=1765798762; c=relaxed/simple;
+	bh=ZF9oIk+6VfTU18bKiromuOjnT5V3QoMoKRjEOTmh6aM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NBiIH3VK0BV5dHzacPbW8cGNB4eJ2p/406piiKuDgGO0bPPLGnbnsDKq4XN27UWk9OhEbnYEo3fpjhElgoH+cYSiCXcWcpd8hMURO1sj612Oxdz2qMEyCojkQRjBGnkOVWOEaYPfA9CvowCt6xmcGGXqotacpodWxqJ4Uc/qOpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=amKR7JsN; arc=none smtp.client-ip=209.85.216.50
+	 MIME-Version; b=lm1F5c9s6ehiWixOnq5QgqkoYX8z8WbuZ6EpFWAuJ9fVpkn5Jaa9xU0c3TNazsxeJ8m9y9TLb2vZeKgY6I65nXgNr9HZH/GoCDBYQyXFPeJPxIju/yXyRDEADqbzFuRZuUOpNeMS1EsYbWNohHgZ5UTrkz182LykVZyuIYKTs8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bdmUpkgj; arc=none smtp.client-ip=209.85.210.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-34c1d98ba11so2665500a91.3
-        for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 03:39:16 -0800 (PST)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7b9c17dd591so2678774b3a.3
+        for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 03:39:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765798756; x=1766403556; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1765798759; x=1766403559; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9thXFyBI9wECeAoZwvjVxFD8Ol9j6G4X/I1qZGpsX1M=;
-        b=amKR7JsNW/OlGqjwVvJKVpPH5D9UwZJBut96t2CI1nfWa8ulByQB4Nw4BT2+1E1zBk
-         Dwh5hYPmfbvSAI3cP4Tyf3x3gOXDrFMxHlgsDRP4FIhnR+94V0wDWR5WZGvaeXycPfPV
-         GjqHr9pjAjtLsVaXucSt8IV+WgNJJT3NJe1/j/ajTs4nA0xgJPtOSXC2fKLO2vKoJv3J
-         yDDwIa25NNWGaVFnoQNIZN9RnURsBd+eNlQiLk76rtVahrSyCdaXDUI1Gir0ch1I7oC3
-         E39czRgaYHT+B6L2iv4n2lcsrNyAovpEIeWMkQkBTL9/mHxuJh6LhW8YXeJ//HxbUjOw
-         AUBA==
+        bh=XhdWc9MI61x0CV5VCAtcSDjXy8TDKlNky9k0yGxBSF0=;
+        b=bdmUpkgjG3A8l3BasLLFRqyXr+2XJuYbch+Hq+yAEPrg7wpPcdx7I/jpNbylqYdiqk
+         3QsRYHXpwqH14EvQeUgpUY+RquV1E9+wIqG7bSiJgDLRspYNZqwv5fzFfmUKIaOwAWmN
+         eLkDuwWlqL7hbu/WzWFB20S6jwEKdHSVObJFYOvUC3m7rHiH6j6lPeFp5rqtjRAGCuRi
+         Ck7gGIzrxXlCEO07uvcLgrev8tblGfHnErPfzxxyib6DQvy6vLfHOpHQhov4ZVVHi7tn
+         rawLwpf17tCFUfq7t1FORzuEApjYZxJNEx/qktof7BEDr2R/5IGdYpfl5R9W8jfCsvI1
+         85eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765798756; x=1766403556;
+        d=1e100.net; s=20230601; t=1765798759; x=1766403559;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=9thXFyBI9wECeAoZwvjVxFD8Ol9j6G4X/I1qZGpsX1M=;
-        b=n5JegBvSRphZWjpbKYXGY6lsFJrRYGJncwI+pGEfaFVwMhlm0XnTSQ8F0YrcGbwRw2
-         8UOO5d/iMlY8f9l3N5ukLtM/T7vXSArP4+dOQGNs832r45YZ5YAgf3XMSgymIx9Jg3yu
-         WdmVAdSpslmqXYU3pwHUquCZNFo7j5wwHdVU9SY6mRRYvnvh7dzofG030mwrq4xhGC6o
-         zwwVxKv090Clo2TTinzo7zbWuWpP7IXsHSpRCyhfIwg3I/aNZR7VaOIJAke58A2oLZVx
-         IeAzrHQcZweaNkc6jdFI0ofsusQ/FLYqreo7soBqaYJrFfExXQSnK/YT3KTmbcQJHOa6
-         lCMw==
-X-Forwarded-Encrypted: i=1; AJvYcCXhpDD67feLYwAWC+z9yih+iwtxKm6Z3HN84miE+3/KwNNYj+G8qFJzcS5LOcuk/bjYKRHQZ1K555crtw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YztCKxkCl8gIhFZbaJh0awNkbGLb0ZhW+P6CHdSc+RoJV7DInD0
-	kE/b7Du89/5oVRHa7TPKf/Kf85mGAExMnvg4PlpQ+KKGJiOsloe6ppSr
-X-Gm-Gg: AY/fxX6p/jNcS99VNjZxkRbYyjLKHmeAeUmhqLgT011rwpTrqqPIjI1auc/4dXFwCfZ
-	lPA8odYjf8DZAUp1h0sgZtmNenU18s1mEBFBOIPTC4F/tpDlXE2ECUAOt5ubD+nEBxeX4S0f4cd
-	p1JMGasxXsuczVxmMDcV8EqUr9hI5awx0/eFffJJhPpTnjkurWPmEOeMyx+nfitmVFNUwdt6Ego
-	ZsKJigZRO5sGYnvgCDT6Y+7OXwH6mfNw5D54sIeOpNSVKRszH4aLMRG6jftZLbwcuJQkJ0RnTTX
-	Hy4hcpzB7qP4BchUhD0xmLUxkWytcxcHsA+SeQKrkFVHDv8B6xVifNkpkKRGGSHgFCAZ1MWLYr0
-	tow+21WoYBst+HElW1SPNwfLXnMWTfSdmdIIxRbeUBFjQq3rCtR4iMarYaKL0zFXttNRS1a4zyv
-	Zi9QgFEONHH7A=
-X-Google-Smtp-Source: AGHT+IE3LQMlInYBtZW6kVYJLJE4CFzfJfm+/f5olU3OmDWyxxykzQlHP1rsXKl8Sxl863J3gFT+2A==
-X-Received: by 2002:a17:90b:4b47:b0:33b:8ac4:1ac4 with SMTP id 98e67ed59e1d1-34abd78051dmr11974090a91.35.1765798755860;
-        Mon, 15 Dec 2025 03:39:15 -0800 (PST)
+        bh=XhdWc9MI61x0CV5VCAtcSDjXy8TDKlNky9k0yGxBSF0=;
+        b=r/fYapTaCeLOLa2WRatrLm2oRd4bqZPyrSmz85vlArG7a+LLS/LpHkzndiLnJbd815
+         B25+7R5TlNnduN3B9nhsIhmNhthCIUd+vEaakYRqE4PfU3r5OhNN7u+1GHhPTwJznZpn
+         2q1A6pi0vwH8T2EdIEXtZx9e3LXZPSx+TTH8Uap08AhE7AeNYq9SDQymTCcH/oSzGmpL
+         EPpE5KfTqRfZFAUYnXYbBOTnMUx64n5WqpyChGK6h96j/PkicjkghM9KyLZbYHWboWB/
+         zoWpiWBDYuzdMtQ4TbKuyLpNoYssgdVvLVE+hGZ24SyvIik2hJuaOaOh9XLXOT3kG3Dk
+         6+6g==
+X-Forwarded-Encrypted: i=1; AJvYcCXbiT8Id/kIyinSnWDOyy4sufTDhAJLCsVfAETRlaq5JtoByauoRspOz2dbn58SFtP7q2UyJH9XK40Oiw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzIaTH12nMJf3rLScVcFcrJkEbYQyITcQwOLrPOsHhmggCkhYvo
+	PDEeAycOvyfbiNq+vHjGSW2G7s1N086sPkKK+TaPPaosPWgFN7j0K7gI
+X-Gm-Gg: AY/fxX4VqdC321vX7BzZoh4gwEzNkaWnQVMpsrwBzIEvjKGB9PhSQn+RpKT2EfywAcp
+	xMWNwcvPaOrewS6HoDeikEIFkPC64/cgJHxLf9CuajgYmoJwLJWB62rnCDG4Y1whQN/ur92E+QU
+	vzmmx6rEVNIVxO/EKNkNiroNEnCiryaxqMn9lHO0LaTMth5Uap96wJiHsBdvdK96q3oG84aLwKj
+	rwvtVuDqGNTbsK+48cFZbBY9idbe8IwOxw51EQThrQ05GHRvAhwwL9lPw6YMW1/xKweCgM9cglV
+	Bq+/tg9uuCX7BfnzGC+AKfMIcEdSV6nlU0RBXgInWA73ylzTUXk3cB9R8eZ5EgCC/0uAuGj4CkB
+	r/W3bOZz5ZsoGxkLylY0DxYGIONUMmUEspvSp4z5WTcgTiRJ91mqEEYlVIJRnvuPamTkQRp3LFh
+	s0ZxYvlGHKwQE=
+X-Google-Smtp-Source: AGHT+IEml9qI+VrrnmRfetIj/W3ZZs/y3fpGJeeY3YNSfL1Lp+Ud1G2wHo5sReKCb7zM9fF8T1soPQ==
+X-Received: by 2002:a05:6a00:4211:b0:7e8:4587:e8c8 with SMTP id d2e1a72fcca58-7f669c8ea65mr9926386b3a.59.1765798758916;
+        Mon, 15 Dec 2025 03:39:18 -0800 (PST)
 Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34abe294892sm8918293a91.10.2025.12.15.03.39.11
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7f4c566c7cfsm12487742b3a.67.2025.12.15.03.39.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Dec 2025 03:39:12 -0800 (PST)
+        Mon, 15 Dec 2025 03:39:18 -0800 (PST)
 Received: by archie.me (Postfix, from userid 1000)
-	id 9EFFF444B395; Mon, 15 Dec 2025 18:39:06 +0700 (WIB)
+	id BCD48444B396; Mon, 15 Dec 2025 18:39:06 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux AMDGPU <amd-gfx@lists.freedesktop.org>,
@@ -161,9 +161,9 @@ Cc: Harry Wentland <harry.wentland@amd.com>,
 	Jilin Yuan <yuanjilin@cdjrlc.com>,
 	Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
 	George Anthony Vernon <contact@gvernon.com>
-Subject: [PATCH 06/14] virtio: Describe @map and @vmap members in virtio_device struct
-Date: Mon, 15 Dec 2025 18:38:54 +0700
-Message-ID: <20251215113903.46555-7-bagasdotme@gmail.com>
+Subject: [PATCH 07/14] fs: Describe @isnew parameter in ilookup5_nowait()
+Date: Mon, 15 Dec 2025 18:38:55 +0700
+Message-ID: <20251215113903.46555-8-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251215113903.46555-1-bagasdotme@gmail.com>
 References: <20251215113903.46555-1-bagasdotme@gmail.com>
@@ -173,41 +173,34 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1385; i=bagasdotme@gmail.com; h=from:subject; bh=bVwk3E00Ao0/BsL4XlONNDCfpFF0qzpzGvJu4GqJ/kY=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJn2n4N3qByLSAtcbrWEYbHxfzPeVTVyK4Naco81fnbf9 sGw4M+ujlIWBjEuBlkxRZZJiXxNp3cZiVxoX+sIM4eVCWQIAxenAEwk4Ckjw37unJpIS7sDggaL LUJm/L7quGjlN51XE6JFNZoPynqvOsvIsMhqy5y4fbtebC8768S8lM/yytfC9QdFWExtD//Srpa 6yQYA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=946; i=bagasdotme@gmail.com; h=from:subject; bh=ZF9oIk+6VfTU18bKiromuOjnT5V3QoMoKRjEOTmh6aM=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJn2n4NPZboGqi8J0lGIEPx09J91+O5zYvcmVc9uCnNeq KyqY9/YUcrCIMbFICumyDIpka/p9C4jkQvtax1h5rAygQxh4OIUgIloczEyXFE5FS25V7U4nF3s wsyajN23tv7S0jlgc8jW4LrtPJ7fvYwMd203HZvEp7U3/4W850Q53mn2BsnZf49w2jwWklnFefM GBwA=
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 
-Sphinx reports kernel-doc warnings:
+Sphinx reports kernel-doc warning:
 
-WARNING: ./include/linux/virtio.h:181 struct member 'map' not described in 'virtio_device'
-WARNING: ./include/linux/virtio.h:181 struct member 'vmap' not described in 'virtio_device'
+WARNING: ./fs/inode.c:1607 function parameter 'isnew' not described in 'ilookup5_nowait'
 
-Describe these members.
+Describe the parameter.
 
-Fixes: bee8c7c24b7373 ("virtio: introduce map ops in virtio core")
+Fixes: a27628f4363435 ("fs: rework I_NEW handling to operate without fences")
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- include/linux/virtio.h | 2 ++
- 1 file changed, 2 insertions(+)
+ fs/inode.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/linux/virtio.h b/include/linux/virtio.h
-index 132a474e59140a..68ead8fda9c921 100644
---- a/include/linux/virtio.h
-+++ b/include/linux/virtio.h
-@@ -150,11 +150,13 @@ struct virtio_admin_cmd {
-  * @id: the device type identification (used to match it with a driver).
-  * @config: the configuration ops for this device.
-  * @vringh_config: configuration ops for host vrings.
-+ * @map: configuration ops for device's mapping buffer
-  * @vqs: the list of virtqueues for this device.
-  * @features: the 64 lower features supported by both driver and device.
-  * @features_array: the full features space supported by both driver and
-  *		    device.
-  * @priv: private pointer for the driver's use.
-+ * @vmap: device virtual map
-  * @debugfs_dir: debugfs directory entry.
-  * @debugfs_filter_features: features to be filtered set by debugfs.
-  */
+diff --git a/fs/inode.c b/fs/inode.c
+index 521383223d8a45..2f4beda7bb8841 100644
+--- a/fs/inode.c
++++ b/fs/inode.c
+@@ -1593,6 +1593,7 @@ EXPORT_SYMBOL(igrab);
+  * @hashval:	hash value (usually inode number) to search for
+  * @test:	callback used for comparisons between inodes
+  * @data:	opaque data pointer to pass to @test
++ * @isnew:	whether the inode is new or not
+  *
+  * Search for the inode specified by @hashval and @data in the inode cache.
+  * If the inode is in the cache, the inode is returned with an incremented
 -- 
 An old man doll... just what I always wanted! - Clara
 
