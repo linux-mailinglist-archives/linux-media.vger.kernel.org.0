@@ -1,220 +1,199 @@
-Return-Path: <linux-media+bounces-48824-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48825-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB61BCBFCC9
-	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 21:42:28 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78457CBFDBA
+	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 21:58:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 6D6F0301CC5A
-	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 20:42:06 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E8FF330115C0
+	for <lists+linux-media@lfdr.de>; Mon, 15 Dec 2025 20:56:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAD18322B75;
-	Mon, 15 Dec 2025 20:42:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9B77328266;
+	Mon, 15 Dec 2025 20:56:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EPh/oprn";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="jZOzsmpN"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="w907xyFU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09A913093AC
-	for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 20:42:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8009139D0A
+	for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 20:56:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765831324; cv=none; b=CMKgkswBDdhIj4ptQKNf+zd31ReJLN1sRwI63/bZbUDrrJcaOwDt5Kkm6a6sUcq2cha+5UTWZQiPF0+6rkK1jpAoYCDv/MBS3aGC6WXxR8+j64+IRLiOvKdE+yGhivJPH6CC8upYRVIV1Y6XOtW4pdaDmxIkIsGKNs0Tyso81A8=
+	t=1765832200; cv=none; b=UHyXRU8rofgwmKZTI5pjhFK2PQ0Qc/pbfgYcbabvfDPSDLvFBxHKPybyWbuNBIVARRCZXQjGZA+6B03heDh9xRzJTaADGoPea4lplWbmSI5GF3wXaLttJ5RFqoFkJa8xH0aLPteuzGhKof2yZPZLxfjpWQqX6s2pXrT4YqBoOP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765831324; c=relaxed/simple;
-	bh=Tg2Hz5s/jJowltHvM8wwgjOW8nNKrG1QcZozg60XeFs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ctX+Zc7AB2kzrMu6X75J7s7o/y6bZVuS0N4d299vAp3w+rC1d7kkiP1cxMt+GwOnExUo4uUb8UgTtacWZG33kGPmtjFzs7kdHgeX+hPZf70Slulh4DP1ZJxMRNeAVRFYJ2OxpYOhLDqQ8TYvn+kyYdnduhP1+dXmgBLiUdyPBYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EPh/oprn; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=jZOzsmpN; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1765831321;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vIugujDFg05cEDjSFPsNuy7/nXwlnSCGQEq9oeQZt8U=;
-	b=EPh/oprnsVUrz2G+idS1ZC2AM/rwA1+1CYkP4vO+y+Y9/Ks+UhZD8GQD8uiF7UNWRmm+Q8
-	lYIJDilFvfrR2WTE+Al8Yo+CZTbbsG+JMUiIqor8rbyfp6JC2rk0SbDtLjgj40Qo1Qhd62
-	7HXSH1GHpkG+G8IPBcGjz75EAvWohL4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-104-7bN_2-WMOVGm0DUHKAnzRg-1; Mon, 15 Dec 2025 15:41:59 -0500
-X-MC-Unique: 7bN_2-WMOVGm0DUHKAnzRg-1
-X-Mimecast-MFC-AGG-ID: 7bN_2-WMOVGm0DUHKAnzRg_1765831318
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4775d110fabso27721095e9.1
-        for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 12:41:59 -0800 (PST)
+	s=arc-20240116; t=1765832200; c=relaxed/simple;
+	bh=kPuMdDiFv4wPPtBAT+PrG9PgGxh/xlJVMp6p9EWQCuE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=F+KBqvvOscBR7uIAOobZ2t9YA8QCkhW4K+BO2ENavtrKRIqgFykJNkhQjrDprIP3nMwAhgJBO+v4m9LaeiPYaY6SZ6IYnIi4xyxC806Rc5NRx/kGpCjnyINJ7JvSZnmQT/d/5inhV8+gCf2cMNp5DdacPiRbincl8zu/nRrQg4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=w907xyFU; arc=none smtp.client-ip=209.85.222.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-8b2627269d5so397413085a.2
+        for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 12:56:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1765831318; x=1766436118; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vIugujDFg05cEDjSFPsNuy7/nXwlnSCGQEq9oeQZt8U=;
-        b=jZOzsmpNQ8IM0eTqwUxKP4Ey+HqSdxApMvOpNiA+jWWmXPcpLV/A0Mcfjz0rB5zZwn
-         CwvoQcTcySZgEQx2oMJ99ilBicTaG9lTrLud6zgI/4vPVBDNPBNQzai51JkBN5NHT8ht
-         0BWZ4XEndfCJRolRG3tRana8GmgSko/VUs+5AfiunqdOz9skltG7tK+UybfnD8yu9ohZ
-         iogSTSe/1nTdYunCd1zm83CRG+23mlN8vZmLCgCx3dp9FYNU3hxKFbYUYuFGtvHoyFFn
-         oxx4z4mu44+Uy6o7bKq9fqpgr8sBWCQnleyp4JD5E/QXeUKGvENmgOtwF+VDJONsjbgG
-         ZPYQ==
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1765832197; x=1766436997; darn=vger.kernel.org;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=kPuMdDiFv4wPPtBAT+PrG9PgGxh/xlJVMp6p9EWQCuE=;
+        b=w907xyFUKZWm0d4XZN869nlStVtw5wFHSz3en0drKwenqXrc6KyTLQwpkxLjkhuM3H
+         KRUgi3ujtZ5Zd8hzZ3SKYiX7w1BJDY+oArh9c/YHtkmbmGPV3ROF9xovB0Vp/kv13bOS
+         jFZO9n4mD6cwbrH8EtDFMNi0DRri0xLT4xnef7kaPev/PrnXCOEGjWekoMfnAGzqBN7H
+         84FXbe6WlkMckpiWggePX+jNSRCZx0jhopTPHqJqmufjyIeb5RWRnFk3bv7aCK8J9ONV
+         piZK36X209nw0jUrxhQcbccN6wLqEVvtJ4ZL9ZBPFikWlC/VmZqDwLV11n2Bdgl+vLnu
+         sBpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765831318; x=1766436118;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1765832197; x=1766436997;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vIugujDFg05cEDjSFPsNuy7/nXwlnSCGQEq9oeQZt8U=;
-        b=O5o7zx4svI3h86tNfmuQ1q0bBRK8cNBkA4jmqseOX57CABmD6u2nxuTLVL06KKjwvY
-         Y8hNCMigzlQEPqKvlPkeQzxdoPOzhYFCh1WJUkIzM5Gr+Xbnx9G53XzzuSM0Y7Wtu1Hj
-         PMldG3HBzizIuKkERlQWyE8U4/mwJrS9SQVriI+cybTxBgpuFJ3yzSBiEmaH9DyROLmZ
-         sU0i5ZXcY+TqmMsvNEulyn/DFmtuHRtBN8n4hT7jJnuN74saJsn2AotdoIqhUvvcl0DJ
-         GpkyizI8VH2SnfPQKn5828wPU6gzOReQEsaUIhSp0Ew3x2u+9leH5J1wj8GN3wGNKbvn
-         0Ecw==
-X-Forwarded-Encrypted: i=1; AJvYcCUKWY+FQf9BHMqeERNBFP0yMz37IqblSJ9e0U/MSGXeHcE954YIUtUUDfo94ekarP+BxDzCbYRO/vD7KA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwHmdLIsGVJBxZQHZTSagYD/rIYNP7pJSQRPX3zleiF3H+Y4jzs
-	ah0szqGDUBDi4rLTike/mL/fIy10dRNsSCfOEVTm/fNQahtvpUlwpmwyAFKpKG/plKAaDHHAAh8
-	mGddxixupo3Y2y3YHPlxdq876cnWk2Gy4qe1N/2Ki8Z3ne7s/UXtLjrid9lEdGqnD
-X-Gm-Gg: AY/fxX7kX3uQkEIEPCUG3Z3srF/+vIWya6OkqHlfCzD0B8VGliEwHYPz7SAN9pEJPAU
-	OI4OALh4GsWJvJJn4CHWTh7wt4PHlug9afZXfskZOuPs/pfdEVCEkh5GBZhvkAdGx703HohmOQe
-	sBEpkmMv79pZ0Xy/d3dcRcWb2gVrGcKG4EhPAVFDAGl7X5NcG9EqFLAdL1dERm6vEsBgpvTLJSZ
-	kZV4wYbH8tuZSbhM1dX7129MZ0kXR9Yy0XzFItzXgwF0wenm0jHK9/mEbG7IH23m5jVCLpu0G6q
-	EsOVtBoS1sQfTNRt+AHVyd4vXWd2gi/cYAHfdjb7y4B0KQT8KZVnL/4sYQIlYIIivsaDxdplN6P
-	Yo8FMbS3keucqhLdjck5IwEuRzt0GH7YUlQ==
-X-Received: by 2002:a05:600c:6290:b0:477:76bf:e1fb with SMTP id 5b1f17b1804b1-47a8f8cdfd1mr164694775e9.16.1765831318227;
-        Mon, 15 Dec 2025 12:41:58 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFpvKxyv9KrTZN+I+gLKkWZxXPblkRG4VaB9KOKEG2SIjVVbTsH1HJ4pcy9Q9bDzIs00zZydQ==
-X-Received: by 2002:a05:600c:6290:b0:477:76bf:e1fb with SMTP id 5b1f17b1804b1-47a8f8cdfd1mr164694005e9.16.1765831317597;
-        Mon, 15 Dec 2025 12:41:57 -0800 (PST)
-Received: from redhat.com (IGLD-80-230-31-118.inter.net.il. [80.230.31.118])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47a8f6f26ebsm211656485e9.14.2025.12.15.12.41.50
+        bh=kPuMdDiFv4wPPtBAT+PrG9PgGxh/xlJVMp6p9EWQCuE=;
+        b=GW6NV3y7D4CdYrRVbvOoEAXMfIvvyIUxriCTDSJOvqMsYWJvIA0KvohxonnuMcOAdd
+         /0dKH/q84k5/MwvHFIApyYeTKFa/cFcdhjri1HcC6iaviTpQHiCdZwLD+Rg4p/RLKAxf
+         w10hxxtVLyszwwi53iYAg3Nc/0l6xgRAKJxaEqYyKPfPIzmf6AhR5rskxUwPyp2L3Ntu
+         ZPX2qK2IUk13Q/7s0EDC/qE+kY+a9kFaimHAUEidairmgHmXxawoSElHjES5o8ja0+kp
+         tdPUAX5EifLimSFEVycE3yjYvzWh3UG94PvF9xiVTmKWmMQouNdjKd4FeRl1R8UZSIm6
+         smaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXGJmlTwocFCfvhZWDHbvty+Svku5ZBL3C8s7jg1U1PhWek4ERiF3Xd357bDMp+J/YnrcWY7qZmxnadzQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy5wUY7/w5QwNcfdeJmlKjyk+hwsOePuJqCYOkwVl6SPCgCF0ao
+	yrlhSdqw5gdDCU/MPIkd7gO/OpRQ+Z1sQ1uvRNJNI2V2wbxGEvoLLva/iwbuaRtBSys=
+X-Gm-Gg: AY/fxX5E8Ou7nAGVjhrRKm6OHkABWDpWylMnnGOkGwUxYC1cuMP5LdUPd+ZaI/Xl4tw
+	LhkNaQj3YxWmwGRtxF6wm844OL0bFj+0cBysUiEhy+t5DNg6JjuupI1a+/897INaB7nAyJpJhIj
+	BzKavI1qdl2kyQB/PkzyjjC2+PY+l52DC3ECYaOHfdN+TH8hAHkWITaj0h+0o2SFs25085oZvJM
+	wOIl26Y1EVVlFqZM2y2aLaFVt14CBzO8Y1Bfn6+BUwu0QI4an5ht6C6kW52U/UcXV0JYAudhIqF
+	Xx9/wfXMRxmqiyFLjS/8GoeJDYHc38wILFFNzAsO4eQwYG1biGKSD5RfvLH+Q9c5PiG1ItvBSD7
+	7v656sRKR1e76vdXJgvhY8EbKTZBzyXgkvVRmzz6t80t9VYhE0h/06WYC0TvvdauxGBpPnNq+2P
+	naGeC4lOXd0cUFAjVUxx6LkwEv+fo=
+X-Google-Smtp-Source: AGHT+IGs0LQ+Ie8RHwoyHQrwsKMrselLQf8rxvRj46SnkpT1P4dgJ+/RfREgR+lIju27/zj/QDR/ag==
+X-Received: by 2002:a05:620a:294f:b0:8b2:d56a:f2f6 with SMTP id af79cd13be357-8bb38f80fb1mr1742229685a.0.1765832197414;
+        Mon, 15 Dec 2025 12:56:37 -0800 (PST)
+Received: from ?IPv6:2606:6d00:17:7b4b::c41? ([2606:6d00:17:7b4b::c41])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8be304dea8esm33418985a.8.2025.12.15.12.56.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Dec 2025 12:41:56 -0800 (PST)
-Date: Mon, 15 Dec 2025 15:41:49 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux AMDGPU <amd-gfx@lists.freedesktop.org>,
-	Linux DRI Development <dri-devel@lists.freedesktop.org>,
-	Linux Filesystems Development <linux-fsdevel@vger.kernel.org>,
-	Linux Media <linux-media@vger.kernel.org>,
-	linaro-mm-sig@lists.linaro.org, kasan-dev@googlegroups.com,
-	Linux Virtualization <virtualization@lists.linux.dev>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Linux Network Bridge <bridge@lists.linux.dev>,
-	Linux Networking <netdev@vger.kernel.org>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Philipp Stanner <phasta@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Alexander Potapenko <glider@google.com>,
-	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Nikolay Aleksandrov <razor@blackwall.org>,
-	Ido Schimmel <idosch@nvidia.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Taimur Hassan <Syed.Hassan@amd.com>, Wayne Lin <Wayne.Lin@amd.com>,
-	Alex Hung <alex.hung@amd.com>,
-	Aurabindo Pillai <aurabindo.pillai@amd.com>,
-	Dillon Varone <Dillon.Varone@amd.com>,
-	George Shen <george.shen@amd.com>, Aric Cyr <aric.cyr@amd.com>,
-	Cruise Hung <Cruise.Hung@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Sunil Khatri <sunil.khatri@amd.com>,
-	Dominik Kaszewski <dominik.kaszewski@amd.com>,
-	David Hildenbrand <david@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Max Kellermann <max.kellermann@ionos.com>,
-	"Nysal Jan K.A." <nysal@linux.ibm.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Alexey Skidanov <alexey.skidanov@intel.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	Vitaly Wool <vitaly.wool@konsulko.se>,
-	Harry Yoo <harry.yoo@oracle.com>, Mateusz Guzik <mjguzik@gmail.com>,
-	NeilBrown <neil@brown.name>, Amir Goldstein <amir73il@gmail.com>,
-	Jeff Layton <jlayton@kernel.org>, Ivan Lipski <ivan.lipski@amd.com>,
-	Tao Zhou <tao.zhou1@amd.com>, YiPeng Chai <YiPeng.Chai@amd.com>,
-	Hawking Zhang <Hawking.Zhang@amd.com>,
-	Lyude Paul <lyude@redhat.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Luben Tuikov <luben.tuikov@amd.com>,
-	Matthew Auld <matthew.auld@intel.com>,
-	Roopa Prabhu <roopa@cumulusnetworks.com>,
-	Mao Zhu <zhumao001@208suo.com>,
-	Shaomin Deng <dengshaomin@cdjrlc.com>,
-	Charles Han <hanchunchao@inspur.com>,
-	Jilin Yuan <yuanjilin@cdjrlc.com>,
-	Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
-	George Anthony Vernon <contact@gvernon.com>
-Subject: Re: [PATCH 06/14] virtio: Describe @map and @vmap members in
- virtio_device struct
-Message-ID: <20251215154141-mutt-send-email-mst@kernel.org>
-References: <20251215113903.46555-1-bagasdotme@gmail.com>
- <20251215113903.46555-7-bagasdotme@gmail.com>
+        Mon, 15 Dec 2025 12:56:36 -0800 (PST)
+Message-ID: <e265d412260226be67df3bfb0dd05bb74e36d551.camel@ndufresne.ca>
+Subject: Re: [PATCH v1] media: videobuf2: Allow applications customize data
+ offsets of capture buffers
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Hirokazu Honda <hiroh@chromium.org>, Hans Verkuil
+	 <hverkuil+cisco@kernel.org>
+Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>, Mauro Carvalho Chehab	
+ <mchehab@kernel.org>, Tomasz Figa <tfiga@chromium.org>, Benjamin Gaignard	
+ <benjamin.gaignard@collabora.com>, Daniel Almeida
+ <daniel.almeida@collabora.com>, 	linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Date: Mon, 15 Dec 2025 15:56:35 -0500
+In-Reply-To: <CAO5uPHPKLxySgwWUi6w0Nm-PbDSPkN=OySbLK8wNKwXdp3p1Rg@mail.gmail.com>
+References: <20220322132329.6527-1-dmitry.osipenko@collabora.com>
+	 <dd22c40e-1200-42f7-8c48-63534f759045@chromium.org>
+	 <5d367bbb-551f-4164-8473-a6c4b68793c0@kernel.org>
+	 <CAO5uPHPKLxySgwWUi6w0Nm-PbDSPkN=OySbLK8wNKwXdp3p1Rg@mail.gmail.com>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-DfC7oLhIv795a64IjpFO"
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251215113903.46555-7-bagasdotme@gmail.com>
 
-On Mon, Dec 15, 2025 at 06:38:54PM +0700, Bagas Sanjaya wrote:
-> Sphinx reports kernel-doc warnings:
-> 
-> WARNING: ./include/linux/virtio.h:181 struct member 'map' not described in 'virtio_device'
-> WARNING: ./include/linux/virtio.h:181 struct member 'vmap' not described in 'virtio_device'
-> 
-> Describe these members.
-> 
-> Fixes: bee8c7c24b7373 ("virtio: introduce map ops in virtio core")
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
+--=-DfC7oLhIv795a64IjpFO
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> ---
->  include/linux/virtio.h | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/include/linux/virtio.h b/include/linux/virtio.h
-> index 132a474e59140a..68ead8fda9c921 100644
-> --- a/include/linux/virtio.h
-> +++ b/include/linux/virtio.h
-> @@ -150,11 +150,13 @@ struct virtio_admin_cmd {
->   * @id: the device type identification (used to match it with a driver).
->   * @config: the configuration ops for this device.
->   * @vringh_config: configuration ops for host vrings.
-> + * @map: configuration ops for device's mapping buffer
->   * @vqs: the list of virtqueues for this device.
->   * @features: the 64 lower features supported by both driver and device.
->   * @features_array: the full features space supported by both driver and
->   *		    device.
->   * @priv: private pointer for the driver's use.
-> + * @vmap: device virtual map
->   * @debugfs_dir: debugfs directory entry.
->   * @debugfs_filter_features: features to be filtered set by debugfs.
->   */
-> -- 
-> An old man doll... just what I always wanted! - Clara
+Hi Hirokazu, Hans,
 
+Le vendredi 12 d=C3=A9cembre 2025 =C3=A0 15:15 -0800, Hirokazu Honda a =C3=
+=A9crit=C2=A0:
+> Thanks Hans for your quick response.
+> And I apologize for my late reply.
+>=20
+> > So that's were I am: I'm not opposed to supporting this feature, but I
+> > feel that struct v4l2_buffer has reached end-of-life, and that it is
+> > time for a modern replacement.
+>=20
+> I got it.
+> I will discuss in my team if I can contribute to v4l2_buffer_ext work
+> or sponsor that work next year or in 2027.
+
+I share Hans feeling in regard to trying to force partial support for
+data_offset into some space left of v4l2_buffer. This brought me thinking t=
+hat
+doing that, or even v4l2_buffer_ext as last proposed was not the right solu=
+tion
+to modernize the old V4L2 framework. In fact, I believe that v4l2_buffer_ex=
+t
+would simply replicate the MPLANE disaster, leaving another permanent scar =
+in
+the API. Just to state simply, MPLANE have lead to duplication of every mul=
+ti-
+plane pixel formats, solving some plane alignment issue in multi-allocation
+cases, but leaving behind the common single allocation case.
+
+For me, the most central issue in V4L2 is that the memory allocation/import=
+ation
+is bound to the operation queues. That brings all sort of issues such=C2=A0
+
+- We can't queue twice the same frame
+- We can't mix external buffer with device allocated buffer
+- All buffers must have the exact same stride
+- Application is responsible for caching which memory goes to which v4l2_bu=
+ffer
+- Attempting to import a buffer requires a free spot in the queue
+
+This adds on top of the v4l2_buffer structure limitation we have been targe=
+ting
+so far. With the growth of modern standard API (think Vulkan Video notably)=
+, it
+becomes apparent that the model is too inflexible. This inability to separa=
+te
+memory allocation and importation from operations creates a lot of complexi=
+ty in
+user-space, leading to complicated bugs.
+
+I've been quite about it, since until now I didn't have a solution in mind,=
+ but
+I recently come with some ideas. I'll will try develop these ideas, at leas=
+t in
+prose for now and come up with an RFC, hopefully somewhere beginning of Jan=
+uary
+2026. That my proposal is accepted or not isn't quite relevant. But hopeful=
+ly it
+will be a starter to go go beyond just fixing what we see. In fact, this ne=
+xt
+step is for me doing to be quite decisive if I continue doing codecs in V4L=
+2 or
+not in the long run. But I'm sure this is not just about video codecs.
+
+regards,
+Nicolas
+
+--=-DfC7oLhIv795a64IjpFO
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaUB2AwAKCRDZQZRRKWBy
+9PpPAQCf/G+8N376JB4wpndUK0B4XNGAb4asSYBkndUCE0QwVQD8CeUnyF4v01AO
+YnsSGwWBWLz7z6iWbESCvhNyNhyl3wM=
+=wQFy
+-----END PGP SIGNATURE-----
+
+--=-DfC7oLhIv795a64IjpFO--
 
