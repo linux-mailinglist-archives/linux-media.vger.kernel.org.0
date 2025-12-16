@@ -1,176 +1,218 @@
-Return-Path: <linux-media+bounces-48911-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48912-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1670DCC412B
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 16:54:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B073CC3FBB
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 16:37:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A4B643022598
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 15:53:45 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 72120305FB62
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 15:33:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6470835CBC9;
-	Tue, 16 Dec 2025 15:21:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2DEA364038;
+	Tue, 16 Dec 2025 15:23:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O1s/18BY"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JtM7/pmv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E5A352F85
-	for <linux-media@vger.kernel.org>; Tue, 16 Dec 2025 15:21:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 608D136402C
+	for <linux-media@vger.kernel.org>; Tue, 16 Dec 2025 15:23:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765898496; cv=none; b=QOypb4dl5bQyWAVK0DyhlUeNO8JLfYL3Lvejj3uRAUhMmvblCDd5Tyg8SdO1U4B4ZNkRiNXWb4doJO0a0dUnP4SLpkHzssLEjB8QQhYle1/FV0RTcTp0LReSFXO1uHqtmGJuQgEL0UHSv5hvbG1xajMDUxRa/gnEmmXPPJ1he0k=
+	t=1765898639; cv=none; b=T86jpcGDPp4FsHsGsz2NBmw7x/paJbNbkXI7LbRoDJI7t6aPIWBQNtkdFKVywa0Y3sGIvIp1DG+kMi7jOs1N5bvGx7glygj4LVeofXeqlFmMCX2WjcnEjIcIpSalN6b10H+PMNcHuAgLlKfVroN2NayMZyJa+ZeN+zN3cX0Jx0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765898496; c=relaxed/simple;
-	bh=kUqJrtaM24NDu8J1LFBz422ot+phR2OLYLy5w6GVNNA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OO49SSAou7CI2CWyb+PESc6YXalZufxiJ6ZQC+x5dSB17vTIhsLc9MJlYBEEip2zELm91DfHbtNn1HmNEPU32Kw4R3fAo3rfpq8JXvxlsIDgSRkVdcUe6G/GioH6JG+KG4NzrLN/stklvGulAbk9yCPrIxHaTjXS2cKD7h0VTEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O1s/18BY; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7baa5787440so369899b3a.0
-        for <linux-media@vger.kernel.org>; Tue, 16 Dec 2025 07:21:31 -0800 (PST)
+	s=arc-20240116; t=1765898639; c=relaxed/simple;
+	bh=vAIUzpoHMjytN7Rz/48aH/uHNy/JzgqzYyhfXala8SY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=opafyIqfZu8jXpveY4RYfPyfE5TkHBItR7R09vNWyZFbg97iF12Se6NnGZRMH9OgCXK4S7k4/2ZPQLQEc3kxN3xP6PnBmY8CMIOYuu5eQUg0Ip72mFhWLRHpqzV837eUmPUtLFQiiiXQQWzxfbTAEavZvmEylDVuVDFZuaZTyy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JtM7/pmv; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-597c366f2feso510066e87.3
+        for <linux-media@vger.kernel.org>; Tue, 16 Dec 2025 07:23:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765898490; x=1766503290; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=G6A3FJy1wSkXfE42mqpxDchsxNCyuEhZg+omH3hGmm4=;
-        b=O1s/18BYXzws8mK8UZFFV20BTkxvofAuiz4xpx4eKUDctx+f91J+v0cLmvqsTCbaOb
-         QB4aMVGENSsAm3YW6Wa8VFaG1DET7Iq27W98kQjWx3w5z/7gBqNJs4jiKEVESk6PgWpb
-         OnFDc8gRjZc+e9bX6GJsHkbaTe8SxcL+tPQoAmYEq5qmziB0/rMCCotDxuGLhfqshBQP
-         ENkLSZgKAc7BnS0EYNFZmPSnlhH7x78cnAR/JemulzrVYIB7CyOIcKyaqIeMtI0xkbW7
-         xvsQE+6FaK/D8QPMsprcLqXzDXbipLMdSTBkBmYDy7CjW1bTN+AzQS0zD8xCrvdNqfZS
-         Btbw==
+        d=linaro.org; s=google; t=1765898635; x=1766503435; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=i2J5a4QLlp1gIHPWSsgnLzMZagpwihm0V+U4IQ8hkHA=;
+        b=JtM7/pmv4UcY9jganGs9Y13EyL7i08fV8rQzKsmUPCfnQdDOkQyDZl05qpkzCv77TN
+         eCtH2/hrSqMiiYf/UBtJScf3Ey0DhUP+8rO4/ScQOF+R0xzLi8OD0J7ijWbk4aKwFt7n
+         WipjFgBy+I/DCdTrnA6qRlgx2sK2YmcfLpiMrmvlNEko4tIvH132pcZ+6I31EDWWcehv
+         s2YWAnG9EXEAoUtnciSontVikcqUJJYdMi18nrZiIO0bENoW6t+sIJw8inbN+kULFw6B
+         Vz2e5tLkl8raiid9BW8HnaqL0iMGUTUWvr+uvBchI1EWdYAFCoVU0TKe0e662QhGYRt0
+         rEmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765898490; x=1766503290;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=G6A3FJy1wSkXfE42mqpxDchsxNCyuEhZg+omH3hGmm4=;
-        b=dIUngACoFG3DyEMgPDJYKlZsVPPErMfw/3zhoLbXiiaH2yRYtNr63zSN6o3rLavdAa
-         e0JuLjb0hVCYwxn64S7i3xK7MOzCkZmC8amBvqWF/6Gclt6yx2tgZMrtq4p3HuX7VKZ1
-         cVAg/H/k0O22IabFmhC+SeldXSRKZ/ylRTHuL+4RP2IFyoY7aF1qgVnW0DNzkM0jTHmd
-         wY6YF/Lom3Z6I1NXtKYjtM3OexZ5mD4lpfHRLDGxjQ0nZ24blZrALuoxmh2GaWK3n2Yr
-         nTh+yaFNiiTwV/eg7gotVQWXthoAFYgHhPCwoj5RhhWO+YGWfDVjPvmffMKC6oSFLTvN
-         J3dA==
-X-Forwarded-Encrypted: i=1; AJvYcCWL0KQynUJsHgYomTuxCEgZgsnhbA/yQ7Rb1XNJbIdMYmOISSIATSv6uN1QCX+bgvBYmg2es/lbxf++DA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyzJlWSY+sT+xSnYDWjhmmw3NV5L5J1zX+E2HPhcmhdu9uMv+6B
-	OviJEcDWRUaLE+5kDuTsIPna/yRTaSQWok5MAUtfcyxQj8OLK4q8Pmi4VGRd/r5Upa//dmebLAd
-	2/yfdO+W8LMTZ10j6AQdciKqesg7/l44=
-X-Gm-Gg: AY/fxX7eGkX/Ptw3dxNRp1Vl7oUSI12AuLiEPVOwq+wnO1cA+DjuScYziVOHSljKhp+
-	geuYl9HIBWZ2365ibeKRpOyH+E3Ar77hhQ0i3aOsBetNB0bVCuHuisUeFC3IfZVV8/ayoTcjuZm
-	uOKZBIQ396XIRTE3CbQ9IeylRqpF5Xh9+zXAYd9jc35QceWKth/jqPtocHb0CVSp+fZ+6x9Gfyz
-	Ed41lBgMs4WdwEJkjSTBuqdM6MgxKrHlinIb+lUnNxK0WoXh+daI5lhJ9M/fWCBeoaBGJPJ
-X-Google-Smtp-Source: AGHT+IFq0qaYbGK7y/3ERMab5mfBMJZm2RVpJeQ2PDWWvVrS9uWYHKl8nJo9NGLv/zMgaMY45LKm9slZF+vnfJuCU/o=
-X-Received: by 2002:a05:7022:b98:b0:11e:3e9:3e89 with SMTP id
- a92af1059eb24-11f34c5d690mr6648024c88.7.1765898489968; Tue, 16 Dec 2025
- 07:21:29 -0800 (PST)
+        d=1e100.net; s=20230601; t=1765898635; x=1766503435;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=i2J5a4QLlp1gIHPWSsgnLzMZagpwihm0V+U4IQ8hkHA=;
+        b=XnYpCwwvO4tPJjpuPUeTjEFgiQ7XjHJtWEwvkL8lOX6SwCLIr0dOFhlsSlzd8a0FWm
+         S5jvX+g6QF1HDr7qqZzLMZ3jcUqjOjw+e5lvhRM2H50R4wtroI8y8olVl7A6t26LO+wJ
+         Q+h3F14TUhH07/qbz4reZNLMfSe/Q5xnCDmuzhK44EfpwyWuznMGebLu1vE1CmXoHFZG
+         j4/h74TMuZPKolc4rXWC86vbFaZCB7BjQdkZJECyb1ZaTraPSnETVcEgh7rWi8t1ECEA
+         5nMXgaT5cfcSMWkLF4cCV8PN/31UrsBbPGIIXIMS7efRDIPPHnrknFfKZVawCNmktKMx
+         7c/w==
+X-Forwarded-Encrypted: i=1; AJvYcCUjMBalnbvvB7C7FFTtXV1grL4lSXdn9GV6tNA+m7J/+xU3h2DjGRfL0ulsb3cUL3SHYq1Lxo7FFKtqgA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz2nrLzcWz4922StgdeoNr2HWF6pKiA9kOe13bGh37sgNF1zuun
+	oO6QhI5Bk60q/Zakp0qELG239xJwlU+Pza/QsTRigso2TRHWse84BU6hT7oMht7Hs7g=
+X-Gm-Gg: AY/fxX7Hn5keIYYH8hYDI7ePgDQvXund5Y1LmqnapPHKhb9IUQlwHNaQDfWTThyWPRl
+	t4ovVQ0y2+EjZIvHbuOEK+8E3nubd5RDv6lmlijB2X7ohNsZVDr+OirthqX8FlQLfrjL7HJ6q7W
+	oAtMd2hIB+VYsOK/AWyhPIR6k3G8IsI4OKoMHlH/4EHcsTRVHFmCCzJdcDj4SSyxq29bnaknUgd
+	gQOzDCZR/jWstvXws+vx61/yRDCPMCzfepdTxdVJ1OfM1Zh9VNaKbz5YRCyym10AzbWx7pXmrg1
+	h4C4KX4SwHnUFcdyDTocBvKjaXmrjAptgGkdt4/Xj5Jy0ZSAYtz9gr5i3xdKeKGzAIpYm53NIIE
+	hnKSR28o3OubnVD/HnppQwtzrPPXgrg4Jag4/8IDEdn8iEP/5h98W9co66B+f6o2XDvpYEmZ//R
+	rcZzHld61bx2u+nTbOfmDpSz6EvkPfjHp7N+NV+EgTc+KFQQEkw/77/6TCBch2z57gYS8p2c7cU
+	0JR
+X-Google-Smtp-Source: AGHT+IHUqZ8MlsWcdLXjMndrMOISBhO6vzgQ33SdrvAjwJowVkeUJIKabKJZh0y+vSHN1OThLLU0NQ==
+X-Received: by 2002:a05:6512:e86:b0:595:834a:b1ed with SMTP id 2adb3069b0e04-598faaa6ddfmr3212199e87.7.1765898635326;
+        Tue, 16 Dec 2025 07:23:55 -0800 (PST)
+Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5990da1a743sm964416e87.41.2025.12.16.07.23.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Dec 2025 07:23:54 -0800 (PST)
+Message-ID: <fa131841-ae9e-49ee-a7c6-728b4a6a4b60@linaro.org>
+Date: Tue, 16 Dec 2025 17:23:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251215113903.46555-1-bagasdotme@gmail.com> <20251215113903.46555-10-bagasdotme@gmail.com>
-In-Reply-To: <20251215113903.46555-10-bagasdotme@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 16 Dec 2025 10:21:18 -0500
-X-Gm-Features: AQt7F2rE8ID9d6NCh1LRY2rQdA6w_Kl1ZhHVictIiyXPuu3Pg_xadHkkj9RiiLU
-Message-ID: <CADnq5_NsELxchDeka2CX1283p9mn4+P9_V9Mi+SNiWwM_sQepw@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] [PATCH 09/14] drm/amd/display: Don't use
- kernel-doc comment in dc_register_software_state struct
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Linux AMDGPU <amd-gfx@lists.freedesktop.org>, 
-	Linux DRI Development <dri-devel@lists.freedesktop.org>, 
-	Linux Filesystems Development <linux-fsdevel@vger.kernel.org>, Linux Media <linux-media@vger.kernel.org>, 
-	linaro-mm-sig@lists.linaro.org, kasan-dev@googlegroups.com, 
-	Linux Virtualization <virtualization@lists.linux.dev>, 
-	Linux Memory Management List <linux-mm@kvack.org>, Linux Network Bridge <bridge@lists.linux.dev>, 
-	Linux Networking <netdev@vger.kernel.org>, Harry Wentland <harry.wentland@amd.com>, 
-	Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>, 
-	Alex Deucher <alexander.deucher@amd.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>, 
-	Philipp Stanner <phasta@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Alexander Potapenko <glider@google.com>, 
-	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	"Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>, 
-	Nikolay Aleksandrov <razor@blackwall.org>, Ido Schimmel <idosch@nvidia.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Taimur Hassan <Syed.Hassan@amd.com>, Wayne Lin <Wayne.Lin@amd.com>, Alex Hung <alex.hung@amd.com>, 
-	Aurabindo Pillai <aurabindo.pillai@amd.com>, Dillon Varone <Dillon.Varone@amd.com>, 
-	George Shen <george.shen@amd.com>, Aric Cyr <aric.cyr@amd.com>, 
-	Cruise Hung <Cruise.Hung@amd.com>, Mario Limonciello <mario.limonciello@amd.com>, 
-	Sunil Khatri <sunil.khatri@amd.com>, Dominik Kaszewski <dominik.kaszewski@amd.com>, 
-	David Hildenbrand <david@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Max Kellermann <max.kellermann@ionos.com>, 
-	"Nysal Jan K.A." <nysal@linux.ibm.com>, Ryan Roberts <ryan.roberts@arm.com>, 
-	Alexey Skidanov <alexey.skidanov@intel.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Kent Overstreet <kent.overstreet@linux.dev>, Vitaly Wool <vitaly.wool@konsulko.se>, 
-	Harry Yoo <harry.yoo@oracle.com>, Mateusz Guzik <mjguzik@gmail.com>, NeilBrown <neil@brown.name>, 
-	Amir Goldstein <amir73il@gmail.com>, Jeff Layton <jlayton@kernel.org>, 
-	Ivan Lipski <ivan.lipski@amd.com>, Tao Zhou <tao.zhou1@amd.com>, 
-	YiPeng Chai <YiPeng.Chai@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>, 
-	Lyude Paul <lyude@redhat.com>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Luben Tuikov <luben.tuikov@amd.com>, Matthew Auld <matthew.auld@intel.com>, 
-	Roopa Prabhu <roopa@cumulusnetworks.com>, Mao Zhu <zhumao001@208suo.com>, 
-	Shaomin Deng <dengshaomin@cdjrlc.com>, Charles Han <hanchunchao@inspur.com>, 
-	Jilin Yuan <yuanjilin@cdjrlc.com>, Swaraj Gaikwad <swarajgaikwad1925@gmail.com>, 
-	George Anthony Vernon <contact@gvernon.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 5/5] arm64: dts: qcom: sdm670-google-sargo: add imx355
+ front camera
+Content-Language: ru-RU
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Richard Acayan <mailingradian@gmail.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Tianshu Qiu <tian.shu.qiu@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+ Robert Mader <robert.mader@collabora.com>
+References: <20251211014846.16602-1-mailingradian@gmail.com>
+ <20251211014846.16602-6-mailingradian@gmail.com>
+ <wwpqaecvz42jopgaboasbh353ieelctpvgo3yj6y5tnxoem5oz@j5sbx3yxntot>
+ <aTtkwQb2gOeWAFuv@rdacayan>
+ <d7jcawzugobqern6zlo5jwcnximtsroxywix53v2yp2isvzo5r@ymxicmgfjmzq>
+ <341012f3-18bd-4f96-98c1-f964d1fedb8f@oss.qualcomm.com>
+ <1d830282-a778-44aa-918b-5ab3e1516c0d@linaro.org>
+ <4c4e8e5b-66b1-4227-86ee-756eca945972@oss.qualcomm.com>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <4c4e8e5b-66b1-4227-86ee-756eca945972@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Applied.  Thanks!
+On 12/16/25 16:41, Konrad Dybcio wrote:
+> On 12/16/25 3:31 PM, Vladimir Zapolskiy wrote:
+>> On 12/16/25 15:56, Konrad Dybcio wrote:
+>>> On 12/12/25 8:22 PM, Dmitry Baryshkov wrote:
+>>>> On Thu, Dec 11, 2025 at 07:41:37PM -0500, Richard Acayan wrote:
+>>>>> On Thu, Dec 11, 2025 at 07:16:30AM +0200, Dmitry Baryshkov wrote:
+>>>>>> On Wed, Dec 10, 2025 at 08:48:46PM -0500, Richard Acayan wrote:
+>>>>>>> The Sony IMX355 is the front camera on the Pixel 3a, mounted in portrait
+>>>>>>> mode. It is connected to CSIPHY1 and CCI I2C1, and uses MCLK2. Add
+>>>>>>> support for it.
+>>>>>>>
+>>>>>>> Co-developed-by: Robert Mader <robert.mader@collabora.com>
+>>>>>>> Signed-off-by: Robert Mader <robert.mader@collabora.com>
+>>>>>>> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+>>>>>>> ---
+>>>>>>>    .../boot/dts/qcom/sdm670-google-sargo.dts     | 107 ++++++++++++++++++
+>>>>>>>    1 file changed, 107 insertions(+)
+>>>>>>>
+>>>>>>> @@ -392,6 +420,64 @@ vreg_bob: bob {
+>>>>>>>        };
+>>>>>>>    };
+>>>>>>>    +&camss {
+>>>>>>> +    vdda-phy-supply = <&vreg_l1a_1p225>;
+>>>>>>> +    vdda-pll-supply = <&vreg_s6a_0p87>;
+>>>>>>> +
+>>>>>>> +    status = "okay";
+>>>>>>> +
+>>>>>>> +    ports {
+>>>>>>> +        port@1 {
+>>>>>>> +            camss_endpoint1: endpoint {
+>>>>>>> +                clock-lanes = <7>;
+>>>>>>> +                data-lanes = <0 1 2 3>;
+>>>>>>> +                remote-endpoint = <&cam_front_endpoint>;
+>>>>>>> +            };
+>>>>>>> +        };
+>>>>>>> +    };
+>>>>>>
+>>>>>> This would be much better:
+>>>>>>
+>>>>>>     &camss_endpoint1: {
+>>>>>>         clock-lanes, data-lanes, remote-endpoint here
+>>>>>>     };
+>>>>>
+>>>>> I'm not sure what you mean, there might be some typo.
+>>>>
+>>>> My point is that you are duplicating `ports { port@1 {.... }; };` from
+>>>> the base DTSI here.  We usually try to avoid this kind of path
+>>>> duplication. If you can't have an empty endpoint in the base DTSI, I
+>>>> suggest adding necessary labels to port@N nodes and then extending those
+>>>> nodes in the board DTSI.
+>>>>
+>>>>> If this is about using the commonly-defined endpoints, Vladimir broke it
+>>>>> in commit dcf6fb89e6f7 ("media: qcom: camss: remove a check for
+>>>>> unavailable CAMSS endpoint"). If I do this again and go full circle, I'm
+>>>>> afraid this could break a second time before even making it to
+>>>>> linux-next.
+>>>
+>>> Quite frankly I don't think that commit was valid, given it's conceivable
+>>> that an endpoint could be unconnected..
+>>>
+>>
+>> Endpoint is not a device, status property is the property of devices and
+>> not a property of anything else as the Devicetree Specification v0.4 and
+>> earlier ones define. Dangling endpoints are fine, there is no need to
+>> add another property to determine, if an endpoint is connected or not.
+>>
+>> There should be no status properties inside endpoint device tree nodes.
+> 
+> The spec doesn't actually define what a "device" is. Funnily enough, it refers
+> to "endpoint" as a device:
+> 
+> 2.2.2 Generic Names Recommendation
+> The name of a node should be somewhat generic, reflecting the function of the
+> _device_ and not its precise programming model. If appropriate, the name should
+> be one of the following choices:
+> 
+> [...]
+> 
+> * endpoint
+> 
+> 
+> Plus an OF node is opaque in its purpose.. The top node, a firmware node, a
+> node representing a physical IP block and a config.ini-style blurb are all
+> "device nodes"
 
-On Mon, Dec 15, 2025 at 6:41=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail.com=
-> wrote:
->
-> Sphinx reports kernel-doc warning:
->
-> WARNING: ./drivers/gpu/drm/amd/display/dc/dc.h:2796 This comment starts w=
-ith '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide=
-/kernel-doc.rst
->  * Software state variables used to program register fields across the di=
-splay pipeline
->
-> Don't use kernel-doc comment syntax to fix it.
->
-> Fixes: b0ff344fe70cd2 ("drm/amd/display: Add interface to capture expecte=
-d HW state from SW state")
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  drivers/gpu/drm/amd/display/dc/dc.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/di=
-splay/dc/dc.h
-> index 29edfa51ea2cc0..0a9758a042586f 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dc.h
-> +++ b/drivers/gpu/drm/amd/display/dc/dc.h
-> @@ -2793,7 +2793,7 @@ void dc_get_underflow_debug_data_for_otg(struct dc =
-*dc, int primary_otg_inst, st
->
->  void dc_get_power_feature_status(struct dc *dc, int primary_otg_inst, st=
-ruct power_features *out_data);
->
-> -/**
-> +/*
->   * Software state variables used to program register fields across the d=
-isplay pipeline
->   */
->  struct dc_register_software_state {
-> --
-> An old man doll... just what I always wanted! - Clara
->
-> _______________________________________________
-> Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
-> To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
+It sounds like somebody of DT maintainers should clarify the matter and update
+the spec to be less ambiguous, if it happens that "device" term is undefined.
+
+> 
+> But coming back to the real world, the ports/endpoints represent the physical
+> connections to CAMSS and it makes sense to have them defined in one place,
+> especially since there's a predictable number of them that should not be left
+> up to each board to define.. That quite obviously implies that not all boards
+> are going to utilize all interfaces and the commit of yours that was mentioned
+> above seems to only be valid on the basis of semantics, which I above mentioned
+> are not *really* a valid point..
+
+For whatever reason CAMSS on SDM670 is very special, because IIRC there is no
+other platform with preset status poperties of endpoints. This exclusive SDM670
+specifics shall be analysed and eliminated, since it hasn't been done during
+patch review time, it's time to do it right now then.
+
+-- 
+Best wishes,
+Vladimir
 
