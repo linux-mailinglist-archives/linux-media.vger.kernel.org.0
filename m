@@ -1,97 +1,157 @@
-Return-Path: <linux-media+bounces-48832-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48833-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BC0BCC0540
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 01:17:58 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D1F6CC055B
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 01:19:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 34FCF301E184
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 00:17:39 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 49C8E301CC6E
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 00:19:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AF011E32CF;
-	Tue, 16 Dec 2025 00:17:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C30D23958A;
+	Tue, 16 Dec 2025 00:19:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OjAYzX4o"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D5gtY4Ag"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F59A1E8836
-	for <linux-media@vger.kernel.org>; Tue, 16 Dec 2025 00:17:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AFB71FCFFC
+	for <linux-media@vger.kernel.org>; Tue, 16 Dec 2025 00:19:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765844257; cv=none; b=thJTbvWp7Ej7n+nN1fRITfKGG/nCzpNoGdBztq35oxFkwJXKuyeXh9s6o4LPyP4N+9LgLB+bSj/foXkU9TuuhJLOf/c7Aq1qr0gQpRNpVILIHHvyMXPyxX5HvvPy0WGl2NdyI1ZD5NYi02/FIb530hf+490S3aOaUXzEdLWqft4=
+	t=1765844365; cv=none; b=Z/beD47qrwXneFTVnh3Bwj5dNW84wfXmVGv5IWBOqLAF44GJ+NofbG+2Ot+TgGUz5y0dLiuDhv5eC8cBCvzBzOy7l16URK/L7hr9qXy9lICr8rEcwvYW2u26Quexhxpq9lXk8qfD9i3qvDUg/bNzXnZaojynNptQ/vgVcYc30VY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765844257; c=relaxed/simple;
-	bh=mTmj1jdfHOdIMYPAHU+dvpw7n+E9lZhdCrAyMgKDFso=;
+	s=arc-20240116; t=1765844365; c=relaxed/simple;
+	bh=2xBU63nTJiakTL8J+GV+JbrGyJ0kmCpFFyI7LldHPv8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rxHwhAq/n8FmM+Xey2y29X8P8B1BCI412ZI7/6HyHJKhG+TFNol4zu0jEywgX131SKQKJLbSUWn9S9r3BIlgna3L9rNh8hxSo4djwFpx0WUEKOnq11uVRW9hNNVxMAPsA7mZtuTs8y90JfSnLbdawFnB9YtjM4HVaM9cza9FXS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OjAYzX4o; arc=none smtp.client-ip=209.85.219.53
+	 Content-Type:Content-Disposition:In-Reply-To; b=BBhmaGKw9Jomk/i2Wfksz6jKmdjFnAqvZ56Wi2tlMpEK78owojjDWmxJQOp5BKJQOoi6QNL0FOMyfxIecGlQjPOdSjrhXSitimWBpUpCQwQ4k0SR2OCyX37Hb6B/YJUS/LEFzFE745NP9dHklRucokk+dUgcgNI9TouGesu+f7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D5gtY4Ag; arc=none smtp.client-ip=209.85.215.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-88a2e3bd3cdso24442926d6.0
-        for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 16:17:35 -0800 (PST)
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b6ce6d1d3dcso3820404a12.3
+        for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 16:19:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765844255; x=1766449055; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1765844363; x=1766449163; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZAni9vw9bM4a0/vG4k1qlAtVBjYsYT+icrQF7zoNQoQ=;
-        b=OjAYzX4oDv01Lx4jm+xGqJgDMnj4c+G/C6yKTQ1u6N3/+VIYrf6qnlK25/X+A/9vlY
-         FHj4kd8qP8Q1POz6akc7qC9+Xot6IknbAVgrZapAgsV1sv9HmSooaLAVSwVQBdF4klXz
-         T+8yKzmqM6Zxyhv00R62ochXFSDbG3YB1A11l18SRfORGzMi5UuK7RvgXdk/S9h+S8M/
-         YCQfFWYvUgmzykuKfXJ6IYNDWhNmy27ihVgJ4QdIAWxh7OY5VihgivD41iM+9IL/skOC
-         YUfbhorzJKB97HU6GQ3e3CT3+fALYieAKqOHiNLfm9TTJYCd7uDeHFemFdCMcliaM7+/
-         xyKg==
+        bh=Sk1yhdZDsbmHyAUXRbfG+BCb5AaoOf6d28kSsthudBo=;
+        b=D5gtY4AgYwc0gpeQTiO+/EeOjsoizr/MwhfDECqoD14EpGxn+omXKnnFXtgPxydAkQ
+         DlRQegXiHSLVxrtvo+YtWDGHcp+Ify9tTLIDbn72XWW848VbxXHdj8vLkmLLU0+WRtg8
+         eUpD6nVlMiYd9CXwaPnrIPegHsaIKk/sLUfFetcVhUhWTKQhQPDMr8lB4OpgTWx2x9rw
+         TemhivmWz5W3E2qLk2KgLQFb9vbpoXRT1DxiBLcmOgit4Vw0FFvaA1z0r2lNQGKaHigh
+         LxMSusJ1a7Q09CC0PDxf4oq2yX3W9niCivAFTAyQvJnq5AukYMzG1NaVrplY9Cwd8ctV
+         bBrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765844255; x=1766449055;
+        d=1e100.net; s=20230601; t=1765844363; x=1766449163;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZAni9vw9bM4a0/vG4k1qlAtVBjYsYT+icrQF7zoNQoQ=;
-        b=eMwtS16wxwbgIM5yBiMYnHe5rwI+58rZGjPd/5OR2bl/BJlsWF9A1BBYdNlO589kXX
-         EIckbXibGXUQQw5uTa4GRbg0bo4GGFdlUgJpz51oxPDmNuZEPD0erpnmPvouHF0Mdk/U
-         23KU0y7Pppt/ZEGgjEwke+uo4/uxbooMsfk7c9ityXxpLl2+wPEynp7ApJpdiUe8Q29B
-         3V3iOwzCefThn4USN1nZfRUA00djI2TxpVxFZCHfJJDe7eJCQ4uqOBUHFzEPSTFB8ctu
-         yn9xvPD59Lh3fY+KZCEyceP+30t3biRL1eA1g8FIzsXhExV4k9+WO+wfjuCxPm7XbUZV
-         j7pA==
-X-Forwarded-Encrypted: i=1; AJvYcCWBRK5o880duHaj0cvfrjNZQaGD/3KJWjJLnlDiKamAVOgb55wl8OEZv9L7LpDR+eSYK2dKe1EIlklScg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8MsOpqj1rbWptmRngqH9cM7Ul4gJ6G1GoCb6xSgqzotTcXQ95
-	f621ktG/UOnVHkDa0ChrWxs/f6WKQWq31WoU0r/FtjiLuk3+C57X2ayvWEZvaQ==
-X-Gm-Gg: AY/fxX43pb+SKW1E+JkFmaVupJWoRW7kvqdsKEhm80sSD+3+RYKcQkFQTgOKDqVMqqq
-	Og6MX+AjkRnW8AecRuevj8rE9D8L9yn7TqgvpnF+NAzv7HIZcDInhwOv61SUquGPWfftTGwJvs7
-	udNwqLxqUySjujOaE73GTc5kJCf7zR5NbFHo3B8E9Z8XabtFnLq1bIm28YMNtr15f8QOdIW7Sor
-	QjtIQ2CpLPHEkIBsg70CMmMVYl1moLex+6qxn8bjM4hawZT3ZxEspGv/J2KWc3RYjPp12oW1Ejt
-	soGKgfangPTI+ZkknUAdNQNEI+6l+cnF9yhrF3NLl0D+dcsJpTuNaBy50vmhR5W6hMisrn6LFFS
-	xSweT+T99w/G4Q0qM/5RrG6pt2BTVcFN+L/dpPydfWd9MqIPHjP/e//KgTpZzzjB/E+pwAfZGZ5
-	3yv/nnAanvwfF/VrDO1b1VSFPldN6c3aMIGHIeKSW3pUHaXco3/IUdJg/oEk0zRtfuT/bolPAF6
-	uY=
-X-Google-Smtp-Source: AGHT+IFWh2JLyJ2LTqt6Bp0sKXAXVL3or5O0tmtQEfLdoCiSv8wpxmTuGniSqmn12VribN+HuF5xGw==
-X-Received: by 2002:a05:6214:16d1:b0:888:804f:3098 with SMTP id 6a1803df08f44-888804f30acmr156982856d6.3.1765844254932;
-        Mon, 15 Dec 2025 16:17:34 -0800 (PST)
-Received: from localhost (bras-base-toroon21-grc-75-184-144-58-243.dsl.bell.ca. [184.144.58.243])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88993b41f86sm62937096d6.3.2025.12.15.16.17.34
+        bh=Sk1yhdZDsbmHyAUXRbfG+BCb5AaoOf6d28kSsthudBo=;
+        b=e8ZA44tgHG54US98fAMnTFsNqi50tQUKVRWnxTjVj3P7c53V7XuO+MKcEzjWyCvkUK
+         DfvBgOqVxmjwnWvrC9n+o+gLjqMOoBvK67/RpU3Qpy6mhPTWF9gETVLvklszKXgTw6Y/
+         bvfvIdNnqeBwr7CvkRGu9Yz3bL2ZjlekFN7EcmhDru9/ocj3ttR8rrQuReihVJ1pnxpL
+         PQv1cbEO+LaqMQY8gSt/Vr8DHuMSgqhmu1eif6Mok0GchCfqrhLeSyh/KY3xWzRh52dT
+         a+aOuzYTXa4HS3SYqxro1uYwzSivfZOi8qUFfr6wThrsjwb+s8vEAi0cDq8V9kz4xpC9
+         sajA==
+X-Forwarded-Encrypted: i=1; AJvYcCXo72/IxmQlrZCJJD5jw0pZ79sYhjSDILCrms536E5ehqbd/NYJonZuYrPPDKKtpSIUQ4loTE4StTB3ow==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyH2uW8MYCQe8E3Epqj24rjD5W9/g9ov3SghywuUDtqMUItT9m2
+	F4vLDkj+7tj2B/7c0waD4uISiURs0h7nLKn6Zp7Man+ZDKTr0Jfgxum3
+X-Gm-Gg: AY/fxX5Q9uMTLvvfcsTjb1RuDaVu9LmALafbXsFk/vcn4/71aVqW4vKAoWghEUOdAOw
+	+z52NZDIoM5ogFGhw7/RZPZd34Ms+pwYzAq9ZgSgsPtBJsNMeCgS7EFNJWdJO8hWVLm2Tid//8+
+	Isc7rnv+YnUxWe9X6GLcFD+JGaYUDrDLO3xTtPVAuE3qddulaFBdaoCTyc+Jm9d7+32+F6dEyXR
+	n/1eOIEsg1PqhYkTJrNBFZZH2OkhIJAzaxUqDZBBxFYyOVyHiQvZEgesDnu8u7Z+LNJTUKdr742
+	FVNnikYd4mAX7+pFmQSco3ruOy96hQUi6vASDydhPG0RHnZPH8X9fiKUyP9NVVfFuCql7BwbaLM
+	Fn+dMJfdwPt7sD6rG1WGA+ewBExZ4pO9UlYkqFNs1jSRlr+YTwvi/5phEU7d5my1PfRA4pgpW9t
+	8eAuNulZzeOzgjIUrG59i+8JcRT5bBk+BeJ0eiWnv7gcg=
+X-Google-Smtp-Source: AGHT+IHmrytMydYNAgs0qRZg7qEjrXkSVHGK3fUWY6ADeu6KzKqLiLcf4Z3v4UGHQ57LoQ8XnYjK1w==
+X-Received: by 2002:a05:7301:f84:b0:2a4:3593:6466 with SMTP id 5a478bee46e88-2ac300f729dmr7381219eec.22.1765844362545;
+        Mon, 15 Dec 2025 16:19:22 -0800 (PST)
+Received: from fedora (c-67-164-59-41.hsd1.ca.comcast.net. [67.164.59.41])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11f2e30491dsm51066947c88.16.2025.12.15.16.19.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Dec 2025 16:17:34 -0800 (PST)
-Date: Mon, 15 Dec 2025 19:18:00 -0500
-From: Richard Acayan <mailingradian@gmail.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	Robert Mader <robert.mader@collabora.com>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Subject: Re: [PATCH v4 1/5] dt-bindings: media: i2c: Add Sony IMX355
-Message-ID: <aUClOOVd7jxBg0yA@rdacayan>
-References: <20251211014846.16602-1-mailingradian@gmail.com>
- <20251211014846.16602-2-mailingradian@gmail.com>
- <fedeaca3-5549-4d57-8f13-f0ac58d1e4d0@kernel.org>
+        Mon, 15 Dec 2025 16:19:21 -0800 (PST)
+Date: Mon, 15 Dec 2025 16:19:16 -0800
+From: "Vishal Moola (Oracle)" <vishal.moola@gmail.com>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux AMDGPU <amd-gfx@lists.freedesktop.org>,
+	Linux DRI Development <dri-devel@lists.freedesktop.org>,
+	Linux Filesystems Development <linux-fsdevel@vger.kernel.org>,
+	Linux Media <linux-media@vger.kernel.org>,
+	linaro-mm-sig@lists.linaro.org, kasan-dev@googlegroups.com,
+	Linux Virtualization <virtualization@lists.linux.dev>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Linux Network Bridge <bridge@lists.linux.dev>,
+	Linux Networking <netdev@vger.kernel.org>,
+	Harry Wentland <harry.wentland@amd.com>,
+	Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Philipp Stanner <phasta@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Nikolay Aleksandrov <razor@blackwall.org>,
+	Ido Schimmel <idosch@nvidia.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Taimur Hassan <Syed.Hassan@amd.com>, Wayne Lin <Wayne.Lin@amd.com>,
+	Alex Hung <alex.hung@amd.com>,
+	Aurabindo Pillai <aurabindo.pillai@amd.com>,
+	Dillon Varone <Dillon.Varone@amd.com>,
+	George Shen <george.shen@amd.com>, Aric Cyr <aric.cyr@amd.com>,
+	Cruise Hung <Cruise.Hung@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Sunil Khatri <sunil.khatri@amd.com>,
+	Dominik Kaszewski <dominik.kaszewski@amd.com>,
+	David Hildenbrand <david@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Max Kellermann <max.kellermann@ionos.com>,
+	"Nysal Jan K.A." <nysal@linux.ibm.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Alexey Skidanov <alexey.skidanov@intel.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	Vitaly Wool <vitaly.wool@konsulko.se>,
+	Harry Yoo <harry.yoo@oracle.com>, Mateusz Guzik <mjguzik@gmail.com>,
+	NeilBrown <neil@brown.name>, Amir Goldstein <amir73il@gmail.com>,
+	Jeff Layton <jlayton@kernel.org>, Ivan Lipski <ivan.lipski@amd.com>,
+	Tao Zhou <tao.zhou1@amd.com>, YiPeng Chai <YiPeng.Chai@amd.com>,
+	Hawking Zhang <Hawking.Zhang@amd.com>,
+	Lyude Paul <lyude@redhat.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Luben Tuikov <luben.tuikov@amd.com>,
+	Matthew Auld <matthew.auld@intel.com>,
+	Roopa Prabhu <roopa@cumulusnetworks.com>,
+	Mao Zhu <zhumao001@208suo.com>,
+	Shaomin Deng <dengshaomin@cdjrlc.com>,
+	Charles Han <hanchunchao@inspur.com>,
+	Jilin Yuan <yuanjilin@cdjrlc.com>,
+	Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
+	George Anthony Vernon <contact@gvernon.com>
+Subject: Re: [PATCH 04/14] mm: vmalloc: Fix up vrealloc_node_align()
+ kernel-doc macro name
+Message-ID: <aUClhBdwQb83vN0o@fedora>
+References: <20251215113903.46555-1-bagasdotme@gmail.com>
+ <20251215113903.46555-5-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -100,30 +160,19 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <fedeaca3-5549-4d57-8f13-f0ac58d1e4d0@kernel.org>
+In-Reply-To: <20251215113903.46555-5-bagasdotme@gmail.com>
 
-On Thu, Dec 11, 2025 at 06:05:28AM +0100, Krzysztof Kozlowski wrote:
-> On 11/12/2025 02:48, Richard Acayan wrote:
-> co> +
-> > +  port:
-> > +    $ref: /schemas/graph.yaml#/$defs/port-base
-> > +    additionalProperties: false
-> > +
-> > +    properties:
-> > +      endpoint:
-> > +        $ref: /schemas/media/video-interfaces.yaml
-> > +        unevaluatedProperties: false
-> > +
-> > +        data-lanes:
-> > +          items:
-> > +            - const: 0
-> > +            - const: 1
-> > +            - const: 2
-> > +            - const: 3
+On Mon, Dec 15, 2025 at 06:38:52PM +0700, Bagas Sanjaya wrote:
+> Sphinx reports kernel-doc warning:
 > 
-> Obviously untested code but another thought: why do you need data-lanes
-> if they are fixed? They are implied by the compatible.
+> WARNING: ./mm/vmalloc.c:4284 expecting prototype for vrealloc_node_align_noprof(). Prototype was for vrealloc_node_align() instead
+> 
+> Fix the macro name in vrealloc_node_align_noprof() kernel-doc comment.
+> 
+> Fixes: 4c5d3365882dbb ("mm/vmalloc: allow to set node and align in vrealloc")
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
 
-Oh, I just added it when mirroring the other endpoint. It can be removed
-from dt-bindings and DTS.
+LGTM.
+Reviewed-by: Vishal Moola (Oracle) <vishal.moola@gmail.com>
 
