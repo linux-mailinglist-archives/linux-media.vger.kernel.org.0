@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-48880-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48881-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3485CC3194
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 14:12:22 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED526CC362A
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 15:00:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 982C930387BC
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 13:09:12 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 4CF023054F74
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 13:58:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF50EFBF6;
-	Tue, 16 Dec 2025 12:59:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EF0B35CBA8;
+	Tue, 16 Dec 2025 13:03:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="DJRRsTNL"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qAmv+Ubn"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B88D33A9D6;
-	Tue, 16 Dec 2025 12:59:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABBDE359F91;
+	Tue, 16 Dec 2025 13:03:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765889946; cv=none; b=dSzeqvVk28IjIxPr8QbqFwgsu7+9Z1jMOq1ID5N5spk3XuW+ZsFJMsvLtJQ66x+eukWhpGyIvdcifNGLphfZIswRzj1LJo5nZ9QSPheO+CPYIRFLtxbEBc/k1ao6XY8bh9+h6uGcr2HuWkAg1cSqh+9IFynZFAHk3NumpKqXWWU=
+	t=1765890208; cv=none; b=uKK96SnoAzOilg9yzKidjJUyjpVMPfFK0H1t0Do/2sAOCcw9P6Y68jvknfHgVVxIG2QINlPOyOO8G9HHafhDyefXCc5xElYdIuktQ2lWVceILdfHwtUOj6949wMprkiFaJJxWUeGQ41lnQWZDYD0sNGDMWlLA/6ZhhIxf/KYTVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765889946; c=relaxed/simple;
-	bh=yrTcNnFBCQMK3F/MZDviRkx47vatTRDrwnbWny2IHY4=;
+	s=arc-20240116; t=1765890208; c=relaxed/simple;
+	bh=eQ49oF/KX6uaLSrKM+BBymFT5uAj0NH8ERq0f2Kq2X8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fibM/YmjJTHBL3mi5HxPsNnSu7ITMX+ewXPlueRvsztY6xOjff5UXQBxSJrkMR8iiD6bL481w+FKZK7SbJwmOhxN9emARejsordAhR1VeyFiGSH2fLyVjJVCIXENrSvTnHCF/g+UqTjmGHBc5k5QrS/js4eFpFb+fVWTrv36fA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=DJRRsTNL; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=XiqZOuiO4+LzSzV8RJoCRC9VzyM47rg5hjUaJKqhMGrah3HzpCjm7uc6GGmjoW82O0FiM8pGYGQJxetEedhm9fCyNrcTAMKHbMf/a6xstdXS/LytNaFbXCPbXefU+QkLlc5Jws0IMEpoafVyxtR6qiLyUE41xfqbwbFz1Azethc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qAmv+Ubn; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 47990594;
-	Tue, 16 Dec 2025 13:58:55 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2F0DA594;
+	Tue, 16 Dec 2025 14:03:17 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1765889935;
-	bh=yrTcNnFBCQMK3F/MZDviRkx47vatTRDrwnbWny2IHY4=;
+	s=mail; t=1765890197;
+	bh=eQ49oF/KX6uaLSrKM+BBymFT5uAj0NH8ERq0f2Kq2X8=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=DJRRsTNLBzsb/UjKmzo0ZXStfLRU7RC3Go5CVdlS5guuNSIEnNXMzfaJz3Ac93r9x
-	 AUnQVil16qgI4g4NWtK43iHrNwx8p1h0jycgQoe2gTg2m7iKcy0qyC2Qp1oq8SOD4I
-	 Ni4ln80lb9TAFRZ5oH0CDkrSAx2JhzzQfbvRT+gs=
-Message-ID: <b483e725-4e3e-45b9-9a20-001fe1c7acf0@ideasonboard.com>
-Date: Tue, 16 Dec 2025 14:58:57 +0200
+	b=qAmv+UbnGK+tBMmAejylSK9i9SsuQeQnxyWKWuqrPuEbV1Bk+IzEHuzGvyhkuy+dc
+	 7UJcRBp+KD/jVqP2TlamMGuBRnCrdnZXC3ShEx38GdYGeb94aAiPP40b2nMuRlaIGN
+	 Zmieqsowa3EP5XHXVEHLe/sCnr+fon/5PU4sCyRI=
+Message-ID: <6e9b6cb5-1b9e-4ab6-821a-fdeea45e1711@ideasonboard.com>
+Date: Tue, 16 Dec 2025 15:03:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -48,8 +48,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 13/15] media: rcar-csi2: Call get_frame_desc to find
- out VC & DT (Gen3)
+Subject: Re: [PATCH v3 14/15] media: rcar-csi2: Add full streams support
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -59,214 +58,201 @@ Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
  Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 References: <20250530-rcar-streams-v3-0-026655df7138@ideasonboard.com>
- <20250530-rcar-streams-v3-13-026655df7138@ideasonboard.com>
- <20250602134926.GB23515@pendragon.ideasonboard.com>
+ <20250530-rcar-streams-v3-14-026655df7138@ideasonboard.com>
+ <20250602135453.GC23515@pendragon.ideasonboard.com>
 From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Content-Language: en-US
-In-Reply-To: <20250602134926.GB23515@pendragon.ideasonboard.com>
+In-Reply-To: <20250602135453.GC23515@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On 02/06/2025 16:49, Laurent Pinchart wrote:
+On 02/06/2025 16:54, Laurent Pinchart wrote:
 > Hi Tomi,
 > 
 > Thank you for the patch.
 > 
-> On Fri, May 30, 2025 at 04:50:42PM +0300, Tomi Valkeinen wrote:
->> Call get_frame_desc to find out VC & DT, for Gen3 platforms, instead of
->> hardcoding the VC routing and deducing the DT based on the mbus format.
+> On Fri, May 30, 2025 at 04:50:43PM +0300, Tomi Valkeinen wrote:
+>> Add the missing pieces to enable full streams support:
 >>
->> If the source subdevice doesn't implement .get_frame_desc, we use a
->> fallback case where we assume there's a single stream with VC = 0 and DT
->> based on the mbus format.
+>> - Add set_routing
+>> - Drop the explicit uses of a single stream, and instead use the streams
+>>   mask.
 >>
 >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 >> ---
->>  drivers/media/platform/renesas/rcar-csi2.c | 113 +++++++++++++++++++----------
->>  1 file changed, 76 insertions(+), 37 deletions(-)
+>>  drivers/media/platform/renesas/rcar-csi2.c | 85 ++++++++++++++++++++++--------
+>>  1 file changed, 63 insertions(+), 22 deletions(-)
 >>
 >> diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
->> index b9f83aae725a..8f708196ef49 100644
+>> index 8f708196ef49..4a73d223229c 100644
 >> --- a/drivers/media/platform/renesas/rcar-csi2.c
 >> +++ b/drivers/media/platform/renesas/rcar-csi2.c
->> @@ -71,10 +71,7 @@ struct rcar_csi2;
->>  #define FLD_REG				0x1c
->>  #define FLD_FLD_NUM(n)			(((n) & 0xff) << 16)
->>  #define FLD_DET_SEL(n)			(((n) & 0x3) << 4)
->> -#define FLD_FLD_EN4			BIT(3)
->> -#define FLD_FLD_EN3			BIT(2)
->> -#define FLD_FLD_EN2			BIT(1)
->> -#define FLD_FLD_EN			BIT(0)
->> +#define FLD_FLD_EN(ch)			BIT(ch)
+>> @@ -694,6 +694,17 @@ static const struct rcar_csi2_format rcar_csi2_formats[] = {
+>>  	},
+>>  };
 >>  
->>  /* Automatic Standby Control */
->>  #define ASTBY_REG			0x20
->> @@ -1066,52 +1063,94 @@ static int rcsi2_calc_mbps(struct rcar_csi2 *priv,
->>  static int rcsi2_start_receiver_gen3(struct rcar_csi2 *priv,
->>  				     struct v4l2_subdev_state *state)
+>> +static const struct v4l2_mbus_framefmt rcar_csi2_default_fmt = {
+>> +	.width		= 1920,
+>> +	.height		= 1080,
+>> +	.code		= MEDIA_BUS_FMT_RGB888_1X24,
+>> +	.colorspace	= V4L2_COLORSPACE_SRGB,
+>> +	.field		= V4L2_FIELD_NONE,
+>> +	.ycbcr_enc	= V4L2_YCBCR_ENC_DEFAULT,
+>> +	.quantization	= V4L2_QUANTIZATION_DEFAULT,
+>> +	.xfer_func	= V4L2_XFER_FUNC_DEFAULT,
+>> +};
+>> +
+>>  static const struct rcar_csi2_format *rcsi2_code_to_fmt(unsigned int code)
 >>  {
->> -	const struct rcar_csi2_format *format;
->> -	u32 phycnt, vcdt = 0, vcdt2 = 0, fld = 0;
->> -	const struct v4l2_mbus_framefmt *fmt;
->> +	u32 phycnt, vcdt = 0, vcdt2 = 0;
->> +	u32 fld = FLD_DET_SEL(1);
->> +	struct v4l2_mbus_frame_desc source_fd;
->> +	struct v4l2_subdev_route *route;
->>  	unsigned int lanes;
->> -	unsigned int i;
->>  	int mbps, ret;
->> +	u8 ch = 0;
->>  
->> -	/* Use the format on the sink pad to compute the receiver config. */
->> -	fmt = v4l2_subdev_state_get_format(state, RCAR_CSI2_SINK, 0);
->> +	ret = v4l2_subdev_call(priv->remote, pad, get_frame_desc,
->> +			       priv->remote_pad, &source_fd);
->> +	if (ret && ret != -ENOIOCTLCMD) {
->> +		return ret;
->> +	} else if (ret == -ENOIOCTLCMD) {
-> 
-> 	if (ret && ret != -ENOIOCTLCMD)
-> 		return ret;
-> 
-> 	if (ret == -ENOIOCTLCMD) {
-
-Yep, that's cleaner.
-
->> +		/* Create a fallback source_fd */
->> +		struct v4l2_mbus_frame_desc *fd = &source_fd;
->> +		const struct rcar_csi2_format *format;
->> +		struct v4l2_mbus_framefmt *fmt;
->>  
->> -	dev_dbg(priv->dev, "Input size (%ux%u%c)\n",
->> -		fmt->width, fmt->height,
->> -		fmt->field == V4L2_FIELD_NONE ? 'p' : 'i');
->> +		fmt = v4l2_subdev_state_get_format(state, RCAR_CSI2_SINK, 0);
->> +		if (!fmt)
->> +			return -EINVAL;
->>  
->> -	/* Code is validated in set_fmt. */
->> -	format = rcsi2_code_to_fmt(fmt->code);
->> -	if (!format)
+>>  	unsigned int i;
+>> @@ -1641,10 +1652,8 @@ static int rcsi2_enable_streams(struct v4l2_subdev *sd,
+>>  				u64 source_streams_mask)
+>>  {
+>>  	struct rcar_csi2 *priv = sd_to_csi2(sd);
+>> -	int ret = 0;
+>> -
+>> -	if (source_streams_mask != 1)
 >> -		return -EINVAL;
->> +		format = rcsi2_code_to_fmt(fmt->code);
->> +		if (!format)
->> +			return -EINVAL;
+>> +	u64 sink_streams;
+>> +	int ret;
 >>  
->> -	/*
->> -	 * Enable all supported CSI-2 channels with virtual channel and
->> -	 * data type matching.
->> -	 *
->> -	 * NOTE: It's not possible to get individual datatype for each
->> -	 *       source virtual channel. Once this is possible in V4L2
->> -	 *       it should be used here.
->> -	 */
->> -	for (i = 0; i < priv->info->num_channels; i++) {
->> +		memset(fd, 0, sizeof(*fd));
->> +
->> +		fd->num_entries = 1;
->> +		fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
->> +		fd->entry[0].stream = 0;
->> +		fd->entry[0].pixelcode = fmt->code;
->> +		fd->entry[0].bus.csi2.vc = 0;
->> +		fd->entry[0].bus.csi2.dt = format->datatype;
->> +	}
->> +
->> +	for_each_active_route(&state->routing, route) {
->> +		struct v4l2_mbus_frame_desc_entry *source_entry = NULL;
-> 
-> const
-
-Yep.
-
->> +		const struct v4l2_mbus_framefmt *fmt;
->> +		const struct rcar_csi2_format *format;
->> +		unsigned int i;
->> +		u8 vc, dt;
->>  		u32 vcdt_part;
+>>  	if (!priv->remote)
+>>  		return -ENODEV;
+>> @@ -1655,8 +1664,13 @@ static int rcsi2_enable_streams(struct v4l2_subdev *sd,
+>>  			return ret;
+>>  	}
 >>  
->> -		if (priv->channel_vc[i] < 0)
->> -			continue;
->> +		for (i = 0; i < source_fd.num_entries; i++) {
->> +			if (source_fd.entry[i].stream == route->sink_stream) {
-> 
-> No need to check the pad ?
-
-We only have a single sink pad in CSI-2.
-
->> +				source_entry = &source_fd.entry[i];
->> +				break;
->> +			}
->> +		}
+>> +	sink_streams = v4l2_subdev_state_xlate_streams(state,
+>> +						       RCAR_CSI2_SOURCE_VC0,
+>> +						       RCAR_CSI2_SINK,
+>> +						       &source_streams_mask);
 >> +
->> +		if (!source_entry) {
->> +			dev_err(priv->dev,
->> +				"Failed to find stream from source frame desc\n");
->> +			return -EPIPE;
->> +		}
+>>  	ret = v4l2_subdev_enable_streams(priv->remote, priv->remote_pad,
+>> -					 BIT_ULL(0));
+>> +					 sink_streams);
+>>  	if (ret) {
+>>  		rcsi2_stop(priv);
+>>  		return ret;
+>> @@ -1672,10 +1686,7 @@ static int rcsi2_disable_streams(struct v4l2_subdev *sd,
+>>  				 u32 source_pad, u64 source_streams_mask)
+>>  {
+>>  	struct rcar_csi2 *priv = sd_to_csi2(sd);
+>> -	int ret = 0;
+>> -
+>> -	if (source_streams_mask != 1)
+>> -		return -EINVAL;
+>> +	u64 sink_streams;
 >>  
->> -		vcdt_part = VCDT_SEL_VC(priv->channel_vc[i]) | VCDT_VCDTN_EN |
->> -			VCDT_SEL_DTN_ON | VCDT_SEL_DT(format->datatype);
->> +		vc = source_entry->bus.csi2.vc;
->> +		dt = source_entry->bus.csi2.dt;
->> +
->> +		vcdt_part = VCDT_SEL_VC(vc) | VCDT_VCDTN_EN |
->> +			VCDT_SEL_DTN_ON | VCDT_SEL_DT(dt);
-> 
-> I would drop the vc and dt variables and write
-> 
-> 		vcdt_part = VCDT_SEL_VC(source_entry->bus.csi2.vc)
-> 			  | VCDT_VCDTN_EN | VCDT_SEL_DTN_ON
-> 			  | VCDT_SEL_DT(source_entry->bus.csi2.dt);
-
-Yes, I think this is fine too.
-
+>>  	if (!priv->remote)
+>>  		return -ENODEV;
+>> @@ -1683,11 +1694,17 @@ static int rcsi2_disable_streams(struct v4l2_subdev *sd,
+>>  	if (priv->stream_count == 1)
+>>  		rcsi2_stop(priv);
 >>  
->>  		/* Store in correct reg and offset. */
->> -		if (i < 2)
->> -			vcdt |= vcdt_part << ((i % 2) * 16);
->> +		if (ch < 2)
->> +			vcdt |= vcdt_part << ((ch % 2) * 16);
->>  		else
->> -			vcdt2 |= vcdt_part << ((i % 2) * 16);
->> -	}
->> +			vcdt2 |= vcdt_part << ((ch % 2) * 16);
+>> -	v4l2_subdev_disable_streams(priv->remote, priv->remote_pad, BIT_ULL(0));
+>> +	sink_streams = v4l2_subdev_state_xlate_streams(state,
+>> +						       RCAR_CSI2_SOURCE_VC0,
+>> +						       RCAR_CSI2_SINK,
+>> +						       &source_streams_mask);
 >> +
->> +		fmt = v4l2_subdev_state_get_format(state, RCAR_CSI2_SINK,
->> +						   route->sink_stream);
->> +		if (!fmt)
->> +			return -EINVAL;
->> +
->> +		dev_dbg(priv->dev, "Input size (%ux%u%c)\n",
->> +			fmt->width, fmt->height,
->> +			fmt->field == V4L2_FIELD_NONE ? 'p' : 'i');
+>> +	v4l2_subdev_disable_streams(priv->remote, priv->remote_pad,
+>> +				    sink_streams);
 >>  
->> -	if (fmt->field == V4L2_FIELD_ALTERNATE)
->> -		fld = FLD_DET_SEL(1) | FLD_FLD_EN4 | FLD_FLD_EN3 | FLD_FLD_EN2
->> -			| FLD_FLD_EN;
->> +		/* Code is validated in set_fmt. */
+>>  	priv->stream_count -= 1;
+>>  
+>> -	return ret;
+>> +	return 0;
 > 
-> Then why don't you drop the !format check ?
+> This seems to belong to a previous patch.
 
-It's a copy of the existing code. I've been reluctant to change gen3
-code, as I can't test. But I can't really see how this could be wrong,
-so I'll just drop the check here.
+Yep. Although that patch would be before this series =). I'll clean that
+up in an earlier one in this series.
+
+>>  }
+>>  
+>>  static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
+>> @@ -1720,6 +1737,40 @@ static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
+>>  	return 0;
+>>  }
+>>  
+>> +static int rcsi2_set_routing(struct v4l2_subdev *sd,
+>> +			     struct v4l2_subdev_state *state,
+>> +			     enum v4l2_subdev_format_whence which,
+>> +			     struct v4l2_subdev_krouting *routing)
+>> +{
+>> +	struct rcar_csi2 *priv = sd_to_csi2(sd);
+>> +	int ret;
+>> +
+>> +	if (!priv->info->use_isp)
+>> +		return -ENOTTY;
+>> +
+>> +	if (routing->num_routes > V4L2_FRAME_DESC_ENTRY_MAX)
+>> +		return -EINVAL;
+> 
+> A comment to explain this check would be nice.
+
+This is no longer needed, as the framework checks it.
+
+>> +
+>> +	if (priv->info->use_isp) {
+> 
+> You return an error above when this condition is false.
+
+Yes, no idea why (probably some early gen4-only code). I'll drop the
+earlier check.
 
  Tomi
 
->> +		format = rcsi2_code_to_fmt(fmt->code);
->> +		if (!format)
->> +			return -EINVAL;
->> +
->> +		if (fmt->field == V4L2_FIELD_ALTERNATE)
->> +			fld |= FLD_FLD_EN(ch);
->> +
->> +		ch++;
+>> +		ret = v4l2_subdev_routing_validate(sd, routing,
+>> +						   V4L2_SUBDEV_ROUTING_ONLY_1_TO_1);
+>> +	} else {
+>> +		ret = v4l2_subdev_routing_validate(sd, routing,
+>> +						   V4L2_SUBDEV_ROUTING_ONLY_1_TO_1 |
+>> +						   V4L2_SUBDEV_ROUTING_NO_SOURCE_MULTIPLEXING);
 >> +	}
+>> +
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	ret = v4l2_subdev_set_routing_with_fmt(sd, state, routing,
+>> +					       &rcar_csi2_default_fmt);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>>  static int rcsi2_get_frame_desc_fallback(struct v4l2_subdev *sd,
+>>  					 unsigned int pad,
+>>  					 struct v4l2_mbus_frame_desc *fd)
+>> @@ -1781,6 +1832,7 @@ static const struct v4l2_subdev_pad_ops rcar_csi2_pad_ops = {
+>>  	.set_fmt = rcsi2_set_pad_format,
+>>  	.get_fmt = v4l2_subdev_get_fmt,
 >>  
->>  	/*
->>  	 * Get the number of active data lanes inspecting the remote mbus
+>> +	.set_routing = rcsi2_set_routing,
+>>  	.get_frame_desc = rcsi2_get_frame_desc,
+>>  };
+>>  
+>> @@ -1801,17 +1853,6 @@ static int rcsi2_init_state(struct v4l2_subdev *sd,
+>>  		},
+>>  	};
+>>  
+>> -	static const struct v4l2_mbus_framefmt rcar_csi2_default_fmt = {
+>> -		.width		= 1920,
+>> -		.height		= 1080,
+>> -		.code		= MEDIA_BUS_FMT_RGB888_1X24,
+>> -		.colorspace	= V4L2_COLORSPACE_SRGB,
+>> -		.field		= V4L2_FIELD_NONE,
+>> -		.ycbcr_enc	= V4L2_YCBCR_ENC_DEFAULT,
+>> -		.quantization	= V4L2_QUANTIZATION_DEFAULT,
+>> -		.xfer_func	= V4L2_XFER_FUNC_DEFAULT,
+>> -	};
+>> -
+>>  	static const struct v4l2_subdev_krouting routing = {
+>>  		.num_routes = ARRAY_SIZE(routes),
+>>  		.routes = routes,
 > 
 
 
