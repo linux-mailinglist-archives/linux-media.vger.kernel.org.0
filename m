@@ -1,400 +1,313 @@
-Return-Path: <linux-media+bounces-48850-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48851-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFD00CC12F0
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 07:50:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92878CC1393
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 08:00:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 324AA30557AD
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 06:45:51 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 018793022AA4
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 07:00:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F6AF2C21D8;
-	Tue, 16 Dec 2025 06:40:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3298E336EFB;
+	Tue, 16 Dec 2025 07:00:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tns92DqV"
+	dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b="BiuCfwaV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazon11021106.outbound.protection.outlook.com [40.107.57.106])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B0D335560
-	for <linux-media@vger.kernel.org>; Tue, 16 Dec 2025 06:40:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765867214; cv=none; b=QUxBJu5YmLgim0e09WXthblq2dji3Olz0qks+KnJchi83ylhdjSzFVAgtukKeq3McvaWEg+/vp1HXLiEkELeJm0PFRmdkNEclhKQPUfksWRFhjFObj6kqhjzt5WzykV1e2G5NEvCLzZHqDYhcqQCwP0XKE5ICG3OCM6At9CBEk8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765867214; c=relaxed/simple;
-	bh=5cCqxAsIb+pe2OfGUOMv+i65IXRjCVwzrlJiPOfhvFc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=uQLwS3wrrICLqgeQ+7v1BJWpbiTpNVfsdf2oFjSb3U5stGZxnnDfLOKQod4ijhjYEkdeajnVHCANuHfgca/pMl60HaB+Hdo7EM2UG1R9EZ7bm1OCHx6lH+2pUgxzHyLImHqep5ZpOF64GOkg9Bt3Y3Ee7y12WJ2/BRlZfWE3d7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tns92DqV; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7bb710d1d1dso6298916b3a.1
-        for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 22:40:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765867205; x=1766472005; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vg+4fJFzdGn98FzAnl0v5lB7PczGqqfyNaIVae6fwYU=;
-        b=Tns92DqV0v1L7O4KNzOcrEz7ifqcnyF+nL95tlETlrL5NC8TpH1RbM3KZX5E/zEfvL
-         fq5OgrBUl/lQv1RBk2pqizshodvNgt3FrF8bObLlDnRpr67c18rVU61WcJHe2aoViwwa
-         j530WSmEV1oFPsP6pJ0NfHIIuLUxBdMBXY9bRUQo4TMWjCKq+VA3/ry502NTlKmXEwUj
-         1lA8keJPTROF/wOxe7K6CUDgge893sfCneENIHZLAWuz2hO/Ma/wbO2GHWSB9Ogn3ARQ
-         6UnjwNAQHqXCrk9/GPcP7m+aTrM+lZUkBAooRG+aIX+6XgveZ2UCHJ8jbSVbeBXBzc1R
-         CbCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765867205; x=1766472005;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Vg+4fJFzdGn98FzAnl0v5lB7PczGqqfyNaIVae6fwYU=;
-        b=qZ2um0lL9p5TguCjRAeMCQ+IIFRStWi74tsqYRxlpa+dPyG06R9gdyi7C3QyaU0M4p
-         jEbt8NxUy01nOKtOU+NH4vdQKmyExnCs0ZCkhbiMv51m8BNQM0XzhNDWiS3G6aiK8BxJ
-         DirqKq6lB6QwMTw9Apu30yc9cdYC7krTqpE7KX3GaOBaLqQyclze9Dau6dbp0mpveLYD
-         IXImgMTMb+zWti5PkjbVyaeFU9oyivhQpE35K2F1YVxidPvpVvyoo5cCiZKuZ901zwGT
-         i2uxS1IstCCaFvPTMWlvwSzdXXfPRO83ibcTwRXra86l8sFjhT7RkqK+rgadV5EokS1K
-         AOug==
-X-Gm-Message-State: AOJu0YwdLIaMJ7KIeUKJHUcus3d9MDLNKT/Mj0fMjRHgNsIekaYwowd+
-	u/TlhwWFXuUGZEjsqvmqZVqXEtPcAFwXylSnwZ1JYfB4VLtVqYjuUAST
-X-Gm-Gg: AY/fxX7pwq3Oii1AFehKFDtd5zq54zKcm/EVo04z+vJNt4aVrEu4qQitNS7am24gD+5
-	Bk6gR1+fEz/En+m0MOGUTwAjxSTkpWOsmfXEJNne2aFca8opDwQynBdlTWDEJh/dTP6usRfYo69
-	7/jdJXMzrisn78P68uCngynyuzm4RvWZIF6mG7XC8SzgIBAKUBP33wsESVkuARe1PWLmRf8ntT9
-	NR7w3c9djPhnpEVl1ZihNkSkvkGib+bGLbz+Fy3g6/AzqP/1zK8Xu0IFlQ0v3SEg0QM7BK7eTZc
-	lMuTbm0aBGHgknfrkvJTnPhR4XaI1A/ugh4sw5ty2RGRTjQdymrsriI2AYAtf8Cn/gF+spoCIwU
-	sYoJEsfo4XU4IDeb1Zho7l0u7nh7KdxeiPDvph48yk+f+rBI1XPz3gdcQlXHOAJh/ZMNX2yg9+N
-	+gsFsmn1/uh4+kPesM7s+n
-X-Google-Smtp-Source: AGHT+IFUe+Cj7o/VwampK5l2braADbi/l+h05PjVtnGg9s2uaqhmXbwcPzsvzvSt/zsFVsg1Oslm+A==
-X-Received: by 2002:a05:6a00:138e:b0:7f7:612e:461e with SMTP id d2e1a72fcca58-7f7612e46e6mr11323604b3a.57.1765867205166;
-        Mon, 15 Dec 2025 22:40:05 -0800 (PST)
-Received: from xiao.mioffice.cn ([43.224.245.230])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7f634c229b9sm11325856b3a.43.2025.12.15.22.40.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Dec 2025 22:40:04 -0800 (PST)
-From: Xiang Gao <gxxa03070307@gmail.com>
-To: sumit.semwal@linaro.org,
-	christian.koenig@amd.com,
-	rostedt@goodmis.org,
-	mhiramat@kernel.org
-Cc: linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	mathieu.desnoyers@efficios.com,
-	dhowells@redhat.com,
-	kuba@kernel.org,
-	brauner@kernel.org,
-	akpm@linux-foundation.org,
-	linux-trace-kernel@vger.kernel.org,
-	gaoxiang17 <gaoxiang17@xiaomi.com>
-Subject: [PATCH v6] dma-buf: add some tracepoints to debug.
-Date: Tue, 16 Dec 2025 14:39:52 +0800
-Message-Id: <20251216063952.516364-1-gxxa03070307@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED5933710F;
+	Tue, 16 Dec 2025 07:00:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.57.106
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765868429; cv=fail; b=WwbxaoKsLJnM8lzLVlVW1MQ8ntKCvegCJZqWdPTIlaT/SE+4tkW+PbCNh16vZ5RvbYCtoPpZ1YXjtRvf9NTtbuLYY8UgAnz95rW9TlSFUa9nsFktdZNkeWy/CrmQUCqemE4zmhyO1OmKNe+psneiA5uNi4enD/mRO7b3cecTpfE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765868429; c=relaxed/simple;
+	bh=7Kq4ETcfO8ggRNBJfKb8X4lbrDTEolLPkScxUBkAgcg=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=IJh0Mng/AZLNl5dSopsA6QuuMwLZdgOs978XrWefxEIXNul9sJPRI04lfnQQylZIFbzfJgxFl+ARBHu3aU2T8s8IREydt5YHFDj1qNdIzAMfLEFCBKPqWaDC7x6Bv3vlYzS8ZhtLUGTdBae1M2v7UXF0Olqy6HVB9A4GfsiUsxM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b=BiuCfwaV; arc=fail smtp.client-ip=40.107.57.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siliconsignals.io
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qx0hfU7K1ktZ4mWuQLWYMi4quSzrGidAuIlEFsFuMTMnqIm9NmoiIYsnVatj+UCcMnZy7m1iLT2+xWEaIMkJAxzoa3PUadgVfKVqL4D3EUXpLvwrYh3z76eYPImxWv/WvmW0oE69d5buz9bNiXXo8OFRgsasCdc3kB2DHhM4w74U0OyEDhA+URkUemnOP2ddpwNoj8A20PY6HYXK+zcAmkzg4P+uIWJu9EIMni6ak5/Oe7LN18aTt5CUsHxDM++R+qvTfvfyL6aOiUZYof+8pcWuVO2iLrFAPp+X4YQ4yZyewrHPGv1NiplIGtGJ2BEY7nh7KM71K2TMkyiyJtfkrg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7J8bvJmbbVtYe2xD9QMDsjZvrb5kGsqn5A4qCgd/F74=;
+ b=EvKilsZ41WsgP0M81Y2Ics+wxbaU0oWhFPdUw5RPMzl1AQPyr2ut7ZdHCWl7pG7iCiyCGuygxVr3r/QYgWgH/F/HBVnkgoIwwANs5fvCHn56kPj0JH8lMfEZ9DVbC4aWaaEGya97D9Uw749aquy7Oj7cM7DEazlxVdoEBXX+MdrIZQX75YHfeAC7OKxZDRgABxqqVSytC6HYhfZPi2yuLpNcOnQbeU47hzjdvjCZThLHBrZVVKsqi+vdWMfxbtP2AGuqEacnPdpoNKSfHspN7lqrc08lumdG/y5DTVIjDPQoUV5L1183hhOTBU5+3GTil1649NFyNx7UqfVv0+k1/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
+ header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siliconsignals.io;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7J8bvJmbbVtYe2xD9QMDsjZvrb5kGsqn5A4qCgd/F74=;
+ b=BiuCfwaVSN33GfyHchxd6SwH5z/jU2TgIS4QWTmQxfH2bqqj7RxzwmFVlTpBO6ZGszq433Duz77CEOj+CQ05MlEIhNJM1+2NGtI8thbClFZZsldtCgNA2fGYCQ9I6vGqHeaXlnSbrmvhFzwBK+tAjf/PBbfNpm2jlusLJXib2gF8CU3/gJwZX6eiOdmUNtxbuwsbPfJC5SfVW9hX5CdKO7rWlDHQ1i3S6J1/SPpmUI5DPRNuz9JYjjS904FfWAEVXlc548ZEivUxRXaVjQouIx0UiXtnqLcNZ1aJ3luErI5kg+7DIRXzDcI6+h/4InzssjM1jv7T3ic7qqCUgcJMIw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siliconsignals.io;
+Received: from PN0P287MB2019.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:1b8::9)
+ by PN2P287MB2109.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:1c6::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.13; Tue, 16 Dec
+ 2025 07:00:20 +0000
+Received: from PN0P287MB2019.INDP287.PROD.OUTLOOK.COM
+ ([fe80::ebd8:538d:c705:8432]) by PN0P287MB2019.INDP287.PROD.OUTLOOK.COM
+ ([fe80::ebd8:538d:c705:8432%7]) with mapi id 15.20.9412.011; Tue, 16 Dec 2025
+ 07:00:20 +0000
+From: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
+To: robh@kernel.org,
+	krzk+dt@kernel.org,
+	sakari.ailus@linux.intel.com
+Cc: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
+	Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	=?UTF-8?q?Andr=C3=A9=20Apitzsch?= <git@apitzsch.eu>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Dongcheng Yan <dongcheng.yan@intel.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Jingjing Xiong <jingjing.xiong@intel.com>,
+	Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v5 0/2] media: i2c: Add os05b10 camera sensor driver
+Date: Tue, 16 Dec 2025 12:29:48 +0530
+Message-Id: <20251216065956.13604-1-himanshu.bhavani@siliconsignals.io>
 X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: PN2PR01CA0186.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:e8::13) To PN0P287MB2019.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:1b8::9)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PN0P287MB2019:EE_|PN2P287MB2109:EE_
+X-MS-Office365-Filtering-Correlation-Id: ed19595e-4cb3-4ac3-9ca9-08de3c70c6ee
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|7416014|366016|376014|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?XZWpTvJDAQIqrYKhVGeMFZHgToG5NB3saeRCY8I5xfdofAG6mTfA7OjSsvhJ?=
+ =?us-ascii?Q?gUDdtM8fV9NCWWBYV7zpUeC8ghlvcfLTT2Ai82AVu+V1C1u+Z7HDuE9BuiCj?=
+ =?us-ascii?Q?YMleDJLHjTAKhCOmLx3WaU2Rg12ZcECgPwkbGKddng3544t9vuYrf4OdIPMG?=
+ =?us-ascii?Q?FiTY9H63etBi6o7zVCAFyxGWXcw0vT+6Qrc9y33+65YfO1RW90MjGF5D+2OP?=
+ =?us-ascii?Q?syqWvdoUg0kpTNA7Ro5lDDOdUYMP2ANZQxBuYGnutlvCxre5/Ktm26U13d8T?=
+ =?us-ascii?Q?+Yl+Iv9Fw4z0PvGXJ8NN1Z+1cVhZXWI4IfvS/cY/sVR9I4gxZ9l9BPAzr1dk?=
+ =?us-ascii?Q?9dzT+wkYzZDw0AHhrAsgVIj1/htLXUaGj3KKl5dYJEqYfcZu/x8WakioGdJS?=
+ =?us-ascii?Q?c1w3OFADn92MB3TZHU7RDqvT+pIMBvs3Ou4rrT4rt/uHAUW8U17OPk6c2+Pl?=
+ =?us-ascii?Q?IYkvE5+IBB0CwqDaTb8mNzGbi5vVXYo6OrL8ujbrj+ulSo+8Hjs5aZkS8CmR?=
+ =?us-ascii?Q?Pl3FBEqFzhknbK6ZDTQ2vUFVox5uTKkkFd7DaoLmoA4JsE3D2UAhq0K2weyA?=
+ =?us-ascii?Q?v5ECl8+b/076B6VyhlkNNqhvIeOO/S0iihrrvn6vu8+qrnYXedTcr6wTCIl5?=
+ =?us-ascii?Q?18ImRK8G0PUURYDOoyALrObszbZV1aFXLQ2Vx6gzH+++lfacYgbfH3MC0Q0J?=
+ =?us-ascii?Q?98MtqbtWdOjYKN4fAxr7cyJBgiyuSO4bKI6/ISYp/a+c/HcSHSeUt5g3Q2Y8?=
+ =?us-ascii?Q?esoxdtZO6Sk8O0Za7Kk1STqXYJSLhS9ZH5EX7YQzk8C0KremQY3XZWoBjRRF?=
+ =?us-ascii?Q?BnHa34RhWvJsOPuhWPnk4v7aPnRI2tdj0izkEHSWGuSMhZ9api7oHUdVjjp7?=
+ =?us-ascii?Q?skSVx2Wwf/qXKfUrlgbg+IQ0+rObyJehSEkkckIGyfqepB3sPXGc/NvgfijY?=
+ =?us-ascii?Q?nE7vLOgv/DcRk4ityQA6ZzV+xwQ4N5GStiyo3FC9+aZ+8Z0NgzJQkAxGm4kK?=
+ =?us-ascii?Q?0BGAKttF0XYj5N23DuXs57MAHwfz0FFC/aRDRPwtIgpoYkxxFHZsiN++bieL?=
+ =?us-ascii?Q?9py4cApL7HTEQ8AfoxjuCKPU9aK9z5FzAxvdn0fiX+NPho5DfKs8IPMV+9tj?=
+ =?us-ascii?Q?txB9tHALZ3QriIY9BAUgOixpEGOeAgW5z7jF5k3ML3whyklPnVDsc2FguqJd?=
+ =?us-ascii?Q?dd2n+ZgZEIKw9sw2zBik/a2GTDEe+nca62BGwQmlew/Qm7Y0HkO/HeoB9vCN?=
+ =?us-ascii?Q?M3Q7bD/NnWvIrYbmdFJKwrN7mGW/KgV/emXpaO83EunZgdKT0sedG7snilC8?=
+ =?us-ascii?Q?boBUmdZ8+uqlixZ3dkuIBExJ5HAluiIV1B6oMUg0wqmSDDPWju/QOdWqbr6l?=
+ =?us-ascii?Q?BmGp2102ahicioyT8RMEHRsta8YXk7pwAH1BKeBuErh4x4FugN/LwFZUrLnH?=
+ =?us-ascii?Q?R9+4BnFHaDAKyalEgUm4wAT0w+WT3HwrF6LBVLXFQOiG660fTvDaxkZR4BIn?=
+ =?us-ascii?Q?qmOUrRcRdac5UF6fnR12kLI4/GuFnU8JHUyT?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN0P287MB2019.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(52116014)(7416014)(366016)(376014)(1800799024)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?udS7zGtFD6jlEen4ySPtt7mMzZuOtC9NyLoRD2Gj9jioTFaDCaEc9PT0vcHP?=
+ =?us-ascii?Q?l2Jhk8deejqbH/ZgGxMqgQXoiouJoKiNxc/0ux66vaduu5n6ToWZStlf/rZi?=
+ =?us-ascii?Q?ICM6AsUQ3YrPZEWQCQIwe0HJ05RlG2cW9WvFAEZwyYKWR4zu9gWIfb/1qjIy?=
+ =?us-ascii?Q?+eSt3aWnj4HLbFdl7SYN/UPtvepBkYT7l5vrMA7f3/RZxio8+l8IbZu3lUZM?=
+ =?us-ascii?Q?vMacENEFKfyuektsiEwOuF0Vkz+vyBHMfZT67hXHK+jVNd8j5adPvaUsiTFa?=
+ =?us-ascii?Q?7/x1KZSY24VuaLvkxBnqYHny9JC47E9bLhGOynqlod1clwXrLe053gduAH2n?=
+ =?us-ascii?Q?E/s/ZV1yXslsnCgfuqmH1Dw00G0CZGQ1dkqZ1dAbVNcs4QS3Nu5/XRO/PrFi?=
+ =?us-ascii?Q?3VoTMpNwpQtLM5RC0y0yD0F7/2KKD1ky14cgulDfI4M5BUGxNwbdksi+X6Jx?=
+ =?us-ascii?Q?aFzlM2CSFAv/DYCsJDH4GPqrf/MkoSx9JKCSc9S23CsoBBaCF3MRCkVRsV/U?=
+ =?us-ascii?Q?WT8X5GmFefQdsN1pO9tsXC6fRkXSl0GjHVBa+7OSyTZKB/iLwg54qHyLO18A?=
+ =?us-ascii?Q?ZRil0/3RCyHKoPpNlIh2ZBqtpE4WJ7YcE8Uno2Cq1RyN5tDio6iD1lH5HDLP?=
+ =?us-ascii?Q?fC/VEj/cLkZM5ZgRRhd/6thBThaIMExc9BxfxpJuGbcST4FVxUdumoF6hhbW?=
+ =?us-ascii?Q?ez2JdGSzF6i3gcPpIhGPl4zGsNr17XQbMgbN9Aq3z9fYF2rq3b9GMl1pW0Sh?=
+ =?us-ascii?Q?aSCG5jEBQ+84daOwHEyUhPZD7iRR+PyTt2kZKBUeb9R7oqap3gz8mNyVTLXb?=
+ =?us-ascii?Q?Cxqdr72u1NECNCHZS4+qN1/fhsrL6EjJyKNZMZHYcaMPm5lvU22krnsuks60?=
+ =?us-ascii?Q?UhZ4ICMHgNjTbhVKuTuRCbcS+J+5amHwW2wUvWmHwDL3pupPR7rHIPHSMfVS?=
+ =?us-ascii?Q?1NehXx2rPuDOtWsqic6WogaI22C8ICwD7sRiPOi69Ykad8L2gM7MuysmmfV7?=
+ =?us-ascii?Q?4nfOpDjGTI+iFT++Kfn7Ah0KInicgVeI/0wzKZErqq+rOuLveiTIhTsMa/0E?=
+ =?us-ascii?Q?incpVyVXxul0ngw5v6PwV+wYLOmo+s7uaWr4YRliJquCNVSDL9vZI9dH4F1h?=
+ =?us-ascii?Q?dCO0Xl8FWZ0/ik9Xmg8MmRj8B7liCSPpjNpplHUflHi0KbO6qZ8AtsmQoXC5?=
+ =?us-ascii?Q?vY6qCVY0toOjZHgDoPmIambNr9ST5b9EbrU5CB8jxobs3ky13hNlzqXgAt7J?=
+ =?us-ascii?Q?K5QtrDN1baBQORXS7U5qKZU4jcTBHJh2Sx7lMVWGl8zbkiajRG4w/gqZ8bED?=
+ =?us-ascii?Q?/9eU9D10VwpegbPvoOqNabX2U6Y3pV6QS+K+4oSxyO50JvbLPDB7byYHGmf1?=
+ =?us-ascii?Q?SLZiSBAY79gOVyWnehrEf2LIoSum+GRwFcpO21FWRdrpMfQKAiJbv+BBjuMk?=
+ =?us-ascii?Q?h4XtKauk94hv/04aS2D8+Zjmv56Sb1Vgm1440C750TgtSk4v8JTTM+rmOxUf?=
+ =?us-ascii?Q?gRU17V/JP73u6TG6Dmj2968I1phRP6/bOFSLFl7mN993yED0TpuTdl9kVxpt?=
+ =?us-ascii?Q?flaEZ7sgg9dmkiWXVtkASN/dpNHeem5uflr5NTacFXg6ySHiY4yLranT+1Tg?=
+ =?us-ascii?Q?f8rq/tlxK80OKImkbIFc5+I=3D?=
+X-OriginatorOrg: siliconsignals.io
+X-MS-Exchange-CrossTenant-Network-Message-Id: ed19595e-4cb3-4ac3-9ca9-08de3c70c6ee
+X-MS-Exchange-CrossTenant-AuthSource: PN0P287MB2019.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2025 07:00:20.6689
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ptuoogp3+GReq4F6lyJfCYrRGEELkLgJ9aYNFdJHkaNmbFT1oHy7wg4lHwp4HD+x2zFolMpHgeUlVaLC5y8ctLUMGNG6XfXVw28cEZO5GoVJkwPfmg7IfAE6AoccA2Nr
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN2P287MB2109
 
-From: gaoxiang17 <gaoxiang17@xiaomi.com>
+The Omnivision OS05B10 is a 1/2.78-Inch CMOS image sensor with an
+active array size of 2592 x 1944.
 
-Since we can only inspect dmabuf by iterating over process FDs or the
-dmabuf_list, we need to add our own tracepoints to track its status in
-real time in production.
+The following features are supported:
+- Manual exposure an gain control support.
+- vblank/hblank control support.
+- Supported resolution: 2592 x 1944 @ 60fps (SBGGR10).
 
-For example:
-   binder:3016_1-3102    [006] ...1.   255.126521: dma_buf_export: exp_name=qcom,system size=12685312 ino=2738
-   binder:3016_1-3102    [006] ...1.   255.126528: dma_buf_fd: exp_name=qcom,system size=12685312 ino=2738 fd=8
-   binder:3016_1-3102    [006] ...1.   255.126642: dma_buf_mmap_internal: exp_name=qcom,system size=28672 ino=2739
-     kworker/6:1-86      [006] ...1.   255.127194: dma_buf_put: exp_name=qcom,system size=12685312 ino=2738
-    RenderThread-9293    [006] ...1.   316.618179: dma_buf_get: exp_name=qcom,system size=12771328 ino=2762 fd=176
-    RenderThread-9293    [006] ...1.   316.618195: dma_buf_dynamic_attach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
-    RenderThread-9293    [006] ...1.   318.878220: dma_buf_detach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
+The driver is tested on mainline branch v6.17 on IMX8MP Verdin Toradex.
 
-Signed-off-by: Xiang Gao <gaoxiang17@xiaomi.com>
----
- drivers/dma-buf/dma-buf.c      |  42 ++++++++-
- include/trace/events/dma_buf.h | 154 +++++++++++++++++++++++++++++++++
- 2 files changed, 195 insertions(+), 1 deletion(-)
- create mode 100644 include/trace/events/dma_buf.h
+v4l2-compliance 1.26.1-5142, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 4aee01a02792 2023-12-12 21:40:38
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 2bcf9ceca997..831973de76c4 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -35,6 +35,25 @@
- 
- #include "dma-buf-sysfs-stats.h"
- 
-+#define CREATE_TRACE_POINTS
-+#include <trace/events/dma_buf.h>
-+
-+/*
-+ * dmabuf->name must be accessed with holding dmabuf->name_lock.
-+ * we need to take the lock around the tracepoint call itself where
-+ * it is called in the code.
-+ *
-+ * Note: FUNC##_enabled() is a static branch that will only
-+ *       be set when the trace event is enabled.
-+ */
-+#define DMA_BUF_TRACE(FUNC, ...)                  \
-+    do {                                          \
-+        if (FUNC##_enabled()) {                   \
-+            guard(spinlock)(&dmabuf->name_lock); \
-+            FUNC(__VA_ARGS__);                    \
-+        }                                         \
-+    } while (0)
-+
- static inline int is_dma_buf_file(struct file *);
- 
- static DEFINE_MUTEX(dmabuf_list_mutex);
-@@ -220,6 +239,8 @@ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
- 	    dmabuf->size >> PAGE_SHIFT)
- 		return -EINVAL;
- 
-+	DMA_BUF_TRACE(trace_dma_buf_mmap_internal, dmabuf);
-+
- 	return dmabuf->ops->mmap(dmabuf, vma);
- }
- 
-@@ -745,6 +766,8 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
- 
- 	__dma_buf_list_add(dmabuf);
- 
-+	DMA_BUF_TRACE(trace_dma_buf_export, dmabuf);
-+
- 	return dmabuf;
- 
- err_dmabuf:
-@@ -779,6 +802,8 @@ int dma_buf_fd(struct dma_buf *dmabuf, int flags)
- 
- 	fd_install(fd, dmabuf->file);
- 
-+	DMA_BUF_TRACE(trace_dma_buf_fd, dmabuf, fd);
-+
- 	return fd;
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_fd, "DMA_BUF");
-@@ -794,6 +819,7 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_fd, "DMA_BUF");
- struct dma_buf *dma_buf_get(int fd)
- {
- 	struct file *file;
-+	struct dma_buf *dmabuf;
- 
- 	file = fget(fd);
- 
-@@ -805,7 +831,11 @@ struct dma_buf *dma_buf_get(int fd)
- 		return ERR_PTR(-EINVAL);
- 	}
- 
--	return file->private_data;
-+	dmabuf = file->private_data;
-+
-+	DMA_BUF_TRACE(trace_dma_buf_get, dmabuf, fd);
-+
-+	return dmabuf;
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_get, "DMA_BUF");
- 
-@@ -825,6 +855,8 @@ void dma_buf_put(struct dma_buf *dmabuf)
- 		return;
- 
- 	fput(dmabuf->file);
-+
-+	DMA_BUF_TRACE(trace_dma_buf_put, dmabuf);
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_put, "DMA_BUF");
- 
-@@ -979,6 +1011,9 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
- 	list_add(&attach->node, &dmabuf->attachments);
- 	dma_resv_unlock(dmabuf->resv);
- 
-+	DMA_BUF_TRACE(trace_dma_buf_dynamic_attach, dmabuf, attach,
-+		dma_buf_attachment_is_dynamic(attach), dev);
-+
- 	return attach;
- 
- err_attach:
-@@ -1023,6 +1058,9 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
- 	if (dmabuf->ops->detach)
- 		dmabuf->ops->detach(dmabuf, attach);
- 
-+	DMA_BUF_TRACE(trace_dma_buf_detach, dmabuf, attach,
-+		dma_buf_attachment_is_dynamic(attach), attach->dev);
-+
- 	kfree(attach);
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_detach, "DMA_BUF");
-@@ -1488,6 +1526,8 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
- 	vma_set_file(vma, dmabuf->file);
- 	vma->vm_pgoff = pgoff;
- 
-+	DMA_BUF_TRACE(trace_dma_buf_mmap, dmabuf);
-+
- 	return dmabuf->ops->mmap(dmabuf, vma);
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_mmap, "DMA_BUF");
-diff --git a/include/trace/events/dma_buf.h b/include/trace/events/dma_buf.h
-new file mode 100644
-index 000000000000..81ee4d05979c
---- /dev/null
-+++ b/include/trace/events/dma_buf.h
-@@ -0,0 +1,154 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM dma_buf
-+
-+#if !defined(_TRACE_DMA_BUF_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _TRACE_DMA_BUF_H
-+
-+#include <linux/dma-buf.h>
-+#include <linux/tracepoint.h>
-+
-+DECLARE_EVENT_CLASS(dma_buf,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf),
-+
-+	TP_STRUCT__entry(
-+		__string(exp_name, dmabuf->exp_name)
-+		__field(size_t, size)
-+		__field(ino_t, ino)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(exp_name);
-+		__entry->size = dmabuf->size;
-+		__entry->ino = dmabuf->file->f_inode->i_ino;
-+	),
-+
-+	TP_printk("exp_name=%s size=%zu ino=%lu",
-+		  __get_str(exp_name),
-+		  __entry->size,
-+		  __entry->ino)
-+);
-+
-+DECLARE_EVENT_CLASS(dma_buf_attach_dev,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach, bool is_dynamic, struct device *dev),
-+
-+	TP_ARGS(dmabuf, attach, is_dynamic, dev),
-+
-+	TP_STRUCT__entry(
-+		__string(dev_name, dev_name(dev))
-+		__string(exp_name, dmabuf->exp_name)
-+		__field(size_t, size)
-+		__field(ino_t, ino)
-+		__field(struct dma_buf_attachment *, attach)
-+		__field(bool, is_dynamic)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(dev_name);
-+		__assign_str(exp_name);
-+		__entry->size = dmabuf->size;
-+		__entry->ino = dmabuf->file->f_inode->i_ino;
-+		__entry->is_dynamic = is_dynamic;
-+		__entry->attach = attach;
-+	),
-+
-+	TP_printk("exp_name=%s size=%zu ino=%lu attachment:%p is_dynamic=%d dev_name=%s",
-+		  __get_str(exp_name),
-+		  __entry->size,
-+		  __entry->ino,
-+		  __entry->attach,
-+		  __entry->is_dynamic,
-+		  __get_str(dev_name))
-+);
-+
-+DECLARE_EVENT_CLASS(dma_buf_fd,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, int fd),
-+
-+	TP_ARGS(dmabuf, fd),
-+
-+	TP_STRUCT__entry(
-+		__string(exp_name, dmabuf->exp_name)
-+		__field(size_t, size)
-+		__field(ino_t, ino)
-+		__field(int, fd)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(exp_name);
-+		__entry->size = dmabuf->size;
-+		__entry->ino = dmabuf->file->f_inode->i_ino;
-+		__entry->fd = fd;
-+	),
-+
-+	TP_printk("exp_name=%s size=%zu ino=%lu fd=%d",
-+		  __get_str(exp_name),
-+		  __entry->size,
-+		  __entry->ino,
-+		  __entry->fd)
-+);
-+
-+DEFINE_EVENT(dma_buf, dma_buf_export,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf)
-+);
-+
-+DEFINE_EVENT(dma_buf, dma_buf_mmap_internal,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf)
-+);
-+
-+DEFINE_EVENT(dma_buf, dma_buf_mmap,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf)
-+);
-+
-+DEFINE_EVENT(dma_buf, dma_buf_put,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf)
-+);
-+
-+DEFINE_EVENT(dma_buf_attach_dev, dma_buf_dynamic_attach,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach, bool is_dynamic, struct device *dev),
-+
-+	TP_ARGS(dmabuf, attach, is_dynamic, dev)
-+);
-+
-+DEFINE_EVENT(dma_buf_attach_dev, dma_buf_detach,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach, bool is_dynamic, struct device *dev),
-+
-+	TP_ARGS(dmabuf, attach, is_dynamic, dev)
-+);
-+
-+DEFINE_EVENT(dma_buf_fd, dma_buf_fd,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, int fd),
-+
-+	TP_ARGS(dmabuf, fd)
-+);
-+
-+DEFINE_EVENT(dma_buf_fd, dma_buf_get,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, int fd),
-+
-+	TP_ARGS(dmabuf, fd)
-+);
-+
-+#endif /* _TRACE_DMA_BUF_H */
-+
-+/* This part must be outside protection */
-+#include <trace/define_trace.h>
--- 
+Compliance test for device /dev/v4l-subdev3:
+
+Driver Info:
+        Driver version   : 6.17.0
+        Capabilities     : 0x00000000
+
+Required ioctls:
+        test VIDIOC_SUDBEV_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/v4l-subdev3 open: OK
+        test VIDIOC_SUBDEV_QUERYCAP: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 9 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK (Not Supported)
+        test VIDIOC_TRY_FMT: OK (Not Supported)
+        test VIDIOC_S_FMT: OK (Not Supported)
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_EXPBUF: OK (Not Supported)
+        test Requests: OK (Not Supported)
+
+Total for device /dev/v4l-subdev3: 44, Succeeded: 44, Failed: 0, Warnings: 0
+
+v4 -> v5
+
+In Patch 2/2:
+- removed the unused link_freq_index
+
+v3 -> v4
+
+In Patch 1/2:
+- Move supply voltage information from driver comments to DT binding descriptions.
+
+In Patch 2/2:
+- removed pixel_rate pointer as control is fixed.
+- fixed default statement in os05b10_set_ctrl() to "ret = -EINVAL"
+- sort the list in "reverse Chrismas tree"
+- remove redundant check from os05b10_enum_frame_size()
+- add a check for number of data-lanes
+
+v2 -> v3
+
+In Patch 1/2:
+- Fixed space symbol is missing before 'optical'
+- Changed the reset pin control to "active low"
+
+In Patch 2/2:
+- Correct the module name in Kconfig
+- Fixed use of dev_err_probe() on endpoint parse failure
+- used devm_v4l2_sensor_clk_get() instead of devm_clk_get()
+
+v1 -> v2
+
+In Patch 1/2:
+- Fixed indentation.
+
+Elgin Perumbilly (1):
+  dt-bindings: media: i2c: Add os05b10 sensor
+
+Himanshu Bhavani (1):
+  media: i2c: add os05b10 image sensor driver
+
+ .../bindings/media/i2c/ovti,os05b10.yaml      |  103 ++
+ MAINTAINERS                                   |    8 +
+ drivers/media/i2c/Kconfig                     |   10 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/os05b10.c                   | 1110 +++++++++++++++++
+ 5 files changed, 1232 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,os05b10.yaml
+ create mode 100644 drivers/media/i2c/os05b10.c
+
+--
 2.34.1
 
 
