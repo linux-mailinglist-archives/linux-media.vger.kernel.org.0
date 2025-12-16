@@ -1,146 +1,79 @@
-Return-Path: <linux-media+bounces-48857-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48858-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED16FCC1863
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 09:24:57 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50922CC1A47
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 09:48:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 46E94303D914
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 08:21:14 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E047A30ABA92
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 08:43:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0919346FB2;
-	Tue, 16 Dec 2025 08:10:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 651FC155C82;
+	Tue, 16 Dec 2025 08:43:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="TnDfFdfS"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="SiwgbnVT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012044.outbound.protection.outlook.com [52.101.48.44])
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012011.outbound.protection.outlook.com [52.101.48.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A96D9346E5F;
-	Tue, 16 Dec 2025 08:10:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 255001CD1E4;
+	Tue, 16 Dec 2025 08:43:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.11
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765872655; cv=fail; b=EBeRLYchDp1uNsweN4D+PemyP0AIj6bwuv/blJVCeFVFiarzp6jT+XTOtdfoY4iJSmqVtkUG0DuHsm2HUrFu353oBhtU8MV82LmpN72oIplTAsY0JWl+ESxJxG6gL7QulE3nLN/6yplHH3iY7aMk/bi3OOSfYVla5bLeqcwFmOo=
+	t=1765874622; cv=fail; b=R+gavYmu9spt1jdFWLZCs9VW3SWKtYuNu8zNCxndHssYowwcNl8ana9yeDCceK/o2a3m3admPbvsu5WZ3S3Bc/6TrIszYjaweex0QXx/IDsZGbCI2ToM4Gt1gUUPa52/kpEKQI0Y9n0EFvrRkTAx/sjWxbWMhJe1DiU0ZKiHIaY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765872655; c=relaxed/simple;
-	bh=nhRYD9VfjlXJy+x6cutxBzwtvLRNiJ72t758U5n4sAA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=omccAS2sYMC+VrqoJMH3fWvBffGfCecBqp89AYRElrkgubK/db1NM9zljrm7LJbctabelxehSyqGPKXqksKJIOOXhqPjMYQLNEvhcoZqIIixbENPPB+TdhB4M1NKEboSs6ogzEaevpFs8pXuj6jNxJNYiSol0/5MZyR4GmMuYwM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=TnDfFdfS; arc=fail smtp.client-ip=52.101.48.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1765874622; c=relaxed/simple;
+	bh=FFQgTw6qBHZ3q5Bs7/NPVKwW0AyIzGFiDFKGI4RdCg8=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=DamRSbCHEXPUIGLyKP02uO1qvMp1SDlzntQ7JgpB9gF5Wqa+s08wYiI8ztuEFGCjc57ekCaB0KgKF4wIRIUZJ6uVBEJRo4u30OZkrWj+OVuYufmNzDPrbHmXzQXedMhoLYu2mviwkSb2p1qHhPlKBYvwPJe853VADrZ87zc5IBo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=SiwgbnVT; arc=fail smtp.client-ip=52.101.48.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mXve7OSXvtv/5gSaMxTLRaj+HGlQauenyDMEKfLQQbCJhvpnPU5Mnk7HWYTejn3+LjIFconj42qi6wP47GjFomeaAXYDouKq1dQixVwwwqGTl+yKXVaSDhovK5dinP6l+ilsz+umnCJcZSoSPROb0wvbOub7KRet+EtzcUVmdABTHV67MAjM2l2ZVUy8qVBbU/qbEESEOliVuKsly/zUSgKdNmCtsiP770L1vc6aT8FcxAMUErz2rAlXKs/zvlG07WHGFusrEEpsk8xjroTyhVwco7pyUS0jqW01u8rO/ECk7KVim5avmXZ8USA2eqGHV01HLcmdxFH6/Ys8E5NUyw==
+ b=ElAPFYbzxgWyVVccfaMkITwjoTND4WTbre0M/gGgulqLX+9B22TSACSI42FWoRWshJJzIAzV2ipJxvxykYIWCr21038yEjVPYdu7fGslsiRuxSm95LeT9EjiWBoiXHmNHrCL+3e3fL95D5yX+i9hsbU4Hsiq8r3Op1ObJafCKdVHtP9yNUWwRRdGdUPiGPtz6ksfWZsfzvSV99Q7RFZjiKBiG6JZTplpdRE9nAtGeKURlXfekO/onCAjnkVKJADqGDE6nYexKR4TleHp4GbBja48SL5Gttkp6S1MZXJ9D96T5YoHBX9soEq9H159mtFlmnuVgkgEkJTOfvaPxio80w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ml4hLnysdu+pRUQKE1SCNbox8jlqtOFBVtq8LGX5IgM=;
- b=uXTkU9JNrhAdWziNwi92hy34E4hmxblQSZJf8IoopqE/gpGd3whtIfdLuMeQvBujC0Wu/FQgw7kOeuZXkNBoliyuemsSvmq88iHgHH7NkR3C1j29V3j4/wjUZ7mJwkpRZBUpI18Ehjdc0710javw/4SdZ9CtHMGzxhEoH3MPoYqcWL0Mkum7rNDyaRdsOl3oIEcfmdLRQWJWxKd4+egjc5A/CBZ9X6PdS/9pH6KKKXcwMNhwZOKKpy11beCniaaK6v7FTO5cNa47lpVX7Z62WObesn4EQaIGL/TmyBgJr6j8thQ+5vPNTI/y5dM//FyF5eXlpqOB84x1/FdmrFdbGw==
+ bh=zuE35zNRwJ18cYJm1zbS6Zt9CKpT2KUFzxKueG/gL3g=;
+ b=nr89s5hxMTp4Rg6VxOCKxzz8tNNbMqt25jz0GiEHpokQOv0l04Darz7GQLsBIe+M65bg/k5EP0efDfFtbGjMgcgdRT/MlDeJtuTzBkr2/iihsTwnFFtVKxaKbE/gchg+d9HKARnw4kiN6u/29Pqj4I81AuE6lR7nQAJtGS72SM987JZQUAdwf3APxUWRCuW17/LTDiMfTehicGAVmjUDojsItJIL80hnEFi0Tz1xOP0IZkvAkKjbGNOuwUKglKAcno2dJrZrjyPARq9RXAkRIBBX8t0Im4iAtJOtI4C1oVS4yvs179aQSSUke5FexZD0a/Ytb/ARh4tP5fqJMFUQ6Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ml4hLnysdu+pRUQKE1SCNbox8jlqtOFBVtq8LGX5IgM=;
- b=TnDfFdfSSTqxrPj/D0FBqPGEFLwd6kBkIS4QYR/XN1MUiZZCJMvmdVHjQZu20iUhBLYc538+q0mIIAn+pzKACEs/O4C21Ig41g2R3pRf5fyPMww6ndA8TDL8sBpPOj/U3kbFxl5iztxvaEXJYgDwZqENTmCWk5zqshocAsQmIJj8h6kAKTZv2I2a3bofr3uOq4JSIeVk2BtpI5Vu8qsb2fYjEwl0xY4Uq8sA1H/Ag5XvyQvdLihuHOaJR5+dGnk9kK50VkyIldBFKp6CSBB0kd6Q3A7YreCvZbAy53spmcHk/9lFHycAzoKMdi3NCbkZO+iZNSrhFoD2iuAswGl//Q==
+ bh=zuE35zNRwJ18cYJm1zbS6Zt9CKpT2KUFzxKueG/gL3g=;
+ b=SiwgbnVTiQcd1DtdctUlZkOvSKeHP8cdxUCQo2mUxYIP47dnbSqQuJRc6MbtrywunC4UNc6Q2PuEWweZSPuuRxKeGEeBHfIgFYu0+cF65Fxegb3XADD3oib03T1ME7P732a5T/ZeOdbiFFUk40+JYeTPyEIOCmKWwedeH7Gsf9Y=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SA3PR12MB7901.namprd12.prod.outlook.com (2603:10b6:806:306::12)
- by DS7PR12MB9476.namprd12.prod.outlook.com (2603:10b6:8:250::5) with
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CH3PR12MB7643.namprd12.prod.outlook.com (2603:10b6:610:152::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.13; Tue, 16 Dec
- 2025 08:10:50 +0000
-Received: from SA3PR12MB7901.namprd12.prod.outlook.com
- ([fe80::6f7f:5844:f0f7:acc2]) by SA3PR12MB7901.namprd12.prod.outlook.com
- ([fe80::6f7f:5844:f0f7:acc2%2]) with mapi id 15.20.9412.011; Tue, 16 Dec 2025
- 08:10:50 +0000
-Date: Tue, 16 Dec 2025 10:10:37 +0200
-From: Ido Schimmel <idosch@nvidia.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux AMDGPU <amd-gfx@lists.freedesktop.org>,
-	Linux DRI Development <dri-devel@lists.freedesktop.org>,
-	Linux Filesystems Development <linux-fsdevel@vger.kernel.org>,
-	Linux Media <linux-media@vger.kernel.org>,
-	linaro-mm-sig@lists.linaro.org, kasan-dev@googlegroups.com,
-	Linux Virtualization <virtualization@lists.linux.dev>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Linux Network Bridge <bridge@lists.linux.dev>,
-	Linux Networking <netdev@vger.kernel.org>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Philipp Stanner <phasta@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Alexander Potapenko <glider@google.com>,
-	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Nikolay Aleksandrov <razor@blackwall.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Taimur Hassan <Syed.Hassan@amd.com>, Wayne Lin <Wayne.Lin@amd.com>,
-	Alex Hung <alex.hung@amd.com>,
-	Aurabindo Pillai <aurabindo.pillai@amd.com>,
-	Dillon Varone <Dillon.Varone@amd.com>,
-	George Shen <george.shen@amd.com>, Aric Cyr <aric.cyr@amd.com>,
-	Cruise Hung <Cruise.Hung@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Sunil Khatri <sunil.khatri@amd.com>,
-	Dominik Kaszewski <dominik.kaszewski@amd.com>,
-	David Hildenbrand <david@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Max Kellermann <max.kellermann@ionos.com>,
-	"Nysal Jan K.A." <nysal@linux.ibm.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Alexey Skidanov <alexey.skidanov@intel.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	Vitaly Wool <vitaly.wool@konsulko.se>,
-	Harry Yoo <harry.yoo@oracle.com>, Mateusz Guzik <mjguzik@gmail.com>,
-	NeilBrown <neil@brown.name>, Amir Goldstein <amir73il@gmail.com>,
-	Jeff Layton <jlayton@kernel.org>, Ivan Lipski <ivan.lipski@amd.com>,
-	Tao Zhou <tao.zhou1@amd.com>, YiPeng Chai <YiPeng.Chai@amd.com>,
-	Hawking Zhang <Hawking.Zhang@amd.com>,
-	Lyude Paul <lyude@redhat.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Luben Tuikov <luben.tuikov@amd.com>,
-	Matthew Auld <matthew.auld@intel.com>,
-	Roopa Prabhu <roopa@cumulusnetworks.com>,
-	Mao Zhu <zhumao001@208suo.com>,
-	Shaomin Deng <dengshaomin@cdjrlc.com>,
-	Charles Han <hanchunchao@inspur.com>,
-	Jilin Yuan <yuanjilin@cdjrlc.com>,
-	Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
-	George Anthony Vernon <contact@gvernon.com>
-Subject: Re: [PATCH 14/14] net: bridge: Describe @tunnel_hash member in
- net_bridge_vlan_group struct
-Message-ID: <aUET_bbW6KyxtQKB@shredder>
-References: <20251215113903.46555-1-bagasdotme@gmail.com>
- <20251215113903.46555-15-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251215113903.46555-15-bagasdotme@gmail.com>
-X-ClientProxiedBy: TL2P290CA0009.ISRP290.PROD.OUTLOOK.COM
- (2603:1096:950:2::10) To SA3PR12MB7901.namprd12.prod.outlook.com
- (2603:10b6:806:306::12)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.6; Tue, 16 Dec
+ 2025 08:43:32 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9412.011; Tue, 16 Dec 2025
+ 08:43:32 +0000
+Message-ID: <7a41abc8-df47-459a-ab3e-ba7943fdd0ff@amd.com>
+Date: Tue, 16 Dec 2025 09:43:26 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6] dma-buf: add some tracepoints to debug.
+To: Xiang Gao <gxxa03070307@gmail.com>, sumit.semwal@linaro.org,
+ rostedt@goodmis.org, mhiramat@kernel.org
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, mathieu.desnoyers@efficios.com,
+ dhowells@redhat.com, kuba@kernel.org, brauner@kernel.org,
+ akpm@linux-foundation.org, linux-trace-kernel@vger.kernel.org,
+ gaoxiang17 <gaoxiang17@xiaomi.com>
+References: <20251216063952.516364-1-gxxa03070307@gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20251216063952.516364-1-gxxa03070307@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YT4PR01CA0084.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:ff::9) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -148,113 +81,403 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA3PR12MB7901:EE_|DS7PR12MB9476:EE_
-X-MS-Office365-Filtering-Correlation-Id: c99754f8-7600-423a-a605-08de3c7aa003
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH3PR12MB7643:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5fc8805f-3fc8-4fdf-0d05-08de3c7f318f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|1800799024|376014|7053199007;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?qkXm0BjdGAi9VT55N2GLH1J6bsnNuBFCBwMBR2yCqs75pzLJpg/epURp95hP?=
- =?us-ascii?Q?YmOlmW/O/zn+f0hpeky9N9he5zJlc4nxJzHKgvEG7Q0KGzO/dzirkGSHjAuE?=
- =?us-ascii?Q?WMnZo4xaKWnFaxo7D1OBZKZfIRZenW9US7H025qI8cEZ/3DQzldcIhOELmKA?=
- =?us-ascii?Q?osoQ/4YEy4G8pZDXdBy2/947Ej7xXUB3oS68VfUgnhBpx4W3cS9YaVufWGQc?=
- =?us-ascii?Q?b6Nmmp9E8u+P0JhgUtT/6mmOZdWVOF+k4Wi4djLL6lNsNHcS9vhiYet5UU++?=
- =?us-ascii?Q?/DCBYdih5WGqI6s91PMWPrnaadkiGBcCIkX4n6bh+cWYrYOf74UV4knx4NK5?=
- =?us-ascii?Q?hW9I07m5vtwHwKuHYC6GnuEOO9nqMDYuzpALPDEHvaKLJwqYRcqL+Td576Js?=
- =?us-ascii?Q?aKlFrwfFQbH6jqbUcEslnKy46ovXktUB02A25U0RZpUl2Fl3KfeLaMxyjS2W?=
- =?us-ascii?Q?PJ5n2gviNK+d5kTifykm808oKiID98CN8rrtTUltiiAt8Z91Y4L4Yy39n1/d?=
- =?us-ascii?Q?hoLPqGSDWm5teJWwRF0wo2pgUQU4z8bQMzZHkiECN3ZlyM0sIMEY9m3QPHhc?=
- =?us-ascii?Q?3MNp364/b2wsPSlSc4Rww2WmfovQF52rmo4HcX27GNlZ+AvAQJCIpp363TSe?=
- =?us-ascii?Q?+9R1nAlW8pTVanabC5+dgQAdGg4kkcKgnzunxPhvmnQ+9mozeuuByC9Z6lr9?=
- =?us-ascii?Q?SjwZIht8+h6IFmp1+6SyQ8GT4M/PHTkFIRbo8sDScjFCBWkP+MxMQVRFJwNy?=
- =?us-ascii?Q?FjQHtXP44rlUxgcfyZPWZ1lzt7hIzZT4jVxLA5inmyd9ystdsbTCIs68lcLX?=
- =?us-ascii?Q?PMDLBZp4p2NdasmZ5NggNeurU78GWsTPQqp5EivXk1RH3t/at6lFpEP8arET?=
- =?us-ascii?Q?Zi+tOSpetzmFuZrxqc0nOmVq0bq1sdtTnfphk41AbDPhe7m1TSwrCV2OsxLr?=
- =?us-ascii?Q?GZDJjYYCY0BJ6CoqrpXfdzPGc13IPTT1G0AEt/YTJ0GVQ536S59VzBf5AHHq?=
- =?us-ascii?Q?SBX83ugiI1nTcRwd2qC4ncQr6p84RhyAqTTUG7l85anUfcvghLHUStY94ugs?=
- =?us-ascii?Q?l7yyJOxMalgJw43lmrO/LfxcCeN+KNnFOTWRUTM7pyNsPUR7R8Y4BZi6QK4R?=
- =?us-ascii?Q?s3hSFS4R2EO2hHb1Qo6D6Cbe9ICeKDpvW74fdGODR0dljLXduMdRfQ6snUep?=
- =?us-ascii?Q?C4iiLxdLxdDPske0KRKRRQbBHX3ljrWJkcvfZIE+gpaEdYAXfgcNm7jdh0e3?=
- =?us-ascii?Q?iG30ianLApDBUb87dMvNdYDeWDl8N3sAFM3vuxY2bNXbkNn49nJo8HDsRpIP?=
- =?us-ascii?Q?dyng77uq/GtwqnaAuLpwkpype42rXNVv5ZwKgIlRqN44gIjFHXk7X7CvveH2?=
- =?us-ascii?Q?teXf81LuKCRipSXtHR1P0Q2F+w7DF2GZoM8XBA0a87r929nl3qRfj6JPpOzP?=
- =?us-ascii?Q?/vqI651aAm0PksX5cYuSQNeeqsqhFtRW?=
+	=?utf-8?B?bGFNd1AvSU0rOTk1Ui9IbUNNTGRWdWJlY2Y1Zm1ETGFUOUhJUm5md0VUVitI?=
+ =?utf-8?B?YWZRekNiUC9JSW1MTkkvbndVUUFIL0NLNVI4QmVwNXBlckdhU0ZFQVk3M2hK?=
+ =?utf-8?B?NWF4Ry82RUx6RE44blVZSWpqSU0yQVRCbS9oRWFCcEVnS2htZEpjSEVPcjVr?=
+ =?utf-8?B?U0dHRCtmWFBEY0w5eWkzWmhWVFNYR0tBVWl3a0Ftb2wxVzlOd3dLWlFHWS9O?=
+ =?utf-8?B?T0N6MUFBZk52Q3F4MFRxdmNRNzlFWXNLUmUxTklucktGWXZCRkhORURMYjFy?=
+ =?utf-8?B?S200VklsMUxnZzJ0Y2hoVGxIUDBzTUs3V0RqMnB3c1J1VGxIVG11bHFia2hm?=
+ =?utf-8?B?VXpjWSs0M2xkb3UwRzBTNW10KzhJUjl3S3BZbmw5eWI4VCtrV0tKUWdQWEZJ?=
+ =?utf-8?B?OGpNeW5JMXNIeXJhWHRpelJ4c1FYYWp1V3BYcVc0dUFxNm95YmIxZUIzSFRZ?=
+ =?utf-8?B?ODRpeERSWm1hZ0Z2T1IxMTA2SG4wN0pDclRBQ2xOcy85amptVnJXbkQxWlhp?=
+ =?utf-8?B?WG1QTmdPbGd3RDNzUzYzYUswb0hYZmFlNjgvaUtVZTRMMXVscEVxNUk1NnY3?=
+ =?utf-8?B?TFh2R2M5Y3piemZPeTFxSDl5dHZWM1RIaGZMcnk1NHFjUUdtTXF3QitseExO?=
+ =?utf-8?B?ckxWVFpkMGRYU3JTQW5sTUxUOTFxMUd3RjhOMENLUTlCK1hSRW5mSnF3Z1NK?=
+ =?utf-8?B?SDFJQlJlWlI0YlIrNDV0MFFqaE04UmkxU2pVN1REb296Z0QxTER0RFVXaCtW?=
+ =?utf-8?B?M3RVNTRBMnR4T25OQzFjc25URXRiSnkrT1Z2MHFLNEdrbTIwc1FJYmw4RmZ5?=
+ =?utf-8?B?V2IyRXJnSzQzVkNpZ044Q1dreDdVQkVhY24yVWp2WWZUdXYzRlFTQzM5R1pH?=
+ =?utf-8?B?eTUzaEhOeG5INkg3UFJYQ04yTnppT05TUEJRQnlKTWJLNzI4dThLZzhubmRt?=
+ =?utf-8?B?MDN1L21SZW9VSTdJUi94MWpCYTRibU5UL2JkZFA4TU5LajU4ZkQxU1UxdXJh?=
+ =?utf-8?B?d3BsT2ZEbEE4OGxSY3BGM2lYSkpLd1FqTUpvOWk3QWYzUEZkRytuVVdNcFRk?=
+ =?utf-8?B?bmVxL2YwVjlNQmFDYVBnUmN2UWdpY1pRT3F1Njl0bmlxRXRzRGFNTVNUNzRq?=
+ =?utf-8?B?Y0ZSZmVjS2FJdldIdEdHa1QxTXJ1andJcUE1aFlsdzh0RjVYNEtBTDMzV3Fv?=
+ =?utf-8?B?c1FYTytheXNCRFl0NmNSUG12UTFrS3UxcytKa0N4bVo2Mjl2RWREM2F5amF0?=
+ =?utf-8?B?YXo5Mk5WVExobHBkNSt3RFNzS0t3NlRpVTA5RTFBTzMrUzZNTmd2YTJ1SXlj?=
+ =?utf-8?B?N0djeUVSdEVGL0NSUGI1a0RINkF5bnJuVHJxT09GdTRndGZodVk5Y0lrb280?=
+ =?utf-8?B?aHZiZXFiL3BncTNabDQxRzNWV1NxM3ZVQm1kTnBUeExXdVkxeFc2UmdrMnBV?=
+ =?utf-8?B?WTREelpiWU1QVCt0Vm5sVDYxSjJwMW1QM28xOEduQWdDUW5EY2J1RnJISVhz?=
+ =?utf-8?B?TTEvVW5zL2xJRGpJZjR3MzEwU1EwbStoRUxXYks1KzdIbE5wNldLWUwzOWl6?=
+ =?utf-8?B?M1MwTjdobnNYTGhUME4ycGR3dm5ZN2xSendJN1lycURhU3FiUi9kMkpTaGhW?=
+ =?utf-8?B?alo4dUVNbFJYTjdrdHNleVZ6MXpYT0o4QTBpUWxwbmtnUVIwWXZZNERiTERk?=
+ =?utf-8?B?NnpSOUdVMWNtd1VnS2FrNGJOTjNjS1Z1UUtKU21VSDNBZ0RRYWwvUGxvS1NC?=
+ =?utf-8?B?aExpM3ZGbHVTRnM0Q2c2OUNNdzBsU2F4Yml5SmZxTDJZeE0zTDF0VFpyRjdx?=
+ =?utf-8?B?TDdHTTRVR29GRjZ0amVWdUFMVmgxYXZ5Y3Y2bHZzWVZIc3Z2N1IrVERzbTZl?=
+ =?utf-8?B?d2JxQ3FRemxsV005S3BNbW1TSjJhaFphUVRUMWF4QkJsdW9zalVYemo5bDJF?=
+ =?utf-8?Q?KtW2tNiCZx+fShX0aBR1OFdFNaq6ouCD?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA3PR12MB7901.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(1800799024)(376014)(7053199007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?GMR1rsjwA+mZmoSMlv2Zqg5PhqQvwG8PoT76TB/A7KZed62KBuWIauK+iQUD?=
- =?us-ascii?Q?uqpmWREc30w6mRNi5ZM+SjzSTCLZkPr7JV+KMTFQe6swH7d5vHQ+zf0dpYEt?=
- =?us-ascii?Q?GIu2nHe0s1+O5gi3kbCSy4YVOPvlhsWt7HpXf05B24SpVoI+noihEmsQWPnJ?=
- =?us-ascii?Q?ILZaQm7+mm3b7LyanIN1PbEQTmA3+P92L90GLscWYjn7YmX2SfAEZabSuwST?=
- =?us-ascii?Q?EjzvPmwUggnpTDt1TC2ihx+at7BwZdyEs0eUyFNvKGwjXTz7/hC62JXuJQg8?=
- =?us-ascii?Q?XoUrra5DhVrRL3aw+Hddml8cPqNRCa5l9abdCYsXe0uQo1F2O9/1v5+zNlNW?=
- =?us-ascii?Q?4DU6Q9xKfxVXNzYRGLxrdf85/q7erU9E21eZeE7pGRzOEY/mhnaCk/75vEkt?=
- =?us-ascii?Q?QH1OpHfZit7YlGftmEmS7aEiqIjnFUPlqF98rweJ3l/V9DIfjuXuqAJ5PBj7?=
- =?us-ascii?Q?UnsqzCJQp60swuQ+qy2Ba14FIGUlM9BSBOiyUNormsAzpmmzzoaJDu8DQxAu?=
- =?us-ascii?Q?L+16lHUrWCg+mkcf+8lciTm7bpaWrqbBsmlpYBILrgRtdngKMchSkQO0CPZi?=
- =?us-ascii?Q?F/oYlyxHw4x+R90OERWWufHHpvkwH0A3mL3LllKG39XTJMaoFNWxT8w4mB0z?=
- =?us-ascii?Q?i2B5+voSnM6kCEymaC867AKfDsXAG5sK9R/9+kV8HabwMYND7BSw8/38zRqF?=
- =?us-ascii?Q?DNSAdyi82jDhA48jTTCObFQLoLfQVODKyD1VAzp1sCn6CT6nONj/DTK/H0uN?=
- =?us-ascii?Q?Vx1sQS8aiEG6QII16LPjMdpXowgqN77vM11t+g0ixxdpZRTBWBXOaGDdW7Fd?=
- =?us-ascii?Q?dx2gNtLpzxqMWhz7Y43E6QHY5HzYiiSgThF8JzGT6YeuKjNvQRAp4SWC3CUr?=
- =?us-ascii?Q?tnfcoFBpmqJZDOps2W/r6TJ6PWJw337aiqNbSXw2b3eg7F2K0DS/2IS4kRXv?=
- =?us-ascii?Q?YQV6Yc3vwaT9z6yvPk4kGqcZsou6p1sHC47KJm3mLwVaJscJAk1ciDNvRNU4?=
- =?us-ascii?Q?vmiHRt4ek71JrydTLI8KdF07jnu36Sr0WPFWVjCcdGBLQtbsQ31Wdezm0ecI?=
- =?us-ascii?Q?JhYsNwavM2eC6zIceUUh6fzAx463Pt6R1+pO4Y8FIPVTvnBRry/btE0aTsB7?=
- =?us-ascii?Q?82aUOmogWVosQj0I10Z+Pmh/pS1bd5H+IBBhirjKJJYFmmXvqquDHgdx4KJ+?=
- =?us-ascii?Q?hiFN+omF4jz/iGrIrIrbOJpICy35rsfB5zJy25Kh5B/niJnHDoJFc9LHwBnh?=
- =?us-ascii?Q?U2PFkdA1AfchKfHeOL4THF2tbpnjA6eLSlpBovdzTLvMRm9yQTpXhycJJOPV?=
- =?us-ascii?Q?D2uTb0krBVKe6qgTZ50sCTfhoI3YmXH4JfAhXVsknrQbZyygV6sab6SoBwCS?=
- =?us-ascii?Q?/5FDPaa7Q3yttccbpijFvir4egNbEwBU9KOM5w5KWM+V5JIEVz5ZKf5pU99s?=
- =?us-ascii?Q?Ud465tArDFqI/avl1KA009dDNBLcOjYElirDsKEl6Ye3S1O1texnMUWKO11d?=
- =?us-ascii?Q?frEIMFMUdr6tjl00pNuvfiyGoJ5yWrAlXM3Sddfs6wLYPs7T0SV/2dhN1HKF?=
- =?us-ascii?Q?ny1xJLWxk2w+I+uF3fEkAqZW+bWWRVolqxRSdDKC?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c99754f8-7600-423a-a605-08de3c7aa003
-X-MS-Exchange-CrossTenant-AuthSource: SA3PR12MB7901.namprd12.prod.outlook.com
+	=?utf-8?B?UnRaNHhsVVN6SmJpVFB1TkVTYWdFVFdrK1kvYlBlZFpLWnkxaEFEdjdiWThs?=
+ =?utf-8?B?bm1RaE5OV3pYSGZmN25PMU43MnlCcklMV0NRb3l4aWEwcUNROEZJUkVXMDRC?=
+ =?utf-8?B?cG1xdW9LbDBGYlRVbjA0dG5qVE9tNFVKRmVGM2xHQ1dwdW9VSFVBT2N1UjdD?=
+ =?utf-8?B?dHFzbFFYYzRjQkxvb0FBLzlLYS9YdlBJNCtCQlM1bm1qb1RvOFpOYlEvRHlN?=
+ =?utf-8?B?aFN0emRkNW50Z3Y0Y2VQY2pRZktPNTZCQ25sMVRkOVlBN3dFZDZJaEEwODRU?=
+ =?utf-8?B?RWdYeHIyNDMwUkNoTXRNaHBNQnNUODFNbGF2UWh6eW8ybEpmVWhaOFdNbmVQ?=
+ =?utf-8?B?K3lRYmdyZnpDT2habktMNmQ1YTFHbUx0eStiV3BBSFVxUVJUanFwbzRBcWZj?=
+ =?utf-8?B?bWMyVVNaT2lQRnB1YWJzOS9Uanc1VUFTM2E0Y0RkVTBrZlBOQlorY09CYWNj?=
+ =?utf-8?B?bk0wNncwellLem5JNUtVUWFSck52WEtqYVN3R0hYSEdaQUhGNG11WU81N3kw?=
+ =?utf-8?B?VjNJYjZwS2xZc2NpRmM1cVg2NVlTMjJRTEE3VFZSQy9jd0JVL2FDR1lqTDNH?=
+ =?utf-8?B?aXpjVHp4S0RHbWlZelhLeTBUUE1iZ1dTMWVRNnJ1N3B3Zkkrd2NETU5nSGF0?=
+ =?utf-8?B?eVF3YWtOcGxzaThUeEMxV0p3L0hpZmdnSHAyc2RDRFAxY1Z2TStMQnQ4U0ZJ?=
+ =?utf-8?B?ZFpiTFMyK2N3TlB2Z3loQjFxa3ROUWZJWCsyZFMwT3BPSTFJc09maFBFa0Zx?=
+ =?utf-8?B?Y0YrUWc0N0N5dG5keUwxOFZSNUZqMUNINXUraGI3NFFjcEVUOVNscG1qY3d6?=
+ =?utf-8?B?TmloeVpON0JCdkpXZnREWS9wekZRZkZhdVJxMWxBQ1FVWENON3VlcHdkQlFF?=
+ =?utf-8?B?RDA4R29vSXEwTnI3eWxCV0NTK2d1aE4vUUJZTTJxOGUzby9reExuWTNGT0cx?=
+ =?utf-8?B?dHdmMnhOUjE4WnZYbE10aUZyUjRiRXB5UThOUmZlZTlTRjFZMDhoejBISHJ6?=
+ =?utf-8?B?MlpycUFPV2ZGSWRiRytsRmFEcnovWVA5d2F5Ulg0TjZ3L0JYbGNVY2xOL3hK?=
+ =?utf-8?B?OEN3b1lsY2NkbW1EaU92bUwxYXppVHFZcjQ4MGNWOEJpd2RJb2FzaXNtRnRS?=
+ =?utf-8?B?cE1TUkg3bFRMdVJlZzlyaU5LbzFrbHpKRUw4ZVJQWkJtZTRNU0VzYkFtL0JD?=
+ =?utf-8?B?ZmFJV3J0Ny9adFVRRGI5c29QcVhRVmdCeWJaOXpGbnZlbmQ3RHhwaGZ5czla?=
+ =?utf-8?B?OGZXbVpDOWM0elRneEtmWFZYNDFKZjVWTTZGM1dUZjJNWTJaMU9IZWUybUpB?=
+ =?utf-8?B?MjZBY2psZVE3ZXkrL25sclJHSUhqQ2FsYmhBd1A4K2RjS2l4T3ltWmpEc0VF?=
+ =?utf-8?B?ZzBhWkdoT0l1dkQ1cFE3emh2bGpuMWNYaEgxNDVMV2toYW9HYytBODMwUUo3?=
+ =?utf-8?B?TzVzS3FJeFhOcnBpeHpIMWZ5eXZlSURxVlhsMERjQ1E5MW5YY0dZMHV2emxY?=
+ =?utf-8?B?VlE5dGhPTVBLSDVZODc0eGVPbDJvaTUvVmJDa2l2dEdWMUNlUnQ0bzRUK2oy?=
+ =?utf-8?B?YTkzS1V4a0RQSkRBdmpVbXFkZGp1WFVjYzg3d2ZtQXF1UUg1NERpZlNYQWRh?=
+ =?utf-8?B?UU01YUdTYnB2NWoydWtOOXMrSEdhZDZteXpVNEYxakkzdHVPdXdvS1lLS2Nt?=
+ =?utf-8?B?Tm81d2NYUDNpZWtJK2FMdVNvbmZyMGFIL2JEOGhhcko0OFBkTlBUamg1R002?=
+ =?utf-8?B?ejdzWloxT3RnNlZWMjIreXZqTzdkSkFjelNuRjRQYTFRdjZpTVRnU0FkQWxB?=
+ =?utf-8?B?VExLU1RxcEthSnNvRnduYmkxNVNRQUlUY2ZUU3dZem1pdFpBdUoyOEVGUVIz?=
+ =?utf-8?B?T09rWW9ERUdHRk9QMFFOQVNZaEdZck1ZVGQxOHRmYTREL1FTMnRwb3FuVzNE?=
+ =?utf-8?B?ODI1QnRXaWowV0thWkRTMVAxVjJoTk1EMlBjMk9wVUQxRHh1TE1kdjlFVHV6?=
+ =?utf-8?B?VVdyVnNNM1NtOW1uYU80WTYwSGpCQm1lekt3eU40ZHo4cFRCcVdUbzQ2OTY2?=
+ =?utf-8?B?dmVzVkMyRmQrV0VlVnM1elZSVExzU2taWWFUSDlLZTM2SWZENzhjRGNTNlpJ?=
+ =?utf-8?Q?pEfa17xEpzM7SLEGEhQwkbXfF?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5fc8805f-3fc8-4fdf-0d05-08de3c7f318f
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2025 08:10:50.4122
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2025 08:43:32.4947
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9Jn1GRAVl7fWR6i2nOitnqAdyxeLG+agMppQMoqRYGdALbOZFDDkQLF4Y8PSVW8MdLCtX3o9nK8w98LWXl102A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB9476
+X-MS-Exchange-CrossTenant-UserPrincipalName: cEa8wZztsAublQVQ3JnLf248vubMP2fCRGDgnlk48XQpZwLl/PR0or0dbtOQBmbX
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7643
 
-On Mon, Dec 15, 2025 at 06:39:02PM +0700, Bagas Sanjaya wrote:
-> Sphinx reports kernel-doc warning:
+On 12/16/25 07:39, Xiang Gao wrote:
+> From: gaoxiang17 <gaoxiang17@xiaomi.com>
 > 
-> WARNING: ./net/bridge/br_private.h:267 struct member 'tunnel_hash' not described in 'net_bridge_vlan_group'
+> Since we can only inspect dmabuf by iterating over process FDs or the
+> dmabuf_list, we need to add our own tracepoints to track its status in
+> real time in production.
 > 
-> Fix it by describing @tunnel_hash member.
+> For example:
+>    binder:3016_1-3102    [006] ...1.   255.126521: dma_buf_export: exp_name=qcom,system size=12685312 ino=2738
+>    binder:3016_1-3102    [006] ...1.   255.126528: dma_buf_fd: exp_name=qcom,system size=12685312 ino=2738 fd=8
+>    binder:3016_1-3102    [006] ...1.   255.126642: dma_buf_mmap_internal: exp_name=qcom,system size=28672 ino=2739
+>      kworker/6:1-86      [006] ...1.   255.127194: dma_buf_put: exp_name=qcom,system size=12685312 ino=2738
+>     RenderThread-9293    [006] ...1.   316.618179: dma_buf_get: exp_name=qcom,system size=12771328 ino=2762 fd=176
+>     RenderThread-9293    [006] ...1.   316.618195: dma_buf_dynamic_attach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
+>     RenderThread-9293    [006] ...1.   318.878220: dma_buf_detach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
 > 
-> Fixes: efa5356b0d9753 ("bridge: per vlan dst_metadata netlink support")
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Signed-off-by: Xiang Gao <gaoxiang17@xiaomi.com>
+
+Reviewed-by: Christian König <christian.koenig@amd.com>
+
+Going to push this to drm-misc-next today unless somebody has some last minute objections.
+
+Regards,
+Christian.
+
 > ---
->  net/bridge/br_private.h | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/dma-buf/dma-buf.c      |  42 ++++++++-
+>  include/trace/events/dma_buf.h | 154 +++++++++++++++++++++++++++++++++
+>  2 files changed, 195 insertions(+), 1 deletion(-)
+>  create mode 100644 include/trace/events/dma_buf.h
 > 
-> diff --git a/net/bridge/br_private.h b/net/bridge/br_private.h
-> index 7280c4e9305f36..bf441ac1c4d38a 100644
-> --- a/net/bridge/br_private.h
-> +++ b/net/bridge/br_private.h
-> @@ -247,6 +247,7 @@ struct net_bridge_vlan {
->   * struct net_bridge_vlan_group
->   *
->   * @vlan_hash: VLAN entry rhashtable
-> + * @tunnel_hash: tunnel rhashtable
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 2bcf9ceca997..831973de76c4 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -35,6 +35,25 @@
+>  
+>  #include "dma-buf-sysfs-stats.h"
+>  
+> +#define CREATE_TRACE_POINTS
+> +#include <trace/events/dma_buf.h>
+> +
+> +/*
+> + * dmabuf->name must be accessed with holding dmabuf->name_lock.
+> + * we need to take the lock around the tracepoint call itself where
+> + * it is called in the code.
+> + *
+> + * Note: FUNC##_enabled() is a static branch that will only
+> + *       be set when the trace event is enabled.
+> + */
+> +#define DMA_BUF_TRACE(FUNC, ...)                  \
+> +    do {                                          \
+> +        if (FUNC##_enabled()) {                   \
+> +            guard(spinlock)(&dmabuf->name_lock); \
+> +            FUNC(__VA_ARGS__);                    \
+> +        }                                         \
+> +    } while (0)
+> +
+>  static inline int is_dma_buf_file(struct file *);
+>  
+>  static DEFINE_MUTEX(dmabuf_list_mutex);
+> @@ -220,6 +239,8 @@ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
+>  	    dmabuf->size >> PAGE_SHIFT)
+>  		return -EINVAL;
+>  
+> +	DMA_BUF_TRACE(trace_dma_buf_mmap_internal, dmabuf);
+> +
+>  	return dmabuf->ops->mmap(dmabuf, vma);
+>  }
+>  
+> @@ -745,6 +766,8 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+>  
+>  	__dma_buf_list_add(dmabuf);
+>  
+> +	DMA_BUF_TRACE(trace_dma_buf_export, dmabuf);
+> +
+>  	return dmabuf;
+>  
+>  err_dmabuf:
+> @@ -779,6 +802,8 @@ int dma_buf_fd(struct dma_buf *dmabuf, int flags)
+>  
+>  	fd_install(fd, dmabuf->file);
+>  
+> +	DMA_BUF_TRACE(trace_dma_buf_fd, dmabuf, fd);
+> +
+>  	return fd;
+>  }
+>  EXPORT_SYMBOL_NS_GPL(dma_buf_fd, "DMA_BUF");
+> @@ -794,6 +819,7 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_fd, "DMA_BUF");
+>  struct dma_buf *dma_buf_get(int fd)
+>  {
+>  	struct file *file;
+> +	struct dma_buf *dmabuf;
+>  
+>  	file = fget(fd);
+>  
+> @@ -805,7 +831,11 @@ struct dma_buf *dma_buf_get(int fd)
+>  		return ERR_PTR(-EINVAL);
+>  	}
+>  
+> -	return file->private_data;
+> +	dmabuf = file->private_data;
+> +
+> +	DMA_BUF_TRACE(trace_dma_buf_get, dmabuf, fd);
+> +
+> +	return dmabuf;
+>  }
+>  EXPORT_SYMBOL_NS_GPL(dma_buf_get, "DMA_BUF");
+>  
+> @@ -825,6 +855,8 @@ void dma_buf_put(struct dma_buf *dmabuf)
+>  		return;
+>  
+>  	fput(dmabuf->file);
+> +
+> +	DMA_BUF_TRACE(trace_dma_buf_put, dmabuf);
+>  }
+>  EXPORT_SYMBOL_NS_GPL(dma_buf_put, "DMA_BUF");
+>  
+> @@ -979,6 +1011,9 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
+>  	list_add(&attach->node, &dmabuf->attachments);
+>  	dma_resv_unlock(dmabuf->resv);
+>  
+> +	DMA_BUF_TRACE(trace_dma_buf_dynamic_attach, dmabuf, attach,
+> +		dma_buf_attachment_is_dynamic(attach), dev);
+> +
+>  	return attach;
+>  
+>  err_attach:
+> @@ -1023,6 +1058,9 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
+>  	if (dmabuf->ops->detach)
+>  		dmabuf->ops->detach(dmabuf, attach);
+>  
+> +	DMA_BUF_TRACE(trace_dma_buf_detach, dmabuf, attach,
+> +		dma_buf_attachment_is_dynamic(attach), attach->dev);
+> +
+>  	kfree(attach);
+>  }
+>  EXPORT_SYMBOL_NS_GPL(dma_buf_detach, "DMA_BUF");
+> @@ -1488,6 +1526,8 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
+>  	vma_set_file(vma, dmabuf->file);
+>  	vma->vm_pgoff = pgoff;
+>  
+> +	DMA_BUF_TRACE(trace_dma_buf_mmap, dmabuf);
+> +
+>  	return dmabuf->ops->mmap(dmabuf, vma);
+>  }
+>  EXPORT_SYMBOL_NS_GPL(dma_buf_mmap, "DMA_BUF");
+> diff --git a/include/trace/events/dma_buf.h b/include/trace/events/dma_buf.h
+> new file mode 100644
+> index 000000000000..81ee4d05979c
+> --- /dev/null
+> +++ b/include/trace/events/dma_buf.h
+> @@ -0,0 +1,154 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#undef TRACE_SYSTEM
+> +#define TRACE_SYSTEM dma_buf
+> +
+> +#if !defined(_TRACE_DMA_BUF_H) || defined(TRACE_HEADER_MULTI_READ)
+> +#define _TRACE_DMA_BUF_H
+> +
+> +#include <linux/dma-buf.h>
+> +#include <linux/tracepoint.h>
+> +
+> +DECLARE_EVENT_CLASS(dma_buf,
+> +
+> +	TP_PROTO(struct dma_buf *dmabuf),
+> +
+> +	TP_ARGS(dmabuf),
+> +
+> +	TP_STRUCT__entry(
+> +		__string(exp_name, dmabuf->exp_name)
+> +		__field(size_t, size)
+> +		__field(ino_t, ino)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__assign_str(exp_name);
+> +		__entry->size = dmabuf->size;
+> +		__entry->ino = dmabuf->file->f_inode->i_ino;
+> +	),
+> +
+> +	TP_printk("exp_name=%s size=%zu ino=%lu",
+> +		  __get_str(exp_name),
+> +		  __entry->size,
+> +		  __entry->ino)
+> +);
+> +
+> +DECLARE_EVENT_CLASS(dma_buf_attach_dev,
+> +
+> +	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach, bool is_dynamic, struct device *dev),
+> +
+> +	TP_ARGS(dmabuf, attach, is_dynamic, dev),
+> +
+> +	TP_STRUCT__entry(
+> +		__string(dev_name, dev_name(dev))
+> +		__string(exp_name, dmabuf->exp_name)
+> +		__field(size_t, size)
+> +		__field(ino_t, ino)
+> +		__field(struct dma_buf_attachment *, attach)
+> +		__field(bool, is_dynamic)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__assign_str(dev_name);
+> +		__assign_str(exp_name);
+> +		__entry->size = dmabuf->size;
+> +		__entry->ino = dmabuf->file->f_inode->i_ino;
+> +		__entry->is_dynamic = is_dynamic;
+> +		__entry->attach = attach;
+> +	),
+> +
+> +	TP_printk("exp_name=%s size=%zu ino=%lu attachment:%p is_dynamic=%d dev_name=%s",
+> +		  __get_str(exp_name),
+> +		  __entry->size,
+> +		  __entry->ino,
+> +		  __entry->attach,
+> +		  __entry->is_dynamic,
+> +		  __get_str(dev_name))
+> +);
+> +
+> +DECLARE_EVENT_CLASS(dma_buf_fd,
+> +
+> +	TP_PROTO(struct dma_buf *dmabuf, int fd),
+> +
+> +	TP_ARGS(dmabuf, fd),
+> +
+> +	TP_STRUCT__entry(
+> +		__string(exp_name, dmabuf->exp_name)
+> +		__field(size_t, size)
+> +		__field(ino_t, ino)
+> +		__field(int, fd)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__assign_str(exp_name);
+> +		__entry->size = dmabuf->size;
+> +		__entry->ino = dmabuf->file->f_inode->i_ino;
+> +		__entry->fd = fd;
+> +	),
+> +
+> +	TP_printk("exp_name=%s size=%zu ino=%lu fd=%d",
+> +		  __get_str(exp_name),
+> +		  __entry->size,
+> +		  __entry->ino,
+> +		  __entry->fd)
+> +);
+> +
+> +DEFINE_EVENT(dma_buf, dma_buf_export,
+> +
+> +	TP_PROTO(struct dma_buf *dmabuf),
+> +
+> +	TP_ARGS(dmabuf)
+> +);
+> +
+> +DEFINE_EVENT(dma_buf, dma_buf_mmap_internal,
+> +
+> +	TP_PROTO(struct dma_buf *dmabuf),
+> +
+> +	TP_ARGS(dmabuf)
+> +);
+> +
+> +DEFINE_EVENT(dma_buf, dma_buf_mmap,
+> +
+> +	TP_PROTO(struct dma_buf *dmabuf),
+> +
+> +	TP_ARGS(dmabuf)
+> +);
+> +
+> +DEFINE_EVENT(dma_buf, dma_buf_put,
+> +
+> +	TP_PROTO(struct dma_buf *dmabuf),
+> +
+> +	TP_ARGS(dmabuf)
+> +);
+> +
+> +DEFINE_EVENT(dma_buf_attach_dev, dma_buf_dynamic_attach,
+> +
+> +	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach, bool is_dynamic, struct device *dev),
+> +
+> +	TP_ARGS(dmabuf, attach, is_dynamic, dev)
+> +);
+> +
+> +DEFINE_EVENT(dma_buf_attach_dev, dma_buf_detach,
+> +
+> +	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach, bool is_dynamic, struct device *dev),
+> +
+> +	TP_ARGS(dmabuf, attach, is_dynamic, dev)
+> +);
+> +
+> +DEFINE_EVENT(dma_buf_fd, dma_buf_fd,
+> +
+> +	TP_PROTO(struct dma_buf *dmabuf, int fd),
+> +
+> +	TP_ARGS(dmabuf, fd)
+> +);
+> +
+> +DEFINE_EVENT(dma_buf_fd, dma_buf_get,
+> +
+> +	TP_PROTO(struct dma_buf *dmabuf, int fd),
+> +
+> +	TP_ARGS(dmabuf, fd)
+> +);
+> +
+> +#endif /* _TRACE_DMA_BUF_H */
+> +
+> +/* This part must be outside protection */
+> +#include <trace/define_trace.h>
 
-While you are at it, I suggest making the comment a bit more useful.
-Something like:
-
-@tunnel_hash: Hash table to map from tunnel key ID (e.g., VXLAN VNI) to VLAN
-
->   * @vlan_list: sorted VLAN entry list
->   * @num_vlans: number of total VLAN entries
->   * @pvid: PVID VLAN id
-> -- 
-> An old man doll... just what I always wanted! - Clara
-> 
 
