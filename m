@@ -1,52 +1,46 @@
-Return-Path: <linux-media+bounces-48878-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48879-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26DAECC3134
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 14:09:29 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42914CC3197
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 14:12:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 318BE306258A
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 12:46:18 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 83C8E313099E
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 13:00:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7098E393780;
-	Tue, 16 Dec 2025 12:46:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB3CD39379B;
+	Tue, 16 Dec 2025 12:48:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="HHFt4Zns"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="TyTrEhII"
 X-Original-To: linux-media@vger.kernel.org
-Received: from ixit.cz (ip-94-112-25-9.bb.vodafone.cz [94.112.25.9])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A9DF393769;
-	Tue, 16 Dec 2025 12:46:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.112.25.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 998E6393763;
+	Tue, 16 Dec 2025 12:48:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765889173; cv=none; b=HG8Cypf9Ni8tAPACDEHePaDZn77KcVy7PC/dBwrppwvrsVEMlCv60To+XqvsBQhKAZx7Awyfk2i/d6igQJRV1noSDh+fxH5QxF38IBYJYA9CTeVoifojlPG3BKX1nESYFSJs+AN9kaYGpI1j9x7J+2lFb92qUiWnmL2DQhCB6lQ=
+	t=1765889302; cv=none; b=aEARR8JABGfAaK05KPhKiv1xyXzzaDOjTZvxpjry1MU2DnG+fCyn8ZZAEmx8H84g7IoEoHCTlzpsT5cOYyH1T2BtsdB9t2uY5b0+cuI83eOLeZHztk9ekTo8512Hipq/wRIBkUs3FnnKxHVmrJP7BAZbGsnRdVkZstB65/hG4hc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765889173; c=relaxed/simple;
-	bh=ZOR6We7VR24UmWJ3gDKxcxDQmTMrqeJ8ftMFqfvfSLs=;
+	s=arc-20240116; t=1765889302; c=relaxed/simple;
+	bh=NFVVMGHXoEiWLOJN4aK0rNVbu8wYLpU3u1csLagOCPg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ckYCfTIjKblrndi50AH7LZorxn8OFFAwAVn/PFN3+eIFp4pIPkxr/GqaskHCdx1lsR38J7EqTsMfUzkNIUaQg0rmA1Dp38Drf3QCrEQMldA87GS56JaP2QOMJu7sKx4UTLO02bkM0SOjj4BV1WYH6s52fu59FxhXGuO1+OZQQDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=HHFt4Zns; arc=none smtp.client-ip=94.112.25.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
-Received: from [192.168.88.180] (ip-94-112-34-59.bb.vodafone.cz [94.112.34.59])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 056975340BE8;
-	Tue, 16 Dec 2025 13:46:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1765889163;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=28f9laNQ4N72HSE9IWnSQnXXqp9z5ybybybmZ+MWrqg=;
-	b=HHFt4ZnsHVvLZfe+TWWpWTvSzigSptLU72648tH6kKyc+1g8DHen5BgwRdztbgVyO0Opx5
-	4mx5k+fypsJHiCp5k5WzJ7AzijDNDFK8hrGmE6gdKiYZNouqnbfdAsx09Zivur8X/a91WW
-	cO91bzAhjdfu/5MEOet9aFY6P2wfWj8=
-Message-ID: <5d96943a-7d36-4967-bb71-349aa1ebb491@ixit.cz>
-Date: Tue, 16 Dec 2025 13:46:01 +0100
+	 In-Reply-To:Content-Type; b=VLLQ1Mb6/KYnuP6ZjjntpnGcpBO5oKixmVfmTz1rYz5QMknL8m8u9k5dNwyc5pLEVvtl92LQ+wveyX/+btkxP3VHYG+3rI+R0V+yiGVDhzclkL+L7QbSeGVTlpNMP+uZDycba4WPwdWTyk4XHo40yq5+jW194iCCZOL/lA1QECw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=TyTrEhII; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 447EFA06;
+	Tue, 16 Dec 2025 13:48:11 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1765889291;
+	bh=NFVVMGHXoEiWLOJN4aK0rNVbu8wYLpU3u1csLagOCPg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=TyTrEhIIueZrJtBUV7m4fR7RgVXG+qFvaPHBDh5rZ+AFTI4SU2w7KSFe5rJ1qLK5i
+	 1XZu+CW6O8bfPOwlOT8j4cI/l1trqFt+x8WZYbfSrkow3KAQ8f/T8d9/Ci7856ud7Q
+	 pCzO5yz31ISmbSAtx6HTR8WB+4AHD/SJ6RvuMhgw=
+Message-ID: <dc01db26-9182-404f-ab90-22d833235757@ideasonboard.com>
+Date: Tue, 16 Dec 2025 14:48:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -54,95 +48,119 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] media: dt-bindings: Correct camss VDDA PLL supply
- description
-To: Bryan O'Donoghue <bod@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Vikram Sharma <quic_vikramsa@quicinc.com>,
- Kapatrala Syed <akapatra@quicinc.com>,
- Hariram Purushothaman <hariramp@quicinc.com>,
- Richard Acayan <mailingradian@gmail.com>, Hans Verkuil
- <hverkuil@kernel.org>, Depeng Shao <quic_depengs@quicinc.com>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- phone-devel@vger.kernel.org
-References: <20251216-docs-camss-fixes-v3-0-c238b6810771@ixit.cz>
- <rImOik_5YzCj9A9lNSvRoQL35eZQGF4xGV29jIx-oBM7FFRFKZvtjT4ebgWcU9g-CnMJhhctfFSU3EOJaBZ-uw==@protonmail.internalid>
- <20251216-docs-camss-fixes-v3-1-c238b6810771@ixit.cz>
- <a150f333-b27b-41f9-a20d-222eca1dd02b@kernel.org>
+Subject: Re: [PATCH v3 03/15] media: rcar-isp: Move {enable|disable}_streams()
+ calls
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+References: <20250530-rcar-streams-v3-0-026655df7138@ideasonboard.com>
+ <20250530-rcar-streams-v3-3-026655df7138@ideasonboard.com>
+ <20250602055742.GC11750@pendragon.ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <a150f333-b27b-41f9-a20d-222eca1dd02b@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <20250602055742.GC11750@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 16/12/2025 13:30, Bryan O'Donoghue wrote:
-> On 16/12/2025 12:24, David Heidelberg via B4 Relay wrote:
->> Fixes: 849139d46d09 ("media: dt-bindings: media: camss: Fixup vdda 
->> regulator descriptions sdm845")
+Hi,
+
+On 02/06/2025 12:43, Laurent Pinchart wrote:
+> Hi Tomi,
 > 
-> This Fixes tag pertains to just one commit, whereas your patch modifies 
-> files associated with ~ 6 commits.
+> Thank you for the patch.
 > 
-> Please drop the Fixes:
+> On Fri, May 30, 2025 at 04:50:32PM +0300, Tomi Valkeinen wrote:
+>> With multiple streams the operation to enable the ISP hardware and to
+>> call {enable|disable}_streams() on upstream subdev will need to be
+>> handled separately.
+>>
+>> Prepare for that by moving {enable|disable}_streams() calls out from
+>> risp_start() and risp_stop().
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>> ---
+>>  drivers/media/platform/renesas/rcar-isp/csisp.c | 18 ++++++++++--------
+>>  1 file changed, 10 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/renesas/rcar-isp/csisp.c b/drivers/media/platform/renesas/rcar-isp/csisp.c
+>> index 8fb2cc3b5650..2337c5d44c40 100644
+>> --- a/drivers/media/platform/renesas/rcar-isp/csisp.c
+>> +++ b/drivers/media/platform/renesas/rcar-isp/csisp.c
+>> @@ -268,18 +268,11 @@ static int risp_start(struct rcar_isp *isp, struct v4l2_subdev_state *state)
+>>  	/* Start ISP. */
+>>  	risp_write_cs(isp, ISPSTART_REG, ISPSTART_START);
+>>  
+>> -	ret = v4l2_subdev_enable_streams(isp->remote, isp->remote_pad,
+>> -					 BIT_ULL(0));
+>> -	if (ret)
+>> -		risp_power_off(isp);
+>> -
+>> -	return ret;
+>> +	return 0;
+>>  }
+>>  
+>>  static void risp_stop(struct rcar_isp *isp)
+>>  {
+>> -	v4l2_subdev_disable_streams(isp->remote, isp->remote_pad, BIT_ULL(0));
+>> -
+>>  	/* Stop ISP. */
+>>  	risp_write_cs(isp, ISPSTART_REG, ISPSTART_STOP);
+>>  
+>> @@ -305,6 +298,13 @@ static int risp_enable_streams(struct v4l2_subdev *sd,
+>>  			return ret;
+>>  	}
+>>  
+>> +	ret = v4l2_subdev_enable_streams(isp->remote, isp->remote_pad,
+>> +					 BIT_ULL(0));
+> 
+> You're now potentially calling v4l2_subdev_disable_streams() multiple
+> times on the same pad and stream, as this call isn't covered by the
+> stream_count check anymore. Is that correct ? Maybe because
+> risp_enable_streams() is guaranteed to never be called multiple times,
+> with stream_count never becoming larger than 1 ? If so that should be
+> explained in the commit message, and stream_count should probably be
+> dropped.
 
-Sure. If no additional changes will be requested, please drop the Fixes 
-line for me.
+This should be fine, as if we get multiple calls, we'll try to enable
+stream 0 multiple times, and that will fail. So, at this point of the
+series, we really only support a single stream, and thus an attempt to
+enable multiple VINs would fail here to the second
+v4l2_subdev_enable_streams() call.
 
-Thank you
+I'll add a note to the commit description.
 
 > 
-> ---
-> bod
+> Same when stopping.
+> 
+>> +	if (ret) {
+>> +		risp_stop(isp);
+> 
+> This is also not covered by the stream_count, while risp_start() is.
 
--- 
-David Heidelberg
+Indeed, I'll fix that.
+
+ Tomi
+
+>> +		return ret;
+>> +	}
+>> +
+>>  	isp->stream_count += 1;
+>>  
+>>  	return ret;
+>> @@ -322,6 +322,8 @@ static int risp_disable_streams(struct v4l2_subdev *sd,
+>>  	if (!isp->remote)
+>>  		return -ENODEV;
+>>  
+>> +	v4l2_subdev_disable_streams(isp->remote, isp->remote_pad, BIT_ULL(0));
+>> +
+>>  	if (isp->stream_count == 1)
+>>  		risp_stop(isp);
+>>  
+> 
 
 
