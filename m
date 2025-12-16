@@ -1,78 +1,93 @@
-Return-Path: <linux-media+bounces-48849-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48850-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00993CC11BE
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 07:31:25 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFD00CC12F0
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 07:50:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 40FA3304B3CC
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 06:31:04 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 324AA30557AD
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 06:45:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50F2A33AD86;
-	Tue, 16 Dec 2025 06:23:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F6AF2C21D8;
+	Tue, 16 Dec 2025 06:40:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="fiUth0hs"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tns92DqV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23E4C339704;
-	Tue, 16 Dec 2025 06:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B0D335560
+	for <linux-media@vger.kernel.org>; Tue, 16 Dec 2025 06:40:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765866211; cv=none; b=uAwpDMoT9M2LpjLs364itY0fdBfizCL0Oy+KAw7QFvVl2a8HgIQJSObRijAIARe8T8+KEGUyMz/u26LL951DdR0S2jU3pbzf9K+Ym1WOqBf5F3bC1ddpP4R+1YJLdVuJvWUPQC8GLpU0nh41uRxXF0a5E9XJDmXXz6+Qs6ilZa4=
+	t=1765867214; cv=none; b=QUxBJu5YmLgim0e09WXthblq2dji3Olz0qks+KnJchi83ylhdjSzFVAgtukKeq3McvaWEg+/vp1HXLiEkELeJm0PFRmdkNEclhKQPUfksWRFhjFObj6kqhjzt5WzykV1e2G5NEvCLzZHqDYhcqQCwP0XKE5ICG3OCM6At9CBEk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765866211; c=relaxed/simple;
-	bh=KXS37YyjXwGyVwcElhqkoHcS6uGn7C+PEeY0ctOiyZM=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GWJ0Gs7qlUHBDG0URfrmrmZm7Snw6XKEQTegvg6boWop4/5agmB39ok/p/NAlAe/dbMEh8XO86DGg4RrJPXRA67ErhUZQ5QGtmvR2NY4GxBm5+Uby9nyzKOgKREz1LiknbFK6CGm8enkqtCGPI4SheYll+VoQasfzKi9q8Y8UdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=fiUth0hs; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BG47nmU366854;
-	Tue, 16 Dec 2025 06:23:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	2HjJrGjhfs07c73fKTkfOQ/NGQqBB4D5WunMQYV/3Eg=; b=fiUth0hswedBK2d4
-	rLxGQUjO7OYbWzojh+mMKCrriWtfiHSUIRb52cS33wVqRRAlD1f1C6dNkPNc01jG
-	l4arnmwnFWsJso8O2MmObQB/2Tr/OKP+Mx1V7KibaeY9PZ/9fCNpkQxt1hpY/5MA
-	/oNObV14N4uWmFB2IOjrHBpweAhl+SEY8jBccF+KxWOFwpk0sIh2xVxc+68REdlp
-	7D8cbYnBCHMJGjs1bJaVVDxzV3GvSigDZuiF5FL+gIETFuyXJn5G9T1NSUSYZyzR
-	4PT2w5tfqan815ncdcjkuGCeNblnXWTRpzViO2E/4p5ivclTzcafxreFyL2zVVwZ
-	TsZorw==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b2j1c3d6h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 16 Dec 2025 06:23:12 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5BG6NBPu006817
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 16 Dec 2025 06:23:11 GMT
-Received: from hu-nihalkum-hyd.qualcomm.com (10.80.80.8) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Mon, 15 Dec 2025 22:23:05 -0800
-From: Nihal Kumar Gupta <quic_nihalkum@quicinc.com>
-To: <bryan.odonoghue@linaro.org>, <mchehab@kernel.org>, <robh@kernel.org>,
-        <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <andersson@kernel.org>,
-        <konradybcio@kernel.org>, <hverkuil-cisco@xs4all.nl>,
-        <cros-qcom-dts-watchers@chromium.org>, <catalin.marinas@arm.com>,
-        <will@kernel.org>
-CC: <linux-arm-kernel@lists.infradead.org>, <quic_svankada@quicinc.com>,
-        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Ravi Shankar
-	<quic_rshankar@quicinc.com>,
-        Vishal Verma <quic_vishverm@quicinc.com>,
-        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Subject: [PATCH v7 5/5] arm64: dts: qcom: monaco-evk-camera: Add DT overlay
-Date: Tue, 16 Dec 2025 11:52:23 +0530
-Message-ID: <20251216062223.2474216-6-quic_nihalkum@quicinc.com>
+	s=arc-20240116; t=1765867214; c=relaxed/simple;
+	bh=5cCqxAsIb+pe2OfGUOMv+i65IXRjCVwzrlJiPOfhvFc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=uQLwS3wrrICLqgeQ+7v1BJWpbiTpNVfsdf2oFjSb3U5stGZxnnDfLOKQod4ijhjYEkdeajnVHCANuHfgca/pMl60HaB+Hdo7EM2UG1R9EZ7bm1OCHx6lH+2pUgxzHyLImHqep5ZpOF64GOkg9Bt3Y3Ee7y12WJ2/BRlZfWE3d7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tns92DqV; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7bb710d1d1dso6298916b3a.1
+        for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 22:40:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765867205; x=1766472005; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vg+4fJFzdGn98FzAnl0v5lB7PczGqqfyNaIVae6fwYU=;
+        b=Tns92DqV0v1L7O4KNzOcrEz7ifqcnyF+nL95tlETlrL5NC8TpH1RbM3KZX5E/zEfvL
+         fq5OgrBUl/lQv1RBk2pqizshodvNgt3FrF8bObLlDnRpr67c18rVU61WcJHe2aoViwwa
+         j530WSmEV1oFPsP6pJ0NfHIIuLUxBdMBXY9bRUQo4TMWjCKq+VA3/ry502NTlKmXEwUj
+         1lA8keJPTROF/wOxe7K6CUDgge893sfCneENIHZLAWuz2hO/Ma/wbO2GHWSB9Ogn3ARQ
+         6UnjwNAQHqXCrk9/GPcP7m+aTrM+lZUkBAooRG+aIX+6XgveZ2UCHJ8jbSVbeBXBzc1R
+         CbCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765867205; x=1766472005;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Vg+4fJFzdGn98FzAnl0v5lB7PczGqqfyNaIVae6fwYU=;
+        b=qZ2um0lL9p5TguCjRAeMCQ+IIFRStWi74tsqYRxlpa+dPyG06R9gdyi7C3QyaU0M4p
+         jEbt8NxUy01nOKtOU+NH4vdQKmyExnCs0ZCkhbiMv51m8BNQM0XzhNDWiS3G6aiK8BxJ
+         DirqKq6lB6QwMTw9Apu30yc9cdYC7krTqpE7KX3GaOBaLqQyclze9Dau6dbp0mpveLYD
+         IXImgMTMb+zWti5PkjbVyaeFU9oyivhQpE35K2F1YVxidPvpVvyoo5cCiZKuZ901zwGT
+         i2uxS1IstCCaFvPTMWlvwSzdXXfPRO83ibcTwRXra86l8sFjhT7RkqK+rgadV5EokS1K
+         AOug==
+X-Gm-Message-State: AOJu0YwdLIaMJ7KIeUKJHUcus3d9MDLNKT/Mj0fMjRHgNsIekaYwowd+
+	u/TlhwWFXuUGZEjsqvmqZVqXEtPcAFwXylSnwZ1JYfB4VLtVqYjuUAST
+X-Gm-Gg: AY/fxX7pwq3Oii1AFehKFDtd5zq54zKcm/EVo04z+vJNt4aVrEu4qQitNS7am24gD+5
+	Bk6gR1+fEz/En+m0MOGUTwAjxSTkpWOsmfXEJNne2aFca8opDwQynBdlTWDEJh/dTP6usRfYo69
+	7/jdJXMzrisn78P68uCngynyuzm4RvWZIF6mG7XC8SzgIBAKUBP33wsESVkuARe1PWLmRf8ntT9
+	NR7w3c9djPhnpEVl1ZihNkSkvkGib+bGLbz+Fy3g6/AzqP/1zK8Xu0IFlQ0v3SEg0QM7BK7eTZc
+	lMuTbm0aBGHgknfrkvJTnPhR4XaI1A/ugh4sw5ty2RGRTjQdymrsriI2AYAtf8Cn/gF+spoCIwU
+	sYoJEsfo4XU4IDeb1Zho7l0u7nh7KdxeiPDvph48yk+f+rBI1XPz3gdcQlXHOAJh/ZMNX2yg9+N
+	+gsFsmn1/uh4+kPesM7s+n
+X-Google-Smtp-Source: AGHT+IFUe+Cj7o/VwampK5l2braADbi/l+h05PjVtnGg9s2uaqhmXbwcPzsvzvSt/zsFVsg1Oslm+A==
+X-Received: by 2002:a05:6a00:138e:b0:7f7:612e:461e with SMTP id d2e1a72fcca58-7f7612e46e6mr11323604b3a.57.1765867205166;
+        Mon, 15 Dec 2025 22:40:05 -0800 (PST)
+Received: from xiao.mioffice.cn ([43.224.245.230])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7f634c229b9sm11325856b3a.43.2025.12.15.22.40.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Dec 2025 22:40:04 -0800 (PST)
+From: Xiang Gao <gxxa03070307@gmail.com>
+To: sumit.semwal@linaro.org,
+	christian.koenig@amd.com,
+	rostedt@goodmis.org,
+	mhiramat@kernel.org
+Cc: linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	mathieu.desnoyers@efficios.com,
+	dhowells@redhat.com,
+	kuba@kernel.org,
+	brauner@kernel.org,
+	akpm@linux-foundation.org,
+	linux-trace-kernel@vger.kernel.org,
+	gaoxiang17 <gaoxiang17@xiaomi.com>
+Subject: [PATCH v6] dma-buf: add some tracepoints to debug.
+Date: Tue, 16 Dec 2025 14:39:52 +0800
+Message-Id: <20251216063952.516364-1-gxxa03070307@gmail.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251216062223.2474216-1-quic_nihalkum@quicinc.com>
-References: <20251216062223.2474216-1-quic_nihalkum@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -80,154 +95,305 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE2MDA1MCBTYWx0ZWRfXxj7pSTvFbkGF
- /gDkiMgb1InQQ9RfrpBHg66yaJmXiu5BbW1GwotzxCyMGM/WULQ/wXLfWUa+4bTj7DYddAFqZit
- DwW5Q3FwNYe4/E/rAtV8Cxh2WylBl4S2J+9+ChlpIFRdXa8YjceLSEYlaioMPOeyCpw1J2iDjjG
- 1vnZKqqlFyuxABgWR93rEe/89SdYVHAJ4bqBgQFpbpusqWBeRLUYZCKecJDFNR6tbJZUpFIQhKQ
- wuY2XSmytJnlMEO9kJ3BBMPTREotV2wSM5FJAg5GgPYm5T1PBMJ8uPgOZ/mEX4R+DE3fHcN94S4
- Qm5JK/g1JpIjZbFJoY6D/jRg5XB1XoJwwpSFTW8LGkuiuIJqBCHkj+gSNm1VKNVr6VUU9J7Cz5b
- gm5Wud9s7vVaM4qSP4K3soSPXdVQew==
-X-Proofpoint-GUID: JJdPrIxGELN33m3KaFl7TsKBOlAJn2e_
-X-Authority-Analysis: v=2.4 cv=ceLfb3DM c=1 sm=1 tr=0 ts=6940fad0 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=COk6AnOGAAAA:8 a=KKAkSRfTAAAA:8 a=8jGGn9Z0z0XTtIQmd1MA:9
- a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: JJdPrIxGELN33m3KaFl7TsKBOlAJn2e_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-16_01,2025-12-15_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 impostorscore=0 clxscore=1015 phishscore=0 priorityscore=1501
- adultscore=0 bulkscore=0 lowpriorityscore=0 malwarescore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512160050
 
-Monaco EVK board does not include a camera sensor in its default hardware
-configuration. Introducing a device tree overlay to support optional
-integration of the IMX577 sensor via CSIPHY1.
+From: gaoxiang17 <gaoxiang17@xiaomi.com>
 
-Camera reset is handled through an I2C expander, and power is enabled
-via TLMM GPIO74.
+Since we can only inspect dmabuf by iterating over process FDs or the
+dmabuf_list, we need to add our own tracepoints to track its status in
+real time in production.
 
-An example media-ctl pipeline for the imx577 is:
+For example:
+   binder:3016_1-3102    [006] ...1.   255.126521: dma_buf_export: exp_name=qcom,system size=12685312 ino=2738
+   binder:3016_1-3102    [006] ...1.   255.126528: dma_buf_fd: exp_name=qcom,system size=12685312 ino=2738 fd=8
+   binder:3016_1-3102    [006] ...1.   255.126642: dma_buf_mmap_internal: exp_name=qcom,system size=28672 ino=2739
+     kworker/6:1-86      [006] ...1.   255.127194: dma_buf_put: exp_name=qcom,system size=12685312 ino=2738
+    RenderThread-9293    [006] ...1.   316.618179: dma_buf_get: exp_name=qcom,system size=12771328 ino=2762 fd=176
+    RenderThread-9293    [006] ...1.   316.618195: dma_buf_dynamic_attach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
+    RenderThread-9293    [006] ...1.   318.878220: dma_buf_detach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
 
-media-ctl --reset
-media-ctl -V '"imx577 3-001a":0[fmt:SRGGB10/4056x3040 field:none]'
-media-ctl -V '"msm_csiphy1":0[fmt:SRGGB10/4056x3040]'
-media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
-media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
-media-ctl -l '"msm_csiphy1":1->"msm_csid0":0[1]'
-media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
-yavta -B capture-mplane -c -I -n 5 -f SRGGB10P -s 4056x3040 -F /dev/video1
-
-Signed-off-by: Nihal Kumar Gupta <quic_nihalkum@quicinc.com>
-Co-developed-by: Ravi Shankar <quic_rshankar@quicinc.com>
-Signed-off-by: Ravi Shankar <quic_rshankar@quicinc.com>
-Co-developed-by: Vishal Verma <quic_vishverm@quicinc.com>
-Signed-off-by: Vishal Verma <quic_vishverm@quicinc.com>
-Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
-Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Signed-off-by: Xiang Gao <gaoxiang17@xiaomi.com>
 ---
- arch/arm64/boot/dts/qcom/Makefile             |  4 ++
- .../dts/qcom/monaco-evk-camera-imx577.dtso    | 67 +++++++++++++++++++
- 2 files changed, 71 insertions(+)
- create mode 100644 arch/arm64/boot/dts/qcom/monaco-evk-camera-imx577.dtso
+ drivers/dma-buf/dma-buf.c      |  42 ++++++++-
+ include/trace/events/dma_buf.h | 154 +++++++++++++++++++++++++++++++++
+ 2 files changed, 195 insertions(+), 1 deletion(-)
+ create mode 100644 include/trace/events/dma_buf.h
 
-diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
-index 6f34d5ed331c..b1ba182a0d8d 100644
---- a/arch/arm64/boot/dts/qcom/Makefile
-+++ b/arch/arm64/boot/dts/qcom/Makefile
-@@ -38,6 +38,10 @@ lemans-evk-camera-dtbs	:= lemans-evk.dtb lemans-evk-camera.dtbo
- dtb-$(CONFIG_ARCH_QCOM)	+= lemans-evk-camera-csi1-imx577.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= lemans-evk-camera.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= monaco-evk.dtb
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 2bcf9ceca997..831973de76c4 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -35,6 +35,25 @@
+ 
+ #include "dma-buf-sysfs-stats.h"
+ 
++#define CREATE_TRACE_POINTS
++#include <trace/events/dma_buf.h>
 +
-+monaco-evk-camera-imx577-dtbs	:= monaco-evk.dtb monaco-evk-camera-imx577.dtbo
-+dtb-$(CONFIG_ARCH_QCOM)	+= monaco-evk-camera-imx577.dtb
-+
- dtb-$(CONFIG_ARCH_QCOM)	+= msm8216-samsung-fortuna3g.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= msm8916-acer-a1-724.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= msm8916-alcatel-idol347.dtb
-diff --git a/arch/arm64/boot/dts/qcom/monaco-evk-camera-imx577.dtso b/arch/arm64/boot/dts/qcom/monaco-evk-camera-imx577.dtso
-new file mode 100644
-index 000000000000..351eb5ee70ba
---- /dev/null
-+++ b/arch/arm64/boot/dts/qcom/monaco-evk-camera-imx577.dtso
-@@ -0,0 +1,67 @@
-+// SPDX-License-Identifier: BSD-3-Clause
 +/*
-+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
++ * dmabuf->name must be accessed with holding dmabuf->name_lock.
++ * we need to take the lock around the tracepoint call itself where
++ * it is called in the code.
++ *
++ * Note: FUNC##_enabled() is a static branch that will only
++ *       be set when the trace event is enabled.
 + */
++#define DMA_BUF_TRACE(FUNC, ...)                  \
++    do {                                          \
++        if (FUNC##_enabled()) {                   \
++            guard(spinlock)(&dmabuf->name_lock); \
++            FUNC(__VA_ARGS__);                    \
++        }                                         \
++    } while (0)
 +
-+/dts-v1/;
-+/plugin/;
+ static inline int is_dma_buf_file(struct file *);
+ 
+ static DEFINE_MUTEX(dmabuf_list_mutex);
+@@ -220,6 +239,8 @@ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
+ 	    dmabuf->size >> PAGE_SHIFT)
+ 		return -EINVAL;
+ 
++	DMA_BUF_TRACE(trace_dma_buf_mmap_internal, dmabuf);
 +
-+#include <dt-bindings/clock/qcom,sa8775p-camcc.h>
-+#include <dt-bindings/gpio/gpio.h>
+ 	return dmabuf->ops->mmap(dmabuf, vma);
+ }
+ 
+@@ -745,6 +766,8 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+ 
+ 	__dma_buf_list_add(dmabuf);
+ 
++	DMA_BUF_TRACE(trace_dma_buf_export, dmabuf);
 +
-+&camss {
-+	vdda-phy-supply = <&vreg_l4a>;
-+	vdda-pll-supply = <&vreg_l5a>;
+ 	return dmabuf;
+ 
+ err_dmabuf:
+@@ -779,6 +802,8 @@ int dma_buf_fd(struct dma_buf *dmabuf, int flags)
+ 
+ 	fd_install(fd, dmabuf->file);
+ 
++	DMA_BUF_TRACE(trace_dma_buf_fd, dmabuf, fd);
 +
-+	status = "okay";
+ 	return fd;
+ }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_fd, "DMA_BUF");
+@@ -794,6 +819,7 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_fd, "DMA_BUF");
+ struct dma_buf *dma_buf_get(int fd)
+ {
+ 	struct file *file;
++	struct dma_buf *dmabuf;
+ 
+ 	file = fget(fd);
+ 
+@@ -805,7 +831,11 @@ struct dma_buf *dma_buf_get(int fd)
+ 		return ERR_PTR(-EINVAL);
+ 	}
+ 
+-	return file->private_data;
++	dmabuf = file->private_data;
 +
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
++	DMA_BUF_TRACE(trace_dma_buf_get, dmabuf, fd);
 +
-+		port@1 {
-+			reg = <1>;
++	return dmabuf;
+ }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_get, "DMA_BUF");
+ 
+@@ -825,6 +855,8 @@ void dma_buf_put(struct dma_buf *dmabuf)
+ 		return;
+ 
+ 	fput(dmabuf->file);
 +
-+			csiphy1_ep: endpoint {
-+				clock-lanes = <7>;
-+				data-lanes = <0 1 2 3>;
-+				remote-endpoint = <&imx577_ep1>;
-+			};
-+		};
-+	};
-+};
++	DMA_BUF_TRACE(trace_dma_buf_put, dmabuf);
+ }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_put, "DMA_BUF");
+ 
+@@ -979,6 +1011,9 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
+ 	list_add(&attach->node, &dmabuf->attachments);
+ 	dma_resv_unlock(dmabuf->resv);
+ 
++	DMA_BUF_TRACE(trace_dma_buf_dynamic_attach, dmabuf, attach,
++		dma_buf_attachment_is_dynamic(attach), dev);
 +
-+&cci1 {
-+	pinctrl-0 = <&cci1_0_default>;
-+	pinctrl-1 = <&cci1_0_sleep>;
+ 	return attach;
+ 
+ err_attach:
+@@ -1023,6 +1058,9 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
+ 	if (dmabuf->ops->detach)
+ 		dmabuf->ops->detach(dmabuf, attach);
+ 
++	DMA_BUF_TRACE(trace_dma_buf_detach, dmabuf, attach,
++		dma_buf_attachment_is_dynamic(attach), attach->dev);
 +
-+	status = "okay";
-+};
+ 	kfree(attach);
+ }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_detach, "DMA_BUF");
+@@ -1488,6 +1526,8 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
+ 	vma_set_file(vma, dmabuf->file);
+ 	vma->vm_pgoff = pgoff;
+ 
++	DMA_BUF_TRACE(trace_dma_buf_mmap, dmabuf);
 +
-+&cci1_i2c0 {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
+ 	return dmabuf->ops->mmap(dmabuf, vma);
+ }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_mmap, "DMA_BUF");
+diff --git a/include/trace/events/dma_buf.h b/include/trace/events/dma_buf.h
+new file mode 100644
+index 000000000000..81ee4d05979c
+--- /dev/null
++++ b/include/trace/events/dma_buf.h
+@@ -0,0 +1,154 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#undef TRACE_SYSTEM
++#define TRACE_SYSTEM dma_buf
 +
-+	camera@1a {
-+		compatible = "sony,imx577";
-+		reg = <0x1a>;
++#if !defined(_TRACE_DMA_BUF_H) || defined(TRACE_HEADER_MULTI_READ)
++#define _TRACE_DMA_BUF_H
 +
-+		reset-gpios = <&expander2 1 GPIO_ACTIVE_LOW>;
-+		pinctrl-0 = <&cam1_default>;
-+		pinctrl-names = "default";
++#include <linux/dma-buf.h>
++#include <linux/tracepoint.h>
 +
-+		clocks = <&camcc CAM_CC_MCLK1_CLK>;
-+		assigned-clocks = <&camcc CAM_CC_MCLK1_CLK>;
-+		assigned-clock-rates = <24000000>;
++DECLARE_EVENT_CLASS(dma_buf,
 +
-+		avdd-supply = <&vreg_cam1_2p8>;
++	TP_PROTO(struct dma_buf *dmabuf),
 +
-+		port {
-+			imx577_ep1: endpoint {
-+				link-frequencies = /bits/ 64 <600000000>;
-+				data-lanes = <0 1 2 3>;
-+				remote-endpoint = <&csiphy1_ep>;
-+			};
-+		};
-+	};
-+};
++	TP_ARGS(dmabuf),
++
++	TP_STRUCT__entry(
++		__string(exp_name, dmabuf->exp_name)
++		__field(size_t, size)
++		__field(ino_t, ino)
++	),
++
++	TP_fast_assign(
++		__assign_str(exp_name);
++		__entry->size = dmabuf->size;
++		__entry->ino = dmabuf->file->f_inode->i_ino;
++	),
++
++	TP_printk("exp_name=%s size=%zu ino=%lu",
++		  __get_str(exp_name),
++		  __entry->size,
++		  __entry->ino)
++);
++
++DECLARE_EVENT_CLASS(dma_buf_attach_dev,
++
++	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach, bool is_dynamic, struct device *dev),
++
++	TP_ARGS(dmabuf, attach, is_dynamic, dev),
++
++	TP_STRUCT__entry(
++		__string(dev_name, dev_name(dev))
++		__string(exp_name, dmabuf->exp_name)
++		__field(size_t, size)
++		__field(ino_t, ino)
++		__field(struct dma_buf_attachment *, attach)
++		__field(bool, is_dynamic)
++	),
++
++	TP_fast_assign(
++		__assign_str(dev_name);
++		__assign_str(exp_name);
++		__entry->size = dmabuf->size;
++		__entry->ino = dmabuf->file->f_inode->i_ino;
++		__entry->is_dynamic = is_dynamic;
++		__entry->attach = attach;
++	),
++
++	TP_printk("exp_name=%s size=%zu ino=%lu attachment:%p is_dynamic=%d dev_name=%s",
++		  __get_str(exp_name),
++		  __entry->size,
++		  __entry->ino,
++		  __entry->attach,
++		  __entry->is_dynamic,
++		  __get_str(dev_name))
++);
++
++DECLARE_EVENT_CLASS(dma_buf_fd,
++
++	TP_PROTO(struct dma_buf *dmabuf, int fd),
++
++	TP_ARGS(dmabuf, fd),
++
++	TP_STRUCT__entry(
++		__string(exp_name, dmabuf->exp_name)
++		__field(size_t, size)
++		__field(ino_t, ino)
++		__field(int, fd)
++	),
++
++	TP_fast_assign(
++		__assign_str(exp_name);
++		__entry->size = dmabuf->size;
++		__entry->ino = dmabuf->file->f_inode->i_ino;
++		__entry->fd = fd;
++	),
++
++	TP_printk("exp_name=%s size=%zu ino=%lu fd=%d",
++		  __get_str(exp_name),
++		  __entry->size,
++		  __entry->ino,
++		  __entry->fd)
++);
++
++DEFINE_EVENT(dma_buf, dma_buf_export,
++
++	TP_PROTO(struct dma_buf *dmabuf),
++
++	TP_ARGS(dmabuf)
++);
++
++DEFINE_EVENT(dma_buf, dma_buf_mmap_internal,
++
++	TP_PROTO(struct dma_buf *dmabuf),
++
++	TP_ARGS(dmabuf)
++);
++
++DEFINE_EVENT(dma_buf, dma_buf_mmap,
++
++	TP_PROTO(struct dma_buf *dmabuf),
++
++	TP_ARGS(dmabuf)
++);
++
++DEFINE_EVENT(dma_buf, dma_buf_put,
++
++	TP_PROTO(struct dma_buf *dmabuf),
++
++	TP_ARGS(dmabuf)
++);
++
++DEFINE_EVENT(dma_buf_attach_dev, dma_buf_dynamic_attach,
++
++	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach, bool is_dynamic, struct device *dev),
++
++	TP_ARGS(dmabuf, attach, is_dynamic, dev)
++);
++
++DEFINE_EVENT(dma_buf_attach_dev, dma_buf_detach,
++
++	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach, bool is_dynamic, struct device *dev),
++
++	TP_ARGS(dmabuf, attach, is_dynamic, dev)
++);
++
++DEFINE_EVENT(dma_buf_fd, dma_buf_fd,
++
++	TP_PROTO(struct dma_buf *dmabuf, int fd),
++
++	TP_ARGS(dmabuf, fd)
++);
++
++DEFINE_EVENT(dma_buf_fd, dma_buf_get,
++
++	TP_PROTO(struct dma_buf *dmabuf, int fd),
++
++	TP_ARGS(dmabuf, fd)
++);
++
++#endif /* _TRACE_DMA_BUF_H */
++
++/* This part must be outside protection */
++#include <trace/define_trace.h>
 -- 
 2.34.1
 
