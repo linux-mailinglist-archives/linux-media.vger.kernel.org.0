@@ -1,47 +1,48 @@
-Return-Path: <linux-media+bounces-48905-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48906-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7771ACC40D7
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 16:50:02 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33186CC40C5
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 16:49:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D06CE309F222
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 15:46:08 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0DAE9308CFAC
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 15:45:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7214B35505F;
-	Tue, 16 Dec 2025 15:19:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF5B33559DA;
+	Tue, 16 Dec 2025 15:19:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jAIvc0ID"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="X/LqkaL9"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD095352FAD;
-	Tue, 16 Dec 2025 15:19:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B40535504E;
+	Tue, 16 Dec 2025 15:19:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765898369; cv=none; b=pq66VvkiEWZPy+MDn0cV+CpoXCSZo1B8Tb+pmCefnpQfzK9c04amnuZU6679hqm+HuOyVwkkH5Xlm/IKCAPdrzJ3d3d3h/HS9wC78TdIIo0N12MFg7ikmTkfq5Xi8IIl/P+JG6JyR+myFv3dp5OsbWYsC/CGT0rP/cL1YHXhOW4=
+	t=1765898373; cv=none; b=JSurgUewi5Yw6sp8mSUt2ywgjI+rgCKb4kYbuaOx/kjRypAyP/3wAMjQ3GWqjxlY54UK/PAK/Tyv4hvNcMsYKTZFaQw+g+XPH3LCkaDagUNGXOEirYVIGfjFmbfeunkg78sCoe9oQLMa2vueoG31ypGX3wOoONxqQ7cWKaoAy3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765898369; c=relaxed/simple;
-	bh=dhK3uD+Ut+8LJFD1lnLJkekf7X3cpMpIVzZnITUPmuc=;
+	s=arc-20240116; t=1765898373; c=relaxed/simple;
+	bh=Iff4ud66u5yMU9jO70xyyuEbjXflyaiIAtTzW1C/x5c=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MGJDMcmgyUKwEhtNRgBXV0DZAQ+qoPFJvlpOnjYkVjr1mArSPaJrTiMVdFlO5rbdVHuBkkadHEtkogcFgJ/nT4ItYibTKI7S1IbUilXABOmv8MUsB2CjU6cG5UrIbo3VOKLwt3juzABobTo3i5uMw8/QMgY8l+xw1gjXW2/+hLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jAIvc0ID; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=SprTVnr92Orajp03YDRGPYbhLq2odMgCIHMSMKoCZ4rqhucWigFgAfwjeyNwUose+Chej8uYPvzPs0FlQ02NU+MmlEfXbow0TuO0IqHtteZLztTCQfYKgf/Fd6eZ6nHSTcNpmKwCorbnk+aAC9Ju+QZJffnsfuN7fXO3uHJxNY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=X/LqkaL9; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 92EAB594;
-	Tue, 16 Dec 2025 16:19:07 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4FCE416A1;
+	Tue, 16 Dec 2025 16:19:08 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
 	s=mail; t=1765898348;
-	bh=dhK3uD+Ut+8LJFD1lnLJkekf7X3cpMpIVzZnITUPmuc=;
+	bh=Iff4ud66u5yMU9jO70xyyuEbjXflyaiIAtTzW1C/x5c=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=jAIvc0IDr3Mfyv2X7rdmDZUw2ln3/D2Yqr4nFZQHb9wS9oDMReTm0Nhj0FIh8+GCM
-	 V0irtkeN55O3HR/rSA/MN3z8kcF9QphRd4Kkmm/mvQEFfODWE4GP7qJA5BtuNsPQY8
-	 UycidPQPE6OgGClevBWDA1yt/r4zUeKu06+n28uM=
+	b=X/LqkaL9etm11VBvglSuzW+lXJn8K6N65VIrPinPSvDa3UaaYzDeqytu7O50OyQO7
+	 +onNgAee3UDKyQF8TfkXopSFkwoVkvLP3ximJHHFHcKemGZhQCtdYyAEqtZnMElsh2
+	 N5e9hoRQV/Qeab0j526m4DiWqKQsTgIHAPjZ4WvQ=
 From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Date: Tue, 16 Dec 2025 17:18:28 +0200
-Subject: [PATCH v4 11/15] media: rcar-csi2: Add .get_frame_desc op
+Date: Tue, 16 Dec 2025 17:18:29 +0200
+Subject: [PATCH v4 12/15] media: rcar-isp: Call get_frame_desc to find out
+ VC & DT
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +51,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251216-rcar-streams-v4-11-f28b4831cc67@ideasonboard.com>
+Message-Id: <20251216-rcar-streams-v4-12-f28b4831cc67@ideasonboard.com>
 References: <20251216-rcar-streams-v4-0-f28b4831cc67@ideasonboard.com>
 In-Reply-To: <20251216-rcar-streams-v4-0-f28b4831cc67@ideasonboard.com>
 To: =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
@@ -64,122 +65,175 @@ Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
  Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 X-Mailer: b4 0.15-dev-c25d1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2753;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4963;
  i=tomi.valkeinen+renesas@ideasonboard.com; h=from:subject:message-id;
- bh=dhK3uD+Ut+8LJFD1lnLJkekf7X3cpMpIVzZnITUPmuc=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBpQXhmNVeW0hlujPsjS4BTqkBrTm+M2BMWWfUz3
- /owcFNl71aJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCaUF4ZgAKCRD6PaqMvJYe
- 9T87D/9dqArUf0CC4gfOtNWsTEgsBaai1JTpwPzdFZuQwOvxP1YeaEy+U4iVdbOHoNUCzXRIX9d
- qs1yu8/7tg7vI0j/6dFeIApQ2C1CjO9LVUXmVsPLdnjR/KNi9im82RnFfd4JYOtUJfBqxldobmQ
- J5VSKGTbeXSHf71sx2wx4pwyLhz2dQwQhEMlmcF68haAX6iMgq60jXG867bctBrv9jWuI5DfCPg
- Hh2JvQbjM4VVlDEtegTbTeYiRIVx8hrJTY/u1Fw9G4wIC/9tM2hDiRLG7hMYVlJ/9N9Bdw6xIEU
- 9gqgM8bJnUfTeTsdranmjtqrP+xaUBoYHGPIGaRjWEg6vB71RMm2kytb3xRilCpgXXde6ql5gTy
- XQYnH7aqFRTZVGwbMNSGf7fAbwDLj1oRZZMd95OLXY/OdOA0icRy9h20auW1FkvkFwgWyE5Wbq2
- GqSmKlOuRJZgpocHdmbqDbiSCG9qHiLPeZmThoYwdiuxZtzs8FC33CcT1NCisT4hKS9c0s0GA/H
- ltwZ8phjVOYG+6YwFw2m0Fa2EdmKHgHUua+HIXHCqOTe7ZVePCad1lCDxxgAbH8PRDf2pqVSTMh
- BKoIPHMYxztH57VBoIikn5F3mefJp39Dg9BQwBMVYs2NtWBM0kmxtQxdiCeGKvg4qcXyOPoLbEm
- xhUN84EF3/osEzQ==
+ bh=Iff4ud66u5yMU9jO70xyyuEbjXflyaiIAtTzW1C/x5c=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBpQXhnRlBDL0n92fTnfACD9/Y4EbijjZDhgVQIu
+ ur7sZUI8auJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCaUF4ZwAKCRD6PaqMvJYe
+ 9ankD/9nAMciVIxG8eU+6QZ6QGgkXC+Ftd0mOGYh+lBxZG89eGcR9uwZYmD1J6dM8qLNpPBorsL
+ rLmku+qneH/7QLC0B94bexZr1gko4+6mCwOEcuUbwVwbhg6yI07Hnt/izhG6BDYlbRnmlCwCJVA
+ j1wpXEePajQMNnQDDAZTG6ulqClmqdGJBn9OzCaWj4Ke/9B3i/Kv0EBe2ubyOffLOnS/mRSf0W4
+ EPzjYrOS8axO11p5gMLTa4tJ8itEB7txNWeteL4s9gGm97GHMPyS6bqnfQSBFjVQIGl1sqiwr9v
+ C+soN+GdVU6NDyOgdd6t90O+Br3fP0O9xQ34eoxsBJBhGAqvla4rDPYjHMJmTdWxgUP7hlC+CZ5
+ 8jPW5D90th/ePM2+WI5J+aHCEeeyTCi898MpH5Rxuu7cYOZoGKp93thx7eU5lKLYsgkrbS+mgAI
+ xizyq7jYz9MK7NZsBTP41EmpS6cb/ipq3NxXRZZQT3EuAaxAH+MfoFhSrO2+L67rVN37Sa5IRuX
+ +hino28JgvN4OXMG/HJWdK+LofYC1YHcCy/cKNlQ6a1/Ow3EzbbsXh/j8XtPHdQPnMxL7wwAFGG
+ bV9r+aEbffY9lNEwik54e/136jaIyf9nIq0gcCjX9bu7qQq68FhXgIX8zb/S5ir1hOx4rCJW6Mr
+ CNtw1GvSOZBubSA==
 X-Developer-Key: i=tomi.valkeinen+renesas@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-Add v4l2_subdev_pad_ops.get_frame_desc() implementation.
-
-We also implement a fallback for the case where the upstream subdevice
-does not implement .get_frame_desc. It assumes a single stream with VC =
-0 and DT based on the configured stream mbus format.
+Call get_frame_desc to find out VC & DT, instead of hardcoding the VC
+routing and deducing the DT based on the mbus format.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 ---
- drivers/media/platform/renesas/rcar-csi2.c | 70 ++++++++++++++++++++++++++++++
- 1 file changed, 70 insertions(+)
+ drivers/media/platform/renesas/rcar-isp/csisp.c | 110 ++++++++++++++++--------
+ 1 file changed, 74 insertions(+), 36 deletions(-)
 
-diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
-index ad62c95c8f9a..b8baf7c65e90 100644
---- a/drivers/media/platform/renesas/rcar-csi2.c
-+++ b/drivers/media/platform/renesas/rcar-csi2.c
-@@ -1935,12 +1935,82 @@ static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
- 	return 0;
+diff --git a/drivers/media/platform/renesas/rcar-isp/csisp.c b/drivers/media/platform/renesas/rcar-isp/csisp.c
+index 8ac45516aa39..18d63731b6c0 100644
+--- a/drivers/media/platform/renesas/rcar-isp/csisp.c
++++ b/drivers/media/platform/renesas/rcar-isp/csisp.c
+@@ -42,6 +42,9 @@
+ #define ISPCS_DT_CODE03_EN0				BIT(7)
+ #define ISPCS_DT_CODE03_DT0(dt)				((dt) & 0x3f)
+ 
++/* ISP has 12 channels, of which channels 4 to 11 are connected to VINs */
++#define ISPCS_NUM_CHANNELS	12
++
+ struct rcar_isp_format {
+ 	u32 code;
+ 	unsigned int datatype;
+@@ -225,31 +228,82 @@ static void risp_power_off(struct rcar_isp *isp)
+ 	pm_runtime_put(isp->dev);
  }
  
-+static int rcsi2_get_frame_desc_fallback(struct v4l2_subdev *sd,
-+					 unsigned int pad,
-+					 struct v4l2_mbus_frame_desc *fd)
-+{
+-static int risp_start(struct rcar_isp *isp, struct v4l2_subdev_state *state)
++static int risp_configure_routing(struct rcar_isp *isp,
++				  struct v4l2_subdev_state *state)
+ {
+-	const struct v4l2_subdev_route *route;
+-	const struct v4l2_mbus_framefmt *fmt;
+-	const struct rcar_isp_format *format;
+-	unsigned int vc;
+-	u32 sel_csi = 0;
++	struct v4l2_mbus_frame_desc source_fd;
 +	struct v4l2_subdev_route *route;
-+	const struct rcar_csi2_format *format;
-+	struct v4l2_subdev_state *state;
-+	struct v4l2_mbus_framefmt *fmt;
-+	int ret = 0;
+ 	int ret;
+ 
+-	if (state->routing.num_routes != 1)
+-		return -EINVAL;
++	ret = v4l2_subdev_call(isp->remote, pad, get_frame_desc,
++			       isp->remote_pad, &source_fd);
++	if (ret)
++		return ret;
 +
-+	state = v4l2_subdev_lock_and_get_active_state(sd);
-+
-+	if (state->routing.num_routes != 1) {
-+		ret = -EINVAL;
-+		goto out;
++	/* Clear the channel registers */
++	for (unsigned int ch = 0; ch < ISPCS_NUM_CHANNELS; ++ch) {
++		risp_write_cs(isp, ISPCS_FILTER_ID_CH_REG(ch), 0);
++		risp_write_cs(isp, ISPCS_DT_CODE03_CH_REG(ch), 0);
 +	}
+ 
+-	route = &state->routing.routes[0];
++	for_each_active_route(&state->routing, route) {
++		struct v4l2_mbus_frame_desc_entry *source_entry = NULL;
++		const struct rcar_isp_format *format;
++		const struct v4l2_mbus_framefmt *fmt;
++		unsigned int i;
++		u8 vc, dt, ch;
++		u32 v;
 +
-+	route = &state->routing.routes[0];
++		for (i = 0; i < source_fd.num_entries; i++) {
++			if (source_fd.entry[i].stream == route->sink_stream) {
++				source_entry = &source_fd.entry[i];
++				break;
++			}
++		}
 +
-+	if (route->source_pad != pad) {
-+		ret = -EINVAL;
-+		goto out;
-+	}
++		if (!source_entry) {
++			dev_err(isp->dev,
++				"Failed to find source frame desc entry for stream\n");
++			return -EPIPE;
++		}
 +
-+	fmt = v4l2_subdev_state_get_format(state, route->sink_pad,
-+					   route->sink_stream);
-+	if (!fmt) {
-+		ret = -EINVAL;
-+		goto out;
-+	}
++		vc = source_entry->bus.csi2.vc;
++		dt = source_entry->bus.csi2.dt;
++		/* Channels 4 - 11 go to VIN */
++		ch = route->source_pad - 1 + 4;
 +
-+	format = rcsi2_code_to_fmt(fmt->code);
-+	if (!format) {
-+		ret = -EINVAL;
-+		goto out;
-+	}
++		fmt = v4l2_subdev_state_get_format(state, route->sink_pad,
++						   route->sink_stream);
++		if (!fmt)
++			return -EINVAL;
 +
-+	fd->num_entries = 1;
-+	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
-+	fd->entry[0].stream = route->source_stream;
-+	fd->entry[0].pixelcode = fmt->code;
-+	fd->entry[0].bus.csi2.vc = 0;
-+	fd->entry[0].bus.csi2.dt = format->datatype;
++		format = risp_code_to_fmt(fmt->code);
++		if (!format) {
++			dev_err(isp->dev, "Unsupported bus format\n");
++			return -EINVAL;
++		}
 +
-+out:
-+	v4l2_subdev_unlock_state(state);
-+
-+	return ret;
++		/* VC Filtering */
++		risp_write_cs(isp, ISPCS_FILTER_ID_CH_REG(ch), BIT(vc));
+ 
+-	fmt = v4l2_subdev_state_get_format(state, route->sink_pad,
+-					   route->sink_stream);
+-	if (!fmt)
+-		return -EINVAL;
++		/* DT Filtering */
++		risp_write_cs(isp, ISPCS_DT_CODE03_CH_REG(ch),
++			   ISPCS_DT_CODE03_EN0 | ISPCS_DT_CODE03_DT0(dt));
+ 
+-	format = risp_code_to_fmt(fmt->code);
+-	if (!format) {
+-		dev_err(isp->dev, "Unsupported bus format\n");
+-		return -EINVAL;
++		/* Proc mode */
++		v = risp_read_cs(isp, ISPPROCMODE_DT_REG(dt));
++		v |= ISPPROCMODE_DT_PROC_MODE_VCn(vc, format->procmode);
++		risp_write_cs(isp, ISPPROCMODE_DT_REG(dt), v);
+ 	}
+ 
++	return 0;
 +}
 +
-+static int rcsi2_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
-+				struct v4l2_mbus_frame_desc *fd)
++static int risp_start(struct rcar_isp *isp, struct v4l2_subdev_state *state)
 +{
-+	struct rcar_csi2 *priv = sd_to_csi2(sd);
++	u32 sel_csi = 0;
 +	int ret;
 +
-+	if (WARN_ON(!priv->info->use_isp))
-+		return -ENOTTY;
-+
-+	if (WARN_ON(pad != RCAR_CSI2_SOURCE_VC0))
-+		return -EINVAL;
-+
-+	ret = v4l2_subdev_get_frame_desc_passthrough(sd, pad, fd);
-+	if (ret == -ENOIOCTLCMD)
-+		ret = rcsi2_get_frame_desc_fallback(sd, pad, fd);
-+	return ret;
-+}
-+
- static const struct v4l2_subdev_pad_ops rcar_csi2_pad_ops = {
- 	.enable_streams = rcsi2_enable_streams,
- 	.disable_streams = rcsi2_disable_streams,
+ 	ret = risp_power_on(isp);
+ 	if (ret) {
+ 		dev_err(isp->dev, "Failed to power on ISP\n");
+@@ -263,25 +317,9 @@ static int risp_start(struct rcar_isp *isp, struct v4l2_subdev_state *state)
+ 	risp_write_cs(isp, ISPINPUTSEL0_REG,
+ 		      risp_read_cs(isp, ISPINPUTSEL0_REG) | sel_csi);
  
- 	.set_fmt = rcsi2_set_pad_format,
- 	.get_fmt = v4l2_subdev_get_fmt,
-+
-+	.get_frame_desc = rcsi2_get_frame_desc,
- };
+-	/* Configure Channel Selector. */
+-	for (vc = 0; vc < 4; vc++) {
+-		u8 ch = vc + 4;
+-		u8 dt = format->datatype;
+-
+-		risp_write_cs(isp, ISPCS_FILTER_ID_CH_REG(ch), BIT(vc));
+-		risp_write_cs(isp, ISPCS_DT_CODE03_CH_REG(ch),
+-			      ISPCS_DT_CODE03_EN3 | ISPCS_DT_CODE03_DT3(dt) |
+-			      ISPCS_DT_CODE03_EN2 | ISPCS_DT_CODE03_DT2(dt) |
+-			      ISPCS_DT_CODE03_EN1 | ISPCS_DT_CODE03_DT1(dt) |
+-			      ISPCS_DT_CODE03_EN0 | ISPCS_DT_CODE03_DT0(dt));
+-	}
+-
+-	/* Setup processing method. */
+-	risp_write_cs(isp, ISPPROCMODE_DT_REG(format->datatype),
+-		      ISPPROCMODE_DT_PROC_MODE_VCn(3, format->procmode) |
+-		      ISPPROCMODE_DT_PROC_MODE_VCn(2, format->procmode) |
+-		      ISPPROCMODE_DT_PROC_MODE_VCn(1, format->procmode) |
+-		      ISPPROCMODE_DT_PROC_MODE_VCn(0, format->procmode));
++	ret = risp_configure_routing(isp, state);
++	if (ret)
++		return ret;
  
- static const struct v4l2_subdev_ops rcar_csi2_subdev_ops = {
+ 	/* Start ISP. */
+ 	risp_write_cs(isp, ISPSTART_REG, ISPSTART_START);
 
 -- 
 2.43.0
