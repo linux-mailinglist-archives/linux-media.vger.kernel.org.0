@@ -1,442 +1,621 @@
-Return-Path: <linux-media+bounces-48919-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48920-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33CFCCC43F3
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 17:23:44 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45014CC44EC
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 17:32:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id A023C30298A7
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 16:23:39 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 7441230636E8
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 16:27:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FC7A2D8390;
-	Tue, 16 Dec 2025 16:15:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABCB32D8390;
+	Tue, 16 Dec 2025 16:27:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="aynBFQRa"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nPk/Qzyk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012054.outbound.protection.outlook.com [40.107.209.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F0D278F2B;
-	Tue, 16 Dec 2025 16:15:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765901720; cv=fail; b=cfePAwRcz294Sl7Rn5MIsjVbUX928N5fSIz5teAdQHwuj5DwqmmDdwj63/jGyb9w7sQvuaYKHrMHUZnAMwZcrPU7uZrrtrAN4vLoErqu+7QU1giJJmNwLcf883lK5RzzU4BQa81KHsaTkVUO27Sb8271n9h4d5W2wnlBkjn+hdE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765901720; c=relaxed/simple;
-	bh=aM4aL1g7make8mG2tvKXHTF8VkgoOysArBdf7kYRgfc=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=OQ56mUsR9SpgWx00fBGNIKyTu64b7FdmpoOmCkxcGnohx0qt3D0Nq7ztEGjG8YObbcMABf/fbEeOZn3T1LeOzcJ0DHRwkELTjLfkyKeqd5nDIINeL7HuAJuVsamJteQdsrb27jKDDgVQpuDgvqtypBb6YPwpoDj6jvyPlhYKgxA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=aynBFQRa; arc=fail smtp.client-ip=40.107.209.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gO+JOHqMnFw9syC1FzFYzDx3eO5qMg6LYH5I2GMzA193C8tADCtylqMJ4PsG9dQVqRb9NPP+qAacooRc+JMol+mGvHhtfz+lmPY9w3OWnqVwA0qHqsaM4f0iNM1V6HStYkQWmVYqkYSBq8jxPyqEujy6+C31DE8HVff/WZM2tB9vzxa/pjvWMNocvFOHI04bR3zzlooBXkm/LWrJwCTfQdt83h5q7REjR5ol1un/9sby9W3VhnvS7VelUgJuU58VpMMYn4xHbg/LDOTTInELi+VfyrOOGMWQrjkKBRLfZlEWaIltf8WNVpg+cQDrwg/1GDI2y+/S2Qt5WQ4jNhwDdg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aM4aL1g7make8mG2tvKXHTF8VkgoOysArBdf7kYRgfc=;
- b=m7A2ONbJTLIedOrjYwfkgnF+HFDygo85qKrhfxNU05JgsBRCiX9hlYlbT2yqux9T/gVK6kkfN1ENRivdjutMJTyuH8AToT5rKOuNu0wNEBEiSXuCpjL/z5JjtKWO578PtsVL7OA0SBLY8vnjqqkCbdd5RxtvcqWQfzI++DWdWd6sI3grGQK8voF94Fi+f0kZ/Bd1y0kVo+HjI17aJnSBD9+F1sPnlSVmpv4nZJhGaRTZ+GOxlDJCD4Kw8Z0tGsXrQevzVaZbMQ0baicGXzXYF/6aFg7QYvEA5CjaJrRzCxRmViKp7ZSZZAj8VMFoqQAcs6oiA+9m3GmXqMdPUZRVuQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aM4aL1g7make8mG2tvKXHTF8VkgoOysArBdf7kYRgfc=;
- b=aynBFQRaVV8QhD+tKjYx6k6CxY4dbDn/YR1Y9BhaFADcPNud914KBb4LxdHz7E1QwTptBKmiExjEGgnfds4kRbRidFUlF30Fb2cHjn/R3FnKVXn1jQ6WqtdOjJ4scWAGJBrRWFipMqSJkpCIYgtvNY1h5+pqpc//d29CXTPVuPQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MN6PR12MB8489.namprd12.prod.outlook.com (2603:10b6:208:474::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.13; Tue, 16 Dec
- 2025 16:15:12 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9412.011; Tue, 16 Dec 2025
- 16:15:12 +0000
-Message-ID: <a58aa76a-5de0-4e87-b7e7-bb3bf8eba087@amd.com>
-Date: Tue, 16 Dec 2025 17:15:06 +0100
-User-Agent: Mozilla Thunderbird
-Subject: =?UTF-8?B?UmU6IOetlOWkjTogW0V4dGVybmFsIE1haWxdUmU6IFtQQVRDSCB2Nl0g?=
- =?UTF-8?Q?dma-buf=3A_add_some_tracepoints_to_debug=2E?=
-To: =?UTF-8?B?6auY57+U?= <gaoxiang17@xiaomi.com>,
- Xiang Gao <gxxa03070307@gmail.com>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "rostedt@goodmis.org" <rostedt@goodmis.org>,
- "mhiramat@kernel.org" <mhiramat@kernel.org>
-Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>,
- "dhowells@redhat.com" <dhowells@redhat.com>,
- "kuba@kernel.org" <kuba@kernel.org>, "brauner@kernel.org"
- <brauner@kernel.org>, "akpm@linux-foundation.org"
- <akpm@linux-foundation.org>,
- "linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>
-References: <20251216063952.516364-1-gxxa03070307@gmail.com>
- <7a41abc8-df47-459a-ab3e-ba7943fdd0ff@amd.com>
- <b0e5daa85079423480fdbb82c09dc707@xiaomi.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <b0e5daa85079423480fdbb82c09dc707@xiaomi.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
-X-ClientProxiedBy: YT4PR01CA0293.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:10e::21) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E630F28642B
+	for <linux-media@vger.kernel.org>; Tue, 16 Dec 2025 16:27:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765902456; cv=none; b=egKimbc4qAPf+I0BB4Y6G4rLLUQlWAkt+Y6O4iYXii3wyITITcgMZy48YRFZHGazD3bNevXS6Kn+fvjINeRayd7R1h/OoaJ7xKD9nbrXn98Kfn+LFMUFUfx5cf/+RC/JGFL+UW0dUlGXhmP0yG4doLuZHHo3I7coNaaOY2e1grM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765902456; c=relaxed/simple;
+	bh=zspaP2iUmEhFL1NA4vY+gtMBNenFMdoLaeivoKqh6DM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sTvkqfv6+hw8m1mi6h/inan4oh18iIfqyP3NpVcoBz2zcMj6z1IIRwRDON4Zlwbm3SerAqqNOjI6qb4yyaJBj2+GMpOuwn31SiOV/9DIlAfIuI2F3VKbSp5DQm+wVp09EeuTQB7NxGpuHuJk9+P0LEsd2I0lcHAqIwH46nRu11A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nPk/Qzyk; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-29f2676bb21so52806465ad.0
+        for <linux-media@vger.kernel.org>; Tue, 16 Dec 2025 08:27:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765902453; x=1766507253; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WCIqbYAbB/Llescjij6snm6wGCLpnScQmBXXlsjxQwI=;
+        b=nPk/QzykY2wnQWJk7yXJ55abw9/oDkZuovD5ep1WapRc6Wk4lJuAS8A3a2RhQBgVgd
+         q5Z7mRS3VwukhZtBXTT96XLrKw44Kfmsmi2cdknXafzeyDUEbVHcWfM5kHwgcgTla4p2
+         jbr31w4LpiuOLs6ZcwgnZq97lBAJ4M7S4VrTaVkbNsVfMgtFTgzXpGVhCtcOTD5T1tbd
+         Zl/eis6xtt/xYyWh+h1qrx0M+gsGSmB+KmOWXRI5Bh4WIfqwMuk6l2wXrKZc9KrOh/Gv
+         +6YLemgbgMLmOf9XHIKZONn9tmQvDEBF+Lm6wLPXOVyObWD1qvgfgwNH5rID4uchobZQ
+         61Zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765902453; x=1766507253;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WCIqbYAbB/Llescjij6snm6wGCLpnScQmBXXlsjxQwI=;
+        b=q7VoyUIImADP5EPHEvSxauG61mK+GY1t5pnP7k3HBCsVuVLKgW16mZLCzcHGfHPGvw
+         cSPpzF/QNYEcB3F65mFod2AIZ5PXYRSh6cCgh402gydAC3EFLM02TSyzwp45pOOitpwN
+         qkUuTVsokXAirmfrFVj/iNbexxy29FTqn4arxwtZ3ziJxh0benLeLDrPi7ol6CjntXaH
+         94cPkN/knNt9ABwCSDRO/hKvhZAqm+GrjxNd3+bONqLf2fqX2i0Vu967t/rh2UwUEcvM
+         om5zs5jrL5P6YOcvPDNvDTBBC624SJ57BaHCANY/B4IZ6RQoQBJqZuvqLr8RYub1w5bf
+         S4Tg==
+X-Gm-Message-State: AOJu0Yy69QQnj9AXBBheqSgOCgKrwJqzXQRcFnWN81c/qTb+VxQO8+C9
+	lWrPXNMpFNOsnHmwuDa6dXI1w6cM7gDwPKEUacwDjM81LXrYjNblD1LlVDMZCJND
+X-Gm-Gg: AY/fxX7qq3E7WIbEdflmDjbklfHlnkqkXErO0ZC7kXPVuGfGQnKSQekCqPdNTuh9XGZ
+	jDcYyBhm2R5ht7HzRoO4SktElQ22hhUMmlJYolLLsBFX8h0hcKCLmXF6PvTGxGziljI2xu4KUMS
+	hl81+xCfxiLHsNZM7TlrKJ4SVHPMGuX54/F5jkMHCbwgUAPXz+Qaq5mwdo8NDk/Nw0SYZ97EFaB
+	quGYmIViTnFev7xRTWNJy4JhLyeO9ua6fUYBNeHpZGPqZb+uZ6hMJqKGninRhv/CwavEkj+lJQt
+	bZ1CpcA8vrlfwRgcQq8mvdXY04kEPxiLvkB2F8upd/vIYqUdMhUPTryL1mwVxOVc/huQYT4PsWU
+	xuC/WIPH4lFbJILKI4JMoDR+yS9Ysk7i1UwoNNDu+5r986bpTEiChpV6M/UY24IAPsPkVwVbDwR
+	F/FFbL9ztmBdg+iSXLIr9A1d2wAO45njlOm4Q=
+X-Google-Smtp-Source: AGHT+IGAHVVGp31yQM3j1al7+xzIVngkfiJ9N+hcqWImapYT1SrzCUBHlSvTaGnMgofz/0gMBWGJ1w==
+X-Received: by 2002:a17:903:b45:b0:2a0:9ca7:7405 with SMTP id d9443c01a7336-2a09ca776f9mr105400205ad.36.1765902452768;
+        Tue, 16 Dec 2025 08:27:32 -0800 (PST)
+Received: from nikhil-s-Swift-SFG14-73.. ([101.0.62.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a0b0a708a6sm92419005ad.97.2025.12.16.08.27.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Dec 2025 08:27:32 -0800 (PST)
+From: Nikhil S <nikhilsunilkumar@gmail.com>
+To: mchehab@kernel.org
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Nikhil S <nikhilsunilkumar@gmail.com>
+Subject: [PATCH v2] media: dvb-core: fix style violation issues
+Date: Tue, 16 Dec 2025 21:57:06 +0530
+Message-ID: <20251216162724.7427-1-nikhilsunilkumar@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN6PR12MB8489:EE_
-X-MS-Office365-Filtering-Correlation-Id: 747ccb98-21b4-4da7-4e8e-08de3cbe4a31
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?dFRpLzhhUzEzbUNhWWJHVGRmaENWTmwvdUZEcXpndkVsUzZhRUdmYUZMTDlp?=
- =?utf-8?B?MENDMzFFa0s4UDJ0U3VpWSttL2RJTklLR2wvODcvT00rUEpZaExGM0FLQU50?=
- =?utf-8?B?Rkk0Q0FHeXhQUm8xQzc2ZE00Um9FTDQrOVlYZExKZUhXL2dXYkxsMzNMd0RV?=
- =?utf-8?B?b3BOTm10M1RPamJBYitaa0RBczhkb0pCcjlxZndxY1B6bGQ1dlF4OU1jSGI5?=
- =?utf-8?B?bGpEZ1o0SnVmM2kyT21venBtRzZoYnhlbllNbktpMGQ5VDVCMnlobDNGWFht?=
- =?utf-8?B?Q0ttVExNTTBjMVlINjVER0x0amV2M3BQUmFGRTU5OWUvN2tRNk9BN1R5Z2Zj?=
- =?utf-8?B?WXoxcXVqTE1KV3ZCdmRxUXBlcWNibVhLczNDUVVuMkl6cUNmeHU1T3JDMGJr?=
- =?utf-8?B?QUxyTXFtSFRBWGx6MEFnYUZVNzRvemUyZElCY091VTF5WFpyWk5pcWt4L3pu?=
- =?utf-8?B?SGtxdWNuTjREVjhmd0hMT3l2TEwrL3dFLzZNL2NwbVY5NVpqSkdvVmdZOGxl?=
- =?utf-8?B?NkQwaXNmcGRzYkhDS2xic2hxTTl2WEo3QlFSUkhMK2E5QXVHSnVUWEljMmVB?=
- =?utf-8?B?aXhIUk1TcHZNS3QxM0hOK0gzWXllMVk5NGpGYzJYV2NaYjBTR2NvbXQvdEJm?=
- =?utf-8?B?NFE2Qnl4V3N1SVhLTDQyTGF0cGtQcHI0ejR0UHBWZlFRK2FjWU5iSjF4UFdT?=
- =?utf-8?B?Y2N0Z0JhL2hpTmV5bDlKa1M0YjB3RVg5a0NTbDRrK3NNMVIwcFdjSitrMjJZ?=
- =?utf-8?B?TjNhWGgxV29ZaTBZc05TRWZiR0Y2L0JUcERvNzd1WW0zQldPMElqN085QWhj?=
- =?utf-8?B?YnVDc0hJSjJkWDBINDVLdUVCT0xwQ0kyTjFoOG1OeDlpekZNQ0xLWXdUOVV1?=
- =?utf-8?B?NkNmZzI3eWExd3VZWWxCU1JrMXFVRThUVlpSMytodUxrcjhhWVpiQmc2Z2xD?=
- =?utf-8?B?elV5aGdWWGZtRUdaZU5YVktjc2ZNZDh6WVFZd1diNWcwU3dOYzBRdklrTEJa?=
- =?utf-8?B?d3U4Ni91c2JGQ0M1eENUVFUwWloyemQ4MWN5YTFRTmtZU29nSGUraEdsL0ho?=
- =?utf-8?B?VDZkV1NYM0R5T0tOTVA5REgwSkZPRlNRMzJGUE8vQjJzOCtOT2xVRW1DeDVJ?=
- =?utf-8?B?RGxTeDR2cm1QUUh5cUoyVkllVVExcDUvN044aXBzK3pGSVpPYVU0dWZIRlg1?=
- =?utf-8?B?NENVdWRoZW9OcmhDUVA3aDVsNncwYmxvY0FKd0MxV2hiOVV4QXAzbzQrRGtU?=
- =?utf-8?B?VXZRUWN2MXV1Q1p3bXBZUVMwbHBYNERkbkZEWWtxbS9obG9YRW1samhadVlG?=
- =?utf-8?B?bFZTZmFpOVhLYjhTYXJHZEFxMHp5TWZXTjNRZW1tUHo1djN1MHg4YlhVOXJ6?=
- =?utf-8?B?OEZsbkZwWnRObVRwUHM4NEY3VkRNV2FVM1RtY3dlcGNMRXNlK1M3YjBXWU5P?=
- =?utf-8?B?cE1qWUdTdGxVWWY3OUJPbEtzSWw0akRkZExycGxUK1N3bGJVNmJWTHRmZEtL?=
- =?utf-8?B?Si95Z1hUQXNjRWZkSWJvUk1HZVJlTkwrdlVRTEJXNlp1KzcwYkU0YWttMzdE?=
- =?utf-8?B?M21OMStHWlM2SEdQS3phOUJOdlVNZkJvZHJjM2Z1WmFCa3dLVUNnMm45K0oy?=
- =?utf-8?B?VzRqZzd2NmREbzYycTBMV0lVVlQ3bFNrZFpueUVOWFh3KzdzdE5WMmJuQnlG?=
- =?utf-8?B?WVpreXRxNGNiaW5zTlJIY2syYWViUlJ4TkxyMCt6cGloQlR0bDhKTmwzaXBk?=
- =?utf-8?B?MGJPbEhMUkxpK1lIUFNVVkM3elNLTEJBMGRWbUl5V0VaM0FQVzdFOVFPWE5T?=
- =?utf-8?B?TzNUZ0VkYitUN3EyOTZwemI0RlpadXpKVnNsNVhhZjdHc0RCYXlyZlJ2Sy9j?=
- =?utf-8?B?aDBwdGhJVmZCM0U3MWtndnBVOW0vYm5ZNytJYVFpWXRyQ25veXRMVncvMVZu?=
- =?utf-8?Q?JbwRwPhD9xE4ce02tZFu97SbfGvsKHP7?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(7416014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SC9HL0lMM1NrNTJjMW95MFMvSlZaeVhGaDU4OE1JSUI3M3VMQ0RTNmdROXh5?=
- =?utf-8?B?YjVRM0J4K0lnNGpHVWd1RFVJdWg1MEY5SkFOZy95MUV4Ynh4V09jbld5dUF1?=
- =?utf-8?B?Uy93ajRMc21sd2pVcVRST25YOXp1NFQzYUJlYU1LVXNzckdRMEkyRFYyZzN3?=
- =?utf-8?B?QnQ3Z2djQkVPaGJobXZpT1VyK3owTmdidXN3SkxkTFQybzRPMVBIb2w1ZVFH?=
- =?utf-8?B?Q0VRYjBkVmNjaU80blFrVnEyRVhEa1UyUldTc05aZXRtNDZQOTFrZUlSb25U?=
- =?utf-8?B?bHplRms5R0FDK3dqb1ppd2ZnTjNDemJVNEZXNEc4d2pNTE9Cc0ZyeUlWN3VU?=
- =?utf-8?B?azhOOE9qaFc2ZDhzZDJEQkJUZDNMSHgySktwSUdvc1hyMzhTL2lpVTdQcC9y?=
- =?utf-8?B?bnBEeEMrTkVOVElVL3Z6NUpvQm0vQ2UxR0VFejk5SVFwWmprYzloYTRkQWpQ?=
- =?utf-8?B?UlQra0tQUFUxM3gzMzcydHMyVjYrekJZMzB2cTJHNXRPa3J4SDRkSGhHVzRL?=
- =?utf-8?B?M2JzU0lvTVFJVEdNVFdZREFCSWhKdTBoZzVkSDJDakdpTVRTdHRML3hta2dV?=
- =?utf-8?B?U1dwYVpSRUJOOEQ5cGdYcnArYkM0bWYvVFBLMGZJZVhidjgwR1k4NGlYY2pj?=
- =?utf-8?B?bkJDRElCejlQY0o2YjFTaEljbTlGd1N2aFRuM2VJd1NQLzgrZU9EQjhzSjBn?=
- =?utf-8?B?ODFBQklQRE9GVnNKV2VEODFpcnR3SVQxM0NGc1QwSzJUZ2dyRE9saVloY3dk?=
- =?utf-8?B?RHFHckw3d3pCUzdLYk8xMVpsSUdpNjgvSzVVNWJXc2xFMEdxMjhVRDVLaDV0?=
- =?utf-8?B?ZmR1R3JpR3BsYURJZW55VEF0aGp0eS9nN0NxTlBJRXNGZ3p3UEtyWGZYZFl1?=
- =?utf-8?B?Y2N0QmsrZUZGeU9GNXI3Q2tJVjFpcUhLSE5zQ0xzL0xwcDhyTDh4eDlQTVIv?=
- =?utf-8?B?bGt1RzZKSWFFRFU0SS9DMkdNbXpSSThRSlN1dm0zRll4UFdBUG9meGRFOGVZ?=
- =?utf-8?B?ZXNiWlE5UXp5dTRvMkNvQzBqZTB0MDViQnRTa0UxU2dDYVI3TVVQVmkrSS9H?=
- =?utf-8?B?TExGZGxTNkRkVW9vbkZkdDBDSjhSRnFpMHQ1VUZ4alZKTjN4TWJjeU5XR280?=
- =?utf-8?B?MlRuUnFGdHJyUGl6a1V2TS9kQ2EwYU01NlFCWWpYcDV5NzdIZjErZG80ZFhP?=
- =?utf-8?B?NDJ1L0p4S3hJVW9JdGlXMDFGZmFmcFp2QXlVTTF2bmVDMHk3VHVNOEJ1Sktk?=
- =?utf-8?B?d2I3UnU2RVF1Z2M0b3NqeFhUSjYyZUZEUzZld0NrZi9WQytSVmkrQWJ4dUNt?=
- =?utf-8?B?aEhpZWVOQ01lcDF3ejQrTkYzSkNxbExLcHpXMTdZMWJETmZvZVc5ODJ5MnFB?=
- =?utf-8?B?dGZWWWpBLzJZOFUvR2h2cUZYYUNCK2ZPc1cyanJyTWo1WnNlWFIvdTZEUVJZ?=
- =?utf-8?B?QWVPSXNuOThZa3dBK0NKOEJYMzRnZ2NZWWYxUm1TWTZTM2JrQjVoSTdvNkYr?=
- =?utf-8?B?VFBzNXFaZXkzRHJSMlN5QXZ3RmtpT0krT0RWTFcrOWplb1BSV3NsY3Fiemoz?=
- =?utf-8?B?am9rdFJ1WXFwVzV6NWovRmlHUTlnSHRvRUlBQnVLSzB3aUx5a1BRaEFkekZO?=
- =?utf-8?B?TmxyVHpIZlVjZ1F6NmFGY2FUZlR1WXVZWDRjOTZYK0tPK1lXbk1WQW92M3Np?=
- =?utf-8?B?NkJRT2hFdkpuNW40R3hac3ZLN0doRnFrdDFYS1A1aEpEVUJSbnBNdThUaGUw?=
- =?utf-8?B?VGc1bWJsSE9lK09DTkZGTUpnK25tN0o4YjdtM1REUlNPY015bDB3czZEK0VT?=
- =?utf-8?B?SG9yTUVsR2I3RWRPa2pFcHovazhqMmlGV29aZk11UXJmZjM3cGVyaTdWaHh2?=
- =?utf-8?B?QUw1TlFyNU10SDVscDVuK0ZJYUJ0eHZqMThscEVML20yblVaZXM1TUZVK0Vm?=
- =?utf-8?B?Zm1GdUNrY1Zwb2ZtejVla0ZZVzNSOC9CZ3ZzMGZlMUx3bm8vRWJUYTZNTE9G?=
- =?utf-8?B?TGpwaVVhRXVtZHNzbW1FenFxSWZvQUZGSnROVVNsMWpIc1J0L0hJS0prTkRF?=
- =?utf-8?B?c1JlU0huclY0S082ZmhialI0bTl0QUJsNHMvTE1xTW1QS2dkUDF5cDlXQUFu?=
- =?utf-8?Q?znbw0QCjVL0fsRuxcUuVJFIpx?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 747ccb98-21b4-4da7-4e8e-08de3cbe4a31
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2025 16:15:12.1118
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ErYndRh8BFL2eENZmIz8SGpB+xHVQNHbpiI7NQLTCTs2wxhh/bcp/ivq03YPRaOb
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR12MB8489
+Content-Transfer-Encoding: 8bit
 
-SSBoYXZlIHRvIHRha2UgdGhhdCBiYWNrLCB0aGUgYXV0b21hdGVkIGNoZWNrZXJzIGhhdmUgbml0
-IHBpY2tzIG9uIHRoaXMgcGF0Y2g6DQoNCi9ob21lL2Nrb2VuaWcvRG93bmxvYWRzL1tQQVRDSCB2
-Nl0gZG1hLWJ1ZjogYWRkIHNvbWUgdHJhY2Vwb2ludHMgdG8gZGVidWcuIC0gWGlhbmcgR2FvIDxn
-eHhhMDMwNzAzMDdAZ21haWwuY29tPiAtIDIwMjUtMTItMTYgMDczOS5lbWw6MzA4OiB0cmFpbGlu
-ZyB3aGl0ZXNwYWNlLg0KLyogU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAgKi8NCi9o
-b21lL2Nrb2VuaWcvRG93bmxvYWRzL1tQQVRDSCB2Nl0gZG1hLWJ1ZjogYWRkIHNvbWUgdHJhY2Vw
-b2ludHMgdG8gZGVidWcuIC0gWGlhbmcgR2FvIDxneHhhMDMwNzAzMDdAZ21haWwuY29tPiAtIDIw
-MjUtMTItMTYgMDczOS5lbWw6MzA5OiB0cmFpbGluZyB3aGl0ZXNwYWNlLg0KI3VuZGVmIFRSQUNF
-X1NZU1RFTQ0KL2hvbWUvY2tvZW5pZy9Eb3dubG9hZHMvW1BBVENIIHY2XSBkbWEtYnVmOiBhZGQg
-c29tZSB0cmFjZXBvaW50cyB0byBkZWJ1Zy4gLSBYaWFuZyBHYW8gPGd4eGEwMzA3MDMwN0BnbWFp
-bC5jb20+IC0gMjAyNS0xMi0xNiAwNzM5LmVtbDozMTA6IHRyYWlsaW5nIHdoaXRlc3BhY2UuDQoj
-ZGVmaW5lIFRSQUNFX1NZU1RFTSBkbWFfYnVmDQovaG9tZS9ja29lbmlnL0Rvd25sb2Fkcy9bUEFU
-Q0ggdjZdIGRtYS1idWY6IGFkZCBzb21lIHRyYWNlcG9pbnRzIHRvIGRlYnVnLiAtIFhpYW5nIEdh
-byA8Z3h4YTAzMDcwMzA3QGdtYWlsLmNvbT4gLSAyMDI1LTEyLTE2IDA3MzkuZW1sOjMxMTogdHJh
-aWxpbmcgd2hpdGVzcGFjZS4NCg0KL2hvbWUvY2tvZW5pZy9Eb3dubG9hZHMvW1BBVENIIHY2XSBk
-bWEtYnVmOiBhZGQgc29tZSB0cmFjZXBvaW50cyB0byBkZWJ1Zy4gLSBYaWFuZyBHYW8gPGd4eGEw
-MzA3MDMwN0BnbWFpbC5jb20+IC0gMjAyNS0xMi0xNiAwNzM5LmVtbDozMTI6IHRyYWlsaW5nIHdo
-aXRlc3BhY2UuDQojaWYgIWRlZmluZWQoX1RSQUNFX0RNQV9CVUZfSCkgfHwgZGVmaW5lZChUUkFD
-RV9IRUFERVJfTVVMVElfUkVBRCkNCg0KQWRkaXRpb25hbCB0byB0aGF0IHRoZSBwYXRjaCBkb2Vz
-bid0IHNlZW1zIHRvIGJlIGJhc2VkIGFnYWluc3QgZHJtLW1pc2MtbmV4dDoNCg0KZXJyb3I6IHBh
-dGNoIGZhaWxlZDogZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYzozNQ0KZXJyb3I6IGRyaXZlcnMv
-ZG1hLWJ1Zi9kbWEtYnVmLmM6IHBhdGNoIGRvZXMgbm90IGFwcGx5DQoNClNvIHBsZWFzZSBmaXgg
-dGhlIHdoaXRlc3BhY2UgaXNzdWVzLCByZWJhc2UgYW5kIHNlbmQgb3V0IGFnYWluLiBJIHNob3Vs
-ZCBiZSBhYmxlIHRvIGFwcGx5IGl0IHRvbW9ycm93IHRoZW4uDQoNClJlZ2FyZHMsDQpDaHJpc3Rp
-YW4uDQoNCk9uIDEyLzE2LzI1IDE0OjEyLCDpq5jnv5Qgd3JvdGU6DQo+IHRoYW5rcy4NCj4gDQo+
-IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiAq5Y+R5Lu25Lq6OiogQ2hyaXN0aWFuIEvDtm5pZyA8
-Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPg0KPiAq5Y+R6YCB5pe26Ze0OiogMjAyNeW5tDEy5pyI
-MTbml6UgMTY6NDM6MjYNCj4gKuaUtuS7tuS6ujoqIFhpYW5nIEdhbzsgc3VtaXQuc2Vtd2FsQGxp
-bmFyby5vcmc7IHJvc3RlZHRAZ29vZG1pcy5vcmc7IG1oaXJhbWF0QGtlcm5lbC5vcmcNCj4gKuaK
-hOmAgToqIGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZzsgZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZzsgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZzsgbWF0aGlldS5kZXNub3ll
-cnNAZWZmaWNpb3MuY29tOyBkaG93ZWxsc0ByZWRoYXQuY29tOyBrdWJhQGtlcm5lbC5vcmc7IGJy
-YXVuZXJAa2VybmVsLm9yZzsgYWtwbUBsaW51eC1mb3VuZGF0aW9uLm9yZzsgbGludXgtdHJhY2Ut
-a2VybmVsQHZnZXIua2VybmVsLm9yZzsg6auY57+UDQo+ICrkuLvpopg6KiBbRXh0ZXJuYWwgTWFp
-bF1SZTogW1BBVENIIHY2XSBkbWEtYnVmOiBhZGQgc29tZSB0cmFjZXBvaW50cyB0byBkZWJ1Zy4N
-Cj4gwqANCj4gW+WklumDqOmCruS7tl0g5q2k6YKu5Lu25p2l5rqQ5LqO5bCP57Gz5YWs5Y+45aSW
-6YOo77yM6K+36LCo5oWO5aSE55CG44CC6Iul5a+56YKu5Lu25a6J5YWo5oCn5a2Y55aR77yM6K+3
-5bCG6YKu5Lu26L2s5Y+R57uZbWlzZWNAeGlhb21pLmNvbei/m+ihjOWPjemmiA0KPiANCj4gT24g
-MTIvMTYvMjUgMDc6MzksIFhpYW5nIEdhbyB3cm90ZToNCj4+IEZyb206IGdhb3hpYW5nMTcgPGdh
-b3hpYW5nMTdAeGlhb21pLmNvbT4NCj4+DQo+PiBTaW5jZSB3ZSBjYW4gb25seSBpbnNwZWN0IGRt
-YWJ1ZiBieSBpdGVyYXRpbmcgb3ZlciBwcm9jZXNzIEZEcyBvciB0aGUNCj4+IGRtYWJ1Zl9saXN0
-LCB3ZSBuZWVkIHRvIGFkZCBvdXIgb3duIHRyYWNlcG9pbnRzIHRvIHRyYWNrIGl0cyBzdGF0dXMg
-aW4NCj4+IHJlYWwgdGltZSBpbiBwcm9kdWN0aW9uLg0KPj4NCj4+IEZvciBleGFtcGxlOg0KPj7C
-oMKgwqAgYmluZGVyOjMwMTZfMS0zMTAywqDCoMKgIFswMDZdIC4uLjEuwqDCoCAyNTUuMTI2NTIx
-OiBkbWFfYnVmX2V4cG9ydDogZXhwX25hbWU9cWNvbSxzeXN0ZW0gc2l6ZT0xMjY4NTMxMiBpbm89
-MjczOA0KPj7CoMKgwqAgYmluZGVyOjMwMTZfMS0zMTAywqDCoMKgIFswMDZdIC4uLjEuwqDCoCAy
-NTUuMTI2NTI4OiBkbWFfYnVmX2ZkOiBleHBfbmFtZT1xY29tLHN5c3RlbSBzaXplPTEyNjg1MzEy
-IGlubz0yNzM4IGZkPTgNCj4+wqDCoMKgIGJpbmRlcjozMDE2XzEtMzEwMsKgwqDCoCBbMDA2XSAu
-Li4xLsKgwqAgMjU1LjEyNjY0MjogZG1hX2J1Zl9tbWFwX2ludGVybmFsOiBleHBfbmFtZT1xY29t
-LHN5c3RlbSBzaXplPTI4NjcyIGlubz0yNzM5DQo+PsKgwqDCoMKgwqAga3dvcmtlci82OjEtODbC
-oMKgwqDCoMKgIFswMDZdIC4uLjEuwqDCoCAyNTUuMTI3MTk0OiBkbWFfYnVmX3B1dDogZXhwX25h
-bWU9cWNvbSxzeXN0ZW0gc2l6ZT0xMjY4NTMxMiBpbm89MjczOA0KPj7CoMKgwqDCoCBSZW5kZXJU
-aHJlYWQtOTI5M8KgwqDCoCBbMDA2XSAuLi4xLsKgwqAgMzE2LjYxODE3OTogZG1hX2J1Zl9nZXQ6
-IGV4cF9uYW1lPXFjb20sc3lzdGVtIHNpemU9MTI3NzEzMjggaW5vPTI3NjIgZmQ9MTc2DQo+PsKg
-wqDCoMKgIFJlbmRlclRocmVhZC05MjkzwqDCoMKgIFswMDZdIC4uLjEuwqDCoCAzMTYuNjE4MTk1
-OiBkbWFfYnVmX2R5bmFtaWNfYXR0YWNoOiBleHBfbmFtZT1xY29tLHN5c3RlbSBzaXplPTEyNzcx
-MzI4IGlubz0yNzYyIGF0dGFjaG1lbnQ6ZmZmZmZmODgwYTE4ZGQwMCBpc19keW5hbWljPTAgZGV2
-X25hbWU9a2dzbC0zZDANCj4+wqDCoMKgwqAgUmVuZGVyVGhyZWFkLTkyOTPCoMKgwqAgWzAwNl0g
-Li4uMS7CoMKgIDMxOC44NzgyMjA6IGRtYV9idWZfZGV0YWNoOiBleHBfbmFtZT1xY29tLHN5c3Rl
-bSBzaXplPTEyNzcxMzI4IGlubz0yNzYyIGF0dGFjaG1lbnQ6ZmZmZmZmODgwYTE4ZGQwMCBpc19k
-eW5hbWljPTAgZGV2X25hbWU9a2dzbC0zZDANCj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBYaWFuZyBH
-YW8gPGdhb3hpYW5nMTdAeGlhb21pLmNvbT4NCj4gDQo+IFJldmlld2VkLWJ5OiBDaHJpc3RpYW4g
-S8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+DQo+IA0KPiBHb2luZyB0byBwdXNoIHRo
-aXMgdG8gZHJtLW1pc2MtbmV4dCB0b2RheSB1bmxlc3Mgc29tZWJvZHkgaGFzIHNvbWUgbGFzdCBt
-aW51dGUgb2JqZWN0aW9ucy4NCj4gDQo+IFJlZ2FyZHMsDQo+IENocmlzdGlhbi4NCj4gDQo+PiAt
-LS0NCj4+wqAgZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuY8KgwqDCoMKgwqAgfMKgIDQyICsrKysr
-KysrLQ0KPj7CoCBpbmNsdWRlL3RyYWNlL2V2ZW50cy9kbWFfYnVmLmggfCAxNTQgKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrDQo+PsKgIDIgZmlsZXMgY2hhbmdlZCwgMTk1IGluc2Vy
-dGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4+wqAgY3JlYXRlIG1vZGUgMTAwNjQ0IGluY2x1ZGUv
-dHJhY2UvZXZlbnRzL2RtYV9idWYuaA0KPj4NCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2RtYS1i
-dWYvZG1hLWJ1Zi5jIGIvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYw0KPj4gaW5kZXggMmJjZjlj
-ZWNhOTk3Li44MzE5NzNkZTc2YzQgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL2RtYS1idWYvZG1h
-LWJ1Zi5jDQo+PiArKysgYi9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jDQo+PiBAQCAtMzUsNiAr
-MzUsMjUgQEANCj4+DQo+PsKgICNpbmNsdWRlICJkbWEtYnVmLXN5c2ZzLXN0YXRzLmgiDQo+Pg0K
-Pj4gKyNkZWZpbmUgQ1JFQVRFX1RSQUNFX1BPSU5UUw0KPj4gKyNpbmNsdWRlIDx0cmFjZS9ldmVu
-dHMvZG1hX2J1Zi5oPg0KPj4gKw0KPj4gKy8qDQo+PiArICogZG1hYnVmLT5uYW1lIG11c3QgYmUg
-YWNjZXNzZWQgd2l0aCBob2xkaW5nIGRtYWJ1Zi0+bmFtZV9sb2NrLg0KPj4gKyAqIHdlIG5lZWQg
-dG8gdGFrZSB0aGUgbG9jayBhcm91bmQgdGhlIHRyYWNlcG9pbnQgY2FsbCBpdHNlbGYgd2hlcmUN
-Cj4+ICsgKiBpdCBpcyBjYWxsZWQgaW4gdGhlIGNvZGUuDQo+PiArICoNCj4+ICsgKiBOb3RlOiBG
-VU5DIyNfZW5hYmxlZCgpIGlzIGEgc3RhdGljIGJyYW5jaCB0aGF0IHdpbGwgb25seQ0KPj4gKyAq
-wqDCoMKgwqDCoMKgIGJlIHNldCB3aGVuIHRoZSB0cmFjZSBldmVudCBpcyBlbmFibGVkLg0KPj4g
-KyAqLw0KPj4gKyNkZWZpbmUgRE1BX0JVRl9UUkFDRShGVU5DLCAuLi4pwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCBcDQo+PiArwqDCoMKgIGRvIHvCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIFwNCj4+ICvCoMKgwqDCoMKgwqDCoCBpZiAoRlVOQyMjX2VuYWJsZWQoKSkge8KgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBcDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBndWFyZChzcGlubG9jaykoJmRtYWJ1Zi0+bmFtZV9sb2NrKTsgXA0KPj4gK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgRlVOQyhfX1ZBX0FSR1NfXyk7wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgXA0KPj4gK8KgwqDCoMKgwqDCoMKgIH3CoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBcDQo+PiArwqDCoMKgIH0gd2hpbGUgKDApDQo+PiArDQo+PsKgIHN0YXRpYyBpbmxpbmUg
-aW50IGlzX2RtYV9idWZfZmlsZShzdHJ1Y3QgZmlsZSAqKTsNCj4+DQo+PsKgIHN0YXRpYyBERUZJ
-TkVfTVVURVgoZG1hYnVmX2xpc3RfbXV0ZXgpOw0KPj4gQEAgLTIyMCw2ICsyMzksOCBAQCBzdGF0
-aWMgaW50IGRtYV9idWZfbW1hcF9pbnRlcm5hbChzdHJ1Y3QgZmlsZSAqZmlsZSwgc3RydWN0IHZt
-X2FyZWFfc3RydWN0ICp2bWEpDQo+PsKgwqDCoMKgwqDCoMKgwqDCoMKgIGRtYWJ1Zi0+c2l6ZSA+
-PiBQQUdFX1NISUZUKQ0KPj7CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiAtRUlO
-VkFMOw0KPj4NCj4+ICvCoMKgwqDCoCBETUFfQlVGX1RSQUNFKHRyYWNlX2RtYV9idWZfbW1hcF9p
-bnRlcm5hbCwgZG1hYnVmKTsNCj4+ICsNCj4+wqDCoMKgwqDCoMKgIHJldHVybiBkbWFidWYtPm9w
-cy0+bW1hcChkbWFidWYsIHZtYSk7DQo+PsKgIH0NCj4+DQo+PiBAQCAtNzQ1LDYgKzc2Niw4IEBA
-IHN0cnVjdCBkbWFfYnVmICpkbWFfYnVmX2V4cG9ydChjb25zdCBzdHJ1Y3QgZG1hX2J1Zl9leHBv
-cnRfaW5mbyAqZXhwX2luZm8pDQo+Pg0KPj7CoMKgwqDCoMKgwqAgX19kbWFfYnVmX2xpc3RfYWRk
-KGRtYWJ1Zik7DQo+Pg0KPj4gK8KgwqDCoMKgIERNQV9CVUZfVFJBQ0UodHJhY2VfZG1hX2J1Zl9l
-eHBvcnQsIGRtYWJ1Zik7DQo+PiArDQo+PsKgwqDCoMKgwqDCoCByZXR1cm4gZG1hYnVmOw0KPj4N
-Cj4+wqAgZXJyX2RtYWJ1ZjoNCj4+IEBAIC03NzksNiArODAyLDggQEAgaW50IGRtYV9idWZfZmQo
-c3RydWN0IGRtYV9idWYgKmRtYWJ1ZiwgaW50IGZsYWdzKQ0KPj4NCj4+wqDCoMKgwqDCoMKgIGZk
-X2luc3RhbGwoZmQsIGRtYWJ1Zi0+ZmlsZSk7DQo+Pg0KPj4gK8KgwqDCoMKgIERNQV9CVUZfVFJB
-Q0UodHJhY2VfZG1hX2J1Zl9mZCwgZG1hYnVmLCBmZCk7DQo+PiArDQo+PsKgwqDCoMKgwqDCoCBy
-ZXR1cm4gZmQ7DQo+PsKgIH0NCj4+wqAgRVhQT1JUX1NZTUJPTF9OU19HUEwoZG1hX2J1Zl9mZCwg
-IkRNQV9CVUYiKTsNCj4+IEBAIC03OTQsNiArODE5LDcgQEAgRVhQT1JUX1NZTUJPTF9OU19HUEwo
-ZG1hX2J1Zl9mZCwgIkRNQV9CVUYiKTsNCj4+wqAgc3RydWN0IGRtYV9idWYgKmRtYV9idWZfZ2V0
-KGludCBmZCkNCj4+wqAgew0KPj7CoMKgwqDCoMKgwqAgc3RydWN0IGZpbGUgKmZpbGU7DQo+PiAr
-wqDCoMKgwqAgc3RydWN0IGRtYV9idWYgKmRtYWJ1ZjsNCj4+DQo+PsKgwqDCoMKgwqDCoCBmaWxl
-ID0gZmdldChmZCk7DQo+Pg0KPj4gQEAgLTgwNSw3ICs4MzEsMTEgQEAgc3RydWN0IGRtYV9idWYg
-KmRtYV9idWZfZ2V0KGludCBmZCkNCj4+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1
-cm4gRVJSX1BUUigtRUlOVkFMKTsNCj4+wqDCoMKgwqDCoMKgIH0NCj4+DQo+PiAtwqDCoMKgwqAg
-cmV0dXJuIGZpbGUtPnByaXZhdGVfZGF0YTsNCj4+ICvCoMKgwqDCoCBkbWFidWYgPSBmaWxlLT5w
-cml2YXRlX2RhdGE7DQo+PiArDQo+PiArwqDCoMKgwqAgRE1BX0JVRl9UUkFDRSh0cmFjZV9kbWFf
-YnVmX2dldCwgZG1hYnVmLCBmZCk7DQo+PiArDQo+PiArwqDCoMKgwqAgcmV0dXJuIGRtYWJ1ZjsN
-Cj4+wqAgfQ0KPj7CoCBFWFBPUlRfU1lNQk9MX05TX0dQTChkbWFfYnVmX2dldCwgIkRNQV9CVUYi
-KTsNCj4+DQo+PiBAQCAtODI1LDYgKzg1NSw4IEBAIHZvaWQgZG1hX2J1Zl9wdXQoc3RydWN0IGRt
-YV9idWYgKmRtYWJ1ZikNCj4+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm47DQo+
-Pg0KPj7CoMKgwqDCoMKgwqAgZnB1dChkbWFidWYtPmZpbGUpOw0KPj4gKw0KPj4gK8KgwqDCoMKg
-IERNQV9CVUZfVFJBQ0UodHJhY2VfZG1hX2J1Zl9wdXQsIGRtYWJ1Zik7DQo+PsKgIH0NCj4+wqAg
-RVhQT1JUX1NZTUJPTF9OU19HUEwoZG1hX2J1Zl9wdXQsICJETUFfQlVGIik7DQo+Pg0KPj4gQEAg
-LTk3OSw2ICsxMDExLDkgQEAgZG1hX2J1Zl9keW5hbWljX2F0dGFjaChzdHJ1Y3QgZG1hX2J1ZiAq
-ZG1hYnVmLCBzdHJ1Y3QgZGV2aWNlICpkZXYsDQo+PsKgwqDCoMKgwqDCoCBsaXN0X2FkZCgmYXR0
-YWNoLT5ub2RlLCAmZG1hYnVmLT5hdHRhY2htZW50cyk7DQo+PsKgwqDCoMKgwqDCoCBkbWFfcmVz
-dl91bmxvY2soZG1hYnVmLT5yZXN2KTsNCj4+DQo+PiArwqDCoMKgwqAgRE1BX0JVRl9UUkFDRSh0
-cmFjZV9kbWFfYnVmX2R5bmFtaWNfYXR0YWNoLCBkbWFidWYsIGF0dGFjaCwNCj4+ICvCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgZG1hX2J1Zl9hdHRhY2htZW50X2lzX2R5bmFtaWMoYXR0YWNoKSwg
-ZGV2KTsNCj4+ICsNCj4+wqDCoMKgwqDCoMKgIHJldHVybiBhdHRhY2g7DQo+Pg0KPj7CoCBlcnJf
-YXR0YWNoOg0KPj4gQEAgLTEwMjMsNiArMTA1OCw5IEBAIHZvaWQgZG1hX2J1Zl9kZXRhY2goc3Ry
-dWN0IGRtYV9idWYgKmRtYWJ1Ziwgc3RydWN0IGRtYV9idWZfYXR0YWNobWVudCAqYXR0YWNoKQ0K
-Pj7CoMKgwqDCoMKgwqAgaWYgKGRtYWJ1Zi0+b3BzLT5kZXRhY2gpDQo+PsKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgZG1hYnVmLT5vcHMtPmRldGFjaChkbWFidWYsIGF0dGFjaCk7DQo+Pg0K
-Pj4gK8KgwqDCoMKgIERNQV9CVUZfVFJBQ0UodHJhY2VfZG1hX2J1Zl9kZXRhY2gsIGRtYWJ1Ziwg
-YXR0YWNoLA0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBkbWFfYnVmX2F0dGFjaG1lbnRf
-aXNfZHluYW1pYyhhdHRhY2gpLCBhdHRhY2gtPmRldik7DQo+PiArDQo+PsKgwqDCoMKgwqDCoCBr
-ZnJlZShhdHRhY2gpOw0KPj7CoCB9DQo+PsKgIEVYUE9SVF9TWU1CT0xfTlNfR1BMKGRtYV9idWZf
-ZGV0YWNoLCAiRE1BX0JVRiIpOw0KPj4gQEAgLTE0ODgsNiArMTUyNiw4IEBAIGludCBkbWFfYnVm
-X21tYXAoc3RydWN0IGRtYV9idWYgKmRtYWJ1Ziwgc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEs
-DQo+PsKgwqDCoMKgwqDCoCB2bWFfc2V0X2ZpbGUodm1hLCBkbWFidWYtPmZpbGUpOw0KPj7CoMKg
-wqDCoMKgwqAgdm1hLT52bV9wZ29mZiA9IHBnb2ZmOw0KPj4NCj4+ICvCoMKgwqDCoCBETUFfQlVG
-X1RSQUNFKHRyYWNlX2RtYV9idWZfbW1hcCwgZG1hYnVmKTsNCj4+ICsNCj4+wqDCoMKgwqDCoMKg
-IHJldHVybiBkbWFidWYtPm9wcy0+bW1hcChkbWFidWYsIHZtYSk7DQo+PsKgIH0NCj4+wqAgRVhQ
-T1JUX1NZTUJPTF9OU19HUEwoZG1hX2J1Zl9tbWFwLCAiRE1BX0JVRiIpOw0KPj4gZGlmZiAtLWdp
-dCBhL2luY2x1ZGUvdHJhY2UvZXZlbnRzL2RtYV9idWYuaCBiL2luY2x1ZGUvdHJhY2UvZXZlbnRz
-L2RtYV9idWYuaA0KPj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4+IGluZGV4IDAwMDAwMDAwMDAw
-MC4uODFlZTRkMDU5NzljDQo+PiAtLS0gL2Rldi9udWxsDQo+PiArKysgYi9pbmNsdWRlL3RyYWNl
-L2V2ZW50cy9kbWFfYnVmLmgNCj4+IEBAIC0wLDAgKzEsMTU0IEBADQo+PiArLyogU1BEWC1MaWNl
-bnNlLUlkZW50aWZpZXI6IEdQTC0yLjAgKi8NCj4+ICsjdW5kZWYgVFJBQ0VfU1lTVEVNDQo+PiAr
-I2RlZmluZSBUUkFDRV9TWVNURU0gZG1hX2J1Zg0KPj4gKw0KPj4gKyNpZiAhZGVmaW5lZChfVFJB
-Q0VfRE1BX0JVRl9IKSB8fCBkZWZpbmVkKFRSQUNFX0hFQURFUl9NVUxUSV9SRUFEKQ0KPj4gKyNk
-ZWZpbmUgX1RSQUNFX0RNQV9CVUZfSA0KPj4gKw0KPj4gKyNpbmNsdWRlIDxsaW51eC9kbWEtYnVm
-Lmg+DQo+PiArI2luY2x1ZGUgPGxpbnV4L3RyYWNlcG9pbnQuaD4NCj4+ICsNCj4+ICtERUNMQVJF
-X0VWRU5UX0NMQVNTKGRtYV9idWYsDQo+PiArDQo+PiArwqDCoMKgwqAgVFBfUFJPVE8oc3RydWN0
-IGRtYV9idWYgKmRtYWJ1ZiksDQo+PiArDQo+PiArwqDCoMKgwqAgVFBfQVJHUyhkbWFidWYpLA0K
-Pj4gKw0KPj4gK8KgwqDCoMKgIFRQX1NUUlVDVF9fZW50cnkoDQo+PiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIF9fc3RyaW5nKGV4cF9uYW1lLCBkbWFidWYtPmV4cF9uYW1lKQ0KPj4gK8KgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCBfX2ZpZWxkKHNpemVfdCwgc2l6ZSkNCj4+ICvCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgX19maWVsZChpbm9fdCwgaW5vKQ0KPj4gK8KgwqDCoMKgICksDQo+PiAr
-DQo+PiArwqDCoMKgwqAgVFBfZmFzdF9hc3NpZ24oDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIF9fYXNzaWduX3N0cihleHBfbmFtZSk7DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IF9fZW50cnktPnNpemUgPSBkbWFidWYtPnNpemU7DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIF9fZW50cnktPmlubyA9IGRtYWJ1Zi0+ZmlsZS0+Zl9pbm9kZS0+aV9pbm87DQo+PiArwqDC
-oMKgwqAgKSwNCj4+ICsNCj4+ICvCoMKgwqDCoCBUUF9wcmludGsoImV4cF9uYW1lPSVzIHNpemU9
-JXp1IGlubz0lbHUiLA0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19nZXRfc3Ry
-KGV4cF9uYW1lKSwNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fZW50cnktPnNp
-emUsDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX2VudHJ5LT5pbm8pDQo+PiAr
-KTsNCj4+ICsNCj4+ICtERUNMQVJFX0VWRU5UX0NMQVNTKGRtYV9idWZfYXR0YWNoX2RldiwNCj4+
-ICsNCj4+ICvCoMKgwqDCoCBUUF9QUk9UTyhzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmLCBzdHJ1Y3Qg
-ZG1hX2J1Zl9hdHRhY2htZW50ICphdHRhY2gsIGJvb2wgaXNfZHluYW1pYywgc3RydWN0IGRldmlj
-ZSAqZGV2KSwNCj4+ICsNCj4+ICvCoMKgwqDCoCBUUF9BUkdTKGRtYWJ1ZiwgYXR0YWNoLCBpc19k
-eW5hbWljLCBkZXYpLA0KPj4gKw0KPj4gK8KgwqDCoMKgIFRQX1NUUlVDVF9fZW50cnkoDQo+PiAr
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fc3RyaW5nKGRldl9uYW1lLCBkZXZfbmFtZShkZXYp
-KQ0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX3N0cmluZyhleHBfbmFtZSwgZG1hYnVm
-LT5leHBfbmFtZSkNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19maWVsZChzaXplX3Qs
-IHNpemUpDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fZmllbGQoaW5vX3QsIGlubykN
-Cj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19maWVsZChzdHJ1Y3QgZG1hX2J1Zl9hdHRh
-Y2htZW50ICosIGF0dGFjaCkNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19maWVsZChi
-b29sLCBpc19keW5hbWljKQ0KPj4gK8KgwqDCoMKgICksDQo+PiArDQo+PiArwqDCoMKgwqAgVFBf
-ZmFzdF9hc3NpZ24oDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fYXNzaWduX3N0cihk
-ZXZfbmFtZSk7DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fYXNzaWduX3N0cihleHBf
-bmFtZSk7DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fZW50cnktPnNpemUgPSBkbWFi
-dWYtPnNpemU7DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fZW50cnktPmlubyA9IGRt
-YWJ1Zi0+ZmlsZS0+Zl9pbm9kZS0+aV9pbm87DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IF9fZW50cnktPmlzX2R5bmFtaWMgPSBpc19keW5hbWljOw0KPj4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCBfX2VudHJ5LT5hdHRhY2ggPSBhdHRhY2g7DQo+PiArwqDCoMKgwqAgKSwNCj4+ICsN
-Cj4+ICvCoMKgwqDCoCBUUF9wcmludGsoImV4cF9uYW1lPSVzIHNpemU9JXp1IGlubz0lbHUgYXR0
-YWNobWVudDolcCBpc19keW5hbWljPSVkIGRldl9uYW1lPSVzIiwNCj4+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIF9fZ2V0X3N0cihleHBfbmFtZSksDQo+PiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBfX2VudHJ5LT5zaXplLA0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgX19lbnRyeS0+aW5vLA0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19l
-bnRyeS0+YXR0YWNoLA0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19lbnRyeS0+
-aXNfZHluYW1pYywNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fZ2V0X3N0cihk
-ZXZfbmFtZSkpDQo+PiArKTsNCj4+ICsNCj4+ICtERUNMQVJFX0VWRU5UX0NMQVNTKGRtYV9idWZf
-ZmQsDQo+PiArDQo+PiArwqDCoMKgwqAgVFBfUFJPVE8oc3RydWN0IGRtYV9idWYgKmRtYWJ1Ziwg
-aW50IGZkKSwNCj4+ICsNCj4+ICvCoMKgwqDCoCBUUF9BUkdTKGRtYWJ1ZiwgZmQpLA0KPj4gKw0K
-Pj4gK8KgwqDCoMKgIFRQX1NUUlVDVF9fZW50cnkoDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIF9fc3RyaW5nKGV4cF9uYW1lLCBkbWFidWYtPmV4cF9uYW1lKQ0KPj4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBfX2ZpZWxkKHNpemVfdCwgc2l6ZSkNCj4+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgX19maWVsZChpbm9fdCwgaW5vKQ0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCBfX2ZpZWxkKGludCwgZmQpDQo+PiArwqDCoMKgwqAgKSwNCj4+ICsNCj4+ICvCoMKgwqDCoCBU
-UF9mYXN0X2Fzc2lnbigNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19hc3NpZ25fc3Ry
-KGV4cF9uYW1lKTsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19lbnRyeS0+c2l6ZSA9
-IGRtYWJ1Zi0+c2l6ZTsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19lbnRyeS0+aW5v
-ID0gZG1hYnVmLT5maWxlLT5mX2lub2RlLT5pX2lubzsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgX19lbnRyeS0+ZmQgPSBmZDsNCj4+ICvCoMKgwqDCoCApLA0KPj4gKw0KPj4gK8KgwqDC
-oMKgIFRQX3ByaW50aygiZXhwX25hbWU9JXMgc2l6ZT0lenUgaW5vPSVsdSBmZD0lZCIsDQo+PiAr
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX2dldF9zdHIoZXhwX25hbWUpLA0KPj4gK8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19lbnRyeS0+c2l6ZSwNCj4+ICvCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIF9fZW50cnktPmlubywNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIF9fZW50cnktPmZkKQ0KPj4gKyk7DQo+PiArDQo+PiArREVGSU5FX0VWRU5UKGRt
-YV9idWYsIGRtYV9idWZfZXhwb3J0LA0KPj4gKw0KPj4gK8KgwqDCoMKgIFRQX1BST1RPKHN0cnVj
-dCBkbWFfYnVmICpkbWFidWYpLA0KPj4gKw0KPj4gK8KgwqDCoMKgIFRQX0FSR1MoZG1hYnVmKQ0K
-Pj4gKyk7DQo+PiArDQo+PiArREVGSU5FX0VWRU5UKGRtYV9idWYsIGRtYV9idWZfbW1hcF9pbnRl
-cm5hbCwNCj4+ICsNCj4+ICvCoMKgwqDCoCBUUF9QUk9UTyhzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVm
-KSwNCj4+ICsNCj4+ICvCoMKgwqDCoCBUUF9BUkdTKGRtYWJ1ZikNCj4+ICspOw0KPj4gKw0KPj4g
-K0RFRklORV9FVkVOVChkbWFfYnVmLCBkbWFfYnVmX21tYXAsDQo+PiArDQo+PiArwqDCoMKgwqAg
-VFBfUFJPVE8oc3RydWN0IGRtYV9idWYgKmRtYWJ1ZiksDQo+PiArDQo+PiArwqDCoMKgwqAgVFBf
-QVJHUyhkbWFidWYpDQo+PiArKTsNCj4+ICsNCj4+ICtERUZJTkVfRVZFTlQoZG1hX2J1ZiwgZG1h
-X2J1Zl9wdXQsDQo+PiArDQo+PiArwqDCoMKgwqAgVFBfUFJPVE8oc3RydWN0IGRtYV9idWYgKmRt
-YWJ1ZiksDQo+PiArDQo+PiArwqDCoMKgwqAgVFBfQVJHUyhkbWFidWYpDQo+PiArKTsNCj4+ICsN
-Cj4+ICtERUZJTkVfRVZFTlQoZG1hX2J1Zl9hdHRhY2hfZGV2LCBkbWFfYnVmX2R5bmFtaWNfYXR0
-YWNoLA0KPj4gKw0KPj4gK8KgwqDCoMKgIFRQX1BST1RPKHN0cnVjdCBkbWFfYnVmICpkbWFidWYs
-IHN0cnVjdCBkbWFfYnVmX2F0dGFjaG1lbnQgKmF0dGFjaCwgYm9vbCBpc19keW5hbWljLCBzdHJ1
-Y3QgZGV2aWNlICpkZXYpLA0KPj4gKw0KPj4gK8KgwqDCoMKgIFRQX0FSR1MoZG1hYnVmLCBhdHRh
-Y2gsIGlzX2R5bmFtaWMsIGRldikNCj4+ICspOw0KPj4gKw0KPj4gK0RFRklORV9FVkVOVChkbWFf
-YnVmX2F0dGFjaF9kZXYsIGRtYV9idWZfZGV0YWNoLA0KPj4gKw0KPj4gK8KgwqDCoMKgIFRQX1BS
-T1RPKHN0cnVjdCBkbWFfYnVmICpkbWFidWYsIHN0cnVjdCBkbWFfYnVmX2F0dGFjaG1lbnQgKmF0
-dGFjaCwgYm9vbCBpc19keW5hbWljLCBzdHJ1Y3QgZGV2aWNlICpkZXYpLA0KPj4gKw0KPj4gK8Kg
-wqDCoMKgIFRQX0FSR1MoZG1hYnVmLCBhdHRhY2gsIGlzX2R5bmFtaWMsIGRldikNCj4+ICspOw0K
-Pj4gKw0KPj4gK0RFRklORV9FVkVOVChkbWFfYnVmX2ZkLCBkbWFfYnVmX2ZkLA0KPj4gKw0KPj4g
-K8KgwqDCoMKgIFRQX1BST1RPKHN0cnVjdCBkbWFfYnVmICpkbWFidWYsIGludCBmZCksDQo+PiAr
-DQo+PiArwqDCoMKgwqAgVFBfQVJHUyhkbWFidWYsIGZkKQ0KPj4gKyk7DQo+PiArDQo+PiArREVG
-SU5FX0VWRU5UKGRtYV9idWZfZmQsIGRtYV9idWZfZ2V0LA0KPj4gKw0KPj4gK8KgwqDCoMKgIFRQ
-X1BST1RPKHN0cnVjdCBkbWFfYnVmICpkbWFidWYsIGludCBmZCksDQo+PiArDQo+PiArwqDCoMKg
-wqAgVFBfQVJHUyhkbWFidWYsIGZkKQ0KPj4gKyk7DQo+PiArDQo+PiArI2VuZGlmIC8qIF9UUkFD
-RV9ETUFfQlVGX0ggKi8NCj4+ICsNCj4+ICsvKiBUaGlzIHBhcnQgbXVzdCBiZSBvdXRzaWRlIHBy
-b3RlY3Rpb24gKi8NCj4+ICsjaW5jbHVkZSA8dHJhY2UvZGVmaW5lX3RyYWNlLmg+DQo+IA0KDQo=
+Fix multiple checkpatch-reported style issues.
+
+Changes in v2:
+ - Split multiple assignments into separate lines
+ - fix reported spacing issues
+
+Signed-off-by: Nikhil S <nikhilsunilkumar@gmail.com>
+---
+ drivers/media/dvb-core/dvb_net.c | 183 ++++++++++++++++---------------
+ 1 file changed, 97 insertions(+), 86 deletions(-)
+
+diff --git a/drivers/media/dvb-core/dvb_net.c b/drivers/media/dvb-core/dvb_net.c
+index 8bb8dd34c223..43cd458cc4a0 100644
+--- a/drivers/media/dvb-core/dvb_net.c
++++ b/drivers/media/dvb-core/dvb_net.c
+@@ -57,11 +57,12 @@
+ #include <media/dvb_demux.h>
+ #include <media/dvb_net.h>
+ 
+-static inline __u32 iov_crc32( __u32 c, struct kvec *iov, unsigned int cnt )
++static inline __u32 iov_crc32(__u32 c, struct kvec *iov, unsigned int cnt)
+ {
+ 	unsigned int j;
++
+ 	for (j = 0; j < cnt; j++)
+-		c = crc32_be( c, iov[j].iov_base, iov[j].iov_len );
++		c = crc32_be(c, iov[j].iov_base, iov[j].iov_len);
+ 	return c;
+ }
+ 
+@@ -133,14 +134,14 @@ static __be16 dvb_net_eth_type_trans(struct sk_buff *skb,
+ 	unsigned char *rawp;
+ 
+ 	skb_reset_mac_header(skb);
+-	skb_pull(skb,dev->hard_header_len);
++	skb_pull(skb, dev->hard_header_len);
+ 	eth = eth_hdr(skb);
+ 
+ 	if (*eth->h_dest & 1) {
+-		if(ether_addr_equal(eth->h_dest,dev->broadcast))
+-			skb->pkt_type=PACKET_BROADCAST;
++		if (ether_addr_equal(eth->h_dest, dev->broadcast))
++			skb->pkt_type = PACKET_BROADCAST;
+ 		else
+-			skb->pkt_type=PACKET_MULTICAST;
++			skb->pkt_type = PACKET_MULTICAST;
+ 	}
+ 
+ 	if (ntohs(eth->h_proto) >= ETH_P_802_3_MIN)
+@@ -178,20 +179,20 @@ static __be16 dvb_net_eth_type_trans(struct sk_buff *skb,
+ 
+ #define ULE_OPTEXTHDR_PADDING 0
+ 
+-static int ule_test_sndu( struct dvb_net_priv *p )
++static int ule_test_sndu(struct dvb_net_priv *p)
+ {
+ 	return -1;
+ }
+ 
+-static int ule_bridged_sndu( struct dvb_net_priv *p )
++static int ule_bridged_sndu(struct dvb_net_priv *p)
+ {
+-	struct ethhdr *hdr = (struct ethhdr*) p->ule_next_hdr;
+-	if(ntohs(hdr->h_proto) < ETH_P_802_3_MIN) {
++	struct ethhdr *hdr = (struct ethhdr *)p->ule_next_hdr;
++
++	if (ntohs(hdr->h_proto) < ETH_P_802_3_MIN) {
+ 		int framelen = p->ule_sndu_len - ((p->ule_next_hdr+sizeof(struct ethhdr)) - p->ule_skb->data);
+ 		/* A frame Type < ETH_P_802_3_MIN for a bridged frame, introduces a LLC Length field. */
+-		if(framelen != ntohs(hdr->h_proto)) {
++		if (framelen != ntohs(hdr->h_proto))
+ 			return -1;
+-		}
+ 	}
+ 	/* Note:
+ 	 * From RFC4326:
+@@ -214,15 +215,15 @@ static int ule_exthdr_padding(struct dvb_net_priv *p)
+  *  Returns: >= 0: nr. of bytes consumed by next extension header
+  *	     -1:   Mandatory extension header that is not recognized or TEST SNDU; discard.
+  */
+-static int handle_one_ule_extension( struct dvb_net_priv *p )
++static int handle_one_ule_extension(struct dvb_net_priv *p)
+ {
+ 	/* Table of mandatory extension header handlers.  The header type is the index. */
+-	static int (*ule_mandatory_ext_handlers[255])( struct dvb_net_priv *p ) =
+-		{ [0] = ule_test_sndu, [1] = ule_bridged_sndu, [2] = NULL,  };
++	static int (*ule_mandatory_ext_handlers[255])(struct dvb_net_priv *p) = {
++			[0] = ule_test_sndu, [1] = ule_bridged_sndu, [2] = NULL,  };
+ 
+ 	/* Table of optional extension header handlers.  The header type is the index. */
+-	static int (*ule_optional_ext_handlers[255])( struct dvb_net_priv *p ) =
+-		{ [0] = ule_exthdr_padding, [1] = NULL, };
++	static int (*ule_optional_ext_handlers[255])(struct dvb_net_priv *p) = {
++			[0] = ule_exthdr_padding, [1] = NULL, };
+ 
+ 	int ext_len = 0;
+ 	unsigned char hlen = (p->ule_sndu_type & 0x0700) >> 8;
+@@ -232,8 +233,8 @@ static int handle_one_ule_extension( struct dvb_net_priv *p )
+ 	if (hlen == 0) {
+ 		/* Mandatory extension header */
+ 		if (ule_mandatory_ext_handlers[htype]) {
+-			ext_len = ule_mandatory_ext_handlers[htype]( p );
+-			if(ext_len >= 0) {
++			ext_len = ule_mandatory_ext_handlers[htype](p);
++			if (ext_len >= 0) {
+ 				p->ule_next_hdr += ext_len;
+ 				if (!p->ule_bridged) {
+ 					p->ule_sndu_type = ntohs(*(__be16 *)p->ule_next_hdr);
+@@ -251,9 +252,9 @@ static int handle_one_ule_extension( struct dvb_net_priv *p )
+ 		ext_len = hlen << 1;
+ 		/* Process the optional extension header according to its type. */
+ 		if (ule_optional_ext_handlers[htype])
+-			(void)ule_optional_ext_handlers[htype]( p );
++			(void)ule_optional_ext_handlers[htype](p);
+ 		p->ule_next_hdr += ext_len;
+-		p->ule_sndu_type = ntohs( *(__be16 *)(p->ule_next_hdr-2) );
++		p->ule_sndu_type = ntohs(*(__be16 *)(p->ule_next_hdr - 2));
+ 		/*
+ 		 * note: the length of the next header type is included in the
+ 		 * length of THIS optional extension header
+@@ -263,13 +264,13 @@ static int handle_one_ule_extension( struct dvb_net_priv *p )
+ 	return ext_len;
+ }
+ 
+-static int handle_ule_extensions( struct dvb_net_priv *p )
++static int handle_ule_extensions(struct dvb_net_priv *p)
+ {
+ 	int total_ext_len = 0, l;
+ 
+ 	p->ule_next_hdr = p->ule_skb->data;
+ 	do {
+-		l = handle_one_ule_extension( p );
++		l = handle_one_ule_extension(p);
+ 		if (l < 0)
+ 			return l;	/* Stop extension header processing and discard SNDU. */
+ 		total_ext_len += l;
+@@ -284,7 +285,7 @@ static int handle_ule_extensions( struct dvb_net_priv *p )
+ 
+ 
+ /* Prepare for a new ULE SNDU: reset the decoder state. */
+-static inline void reset_ule( struct dvb_net_priv *p )
++static inline void reset_ule(struct dvb_net_priv *p)
+ {
+ 	p->ule_skb = NULL;
+ 	p->ule_next_hdr = NULL;
+@@ -827,6 +828,7 @@ static void dvb_net_ule(struct net_device *dev, const u8 *buf, size_t buf_len)
+ 				  h.priv->ule_skb->len - 4 }
+ 			};
+ 			u32 ule_crc = ~0L, expected_crc;
++
+ 			if (h.priv->ule_dbit) {
+ 				/* Set D-bit for CRC32 verification,
+ 				 * if it was set originally. */
+@@ -936,7 +938,8 @@ static void dvb_net_sec(struct net_device *dev,
+ 	/* we have 14 byte ethernet header (ip header follows);
+ 	 * 12 byte MPE header; 4 byte checksum; + 2 byte alignment, 8 byte LLC/SNAP
+ 	 */
+-	if (!(skb = dev_alloc_skb(pkt_len - 4 - 12 + 14 + 2 - snap))) {
++	skb = dev_alloc_skb(pkt_len - 4 - 12 + 14 + 2 - snap);
++	if (!skb) {
+ 		//pr_notice("%s: Memory squeeze, dropping packet.\n", dev->name);
+ 		stats->rx_dropped++;
+ 		return;
+@@ -949,14 +952,19 @@ static void dvb_net_sec(struct net_device *dev,
+ 	memcpy(eth + 14, pkt + 12 + snap, pkt_len - 12 - 4 - snap);
+ 
+ 	/* create ethernet header: */
+-	eth[0]=pkt[0x0b];
+-	eth[1]=pkt[0x0a];
+-	eth[2]=pkt[0x09];
+-	eth[3]=pkt[0x08];
+-	eth[4]=pkt[0x04];
+-	eth[5]=pkt[0x03];
+-
+-	eth[6]=eth[7]=eth[8]=eth[9]=eth[10]=eth[11]=0;
++	eth[0] = pkt[0x0b];
++	eth[1] = pkt[0x0a];
++	eth[2] = pkt[0x09];
++	eth[3] = pkt[0x08];
++	eth[4] = pkt[0x04];
++	eth[5] = pkt[0x03];
++
++	eth[6] = 0;
++	eth[7] = 0;
++	eth[8] = 0;
++	eth[9] = 0;
++	eth[10] = 0;
++	eth[11] = 0;
+ 
+ 	if (snap) {
+ 		eth[12] = pkt[18];
+@@ -977,7 +985,7 @@ static void dvb_net_sec(struct net_device *dev,
+ 	skb->protocol = dvb_net_eth_type_trans(skb, dev);
+ 
+ 	stats->rx_packets++;
+-	stats->rx_bytes+=skb->len;
++	stats->rx_bytes += skb->len;
+ 	netif_rx(skb);
+ }
+ 
+@@ -991,7 +999,7 @@ static int dvb_net_sec_callback(const u8 *buffer1, size_t buffer1_len,
+ 	 * we rely on the DVB API definition where exactly one complete
+ 	 * section is delivered in buffer1
+ 	 */
+-	dvb_net_sec (dev, buffer1, buffer1_len);
++	dvb_net_sec(dev, buffer1, buffer1_len);
+ 	return 0;
+ }
+ 
+@@ -1001,10 +1009,10 @@ static netdev_tx_t dvb_net_tx(struct sk_buff *skb, struct net_device *dev)
+ 	return NETDEV_TX_OK;
+ }
+ 
+-static u8 mask_normal[6]={0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+-static u8 mask_allmulti[6]={0xff, 0xff, 0xff, 0x00, 0x00, 0x00};
+-static u8 mac_allmulti[6]={0x01, 0x00, 0x5e, 0x00, 0x00, 0x00};
+-static u8 mask_promisc[6]={0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
++static u8 mask_normal[6] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
++static u8 mask_allmulti[6] = {0xff, 0xff, 0xff, 0x00, 0x00, 0x00};
++static u8 mac_allmulti[6] = {0x01, 0x00, 0x5e, 0x00, 0x00, 0x00};
++static u8 mask_promisc[6] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+ 
+ static int dvb_net_filter_sec_set(struct net_device *dev,
+ 		   struct dmx_section_filter **secfilter,
+@@ -1013,26 +1021,26 @@ static int dvb_net_filter_sec_set(struct net_device *dev,
+ 	struct dvb_net_priv *priv = netdev_priv(dev);
+ 	int ret;
+ 
+-	*secfilter=NULL;
++	*secfilter = NULL;
+ 	ret = priv->secfeed->allocate_filter(priv->secfeed, secfilter);
+-	if (ret<0) {
++	if (ret < 0) {
+ 		pr_err("%s: could not get filter\n", dev->name);
+ 		return ret;
+ 	}
+ 
+-	(*secfilter)->priv=(void *) dev;
++	(*secfilter)->priv = (void *)dev;
+ 
+ 	memset((*secfilter)->filter_value, 0x00, DMX_MAX_FILTER_SIZE);
+ 	memset((*secfilter)->filter_mask,  0x00, DMX_MAX_FILTER_SIZE);
+ 	memset((*secfilter)->filter_mode,  0xff, DMX_MAX_FILTER_SIZE);
+ 
+-	(*secfilter)->filter_value[0]=0x3e;
+-	(*secfilter)->filter_value[3]=mac[5];
+-	(*secfilter)->filter_value[4]=mac[4];
+-	(*secfilter)->filter_value[8]=mac[3];
+-	(*secfilter)->filter_value[9]=mac[2];
+-	(*secfilter)->filter_value[10]=mac[1];
+-	(*secfilter)->filter_value[11]=mac[0];
++	(*secfilter)->filter_value[0] = 0x3e;
++	(*secfilter)->filter_value[3] = mac[5];
++	(*secfilter)->filter_value[4] = mac[4];
++	(*secfilter)->filter_value[8] = mac[3];
++	(*secfilter)->filter_value[9] = mac[2];
++	(*secfilter)->filter_value[10] = mac[1];
++	(*secfilter)->filter_value[11] = mac[0];
+ 
+ 	(*secfilter)->filter_mask[0] = 0xff;
+ 	(*secfilter)->filter_mask[3] = mac_mask[5];
+@@ -1040,7 +1048,7 @@ static int dvb_net_filter_sec_set(struct net_device *dev,
+ 	(*secfilter)->filter_mask[8] = mac_mask[3];
+ 	(*secfilter)->filter_mask[9] = mac_mask[2];
+ 	(*secfilter)->filter_mask[10] = mac_mask[1];
+-	(*secfilter)->filter_mask[11]=mac_mask[0];
++	(*secfilter)->filter_mask[11] = mac_mask[0];
+ 
+ 	netdev_dbg(dev, "filter mac=%pM mask=%pM\n", mac, mac_mask);
+ 
+@@ -1059,15 +1067,15 @@ static int dvb_net_feed_start(struct net_device *dev)
+ 	if (priv->tsfeed || priv->secfeed || priv->secfilter || priv->multi_secfilter[0])
+ 		pr_err("%s: BUG %d\n", __func__, __LINE__);
+ 
+-	priv->secfeed=NULL;
+-	priv->secfilter=NULL;
++	priv->secfeed = NULL;
++	priv->secfilter = NULL;
+ 	priv->tsfeed = NULL;
+ 
+ 	if (priv->feedtype == DVB_NET_FEEDTYPE_MPE) {
+ 		netdev_dbg(dev, "alloc secfeed\n");
+-		ret=demux->allocate_section_feed(demux, &priv->secfeed,
++		ret = demux->allocate_section_feed(demux, &priv->secfeed,
+ 					 dvb_net_sec_callback);
+-		if (ret<0) {
++		if (ret < 0) {
+ 			pr_err("%s: could not allocate section feed\n",
+ 			       dev->name);
+ 			goto error;
+@@ -1075,10 +1083,10 @@ static int dvb_net_feed_start(struct net_device *dev)
+ 
+ 		ret = priv->secfeed->set(priv->secfeed, priv->pid, 1);
+ 
+-		if (ret<0) {
++		if (ret < 0) {
+ 			pr_err("%s: could not set section feed\n", dev->name);
+ 			priv->demux->release_section_feed(priv->demux, priv->secfeed);
+-			priv->secfeed=NULL;
++			priv->secfeed = NULL;
+ 			goto error;
+ 		}
+ 
+@@ -1096,13 +1104,13 @@ static int dvb_net_feed_start(struct net_device *dev)
+ 			}
+ 			break;
+ 		case RX_MODE_ALL_MULTI:
+-			priv->multi_num=1;
++			priv->multi_num = 1;
+ 			netdev_dbg(dev, "set multi_secfilter[0]\n");
+ 			dvb_net_filter_sec_set(dev, &priv->multi_secfilter[0],
+ 					       mac_allmulti, mask_allmulti);
+ 			break;
+ 		case RX_MODE_PROMISC:
+-			priv->multi_num=0;
++			priv->multi_num = 0;
+ 			netdev_dbg(dev, "set secfilter\n");
+ 			dvb_net_filter_sec_set(dev, &priv->secfilter, mac, mask_promisc);
+ 			break;
+@@ -1164,10 +1172,10 @@ static int dvb_net_feed_stop(struct net_device *dev)
+ 				netdev_dbg(dev, "release secfilter\n");
+ 				priv->secfeed->release_filter(priv->secfeed,
+ 							      priv->secfilter);
+-				priv->secfilter=NULL;
++				priv->secfilter = NULL;
+ 			}
+ 
+-			for (i=0; i<priv->multi_num; i++) {
++			for (i = 0; i < priv->multi_num; i++) {
+ 				if (priv->multi_secfilter[i]) {
+ 					netdev_dbg(dev, "release multi_filter[%d]\n",
+ 						   i);
+@@ -1189,9 +1197,9 @@ static int dvb_net_feed_stop(struct net_device *dev)
+ 			}
+ 			priv->demux->release_ts_feed(priv->demux, priv->tsfeed);
+ 			priv->tsfeed = NULL;
+-		}
+-		else
++		} else {
+ 			pr_err("%s: no ts feed to stop\n", dev->name);
++		}
+ 	} else
+ 		ret = -EINVAL;
+ 	mutex_unlock(&priv->mutex);
+@@ -1213,7 +1221,7 @@ static int dvb_set_mc_filter(struct net_device *dev, unsigned char *addr)
+ }
+ 
+ 
+-static void wq_set_multicast_list (struct work_struct *work)
++static void wq_set_multicast_list(struct work_struct *work)
+ {
+ 	struct dvb_net_priv *priv =
+ 		container_of(work, struct dvb_net_priv, set_multicast_list_wq);
+@@ -1247,14 +1255,15 @@ static void wq_set_multicast_list (struct work_struct *work)
+ }
+ 
+ 
+-static void dvb_net_set_multicast_list (struct net_device *dev)
++static void dvb_net_set_multicast_list(struct net_device *dev)
+ {
+ 	struct dvb_net_priv *priv = netdev_priv(dev);
++
+ 	schedule_work(&priv->set_multicast_list_wq);
+ }
+ 
+ 
+-static void wq_restart_net_feed (struct work_struct *work)
++static void wq_restart_net_feed(struct work_struct *work)
+ {
+ 	struct dvb_net_priv *priv =
+ 		container_of(work, struct dvb_net_priv, restart_net_feed_wq);
+@@ -1267,10 +1276,10 @@ static void wq_restart_net_feed (struct work_struct *work)
+ }
+ 
+ 
+-static int dvb_net_set_mac (struct net_device *dev, void *p)
++static int dvb_net_set_mac(struct net_device *dev, void *p)
+ {
+ 	struct dvb_net_priv *priv = netdev_priv(dev);
+-	struct sockaddr *addr=p;
++	struct sockaddr *addr = p;
+ 
+ 	eth_hw_addr_set(dev, addr->sa_data);
+ 
+@@ -1330,14 +1339,14 @@ static int get_if(struct dvb_net *dvbnet)
+ {
+ 	int i;
+ 
+-	for (i=0; i<DVB_NET_DEVICES_MAX; i++)
++	for (i = 0; i < DVB_NET_DEVICES_MAX; i++)
+ 		if (!dvbnet->state[i])
+ 			break;
+ 
+ 	if (i == DVB_NET_DEVICES_MAX)
+ 		return -1;
+ 
+-	dvbnet->state[i]=1;
++	dvbnet->state[i] = 1;
+ 	return i;
+ }
+ 
+@@ -1350,7 +1359,8 @@ static int dvb_net_add_if(struct dvb_net *dvbnet, u16 pid, u8 feedtype)
+ 
+ 	if (feedtype != DVB_NET_FEEDTYPE_MPE && feedtype != DVB_NET_FEEDTYPE_ULE)
+ 		return -EINVAL;
+-	if ((if_num = get_if(dvbnet)) < 0)
++	if_num = get_if(dvbnet);
++	if (if_num < 0)
+ 		return -EINVAL;
+ 
+ 	net = alloc_netdev(sizeof(struct dvb_net_priv), "dvb",
+@@ -1387,7 +1397,8 @@ static int dvb_net_add_if(struct dvb_net *dvbnet, u16 pid, u8 feedtype)
+ 
+ 	net->base_addr = pid;
+ 
+-	if ((result = register_netdev(net)) < 0) {
++	result = register_netdev(net);
++	if (result < 0) {
+ 		dvbnet->device[if_num] = NULL;
+ 		free_netdev(net);
+ 		return result;
+@@ -1413,7 +1424,7 @@ static int dvb_net_remove_if(struct dvb_net *dvbnet, unsigned long num)
+ 	flush_work(&priv->restart_net_feed_wq);
+ 	pr_info("removed network interface %s\n", net->name);
+ 	unregister_netdev(net);
+-	dvbnet->state[num]=0;
++	dvbnet->state[num] = 0;
+ 	dvbnet->device[num] = NULL;
+ 	free_netdev(net);
+ 
+@@ -1427,7 +1438,7 @@ static int dvb_net_do_ioctl(struct file *file,
+ 	struct dvb_net *dvbnet = dvbdev->priv;
+ 	int ret = 0;
+ 
+-	if (((file->f_flags&O_ACCMODE)==O_RDONLY))
++	if (((file->f_flags & O_ACCMODE) == O_RDONLY))
+ 		return -EPERM;
+ 
+ 	if (mutex_lock_interruptible(&dvbnet->ioctl_mutex))
+@@ -1449,13 +1460,13 @@ static int dvb_net_do_ioctl(struct file *file,
+ 			goto ioctl_error;
+ 		}
+ 
+-		result=dvb_net_add_if(dvbnet, dvbnetif->pid, dvbnetif->feedtype);
+-		if (result<0) {
++		result = dvb_net_add_if(dvbnet, dvbnetif->pid, dvbnetif->feedtype);
++		if (result < 0) {
+ 			module_put(dvbdev->adapter->module);
+ 			ret = result;
+ 			goto ioctl_error;
+ 		}
+-		dvbnetif->if_num=result;
++		dvbnetif->if_num = result;
+ 		break;
+ 	}
+ 	case NET_GET_IF:
+@@ -1479,8 +1490,8 @@ static int dvb_net_do_ioctl(struct file *file,
+ 		netdev = dvbnet->device[if_num];
+ 
+ 		priv_data = netdev_priv(netdev);
+-		dvbnetif->pid=priv_data->pid;
+-		dvbnetif->feedtype=priv_data->feedtype;
++		dvbnetif->pid = priv_data->pid;
++		dvbnetif->feedtype = priv_data->feedtype;
+ 		break;
+ 	}
+ 	case NET_REMOVE_IF:
+@@ -1515,13 +1526,13 @@ static int dvb_net_do_ioctl(struct file *file,
+ 			goto ioctl_error;
+ 		}
+ 
+-		result=dvb_net_add_if(dvbnet, dvbnetif->pid, DVB_NET_FEEDTYPE_MPE);
+-		if (result<0) {
++		result = dvb_net_add_if(dvbnet, dvbnetif->pid, DVB_NET_FEEDTYPE_MPE);
++		if (result < 0) {
+ 			module_put(dvbdev->adapter->module);
+ 			ret = result;
+ 			goto ioctl_error;
+ 		}
+-		dvbnetif->if_num=result;
++		dvbnetif->if_num = result;
+ 		break;
+ 	}
+ 	case __NET_GET_IF_OLD:
+@@ -1545,7 +1556,7 @@ static int dvb_net_do_ioctl(struct file *file,
+ 		netdev = dvbnet->device[if_num];
+ 
+ 		priv_data = netdev_priv(netdev);
+-		dvbnetif->pid=priv_data->pid;
++		dvbnetif->pid = priv_data->pid;
+ 		break;
+ 	}
+ 	default:
+@@ -1623,7 +1634,7 @@ static const struct dvb_device dvbdev_net = {
+ 	.fops = &dvb_net_fops,
+ };
+ 
+-void dvb_net_release (struct dvb_net *dvbnet)
++void dvb_net_release(struct dvb_net *dvbnet)
+ {
+ 	int i;
+ 
+@@ -1637,7 +1648,7 @@ void dvb_net_release (struct dvb_net *dvbnet)
+ 
+ 	dvb_unregister_device(dvbnet->dvbdev);
+ 
+-	for (i=0; i<DVB_NET_DEVICES_MAX; i++) {
++	for (i = 0; i < DVB_NET_DEVICES_MAX; i++) {
+ 		if (!dvbnet->state[i])
+ 			continue;
+ 		dvb_net_remove_if(dvbnet, i);
+@@ -1646,7 +1657,7 @@ void dvb_net_release (struct dvb_net *dvbnet)
+ EXPORT_SYMBOL(dvb_net_release);
+ 
+ 
+-int dvb_net_init (struct dvb_adapter *adap, struct dvb_net *dvbnet,
++int dvb_net_init(struct dvb_adapter *adap, struct dvb_net *dvbnet,
+ 		  struct dmx_demux *dmx)
+ {
+ 	int i;
+@@ -1655,7 +1666,7 @@ int dvb_net_init (struct dvb_adapter *adap, struct dvb_net *dvbnet,
+ 	mutex_init(&dvbnet->remove_mutex);
+ 	dvbnet->demux = dmx;
+ 
+-	for (i=0; i<DVB_NET_DEVICES_MAX; i++)
++	for (i = 0; i < DVB_NET_DEVICES_MAX; i++)
+ 		dvbnet->state[i] = 0;
+ 
+ 	return dvb_register_device(adap, &dvbnet->dvbdev, &dvbdev_net,
+-- 
+2.43.0
+
 
