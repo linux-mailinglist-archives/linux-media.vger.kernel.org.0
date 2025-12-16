@@ -1,253 +1,131 @@
-Return-Path: <linux-media+bounces-48869-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48870-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B067ECC4352
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 17:18:35 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27E9CCC326D
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 14:21:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DC4D0303E3C4
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 16:13:21 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 2C88F303815F
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 13:20:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E1DF3559DC;
-	Tue, 16 Dec 2025 11:57:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68F30354AC7;
+	Tue, 16 Dec 2025 12:24:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Ojf7Im9n"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eYrmsmXJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C9D3559D2;
-	Tue, 16 Dec 2025 11:57:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A62B63328E3;
+	Tue, 16 Dec 2025 12:24:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765886258; cv=none; b=OkQxLysU90RxqdKckN1Y3JCsJ6spG4y0Wm4HfHfOtr+qPRqkCZLJUkPxO9kek0cQT/KKEbTz+3aLEoUDAIos/MI1ZC7HC6/943WKYLzopyFSHu+POnHiX1uG0+uITFYIuhDL1hYcTgK7DryBcGTnp+/+TLlh6+AMJrgvc9DTPec=
+	t=1765887893; cv=none; b=cbZ+b3Jug4FLTFTiPhsbcOwFpcyJC/UyknC70O5HlQWPESBtAM1gKhyYq6Yd97yW11zL3eTnFSvy2COLbDaOAGwzxxpCuU2Yhq/WpiSx8pjV6A0MAYTFANOdQU4pDxziE7M3uneKbi5ysbljMq47sEtwkgwxJwNfNStlsZp9vdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765886258; c=relaxed/simple;
-	bh=kROG1bhyp7pp3mOq7rW2Yy6TjoNHAp1dcJBZ5IdDcfU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uWS5TFjpczBrNCeGGWM68xC/SEPfbrnwH6t+mR9nCE8pSZ9Ra1bvsmwYoX01kYHkekvWM262ESd1/im4jEvovgpiRsDOpbo0yZxpAeEhik1iCJ78ffyQDQW1xUG5IwV3vhPyeS7MO0lXxu4pznWCPEYt9QUQZYT/JB78RP6bQLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Ojf7Im9n; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 17032581;
-	Tue, 16 Dec 2025 12:57:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1765886247;
-	bh=kROG1bhyp7pp3mOq7rW2Yy6TjoNHAp1dcJBZ5IdDcfU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Ojf7Im9nicltRUjZBfHwp+IXyokmCWIfu9CVkSyG1Nf3tcYKxS3S7TrD6SeoACz3y
-	 R5bVIdtOIXI3ATq0K7+rbnr9qSwYl25ozWVZKm7n4sIOSAZbRsEI7oKb+Te4jJpXvg
-	 fJ3eMFtcaJBGIvCve7cvnm6hoUaRxWY1/yiOxWQE=
-Message-ID: <fe7df10a-c6be-48aa-8650-865f6c8fee83@ideasonboard.com>
-Date: Tue, 16 Dec 2025 13:57:29 +0200
+	s=arc-20240116; t=1765887893; c=relaxed/simple;
+	bh=ioJNJf6E3iqakh89UOBaktoghK6qUOL79hbpE/KqCRI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=F5RddJzbb2a2ePAFz6GLYduLab1clCZha/Re9WAIZ1SWGmMUnUJ/Z42SJ0+CRJR/no6e3TEo4B5/6cJ1+hN0mwOp63LxXeY47Qh/zDhLt4jXz+6erW2zD38JAPJMeFeikwF6TltF+6uwpIaw3oJoUKNaPHVlIq/aaF5GVNJWgqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eYrmsmXJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 67597C4CEF5;
+	Tue, 16 Dec 2025 12:24:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765887893;
+	bh=ioJNJf6E3iqakh89UOBaktoghK6qUOL79hbpE/KqCRI=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=eYrmsmXJifQuq4tgipaOUEU8ck88EbTH1a7FpxV4cejyxKWqy9C39HDdEkKu9YKTk
+	 oRdD9QTjY7j8gDpIcxS/M08FWuUlDlZuRpdePc++W9pyvEjLy/QLG3PKlem1Cv+UVM
+	 93a475B1A7cBZJ/kSnwB+UQLmg9OGskZKLMEzHAIjDlIWP5lpuhI5wFVXAAfVGES53
+	 /Mc/mJYo4iPJW4bky5Cq2Izzxb3mqe3fGHt79H3VI+Itc1yIu0Eem5h5DIiJSHf7Fz
+	 ytdsYjwh1KG7CBZks7Xz0g0Ls0IBDtbAthBSuKt1iQj/FNATXWqnEm3/LQvJYMFcqX
+	 yJ/afCWPIxErA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A755D5E127;
+	Tue, 16 Dec 2025 12:24:53 +0000 (UTC)
+From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
+Subject: [PATCH v3 0/2] Improve older camss supply descriptions
+Date: Tue, 16 Dec 2025 13:24:49 +0100
+Message-Id: <20251216-docs-camss-fixes-v3-0-c238b6810771@ixit.cz>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 11/15] media: rcar-isp: Call get_frame_desc to find out
- VC & DT
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-References: <20250530-rcar-streams-v3-0-026655df7138@ideasonboard.com>
- <20250530-rcar-streams-v3-11-026655df7138@ideasonboard.com>
- <20250602132202.GD11750@pendragon.ideasonboard.com>
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Content-Language: en-US
-In-Reply-To: <20250602132202.GD11750@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJFPQWkC/33Nuw7CMAwF0F+pMhMUuzWvif9ADFEe1AMtiquoU
+ PXfSbvAgBjvtc71pCQkDqJO1aRSyCzcdyXUm0q51na3oNmXrNAgAQJq3zvRzt5FdOQxiDbREhL
+ u4UigCnuksB6KulxLblmGPj3XDxmW9s9YBg2anAEgQzHS8cwjD1v3UstUxm9e/+BYuD3Yxjeew
+ O3ch8/z/AbQIwE67QAAAA==
+X-Change-ID: 20251212-docs-camss-fixes-0fa525271951
+To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Vikram Sharma <quic_vikramsa@quicinc.com>, 
+ Kapatrala Syed <akapatra@quicinc.com>, 
+ Hariram Purushothaman <hariramp@quicinc.com>, 
+ Richard Acayan <mailingradian@gmail.com>, Bryan O'Donoghue <bod@kernel.org>, 
+ Hans Verkuil <hverkuil@kernel.org>, Depeng Shao <quic_depengs@quicinc.com>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ phone-devel@vger.kernel.org, David Heidelberg <david@ixit.cz>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1412; i=david@ixit.cz;
+ h=from:subject:message-id;
+ bh=ioJNJf6E3iqakh89UOBaktoghK6qUOL79hbpE/KqCRI=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpQU+TMUrOS2fCW3hRVB4ctdcSTSInlnWDipJxy
+ arm18T5D3+JAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaUFPkwAKCRBgAj/E00kg
+ cky3D/0fHzJJ6PiAsMbr8iHCykuCUboqMdggD8hCafYdDg3D4dDCYClmeqPNtWlbKDVZwnKGtok
+ 0++tHUtd4Z+RyUrtvbjAhzDEvF7OV0WXMaohedlw7XDUU8LOSrrXLErERNPdpVSoPfVho/LJ0zp
+ c0iDJ/P7PMQ6RyV6ctFeLrBvCZc9USaSqsdcRgrxJJ8hPbSP1B83VTCkFfQ6zBgtXc0c0gqJEFa
+ 8G50D/iAL0Ut5MW8mcrH1MYDscmRblwVNwED/BSV7Pkwx6I9Az30up5geEssGP16pD9DfnUrW9R
+ r9vsxuMbYHJ2QXv0wHEKmvIVmrjjqop2ShRzdo8fOORg+4fL13QvJZgxnh+nDaMfBMonYlJJ0sx
+ 5XMHbox4r3sgddBPb4NNR0X0b/Xrzh7yaYstXa+ap8aHfPHaNkcb+vuz9CLEvpecnwCYYD8kXW6
+ 5vpkQxbaEOIJnv8+LyengGEnnm+WxCr2d6Of55fU5Yfc737k2Fd8bUNyzeCyK7Q8q+0sEvS6T4n
+ YBtXS4zmph7I4iskyLGncjLJ5SOXbGuCQwWyRqMscxCxr6MwzXVc60cN+hekVEOLWhDN6nVqHsa
+ QmPM7yaK4kiigAYdiuWVymAx0pbI+CcC5xRgV3uwPjeX7FVloHkieRk6FNCU1hY41kcfBygUnzM
+ l8GGUskxXUixapQ==
+X-Developer-Key: i=david@ixit.cz; a=openpgp;
+ fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
+X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
+X-Original-From: David Heidelberg <david@ixit.cz>
+Reply-To: david@ixit.cz
 
-Hi,
+Signed-off-by: David Heidelberg <david@ixit.cz>
+---
+Changes in v3:
+- Add commit improving vdda-phy-supply description to match more recent
+  bindings.
+- Double-checked and specified it's 1.2 V vdda-pll-supply. (Vladimir)
+- Link to v2: https://lore.kernel.org/r/20251213-docs-camss-fixes-v2-1-a8a4d4d51c6c@ixit.cz
 
-On 02/06/2025 16:22, Laurent Pinchart wrote:
-> Hi Tomi,
-> 
-> Thank you for the patch.
-> 
-> On Fri, May 30, 2025 at 04:50:40PM +0300, Tomi Valkeinen wrote:
->> Call get_frame_desc to find out VC & DT, instead of hardcoding the VC
->> routing and deducing the DT based on the mbus format.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
->> ---
->>  drivers/media/platform/renesas/rcar-isp/csisp.c | 108 +++++++++++++++++-------
->>  1 file changed, 77 insertions(+), 31 deletions(-)
->>
->> diff --git a/drivers/media/platform/renesas/rcar-isp/csisp.c b/drivers/media/platform/renesas/rcar-isp/csisp.c
->> index a04cbf96b809..887d8eb21a3a 100644
->> --- a/drivers/media/platform/renesas/rcar-isp/csisp.c
->> +++ b/drivers/media/platform/renesas/rcar-isp/csisp.c
->> @@ -225,24 +225,86 @@ static void risp_power_off(struct rcar_isp *isp)
->>  	pm_runtime_put(isp->dev);
->>  }
->>  
->> -static int risp_start(struct rcar_isp *isp, struct v4l2_subdev_state *state)
->> +static int risp_configure_routing(struct rcar_isp *isp,
->> +				  struct v4l2_subdev_state *state)
->>  {
->> -	const struct v4l2_mbus_framefmt *fmt;
->> -	const struct rcar_isp_format *format;
->> -	unsigned int vc;
->> -	u32 sel_csi = 0;
->> +	struct v4l2_mbus_frame_desc source_fd;
->> +	struct v4l2_subdev_route *route;
->>  	int ret;
->>  
->> -	fmt = v4l2_subdev_state_get_format(state, RCAR_ISP_SINK, 0);
->> -	if (!fmt)
->> -		return -EINVAL;
->> +	ret = v4l2_subdev_call(isp->remote, pad, get_frame_desc,
->> +			       isp->remote_pad, &source_fd);
->> +	if (ret)
->> +		return ret;
->>  
->> -	format = risp_code_to_fmt(fmt->code);
->> -	if (!format) {
->> -		dev_err(isp->dev, "Unsupported bus format\n");
->> -		return -EINVAL;
->> +	/* Clear the channel registers */
->> +	for (unsigned int ch = 0; ch < 12; ++ch) {
-> 
-> A macro for the number of channels would be nice.
+Changes in v2:
+- Applied suggestion to clarify the description. (Krzysztof)
+- Link to v1: https://lore.kernel.org/r/20251212-docs-camss-fixes-v1-1-5c011505ff59@ixit.cz
 
-Sure, will add.
+---
+David Heidelberg (2):
+      media: dt-bindings: Correct camss VDDA PLL supply description
+      media: dt-bindings: Update camss VDDA PHY supply description
 
->> +		risp_write_cs(isp, ISPCS_FILTER_ID_CH_REG(ch), 0);
->> +		risp_write_cs(isp, ISPCS_DT_CODE03_CH_REG(ch), 0);
->>  	}
->>  
->> +	/* Clear the proc mode registers */
->> +	for (unsigned int dt = 0; dt < 64; ++dt)
->> +		risp_write_cs(isp, ISPPROCMODE_DT_REG(dt), 0);
-> 
-> Do we really need to clear those ? These registers seem to be used to
-> select how to process a particular DT, likely to allow overriding the
-> default processing method. 0 means RAW8, so it's not a magic disable
-> value as far as I can tell. I think we can leave the registers as-is.
+ Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml  | 4 ++--
+ Documentation/devicetree/bindings/media/qcom,sc7280-camss.yaml   | 4 ++--
+ Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml | 4 ++--
+ Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml   | 4 ++--
+ Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml   | 4 ++--
+ Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml   | 4 ++--
+ Documentation/devicetree/bindings/media/qcom,sm8550-camss.yaml   | 2 +-
+ 7 files changed, 13 insertions(+), 13 deletions(-)
+---
+base-commit: 563c8dd425b59e44470e28519107b1efc99f4c7b
+change-id: 20251212-docs-camss-fixes-0fa525271951
 
-Yes, I think you are right. I'll drop the clear.
+Best regards,
+-- 
+David Heidelberg <david@ixit.cz>
 
->> +
->> +	for_each_active_route(&state->routing, route) {
->> +		struct v4l2_mbus_frame_desc_entry *source_entry = NULL;
->> +		const struct rcar_isp_format *format;
->> +		const struct v4l2_mbus_framefmt *fmt;
->> +		unsigned int i;
->> +		u8 vc, dt, ch;
->> +		u32 v;
->> +
->> +		for (i = 0; i < source_fd.num_entries; i++) {
->> +			if (source_fd.entry[i].stream == route->sink_stream) {
->> +				source_entry = &source_fd.entry[i];
->> +				break;
->> +			}
->> +		}
->> +
->> +		if (!source_entry) {
->> +			dev_err(isp->dev,
->> +				"Failed to find stream from source frame desc\n");
-> 
-> Isn't it rather "Failed to find source frame desc for stream" ?
-
-I think it's kind of the same thing... But perhaps your version is
-better, as, indeed, the result we're getting is the frame desc entry.
-
->> +			return -EPIPE;
->> +		}
->> +
->> +		vc = source_entry->bus.csi2.vc;
->> +		dt = source_entry->bus.csi2.dt;
->> +		/* Channels 4 - 11 go to VIN */
->> +		ch = route->source_pad - 1 + 4;
->> +
->> +		fmt = v4l2_subdev_state_get_format(state, route->sink_pad,
->> +						   route->sink_stream);
->> +		if (!fmt)
->> +			return -EINVAL;
->> +
->> +		format = risp_code_to_fmt(fmt->code);
->> +		if (!format) {
->> +			dev_err(isp->dev, "Unsupported bus format\n");
->> +			return -EINVAL;
->> +		}
->> +
->> +		/* VC Filtering */
->> +		risp_write_cs(isp, ISPCS_FILTER_ID_CH_REG(ch), BIT(vc));
->> +
->> +		/* DT Filtering */
->> +		risp_write_cs(isp, ISPCS_DT_CODE03_CH_REG(ch),
->> +			      ISPCS_DT_CODE03_EN0 | ISPCS_DT_CODE03_DT0(dt));
->> +
->> +		/* Proc mode */
->> +		v = risp_read_cs(isp, ISPPROCMODE_DT_REG(dt));
->> +		v |= ISPPROCMODE_DT_PROC_MODE_VCn(vc, format->procmode);
->> +		risp_write_cs(isp, ISPPROCMODE_DT_REG(dt), v);
-> 
-> If we want to minimize the register writes, we could store the
-> ISPPROCMODE_DT_REG values in a local variable and write all of them in
-> one go. Possible/probably overkill.
-
-Yes, I don't think that would be visible in any performance measurement.
-If it is, I'm fine with doing it later. I'd rather avoid any
-optimizations at this point of time, as it's quite a challenge to get
-both the gen3 & gen4 converted.
-
-Tomi
-
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> 
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->> +static int risp_start(struct rcar_isp *isp, struct v4l2_subdev_state *state)
->> +{
->> +	u32 sel_csi = 0;
->> +	int ret;
->> +
->>  	ret = risp_power_on(isp);
->>  	if (ret) {
->>  		dev_err(isp->dev, "Failed to power on ISP\n");
->> @@ -256,25 +318,9 @@ static int risp_start(struct rcar_isp *isp, struct v4l2_subdev_state *state)
->>  	risp_write_cs(isp, ISPINPUTSEL0_REG,
->>  		      risp_read_cs(isp, ISPINPUTSEL0_REG) | sel_csi);
->>  
->> -	/* Configure Channel Selector. */
->> -	for (vc = 0; vc < 4; vc++) {
->> -		u8 ch = vc + 4;
->> -		u8 dt = format->datatype;
->> -
->> -		risp_write_cs(isp, ISPCS_FILTER_ID_CH_REG(ch), BIT(vc));
->> -		risp_write_cs(isp, ISPCS_DT_CODE03_CH_REG(ch),
->> -			      ISPCS_DT_CODE03_EN3 | ISPCS_DT_CODE03_DT3(dt) |
->> -			      ISPCS_DT_CODE03_EN2 | ISPCS_DT_CODE03_DT2(dt) |
->> -			      ISPCS_DT_CODE03_EN1 | ISPCS_DT_CODE03_DT1(dt) |
->> -			      ISPCS_DT_CODE03_EN0 | ISPCS_DT_CODE03_DT0(dt));
->> -	}
->> -
->> -	/* Setup processing method. */
->> -	risp_write_cs(isp, ISPPROCMODE_DT_REG(format->datatype),
->> -		      ISPPROCMODE_DT_PROC_MODE_VCn(3, format->procmode) |
->> -		      ISPPROCMODE_DT_PROC_MODE_VCn(2, format->procmode) |
->> -		      ISPPROCMODE_DT_PROC_MODE_VCn(1, format->procmode) |
->> -		      ISPPROCMODE_DT_PROC_MODE_VCn(0, format->procmode));
->> +	ret = risp_configure_routing(isp, state);
->> +	if (ret)
->> +		return ret;
->>  
->>  	/* Start ISP. */
->>  	risp_write_cs(isp, ISPSTART_REG, ISPSTART_START);
-> 
 
 
