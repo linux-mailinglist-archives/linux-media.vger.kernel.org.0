@@ -1,100 +1,56 @@
-Return-Path: <linux-media+bounces-48922-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48923-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66178CC4C12
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 18:55:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B884CC51F1
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 21:49:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 87F00304DEDE
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 17:55:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 29467304EF6F
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 20:49:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 995B633C52C;
-	Tue, 16 Dec 2025 17:55:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B4E325A2A2;
+	Tue, 16 Dec 2025 20:49:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ikvA4rXW";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="OoL5HTvv"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b="a1tIKX9L"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68DA1329E7A
-	for <linux-media@vger.kernel.org>; Tue, 16 Dec 2025 17:55:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765907722; cv=none; b=TWi/fOL+EAnJ/B2FEXKS1PBo9zYdatTg13HRHL/3DxQSyyTLaLAKYOvJdPSWl23q39Ncx6/9WqeMEl1nepZ3UxkV4r/P2IvtWA4hmybaQB2tZXRxBKrJcPdP2CUmb5piRk98iJPNsF7Mnq7KH3MTyfw81YhYBwGJOHLeJPtt1Kg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765907722; c=relaxed/simple;
-	bh=x4KWC+YXPPYlvG8nC4wNEtsh1nWoGAXx2WIIqmKIgrk=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD5A030E851;
+	Tue, 16 Dec 2025 20:49:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765918170; cv=pass; b=fAdcy7+TyxOZvcq3FpSv8zxDQNGUilZPYRuUs8wRUJGQzZtd4gZNjDB+s4ikqMOQQkOrI3rq9LI5Qu5fXamzdvt26aFFEBY6SEMVYIwiBS/n6V9mHh8EKkCF347f3vOVZNOWTcNet5PW3MoAjVOvP8L48gz+qxV+Dhb/xVBm77A=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765918170; c=relaxed/simple;
+	bh=SAEXNwA6AxBGTmDrU3ZWBFA9OqBeQNRuaxu5WIAjfoE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lRBDAf/RfnpfVGJJk3bmf+ygZlLv8dwWw9DbzQX5uzAYrGZXGkpM76BUs/wlqhJSSN65wakfNGKuRDgQ5IKTbFI15joI5o6iaHI4j+hlRgi2ob++kg/p5YarPDQWS+3FSlr59wfGjEw0iZ8tNs5NxirU6tsQ7dua/mMus0rY5ME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ikvA4rXW; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=OoL5HTvv; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BGGmpbd275328
-	for <linux-media@vger.kernel.org>; Tue, 16 Dec 2025 17:55:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	3tfz6XIdyU+B9sBPkIM0l3VvZslEO+bMthgxfNqZ1cQ=; b=ikvA4rXW0TmrT/Ft
-	89ocD7O0j0rxcqORi/5ICFV32ofGMXxMfBZHuj8W0mnBP6smduHfdBuIl+UNTDTU
-	oKRv2XxsbtL0u/WSlAYVxQpH1CgqC+EEgFOlu9tnS2MQkfFSPKJvIPGtiiTPtPAq
-	gpjhp4OhCLdKaceQR2BKUGwLGw9TC4HUA3qkTrErIKjHj4OC4NPE8E62we9PZfcG
-	k7gpaAsg2PFf+yk3MqRHryz2MBK2Vx1M+q9moXV41XcET1CdA97YWwLzPX5yCyo8
-	25Mil/zTdoWKf9HvfIJ12u/EmJZpD4nO5MoI1fXRAgtHK/udbm24phLAgQ0NXQYt
-	+Spp/g==
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b35se1ks8-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Tue, 16 Dec 2025 17:55:18 +0000 (GMT)
-Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-b6ce1b57b9cso5585863a12.1
-        for <linux-media@vger.kernel.org>; Tue, 16 Dec 2025 09:55:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1765907717; x=1766512517; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3tfz6XIdyU+B9sBPkIM0l3VvZslEO+bMthgxfNqZ1cQ=;
-        b=OoL5HTvvemD0DHEDF+7pRxcgwugsXQHpGgYE9r8kcPnN4QydfGwr/SRhBUZhG47U8h
-         J+xCdT3m43VdzVK8QWJKip4zm6xo9E5b99Rp4lfPi2Wto4yZLDK94s9mM36ECMBZ4tju
-         tvIgY9j5oikIZbWVfd30oeGDdjXeJY8WjQ741e7UfUoX7Pi9f0CZPL8OQee59E8diILz
-         feoRU3vPLzPvbNmZtOZZ69w5m+21KOAwLqBDklNx5G7sprAgw/bEiF7S372S2fK4uJDX
-         TXYJ3eXe3D3525Wv2MO0wUKBMGC3A6EmTVSCGiFpJhwSQH1CkUl8C+khK4BaXPdrqtTu
-         HCVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765907717; x=1766512517;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3tfz6XIdyU+B9sBPkIM0l3VvZslEO+bMthgxfNqZ1cQ=;
-        b=sdLIrvCfLEoxHvF5vPbmLXJsOLOb6hICEdgeAWF8LSiFbaJBRDFTTjzrnRhNPhKBkR
-         QvbUFPnAvEKxUKqeIR4Y1+Js+20+VQN2i2U6Y2IQ38UMtXXD1+ATtBUarr744Ap38UxT
-         FfuDcBwmU3ljBgUYQIPRM/M+XprZhdkAQDVuY+0ltowtwsK6McIM4TXcJaPdyzpYPshG
-         CmB5ZeewI0D7jGs+AU8R5HLbkvSJrqdQp4xMee8BmFsehP2btEFV8lekTu4n7U/VtjUv
-         CcE44YQbzqBItH9C2Kq74eQwXIR/jkQfgTAQWnqR/awbFnveNrPx0eLsbSK1ZByOmOZ5
-         34Vg==
-X-Forwarded-Encrypted: i=1; AJvYcCXjw0YjlMj4ZNaT5PELMj18ozE9t08GkFdRMVpvUxc+X5Aw2dBS4hgITdnJx3BFxV3WlOHVOC3Mmq9uDg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPNAR0hfMSP+mdXSpBOIkUbNGjGxpUKueQxPMgit3VOhvZA+zR
-	4i17mIBBMbz5EjvBg0Eq3dKLLEm3q53thIyQQRmgZ8hxzEiHUjpEYXmEeao+kQwLf7N0D98kTKA
-	s07eg/wqeCZXnzlwWrx2xcPPcMn3WePU7Xqfz0+oHK9Ni1zowfEA54trTAO0/2+FYPA==
-X-Gm-Gg: AY/fxX6rK+W3X/8TlFt969kyu04NLX0KBjpEoUhVRywf0D4csfNUpKu4Ivryv4DCbxD
-	6xBcDxBWk5ctAAuNoi5S+iZFRmrDISnD3nzV/idxpFqlnBUu62IznOa0xL61udV3sfpzCBL28dr
-	KhP/34F3Val+R0O0tPu/IHtru7vn7XClak+bM8DE4jYs318sQS7++9NGkk1KHmsI1jmCUPzEo+h
-	r9u+gq2ymrXMlJUkw/W/BsTKmUM1aI16tRQ/kneIYdlKwKvYnvMITBCEpI6VaTvHM5PgUwmQ+T1
-	5w/WhEZl2rcTmxnOmHBFaXrW+UCwg4lPlPpi2pA8rwq7snv+QDu5Uxr6KvV+gRDvYUDoDG+SHVq
-	11/DzKEyuayp2A1USDFgxliheEG7IgUVDD2v8XXhOG9c=
-X-Received: by 2002:a05:693c:60c6:b0:2ab:ca55:89ac with SMTP id 5a478bee46e88-2ac3014dd6emr8017857eec.43.1765907716873;
-        Tue, 16 Dec 2025 09:55:16 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHPrkV21G3iPc3ojGgR8o4nFvFrt1frL/UDjVG4xlLNNyF1bO0gpZ8qMANWvbUOVTVbC6bDUw==
-X-Received: by 2002:a05:693c:60c6:b0:2ab:ca55:89ac with SMTP id 5a478bee46e88-2ac3014dd6emr8017823eec.43.1765907716228;
-        Tue, 16 Dec 2025 09:55:16 -0800 (PST)
-Received: from [172.20.10.12] ([172.56.242.71])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ae4f0544f0sm1362847eec.11.2025.12.16.09.55.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Dec 2025 09:55:15 -0800 (PST)
-Message-ID: <d1fb4d8a-608e-44f5-834f-fa92d487c75b@oss.qualcomm.com>
-Date: Tue, 16 Dec 2025 09:55:09 -0800
+	 In-Reply-To:Content-Type; b=iUGC62ebcx6DO7czdZ668zxWJaWqYcQTlr3eFQUxkvjIs4n0yoXBTJ/FmbIkbuMdHztGgfd0g6+GlRwgc8qqtlDfRSXDEyrfuN8T2ujdwbhVTxqEMUIE6duI8c/D93HzpQ/b4yP6y1EAobSSC9EJBsKz2aNuK6je7iDropNHfhw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b=a1tIKX9L; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1765918131; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=PWaVYsnoiZji0m2Vak4l2GrTUxoYt4kMHURmwjMjZguN7UWa59kydpjQsG8/mKjUo7tBa2IRkWyGvn3osGnQtysH22zg0z0gPvDLk11dN1t8OIVWMcjFNhIj5z4D2/RVShSp6GLIvRV7GUK1qxD7oqVYfOjI2yDzzQFtV/FjIb8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1765918131; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=ca75mjl2ylCa0bxIWbc8enL9XzPv7wMBHz9lP28nTcA=; 
+	b=iz1+RkKe76OYgFc+4x90CG7/JNEo+qjeBULdrVd98VaeDlbOTS9HkTTGbX3vGUbXE6peyXxQWNDHt2N0hOlGKrYXDV/tREjcVvLD80QuuH5Kzt08+uapiKD8I211EaRZ0QeInDtrW9BlWURE9FQaE4onedCohFGAV9P/mGub2Ic=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=detlev.casanova@collabora.com;
+	dmarc=pass header.from=<detlev.casanova@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765918131;
+	s=zohomail; d=collabora.com; i=detlev.casanova@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=ca75mjl2ylCa0bxIWbc8enL9XzPv7wMBHz9lP28nTcA=;
+	b=a1tIKX9L+xVzbyG57TB4ApRpWDthyRhwKsQJ7HkIT8WPogciDBoSctMIEPAuFV/p
+	z60f2A0v3saJAjWok8CugoEtdYvFnlbn6RsjSBaZ/fGkfOFN2valBWilUvpkhslB4lj
+	8Mrv80gmZ9qCkywpn36KArj9AZqfVVffEll65/7g=
+Received: by mx.zohomail.com with SMTPS id 1765918128524840.1763123080524;
+	Tue, 16 Dec 2025 12:48:48 -0800 (PST)
+Message-ID: <37da2fe3-41bd-470e-bb6c-93fe35ee1528@collabora.com>
+Date: Tue, 16 Dec 2025 15:48:45 -0500
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -102,110 +58,237 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/5] media: dt-bindings: Add CAMSS device for Kaanapali
-To: Vladimir Zapolskiy <vz@mleia.com>,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>,
-        Loic Poulain <loic.poulain@oss.qualcomm.com>,
-        Robert Foss
- <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        aiqun.yu@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
-        trilok.soni@oss.qualcomm.com, yijie.yang@oss.qualcomm.com,
-        Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
-        Atiya Kailany <atiya.kailany@oss.qualcomm.com>
-References: <20251113-add-support-for-camss-on-kaanapali-v6-0-1e6038785a8e@oss.qualcomm.com>
- <20251113-add-support-for-camss-on-kaanapali-v6-1-1e6038785a8e@oss.qualcomm.com>
- <bd899586-f714-4d2e-95e3-6abf124e75a4@linaro.org>
- <37d0f89f-69be-45a7-90fa-347d6a3800bf@oss.qualcomm.com>
- <2d7ac7e8-ab69-44a6-b732-3657abf3a5a6@oss.qualcomm.com>
- <ceeee542-a319-4ad9-ada8-3dc769599dec@mleia.com>
+Subject: Re: [PATCH v5 01/15] media: uapi: HEVC: Add
+ v4l2_ctrl_hevc_ext_sps_[ls]t_rps controls
+To: Hans Verkuil <hverkuil+cisco@kernel.org>, linux-kernel@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Heiko Stuebner <heiko@sntech.de>, Ricardo Ribalda <ribalda@chromium.org>,
+ Hans Verkuil <hverkuil@kernel.org>, Hans de Goede <hansg@kernel.org>,
+ Yunke Cao <yunkec@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ James Cowgill <james.cowgill@blaize.com>, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ kernel@collabora.com, Nicolas Dufresne <nicolas.dufresne@collabora.com>
+References: <20251023214247.459931-1-detlev.casanova@collabora.com>
+ <20251023214247.459931-2-detlev.casanova@collabora.com>
+ <d8ef0f88-e81d-4159-8945-52197cbc95ba@kernel.org>
 Content-Language: en-US
-From: Vijay Kumar Tumati <vijay.tumati@oss.qualcomm.com>
-In-Reply-To: <ceeee542-a319-4ad9-ada8-3dc769599dec@mleia.com>
+From: Detlev Casanova <detlev.casanova@collabora.com>
+In-Reply-To: <d8ef0f88-e81d-4159-8945-52197cbc95ba@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: tBP-wGKDs728OVxzZWWUWZgPTrC50uFT
-X-Authority-Analysis: v=2.4 cv=ar2/yCZV c=1 sm=1 tr=0 ts=69419d07 cx=c_pps
- a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=muPXiAMrSX0Fknvgm18zRg==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=B8gxV9zDd2KAh-v8T-4A:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=x9snwWr2DeNwDh03kgHS:22
-X-Proofpoint-GUID: tBP-wGKDs728OVxzZWWUWZgPTrC50uFT
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE2MDE1NCBTYWx0ZWRfX7up/rfH6IiYf
- 8rhBS4CpBiQF10LlOcha5BjtM8AiYFEA7typUguS1yOurNH1NjZ96+tQ1Q1hovbGziCUMPJJigP
- EMhMIevBazalNye9hRv5LBWa6DIoXZFCOYFrfvSYKS1C/eORfwfq/bcJsNyS0ws9TgqOGbTGqKf
- WgIqqBTHGhVLasCxVBshyoJPWgWFOby5BYMQLRHqJ5l1Hz5OfL9tVlZ0z+76xzI8dA+IWFn+gbG
- 8xamaqtAZpi+4aegfPTWiW9UncKNE+WBdbxflab/xQhIoRTI3gMXDNMTGXunK6Yl4PuKFBYXOtz
- 62FOUXR6CGRXvggS3Xibd+HdOx5Xcqws1eOz90ktFbi/p8WtpynfLv2dAWqqjyli8dPRsTO8ohQ
- QQbk4mdpnw91E6vjLB98LivD7AYLXA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-16_02,2025-12-16_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 impostorscore=0 suspectscore=0 adultscore=0 bulkscore=0
- lowpriorityscore=0 malwarescore=0 priorityscore=1501 clxscore=1015
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2512160154
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 
+Hi Hans,
 
-On 12/12/2025 4:49 AM, Vladimir Zapolskiy wrote:
-> On 11/18/25 20:44, Konrad Dybcio wrote:
->> On 11/18/25 7:25 PM, Vijay Kumar Tumati wrote:
->>>
->>> On 11/18/2025 7:00 AM, Bryan O'Donoghue wrote:
->>>> On 14/11/2025 03:29, Hangxiang Ma wrote:
->>>>> +                  <0x0 0x0900e000 0x0 0x1000>,
->>>>
->>>> Why aren't you starting @ 0x0900e000 ? seems to be omitting some of 
->>>> the registers in the ICP block. Should start at +0xd000 not +0xe000 ?
->>>>
->>>>> +                  <0x0 0x0902e000 0x0 0x1000>,
->>>>
->>>> Same here.
->>> Hi Bryan, HLOS does not have access to those registers. They are 
->>> configured by the Hyp.
+On 10/24/25 03:55, Hans Verkuil wrote:
+> On 23/10/2025 23:42, Detlev Casanova wrote:
+>> Some hardware (e.g.: Rockchip's rk3588 hevc decoder) need the
+>> long and short term reference information for HEVC decoding.
 >>
->> If that's hyp, please add them. We already have platforms without
->> Gunyah. Remember, bindings are defined once and for good and I wouldn't
->> call it impossible that someone would want to run that configuration on
->> Kaanapali some day
+>> Add controls to provide it as the raw data form the stream.
 >>
+>> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+>> ---
+>>   .../media/v4l/ext-ctrls-codec-stateless.rst   | 114 ++++++++++++++++++
+>>   .../media/v4l/videodev2.h.rst.exceptions      |   2 +
+>>   .../media/v4l/vidioc-queryctrl.rst            |  12 ++
+>>   3 files changed, 128 insertions(+)
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
+>> index 497ae74379f6..7b18e12fafbb 100644
+>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
+>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
+>> @@ -2959,6 +2959,120 @@ This structure contains all loop filter related parameters. See sections
+>>         - 0x00000004
+>>         -
+>>   
+>> +``V4L2_CID_STATELESS_HEVC_EXT_SPS_LT_RPS (struct)``
+>> +    Specifies the list of Long-Term reference sets parameters from the SPS.
+>> +    These parameters are defined according to :ref:`hevc`.
+>> +    They are described in section 7.4.3.2.1 "General sequence parameter set
+>> +    RBSP semantics" of the specification.
+>> +    This control is a dynamically sized 1-dimensional array,
+>> +    V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag must be set when using it.
+> I'd drop this last sentence. It suggests that the application has to set it,
+> but is it set by the kernel.
 >
-> If the ICP register block is added now, then it will practically exclude
-> an option to run hardware demosaic on Kaanapali. There were notorious
-> and still unresolved problems with CSIPHY blocks, which shall be split
-> from CSID/VFE CAMSS on device tree level also, for similar reasons the
-> same should be done with ICP or other blocks. It makes exactly zero
-> sense to pile everything into a monolythic device tree node, and doing
-> so undermines any future advances in CAMSS support in the upstream
-> Linux, the hardware description in downstream is done thoughtfully 
-> better,
-> and not for no reason.
+> Same for the next control below.
 >
-Hi Vladimir, yes, this has been discussed in the past and the general 
-consensus from everyone is for not blocking KNP series on this. But yes, 
-there is an ongoing effort to modularize the bindings for future 
-chipsets and when it's ready, we can review, discuss and take it 
-forward. As for your ICP concern, if you are referring to the Demosaic 
-in OFE, I believe we might still be able to do it either with direct OFE 
-config from CPU or using the firmware (preferred), given that we 
-properly establish the shared memory and SID IOVA ranges for ICP, 
-assuming that the load and authenticate will be taken care by Hyp or TZ. 
-Please share your thoughts if I missed something.
+> I noticed that this is probably a copy-and-paste from the V4L2_CID_STATELESS_HEVC_SLICE_PARAMS
+> documentation: can you post a separate patch removing that same line from the description of
+> that control? I think it is a confusing line, and we missed it during the original review
+> of V4L2_CID_STATELESS_HEVC_SLICE_PARAMS.
+>
+> I have another question about these two controls: currently dynamic controls have always at
+> least one element. I have been working on supporting zero-sized dynamic controls. Would
+> that make sense here? Or will these two controls - if present - always have one element or
+> more?
+>
+> If zero-length dynamic array controls are useful here, then I can clean up my patches and
+> post them so you can use it.
 
-Hi Bryan, please feel free to add your thoughts.
+I guess that could happen depending on what userspace does, but the size 
+of the array is determined by num_long_term_ref_pics_sps and 
+num_short_term_ref_pic_sets from v4l2_ctrl_hevc_sps respectively.
 
-Thanks,
+If that value is 0, there is no point in setting the (respective) 
+control, except for simplifying userspace code I suppose.
 
-Vijay.
+So 0-length support is avoidable.
 
+Detlev.
+
+> Regards,
+>
+> 	Hans
+>
+>> +
+>> +.. c:type:: v4l2_ctrl_hevc_ext_sps_lt_rps
+>> +
+>> +.. cssclass:: longtable
+>> +
+>> +.. flat-table:: struct v4l2_ctrl_hevc_ext_sps_lt_rps
+>> +    :header-rows:  0
+>> +    :stub-columns: 0
+>> +    :widths:       1 1 2
+>> +
+>> +    * - __u16
+>> +      - ``lt_ref_pic_poc_lsb_sps``
+>> +      - Long term reference picture order count as described in section 7.4.3.2.1
+>> +        "General sequence parameter set RBSP semantics" of the specification.
+>> +    * - __u8
+>> +      - ``flags``
+>> +      - See :ref:`Extended Long-Term RPS Flags <hevc_ext_sps_lt_rps_flags>`
+>> +
+>> +.. _hevc_ext_sps_lt_rps_flags:
+>> +
+>> +``Extended SPS Long-Term RPS Flags``
+>> +
+>> +.. cssclass:: longtable
+>> +
+>> +.. flat-table::
+>> +    :header-rows:  0
+>> +    :stub-columns: 0
+>> +    :widths:       1 1 2
+>> +
+>> +    * - ``V4L2_HEVC_EXT_SPS_LT_RPS_FLAG_USED_LT``
+>> +      - 0x00000001
+>> +      - Specifies if the long-term reference picture is used 7.4.3.2.1 "General sequence parameter
+>> +        set RBSP semantics" of the specification.
+>> +
+>> +``V4L2_CID_STATELESS_HEVC_EXT_SPS_ST_RPS (struct)``
+>> +    Specifies the list of Short-Term reference sets parameters from the SPS.
+>> +    These parameters are defined according to :ref:`hevc`.
+>> +    They are described in section 7.4.8 "Short-term reference picture set
+>> +    semantics" of the specification.
+>> +    This control is a dynamically sized 1-dimensional array,
+>> +    V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag must be set when using it.
+>> +
+>> +.. c:type:: v4l2_ctrl_hevc_ext_sps_st_rps
+>> +
+>> +.. cssclass:: longtable
+>> +
+>> +.. flat-table:: struct v4l2_ctrl_hevc_ext_sps_st_rps
+>> +    :header-rows:  0
+>> +    :stub-columns: 0
+>> +    :widths:       1 1 2
+>> +
+>> +    * - __u8
+>> +      - ``delta_idx_minus1``
+>> +      - Specifies the delta compare to the index. See details in section 7.4.8 "Short-term
+>> +        reference picture set semantics" of the specification.
+>> +    * - __u8
+>> +      - ``delta_rps_sign``
+>> +      - Sign of the delta as specified in section 7.4.8 "Short-term reference picture set
+>> +        semantics" of the specification.
+>> +    * - __u16
+>> +      - ``abs_delta_rps_minus1``
+>> +      - Absolute delta RPS as specified in section 7.4.8 "Short-term reference picture set
+>> +        semantics" of the specification.
+>> +    * - __u8
+>> +      - ``num_negative_pics``
+>> +      - Number of short-term RPS entries that have picture order count values less than the
+>> +        picture order count value of the current picture.
+>> +    * - __u8
+>> +      - ``num_positive_pics``
+>> +      - Number of short-term RPS entries that have picture order count values greater than the
+>> +        picture order count value of the current picture.
+>> +    * - __u32
+>> +      - ``used_by_curr_pic``
+>> +      - Bit i specifies if short-term RPS i is used by the current picture.
+>> +    * - __u32
+>> +      - ``use_delta_flag``
+>> +      - Bit i specifies if short-term RPS i is included in the short-term RPS entries.
+>> +    * - __u16
+>> +      - ``delta_poc_s0_minus1[16]``
+>> +      - Specifies the negative picture order count delta for the i-th entry in the short-term RPS.
+>> +        See details in section 7.4.8 "Short-term reference picture set semantics" of the
+>> +        specification.
+>> +    * - __u16
+>> +      - ``delta_poc_s1_minus1[16]``
+>> +      - Specifies the positive picture order count delta for the i-th entry in the short-term RPS.
+>> +        See details in section 7.4.8 "Short-term reference picture set semantics" of the
+>> +        specification.
+>> +    * - __u8
+>> +      - ``flags``
+>> +      - See :ref:`Extended Short-Term RPS Flags <hevc_ext_sps_st_rps_flags>`
+>> +
+>> +.. _hevc_ext_sps_st_rps_flags:
+>> +
+>> +``Extended SPS Short-Term RPS Flags``
+>> +
+>> +.. cssclass:: longtable
+>> +
+>> +.. flat-table::
+>> +    :header-rows:  0
+>> +    :stub-columns: 0
+>> +    :widths:       1 1 2
+>> +
+>> +    * - ``V4L2_HEVC_EXT_SPS_ST_RPS_FLAG_INTER_REF_PIC_SET_PRED``
+>> +      - 0x00000001
+>> +      - Specifies if the short-term RPS is predicted from another short term RPS. See details in
+>> +        section 7.4.8 "Short-term reference picture set semantics" of the specification.
+>> +
+>>   .. _v4l2-codec-stateless-av1:
+>>   
+>>   ``V4L2_CID_STATELESS_AV1_SEQUENCE (struct)``
+>> diff --git a/Documentation/userspace-api/media/v4l/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/v4l/videodev2.h.rst.exceptions
+>> index c41693115db6..6182b4e2d2ee 100644
+>> --- a/Documentation/userspace-api/media/v4l/videodev2.h.rst.exceptions
+>> +++ b/Documentation/userspace-api/media/v4l/videodev2.h.rst.exceptions
+>> @@ -150,6 +150,8 @@ replace symbol V4L2_CTRL_TYPE_H264_SCALING_MATRIX :c:type:`V4L.v4l2_ctrl_type`
+>>   replace symbol V4L2_CTRL_TYPE_H264_PRED_WEIGHTS :c:type:`V4L.v4l2_ctrl_type`
+>>   replace symbol V4L2_CTRL_TYPE_H264_SLICE_PARAMS :c:type:`V4L.v4l2_ctrl_type`
+>>   replace symbol V4L2_CTRL_TYPE_H264_DECODE_PARAMS :c:type:`V4L.v4l2_ctrl_type`
+>> +replace symbol V4L2_CTRL_TYPE_HEVC_EXT_SPS_ST_RPS :c:type:`V4L.v4l2_ctrl_type`
+>> +replace symbol V4L2_CTRL_TYPE_HEVC_EXT_SPS_LT_RPS :c:type:`V4L.v4l2_ctrl_type`
+>>   replace symbol V4L2_CTRL_TYPE_HEVC_SPS :c:type:`V4L.v4l2_ctrl_type`
+>>   replace symbol V4L2_CTRL_TYPE_HEVC_PPS :c:type:`V4L.v4l2_ctrl_type`
+>>   replace symbol V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS :c:type:`V4L.v4l2_ctrl_type`
+>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+>> index c8baa9430c14..82c8b52e771c 100644
+>> --- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+>> +++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+>> @@ -531,6 +531,18 @@ See also the examples in :ref:`control`.
+>>         - n/a
+>>         - A struct :c:type:`v4l2_ctrl_hevc_decode_params`, containing HEVC
+>>   	decoding parameters for stateless video decoders.
+>> +    * - ``V4L2_CTRL_TYPE_HEVC_EXT_SPS_LT_RPS``
+>> +      - n/a
+>> +      - n/a
+>> +      - n/a
+>> +      - A struct :c:type:`v4l2_ctrl_hevc_ext_sps_lt_rps`, containing HEVC
+>> +	extended Long-Term RPS for stateless video decoders.
+>> +    * - ``V4L2_CTRL_TYPE_HEVC_EXT_SPS_ST_RPS``
+>> +      - n/a
+>> +      - n/a
+>> +      - n/a
+>> +      - A struct :c:type:`v4l2_ctrl_hevc_ext_sps_st_rps`, containing HEVC
+>> +	extended Short-Term RPS for stateless video decoders.
+>>       * - ``V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR``
+>>         - n/a
+>>         - n/a
 
