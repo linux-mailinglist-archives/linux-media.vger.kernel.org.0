@@ -1,76 +1,79 @@
-Return-Path: <linux-media+bounces-48915-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48916-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EC23CC4038
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 16:43:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F12CCC404D
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 16:44:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 16DE930456E6
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 15:42:31 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 687CF3074CF0
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 15:42:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AC3836921B;
-	Tue, 16 Dec 2025 15:42:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 374F833D512;
+	Tue, 16 Dec 2025 15:42:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="MuJyvKtr"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="B/HC9NIU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4602D231A41
-	for <linux-media@vger.kernel.org>; Tue, 16 Dec 2025 15:42:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 494E8354AC5
+	for <linux-media@vger.kernel.org>; Tue, 16 Dec 2025 15:42:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765899749; cv=none; b=sDovp74Umz7/ex0xpEvuJvf6QSFo1q93IsLqy7jFENFyPL0sEJvufdXnn1ne1r1KN0bYKf8a3tAFGg0H0xVgUoW0BJlvp2DShrL2SqN2AttWgPI9VCsSajoy6pJ608qnW5CGr/aeBLetbD3kqcwSVUXC/ZO4euzl6hGUMoBeGTw=
+	t=1765899752; cv=none; b=YLb1kxuYKQhSgr4Nu8vWdFEwufYyLJlo3YX67TUibbtWao5a6Jwpo40i9bevfpzdLCarE6JEvbAfeQ4imrKaHM/9sPfdWH5/l3M9rNwejTx9fO/uAcyNl7OFVjnbayz9cGhcbZysYVPyLTGybqI2nChkQ1GmCQYbCoaJcrS/jrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765899749; c=relaxed/simple;
-	bh=GjTksOg/GY9xK/089E43Pg2FZR+qAF/QxOIBzlDRHrA=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ZcpsPCBTLdWLU4nQ8SXp88xBK7PRE/fQBGQxuzRXSArRD2nwaNiMc4KxEZcoCv2ThkhSPgfYIbF9/XKuxcL0Ft/Tr/ZECq8L4VfNKm3MZTLqEHXV8F46jD8MTEMRznqTeyzsTcxzQ6Td5yWlZQwm+LV/TnO1Dsz0wp/GykLR8MA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=MuJyvKtr; arc=none smtp.client-ip=209.85.167.53
+	s=arc-20240116; t=1765899752; c=relaxed/simple;
+	bh=4muiAjHuAD7dYIfr73MQ3yyzrOuuTQnuoe/uC/hHsIY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=aWDkW6C3YcUZitHH9gpDJoI4dIwx8030toJl5W4FLb4TCwBhnEFFn+MHaWKkuZKI9u24CRKN3NEu2owsr5XLLsaUC29eXhrOvSpHINWPDalK/8xosgaXNwZovap25PAPNkqCuXGm5o4PKaq08qQB+gANymVC3WNIJAwOZfbWUwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=B/HC9NIU; arc=none smtp.client-ip=209.85.167.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5958232f806so5511879e87.0
-        for <linux-media@vger.kernel.org>; Tue, 16 Dec 2025 07:42:27 -0800 (PST)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-597d712c0a7so5619723e87.0
+        for <linux-media@vger.kernel.org>; Tue, 16 Dec 2025 07:42:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1765899745; x=1766504545; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y7mryX1pPR4ud4oxX9lWcTv5qZ4b+nUaJACIVLq8hPY=;
-        b=MuJyvKtri569s+d/9IlbUzIwqE6cDTGVv7GQ8wSY0Rgn2jSjyEl42X8HmZD/1jLeyj
-         7ILZUMSWqarzzz7CMvfsxdr7Bzv2pPz8V1fsQBEQWCUj2CXS11K1GAMCt8w3Ll0mkhpb
-         kVc3L4Zrj80NHaHp1dFwujLZ3PDZkLX4AjGRY=
+        d=chromium.org; s=google; t=1765899747; x=1766504547; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ibUqxEEeYAT14DRs/j/XBVBOJBPbCX2lWNH1mmAv5Jc=;
+        b=B/HC9NIUdh1wRKaBzYMX2S5UMr7hU5Tgc69VRyDFxvEij9t3byELs0Hq0t2FdbION/
+         OCwgeSfN8UPajFlQGVnyFqQmJrAKv1QQNMOqrgYRg3LGG3EIKgapnYpkJ/5o0H/3PXp+
+         ilBH/xRthzqeMS4ZfHHQeHN/P52NwhDgmNr84=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765899745; x=1766504545;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y7mryX1pPR4ud4oxX9lWcTv5qZ4b+nUaJACIVLq8hPY=;
-        b=krzOKVEw/I6Fz1Z1tU/TxkBXnlJaFR6kerjdLbyPj47zGgle3gJL41FuRgrSL+TbtB
-         3XELVfYHSbdpqFJ5Ei0alqoXvsmma88QOlOD8+5kT3wZy12kJ1zae9eMnop4fsviWA4k
-         Rp90N6VPIYzhAG60kDbw9hN0B0qRbHxJF1+YCKaOmntNHQryLvKpFU2Oi0SjOZZJSvAQ
-         EAkiEzwy70RG44KzAxDjeuVFIyl2ueqL+H8FTU/djmERdGGZhGfQ9N5PgbKUUVLQdvsQ
-         caQlJ5eeJTbu4NX/xCgXbn4tOxZTer/nQsis61W87GgS6Zs3ZgMX9prxLIMP1Mz07a+H
-         K1GQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVP1oazItcYxXsrG9uup+h5KudP+yHeJOtzJYmn+4prDMy6WKADz2csDCkB7H5BEI5OHPE1aZKf5SErIw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzHPoDuIz+sGeQu0TsSz51TEIkg+Cg6W4z6Iv7/ndV9LObRaUcn
-	zaWNTXy5uTjiLZ8OfvEvh10Y/hRY40OwSb3tbWr+sLo+uv4ZlLgM/108pPcpjUkV5w==
-X-Gm-Gg: AY/fxX7N0gfnpQ3DC5McfjVyNw/9yEO1g4407lxGUflcBnOpqmRGlJKEczP5wshdvsj
-	Byq+m33WUwApMkBDuV1B6VMir4wH4W0oCVKHD0olXI7h793nohbyAOGt+s8zZnxYlEL8qYFaVbR
-	+dG3RUHAR3hexNO6LwnAY4S4AL8P1IkLAWA2cBMCRUlFRK5au2m4frmc7rSyUSSOAQIwbL3uonk
-	LSzZgEibSM+VH4dSqIqU6GYfOd+HoNIXPDiIfqZHcYOMfiUtyvLT4R7fvi91lK+5JenqTr6ivl/
-	6MghEvq9nTETaJhkhE3aNUEUEBDXWJ1YTY31+ohuMxN1k7OxkyFQnmNJv0wJ9ZYdxguJSnh3JU8
-	xvrbLtdcTDUsGo3LXQh4eCuRj1aDgjjv2bpxY/yf9qs7jNGC03LAaIha2EsHXrKxUzfaznr2sHx
-	PNE5yoBaHCry8CJ3rCJ+CVgwfYQmgHl8cBqpwyGTOHv7TtvMbAdmdEPDZlA49tZACfLbC0iA==
-X-Google-Smtp-Source: AGHT+IGKZHv6lRA/O8HWR45tPSrNpis8zn6lvRM//u5qtyU7drZ8s9wFk27hs9CDZJAlQRCRTTQ0gA==
-X-Received: by 2002:ac2:5e73:0:b0:599:fe3:779 with SMTP id 2adb3069b0e04-5990fe308c9mr725665e87.27.1765899745397;
-        Tue, 16 Dec 2025 07:42:25 -0800 (PST)
+        d=1e100.net; s=20230601; t=1765899747; x=1766504547;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ibUqxEEeYAT14DRs/j/XBVBOJBPbCX2lWNH1mmAv5Jc=;
+        b=w1ETFNYIWp1XfA3G/xgT/wmkhnxGGV/85V6MehfzTau4JKTHFVnbx1qC5AcTxrBSei
+         D79zH9Cj/4jIY5hOMZutOJnz8fNDx6uCulyEJZn4OZ27sJiS5Tco6PS2LwV9CKDLK5YC
+         w/ZEsHA0mw0V/eFXdQDYjndFS7gfo1V7mgWUaQSGgfFJ/0SZadPuy3KSSxaXTHYs/PmD
+         u5PlOU3Pc8BQgiwMcy955RgmLGNpiGpyh9K8dyeEF0/c5KpxjeJNPPpcWV/pC36pUUnB
+         ZnApl5s5m1/hn/6L/H/UxZlfZxuBwuTvcZU2MAHCWSK6Kx/TKEszx6A+KST+QWjS3CrM
+         KhVg==
+X-Forwarded-Encrypted: i=1; AJvYcCXwmUEt2UDUEwtBRKBT0SqynxbmT4AjGo3D9liNcTrZo7IAK5nnih5iAYdH7vK/Wvj0GRb6vusMnLQbYw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQz0XBjw2Ihi9cRNxOe9TYDZioTa7+RJVnLLQiv55J5bxQ2n1z
+	Xg6VqhmJ+witmi3RFr1lK/cZgEEAmQ4AChKGPU+pNi+dEwBbw14AtG5bD37/uz6/IA==
+X-Gm-Gg: AY/fxX5ZkCuYhdpUi0UhDe9jEVXd8zWimyOQbBpoGXGweent8qH63SSVZApbZDTg/Ij
+	TeuoRfWk6L3dvJ+lsCo7exXe0pzSNg4X4HnN/ZU1B8Hr6G4QuC3HRz4jFRDukHUxvix6hx+wOnx
+	BZU3p03rxcCisfQ9cVaYZaXRxiRvI0uCy2ioVpEgM/HBzebRF1Q6BJBM4NL80qe6tuwY5NOzmcd
+	wvH7PRFe3QuTVWyNFD82Ycd4+7cB4aEKRa8UuguvdC+y9xC2TnkV7+pj1CnoXDJOFPo0xpO/PDF
+	lR/9b4c7tPnaFGN+NkSvKelVZ21VpBDQDvbNa+aykTVkjPOElBw48qjyHfrqnGFELv/LFbOi2ZV
+	hk1DDa2ay/UCcwS6euHv/SBAD+uNUxtgoDalBiz4nwsBAjkg9+8B2fiy/c83ZrXPoo/mL0C+Iw+
+	vFLJ0fPNk8qh1t0vRrecVhgWoDYOO93Eo88SJns/PF09FRruIkNBgE2q+WVyx0fbf+z7+kdJ4+W
+	/2qnBuF
+X-Google-Smtp-Source: AGHT+IEZ1MJ3LD/5MNrLllt28+1UFyOWGkybZY0pOHALDmg5lcghAE+VW/yCL7VugkHpkWECOWBwBA==
+X-Received: by 2002:a05:6512:1390:b0:594:490b:4493 with SMTP id 2adb3069b0e04-598faa83effmr5186905e87.41.1765899747397;
+        Tue, 16 Dec 2025 07:42:27 -0800 (PST)
 Received: from ribalda.c.googlers.com (165.173.228.35.bc.googleusercontent.com. [35.228.173.165])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5990da1a4b8sm1003489e87.31.2025.12.16.07.42.24
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5990da1a4b8sm1003489e87.31.2025.12.16.07.42.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Dec 2025 07:42:24 -0800 (PST)
+        Tue, 16 Dec 2025 07:42:27 -0800 (PST)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH v2 0/2] media: Fix CI warnings for 6.19
-Date: Tue, 16 Dec 2025 15:42:23 +0000
-Message-Id: <20251216-warnings-6-19-v2-0-12075e3dece7@chromium.org>
+Date: Tue, 16 Dec 2025 15:42:24 +0000
+Subject: [PATCH v2 1/2] media: iris: Document difference in size during
+ allocation
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -79,11 +82,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAN99QWkC/13MQQqDMBCF4avIrDsliRi0q96juIgx0VmYlIlNW
- 8S7NxW66WbgH3jfBskxuQSXagN2mRLFUEKdKrCzCZNDGkuDEqqR5eDTcKAwJdQoO+y0GLtBt9p
- 6D2VzZ+fpdXi3vvRMaY38Pvgsv9+fVP9JWaJA1dSidbLWgzVXO3Nc6LGcI0/Q7/v+AS9e1IytA
- AAA
-X-Change-ID: 20251202-warnings-6-19-960d9b686cff
+Message-Id: <20251216-warnings-6-19-v2-1-12075e3dece7@chromium.org>
+References: <20251216-warnings-6-19-v2-0-12075e3dece7@chromium.org>
+In-Reply-To: <20251216-warnings-6-19-v2-0-12075e3dece7@chromium.org>
 To: Keke Li <keke.li@amlogic.com>, 
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
  Daniel Scally <dan.scally@ideasonboard.com>, 
@@ -98,36 +99,35 @@ Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
  linux-arm-msm@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.14.2
 
-New kernel version, new warnings.
+As we get ready for kzalloc checking for invalid sizes, let's add
+documentation for the cases where the size is different but valid.
 
-This series only introduces a new patch:
-media: iris: Document difference in size during allocation
-
-The other one has been already sent to linux-media or linux-next ML,
-but they have not found their way into the tree.
+This patch fixes this cocci warning:
+./platform/qcom/iris/iris_hfi_gen2_command.c:1215:9-25: WARNING: casting value returned by memory allocation function to (struct iris_inst *) is useless.
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
-Changes in v2:
-- Remove already-landed patches
-- Use ->inst in Document difference (Thanks Laurent)
-- Simplify division (Thanks Dimitry)
-- Link to v1: https://lore.kernel.org/r/20251203-warnings-6-19-v1-0-25308e136bca@chromium.org
+ drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
----
-Ricardo Ribalda (2):
-      media: iris: Document difference in size during allocation
-      media: iris: Fix fps calculation
+diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+index f9129553209922fda548ca320494ae6ae797854c..c120ea3594fb5d0f40d6b9a7c67ffc28c42109f0 100644
+--- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
++++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+@@ -1212,5 +1212,10 @@ void iris_hfi_gen2_command_ops_init(struct iris_core *core)
+ 
+ struct iris_inst *iris_hfi_gen2_get_instance(void)
+ {
+-	return (struct iris_inst *)kzalloc(sizeof(struct iris_inst_hfi_gen2), GFP_KERNEL);
++	struct iris_inst_hfi_gen2 *out;
++
++	/* The allocation is intentionally larger than struct iris_inst. */
++	out = kzalloc(sizeof(*out), GFP_KERNEL);
++
++	return &out->inst;
+ }
 
- drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c |  7 ++++++-
- drivers/media/platform/qcom/iris/iris_venc.c             | 15 +++++----------
- 2 files changed, 11 insertions(+), 11 deletions(-)
----
-base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
-change-id: 20251202-warnings-6-19-960d9b686cff
-
-Best regards,
 -- 
-Ricardo Ribalda <ribalda@chromium.org>
+2.52.0.239.gd5f0c6e74e-goog
 
 
