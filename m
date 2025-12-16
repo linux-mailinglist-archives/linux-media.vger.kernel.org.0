@@ -1,178 +1,244 @@
-Return-Path: <linux-media+bounces-48833-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48834-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D1F6CC055B
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 01:19:35 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 103A1CC06C4
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 02:10:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 49C8E301CC6E
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 00:19:30 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E34DB301A713
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 01:10:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C30D23958A;
-	Tue, 16 Dec 2025 00:19:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 039E8239E79;
+	Tue, 16 Dec 2025 01:10:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D5gtY4Ag"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VT0cj1O2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AFB71FCFFC
-	for <linux-media@vger.kernel.org>; Tue, 16 Dec 2025 00:19:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 444A52E413
+	for <linux-media@vger.kernel.org>; Tue, 16 Dec 2025 01:10:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765844365; cv=none; b=Z/beD47qrwXneFTVnh3Bwj5dNW84wfXmVGv5IWBOqLAF44GJ+NofbG+2Ot+TgGUz5y0dLiuDhv5eC8cBCvzBzOy7l16URK/L7hr9qXy9lICr8rEcwvYW2u26Quexhxpq9lXk8qfD9i3qvDUg/bNzXnZaojynNptQ/vgVcYc30VY=
+	t=1765847420; cv=none; b=DIm+hnv6ND4S5q6bE6WUIq8y8MWQy4+yKIf5T4ob5OQ5cLmVR9wK5oOa/eCMyjBGf/zboBENM0KhYZffRluBDV3mI/m7RfTwg/LBYbqhihxfUr5eM9O3sbRjaIUFX43BlXQGqtmZwqb6HeAK6ParaCAFz8Dah68QwEmINVyez6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765844365; c=relaxed/simple;
-	bh=2xBU63nTJiakTL8J+GV+JbrGyJ0kmCpFFyI7LldHPv8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BBhmaGKw9Jomk/i2Wfksz6jKmdjFnAqvZ56Wi2tlMpEK78owojjDWmxJQOp5BKJQOoi6QNL0FOMyfxIecGlQjPOdSjrhXSitimWBpUpCQwQ4k0SR2OCyX37Hb6B/YJUS/LEFzFE745NP9dHklRucokk+dUgcgNI9TouGesu+f7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D5gtY4Ag; arc=none smtp.client-ip=209.85.215.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b6ce6d1d3dcso3820404a12.3
-        for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 16:19:23 -0800 (PST)
+	s=arc-20240116; t=1765847420; c=relaxed/simple;
+	bh=WIZ9jyFswOPNqTgsmJJ76iM6G7nvLeuDuP7DQJ6BNqA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VVrXhIslyimNyk+LP5AtefYe8kqOreCEZ8hFujnk8/9+EX+v39gTeqwVCh+UNu2ISY7/IQFu6Ja9MZdLJzNXD9Hr7qBVuGrWK6/nMpXZs+3Ze7cN9BS568PogFtsYHmT17OVgKyzQqOZsByBaAhd5MB1CA0CxQSE7uICxBcQ7Fk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VT0cj1O2; arc=none smtp.client-ip=209.85.208.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-37b8f270a3dso3875751fa.3
+        for <linux-media@vger.kernel.org>; Mon, 15 Dec 2025 17:10:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765844363; x=1766449163; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Sk1yhdZDsbmHyAUXRbfG+BCb5AaoOf6d28kSsthudBo=;
-        b=D5gtY4AgYwc0gpeQTiO+/EeOjsoizr/MwhfDECqoD14EpGxn+omXKnnFXtgPxydAkQ
-         DlRQegXiHSLVxrtvo+YtWDGHcp+Ify9tTLIDbn72XWW848VbxXHdj8vLkmLLU0+WRtg8
-         eUpD6nVlMiYd9CXwaPnrIPegHsaIKk/sLUfFetcVhUhWTKQhQPDMr8lB4OpgTWx2x9rw
-         TemhivmWz5W3E2qLk2KgLQFb9vbpoXRT1DxiBLcmOgit4Vw0FFvaA1z0r2lNQGKaHigh
-         LxMSusJ1a7Q09CC0PDxf4oq2yX3W9niCivAFTAyQvJnq5AukYMzG1NaVrplY9Cwd8ctV
-         bBrg==
+        d=linaro.org; s=google; t=1765847416; x=1766452216; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Mi8Xm0zurhbSPDMlN1uc/lNI9yNMPSviozpqbJTiEDg=;
+        b=VT0cj1O2UIktLIzkUNpdWYDS3SfInrhRY5mNJcIKLeUAXCKRnfwbUflVWjr+5L2m2h
+         8+WWCWRbStWVXcptD5tJdnwvuPsKkW2Zv/oNskRQqBqrVJcIZCJykx7PPQtFsuRcpYTC
+         XlwVQvCvmiX4uFLJe9LYi6QIQP17gPaVn5nij71NEtk3tU8dPxKwX7ywJKMmeq7vX2c5
+         an1OKKnE4LnMcyB7y2AS0t17BU4sGHiS3J86NELr8jdlU8bP/slS1Uf6EhzZd7YfUNjf
+         btpfWx78MnxCnndLDhszNUTO+JqoG0mtIRqBu2tD+pydRZ9BaEoC/JnMoDgLv/61iISN
+         W/EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765844363; x=1766449163;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Sk1yhdZDsbmHyAUXRbfG+BCb5AaoOf6d28kSsthudBo=;
-        b=e8ZA44tgHG54US98fAMnTFsNqi50tQUKVRWnxTjVj3P7c53V7XuO+MKcEzjWyCvkUK
-         DfvBgOqVxmjwnWvrC9n+o+gLjqMOoBvK67/RpU3Qpy6mhPTWF9gETVLvklszKXgTw6Y/
-         bvfvIdNnqeBwr7CvkRGu9Yz3bL2ZjlekFN7EcmhDru9/ocj3ttR8rrQuReihVJ1pnxpL
-         PQv1cbEO+LaqMQY8gSt/Vr8DHuMSgqhmu1eif6Mok0GchCfqrhLeSyh/KY3xWzRh52dT
-         a+aOuzYTXa4HS3SYqxro1uYwzSivfZOi8qUFfr6wThrsjwb+s8vEAi0cDq8V9kz4xpC9
-         sajA==
-X-Forwarded-Encrypted: i=1; AJvYcCXo72/IxmQlrZCJJD5jw0pZ79sYhjSDILCrms536E5ehqbd/NYJonZuYrPPDKKtpSIUQ4loTE4StTB3ow==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyH2uW8MYCQe8E3Epqj24rjD5W9/g9ov3SghywuUDtqMUItT9m2
-	F4vLDkj+7tj2B/7c0waD4uISiURs0h7nLKn6Zp7Man+ZDKTr0Jfgxum3
-X-Gm-Gg: AY/fxX5Q9uMTLvvfcsTjb1RuDaVu9LmALafbXsFk/vcn4/71aVqW4vKAoWghEUOdAOw
-	+z52NZDIoM5ogFGhw7/RZPZd34Ms+pwYzAq9ZgSgsPtBJsNMeCgS7EFNJWdJO8hWVLm2Tid//8+
-	Isc7rnv+YnUxWe9X6GLcFD+JGaYUDrDLO3xTtPVAuE3qddulaFBdaoCTyc+Jm9d7+32+F6dEyXR
-	n/1eOIEsg1PqhYkTJrNBFZZH2OkhIJAzaxUqDZBBxFYyOVyHiQvZEgesDnu8u7Z+LNJTUKdr742
-	FVNnikYd4mAX7+pFmQSco3ruOy96hQUi6vASDydhPG0RHnZPH8X9fiKUyP9NVVfFuCql7BwbaLM
-	Fn+dMJfdwPt7sD6rG1WGA+ewBExZ4pO9UlYkqFNs1jSRlr+YTwvi/5phEU7d5my1PfRA4pgpW9t
-	8eAuNulZzeOzgjIUrG59i+8JcRT5bBk+BeJ0eiWnv7gcg=
-X-Google-Smtp-Source: AGHT+IHmrytMydYNAgs0qRZg7qEjrXkSVHGK3fUWY6ADeu6KzKqLiLcf4Z3v4UGHQ57LoQ8XnYjK1w==
-X-Received: by 2002:a05:7301:f84:b0:2a4:3593:6466 with SMTP id 5a478bee46e88-2ac300f729dmr7381219eec.22.1765844362545;
-        Mon, 15 Dec 2025 16:19:22 -0800 (PST)
-Received: from fedora (c-67-164-59-41.hsd1.ca.comcast.net. [67.164.59.41])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11f2e30491dsm51066947c88.16.2025.12.15.16.19.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Dec 2025 16:19:21 -0800 (PST)
-Date: Mon, 15 Dec 2025 16:19:16 -0800
-From: "Vishal Moola (Oracle)" <vishal.moola@gmail.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux AMDGPU <amd-gfx@lists.freedesktop.org>,
-	Linux DRI Development <dri-devel@lists.freedesktop.org>,
-	Linux Filesystems Development <linux-fsdevel@vger.kernel.org>,
-	Linux Media <linux-media@vger.kernel.org>,
-	linaro-mm-sig@lists.linaro.org, kasan-dev@googlegroups.com,
-	Linux Virtualization <virtualization@lists.linux.dev>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Linux Network Bridge <bridge@lists.linux.dev>,
-	Linux Networking <netdev@vger.kernel.org>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Philipp Stanner <phasta@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Alexander Potapenko <glider@google.com>,
-	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Nikolay Aleksandrov <razor@blackwall.org>,
-	Ido Schimmel <idosch@nvidia.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Taimur Hassan <Syed.Hassan@amd.com>, Wayne Lin <Wayne.Lin@amd.com>,
-	Alex Hung <alex.hung@amd.com>,
-	Aurabindo Pillai <aurabindo.pillai@amd.com>,
-	Dillon Varone <Dillon.Varone@amd.com>,
-	George Shen <george.shen@amd.com>, Aric Cyr <aric.cyr@amd.com>,
-	Cruise Hung <Cruise.Hung@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Sunil Khatri <sunil.khatri@amd.com>,
-	Dominik Kaszewski <dominik.kaszewski@amd.com>,
-	David Hildenbrand <david@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Max Kellermann <max.kellermann@ionos.com>,
-	"Nysal Jan K.A." <nysal@linux.ibm.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Alexey Skidanov <alexey.skidanov@intel.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	Vitaly Wool <vitaly.wool@konsulko.se>,
-	Harry Yoo <harry.yoo@oracle.com>, Mateusz Guzik <mjguzik@gmail.com>,
-	NeilBrown <neil@brown.name>, Amir Goldstein <amir73il@gmail.com>,
-	Jeff Layton <jlayton@kernel.org>, Ivan Lipski <ivan.lipski@amd.com>,
-	Tao Zhou <tao.zhou1@amd.com>, YiPeng Chai <YiPeng.Chai@amd.com>,
-	Hawking Zhang <Hawking.Zhang@amd.com>,
-	Lyude Paul <lyude@redhat.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Luben Tuikov <luben.tuikov@amd.com>,
-	Matthew Auld <matthew.auld@intel.com>,
-	Roopa Prabhu <roopa@cumulusnetworks.com>,
-	Mao Zhu <zhumao001@208suo.com>,
-	Shaomin Deng <dengshaomin@cdjrlc.com>,
-	Charles Han <hanchunchao@inspur.com>,
-	Jilin Yuan <yuanjilin@cdjrlc.com>,
-	Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
-	George Anthony Vernon <contact@gvernon.com>
-Subject: Re: [PATCH 04/14] mm: vmalloc: Fix up vrealloc_node_align()
- kernel-doc macro name
-Message-ID: <aUClhBdwQb83vN0o@fedora>
-References: <20251215113903.46555-1-bagasdotme@gmail.com>
- <20251215113903.46555-5-bagasdotme@gmail.com>
+        d=1e100.net; s=20230601; t=1765847416; x=1766452216;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Mi8Xm0zurhbSPDMlN1uc/lNI9yNMPSviozpqbJTiEDg=;
+        b=p/mKa7Q8o92e3CDrG7WqhV5BwerZYaHm2Rw7tdAD9gmuOySu6bbkqkokmjg8fmaK3E
+         +qMY5E5R8tWePKeendGqrTepWKT6zImHzJAd2J96Re83GFo6XxgifY6W/UgL1IysEp4I
+         fmRfmEkAxzWJo2HpFOnhbzC2T/BXVBkxkwWqC2CCf4LHDOn2jas+DHnPuqn088iNNNMa
+         5MQGmZ07Bf2ZvnlOcHT/GI1eFhXmkD1lfBChUyxdNjz33YNX15n8FDbfMQlCqWyfk6Zl
+         NIp0fJnBQW3e+1cPpDRR8HhElzx40OfT5M7YT7ODaM3inrsu8lT3MbMBhq9eL4rBEYye
+         Ndng==
+X-Gm-Message-State: AOJu0YwFylkX45LyR7o/tsqoXw65qdL8epp4pUT2foHXjUComV+uJKci
+	ybWgSLq1dT2VnJrXfYURmCYxFCe2mJG4TRiW2/8dTy43hxgR8MMFbX+Hda5a8ZvqHYo=
+X-Gm-Gg: AY/fxX7oCMZjx/X3OBsPdO+T+KS2OYw74hAZM7HCVInbjBl70h/o01Tookhm8XqoNzb
+	LZdKqHOWQRlBaColScciSsy97xXlB0fTYaxTIvZL4iJxKJ02MVMt5HizztZBuNs3INEz5hFIHaK
+	R4tBt3DNneQsD/CbEMsZJVAJosZFafGWW4ANTlDqk729QJHeUzBgSj7MTqlwG6PDwZMNBoagc4s
+	17Y1t6IpPyfMliYhUweAsVTrB3X052SeTugtTNMec5/35a9wAYTzhJSImPS4ryZ5WFniySVWYob
+	sPH/D6xg85qShyKmrZoFJB10mMMaxSU69GYsdHzz1rTTAOz6CryzeN3zpyxzzPt3xgR+YyeDwHL
+	wIxQ6ZoLYushJGqtsrjo6z99ypEEj7fiVyDvT479GhCpDpzxHlSX+LL4pOOHC8qIy6Yp2BSSf+Z
+	akPctOHG+DT4XDFNRlFZuhqwZsEqzbWsIE391s3jcHAoJkyvxCM2svwyODpxduM48Fpg==
+X-Google-Smtp-Source: AGHT+IH7lvZQh/tJdyvFMjmv5Z9sx5r76i24YJXdpQwBw46WC2pR2Mr05q/RbbpGbzcBzScS/lkVsA==
+X-Received: by 2002:a05:651c:2223:b0:37a:8acb:a053 with SMTP id 38308e7fff4ca-37fd088227dmr17398471fa.8.1765847416234;
+        Mon, 15 Dec 2025 17:10:16 -0800 (PST)
+Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-37fdebe61e2sm33946831fa.7.2025.12.15.17.10.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Dec 2025 17:10:14 -0800 (PST)
+Message-ID: <9d78a741-2cc4-4622-8c4d-a096521ca08a@linaro.org>
+Date: Tue, 16 Dec 2025 03:10:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251215113903.46555-5-bagasdotme@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: dt-bindings: Correct camss VDDA PLL supply
+ description
+To: David Heidelberg <david@ixit.cz>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Vikram Sharma <quic_vikramsa@quicinc.com>,
+ Kapatrala Syed <akapatra@quicinc.com>,
+ Hariram Purushothaman <hariramp@quicinc.com>,
+ Richard Acayan <mailingradian@gmail.com>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ phone-devel@vger.kernel.org
+References: <20251212-docs-camss-fixes-v1-1-5c011505ff59@ixit.cz>
+ <1e09a93a-d42f-4a23-b346-9f158a60d8aa@linaro.org>
+ <b9b84317-a392-4f1e-aa8f-351e92c678a1@ixit.cz>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <b9b84317-a392-4f1e-aa8f-351e92c678a1@ixit.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, Dec 15, 2025 at 06:38:52PM +0700, Bagas Sanjaya wrote:
-> Sphinx reports kernel-doc warning:
+On 12/14/25 11:35, David Heidelberg wrote:
+> On 14/12/2025 01:04, Vladimir Zapolskiy wrote:
+>> On 12/13/25 00:55, David Heidelberg via B4 Relay wrote:
+>>> From: David Heidelberg <david@ixit.cz>
+>>>
+>>> Usually, the supply is around 1.2 V, not 1.8 V. Rather remove mention of
+>>> voltage from the description.
+>>>
+>>> Fixes: 849139d46d09 ("media: dt-bindings: media: camss: Fixup vdda
+>>> regulator descriptions sdm845")
+>>> Signed-off-by: David Heidelberg <david@ixit.cz>
+>>> ---
+>>> Added only Fixes tag for the initial commit, not all the copy-paste
+>>> propagated ones.
+>>
+>> Generally it should be possible to specify a list of Fixes: tags.
+>>
+>> However, despite the change is the proper one, there is an opinion that
+>> Fixes
+>> tags are not applicable to dt bindings with a given reason that only
+>> executed
+>> code can be fixed. So you may be asked to remove even a single Fixes tag.
+>>
+>>>    Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml  | 2 +-
+>>>    Documentation/devicetree/bindings/media/qcom,sc7280-camss.yaml   | 2 +-
+>>>    Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml | 2 +-
+>>>    Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml   | 2 +-
+>>>    Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml   | 2 +-
+>>>    Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml   | 2 +-
+>>>    6 files changed, 6 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/media/qcom,sa8775p-
+>>> camss.yaml b/Documentation/devicetree/bindings/media/qcom,sa8775p-
+>>> camss.yaml
+>>> index 019caa2b09c32..9009cfe993d75 100644
+>>> --- a/Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml
+>>> +++ b/Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml
+>>> @@ -130,7 +130,7 @@ properties:
+>>>      vdda-pll-supply:
+>>>        description:
+>>> -      Phandle to 1.8V regulator supply to PHY refclk pll block.
+>>> +      Phandle to regulator supply to PHY refclk pll block.
+>>>      ports:
+>>>        $ref: /schemas/graph.yaml#/properties/ports
+>>> diff --git a/Documentation/devicetree/bindings/media/qcom,sc7280-
+>>> camss.yaml b/Documentation/devicetree/bindings/media/qcom,sc7280-
+>>> camss.yaml
+>>> index ee35e3bc97ffd..cb922f90fe900 100644
+>>> --- a/Documentation/devicetree/bindings/media/qcom,sc7280-camss.yaml
+>>> +++ b/Documentation/devicetree/bindings/media/qcom,sc7280-camss.yaml
+>>> @@ -129,7 +129,7 @@ properties:
+>>>      vdda-pll-supply:
+>>>        description:
+>>> -      Phandle to 1.8V regulator supply to PHY refclk pll block.
+>>> +      Phandle to regulator supply to PHY refclk pll block.
+>>>      ports:
+>>>        $ref: /schemas/graph.yaml#/properties/ports
+>>> diff --git a/Documentation/devicetree/bindings/media/qcom,sc8280xp-
+>>> camss.yaml b/Documentation/devicetree/bindings/media/qcom,sc8280xp-
+>>> camss.yaml
+>>> index c99fe4106eee9..2231d7216f62a 100644
+>>> --- a/Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml
+>>> +++ b/Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml
+>>> @@ -268,7 +268,7 @@ properties:
+>>>      vdda-pll-supply:
+>>>        description:
+>>> -      Phandle to 1.8V regulator supply to PHY refclk pll block.
+>>> +      Phandle to regulator supply to PHY refclk pll block.
+>>>    required:
+>>>      - clock-names
+>>> diff --git a/Documentation/devicetree/bindings/media/qcom,sdm670-
+>>> camss.yaml b/Documentation/devicetree/bindings/media/qcom,sdm670-
+>>> camss.yaml
+>>> index 35c40fe223767..8e6ca94c88695 100644
+>>> --- a/Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml
+>>> +++ b/Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml
+>>> @@ -95,7 +95,7 @@ properties:
+>>>      vdda-pll-supply:
+>>>        description:
+>>> -      Phandle to 1.8V regulator supply to PHY refclk pll block.
+>>> +      Phandle to regulator supply to PHY refclk pll block.
+>>>      ports:
+>>>        $ref: /schemas/graph.yaml#/properties/ports
+>>> diff --git a/Documentation/devicetree/bindings/media/qcom,sdm845-
+>>> camss.yaml b/Documentation/devicetree/bindings/media/qcom,sdm845-
+>>> camss.yaml
+>>> index 82bf4689d3300..d50e096b900db 100644
+>>> --- a/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
+>>> +++ b/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
+>>> @@ -211,7 +211,7 @@ properties:
+>>>      vdda-pll-supply:
+>>>        description:
+>>> -      Phandle to 1.8V regulator supply to PHY refclk pll block.
+>>> +      Phandle to regulator supply to PHY refclk pll block.
+>>>    required:
+>>>      - clock-names
+>>> diff --git a/Documentation/devicetree/bindings/media/qcom,sm8250-
+>>> camss.yaml b/Documentation/devicetree/bindings/media/qcom,sm8250-
+>>> camss.yaml
+>>> index ebf68ff4ab961..ccd2d024bfd10 100644
+>>> --- a/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
+>>> +++ b/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
+>>> @@ -300,7 +300,7 @@ properties:
+>>>      vdda-pll-supply:
+>>>        description:
+>>> -      Phandle to 1.8V regulator supply to PHY refclk pll block.
+>>> +      Phandle to regulator supply to PHY refclk pll block.
+>>>    required:
+>>>      - clock-names
+>>>
+>>
+>> As for the change itself it is good, I'd prefer to get a correction
+>> to 1.2V in the documentation rather than a complete removal though.
 > 
-> WARNING: ./mm/vmalloc.c:4284 expecting prototype for vrealloc_node_align_noprof(). Prototype was for vrealloc_node_align() instead
+> What I'm seeing, while the vdda-pll is usually close to 1.2V, it seems
+> to me that's not everytime the case.
 > 
-> Fix the macro name in vrealloc_node_align_noprof() kernel-doc comment.
+> Can you confirm it should be exactly 1.2V, if yes, I'll clarify it in
+> next version.
 > 
-> Fixes: 4c5d3365882dbb ("mm/vmalloc: allow to set node and align in vrealloc")
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
 
-LGTM.
-Reviewed-by: Vishal Moola (Oracle) <vishal.moola@gmail.com>
+This info can be obtained by checking "vdda-pll-supply" supplies of CAMSS,
+which are set in upstream device tree nodes right at the moment across
+various Qualcomm SoCs, as well it can be verified against downstream.
+
+The naming (and the descriptions above also) "vdda-pll-supply" itself
+is non-informative, I hope that in future there will be only clear supply
+names like found in qcom,x1e80100-camss.yaml, qcom,qcm2290-camss.yaml and
+qcom,sm8650-camss.yaml
+
+>> In any case,
+>>
+>> Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+>>
+> 
+
+-- 
+Best wishes,
+Vladimir
 
