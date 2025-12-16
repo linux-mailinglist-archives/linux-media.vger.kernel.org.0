@@ -1,50 +1,51 @@
-Return-Path: <linux-media+bounces-48870-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48872-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27E9CCC326D
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 14:21:06 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFE50CC3080
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 14:02:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 2C88F303815F
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 13:20:19 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D3CF430AA8D8
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 12:36:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68F30354AC7;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FC1C354AF2;
 	Tue, 16 Dec 2025 12:24:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eYrmsmXJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FW4Q5IGN"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A62B63328E3;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D20E9350D5E;
 	Tue, 16 Dec 2025 12:24:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765887893; cv=none; b=cbZ+b3Jug4FLTFTiPhsbcOwFpcyJC/UyknC70O5HlQWPESBtAM1gKhyYq6Yd97yW11zL3eTnFSvy2COLbDaOAGwzxxpCuU2Yhq/WpiSx8pjV6A0MAYTFANOdQU4pDxziE7M3uneKbi5ysbljMq47sEtwkgwxJwNfNStlsZp9vdA=
+	t=1765887893; cv=none; b=Qs50LZoXAL9BSfKlks2EEUzjZV+GnFBwC6o/9FBS4C57gS85b1ZGuX1eTZlNHRB9f/iEGsaPJTLgLdMQpJVDB9tBOQ2y6ZSg3u5DF7SQfbuoetqWNO4ga48s9d1B5SAmiiLES5a4TNenysF2wqo8s5lCf0Hf0TZnpPq6a0sQz4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1765887893; c=relaxed/simple;
-	bh=ioJNJf6E3iqakh89UOBaktoghK6qUOL79hbpE/KqCRI=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=F5RddJzbb2a2ePAFz6GLYduLab1clCZha/Re9WAIZ1SWGmMUnUJ/Z42SJ0+CRJR/no6e3TEo4B5/6cJ1+hN0mwOp63LxXeY47Qh/zDhLt4jXz+6erW2zD38JAPJMeFeikwF6TltF+6uwpIaw3oJoUKNaPHVlIq/aaF5GVNJWgqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eYrmsmXJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 67597C4CEF5;
+	bh=EQsM886hquE0ocrQAjgkIVKcFCG/cnDW1MW9d6pbnRg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=nNtYhzJbk85PH1hAZdwGNxgh2Ya3yHhBqDxoMptduPLv6DuSOzlFxJ0hzo3XOIwH68bsk1Mgo3cC+x1dFnrl4dJYnwDJJF4npm2RlQ3fAZvK0j99y6F5524gDeLrWQyuwyZghOoGka860F3/RPr4tGUv4Vo6sEMajoaHaJZySc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FW4Q5IGN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 76AD3C4CEF1;
 	Tue, 16 Dec 2025 12:24:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1765887893;
-	bh=ioJNJf6E3iqakh89UOBaktoghK6qUOL79hbpE/KqCRI=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=eYrmsmXJifQuq4tgipaOUEU8ck88EbTH1a7FpxV4cejyxKWqy9C39HDdEkKu9YKTk
-	 oRdD9QTjY7j8gDpIcxS/M08FWuUlDlZuRpdePc++W9pyvEjLy/QLG3PKlem1Cv+UVM
-	 93a475B1A7cBZJ/kSnwB+UQLmg9OGskZKLMEzHAIjDlIWP5lpuhI5wFVXAAfVGES53
-	 /Mc/mJYo4iPJW4bky5Cq2Izzxb3mqe3fGHt79H3VI+Itc1yIu0Eem5h5DIiJSHf7Fz
-	 ytdsYjwh1KG7CBZks7Xz0g0Ls0IBDtbAthBSuKt1iQj/FNATXWqnEm3/LQvJYMFcqX
-	 yJ/afCWPIxErA==
+	bh=EQsM886hquE0ocrQAjgkIVKcFCG/cnDW1MW9d6pbnRg=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=FW4Q5IGNl7DYt+wS7KsI67RwMi5OuMfBKWPlkw18leq22DiVtJErC12HIyzLJwn0p
+	 Ap2u5KrpstP6kJH5XPlAG/tblL9N8qEdoNju6miYvR2TQl8BLuE+a5yCICNW8MDZ7Q
+	 MPlEktCgzikg74k73gDcz8kr/VvG1tTP6bKnY29108Zugu6WVRNndGwx7jmYN2Dz0n
+	 eKbs+n7eBSwOyHAKD9yS8l6DN4Z3A2kJd35L+OynoSUJyr1s3pRVXSlp5PX1RrvxHf
+	 kAEB0NENUvzvlDH+7PR1svlJnZo6ftoWDFOHieCR+lBn/Ho9nDhAkDgNULNPJE9P71
+	 wwd7PC1zs0Trg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A755D5E127;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F533D5E146;
 	Tue, 16 Dec 2025 12:24:53 +0000 (UTC)
 From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Subject: [PATCH v3 0/2] Improve older camss supply descriptions
-Date: Tue, 16 Dec 2025 13:24:49 +0100
-Message-Id: <20251216-docs-camss-fixes-v3-0-c238b6810771@ixit.cz>
+Date: Tue, 16 Dec 2025 13:24:50 +0100
+Subject: [PATCH v3 1/2] media: dt-bindings: Correct camss VDDA PLL supply
+ description
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,11 +54,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAJFPQWkC/33Nuw7CMAwF0F+pMhMUuzWvif9ADFEe1AMtiquoU
- PXfSbvAgBjvtc71pCQkDqJO1aRSyCzcdyXUm0q51na3oNmXrNAgAQJq3zvRzt5FdOQxiDbREhL
- u4UigCnuksB6KulxLblmGPj3XDxmW9s9YBg2anAEgQzHS8cwjD1v3UstUxm9e/+BYuD3Yxjeew
- O3ch8/z/AbQIwE67QAAAA==
-X-Change-ID: 20251212-docs-camss-fixes-0fa525271951
+Message-Id: <20251216-docs-camss-fixes-v3-1-c238b6810771@ixit.cz>
+References: <20251216-docs-camss-fixes-v3-0-c238b6810771@ixit.cz>
+In-Reply-To: <20251216-docs-camss-fixes-v3-0-c238b6810771@ixit.cz>
 To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
  Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
  Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, 
@@ -73,59 +72,124 @@ Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  phone-devel@vger.kernel.org, David Heidelberg <david@ixit.cz>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1412; i=david@ixit.cz;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4182; i=david@ixit.cz;
  h=from:subject:message-id;
- bh=ioJNJf6E3iqakh89UOBaktoghK6qUOL79hbpE/KqCRI=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpQU+TMUrOS2fCW3hRVB4ctdcSTSInlnWDipJxy
- arm18T5D3+JAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaUFPkwAKCRBgAj/E00kg
- cky3D/0fHzJJ6PiAsMbr8iHCykuCUboqMdggD8hCafYdDg3D4dDCYClmeqPNtWlbKDVZwnKGtok
- 0++tHUtd4Z+RyUrtvbjAhzDEvF7OV0WXMaohedlw7XDUU8LOSrrXLErERNPdpVSoPfVho/LJ0zp
- c0iDJ/P7PMQ6RyV6ctFeLrBvCZc9USaSqsdcRgrxJJ8hPbSP1B83VTCkFfQ6zBgtXc0c0gqJEFa
- 8G50D/iAL0Ut5MW8mcrH1MYDscmRblwVNwED/BSV7Pkwx6I9Az30up5geEssGP16pD9DfnUrW9R
- r9vsxuMbYHJ2QXv0wHEKmvIVmrjjqop2ShRzdo8fOORg+4fL13QvJZgxnh+nDaMfBMonYlJJ0sx
- 5XMHbox4r3sgddBPb4NNR0X0b/Xrzh7yaYstXa+ap8aHfPHaNkcb+vuz9CLEvpecnwCYYD8kXW6
- 5vpkQxbaEOIJnv8+LyengGEnnm+WxCr2d6Of55fU5Yfc737k2Fd8bUNyzeCyK7Q8q+0sEvS6T4n
- YBtXS4zmph7I4iskyLGncjLJ5SOXbGuCQwWyRqMscxCxr6MwzXVc60cN+hekVEOLWhDN6nVqHsa
- QmPM7yaK4kiigAYdiuWVymAx0pbI+CcC5xRgV3uwPjeX7FVloHkieRk6FNCU1hY41kcfBygUnzM
- l8GGUskxXUixapQ==
+ bh=RboAbdtfza+6rpP6+37BoeslOcwbopgvt6vIQ06lVT8=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpQU+TYnM95O1xR3nh3MzuUEdQy0pxVzX4hkbBc
+ MXufBHmXbmJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaUFPkwAKCRBgAj/E00kg
+ cj9/D/9uhriJFw8d8LyuV77Ub4Uc0xwo5OhpsmOuQeeESez20Q1uszOUOtXxomOxze9HV9V+t8g
+ 7kRvbatumTPXGY+6HmyVHczsZyp4MidTJ581qFs4Nnc+VPY6mS62ADYUS/O3pKi49RhuypC23xc
+ sKq8/rms0J3n/jKArls8t1mK0Lrmwd1IryiThiyyD3qUS7LA+QU6y2WolzmpIy51eQrWY7VDdNs
+ pvnfgw0N0JQ/l5tSnWjq18SVTotynUXmz8AB3GE6kWFuGzd1NuCLOoxjimAMqYw+spFTS73+G3d
+ WW5A+cmFDYv2bl6pel6TgoM8IRBKRi/QQi2rfGEc+pKvFKJCF7mdr3IHXqcavXBIt9U2/TjSt6f
+ JeS2BXtZcP4vp46PO8107BHUI+RE/g0EkzbrL2bEcxPRpC1KAxQFtkUn23S0nb/pI7Pjbsn5liK
+ v4mBV75aJiDrLgtG9ElvUVOanRlJICaDBNH8mtjt69pxvYxCxJWEvWWEmpOcSvyOI0QXdHnYFJt
+ KVeDjZLnmn9bXNWeXDp9BeCAefhv6ive6y/m1yS9dwGAvCneMJ6q6qNEaBcYfSqcxeuAFRNAc/1
+ SCOdC9mLoCVSvL9uIqX+m4j+hRZMX4+XfqQRN9CDet5oleg3BX8/aQzhiNDlLjbbuTXN7GQ0iYB
+ kbfMN4iHjl/q27Q==
 X-Developer-Key: i=david@ixit.cz; a=openpgp;
  fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
 X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
 X-Original-From: David Heidelberg <david@ixit.cz>
 Reply-To: david@ixit.cz
 
+From: David Heidelberg <david@ixit.cz>
+
+Usually, the supply is around 1.2 V, not 1.8 V. Rather remove mention of
+voltage from the description.
+
+Fixes: 849139d46d09 ("media: dt-bindings: media: camss: Fixup vdda regulator descriptions sdm845")
 Signed-off-by: David Heidelberg <david@ixit.cz>
 ---
-Changes in v3:
-- Add commit improving vdda-phy-supply description to match more recent
-  bindings.
-- Double-checked and specified it's 1.2 V vdda-pll-supply. (Vladimir)
-- Link to v2: https://lore.kernel.org/r/20251213-docs-camss-fixes-v2-1-a8a4d4d51c6c@ixit.cz
+ Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml  | 2 +-
+ Documentation/devicetree/bindings/media/qcom,sc7280-camss.yaml   | 2 +-
+ Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml | 2 +-
+ Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml   | 2 +-
+ Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml   | 2 +-
+ Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml   | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
 
-Changes in v2:
-- Applied suggestion to clarify the description. (Krzysztof)
-- Link to v1: https://lore.kernel.org/r/20251212-docs-camss-fixes-v1-1-5c011505ff59@ixit.cz
+diff --git a/Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml
+index 019caa2b09c32..4986d18d1a2da 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml
+@@ -130,7 +130,7 @@ properties:
+ 
+   vdda-pll-supply:
+     description:
+-      Phandle to 1.8V regulator supply to PHY refclk pll block.
++      1.2V regulator supply to CSIPHY IP blocks.
+ 
+   ports:
+     $ref: /schemas/graph.yaml#/properties/ports
+diff --git a/Documentation/devicetree/bindings/media/qcom,sc7280-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sc7280-camss.yaml
+index ee35e3bc97ffd..e4b0b7ffdc336 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sc7280-camss.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sc7280-camss.yaml
+@@ -129,7 +129,7 @@ properties:
+ 
+   vdda-pll-supply:
+     description:
+-      Phandle to 1.8V regulator supply to PHY refclk pll block.
++      1.2V regulator supply to CSIPHY IP blocks.
+ 
+   ports:
+     $ref: /schemas/graph.yaml#/properties/ports
+diff --git a/Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml
+index c99fe4106eee9..9cba6e0819fb1 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml
+@@ -268,7 +268,7 @@ properties:
+ 
+   vdda-pll-supply:
+     description:
+-      Phandle to 1.8V regulator supply to PHY refclk pll block.
++      1.2V regulator supply to CSIPHY IP blocks.
+ 
+ required:
+   - clock-names
+diff --git a/Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml
+index 35c40fe223767..61222839556bd 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml
+@@ -95,7 +95,7 @@ properties:
+ 
+   vdda-pll-supply:
+     description:
+-      Phandle to 1.8V regulator supply to PHY refclk pll block.
++      1.2V regulator supply to CSIPHY IP blocks.
+ 
+   ports:
+     $ref: /schemas/graph.yaml#/properties/ports
+diff --git a/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
+index 82bf4689d3300..03b9b34460b0a 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
+@@ -211,7 +211,7 @@ properties:
+ 
+   vdda-pll-supply:
+     description:
+-      Phandle to 1.8V regulator supply to PHY refclk pll block.
++      1.2V regulator supply to CSIPHY IP blocks.
+ 
+ required:
+   - clock-names
+diff --git a/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
+index ebf68ff4ab961..acf9c54682107 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
+@@ -300,7 +300,7 @@ properties:
+ 
+   vdda-pll-supply:
+     description:
+-      Phandle to 1.8V regulator supply to PHY refclk pll block.
++      1.2V regulator supply to CSIPHY IP blocks.
+ 
+ required:
+   - clock-names
 
----
-David Heidelberg (2):
-      media: dt-bindings: Correct camss VDDA PLL supply description
-      media: dt-bindings: Update camss VDDA PHY supply description
-
- Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml  | 4 ++--
- Documentation/devicetree/bindings/media/qcom,sc7280-camss.yaml   | 4 ++--
- Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml | 4 ++--
- Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml   | 4 ++--
- Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml   | 4 ++--
- Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml   | 4 ++--
- Documentation/devicetree/bindings/media/qcom,sm8550-camss.yaml   | 2 +-
- 7 files changed, 13 insertions(+), 13 deletions(-)
----
-base-commit: 563c8dd425b59e44470e28519107b1efc99f4c7b
-change-id: 20251212-docs-camss-fixes-0fa525271951
-
-Best regards,
 -- 
-David Heidelberg <david@ixit.cz>
+2.51.0
 
 
 
