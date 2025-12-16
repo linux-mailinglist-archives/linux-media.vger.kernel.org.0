@@ -1,88 +1,86 @@
-Return-Path: <linux-media+bounces-48852-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48853-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C60CCC13BA
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 08:01:54 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8116CC13C3
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 08:02:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0A9B7303EBBB
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 07:00:50 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C104E301E5BD
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 07:01:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99A95338F56;
-	Tue, 16 Dec 2025 07:00:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F34F338F24;
+	Tue, 16 Dec 2025 07:00:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b="KBl+Npj1"
+	dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b="iXpSOA6Q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazon11021089.outbound.protection.outlook.com [40.107.57.89])
+Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazon11021118.outbound.protection.outlook.com [40.107.57.118])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F387338586;
-	Tue, 16 Dec 2025 07:00:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.57.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99B66337B9D;
+	Tue, 16 Dec 2025 07:00:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.57.118
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765868437; cv=fail; b=YitOktguZ6OKHRiGN2bV0+90jzR40Li3a+fV9NWx1cb2uo5fpF+z2JUfzv5gY9is3O3innSLh0FDkATqJrzhbEZLvbfgHwFujbiYpAbAFkr+fw6Rc/DIe5/nhuN/bKPu+bpquffRESPO8JCvoG1WIcnJKNdzHZsgjvPsih9Icxo=
+	t=1765868449; cv=fail; b=jg3erh0hMcFGuVyEA1fNktFIXK5wh5l3yrGLqbggo26bwi7MlSbEclfEZwLu7Nwr28c4pQYyI91QNq38FsLNHhXf3grh6NUbo4jV0nSm3h/zAK7Bx5llk84BepL2XU2iCvEnNQo2oY35uUa1iSEvOCh5ibjPxRYQgGYRe2ON0Hw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765868437; c=relaxed/simple;
-	bh=t6dFzvw9k7TEsJ4E45A2M+L0vKk65OFjeOLHyku25YE=;
+	s=arc-20240116; t=1765868449; c=relaxed/simple;
+	bh=6DZpkq4lLr0QkHy2FNoWGJDPLG8ADDxmjdsMAvu4xBk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=k242PGbB0c14g5/QUxNjxQJ5DUpJ9fdLiZ42TH34H/tBmP/gMc/B2Cxpvqzr+YXaJtyE7v5I3uHViDJR8LlZGU4OSnAtuMQ2gZziT/YMJtGexe8qWAMK+L7UB4SJJcBisVIh8yFfSHCzmfWB7Q+rXIgG3+ZKsuoCX/c38Rf5XNM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b=KBl+Npj1; arc=fail smtp.client-ip=40.107.57.89
+	 Content-Type:MIME-Version; b=oEEnaA97IVV7apYYtxLmxMikMRcP/xlfOQlTuOdFUbxDQD4uY27BiFT/PbKeEOidLu4sN8jRVjIGPbpDBmjfo1pbtbeZuY9xy4C/9JmLYQyDuDbkp6WrKyqc6xN0AErsPzz8z1qCpFNpVUJeL96OqJSwYcOFs06HjggZuggyBzM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b=iXpSOA6Q; arc=fail smtp.client-ip=40.107.57.118
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siliconsignals.io
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ncLg9NQGsB8lNKZN0HeGBrlnt3MC4hibw9FPRVzBLZ1A/VVGlGCbAisWjWmW3wij3KEGLBztsoVtA2xwGRu+NP2SQ+/bkwgB2TZtx0F5y43qaMMhFsAMLe4mzWE/p/qThHxiUx7J6gtFfLoNSUgEcRzcNefh/YT64DJkvqvQSqRw5uLEucEC1dx+DkeS9PLFy8bIOkohFnst8N1XzuQZHuo5HDwzoveM/dF3vF49P3AmGj5No4LntKa01IYN2r/xbLSYdrTsoo+JTCTa1ZMik5cNaGzF4veJuTi468IBO4omShJn7uLPilNv//RoPRxC9rDbqA3FxF6noU/gufmlzw==
+ b=RuCRMMyhQYJhU6PKwr3KHgEZH5dSqf2o2rG9Wr60svSv4QuzqIhkAE8+1t323LD+oyLVcQGihWOkCCGBUmZHHswFdIsMPrLnuCfpTf5g/DxUCdQx57PvK3DFXLc9Hq+HlodF6W74S6Bff7o8loXqmi8OOEuTCIL+6s6vjctO9O9lZyEPaROWDDHjuItWo60VpYhX1sKBbxT2fJh3Fp1e3s3VbB4H2tg3p7Bfq+HQVpoEsADrA4j1RA0OeffeY3pjrtTImC7CRUeZudTtyui4R7HIm9auzmF7vCyW9sPMX5MQMfn654MrnAJBryuys/RHrZCbPuF/VYVvFCgD3PKTgA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Py12aDljtRViByS9P7aIEKRxR5LhoWwzF1FHridyJTg=;
- b=q0OmUeWWk1fbw1tIqUxnZnG+fnlNA0zSGnNyxUmfp9GfGOCcEgSFT/6Mguy4zlMzhHqwa8xS80OMlWmDVChAu3bH9abj9ScvsXUloLNLXORSNmhQCgDFdR+LcjshyjlzkZASYgDc2fTuYvZhvryOMLjMXWWmndTmX5V2R5qJmqwCYUMnINlW9dak5K9uTukSxuMigwyW/5+d2TZRdBGKPDURzxUMszmBk14xQon9tQdIZcyCz5mkVSUbW104199woKn5Rg606XslIXHJ5d5oqbk83vaVkFHo3tMK4PN5QUEFOkwOGU1ecpLojaLVcGXKpIuJ/qVSfcCXV//Rbzmxtg==
+ bh=Q+puvRXnJ1LNdK5QcHlV00t0QrcY4j1zqe/PIske9nY=;
+ b=NrdM7y+Ezsi06pBMsi6lhcvbpPtX1eJW9oCIwqRKUotZdcN4WB0r6kH/xlr0ieF8QSD2L/l/D/sXbJsPfxqxU2dd6s+SBEprJDwCDLQpGfqskdzgRmoMktQPeMQovMcXApcKe8u+S2cVUJWKS2IQe+mMILcPt4UHMXgBlGdgboPItusCmcv1xs8p/UVqVxpLh6DW1s7KHBwOA/KDGLZJtcSE5R+mVI2nJzp7LnSbBNkQDlB1C2Rb/vGFxYwHhKrDQzMt8Sm7hzxLbPn99H/rJnDq1RynTosBYjBtt7n2QfEU8tNSGw/IXBPtPRaJ/4LZ3zv/k/cUWefR+lgwL87xYg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
  header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siliconsignals.io;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Py12aDljtRViByS9P7aIEKRxR5LhoWwzF1FHridyJTg=;
- b=KBl+Npj1xNedf5SRryYPY0ZPqzdDFGAVN2sRM6UEI3C9aykfs93rO1blzSIOcQYb7+Oq37NVeet6tEkC+p/cFpFKKsv6ip/2A0uw+TQet0fQKmfkmnFz+u6Fm+TMFJ2RlSPW+mwfwC+UjYYPup48TZw+SCGOXMvSBwt49LDTQS5HILXCCr5q+/Hor+8nWo3PPd3FcYvEQWNfz1xDnWh0yjl62ZmUtyO3HQo4TWD0jf5V1W5bpjO3rjD3CiGpYiAfeFhDbkCcsroSewHVbVCiF9pNqSVGU3iHCioPiV2VQkNsyNti0G4IyF6h3jPnQlhkHEmuR6vpYYiWIV5k92g4cw==
+ bh=Q+puvRXnJ1LNdK5QcHlV00t0QrcY4j1zqe/PIske9nY=;
+ b=iXpSOA6QotdxYkkvdTY/xDENaH8dFAfBDKJ1Wv1DlqpCy8hWAuzpeLxDYzIfJ1V5bS41S5owKPnTyIaevb1I+BfBe0tLaduRk5CFNjxgcXdmHZTXYw9omDRmSmvvZbtHiVPD5Q4BmooHZPfnXeqrxsYuHxPG6Qs/rXPudTgkHqz9b2W1l0B910qdvNofeT/LdLowvgM4dZ6t7wVR6Ij+4ZqtmklrrBx7tuyUUhUUETtjlJqyas7ndKHbiVtszd3DLx7Wj1b8OAlVhYYK4suMBhmN5kpjDXlCWDS6MXaVf0/U6o636ykkb7d7IBnPkMExQdngpIfnIT0uHU4ZzQbNhw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=siliconsignals.io;
 Received: from PN0P287MB2019.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:1b8::9)
  by PN2P287MB2109.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:1c6::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.13; Tue, 16 Dec
- 2025 07:00:31 +0000
+ 2025 07:00:42 +0000
 Received: from PN0P287MB2019.INDP287.PROD.OUTLOOK.COM
  ([fe80::ebd8:538d:c705:8432]) by PN0P287MB2019.INDP287.PROD.OUTLOOK.COM
  ([fe80::ebd8:538d:c705:8432%7]) with mapi id 15.20.9412.011; Tue, 16 Dec 2025
- 07:00:31 +0000
+ 07:00:42 +0000
 From: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
 To: robh@kernel.org,
 	krzk+dt@kernel.org,
 	sakari.ailus@linux.intel.com
-Cc: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>,
-	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+Cc: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
+	Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Hans Verkuil <hverkuil@kernel.org>,
 	Hans de Goede <hansg@kernel.org>,
 	Mehdi Djait <mehdi.djait@linux.intel.com>,
 	Ricardo Ribalda <ribalda@chromium.org>,
-	=?UTF-8?q?Andr=C3=A9=20Apitzsch?= <git@apitzsch.eu>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Dongcheng Yan <dongcheng.yan@intel.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	=?UTF-8?q?Andr=C3=A9=20Apitzsch?= <git@apitzsch.eu>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
 	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Dongcheng Yan <dongcheng.yan@intel.com>,
 	Svyatoslav Ryhel <clamor95@gmail.com>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
 	linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v5 1/2] dt-bindings: media: i2c: Add os05b10 sensor
-Date: Tue, 16 Dec 2025 12:29:49 +0530
-Message-Id: <20251216065956.13604-2-himanshu.bhavani@siliconsignals.io>
+Subject: [PATCH v5 2/2] media: i2c: add os05b10 image sensor driver
+Date: Tue, 16 Dec 2025 12:29:50 +0530
+Message-Id: <20251216065956.13604-3-himanshu.bhavani@siliconsignals.io>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251216065956.13604-1-himanshu.bhavani@siliconsignals.io>
 References: <20251216065956.13604-1-himanshu.bhavani@siliconsignals.io>
@@ -99,223 +97,1264 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PN0P287MB2019:EE_|PN2P287MB2109:EE_
-X-MS-Office365-Filtering-Correlation-Id: 87fa7af3-df55-4e0d-9f79-08de3c70cd37
+X-MS-Office365-Filtering-Correlation-Id: 35551811-bb23-4631-318b-08de3c70d3ad
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|52116014|7416014|366016|376014|1800799024|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?hYjQ8ApGo2nmObd4/lhGeJNy02+B/Ryn4FAHTpXb6ztj2lipJri2LkgeG1vy?=
- =?us-ascii?Q?JyjrvPnFwm+LtwSrrScIfY0EUzncSs/5Pf4OVPPED3PzKR9C/kflQXBm9goq?=
- =?us-ascii?Q?dS+RFy7x1NdqWK2ISjZ55As/5VjBlgY9vtb314FAtzWdvaqXQKpepMckBvfw?=
- =?us-ascii?Q?T/3m/hg32ymPTw0R+7AzpXRAPY5j/39MNm9H+xt3O8mGygW5KNusL05gGuue?=
- =?us-ascii?Q?zSwqGEKxKjX5tf8ysiK69sp4ReQedL5LcRToVYcBJ3ALJRq1wrcywtrOE6fR?=
- =?us-ascii?Q?o4JUoNuOnStjF6e/i2h/p9SPvEGGl5gJROG5Q+VFdH+L3xfq2HPx9wLn9nL8?=
- =?us-ascii?Q?Ne8Tu53604/4IqY7qMvHPi5Wn2t9kSJgxKj9JCeb4fthRx7eiOlIWK061icW?=
- =?us-ascii?Q?rmVdFPRoBxz16FKnWKLOocxUzzknxao/hwEtvVpUI1DH8tZlVZ9yNWPPJGlW?=
- =?us-ascii?Q?tM/zcR+GDJxmo8r4RpDx+ZPrRnwS+KDvw3WyeobFedrheHianFzIoIN3QFjM?=
- =?us-ascii?Q?92cLEamf0hbenDM88deBXIyCZnypu9qzLjALNFABZ/q9PYf++9PeCXJjdMwH?=
- =?us-ascii?Q?vSMf72I8y88hknIlS0xpg1Fl/u3rx3xRzoT2SfzN5PjajClgPNsYtqSRpj05?=
- =?us-ascii?Q?2SGatj32N05ftz2gGz5u3ksto2qKY5VbAnF82WLVRhSBenHAe9/dDRkANNIY?=
- =?us-ascii?Q?k1xeoB3zw7+7vpGpFaf75b/dRvg3IyRW2T3rr5sFcOYPvIx00965hDUWyfbW?=
- =?us-ascii?Q?igwexl8NdsHATK/qA7hWAgCuET/UnQPWJ18EqCur/W3DCMCj7YmlCvPi2QCC?=
- =?us-ascii?Q?1IaCZX/7xqDbEjEp+ppQTwNjHHmwiMjHxTCDbsEfQa9z+DI76gfMVJOtHG7I?=
- =?us-ascii?Q?y/gpfzzScqsnU3fzq6siZ68lz5bxqOMV6XzQhjCvF7G1ogJgDnbmxjvWF4KN?=
- =?us-ascii?Q?hMLPQ46CTO46S5lDpzdnUP0Tktr2mklZszw1cw5nPVRPg90VRHe4C7s/t8GZ?=
- =?us-ascii?Q?3U2k3BKnUTn2ZNS6Fpa3Jf+cwN+TTtq5rVFO6TNZ/sTfrvRFbxUV+Rx+a2Ih?=
- =?us-ascii?Q?RcWQkRXso3Wqy/SxGTal2F1QZ2dhvO2OhnCYYz+1eRWc7yjvqnSWW7I4Klgq?=
- =?us-ascii?Q?q/YJ+aHgIp1MqaW+Fsb2AQIykeTnCF7Z0bXi0fyI09tzQ9k1Wq9Fu/GyeGNg?=
- =?us-ascii?Q?vkdK830Y/ciji/0BDaDt3vsAAza4YzSJQ5g2nsjngKJRA25zys14wCjZtIql?=
- =?us-ascii?Q?Q2lwZijeLaC0oz4hNxkDEB1cFtXH95z8WsVOJxNrzCpCKOo7GWrdrEFFm70B?=
- =?us-ascii?Q?uRmcndcm7xJ6jtrrnoyLaNqfT7Bvieqqvzfv9AIGFP3Modwj3i2m8nrjhMaS?=
- =?us-ascii?Q?Xcl95FLlVDNF+0Izx9Bd8BAxb05lIITZEvyiiPaZFOCcPjcuLP9I4OyyTcAs?=
- =?us-ascii?Q?E2t0s5dJFJbKjYToT6GLG5RG1D/ATQg4PYC+SqCh185RL/UHaba+zA=3D=3D?=
+	=?us-ascii?Q?U1jwwq9JvhmRTBvZFPq0MZB7Mol0xUP1E3g2FuDxknni2KE5cw8ryWEjcOM0?=
+ =?us-ascii?Q?X1s+8rIns4ygUZt6zxiQCFpCepDx7LMtIRTVzjlPPj+fqL/QpebXTz5QDCIa?=
+ =?us-ascii?Q?K4nWNWeL3QMBmKfFH8Q00WifHtl8t6tO35iKjOooRs6mm45/DiIkIc5i+rl2?=
+ =?us-ascii?Q?SRYCfiycSH/MaFJCkPtskQLmDPKni/3hIaPTEXfR2HDSC2Y/gwz3/IyGYT+D?=
+ =?us-ascii?Q?m7DIwdmHJYmQ0ALz25O7booxqzNTYfItQ5Q3CpNMsePsbzaWKDtvpLOdGpVk?=
+ =?us-ascii?Q?GQp6I2jVFTVVXI1oWXWCDkPm/HrWPOJBOhxNTmL4+NtHKLKgA+q7UesPoy90?=
+ =?us-ascii?Q?8MnQgo9iiKyyWrBUq6OKjGGLH/iLZw21dAwuOnkM5oShEdVTMnUPgtJ1zka7?=
+ =?us-ascii?Q?bvBHKC+1SlZK41rzBED/Z4EFUOevCfCuwPAKGiI7DKgPRTumHqnavgF/hxcp?=
+ =?us-ascii?Q?4ZxWq56CZvbKAvyR7rOoX/6Z4EiPXnrBPy3eMzzBvaf+avzDbJ76Jg/jGk3U?=
+ =?us-ascii?Q?/juufZ0srcQyYPeArvkNnX6ti1fmbUd6Jhc+Q3pGMb3G/9iGcpmZvpaNHqOn?=
+ =?us-ascii?Q?+a5nr7sEjV3d/rJ9J+YTCCg1cs6qDjEW6hU22P+3dyVqc3srEia36Cqp7EWY?=
+ =?us-ascii?Q?mI+nweTKRN2JjFCIi9sBm+Z1M69nxgMpqJmILs93vU06SBXzxUZI8nOq8FEw?=
+ =?us-ascii?Q?bzkszqMkZd1QQG3EkS+7O/wA4BSGd1t8YC43Cozip7kekYgi4CLZLoH4Mqlv?=
+ =?us-ascii?Q?c0rnzLBkevpaYalke6SFDrRstK82jks98ahi7DswAizu37AkHSKC5k6t1Aoc?=
+ =?us-ascii?Q?hXcXWasZNEpcmT1W8kWJCRGScgRR3Oktwa+/iQEUuLS/KXwPOqScknOA7Hxf?=
+ =?us-ascii?Q?Zby7D7y1i2vUHNnHdC1bz0IKHQtAglZSjpN76Qn3VJb67BZgAfdKOUgGIjwG?=
+ =?us-ascii?Q?yLd2Rni39TlHH8Di0mpeVspzdMLMc9vl0Wda//qvHF2qpglQnFdblF1CvmED?=
+ =?us-ascii?Q?mz/rQfU1tkW56Ej6jsL8FrsoYqB0lSgBLNY1bPmuU/YDw+8J6rDYDqBXWQJ7?=
+ =?us-ascii?Q?jG4qj+rTAADneZHgY8aCSCVRpaZ9jbK+RfXIYVmmDMh7wqqRmBfBBRUykoXy?=
+ =?us-ascii?Q?hrLnN4RF7c1DNQaRkecdK9RhuQoC6YJF/Tu5aE0VJ9011wvSbU8ZnaPgeE7A?=
+ =?us-ascii?Q?lSU5B43a/tvKIdMM7ADtZRoNyL4YlqZkjD47nuxbyZ+qeZUdnYicZ6EbiDU4?=
+ =?us-ascii?Q?NhTct9Xq6HOi6PMjS3B/FBbONWxiF1DH1b4+fAyWGYhK9LCiXkmsVRogc0H+?=
+ =?us-ascii?Q?5FvmIznOos6EnMoGrcO7VYSDTtIngONQQ9isgdbjjYqfQujYQJQbLo9uGKlo?=
+ =?us-ascii?Q?Qd38RbH8Jl6GWBrI9V0Ixpk+3USWnAKXZwcfjnVPuYj+oLZ6TmZ+HnHx4crX?=
+ =?us-ascii?Q?vAoBW7Kz03KwEeX2+zjbX15Pbiqo56m5AyQ2IRNCpXUvVR8LdPluWfV/Nuww?=
+ =?us-ascii?Q?Vv7Czr18MJli4g3YFDB/gIYC+uXKsQrrM1pm?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN0P287MB2019.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(52116014)(7416014)(366016)(376014)(1800799024)(38350700014);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?dXtJZQHWluJxfoLm8MrMpwAGhMl3aaMNXZPoMDFhyugwLjITxmTbK9ppEZpV?=
- =?us-ascii?Q?xZRmjafxNfoeprH+jtKEhXtAgHiS7Ln53rtrtWyx2denkWjJlz7sDhZxiQq6?=
- =?us-ascii?Q?EzH9X4sj8tq34k3JzBPAsOAP0vByLHAkXKOlRSxjwoQ1Zm+D6wxbw9C8h7lc?=
- =?us-ascii?Q?yvbpwrS3ObF3Gb5j29+D+elB+rUcVXB5Yq+qGNtZwIPY2gVpa+keFo5PpUog?=
- =?us-ascii?Q?DBJkc/2aYneJJkSTSNckRcgGo3o9YQ1O0hEZ0Yr0evQMUvcuOZKdB9U6mv6K?=
- =?us-ascii?Q?I1tJz1NrydpcJDl5zWoh0I5DdlEwnjvYjtcatRB88UofFjoL2zuIouabyV4L?=
- =?us-ascii?Q?phyh2bGYNcJmUhtC8aav5+weArSAFCoABUGyYqYQ+OZGiubyFawd9/Rs4MbH?=
- =?us-ascii?Q?XNy7C1kcczY5POTt+uhISQ9uoKz5lWNA2Z6YJ6Njrqgp79n3MWF8rexODAeA?=
- =?us-ascii?Q?xZKIEz+pKwIU/LwU2BJ/XCnJUOYAWZgMztWpm2jLBL67Gg26WfVXN5sqnER8?=
- =?us-ascii?Q?WNwAjn4GeNg3PcMa294o9JEYkSg7kPPh2e+y/2pofVrEpGYwKksvvsgrcd/C?=
- =?us-ascii?Q?vjweNx1vD2lU2Jh6QuzgtxNosGKhq0pGqqsnKmPpznZJIBFC1FhIvj9tGL6P?=
- =?us-ascii?Q?g3t/VEOza/tQSqEZhd52JYrkSMv5PomvBSWqWavF/N5sYLQH4K2h+O+GsgaO?=
- =?us-ascii?Q?zXWJsqEB6fw/u+QrrJfFMT85HiR0yYMM40JM7VFEWtYC2eXZFy34VUiebUea?=
- =?us-ascii?Q?NDhyIsB1v95CnZuZIuaS/emVAbJuKSyEQgO9d15hgVFw9aRa10ZvLz6N+c2q?=
- =?us-ascii?Q?NsL7XMxxM5sfPalSUuRpBqxojLL7Pz6JDaNnLu12GUxA2mv+7mDVKt/tTOlV?=
- =?us-ascii?Q?dhXZXlNfax0XNWPLmLd7ATO3pzpoLZAQEU6GnHKKaxpdaDcV2kCsRRQ5UcSc?=
- =?us-ascii?Q?Da6vXD1nb6iwiy+ilQf/JhQg/tFXhyFki58BrPQ1f4hxbClNVD0iKms8rdQX?=
- =?us-ascii?Q?0hAJLDlM+QV14BrcZLZGwC/ZQv2t1nL30hwGw//ivQDo6nq2TuQvEMYhQuCy?=
- =?us-ascii?Q?Eg1qD4neGGOqRlSn27StUMTrWz7umW8KqWUFphJ3LH4Ik1MhE4orad6BvVJu?=
- =?us-ascii?Q?SvBpimJM3l0IIsodOsBvTdEHGuimVjajkFdRARUNFx2OfvjMh+25NS6bgTPN?=
- =?us-ascii?Q?3ThpDT8+hL36xRyp3UMl3qlbt+7kcGi1A+25i96ZjSmF33HehgTd/7Seff3P?=
- =?us-ascii?Q?+thtVF2RwUuWzDLXx5oDPbDke/VZqXEzYarB3DzHGBolZPeU97elUQbKtddE?=
- =?us-ascii?Q?mgtRMuW0Oc3kdenNvWWrexVZqW8hSICr7YhysQa9IyXHIOgGcpWBlppOTkg1?=
- =?us-ascii?Q?PmZfQLCc4rsyTaWrjWBipjwTNKBRYal9ntDha3pbf/ftuGMIfNtqbOxU/Mxb?=
- =?us-ascii?Q?kVp1+HNxwx0tPcdvIPTTil9LD/uHqNNrrMMOBGNzSfJlvEj1vmA2Q084Maw3?=
- =?us-ascii?Q?isG17ixcL0dDfxwepMlLZjjGHy4/6jlhnficmAIoTFipz8Hon6cTvUhSR3SW?=
- =?us-ascii?Q?zZR/7FX38m7aRwy3TfINXK8NRTmmFQLD2PgSC0Dfx+7MNCYDh27UqAouqkhu?=
- =?us-ascii?Q?RotTPsESkzoJ60ssFX3sKFM=3D?=
+	=?us-ascii?Q?YT4Ie4keMRfyIz5GM6lJqZgvAQ+Xf9aap/vjPsf8OpeoYj36qhrE1mfcPSlS?=
+ =?us-ascii?Q?rqIqY2uC+FjKlhBDtgDeW5siY1JAYXgcqI6IIPyI4sepy/pCCXonJOjHKbVo?=
+ =?us-ascii?Q?kk5RnkHImGDRUEPc+ncgtSRmn4tdIVh38SDBzEvGVxyBO72l+0LmoR7wj0D9?=
+ =?us-ascii?Q?uA3M4yesllZ0ZsR7eQf0XCWeaQE6OTNGk/+854xCdmZ2qucEm07BZVVlJPwg?=
+ =?us-ascii?Q?MsysErLngcH+wOGsyTJ17F8qzqOTadp3WOQIFEdL0QuZBisaimtoZcCjW0CI?=
+ =?us-ascii?Q?zt33uMPE3dI3hhOl4qjCHz0lkA+sr1hTB5npxgl/VZCCdszvg07bZMlYDuZj?=
+ =?us-ascii?Q?hqGPfQyB/v8tIGaccvjSc5NjUUrmNCmaCRRLNvebl56Jcxkmaz9astKE/cwq?=
+ =?us-ascii?Q?FSU7qjDuYoloDeEkqzYCnEEeGA0JLMAIdqADdWXOIHdGI/UdhC9MS9uh2GJ9?=
+ =?us-ascii?Q?ikvCtb87r2V6IbNVexcgxYLwgtBD43Dph+dy/2ZedDY6gioqtXOW6r533Sso?=
+ =?us-ascii?Q?7++6Tdnc8ZCF7I6D+VIy29Dhip4sywYOOKIK7t+Sw62w/YDiMSQAdpytr0ye?=
+ =?us-ascii?Q?ZpdOIm8rqnRpK7Kgds7g3ztb4nZ5beyyT5hoYFiLdgOneE6s+x0s9EZunhdF?=
+ =?us-ascii?Q?r7uPU9vJM/aMOKXj/FZrn1Hm17dENKA7J6xCiJKrQ/ByiAoPOiHs6UKuj4Ay?=
+ =?us-ascii?Q?EO+KP81FdO3nMUy9IPFlwZDTTYJ1zN7jwU9hpCVQOCDZTOzpTUYHqBvfwWPJ?=
+ =?us-ascii?Q?VYVwrjwYIvfhou8PSrNBA6zgm1xmwqVitoyKoNxn6yGm0TDWuAH7/kftl2uq?=
+ =?us-ascii?Q?MIFe8/MhjLtOlYgIZa/vFc2J2EcqpdcDDu9VJNrCrcGgat3jps1R5jqVrLLh?=
+ =?us-ascii?Q?fARmE/YWwp1uXTAG5l/8GhDWp35K9AEQPnaAJNTePviMOGPc8kM1K9Uq6xrA?=
+ =?us-ascii?Q?evoL7PSE0mSC0XDSE81GM+E4tWU3owOlygVn6q8la1ZoFJl14HrWNSbTcsNg?=
+ =?us-ascii?Q?4PpuV23hhxPCORQxpJ3c4bcxbrP53qTyq9kOSWMe7FiQUlY2zqG6jfs4GvHf?=
+ =?us-ascii?Q?z3K0LhWpt4D3ZK4WdnT5JZWbRdDks4vbFbIKv7X3UJ0xvH305YZJrZ6g9IsM?=
+ =?us-ascii?Q?ZeECPKZqjznXaUy6KEfjjm938QpLA3YXBerm8MGFwVFkIEPDKuKWzUHSZJc/?=
+ =?us-ascii?Q?PXs4vuGJALQ+N4u3iX8nQGcEY94O7nqf/fqJSsFVop7eK80YZosy5uxamPxN?=
+ =?us-ascii?Q?/cgmEzFtarTperg0cW64CzhXtcoyTNr0hORhLohGTVnZUS6Ax1BAdsXLronh?=
+ =?us-ascii?Q?V9aXu6C8hvV4LKkx68CiNqIjDFg0IQdnqP1asuUc92d12Av3Xib6nmJy18d2?=
+ =?us-ascii?Q?XSVprtmt8eBjVW3Kr913Zt/G1ZQJEtanB4X2I1hpnFxlVgfVdJnh43bHdn7C?=
+ =?us-ascii?Q?Hmcc52fQ+DsZgtEa61EhejFHap/zAdLOO3VdpMPpcioewFarAkv6Q17ajlZ7?=
+ =?us-ascii?Q?U0eka0r/jadLJ0D9zL8Lu4FwghrgDoEiVS1+WAohJWUCfwdpiZGSBFGUjC2s?=
+ =?us-ascii?Q?KwndUDWT4aWHkB145B8b7NBl9E49y6AfV9yahRY07v01264YRf4nWQL3LXlT?=
+ =?us-ascii?Q?xp/hMg2TPgfEh/EdjSZYERc=3D?=
 X-OriginatorOrg: siliconsignals.io
-X-MS-Exchange-CrossTenant-Network-Message-Id: 87fa7af3-df55-4e0d-9f79-08de3c70cd37
+X-MS-Exchange-CrossTenant-Network-Message-Id: 35551811-bb23-4631-318b-08de3c70d3ad
 X-MS-Exchange-CrossTenant-AuthSource: PN0P287MB2019.INDP287.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2025 07:00:31.1182
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2025 07:00:42.0444
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0q3m+INyLADc7trinK8rA4KZiS2UC8WmGivq8mgi75ZTZGjt92y1pIMZCgzGFLdjF7uaBGYDZ6fkMdAU9TgFnHIvyjyrFUz3yMOFFj8NiUlW5GNoBlz8ASKEcDciSTtF
+X-MS-Exchange-CrossTenant-UserPrincipalName: Mys4KkHk25Sisr0RXXhzp2WaPlU4i3BOqqhIcinQ0RyV+H1ENBOAor+Hx4Xp66GRiD4L7VMeZ+oTct22wICIdyzPypRa1nqxXX7Ywgt0RBfo+q0tUK7QrT0UpgBpP+Pe
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN2P287MB2109
 
-From: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
+Add a v4l2 subdevice driver for the Omnivision OS05B10 sensor.
 
-Add bindings for Omnivision OS05B10 sensor.
+The Omnivision OS05B10 image sensor with an active
+array size of 2592 x 1944.
 
-Add MAINTAINERS entry for Omnivision OS05B10 binding documentation
+The following features are supported:
+- Manual exposure an gain control support
+- vblank/hblank control support
+- Supported resolution: 2592 x 1944 @ 60fps (SBGGR10)
 
+Co-developed-by: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
 Signed-off-by: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
 Signed-off-by: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
-Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 ---
- .../bindings/media/i2c/ovti,os05b10.yaml      | 103 ++++++++++++++++++
- MAINTAINERS                                   |   7 ++
- 2 files changed, 110 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,os05b10.yaml
+ MAINTAINERS                 |    1 +
+ drivers/media/i2c/Kconfig   |   10 +
+ drivers/media/i2c/Makefile  |    1 +
+ drivers/media/i2c/os05b10.c | 1110 +++++++++++++++++++++++++++++++++++
+ 4 files changed, 1122 insertions(+)
+ create mode 100644 drivers/media/i2c/os05b10.c
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,os05b10.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,os05b10.yaml
-new file mode 100644
-index 000000000000..b76771d81851
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/i2c/ovti,os05b10.yaml
-@@ -0,0 +1,103 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/i2c/ovti,os05b10.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: OmniVision OS05B10 Image Sensor
-+
-+maintainers:
-+  - Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
-+
-+description:
-+  The OmniVision OS05B10 is a 5MP (2592x1944) color CMOS image sensor controlled
-+  through an I2C-compatible SCCB bus. it outputs RAW10/RAW12 format and uses a
-+  1/2.78" optical format.
-+
-+properties:
-+  compatible:
-+    const: ovti,os05b10
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: XCLK clock
-+
-+  avdd-supply:
-+    description: Analog Domain Power Supply (2.8v)
-+
-+  dovdd-supply:
-+    description: I/O Domain Power Supply (1.8v)
-+
-+  dvdd-supply:
-+    description: Digital Domain Power Supply (1.2v)
-+
-+  reset-gpios:
-+    maxItems: 1
-+    description: Reset Pin GPIO Control (active low)
-+
-+  port:
-+    description: MIPI CSI-2 transmitter port
-+    $ref: /schemas/graph.yaml#/$defs/port-base
-+    additionalProperties: false
-+
-+    properties:
-+      endpoint:
-+        $ref: /schemas/media/video-interfaces.yaml#
-+        unevaluatedProperties: false
-+
-+        properties:
-+          data-lanes:
-+            oneOf:
-+              - items:
-+                  - const: 1
-+                  - const: 2
-+                  - const: 3
-+                  - const: 4
-+              - items:
-+                  - const: 1
-+                  - const: 2
-+        required:
-+          - data-lanes
-+          - link-frequencies
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - avdd-supply
-+  - dovdd-supply
-+  - dvdd-supply
-+  - port
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        camera-sensor@36 {
-+            compatible = "ovti,os05b10";
-+            reg = <0x36>;
-+            clocks = <&os05b10_clk>;
-+            reset-gpios = <&gpio1 7 GPIO_ACTIVE_LOW>;
-+
-+            avdd-supply = <&os05b10_avdd_2v8>;
-+            dvdd-supply = <&os05b10_dvdd_1v2>;
-+            dovdd-supply = <&os05b10_dovdd_1v8>;
-+
-+            port {
-+                cam_out: endpoint {
-+                    remote-endpoint = <&mipi_in_cam>;
-+                    data-lanes = <1 2 3 4>;
-+                    link-frequencies = /bits/ 64 <600000000>;
-+                };
-+            };
-+        };
-+    };
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 663e86eb9ff1..c85915d5d20e 100644
+index c85915d5d20e..c48d04ca38d1 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -19234,6 +19234,13 @@ T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/devicetree/bindings/media/i2c/ovti,og0ve1b.yaml
- F:	drivers/media/i2c/og0ve1b.c
+@@ -19240,6 +19240,7 @@ M:	Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/media/i2c/ovti,os05b10.yaml
++F:	drivers/media/i2c/os05b10.c
 
-+OMNIVISION OS05B10 SENSOR DRIVER
-+M:	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
-+M:	Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/media/i2c/ovti,os05b10.yaml
-+
  OMNIVISION OV01A10 SENSOR DRIVER
  M:	Bingbu Cao <bingbu.cao@intel.com>
- L:	linux-media@vger.kernel.org
+diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+index 4b4db8c4f496..9800ba50b9a6 100644
+--- a/drivers/media/i2c/Kconfig
++++ b/drivers/media/i2c/Kconfig
+@@ -371,6 +371,16 @@ config VIDEO_OG0VE1B
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called og0ve1b.
+
++config VIDEO_OS05B10
++        tristate "OmniVision OS05B10 sensor support"
++        select V4L2_CCI_I2C
++        help
++          This is a Video4Linux2 sensor driver for Omnivision
++          OS05B10 camera sensor.
++
++	  To compile this driver as a module, choose M here: the
++          module will be called os05b10.
++
+ config VIDEO_OV01A10
+ 	tristate "OmniVision OV01A10 sensor support"
+ 	help
+diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+index c5f17602454f..561d37939875 100644
+--- a/drivers/media/i2c/Makefile
++++ b/drivers/media/i2c/Makefile
+@@ -84,6 +84,7 @@ obj-$(CONFIG_VIDEO_MT9V032) += mt9v032.o
+ obj-$(CONFIG_VIDEO_MT9V111) += mt9v111.o
+ obj-$(CONFIG_VIDEO_OG01A1B) += og01a1b.o
+ obj-$(CONFIG_VIDEO_OG0VE1B) += og0ve1b.o
++obj-$(CONFIG_VIDEO_OS05B10) += os05b10.o
+ obj-$(CONFIG_VIDEO_OV01A10) += ov01a10.o
+ obj-$(CONFIG_VIDEO_OV02A10) += ov02a10.o
+ obj-$(CONFIG_VIDEO_OV02C10) += ov02c10.o
+diff --git a/drivers/media/i2c/os05b10.c b/drivers/media/i2c/os05b10.c
+new file mode 100644
+index 000000000000..2e621645e67e
+--- /dev/null
++++ b/drivers/media/i2c/os05b10.c
+@@ -0,0 +1,1110 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * V4L2 Support for the os05b10
++ *
++ * Copyright (C) 2025 Silicon Signals Pvt. Ltd.
++ *
++ * Inspired from imx219, ov2735 camera drivers.
++ */
++
++#include <linux/array_size.h>
++#include <linux/bitops.h>
++#include <linux/cleanup.h>
++#include <linux/clk.h>
++#include <linux/container_of.h>
++#include <linux/delay.h>
++#include <linux/device/devres.h>
++#include <linux/err.h>
++#include <linux/gpio/consumer.h>
++#include <linux/i2c.h>
++#include <linux/module.h>
++#include <linux/pm_runtime.h>
++#include <linux/property.h>
++#include <linux/regulator/consumer.h>
++#include <linux/units.h>
++#include <linux/types.h>
++#include <linux/time.h>
++
++#include <media/v4l2-cci.h>
++#include <media/v4l2-ctrls.h>
++#include <media/v4l2-device.h>
++#include <media/v4l2-fwnode.h>
++#include <media/v4l2-mediabus.h>
++
++#define OS05B10_XCLK_FREQ		(24 * HZ_PER_MHZ)
++
++#define OS05B10_REG_CHIP_ID		CCI_REG24(0x300A)
++#define OS05B10_CHIP_ID			0x530641
++
++#define OS05B10_REG_CTRL_MODE		CCI_REG8(0x0100)
++#define OS05B10_MODE_STANDBY		0x00
++#define OS05B10_MODE_STREAMING		0x01
++
++#define OS05B10_REG_VTS			CCI_REG16(0x380E)
++#define OS05B10_VTS_MAX			0xFFFF
++
++#define OS05B10_REG_HTS			CCI_REG16(0x380C)
++
++#define OS05B10_ANALOG_GAIN		CCI_REG16(0x3508)
++#define OS05B10_ANALOG_GAIN_MIN		0x80
++#define OS05B10_ANALOG_GAIN_MAX		0x7C0
++#define OS05B10_ANALOG_GAIN_STEP	1
++#define OS05B10_ANALOG_GAIN_DEFAULT     0x80
++
++#define OS05B10_EXPOSURE_GAIN		CCI_REG24(0x3500)
++#define OS05B10_EXPOSURE_MIN		2
++#define OS05B10_EXPOSURE_STEP		1
++#define OS05B10_EXPOSURE_MARGIN         8
++
++#define OS05B10_PIXEL_RATE		(480 * HZ_PER_MHZ)
++#define OS05B10_LINK_FREQ_600MHZ	(600 * HZ_PER_MHZ)
++
++static const struct v4l2_rect os05b10_native_area = {
++	.top = 0,
++	.left = 0,
++	.width = 2608,
++	.height = 1960,
++};
++
++static const struct v4l2_rect os05b10_active_area = {
++	.top = 8,
++	.left = 8,
++	.width = 2592,
++	.height = 1944,
++};
++
++static const char * const os05b10_supply_name[] = {
++	"avdd", /* Analog supply */
++	"dvdd", /* Digital core */
++	"dovdd", /* Digital IO */
++};
++
++static const struct cci_reg_sequence os05b10_common_regs[] = {
++	{ CCI_REG8(0x0103), 0x01 },
++	{ CCI_REG8(0x0301), 0x44 },
++	{ CCI_REG8(0x0303), 0x02 },
++	{ CCI_REG8(0x0305), 0x32 },
++	{ CCI_REG8(0x0306), 0x00 },
++	{ CCI_REG8(0x0325), 0x3b },
++	{ CCI_REG8(0x3002), 0x21 },
++	{ CCI_REG8(0x3016), 0x72 },
++	{ CCI_REG8(0x301e), 0xb4 },
++	{ CCI_REG8(0x301f), 0xd0 },
++	{ CCI_REG8(0x3021), 0x03 },
++	{ CCI_REG8(0x3022), 0x01 },
++	{ CCI_REG8(0x3107), 0xa1 },
++	{ CCI_REG8(0x3108), 0x7d },
++	{ CCI_REG8(0x3109), 0xfc },
++	{ CCI_REG8(0x3500), 0x00 },
++	{ CCI_REG8(0x3501), 0x07 },
++	{ CCI_REG8(0x3502), 0xb6 },
++	{ CCI_REG8(0x3503), 0x88 },
++	{ CCI_REG8(0x3508), 0x00 },
++	{ CCI_REG8(0x3509), 0x80 },
++	{ CCI_REG8(0x350a), 0x04 },
++	{ CCI_REG8(0x350b), 0x00 },
++	{ CCI_REG8(0x350c), 0x00 },
++	{ CCI_REG8(0x350d), 0x80 },
++	{ CCI_REG8(0x350e), 0x04 },
++	{ CCI_REG8(0x350f), 0x00 },
++	{ CCI_REG8(0x3510), 0x00 },
++	{ CCI_REG8(0x3511), 0x00 },
++	{ CCI_REG8(0x3512), 0x20 },
++	{ CCI_REG8(0x3600), 0x4d },
++	{ CCI_REG8(0x3601), 0x08 },
++	{ CCI_REG8(0x3610), 0x87 },
++	{ CCI_REG8(0x3611), 0x24 },
++	{ CCI_REG8(0x3614), 0x4c },
++	{ CCI_REG8(0x3620), 0x0c },
++	{ CCI_REG8(0x3632), 0x80 },
++	{ CCI_REG8(0x3633), 0x00 },
++	{ CCI_REG8(0x3636), 0xcc },
++	{ CCI_REG8(0x3637), 0x27 },
++	{ CCI_REG8(0x3660), 0x00 },
++	{ CCI_REG8(0x3662), 0x10 },
++	{ CCI_REG8(0x3665), 0x00 },
++	{ CCI_REG8(0x3666), 0x00 },
++	{ CCI_REG8(0x366a), 0x14 },
++	{ CCI_REG8(0x3670), 0x0b },
++	{ CCI_REG8(0x3671), 0x0b },
++	{ CCI_REG8(0x3672), 0x0b },
++	{ CCI_REG8(0x3673), 0x0b },
++	{ CCI_REG8(0x3678), 0x2b },
++	{ CCI_REG8(0x367a), 0x11 },
++	{ CCI_REG8(0x367b), 0x11 },
++	{ CCI_REG8(0x367c), 0x11 },
++	{ CCI_REG8(0x367d), 0x11 },
++	{ CCI_REG8(0x3681), 0xff },
++	{ CCI_REG8(0x3682), 0x86 },
++	{ CCI_REG8(0x3683), 0x44 },
++	{ CCI_REG8(0x3684), 0x24 },
++	{ CCI_REG8(0x3685), 0x00 },
++	{ CCI_REG8(0x368a), 0x00 },
++	{ CCI_REG8(0x368d), 0x2b },
++	{ CCI_REG8(0x368e), 0x2b },
++	{ CCI_REG8(0x3690), 0x00 },
++	{ CCI_REG8(0x3691), 0x0b },
++	{ CCI_REG8(0x3692), 0x0b },
++	{ CCI_REG8(0x3693), 0x0b },
++	{ CCI_REG8(0x3694), 0x0b },
++	{ CCI_REG8(0x369d), 0x68 },
++	{ CCI_REG8(0x369e), 0x34 },
++	{ CCI_REG8(0x369f), 0x1b },
++	{ CCI_REG8(0x36a0), 0x0f },
++	{ CCI_REG8(0x36a1), 0x77 },
++	{ CCI_REG8(0x36b0), 0x30 },
++	{ CCI_REG8(0x36b2), 0x00 },
++	{ CCI_REG8(0x36b3), 0x00 },
++	{ CCI_REG8(0x36b4), 0x00 },
++	{ CCI_REG8(0x36b5), 0x00 },
++	{ CCI_REG8(0x36b6), 0x00 },
++	{ CCI_REG8(0x36b7), 0x00 },
++	{ CCI_REG8(0x36b8), 0x00 },
++	{ CCI_REG8(0x36b9), 0x00 },
++	{ CCI_REG8(0x36ba), 0x00 },
++	{ CCI_REG8(0x36bb), 0x00 },
++	{ CCI_REG8(0x36bc), 0x00 },
++	{ CCI_REG8(0x36bd), 0x00 },
++	{ CCI_REG8(0x36be), 0x00 },
++	{ CCI_REG8(0x36bf), 0x00 },
++	{ CCI_REG8(0x36c0), 0x01 },
++	{ CCI_REG8(0x36c1), 0x00 },
++	{ CCI_REG8(0x36c2), 0x00 },
++	{ CCI_REG8(0x36c3), 0x00 },
++	{ CCI_REG8(0x36c4), 0x00 },
++	{ CCI_REG8(0x36c5), 0x00 },
++	{ CCI_REG8(0x36c6), 0x00 },
++	{ CCI_REG8(0x36c7), 0x00 },
++	{ CCI_REG8(0x36c8), 0x00 },
++	{ CCI_REG8(0x36c9), 0x00 },
++	{ CCI_REG8(0x36ca), 0x0e },
++	{ CCI_REG8(0x36cb), 0x0e },
++	{ CCI_REG8(0x36cc), 0x0e },
++	{ CCI_REG8(0x36cd), 0x0e },
++	{ CCI_REG8(0x36ce), 0x0c },
++	{ CCI_REG8(0x36cf), 0x0c },
++	{ CCI_REG8(0x36d0), 0x0c },
++	{ CCI_REG8(0x36d1), 0x0c },
++	{ CCI_REG8(0x36d2), 0x00 },
++	{ CCI_REG8(0x36d3), 0x08 },
++	{ CCI_REG8(0x36d4), 0x10 },
++	{ CCI_REG8(0x36d5), 0x10 },
++	{ CCI_REG8(0x36d6), 0x00 },
++	{ CCI_REG8(0x36d7), 0x08 },
++	{ CCI_REG8(0x36d8), 0x10 },
++	{ CCI_REG8(0x36d9), 0x10 },
++	{ CCI_REG8(0x3701), 0x1d },
++	{ CCI_REG8(0x3703), 0x2a },
++	{ CCI_REG8(0x3704), 0x05 },
++	{ CCI_REG8(0x3709), 0x57 },
++	{ CCI_REG8(0x370b), 0x63 },
++	{ CCI_REG8(0x3706), 0x28 },
++	{ CCI_REG8(0x370a), 0x00 },
++	{ CCI_REG8(0x370b), 0x63 },
++	{ CCI_REG8(0x370e), 0x0c },
++	{ CCI_REG8(0x370f), 0x1c },
++	{ CCI_REG8(0x3710), 0x00 },
++	{ CCI_REG8(0x3713), 0x00 },
++	{ CCI_REG8(0x3714), 0x24 },
++	{ CCI_REG8(0x3716), 0x24 },
++	{ CCI_REG8(0x371a), 0x1e },
++	{ CCI_REG8(0x3724), 0x09 },
++	{ CCI_REG8(0x3725), 0xb2 },
++	{ CCI_REG8(0x372b), 0x54 },
++	{ CCI_REG8(0x3730), 0xe1 },
++	{ CCI_REG8(0x3735), 0x80 },
++	{ CCI_REG8(0x3739), 0x10 },
++	{ CCI_REG8(0x373f), 0xb0 },
++	{ CCI_REG8(0x3740), 0x28 },
++	{ CCI_REG8(0x3741), 0x21 },
++	{ CCI_REG8(0x3742), 0x21 },
++	{ CCI_REG8(0x3743), 0x21 },
++	{ CCI_REG8(0x3744), 0x63 },
++	{ CCI_REG8(0x3745), 0x5a },
++	{ CCI_REG8(0x3746), 0x5a },
++	{ CCI_REG8(0x3747), 0x5a },
++	{ CCI_REG8(0x3748), 0x00 },
++	{ CCI_REG8(0x3749), 0x00 },
++	{ CCI_REG8(0x374a), 0x00 },
++	{ CCI_REG8(0x374b), 0x00 },
++	{ CCI_REG8(0x3756), 0x00 },
++	{ CCI_REG8(0x3757), 0x0e },
++	{ CCI_REG8(0x375d), 0x84 },
++	{ CCI_REG8(0x3760), 0x11 },
++	{ CCI_REG8(0x3767), 0x08 },
++	{ CCI_REG8(0x376f), 0x42 },
++	{ CCI_REG8(0x3771), 0x00 },
++	{ CCI_REG8(0x3773), 0x01 },
++	{ CCI_REG8(0x3774), 0x02 },
++	{ CCI_REG8(0x3775), 0x12 },
++	{ CCI_REG8(0x3776), 0x02 },
++	{ CCI_REG8(0x377b), 0x40 },
++	{ CCI_REG8(0x377c), 0x00 },
++	{ CCI_REG8(0x377d), 0x0c },
++	{ CCI_REG8(0x3782), 0x02 },
++	{ CCI_REG8(0x3787), 0x24 },
++	{ CCI_REG8(0x378a), 0x01 },
++	{ CCI_REG8(0x378d), 0x00 },
++	{ CCI_REG8(0x3790), 0x1f },
++	{ CCI_REG8(0x3791), 0x58 },
++	{ CCI_REG8(0x3795), 0x24 },
++	{ CCI_REG8(0x3796), 0x01 },
++	{ CCI_REG8(0x3798), 0x40 },
++	{ CCI_REG8(0x379c), 0x00 },
++	{ CCI_REG8(0x379d), 0x00 },
++	{ CCI_REG8(0x379e), 0x00 },
++	{ CCI_REG8(0x379f), 0x01 },
++	{ CCI_REG8(0x37a1), 0x10 },
++	{ CCI_REG8(0x37a6), 0x00 },
++	{ CCI_REG8(0x37ab), 0x0e },
++	{ CCI_REG8(0x37ac), 0xa0 },
++	{ CCI_REG8(0x37be), 0x0a },
++	{ CCI_REG8(0x37bf), 0x05 },
++	{ CCI_REG8(0x37bb), 0x02 },
++	{ CCI_REG8(0x37bf), 0x05 },
++	{ CCI_REG8(0x37c2), 0x04 },
++	{ CCI_REG8(0x37c4), 0x11 },
++	{ CCI_REG8(0x37c5), 0x80 },
++	{ CCI_REG8(0x37c6), 0x14 },
++	{ CCI_REG8(0x37c7), 0x08 },
++	{ CCI_REG8(0x37c8), 0x42 },
++	{ CCI_REG8(0x37cd), 0x17 },
++	{ CCI_REG8(0x37ce), 0x01 },
++	{ CCI_REG8(0x37d8), 0x02 },
++	{ CCI_REG8(0x37d9), 0x08 },
++	{ CCI_REG8(0x37dc), 0x01 },
++	{ CCI_REG8(0x37e0), 0x0c },
++	{ CCI_REG8(0x37e1), 0x20 },
++	{ CCI_REG8(0x37e2), 0x10 },
++	{ CCI_REG8(0x37e3), 0x04 },
++	{ CCI_REG8(0x37e4), 0x28 },
++	{ CCI_REG8(0x37e5), 0x02 },
++	{ CCI_REG8(0x37ef), 0x00 },
++	{ CCI_REG8(0x37f4), 0x00 },
++	{ CCI_REG8(0x37f5), 0x00 },
++	{ CCI_REG8(0x37f6), 0x00 },
++	{ CCI_REG8(0x37f7), 0x00 },
++	{ CCI_REG8(0x3800), 0x01 },
++	{ CCI_REG8(0x3801), 0x30 },
++	{ CCI_REG8(0x3802), 0x00 },
++	{ CCI_REG8(0x3803), 0x00 },
++	{ CCI_REG8(0x3804), 0x0b },
++	{ CCI_REG8(0x3805), 0x5f },
++	{ CCI_REG8(0x3806), 0x07 },
++	{ CCI_REG8(0x3807), 0xa7 },
++	{ CCI_REG8(0x3808), 0x0a },
++	{ CCI_REG8(0x3809), 0x20 },
++	{ CCI_REG8(0x380a), 0x07 },
++	{ CCI_REG8(0x380b), 0x98 },
++	{ CCI_REG8(0x380c), 0x06 },
++	{ CCI_REG8(0x380d), 0xd0 },
++	{ CCI_REG8(0x380e), 0x07 },
++	{ CCI_REG8(0x380f), 0xd6 },
++	{ CCI_REG8(0x3810), 0x00 },
++	{ CCI_REG8(0x3811), 0x08 },
++	{ CCI_REG8(0x3812), 0x00 },
++	{ CCI_REG8(0x3813), 0x08 },
++	{ CCI_REG8(0x3814), 0x01 },
++	{ CCI_REG8(0x3815), 0x01 },
++	{ CCI_REG8(0x3816), 0x01 },
++	{ CCI_REG8(0x3817), 0x01 },
++	{ CCI_REG8(0x3818), 0x00 },
++	{ CCI_REG8(0x3819), 0x00 },
++	{ CCI_REG8(0x381a), 0x00 },
++	{ CCI_REG8(0x381b), 0x01 },
++	{ CCI_REG8(0x3820), 0x88 },
++	{ CCI_REG8(0x3821), 0x00 },
++	{ CCI_REG8(0x3822), 0x12 },
++	{ CCI_REG8(0x3823), 0x08 },
++	{ CCI_REG8(0x3824), 0x00 },
++	{ CCI_REG8(0x3825), 0x20 },
++	{ CCI_REG8(0x3826), 0x00 },
++	{ CCI_REG8(0x3827), 0x08 },
++	{ CCI_REG8(0x3829), 0x03 },
++	{ CCI_REG8(0x382a), 0x00 },
++	{ CCI_REG8(0x382b), 0x00 },
++	{ CCI_REG8(0x3832), 0x08 },
++	{ CCI_REG8(0x3838), 0x00 },
++	{ CCI_REG8(0x3839), 0x00 },
++	{ CCI_REG8(0x383a), 0x00 },
++	{ CCI_REG8(0x383b), 0x00 },
++	{ CCI_REG8(0x383d), 0x01 },
++	{ CCI_REG8(0x383e), 0x00 },
++	{ CCI_REG8(0x383f), 0x00 },
++	{ CCI_REG8(0x3843), 0x00 },
++	{ CCI_REG8(0x3880), 0x16 },
++	{ CCI_REG8(0x3881), 0x00 },
++	{ CCI_REG8(0x3882), 0x08 },
++	{ CCI_REG8(0x389a), 0x00 },
++	{ CCI_REG8(0x389b), 0x00 },
++	{ CCI_REG8(0x38a2), 0x02 },
++	{ CCI_REG8(0x38a3), 0x02 },
++	{ CCI_REG8(0x38a4), 0x02 },
++	{ CCI_REG8(0x38a5), 0x02 },
++	{ CCI_REG8(0x38a7), 0x04 },
++	{ CCI_REG8(0x38b8), 0x02 },
++	{ CCI_REG8(0x3c80), 0x3e },
++	{ CCI_REG8(0x3c86), 0x01 },
++	{ CCI_REG8(0x3c87), 0x02 },
++	{ CCI_REG8(0x389c), 0x00 },
++	{ CCI_REG8(0x3ca2), 0x0c },
++	{ CCI_REG8(0x3d85), 0x1b },
++	{ CCI_REG8(0x3d8c), 0x01 },
++	{ CCI_REG8(0x3d8d), 0xe2 },
++	{ CCI_REG8(0x3f00), 0xcb },
++	{ CCI_REG8(0x3f03), 0x08 },
++	{ CCI_REG8(0x3f9e), 0x07 },
++	{ CCI_REG8(0x3f9f), 0x04 },
++	{ CCI_REG8(0x4000), 0xf3 },
++	{ CCI_REG8(0x4002), 0x00 },
++	{ CCI_REG8(0x4003), 0x40 },
++	{ CCI_REG8(0x4008), 0x02 },
++	{ CCI_REG8(0x4009), 0x0d },
++	{ CCI_REG8(0x400a), 0x01 },
++	{ CCI_REG8(0x400b), 0x00 },
++	{ CCI_REG8(0x4040), 0x00 },
++	{ CCI_REG8(0x4041), 0x07 },
++	{ CCI_REG8(0x4090), 0x14 },
++	{ CCI_REG8(0x40b0), 0x01 },
++	{ CCI_REG8(0x40b1), 0x01 },
++	{ CCI_REG8(0x40b2), 0x30 },
++	{ CCI_REG8(0x40b3), 0x04 },
++	{ CCI_REG8(0x40b4), 0xe8 },
++	{ CCI_REG8(0x40b5), 0x01 },
++	{ CCI_REG8(0x40b7), 0x07 },
++	{ CCI_REG8(0x40b8), 0xff },
++	{ CCI_REG8(0x40b9), 0x00 },
++	{ CCI_REG8(0x40ba), 0x00 },
++	{ CCI_REG8(0x4300), 0xff },
++	{ CCI_REG8(0x4301), 0x00 },
++	{ CCI_REG8(0x4302), 0x0f },
++	{ CCI_REG8(0x4303), 0x20 },
++	{ CCI_REG8(0x4304), 0x20 },
++	{ CCI_REG8(0x4305), 0x83 },
++	{ CCI_REG8(0x4306), 0x21 },
++	{ CCI_REG8(0x430d), 0x00 },
++	{ CCI_REG8(0x4505), 0xc4 },
++	{ CCI_REG8(0x4506), 0x00 },
++	{ CCI_REG8(0x4507), 0x60 },
++	{ CCI_REG8(0x4803), 0x00 },
++	{ CCI_REG8(0x4809), 0x8e },
++	{ CCI_REG8(0x480e), 0x00 },
++	{ CCI_REG8(0x4813), 0x00 },
++	{ CCI_REG8(0x4814), 0x2a },
++	{ CCI_REG8(0x481b), 0x40 },
++	{ CCI_REG8(0x481f), 0x30 },
++	{ CCI_REG8(0x4825), 0x34 },
++	{ CCI_REG8(0x4829), 0x64 },
++	{ CCI_REG8(0x4837), 0x12 },
++	{ CCI_REG8(0x484b), 0x07 },
++	{ CCI_REG8(0x4883), 0x36 },
++	{ CCI_REG8(0x4885), 0x03 },
++	{ CCI_REG8(0x488b), 0x00 },
++	{ CCI_REG8(0x4d06), 0x01 },
++	{ CCI_REG8(0x4e00), 0x2a },
++	{ CCI_REG8(0x4e0d), 0x00 },
++	{ CCI_REG8(0x5000), 0xf9 },
++	{ CCI_REG8(0x5001), 0x09 },
++	{ CCI_REG8(0x5004), 0x00 },
++	{ CCI_REG8(0x5005), 0x0e },
++	{ CCI_REG8(0x5036), 0x00 },
++	{ CCI_REG8(0x5080), 0x04 },
++	{ CCI_REG8(0x5082), 0x00 },
++	{ CCI_REG8(0x5180), 0x00 },
++	{ CCI_REG8(0x5181), 0x10 },
++	{ CCI_REG8(0x5182), 0x01 },
++	{ CCI_REG8(0x5183), 0xdf },
++	{ CCI_REG8(0x5184), 0x02 },
++	{ CCI_REG8(0x5185), 0x6c },
++	{ CCI_REG8(0x5189), 0x48 },
++	{ CCI_REG8(0x520a), 0x03 },
++	{ CCI_REG8(0x520b), 0x0f },
++	{ CCI_REG8(0x520c), 0x3f },
++	{ CCI_REG8(0x580b), 0x03 },
++	{ CCI_REG8(0x580d), 0x00 },
++	{ CCI_REG8(0x580f), 0x00 },
++	{ CCI_REG8(0x5820), 0x00 },
++	{ CCI_REG8(0x5821), 0x00 },
++	{ CCI_REG8(0x3222), 0x03 },
++	{ CCI_REG8(0x3208), 0x06 },
++	{ CCI_REG8(0x3701), 0x1d },
++	{ CCI_REG8(0x37ab), 0x01 },
++	{ CCI_REG8(0x3790), 0x21 },
++	{ CCI_REG8(0x38be), 0x00 },
++	{ CCI_REG8(0x3791), 0x5a },
++	{ CCI_REG8(0x37bf), 0x1c },
++	{ CCI_REG8(0x3610), 0x37 },
++	{ CCI_REG8(0x3208), 0x16 },
++	{ CCI_REG8(0x3208), 0x07 },
++	{ CCI_REG8(0x3701), 0x1d },
++	{ CCI_REG8(0x37ab), 0x0e },
++	{ CCI_REG8(0x3790), 0x21 },
++	{ CCI_REG8(0x38be), 0x00 },
++	{ CCI_REG8(0x3791), 0x5a },
++	{ CCI_REG8(0x37bf), 0x0a },
++	{ CCI_REG8(0x3610), 0x87 },
++	{ CCI_REG8(0x3208), 0x17 },
++	{ CCI_REG8(0x3208), 0x08 },
++	{ CCI_REG8(0x3701), 0x1d },
++	{ CCI_REG8(0x37ab), 0x0e },
++	{ CCI_REG8(0x3790), 0x21 },
++	{ CCI_REG8(0x38be), 0x00 },
++	{ CCI_REG8(0x3791), 0x5a },
++	{ CCI_REG8(0x37bf), 0x0a },
++	{ CCI_REG8(0x3610), 0x87 },
++	{ CCI_REG8(0x3208), 0x18 },
++	{ CCI_REG8(0x3208), 0x09 },
++	{ CCI_REG8(0x3701), 0x1d },
++	{ CCI_REG8(0x37ab), 0x0e },
++	{ CCI_REG8(0x3790), 0x28 },
++	{ CCI_REG8(0x38be), 0x00 },
++	{ CCI_REG8(0x3791), 0x63 },
++	{ CCI_REG8(0x37bf), 0x0a },
++	{ CCI_REG8(0x3610), 0x87 },
++	{ CCI_REG8(0x3208), 0x19 },
++};
++
++struct os05b10 {
++	struct device *dev;
++	struct regmap *cci;
++	struct v4l2_subdev sd;
++	struct media_pad pad;
++	struct clk *xclk;
++	struct i2c_client *client;
++	struct gpio_desc *reset_gpio;
++	struct regulator_bulk_data supplies[ARRAY_SIZE(os05b10_supply_name)];
++
++	/* V4L2 Controls */
++	struct v4l2_ctrl_handler handler;
++	struct v4l2_ctrl *link_freq;
++	struct v4l2_ctrl *hblank;
++	struct v4l2_ctrl *vblank;
++	struct v4l2_ctrl *gain;
++	struct v4l2_ctrl *exposure;
++};
++
++struct os05b10_mode {
++	u32 width;
++	u32 height;
++	u32 vts; /* default VTS */
++	u32 hts; /* default HTS */
++	u32 exp; /* default exposure */
++};
++
++static const struct os05b10_mode supported_modes_10bit[] = {
++	{
++		/* 2592x1944 */
++		.width = 2592,
++		.height = 1944,
++		.vts = 2006,
++		.hts = 2616,
++		.exp = 1944,
++	},
++};
++
++static const s64 link_frequencies[] = {
++	OS05B10_LINK_FREQ_600MHZ,
++};
++
++static const u32 os05b10_mbus_codes[] = {
++	MEDIA_BUS_FMT_SBGGR10_1X10,
++};
++
++static inline struct os05b10 *to_os05b10(struct v4l2_subdev *sd)
++{
++	return container_of_const(sd, struct os05b10, sd);
++};
++
++static int os05b10_set_ctrl(struct v4l2_ctrl *ctrl)
++{
++	struct os05b10 *os05b10 = container_of_const(ctrl->handler,
++						     struct os05b10, handler);
++	struct v4l2_mbus_framefmt *fmt;
++	struct v4l2_subdev_state *state;
++	int vmax, ret;
++
++	state = v4l2_subdev_get_locked_active_state(&os05b10->sd);
++	fmt = v4l2_subdev_state_get_format(state, 0);
++
++	if (ctrl->id == V4L2_CID_VBLANK) {
++		/* Honour the VBLANK limits when setting exposure. */
++		s64 max = fmt->height + ctrl->val - OS05B10_EXPOSURE_MARGIN;
++
++		ret = __v4l2_ctrl_modify_range(os05b10->exposure,
++					       os05b10->exposure->minimum, max,
++					       os05b10->exposure->step,
++					       os05b10->exposure->default_value);
++
++		if (ret)
++			return ret;
++	}
++
++	if (pm_runtime_get_if_in_use(os05b10->dev) == 0)
++		return 0;
++
++	switch (ctrl->id) {
++	case V4L2_CID_VBLANK:
++		vmax = fmt->height + ctrl->val;
++		ret = cci_write(os05b10->cci, OS05B10_REG_VTS, vmax, NULL);
++		break;
++	case V4L2_CID_ANALOGUE_GAIN:
++		ret = cci_write(os05b10->cci, OS05B10_ANALOG_GAIN, ctrl->val,
++				NULL);
++		break;
++	case V4L2_CID_EXPOSURE:
++		ret = cci_write(os05b10->cci, OS05B10_EXPOSURE_GAIN, ctrl->val,
++				NULL);
++		break;
++	default:
++		ret = -EINVAL;
++		break;
++	}
++
++	pm_runtime_put(os05b10->dev);
++
++	return ret;
++}
++
++static int os05b10_enum_mbus_code(struct v4l2_subdev *sd,
++				  struct v4l2_subdev_state *sd_state,
++				  struct v4l2_subdev_mbus_code_enum *code)
++{
++	if (code->index >= ARRAY_SIZE(os05b10_mbus_codes))
++		return -EINVAL;
++
++	code->code = os05b10_mbus_codes[code->index];
++
++	return 0;
++}
++
++static int os05b10_set_framing_limits(struct os05b10 *os05b10,
++				      const struct os05b10_mode *mode)
++{
++	u32 hblank, vblank, vblank_max, max_exp;
++	int ret;
++
++	hblank = mode->hts - mode->width;
++	ret = __v4l2_ctrl_modify_range(os05b10->hblank, hblank, hblank, 1, hblank);
++	if (ret)
++		return ret;
++
++	vblank = mode->vts - mode->height;
++	vblank_max = OS05B10_VTS_MAX - mode->height;
++	ret = __v4l2_ctrl_modify_range(os05b10->vblank, 0, vblank_max, 1, vblank);
++	if (ret)
++		return ret;
++
++	max_exp = mode->vts - OS05B10_EXPOSURE_MARGIN;
++	return __v4l2_ctrl_modify_range(os05b10->exposure,
++					OS05B10_EXPOSURE_MIN, max_exp,
++					OS05B10_EXPOSURE_STEP, mode->exp);
++}
++
++static int os05b10_set_pad_format(struct v4l2_subdev *sd,
++				  struct v4l2_subdev_state *sd_state,
++				  struct v4l2_subdev_format *fmt)
++{
++	const struct os05b10_mode *mode = &supported_modes_10bit[0];
++	struct os05b10 *os05b10 = to_os05b10(sd);
++	struct v4l2_mbus_framefmt *format;
++	int ret;
++
++	fmt->format.width = mode->width;
++	fmt->format.height = mode->height;
++	fmt->format.field = V4L2_FIELD_NONE;
++	fmt->format.colorspace = V4L2_COLORSPACE_RAW;
++	fmt->format.quantization = V4L2_QUANTIZATION_FULL_RANGE;
++	fmt->format.xfer_func = V4L2_XFER_FUNC_NONE;
++
++	format = v4l2_subdev_state_get_format(sd_state, 0);
++
++	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
++		ret = os05b10_set_framing_limits(os05b10, mode);
++		if (ret)
++			return ret;
++	}
++
++	*format = fmt->format;
++
++	return 0;
++}
++
++static int os05b10_get_selection(struct v4l2_subdev *sd,
++				 struct v4l2_subdev_state *sd_state,
++				 struct v4l2_subdev_selection *sel)
++{
++	switch (sel->target) {
++	case V4L2_SEL_TGT_NATIVE_SIZE:
++	case V4L2_SEL_TGT_CROP_BOUNDS:
++		sel->r = os05b10_native_area;
++		return 0;
++	case V4L2_SEL_TGT_CROP:
++	case V4L2_SEL_TGT_CROP_DEFAULT:
++		sel->r = os05b10_active_area;
++		return 0;
++	default:
++		return -EINVAL;
++	}
++}
++
++static int os05b10_enum_frame_size(struct v4l2_subdev *sd,
++				   struct v4l2_subdev_state *sd_state,
++				   struct v4l2_subdev_frame_size_enum *fse)
++{
++	if (fse->index >= ARRAY_SIZE(supported_modes_10bit))
++		return -EINVAL;
++
++	fse->min_width = supported_modes_10bit[fse->index].width;
++	fse->max_width = fse->min_width;
++	fse->min_height = supported_modes_10bit[fse->index].height;
++	fse->max_height = fse->min_height;
++
++	return 0;
++}
++
++static int os05b10_enable_streams(struct v4l2_subdev *sd,
++				  struct v4l2_subdev_state *state,
++				  u32 pad, u64 streams_mask)
++{
++	struct os05b10 *os05b10 = to_os05b10(sd);
++	int ret;
++
++	ret = pm_runtime_resume_and_get(os05b10->dev);
++	if (ret < 0)
++		return ret;
++
++	/* Write common registers */
++	ret = cci_multi_reg_write(os05b10->cci, os05b10_common_regs,
++				  ARRAY_SIZE(os05b10_common_regs), NULL);
++	if (ret) {
++		dev_err(os05b10->dev, "%s failed to write common registers\n",
++			__func__);
++		goto err_rpm_put;
++	}
++
++	/* Apply customized user controls */
++	ret = __v4l2_ctrl_handler_setup(os05b10->sd.ctrl_handler);
++	if (ret)
++		goto err_rpm_put;
++
++	/* Stream ON */
++	ret = cci_write(os05b10->cci, OS05B10_REG_CTRL_MODE,
++			OS05B10_MODE_STREAMING, NULL);
++	if (ret)
++		goto err_rpm_put;
++
++	return 0;
++
++err_rpm_put:
++	pm_runtime_put(os05b10->dev);
++	return ret;
++}
++
++static int os05b10_disable_streams(struct v4l2_subdev *sd,
++				   struct v4l2_subdev_state *state,
++				   u32 pad, u64 streams_mask)
++{
++	struct os05b10 *os05b10 = to_os05b10(sd);
++	int ret;
++
++	ret = cci_write(os05b10->cci, OS05B10_REG_CTRL_MODE,
++			OS05B10_MODE_STANDBY, NULL);
++	if (ret)
++		dev_err(os05b10->dev, "%s failed to set stream off\n", __func__);
++
++	pm_runtime_put(os05b10->dev);
++
++	return ret;
++}
++
++static int os05b10_init_state(struct v4l2_subdev *sd,
++			      struct v4l2_subdev_state *state)
++{
++	struct v4l2_mbus_framefmt *format;
++	const struct os05b10_mode *mode;
++
++	/* Initialize try_fmt */
++	format = v4l2_subdev_state_get_format(state, 0);
++
++	mode = &supported_modes_10bit[0];
++	format->code = MEDIA_BUS_FMT_SBGGR10_1X10;
++
++	/* Update image pad formate */
++	format->width = mode->width;
++	format->height = mode->height;
++	format->field = V4L2_FIELD_NONE;
++	format->colorspace = V4L2_COLORSPACE_RAW;
++	format->quantization = V4L2_QUANTIZATION_FULL_RANGE;
++	format->xfer_func = V4L2_XFER_FUNC_NONE;
++
++	return 0;
++}
++
++static const struct v4l2_subdev_video_ops os05b10_video_ops = {
++	.s_stream = v4l2_subdev_s_stream_helper,
++};
++
++static const struct v4l2_subdev_pad_ops os05b10_pad_ops = {
++	.enum_mbus_code = os05b10_enum_mbus_code,
++	.get_fmt = v4l2_subdev_get_fmt,
++	.set_fmt = os05b10_set_pad_format,
++	.get_selection = os05b10_get_selection,
++	.enum_frame_size = os05b10_enum_frame_size,
++	.enable_streams = os05b10_enable_streams,
++	.disable_streams = os05b10_disable_streams,
++};
++
++static const struct v4l2_subdev_internal_ops os05b10_internal_ops = {
++	.init_state = os05b10_init_state,
++};
++
++static const struct v4l2_subdev_ops os05b10_subdev_ops = {
++	.video = &os05b10_video_ops,
++	.pad = &os05b10_pad_ops,
++};
++
++static const struct v4l2_ctrl_ops os05b10_ctrl_ops = {
++	.s_ctrl = os05b10_set_ctrl,
++};
++
++static int os05b10_identify_module(struct os05b10 *os05b10)
++{
++	int ret;
++	u64 val;
++
++	ret = cci_read(os05b10->cci, OS05B10_REG_CHIP_ID, &val, NULL);
++	if (ret)
++		return dev_err_probe(os05b10->dev, ret,
++				     "failed to read chip id %x\n",
++				     OS05B10_CHIP_ID);
++
++	if (val != OS05B10_CHIP_ID)
++		return dev_err_probe(os05b10->dev, -EIO,
++				     "chip id mismatch: %x!=%llx\n",
++				     OS05B10_CHIP_ID, val);
++	return 0;
++}
++
++static int os05b10_power_on(struct device *dev)
++{
++	struct v4l2_subdev *sd = dev_get_drvdata(dev);
++	struct os05b10 *os05b10 = to_os05b10(sd);
++	unsigned long delay_us;
++	int ret;
++
++	/* Enable power rails */
++	ret = regulator_bulk_enable(ARRAY_SIZE(os05b10_supply_name),
++				    os05b10->supplies);
++	if (ret) {
++		dev_err(os05b10->dev, "failed to enable regulators\n");
++		return ret;
++	}
++
++	/* Enable xclk */
++	ret = clk_prepare_enable(os05b10->xclk);
++	if (ret) {
++		dev_err(os05b10->dev, "failed to enable clock\n");
++		goto err_regulator_off;
++	}
++
++	gpiod_set_value_cansleep(os05b10->reset_gpio, 0);
++
++	/* Delay T1 */
++	fsleep(5 * USEC_PER_MSEC);
++
++	/* Delay T2 (8192 cycles before SCCB/I2C access) */
++	delay_us = DIV_ROUND_UP(8192, OS05B10_XCLK_FREQ / 1000 / 1000);
++	usleep_range(delay_us, delay_us * 2);
++
++	return 0;
++
++err_regulator_off:
++	regulator_bulk_disable(ARRAY_SIZE(os05b10_supply_name),
++			       os05b10->supplies);
++	return ret;
++}
++
++static int os05b10_power_off(struct device *dev)
++{
++	struct v4l2_subdev *sd = dev_get_drvdata(dev);
++	struct os05b10 *os05b10 = to_os05b10(sd);
++
++	gpiod_set_value_cansleep(os05b10->reset_gpio, 1);
++
++	regulator_bulk_disable(ARRAY_SIZE(os05b10_supply_name), os05b10->supplies);
++	clk_disable_unprepare(os05b10->xclk);
++
++	return 0;
++}
++
++static int os05b10_parse_endpoint(struct os05b10 *os05b10)
++{
++	struct v4l2_fwnode_endpoint bus_cfg = {
++		.bus_type = V4L2_MBUS_CSI2_DPHY
++	};
++	unsigned long link_freq_bitmap;
++	struct fwnode_handle *ep;
++	int ret;
++
++	ep = fwnode_graph_get_next_endpoint(dev_fwnode(os05b10->dev), NULL);
++	if (!ep) {
++		dev_err(os05b10->dev, "Failed to get next endpoint\n");
++		return -ENXIO;
++	}
++
++	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
++	fwnode_handle_put(ep);
++	if (ret)
++		return ret;
++
++	if (bus_cfg.bus.mipi_csi2.num_data_lanes != 4) {
++		ret = dev_err_probe(os05b10->dev, -EINVAL,
++				    "only 4 data lanes are supported\n");
++		goto error_out;
++	}
++
++	ret = v4l2_link_freq_to_bitmap(os05b10->dev, bus_cfg.link_frequencies,
++				       bus_cfg.nr_of_link_frequencies,
++				       link_frequencies,
++				       ARRAY_SIZE(link_frequencies),
++				       &link_freq_bitmap);
++
++	if (ret)
++		dev_err(os05b10->dev, "only 600MHz frequency is available\n");
++
++error_out:
++	v4l2_fwnode_endpoint_free(&bus_cfg);
++
++	return ret;
++}
++
++static int os05b10_init_controls(struct os05b10 *os05b10)
++{
++	struct v4l2_ctrl_handler *ctrl_hdlr;
++	struct v4l2_fwnode_device_properties props;
++	const struct os05b10_mode *mode = &supported_modes_10bit[0];
++	u64 hblank_def, vblank_def, exp_max;
++	int ret;
++
++	ctrl_hdlr = &os05b10->handler;
++	v4l2_ctrl_handler_init(ctrl_hdlr, 8);
++
++	v4l2_ctrl_new_std(ctrl_hdlr, &os05b10_ctrl_ops, V4L2_CID_PIXEL_RATE,
++			  OS05B10_PIXEL_RATE, OS05B10_PIXEL_RATE, 1,
++			  OS05B10_PIXEL_RATE);
++
++	os05b10->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr, &os05b10_ctrl_ops,
++						    V4L2_CID_LINK_FREQ,
++						    ARRAY_SIZE(link_frequencies) - 1,
++						    0, link_frequencies);
++
++	if (os05b10->link_freq)
++		os05b10->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
++
++	hblank_def = mode->hts - mode->width;
++	os05b10->hblank = v4l2_ctrl_new_std(ctrl_hdlr, NULL, V4L2_CID_HBLANK,
++					    hblank_def, hblank_def, 1, hblank_def);
++	if (os05b10->hblank)
++		os05b10->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
++
++	vblank_def = mode->vts - mode->height;
++	os05b10->vblank = v4l2_ctrl_new_std(ctrl_hdlr, &os05b10_ctrl_ops,
++					    V4L2_CID_VBLANK, vblank_def,
++					    OS05B10_VTS_MAX - mode->height,
++					    1, vblank_def);
++
++	exp_max = mode->vts - OS05B10_EXPOSURE_MARGIN;
++	os05b10->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &os05b10_ctrl_ops,
++					      V4L2_CID_EXPOSURE,
++					      OS05B10_EXPOSURE_MIN,
++					      exp_max, OS05B10_EXPOSURE_STEP,
++					      mode->exp);
++
++	os05b10->gain = v4l2_ctrl_new_std(ctrl_hdlr, &os05b10_ctrl_ops,
++					  V4L2_CID_ANALOGUE_GAIN,
++					  OS05B10_ANALOG_GAIN_MIN,
++					  OS05B10_ANALOG_GAIN_MAX,
++					  OS05B10_ANALOG_GAIN_STEP,
++					  OS05B10_ANALOG_GAIN_DEFAULT);
++
++	if (ctrl_hdlr->error) {
++		ret = ctrl_hdlr->error;
++		dev_err(os05b10->dev, "control init failed (%d)\n", ret);
++		goto error;
++	}
++
++	ret = v4l2_fwnode_device_parse(os05b10->dev, &props);
++	if (ret)
++		goto error;
++
++	ret = v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &os05b10_ctrl_ops,
++					      &props);
++	if (ret)
++		goto error;
++
++	os05b10->sd.ctrl_handler = ctrl_hdlr;
++
++	return 0;
++
++error:
++	v4l2_ctrl_handler_free(ctrl_hdlr);
++
++	return ret;
++}
++
++static int os05b10_probe(struct i2c_client *client)
++{
++	struct os05b10 *os05b10;
++	unsigned int xclk_freq;
++	unsigned int i;
++	int ret;
++
++	os05b10 = devm_kzalloc(&client->dev, sizeof(*os05b10), GFP_KERNEL);
++	if (!os05b10)
++		return -ENOMEM;
++
++	os05b10->client = client;
++	os05b10->dev = &client->dev;
++
++	v4l2_i2c_subdev_init(&os05b10->sd, client, &os05b10_subdev_ops);
++
++	os05b10->cci = devm_cci_regmap_init_i2c(client, 16);
++	if (IS_ERR(os05b10->cci))
++		return dev_err_probe(os05b10->dev, PTR_ERR(os05b10->cci),
++				     "failed to initialize CCI\n");
++
++	os05b10->xclk = devm_v4l2_sensor_clk_get(os05b10->dev, NULL);
++	if (IS_ERR(os05b10->xclk))
++		return dev_err_probe(os05b10->dev, PTR_ERR(os05b10->xclk),
++				     "failed to get xclk\n");
++
++	xclk_freq = clk_get_rate(os05b10->xclk);
++	if (xclk_freq != OS05B10_XCLK_FREQ)
++		return dev_err_probe(os05b10->dev, -EINVAL,
++				     "xclk frequency not supported: %d Hz\n",
++				     xclk_freq);
++
++	for (i = 0; i < ARRAY_SIZE(os05b10_supply_name); i++)
++		os05b10->supplies[i].supply = os05b10_supply_name[i];
++
++	ret = devm_regulator_bulk_get(os05b10->dev, ARRAY_SIZE(os05b10_supply_name),
++				      os05b10->supplies);
++	if (ret)
++		return dev_err_probe(os05b10->dev, ret, "failed to get regulators\n");
++
++	ret = os05b10_parse_endpoint(os05b10);
++	if (ret)
++		return dev_err_probe(os05b10->dev, ret,
++				     "failed to parse endpoint configuration\n");
++
++	os05b10->reset_gpio = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_LOW);
++	if (IS_ERR(os05b10->reset_gpio))
++		return dev_err_probe(os05b10->dev, PTR_ERR(os05b10->reset_gpio),
++				     "failed to get reset GPIO\n");
++
++	ret = os05b10_power_on(os05b10->dev);
++	if (ret)
++		return ret;
++
++	ret = os05b10_identify_module(os05b10);
++	if (ret)
++		goto error_power_off;
++
++	/* This needs the pm runtime to be registered. */
++	ret = os05b10_init_controls(os05b10);
++	if (ret)
++		goto error_power_off;
++
++	/* Initialize subdev */
++	os05b10->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
++	os05b10->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
++	os05b10->sd.internal_ops = &os05b10_internal_ops;
++	os05b10->pad.flags = MEDIA_PAD_FL_SOURCE;
++
++	ret = media_entity_pads_init(&os05b10->sd.entity, 1, &os05b10->pad);
++	if (ret) {
++		dev_err_probe(os05b10->dev, ret, "failed to init entity pads\n");
++		goto error_handler_free;
++	}
++
++	os05b10->sd.state_lock = os05b10->handler.lock;
++	ret = v4l2_subdev_init_finalize(&os05b10->sd);
++	if (ret < 0) {
++		dev_err_probe(os05b10->dev, ret, "subdev init error\n");
++		goto error_media_entity;
++	}
++
++	pm_runtime_set_active(os05b10->dev);
++	pm_runtime_enable(os05b10->dev);
++
++	ret = v4l2_async_register_subdev_sensor(&os05b10->sd);
++	if (ret < 0) {
++		dev_err_probe(os05b10->dev, ret,
++			      "failed to register os05b10 sub-device\n");
++		goto error_subdev_cleanup;
++	}
++
++	pm_runtime_idle(os05b10->dev);
++
++	return 0;
++
++error_subdev_cleanup:
++	v4l2_subdev_cleanup(&os05b10->sd);
++	pm_runtime_disable(os05b10->dev);
++	pm_runtime_set_suspended(os05b10->dev);
++
++error_media_entity:
++	media_entity_cleanup(&os05b10->sd.entity);
++
++error_handler_free:
++	v4l2_ctrl_handler_free(os05b10->sd.ctrl_handler);
++
++error_power_off:
++	os05b10_power_off(os05b10->dev);
++
++	return ret;
++}
++
++static void os05b10_remove(struct i2c_client *client)
++{
++	struct v4l2_subdev *sd = i2c_get_clientdata(client);
++	struct os05b10 *os05b10 = to_os05b10(sd);
++
++	v4l2_async_unregister_subdev(sd);
++	v4l2_subdev_cleanup(&os05b10->sd);
++	media_entity_cleanup(&sd->entity);
++	v4l2_ctrl_handler_free(os05b10->sd.ctrl_handler);
++
++	pm_runtime_disable(&client->dev);
++	if (!pm_runtime_status_suspended(&client->dev)) {
++		os05b10_power_off(&client->dev);
++		pm_runtime_set_suspended(&client->dev);
++	}
++}
++
++static DEFINE_RUNTIME_DEV_PM_OPS(os05b10_pm_ops, os05b10_power_off,
++				 os05b10_power_on, NULL);
++
++static const struct of_device_id os05b10_id[] = {
++	{ .compatible = "ovti,os05b10" },
++	{ /* sentinel */ },
++};
++
++MODULE_DEVICE_TABLE(of, os05b10_id);
++
++static struct i2c_driver os05b10_driver = {
++	.driver = {
++		.name = "os05b10",
++		.pm = pm_ptr(&os05b10_pm_ops),
++		.of_match_table = os05b10_id,
++	},
++	.probe = os05b10_probe,
++	.remove = os05b10_remove,
++};
++
++module_i2c_driver(os05b10_driver);
++
++MODULE_DESCRIPTION("OS05B10 Camera Sensor Driver");
++MODULE_AUTHOR("Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>");
++MODULE_AUTHOR("Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>");
++MODULE_LICENSE("GPL");
 --
 2.34.1
 
