@@ -1,59 +1,59 @@
-Return-Path: <linux-media+bounces-48864-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48865-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63DD9CC1B70
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 10:17:38 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4A94CC1B76
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 10:17:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C5FE1307A212
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 09:14:25 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 519A130810B7
+	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 09:14:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A07D33A011;
-	Tue, 16 Dec 2025 09:14:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBA8E33A70D;
+	Tue, 16 Dec 2025 09:14:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="lwILRWK1"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ApYvPi8H"
 X-Original-To: linux-media@vger.kernel.org
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010010.outbound.protection.outlook.com [52.101.85.10])
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011002.outbound.protection.outlook.com [52.101.52.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC57C33A015;
-	Tue, 16 Dec 2025 09:14:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11708225408;
+	Tue, 16 Dec 2025 09:14:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.2
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765876464; cv=fail; b=kwl0FpY6H159VugC6umVrDoNwhGO5SkHvz1crqESrVfB0YP6rr07nwSUQoOu8quOFzrDT2ZO2UDcDqeMtxsy5x6LV8rAxyWjiLlDTnveU+pby69gIhT5qtcUt1EYgxQGfOCi+0p0H+LRRoJ8hO0Z76gjT2/KxyXbbVrUysbEO7k=
+	t=1765876466; cv=fail; b=AJnTzXGIoc+R28lgb2FysFOFdACSgS/slHxg25fJvLEXD7LlnvAKEL+f6v4KQfQyNGLBlbeFtWi/hPTwuTA+OBPyhLJVesx7JQ+Gkrqde1SxaWCbmDSSvK2MLiE3TDlYD7VIlQ7LubpOxDd2Q6l+u1EK1VTQIp6pVZxXOey+fSQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765876464; c=relaxed/simple;
-	bh=9DadUmfHbukx7wGtnLe3B1yBmSvDxL6R1YJkCmorkYg=;
+	s=arc-20240116; t=1765876466; c=relaxed/simple;
+	bh=YiWMvLm4UbwSSDxuUSgUPfGtnPJXj7sbocTjn2LEHK4=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=V7bL3Q9l58L2gJfXzcNV1LFBVMSrtBLZAQwAnf+sW9pDlg+6FaucVdwS56kDYKaLlU7Y05EbOmt0X7n9Az8QGnS6EpTheBKBDdvDNXQyD9SWz9/X3EAq+TPcvpB1fJ5cjnAhMQ3Tw+/FP6IcGN5hCNC4nE6luxtynKyEyPt5AHc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=lwILRWK1; arc=fail smtp.client-ip=52.101.85.10
+	 MIME-Version:Content-Type; b=MuTZT8wohgLyOVl6I9apvGjGCOuAvQdVEeqZzJUyE8wRWnycF6C+/APw/K3Mbn6qrmOQuK9M73GvHQvFx1JC4r442yA2lWc/HoJb8N4IW6MNkfAQ/Rv/IwkjNldCsWlWRevmGDzjuS+ayGF37RCbrpCLGDgg4GkDJiZ/II4bdc4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ApYvPi8H; arc=fail smtp.client-ip=52.101.52.2
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OILKcczypgWYvTcbqWEAZmPyDo+qgFGTaT9rNR8RKxp1mTtDJsIutRE19saNv4hND9/9L55NxbnQTjt7klLx5OQ5ooeJ+G4bRZqJ4xpzdvTf3w/RYhSBwZY79aYTIIl6jqFCJhj/REK/vUBMZqHPmAhvnlP/M5DrTwjO9ar1a7HFabGY0FueuI3ewp8Q3Jj+vQKulZWB1d+kMpMbsfUg+n2943VIVOMFNT6AawfDms0lsWuSatYoW/O9DkS8kg86UNdfk9POdrH64LBZlXqFDOjlLVaO+Mlm8B9Re6Kxsj7f9JXc1RfACk96LgfIEBzl4E0lQh3u79egq+ZbbHwMeA==
+ b=RMx9+xmIYmeRjTb34dKT2yE2QI/9d9pdqKkd5fGyHGsOcXrnEMbSt2R+GDEJOZcp6jc6g+1AMZ5pHVDn5nuHtpHAwyokhKJhj90zTlwVnVBmqGY1cfW2FhvafqGhPiLrfilF1o53ySS5PdPUk58iE01M2U7NDMn3eNB5UDf+hjYPev4qV1PCRqsQRUMIlnD/EncmFNXoI7HpyI3NDtcG2fNONxZxLUw6rwMbVxnLikVUHgx7bbyQTJjqHGkUVEf4eaq7Jd1HZVw/fR9bE/XMZ7p2o0tcOr0aQTS3s96/GLEXrLv4NkDgV7CDF4aBOmJRDs9b3S10qATuNGxmqsmtzw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FkV+KCcXRPTuCVUcZpPVrwTBUi0Uh8eAmyoHDeTXBIo=;
- b=XyR+f6hAAcmuGQYkQdruleqd3OJTyMUVa1WbLesWaDFNlUjd3vPg0EDPI/WtFwbWoo3AAEPevIfu/qq96GMyWIe7Md+2bpTCHCak5+f3vLS9u/ZB21C0pJHxSIBim7R8AXahxXc1ZicjZhh6JLD/Lpn3Of/olVUZ/OP+VtgaxK90pBI++lpUqQbjSc/WRLk51jIHGe/WZZfnm71ZD+uLwgjiJ3NSPXtFmKnIOc6ke6NowKVehfD+aW8UQQHIDUeHlN/ijelsAdTYGoku3ZaC6vAq4MhPojcBUDEwFQ+ID31tMam7EZOfwlZEICSfQXZWq+vaO+/zWjIBSRsnt0+tSw==
+ bh=ZoDlU1k16rYyTphLGovW+oePz21JXYO1OU02nDJgVVk=;
+ b=TA4g/Nzp5/XmsHzO3VshlbU42SR9OJ79Ar0S+PSZCIk+N5BFyDDxjnY94lr/griM1InWJD8fOXiR1PWTbykT45pkzDEHiJWBgZ1l0+X5jxIvtW6Xf7cYK8SVPgy5YXDTRLJAuzpQ4axvl8eQTo1gyZlfn2+FgivZmDdPI2hWlbD+bV5Qe9ggZw2GegTL4pkBaA/fN4Yche5AOdSmspvO3BJbkMnwL2WmX9qNQBlk44Cxp53vqlwUm9+JDX11lo+KCNZN8J/cVqDvZ4u/nVT+C7RBm5q+8AHsTLKP7Nyul6XVBHe7kDhSIrf1o800RPwkqRZta/xCpq8EcLNAD/h8hA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FkV+KCcXRPTuCVUcZpPVrwTBUi0Uh8eAmyoHDeTXBIo=;
- b=lwILRWK1COTuz3P0g9tIrWVuGc3Ch1HGeSjm76JqYoIDizwsn/p4Q2zgBrfl4buTYFhBaozOpmzVFtJToJrnbjl7QuW81FxoqK0clfSk+BH4R3JibSXEoDD0b/+gU0wXPKUGobruHKgpL12ZHP42EbRgefzDdH3K39DJPexPRqc=
-Received: from SN7P222CA0017.NAMP222.PROD.OUTLOOK.COM (2603:10b6:806:124::15)
- by LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19) with
+ bh=ZoDlU1k16rYyTphLGovW+oePz21JXYO1OU02nDJgVVk=;
+ b=ApYvPi8Hpxjx1RGbDBhlhKmFaSjERwc73hgCLmjKzdZ6woDfStZs1ww0siae97upps5Gn5EBBgtkldEoYHFntbljIB3upigubBf5kjgQMOP2R4/XW2kg83II6mp1VBYpQO5RyO8DlaQ0cfgag9CCG4ejanW4TrorRylh3y6IhJU=
+Received: from SN7P222CA0028.NAMP222.PROD.OUTLOOK.COM (2603:10b6:806:124::9)
+ by SJ0PR12MB7065.namprd12.prod.outlook.com (2603:10b6:a03:4ae::19) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.13; Tue, 16 Dec
- 2025 09:14:11 +0000
+ 2025 09:14:15 +0000
 Received: from SA2PEPF00003AEA.namprd02.prod.outlook.com
- (2603:10b6:806:124:cafe::18) by SN7P222CA0017.outlook.office365.com
- (2603:10b6:806:124::15) with Microsoft SMTP Server (version=TLS1_3,
+ (2603:10b6:806:124:cafe::d8) by SN7P222CA0028.outlook.office365.com
+ (2603:10b6:806:124::9) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9412.13 via Frontend Transport; Tue,
- 16 Dec 2025 09:13:36 +0000
+ 16 Dec 2025 09:13:40 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -63,11 +63,11 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from satlexmb07.amd.com (165.204.84.17) by
  SA2PEPF00003AEA.mail.protection.outlook.com (10.167.248.10) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9434.6 via Frontend Transport; Tue, 16 Dec 2025 09:14:11 +0000
+ 15.20.9434.6 via Frontend Transport; Tue, 16 Dec 2025 09:14:15 +0000
 Received: from 555e2b870847.amd.com (10.180.168.240) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 16 Dec
- 2025 03:14:05 -0600
+ 2025 03:14:10 -0600
 From: Bin Du <Bin.Du@amd.com>
 To: <mchehab@kernel.org>, <hverkuil@xs4all.nl>,
 	<laurent.pinchart+renesas@ideasonboard.com>, <bryan.odonoghue@linaro.org>,
@@ -80,9 +80,9 @@ CC: <pratap.nirujogi@amd.com>, <benjamin.chan@amd.com>, <king.li@amd.com>,
 	<richard.gong@amd.com>, <anson.tsao@amd.com>, <bin.du@amd.com>, Bin Du
 	<Bin.Du@amd.com>, Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>, "Alexey
  Zagorodnikov" <xglooom@gmail.com>
-Subject: [PATCH v7 4/7] media: platform: amd: isp4 subdev and firmware loading handling added
-Date: Tue, 16 Dec 2025 17:13:23 +0800
-Message-ID: <20251216091326.111977-5-Bin.Du@amd.com>
+Subject: [PATCH v7 5/7] media: platform: amd: isp4 video node and buffers handling added
+Date: Tue, 16 Dec 2025 17:13:24 +0800
+Message-ID: <20251216091326.111977-6-Bin.Du@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251216091326.111977-1-Bin.Du@amd.com>
 References: <20251216091326.111977-1-Bin.Du@amd.com>
@@ -98,58 +98,58 @@ X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00003AEA:EE_|LV8PR12MB9620:EE_
-X-MS-Office365-Filtering-Correlation-Id: e1009847-a653-4122-8347-08de3c837998
+X-MS-TrafficTypeDiagnostic: SA2PEPF00003AEA:EE_|SJ0PR12MB7065:EE_
+X-MS-Office365-Filtering-Correlation-Id: d83cd314-4356-481a-aaf5-08de3c837c4a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|36860700013|82310400026|376014|7416014;
+	BCL:0;ARA:13230040|376014|7416014|36860700013|1800799024|82310400026|13003099007;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?iNYfsEbClYVxFgW2mkZyFmREel10jncSIAelLjdRAWjAwsK26vGiUx7c7rky?=
- =?us-ascii?Q?VyP+WcckhVY6TWIfJvwCduBhv1Fjy2pBh0FfwmZHkf/2Ihq0qeuPc2IokZeN?=
- =?us-ascii?Q?jhuHWiDB/HF8GYdQCG2WW9hEEiHLx+kxHtNB09fWjrhXL3uBb0tqDcQlgSfv?=
- =?us-ascii?Q?rlPsmCihN0rKXqI3jB2ltW+po/LQzwC0VepVHQS+DASQDMAt13gRZh7SyNzW?=
- =?us-ascii?Q?40KwCIjYRliXacYKwogoAVf7X+wDzHKgMPq5FvgDCHB4D3V373gXOejl/VEy?=
- =?us-ascii?Q?Oq7EM1vrq71BSLYjThjE6n8dj2VOUM9vuAFbF0c/WUlXuLA0HAwn6uQ1pnuP?=
- =?us-ascii?Q?J5jpETKM03A15VbW1TuiE35ivyozlDhIQmBMwTlNW547bvIv/7Nig653lTjS?=
- =?us-ascii?Q?m8jr6eSoFZzFLKpzC40Lm06aafI5enQjntMFLS1AFOVfsaU1kVLcwGKf5zei?=
- =?us-ascii?Q?aON4trhi3iyr62VJYWfBOacN8dVU/SmB079tX2wjEIiykV0dGlJJ6mleN2ny?=
- =?us-ascii?Q?rF0CR6AU9zM6HNiI1f5s3/3ADgYsIAKIu2Z69wdb/9RQsHZWiIwfXt8W1O66?=
- =?us-ascii?Q?QOkt0ewmnZL0RjknRcMlt37j7Wn4ZO/3NzOpMxoMcpO0Hugn8MbM7HtUJsY9?=
- =?us-ascii?Q?rN7dyrvKbYloAr4dm2B00NBKI0afmmiwo3R+zXlQLA1eN3PmHZsaZn/AY3+0?=
- =?us-ascii?Q?la5ZPOc6lcC6SpvR1Ox81zZx8LtE0NUxt/9wHnwX5/BK0OVFEeqDJSCihbbx?=
- =?us-ascii?Q?ejQ7j2dDiOIZ+T2UqRX5NvEl8cQ6PTAe9McKiDy484Kq5E2ueL+neGOS3ghp?=
- =?us-ascii?Q?8jtOh6lUczb2zR6MU6HQE7jnLxfYcU0/nkiCMYLA8BmvDw4iHn+aawz1LvVb?=
- =?us-ascii?Q?ohbykg9sKAvBQcB3NxKFNHcDQl2QJxlYR1/xHh/lBZdqXwvoV0YoDYERk6Oy?=
- =?us-ascii?Q?ln9Zod03mhl2yf5aEVMiPYl9Ff4T2+rbfVq+lAgnhiK0iPD+BpSWSyjCJif4?=
- =?us-ascii?Q?twG2CtN5kNZJQN7HkUFOzoyYusz96vO+3vXPE6gAZXUBuCvrXW8VJxBfSLQf?=
- =?us-ascii?Q?ghTpA9SZZO4l2MQAiTDgbmj4l0LN36Nfu812SvJh5drcCqVnuYIE0X9Py4/m?=
- =?us-ascii?Q?ncXJ2BDRZbdMib87Vf0qZdFgEGlsIY0SKL+7MnzouA6p3tlE73+3U2XVNjO3?=
- =?us-ascii?Q?e0LW7UrL3I0PoYpmkX0puyzdFLrtfwgPNGVxQM2bFyfmtRN+ntMJZyJ3pAJb?=
- =?us-ascii?Q?dR0G55CA/JRxrV88ggBgPfuFxx6wkVe2yIz4eoE+7PyrolouDaRj54cirGbK?=
- =?us-ascii?Q?xaabfjVDfqXQWxif2oNTKEzVlkcLvqMk5YlC8VE+OV1s3oc2dXxzlpFlZgvX?=
- =?us-ascii?Q?XT2Eo6prsn7GxikxYBKxO0x5io60zfoZJCHww11shC01yHyGzo83t6XsXGf9?=
- =?us-ascii?Q?CqGsvYhJoLEzfjLooa3i5+nGddVy2dFy0wcC/BLXiYXbY1mN4BkJsS2Ennsn?=
- =?us-ascii?Q?J22IDHGpIeeXZOzr402ud4e1uGiOnI7AiYLU4viB4Dt0xG1gO2wmJ4aQtVEl?=
- =?us-ascii?Q?WKTsHoaGndVS8n4L600=3D?=
+	=?us-ascii?Q?cwVHSR9YTAl/w0WLw5xYHwogsa01oDfvTHrXuSmwoZW3VBqN6HVTNFTO7n8v?=
+ =?us-ascii?Q?os58TpUPP1pRiZRwPvdX1QI5qt8p8CmJFMDlnPSAhyeB4QZPvJXTYSxAHVOq?=
+ =?us-ascii?Q?i8492T2ZtFChsSMZpZQseXMVQ9wVFM0ytuwJNBlOroKZcrI15e763EvK3NrP?=
+ =?us-ascii?Q?jswT0g5c+4LelPZ/i5f251Trxl+547E46BUPAvubKis0AGLJz32dpmZOJo9y?=
+ =?us-ascii?Q?TuPdwTe/eSZkW3hXzyYylu+3aRFsk59+8HQqKsuwzFFbr7YuqUqFmd9Ou1ED?=
+ =?us-ascii?Q?Y8HKSTTL/xkPMuWn5py9RlZfSJTRqb1OosntLTLbSIwBl6b7eRzPMX0C0h9d?=
+ =?us-ascii?Q?VQeajd27UC2sZDlvNfnY2yEIAs7fuFaMH1x+6uIMgDO+DNT8R9h0M1d26R2O?=
+ =?us-ascii?Q?cVTIuWO0w9+GwGM7H3rkBatk7iMWR56xd5ARLTnv6IRnNCPOnOIuW1bPPfHi?=
+ =?us-ascii?Q?PBcH1OR2+Xp0tG7aQ/Ud1kalfPar3TKjykxgP5fUR4mVXvZcVEPALpMTz9x+?=
+ =?us-ascii?Q?415r2L3j8QvJv7O5I7XV2uyR9X0UJWv4B1ukHeV8ep03DRP40BoL+Sfs2/Je?=
+ =?us-ascii?Q?1K5SyjjkXiYoVRWwXEBYrJTXY5EQ1C/d4C5TJY+RVYWEvTkC51cubreOPQlQ?=
+ =?us-ascii?Q?QQrM6sd3IyVnbTaJSV/tGGD9S/HmBCq1tYR80BXOSKe7CwlNuErKWY59dKBx?=
+ =?us-ascii?Q?/XBnVz1/kgSwXeW8+uMSf0L5p2am939leLzxwFaBYutJAfobBsfYJiw2SwOn?=
+ =?us-ascii?Q?i9UPU9Sj181WIQYldXrWQuGhvYXLZTR3bbeTPXJf2hRO1b0Lf9LwATOFnFiw?=
+ =?us-ascii?Q?E5dOA9MRE4kDO7kSI4eoho9Ne9nLfSmjkpPgYlyeJgj5fkiGaCHJC5clTAr4?=
+ =?us-ascii?Q?oewlXzd5wb6lp7HBesmdh4ErnSDAQW2PoY33fUUsJA1Ayg9tfchJNNgvSaSz?=
+ =?us-ascii?Q?ltoJTDlrSow9Ob2VAV2gUU6tvSqcNJyFvOD1yMgxO1TUJY/WdIJxffKMUuVx?=
+ =?us-ascii?Q?kHRd4dkom2VGHMe9Qy2g1lrGYULSqwDbhbfwC6eJ5L6UKKHCq7JlMy6de0mH?=
+ =?us-ascii?Q?Ln4s52U6/1Me3rGTw8ivenAPB0hSWGj8zFy4HhyFfkULqF7Ax+R0rXLx0bt1?=
+ =?us-ascii?Q?ZDQ19IA47ViANC5O9GcORufvZQc7U8XUO27opJkhVCzaWKlBCl1IUsG9NIaQ?=
+ =?us-ascii?Q?TX1lir69GIMys645sYx+9LjUBoeXkuRAmYFDeAYC4x0yNhXwIBlbSWkEVZ8w?=
+ =?us-ascii?Q?akTCxDK6Sre0qc0uRrjW2b4LfYNtMYjIKRb+sfmbSQDfzbZCMZS0WeW1GXSe?=
+ =?us-ascii?Q?UxJaZ1W0o/OD4wNrNOfnF9xs/W8w6MrwY+l9VyyhX8P53szzOWkOezXIQp0h?=
+ =?us-ascii?Q?0OIIJdw66zWtlRGvy1IzK7GCHdGXLnKx1992LgainyEPsa7e4P42IA+Fcan4?=
+ =?us-ascii?Q?y5HB98d74FzggUVpqqeApTzF9kIlja/qzkjiQ+auFFyY2+1xlX4afM87wLkA?=
+ =?us-ascii?Q?dsYwbQGdIqYpk26vAlDZxqnQz79Sb0Lt9cm8/XyUko9MhuNCZppUS0kZ6tFD?=
+ =?us-ascii?Q?v20l5MwBilSHn/lO4R0=3D?=
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(82310400026)(376014)(7416014);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(36860700013)(1800799024)(82310400026)(13003099007);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2025 09:14:11.0880
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2025 09:14:15.6099
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e1009847-a653-4122-8347-08de3c837998
+X-MS-Exchange-CrossTenant-Network-Message-Id: d83cd314-4356-481a-aaf5-08de3c837c4a
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
 	SA2PEPF00003AEA.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9620
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB7065
 
-Isp4 sub-device is implementing v4l2 sub-device interface. It has one
-capture video node, and supports only preview stream. It manages firmware
-states, stream configuration. Add interrupt handling and notification for
-isp firmware to isp-subdevice.
+Isp video implements v4l2 video interface and supports NV12 and YUYV. It
+manages buffers, pipeline power and state. Cherry-picked Sultan's DMA
+buffer related fix from branch v6.16-drm-tip-isp4-for-amd on
+https://github.com/kerneltoast/kernel_x86_laptop.git
 
 Co-developed-by: Sultan Alsawaf <sultan@kerneltoast.com>
 Signed-off-by: Sultan Alsawaf <sultan@kerneltoast.com>
@@ -158,1351 +158,1451 @@ Signed-off-by: Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>
 Signed-off-by: Bin Du <Bin.Du@amd.com>
 Tested-by: Alexey Zagorodnikov <xglooom@gmail.com>
 ---
- MAINTAINERS                                   |   2 +
- drivers/media/platform/amd/isp4/Makefile      |   3 +-
- drivers/media/platform/amd/isp4/isp4.c        |  99 +-
- drivers/media/platform/amd/isp4/isp4.h        |   7 +-
- drivers/media/platform/amd/isp4/isp4_subdev.c | 975 ++++++++++++++++++
- drivers/media/platform/amd/isp4/isp4_subdev.h | 124 +++
- 6 files changed, 1202 insertions(+), 8 deletions(-)
- create mode 100644 drivers/media/platform/amd/isp4/isp4_subdev.c
- create mode 100644 drivers/media/platform/amd/isp4/isp4_subdev.h
+ MAINTAINERS                                   |    2 +
+ drivers/media/platform/amd/isp4/Makefile      |    3 +-
+ drivers/media/platform/amd/isp4/isp4.c        |   10 +
+ drivers/media/platform/amd/isp4/isp4_subdev.c |   79 +-
+ drivers/media/platform/amd/isp4/isp4_subdev.h |    2 +
+ drivers/media/platform/amd/isp4/isp4_video.c  | 1165 +++++++++++++++++
+ drivers/media/platform/amd/isp4/isp4_video.h  |   65 +
+ 7 files changed, 1321 insertions(+), 5 deletions(-)
+ create mode 100644 drivers/media/platform/amd/isp4/isp4_video.c
+ create mode 100644 drivers/media/platform/amd/isp4/isp4_video.h
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index cccae369c876..48ffc8bbdcee 100644
+index 48ffc8bbdcee..80c966fde0b4 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1149,6 +1149,8 @@ F:	drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h
- F:	drivers/media/platform/amd/isp4/isp4_hw_reg.h
- F:	drivers/media/platform/amd/isp4/isp4_interface.c
+@@ -1151,6 +1151,8 @@ F:	drivers/media/platform/amd/isp4/isp4_interface.c
  F:	drivers/media/platform/amd/isp4/isp4_interface.h
-+F:	drivers/media/platform/amd/isp4/isp4_subdev.c
-+F:	drivers/media/platform/amd/isp4/isp4_subdev.h
+ F:	drivers/media/platform/amd/isp4/isp4_subdev.c
+ F:	drivers/media/platform/amd/isp4/isp4_subdev.h
++F:	drivers/media/platform/amd/isp4/isp4_video.c
++F:	drivers/media/platform/amd/isp4/isp4_video.h
  
  AMD KFD
  M:	Felix Kuehling <Felix.Kuehling@amd.com>
 diff --git a/drivers/media/platform/amd/isp4/Makefile b/drivers/media/platform/amd/isp4/Makefile
-index a2a5bf98e912..6d4e6d6ac7f5 100644
+index 6d4e6d6ac7f5..398c20ea7866 100644
 --- a/drivers/media/platform/amd/isp4/Makefile
 +++ b/drivers/media/platform/amd/isp4/Makefile
-@@ -4,4 +4,5 @@
- 
+@@ -5,4 +5,5 @@
  obj-$(CONFIG_AMD_ISP4) += amd_capture.o
  amd_capture-objs := isp4.o \
--		    isp4_interface.o
-+		    isp4_interface.o \
-+		    isp4_subdev.o
+ 		    isp4_interface.o \
+-		    isp4_subdev.o
++		    isp4_subdev.o \
++		    isp4_video.o
 diff --git a/drivers/media/platform/amd/isp4/isp4.c b/drivers/media/platform/amd/isp4/isp4.c
-index ad95e7f89189..bcd7cad32afd 100644
+index bcd7cad32afd..b5470f6dc93e 100644
 --- a/drivers/media/platform/amd/isp4/isp4.c
 +++ b/drivers/media/platform/amd/isp4/isp4.c
-@@ -3,15 +3,19 @@
-  * Copyright (C) 2025 Advanced Micro Devices, Inc.
-  */
- 
-+#include <linux/irq.h>
- #include <linux/pm_runtime.h>
- #include <linux/vmalloc.h>
-+#include <media/v4l2-fwnode.h>
- #include <media/v4l2-ioctl.h>
- 
- #include "isp4.h"
--
--#define VIDEO_BUF_NUM 5
-+#include "isp4_hw_reg.h"
- 
- #define ISP4_DRV_NAME "amd_isp_capture"
-+#define ISP4_FW_RESP_RB_IRQ_STATUS_MASK \
-+	(ISP_SYS_INT0_STATUS__SYS_INT_RINGBUFFER_WPT9_INT_MASK  | \
-+	 ISP_SYS_INT0_STATUS__SYS_INT_RINGBUFFER_WPT12_INT_MASK)
- 
- static const struct {
- 	const char *name;
-@@ -19,27 +23,97 @@ static const struct {
- 	u32 en_mask;
- 	u32 ack_mask;
- 	u32 rb_int_num;
--} isp4_irq[] = {
-+} isp4_irq[ISP4SD_MAX_FW_RESP_STREAM_NUM] = {
- 	/* The IRQ order is aligned with the isp4_subdev.fw_resp_thread order */
- 	{
- 		.name = "isp_irq_global",
-+		.status_mask = ISP_SYS_INT0_STATUS__SYS_INT_RINGBUFFER_WPT12_INT_MASK,
-+		.en_mask = ISP_SYS_INT0_EN__SYS_INT_RINGBUFFER_WPT12_EN_MASK,
-+		.ack_mask = ISP_SYS_INT0_ACK__SYS_INT_RINGBUFFER_WPT12_ACK_MASK,
- 		.rb_int_num = 4, /* ISP_4_1__SRCID__ISP_RINGBUFFER_WPT12 */
- 	},
- 	{
- 		.name = "isp_irq_stream1",
-+		.status_mask = ISP_SYS_INT0_STATUS__SYS_INT_RINGBUFFER_WPT9_INT_MASK,
-+		.en_mask = ISP_SYS_INT0_EN__SYS_INT_RINGBUFFER_WPT9_EN_MASK,
-+		.ack_mask = ISP_SYS_INT0_ACK__SYS_INT_RINGBUFFER_WPT9_ACK_MASK,
- 		.rb_int_num = 0, /* ISP_4_1__SRCID__ISP_RINGBUFFER_WPT9 */
- 	},
- };
- 
-+void isp4_intr_enable(struct isp4_subdev *isp_subdev, u32 index, bool enable)
-+{
-+	u32 intr_en;
-+
-+	/* Synchronize ISP_SYS_INT0_EN writes with the IRQ handler's writes */
-+	spin_lock_irq(&isp_subdev->irq_lock);
-+	intr_en = isp4hw_rreg(isp_subdev->mmio, ISP_SYS_INT0_EN);
-+	if (enable)
-+		intr_en |= isp4_irq[index].en_mask;
-+	else
-+		intr_en &= ~isp4_irq[index].en_mask;
-+
-+	isp4hw_wreg(isp_subdev->mmio, ISP_SYS_INT0_EN, intr_en);
-+	spin_unlock_irq(&isp_subdev->irq_lock);
-+}
-+
-+static void isp4_wake_up_resp_thread(struct isp4_subdev *isp_subdev, u32 index)
-+{
-+	struct isp4sd_thread_handler *thread_ctx = &isp_subdev->fw_resp_thread[index];
-+
-+	thread_ctx->resp_ready = true;
-+	wake_up_interruptible(&thread_ctx->waitq);
-+}
-+
- static irqreturn_t isp4_irq_handler(int irq, void *arg)
- {
-+	struct isp4_subdev *isp_subdev = arg;
-+	u32 intr_ack = 0, intr_en = 0, intr_status;
-+	int seen = 0;
-+
-+	/* Get the ISP_SYS interrupt status */
-+	intr_status = isp4hw_rreg(isp_subdev->mmio, ISP_SYS_INT0_STATUS);
-+	intr_status &= ISP4_FW_RESP_RB_IRQ_STATUS_MASK;
-+
-+	/* Find which ISP_SYS interrupts fired */
-+	for (size_t i = 0; i < ARRAY_SIZE(isp4_irq); i++) {
-+		if (intr_status & isp4_irq[i].status_mask) {
-+			intr_ack |= isp4_irq[i].ack_mask;
-+			intr_en |= isp4_irq[i].en_mask;
-+			seen |= BIT(i);
-+		}
-+	}
-+
-+	/*
-+	 * Disable the ISP_SYS interrupts that fired. Must be done before waking
-+	 * the response threads, since they re-enable interrupts when finished.
-+	 * The lock synchronizes RMW of INT0_EN with isp4_enable_interrupt().
-+	 */
-+	spin_lock(&isp_subdev->irq_lock);
-+	intr_en = isp4hw_rreg(isp_subdev->mmio, ISP_SYS_INT0_EN) & ~intr_en;
-+	isp4hw_wreg(isp_subdev->mmio, ISP_SYS_INT0_EN, intr_en);
-+	spin_unlock(&isp_subdev->irq_lock);
-+
-+	/*
-+	 * Clear the ISP_SYS interrupts. This must be done after the interrupts
-+	 * are disabled, so that ISP FW won't flag any new interrupts on these
-+	 * streams, and thus we don't need to clear interrupts again before
-+	 * re-enabling them in the response thread.
-+	 */
-+	isp4hw_wreg(isp_subdev->mmio, ISP_SYS_INT0_ACK, intr_ack);
-+
-+	/* Wake up the response threads */
-+	for (int i; (i = ffs(seen)); seen = (seen >> i) << i)
-+		isp4_wake_up_resp_thread(isp_subdev, i - 1);
-+
- 	return IRQ_HANDLED;
- }
- 
- static int isp4_capture_probe(struct platform_device *pdev)
- {
-+	int irq[ISP4SD_MAX_FW_RESP_STREAM_NUM];
- 	struct device *dev = &pdev->dev;
--	int irq[ARRAY_SIZE(isp4_irq)];
-+	struct isp4_subdev *isp_subdev;
- 	struct isp4_device *isp_dev;
- 	size_t i;
- 	int ret;
-@@ -50,6 +124,11 @@ static int isp4_capture_probe(struct platform_device *pdev)
- 
- 	dev->init_name = ISP4_DRV_NAME;
- 
-+	isp_subdev = &isp_dev->isp_subdev;
-+	isp_subdev->mmio = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(isp_subdev->mmio))
-+		return dev_err_probe(dev, PTR_ERR(isp_subdev->mmio), "isp ioremap fail\n");
-+
- 	for (i = 0; i < ARRAY_SIZE(isp4_irq); i++) {
- 		irq[i] = platform_get_irq(pdev, isp4_irq[i].rb_int_num);
- 		if (irq[i] < 0)
-@@ -57,7 +136,7 @@ static int isp4_capture_probe(struct platform_device *pdev)
- 					     isp4_irq[i].rb_int_num);
- 
- 		ret = devm_request_irq(dev, irq[i], isp4_irq_handler,
--				       IRQF_NO_AUTOEN, isp4_irq[i].name, dev);
-+				       IRQF_NO_AUTOEN, isp4_irq[i].name, isp_subdev);
- 		if (ret)
- 			return dev_err_probe(dev, ret, "fail to req irq %d\n", irq[i]);
+@@ -169,6 +169,16 @@ static int isp4_capture_probe(struct platform_device *pdev)
+ 		goto err_pm_disable;
  	}
-@@ -83,6 +162,13 @@ static int isp4_capture_probe(struct platform_device *pdev)
  
- 	pm_runtime_set_suspended(dev);
- 	pm_runtime_enable(dev);
-+	spin_lock_init(&isp_subdev->irq_lock);
-+	ret = isp4sd_init(&isp_dev->isp_subdev, &isp_dev->v4l2_dev, irq);
++	ret = media_create_pad_link(&isp_dev->isp_subdev.sdev.entity,
++				    0, &isp_dev->isp_subdev.isp_vdev.vdev.entity,
++				    0,
++				    MEDIA_LNK_FL_ENABLED |
++				    MEDIA_LNK_FL_IMMUTABLE);
 +	if (ret) {
-+		dev_err_probe(dev, ret, "fail init isp4 sub dev\n");
-+		goto err_pm_disable;
++		dev_err_probe(dev, ret, "fail to create pad link\n");
++		goto err_isp4_deinit;
 +	}
 +
  	ret = media_device_register(&isp_dev->mdev);
  	if (ret) {
  		dev_err_probe(dev, ret, "fail to register media device\n");
-@@ -94,6 +180,8 @@ static int isp4_capture_probe(struct platform_device *pdev)
- 	return 0;
- 
- err_isp4_deinit:
-+	isp4sd_deinit(&isp_dev->isp_subdev);
-+err_pm_disable:
- 	pm_runtime_disable(dev);
- 	v4l2_device_unregister(&isp_dev->v4l2_dev);
- err_clean_media:
-@@ -108,6 +196,7 @@ static void isp4_capture_remove(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 
- 	media_device_unregister(&isp_dev->mdev);
-+	isp4sd_deinit(&isp_dev->isp_subdev);
- 	pm_runtime_disable(dev);
- 	v4l2_device_unregister(&isp_dev->v4l2_dev);
- 	media_device_cleanup(&isp_dev->mdev);
-diff --git a/drivers/media/platform/amd/isp4/isp4.h b/drivers/media/platform/amd/isp4/isp4.h
-index 7f2db0dfa2d9..2db6683d6d8b 100644
---- a/drivers/media/platform/amd/isp4/isp4.h
-+++ b/drivers/media/platform/amd/isp4/isp4.h
-@@ -6,12 +6,15 @@
- #ifndef _ISP4_H_
- #define _ISP4_H_
- 
--#include <media/v4l2-device.h>
--#include <media/videobuf2-memops.h>
-+#include <drm/amd/isp.h>
-+#include "isp4_subdev.h"
- 
- struct isp4_device {
- 	struct v4l2_device v4l2_dev;
-+	struct isp4_subdev isp_subdev;
- 	struct media_device mdev;
- };
- 
-+void isp4_intr_enable(struct isp4_subdev *isp_subdev, u32 index, bool enable);
-+
- #endif /* _ISP4_H_ */
 diff --git a/drivers/media/platform/amd/isp4/isp4_subdev.c b/drivers/media/platform/amd/isp4/isp4_subdev.c
-new file mode 100644
-index 000000000000..3a25d1fc49ce
---- /dev/null
+index 3a25d1fc49ce..8c33187efc54 100644
+--- a/drivers/media/platform/amd/isp4/isp4_subdev.c
 +++ b/drivers/media/platform/amd/isp4/isp4_subdev.c
-@@ -0,0 +1,975 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Copyright (C) 2025 Advanced Micro Devices, Inc.
-+ */
-+
-+#include <linux/pm_domain.h>
-+#include <linux/units.h>
-+
-+#include "isp4_fw_cmd_resp.h"
-+#include "isp4_interface.h"
-+#include "isp4.h"
-+
-+#define ISP4SD_MIN_BUF_CNT_BEF_START_STREAM 4
-+
-+#define ISP4SD_PERFORMANCE_STATE_LOW 0
-+#define ISP4SD_PERFORMANCE_STATE_HIGH 1
-+
-+/* align 32KB */
-+#define ISP4SD_META_BUF_SIZE ALIGN(sizeof(struct isp4fw_meta_info), 0x8000)
-+
-+#define to_isp4_subdev(v4l2_sdev)  \
-+	container_of(v4l2_sdev, struct isp4_subdev, sdev)
-+
-+static const char *isp4sd_entity_name = "amd isp4";
-+
-+static const char *isp4sd_thread_name[ISP4SD_MAX_FW_RESP_STREAM_NUM] = {
-+	"amd_isp4_thread_global",
-+	"amd_isp4_thread_stream1",
-+};
-+
-+static void isp4sd_module_enable(struct isp4_subdev *isp_subdev, bool enable)
-+{
-+	if (isp_subdev->enable_gpio) {
-+		gpiod_set_value(isp_subdev->enable_gpio, enable ? 1 : 0);
-+		dev_dbg(isp_subdev->dev, "%s isp_subdev module\n",
-+			enable ? "enable" : "disable");
-+	}
-+}
-+
-+static int isp4sd_setup_fw_mem_pool(struct isp4_subdev *isp_subdev)
-+{
-+	struct isp4_interface *ispif = &isp_subdev->ispif;
-+	struct isp4fw_cmd_send_buffer buf_type;
-+	struct device *dev = isp_subdev->dev;
-+	int ret;
-+
-+	if (!ispif->fw_mem_pool) {
-+		dev_err(dev, "fail to alloc mem pool\n");
-+		return -ENOMEM;
-+	}
-+
-+	/*
-+	 * The struct will be shared with ISP FW, use memset() to guarantee padding bits are
-+	 * zeroed, since this is not guaranteed on all compilers.
-+	 */
-+	memset(&buf_type, 0, sizeof(buf_type));
-+	buf_type.buffer_type = BUFFER_TYPE_MEM_POOL;
-+	buf_type.buffer.vmid_space.bit.space = ADDR_SPACE_TYPE_GPU_VA;
-+	isp4if_split_addr64(ispif->fw_mem_pool->gpu_mc_addr,
-+			    &buf_type.buffer.buf_base_a_lo,
-+			    &buf_type.buffer.buf_base_a_hi);
-+	buf_type.buffer.buf_size_a = ispif->fw_mem_pool->mem_size;
-+
-+	ret = isp4if_send_command(ispif, CMD_ID_SEND_BUFFER,
-+				  &buf_type, sizeof(buf_type));
-+	if (ret) {
-+		dev_err(dev, "send fw mem pool 0x%llx(%u) fail %d\n",
-+			ispif->fw_mem_pool->gpu_mc_addr, buf_type.buffer.buf_size_a, ret);
-+		return ret;
-+	}
-+
-+	dev_dbg(dev, "send fw mem pool 0x%llx(%u) suc\n",
-+		ispif->fw_mem_pool->gpu_mc_addr, buf_type.buffer.buf_size_a);
-+
-+	return 0;
-+}
-+
-+static int isp4sd_set_stream_path(struct isp4_subdev *isp_subdev)
-+{
-+	struct isp4_interface *ispif = &isp_subdev->ispif;
-+	struct isp4fw_cmd_set_stream_cfg cmd;
-+	struct device *dev = isp_subdev->dev;
-+
-+	/*
-+	 * The struct will be shared with ISP FW, use memset() to guarantee padding bits are
-+	 * zeroed, since this is not guaranteed on all compilers.
-+	 */
-+	memset(&cmd, 0, sizeof(cmd));
-+	cmd.stream_cfg.mipi_pipe_path_cfg.isp4fw_sensor_id = SENSOR_ID_ON_MIPI0;
-+	cmd.stream_cfg.mipi_pipe_path_cfg.b_enable = true;
-+	cmd.stream_cfg.isp_pipe_path_cfg.isp_pipe_id = MIPI0_ISP_PIPELINE_ID;
-+
-+	cmd.stream_cfg.b_enable_tnr = true;
-+	dev_dbg(dev, "isp4fw_sensor_id %d, pipeId 0x%x EnableTnr %u\n",
-+		cmd.stream_cfg.mipi_pipe_path_cfg.isp4fw_sensor_id,
-+		cmd.stream_cfg.isp_pipe_path_cfg.isp_pipe_id,
-+		cmd.stream_cfg.b_enable_tnr);
-+
-+	return isp4if_send_command(ispif, CMD_ID_SET_STREAM_CONFIG,
-+				   &cmd, sizeof(cmd));
-+}
-+
-+static int isp4sd_send_meta_buf(struct isp4_subdev *isp_subdev)
-+{
-+	struct isp4_interface *ispif = &isp_subdev->ispif;
-+	struct isp4fw_cmd_send_buffer buf_type;
-+	struct device *dev = isp_subdev->dev;
-+	int i;
-+
-+	/*
-+	 * The struct will be shared with ISP FW, use memset() to guarantee padding bits are
-+	 * zeroed, since this is not guaranteed on all compilers.
-+	 */
-+	memset(&buf_type, 0, sizeof(buf_type));
-+	for (i = 0; i < ISP4IF_MAX_STREAM_BUF_COUNT; i++) {
-+		struct isp4if_gpu_mem_info *meta_info_buf =
-+				isp_subdev->ispif.meta_info_buf[i];
-+		int ret;
-+
-+		if (!meta_info_buf) {
-+			dev_err(dev, "fail for no meta info buf(%u)\n", i);
-+			return -ENOMEM;
+@@ -449,7 +449,7 @@ static void isp4sd_fw_resp_frame_done(struct isp4_subdev *isp_subdev,
+ 		return;
+ 	}
+ 
+-	dev_dbg(dev, "ts:%llu,streamId:%d,poc:%u,preview_en:%u(%i)\n",
++	dev_dbg(dev, "ts:%llu,streamId:%d,poc:%u,preview_en:%u,(%i)\n",
+ 		ktime_get_ns(), stream_id, meta->poc,
+ 		meta->preview.enabled,
+ 		meta->preview.status);
+@@ -459,11 +459,13 @@ static void isp4sd_fw_resp_frame_done(struct isp4_subdev *isp_subdev,
+ 	     meta->preview.status == BUFFER_STATUS_DONE ||
+ 	     meta->preview.status == BUFFER_STATUS_DIRTY)) {
+ 		prev = isp4if_dequeue_buffer(ispif);
+-		if (prev)
++		if (prev) {
++			isp4vid_handle_frame_done(&isp_subdev->isp_vdev,
++						  &prev->buf_info);
+ 			isp4if_dealloc_buffer_node(prev);
+-		else
++		} else {
+ 			dev_err(dev, "fail null prev buf\n");
+-
 +		}
-+
-+		buf_type.buffer_type = BUFFER_TYPE_META_INFO;
-+		buf_type.buffer.vmid_space.bit.space = ADDR_SPACE_TYPE_GPU_VA;
-+		isp4if_split_addr64(meta_info_buf->gpu_mc_addr,
-+				    &buf_type.buffer.buf_base_a_lo,
-+				    &buf_type.buffer.buf_base_a_hi);
-+		buf_type.buffer.buf_size_a = meta_info_buf->mem_size;
-+		ret = isp4if_send_command(ispif, CMD_ID_SEND_BUFFER,
-+					  &buf_type, sizeof(buf_type));
-+		if (ret) {
-+			dev_err(dev, "send meta info(%u) fail\n", i);
-+			return ret;
-+		}
-+	}
-+
-+	dev_dbg(dev, "send meta info suc\n");
-+	return 0;
-+}
-+
-+static bool isp4sd_get_str_out_prop(struct isp4_subdev *isp_subdev,
-+				    struct isp4fw_image_prop *out_prop,
-+				    struct v4l2_subdev_state *state, u32 pad)
+ 	} else if (meta->preview.enabled) {
+ 		dev_err(dev, "fail bad preview status %u\n",
+ 			meta->preview.status);
+@@ -794,6 +796,65 @@ static int isp4sd_start_stream(struct isp4_subdev *isp_subdev,
+ 	return ret;
+ }
+ 
++static int isp4sd_ioc_send_img_buf(struct v4l2_subdev *sd,
++				   struct isp4if_img_buf_info *buf_info)
 +{
-+	struct device *dev = isp_subdev->dev;
-+	struct v4l2_mbus_framefmt *format;
-+
-+	format = v4l2_subdev_state_get_format(state, pad, 0);
-+	if (!format) {
-+		dev_err(dev, "fail get subdev state format\n");
-+		return false;
-+	}
-+
-+	switch (format->code) {
-+	case MEDIA_BUS_FMT_YUYV8_1_5X8:
-+		out_prop->image_format = IMAGE_FORMAT_NV12;
-+		out_prop->width = format->width;
-+		out_prop->height = format->height;
-+		out_prop->luma_pitch = format->width;
-+		out_prop->chroma_pitch = out_prop->width;
-+		break;
-+	case MEDIA_BUS_FMT_YUYV8_1X16:
-+		out_prop->image_format = IMAGE_FORMAT_YUV422INTERLEAVED;
-+		out_prop->width = format->width;
-+		out_prop->height = format->height;
-+		out_prop->luma_pitch = format->width * 2;
-+		out_prop->chroma_pitch = 0;
-+		break;
-+	default:
-+		dev_err(dev, "fail for bad image format:0x%x\n",
-+			format->code);
-+		return false;
-+	}
-+
-+	if (!out_prop->width || !out_prop->height)
-+		return false;
-+
-+	return true;
-+}
-+
-+static int isp4sd_kickoff_stream(struct isp4_subdev *isp_subdev, u32 w, u32 h)
-+{
-+	struct isp4sd_sensor_info *sensor_info = &isp_subdev->sensor_info;
++	struct isp4_subdev *isp_subdev = to_isp4_subdev(sd);
 +	struct isp4_interface *ispif = &isp_subdev->ispif;
-+	struct device *dev = isp_subdev->dev;
-+
-+	if (sensor_info->status == ISP4SD_START_STATUS_STARTED)
-+		return 0;
-+
-+	if (sensor_info->status == ISP4SD_START_STATUS_START_FAIL) {
-+		dev_err(dev, "fail for previous start fail\n");
-+		return -EINVAL;
-+	}
-+
-+	dev_dbg(dev, "w:%u,h:%u\n", w, h);
-+
-+	if (isp4sd_send_meta_buf(isp_subdev)) {
-+		dev_err(dev, "fail to send meta buf\n");
-+		sensor_info->status = ISP4SD_START_STATUS_START_FAIL;
-+		return -EINVAL;
-+	}
-+
-+	sensor_info->status = ISP4SD_START_STATUS_OFF;
-+
-+	if (!sensor_info->start_stream_cmd_sent &&
-+	    sensor_info->buf_sent_cnt >= ISP4SD_MIN_BUF_CNT_BEF_START_STREAM) {
-+		int ret = isp4if_send_command(ispif, CMD_ID_START_STREAM,
-+					      NULL, 0);
-+		if (ret) {
-+			dev_err(dev, "fail to start stream\n");
-+			return ret;
-+		}
-+
-+		sensor_info->start_stream_cmd_sent = true;
-+	} else {
-+		dev_dbg(dev,
-+			"no send START_STREAM, start_sent %u, buf_sent %u\n",
-+			sensor_info->start_stream_cmd_sent,
-+			sensor_info->buf_sent_cnt);
-+	}
-+
-+	return 0;
-+}
-+
-+static int isp4sd_setup_output(struct isp4_subdev *isp_subdev,
-+			       struct v4l2_subdev_state *state, u32 pad)
-+{
-+	struct isp4sd_output_info *output_info = &isp_subdev->sensor_info.output_info;
-+	struct isp4sd_sensor_info *sensor_info = &isp_subdev->sensor_info;
-+	struct isp4_interface *ispif = &isp_subdev->ispif;
-+	struct isp4fw_cmd_set_out_ch_prop cmd_ch_prop;
-+	struct isp4fw_cmd_enable_out_ch cmd_ch_en;
-+	struct device *dev = isp_subdev->dev;
-+	int ret;
-+
-+	if (output_info->start_status == ISP4SD_START_STATUS_STARTED)
-+		return 0;
-+
-+	if (output_info->start_status == ISP4SD_START_STATUS_START_FAIL) {
-+		dev_err(dev, "fail for previous start fail\n");
-+		return -EINVAL;
-+	}
-+
-+	/*
-+	 * The struct will be shared with ISP FW, use memset() to guarantee padding bits are
-+	 * zeroed, since this is not guaranteed on all compilers.
-+	 */
-+	memset(&cmd_ch_prop, 0, sizeof(cmd_ch_prop));
-+	cmd_ch_prop.ch = ISP_PIPE_OUT_CH_PREVIEW;
-+
-+	if (!isp4sd_get_str_out_prop(isp_subdev, &cmd_ch_prop.image_prop, state, pad)) {
-+		dev_err(dev, "fail to get out prop\n");
-+		return -EINVAL;
-+	}
-+
-+	dev_dbg(dev, "channel:%d,fmt %d,w:h=%u:%u,lp:%u,cp%u\n",
-+		cmd_ch_prop.ch,
-+		cmd_ch_prop.image_prop.image_format,
-+		cmd_ch_prop.image_prop.width, cmd_ch_prop.image_prop.height,
-+		cmd_ch_prop.image_prop.luma_pitch,
-+		cmd_ch_prop.image_prop.chroma_pitch);
-+
-+	ret = isp4if_send_command(ispif, CMD_ID_SET_OUT_CHAN_PROP,
-+				  &cmd_ch_prop, sizeof(cmd_ch_prop));
-+	if (ret) {
-+		output_info->start_status = ISP4SD_START_STATUS_START_FAIL;
-+		dev_err(dev, "fail to set out prop\n");
-+		return ret;
-+	}
-+
-+	/*
-+	 * The struct will be shared with ISP FW, use memset() to guarantee padding bits are
-+	 * zeroed, since this is not guaranteed on all compilers.
-+	 */
-+	memset(&cmd_ch_en, 0, sizeof(cmd_ch_en));
-+	cmd_ch_en.ch = ISP_PIPE_OUT_CH_PREVIEW;
-+	cmd_ch_en.is_enable = true;
-+	ret = isp4if_send_command(ispif, CMD_ID_ENABLE_OUT_CHAN,
-+				  &cmd_ch_en, sizeof(cmd_ch_en));
-+	if (ret) {
-+		output_info->start_status = ISP4SD_START_STATUS_START_FAIL;
-+		dev_err(dev, "fail to enable channel\n");
-+		return ret;
-+	}
-+
-+	dev_dbg(dev, "enable channel %d\n", cmd_ch_en.ch);
-+
-+	if (!sensor_info->start_stream_cmd_sent) {
-+		ret = isp4sd_kickoff_stream(isp_subdev,
-+					    cmd_ch_prop.image_prop.width,
-+					    cmd_ch_prop.image_prop.height);
-+		if (ret) {
-+			dev_err(dev, "kickoff stream fail %d\n", ret);
-+			return ret;
-+		}
-+		/*
-+		 * sensor_info->start_stream_cmd_sent will be set to true
-+		 * 1. in isp4sd_kickoff_stream, if app first send buffer then
-+		 * start stream
-+		 * 2. in isp_set_stream_buf, if app first start stream, then
-+		 * send buffer
-+		 * because ISP FW has the requirement, host needs to send buffer
-+		 * before send start stream cmd
-+		 */
-+		if (sensor_info->start_stream_cmd_sent) {
-+			sensor_info->status = ISP4SD_START_STATUS_STARTED;
-+			output_info->start_status = ISP4SD_START_STATUS_STARTED;
-+			dev_dbg(dev, "kickoff stream suc,start cmd sent\n");
-+		}
-+	} else {
-+		dev_dbg(dev, "stream running, no need kickoff\n");
-+		output_info->start_status = ISP4SD_START_STATUS_STARTED;
-+	}
-+
-+	dev_dbg(dev, "setup output suc\n");
-+	return 0;
-+}
-+
-+static int isp4sd_init_stream(struct isp4_subdev *isp_subdev)
-+{
-+	struct device *dev = isp_subdev->dev;
-+	int ret;
-+
-+	ret = isp4sd_setup_fw_mem_pool(isp_subdev);
-+	if (ret) {
-+		dev_err(dev, "fail to setup fw mem pool\n");
-+		return ret;
-+	}
-+
-+	ret = isp4sd_set_stream_path(isp_subdev);
-+	if (ret) {
-+		dev_err(dev, "fail to setup stream path\n");
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static void isp4sd_uninit_stream(struct isp4_subdev *isp_subdev,
-+				 struct v4l2_subdev_state *state, u32 pad)
-+{
-+	struct isp4sd_sensor_info *sensor_info = &isp_subdev->sensor_info;
-+	struct isp4sd_output_info *output_info = &sensor_info->output_info;
-+	struct isp4_interface *ispif = &isp_subdev->ispif;
-+	struct v4l2_mbus_framefmt *format;
-+
-+	format = v4l2_subdev_state_get_format(state, pad, 0);
-+	if (!format) {
-+		dev_err(isp_subdev->dev, "fail to get v4l2 format\n");
-+	} else {
-+		memset(format, 0, sizeof(*format));
-+		format->code = MEDIA_BUS_FMT_YUYV8_1_5X8;
-+	}
-+
-+	isp4if_clear_bufq(ispif);
-+	isp4if_clear_cmdq(ispif);
-+
-+	sensor_info->start_stream_cmd_sent = false;
-+	sensor_info->buf_sent_cnt = 0;
-+
-+	sensor_info->status = ISP4SD_START_STATUS_OFF;
-+	output_info->start_status = ISP4SD_START_STATUS_OFF;
-+}
-+
-+static void isp4sd_fw_resp_cmd_done(struct isp4_subdev *isp_subdev,
-+				    enum isp4if_stream_id stream_id,
-+				    struct isp4fw_resp_cmd_done *para)
-+{
-+	struct isp4_interface *ispif = &isp_subdev->ispif;
-+	struct isp4if_cmd_element *ele =
-+		isp4if_rm_cmd_from_cmdq(ispif, para->cmd_seq_num, para->cmd_id);
-+	struct device *dev = isp_subdev->dev;
-+
-+	dev_dbg(dev, "stream %d,cmd (0x%08x)(%d),seq %u, ele %p\n",
-+		stream_id,
-+		para->cmd_id, para->cmd_status, para->cmd_seq_num,
-+		ele);
-+
-+	if (ele) {
-+		complete(&ele->cmd_done);
-+		if (atomic_dec_and_test(&ele->refcnt))
-+			kfree(ele);
-+	}
-+}
-+
-+static struct isp4fw_meta_info *isp4sd_get_meta_by_mc(struct isp4_subdev *isp_subdev,
-+						      u64 mc)
-+{
-+	for (int i = 0; i < ISP4IF_MAX_STREAM_BUF_COUNT; i++) {
-+		struct isp4if_gpu_mem_info *meta_info_buf =
-+				isp_subdev->ispif.meta_info_buf[i];
-+
-+		if (meta_info_buf->gpu_mc_addr == mc)
-+			return meta_info_buf->sys_addr;
-+	}
-+
-+	return NULL;
-+}
-+
-+static void isp4sd_send_meta_info(struct isp4_subdev *isp_subdev,
-+				  u64 meta_info_mc)
-+{
-+	struct isp4_interface *ispif = &isp_subdev->ispif;
-+	struct isp4fw_cmd_send_buffer buf_type;
-+	struct device *dev = isp_subdev->dev;
-+
-+	if (isp_subdev->sensor_info.status != ISP4SD_START_STATUS_STARTED) {
-+		dev_warn(dev, "not working status %i, meta_info 0x%llx\n",
-+			 isp_subdev->sensor_info.status, meta_info_mc);
-+		return;
-+	}
-+
-+	/*
-+	 * The struct will be shared with ISP FW, use memset() to guarantee padding bits are
-+	 * zeroed, since this is not guaranteed on all compilers.
-+	 */
-+	memset(&buf_type, 0, sizeof(buf_type));
-+	buf_type.buffer_type = BUFFER_TYPE_META_INFO;
-+	buf_type.buffer.vmid_space.bit.space = ADDR_SPACE_TYPE_GPU_VA;
-+	isp4if_split_addr64(meta_info_mc,
-+			    &buf_type.buffer.buf_base_a_lo,
-+			    &buf_type.buffer.buf_base_a_hi);
-+	buf_type.buffer.buf_size_a = ISP4SD_META_BUF_SIZE;
-+
-+	if (isp4if_send_command(ispif, CMD_ID_SEND_BUFFER,
-+				&buf_type, sizeof(buf_type)))
-+		dev_err(dev, "fail send meta_info 0x%llx\n",
-+			meta_info_mc);
-+	else
-+		dev_dbg(dev, "resend meta_info 0x%llx\n", meta_info_mc);
-+}
-+
-+static void isp4sd_fw_resp_frame_done(struct isp4_subdev *isp_subdev,
-+				      enum isp4if_stream_id stream_id,
-+				      struct isp4fw_resp_param_package *para)
-+{
-+	struct isp4_interface *ispif = &isp_subdev->ispif;
-+	struct device *dev = isp_subdev->dev;
-+	struct isp4if_img_buf_node *prev;
-+	struct isp4fw_meta_info *meta;
-+	u64 mc;
-+
-+	mc = isp4if_join_addr64(para->package_addr_lo, para->package_addr_hi);
-+	meta = isp4sd_get_meta_by_mc(isp_subdev, mc);
-+	if (!meta) {
-+		dev_err(dev, "fail to get meta from mc %llx\n", mc);
-+		return;
-+	}
-+
-+	dev_dbg(dev, "ts:%llu,streamId:%d,poc:%u,preview_en:%u(%i)\n",
-+		ktime_get_ns(), stream_id, meta->poc,
-+		meta->preview.enabled,
-+		meta->preview.status);
-+
-+	if (meta->preview.enabled &&
-+	    (meta->preview.status == BUFFER_STATUS_SKIPPED ||
-+	     meta->preview.status == BUFFER_STATUS_DONE ||
-+	     meta->preview.status == BUFFER_STATUS_DIRTY)) {
-+		prev = isp4if_dequeue_buffer(ispif);
-+		if (prev)
-+			isp4if_dealloc_buffer_node(prev);
-+		else
-+			dev_err(dev, "fail null prev buf\n");
-+
-+	} else if (meta->preview.enabled) {
-+		dev_err(dev, "fail bad preview status %u\n",
-+			meta->preview.status);
-+	}
-+
-+	if (isp_subdev->sensor_info.status == ISP4SD_START_STATUS_STARTED)
-+		isp4sd_send_meta_info(isp_subdev, mc);
-+
-+	dev_dbg(dev, "stream_id:%d, status:%d\n", stream_id,
-+		isp_subdev->sensor_info.status);
-+}
-+
-+static void isp4sd_fw_resp_func(struct isp4_subdev *isp_subdev,
-+				enum isp4if_stream_id stream_id)
-+{
-+	struct isp4_interface *ispif = &isp_subdev->ispif;
-+	struct device *dev = isp_subdev->dev;
-+	struct isp4fw_resp resp;
-+
-+	while (true) {
-+		if (isp4if_f2h_resp(ispif, stream_id, &resp)) {
-+			/* Re-enable the interrupt */
-+			isp4_intr_enable(isp_subdev, stream_id, true);
-+			/*
-+			 * Recheck to see if there is a new response.
-+			 * To ensure that an in-flight interrupt is not lost,
-+			 * enabling the interrupt must occur _before_ checking
-+			 * for a new response, hence a memory barrier is needed.
-+			 * Disable the interrupt again if there was a new response.
-+			 */
-+			mb();
-+			if (likely(isp4if_f2h_resp(ispif, stream_id, &resp)))
-+				break;
-+
-+			isp4_intr_enable(isp_subdev, stream_id, false);
-+		}
-+
-+		switch (resp.resp_id) {
-+		case RESP_ID_CMD_DONE:
-+			isp4sd_fw_resp_cmd_done(isp_subdev, stream_id,
-+						&resp.param.cmd_done);
-+			break;
-+		case RESP_ID_NOTI_FRAME_DONE:
-+			isp4sd_fw_resp_frame_done(isp_subdev, stream_id,
-+						  &resp.param.frame_done);
-+			break;
-+		default:
-+			dev_err(dev, "-><- fail respid (0x%x)\n", resp.resp_id);
-+			break;
-+		}
-+	}
-+}
-+
-+static s32 isp4sd_fw_resp_thread(void *context)
-+{
-+	struct isp4_subdev_thread_param *para = context;
-+	struct isp4_subdev *isp_subdev = para->isp_subdev;
-+	struct isp4sd_thread_handler *thread_ctx =
-+			&isp_subdev->fw_resp_thread[para->idx];
-+	struct device *dev = isp_subdev->dev;
-+
-+	dev_dbg(dev, "[%u] fw resp thread started\n", para->idx);
-+	while (true) {
-+		wait_event_interruptible(thread_ctx->waitq, thread_ctx->resp_ready);
-+		thread_ctx->resp_ready = false;
-+
-+		if (kthread_should_stop()) {
-+			dev_dbg(dev, "[%u] fw resp thread quit\n", para->idx);
-+			break;
-+		}
-+
-+		isp4sd_fw_resp_func(isp_subdev, para->idx);
-+	}
-+
-+	return 0;
-+}
-+
-+static int isp4sd_stop_resp_proc_threads(struct isp4_subdev *isp_subdev)
-+{
-+	int i;
-+
-+	for (i = 0; i < ISP4SD_MAX_FW_RESP_STREAM_NUM; i++) {
-+		struct isp4sd_thread_handler *thread_ctx =
-+				&isp_subdev->fw_resp_thread[i];
-+
-+		if (thread_ctx->thread) {
-+			kthread_stop(thread_ctx->thread);
-+			thread_ctx->thread = NULL;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static int isp4sd_start_resp_proc_threads(struct isp4_subdev *isp_subdev)
-+{
-+	struct device *dev = isp_subdev->dev;
-+	int i;
-+
-+	for (i = 0; i < ISP4SD_MAX_FW_RESP_STREAM_NUM; i++) {
-+		struct isp4sd_thread_handler *thread_ctx = &isp_subdev->fw_resp_thread[i];
-+
-+		isp_subdev->isp_resp_para[i].idx = i;
-+		isp_subdev->isp_resp_para[i].isp_subdev = isp_subdev;
-+		init_waitqueue_head(&thread_ctx->waitq);
-+		thread_ctx->resp_ready = false;
-+
-+		thread_ctx->thread = kthread_run(isp4sd_fw_resp_thread,
-+						 &isp_subdev->isp_resp_para[i],
-+						 isp4sd_thread_name[i]);
-+		if (IS_ERR(thread_ctx->thread)) {
-+			dev_err(dev, "create thread [%d] fail\n", i);
-+			thread_ctx->thread = NULL;
-+			isp4sd_stop_resp_proc_threads(isp_subdev);
-+			return -EINVAL;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static int isp4sd_pwroff_and_deinit(struct isp4_subdev *isp_subdev)
-+{
-+	struct isp4sd_sensor_info *sensor_info = &isp_subdev->sensor_info;
-+	unsigned int perf_state = ISP4SD_PERFORMANCE_STATE_LOW;
-+	struct isp4_interface *ispif = &isp_subdev->ispif;
-+	struct device *dev = isp_subdev->dev;
-+	int ret;
-+
-+	if (sensor_info->status == ISP4SD_START_STATUS_STARTED) {
-+		dev_err(dev, "fail for stream still running\n");
-+		return -EINVAL;
-+	}
-+
-+	sensor_info->status = ISP4SD_START_STATUS_OFF;
-+
-+	if (isp_subdev->irq_enabled) {
-+		for (int i = 0; i < ISP4SD_MAX_FW_RESP_STREAM_NUM; i++)
-+			disable_irq(isp_subdev->irq[i]);
-+		isp_subdev->irq_enabled = false;
-+	}
-+
-+	isp4sd_stop_resp_proc_threads(isp_subdev);
-+	dev_dbg(dev, "isp_subdev stop resp proc streads suc");
-+
-+	isp4if_stop(ispif);
-+
-+	ret = dev_pm_genpd_set_performance_state(dev, perf_state);
-+	if (ret)
-+		dev_err(dev, "fail to set isp_subdev performance state %u,ret %d\n",
-+			perf_state, ret);
-+
-+	/* hold ccpu reset */
-+	isp4hw_wreg(isp_subdev->mmio, ISP_SOFT_RESET, 0);
-+	isp4hw_wreg(isp_subdev->mmio, ISP_POWER_STATUS, 0);
-+	ret = pm_runtime_put_sync(dev);
-+	if (ret)
-+		dev_err(dev, "power off isp_subdev fail %d\n", ret);
-+	else
-+		dev_dbg(dev, "power off isp_subdev suc\n");
-+
-+	ispif->status = ISP4IF_STATUS_PWR_OFF;
-+	isp4if_clear_cmdq(ispif);
-+	isp4sd_module_enable(isp_subdev, false);
-+
-+	/*
-+	 * When opening the camera, isp4sd_module_enable(isp_subdev, true) is called.
-+	 * Hardware requires at least a 20ms delay between disabling and enabling the module,
-+	 * so a sleep is added to ensure ISP stability during quick reopen scenarios.
-+	 */
-+	msleep(20);
-+
-+	return 0;
-+}
-+
-+static int isp4sd_pwron_and_init(struct isp4_subdev *isp_subdev)
-+{
-+	struct isp4_interface *ispif = &isp_subdev->ispif;
-+	struct device *dev = isp_subdev->dev;
-+	int ret;
-+
-+	if (ispif->status == ISP4IF_STATUS_FW_RUNNING) {
-+		dev_dbg(dev, "camera already opened, do nothing\n");
-+		return 0;
-+	}
-+
-+	isp4sd_module_enable(isp_subdev, true);
-+
-+	if (ispif->status < ISP4IF_STATUS_PWR_ON) {
-+		unsigned int perf_state = ISP4SD_PERFORMANCE_STATE_HIGH;
-+
-+		ret = pm_runtime_resume_and_get(dev);
-+		if (ret) {
-+			dev_err(dev, "fail to power on isp_subdev ret %d\n",
-+				ret);
-+			goto err_deinit;
-+		}
-+
-+		/* ISPPG ISP Power Status */
-+		isp4hw_wreg(isp_subdev->mmio, ISP_POWER_STATUS, 0x7FF);
-+		ret = dev_pm_genpd_set_performance_state(dev, perf_state);
-+		if (ret) {
-+			dev_err(dev,
-+				"fail to set performance state %u, ret %d\n",
-+				perf_state, ret);
-+			goto err_deinit;
-+		}
-+
-+		ispif->status = ISP4IF_STATUS_PWR_ON;
-+	}
-+
-+	isp_subdev->sensor_info.start_stream_cmd_sent = false;
-+	isp_subdev->sensor_info.buf_sent_cnt = 0;
-+
-+	ret = isp4if_start(ispif);
-+	if (ret) {
-+		dev_err(dev, "fail to start isp_subdev interface\n");
-+		goto err_deinit;
-+	}
-+
-+	if (isp4sd_start_resp_proc_threads(isp_subdev)) {
-+		dev_err(dev, "isp_start_resp_proc_threads fail");
-+		goto err_deinit;
-+	}
-+
-+	dev_dbg(dev, "create resp threads ok");
-+
-+	for (int i = 0; i < ISP4SD_MAX_FW_RESP_STREAM_NUM; i++)
-+		enable_irq(isp_subdev->irq[i]);
-+	isp_subdev->irq_enabled = true;
-+
-+	return 0;
-+err_deinit:
-+	isp4sd_pwroff_and_deinit(isp_subdev);
-+	return -EINVAL;
-+}
-+
-+static int isp4sd_stop_stream(struct isp4_subdev *isp_subdev,
-+			      struct v4l2_subdev_state *state, u32 pad)
-+{
-+	struct isp4sd_sensor_info *sensor_info = &isp_subdev->sensor_info;
-+	struct isp4sd_output_info *output_info = &sensor_info->output_info;
-+	struct isp4_interface *ispif = &isp_subdev->ispif;
-+	struct device *dev = isp_subdev->dev;
-+
-+	guard(mutex)(&isp_subdev->ops_mutex);
-+	dev_dbg(dev, "status %i\n", output_info->start_status);
-+
-+	if (output_info->start_status == ISP4SD_START_STATUS_STARTED) {
-+		struct isp4fw_cmd_enable_out_ch cmd_ch_disable;
-+		int ret;
-+
-+		/*
-+		 * The struct will be shared with ISP FW, use memset() to guarantee
-+		 * padding bits are zeroed, since this is not guaranteed on all compilers.
-+		 */
-+		memset(&cmd_ch_disable, 0, sizeof(cmd_ch_disable));
-+		cmd_ch_disable.ch = ISP_PIPE_OUT_CH_PREVIEW;
-+		/* `cmd_ch_disable.is_enable` is already false */
-+		ret = isp4if_send_command_sync(ispif, CMD_ID_ENABLE_OUT_CHAN,
-+					       &cmd_ch_disable,
-+					       sizeof(cmd_ch_disable));
-+		if (ret)
-+			dev_err(dev, "fail to disable stream\n");
-+		else
-+			dev_dbg(dev, "wait disable stream suc\n");
-+
-+		ret = isp4if_send_command_sync(ispif, CMD_ID_STOP_STREAM,
-+					       NULL, 0);
-+		if (ret)
-+			dev_err(dev, "fail to stop steam\n");
-+		else
-+			dev_dbg(dev, "wait stop stream suc\n");
-+	}
-+
-+	isp4sd_uninit_stream(isp_subdev, state, pad);
-+
-+	/*
-+	 * Return success to ensure the stop process proceeds,
-+	 * and disregard any errors since they are not fatal.
-+	 */
-+	return 0;
-+}
-+
-+static int isp4sd_start_stream(struct isp4_subdev *isp_subdev,
-+			       struct v4l2_subdev_state *state, u32 pad)
-+{
-+	struct isp4sd_output_info *output_info =
-+			&isp_subdev->sensor_info.output_info;
-+	struct isp4_interface *ispif = &isp_subdev->ispif;
++	struct isp4if_img_buf_node *buf_node;
 +	struct device *dev = isp_subdev->dev;
 +	int ret;
 +
 +	guard(mutex)(&isp_subdev->ops_mutex);
 +
 +	if (ispif->status != ISP4IF_STATUS_FW_RUNNING) {
-+		dev_err(dev, "fail, bad fsm %d", ispif->status);
++		dev_err(dev, "fail send img buf for bad fsm %d\n",
++			ispif->status);
 +		return -EINVAL;
 +	}
 +
-+	switch (output_info->start_status) {
-+	case ISP4SD_START_STATUS_OFF:
-+		break;
-+	case ISP4SD_START_STATUS_STARTED:
-+		dev_dbg(dev, "stream already started, do nothing\n");
-+		return 0;
-+	case ISP4SD_START_STATUS_START_FAIL:
-+		dev_err(dev, "stream previously failed to start\n");
-+		return -EINVAL;
++	buf_node = isp4if_alloc_buffer_node(buf_info);
++	if (!buf_node) {
++		dev_err(dev, "fail alloc sys img buf info node\n");
++		return -ENOMEM;
 +	}
 +
-+	ret = isp4sd_init_stream(isp_subdev);
++	ret = isp4if_queue_buffer(ispif, buf_node);
 +	if (ret) {
-+		dev_err(dev, "fail to init isp_subdev stream\n");
-+		goto err_stop_stream;
++		dev_err(dev, "fail to queue image buf, %d\n", ret);
++		goto error_release_buf_node;
 +	}
 +
-+	ret = isp4sd_setup_output(isp_subdev, state, pad);
-+	if (ret) {
-+		dev_err(dev, "fail to setup output\n");
-+		goto err_stop_stream;
++	if (!isp_subdev->sensor_info.start_stream_cmd_sent) {
++		isp_subdev->sensor_info.buf_sent_cnt++;
++
++		if (isp_subdev->sensor_info.buf_sent_cnt >=
++		    ISP4SD_MIN_BUF_CNT_BEF_START_STREAM) {
++			ret = isp4if_send_command(ispif, CMD_ID_START_STREAM,
++						  NULL, 0);
++			if (ret) {
++				dev_err(dev, "fail to START_STREAM");
++				goto error_release_buf_node;
++			}
++			isp_subdev->sensor_info.start_stream_cmd_sent = true;
++			isp_subdev->sensor_info.output_info.start_status =
++				ISP4SD_START_STATUS_STARTED;
++			isp_subdev->sensor_info.status =
++				ISP4SD_START_STATUS_STARTED;
++		} else {
++			dev_dbg(dev, "no send start, required %u, buf sent %u\n",
++				ISP4SD_MIN_BUF_CNT_BEF_START_STREAM,
++				isp_subdev->sensor_info.buf_sent_cnt);
++		}
 +	}
 +
 +	return 0;
 +
-+err_stop_stream:
-+	isp4sd_stop_stream(isp_subdev, state, pad);
++error_release_buf_node:
++	isp4if_dealloc_buffer_node(buf_node);
 +	return ret;
 +}
 +
-+static int isp4sd_set_power(struct v4l2_subdev *sd, int on)
-+{
-+	struct isp4_subdev *isp_subdev = to_isp4_subdev(sd);
-+
-+	guard(mutex)(&isp_subdev->ops_mutex);
-+	if (on)
-+		return isp4sd_pwron_and_init(isp_subdev);
-+	else
-+		return isp4sd_pwroff_and_deinit(isp_subdev);
-+}
-+
-+static const struct v4l2_subdev_core_ops isp4sd_core_ops = {
-+	.s_power = isp4sd_set_power,
+ static int isp4sd_set_power(struct v4l2_subdev *sd, int on)
+ {
+ 	struct isp4_subdev *isp_subdev = to_isp4_subdev(sd);
+@@ -892,6 +953,10 @@ static const struct media_entity_operations isp4sd_sdev_ent_ops = {
+ 	.link_validate = isp4sd_sdev_link_validate,
+ };
+ 
++static const struct isp4vid_ops isp4sd_isp4vid_ops = {
++	.send_buffer = isp4sd_ioc_send_img_buf,
 +};
 +
-+static const struct v4l2_subdev_video_ops isp4sd_video_ops = {
-+	.s_stream = v4l2_subdev_s_stream_helper,
+ int isp4sd_init(struct isp4_subdev *isp_subdev, struct v4l2_device *v4l2_dev,
+ 		int irq[ISP4SD_MAX_FW_RESP_STREAM_NUM])
+ {
+@@ -952,6 +1017,11 @@ int isp4sd_init(struct isp4_subdev *isp_subdev, struct v4l2_device *v4l2_dev,
+ 	isp_subdev->host2fw_seq_num = 1;
+ 	ispif->status = ISP4IF_STATUS_PWR_OFF;
+ 
++	ret = isp4vid_dev_init(&isp_subdev->isp_vdev, &isp_subdev->sdev,
++			       &isp4sd_isp4vid_ops);
++	if (ret)
++		goto err_subdev_unreg;
++
+ 	return 0;
+ 
+ err_subdev_unreg:
+@@ -966,6 +1036,7 @@ void isp4sd_deinit(struct isp4_subdev *isp_subdev)
+ {
+ 	struct isp4_interface *ispif = &isp_subdev->ispif;
+ 
++	isp4vid_dev_deinit(&isp_subdev->isp_vdev);
+ 	v4l2_device_unregister_subdev(&isp_subdev->sdev);
+ 	media_entity_cleanup(&isp_subdev->sdev.entity);
+ 	isp4if_deinit(ispif);
+diff --git a/drivers/media/platform/amd/isp4/isp4_subdev.h b/drivers/media/platform/amd/isp4/isp4_subdev.h
+index 70007b9de3f3..386e4e68f3fa 100644
+--- a/drivers/media/platform/amd/isp4/isp4_subdev.h
++++ b/drivers/media/platform/amd/isp4/isp4_subdev.h
+@@ -17,6 +17,7 @@
+ #include "isp4_fw_cmd_resp.h"
+ #include "isp4_hw_reg.h"
+ #include "isp4_interface.h"
++#include "isp4_video.h"
+ 
+ /*
+  * one is for none sesnor specefic response which is not used now
+@@ -93,6 +94,7 @@ struct isp4_subdev_thread_param {
+ struct isp4_subdev {
+ 	struct v4l2_subdev sdev;
+ 	struct isp4_interface ispif;
++	struct isp4vid_dev isp_vdev;
+ 
+ 	struct media_pad sdev_pad;
+ 
+diff --git a/drivers/media/platform/amd/isp4/isp4_video.c b/drivers/media/platform/amd/isp4/isp4_video.c
+new file mode 100644
+index 000000000000..5006e5021155
+--- /dev/null
++++ b/drivers/media/platform/amd/isp4/isp4_video.c
+@@ -0,0 +1,1165 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Copyright (C) 2025 Advanced Micro Devices, Inc.
++ */
++
++#include <linux/vmalloc.h>
++#include <media/v4l2-ioctl.h>
++#include <media/v4l2-mc.h>
++
++#include "isp4_interface.h"
++#include "isp4_subdev.h"
++#include "isp4_video.h"
++
++#define ISP4VID_ISP_DRV_NAME "amd_isp_capture"
++#define ISP4VID_MAX_PREVIEW_FPS 30
++#define ISP4VID_DEFAULT_FMT isp4vid_formats[0]
++
++#define ISP4VID_PAD_VIDEO_OUTPUT 0
++
++/* timeperframe default */
++#define ISP4VID_ISP_TPF_DEFAULT isp4vid_tpfs[0]
++
++/* amdisp buffer for vb2 operations */
++struct isp4vid_vb2_buf {
++	struct device			*dev;
++	void				*vaddr;
++	unsigned long			size;
++	refcount_t			refcount;
++	struct dma_buf			*dbuf;
++	void				*bo;
++	u64				gpu_addr;
++	struct vb2_vmarea_handler	handler;
 +};
 +
-+static int isp4sd_set_pad_format(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_state *sd_state,
-+				 struct v4l2_subdev_format *fmt)
++static void isp4vid_vb2_put(void *buf_priv);
++
++static const char *const isp4vid_video_dev_name = "Preview";
++
++/* Sizes must be in increasing order */
++static const struct v4l2_frmsize_discrete isp4vid_frmsize[] = {
++	{640, 360},
++	{640, 480},
++	{1280, 720},
++	{1280, 960},
++	{1920, 1080},
++	{1920, 1440},
++	{2560, 1440},
++	{2880, 1620},
++	{2880, 1624},
++	{2888, 1808},
++};
++
++static const u32 isp4vid_formats[] = {
++	V4L2_PIX_FMT_NV12,
++	V4L2_PIX_FMT_YUYV
++};
++
++/* timeperframe list */
++static const struct v4l2_fract isp4vid_tpfs[] = {
++	{ 1, ISP4VID_MAX_PREVIEW_FPS }
++};
++
++void isp4vid_handle_frame_done(struct isp4vid_dev *isp_vdev,
++			       const struct isp4if_img_buf_info *img_buf)
 +{
-+	struct isp4sd_output_info *steam_info =
-+		&(to_isp4_subdev(sd)->sensor_info.output_info);
-+	struct v4l2_mbus_framefmt *format;
++	struct isp4vid_capture_buffer *isp4vid_buf;
++	void *vbuf;
 +
-+	format = v4l2_subdev_state_get_format(sd_state, fmt->pad);
++	scoped_guard(mutex, &isp_vdev->buf_list_lock) {
++		/* Get the first entry of the list */
++		isp4vid_buf = list_first_entry_or_null(&isp_vdev->buf_list, typeof(*isp4vid_buf),
++						       list);
++		if (!isp4vid_buf)
++			return;
 +
-+	if (!format) {
-+		dev_err(sd->dev, "fail to get state format\n");
-+		return -EINVAL;
++		vbuf = vb2_plane_vaddr(&isp4vid_buf->vb2.vb2_buf, 0);
++
++		if (vbuf != img_buf->planes[0].sys_addr) {
++			dev_err(isp_vdev->dev, "Invalid vbuf");
++			return;
++		}
++
++		/* Remove this entry from the list */
++		list_del(&isp4vid_buf->list);
 +	}
 +
-+	*format = fmt->format;
-+	switch (format->code) {
-+	case MEDIA_BUS_FMT_YUYV8_1_5X8:
-+		steam_info->image_size = format->width * format->height * 3 / 2;
-+		break;
-+	case MEDIA_BUS_FMT_YUYV8_1X16:
-+		steam_info->image_size = format->width * format->height * 2;
-+		break;
-+	default:
-+		steam_info->image_size = 0;
-+		break;
-+	}
-+	if (!steam_info->image_size) {
-+		dev_err(sd->dev, "fail set pad format,code 0x%x,width %u, height %u\n",
-+			format->code, format->width, format->height);
-+		return -EINVAL;
-+	}
++	/* Fill the buffer */
++	isp4vid_buf->vb2.vb2_buf.timestamp = ktime_get_ns();
++	isp4vid_buf->vb2.sequence = isp_vdev->sequence++;
++	isp4vid_buf->vb2.field = V4L2_FIELD_ANY;
 +
-+	dev_dbg(sd->dev, "set pad format suc, code:%x w:%u h:%u size:%u\n",
-+		format->code, format->width, format->height, steam_info->image_size);
++	/* at most 2 planes */
++	vb2_set_plane_payload(&isp4vid_buf->vb2.vb2_buf,
++			      0, isp_vdev->format.sizeimage);
 +
-+	return 0;
++	vb2_buffer_done(&isp4vid_buf->vb2.vb2_buf, VB2_BUF_STATE_DONE);
++
++	dev_dbg(isp_vdev->dev, "call vb2_buffer_done(size=%u)\n",
++		isp_vdev->format.sizeimage);
 +}
 +
-+static int isp4sd_enable_streams(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_state *state, u32 pad,
-+				 u64 streams_mask)
++static unsigned int isp4vid_vb2_num_users(void *buf_priv)
 +{
-+	struct isp4_subdev *isp_subdev = to_isp4_subdev(sd);
++	struct isp4vid_vb2_buf *buf = buf_priv;
 +
-+	return isp4sd_start_stream(isp_subdev, state, pad);
++	return refcount_read(&buf->refcount);
 +}
 +
-+static int isp4sd_disable_streams(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_state *state, u32 pad,
-+				  u64 streams_mask)
++static int isp4vid_vb2_mmap(void *buf_priv, struct vm_area_struct *vma)
 +{
-+	struct isp4_subdev *isp_subdev = to_isp4_subdev(sd);
-+
-+	return isp4sd_stop_stream(isp_subdev, state, pad);
-+}
-+
-+static const struct v4l2_subdev_pad_ops isp4sd_pad_ops = {
-+	.get_fmt = v4l2_subdev_get_fmt,
-+	.set_fmt = isp4sd_set_pad_format,
-+	.enable_streams = isp4sd_enable_streams,
-+	.disable_streams = isp4sd_disable_streams,
-+};
-+
-+static const struct v4l2_subdev_ops isp4sd_subdev_ops = {
-+	.core = &isp4sd_core_ops,
-+	.video = &isp4sd_video_ops,
-+	.pad = &isp4sd_pad_ops,
-+};
-+
-+static int isp4sd_sdev_link_validate(struct media_link *link)
-+{
-+	return 0;
-+}
-+
-+static const struct media_entity_operations isp4sd_sdev_ent_ops = {
-+	.link_validate = isp4sd_sdev_link_validate,
-+};
-+
-+int isp4sd_init(struct isp4_subdev *isp_subdev, struct v4l2_device *v4l2_dev,
-+		int irq[ISP4SD_MAX_FW_RESP_STREAM_NUM])
-+{
-+	struct isp4sd_sensor_info *sensor_info = &isp_subdev->sensor_info;
-+	struct isp4_interface *ispif = &isp_subdev->ispif;
-+	struct device *dev = v4l2_dev->dev;
++	struct isp4vid_vb2_buf *buf = buf_priv;
 +	int ret;
 +
-+	isp_subdev->dev = dev;
-+	v4l2_subdev_init(&isp_subdev->sdev, &isp4sd_subdev_ops);
-+	isp_subdev->sdev.owner = THIS_MODULE;
-+	isp_subdev->sdev.dev = dev;
-+	snprintf(isp_subdev->sdev.name, sizeof(isp_subdev->sdev.name), "%s",
-+		 dev_name(dev));
++	if (!buf) {
++		pr_err("fail no memory to map\n");
++		return -EINVAL;
++	}
 +
-+	isp_subdev->sdev.entity.name = isp4sd_entity_name;
-+	isp_subdev->sdev.entity.function = MEDIA_ENT_F_PROC_VIDEO_ISP;
-+	isp_subdev->sdev.entity.ops = &isp4sd_sdev_ent_ops;
-+	isp_subdev->sdev_pad.flags = MEDIA_PAD_FL_SOURCE;
-+	ret = media_entity_pads_init(&isp_subdev->sdev.entity, 1,
-+				     &isp_subdev->sdev_pad);
++	ret = remap_vmalloc_range(vma, buf->vaddr, 0);
 +	if (ret) {
-+		dev_err(dev, "fail to init isp4 subdev entity pad %d\n", ret);
++		dev_err(buf->dev, "fail remap vmalloc mem, %d\n", ret);
 +		return ret;
 +	}
 +
-+	ret = v4l2_subdev_init_finalize(&isp_subdev->sdev);
-+	if (ret < 0) {
-+		dev_err(dev, "fail to init finalize isp4 subdev %d\n",
-+			ret);
-+		return ret;
-+	}
++	/*
++	 * Make sure that vm_areas for 2 buffers won't be merged together
++	 */
++	vm_flags_set(vma, VM_DONTEXPAND);
 +
-+	ret = v4l2_device_register_subdev(v4l2_dev, &isp_subdev->sdev);
-+	if (ret) {
-+		dev_err(dev, "fail to register isp4 subdev to V4L2 device %d\n", ret);
-+		goto err_media_clean_up;
-+	}
++	/*
++	 * Use common vm_area operations to track buffer refcount.
++	 */
++	vma->vm_private_data	= &buf->handler;
++	vma->vm_ops		= &vb2_common_vm_ops;
 +
-+	isp4if_init(ispif, dev, isp_subdev->mmio);
++	vma->vm_ops->open(vma);
 +
-+	mutex_init(&isp_subdev->ops_mutex);
-+	sensor_info->status = ISP4SD_START_STATUS_OFF;
-+
-+	/* create ISP enable gpio control */
-+	isp_subdev->enable_gpio = devm_gpiod_get(isp_subdev->dev,
-+						 "enable_isp",
-+						 GPIOD_OUT_LOW);
-+	if (IS_ERR(isp_subdev->enable_gpio)) {
-+		ret = PTR_ERR(isp_subdev->enable_gpio);
-+		dev_err(dev, "fail to get gpiod %d\n", ret);
-+		goto err_subdev_unreg;
-+	}
-+
-+	for (int i = 0; i < ISP4SD_MAX_FW_RESP_STREAM_NUM; i++)
-+		isp_subdev->irq[i] = irq[i];
-+
-+	isp_subdev->host2fw_seq_num = 1;
-+	ispif->status = ISP4IF_STATUS_PWR_OFF;
++	dev_dbg(buf->dev, "mmap isp user bo 0x%llx size %ld refcount %d\n",
++		buf->gpu_addr, buf->size, refcount_read(&buf->refcount));
 +
 +	return 0;
++}
 +
-+err_subdev_unreg:
-+	v4l2_device_unregister_subdev(&isp_subdev->sdev);
-+err_media_clean_up:
-+	v4l2_subdev_cleanup(&isp_subdev->sdev);
-+	media_entity_cleanup(&isp_subdev->sdev.entity);
++static void *isp4vid_vb2_vaddr(struct vb2_buffer *vb, void *buf_priv)
++{
++	struct isp4vid_vb2_buf *buf = buf_priv;
++
++	if (!buf->vaddr) {
++		dev_err(buf->dev,
++			"fail for buf vaddr is null\n");
++		return NULL;
++	}
++
++	return buf->vaddr;
++}
++
++static void isp4vid_vb2_detach_dmabuf(void *mem_priv)
++{
++	struct isp4vid_vb2_buf *buf = mem_priv;
++
++	dev_dbg(buf->dev, "detach dmabuf of isp user bo 0x%llx size %ld",
++		buf->gpu_addr, buf->size);
++
++	kfree(buf);
++}
++
++static void *isp4vid_vb2_attach_dmabuf(struct vb2_buffer *vb, struct device *dev,
++				       struct dma_buf *dbuf,
++				       unsigned long size)
++{
++	struct isp4vid_vb2_buf *dbg_buf = dbuf->priv;
++	struct isp4vid_vb2_buf *buf;
++
++	if (dbuf->size < size) {
++		dev_err(dev, "Invalid dmabuf size %zu %lu", dbuf->size, size);
++		return ERR_PTR(-EFAULT);
++	}
++
++	buf = kzalloc(sizeof(*buf), GFP_KERNEL);
++	if (!buf)
++		return ERR_PTR(-ENOMEM);
++
++	buf->dev = dev;
++	buf->dbuf = dbuf;
++	buf->size = size;
++
++	dev_dbg(dev, "attach dmabuf of isp user bo 0x%llx size %ld",
++		dbg_buf->gpu_addr, dbg_buf->size);
++
++	return buf;
++}
++
++static void isp4vid_vb2_unmap_dmabuf(void *mem_priv)
++{
++	struct isp4vid_vb2_buf *buf = mem_priv;
++	struct iosys_map map = IOSYS_MAP_INIT_VADDR(buf->vaddr);
++
++	dev_dbg(buf->dev, "unmap dmabuf of isp user bo 0x%llx size %ld",
++		buf->gpu_addr, buf->size);
++
++	dma_buf_vunmap_unlocked(buf->dbuf, &map);
++	buf->vaddr = NULL;
++}
++
++static int isp4vid_vb2_map_dmabuf(void *mem_priv)
++{
++	struct isp4vid_vb2_buf *buf = mem_priv, *mmap_buf;
++	struct iosys_map map;
++	int ret;
++
++	ret = dma_buf_vmap_unlocked(buf->dbuf, &map);
++	if (ret) {
++		dev_err(buf->dev, "vmap_unlocked fail");
++		return -EFAULT;
++	}
++
++	buf->vaddr = map.vaddr;
++	mmap_buf = buf->dbuf->priv;
++	buf->gpu_addr = mmap_buf->gpu_addr;
++
++	dev_dbg(buf->dev, "map dmabuf of isp user bo 0x%llx size %ld",
++		buf->gpu_addr, buf->size);
++
++	return 0;
++}
++
++#ifdef CONFIG_HAS_DMA
++struct isp4vid_vb2_amdgpu_attachment {
++	struct sg_table sgt;
++	enum dma_data_direction dma_dir;
++};
++
++static int isp4vid_dmabuf_ops_attach(struct dma_buf *dbuf,
++				     struct dma_buf_attachment *dbuf_attach)
++{
++	struct isp4vid_vb2_buf *buf = dbuf->priv;
++	int num_pages = PAGE_ALIGN(buf->size) / PAGE_SIZE;
++	struct isp4vid_vb2_amdgpu_attachment *attach;
++	void *vaddr = buf->vaddr;
++	struct scatterlist *sg;
++	struct sg_table *sgt;
++	int ret;
++	int i;
++
++	attach = kzalloc(sizeof(*attach), GFP_KERNEL);
++	if (!attach)
++		return -ENOMEM;
++
++	sgt = &attach->sgt;
++	ret = sg_alloc_table(sgt, num_pages, GFP_KERNEL);
++	if (ret) {
++		kfree(attach);
++		return ret;
++	}
++
++	for_each_sgtable_sg(sgt, sg, i) {
++		struct page *page = vmalloc_to_page(vaddr);
++
++		if (!page) {
++			sg_free_table(sgt);
++			kfree(attach);
++			return -ENOMEM;
++		}
++
++		sg_set_page(sg, page, PAGE_SIZE, 0);
++		vaddr = ((char *)vaddr) + PAGE_SIZE;
++	}
++
++	attach->dma_dir = DMA_NONE;
++	dbuf_attach->priv = attach;
++
++	return 0;
++}
++
++static void isp4vid_dmabuf_ops_detach(struct dma_buf *dbuf,
++				      struct dma_buf_attachment *dbuf_attach)
++{
++	struct isp4vid_vb2_amdgpu_attachment *attach = dbuf_attach->priv;
++	struct sg_table *sgt;
++
++	if (!attach) {
++		pr_err("fail invalid attach handler\n");
++		return;
++	}
++
++	sgt = &attach->sgt;
++
++	/* release the scatterlist cache */
++	if (attach->dma_dir != DMA_NONE)
++		dma_unmap_sgtable(dbuf_attach->dev, sgt, attach->dma_dir, 0);
++
++	sg_free_table(sgt);
++	kfree(attach);
++	dbuf_attach->priv = NULL;
++}
++
++static struct sg_table *isp4vid_dmabuf_ops_map(struct dma_buf_attachment *dbuf_attach,
++					       enum dma_data_direction dma_dir)
++{
++	struct isp4vid_vb2_amdgpu_attachment *attach = dbuf_attach->priv;
++	struct sg_table *sgt;
++
++	sgt = &attach->sgt;
++	/* return previously mapped sg table */
++	if (attach->dma_dir == dma_dir)
++		return sgt;
++
++	/* release any previous cache */
++	if (attach->dma_dir != DMA_NONE) {
++		dma_unmap_sgtable(dbuf_attach->dev, sgt, attach->dma_dir, 0);
++		attach->dma_dir = DMA_NONE;
++	}
++
++	/* mapping to the client with new direction */
++	if (dma_map_sgtable(dbuf_attach->dev, sgt, dma_dir, 0)) {
++		dev_err(dbuf_attach->dev, "fail to map scatterlist");
++		return ERR_PTR(-EIO);
++	}
++
++	attach->dma_dir = dma_dir;
++
++	return sgt;
++}
++
++static void isp4vid_dmabuf_ops_unmap(struct dma_buf_attachment *dbuf_attach,
++				     struct sg_table *sgt,
++				     enum dma_data_direction dma_dir)
++{
++	/* nothing to be done here */
++}
++
++static int isp4vid_dmabuf_ops_vmap(struct dma_buf *dbuf,
++				   struct iosys_map *map)
++{
++	struct isp4vid_vb2_buf *buf = dbuf->priv;
++
++	iosys_map_set_vaddr(map, buf->vaddr);
++
++	return 0;
++}
++
++static void isp4vid_dmabuf_ops_release(struct dma_buf *dbuf)
++{
++	struct isp4vid_vb2_buf *buf = dbuf->priv;
++
++	/* drop reference obtained in isp4vid_vb2_get_dmabuf */
++	if (dbuf != buf->dbuf)
++		isp4vid_vb2_put(buf);
++	else
++		kfree(buf);
++}
++
++static int isp4vid_dmabuf_ops_mmap(struct dma_buf *dbuf, struct vm_area_struct *vma)
++{
++	return isp4vid_vb2_mmap(dbuf->priv, vma);
++}
++
++static const struct dma_buf_ops isp4vid_dmabuf_ops = {
++	.attach = isp4vid_dmabuf_ops_attach,
++	.detach = isp4vid_dmabuf_ops_detach,
++	.map_dma_buf = isp4vid_dmabuf_ops_map,
++	.unmap_dma_buf = isp4vid_dmabuf_ops_unmap,
++	.vmap = isp4vid_dmabuf_ops_vmap,
++	.mmap = isp4vid_dmabuf_ops_mmap,
++	.release = isp4vid_dmabuf_ops_release,
++};
++
++static struct dma_buf *isp4vid_get_dmabuf(struct isp4vid_vb2_buf *buf, unsigned long flags)
++{
++	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
++	struct dma_buf *dbuf;
++
++	if (WARN_ON(!buf->vaddr))
++		return NULL;
++
++	exp_info.ops = &isp4vid_dmabuf_ops;
++	exp_info.size = buf->size;
++	exp_info.flags = flags;
++	exp_info.priv = buf;
++
++	dbuf = dma_buf_export(&exp_info);
++	if (IS_ERR(dbuf))
++		return NULL;
++
++	return dbuf;
++}
++
++static struct dma_buf *isp4vid_vb2_get_dmabuf(struct vb2_buffer *vb, void *buf_priv,
++					      unsigned long flags)
++{
++	struct isp4vid_vb2_buf *buf = buf_priv;
++	struct dma_buf *dbuf;
++
++	dbuf = isp4vid_get_dmabuf(buf, flags);
++	if (!dbuf) {
++		dev_err(buf->dev, "fail to get isp dma buffer\n");
++		return NULL;
++	}
++
++	refcount_inc(&buf->refcount);
++
++	dev_dbg(buf->dev, "buf exported, refcount %d\n",
++		refcount_read(&buf->refcount));
++
++	return dbuf;
++}
++#endif /* CONFIG_HAS_DMA */
++
++static void isp4vid_vb2_put(void *buf_priv)
++{
++	struct isp4vid_vb2_buf *buf = buf_priv;
++
++	dev_dbg(buf->dev,
++		"release isp user bo 0x%llx size %ld refcount %d",
++		buf->gpu_addr, buf->size,
++		refcount_read(&buf->refcount));
++
++	if (refcount_dec_and_test(&buf->refcount)) {
++		isp_user_buffer_free(buf->bo);
++		vfree(buf->vaddr);
++		/*
++		 * Putting the implicit dmabuf frees `buf`. Freeing `buf` must
++		 * be done from the dmabuf release callback since dma_buf_put()
++		 * isn't always synchronous; it's just an fput(), which may be
++		 * deferred. Since the dmabuf release callback needs to access
++		 * `buf`, this means `buf` cannot be freed until then.
++		 */
++		dma_buf_put(buf->dbuf);
++	}
++}
++
++static void *isp4vid_vb2_alloc(struct vb2_buffer *vb, struct device *dev, unsigned long size)
++{
++	struct isp4vid_vb2_buf *buf;
++	u64 gpu_addr;
++	void *bo;
++	int ret;
++
++	buf = kzalloc(sizeof(*buf), GFP_KERNEL | vb->vb2_queue->gfp_flags);
++	if (!buf)
++		return ERR_PTR(-ENOMEM);
++
++	buf->dev = dev;
++	buf->size = size;
++	buf->vaddr = vmalloc_user(buf->size);
++	if (!buf->vaddr) {
++		dev_err(dev, "fail to vmalloc buffer\n");
++		goto free_buf;
++	}
++
++	buf->handler.refcount = &buf->refcount;
++	buf->handler.put = isp4vid_vb2_put;
++	buf->handler.arg = buf;
++
++	/* get implicit dmabuf */
++	buf->dbuf = isp4vid_get_dmabuf(buf, 0);
++	if (!buf->dbuf) {
++		dev_err(dev, "fail to get implicit dmabuf\n");
++		goto free_user_vmem;
++	}
++
++	/* create isp user BO and obtain gpu_addr */
++	ret = isp_user_buffer_alloc(dev, buf->dbuf, &bo, &gpu_addr);
++	if (ret) {
++		dev_err(dev, "fail to create isp user BO\n");
++		goto put_dmabuf;
++	}
++
++	buf->bo = bo;
++	buf->gpu_addr = gpu_addr;
++
++	refcount_set(&buf->refcount, 1);
++
++	dev_dbg(dev, "allocated isp user bo 0x%llx size %ld refcount %d\n",
++		buf->gpu_addr, buf->size, refcount_read(&buf->refcount));
++
++	return buf;
++
++put_dmabuf:
++	dma_buf_put(buf->dbuf);
++free_user_vmem:
++	vfree(buf->vaddr);
++free_buf:
++	ret = buf->vaddr ? -EINVAL : -ENOMEM;
++	kfree(buf);
++	return ERR_PTR(ret);
++}
++
++static const struct vb2_mem_ops isp4vid_vb2_memops = {
++	.alloc		= isp4vid_vb2_alloc,
++	.put		= isp4vid_vb2_put,
++#ifdef CONFIG_HAS_DMA
++	.get_dmabuf	= isp4vid_vb2_get_dmabuf,
++#endif
++	.map_dmabuf	= isp4vid_vb2_map_dmabuf,
++	.unmap_dmabuf	= isp4vid_vb2_unmap_dmabuf,
++	.attach_dmabuf	= isp4vid_vb2_attach_dmabuf,
++	.detach_dmabuf	= isp4vid_vb2_detach_dmabuf,
++	.vaddr		= isp4vid_vb2_vaddr,
++	.mmap		= isp4vid_vb2_mmap,
++	.num_users	= isp4vid_vb2_num_users,
++};
++
++static const struct v4l2_pix_format isp4vid_fmt_default = {
++	.width = 1920,
++	.height = 1080,
++	.pixelformat = ISP4VID_DEFAULT_FMT,
++	.field = V4L2_FIELD_NONE,
++	.colorspace = V4L2_COLORSPACE_SRGB,
++};
++
++static void isp4vid_capture_return_all_buffers(struct isp4vid_dev *isp_vdev,
++					       enum vb2_buffer_state state)
++{
++	struct isp4vid_capture_buffer *vbuf, *node;
++
++	scoped_guard(mutex, &isp_vdev->buf_list_lock) {
++		list_for_each_entry_safe(vbuf, node, &isp_vdev->buf_list, list)
++			vb2_buffer_done(&vbuf->vb2.vb2_buf, state);
++		INIT_LIST_HEAD(&isp_vdev->buf_list);
++	}
++
++	dev_dbg(isp_vdev->dev, "call vb2_buffer_done(%d)\n", state);
++}
++
++static int isp4vid_vdev_link_validate(struct media_link *link)
++{
++	return 0;
++}
++
++static const struct media_entity_operations isp4vid_vdev_ent_ops = {
++	.link_validate = isp4vid_vdev_link_validate,
++};
++
++static const struct v4l2_file_operations isp4vid_vdev_fops = {
++	.owner = THIS_MODULE,
++	.open = v4l2_fh_open,
++	.release = vb2_fop_release,
++	.read = vb2_fop_read,
++	.poll = vb2_fop_poll,
++	.unlocked_ioctl = video_ioctl2,
++	.mmap = vb2_fop_mmap,
++};
++
++static int isp4vid_ioctl_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
++{
++	struct isp4vid_dev *isp_vdev = video_drvdata(file);
++
++	strscpy(cap->driver, ISP4VID_ISP_DRV_NAME, sizeof(cap->driver));
++	snprintf(cap->card, sizeof(cap->card), "%s", ISP4VID_ISP_DRV_NAME);
++	cap->capabilities |= V4L2_CAP_STREAMING | V4L2_CAP_VIDEO_CAPTURE;
++
++	dev_dbg(isp_vdev->dev, "%s|capabilities=0x%X", isp_vdev->vdev.name, cap->capabilities);
++
++	return 0;
++}
++
++static int isp4vid_g_fmt_vid_cap(struct file *file, void *priv, struct v4l2_format *f)
++{
++	struct isp4vid_dev *isp_vdev = video_drvdata(file);
++
++	f->fmt.pix = isp_vdev->format;
++
++	return 0;
++}
++
++static int isp4vid_fill_buffer_size(struct v4l2_pix_format *fmt)
++{
++	int ret = 0;
++
++	switch (fmt->pixelformat) {
++	case V4L2_PIX_FMT_NV12:
++		fmt->bytesperline = fmt->width;
++		fmt->sizeimage = fmt->bytesperline * fmt->height * 3 / 2;
++		break;
++	case V4L2_PIX_FMT_YUYV:
++		fmt->bytesperline = fmt->width * 2;
++		fmt->sizeimage = fmt->bytesperline * fmt->height;
++		break;
++	default:
++		ret = -EINVAL;
++		break;
++	}
++
 +	return ret;
 +}
 +
-+void isp4sd_deinit(struct isp4_subdev *isp_subdev)
++static int isp4vid_try_fmt_vid_cap(struct file *file, void *priv, struct v4l2_format *f)
 +{
-+	struct isp4_interface *ispif = &isp_subdev->ispif;
++	struct isp4vid_dev *isp_vdev = video_drvdata(file);
++	struct v4l2_pix_format *format = &f->fmt.pix;
++	const struct v4l2_frmsize_discrete *fsz;
++	int i;
 +
-+	v4l2_device_unregister_subdev(&isp_subdev->sdev);
-+	media_entity_cleanup(&isp_subdev->sdev.entity);
-+	isp4if_deinit(ispif);
-+	isp4sd_module_enable(isp_subdev, false);
++	if (f->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
++		return -EINVAL;
 +
-+	ispif->status = ISP4IF_STATUS_PWR_OFF;
++	/*
++	 * Check if the hardware supports the requested format, use the default
++	 * format otherwise.
++	 */
++	for (i = 0; i < ARRAY_SIZE(isp4vid_formats); i++)
++		if (isp4vid_formats[i] == format->pixelformat)
++			break;
++
++	if (i == ARRAY_SIZE(isp4vid_formats))
++		format->pixelformat = ISP4VID_DEFAULT_FMT;
++
++	switch (format->pixelformat) {
++	case V4L2_PIX_FMT_NV12:
++	case V4L2_PIX_FMT_YUYV:
++		fsz = v4l2_find_nearest_size(isp4vid_frmsize, ARRAY_SIZE(isp4vid_frmsize),
++					     width, height, format->width, format->height);
++		format->width = fsz->width;
++		format->height = fsz->height;
++		break;
++	default:
++		dev_err(isp_vdev->dev, "%s|unsupported fmt=%u", isp_vdev->vdev.name,
++			format->pixelformat);
++		return -EINVAL;
++	}
++
++	/* There is no need to check the return value, as failure will never happen here */
++	isp4vid_fill_buffer_size(format);
++
++	if (format->field == V4L2_FIELD_ANY)
++		format->field = isp4vid_fmt_default.field;
++
++	if (format->colorspace == V4L2_COLORSPACE_DEFAULT)
++		format->colorspace = isp4vid_fmt_default.colorspace;
++
++	return 0;
 +}
-diff --git a/drivers/media/platform/amd/isp4/isp4_subdev.h b/drivers/media/platform/amd/isp4/isp4_subdev.h
++
++static int isp4vid_set_fmt_2_isp(struct v4l2_subdev *sdev, struct v4l2_pix_format *pix_fmt)
++{
++	struct v4l2_subdev_format fmt = {};
++
++	switch (pix_fmt->pixelformat) {
++	case V4L2_PIX_FMT_NV12:
++		fmt.format.code = MEDIA_BUS_FMT_YUYV8_1_5X8;
++		break;
++	case V4L2_PIX_FMT_YUYV:
++		fmt.format.code = MEDIA_BUS_FMT_YUYV8_1X16;
++		break;
++	default:
++		return -EINVAL;
++	}
++	fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
++	fmt.pad = ISP4VID_PAD_VIDEO_OUTPUT;
++	fmt.format.width = pix_fmt->width;
++	fmt.format.height = pix_fmt->height;
++	return v4l2_subdev_call(sdev, pad, set_fmt, NULL, &fmt);
++}
++
++static int isp4vid_s_fmt_vid_cap(struct file *file, void *priv, struct v4l2_format *f)
++{
++	struct isp4vid_dev *isp_vdev = video_drvdata(file);
++	int ret;
++
++	/* Do not change the format while stream is on */
++	if (vb2_is_busy(&isp_vdev->vbq))
++		return -EBUSY;
++
++	if (f->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
++		return -EINVAL;
++
++	ret = isp4vid_try_fmt_vid_cap(file, priv, f);
++	if (ret)
++		return ret;
++
++	dev_dbg(isp_vdev->dev, "%s|width height:%ux%u->%ux%u",
++		isp_vdev->vdev.name,
++		isp_vdev->format.width, isp_vdev->format.height,
++		f->fmt.pix.width, f->fmt.pix.height);
++	dev_dbg(isp_vdev->dev, "%s|pixelformat:0x%x-0x%x",
++		isp_vdev->vdev.name, isp_vdev->format.pixelformat,
++		f->fmt.pix.pixelformat);
++	dev_dbg(isp_vdev->dev, "%s|bytesperline:%u->%u",
++		isp_vdev->vdev.name, isp_vdev->format.bytesperline,
++		f->fmt.pix.bytesperline);
++	dev_dbg(isp_vdev->dev, "%s|sizeimage:%u->%u",
++		isp_vdev->vdev.name, isp_vdev->format.sizeimage,
++		f->fmt.pix.sizeimage);
++
++	isp_vdev->format = f->fmt.pix;
++	ret = isp4vid_set_fmt_2_isp(isp_vdev->isp_sdev, &isp_vdev->format);
++
++	return ret;
++}
++
++static int isp4vid_enum_fmt_vid_cap(struct file *file, void *priv, struct v4l2_fmtdesc *f)
++{
++	struct isp4vid_dev *isp_vdev = video_drvdata(file);
++
++	switch (f->index) {
++	case 0:
++		f->pixelformat = V4L2_PIX_FMT_NV12;
++		break;
++	case 1:
++		f->pixelformat = V4L2_PIX_FMT_YUYV;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	dev_dbg(isp_vdev->dev, "%s|index=%d, pixelformat=0x%X",
++		isp_vdev->vdev.name, f->index, f->pixelformat);
++
++	return 0;
++}
++
++static int isp4vid_enum_framesizes(struct file *file, void *fh, struct v4l2_frmsizeenum *fsize)
++{
++	struct isp4vid_dev *isp_vdev = video_drvdata(file);
++	unsigned int i;
++
++	for (i = 0; i < ARRAY_SIZE(isp4vid_formats); i++) {
++		if (isp4vid_formats[i] == fsize->pixel_format)
++			break;
++	}
++	if (i == ARRAY_SIZE(isp4vid_formats))
++		return -EINVAL;
++
++	if (fsize->index < ARRAY_SIZE(isp4vid_frmsize)) {
++		fsize->type = V4L2_FRMSIZE_TYPE_DISCRETE;
++		fsize->discrete = isp4vid_frmsize[fsize->index];
++		dev_dbg(isp_vdev->dev, "%s|size[%d]=%dx%d",
++			isp_vdev->vdev.name, fsize->index,
++			fsize->discrete.width, fsize->discrete.height);
++	} else {
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int isp4vid_ioctl_enum_frameintervals(struct file *file, void *priv,
++					     struct v4l2_frmivalenum *fival)
++{
++	struct isp4vid_dev *isp_vdev = video_drvdata(file);
++	int i;
++
++	if (fival->index >= ARRAY_SIZE(isp4vid_tpfs))
++		return -EINVAL;
++
++	for (i = 0; i < ARRAY_SIZE(isp4vid_formats); i++)
++		if (isp4vid_formats[i] == fival->pixel_format)
++			break;
++
++	if (i == ARRAY_SIZE(isp4vid_formats))
++		return -EINVAL;
++
++	for (i = 0; i < ARRAY_SIZE(isp4vid_frmsize); i++)
++		if (isp4vid_frmsize[i].width == fival->width &&
++		    isp4vid_frmsize[i].height == fival->height)
++			break;
++
++	if (i == ARRAY_SIZE(isp4vid_frmsize))
++		return -EINVAL;
++
++	fival->type = V4L2_FRMIVAL_TYPE_DISCRETE;
++	fival->discrete = isp4vid_tpfs[fival->index];
++	v4l2_simplify_fraction(&fival->discrete.numerator,
++			       &fival->discrete.denominator, 8, 333);
++
++	dev_dbg(isp_vdev->dev, "%s|interval[%d]=%d/%d",
++		isp_vdev->vdev.name, fival->index,
++		fival->discrete.numerator,
++		fival->discrete.denominator);
++
++	return 0;
++}
++
++static int isp4vid_ioctl_g_param(struct file *file, void *priv, struct v4l2_streamparm *param)
++{
++	struct v4l2_captureparm *capture = &param->parm.capture;
++	struct isp4vid_dev *isp_vdev = video_drvdata(file);
++
++	if (param->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
++		return -EINVAL;
++
++	capture->capability   = V4L2_CAP_TIMEPERFRAME;
++	capture->timeperframe = isp_vdev->timeperframe;
++	capture->readbuffers  = 0;
++
++	dev_dbg(isp_vdev->dev, "%s|timeperframe=%d/%d", isp_vdev->vdev.name,
++		capture->timeperframe.numerator,
++		capture->timeperframe.denominator);
++
++	return 0;
++}
++
++static const struct v4l2_ioctl_ops isp4vid_vdev_ioctl_ops = {
++	/* VIDIOC_QUERYCAP handler */
++	.vidioc_querycap = isp4vid_ioctl_querycap,
++
++	/* VIDIOC_ENUM_FMT handlers */
++	.vidioc_enum_fmt_vid_cap = isp4vid_enum_fmt_vid_cap,
++
++	/* VIDIOC_G_FMT handlers */
++	.vidioc_g_fmt_vid_cap = isp4vid_g_fmt_vid_cap,
++
++	/* VIDIOC_S_FMT handlers */
++	.vidioc_s_fmt_vid_cap = isp4vid_s_fmt_vid_cap,
++
++	/* VIDIOC_TRY_FMT handlers */
++	.vidioc_try_fmt_vid_cap = isp4vid_try_fmt_vid_cap,
++
++	/* Buffer handlers */
++	.vidioc_reqbufs = vb2_ioctl_reqbufs,
++	.vidioc_querybuf = vb2_ioctl_querybuf,
++	.vidioc_qbuf = vb2_ioctl_qbuf,
++	.vidioc_expbuf = vb2_ioctl_expbuf,
++	.vidioc_dqbuf = vb2_ioctl_dqbuf,
++	.vidioc_create_bufs = vb2_ioctl_create_bufs,
++	.vidioc_prepare_buf = vb2_ioctl_prepare_buf,
++
++	/* Stream on/off */
++	.vidioc_streamon = vb2_ioctl_streamon,
++	.vidioc_streamoff = vb2_ioctl_streamoff,
++
++	/* Stream type-dependent parameter ioctls */
++	.vidioc_g_parm        = isp4vid_ioctl_g_param,
++	.vidioc_s_parm        = isp4vid_ioctl_g_param,
++
++	.vidioc_enum_framesizes = isp4vid_enum_framesizes,
++	.vidioc_enum_frameintervals = isp4vid_ioctl_enum_frameintervals,
++
++};
++
++static unsigned int isp4vid_get_image_size(struct v4l2_pix_format *fmt)
++{
++	switch (fmt->pixelformat) {
++	case V4L2_PIX_FMT_NV12:
++		return fmt->width * fmt->height * 3 / 2;
++	case V4L2_PIX_FMT_YUYV:
++		return fmt->width * fmt->height * 2;
++	default:
++		return 0;
++	}
++}
++
++static int isp4vid_qops_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
++				    unsigned int *nplanes, unsigned int sizes[],
++				    struct device *alloc_devs[])
++{
++	struct isp4vid_dev *isp_vdev = vb2_get_drv_priv(vq);
++	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
++
++	if (*nplanes > 1) {
++		dev_err(isp_vdev->dev,
++			"fail to setup queue, no mplane supported %u\n",
++			*nplanes);
++		return -EINVAL;
++	}
++
++	if (*nplanes == 1) {
++		unsigned int size;
++
++		size = isp4vid_get_image_size(&isp_vdev->format);
++		if (sizes[0] < size) {
++			dev_err(isp_vdev->dev,
++				"fail for small plane size %u, %u expected\n",
++				sizes[0], size);
++			return -EINVAL;
++		}
++	}
++
++	if (q_num_bufs + *nbuffers < ISP4IF_MAX_STREAM_BUF_COUNT)
++		*nbuffers = ISP4IF_MAX_STREAM_BUF_COUNT - q_num_bufs;
++
++	switch (isp_vdev->format.pixelformat) {
++	case V4L2_PIX_FMT_NV12:
++	case V4L2_PIX_FMT_YUYV: {
++		*nplanes = 1;
++		sizes[0] = max(sizes[0], isp_vdev->format.sizeimage);
++		isp_vdev->format.sizeimage = sizes[0];
++	}
++	break;
++	default:
++		dev_err(isp_vdev->dev, "%s|unsupported fmt=%u\n",
++			isp_vdev->vdev.name, isp_vdev->format.pixelformat);
++		return -EINVAL;
++	}
++
++	dev_dbg(isp_vdev->dev, "%s|*nbuffers=%u *nplanes=%u sizes[0]=%u\n",
++		isp_vdev->vdev.name,
++		*nbuffers, *nplanes, sizes[0]);
++
++	return 0;
++}
++
++static void isp4vid_qops_buffer_queue(struct vb2_buffer *vb)
++{
++	struct isp4vid_capture_buffer *buf =
++		container_of(vb, struct isp4vid_capture_buffer, vb2.vb2_buf);
++	struct isp4vid_dev *isp_vdev = vb2_get_drv_priv(vb->vb2_queue);
++
++	struct isp4vid_vb2_buf *priv_buf = vb->planes[0].mem_priv;
++	struct isp4if_img_buf_info *img_buf = &buf->img_buf;
++
++	dev_dbg(isp_vdev->dev, "%s|index=%u", isp_vdev->vdev.name, vb->index);
++
++	dev_dbg(isp_vdev->dev, "queue isp user bo 0x%llx size=%lu",
++		priv_buf->gpu_addr,
++		priv_buf->size);
++
++	switch (isp_vdev->format.pixelformat) {
++	case V4L2_PIX_FMT_NV12: {
++		u32 y_size = isp_vdev->format.sizeimage / 3 * 2;
++		u32 uv_size = isp_vdev->format.sizeimage / 3;
++
++		img_buf->planes[0].len = y_size;
++		img_buf->planes[0].sys_addr = priv_buf->vaddr;
++		img_buf->planes[0].mc_addr = priv_buf->gpu_addr;
++
++		dev_dbg(isp_vdev->dev, "img_buf[0]: mc=0x%llx size=%u",
++			img_buf->planes[0].mc_addr,
++			img_buf->planes[0].len);
++
++		img_buf->planes[1].len = uv_size;
++		img_buf->planes[1].sys_addr = priv_buf->vaddr + y_size;
++		img_buf->planes[1].mc_addr = priv_buf->gpu_addr + y_size;
++
++		dev_dbg(isp_vdev->dev, "img_buf[1]: mc=0x%llx size=%u",
++			img_buf->planes[1].mc_addr,
++			img_buf->planes[1].len);
++
++		img_buf->planes[2].len = 0;
++	}
++	break;
++	case V4L2_PIX_FMT_YUYV: {
++		img_buf->planes[0].len = isp_vdev->format.sizeimage;
++		img_buf->planes[0].sys_addr = priv_buf->vaddr;
++		img_buf->planes[0].mc_addr = priv_buf->gpu_addr;
++
++		dev_dbg(isp_vdev->dev, "img_buf[0]: mc=0x%llx size=%u",
++			img_buf->planes[0].mc_addr,
++			img_buf->planes[0].len);
++
++		img_buf->planes[1].len = 0;
++		img_buf->planes[2].len = 0;
++	}
++	break;
++	default:
++		dev_err(isp_vdev->dev, "%s|unsupported fmt=%u",
++			isp_vdev->vdev.name, isp_vdev->format.pixelformat);
++		return;
++	}
++
++	if (isp_vdev->stream_started)
++		isp_vdev->ops->send_buffer(isp_vdev->isp_sdev, img_buf);
++
++	scoped_guard(mutex, &isp_vdev->buf_list_lock)
++		list_add_tail(&buf->list, &isp_vdev->buf_list);
++}
++
++static int isp4vid_qops_start_streaming(struct vb2_queue *vq, unsigned int count)
++{
++	struct isp4vid_dev *isp_vdev = vb2_get_drv_priv(vq);
++	struct isp4vid_capture_buffer *isp4vid_buf;
++	struct media_entity *entity;
++	struct v4l2_subdev *subdev;
++	struct media_pad *pad;
++	int ret = 0;
++
++	isp_vdev->sequence = 0;
++	ret = v4l2_pipeline_pm_get(&isp_vdev->vdev.entity);
++	if (ret) {
++		dev_err(isp_vdev->dev, "power up isp fail %d\n", ret);
++		goto release_buffers;
++	}
++
++	entity = &isp_vdev->vdev.entity;
++	while (1) {
++		pad = &entity->pads[0];
++		if (!(pad->flags & MEDIA_PAD_FL_SINK))
++			break;
++
++		pad = media_pad_remote_pad_first(pad);
++		if (!pad || !is_media_entity_v4l2_subdev(pad->entity))
++			break;
++
++		entity = pad->entity;
++		subdev = media_entity_to_v4l2_subdev(entity);
++
++		ret = v4l2_subdev_call(subdev, video, s_stream, 1);
++		if (ret < 0 && ret != -ENOIOCTLCMD) {
++			dev_dbg(isp_vdev->dev, "fail start streaming: %s %d\n",
++				subdev->name, ret);
++			goto release_buffers;
++		}
++	}
++
++	list_for_each_entry(isp4vid_buf, &isp_vdev->buf_list, list)
++		isp_vdev->ops->send_buffer(isp_vdev->isp_sdev, &isp4vid_buf->img_buf);
++
++	/* Start the media pipeline */
++	ret = video_device_pipeline_start(&isp_vdev->vdev, &isp_vdev->pipe);
++	if (ret) {
++		dev_err(isp_vdev->dev, "video_device_pipeline_start fail:%d",
++			ret);
++		goto release_buffers;
++	}
++
++	isp_vdev->stream_started = true;
++
++	return 0;
++
++release_buffers:
++	isp4vid_capture_return_all_buffers(isp_vdev, VB2_BUF_STATE_QUEUED);
++	return ret;
++}
++
++static void isp4vid_qops_stop_streaming(struct vb2_queue *vq)
++{
++	struct isp4vid_dev *isp_vdev = vb2_get_drv_priv(vq);
++	struct v4l2_subdev *subdev;
++	struct media_entity *entity;
++	struct media_pad *pad;
++	int ret;
++
++	entity = &isp_vdev->vdev.entity;
++	while (1) {
++		pad = &entity->pads[0];
++		if (!(pad->flags & MEDIA_PAD_FL_SINK))
++			break;
++
++		pad = media_pad_remote_pad_first(pad);
++		if (!pad || !is_media_entity_v4l2_subdev(pad->entity))
++			break;
++
++		entity = pad->entity;
++		subdev = media_entity_to_v4l2_subdev(entity);
++
++		ret = v4l2_subdev_call(subdev, video, s_stream, 0);
++
++		if (ret < 0 && ret != -ENOIOCTLCMD)
++			dev_dbg(isp_vdev->dev, "fail stop streaming: %s %d\n",
++				subdev->name, ret);
++	}
++
++	isp_vdev->stream_started = false;
++	v4l2_pipeline_pm_put(&isp_vdev->vdev.entity);
++
++	/* Stop the media pipeline */
++	video_device_pipeline_stop(&isp_vdev->vdev);
++
++	/* Release all active buffers */
++	isp4vid_capture_return_all_buffers(isp_vdev, VB2_BUF_STATE_ERROR);
++}
++
++static const struct vb2_ops isp4vid_qops = {
++	.queue_setup = isp4vid_qops_queue_setup,
++	.buf_queue = isp4vid_qops_buffer_queue,
++	.start_streaming = isp4vid_qops_start_streaming,
++	.stop_streaming = isp4vid_qops_stop_streaming,
++	.wait_prepare = vb2_ops_wait_prepare,
++	.wait_finish = vb2_ops_wait_finish,
++};
++
++int isp4vid_dev_init(struct isp4vid_dev *isp_vdev, struct v4l2_subdev *isp_sdev,
++		     const struct isp4vid_ops *ops)
++{
++	const char *vdev_name = isp4vid_video_dev_name;
++	struct v4l2_device *v4l2_dev;
++	struct video_device *vdev;
++	struct vb2_queue *q;
++	int ret;
++
++	if (!isp_vdev || !isp_sdev || !isp_sdev->v4l2_dev)
++		return -EINVAL;
++
++	v4l2_dev = isp_sdev->v4l2_dev;
++	vdev = &isp_vdev->vdev;
++
++	isp_vdev->isp_sdev = isp_sdev;
++	isp_vdev->dev = v4l2_dev->dev;
++	isp_vdev->ops = ops;
++
++	/* Initialize the vb2_queue struct */
++	mutex_init(&isp_vdev->vbq_lock);
++	q = &isp_vdev->vbq;
++	q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
++	q->io_modes = VB2_MMAP | VB2_DMABUF;
++	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
++	q->buf_struct_size = sizeof(struct isp4vid_capture_buffer);
++	q->min_queued_buffers = 2;
++	q->ops = &isp4vid_qops;
++	q->drv_priv = isp_vdev;
++	q->mem_ops = &isp4vid_vb2_memops;
++	q->lock = &isp_vdev->vbq_lock;
++	q->dev = v4l2_dev->dev;
++	ret = vb2_queue_init(q);
++	if (ret) {
++		dev_err(v4l2_dev->dev, "vb2_queue_init error:%d", ret);
++		return ret;
++	}
++	/* Initialize buffer list and its lock */
++	mutex_init(&isp_vdev->buf_list_lock);
++	INIT_LIST_HEAD(&isp_vdev->buf_list);
++
++	/* Set default frame format */
++	isp_vdev->format = isp4vid_fmt_default;
++	isp_vdev->timeperframe = ISP4VID_ISP_TPF_DEFAULT;
++	v4l2_simplify_fraction(&isp_vdev->timeperframe.numerator,
++			       &isp_vdev->timeperframe.denominator, 8, 333);
++
++	ret = isp4vid_fill_buffer_size(&isp_vdev->format);
++	if (ret) {
++		dev_err(v4l2_dev->dev, "fail to fill buffer size: %d\n", ret);
++		goto err_release_vb2_queue;
++	}
++
++	ret = isp4vid_set_fmt_2_isp(isp_sdev, &isp_vdev->format);
++	if (ret) {
++		dev_err(v4l2_dev->dev, "fail init format :%d\n", ret);
++		goto err_release_vb2_queue;
++	}
++
++	/* Initialize the video_device struct */
++	isp_vdev->vdev.entity.name = vdev_name;
++	isp_vdev->vdev.entity.function = MEDIA_ENT_F_IO_V4L;
++	isp_vdev->vdev_pad.flags = MEDIA_PAD_FL_SINK;
++	ret = media_entity_pads_init(&isp_vdev->vdev.entity, 1,
++				     &isp_vdev->vdev_pad);
++
++	if (ret) {
++		dev_err(v4l2_dev->dev, "init media entity pad fail:%d\n", ret);
++		goto err_release_vb2_queue;
++	}
++
++	vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE |
++			    V4L2_CAP_STREAMING | V4L2_CAP_IO_MC;
++	vdev->entity.ops = &isp4vid_vdev_ent_ops;
++	vdev->release = video_device_release_empty;
++	vdev->fops = &isp4vid_vdev_fops;
++	vdev->ioctl_ops = &isp4vid_vdev_ioctl_ops;
++	vdev->lock = NULL;
++	vdev->queue = q;
++	vdev->v4l2_dev = v4l2_dev;
++	vdev->vfl_dir = VFL_DIR_RX;
++	strscpy(vdev->name, vdev_name, sizeof(vdev->name));
++	video_set_drvdata(vdev, isp_vdev);
++
++	ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
++	if (ret) {
++		dev_err(v4l2_dev->dev, "register video device fail:%d\n", ret);
++		goto err_entity_cleanup;
++	}
++
++	return 0;
++
++err_entity_cleanup:
++	media_entity_cleanup(&isp_vdev->vdev.entity);
++err_release_vb2_queue:
++	vb2_queue_release(q);
++	return ret;
++}
++
++void isp4vid_dev_deinit(struct isp4vid_dev *isp_vdev)
++{
++	vb2_video_unregister_device(&isp_vdev->vdev);
++}
+diff --git a/drivers/media/platform/amd/isp4/isp4_video.h b/drivers/media/platform/amd/isp4/isp4_video.h
 new file mode 100644
-index 000000000000..70007b9de3f3
+index 000000000000..b87316d2a2e5
 --- /dev/null
-+++ b/drivers/media/platform/amd/isp4/isp4_subdev.h
-@@ -0,0 +1,124 @@
++++ b/drivers/media/platform/amd/isp4/isp4_video.h
+@@ -0,0 +1,65 @@
 +/* SPDX-License-Identifier: GPL-2.0+ */
 +/*
 + * Copyright (C) 2025 Advanced Micro Devices, Inc.
 + */
 +
-+#ifndef _ISP4_SUBDEV_H_
-+#define _ISP4_SUBDEV_H_
++#ifndef _ISP4_VIDEO_H_
++#define _ISP4_VIDEO_H_
 +
-+#include <linux/debugfs.h>
-+#include <linux/delay.h>
-+#include <linux/firmware.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/types.h>
-+#include <linux/uaccess.h>
-+#include <media/v4l2-device.h>
++#include <media/videobuf2-memops.h>
++#include <media/v4l2-dev.h>
 +
-+#include "isp4_fw_cmd_resp.h"
-+#include "isp4_hw_reg.h"
 +#include "isp4_interface.h"
 +
-+/*
-+ * one is for none sesnor specefic response which is not used now
-+ * another is for sensor specific response
-+ */
-+#define ISP4SD_MAX_FW_RESP_STREAM_NUM 2
-+
-+/*
-+ * cmd used to register frame done callback, parameter is
-+ * struct isp4sd_register_framedone_cb_param *
-+ * when a image buffer is filled by ISP, ISP will call the registered callback.
-+ * callback func prototype is isp4sd_framedone_cb, cb_ctx can be anything
-+ * provided by caller which will be provided back as the first parameter of the
-+ * callback function.
-+ * both cb_func and cb_ctx are provide by caller, set cb_func to NULL to
-+ * unregister the callback
-+ */
-+
-+/* used to indicate the ISP status */
-+enum isp4sd_status {
-+	ISP4SD_STATUS_PWR_OFF,
-+	ISP4SD_STATUS_PWR_ON,
-+	ISP4SD_STATUS_FW_RUNNING,
-+	ISP4SD_STATUS_MAX
++struct isp4vid_capture_buffer {
++	/*
++	 * struct vb2_v4l2_buffer must be the first element
++	 * the videobuf2 framework will allocate this struct based on
++	 * buf_struct_size and use the first sizeof(struct vb2_buffer) bytes of
++	 * memory as a vb2_buffer
++	 */
++	struct vb2_v4l2_buffer vb2;
++	struct isp4if_img_buf_info img_buf;
++	struct list_head list;
 +};
 +
-+/* used to indicate the status of sensor, output stream */
-+enum isp4sd_start_status {
-+	ISP4SD_START_STATUS_OFF,
-+	ISP4SD_START_STATUS_STARTED,
-+	ISP4SD_START_STATUS_START_FAIL,
++struct isp4vid_ops {
++	int (*send_buffer)(struct v4l2_subdev *sd,
++			   struct isp4if_img_buf_info *img_buf);
 +};
 +
-+struct isp4sd_img_buf_node {
-+	struct list_head node;
-+	struct isp4if_img_buf_info buf_info;
-+};
++struct isp4vid_dev {
++	struct video_device vdev;
++	struct media_pad vdev_pad;
++	struct v4l2_pix_format format;
 +
-+/* this is isp output after processing bayer raw input from sensor */
-+struct isp4sd_output_info {
-+	enum isp4sd_start_status start_status;
-+	u32 image_size;
-+};
++	/* mutex that protects vbq */
++	struct mutex vbq_lock;
++	struct vb2_queue vbq;
 +
-+/*
-+ * This struct represents the sensor info which is input or source of ISP,
-+ * status is the sensor status
-+ * output_info is the isp output info after ISP processing the sensor input,
-+ * start_stream_cmd_sent mean if CMD_ID_START_STREAM has sent to fw.
-+ * buf_sent_cnt is buffer count app has sent to receive the images
-+ */
-+struct isp4sd_sensor_info {
-+	struct isp4sd_output_info output_info;
-+	enum isp4sd_start_status status;
-+	bool start_stream_cmd_sent;
-+	u32 buf_sent_cnt;
-+};
++	/* mutex that protects buf_list */
++	struct mutex buf_list_lock;
++	struct list_head buf_list;
 +
-+/*
-+ * Thread created by driver to receive fw response
-+ * thread will be wakeup by fw to driver response interrupt
-+ */
-+struct isp4sd_thread_handler {
-+	struct task_struct *thread;
-+	wait_queue_head_t waitq;
-+	bool resp_ready;
-+};
++	u32 sequence;
++	bool stream_started;
 +
-+struct isp4_subdev_thread_param {
-+	u32 idx;
-+	struct isp4_subdev *isp_subdev;
-+};
-+
-+struct isp4_subdev {
-+	struct v4l2_subdev sdev;
-+	struct isp4_interface ispif;
-+
-+	struct media_pad sdev_pad;
-+
-+	enum isp4sd_status isp_status;
-+	struct mutex ops_mutex; /* ops_mutex */
-+
-+	/* Used to store fw cmds sent to FW whose response driver needs to wait for */
-+	struct isp4sd_thread_handler fw_resp_thread[ISP4SD_MAX_FW_RESP_STREAM_NUM];
-+
-+	u32 host2fw_seq_num;
-+
-+	struct isp4sd_sensor_info sensor_info;
-+
-+	/* gpio descriptor */
-+	struct gpio_desc *enable_gpio;
++	struct media_pipeline pipe;
 +	struct device *dev;
-+	void __iomem *mmio;
-+	struct isp4_subdev_thread_param isp_resp_para[ISP4SD_MAX_FW_RESP_STREAM_NUM];
-+	int irq[ISP4SD_MAX_FW_RESP_STREAM_NUM];
-+	bool irq_enabled;
-+	/* spin lock to access ISP_SYS_INT0_EN exclusively */
-+	spinlock_t irq_lock;
++	struct v4l2_subdev *isp_sdev;
++	struct v4l2_fract timeperframe;
++
++	/* Callback operations */
++	const struct isp4vid_ops *ops;
 +};
 +
-+int isp4sd_init(struct isp4_subdev *isp_subdev, struct v4l2_device *v4l2_dev,
-+		int irq[ISP4SD_MAX_FW_RESP_STREAM_NUM]);
-+void isp4sd_deinit(struct isp4_subdev *isp_subdev);
++int isp4vid_dev_init(struct isp4vid_dev *isp_vdev,
++		     struct v4l2_subdev *isp_sdev,
++		     const struct isp4vid_ops *ops);
 +
-+#endif /* _ISP4_SUBDEV_H_ */
++void isp4vid_dev_deinit(struct isp4vid_dev *isp_vdev);
++
++void isp4vid_handle_frame_done(struct isp4vid_dev *isp_vdev,
++			       const struct isp4if_img_buf_info *img_buf);
++
++#endif /* _ISP4_VIDEO_H_ */
 -- 
 2.34.1
 
