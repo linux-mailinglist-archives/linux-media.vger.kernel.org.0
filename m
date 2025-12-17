@@ -1,56 +1,52 @@
-Return-Path: <linux-media+bounces-48972-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48973-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EBE8CC6B99
-	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 10:11:34 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57F18CC6C0E
+	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 10:16:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id F173B313A6D5
-	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 09:04:14 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9229F30BE096
+	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 09:08:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4768633B94A;
-	Wed, 17 Dec 2025 09:02:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A22934105E;
+	Wed, 17 Dec 2025 09:08:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b="Uo1Er425"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="bLuHeggl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from ixit.cz (ip-94-112-25-9.bb.vodafone.cz [94.112.25.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB7519D092;
-	Wed, 17 Dec 2025 09:02:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765962150; cv=pass; b=Y+HoS4j4nPTPdZPgqAm/xToyaNw4g3VM3pGt5bUuK3gA6brRfHonT4CCblOYt/rs6kanbjho/ShzZT7eQoU4wVOBx+W4ChWDy6xPrMBUae7p7zrjBIAC3KAXg3m61Q19A47kgOi+WMQZLaDQPZaMCqN3V1LVTXAsj8b1yk8L/t8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765962150; c=relaxed/simple;
-	bh=RVmO9lW6eehwdBNV5RAUpbB0ZvFmggl7YobpAFotihI=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47037341048;
+	Wed, 17 Dec 2025 09:08:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.112.25.9
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765962500; cv=none; b=d/T0Su9a7GdtP+v3NuOghasv65k2dSAx3gIurUrUtHfZhIIEclBcigD2nhyuAxsgRHaduIj9LAlUTpc7twEwQ3KT8fvt2IKz/gOLD3UrBkA6S9XDOKnuFFBdoqlfrCxRZ8pfbTT8FyiNIuEPAOCJAirDLDle4TkF1BAZt6ntkm4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765962500; c=relaxed/simple;
+	bh=YOF79mhwziXu7dBdX0/bYUroSiDGOGIaIJv/SMx2s5Y=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E8sHzkc4PlkMo10pb5vIQEJEByaov+brmrUvTxRoYZs5FN3b5U32ao8XvQ5K5cumCOrArePP575HMpIwiYG4/K1UhbpFjN5+9CR6qy1H7tKvKHTT5VvJOfqYocC/wV0oew5gMfbmBE/fOK7vOgNmp7PDafy+oVCrOxjqt7LJedo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b=Uo1Er425; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1765962118; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=MQOr1bkaW6D53AOQOMtEz2hCoqHSLi7Z5Ma9AsaT6F9wPbbfKL0l+Zm0ZSZoNnpzd+1Ymh7JUZrd/cuPrrVw9eDlmrRb8TdauYvDcd9b8Xwn3hDoIovBlY14lQBZV8vWiDTUma6Zbvx/uTKxBOZNuZrT+BY0qH2cLoqlH1nNsys=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1765962118; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=CmX36RAUhkyAzoQriRKH2n45J/o9UqUfaBfGbZAHOVo=; 
-	b=U6d1R/IGFZY1Kwit84IuMtg8nMQtlINXU3reDKItzztfGRi31vhYJEDuc/z3gRFIaxrfI3SgrzaRGH87g9dEMl4M6EWfbLEIZwost6jnHXitEojGdmFsa+LExDdPOpsN8UOuQMsv4/GBUWaghDEmP46N9C03JICSZqkgjwd/0zU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=benjamin.gaignard@collabora.com;
-	dmarc=pass header.from=<benjamin.gaignard@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765962118;
-	s=zohomail; d=collabora.com; i=benjamin.gaignard@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=CmX36RAUhkyAzoQriRKH2n45J/o9UqUfaBfGbZAHOVo=;
-	b=Uo1Er425ZxLLeDatB8rAg48EZeP7+XgfT02adtU+dmlYUgKN4KNFrAhTIhtmWR/A
-	GHBwUHAh1chGVPnBLCE0iQ/SXK3WOg8vDAVZvXEU4K0ZoJtnIDLhZHQYvvg/Mbsrp+R
-	DrRPSu0zMFLgz+/KM5EnFkg0QUPTxIYIUtktIync=
-Received: by mx.zohomail.com with SMTPS id 1765962115824604.2212636872432;
-	Wed, 17 Dec 2025 01:01:55 -0800 (PST)
-Message-ID: <913d3056-0619-4e05-ac5f-1a21cf0e47c9@collabora.com>
-Date: Wed, 17 Dec 2025 10:01:48 +0100
+	 In-Reply-To:Content-Type; b=qjsgymGK3vp+8HaRIaaUR8xHR/8twxxlCaP/OTXVwtGJubMJUm5YYWImkhsGDm+4S+jNX1ut2DLT+FqvZfyDY/5IZ8IF/Fj3bJSrnNF/7CXl9MdvQWVBr/ER1oRpxzLKpf/0Y0hV6fk3VFKiqQLi/mdb7leNbcZf9//ZJinxt6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=bLuHeggl; arc=none smtp.client-ip=94.112.25.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+Received: from [10.0.0.200] (unknown [10.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ixit.cz (Postfix) with ESMTPSA id 344D653412E7;
+	Wed, 17 Dec 2025 10:08:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+	t=1765962487;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=RCVxQI6jnPgUkHW5I61l2VJzl2Oo5ZmCM7Vqd6Nd0QM=;
+	b=bLuHegglW6bb1/AvR/9cKFL8SDkssWn+1Ny56LP+/oeA/8XEXTbA97UIwbOGjDo/cLKPji
+	l93S2GR1LQMomAUkA7oLHWmAhKc0Y9h8KskIAh6ImmlI9FoME62TtnWnGpzcIEzWjRplqu
+	EammlccM9LT1V+HwwU2IJ/0SpxYKbn4=
+Message-ID: <e41a2d91-2d78-45a3-bbde-ddacdec28f54@ixit.cz>
+Date: Wed, 17 Dec 2025 10:08:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -58,241 +54,105 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 5/7] media: verisilicon: AV1: Restore IOMMU context
- before decoding a frame
-To: kernel test robot <lkp@intel.com>, joro@8bytes.org, will@kernel.org,
- robin.murphy@arm.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, heiko@sntech.de, nicolas.dufresne@collabora.com,
- p.zabel@pengutronix.de, mchehab@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, iommu@lists.linux.dev,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-media@vger.kernel.org, kernel@collabora.com
-References: <20251215085349.10155-6-benjamin.gaignard@collabora.com>
- <202512162315.lcRwm6Mr-lkp@intel.com>
+Subject: Re: [PATCH v2] media: dt-bindings: Correct camss VDDA PLL supply
+ description
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>, Kapatrala Syed <akapatra@quicinc.com>,
+ phone-devel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Hans Verkuil <hverkuil@kernel.org>,
+ Robert Foss <rfoss@kernel.org>, Bryan O'Donoghue <bod@kernel.org>,
+ linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Hariram Purushothaman <hariramp@quicinc.com>,
+ Vikram Sharma <quic_vikramsa@quicinc.com>,
+ Richard Acayan <mailingradian@gmail.com>, linux-media@vger.kernel.org,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+References: <20251213-docs-camss-fixes-v2-1-a8a4d4d51c6c@ixit.cz>
+ <176593314599.3464227.16503792061137156291.robh@kernel.org>
 Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <202512162315.lcRwm6Mr-lkp@intel.com>
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+In-Reply-To: <176593314599.3464227.16503792061137156291.robh@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
+On 17/12/2025 01:59, Rob Herring (Arm) wrote:
+> 
+> On Sat, 13 Dec 2025 10:19:31 +0100, David Heidelberg wrote:
+>> Usually, the supply is around 1.2 V, not 1.8 V. Rather remove mention of
+>> voltage from the description.
+>>
+>> Fixes: 849139d46d09 ("media: dt-bindings: media: camss: Fixup vdda regulator descriptions sdm845")
+>> Signed-off-by: David Heidelberg <david@ixit.cz>
+>> ---
+>> Added only Fixes tag for the initial commit, not all the copy-paste
+>> propagated ones.
+>> ---
+>> Changes in v2:
+>> - Applied suggestion to clarify the description. (Krzysztof)
+>> - Link to v1: https://lore.kernel.org/r/20251212-docs-camss-fixes-v1-1-5c011505ff59@ixit.cz
+>> ---
+>>   Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml  | 2 +-
+>>   Documentation/devicetree/bindings/media/qcom,sc7280-camss.yaml   | 2 +-
+>>   Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml | 2 +-
+>>   Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml   | 2 +-
+>>   Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml   | 2 +-
+>>   Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml   | 2 +-
+>>   6 files changed, 6 insertions(+), 6 deletions(-)
+>>
+> 
+> Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
-Le 16/12/2025 à 16:27, kernel test robot a écrit :
-> Hi Benjamin,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on linus/master]
-> [also build test ERROR on v6.19-rc1 next-20251216]
-> [cannot apply to robh/for-next rockchip/for-next arm64/for-next/core]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/dt-bindings-vendor-prefixes-Add-Verisilicon/20251215-165740
-> base:   linus/master
-> patch link:    https://lore.kernel.org/r/20251215085349.10155-6-benjamin.gaignard%40collabora.com
-> patch subject: [PATCH v10 5/7] media: verisilicon: AV1: Restore IOMMU context before decoding a frame
-> config: arm-randconfig-r063-20251216 (https://download.01.org/0day-ci/archive/20251216/202512162315.lcRwm6Mr-lkp@intel.com/config)
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512162315.lcRwm6Mr-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202512162315.lcRwm6Mr-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->>> drivers/iommu/vsi-iommu.c:231:3: error: call to undeclared function 'report_iommu_fault'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->       231 |                 report_iommu_fault(iommu->domain, iommu->dev, iova, status);
->           |                 ^
->>> drivers/iommu/vsi-iommu.c:245:21: error: no member named 'iommu_fwnode' in 'struct iommu_fwspec'
->       245 |                                                              fwspec->iommu_fwnode);
->           |                                                              ~~~~~~  ^
->>> drivers/iommu/vsi-iommu.c:254:28: error: call to undeclared function 'dev_iommu_priv_get'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->       254 |         struct vsi_iommu *iommu = dev_iommu_priv_get(dev);
->           |                                   ^
->     drivers/iommu/vsi-iommu.c:254:28: note: did you mean 'dev_iommu_fwspec_get'?
->     include/linux/iommu.h:1457:36: note: 'dev_iommu_fwspec_get' declared here
->      1457 | static inline struct iommu_fwspec *dev_iommu_fwspec_get(struct device *dev)
->           |                                    ^
->>> drivers/iommu/vsi-iommu.c:254:20: error: incompatible integer to pointer conversion initializing 'struct vsi_iommu *' with an expression of type 'int' [-Wint-conversion]
->       254 |         struct vsi_iommu *iommu = dev_iommu_priv_get(dev);
->           |                           ^       ~~~~~~~~~~~~~~~~~~~~~~~
->     drivers/iommu/vsi-iommu.c:496:28: error: call to undeclared function 'dev_iommu_priv_get'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->       496 |         struct vsi_iommu *iommu = dev_iommu_priv_get(dev);
->           |                                   ^
->     drivers/iommu/vsi-iommu.c:496:20: error: incompatible integer to pointer conversion initializing 'struct vsi_iommu *' with an expression of type 'int' [-Wint-conversion]
->       496 |         struct vsi_iommu *iommu = dev_iommu_priv_get(dev);
->           |                           ^       ~~~~~~~~~~~~~~~~~~~~~~~
->>> drivers/iommu/vsi-iommu.c:519:38: error: variable has incomplete type 'const struct iommu_domain_ops'
->       519 | static const struct iommu_domain_ops vsi_identity_ops = {
->           |                                      ^
->     include/linux/iommu.h:40:8: note: forward declaration of 'struct iommu_domain_ops'
->        40 | struct iommu_domain_ops;
->           |        ^
->     drivers/iommu/vsi-iommu.c:571:28: error: call to undeclared function 'dev_iommu_priv_get'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->       571 |         struct vsi_iommu *iommu = dev_iommu_priv_get(dev);
->           |                                   ^
->     drivers/iommu/vsi-iommu.c:571:20: error: incompatible integer to pointer conversion initializing 'struct vsi_iommu *' with an expression of type 'int' [-Wint-conversion]
->       571 |         struct vsi_iommu *iommu = dev_iommu_priv_get(dev);
->           |                           ^       ~~~~~~~~~~~~~~~~~~~~~~~
->>> drivers/iommu/vsi-iommu.c:644:2: error: call to undeclared function 'dev_iommu_priv_set'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->       644 |         dev_iommu_priv_set(dev, iommu);
->           |         ^
->     drivers/iommu/vsi-iommu.c:650:28: error: call to undeclared function 'dev_iommu_priv_get'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->       650 |         struct vsi_iommu *iommu = dev_iommu_priv_get(dev);
->           |                                   ^
->     drivers/iommu/vsi-iommu.c:650:20: error: incompatible integer to pointer conversion initializing 'struct vsi_iommu *' with an expression of type 'int' [-Wint-conversion]
->       650 |         struct vsi_iommu *iommu = dev_iommu_priv_get(dev);
->           |                           ^       ~~~~~~~~~~~~~~~~~~~~~~~
->>> drivers/iommu/vsi-iommu.c:657:35: error: passing 'const uint32_t[16]' (aka 'const unsigned int[16]') to parameter of type 'u32 *' (aka 'unsigned int *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
->       657 |         return iommu_fwspec_add_ids(dev, args->args, 1);
->           |                                          ^~~~~~~~~~
->     include/linux/iommu.h:1451:65: note: passing argument to parameter 'ids' here
->      1451 | static inline int iommu_fwspec_add_ids(struct device *dev, u32 *ids,
->           |                                                                 ^
->>> drivers/iommu/vsi-iommu.c:667:18: error: use of undeclared identifier 'generic_single_device_group'
->       667 |         .device_group = generic_single_device_group,
->           |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->     drivers/iommu/vsi-iommu.c:669:25: error: variable has incomplete type 'const struct iommu_domain_ops'
->       669 |         .default_domain_ops = &(const struct iommu_domain_ops) {
->           |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->       670 |                 .attach_dev             = vsi_iommu_attach_device,
->           |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->       671 |                 .map_pages              = vsi_iommu_map,
->           |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->       672 |                 .unmap_pages            = vsi_iommu_unmap,
->           |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->       673 |                 .flush_iotlb_all        = vsi_iommu_flush_tlb_all,
->           |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->       674 |                 .iova_to_phys           = vsi_iommu_iova_to_phys,
->           |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->       675 |                 .free                   = vsi_iommu_domain_free,
->           |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->       676 |         }
->           |         ~
->     include/linux/iommu.h:40:8: note: forward declaration of 'struct iommu_domain_ops'
->        40 | struct iommu_domain_ops;
->           |        ^
->     15 errors generated.
->
-> Kconfig warnings: (for reference only)
->     WARNING: unmet direct dependencies detected for VSI_IOMMU
->     Depends on [n]: IOMMU_SUPPORT [=n] && (ARCH_ROCKCHIP [=n] && ARM64 || COMPILE_TEST [=y])
->     Selected by [m]:
->     - VIDEO_HANTRO_ROCKCHIP [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] && VIDEO_HANTRO [=m] && (ARCH_ROCKCHIP [=n] || COMPILE_TEST [=y])VSI_IOMMU
+Thanks Rob,
 
-I will make VIDEO_HANTRO_ROCKCHIP depends on VSI_IOMMU instead of select it on the next version.
-Regards,
-Benjamin
+meanwhile I sent v3 with 2 commits narrowing both supplies (just as I 
+noticed with old commit msg..), it's here:
 
->
->
-> vim +/report_iommu_fault +231 drivers/iommu/vsi-iommu.c
->
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  214
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  215  static irqreturn_t vsi_iommu_irq(int irq, void *dev_id)
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  216  {
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  217  	struct vsi_iommu *iommu = dev_id;
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  218  	unsigned long flags;
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  219  	dma_addr_t iova;
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  220  	u32 status;
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  221
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  222  	if (pm_runtime_resume_and_get(iommu->dev) < 0)
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  223  		return IRQ_NONE;
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  224
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  225  	spin_lock_irqsave(&iommu->lock, flags);
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  226
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  227  	status = readl(iommu->regs + VSI_MMU_STATUS_BASE);
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  228  	if (status & VSI_MMU_IRQ_MASK) {
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  229  		dev_err(iommu->dev, "unexpected int_status=%08x\n", status);
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  230  		iova = readl(iommu->regs + VSI_MMU_PAGE_FAULT_ADDR);
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15 @231  		report_iommu_fault(iommu->domain, iommu->dev, iova, status);
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  232  	}
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  233  	writel(0, iommu->regs + VSI_MMU_STATUS_BASE);
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  234
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  235  	spin_unlock_irqrestore(&iommu->lock, flags);
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  236  	pm_runtime_put_autosuspend(iommu->dev);
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  237
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  238  	return IRQ_HANDLED;
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  239  }
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  240
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  241  static struct vsi_iommu *vsi_iommu_get_from_dev(struct device *dev)
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  242  {
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  243  	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  244  	struct device *iommu_dev = bus_find_device_by_fwnode(&platform_bus_type,
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15 @245  							     fwspec->iommu_fwnode);
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  246
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  247  	put_device(iommu_dev);
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  248
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  249  	return iommu_dev ? dev_get_drvdata(iommu_dev) : NULL;
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  250  }
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  251
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  252  static struct iommu_domain *vsi_iommu_domain_alloc_paging(struct device *dev)
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  253  {
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15 @254  	struct vsi_iommu *iommu = dev_iommu_priv_get(dev);
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  255  	struct vsi_iommu_domain *vsi_domain;
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  256
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  257  	vsi_domain = kzalloc(sizeof(*vsi_domain), GFP_KERNEL);
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  258  	if (!vsi_domain)
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  259  		return NULL;
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  260
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  261  	vsi_domain->dev = iommu->dev;
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  262  	spin_lock_init(&vsi_domain->lock);
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  263
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  264  	/*
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  265  	 * iommu use a 2 level pagetable.
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  266  	 * Each level1 (dt) and level2 (pt) table has 1024 4-byte entries.
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  267  	 * Allocate one 4 KiB page for each table.
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  268  	 */
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  269  	vsi_domain->dt = iommu_alloc_pages_sz(GFP_KERNEL | GFP_DMA32,
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  270  					      SPAGE_SIZE);
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  271  	if (!vsi_domain->dt)
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  272  		goto err_free_domain;
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  273
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  274  	vsi_domain->dt_dma = dma_map_single(vsi_domain->dev, vsi_domain->dt,
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  275  					    SPAGE_SIZE, DMA_TO_DEVICE);
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  276  	if (dma_mapping_error(vsi_domain->dev, vsi_domain->dt_dma)) {
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  277  		dev_err(dev, "DMA map error for DT\n");
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  278  		goto err_free_dt;
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  279  	}
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  280
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  281  	vsi_domain->pta = iommu_alloc_pages_sz(GFP_KERNEL | GFP_DMA32,
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  282  					       SPAGE_SIZE);
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  283  	if (!vsi_domain->pta)
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  284  		goto err_unmap_dt;
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  285
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  286  	vsi_domain->pta[0] = vsi_mk_pta(vsi_domain->dt_dma);
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  287  	vsi_domain->pta_dma = dma_map_single(vsi_domain->dev, vsi_domain->pta,
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  288  					     SPAGE_SIZE, DMA_TO_DEVICE);
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  289  	if (dma_mapping_error(vsi_domain->dev, vsi_domain->pta_dma)) {
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  290  		dev_err(dev, "DMA map error for PTA\n");
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  291  		goto err_free_pta;
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  292  	}
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  293
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  294  	INIT_LIST_HEAD(&vsi_domain->iommus);
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  295
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  296  	vsi_domain->domain.geometry.aperture_start = 0;
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  297  	vsi_domain->domain.geometry.aperture_end   = DMA_BIT_MASK(32);
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  298  	vsi_domain->domain.geometry.force_aperture = true;
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  299  	vsi_domain->domain.pgsize_bitmap	   = SZ_4K;
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  300
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  301  	return &vsi_domain->domain;
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  302
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  303  err_free_pta:
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  304  	iommu_free_pages(vsi_domain->pta);
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  305  err_unmap_dt:
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  306  	dma_unmap_single(vsi_domain->dev, vsi_domain->dt_dma,
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  307  			 SPAGE_SIZE, DMA_TO_DEVICE);
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  308  err_free_dt:
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  309  	iommu_free_pages(vsi_domain->dt);
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  310  err_free_domain:
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  311  	kfree(vsi_domain);
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  312
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  313  	return NULL;
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  314  }
-> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  315
->
+https://lore.kernel.org/all/20251216-docs-camss-fixes-v3-0-c238b6810771@ixit.cz/
+
+David
 
