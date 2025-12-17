@@ -1,151 +1,144 @@
-Return-Path: <linux-media+bounces-48975-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48976-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2C81CC6FDF
-	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 11:11:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72902CC7329
+	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 11:59:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7CB6E3064530
-	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 10:10:27 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id EF2D231EC277
+	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 10:49:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F7DD33B972;
-	Wed, 17 Dec 2025 10:02:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34BAE35E556;
+	Wed, 17 Dec 2025 10:25:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sFMrcey0"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Kw3lSd43";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="TE/EbRSB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2B3F29993F;
-	Wed, 17 Dec 2025 10:02:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD52635E538
+	for <linux-media@vger.kernel.org>; Wed, 17 Dec 2025 10:25:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765965748; cv=none; b=s9TwJDeCBOY7tUR+usiRBVyNDlv9AX7YOGuSJK2arKsAN7EZyPmJMtxZi4arD2FQy7taTIf/PpFKJZWAVTYhgDmvOiLQfHww4iNmYyIT7gKn+Z3u+8z8eDO2rnHySdzXz0xPdBZfcWsQA9p5sk8Y0sAm7wj/6840SxQboaEybIg=
+	t=1765967136; cv=none; b=Ydz5LgdBSMXBqPFh0EtqQed8J20S4k+9VBfMqfiJaH3S1We7/QXIEjpTiS5kKKGOKMsTXzeFenE43zWb9pTBbXgiBzlqZPIpqAkjrWDRUC0aT8dqcHw2nGEXIdKFbXbYw7y4/3W4Ijmq5tc/FAHy/krrO0JXIrlT7Z5nOKDLI5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765965748; c=relaxed/simple;
-	bh=GksqRs+EV2oxVYACwteTBnh53I9GEbtIMXaSqpU0MbE=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=bdUzCNjNRx7piGhGN++DGQhmAsTjllU2TZ/5mMfP1rFm36OFhyDm7RgT7ReBSXSNVMmXvGX9vKJItNf10ZguxHrwg/NHuU5+b+89b8RaSGohORiasLntQFtzYWvy5T/pFlYjDmN6B/Q3+UoJjjIOnYqVfTkYFFEEGDDAa/d6x9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sFMrcey0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FA3CC4CEF5;
-	Wed, 17 Dec 2025 10:02:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765965748;
-	bh=GksqRs+EV2oxVYACwteTBnh53I9GEbtIMXaSqpU0MbE=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=sFMrcey05coKGhegXKDQqlvNcx20HZHkotczfTrGUBjB9IyyjaC7yjCEuB9+TpEzI
-	 wwhsmU4D5umHmWUqKXU+wqAUwg1Yo+5wljNYRhlodBflxBeTPOXxEFDVrcdRCB7yD2
-	 wtSBXvglqJRpPVmN6QeW3lVo5kaFsSRRZ5e9kSFC8Bv2LZfsZ8fiYbYgzHh9ueYITx
-	 Kxtq1lMFUwMVf9l6EKXZadbkXKQuiqPvN00qvDK6kzgT2uFZv9rNKFwTsKgpR0x/HX
-	 gvH7ABSxaMoMe8PtuGhfNY/lpfHILvAPrhpl8s7R2VxbxuN0B81c1KnEqBN9hGuCY9
-	 KFTxXIwE7fAbg==
-Message-ID: <221d3f70-b418-4f89-b352-773c544ed428@kernel.org>
-Date: Wed, 17 Dec 2025 11:02:24 +0100
+	s=arc-20240116; t=1765967136; c=relaxed/simple;
+	bh=BYbKHX4dTFPN99WnexO1X4sRqPo8Rn23NQoY+DLrVr4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=f2uHg0VjbM+4k9H3da7KUdI//iK+1JcwOmjnza9Fma5hekcfogjYqVk1Y7fftw80ALTByVU+KUurt0eKH8/PxiJHfR73x7xsib0kgWRaqC4iOluHtZ2NuYcMsiyKbmHv2lrK69JJFTYiY9DcQNZrMZIf17ZYFrNJpoDSpEBH3/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Kw3lSd43; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=TE/EbRSB; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1765967128;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=smHdiTegAULuGhXNBZg/bX/26IPaO/x2LiGtrg1VjdM=;
+	b=Kw3lSd43NiqNqTebsm8RRHl+73UMpp5eROaUePU0jG6La7vBzXH4Xm/tMj6m8LYOtG1kB1
+	3ly0qa5v59r1+P4UMk4qQBjfL35GBKjQWCYJMhvR0MK5rEO4DDyGIhLhi5qPK0Bq4vCBUm
+	0XEl3aqOsysZtQHYBP7y5IJu+UMmeGk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-417-WWH0cR8oOvSIIFYG7RgMvQ-1; Wed, 17 Dec 2025 05:25:27 -0500
+X-MC-Unique: WWH0cR8oOvSIIFYG7RgMvQ-1
+X-Mimecast-MFC-AGG-ID: WWH0cR8oOvSIIFYG7RgMvQ_1765967126
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4775f51ce36so44603275e9.1
+        for <linux-media@vger.kernel.org>; Wed, 17 Dec 2025 02:25:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1765967126; x=1766571926; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=smHdiTegAULuGhXNBZg/bX/26IPaO/x2LiGtrg1VjdM=;
+        b=TE/EbRSBcs7qFiTjVsy8yOBeGKOcEACMkZJOEBuVrO62AjCA3UH/ldTuCNKnSFUIUS
+         dgBiuQrsizuOi7ZfvxaPZ7Pb3C+MPKXWbN2hLYexxOy/WmchRbiQVTKglv0KIJw6O+0m
+         dEARVxiFfYEBIMwnoPok58OwDU9laxmuNUdAaZsSus2ASio4cdQbkV6HPMxPTVznoUTS
+         LfRPvJPL3NpFhbf6Aaqob2lgfzqDO2hDnXleVEzAmYzDhRvtG+xPZvWRuD++42NqfhJd
+         i3KmR7mI+K04uBvwLX1rzqAkwIo3g5JT4Woehw+u9DublNS1r8cxt2gXWlFl1kecn7I2
+         2L3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765967126; x=1766571926;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=smHdiTegAULuGhXNBZg/bX/26IPaO/x2LiGtrg1VjdM=;
+        b=SkDUOFGxyKIBP+9QA9ZU2lQo4xcYVYNPvfkevg3722jIBEngf5/6dXlsEOwzTDxQXZ
+         QJ97XEm0uVpBw1eLW5TJ2fvyuldAF4RqNQhGaa/eQ5957nKg3ntJeZmLjr9ryS9Bqou0
+         +vNbZDaozYh8xfhp+Ta/9DhcfU6mjg9f0OqpKUOx98j+0stCNMM7CDMmUBgv2YjEPTyN
+         NcaqbksmwzvEEoz+tWliBLHv0ICVK4G3xYUy9qN8uTVRqxHal5glENnp5p271lTTRYuY
+         84jB4kyApx2Ik5kkRKrlgoVY0li7RjuqjZO+GrqTyOtaDUogbTovXVFtyDu1wCWnHg60
+         1XUA==
+X-Forwarded-Encrypted: i=1; AJvYcCW2dCdZjcuRL+N3T6ZxuFYDHYo2K8HoMC5XV/9+HqQxRRZLSP6UrffDHgp7SX9GAOROal+/II2GOyZobw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyf7Nw7cR6tGf7U3D5I32IBffDQZM2fmdrPQbmO6B8N8pUZ6SwP
+	wPyhaoVmb+K6lpJKJqa98QPc7IL05boeKXGduUveJ9sul3zq/XWKnUTu5qQg2zTaJhIdnWuYiQT
+	ys6Vzd3+xEwm1SnoFG8ApM8amykar/N7UJypagT3rXhenrzbhbV1lwvrLeFz83sWE
+X-Gm-Gg: AY/fxX5qw6vQ/1a7yfCnhui/LtfuzwENwDhDuBeoJ3KD5HDih3iq/7EF96re4o8q6Kc
+	4ixqyZ/VYi+jzhXV+EtffvwMl5pz3ZmOKmBDHnKTz9dPIg5REDRTjTsrY7XHTL+7f+DBqxXgNQe
+	3WCtewk0XoAuKTQa3dmQOWO9j6Bhpm04JKPh1qRi9evlED/3J9eljHiuJ7puPbVKDhFwOYIIdmW
+	4XthCmX0Msq5FCSWcxURqBe/8YZh8RMOsaIp9MrDCaFpginO5buUKxEgXBSWNnAM3DzqIuufYm3
+	4I49YbB9bBjVRG4u58j4bzM5CZ2Trd9DtwPcDY3Sx/OTiJJxHDugAhUFjsD4b8ySsMEQ9Pyc+hu
+	eEpsRxzVXNUiUSGZMPUS/9KvAcT7vNFNMeimdD6lfzj47aDv2BqwFObxdHMM=
+X-Received: by 2002:a05:600c:5254:b0:46e:37fe:f0e6 with SMTP id 5b1f17b1804b1-47a8f90d28bmr183475005e9.30.1765967125956;
+        Wed, 17 Dec 2025 02:25:25 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHv94oYFukoKO/fNpwSZWIAqty2A+HqHfndysVYm5pmz3lseu6l1OSQncA0MKLpd0JpALSjTg==
+X-Received: by 2002:a05:600c:5254:b0:46e:37fe:f0e6 with SMTP id 5b1f17b1804b1-47a8f90d28bmr183474695e9.30.1765967125517;
+        Wed, 17 Dec 2025 02:25:25 -0800 (PST)
+Received: from lbulwahn-thinkpadx1carbongen12.rmtde.csb ([2a02:810d:7e01:ef00:1622:5a48:afdc:799f])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47bdc1e6ca3sm30491045e9.12.2025.12.17.02.25.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Dec 2025 02:25:24 -0800 (PST)
+From: Lukas Bulwahn <lbulwahn@redhat.com>
+X-Google-Original-From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+To: Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	"Michael J . Ruhl" <michael.j.ruhl@intel.com>,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Lukas Bulwahn <lukas.bulwahn@redhat.com>
+Subject: [PATCH] dma-buf: really enable DMABUF_DEBUG by default on DEBUG kernels
+Date: Wed, 17 Dec 2025 11:25:22 +0100
+Message-ID: <20251217102522.2790298-1-lukas.bulwahn@redhat.com>
+X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH v1] media: videobuf2: Allow applications customize data
- offsets of capture buffers
-To: Nicolas Dufresne <nicolas@ndufresne.ca>,
- Hirokazu Honda <hiroh@chromium.org>
-Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Tomasz Figa
- <tfiga@chromium.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Daniel Almeida <daniel.almeida@collabora.com>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20220322132329.6527-1-dmitry.osipenko@collabora.com>
- <dd22c40e-1200-42f7-8c48-63534f759045@chromium.org>
- <5d367bbb-551f-4164-8473-a6c4b68793c0@kernel.org>
- <CAO5uPHPKLxySgwWUi6w0Nm-PbDSPkN=OySbLK8wNKwXdp3p1Rg@mail.gmail.com>
- <e265d412260226be67df3bfb0dd05bb74e36d551.camel@ndufresne.ca>
-Content-Language: en-US, nl
-In-Reply-To: <e265d412260226be67df3bfb0dd05bb74e36d551.camel@ndufresne.ca>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 15/12/2025 21:56, Nicolas Dufresne wrote:
-> Hi Hirokazu, Hans,
-> 
-> Le vendredi 12 décembre 2025 à 15:15 -0800, Hirokazu Honda a écrit :
->> Thanks Hans for your quick response.
->> And I apologize for my late reply.
->>
->>> So that's were I am: I'm not opposed to supporting this feature, but I
->>> feel that struct v4l2_buffer has reached end-of-life, and that it is
->>> time for a modern replacement.
->>
->> I got it.
->> I will discuss in my team if I can contribute to v4l2_buffer_ext work
->> or sponsor that work next year or in 2027.
-> 
-> I share Hans feeling in regard to trying to force partial support for
-> data_offset into some space left of v4l2_buffer. This brought me thinking that
-> doing that, or even v4l2_buffer_ext as last proposed was not the right solution
-> to modernize the old V4L2 framework. In fact, I believe that v4l2_buffer_ext
-> would simply replicate the MPLANE disaster, leaving another permanent scar in
-> the API. Just to state simply, MPLANE have lead to duplication of every multi-
-> plane pixel formats, solving some plane alignment issue in multi-allocation
-> cases, but leaving behind the common single allocation case.
-> 
-> For me, the most central issue in V4L2 is that the memory allocation/importation
-> is bound to the operation queues. That brings all sort of issues such 
-> 
-> - We can't queue twice the same frame
-> - We can't mix external buffer with device allocated buffer
-> - All buffers must have the exact same stride
+From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
 
-The three limitations above are all technically possible to implement with the
-current vb2 framework/streaming uAPI, it's just that nobody was ever motivated
-enough to add support for it.
+The intent of commit 646013f513f3 ("dma-buf: enable DMABUF_DEBUG by default
+on DEBUG kernels") is clear, but it mixes up the config option name. The
+config option for kernel debugging is named DEBUG_KERNEL, not DEBUG.
 
-> - Application is responsible for caching which memory goes to which v4l2_buffer
+Fix up the DMABUF_DEBUG definition to use the intended name.
 
-True, but is this really a big deal?
+Fixes: 646013f513f3 ("dma-buf: enable DMABUF_DEBUG by default on DEBUG kernels")
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+---
+ drivers/dma-buf/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> - Attempting to import a buffer requires a free spot in the queue
-
-True.
-
-> 
-> This adds on top of the v4l2_buffer structure limitation we have been targeting
-> so far. With the growth of modern standard API (think Vulkan Video notably), it
-> becomes apparent that the model is too inflexible. This inability to separate
-> memory allocation and importation from operations creates a lot of complexity in
-> user-space, leading to complicated bugs.
-> 
-> I've been quite about it, since until now I didn't have a solution in mind, but
-> I recently come with some ideas. I'll will try develop these ideas, at least in
-> prose for now and come up with an RFC, hopefully somewhere beginning of January
-> 2026. That my proposal is accepted or not isn't quite relevant. But hopefully it
-> will be a starter to go go beyond just fixing what we see. In fact, this next
-> step is for me doing to be quite decisive if I continue doing codecs in V4L2 or
-> not in the long run. But I'm sure this is not just about video codecs.
-
-I'm looking forward to your RFC!
-
-What is important for me is that whatever we come up with, it is something that
-existing drivers can easily support. A new streaming/buffer allocation uAPI that
-can only be supported by new drivers will need very, very good reasons for it to
-be accepted.
-
-The nice thing about the v4l2_buffer_ext proposal was that it can easily be
-supported by all drivers.
-
-From a technical perspective both struct v4l2_buffer and struct v4l2_format have
-reached end-of-life: they are full of historical cruft, they are inefficient, the
-32-bit/time32 compatibility code is awful and hard to maintain.
-
-Regards,
-
-	Hans
-
-> 
-> regards,
-> Nicolas
+diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
+index fdd823e446cc..426c9ad3364f 100644
+--- a/drivers/dma-buf/Kconfig
++++ b/drivers/dma-buf/Kconfig
+@@ -55,7 +55,7 @@ config DMABUF_MOVE_NOTIFY
+ config DMABUF_DEBUG
+ 	bool "DMA-BUF debug checks"
+ 	depends on DMA_SHARED_BUFFER
+-	default y if DEBUG
++	default y if DEBUG_KERNEL
+ 	help
+ 	  This option enables additional checks for DMA-BUF importers and
+ 	  exporters. Specifically it validates that importers do not peek at the
+-- 
+2.51.1
 
 
