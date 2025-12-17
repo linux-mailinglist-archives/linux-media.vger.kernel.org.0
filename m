@@ -1,145 +1,288 @@
-Return-Path: <linux-media+bounces-48964-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48965-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20803CC6684
-	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 08:47:45 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64B0DCC66B4
+	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 08:50:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 8D469301824E
-	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 07:46:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5EEE930CDFCC
+	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 07:44:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE1DE34888D;
-	Wed, 17 Dec 2025 07:36:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CC2F26B0B7;
+	Wed, 17 Dec 2025 07:42:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kerneltoast.com header.i=@kerneltoast.com header.b="T5+p4snU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HsMpmN3m"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com [209.85.214.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 621D8348860
-	for <linux-media@vger.kernel.org>; Wed, 17 Dec 2025 07:36:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C4E7336EE8;
+	Wed, 17 Dec 2025 07:42:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765956988; cv=none; b=OfCpJWA8stcyvkT5jreMTOxO9EnKfZZ6/R0ZtlufcaqVvDvbXWbL448q25RhofjxzmpfoPpR6IycDfUQikmZDOTbV1SDpqEUmwJOrcbEN+n731L0VkL+9OCLLPdmr6GuL/EdokwuLJcO88Ac91ukQbjAe35gwce6S9jkYNT2zmQ=
+	t=1765957360; cv=none; b=fcKH2kSlEpI0qGiF3cyJrJkaSlerDJzbr+eVIrvtl8r6mcUBwUOh9zAibD7tsAbDSmdOx2i0KQuGzBUXbOhIGT6+lSF3b/mrG7s8+z4Ix4wnODCQiasTm+Nct9axRrt2WxZGwC8IkNNjY8ZFa19VsiRFfm7taPUr4nmYMifRUGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765956988; c=relaxed/simple;
-	bh=Kq0S0gun6VBXUhZPsNE8K2dbuxakWof1k++nE6eN5/Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h7GtPClAGCVEFOO3+pJs/xVbAlmTLWQsQAM56NkmUgAcWC0EB8ArZJXlkHUu0ycbaoaJmCQWwf4rUGg3xnwvhvD0dgvu/ro87xtfq7Q/bGWhSQgicG2j+2WTD2JlhvpwFLJHU4D6bJvmrAcwklBomBhRldGyfFpKyqc3znItihg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kerneltoast.com; spf=pass smtp.mailfrom=kerneltoast.com; dkim=pass (2048-bit key) header.d=kerneltoast.com header.i=@kerneltoast.com header.b=T5+p4snU; arc=none smtp.client-ip=209.85.214.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kerneltoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kerneltoast.com
-Received: by mail-pl1-f193.google.com with SMTP id d9443c01a7336-2a0f3f74587so37154465ad.2
-        for <linux-media@vger.kernel.org>; Tue, 16 Dec 2025 23:36:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kerneltoast.com; s=google; t=1765956986; x=1766561786; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JWE5vv6v6wuZtHopZl3madiZDTOgqyCJX5w0o/PLKAQ=;
-        b=T5+p4snURDPmbVGgMTAWYBwoYPmcACCjQNmA6rULOj9oRVrxZfifcQBYcUou8heDZX
-         PGQFGH5o9tT65QqEZ4PKr8zOLP1pt5qByPr8KudP4RNcKdTnTp64WHv4ITcCEzBubzNV
-         MOh2Kg+lCTjq1dS0ypBZz1lQ4ZCNGzr5Xb5Trd6SJu/eOxqh7OPNUCw/9NRlAt+Hr0wy
-         DLkpSLXToAJgfLO7qS2n6FGtQGviyq6mfu3XIFOfeH9/TYMyCfX7+TIjG8rbQiGrfz8e
-         cT61qEyJd3EFXjuHVrp+goLALF9lxe+m5zPuBJ7SncA7SIh5UAbgM8hhtrLIADsCJPiQ
-         921g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765956986; x=1766561786;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JWE5vv6v6wuZtHopZl3madiZDTOgqyCJX5w0o/PLKAQ=;
-        b=qQHVmFSiRwfeSSPqP3YnKNB4z60n0ixsg+BYGI/fZqv/GSpqNOxgW/7s3dr6siYdhF
-         KLFZQsi5ND5UyIjs/DhokprPT9swjboEBzcjaBx6eGqMyO8yMO3lm/HIB/wvGAx97PiD
-         aGa1daXz5W39gI2Zh6gcLr8cVZjKqWU58YbNcJTD4p8G4ttgkA2DNB5rfUl9dNVnh7XC
-         nCV6IwhNzZIAM7x0Ir9Kfu2bXAHOKqSTD1FfZX0+XoMA8fWW/+QmftkHLAygYwSsD04F
-         k0jArxGyKg5Q3xX5TYRdt0YexNrlDg+O6bGo0TT8TbOb8zVhirwBqi3L+mtHJiFahffp
-         HePA==
-X-Forwarded-Encrypted: i=1; AJvYcCXYv9Dte7xQLGcYVT7k9XXKZ+V1KfROBLjEhrD+NdK5xIStycYwI5xr/4KplO3h4MJxh9/Be7ZugR2x/A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQ64GkK7DxOZJ6AnnX4pRbiawn+l9vf8/Er2WYxDT/GOH5MkO9
-	BQ1DH75ObUhQTJ+24DaCRDG9bsDlOUgtIhvJunkfp8kXNr7JgMSKUxX9gl0Vp5OGn8Qs
-X-Gm-Gg: AY/fxX4jFtW7aYygCYDbeg6e6GBrLC49UTTdL3NXKiwnnbOuxTxHeyGSPITRS54cKH/
-	/widwut1IZaqdUDETScsGXNZMPVxnDWUdjzCUqJM7xEC6LMFSS0x2BLitqhTiUo+8EBXbndSRYu
-	JRtmhsP6bxL/cYrofEZAReVrbP1eHR0drfPRacUf5iXUbjvWb6oaUySt+Kldwwv/2gZJ6lAtSWk
-	raf548yAdcLLR3KA+ud7/MlbvF+ktQ+UzPdlJCQRBo2F06mXIExYlf8bRXrAWQr4DzQepTrCLgt
-	MOzeTuKVSJdtzxLIQ2jx2jHGPB4Wdmf3i1nvQaUiHV1LxBsCUL65iE/raix6iCtt1OVvNneSial
-	i6+tnJnhzOdyC+WyfIANtBf7eDjiMZPUkjOSuP8qOTCqeyRbUYTYiRqFPinLLqU+lBgm6WN9e19
-	+At9eIZhI+C0fbmQ==
-X-Google-Smtp-Source: AGHT+IGrh8rftXEhI8SkByfHHpn6ZH4gl9bM7u+uz3DE49ulaeKFEeD5C6Kq2E2c8TABAqoy8maX3Q==
-X-Received: by 2002:a05:7022:2209:b0:11b:9386:a3cb with SMTP id a92af1059eb24-11f354f39f9mr12439978c88.44.1765956985499;
-        Tue, 16 Dec 2025 23:36:25 -0800 (PST)
-Received: from sultan-box ([142.147.89.218])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11f2e304766sm61779524c88.13.2025.12.16.23.36.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Dec 2025 23:36:24 -0800 (PST)
-Date: Tue, 16 Dec 2025 23:36:21 -0800
-From: Sultan Alsawaf <sultan@kerneltoast.com>
-To: Bin Du <Bin.Du@amd.com>
-Cc: mchehab@kernel.org, hverkuil@xs4all.nl,
-	laurent.pinchart+renesas@ideasonboard.com,
-	bryan.odonoghue@linaro.org, sakari.ailus@linux.intel.com,
-	prabhakar.mahadev-lad.rj@bp.renesas.com,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
-	gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com,
-	Dominic.Antony@amd.com, mario.limonciello@amd.com,
-	richard.gong@amd.com, anson.tsao@amd.com
-Subject: Re: [PATCH v7 0/7] Add AMD ISP4 driver
-Message-ID: <aUJddaGQTKJnJIJY@sultan-box>
-References: <20251216091326.111977-1-Bin.Du@amd.com>
+	s=arc-20240116; t=1765957360; c=relaxed/simple;
+	bh=t3sMS2rvoK+Hy6JMy1gsympBsNJDbFI9shsFoh+CkuE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gPuY5sdkcvvAt1sx1qsb1hlBs9ZKAInoxj75fct5NXQchnYh+QrZjJ4/qUrnum6O6zl3gDHioGcExOSWCgK9H0kfxfTD8tfdFGctIXiJ8r/Arr8O+HnsuACaP3r5FPgWz3a3KoV6vWtUIJy+kYvYLHwQ1xhDYnj2gFouLm/nQ04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HsMpmN3m; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DA83C4CEF5;
+	Wed, 17 Dec 2025 07:42:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765957360;
+	bh=t3sMS2rvoK+Hy6JMy1gsympBsNJDbFI9shsFoh+CkuE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=HsMpmN3moHHzUX1tScH74pLt+lHIdvdjHvtz+OywNBeAtDHjBnZYBRgMUYlttOcve
+	 YtC4KSaeazM4bCGsMWunKPL3khFF/8O0O05W49WeD3Tyer+QdBkfXI9LDtra0Vph28
+	 EYN6pehx5n33FyAtNiBUhyvNOE0iXnMZpL9ENJ64Fp25cGOtJF7akVwWu4UjL4z7CN
+	 6ATE7zi5NSnmC6HQlDq4at17CJ2q/i9951nCEOAYFkiMRSydKOgXZ5zQBe0/xn5T1/
+	 5kN4852lZKdQxxTHZy83hWw25Sy72JicMfHzEn9WRcyFwC6zVb5CeSwk50hje07Tn6
+	 /jQ8vWV4EhdvQ==
+Message-ID: <360ecc21-b748-474c-9ada-ca72b7ae3a4a@kernel.org>
+Date: Wed, 17 Dec 2025 08:42:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251216091326.111977-1-Bin.Du@amd.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] media: nxp: Add i.MX9 CSI pixel formatter v4l2
+ driver
+To: Guoniu Zhou <guoniu.zhou@oss.nxp.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Frank Li <frank.li@nxp.com>
+Cc: imx@lists.linux.dev, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Guoniu Zhou <guoniu.zhou@nxp.com>
+References: <20251217-csi_formatter-v2-0-62168af80210@nxp.com>
+ <20251217-csi_formatter-v2-2-62168af80210@nxp.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20251217-csi_formatter-v2-2-62168af80210@nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Dec 16, 2025 at 05:13:19PM +0800, Bin Du wrote:
-> Hello,
-> 
-> AMD ISP4 is the AMD image processing gen 4 which can be found in HP ZBook Ultra G1a 14 inch Mobile Workstation PC (Ryzen AI Max 300 Series)
-> (https://ubuntu.com/certified/202411-36043)
-> This patch series introduces the initial driver support for the AMD ISP4.
-> 
-> Patch summary:
-> - Powers up/off and initializes ISP HW
-> - Configures and kicks off ISP FW
-> - Interacts with APP using standard V4l2 interface by video node
-> - Controls ISP HW and interacts with ISP FW to do image processing
-> - Supports enum/set output image format and resolution
-> - Supports queueing buffer from app and dequeuing ISP filled buffer to App
-> - It is verified on qv4l2, cheese and qcam
-> - It is verified together with following patches
-> 	platform/x86: Add AMD ISP platform config (https://lore.kernel.org/all/20250514215623.522746-1-pratap.nirujogi@amd.com/)
-> 	pinctrl: amd: isp411: Add amdisp GPIO pinctrl (https://github.com/torvalds/linux/commit/e97435ab09f3ad7b6a588dd7c4e45a96699bbb4a)
-> 	drm/amd/amdgpu: Add GPIO resources required for amdisp (https://gitlab.freedesktop.org/agd5f/linux/-/commit/ad0f5966ed8297aa47b3184192b00b7379ae0758)
-> 	drm/amd/amdgpu: Declare isp firmware binary file (https://gitlab.freedesktop.org/agd5f/linux/-/commit/35345917bc9f7c86152b270d9d93c220230b667f)
-> 
-> AMD ISP4 Key features:
-> - Processes bayer raw data from the connected sensor and output them to different YUV formats
-> - Downscale input image to different output image resolution
-> - Pipeline to do image processing on the input image including demosaic, denoise, 3A, etc.
-> 
-> ----------
-> 
-> Changes v6 -> v7:
-> 
-> - Added missed blank line after some if statements.
-> - Changed the pm_runtime_disable() order in isp4_capture_remove() to align with initialization.
-> - Reset buf_sent_cnt and start_stream_cmd_sent on stream stop.
-> - Removed duplicate buf_sent_cnt and start_stream_cmd_sent reset in isp4sd_pwron_and_init().
-> - Combined isp4sd_reset_stream_info() and isp4sd_reset_camera_info() into isp4sd_uninit_stream() to eliminate redundant stream info reset.
-> - Removed always-false status check in isp4sd_uninit_stream().
-> - Minor style improvements.
-> [snip]
+On 17/12/2025 07:11, Guoniu Zhou wrote:
+> +
+> +static const struct v4l2_async_notifier_operations formatter_notify_ops = {
+> +	.bound = csi_formatter_notify_bound,
+> +};
+> +
+> +static int csi_formatter_async_register(struct csi_formatter *formatter)
+> +{
+> +	struct device *dev = formatter->dev;
+> +	struct v4l2_async_connection *asc;
+> +	struct fwnode_handle *ep __free(fwnode_handle) = NULL;
 
-Hi Bin,
+This is an undesired syntax explicitly documented as one to avoid. You
+need here proper assignment, not NULL. Please don't use cleanup.h if you
+do not intend to follow it because it does not make the code simpler.
 
-v7 looks great to me! :)
+> +	int ret;
+> +
+> +	v4l2_async_subdev_nf_init(&formatter->notifier, &formatter->sd);
+> +
+> +	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev), 0, 0,
+> +					     FWNODE_GRAPH_ENDPOINT_NEXT);
+> +	if (!ep)
+> +		return -ENOTCONN;
+> +
+> +	asc = v4l2_async_nf_add_fwnode_remote(&formatter->notifier, ep,
+> +					      struct v4l2_async_connection);
+> +	if (IS_ERR(asc))
+> +		return PTR_ERR(asc);
+> +
+> +	formatter->notifier.ops = &formatter_notify_ops;
+> +
+> +	ret = v4l2_async_nf_register(&formatter->notifier);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return v4l2_async_register_subdev(&formatter->sd);
+> +}
+> +
+> +/* -----------------------------------------------------------------------------
+> + * Suspend/resume
+> + */
+> +
+> +static int csi_formatter_system_suspend(struct device *dev)
+> +{
+> +	return pm_runtime_force_suspend(dev);
+> +}
+> +
+> +static int csi_formatter_system_resume(struct device *dev)
+> +{
+> +	int ret;
+> +
+> +	ret = pm_runtime_force_resume(dev);
+> +	if (ret < 0) {
+> +		dev_err(dev, "force resume %s failed!\n", dev_name(dev));
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int csi_formatter_runtime_suspend(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct csi_formatter *formatter = sd_to_formatter(sd);
+> +
+> +	clk_disable_unprepare(formatter->clk);
+> +
+> +	return 0;
+> +}
+> +
+> +static int csi_formatter_runtime_resume(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct csi_formatter *formatter = sd_to_formatter(sd);
+> +
+> +	return clk_prepare_enable(formatter->clk);
+> +}
+> +
+> +static const struct dev_pm_ops csi_formatter_pm_ops = {
+> +	SYSTEM_SLEEP_PM_OPS(csi_formatter_system_suspend,
+> +			    csi_formatter_system_resume)
+> +	RUNTIME_PM_OPS(csi_formatter_runtime_suspend,
+> +		       csi_formatter_runtime_resume, NULL)
+> +};
+> +
+> +static int csi_formatter_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct csi_formatter *formatter;
+> +	u32 val;
+> +	int ret;
+> +
+> +	formatter = devm_kzalloc(dev, sizeof(*formatter), GFP_KERNEL);
+> +	if (!formatter)
+> +		return -ENOMEM;
+> +
+> +	formatter->dev = dev;
+> +
+> +	formatter->regs = syscon_node_to_regmap(dev->parent->of_node);
+> +	if (IS_ERR(formatter->regs))
+> +		return dev_err_probe(dev, PTR_ERR(formatter->regs),
+> +				     "Failed to get csi formatter regmap\n");
+> +
+> +	ret = of_property_read_u32(dev->of_node, "reg", &val);
+> +	if (ret < 0)
+> +		return dev_err_probe(dev, ret, "Failed to get csi formatter reg property\n");
+> +
+> +	formatter->reg_offset = val;
+> +
+> +	formatter->clk = devm_clk_get(dev, NULL);
+> +	if (IS_ERR(formatter->clk))
+> +		return dev_err_probe(dev, PTR_ERR(formatter->clk),
+> +				     "Failed to get pixel clock\n");
+> +
+> +	ret = csi_formatter_subdev_init(formatter);
+> +	if (ret < 0)
+> +		return dev_err_probe(dev, ret, "formatter subdev init fail\n");
+> +
+> +	/* Initialize formatter pixel format */
+> +	formatter->fmt = find_csi_format(formatter_default_fmt.code);
+> +
+> +	ret = csi_formatter_async_register(formatter);
+> +	if (ret < 0) {
+> +		v4l2_subdev_cleanup(&formatter->sd);
+> +		return dev_err_probe(dev, ret, "Async register failed\n");
+> +	}
+> +
+> +	platform_set_drvdata(pdev, &formatter->sd);
+> +
+> +	/* Enable runtime PM. */
+> +	pm_runtime_enable(dev);
+> +
+> +	return 0;
+> +}
+> +
+> +static void csi_formatter_remove(struct platform_device *pdev)
+> +{
+> +	struct v4l2_subdev *sd = platform_get_drvdata(pdev);
+> +	struct csi_formatter *formatter = sd_to_formatter(sd);
+> +
+> +	v4l2_async_nf_unregister(&formatter->notifier);
+> +	v4l2_async_nf_cleanup(&formatter->notifier);
+> +	v4l2_async_unregister_subdev(&formatter->sd);
+> +
+> +	pm_runtime_disable(&pdev->dev);
+> +	media_entity_cleanup(&formatter->sd.entity);
+> +	pm_runtime_set_suspended(&pdev->dev);
+> +}
+> +
+> +static const struct of_device_id csi_formatter_of_match[] = {
+> +	{ .compatible = "fsl,imx9-csi-formatter" },
+> +	{ /* sentinel */ },
+> +};
+> +MODULE_DEVICE_TABLE(of, csi_formatter_of_match);
+> +
+> +static struct platform_driver csi_formatter_device_driver = {
+> +	.driver = {
+> +		.owner          = THIS_MODULE,
 
-For the whole series,
+Why are you sending us 12 year old code without cleaning it up first?
 
-Reviewed-by: Sultan Alsawaf <sultan@kerneltoast.com>
+> +		.name           = CSI_FORMATTER_DRV_NAME,
+> +		.of_match_table = csi_formatter_of_match,
+> +		.pm             = pm_ptr(&csi_formatter_pm_ops),
+> +	},
+> +	.probe  = csi_formatter_probe,
+> +	.remove = csi_formatter_remove,
+> +};
+> +
+Best regards,
+Krzysztof
 
