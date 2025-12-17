@@ -1,234 +1,286 @@
-Return-Path: <linux-media+bounces-48944-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48945-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66222CC5B73
-	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 02:41:35 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDDCBCC5C9A
+	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 03:38:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id D7CAA300F319
-	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 01:41:34 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id ABA183021FB1
+	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 02:38:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C114257851;
-	Wed, 17 Dec 2025 01:41:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DDCD277CAB;
+	Wed, 17 Dec 2025 02:38:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zzx3BBPs"
+	dkim=pass (2048-bit key) header.d=amlogic.com header.i=@amlogic.com header.b="m/8hhH9/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYDPR03CU002.outbound.protection.outlook.com (mail-japaneastazon11023109.outbound.protection.outlook.com [52.101.127.109])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21C25230BD9
-	for <linux-media@vger.kernel.org>; Wed, 17 Dec 2025 01:41:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765935691; cv=none; b=cZ/03pSd7IqQc/ujA5bG1wK0NZY4/Sunr1I5sUbxhjyvDN/l6+C8sWOq5YMSnvcSBwhLnQYuI6hDWus3SPPHk3TYDV7R6LrBNIECw5TUOks1eH7IWW2w9zh+sd9Kv+N9IuZAETb9RGcPUXJTNOPCs6oVP5Q0PrNEyjyiIwAfIwA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765935691; c=relaxed/simple;
-	bh=2/zw0Nqll5k0O24hyg2cPPxtuqyfOWLeA94KYYj4AnU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b1dueVizV7H9NmfjUs7p5vGzmH8l7iOQ55yZa7t+ZgDx7kTM+3ncDaovI0yb2U+jpBa0+sRHy9s9VVWs3OwBR6ourkdzgm61Cn+0ddw+6OzNGpcA+Gy4YcOsKGbQfILOJL8xSodF66GU+8SpyqIrCPtgxKw/ym2OvFBZrUoyhsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zzx3BBPs; arc=none smtp.client-ip=209.85.222.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-8b2d32b9777so773501185a.2
-        for <linux-media@vger.kernel.org>; Tue, 16 Dec 2025 17:41:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765935689; x=1766540489; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ZcO4USqsNQIN1GpP+KDtX+lrVNXqODY1Yk6T5TPE2sc=;
-        b=Zzx3BBPsghCIk9/UIRi/Mrvpxk6o3bICTu6zoRzeOU6na3GNMz4pSvFBa6KJTShEQx
-         bq7wgUqSb+zT7RIvcYlnH9C5dSkWo5V7jgFxv09dEUlm4RqW1NzIYA0UkTs9xTr0qE62
-         BusGWWvhONN6rJncqxfGy1SBYY8MH05YfbPKZE373GaFVprS6+A44QyQ29Sv/Tfn3m6o
-         qJ1B/TLyxbxkJ3JxZ1NoOaTlmTWVo1PBDEp2QALRlWSCWErrOiU8bU0YYvF+1cUlv5yJ
-         OcgLEafjs46023PTZbvK8VJu9W2jfroTBa5rRJej3GqL4K1+AysL18kdP2ifBKRfT1sR
-         HZGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765935689; x=1766540489;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZcO4USqsNQIN1GpP+KDtX+lrVNXqODY1Yk6T5TPE2sc=;
-        b=ZK0lZGRVtbj6uKntaMLtfF8zRGiS9m3LlvjqUokP8IoaL6ouimA+/2VgE6f68/s36j
-         YBXbl07RQVvYuaEGa78Mqe+zQqo0QuBUZ8dpmf22O4/lHp1E91pkCaBfwuvcSOyw9IO2
-         y4NHioY1v2RwQDcDyYEDsI6J1225QQWuhyt2jh0wmV0DIV+ELidinl8vJMv42390yufc
-         lfGNmaNJ38j+DAGHrsRhIAxVCnk248GR8OzPw9dpCKu6oxtkseu13XgsBf8dhtb+f82P
-         Rx3lel010HyJaBXfCek6ju8ZMHna3u/JchfCr0CqqM1mu19MF6OQShiRdacSP/2oLp6h
-         Cffw==
-X-Forwarded-Encrypted: i=1; AJvYcCX8z4XEoLkPh9K0ToiPspaLS60dxC04mjuncGyMIKuFmZpBrAh/ZnLbJ/OyqEHPB+U3S6B1ftbBQSZz3A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx32N/XRnKcVB813ve7ORaCm3ur5uLfMkeZfLfxCfkGRuaqk0gC
-	2b7Hr366fzuDZSpukmUWxq8e6iG0r6esg0YJxJwwgTlMeUNx4MQSVPdx
-X-Gm-Gg: AY/fxX5WjrV5lRTy6T4im21yMlBLqCumszsVTvqqoPcfdBkIcoCbVnC59XCmC2Ig3R7
-	OsD6FOXWR3czLYPT9kkMZ1nEWI0nuAgbiTY/+aliB/oL3bZUYCXUV7+lWmQFklrBf1fnS364DTZ
-	Wmx6FyJytZzD0ksaGvYNhwk2iyMBlQhslAw8l0dkudeY2f+J2WpvKV1YiJfzOIWSfOdjG6aAmKw
-	/2huVAcnO44Hzi+Ye2YmFuM/DSiSe+pLOMHAndhNmz0PC0CHYbAh/cOv93UIQUARi48W/T+NTgl
-	+xSQf9X2iYOJWZQo9N23HFoYHpI9r0sy9N2Kr0Gd8oY1I2bTSUrSO5ayzSf3CBS34SxIjlVxrcT
-	PRKTjgk4ZQOrRCbXHZT0zCfZzJ7KPYgCkS8kqsEVk2YJClIC3bdu4/ZfSYSawFdEYQthCTjxPlP
-	9Fp5jeQaNZWPZ+sgpMSZhpk+FK
-X-Google-Smtp-Source: AGHT+IGD1+xr9e42ytKFlInllPLK8W19NJ5qwHqCkO38bsDi/F1/I+STZYAPgoo7L7NASYoo+8u9ZQ==
-X-Received: by 2002:a05:620a:370f:b0:8b2:dd7b:cc98 with SMTP id af79cd13be357-8bb3a37b12cmr2300528885a.70.1765935688985;
-        Tue, 16 Dec 2025 17:41:28 -0800 (PST)
-Received: from localhost ([184.144.58.243])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8be31b669d1sm298209985a.46.2025.12.16.17.41.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Dec 2025 17:41:28 -0800 (PST)
-Date: Tue, 16 Dec 2025 20:41:44 -0500
-From: Richard Acayan <mailingradian@gmail.com>
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	Robert Mader <robert.mader@collabora.com>
-Subject: Re: [PATCH v4 5/5] arm64: dts: qcom: sdm670-google-sargo: add imx355
- front camera
-Message-ID: <aUIKWMQMAIzjybHO@rdacayan>
-References: <20251211014846.16602-1-mailingradian@gmail.com>
- <20251211014846.16602-6-mailingradian@gmail.com>
- <wwpqaecvz42jopgaboasbh353ieelctpvgo3yj6y5tnxoem5oz@j5sbx3yxntot>
- <aTtkwQb2gOeWAFuv@rdacayan>
- <d7jcawzugobqern6zlo5jwcnximtsroxywix53v2yp2isvzo5r@ymxicmgfjmzq>
- <341012f3-18bd-4f96-98c1-f964d1fedb8f@oss.qualcomm.com>
- <1d830282-a778-44aa-918b-5ab3e1516c0d@linaro.org>
- <4c4e8e5b-66b1-4227-86ee-756eca945972@oss.qualcomm.com>
- <fa131841-ae9e-49ee-a7c6-728b4a6a4b60@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 960812417D1;
+	Wed, 17 Dec 2025 02:38:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.127.109
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765939122; cv=fail; b=hUAKJEknwMu6KCMszANWyR8DR9guMnRslCzf3u2chE8TwWPDG/a3vANAS/Jgox4fFhoQB/LyLqOljP0CIJQOIWg3AyoHPw6dSGkaNyUBsYxoh30aXp3quyXkuAdPHO3jPQu+ga83lnslGDBKeTWaePVtky+GuNdMDDZ4MershpI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765939122; c=relaxed/simple;
+	bh=KAyrsJvuv52tKn9nbNOnnTTGUHy8jgBNuIwtGpMZ9ns=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=e5D2CoTlZ/2+QULzgBh1Gu5pS6Tq90rt+HcKMOhe9FJvtiSgmCgrn8iOWXBkxdTeZnERiLT0fVe1YwSW5Xr2VSdGJujqExKx5UJszZFesy8gaelf18xudNGv+SOSpHncOArdY46RF4Xy7lTUzJUdrSvoQA481Y9ZpkmpT4fRnko=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amlogic.com; spf=pass smtp.mailfrom=amlogic.com; dkim=pass (2048-bit key) header.d=amlogic.com header.i=@amlogic.com header.b=m/8hhH9/; arc=fail smtp.client-ip=52.101.127.109
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amlogic.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amlogic.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VvThZGkV9ELQPsglAudxOWWSUfvXlKB53WQyxo+/eSLhusrmf3+nV9MPT8whM5+BOUp/2GFEZThxstTcfGRmOFLM8fmEdONexjbptZtBPnWxshkczF0iF62kpNSsVvuruHJCZcgzO1kHa8gDzQQBnbRor3LiDsIK8pPrN53kZlvZbqwD8QrmAkNiCMrKlQD2TAoAohi8l8rdeskN8u8+3x1kXnrVCOGjdv0Ht2gaRc6N22JggjGCk5FrLeqRv44W5v5s/5CsN7fO7ZEUgNKgQZWcHJB9CCqUGUK5y7gWyGrkI0NlU/YKZfagR7U9KbODqcyxhcWdeMQ0HQt4eDNRAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DPQcLvgIPm0srHMtdp6yEblasdjsKuWxgUFKZ13WL2k=;
+ b=g2AOw0sHEJwVv2ZbzQC8g2Nk1B2qjGIlj2FwFsXCW0qDU9FKOwWaMrVw2jLfo04vBdYKU2Un2cKWxh+BOosF693N2ZNGLZv3xCHvL7b7BhX2t0ofmY0CYfIl+psFHyZXxIo/48aV60+rtYGcRZO3zdaRUyJLCc/q1IkNBYzMLgioFR+cS6l86kb4BYaYqU8u49MPgc9m52pTLvkJxKiotp5YUbeLXk46Vpvh57RGsdgQtRnrPNWMr2p+85HPfOPzsrdqAD1wk6t9g7OqIsGcZqia6tigMrL6rDe6atkmRx41XZMIcODJL9RbVAWjNRLynTzOqgrO7Yb2uzsISIa6PA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amlogic.com; dmarc=pass action=none header.from=amlogic.com;
+ dkim=pass header.d=amlogic.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amlogic.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DPQcLvgIPm0srHMtdp6yEblasdjsKuWxgUFKZ13WL2k=;
+ b=m/8hhH9/+P6MBilLeILdR2MY73TsSkRM1KZ9QFmntYJua8J71kIoU276w0H5/mv94Olf0/tiLwPs7I0VLOFOIAIENPMVvfJLh2dUnkzglrEjbp8cjZ+LUDO0yKyfBCgDVdPAsX5EhUS6xTbi2GjRlrEqwfrHpChFXfU+cpz7iUMQvbuk+nj7sUqg3qd0OJlXxCD81UaooDmrRVubAsw+6fC3TXj4wqa8ofx4FcieHmJWZSYq9/jm61ezRBHABo0VFfKICp7zdWfh5vDFmAbPDDZhgJxzMhVzJ2hj6w4ABMSBSNWrdxexkWfq/8cw1D5jA1YucO8MkK2M3Z+bg4+vvA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amlogic.com;
+Received: from KL1PR03MB5521.apcprd03.prod.outlook.com (2603:1096:820:51::12)
+ by JH0PR03MB7324.apcprd03.prod.outlook.com (2603:1096:990:17::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.6; Wed, 17 Dec
+ 2025 02:38:36 +0000
+Received: from KL1PR03MB5521.apcprd03.prod.outlook.com
+ ([fe80::f12b:85e:f95c:191e]) by KL1PR03MB5521.apcprd03.prod.outlook.com
+ ([fe80::f12b:85e:f95c:191e%4]) with mapi id 15.20.9434.001; Wed, 17 Dec 2025
+ 02:38:35 +0000
+Message-ID: <7ea65b00-a2d9-471c-bc3d-cc340ee1046d@amlogic.com>
+Date: Wed, 17 Dec 2025 10:38:33 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v2 1/3] media: dt-bindings: Add Amlogic V4L2 video
+ decoder
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-amlogic@lists.infradead.org
+References: <20251124-b4-s4-vdec-upstream-v2-0-bdbbce3f11a6@amlogic.com>
+ <20251124-b4-s4-vdec-upstream-v2-1-bdbbce3f11a6@amlogic.com>
+ <CAFBinCDO5UWVEtbOOdMn9vy=0H2Q1hJDKhH+X7i0nMsSsw=wbg@mail.gmail.com>
+From: Zhentao Guo <zhentao.guo@amlogic.com>
+In-Reply-To: <CAFBinCDO5UWVEtbOOdMn9vy=0H2Q1hJDKhH+X7i0nMsSsw=wbg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SI2PR04CA0018.apcprd04.prod.outlook.com
+ (2603:1096:4:197::9) To KL1PR03MB5521.apcprd03.prod.outlook.com
+ (2603:1096:820:51::12)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <fa131841-ae9e-49ee-a7c6-728b4a6a4b60@linaro.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: KL1PR03MB5521:EE_|JH0PR03MB7324:EE_
+X-MS-Office365-Filtering-Correlation-Id: 35d8e456-cf37-47f6-2ba6-08de3d156060
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?UGxvc056aXhTNzlKREFGaDRYUXNkaGQyamI0eGNxU3gwVVFON2tmQ0JKOFpU?=
+ =?utf-8?B?a0pDb1ZKVjUzY0JwdTVyZGJobG5XYzAzcmc4MzFCbmdHYVRCdW9UZHdQRGpG?=
+ =?utf-8?B?WHNwRWY0b09tWnBXY1BDOEZlNnF0NXNwTVh5K1lGMXlocGhTTU9CZHlvRDBy?=
+ =?utf-8?B?aWFmSEZQb2QrS2EzNFdONnNaeGovZ29KY1VWbGNZd0NCd3JCUWRQZkk5bmpZ?=
+ =?utf-8?B?Z0F3VHhOT21pMGJwKzlBYWl2WHJnWkIxWlRuU2gwaG5jbnpjdmtjWVlwZWlp?=
+ =?utf-8?B?bk4zYkNHMW1vWGdXUDMwUjZ6YXFuMU1yaFk0RjFpVjFSaWxScmp0QTUraXdw?=
+ =?utf-8?B?Nkw3TDBlWFBQZHRpRm82ZndKMklrNFFscGJ0S3BudjNLYVVuUDZsQ2w4dkxI?=
+ =?utf-8?B?K25yUGc1YnlZZGVha2EyVEpqYmkxZHB2NDNrbGF0U2Z1ZWJ1VE5yU242bUJC?=
+ =?utf-8?B?SDEvVDcyamIrTjM5T1lTRXJHbFJoeTdSUkoxTXFnVW5BcU9kUk5HTUZTZ00w?=
+ =?utf-8?B?LzNib2Z5MHRONitwb0k2SU5tSDZVU3JZNVBSdm4wYUVtRTMxbFkwOVJnSndp?=
+ =?utf-8?B?Ky94SDBqeWc4UXZnV3QyOUhHajY3K3JFT0E0RFFLaTU0TmZEVG9yTklINEpl?=
+ =?utf-8?B?cWE2ZWMvaWRVYVhsYWJSWDlKc3BJL3c3bmlKd1o2a3ZBZkM2SXlCV2hOVWVj?=
+ =?utf-8?B?dlA2SU5ZMzRpZG0xUUIxVHhwOVlrc2I5NkRJYy9jc1o1bjIzdDdCS3NjV3ox?=
+ =?utf-8?B?MGo2OFFaQUQwdytuMDBTN1EwSGVHbFdsVjMrUTJ2N3hjRi8rYVYrNktCZWUy?=
+ =?utf-8?B?TkllYjB0TFJ1VGpyQThOazBYY3llYmY3bVp1aWZUWDlQd1pDS3ZVbXdmeVZ3?=
+ =?utf-8?B?YU84OVVaaCtjTkFkRXZOVGVRL2JBbXljejZ4THZGc2c0Um9CSGtzS3p5cERB?=
+ =?utf-8?B?bGI0TVl5VDBDZmNKejFsdTJSN3NuR1JzMGQ5bStTY0JRcFdiNVFuSWFZYkhF?=
+ =?utf-8?B?clhUVUNmbHV0bjdQWHBPWENCMkM3cHBiY2RNNm9WR0RLcDQzOGhqSTRRMW8x?=
+ =?utf-8?B?OVRjQ0kvbHg3cWZzZUtIOWtVTHQxbStBTjYyMEtDODBOZUEwWE0zL1lzd05G?=
+ =?utf-8?B?eDNpV3FGYjMydHpuNDFVczRoZzZQaXlmTnNPTWJsWDlzZnNpcUQyNnB1Wmo5?=
+ =?utf-8?B?ZnBqc0RVczRXUTRGNTc3UFl5NEtWMHlMUlFyS0VnZitiK0lPM1lWbndyS2VT?=
+ =?utf-8?B?YTl3N1RVNTNONkJVTDZMSGRYRFh6Mi9taDFxdkIvMTM5a3VXMFBKUHh4dVZC?=
+ =?utf-8?B?dCtMVlA4RFpuK1Nrek5idWUrdDBDNDhSS3hLQVBhcFBiWTNVR3YrdHV6UDlj?=
+ =?utf-8?B?ZE1ZbGNCM0NIRjE0bTNrNlRMU3dwSWwxOFc4bGwwVjVhVitGdTRmd241MjRt?=
+ =?utf-8?B?QVdyR3hJRzNoMWNYNEljMUVLdHdKZDl1aGJhdW9qaUtjNUJ3SURaU09lOGVk?=
+ =?utf-8?B?MFYzMm16bGxsSFovWmljNW9RblN5Vm90SHMyUTZkdmtrdWxNNWVkc2xqTVVQ?=
+ =?utf-8?B?b1JCaHlZVzZrQ0dEdTh1bzNwS3AwQ3R2TWY2SHNWZXRyRVBOcG9KZldzKzAw?=
+ =?utf-8?B?RU1qd3FCcmdSYVhYTWhDa1dpcEl0Snkxd3QyZTF3QncxSHdJUXlPblJZaFp3?=
+ =?utf-8?B?aXhnMVZqVjY4WVJtbS8zVzErcmswYVdFeFk0THVPdndoeXNqZ3dMTFNmejFZ?=
+ =?utf-8?B?bmhTczhMbjV5MTJPeGh3L0g5RlhONXZRT3ZTSjZNeVFkOWNCRnpEV3pDTjhQ?=
+ =?utf-8?B?emFBM2xmZXVwcEk0ZzVJWUMrU3JBTVUxaUIzQ0xnRHJ1YlhJOGlnM2YxKzg5?=
+ =?utf-8?B?d1VPRTB5SVNocFZsSXdMVzZhdDh6SmkvU0lCNXRBK1ZNekE9PQ==?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KL1PR03MB5521.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ell4dm1iclluV01MdXlxR0hXZmJsRVZ3akxkZS9YOFdONU0wckxDUVR6VW1K?=
+ =?utf-8?B?cGZZbjVpek1HTGluWFVGa1hJcm1WY0hLVHgzMXlDNVBOZ2FLWm4zRVRDNTB0?=
+ =?utf-8?B?T05iS255Z1JxdFRlajMvSCtlVXJzU3dVVzEyMUpKQmJhQTI0bTg5dDFvVmhZ?=
+ =?utf-8?B?ZWhveEEvZ2w3NkovbW41RGRaQUw5c0doTG1xRkNNUmR6QXJtTVQrYkozT2lS?=
+ =?utf-8?B?UjlieHVQNHdoR09adlpGVDhpbllLNjAwM21ZM2I0U0N0S3BJZWdqSTBOWUZR?=
+ =?utf-8?B?dUp2bk9MdGhnSHJPSGxtM3RrRDFkVkRLeCs1dG1nUE80YmFWUzdNeWFNTExV?=
+ =?utf-8?B?bW4wUGhnWU56U0cxWVJPVStWc21lQUFwVGJ5Sm5EMzNIeXFNaXFEU3F1eU55?=
+ =?utf-8?B?WlM2bXVKVUJudEVNNVBVK091THFaMEMvb3dnUlFxVnJua0NOUEFDZkVjZjBP?=
+ =?utf-8?B?WEdjcER2aXFwNExSVENKYU1mQ05XNnp1K0ZaRWFpTVE1bkp4QWQ0d0QvWlJQ?=
+ =?utf-8?B?d3BPbFl4MEFlbXc5RFFvYzRLd1FpN1pBSE1ydHliVlVRWmVUdFQwVDRCSUht?=
+ =?utf-8?B?NTRtOVRFamRXZVZFSkxhamdCTUpzSHR0aXhpa2RpeXk2aUpWWnBzRkNUdGZy?=
+ =?utf-8?B?WGw2KzRRMUhDODJld3hGNlY1UkRmS21taE1PQklDTk5UL2R1Mm9xd0xlVWpz?=
+ =?utf-8?B?RXZ5TXovcjBteWRSZkxsMWJTVDlkZ1NoQjhZQS94ZE45OHBJcVdFOE1uUDZi?=
+ =?utf-8?B?MzJ0RFJsSXF5TTVsNUR2a25vMHJPODBSOGlLdGU0bXdrTTRkU1N3S1VKYUdE?=
+ =?utf-8?B?SG1ReEVXd3RBN3k4RkJlcjM2dGEzaEhBNHYxOUN6bDY5VTVlY0JyWWtxT04r?=
+ =?utf-8?B?VVNUVEIrUVBYci9VTFI1em51TGE4cm5HUjRaUGl2OWFNbWh0NVJsVjVTVjRj?=
+ =?utf-8?B?UnRYVTMxN2g0dkZEQVlFeXhZZnFLb3BvTHY5NFNWaDlDNXl3RXA4ZFBJMzJY?=
+ =?utf-8?B?ZTNzV2NBaGQ4VEdZQ2RRVjhDMFlWbHJrdXlYK1IrSzRsS081ZmFlQ2hoRVFx?=
+ =?utf-8?B?SFZCZ2sxZVl2OUZkZXlrNDhrZWgyMWFsZjVOaEI0RnI1ZDIxdkhlNlk3WkE3?=
+ =?utf-8?B?bkFVcHE3K2hYdHFjWWNsL0FvUElMaGRTYVRuUXZwbnhPMmw1VGJ1cW9pMTdz?=
+ =?utf-8?B?cW42a1VZb01NWUR0cVQ2UDZZNFRiMTNmT29hMWVDZ1krMTZGbHZ3SkJFaTBi?=
+ =?utf-8?B?QlRkRExRamlsVGFIanNFd3EycjQyNGhRQmZIYUpxRVJ3RDUzUlFvQWtYZGFC?=
+ =?utf-8?B?U2NneFZWSTJqOUxUZWZHODV3WXJTNWRMdW1GREhtaklQZWxJVlVDWUxyTjJw?=
+ =?utf-8?B?SGk5TzdDdXRidXhCSDMvQ1lOSGtEaFBDdWxCWkhtL01tYThPKzdaZkNxNCta?=
+ =?utf-8?B?VWNld2dLMkczM2FvdUFnMXJIRXpaYjJkK3NORFJSWUtLb0FGeGRDZjY3b3ZZ?=
+ =?utf-8?B?L0ptTzJJWStyMWxRcmVpSWd6UXBLdWxaUUZROGJLNEtDT1FaRXpPLzlyVzZs?=
+ =?utf-8?B?Zm92Y3R1V1NEVGUwMXdlVjRoL2N0K2U1RmM3VWdqbEpVUlkveURuamZYSGNn?=
+ =?utf-8?B?ZUZ4Ky82WTlyWVpFMUNuWG5QUzVJQTYxUko5eDh1dVBIMVVRSSt5aG5YTEd6?=
+ =?utf-8?B?WVFUYmRBOW1xLytoTlh6WnhoZUJ2R3QxcHNHS0dNSDU4RlRQNHpXZ1ZSb2N4?=
+ =?utf-8?B?ZTZ1Skg4Ung5TXlZbEZ2K1FQa3NSNlU0ZUFuM0MvQWFwa2hvbzhBaEtnYjRw?=
+ =?utf-8?B?blloVUdNelNKV0tEVnhabjdYVFRvL0E5Y29TUGxtWkcrZW1mVUV4VDNKODNt?=
+ =?utf-8?B?VEFHSWs3eUo4MzJTb2hqMVhVTVhielhyK1VIOFJMellRNVJEVFB2NnpwZnN5?=
+ =?utf-8?B?RWhMcnpaWWFsK3RiNFJPeVIzb1N2MjVta1RFZFdqa0FOQ3lMRG1oRnNGeUtS?=
+ =?utf-8?B?cXNyVGIrSGYxZ1dwU0s3eGhIVjMySW85QWc0Z0JaZjhqK3BCOGhtYlVzQ0ZD?=
+ =?utf-8?B?Z2o2b2JFOTlscW1DVW91ZEJTVzZXdUpmblBoTC9GVWFrV0szYklxR3lMbEFl?=
+ =?utf-8?Q?PdTHf4h/+XOQn5FTKqDG1ZVJo?=
+X-OriginatorOrg: amlogic.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 35d8e456-cf37-47f6-2ba6-08de3d156060
+X-MS-Exchange-CrossTenant-AuthSource: KL1PR03MB5521.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2025 02:38:35.6416
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0df2add9-25ca-4b3a-acb4-c99ddf0b1114
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: nerSsSIHLPOJ5JgSjI1dqCzXmAXePa79aYliUT01CJVFr490ps7mC6eLoixSC0PLvSVEJwoWDPS3wwb8gG6ilw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: JH0PR03MB7324
 
-On Tue, Dec 16, 2025 at 05:23:53PM +0200, Vladimir Zapolskiy wrote:
-> On 12/16/25 16:41, Konrad Dybcio wrote:
-> > On 12/16/25 3:31 PM, Vladimir Zapolskiy wrote:
-> > > On 12/16/25 15:56, Konrad Dybcio wrote:
-> > > > On 12/12/25 8:22 PM, Dmitry Baryshkov wrote:
-> > > > > On Thu, Dec 11, 2025 at 07:41:37PM -0500, Richard Acayan wrote:
-> > > > > > On Thu, Dec 11, 2025 at 07:16:30AM +0200, Dmitry Baryshkov wrote:
-> > > > > > > On Wed, Dec 10, 2025 at 08:48:46PM -0500, Richard Acayan wrote:
-> > > > > > > > The Sony IMX355 is the front camera on the Pixel 3a, mounted in portrait
-> > > > > > > > mode. It is connected to CSIPHY1 and CCI I2C1, and uses MCLK2. Add
-> > > > > > > > support for it.
-> > > > > > > > 
-> > > > > > > > Co-developed-by: Robert Mader <robert.mader@collabora.com>
-> > > > > > > > Signed-off-by: Robert Mader <robert.mader@collabora.com>
-> > > > > > > > Signed-off-by: Richard Acayan <mailingradian@gmail.com>
-> > > > > > > > ---
-> > > > > > > >    .../boot/dts/qcom/sdm670-google-sargo.dts     | 107 ++++++++++++++++++
-> > > > > > > >    1 file changed, 107 insertions(+)
-> > > > > > > > 
-> > > > > > > > @@ -392,6 +420,64 @@ vreg_bob: bob {
-> > > > > > > >        };
-> > > > > > > >    };
-> > > > > > > >    +&camss {
-> > > > > > > > +    vdda-phy-supply = <&vreg_l1a_1p225>;
-> > > > > > > > +    vdda-pll-supply = <&vreg_s6a_0p87>;
-> > > > > > > > +
-> > > > > > > > +    status = "okay";
-> > > > > > > > +
-> > > > > > > > +    ports {
-> > > > > > > > +        port@1 {
-> > > > > > > > +            camss_endpoint1: endpoint {
-> > > > > > > > +                clock-lanes = <7>;
-> > > > > > > > +                data-lanes = <0 1 2 3>;
-> > > > > > > > +                remote-endpoint = <&cam_front_endpoint>;
-> > > > > > > > +            };
-> > > > > > > > +        };
-> > > > > > > > +    };
-> > > > > > > 
-> > > > > > > This would be much better:
-> > > > > > > 
-> > > > > > >     &camss_endpoint1: {
-> > > > > > >         clock-lanes, data-lanes, remote-endpoint here
-> > > > > > >     };
-> > > > > > 
-> > > > > > I'm not sure what you mean, there might be some typo.
-> > > > > 
-> > > > > My point is that you are duplicating `ports { port@1 {.... }; };` from
-> > > > > the base DTSI here.  We usually try to avoid this kind of path
-> > > > > duplication. If you can't have an empty endpoint in the base DTSI, I
-> > > > > suggest adding necessary labels to port@N nodes and then extending those
-> > > > > nodes in the board DTSI.
-> > > > > 
-> > > > > > If this is about using the commonly-defined endpoints, Vladimir broke it
-> > > > > > in commit dcf6fb89e6f7 ("media: qcom: camss: remove a check for
-> > > > > > unavailable CAMSS endpoint"). If I do this again and go full circle, I'm
-> > > > > > afraid this could break a second time before even making it to
-> > > > > > linux-next.
-> > > > 
-> > > > Quite frankly I don't think that commit was valid, given it's conceivable
-> > > > that an endpoint could be unconnected..
-> > > > 
-> > > 
-> > > Endpoint is not a device, status property is the property of devices and
-> > > not a property of anything else as the Devicetree Specification v0.4 and
-> > > earlier ones define. Dangling endpoints are fine, there is no need to
-> > > add another property to determine, if an endpoint is connected or not.
-> > > 
-> > > There should be no status properties inside endpoint device tree nodes.
-> > 
-> > The spec doesn't actually define what a "device" is. Funnily enough, it refers
-> > to "endpoint" as a device:
-> > 
-> > 2.2.2 Generic Names Recommendation
-> > The name of a node should be somewhat generic, reflecting the function of the
-> > _device_ and not its precise programming model. If appropriate, the name should
-> > be one of the following choices:
-> > 
-> > [...]
-> > 
-> > * endpoint
-> > 
-> > 
-> > Plus an OF node is opaque in its purpose.. The top node, a firmware node, a
-> > node representing a physical IP block and a config.ini-style blurb are all
-> > "device nodes"
-> 
-> It sounds like somebody of DT maintainers should clarify the matter and update
-> the spec to be less ambiguous, if it happens that "device" term is undefined.
-> 
-> > 
-> > But coming back to the real world, the ports/endpoints represent the physical
-> > connections to CAMSS and it makes sense to have them defined in one place,
-> > especially since there's a predictable number of them that should not be left
-> > up to each board to define.. That quite obviously implies that not all boards
-> > are going to utilize all interfaces and the commit of yours that was mentioned
-> > above seems to only be valid on the basis of semantics, which I above mentioned
-> > are not *really* a valid point..
-> 
-> For whatever reason CAMSS on SDM670 is very special, because IIRC there is no
-> other platform with preset status poperties of endpoints. This exclusive SDM670
-> specifics shall be analysed and eliminated, since it hasn't been done during
-> patch review time, it's time to do it right now then.
+Hi Martain,
 
-An SoC-common endpoint node is how panels are hooked up to DSI. This
-seems to be the case for SDM670, SDM845, SM8[123456]50, etc.
-It's not special or unpopular for DSI, but CAMSS seems to be the
-subsystem where an endpoint node pre-defined by the SoC is only in
-SDM670.
+在 2025/12/17 7:43, Martin Blumenstingl 写道:
+> [ EXTERNAL EMAIL ]
+>
+> Hi,
+>
+> On Mon, Nov 24, 2025 at 4:32 AM Zhentao Guo via B4 Relay
+> <devnull+zhentao.guo.amlogic.com@kernel.org> wrote:
+>> From: Zhentao Guo <zhentao.guo@amlogic.com>
+>>
+>> Describe the initial support for the V4L2 stateless video decoder
+>> driver used with the Amlogic S4 (S805X2) platform.
+>>
+>> Signed-off-by: Zhentao Guo <zhentao.guo@amlogic.com>
+>> ---
+>>   .../bindings/media/amlogic,s4-vcodec-dec.yaml      | 87 ++++++++++++++++++++++
+>>   1 file changed, 87 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/amlogic,s4-vcodec-dec.yaml b/Documentation/devicetree/bindings/media/amlogic,s4-vcodec-dec.yaml
+>> new file mode 100644
+>> index 000000000000..401a5a32902e
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/media/amlogic,s4-vcodec-dec.yaml
+>> @@ -0,0 +1,87 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +# Copyright (C) 2025 Amlogic, Inc. All rights reserved
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/media/amlogic,vcodec-dec.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Amlogic Video Decode Accelerator
+>> +
+>> +maintainers:
+>> +  - Zhentao Guo <zhentao.guo@amlogic.com>
+>> +
+>> +description:
+>> +  The Video Decoder Accelerator present on Amlogic SOCs.
+>> +  It supports stateless h264 decoding.
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: amlogic,s4-vcodec-dec
+>> +
+>> +  reg:
+>> +    maxItems: 2
+>> +
+>> +  reg-names:
+>> +    items:
+>> +      - const: dos
+>> +      - const: dmc
+> Neil has commented on the driver patch (in v1) to use the existing
+> canvas driver.
+> The same applies to the binding: you can replace the whole "dmc"
+> registers with an "amlogic,canvas" property (see
+> Documentation/devicetree/bindings/display/amlogic,meson-vpu.yaml for
+> an example).
 
-At least from the context retained in this reply and my memory, the most
-compelling argument I've seen from you so far about removing the
-pre-defined endpoints is (in multiple steps):
+Indeed, only a section of the dmc registers is for canvas. For the reset 
+part of the registers, canvas driver should not access them directely.
 
-	1. Suggesting common endpoint nodes instead of common port nodes
-	https://lore.kernel.org/all/e9dc1a6f-156b-40aa-9209-2010464d54ed@linaro.org/
+For example, on S805X2 platform, the DMC registers range from 0xfe036000 
+to 0xfe038000. The canvas registers only range from 0xfe036048 
+to 0xfe03605c.
 
-	2. Breaking common endpoint nodes in CAMSS
-	https://lore.kernel.org/all/20250903002255.346026-4-vladimir.zapolskiy@linaro.org/
+The decoder driver also need to access the register 0xfe036000, which is 
+not contained in the range of canvas registers, so we still need to 
+remap this register in the decoder driver. Therefore, the property 'dmc' 
+is still needed.
 
-This is why I try to remove the common endpoint nodes now.
+>
+> [...]
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - reg-names
+>> +  - interrupts
+>> +  - clocks
+>> +  - clock-names
+>> +  - power-domains
+>> +  - power-domain-names
+> I did a quick:
+> $ git grep RESET_DOS
+> {include/dt-bindings/reset/amlogic,arch/arm64/boot/dts/amlogic/}*.h
+> -> that lists DOS reset lines for most (all?) SoCs that were supported
+> by the old vdec driver as well as DOS reset lines for the S4 SoC (for
+> which you're adding support here).
+> If some of those reset lines are wired in hardware to the DOS region
+> then you should include them in the binding.
+> For reference in case you are not already familiar with it: [0] "[...]
+> make bindings complete even if a driver doesn’t support some features.
+> For example, if a device has an interrupt, then include the
+> ‘interrupts’ property even if the driver is only polled mode".
+> (the same also applies to any additional clocks or power-domains that
+> are wired as inputs into the hardware which you have not listed yet as
+> they are not needed for the initially supported codecs)
+Yes, I also noticed this issue. The DOS reset line should be added. We 
+will fix this in the next patch version. Thanks for your suggestions!
+> Best regards,
+> Martin
+>
+BRs
+
+Zhentao
+
+> [0] https://docs.kernel.org/devicetree/bindings/writing-bindings.html
 
