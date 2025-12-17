@@ -1,138 +1,215 @@
-Return-Path: <linux-media+bounces-48991-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48992-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 835B8CC7DF8
-	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 14:39:09 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FFDECC818E
+	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 15:11:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CA8C7309F4BB
-	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 13:34:42 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 56CFF306C559
+	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 14:04:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0FEE3659F1;
-	Wed, 17 Dec 2025 13:34:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="d+1j1d9z"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30DA338E179;
+	Wed, 17 Dec 2025 14:02:12 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from rmisp-mx-out1.tele.net (rmisp-mx-out1.tele.net [194.208.23.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ECF333B6D5;
-	Wed, 17 Dec 2025 13:34:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B78E3363C61;
+	Wed, 17 Dec 2025 14:02:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.208.23.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765978481; cv=none; b=o1jKyQwYaGobKapddtnx4Oc38yakZ5PknZMa5hxc4xRIBH0MWt4xjZobxgDkEM0mOVkiaVjiBKk4Elb3bhfyMq+nbbOKjTGDhxFMjBw8VavMISAIjLggAQEdiK8jYYvNwFU3javD9Ll2BQdkD4Lth1F9tWw1Zyuo7ZljQN+kT08=
+	t=1765980131; cv=none; b=i6CPAhifMTPdcVGopXdlDL0JKkKXLqouvLHLvBmkR7UO8DJFJsj/XZYInN4u7YPoSnrGC4L1gf2k+RuTL2HRHely92k+EmveKobetyugDyjM7HWprGq0jgWnbEi1U+PtOBj92thQ5muDQfJznxOfeAx31LmdHGKk93tWJYfAdoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765978481; c=relaxed/simple;
-	bh=tCIxJNLWcIU2TjDVqmnt1h0tCwLC0XUxy/MtT8w/Hpw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=JQ+fmZmbpRx8+4hgQt1po4LaG4UjaNn5vP1jL1SWJjIeLbdw8/fsatNc+/JxNllTw/isi4rZgFQ3vzBfGZfwPIgg1IXRe/fVDZmXaepLzUxPKOefcRVcuXFkFSqxuFJnjyPzaG7nwOSSo4gMQfTjU2L8KdXCyLTiW/G3/GrsSmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=d+1j1d9z; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1765978477;
-	bh=tCIxJNLWcIU2TjDVqmnt1h0tCwLC0XUxy/MtT8w/Hpw=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=d+1j1d9zjTT0M1ZAHDWdZcQBLAZ0jUo76R2g68OKWsVIny5JoICl0hvi7nc6fetLT
-	 mUfee6SJPrC/t8mhJJLyEa1iW4Y/UszNDWXW6L1gb1/hU12dtIqWQho0L5qR8Q45dJ
-	 ZrncfPTAYlt8i97fR4YHA2CMUYfbStzNgiG5dKyh3FPurzt0BX/9+fntuuZWAitptU
-	 GH9ES5FMV9lpvzZD8wE4nciBTpLWJjDCvnaKJn1EjEI9MJg8YcXMIE4VxAfid9Uawu
-	 /pUOZ/yhYn2AVxmaeDSwx83WnetnXaI6p4YZmcHbZntDd2r8mUKNnYsEdPxj75Kd8z
-	 fFU+hsjldkFYA==
-Received: from [IPv6:2606:6d00:17:7b4b::5ac] (unknown [IPv6:2606:6d00:17:7b4b::5ac])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 80A4917E127F;
-	Wed, 17 Dec 2025 14:34:35 +0100 (CET)
-Message-ID: <0482b76919217cf007d0abe1c683e862903a1a40.camel@collabora.com>
-Subject: Re: [PATCH v5 01/15] media: uapi: HEVC: Add
- v4l2_ctrl_hevc_ext_sps_[ls]t_rps controls
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Detlev Casanova <detlev.casanova@collabora.com>, Hans Verkuil
-	 <hverkuil+cisco@kernel.org>, linux-kernel@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Ezequiel Garcia	
- <ezequiel@vanguardiasur.com.ar>, Heiko Stuebner <heiko@sntech.de>, Ricardo
- Ribalda <ribalda@chromium.org>, Hans Verkuil <hverkuil@kernel.org>, Hans de
- Goede <hansg@kernel.org>,  Yunke Cao <yunkec@google.com>, Jonathan Corbet
- <corbet@lwn.net>, Laurent Pinchart	 <laurent.pinchart@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,  James Cowgill
- <james.cowgill@blaize.com>, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, 	linux-arm-kernel@lists.infradead.org,
- kernel@collabora.com
-Date: Wed, 17 Dec 2025 08:34:33 -0500
-In-Reply-To: <e88eb64e-ae47-4c70-87af-44c8f0371be9@collabora.com>
-References: <20251023214247.459931-1-detlev.casanova@collabora.com>
-	 <20251023214247.459931-2-detlev.casanova@collabora.com>
-	 <d8ef0f88-e81d-4159-8945-52197cbc95ba@kernel.org>
-	 <37da2fe3-41bd-470e-bb6c-93fe35ee1528@collabora.com>
-	 <bcbf8247a778c0a179cef2e0338acb2266c18809.camel@collabora.com>
-	 <e88eb64e-ae47-4c70-87af-44c8f0371be9@collabora.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-L53cNKzQuROd39WEVXeE"
-User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
+	s=arc-20240116; t=1765980131; c=relaxed/simple;
+	bh=Zm0w9AyZ0wzqaCW2DRJi/PR0LqW48OYEh36NaNUFSlQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bQljHePsj9vGf6p/z4+zhTr3qEd4Vzz01h8AlSUESY0t6aGdYBUsg81mQ8xq/hdQVrrQMwMXEBBjbDTWxrpaGBBDI742sOWmrc3BGZyJn+g1kw8hz0aedcszzV8+MyC7a+G5N3kHwa1+5I546yk/YJAyZA5G9qhPkRv+qjcbyCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=fail smtp.mailfrom=emfend.at; arc=none smtp.client-ip=194.208.23.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=emfend.at
+Received: from [192.168.0.207] (194-208-208-245.tele.net [194.208.208.245])
+	by rmisp-mx-out1.tele.net (Postfix) with ESMTPA id C6DD310E2A86;
+	Wed, 17 Dec 2025 15:02:05 +0100 (CET)
+Message-ID: <4cea157c-5371-4c9c-b554-a53aaa786b6f@emfend.at>
+Date: Wed, 17 Dec 2025 15:02:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-
-
---=-L53cNKzQuROd39WEVXeE
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-Le mardi 16 d=C3=A9cembre 2025 =C3=A0 17:18 -0500, Detlev Casanova a =C3=A9=
-crit=C2=A0:
-> > Before going that route, how big are these two arrays ? Short term can =
-be 64
-> > ref, long term 32, how big in bytes that is ? Was is worth goign with
-> > dynamic
-> > array ? Its not like slices, where we can have 600 or more.
->=20
-> The short term one can still be quite big, it's about 80 bytes per=20
-> element, so 5120 bytes for the 64.
->=20
-> I don't know how often we go that high, I've seen around 10 short term=
-=20
-> ref sets in test videos.
-
-We've never defined a threshold, so its hard to just define which direction=
- to
-go. I generally think using dynamic array was logical thing to do though.
-
-Nicolas
-
---=-L53cNKzQuROd39WEVXeE
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] media: i2c: imx283: implement {g,s}_register
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Umang Jain <uajain@igalia.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20251217-imx283-ext-v1-0-906a762f592d@emfend.at>
+ <20251217-imx283-ext-v1-3-906a762f592d@emfend.at>
+ <CAPY8ntCiOJb9iyFDYS_wxhteoHL7vMFpEF8gVwrf2qeFd-Fssw@mail.gmail.com>
+ <2f93eda4-483e-4fa2-a765-73e8df4eeaea@emfend.at>
+ <176597534567.3937789.3409848773538845012@ping.linuxembedded.co.uk>
+Content-Language: de-DE
+From: Matthias Fend <matthias.fend@emfend.at>
+In-Reply-To: <176597534567.3937789.3409848773538845012@ping.linuxembedded.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
------BEGIN PGP SIGNATURE-----
+Hi Kieran,
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaUKxaQAKCRDZQZRRKWBy
-9DvsAP0Q2NNHxc8jrYFvxcg9jsWj09g2eOj92V1QsYgjR4pNVQEA2eK88BefxbvK
-v1zF5F4ZJe7rb2RMaHpvkmxnnK28cww=
-=3ld5
------END PGP SIGNATURE-----
+thanks for your reply.
 
---=-L53cNKzQuROd39WEVXeE--
+Am 17.12.2025 um 13:42 schrieb Kieran Bingham:
+> Quoting Matthias Fend (2025-12-17 12:21:28)
+>> Hi Dave,
+>>
+>> thanks for your comment.
+>>
+>> Am 17.12.2025 um 12:54 schrieb Dave Stevenson:
+>>> Hi Matthias
+>>>
+>>> On Wed, 17 Dec 2025 at 07:41, Matthias Fend <matthias.fend@emfend.at> wrote:
+>>>>
+>>>> Implement {g,s}_register to support advanced V4L2 debug functionality.
+>>>
+>>> Is there any real benefit to providing access via {g,s}_register
+>>> rather than using i2ctransfer -f ? The I2C framework ensures that each
+>>> transfer is atomic as long as it is formed into one transaction
+>>> request.
+>>
+>> This allows, for example, the registers to be changed when the image
+>> sensor is actually used in streaming mode.
+>>
+>> IMHO, this cannot be covered by i2ctransfer, as the device is used
+>> exclusively by the driver.
+> 
+> I frequently modify registers while the device is streaming to debug and
+> investigate.
+> 
+> I use my colleague Tomi's rwmem tool though:
+> 
+>   - https://github.com/tomba/rwmem
+> 
+> But I don't think it does anything specifically special - it's still an
+> underlying i2c-transfer operation through /dev/i2c-x ?
+
+Thanks for the hint - I didn't know that tool yet.
+
+With the '-f' option, it's actually possible to use i2ctransfer as well.
+
+> 
+> 
+> 
+>>
+>>>
+>>> IMHO The only place these are really needed is with devices such as
+>>> the adv7180 family which have a bank and page addressing scheme, and
+>>> the driver is caching the last accessed bank.
+>>>
+>>>> Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
+>>>> ---
+>>>>    drivers/media/i2c/imx283.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
+>>>>    1 file changed, 44 insertions(+)
+>>>>
+>>>> diff --git a/drivers/media/i2c/imx283.c b/drivers/media/i2c/imx283.c
+>>>> index 7a6ab2941ea985401b21d60163b58e980cf31ddc..d8ccde0a1587259f39a10984c517cc57d323b6bc 100644
+>>>> --- a/drivers/media/i2c/imx283.c
+>>>> +++ b/drivers/media/i2c/imx283.c
+>>>> @@ -1295,7 +1295,51 @@ static const struct v4l2_subdev_internal_ops imx283_internal_ops = {
+>>>>           .init_state = imx283_init_state,
+>>>>    };
+>>>>
+>>>> +#ifdef CONFIG_VIDEO_ADV_DEBUG
+>>>> +static int imx283_g_register(struct v4l2_subdev *sd,
+>>>> +                            struct v4l2_dbg_register *reg)
+>>>> +{
+>>>> +       struct imx283 *imx283 = to_imx283(sd);
+>>>> +       u64 val;
+>>>> +       int ret;
+>>>> +
+>>>> +       if (!pm_runtime_get_if_active(imx283->dev))
+>>>> +               return 0;
+>>>
+>>> Returning no error if the device is powered down feels wrong. How is
+>>> the caller meant to differentiate between powered down and the
+>>> register actually containing 0?
+>>
+>> The only other I2C drivers that use pm* in {g,s}_register seem to be
+>> imx283 and tc358746. Since both return 0 when the device is inactive, I
+> 
+> Did you mean something other than imx283 here ?
+
+True, the IMX283 is obviously not a good reference in this respect :)
+
+However, if there's agreement that implementing {g,s}_register for this 
+driver isn't sensible, I'll just drop this commit.
+
+Thanks
+  ~Matthias
+
+> 
+> --
+> Kieran
+> 
+>> figured there must be a reason for this and implemented it that way as well.
+>>
+>> Thanks
+>>    ~Matthias
+>>
+>>>
+>>>> +
+>>>> +       ret = cci_read(imx283->cci, CCI_REG8(reg->reg), &val, NULL);
+>>>> +       reg->val = val;
+>>>> +
+>>>> +       pm_runtime_put(imx283->dev);
+>>>> +
+>>>> +       return ret;
+>>>> +}
+>>>> +
+>>>> +static int imx283_s_register(struct v4l2_subdev *sd,
+>>>> +                            const struct v4l2_dbg_register *reg)
+>>>> +{
+>>>> +       struct imx283 *imx283 = to_imx283(sd);
+>>>> +       int ret;
+>>>> +
+>>>> +       if (!pm_runtime_get_if_active(imx283->dev))
+>>>> +               return 0;
+>>>
+>>> Ditto here. The caller is told the value was written, but it wasn't.
+>>>
+>>> Thanks.
+>>>     Dave
+>>>
+>>>> +
+>>>> +       ret = cci_write(imx283->cci, CCI_REG8(reg->reg), reg->val, NULL);
+>>>> +
+>>>> +       pm_runtime_put(imx283->dev);
+>>>> +
+>>>> +       return ret;
+>>>> +}
+>>>> +#endif
+>>>> +
+>>>> +static const struct v4l2_subdev_core_ops imx283_core_ops = {
+>>>> +#ifdef CONFIG_VIDEO_ADV_DEBUG
+>>>> +       .g_register = imx283_g_register,
+>>>> +       .s_register = imx283_s_register,
+>>>> +#endif
+>>>> +};
+>>>> +
+>>>>    static const struct v4l2_subdev_ops imx283_subdev_ops = {
+>>>> +       .core = &imx283_core_ops,
+>>>>           .video = &imx283_video_ops,
+>>>>           .pad = &imx283_pad_ops,
+>>>>    };
+>>>>
+>>>> --
+>>>> 2.34.1
+>>>>
+>>>>
+>>
+
 
