@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-49015-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49016-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F19B4CC9304
-	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 19:06:16 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5396CC92A7
+	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 18:59:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4E269326B98F
-	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 17:53:09 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B96D531D41EB
+	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 17:51:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 978AF34F25C;
-	Wed, 17 Dec 2025 17:42:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C83E934F47A;
+	Wed, 17 Dec 2025 17:42:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="UgY+Uq2B"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="DmkWCWx9"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E98C33EAEA;
-	Wed, 17 Dec 2025 17:42:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C6434EEF8;
+	Wed, 17 Dec 2025 17:42:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765993344; cv=none; b=cxtBPCMPNBAob9McFi2Rdhed5HhsHJKY9gnJy+Kc4hcf5mS4LiA4PQWjN9wAbA3KKZZlZpem9skm0Niv/DjJIXhurYVe8YyGMMXOQOWmClRXHNTIQPruLHqGOHF3gSbz0PHIv76AtDsyKTqW2T3Y1NjH/PqlJpHPd1zMKPwxRFQ=
+	t=1765993346; cv=none; b=fH71RupTmN4hG9gGOMPP9WQ3ho9B39iyxWT/mKHvEQBRJCZ0icFJ7/JlCLaxkKtsbjCPkazqHOEqlNbDMdrF787job/V4ffOIxyUkunas6oJJ9+r/ayYXFydauR/hwN1YtTMHM4f9aXVNJml29Wqf5Moia6pZReXb9Kbq+88058=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765993344; c=relaxed/simple;
-	bh=8TXVTg4eUC99XcZbYLNYfqlAjxV3itLtwsdCHBdEN2c=;
+	s=arc-20240116; t=1765993346; c=relaxed/simple;
+	bh=8vBoOMskbJh8WrjcrKtrm9DB0ZYyv0qQu+8wReK92W0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LB5tUXSJs31clV0ybmyosp8FSO9Z7pCIxPz1xRl0MPr3rrbmYmWlqsWlHFaB52aqm8Oamf3FFpUJvKrH2iiW8YcJB7SNh9I1UAyk5GIczATCN91Y02lbSf5pZVztJE/3aX+LZ0+32p5j+qIQCGqYJ6VV0pqpLU0WlEwzublBAOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=UgY+Uq2B; arc=none smtp.client-ip=148.251.105.195
+	 MIME-Version; b=swSeJB2Y6JDzFGg/tFN7rsXCS/nf1sHvXK0j+SHA8Z01jnOk7ynOnpt1m/YxbZ7DP5iqhrItrYcVJUGb6Kl3UvJuiv5oYmlQGsZNEnZJutiGTDRPDwWVCkCyfXTOFLBHShqDtIG35xALs/Ak5+Ina3K8d1xCg0BwNrxtsXu4qOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=DmkWCWx9; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1765993339;
-	bh=8TXVTg4eUC99XcZbYLNYfqlAjxV3itLtwsdCHBdEN2c=;
+	s=mail; t=1765993342;
+	bh=8vBoOMskbJh8WrjcrKtrm9DB0ZYyv0qQu+8wReK92W0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UgY+Uq2BNTB022vu/CEhLHKYTBhUdD8sk36KUdvHF2qgOw9QqoMAqHUlQ+0+kHpGt
-	 I+tCVXp2egcZZ/LfWgUy1mPmcrlsogNG40Y90plWjxfNgO01eShCvYDdqMKZiShsmV
-	 Fo7A85MHF6X4WL5FFPWbYgB+W3iLjvofe4uUCod3k0bN7wHntZVtJM+Bth9sk/UqIo
-	 ZQAF/oMKCWp1gHWN4gCcjCWf7Q8Hvps5sA4/zslYJDinua3n/jhPuq0q8SQ8A7XRBF
-	 v2dXfOdWq4gmVoO4FK2LXMJt6HxMXzfaWlVCarJyJKALfoHjZH/1TSAFfxGZ56EFJi
-	 hNSiQhofa7k/w==
+	b=DmkWCWx9BesM2Jngn/QPNRU0jjqo67PTo/kYteNd67PDC4bbXd2vHB14arAeribY+
+	 CfFurO+DlhEAAsbNzQS5RHJKAg89inmvcIUkDuZdHae+HfjsYJ25EAebOBhc5LWnFK
+	 9aOKYbcfFagvP5hpTGnZG2eKZY4rpTvqYusTVNDIJph1TtlsWiP0oJCsYhQhijxn3r
+	 eJPSUSkngHyYgqVGFsSmIh5Zt++YOKwsyA6AzJ7UHzVtokgwz3lpopw414T3zVPpvW
+	 UuTm8gkH28f9BItBKDQvaC8vUzcmaAIuyUcXQnDuZvtRmlgOianDPoQ7Km6K7b/SL5
+	 K7DpwC9QhQhwA==
 Received: from trenzalore (modemcable014.2-22-96.mc.videotron.ca [96.22.2.14])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: detlev)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 299E117E1523;
-	Wed, 17 Dec 2025 18:42:17 +0100 (CET)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 205EA17E13F9;
+	Wed, 17 Dec 2025 18:42:20 +0100 (CET)
 From: Detlev Casanova <detlev.casanova@collabora.com>
 To: linux-kernel@vger.kernel.org
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -66,11 +66,10 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-media@vger.kernel.org,
 	linux-rockchip@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org,
-	kernel@collabora.com,
-	Diederik de Haas <didi.debian@cknow.org>
-Subject: [PATCH v6 12/17] media: rkvdec: Enable all clocks without naming them
-Date: Wed, 17 Dec 2025 12:40:49 -0500
-Message-ID: <20251217174059.1341784-13-detlev.casanova@collabora.com>
+	kernel@collabora.com
+Subject: [PATCH v6 13/17] media: rkvdec: Disable multicore support
+Date: Wed, 17 Dec 2025 12:40:50 -0500
+Message-ID: <20251217174059.1341784-14-detlev.casanova@collabora.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251217174059.1341784-1-detlev.casanova@collabora.com>
 References: <20251217174059.1341784-1-detlev.casanova@collabora.com>
@@ -82,94 +81,87 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-For other variants, the clock names and number will differ.
+Similarly to what is done in Hantro, avoid exposing equal video codecs to
+userspace. Equal video codecs allow scheduling work between the cores.
+For that kernel support is required, which does not yet exist.
+Until that is implemented, avoid exposing each core separately to
+userspace so that multicore can be added in the future without breaking
+userspace ABI.
 
-There is no need to keep track of the clock names in the driver so drop
-them to avoid having a list for each variant.
+This currently applies only to RK3588 which has 2 equal VDPU381 decoders,
+but will be applied for all SoC supported by rkvdec that has multiple DTS
+nodes with the same compatible.
 
-Tested-by: Diederik de Haas <didi.debian@cknow.org>  # Rock 5B
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
 ---
- .../media/platform/rockchip/rkvdec/rkvdec.c   | 26 +++++--------------
- .../media/platform/rockchip/rkvdec/rkvdec.h   |  1 +
- 2 files changed, 7 insertions(+), 20 deletions(-)
+ .../media/platform/rockchip/rkvdec/rkvdec.c   | 47 +++++++++++++++++++
+ 1 file changed, 47 insertions(+)
 
 diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-index 87373a6d9573..9bd98b6a6be7 100644
+index 9bd98b6a6be7..f7353d0acdab 100644
 --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
 +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-@@ -1315,15 +1315,10 @@ static const struct of_device_id of_rkvdec_match[] = {
+@@ -1265,6 +1265,49 @@ static void rkvdec_watchdog_func(struct work_struct *work)
+ 	}
+ }
+ 
++/*
++ * Some SoCs, like RK3588 have multiple identical VDPU cores, but the
++ * kernel is currently missing support for multi-core handling. Exposing
++ * separate devices for each core to userspace is bad, since that does
++ * not allow scheduling tasks properly (and creates ABI). With this workaround
++ * the driver will only probe for the first core and early exit for the other
++ * cores. Once the driver gains multi-core support, the same technique
++ * for detecting the first core can be used to cluster all cores together.
++ */
++static int rkvdec_disable_multicore(struct rkvdec_dev *rkvdec)
++{
++	struct device_node *node = NULL;
++	const char *compatible;
++	bool is_first_core;
++	int ret;
++
++	/* Intentionally ignores the fallback strings */
++	ret = of_property_read_string(rkvdec->dev->of_node, "compatible", &compatible);
++	if (ret)
++		return ret;
++
++	/* The first compatible and available node found is considered the main core */
++	do {
++		node = of_find_compatible_node(node, NULL, compatible);
++		if (of_device_is_available(node))
++			break;
++	} while (node);
++
++	if (!node)
++		return -EINVAL;
++
++	is_first_core = (rkvdec->dev->of_node == node);
++
++	of_node_put(node);
++
++	if (!is_first_core) {
++		dev_info(rkvdec->dev, "missing multi-core support, ignoring this instance\n");
++		return -ENODEV;
++	}
++
++	return 0;
++}
++
+ static const struct rkvdec_variant_ops rk3399_variant_ops = {
+ 	.irq_handler = rk3399_irq_handler,
  };
- MODULE_DEVICE_TABLE(of, of_rkvdec_match);
- 
--static const char * const rkvdec_clk_names[] = {
--	"axi", "ahb", "cabac", "core"
--};
--
- static int rkvdec_probe(struct platform_device *pdev)
- {
- 	const struct rkvdec_variant *variant;
- 	struct rkvdec_dev *rkvdec;
--	unsigned int i;
- 	int ret, irq;
- 
- 	variant = of_device_get_match_data(&pdev->dev);
-@@ -1340,19 +1335,12 @@ static int rkvdec_probe(struct platform_device *pdev)
+@@ -1335,6 +1378,10 @@ static int rkvdec_probe(struct platform_device *pdev)
  	mutex_init(&rkvdec->vdev_lock);
  	INIT_DELAYED_WORK(&rkvdec->watchdog_work, rkvdec_watchdog_func);
  
--	rkvdec->clocks = devm_kcalloc(&pdev->dev, ARRAY_SIZE(rkvdec_clk_names),
--				      sizeof(*rkvdec->clocks), GFP_KERNEL);
--	if (!rkvdec->clocks)
--		return -ENOMEM;
--
--	for (i = 0; i < ARRAY_SIZE(rkvdec_clk_names); i++)
--		rkvdec->clocks[i].id = rkvdec_clk_names[i];
--
--	ret = devm_clk_bulk_get(&pdev->dev, ARRAY_SIZE(rkvdec_clk_names),
--				rkvdec->clocks);
--	if (ret)
-+	ret = devm_clk_bulk_get_all_enabled(&pdev->dev, &rkvdec->clocks);
-+	if (ret < 0)
- 		return ret;
- 
-+	rkvdec->num_clocks = ret;
++	ret = rkvdec_disable_multicore(rkvdec);
++	if (ret)
++		return ret;
 +
- 	rkvdec->regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(rkvdec->regs))
- 		return PTR_ERR(rkvdec->regs);
-@@ -1430,16 +1418,14 @@ static int rkvdec_runtime_resume(struct device *dev)
- {
- 	struct rkvdec_dev *rkvdec = dev_get_drvdata(dev);
- 
--	return clk_bulk_prepare_enable(ARRAY_SIZE(rkvdec_clk_names),
--				       rkvdec->clocks);
-+	return clk_bulk_prepare_enable(rkvdec->num_clocks, rkvdec->clocks);
- }
- 
- static int rkvdec_runtime_suspend(struct device *dev)
- {
- 	struct rkvdec_dev *rkvdec = dev_get_drvdata(dev);
- 
--	clk_bulk_disable_unprepare(ARRAY_SIZE(rkvdec_clk_names),
--				   rkvdec->clocks);
-+	clk_bulk_disable_unprepare(rkvdec->num_clocks, rkvdec->clocks);
- 	return 0;
- }
- #endif
-diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.h b/drivers/media/platform/rockchip/rkvdec/rkvdec.h
-index 12e53d591362..75a9ba988794 100644
---- a/drivers/media/platform/rockchip/rkvdec/rkvdec.h
-+++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.h
-@@ -131,6 +131,7 @@ struct rkvdec_dev {
- 	struct v4l2_m2m_dev *m2m_dev;
- 	struct device *dev;
- 	struct clk_bulk_data *clocks;
-+	unsigned int num_clocks;
- 	void __iomem *regs;
- 	struct mutex vdev_lock; /* serializes ioctls */
- 	struct delayed_work watchdog_work;
+ 	ret = devm_clk_bulk_get_all_enabled(&pdev->dev, &rkvdec->clocks);
+ 	if (ret < 0)
+ 		return ret;
 -- 
 2.52.0
 
