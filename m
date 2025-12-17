@@ -1,201 +1,403 @@
-Return-Path: <linux-media+bounces-48977-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48978-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17478CC723F
-	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 11:44:57 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4DDECC73C3
+	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 12:07:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B859B3062BFF
-	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 10:41:02 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5767D31C73A3
+	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 11:01:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F246398B7A;
-	Wed, 17 Dec 2025 10:29:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF57B35FF6C;
+	Wed, 17 Dec 2025 10:51:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="tsBGbBpK"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R9JS7TSv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010068.outbound.protection.outlook.com [52.101.56.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1109538E155;
-	Wed, 17 Dec 2025 10:29:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.68
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765967372; cv=fail; b=MHodr6Ln/N4xAJCQR0cMBZSSeLC7rXW6mWJ4EF0sOadoDIC/m8V3JPFqf2cqyVImrNhCTD+QqDSM/B0mIX3SBTPsw2iYNebhPFx0vmgRCkhZop8ciaPp6tQ2LSrTL5qs284/fCyx+qX9XTfH6q/eF4rfKMNxZnAmSnX9T6h7Rks=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765967372; c=relaxed/simple;
-	bh=4WeqagVMf/Eil/1yzYI03M8Zg/it4OslxhNNVmGvgIE=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=cxqDHBS6NnU4/7g41e2hDGKdxKgZBNUL5hKuZkuhvytig0MRdRRfBGPOEtwh8XQQkrqLegfGHY/IyKwHfZpgsZEEMqzdUJb7GVVhCZwtsorrxc/IGDxFi7XRZhFlWLNx0L+PjErB5qk7Gg/IMQzgkHmyYxcA0u7iEKLxzHhVduo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=tsBGbBpK; arc=fail smtp.client-ip=52.101.56.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ex/xgfUuySOz480/UU6h2SFO6aJJAP12a/nMNUn7YLj3VwhUo64El8m0pBi1JhDHG+jQoC0ZE+HtAJ3UNPYmD+YavR0wvNlxcOl/kZXnWJiDB+rdnvV/uWYyMPIKvBpOVzOkgVN+e041Kq9vXq4Rw09CYdJk4g3fefjXSDT5xDuiUQHvApfBmiB/wk6ZSwcPp9JB51jG1ENO2TDiWtTvgFIuzf5LJaFIVdauslOIqzig/tTPMi/55FYpbu8OhmTzAnrnYQD7aFGJtq+MIgY0OG9YB6cyMVCoPpAK/42Z+0W6B/Bc//SVYXkz99rBprkzvHsc4AXGM5YdvlgirZeZIQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HtCB7JNiIq39QD6lRSvY7VNc2qdS4x4ypSAsKGwSYxE=;
- b=l0nVNaOCbfvVMxWP8OxAUoLhV/IoaWloXaQu/1HEb4mE4gmVKenc25FaC5gjdy7O2U70G+BqaoCHC7r/IY8wgbxQpfQB6GZXwyZN4ISDWdnof+4wKQSKWnyVj9Pwmj1/i4eKc9FDPjMZFW6Z59HsAs/lJJwAk8iCcEk8sH3qMDaosEF1b62I9/S+mh4S531X1u+VvEZdfwPip6DOiWZo+MTEh6EHVOb2GHD3z7itU9B4iHvLti7YfRUTwf93DQJi2H6Z/4DXx4EKwVIP5Z/dIVHXXZ6jl7CHGOL5HHvnlzdkW3mf4SU/IWTSOoh7HDnXeDfcTohruDmh+FVlSZJN9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HtCB7JNiIq39QD6lRSvY7VNc2qdS4x4ypSAsKGwSYxE=;
- b=tsBGbBpKeMrlLXPZg6jYan2L6DbMoclMLWTDY8W4p72dbOkD3yxAt0Gmcwdff5cq/3ub/rJJUNhBiu1VQpSutjeGfz2cAWcj0HtOJtNfGlewu6iG8lPLYx5z7D06D5lC/xTycybskiYSK9TzHoK16b+dqQQ1WmX4p7CiZOmMnAw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from LV9PR12MB9829.namprd12.prod.outlook.com (2603:10b6:408:2eb::9)
- by CH3PR12MB7666.namprd12.prod.outlook.com (2603:10b6:610:152::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.6; Wed, 17 Dec
- 2025 10:29:28 +0000
-Received: from LV9PR12MB9829.namprd12.prod.outlook.com
- ([fe80::c47f:251d:7b84:e6b4]) by LV9PR12MB9829.namprd12.prod.outlook.com
- ([fe80::c47f:251d:7b84:e6b4%6]) with mapi id 15.20.9434.001; Wed, 17 Dec 2025
- 10:29:28 +0000
-Message-ID: <3ceb88e2-48d4-46aa-826d-be372ee0acb5@amd.com>
-Date: Wed, 17 Dec 2025 18:29:18 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 0/7] Add AMD ISP4 driver
-To: mchehab@kernel.org, hverkuil@xs4all.nl,
- laurent.pinchart+renesas@ideasonboard.com, bryan.odonoghue@linaro.org,
- sakari.ailus@linux.intel.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- sultan@kerneltoast.com
-Cc: pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
- gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com, Dominic.Antony@amd.com,
- mario.limonciello@amd.com, richard.gong@amd.com, anson.tsao@amd.com
-References: <20251216091326.111977-1-Bin.Du@amd.com>
-Content-Language: en-US
-From: "Du, Bin" <bin.du@amd.com>
-In-Reply-To: <20251216091326.111977-1-Bin.Du@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: KUZPR03CA0008.apcprd03.prod.outlook.com
- (2603:1096:d10:2a::16) To LV9PR12MB9829.namprd12.prod.outlook.com
- (2603:10b6:408:2eb::9)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 770AB35FF5A
+	for <linux-media@vger.kernel.org>; Wed, 17 Dec 2025 10:51:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765968702; cv=none; b=MAeqt2Evr5fDtqV0Lb4vpwE95BR8g5YWB9rwQ8FfnO+8vn2IsuHuJU/ql51GvE4Q+aRQ3imBGSRq9xJtMjxNMVzrYX24R3s0onNPV21v8IWWb5vnHoyh/2AhpfJDVxoYKLgV5rXZVwyvLbiUALVX5kijlSUc0O6GoQmTDoRTeT8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765968702; c=relaxed/simple;
+	bh=vIlxrLhrVNCZl/30XmOFjFbBD4xrBSlXiuNYWMGL4jc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JA8FnQr4XmhV1uW2VfCJw8H7Hc24x9jmzQ2g9LkLI3bC8uM3aP4/RGye/FG30CPWRsD4nqFjbFjZzpSTC5XsQHXZqUbBLhg8lKMn3MO3VN4Rt6P5sdLtMvyCu6HqQm0k6X6WoFnXxwYgiRxOi9LdsXNJgxX50lsE5Xw1fejautc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R9JS7TSv; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2a1360e1392so17199645ad.2
+        for <linux-media@vger.kernel.org>; Wed, 17 Dec 2025 02:51:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765968700; x=1766573500; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HeWIMymGsnD705X7h+HkPWaAGP+naHlXJm5mohESOX8=;
+        b=R9JS7TSvpXtDtv6Aahhsmk/J8r1bVswIZ8guogiPFtLpg4ynKgdjq/GKmQq2OHkIF0
+         D2N/VOqnQYnbxMnUlxhPAgKdbtXXldcYJBT5GYceTaxQl5uNHKXEG624WcyQiEuR2Tvy
+         ChBV6QzzSRvXrNKjtVlcuAs9bAMsce1BL2SAdiAYZSMiskplHSZTQgwPuo/oqHSWD5GD
+         2eJ7TlspCJXkLlhU5p9tVgmVG54uZXit3SIt3zrvgusuNxmL8Bgh2x+M6rfjwh/JZeqE
+         s28cKYeG9bU0h5V29WZLJ8MLxSoK+I4YZSe4nWtNBxXEbnzn0QNHDuH3mKO/AzDBiyHa
+         6Ihw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765968700; x=1766573500;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HeWIMymGsnD705X7h+HkPWaAGP+naHlXJm5mohESOX8=;
+        b=OhkSzaQLrLNI1hsfbUDouGTRCHzhGz8ZTWfZ9nbPTnRMaXxahBiq7Ia7RbGBXl3+Oo
+         mn3B+h9wse4rd0qF2nNCai16m71fWw+ykZtOZexfCFx4iu4+fYay37juNchpKmFp5PCS
+         WgDCmfqaCgL3+MNiS/fnZGz2FqoW1gDPkRrNz2rP780sEp3WyByvsUeJdP+nkJrqIuY6
+         SbEqXP7ymNjz+KnvrkTCNdeFcOfL0FwLLrnfka8OVmQ7brX7nCKw8VY7TvBur/zmgflb
+         pyoFESBjV9l7m3p7ENMns0F6hy3Uy3lRZlY4ADpetz1Yiy7ESF1Pq09D6RHMudWgGnmR
+         UYhQ==
+X-Gm-Message-State: AOJu0Yw4s1pQxgcwxfPTJjBTWK2BLmQ+hMZig3aWzMHNyNiDEVvaMqJ3
+	RYH3kDSNndvD4pvCH35a/Lx5s40djMW9SmCAfGUcRv2tklPZCiU46TEJ
+X-Gm-Gg: AY/fxX7IIdkRXTjaaObAzhFh6YaObkcClP8PHWUNUPCndJZmGg6edFER7ApLkk9atVf
+	gLHc+5NUGbuuYxW8a/qtJBDuR8tkfwdN5/wQmDm23zrIWXfwjbtBC4hXdOlrGoSXHrDtzpgB8NC
+	T5xZfFttTLau8wqlL8Crilrz1+8VH9z9k7nY4ind+THC9BpM5ay7Ea7t8OrQvqmAbjwnngjEH29
+	ga9vsfj0BtBep1zVxr++5ohfLcNRMczJmcIjDimBdwsl6cUGBunumw6wHfByxg0bCumdNkAhd8R
+	T6tqX8c4jersYgLi1oLsu48c3EVWmI2QHVsKNcAyermb+BcHxIOMWhlE9iipqDVXGEb2BVvjEJi
+	/wuaeTSQkQLJNBuaW8oTtvMf+Kq5/I7jxfL0aspjiSfBuyDENn9h7BxkGneaG2Y4JQQ5orHXaM2
+	Z1Qr0A3fn6tGtJlMWYAnTxfAySwXXOCf4=
+X-Google-Smtp-Source: AGHT+IG+dwvtZ+mftb6kedeqVlpo+UOy4GR1vuCwMLdLi6z2jdwkYe3yh3+QgIW5le7Y/X8Gss+94Q==
+X-Received: by 2002:a17:903:1ce:b0:2a0:be68:9456 with SMTP id d9443c01a7336-2a0be689724mr120264875ad.46.1765968699630;
+        Wed, 17 Dec 2025 02:51:39 -0800 (PST)
+Received: from xiao.mioffice.cn ([43.224.245.230])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a12b82c587sm60927745ad.69.2025.12.17.02.51.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Dec 2025 02:51:38 -0800 (PST)
+From: Xiang Gao <gxxa03070307@gmail.com>
+To: sumit.semwal@linaro.org,
+	christian.koenig@amd.com,
+	rostedt@goodmis.org,
+	mhiramat@kernel.org
+Cc: linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	mathieu.desnoyers@efficios.com,
+	dhowells@redhat.com,
+	kuba@kernel.org,
+	brauner@kernel.org,
+	akpm@linux-foundation.org,
+	linux-trace-kernel@vger.kernel.org,
+	gaoxiang17 <gaoxiang17@xiaomi.com>
+Subject: [PATCH v7] dma-buf: add some tracepoints to debug.
+Date: Wed, 17 Dec 2025 18:51:32 +0800
+Message-Id: <20251217105132.643300-1-gxxa03070307@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV9PR12MB9829:EE_|CH3PR12MB7666:EE_
-X-MS-Office365-Filtering-Correlation-Id: 60b06816-5b51-4de0-00af-08de3d57283c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?VmQvT3hrbG5LTEhVNGQ3RFEzZFA2VFVacHE2TFd1Sy9UQk8xRzNHdzJoSzZI?=
- =?utf-8?B?eWFBd2hlZ0VlWEUyb0NDcS9qODRVUkVlazllZGpGaVVmdXlXdGp6MnU4Z1dO?=
- =?utf-8?B?cVJPRWJRTFV1ekpPOFJnK28vTjJtQzVZOUJwRktMa2RRVTJTOXQva1RTR2N5?=
- =?utf-8?B?emZOdDRIZEZ3MDIwWG1DRTFacXZud25UM3lWT3dQa2E2YTEwUnlsQkx6dEJE?=
- =?utf-8?B?YytycWtCd3NQTWNqa2dWNHVuUGpjTGNjaUd0MmVQekFhZUR3YzI0YTU0YWZD?=
- =?utf-8?B?RS9sZkR2TjA2WVVGeXllYSs5eVU0bEpNalpBNTg3MDFpVXI3c1h4aVQyNFBS?=
- =?utf-8?B?LzNnbHUzRzNaVjBQbmZkaXhyTlB6Zi82alIxaXNpS1BKYy9LaUgrSkUxZ21n?=
- =?utf-8?B?VzhCdFdKSlRSWlo0WXNiaTM0Qk5ldTZqS2xjcFhxejZwNHhNRzBGTFExZER4?=
- =?utf-8?B?YlNtbzBDZHRGMHJqYTFVSTBlT25idDAydDA4M0w2amUrYlUxMm8reFpONVoz?=
- =?utf-8?B?Z0Ryc2NoMHlxNUF0Y2x1b1V3aUZweTFJTWZHdDk2cmtRbXhUTURENjVESmRq?=
- =?utf-8?B?UXhkVmt3MmlxcnY1T21pSU1YS1dqUURKbmhKYTBna0lWZ2NXamhlcjg2T0pW?=
- =?utf-8?B?dFJHMFZCYUZSK29NTUx2YXZUdnR1MXJ6eVBoQWR4NHVQSGxISW10d2xJd3Fy?=
- =?utf-8?B?VmQxc1dLZVAzTkprMHlSQzFrL01TNXdvaSt4MS8rWWprM3dIVFlaVjV3ckRp?=
- =?utf-8?B?dGU0WHZHVmtRWVc1WXY0cWdhQTM1d016Y1I3emw5RWVDdUlWZDUreE13T3li?=
- =?utf-8?B?bWtmalA5YmN4S3lmTXROMi9WQjdjMnVzRHVzSC9MOFBJSjE0dFJLdk8yYVRa?=
- =?utf-8?B?TFRkSlJRMVVNQXJnVVRKNlRVQnZUOUVkOTBYSk1LeDJkYzdUTHMvMzZEOGdw?=
- =?utf-8?B?d3pGa2t3Tm1HU3RvOTVoMlpXR1hPMk5FeFhVcncyYTNBTG1MM05aOVFKU0hp?=
- =?utf-8?B?Ym5HYk5WTEVGRktnSUM4U2QrdUJJc2hNOEFKMlY3TEdNNG5hY1UxK0czTXpW?=
- =?utf-8?B?eGJHcFRwMU5pcWs0aFljRks5OXRaOXR6RmMvcXVGSXJTc1VWZ2RheDRLenB4?=
- =?utf-8?B?RTJJWjkwZDNKVFQvbHk2WnBETDd6YVpiZHdwZG53NGJsWW5hZDdWc3JYdlcy?=
- =?utf-8?B?SUthOUszOEZXcCt0L0RjRlE2cDRNZUp1ZjFiZmp0U1g2SCtoTGc1V3ZvQ1pL?=
- =?utf-8?B?a3QvalFNTk9HVmoxbVBaOUR0WWswbVRKckRIY2RZcUtmS3VCMTNtSlRqR2VD?=
- =?utf-8?B?eHQ0Z0RsR2wraVdqWkt4QWkxNGM4aVB2bkQ5aG1MazJEcllpM2QxYVEwZVlL?=
- =?utf-8?B?ZFlxbHovWkI0bmllMk5ncjRVNS9LTkMvQWgzRDF5TVM1UG9ISWNxbzY0MDBw?=
- =?utf-8?B?SW0yKzZaVDFxVDJFODlNK0swUnBqbURsMksrWHUyZ0RDSU1ydlpwbG1IQXo0?=
- =?utf-8?B?cXFkRDlGbzlXbXpzOW1JbGF4Q0IvNlFyTExISDl6Q3hMb3Y3TkhEYzhQWWVr?=
- =?utf-8?B?cG1BUTIzMStZeE1RY1dtVWppMlcrSENiazRzRWpOaVNQQmZwam5tY0dRM1hB?=
- =?utf-8?B?UGc4MnpXMERSZ21YeDBrdXJ4Y2VSckQwYkZ1UDFwUVR0Yjd3RHlROVBYZ1By?=
- =?utf-8?B?S1VNUUVMT0VJOHd6TmFYQUR3c1hBM2FzSzJaNlpMaGxHdHh4NXRINXVwaitM?=
- =?utf-8?B?eGMzUnpQZlZlK29QNWpyREhzcW8xYUR4bGNlYVY4M3pqaDRVQjEzR25VVDRU?=
- =?utf-8?B?MDFKMVVnUXNNbWxNOG96MnVsNWdiMjI3aGFSZVljdENDeWl5OTYySEE2NVA1?=
- =?utf-8?B?c2owVFpDcDJNZjlOZVpMeXo3Ny9HazlUOXJuRHMyY2cydStwWlVETnBjSW1p?=
- =?utf-8?B?dDg4Z3YvS0pEbE9aTUJxVVRCSXVDM0hCaUZKMTlyTWIzc0FQQ3JJLzJIYVIx?=
- =?utf-8?B?WUV1YjZtUENnPT0=?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV9PR12MB9829.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?aURHSHpWR0RTeGhWVFBRQjE4TG9OYmVlTW9qT2tWc2ZNeFNrRjFoUjhtZ0ps?=
- =?utf-8?B?bzBzbm5JYUk1ZGQ4MWZRdTVrRWFXZkd4U3M3bU9taEIvN0h2Q1FzcnRvUTlP?=
- =?utf-8?B?U3FvZTVaK1RxSkFGV1dSdmJFVm9wUnhzMnR0YlozdGs0UzFPT1BDVncyY3dq?=
- =?utf-8?B?NjBzOEdidDQ2ZVdtYVVTMUw1YWxLcjFJTmhicFI4UWcyclNSRlRHR0twa0V0?=
- =?utf-8?B?YnFSa2xaVzFLZk9uK2Vrb05JZk0rN2hNWGxGdjZQSlZoOFdIdGxVVVJMQWww?=
- =?utf-8?B?QTNVUVpWK3B0OGplTXBuM0g1VGFFOS9Ga2hiV3VPdVFBaVNsa0lWdlBYc1NT?=
- =?utf-8?B?eUdyajhURnczZ0VlVnoyeTU0Mk5zRS9Ob3grYVFkNFJ1bXNRY1doVld3Vmh6?=
- =?utf-8?B?dmE5SlZreGY0cWFTTDMrRHZkR1RFaDh2ZGYzYmxCUjhkSEU2NUliMStRQkdW?=
- =?utf-8?B?NUpSM3NGaURXTXpKL2FWWUtEanlaMklxdXJiYUZjbWJGMzdoNWpnMHNacG1C?=
- =?utf-8?B?cmpvL2RqU0NMWjZEaWN6bUNtYWNOV0lsNDlianFYWnBPek1IYnBGUTRDK3I1?=
- =?utf-8?B?N0JVRllmYm1pUzdHbGxDWDIrdFkvdklxY3ljUk5nb0w3UTU5dWZWSTJnTHJG?=
- =?utf-8?B?aWVWWGZacjRjTXpFSlBUSVFwVlZnVnhVWWdDRUtyNWk2WElGTCs4OHY1a0cv?=
- =?utf-8?B?NmxUaHQrcGdHTzF3dWVMUFpSSXZmWWRHbVRqYVlITmRjTllMMzZJNzZmZGtJ?=
- =?utf-8?B?WWlXNEl6LzAzVUkwWFNwWVp1QjdmejJiU0NMNEgwdjVpMmgwVFFBMnBXSjU4?=
- =?utf-8?B?U1dVNEtKOGROc0hPVGk4MnhCeVFDVFE1dGszOU1iMS9QM1Bxa0pBTkJ4MmZm?=
- =?utf-8?B?ZUJkaWg3OFhWaVZaMEpicU5yZ2RWTVlPb2x5Tk5tNEwwYStmc3ZkNWY2ZUlx?=
- =?utf-8?B?SnNTWitNaTltNXlMaG1oakIzNTZaM0hLekNtNEFac1BMOXZSMVdrT0xYb1I0?=
- =?utf-8?B?VWF2SlVDUUMrQkwrOGEyMWNyREtVWkttTzJXaVhqSlJLdUU3ZmI1b3VrTE54?=
- =?utf-8?B?K2xSUE5mQVJiejVvbVNxVUxqV0g4UE1nT2haTmhDR3hrM05ERzU4U1owUHhO?=
- =?utf-8?B?QmRTMnJjSVIwSlZ6SlNMaUdYVUhZdkd1Vml0SnJwTlNmQjdjZEVqRTMzOWNX?=
- =?utf-8?B?ckNvMk1sMlJsLzNLMWsyQmFMdVhzbEw4L292SnpnK3p6WUtFOHRyS0VrWHcz?=
- =?utf-8?B?MnJKd3NUa242K094cUJ6VGNNbkFHd2g1ODF4YzEveHBGRTByWitDUXc5ZG12?=
- =?utf-8?B?ZXZDRXRGeUFjRmtNenZ1aUtoZkVHYmd1enU5K2tOUXpLMVJFZEUrbWhaUVVP?=
- =?utf-8?B?ZGFuK2p6MlkxSFd0WnpKUjdnT0o5S0pHRnRvZXI3K1I2d3Zld21UZGJFYVZl?=
- =?utf-8?B?T3FaVVptSkNsaTRSZU5qaFBjRTUzRjZnWU9YckkwOUFQNGVUTUI5RW5XUWhj?=
- =?utf-8?B?MjMvQ3BBTnhlMGlYcGhURzVDOUhZU1RLU2dWSDg2a1N0L2gxT2xSMGd1emN3?=
- =?utf-8?B?QjQzRXBVelFvSzQ0MTFPaE51dWdwOExZUW05a2JsR25MWWpjaVhJSmxpeWww?=
- =?utf-8?B?WjVoRU9NZjF4L1BnUG5yY3ovelNJYmxFN1VZQ2ZPVDA5OVVzOWI0WWpEeTNV?=
- =?utf-8?B?eXcvN2dXT2hLZllqUVNXeWZBdnZLL1BPNW8xWVJKTWlRM1c1WDg2QU9LclNx?=
- =?utf-8?B?ajV5UGZLeFRPUjNJNkI1WDNYZjJob2pEbG5wbmJRam8yWW5FWXQxZklEbmRI?=
- =?utf-8?B?RENRUGFtZ2FrQWFENE5IUUgvWnljY3lDMlVoSW5kYmFTWXNuWDB4VmQ1cWp6?=
- =?utf-8?B?NVJQUUpNUy9qYWp6bE1Wemhac2FMR3VmOE5YVkpwL0RYZTJNNy9TQWVvVkdW?=
- =?utf-8?B?dUoyWllxeEhMemxwazhjMGxDR3dQeHBwckFtcG5iZk5nRmtHUTlnMy83dGdz?=
- =?utf-8?B?Vis2NlV1ZkFmbVFEY1ByYm81TmtXTy91eEVZZlpEYnlZYzcvMXdZWnp2VzRn?=
- =?utf-8?B?NzJEczBaZkxnVmNUbUJuSFJiYnhDaW5GZEdoZ3Q3R29ONVdIaFJaUm9ieGI2?=
- =?utf-8?Q?4Wn0=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 60b06816-5b51-4de0-00af-08de3d57283c
-X-MS-Exchange-CrossTenant-AuthSource: LV9PR12MB9829.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2025 10:29:28.2669
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3W6GqDPcqikf7gcXB1J5H/5Ga7MFvQvexbOrmZq7SBtYFVLrIfYD1fDINEIy3j5z
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7666
+Content-Transfer-Encoding: 8bit
 
-Hi Laurent and Sakari,
+From: gaoxiang17 <gaoxiang17@xiaomi.com>
 
-Apologies for the gentle reminder, especially during the holiday season. 
-If you have a moment, could you please take a look at version 7? It’s 
-been significantly optimized and improved, and I’d appreciate any feedback.
+Since we can only inspect dmabuf by iterating over process FDs or the
+dmabuf_list, we need to add our own tracepoints to track its status in
+real time in production.
 
-On 12/16/2025 5:13 PM, Bin Du wrote:
-> Hello,
-> 
-> AMD ISP4 is the AMD image processing gen 4 which can be found in HP ZBook Ultra G1a 14 inch Mobile Workstation PC (Ryzen AI Max 300 Series)
-> (https://ubuntu.com/certified/202411-36043)
-> This patch series introduces the initial driver support for the AMD ISP4.
-> 
+For example:
+   binder:3016_1-3102    [006] ...1.   255.126521: dma_buf_export: exp_name=qcom,system size=12685312 ino=2738
+   binder:3016_1-3102    [006] ...1.   255.126528: dma_buf_fd: exp_name=qcom,system size=12685312 ino=2738 fd=8
+   binder:3016_1-3102    [006] ...1.   255.126642: dma_buf_mmap_internal: exp_name=qcom,system size=28672 ino=2739
+     kworker/6:1-86      [006] ...1.   255.127194: dma_buf_put: exp_name=qcom,system size=12685312 ino=2738
+    RenderThread-9293    [006] ...1.   316.618179: dma_buf_get: exp_name=qcom,system size=12771328 ino=2762 fd=176
+    RenderThread-9293    [006] ...1.   316.618195: dma_buf_dynamic_attach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
+    RenderThread-9293    [006] ...1.   318.878220: dma_buf_detach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
 
-[snip]
+Signed-off-by: Xiang Gao <gaoxiang17@xiaomi.com>
+---
+ drivers/dma-buf/dma-buf.c      |  42 ++++++++-
+ include/trace/events/dma_buf.h | 157 +++++++++++++++++++++++++++++++++
+ 2 files changed, 198 insertions(+), 1 deletion(-)
+ create mode 100644 include/trace/events/dma_buf.h
 
->   create mode 100644 drivers/media/platform/amd/isp4/isp4_video.c
->   create mode 100644 drivers/media/platform/amd/isp4/isp4_video.h
-> 
-
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 2bcf9ceca997..ce39bc19e13f 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -35,6 +35,25 @@
+ 
+ #include "dma-buf-sysfs-stats.h"
+ 
++#define CREATE_TRACE_POINTS
++#include <trace/events/dma_buf.h>
++
++/*
++ * dmabuf->name must be accessed with holding dmabuf->name_lock.
++ * we need to take the lock around the tracepoint call itself where
++ * it is called in the code.
++ *
++ * Note: FUNC##_enabled() is a static branch that will only
++ *       be set when the trace event is enabled.
++ */
++#define DMA_BUF_TRACE(FUNC, ...)					\
++	do {											\
++		if (FUNC##_enabled()) {						\
++			guard(spinlock)(&dmabuf->name_lock);	\
++			FUNC(__VA_ARGS__);						\
++		}											\
++	} while (0)
++
+ static inline int is_dma_buf_file(struct file *);
+ 
+ static DEFINE_MUTEX(dmabuf_list_mutex);
+@@ -220,6 +239,8 @@ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
+ 	    dmabuf->size >> PAGE_SHIFT)
+ 		return -EINVAL;
+ 
++	DMA_BUF_TRACE(trace_dma_buf_mmap_internal, dmabuf);
++
+ 	return dmabuf->ops->mmap(dmabuf, vma);
+ }
+ 
+@@ -745,6 +766,8 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+ 
+ 	__dma_buf_list_add(dmabuf);
+ 
++	DMA_BUF_TRACE(trace_dma_buf_export, dmabuf);
++
+ 	return dmabuf;
+ 
+ err_dmabuf:
+@@ -779,6 +802,8 @@ int dma_buf_fd(struct dma_buf *dmabuf, int flags)
+ 
+ 	fd_install(fd, dmabuf->file);
+ 
++	DMA_BUF_TRACE(trace_dma_buf_fd, dmabuf, fd);
++
+ 	return fd;
+ }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_fd, "DMA_BUF");
+@@ -794,6 +819,7 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_fd, "DMA_BUF");
+ struct dma_buf *dma_buf_get(int fd)
+ {
+ 	struct file *file;
++	struct dma_buf *dmabuf;
+ 
+ 	file = fget(fd);
+ 
+@@ -805,7 +831,11 @@ struct dma_buf *dma_buf_get(int fd)
+ 		return ERR_PTR(-EINVAL);
+ 	}
+ 
+-	return file->private_data;
++	dmabuf = file->private_data;
++
++	DMA_BUF_TRACE(trace_dma_buf_get, dmabuf, fd);
++
++	return dmabuf;
+ }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_get, "DMA_BUF");
+ 
+@@ -825,6 +855,8 @@ void dma_buf_put(struct dma_buf *dmabuf)
+ 		return;
+ 
+ 	fput(dmabuf->file);
++
++	DMA_BUF_TRACE(trace_dma_buf_put, dmabuf);
+ }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_put, "DMA_BUF");
+ 
+@@ -979,6 +1011,9 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
+ 	list_add(&attach->node, &dmabuf->attachments);
+ 	dma_resv_unlock(dmabuf->resv);
+ 
++	DMA_BUF_TRACE(trace_dma_buf_dynamic_attach, dmabuf, attach,
++		dma_buf_attachment_is_dynamic(attach), dev);
++
+ 	return attach;
+ 
+ err_attach:
+@@ -1023,6 +1058,9 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
+ 	if (dmabuf->ops->detach)
+ 		dmabuf->ops->detach(dmabuf, attach);
+ 
++	DMA_BUF_TRACE(trace_dma_buf_detach, dmabuf, attach,
++		dma_buf_attachment_is_dynamic(attach), attach->dev);
++
+ 	kfree(attach);
+ }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_detach, "DMA_BUF");
+@@ -1488,6 +1526,8 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
+ 	vma_set_file(vma, dmabuf->file);
+ 	vma->vm_pgoff = pgoff;
+ 
++	DMA_BUF_TRACE(trace_dma_buf_mmap, dmabuf);
++
+ 	return dmabuf->ops->mmap(dmabuf, vma);
+ }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_mmap, "DMA_BUF");
+diff --git a/include/trace/events/dma_buf.h b/include/trace/events/dma_buf.h
+new file mode 100644
+index 000000000000..35f8140095f4
+--- /dev/null
++++ b/include/trace/events/dma_buf.h
+@@ -0,0 +1,157 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#undef TRACE_SYSTEM
++#define TRACE_SYSTEM dma_buf
++
++#if !defined(_TRACE_DMA_BUF_H) || defined(TRACE_HEADER_MULTI_READ)
++#define _TRACE_DMA_BUF_H
++
++#include <linux/dma-buf.h>
++#include <linux/tracepoint.h>
++
++DECLARE_EVENT_CLASS(dma_buf,
++
++	TP_PROTO(struct dma_buf *dmabuf),
++
++	TP_ARGS(dmabuf),
++
++	TP_STRUCT__entry(
++		__string(exp_name, dmabuf->exp_name)
++		__field(size_t, size)
++		__field(ino_t, ino)
++	),
++
++	TP_fast_assign(
++		__assign_str(exp_name);
++		__entry->size = dmabuf->size;
++		__entry->ino = dmabuf->file->f_inode->i_ino;
++	),
++
++	TP_printk("exp_name=%s size=%zu ino=%lu",
++		  __get_str(exp_name),
++		  __entry->size,
++		  __entry->ino)
++);
++
++DECLARE_EVENT_CLASS(dma_buf_attach_dev,
++
++	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach,
++		bool is_dynamic, struct device *dev),
++
++	TP_ARGS(dmabuf, attach, is_dynamic, dev),
++
++	TP_STRUCT__entry(
++		__string(dev_name, dev_name(dev))
++		__string(exp_name, dmabuf->exp_name)
++		__field(size_t, size)
++		__field(ino_t, ino)
++		__field(struct dma_buf_attachment *, attach)
++		__field(bool, is_dynamic)
++	),
++
++	TP_fast_assign(
++		__assign_str(dev_name);
++		__assign_str(exp_name);
++		__entry->size = dmabuf->size;
++		__entry->ino = dmabuf->file->f_inode->i_ino;
++		__entry->is_dynamic = is_dynamic;
++		__entry->attach = attach;
++	),
++
++	TP_printk("exp_name=%s size=%zu ino=%lu attachment:%p is_dynamic=%d dev_name=%s",
++		  __get_str(exp_name),
++		  __entry->size,
++		  __entry->ino,
++		  __entry->attach,
++		  __entry->is_dynamic,
++		  __get_str(dev_name))
++);
++
++DECLARE_EVENT_CLASS(dma_buf_fd,
++
++	TP_PROTO(struct dma_buf *dmabuf, int fd),
++
++	TP_ARGS(dmabuf, fd),
++
++	TP_STRUCT__entry(
++		__string(exp_name, dmabuf->exp_name)
++		__field(size_t, size)
++		__field(ino_t, ino)
++		__field(int, fd)
++	),
++
++	TP_fast_assign(
++		__assign_str(exp_name);
++		__entry->size = dmabuf->size;
++		__entry->ino = dmabuf->file->f_inode->i_ino;
++		__entry->fd = fd;
++	),
++
++	TP_printk("exp_name=%s size=%zu ino=%lu fd=%d",
++		  __get_str(exp_name),
++		  __entry->size,
++		  __entry->ino,
++		  __entry->fd)
++);
++
++DEFINE_EVENT(dma_buf, dma_buf_export,
++
++	TP_PROTO(struct dma_buf *dmabuf),
++
++	TP_ARGS(dmabuf)
++);
++
++DEFINE_EVENT(dma_buf, dma_buf_mmap_internal,
++
++	TP_PROTO(struct dma_buf *dmabuf),
++
++	TP_ARGS(dmabuf)
++);
++
++DEFINE_EVENT(dma_buf, dma_buf_mmap,
++
++	TP_PROTO(struct dma_buf *dmabuf),
++
++	TP_ARGS(dmabuf)
++);
++
++DEFINE_EVENT(dma_buf, dma_buf_put,
++
++	TP_PROTO(struct dma_buf *dmabuf),
++
++	TP_ARGS(dmabuf)
++);
++
++DEFINE_EVENT(dma_buf_attach_dev, dma_buf_dynamic_attach,
++
++	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach,
++		bool is_dynamic, struct device *dev),
++
++	TP_ARGS(dmabuf, attach, is_dynamic, dev)
++);
++
++DEFINE_EVENT(dma_buf_attach_dev, dma_buf_detach,
++
++	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach,
++		bool is_dynamic, struct device *dev),
++
++	TP_ARGS(dmabuf, attach, is_dynamic, dev)
++);
++
++DEFINE_EVENT(dma_buf_fd, dma_buf_fd,
++
++	TP_PROTO(struct dma_buf *dmabuf, int fd),
++
++	TP_ARGS(dmabuf, fd)
++);
++
++DEFINE_EVENT(dma_buf_fd, dma_buf_get,
++
++	TP_PROTO(struct dma_buf *dmabuf, int fd),
++
++	TP_ARGS(dmabuf, fd)
++);
++
++#endif /* _TRACE_DMA_BUF_H */
++
++/* This part must be outside protection */
++#include <trace/define_trace.h>
 -- 
-Regards,
-Bin
+2.34.1
 
 
