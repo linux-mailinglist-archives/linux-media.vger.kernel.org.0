@@ -1,185 +1,186 @@
-Return-Path: <linux-media+bounces-48938-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48939-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E3BDCC5822
-	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 00:44:16 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CC2FCC58BB
+	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 01:03:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A32D13014632
-	for <lists+linux-media@lfdr.de>; Tue, 16 Dec 2025 23:44:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D5245304791C
+	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 00:02:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8F60340A5A;
-	Tue, 16 Dec 2025 23:44:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BB9026290;
+	Wed, 17 Dec 2025 00:02:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="YQZAHAr0"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PRESunnf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 249C3340286
-	for <linux-media@vger.kernel.org>; Tue, 16 Dec 2025 23:43:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8478920B22
+	for <linux-media@vger.kernel.org>; Wed, 17 Dec 2025 00:02:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765928640; cv=none; b=ulXZaHXgQspGhkpb0XaJmUy3lW84oO/lJuI/W8nP8b5ix/pnlmdMcyNm0wiGdzN4DfusoJfLJXui19i9UUfxCxO6JKn4LO/D9T/Txc41IPDE2vTYgdsbvKcBObgVD0dbFJYrfXKFpIiH5MbeBvnNtRPe/CowIc0gcSkLtKqpoKA=
+	t=1765929729; cv=none; b=fe9s+zbntgFCe2fqQZhZlgTaYFpHPj7nPUpEUglian7oAjSCKUbL0URvBnloJ0+wvJfBSZR2PJ5VIzcRshVfFrsQE6n81A92BRjF9B/2H6mnyE0hkjTN+RZIGTBmwpoU1QFMwVyL/bboknyS6kPmTOuF0MbNXWFDM0gJSR0Jb2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765928640; c=relaxed/simple;
-	bh=T6BqMM9/A7isnUVqrD4imU5Gr4AAzjx8kqfQjYKk3o4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UaAXnETD38hWEV5kbpggs/QBvKMtSK1F4BcG0vfpyKDwbntnF0oClkx1Rsyk2WvxEgqsMqkxcjQBM36HOfeYmwTs3k9Ribw8oZXQCQVfEjD1H8D3Jl2PNWmTlesRFNA0H+tNTh+4Xr+WKgUHRnfqip3f/dNi4sXaEeBa5L6VOx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=YQZAHAr0; arc=none smtp.client-ip=209.85.215.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-bcfd82f55ebso15167a12.1
-        for <linux-media@vger.kernel.org>; Tue, 16 Dec 2025 15:43:57 -0800 (PST)
+	s=arc-20240116; t=1765929729; c=relaxed/simple;
+	bh=4fX+V0YnP016/orDpEqU5FVPZMbBz2SoqmDB72xWnxo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fD/Wm0KavgDciPnTNlvedqKTmarWulRluzNM2vZOZIAnaSung/IQmlprMA4+/3IPXKhRtDy+a4TXn6UYlWx95CsMAFN/FSP7iEYdW1KOXhiul6SE70cEo5kvHiv+XRZvlBSafiqDsivXuYYul9fkyxF9rzx1i9o23g9imfBHJP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PRESunnf; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-598e9f63169so478289e87.2
+        for <linux-media@vger.kernel.org>; Tue, 16 Dec 2025 16:02:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20230601; t=1765928637; x=1766533437; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=linaro.org; s=google; t=1765929725; x=1766534525; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dWQpmZhuHByTsu+CQ3E5sInryvyWTTB+7XX4Qh+8PmQ=;
-        b=YQZAHAr06xzylPJdMaNe2XVx1WM7JPJ0v4Ynnl07r+DTVDE+BjJclmjg3BNDMBIlDH
-         PMdzx/rktkNHzb72OvcXxIO+TV+et6zXalMroELvjEUT1BK3eytHsAfSWrPH4ymkn2do
-         9zBKv4fDMaP6E/KKuGrX2+72pEplbGgoxrHSbOPwyRbMvUQGc2RKdVaVihxEhk/v1tBH
-         maX8LUHdBtcx69UZmVj7dsyRJNexuxzADIszHPPJ5oz76yjQyOOVc1VmtUxAUwZCXqaz
-         VmqQIdCHqq0HamOw+M3lDOBC7/wE4E2Yt2PE4uSXkDMXgaZjtmMgxCtShVaOZkGKyhHq
-         01jA==
+        bh=IESsZe/W5RT7xiwRsUhKBankOTgyA4GaQytGF+x9/ao=;
+        b=PRESunnfy0Y4ZNiGwe53/eeaSy5yUJVJqkDakXGiRmMu25eT7vzfKnBAX5odfvmAcB
+         7ZO/wPbN8DjQqX062y++qlz+SHqVdWkIXqxJgi3jRFSjfoTYmEvRgKBvtKple3toUcmm
+         fj2cjRa18bF365MvODRt/VoYmDtZBDXS7HTL21Fp9C1g3pyLaQHN/glrLenhGfJB0TJp
+         /8LKcepHiQSjNTqeZ49YLpTZNWUVXs5FloXRUz/HLZYWaqtXyfmzP/QjDnat6uuYZXWP
+         +e0s6lkH6o0Z/Q4ZBYX/zTRoEl5yaZeyyo33iIKMjX6qJWGJ9uDVA9tByVHznqLVQVLH
+         Xk9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765928637; x=1766533437;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=dWQpmZhuHByTsu+CQ3E5sInryvyWTTB+7XX4Qh+8PmQ=;
-        b=PwD3lkC3Lesl6Yg+xpnwLsoNleoaVOhykKBwm6cYORLI97D8cnjpmabsE61or2H29u
-         nUl2s++X5DRk+LsBMQi6KkUyEmB3Mg0ZDDdLrqN9w/BnGrA56Ar63fRUyyF1Se3KrQgg
-         jkCkbIvDaWbGIzpnnIrz7aE7zvbWQQIqGGVc9kV/Y4X8D9KuTJPdwInG6Y0yA2kwISK4
-         skBtCgQUi2zjrIvpOuSglpy/EFCPmgG9qqFZNNdh8AAq6z2TjXkGcysX1bUu0THhGuCW
-         jqLvXRrFjg94Kf39cH6bAr54+lDPBZPYVsgQt8SKMwzfufvaJf3pWtK4ekxVqAoqGtPC
-         /vqg==
-X-Forwarded-Encrypted: i=1; AJvYcCVJAM8ECt4cTeDnW7cbxUmuQ1F36TqVfFYQiZoiHW42NbvmL5h8TJ1cjOSBLr3YVNswvxLkDBaKBs5X6A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyykPJ/DYpNffUz+qmhcOzNXjOhHuZtbQvm1TG3WNA/FhIfUfeG
-	AY6oeE5F4nj+5fuMP9cIERxs/6vIvab5PzwSffAWB/YfSg7i3FssrsDuBqUM1I6XWhq+Y75I8eW
-	ZoSM1uyjethkJmwVeF5sdETiQaORWJ8w=
-X-Gm-Gg: AY/fxX6H1Oyhh/RwN+DYWd06cUqRS+CN9P8Emq4v7FFDZhWS0eSelXcQwfV0qy7/bRx
-	ASOr/+Zl05zgCyUuMeEDf9uHWD1DysgcGiSsONkFKeIs45qrHwJB4rF+tAUl3E+wABFXEFgewit
-	PBu9hINQv2JK4FVEsc+G7HMuvftH479j+EXEJlDsZzNzGteftvtHM+Xm+x2B/zq4oK/z/8Kdp6r
-	D6YpJIQPg1vd6co0tuCxd9hZx9uwCyzMxNWEzFFDbIKqIB4jg077X4FVhn+j0txOTHc4odBWD8a
-	VVZ2eXt397lCppjxBDDCC7pUcVI=
-X-Google-Smtp-Source: AGHT+IFc4SCik6/1a5fdyPdRb57GPQbLhG29WfQBheDtYpWyCEZoAD+X3T4jtRgWy08tQ0KGPuBzfaLM7RFqA70zbTo=
-X-Received: by 2002:a17:903:f8d:b0:294:f6e5:b91a with SMTP id
- d9443c01a7336-29eeea26dadmr221641465ad.13.1765928637355; Tue, 16 Dec 2025
- 15:43:57 -0800 (PST)
+        d=1e100.net; s=20230601; t=1765929725; x=1766534525;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IESsZe/W5RT7xiwRsUhKBankOTgyA4GaQytGF+x9/ao=;
+        b=kdBtdZpB2WiX4BiS6xKwPctoH3hQoazBfWN2VrMvKmJP9c/Lt2KvkKf+Fj/AkixDYL
+         JsUauu/iBWOoLFq6+L8VW1qWkRovXWqCcmfNI6ti176U95SF/GG2y5Jty1COCbg5z9/r
+         piAhztFu2eMR1nxBxd65fNWINKMXogG9gDxoTCUXUvCFXjVDAAujW4zu8a4kTUZZVW+a
+         dD9ZBXn7LcmcsSc7WeYkHAwAxBSClNRRr+3uvXgHu8ssAMbtF2YTmW/4cnastcGVPgpV
+         bfSoTlcFEVZXzFiX9MxVXSb4S9EzJEglp+n1eaPdZNt/iLeEucakM4GcTiLbq/uWR9Uh
+         pd9A==
+X-Forwarded-Encrypted: i=1; AJvYcCWhGWtnBjiNOTJFzTwnSWSxjPznyiXaXW8HemKvP/Lyax7XsFd9F/+q2A7CPFMzql4j4zyPMyeRzAhlLQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwRkNqEAhXshI4AOLqtuCvp9waMao9Uf2A+0lff2+LhVZams9Z6
+	2tj/R6UgHVWVYS9cCGslca89hOQTIQWhJBfI3Q3czTRxy46oBXAk+k+Ymvc8TQOClcjikXuo/3u
+	7JZmA
+X-Gm-Gg: AY/fxX6SgyRt5XM6ysisYAOE1HGKGUj3I75IAItPMpARZhmFOjJG6dkYxyRFwHbkbsS
+	XNd5V96vAv2WQOD1orHOcA/yzpn0/VBMdgzHwr979znShrJdP1WDvq9EporQaHRMXxf4Zs5/L2j
+	EmaqC+/tVKsAm0brz1BMNXonZAuBXIG6RI/7IDmr2ZfE+Wy9r//WW72kY97CDFygdJBVV9WXl8p
+	79UcODNo+wqt5XsxknY3Cpg5FvrcjAOdE9kml5o4BKWgA65HBgXAcPav2ZqgmK3icOLzbrfyj2H
+	CTzfHaF6SwvBwILwGiuQk8R3PEH0lTzrtf3RD8oQU9sRDcdzu70wUpUF7Tju1qK/foXhSVf1t7i
+	RQH1qJd3JStVYwY/H/XthH7gEspEH6hE+TuBccyufvZnWhoX7dI3r8IAEzZJ6Li/QHqIKIKs+Vt
+	mxDuGiwUlR/gIZ7jvtftAhUPH1ZMEkWAlVy3VYUODesgteZ9zpKfZGG0U7M03En+ZlaA==
+X-Google-Smtp-Source: AGHT+IFrCa4ZjN33CIw4ShWO7Hf+XIWaZzk0eJOF4MY7Y25K8sz5SXR5eCMOVJwo9hvvGRP1v96ung==
+X-Received: by 2002:a05:6512:3f1a:b0:594:4c87:a8f9 with SMTP id 2adb3069b0e04-598faa62e77mr3237266e87.4.1765929725412;
+        Tue, 16 Dec 2025 16:02:05 -0800 (PST)
+Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5990da1aa2dsm1454881e87.42.2025.12.16.16.02.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Dec 2025 16:02:03 -0800 (PST)
+Message-ID: <eff759a7-06ee-42f5-a3a6-860956d7ae84@linaro.org>
+Date: Wed, 17 Dec 2025 02:02:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251124-b4-s4-vdec-upstream-v2-0-bdbbce3f11a6@amlogic.com> <20251124-b4-s4-vdec-upstream-v2-1-bdbbce3f11a6@amlogic.com>
-In-Reply-To: <20251124-b4-s4-vdec-upstream-v2-1-bdbbce3f11a6@amlogic.com>
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Wed, 17 Dec 2025 00:43:46 +0100
-X-Gm-Features: AQt7F2q9zUscAc9aUQp2kvq265usXhzgFIJqV1vpvmNAc7x3-P140_1z3fSbVp4
-Message-ID: <CAFBinCDO5UWVEtbOOdMn9vy=0H2Q1hJDKhH+X7i0nMsSsw=wbg@mail.gmail.com>
-Subject: Re: [PATCH RFC v2 1/3] media: dt-bindings: Add Amlogic V4L2 video decoder
-To: zhentao.guo@amlogic.com
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, linux-media@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 1/5] media: dt-bindings: Add CAMSS device for Kaanapali
+To: Vijay Kumar Tumati <vijay.tumati@oss.qualcomm.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>,
+ Loic Poulain <loic.poulain@oss.qualcomm.com>, Robert Foss
+ <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ aiqun.yu@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
+ trilok.soni@oss.qualcomm.com, yijie.yang@oss.qualcomm.com,
+ Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
+ Atiya Kailany <atiya.kailany@oss.qualcomm.com>
+References: <20251113-add-support-for-camss-on-kaanapali-v6-0-1e6038785a8e@oss.qualcomm.com>
+ <20251113-add-support-for-camss-on-kaanapali-v6-1-1e6038785a8e@oss.qualcomm.com>
+ <bd899586-f714-4d2e-95e3-6abf124e75a4@linaro.org>
+ <37d0f89f-69be-45a7-90fa-347d6a3800bf@oss.qualcomm.com>
+ <2d7ac7e8-ab69-44a6-b732-3657abf3a5a6@oss.qualcomm.com>
+ <ceeee542-a319-4ad9-ada8-3dc769599dec@mleia.com>
+ <d1fb4d8a-608e-44f5-834f-fa92d487c75b@oss.qualcomm.com>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <d1fb4d8a-608e-44f5-834f-fa92d487c75b@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Hi Vijay.
 
-On Mon, Nov 24, 2025 at 4:32=E2=80=AFAM Zhentao Guo via B4 Relay
-<devnull+zhentao.guo.amlogic.com@kernel.org> wrote:
->
-> From: Zhentao Guo <zhentao.guo@amlogic.com>
->
-> Describe the initial support for the V4L2 stateless video decoder
-> driver used with the Amlogic S4 (S805X2) platform.
->
-> Signed-off-by: Zhentao Guo <zhentao.guo@amlogic.com>
-> ---
->  .../bindings/media/amlogic,s4-vcodec-dec.yaml      | 87 ++++++++++++++++=
-++++++
->  1 file changed, 87 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/media/amlogic,s4-vcodec-de=
-c.yaml b/Documentation/devicetree/bindings/media/amlogic,s4-vcodec-dec.yaml
-> new file mode 100644
-> index 000000000000..401a5a32902e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/amlogic,s4-vcodec-dec.yaml
-> @@ -0,0 +1,87 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (C) 2025 Amlogic, Inc. All rights reserved
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/amlogic,vcodec-dec.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Amlogic Video Decode Accelerator
-> +
-> +maintainers:
-> +  - Zhentao Guo <zhentao.guo@amlogic.com>
-> +
-> +description:
-> +  The Video Decoder Accelerator present on Amlogic SOCs.
-> +  It supports stateless h264 decoding.
-> +
-> +properties:
-> +  compatible:
-> +    const: amlogic,s4-vcodec-dec
-> +
-> +  reg:
-> +    maxItems: 2
-> +
-> +  reg-names:
-> +    items:
-> +      - const: dos
-> +      - const: dmc
-Neil has commented on the driver patch (in v1) to use the existing
-canvas driver.
-The same applies to the binding: you can replace the whole "dmc"
-registers with an "amlogic,canvas" property (see
-Documentation/devicetree/bindings/display/amlogic,meson-vpu.yaml for
-an example).
+On 12/16/25 19:55, Vijay Kumar Tumati wrote:
+> 
+> On 12/12/2025 4:49 AM, Vladimir Zapolskiy wrote:
+>> On 11/18/25 20:44, Konrad Dybcio wrote:
+>>> On 11/18/25 7:25 PM, Vijay Kumar Tumati wrote:
+>>>>
+>>>> On 11/18/2025 7:00 AM, Bryan O'Donoghue wrote:
+>>>>> On 14/11/2025 03:29, Hangxiang Ma wrote:
+>>>>>> +                  <0x0 0x0900e000 0x0 0x1000>,
+>>>>>
+>>>>> Why aren't you starting @ 0x0900e000 ? seems to be omitting some of
+>>>>> the registers in the ICP block. Should start at +0xd000 not +0xe000 ?
+>>>>>
+>>>>>> +                  <0x0 0x0902e000 0x0 0x1000>,
+>>>>>
+>>>>> Same here.
+>>>> Hi Bryan, HLOS does not have access to those registers. They are
+>>>> configured by the Hyp.
+>>>
+>>> If that's hyp, please add them. We already have platforms without
+>>> Gunyah. Remember, bindings are defined once and for good and I wouldn't
+>>> call it impossible that someone would want to run that configuration on
+>>> Kaanapali some day
+>>>
+>>
+>> If the ICP register block is added now, then it will practically exclude
+>> an option to run hardware demosaic on Kaanapali. There were notorious
+>> and still unresolved problems with CSIPHY blocks, which shall be split
+>> from CSID/VFE CAMSS on device tree level also, for similar reasons the
+>> same should be done with ICP or other blocks. It makes exactly zero
+>> sense to pile everything into a monolythic device tree node, and doing
+>> so undermines any future advances in CAMSS support in the upstream
+>> Linux, the hardware description in downstream is done thoughtfully
+>> better,
+>> and not for no reason.
+>>
+> Hi Vladimir, yes, this has been discussed in the past and the general
+> consensus from everyone is for not blocking KNP series on this. But yes,
+> there is an ongoing effort to modularize the bindings for future
+> chipsets and when it's ready, we can review, discuss and take it
 
-[...]
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-names
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - power-domains
-> +  - power-domain-names
-I did a quick:
-$ git grep RESET_DOS
-{include/dt-bindings/reset/amlogic,arch/arm64/boot/dts/amlogic/}*.h
--> that lists DOS reset lines for most (all?) SoCs that were supported
-by the old vdec driver as well as DOS reset lines for the S4 SoC (for
-which you're adding support here).
-If some of those reset lines are wired in hardware to the DOS region
-then you should include them in the binding.
-For reference in case you are not already familiar with it: [0] "[...]
-make bindings complete even if a driver doesn=E2=80=99t support some featur=
-es.
-For example, if a device has an interrupt, then include the
-=E2=80=98interrupts=E2=80=99 property even if the driver is only polled mod=
-e".
-(the same also applies to any additional clocks or power-domains that
-are wired as inputs into the hardware which you have not listed yet as
-they are not needed for the initially supported codecs)
+My concern is that it makes very little sense to throw any not clearly
+defined hardware properties and interconnections into an unorganized and
+unmanageable pile of everything, because this closes the door to ever update
+the upstream CAMSS driver by adding better CAMSS IP support for any already
+manufactured and sold Qualcomm SoC powered board with done CAMSS support.
 
+If some user already holds a phone, a laptop and expects to offload CPU to
+CAMSS IP one happy day, it's pretty unsatisfactory to say that it will never
+happen on legacy hardware, because there was done an unrecoverable mistake
+by adding never tested properties into CAMSS DT bindings, and the remained
+option is to "wait for future chipsets". Each added unsupported and unused
+property boards up the window of better CAMSS support on manufactured boards.
 
-Best regards,
-Martin
+I don't understand a reason why to do worse for the upstream, when there is
+a clear and feasible alternative not to do worse, thus my misunderstanding
+and my grief for upstream CAMSS are my concerns.
 
+> forward. As for your ICP concern, if you are referring to the Demosaic
+> in OFE, I believe we might still be able to do it either with direct OFE
+> config from CPU or using the firmware (preferred), given that we
+> properly establish the shared memory and SID IOVA ranges for ICP,
+> assuming that the load and authenticate will be taken care by Hyp or TZ.
+> Please share your thoughts if I missed something.
+> 
+> Hi Bryan, please feel free to add your thoughts.
+> 
 
-[0] https://docs.kernel.org/devicetree/bindings/writing-bindings.html
+-- 
+Best wishes,
+Vladimir
 
