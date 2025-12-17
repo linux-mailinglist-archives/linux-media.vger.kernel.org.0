@@ -1,160 +1,97 @@
-Return-Path: <linux-media+bounces-48963-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48960-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF092CC66D3
-	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 08:51:54 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C36DCC675E
+	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 08:59:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DCBC930F62CE
-	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 07:45:58 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 798BC30A3234
+	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 07:55:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 358D3346E64;
-	Wed, 17 Dec 2025 07:35:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72AA1345CAF;
+	Wed, 17 Dec 2025 07:34:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b="Xlzut0fR"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="C05MKmR3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lx20.hoststar.hosting (lx20.hoststar.hosting [168.119.41.54])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01CC4345CA3;
-	Wed, 17 Dec 2025 07:35:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.41.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E66345756;
+	Wed, 17 Dec 2025 07:34:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765956923; cv=none; b=uGpyCJpKG35xAJEnyT8yUs2xEapN9XmEc5HYTFjv9Lmx9d9Qg1zO/pWX9tVYz40Mko74gn1zQ4YvU98nE9EcSAHRBH3lovQCk3YiWEWczEo1chR5d4HUjxhUlJzKjL0xyI91rn5DDatKZAC3q+RHg/cqTGf4p57soDiQdkB4NYA=
+	t=1765956876; cv=none; b=MvImQY2uEKUhx+nDqXDQKYT/ZriGgGgUI4xtzgWZuwvh881jTOpe66UtlHGKTKOczp3fKBWGSPw2sBNKZzPaIydDG/qfpqFGKGPLR0WNzrIfsFEN6hKD47NDYyREnO/Oe6PyS1tZvtJjRrnKX/Gpx2vYdM4Cee052NYKnuQsFPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765956923; c=relaxed/simple;
-	bh=LT6xKE15ozldFIKxTigCLTL+01Jt8xS1Ha1kAN0vv1w=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=XpsuKQHJiihILVRbc/VYWkX4H8vaez84FkyppP6HYNj/u1vcTavtWxBLv2KiBuAMbMYM4lGTxfCrEvn2QVIbdlz5R8+HgncKBxIKNHgy2M3nRvqzlHZ69E34R/LwhtMhBD57o5ZAvzg1rnGTfJxT4YjdjAagidCW45K7EXiXUPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=pass smtp.mailfrom=emfend.at; dkim=pass (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b=Xlzut0fR; arc=none smtp.client-ip=168.119.41.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emfend.at
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=emfend.at;
-	 s=mail; h=Cc:To:In-Reply-To:References:Message-Id:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Subject:Date:From:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=t7gTeS7UooYe46Shqnjdy6N8d4XSJJaeQQhocEYk9DM=; b=Xlzut0fRjh3lv3/xULv5kfRzCc
-	4tjjNNu89swQvXINtgCtG2fmXT/xakdHCxZUn6T4XXdakKCcg9BFfq1moXY5zi0iCL8rgZxPCDiMM
-	oMGc7T6zvBcxvFhrewy0jaeIYoszzSvJWbPC+Hj6wFyPjCfYVb3f4ecmhLHLADZTH0Dg=;
-Received: from 194-208-208-245.tele.net ([194.208.208.245]:58335 helo=[127.0.1.1])
-	by lx20.hoststar.hosting with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.93)
-	(envelope-from <matthias.fend@emfend.at>)
-	id 1vVlbn-00DjfJ-Co; Wed, 17 Dec 2025 08:06:03 +0100
-From: Matthias Fend <matthias.fend@emfend.at>
-Date: Wed, 17 Dec 2025 08:06:02 +0100
-Subject: [PATCH 3/3] media: i2c: imx283: implement {g,s}_register
+	s=arc-20240116; t=1765956876; c=relaxed/simple;
+	bh=tK/1/uuGCPycvpTp2bnkHoKJ5tPlaqyGvF9Wb76cHes=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ESi3Um8uO+yl4AoHx3hl4dtaL6iDGm03g/1HBcLfnaFOYBxYUuhRmXB4nvIm08kovPO9BDqVXRIr3FyVRomChY2q9M3fRKQ4RI4kWI1AAVBWDmqXvuNYxI8Itp50K3Ndv76Pwh1X4obafPTH9sDufuoHNrqa48ACf+ic3zlKiZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=C05MKmR3; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 43F46581;
+	Wed, 17 Dec 2025 08:34:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1765956865;
+	bh=tK/1/uuGCPycvpTp2bnkHoKJ5tPlaqyGvF9Wb76cHes=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=C05MKmR3JChzRjLevUvuyJP9oQdNtnjsi3hYwgUaJEQU1abcSP+dgyU69OuqqJGV1
+	 Ilfg2VXaFl/BJi8rFop4gpff+/GF/VWanlWJM2yl+0XzECc52IHX9nPFgDxggKw0uO
+	 0gdnRd0tmwlGXbZ5lQA/qWnola4suabDObPDYkaY=
+Message-ID: <0c41ca48-5b1f-4abd-a358-f5b0391cc87a@ideasonboard.com>
+Date: Wed, 17 Dec 2025 07:34:27 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] Documentation: media: mali-c55: Use v4l2-isp version
+ identifier
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Hans Verkuil <hverkuil+cisco@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20251215-mali-c55-header-update-for-v6-19-rc1-v1-0-69f56dee3c71@ideasonboard.com>
+ <20251215-mali-c55-header-update-for-v6-19-rc1-v1-1-69f56dee3c71@ideasonboard.com>
+Content-Language: en-US
+From: Dan Scally <dan.scally@ideasonboard.com>
+In-Reply-To: <20251215-mali-c55-header-update-for-v6-19-rc1-v1-1-69f56dee3c71@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251217-imx283-ext-v1-3-906a762f592d@emfend.at>
-References: <20251217-imx283-ext-v1-0-906a762f592d@emfend.at>
-In-Reply-To: <20251217-imx283-ext-v1-0-906a762f592d@emfend.at>
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>, 
- Umang Jain <uajain@igalia.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Matthias Fend <matthias.fend@emfend.at>
-X-Mailer: b4 0.14.2
-X-Spam-Score: -1.0
-X-Spam-Bar: -
-X-Spam-Report: Spam detection software, running on the system "lx20.hoststar.hosting",
- has NOT identified this incoming email as spam.  The original
- message has been attached to this so you can view it or label
- similar future email.  If you have any questions, see
- the administrator of that system for details.
- 
- Content preview:  Add support for selecting between continuous and non-continuous
-    MIPI clock mode. Previously, the CSI-2 non-continuous clock endpoint flag
-    was ignored and the sensor was always configured for non-continuous clock
-    mode. For existing device tree nodes that do not have this property e [...]
-    
- 
- Content analysis details:   (-1.0 points, 5.0 required)
- 
-  pts rule name              description
- ---- ---------------------- --------------------------------------------------
- -1.0 ALL_TRUSTED            Passed through trusted hosts only via SMTP
-  0.0 TVD_RCVD_IP            Message was received from an IP address
-  0.0 KAM_DMARC_STATUS       Test Rule for DKIM or SPF Failure with Strict
-                             Alignment (older systems)
-  0.0 Local_hs_NotFromHoststar Sender is NOT hoststar.(ch|at|com)
-  0.0 Local_hs_NotToHoststar Recipient is NOT hoststar.(ch|at|com)
 
-Implement {g,s}_register to support advanced V4L2 debug functionality.
+Morning Jacopo - thanks for the set
 
-Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
----
- drivers/media/i2c/imx283.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
+On 15/12/2025 13:20, Jacopo Mondi wrote:
+> The Mali C55 driver uses the v4l2-isp framework, which defines its own
+> versioning numbers.
+> 
+> Do not use the Mali C55 specific version identifier in the code example
+> in the documentation of the Mali C55 stats and params metadata formats.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> ---
 
-diff --git a/drivers/media/i2c/imx283.c b/drivers/media/i2c/imx283.c
-index 7a6ab2941ea985401b21d60163b58e980cf31ddc..d8ccde0a1587259f39a10984c517cc57d323b6bc 100644
---- a/drivers/media/i2c/imx283.c
-+++ b/drivers/media/i2c/imx283.c
-@@ -1295,7 +1295,51 @@ static const struct v4l2_subdev_internal_ops imx283_internal_ops = {
- 	.init_state = imx283_init_state,
- };
- 
-+#ifdef CONFIG_VIDEO_ADV_DEBUG
-+static int imx283_g_register(struct v4l2_subdev *sd,
-+			     struct v4l2_dbg_register *reg)
-+{
-+	struct imx283 *imx283 = to_imx283(sd);
-+	u64 val;
-+	int ret;
-+
-+	if (!pm_runtime_get_if_active(imx283->dev))
-+		return 0;
-+
-+	ret = cci_read(imx283->cci, CCI_REG8(reg->reg), &val, NULL);
-+	reg->val = val;
-+
-+	pm_runtime_put(imx283->dev);
-+
-+	return ret;
-+}
-+
-+static int imx283_s_register(struct v4l2_subdev *sd,
-+			     const struct v4l2_dbg_register *reg)
-+{
-+	struct imx283 *imx283 = to_imx283(sd);
-+	int ret;
-+
-+	if (!pm_runtime_get_if_active(imx283->dev))
-+		return 0;
-+
-+	ret = cci_write(imx283->cci, CCI_REG8(reg->reg), reg->val, NULL);
-+
-+	pm_runtime_put(imx283->dev);
-+
-+	return ret;
-+}
-+#endif
-+
-+static const struct v4l2_subdev_core_ops imx283_core_ops = {
-+#ifdef CONFIG_VIDEO_ADV_DEBUG
-+	.g_register = imx283_g_register,
-+	.s_register = imx283_s_register,
-+#endif
-+};
-+
- static const struct v4l2_subdev_ops imx283_subdev_ops = {
-+	.core = &imx283_core_ops,
- 	.video = &imx283_video_ops,
- 	.pad = &imx283_pad_ops,
- };
+Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
 
--- 
-2.34.1
+>   Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst b/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
+> index 696e0a645a7e0566921a3e9db3226b76d402f909..f8029bcb528283cddb1ea854b25469af97ecfa54 100644
+> --- a/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
+> +++ b/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
+> @@ -44,7 +44,7 @@ member and userspace must populate the type member with a value from
+>   	struct v4l2_isp_params_buffer *params =
+>   		(struct v4l2_isp_params_buffer *)buffer;
+>   
+> -	params->version = MALI_C55_PARAM_BUFFER_V1;
+> +	params->version = V4L2_ISP_PARAMS_VERSION_V1;
+>   	params->data_size = 0;
+>   
+>   	void *data = (void *)params->data;
+> 
 
 
