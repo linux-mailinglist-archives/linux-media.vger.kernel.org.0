@@ -1,130 +1,180 @@
-Return-Path: <linux-media+bounces-48998-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48999-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41FD0CC8968
-	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 16:51:34 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DCC1CC8B03
+	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 17:10:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0F71E304FFCB
-	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 15:42:02 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C3A073130703
+	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 15:53:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A3B634D918;
-	Wed, 17 Dec 2025 15:41:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U0XWnBH8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3654433C527;
+	Wed, 17 Dec 2025 15:51:23 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 836BD34DB47;
-	Wed, 17 Dec 2025 15:41:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1028E3090C2;
+	Wed, 17 Dec 2025 15:51:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765986114; cv=none; b=a8HNt6PFE/5tTraR4J4F7fLcYY4+kbEXn12PV7vwYfZF4g9Smpyi19QAdQN2yZpoaNb0FBx/BWkfauQfSysYOmGbcB75eMqssraA7UR1HaZSSQ0WNFs0TeDCJRScS1FoWIJpANl977wNMGhfyhZHXcMRxg13NqZlcD1yxoEzyug=
+	t=1765986680; cv=none; b=TURHz1puOtjuUD0XUFdcT+iS04BYa6iEpB/dKc116rfc871FBo8msXDBdyESaOOiH0gIsnfS11VuiBzd00i1X3HsLgNdlhkDDVkO+KbqEi/onmhvALJ5JX3lFbT7mNa5ypcSwh2pVXkYrvYleYw45qMyWrAWJKh8RAe3flmfH1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765986114; c=relaxed/simple;
-	bh=mTdnJ57SHnkq4zQueujTQQGWJIpGidxa91y4dKFMlrw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=bnaw9dByNZ0D/hx7HVhQeWu4yeKK9xel99jat8TSCYVgGXPWgaf+QoR4YRPGpugUb/eoSfG5a6J5o6pc1iUEWX1baO6/yiCZ3+QKabf4bftCCrN48kl2qXM3dYBh5bC87Qzn4FXrVVSj9OPOCEDz9G45wOzgaVhbxJAO8k6v2mc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U0XWnBH8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D373C4CEF5;
-	Wed, 17 Dec 2025 15:41:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765986114;
-	bh=mTdnJ57SHnkq4zQueujTQQGWJIpGidxa91y4dKFMlrw=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=U0XWnBH8F67bUXfyBqBBmULTyBu8Lwg2CwgiAshoxr/jbrBXKKz1cLH7sUZUAvB4s
-	 E+l3xOWjKPk5YNN4IjqKKJhDDW8BcMOSy81p3+okP/08DwijrKcyi700sNzl/Ew26c
-	 ett20910seuc7g0LVU3xbDkJUvJeLePuqKPSNhNWukVsunOtjSm5Uu9ZRFfuz6h7og
-	 ZtqDGbeuoCi1R+k55PZr3m0S31ZD4rEWASdiG3nF/du2X/9KFrAPlrhV+8/uinL/yW
-	 O0oZsnyiqAt0VQC4xMQy94wFgQl4WAZNR4UsDxgu/BfZB632j+4urpM+NTLrbAxCZC
-	 3x4RCoIM0X3Hw==
-Message-ID: <3f6f62f3-67be-4d3a-89ab-747e6acae29c@kernel.org>
-Date: Wed, 17 Dec 2025 16:41:49 +0100
+	s=arc-20240116; t=1765986680; c=relaxed/simple;
+	bh=BdRGmRmvxQO+3UH/R62a39gXQj+zVVtqVYKZdJqmLFA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Qaoq4clYqIXwzhhUu23Np4hL2/Mo1XKSjYodB4YqZ0595/oaYh3zbOc3E1nD0gNRlDIQyWPEzQiA7F3zJd45QjP5ew7/jMhvoTji99vy3jlKoYKM+QhCX64BrHxubFTAwHlEK+mBgPFWOWzCPaOQDUxMlDwREoI9JJHmLiVVAWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf17.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay02.hostedemail.com (Postfix) with ESMTP id 5A53413C06C;
+	Wed, 17 Dec 2025 15:51:07 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf17.hostedemail.com (Postfix) with ESMTPA id 5FE4C17;
+	Wed, 17 Dec 2025 15:51:04 +0000 (UTC)
+Date: Wed, 17 Dec 2025 10:52:39 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Xiang Gao <gxxa03070307@gmail.com>
+Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, mhiramat@kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, mathieu.desnoyers@efficios.com,
+ dhowells@redhat.com, kuba@kernel.org, brauner@kernel.org,
+ akpm@linux-foundation.org, linux-trace-kernel@vger.kernel.org, gaoxiang17
+ <gaoxiang17@xiaomi.com>
+Subject: Re: [PATCH v7] dma-buf: add some tracepoints to debug.
+Message-ID: <20251217105239.713bab41@gandalf.local.home>
+In-Reply-To: <20251217105132.643300-1-gxxa03070307@gmail.com>
+References: <20251217105132.643300-1-gxxa03070307@gmail.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: dt-bindings: qcom,x1e80100-camss: Fix typo in
- CSIPHY supply description
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Bryan O'Donoghue <bod@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251028111115.46261-2-krzysztof.kozlowski@linaro.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251028111115.46261-2-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 5FE4C17
+X-Stat-Signature: tcf4i4fk7xkn5yz87oudjo19k7x567yp
+X-Rspamd-Server: rspamout08
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX18v1MGMQqn5A+v+lnOyDc37S/bYYW5O1X4=
+X-HE-Tag: 1765986664-498566
+X-HE-Meta: U2FsdGVkX19l2sopADPfAmEBaW7hxuXdjWeW2Fum2wUj2NUV4lBXE+PFynuKUJ5oKDrF75CHCEYvp6h+4A1oSfzHuG3LrpV5q04LvkSHvZ7mYjzEhzT/19hmCsMlpUF/lKbJlatQHe7e5QiOKqg8Er6a3UU00d0JADxKpYBp/UzEPi/YnQPHvOPMZZExuzSnWUZNiGIPEDLriCOqtODyt5byUctZHVEwhLE13Uc3zTKFyRhg/hI7lbe4AZgcqHZaaahqxk7mcLmkCdW4lVHWMDi2cOS6aifGtOC78TZQH+naUZUQ2aySlgSw3eMiEDtqu0QaK9z26kITG8kJzn+BB/v9+GL7dTTz9yHBLs4/nRk8MKxOtH7WGlZ9I8qq2+tTVPlCoUYCfUhrk6n7Vf8jQMrdpG5/FlmzolipjIIjXmk=
 
-On 28/10/2025 12:11, Krzysztof Kozlowski wrote:
-> Correct description of the CSIPHY 1.2 V supply
-> ("vdd-csiphy-1p2-supply"), because it supplies 1.2 V, confirmed with DTS
-> on the mailing lists.
+On Wed, 17 Dec 2025 18:51:32 +0800
+Xiang Gao <gxxa03070307@gmail.com> wrote:
+
+> From: gaoxiang17 <gaoxiang17@xiaomi.com>
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Since we can only inspect dmabuf by iterating over process FDs or the
+> dmabuf_list, we need to add our own tracepoints to track its status in
+> real time in production.
+> 
+> For example:
+>    binder:3016_1-3102    [006] ...1.   255.126521: dma_buf_export: exp_name=qcom,system size=12685312 ino=2738
+>    binder:3016_1-3102    [006] ...1.   255.126528: dma_buf_fd: exp_name=qcom,system size=12685312 ino=2738 fd=8
+>    binder:3016_1-3102    [006] ...1.   255.126642: dma_buf_mmap_internal: exp_name=qcom,system size=28672 ino=2739
+>      kworker/6:1-86      [006] ...1.   255.127194: dma_buf_put: exp_name=qcom,system size=12685312 ino=2738
+>     RenderThread-9293    [006] ...1.   316.618179: dma_buf_get: exp_name=qcom,system size=12771328 ino=2762 fd=176
+>     RenderThread-9293    [006] ...1.   316.618195: dma_buf_dynamic_attach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
+>     RenderThread-9293    [006] ...1.   318.878220: dma_buf_detach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
+> 
+> Signed-off-by: Xiang Gao <gaoxiang17@xiaomi.com>
 > ---
->  .../devicetree/bindings/media/qcom,x1e80100-camss.yaml          | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/dma-buf/dma-buf.c      |  42 ++++++++-
+>  include/trace/events/dma_buf.h | 157 +++++++++++++++++++++++++++++++++
+>  2 files changed, 198 insertions(+), 1 deletion(-)
+>  create mode 100644 include/trace/events/dma_buf.h
+> 
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 2bcf9ceca997..ce39bc19e13f 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -35,6 +35,25 @@
+>  
+>  #include "dma-buf-sysfs-stats.h"
+>  
+> +#define CREATE_TRACE_POINTS
+> +#include <trace/events/dma_buf.h>
+> +
+> +/*
+> + * dmabuf->name must be accessed with holding dmabuf->name_lock.
+> + * we need to take the lock around the tracepoint call itself where
+> + * it is called in the code.
+> + *
+> + * Note: FUNC##_enabled() is a static branch that will only
+> + *       be set when the trace event is enabled.
+> + */
+
+Much better.
+
+> +#define DMA_BUF_TRACE(FUNC, ...)					\
+> +	do {											\
+> +		if (FUNC##_enabled()) {						\
+> +			guard(spinlock)(&dmabuf->name_lock);	\
+> +			FUNC(__VA_ARGS__);						\
+> +		}											\
+
+Hmm, I wonder if we should also add:
+
+		} else if (IS_ENABLED(CONFIG_LOCKDEP)) { \
+			/* Expose this lock when lockdep is enabled */ \
+			guard(spinlock)(&dmabuf->name_lock);	\
+		}
+
+This way, if there is any issue taking the lock, lockdep will flag it
+without having to enable the tracepoint.
+
+When LOCKDEP is not configured, the compiler should remove that block.
+
+> +	} while (0)
+> +
+>  static inline int is_dma_buf_file(struct file *);
+>  
+>
 
 
-Ping! It has been 1.5 months already. This also got other DT ack - TWO
-DAYS after the posting - so why is this still not addressed by camss
-maintainers?
+> --- /dev/null
+> +++ b/include/trace/events/dma_buf.h
+> @@ -0,0 +1,157 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#undef TRACE_SYSTEM
+> +#define TRACE_SYSTEM dma_buf
+> +
+> +#if !defined(_TRACE_DMA_BUF_H) || defined(TRACE_HEADER_MULTI_READ)
+> +#define _TRACE_DMA_BUF_H
+> +
+> +#include <linux/dma-buf.h>
+> +#include <linux/tracepoint.h>
+> +
+> +DECLARE_EVENT_CLASS(dma_buf,
+> +
+> +	TP_PROTO(struct dma_buf *dmabuf),
+> +
+> +	TP_ARGS(dmabuf),
+> +
+> +	TP_STRUCT__entry(
+> +		__string(exp_name, dmabuf->exp_name)
+> +		__field(size_t, size)
+> +		__field(ino_t, ino)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__assign_str(exp_name);
+> +		__entry->size = dmabuf->size;
+> +		__entry->ino = dmabuf->file->f_inode->i_ino;
+> +	),
+> +
+> +	TP_printk("exp_name=%s size=%zu ino=%lu",
+> +		  __get_str(exp_name),
+> +		  __entry->size,
+> +		  __entry->ino)
+> +);
 
-Best regards,
-Krzysztof
+For the rest of the patch, from a tracing point of view:
 
+Reviewed-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+
+-- Steve
 
