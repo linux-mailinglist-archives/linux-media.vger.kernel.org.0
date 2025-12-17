@@ -1,213 +1,138 @@
-Return-Path: <linux-media+bounces-48990-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48991-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A03E4CC7DAA
-	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 14:36:05 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 835B8CC7DF8
+	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 14:39:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1A87130DC528
-	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 13:31:35 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CA8C7309F4BB
+	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 13:34:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D6AC3659E5;
-	Wed, 17 Dec 2025 13:31:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0FEE3659F1;
+	Wed, 17 Dec 2025 13:34:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="X/kSzDD7";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="XvumRo+D"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="d+1j1d9z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45C9361DA7
-	for <linux-media@vger.kernel.org>; Wed, 17 Dec 2025 13:31:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ECF333B6D5;
+	Wed, 17 Dec 2025 13:34:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765978287; cv=none; b=Dpy5I5wqIxgx95y6pa+WjlpO2sDZV3tcWnM/6kYD99PierzgHpN6BhOj1XPSwJSvv/8LRsvz2pH66yLSp2s2/W3kNVW3q32J8JgDUtjEfhFThOMCmwOhJ8D2MEgPRVuYqTipUXyQ9OxAvXi/G+T5FlB2zZG3B6tLg28g9wLnZ0g=
+	t=1765978481; cv=none; b=o1jKyQwYaGobKapddtnx4Oc38yakZ5PknZMa5hxc4xRIBH0MWt4xjZobxgDkEM0mOVkiaVjiBKk4Elb3bhfyMq+nbbOKjTGDhxFMjBw8VavMISAIjLggAQEdiK8jYYvNwFU3javD9Ll2BQdkD4Lth1F9tWw1Zyuo7ZljQN+kT08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765978287; c=relaxed/simple;
-	bh=RBLLRntVZWVpvoCZWnUgVT+GEF3ElFZl4/sQLo2kLZ0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dH0ej8mzS0eLwHm04a7SmHU6QOvTLxEErVeH3DEtqBzCgXzFD/0QMQuxd5RyRZ8DfA9yQxayMnhd48CAZ600767xtt+lcg/SuwDfHNwR6QZadN7/RCtgHl2+8+fG3BTS7ZbJze2iHqxiBC2ksSAQo9wUdI8BeAU8I1uYeqv/Bzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=X/kSzDD7; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=XvumRo+D; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BHCKu2e2683891
-	for <linux-media@vger.kernel.org>; Wed, 17 Dec 2025 13:31:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	2euulZIF75eNjE+jfDopkk3bG+5t6JFAkFjDEEAd70E=; b=X/kSzDD7wSqN2mt3
-	2lHQrnHI0KWleAdNmovA1YZkbw0rCjvlTpg3rEiG3EIyTX4BLXSfGx06vxA3sJGH
-	USce/l/UotBZZenv75JqG4E25Zp5vH2vJZ6sOfQNSXaW4odNVahJi1nDIag+NUha
-	za2QYgIWPZ7w7gcPyqdGvuneZNx4zwjZDgyjHtKlf7rP2J5cd73GZrB6NBkgtTJa
-	I6ETWJvazIc6AETQ2ggJVOg9P/0vU62jfCcmKio5a4UZWIP05Zem1noJfWc2Nq3/
-	lDrE1YOhmy4RJItptE+HD6iYsB0VpaOha4H1rcsXg7kXQmtqwL5EolfYUMe9hEQg
-	Fx04uQ==
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com [209.85.222.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b3kkesx97-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 17 Dec 2025 13:31:23 +0000 (GMT)
-Received: by mail-ua1-f69.google.com with SMTP id a1e0cc1a2514c-94125913c72so432508241.2
-        for <linux-media@vger.kernel.org>; Wed, 17 Dec 2025 05:31:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1765978283; x=1766583083; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2euulZIF75eNjE+jfDopkk3bG+5t6JFAkFjDEEAd70E=;
-        b=XvumRo+DmYTPNkUXtNfA7qNOExKOdylzFGbJGgcK+W5DzGeNYGMyfd67j78AFOxl5k
-         N/ZRqlnGsvnm7yYgK3WG9ZB9YDNDYY0jjiII/CmEhTp2QCN0iIpZHK613JzeRUEy48Js
-         Wp1nhFEKjszJA8e0sYDQZY6gzcMmb4Vot6WTnaZMCgky5J0+OUQVJqZIqWXVb1JQj/BI
-         mrKS+24dVdwQk8nHO9EzuUcwCx2LJruEcALNMyVZugW24OCkh51xP/PJhUD7FwG7ozLU
-         1/8H7TaYbTlzkp/nVDKXKtVIWSh9q7Lsluhsk+7kWVrpssEekwqzL3jS0PDi031grcGM
-         5Dyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765978283; x=1766583083;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2euulZIF75eNjE+jfDopkk3bG+5t6JFAkFjDEEAd70E=;
-        b=HpneJAUhRjTlclMo0xd/d5aC8dlgheswAS3M0nQ+UvcWgkMBUQrW4IxR+ApnQgKlAq
-         WTz+D28A53DWYQt33DTOPL101bnjvJ/EgMJ2NX4+jlpaCFUmStVSyX6dLJk/ipikxIVW
-         ndIfWfM44bj264T8Hkf6pCS2f5rryFLZ+6ounmsSaKBvof+6CO3QgG2vXwGRrW1pbZIp
-         XOsoAvpz3GzAITV9R6aaiTZOsukO1Fuy7yF8oJNkyK53i3i+sDfxT6Op/WAS0M2Rp+xA
-         R81ieHjnFyTSFrK1am30MQj64asElkcWBQqbqEnE12U613Gmkb2GMtMaSKejcI69rGK1
-         qhMw==
-X-Forwarded-Encrypted: i=1; AJvYcCW1mSb8K3jBzbk1S5UGWFnoaIoiYb4SWzoRid+ICILIY9+YUr3gGJfdWcGHSSE7GMC++RaYIerPhpMbNA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/zqYsd9HHQjihmYp3NkyoWeDiUSoQ8OzJjLN7l2GsB8jj8g+n
-	jzvQy4ZNOFnDhj/2chEu/SBFinfyjNXWDXzshaP6UdYbTdfKmALGjXsIw3Q75glDZ+GrT7IV+z/
-	ONnl5TZAthwQv1PCR70dI3U6tjvWPR9jH5+bJmmzokyhtn1Ytbm4VLgEkB/+jOb2+zA==
-X-Gm-Gg: AY/fxX4FlslgPeI/XbEJDLMB9cdVSNQZ9uSPoyy6ulx59+2bZ5iZnzTesie6zk3zeIl
-	cC0riQCnuSWrtwVTNVURsB5FHQ2bdU1OrkZW+wDShmwvZGc9IYDm+RYgoObcn/1+3MiDX3OeucG
-	FxjTdCxlhGGNFNAs5N+fEPpKuoHGZOCJvtQwMTz4h9uXCAWUfyiY3C7hzEJY8wBeMVZ6CQPDbPM
-	mwxU9Z5lhJ0Z07RMEGQVGlaLDO/11E7WIPuA12UfSjPB0JM+gBUJiJq9UQf2viWLQeOwUw7zW7X
-	2SOfkrL8nfgW7ZkwrMdk5qlrG94UHrKmOl7fvTwmjEJE35g7H2OsfvInNunsZeW73NpUextUF8D
-	8BfSyaKiybu10QXYg3aS16+O7JL0VcBd9HdR1+XkkVmeLZPyGZuLnFea2+aFG9CVX4Q==
-X-Received: by 2002:a67:c405:0:b0:5df:af0f:309f with SMTP id ada2fe7eead31-5e82728ab3amr3222782137.0.1765978282866;
-        Wed, 17 Dec 2025 05:31:22 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHvnlK6mH5YvpaVoknvDnQ436wUIAdp2dfjCfg72O6QLXAFenjMtzOwBS4IPx0mHAicsrW9gQ==
-X-Received: by 2002:a67:c405:0:b0:5df:af0f:309f with SMTP id ada2fe7eead31-5e82728ab3amr3222755137.0.1765978282443;
-        Wed, 17 Dec 2025 05:31:22 -0800 (PST)
-Received: from [192.168.119.72] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b80013c7ea0sm336503166b.65.2025.12.17.05.31.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Dec 2025 05:31:21 -0800 (PST)
-Message-ID: <689db2b8-6845-4ac8-a012-e589dc11e45d@oss.qualcomm.com>
-Date: Wed, 17 Dec 2025 14:31:18 +0100
+	s=arc-20240116; t=1765978481; c=relaxed/simple;
+	bh=tCIxJNLWcIU2TjDVqmnt1h0tCwLC0XUxy/MtT8w/Hpw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=JQ+fmZmbpRx8+4hgQt1po4LaG4UjaNn5vP1jL1SWJjIeLbdw8/fsatNc+/JxNllTw/isi4rZgFQ3vzBfGZfwPIgg1IXRe/fVDZmXaepLzUxPKOefcRVcuXFkFSqxuFJnjyPzaG7nwOSSo4gMQfTjU2L8KdXCyLTiW/G3/GrsSmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=d+1j1d9z; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1765978477;
+	bh=tCIxJNLWcIU2TjDVqmnt1h0tCwLC0XUxy/MtT8w/Hpw=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=d+1j1d9zjTT0M1ZAHDWdZcQBLAZ0jUo76R2g68OKWsVIny5JoICl0hvi7nc6fetLT
+	 mUfee6SJPrC/t8mhJJLyEa1iW4Y/UszNDWXW6L1gb1/hU12dtIqWQho0L5qR8Q45dJ
+	 ZrncfPTAYlt8i97fR4YHA2CMUYfbStzNgiG5dKyh3FPurzt0BX/9+fntuuZWAitptU
+	 GH9ES5FMV9lpvzZD8wE4nciBTpLWJjDCvnaKJn1EjEI9MJg8YcXMIE4VxAfid9Uawu
+	 /pUOZ/yhYn2AVxmaeDSwx83WnetnXaI6p4YZmcHbZntDd2r8mUKNnYsEdPxj75Kd8z
+	 fFU+hsjldkFYA==
+Received: from [IPv6:2606:6d00:17:7b4b::5ac] (unknown [IPv6:2606:6d00:17:7b4b::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 80A4917E127F;
+	Wed, 17 Dec 2025 14:34:35 +0100 (CET)
+Message-ID: <0482b76919217cf007d0abe1c683e862903a1a40.camel@collabora.com>
+Subject: Re: [PATCH v5 01/15] media: uapi: HEVC: Add
+ v4l2_ctrl_hevc_ext_sps_[ls]t_rps controls
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Detlev Casanova <detlev.casanova@collabora.com>, Hans Verkuil
+	 <hverkuil+cisco@kernel.org>, linux-kernel@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Ezequiel Garcia	
+ <ezequiel@vanguardiasur.com.ar>, Heiko Stuebner <heiko@sntech.de>, Ricardo
+ Ribalda <ribalda@chromium.org>, Hans Verkuil <hverkuil@kernel.org>, Hans de
+ Goede <hansg@kernel.org>,  Yunke Cao <yunkec@google.com>, Jonathan Corbet
+ <corbet@lwn.net>, Laurent Pinchart	 <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,  James Cowgill
+ <james.cowgill@blaize.com>, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, 	linux-arm-kernel@lists.infradead.org,
+ kernel@collabora.com
+Date: Wed, 17 Dec 2025 08:34:33 -0500
+In-Reply-To: <e88eb64e-ae47-4c70-87af-44c8f0371be9@collabora.com>
+References: <20251023214247.459931-1-detlev.casanova@collabora.com>
+	 <20251023214247.459931-2-detlev.casanova@collabora.com>
+	 <d8ef0f88-e81d-4159-8945-52197cbc95ba@kernel.org>
+	 <37da2fe3-41bd-470e-bb6c-93fe35ee1528@collabora.com>
+	 <bcbf8247a778c0a179cef2e0338acb2266c18809.camel@collabora.com>
+	 <e88eb64e-ae47-4c70-87af-44c8f0371be9@collabora.com>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-L53cNKzQuROd39WEVXeE"
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH WIP v2 3/8] media: qcom: camss: Prepare CSID for C-PHY
- support
-To: David Heidelberg <david@ixit.cz>, Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Luca Weiss <luca.weiss@fairphone.com>,
-        Petr Hodina <phodina@protonmail.com>,
-        Casey Connolly <casey.connolly@linaro.org>,
-        "Dr. Git" <drgitx@gmail.com>
-Cc: Joel Selvaraj <foss@joelselvaraj.com>,
-        Kieran Bingham <kbingham@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org
-References: <20251204-qcom-cphy-v2-0-6b35ef8b071e@ixit.cz>
- <20251204-qcom-cphy-v2-3-6b35ef8b071e@ixit.cz>
- <9af39b45-581b-4e25-8ab9-19015f00d6bc@oss.qualcomm.com>
- <df5557e2-a086-48ca-b8e7-972cbdb7745a@ixit.cz>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <df5557e2-a086-48ca-b8e7-972cbdb7745a@ixit.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE3MDEwNSBTYWx0ZWRfXw4T/8EDeHuEI
- gnU+ENlRRGwCNhSoYLYpi+CdGMecHPsWbe3iU84ObZpr4Ipllw2vbQ5XxlaLT3RtWW9n7rzWCkD
- +hUU9+oaGN1xjPwq6uCBTjkx/W9DDEZvFFlzpw+vpsOmwOyeBu079ci/N5lrzr1doGXxQFviakh
- oJHm2cchCdIEt0G1qB+sBJG5xck8tMxYhNsODyjaZedMNixm8jhA6yKgDGyYCIxWl0xj3kjJYgi
- evzXK7j6CoTGM0MRToN5403+ryxBsByzH5AnUEliXEREgg21AkxYJ6gZp5a8/cKxQyyUDX0gyqg
- hUTjM9qAbADLZ01smvdKxHymRlEOdmfr5agfZA/Di5syPdhx4Y2RK7n8ZdXsUk5KzFh5z9UKGWf
- Zpqre75b2gOdZRsnKzK9UAXVJy4X+Q==
-X-Proofpoint-GUID: 4yTih5PWLP-8Xh3eJ14m8UYGro9bK5do
-X-Authority-Analysis: v=2.4 cv=Fcw6BZ+6 c=1 sm=1 tr=0 ts=6942b0ab cx=c_pps
- a=UbhLPJ621ZpgOD2l3yZY1w==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=pJuDoVvVS2QliF8PZP0A:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=TOPH6uDL9cOC6tEoww4z:22
-X-Proofpoint-ORIG-GUID: 4yTih5PWLP-8Xh3eJ14m8UYGro9bK5do
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-17_01,2025-12-16_05,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 clxscore=1015 malwarescore=0 spamscore=0 suspectscore=0
- impostorscore=0 priorityscore=1501 phishscore=0 bulkscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512170105
 
-On 12/11/25 4:20 PM, David Heidelberg wrote:
-> On 05/12/2025 10:43, Konrad Dybcio wrote:
->> On 12/4/25 5:32 PM, David Heidelberg via B4 Relay wrote:
->>> From: David Heidelberg <david@ixit.cz>
->>>
->>> Inherit C-PHY information from CSIPHY, so we can configure CSID
->>> properly.
->>>
->>> CSI2_RX_CFG0_PHY_TYPE_SEL must be set to 1, when C-PHY mode is used.
->>>
->>> Signed-off-by: David Heidelberg <david@ixit.cz>
->>> ---
->>>   drivers/media/platform/qcom/camss/camss-csid-gen2.c | 1 +
->>>   drivers/media/platform/qcom/camss/camss-csid.c      | 1 +
->>>   drivers/media/platform/qcom/camss/camss-csid.h      | 1 +
->>>   3 files changed, 3 insertions(+)
->>>
->>> diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen2.c b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
->>> index 2a1746dcc1c5b..033036ae28a4f 100644
->>> --- a/drivers/media/platform/qcom/camss/camss-csid-gen2.c
->>> +++ b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
->>> @@ -183,6 +183,7 @@ static void __csid_configure_rx(struct csid_device *csid,
->>>       val = (lane_cnt - 1) << CSI2_RX_CFG0_NUM_ACTIVE_LANES;
->>>       val |= phy->lane_assign << CSI2_RX_CFG0_DL0_INPUT_SEL;
->>>       val |= phy->csiphy_id << CSI2_RX_CFG0_PHY_NUM_SEL;
->>> +    val |= csid->phy.cphy << CSI2_RX_CFG0_PHY_TYPE_SEL;
->>
->> This field is 1-wide, this would be neater:
->>
->> if (csid->phy.cphy)
->>     val |= BIT(CSI2_RX_CFG0_PHY_TYPE_SEL);
-> 
-> Hello Konrad,
-> 
-> while your change make sense as we work with 1-bit.
-> On other hand, due to TYPE_SEL naming, it's not very explicit why we set this bit when cphy is on.
 
-This is the actual name of the register field
+--=-L53cNKzQuROd39WEVXeE
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> Maybe I could propose renaming CSI2_RX_CFG0_PHY_TYPE_SEL to CSI2_RX_CFG0_PHY_TYPE_SEL_CPHY, then setting 1 to it would make sense.
-> 
-> Most clean solution to me would be something like
-> 
-> #define TYPE_SEL_DPHY    0
-> #define TYPE_SEL_CPHY    1
-> 
-> val |= (csid->phy.cphy ? TYPE_SEL_CPHY : TYPE_SEL_DPHY) << CSI2_RX_CFG0_PHY_TYPE_SEL
-> 
-> Do I overthinking this? What do you think?
+Hi,
 
-Perhaps just:
+Le mardi 16 d=C3=A9cembre 2025 =C3=A0 17:18 -0500, Detlev Casanova a =C3=A9=
+crit=C2=A0:
+> > Before going that route, how big are these two arrays ? Short term can =
+be 64
+> > ref, long term 32, how big in bytes that is ? Was is worth goign with
+> > dynamic
+> > array ? Its not like slices, where we can have 600 or more.
+>=20
+> The short term one can still be quite big, it's about 80 bytes per=20
+> element, so 5120 bytes for the 64.
+>=20
+> I don't know how often we go that high, I've seen around 10 short term=
+=20
+> ref sets in test videos.
 
-/* Set the PHY_TYPE_SEL bit to enable C-PHY mode */
-if (csid->phy.cphy)
-	val |= BIT(CSI2_RX_CFG0_PHY_TYPE_SEL);
+We've never defined a threshold, so its hard to just define which direction=
+ to
+go. I generally think using dynamic array was logical thing to do though.
 
-?
+Nicolas
 
-Konrad
+--=-L53cNKzQuROd39WEVXeE
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaUKxaQAKCRDZQZRRKWBy
+9DvsAP0Q2NNHxc8jrYFvxcg9jsWj09g2eOj92V1QsYgjR4pNVQEA2eK88BefxbvK
+v1zF5F4ZJe7rb2RMaHpvkmxnnK28cww=
+=3ld5
+-----END PGP SIGNATURE-----
+
+--=-L53cNKzQuROd39WEVXeE--
 
