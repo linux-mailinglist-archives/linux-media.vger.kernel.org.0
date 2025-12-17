@@ -1,46 +1,100 @@
-Return-Path: <linux-media+bounces-48941-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48942-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B67C2CC5903
-	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 01:11:40 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id A06F4CC5A1B
+	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 01:48:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5708C3030911
-	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 00:10:27 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 86CD33032112
+	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 00:47:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEABA2BCFB;
-	Wed, 17 Dec 2025 00:10:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1507A1514DC;
+	Wed, 17 Dec 2025 00:47:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZirnAmXZ"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="noBkLGR6";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="UYzT7QSR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46552EADC;
-	Wed, 17 Dec 2025 00:10:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC27D4AEE2
+	for <linux-media@vger.kernel.org>; Wed, 17 Dec 2025 00:47:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765930216; cv=none; b=AkmTSqygOPa4fmiJIFtuCTuGYqdyzH1nuOHlfYUh2sBvgQ5T95sH4AudmN6nlu18IiYV9mCrDy60ifnLQvjdRp6gdRR1huycAndrAPb1WsJvP5Vsh6WSSzHlWt9FeSsj/tRttNJmwSGix4erUXDeKbOq+pxA+dTLeMs2SOmQpog=
+	t=1765932422; cv=none; b=K/NyzqCvKWcrM6OHPgb4gIfPN3CdRbxME4EVxdKgOayrPSRn00OCCTLjQEBRAvQIDdj1fPz5UzPX/8TJcR/pUoCOQM218Ga1b0E2O1NEG6gSVMc4HSZnBYu0cfP7MZt6ak/GP54VulvaetPj/bPUDl2yTlwjN/u9acZyqEPHi00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765930216; c=relaxed/simple;
-	bh=IYStEoceGdUEi75BLoyEocdK6CZd2MmP8jcIyjKww1A=;
+	s=arc-20240116; t=1765932422; c=relaxed/simple;
+	bh=5J4gyqhV2My7MVm1wdQhSTwr+phdyC9A9qn7hRhMtjk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K2PgPVfVdwDCd3kUf/KG669hUmeADT+YOlmpMoDa5crUW9I7ZVa850Uo0qGJpPiO3LGCYqAEdCNI74o8TckAnAKuSlfSjK/CYdNItDh1mmhWUrWhDBwm6W5QerzakJXZVAup21qlqA6sjDOQqTTgxrB/Ejt2zxpJWt6sDDRHCY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZirnAmXZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E25A3C4CEF1;
-	Wed, 17 Dec 2025 00:09:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765930213;
-	bh=IYStEoceGdUEi75BLoyEocdK6CZd2MmP8jcIyjKww1A=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ZirnAmXZntKqQ0k4HUVwGi1YqYVeSoRhusTvAg73iV3t9VVhPLhTsXP1tLDbaSb3X
-	 apvbKAHL3nFZTB2DUvWUBOX+UygqSJYs36Bd1f/rfWT+X9JMBmkS+Z4Wsm60tfypPv
-	 GS7Tpivbn3/VRYA1dgSeETWVHA1rgJBpOT1XBDXFvwhAlgRHtrUpCfUpnd2vhbxQ9J
-	 GuBCrHKguP92bD8aEvceF0rTOXp/QF/r7HHua7AwcZZXwfttaEectmb6IpwvlGO7ty
-	 at+2FhZS6ng5dxpbwMuR7D3MansmP2/DRx7Hi/COKlO2DR5FQE+MxflxWjz660r+Gi
-	 JlpZXjBBbQaqw==
-Message-ID: <56acbfc1-51d7-4245-91ea-45bd9e4b2e29@kernel.org>
-Date: Wed, 17 Dec 2025 01:09:53 +0100
+	 In-Reply-To:Content-Type; b=S45Ui/0VLeU6tStKRz+IHiK1uqCroBxC38MQPxwlaT5K1n7SpGUQ2bFf/a8GdJJzxyWPt7OoQjFtaA82gWITy0azHpRtu9ghLBRG5Zfbj/i1WvTywV0nNk++o6M4JVUKeNf/6jUfXVgu7T4sJTLevD3l84Ik60FttZVyOwtcVBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=noBkLGR6; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=UYzT7QSR; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BGMRD5s890233
+	for <linux-media@vger.kernel.org>; Wed, 17 Dec 2025 00:47:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	ABGO0glvSk81rF9N4L+QFPAcCYxm7cEbnSgkqSBF2Tc=; b=noBkLGR6VRlb+sLD
+	Wv1pOntQBTlfCA1EQiJtW2dKVElonF+TeGtB3G0WBLq/cW48wsYsjFSehK6k6fHQ
+	pUaHnqIkMIPoM7XyEMvdmDdciK65vxCYloXeqfdepfPcCoFA2aKVm5frwwWIgayB
+	W1o1guMFVRD46hfCYMgxQCcRxjk0VhY2XGOBuMCSpaDpfDrhgj+kiIcdeBhNig9z
+	zLrQ9TERcio/Us/EDa8V02a1cRux806+Xb9PhXJZXIKxwgh0Ip3pk0liJcFGmA9v
+	2ijJrA9c+a+tcJDni3XDc1I752ghG8HYChuiHmOhTfO7JjK2h7+k342Y913ZFAGY
+	8Z7x2g==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b34xd2x3j-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 17 Dec 2025 00:46:59 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2a07fa318fdso79667945ad.0
+        for <linux-media@vger.kernel.org>; Tue, 16 Dec 2025 16:46:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1765932419; x=1766537219; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ABGO0glvSk81rF9N4L+QFPAcCYxm7cEbnSgkqSBF2Tc=;
+        b=UYzT7QSRHKXllySj56TyHRRSxi60/P7bZHSvlEJVFz0O9APk0plcYgOx28m/tXhBCS
+         mQEFsgZY82RPKNlNyKYGbImkmBdMYcUCiZyQgadEFRJ6SlvspeklREs3VMbwqaqIld7P
+         D7eCNwGJKevvf0aQz/mtectHXoZMFnYjX0enwBAa+FUh9QUIHLBeCcVTrckkgqEatje+
+         ayt+auVPTpC/7wfRfx4T6qexhUU9I0ycBkb64k/W0jJ4TITQzD7kuS/armqzL9ZBgfLp
+         mVzfjtr0IMBDNlWz4/49jZQl4BH78xZIKZ7+CFdn2HGe4a1rm8Jtg1VRv4B+kO85S695
+         ohdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765932419; x=1766537219;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ABGO0glvSk81rF9N4L+QFPAcCYxm7cEbnSgkqSBF2Tc=;
+        b=qdBeLVO6ObtRNxMOtt223R96Yq/yM0+go//EuAkKuURON5sc7jCuIBq8DJ0AeIPMrw
+         bvCXuvm0UGVho6A/FJEbP+fjlezKm33NYondN4EHVndhRe39jCZMamw9pm01zX1EGU1u
+         ctayhVTt8DrSaa2yiUvysjdF/tacKSrDzH3zemJPPYaMuL0YEvpldfT4AeSQdAhR/c2+
+         SIX7APxo+G8MtthY/9j0FLcBRdYCrhk0IM9BmvGBlBxFfeO0LoRwP6fABYYChmncc3pX
+         Os24fyu7Vscvr8YC+TPShsNc3qPvhhSOBFgjntACsNxIMtM8hfQR4vcd+E5vlrxmmEYa
+         3a3w==
+X-Forwarded-Encrypted: i=1; AJvYcCWSP4LEUoBGWZdsb39G5v3Lx9ac5ulD0U8VIpVMnQdfiJnajWUFOYTgbjh9XDvuguCXOKmmUS5ixiLH+A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQuMKKvDjV/MchGml+NltW/gR1GCW1u97JgFv6TiaP3Txru904
+	Qp+rmnz7F7le/S0QMrf0QN/5GdvgFPtmdCEAZDzEE/ge5LU10gz7qgOSLH3cPjOWUK1PtJc1YVX
+	IlAOWUW9gqwzDDO/8xuHXM3Kmx5FfnmPltdKlP1E40avU+5x8tFQr01PGf4kX6/1X2w==
+X-Gm-Gg: AY/fxX5MpG7mZ0n86l7xxjPKs0gSpv2fTO/JPeKPXGs0A7bTXfElS/bG3yju7SEkNht
+	quo0xGFOBR56hocGBdkYWZAbAW+V6DFxQlqjdPXEuFZ+zo9evuqiQYNkaRgGdF8J9nFkRJ6qG+A
+	FrioPdjq+dm8I8XCp6sNaBZgJPasnXqajFy4BbUwtvmOVKKF7iFVJhxWJtUEtHmcuKIgQ/wa9k1
+	sCElKabsw8+BWXYqHwhN4SR+tHr0vnJScE21Fs3m1xAv/Owmzm8wWtclO4XIg9QCG3apcVLEVL+
+	CSr9CC0E8Hzazd1UblWSFHWWQxLq9omitTmTAe8iArEQghA0es4cCGWrYwC2vXgjbRVz1P114+G
+	+HKUw8LZ5Wpb8VhcXV03uw3pbp8OREK4dSYzO9tlSbKc/P2DqrVyrfq8UZN2S+suvDg==
+X-Received: by 2002:a05:7022:2510:b0:11b:ca88:c503 with SMTP id a92af1059eb24-11f35475f75mr11189118c88.3.1765932419073;
+        Tue, 16 Dec 2025 16:46:59 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGdQJYLv1rlO32DqezKCRMWdqxzG0EMEEP7PeSlEZx9zUrkl4hD2bmCAg8uCKZEAV83nujjbA==
+X-Received: by 2002:a05:7022:2510:b0:11b:ca88:c503 with SMTP id a92af1059eb24-11f35475f75mr11189098c88.3.1765932418436;
+        Tue, 16 Dec 2025 16:46:58 -0800 (PST)
+Received: from [10.62.37.112] (i-global254.qualcomm.com. [199.106.103.254])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11f2e2ffac2sm59877271c88.11.2025.12.16.16.46.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Dec 2025 16:46:58 -0800 (PST)
+Message-ID: <c2125dbf-bbef-426e-adf9-7767ad822ae1@oss.qualcomm.com>
+Date: Tue, 16 Dec 2025 16:46:56 -0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -48,104 +102,153 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/14] mm, kfence: Describe @slab parameter in
- __kfence_obj_info()
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux AMDGPU <amd-gfx@lists.freedesktop.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Filesystems Development <linux-fsdevel@vger.kernel.org>,
- Linux Media <linux-media@vger.kernel.org>, linaro-mm-sig@lists.linaro.org,
- kasan-dev@googlegroups.com,
- Linux Virtualization <virtualization@lists.linux.dev>,
- Linux Memory Management List <linux-mm@kvack.org>,
- Linux Network Bridge <bridge@lists.linux.dev>,
- Linux Networking <netdev@vger.kernel.org>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
- Philipp Stanner <phasta@kernel.org>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Jan Kara <jack@suse.cz>, Sumit Semwal <sumit.semwal@linaro.org>,
- Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
- Dmitry Vyukov <dvyukov@google.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Uladzislau Rezki <urezki@gmail.com>,
- Nikolay Aleksandrov <razor@blackwall.org>, Ido Schimmel <idosch@nvidia.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Taimur Hassan <Syed.Hassan@amd.com>,
- Wayne Lin <Wayne.Lin@amd.com>, Alex Hung <alex.hung@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Dillon Varone <Dillon.Varone@amd.com>, George Shen <george.shen@amd.com>,
- Aric Cyr <aric.cyr@amd.com>, Cruise Hung <Cruise.Hung@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Sunil Khatri <sunil.khatri@amd.com>,
- Dominik Kaszewski <dominik.kaszewski@amd.com>,
- Peter Zijlstra <peterz@infradead.org>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Max Kellermann <max.kellermann@ionos.com>,
- "Nysal Jan K.A." <nysal@linux.ibm.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Alexey Skidanov <alexey.skidanov@intel.com>, Vlastimil Babka
- <vbabka@suse.cz>, Kent Overstreet <kent.overstreet@linux.dev>,
- Vitaly Wool <vitaly.wool@konsulko.se>, Harry Yoo <harry.yoo@oracle.com>,
- Mateusz Guzik <mjguzik@gmail.com>, NeilBrown <neil@brown.name>,
- Amir Goldstein <amir73il@gmail.com>, Jeff Layton <jlayton@kernel.org>,
- Ivan Lipski <ivan.lipski@amd.com>, Tao Zhou <tao.zhou1@amd.com>,
- YiPeng Chai <YiPeng.Chai@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
- Lyude Paul <lyude@redhat.com>, Daniel Almeida
- <daniel.almeida@collabora.com>, Luben Tuikov <luben.tuikov@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Roopa Prabhu <roopa@cumulusnetworks.com>, Mao Zhu <zhumao001@208suo.com>,
- Shaomin Deng <dengshaomin@cdjrlc.com>, Charles Han <hanchunchao@inspur.com>,
- Jilin Yuan <yuanjilin@cdjrlc.com>,
- Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
- George Anthony Vernon <contact@gvernon.com>
-References: <20251215113903.46555-1-bagasdotme@gmail.com>
- <20251215113903.46555-6-bagasdotme@gmail.com>
-From: "David Hildenbrand (Red Hat)" <david@kernel.org>
+Subject: Re: [PATCH v6 1/5] media: dt-bindings: Add CAMSS device for Kaanapali
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>,
+        Loic Poulain <loic.poulain@oss.qualcomm.com>,
+        Robert Foss
+ <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        aiqun.yu@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
+        trilok.soni@oss.qualcomm.com, yijie.yang@oss.qualcomm.com,
+        Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
+        Atiya Kailany <atiya.kailany@oss.qualcomm.com>
+References: <20251113-add-support-for-camss-on-kaanapali-v6-0-1e6038785a8e@oss.qualcomm.com>
+ <20251113-add-support-for-camss-on-kaanapali-v6-1-1e6038785a8e@oss.qualcomm.com>
+ <bd899586-f714-4d2e-95e3-6abf124e75a4@linaro.org>
+ <37d0f89f-69be-45a7-90fa-347d6a3800bf@oss.qualcomm.com>
+ <2d7ac7e8-ab69-44a6-b732-3657abf3a5a6@oss.qualcomm.com>
+ <ceeee542-a319-4ad9-ada8-3dc769599dec@mleia.com>
+ <d1fb4d8a-608e-44f5-834f-fa92d487c75b@oss.qualcomm.com>
+ <eff759a7-06ee-42f5-a3a6-860956d7ae84@linaro.org>
 Content-Language: en-US
-In-Reply-To: <20251215113903.46555-6-bagasdotme@gmail.com>
+From: Vijay Kumar Tumati <vijay.tumati@oss.qualcomm.com>
+In-Reply-To: <eff759a7-06ee-42f5-a3a6-860956d7ae84@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE3MDAwMyBTYWx0ZWRfX5h2SXyjsSlFR
+ XsJ3cVzej2oBYDPqpDQoXT91Ump/pcRq5dxmf9EGqZQE95EUA04w5gR4KvJDVHBepUo0xbJLMAC
+ qeuwF8ba1gsVWlMyuh0+BQYxJkCAbxm1/T74i9A2lhw07YAoU4/xol3YZXWovTNZzCiZ0YaUQN3
+ FhR2D99dBxgqPBH1uZ0uvcj/ffeMCF2aFvO023VfPTZsgc6Z0YYzkV078MZwkgmYzfQKsnTBeqU
+ xUwR0jkV4JTppg/ipKzrYdb4ZkAOdUXpKhsB+V0QtwidzIMuH5G72yzQipTYtp9p880mmAJk0IG
+ /n/lOZS8LkY0uxRUngNDNVuqwNq9/gAODcKZtsX70RhmOIZY2qqFdS7/wt+bz1FXf56FgVNX7ND
+ sIBGfe8Q+IyemdygVRlAc+lpsEEDyw==
+X-Proofpoint-GUID: _mSXFJVSDZNdzdiVAjZmlwU2oBX7EGKD
+X-Proofpoint-ORIG-GUID: _mSXFJVSDZNdzdiVAjZmlwU2oBX7EGKD
+X-Authority-Analysis: v=2.4 cv=T7mBjvKQ c=1 sm=1 tr=0 ts=6941fd83 cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=yeKN4i86vKkShX6YYCoA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=uG9DUKGECoFWVXl0Dc02:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-16_03,2025-12-16_05,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 suspectscore=0 priorityscore=1501 malwarescore=0 phishscore=0
+ clxscore=1015 bulkscore=0 spamscore=0 adultscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512170003
 
-On 12/15/25 12:38, Bagas Sanjaya wrote:
-> Sphinx reports kernel-doc warning:
-> 
-> WARNING: ./include/linux/kfence.h:220 function parameter 'slab' not described in '__kfence_obj_info'
-> 
-> Fix it by describing @slab parameter.
-> 
-> Fixes: 2dfe63e61cc31e ("mm, kfence: support kmem_dump_obj() for KFENCE objects")
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->   include/linux/kfence.h | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/include/linux/kfence.h b/include/linux/kfence.h
-> index 0ad1ddbb8b996a..e5822f6e7f2794 100644
-> --- a/include/linux/kfence.h
-> +++ b/include/linux/kfence.h
-> @@ -211,6 +211,7 @@ struct kmem_obj_info;
->    * __kfence_obj_info() - fill kmem_obj_info struct
->    * @kpp: kmem_obj_info to be filled
->    * @object: the object
-> + * @slab: the slab
->    *
->    * Return:
->    * * false - not a KFENCE object
 
-Acked-by: David Hildenbrand (Red Hat) <david@kernel.org>
-
--- 
-Cheers
-
-David
+On 12/16/2025 4:02 PM, Vladimir Zapolskiy wrote:
+> Hi Vijay.
+>
+> On 12/16/25 19:55, Vijay Kumar Tumati wrote:
+>>
+>> On 12/12/2025 4:49 AM, Vladimir Zapolskiy wrote:
+>>> On 11/18/25 20:44, Konrad Dybcio wrote:
+>>>> On 11/18/25 7:25 PM, Vijay Kumar Tumati wrote:
+>>>>>
+>>>>> On 11/18/2025 7:00 AM, Bryan O'Donoghue wrote:
+>>>>>> On 14/11/2025 03:29, Hangxiang Ma wrote:
+>>>>>>> +                  <0x0 0x0900e000 0x0 0x1000>,
+>>>>>>
+>>>>>> Why aren't you starting @ 0x0900e000 ? seems to be omitting some of
+>>>>>> the registers in the ICP block. Should start at +0xd000 not 
+>>>>>> +0xe000 ?
+>>>>>>
+>>>>>>> +                  <0x0 0x0902e000 0x0 0x1000>,
+>>>>>>
+>>>>>> Same here.
+>>>>> Hi Bryan, HLOS does not have access to those registers. They are
+>>>>> configured by the Hyp.
+>>>>
+>>>> If that's hyp, please add them. We already have platforms without
+>>>> Gunyah. Remember, bindings are defined once and for good and I 
+>>>> wouldn't
+>>>> call it impossible that someone would want to run that 
+>>>> configuration on
+>>>> Kaanapali some day
+>>>>
+>>>
+>>> If the ICP register block is added now, then it will practically 
+>>> exclude
+>>> an option to run hardware demosaic on Kaanapali. There were notorious
+>>> and still unresolved problems with CSIPHY blocks, which shall be split
+>>> from CSID/VFE CAMSS on device tree level also, for similar reasons the
+>>> same should be done with ICP or other blocks. It makes exactly zero
+>>> sense to pile everything into a monolythic device tree node, and doing
+>>> so undermines any future advances in CAMSS support in the upstream
+>>> Linux, the hardware description in downstream is done thoughtfully
+>>> better,
+>>> and not for no reason.
+>>>
+>> Hi Vladimir, yes, this has been discussed in the past and the general
+>> consensus from everyone is for not blocking KNP series on this. But yes,
+>> there is an ongoing effort to modularize the bindings for future
+>> chipsets and when it's ready, we can review, discuss and take it
+>
+> My concern is that it makes very little sense to throw any not clearly
+> defined hardware properties and interconnections into an unorganized and
+> unmanageable pile of everything, because this closes the door to ever 
+> update
+> the upstream CAMSS driver by adding better CAMSS IP support for any 
+> already
+> manufactured and sold Qualcomm SoC powered board with done CAMSS support.
+>
+> If some user already holds a phone, a laptop and expects to offload 
+> CPU to
+> CAMSS IP one happy day, it's pretty unsatisfactory to say that it will 
+> never
+> happen on legacy hardware, because there was done an unrecoverable 
+> mistake
+> by adding never tested properties into CAMSS DT bindings, and the 
+> remained
+> option is to "wait for future chipsets". Each added unsupported and 
+> unused
+> property boards up the window of better CAMSS support on manufactured 
+> boards.
+>
+> I don't understand a reason why to do worse for the upstream, when 
+> there is
+> a clear and feasible alternative not to do worse, thus my 
+> misunderstanding
+> and my grief for upstream CAMSS are my concerns.
+>
+Thanks for the comments, Vladimir. Bryan's and Krzysztof's argument was 
+that the bindings are required to describe the full hardware regardless 
+of the driver support and either way not modifiable in the future, so 
+they preferred having the HW properties of the key functional blocks in 
+the bindings. And we were specifically asked to add the properties into 
+this node in this patch series. Having said that, my knowledge on how 
+the bindings are handled upstream in the long run as the requirements 
+evolve, is limited. So I will look for some expert advise from Bryan 
+here as he strongly advised for these. Thanks again.
+>> forward. As for your ICP concern, if you are referring to the Demosaic
+>> in OFE, I believe we might still be able to do it either with direct OFE
+>> config from CPU or using the firmware (preferred), given that we
+>> properly establish the shared memory and SID IOVA ranges for ICP,
+>> assuming that the load and authenticate will be taken care by Hyp or TZ.
+>> Please share your thoughts if I missed something.
+>>
+>> Hi Bryan, please feel free to add your thoughts.
+>>
+>
 
