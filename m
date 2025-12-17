@@ -1,46 +1,37 @@
-Return-Path: <linux-media+bounces-48984-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-48985-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04B80CC779C
-	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 13:03:31 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B209CC7A28
+	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 13:35:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3E51330329FB
-	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 12:03:11 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7C14B30C27FC
+	for <lists+linux-media@lfdr.de>; Wed, 17 Dec 2025 12:30:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8073633ADA3;
-	Wed, 17 Dec 2025 12:03:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kVd46Stg"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5D1034251A;
+	Wed, 17 Dec 2025 12:30:05 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from rmisp-mx-out2.tele.net (rmisp-mx-out2.tele.net [194.208.23.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D114931326B;
-	Wed, 17 Dec 2025 12:03:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD5C633FE2E;
+	Wed, 17 Dec 2025 12:30:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.208.23.37
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765972987; cv=none; b=Kq/D0DrGtucoLDUnsohUuUdHXYwXPAQ3xOA6LsynAOHht6PFHdUwwVkmvAlzPZcKIKJn3SybWwLAyPiAApN4ZDa9ape1A0dhelfqiY5tMMkQYOc56sKjaRIYXlxuGICW03STipAN8U2P3OZyyGpYP19SO6VUNMokiYy7PtFiMzM=
+	t=1765974605; cv=none; b=M7KtI52rLD3wFIlq5ySEoBf88a3XkHNLVwjoSVwtIGPb/fka5P9cqJCSADJXNjlUQhfdM02NBl4NheqUUTXDDtZrbzJWPSGu/AIlcbXeIQ6iH+hJ17Z5sDTqcVgBUk2jZz1GlCn9/r5L3Ny0OJNGTyXLB26P3k/kKkDhnsK8a0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765972987; c=relaxed/simple;
-	bh=b23jz6/IuDEdNz0/XrAi+Mxzf2D2+Iwmrz8w9u7HREE=;
+	s=arc-20240116; t=1765974605; c=relaxed/simple;
+	bh=9efI+J8C0Yy9SBoVco3ChlmDPBkmh937NX/bhxYLWkk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UUYr4txMomSbU1FH1TVSQ5udnl05hTu6i09HpVS7NO+h+5AmvZvisDnZcjQGNrJrnRJl1RK3O43Nk7xVGm7jZLUBVtHHBqgShYFHcIAg8Xq32d4PDaJreKX3x3QsR0ZJVJEn3WUqI8fOwl1nZYQhdN/Ug+p1F9SFW7GYgmsJ+jQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kVd46Stg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DA75C4CEF5;
-	Wed, 17 Dec 2025 12:03:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765972987;
-	bh=b23jz6/IuDEdNz0/XrAi+Mxzf2D2+Iwmrz8w9u7HREE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=kVd46StgT5CaAFPBcrwAcKj0dFtajgi87wt8/HKz/NLjElCxQWpEILwdsWW61ylvt
-	 Oen1I3vSzsCM66uBVlat1AY7By2Fke8ZRuRpZataAX9YcaCbkWS//BeOh6SIamOA48
-	 5Z6c294Sz+x6As89oxSQFCZWPDOsVJWwPT0eEdrnD74ks13qtSGLne5Q5IrqrKxeCd
-	 0935wBTgmdM3HuxYO/SQU8L+RFrZcRBBzbJYMIT6JBzIT+A8pDdN5hG9dWhO9S7uek
-	 w96utVWIlCc0BOK4kkcC1Jr1g2rftrwHRzGxkiVC/Dt8DGgQFQ+5GVOZCmg4MRzZDI
-	 qBFgInuqVBLvA==
-Message-ID: <2c7e7b96-f9f4-4875-9aab-0f3dcaf6baf2@kernel.org>
-Date: Wed, 17 Dec 2025 13:03:03 +0100
+	 In-Reply-To:Content-Type; b=AJfEDjIDTInlkvb3AZup2tDECngdYgJttqcrXgRUz1DCnS4AKE0NkwdysK4hwt0yCoQrN3GSLIRArjr40yGwfjcUD5WZlaMr7JEuLaRlDTDisVLm359w2Wir5yz9ZZaftNngC5zNkArC4gitHUU3H3jruxtQwh+N6gq0qbsaaUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=fail smtp.mailfrom=emfend.at; arc=none smtp.client-ip=194.208.23.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=emfend.at
+Received: from [192.168.0.207] (194-208-208-245.tele.net [194.208.208.245])
+	by rmisp-mx-out2.tele.net (Postfix) with ESMTPA id A8E711052E61;
+	Wed, 17 Dec 2025 13:21:28 +0100 (CET)
+Message-ID: <2f93eda4-483e-4fa2-a765-73e8df4eeaea@emfend.at>
+Date: Wed, 17 Dec 2025 13:21:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -48,104 +39,134 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] media: dt-bindings: imx283: add clock-noncontinuous
-To: Matthias Fend <matthias.fend@emfend.at>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
+Subject: Re: [PATCH 3/3] media: i2c: imx283: implement {g,s}_register
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
  Umang Jain <uajain@igalia.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
+ Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20251217-imx283-ext-v1-0-906a762f592d@emfend.at>
- <20251217-imx283-ext-v1-1-906a762f592d@emfend.at>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251217-imx283-ext-v1-1-906a762f592d@emfend.at>
-Content-Type: text/plain; charset=UTF-8
+ <20251217-imx283-ext-v1-3-906a762f592d@emfend.at>
+ <CAPY8ntCiOJb9iyFDYS_wxhteoHL7vMFpEF8gVwrf2qeFd-Fssw@mail.gmail.com>
+Content-Language: de-DE
+From: Matthias Fend <matthias.fend@emfend.at>
+In-Reply-To: <CAPY8ntCiOJb9iyFDYS_wxhteoHL7vMFpEF8gVwrf2qeFd-Fssw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 17/12/2025 08:06, Matthias Fend wrote:
-> Add the optional clock-noncontinuous endpoint property that allows enabling
-> MIPI CSI-2 non-continuous clock operations.
+Hi Dave,
+
+thanks for your comment.
+
+Am 17.12.2025 um 12:54 schrieb Dave Stevenson:
+> Hi Matthias
 > 
-> Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
-> ---
->  Documentation/devicetree/bindings/media/i2c/sony,imx283.yaml | 2 ++
->  1 file changed, 2 insertions(+)
+> On Wed, 17 Dec 2025 at 07:41, Matthias Fend <matthias.fend@emfend.at> wrote:
+>>
+>> Implement {g,s}_register to support advanced V4L2 debug functionality.
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx283.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx283.yaml
-> index e4f49f1435a5c2e6e1507d250662ea6ecbf3c7dc..a91695f5618767ac851e5bc72b347a21da77c52d 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx283.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx283.yaml
-> @@ -59,6 +59,7 @@ properties:
->                    - const: 3
->                    - const: 4
->  
-> +          clock-noncontinuous: true
+> Is there any real benefit to providing access via {g,s}_register
+> rather than using i2ctransfer -f ? The I2C framework ensures that each
+> transfer is atomic as long as it is formed into one transaction
+> request.
 
-Drop, it's already there via referenced schema.
+This allows, for example, the registers to be changed when the image 
+sensor is actually used in streaming mode.
 
->            link-frequencies: true
->  
->          required:
-> @@ -99,6 +100,7 @@ examples:
->                  imx283: endpoint {
->                      remote-endpoint = <&cam>;
->                      data-lanes = <1 2 3 4>;
-> +                    clock-noncontinuous;
+IMHO, this cannot be covered by i2ctransfer, as the device is used 
+exclusively by the driver.
 
-And updating example just for this is rather churn.
-
->                      link-frequencies = /bits/ 64 <360000000>;
->                  };
->              };
 > 
+> IMHO The only place these are really needed is with devices such as
+> the adv7180 family which have a bank and page addressing scheme, and
+> the driver is caching the last accessed bank.
+> 
+>> Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
+>> ---
+>>   drivers/media/i2c/imx283.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 44 insertions(+)
+>>
+>> diff --git a/drivers/media/i2c/imx283.c b/drivers/media/i2c/imx283.c
+>> index 7a6ab2941ea985401b21d60163b58e980cf31ddc..d8ccde0a1587259f39a10984c517cc57d323b6bc 100644
+>> --- a/drivers/media/i2c/imx283.c
+>> +++ b/drivers/media/i2c/imx283.c
+>> @@ -1295,7 +1295,51 @@ static const struct v4l2_subdev_internal_ops imx283_internal_ops = {
+>>          .init_state = imx283_init_state,
+>>   };
+>>
+>> +#ifdef CONFIG_VIDEO_ADV_DEBUG
+>> +static int imx283_g_register(struct v4l2_subdev *sd,
+>> +                            struct v4l2_dbg_register *reg)
+>> +{
+>> +       struct imx283 *imx283 = to_imx283(sd);
+>> +       u64 val;
+>> +       int ret;
+>> +
+>> +       if (!pm_runtime_get_if_active(imx283->dev))
+>> +               return 0;
+> 
+> Returning no error if the device is powered down feels wrong. How is
+> the caller meant to differentiate between powered down and the
+> register actually containing 0?
 
+The only other I2C drivers that use pm* in {g,s}_register seem to be 
+imx283 and tc358746. Since both return 0 when the device is inactive, I 
+figured there must be a reason for this and implemented it that way as well.
 
-Best regards,
-Krzysztof
+Thanks
+  ~Matthias
+
+> 
+>> +
+>> +       ret = cci_read(imx283->cci, CCI_REG8(reg->reg), &val, NULL);
+>> +       reg->val = val;
+>> +
+>> +       pm_runtime_put(imx283->dev);
+>> +
+>> +       return ret;
+>> +}
+>> +
+>> +static int imx283_s_register(struct v4l2_subdev *sd,
+>> +                            const struct v4l2_dbg_register *reg)
+>> +{
+>> +       struct imx283 *imx283 = to_imx283(sd);
+>> +       int ret;
+>> +
+>> +       if (!pm_runtime_get_if_active(imx283->dev))
+>> +               return 0;
+> 
+> Ditto here. The caller is told the value was written, but it wasn't.
+> 
+> Thanks.
+>    Dave
+> 
+>> +
+>> +       ret = cci_write(imx283->cci, CCI_REG8(reg->reg), reg->val, NULL);
+>> +
+>> +       pm_runtime_put(imx283->dev);
+>> +
+>> +       return ret;
+>> +}
+>> +#endif
+>> +
+>> +static const struct v4l2_subdev_core_ops imx283_core_ops = {
+>> +#ifdef CONFIG_VIDEO_ADV_DEBUG
+>> +       .g_register = imx283_g_register,
+>> +       .s_register = imx283_s_register,
+>> +#endif
+>> +};
+>> +
+>>   static const struct v4l2_subdev_ops imx283_subdev_ops = {
+>> +       .core = &imx283_core_ops,
+>>          .video = &imx283_video_ops,
+>>          .pad = &imx283_pad_ops,
+>>   };
+>>
+>> --
+>> 2.34.1
+>>
+>>
+
 
