@@ -1,991 +1,628 @@
-Return-Path: <linux-media+bounces-49081-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49082-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1547CCD1E8
-	for <lists+linux-media@lfdr.de>; Thu, 18 Dec 2025 19:16:17 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA44ECCD29F
+	for <lists+linux-media@lfdr.de>; Thu, 18 Dec 2025 19:27:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 627F43057A05
-	for <lists+linux-media@lfdr.de>; Thu, 18 Dec 2025 18:16:07 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 3C79F3055F81
+	for <lists+linux-media@lfdr.de>; Thu, 18 Dec 2025 18:27:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD4672FF675;
-	Thu, 18 Dec 2025 18:16:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 781193161BB;
+	Thu, 18 Dec 2025 18:27:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=schnwalter.eu header.i=@schnwalter.eu header.b="lkCeFZKs";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="g931CpoE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HohxgcjG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15D1727F017;
-	Thu, 18 Dec 2025 18:15:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5607E308F3D
+	for <linux-media@vger.kernel.org>; Thu, 18 Dec 2025 18:27:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766081759; cv=none; b=fcF4zfeRNsyFdg9voPQ3mcKtx8e6jnTGc+g/WhExL+IPMg6zI4Q+CSegv0qEhrHAIY+TpgQYTi0J74liUgWEB+hL93hDQW9/JXuBvUJWQbRw3zCw5VnREQnYhmwqsKHpC4IjXSB/gY5ZS+WUqVAeRmFqOSFl27Q06GQJxto/ybw=
+	t=1766082456; cv=none; b=PHpFqo9D8awWEzOEHvgQjPmk5iKi9oFfPiz/Qpm7pk2fm5YKSEE4Lr4xZMTjmUySDkqaf9OfeUOp2yMwJe/NMKAB3SOd900NvQoPdUmuwphVAR0h/JhQvMauU2GEIsGBk6H8NhHwXGCLiA2x3Po6qG+kibP1pyeHkTt9VJF8V2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766081759; c=relaxed/simple;
-	bh=zVqTO2kkryYhr2oiGqaxi/6Oris0z+H48UQ1nLrBxbM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=VKbWlMWtSNVH3QPd+XajMG45eDmHYNHr0CgXLy1HM9RTGPZ1smaA0GGJPQ1qyJeWt/EHUHOX9lqgxjjBt5zSbJSIQjLClHLcVAN+s5bSVbNIuNXbHhb5mNYX81Ru8EHbqYSbJVwz0xpRit0ySVG8M9CPmgZYzQUZoH5w2vFhIiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=schnwalter.eu; spf=pass smtp.mailfrom=schnwalter.eu; dkim=pass (2048-bit key) header.d=schnwalter.eu header.i=@schnwalter.eu header.b=lkCeFZKs; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=g931CpoE; arc=none smtp.client-ip=103.168.172.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=schnwalter.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=schnwalter.eu
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.phl.internal (Postfix) with ESMTP id CAC00EC0139;
-	Thu, 18 Dec 2025 13:15:52 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Thu, 18 Dec 2025 13:15:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=schnwalter.eu;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm2;
-	 t=1766081752; x=1766168152; bh=mug9LjZJq01PcmJhnSLqzNO2npD1JmH2
-	B7PfnBCMLOQ=; b=lkCeFZKsnedf+sxxIYsM1/6LFQol3CHAmXc+r5pVkVNt/Xb1
-	PPf7IbBY/YUXGuN/KfiYWWu29PNFoTMDQpADtiSleCI1/JzgmicQF8bbNLfFynhl
-	zb6JBVpt6Zx7+6ddDYNsNyEjLB/1BCN9dzswbomlUyD2UuOFFH/5FX2SRwelx9S/
-	NBnYXyAcEkDbVxZsZELOKrQSs66eGgH2Qm5mxCoTiBfxnYuSxEv9lNMFvN1/xZ4k
-	LUQxJXgGADZzOzHSobtVYoz0VNq/TmyMMjYoi7ujwwrEwtzO0QxFVcxdWRRYru6y
-	xXZVNb4V+W/dRO4Z+wUwEFYZBKGR8iTen5L6HA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1766081752; x=
-	1766168152; bh=mug9LjZJq01PcmJhnSLqzNO2npD1JmH2B7PfnBCMLOQ=; b=g
-	931CpoE8ql2c7JfihVysOTb5ynnYlEqYHU+Aisimf8B8Kd/m7U1r1Xi0mqPj3tvr
-	w7e7VNZzTCxO/djMe1fMyXmlnNCY7UDmK/MBMjWfV4O9+R23aJgNxQE81jIX7aJl
-	7ESYJOq14WmvMBpZ6IfO1Ypi1dAGIdXl6bw1FPjFhArjMcLFk/Z2oEC0bZRbzfBi
-	bR7l/1co6u6T+GypmH8qqirLFchgUtrUO2PNlvIJbSMnFUXmheVLZ9Pl8cv/sxRL
-	+e5n0rUT8MTewZtVxv91QBw2VPP80u2+lNYCm1V4Y1zwC9HsqOk1lU5bs+zAFy68
-	EbTvLSsvZruXEVnhKVypQ==
-X-ME-Sender: <xms:2EREaYzBOzu7uceCsm8H0jRHgjFlHafqzrMTgjAD-BosgEY008otZw>
-    <xme:2EREaUdB139mocD_B2Mic44dcRCCvE8L684L2965f_A6wwYMRTJ_sRaN1RbXoTogv
-    42ZVhxczPzuves_XW5DvIQ1zLEVkA_6V6dimhIXt4Vr6I5UL_WyolU>
-X-ME-Received: <xmr:2EREaV5XOxxxlYbYWawFfoStxvt4rhRortxGbxOwahApJcle1-erVx1YCzNV6r4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdegieduvdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhephggrlhhtvghr
-    ucghvghrnhgvrhcuufgthhhnvghiuggvrhcuoegtohhnthgrtghtsehstghhnhifrghlth
-    gvrhdrvghuqeenucggtffrrghtthgvrhhnpedtvedtveeuhfeivefhuefhveelheduvdeg
-    hfefffeggfdugeekteelveegvdevveenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
-    grmhepmhgrihhlfhhrohhmpegtohhnthgrtghtsehstghhnhifrghlthgvrhdrvghupdhn
-    sggprhgtphhtthhopedutddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepkhhrii
-    hkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdr
-    ohhrghdprhgtphhtthhopehjrggtohhpohdrmhhonhguihesihguvggrshhonhgsohgrrh
-    gurdgtohhmpdhrtghpthhtoheptghonhhtrggtthesshgthhhnfigrlhhtvghrrdgvuhdp
-    rhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-    dprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopegt
-    ohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshgrkhgrrhhirdgrih
-    hluhhssehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepuggvvhhitggvthhr
-    vggvsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:2EREaRIt48YNHlnHXc9l1CMpG_vlg6_pJog_9Fcr6NhhmXtXCkhvNw>
-    <xmx:2EREaVygHumsWIGbRCwkoLpqSkkE5JKsufojSodPvAoSP3dzfCkWfw>
-    <xmx:2EREaRLC0VnH6fKjqxPrK99w7fmvAKFrmzohRgnURElboF4LZgaYfQ>
-    <xmx:2EREacXoDgfHtuu4QSARCGfDKe4bFK3Weu2ZIeQZZ7XuOOiA85mnJw>
-    <xmx:2EREaQ_UhUJwplnd725gpjaioxstxcWotXf8zSL_b6AGgwcpuyeO7xLF>
-Feedback-ID: i455149b6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 18 Dec 2025 13:15:50 -0500 (EST)
-From: Walter Werner Schneider <contact@schnwalter.eu>
-Date: Thu, 18 Dec 2025 20:15:35 +0200
-Subject: [PATCH v2 2/2] media: i2c: Add ov2732 image sensor driver
+	s=arc-20240116; t=1766082456; c=relaxed/simple;
+	bh=RKuAD5Ej2hjctvOa0vN5aYt/9+GveUnSajQfjX2p8bU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b41n2/O3nitrW/73qTPBMDj7fh1St9JGDpTM4PCiqmTKwoM18lLMWGa+InZJzl0zMHqkDbjnsrmRd+WT2je0YxT3lm+L3WMKQR5b216M0zKGKfpZ3FioNnxZr4WpZRKwtWZt/VS5V2T1mZu9lTCaUY3biTSZCZcdNr17kGYwPqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HohxgcjG; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7bab7c997eeso1169142b3a.0
+        for <linux-media@vger.kernel.org>; Thu, 18 Dec 2025 10:27:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766082450; x=1766687250; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oRjpCUtnbusXgG6JBr0HADx1jpxK5F7U+ncvwUgGUnw=;
+        b=HohxgcjGx4PqWbhheYdQpnj1cRpg+VunPvyNe/asOQYgu4uX5b0IyxPnM9r587ICzF
+         tCgZqXxFAFjeYOTRmQQusjMZxbMmbwRE240qClXmUmo33oq9LaGURZrb/9BNwb0eaLwp
+         G9Yw5gqjRxLkwIS2eRWaEcU2wvS87ZkL5cjUOo4iFtfHkRYfjEET1FNY783XtWq5G8Xd
+         4XIWRusPDvG8X6Fp+Eq8yMc5aOaUVARTIbz82ODcR1tjsPJ2bSF/suZbiz5SevKW4N8l
+         jOQ9e3J2YvkL6yYeWQhs8LSzLC5tbIGR0FmwpBlGTFXLWYgrJ3vee5ag4CJztrg7qNqQ
+         Zabg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766082450; x=1766687250;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oRjpCUtnbusXgG6JBr0HADx1jpxK5F7U+ncvwUgGUnw=;
+        b=qYArDh/3kXyz5o7y3uOwZgYg2yp+cy3D83L8eMTVo7Pq6I24FvNCZoIyvSPhcKyFiU
+         I5G6thCtEpvhAqGxVwT2P3NMQfT0OQ4KAagfW2MgepUXoYA+26nFiTt/0GXABDqcGXP3
+         72Dnq+TbaAkDyyj0xWgRJKxKYJwMegMFPb7pUBViQzzqmkSWesp/I5N+5eGAbyc5nWjZ
+         sdh1CzwCFVrEa8nKxXCYxn0NQHMizPSQPrZZRL5gki1i/j5+M6VItbB+z7/NBccPuaM4
+         CBDhQNZYOq/siNnF4xl7iXvP3+N2bQRj7UTBfgYQg9ZjqxG3bqSr+Y9QwoANHqC2HQqx
+         NV/Q==
+X-Gm-Message-State: AOJu0YxYjfAv6iUu3EQFodVCRopg3Ja++TM/eSUY3dmeh9YcczgSgpUo
+	hXwBOdmkr76JoYJirC9eWUSObvh0KeC/CYc5CQKy/nCh7RPX4kKmyg0m
+X-Gm-Gg: AY/fxX7K1anh/a4Iv0OBQN6GHvVSmEVNjGfO5UOUlgGz1BwPPmGIUWg2TehT4Z0ubxj
+	3yN6vlUILtEmgG82VBjiAn+y09+GpzirDt6etVLPIy+oDh8YXXZeGD/lXzp42od5NlnW7UqDPXo
+	xVvP/s9jk3auJhsjKuTxjtssNsxHbL8RqmKiCYKa2KBiAG583hlOTAVXh1yPRs6P73iLWjSJ6lE
+	/w07Ht9wABrasSeCDcrAnvB6IF9hEcjHEIiMyCunyS2vRt4ptdJvsFuT3DbOt5dIPAn3QltGZqt
+	L6jF2p4gvlQZl+/e1jW11O5OSbsEOWZFepzby7O6WGjY7QPA5Mi6/YsWfOTsxl2BeJHEo4Xxu3e
+	Nk9z1euo9NZ3JTkECikJzfwWjNgQPzbI1iizofyb4GxLGLqh4nB/GmmBXYNH//xT4RthpoLs5qk
+	xgANeE4DwisDj2i5BdyyvdSB2AyNN9cR2smUw=
+X-Google-Smtp-Source: AGHT+IG29yZNPo3KnIDRrpM1EC1krjpGUVVVXmvpFTbrSkMxYOKgDyJ11xHP3+BnDfL7OJR9lUcWuA==
+X-Received: by 2002:a05:6a20:3d88:b0:35f:aa1b:bbfb with SMTP id adf61e73a8af0-376aa6f7feamr361215637.50.1766082449411;
+        Thu, 18 Dec 2025 10:27:29 -0800 (PST)
+Received: from nikhil-s-Swift-SFG14-73.. ([101.0.62.221])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c1e79a164d0sm32378a12.10.2025.12.18.10.27.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Dec 2025 10:27:28 -0800 (PST)
+From: Nikhil S <nikhilsunilkumar@gmail.com>
+To: mchehab@kernel.org
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Nikhil S <nikhilsunilkumar@gmail.com>
+Subject: [PATCH v4] media: dvb-core: fix style violation issues
+Date: Thu, 18 Dec 2025 23:57:14 +0530
+Message-ID: <20251218182721.5478-1-nikhilsunilkumar@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251218-ov2732-driver-v2-2-fb763644d62c@schnwalter.eu>
-References: <20251218-ov2732-driver-v2-0-fb763644d62c@schnwalter.eu>
-In-Reply-To: <20251218-ov2732-driver-v2-0-fb763644d62c@schnwalter.eu>
-To: linux-media@vger.kernel.org, 
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Walter Werner Schneider <contact@schnwalter.eu>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1766081746; l=25500;
- i=contact@schnwalter.eu; s=20251106; h=from:subject:message-id;
- bh=zVqTO2kkryYhr2oiGqaxi/6Oris0z+H48UQ1nLrBxbM=;
- b=YO23lYKnf+ONjEor3HFw2FUwwZ6K2b1EoN5cZzskXeousiHneKWPjDsU4tFXuFyNWjyCmLF36
- lI8bvo3jeRRBon6qx2VTY+Neua3QEGC/cc7kYT2udWlY9mp0SfiqUT0
-X-Developer-Key: i=contact@schnwalter.eu; a=ed25519;
- pk=OoafUGtB7zQJLYhKA7ALCjqddXAaem/uP/eb3GGNkTI=
+Content-Transfer-Encoding: 8bit
 
-Add a V4L2 subdevice driver for the Omnivision OV2732 sensor.
+Fix multiple checkpatch-reported style issues.
 
-The OV2732 is a 1/4" color CMOS 1080p (1920x1080) HD image sensor with
-programmable controls like: gain, exposure, frame rate, image and windowing
-size, horizontal mirror, vertical flip, cropping.
+Changes in v3:
+- Fix function argument alignment issue
 
-Signed-off-by: Walter Werner SCHNEIDER <contact@schnwalter.eu>
+Changes in v3:
+- Fix function argument alignment
+
+Changes in v2:
+ - Split multiple assignments into separate lines
+ - fix reported spacing issues
+
+Signed-off-by: Nikhil S <nikhilsunilkumar@gmail.com>
 ---
- MAINTAINERS                |   1 +
- drivers/media/i2c/Kconfig  |  13 +
- drivers/media/i2c/Makefile |   1 +
- drivers/media/i2c/ov2732.c | 797 +++++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 812 insertions(+)
+ drivers/media/dvb-core/dvb_net.c | 184 ++++++++++++++++---------------
+ 1 file changed, 97 insertions(+), 87 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 231d5b8df21bc5f3dc6ee5d765ed4027c9772f9a..aa94dd27c9457c4f73d28a6c13baff929a816a7f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -19313,6 +19313,7 @@ M:	Walter Werner Schneider <contact@schnwalter.eu>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/media/i2c/ovti,ov2732.yaml
-+F:	drivers/media/i2c/ov2732.c
+diff --git a/drivers/media/dvb-core/dvb_net.c b/drivers/media/dvb-core/dvb_net.c
+index 8bb8dd34c223..9bd4b16090f8 100644
+--- a/drivers/media/dvb-core/dvb_net.c
++++ b/drivers/media/dvb-core/dvb_net.c
+@@ -57,11 +57,12 @@
+ #include <media/dvb_demux.h>
+ #include <media/dvb_net.h>
  
- OMNIVISION OV2735 SENSOR DRIVER
- M:	Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 4b4db8c4f49657e19018535927eb41f7ad2a4f80..9dc60091c99b18d034d78efda4eff501dedc5d33 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -477,6 +477,19 @@ config VIDEO_OV2685
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called ov2685.
+-static inline __u32 iov_crc32( __u32 c, struct kvec *iov, unsigned int cnt )
++static inline __u32 iov_crc32(__u32 c, struct kvec *iov, unsigned int cnt)
+ {
+ 	unsigned int j;
++
+ 	for (j = 0; j < cnt; j++)
+-		c = crc32_be( c, iov[j].iov_base, iov[j].iov_len );
++		c = crc32_be(c, iov[j].iov_base, iov[j].iov_len);
+ 	return c;
+ }
  
-+config VIDEO_OV2732
-+	tristate "OmniVision OV2732 sensor support"
-+	depends on OF
-+	select MEDIA_CONTROLLER
-+	select V4L2_CCI_I2C
-+	select VIDEO_V4L2_SUBDEV_API
-+	help
-+	  This is a Video4Linux2 sensor driver for the OmniVision
-+	  OV2732 camera.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called ov2732.
-+
- config VIDEO_OV2735
- 	tristate "OmniVision OV2735 sensor support"
- 	select V4L2_CCI_I2C
-diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index c5f17602454ffaa698a925f508244a7ddbb60e0f..d6435ea5cc12fdada181bf3e2885ceff4d5a23fa 100644
---- a/drivers/media/i2c/Makefile
-+++ b/drivers/media/i2c/Makefile
-@@ -96,6 +96,7 @@ obj-$(CONFIG_VIDEO_OV2640) += ov2640.o
- obj-$(CONFIG_VIDEO_OV2659) += ov2659.o
- obj-$(CONFIG_VIDEO_OV2680) += ov2680.o
- obj-$(CONFIG_VIDEO_OV2685) += ov2685.o
-+obj-$(CONFIG_VIDEO_OV2732) += ov2732.o
- obj-$(CONFIG_VIDEO_OV2735) += ov2735.o
- obj-$(CONFIG_VIDEO_OV2740) += ov2740.o
- obj-$(CONFIG_VIDEO_OV4689) += ov4689.o
-diff --git a/drivers/media/i2c/ov2732.c b/drivers/media/i2c/ov2732.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..9c0df8c76320756d798fc6b55d22195a7399543a
---- /dev/null
-+++ b/drivers/media/i2c/ov2732.c
-@@ -0,0 +1,797 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * ov2732 driver
-+ *
-+ * Copyright (C) 2017 Fuzhou Rockchip Electronics Co., Ltd.
-+ * Copyright (C) 2025 Walter Werner Schneider <contact@schnwalter.eu>
-+ */
-+
-+#include <linux/clk.h>
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/regulator/consumer.h>
-+#include <media/v4l2-cci.h>
-+#include <media/v4l2-common.h>
-+#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-device.h>
-+#include <media/v4l2-fwnode.h>
-+
-+#define OV2732_LANES				2
-+#define OV2732_BITS_PER_SAMPLE			10
-+#define OV2732_LINK_FREQ_DEFAULT		360000000
-+#define OV2732_XVCLK_FREQ			24000000
-+#define OV2732_PIXEL_RATE			\
-+	(OV2732_LINK_FREQ_DEFAULT * 2 * OV2732_LANES / OV2732_BITS_PER_SAMPLE)
-+#define OV2732_NATIVE_WIDTH			1920U
-+#define OV2732_NATIVE_HEIGHT			1080U
-+
-+/* Delay from power up to the first SCCB transaction. */
-+#define OV2732_POWER_UP_DELAY_CYCLES		8192
-+/* Delay from the last SCCB transaction to power down. */
-+#define OV2732_POWER_DOWN_DELAY_CYCLES		512
-+#define OV2732_DELAY_US(cycles)			\
-+	(DIV_ROUND_UP((cycles), OV2732_XVCLK_FREQ / USEC_PER_SEC))
-+
-+#define OV2732_REG_CHIP_ID			CCI_REG24(0x300a)
-+#define OV2732_CHIP_ID				0x002732
-+
-+#define OV2732_REG_MODE_SELECT			CCI_REG8(0x0100)
-+#define OV2732_MODE_STANDBY			0x00
-+#define OV2732_MODE_STREAMING			0x01
-+
-+#define OV2732_REG_ANALOGUE_GAIN		CCI_REG24(0x3508)
-+#define OV2732_REG_DIGITAL_GAIN			CCI_REG24(0x350a)
-+#define OV2732_REG_EXPOSURE			CCI_REG24(0x3500)
-+#define OV2732_REG_HTS				CCI_REG16(0x380c)
-+#define OV2732_REG_VTS				CCI_REG16(0x380e)
-+#define OV2732_ANALOGUE_GAIN_MIN		0x80
-+#define OV2732_ANALOGUE_GAIN_MAX		0x3fff
-+#define OV2732_ANALOGUE_GAIN_DEFAULT		0x80
-+#define OV2732_DIGITAL_GAIN_MIN			0x00
-+#define OV2732_DIGITAL_GAIN_MAX			0x1fff
-+#define OV2732_DIGITAL_GAIN_DEFAULT		0x0400
-+#define OV2732_EXPOSURE_DEFAULT			0x40
-+#define OV2732_EXPOSURE_MIN			0x10
-+#define OV2732_EXPOSURE_OFFSET			4
-+#define OV2732_HBLANK_DEFAULT			0x0068
-+#define OV2732_VTS_MAX				0x7fff
-+
-+#define OV2732_REG_TEST_PATTERN			CCI_REG8(0x5080)
-+#define OV2732_TEST_PATTERN_DISABLE		0x00
-+#define OV2732_TEST_PATTERN_BAR1		0x80
-+#define OV2732_TEST_PATTERN_BAR2		0x84
-+#define OV2732_TEST_PATTERN_BAR3		0x88
-+#define OV2732_TEST_PATTERN_BAR4		0x8c
-+
-+static const char * const ov2732_supply_names[] = {
-+	"avdd", /* Analog power */
-+	"dovdd", /* Digital I/O power */
-+	"dvdd", /* Digital core power */
-+};
-+
-+#define OV2732_NUM_SUPPLIES ARRAY_SIZE(ov2732_supply_names)
-+
-+static const struct cci_reg_sequence ov2732_common_regs[] = {
-+	/* PLL control, reset all registers. */
-+	{ CCI_REG8(0x0103), 0x01 },
-+
-+	/* Analog control. */
-+	{ CCI_REG8(0x3600), 0x55 },
-+	{ CCI_REG8(0x3601), 0x52 },
-+	{ CCI_REG8(0x3612), 0xb5 },
-+	{ CCI_REG8(0x3613), 0xb3 },
-+	{ CCI_REG8(0x3616), 0x83 },
-+	{ CCI_REG8(0x3621), 0x00 },
-+	{ CCI_REG8(0x3624), 0x06 },
-+	{ CCI_REG8(0x3642), 0x88 },
-+	{ CCI_REG8(0x3660), 0x00 },
-+	{ CCI_REG8(0x3661), 0x00 },
-+	{ CCI_REG8(0x366a), 0x64 },
-+	{ CCI_REG8(0x366c), 0x00 },
-+	{ CCI_REG8(0x366e), 0xff },
-+	{ CCI_REG8(0x366f), 0xff },
-+	{ CCI_REG8(0x3677), 0x11 },
-+	{ CCI_REG8(0x3678), 0x11 },
-+	{ CCI_REG8(0x3679), 0x0c },
-+	{ CCI_REG8(0x3680), 0xff },
-+	{ CCI_REG8(0x3681), 0x16 },
-+	{ CCI_REG8(0x3682), 0x16 },
-+	{ CCI_REG8(0x3683), 0x90 },
-+	{ CCI_REG8(0x3684), 0x90 },
-+
-+	/* ADC sync control. */
-+	{ CCI_REG8(0x4503), 0x00 },
-+	{ CCI_REG8(0x4508), 0x14 },
-+	{ CCI_REG8(0x450a), 0x00 },
-+	{ CCI_REG8(0x450b), 0x40 },
-+
-+	/* ISP control, enable: WIN, DPC & ISP. */
-+	{ CCI_REG8(0x5000), 0xa1 },
-+};
-+
-+struct ov2732_mode {
-+	u32 width;
-+	u32 height;
-+	u32 vts;
-+};
-+
-+static const struct ov2732_mode supported_modes[] = {
-+	{
-+		.width = 1920,
-+		.height = 1080,
-+		.vts = 1184,
-+	},
-+};
-+
-+struct ov2732 {
-+	struct device *dev;
-+	struct regmap *regmap;
-+
-+	struct media_pad pad;
-+	struct v4l2_subdev sd;
-+	struct v4l2_ctrl_handler ctrl_handler;
-+	struct v4l2_ctrl *hblank;
-+	struct v4l2_ctrl *vblank;
-+	struct v4l2_ctrl *exposure;
-+
-+	struct clk *xvclk;
-+	u32 xvclk_freq;
-+	struct gpio_desc *pwdn_gpio;
-+	struct gpio_desc *reset_gpio;
-+	struct regulator_bulk_data supplies[OV2732_NUM_SUPPLIES];
-+};
-+
-+#define to_ov2732(_sd) container_of(_sd, struct ov2732, sd)
-+
-+static const s64 link_freq_menu_items[] = {
-+	OV2732_LINK_FREQ_DEFAULT,
-+};
-+
-+static const char * const ov2732_test_pattern_menu[] = {
-+	"Disabled",
-+	"Vertical Color Bar Type 1",
-+	"Vertical Color Bar Type 2",
-+	"Vertical Color Bar Type 3",
-+	"Vertical Color Bar Type 4",
-+};
-+
-+static const int ov2732_test_pattern_val[] = {
-+	OV2732_TEST_PATTERN_DISABLE,
-+	OV2732_TEST_PATTERN_BAR1,
-+	OV2732_TEST_PATTERN_BAR2,
-+	OV2732_TEST_PATTERN_BAR3,
-+	OV2732_TEST_PATTERN_BAR4,
-+};
-+
-+static int ov2732_power_on(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct ov2732 *ov2732 = to_ov2732(sd);
-+	int ret;
-+
-+	ret = regulator_bulk_enable(OV2732_NUM_SUPPLIES, ov2732->supplies);
-+	if (ret) {
-+		dev_err(dev, "failed to enable regulators\n");
-+		return ret;
-+	}
-+
-+	ret = clk_prepare_enable(ov2732->xvclk);
-+	if (ret) {
-+		dev_err(dev, "failed to enable clock\n");
-+		goto reg_off;
-+	}
-+
-+	/* Wait 10ms before power up, as per datasheet. */
-+	fsleep(10 * USEC_PER_MSEC);
-+
-+	gpiod_set_value_cansleep(ov2732->reset_gpio, 0);
-+	gpiod_set_value_cansleep(ov2732->pwdn_gpio, 0);
-+
-+	/* Wait 8192 cycles, as per datasheet. */
-+	fsleep(OV2732_DELAY_US(OV2732_POWER_UP_DELAY_CYCLES));
-+
-+	return 0;
-+
-+reg_off:
-+	regulator_bulk_disable(OV2732_NUM_SUPPLIES, ov2732->supplies);
-+
-+	return ret;
-+}
-+
-+static int ov2732_power_off(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct ov2732 *ov2732 = to_ov2732(sd);
-+
-+	clk_disable_unprepare(ov2732->xvclk);
-+
-+	/* Wait for 512 cycles as per datasheet. */
-+	fsleep(OV2732_DELAY_US(OV2732_POWER_DOWN_DELAY_CYCLES));
-+
-+	gpiod_set_value_cansleep(ov2732->pwdn_gpio, 1);
-+	gpiod_set_value_cansleep(ov2732->reset_gpio, 1);
-+
-+	regulator_bulk_disable(OV2732_NUM_SUPPLIES, ov2732->supplies);
-+
-+	return 0;
-+}
-+
-+static int ov2732_identify_chip(struct ov2732 *ov2732)
-+{
-+	struct i2c_client *client = v4l2_get_subdevdata(&ov2732->sd);
-+	int ret;
-+	u64 val;
-+
-+	ret = cci_read(ov2732->regmap, OV2732_REG_CHIP_ID, &val, NULL);
-+	if (ret)
-+		return dev_err_probe(&client->dev, ret,
-+				     "failed to read chip id\n");
-+
-+	if (val != OV2732_CHIP_ID)
-+		return dev_err_probe(&client->dev, -ENODEV,
-+				     "chip id mismatch: %x!=%llx\n",
-+				     OV2732_CHIP_ID, val);
-+
-+	return 0;
-+}
-+
-+static int ov2732_enum_mbus_code(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_state *state,
-+				 struct v4l2_subdev_mbus_code_enum *code)
-+{
-+	if (code->index != 0)
-+		return -EINVAL;
-+
-+	code->code = MEDIA_BUS_FMT_SBGGR10_1X10;
-+
-+	return 0;
-+}
-+
-+static int ov2732_enum_frame_size(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_state *state,
-+				  struct v4l2_subdev_frame_size_enum *fse)
-+{
-+	if (fse->index >= ARRAY_SIZE(supported_modes))
-+		return -EINVAL;
-+
-+	fse->min_width = supported_modes[fse->index].width;
-+	fse->max_width = fse->min_width;
-+	fse->min_height = supported_modes[fse->index].height;
-+	fse->max_height = fse->min_height;
-+
-+	return 0;
-+}
-+
-+static int ov2732_set_fmt(struct v4l2_subdev *sd,
-+			  struct v4l2_subdev_state *state,
-+			  struct v4l2_subdev_format *fmt)
-+{
-+	struct ov2732 *ov2732 = to_ov2732(sd);
-+	const struct ov2732_mode *mode;
-+	struct v4l2_mbus_framefmt *format;
-+	s64 vblank_def;
-+	int ret;
-+
-+	format = v4l2_subdev_state_get_format(state, 0);
-+
-+	mode = v4l2_find_nearest_size(supported_modes,
-+				      ARRAY_SIZE(supported_modes),
-+				      width, height,
-+				      fmt->format.width, fmt->format.height);
-+
-+	fmt->format.code = MEDIA_BUS_FMT_SBGGR10_1X10;
-+	fmt->format.width = mode->width;
-+	fmt->format.height = mode->height;
-+	fmt->format.field = V4L2_FIELD_NONE;
-+	fmt->format.colorspace = V4L2_COLORSPACE_RAW;
-+	fmt->format.ycbcr_enc = V4L2_YCBCR_ENC_601;
-+	fmt->format.quantization = V4L2_QUANTIZATION_FULL_RANGE;
-+	fmt->format.xfer_func = V4L2_XFER_FUNC_NONE;
-+
-+	*v4l2_subdev_state_get_format(state, fmt->pad) = fmt->format;
-+
-+	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
-+		return 0;
-+
-+	vblank_def = mode->vts - mode->height;
-+	ret = __v4l2_ctrl_modify_range(ov2732->vblank, vblank_def,
-+				       OV2732_VTS_MAX - mode->height, 1,
-+				       vblank_def);
-+
-+	return ret;
-+}
-+
-+static int ov2732_get_selection(struct v4l2_subdev *sd,
-+				struct v4l2_subdev_state *state,
-+				struct v4l2_subdev_selection *sel)
-+{
-+	switch (sel->target) {
-+	case V4L2_SEL_TGT_CROP:
-+		sel->r = *v4l2_subdev_state_get_crop(state, 0);
-+		return 0;
-+
-+	case V4L2_SEL_TGT_NATIVE_SIZE:
-+	case V4L2_SEL_TGT_CROP_DEFAULT:
-+	case V4L2_SEL_TGT_CROP_BOUNDS:
-+		sel->r.top = 0;
-+		sel->r.left = 0;
-+		sel->r.width = OV2732_NATIVE_WIDTH;
-+		sel->r.height = OV2732_NATIVE_HEIGHT;
-+
-+		return 0;
-+	}
-+
-+	return -EINVAL;
-+}
-+
-+static int ov2732_enable_streams(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_state *state, u32 pad,
-+				 u64 streams_mask)
-+{
-+	struct ov2732 *ov2732 = to_ov2732(sd);
-+	struct i2c_client *client = v4l2_get_subdevdata(&ov2732->sd);
-+	int ret;
-+
-+	ret = pm_runtime_resume_and_get(&client->dev);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* Wait 1ms to avoid intermittent communication errors at startup. */
-+	fsleep(USEC_PER_MSEC);
-+
-+	/* Set stream off register for PLL changes. */
-+	ret = cci_write(ov2732->regmap, OV2732_REG_MODE_SELECT,
-+			OV2732_MODE_STANDBY, NULL);
-+	if (ret)
-+		goto err_put_autosuspend;
-+
-+	/* Send all registers that are common to all modes */
-+	ret = cci_multi_reg_write(ov2732->regmap, ov2732_common_regs,
-+				  ARRAY_SIZE(ov2732_common_regs), NULL);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to init registers\n");
-+		goto err_put_autosuspend;
-+	}
-+
-+	/* Apply customized values from user */
-+	ret =  __v4l2_ctrl_handler_setup(ov2732->sd.ctrl_handler);
-+	if (ret)
-+		goto err_put_autosuspend;
-+
-+	/* Set stream on register */
-+	ret = cci_write(ov2732->regmap, OV2732_REG_MODE_SELECT,
-+			OV2732_MODE_STREAMING, NULL);
-+	if (ret)
-+		goto err_put_autosuspend;
-+
-+	return 0;
-+
-+err_put_autosuspend:
-+	pm_runtime_put_autosuspend(&client->dev);
-+
-+	return ret;
-+}
-+
-+static int ov2732_disable_streams(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_state *state, u32 pad,
-+				  u64 streams_mask)
-+{
-+	struct ov2732 *ov2732 = to_ov2732(sd);
-+	struct i2c_client *client = v4l2_get_subdevdata(&ov2732->sd);
-+	int ret;
-+
-+	/* set stream off register */
-+	ret = cci_write(ov2732->regmap, OV2732_REG_MODE_SELECT,
-+			OV2732_MODE_STANDBY, NULL);
-+	if (ret)
-+		dev_err(&client->dev, "%s failed to set stream\n", __func__);
-+
-+	/* Wait for 512 cycles as per datasheet. */
-+	fsleep(OV2732_DELAY_US(OV2732_POWER_DOWN_DELAY_CYCLES));
-+
-+	pm_runtime_put_autosuspend(&client->dev);
-+
-+	return ret;
-+}
-+
-+static const struct v4l2_subdev_video_ops ov2732_video_ops = {
-+	.s_stream = v4l2_subdev_s_stream_helper,
-+};
-+
-+static const struct v4l2_subdev_pad_ops ov2732_pad_ops = {
-+	.enum_mbus_code = ov2732_enum_mbus_code,
-+	.enum_frame_size = ov2732_enum_frame_size,
-+	.get_fmt = v4l2_subdev_get_fmt,
-+	.set_fmt = ov2732_set_fmt,
-+	.get_selection = ov2732_get_selection,
-+	.enable_streams = ov2732_enable_streams,
-+	.disable_streams = ov2732_disable_streams,
-+};
-+
-+static const struct v4l2_subdev_ops ov2732_subdev_ops = {
-+	.video  = &ov2732_video_ops,
-+	.pad = &ov2732_pad_ops,
-+};
-+
-+static int ov2732_init_state(struct v4l2_subdev *sd,
-+			     struct v4l2_subdev_state *sd_state)
-+{
-+	struct v4l2_subdev_format fmt = {
-+		.which = V4L2_SUBDEV_FORMAT_TRY,
-+		.format = {
-+			.width = 1920,
-+			.height = 1080,
-+			.code = MEDIA_BUS_FMT_SBGGR10_1X10,
-+			.colorspace = V4L2_COLORSPACE_RAW,
-+			.field = V4L2_FIELD_NONE,
-+			.quantization = V4L2_QUANTIZATION_FULL_RANGE,
-+			.xfer_func = V4L2_XFER_FUNC_NONE,
-+			.ycbcr_enc = V4L2_YCBCR_ENC_601,
+@@ -133,14 +134,14 @@ static __be16 dvb_net_eth_type_trans(struct sk_buff *skb,
+ 	unsigned char *rawp;
+ 
+ 	skb_reset_mac_header(skb);
+-	skb_pull(skb,dev->hard_header_len);
++	skb_pull(skb, dev->hard_header_len);
+ 	eth = eth_hdr(skb);
+ 
+ 	if (*eth->h_dest & 1) {
+-		if(ether_addr_equal(eth->h_dest,dev->broadcast))
+-			skb->pkt_type=PACKET_BROADCAST;
++		if (ether_addr_equal(eth->h_dest, dev->broadcast))
++			skb->pkt_type = PACKET_BROADCAST;
+ 		else
+-			skb->pkt_type=PACKET_MULTICAST;
++			skb->pkt_type = PACKET_MULTICAST;
+ 	}
+ 
+ 	if (ntohs(eth->h_proto) >= ETH_P_802_3_MIN)
+@@ -178,20 +179,20 @@ static __be16 dvb_net_eth_type_trans(struct sk_buff *skb,
+ 
+ #define ULE_OPTEXTHDR_PADDING 0
+ 
+-static int ule_test_sndu( struct dvb_net_priv *p )
++static int ule_test_sndu(struct dvb_net_priv *p)
+ {
+ 	return -1;
+ }
+ 
+-static int ule_bridged_sndu( struct dvb_net_priv *p )
++static int ule_bridged_sndu(struct dvb_net_priv *p)
+ {
+-	struct ethhdr *hdr = (struct ethhdr*) p->ule_next_hdr;
+-	if(ntohs(hdr->h_proto) < ETH_P_802_3_MIN) {
++	struct ethhdr *hdr = (struct ethhdr *)p->ule_next_hdr;
++
++	if (ntohs(hdr->h_proto) < ETH_P_802_3_MIN) {
+ 		int framelen = p->ule_sndu_len - ((p->ule_next_hdr+sizeof(struct ethhdr)) - p->ule_skb->data);
+ 		/* A frame Type < ETH_P_802_3_MIN for a bridged frame, introduces a LLC Length field. */
+-		if(framelen != ntohs(hdr->h_proto)) {
++		if (framelen != ntohs(hdr->h_proto))
+ 			return -1;
+-		}
+ 	}
+ 	/* Note:
+ 	 * From RFC4326:
+@@ -214,15 +215,15 @@ static int ule_exthdr_padding(struct dvb_net_priv *p)
+  *  Returns: >= 0: nr. of bytes consumed by next extension header
+  *	     -1:   Mandatory extension header that is not recognized or TEST SNDU; discard.
+  */
+-static int handle_one_ule_extension( struct dvb_net_priv *p )
++static int handle_one_ule_extension(struct dvb_net_priv *p)
+ {
+ 	/* Table of mandatory extension header handlers.  The header type is the index. */
+-	static int (*ule_mandatory_ext_handlers[255])( struct dvb_net_priv *p ) =
+-		{ [0] = ule_test_sndu, [1] = ule_bridged_sndu, [2] = NULL,  };
++	static int (*ule_mandatory_ext_handlers[255])(struct dvb_net_priv *p) = {
++			[0] = ule_test_sndu, [1] = ule_bridged_sndu, [2] = NULL,  };
+ 
+ 	/* Table of optional extension header handlers.  The header type is the index. */
+-	static int (*ule_optional_ext_handlers[255])( struct dvb_net_priv *p ) =
+-		{ [0] = ule_exthdr_padding, [1] = NULL, };
++	static int (*ule_optional_ext_handlers[255])(struct dvb_net_priv *p) = {
++			[0] = ule_exthdr_padding, [1] = NULL, };
+ 
+ 	int ext_len = 0;
+ 	unsigned char hlen = (p->ule_sndu_type & 0x0700) >> 8;
+@@ -232,8 +233,8 @@ static int handle_one_ule_extension( struct dvb_net_priv *p )
+ 	if (hlen == 0) {
+ 		/* Mandatory extension header */
+ 		if (ule_mandatory_ext_handlers[htype]) {
+-			ext_len = ule_mandatory_ext_handlers[htype]( p );
+-			if(ext_len >= 0) {
++			ext_len = ule_mandatory_ext_handlers[htype](p);
++			if (ext_len >= 0) {
+ 				p->ule_next_hdr += ext_len;
+ 				if (!p->ule_bridged) {
+ 					p->ule_sndu_type = ntohs(*(__be16 *)p->ule_next_hdr);
+@@ -251,9 +252,9 @@ static int handle_one_ule_extension( struct dvb_net_priv *p )
+ 		ext_len = hlen << 1;
+ 		/* Process the optional extension header according to its type. */
+ 		if (ule_optional_ext_handlers[htype])
+-			(void)ule_optional_ext_handlers[htype]( p );
++			(void)ule_optional_ext_handlers[htype](p);
+ 		p->ule_next_hdr += ext_len;
+-		p->ule_sndu_type = ntohs( *(__be16 *)(p->ule_next_hdr-2) );
++		p->ule_sndu_type = ntohs(*(__be16 *)(p->ule_next_hdr - 2));
+ 		/*
+ 		 * note: the length of the next header type is included in the
+ 		 * length of THIS optional extension header
+@@ -263,13 +264,13 @@ static int handle_one_ule_extension( struct dvb_net_priv *p )
+ 	return ext_len;
+ }
+ 
+-static int handle_ule_extensions( struct dvb_net_priv *p )
++static int handle_ule_extensions(struct dvb_net_priv *p)
+ {
+ 	int total_ext_len = 0, l;
+ 
+ 	p->ule_next_hdr = p->ule_skb->data;
+ 	do {
+-		l = handle_one_ule_extension( p );
++		l = handle_one_ule_extension(p);
+ 		if (l < 0)
+ 			return l;	/* Stop extension header processing and discard SNDU. */
+ 		total_ext_len += l;
+@@ -284,7 +285,7 @@ static int handle_ule_extensions( struct dvb_net_priv *p )
+ 
+ 
+ /* Prepare for a new ULE SNDU: reset the decoder state. */
+-static inline void reset_ule( struct dvb_net_priv *p )
++static inline void reset_ule(struct dvb_net_priv *p)
+ {
+ 	p->ule_skb = NULL;
+ 	p->ule_next_hdr = NULL;
+@@ -827,6 +828,7 @@ static void dvb_net_ule(struct net_device *dev, const u8 *buf, size_t buf_len)
+ 				  h.priv->ule_skb->len - 4 }
+ 			};
+ 			u32 ule_crc = ~0L, expected_crc;
++
+ 			if (h.priv->ule_dbit) {
+ 				/* Set D-bit for CRC32 verification,
+ 				 * if it was set originally. */
+@@ -936,7 +938,8 @@ static void dvb_net_sec(struct net_device *dev,
+ 	/* we have 14 byte ethernet header (ip header follows);
+ 	 * 12 byte MPE header; 4 byte checksum; + 2 byte alignment, 8 byte LLC/SNAP
+ 	 */
+-	if (!(skb = dev_alloc_skb(pkt_len - 4 - 12 + 14 + 2 - snap))) {
++	skb = dev_alloc_skb(pkt_len - 4 - 12 + 14 + 2 - snap);
++	if (!skb) {
+ 		//pr_notice("%s: Memory squeeze, dropping packet.\n", dev->name);
+ 		stats->rx_dropped++;
+ 		return;
+@@ -949,14 +952,19 @@ static void dvb_net_sec(struct net_device *dev,
+ 	memcpy(eth + 14, pkt + 12 + snap, pkt_len - 12 - 4 - snap);
+ 
+ 	/* create ethernet header: */
+-	eth[0]=pkt[0x0b];
+-	eth[1]=pkt[0x0a];
+-	eth[2]=pkt[0x09];
+-	eth[3]=pkt[0x08];
+-	eth[4]=pkt[0x04];
+-	eth[5]=pkt[0x03];
+-
+-	eth[6]=eth[7]=eth[8]=eth[9]=eth[10]=eth[11]=0;
++	eth[0] = pkt[0x0b];
++	eth[1] = pkt[0x0a];
++	eth[2] = pkt[0x09];
++	eth[3] = pkt[0x08];
++	eth[4] = pkt[0x04];
++	eth[5] = pkt[0x03];
++
++	eth[6] = 0;
++	eth[7] = 0;
++	eth[8] = 0;
++	eth[9] = 0;
++	eth[10] = 0;
++	eth[11] = 0;
+ 
+ 	if (snap) {
+ 		eth[12] = pkt[18];
+@@ -977,7 +985,7 @@ static void dvb_net_sec(struct net_device *dev,
+ 	skb->protocol = dvb_net_eth_type_trans(skb, dev);
+ 
+ 	stats->rx_packets++;
+-	stats->rx_bytes+=skb->len;
++	stats->rx_bytes += skb->len;
+ 	netif_rx(skb);
+ }
+ 
+@@ -991,7 +999,7 @@ static int dvb_net_sec_callback(const u8 *buffer1, size_t buffer1_len,
+ 	 * we rely on the DVB API definition where exactly one complete
+ 	 * section is delivered in buffer1
+ 	 */
+-	dvb_net_sec (dev, buffer1, buffer1_len);
++	dvb_net_sec(dev, buffer1, buffer1_len);
+ 	return 0;
+ }
+ 
+@@ -1001,10 +1009,10 @@ static netdev_tx_t dvb_net_tx(struct sk_buff *skb, struct net_device *dev)
+ 	return NETDEV_TX_OK;
+ }
+ 
+-static u8 mask_normal[6]={0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+-static u8 mask_allmulti[6]={0xff, 0xff, 0xff, 0x00, 0x00, 0x00};
+-static u8 mac_allmulti[6]={0x01, 0x00, 0x5e, 0x00, 0x00, 0x00};
+-static u8 mask_promisc[6]={0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
++static u8 mask_normal[6] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
++static u8 mask_allmulti[6] = {0xff, 0xff, 0xff, 0x00, 0x00, 0x00};
++static u8 mac_allmulti[6] = {0x01, 0x00, 0x5e, 0x00, 0x00, 0x00};
++static u8 mask_promisc[6] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+ 
+ static int dvb_net_filter_sec_set(struct net_device *dev,
+ 		   struct dmx_section_filter **secfilter,
+@@ -1013,26 +1021,26 @@ static int dvb_net_filter_sec_set(struct net_device *dev,
+ 	struct dvb_net_priv *priv = netdev_priv(dev);
+ 	int ret;
+ 
+-	*secfilter=NULL;
++	*secfilter = NULL;
+ 	ret = priv->secfeed->allocate_filter(priv->secfeed, secfilter);
+-	if (ret<0) {
++	if (ret < 0) {
+ 		pr_err("%s: could not get filter\n", dev->name);
+ 		return ret;
+ 	}
+ 
+-	(*secfilter)->priv=(void *) dev;
++	(*secfilter)->priv = (void *)dev;
+ 
+ 	memset((*secfilter)->filter_value, 0x00, DMX_MAX_FILTER_SIZE);
+ 	memset((*secfilter)->filter_mask,  0x00, DMX_MAX_FILTER_SIZE);
+ 	memset((*secfilter)->filter_mode,  0xff, DMX_MAX_FILTER_SIZE);
+ 
+-	(*secfilter)->filter_value[0]=0x3e;
+-	(*secfilter)->filter_value[3]=mac[5];
+-	(*secfilter)->filter_value[4]=mac[4];
+-	(*secfilter)->filter_value[8]=mac[3];
+-	(*secfilter)->filter_value[9]=mac[2];
+-	(*secfilter)->filter_value[10]=mac[1];
+-	(*secfilter)->filter_value[11]=mac[0];
++	(*secfilter)->filter_value[0] = 0x3e;
++	(*secfilter)->filter_value[3] = mac[5];
++	(*secfilter)->filter_value[4] = mac[4];
++	(*secfilter)->filter_value[8] = mac[3];
++	(*secfilter)->filter_value[9] = mac[2];
++	(*secfilter)->filter_value[10] = mac[1];
++	(*secfilter)->filter_value[11] = mac[0];
+ 
+ 	(*secfilter)->filter_mask[0] = 0xff;
+ 	(*secfilter)->filter_mask[3] = mac_mask[5];
+@@ -1040,7 +1048,7 @@ static int dvb_net_filter_sec_set(struct net_device *dev,
+ 	(*secfilter)->filter_mask[8] = mac_mask[3];
+ 	(*secfilter)->filter_mask[9] = mac_mask[2];
+ 	(*secfilter)->filter_mask[10] = mac_mask[1];
+-	(*secfilter)->filter_mask[11]=mac_mask[0];
++	(*secfilter)->filter_mask[11] = mac_mask[0];
+ 
+ 	netdev_dbg(dev, "filter mac=%pM mask=%pM\n", mac, mac_mask);
+ 
+@@ -1059,15 +1067,15 @@ static int dvb_net_feed_start(struct net_device *dev)
+ 	if (priv->tsfeed || priv->secfeed || priv->secfilter || priv->multi_secfilter[0])
+ 		pr_err("%s: BUG %d\n", __func__, __LINE__);
+ 
+-	priv->secfeed=NULL;
+-	priv->secfilter=NULL;
++	priv->secfeed = NULL;
++	priv->secfilter = NULL;
+ 	priv->tsfeed = NULL;
+ 
+ 	if (priv->feedtype == DVB_NET_FEEDTYPE_MPE) {
+ 		netdev_dbg(dev, "alloc secfeed\n");
+-		ret=demux->allocate_section_feed(demux, &priv->secfeed,
++		ret = demux->allocate_section_feed(demux, &priv->secfeed,
+ 					 dvb_net_sec_callback);
+-		if (ret<0) {
++		if (ret < 0) {
+ 			pr_err("%s: could not allocate section feed\n",
+ 			       dev->name);
+ 			goto error;
+@@ -1075,10 +1083,10 @@ static int dvb_net_feed_start(struct net_device *dev)
+ 
+ 		ret = priv->secfeed->set(priv->secfeed, priv->pid, 1);
+ 
+-		if (ret<0) {
++		if (ret < 0) {
+ 			pr_err("%s: could not set section feed\n", dev->name);
+ 			priv->demux->release_section_feed(priv->demux, priv->secfeed);
+-			priv->secfeed=NULL;
++			priv->secfeed = NULL;
+ 			goto error;
+ 		}
+ 
+@@ -1096,13 +1104,13 @@ static int dvb_net_feed_start(struct net_device *dev)
+ 			}
+ 			break;
+ 		case RX_MODE_ALL_MULTI:
+-			priv->multi_num=1;
++			priv->multi_num = 1;
+ 			netdev_dbg(dev, "set multi_secfilter[0]\n");
+ 			dvb_net_filter_sec_set(dev, &priv->multi_secfilter[0],
+ 					       mac_allmulti, mask_allmulti);
+ 			break;
+ 		case RX_MODE_PROMISC:
+-			priv->multi_num=0;
++			priv->multi_num = 0;
+ 			netdev_dbg(dev, "set secfilter\n");
+ 			dvb_net_filter_sec_set(dev, &priv->secfilter, mac, mask_promisc);
+ 			break;
+@@ -1164,10 +1172,10 @@ static int dvb_net_feed_stop(struct net_device *dev)
+ 				netdev_dbg(dev, "release secfilter\n");
+ 				priv->secfeed->release_filter(priv->secfeed,
+ 							      priv->secfilter);
+-				priv->secfilter=NULL;
++				priv->secfilter = NULL;
+ 			}
+ 
+-			for (i=0; i<priv->multi_num; i++) {
++			for (i = 0; i < priv->multi_num; i++) {
+ 				if (priv->multi_secfilter[i]) {
+ 					netdev_dbg(dev, "release multi_filter[%d]\n",
+ 						   i);
+@@ -1189,9 +1197,9 @@ static int dvb_net_feed_stop(struct net_device *dev)
+ 			}
+ 			priv->demux->release_ts_feed(priv->demux, priv->tsfeed);
+ 			priv->tsfeed = NULL;
+-		}
+-		else
++		} else {
+ 			pr_err("%s: no ts feed to stop\n", dev->name);
 +		}
-+	};
-+
-+	return ov2732_set_fmt(sd, sd_state, &fmt);
-+}
-+
-+static const struct v4l2_subdev_internal_ops ov2732_internal_ops = {
-+	.init_state = ov2732_init_state,
-+};
-+
-+static int ov2732_set_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	struct ov2732 *ov2732 =
-+		container_of(ctrl->handler, struct ov2732, ctrl_handler);
-+	struct i2c_client *client = v4l2_get_subdevdata(&ov2732->sd);
-+	const struct v4l2_mbus_framefmt *format;
-+	struct v4l2_subdev_state *state;
-+	int ret = 0;
-+
-+	state = v4l2_subdev_get_locked_active_state(&ov2732->sd);
-+	format = v4l2_subdev_state_get_format(state, 0);
-+
-+	if (ctrl->id == V4L2_CID_VBLANK) {
-+		int exposure_max, exposure_def;
-+
-+		exposure_max = format->height + ctrl->val -
-+			       OV2732_EXPOSURE_OFFSET;
-+		exposure_def = exposure_max;
-+		ret = __v4l2_ctrl_modify_range(ov2732->exposure,
-+					       OV2732_EXPOSURE_MIN,
-+					       exposure_max,
-+					       ov2732->exposure->step,
-+					       exposure_def);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	if (pm_runtime_get_if_in_use(&client->dev) == 0)
-+		return 0;
-+
-+	switch (ctrl->id) {
-+	case V4L2_CID_ANALOGUE_GAIN:
-+		cci_write(ov2732->regmap, OV2732_REG_ANALOGUE_GAIN,
-+			  ctrl->val, &ret);
-+		break;
-+	case V4L2_CID_DIGITAL_GAIN:
-+		cci_write(ov2732->regmap, OV2732_REG_DIGITAL_GAIN,
-+			  ctrl->val, &ret);
-+		break;
-+	case V4L2_CID_EXPOSURE:
-+		cci_write(ov2732->regmap, OV2732_REG_EXPOSURE,
-+			  ctrl->val, &ret);
-+		break;
-+	case V4L2_CID_VBLANK:
-+		cci_write(ov2732->regmap, OV2732_REG_VTS,
-+			  (format->height + ctrl->val), &ret);
-+		break;
-+	case V4L2_CID_TEST_PATTERN:
-+		cci_write(ov2732->regmap, OV2732_REG_TEST_PATTERN,
-+			  ov2732_test_pattern_val[ctrl->val], &ret);
-+		break;
-+	default:
-+		dev_info(&client->dev,
-+			 "ctrl(id:0x%x,val:0x%x) is not handled\n",
-+			 ctrl->id, ctrl->val);
-+		ret = -EINVAL;
-+		break;
-+	}
-+
-+	pm_runtime_put(&client->dev);
-+
-+	return ret;
-+};
-+
-+static const struct v4l2_ctrl_ops ov2732_ctrl_ops = {
-+	.s_ctrl = ov2732_set_ctrl,
-+};
-+
-+static int ov2732_init_controls(struct ov2732 *ov2732)
-+{
-+	const struct ov2732_mode *mode = &supported_modes[0];
-+	struct v4l2_ctrl_handler *handler;
-+	struct v4l2_ctrl *ctrl;
-+	struct v4l2_fwnode_device_properties props;
-+	s64 exposure_max, vblank_def, vblank_max;
-+	int ret;
-+
-+	handler = &ov2732->ctrl_handler;
-+	ret = v4l2_ctrl_handler_init(handler, 10);
-+	if (ret)
-+		return ret;
-+
-+	ctrl = v4l2_ctrl_new_std(handler, &ov2732_ctrl_ops, V4L2_CID_PIXEL_RATE,
-+				 OV2732_PIXEL_RATE, OV2732_PIXEL_RATE,
-+				 1, OV2732_PIXEL_RATE);
-+
-+	ctrl = v4l2_ctrl_new_int_menu(handler, &ov2732_ctrl_ops,
-+				      V4L2_CID_LINK_FREQ, 0, 0,
-+				      link_freq_menu_items);
-+	if (ctrl)
-+		ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+
-+	ov2732->hblank = v4l2_ctrl_new_std(handler, &ov2732_ctrl_ops,
-+					   V4L2_CID_HBLANK,
-+					   OV2732_HBLANK_DEFAULT,
-+					   OV2732_HBLANK_DEFAULT,
-+					   1, OV2732_HBLANK_DEFAULT);
-+	if (ov2732->hblank)
-+		ov2732->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+
-+	vblank_def = mode->vts - mode->height;
-+	vblank_max = OV2732_VTS_MAX - mode->height;
-+	ov2732->vblank = v4l2_ctrl_new_std(handler, &ov2732_ctrl_ops,
-+					   V4L2_CID_VBLANK,
-+					   vblank_def, vblank_max,
-+					   1, vblank_def);
-+
-+	exposure_max = mode->vts - OV2732_EXPOSURE_OFFSET;
-+	ov2732->exposure = v4l2_ctrl_new_std(handler, &ov2732_ctrl_ops,
-+					     V4L2_CID_EXPOSURE,
-+					     OV2732_EXPOSURE_MIN, exposure_max,
-+					     1, OV2732_EXPOSURE_DEFAULT);
-+
-+	v4l2_ctrl_new_std(handler, &ov2732_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
-+			  OV2732_ANALOGUE_GAIN_MIN, OV2732_ANALOGUE_GAIN_MAX,
-+			  1, OV2732_ANALOGUE_GAIN_DEFAULT);
-+
-+	v4l2_ctrl_new_std(handler, &ov2732_ctrl_ops, V4L2_CID_DIGITAL_GAIN,
-+			  OV2732_DIGITAL_GAIN_MIN, OV2732_DIGITAL_GAIN_MAX,
-+			  1, OV2732_DIGITAL_GAIN_DEFAULT);
-+
-+	v4l2_ctrl_new_std_menu_items(handler, &ov2732_ctrl_ops,
-+				     V4L2_CID_TEST_PATTERN,
-+				     ARRAY_SIZE(ov2732_test_pattern_menu) - 1,
-+				     0, 0, ov2732_test_pattern_menu);
-+
-+	if (handler->error) {
-+		ret = handler->error;
-+		dev_err_probe(ov2732->dev, ret, "Control init failed\n");
-+		goto err_handler_free;
-+	}
-+
-+	ret = v4l2_fwnode_device_parse(ov2732->dev, &props);
-+	if (ret)
-+		goto err_handler_free;
-+
-+	ret = v4l2_ctrl_new_fwnode_properties(handler, &ov2732_ctrl_ops, &props);
-+	if (ret)
-+		goto err_handler_free;
-+
-+	ov2732->sd.ctrl_handler = handler;
-+
-+	return 0;
-+
-+err_handler_free:
-+	v4l2_ctrl_handler_free(handler);
-+
-+	return ret;
-+}
-+
-+static int ov2632_probe_dt(struct ov2732 *ov2732)
-+{
-+	int ret;
-+	struct fwnode_handle *ep;
-+	struct fwnode_handle *fwnode = dev_fwnode(ov2732->dev);
-+	struct v4l2_fwnode_endpoint bus_cfg = {
-+		.bus_type = V4L2_MBUS_CSI2_DPHY,
-+	};
-+
-+	if (!fwnode)
-+		return -ENXIO;
-+
-+	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
-+	if (!ep)
-+		return dev_err_probe(ov2732->dev, -EPROBE_DEFER,
-+				     "waiting for fwnode graph endpoint\n");
-+
-+	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
-+	fwnode_handle_put(ep);
-+	if (ret) {
-+		dev_err_probe(ov2732->dev, -EINVAL, "could not parse endpoint\n");
-+		goto err_probe_dt;
-+	}
-+
-+	if (bus_cfg.bus.mipi_csi2.num_data_lanes != OV2732_LANES) {
-+		dev_err(ov2732->dev, "only a 2-lane CSI2 config is supported\n");
-+		ret = -EINVAL;
-+	}
-+
-+err_probe_dt:
-+	v4l2_fwnode_endpoint_free(&bus_cfg);
-+
-+	return ret;
-+}
-+
-+static int ov2732_get_regulators(struct ov2732 *ov2732)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < OV2732_NUM_SUPPLIES; i++)
-+		ov2732->supplies[i].supply = ov2732_supply_names[i];
-+
-+	return devm_regulator_bulk_get(ov2732->dev,
-+				       OV2732_NUM_SUPPLIES,
-+				       ov2732->supplies);
-+}
-+
-+static int ov2732_probe(struct i2c_client *client)
-+{
-+	struct ov2732 *ov2732;
-+	int ret;
-+
-+	ov2732 = devm_kzalloc(&client->dev, sizeof(*ov2732), GFP_KERNEL);
-+	if (!ov2732)
-+		return -ENOMEM;
-+
-+	ov2732->dev = &client->dev;
-+
-+	ret = ov2632_probe_dt(ov2732);
-+	if (ret)
-+		return dev_err_probe(ov2732->dev, ret,
-+				     "failed to probe device tree\n");
-+
-+	ov2732->xvclk = devm_v4l2_sensor_clk_get(ov2732->dev, "xvclk");
-+	if (IS_ERR(ov2732->xvclk))
-+		return dev_err_probe(ov2732->dev, PTR_ERR(ov2732->xvclk),
-+				     "failed to get xvclk\n");
-+
-+	ov2732->xvclk_freq = clk_get_rate(ov2732->xvclk);
-+	if (ov2732->xvclk_freq != OV2732_XVCLK_FREQ)
-+		return dev_err_probe(ov2732->dev, -EINVAL,
-+				     "xvclk frequency not supported: %dHz\n",
-+				      ov2732->xvclk_freq);
-+
-+	ov2732->pwdn_gpio = devm_gpiod_get_optional(ov2732->dev, "pwdn",
-+						    GPIOD_OUT_HIGH);
-+	gpiod_set_value_cansleep(ov2732->pwdn_gpio, 1);
-+
-+	ov2732->reset_gpio = devm_gpiod_get_optional(ov2732->dev, "reset",
-+						     GPIOD_OUT_HIGH);
-+	gpiod_set_value_cansleep(ov2732->reset_gpio, 1);
-+
-+	ov2732->regmap = devm_cci_regmap_init_i2c(client, 16);
-+	if (IS_ERR(ov2732->regmap))
-+		return dev_err_probe(ov2732->dev, PTR_ERR(ov2732->regmap),
-+				     "failed to init CCI\n");
-+
-+	ret = ov2732_get_regulators(ov2732);
-+	if (ret)
-+		return dev_err_probe(ov2732->dev, ret,
-+				     "failed to get regulators\n");
-+
-+	v4l2_i2c_subdev_init(&ov2732->sd, client, &ov2732_subdev_ops);
-+
-+	/* Device must be powered on for ov2732_identify_chip(). */
-+	ret = ov2732_power_on(ov2732->dev);
-+	if (ret)
-+		return ret;
-+
-+	pm_runtime_set_active(ov2732->dev);
-+	pm_runtime_enable(ov2732->dev);
-+
-+	/* Wait 1ms to avoid intermittent communication errors at startup. */
-+	fsleep(USEC_PER_MSEC);
-+
-+	ret = ov2732_identify_chip(ov2732);
-+	if (ret)
-+		goto err_power_off;
-+
-+	ret = ov2732_init_controls(ov2732);
-+	if (ret)
-+		goto err_power_off;
-+
-+	/* Initialize subdev */
-+	ov2732->sd.internal_ops = &ov2732_internal_ops;
-+	ov2732->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-+	ov2732->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-+
-+	/* Initialize source pad */
-+	ov2732->pad.flags = MEDIA_PAD_FL_SOURCE;
-+
-+	ret = media_entity_pads_init(&ov2732->sd.entity, 1, &ov2732->pad);
-+	if (ret) {
-+		dev_err_probe(ov2732->dev, ret, "failed to init entity pads\n");
-+		goto error_handler_free;
-+	}
-+
-+	ov2732->sd.state_lock = ov2732->ctrl_handler.lock;
-+	ret = v4l2_subdev_init_finalize(&ov2732->sd);
-+	if (ret < 0) {
-+		dev_err_probe(ov2732->dev, ret, "subdev init error\n");
-+		goto err_media_entity;
-+	}
-+
-+	ret = v4l2_async_register_subdev_sensor(&ov2732->sd);
-+	if (ret < 0) {
-+		dev_err_probe(ov2732->dev, ret,
-+			      "failed to register sensor sub-device\n");
-+		goto err_subdev_cleanup;
-+	}
-+
-+	pm_runtime_set_autosuspend_delay(ov2732->dev, 1000);
-+	pm_runtime_use_autosuspend(ov2732->dev);
-+	pm_runtime_idle(ov2732->dev);
-+
-+	return 0;
-+
-+err_subdev_cleanup:
-+	v4l2_subdev_cleanup(&ov2732->sd);
-+
-+err_media_entity:
-+	media_entity_cleanup(&ov2732->sd.entity);
-+
-+error_handler_free:
-+	v4l2_ctrl_handler_free(&ov2732->ctrl_handler);
-+
-+err_power_off:
-+	pm_runtime_disable(ov2732->dev);
-+	pm_runtime_put_noidle(ov2732->dev);
-+	ov2732_power_off(ov2732->dev);
-+
-+	return dev_err_probe(ov2732->dev, ret, "probing failed\n");
-+}
-+
-+static void ov2732_remove(struct i2c_client *client)
-+{
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct ov2732 *ov2732 = to_ov2732(sd);
-+
-+	v4l2_async_unregister_subdev(sd);
-+	v4l2_subdev_cleanup(sd);
-+	media_entity_cleanup(&sd->entity);
-+	v4l2_ctrl_handler_free(&ov2732->ctrl_handler);
-+
-+	pm_runtime_disable(ov2732->dev);
-+	if (!pm_runtime_status_suspended(ov2732->dev)) {
-+		ov2732_power_off(ov2732->dev);
-+		pm_runtime_set_suspended(ov2732->dev);
-+	}
-+}
-+
-+static const struct of_device_id ov2732_of_match[] = {
-+	{ .compatible = "ovti,ov2732", },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(of, ov2732_of_match);
-+
-+static DEFINE_RUNTIME_DEV_PM_OPS(ov2732_pm_ops, ov2732_power_off,
-+				 ov2732_power_on, NULL);
-+
-+static struct i2c_driver ov2732_i2c_driver = {
-+	.driver = {
-+		.name = "ov2732",
-+		.of_match_table = of_match_ptr(ov2732_of_match),
-+		.pm = pm_sleep_ptr(&ov2732_pm_ops),
-+	},
-+	.probe = ov2732_probe,
-+	.remove = ov2732_remove,
-+};
-+module_i2c_driver(ov2732_i2c_driver);
-+
-+MODULE_DESCRIPTION("OmniVision ov2732 sensor driver");
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Walter Werner Schneider <contact@schnwalter.eu>");
-
+ 	} else
+ 		ret = -EINVAL;
+ 	mutex_unlock(&priv->mutex);
+@@ -1213,7 +1221,7 @@ static int dvb_set_mc_filter(struct net_device *dev, unsigned char *addr)
+ }
+ 
+ 
+-static void wq_set_multicast_list (struct work_struct *work)
++static void wq_set_multicast_list(struct work_struct *work)
+ {
+ 	struct dvb_net_priv *priv =
+ 		container_of(work, struct dvb_net_priv, set_multicast_list_wq);
+@@ -1247,14 +1255,15 @@ static void wq_set_multicast_list (struct work_struct *work)
+ }
+ 
+ 
+-static void dvb_net_set_multicast_list (struct net_device *dev)
++static void dvb_net_set_multicast_list(struct net_device *dev)
+ {
+ 	struct dvb_net_priv *priv = netdev_priv(dev);
++
+ 	schedule_work(&priv->set_multicast_list_wq);
+ }
+ 
+ 
+-static void wq_restart_net_feed (struct work_struct *work)
++static void wq_restart_net_feed(struct work_struct *work)
+ {
+ 	struct dvb_net_priv *priv =
+ 		container_of(work, struct dvb_net_priv, restart_net_feed_wq);
+@@ -1267,10 +1276,10 @@ static void wq_restart_net_feed (struct work_struct *work)
+ }
+ 
+ 
+-static int dvb_net_set_mac (struct net_device *dev, void *p)
++static int dvb_net_set_mac(struct net_device *dev, void *p)
+ {
+ 	struct dvb_net_priv *priv = netdev_priv(dev);
+-	struct sockaddr *addr=p;
++	struct sockaddr *addr = p;
+ 
+ 	eth_hw_addr_set(dev, addr->sa_data);
+ 
+@@ -1330,14 +1339,14 @@ static int get_if(struct dvb_net *dvbnet)
+ {
+ 	int i;
+ 
+-	for (i=0; i<DVB_NET_DEVICES_MAX; i++)
++	for (i = 0; i < DVB_NET_DEVICES_MAX; i++)
+ 		if (!dvbnet->state[i])
+ 			break;
+ 
+ 	if (i == DVB_NET_DEVICES_MAX)
+ 		return -1;
+ 
+-	dvbnet->state[i]=1;
++	dvbnet->state[i] = 1;
+ 	return i;
+ }
+ 
+@@ -1350,7 +1359,8 @@ static int dvb_net_add_if(struct dvb_net *dvbnet, u16 pid, u8 feedtype)
+ 
+ 	if (feedtype != DVB_NET_FEEDTYPE_MPE && feedtype != DVB_NET_FEEDTYPE_ULE)
+ 		return -EINVAL;
+-	if ((if_num = get_if(dvbnet)) < 0)
++	if_num = get_if(dvbnet);
++	if (if_num < 0)
+ 		return -EINVAL;
+ 
+ 	net = alloc_netdev(sizeof(struct dvb_net_priv), "dvb",
+@@ -1387,7 +1397,8 @@ static int dvb_net_add_if(struct dvb_net *dvbnet, u16 pid, u8 feedtype)
+ 
+ 	net->base_addr = pid;
+ 
+-	if ((result = register_netdev(net)) < 0) {
++	result = register_netdev(net);
++	if (result < 0) {
+ 		dvbnet->device[if_num] = NULL;
+ 		free_netdev(net);
+ 		return result;
+@@ -1413,7 +1424,7 @@ static int dvb_net_remove_if(struct dvb_net *dvbnet, unsigned long num)
+ 	flush_work(&priv->restart_net_feed_wq);
+ 	pr_info("removed network interface %s\n", net->name);
+ 	unregister_netdev(net);
+-	dvbnet->state[num]=0;
++	dvbnet->state[num] = 0;
+ 	dvbnet->device[num] = NULL;
+ 	free_netdev(net);
+ 
+@@ -1427,7 +1438,7 @@ static int dvb_net_do_ioctl(struct file *file,
+ 	struct dvb_net *dvbnet = dvbdev->priv;
+ 	int ret = 0;
+ 
+-	if (((file->f_flags&O_ACCMODE)==O_RDONLY))
++	if (((file->f_flags & O_ACCMODE) == O_RDONLY))
+ 		return -EPERM;
+ 
+ 	if (mutex_lock_interruptible(&dvbnet->ioctl_mutex))
+@@ -1449,13 +1460,13 @@ static int dvb_net_do_ioctl(struct file *file,
+ 			goto ioctl_error;
+ 		}
+ 
+-		result=dvb_net_add_if(dvbnet, dvbnetif->pid, dvbnetif->feedtype);
+-		if (result<0) {
++		result = dvb_net_add_if(dvbnet, dvbnetif->pid, dvbnetif->feedtype);
++		if (result < 0) {
+ 			module_put(dvbdev->adapter->module);
+ 			ret = result;
+ 			goto ioctl_error;
+ 		}
+-		dvbnetif->if_num=result;
++		dvbnetif->if_num = result;
+ 		break;
+ 	}
+ 	case NET_GET_IF:
+@@ -1479,8 +1490,8 @@ static int dvb_net_do_ioctl(struct file *file,
+ 		netdev = dvbnet->device[if_num];
+ 
+ 		priv_data = netdev_priv(netdev);
+-		dvbnetif->pid=priv_data->pid;
+-		dvbnetif->feedtype=priv_data->feedtype;
++		dvbnetif->pid = priv_data->pid;
++		dvbnetif->feedtype = priv_data->feedtype;
+ 		break;
+ 	}
+ 	case NET_REMOVE_IF:
+@@ -1515,13 +1526,13 @@ static int dvb_net_do_ioctl(struct file *file,
+ 			goto ioctl_error;
+ 		}
+ 
+-		result=dvb_net_add_if(dvbnet, dvbnetif->pid, DVB_NET_FEEDTYPE_MPE);
+-		if (result<0) {
++		result = dvb_net_add_if(dvbnet, dvbnetif->pid, DVB_NET_FEEDTYPE_MPE);
++		if (result < 0) {
+ 			module_put(dvbdev->adapter->module);
+ 			ret = result;
+ 			goto ioctl_error;
+ 		}
+-		dvbnetif->if_num=result;
++		dvbnetif->if_num = result;
+ 		break;
+ 	}
+ 	case __NET_GET_IF_OLD:
+@@ -1545,7 +1556,7 @@ static int dvb_net_do_ioctl(struct file *file,
+ 		netdev = dvbnet->device[if_num];
+ 
+ 		priv_data = netdev_priv(netdev);
+-		dvbnetif->pid=priv_data->pid;
++		dvbnetif->pid = priv_data->pid;
+ 		break;
+ 	}
+ 	default:
+@@ -1623,7 +1634,7 @@ static const struct dvb_device dvbdev_net = {
+ 	.fops = &dvb_net_fops,
+ };
+ 
+-void dvb_net_release (struct dvb_net *dvbnet)
++void dvb_net_release(struct dvb_net *dvbnet)
+ {
+ 	int i;
+ 
+@@ -1637,7 +1648,7 @@ void dvb_net_release (struct dvb_net *dvbnet)
+ 
+ 	dvb_unregister_device(dvbnet->dvbdev);
+ 
+-	for (i=0; i<DVB_NET_DEVICES_MAX; i++) {
++	for (i = 0; i < DVB_NET_DEVICES_MAX; i++) {
+ 		if (!dvbnet->state[i])
+ 			continue;
+ 		dvb_net_remove_if(dvbnet, i);
+@@ -1646,8 +1657,7 @@ void dvb_net_release (struct dvb_net *dvbnet)
+ EXPORT_SYMBOL(dvb_net_release);
+ 
+ 
+-int dvb_net_init (struct dvb_adapter *adap, struct dvb_net *dvbnet,
+-		  struct dmx_demux *dmx)
++int dvb_net_init(struct dvb_adapter *adap, struct dvb_net *dvbnet, struct dmx_demux *dmx)
+ {
+ 	int i;
+ 
+@@ -1655,7 +1665,7 @@ int dvb_net_init (struct dvb_adapter *adap, struct dvb_net *dvbnet,
+ 	mutex_init(&dvbnet->remove_mutex);
+ 	dvbnet->demux = dmx;
+ 
+-	for (i=0; i<DVB_NET_DEVICES_MAX; i++)
++	for (i = 0; i < DVB_NET_DEVICES_MAX; i++)
+ 		dvbnet->state[i] = 0;
+ 
+ 	return dvb_register_device(adap, &dvbnet->dvbdev, &dvbdev_net,
 -- 
-2.51.1
+2.43.0
 
 
