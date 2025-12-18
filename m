@@ -1,266 +1,284 @@
-Return-Path: <linux-media+bounces-49098-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49099-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86569CCD77F
-	for <lists+linux-media@lfdr.de>; Thu, 18 Dec 2025 21:05:39 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id A57FACCDAD5
+	for <lists+linux-media@lfdr.de>; Thu, 18 Dec 2025 22:25:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4CD9C301E6DC
-	for <lists+linux-media@lfdr.de>; Thu, 18 Dec 2025 20:05:38 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 416B0300FA06
+	for <lists+linux-media@lfdr.de>; Thu, 18 Dec 2025 21:25:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDE252C3268;
-	Thu, 18 Dec 2025 20:05:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6D142D6608;
+	Thu, 18 Dec 2025 21:24:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qc372uuT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V1oHi/iV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DB5581ACA;
-	Thu, 18 Dec 2025 20:05:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AD0F33AD80
+	for <linux-media@vger.kernel.org>; Thu, 18 Dec 2025 21:24:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766088326; cv=none; b=LzeD4V6+bKQru00jlhH4DZZMMEmmSqI/U9zSQ9Erx+is8U8OfBFjhNtJOhQ4pkc8euJzthA5ahr9+H8whrtDWaxEhzpgOzjE/77XmYIp39vRZgxAZx3zRxc6H4xXrmCnSwSUGRPaAnqkqPZGsWZTxpTcBVequl5SdhvSQ4472m4=
+	t=1766093094; cv=none; b=T6KJYyV92Rr7/fv2U9TCQKKvSkffZoucHUrxw2a2RFYpCuRn3QzxQV01RZrkUB2lGfjpJV8C18itIqx8UyY0mjvnL5zg8igikTtlJz6DJ3b30ajGbnV6oY3JAEfUPqoZ6eReGZyqoGHfMTXVPu4fNcsflo/pPmpFfICPZgcBsSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766088326; c=relaxed/simple;
-	bh=qOmoSsMcnU+05ZsbSJqzF/ObB42pZyhLPpPwYZBwSYM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZBBAeyJPrsV2PqtwEfkeT7NwchtrlLMeb/8PFDEzGOrumbS0TyNwv14ptkcDFzuCEUW7oyHqXF38Tf9X6Qvm2FK7jt4xVNFBvqrGT+FU7cQNKcn/Sm8hlPMqEsItjkCZKbF6mntB/aiMb4c2EfX4DskIzEJYYMBcHA6qF77GMiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qc372uuT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC5B4C16AAE;
-	Thu, 18 Dec 2025 20:05:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766088325;
-	bh=qOmoSsMcnU+05ZsbSJqzF/ObB42pZyhLPpPwYZBwSYM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Qc372uuTC+u61AUF4nkxEjBIq9G+iwfzUotlVnrS9xpA1HPojaU+Ic+v5hIZgEkyE
-	 YTBZYXvW1xMGZPmzQmhQPG/7ICaqfGZ5H5yV1iQuj53Iaz0Ty6gMWfEBmoVV8uMaEo
-	 eYCJmuLK+G8e1iYAUpx2p9rMdONYbZ7b4mAaM5VVjGJqax7MqY+KCc0jOSgoK664UE
-	 8UUUuXdHDjgrryKWb7AQzJ/tPZxqwDO+hCNAgatNgxe0qSx1HofXBYSQSCLc+YiV7F
-	 SS6pXFREDco1v6lbY3v27kNMf/v22tKkgVNfCmeVmnzNygHZxqsIxNTIRGOWrvJK74
-	 Wca5ZIkDDXROQ==
-Message-ID: <2846f26f-57cc-4fa1-b316-63f94991cd62@kernel.org>
-Date: Thu, 18 Dec 2025 21:05:19 +0100
+	s=arc-20240116; t=1766093094; c=relaxed/simple;
+	bh=ioGwul6NcJRMLNkxVxfAXWMl0uIpRthPzWaXBvUwg/Q=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fFmpZAmuZKEdndgEa+xFPHSdDOAkhRv9J1lrHoCNPsSOwboM7Iodnm8MF3T7h4BL0xRgmfjs+N0Y1NCSS1pvcfpDdvNeevQy0E4CxHslemYRJYy7P5Y4gshYweRxI7FHs8/LaFNZSAoUkW67F844O2g3UruaZuiWVp9EFogob84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V1oHi/iV; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-7d26a7e5639so1334204b3a.1
+        for <linux-media@vger.kernel.org>; Thu, 18 Dec 2025 13:24:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766093086; x=1766697886; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YTohBmtIORr8n8lsBagnrEz6IPI4sdKvMwJT/pJENjY=;
+        b=V1oHi/iV8tP+QX3YzWlZfOgNf7b+lBrmCaPQHoIdJSxsIKxVsPtmnrTP8swNc7/VgJ
+         n1oah6v6cYJBfFMojA8UV3WsaPkYTzXtM2ii2bpXDXj8daJJEChtO3iBqdNPBfSsX0s+
+         N8cmhqOyw3/4pd9usp9CjikjcFvPm1nb6+w7xKgdqH1eKLGnkZem5l5gnJNGpEesVUv/
+         kIEjIZKwW6kwwL64I/bMJidu60gCtcE525C+dqru6bUYMBWgMMM3t0YvOEAaUQC1XXmm
+         j9puqDGISXiEzLD7sR6xx14MPTLs+v1LmytfiY/NWy5jkIYidFmZEdvosmQEcXS40ZIz
+         NuMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766093086; x=1766697886;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=YTohBmtIORr8n8lsBagnrEz6IPI4sdKvMwJT/pJENjY=;
+        b=lFfjrAW+RVCaybtfthylPnLAx9mKSP30AABm7lnvJVRknCXajqHsTi4zRcvpB8Mc6a
+         vEFMFOh8vWZB6OIFAgeE8Z1Z5dMZXfs9xRs+I7HDh+au0gFW3hBzXowOVZTgCjO/MVUF
+         2/IP7RZhCdxvQHFKMd2aCtozFAXb8HoXpbrXYqEhLYh298FOqX+os26nuKPmYhsZOxat
+         5lCX+yIoi0r+RJ+QZ1jlho1Yp9t6z/pz8buRf6aSRFSA+pheO8SiJQU/7OyeQdauiVD1
+         uB3Tsj8KQkEClQepW9XJANXYLkupxdWrm3W9MCYwv3QB5fRDMNCXSrdPh0fOp9Jo3waV
+         9cyA==
+X-Forwarded-Encrypted: i=1; AJvYcCVMUd7Wdffn3BREIvaNalafsnI2CVXEtTV0ufMyNCk9Pz66h/SBlCTnkdJGjUDPgnLe74NvDa9/s/VZmw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YySuwD6yQ3EK4ZD8NPhrEpCRc3wcPjFMIH+WUCkzkHkhqoOVS2G
+	ZG/3t+D1HjRYFuOqnF7h4yA5mea9plz8oI7l0cDVLstZ6Rj5RVJYFnXr
+X-Gm-Gg: AY/fxX4/fRoS4ksuxyNZ77AQ73YaI4Xok9Lif74flWCzkA0tLwPIFgZyU141Idp1yM9
+	uMLPD1pWCfNXmN4vdTMdLUuXeOWhj49wu+XbZ+qHA3rVju+McATw/Im1x+qlHWMNT/ocD2mjN/s
+	XdpyWjPB2+9n2nVSOo040MqZIbaRWnF4yGS6SgStag3tc6vj+MF0wv1o4DxUUhWg+zGPxjnrQZ9
+	U7sJvsBnvExpyMqk15TzJwLmd/norO8iyTQjZskIDkAJJUl6ti5PzQzmsYLgMsKphPNkA9r4MbK
+	6MpV1tqpMW1j6dEjZw4XSs+xERPhWKWblbAbNdcfLlCrU2y7+LHd8AqW9WqRlnIXSLg0y5Ce7R3
+	ngQaaeErfkHKUxGEnFqgGJ03Jmisoan5prdxkULa+t4nukH4xHicBJ/yznV1H3CoIUJ420l1SHJ
+	H24Um5Y1U0TJ+GcN9tnVpQE8k+
+X-Google-Smtp-Source: AGHT+IGdOHVdrcCuEhBbazWVZdWwuUQF6Z6rcTSGphDUl2qn81RLeTCX0R1hfWncTkyQFdQxgYXjUA==
+X-Received: by 2002:a05:6a00:808c:b0:7e8:450c:61b5 with SMTP id d2e1a72fcca58-7ff6607b7e7mr687761b3a.37.1766093086042;
+        Thu, 18 Dec 2025 13:24:46 -0800 (PST)
+Received: from Barrys-MBP.hub ([47.72.129.29])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7a939ea2sm258519b3a.4.2025.12.18.13.24.40
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 18 Dec 2025 13:24:45 -0800 (PST)
+From: Barry Song <21cnbao@gmail.com>
+To: urezki@gmail.com
+Cc: 21cnbao@gmail.com,
+	akpm@linux-foundation.org,
+	david@kernel.org,
+	dri-devel@lists.freedesktop.org,
+	jstultz@google.com,
+	linaro-mm-sig@lists.linaro.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-mm@kvack.org,
+	mripard@kernel.org,
+	sumit.semwal@linaro.org,
+	v-songbaohua@oppo.com,
+	zhengtangquan@oppo.com
+Subject: Re: [PATCH] mm/vmalloc: map contiguous pages in batches for vmap() whenever possible
+Date: Fri, 19 Dec 2025 05:24:36 +0800
+Message-Id: <20251218212436.17142-1-21cnbao@gmail.com>
+X-Mailer: git-send-email 2.39.3 (Apple Git-146)
+In-Reply-To: <aUQHss6K8b_esvpw@milan>
+References: <aUQHss6K8b_esvpw@milan>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] media: i2c: Add ov2732 image sensor driver
-To: Walter Werner Schneider <contact@schnwalter.eu>,
- linux-media@vger.kernel.org, Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20251218-ov2732-driver-v2-0-fb763644d62c@schnwalter.eu>
- <20251218-ov2732-driver-v2-2-fb763644d62c@schnwalter.eu>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251218-ov2732-driver-v2-2-fb763644d62c@schnwalter.eu>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 18/12/2025 19:15, Walter Werner Schneider wrote:
-> +static int ov2732_probe(struct i2c_client *client)
-> +{
-> +	struct ov2732 *ov2732;
-> +	int ret;
-> +
-> +	ov2732 = devm_kzalloc(&client->dev, sizeof(*ov2732), GFP_KERNEL);
-> +	if (!ov2732)
-> +		return -ENOMEM;
-> +
-> +	ov2732->dev = &client->dev;
-> +
-> +	ret = ov2632_probe_dt(ov2732);
-> +	if (ret)
-> +		return dev_err_probe(ov2732->dev, ret,
-> +				     "failed to probe device tree\n");
-> +
-> +	ov2732->xvclk = devm_v4l2_sensor_clk_get(ov2732->dev, "xvclk");
-> +	if (IS_ERR(ov2732->xvclk))
-> +		return dev_err_probe(ov2732->dev, PTR_ERR(ov2732->xvclk),
-> +				     "failed to get xvclk\n");
-> +
-> +	ov2732->xvclk_freq = clk_get_rate(ov2732->xvclk);
-> +	if (ov2732->xvclk_freq != OV2732_XVCLK_FREQ)
-> +		return dev_err_probe(ov2732->dev, -EINVAL,
-> +				     "xvclk frequency not supported: %dHz\n",
-> +				      ov2732->xvclk_freq);
-> +
-> +	ov2732->pwdn_gpio = devm_gpiod_get_optional(ov2732->dev, "pwdn",
-> +						    GPIOD_OUT_HIGH);
-> +	gpiod_set_value_cansleep(ov2732->pwdn_gpio, 1);
+On Thu, Dec 18, 2025 at 9:55 PM Uladzislau Rezki <urezki@gmail.com> wrote:
+>
+> On Thu, Dec 18, 2025 at 02:01:56PM +0100, David Hildenbrand (Red Hat) wrote:
+> > On 12/15/25 06:30, Barry Song wrote:
+> > > From: Barry Song <v-songbaohua@oppo.com>
+> > >
+> > > In many cases, the pages passed to vmap() may include high-order
+> > > pages allocated with __GFP_COMP flags. For example, the systemheap
+> > > often allocates pages in descending order: order 8, then 4, then 0.
+> > > Currently, vmap() iterates over every page individually—even pages
+> > > inside a high-order block are handled one by one.
+> > >
+> > > This patch detects high-order pages and maps them as a single
+> > > contiguous block whenever possible.
+> > >
+> > > An alternative would be to implement a new API, vmap_sg(), but that
+> > > change seems to be large in scope.
+> > >
+> > > When vmapping a 128MB dma-buf using the systemheap, this patch
+> > > makes system_heap_do_vmap() roughly 17× faster.
+> > >
+> > > W/ patch:
+> > > [   10.404769] system_heap_do_vmap took 2494000 ns
+> > > [   12.525921] system_heap_do_vmap took 2467008 ns
+> > > [   14.517348] system_heap_do_vmap took 2471008 ns
+> > > [   16.593406] system_heap_do_vmap took 2444000 ns
+> > > [   19.501341] system_heap_do_vmap took 2489008 ns
+> > >
+> > > W/o patch:
+> > > [    7.413756] system_heap_do_vmap took 42626000 ns
+> > > [    9.425610] system_heap_do_vmap took 42500992 ns
+> > > [   11.810898] system_heap_do_vmap took 42215008 ns
+> > > [   14.336790] system_heap_do_vmap took 42134992 ns
+> > > [   16.373890] system_heap_do_vmap took 42750000 ns
+> > >
+> >
+> > That's quite a speedup.
+> >
+> > > Cc: David Hildenbrand <david@kernel.org>
+> > > Cc: Uladzislau Rezki <urezki@gmail.com>
+> > > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > > Cc: John Stultz <jstultz@google.com>
+> > > Cc: Maxime Ripard <mripard@kernel.org>
+> > > Tested-by: Tangquan Zheng <zhengtangquan@oppo.com>
+> > > Signed-off-by: Barry Song <v-songbaohua@oppo.com>
+> > > ---
+> > >   * diff with rfc:
+> > >   Many code refinements based on David's suggestions, thanks!
+> > >   Refine comment and changelog according to Uladzislau, thanks!
+> > >   rfc link:
+> > >   https://lore.kernel.org/linux-mm/20251122090343.81243-1-21cnbao@gmail.com/
+> > >
+> > >   mm/vmalloc.c | 45 +++++++++++++++++++++++++++++++++++++++------
+> > >   1 file changed, 39 insertions(+), 6 deletions(-)
+> > >
+> > > diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+> > > index 41dd01e8430c..8d577767a9e5 100644
+> > > --- a/mm/vmalloc.c
+> > > +++ b/mm/vmalloc.c
+> > > @@ -642,6 +642,29 @@ static int vmap_small_pages_range_noflush(unsigned long addr, unsigned long end,
+> > >     return err;
+> > >   }
+> > > +static inline int get_vmap_batch_order(struct page **pages,
+> > > +           unsigned int stride, unsigned int max_steps, unsigned int idx)
+> > > +{
+> > > +   int nr_pages = 1;
+> >
+> > unsigned int, maybe
 
-No need to set the same value twice. It's already 1.
+Right
 
-> +
-> +	ov2732->reset_gpio = devm_gpiod_get_optional(ov2732->dev, "reset",
-> +						     GPIOD_OUT_HIGH);
-> +	gpiod_set_value_cansleep(ov2732->reset_gpio, 1);
+> >
+> > Why are you initializing nr_pages when you overwrite it below?
 
-Same here
+Right, initializing nr_pages can be dropped.
 
-> +
-> +	ov2732->regmap = devm_cci_regmap_init_i2c(client, 16);
-> +	if (IS_ERR(ov2732->regmap))
-> +		return dev_err_probe(ov2732->dev, PTR_ERR(ov2732->regmap),
-> +				     "failed to init CCI\n");
-> +
-> +	ret = ov2732_get_regulators(ov2732);
-> +	if (ret)
-> +		return dev_err_probe(ov2732->dev, ret,
-> +				     "failed to get regulators\n");
-> +
-> +	v4l2_i2c_subdev_init(&ov2732->sd, client, &ov2732_subdev_ops);
-> +
-> +	/* Device must be powered on for ov2732_identify_chip(). */
-> +	ret = ov2732_power_on(ov2732->dev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	pm_runtime_set_active(ov2732->dev);
-> +	pm_runtime_enable(ov2732->dev);
-> +
-> +	/* Wait 1ms to avoid intermittent communication errors at startup. */
-> +	fsleep(USEC_PER_MSEC);
-> +
-> +	ret = ov2732_identify_chip(ov2732);
-> +	if (ret)
-> +		goto err_power_off;
-> +
-> +	ret = ov2732_init_controls(ov2732);
-> +	if (ret)
-> +		goto err_power_off;
-> +
-> +	/* Initialize subdev */
-> +	ov2732->sd.internal_ops = &ov2732_internal_ops;
-> +	ov2732->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +	ov2732->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-> +
-> +	/* Initialize source pad */
-> +	ov2732->pad.flags = MEDIA_PAD_FL_SOURCE;
-> +
-> +	ret = media_entity_pads_init(&ov2732->sd.entity, 1, &ov2732->pad);
-> +	if (ret) {
-> +		dev_err_probe(ov2732->dev, ret, "failed to init entity pads\n");
-> +		goto error_handler_free;
-> +	}
-> +
-> +	ov2732->sd.state_lock = ov2732->ctrl_handler.lock;
-> +	ret = v4l2_subdev_init_finalize(&ov2732->sd);
-> +	if (ret < 0) {
-> +		dev_err_probe(ov2732->dev, ret, "subdev init error\n");
-> +		goto err_media_entity;
-> +	}
-> +
-> +	ret = v4l2_async_register_subdev_sensor(&ov2732->sd);
-> +	if (ret < 0) {
-> +		dev_err_probe(ov2732->dev, ret,
-> +			      "failed to register sensor sub-device\n");
+> >
+> > > +
+> > > +   /*
+> > > +    * Currently, batching is only supported in vmap_pages_range
+> > > +    * when page_shift == PAGE_SHIFT.
+> >
+> > I don't know the code so realizing how we go from page_shift to stride too
+> > me a second. Maybe only talk about stride here?
+> >
+> > OTOH, is "stride" really the right terminology?
+> >
+> > we calculate it as
+> >
+> >       stride = 1U << (page_shift - PAGE_SHIFT);
+> >
+> > page_shift - PAGE_SHIFT should give us an "order". So is this a
+> > "granularity" in nr_pages?
 
-So you print errors twice? Once here and second time at the end. Why?
-> +		goto err_subdev_cleanup;
-> +	}
-> +
-> +	pm_runtime_set_autosuspend_delay(ov2732->dev, 1000);
-> +	pm_runtime_use_autosuspend(ov2732->dev);
-> +	pm_runtime_idle(ov2732->dev);
-> +
-> +	return 0;
-> +
-> +err_subdev_cleanup:
-> +	v4l2_subdev_cleanup(&ov2732->sd);
-> +
-> +err_media_entity:
-> +	media_entity_cleanup(&ov2732->sd.entity);
-> +
-> +error_handler_free:
-> +	v4l2_ctrl_handler_free(&ov2732->ctrl_handler);
-> +
-> +err_power_off:
-> +	pm_runtime_disable(ov2732->dev);
-> +	pm_runtime_put_noidle(ov2732->dev);
-> +	ov2732_power_off(ov2732->dev);
-> +
-> +	return dev_err_probe(ov2732->dev, ret, "probing failed\n");
+This is the case where vmalloc() may realize that it has
+high-order pages and therefore calls
+vmap_pages_range_noflush() with a page_shift larger than
+PAGE_SHIFT. For vmap(), we take a pages array, so
+page_shift is always PAGE_SHIFT.
 
-This is useless message. Print informative messages for specific errors
-or do not print at all.
+> >
+> > Again, I don't know this code, so sorry for the question.
+> >
+> To me "stride" also sounds unclear.
 
-> +}
-> +
+Thanks, David and Uladzislau. On second thought, this stride may be
+redundant, and it should be possible to drop it entirely. This results
+in the code below:
 
-...
+diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+index 41dd01e8430c..3962bdcb43e5 100644
+--- a/mm/vmalloc.c
++++ b/mm/vmalloc.c
+@@ -642,6 +642,20 @@ static int vmap_small_pages_range_noflush(unsigned long addr, unsigned long end,
+ 	return err;
+ }
+ 
++static inline int get_vmap_batch_order(struct page **pages,
++		unsigned int max_steps, unsigned int idx)
++{
++	unsigned int nr_pages	 = compound_nr(pages[idx]);
++
++	if (nr_pages == 1 || max_steps < nr_pages)
++		return 0;
++
++	if (num_pages_contiguous(&pages[idx], nr_pages) == nr_pages)
++		return compound_order(pages[idx]);
++	return 0;
++}
++
+ /*
+  * vmap_pages_range_noflush is similar to vmap_pages_range, but does not
+  * flush caches.
+@@ -658,20 +672,35 @@ int __vmap_pages_range_noflush(unsigned long addr, unsigned long end,
+ 
+ 	WARN_ON(page_shift < PAGE_SHIFT);
+ 
++	/*
++	 * For vmap(), users may allocate pages from high orders down to
++	 * order 0, while always using PAGE_SHIFT as the page_shift.
++	 * We first check whether the initial page is a compound page. If so,
++	 * there may be an opportunity to batch multiple pages together.
++	 */
+ 	if (!IS_ENABLED(CONFIG_HAVE_ARCH_HUGE_VMALLOC) ||
+-			page_shift == PAGE_SHIFT)
++			(page_shift == PAGE_SHIFT && !PageCompound(pages[0])))
+ 		return vmap_small_pages_range_noflush(addr, end, prot, pages);
+ 
+-	for (i = 0; i < nr; i += 1U << (page_shift - PAGE_SHIFT)) {
++	for (i = 0; i < nr; ) {
++		unsigned int shift = page_shift;
+ 		int err;
+ 
+-		err = vmap_range_noflush(addr, addr + (1UL << page_shift),
++		/*
++		 * For vmap() cases, page_shift is always PAGE_SHIFT, even
++		 * if the pages are physically contiguous, they may still
++		 * be mapped in a batch.
++		 */
++		if (page_shift == PAGE_SHIFT)
++			shift += get_vmap_batch_order(pages, nr - i, i);
++		err = vmap_range_noflush(addr, addr + (1UL << shift),
+ 					page_to_phys(pages[i]), prot,
+-					page_shift);
++					shift);
+ 		if (err)
+ 			return err;
+ 
+-		addr += 1UL << page_shift;
++		addr += 1UL  << shift;
++		i += 1U << shift;
+ 	}
+ 
+ 	return 0;
 
-> +
-> +static const struct of_device_id ov2732_of_match[] = {
-> +	{ .compatible = "ovti,ov2732", },
-> +	{ },
-> +};
-> +MODULE_DEVICE_TABLE(of, ov2732_of_match);
-> +
-> +static DEFINE_RUNTIME_DEV_PM_OPS(ov2732_pm_ops, ov2732_power_off,
-> +				 ov2732_power_on, NULL);
-> +
-> +static struct i2c_driver ov2732_i2c_driver = {
-> +	.driver = {
-> +		.name = "ov2732",
-> +		.of_match_table = of_match_ptr(ov2732_of_match),
+Does this look clearer?
 
-Drop of_match_ptr, you have here warning.
-
-> +		.pm = pm_sleep_ptr(&ov2732_pm_ops),
-> +	},
-> +	.probe = ov2732_probe,
-> +	.remove = ov2732_remove,
-> +};
-Best regards,
-Krzysztof
+Thanks
+Barry
 
