@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-49116-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49117-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3AE6CCDFB0
-	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 00:41:00 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68055CCDF89
+	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 00:38:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0623B30726EA
-	for <lists+linux-media@lfdr.de>; Thu, 18 Dec 2025 23:31:50 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 88B873077CFA
+	for <lists+linux-media@lfdr.de>; Thu, 18 Dec 2025 23:32:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6178A299923;
-	Thu, 18 Dec 2025 23:29:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A77329BD87;
+	Thu, 18 Dec 2025 23:29:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="GNKfBC41"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="COtMt8z0"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31D3530ACE5;
-	Thu, 18 Dec 2025 23:29:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15D0033A6F7;
+	Thu, 18 Dec 2025 23:29:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766100561; cv=none; b=aNJDvpOfL+R2KWodBeTEc3wEqB9MH3ZZIM5bIe7AKsQ2gHQiqollQpowX45OmJAGwMVrCD4zx5DWpHmKRcTo6BJ43j5eZcZV76lzmwdEiR7l9jP4f9523gyykhifOGanrl/N+m03CK4/xrGKliwrR1VBwosoY0c/pi0U6pdoKPA=
+	t=1766100564; cv=none; b=SZS6xUPbPfjM+uW76R1cFV0VxRlu9BrBZCMo+qMZMc+2QilO5nNPymqYVVlfE+fimUdfuE1C41JdhsOrlFiWE3/ZN8udfLPlopwnhXbRxR+Tg6D/oZKDrvHPY1aDfwExVdyzJ/Hc5ZpiasS3rP8hauUgHrbqGfVpGClGBhHsWYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766100561; c=relaxed/simple;
-	bh=f7JeguCu7LcGcihC4GN2MtrEztjBQniuRrz8u+fcUBU=;
+	s=arc-20240116; t=1766100564; c=relaxed/simple;
+	bh=Zz+pGGBzU+QHlNotnwq2/PnfEriPocXoQ7Pt5as2zys=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WZcdJRrDd72wEr5GBPYvbMAVrSUeDg5G5+co1jX8o6cZT4mXHn/bV8o6Si+0GfHJPix9Cjfhtb4CFhOonRGm3CzdSH646LLuTHWqh0B+YtNds9FlWCBHH1hJNLxNn84gZ6V7bLNWL7fuYM5uMpzfug8yDJoXLsi/KEtPL/5RUIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=GNKfBC41; arc=none smtp.client-ip=148.251.105.195
+	 MIME-Version; b=CQetVE3wqpFdN+2B7Usa45sl651Kf2+iV0thbvTuObr5O2XwKxkko9Iu8PtAAan3+CCicn0VEyzfGKKYAz4UXoNxFYSCnbprQg8VrCJ2umSuXaWZvTUqpwe1yvWYN5NihSrsFvsyXWRV/YiT0+4IAhjxJfHB3dijYQoWpUYCNmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=COtMt8z0; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1766100556;
-	bh=f7JeguCu7LcGcihC4GN2MtrEztjBQniuRrz8u+fcUBU=;
+	s=mail; t=1766100559;
+	bh=Zz+pGGBzU+QHlNotnwq2/PnfEriPocXoQ7Pt5as2zys=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=GNKfBC41ApXDQcvRvWt25SmDhvhrGwdHZZJli7Y3rK88dN6yj06o8Yu/taOK8tmNH
-	 nQnqb8i6EBnIdxgPvXrkKjExVHa4BlraacDBF5R46+pTFFZWcdjq0+hEIw1dNNPNiX
-	 QsHEB0waivPVZPCZCmhLQ2+4ALCtpeHa/Qkdc+NwfTrkuIG0Pz0GaBRgy3rPvq2wTb
-	 ujFtuVlPXNIKAoTOiIqSVeZ8wn3h9TM/XygBatqYwtxwDdEdsTy2LCNJrBnS7PkBNu
-	 Xc8Ak+pLx7j1vx5MkSwLPMMUulQ76Zl+i+f2lGiJVLhUwKXi5wlLDZblWFA5Smn/AC
-	 OTQ2yC3j1J52Q==
+	b=COtMt8z013ojZnBffr2xRXbOa5Ovi69zr1OW5v6rKr26mie113nqmTa1y2P+5+jcm
+	 KQ5I0I/B6wg11k+Hsz1NT5WWRuxlskJG1Gi8q7+ppkTC/HQsiLr+Q9V+lbETHWwvK9
+	 YsyXa58DfdfrLIcNHY+zVsDDaYowbieFKC1w7pSV2+jfRiWiGwAtTEKRRq9gdExEBa
+	 TlcmJj1D7XAt/q1A77JcumOqL+Iaa4d0JYdmK7mIt4OYOE3NVBFY7H182S2SZ1zRFD
+	 Wdo9SV9HXpSiSqyUgtEiQwFan02nLzJT4LWS7hjSU3C2c1aEVPAuCnoJ8Zk6csSl3n
+	 +h1A7w4H/0ZQg==
 Received: from earth.mtl.collabora.ca (mtl.collabora.ca [66.171.169.34])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: detlev)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 55BF217E13D0;
-	Fri, 19 Dec 2025 00:29:14 +0100 (CET)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0A5C217E156E;
+	Fri, 19 Dec 2025 00:29:16 +0100 (CET)
 From: Detlev Casanova <detlev.casanova@collabora.com>
 To: linux-kernel@vger.kernel.org
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -67,11 +67,10 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-rockchip@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org,
 	kernel@collabora.com,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Diederik de Haas <didi.debian@cknow.org>
-Subject: [PATCH v7 16/17] media: rkvdec: Add HEVC support for the VDPU381 variant
-Date: Thu, 18 Dec 2025 18:28:26 -0500
-Message-ID: <20251218232829.337811-17-detlev.casanova@collabora.com>
+	Jonas Karlman <jonas@kwiboo.se>
+Subject: [PATCH v7 17/17] media: rkvdec: Add HEVC support for the VDPU383 variant
+Date: Thu, 18 Dec 2025 18:28:27 -0500
+Message-ID: <20251218232829.337811-18-detlev.casanova@collabora.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251218232829.337811-1-detlev.casanova@collabora.com>
 References: <20251218232829.337811-1-detlev.casanova@collabora.com>
@@ -83,496 +82,188 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The VDPU381 supports HEVC decoding up to 7680x4320@30fps.
-It could double that when using both decoder cores.
+The VDPU383 decoder is used on the RK3576 SoC and has support for HEVC.
 
-It support YUV420 (8 and 10 bits) as well as AFBC (not implemented
-here)
+This patch also moves some functions to a common rkvdec-hevc-common.c
+file and adds a specific scaling matrix flatten function.
 
-The fluster score is 146/147 for JCT-VC-HEVC_V1, tested on ROCK 5B.
-None of the other test suites works.
+The fluster score for JCT-VC-HEVC_V1 is 146/147.
 
-Tested-by: Diederik de Haas <didi.debian@cknow.org>  # Rock 5B
 Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
 ---
  .../media/platform/rockchip/rkvdec/Makefile   |   1 +
- .../rockchip/rkvdec/rkvdec-hevc-common.c      | 335 ++++++++++
- .../rockchip/rkvdec/rkvdec-hevc-common.h      |  59 ++
- .../rockchip/rkvdec/rkvdec-vdpu381-hevc.c     | 622 ++++++++++++++++++
- .../media/platform/rockchip/rkvdec/rkvdec.c   |  82 +++
- .../media/platform/rockchip/rkvdec/rkvdec.h   |   3 +
- 6 files changed, 1102 insertions(+)
- create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu381-hevc.c
+ .../rockchip/rkvdec/rkvdec-hevc-common.c      |  59 +-
+ .../rockchip/rkvdec/rkvdec-hevc-common.h      |   3 +-
+ .../platform/rockchip/rkvdec/rkvdec-hevc.c    |   2 +-
+ .../rockchip/rkvdec/rkvdec-vdpu381-hevc.c     |   3 +-
+ .../rockchip/rkvdec/rkvdec-vdpu383-hevc.c     | 720 ++++++++++++++++++
+ .../media/platform/rockchip/rkvdec/rkvdec.c   |  91 +++
+ .../media/platform/rockchip/rkvdec/rkvdec.h   |   2 +
+ 8 files changed, 833 insertions(+), 48 deletions(-)
+ create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-hevc.c
 
 diff --git a/drivers/media/platform/rockchip/rkvdec/Makefile b/drivers/media/platform/rockchip/rkvdec/Makefile
-index a58d4aede2fea..e30fdd7d51c3c 100644
+index e30fdd7d51c3c..e629d571e4d89 100644
 --- a/drivers/media/platform/rockchip/rkvdec/Makefile
 +++ b/drivers/media/platform/rockchip/rkvdec/Makefile
-@@ -9,5 +9,6 @@ rockchip-vdec-y += \
- 		   rkvdec-hevc-common.o \
- 		   rkvdec-rcb.o \
+@@ -11,4 +11,5 @@ rockchip-vdec-y += \
  		   rkvdec-vdpu381-h264.o \
-+		   rkvdec-vdpu381-hevc.o \
+ 		   rkvdec-vdpu381-hevc.o \
  		   rkvdec-vdpu383-h264.o \
++		   rkvdec-vdpu383-hevc.o \
  		   rkvdec-vp9.o
 diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.c b/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.c
-index cb56a9a243927..52926c67d0189 100644
+index 52926c67d0189..81f41bf661d35 100644
 --- a/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.c
 +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.c
-@@ -21,6 +21,125 @@
- #include "rkvdec.h"
- #include "rkvdec-hevc-common.h"
+@@ -140,56 +140,26 @@ static void set_ref_poc(struct rkvdec_rps_short_term_ref_set *set, int poc, int
+ 	}
+ }
  
-+/* Store the Short term ref pic set calculated values */
-+struct calculated_rps_st_set {
-+	u8 num_delta_pocs;
-+	u8 num_negative_pics;
-+	u8 num_positive_pics;
-+	u8 used_by_curr_pic_s0[16];
-+	u8 used_by_curr_pic_s1[16];
-+	s32 delta_poc_s0[16];
-+	s32 delta_poc_s1[16];
-+};
-+
-+void compute_tiles_uniform(struct rkvdec_hevc_run *run, u16 log2_min_cb_size,
-+			   u16 width, u16 height, s32 pic_in_cts_width,
-+			   s32 pic_in_cts_height, u16 *column_width, u16 *row_height)
-+{
-+	const struct v4l2_ctrl_hevc_pps *pps = run->pps;
-+	int i;
-+
-+	for (i = 0; i < pps->num_tile_columns_minus1 + 1; i++)
-+		column_width[i] = ((i + 1) * pic_in_cts_width) /
-+				  (pps->num_tile_columns_minus1 + 1) -
-+				  (i * pic_in_cts_width) /
-+				  (pps->num_tile_columns_minus1 + 1);
-+
-+	for (i = 0; i < pps->num_tile_rows_minus1 + 1; i++)
-+		row_height[i] = ((i + 1) * pic_in_cts_height) /
-+				(pps->num_tile_rows_minus1 + 1) -
-+				(i * pic_in_cts_height) /
-+				(pps->num_tile_rows_minus1 + 1);
-+}
-+
-+void compute_tiles_non_uniform(struct rkvdec_hevc_run *run, u16 log2_min_cb_size,
-+			       u16 width, u16 height, s32 pic_in_cts_width,
-+			       s32 pic_in_cts_height, u16 *column_width, u16 *row_height)
-+{
-+	const struct v4l2_ctrl_hevc_pps *pps = run->pps;
-+	s32 sum = 0;
-+	int i;
-+
-+	for (i = 0; i < pps->num_tile_columns_minus1; i++) {
-+		column_width[i] = pps->column_width_minus1[i] + 1;
-+		sum += column_width[i];
-+	}
-+	column_width[i] = pic_in_cts_width - sum;
-+
-+	sum = 0;
-+	for (i = 0; i < pps->num_tile_rows_minus1; i++) {
-+		row_height[i] = pps->row_height_minus1[i] + 1;
-+		sum += row_height[i];
-+	}
-+	row_height[i] = pic_in_cts_height - sum;
-+}
-+
-+static void set_ref_poc(struct rkvdec_rps_short_term_ref_set *set, int poc, int value, int flag)
-+{
-+	switch (poc) {
-+	case 0:
-+		set->delta_poc0 = value;
-+		set->used_flag0 = flag;
-+		break;
-+	case 1:
-+		set->delta_poc1 = value;
-+		set->used_flag1 = flag;
-+		break;
-+	case 2:
-+		set->delta_poc2 = value;
-+		set->used_flag2 = flag;
-+		break;
-+	case 3:
-+		set->delta_poc3 = value;
-+		set->used_flag3 = flag;
-+		break;
-+	case 4:
-+		set->delta_poc4 = value;
-+		set->used_flag4 = flag;
-+		break;
-+	case 5:
-+		set->delta_poc5 = value;
-+		set->used_flag5 = flag;
-+		break;
-+	case 6:
-+		set->delta_poc6 = value;
-+		set->used_flag6 = flag;
-+		break;
-+	case 7:
-+		set->delta_poc7 = value;
-+		set->used_flag7 = flag;
-+		break;
-+	case 8:
-+		set->delta_poc8 = value;
-+		set->used_flag8 = flag;
-+		break;
-+	case 9:
-+		set->delta_poc9 = value;
-+		set->used_flag9 = flag;
-+		break;
-+	case 10:
-+		set->delta_poc10 = value;
-+		set->used_flag10 = flag;
-+		break;
-+	case 11:
-+		set->delta_poc11 = value;
-+		set->used_flag11 = flag;
-+		break;
-+	case 12:
-+		set->delta_poc12 = value;
-+		set->used_flag12 = flag;
-+		break;
-+	case 13:
-+		set->delta_poc13 = value;
-+		set->used_flag13 = flag;
-+		break;
-+	case 14:
-+		set->delta_poc14 = value;
-+		set->used_flag14 = flag;
-+		break;
-+	}
-+}
-+
- /*
-  * Flip one or more matrices along their main diagonal and flatten them
-  * before writing it to the memory.
-@@ -120,6 +239,211 @@ void rkvdec_hevc_assemble_hw_scaling_list(struct rkvdec_hevc_run *run,
+-/*
+- * Flip one or more matrices along their main diagonal and flatten them
+- * before writing it to the memory.
+- * Convert:
+- * ABCD         AEIM
+- * EFGH     =>  BFJN     =>     AEIMBFJNCGKODHLP
+- * IJKL         CGKO
+- * MNOP         DHLP
+- */
+-static void transpose_and_flatten_matrices(u8 *output, const u8 *input,
+-					   int matrices, int row_length)
+-{
+-	int i, j, row, x_offset, matrix_offset, rot_index, y_offset, matrix_size, new_value;
+-
+-	matrix_size = row_length * row_length;
+-	for (i = 0; i < matrices; i++) {
+-		row = 0;
+-		x_offset = 0;
+-		matrix_offset = i * matrix_size;
+-		for (j = 0; j < matrix_size; j++) {
+-			y_offset = j - (row * row_length);
+-			rot_index = y_offset * row_length + x_offset;
+-			new_value = *(input + i * matrix_size + j);
+-			output[matrix_offset + rot_index] = new_value;
+-			if ((j + 1) % row_length == 0) {
+-				row += 1;
+-				x_offset += 1;
+-			}
+-		}
+-	}
+-}
+-
+-static void assemble_scalingfactor0(u8 *output, const struct v4l2_ctrl_hevc_scaling_matrix *input)
++static void assemble_scalingfactor0(struct rkvdec_ctx *ctx, u8 *output,
++				    const struct v4l2_ctrl_hevc_scaling_matrix *input)
+ {
++	const struct rkvdec_variant *variant = ctx->dev->variant;
+ 	int offset = 0;
+ 
+-	transpose_and_flatten_matrices(output, (const u8 *)input->scaling_list_4x4, 6, 4);
++	variant->ops->flatten_matrices(output, (const u8 *)input->scaling_list_4x4, 6, 4);
+ 	offset = 6 * 16 * sizeof(u8);
+-	transpose_and_flatten_matrices(output + offset, (const u8 *)input->scaling_list_8x8, 6, 8);
++	variant->ops->flatten_matrices(output + offset, (const u8 *)input->scaling_list_8x8, 6, 8);
+ 	offset += 6 * 64 * sizeof(u8);
+-	transpose_and_flatten_matrices(output + offset,
+-				       (const u8 *)input->scaling_list_16x16, 6, 8);
++	variant->ops->flatten_matrices(output + offset, (const u8 *)input->scaling_list_16x16,
++				       6, 8);
+ 	offset += 6 * 64 * sizeof(u8);
+ 	/* Add a 128 byte padding with 0s between the two 32x32 matrices */
+-	transpose_and_flatten_matrices(output + offset,
+-				       (const u8 *)input->scaling_list_32x32, 1, 8);
++	variant->ops->flatten_matrices(output + offset, (const u8 *)input->scaling_list_32x32,
++				       1, 8);
+ 	offset += 64 * sizeof(u8);
+ 	memset(output + offset, 0, 128);
+ 	offset += 128 * sizeof(u8);
+-	transpose_and_flatten_matrices(output + offset,
++	variant->ops->flatten_matrices(output + offset,
+ 				       (const u8 *)input->scaling_list_32x32 + (64 * sizeof(u8)),
+ 				       1, 8);
+ 	offset += 64 * sizeof(u8);
+@@ -214,16 +184,17 @@ static void assemble_scalingdc(u8 *output, const struct v4l2_ctrl_hevc_scaling_m
+ 	memcpy(output + 6 * sizeof(u8), list_32x32, 6 * sizeof(u8));
+ }
+ 
+-static void translate_scaling_list(struct scaling_factor *output,
++static void translate_scaling_list(struct rkvdec_ctx *ctx, struct scaling_factor *output,
+ 				   const struct v4l2_ctrl_hevc_scaling_matrix *input)
+ {
+-	assemble_scalingfactor0(output->scalingfactor0, input);
++	assemble_scalingfactor0(ctx, output->scalingfactor0, input);
+ 	memcpy(output->scalingfactor1, (const u8 *)input->scaling_list_4x4, 96);
+ 	assemble_scalingdc(output->scalingdc, input);
+ 	memset(output->reserved, 0, 4 * sizeof(u8));
+ }
+ 
+-void rkvdec_hevc_assemble_hw_scaling_list(struct rkvdec_hevc_run *run,
++void rkvdec_hevc_assemble_hw_scaling_list(struct rkvdec_ctx *ctx,
++					  struct rkvdec_hevc_run *run,
+ 					  struct scaling_factor *scaling_factor,
+ 					  struct v4l2_ctrl_hevc_scaling_matrix *cache)
+ {
+@@ -233,7 +204,7 @@ void rkvdec_hevc_assemble_hw_scaling_list(struct rkvdec_hevc_run *run,
+ 		    sizeof(struct v4l2_ctrl_hevc_scaling_matrix)))
+ 		return;
+ 
+-	translate_scaling_list(scaling_factor, scaling);
++	translate_scaling_list(ctx, scaling_factor, scaling);
+ 
+ 	memcpy(cache, scaling,
  	       sizeof(struct v4l2_ctrl_hevc_scaling_matrix));
- }
- 
-+static void rkvdec_hevc_assemble_hw_lt_rps(struct rkvdec_hevc_run *run, struct rkvdec_rps *rps)
-+{
-+	const struct v4l2_ctrl_hevc_sps *sps = run->sps;
-+
-+	if (!run->ext_sps_lt_rps)
-+		return;
-+
-+	for (int i = 0; i < sps->num_long_term_ref_pics_sps; i++) {
-+		rps->refs[i].lt_ref_pic_poc_lsb =
-+			run->ext_sps_lt_rps[i].lt_ref_pic_poc_lsb_sps;
-+		rps->refs[i].used_by_curr_pic_lt_flag =
-+			!!(run->ext_sps_lt_rps[i].flags & V4L2_HEVC_EXT_SPS_LT_RPS_FLAG_USED_LT);
-+	}
-+}
-+
-+static void rkvdec_hevc_assemble_hw_st_rps(struct rkvdec_hevc_run *run, struct rkvdec_rps *rps,
-+					   struct calculated_rps_st_set *calculated_rps_st_sets)
-+{
-+	const struct v4l2_ctrl_hevc_sps *sps = run->sps;
-+
-+	for (int i = 0; i < sps->num_short_term_ref_pic_sets; i++) {
-+		int poc = 0;
-+		int j = 0;
-+		const struct calculated_rps_st_set *set = &calculated_rps_st_sets[i];
-+
-+		rps->short_term_ref_sets[i].num_negative = set->num_negative_pics;
-+		rps->short_term_ref_sets[i].num_positive = set->num_positive_pics;
-+
-+		for (; j < set->num_negative_pics; j++) {
-+			set_ref_poc(&rps->short_term_ref_sets[i], j,
-+				    set->delta_poc_s0[j], set->used_by_curr_pic_s0[j]);
-+		}
-+		poc = j;
-+
-+		for (j = 0; j < set->num_positive_pics; j++) {
-+			set_ref_poc(&rps->short_term_ref_sets[i], poc + j,
-+				    set->delta_poc_s1[j], set->used_by_curr_pic_s1[j]);
-+		}
-+	}
-+}
-+
-+/*
-+ * Compute the short term ref pic set parameters based on its reference short term ref pic
-+ */
-+static void st_ref_pic_set_prediction(struct rkvdec_hevc_run *run, int idx,
-+				      struct calculated_rps_st_set *calculated_rps_st_sets)
-+{
-+	const struct v4l2_ctrl_hevc_ext_sps_st_rps *rps_data = &run->ext_sps_st_rps[idx];
-+	struct calculated_rps_st_set *st_rps = &calculated_rps_st_sets[idx];
-+	struct calculated_rps_st_set *ref_rps;
-+	u8 st_rps_idx = idx;
-+	u8 ref_rps_idx = 0;
-+	s16 delta_rps = 0;
-+	u8 use_delta_flag[16] = { 0 };
-+	u8 used_by_curr_pic_flag[16] = { 0 };
-+	int i, j;
-+	int dPoc;
-+
-+	ref_rps_idx = st_rps_idx - (rps_data->delta_idx_minus1 + 1); /* 7-59 */
-+	delta_rps = (1 - 2 * rps_data->delta_rps_sign) *
-+		   (rps_data->abs_delta_rps_minus1 + 1); /* 7-60 */
-+
-+	ref_rps = &calculated_rps_st_sets[ref_rps_idx];
-+
-+	for (j = 0; j <= ref_rps->num_delta_pocs; j++) {
-+		used_by_curr_pic_flag[j] = !!(rps_data->used_by_curr_pic & (1 << j));
-+		use_delta_flag[j] = !!(rps_data->use_delta_flag & (1 << j));
-+	}
-+
-+	/* 7-61: calculate num_negative_pics, delta_poc_s0 and used_by_curr_pic_s0 */
-+	i = 0;
-+	for (j = (ref_rps->num_positive_pics - 1); j >= 0; j--) {
-+		dPoc = ref_rps->delta_poc_s1[j] + delta_rps;
-+		if (dPoc < 0 && use_delta_flag[ref_rps->num_negative_pics + j]) {
-+			st_rps->delta_poc_s0[i] = dPoc;
-+			st_rps->used_by_curr_pic_s0[i++] =
-+				used_by_curr_pic_flag[ref_rps->num_negative_pics + j];
-+		}
-+	}
-+	if (delta_rps < 0 && use_delta_flag[ref_rps->num_delta_pocs]) {
-+		st_rps->delta_poc_s0[i] = delta_rps;
-+		st_rps->used_by_curr_pic_s0[i++] = used_by_curr_pic_flag[ref_rps->num_delta_pocs];
-+	}
-+	for (j = 0; j < ref_rps->num_negative_pics; j++) {
-+		dPoc = ref_rps->delta_poc_s0[j] + delta_rps;
-+		if (dPoc < 0 && use_delta_flag[j]) {
-+			st_rps->delta_poc_s0[i] = dPoc;
-+			st_rps->used_by_curr_pic_s0[i++] = used_by_curr_pic_flag[j];
-+		}
-+	}
-+	st_rps->num_negative_pics = i;
-+
-+	/* 7-62: calculate num_positive_pics, delta_poc_s1 and used_by_curr_pic_s1 */
-+	i = 0;
-+	for (j = (ref_rps->num_negative_pics - 1); j >= 0; j--) {
-+		dPoc = ref_rps->delta_poc_s0[j] + delta_rps;
-+		if (dPoc > 0 && use_delta_flag[j]) {
-+			st_rps->delta_poc_s1[i] = dPoc;
-+			st_rps->used_by_curr_pic_s1[i++] = used_by_curr_pic_flag[j];
-+		}
-+	}
-+	if (delta_rps > 0 && use_delta_flag[ref_rps->num_delta_pocs]) {
-+		st_rps->delta_poc_s1[i] = delta_rps;
-+		st_rps->used_by_curr_pic_s1[i++] = used_by_curr_pic_flag[ref_rps->num_delta_pocs];
-+	}
-+	for (j = 0; j < ref_rps->num_positive_pics; j++) {
-+		dPoc = ref_rps->delta_poc_s1[j] + delta_rps;
-+		if (dPoc > 0 && use_delta_flag[ref_rps->num_negative_pics + j]) {
-+			st_rps->delta_poc_s1[i] = dPoc;
-+			st_rps->used_by_curr_pic_s1[i++] =
-+				used_by_curr_pic_flag[ref_rps->num_negative_pics + j];
-+		}
-+	}
-+	st_rps->num_positive_pics = i;
-+
-+	st_rps->num_delta_pocs = st_rps->num_positive_pics + st_rps->num_negative_pics;
-+}
-+
-+/*
-+ * Compute the short term ref pic set parameters based on the control's data.
-+ */
-+static void st_ref_pic_set_calculate(struct rkvdec_hevc_run *run, int idx,
-+				     struct calculated_rps_st_set *calculated_rps_st_sets)
-+{
-+	const struct v4l2_ctrl_hevc_ext_sps_st_rps *rps_data = &run->ext_sps_st_rps[idx];
-+	struct calculated_rps_st_set *st_rps = &calculated_rps_st_sets[idx];
-+	int j, i = 0;
-+
-+	/* 7-63 */
-+	st_rps->num_negative_pics = rps_data->num_negative_pics;
-+	/* 7-64 */
-+	st_rps->num_positive_pics = rps_data->num_positive_pics;
-+
-+	for (i = 0; i < st_rps->num_negative_pics; i++) {
-+		/* 7-65 */
-+		st_rps->used_by_curr_pic_s0[i] = !!(rps_data->used_by_curr_pic & (1 << i));
-+
-+		if (i == 0) {
-+			/* 7-67 */
-+			st_rps->delta_poc_s0[i] = -(rps_data->delta_poc_s0_minus1[i] + 1);
-+		} else {
-+			/* 7-69 */
-+			st_rps->delta_poc_s0[i] =
-+				st_rps->delta_poc_s0[i - 1] -
-+				(rps_data->delta_poc_s0_minus1[i] + 1);
-+		}
-+	}
-+
-+	for (j = 0; j < st_rps->num_positive_pics; j++) {
-+		/* 7-66 */
-+		st_rps->used_by_curr_pic_s1[j] = !!(rps_data->used_by_curr_pic & (1 << (i + j)));
-+
-+		if (j == 0) {
-+			/* 7-68 */
-+			st_rps->delta_poc_s1[j] = rps_data->delta_poc_s1_minus1[j] + 1;
-+		} else {
-+			/* 7-70 */
-+			st_rps->delta_poc_s1[j] =
-+				st_rps->delta_poc_s1[j - 1] +
-+				(rps_data->delta_poc_s1_minus1[j] + 1);
-+		}
-+	}
-+
-+	/* 7-71 */
-+	st_rps->num_delta_pocs = st_rps->num_positive_pics + st_rps->num_negative_pics;
-+}
-+
-+static void rkvdec_hevc_prepare_hw_st_rps(struct rkvdec_hevc_run *run, struct rkvdec_rps *rps,
-+					  struct v4l2_ctrl_hevc_ext_sps_st_rps *cache)
-+{
-+	int idx;
-+
-+	if (!run->ext_sps_st_rps)
-+		return;
-+
-+	if (!memcmp(cache, run->ext_sps_st_rps, sizeof(struct v4l2_ctrl_hevc_ext_sps_st_rps)))
-+		return;
-+
-+	struct calculated_rps_st_set *calculated_rps_st_sets =
-+		kzalloc(sizeof(struct calculated_rps_st_set) *
-+			run->sps->num_short_term_ref_pic_sets, GFP_KERNEL);
-+
-+	for (idx = 0; idx < run->sps->num_short_term_ref_pic_sets; idx++) {
-+		const struct v4l2_ctrl_hevc_ext_sps_st_rps *rps_data = &run->ext_sps_st_rps[idx];
-+
-+		if (rps_data->flags & V4L2_HEVC_EXT_SPS_ST_RPS_FLAG_INTER_REF_PIC_SET_PRED)
-+			st_ref_pic_set_prediction(run, idx, calculated_rps_st_sets);
-+		else
-+			st_ref_pic_set_calculate(run, idx, calculated_rps_st_sets);
-+	}
-+
-+	rkvdec_hevc_assemble_hw_st_rps(run, rps, calculated_rps_st_sets);
-+
-+	kfree(calculated_rps_st_sets);
-+
-+	memcpy(cache, run->ext_sps_st_rps, sizeof(struct v4l2_ctrl_hevc_ext_sps_st_rps));
-+}
-+
-+void rkvdec_hevc_assemble_hw_rps(struct rkvdec_hevc_run *run, struct rkvdec_rps *rps,
-+				 struct v4l2_ctrl_hevc_ext_sps_st_rps *st_cache)
-+{
-+	rkvdec_hevc_prepare_hw_st_rps(run, rps, st_cache);
-+	rkvdec_hevc_assemble_hw_lt_rps(run, rps);
-+}
-+
- struct vb2_buffer *
- get_ref_buf(struct rkvdec_ctx *ctx, struct rkvdec_hevc_run *run,
- 	    unsigned int dpb_idx)
-@@ -202,5 +526,16 @@ void rkvdec_hevc_run_preamble(struct rkvdec_ctx *ctx,
- 			      V4L2_CID_STATELESS_HEVC_SCALING_MATRIX);
- 	run->scaling_matrix = ctrl ? ctrl->p_cur.p : NULL;
- 
-+	if (ctx->has_sps_st_rps) {
-+		ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
-+				      V4L2_CID_STATELESS_HEVC_EXT_SPS_ST_RPS);
-+		run->ext_sps_st_rps = ctrl ? ctrl->p_cur.p : NULL;
-+	}
-+	if (ctx->has_sps_lt_rps) {
-+		ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
-+				      V4L2_CID_STATELESS_HEVC_EXT_SPS_LT_RPS);
-+		run->ext_sps_lt_rps = ctrl ? ctrl->p_cur.p : NULL;
-+	}
-+
- 	rkvdec_run_preamble(ctx, &run->base);
- }
 diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.h b/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.h
-index e3099fdd784b1..0d7498e6a112a 100644
+index 0d7498e6a112a..96521d7234776 100644
 --- a/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.h
 +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.h
-@@ -16,11 +16,60 @@
-  */
- 
- #include <media/v4l2-mem2mem.h>
-+#include <linux/types.h>
- #include "rkvdec.h"
- 
- #define RKV_HEVC_CABAC_TABLE_SIZE		27456
- extern const u8 rkvdec_hevc_cabac_table[RKV_HEVC_CABAC_TABLE_SIZE];
- 
-+struct rkvdec_rps_refs {
-+	u16 lt_ref_pic_poc_lsb;
-+	u16 used_by_curr_pic_lt_flag	: 1;
-+	u16 reserved			: 15;
-+} __packed;
-+
-+struct rkvdec_rps_short_term_ref_set {
-+	u32 num_negative	: 4;
-+	u32 num_positive	: 4;
-+	u32 delta_poc0		: 16;
-+	u32 used_flag0		: 1;
-+	u32 delta_poc1		: 16;
-+	u32 used_flag1		: 1;
-+	u32 delta_poc2		: 16;
-+	u32 used_flag2		: 1;
-+	u32 delta_poc3		: 16;
-+	u32 used_flag3		: 1;
-+	u32 delta_poc4		: 16;
-+	u32 used_flag4		: 1;
-+	u32 delta_poc5		: 16;
-+	u32 used_flag5		: 1;
-+	u32 delta_poc6		: 16;
-+	u32 used_flag6		: 1;
-+	u32 delta_poc7		: 16;
-+	u32 used_flag7		: 1;
-+	u32 delta_poc8		: 16;
-+	u32 used_flag8		: 1;
-+	u32 delta_poc9		: 16;
-+	u32 used_flag9		: 1;
-+	u32 delta_poc10		: 16;
-+	u32 used_flag10		: 1;
-+	u32 delta_poc11		: 16;
-+	u32 used_flag11		: 1;
-+	u32 delta_poc12		: 16;
-+	u32 used_flag12		: 1;
-+	u32 delta_poc13		: 16;
-+	u32 used_flag13		: 1;
-+	u32 delta_poc14		: 16;
-+	u32 used_flag14		: 1;
-+	u32 reserved_bits	: 25;
-+	u32 reserved[3];
-+} __packed;
-+
-+struct rkvdec_rps {
-+	struct rkvdec_rps_refs refs[32];
-+	struct rkvdec_rps_short_term_ref_set short_term_ref_sets[64];
-+} __packed;
-+
- struct rkvdec_hevc_run {
- 	struct rkvdec_run base;
- 	const struct v4l2_ctrl_hevc_slice_params *slices_params;
-@@ -28,6 +77,8 @@ struct rkvdec_hevc_run {
- 	const struct v4l2_ctrl_hevc_sps *sps;
- 	const struct v4l2_ctrl_hevc_pps *pps;
- 	const struct v4l2_ctrl_hevc_scaling_matrix *scaling_matrix;
-+	const struct v4l2_ctrl_hevc_ext_sps_st_rps *ext_sps_st_rps;
-+	const struct v4l2_ctrl_hevc_ext_sps_lt_rps *ext_sps_lt_rps;
- 	int num_slices;
- };
- 
-@@ -38,6 +89,14 @@ struct scaling_factor {
- 	u8 reserved[4];		/*16Bytes align*/
- };
- 
-+void compute_tiles_uniform(struct rkvdec_hevc_run *run, u16 log2_min_cb_size,
-+			   u16 width, u16 height, s32 pic_in_cts_width,
-+			   s32 pic_in_cts_height, u16 *column_width, u16 *row_height);
-+void compute_tiles_non_uniform(struct rkvdec_hevc_run *run, u16 log2_min_cb_size,
-+			       u16 width, u16 height, s32 pic_in_cts_width,
-+			       s32 pic_in_cts_height, u16 *column_width, u16 *row_height);
-+void rkvdec_hevc_assemble_hw_rps(struct rkvdec_hevc_run *run, struct rkvdec_rps *rps,
-+				 struct v4l2_ctrl_hevc_ext_sps_st_rps *st_cache);
- void rkvdec_hevc_assemble_hw_scaling_list(struct rkvdec_hevc_run *run,
+@@ -97,7 +97,8 @@ void compute_tiles_non_uniform(struct rkvdec_hevc_run *run, u16 log2_min_cb_size
+ 			       s32 pic_in_cts_height, u16 *column_width, u16 *row_height);
+ void rkvdec_hevc_assemble_hw_rps(struct rkvdec_hevc_run *run, struct rkvdec_rps *rps,
+ 				 struct v4l2_ctrl_hevc_ext_sps_st_rps *st_cache);
+-void rkvdec_hevc_assemble_hw_scaling_list(struct rkvdec_hevc_run *run,
++void rkvdec_hevc_assemble_hw_scaling_list(struct rkvdec_ctx *ctx,
++					  struct rkvdec_hevc_run *run,
  					  struct scaling_factor *scaling_factor,
  					  struct v4l2_ctrl_hevc_scaling_matrix *cache);
+ struct vb2_buffer *get_ref_buf(struct rkvdec_ctx *ctx,
+diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc.c b/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc.c
+index 156ce381f0680..89b70ca27127f 100644
+--- a/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc.c
++++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc.c
+@@ -567,7 +567,7 @@ static int rkvdec_hevc_run(struct rkvdec_ctx *ctx)
+ 
+ 	rkvdec_hevc_run_preamble(ctx, &run);
+ 
+-	rkvdec_hevc_assemble_hw_scaling_list(&run, &tbl->scaling_list,
++	rkvdec_hevc_assemble_hw_scaling_list(ctx, &run, &tbl->scaling_list,
+ 					     &hevc_ctx->scaling_matrix_cache);
+ 	assemble_hw_pps(ctx, &run);
+ 	assemble_sw_rps(ctx, &run);
 diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu381-hevc.c b/drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu381-hevc.c
-new file mode 100644
-index 0000000000000..6a73f587bdd1d
---- /dev/null
+index 6a73f587bdd1d..c342c7838040f 100644
+--- a/drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu381-hevc.c
 +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu381-hevc.c
-@@ -0,0 +1,622 @@
+@@ -586,8 +586,7 @@ static int rkvdec_hevc_run(struct rkvdec_ctx *ctx)
+ 		dev_warn_ratelimited(rkvdec->dev, "Long and short term RPS not set\n");
+ 	}
+ 
+-	rkvdec_hevc_assemble_hw_scaling_list(&run,
+-					     &tbl->scaling_list,
++	rkvdec_hevc_assemble_hw_scaling_list(ctx, &run, &tbl->scaling_list,
+ 					     &hevc_ctx->scaling_matrix_cache);
+ 	assemble_hw_pps(ctx, &run);
+ 	rkvdec_hevc_assemble_hw_rps(&run, &tbl->rps, &hevc_ctx->st_cache);
+diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-hevc.c b/drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-hevc.c
+new file mode 100644
+index 0000000000000..26c49f79f07f5
+--- /dev/null
++++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-hevc.c
+@@ -0,0 +1,720 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * Rockchip VDPU381 HEVC backend
++ * Rockchip VDPU383 HEVC backend
 + *
 + * Copyright (C) 2025 Collabora, Ltd.
 + *  Detlev Casanova <detlev.casanova@collabora.com>
@@ -583,17 +274,17 @@ index 0000000000000..6a73f587bdd1d
 +#include "rkvdec.h"
 +#include "rkvdec-rcb.h"
 +#include "rkvdec-hevc-common.h"
-+#include "rkvdec-vdpu381-regs.h"
++#include "rkvdec-vdpu383-regs.h"
 +
-+// SPS
-+struct rkvdec_hevc_sps {
++struct rkvdec_hevc_sps_pps {
++	// SPS
 +	u16 video_parameters_set_id			: 4;
 +	u16 seq_parameters_set_id_sps			: 4;
 +	u16 chroma_format_idc				: 2;
 +	u16 width					: 16;
 +	u16 height					: 16;
-+	u16 bit_depth_luma				: 4;
-+	u16 bit_depth_chroma				: 4;
++	u16 bit_depth_luma				: 3;
++	u16 bit_depth_chroma				: 3;
 +	u16 max_pic_order_count_lsb			: 5;
 +	u16 diff_max_min_luma_coding_block_size		: 2;
 +	u16 min_luma_coding_block_size			: 3;
@@ -615,14 +306,13 @@ index 0000000000000..6a73f587bdd1d
 +	u16 num_long_term_ref_pics_sps			: 6;
 +	u16 sps_temporal_mvp_enabled_flag		: 1;
 +	u16 strong_intra_smoothing_enabled_flag		: 1;
-+	u16 reserved_0					: 7;
++	u16 reserved0					: 7;
 +	u16 sps_max_dec_pic_buffering_minus1		: 4;
-+	u16 reserved_0_2				: 3;
-+	u16 reserved_f					: 8;
-+} __packed;
++	u16 separate_colour_plane_flag			: 1;
++	u16 high_precision_offsets_enabled_flag		: 1;
++	u16 persistent_rice_adaptation_enabled_flag	: 1;
 +
-+//PPS
-+struct rkvdec_hevc_pps {
++	// PPS
 +	u16 picture_parameters_set_id			: 6;
 +	u16 seq_parameters_set_id_pps			: 4;
 +	u16 dependent_slice_segments_enabled_flag	: 1;
@@ -654,58 +344,212 @@ index 0000000000000..6a73f587bdd1d
 +	u16 lists_modification_present_flag		: 1;
 +	u16 log2_parallel_merge_level			: 3;
 +	u16 slice_segment_header_extension_present_flag	: 1;
-+	u16 zeroes					: 3;
++	u16 reserved1					: 3;
++
++	// pps extensions
++	u16 log2_max_transform_skip_block_size		: 2;
++	u16 cross_component_prediction_enabled_flag	: 1;
++	u16 chroma_qp_offset_list_enabled_flag		: 1;
++	u16 log2_min_cu_chroma_qp_delta_size		: 3;
++	u16 cb_qp_offset_list0				: 5;
++	u16 cb_qp_offset_list1				: 5;
++	u16 cb_qp_offset_list2				: 5;
++	u16 cb_qp_offset_list3				: 5;
++	u16 cb_qp_offset_list4				: 5;
++	u16 cb_qp_offset_list5				: 5;
++	u16 cb_cr_offset_list0				: 5;
++	u16 cb_cr_offset_list1				: 5;
++	u16 cb_cr_offset_list2				: 5;
++	u16 cb_cr_offset_list3				: 5;
++	u16 cb_cr_offset_list4				: 5;
++	u16 cb_cr_offset_list5				: 5;
++	u16 chroma_qp_offset_list_len_minus1		: 3;
++
++	/* mvc0 && mvc1 */
++	u16 mvc_ff					: 16;
++	u16 mvc_00					: 9;
++
++	/* poc info */
++	u16 reserved2					: 3;
++	u32 current_poc					: 32;
++	u32 ref_pic_poc0				: 32;
++	u32 ref_pic_poc1				: 32;
++	u32 ref_pic_poc2				: 32;
++	u32 ref_pic_poc3				: 32;
++	u32 ref_pic_poc4				: 32;
++	u32 ref_pic_poc5				: 32;
++	u32 ref_pic_poc6				: 32;
++	u32 ref_pic_poc7				: 32;
++	u32 ref_pic_poc8				: 32;
++	u32 ref_pic_poc9				: 32;
++	u32 ref_pic_poc10				: 32;
++	u32 ref_pic_poc11				: 32;
++	u32 ref_pic_poc12				: 32;
++	u32 ref_pic_poc13				: 32;
++	u32 ref_pic_poc14				: 32;
++	u32 reserved3					: 32;
++	u32 ref_is_valid				: 15;
++	u32 reserved4					: 1;
++
++	/* tile info*/
 +	u16 num_tile_columns				: 5;
 +	u16 num_tile_rows				: 5;
-+	u16 sps_pps_mode				: 4;
-+	u16 reserved_bits				: 14;
-+	u16 reserved;
-+} __packed;
-+
-+struct rkvdec_hevc_tile {
-+	u16 value0	: 12;
-+	u16 value1	: 12;
-+} __packed;
-+
-+struct rkvdec_sps_pps_packet {
-+	struct rkvdec_hevc_sps sps;
-+	struct rkvdec_hevc_pps pps;
-+	struct rkvdec_hevc_tile column_width[10];
-+	struct rkvdec_hevc_tile row_height[11];
-+	u32 zeroes[3];
-+	u32 zeroes_bits		: 6;
-+	u32 padding_bits	: 2;
++	u32 column_width0				: 24;
++	u32 column_width1				: 24;
++	u32 column_width2				: 24;
++	u32 column_width3				: 24;
++	u32 column_width4				: 24;
++	u32 column_width5				: 24;
++	u32 column_width6				: 24;
++	u32 column_width7				: 24;
++	u32 column_width8				: 24;
++	u32 column_width9				: 24;
++	u32 row_height0					: 24;
++	u32 row_height1					: 24;
++	u32 row_height2					: 24;
++	u32 row_height3					: 24;
++	u32 row_height4					: 24;
++	u32 row_height5					: 24;
++	u32 row_height6					: 24;
++	u32 row_height7					: 24;
++	u32 row_height8					: 24;
++	u32 row_height9					: 24;
++	u32 row_height10				: 24;
++	u32 reserved5					: 2;
 +	u32 padding;
 +} __packed;
 +
 +struct rkvdec_hevc_priv_tbl {
-+	struct rkvdec_sps_pps_packet param_set[64];
++	struct rkvdec_hevc_sps_pps param_set;
 +	struct rkvdec_rps rps;
 +	struct scaling_factor scaling_list;
 +	u8 cabac_table[27456];
-+};
++}  __packed;
 +
 +struct rkvdec_hevc_ctx {
 +	struct rkvdec_aux_buf			priv_tbl;
 +	struct v4l2_ctrl_hevc_scaling_matrix	scaling_matrix_cache;
 +	struct v4l2_ctrl_hevc_ext_sps_st_rps	st_cache;
-+	struct rkvdec_vdpu381_regs_hevc		regs;
++	struct vdpu383_regs_h26x		regs;
 +};
++
++static void set_column_row(struct rkvdec_hevc_sps_pps *hw_ps, u16 column, u16 row, int i)
++{
++	int shift = (i & 1) ? 12 : 0;
++
++	switch (i / 2) {
++	case 0:
++		hw_ps->column_width0 |= column << shift;
++		hw_ps->row_height0 |= row << shift;
++		break;
++	case 1:
++		hw_ps->column_width1 |= column << shift;
++		hw_ps->row_height1 |= row << shift;
++		break;
++	case 2:
++		hw_ps->column_width2 |= column << shift;
++		hw_ps->row_height2 |= row << shift;
++		break;
++	case 3:
++		hw_ps->column_width3 |= column << shift;
++		hw_ps->row_height3 |= row << shift;
++		break;
++	case 4:
++		hw_ps->column_width4 |= column << shift;
++		hw_ps->row_height4 |= row << shift;
++		break;
++	case 5:
++		hw_ps->column_width5 |= column << shift;
++		hw_ps->row_height5 |= row << shift;
++		break;
++	case 6:
++		hw_ps->column_width6 |= column << shift;
++		hw_ps->row_height6 |= row << shift;
++		break;
++	case 7:
++		hw_ps->column_width7 |= column << shift;
++		hw_ps->row_height7 |= row << shift;
++		break;
++	case 8:
++		hw_ps->column_width8 |= column << shift;
++		hw_ps->row_height8 |= row << shift;
++		break;
++	case 9:
++		hw_ps->column_width9 |= column << shift;
++		hw_ps->row_height9 |= row << shift;
++		break;
++	case 10:
++		hw_ps->row_height10 |= row << shift;
++		break;
++	}
++}
++
++static void set_pps_ref_pic_poc(struct rkvdec_hevc_sps_pps *hw_ps, u32 poc, int i)
++{
++	switch (i) {
++	case 0:
++		hw_ps->ref_pic_poc0 = poc;
++		break;
++	case 1:
++		hw_ps->ref_pic_poc1 = poc;
++		break;
++	case 2:
++		hw_ps->ref_pic_poc2 = poc;
++		break;
++	case 3:
++		hw_ps->ref_pic_poc3 = poc;
++		break;
++	case 4:
++		hw_ps->ref_pic_poc4 = poc;
++		break;
++	case 5:
++		hw_ps->ref_pic_poc5 = poc;
++		break;
++	case 6:
++		hw_ps->ref_pic_poc6 = poc;
++		break;
++	case 7:
++		hw_ps->ref_pic_poc7 = poc;
++		break;
++	case 8:
++		hw_ps->ref_pic_poc8 = poc;
++		break;
++	case 9:
++		hw_ps->ref_pic_poc9 = poc;
++		break;
++	case 10:
++		hw_ps->ref_pic_poc10 = poc;
++		break;
++	case 11:
++		hw_ps->ref_pic_poc11 = poc;
++		break;
++	case 12:
++		hw_ps->ref_pic_poc12 = poc;
++		break;
++	case 13:
++		hw_ps->ref_pic_poc13 = poc;
++		break;
++	case 14:
++		hw_ps->ref_pic_poc14 = poc;
++		break;
++	}
++}
 +
 +static void assemble_hw_pps(struct rkvdec_ctx *ctx,
 +			    struct rkvdec_hevc_run *run)
 +{
-+	struct rkvdec_hevc_ctx *hevc_ctx = ctx->priv;
++	struct rkvdec_hevc_ctx *h264_ctx = ctx->priv;
 +	const struct v4l2_ctrl_hevc_sps *sps = run->sps;
 +	const struct v4l2_ctrl_hevc_pps *pps = run->pps;
-+	struct rkvdec_hevc_priv_tbl *priv_tbl = hevc_ctx->priv_tbl.cpu;
-+	struct rkvdec_sps_pps_packet *hw_ps;
++	const struct v4l2_ctrl_hevc_decode_params *dec_params = run->decode_params;
++	struct rkvdec_hevc_priv_tbl *priv_tbl = h264_ctx->priv_tbl.cpu;
++	struct rkvdec_hevc_sps_pps *hw_ps;
 +	bool tiles_enabled;
 +	s32 max_cu_width;
 +	s32 pic_in_cts_width;
 +	s32 pic_in_cts_height;
 +	u16 log2_min_cb_size, width, height;
-+	u16 column_width[20];
++	u16 column_width[22];
 +	u16 row_height[22];
 +	u8 pcm_enabled;
 +	u32 i;
@@ -716,116 +560,108 @@ index 0000000000000..6a73f587bdd1d
 +	 * packet unit). so the driver copy SPS/PPS information to the exact PPS
 +	 * packet unit for HW accessing.
 +	 */
-+	hw_ps = &priv_tbl->param_set[pps->pic_parameter_set_id];
++	hw_ps = &priv_tbl->param_set;
 +	memset(hw_ps, 0, sizeof(*hw_ps));
 +
 +	/* write sps */
-+	hw_ps->sps.video_parameters_set_id = sps->video_parameter_set_id;
-+	hw_ps->sps.seq_parameters_set_id_sps = sps->seq_parameter_set_id;
-+	hw_ps->sps.chroma_format_idc = sps->chroma_format_idc;
++	hw_ps->video_parameters_set_id = sps->video_parameter_set_id;
++	hw_ps->seq_parameters_set_id_sps = sps->seq_parameter_set_id;
++	hw_ps->chroma_format_idc = sps->chroma_format_idc;
 +
 +	log2_min_cb_size = sps->log2_min_luma_coding_block_size_minus3 + 3;
 +	width = sps->pic_width_in_luma_samples;
 +	height = sps->pic_height_in_luma_samples;
-+	hw_ps->sps.width = width;
-+	hw_ps->sps.height = height;
-+	hw_ps->sps.bit_depth_luma = sps->bit_depth_luma_minus8 + 8;
-+	hw_ps->sps.bit_depth_chroma = sps->bit_depth_chroma_minus8 + 8;
-+	hw_ps->sps.max_pic_order_count_lsb = sps->log2_max_pic_order_cnt_lsb_minus4 + 4;
-+	hw_ps->sps.diff_max_min_luma_coding_block_size =
-+		sps->log2_diff_max_min_luma_coding_block_size;
-+	hw_ps->sps.min_luma_coding_block_size = sps->log2_min_luma_coding_block_size_minus3 + 3;
-+	hw_ps->sps.min_transform_block_size = sps->log2_min_luma_transform_block_size_minus2 + 2;
-+	hw_ps->sps.diff_max_min_transform_block_size =
++	hw_ps->width = width;
++	hw_ps->height = height;
++	hw_ps->bit_depth_luma = sps->bit_depth_luma_minus8 + 8;
++	hw_ps->bit_depth_chroma = sps->bit_depth_chroma_minus8 + 8;
++	hw_ps->max_pic_order_count_lsb = sps->log2_max_pic_order_cnt_lsb_minus4 + 4;
++	hw_ps->diff_max_min_luma_coding_block_size = sps->log2_diff_max_min_luma_coding_block_size;
++	hw_ps->min_luma_coding_block_size = sps->log2_min_luma_coding_block_size_minus3 + 3;
++	hw_ps->min_transform_block_size = sps->log2_min_luma_transform_block_size_minus2 + 2;
++	hw_ps->diff_max_min_transform_block_size =
 +		sps->log2_diff_max_min_luma_transform_block_size;
-+	hw_ps->sps.max_transform_hierarchy_depth_inter = sps->max_transform_hierarchy_depth_inter;
-+	hw_ps->sps.max_transform_hierarchy_depth_intra = sps->max_transform_hierarchy_depth_intra;
-+	hw_ps->sps.scaling_list_enabled_flag =
++	hw_ps->max_transform_hierarchy_depth_inter = sps->max_transform_hierarchy_depth_inter;
++	hw_ps->max_transform_hierarchy_depth_intra = sps->max_transform_hierarchy_depth_intra;
++	hw_ps->scaling_list_enabled_flag =
 +		!!(sps->flags & V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED);
-+	hw_ps->sps.amp_enabled_flag = !!(sps->flags & V4L2_HEVC_SPS_FLAG_AMP_ENABLED);
-+	hw_ps->sps.sample_adaptive_offset_enabled_flag =
++	hw_ps->amp_enabled_flag = !!(sps->flags & V4L2_HEVC_SPS_FLAG_AMP_ENABLED);
++	hw_ps->sample_adaptive_offset_enabled_flag =
 +		!!(sps->flags & V4L2_HEVC_SPS_FLAG_SAMPLE_ADAPTIVE_OFFSET);
 +
 +	pcm_enabled = !!(sps->flags & V4L2_HEVC_SPS_FLAG_PCM_ENABLED);
-+	hw_ps->sps.pcm_enabled_flag = pcm_enabled;
-+	hw_ps->sps.pcm_sample_bit_depth_luma =
++	hw_ps->pcm_enabled_flag = pcm_enabled;
++	hw_ps->pcm_sample_bit_depth_luma =
 +		pcm_enabled ? sps->pcm_sample_bit_depth_luma_minus1 + 1 : 0;
-+	hw_ps->sps.pcm_sample_bit_depth_chroma =
++	hw_ps->pcm_sample_bit_depth_chroma =
 +		pcm_enabled ? sps->pcm_sample_bit_depth_chroma_minus1 + 1 : 0;
-+	hw_ps->sps.pcm_loop_filter_disabled_flag =
++	hw_ps->pcm_loop_filter_disabled_flag =
 +		!!(sps->flags & V4L2_HEVC_SPS_FLAG_PCM_LOOP_FILTER_DISABLED);
-+	hw_ps->sps.diff_max_min_pcm_luma_coding_block_size =
++	hw_ps->diff_max_min_pcm_luma_coding_block_size =
 +		sps->log2_diff_max_min_pcm_luma_coding_block_size;
-+	hw_ps->sps.min_pcm_luma_coding_block_size =
++	hw_ps->min_pcm_luma_coding_block_size =
 +		pcm_enabled ? sps->log2_min_pcm_luma_coding_block_size_minus3 + 3 : 0;
-+	hw_ps->sps.num_short_term_ref_pic_sets = sps->num_short_term_ref_pic_sets;
-+	hw_ps->sps.long_term_ref_pics_present_flag =
++	hw_ps->num_short_term_ref_pic_sets = sps->num_short_term_ref_pic_sets;
++	hw_ps->long_term_ref_pics_present_flag =
 +		!!(sps->flags & V4L2_HEVC_SPS_FLAG_LONG_TERM_REF_PICS_PRESENT);
-+	hw_ps->sps.num_long_term_ref_pics_sps = sps->num_long_term_ref_pics_sps;
-+	hw_ps->sps.sps_temporal_mvp_enabled_flag =
++	hw_ps->num_long_term_ref_pics_sps = sps->num_long_term_ref_pics_sps;
++	hw_ps->sps_temporal_mvp_enabled_flag =
 +		!!(sps->flags & V4L2_HEVC_SPS_FLAG_SPS_TEMPORAL_MVP_ENABLED);
-+	hw_ps->sps.strong_intra_smoothing_enabled_flag =
++	hw_ps->strong_intra_smoothing_enabled_flag =
 +		!!(sps->flags & V4L2_HEVC_SPS_FLAG_STRONG_INTRA_SMOOTHING_ENABLED);
-+	hw_ps->sps.sps_max_dec_pic_buffering_minus1 = sps->sps_max_dec_pic_buffering_minus1;
-+	hw_ps->sps.reserved_f = 0xff;
++	hw_ps->sps_max_dec_pic_buffering_minus1 = sps->sps_max_dec_pic_buffering_minus1;
 +
 +	/* write pps */
-+	hw_ps->pps.picture_parameters_set_id = pps->pic_parameter_set_id;
-+	hw_ps->pps.seq_parameters_set_id_pps = sps->seq_parameter_set_id;
-+	hw_ps->pps.dependent_slice_segments_enabled_flag =
++	hw_ps->picture_parameters_set_id = pps->pic_parameter_set_id;
++	hw_ps->seq_parameters_set_id_pps = sps->seq_parameter_set_id;
++	hw_ps->dependent_slice_segments_enabled_flag =
 +		!!(pps->flags & V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT_ENABLED);
-+	hw_ps->pps.output_flag_present_flag =
-+		!!(pps->flags & V4L2_HEVC_PPS_FLAG_OUTPUT_FLAG_PRESENT);
-+	hw_ps->pps.num_extra_slice_header_bits = pps->num_extra_slice_header_bits;
-+	hw_ps->pps.sign_data_hiding_enabled_flag =
++	hw_ps->output_flag_present_flag = !!(pps->flags & V4L2_HEVC_PPS_FLAG_OUTPUT_FLAG_PRESENT);
++	hw_ps->num_extra_slice_header_bits = pps->num_extra_slice_header_bits;
++	hw_ps->sign_data_hiding_enabled_flag =
 +		!!(pps->flags & V4L2_HEVC_PPS_FLAG_SIGN_DATA_HIDING_ENABLED);
-+	hw_ps->pps.cabac_init_present_flag =
-+		!!(pps->flags & V4L2_HEVC_PPS_FLAG_CABAC_INIT_PRESENT);
-+	hw_ps->pps.num_ref_idx_l0_default_active = pps->num_ref_idx_l0_default_active_minus1 + 1;
-+	hw_ps->pps.num_ref_idx_l1_default_active = pps->num_ref_idx_l1_default_active_minus1 + 1;
-+	hw_ps->pps.init_qp_minus26 = pps->init_qp_minus26;
-+	hw_ps->pps.constrained_intra_pred_flag =
++	hw_ps->cabac_init_present_flag = !!(pps->flags & V4L2_HEVC_PPS_FLAG_CABAC_INIT_PRESENT);
++	hw_ps->num_ref_idx_l0_default_active = pps->num_ref_idx_l0_default_active_minus1 + 1;
++	hw_ps->num_ref_idx_l1_default_active = pps->num_ref_idx_l1_default_active_minus1 + 1;
++	hw_ps->init_qp_minus26 = pps->init_qp_minus26;
++	hw_ps->constrained_intra_pred_flag =
 +		!!(pps->flags & V4L2_HEVC_PPS_FLAG_CONSTRAINED_INTRA_PRED);
-+	hw_ps->pps.transform_skip_enabled_flag =
++	hw_ps->transform_skip_enabled_flag =
 +		!!(pps->flags & V4L2_HEVC_PPS_FLAG_TRANSFORM_SKIP_ENABLED);
-+	hw_ps->pps.cu_qp_delta_enabled_flag =
-+		!!(pps->flags & V4L2_HEVC_PPS_FLAG_CU_QP_DELTA_ENABLED);
-+	hw_ps->pps.log2_min_cb_size = log2_min_cb_size +
-+				      sps->log2_diff_max_min_luma_coding_block_size -
-+				      pps->diff_cu_qp_delta_depth;
-+	hw_ps->pps.pps_cb_qp_offset = pps->pps_cb_qp_offset;
-+	hw_ps->pps.pps_cr_qp_offset = pps->pps_cr_qp_offset;
-+	hw_ps->pps.pps_slice_chroma_qp_offsets_present_flag =
++	hw_ps->cu_qp_delta_enabled_flag = !!(pps->flags & V4L2_HEVC_PPS_FLAG_CU_QP_DELTA_ENABLED);
++	hw_ps->log2_min_cb_size = log2_min_cb_size +
++				  sps->log2_diff_max_min_luma_coding_block_size -
++				  pps->diff_cu_qp_delta_depth;
++	hw_ps->pps_cb_qp_offset = pps->pps_cb_qp_offset;
++	hw_ps->pps_cr_qp_offset = pps->pps_cr_qp_offset;
++	hw_ps->pps_slice_chroma_qp_offsets_present_flag =
 +		!!(pps->flags & V4L2_HEVC_PPS_FLAG_PPS_SLICE_CHROMA_QP_OFFSETS_PRESENT);
-+	hw_ps->pps.weighted_pred_flag = !!(pps->flags & V4L2_HEVC_PPS_FLAG_WEIGHTED_PRED);
-+	hw_ps->pps.weighted_bipred_flag = !!(pps->flags & V4L2_HEVC_PPS_FLAG_WEIGHTED_BIPRED);
-+	hw_ps->pps.transquant_bypass_enabled_flag =
++	hw_ps->weighted_pred_flag = !!(pps->flags & V4L2_HEVC_PPS_FLAG_WEIGHTED_PRED);
++	hw_ps->weighted_bipred_flag = !!(pps->flags & V4L2_HEVC_PPS_FLAG_WEIGHTED_BIPRED);
++	hw_ps->transquant_bypass_enabled_flag =
 +		!!(pps->flags & V4L2_HEVC_PPS_FLAG_TRANSQUANT_BYPASS_ENABLED);
-+
 +	tiles_enabled = !!(pps->flags & V4L2_HEVC_PPS_FLAG_TILES_ENABLED);
-+	hw_ps->pps.tiles_enabled_flag = tiles_enabled;
-+	hw_ps->pps.entropy_coding_sync_enabled_flag =
++	hw_ps->tiles_enabled_flag = tiles_enabled;
++	hw_ps->entropy_coding_sync_enabled_flag =
 +		!!(pps->flags & V4L2_HEVC_PPS_FLAG_ENTROPY_CODING_SYNC_ENABLED);
-+	hw_ps->pps.pps_loop_filter_across_slices_enabled_flag =
++	hw_ps->pps_loop_filter_across_slices_enabled_flag =
 +		!!(pps->flags & V4L2_HEVC_PPS_FLAG_PPS_LOOP_FILTER_ACROSS_SLICES_ENABLED);
-+	hw_ps->pps.loop_filter_across_tiles_enabled_flag =
++	hw_ps->loop_filter_across_tiles_enabled_flag =
 +		!!(pps->flags & V4L2_HEVC_PPS_FLAG_LOOP_FILTER_ACROSS_TILES_ENABLED);
-+	hw_ps->pps.deblocking_filter_override_enabled_flag =
++	hw_ps->deblocking_filter_override_enabled_flag =
 +		!!(pps->flags & V4L2_HEVC_PPS_FLAG_DEBLOCKING_FILTER_OVERRIDE_ENABLED);
-+	hw_ps->pps.pps_deblocking_filter_disabled_flag =
++	hw_ps->pps_deblocking_filter_disabled_flag =
 +		!!(pps->flags & V4L2_HEVC_PPS_FLAG_PPS_DISABLE_DEBLOCKING_FILTER);
-+	hw_ps->pps.pps_beta_offset_div2 = pps->pps_beta_offset_div2;
-+	hw_ps->pps.pps_tc_offset_div2 = pps->pps_tc_offset_div2;
-+	hw_ps->pps.lists_modification_present_flag =
++	hw_ps->pps_beta_offset_div2 = pps->pps_beta_offset_div2;
++	hw_ps->pps_tc_offset_div2 = pps->pps_tc_offset_div2;
++	hw_ps->lists_modification_present_flag =
 +		!!(pps->flags & V4L2_HEVC_PPS_FLAG_LISTS_MODIFICATION_PRESENT);
-+	hw_ps->pps.log2_parallel_merge_level = pps->log2_parallel_merge_level_minus2 + 2;
-+	hw_ps->pps.slice_segment_header_extension_present_flag =
++	hw_ps->log2_parallel_merge_level = pps->log2_parallel_merge_level_minus2 + 2;
++	hw_ps->slice_segment_header_extension_present_flag =
 +		!!(pps->flags & V4L2_HEVC_PPS_FLAG_SLICE_SEGMENT_HEADER_EXTENSION_PRESENT);
-+	hw_ps->pps.num_tile_columns = tiles_enabled ? pps->num_tile_columns_minus1 + 1 : 0;
-+	hw_ps->pps.num_tile_rows = tiles_enabled ? pps->num_tile_rows_minus1 + 1 : 0;
-+	hw_ps->pps.sps_pps_mode = 0;
-+	hw_ps->pps.reserved_bits = 0x3fff;
-+	hw_ps->pps.reserved = 0xffff;
++	hw_ps->num_tile_columns = tiles_enabled ? pps->num_tile_columns_minus1 + 1 : 1;
++	hw_ps->num_tile_rows = tiles_enabled ? pps->num_tile_rows_minus1 + 1 : 1;
++	hw_ps->mvc_ff = 0xffff;
 +
 +	// Setup tiles information
 +	memset(column_width, 0, sizeof(column_width));
@@ -835,7 +671,7 @@ index 0000000000000..6a73f587bdd1d
 +	pic_in_cts_width = (width + max_cu_width - 1) / max_cu_width;
 +	pic_in_cts_height = (height + max_cu_width - 1) / max_cu_width;
 +
-+	if (pps->flags & V4L2_HEVC_PPS_FLAG_TILES_ENABLED) {
++	if (tiles_enabled) {
 +		if (pps->flags & V4L2_HEVC_PPS_FLAG_UNIFORM_SPACING) {
 +			compute_tiles_uniform(run, log2_min_cb_size, width, height,
 +					      pic_in_cts_width, pic_in_cts_height,
@@ -850,144 +686,67 @@ index 0000000000000..6a73f587bdd1d
 +		row_height[0] = (height + max_cu_width - 1) / max_cu_width;
 +	}
 +
-+	for (i = 0; i < 20; i++) {
-+		if (column_width[i] > 0)
-+			column_width[i]--;
++	for (i = 0; i < 22; i++)
++		set_column_row(hw_ps, column_width[i], row_height[i], i);
 +
-+		if (i & 1)
-+			hw_ps->column_width[i / 2].value1 = column_width[i];
-+		else
-+			hw_ps->column_width[i / 2].value0 = column_width[i];
-+	}
++	// Setup POC information
++	hw_ps->current_poc = dec_params->pic_order_cnt_val;
 +
-+	for (i = 0; i < 22; i++) {
-+		if (row_height[i] > 0)
-+			row_height[i]--;
++	for (i = 0; i < ARRAY_SIZE(dec_params->dpb); i++) {
++		u32 valid = !!(dec_params->num_active_dpb_entries > i);
 +
-+		if (i & 1)
-+			hw_ps->row_height[i / 2].value1 = row_height[i];
-+		else
-+			hw_ps->row_height[i / 2].value0 = row_height[i];
-+	}
-+
-+	hw_ps->padding = 0xffffffff;
-+	hw_ps->padding_bits = 0x3;
-+}
-+
-+static void set_ref_valid(struct rkvdec_vdpu381_regs_hevc *regs, int id, u32 valid)
-+{
-+	switch (id) {
-+	case 0:
-+		regs->hevc_param.reg099.hevc_ref_valid_0 = valid;
-+		break;
-+	case 1:
-+		regs->hevc_param.reg099.hevc_ref_valid_1 = valid;
-+		break;
-+	case 2:
-+		regs->hevc_param.reg099.hevc_ref_valid_2 = valid;
-+		break;
-+	case 3:
-+		regs->hevc_param.reg099.hevc_ref_valid_3 = valid;
-+		break;
-+	case 4:
-+		regs->hevc_param.reg099.hevc_ref_valid_4 = valid;
-+		break;
-+	case 5:
-+		regs->hevc_param.reg099.hevc_ref_valid_5 = valid;
-+		break;
-+	case 6:
-+		regs->hevc_param.reg099.hevc_ref_valid_6 = valid;
-+		break;
-+	case 7:
-+		regs->hevc_param.reg099.hevc_ref_valid_7 = valid;
-+		break;
-+	case 8:
-+		regs->hevc_param.reg099.hevc_ref_valid_8 = valid;
-+		break;
-+	case 9:
-+		regs->hevc_param.reg099.hevc_ref_valid_9 = valid;
-+		break;
-+	case 10:
-+		regs->hevc_param.reg099.hevc_ref_valid_10 = valid;
-+		break;
-+	case 11:
-+		regs->hevc_param.reg099.hevc_ref_valid_11 = valid;
-+		break;
-+	case 12:
-+		regs->hevc_param.reg099.hevc_ref_valid_12 = valid;
-+		break;
-+	case 13:
-+		regs->hevc_param.reg099.hevc_ref_valid_13 = valid;
-+		break;
-+	case 14:
-+		regs->hevc_param.reg099.hevc_ref_valid_14 = valid;
-+		break;
++		set_pps_ref_pic_poc(hw_ps, dec_params->dpb[i].pic_order_cnt_val, i);
++		hw_ps->ref_is_valid |= valid << i;
 +	}
 +}
 +
 +static void rkvdec_write_regs(struct rkvdec_ctx *ctx)
 +{
 +	struct rkvdec_dev *rkvdec = ctx->dev;
-+	struct rkvdec_hevc_ctx *hevc_ctx = ctx->priv;
++	struct rkvdec_hevc_ctx *h265_ctx = ctx->priv;
 +
-+	rkvdec_memcpy_toio(rkvdec->regs + OFFSET_COMMON_REGS,
-+			   &hevc_ctx->regs.common,
-+			   sizeof(hevc_ctx->regs.common));
-+	rkvdec_memcpy_toio(rkvdec->regs + OFFSET_CODEC_PARAMS_REGS,
-+			   &hevc_ctx->regs.hevc_param,
-+			   sizeof(hevc_ctx->regs.hevc_param));
-+	rkvdec_memcpy_toio(rkvdec->regs + OFFSET_COMMON_ADDR_REGS,
-+			   &hevc_ctx->regs.common_addr,
-+			   sizeof(hevc_ctx->regs.common_addr));
-+	rkvdec_memcpy_toio(rkvdec->regs + OFFSET_CODEC_ADDR_REGS,
-+			   &hevc_ctx->regs.hevc_addr,
-+			   sizeof(hevc_ctx->regs.hevc_addr));
-+	rkvdec_memcpy_toio(rkvdec->regs + OFFSET_POC_HIGHBIT_REGS,
-+			   &hevc_ctx->regs.hevc_highpoc,
-+			   sizeof(hevc_ctx->regs.hevc_highpoc));
++	rkvdec_memcpy_toio(rkvdec->regs + VDPU383_OFFSET_COMMON_REGS,
++			   &h265_ctx->regs.common,
++			   sizeof(h265_ctx->regs.common));
++	rkvdec_memcpy_toio(rkvdec->regs + VDPU383_OFFSET_COMMON_ADDR_REGS,
++			   &h265_ctx->regs.common_addr,
++			   sizeof(h265_ctx->regs.common_addr));
++	rkvdec_memcpy_toio(rkvdec->regs + VDPU383_OFFSET_CODEC_PARAMS_REGS,
++			   &h265_ctx->regs.h26x_params,
++			   sizeof(h265_ctx->regs.h26x_params));
++	rkvdec_memcpy_toio(rkvdec->regs + VDPU383_OFFSET_CODEC_ADDR_REGS,
++			   &h265_ctx->regs.h26x_addr,
++			   sizeof(h265_ctx->regs.h26x_addr));
 +}
 +
 +static void config_registers(struct rkvdec_ctx *ctx,
 +			     struct rkvdec_hevc_run *run)
 +{
 +	const struct v4l2_ctrl_hevc_decode_params *dec_params = run->decode_params;
-+	const struct v4l2_hevc_dpb_entry *dpb = dec_params->dpb;
-+	struct rkvdec_hevc_ctx *hevc_ctx = ctx->priv;
-+	struct rkvdec_vdpu381_regs_hevc *regs = &hevc_ctx->regs;
-+	dma_addr_t priv_start_addr = hevc_ctx->priv_tbl.dma;
++	struct rkvdec_hevc_ctx *h265_ctx = ctx->priv;
++	const struct v4l2_ctrl_hevc_sps *sps = run->sps;
++	dma_addr_t priv_start_addr = h265_ctx->priv_tbl.dma;
 +	const struct v4l2_pix_format_mplane *dst_fmt;
 +	struct vb2_v4l2_buffer *src_buf = run->base.bufs.src;
 +	struct vb2_v4l2_buffer *dst_buf = run->base.bufs.dst;
++	struct vdpu383_regs_h26x *regs = &h265_ctx->regs;
 +	const struct v4l2_format *f;
 +	dma_addr_t rlc_addr;
-+	u32 hor_virstride = 0;
-+	u32 ver_virstride = 0;
-+	u32 y_virstride = 0;
++	dma_addr_t dst_addr;
++	u32 hor_virstride;
++	u32 ver_virstride;
++	u32 y_virstride;
 +	u32 offset;
 +	u32 pixels;
-+	dma_addr_t dst_addr;
 +	u32 i;
 +
 +	memset(regs, 0, sizeof(*regs));
 +
 +	/* Set HEVC mode */
-+	regs->common.reg009.dec_mode = VDPU381_MODE_HEVC;
-+
-+	/* Set config */
-+	regs->common.reg011.buf_empty_en = 1;
-+	regs->common.reg011.dec_clkgate_e = 1;
-+	regs->common.reg011.dec_timeout_e = 1;
-+	regs->common.reg011.pix_range_detection_e = 1;
-+
-+	/* Set IDR flag */
-+	regs->common.reg013.cur_pic_is_idr =
-+		!!(dec_params->flags & V4L2_HEVC_DECODE_PARAM_FLAG_IDR_PIC);
++	regs->common.reg008_dec_mode = VDPU383_MODE_HEVC;
 +
 +	/* Set input stream length */
-+	regs->common.stream_len = vb2_get_plane_payload(&src_buf->vb2_buf, 0);
-+
-+	/* Set max slice number */
-+	regs->common.reg017.slice_num = 1;
++	regs->h26x_params.reg066_stream_len = vb2_get_plane_payload(&src_buf->vb2_buf, 0);
 +
 +	/* Set strides */
 +	f = &ctx->decoded_fmt;
@@ -995,78 +754,89 @@ index 0000000000000..6a73f587bdd1d
 +	hor_virstride = dst_fmt->plane_fmt[0].bytesperline;
 +	ver_virstride = dst_fmt->height;
 +	y_virstride = hor_virstride * ver_virstride;
++
 +	pixels = dst_fmt->height * dst_fmt->width;
 +
-+	regs->common.reg018.y_hor_virstride = hor_virstride / 16;
-+	regs->common.reg019.uv_hor_virstride = hor_virstride / 16;
-+	regs->common.reg020.y_virstride = y_virstride / 16;
++	regs->h26x_params.reg068_hor_virstride = hor_virstride / 16;
++	regs->h26x_params.reg069_raster_uv_hor_virstride = hor_virstride / 16;
++	regs->h26x_params.reg070_y_virstride = y_virstride / 16;
 +
 +	/* Activate block gating */
-+	regs->common.reg026.swreg_block_gating_e = 0xfffef;
-+	regs->common.reg026.reg_cfg_gating_en = 1;
++	regs->common.reg010.strmd_auto_gating_e      = 1;
++	regs->common.reg010.inter_auto_gating_e      = 1;
++	regs->common.reg010.intra_auto_gating_e      = 1;
++	regs->common.reg010.transd_auto_gating_e     = 1;
++	regs->common.reg010.recon_auto_gating_e      = 1;
++	regs->common.reg010.filterd_auto_gating_e    = 1;
++	regs->common.reg010.bus_auto_gating_e	     = 1;
++	regs->common.reg010.ctrl_auto_gating_e       = 1;
++	regs->common.reg010.rcb_auto_gating_e	     = 1;
++	regs->common.reg010.err_prc_auto_gating_e    = 1;
 +
 +	/* Set timeout threshold */
 +	if (pixels < RKVDEC_1080P_PIXELS)
-+		regs->common.timeout_threshold = RKVDEC_TIMEOUT_1080p;
++		regs->common.reg013_core_timeout_threshold = VDPU383_TIMEOUT_1080p;
 +	else if (pixels < RKVDEC_4K_PIXELS)
-+		regs->common.timeout_threshold = RKVDEC_TIMEOUT_4K;
++		regs->common.reg013_core_timeout_threshold = VDPU383_TIMEOUT_4K;
 +	else if (pixels < RKVDEC_8K_PIXELS)
-+		regs->common.timeout_threshold = RKVDEC_TIMEOUT_8K;
++		regs->common.reg013_core_timeout_threshold = VDPU383_TIMEOUT_8K;
++	else
++		regs->common.reg013_core_timeout_threshold = VDPU383_TIMEOUT_MAX;
 +
-+	/* Set POC val */
-+	regs->hevc_param.cur_top_poc = dec_params->pic_order_cnt_val;
++	regs->common.reg016.error_proc_disable = 1;
 +
 +	/* Set ref pic address & poc */
-+	for (i = 0; i < ARRAY_SIZE(dec_params->dpb); i++) {
++	for (i = 0; i < ARRAY_SIZE(dec_params->dpb) - 1; i++) {
 +		struct vb2_buffer *vb_buf = get_ref_buf(ctx, run, i);
-+		dma_addr_t buf_dma = vb2_dma_contig_plane_dma_addr(vb_buf, 0);
-+		u32 valid = !!(dec_params->num_active_dpb_entries > i);
++		dma_addr_t buf_dma;
++
++		buf_dma = vb2_dma_contig_plane_dma_addr(vb_buf, 0);
 +
 +		/* Set reference addresses */
-+		regs->hevc_addr.ref_base[i] = buf_dma;
++		regs->h26x_addr.reg170_185_ref_base[i] = buf_dma;
++		regs->h26x_addr.reg195_210_payload_st_ref_base[i] = buf_dma;
 +
 +		/* Set COLMV addresses */
-+		regs->hevc_addr.colmv_base[i] = buf_dma + ctx->colmv_offset;
-+
-+		regs->hevc_param.reg067_082_ref_poc[i] =
-+			dpb[i].pic_order_cnt_val;
-+
-+		set_ref_valid(regs, i, valid);
-+		regs->hevc_param.reg103.ref_pic_layer_same_with_cur |= 1 << i;
++		regs->h26x_addr.reg217_232_colmv_ref_base[i] = buf_dma + ctx->colmv_offset;
 +	}
 +
 +	/* Set rlc base address (input stream) */
 +	rlc_addr = vb2_dma_contig_plane_dma_addr(&src_buf->vb2_buf, 0);
-+	regs->common_addr.rlc_base = rlc_addr;
-+	regs->common_addr.rlcwrite_base = rlc_addr;
++	regs->common_addr.reg128_strm_base = rlc_addr;
 +
 +	/* Set output base address */
 +	dst_addr = vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0);
-+	regs->common_addr.decout_base = dst_addr;
-+	regs->common_addr.error_ref_base = dst_addr;
++	regs->h26x_addr.reg168_decout_base = dst_addr;
++	regs->h26x_addr.reg169_error_ref_base = dst_addr;
++	regs->h26x_addr.reg192_payload_st_cur_base = dst_addr;
 +
 +	/* Set colmv address */
-+	regs->common_addr.colmv_cur_base = dst_addr + ctx->colmv_offset;
++	regs->h26x_addr.reg216_colmv_cur_base = dst_addr + ctx->colmv_offset;
 +
 +	/* Set RCB addresses */
-+	for (i = 0; i < rkvdec_rcb_buf_count(ctx); i++)
-+		regs->common_addr.rcb_base[i] = rkvdec_rcb_buf_dma_addr(ctx, i);
++	for (i = 0; i < rkvdec_rcb_buf_count(ctx); i++) {
++		regs->common_addr.reg140_162_rcb_info[i].offset = rkvdec_rcb_buf_dma_addr(ctx, i);
++		regs->common_addr.reg140_162_rcb_info[i].size = rkvdec_rcb_buf_size(ctx, i);
++	}
++
++	if (sps->flags & V4L2_HEVC_SPS_FLAG_SCALING_LIST_ENABLED) {
++		/* Set scaling matrix */
++		offset = offsetof(struct rkvdec_hevc_priv_tbl, scaling_list);
++		regs->common_addr.reg132_scanlist_addr = priv_start_addr + offset;
++	}
 +
 +	/* Set hw pps address */
 +	offset = offsetof(struct rkvdec_hevc_priv_tbl, param_set);
-+	regs->hevc_addr.pps_base = priv_start_addr + offset;
++	regs->common_addr.reg131_gbl_base = priv_start_addr + offset;
++	regs->h26x_params.reg067_global_len = sizeof(struct rkvdec_hevc_sps_pps) / 16;
 +
 +	/* Set hw rps address */
 +	offset = offsetof(struct rkvdec_hevc_priv_tbl, rps);
-+	regs->hevc_addr.rps_base = priv_start_addr + offset;
++	regs->common_addr.reg129_rps_base = priv_start_addr + offset;
 +
 +	/* Set cabac table */
 +	offset = offsetof(struct rkvdec_hevc_priv_tbl, cabac_table);
-+	regs->hevc_addr.cabactbl_base = priv_start_addr + offset;
-+
-+	/* Set scaling matrix */
-+	offset = offsetof(struct rkvdec_hevc_priv_tbl, scaling_list);
-+	regs->hevc_addr.scanlist_addr = priv_start_addr + offset;
++	regs->common_addr.reg130_cabactbl_base = priv_start_addr + offset;
 +
 +	rkvdec_write_regs(ctx);
 +}
@@ -1105,6 +875,10 @@ index 0000000000000..6a73f587bdd1d
 +			      V4L2_CID_STATELESS_HEVC_SPS);
 +	if (!ctrl)
 +		return -EINVAL;
++
++	ret = rkvdec_hevc_validate_sps(ctx, ctrl->p_new.p_hevc_sps);
++	if (ret)
++		return ret;
 +
 +	hevc_ctx = kzalloc(sizeof(*hevc_ctx), GFP_KERNEL);
 +	if (!hevc_ctx)
@@ -1146,20 +920,24 @@ index 0000000000000..6a73f587bdd1d
 +	struct rkvdec_hevc_run run;
 +	struct rkvdec_hevc_ctx *hevc_ctx = ctx->priv;
 +	struct rkvdec_hevc_priv_tbl *tbl = hevc_ctx->priv_tbl.cpu;
++	u32 watchdog_time;
++	u64 timeout_threshold;
++	unsigned long axi_rate;
 +
 +	rkvdec_hevc_run_preamble(ctx, &run);
 +
 +	/*
-+	 * On vdpu381, not setting the long and short term ref sets will just output wrong frames.
-+	 * Let's just warn about it and let the decoder run anyway.
++	 * On vdpu383, not setting the long and short term ref sets leads to IOMMU page faults.
++	 * To be on the safe side for this new v4l2 control, write an error in the log and mark
++	 * the buffer as failed by returning an error here.
 +	 */
 +	if ((!ctx->has_sps_lt_rps && run.sps->num_long_term_ref_pics_sps) ||
 +		(!ctx->has_sps_st_rps && run.sps->num_short_term_ref_pic_sets)) {
-+		dev_warn_ratelimited(rkvdec->dev, "Long and short term RPS not set\n");
++		dev_err_ratelimited(rkvdec->dev, "Long and short term RPS not set\n");
++		return -EINVAL;
 +	}
 +
-+	rkvdec_hevc_assemble_hw_scaling_list(&run,
-+					     &tbl->scaling_list,
++	rkvdec_hevc_assemble_hw_scaling_list(ctx, &run, &tbl->scaling_list,
 +					     &hevc_ctx->scaling_matrix_cache);
 +	assemble_hw_pps(ctx, &run);
 +	rkvdec_hevc_assemble_hw_rps(&run, &tbl->rps, &hevc_ctx->st_cache);
@@ -1168,10 +946,21 @@ index 0000000000000..6a73f587bdd1d
 +
 +	rkvdec_run_postamble(ctx, &run.base);
 +
-+	schedule_delayed_work(&rkvdec->watchdog_work, msecs_to_jiffies(2000));
++	/* Set watchdog at 2 times the hardware timeout threshold */
++	timeout_threshold = hevc_ctx->regs.common.reg013_core_timeout_threshold;
++	axi_rate = clk_get_rate(rkvdec->axi_clk);
++
++	if (axi_rate)
++		watchdog_time = 2 * (1000 * timeout_threshold) / axi_rate;
++	else
++		watchdog_time = 2000;
++	schedule_delayed_work(&rkvdec->watchdog_work,
++			      msecs_to_jiffies(watchdog_time));
 +
 +	/* Start decoding! */
-+	writel(VDPU381_DEC_E_BIT, rkvdec->regs + VDPU381_REG_DEC_E);
++	writel(timeout_threshold, rkvdec->link + VDPU383_LINK_TIMEOUT_THRESHOLD);
++	writel(VDPU383_IP_CRU_MODE, rkvdec->link + VDPU383_LINK_IP_ENABLE);
++	writel(VDPU383_DEC_E_BIT, rkvdec->link + VDPU383_LINK_DEC_ENABLE);
 +
 +	return 0;
 +}
@@ -1184,7 +973,7 @@ index 0000000000000..6a73f587bdd1d
 +	return 0;
 +}
 +
-+const struct rkvdec_coded_fmt_ops rkvdec_vdpu381_hevc_fmt_ops = {
++const struct rkvdec_coded_fmt_ops rkvdec_vdpu383_hevc_fmt_ops = {
 +	.adjust_fmt = rkvdec_hevc_adjust_fmt,
 +	.start = rkvdec_hevc_start,
 +	.stop = rkvdec_hevc_stop,
@@ -1193,93 +982,13 @@ index 0000000000000..6a73f587bdd1d
 +	.get_image_fmt = rkvdec_hevc_get_image_fmt,
 +};
 diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-index fe33e69710bfa..8405ddb5962b8 100644
+index 8405ddb5962b8..e547057dc75f9 100644
 --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
 +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-@@ -153,6 +153,16 @@ static int rkvdec_s_ctrl(struct v4l2_ctrl *ctrl)
- 	enum rkvdec_image_fmt image_fmt;
- 	struct vb2_queue *vq;
- 
-+	if (ctrl->id == V4L2_CID_STATELESS_HEVC_EXT_SPS_ST_RPS) {
-+		ctx->has_sps_st_rps |= !!(ctrl->has_changed);
-+		return 0;
-+	}
-+
-+	if (ctrl->id == V4L2_CID_STATELESS_HEVC_EXT_SPS_LT_RPS) {
-+		ctx->has_sps_lt_rps |= !!(ctrl->has_changed);
-+		return 0;
-+	}
-+
- 	/* Check if this change requires a capture format reset */
- 	if (!desc->ops->get_image_fmt)
- 		return 0;
-@@ -226,6 +236,62 @@ static const struct rkvdec_ctrls rkvdec_hevc_ctrls = {
- 	.num_ctrls = ARRAY_SIZE(rkvdec_hevc_ctrl_descs),
+@@ -499,6 +499,22 @@ static const struct rkvdec_coded_fmt_desc vdpu381_coded_fmts[] = {
  };
  
-+static const struct rkvdec_ctrl_desc vdpu38x_hevc_ctrl_descs[] = {
-+	{
-+		.cfg.id = V4L2_CID_STATELESS_HEVC_DECODE_PARAMS,
-+	},
-+	{
-+		.cfg.id = V4L2_CID_STATELESS_HEVC_SPS,
-+		.cfg.ops = &rkvdec_ctrl_ops,
-+	},
-+	{
-+		.cfg.id = V4L2_CID_STATELESS_HEVC_PPS,
-+	},
-+	{
-+		.cfg.id = V4L2_CID_STATELESS_HEVC_SCALING_MATRIX,
-+	},
-+	{
-+		.cfg.id = V4L2_CID_STATELESS_HEVC_DECODE_MODE,
-+		.cfg.min = V4L2_STATELESS_HEVC_DECODE_MODE_FRAME_BASED,
-+		.cfg.max = V4L2_STATELESS_HEVC_DECODE_MODE_FRAME_BASED,
-+		.cfg.def = V4L2_STATELESS_HEVC_DECODE_MODE_FRAME_BASED,
-+	},
-+	{
-+		.cfg.id = V4L2_CID_STATELESS_HEVC_START_CODE,
-+		.cfg.min = V4L2_STATELESS_HEVC_START_CODE_ANNEX_B,
-+		.cfg.def = V4L2_STATELESS_HEVC_START_CODE_ANNEX_B,
-+		.cfg.max = V4L2_STATELESS_HEVC_START_CODE_ANNEX_B,
-+	},
-+	{
-+		.cfg.id = V4L2_CID_MPEG_VIDEO_HEVC_PROFILE,
-+		.cfg.min = V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN,
-+		.cfg.max = V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10,
-+		.cfg.menu_skip_mask =
-+			BIT(V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_STILL_PICTURE),
-+		.cfg.def = V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN,
-+	},
-+	{
-+		.cfg.id = V4L2_CID_MPEG_VIDEO_HEVC_LEVEL,
-+		.cfg.min = V4L2_MPEG_VIDEO_HEVC_LEVEL_1,
-+		.cfg.max = V4L2_MPEG_VIDEO_HEVC_LEVEL_6_1,
-+	},
-+	{
-+		.cfg.id = V4L2_CID_STATELESS_HEVC_EXT_SPS_ST_RPS,
-+		.cfg.ops = &rkvdec_ctrl_ops,
-+		.cfg.dims = { 65 },
-+	},
-+	{
-+		.cfg.id = V4L2_CID_STATELESS_HEVC_EXT_SPS_LT_RPS,
-+		.cfg.ops = &rkvdec_ctrl_ops,
-+		.cfg.dims = { 65 },
-+	},
-+};
-+
-+static const struct rkvdec_ctrls vdpu38x_hevc_ctrls = {
-+	.ctrls = vdpu38x_hevc_ctrl_descs,
-+	.num_ctrls = ARRAY_SIZE(vdpu38x_hevc_ctrl_descs),
-+};
-+
- static const struct rkvdec_decoded_fmt_desc rkvdec_hevc_decoded_fmts[] = {
- 	{
- 		.fourcc = V4L2_PIX_FMT_NV12,
-@@ -398,6 +464,22 @@ static const struct rkvdec_coded_fmt_desc rk3288_coded_fmts[] = {
- };
- 
- static const struct rkvdec_coded_fmt_desc vdpu381_coded_fmts[] = {
+ static const struct rkvdec_coded_fmt_desc vdpu383_coded_fmts[] = {
 +	{
 +		.fourcc = V4L2_PIX_FMT_HEVC_SLICE,
 +		.frmsize = {
@@ -1291,7 +1000,7 @@ index fe33e69710bfa..8405ddb5962b8 100644
 +			.step_height = 16,
 +		},
 +		.ctrls = &vdpu38x_hevc_ctrls,
-+		.ops = &rkvdec_vdpu381_hevc_fmt_ops,
++		.ops = &rkvdec_vdpu383_hevc_fmt_ops,
 +		.num_decoded_fmts = ARRAY_SIZE(rkvdec_hevc_decoded_fmts),
 +		.decoded_fmts = rkvdec_hevc_decoded_fmts,
 +		.subsystem_flags = VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF,
@@ -1299,27 +1008,128 @@ index fe33e69710bfa..8405ddb5962b8 100644
  	{
  		.fourcc = V4L2_PIX_FMT_H264_SLICE,
  		.frmsize = {
-diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.h b/drivers/media/platform/rockchip/rkvdec/rkvdec.h
-index a76bc270d0062..ad19f6ae562d3 100644
---- a/drivers/media/platform/rockchip/rkvdec/rkvdec.h
-+++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.h
-@@ -154,6 +154,8 @@ struct rkvdec_ctx {
- 	struct rkvdec_rcb_config *rcb_config;
- 	u32 colmv_offset;
- 	void *priv;
-+	u8 has_sps_st_rps: 1;
-+	u8 has_sps_lt_rps: 1;
+@@ -1447,6 +1463,78 @@ static irqreturn_t rkvdec_irq_handler(int irq, void *priv)
+ 	return variant->ops->irq_handler(ctx);
+ }
+ 
++/*
++ * Flip one or more matrices along their main diagonal and flatten them
++ * before writing it to the memory.
++ * Convert:
++ * ABCD         AEIM
++ * EFGH     =>  BFJN     =>     AEIMBFJNCGKODHLP
++ * IJKL         CGKO
++ * MNOP         DHLP
++ */
++static void transpose_and_flatten_matrices(u8 *output, const u8 *input,
++					   int matrices, int row_length)
++{
++	int i, j, row, x_offset, matrix_offset, rot_index, y_offset, matrix_size, new_value;
++
++	matrix_size = row_length * row_length;
++	for (i = 0; i < matrices; i++) {
++		row = 0;
++		x_offset = 0;
++		matrix_offset = i * matrix_size;
++		for (j = 0; j < matrix_size; j++) {
++			y_offset = j - (row * row_length);
++			rot_index = y_offset * row_length + x_offset;
++			new_value = *(input + i * matrix_size + j);
++			output[matrix_offset + rot_index] = new_value;
++			if ((j + 1) % row_length == 0) {
++				row += 1;
++				x_offset += 1;
++			}
++		}
++	}
++}
++
++/*
++ * VDPU383 needs a specific order:
++ * The 8x8 flatten matrix is based on 4x4 blocks.
++ * Each 4x4 block is written separately in order.
++ *
++ * Base data    =>  Transposed    VDPU383 transposed
++ *
++ * ABCDEFGH         AIQYaiqy      AIQYBJRZ
++ * IJKLMNOP         BJRZbjrz      CKS0DLT1
++ * QRSTUVWX         CKS0cks6      aiqybjrz
++ * YZ012345     =>  DLT1dlt7      cks6dlt7
++ * abcdefgh         EMU2emu8      EMU2FNV3
++ * ijklmnop         FNV3fnv9      GOW4HPX5
++ * qrstuvwx         GOW4gow#      emu8fnv9
++ * yz6789#$         HPX5hpx$      gow#hpx$
++ *
++ * As the function reads block of 4x4 it can be used for both 4x4 and 8x8 matrices.
++ *
++ */
++static void vdpu383_flatten_matrices(u8 *output, const u8 *input, int matrices, int row_length)
++{
++	u8 block;
++	int i, j, matrix_offset, matrix_size, new_value, input_idx, line_offset, block_offset;
++
++	matrix_size = row_length * row_length;
++	for (i = 0; i < matrices; i++) {
++		matrix_offset = i * matrix_size;
++		for (j = 0; j < matrix_size; j++) {
++			block = j / 16;
++			line_offset = (j % 16) / 4;
++			block_offset = (block & 1) * 32 + (block & 2) * 2;
++			input_idx = ((j % 4) * row_length) + line_offset + block_offset;
++
++			new_value = *(input + i * matrix_size + input_idx);
++
++			output[matrix_offset + j] = new_value;
++		}
++	}
++}
++
+ static void rkvdec_watchdog_func(struct work_struct *work)
+ {
+ 	struct rkvdec_dev *rkvdec;
+@@ -1508,6 +1596,7 @@ static int rkvdec_disable_multicore(struct rkvdec_dev *rkvdec)
+ static const struct rkvdec_variant_ops rk3399_variant_ops = {
+ 	.irq_handler = rk3399_irq_handler,
+ 	.colmv_size = rkvdec_colmv_size,
++	.flatten_matrices = transpose_and_flatten_matrices,
  };
  
- static inline struct rkvdec_ctx *file_to_rkvdec_ctx(struct file *filp)
-@@ -186,6 +188,7 @@ extern const struct rkvdec_coded_fmt_ops rkvdec_vp9_fmt_ops;
+ static const struct rkvdec_variant rk3288_rkvdec_variant = {
+@@ -1551,6 +1640,7 @@ static const struct rcb_size_info vdpu381_rcb_sizes[] = {
+ static const struct rkvdec_variant_ops vdpu381_variant_ops = {
+ 	.irq_handler = vdpu381_irq_handler,
+ 	.colmv_size = rkvdec_colmv_size,
++	.flatten_matrices = transpose_and_flatten_matrices,
+ };
  
- /* VDPU381 ops */
- extern const struct rkvdec_coded_fmt_ops rkvdec_vdpu381_h264_fmt_ops;
-+extern const struct rkvdec_coded_fmt_ops rkvdec_vdpu381_hevc_fmt_ops;
+ static const struct rkvdec_variant vdpu381_variant = {
+@@ -1577,6 +1667,7 @@ static const struct rcb_size_info vdpu383_rcb_sizes[] = {
+ static const struct rkvdec_variant_ops vdpu383_variant_ops = {
+ 	.irq_handler = vdpu383_irq_handler,
+ 	.colmv_size = vdpu383_colmv_size,
++	.flatten_matrices = vdpu383_flatten_matrices,
+ };
+ 
+ static const struct rkvdec_variant vdpu383_variant = {
+diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.h b/drivers/media/platform/rockchip/rkvdec/rkvdec.h
+index ad19f6ae562d3..c87d637770d36 100644
+--- a/drivers/media/platform/rockchip/rkvdec/rkvdec.h
++++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.h
+@@ -74,6 +74,7 @@ vb2_to_rkvdec_decoded_buf(struct vb2_buffer *buf)
+ struct rkvdec_variant_ops {
+ 	irqreturn_t (*irq_handler)(struct rkvdec_ctx *ctx);
+ 	u32 (*colmv_size)(u16 width, u16 height);
++	void (*flatten_matrices)(u8 *output, const u8 *input, int matrices, int row_length);
+ };
+ 
+ struct rkvdec_variant {
+@@ -192,5 +193,6 @@ extern const struct rkvdec_coded_fmt_ops rkvdec_vdpu381_hevc_fmt_ops;
  
  /* VDPU383 ops */
  extern const struct rkvdec_coded_fmt_ops rkvdec_vdpu383_h264_fmt_ops;
++extern const struct rkvdec_coded_fmt_ops rkvdec_vdpu383_hevc_fmt_ops;
+ 
+ #endif /* RKVDEC_H_ */
 -- 
 2.52.0
 
