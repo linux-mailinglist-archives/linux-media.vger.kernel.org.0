@@ -1,457 +1,372 @@
-Return-Path: <linux-media+bounces-49042-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49055-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C02ACCA592
-	for <lists+linux-media@lfdr.de>; Thu, 18 Dec 2025 06:36:24 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76529CCADB1
+	for <lists+linux-media@lfdr.de>; Thu, 18 Dec 2025 09:25:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 775773030FF8
-	for <lists+linux-media@lfdr.de>; Thu, 18 Dec 2025 05:36:16 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id E01513029B63
+	for <lists+linux-media@lfdr.de>; Thu, 18 Dec 2025 08:25:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8295D311963;
-	Thu, 18 Dec 2025 05:36:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8BED330663;
+	Thu, 18 Dec 2025 08:25:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="I/p2AmxM"
+	dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b="UVsEE+AB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013030.outbound.protection.outlook.com [40.93.201.30])
+Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazon11021096.outbound.protection.outlook.com [40.107.57.96])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D82572522B6;
-	Thu, 18 Dec 2025 05:36:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8771033065E
+	for <linux-media@vger.kernel.org>; Thu, 18 Dec 2025 08:25:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.57.96
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766036173; cv=fail; b=L0IZfgImePi2fmTOS2oFJnp9K5U7l3SU88dme8x911yKkgIU6GxLh6Qk4vlWfiHdbz/d2nZ8UeQ2mA/qzeEB3lj4mS4ty3Cu3hNtAqwWrYqrnGbzJ4hw9lV78gfn93BPeYJNxe+WACVlYr4JRKh+2u4aFxIZfEQ7qeV0doFnFIU=
+	t=1766046310; cv=fail; b=hthl+OE789881TF6I+LkszHaiMs2kjoX9TH+jcZdxi7G9TXntxi381/MeHdgN78i5tsCcLj92NBwwIXQmyw2Q7rR3FP/+gXNYYQzfrkJzNErW5agWW3Lyca9PCpuOPY6PnEOiG3aXGULW23okLs4FIXvsrK+RwK4foS2RHX1yy0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766036173; c=relaxed/simple;
-	bh=FamlEKFsW9bEqoI1+XfrqcBsvDKKE16uRgQZin/kNT4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Gq9VVGGkK1PMCn1OMYM+8uO8DU8+h78DeeW+nyuQuxsqO3WijZwEto5Tz9n2dNBUgwukCqnTXqIt6SWSgvj+7UVOO4BvMDo8qwMHliYC8h8s3mN86OkIImlC61l1FddUKiON2Jc35D+ZE27COeIe9kKXdeLeGO817JTs3xH762E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=I/p2AmxM; arc=fail smtp.client-ip=40.93.201.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1766046310; c=relaxed/simple;
+	bh=xptkJlwTw1MoSz3DDUfbsg2cMK5aefzkEAhWaFPJXFM=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=rVAGFcywygKIAZX7gW0OKoFeY/hiaVxK2XgLmezwbZE1vYZn79kXZhuzJD4xJs69VX/Edl6hNYxmU22XVGN8pAgavuCkySvGHJi2oTdzaqc8JXyEBqnSI0ffA/5R4iJflIiKh+chG/TXUKhu1Y+NFJbwVBbUkc29KmxmOHmaf34=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b=UVsEE+AB; arc=fail smtp.client-ip=40.107.57.96
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siliconsignals.io
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=btia3k9yj2W5Ap3A5oDbiyhxqjHSwwXoIVJfPwgEQU0p/Tfx5q6J5MyRyTuyBjYJoxy9uTIGhfRJrqlchDBB1v+rpBJYwCvGrwHPFtnVwAm1SYMN024CTfWhzJ+5Q7xjd0eFXJXCKRMU8FgEn6B3kyfwbLdkx6cmhlASNqNWTVpWfft3g5eelxlFI2n4tMxhBaA9AIGlb4pQRbBcyNK3AvHq9fs7rkTLzb/OVxZ1f/xL0cGjuk800QXH+CcdFMSwqbS1lvoD6c7DQVwAuU8Gc3CINDuTys9HECC2NuHMzexeOLjOXiPYpj3KBuhrm7oZmi4VxWsUDnW0VJMalkFLkA==
+ b=jeT6U2hawPqj+gRf7oG0cl2Pxbe9moh0ccE603W80up466LMU4KQfjkFoYfWg/EirjY58u04cnY2yMB3+rK14IkchPILEIVmlV0pVpUedI35Kw2JmC4HdUmv6JUKUcJlrroTLR/57sHaLbXZXJr5BQd2j574YmvQLNVS7N9rF1Cr6HBcr6oo92kGud+Ngz/sVDQtxRVbJIwgaZ0MwwI96wNj9JRAp3X65qojgY+dPpNjkFjNyoCbmNA0DzXMF5ZDhUTaR6O+CaZtSBgPfycRifUtvopv8IXBY7T0syokD6zcJeQdRT+atOQVHKbpq44VmkwMO6RnRwvibPQitkkaHA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OYzzFpTq0fHTJhzt9ByLfRSZBLbXVmxw5d2Nrmx8SDM=;
- b=xIzmKU078sBPhdETJORZaRhVs4uPGxFXnOe9Kne2ixAr2QBr5rf582lmjF/Kfw1Ot9MgG1JL+yGdEaYFwCd5d67lMeUkI9aJekCcr4hYvUd75S+Q3RVg7fTSK7hv2VEZ/iaAOFqPGR2RYl26Ys4rfEcJRaEBE+mJuG+tvpilrjRs48M5Ig3KMfbiuqzkMZdez7dLbWODVCAWAr2I0mpWi8N5FNRXCt0di6YCDIZ7kTHitEdwE+7KLkAoVlF+ssUULzm89fDW+Q76P/OffHD23WYehqAYwOpovNgKs9oVD50QbNXtaCBZRzflmDAS5A60Q93k4ySWbfLTxOpwHbQaRw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ bh=xptkJlwTw1MoSz3DDUfbsg2cMK5aefzkEAhWaFPJXFM=;
+ b=wqMkUqO39N5kUOcDNWR3kt6hPX7VKfz9/js7ICYRMxuZJK9SS7GNdaEZ+WuNE95aojnNrOH1l8qC8dyS060ym7Xrh4iz8I5l188Zs8bjZDtJx4VbdFLq3R5CU6W9ug9ctlarrxTqhyJXTrSDU6LuzBVDqzwLLD8NaUesaccWrQgQ9Nf8dlBfLyYsr9eG5qvfU7ZoXuPZ3ivzZfKwWaLtRpUhKUqm46TDmhYIHH+HRxH1AMz2c05S1WKeDMZM3gkEyKlbRdz7tBwOjbLUEBZX12ERz+nvHmI+G+JgJ2Ug7pQLHhAdO0O/kGtzmkK5G86kV5mB1uckQfL4GlEl9ufuRA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
+ header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siliconsignals.io;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OYzzFpTq0fHTJhzt9ByLfRSZBLbXVmxw5d2Nrmx8SDM=;
- b=I/p2AmxMV0IpjiGgH3fH+vXs6DIRN0u2JEiZNbjz6fCRWzY1/H82qtSdQM3xGWHIyW1mOn4f8WtYPdi2+d/fXB1b217GBXyvPQFGJ9U9vC/aUNmCJcZUy/fqzOvW5vliTrEi10K2XDfeDMZvf1vFAfnP30FBx6rrKJ/0LmsyQc4=
-Received: from SJ0PR05CA0096.namprd05.prod.outlook.com (2603:10b6:a03:334::11)
- by PH3PPF079E800A3.namprd10.prod.outlook.com (2603:10b6:518:1::786) with
+ bh=xptkJlwTw1MoSz3DDUfbsg2cMK5aefzkEAhWaFPJXFM=;
+ b=UVsEE+ABJ3PYmyHl01+aNEdjIlMvfMt7DrLK9BXaXTOJM5KjjlaCcXhUTtiR59ahQK6CI+HATRVvgx7G8hLThZ32adLPmWlh7lROctBVTWPUGL8JDzBPdFPJQgBY7t7aUKMwA9at1yBy9qbkK+9k4zk6VWOmSroaWNoyJDHGJPbroXVBFeZIv7XSKWgGSeEDoF/S2cPmwLCxyYM0oJYjMzDr2YpLr3E0BABdaCKqp3hqh7k1z8mriRJCwY6T9ZBLcTtjXEO2/oQT1AROYdcWlqxlQAePVjR75rhHhnq7q0CigNIZWgE4XyWSVK8i5HVDDhlExJO3XNPbc3h2FN+pZw==
+Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:199::7)
+ by PN1P287MB3840.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:257::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.6; Thu, 18 Dec
- 2025 05:36:05 +0000
-Received: from SJ1PEPF00001CE1.namprd05.prod.outlook.com
- (2603:10b6:a03:334:cafe::5e) by SJ0PR05CA0096.outlook.office365.com
- (2603:10b6:a03:334::11) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9434.6 via Frontend Transport; Thu,
- 18 Dec 2025 05:36:05 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
-Received: from flwvzet200.ext.ti.com (198.47.21.194) by
- SJ1PEPF00001CE1.mail.protection.outlook.com (10.167.242.9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9434.6 via Frontend Transport; Thu, 18 Dec 2025 05:36:03 +0000
-Received: from DFLE205.ent.ti.com (10.64.6.63) by flwvzet200.ext.ti.com
- (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 17 Dec
- 2025 23:36:02 -0600
-Received: from DFLE206.ent.ti.com (10.64.6.64) by DFLE205.ent.ti.com
- (10.64.6.63) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 17 Dec
- 2025 23:36:01 -0600
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE206.ent.ti.com
- (10.64.6.64) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Wed, 17 Dec 2025 23:36:01 -0600
-Received: from [172.24.233.149] (ws.dhcp.ti.com [172.24.233.149])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5BI5ZtEe2835016;
-	Wed, 17 Dec 2025 23:35:56 -0600
-Message-ID: <9111c947-ef0f-4c4a-a09f-6da0901a8510@ti.com>
-Date: Thu, 18 Dec 2025 11:05:55 +0530
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.7; Thu, 18 Dec
+ 2025 05:50:03 +0000
+Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
+ ([fe80::ce63:5749:b390:508b]) by PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
+ ([fe80::ce63:5749:b390:508b%6]) with mapi id 15.20.9434.001; Thu, 18 Dec 2025
+ 05:50:03 +0000
+From: Tarang Raval <tarang.raval@siliconsignals.io>
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, Sakari Ailus
+	<sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: Re: [PATCH 1/2] media: i2c: ov6211: make configurable vblank control
+ of the sensor
+Thread-Topic: [PATCH 1/2] media: i2c: ov6211: make configurable vblank control
+ of the sensor
+Thread-Index: AQHcb7+ZTcqmjM+YMU2BfbVB0oKk2rUm3zSK
+Date: Thu, 18 Dec 2025 05:50:02 +0000
+Message-ID:
+ <PN3P287MB18295BB7CB246E9A3C9AA5408BA8A@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
+References: <20251218014155.3265999-1-vladimir.zapolskiy@linaro.org>
+ <20251218014155.3265999-2-vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20251218014155.3265999-2-vladimir.zapolskiy@linaro.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siliconsignals.io;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PN3P287MB1829:EE_|PN1P287MB3840:EE_
+x-ms-office365-filtering-correlation-id: 07e2d204-ffd2-4b9d-ff35-08de3df949f6
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|38070700021;
+x-microsoft-antispam-message-info:
+ =?iso-8859-1?Q?d66OFXrQvOcGf+lxxSs/UkZTkbX6SVFgbeNlDE6QUX8GdsQDAMbm/OlpQj?=
+ =?iso-8859-1?Q?9JusNQTETZbfYZ3aDRSf6ElpPO0A5AOQPEfZyRGm2QRTvtEliwhqpWTt8P?=
+ =?iso-8859-1?Q?8+ym5A/VmIG3w9z3ZVMnEjrxVOf+QKlpV33VLdWGb7VTcj2V9zKFrtYeKx?=
+ =?iso-8859-1?Q?pUL9ZdLI8Xz5mYHcR/1SXHC9bX7QHd11HKz+OLe4ienANdtUywRuraykZG?=
+ =?iso-8859-1?Q?I2jOAcfiVO5cYAzwFJtfuifIkxxCbask9Thk9BC5/kVXtlSZ4SFrpc1mUB?=
+ =?iso-8859-1?Q?1AU0t3YPq6X1yUvubNDU9HxI9a9OHO9PDGpxs8cgV7ZmPlDfkTBKlD5mN0?=
+ =?iso-8859-1?Q?GTyGwvrI7S1GwctvZSuqqCi6bslHzK/wZIqDgKZLwqu8l2rxxYxA6xWE21?=
+ =?iso-8859-1?Q?4R23B/OJvfASEX3nDqSylopJxZ50QgGmn4FBYgCN5PG2s9OXZWRjZdFLRc?=
+ =?iso-8859-1?Q?+MQc7DMGaR+GIjqFSLfollzfvAL8UbSlNKsUt0lKrbWvaQgl9vdGAUOk1p?=
+ =?iso-8859-1?Q?dwj0iBkfYy0u1FllIYFD5qSX2C1J2fnTaDfq5e87imUhpyGKFD/KM1/BNt?=
+ =?iso-8859-1?Q?tYmgz0+Upb2NeqFAfuySbzrJLq7Mg4UBD5mNRzXm5wQVW/UbKLUNN2ZL01?=
+ =?iso-8859-1?Q?yqNQuzKy+LtgOnURTzl/5tBN42yJVfz9ZV//relX2vdPQaIMKL5RVf77IM?=
+ =?iso-8859-1?Q?y1EozsIOtc5J8cnAC3RLsNoLxOZn22Vu1NiV6NWBzN8T5C8D9YaL0hY0pX?=
+ =?iso-8859-1?Q?CCS8c+uJgn+qRrFim9xS0NCCMmnOOvLUOXYRgpdj/wAM2yzS+BjwI+6aR7?=
+ =?iso-8859-1?Q?FASrb4vDHatNg0iTb0if5cQFXJulhUF4r68aXvycPUaedUZnPhxm/kJCT8?=
+ =?iso-8859-1?Q?uCFMvYYN6C3ZWpK8Huu/s9PITP6r3e8RccaVdu39KdR1+Y+01SFXOYbYu7?=
+ =?iso-8859-1?Q?thHtVnVCkcq1N40xqBomOFbewimnIcRd7TuBsAxltphFrff6rplsynhJ4z?=
+ =?iso-8859-1?Q?HbDdmPF482MJbj/A68AjNiNIr5t2c6LQyPrz4WOHsGI5MoekyNn5rYWiP2?=
+ =?iso-8859-1?Q?SjJ8+Neos4C/ryUxX0KGu7q7u8j79K16t5QdbATVo0txtKz90bSgrMLnao?=
+ =?iso-8859-1?Q?n920gbbGEZHKGoGtpHrjGK4YFYeS//115XnNhIOywqWdAQtv567AJ0muzZ?=
+ =?iso-8859-1?Q?/69Frt2HNKkniDyxIY0oFdQUTfxCwcUb6TCHRlGpROC+hCMYVfSasxhMmC?=
+ =?iso-8859-1?Q?T3KQFOKq0OjE6GbkC1o8lQ0XoVnrRvr3aRrQ4pwyIqh0NdYDsSFK1fw6t2?=
+ =?iso-8859-1?Q?C4kEzvtj63SJrcffx3Om3GTxgt9KjAUEMMi/j/d350Auz/xZevQwgvm+y/?=
+ =?iso-8859-1?Q?92zR3b7q+9Mc0qOQDaQi8HGCprhdBMA3Qhx9RkgR/w1HAdf2YYXnzyE1gt?=
+ =?iso-8859-1?Q?48HuyOvUcUPkmlBA366KseZMr3Qag91JuTfZWMrWPviZkSH8+xVBDtJBY0?=
+ =?iso-8859-1?Q?3hyoTWmsk5Q6BoWMRTgOgzeSCSJQ6LApuSGZUNYBkHpuWyaTkzjNEzgw8X?=
+ =?iso-8859-1?Q?WPZiWFSuw31Mr1FXALZFrQyalX8a?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB1829.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700021);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?5eAiz9nwdQIiNOO6AjORsuoVr8g/nBL5mszFfMxBf27PLv52Ve5Eqh2+Hj?=
+ =?iso-8859-1?Q?KWSJCDNrMpoD5ZPENlqXYZELT2KcKm5uN0syP+qOkCaXndKWBeopYKWilN?=
+ =?iso-8859-1?Q?UTV5OX0yJAS1Ct7D7p2VNz5IKUA3fXstoLUnQODTz6JH3hnDT9D06aOlUe?=
+ =?iso-8859-1?Q?nTA1LvEju+iRL8biq6SbvAZLdaS9e0QfUIiYoi8K2SIL8mS0iGAXZgpdu+?=
+ =?iso-8859-1?Q?aL6pw5yNKc9ytPuzDfSqJZ5R/uRm0sRziPqBTRji92MeM6NwTgkyc/FyQH?=
+ =?iso-8859-1?Q?2yYgr0ZMXI0YGYV/DVEx6ur3o4aJskCYDlMKABQlo5vphd9DJ+JX2nAbCP?=
+ =?iso-8859-1?Q?vUaD45f+a5mRAh0r0iSpLZXbcrUb4gpUAQ/K0C0Jpr05sxgw5jsApSu+51?=
+ =?iso-8859-1?Q?cYOZlsOtqJWgs3EmdVHS8leU+eGM+HEz2BvYjXPmQDN5SoQVpdLUAOOpXb?=
+ =?iso-8859-1?Q?kEfkgiOcWUn20Y2pegod5mcRVxyGnDTMt9HYJhagMIB9FLxIB+eqYkD+zF?=
+ =?iso-8859-1?Q?l3TDg6lx/JNCPwmg6H7H+JK+rMQHXwjNcKMX19a4v8XoK9FyOZ5R7+0xP/?=
+ =?iso-8859-1?Q?gb5EkHs2H+CqCnncLPCSRAYcQnX57GBWfckJu2VElhUc9iuzl5F7ebDWDG?=
+ =?iso-8859-1?Q?k1EFbzmQM8Fbr+YU9XKyJ+6dWjvyM1mum4yQqMnA/yYwkn8lfTpm3ds/6k?=
+ =?iso-8859-1?Q?OWs6nAB9nJMIjeW7hHnOgjT7PMRbTiQj0EXIIKlXUYg102b7OQZPpC5reL?=
+ =?iso-8859-1?Q?KYxVfntgXcy5lRPD8l0pzrqidf/ouR6xrq6lXZ7feZ2i8i7lWAm4roFyo/?=
+ =?iso-8859-1?Q?2rVzssD4aemhnF6HJvEVKibD4aSkRzoWvoHLePXtbILQZfAtOCdALgrNEQ?=
+ =?iso-8859-1?Q?oh0KNgmuz00MWHbtxSNChFGdvmAUFxv0XDEkMKiusopJH20RXR2xO0ftvi?=
+ =?iso-8859-1?Q?/WTq90vIWNqP/MyuFEJO2FVM92R8XQpi3endg2Phq0tt1xhAN9mJx69akL?=
+ =?iso-8859-1?Q?lDRYQd7TlU+uzY8IY+v7SaVv5pjdltQz5Gb/n/csYRSl7raKxxS0F+3ATj?=
+ =?iso-8859-1?Q?aKrI2TA0/uTSJ8Xx3gEIgQb8C9l7rekSRKqssU5M7fCf4QehMSpjk8XVxk?=
+ =?iso-8859-1?Q?S+bDPwgwYASpkD3q0h3VE9cW3kEVqLcZQWEPj4qL10JwBxklcViApfK6uz?=
+ =?iso-8859-1?Q?crd/O4ia0DRtmvp+NqWyTUeqrVkopLQWtmYOVcL85Ji9eQ/52rUQGJaVKp?=
+ =?iso-8859-1?Q?12gOd8uIjoj2HJ8QA+2D76Nqlr8egRvdU80GTo0ficx/uw/752XEbMARCX?=
+ =?iso-8859-1?Q?cexRJrqsQ4N5AIN1fXxXeU+XD54jBGiEC7MJ23NLFzEx4uwfrwKFat77Ci?=
+ =?iso-8859-1?Q?vvi3QebbiLs4kSgOPy205qnBJh0CDKn5ao2EW2kOL0p2u4vnf/45WqA3Od?=
+ =?iso-8859-1?Q?TvkcKf0swHjXi2AK9kkMCQxKpBmIsJXK8BRNYD69buv8O8HNzTLIVNU4aI?=
+ =?iso-8859-1?Q?OAzIc/AS+YTk6EQWk7z62Pfrw9DWyzUvLXH4HYKk6xq/an4zFLtM991XiA?=
+ =?iso-8859-1?Q?JWWMnW0+rfsUYAYx6wqigI1Y+JCd5zQH4kzIbYTEZeWQ4ncxv/z7iAkhfy?=
+ =?iso-8859-1?Q?BXdnDp+7dXyKrywME+CgTAngcbpP+xyJr8?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 16/18] media: cadence: csi2rx: Support runtime PM
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, <jai.luthra@linux.dev>,
-	<laurent.pinchart@ideasonboard.com>, <mripard@kernel.org>
-CC: <y-abhilashchandra@ti.com>, <devarsht@ti.com>, <s-jain1@ti.com>,
-	<vigneshr@ti.com>, <mchehab@kernel.org>, <robh@kernel.org>,
-	<krzk+dt@kernel.org>, <p.zabel@pengutronix.de>, <conor+dt@kernel.org>,
-	<sakari.ailus@linux.intel.com>, <hverkuil-cisco@xs4all.nl>,
-	<jai.luthra@ideasonboard.com>, <changhuang.liang@starfivetech.com>,
-	<jack.zhu@starfivetech.com>, <sjoerd@collabora.com>,
-	<dan.carpenter@linaro.org>, <hverkuil+cisco@kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-	<devicetree@vger.kernel.org>
-References: <20251112115459.2479225-1-r-donadkar@ti.com>
- <20251112115459.2479225-17-r-donadkar@ti.com>
- <a4bba302-8be2-4bbd-96c8-3a20472e0c12@ideasonboard.com>
-Content-Language: en-US
-From: Rishikesh Donadkar <r-donadkar@ti.com>
-In-Reply-To: <a4bba302-8be2-4bbd-96c8-3a20472e0c12@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CE1:EE_|PH3PPF079E800A3:EE_
-X-MS-Office365-Filtering-Correlation-Id: 93df2319-1f28-4932-72a8-08de3df755b9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|82310400026|1800799024|36860700013;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?MVdpMVoxL1RPc0FpN0YwUFhDRkJNYWNxU1VRMEp6NXNvYzNQRHYzMDBmKy9z?=
- =?utf-8?B?c043dFNqTFFhUUhDRmU4NGpQVllxSGlnclZ3ZXpnVW5uWGRxM0VLdkhZOWlp?=
- =?utf-8?B?U3VoV1dScCtsVUtvTHM3aTZnYSs3dWt1ZFpORnp6TFUvOUxDajZIa0dJelNL?=
- =?utf-8?B?TXVIdjhyNGFaUXVxRXZzemJWWUtXTlRXdGNEZWhXcG5acHVuditwamsvL2Vs?=
- =?utf-8?B?UTQ3d1BSbVVBQVBZU05CQ3hjVjMxT1NFQ0tSekxjNEtDY1lMaFpvajJCblMv?=
- =?utf-8?B?Zk1Cekc3UWFCbDJaT3A0YmxaQk9IVzJiZGpvWjZOeVM4bk4xMVpMWVNxOEti?=
- =?utf-8?B?aXRqSUlCcEdHL3lHNHUwMkdvZ3R0clRZWk9vTlNRVDI3YWZ6cVgzUlNidHNI?=
- =?utf-8?B?ZkRBMStPdVltUzgydmJZRS9uVUIrTHlvWGNkMTBKWUJpUmdEUyt2VE9hZ0hR?=
- =?utf-8?B?Q3E2TTR6R3pzOWh5Zkl3TGlSRWx4N0cyZlEySXVPendGei9BY2tSaU0wWnlt?=
- =?utf-8?B?M3E4cmR4dGpWQ3RLUHRybXRGODhiazI0UFkyVUtlNU1LV0pLQ1ZEZWtmMVdN?=
- =?utf-8?B?SW5ibmtUYkNKNWhFYUVWMXQ4S2ZiUWtYdW9NWXVZK2p2cWtLakFRK2JUSVRu?=
- =?utf-8?B?YUR2VUxncjFlUmt5UzRveEdLbUNiVkw4R0pVL0d1MHQ3WWlxSDJ4c3p1b1Zo?=
- =?utf-8?B?czNaSENPajltNW5OamxORndpc1N0Ym1ZaVE1Tmljait6cytBZk1zZFdvT0Yy?=
- =?utf-8?B?SVRWcVNlWXlibS84Ym5pWHVsR3MrbUtJQWJ4bHU3bWNaSDZ1aFFzejVnWXNn?=
- =?utf-8?B?TFFkem0rQ1NYeTNmbTVKcjlnYUluMUlpWVE0TGl3T05IRS9KdG1wOUVBdklk?=
- =?utf-8?B?NS82b3p4bmJIT1VNU3N6Rm00SGVPbFRTeVlobWExTGlxQ200a2RLSE5BdDN2?=
- =?utf-8?B?UmpnNnRIVktWRlRvMjlqdXFDUURZaUJwak9ZdGd3SkdvR3FPU1o2VDl2S0th?=
- =?utf-8?B?NHVMNlh0MHd5TlRXUjAxMi9WVEx5WkJwWFB3UjdGcGZkbTJLM0E1WW96LzU5?=
- =?utf-8?B?SEgvUWxrNjExU2JXNXlkTEtQZHpqVVRrOVRDa3ZPTHgxWWJ3d0tBOGY1b2NO?=
- =?utf-8?B?VW9tYTJnUlk3S1dqTk4xdysyZDRzVUNHM0RYa0NIWEJWa2J1bHZCR0d4Y2tk?=
- =?utf-8?B?dHhla0VpT0RTa3VVNnpud1ZTVkt1QmUyZFZIMXk5ZmZEUnYzL2k4VTlVeUFE?=
- =?utf-8?B?YlA5aTZrbjM2TW9uRnBvWHZhbnc1ekRpY3dhbUxSWjVOMXdHRWk3bS9vZ1cw?=
- =?utf-8?B?RmlaZDBkYlM0UEdJOTFHVE9iV1praHBhL1ArSkR5MVl4K2NLdkNrVmlZL1hq?=
- =?utf-8?B?L3lFUEJCUXBiV1VlSFhXbmo3a0h2SXNJV2p1QzRCZ2tZbDZtSFVkY1gzbkQ0?=
- =?utf-8?B?UjUwdnlQSFhEWU9YeHArdThGZTM3MjlDSFhsaFIzOHljcXpsc2tyWE1xZGJF?=
- =?utf-8?B?aWUzZGI4bGJsZ0Y1eWw2ajFXZ3BjeEtFRFNZa1krY25DMXMwVVlXWnNPbXVG?=
- =?utf-8?B?TW8wTHg2Qm8xRTY5NVlGdVAzN0V2UEt2Q0hlS01pTHVsU3lNYjZWam4veEFo?=
- =?utf-8?B?cm5lbDhjZU83WUtiNEFQRS9xTkdaVTlqV0FOejlHYVJqaXUvbWwwWlRHWStX?=
- =?utf-8?B?WVd5dmRZWmQwU3RrTUxpUmZmMExwQUhQTjJzVExVRUN4SmQrN3Q3ejNXcGJF?=
- =?utf-8?B?cTJrT0REMnhoMU9vZDJLa3BjQk8zcHIvaEtJSVRpbmdUYTJHdlFEZU9JMWVU?=
- =?utf-8?B?dFZtdnM4UXk1Y0xqVlFrekxrN3VhbGMwNVowa2NGYWxwellPMjJhWDJSd3do?=
- =?utf-8?B?OGtKQ1QrNzNJL0pTaUF3MlZBU0pmOUZmNGg0SEg5bU5nNXpNVUlTU0dsZVRR?=
- =?utf-8?B?Sm9tZlE4OEhZQ1ltRUtvR0lQdjdkeE9ZUzVPZmVzM3hYWlh1Qld0dFA0aWxT?=
- =?utf-8?B?dElFYWFvMElBbXZDaVJuUjNaM0VmMGhFbW1IQU1kVzV4VkpJc1htTVgyUmk0?=
- =?utf-8?B?VFlGQXp5ais0S0VWU3ZHVkJyVjdERW1WUFZZbW5ZYmNXaHdnSU9VUDZ5c0FY?=
- =?utf-8?Q?I3eo=3D?=
-X-Forefront-Antispam-Report:
-	CIP:198.47.21.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet200.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(7416014)(376014)(82310400026)(1800799024)(36860700013);DIR:OUT;SFP:1101;
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2025 05:36:03.6810
+X-OriginatorOrg: siliconsignals.io
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 07e2d204-ffd2-4b9d-ff35-08de3df949f6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Dec 2025 05:50:02.9796
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 93df2319-1f28-4932-72a8-08de3df755b9
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.194];Helo=[flwvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF00001CE1.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPF079E800A3
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 36FN8nyR3qM4SNHN7eZeoceT8K8sr3PD1UunVopDh3CO7f/Zd0kk/wVbTnPg/iC/3HKIcc/Da6yQf8VuVeswRY+KBo4S3yIfQU78CjawXwY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN1P287MB3840
 
-
-On 01/12/25 18:41, Tomi Valkeinen wrote:
-> Hi,
-
-
-Hi Tomi,
-
-Thank you for the review !
-
->
-> On 12/11/2025 13:54, Rishikesh Donadkar wrote:
->> From: Changhuang Liang <changhuang.liang@starfivetech.com>
->>
->> Use runtime power management hooks to save power when CSI-RX is not in
->> use.
->>
->> Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
->> Tested-by: Rishikesh Donadkar <r-donadkar@ti.com>
->> Reviewed-by: Rishikesh Donadkar <r-donadkar@ti.com>
->> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
->> Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
->> ---
->>   drivers/media/platform/cadence/Kconfig       |   1 +
->>   drivers/media/platform/cadence/cdns-csi2rx.c | 129 ++++++++++++-------
->>   2 files changed, 83 insertions(+), 47 deletions(-)
->>
->> diff --git a/drivers/media/platform/cadence/Kconfig b/drivers/media/platform/cadence/Kconfig
->> index 1aa608c00dbce..ea85ef82760e6 100644
->> --- a/drivers/media/platform/cadence/Kconfig
->> +++ b/drivers/media/platform/cadence/Kconfig
->> @@ -5,6 +5,7 @@ comment "Cadence media platform drivers"
->>   config VIDEO_CADENCE_CSI2RX
->>   	tristate "Cadence MIPI-CSI2 RX Controller"
->>   	depends on VIDEO_DEV
->> +	depends on PM
->>   	select MEDIA_CONTROLLER
->>   	select VIDEO_V4L2_SUBDEV_API
->>   	select V4L2_FWNODE
->> diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
->> index 833bc134f17cb..6447c225ba354 100644
->> --- a/drivers/media/platform/cadence/cdns-csi2rx.c
->> +++ b/drivers/media/platform/cadence/cdns-csi2rx.c
->> @@ -337,11 +337,6 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
->>   	u32 reg;
->>   	int ret;
->>   
->> -	ret = clk_prepare_enable(csi2rx->p_clk);
->> -	if (ret)
->> -		return ret;
->> -
->> -	reset_control_deassert(csi2rx->p_rst);
->>   	csi2rx_reset(csi2rx);
->>   
->>   	if (csi2rx->error_irq >= 0)
->> @@ -382,7 +377,7 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
->>   		if (ret) {
->>   			dev_err(csi2rx->dev,
->>   				"Failed to configure external DPHY: %d\n", ret);
->> -			goto err_disable_pclk;
->> +			return ret;
->>   		}
->>   	}
->>   
->> @@ -397,12 +392,6 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
->>   	 * hence the reference counting.
->>   	 */
->>   	for (i = 0; i < csi2rx->max_streams; i++) {
->> -		ret = clk_prepare_enable(csi2rx->pixel_clk[i]);
->> -		if (ret)
->> -			goto err_disable_pixclk;
->> -
->> -		reset_control_deassert(csi2rx->pixel_rst[i]);
->> -
->>   		writel(CSI2RX_STREAM_CFG_FIFO_MODE_LARGE_BUF |
->>   			       FIELD_PREP(CSI2RX_STREAM_CFG_NUM_PIXELS_MASK,
->>   					  csi2rx->num_pixels[i]),
->> @@ -415,30 +404,8 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
->>   		       csi2rx->base + CSI2RX_STREAM_CTRL_REG(i));
->>   	}
->>   
->> -	ret = clk_prepare_enable(csi2rx->sys_clk);
->> -	if (ret)
->> -		goto err_disable_pixclk;
->> -
->> -	reset_control_deassert(csi2rx->sys_rst);
->> -
->> -	clk_disable_unprepare(csi2rx->p_clk);
->>   
->>   	return 0;
->> -
->> -err_disable_pixclk:
->> -	for (; i > 0; i--) {
->> -		reset_control_assert(csi2rx->pixel_rst[i - 1]);
->> -		clk_disable_unprepare(csi2rx->pixel_clk[i - 1]);
->> -	}
->> -
->> -	if (csi2rx->dphy) {
->> -		writel(0, csi2rx->base + CSI2RX_DPHY_LANE_CTRL_REG);
->> -		phy_power_off(csi2rx->dphy);
->> -	}
->> -err_disable_pclk:
->> -	clk_disable_unprepare(csi2rx->p_clk);
->> -
->> -	return ret;
->>   }
->>   
->>   static void csi2rx_stop(struct csi2rx_priv *csi2rx)
->> @@ -447,10 +414,6 @@ static void csi2rx_stop(struct csi2rx_priv *csi2rx)
->>   	u32 val;
->>   	int ret;
->>   
->> -	clk_prepare_enable(csi2rx->p_clk);
->> -	reset_control_assert(csi2rx->sys_rst);
->> -	clk_disable_unprepare(csi2rx->sys_clk);
->> -
->>   	writel(0, csi2rx->base + CSI2RX_ERROR_IRQS_MASK_REG);
->>   
->>   	for (i = 0; i < csi2rx->max_streams; i++) {
->> @@ -465,14 +428,8 @@ static void csi2rx_stop(struct csi2rx_priv *csi2rx)
->>   		if (ret)
->>   			dev_warn(csi2rx->dev,
->>   				 "Failed to stop streaming on pad%u\n", i);
->> -
->> -		reset_control_assert(csi2rx->pixel_rst[i]);
->> -		clk_disable_unprepare(csi2rx->pixel_clk[i]);
->>   	}
->>   
->> -	reset_control_assert(csi2rx->p_rst);
->> -	clk_disable_unprepare(csi2rx->p_clk);
->> -
->>   	if (csi2rx->dphy) {
->>   		writel(0, csi2rx->base + CSI2RX_DPHY_LANE_CTRL_REG);
->>   
->> @@ -548,10 +505,17 @@ static int csi2rx_enable_streams(struct v4l2_subdev *subdev,
->>   	 * enable the whole controller.
->>   	 */
->>   	if (!csi2rx->count) {
->> +		ret = pm_runtime_resume_and_get(csi2rx->dev);
->> +		if (ret < 0)
->> +			return ret;
->> +
->>   		csi2rx_update_vc_select(csi2rx, state);
->> +
->>   		ret = csi2rx_start(csi2rx);
->> -		if (ret)
->> +		if (ret) {
->> +			pm_runtime_put(csi2rx->dev);
->>   			return ret;
->> +		}
->>   	}
->>   
->>   	/* Start streaming on the source */
->> @@ -561,8 +525,10 @@ static int csi2rx_enable_streams(struct v4l2_subdev *subdev,
->>   		dev_err(csi2rx->dev,
->>   			"Failed to start streams %#llx on subdev\n",
->>   			sink_streams);
->> -		if (!csi2rx->count)
->> +		if (!csi2rx->count) {
->>   			csi2rx_stop(csi2rx);
->> +			pm_runtime_put(csi2rx->dev);
-> Probably time to add 'goto' based error handling to this func... Maybe
-> in this patch, maybe as a separate patch before this.
-
-
-Okay, I will do it in this patch itself.
-
-
-Rishikesh
-
->
->   Tomi
->
->> +		}
->>   		return ret;
->>   	}
->>   
->> @@ -589,8 +555,10 @@ static int csi2rx_disable_streams(struct v4l2_subdev *subdev,
->>   	csi2rx->count--;
->>   
->>   	/* Let the last user turn off the lights. */
->> -	if (!csi2rx->count)
->> +	if (!csi2rx->count) {
->>   		csi2rx_stop(csi2rx);
->> +		pm_runtime_put(csi2rx->dev);
->> +	}
->>   
->>   	return 0;
->>   }
->> @@ -1092,6 +1060,7 @@ static int csi2rx_probe(struct platform_device *pdev)
->>   	if (ret)
->>   		goto err_cleanup;
->>   
->> +	pm_runtime_enable(csi2rx->dev);
->>   	ret = v4l2_async_register_subdev(&csi2rx->subdev);
->>   	if (ret < 0)
->>   		goto err_free_state;
->> @@ -1106,6 +1075,7 @@ static int csi2rx_probe(struct platform_device *pdev)
->>   
->>   err_free_state:
->>   	v4l2_subdev_cleanup(&csi2rx->subdev);
->> +	pm_runtime_disable(csi2rx->dev);
->>   err_cleanup:
->>   	v4l2_async_nf_unregister(&csi2rx->notifier);
->>   	v4l2_async_nf_cleanup(&csi2rx->notifier);
->> @@ -1124,9 +1094,73 @@ static void csi2rx_remove(struct platform_device *pdev)
->>   	v4l2_async_unregister_subdev(&csi2rx->subdev);
->>   	v4l2_subdev_cleanup(&csi2rx->subdev);
->>   	media_entity_cleanup(&csi2rx->subdev.entity);
->> +	pm_runtime_disable(csi2rx->dev);
->>   	kfree(csi2rx);
->>   }
->>   
->> +static int csi2rx_runtime_suspend(struct device *dev)
->> +{
->> +	struct csi2rx_priv *csi2rx = dev_get_drvdata(dev);
->> +	unsigned int i;
->> +
->> +	reset_control_assert(csi2rx->sys_rst);
->> +	clk_disable_unprepare(csi2rx->sys_clk);
->> +
->> +	for (i = 0; i < csi2rx->max_streams; i++) {
->> +		reset_control_assert(csi2rx->pixel_rst[i]);
->> +		clk_disable_unprepare(csi2rx->pixel_clk[i]);
->> +	}
->> +
->> +	reset_control_assert(csi2rx->p_rst);
->> +	clk_disable_unprepare(csi2rx->p_clk);
->> +
->> +	return 0;
->> +}
->> +
->> +static int csi2rx_runtime_resume(struct device *dev)
->> +{
->> +	struct csi2rx_priv *csi2rx = dev_get_drvdata(dev);
->> +	unsigned int i;
->> +	int ret;
->> +
->> +	ret = clk_prepare_enable(csi2rx->p_clk);
->> +	if (ret)
->> +		return ret;
->> +
->> +	reset_control_deassert(csi2rx->p_rst);
->> +
->> +	for (i = 0; i < csi2rx->max_streams; i++) {
->> +		ret = clk_prepare_enable(csi2rx->pixel_clk[i]);
->> +		if (ret)
->> +			goto err_disable_pixclk;
->> +
->> +		reset_control_deassert(csi2rx->pixel_rst[i]);
->> +	}
->> +
->> +	ret = clk_prepare_enable(csi2rx->sys_clk);
->> +	if (ret)
->> +		goto err_disable_pixclk;
->> +
->> +	reset_control_deassert(csi2rx->sys_rst);
->> +
->> +	return 0;
->> +
->> +err_disable_pixclk:
->> +	for (; i > 0; i--) {
->> +		reset_control_assert(csi2rx->pixel_rst[i - 1]);
->> +		clk_disable_unprepare(csi2rx->pixel_clk[i - 1]);
->> +	}
->> +
->> +	reset_control_assert(csi2rx->p_rst);
->> +	clk_disable_unprepare(csi2rx->p_clk);
->> +
->> +	return ret;
->> +}
->> +
->> +static const struct dev_pm_ops csi2rx_pm_ops = {
->> +	RUNTIME_PM_OPS(csi2rx_runtime_suspend, csi2rx_runtime_resume, NULL)
->> +};
->> +
->>   static const struct of_device_id csi2rx_of_table[] = {
->>   	{ .compatible = "starfive,jh7110-csi2rx" },
->>   	{ .compatible = "cdns,csi2rx" },
->> @@ -1141,6 +1175,7 @@ static struct platform_driver csi2rx_driver = {
->>   	.driver	= {
->>   		.name		= "cdns-csi2rx",
->>   		.of_match_table	= csi2rx_of_table,
->> +		.pm		= &csi2rx_pm_ops,
->>   	},
->>   };
->>   module_platform_driver(csi2rx_driver);
+Hi Vladimir,=0A=
+=0A=
+Small nit, please see the response inline.=0A=
+=0A=
+> Configurable vertical blanking size control allows users to set a wanted=
+=0A=
+> image frame rate.=0A=
+>=A0=0A=
+> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>=0A=
+> ---=0A=
+> =A0drivers/media/i2c/ov6211.c | 54 +++++++++++++++++++++++++++-----------=
+=0A=
+> =A01 file changed, 39 insertions(+), 15 deletions(-)=0A=
+>=A0=0A=
+> diff --git a/drivers/media/i2c/ov6211.c b/drivers/media/i2c/ov6211.c=0A=
+> index e3ac5ecf27d1..5c784b1b3c84 100644=0A=
+> --- a/drivers/media/i2c/ov6211.c=0A=
+> +++ b/drivers/media/i2c/ov6211.c=0A=
+> @@ -41,6 +41,10 @@=0A=
+> =A0#define OV6211_ANALOGUE_GAIN_STEP=A0=A0=A0=A0=A0 1=0A=
+> =A0#define OV6211_ANALOGUE_GAIN_DEFAULT=A0=A0 160=0A=
+>=A0=0A=
+> +/* Vertical timing size */=0A=
+> +#define OV6211_REG_VTS=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 C=
+CI_REG16(0x380e)=0A=
+> +#define OV6211_VTS_MAX=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0=
+xffff=0A=
+> +=0A=
+> =A0/* Test pattern */=0A=
+> =A0#define OV6211_REG_PRE_ISP=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 CCI_REG=
+8(0x5e00)=0A=
+> =A0#define OV6211_TEST_PATTERN_ENABLE=A0=A0=A0=A0 BIT(7)=0A=
+> @@ -89,6 +93,8 @@ struct ov6211 {=0A=
+> =A0=A0=A0=A0=A0=A0=A0 struct v4l2_subdev sd;=0A=
+> =A0=A0=A0=A0=A0=A0=A0 struct media_pad pad;=0A=
+>=A0=0A=
+> +=A0=A0=A0=A0=A0=A0 struct v4l2_ctrl *vblank;=0A=
+> +=A0=A0=A0=A0=A0=A0 struct v4l2_ctrl *exposure;=0A=
+> =A0=A0=A0=A0=A0=A0=A0 struct v4l2_ctrl_handler ctrl_handler;=0A=
+>=A0=0A=
+> =A0=A0=A0=A0=A0=A0=A0 /* Saved register values */=0A=
+> @@ -167,8 +173,6 @@ static const struct cci_reg_sequence ov6211_400x400_1=
+20fps_mode[] =3D {=0A=
+> =A0=A0=A0=A0=A0=A0=A0 { CCI_REG8(0x380b), 0x90 },=0A=
+> =A0=A0=A0=A0=A0=A0=A0 { CCI_REG8(0x380c), 0x05 },=A0=A0=A0=A0 /* horizont=
+al timing size */=0A=
+> =A0=A0=A0=A0=A0=A0=A0 { CCI_REG8(0x380d), 0xf2 },=0A=
+> -=A0=A0=A0=A0=A0=A0 { CCI_REG8(0x380e), 0x01 },=A0=A0=A0=A0 /* vertical t=
+iming size */=0A=
+> -=A0=A0=A0=A0=A0=A0 { CCI_REG8(0x380f), 0xb6 },=0A=
+> =A0=A0=A0=A0=A0=A0=A0 { CCI_REG8(0x3810), 0x00 },=0A=
+> =A0=A0=A0=A0=A0=A0=A0 { CCI_REG8(0x3811), 0x04 },=0A=
+> =A0=A0=A0=A0=A0=A0=A0 { CCI_REG8(0x3812), 0x00 },=0A=
+> @@ -251,8 +255,24 @@ static int ov6211_set_ctrl(struct v4l2_ctrl *ctrl)=
+=0A=
+> =A0{=0A=
+> =A0=A0=A0=A0=A0=A0=A0 struct ov6211 *ov6211 =3D container_of(ctrl->handle=
+r, struct ov6211,=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ctrl_handler);=
+=0A=
+> +=A0=A0=A0=A0=A0=A0 const struct ov6211_mode *mode =3D &supported_modes[0=
+];=0A=
+> +=A0=A0=A0=A0=A0=A0 s64 exposure_max;=0A=
+> =A0=A0=A0=A0=A0=A0=A0 int ret;=0A=
+>=A0=0A=
+> +=A0=A0=A0=A0=A0=A0 /* Propagate change of current control to all related=
+ controls */=0A=
+> +=A0=A0=A0=A0=A0=A0 switch (ctrl->id) {=0A=
+> +=A0=A0=A0=A0=A0=A0 case V4L2_CID_VBLANK:=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 /* Update max exposure while =
+meeting expected vblanking */=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 exposure_max =3D ctrl->val + =
+mode->height -=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 OV621=
+1_EXPOSURE_MAX_MARGIN;=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 __v4l2_ctrl_modify_range(ov62=
+11->exposure,=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ov6211->exposure->minimum,=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 exposure_max,=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ov6211->exposure->step,=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ov6211->exposure->default_val=
+ue);=0A=
+=0A=
+This control can fail, could you please add error checking.=0A=
+=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 break;=0A=
+> +=A0=A0=A0=A0=A0=A0 }=0A=
+> +=0A=
+> =A0=A0=A0=A0=A0=A0=A0 /* V4L2 controls are applied, when sensor is powere=
+d up for streaming */=0A=
+> =A0=A0=A0=A0=A0=A0=A0 if (!pm_runtime_get_if_active(ov6211->dev))=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return 0;=0A=
+> @@ -266,6 +286,10 @@ static int ov6211_set_ctrl(struct v4l2_ctrl *ctrl)=
+=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ret =3D cci_write(ov6211->r=
+egmap, OV6211_REG_EXPOSURE,=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0 ctrl->val << 4, NULL);=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 break;=0A=
+> +=A0=A0=A0=A0=A0=A0 case V4L2_CID_VBLANK:=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ret =3D cci_write(ov6211->reg=
+map, OV6211_REG_VTS,=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0 ctrl->val + mode->height, NULL);=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 break;=0A=
+> =A0=A0=A0=A0=A0=A0=A0 case V4L2_CID_TEST_PATTERN:=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ret =3D ov6211_set_test_pat=
+tern(ov6211, ctrl->val);=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 break;=0A=
+> @@ -287,8 +311,8 @@ static int ov6211_init_controls(struct ov6211 *ov6211=
+)=0A=
+> =A0{=0A=
+> =A0=A0=A0=A0=A0=A0=A0 struct v4l2_ctrl_handler *ctrl_hdlr =3D &ov6211->ct=
+rl_handler;=0A=
+> =A0=A0=A0=A0=A0=A0=A0 const struct ov6211_mode *mode =3D &supported_modes=
+[0];=0A=
+> +=A0=A0=A0=A0=A0=A0 s64 exposure_max, pixel_rate, h_blank, v_blank;=0A=
+> =A0=A0=A0=A0=A0=A0=A0 struct v4l2_fwnode_device_properties props;=0A=
+> -=A0=A0=A0=A0=A0=A0 s64 exposure_max, pixel_rate, h_blank;=0A=
+> =A0=A0=A0=A0=A0=A0=A0 struct v4l2_ctrl *ctrl;=0A=
+> =A0=A0=A0=A0=A0=A0=A0 int ret;=0A=
+>=A0=0A=
+> @@ -311,24 +335,24 @@ static int ov6211_init_controls(struct ov6211 *ov62=
+11)=0A=
+> =A0=A0=A0=A0=A0=A0=A0 if (ctrl)=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ctrl->flags |=3D V4L2_CTRL_=
+FLAG_READ_ONLY;=0A=
+>=A0=0A=
+> -=A0=A0=A0=A0=A0=A0 ctrl =3D v4l2_ctrl_new_std(ctrl_hdlr, &ov6211_ctrl_op=
+s, V4L2_CID_VBLANK,=0A=
+> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0 mode->vts - mode->height,=0A=
+> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0 mode->vts - mode->height, 1,=0A=
+> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0 mode->vts - mode->height);=0A=
+> -=A0=A0=A0=A0=A0=A0 if (ctrl)=0A=
+> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ctrl->flags |=3D V4L2_CTRL_FL=
+AG_READ_ONLY;=0A=
+> +=A0=A0=A0=A0=A0=A0 v_blank =3D mode->vts - mode->height;=0A=
+> +=A0=A0=A0=A0=A0=A0 ov6211->vblank =3D v4l2_ctrl_new_std(ctrl_hdlr, &ov62=
+11_ctrl_ops,=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 V4L2_CID_VBLANK, v_blan=
+k,=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 OV6211_VTS_MAX - mode->=
+height, 1,=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 v_blank);=0A=
+>=A0=0A=
+> =A0=A0=A0=A0=A0=A0=A0 v4l2_ctrl_new_std(ctrl_hdlr, &ov6211_ctrl_ops, V4L2=
+_CID_ANALOGUE_GAIN,=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0 OV6211_ANALOGUE_GAIN_MIN, OV6211_ANALOGUE_GAIN_MAX,=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0 OV6211_ANALOGUE_GAIN_STEP,=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0 OV6211_ANALOGUE_GAIN_DEFAULT);=0A=
+>=A0=0A=
+> -=A0=A0=A0=A0=A0=A0 exposure_max =3D (mode->vts - OV6211_EXPOSURE_MAX_MAR=
+GIN);=0A=
+> -=A0=A0=A0=A0=A0=A0 v4l2_ctrl_new_std(ctrl_hdlr, &ov6211_ctrl_ops,=0A=
+> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+ V4L2_CID_EXPOSURE,=0A=
+> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+ OV6211_EXPOSURE_MIN, exposure_max,=0A=
+> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+ OV6211_EXPOSURE_STEP,=0A=
+> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+ OV6211_EXPOSURE_DEFAULT);=0A=
+> +=A0=A0=A0=A0=A0=A0 exposure_max =3D mode->vts - OV6211_EXPOSURE_MAX_MARG=
+IN;=0A=
+> +=A0=A0=A0=A0=A0=A0 ov6211->exposure =3D v4l2_ctrl_new_std(ctrl_hdlr, &ov=
+6211_ctrl_ops,=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 V4L2_CID_EXPOSURE=
+,=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 OV6211_EXPOSURE_M=
+IN,=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 exposure_max,=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 OV6211_EXPOSURE_S=
+TEP,=0A=
+> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 OV6211_EXPOSURE_D=
+EFAULT);=0A=
+>=A0=0A=
+> =A0=A0=A0=A0=A0=A0=A0 v4l2_ctrl_new_std_menu_items(ctrl_hdlr, &ov6211_ctr=
+l_ops,=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 V4L2_CID_TEST_PATTERN,=0A=
+> --=0A=
+> 2.49.0=0A=
+=0A=
+With that change, it looks good to me.=0A=
+=0A=
+Reviewed-by: Tarang Raval <tarang.raval@siliconsignals.io>=0A=
+=0A=
+Best Regards,=0A=
+Tarang=
 
