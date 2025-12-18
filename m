@@ -1,628 +1,241 @@
-Return-Path: <linux-media+bounces-49082-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49083-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA44ECCD29F
-	for <lists+linux-media@lfdr.de>; Thu, 18 Dec 2025 19:27:45 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C9BFCCD3B8
+	for <lists+linux-media@lfdr.de>; Thu, 18 Dec 2025 19:45:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 3C79F3055F81
-	for <lists+linux-media@lfdr.de>; Thu, 18 Dec 2025 18:27:45 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1F33C302532F
+	for <lists+linux-media@lfdr.de>; Thu, 18 Dec 2025 18:45:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 781193161BB;
-	Thu, 18 Dec 2025 18:27:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D4F9309EE4;
+	Thu, 18 Dec 2025 18:45:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HohxgcjG"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="VYFKqA8Q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5607E308F3D
-	for <linux-media@vger.kernel.org>; Thu, 18 Dec 2025 18:27:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766082456; cv=none; b=PHpFqo9D8awWEzOEHvgQjPmk5iKi9oFfPiz/Qpm7pk2fm5YKSEE4Lr4xZMTjmUySDkqaf9OfeUOp2yMwJe/NMKAB3SOd900NvQoPdUmuwphVAR0h/JhQvMauU2GEIsGBk6H8NhHwXGCLiA2x3Po6qG+kibP1pyeHkTt9VJF8V2I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766082456; c=relaxed/simple;
-	bh=RKuAD5Ej2hjctvOa0vN5aYt/9+GveUnSajQfjX2p8bU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b41n2/O3nitrW/73qTPBMDj7fh1St9JGDpTM4PCiqmTKwoM18lLMWGa+InZJzl0zMHqkDbjnsrmRd+WT2je0YxT3lm+L3WMKQR5b216M0zKGKfpZ3FioNnxZr4WpZRKwtWZt/VS5V2T1mZu9lTCaUY3biTSZCZcdNr17kGYwPqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HohxgcjG; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7bab7c997eeso1169142b3a.0
-        for <linux-media@vger.kernel.org>; Thu, 18 Dec 2025 10:27:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766082450; x=1766687250; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=oRjpCUtnbusXgG6JBr0HADx1jpxK5F7U+ncvwUgGUnw=;
-        b=HohxgcjGx4PqWbhheYdQpnj1cRpg+VunPvyNe/asOQYgu4uX5b0IyxPnM9r587ICzF
-         tCgZqXxFAFjeYOTRmQQusjMZxbMmbwRE240qClXmUmo33oq9LaGURZrb/9BNwb0eaLwp
-         G9Yw5gqjRxLkwIS2eRWaEcU2wvS87ZkL5cjUOo4iFtfHkRYfjEET1FNY783XtWq5G8Xd
-         4XIWRusPDvG8X6Fp+Eq8yMc5aOaUVARTIbz82ODcR1tjsPJ2bSF/suZbiz5SevKW4N8l
-         jOQ9e3J2YvkL6yYeWQhs8LSzLC5tbIGR0FmwpBlGTFXLWYgrJ3vee5ag4CJztrg7qNqQ
-         Zabg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766082450; x=1766687250;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oRjpCUtnbusXgG6JBr0HADx1jpxK5F7U+ncvwUgGUnw=;
-        b=qYArDh/3kXyz5o7y3uOwZgYg2yp+cy3D83L8eMTVo7Pq6I24FvNCZoIyvSPhcKyFiU
-         I5G6thCtEpvhAqGxVwT2P3NMQfT0OQ4KAagfW2MgepUXoYA+26nFiTt/0GXABDqcGXP3
-         72Dnq+TbaAkDyyj0xWgRJKxKYJwMegMFPb7pUBViQzzqmkSWesp/I5N+5eGAbyc5nWjZ
-         sdh1CzwCFVrEa8nKxXCYxn0NQHMizPSQPrZZRL5gki1i/j5+M6VItbB+z7/NBccPuaM4
-         CBDhQNZYOq/siNnF4xl7iXvP3+N2bQRj7UTBfgYQg9ZjqxG3bqSr+Y9QwoANHqC2HQqx
-         NV/Q==
-X-Gm-Message-State: AOJu0YxYjfAv6iUu3EQFodVCRopg3Ja++TM/eSUY3dmeh9YcczgSgpUo
-	hXwBOdmkr76JoYJirC9eWUSObvh0KeC/CYc5CQKy/nCh7RPX4kKmyg0m
-X-Gm-Gg: AY/fxX7K1anh/a4Iv0OBQN6GHvVSmEVNjGfO5UOUlgGz1BwPPmGIUWg2TehT4Z0ubxj
-	3yN6vlUILtEmgG82VBjiAn+y09+GpzirDt6etVLPIy+oDh8YXXZeGD/lXzp42od5NlnW7UqDPXo
-	xVvP/s9jk3auJhsjKuTxjtssNsxHbL8RqmKiCYKa2KBiAG583hlOTAVXh1yPRs6P73iLWjSJ6lE
-	/w07Ht9wABrasSeCDcrAnvB6IF9hEcjHEIiMyCunyS2vRt4ptdJvsFuT3DbOt5dIPAn3QltGZqt
-	L6jF2p4gvlQZl+/e1jW11O5OSbsEOWZFepzby7O6WGjY7QPA5Mi6/YsWfOTsxl2BeJHEo4Xxu3e
-	Nk9z1euo9NZ3JTkECikJzfwWjNgQPzbI1iizofyb4GxLGLqh4nB/GmmBXYNH//xT4RthpoLs5qk
-	xgANeE4DwisDj2i5BdyyvdSB2AyNN9cR2smUw=
-X-Google-Smtp-Source: AGHT+IG29yZNPo3KnIDRrpM1EC1krjpGUVVVXmvpFTbrSkMxYOKgDyJ11xHP3+BnDfL7OJR9lUcWuA==
-X-Received: by 2002:a05:6a20:3d88:b0:35f:aa1b:bbfb with SMTP id adf61e73a8af0-376aa6f7feamr361215637.50.1766082449411;
-        Thu, 18 Dec 2025 10:27:29 -0800 (PST)
-Received: from nikhil-s-Swift-SFG14-73.. ([101.0.62.221])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c1e79a164d0sm32378a12.10.2025.12.18.10.27.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Dec 2025 10:27:28 -0800 (PST)
-From: Nikhil S <nikhilsunilkumar@gmail.com>
-To: mchehab@kernel.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Nikhil S <nikhilsunilkumar@gmail.com>
-Subject: [PATCH v4] media: dvb-core: fix style violation issues
-Date: Thu, 18 Dec 2025 23:57:14 +0530
-Message-ID: <20251218182721.5478-1-nikhilsunilkumar@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA8DB27465C;
+	Thu, 18 Dec 2025 18:45:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=91.207.212.93
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1766083513; cv=fail; b=G6xH2uppmwuZeXtRWF4QH/rxR1lXeopnYWEKZzVfWNOWahQu13XTvWH4nRmWhZr7HVKmoDMwCEPqm84tLG7gcc7LLChmcitvUolWnJq5btLkvinMfiPtS+/osNN22QnYBKQWKIz9DEZ5AtQb4HurqrIgbjgZOOMlxkI3e1Ijkoc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1766083513; c=relaxed/simple;
+	bh=4sb4neuVHtaiLiPz9x2TuUpXz84TuhV9uVPNn0Bu+/4=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=eu6Ets6oShV1e9Z0egVrYw0qq8aIOF0K1+m2p3dOIF1jFMXLXdB5YxUvn5ee+cC+9eBllODS6EVx4sAJfRWtGsPW0AzqS6vYy9U6O6MLi8vRWLInd6gijHtrG5yGm+Me1+cQ55HMeQTmtRy9ffA1SHWyQZ6rK3ElKfvOGdSOhow=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=VYFKqA8Q; arc=fail smtp.client-ip=91.207.212.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BIIgL8M3420424;
+	Thu, 18 Dec 2025 19:44:54 +0100
+Received: from duzpr83cu001.outbound.protection.outlook.com (mail-northeuropeazon11012035.outbound.protection.outlook.com [52.101.66.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 4b4mg6rm80-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 18 Dec 2025 19:44:54 +0100 (CET)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CwbPQ84zBcPSqPskAc/Cw2hAMg8vZhtqmWTUIJTcpdafRbvRY/8qJH37AMaDQA4viQl7KXaXYRAgAglkEkINekyQCBe2+xbUwrD44KXbkt80QxsBtPyGztXuCzDf+uqEhoU3XVwgSxDklQrZRpop3TJX8z+Pipms6JXKtGd3hebIWf3n08BihBHdT2qESuL5YUdVmhnDM0H52veQ/W05tZc6fAcPXs4g+Y81OaV/It7IaYQKpkTlGb3ufYWobJmOFJGrqyNJDcKTuyiRh8TPzPmu5Mcr6ylT+0BWUt3Q9+OcNvD/0l2NC9YwnMXSBKCJ2t3xL+Ca9zBLzF/MZ+8yUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GkRevlaxRqchM5JXCDcZAtAgkbwyGRitREDarFz8R+w=;
+ b=kcQLe58Jy6fQaoUxxOxKjCSiFd5vSXcXIK+bhf8wKI/XJXETNDL6xDq2pOjrY45RAk4y5MU8seCbGsmNR/2nM8bzGF7s5NKOWfABChZ06exnFHPsMeRTmeAarQvTRQD8VdZTFwf80gW7BbHfnNankHoTAcLKk3hwHbQVMjtoRfRFzyLFIF9yO88oSk1IpM55p07Aoz/nGT8Lb34M+IpBSkfE/nIiC0WQNom3ELCId8LB8ZCm8VB8H5LE+DM8tX3Qr4rcQqLwx+C9yvL9B/9+55LUVkuSEtoOU0ytna92bmjKI7EV7jN63fbQeOvmli4EdXnHDk8EVkwAY+RYBwOtEQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 164.130.1.59) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=foss.st.com;
+ dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GkRevlaxRqchM5JXCDcZAtAgkbwyGRitREDarFz8R+w=;
+ b=VYFKqA8QGckLYGdaJMI4LdlxTeO7/AUSCFp54D9rr74n8TsCf+alDWYm9b/1k8fNmua0DBNzs70/ggwhwJU/+HkGsrinPzQ9Uq/NWBNI8rZ/l/W3b8m8bzejtwa1Y6W3HPFugmrY0NcE8UBWP0xGrexHmLso4oKI9nmfFjemBm9RuK4JWZM3WQNGhnL/77dsxZUdm+WbJCqqWOefYJom3lyIJpDG7CrK0nuYYc4bNK+A/V38iSX9/zObjB2jylu2utTFqSse+ucz2ZjZM+ioxJO0hsysCxPkA05XJ/Xs8rOLonAcgFKX9vRfOSWc1t15UuM7fHsWCQ7Chc9xtHVhQA==
+Received: from DUZPR01CA0244.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4b5::13) by VI1PR10MB3184.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:803:12f::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.8; Thu, 18 Dec
+ 2025 18:44:51 +0000
+Received: from DB5PEPF00014B89.eurprd02.prod.outlook.com
+ (2603:10a6:10:4b5:cafe::d5) by DUZPR01CA0244.outlook.office365.com
+ (2603:10a6:10:4b5::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9434.7 via Frontend Transport; Thu,
+ 18 Dec 2025 18:44:50 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.59)
+ smtp.mailfrom=foss.st.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=foss.st.com;
+Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
+ designate 164.130.1.59 as permitted sender) receiver=protection.outlook.com;
+ client-ip=164.130.1.59; helo=smtpO365.st.com;
+Received: from smtpO365.st.com (164.130.1.59) by
+ DB5PEPF00014B89.mail.protection.outlook.com (10.167.8.197) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9434.6 via Frontend Transport; Thu, 18 Dec 2025 18:44:51 +0000
+Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpo365.st.com
+ (10.250.44.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 18 Dec
+ 2025 19:45:39 +0100
+Received: from localhost (10.252.25.7) by STKDAG1NODE2.st.com (10.75.128.133)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 18 Dec
+ 2025 19:44:50 +0100
+From: Alain Volmat <alain.volmat@foss.st.com>
+Subject: [PATCH 00/12] media: stm32: dcmi: stability & performance
+ enhancements
+Date: Thu, 18 Dec 2025 19:44:40 +0100
+Message-ID: <20251218-stm32-dcmi-dma-chaining-v1-0-39948ca6cbf6@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJhLRGkC/x2MSQqAMAwAvyI5G+iCuHxFPBQTaw6t0ooI0r9bP
+ A7MzAuZk3CGqXkh8S1ZjlhBtw2su4ueUagyGGU6bbTFfAVrkNYgSMFhlSRK9Diy0+QGq1RPUOs
+ z8SbPf56XUj4/gMtGaQAAAA==
+X-Change-ID: 20251213-stm32-dcmi-dma-chaining-9ea1da83007d
+To: Hugues Fruchet <hugues.fruchet@foss.st.com>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        "Alexandre
+ Torgue" <alexandre.torgue@foss.st.com>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?utf-8?q?Christian_K=C3=B6nig?=
+	<christian.koenig@amd.com>
+CC: <linux-media@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>,
+        Alain Volmat <alain.volmat@foss.st.com>
+X-Mailer: b4 0.14.3
+X-ClientProxiedBy: STKCAS1NODE1.st.com (10.75.128.134) To STKDAG1NODE2.st.com
+ (10.75.128.133)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB5PEPF00014B89:EE_|VI1PR10MB3184:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2e210b84-d56e-4386-f6f0-08de3e658705
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|82310400026|1800799024|36860700013;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?UmhibzV2VXRaTTM3UzZSazFaVUNBM0FWVms0dVU2a3g1WFdLODNoT0hSb3Yr?=
+ =?utf-8?B?Wi9Wd25ZRzAyZlkxZHFoaFVWa1RGZFAvUTNtZHk3QlVPUHM1TEJHcG5wMyts?=
+ =?utf-8?B?OFFnREh0REN5Ry9PTk1tMjlLcUg4OWtmd1RpZVdmcXcwVmFjck00ZHdqdUJS?=
+ =?utf-8?B?NVdaRzNQVytHalZXSys0dmVxM1B3NmwwUnZZSGxKS0NwQkJxL0F5Ky9vNGNs?=
+ =?utf-8?B?U3ZMTXVDUlMvc3BVWk9lZkJVbFFpS0Rockc4ZllPb3JRK0x2MENDT29KZWhI?=
+ =?utf-8?B?QUsybDM0Y294UzVLT2F5YXRMcms3RkJYV2hYajgwOVFIYkpsaU5PMXZoUkFQ?=
+ =?utf-8?B?dE8reFc1U29LbUtSQ2lxV24vb00xS2U2cjNzWUc0Y0RvS3ZCK3RHSmxTYk5x?=
+ =?utf-8?B?Z3ZDam5wQVJqT1hvY05BWVFrNHVtbFljajhZQlJtWVFNK0MxZjIrSHU4N0ds?=
+ =?utf-8?B?Y2c3aGZXNHJPWGwzM0djZEVJTjN1QnFaeGxOTGdKQlpNYkxFdjM4ZXBkN3pZ?=
+ =?utf-8?B?VTVMZm5VTTI1Y21zREJiUUVLdmhRV2ZGR0ZVRUtYZWwwT2UzdHo1dkVsenRE?=
+ =?utf-8?B?RmVJckNiZVpLdXAxRTRUc3VpVWU3clNvcy94K1J5OGQ2RHlPVytFZDlxYzU4?=
+ =?utf-8?B?V2xOMGdlNnlSUlNMdm56R2FVSXlPTFQzZVFqeE5VcXJMd2dVQkNMWTlqZXJ3?=
+ =?utf-8?B?RVo4RzZ4d1JwTk9VeGd6MFhsVnhpdzh2RW1UQ0JFMXlrU2ZnTmQ2TXNCcTNa?=
+ =?utf-8?B?aHRnNzYvWVV4Q1dUb0k1R0IxZTJkL0V5UzZGWnp4K2ZZSytZOFpsYjhCUG05?=
+ =?utf-8?B?VUZ3VVAwZmhhWTNxbEtGeTlMdGRvOGpmejJYMmpidUhnMERtdWlIcnoxTWFT?=
+ =?utf-8?B?eDBZMnd5MHhYaWtNeVRlYmlHaElwQ0t3V1VEWFJwZld0TTQzRFpnYitMdUhZ?=
+ =?utf-8?B?ZEdrdG8xOE9IQkYxVHpuOE5lYWZxR2ZkNUJLcTN1SWJHK2RHNmtYL2dpVXVC?=
+ =?utf-8?B?bk1Bb2x3a0pRWGhyQTF4Y3NVdldoLy9XNDV6SDlXWlNkemYvWk5qdU13aEdw?=
+ =?utf-8?B?RmJaYldOcDRDSU9RMkNvZzgwaDVvVXYySkRKYWZKMkxKUU9JR3A4RDJwckF5?=
+ =?utf-8?B?eHBmbG1lYWZWTUZaQU5FSmZlVFJ4dEVZQnphL014K3BaMkdYV0dCelB1eGh5?=
+ =?utf-8?B?ZC9pTFk1WXQzN2ZnaWlabmRLVkRNYlBMcFNJeUExS0xwdjI0QkE0ZjhaYUg3?=
+ =?utf-8?B?RGFZSm0zQ3JJMTlWTk9vUTdWUmxJWEE2ejlpOUNqbEU4RFR2WFluaStKb1VY?=
+ =?utf-8?B?eVQvcFRzbjRoUXhLU05CRjkwMlRuMDFVb00wTUxiQTlVTkdBZmlkUlZsUExF?=
+ =?utf-8?B?Yk16T0V4M2pRUVVSc2VTV0NNTFVrSjVwUHdQa2doa3U1d1ZZUnU5QVBYY0Ix?=
+ =?utf-8?B?L2ZlOVE0R1kwU0FkQityMml0T2ZHUGtiZnRJMS9pRWV3dVA0NkR3bWdYekpH?=
+ =?utf-8?B?ZkRzR3ZnaHhmenZrc1Bqc3F5MnYzUkZhdzAxeXlvZVV4MnZBaWE4eUtSdUFG?=
+ =?utf-8?B?UVZXbHByZldiMDg3MWtxM2w2dDl6YTd3V2tyNEgxdTlUNUxFSkIza2xGVUh5?=
+ =?utf-8?B?bUplcXN5a1NteHBSVHFKMUpJNDRWd2lWOFp2bkdWWG0zVkxKa0hGK1FtMHNV?=
+ =?utf-8?B?SExmUTNKOHptSXdraFRySVE1NnNsTG1HQjE1MWNkUy8vN3ZzZHZkWTA3dU9Y?=
+ =?utf-8?B?QTZZeXU0U3FDMEtnT1RRN1ppS2NUdmZMRWl0TVBDK1FrRml4UjRYRUQ5aXU2?=
+ =?utf-8?B?TW5aeHhBanZxQitVWFVwR2xGa2xGaWlsaytTK0lyVHd6V3p3TWNDYzRoR3Fv?=
+ =?utf-8?B?QXNrdlg1Ykg3djdqWndVb2NnMVVrRGY0WXp4cldCWVV6Y1o2ZGNjOHlad05w?=
+ =?utf-8?B?bFkxSGtVVHJ4VWhYMXNrQU1kdDRaYk8rRmFQd25uWmtBNGkzay9UcjNvOW9S?=
+ =?utf-8?B?SUZSbGttTTV4MUxjZkdXTFRQNUF0OXhHVlcxVGxaZnZiNkRCNWplWXNINVEw?=
+ =?utf-8?B?bWNZNkZsVHJqcVRtRFNZMzZoSnVldHVnbXY5cEllenBVWlU3Z0tITVczeGlJ?=
+ =?utf-8?Q?nUIQ=3D?=
+X-Forefront-Antispam-Report:
+	CIP:164.130.1.59;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(82310400026)(1800799024)(36860700013);DIR:OUT;SFP:1101;
+X-OriginatorOrg: foss.st.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2025 18:44:51.0000
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2e210b84-d56e-4386-f6f0-08de3e658705
+X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.59];Helo=[smtpO365.st.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DB5PEPF00014B89.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB3184
+X-Proofpoint-ORIG-GUID: sp_Nq8L3VuwPCa8EKeqKNk68TFIuug19
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE4MDE1NSBTYWx0ZWRfX/UqccOe3KcMm
+ LEWch3bkG+wdR6A6QrLh9XqT6+6TGVFyGcjTq34BOIkeUwq7APbjy86GbruoHPOklEfboExiJPI
+ 2DQfyfOZWduKNafsiXq1Me9VY4+ZJwOcNVFLC9+dmPxM6JlCr1O+ukNKDhBlYtrLCykRUhYXbRa
+ qGbd28EOnNZTOQEBJHMNBfyP9k0G5s9yJekZPnxKmsFq32A48WE7RFhT4xsatW4UeZRuJtUdOs3
+ p2OHLRJJOTsMOMni/xGtvqs4eMzLm0KuimevkwZWVLqiyikraPt03pvhLInWAWkMEixwhFvQ3Ea
+ GzTxyYVatA/cYg4jaAhD7Lw7QINNUmgnHGnSO1sGEWRhSMx0TMvxpRlK8lzIf3Fhg07ewj0lZJu
+ zJoJJRIHD9AghCmT/AQ2L67JthWLWA==
+X-Proofpoint-GUID: sp_Nq8L3VuwPCa8EKeqKNk68TFIuug19
+X-Authority-Analysis: v=2.4 cv=PteergM3 c=1 sm=1 tr=0 ts=69444ba6 cx=c_pps
+ a=5UuGrK+hT2lFrxBbkKlawQ==:117 a=d6reE3nDawwanmLcZTMRXA==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=HjypFGx7bZcA:10 a=IkcTkHD0fZMA:10
+ a=wP3pNCr1ah4A:10 a=s63m1ICgrNkA:10 a=KrXZwBdWH7kA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=8b9GpE9nAAAA:8 a=U-LI-j4GL3itxkQhkHQA:9
+ a=QEXdDO2ut3YA:10 a=T3LWEMljR5ZiDmsYVIUa:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-18_02,2025-12-17_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 bulkscore=0 suspectscore=0 phishscore=0 clxscore=1011
+ impostorscore=0 adultscore=0 lowpriorityscore=0 malwarescore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512180155
 
-Fix multiple checkpatch-reported style issues.
+This series improve stability of the capture by fixing the
+handling of the overrun which was leading to captured
+frame corruption.
+Locking within the driver is also simplified and the way
+DMA is handled is reworked allowing to avoid having a
+specific handling for the JPEG data.
 
-Changes in v3:
-- Fix function argument alignment issue
+Performances of capture can now be increased via the usage
+of a DMA->MDMA chaining which allows for capture of higher
+resolution / framerate.
 
-Changes in v3:
-- Fix function argument alignment
-
-Changes in v2:
- - Split multiple assignments into separate lines
- - fix reported spacing issues
-
-Signed-off-by: Nikhil S <nikhilsunilkumar@gmail.com>
+Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
 ---
- drivers/media/dvb-core/dvb_net.c | 184 ++++++++++++++++---------------
- 1 file changed, 97 insertions(+), 87 deletions(-)
+Alain Volmat (12):
+      media: stm32: dcmi: Switch from __maybe_unused to pm_sleep_ptr()
+      media: stm32: dcmi: perform dmaengine_slave_config at probe
+      media: stm32: dcmi: only create dma descriptor once at buf_prepare
+      media: stm32: dcmi: stop the dma transfer on overrun
+      media: stm32: dcmi: rework spin_lock calls
+      media: stm32: dcmi: perform all dma handling within irq_thread
+      media: stm32: dcmi: use dmaengine_terminate_async in irq context
+      media: stm32: dcmi: continuous mode capture in JPEG
+      dt-bindings: media: st: dcmi: add DMA-MDMA chaining properties
+      media: stm32: dcmi: addition of DMA-MDMA chaining support
+      ARM: dts: stm32: add sram node within stm32mp151.dtsi
+      ARM: dts: stm32: enable DCMI DMA-MDMA chaining on stm32mp157c-ev1.dts
 
-diff --git a/drivers/media/dvb-core/dvb_net.c b/drivers/media/dvb-core/dvb_net.c
-index 8bb8dd34c223..9bd4b16090f8 100644
---- a/drivers/media/dvb-core/dvb_net.c
-+++ b/drivers/media/dvb-core/dvb_net.c
-@@ -57,11 +57,12 @@
- #include <media/dvb_demux.h>
- #include <media/dvb_net.h>
- 
--static inline __u32 iov_crc32( __u32 c, struct kvec *iov, unsigned int cnt )
-+static inline __u32 iov_crc32(__u32 c, struct kvec *iov, unsigned int cnt)
- {
- 	unsigned int j;
-+
- 	for (j = 0; j < cnt; j++)
--		c = crc32_be( c, iov[j].iov_base, iov[j].iov_len );
-+		c = crc32_be(c, iov[j].iov_base, iov[j].iov_len);
- 	return c;
- }
- 
-@@ -133,14 +134,14 @@ static __be16 dvb_net_eth_type_trans(struct sk_buff *skb,
- 	unsigned char *rawp;
- 
- 	skb_reset_mac_header(skb);
--	skb_pull(skb,dev->hard_header_len);
-+	skb_pull(skb, dev->hard_header_len);
- 	eth = eth_hdr(skb);
- 
- 	if (*eth->h_dest & 1) {
--		if(ether_addr_equal(eth->h_dest,dev->broadcast))
--			skb->pkt_type=PACKET_BROADCAST;
-+		if (ether_addr_equal(eth->h_dest, dev->broadcast))
-+			skb->pkt_type = PACKET_BROADCAST;
- 		else
--			skb->pkt_type=PACKET_MULTICAST;
-+			skb->pkt_type = PACKET_MULTICAST;
- 	}
- 
- 	if (ntohs(eth->h_proto) >= ETH_P_802_3_MIN)
-@@ -178,20 +179,20 @@ static __be16 dvb_net_eth_type_trans(struct sk_buff *skb,
- 
- #define ULE_OPTEXTHDR_PADDING 0
- 
--static int ule_test_sndu( struct dvb_net_priv *p )
-+static int ule_test_sndu(struct dvb_net_priv *p)
- {
- 	return -1;
- }
- 
--static int ule_bridged_sndu( struct dvb_net_priv *p )
-+static int ule_bridged_sndu(struct dvb_net_priv *p)
- {
--	struct ethhdr *hdr = (struct ethhdr*) p->ule_next_hdr;
--	if(ntohs(hdr->h_proto) < ETH_P_802_3_MIN) {
-+	struct ethhdr *hdr = (struct ethhdr *)p->ule_next_hdr;
-+
-+	if (ntohs(hdr->h_proto) < ETH_P_802_3_MIN) {
- 		int framelen = p->ule_sndu_len - ((p->ule_next_hdr+sizeof(struct ethhdr)) - p->ule_skb->data);
- 		/* A frame Type < ETH_P_802_3_MIN for a bridged frame, introduces a LLC Length field. */
--		if(framelen != ntohs(hdr->h_proto)) {
-+		if (framelen != ntohs(hdr->h_proto))
- 			return -1;
--		}
- 	}
- 	/* Note:
- 	 * From RFC4326:
-@@ -214,15 +215,15 @@ static int ule_exthdr_padding(struct dvb_net_priv *p)
-  *  Returns: >= 0: nr. of bytes consumed by next extension header
-  *	     -1:   Mandatory extension header that is not recognized or TEST SNDU; discard.
-  */
--static int handle_one_ule_extension( struct dvb_net_priv *p )
-+static int handle_one_ule_extension(struct dvb_net_priv *p)
- {
- 	/* Table of mandatory extension header handlers.  The header type is the index. */
--	static int (*ule_mandatory_ext_handlers[255])( struct dvb_net_priv *p ) =
--		{ [0] = ule_test_sndu, [1] = ule_bridged_sndu, [2] = NULL,  };
-+	static int (*ule_mandatory_ext_handlers[255])(struct dvb_net_priv *p) = {
-+			[0] = ule_test_sndu, [1] = ule_bridged_sndu, [2] = NULL,  };
- 
- 	/* Table of optional extension header handlers.  The header type is the index. */
--	static int (*ule_optional_ext_handlers[255])( struct dvb_net_priv *p ) =
--		{ [0] = ule_exthdr_padding, [1] = NULL, };
-+	static int (*ule_optional_ext_handlers[255])(struct dvb_net_priv *p) = {
-+			[0] = ule_exthdr_padding, [1] = NULL, };
- 
- 	int ext_len = 0;
- 	unsigned char hlen = (p->ule_sndu_type & 0x0700) >> 8;
-@@ -232,8 +233,8 @@ static int handle_one_ule_extension( struct dvb_net_priv *p )
- 	if (hlen == 0) {
- 		/* Mandatory extension header */
- 		if (ule_mandatory_ext_handlers[htype]) {
--			ext_len = ule_mandatory_ext_handlers[htype]( p );
--			if(ext_len >= 0) {
-+			ext_len = ule_mandatory_ext_handlers[htype](p);
-+			if (ext_len >= 0) {
- 				p->ule_next_hdr += ext_len;
- 				if (!p->ule_bridged) {
- 					p->ule_sndu_type = ntohs(*(__be16 *)p->ule_next_hdr);
-@@ -251,9 +252,9 @@ static int handle_one_ule_extension( struct dvb_net_priv *p )
- 		ext_len = hlen << 1;
- 		/* Process the optional extension header according to its type. */
- 		if (ule_optional_ext_handlers[htype])
--			(void)ule_optional_ext_handlers[htype]( p );
-+			(void)ule_optional_ext_handlers[htype](p);
- 		p->ule_next_hdr += ext_len;
--		p->ule_sndu_type = ntohs( *(__be16 *)(p->ule_next_hdr-2) );
-+		p->ule_sndu_type = ntohs(*(__be16 *)(p->ule_next_hdr - 2));
- 		/*
- 		 * note: the length of the next header type is included in the
- 		 * length of THIS optional extension header
-@@ -263,13 +264,13 @@ static int handle_one_ule_extension( struct dvb_net_priv *p )
- 	return ext_len;
- }
- 
--static int handle_ule_extensions( struct dvb_net_priv *p )
-+static int handle_ule_extensions(struct dvb_net_priv *p)
- {
- 	int total_ext_len = 0, l;
- 
- 	p->ule_next_hdr = p->ule_skb->data;
- 	do {
--		l = handle_one_ule_extension( p );
-+		l = handle_one_ule_extension(p);
- 		if (l < 0)
- 			return l;	/* Stop extension header processing and discard SNDU. */
- 		total_ext_len += l;
-@@ -284,7 +285,7 @@ static int handle_ule_extensions( struct dvb_net_priv *p )
- 
- 
- /* Prepare for a new ULE SNDU: reset the decoder state. */
--static inline void reset_ule( struct dvb_net_priv *p )
-+static inline void reset_ule(struct dvb_net_priv *p)
- {
- 	p->ule_skb = NULL;
- 	p->ule_next_hdr = NULL;
-@@ -827,6 +828,7 @@ static void dvb_net_ule(struct net_device *dev, const u8 *buf, size_t buf_len)
- 				  h.priv->ule_skb->len - 4 }
- 			};
- 			u32 ule_crc = ~0L, expected_crc;
-+
- 			if (h.priv->ule_dbit) {
- 				/* Set D-bit for CRC32 verification,
- 				 * if it was set originally. */
-@@ -936,7 +938,8 @@ static void dvb_net_sec(struct net_device *dev,
- 	/* we have 14 byte ethernet header (ip header follows);
- 	 * 12 byte MPE header; 4 byte checksum; + 2 byte alignment, 8 byte LLC/SNAP
- 	 */
--	if (!(skb = dev_alloc_skb(pkt_len - 4 - 12 + 14 + 2 - snap))) {
-+	skb = dev_alloc_skb(pkt_len - 4 - 12 + 14 + 2 - snap);
-+	if (!skb) {
- 		//pr_notice("%s: Memory squeeze, dropping packet.\n", dev->name);
- 		stats->rx_dropped++;
- 		return;
-@@ -949,14 +952,19 @@ static void dvb_net_sec(struct net_device *dev,
- 	memcpy(eth + 14, pkt + 12 + snap, pkt_len - 12 - 4 - snap);
- 
- 	/* create ethernet header: */
--	eth[0]=pkt[0x0b];
--	eth[1]=pkt[0x0a];
--	eth[2]=pkt[0x09];
--	eth[3]=pkt[0x08];
--	eth[4]=pkt[0x04];
--	eth[5]=pkt[0x03];
--
--	eth[6]=eth[7]=eth[8]=eth[9]=eth[10]=eth[11]=0;
-+	eth[0] = pkt[0x0b];
-+	eth[1] = pkt[0x0a];
-+	eth[2] = pkt[0x09];
-+	eth[3] = pkt[0x08];
-+	eth[4] = pkt[0x04];
-+	eth[5] = pkt[0x03];
-+
-+	eth[6] = 0;
-+	eth[7] = 0;
-+	eth[8] = 0;
-+	eth[9] = 0;
-+	eth[10] = 0;
-+	eth[11] = 0;
- 
- 	if (snap) {
- 		eth[12] = pkt[18];
-@@ -977,7 +985,7 @@ static void dvb_net_sec(struct net_device *dev,
- 	skb->protocol = dvb_net_eth_type_trans(skb, dev);
- 
- 	stats->rx_packets++;
--	stats->rx_bytes+=skb->len;
-+	stats->rx_bytes += skb->len;
- 	netif_rx(skb);
- }
- 
-@@ -991,7 +999,7 @@ static int dvb_net_sec_callback(const u8 *buffer1, size_t buffer1_len,
- 	 * we rely on the DVB API definition where exactly one complete
- 	 * section is delivered in buffer1
- 	 */
--	dvb_net_sec (dev, buffer1, buffer1_len);
-+	dvb_net_sec(dev, buffer1, buffer1_len);
- 	return 0;
- }
- 
-@@ -1001,10 +1009,10 @@ static netdev_tx_t dvb_net_tx(struct sk_buff *skb, struct net_device *dev)
- 	return NETDEV_TX_OK;
- }
- 
--static u8 mask_normal[6]={0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
--static u8 mask_allmulti[6]={0xff, 0xff, 0xff, 0x00, 0x00, 0x00};
--static u8 mac_allmulti[6]={0x01, 0x00, 0x5e, 0x00, 0x00, 0x00};
--static u8 mask_promisc[6]={0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-+static u8 mask_normal[6] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
-+static u8 mask_allmulti[6] = {0xff, 0xff, 0xff, 0x00, 0x00, 0x00};
-+static u8 mac_allmulti[6] = {0x01, 0x00, 0x5e, 0x00, 0x00, 0x00};
-+static u8 mask_promisc[6] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
- 
- static int dvb_net_filter_sec_set(struct net_device *dev,
- 		   struct dmx_section_filter **secfilter,
-@@ -1013,26 +1021,26 @@ static int dvb_net_filter_sec_set(struct net_device *dev,
- 	struct dvb_net_priv *priv = netdev_priv(dev);
- 	int ret;
- 
--	*secfilter=NULL;
-+	*secfilter = NULL;
- 	ret = priv->secfeed->allocate_filter(priv->secfeed, secfilter);
--	if (ret<0) {
-+	if (ret < 0) {
- 		pr_err("%s: could not get filter\n", dev->name);
- 		return ret;
- 	}
- 
--	(*secfilter)->priv=(void *) dev;
-+	(*secfilter)->priv = (void *)dev;
- 
- 	memset((*secfilter)->filter_value, 0x00, DMX_MAX_FILTER_SIZE);
- 	memset((*secfilter)->filter_mask,  0x00, DMX_MAX_FILTER_SIZE);
- 	memset((*secfilter)->filter_mode,  0xff, DMX_MAX_FILTER_SIZE);
- 
--	(*secfilter)->filter_value[0]=0x3e;
--	(*secfilter)->filter_value[3]=mac[5];
--	(*secfilter)->filter_value[4]=mac[4];
--	(*secfilter)->filter_value[8]=mac[3];
--	(*secfilter)->filter_value[9]=mac[2];
--	(*secfilter)->filter_value[10]=mac[1];
--	(*secfilter)->filter_value[11]=mac[0];
-+	(*secfilter)->filter_value[0] = 0x3e;
-+	(*secfilter)->filter_value[3] = mac[5];
-+	(*secfilter)->filter_value[4] = mac[4];
-+	(*secfilter)->filter_value[8] = mac[3];
-+	(*secfilter)->filter_value[9] = mac[2];
-+	(*secfilter)->filter_value[10] = mac[1];
-+	(*secfilter)->filter_value[11] = mac[0];
- 
- 	(*secfilter)->filter_mask[0] = 0xff;
- 	(*secfilter)->filter_mask[3] = mac_mask[5];
-@@ -1040,7 +1048,7 @@ static int dvb_net_filter_sec_set(struct net_device *dev,
- 	(*secfilter)->filter_mask[8] = mac_mask[3];
- 	(*secfilter)->filter_mask[9] = mac_mask[2];
- 	(*secfilter)->filter_mask[10] = mac_mask[1];
--	(*secfilter)->filter_mask[11]=mac_mask[0];
-+	(*secfilter)->filter_mask[11] = mac_mask[0];
- 
- 	netdev_dbg(dev, "filter mac=%pM mask=%pM\n", mac, mac_mask);
- 
-@@ -1059,15 +1067,15 @@ static int dvb_net_feed_start(struct net_device *dev)
- 	if (priv->tsfeed || priv->secfeed || priv->secfilter || priv->multi_secfilter[0])
- 		pr_err("%s: BUG %d\n", __func__, __LINE__);
- 
--	priv->secfeed=NULL;
--	priv->secfilter=NULL;
-+	priv->secfeed = NULL;
-+	priv->secfilter = NULL;
- 	priv->tsfeed = NULL;
- 
- 	if (priv->feedtype == DVB_NET_FEEDTYPE_MPE) {
- 		netdev_dbg(dev, "alloc secfeed\n");
--		ret=demux->allocate_section_feed(demux, &priv->secfeed,
-+		ret = demux->allocate_section_feed(demux, &priv->secfeed,
- 					 dvb_net_sec_callback);
--		if (ret<0) {
-+		if (ret < 0) {
- 			pr_err("%s: could not allocate section feed\n",
- 			       dev->name);
- 			goto error;
-@@ -1075,10 +1083,10 @@ static int dvb_net_feed_start(struct net_device *dev)
- 
- 		ret = priv->secfeed->set(priv->secfeed, priv->pid, 1);
- 
--		if (ret<0) {
-+		if (ret < 0) {
- 			pr_err("%s: could not set section feed\n", dev->name);
- 			priv->demux->release_section_feed(priv->demux, priv->secfeed);
--			priv->secfeed=NULL;
-+			priv->secfeed = NULL;
- 			goto error;
- 		}
- 
-@@ -1096,13 +1104,13 @@ static int dvb_net_feed_start(struct net_device *dev)
- 			}
- 			break;
- 		case RX_MODE_ALL_MULTI:
--			priv->multi_num=1;
-+			priv->multi_num = 1;
- 			netdev_dbg(dev, "set multi_secfilter[0]\n");
- 			dvb_net_filter_sec_set(dev, &priv->multi_secfilter[0],
- 					       mac_allmulti, mask_allmulti);
- 			break;
- 		case RX_MODE_PROMISC:
--			priv->multi_num=0;
-+			priv->multi_num = 0;
- 			netdev_dbg(dev, "set secfilter\n");
- 			dvb_net_filter_sec_set(dev, &priv->secfilter, mac, mask_promisc);
- 			break;
-@@ -1164,10 +1172,10 @@ static int dvb_net_feed_stop(struct net_device *dev)
- 				netdev_dbg(dev, "release secfilter\n");
- 				priv->secfeed->release_filter(priv->secfeed,
- 							      priv->secfilter);
--				priv->secfilter=NULL;
-+				priv->secfilter = NULL;
- 			}
- 
--			for (i=0; i<priv->multi_num; i++) {
-+			for (i = 0; i < priv->multi_num; i++) {
- 				if (priv->multi_secfilter[i]) {
- 					netdev_dbg(dev, "release multi_filter[%d]\n",
- 						   i);
-@@ -1189,9 +1197,9 @@ static int dvb_net_feed_stop(struct net_device *dev)
- 			}
- 			priv->demux->release_ts_feed(priv->demux, priv->tsfeed);
- 			priv->tsfeed = NULL;
--		}
--		else
-+		} else {
- 			pr_err("%s: no ts feed to stop\n", dev->name);
-+		}
- 	} else
- 		ret = -EINVAL;
- 	mutex_unlock(&priv->mutex);
-@@ -1213,7 +1221,7 @@ static int dvb_set_mc_filter(struct net_device *dev, unsigned char *addr)
- }
- 
- 
--static void wq_set_multicast_list (struct work_struct *work)
-+static void wq_set_multicast_list(struct work_struct *work)
- {
- 	struct dvb_net_priv *priv =
- 		container_of(work, struct dvb_net_priv, set_multicast_list_wq);
-@@ -1247,14 +1255,15 @@ static void wq_set_multicast_list (struct work_struct *work)
- }
- 
- 
--static void dvb_net_set_multicast_list (struct net_device *dev)
-+static void dvb_net_set_multicast_list(struct net_device *dev)
- {
- 	struct dvb_net_priv *priv = netdev_priv(dev);
-+
- 	schedule_work(&priv->set_multicast_list_wq);
- }
- 
- 
--static void wq_restart_net_feed (struct work_struct *work)
-+static void wq_restart_net_feed(struct work_struct *work)
- {
- 	struct dvb_net_priv *priv =
- 		container_of(work, struct dvb_net_priv, restart_net_feed_wq);
-@@ -1267,10 +1276,10 @@ static void wq_restart_net_feed (struct work_struct *work)
- }
- 
- 
--static int dvb_net_set_mac (struct net_device *dev, void *p)
-+static int dvb_net_set_mac(struct net_device *dev, void *p)
- {
- 	struct dvb_net_priv *priv = netdev_priv(dev);
--	struct sockaddr *addr=p;
-+	struct sockaddr *addr = p;
- 
- 	eth_hw_addr_set(dev, addr->sa_data);
- 
-@@ -1330,14 +1339,14 @@ static int get_if(struct dvb_net *dvbnet)
- {
- 	int i;
- 
--	for (i=0; i<DVB_NET_DEVICES_MAX; i++)
-+	for (i = 0; i < DVB_NET_DEVICES_MAX; i++)
- 		if (!dvbnet->state[i])
- 			break;
- 
- 	if (i == DVB_NET_DEVICES_MAX)
- 		return -1;
- 
--	dvbnet->state[i]=1;
-+	dvbnet->state[i] = 1;
- 	return i;
- }
- 
-@@ -1350,7 +1359,8 @@ static int dvb_net_add_if(struct dvb_net *dvbnet, u16 pid, u8 feedtype)
- 
- 	if (feedtype != DVB_NET_FEEDTYPE_MPE && feedtype != DVB_NET_FEEDTYPE_ULE)
- 		return -EINVAL;
--	if ((if_num = get_if(dvbnet)) < 0)
-+	if_num = get_if(dvbnet);
-+	if (if_num < 0)
- 		return -EINVAL;
- 
- 	net = alloc_netdev(sizeof(struct dvb_net_priv), "dvb",
-@@ -1387,7 +1397,8 @@ static int dvb_net_add_if(struct dvb_net *dvbnet, u16 pid, u8 feedtype)
- 
- 	net->base_addr = pid;
- 
--	if ((result = register_netdev(net)) < 0) {
-+	result = register_netdev(net);
-+	if (result < 0) {
- 		dvbnet->device[if_num] = NULL;
- 		free_netdev(net);
- 		return result;
-@@ -1413,7 +1424,7 @@ static int dvb_net_remove_if(struct dvb_net *dvbnet, unsigned long num)
- 	flush_work(&priv->restart_net_feed_wq);
- 	pr_info("removed network interface %s\n", net->name);
- 	unregister_netdev(net);
--	dvbnet->state[num]=0;
-+	dvbnet->state[num] = 0;
- 	dvbnet->device[num] = NULL;
- 	free_netdev(net);
- 
-@@ -1427,7 +1438,7 @@ static int dvb_net_do_ioctl(struct file *file,
- 	struct dvb_net *dvbnet = dvbdev->priv;
- 	int ret = 0;
- 
--	if (((file->f_flags&O_ACCMODE)==O_RDONLY))
-+	if (((file->f_flags & O_ACCMODE) == O_RDONLY))
- 		return -EPERM;
- 
- 	if (mutex_lock_interruptible(&dvbnet->ioctl_mutex))
-@@ -1449,13 +1460,13 @@ static int dvb_net_do_ioctl(struct file *file,
- 			goto ioctl_error;
- 		}
- 
--		result=dvb_net_add_if(dvbnet, dvbnetif->pid, dvbnetif->feedtype);
--		if (result<0) {
-+		result = dvb_net_add_if(dvbnet, dvbnetif->pid, dvbnetif->feedtype);
-+		if (result < 0) {
- 			module_put(dvbdev->adapter->module);
- 			ret = result;
- 			goto ioctl_error;
- 		}
--		dvbnetif->if_num=result;
-+		dvbnetif->if_num = result;
- 		break;
- 	}
- 	case NET_GET_IF:
-@@ -1479,8 +1490,8 @@ static int dvb_net_do_ioctl(struct file *file,
- 		netdev = dvbnet->device[if_num];
- 
- 		priv_data = netdev_priv(netdev);
--		dvbnetif->pid=priv_data->pid;
--		dvbnetif->feedtype=priv_data->feedtype;
-+		dvbnetif->pid = priv_data->pid;
-+		dvbnetif->feedtype = priv_data->feedtype;
- 		break;
- 	}
- 	case NET_REMOVE_IF:
-@@ -1515,13 +1526,13 @@ static int dvb_net_do_ioctl(struct file *file,
- 			goto ioctl_error;
- 		}
- 
--		result=dvb_net_add_if(dvbnet, dvbnetif->pid, DVB_NET_FEEDTYPE_MPE);
--		if (result<0) {
-+		result = dvb_net_add_if(dvbnet, dvbnetif->pid, DVB_NET_FEEDTYPE_MPE);
-+		if (result < 0) {
- 			module_put(dvbdev->adapter->module);
- 			ret = result;
- 			goto ioctl_error;
- 		}
--		dvbnetif->if_num=result;
-+		dvbnetif->if_num = result;
- 		break;
- 	}
- 	case __NET_GET_IF_OLD:
-@@ -1545,7 +1556,7 @@ static int dvb_net_do_ioctl(struct file *file,
- 		netdev = dvbnet->device[if_num];
- 
- 		priv_data = netdev_priv(netdev);
--		dvbnetif->pid=priv_data->pid;
-+		dvbnetif->pid = priv_data->pid;
- 		break;
- 	}
- 	default:
-@@ -1623,7 +1634,7 @@ static const struct dvb_device dvbdev_net = {
- 	.fops = &dvb_net_fops,
- };
- 
--void dvb_net_release (struct dvb_net *dvbnet)
-+void dvb_net_release(struct dvb_net *dvbnet)
- {
- 	int i;
- 
-@@ -1637,7 +1648,7 @@ void dvb_net_release (struct dvb_net *dvbnet)
- 
- 	dvb_unregister_device(dvbnet->dvbdev);
- 
--	for (i=0; i<DVB_NET_DEVICES_MAX; i++) {
-+	for (i = 0; i < DVB_NET_DEVICES_MAX; i++) {
- 		if (!dvbnet->state[i])
- 			continue;
- 		dvb_net_remove_if(dvbnet, i);
-@@ -1646,8 +1657,7 @@ void dvb_net_release (struct dvb_net *dvbnet)
- EXPORT_SYMBOL(dvb_net_release);
- 
- 
--int dvb_net_init (struct dvb_adapter *adap, struct dvb_net *dvbnet,
--		  struct dmx_demux *dmx)
-+int dvb_net_init(struct dvb_adapter *adap, struct dvb_net *dvbnet, struct dmx_demux *dmx)
- {
- 	int i;
- 
-@@ -1655,7 +1665,7 @@ int dvb_net_init (struct dvb_adapter *adap, struct dvb_net *dvbnet,
- 	mutex_init(&dvbnet->remove_mutex);
- 	dvbnet->demux = dmx;
- 
--	for (i=0; i<DVB_NET_DEVICES_MAX; i++)
-+	for (i = 0; i < DVB_NET_DEVICES_MAX; i++)
- 		dvbnet->state[i] = 0;
- 
- 	return dvb_register_device(adap, &dvbnet->dvbdev, &dvbdev_net,
+ .../devicetree/bindings/media/st,stm32-dcmi.yaml   |  13 +-
+ arch/arm/boot/dts/st/stm32mp151.dtsi               |   8 +
+ arch/arm/boot/dts/st/stm32mp157c-ev1.dts           |  15 +
+ drivers/media/platform/st/stm32/stm32-dcmi.c       | 470 ++++++++++++++-------
+ 4 files changed, 341 insertions(+), 165 deletions(-)
+---
+base-commit: f7231cff1f3ff8259bef02dc4999bc132abf29cf
+change-id: 20251213-stm32-dcmi-dma-chaining-9ea1da83007d
+
+Best regards,
 -- 
-2.43.0
+Alain Volmat <alain.volmat@foss.st.com>
 
 
