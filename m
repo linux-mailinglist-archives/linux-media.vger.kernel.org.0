@@ -1,116 +1,94 @@
-Return-Path: <linux-media+bounces-49215-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49216-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25D3CCD1E1C
-	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 21:59:09 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id B26EECD1F82
+	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 22:31:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 74C4C30D35C4
-	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 20:55:40 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 048B330210FB
+	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 21:31:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AED6D33B6D2;
-	Fri, 19 Dec 2025 20:55:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BC8422173A;
+	Fri, 19 Dec 2025 21:31:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=panix.com header.i=@panix.com header.b="fHLo7h2x"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="BtA8NdLi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailbackend.panix.com (mailbackend.panix.com [166.84.1.89])
+Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7EDA2E0402;
-	Fri, 19 Dec 2025 20:55:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.84.1.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBFFB33B6F8
+	for <linux-media@vger.kernel.org>; Fri, 19 Dec 2025 21:31:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766177739; cv=none; b=p1zyvRP34xQLSnOkp6imLY5Ta09L7wjrffoisc0JX5eSBhdMQEeKYBiuUbIUES9odmbMsHwCnXCcXi4w80k/3tYUb4w+PW9UPezNxKXwoK178rGvBLov4SYABScQZCqOgMuheYMr7xdj8cSxIWneqOEmx1GjqNdrpMP+7fwW/as=
+	t=1766179903; cv=none; b=Vk+chQKkXlUOpiwBzSIAYhzYyH+RmbpNZz9+qBcwexTZMjx3O4R9SyKSTPx0ft/08UHRXnyd95kqxHPWkIQFwBuRrs6Hx3ZF4iQO/ZcsGDGNwPupCNfCoZKH9XRQw9jBIRw9gFkB83Kh3pllfZF7Qul3szGsMKDXJYK5UY8uUSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766177739; c=relaxed/simple;
-	bh=902N7+vSq4ZtgNz/0oajexrC3xsamP0KPKTs2JdrpEA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oyTwj9r/X1cM2L6G6zgGA6nJTogM8hMFyHBZqo3nnKy1RS63rzo7CvQ6yaFE40ju/e2JprpXqQwg2TFUoEejPtKXdbMESB1mOLI8eDjHCkHe7sJI4SOTrH09VP2d3RJgOQXH/KNoD4+wikVOdzbWrosEmnss2iio5EVZRvUC0tU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=panix.com; spf=pass smtp.mailfrom=panix.com; dkim=pass (1024-bit key) header.d=panix.com header.i=@panix.com header.b=fHLo7h2x; arc=none smtp.client-ip=166.84.1.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=panix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=panix.com
-Received: from [192.168.123.3] (kenny-tx.gotdns.com [162.196.229.233])
-	by mailbackend.panix.com (Postfix) with ESMTPSA id 4dY0DN36Ldz4SSl;
-	Fri, 19 Dec 2025 15:55:32 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=panix.com; s=panix;
-	t=1766177735; bh=902N7+vSq4ZtgNz/0oajexrC3xsamP0KPKTs2JdrpEA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=fHLo7h2xpB/TslaDr47UJ2ca80htNrHviXZyT/1DLKooZSuUCvGY1HXciWIqZR2C1
-	 loy01eHGMtYjPwOTp7qJn28lI3Z2ai9XgIQ1PVHSCIRJy/oR9XETe6zbJ44ZJoXDvz
-	 dujiFZ8pZPqFY2eNsRSgvwGzGza5nRXFEuhRkTjc=
-Message-ID: <48b94c22-c1ca-4220-b184-f38e22544b9d@panix.com>
-Date: Fri, 19 Dec 2025 12:55:30 -0800
+	s=arc-20240116; t=1766179903; c=relaxed/simple;
+	bh=sBrjzcAqMOKalYCGbXZgAsoq65Ikf/CSfX5hL9NJOKI=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=ghApIAqXQ0fvbSLdzBXQ7vSng87Elnw3XQhKACxtMi/nNv1dkFk4RBBQTTmMlHV0JxUkKBv57ORWqOt7IAqq/b0fFxOvLFQoCj+i9akkKgBmZdM1GNRH6ZknxxLZcygFZIlscsTCX5EyB/2Yks6jNX8UbvUzdiwD2oCuqsJ7Z1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=BtA8NdLi; arc=none smtp.client-ip=91.218.175.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Content-Type: text/plain;
+	charset=us-ascii
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1766179892;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5tcTOE6hnyzeq7VbX86TIxHLja2zhL/qcRRbmDpTsts=;
+	b=BtA8NdLiNE72zW1OEDNlohZarQkO821nrV4D0xvl0ZDOWktl/oZyTYeEbFRzOxVccBWbTE
+	nG44VuYuD4QrghLU+So2vlky5ugmchJxdYZfskgjALooJBZWq49aF2rwawl1U1vIItjxKS
+	2NAn/Ga8jqWDivby2vXMJnXtpxxqNLM=
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] software node: Also support referencing non-constant
- software nodes
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-kernel@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Daniel Scally <djrscally@gmail.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Charles Keepax <ckeepax@opensource.cirrus.com>, linux-acpi@vger.kernel.org,
- linux-media@vger.kernel.org, johannes.goede@oss.qualcomm.com,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-References: <af773b82-bef2-4209-baaf-526d4661b7fc@panix.com>
- <20251219083638.2454138-1-sakari.ailus@linux.intel.com>
-Content-Language: en-US
-From: Kenneth Crudup <kenny@panix.com>
-In-Reply-To: <20251219083638.2454138-1-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81.1.4\))
+Subject: Re: [PATCH] media: imagination: Fix value clamping in
+ calculate_qp_tables
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Thorsten Blum <thorsten.blum@linux.dev>
+In-Reply-To: <20251202124555.418319-2-thorsten.blum@linux.dev>
+Date: Fri, 19 Dec 2025 22:30:02 +0100
+Cc: stable@vger.kernel.org,
+ linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 Content-Transfer-Encoding: 7bit
+Message-Id: <9843F19D-38FE-4CAF-B05B-ABEDD9F36760@linux.dev>
+References: <20251202124555.418319-2-thorsten.blum@linux.dev>
+To: Devarsh Thakkar <devarsht@ti.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil@kernel.org>,
+ David Huang <d-huang@ti.com>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>
+X-Migadu-Flow: FLOW_OUT
 
-
-Apparently last to the party :) but:
-
-Tested-By: Kenneth R. Crudup <kenny@panix.com>
-
--K
-
-On 12/19/25 00:36, Sakari Ailus wrote:
-> Fwnode references are be implemented differently if referenced node is a
-> software node. _Generic() is used to differentiate between the two cases
-> but only const software nodes were present in the selection. Also add
-> non-const software nodes.
+On 2. Dec 2025, at 13:45, Thorsten Blum wrote:
+> The local variable 'val' was never clamped to 1 or 255 because the
+> return value of clamp() was not used. Fix this by assigning the clamped
+> value back to 'val'.
 > 
-> Reported-by: Kenneth Crudup <kenny@panix.com>
-> Closes: https://lore.kernel.org/all/af773b82-bef2-4209-baaf-526d4661b7fc@panix.com/
-> Fixes: d7cdbbc93c56 ("software node: allow referencing firmware nodes")
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Cc: stable@vger.kernel.org
+> Fixes: a1e294045885 ("media: imagination: Add E5010 JPEG Encoder driver")
+> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 > ---
-> Hi Kenneth,
-> 
-> Many thanks for reporting the issue and bisecting the offending patch!
-> Could you confirm whether this fixes the issue (it does for me)?
-> 
-> - Sakari
-> 
->   include/linux/property.h | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/include/linux/property.h b/include/linux/property.h
-> index 272bfbdea7bf..e30ef23a9af3 100644
-> --- a/include/linux/property.h
-> +++ b/include/linux/property.h
-> @@ -371,6 +371,7 @@ struct software_node_ref_args {
->   (const struct software_node_ref_args) {				\
->   	.swnode = _Generic(_ref_,				\
->   			   const struct software_node *: _ref_,	\
-> +			   struct software_node *: _ref_,	\
->   			   default: NULL),			\
->   	.fwnode = _Generic(_ref_,				\
->   			   struct fwnode_handle *: _ref_,	\
+> [...]
 
--- 
-Kenneth R. Crudup / Sr. SW Engineer, Scott County Consulting, Orange 
-County CA
+Hello, the media CI robot complained to me privately (not to the list)
+with the following error:
+
+  ERROR: Commit a1e2940458853d00c178c842c889e4ae3ef5eaec NOT found in
+  the stable tree, but stable@vger.kernel.org is in Cc:
+
+However, the Fixes: tag references the commit hash in master, but the
+commit has a different hash in the stable branches. This is my first
+time running into such an issue and I'm not sure what to do about it?
+
+Thanks,
+Thorsten
 
 
