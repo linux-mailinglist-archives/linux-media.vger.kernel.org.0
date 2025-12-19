@@ -1,96 +1,97 @@
-Return-Path: <linux-media+bounces-49180-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49178-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CCE5CD037A
-	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 15:13:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9A78CD0356
+	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 15:09:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B6D16304D497
-	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 14:10:25 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3700A3056C4F
+	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 14:08:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9129A327BF5;
-	Fri, 19 Dec 2025 14:10:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46791329368;
+	Fri, 19 Dec 2025 14:08:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=schnwalter.eu header.i=@schnwalter.eu header.b="TtPgvYu2";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="q1XRd9cE"
+	dkim=pass (2048-bit key) header.d=schnwalter.eu header.i=@schnwalter.eu header.b="ovw3Blnr";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gr8pg5d9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from flow-a5-smtp.messagingengine.com (flow-a5-smtp.messagingengine.com [103.168.172.140])
+Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C41C426CE2C;
-	Fri, 19 Dec 2025 14:10:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB9E4328624;
+	Fri, 19 Dec 2025 14:08:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766153422; cv=none; b=GHPYSUcEuNASy4m9fU4yaJNiwxPF7NhHi0oxzzdnKIius8K/5aSKOUEuRs6t/ryY/L+JucdPvoI4sHXXNxpaX4AEDZ3rbL13wO5akzEVT5b610PEMLl0rawE9bDooRftNHFQnPMT9GECOy3aWXbFf/qkC+jK94jwSMdv+DsfGJw=
+	t=1766153317; cv=none; b=S87zgRrybdWIvmCx43HXbj1EJFO/Ayaij5CeMSgjGz6RVQSJZso7Nw67yGnR4fjzjxvyPFaRuMLjgLOWBd5/t0YiPak7GwtDp1LJQuazFDjh/wuzfONrM9t+6H0dIDnHCY3j33eR1NaLqurRKKrUyTHVDugKfjDnNj3r9R5IaCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766153422; c=relaxed/simple;
-	bh=tiYUY0BguT1Uj9ZmpFK1OrCOijuZ1ZWVEj/jOV3n8lw=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YOMVe3WuOS0kvXbnn45oKd6EKMmtkSJmsHPujLbI17+cl2ERyIWtryZnGd/Ka2fR8hI7vQ4Vhzz50IXjbDGnNNyN79W5GOQJMIEYZs/yLcHFe+z5S0Same4mCRsQODzyio+tb4hcjQqENUY9T4WpkSQU12z93YHeYtlYGRI/kn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=schnwalter.eu; spf=pass smtp.mailfrom=schnwalter.eu; dkim=pass (2048-bit key) header.d=schnwalter.eu header.i=@schnwalter.eu header.b=TtPgvYu2; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=q1XRd9cE; arc=none smtp.client-ip=103.168.172.140
+	s=arc-20240116; t=1766153317; c=relaxed/simple;
+	bh=UaRehn1/rOkl/aL6j5i1dFkeHFNgoTAIpiXnnJHp3bw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=JUJsmz2D3eMPAGyrgcQY3rL/ehcNMotvzIBx3MTVMIATFu8lg6NV3Zz79DcuZCjDj4Hr/OfHfHRx9ATRq3HuXxKs3OQk8JACaG9+RE6u39WTGIYysJpSY6IjA/iSK4o+c3o2n2YExn4E7wdWIe6BrVdvm63JtY0JPq41MbIOQFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=schnwalter.eu; spf=pass smtp.mailfrom=schnwalter.eu; dkim=pass (2048-bit key) header.d=schnwalter.eu header.i=@schnwalter.eu header.b=ovw3Blnr; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=gr8pg5d9; arc=none smtp.client-ip=103.168.172.154
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=schnwalter.eu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=schnwalter.eu
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailflow.phl.internal (Postfix) with ESMTP id 8E55F1380104;
-	Fri, 19 Dec 2025 09:08:28 -0500 (EST)
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id D1CFA14000B2;
+	Fri, 19 Dec 2025 09:08:30 -0500 (EST)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Fri, 19 Dec 2025 09:08:28 -0500
+  by phl-compute-05.internal (MEProxy); Fri, 19 Dec 2025 09:08:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=schnwalter.eu;
 	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:message-id:mime-version
-	:reply-to:subject:subject:to:to; s=fm2; t=1766153308; x=
-	1766160508; bh=koYLabjQOrhDbXlPsvIb4+RxqrircKynM1lOeT4TWD4=; b=T
-	tPgvYu2BLVgHlVKVReJ7QG6VzoiwUDcjyecFnHhuIQjy4KKcg71zjTVCpOw2sPmd
-	Tr3/sEo4p1q7ZHe8RMTSDprIokqg9WUaCXqC4RVij89vl7LcvdG1Z4RvC42h1HVy
-	6R32L7UZCe/EKyfo9CcJ0/71YUZyzQtIbpXaG6gAa7jICPmxWbgXO0L8h7IElvJD
-	aRE3agdlkPzK9VDaL1PA7sLTrNX3PFJY/LQDJZ2QdXiHTDt7R3a0sIgwSkGZ1FEc
-	HGYTm2cTA93+Y8L26sUvct5R+Lmxdq7eTvAyAMY8KrX515JUY8fYQAwlqQsDW66h
-	QL+AmDTrYNYJXkpB//hDw==
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm2;
+	 t=1766153310; x=1766239710; bh=qb5gVRO9DfUFU0aQRCIg+7QiRU/KOee2
+	e9hSIVhT7xM=; b=ovw3BlnrGec8dKb6e5e8ibr3ue6gqgXGVHDwMeUjw/ztFMnM
+	q1RCMAv4P/oEL4QMYo4Y1h7U6N4ZBnDSBZl5rvKodhZgIXoiWIQYGhD7tKqItgLq
+	byOp88agOBRXlpbfhaaKecIFtXgr/l4a8Ow793IQYeS8g6tMWQY2EkjhKmaICmNR
+	ivszEL3gzvX2zp4rHQfQ7C+fsO6RRaAuM1XZ/DusFoqPz+WvVMtG+PQpRagJxitQ
+	bdkuE9FzsMnER3T4txKQB6qwJkE9QDQTY9D6yBVSO0OUQEy7V4xNQyoAcyG1/xwV
+	9tFBD4MKTaBRN4q8N7LPmLX2Y1F8KAmw1JaG5w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1766153308; x=1766160508; bh=koYLabjQOrhDbXlPsvIb4+Rxqrir
-	cKynM1lOeT4TWD4=; b=q1XRd9cEs0zx+2b0Oa98TpUjJ26yXXiKVhYpjzGBdwiL
-	jzgonEk0zebpZ+bcgmKrpplQx8Twf/p4rDBRO+70NCFLzf8ZpBqC9HzBkqbAbc2S
-	4HmolWReXwozI1cl9tRo62aK9jY/AmX9F2PBl6Z7aS5uP1tKjPPDlixXUIb3f0ua
-	OBsfqr4o1D0hFfhIZIgiLmJe1Rf+rRf0eBN/D0QDy7BWd11DGUhsnFhIpURr6bSn
-	3+WnNyma11SB+O3xNCqiNu0c9ylZJ2gj1sSyF3oYmGw+WyN8tlzj9XALkJaoyHLq
-	f3hO/hUOtG94yIMucWzpq/ESN57YgbAXo/EzPv9dPw==
-X-ME-Sender: <xms:XFxFaYdNwYb6uJxvW66lGpmnVhY16D_TueHfoe6qvxi1CgWYjsN-2A>
-    <xme:XFxFaSZd21g2zDq-CGyHFl44tNo_Fx9h0HxckVw0CySPZXV12v7nHRVWFAKyz3NvK
-    EcV57KrXuLcjwD4yxAqSzhqyV-KeDGGb4-Iu4wP6LxFNibtLpXTrg>
-X-ME-Received: <xmr:XFxFaVGPmUd2lTNCKZZLRi4Aqg240j5Gt5BidIt2R7Zc003jmmIONatLLSAwE6s>
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1766153310; x=
+	1766239710; bh=qb5gVRO9DfUFU0aQRCIg+7QiRU/KOee2e9hSIVhT7xM=; b=g
+	r8pg5d9fxni3WLVbb96i6m1WU9vvzCFpdS7PYB8lOFTbLOz6Gv1fGDsCB68GEpX5
+	HuMbEdc6Dxa7b+sEE1b0qD5tkVxdbOp90YXXtJEayqVw2i1byszSGWcPVgYmXHNQ
+	Unx6XRn8W9PReFcRZ+VLr8l61VB2u9bwSIrssrETYaWHky5mDsIRtxwcs7NCpxNm
+	xttUZeXblrBN/n6HPrJPsy11K2orEVFNBIv1eG5A5B+VLTkuF1TEA4KNDkw1z6cK
+	+rsKMSN1QGN/uhr8Ai0s8zZ9CZF5yDypS7eb47WFNafi0a5M46VWG08I/yr7Aqux
+	JZlCqcP/WXVILp/XpCEfA==
+X-ME-Sender: <xms:XlxFafU_82UZl2iMsSvSvBv_EYg7zB7mozZYx7BRqSl03Yk8guF6rA>
+    <xme:XlxFafxpViLuN28pa7Ypmv5uOJaKLKjplDPHWKGn8IReOfozK3qp7gUjehSX-hrG_
+    c3hkVwufCSeAX3VWfpUlAz5dtjixabEToFGWuWyFfeVq-0Ru9om7g>
+X-ME-Received: <xmr:XlxFaW9Kzgfyei10XO5DdR8CwozYOsA2NuIcUz9tvg4fCfeAcPdVK0rzgxaUvQc>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdegkeehtdcutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecurfhhihhshhhinhhgqdfkkffrpghrthculdeitdejmdenuc
-    fjughrpefhufffkfggtgfgvfevofesthejredtredtjeenucfhrhhomhephggrlhhtvghr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhephggrlhhtvghr
     ucghvghrnhgvrhcuufgthhhnvghiuggvrhcuoegtohhnthgrtghtsehstghhnhifrghlth
-    gvrhdrvghuqeenucggtffrrghtthgvrhhnpeeiteefudduffdvfeevueeffefhvdfhjedu
-    vedvieelgeeijefhfeetgfefffelveenucffohhmrghinhepkhgvrhhnvghlrdhorhhgne
-    cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheptghonhht
-    rggtthesshgthhhnfigrlhhtvghrrdgvuhdpnhgspghrtghpthhtohepuddtpdhmohguvg
-    epshhmthhpohhuthdprhgtphhtthhopegtohhnthgrtghtsehstghhnhifrghlthgvrhdr
-    vghupdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopeguvg
-    hvihgtvghtrhgvvgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhn
-    ohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrh
-    hnvghlrdhorhhgpdhrtghpthhtohepmhgthhgvhhgrsgeskhgvrhhnvghlrdhorhhgpdhr
-    tghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpd
-    hrtghpthhtohepjhgrtghophhordhmohhnughisehiuggvrghsohhnsghorghrugdrtgho
-    mhdprhgtphhtthhopehsrghkrghrihdrrghilhhusheslhhinhhugidrihhnthgvlhdrtg
-    homh
-X-ME-Proxy: <xmx:XFxFaYlRSTJ70gPi80xGtWJLlSfPTfCFvoRzA9TRHDX2Q9sSAn6-lQ>
-    <xmx:XFxFaQcREzifWzqu_ufLv6bDvL5MZW_XUZ0LQzGAAZLb574ntN-jhw>
-    <xmx:XFxFaeFcw7wtR-abLxTi8N4zp57t69qSUkV_IqC450FB0LhwkMwemA>
-    <xmx:XFxFaejM13ECcZ84I5Ik2qoAnF7LOJCLOlEfj1xWkGa1WSCfJVemwA>
-    <xmx:XFxFaer_QqB9cPboirgXz3JvdrYIqrkPVmS6t-fzdsVmffGx_1E9Zn8N>
+    gvrhdrvghuqeenucggtffrrghtthgvrhhnpefhtdehhfegheetjedthfeigeeltdeghfei
+    udeikeeiffekuddtlefffeekheelfeenucffohhmrghinhepuggvvhhitggvthhrvggvrd
+    horhhgpdhlihhnuhigthhvrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghr
+    rghmpehmrghilhhfrhhomheptghonhhtrggtthesshgthhhnfigrlhhtvghrrdgvuhdpnh
+    gspghrtghpthhtohepuddtpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegtohhn
+    thgrtghtsehstghhnhifrghlthgvrhdrvghupdhrtghpthhtoheprhhosghhsehkvghrnh
+    gvlhdrohhrghdprhgtphhtthhopeguvghvihgtvghtrhgvvgesvhhgvghrrdhkvghrnhgv
+    lhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtg
+    hpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgthhgv
+    hhgrsgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlse
+    hvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhgrtghophhordhmohhnughi
+    sehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehsrghkrghrihdrrghilh
+    husheslhhinhhugidrihhnthgvlhdrtghomh
+X-ME-Proxy: <xmx:XlxFaU_xgezb4FFrmLmrjCTD_jvcQbvh2rtyWK2aUwnZKZk66ItOGw>
+    <xmx:XlxFaVX8QmDjJKklaqrqraqfzz5dds0fp3Uayu3jCPYbYWm6K3uNPg>
+    <xmx:XlxFaRehenYqDTPlC1Nzo2bHlbTfQo2BgmIXUycaLbB21ZufRefnQQ>
+    <xmx:XlxFaeZb8OE6yY5DZQu2doG2-UVqBL1QPZP9ofH66n2Y1vRqDiSr4w>
+    <xmx:XlxFaTDQ3UsbhL2SytnozK2kviB92if-n4kI1TYeGd03wosya5LywPHq>
 Feedback-ID: i455149b6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 19 Dec 2025 09:08:26 -0500 (EST)
+ 19 Dec 2025 09:08:28 -0500 (EST)
 From: Walter Werner Schneider <contact@schnwalter.eu>
-Subject: [PATCH v3 0/2] media: i2c: Add ov2732 image sensor driver
-Date: Fri, 19 Dec 2025 16:08:07 +0200
-Message-Id: <20251219-ov2732-driver-v3-0-579d175e929e@schnwalter.eu>
+Date: Fri, 19 Dec 2025 16:08:08 +0200
+Subject: [PATCH v3 1/2] dt-bindings: media: i2c: Add ov2732 image sensor
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -99,11 +100,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAEdcRWkC/33MQQ6CMBCF4auQWVvTTqGgK+9hXEA7yCQGSItVQ
- 7i7hcQNC5f/S943QyDPFOCczeApcuChT6EPGdiu7u8k2KUGlFgoVKUYIpYahfMcyQukiqwsnG5
- sAekzemr5vXnXW+qOwzT4z8ZHta4/qdpJUQkppCVqT2hzqcwl2K5/1Y+J/JGesGoR/wqYhLYpj
- TZ57gzavbAsyxcvpgPK8AAAAA==
-X-Change-ID: 20251217-ov2732-driver-2e8ec05d3bc5
+Message-Id: <20251219-ov2732-driver-v3-1-579d175e929e@schnwalter.eu>
+References: <20251219-ov2732-driver-v3-0-579d175e929e@schnwalter.eu>
+In-Reply-To: <20251219-ov2732-driver-v3-0-579d175e929e@schnwalter.eu>
 To: linux-media@vger.kernel.org, 
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
@@ -113,151 +112,155 @@ To: linux-media@vger.kernel.org,
 Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Walter Werner Schneider <contact@schnwalter.eu>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1766153306; l=5393;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1766153306; l=3957;
  i=contact@schnwalter.eu; s=20251106; h=from:subject:message-id;
- bh=tiYUY0BguT1Uj9ZmpFK1OrCOijuZ1ZWVEj/jOV3n8lw=;
- b=Wry85EdsWDRnBUH/XNIHDmSBTSPKUNb+/uWAywtBNvHgMw7FI/1Ya3qIFzHKSmcpNrdBzuroY
- tkeMvMAeHPkC+xX1o69GEWeRUvPkVoIv051dtsJhLjyzDp2gsWokCG6
+ bh=UaRehn1/rOkl/aL6j5i1dFkeHFNgoTAIpiXnnJHp3bw=;
+ b=UXZKr9qm8jtwGXxox60gd8Dxkf1qTozMU/+a4Y/mmhonqVvlHk+O7VXtx0EYXjGdeiff7YbR6
+ 4RhREpy8fRcDKUCjrFgAAMqe1r1Tr/igQ2dY6HFYv7QYoy8870wsh+S
 X-Developer-Key: i=contact@schnwalter.eu; a=ed25519;
  pk=OoafUGtB7zQJLYhKA7ALCjqddXAaem/uP/eb3GGNkTI=
 
-This patch series introduces a new driver for the OmniVision OV2732 image
-sensor.
-
-The driver was written from scratch using modern V4L2 APIs, taking
-inspiration from existing camera sensor drivers like the Sony IMX219 and
-with help from the libcamera folks on IRC.
-
-This initial version provides basic support for the sensor, future patches
-will add additional features.
-
-I'm new to all this, so feel free to point out anything that can be
-improved.
-
-v4l2-compliance 1.28.1-5233, 64 bits, 64-bit time_t
-v4l2-compliance SHA: fc15e229d9d3 2024-07-23 19:22:15
-
-Compliance test for device /dev/v4l-subdev4:
-
-Driver Info:
-        Driver version   : 6.18.0
-        Capabilities     : 0x00000000
-        Client Capabilities: 0x0000000000000002
-interval-uses-which 
-Required ioctls:
-        test VIDIOC_SUDBEV_QUERYCAP: OK
-        test invalid ioctls: OK
-
-Allow for multiple opens:
-        test second /dev/v4l-subdev4 open: OK
-        test VIDIOC_SUBDEV_QUERYCAP: OK
-        test for unlimited opens: OK
-
-Debug ioctls:
-        test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-        test VIDIOC_ENUMAUDIO: OK (Not Supported)
-        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-        test VIDIOC_G/S_AUDIO: OK (Not Supported)
-        Inputs: 0 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-        Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-        test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls:
-        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-        test VIDIOC_QUERYCTRL: OK
-        test VIDIOC_G/S_CTRL: OK
-        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-        Standard Controls: 14 Private Controls: 0
-
-Format ioctls:
-        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
-        test VIDIOC_G/S_PARM: OK (Not Supported)
-        test VIDIOC_G_FBUF: OK (Not Supported)
-        test VIDIOC_G_FMT: OK (Not Supported)
-        test VIDIOC_TRY_FMT: OK (Not Supported)
-        test VIDIOC_S_FMT: OK (Not Supported)
-        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-        test Cropping: OK (Not Supported)
-        test Composing: OK (Not Supported)
-        test Scaling: OK (Not Supported)
-
-Codec ioctls:
-        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls:
-        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
-        test CREATE_BUFS maximum buffers: OK
-        test VIDIOC_REMOVE_BUFS: OK
-        test VIDIOC_EXPBUF: OK (Not Supported)
-        test Requests: OK (Not Supported)
-
-Total for device /dev/v4l-subdev4: 45, Succeeded: 45, Failed: 0, Warnings: 0
-
-P.S. I only tried this as an out-of-tree module against the 6.18.0 kernel in
-a Yocto project, I'm not sure how to test it against 6.19-rc1. But I did
-compile it with 6.19-rc1 and ran dt_binding_check and checkpatch.
-
-P.S.2 Thanks you for the reviews.
+Add bindings for OmniVision OV2732 image sensor.
 
 Signed-off-by: Walter Werner Schneider <contact@schnwalter.eu>
 ---
-Changes in v3:
-- Cleanup state of GPIO.
-- Renamed pwdn GPIO to powerdown.
-- Removed unused format variable from ov2732_set_fmt.
-- Removed properties from DT bindings.
-- Replaced the two 1ms delays with a doubling of the 8192 cycles delay.
-- Link to v2: https://lore.kernel.org/r/20251218-ov2732-driver-v2-0-fb763644d62c@schnwalter.eu
+ .../devicetree/bindings/media/i2c/ovti,ov2732.yaml | 108 +++++++++++++++++++++
+ MAINTAINERS                                        |   6 ++
+ 2 files changed, 114 insertions(+)
 
-Changes in v2:
-- Adjusted delays in power up, power down and start of stream. Only a
-  single 10ms sleep remains, looks like I've read the datasheet wrong.
-- The intermittent communication errors are solved by a single 1ms sleep
-  in the right place.
-- Added missing format values in ov2732_init_state.
-- Set default GPIO pin state in ov2732_probe.
-- Other small changes: comments, name capitalization, removed unused.
-  variables.
-- Link to v1: https://lore.kernel.org/r/20251218-ov2732-driver-v1-0-0ceef92c4016@schnwalter.eu
+diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov2732.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov2732.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..57041d1dc012b88db4bf3eefbd3d1ee96fde777c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov2732.yaml
+@@ -0,0 +1,108 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/ovti,ov2732.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: OmniVision OV2732 Image Sensor
++
++maintainers:
++  - Walter Werner Schneider <contact@schnwalter.eu>
++
++description:
++  The OmniVision OV2732 is a 2MP (1920x1080) color CMOS image sensor controlled
++  through an I2C-compatible SCCB bus.
++
++properties:
++  compatible:
++    const: ovti,ov2732
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: XVCLK clock
++
++  clock-names:
++    const: xvclk
++
++  avdd-supply:
++    description: Analog Domain Power Supply
++
++  dovdd-supply:
++    description: I/O Domain Power Supply
++
++  dvdd-supply:
++    description: Digital Domain Power Supply
++
++  powerdown-gpios:
++    maxItems: 1
++    description: Reference to the GPIO connected to the pwdn pin. Active low.
++
++  reset-gpios:
++    maxItems: 1
++    description: Reference to the GPIO connected to the reset pin. Active low.
++
++  port:
++    description: MIPI CSI-2 transmitter port
++    $ref: /schemas/graph.yaml#/$defs/port-base
++    additionalProperties: false
++
++    properties:
++      endpoint:
++        $ref: /schemas/media/video-interfaces.yaml#
++        unevaluatedProperties: false
++
++        properties:
++          data-lanes:
++            items:
++              - const: 1
++              - const: 2
++
++        required:
++          - data-lanes
++          - link-frequencies
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - avdd-supply
++  - dovdd-supply
++  - dvdd-supply
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        ov2732: camera@36 {
++            compatible = "ovti,ov2732";
++            reg = <0x36>;
++            clocks = <&ov2732_clk>;
++            clock-names = "xvclk";
++
++            avdd-supply = <&ov2732_avdd>;
++            dovdd-supply = <&ov2732_dovdd>;
++            dvdd-supply = <&ov2732_dvdd>;
++
++            powerdown-gpios = <&gpio0 13 GPIO_ACTIVE_LOW>;
++            reset-gpios = <&gpio0 8 GPIO_ACTIVE_LOW>;
++
++            port {
++                camera_out: endpoint {
++                  data-lanes = <1 2>;
++                  link-frequencies = /bits/ 64 <360000000>;
++                  remote-endpoint = <&mipi_in_camera>;
++                };
++            };
++        };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5b11839cba9de1e9e43f63787578edd8c429ca39..231d5b8df21bc5f3dc6ee5d765ed4027c9772f9a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -19308,6 +19308,12 @@ T:	git git://linuxtv.org/media.git
+ F:	Documentation/devicetree/bindings/media/i2c/ovti,ov2685.yaml
+ F:	drivers/media/i2c/ov2685.c
+ 
++OMNIVISION OV2732 SENSOR DRIVER
++M:	Walter Werner Schneider <contact@schnwalter.eu>
++L:	linux-media@vger.kernel.org
++S:	Maintained
++F:	Documentation/devicetree/bindings/media/i2c/ovti,ov2732.yaml
++
+ OMNIVISION OV2735 SENSOR DRIVER
+ M:	Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
+ M:	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
 
----
-Walter Werner Schneider (2):
-      dt-bindings: media: i2c: Add ov2732 image sensor
-      media: i2c: Add ov2732 image sensor driver
-
- .../devicetree/bindings/media/i2c/ovti,ov2732.yaml | 108 +++
- MAINTAINERS                                        |   7 +
- drivers/media/i2c/Kconfig                          |  13 +
- drivers/media/i2c/Makefile                         |   1 +
- drivers/media/i2c/ov2732.c                         | 787 +++++++++++++++++++++
- 5 files changed, 916 insertions(+)
----
-base-commit: b70886ff5833cf499e77af77d2324ce8f68b60ce
-change-id: 20251217-ov2732-driver-2e8ec05d3bc5
-
-Best regards,
 -- 
-Walter Werner Schneider <contact@schnwalter.eu>
+2.51.1
 
 
