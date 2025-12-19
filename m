@@ -1,79 +1,79 @@
-Return-Path: <linux-media+bounces-49123-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49122-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6E2CCCE29A
-	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 02:40:58 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE38ECCE282
+	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 02:40:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8CF8D305F3B4
-	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 01:40:29 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id CC06B302E5A1
+	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 01:40:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 363F023535E;
-	Fri, 19 Dec 2025 01:40:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B327E23B628;
+	Fri, 19 Dec 2025 01:40:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZjRtB8pd"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OhWTZk+E"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0099522FAFD
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 976FB22154B
 	for <linux-media@vger.kernel.org>; Fri, 19 Dec 2025 01:40:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766108427; cv=none; b=PC9mljwnss/rVR139i7kzXaEqvk75CXghpdG0SRYCR3IKozMPHteTZP1fKH8jRYHN7D1eslJpOaXHvpt88QZtPQ0h0aKlK6EQlxacXeilQz3talBcBdAgSXcqitSGPKCkIMpxGDJgJOjA6+WzmT3LFAks0uHst9eXhXRtmN6LCM=
+	t=1766108427; cv=none; b=U8wk6i+q2xq4wK/KXaCZEJsazGYmTKCG7s6tBC06exztyURr3zyjgePE34/0cXp5xcHfRNKCGUMq+yVDL/hCLjEio4GJrHbckiPKXy8hb3et6h34OZHxkCEsQffUpEUye8I19Xu49V7seHucfs2rSGyKIsnX7g+jqj3ocSKmq+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1766108427; c=relaxed/simple;
-	bh=JzTmiFxxFP9ywosc1/PrB927sw9juQIkycc1i5dnVic=;
+	bh=V7JnR2C4dn0LioMgl7WguO8w6hFl8CYJrTRxC+i2SGY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JkdW+CNipYEyYmSSSf13uNe0Yh2vhkp0i13lwD55f11D6xhS1CuDiobCcPCmLGAcTHVkLOSJ7Qo9QMLDjazWVbPlfVaZ1xtVw1Iuzo/dh3dHtciWzFCkxvxAUBfqg5ZJABkf62y6O3CoCrjNo+wqIRMZTB04iMBj1HMUxBxyTFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZjRtB8pd; arc=none smtp.client-ip=209.85.128.177
+	 MIME-Version; b=IcMEG318Jh35lFYyQU/H+IuFZu+in0695+4tofveDnNozPJKpABmCAIkFYmB7Ne4d2mEqQMwM1Qipza/xVjgACJhd0JNtB/xwEbXUU+bY4cXFk531oCpOPN+NJeerw129X7XIgZZmhUYWakDiPJSkzvfs9LEpD1Iw6w+QB713GM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OhWTZk+E; arc=none smtp.client-ip=74.125.224.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-78c66bdf675so10935107b3.2
+Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-644798bb299so1189452d50.3
         for <linux-media@vger.kernel.org>; Thu, 18 Dec 2025 17:40:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766108425; x=1766713225; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1766108424; x=1766713224; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hzPw2N/ioM2S0JlkpKSATVvxATE7Ky1v1N7KaRK6I20=;
-        b=ZjRtB8pd2LqvquPEmp2VrqOgP7tjn8m+XM3EMXInmul0Y3rmr61GyDJSF0JfSJeG4e
-         H4yLobf6iwLemjpDh2/JhmX1mxCsNdSdfXBBog2UwbwLB/wGqXVS49N1h3CQa62xxtKH
-         zUQXkvgh/B1Tni+dflqKv1smWhZy1B0FO6iXU2h3vFXnESMea2uIobPyMjwde3o7Mc16
-         qyjaLTSRereD0g6OAUwEhj6hbLv5ONyblQlUHF0+v4/4RiivIgFNCcv5KkQ4Ocwsrxfy
-         KlK0S1nN3iVKaE9xxzA16OXUQMurOWoXqxNJD3a2Xe4BbbdqLkN6M2Zjcl3YjQ/P76fO
-         hmsw==
+        bh=lXujcQG4d4pSPfLnwY7QQ/B3L24bc/JbXH3UhT7rcLI=;
+        b=OhWTZk+EDMoZvWOsKPwowUQyHRDXqyID+nWljsEhN/voHIXARskSPTdaUOmQQoaAzs
+         07xa5wkwrbyzVFqEeChAsfXo+OCKJE7DrU/Ej+b45TGKHgKLwFgogzMc0MWXHjcp1zuC
+         zds7FKhvFcO9LwDUfae25dL1QQPEsnKTK4PrtnRET8M6P1yzmJAtyZuTAqBqXWOhuPDK
+         iGXtueQWGLFVuZ27AiC8ASophQBpGfLL4QnA/aQOj36LLLQigISGdU5dGRozNiYGhSAT
+         eIdhe7zK1DMpAo0X23mcbSrlliWlx3FZq6RVHAY8UqHWavbOb+MgD3UZbcGdB9hU/Ib7
+         HApA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766108425; x=1766713225;
+        d=1e100.net; s=20230601; t=1766108424; x=1766713224;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=hzPw2N/ioM2S0JlkpKSATVvxATE7Ky1v1N7KaRK6I20=;
-        b=f0j7IAKmUmdE13oFlv1u+FQjV0B2fsoz5AzwQf6rG/XnINDVkjX8FQncF5uHry05xM
-         /sB8sRfMVzkg8aG8G16C9T9GLN7XF4LRptKWNdG2Cqda6qM4PHUr11YIuPOYxOGdyXKS
-         v5XRrtUMStQvNriOP19wprcZeDNajPA0HFa3JUyKZJMtkmrNi/8pqFnBFjEHiZ5xIqhh
-         KCBfKUsDNJGFwl9MQVaWMNuo6Bpu9Bpe/z7uDdD3zuvfBYCdgD2vw6zfLMD38t4Fp0dy
-         baQsw1V8u8aU3E6hK2Kw4HaAD/4d3Wy/xnn3V8W8W/jFrcC5mETBfNti6K7DiLT91QIG
-         tOXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWGzcWtYB9zpjS9FIKiXWLxcWMzGZ5HTMHlBJnMQPPkRUIDLbM/xMNB/S5POXGgbe/kOs1pYyZPyp8i+w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzhJNK+8q/0RmDhpKSpZUldO0AajpUc8WMHJNNMnSIVowvk7vBI
-	WETp6Cee3n5NzHLby2kZojlFEX5pJ+i/yywX7GgGqJQZbEO0cOnC9B3u
-X-Gm-Gg: AY/fxX4905bO8r35nkkHIQRObr5u0pbU03vuFr1mzvWL5JtRVRKz6VgBL3yxiFk4pHC
-	Ny5fEG1sK2cz2KcBNb3obRVzjMwYZeAjKTDZ8G2rta9WvPE2X4IxVcVRm2H11iHjb2vMlfexhe0
-	bKswzvRr20KlEEGLrGl9WdL5qrYLfLbnCRnKxjmXqov0mLf14oENIxsLXxBuKSr8+jhW4r2negy
-	pkA3rSzv7kZhE3Gt9XjS3T94tk7SXXU04/WWqFKpkfdkr8eK5O3KmdQCbKwsPylgTmqdD8Rkoqe
-	QDqRQS5PsX9IIsdVSdzCjvrP8dGuOABI+r5BgMhwH8G55QOWd1oSbKLOuYfWlzdZaqP/JKlinrQ
-	aWw5tsM4Fql88C+h3ruxqWK1AjMNQ7RO5wAAemJPKafmWNW0Eg82dBwfXSD71i4wYPXIIMa4nee
-	h0CMOEj/Mn2Bo=
-X-Google-Smtp-Source: AGHT+IFlzEyRZbzDwokD8f3jVoeX8J+z1/v2Ahkwq9baLdKstEVjn+R/Ae3XQyq/3bI8aWngyy6zUg==
-X-Received: by 2002:a05:690c:6e88:b0:786:581d:d517 with SMTP id 00721157ae682-78fb418761amr10808607b3.49.1766108424964;
+        bh=lXujcQG4d4pSPfLnwY7QQ/B3L24bc/JbXH3UhT7rcLI=;
+        b=HGmHv1GAXkC1tRuHNvxyLqgATbNu8tCqr3B3arQF+QnxkkiofKXy1B72Ok4FJXpqpp
+         Q8ZrEwmWxJK1RQRwyizTnv06sJR4KPqr37y5NLokF0P0UBKggLlZE/Y50+9g+ykQt0ZQ
+         KOsWPMxUjwXOnBqeBC4EBD468LN/y+Y2hgRRqN0AKVPqNA+V53+ad/mE+S59xlaei/xc
+         XPiTTOYAWdur/LE/jBPABjnOmywoNARJrAfxb6noggw37m/RXpFqkzA3dl0fijSMqJmB
+         UQgeTyuTU5lCN5IORmOQniIQ407o0+MUXw93z8m0xMaM2EhqdoaD51p4xxUhMjAdfWRu
+         ufhA==
+X-Forwarded-Encrypted: i=1; AJvYcCUf9CEsF+nPx3/CifH6StWiTyOvPLKrgsf+gbrescl2T7Q8Vx4UB76ZlesU1V5R8EE16T5ImWGZPJGtiw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxip+ewAj5q16ceo+MRxG1DGgvFZ6vZ8pq9MkbKeNiFo4laMnJb
+	dH6ZxUew9skWQn1PKRPq9Io9qULNTB/yqcv/S2jYBMMmiTaHC4hpqkSi
+X-Gm-Gg: AY/fxX7SIrc8PLvBdhVvwPCJYkOeMXpj9bHkPwtjM9qdhoeHSQfjeD0g0qhQMgL0G4n
+	KdFVgc3kg4vO/WRTjnJZt6NyAC/T5PtVd8X9FsHkglGYpxGhOpCye4H1KZJTDUD6ksKN91r2/oh
+	mDzWmGR9hroHgngcdTRFutAw3auxuBa7qJXy5bpm+SNT64PzTC3swG/ovjNYMuXtB/F+VG/u9im
+	pvmj1O/I1qNn++7bG2TIesuRWU0NDiJkbopWqE/E9qkZGb4wezq7uUnAt5uN9YWgGKRvn00Bal6
+	E/n/BDuCLGUZI+uXlA1QuLlVXq9mpFN80WJwv7M0X3tZlZRfC8oGhCuAuYqHDGnBqJBCR4OWpN1
+	XOn02QahvpoeotgYIei8nZKs5u5D7RR2IYeBQFP6HCuHaF+Vr1vGo7YSJl/8qToya9As60TNx4K
+	IAXBNDVp8yBbU=
+X-Google-Smtp-Source: AGHT+IEkhnBkI2xTy6+krjkg4oy487XdWneFBVKVRcd59MnMtD1xOFax36K9/qEz+okpBApxnUzeXg==
+X-Received: by 2002:a05:690e:4102:b0:646:5127:9cde with SMTP id 956f58d0204a3-6466a8345d6mr1205460d50.14.1766108424525;
         Thu, 18 Dec 2025 17:40:24 -0800 (PST)
 Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-78fb452c471sm4223507b3.45.2025.12.18.17.40.21
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6466a92d91esm515295d50.18.2025.12.18.17.40.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 18 Dec 2025 17:40:22 -0800 (PST)
 Received: by archie.me (Postfix, from userid 1000)
-	id 407C14001B60; Fri, 19 Dec 2025 08:40:19 +0700 (WIB)
+	id 5E2A74001B63; Fri, 19 Dec 2025 08:40:19 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux Memory Management List <linux-mm@kvack.org>,
@@ -103,11 +103,10 @@ Cc: Sumit Semwal <sumit.semwal@linaro.org>,
 	Charles Han <hanchunchao@inspur.com>,
 	Jilin Yuan <yuanjilin@cdjrlc.com>,
 	Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
-	George Anthony Vernon <contact@gvernon.com>,
-	"Vishal Moola (Oracle)" <vishal.moola@gmail.com>
-Subject: [PATCH mm-hotfixes 3/4] mm: vmalloc: Fix up vrealloc_node_align() kernel-doc macro name
-Date: Fri, 19 Dec 2025 08:40:06 +0700
-Message-ID: <20251219014006.16328-5-bagasdotme@gmail.com>
+	George Anthony Vernon <contact@gvernon.com>
+Subject: [PATCH mm-hotfixes 4/4] mm, kfence: Describe @slab parameter in __kfence_obj_info()
+Date: Fri, 19 Dec 2025 08:40:07 +0700
+Message-ID: <20251219014006.16328-6-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251219014006.16328-2-bagasdotme@gmail.com>
 References: <20251219014006.16328-2-bagasdotme@gmail.com>
@@ -117,36 +116,37 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1086; i=bagasdotme@gmail.com; s=Zp7juWIhw0R1; h=from:subject; bh=JzTmiFxxFP9ywosc1/PrB927sw9juQIkycc1i5dnVic=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJkuqxfL7flauWn9i8K7y1seKHYf4ElsWpntmn/F9BrHv cQt816Ld5SyMIhxMciKKbJMSuRrOr3LSORC+1pHmDmsTCBDGLg4BWAifK2MDMtfy/t1mpS0fxQR Vz2l/DJPToqR86pIu8aK58c8u5SkOBgZbmtlrrPwncQzddJ0tvgj37ke9Pd/PJjntXapaWfqfVl rVgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=993; i=bagasdotme@gmail.com; s=Zp7juWIhw0R1; h=from:subject; bh=V7JnR2C4dn0LioMgl7WguO8w6hFl8CYJrTRxC+i2SGY=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJkuqxc7T7vRwlFjGfXAJPPZEb6MmU3nPfJK+S1u/Pfr2 nAoY83ujlIWBjEuBlkxRZZJiXxNp3cZiVxoX+sIM4eVCWQIAxenAEzExpSRYbVy1V+uKhNfl31d 3tY/1yd5qPVxrz/kbjrv6KwU7VU7PzP8la6Z2vvv9mRZvSKz/YeLxOqYTjn7fuPIvP55y5Tuc40 LOAA=
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 
 Sphinx reports kernel-doc warning:
 
-WARNING: ./mm/vmalloc.c:4284 expecting prototype for vrealloc_node_align_noprof(). Prototype was for vrealloc_node_align() instead
+WARNING: ./include/linux/kfence.h:220 function parameter 'slab' not described in '__kfence_obj_info'
 
-Fix the macro name in vrealloc_node_align_noprof() kernel-doc comment.
+Fix it by describing @slab parameter.
 
-Fixes: 4c5d3365882dbb ("mm/vmalloc: allow to set node and align in vrealloc")
-Reviewed-by: Vishal Moola (Oracle) <vishal.moola@gmail.com>
+Fixes: 2dfe63e61cc31e ("mm, kfence: support kmem_dump_obj() for KFENCE objects")
+Acked-by: Marco Elver <elver@google.com>
+Acked-by: David Hildenbrand (Red Hat) <david@kernel.org>
+Acked-by: Harry Yoo <harry.yoo@oracle.com>
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- mm/vmalloc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/linux/kfence.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-index 41dd01e8430c54..628f96e83b1187 100644
---- a/mm/vmalloc.c
-+++ b/mm/vmalloc.c
-@@ -4248,7 +4248,7 @@ void *vzalloc_node_noprof(unsigned long size, int node)
- EXPORT_SYMBOL(vzalloc_node_noprof);
- 
- /**
-- * vrealloc_node_align_noprof - reallocate virtually contiguous memory; contents
-+ * vrealloc_node_align - reallocate virtually contiguous memory; contents
-  * remain unchanged
-  * @p: object to reallocate memory for
-  * @size: the size to reallocate
+diff --git a/include/linux/kfence.h b/include/linux/kfence.h
+index 0ad1ddbb8b996a..e5822f6e7f2794 100644
+--- a/include/linux/kfence.h
++++ b/include/linux/kfence.h
+@@ -211,6 +211,7 @@ struct kmem_obj_info;
+  * __kfence_obj_info() - fill kmem_obj_info struct
+  * @kpp: kmem_obj_info to be filled
+  * @object: the object
++ * @slab: the slab
+  *
+  * Return:
+  * * false - not a KFENCE object
 -- 
 An old man doll... just what I always wanted! - Clara
 
