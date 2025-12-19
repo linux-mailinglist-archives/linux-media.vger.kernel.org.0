@@ -1,77 +1,79 @@
-Return-Path: <linux-media+bounces-49124-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49121-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EED4CCE291
-	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 02:40:39 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18F81CCE27D
+	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 02:40:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 8BB013038143
-	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 01:40:31 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 54E8330303B0
+	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 01:40:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32B7B23B60A;
-	Fri, 19 Dec 2025 01:40:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 613D923535E;
+	Fri, 19 Dec 2025 01:40:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AJf2hYma"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GxXqGn7P"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E99742376FD
-	for <linux-media@vger.kernel.org>; Fri, 19 Dec 2025 01:40:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1E01F5834
+	for <linux-media@vger.kernel.org>; Fri, 19 Dec 2025 01:40:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766108428; cv=none; b=GvHOoaUsIw8hdGPv54oUKkPWx/EihxOImKn9WZm37pt92HsEqigBAkP4PJrn64ZlME6NFVzmZjMtgEafXZXEwi+8zmpaUMR2Ks6bDkYbsxmfBEfdtcFFcs9SQaHdWd7ZyrNEPTy2uioQl7u1yUZy1LRvoXo6TiuKD0xhchyKgEA=
+	t=1766108425; cv=none; b=hPx3QzbI0AK8HSrV6s3Jkbra5qzSVlcxBanlHqVGG6mbr9RQgWddoePqEFBpyKa4ZcRhxSqWthB3oZf5rIbCz96b9brsI+FgDPKZhM9VynlXOomVq+TUx1YpXsej2uryZFO/euJuKl2in8/KGjpGOITeGjBUy/XYt+ThWXB+yFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766108428; c=relaxed/simple;
-	bh=RJRIAcyQjDA0Y8yZ/8Tu6N5h+KfYiqNdzVSLTNcjx6Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IksXnQQu8VNeZV9DvQ+mzRfv7s1pcKA9ko0QPb51QCjDRrG8YzrdV5gwwnVadyb/0v0TsQqaXSn0YLC8O5MVlJTcLFu8AivrHCYaR790ftN/dwuIa7KTEfSialVafCwUIMG5wOuAYkCAV3lKWyiupelHDD0Q0JgRM7scUsVFpQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AJf2hYma; arc=none smtp.client-ip=209.85.128.174
+	s=arc-20240116; t=1766108425; c=relaxed/simple;
+	bh=eU57T2ZpTrhAT3InMTPZqCoWbG3clhbzONj6eMsT294=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Yl++WIGu4z3sv7ZadGqT/k1LSt371RrBJw9BgKSu5LO8pdk+Rj+5aqbfqxEOMW9SfCLs/g9F8QGiBQ/ek8kcMt3hH91ta5BerWV+xe9Bu57VFyGIxFC/fzlvsPEN56vv4B+FQg3vOImfvS0vX2wBiJZgDVKLI/UtfAcAeVKE5Cc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GxXqGn7P; arc=none smtp.client-ip=209.85.128.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-787df0d729dso11732397b3.3
-        for <linux-media@vger.kernel.org>; Thu, 18 Dec 2025 17:40:26 -0800 (PST)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-78fb5764382so2113847b3.0
+        for <linux-media@vger.kernel.org>; Thu, 18 Dec 2025 17:40:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766108426; x=1766713226; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nd7dLSH/2LNPg9M+6OkqNEaj91DJZUUxPtMRLObk/CU=;
-        b=AJf2hYmae5SWOBegapNGiAnt2NfwYXGUc+47aeF+6ZzNze3mqg0NF/JyYFKRp3qfBk
-         knaW09eqflwqioNNFOcD/L/ZhISLh4w8CAMTo9xKQaibwPKwoOEbp8RH7pAGjv9KtBOR
-         /Kk3ZAv3cohAfvb1Lka4ByUtLxIhTPnFRSIUMJLZ6fd6Wb62ZSnLuOHWtXJcMkR5IfLJ
-         UGIevTocpABMXQWSensZS33nodikxShSgnP8fzjUw5SyzT6hikZRBWz76CuFQBnourVn
-         QvtwQIe68l7788PNm3y2E8uHtaAiJEk2EY7EI9sEhxhtpxpO1zHRvD4jx3kx3eW4+9yB
-         2Fzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766108426; x=1766713226;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1766108423; x=1766713223; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nd7dLSH/2LNPg9M+6OkqNEaj91DJZUUxPtMRLObk/CU=;
-        b=jEgQbyw598d6MfYYsN844lrZXfx9RcKSTS1TFdarhedrmwMF26wJur0rtwi+8Bzc+D
-         untk824pyeDNiRueaQYYg7IpZkprdi6+EvphTTAR1B2r9p6lgBtau657UW6ivvUCKF20
-         cNylASyPKnGDcwAGHYKsgR70iiOL1oTrmRRATC7TteN+FBm3fnG5sCiSBFMimmOWfSBd
-         m/WT2Ex/MoJFkNqCVK8bxv3o/8MV4o84G8Bzbq+3EqmSbTf6L5Uh/rq2/16JPjDkJ5Qy
-         AXva+KA/yjcmUf8jtb9QCT8LMqYcKn3ibzsXiaTPyQA4Uh0BrInDswOwrW3ySValmjef
-         uCIg==
-X-Forwarded-Encrypted: i=1; AJvYcCXkGVCHdWUJqHLH5O5mcO3fZbBJqe45bIgNwUIWJh+/sUUKOO1l49MByVvTCpnJKNbcGRwodjyoAhg15A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRqz+2KvQXlTx2szfJvPv1VOw8VQmXaGDJDiVoYcVaKsYCJpAd
-	6ix/ACtcOHSSa8y0lEMbEjVEdHSEUjoGq0wvMKqG7t7fhHpLH9YAZnt8
-X-Gm-Gg: AY/fxX6M+AOCk5wgOaSaNtGKkxTNYQTHe7qPwIxCtW+d9UUSXBGM3RrYGr6usc5KqVM
-	aBJXven5E43IGv+cSEIUZg5Pj3S/IBh0Nm7JZG2PH4DlMSXRadJNe2+AitRtQbUWNtmVZPW5YYp
-	2X01s25wyybdSBY8pQzXlScM2E0jlfraWjtMmhB0j+qsGdugYvk3/+pOC0NII/cpsggWolbwv/q
-	o9TweDGbNW0MXldyXlrr7syXgrgC/GeOCfpDgmJP2U7ip7+ise6ZWMCJoz0cJsOYZ3/NlO3ATnE
-	hJ07GeUqZK+0Od7JaoAmu3K+J22iPhgATCYWMFbmWdTgQ6Vt78JLIjBANvB738PobuSG2IZVEFF
-	fgP5nNkfC737MI3w2Xqs3D5qykYT4UfG/Gu4gdP3XfXbdifCdzUe0zso8VGfw+9ykVhPG6rJPHB
-	5UP6FBG7znrzM=
-X-Google-Smtp-Source: AGHT+IGj4vErXkivNcPDaKm/hE3vqzn7Jv2EbveO2FMxfRHgUcrVUKUl63HP3M4rW9y9FyxrhRxuhQ==
-X-Received: by 2002:a05:690c:a8e:b0:788:182b:a79c with SMTP id 00721157ae682-78fb41309d4mr10702687b3.35.1766108425857;
-        Thu, 18 Dec 2025 17:40:25 -0800 (PST)
+        bh=zWU/939i2tSCrFcjT+226pu70w6qgHLxJ5V3Gj7ooMY=;
+        b=GxXqGn7Pn2gayvtw0XFMwG5Ncg7YGo6GQxgL+crs7Cz0WADV/OXwhxXqg+CWdW7jtv
+         /geEeTP11bKs3jO8ykKWLGwya2I2y34aEwiKxwZAhqIaMQ+vYHyexZBDq/Db4mEm8bbo
+         YNFkRaQvnCW4GxkdCfHr44rqEWCuw35sRsR14psQZOWrjmL+9WnvwDDktcRtfYvVw7ck
+         JgaQXOmkpAAyEzdbNlz54gExpugo8mzA3QoJXEYhS3bmez8XHwvCA4+4syujjR87gWk/
+         xZb2yQ2BnUx3Ma05V3JevK+DSHZS++uwQlo3MMha9bdt+EdStte8H32pYdH00SmR/2tX
+         PkVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766108423; x=1766713223;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=zWU/939i2tSCrFcjT+226pu70w6qgHLxJ5V3Gj7ooMY=;
+        b=YUPLWYrrMOix1z7RfElv6jKB6vB9KuP2M0TLwxjhbHPRTSSmU3azyyx9jPyIjci+R4
+         1TfAZbyFD5BIW4twhZ3GojhFONlkr4/d1+zwfjqvMeWtBYbIhTisGyEc0Kljk9oLNKzE
+         3oDfDuO9/rRnL3xlShApTFd0u/DBcGJATEIUVoxmelYIquz6cIz5+cF302C9JudHyb0k
+         UjrhdS3eTqGWJRL3c4so820HTiz73pgLk5psFO6tJXvaNpAwjH1PdUU8xuDLGpa2IhT9
+         3kVlkzpmE1d3m+iv+gD5oLS9zH4tDJ1y+E8V6/usCmifZsDh/nngcc06N1u2rGOGS/m6
+         Mkug==
+X-Forwarded-Encrypted: i=1; AJvYcCVYJEyVkjw1wck0hMyrSlDw3aWzgqHmL4e9CROjyDhQtGgU1Pv5g4hb9s6AwMIoOG7aXj0QCNEUogtYiw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3SIRfJ09FX2mdx1WK6V2CoQRwo9kNIG3gNdnRgpyZosLkqjfR
+	zenIwBGAyBT7y8+tqHbffB82ROQHCrAD6asj/d5vvLCdXQTpCiAqC8oz
+X-Gm-Gg: AY/fxX6lH2jVjUPm7TQTZVn3brXI+4a1ooHc5KdJB7w5eUobJ2qIlWgrvMb4Q+6Xg0O
+	y1wBFnNb6nGCshxgRjxJAGVl4gnZVLq97hOmewiOX7vQp33cAmJ3qvqt5NNaRiEsVVwcdoaXhDU
+	5p2uUMr7oD6bRwnMDfIxGUjSnf3mSxIKug+fyMI3j20+8FAtC0ACkqB2vod0BiMtGrOMtvCajtb
+	zbk06Fbv6q4R0loTUPSwcSJyAeMM37TiRKJ5gohfmaVg4AktwYSwUSkUQkQLHUr6jXtGEhXQqwq
+	YBrZ/sUK0LOyntvy0zr4/Tim8TEyc2PCV88qCEHyzBKewt78HzqlsoArDrae6KEKnQ62h3TW66r
+	ZtuQDoQtxDenfUqUT+k9X/HuOnhW7pfl1Xk/Fke4gxq9hgXM345jaTuFmgsDff4LMe9/P1S/RHS
+	idgox4yYyPkp4=
+X-Google-Smtp-Source: AGHT+IGs2tukAAuVEYuoyvWSAIB55Pm8uLOrTuzGSfqj+LUZLTOqGV1IGLSl8HlgwDUbktyFC3gpDw==
+X-Received: by 2002:a05:690e:2508:b0:644:60d9:7509 with SMTP id 956f58d0204a3-6466a91f1abmr672663d50.89.1766108423013;
+        Thu, 18 Dec 2025 17:40:23 -0800 (PST)
 Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-78fb4376692sm4362217b3.10.2025.12.18.17.40.21
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6466a9219ecsm521431d50.13.2025.12.18.17.40.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 18 Dec 2025 17:40:22 -0800 (PST)
 Received: by archie.me (Postfix, from userid 1000)
-	id BE85043916EF; Fri, 19 Dec 2025 08:40:18 +0700 (WIB)
+	id F36A8400AC5A; Fri, 19 Dec 2025 08:40:18 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux Memory Management List <linux-mm@kvack.org>,
@@ -102,47 +104,48 @@ Cc: Sumit Semwal <sumit.semwal@linaro.org>,
 	Jilin Yuan <yuanjilin@cdjrlc.com>,
 	Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
 	George Anthony Vernon <contact@gvernon.com>
-Subject: [PATCH mm-hotfixes 0/4] mm kernel-doc fixes
-Date: Fri, 19 Dec 2025 08:40:03 +0700
-Message-ID: <20251219014006.16328-2-bagasdotme@gmail.com>
+Subject: [PATCH mm-hotfixes 1/4] mm: Describe @flags parameter in memalloc_flags_save()
+Date: Fri, 19 Dec 2025 08:40:04 +0700
+Message-ID: <20251219014006.16328-3-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20251219014006.16328-2-bagasdotme@gmail.com>
+References: <20251219014006.16328-2-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1015; i=bagasdotme@gmail.com; s=Zp7juWIhw0R1; h=from:subject; bh=RJRIAcyQjDA0Y8yZ/8Tu6N5h+KfYiqNdzVSLTNcjx6Q=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJkuq+f5OYcHL0jrEuTKWuQ97emSvy6qUm0BRWeMGLrcl J5vdHXqKGVhEONikBVTZJmUyNd0epeRyIX2tY4wc1iZQIYwcHEKwESybBn+Gdbv7z63/Pnd28sP njM2YHx0zOL4JEkuEzeHcytM7BWSJjAy7D8We+uuyDHrtsBjHzMXb9rMJcEdymbdyWQWkGkSsmk BCwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1052; i=bagasdotme@gmail.com; s=Zp7juWIhw0R1; h=from:subject; bh=eU57T2ZpTrhAT3InMTPZqCoWbG3clhbzONj6eMsT294=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDJkuqxfNrogMCI4/WrDUaoO+3RymE3bV6Q+sNzRe2pcud Lf809ZTHaUsDGJcDLJiiiyTEvmaTu8yErnQvtYRZg4rE8gQBi5OAZiInxTDf4cMXcuuCb+M7mxc JlueWqmSuHnp9SdZCbMLqzXbzJpYIhkZLuu3a+wR9BT+vXnhUY+bUZ9Zb5hPXcn0objE7/XDOj0 HJgA=
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 
-Hi,
+Sphinx reports kernel-doc warning:
 
-Here are kernel-doc fixes for mm subsystem, based on mm-hotfixes-unstable
-branch. This series is split from previous assorted kernel-doc fixes series
-[1] with review trailers applied.
+WARNING: ./include/linux/sched/mm.h:332 function parameter 'flags' not described in 'memalloc_flags_save'
 
-I'm also including textsearch fix since there's currently no maintainer
-for include/linux/textsearch.h (get_maintainer.pl only shows LKML).
+Describe @flags to fix it.
 
-Enjoy!
+Fixes: 3f6d5e6a468d02 ("mm: introduce memalloc_flags_{save,restore}")
+Acked-by: David Hildenbrand (Red Hat) <david@kernel.org>
+Acked-by: Harry Yoo <harry.yoo@oracle.com>
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ include/linux/sched/mm.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-[1]: https://lore.kernel.org/linux-fsdevel/20251215113903.46555-1-bagasdotme@gmail.com/
-
-Bagas Sanjaya (4):
-  mm: Describe @flags parameter in memalloc_flags_save()
-  textsearch: Describe @list member in ts_ops search
-  mm: vmalloc: Fix up vrealloc_node_align() kernel-doc macro name
-  mm, kfence: Describe @slab parameter in __kfence_obj_info()
-
- include/linux/kfence.h     | 1 +
- include/linux/sched/mm.h   | 1 +
- include/linux/textsearch.h | 1 +
- mm/vmalloc.c               | 2 +-
- 4 files changed, 4 insertions(+), 1 deletion(-)
-
-
-base-commit: 980dbceadd50af9437257d8095d4a3606818e8c4
+diff --git a/include/linux/sched/mm.h b/include/linux/sched/mm.h
+index 0e1d73955fa511..95d0040df58413 100644
+--- a/include/linux/sched/mm.h
++++ b/include/linux/sched/mm.h
+@@ -325,6 +325,7 @@ static inline void might_alloc(gfp_t gfp_mask)
+ 
+ /**
+  * memalloc_flags_save - Add a PF_* flag to current->flags, save old value
++ * @flags: Flags to add.
+  *
+  * This allows PF_* flags to be conveniently added, irrespective of current
+  * value, and then the old version restored with memalloc_flags_restore().
 -- 
 An old man doll... just what I always wanted! - Clara
 
