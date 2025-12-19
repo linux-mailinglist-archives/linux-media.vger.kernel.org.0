@@ -1,99 +1,106 @@
-Return-Path: <linux-media+bounces-49170-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49171-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E89DCCFE5E
-	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 13:53:13 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9AD4CCFDFE
+	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 13:47:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9633730E59AB
-	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 12:45:28 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 129193050D10
+	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 12:45:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F16A32573C;
-	Fri, 19 Dec 2025 12:44:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB84E339873;
+	Fri, 19 Dec 2025 12:45:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TTmHsRZX"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eQpkga8O"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CAA1325496
-	for <linux-media@vger.kernel.org>; Fri, 19 Dec 2025 12:44:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EA4C334C34
+	for <linux-media@vger.kernel.org>; Fri, 19 Dec 2025 12:45:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766148253; cv=none; b=H1yND1btrLSMgBszwWBUQFYS4pBKxrvyAAz/rWfOEzJmvdVJlWnD+Qjf+TftRYV68qRnO4Gv8x3PHcwj4nyChQO1vkIBx3fBvmE6HpVA4YvCt87yzdER+blNOyMPVmQb+FWN88qa6JGQLYjSUoQi07S9VNeZa+TXvOaaCWxYkro=
+	t=1766148351; cv=none; b=ATBhDEwuJmwi8BUlgatzqd58YtC6bYODaFzguMM9bN8vT5tqZjqcC/EjU6aIQs/sObwd9v+LSXid9HaqBRECt7/tj7G4DlQZx03dCDau97AE80mH+azqvlIkbmsOEVv5Koieooowo//3oitxfyabEt2hMyHG3Ok63qzyBHhhVkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766148253; c=relaxed/simple;
-	bh=GPZuwoozuAGjv9w0ymSfsuTZftLR4oDKUlvOpzKbWMY=;
+	s=arc-20240116; t=1766148351; c=relaxed/simple;
+	bh=rSL621rykIUEPUs9lqTSuM839KvPGrjZGBWPyNzT8tY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YUWsUvFW1rLVYGS2iGqYwuQXVEFL3ldCCewxHmuStgBeZ5ECke3NNt9ZXj+WLikxl74qGdM/ICd0VIuLN+rXcs0eCeQBeSYow4/7cP0/j+isGPZrWYowONtBF3fTES42SAYrracPgHJokj1PEUp82WVu1D14P7lhMRC9DDQlk7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TTmHsRZX; arc=none smtp.client-ip=209.85.221.66
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bcj2WnlrubDPRED4ZFlWY3Nksog+iNdmLNW5T71kF/GCifHVmQhaT/P90WDchd8Cs5q0Usc1A9DLJ+X65SH0ttKGCGMVJdgbVwyy2zJvXu3rOUKa6n/1GSBJHB0eD5vOCNql/ms5Fula3ZVxVPO8xr6JDUuraHIA89Vg9qTWRrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eQpkga8O; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f66.google.com with SMTP id ffacd0b85a97d-42f9ece6387so619196f8f.0
-        for <linux-media@vger.kernel.org>; Fri, 19 Dec 2025 04:44:11 -0800 (PST)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-477632d9326so10781895e9.1
+        for <linux-media@vger.kernel.org>; Fri, 19 Dec 2025 04:45:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1766148250; x=1766753050; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1766148346; x=1766753146; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=zqJodAAexbDXbzG4ziuX+RHvdrWJghAK+tfZzJOfXvE=;
-        b=TTmHsRZXPGUgJxj8hgN+4+IOD7HK1pQRi72gZFBcbGIHIoaWt+b0M8ztEVs4HWnaK6
-         sKoNjjXyAiq2fPwkQCrSOLHfoKFEMcygsKeIAxoQjocci+rCEFHFHSU2JBb012wDbUoB
-         Kc/0FYKlHXoq7dPmhIa5n0J7mZ4GQlmUwdwGZ+e31oHKv4fxSPP/fHHELL8HUARZ108o
-         LbsBX+hFnWvXiQPnG2UdTarWSg5dZqe61ULWjZQMzaJl04aDa/+ucQXprbJhcCpWExLA
-         uAFU7HnQ5X7yxPFg33tSafjUKXPh0TEelj7IJDsvASVjgumur08JiIuAMUQBhLX7tW5e
-         mFvQ==
+        bh=ReSbGlU8XRlW0YyM9RKHmUTpdJ2dyefmPFjmWe9yo0c=;
+        b=eQpkga8O1WWXNCP4aoXHqCIbJ7gVwsSLHneGuSdfbPjlLtZGuQrLS1bk5ZO3JadWQ7
+         CLmK8PjcYTDB+DI/KHO3qEwwZPmBq5T1rClsOdv0l48G1b6CLpm96i9ZYU6lnCwOxSGD
+         GuhfxmmDP4uLBgDPZ4BQSdRTDZCzRQ6u0YH6Dv7uxhDMuy+8+aUZp4bipKlgDp6ya8qV
+         slcYmam0D2aCKLp4J3yafWj8gNzDdvNghzyqQOka7rkjC4E/1hnLSRu04tNBZ+n3OeAA
+         BuD11SK3744bzAQir9MOzWRcoZ8mzVh0vb0DMHM5HUVDfEZZuq+AyzTKydtrvlksOouV
+         eJlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766148250; x=1766753050;
+        d=1e100.net; s=20230601; t=1766148346; x=1766753146;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zqJodAAexbDXbzG4ziuX+RHvdrWJghAK+tfZzJOfXvE=;
-        b=puWI+AIYMR/LwcOVaIR71VIGq/KXJdj11U+wts3RnrjYDIYWNk6ZtoGkXxmupGk82/
-         ErrgGqPr47JLjii8EtaX4wmgXQlHfbsF3Udf3hVs/uH64qPK8vaKQIlDymQtn3bn7CpY
-         sIdeuJnfegynANXG5m44jjsydBNk6iZmloVE2Q8HyPrnRMnlzONFPEpRs7OifGjOFNSB
-         rRFo/Qp+bnSwKISiwV3tXHaFOGMLG8OgL2585K7b+bgNsFKBYL2XD9zACcZm1Sw+r32u
-         aZcItWAA/TjI/eZMQ+I2LTTYWngfljpyP5CIVTnJZfio94yV3+p6mv2YWMq7vHq2JvzS
-         kp8A==
-X-Forwarded-Encrypted: i=1; AJvYcCVDfjMfS8/prKUHOutXxh391G54RjxRkn30Y0qtbcB+y9u5YRD8dpBfqD0h87RJ1eOXvtsthjgX1WLRtQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywi3Hb5uGXHJ/pGFi2/UVUzoqo8qsfVNsUPiDz3nyuysjZSzUp/
-	a2QY9CYTpfaAoDgL0T1dluVdnulF6x0Y34PpsfW8wN2VyRQrVjOYz4dlbzngAGfJPEg=
-X-Gm-Gg: AY/fxX7WdZHfEwOIIDq+nJDd+m6JsMoPj+yh3Rm0PGBqcbLFh7OgcNNvoDR/6chZdrR
-	Q/d5eN/66rm54yqvE7bkeDplXKZDeMcmNle98X6F/mvhf0SFzMZSCK2bJJBby/30DGDdeRiwVX7
-	aOauEuSdCZ5tfgC3+7E3UM3gQVyNOhZWh0OwOnNeym8T7vJpdeGbSO88Onq3JpO4BjE1MiUvUoy
-	1cbBlNvST75o9fTqXcJR0VoJt+RyTnkYIQJSSYXjRcL6Tzw3FHTNcxjfvBZvu1BrypWyah0V8wO
-	e0WJIYeakcXcXkxwj2fOD4G96TPYP8x3aA3WGU9fofve0BeDaSl+pEmvJBZBijM4e0rrDpB+M0M
-	g/MBd8gU33+SJdZzutnxfOCU8oG4EfhuNWqWM7vQipihP7vVjtz4xc0ByZ90yIxOlkxqNh1ijYQ
-	EDgyQgPNuGu+zfsiSE
-X-Google-Smtp-Source: AGHT+IGG+wVBFX9Lbyf5X5m7oA1PcjdwjHnK15w70nggTuAbT2I1hgnSsU2lA7AlrqPTLo9GEXlYag==
-X-Received: by 2002:a05:6000:220e:b0:430:fc63:8c1 with SMTP id ffacd0b85a97d-4324e4c9e4emr2999115f8f.18.1766148250366;
-        Fri, 19 Dec 2025 04:44:10 -0800 (PST)
+        bh=ReSbGlU8XRlW0YyM9RKHmUTpdJ2dyefmPFjmWe9yo0c=;
+        b=DCbl3Jeej7mUIYCNWPVpYT9baZVzGj1arPq1a2WLeyo2PMO86/Vn1t5Hlk7cXLrIHL
+         CRw3Lwz7qWhObDEiMghnC8pHJqFOhL7Dql3iiirB6Ja2fmGcZGvCrlti5yAwhhY5/wRR
+         eac6HEyjgxSf9GqwDAtbc/GlMkKe5X0taW5N4f8FKOL/bAx4pmoELjYKE0mXRdJlJNgX
+         DtRcgmR5Ikd+Ubv7SR6qTbwxyjrUqscCWPPGuRfPX10Y68uEftYCaJyXqxTF4qjUCB8H
+         ip+sSxQNXvKFnuL675XAu6rfD9VCjudmZ0ZlSCxVzLIxYJ2UQQlCk0tsCTMpHSJd9+Cf
+         QjaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWF2gz0rKVnPhg1CSs5sNCZcoY9+A0fV39dP5XGMG4dM0YgH4AG5DhODMNmj7/nFIDus5f/S0WzVAtkAg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyPYi7YqyKrAqfo4NTaNa1YMEwdLbYMufcE3J+P7oQ9hl/5R5Rr
+	ETqrdnKm70bDSslxjjxhQ4DpVwGAtgPBnAacznO1GRRurL2K3WDAdpf3MffhoxPddlM=
+X-Gm-Gg: AY/fxX4zGb+YMaCy/SG+6Ufk9h/NFXcwPBLbsq+xl/AQONNfgPZ/Hcn0fjqG3yqFNLk
+	BIxRnr9AExYViHwRhYnt8yWI35i0UezWtsPlNjkQDDZV/9llsI/F4oIPpqGAj3iyeZOqjLmSDBL
+	u3nfeg7MhnggYTg3Fi0S6hXFkbj6dOXEMHj8T27q8rOMMtC6ejx8JAscQj+zyQgiHBJrKNOa37/
+	kWqGDH0DcgzcM9bZs9aS7KSmFYcM4uMsYA9SdPoGq6ZlP32UGPCfk/kv4woVUP3PqefsR0917vX
+	UO0t740OEEYhJG3BC+eddUl6DbCsCbqbuS25tdDipUvHP183fsDFL5c9YX5dmzMNTkAH89mONBW
+	OoA+0dE4UFWzSesZdsRjVZ4QvcxX8KOB47vziSsfpvZEPD4qXBr3npUNgT5blnAHxXUBw8oIgHn
+	TAXS4X8+/yKnay8uJ7
+X-Google-Smtp-Source: AGHT+IETZ0G01z1cE7qdPgY5yrMZkHUa63bk9+h/z7utiQB+7f6R6xnjXPBJ2pNhG2GNw9+omqfAPg==
+X-Received: by 2002:a05:6000:1861:b0:430:fa9a:74d with SMTP id ffacd0b85a97d-4324e4ca445mr3427880f8f.24.1766148345817;
+        Fri, 19 Dec 2025 04:45:45 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324ea225fcsm4983162f8f.16.2025.12.19.04.44.09
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324ea1aef7sm4702525f8f.7.2025.12.19.04.45.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Dec 2025 04:44:09 -0800 (PST)
-Date: Fri, 19 Dec 2025 15:44:06 +0300
+        Fri, 19 Dec 2025 04:45:45 -0800 (PST)
+Date: Fri, 19 Dec 2025 15:45:42 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Matthieu Baerts <matttbe@kernel.org>
-Cc: Kees Cook <kees@kernel.org>, Rusty Russell <rusty@rustcorp.com.au>,
+To: Daniel Gomez <da.gomez@kernel.org>
+Cc: Sami Tolvanen <samitolvanen@google.com>,
+	"Luck, Tony" <tony.luck@intel.com>, Chris Li <sparse@chrisli.org>,
+	Eric Biggers <ebiggers@kernel.org>, Kees Cook <kees@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Rusty Russell <rusty@rustcorp.com.au>,
 	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	linux-modules@vger.kernel.org,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	"linux-modules@vger.kernel.org" <linux-modules@vger.kernel.org>,
 	Malcolm Priestley <tvboxspy@gmail.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Hans Verkuil <hverkuil@kernel.org>,
 	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	Luis Chamberlain <mcgrof@kernel.org>, Chris Li <sparse@chrisli.org>,
-	linux-sparse@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] module: Add compile-time check for embedded NUL
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>
+Subject: Re: [PATCH 3/3] module: Add compile-time check for embedded NUL
  characters
-Message-ID: <aUVIlvOSvobrdrKV@stanley.mountain>
-References: <20251010030348.it.784-kees@kernel.org>
- <20251010030610.3032147-3-kees@kernel.org>
- <47a2f0c7-c25f-4734-840b-fdefc2f3c4a9@kernel.org>
+Message-ID: <aUVI9smf2t7PvDF6@stanley.mountain>
+References: <20251209001139.GA7982@quark>
+ <d3dd8fc8-ab46-4cf1-87a9-0324685ba2e0@kernel.org>
+ <SJ1PR11MB6083C6D97484ED4E4710268EFCA3A@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <aThSGiKwJRYOB6kx@agluck-desk3>
+ <aThqcq0iGge1pQCr@agluck-desk3>
+ <20251210010020.GA2522829@google.com>
+ <aTn0WdVv-S_EpQmS@agluck-desk3>
+ <aTqAxfiVCR2ch4I5@stanley.mountain>
+ <CABCJKufWw4VQA_k6Deuf5Bn6401cbYv_St8VV_0-LAau6F0nTw@mail.gmail.com>
+ <083ebd92-4b3f-47f8-bf0f-395a604b5f05@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -102,20 +109,22 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <47a2f0c7-c25f-4734-840b-fdefc2f3c4a9@kernel.org>
+In-Reply-To: <083ebd92-4b3f-47f8-bf0f-395a604b5f05@kernel.org>
 
-On Fri, Dec 19, 2025 at 01:29:21PM +0100, Matthieu Baerts wrote:
-> net/mptcp/crypto_test.c:72:1: error: bad integer constant expression
-> net/mptcp/crypto_test.c:72:1: error: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
-> net/mptcp/crypto_test.c:73:1: error: bad integer constant expression
-> net/mptcp/crypto_test.c:73:1: error: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+On Fri, Dec 12, 2025 at 02:30:48AM +0900, Daniel Gomez wrote:
+> Maybe the flag fix just needs to be applied to the evaluation? Other op
+> structs do the same. But Dan's patch did not implement evaluate. E.g.:
+> 
+> static struct symbol_op constant_p_op = {
+> 	.evaluate = evaluate_to_int_const_expr,
+> 	.expand = expand_constant_p
+> };
+> 
 
-There was a fix for that posted.  Let me ping them to see if anyone is
-planning to send an actual patch.
+I was waiting for you to send this as a patch.  I can do it if you
+need me to.
 
-https://lore.kernel.org/all/20251211175101.GA3405942@google.com/
-
-regards
+regards,
 dan carpenter
 
 
