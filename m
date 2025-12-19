@@ -1,44 +1,44 @@
-Return-Path: <linux-media+bounces-49160-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49161-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 722F9CCFBAF
-	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 13:15:44 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4289DCCFC77
+	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 13:27:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id EA5BC301934E
-	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 12:15:16 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9F90D3064795
+	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 12:25:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F38F338925;
-	Fri, 19 Dec 2025 12:15:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E5A333FE20;
+	Fri, 19 Dec 2025 12:25:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GZI+KIIM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kDXoTy4J"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCEA6335574;
-	Fri, 19 Dec 2025 12:15:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A60332ED51;
+	Fri, 19 Dec 2025 12:25:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766146514; cv=none; b=QFADyAJZInxD0zahsoMX3MrkIO2ZLLVJOC9VPeq3ihO+DUvf6M2enp7r0xHw5Wpx0HcXsau0foI4ciddUkC0g7kEzyUZSDNF5fNG1IX4pYBcyIBnHU0O/YwdN7AnuF0YM9RzF3xfDYtaiobTHkm64CeQNOYPmP95bKtcep+JYbU=
+	t=1766147116; cv=none; b=l/aL5O5Ph/bzbhi+e228UvrYLUsFcWEELvZPkr8OMhB67TXMJScgbJgJPWV+o6mhHy1XuOK7pNh4ixH2XTwliVFQNBVaS8t721R8g22BL3tCyUqN+WKeMlOPDKLeKwfsFRM2ha3dbph7bwCw1C0inWL41ZhGTaqn8unSfduzNvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766146514; c=relaxed/simple;
-	bh=zr3MOIdRIiLo5rQVA/Ls8ftqQmh9k+HKygN/fGUhHUM=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=VBMo9x79vxWFL9SVZSAwjZjdb10ajk3HnKgy1eqkQm673T1HvmrwAcD0KTGYgJi4r71LXPYdbII0JAaqIvzClA7HGtczHQM4ncpDKEunTvxzEAWSulvWXEGvxJm4MhQIAkXPTMjaml4NapN1lsACt2S6uPXT7W/fSbZ1ZQkl78A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GZI+KIIM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A36E2C4CEF1;
-	Fri, 19 Dec 2025 12:15:06 +0000 (UTC)
+	s=arc-20240116; t=1766147116; c=relaxed/simple;
+	bh=IKABffyNvPjVM+RzIL5ZAgHEXRXD7t+eDtpJ1JycBW0=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
+	 References:In-Reply-To; b=OZVBLsaa3DbuXAy/g1S+4GT+AMsKWcIqgEz8wjzVdIO0Qgimc6vYN0WNC0ouvVi5oNN/s8nsXd4RqDLgYu+ir/Q+wvI25ej5NRd1nJc3p1O6SjtsvNW1c9tAjlcgMd1Q2R76fmVyFHQ/+tLcmvCCBD9KSPJp5zFhalHFHmp8ZUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kDXoTy4J; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DEE8C4CEF1;
+	Fri, 19 Dec 2025 12:25:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766146514;
-	bh=zr3MOIdRIiLo5rQVA/Ls8ftqQmh9k+HKygN/fGUhHUM=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=GZI+KIIMKdrldmwo7anW9rvr4aLsQBZAC9pHRgRsTbVfoUDi8BU6ovBSAJYDNojJh
-	 4AYAUZonScKOOogC43EkXDdgB04ocA8/I5WdYaWRnXC8I6s6hlfcjVZrZOmk0glcjQ
-	 iPgk0U6tK4L20VCTNJbufSlESIsU620vyTVv/beEcIAlqx1m/rD8o2RM228EyXbNiZ
-	 SDBQgev8wOx9x0nh0FR1geOg+/5LPLtX1dOYq7Sevx09h/yPEn8K5XoCwW9UwIVKHl
-	 fuKOEaTs33EyjO4TMdIoTR0BvTGHRMJrgHgQ1rHBQT/rIyqGZzr+qbMfvwOcuHZHyT
-	 GmcaQve3a1qGg==
+	s=k20201202; t=1766147115;
+	bh=IKABffyNvPjVM+RzIL5ZAgHEXRXD7t+eDtpJ1JycBW0=;
+	h=Date:To:From:Subject:Cc:References:In-Reply-To:From;
+	b=kDXoTy4JgoCQtYGg5/UHAbHNxZs3nuql9kLRBlRL08h4OgY6WohVAyq+6n5wjjjN4
+	 ZZ7BAsk+IxUf1OAJjfMLqsezJMiZTEDLMokOj+3p+oBqXBpbXSgX/PHtilfEzw0blp
+	 hI2uxR66pgVguorKq8YwmkyNG+YJG6ntsL7+PVOPC7iiav7mLXlrZCEYPzpNzwglj3
+	 LtPOVO5vSqBa06DClUFoH9b/rDV+mK9q3/3hxSbYNNEaKu+VQftOBZpinqYnnaPBwT
+	 5O4vVWnTHYIEwcwdw47DpyJQ2jk04fUUqn/U+WPbVnna0WAAaaMD7NYx91omtEqNg+
+	 CM2oilI8Y6E0g==
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -47,10 +47,12 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 19 Dec 2025 13:15:04 +0100
-Message-Id: <DF26ONGZ03KH.31FVI22UBGJFX@kernel.org>
-Subject: Re: [PATCH 1/4] drm/gpuvm: take GEM lock inside
- drm_gpuvm_bo_obtain_prealloc()
+Date: Fri, 19 Dec 2025 13:25:05 +0100
+Message-Id: <DF26WBIDPMPU.3E6XTUPMZTHW1@kernel.org>
+To: "Alice Ryhl" <aliceryhl@google.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH 2/4] drm/gpuvm: drm_gpuvm_bo_obtain() requires lock and
+ staged mode
 Cc: "Daniel Almeida" <daniel.almeida@collabora.com>, "Matthew Brost"
  <matthew.brost@intel.com>, =?utf-8?q?Thomas_Hellstr=C3=B6m?=
  <thomas.hellstrom@linux.intel.com>, "Maarten Lankhorst"
@@ -76,32 +78,33 @@ Cc: "Daniel Almeida" <daniel.almeida@collabora.com>, "Matthew Brost"
  <freedreno@lists.freedesktop.org>, <nouveau@lists.freedesktop.org>,
  <intel-xe@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
  <linaro-mm-sig@lists.linaro.org>
-To: "Alice Ryhl" <aliceryhl@google.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
 References: <20251128-gpuvm-rust-v1-0-ebf66bf234e0@google.com>
- <20251128-gpuvm-rust-v1-1-ebf66bf234e0@google.com>
-In-Reply-To: <20251128-gpuvm-rust-v1-1-ebf66bf234e0@google.com>
+ <20251128-gpuvm-rust-v1-2-ebf66bf234e0@google.com>
+In-Reply-To: <20251128-gpuvm-rust-v1-2-ebf66bf234e0@google.com>
 
 On Fri Nov 28, 2025 at 3:14 PM CET, Alice Ryhl wrote:
-> +static void
-> +drm_gpuvm_bo_destroy_not_in_lists(struct drm_gpuvm_bo *vm_bo)
-> +{
-> +	struct drm_gpuvm *gpuvm =3D vm_bo->vm;
-> +	const struct drm_gpuvm_ops *ops =3D gpuvm->ops;
-> +	struct drm_gem_object *obj =3D vm_bo->obj;
-> +
-> +	if (ops && ops->vm_bo_free)
-> +		ops->vm_bo_free(vm_bo);
-> +	else
-> +		kfree(vm_bo);
-> +
-> +	drm_gpuvm_put(gpuvm);
-> +	drm_gem_object_put(obj);
-> +}
+> In the previous commit we updated drm_gpuvm_bo_obtain_prealloc() to take
+> locks internally, which means that it's only usable in immediate mode.
+> In this commit, we notice that drm_gpuvm_bo_obtain() requires you to use
+> staged mode. This means that we now have one variant of obtain for each
+> mode you might use gpuvm in.
+>
+> To reflect this information, we add a warning about using it in
+> immediate mode, and to make the distinction clearer we rename the method
+> with a _locked() suffix so that it's clear that it requires the caller
+> to take the locks.
+>
+> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 
-I think to us it seems obvious, but I think for new people it might not be.=
- Can
-you please add a comment that mentions that this is about the evict and ext=
-obj
-lists and explains how this is related to locking?
+Ultimately, the two different approaches of obtaining a VM_BO have always b=
+een
+desinged for the two different modes of operation -- great to see this refi=
+ned!
+
+Given that, I think it would be great to update the "Locking" section of th=
+e
+GPUVM's documentation and expand it with a new section "Modes of Operation"=
+.
+
+Mind sending a follow-up patch / series for this?
 
