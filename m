@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-49213-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49214-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 603F3CD14FC
-	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 19:12:45 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 571C6CD146F
+	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 19:03:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 92FAD30DA462
-	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 18:07:28 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 351EA307CA38
+	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 18:01:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BB9434EF05;
-	Fri, 19 Dec 2025 17:59:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3872435581F;
+	Fri, 19 Dec 2025 18:01:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b/3ccyM4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WvxE4844"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38CD34E765;
-	Fri, 19 Dec 2025 17:59:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D75334D4EF;
+	Fri, 19 Dec 2025 18:01:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766167144; cv=none; b=NB06JnFV6mGm6jtj44bPYulW5lhNl3oRPhnxEIyODa72Ps+uUDHANwZoX8iMt3sozkjuM1OQ1ZPpI3lV566+LJXM8QlbYZS2AReeW+cJUTUrO/EvPLkRz3SshPgJ5Q5+njZ1iTWKoFWNymbbE/AldQWkHmY8/gjxSRSV4CrTG8M=
+	t=1766167293; cv=none; b=IcRxGjGFJ7AemsXGa7gTuvpqrm3U3W47w95xuYYg4FK3luTebIb2BStVbS/4MQnJpp9ek4Tpf3FzVnn5mXwOEJ+TDXgbZNMnhFUCN19JPdhupBYh2ElN5rsBra6kN0DhSxY6gCif02BTkrvSdVO8zs6cboAAua7Lx7X9ANcGdG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766167144; c=relaxed/simple;
-	bh=BgII/XIC7/UdrP/Cy9XhWkO3ox0hyDHgmK6J3w+u4qs=;
+	s=arc-20240116; t=1766167293; c=relaxed/simple;
+	bh=nqmDk6eAUsicISzYe8K9vWPytCSh3GqQwn2ArGVXx4w=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mDqUShnHVfsisZFVyLN1fvIGH5dkbY4m4FKO02tPcAA6cohV8IzHKRz4u5eavXcG3OmUo+FbD858NPnqgnwoT0NkBelkaLtkdiOQyjXc9o9EiW3TkCynM+L3rajGl7BIHKQIAzIladFlETr8V55b6YnVWnr60VU5oN1/Tk+rKxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b/3ccyM4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98702C4CEF1;
-	Fri, 19 Dec 2025 17:58:58 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=WgCsYi/CQTvqBhO44dk3uQ6WSMF3l2mzUe3l9jQKhqSW+i8O8QheF67Lg46KTgnk4eusDCjgw22Xxxp0jnEFsedI1d2V2uAQ2uS0Ojc4BMo9CjOOtQqMiqK/v/yc/LvrWNCWREEHhrK8gSIj1zljHQuyfjD2eUPOmsTUCofZY78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WvxE4844; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8163C4CEF1;
+	Fri, 19 Dec 2025 18:01:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766167144;
-	bh=BgII/XIC7/UdrP/Cy9XhWkO3ox0hyDHgmK6J3w+u4qs=;
+	s=k20201202; t=1766167293;
+	bh=nqmDk6eAUsicISzYe8K9vWPytCSh3GqQwn2ArGVXx4w=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=b/3ccyM4GiY04OLIXnc4xyrPjADlUQlglPW7Xz3BLT97XPAA8nncOkKhQHV/CD6Hv
-	 eKwnmYlMIwCQlXq8E0YkYvqvDNYIT+p228HwW/5q7OPI4q1IQaVYE3n5hColhD1X6B
-	 mGfCttW9QrP54CBTlUV85xkeb6VWHH/KsdKVWyTCHe0/mQgEw0r1cAA1Rf/wS/MNEH
-	 CSdl1iAGhK5kOq/BmIbiLzCG8OJXFlSKIr+34GRfPkza7ltHZ7IZWCmA7L/Oq+eOyX
-	 V0C28WyYyEebp59SavAV7sO6usf+j0b9v4LcfL/JLIAPq67Zy+t00GxyIMJOfC4969
-	 I2o87KuMnD7Sg==
-Message-ID: <72c8f3bd-03c2-46df-a28b-65b7fbfd2095@kernel.org>
-Date: Fri, 19 Dec 2025 18:58:56 +0100
+	b=WvxE4844RSDZp5As9kDdxiurQAkCeMVgRgbchxVwsNE2Uk06o5JuI/nhczKq2tN0T
+	 V+b4WHSs5HKB3ZzDoYa4U4oJ07eMmnr0AGEjPuertdxxoGl/TeJd2CHEeUjpdycPrS
+	 XmN5n7CB/TmrPF8n57BmC25wdZhK+QKmUiqnn7WR0ARz3jh/bLDSwSD5IAaJFrCZq+
+	 XuaQlb2jhYEn8B2Qrz+dMhpd/lQHJon1HqXS4Ct+RQCFOHQ6DLg1LhlhMFRkVwZfTq
+	 lN76LBGENnhBTE8lyuGpKQGSR20hhqeYxVQ2n2GJCdabYtU8leULXBjJNGkoZWXN1q
+	 OLz7Gq1kxM90A==
+Message-ID: <4abb5e3c-42a3-4d89-a663-df224f7191cc@kernel.org>
+Date: Fri, 19 Dec 2025 19:01:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -48,22 +48,15 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] media: dt-bindings: Add CSI Pixel Formatter DT
- bindings
-To: Guoniu Zhou <guoniu.zhou@oss.nxp.com>,
+Subject: Re: [PATCH v3 1/2] dt-bindings: media: i2c: Add ov2732 image sensor
+To: Walter Werner Schneider <contact@schnwalter.eu>,
+ linux-media@vger.kernel.org, Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Frank Li <frank.li@nxp.com>
-Cc: imx@lists.linux.dev, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, Guoniu Zhou <guoniu.zhou@nxp.com>
-References: <20251219-csi_formatter-v3-0-8680d6d87091@nxp.com>
- <20251219-csi_formatter-v3-1-8680d6d87091@nxp.com>
+ <conor+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20251219-ov2732-driver-v3-0-579d175e929e@schnwalter.eu>
+ <20251219-ov2732-driver-v3-1-579d175e929e@schnwalter.eu>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -109,21 +102,41 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251219-csi_formatter-v3-1-8680d6d87091@nxp.com>
+In-Reply-To: <20251219-ov2732-driver-v3-1-579d175e929e@schnwalter.eu>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 19/12/2025 02:50, Guoniu Zhou wrote:
-> From: Guoniu Zhou <guoniu.zhou@nxp.com>
+On 19/12/2025 15:08, Walter Werner Schneider wrote:
+> Add bindings for OmniVision OV2732 image sensor.
 > 
-> The i.MX9 CSI pixel formatting module uses packet info, pixel and
-> non-pixel data from the CSI-2 host controller and reformat them to
-> match Pixel Link(PL) definition.
-> 
-> Signed-off-by: Guoniu Zhou <guoniu.zhou@nxp.com>
+> Signed-off-by: Walter Werner Schneider <contact@schnwalter.eu>
+> ---
+>  .../devicetree/bindings/media/i2c/ovti,ov2732.yaml | 108 +++++++++++++++++++++
+>  MAINTAINERS                                        |   6 ++
+>  2 files changed, 114 insertions(+)
 
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+
+
+<form letter>
+This is an automated instruction, just in case, because many review tags
+are being ignored. If you know the process, just skip it entirely
+(please do not feel offended by me posting it here - no bad intentions
+intended, no patronizing, I just want to avoid wasted efforts). If you
+do not know the process, here is a short explanation:
+
+Please add Acked-by/Reviewed-by/Tested-by tags when posting new versions
+of patchset, under or above your Signed-off-by tag, unless patch changed
+significantly (e.g. new properties added to the DT bindings). Tag is
+"received", when provided in a message replied to you on the mailing
+list. Tools like b4 can help here ('b4 trailers -u ...'). However,
+there's no need to repost patches *only* to add the tags. The upstream
+maintainer will do that for tags received on the version they apply.
+
+Full context and explanation:
+https://elixir.bootlin.com/linux/v6.15/source/Documentation/process/submitting-patches.rst#L591
+</form letter>
 
 Best regards,
 Krzysztof
