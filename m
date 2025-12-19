@@ -1,275 +1,206 @@
-Return-Path: <linux-media+bounces-49173-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49175-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA662CD01DF
-	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 14:51:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03183CD01EE
+	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 14:52:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8633A306C2C6
-	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 13:51:01 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CCFF330A5E3C
+	for <lists+linux-media@lfdr.de>; Fri, 19 Dec 2025 13:51:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 933D5324B1F;
-	Fri, 19 Dec 2025 13:51:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69B16325714;
+	Fri, 19 Dec 2025 13:51:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="tYUcVGFo"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XY2orDqC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013001.outbound.protection.outlook.com [40.93.201.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C4C02D29B7;
-	Fri, 19 Dec 2025 13:50:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.1
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766152259; cv=fail; b=bI5sySSRP3yl8I1LmI81ZHPckUOnOxGoBZ9BGRA3CrINLLrPYEqywuUmBbREj/AelqCFBdxEK/drgOIqFUYn8Pal+bvsbqQgzhV1bIeFudufkYVE4ZoVxS3DtrsEBh9+Fo5rsZtf7tgYKScwLuP0fEfT61LcYcfydsfKhmJsW7E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766152259; c=relaxed/simple;
-	bh=xe2GYcM711sOo8whvVcZ6nZ4YQH8Z+yFL43Cez7nLko=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Cx/DMHpqrd7IBTOksiRF1xbYGF8h/AbhrRzPHpEMruOn7JQXggoH5+5CJtZpvZzR0JKxkg1c9BvlYopIZ5S3Ti9jAhhSozTuP8qPpf7Y9J4lnrDSDA3PPFftXsH+HVAa1HwdjLXqK1skwIuB9wPMdPbFUA1d6BFacWttM+y8nCo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=tYUcVGFo; arc=fail smtp.client-ip=40.93.201.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Rpt55L1s1smHvdJBELrN+rXCgiscUq1fRsPZo1aCaAj1MW+Gu7FUPPFrVctxqBvljqiCtJ8mvWbCu7DdlcJKedo+IdXMrk4HOev5Y2RCtKoUnikjWK3GynsEEtOCtCpXT3ugntfCP/uZnNupQbY7w7o/nQjaxSFt5BNi3x1AK/+GHtIOTWLZOV1T84t/afcbwj9NH2EMPWccUa6L+VmiE4XLbTgs1T0nLf4z5PeptHUYzA5h+5D0APsXrEBTtwvtF00iPVDa3pFcYabk2CDiYEAouTJCtA8rcU2uRhZqaMpogDs1bTXovJLdK9cjSOkdGtQPKTiyrimoErYPox7MAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HffFPp18LcCJhtX+HWXS+oBG9ZPTU9zfsOPw8T3rak8=;
- b=UWTwb1WBbBdqGZ7cwJR4V3m1LfkSqKF3eGcmDDZ5Q+rYvw4HdzDTa2X1Asz9A5DPVb6ISqZQeBzc5UB/+uhTabMF9uK+ze+rj8NZ0iA7r7uuaU19GunVdfQN7T8xS70N/OfVUWLt86ukffFdb3fn54j/xqGzRpw50WC7DKC9tO9BeDn1u1qcxDDXsdNoowN64xI6mwP3cdqw5S7yZJRM16kOkvDu5aYPvLoxtUG0EqYHF23bxxdlurF6WMyMmsVLapJS9k9xd+X1N5BsCl/3oG7sd3IWtx6oOz+1Hj+WtEvOhK4BIloBNnzkiy7eo3ci+D9FIb/HKEKacxorL7imGg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HffFPp18LcCJhtX+HWXS+oBG9ZPTU9zfsOPw8T3rak8=;
- b=tYUcVGFo8WzCh8/wXHSuLcr26kHszebxDOE486G5kec4wmZyCyxWtxvrVJoZWxmVO5J8OvTx9/PlghPUZ2d/ikFKZ7gTSrnGMs908Drbquk80Dwa+DaVUx2cbrMXq9UgUH9F0VD9dY6THksxJwDjuD8KBcT4xNnWte+1bIafWBw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DS0PR12MB7770.namprd12.prod.outlook.com (2603:10b6:8:138::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.9; Fri, 19 Dec
- 2025 13:50:55 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9434.009; Fri, 19 Dec 2025
- 13:50:55 +0000
-Message-ID: <5eda1755-865c-4bb0-a1a0-a4e6dac5388c@amd.com>
-Date: Fri, 19 Dec 2025 14:50:50 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-buf: system_heap: account for system heap allocation
- in memcg
-To: Maxime Ripard <mripard@redhat.com>
-Cc: "T.J. Mercier" <tjmercier@google.com>, Eric Chanudet
- <echanude@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- "open list:MEMORY MANAGEMENT" <linux-mm@kvack.org>
-References: <20251211193106.755485-2-echanude@redhat.com>
- <CABdmKX2MPhw121ZG8V+f-XoOReUsCdmcug-cWDg=3WZcJ=NHHA@mail.gmail.com>
- <20251215-sepia-husky-of-eternity-ecf0ce@penduick>
- <07cdcce2-7724-4fe9-8032-258f6161e71d@amd.com>
- <20251215-garnet-cheetah-of-adventure-ca6fdc@penduick>
- <ef52d9e9-6abe-421a-98f8-f96353652e1e@amd.com>
- <20251219-large-daffy-monkey-74665d@houat>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20251219-large-daffy-monkey-74665d@houat>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YT4PR01CA0077.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:ff::22) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56D772DF140
+	for <linux-media@vger.kernel.org>; Fri, 19 Dec 2025 13:51:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1766152271; cv=none; b=Dy5SdJfBmUxYGStSVEEFRflYvrmUMtwFLwtCiYabzOkSoB9h+Rclfd0PK7deWTU1gCyR9xi3yxAULkdfkkPFyKw6xgIuNOcQdDNqjSv9/trV7o347OGnzfIV7H6hcvGKieYQeG7Wc8MRdfGavL3/O+OVQ6IIBQ2iF27POIBfup0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1766152271; c=relaxed/simple;
+	bh=zifKS0279SxPrQ+mfSbCon2mTPfxEvbsenFlUY4BnAQ=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=jzZ0tSXBGPFy+jkeyrePb66Ypgb1rhnmusJRvhiH+xIdfndfCm9EJCiS4pOlPlRwhqyebc3y0zFLbKvGcYDap34kl7QhKVs03MSLrOB2b2LkeS9boQW7pMisVTYjIjabcDrjrGu3q30pRq4M5GLdyM1wjLtzO1ZIOJleBnNUllo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XY2orDqC; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-64c893f3a94so288744a12.0
+        for <linux-media@vger.kernel.org>; Fri, 19 Dec 2025 05:51:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766152266; x=1766757066; darn=vger.kernel.org;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WVY0FTbz4AdN3t8EEt7ziV7biZCYpab1ixrilZdONsw=;
+        b=XY2orDqCNlkpYUoAO9/h9/7Q8WLKmUBpnsitimeHE1cDSUfclcY6s7IHYrIMUN9n2i
+         WDyMqShq5hJ639C4QZYp7tIu6RMXeThs/xHdUM3VwYZ/Vr7BNv1AInUZ41ZGl+X8tzwl
+         xofZ2Xim6vaEuvgCKjiByj9EVxDiKQ/lqV0EAEtUoTdonN6bgDIiuPJgb6LYNOVcl93s
+         bsD3DdZtW/ioUsB+KowCCixigeUrb0AaB4CQMOhvKADmRJhn0Zp79j7wcf/JsOv3gqgY
+         VZazDhn8ernXvKku2O4qbSZeuMGsx/5q/KUiXb8ea26vDruk/X5xgvgMXJCfG9b+IESq
+         6+wQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766152266; x=1766757066;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WVY0FTbz4AdN3t8EEt7ziV7biZCYpab1ixrilZdONsw=;
+        b=HOZ289G661RK8uENye79TYN42MjBoRRlL0n66aTu18IgXXBcQ03H5SIt7+1Pe5CWvh
+         IjyGNXgPltzVOusxpICss2zI6SsaOhUPK01rqDzqkiYD1deNZ5tRP9p9eHopLfpa8Lfh
+         a6cRkC0wnUBbjZu9Kv7HEIa7Xgg0QhR0K3mRSYCX/gBxkcZKvq7xnEl8JxhKKHYnxNZQ
+         dkKzs+1EwTeFSsIISJ+YibPaaPPF5e+7fGn1OJxjksRNEx3lju5HCUHzp6LAOe81rYrX
+         SqZsmQ42wMVJof6GMRZ9Zsi95R0cM3eyHdXzyKHnlpWeJnHOGQs/ROFIQs2M5KH9VZ7F
+         tmYA==
+X-Forwarded-Encrypted: i=1; AJvYcCXMGud6wxcG58tF4n85s7BAPbPhu7Lkhv4IcreUNqxxCvAXx3wqM+UD2gaAv9YjBgZbY28m5vtkpXwWZQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgNbP5J49e8feCndV5ROCOiknPVcT+Ut3zKJQlPfevSHMYCGnr
+	gj2smyFg8o0oA6wxX4kZM4FAqf4//sONeCh3suan5BTCQL8kW/OD7QhPtTN41A==
+X-Gm-Gg: AY/fxX5xiG1PScQ5b97avKvjvnZi7qvbEwOEYmIdRlonMkJfnVUU98nfNO1MA6wsNzH
+	fWGyvGN4Z+yqEZXNbxQ3ZhM1XU+LCtJxWHvhjRGtAtfOIGbUtVTUx4dhjCyvTjgthiEugmZ59Zf
+	o9bfStmGXIofz3Mhg2xKoBORIeP9tmb4MznU8s64MxExaCMEeYBJTkyh0k8Z6Ok6c+0cWYTa91/
+	HimhJrbEHVeqhwSMskHhP3y4Cql2M//z6fmYJftidOT05FEqOsVVCDml8P2TG6sB8ga6nz9lVbC
+	a8pl/w3vEW5AKC5PxM5eHQwhC1KtPul4B6A9SxrczuhuawNzZWa7BL1vT/G3UF3sgdayH1IuOg8
+	RnggrJVnE9j5VUvPtjFCFbvO+ZubbYQgB8vhMBzc0N98YWKYES1Qrhl68+9BsAyP9HsTt9HL1bN
+	vk2iJZSujB+qvMfZT6f7akKNVnZL21I5Dd3PsXbMD2ifRNLFIFHElcesycTeywgXjs
+X-Google-Smtp-Source: AGHT+IHqGj9nyeirOfNEOBoQJdeIZKX2jxqMX1La5bEetWOpLjaUzix23G3qWZHuR52h5YIkt2/e2A==
+X-Received: by 2002:a17:907:96a2:b0:b76:afa4:933f with SMTP id a640c23a62f3a-b80205de9dcmr597496066b.22.1766152266241;
+        Fri, 19 Dec 2025 05:51:06 -0800 (PST)
+Received: from smtpclient.apple (89-66-237-154.dynamic.play.pl. [89.66.237.154])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8037ae2dbesm244601566b.29.2025.12.19.05.51.04
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 19 Dec 2025 05:51:05 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS0PR12MB7770:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7d42afe9-9a38-4d06-c2fe-08de3f05a1b2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?WG0zdTU2SjF0UXNOWXJGK0lXdWJvbGJxZkVRcGZ1aXpwSHBDZ1F1ZXFQMzdn?=
- =?utf-8?B?bUE2OHNqKzZXTUMwVUpBYjlubWRjSklkN1BxNVpLdmxibk5tZkxjeHp0Nlpk?=
- =?utf-8?B?azlHcFYrTDZjb3ZHaHBucGFTRDc1dTlzc2k0VDZzYk10cmI0YzFBeThKS1Y1?=
- =?utf-8?B?Q0RlRm8wbkRLVU5uSTE4b3FBMnd5YXBYTzB0ZkIyQXBXU1lnR21QaDNONVVH?=
- =?utf-8?B?OGtTZHNzbDVoQnZIT2RHNk9VRXZvNlRRNjVFTlRkdU83bkxGbnBUUTFNS0JQ?=
- =?utf-8?B?TjR1R2xWTVA0ZHZRa0ZkZ2FtbUF2RmNCdTFxREtCeTlIZ0duak0vR2o3Vk9N?=
- =?utf-8?B?NDhxY3gyOXVLWEkrVmk5amo2VmRXQVF3V2llTjE0aHVsSFZrd0RFNVFwREJy?=
- =?utf-8?B?NHV0SG9yaDZyTk50WHMvaWFlbWZwV2J1ekl0NW5xc2ZhTmR6K3BKdlFPVHpW?=
- =?utf-8?B?ak5MQ1U3Wnl1dlkvZHJCa0dBaGx2VEs4MnM3bkx2Z2lmd29nTTA2VEExYUpy?=
- =?utf-8?B?VjBIS3h4ZWc3L2VjUTI4bkREN2dMUk5scGZ5NEtWYXR5VHV1MU5jWkVYL2g2?=
- =?utf-8?B?dlNkS2FuOG15Qk1UWmtjK3F6SUFnQzhtdDkyMWpDbUZZRTdrWVRnMFpjdll5?=
- =?utf-8?B?WVFzYzdMYzBHWWxkU2ZtaGc2czBZNVFGU1lEOFd3TzVXK3lhNVd0OTRFTVBB?=
- =?utf-8?B?VnVZRzFlZXdMekwyZTFYZWlvdW5xcjlCeHQxTEZKb0ozTzZxa1gzWlJ4dVZa?=
- =?utf-8?B?bDRrU09MdkRTYTE5QzhaME8ySHplN0dPbjZyTWluejhNckpVV0FUNDdoRUJm?=
- =?utf-8?B?UFovaEs4MlRvaldkZW9QczlYY3pjS3BsT0xlQkNFWTY1Ris2UlFYMFp4ZVUz?=
- =?utf-8?B?VDFTaXVOUUZrMWs1azM3ME5XeFhDNTY4TEVVSnBQNXJLcE1ySHIzclJIczBu?=
- =?utf-8?B?bi9mN2hSVWRzMEpmU3RvUnlsVGR6V1ptTnI5V1hBSHZIQitUYStOTUxkUE1w?=
- =?utf-8?B?TkZxekJ1emtPU0tjbmFoREMyV0lMbXpuaysrbkE1T09WWUZwWkVVeFpHYXNK?=
- =?utf-8?B?WDBzTEozVDVhekhhSG1lTFpvc1NaQ0VOTEFpUElWaDBzOFRvSkhadHh3a1NL?=
- =?utf-8?B?L0JWZVdrUExXeWpTcnl3YTVvMTdudDYzZFYvSXZPb2lCSjNVN0w5ZmtjazR2?=
- =?utf-8?B?NHRRcm1mRkc3K3VpQVNveVZVR2ZZWXBrVHl6WGFtMHFyZUJXVm5OUjdKSUFR?=
- =?utf-8?B?emxQRjlHbmZYbmwxampWY0s2dGNWdmVYZFBXZk9TQ0JxbnFhaWFOUDh2M0JJ?=
- =?utf-8?B?TktHQUQyZktLcGpKVHQ4WmRPS2FwdU9ZZnltQ21TWWJjaFl4b0p5R2FvS2d0?=
- =?utf-8?B?MVQ2L2ZaY0ZDUEREMjMrSkxQZ0srMEZVR0YwY0Z2cG9vckFobTRXRDRtSUkx?=
- =?utf-8?B?SUhFaGczNGRvMXdqd09HQUpySFl5N2V4Mk9keWZYZW4ybVVWdkY2bi9wVTZ3?=
- =?utf-8?B?ZVpmNEMyYy9Gb2NGNVF5dzRreVhqdGVYLy9qV0ZhbU8yalN6S09wbnFpaDZQ?=
- =?utf-8?B?bU91aXkvSUFwb3IxdmQ5VWw5Y0tqTHRBVnlMM3dvQmNidjJEMWQwTW52ZVlu?=
- =?utf-8?B?SzcybnVYOS9jMUt6SGVObXlaMzJpVnRBVTB5T0RkQWNUTzJqN1ZRbzRhbDM1?=
- =?utf-8?B?RmFCdXRnQVZTUml1TEQyNjFQRDdjVmFtMDF4RHMxbzZKK3BLTW9LSkhzWkZv?=
- =?utf-8?B?MGU4SExwLytnSmo5TVhTdUU1ek9QNHNCdE5vZENnbzJLM2VBODFXS1VDeVRN?=
- =?utf-8?B?MnlLZFBpZHpZUytqVzBORmFSUy9uWDVMb2hHWkRwK3l1Z3gvZXhSMUdsZW5o?=
- =?utf-8?B?MW9SQUJUV01YanVRcDMxYjVLeGhuNHNIeDU0Z0xyc2kzRHpiS0lqdzF5MlJK?=
- =?utf-8?Q?+/UWtASrOViHDIvQaYfR7jwEExQZpjSO?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?YTlGalRjRE1FVjJ1RzdNWjU3ZWYxYmVORWs2NlliQmlkOGxsaEx3RVd3cmdY?=
- =?utf-8?B?R1I4dm1ocmdVYUJkRmowTW4rbFpRbGR0RHVCNys1a1cwSTcrZTZuQjl2QUJ1?=
- =?utf-8?B?anlSYjUvcFBpS1oxU0VPVFdCRW92akY5eGplYmhpQXo1MDdUS1ErTkVqRnVQ?=
- =?utf-8?B?VEZMaFI2NU5rY3VEZkFBV2YvUkxZSkJFREZjeC9VaXVGK05LVEg2Q0dUMzJs?=
- =?utf-8?B?VUZHV3Z6RENtMDRjWENqMXMyTElSTkZQSjJ1LzYySVNYWHZ0N1V6YUNBODNO?=
- =?utf-8?B?eWRTbkIySXFpbURiNFBLOHhTMVBWcEpjeDl6WDYwQzlvL3U5QndyS28wQktx?=
- =?utf-8?B?TW5EMk90SHFMYllQcHJaY0h0QnhMMm5PTEtmTXB1bE5JMFZvZEs4b3dWbHV3?=
- =?utf-8?B?ZXcvSnlhbjFiVkRSN0p0RTdsSE9FczlGVDIzN1diTXFKcDduRVNkWmkrMjlG?=
- =?utf-8?B?dVZQaTZ0a1Y4Z3pJK29qRVI4SmZTeU5Ecy9QcVpRQncySmtZOGE1MmdsTnhm?=
- =?utf-8?B?cW9DRWI3eDBEdERGRk1WZXkzUHB3b21taS9EZnZXOHErZlpCb1EvdXRvRHp6?=
- =?utf-8?B?VHZyUWxHbm1xZnJFVE1BYk1oTFcwbjk0Uk5vNCtyb0NXczJHV0hMbERPUCtS?=
- =?utf-8?B?WDhTeWtjdEdmUk81cmMwSzNRU1dVUlgyMDNhR21Zd1NXbDJUYVFZajBFazds?=
- =?utf-8?B?Qk5wRTJ2YllHTmlXZGhtd1dRc25LSVNVS0xwNExkMFZDN1lTS3BSVTZiaEdJ?=
- =?utf-8?B?T1VlWks4OUhPTHJRcithZVpwbzFsSzR1YkU1WlJEcVhMVEo4VUJFR1JoS1VP?=
- =?utf-8?B?anlQZDJBRHc5RTZ5K05NNE5vWFdVbnEyNy9mK24vbUJZMnFWcUxnUFE1dVph?=
- =?utf-8?B?STFNaSs3SFFpbEhCUjFZa0U0cEptVVZjN3E3a2NSdVBQUjg4RmgxbmNxZmV1?=
- =?utf-8?B?Ulg1anh0UHJLaVhTQ3JOTkxwZnVKaTlGMzVxODJEbmdSYWdNdU9XWWRnVlhi?=
- =?utf-8?B?ajNCWHU5QVRDY0prQWQxb1Yva0U4R2lUTzBxUlpxbDRZT0xteVljWUVydWJC?=
- =?utf-8?B?aDRSb010RFRiUm9kMVR6TXkwdy9NZk5abzhLNDJTWTYyWmVFdkhDSjhETnNQ?=
- =?utf-8?B?T0lRdGI5RjlDaGNCTW11TmlmcXZ1NmlULzJYS05paDhyL2owcTlwME5NbE45?=
- =?utf-8?B?ZVRySnZKbEtpNXJPVFEvZUVON2M0Z1RMQmJwbjVVekxrOVB0RjJJU2xkeDg4?=
- =?utf-8?B?cjJ0WXVTYnZ3T1FYaWUybUN5dWYxQlZpZWVZZ05CajNxa0lmN3lNcUJOQXZR?=
- =?utf-8?B?WWpzR3g0MkpRMGpwVXFZbGI1dHRmVENFdEV5bW1kUzN6YjQ5cUNkY09DRDhH?=
- =?utf-8?B?ZUhicC9RTmJoVEdvTFZOaXU0ZjJHYjBhNnc3Syt0UnhLY0YzQWlLbGVBZFEy?=
- =?utf-8?B?c0pXbnBhNnhJNnRnSzQ3QlBLK1ZvL2g5cmx5WWNOaU1NbjBiWEh2UHhIL0Z0?=
- =?utf-8?B?SEIvcWtid3p2dEsweUxUbDAvRHdXTnIrSTk5K1J6aHJxUDBiK2xPcG5QTFhl?=
- =?utf-8?B?VGs1ZE0zYjd6R1l6T3lNMy9QT3NyWk9OdnFZMy8rZ0RvdW95RG5EalhCczFh?=
- =?utf-8?B?L0VDOVk0NDZMc25KVmM5dXJuZTg3Yld6NVlTYWc4c3BXRHBEQkRseE0wNkZj?=
- =?utf-8?B?QkxFS011WjVERHRidmR0QjNrSElERFQ5d3dkUGpvVDZNczFXcjkvUm1UOHZM?=
- =?utf-8?B?YlBJUjl4ZFIrVDRKK0VZVEhrUXQwOEF2eGVXL1lBMFYyTkdTN0dEaDhuck1m?=
- =?utf-8?B?cllxNHdoMlRSWHZadS9FZEJsSFdnU05pcmZRTVZmc3V5cDZCM29QVmtrbjBO?=
- =?utf-8?B?YXRwM3FQTUQ2ZVpFcDhZci8wWW1lVDh0MUlFQzMzY2MweTZnQjdzaXY3TFlU?=
- =?utf-8?B?ek1BY3JScmFSYjVSNDNEYzBLZUl2Ui9YeGs5ckQ0R1EweWtIdTduTkVyU3JL?=
- =?utf-8?B?eVo2a0p0L2xIVEhpTEhsMHBuQkpwclZSNjAxdmMvWHI3clF2blppeUk4ejZt?=
- =?utf-8?B?bzEvckRWOGR3b1h5MHkvSTZiQ0Fub1dhVWg1L3JkR1dTZFlvMmhYMzR1ZC9h?=
- =?utf-8?Q?Yin0Vnvx2U774ed0CYgGg76Uf?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7d42afe9-9a38-4d06-c2fe-08de3f05a1b2
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2025 13:50:55.4877
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mTXlhUtns2Kxudjn7qYz7tHfU00H1IMgheLiUhW9dYWZlMzJhH6axIvHj8qUp4fn
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7770
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
+Subject: Re: [PATCH v7 00/17] media: rkvdec: Add support for VDPU381 and
+ VDPU383
+From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+In-Reply-To: <20251218232829.337811-1-detlev.casanova@collabora.com>
+Date: Fri, 19 Dec 2025 14:50:51 +0100
+Cc: linux-kernel@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Heiko Stuebner <heiko@sntech.de>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Ricardo Ribalda <ribalda@chromium.org>,
+ Hans Verkuil <hverkuil@kernel.org>,
+ Yunke Cao <yunkec@google.com>,
+ Hans de Goede <hansg@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Pavan Bobba <opensource206@gmail.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ James Cowgill <james.cowgill@blaize.com>,
+ linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,
+ kernel@collabora.com,
+ Jonas Karlman <jonas@kwiboo.se>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <219DE002-BE77-4D28-9BC6-9124F099F211@gmail.com>
+References: <20251218232829.337811-1-detlev.casanova@collabora.com>
+To: Detlev Casanova <detlev.casanova@collabora.com>
+X-Mailer: Apple Mail (2.3826.700.81)
 
-On 12/19/25 11:25, Maxime Ripard wrote:
-> On Mon, Dec 15, 2025 at 03:53:22PM +0100, Christian König wrote:
->> On 12/15/25 14:59, Maxime Ripard wrote:
-...
->>>>> The shared ownership is indeed broken, but it's not more or less broken
->>>>> than, say, memfd + udmabuf, and I'm sure plenty of others.
->>>>>
->>>>> So we really improve the common case, but only make the "advanced"
->>>>> slightly more broken than it already is.
->>>>>
->>>>> Would you disagree?
->>>>
->>>> I strongly disagree. As far as I can see there is a huge chance we
->>>> break existing use cases with that.
->>>
->>> Which ones? And what about the ones that are already broken?
->>
->> Well everybody that expects that driver resources are *not* accounted to memcg.
-> 
-> Which is a thing only because these buffers have never been accounted
-> for in the first place.
 
-Yeah, completely agree. By not accounting it for such a long time we ended up with people depending on this behavior.
 
-Not nice, but that's what it is.
+> Wiadomo=C5=9B=C4=87 napisana przez Detlev Casanova =
+<detlev.casanova@collabora.com> w dniu 19 gru 2025, o godz. 00:28:
+>=20
+> These variants are found respectively in the RK3588 and RK3576 SoCs.
+> This patch only adds support for H264 and H265 in both variants.
+>=20
+> As there is a considerable part of the code that can be shared with =
+the
+> already supported rkvdec decoder driver, the support for these =
+variants
+> is added here rather than writing a new driver.
+>=20
+> This patch set uses the newly introduced hevc_ext_sps_[ls]t_rps v4l2
+> controls for HEVC.
+> Therefore, a patched version of userpace tools is needed for HEVC
+> support (added for GStreamer[1] and in an early stage for FFmpeg[2]).
+>=20
+> The DTS changes can be found in another patch set: [3]
+>=20
+> [1]: =
+https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/9355
+> [2]: https://gitlab.collabora.com/detlev/ffmpeg
+> [3]: =
+https://lore.kernel.org/all/20251020212009.8852-1-detlev.casanova@collabor=
+a.com/
+>=20
 
-> So I guess the conclusion is that we shouldn't
-> even try to do memory accounting, because someone somewhere might not
-> expect that one of its application would take too much RAM in the
-> system?
+Detlev,
 
-Well we do need some kind of solution to the problem. Either having some setting where you say "This memcg limit is inclusive/exclusive device driver allocated memory" or have a completely separate limit for device driver allocated memory.
+FYI:
 
-Key point is we have both use cases, so we need to support both.
+In my testbed with=20
 
->>>> There has been some work on TTM by Dave but I still haven't found time
->>>> to wrap my head around all possible side effects such a change can
->>>> have.
->>>>
->>>> The fundamental problem is that neither memcg nor the classic resource
->>>> tracking (e.g. the OOM killer) has a good understanding of shared
->>>> resources.
->>>
->>> And yet heap allocations don't necessarily have to be shared. But they
->>> all have to be allocated.
->>>
->>>> For example you can use memfd to basically kill any process in the
->>>> system because the OOM killer can't identify the process which holds
->>>> the reference to the memory in question. And that is a *MUCH* bigger
->>>> problem than just inaccurate memcg accounting.
->>>
->>> When you frame it like that, sure. Also, you can use the system heap to
->>> DoS any process in the system. I'm not saying that what you're concerned
->>> about isn't an issue, but let's not brush off other people legitimate
->>> issues as well.
->>
->> Completely agree, but we should prioritize.
->>
->> That driver allocated memory is not memcg accounted is actually uAPI,
->> e.g. that is not something which can easily change.
->>
->> While fixing the OOM killer looks perfectly doable and will then most
->> likely also show a better path how to fix the memcg accounting.
-> 
-> I don't necessarily disagree, but we don't necessarily have the same
-> priorities either. Your use-cases are probably quite different from
-> mine, and that's ok. But that's precisely why all these discussions
-> should be made on the ML when possible, or at least have some notes when
-> a discussion has happened at a conference or something.
-> 
-> So far, my whole experience with this topic, despite being the only one
-> (afaik) sending patches about this for the last 1.5y, is that everytime
-> some work on this is done the answer is "oh but you shouldn't have
-> worked on it because we completely changed our mind", and that's pretty
-> frustrating.
+i. v7 of [1] on mainline 6.18.2
+ii ffmpeg8 v4l2_request [2]
+iii. mythv as player [3]
+iv. minimyth2 as distro [4]
+v. NO applied yours ffmpeg sps/rps hinting [5] (as i'm on ffmpeg8)
 
-Welcome to the club :)
+I run set of my mpeg2/h264/hevc/vp8/vp9 samples on: rk3328. rk3399, =
+rk3566, rk3576, rk3588 and h616 (just for brief test for potential =
+cross-regressions)
 
-I've already posted patches to start addressing at least the OOM killer issue ~10 years ago.
+Results:
 
-Those patches were not well received because back then driver memory was negligible and the problem simply didn't hurt much.
+a. rk3328: no any regressions; all samples are decoded ok
 
-But by now we have GPUs and AI accelerators which eat up 90% of your system memory, security researchers stumbling over it and IIRC even multiple CVE numbers for some of the resulting issues...
+b. rk3399: no any regressions; all samples are decoded ok
 
-I should probably dig it up and re-send my patch set.
+c. rk3566: no any regressions (e.g. in vp9. v6 and older were =
+regressing; v7 is ok) =20
+c.1 h264: all ok
+c.2 hevc: samples without long-term sps/rps: all ok.
+c.3 hevc: samples with long-tern sps/rps: v7 is a bit regressing here: =
+it gives me sometimes kernel oops requiring hw. reset to bring decoder =
+back to live.=20
+Exemplary oops: https://termbin.com/upju
+Older vers of your code were handling such cases without needs of hw. =
+reset
 
-Happy holidays,
-Christian.
+d. rk3576:
+d.1: h264: works ok - but randomly i'm getting playback with distortions =
+like this: https://postimg.cc/Yh8Djc3L. it is avd. 1 per few playbacks.
+d.2: hevc: the same like c.1 and c.2
 
-> 
-> Maxime
+e. rk3588
+e.1: h264: all ok
+e.2: hevc: the same like c.1 and c.2
+  =20
+g. h616 with cedrus: all ok.
+
+btw:=20
+Adding to [1] vp9 android code [6] offers me nice working vp9 hwdec =
+accell on rk3566/3588. =20
+
+Great work!
+
+[1] =
+https://gitlab.collabora.com/detlev/linux/-/commits/add-vdpu381-and-383-to=
+-rkvdec-v7
+[2] https://code.ffmpeg.org/Kwiboo/FFmpeg/src/branch/v4l2-request-n8.0.1
+[3] https://github.com/MythTV/mythtv
+[4] https://github.com/warpme/minimyth2
+[5] https://gitlab.collabora.com/detlev/ffmpeg
+[6] =
+https://github.com/dvab-sarma/android_kernel_rk_opi/commit/fd0b1b17cbdfcf0=
+c15bc9f411cc7127105157e57
+  =20
+=20
 
 
