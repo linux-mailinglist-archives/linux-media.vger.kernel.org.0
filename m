@@ -1,52 +1,53 @@
-Return-Path: <linux-media+bounces-49230-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49229-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E54F1CD2CB0
-	for <lists+linux-media@lfdr.de>; Sat, 20 Dec 2025 10:56:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6969CCD2CAD
+	for <lists+linux-media@lfdr.de>; Sat, 20 Dec 2025 10:56:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E135A302650F
+	by sea.lore.kernel.org (Postfix) with ESMTP id A7C883024E7F
 	for <lists+linux-media@lfdr.de>; Sat, 20 Dec 2025 09:56:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0E64308F07;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BED2E3081BE;
 	Sat, 20 Dec 2025 09:56:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.in header.i=preyas17@zohomail.in header.b="Ew/4JbVE"
+	dkim=pass (1024-bit key) header.d=zohomail.in header.i=preyas17@zohomail.in header.b="LFKnt305"
 X-Original-To: linux-media@vger.kernel.org
 Received: from sender2-pp-o94.zoho.in (sender2-pp-o94.zoho.in [169.148.134.94])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4AFD305E01;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B6830648A;
 	Sat, 20 Dec 2025 09:56:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=169.148.134.94
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766224573; cv=pass; b=gtUnQTl3NIFTkmrVd/Edz6HVoiL90MwmuQ3jxh+iBXTKrBTvayQDRb6esbkfF/dRdte+O0or5B84WUACZs8TYGNqqvYrZtNsd7xnT2HQLpoeFqnWdlRG3prMHGgaiigyp/IlijFoAailpYhLJf0Fcqa3+yeECi4aD+d6ayt/YxQ=
+	t=1766224573; cv=pass; b=MTlSwJa0JwDRdxXvC01qLKa9baPsaF+6UpaaLt9w49WMIzcz1BGmnYY67Bp/nqn4LS+0567Bc+iEkPYxrq+qb9ZZeHB2OeFlnInBMWqC8RZV3zXdXRg88Sgoms0MD9aA+7Ldi8RkWfVRAPKD3dEvINv83LhZ4n+JoMkrR2XsgBA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1766224573; c=relaxed/simple;
 	bh=lIDV3YDxGMZM7ohwrit0EDfKY6xK6RYq0N7RBhTXMDM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tjLbMHIB8PrpgcuIT6ErTuuc51MQGaIOVSANRJ+TJesNdquHis4pTKawAS9vkMpEjYzdN5r8TXilSnAgHx2MNBG05M6NAPvQO06r9tC/4CLQ0Lry58HZa+Z7bP3yP1EHVbAIB6w102XOayOOS0iMXmyzfwo8JPVbCRzRx+EhnUY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in; spf=pass smtp.mailfrom=zohomail.in; dkim=pass (1024-bit key) header.d=zohomail.in header.i=preyas17@zohomail.in header.b=Ew/4JbVE; arc=pass smtp.client-ip=169.148.134.94
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=mZzRULTbleGf3fkviYcRc12s/Q8H+9/OENh+H8ffeQCrsiD2NW89vjOSPCZa+5gEfPf0Jx/Kee2o3vXsBpgvhH0TTZebSvA3k6sI6al85H8cweOSpf2T4NFwbUm8t2tOucz+nkDvtOtRMN+ankcjFR1dEE4xuG/XTvO+vB+MiAQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in; spf=pass smtp.mailfrom=zohomail.in; dkim=pass (1024-bit key) header.d=zohomail.in header.i=preyas17@zohomail.in header.b=LFKnt305; arc=pass smtp.client-ip=169.148.134.94
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.in
-ARC-Seal: i=1; a=rsa-sha256; t=1766224548; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1766224547; cv=none; 
 	d=zohomail.in; s=zohoarc; 
-	b=BeG21Bhzx1uj2n4ItB+TXks3xEC+AQsH/DaCP+4TMKyWfn+hzUukKLOwV8tJaVV1QlPWM0Wtw2ArdKbt8I3ouJpL/KZjxmpKOPDy0uHO3hTZSL4X6omMsLR1Aqrn24j4/7fJKnBcwtB1BR4M22wCKZt01hU8DAvO+uZ+cotIrww=
+	b=eQ99VcIYIHe5+rMlD8GgE/rJx0SasOR+EmlLETVF1oCo6LGKp66EW3rgdTLfA590yVqWkaJ6QMSdKQSBwLtFiN4+cljNNkO2SGear+pMRV8PzCfM/24NrPo+qaXDccCqoHpAgwWE7GQHd0U1EnOaBoR9NlUHe5OLHQaKhXFYXF4=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in; s=zohoarc; 
-	t=1766224548; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	t=1766224547; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
 	bh=l7B4KeEROqMTQxumpACuP3DUdkgOWu1FxozFjCQGO5o=; 
-	b=eIdAxl9H2lo+4MZi7JV4YSxURwCd5Gbib9rRj1zwaxpAP9mBya807+jjzvINmhn6PClW64kGNV1mGceBLeuDtpwZvcwLrmYXvsUYZMw/X4V9NWpiHQSGFnhjHNi47FrI0kD0HhTpqjwqPyinaUBne3AmwuFLHR0PD5SZOqZe21k=
+	b=b9QRJKWWIWkbL6X8yeYQlJGX6DrKl8XZapFfki+AI1fHP0rQGTDADfe5vCVFUbDWYrGsV4PJRHMcSYIYO+VuJsaFz4AIwjDbkycZLJENK1Tj/VdpNI6OzvM1sTLmLhVyPmhG4p/J6bQ2pERhcF3tCB0u1oIbilCM/AYw3g+U5j8=
 ARC-Authentication-Results: i=1; mx.zohomail.in;
 	dkim=pass  header.i=zohomail.in;
 	spf=pass  smtp.mailfrom=preyas17@zohomail.in;
 	dmarc=pass header.from=<preyas17@zohomail.in>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1766224548;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1766224547;
 	s=zoho; d=zohomail.in; i=preyas17@zohomail.in;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
 	bh=l7B4KeEROqMTQxumpACuP3DUdkgOWu1FxozFjCQGO5o=;
-	b=Ew/4JbVE2gX343uQkWoFZTwkPIA4AMQNCVqQrsl6XYDgjNYXVcSRFWy3tJuiNDB7
-	nBrIHwEUIVpf7oHbmZiRkcCGmCquuA0NWbR65oXAzyu5K+1EtXdPIZ8AIncyJW1bg85
-	gMXefodhxtzXgnw9Qm5mRymGIquPerrp4SbxR1YU=
-Received: by mx.zoho.in with SMTPS id 1766224546213262.609486881879;
+	b=LFKnt305fYxfMjb/R2jgGnyPcwLILNVByJoHSjGYH3bb8CCGTIKMzM1hO96FEvml
+	TrPj3xMfeUL4k6O0FuAn4jcDk9cDtR12VPNbTPXbUqDYMJ5odCGyCTXBwyPOJl+68fi
+	Vy6Li+yR79SisHRtJF9CwWxrlv1amyV1xgboA76U=
+Received: by mx.zoho.in with SMTPS id 1766224546882859.357808512768;
 	Sat, 20 Dec 2025 15:25:46 +0530 (IST)
 From: Preyas <preyas17@zohomail.in>
 To: mchehab@kernel.org,
@@ -55,10 +56,12 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Preyas Sharma <preyas17@zohomail.in>
-Subject: [PATCH] staging: av7110: use usleep_range for short waits
-Date: Sat, 20 Dec 2025 09:55:18 +0000
-Message-ID: <20251220095521.36992-1-preyas17@zohomail.in>
+Subject: [PATCH 1/2] staging: media: av7110: fix checkpatch warning in av7110_hw.c
+Date: Sat, 20 Dec 2025 09:55:19 +0000
+Message-ID: <20251220095521.36992-2-preyas17@zohomail.in>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251220095521.36992-1-preyas17@zohomail.in>
+References: <20251220095521.36992-1-preyas17@zohomail.in>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
