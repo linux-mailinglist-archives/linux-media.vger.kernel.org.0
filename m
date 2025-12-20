@@ -1,149 +1,191 @@
-Return-Path: <linux-media+bounces-49242-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49243-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E50FCD33DE
-	for <lists+linux-media@lfdr.de>; Sat, 20 Dec 2025 17:46:38 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D1AACD33E4
+	for <lists+linux-media@lfdr.de>; Sat, 20 Dec 2025 17:49:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 8C15330088F5
-	for <lists+linux-media@lfdr.de>; Sat, 20 Dec 2025 16:46:35 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2E1B9300E02F
+	for <lists+linux-media@lfdr.de>; Sat, 20 Dec 2025 16:49:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61CB1287510;
-	Sat, 20 Dec 2025 16:46:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3EC22C21F9;
+	Sat, 20 Dec 2025 16:48:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TBn99ai6"
+	dkim=pass (2048-bit key) header.d=schnwalter.eu header.i=@schnwalter.eu header.b="owAoKP7j";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Iwe9E1d6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BDD923185E
-	for <linux-media@vger.kernel.org>; Sat, 20 Dec 2025 16:46:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 139377261C
+	for <linux-media@vger.kernel.org>; Sat, 20 Dec 2025 16:48:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766249191; cv=none; b=ODxngtUF9YkCh8h///eh/9wUUhz6xs/DgagO2i1gjzoalYlxIWmOfeB1NYXeRfdAALL9IqGqRxKHQXPf+80q00S3LEUPmSDtMNspwnmT7NQ2pXbl3p9CyV71qf1HU+EcooatNxynwC7WVawSLn3VmHByIDsGpSqzZm9fz1jdwbc=
+	t=1766249337; cv=none; b=NlrYP/AmbgYMDmBDeParX2jsateupHnokxieVdCHOcK5IB+wl9Gd9nXg+Hcq+eocQTp1nCiymFYqvkwmO2dBDU92Vcv17ddVhSy7O0OodHz61r/hlnX0oPZjrel503CX4puuo3lHTMJDXBWji9tBxqFZAI+htfpKcnAZRfzC/S4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766249191; c=relaxed/simple;
-	bh=QEkg/gYIMGsgcTI8cfHodqbEwqtmmBSR03OAXL50yrI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SBg0dxZW8YdZS7NNDOCKXqb+ykTlcwDqqQTVWgUQ+SlvvNh76A7JaVbEy1yU2ajbMBTdCyid2BRLKKC1+n5KBtnHXP1CQr3cxHRb9SFeNtW0dqAi3WXH6QKj7mL3X+Ru+ZXJRdlfLSFXV94w0hkk16LAlBLW/urMEFZ1K/wP7KA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TBn99ai6; arc=none smtp.client-ip=209.85.215.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-b9a2e3c4afcso143612a12.1
-        for <linux-media@vger.kernel.org>; Sat, 20 Dec 2025 08:46:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766249190; x=1766853990; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c7EP/tpx9GWxii+AYAC7WJOYO3DbJ6aXW68IWJvk5iw=;
-        b=TBn99ai6ibwitAU8mBf+ovkRIQbbscKC7TObUF9B9B9CbEYFtwgQuSa+H66DPW2Z0G
-         FjZEoq1OST/m+eMp1rp4fYGoXB7TtvjbLp+V2lVj+Di7adHS/O4bOwG/mAGYoMynKdiv
-         lQzZHX6rxoZk8oBAQHdK3Fi6ojLt/gAooKHiXCqcdq407TPo/LXXGsHlMdJp5KFRgQKM
-         YW+GkXhG3qRh6kG5DGSKMOHzB8KN18Dcky/G15WXNQd74QEkXF6EiSNu8Oxn4cSXVd0B
-         T8Xk/Tg2yT4sSCwCAr6GJGut8619R2PJEUM8FTdqJ/aOEYqzH3Ksp49/2Wq66LaRC0TY
-         kHBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766249190; x=1766853990;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=c7EP/tpx9GWxii+AYAC7WJOYO3DbJ6aXW68IWJvk5iw=;
-        b=l0e5W9yUekJu2xj3kAnbh83UZGCX+AsA8ogqrSsyG4G4IoWSxhF9sJj/GVTiRJiGOU
-         hiep4IfzRynZ+Jowo84vuk9ebbSUc0K6Jg3zuiOq42UBqEhi0n3mi+HfxKwjC7IBBGzJ
-         iyK4kn2dUGT93n5Bs8BCo+CWACiDpvRVYoRhJkewOS+hiPdVkajiTWqZfhkBvnVqSEM5
-         K2gMNgXK0uINOKz4D1dIm/ggAEGxF9Dtw+B1PcHKw53DLwgA1kUfhizkZpZRiHiQwQ/Y
-         p95TFbfJY+5HGTPULKpG6mF40wem+B55OYsW4swJVpD95KSYrVXICHGRVkwDXnJhasoL
-         aBVg==
-X-Forwarded-Encrypted: i=1; AJvYcCWbodcZ1GHJiLG8vm8JMZR9XiwncU5V3HIkD8TWzkQsUsxFvziSMXjgo6BKiV3rN1Fg3mzChlmTw+K4fQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDcDPpoLjKy2oOX6A7ZFTEnaDq9MYENyH9tQfQWeckYyn0w2an
-	EPq5pm3cAJGSjOwY3gloEj4mmcr3ykr7cCZAV6FwIfdkEGXWudnRdJ0g
-X-Gm-Gg: AY/fxX7V2JtmdSE5L0onRQ+1rEt/x49Fyddd2ujYy7mwbrScavFNvh5poM3+LV+TA9j
-	SA3pyGf73L7gKkaRCyNLBYiXSQ0kMe5bn1v/5dWEn+8C6s57ibk5UyYf6UwiC2xFKvL61eek0l+
-	mSKm8/NJ0r0pmqCVE68onWniXsNHofLvGvU1BbCO9XEXzpTGMTxonSELXlmHhzmtu3uGmIu48fJ
-	HjkOwsL5ML5B6oR8MOggWAawNbg/+ZSNvR9JDIIYet0I9NMv6KKZLWrhkbzu5b63SFdIoClCZJ4
-	JiN79C0pGq606exieGDoXsNV+arOjzWH5ihhwgcH2Q2UG9YKmoNhgdTuhQ5sECIO9qpZmD10nk6
-	ueSzt2myTTFec1ueYa8AYjaAQp+uGHj4kzQg22Mdtr4w3zoOAxPVBzMCkz/nvHlSgxPCte6JdUn
-	aXCSHmAKX3AJ4=
-X-Google-Smtp-Source: AGHT+IGdbB/Ckh95eIe2oO+uZBQ1VnyCdlca/UmZcXPpvQIRCA3Pnsjbf93FSIDDgBGYnoV1NiUdeg==
-X-Received: by 2002:a05:6a00:a89:b0:776:19f6:5d3d with SMTP id d2e1a72fcca58-7ff6430c36bmr4406942b3a.2.1766249189699;
-        Sat, 20 Dec 2025 08:46:29 -0800 (PST)
-Received: from rock-5b.. ([45.32.55.39])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7dfab841sm5623899b3a.35.2025.12.20.08.46.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Dec 2025 08:46:29 -0800 (PST)
-From: Jianfeng Liu <liujianfeng1994@gmail.com>
-To: detlev.casanova@collabora.com
-Cc: corbet@lwn.net,
-	daniel.almeida@collabora.com,
-	didi.debian@cknow.org,
-	ezequiel@vanguardiasur.com.ar,
-	hansg@kernel.org,
-	heiko@sntech.de,
-	hverkuil@kernel.org,
-	james.cowgill@blaize.com,
-	jonas@kwiboo.se,
-	kernel@collabora.com,
-	laurent.pinchart@ideasonboard.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	mchehab@kernel.org,
-	nicolas.dufresne@collabora.com,
-	opensource206@gmail.com,
-	ribalda@chromium.org,
-	sakari.ailus@linux.intel.com,
-	yunkec@google.com
-Subject: Re: [PATCH v7 14/17] media: rkvdec: Add H264 support for the VDPU381 variant
-Date: Sun, 21 Dec 2025 00:46:04 +0800
-Message-ID: <20251220164604.10052-1-liujianfeng1994@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251218232829.337811-15-detlev.casanova@collabora.com>
-References: <20251218232829.337811-15-detlev.casanova@collabora.com>
+	s=arc-20240116; t=1766249337; c=relaxed/simple;
+	bh=7/cSBAYVV1agSiaDatXuYp7PTBfcouVx1GyrTJRY0Zw=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=QF9ONHxeIGSioe+AQXmpthpUZ85S2XufHCJpRyKq3st0A/W53BkQWek9ShBkeRVxHofI8kSvb/Z3P2YQOQM3XpR9lSCJVpk8Fez0nWbRRlWYik8BIos/EbcENit/Z0FBryKzhtnjo/miKGAWUuI4xNaGopzEbLUB0rytHS1HmsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=schnwalter.eu; spf=pass smtp.mailfrom=schnwalter.eu; dkim=pass (2048-bit key) header.d=schnwalter.eu header.i=@schnwalter.eu header.b=owAoKP7j; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Iwe9E1d6; arc=none smtp.client-ip=202.12.124.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=schnwalter.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=schnwalter.eu
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 534A27A00E7;
+	Sat, 20 Dec 2025 11:48:50 -0500 (EST)
+Received: from phl-imap-07 ([10.202.2.97])
+  by phl-compute-05.internal (MEProxy); Sat, 20 Dec 2025 11:48:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=schnwalter.eu;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm2;
+	 t=1766249330; x=1766335730; bh=D9pG8buwRCScj6TxLVgjTBd++nPmrAvF
+	XoCTsaZJYTQ=; b=owAoKP7jeOv1+9o6QglVG5teumwehcaAtShqxx/5ZcAagnaM
+	tO3w9ijck3Cfdr0lTFRrJe4ADq0zBkUtjIYrQ65i20/ikHbwdEzDLML0V4xROrjO
+	hgARhza4WxuY1YuFFiNsdwUFRZrdN0Lr973HWeKmUWBkvmlOF/pic+SwMuc8sJtr
+	7eABwA5vqpfag316sJ7inVuTK8QTO0OuJ5kn1CnLGQjCYyLrgtvACV+S1tG917DC
+	tTqk/4AXFMC4yTv8g3sFLOQjj84JWr3uPBXlwQv+WTmxY7p4DkV3pGlvyKdGfKBi
+	Q5D/DDkNjHOPYwA5oulaeEPr2AOXglHIQ6UFDg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1766249330; x=
+	1766335730; bh=D9pG8buwRCScj6TxLVgjTBd++nPmrAvFXoCTsaZJYTQ=; b=I
+	we9E1d6dkmO9chEDuE2zaRQsH/W1Hwtd0xtFizCWV9kl8i2w+o6G2xmD/cn+8jEK
+	dWBj8MOYUr8gbrmO+XLSWuT/ynKa0SjI11UGJGYZtxoGhpastH3dPogzOK302Qkv
+	n8wDlKV6DJhZfvO1ZkReQsF43I/NSjkVmDrDh+mxeyK6JixeQfSVyOF/3wF5bbHq
+	+NQTwvfDYwr/bGNz1HZX2h+woN5/NhFBJuZG0tMmKl9qTyTqZ5M8uXvUr4bHAARE
+	0gFC0RnTxMvW1GWoruSoQZnyDetHcum41zcJ/gPOUX4WxHhz4qpyeCPNqf1QUhlU
+	NfwV1GMj7LlCQum2CEbZQ==
+X-ME-Sender: <xms:cdNGaXAsIKb6lX-EdoSWryZPcorbQapHFKmjC6CR6DHnOumAeejXUg>
+    <xme:cdNGaYVfbpas9nEAfTWbvXrLbOzyG-9dIIQPKUPzK8xiC_ILPT8zC4GN25tuoL2WZ
+    q6a7_gCvxc3V90v3ysjEjC6McIoXvQn5EfgA8zNcOwW4Duoi_tCzg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdehudejtdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdghrghlthgv
+    rhcuhggvrhhnvghrucfuvefjpffgkfffgfftfdcuoegtohhnthgrtghtsehstghhnhifrg
+    hlthgvrhdrvghuqeenucggtffrrghtthgvrhhnpeffkedtffefgeevudfghfeihfdtkeel
+    gfelgfffudevgeetvedthffhveeigeefkeenucffohhmrghinhepghhithhhuhgsrdgtoh
+    hmpdhkvghrnhgvlhdrohhrghdptddurdhorhhgnecuvehluhhsthgvrhfuihiivgeptden
+    ucfrrghrrghmpehmrghilhhfrhhomheptghonhhtrggtthesshgthhhnfigrlhhtvghrrd
+    gvuhdpnhgspghrtghpthhtohephedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohep
+    lhhkphesihhnthgvlhdrtghomhdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlh
+    drohhrghdprhgtphhtthhopehsrghkrghrihdrrghilhhusheslhhinhhugidrihhnthgv
+    lhdrtghomhdprhgtphhtthhopehovgdqkhgsuhhilhguqdgrlhhlsehlihhsthhsrdhlih
+    hnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghr
+    nhgvlhdrohhrgh
+X-ME-Proxy: <xmx:cdNGaQ3ch1Dg-9WtkuVtKexx2IP_-2gXH8LuhVvHLrGdmFIcpBiYNA>
+    <xmx:cdNGaeyg-XIWMq0uWSmikZpxDODkPa3tiTy7n4p4Yj7RkIWdXO-zuQ>
+    <xmx:cdNGaSvnMIXoMmC9jjoflQNQlo0xKkyF1QqivX2ubqX5IV0ixf9_Rg>
+    <xmx:cdNGaQx_FO8ayZv5J2xAWJsGYJlfYNYAAagK3dfOm7NkDk_2SgHHnw>
+    <xmx:ctNGaQ_93qhPVhyT0_qhSt7rBIhn_aXUmiSCoS3RqIijPkcLleO8g2Nm>
+Feedback-ID: i455149b6:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 572B21EA0066; Sat, 20 Dec 2025 11:48:49 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-ThreadId: ALMo3NTH8JG3
+Date: Sat, 20 Dec 2025 18:48:24 +0200
+From: "Walter Werner SCHNEIDER" <contact@schnwalter.eu>
+To: "kernel test robot" <lkp@intel.com>, linux-media@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+ "Sakari Ailus" <sakari.ailus@linux.intel.com>,
+ "Mauro Carvalho Chehab" <mchehab@kernel.org>
+Message-Id: <fd4b9d79-635e-4e43-b5ad-5b457216fb77@app.fastmail.com>
+In-Reply-To: <202512202343.sZsxwdcf-lkp@intel.com>
+References: <20251218-ov2732-driver-v1-1-0ceef92c4016@schnwalter.eu>
+ <202512202343.sZsxwdcf-lkp@intel.com>
+Subject: Re: [PATCH 1/2] media: i2c: Add ov2732 image sensor driver
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Hi,
 
-On Thu, 18 Dec 2025 18:28:24 -0500, Detlev Casanova wrote:
->+static int rkvdec_h264_start(struct rkvdec_ctx *ctx)
->+{
->+	struct rkvdec_dev *rkvdec = ctx->dev;
->+	struct rkvdec_h264_priv_tbl *priv_tbl;
->+	struct rkvdec_h264_ctx *h264_ctx;
->+	struct v4l2_ctrl *ctrl;
->+	int ret;
->+
->+	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
->+			      V4L2_CID_STATELESS_H264_SPS);
->+	if (!ctrl)
->+		return -EINVAL;
->+
->+	h264_ctx = kzalloc(sizeof(*h264_ctx), GFP_KERNEL);
->+	if (!h264_ctx)
->+		return -ENOMEM;
+On Sat, Dec 20, 2025, at 17:57, kernel test robot wrote:
+> Hi Walter,
+>
+> kernel test robot noticed the following build warnings:
 
-I can see the sps validation is removed:
+FYI: All the warnings have been fixed in the latest version of the patch set.
 
-	ret = rkvdec_h264_validate_sps(ctx, ctrl->p_new.p_h264_sps);
-	if (ret)
-		return ret;
-
-This should fix decoding issue with chromium when minimum size of h264
-decoder is lower than 32. While I find this issue is caused by chromium
-not following v4l2 stateless spec, and I think checking sps at start
-should be still necessary.
-
-I have sent a fix to chromium[1] and it should get merged later.
-
-[1] https://chromium-review.googlesource.com/c/chromium/src/+/7274555
-
-Best regards,
-Jianfeng
+>
+> [auto build test WARNING on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
+>
+> url:    
+> https://github.com/intel-lab-lkp/linux/commits/Walter-Werner-SCHNEIDER/media-i2c-Add-ov2732-image-sensor-driver/20251218-062039
+> base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
+> patch link:    
+> https://lore.kernel.org/r/20251218-ov2732-driver-v1-1-0ceef92c4016%40schnwalter.eu
+> patch subject: [PATCH 1/2] media: i2c: Add ov2732 image sensor driver
+> config: nios2-allmodconfig 
+> (https://download.01.org/0day-ci/archive/20251220/202512202343.sZsxwdcf-lkp@intel.com/config)
+> compiler: nios2-linux-gcc (GCC) 11.5.0
+> reproduce (this is a W=1 build): 
+> (https://download.01.org/0day-ci/archive/20251220/202512202343.sZsxwdcf-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new 
+> version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: 
+> https://lore.kernel.org/oe-kbuild-all/202512202343.sZsxwdcf-lkp@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>    drivers/media/i2c/ov2732.c: In function 'ov2732_set_fmt':
+>>> drivers/media/i2c/ov2732.c:282:13: warning: variable 'prev_line_len' set but not used [-Wunused-but-set-variable]
+>      282 |         u32 prev_line_len;
+>          |             ^~~~~~~~~~~~~
+>
+>
+> vim +/prev_line_len +282 drivers/media/i2c/ov2732.c
+>
+>    274	
+>    275	static int ov2732_set_fmt(struct v4l2_subdev *sd,
+>    276				  struct v4l2_subdev_state *state,
+>    277				  struct v4l2_subdev_format *fmt)
+>    278	{
+>    279		struct ov2732 *ov2732 = to_ov2732(sd);
+>    280		const struct ov2732_mode *mode;
+>    281		struct v4l2_mbus_framefmt *format;
+>  > 282		u32 prev_line_len;
+>    283		s64 vblank_def;
+>    284	
+>    285		format = v4l2_subdev_state_get_format(state, 0);
+>    286		prev_line_len = format->width + ov2732->hblank->val;
+>    287	
+>    288		mode = v4l2_find_nearest_size(supported_modes,
+>    289					      ARRAY_SIZE(supported_modes),
+>    290					      width, height,
+>    291					      fmt->format.width, fmt->format.height);
+>    292	
+>    293		fmt->format.code = MEDIA_BUS_FMT_SBGGR10_1X10;
+>    294		fmt->format.width = mode->width;
+>    295		fmt->format.height = mode->height;
+>    296		fmt->format.field = V4L2_FIELD_NONE;
+>    297	
+>    298		*v4l2_subdev_state_get_format(state, fmt->pad) = fmt->format;
+>    299	
+>    300		if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+>    301			vblank_def = mode->vts - mode->height;
+>    302			__v4l2_ctrl_modify_range(ov2732->vblank,
+>    303						 vblank_def,
+>    304						 OV2732_VTS_MAX - mode->height,
+>    305						 1, vblank_def);
+>    306		}
+>    307	
+>    308		return 0;
+>    309	}
+>    310	
+>
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
