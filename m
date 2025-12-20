@@ -1,184 +1,107 @@
-Return-Path: <linux-media+bounces-49247-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49246-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D22C5CD360A
-	for <lists+linux-media@lfdr.de>; Sat, 20 Dec 2025 20:23:01 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90107CD3607
+	for <lists+linux-media@lfdr.de>; Sat, 20 Dec 2025 20:22:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id C6C253014105
-	for <lists+linux-media@lfdr.de>; Sat, 20 Dec 2025 19:22:48 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 16498300FE03
+	for <lists+linux-media@lfdr.de>; Sat, 20 Dec 2025 19:22:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5822227A477;
-	Sat, 20 Dec 2025 19:22:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.com header.i=szymonwilczek@gmx.com header.b="Zg5qoL1M"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 712CB29A9FE;
+	Sat, 20 Dec 2025 19:22:42 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com [209.85.210.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F29F1F9F7A;
-	Sat, 20 Dec 2025 19:22:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8336D24169D
+	for <linux-media@vger.kernel.org>; Sat, 20 Dec 2025 19:22:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766258566; cv=none; b=nz0DQdL2aAQgTDw8KYjp1w0s6HlZ2XX9uZyrD0Wg4gBeX52Fq504Sb60lXrrMpIZQbKhOSgn9w1E8eKabuCvx2o4L7jxyQRYbl17MaQJA9fZ4wu8Hjx/Hr3qNpCMkuB7sKe6z8wJv1w210bA4dWLe9OE0EwFn5NTr0/GiaeWE88=
+	t=1766258562; cv=none; b=qV0g5U2Q5lZywF+RdnxKNlzvV51oYwngz25zuziF2pw9Ubo2wL7mO6odVOvjotmwE4G3ScrcKPjOx91mNNu1ejBIfh88E7cMA++eG3hYYxf8ujKfWshSQjIOlqkKQ6EJqBglBsZ+0GQ1Ub7dtHQoH5Fafp3zoO6woCgaaqIjdlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766258566; c=relaxed/simple;
-	bh=2mG97LwOyXBugDccNkVOxe2HYcXJZmqRVy4ZAsJLAdg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=q1MnwAdMKRYsH1InuS1U40ks5qAvqHOGX6lSVURRoUpceqje1f//xRlcYl7xULcobHFmlwQM5Ty9fUUbTrjYtX6pVd9w5L9Z25LbRp2C4szK4tfnDtLgITmzHdSyOWaixMDPIUKKDntH5qe/bs9d0W80kbDCdHpNTma4j9Btvms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com; spf=pass smtp.mailfrom=gmx.com; dkim=pass (2048-bit key) header.d=gmx.com header.i=szymonwilczek@gmx.com header.b=Zg5qoL1M; arc=none smtp.client-ip=212.227.15.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.com;
-	s=s31663417; t=1766258553; x=1766863353; i=szymonwilczek@gmx.com;
-	bh=lD4Wc7em9XPo+1zd0feTsCmbYogGJRFtr1PP0c22ED4=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:
-	 MIME-Version:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=Zg5qoL1Ms1+PEROIaE2sK/E8qcUs9UTa0LrxMgEUeUje7GKdDz8VcJywECtuMZ59
-	 F12kaXxAGrVqjkColwk8tKxoJXtRIj4QJ0K5zV+1uQO0z5XacYgaDQRiWcdU1Yt7D
-	 +Q+19reBoA0EslBajeNpmtQxpBqBV88EHlJBUFkzxCIW4EyyepkQ0K+DPJMvGqykL
-	 545FxeaFvr2MhxfBxP28hKJT8eQ3xkTPVJZEDoCdMHSJsTMnLeodDFd5ps15i1aEX
-	 EXk9CGcOSzoYIXW7UgETciETAlpR+wcn/eniosGPYqrx6eX1LF0AJuRJ9qK+PeOtb
-	 MugXaBLMWs3aScKeMw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from prometheus ([85.11.110.37]) by mail.gmx.net (mrgmx004
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1N9dwd-1w0kYP3CzN-010EKo; Sat, 20
- Dec 2025 20:22:32 +0100
-From: Szymon Wilczek <szymonwilczek@gmx.com>
-To: sumit.semwal@linaro.org,
-	christian.koenig@amd.com
-Cc: linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	linux-kernel@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com,
-	Szymon Wilczek <szymonwilczek@gmx.com>,
-	syzbot+cd944c467e4d4bc24cf6@syzkaller.appspotmail.com
-Subject: [PATCH] dma-buf: fix WARNING in dma_buf_vmap
-Date: Sat, 20 Dec 2025 20:22:10 +0100
-Message-ID: <20251220192210.399423-1-szymonwilczek@gmx.com>
-X-Mailer: git-send-email 2.52.0
+	s=arc-20240116; t=1766258562; c=relaxed/simple;
+	bh=aPQ85anu1Ii9wOobTneYzg/6ZS5Hyrvmo96LnNAxUbQ=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=abJgL6uW3Cd7zjtr3XRjoUsu60swlNzm0NCbolnh60hGst8Ci4JCGsfQcADJO18GtK2lSWJ6WxWenanCbaVxI9gYiBt0jLEnW1TDj9nxM9eZQCMOeS8tjxutQsLH6BYUtM6z/IUxo5UQR2Sb5kj1DXyFA7n3rgAXVxU5hwWDjFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f72.google.com with SMTP id 46e09a7af769-7c7028db074so6031150a34.1
+        for <linux-media@vger.kernel.org>; Sat, 20 Dec 2025 11:22:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766258559; x=1766863359;
+        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wXBuMKsbM+KwTrBICDHBdfzXtgBQf2h5Z/6bZ4D2vbk=;
+        b=FTVtAwvHg0vH5GF8KVGZMTKEO4p5WUh+D7NLv/4Y8HRXPP25jJjZSgdmR3m6fefo4F
+         Ndo3k4Ec0PYgIJi0JKqut9lvDJUJiPdcJccSUUQg7xqRRHGvW16+lm/qNiVe3papDjwo
+         U9nO0lIB6h78vRZ6vaLpSjXLO+WnYgT9cH4n64UjfbKssxiqYNh4YH5jE7cEtt4QXJ8C
+         FtR01Mlm9TV2Km2/jmG6YAISbqJNwcXxvx+k0+VlyYe2Q9Wo5tPzqb7C6RBWnpa9UBAD
+         6sBOX6xZhfAdQqucVyc9f4fyXJDQZCXDLsCKc4dLIPQw/OlqabYpQ0/uR3TplgACsHxO
+         y0+w==
+X-Forwarded-Encrypted: i=1; AJvYcCXmc0aG4CiZFWgVE2UBrzLRnsxei9+i4U3C0N+yvoSqB5NtvrtTTFUP8V1fZcZGAPwtMHyq5ih5msotDg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzBIRN8ZjEQqnw0BrEshVS2go8bf57EAb0zERIJimmtjkXNEA2S
+	hfcgOHmjUt14IGNHVsOTWjBdA6pWx6Xsr4pnkcSPboSw8gbR07tQuNfjw6zcGtLek0WM0lpdvrA
+	eHcK0u4cJT24du0JH6pEMW/0mKivCSHeAMyiKYigbRyDbbqeV7SqNdrCbJcg=
+X-Google-Smtp-Source: AGHT+IEFvvW4sFfICXsBjWL7HLiwQzByWYxuBpxiryOzRSkiF+Rs7HQiqXIBG29DxZUQGipiZQleuih4ce9em2r6jbf6FZrMgkh0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:OXRF5Z3ofJ625XX975FTTkUixy8oeUxVSAJKJZ7jdb6s2p0T3y2
- 7L5A3Px537qAtZcBtoYW6HlodfJtTNdzEe3HeloXPdrQwzSHK/AOf+pcaIz1rwkkb0Z+/xV
- fUdkt7XRrzDB5DMrJ4hzs6U9IZ8musywao8NedJWzHLJNjW4lMjqSWjs+A4idN+AWr5juTl
- vrgUWSNDqo3RQZYAHoq2g==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:JURjOrp/If0=;Ku5gq5bG9NczSCrIuQR+y7/kTs2
- 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
+X-Received: by 2002:a05:6820:2291:b0:659:9a49:8f25 with SMTP id
+ 006d021491bc7-65d0ea9c905mr2793790eaf.54.1766258559494; Sat, 20 Dec 2025
+ 11:22:39 -0800 (PST)
+Date: Sat, 20 Dec 2025 11:22:39 -0800
+In-Reply-To: <20251220192210.399423-1-szymonwilczek@gmx.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6946f77f.050a0220.1b4e0c.0023.GAE@google.com>
+Subject: Re: [PATCH] dma-buf: fix WARNING in dma_buf_vmap
+From: syzbot <syzbot@syzkaller.appspotmail.com>
+To: szymonwilczek@gmx.com
+Cc: christian.koenig@amd.com, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, sumit.semwal@linaro.org, 
+	syzkaller-bugs@googlegroups.com, szymonwilczek@gmx.com
+Content-Type: text/plain; charset="UTF-8"
 
-When a driver's vmap callback returns an error (e.g. -ENOMEM), dma_buf_vma=
-p()
-triggers a WARN_ON_ONCE(). This is incorrect as vmap operations can legiti=
-mately
-fail due to resource exhaustion or other transient conditions, as document=
-ed.
+> When a driver's vmap callback returns an error (e.g. -ENOMEM), dma_buf_vmap()
+> triggers a WARN_ON_ONCE(). This is incorrect as vmap operations can legitimately
+> fail due to resource exhaustion or other transient conditions, as documented.
+>
+> Fix this by removing the WARN_ON_ONCE(). The error code is already correctly
+> propagated to the caller.
+>
+> Reported-by: syzbot+cd944c467e4d4bc24cf6@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug\?extid\=4317d7108e14e5d56308
+> Signed-off-by: Szymon Wilczek <szymonwilczek@gmx.com>
+> ---
+>  drivers/dma-buf/dma-buf.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index edaa9e4ee4ae..14b55f67ee1c 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -1525,7 +1525,7 @@ int dma_buf_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
+>  	BUG_ON(iosys_map_is_set(&dmabuf->vmap_ptr));
+>  
+>  	ret = dmabuf->ops->vmap(dmabuf, &ptr);
+> -	if (WARN_ON_ONCE(ret))
+> +	if (ret)
+>  		return ret;
+>  
+>  	dmabuf->vmap_ptr = ptr;
+> -- 
+> 2.52.0
+>
 
-Fix this by removing the WARN_ON_ONCE(). The error code is already correct=
-ly
-propagated to the caller.
-
-Reported-by: syzbot+cd944c467e4d4bc24cf6@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug\?extid\=3D4317d7108e14e5d56308
-Signed-off-by: Szymon Wilczek <szymonwilczek@gmx.com>
-=2D--
- drivers/dma-buf/dma-buf.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index edaa9e4ee4ae..14b55f67ee1c 100644
-=2D-- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -1525,7 +1525,7 @@ int dma_buf_vmap(struct dma_buf *dmabuf, struct iosy=
-s_map *map)
- 	BUG_ON(iosys_map_is_set(&dmabuf->vmap_ptr));
-=20
- 	ret =3D dmabuf->ops->vmap(dmabuf, &ptr);
--	if (WARN_ON_ONCE(ret))
-+	if (ret)
- 		return ret;
-=20
- 	dmabuf->vmap_ptr =3D ptr;
-=2D-=20
-2.52.0
+I see the command but can't find the corresponding bug.
+The email is sent to  syzbot+HASH@syzkaller.appspotmail.com address
+but the HASH does not correspond to any known bug.
+Please double check the address.
 
 
