@@ -1,154 +1,201 @@
-Return-Path: <linux-media+bounces-49238-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49239-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 427ECCD3295
-	for <lists+linux-media@lfdr.de>; Sat, 20 Dec 2025 16:59:04 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C4BDCD3310
+	for <lists+linux-media@lfdr.de>; Sat, 20 Dec 2025 17:05:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id EF22A3011EE4
-	for <lists+linux-media@lfdr.de>; Sat, 20 Dec 2025 15:58:26 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 7C26D3001623
+	for <lists+linux-media@lfdr.de>; Sat, 20 Dec 2025 16:05:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65FE72BDC02;
-	Sat, 20 Dec 2025 15:58:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F69D2F5A25;
+	Sat, 20 Dec 2025 16:04:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XszXLICy"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ge4mEeHu";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="NiArPAT0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59FDA19C542
-	for <linux-media@vger.kernel.org>; Sat, 20 Dec 2025 15:58:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EB752E6CD2
+	for <linux-media@vger.kernel.org>; Sat, 20 Dec 2025 16:04:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766246304; cv=none; b=W7JAhOarFnMcDSrXWBSlDtPryqjATJ78MLq3N+h9rmub4FYUvUsSH6kREKCInAp6Hy6sTPmXU4tDdOIVM2eiqkpKXtUMm3f+yb96bGo/AGDT6XEflptHTlnzoU1f7kwcO19/cgaj/nMmMYixHF7NvKhw8Tg4uk0kNGFmIfuDFcc=
+	t=1766246697; cv=none; b=rD8BOXvvy/4qZ/EiGtwETMYr85j7+D2f0JOgb4nRo7c4CB1U/fwKtnGZ4QChcYmZ5VYz/PV9JVhWGKUzbM601ooF/4h4CKyBe//ujaaOuHngibXaDNQ7bUKpcHZSyHJWvqdVFDy0TknOKOjTj/Lnq8TyQb2wUfz4RCb2Wz3dSfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766246304; c=relaxed/simple;
-	bh=Z8eNyISAIDcDV5gYAE55WRNEI/kbIRupZx3wU7u8+ko=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fBrMlSnXjcUat4yS3Orjhl2z7O2Gzs5X2TC1Vh21CjyDzot29KHwcOTroL3p0ge1coGIJUGbKFPNwGol26U8YjPNTjzWhdde4E4ncUTEPvp8EozPmI/r0swAy2uKlvthm7u600xzwlDMWBWRbzR3pzVzEMp2xuILF7gsptjv5L0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XszXLICy; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766246303; x=1797782303;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Z8eNyISAIDcDV5gYAE55WRNEI/kbIRupZx3wU7u8+ko=;
-  b=XszXLICyBTnRHi9ydlMT+z6PKKWmRXf/jIJ5RrbdoUR0XV2b/YzQMm7l
-   NCmal3gOT4T02KnKUM4El9xCvvgoVnpbkdlnT2REhtq3JrtJEzU9d7Leu
-   SQYQgQgZt4hRR7cRETrmoOJvYT5D937bpkmenuQ++Dgt5Gt04CtyWyUkz
-   ThduOf9VmWP34qr8DdTJq7qy02dEodu70+emzlz7p0HiM0nBc8VFtAl7I
-   QDVIys5+ZnaymMZ3Y30Z5dpVi9n9erxkS+GkvjRbieoP/mukOx0ZYWtZY
-   Oa1R1xJynewckTDGUPweDYwahV8+y7esa9NXF1jz+fvaXO64QqP3PZzYF
-   w==;
-X-CSE-ConnectionGUID: xoVa60T0Su6hjk7sfL3GEw==
-X-CSE-MsgGUID: MO7AB/0HTk6EOrOj5nYa9g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="70748135"
-X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="70748135"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 07:58:23 -0800
-X-CSE-ConnectionGUID: Sc4JhSkdQheQoRCzAT4nfg==
-X-CSE-MsgGUID: 7KnjS8evQ2y2W6lfqtj/bw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="199642949"
-Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 20 Dec 2025 07:58:21 -0800
-Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vWzLX-000000004oX-1J7k;
-	Sat, 20 Dec 2025 15:58:19 +0000
-Date: Sat, 20 Dec 2025 23:57:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Walter Werner SCHNEIDER <contact@schnwalter.eu>,
-	linux-media@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Walter Werner SCHNEIDER <contact@schnwalter.eu>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH 1/2] media: i2c: Add ov2732 image sensor driver
-Message-ID: <202512202343.sZsxwdcf-lkp@intel.com>
-References: <20251218-ov2732-driver-v1-1-0ceef92c4016@schnwalter.eu>
+	s=arc-20240116; t=1766246697; c=relaxed/simple;
+	bh=Zj78uDHcvfBFj43qii8vSorB9e8lxLSy2WRM2Cwuzxo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=k2zsUr9syRgrCuA35Bp6OUVespA4pbzNqiEav5+1bOpIbD9tXO3XQTzyfOEgm4jx5R0EhNoJ3cb3NfbJGOjvP14SMpUb0Pb1zq4GHlp8jNBlYdLzMSmn3d4IehkPt6eyrSLaDKXV4g1C35huU5C05n2hYzTcdteT8/EkJVjcHgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ge4mEeHu; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=NiArPAT0; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BKBRk773649844
+	for <linux-media@vger.kernel.org>; Sat, 20 Dec 2025 16:04:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	BmcZhBjars4zjcHPa/pL2zw7kJTeYDk3S1p+LVr9T3k=; b=ge4mEeHupeeoyP7Q
+	LPAd6T6is4KfbjK7PyBS6TNFZm02bmfbxEqTu+kkvLLENw3r/9+XOmHEhY33gsg+
+	MAU7xdEJBvkW6KYvhww+ALTG4xIBDxb3tLrgCxPKxOBJ2hTuxvgo3FjU4aLIq8kF
+	eP27XmNCurdVWZxZ9/t+0Z5MfRJUsjf3xGK1Mad58J6UzK6CrilJj272C0qfDcy+
+	DAKPpyVzMy/GVwPXIheXovI3zepWc02yiY24J3cOWZvQlg6D84KBcUOpW1QL1haD
+	T2GBNCypgsCxgQFjFA95SXpbUpSOygvrcTR4hYBqTJ7Xv9yho27qu7K4qKzCxNaC
+	QTgTKw==
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b5mrwrx9u-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Sat, 20 Dec 2025 16:04:55 +0000 (GMT)
+Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-7b6b194cf71so4914258b3a.3
+        for <linux-media@vger.kernel.org>; Sat, 20 Dec 2025 08:04:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1766246695; x=1766851495; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BmcZhBjars4zjcHPa/pL2zw7kJTeYDk3S1p+LVr9T3k=;
+        b=NiArPAT0arzYyn9N9LinBhxAORgJHbWPKkQie96AU4co5SR/6ByE3qpzIpiGIOOLDf
+         LqeMJeNCOS+0CljizVPcM7WegQIEqqFCpiN68aud/VgC4hCKuxdQCTWAmqfdiEEiQ8/a
+         Yf4Rnwq+b/DuW23Q/V+LTWLzNRQz7b2zVa8YqoiVo9mMOkP+x262jScnhoMrZDm9fOxg
+         w4Op7n+ljUIT8e/Bv7mAEunAqZ+nEvG1wczlypsbEQgscId+tNUvalvjsTIngaPmhwYt
+         tXtjmj50B3puTUU6++ETDl0CQ3aZl+WmmpzHC4K2p6IUeNdXHZAIhVPmCOMpQwLCooqa
+         e6ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766246695; x=1766851495;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BmcZhBjars4zjcHPa/pL2zw7kJTeYDk3S1p+LVr9T3k=;
+        b=qo21wQydxNbCPgVT46S5R3yHL3jh815V1NrZx0ba0k3MYv3bEl9y850KzlmszFZGuB
+         VowzCaFWRkPoOnj/o+fO5bYLWqC6mJkzrX846owVDuytLIPS3Q8KPbiVn6O4f+xe6V2m
+         ozUm3fqhN+/2t0aM12cGPyrZRnGytnnZB6Sj75LWw06P4wn4n0jyt4IM+jurMFKtaKLc
+         JlpD60znpwT5E/ztoxgiX9jsIvzPKdOHX2WT+M2cAsJztasbgaDj5t2sOoOMIwrnX/07
+         zNEOBcwIZ2RxMSKWnAhxDIZUw4AfsaEeos0drk4DtOGnvdgiXcBnDP1BJAYz6ThQl2CW
+         Ey0A==
+X-Forwarded-Encrypted: i=1; AJvYcCWzKuxNSvOW7KAEuOVNKRD1Fv65LHgs0k/vDaJ2Q5cNfuAIchIX9hw4LfJcPMCUs51U0GEMtzi5ctxbZA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9pxOaM2bKKND9VzqvahS9f4YxxBNrDR3ODCejPwbiLREwQGAu
+	SrotqxWYF+ZqfQs5umfLuXcmDnluj4ClIr6QEjlYFCJqo/1b9VEDWuCuda6okL4EffpjAD0RpnH
+	HyT5ffIUc56kWLpADsvcoqnTtyNu35KGa8MkKSHLHdA9hXWlZLMmvhmJnu5+6gIPnqg==
+X-Gm-Gg: AY/fxX52ITg7O2n7OAh/vbxKwz+YAFC6FGLGHRjt0fAE/WTlpOkUPJA+AQUUoZhXHGf
+	CuvX+NB//MzK3hPW77QwwHnxW3bPMIe88bzdlcc0XhKXPUXcFgeXmlelRMXWulMyQDjXWHoa2cZ
+	cF8Vx1GzIFvbrkcsaonFlJ3acrivd/loqNvE5bP32gkjuI7u9KqyQUkgtQiLSCRjpDEYyKiRYTZ
+	lYxw6wOZUJ8GUbbALIuZUjV/XVPtiXBwHC2NjIsQkmf7hVnLb2ve0Vhrp8AAJ+ZeGiDZmnmgVhD
+	XvubRs7uMKGq+pQZzRE0lPJdkozPxFDEj+pDiNmX7v00Ym+pwr+4/T3k839L+lhGdXu+FMPuzx1
+	tnE6ej5Ze/PQjMavXahskiIZZ54iDMY7lYN6muVT9
+X-Received: by 2002:a05:7022:6290:b0:11d:f440:b758 with SMTP id a92af1059eb24-121722de94dmr8505019c88.25.1766246694627;
+        Sat, 20 Dec 2025 08:04:54 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEYoKASIiDh1XJqI3CeJmoab/jilojA4jpnJzSooOYAC3DFbkpG6RKX+gYwN338b4mcKlBF2g==
+X-Received: by 2002:a05:7022:6290:b0:11d:f440:b758 with SMTP id a92af1059eb24-121722de94dmr8504956c88.25.1766246693981;
+        Sat, 20 Dec 2025 08:04:53 -0800 (PST)
+Received: from [192.168.1.57] ([98.148.145.183])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1217253c058sm22486533c88.11.2025.12.20.08.04.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 20 Dec 2025 08:04:52 -0800 (PST)
+Message-ID: <d23623b6-5f65-4fe7-b0ca-635e068e7c4b@oss.qualcomm.com>
+Date: Sat, 20 Dec 2025 08:04:51 -0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251218-ov2732-driver-v1-1-0ceef92c4016@schnwalter.eu>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 1/5] media: dt-bindings: Add CAMSS device for Kaanapali
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+        Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>,
+        Loic Poulain <loic.poulain@oss.qualcomm.com>,
+        Robert Foss
+ <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        aiqun.yu@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
+        trilok.soni@oss.qualcomm.com, yijie.yang@oss.qualcomm.com,
+        Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
+        Atiya Kailany <atiya.kailany@oss.qualcomm.com>
+References: <20251113-add-support-for-camss-on-kaanapali-v6-0-1e6038785a8e@oss.qualcomm.com>
+ <20251113-add-support-for-camss-on-kaanapali-v6-1-1e6038785a8e@oss.qualcomm.com>
+ <bd899586-f714-4d2e-95e3-6abf124e75a4@linaro.org>
+ <37d0f89f-69be-45a7-90fa-347d6a3800bf@oss.qualcomm.com>
+ <2d7ac7e8-ab69-44a6-b732-3657abf3a5a6@oss.qualcomm.com>
+ <ceeee542-a319-4ad9-ada8-3dc769599dec@mleia.com>
+ <d1fb4d8a-608e-44f5-834f-fa92d487c75b@oss.qualcomm.com>
+ <eff759a7-06ee-42f5-a3a6-860956d7ae84@linaro.org>
+ <c2125dbf-bbef-426e-adf9-7767ad822ae1@oss.qualcomm.com>
+ <2ce4e296-701a-4354-8988-87525769ccac@linaro.org>
+Content-Language: en-US
+From: Vijay Kumar Tumati <vijay.tumati@oss.qualcomm.com>
+In-Reply-To: <2ce4e296-701a-4354-8988-87525769ccac@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: rhLaFdD9j6vujRvhtBRW5--w-dtSUgJR
+X-Authority-Analysis: v=2.4 cv=R+UO2NRX c=1 sm=1 tr=0 ts=6946c927 cx=c_pps
+ a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=BiHMn5M11h/vNwziJwzFrg==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=6gem9hBlJlRA9BxbBQ8A:9 a=QEXdDO2ut3YA:10
+ a=2VI0MkxyNR6bbpdq8BZq:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIwMDEzOSBTYWx0ZWRfX3OxbXnGi/gmS
+ DWg6rze75zukR2/PeEMQmu2MOWVcZ4XRM/bSLApGnWyZyp87Gcv+nhKvcenX2SnJ3VI+mMLDWh8
+ T+co6DNKUm3O2FV3iri35bvZwlwKM0XYkHijjpS6XEfywNlh6GjxaBIPc5flH0qG5S7tPgJqF0e
+ /I4zgp1vhKs4pWAF6oJIuvzJNu0UHZs4uN9CkpHnQguohEakXBnWUnGoRfhcntPOOKgJ5NwJhUS
+ W7qhEGHogwe9ul+C+XizAi+9lGQhUWxF1Fn5lYLGp2TNQZ2sgvUXWrzCNsGH+Pt2sxuBmKxmcFB
+ NXyC/C4I/79bZQ/s1lxhUzG/JfquY70nBL7SM16/AmR3UCboSgPFjswqTCzyYmSqGN1y+lGmBfl
+ rlu1CGD23IXRjvTK06IKlel5oZSgMbkvRWxr7th8VUQSrN6Euzhj94sccSOn2+UjTnEiX3YXYDC
+ HGbNL7b73/QiuBbRGRw==
+X-Proofpoint-ORIG-GUID: rhLaFdD9j6vujRvhtBRW5--w-dtSUgJR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-20_03,2025-12-19_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 malwarescore=0 clxscore=1015 lowpriorityscore=0 adultscore=0
+ suspectscore=0 spamscore=0 bulkscore=0 priorityscore=1501 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512200139
 
-Hi Walter,
 
-kernel test robot noticed the following build warnings:
+On 12/16/2025 7:29 PM, Bryan O'Donoghue wrote:
+> On 17/12/2025 00:46, Vijay Kumar Tumati wrote:
+>>> I don't understand a reason why to do worse for the upstream, when 
+>>> there is
+>>> a clear and feasible alternative not to do worse, thus my 
+>>> misunderstanding
+>>> and my grief for upstream CAMSS are my concerns.
+>>>
+>> Thanks for the comments, Vladimir. Bryan's and Krzysztof's argument 
+>> was that the bindings are required to describe the full hardware 
+>> regardless of the driver support and either way not modifiable in the 
+>> future, so they preferred having the HW properties of the key 
+>> functional blocks in the bindings. And we were specifically asked to 
+>> add the properties into this node in this patch series. Having said 
+>> that, my knowledge on how the bindings are handled upstream in the 
+>> long run as the requirements evolve, is limited. So I will look for 
+>> some expert advise from Bryan here as he strongly advised for these. 
+>> Thanks again.
+>
+> I see no technical reason why describing the whole hardware block 
+> precludes any further work. How could it ?
+>
+> Anyway, I'll repeat my ask to describe:
+>
+> - The full register set
+> - The interconnects
+> - The clocks and resets
+> - The SIDs
+>
+> ---
+> bod
 
-[auto build test WARNING on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
+Yes, it is what's been done. Assuming this thread is closed then.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Walter-Werner-SCHNEIDER/media-i2c-Add-ov2732-image-sensor-driver/20251218-062039
-base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
-patch link:    https://lore.kernel.org/r/20251218-ov2732-driver-v1-1-0ceef92c4016%40schnwalter.eu
-patch subject: [PATCH 1/2] media: i2c: Add ov2732 image sensor driver
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20251220/202512202343.sZsxwdcf-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202343.sZsxwdcf-lkp@intel.com/reproduce)
+Thanks,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512202343.sZsxwdcf-lkp@intel.com/
+Vijay.
 
-All warnings (new ones prefixed by >>):
-
-   drivers/media/i2c/ov2732.c: In function 'ov2732_set_fmt':
->> drivers/media/i2c/ov2732.c:282:13: warning: variable 'prev_line_len' set but not used [-Wunused-but-set-variable]
-     282 |         u32 prev_line_len;
-         |             ^~~~~~~~~~~~~
-
-
-vim +/prev_line_len +282 drivers/media/i2c/ov2732.c
-
-   274	
-   275	static int ov2732_set_fmt(struct v4l2_subdev *sd,
-   276				  struct v4l2_subdev_state *state,
-   277				  struct v4l2_subdev_format *fmt)
-   278	{
-   279		struct ov2732 *ov2732 = to_ov2732(sd);
-   280		const struct ov2732_mode *mode;
-   281		struct v4l2_mbus_framefmt *format;
- > 282		u32 prev_line_len;
-   283		s64 vblank_def;
-   284	
-   285		format = v4l2_subdev_state_get_format(state, 0);
-   286		prev_line_len = format->width + ov2732->hblank->val;
-   287	
-   288		mode = v4l2_find_nearest_size(supported_modes,
-   289					      ARRAY_SIZE(supported_modes),
-   290					      width, height,
-   291					      fmt->format.width, fmt->format.height);
-   292	
-   293		fmt->format.code = MEDIA_BUS_FMT_SBGGR10_1X10;
-   294		fmt->format.width = mode->width;
-   295		fmt->format.height = mode->height;
-   296		fmt->format.field = V4L2_FIELD_NONE;
-   297	
-   298		*v4l2_subdev_state_get_format(state, fmt->pad) = fmt->format;
-   299	
-   300		if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-   301			vblank_def = mode->vts - mode->height;
-   302			__v4l2_ctrl_modify_range(ov2732->vblank,
-   303						 vblank_def,
-   304						 OV2732_VTS_MAX - mode->height,
-   305						 1, vblank_def);
-   306		}
-   307	
-   308		return 0;
-   309	}
-   310	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
