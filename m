@@ -1,97 +1,104 @@
-Return-Path: <linux-media+bounces-49231-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49232-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBCD8CD2CB6
-	for <lists+linux-media@lfdr.de>; Sat, 20 Dec 2025 10:57:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C577CD2CD7
+	for <lists+linux-media@lfdr.de>; Sat, 20 Dec 2025 11:02:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4C02F3012755
-	for <lists+linux-media@lfdr.de>; Sat, 20 Dec 2025 09:56:19 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DDC1530198FA
+	for <lists+linux-media@lfdr.de>; Sat, 20 Dec 2025 10:01:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8676F3093BB;
-	Sat, 20 Dec 2025 09:56:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E489D1FF7B3;
+	Sat, 20 Dec 2025 10:01:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.in header.i=preyas17@zohomail.in header.b="Y5T0MFgC"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iDve27GU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender2-pp-o94.zoho.in (sender2-pp-o94.zoho.in [169.148.134.94])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com [209.85.208.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B83183064A9;
-	Sat, 20 Dec 2025 09:56:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=169.148.134.94
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766224573; cv=pass; b=ufP+2CIIEI4rZ3prgME57q6iS2i9gScciN5FIbMYndt+5zfWNRDU3zMU3uxWiA5Kqsb9GwKK5ru7nVo5qGv0LweAfhVFO1cro1pg9iVjXX4Ml8q/lJugWr6fYcpI9wWDyOoWqNAHlDs2YVEsbpAkBZsTbfkBboMS1V+n/PpeEwM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766224573; c=relaxed/simple;
-	bh=3cZmGHMWKcpONAzCGGHE/IkgIfLktJTShLZd3ccn4AE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cjB4QdV681b8yNDXOhMkZmQKI0SnXEzfZF/FFbVkD+Gw6dydQWkozLLOo0GTsp6/VLClFrK8dM0kr0VB7AMFT+cwSO7KGlBkxqcyUCQUHsO07bwEF42Tkh9Tzss9//pdqn7ybWqOXhhRjE+xKF+170vSJmiJ71m9EfO2MIBrFBs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in; spf=pass smtp.mailfrom=zohomail.in; dkim=pass (1024-bit key) header.d=zohomail.in header.i=preyas17@zohomail.in header.b=Y5T0MFgC; arc=pass smtp.client-ip=169.148.134.94
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.in
-ARC-Seal: i=1; a=rsa-sha256; t=1766224549; cv=none; 
-	d=zohomail.in; s=zohoarc; 
-	b=N+QHm1hq3qlbJPdaNPfUPW0eTqAvUaUwR4zSUIj/J/UYmiY3pCFBO6BS2h3A9FykhKt9S2ffhG5kUL/cByfruMF4kSDcbMG8T3kY7XjQ3q1UbupRSVL3mfJBgcHRP5MF5rJE9/7Y1AECd6w4lreAUfkCyQ9aLT979hOo9oabWRc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in; s=zohoarc; 
-	t=1766224549; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=HNEgVc7rr8Q7TcigOKZZFJY0PJQw5EZtyXLA/KKyDBU=; 
-	b=H+gCVx5kvpvTY2DC1koQMzoBVD6jtH2F51sva4udDvTmX9D+n9/nxs8bDaFEWgdNayJR+OqeZT8X3Ci5N15CRrqncjBj5SPLuZrykaoLDnWwp3eKOGu2k9uhFkNAQAHVuPhCgkPyH4rtwJc9U9KrhAu1MINmb36j2nFryxH+c3U=
-ARC-Authentication-Results: i=1; mx.zohomail.in;
-	dkim=pass  header.i=zohomail.in;
-	spf=pass  smtp.mailfrom=preyas17@zohomail.in;
-	dmarc=pass header.from=<preyas17@zohomail.in>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1766224549;
-	s=zoho; d=zohomail.in; i=preyas17@zohomail.in;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=HNEgVc7rr8Q7TcigOKZZFJY0PJQw5EZtyXLA/KKyDBU=;
-	b=Y5T0MFgCRIKpV0HCJHirO+42syGxgj9PB4ee/Ul8AOWsQhMnmb2YlLE+ERBVVDkv
-	s2/3CwkLeg8ivTPYziMfQxIriWfzoUkGaXWm/TqqyWW9rfPHCsB411gglZzTjng2iru
-	fBbXuHge3ZHDVRfJbysGeVkGU6fIPhtlfEEH1Z8A=
-Received: by mx.zoho.in with SMTPS id 1766224547592834.3341855296335;
-	Sat, 20 Dec 2025 15:25:47 +0530 (IST)
-From: Preyas <preyas17@zohomail.in>
-To: mchehab@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Preyas Sharma <preyas17@zohomail.in>
-Subject: [PATCH 2/2] staging: media: av7110: fix checkpatch warning in sp8870.c
-Date: Sat, 20 Dec 2025 09:55:21 +0000
-Message-ID: <20251220095521.36992-4-preyas17@zohomail.in>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251220095521.36992-1-preyas17@zohomail.in>
-References: <20251220095521.36992-1-preyas17@zohomail.in>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A7320459A
+	for <linux-media@vger.kernel.org>; Sat, 20 Dec 2025 10:01:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.73
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1766224910; cv=none; b=b2p7loK/oeaaZtvsqNF193xTooE+Qb10Pk33wXc6fcyQt+ZIG/MVPP15JZgcZBjhHcj1MZPIqvTVEEDJ7vIJwidOnO+3/NHk/MExSa3Hp0eW6P/aiuWr6AWQEYarksmsNJ5xZ9NrRyvbFLST6NDEfCXFYGk55oKJKnvPnv8IEN0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1766224910; c=relaxed/simple;
+	bh=ocwPq1u4g2mzhV09irHynQ5ZI4NxkFIUPpevQXULN2g=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=Yu6/da+kSVlslGzgylGlyrunBIQ2b/7xm0aij4vUdCTWZFoU/YZ6KhZ1MSTw5kGFJt21G5LgM6MuH0Wr34Qy1cpEOz8MScELmcYJnQh+ExPSxVnQrce+ZDhhOXlh5ewR3LWlvqDBlVveHeRay0tF5ZMPDnKsPmruSzIPYRTnrs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iDve27GU; arc=none smtp.client-ip=209.85.208.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+Received: by mail-ed1-f73.google.com with SMTP id 4fb4d7f45d1cf-64d1a0f7206so207187a12.0
+        for <linux-media@vger.kernel.org>; Sat, 20 Dec 2025 02:01:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1766224907; x=1766829707; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ocwPq1u4g2mzhV09irHynQ5ZI4NxkFIUPpevQXULN2g=;
+        b=iDve27GUkw38lY0+2WnwuPkEeOIQ0ipYYDdG/jAY7DZFIMmPCPQbimEjgxxFm1im5W
+         PmxZmGyDh/PEb+8M38T4U8Z0dStqRr2y7X1h/FOr0GjdAwP8xEINlWk3c1XJtdirWEas
+         8s8AhTVtWcDopYKFAmkdGMp1KJSYpHtCpKy0VlEE7vBhNWF8iai9EN83kneDvlLaUgRi
+         jPGJxg0knV9ZUBFw23L418dVeTWS2bdYOaKSV2gJEUF/Zmd4EiU4vA7VUVTISxHQJ5lU
+         qtDy+cpPTGfArRRtTg9IVjeTSdQfeA8If/4c2Ye9bBV47wE/nmjWeAyfvG35dY6uc9rm
+         LxbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766224907; x=1766829707;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ocwPq1u4g2mzhV09irHynQ5ZI4NxkFIUPpevQXULN2g=;
+        b=Yeveuc2YKKJoq59u5Vx5hWw/HTPVIviGUMFlX+55IYq81RMxvkqph8P65ebp4jvH/x
+         3WxTdhsFmAYB1pMQ+k4gfszctEcnNBjmgoAY86+1qcIfTk3dmxZckdgwl+I5XWel8WZY
+         vqORmWyDYN3jI41PxQj1utKSKo5SNUkVEHIyWUZFFHT0oGuUMYUVo+w0Fr+5e13Ck2sZ
+         WhSSy0s8hBTiziG4Z8Dd2NWRhs6y6dqfKM6kJaCvsM5fnwdLp6ItW0YRgVgvK1FjpfqP
+         7AQtufjDI+nl3MlSfHXF+irbJpr7sE/1Symm2nztqDxzgS5nKp7yCONJJU9i6b2Tt0Yg
+         jqcA==
+X-Forwarded-Encrypted: i=1; AJvYcCXKY3VZe02az2u65G2rbl10cQarvvguFZCWeQMZsEFDbgw0IMftecm4f84OvvDSPJtByduiiUH54zv4yw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwjIMhAathqjuMj71eRU1nfsB2t8dehF9tavC0x01kTL2BBfnyR
+	sNF0yqSo+3ysZvbdzka54HdGI13NElNaOIK2F9ab0/8cwCTAbGUL6y/TLk90tgkNWf+iEdEJyKS
+	35T8ClC7HihPxC/Cf9Q==
+X-Google-Smtp-Source: AGHT+IG5pJx6M7iv4XX9yaURjf8mepTlu7YYJc3wOo7y0QcuEDT1u5dJwGmGqq3CfkKzGEqd1szxRNtAfdZCVwY=
+X-Received: from ejdcw8.prod.google.com ([2002:a17:907:1608:b0:b72:41e4:7557])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:907:7e85:b0:b73:4006:1875 with SMTP id a640c23a62f3a-b803719ef9amr511534366b.38.1766224907016;
+ Sat, 20 Dec 2025 02:01:47 -0800 (PST)
+Date: Sat, 20 Dec 2025 10:01:46 +0000
+In-Reply-To: <aUZw4fpWRUWFsb9r@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Mime-Version: 1.0
+References: <20251128-gpuvm-rust-v1-0-ebf66bf234e0@google.com>
+ <20251128-gpuvm-rust-v1-4-ebf66bf234e0@google.com> <DF2AXQ67412G.33JOX2CF0VFCK@kernel.org>
+ <aUZw4fpWRUWFsb9r@google.com>
+Message-ID: <aUZ0CsLrHjP3wMac@google.com>
+Subject: Re: [PATCH 4/4] rust: drm: add GPUVM immediate mode abstraction
+From: Alice Ryhl <aliceryhl@google.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Daniel Almeida <daniel.almeida@collabora.com>, Matthew Brost <matthew.brost@intel.com>, 
+	"Thomas =?utf-8?Q?Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Boris Brezillon <boris.brezillon@collabora.com>, Steven Price <steven.price@arm.com>, 
+	Liviu Dudau <liviu.dudau@arm.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, 
+	Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+	Abhinav Kumar <abhinav.kumar@linux.dev>, Sean Paul <sean@poorly.run>, 
+	Marijn Suijten <marijn.suijten@somainline.org>, Lyude Paul <lyude@redhat.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	"Christian =?utf-8?B?S8O2bmln?=" <christian.koenig@amd.com>, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+	nouveau@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+	linux-media@vger.kernel.org, Asahi Lina <lina+kernel@asahilina.net>
+Content-Type: text/plain; charset="utf-8"
 
-From: Preyas Sharma <preyas17@zohomail.in>
+On Sat, Dec 20, 2025 at 09:48:17AM +0000, Alice Ryhl wrote:
 
-Signed-off-by: Preyas Sharma <preyas17@zohomail.in>
----
- drivers/staging/media/av7110/sp8870.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/media/av7110/sp8870.c b/drivers/staging/media/av7110/sp8870.c
-index 0c813860f5b2..93bf47a62e38 100644
---- a/drivers/staging/media/av7110/sp8870.c
-+++ b/drivers/staging/media/av7110/sp8870.c
-@@ -496,7 +496,7 @@ static int sp8870_set_frontend(struct dvb_frontend *fe)
- 				dprintk("delay = %i usec\n", check_count * 10);
- 				break;
- 			}
--			udelay(10);
-+			usleep_range(10, 20);
- 		}
- 		if (valid)
- 			break;
--- 
-2.43.0
-
+Test email
 
