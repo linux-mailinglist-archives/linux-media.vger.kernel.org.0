@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-49258-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49259-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3139CD3E6D
-	for <lists+linux-media@lfdr.de>; Sun, 21 Dec 2025 11:21:47 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E8A2CD3FE9
+	for <lists+linux-media@lfdr.de>; Sun, 21 Dec 2025 13:08:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2B544300A87B
-	for <lists+linux-media@lfdr.de>; Sun, 21 Dec 2025 10:21:36 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A3FAB300EE78
+	for <lists+linux-media@lfdr.de>; Sun, 21 Dec 2025 12:08:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E02C28002B;
-	Sun, 21 Dec 2025 10:21:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0730E2F83B8;
+	Sun, 21 Dec 2025 12:08:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hanne.name header.i=@hanne.name header.b="bbZ6B6yp"
+	dkim=pass (2048-bit key) header.d=hanne.name header.i=@hanne.name header.b="eznEg4OQ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from dd11108.kasserver.com (dd11108.kasserver.com [85.13.147.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 741E51946DF
-	for <linux-media@vger.kernel.org>; Sun, 21 Dec 2025 10:21:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A29B2F7475
+	for <linux-media@vger.kernel.org>; Sun, 21 Dec 2025 12:08:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.13.147.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766312493; cv=none; b=Gg+D0Kh2A5Xub1N7jLHfHZacilI2bDpy0+qmE8mOZQ5bHSkWLqHWFxefhaUpZ8wtTmc4xJFQSIVWH9pgPoMinq6i0pdp0IQvNGL2okIx257hChm66hBJ3h5a535j2byq9zsDZteiOvAEs5K2guH6BEouKTQoyGX4ux/yz81f1oc=
+	t=1766318896; cv=none; b=nLCEH4ALUmZ0KYDsxgVMFPu50ZdR7Xc7zr85v0Mme1YjIaW02/ssosWkftNekRe6HbSibmKqsyNCu+Vqafl1ml5XcHe0i/TyXk8xCIoOTJ3kM4yUH8hie9PF62bN2vY4ZyPZ2uBE90ROKfzQk5o2k/xQu95Dma2Wk58ge38X+Pc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766312493; c=relaxed/simple;
-	bh=AVOOmzNXiVZARaSlqWynPJhUW0Xoj4eUPwy9CYE4z68=;
-	h=Subject:To:From:MIME-Version:Content-Type:Message-Id:Date; b=b+z5nf7INoFmiRFHq1ewz/Bj9axwQsZjxJ5ihhtxCmJnXg/jsJ3wKYBLlWKG0H2G/r38lMxAw+iEdMZ2+cxv9/3kr84eHus+jvyEPIHj9AWt3TPpGzPu4xNX2PAkULFmNv/V23MkniHOHSfvunJHZQpLobhWqns4mP3b91kAF9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jf.hanne.name; spf=none smtp.mailfrom=jf.hanne.name; dkim=pass (2048-bit key) header.d=hanne.name header.i=@hanne.name header.b=bbZ6B6yp; arc=none smtp.client-ip=85.13.147.108
+	s=arc-20240116; t=1766318896; c=relaxed/simple;
+	bh=cmWwL2hJPU5/EP0uSbYqpob7C4c/z6valpnq/9p7skU=;
+	h=Subject:To:From:MIME-Version:Content-Type:Message-Id:Date; b=amV0cVAXctS0pgVtdf4o1Oz82tApdoK7fXKyyoH/id/32FZAF5xuYH/4pUmWiU+xO8NfyTK8WhbZEZloQ2JaqeL08+DJrlLFCQzr27NddzKHYbxE7bbpNtrp9oZ6zeXJ7LMiZcLL0WxOqm6VyrsAJ5nhSdof4GIAKnkuUVo9b3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jf.hanne.name; spf=none smtp.mailfrom=jf.hanne.name; dkim=pass (2048-bit key) header.d=hanne.name header.i=@hanne.name header.b=eznEg4OQ; arc=none smtp.client-ip=85.13.147.108
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jf.hanne.name
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=jf.hanne.name
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hanne.name;
-	s=kas202509041024; t=1766312488;
-	bh=xpGecw1169sUElEtiBFeAiKOT+96luE67QApQZhQUVM=;
+	s=kas202509041024; t=1766318887;
+	bh=UHjQs05pPqbx8q2nikdU0VqkOKMp7iaU1yAuWchpTEM=;
 	h=Subject:To:From:Date:From;
-	b=bbZ6B6ypM8wlryIPGxdaJP+EdX3MkpsewFWG9SGzJDfzmMtnfCRfbVTmiNXZ7kZI2
-	 gszEGBNTT64mV8iS+SECkSvAsjwDbXpHNsNMlIdlks4VeQlZ0MzFxhEnGcXvugUAL3
-	 o0zdwkkjJ0y1HtJEtElqsMwcknVetgVlAg0Lm2i/p+3Pv+bjCYFu2try/Numpg4Nal
-	 2vuNKugf1X5UVSknAiNOi8x8Tk2lUm+BHZGV0nDhH7wqEyU1KDLyLz1OEV7T1JxALP
-	 +2OAg8tyyHGqPh2G8A4oU8NqandUqp5hyC6DckOdZG9hfK4WyQUL+v6uitDdxJ/sDM
-	 BIrzZRhoJn2MA==
+	b=eznEg4OQyo0iTJHAfp29dV3j9TG4a5XVygwHrCPTeS7Vkol+AMydS2GwmSr8laaXV
+	 n6WBG8mYU2VBXacQLrM3JNTOOoXv7aN5fco48CBUEn6aloeu4cmSXk2j76jWzZgOVM
+	 u0oYBW9i/Fb9F9AMBmY25FC8Q8XNys8LyWi7n89dvYrnUL0tvk2iuakDZFQ03CPzN6
+	 O1NW4jKFRVwldIoDs+5Xp4OzmI6xYGHoyf02p2uku3HTkOp6jLpsGS0jLMEDKy3YEC
+	 lWfdhK+NB+Fs5uZii9X5h29YLamYAvhWcTP4Ua2gu0AA2fs0wZG8587CQgGaZZnkUK
+	 9R1YtEmAo+viw==
 Received: from dd11108.kasserver.com (dd0803.kasserver.com [85.13.146.34])
-	by dd11108.kasserver.com (Postfix) with ESMTPSA id E28DF2FC1384
-	for <linux-media@vger.kernel.org>; Sun, 21 Dec 2025 11:21:27 +0100 (CET)
+	by dd11108.kasserver.com (Postfix) with ESMTPSA id BEF1C2FC1EDC
+	for <linux-media@vger.kernel.org>; Sun, 21 Dec 2025 13:08:07 +0100 (CET)
 Subject: [PATCH] media: Add support for Johann's Receiver Board
 To: linux-media@vger.kernel.org
 From: "Johann Hanne" <media@jf.hanne.name>
@@ -54,54 +54,22 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Message-Id: <20251221102127.E28DF2FC1384@dd11108.kasserver.com>
-Date: Sun, 21 Dec 2025 11:21:27 +0100 (CET)
-X-Spamd-Bar: ---
+Message-Id: <20251221120807.BEF1C2FC1EDC@dd11108.kasserver.com>
+Date: Sun, 21 Dec 2025 13:08:07 +0100 (CET)
+X-Spamd-Bar: ----
 
 Hi,
 
 this adds support for the open hardware DVB-S2 USB receiver board at
 https://codeberg.org/jonnyh/jorebo
 
+And sorry for the spam, it took me a while to understand that just my copy&paste was wrong.
+
 Regards,
   Johann
 
 Signed-off-by: Johann Hanne <media@jf.hanne.name>
 ---
-diff -ur a/drivers/media/usb/dvb-usb-v2/Kconfig b/drivers/media/usb/dvb-usb-v2/Kconfig
---- a/drivers/media/usb/dvb-usb-v2/Kconfig	2025-12-07 17:06:51
-+++ b/drivers/media/usb/dvb-usb-v2/Kconfig	2025-12-21 10:45:00
-@@ -175,4 +175,15 @@
- 	help
- 	  Say Y here to support the ZyDAS ZD1301 DVB USB receiver.
- 
-+config DVB_USB_JOREBO
-+	tristate "Johann's Receiver Board"
-+	depends on DVB_USB_V2
-+	select DVB_M88DS3103 if MEDIA_SUBDRV_AUTOSELECT
-+	select DVB_TS2020 if MEDIA_SUBDRV_AUTOSELECT
-+	help
-+	  Say Y here to support the Johann's Receiver Board DVB-S2 USB receiver.
-+	  This board is open hardware with the CAD files available at
-+	  https://codeberg.org/jonnyh/jorebo. The firmware is open source and
-+	  available at https://codeberg.org/jonnyh/jorebo-firmware.
-+
- endif
-diff -ur a/drivers/media/usb/dvb-usb-v2/Makefile b/drivers/media/usb/dvb-usb-v2/Makefile
---- a/drivers/media/usb/dvb-usb-v2/Makefile	2025-12-07 17:06:51
-+++ b/drivers/media/usb/dvb-usb-v2/Makefile	2025-12-07 17:12:45
-@@ -44,6 +44,9 @@
- dvb-usb-zd1301-objs := zd1301.o
- obj-$(CONFIG_DVB_USB_ZD1301) += zd1301.o
- 
-+dvb-usb-jorebo-objs := jorebo.o
-+obj-$(CONFIG_DVB_USB_JOREBO) += jorebo.o
-+
- ccflags-y += -I$(srctree)/drivers/media/dvb-frontends
- ccflags-y += -I$(srctree)/drivers/media/tuners
- ccflags-y += -I$(srctree)/drivers/media/common
-Only in b/drivers/media/usb/dvb-usb-v2: jorebo.c
-jonny@Mac-mini-von-Johann jorebo-kernel-driver-submit % diff -uNr a b
 diff -uNr a/drivers/media/usb/dvb-usb-v2/Kconfig b/drivers/media/usb/dvb-usb-v2/Kconfig
 --- a/drivers/media/usb/dvb-usb-v2/Kconfig	2025-12-07 17:06:51
 +++ b/drivers/media/usb/dvb-usb-v2/Kconfig	2025-12-21 10:45:00
