@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-49257-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49258-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58385CD3E5A
-	for <lists+linux-media@lfdr.de>; Sun, 21 Dec 2025 11:01:06 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3139CD3E6D
+	for <lists+linux-media@lfdr.de>; Sun, 21 Dec 2025 11:21:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 59D553007687
-	for <lists+linux-media@lfdr.de>; Sun, 21 Dec 2025 10:01:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2B544300A87B
+	for <lists+linux-media@lfdr.de>; Sun, 21 Dec 2025 10:21:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6880B28640C;
-	Sun, 21 Dec 2025 10:01:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E02C28002B;
+	Sun, 21 Dec 2025 10:21:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hanne.name header.i=@hanne.name header.b="PO7jcfRc"
+	dkim=pass (2048-bit key) header.d=hanne.name header.i=@hanne.name header.b="bbZ6B6yp"
 X-Original-To: linux-media@vger.kernel.org
 Received: from dd11108.kasserver.com (dd11108.kasserver.com [85.13.147.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A24F927B34C
-	for <linux-media@vger.kernel.org>; Sun, 21 Dec 2025 10:00:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 741E51946DF
+	for <linux-media@vger.kernel.org>; Sun, 21 Dec 2025 10:21:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.13.147.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766311263; cv=none; b=iCfoy/D20S3730XMcIJLTu20VyrIAedIqdIpSP0JLJDkADP3vffOhGG32200H3CM8oqiOjzPfJw7mzD2XDHe7LKWFH2S3lA3ze2qIHPJEbH4mxNqUR850AFlqLnw1BUjTfYkZRggyUWrwqySAW9KQSCVahYd2i0Clsz8yqYVVbk=
+	t=1766312493; cv=none; b=Gg+D0Kh2A5Xub1N7jLHfHZacilI2bDpy0+qmE8mOZQ5bHSkWLqHWFxefhaUpZ8wtTmc4xJFQSIVWH9pgPoMinq6i0pdp0IQvNGL2okIx257hChm66hBJ3h5a535j2byq9zsDZteiOvAEs5K2guH6BEouKTQoyGX4ux/yz81f1oc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766311263; c=relaxed/simple;
+	s=arc-20240116; t=1766312493; c=relaxed/simple;
 	bh=AVOOmzNXiVZARaSlqWynPJhUW0Xoj4eUPwy9CYE4z68=;
-	h=Subject:To:From:MIME-Version:Content-Type:Message-Id:Date; b=ZpqeLZR2cn9xI0wUILZNM3jCRNs/2om3Z3O0eCe2MMvarnaxKsoek0pO2fit8OJk3oWCF4EFz2HClxbLDncw+G/poobzli8SlOZqGbks3iq5wzHMPFqGcYHz5JDPZbp953cYKIN64UOWkfszqG2KTyyw63JBcRTiNZ8QISIp7O8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jf.hanne.name; spf=none smtp.mailfrom=jf.hanne.name; dkim=pass (2048-bit key) header.d=hanne.name header.i=@hanne.name header.b=PO7jcfRc; arc=none smtp.client-ip=85.13.147.108
+	h=Subject:To:From:MIME-Version:Content-Type:Message-Id:Date; b=b+z5nf7INoFmiRFHq1ewz/Bj9axwQsZjxJ5ihhtxCmJnXg/jsJ3wKYBLlWKG0H2G/r38lMxAw+iEdMZ2+cxv9/3kr84eHus+jvyEPIHj9AWt3TPpGzPu4xNX2PAkULFmNv/V23MkniHOHSfvunJHZQpLobhWqns4mP3b91kAF9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jf.hanne.name; spf=none smtp.mailfrom=jf.hanne.name; dkim=pass (2048-bit key) header.d=hanne.name header.i=@hanne.name header.b=bbZ6B6yp; arc=none smtp.client-ip=85.13.147.108
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jf.hanne.name
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=jf.hanne.name
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hanne.name;
-	s=kas202509041024; t=1766310771;
+	s=kas202509041024; t=1766312488;
 	bh=xpGecw1169sUElEtiBFeAiKOT+96luE67QApQZhQUVM=;
 	h=Subject:To:From:Date:From;
-	b=PO7jcfRc3UY5FEfQAf8BMMgyU1tnJrhU4cI5kFCf5+QlHro5gdjswJoCzIBx3yL5a
-	 Wior8UiYqO5kHXfmmGSXf1k8vquOpEOIKBizTjMeQaFEFnvNQwtJIZileurdYa88J4
-	 k+Fs4XraX68YsmcDBM+me2ohfCWPnIZdrbAzRY5Lc1YjEnO9XrbqyKRMmaORb+P+hc
-	 CkIpDuB302JRjs/W9S5KvLq9q7EscrT1cMw+IJMot+b6Q2RI7e2ML/hdAbejnMxNj6
-	 Ycxwvq9aRnu46Rf6aZzaWrBZuul1w/VIx8aOs/dQnEJxCox/FVWzIrr4j8t23K4v+M
-	 u1GEz7wlQ+bYQ==
+	b=bbZ6B6ypM8wlryIPGxdaJP+EdX3MkpsewFWG9SGzJDfzmMtnfCRfbVTmiNXZ7kZI2
+	 gszEGBNTT64mV8iS+SECkSvAsjwDbXpHNsNMlIdlks4VeQlZ0MzFxhEnGcXvugUAL3
+	 o0zdwkkjJ0y1HtJEtElqsMwcknVetgVlAg0Lm2i/p+3Pv+bjCYFu2try/Numpg4Nal
+	 2vuNKugf1X5UVSknAiNOi8x8Tk2lUm+BHZGV0nDhH7wqEyU1KDLyLz1OEV7T1JxALP
+	 +2OAg8tyyHGqPh2G8A4oU8NqandUqp5hyC6DckOdZG9hfK4WyQUL+v6uitDdxJ/sDM
+	 BIrzZRhoJn2MA==
 Received: from dd11108.kasserver.com (dd0803.kasserver.com [85.13.146.34])
-	by dd11108.kasserver.com (Postfix) with ESMTPSA id 153A52FC2639
-	for <linux-media@vger.kernel.org>; Sun, 21 Dec 2025 10:52:51 +0100 (CET)
-Subject: [PATCH v2] media: Add support for Johann's Receiver Board
+	by dd11108.kasserver.com (Postfix) with ESMTPSA id E28DF2FC1384
+	for <linux-media@vger.kernel.org>; Sun, 21 Dec 2025 11:21:27 +0100 (CET)
+Subject: [PATCH] media: Add support for Johann's Receiver Board
 To: linux-media@vger.kernel.org
 From: "Johann Hanne" <media@jf.hanne.name>
 User-Agent: ALL-INKL Webmail 2.11
@@ -54,8 +54,8 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Message-Id: <20251221095251.153A52FC2639@dd11108.kasserver.com>
-Date: Sun, 21 Dec 2025 10:52:51 +0100 (CET)
+Message-Id: <20251221102127.E28DF2FC1384@dd11108.kasserver.com>
+Date: Sun, 21 Dec 2025 11:21:27 +0100 (CET)
 X-Spamd-Bar: ---
 
 Hi,
