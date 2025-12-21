@@ -1,56 +1,56 @@
-Return-Path: <linux-media+bounces-49263-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49264-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id A73B9CD41B4
-	for <lists+linux-media@lfdr.de>; Sun, 21 Dec 2025 16:05:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AE2DCD41BA
+	for <lists+linux-media@lfdr.de>; Sun, 21 Dec 2025 16:08:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3BD8F300B92C
-	for <lists+linux-media@lfdr.de>; Sun, 21 Dec 2025 15:05:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5AF31300ACCE
+	for <lists+linux-media@lfdr.de>; Sun, 21 Dec 2025 15:08:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 144092FF143;
-	Sun, 21 Dec 2025 15:05:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E52E2FF14D;
+	Sun, 21 Dec 2025 15:08:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KDT7bNDn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fRZKb4q1"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 625471A9F82;
-	Sun, 21 Dec 2025 15:05:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFF97182B8;
+	Sun, 21 Dec 2025 15:08:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766329526; cv=none; b=I5sigFcV5pH78RBDT9XIGx4gGd362wsN2Qt7ZtbVos+9zDKrdvlNk6vmRkG9L6og9otmCIlbtDbd6Xoj3ne+PtOPu0RozfTYQysO+goHtK+hcEd3K08NE8XVpd9ZiGdVKwCO4AO1Nw1MGprrA4O5Zln5hALH8sDDcX2pgnKvcfg=
+	t=1766329720; cv=none; b=E+TjQoUfe7rtR7HfuYpnBB/jNjiNB8VXHlmKBqyfECKGSvHYDqRnhfiqQx146PJP6tva7B1Ne5QQ0aKEKlrdAq6KKL3OlUmLUhp5k8IB0WX5dXn/Y13MQQzi2v49i/mqTeDAkdKNbIuNNNGDpcO4KKCLszKBf5lUH+uyVtmOCIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766329526; c=relaxed/simple;
-	bh=a5rkjxtX7AuL/LxUauXAcT8aTJ80b2v9CZnwBWziTEY=;
+	s=arc-20240116; t=1766329720; c=relaxed/simple;
+	bh=O2k0WnkR1uOO+xM6WBR4+/d7YxlzKr5AiOiObfCkSZY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l8jqQtNNRSg8wTvkhm4Ll5njY20MEv9iaXGw0mxi5XZt+e9wfsT3wYzNP9Pd0MEP6VC+BKMWtfTjHP/WwJvWb1peeqV0wAuYG9F1F1deu+1LzkARtnNhwxjWRmPv+wtge/qSsAuqv3m/Azhf7bGLEU4a3tQ2V5dqXOtJkYHrCVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KDT7bNDn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40C64C4CEFB;
-	Sun, 21 Dec 2025 15:05:24 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=fyn1luBsQM7dd3bfCvU1ne8/vsKoYWuqLQXKZ0CGqowl1UXR37mzGi+npBBMgQhNSdq7CwJ94N/hhXCl6oPBsnFJrAaueZfNobD+9MpV5kWYv/ICem6R4kab24LBXOcFjkV2LdgOBHs5W5nS6Mpw7n5ohgU1qYVGWCMYPC1XeK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fRZKb4q1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5CB2C4CEFB;
+	Sun, 21 Dec 2025 15:08:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766329525;
-	bh=a5rkjxtX7AuL/LxUauXAcT8aTJ80b2v9CZnwBWziTEY=;
+	s=k20201202; t=1766329719;
+	bh=O2k0WnkR1uOO+xM6WBR4+/d7YxlzKr5AiOiObfCkSZY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KDT7bNDn5tAOaA3ze7KWGoydGs7fNXb31BKe7rWZzUnD0QurneirLNcLmS2WGNzKk
-	 7JF8BzWqae5jCEcSk558Dbn3hnWrSj3yZ+qsvczeXQUsKa1R/nQwxpP/YT4D6oBlh/
-	 6QhQQz2ebRiWJNVfstOhWB6qhL3VfPVuVcoV6+p3FFAwDkzgp7jSBGvMZxkTpqvZy/
-	 oHNwn6RwpWiY6wN/svU3ZQu2ZR0/TloKi+n3pPL3YxMLQySWPh1t8QgkweUI/Gvn6K
-	 rSGqL51+YskqI/Cx4O7abH6tLOYjFc7lCR55A06SbBz6i8Suf3o22dK7c5zIWpcCRl
-	 NymK8rbwhzzPw==
-Date: Sun, 21 Dec 2025 16:05:22 +0100
+	b=fRZKb4q1AMLSLSN3y7B1P3+dufVNu7eop08WoSAcjEL4jIg5I0L0fFAFSCHQ3E+uc
+	 +4tq8W6UGZrcMyBhIZS0Ba8yjWwdnFzIbaQgieQM2RKRW+Z2rJ6GCXh1tt01DgkjLX
+	 /cvEH/1D6zA2CIdGQj0n3OlFXgPp+6Xb+RBMrEO+2hTD+A3hjO6IqdV0rV6Kix6EuR
+	 OIBOHwegyUNcNZIXy+Wqmxs11l2DOprwOl29DXRbv5wBOxouOnOMYihhKzIhRr1xV0
+	 0ayHdNwXWJrGo9Jy9obdqzoOy9PyqqRvTAJaQo5vnlc7s5nwMBt+ytKWOrhZaG7Pu3
+	 mbCwx4NzNqZmg==
+Date: Sun, 21 Dec 2025 16:08:35 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Alex Tran <alex.t.tran@gmail.com>
 Cc: mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
 	conor+dt@kernel.org, pavel@kernel.org, sakari.ailus@linux.intel.com, 
 	mehdi.djait@linux.intel.com, laurent.pinchart@ideasonboard.com, hverkuil+cisco@kernel.org, 
 	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/2] media: dt-bindings: i2c: toshiba,et8ek8: Convert
- to DT schema
-Message-ID: <20251221-platinum-mongoose-of-might-feec86@quoll>
+Subject: Re: [PATCH v1 2/2] media: dt-bindings: ti,omap3isp: Convert to DT
+ schema
+Message-ID: <20251221-futuristic-masked-platypus-dfdac4@quoll>
 References: <cover.1766123192.git.alex.t.tran@gmail.com>
- <6f34ec79ac21d5ab9ad3fafe34a0bf6aca49a10d.1766123192.git.alex.t.tran@gmail.com>
+ <3c5a55cc5873e8d16bd25c5968a0d8b36e180325.1766123192.git.alex.t.tran@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -59,125 +59,201 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <6f34ec79ac21d5ab9ad3fafe34a0bf6aca49a10d.1766123192.git.alex.t.tran@gmail.com>
+In-Reply-To: <3c5a55cc5873e8d16bd25c5968a0d8b36e180325.1766123192.git.alex.t.tran@gmail.com>
 
-On Sat, Dec 20, 2025 at 02:03:24PM -0800, Alex Tran wrote:
-> diff --git a/Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.yaml b/Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.yaml
-> new file mode 100644
-> index 000000000000..68a8134df8fc
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.yaml
-> @@ -0,0 +1,91 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/toshiba,et8ek8.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Toshiba et8ek8 5MP sensor
-> +
+On Sat, Dec 20, 2025 at 02:03:25PM -0800, Alex Tran wrote:
+
+
+Thank you for your patch. There is something to discuss/improve.
+	
+
 > +maintainers:
-> +  - Pavel Machek <pavel@ucw.cz>
+> +  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > +  - Sakari Ailus <sakari.ailus@iki.fi>
 > +
 > +description:
-> +  Toshiba et8ek8 5MP sensor is an image sensor found in Nokia N900 device
+> +  The OMAP 3 ISP is an image signal processor present in OMAP 3 SoCs.
 > +
 > +properties:
 > +  compatible:
-> +    const: toshiba,et8ek8
+> +    const: ti,omap3-isp
 > +
 > +  reg:
-> +    description:
-> +      I2C address (0x3e, or an alternative address)
+> +    items:
+> +      - description: Core ISP registers up to the end of the SBL block
+> +      - description: CSI PHYs and receivers registers
+> +
+> +  interrupts:
 > +    maxItems: 1
-> +
-> +  vana-supply:
-> +    description:
-> +      Analogue voltage supply (VANA), 2.8 volts
-> +
-> +  clocks:
-> +    description:
-> +      External clock to the sensor
+> +    description: the ISP interrupt specifier
 
-If there is going to be new version: drop description, obvious.
+Drop description, obvious.
 
+> +
+> +  iommus:
 > +    maxItems: 1
+> +    description: phandle and IOMMU specifier for the IOMMU that serves the ISP
+
+Ditto
+
 > +
-> +  reset-gpios:
+> +  syscon:
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    items:
+> +      - items:
+> +          - description: phandle to System Control Module
+> +          - description: register offset to Complex I/O or CSI-PHY register
 > +    description:
-> +      XSHUTDOWN GPIO. The XSHUTDOWN signal is active low. The sensor
-> +      is in hardware standby mode when the signal is in the low state.
-> +    maxItems: 1
+> +      Phandle and register offset to the Complex I/O or CSI-PHY register
 > +
-> +  flash-leds:
-> +    $ref: /schemas/media/video-interfaces.yaml#
-
-This and...
-
+> +  ti,phy-type:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    enum: [0, 1]
+> +    description:
+> +      0 - OMAP3ISP_PHY_TYPE_COMPLEX_IO (e.g. OMAP 3430)
+> +      1 - OMAP3ISP_PHY_TYPE_CSIPHY (e.g. OMAP 3630)
 > +
-> +  lens-focus:
-> +    $ref: /schemas/media/video-interfaces.yaml#
-
-... this are weird. LEDs are not video interfaces, for sure. lens focus
-shouldn't be video interface, either.
-
-You also miss unevaluatedProps there.
-
-This needs careful fixing/rewriting, with explanation in commit msg.
-
-
+> +  '#clock-cells':
+> +    const: 1
+> +    description:
+> +      The ISP provides two external clocks, cam_xclka and cam_xclkb,
+> +      at indices 0 and 1 respectively.
 > +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    additionalProperties: false
+> +  vdd-csiphy1-supply:
+> +    description: Voltage supply of the CSI-2 PHY 1
+> +
+> +  vdd-csiphy2-supply:
+> +    description: Voltage supply of the CSI-2 PHY 2
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
 > +
 > +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
 > +        unevaluatedProperties: false
+> +        description: Parallel (CCDC) interface
 > +
 > +        properties:
-> +          remote-endpoint: true
+> +          endpoint:
+> +            $ref: /schemas/media/video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description: |
+> +          CSIPHY1 interface:
+> +            OMAP 3630: CSI2C / CCP2B
+> +            OMAP 3430: CSI1 (CSIb)
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: /schemas/media/video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              lane-polarities:
+> +                description: |
+> +                  The lane polarity (required on CSI-2):
+> +                    0 - not inverted
+> +                    1 - inverted
 
-Drop, pointless.
+You do not need to describe standard properties. Are the values
+different than what video-interfaces define?
 
+Same everywhere else. Look at other bindings how these properties should
+be defined/written.
 
+> +                minItems: 2
+> +                maxItems: 3
+> +                items:
+> +                  enum: [0, 1]
+> +
+> +              data-lanes:
+> +                description: Data lanes (required on CSI-2)
+> +                minItems: 1
+> +                maxItems: 2
+> +                items:
+> +                  minimum: 1
+> +                  maximum: 3
+> +
+> +              clock-lanes:
+> +                description: The clock lane (required on CSI-2)
+> +                maxItems: 1
+> +                items:
+> +                  minimum: 1
+> +                  maximum: 3
+> +
+> +      port@2:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description: |
+> +          CSIPHY2 interface:
+> +            OMAP 3630: CSI2A / CCP2B
+> +            OMAP 3430: CSI2 (CSIa)
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: /schemas/media/video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              lane-polarities:
+> +                description: |
+> +                  The lane polarity (required on CSI-2):
+> +                    0 - not inverted
+> +                    1 - inverted
+> +                minItems: 2
+> +                maxItems: 3
+> +                items:
+> +                  enum: [0, 1]
+> +
+> +              data-lanes:
+> +                description: Data lanes (required on CSI-2)
+> +                minItems: 1
+> +                maxItems: 2
+> +                items:
+> +                  minimum: 1
+> +                  maximum: 3
+> +
+> +              clock-lanes:
+> +                description: The clock lane (required on CSI-2)
+> +                maxItems: 1
+> +                items:
+> +                  minimum: 1
+> +                  maximum: 3
 > +
 > +required:
 > +  - compatible
 > +  - reg
-> +  - vana-supply
-> +  - clocks
-> +  - reset-gpios
-> +  - port
+> +  - interrupts
+> +  - iommus
+> +  - syscon
+> +  - ti,phy-type
+> +  - '#clock-cells'
 > +
 > +additionalProperties: false
 > +
 > +examples:
 > +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/media/omap3-isp.h>
 > +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
+> +    isp@480bc000 {
+> +        compatible = "ti,omap3-isp";
+> +        reg = <0x480bc000 0x12fc>,
+> +              <0x480bd800 0x0600>;
+> +        interrupts = <24>;
+> +        iommus = <&mmu_isp>;
+> +        syscon = <&scm_conf 0x2f0>;
+> +        ti,phy-type = <OMAP3ISP_PHY_TYPE_CSIPHY>;
+> +        #clock-cells = <1>;
 > +
-> +        camera@3e {
-> +            compatible = "toshiba,et8ek8";
-> +            reg = <0x3e>;
-> +            vana-supply = <&vaux4>;
-> +            clocks = <&isp 0>;
-> +            assigned-clocks = <&isp 0>;
-> +            assigned-clock-rates = <9600000>;
-> +            reset-gpios = <&gpio4 6 GPIO_ACTIVE_HIGH>;
-> +
-> +            port {
-> +                csi_cam1: endpoint {
-> +                    remote-endpoint = <&csi_out1>;
-> +                };
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
 
-Please make the example complete - missing flash-leds and lens-focus. If
-you provided them, you would see your binding is not correct.
+Make example complete, please.
 
 
 Best regards,
