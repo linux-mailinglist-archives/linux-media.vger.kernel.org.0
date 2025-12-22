@@ -1,46 +1,79 @@
-Return-Path: <linux-media+bounces-49360-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49361-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F84BCD6963
-	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 16:37:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DE16CD69A3
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 16:45:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 050A03075724
-	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 15:36:02 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 41D76301F5F4
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 15:45:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3459932D44F;
-	Mon, 22 Dec 2025 15:36:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 542E032E124;
+	Mon, 22 Dec 2025 15:45:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KrSHkMZO"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lbo//aU3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 730882DC334;
-	Mon, 22 Dec 2025 15:35:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93916223702
+	for <linux-media@vger.kernel.org>; Mon, 22 Dec 2025 15:45:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766417759; cv=none; b=qc9act5i+DnZgnDqb5Iw9Z4knBft3kH0uWDx4krHZBi9W68kVBkXpiHMps08R0K8dHaWy8oJygAsOJVtSoGKhwZGfw176KF1bzB0kJUJ/Q1e6vo7xgJbFUO7KrlV+3sh1gBNH1b6P1s4GhImo7IxkGKC15DrxfzbhJKmmJJgKQg=
+	t=1766418321; cv=none; b=nUHPWmUNCQnH08+fw42/xkrDHaXmOT6RECdsX0sA5CV052SZVqNHeHJOfWSo/KgF4lyF6IzWfDKst/ObhGZIZBl7d/YbedXQ5+mCgZqCviIsO5szJR1OjrP/FCc8rQHWnit3vuBYk5lDIE+vwicNJYdDiB2HTpU8m4nl2flo34w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766417759; c=relaxed/simple;
-	bh=1BrPRtIaRZkigDvceVxTfGfW9ywl1myRoS6jz9f0JMU=;
+	s=arc-20240116; t=1766418321; c=relaxed/simple;
+	bh=tGcJJtQIWOQL7kqmOQjdpBhyQjgqnzYpX8nXShFX66k=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UQOVn1YtHMntZ4OTZ+sTpI5ZNg5XyPA9D1qcnEpsjr+RxNAu8aF0tSjOK0DgeMbGj2brfu4qGIESt8PbwnmqudkUOh5GCosbteZdJMK4Q+Zzb1X+8Fvt5aeND3O3ImrY5bzwjRcxrEhwl79b+zai9rRP0DsE1z+3QbfphykNlw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KrSHkMZO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0D71C4CEF1;
-	Mon, 22 Dec 2025 15:35:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766417759;
-	bh=1BrPRtIaRZkigDvceVxTfGfW9ywl1myRoS6jz9f0JMU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=KrSHkMZOZLtRF2xouca6+OfZ73fItrvzcx67r79mkw5YlGyYiLzP3Nths5optEBiX
-	 4cTqVGMj/p+65voEPxODIWXB8i/7KEZ00jpGtA09J0LvYHz4d8L9zZg0TD7uVOOM0e
-	 IKXT05q/a/EZDSMEFfbmEvDOOYvOe6nDuxtVv66g3Tt2KhaewwK0eCEhRlxaQ3YOqQ
-	 7fJEmsy/QUa3Wndpd3OyYWoX01cbWRr/e4Q+8jhgcNCftxKi/GqQLP7PtUkS0vyr/n
-	 8fpA80oO4M7qRh67UurpoNyl7aBJD52TPtqRHqq6O5B3bbzQp418GwS1PfnoY16hlL
-	 knIMrok10WMEQ==
-Message-ID: <a3431383-c0b3-4f76-b059-c81d5f9c681b@kernel.org>
-Date: Mon, 22 Dec 2025 16:35:50 +0100
+	 In-Reply-To:Content-Type; b=CyBAEEBzsxrlHptT957ZpuqvQrk7chS+hzZWicWIKBwN/T1Yj/MwspB8Ja7WKaAhPBNiu9qOSfI7BEQFLgj0C0Nu4G+f3t1oz6wG/Ud3/B7GCBg5SOX5y2/tU4b9OHjHhqo3Gh1ZV0PLlpnS0bnWUrbyv2npBAyNlXDDNkBZklw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lbo//aU3; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-380091744caso3952491fa.0
+        for <linux-media@vger.kernel.org>; Mon, 22 Dec 2025 07:45:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1766418318; x=1767023118; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UMuqFt6V0IzeFc5cbPsgJJwBQ8b3x0/Nca76P9XgoyE=;
+        b=lbo//aU3vEZOiIVVQLR1X/wUKhE/VPS+Mc+W+Pd5dOKlUb+qx/jj2GwjF9s/3X7I90
+         owFtPyJimOqhA/Nkr13TKqw3fzfXtylp94DzB833WwCCxPjbxgeAsr8Az5smMWVhBzsK
+         VvuJN/7pohCYKzik+a+x1zhYZyj9zitGmdG+MTUTMRzrADCBK6kByMiP45Iu4bblC0wV
+         NnaQGzDeZ7NUHAP681PB60uvIYRkoFcv8E1gJjdAUZT7zQwwdxdBlnPPaa//Na5tIpnS
+         gROLyzCL84oHIfdnPdCDVW8U5kgFH9Bsbs68Fqc+RFbr0lNi2TQeRdLBrRXvbT9FQs3+
+         6Oww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766418318; x=1767023118;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UMuqFt6V0IzeFc5cbPsgJJwBQ8b3x0/Nca76P9XgoyE=;
+        b=q/OopqKl9+BtOnRCATNiwmo0qjWrnHpEE1E4Ti8Dvo6aTH2hxQxy+Z8OlQ2UJ4SY9b
+         /P1mHdpcA/6JPjTvXVaP1I91GVZLuuG3LqMmohngmSEX65dhTs15I9Cotuo20OGOMnjl
+         h+spWzDKz4DQaph4y/O5fPeAcMec7r203DXfKl4yMMfLu/h1LT5GutURV/SJynVxP9Z8
+         s3uVJmgPvTHKXt3jCNjACBmmYWiNAXA2uYvdkFzZThzDg4udn82DG1tu3WB0XCCSSQ4X
+         yZWSocL3bZLUxh6Zpn3WPDOOAs4PiIfKqS2h2Vvp88KJ1ogniGVAjD6xE/0/GWGWcG8M
+         JtWg==
+X-Forwarded-Encrypted: i=1; AJvYcCUnO5MSEJH6fTxJQsiBhMQU211rFJZ7xWSpYVIwgtDJ0n18feJ5tEJM88rRANIm14lfa8G8ZfRXEWIVjA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyQzl0nFYChktqZR+nIr+jncSYUSzqzj3h5qT+7LxATc+71ylbC
+	oj4BvUY770nR4VwtYssMeWpJWJjslYBJWrziLkiHg3+Z9vFX9FI6qAYFbKbPN9CkrkA=
+X-Gm-Gg: AY/fxX4XuRGVUAEgjoxI2TVirq0Lo/zUofO31b5E9qmha9ugRbBykNsHvvgpyJkJjmQ
+	D3eyeDJNyR5hVS8DdADOUeZaV9mguifkr+pUaU2/t9TKbL8kmEZ3GcF3M1xpaedssmUZ+0jv5w4
+	1sRSBJxAomFmq7yUWBkY6b4XpdLPiN3Y9oy9RI1O97XSLhnEgxwuWSWWS5rR2TIiN8OtqmlJWK8
+	vUwT9gs07Po6vUFsFseh1RLFrPDqZeZGvDGWWyj5OfZlUcmbzO+9FGHdpew3Kd5uqARgoFk/Wuk
+	5v4QQX1WZjZPdkKSJlAaLaNlznp645xbZk64ZQwB8uudZ8ObtME8f2erYmajR47WcfkpEF3qYnB
+	6ZAJZuGxJp/L8i54UudoTLszYowOEJu4m5myg7pwXS4R+NvK29Jt0VJzAbRHPGu7ykeV71HzL2f
+	CT+5BFtQRQXfvvea+eFeHsHP77Re+RtuBZLSuOep23+I/SR6lyVnzDPb9O5zCFE0i0Fg==
+X-Google-Smtp-Source: AGHT+IHEreMefgVZs02UZwhZN/8T0ly29BM+V8xxSKTeK3gzyXwjk92eE8YSbX1LnQ/PYAR4eL/7Kw==
+X-Received: by 2002:a05:651c:1542:b0:37e:6e31:c9bc with SMTP id 38308e7fff4ca-3812173480amr20316101fa.8.1766418317548;
+        Mon, 22 Dec 2025 07:45:17 -0800 (PST)
+Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59a1861f85dsm3255925e87.73.2025.12.22.07.45.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Dec 2025 07:45:17 -0800 (PST)
+Message-ID: <091b863b-fa0a-4d3c-8461-60cdc4970992@linaro.org>
+Date: Mon, 22 Dec 2025 17:45:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -48,80 +81,155 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] media: dt-bindings: Correct camss supply description
-To: david@ixit.cz, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Vikram Sharma <quic_vikramsa@quicinc.com>,
- Kapatrala Syed <akapatra@quicinc.com>,
- Hariram Purushothaman <hariramp@quicinc.com>,
- Richard Acayan <mailingradian@gmail.com>, Bryan O'Donoghue <bod@kernel.org>,
- Hans Verkuil <hverkuil@kernel.org>, Depeng Shao <quic_depengs@quicinc.com>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+Subject: Re: [PATCH 3/3] arm64: dts: qcom: talos-evk-camera: Add DT overlay
+To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>,
+ Loic Poulain <loic.poulain@oss.qualcomm.com>, Robert Foss
+ <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- phone-devel@vger.kernel.org
-References: <20251222-docs-camss-fixes-v4-1-914a4e5f7822@ixit.cz>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251222-docs-camss-fixes-v4-1-914a4e5f7822@ixit.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ linux-media@vger.kernel.org
+References: <20251222-sm6150_evk-v1-0-4d260a31c00d@oss.qualcomm.com>
+ <20251222-sm6150_evk-v1-3-4d260a31c00d@oss.qualcomm.com>
+ <cfb8f192-b327-4bb9-993e-a28184571712@linaro.org>
+ <703a502c-883d-434a-8bcf-f785080f5102@oss.qualcomm.com>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <703a502c-883d-434a-8bcf-f785080f5102@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 22/12/2025 15:16, David Heidelberg via B4 Relay wrote:
-> From: David Heidelberg <david@ixit.cz>
+On 12/22/25 13:41, Wenmeng Liu wrote:
 > 
-> Usually, the supply is around 1.2 V, not 1.8 V, and also correct wording.
 > 
-> Signed-off-by: David Heidelberg <david@ixit.cz>
+> On 12/22/2025 7:19 PM, Vladimir Zapolskiy wrote:
+>> On 12/22/25 10:44, Wenmeng Liu wrote:
+>>> Enable IMX577 via CCI on Taloss EVK Core Kit.
+>>>
+>>> The Talos EVK board does not include a camera sensor
+>>> by default, this overlay reflects the possibility of
+>>> attaching an optional camera sensor.
+>>> For this reason, the camera sensor configuration is
+>>> placed in talos-evk-camera.dtso, rather than
+>>> modifying the base talos-evk.dts.
+>>>
+>>> Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+>>> ---
+>>>    arch/arm64/boot/dts/qcom/Makefile              |  2 +
+>>>    arch/arm64/boot/dts/qcom/talos-evk-camera.dtso | 64 ++++++++++++++++
+>>> ++++++++++
+>>>    arch/arm64/boot/dts/qcom/talos.dtsi            | 21 +++++++++
+>>
+>> Please split QCS615 MCLK definitions change into a separate commit.
+> ACK.>
+>>>    3 files changed, 87 insertions(+)
+>>>
+>>> diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/
+>>> qcom/Makefile
+>>> index
+>>> 60121f133078b2754f98e6f45a3db4031b478cc8..b1d85b1f4a94714f2a5c976d162482d70ae920f2 100644
+>>> --- a/arch/arm64/boot/dts/qcom/Makefile
+>>> +++ b/arch/arm64/boot/dts/qcom/Makefile
+>>> @@ -325,7 +325,9 @@ dtb-$(CONFIG_ARCH_QCOM)    += sm8650-qrd.dtb
+>>>    dtb-$(CONFIG_ARCH_QCOM)    += sm8750-mtp.dtb
+>>>    dtb-$(CONFIG_ARCH_QCOM)    += sm8750-qrd.dtb
+>>>    dtb-$(CONFIG_ARCH_QCOM)    += talos-evk.dtb
+>>> +talos-evk-camera-dtbs        := talos-evk.dtb talos-evk-camera.dtbo
+>>>    talos-evk-lvds-auo,g133han01-dtbs    := talos-evk.dtb talos-evk-
+>>> lvds-auo,g133han01.dtbo
+>>> +dtb-$(CONFIG_ARCH_QCOM)    += talos-evk-camera.dtb
+>>>    dtb-$(CONFIG_ARCH_QCOM)    += talos-evk-lvds-auo,g133han01.dtb
+>>>    x1e001de-devkit-el2-dtbs    := x1e001de-devkit.dtb x1-el2.dtbo
+>>>    dtb-$(CONFIG_ARCH_QCOM)    += x1e001de-devkit.dtb x1e001de-devkit-
+>>> el2.dtb
+>>> diff --git a/arch/arm64/boot/dts/qcom/talos-evk-camera.dtso b/arch/
+>>> arm64/boot/dts/qcom/talos-evk-camera.dtso
+>>> new file mode 100644
+>>> index
+>>> 0000000000000000000000000000000000000000..ae1a02295b4dc48212aad40980a329ff458fe69a
+>>> --- /dev/null
+>>> +++ b/arch/arm64/boot/dts/qcom/talos-evk-camera.dtso
+>>> @@ -0,0 +1,64 @@
+>>> +// SPDX-License-Identifier: BSD-3-Clause
+>>> +/*
+>>> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+>>
+>> Please add a missing year of the change.
+> Now our requirement is a yearless copyright.>
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Ack. It's a lawyers' domain anyway.
 
-Best regards,
-Krzysztof
+>>> + */
+>>> +
+>>> +/dts-v1/;
+>>> +/plugin/;
+>>> +
+>>> +#include <dt-bindings/clock/qcom,qcs615-camcc.h>
+>>> +#include <dt-bindings/gpio/gpio.h>
+>>> +
+>>> +&camss {
+>>> +    vdd-csiphy-1p2-supply = <&vreg_l11a>;
+>>> +    vdd-csiphy-1p8-supply = <&vreg_l12a>;
+>>> +
+>>> +    status = "okay";
+>>> +
+>>> +    ports {
+>>> +        #address-cells = <1>;
+>>> +        #size-cells = <0>;
+>>> +
+>>> +        port@1 {
+>>> +            reg = <1>;
+>>> +
+>>> +            csiphy1_ep: endpoint {
+>>> +                clock-lanes = <7>;
+>>
+>> Please remove 'clock-lanes' property.
+> ACK.>
+>>> +                data-lanes = <0 1 2 3>;
+>>> +                remote-endpoint = <&imx577_ep1>;
+>>> +            };
+>>> +        };
+>>> +    };
+>>> +};
+>>> +
+>>> +&cci {
+>>> +    status = "okay";
+>>> +};
+>>> +
+>>> +&cci_i2c1 {
+>>> +    #address-cells = <1>;
+>>> +    #size-cells = <0>;
+>>> +
+>>> +    camera@1a {
+>>> +        compatible = "sony,imx577";
+>>> +        reg = <0x1a>;
+>>> +
+>>> +        reset-gpios = <&tlmm 29 GPIO_ACTIVE_LOW>;
+>>> +        pinctrl-0 = <&cam2_default>;
+>>> +        pinctrl-names = "default";
+>>> +
+>>> +        clocks = <&camcc CAM_CC_MCLK2_CLK>;
+>>> +        assigned-clocks = <&camcc CAM_CC_MCLK2_CLK>;
+>>> +        assigned-clock-rates = <24000000>;
+>>> +
+>>> +        avdd-supply = <&vreg_s4a>;
+>>
+>> Just one voltage supply?
+> yes, 22pin camera module only have one pin for power.>
+
+It's common that mezzanine boards are supplied with power from S4A or VBAT,
+I've never seen a camera module supplied with just one voltage regulator,
+that's why it attracts attention.
+
+What is a camera module here, is it on an attachable vision mezzanine like
+on RBx series or a part of Talos EVK PCB like on QRD series?
+
+If it is a mezzanine, the support of mezzanine boards should be done as
+a DT overlay.
+
+-- 
+Best wishes,
+Vladimir
 
