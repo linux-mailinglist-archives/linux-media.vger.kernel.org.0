@@ -1,401 +1,291 @@
-Return-Path: <linux-media+bounces-49349-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49350-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFF86CD614F
-	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 14:05:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 475BACD61E3
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 14:18:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E9503303198D
-	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 13:04:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 00AAD3075473
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 13:16:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C465F2D46BB;
-	Mon, 22 Dec 2025 13:04:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D66482F12CB;
+	Mon, 22 Dec 2025 13:09:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="aWyPAl76"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BScemfHq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C39482D73A0;
-	Mon, 22 Dec 2025 13:04:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A3AF2F0C7E
+	for <linux-media@vger.kernel.org>; Mon, 22 Dec 2025 13:09:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766408692; cv=none; b=ZDPE/HeH3WG2qp26CT1UXdsr/9yO+B/ojMrUUJDF8FAiPaLUQspEdYJ/JGmXSqijaY2cMguz+2fSXXCAAaM1eGhX2D3MaNA0ljJc/xJEOw/o7zGGC191/k1KzNFl4BdyUqq31IWipCZg+xoAM3it3apIZHUHW5G5nciov489tZM=
+	t=1766408944; cv=none; b=hLOWLtopIHzJ0RBmaJ2UMoyTxdDJdEmk1qy0si1aWOBCr5qeH3Wi8LNWSYJO/CMERbugNwmAGqEQ83Sd+q0gd3pYI5A22ef78eD7GER/3BOkDHJNY535eWrldEvDPhXhnBi5qzBhiE/LnpeoiDgmqfsqOpasU9EbIpFEKwCdj/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766408692; c=relaxed/simple;
-	bh=rraZQRIlDpd4vKLiDt4d8Pb7FaUd6fD8q1ZfCSISFuw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=gjzato9Sy0bCZi+sBUFLSaJ4T9wV/3iL2jjdKYZnuT3ixLt40yOpoOpK2Ffx5tlKGN8OQ631EtdN7wJyezBrM65poa6G5Hjlz+ILdJnMQNSVndpeFhvZo1OmQtoGYyTgejNLvoirbJ0IiLDirS7J0b6LIqyxrds8cRlEZcksgbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=aWyPAl76; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1766408681;
-	bh=rraZQRIlDpd4vKLiDt4d8Pb7FaUd6fD8q1ZfCSISFuw=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=aWyPAl7682IxkirnWt7RewTBF3A89nrSjDLEooeextaWHe2lVFji1l+v5tOjMuUje
-	 O3nqgAeCxjtI391KCpxA+fkP2WpCDY74mZNAnKuVQyfH6aehu5bMP9YP4PqveOG5UJ
-	 4uFAkxssL2pL0xMPlfsdnYkCiIplPxQSIXZcDZcvkZyucEzZQhbazsoI6LA4IHZ0Yr
-	 M8623Nn+n6WeRIrn5EMQAAZdmb+B5lXpyiM/v15KqZR28C3tI6Xv9eXXMsp/aXO2u3
-	 XU/fkrbFvFLs0iVB9lZ+yN14yR5iaYBoeKzEvywzmPR4S+o8UW5ZIgL9SdrqGgcwaT
-	 y2LFD6oTRsvfQ==
-Received: from [IPv6:2606:6d00:17:7b4b::c41] (unknown [IPv6:2606:6d00:17:7b4b::c41])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id B6F0617E0125;
-	Mon, 22 Dec 2025 14:04:40 +0100 (CET)
-Message-ID: <1f3e55873d33dbb52e89453b0c216b2ca5b24ca8.camel@collabora.com>
-Subject: Re: [PATCH v2] media: chips-media: wave5: Fix Potential Probe
- Resource Leak
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: kernel test robot <lkp@intel.com>, Brandon Brnich <b-brnich@ti.com>, Nas
- Chung <nas.chung@chipsnmedia.com>, Jackson Lee
- <jackson.lee@chipsnmedia.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	linux-media@vger.kernel.org, Darren Etheridge <detheridge@ti.com>
-Date: Mon, 22 Dec 2025 08:04:38 -0500
-In-Reply-To: <202512202300.9OkWzU1c-lkp@intel.com>
-References: <20251216213413.2799499-1-b-brnich@ti.com>
-	 <202512202300.9OkWzU1c-lkp@intel.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-ArITD+HP4AWhWFd1wHlA"
-User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
+	s=arc-20240116; t=1766408944; c=relaxed/simple;
+	bh=BWxLr1weDifKxuoKiuRn8B7wkUOXcwizFFSB7Cut1+0=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r/asCdDDO2OgrXGG97U83r8kbUr/u7XPNZ3ncWDEgIxCNDLo1OvtZtNWSjq4p0fiBzCE1vmhY3uMrULObjG7ebq/5WIdoEUd69isy2T8gm9AJtqCXq6JeGo4tp48vBNxRDZXNCQVc12GtvHMBDqT/qjMP1eynLz56cqHoqRt6Yw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BScemfHq; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5943d20f352so4318060e87.0
+        for <linux-media@vger.kernel.org>; Mon, 22 Dec 2025 05:09:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766408939; x=1767013739; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=TqkA3QTeqvfIHTaFJmrTviJUHc15iycYlD6ucgB4o6w=;
+        b=BScemfHqEv+vyqZQP9PNXAQTsYZ66ix8sc6RNUkUrJmXQ1gaPoBSp+5gIWSdll9KrU
+         qpI89JFvA4uHzZEcbBboZ2yaow2abJopE4v/h7J4tJ0PA+NUMiBnIp8FaZKZ4tGxef22
+         ZEeIKmlPpQSAmUUdO+BBNLgrQdozfMFDwg2vCO6Dgkc6xCjkk0MPqbBzd57IbOZkGsWb
+         haS3odRe+4CtihAUSjYH5v+gio+E/HGXFeBAUPXwm/U4H21nnEZpkQRRJ6cuin00hqr9
+         e3AEJAiRB+rYgFd/+y1LGT/MAKEk3LT5hmQlOIlxlR1Aodj/V83LxFXx6sIP6c0gL0CS
+         kKKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766408939; x=1767013739;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TqkA3QTeqvfIHTaFJmrTviJUHc15iycYlD6ucgB4o6w=;
+        b=j3WR9zJch62PPJzPmHXk6OhIeew02Pqtc1XQmWKnrVXr+HR50xA7UmgzZb97D8s/aJ
+         nw7p4/bmrFoLsIfZureo/ZLjXqlSRcqYDsfeMTzN4cwNlK2L+b0W/99Gbe6Vth7NxDzi
+         LMVVDmghyCYqik/Fxlf5G8lrxm69gjW4wuTdeIPlNMpuoSa69gILy2Pckrk9Pin2UTtn
+         /9di6Ih8UAf5rsUlxlv7QaTnvrjj0svEY/y7bCLrs65H2uAdhiIzufmobM9EeQslC4nu
+         BIj1RkKKyvpJAwqaqIK8n55yuy305aP9BnfcFQvn9IjZIUOswXIeof5nZi/rXN/m/bMB
+         BmPg==
+X-Forwarded-Encrypted: i=1; AJvYcCWNodkV/y7vACmsOx291VCRKaMOjC6RmPXclvaA56RO1Ad/SLcWu5a+4QoDVPDNb6ZwlQu9UrdlEozfQg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzj9DDBz8+NdCo0r10G0nTaHRREPZxFfi/+/BB22GEm+76yMpzA
+	P8V1ifuCRbO5ocEXBakyUxOzcWQizDGAsB6Xf6nRKt4NFwnprDCfBuEX
+X-Gm-Gg: AY/fxX66PvreRTccBqBOrhLj0IA594p62Xy84b7BhGSsU0NwTP5yKhqLv8Ic2I+Cy9E
+	N2uK4C4jB7HS2uD1CGvic+8qlC4Bv8n3V5mBhXmr60nhi0MTxYnijYyPa+Jbnzv9/y4gWIXR03p
+	b8u0WAqBXvsyjbv9a+IOwzmfSnSTEjx4ira7al7v1hM+aalIIh/30SukKbaJhoGsRKf5bXGY4fP
+	fRr7V+R1EYxZ/mMEWJrEq6M00xFzin89KLJ1ERdwmyzMTxyYpdiWZMA+tpZul7ztc7M/vXSA14l
+	JPs6irt61HUEL1b1YyFskaH90Bt1SiiZWxd7Kh/D4ppl6xKkVfLcf+fp80vjSbrwvGlh7MXyQB9
+	UUVorOGy5PT6ph1CD2OCX6YdEwd1QclHQKzzPIzq/QKKiVBgeYIUw
+X-Google-Smtp-Source: AGHT+IEoHaD9txNltw8AYIh3bvKWbd6Ld21Uc2hEUyNiNte2MbtG2FdcMNsmNf298a2tH2qY7Uf5Kw==
+X-Received: by 2002:a05:6512:3f1a:b0:598:e39b:d628 with SMTP id 2adb3069b0e04-59a17d7271amr3858414e87.5.1766408939248;
+        Mon, 22 Dec 2025 05:08:59 -0800 (PST)
+Received: from milan ([2001:9b1:d5a0:a500::24b])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59a1861f4e4sm3115532e87.83.2025.12.22.05.08.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Dec 2025 05:08:58 -0800 (PST)
+From: Uladzislau Rezki <urezki@gmail.com>
+X-Google-Original-From: Uladzislau Rezki <urezki@milan>
+Date: Mon, 22 Dec 2025 14:08:56 +0100
+To: Barry Song <21cnbao@gmail.com>
+Cc: urezki@gmail.com, akpm@linux-foundation.org, david@kernel.org,
+	dri-devel@lists.freedesktop.org, jstultz@google.com,
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-mm@kvack.org, mripard@kernel.org,
+	sumit.semwal@linaro.org, v-songbaohua@oppo.com,
+	zhengtangquan@oppo.com
+Subject: Re: [PATCH] mm/vmalloc: map contiguous pages in batches for vmap()
+ whenever possible
+Message-ID: <aUlC6N1jmDbMDPc5@milan>
+References: <aUQHss6K8b_esvpw@milan>
+ <20251218212436.17142-1-21cnbao@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251218212436.17142-1-21cnbao@gmail.com>
+
+On Fri, Dec 19, 2025 at 05:24:36AM +0800, Barry Song wrote:
+> On Thu, Dec 18, 2025 at 9:55 PM Uladzislau Rezki <urezki@gmail.com> wrote:
+> >
+> > On Thu, Dec 18, 2025 at 02:01:56PM +0100, David Hildenbrand (Red Hat) wrote:
+> > > On 12/15/25 06:30, Barry Song wrote:
+> > > > From: Barry Song <v-songbaohua@oppo.com>
+> > > >
+> > > > In many cases, the pages passed to vmap() may include high-order
+> > > > pages allocated with __GFP_COMP flags. For example, the systemheap
+> > > > often allocates pages in descending order: order 8, then 4, then 0.
+> > > > Currently, vmap() iterates over every page individually—even pages
+> > > > inside a high-order block are handled one by one.
+> > > >
+> > > > This patch detects high-order pages and maps them as a single
+> > > > contiguous block whenever possible.
+> > > >
+> > > > An alternative would be to implement a new API, vmap_sg(), but that
+> > > > change seems to be large in scope.
+> > > >
+> > > > When vmapping a 128MB dma-buf using the systemheap, this patch
+> > > > makes system_heap_do_vmap() roughly 17× faster.
+> > > >
+> > > > W/ patch:
+> > > > [   10.404769] system_heap_do_vmap took 2494000 ns
+> > > > [   12.525921] system_heap_do_vmap took 2467008 ns
+> > > > [   14.517348] system_heap_do_vmap took 2471008 ns
+> > > > [   16.593406] system_heap_do_vmap took 2444000 ns
+> > > > [   19.501341] system_heap_do_vmap took 2489008 ns
+> > > >
+> > > > W/o patch:
+> > > > [    7.413756] system_heap_do_vmap took 42626000 ns
+> > > > [    9.425610] system_heap_do_vmap took 42500992 ns
+> > > > [   11.810898] system_heap_do_vmap took 42215008 ns
+> > > > [   14.336790] system_heap_do_vmap took 42134992 ns
+> > > > [   16.373890] system_heap_do_vmap took 42750000 ns
+> > > >
+> > >
+> > > That's quite a speedup.
+> > >
+> > > > Cc: David Hildenbrand <david@kernel.org>
+> > > > Cc: Uladzislau Rezki <urezki@gmail.com>
+> > > > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > > > Cc: John Stultz <jstultz@google.com>
+> > > > Cc: Maxime Ripard <mripard@kernel.org>
+> > > > Tested-by: Tangquan Zheng <zhengtangquan@oppo.com>
+> > > > Signed-off-by: Barry Song <v-songbaohua@oppo.com>
+> > > > ---
+> > > >   * diff with rfc:
+> > > >   Many code refinements based on David's suggestions, thanks!
+> > > >   Refine comment and changelog according to Uladzislau, thanks!
+> > > >   rfc link:
+> > > >   https://lore.kernel.org/linux-mm/20251122090343.81243-1-21cnbao@gmail.com/
+> > > >
+> > > >   mm/vmalloc.c | 45 +++++++++++++++++++++++++++++++++++++++------
+> > > >   1 file changed, 39 insertions(+), 6 deletions(-)
+> > > >
+> > > > diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+> > > > index 41dd01e8430c..8d577767a9e5 100644
+> > > > --- a/mm/vmalloc.c
+> > > > +++ b/mm/vmalloc.c
+> > > > @@ -642,6 +642,29 @@ static int vmap_small_pages_range_noflush(unsigned long addr, unsigned long end,
+> > > >     return err;
+> > > >   }
+> > > > +static inline int get_vmap_batch_order(struct page **pages,
+> > > > +           unsigned int stride, unsigned int max_steps, unsigned int idx)
+> > > > +{
+> > > > +   int nr_pages = 1;
+> > >
+> > > unsigned int, maybe
+> 
+> Right
+> 
+> > >
+> > > Why are you initializing nr_pages when you overwrite it below?
+> 
+> Right, initializing nr_pages can be dropped.
+> 
+> > >
+> > > > +
+> > > > +   /*
+> > > > +    * Currently, batching is only supported in vmap_pages_range
+> > > > +    * when page_shift == PAGE_SHIFT.
+> > >
+> > > I don't know the code so realizing how we go from page_shift to stride too
+> > > me a second. Maybe only talk about stride here?
+> > >
+> > > OTOH, is "stride" really the right terminology?
+> > >
+> > > we calculate it as
+> > >
+> > >       stride = 1U << (page_shift - PAGE_SHIFT);
+> > >
+> > > page_shift - PAGE_SHIFT should give us an "order". So is this a
+> > > "granularity" in nr_pages?
+> 
+> This is the case where vmalloc() may realize that it has
+> high-order pages and therefore calls
+> vmap_pages_range_noflush() with a page_shift larger than
+> PAGE_SHIFT. For vmap(), we take a pages array, so
+> page_shift is always PAGE_SHIFT.
+> 
+> > >
+> > > Again, I don't know this code, so sorry for the question.
+> > >
+> > To me "stride" also sounds unclear.
+> 
+> Thanks, David and Uladzislau. On second thought, this stride may be
+> redundant, and it should be possible to drop it entirely. This results
+> in the code below:
+> 
+> diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+> index 41dd01e8430c..3962bdcb43e5 100644
+> --- a/mm/vmalloc.c
+> +++ b/mm/vmalloc.c
+> @@ -642,6 +642,20 @@ static int vmap_small_pages_range_noflush(unsigned long addr, unsigned long end,
+>  	return err;
+>  }
+>  
+> +static inline int get_vmap_batch_order(struct page **pages,
+> +		unsigned int max_steps, unsigned int idx)
+> +{
+> +	unsigned int nr_pages	 = compound_nr(pages[idx]);
+> +
+> +	if (nr_pages == 1 || max_steps < nr_pages)
+> +		return 0;
+> +
+> +	if (num_pages_contiguous(&pages[idx], nr_pages) == nr_pages)
+> +		return compound_order(pages[idx]);
+> +	return 0;
+> +}
+> +
+>
 
 
---=-ArITD+HP4AWhWFd1wHlA
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi,
+>  /*
+>   * vmap_pages_range_noflush is similar to vmap_pages_range, but does not
+>   * flush caches.
+> @@ -658,20 +672,35 @@ int __vmap_pages_range_noflush(unsigned long addr, unsigned long end,
+>  
+>  	WARN_ON(page_shift < PAGE_SHIFT);
+>  
+> +	/*
+> +	 * For vmap(), users may allocate pages from high orders down to
+> +	 * order 0, while always using PAGE_SHIFT as the page_shift.
+> +	 * We first check whether the initial page is a compound page. If so,
+> +	 * there may be an opportunity to batch multiple pages together.
+> +	 */
+>  	if (!IS_ENABLED(CONFIG_HAVE_ARCH_HUGE_VMALLOC) ||
+> -			page_shift == PAGE_SHIFT)
+> +			(page_shift == PAGE_SHIFT && !PageCompound(pages[0])))
+>  		return vmap_small_pages_range_noflush(addr, end, prot, pages);
+Hm.. If first few pages are order-0 and the rest are compound
+then we do nothing.
 
-Le samedi 20 d=C3=A9cembre 2025 =C3=A0 23:57 +0800, kernel test robot a =C3=
-=A9crit=C2=A0:
-> Hi Brandon,
+>  
+> -	for (i = 0; i < nr; i += 1U << (page_shift - PAGE_SHIFT)) {
+> +	for (i = 0; i < nr; ) {
+> +		unsigned int shift = page_shift;
+>  		int err;
+>  
+> -		err = vmap_range_noflush(addr, addr + (1UL << page_shift),
+> +		/*
+> +		 * For vmap() cases, page_shift is always PAGE_SHIFT, even
+> +		 * if the pages are physically contiguous, they may still
+> +		 * be mapped in a batch.
+> +		 */
+> +		if (page_shift == PAGE_SHIFT)
+> +			shift += get_vmap_batch_order(pages, nr - i, i);
+> +		err = vmap_range_noflush(addr, addr + (1UL << shift),
+>  					page_to_phys(pages[i]), prot,
+> -					page_shift);
+> +					shift);
+>  		if (err)
+>  			return err;
+>  
+> -		addr += 1UL << page_shift;
+> +		addr += 1UL  << shift;
+> +		i += 1U << shift;
+>  	}
+>  
+>  	return 0;
+> 
+> Does this look clearer?
+> 
+The concern is we mix it with a huge page mapping path. If we want to batch
+v-mapping for page_shift == PAGE_SHIFT case, where "pages" array may contain 
+compound pages(folio)(corner case to me), i think we should split it.
 
-Please ignore this error, I've simply asked this patch to be rebased to hel=
-p
-with a conflict in a PR I'll send today.
-
-regards,
-Nicolas
-
->=20
-> kernel test robot noticed the following build errors:
->=20
-> [auto build test ERROR on linuxtv-media-pending/master]
-> [also build test ERROR on media-tree/master linus/master v6.19-rc1 next-
-> 20251219]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->=20
-> url:=C2=A0=C2=A0=C2=A0
-> https://github.com/intel-lab-lkp/linux/commits/Brandon-Brnich/media-chips=
--media-wave5-Fix-Potential-Probe-Resource-Leak/20251217-053600
-> base:=C2=A0=C2=A0 https://git.linuxtv.org/media-ci/media-pending.git=C2=
-=A0master
-> patch link:=C2=A0=C2=A0=C2=A0
-> https://lore.kernel.org/r/20251216213413.2799499-1-b-brnich%40ti.com
-> patch subject: [PATCH v2] media: chips-media: wave5: Fix Potential Probe
-> Resource Leak
-> config: hexagon-allmodconfig
-> (https://download.01.org/0day-ci/archive/20251220/202512202300.9OkWzU1c-l=
-kp@in
-> tel.com/config)
-> compiler: clang version 17.0.6
-> (https://github.com/llvm/llvm-project=C2=A06009708b4367171ccdbf4b5905cb6a=
-803753fe18
-> )
-> reproduce (this is a W=3D1 build):
-> (https://download.01.org/0day-ci/archive/20251220/202512202300.9OkWzU1c-l=
-kp@in
-> tel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion
-> of
-> the same patch/commit), kindly add following tags
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Closes:
-> > https://lore.kernel.org/oe-kbuild-all/202512202300.9OkWzU1c-lkp@intel.c=
-om/
->=20
-> All errors (new ones prefixed by >>):
->=20
-> > > drivers/media/platform/chips-media/wave5/wave5-vpu.c:344:11: error: n=
-o
-> > > member named 'irq_thread' in 'struct vpu_device'
-> =C2=A0=C2=A0=C2=A0=C2=A0 344 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 if (dev->irq_thread) {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ~~~=C2=A0 ^
-> =C2=A0=C2=A0 drivers/media/platform/chips-media/wave5/wave5-vpu.c:345:21:=
- error: no
-> member named 'irq_thread' in 'struct vpu_device'
-> =C2=A0=C2=A0=C2=A0=C2=A0 345 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kthread_stop(dev->ir=
-q_thread);
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 ~~~=C2=A0 ^
-> > > drivers/media/platform/chips-media/wave5/wave5-vpu.c:346:12: error: n=
-o
-> > > member named 'irq_sem' in 'struct vpu_device'
-> =C2=A0=C2=A0=C2=A0=C2=A0 346 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 up(&dev->irq_sem);
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 ~~~=C2=A0 ^
-> =C2=A0=C2=A0 drivers/media/platform/chips-media/wave5/wave5-vpu.c:347:8: =
-error: no
-> member named 'irq_thread' in 'struct vpu_device'
-> =C2=A0=C2=A0=C2=A0=C2=A0 347 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev->irq_thread =3D =
-NULL;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- ~~~=C2=A0 ^
-> =C2=A0=C2=A0 4 errors generated.
->=20
->=20
-> vim +344 drivers/media/platform/chips-media/wave5/wave5-vpu.c
->=20
-> =C2=A0=C2=A0 195=09
-> =C2=A0=C2=A0 196	static int wave5_vpu_probe(struct platform_device *pdev)
-> =C2=A0=C2=A0 197	{
-> =C2=A0=C2=A0 198		int ret;
-> =C2=A0=C2=A0 199		struct vpu_device *dev;
-> =C2=A0=C2=A0 200		const struct wave5_match_data *match_data;
-> =C2=A0=C2=A0 201		u32 fw_revision;
-> =C2=A0=C2=A0 202=09
-> =C2=A0=C2=A0 203		match_data =3D device_get_match_data(&pdev->dev);
-> =C2=A0=C2=A0 204		if (!match_data) {
-> =C2=A0=C2=A0 205			dev_err(&pdev->dev, "missing device match data\n");
-> =C2=A0=C2=A0 206			return -EINVAL;
-> =C2=A0=C2=A0 207		}
-> =C2=A0=C2=A0 208=09
-> =C2=A0=C2=A0 209		/* physical addresses limited to 32 bits */
-> =C2=A0=C2=A0 210		ret =3D dma_set_mask_and_coherent(&pdev->dev,
-> DMA_BIT_MASK(32));
-> =C2=A0=C2=A0 211		if (ret) {
-> =C2=A0=C2=A0 212			dev_err(&pdev->dev, "Failed to set DMA mask: %d\n",
-> ret);
-> =C2=A0=C2=A0 213			return ret;
-> =C2=A0=C2=A0 214		}
-> =C2=A0=C2=A0 215=09
-> =C2=A0=C2=A0 216		dev =3D devm_kzalloc(&pdev->dev, sizeof(*dev), GFP_KERN=
-EL);
-> =C2=A0=C2=A0 217		if (!dev)
-> =C2=A0=C2=A0 218			return -ENOMEM;
-> =C2=A0=C2=A0 219=09
-> =C2=A0=C2=A0 220		dev->vdb_register =3D devm_platform_ioremap_resource(pd=
-ev, 0);
-> =C2=A0=C2=A0 221		if (IS_ERR(dev->vdb_register))
-> =C2=A0=C2=A0 222			return PTR_ERR(dev->vdb_register);
-> =C2=A0=C2=A0 223		ida_init(&dev->inst_ida);
-> =C2=A0=C2=A0 224=09
-> =C2=A0=C2=A0 225		mutex_init(&dev->dev_lock);
-> =C2=A0=C2=A0 226		mutex_init(&dev->hw_lock);
-> =C2=A0=C2=A0 227		dev_set_drvdata(&pdev->dev, dev);
-> =C2=A0=C2=A0 228		dev->dev =3D &pdev->dev;
-> =C2=A0=C2=A0 229=09
-> =C2=A0=C2=A0 230		dev->resets =3D
-> devm_reset_control_array_get_optional_exclusive(&pdev->dev);
-> =C2=A0=C2=A0 231		if (IS_ERR(dev->resets)) {
-> =C2=A0=C2=A0 232			return dev_err_probe(&pdev->dev, PTR_ERR(dev-
-> >resets),
-> =C2=A0=C2=A0 233					=C2=A0=C2=A0=C2=A0=C2=A0 "Failed to get reset
-> control\n");
-> =C2=A0=C2=A0 234		}
-> =C2=A0=C2=A0 235=09
-> =C2=A0=C2=A0 236		ret =3D reset_control_deassert(dev->resets);
-> =C2=A0=C2=A0 237		if (ret)
-> =C2=A0=C2=A0 238			return dev_err_probe(&pdev->dev, ret, "Failed to
-> deassert resets\n");
-> =C2=A0=C2=A0 239=09
-> =C2=A0=C2=A0 240		ret =3D devm_clk_bulk_get_all(&pdev->dev, &dev->clks);
-> =C2=A0=C2=A0 241=09
-> =C2=A0=C2=A0 242		/* continue without clock, assume externally managed */
-> =C2=A0=C2=A0 243		if (ret < 0) {
-> =C2=A0=C2=A0 244			dev_warn(&pdev->dev, "Getting clocks, fail: %d\n",
-> ret);
-> =C2=A0=C2=A0 245			ret =3D 0;
-> =C2=A0=C2=A0 246		}
-> =C2=A0=C2=A0 247		dev->num_clks =3D ret;
-> =C2=A0=C2=A0 248=09
-> =C2=A0=C2=A0 249		ret =3D clk_bulk_prepare_enable(dev->num_clks, dev->clk=
-s);
-> =C2=A0=C2=A0 250		if (ret) {
-> =C2=A0=C2=A0 251			dev_err(&pdev->dev, "Enabling clocks, fail: %d\n",
-> ret);
-> =C2=A0=C2=A0 252			goto err_reset_assert;
-> =C2=A0=C2=A0 253		}
-> =C2=A0=C2=A0 254=09
-> =C2=A0=C2=A0 255		dev->sram_pool =3D of_gen_pool_get(pdev->dev.of_node, "=
-sram",
-> 0);
-> =C2=A0=C2=A0 256		if (!dev->sram_pool)
-> =C2=A0=C2=A0 257			dev_warn(&pdev->dev, "sram node not found\n");
-> =C2=A0=C2=A0 258=09
-> =C2=A0=C2=A0 259		dev->sram_size =3D match_data->sram_size;
-> =C2=A0=C2=A0 260=09
-> =C2=A0=C2=A0 261		dev->product_code =3D wave5_vdi_read_register(dev,
-> VPU_PRODUCT_CODE_REGISTER);
-> =C2=A0=C2=A0 262		ret =3D wave5_vdi_init(&pdev->dev);
-> =C2=A0=C2=A0 263		if (ret < 0) {
-> =C2=A0=C2=A0 264			dev_err(&pdev->dev, "wave5_vdi_init, fail: %d\n",
-> ret);
-> =C2=A0=C2=A0 265			goto err_clk_dis;
-> =C2=A0=C2=A0 266		}
-> =C2=A0=C2=A0 267		dev->product =3D wave5_vpu_get_product_id(dev);
-> =C2=A0=C2=A0 268=09
-> =C2=A0=C2=A0 269		dev->irq =3D platform_get_irq(pdev, 0);
-> =C2=A0=C2=A0 270		if (dev->irq < 0) {
-> =C2=A0=C2=A0 271			dev_err(&pdev->dev, "failed to get irq resource,
-> falling back to polling\n");
-> =C2=A0=C2=A0 272			hrtimer_setup(&dev->hrtimer,
-> &wave5_vpu_timer_callback, CLOCK_MONOTONIC,
-> =C2=A0=C2=A0 273				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 HRTIMER_MODE_REL_PINNE=
-D);
-> =C2=A0=C2=A0 274			dev->worker =3D kthread_run_worker(0,
-> "vpu_irq_thread");
-> =C2=A0=C2=A0 275			if (IS_ERR(dev->worker)) {
-> =C2=A0=C2=A0 276				dev_err(&pdev->dev, "failed to create vpu irq
-> worker\n");
-> =C2=A0=C2=A0 277				ret =3D PTR_ERR(dev->worker);
-> =C2=A0=C2=A0 278				goto err_vdi_release;
-> =C2=A0=C2=A0 279			}
-> =C2=A0=C2=A0 280			dev->vpu_poll_interval =3D vpu_poll_interval;
-> =C2=A0=C2=A0 281			kthread_init_work(&dev->work, wave5_vpu_irq_work_fn);
-> =C2=A0=C2=A0 282		} else {
-> =C2=A0=C2=A0 283			ret =3D devm_request_threaded_irq(&pdev->dev, dev->irq=
-,
-> NULL,
-> =C2=A0=C2=A0 284							wave5_vpu_irq_thread,
-> IRQF_ONESHOT, "vpu_irq", dev);
-> =C2=A0=C2=A0 285			if (ret) {
-> =C2=A0=C2=A0 286				dev_err(&pdev->dev, "Register interrupt
-> handler, fail: %d\n", ret);
-> =C2=A0=C2=A0 287				goto err_enc_unreg;
-> =C2=A0=C2=A0 288			}
-> =C2=A0=C2=A0 289		}
-> =C2=A0=C2=A0 290=09
-> =C2=A0=C2=A0 291		INIT_LIST_HEAD(&dev->instances);
-> =C2=A0=C2=A0 292		ret =3D v4l2_device_register(&pdev->dev, &dev->v4l2_dev=
-);
-> =C2=A0=C2=A0 293		if (ret) {
-> =C2=A0=C2=A0 294			dev_err(&pdev->dev, "v4l2_device_register, fail:
-> %d\n", ret);
-> =C2=A0=C2=A0 295			goto err_irq_release;
-> =C2=A0=C2=A0 296		}
-> =C2=A0=C2=A0 297=09
-> =C2=A0=C2=A0 298		if (match_data->flags & WAVE5_IS_DEC) {
-> =C2=A0=C2=A0 299			ret =3D wave5_vpu_dec_register_device(dev);
-> =C2=A0=C2=A0 300			if (ret) {
-> =C2=A0=C2=A0 301				dev_err(&pdev->dev,
-> "wave5_vpu_dec_register_device, fail: %d\n", ret);
-> =C2=A0=C2=A0 302				goto err_v4l2_unregister;
-> =C2=A0=C2=A0 303			}
-> =C2=A0=C2=A0 304		}
-> =C2=A0=C2=A0 305		if (match_data->flags & WAVE5_IS_ENC) {
-> =C2=A0=C2=A0 306			ret =3D wave5_vpu_enc_register_device(dev);
-> =C2=A0=C2=A0 307			if (ret) {
-> =C2=A0=C2=A0 308				dev_err(&pdev->dev,
-> "wave5_vpu_enc_register_device, fail: %d\n", ret);
-> =C2=A0=C2=A0 309				goto err_dec_unreg;
-> =C2=A0=C2=A0 310			}
-> =C2=A0=C2=A0 311		}
-> =C2=A0=C2=A0 312=09
-> =C2=A0=C2=A0 313		ret =3D wave5_vpu_load_firmware(&pdev->dev, match_data-
-> >fw_name, &fw_revision);
-> =C2=A0=C2=A0 314		if (ret) {
-> =C2=A0=C2=A0 315			dev_err(&pdev->dev, "wave5_vpu_load_firmware, fail:
-> %d\n", ret);
-> =C2=A0=C2=A0 316			goto err_enc_unreg;
-> =C2=A0=C2=A0 317		}
-> =C2=A0=C2=A0 318=09
-> =C2=A0=C2=A0 319		dev_info(&pdev->dev, "Added wave5 driver with caps: %s =
-%s\n",
-> =C2=A0=C2=A0 320			 (match_data->flags & WAVE5_IS_ENC) ? "'ENCODE'" :
-> "",
-> =C2=A0=C2=A0 321			 (match_data->flags & WAVE5_IS_DEC) ? "'DECODE'" :
-> "");
-> =C2=A0=C2=A0 322		dev_info(&pdev->dev, "Product Code:=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 0x%x\n", dev-
-> >product_code);
-> =C2=A0=C2=A0 323		dev_info(&pdev->dev, "Firmware Revision: %u\n", fw_revi=
-sion);
-> =C2=A0=C2=A0 324=09
-> =C2=A0=C2=A0 325		pm_runtime_set_autosuspend_delay(&pdev->dev, 100);
-> =C2=A0=C2=A0 326		pm_runtime_use_autosuspend(&pdev->dev);
-> =C2=A0=C2=A0 327		pm_runtime_enable(&pdev->dev);
-> =C2=A0=C2=A0 328		wave5_vpu_sleep_wake(&pdev->dev, true, NULL, 0);
-> =C2=A0=C2=A0 329=09
-> =C2=A0=C2=A0 330		return 0;
-> =C2=A0=C2=A0 331=09
-> =C2=A0=C2=A0 332	err_enc_unreg:
-> =C2=A0=C2=A0 333		if (match_data->flags & WAVE5_IS_ENC)
-> =C2=A0=C2=A0 334			wave5_vpu_enc_unregister_device(dev);
-> =C2=A0=C2=A0 335	err_dec_unreg:
-> =C2=A0=C2=A0 336		if (match_data->flags & WAVE5_IS_DEC)
-> =C2=A0=C2=A0 337			wave5_vpu_dec_unregister_device(dev);
-> =C2=A0=C2=A0 338	err_v4l2_unregister:
-> =C2=A0=C2=A0 339		v4l2_device_unregister(&dev->v4l2_dev);
-> =C2=A0=C2=A0 340	err_irq_release:
-> =C2=A0=C2=A0 341		if (dev->irq < 0)
-> =C2=A0=C2=A0 342			kthread_destroy_worker(dev->worker);
-> =C2=A0=C2=A0 343	err_vdi_release:
-> =C2=A0> 344		if (dev->irq_thread) {
-> =C2=A0=C2=A0 345			kthread_stop(dev->irq_thread);
-> =C2=A0> 346			up(&dev->irq_sem);
-> =C2=A0=C2=A0 347			dev->irq_thread =3D NULL;
-> =C2=A0=C2=A0 348		}
-> =C2=A0=C2=A0 349		wave5_vdi_release(&pdev->dev);
-> =C2=A0=C2=A0 350	err_clk_dis:
-> =C2=A0=C2=A0 351		clk_bulk_disable_unprepare(dev->num_clks, dev->clks);
-> =C2=A0=C2=A0 352	err_reset_assert:
-> =C2=A0=C2=A0 353		reset_control_assert(dev->resets);
-> =C2=A0=C2=A0 354=09
-> =C2=A0=C2=A0 355		return ret;
-> =C2=A0=C2=A0 356	}
-> =C2=A0=C2=A0 357=09
-
---=-ArITD+HP4AWhWFd1wHlA
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaUlB5gAKCRDZQZRRKWBy
-9G5sAQCokd4SYyglsRmYxrmA2CWPXhm+bADNzimh+pxXN3G/OQD+MFQ+HRYXQdiQ
-SJwfLmmU7PpCSi2vgBDwk2vjDrgkUwg=
-=Yhkj
------END PGP SIGNATURE-----
-
---=-ArITD+HP4AWhWFd1wHlA--
+--
+Uladzislau Rezki
 
