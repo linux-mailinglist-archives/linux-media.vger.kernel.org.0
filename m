@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-49335-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49336-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D2AFCD5A61
-	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 11:46:19 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA744CD5A7F
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 11:48:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id DE82C301219D
-	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 10:46:18 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B3EDC3054CAE
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 10:46:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9290F32D42D;
-	Mon, 22 Dec 2025 10:46:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4407B3148CD;
+	Mon, 22 Dec 2025 10:46:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AyfPsy4o"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="P9ag6DBD"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4929220C001;
-	Mon, 22 Dec 2025 10:46:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10816219FC;
+	Mon, 22 Dec 2025 10:46:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766400377; cv=none; b=CCSuwryOMjlxgg+v5rfuFMT9HLqVyfjHew2ntlOzHHW/dAIUdE7l7y3Ej23yolsMeyXScPUU44oFy8tMJwwsQNlvuHkiGY+Wz2fId03gzdNi473gXUXMzOEDHVaPiH6qc8A7tP6ExMSSTr15ALNcpRAXUk0QAuycj/HrKxKcHV0=
+	t=1766400407; cv=none; b=KhuAtoHSx5KTBAWENT0ErJTE5BknUxKz29fFQvBeZsXV0zJ+fwo4MZxpDV3CLnykCHspxLW+k94hd1hjkmAs5WhZP07/KIsgAnnN5xcrGgeoOls2spbUNBSd92oOQ6QhJBIn3tzEq4+xNIe+SGA9A0+w17cumOG1Q0EAqQNuUYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766400377; c=relaxed/simple;
-	bh=IWUCKP5shSjb6TK1QDcnntBY2zp34+0vjdZrWYJvbNI=;
+	s=arc-20240116; t=1766400407; c=relaxed/simple;
+	bh=RdzLGMafBat0IP/kahOkNlKOQ7xkrlkxZrPqkq1Y0F0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qAcDcKYB4QEtpz64yetMuFndMMSeCj9LlgkOhnKDHScuO0/xBikxE39bwp8dVcSOO1x5RwE++uRuc+l2pfTX7UjA8b4+eMUuRWohM8ZnWxaQnr5+uv24VS46q7Hel6mV3u3Ffe5ZPdoL5VNl+hRTDxJhZMLApt8IPxTiEkXBLcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=AyfPsy4o; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=fQPZOuHwtJexHvSsaU7ZFJnrf4EIQb1Kajeft+BWbyia1UzJmP0m0EGVzdy2upNclEwpgAJC/4DGIA0ItcfQiGpawPzYqeB5arVa13UMURltMS7OdRmVaPy3UymUz8Ej+Ad2HxC0VlSAJdOcFiVGeRUsH2nM9AXNCDvR7KkQGT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=P9ag6DBD; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0386AC77;
-	Mon, 22 Dec 2025 11:45:57 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CA2173C8;
+	Mon, 22 Dec 2025 11:46:32 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1766400358;
-	bh=IWUCKP5shSjb6TK1QDcnntBY2zp34+0vjdZrWYJvbNI=;
+	s=mail; t=1766400393;
+	bh=RdzLGMafBat0IP/kahOkNlKOQ7xkrlkxZrPqkq1Y0F0=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=AyfPsy4ow1vPRDlPb9a7TXUtJn2pSrMZ1N2IEM6NqbjooCu+kycJU89/R7vAJgw4s
-	 RTwUOwQhL9YvfrLjrHkgrjoS4QLro9mefwkJxK05nJHehB+4aZUFO6lbtvRhWjsj+R
-	 4D4XMFybDCdZZlMOWwZFZkUDXJA/Ot1BuhXZlnIE=
-Message-ID: <fb0b0f13-0d0b-47f9-b8df-5e5551a61d1b@ideasonboard.com>
-Date: Mon, 22 Dec 2025 12:46:03 +0200
+	b=P9ag6DBDTyRiT//M2+Z0Ur7tYkpUEoCVvW3Y/I7eJ4xC7+DWdKdggV3FH8t9/UrQ6
+	 TIviuKnYahVSOg02siYwO72fWsfK4w1dA54gEaMaf3NFgbsMg6nrSv8UgxybmraCrd
+	 RBrgI3NYgVQfuTDpYlVzJV+h8aXYCnjFo5lzbVHE=
+Message-ID: <b8629eac-d210-4b0a-9cf7-c0153f8a07a1@ideasonboard.com>
+Date: Mon, 22 Dec 2025 12:46:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -48,8 +48,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V3 2/4] media: i2c: ds90ub960: Use enums for chip type and
- chip family
+Subject: Re: [PATCH V3 4/4] media: i2c: ds90ub960: Add support for
+ DS90UB954-Q1
 To: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>, mchehab@kernel.org,
  robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  hverkuil@xs4all.nl, sakari.ailus@linux.intel.com,
@@ -60,7 +60,7 @@ Cc: hansg@kernel.org, mehdi.djait@linux.intel.com, ribalda@chromium.org,
  jai.luthra@linux.dev, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20251219122955.2078270-1-y-abhilashchandra@ti.com>
- <20251219122955.2078270-3-y-abhilashchandra@ti.com>
+ <20251219122955.2078270-5-y-abhilashchandra@ti.com>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Content-Language: en-US
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -106,26 +106,33 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20251219122955.2078270-3-y-abhilashchandra@ti.com>
+In-Reply-To: <20251219122955.2078270-5-y-abhilashchandra@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
 On 19/12/2025 14:29, Yemike Abhilash Chandra wrote:
-> Replace chip-specific boolean flags with chip_type and chip_family enums.
-> This simplifies the process of adding support for newer devices and also
-> improves code readability.
+> DS90UB954-Q1 is an FPDLink-III deserializer that is mostly register
+> compatible with DS90UB960-Q1. The main difference is that it supports half
+> of the RX and TX ports, i.e. 2x FPDLink RX ports and 1x CSI TX port.
 > 
+> A couple of differences are between the status registers and the
+> strobe setting registers. Hence accommodate these differences in
+> the UB960 driver so that we can reuse a large part of the existing code.
+> 
+> Link: https://www.ti.com/lit/gpn/ds90ub954-q1
 > Signed-off-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
 > ---
 > Changelog:
 > Changes in v3:
-> - Change conditional checks to check for applicable chips over negated checks. (Tomi)
-> - Keep the model name in the ub960_hw_data structure and remove the switch-case from the probe function. (Tomi)
+> - Remove redundant reads and writes to the same register. (Tomi)
+> - Correct the bit positions for data delay in set_strobe_pos for UB954. (Tomi)
+> - Address a few minor nitpicks in code comments. (Tomi)
 > 
->  drivers/media/i2c/ds90ub960.c | 38 +++++++++++++++++++++++------------
->  1 file changed, 25 insertions(+), 13 deletions(-)
+>  drivers/media/i2c/Kconfig     |   4 +-
+>  drivers/media/i2c/ds90ub960.c | 182 ++++++++++++++++++++++++----------
+>  2 files changed, 129 insertions(+), 57 deletions(-)
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
  Tomi
