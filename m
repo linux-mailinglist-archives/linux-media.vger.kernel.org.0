@@ -1,47 +1,48 @@
-Return-Path: <linux-media+bounces-49289-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49290-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29B54CD4F32
-	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 09:16:54 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7452CD4F54
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 09:18:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 0A905300B6BD
-	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 08:16:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C8A4F302E07F
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 08:16:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BE4B25F96B;
-	Mon, 22 Dec 2025 08:16:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 504EC2FFDFA;
+	Mon, 22 Dec 2025 08:16:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="B+UfWrQL"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pT0Dy+B5"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7599013B5AE;
-	Mon, 22 Dec 2025 08:16:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34C8F221F1C;
+	Mon, 22 Dec 2025 08:16:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766391375; cv=none; b=Qj76cr88ESoQbRbSXWJjk/wXUmzzOl91meeR6pHfSszXFRErN0HWRWtqeX/eKUAv63Yz4khm+/ctaJFhmqMavwYSwcnlb3EK5nsHz77IT0wxadnjnoqw7euFWa88OAupR9KIpGOPfhO9WlPkxfey1FPEW9eUJEUEstKCdik1hBk=
+	t=1766391382; cv=none; b=U18vjjCZgHRv4Qj59g5h+L0Z20Z8X393JK9pRkvt8XDmSt95aELZuaiSzPxvIZZceUWTaXEud22zk3JJAww60hZdrZldinuhZ6ENw4fZGsBdlMD7jTbskz0hFXq/PeoJoXMztyDN8oP/gcqwOBSlZNEiLUOYg8t4mux4ZuDYrMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766391375; c=relaxed/simple;
-	bh=ECDfT216IS7XDAHxl6JD3dcTZsCiJMFAKz8PveO6GBQ=;
+	s=arc-20240116; t=1766391382; c=relaxed/simple;
+	bh=HyXySvq8mUoqwEdtkbO7xbtYwTxCRwrMNp4b93B18JM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=jAF60P/MbLEWEyH/M9el/Ng3YiAEjEz3Ja5S8s4BMxuLTy9ScTLbABQCg4CO9jhl1GJu4P/zP/fhdXk9LQsdml4EOan8WRQCHVbkavM/ojSG+3CXFO9hl86sPiMCdDRAneqIQC3Jai6C87UjkhxtFg7OC9368jQc+vJs31F6Gog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=B+UfWrQL; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=NT18RjiKb/i/4rUt7ve6IrRlkFI5/NFoppys3GcgaRJpM3591/rsSFTyrNmqde+qwSRMDF5Hw3t6obGP+lnhDRdJQKFfIia3FaLfkinI4OgRQUT81X+15CqEIhXlLlT/mrxFt0tXzHyoKuvgsEM4DVsSbEGyput2xoo36lmma0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pT0Dy+B5; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c66:aa51:d08b:9316:9524:9005])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A037710BE;
-	Mon, 22 Dec 2025 09:16:01 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4CDA6593;
+	Mon, 22 Dec 2025 09:16:08 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1766391362;
-	bh=ECDfT216IS7XDAHxl6JD3dcTZsCiJMFAKz8PveO6GBQ=;
+	s=mail; t=1766391369;
+	bh=HyXySvq8mUoqwEdtkbO7xbtYwTxCRwrMNp4b93B18JM=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=B+UfWrQLzhIFarg41RJbaPIdNpEKMpyGMHhzB53fQ8KqoS0euDTDf3bIhvt/pZHs6
-	 Rtgz/Cvw1M3ikBYegHd49frWxFrtAwMn34TJRcAOwzKA2it58CJ57KSc0bmn5elG/K
-	 ljbId2J1kPWV10Ij+Pg/ckGB9chi6OCjDh7HE4/4=
+	b=pT0Dy+B5s/mDuKxtFHQQQKVtcXS5XrXoe9JW3lL5rXsubBjYok+7txAmNgfdduCTc
+	 Apq9rz7YlTjtXMrpPGmGWzIV3VYPdJclTfSIEYLP5cHDyWi3GA23qUKJCJUj7n2X3z
+	 nRL/LOPHGphG5GLzJOJGjmjhQnN9JRR0qP0Xdvv0=
 From: Jai Luthra <jai.luthra@ideasonboard.com>
-Date: Mon, 22 Dec 2025 13:45:27 +0530
-Subject: [PATCH v4 03/17] media: i2c: ov5647: Correct minimum VBLANK value
+Date: Mon, 22 Dec 2025 13:45:28 +0530
+Subject: [PATCH v4 04/17] media: i2c: ov5647: Sensor should report RAW
+ color space
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +51,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251222-b4-rpi-ov5647-v4-3-b949c7309280@ideasonboard.com>
+Message-Id: <20251222-b4-rpi-ov5647-v4-4-b949c7309280@ideasonboard.com>
 References: <20251222-b4-rpi-ov5647-v4-0-b949c7309280@ideasonboard.com>
 In-Reply-To: <20251222-b4-rpi-ov5647-v4-0-b949c7309280@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -71,51 +72,77 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
  Jai Luthra <jai.luthra@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1008;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1855;
  i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
- bh=EeooS5E8RZpQuz7+4w+98i6AERrcR8y8PJ4LbLlm9Qk=;
- b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBpSP4jhLP7r0/yMZ7ahnqOuzVKSePWm4zMXAWRf
- Mlfxv2Dy5mJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaUj+IwAKCRBD3pH5JJpx
- RfioEADNvweYMoOPlblqwgo/9kCmgc40MlzjOT7J/vQeN3F3VX4TkrUOU2iNvl1/YaaVHJ7ZCMb
- fGXie4mCBaKbAHtCEoSlSgRuhNTCC2t+3+fY4cgs33OttFaIYoFiplayV89tAQW/Tv1RTKL5Wzy
- ERAwVgAtJ8ZhuPfVW8ZpB9h80e1/UJLVngCHEnuGgMc9BfU4l5QByd4zV2XgECmYm02wbpGhCKk
- yfjnG9Y6gH8FP5jI9Cy3D0VK1f7a+hp4bHoVGJfeia0gh0D58gjo0e4zOhIfeVKMPO/zumdy8sR
- WsW47mEZ2spkcYfbtac7KC7nSukAxMSEXab9kcLJFHcV5wOEBwwGls5VgvKthNXGElPHQ8ozCtL
- crwbxQofed0yp4uQfI9fnDH/rHyLILDR9A04zQ3TdmEYM2A+81UT9lGNCf/T68lcofNoGhat7GM
- X6sL7HnWh6dad+CSE196wuGJbbPnoCI6IN2MpsvA2jU/twpglOt6u/d+aLBNq79YTPq0lb2YMoN
- 6uLkJSl2uLyGXtoV2mx4gp9R/pcdV5tTtX65i4wSad5yDAUpoT9144ByA3P8Kl/Lohjc9kcFnkz
- wxbJ+7WExqZalVldkJMWdPHa7/1hnmflOQhuu4Cz7tSNMWnGFFIscH3aVuStwJ3WhLpjz89sR0U
- QxU59rcCm8T1fDQ==
+ bh=cRtEaBGj87Hmp8mA7OL908N5mREpt4LN0Ry6e4CQEUc=;
+ b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBpSP4kEJIF6KI3fscc21CIrW0NDhMIRQrcgAxjP
+ Vzrv4gVBGmJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaUj+JAAKCRBD3pH5JJpx
+ RcvXD/9Ayky2mWf0tKvu+GIclJOfuEpeYiR1djSdTzk2Eb6YFKT55xYIArXu9NluTJeoadf/vGS
+ kEqUYhnM7eKOtTDhujIH55Oxn/fEpcQeZcLuA5E+xgUglVkwW8J07qaOUjhC7qSCoxbrrWkTEpU
+ 1Dx/s4CvJIO1Q+qohhxdHe2nWpyJVww1OWvK0e7t8d3WkXI0UIIl1ofWXd/T+rYXNDBdjH9DG6m
+ jNYErZUKCYjEOJ61t1e5EiZxu30d5glS67M3Bs2E7hf+CH5/R5bMqiExmWbqeoMPem2UufyflH4
+ bNk5s0QT2jbcbrx+/u3rwt5o8FURrR2K3ay3ElposSCCDuKlHJLgRE2gfbF15YqeT25WXwz1VMz
+ kdkirhIom8CStRuzA1O5F1ih2XPJaAvuUwx002LHd3WwNHKT4vB6j8iD8ZiGB6/y32AtIZ3o1vL
+ NJcw59ZvGF3TMOWM1Wv+6Z4DMRB6KJ8xPkf0FOag91LdubSPs4ZQXbhzqMMSo5f0GVvcFf/bKNy
+ vFKYgFMUsAn5jCEAdtAA9BkyyniAwPSrRwFnXYg5XduPqyEmpv8nili+QaPu+owodgif4iLV5/u
+ SqjVz2nf4VwcZy0m6YZFopkX8h9HI2HVal2BMO0RscKAsEkZ2wkNLwZuIU/tFTFVNSqY1HBbmHM
+ /tTUUeZXU/gOpvg==
 X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
  fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
 
 From: David Plowman <david.plowman@raspberrypi.com>
 
-Trial and error reveals that the minimum vblank value appears to be 24
-(the OV5647 data sheet does not give any clues). This fixes streaming
-lock-ups in full resolution mode.
+As this sensor captures RAW bayer frames, the colorspace should be
+V4L2_COLORSPACE_RAW instead of SRGB.
 
-Fixes: 2512c06441e3 ("media: ov5647: Support V4L2_CID_VBLANK control")
+Fixes: a8df5af695a1 ("media: ov5647: Add SGGBR10_1X10 modes")
 Signed-off-by: David Plowman <david.plowman@raspberrypi.com>
 Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
 ---
- drivers/media/i2c/ov5647.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/i2c/ov5647.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-index d9e300406f58e554de12d9062840353bdf7a226c..191954497e3dba4b1de4094b2ea1328a6e287003 100644
+index 191954497e3dba4b1de4094b2ea1328a6e287003..c0f1121b025e5592d6fd4d5fd23e4262dde2d84c 100644
 --- a/drivers/media/i2c/ov5647.c
 +++ b/drivers/media/i2c/ov5647.c
-@@ -73,7 +73,7 @@
- #define OV5647_PIXEL_ARRAY_WIDTH	2592U
- #define OV5647_PIXEL_ARRAY_HEIGHT	1944U
- 
--#define OV5647_VBLANK_MIN		4
-+#define OV5647_VBLANK_MIN		24
- #define OV5647_VTS_MAX			32767
- 
- #define OV5647_EXPOSURE_MIN		4
+@@ -508,7 +508,7 @@ static const struct ov5647_mode ov5647_modes[] = {
+ 	{
+ 		.format = {
+ 			.code		= MEDIA_BUS_FMT_SBGGR10_1X10,
+-			.colorspace	= V4L2_COLORSPACE_SRGB,
++			.colorspace	= V4L2_COLORSPACE_RAW,
+ 			.field		= V4L2_FIELD_NONE,
+ 			.width		= 2592,
+ 			.height		= 1944
+@@ -529,7 +529,7 @@ static const struct ov5647_mode ov5647_modes[] = {
+ 	{
+ 		.format = {
+ 			.code		= MEDIA_BUS_FMT_SBGGR10_1X10,
+-			.colorspace	= V4L2_COLORSPACE_SRGB,
++			.colorspace	= V4L2_COLORSPACE_RAW,
+ 			.field		= V4L2_FIELD_NONE,
+ 			.width		= 1920,
+ 			.height		= 1080
+@@ -550,7 +550,7 @@ static const struct ov5647_mode ov5647_modes[] = {
+ 	{
+ 		.format = {
+ 			.code		= MEDIA_BUS_FMT_SBGGR10_1X10,
+-			.colorspace	= V4L2_COLORSPACE_SRGB,
++			.colorspace	= V4L2_COLORSPACE_RAW,
+ 			.field		= V4L2_FIELD_NONE,
+ 			.width		= 1296,
+ 			.height		= 972
+@@ -571,7 +571,7 @@ static const struct ov5647_mode ov5647_modes[] = {
+ 	{
+ 		.format = {
+ 			.code		= MEDIA_BUS_FMT_SBGGR10_1X10,
+-			.colorspace	= V4L2_COLORSPACE_SRGB,
++			.colorspace	= V4L2_COLORSPACE_RAW,
+ 			.field		= V4L2_FIELD_NONE,
+ 			.width		= 640,
+ 			.height		= 480
 
 -- 
 2.52.0
