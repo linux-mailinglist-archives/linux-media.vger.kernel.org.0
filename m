@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-49298-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49299-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57918CD520A
-	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 09:45:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84147CD5183
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 09:39:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6F232300420E
-	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 08:41:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 510FE3035A6E
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 08:36:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5FB730F925;
-	Mon, 22 Dec 2025 08:17:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0EDE30F951;
+	Mon, 22 Dec 2025 08:17:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="p3hKW/RI"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mnCT36TE"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8FDC1F3BA4;
-	Mon, 22 Dec 2025 08:17:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CB7C2367B3;
+	Mon, 22 Dec 2025 08:17:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766391429; cv=none; b=h6860TCHNnFAOoNKGGpvLXtLSFVHxEXJf0Ln++kRuASkQs25nI1SYLhJj29sRfcl8TP7K9A7+43mXpaMpaGF0pYnNawDAIWu4492lcmh730Y+hAg584kCgjR7tELTNWd3sZAXixjbNPh+KDKhFZMDOtXrvu5F/ERbgKnPupayrw=
+	t=1766391430; cv=none; b=LBXmP5REpVc7ZwUqsVOJFdzJVzVdXXRos8qo27KMoFAEB60YsMOvbcDBHZZPmH4JGDTxQGNM+JTMv81IhzHIZjd3UunupE3QQpM2EKOqC2V5AtekNh2lV+33gg9aO6LBuykF7OjR33TVOzd9lFuSYKuEqPogBM/XYTgA2KgvHVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766391429; c=relaxed/simple;
-	bh=N6V4uKY9/YiGaX06iEZMqxOk382qQS6oDapOaTysrL8=;
+	s=arc-20240116; t=1766391430; c=relaxed/simple;
+	bh=sLwppaM3UidnqHSY+zt4ykVRqMOPAKrpSGM71AptNZ0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=hCU8vOMkuKxT9ekKa+pCV7t7++gSDOS7i6Otmwf1Q39nd8qHPt+wjZxiZNrblh2W086chyklKoY7kRMxXjPUY47cMQLLlaFeK/b0gZ8vdM6IKHlWBzXp9r3Lfwdc477ytoGgtveSfU+iWY1NxV1xgFVqrqXvF2tubCT3dlSaIaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=p3hKW/RI; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=KHK+D1B26UO0GJcvmogEv7tHmvUh16r5kqal+QwPC9R6GicVurxdYm8hHaQiYAzJR88X4w3zi8R1eguIef84zG9Q5Tj2bvvqeSvKoeb7LuY4MHbm7d/fOdDPBj/3uygpZBoILCSktDfatOz48j4ak8fDcTS6AIs6QdO6mPrrW28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mnCT36TE; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c66:aa51:d08b:9316:9524:9005])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B0E803C8;
-	Mon, 22 Dec 2025 09:16:51 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7A305593;
+	Mon, 22 Dec 2025 09:16:56 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1766391412;
-	bh=N6V4uKY9/YiGaX06iEZMqxOk382qQS6oDapOaTysrL8=;
+	s=mail; t=1766391417;
+	bh=sLwppaM3UidnqHSY+zt4ykVRqMOPAKrpSGM71AptNZ0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=p3hKW/RIzNx0eXmVFsCQnV/ix6e5tliPXqDFw34BjH8mFqQeI0SgCk8FjERoqjxNk
-	 8ATEmpwl1uqALJcxl2bsJiXLyuIl0z8CIABug7TJ5ij4Xjo+e9jerbCe4Zl6YE/d8g
-	 wj9jepBB8o9kRLjUKVVJvmpLvulDk2D03IEb5gwE=
+	b=mnCT36TEsX2K1407nvWp4rzNG6IuxGB2J3X9LVug7yx8ih4JdGitKHUEjnaGOvxaw
+	 mTgC6+XT32/22GdYAISmeoeKwMq8JrvY4xkWP82VXTZAZlLQQdxVwO0bkO0s/7i7SV
+	 hoIbugs78t7JY4MemKQ06/AWougwwyCGnSglD23k=
 From: Jai Luthra <jai.luthra@ideasonboard.com>
-Date: Mon, 22 Dec 2025 13:45:36 +0530
-Subject: [PATCH v4 12/17] media: i2c: ov5647: Add control of
- V4L2_CID_HBLANK
+Date: Mon, 22 Dec 2025 13:45:37 +0530
+Subject: [PATCH v4 13/17] media: i2c: ov5647: Tidy up mode registers to
+ make the order common
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -51,7 +51,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251222-b4-rpi-ov5647-v4-12-b949c7309280@ideasonboard.com>
+Message-Id: <20251222-b4-rpi-ov5647-v4-13-b949c7309280@ideasonboard.com>
 References: <20251222-b4-rpi-ov5647-v4-0-b949c7309280@ideasonboard.com>
 In-Reply-To: <20251222-b4-rpi-ov5647-v4-0-b949c7309280@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -72,151 +72,118 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
  Jai Luthra <jai.luthra@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4382;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2493;
  i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
- bh=Au4knr519ZM4Aq6gmDpIWt2YpFn5QUIp+YTU2c0hTXo=;
- b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBpSP4szvXM7v047RxziTCdKQm9BmiSi3xoOXoGw
- iAaFBd7kkKJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaUj+LAAKCRBD3pH5JJpx
- RZ2+D/wKSvsIjBbuZ+5DjkEmi6tsvVEROW3vbZ34A99XWCBlcN3eJu7TgoNJfYitSrH9mitIjdu
- PGQO1Kg4Es/gD4g0aRSR6Vz0PmTiPoeJbjPosk3j3kHuQ5rrKfWt+YtaiB0kHCAvQwoP6BxMpx6
- W9AbiQBesZVihqe1Iywe4mUVFsfVPoEpWCTtPfvuM/o2FGRSyGWXaYDAJLSl76HsW8FxTmY4TxS
- LtbrzJM0sd27WYbnykhXmKj0vulgHt8SLTdvIJ40OtWKRpN3Dv8uaGXZmEv7FE0IYRUjrAPUo3L
- Pk8xS71Rf+r0auCsrh088w+MHSdB7TkmcdpMX2D5dTgr58DxP1FDgp1VZaEgcPq2zp1QBZH3R9I
- JrLiv5l/KlydHaseDKgm+oAcQBCzuHmvaYtgEqAkGNesPffRbsMr767rVNmbmWm4T1Xt5r0FQ71
- kX1PuYMy2qy9P6GIspfJ32xzlhyD6h6uJyme1AwVUEYn00upiG4hmnRa6fTHY8esVEO06XZ2UCh
- 1yF1CCZ5NQcBEzTzl7Cr7qTnmuiSZIRCt9cGDS6qjEhXo3Z4DrEph5hCawe0MkaVvuuwJKUJoIz
- 7e2oY6WUi4z7xtLtlz5jWcg77hp3AHsKMqUD7/QqWX/zgSfqX7DryACiVOeEQlMBbk0pLWL5H0Q
- n6rsxO+6A2aFbfg==
+ bh=3hwnFw5i8utHuyPZHb0dYc8OrbjufzHTvFE55/5oYpY=;
+ b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBpSP4tOdWVxgEFCsmANYZLqZD+dRerwY+4DP/TO
+ Jn+6baTneWJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaUj+LQAKCRBD3pH5JJpx
+ RWMnD/4pW9GIjsF7P1IBo7/V/d5/an9Pkh/LU57EESOVE9LzyIlxsW1N6NNWsH2t6DTEy++Lp21
+ 5fg9AnQm6GCplMVUYjlVH1lwRBwQeCvdmrwx2PQCbBvcdGWEwxBnY4WcDWb+TvOo8TYOYJvafzL
+ s6mIoGfDCBXQzm59wbYLNnpz9M9y4/Qo4xzGkKdbmgLp/BacHYAOvoqfnuPmumQf4v7GwHYG1s4
+ 7slfh0BcR+sIJrD2OOMQWUfFp2BiTlUW6zjzg9Tb7LcdtK55PNxQWzKWo7K/hZD58rayXmpVobG
+ 1fjlBOgA4hFrrH5dFjvWBxnz4XTn5yv7dsRCADcIlmfu3s4DyuCh/MhIejyz25iXqkUsIRtlb+e
+ TzJ8/TxPfTB2UoyB5UhM9cfdTChzsJoOGAsaY5J3FjcUywYNtnt3bHHlpcMh0olYeNmDzpHj6CE
+ T2npxot9eFaeUO5l0BgQcapgoBKxaCCKsNQEMmWufAIJYzt/o9smZXxhiRzmFgzfOwCq3tsoRVC
+ AnzkyazS5XxWcyeoTPPKenoTePoCrrcnDrWDgp1WVsVVsh/kk4/iYMQ0x/nldS0IAVrd38cTQjx
+ 5daNJ1Ab9T/7rqAAs45cNpu3SHpXauv4jXIrzAv42KFLufvw7ovSrfCLjBE8kFijCjejgUzwT57
+ X8FlSiB5AWv0ZOw==
 X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
  fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
 
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-The driver did expose V4L2_CID_HBLANK, but as a READ_ONLY control.
-
-The sensor only uses the HTS register to control the line length,
-so convert this control to read/write, with the appropriate ranges.
-Adopt the old fixed values as the minimum values permitted in each
-mode to avoid issues of it not streaming.
-
-This should allow exposure times up to ~3 seconds (up from ~1sec).
+To make comparisons of the mode registers easier, put the registers
+for the binned and VGA modes in the same order as the others.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
 ---
- drivers/media/i2c/ov5647.c | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+ drivers/media/i2c/ov5647.c | 33 ++++++++++++++-------------------
+ 1 file changed, 14 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-index d6accdd20ef5f3d3c16d2fceadd0fca3afd6fc9e..c89e13442e29796e0971faa204cf7132283c51b1 100644
+index c89e13442e29796e0971faa204cf7132283c51b1..8142496ed959805b1ef1d1460c993448bd2beb3d 100644
 --- a/drivers/media/i2c/ov5647.c
 +++ b/drivers/media/i2c/ov5647.c
-@@ -53,6 +53,8 @@
- #define OV5647_REG_AEC_AGC		0x3503
- #define OV5647_REG_GAIN_HI		0x350a
- #define OV5647_REG_GAIN_LO		0x350b
-+#define OV5647_REG_HTS_HI		0x380c
-+#define OV5647_REG_HTS_LO		0x380d
- #define OV5647_REG_VTS_HI		0x380e
- #define OV5647_REG_VTS_LO		0x380f
- #define OV5647_REG_TIMING_TC_V		0x3820
-@@ -79,6 +81,8 @@
- #define OV5647_VBLANK_MIN		24
- #define OV5647_VTS_MAX			32767
- 
-+#define OV5647_HTS_MAX			0x1fff
-+
- #define OV5647_EXPOSURE_MIN		4
- #define OV5647_EXPOSURE_STEP		1
- #define OV5647_EXPOSURE_DEFAULT		1000
-@@ -187,8 +191,6 @@ static struct regval_list ov5647_2592x1944_10bpp[] = {
+@@ -343,6 +343,8 @@ static struct regval_list ov5647_2x2binned_10bpp[] = {
+ 	{0x3036, 0x62},
+ 	{0x303c, 0x11},
+ 	{0x3106, 0xf5},
++	{0x3821, 0x03},
++	{0x3820, 0x41},
+ 	{0x3827, 0xec},
+ 	{0x370c, 0x03},
+ 	{0x3612, 0x59},
+@@ -415,8 +417,6 @@ static struct regval_list ov5647_2x2binned_10bpp[] = {
+ 	{0x4837, 0x16},
+ 	{0x4800, 0x24},
+ 	{0x3503, 0x03},
+-	{0x3820, 0x41},
+-	{0x3821, 0x03},
+ 	{0x350a, 0x00},
+ 	{0x350b, 0x10},
+ 	{0x3500, 0x00},
+@@ -429,20 +429,27 @@ static struct regval_list ov5647_2x2binned_10bpp[] = {
+ static struct regval_list ov5647_640x480_10bpp[] = {
+ 	{0x0100, 0x00},
+ 	{0x0103, 0x01},
+-	{0x3035, 0x11},
++	{0x3034, 0x1a},
++	{0x3035, 0x21},
+ 	{0x3036, 0x46},
+ 	{0x303c, 0x11},
++	{0x3106, 0xf5},
+ 	{0x3821, 0x03},
+ 	{0x3820, 0x41},
++	{0x3827, 0xec},
+ 	{0x370c, 0x03},
+ 	{0x3612, 0x59},
+ 	{0x3618, 0x00},
+ 	{0x5000, 0x06},
+ 	{0x5003, 0x08},
+ 	{0x5a00, 0x08},
+-	{0x3000, 0xff},
+-	{0x3001, 0xff},
+-	{0x3002, 0xff},
++	{0x3000, 0x00},
++	{0x3001, 0x00},
++	{0x3002, 0x00},
++	{0x3016, 0x08},
++	{0x3017, 0xe0},
++	{0x3018, 0x44},
++	{0x301c, 0xf8},
+ 	{0x301d, 0xf0},
+ 	{0x3a18, 0x00},
  	{0x3a19, 0xf8},
- 	{0x3c01, 0x80},
- 	{0x3b07, 0x0c},
--	{0x380c, 0x0b},
--	{0x380d, 0x1c},
- 	{0x3814, 0x11},
- 	{0x3815, 0x11},
- 	{0x3708, 0x64},
-@@ -276,8 +278,6 @@ static struct regval_list ov5647_1080p30_10bpp[] = {
- 	{0x3a19, 0xf8},
- 	{0x3c01, 0x80},
- 	{0x3b07, 0x0c},
--	{0x380c, 0x09},
--	{0x380d, 0x70},
- 	{0x3814, 0x11},
- 	{0x3815, 0x11},
- 	{0x3708, 0x64},
-@@ -375,8 +375,6 @@ static struct regval_list ov5647_2x2binned_10bpp[] = {
- 	{0x3809, 0x10},
- 	{0x380a, 0x03},
- 	{0x380b, 0xcc},
--	{0x380c, 0x07},
--	{0x380d, 0x68},
- 	{0x3811, 0x0c},
- 	{0x3813, 0x06},
- 	{0x3814, 0x31},
-@@ -450,8 +448,6 @@ static struct regval_list ov5647_640x480_10bpp[] = {
- 	{0x3a19, 0xf8},
- 	{0x3c01, 0x80},
- 	{0x3b07, 0x0c},
--	{0x380c, 0x07},
--	{0x380d, 0x3c},
- 	{0x3814, 0x35},
- 	{0x3815, 0x35},
- 	{0x3708, 0x64},
-@@ -1063,7 +1059,8 @@ static int ov5647_set_pad_fmt(struct v4l2_subdev *sd,
- 					 mode->pixel_rate, 1, mode->pixel_rate);
- 
- 		hblank = mode->hts - mode->format.width;
--		__v4l2_ctrl_modify_range(sensor->hblank, hblank, hblank, 1,
-+		__v4l2_ctrl_modify_range(sensor->hblank, hblank,
-+					 OV5647_HTS_MAX - mode->format.width, 1,
- 					 hblank);
- 
- 		vblank = mode->vts - mode->format.height;
-@@ -1333,6 +1330,10 @@ static int ov5647_s_ctrl(struct v4l2_ctrl *ctrl)
- 		ret = ov5647_write16(sd, OV5647_REG_VTS_HI,
- 				     sensor->mode->format.height + ctrl->val);
- 		break;
-+	case V4L2_CID_HBLANK:
-+		ret = ov5647_write16(sd, OV5647_REG_HTS_HI,
-+				     sensor->mode->format.width + ctrl->val);
-+		break;
- 	case V4L2_CID_TEST_PATTERN:
- 		ret = ov5647_write(sd, OV5647_REG_ISPCTRL3D,
- 				   ov5647_test_pattern_val[ctrl->val]);
-@@ -1340,7 +1341,6 @@ static int ov5647_s_ctrl(struct v4l2_ctrl *ctrl)
- 
- 	/* Read-only, but we adjust it based on mode. */
- 	case V4L2_CID_PIXEL_RATE:
--	case V4L2_CID_HBLANK:
- 		/* Read-only, but we adjust it based on mode. */
- 		break;
- 
-@@ -1416,10 +1416,11 @@ static int ov5647_init_controls(struct ov5647 *sensor)
- 					       sensor->mode->pixel_rate, 1,
- 					       sensor->mode->pixel_rate);
- 
--	/* By default, HBLANK is read only, but it does change per mode. */
- 	hblank = sensor->mode->hts - sensor->mode->format.width;
- 	sensor->hblank = v4l2_ctrl_new_std(&sensor->ctrls, &ov5647_ctrl_ops,
--					   V4L2_CID_HBLANK, hblank, hblank, 1,
-+					   V4L2_CID_HBLANK, hblank,
-+					   OV5647_HTS_MAX -
-+					   sensor->mode->format.width, 1,
- 					   hblank);
- 
- 	sensor->vblank = v4l2_ctrl_new_std(&sensor->ctrls, &ov5647_ctrl_ops,
-@@ -1449,7 +1450,6 @@ static int ov5647_init_controls(struct ov5647 *sensor)
- 		goto handler_free;
- 
- 	sensor->pixel_rate->flags |= V4L2_CTRL_FLAG_READ_ONLY;
--	sensor->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
- 	sensor->sd.ctrl_handler = &sensor->ctrls;
- 
- 	return 0;
+@@ -468,6 +475,7 @@ static struct regval_list ov5647_640x480_10bpp[] = {
+ 	{0x3632, 0xe2},
+ 	{0x3633, 0x23},
+ 	{0x3634, 0x44},
++	{0x3636, 0x06},
+ 	{0x3620, 0x64},
+ 	{0x3621, 0xe0},
+ 	{0x3600, 0x37},
+@@ -496,19 +504,6 @@ static struct regval_list ov5647_640x480_10bpp[] = {
+ 	{0x4001, 0x02},
+ 	{0x4004, 0x02},
+ 	{0x4000, 0x09},
+-	{0x3000, 0x00},
+-	{0x3001, 0x00},
+-	{0x3002, 0x00},
+-	{0x3017, 0xe0},
+-	{0x301c, 0xfc},
+-	{0x3636, 0x06},
+-	{0x3016, 0x08},
+-	{0x3827, 0xec},
+-	{0x3018, 0x44},
+-	{0x3035, 0x21},
+-	{0x3106, 0xf5},
+-	{0x3034, 0x1a},
+-	{0x301c, 0xf8},
+ 	{0x4800, 0x34},
+ 	{0x3503, 0x03},
+ 	{0x0100, 0x01},
 
 -- 
 2.52.0
