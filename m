@@ -1,37 +1,80 @@
-Return-Path: <linux-media+bounces-49340-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49341-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id A69BACD5C86
-	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 12:18:30 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96911CD5CAD
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 12:20:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id EC4BD3030596
-	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 11:18:16 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D760230433CA
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 11:19:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE4CC311C3C;
-	Mon, 22 Dec 2025 11:18:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8857315D2B;
+	Mon, 22 Dec 2025 11:19:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KRJhjtXG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from rmisp-mx-out1.tele.net (rmisp-mx-out1.tele.net [194.208.23.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 196E2275844;
-	Mon, 22 Dec 2025 11:18:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.208.23.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22B23313555
+	for <linux-media@vger.kernel.org>; Mon, 22 Dec 2025 11:19:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766402294; cv=none; b=gA21YE2jYXsjL/ldghRgf3r5DhGums8sdsuiFt+MsLILYQjds8hHtsonDhOU0Bb9nNSRPWFSebHcOJKGywKwLxylbRW3+db53MGJbVdjq79PwSIwgrJvn1KZmYbpSjKtXjCuWPN3WPye9OscZCcCT4p6ZWNfiD0WaojCcpXiWEM=
+	t=1766402380; cv=none; b=Dt5gYoGK+tSdgcZ2fUXnc8g6URNYqtldlfGAtd563GAsCkFRkaaVV/htBix02hlicrhL6A+X6NwiUMgTrQ4PrqtiRR1nPV6ySxka7Uu4Dw+yUT6nyHv4B48sN7T0S+8zQC8GUYJ2V4JEJWvMyZMlwvn/53zQ08n7GYL+E6EsoZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766402294; c=relaxed/simple;
-	bh=XQ4muUY4N284Y1DX0C7gSQ1R73LFzXQe5yGDGmPvSfQ=;
+	s=arc-20240116; t=1766402380; c=relaxed/simple;
+	bh=NYySMlRB1fJNBjIZgFY+gQqMAE3gSi8WFM84eavaktQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=quPMwhgit6zi7EIsFu8gmesTHuo58XLbcKPS9KL/TuPeM103zcDvnP6gwjG6Y7ANsiTUf+WZlLNuEsNtYQaWJfchIJ8yGEbdYBsLFQHYTnlFs82k2alDStksupYWC2nKuNfcF/O/WDV+stXHjrqH7tRIUunOKO+olOTlXU7aLXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=fail smtp.mailfrom=emfend.at; arc=none smtp.client-ip=194.208.23.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=emfend.at
-Received: from [192.168.0.207] (194-208-208-245.tele.net [194.208.208.245])
-	by rmisp-mx-out1.tele.net (Postfix) with ESMTPA id 98A2810E2A85;
-	Mon, 22 Dec 2025 12:18:01 +0100 (CET)
-Message-ID: <2c6c4b36-6b97-4260-8c01-6861b6f36cea@emfend.at>
-Date: Mon, 22 Dec 2025 12:17:56 +0100
+	 In-Reply-To:Content-Type; b=lorNcVETrEyKPjSCO2b4Kun9n8WF2jGNSZfF7/qBqEFEekJbRlwqTgKxXrN6ks1Xk0bOgbFyhwb/6NPN1H+RrdRimy4vneRtrWkwNp1FGzWG9VgLii05s+Y9p9+JEoX2rHVlRuvijxmWhjcRgGX8TCFBMaVuDAjv4JqwKjM0m1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KRJhjtXG; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-59474f1308cso261297e87.1
+        for <linux-media@vger.kernel.org>; Mon, 22 Dec 2025 03:19:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1766402376; x=1767007176; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+nCdSVdtRzhabw5OEkxzKxb9YUm3JF1zKMZaKA3BdGo=;
+        b=KRJhjtXGkj8awhLFIZkPDoPUQ/JYNo4ux2GN0K1rTruCXdjlmmNp2NBmLolb5XR+j/
+         kHxjOM494mOeIkApxuoO/O1XS7158ngk8P7+LXkE+BX+5QycKz5TLH0U89sxN2ne9/Vi
+         1MjhvmwYgt/WrKlrOkDVYQhFbdsyVUr5oF5y9N0zOFA/cTn9Y88z5cu6kV39aA738sHv
+         EevVYaqXdnMA8jxL/o0/OOJ2wuAvSjgT4858OOISiLMmDTKN2zX0T9EvJf5nuPJ2vx3C
+         VoZV1hj+ZBHCn8KRgroQHao3ar9lDfNQwDlP0kruubcTSvsSCfluOce42N/kbqVUOIzs
+         sASA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766402376; x=1767007176;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+nCdSVdtRzhabw5OEkxzKxb9YUm3JF1zKMZaKA3BdGo=;
+        b=uKzIqD7pgXPkybdw7H3TEbLClUMhjb2iXfCfjbZ6CnYIwfUFlKUWvXs7iCoepAnLs/
+         kQP2A+m9VZHDLTOUoML3vkFqdgicmvPcLqxAwbznyaxtITfUZsTzdKPaxDlvzc2f32mm
+         sOAJbV2Wl+PDHBeCc/zGEOpYhA6qBfABbxxaK74fnykdUiNSZrb17BgKXvGMkKNJPoN6
+         YMmqGnYLLJ81yc1rR4JCQliMXKXiO1YtCElgt0VzeLaS61sLeGooMrE9vef1jJNVswN5
+         dgPmlF4Q5UGIoUhk7G7wY3WGGYzV5cDyYiTSKpZfiM3cPteOyS2GUI5GqKwoKTQZXikf
+         eLlw==
+X-Forwarded-Encrypted: i=1; AJvYcCX31mkcN5Yvttl8N8z818B1K0ux4nY6G29bYirlr4TGFkURFz2Va0pcQtddq2GPhWhePCOFMPBWhzVYIQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx6NBL0C6/s7MAcKVnx9eBqw23JQaY0cRMO/e+H15MiHmPVvK9H
+	XAnU1gHvWMUks5hE+o33e64o1GysfWJQhvZhjKCdVt+SgLcr2IUNGC/FaATJZ5X6N46PSaSu00z
+	dn76P
+X-Gm-Gg: AY/fxX6MGccQiEFe75s7r7oMjZGSER5Fxylh6LEXGlKCPwHvWc8DrwtwKFSD8P/SqJz
+	mSFxR7PcW1KCFL8KJ4DZ41q9qwl/X6JBulz65+OdoqBCHik0ZUAqLcEJuX9i0sZInrH7uZKeHpt
+	okZnAoRq6int4pj37M4/zN365BbzwsIS+Ym5svRB+3wIlRiiNnkMMjnxNHo1eDxCCAsb8UN1spw
+	c7k5uhjmaF0GS3haAnLTBHxRT6FqKnaGeCjptMwcrd2xs95jZrVNNyeAElGgr56GXiOHRTD0Gqg
+	6xAIwLEmOLP78rsYHhwDuZ8BjLl/YDWAR5Lyu5Np99U1PKh7xMcFJOibhLVzPrACljeifajza81
+	r3RznfbOhM0NN7LR0rCYEbzypyqn3XzPf6E/PR6aWNxG5X+awIJimwaYI2yDpFRtmjWEc6rKNYQ
+	hiA7jd9aZGD31lmCSgyeiQyeYTzwEnBLOQ5aOHqOl4nb27w/uiwijnCiO0fpfCfQ6Hvw==
+X-Google-Smtp-Source: AGHT+IFHwXMzFpo+8uZ8eDR6Lk00sHETgxWpEEajBWiAtPVohEtLXk0F+nt4In8Dh7Nww7AyT8N4jw==
+X-Received: by 2002:a05:6512:3a84:b0:592:f383:3aad with SMTP id 2adb3069b0e04-59a17df4092mr2238574e87.8.1766402376164;
+        Mon, 22 Dec 2025 03:19:36 -0800 (PST)
+Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59a186280bcsm3119201e87.90.2025.12.22.03.19.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Dec 2025 03:19:35 -0800 (PST)
+Message-ID: <cfb8f192-b327-4bb9-993e-a28184571712@linaro.org>
+Date: Mon, 22 Dec 2025 13:19:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -39,169 +82,175 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/2] media: i2c: add Himax HM1246 image sensor driver
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Hans Verkuil <hverkuil@kernel.org>,
- Hans de Goede <hansg@kernel.org>, Ricardo Ribalda <ribalda@chromium.org>,
- =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
- Tarang Raval <tarang.raval@siliconsignals.io>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Sylvain Petinot <sylvain.petinot@foss.st.com>,
- Dongcheng Yan <dongcheng.yan@intel.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Alan Stern <stern@rowland.harvard.edu>,
- Jingjing Xiong <jingjing.xiong@intel.com>,
- Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
- Mehdi Djait <mehdi.djait@linux.intel.com>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>,
- Svyatoslav Ryhel <clamor95@gmail.com>, linux-media@vger.kernel.org,
+Subject: Re: [PATCH 3/3] arm64: dts: qcom: talos-evk-camera: Add DT overlay
+To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>,
+ Loic Poulain <loic.poulain@oss.qualcomm.com>, Robert Foss
+ <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Hao Yao <hao.yao@intel.com>
-References: <20251202-hm1246-v6-0-3e96ed6b3ffa@emfend.at>
- <20251202-hm1246-v6-2-3e96ed6b3ffa@emfend.at>
- <aUXRsv-r9-sQvpAm@kekkonen.localdomain>
-Content-Language: de-DE
-From: Matthias Fend <matthias.fend@emfend.at>
-In-Reply-To: <aUXRsv-r9-sQvpAm@kekkonen.localdomain>
+ linux-media@vger.kernel.org
+References: <20251222-sm6150_evk-v1-0-4d260a31c00d@oss.qualcomm.com>
+ <20251222-sm6150_evk-v1-3-4d260a31c00d@oss.qualcomm.com>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20251222-sm6150_evk-v1-3-4d260a31c00d@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Sakari,
-
-Am 19.12.2025 um 23:29 schrieb Sakari Ailus:
-> Hi Matthias,
+On 12/22/25 10:44, Wenmeng Liu wrote:
+> Enable IMX577 via CCI on Taloss EVK Core Kit.
 > 
-> Thanks for the update.
+> The Talos EVK board does not include a camera sensor
+> by default, this overlay reflects the possibility of
+> attaching an optional camera sensor.
+> For this reason, the camera sensor configuration is
+> placed in talos-evk-camera.dtso, rather than
+> modifying the base talos-evk.dts.
 > 
-> On Tue, Dec 02, 2025 at 04:26:06PM +0100, Matthias Fend wrote:
+> Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+> ---
+>   arch/arm64/boot/dts/qcom/Makefile              |  2 +
+>   arch/arm64/boot/dts/qcom/talos-evk-camera.dtso | 64 ++++++++++++++++++++++++++
+>   arch/arm64/boot/dts/qcom/talos.dtsi            | 21 +++++++++
+
+Please split QCS615 MCLK definitions change into a separate commit.
+
+>   3 files changed, 87 insertions(+)
 > 
-> ...
+> diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
+> index 60121f133078b2754f98e6f45a3db4031b478cc8..b1d85b1f4a94714f2a5c976d162482d70ae920f2 100644
+> --- a/arch/arm64/boot/dts/qcom/Makefile
+> +++ b/arch/arm64/boot/dts/qcom/Makefile
+> @@ -325,7 +325,9 @@ dtb-$(CONFIG_ARCH_QCOM)	+= sm8650-qrd.dtb
+>   dtb-$(CONFIG_ARCH_QCOM)	+= sm8750-mtp.dtb
+>   dtb-$(CONFIG_ARCH_QCOM)	+= sm8750-qrd.dtb
+>   dtb-$(CONFIG_ARCH_QCOM)	+= talos-evk.dtb
+> +talos-evk-camera-dtbs		:= talos-evk.dtb talos-evk-camera.dtbo
+>   talos-evk-lvds-auo,g133han01-dtbs	:= talos-evk.dtb talos-evk-lvds-auo,g133han01.dtbo
+> +dtb-$(CONFIG_ARCH_QCOM)	+= talos-evk-camera.dtb
+>   dtb-$(CONFIG_ARCH_QCOM)	+= talos-evk-lvds-auo,g133han01.dtb
+>   x1e001de-devkit-el2-dtbs	:= x1e001de-devkit.dtb x1-el2.dtbo
+>   dtb-$(CONFIG_ARCH_QCOM)	+= x1e001de-devkit.dtb x1e001de-devkit-el2.dtb
+> diff --git a/arch/arm64/boot/dts/qcom/talos-evk-camera.dtso b/arch/arm64/boot/dts/qcom/talos-evk-camera.dtso
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..ae1a02295b4dc48212aad40980a329ff458fe69a
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/qcom/talos-evk-camera.dtso
+> @@ -0,0 +1,64 @@
+> +// SPDX-License-Identifier: BSD-3-Clause
+> +/*
+> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+
+Please add a missing year of the change.
+
+> + */
+> +
+> +/dts-v1/;
+> +/plugin/;
+> +
+> +#include <dt-bindings/clock/qcom,qcs615-camcc.h>
+> +#include <dt-bindings/gpio/gpio.h>
+> +
+> +&camss {
+> +	vdd-csiphy-1p2-supply = <&vreg_l11a>;
+> +	vdd-csiphy-1p8-supply = <&vreg_l12a>;
+> +
+> +	status = "okay";
+> +
+> +	ports {
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +
+> +		port@1 {
+> +			reg = <1>;
+> +
+> +			csiphy1_ep: endpoint {
+> +				clock-lanes = <7>;
+
+Please remove 'clock-lanes' property.
+
+> +				data-lanes = <0 1 2 3>;
+> +				remote-endpoint = <&imx577_ep1>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&cci {
+> +	status = "okay";
+> +};
+> +
+> +&cci_i2c1 {
+> +	#address-cells = <1>;
+> +	#size-cells = <0>;
+> +
+> +	camera@1a {
+> +		compatible = "sony,imx577";
+> +		reg = <0x1a>;
+> +
+> +		reset-gpios = <&tlmm 29 GPIO_ACTIVE_LOW>;
+> +		pinctrl-0 = <&cam2_default>;
+> +		pinctrl-names = "default";
+> +
+> +		clocks = <&camcc CAM_CC_MCLK2_CLK>;
+> +		assigned-clocks = <&camcc CAM_CC_MCLK2_CLK>;
+> +		assigned-clock-rates = <24000000>;
+> +
+> +		avdd-supply = <&vreg_s4a>;
+
+Just one voltage supply?
+
+> +
+> +		port {
+> +			imx577_ep1: endpoint {
+> +				link-frequencies = /bits/ 64 <600000000>;
+> +				data-lanes = <1 2 3 4>;
+> +				remote-endpoint = <&csiphy1_ep>;
+> +			};
+> +		};
+> +	};
+> +};
+> diff --git a/arch/arm64/boot/dts/qcom/talos.dtsi b/arch/arm64/boot/dts/qcom/talos.dtsi
+> index ebb1807f0222c075d4207163ed4359a55616d903..3626312f138f2e8f1888eb6aa43fa474cdee884f 100644
+> --- a/arch/arm64/boot/dts/qcom/talos.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/talos.dtsi
+> @@ -1550,6 +1550,27 @@ tlmm: pinctrl@3100000 {
+>   			#interrupt-cells = <2>;
+>   			wakeup-parent = <&pdc>;
+>   
+> +			cam0_default: cam0-default-state {
+> +				pins = "gpio28";
+> +				function = "cam_mclk";
+> +				drive-strength = <2>;
+> +				bias-disable;
+> +			};
+> +
+> +			cam1_default: cam1-default-state {
+> +				pins = "gpio29";
+> +				function = "cam_mclk";
+> +				drive-strength = <2>;
+> +				bias-disable;
+> +			};
+> +
+> +			cam2_default: cam2-default-state {
+> +				pins = "gpio30";
+> +				function = "cam_mclk";
+> +				drive-strength = <2>;
+> +				bias-disable;
+> +			};
+> +
+
+Please add to the list another pad with MCLK function, which is GPIO31.
+
+>   			cci_default: cci0-default-state {
+>   				cci_i2c0_default: cci-i2c0-default-pins {
+>   					/* SDA, SCL */
 > 
->> +static int hm1246_calc_pll(struct hm1246 *hm1246, u32 xclk, u32 link_freq,
->> +			   u32 clocks_per_pixel, u8 *pll1, u8 *pll2, u8 *pll3)
->> +{
->> +	const u8 pclk_div_table[] = { 4, 5, 6, 7, 8, 12, 14, 16 };
->> +	const u8 sysclk_div_table[] = { 1, 2, 3, 4 };
->> +	const u8 post_div_table[] = { 1, 2, 4, 8 };
->> +	const int sysclk_pclk_ratio = 3; /* Recommended value */
->> +	u32 pclk, vco_out, best_vco_diff;
->> +	int pclk_div_index, sysclk_div_index, post_div_index;
->> +	u8 pre_div = 0, multiplier_h = 0, multiplier_l = 0;
->> +	bool sysclk_pclk_ratio_found = false;
->> +
->> +	if (link_freq < HM1246_PCLK_MIN || link_freq > HM1246_PCLK_MAX)
->> +		return -EINVAL;
->> +
->> +	/*
->> +	 * In raw mode (1 pixel per clock) the pixel clock is internally
->> +	 * divided by two.
->> +	 */
->> +	pclk = 2 * link_freq / clocks_per_pixel;
->> +
->> +	/* Find suitable PCLK and SYSCLK dividers. */
->> +	for (pclk_div_index = 0; pclk_div_index < ARRAY_SIZE(pclk_div_table);
->> +	     pclk_div_index++) {
->> +		for (sysclk_div_index = 0;
->> +		     sysclk_div_index < ARRAY_SIZE(sysclk_div_table);
->> +		     sysclk_div_index++) {
->> +			if (sysclk_div_table[sysclk_div_index] *
->> +				    sysclk_pclk_ratio ==
->> +			    pclk_div_table[pclk_div_index]) {
->> +				sysclk_pclk_ratio_found = true;
->> +				break;
->> +			}
->> +		}
->> +		if (sysclk_pclk_ratio_found)
->> +			break;
->> +	}
->> +
->> +	if (!sysclk_pclk_ratio_found)
->> +		return -EINVAL;
->> +
->> +	/* Determine an appropriate post divider. */
->> +	for (post_div_index = 0; post_div_index < ARRAY_SIZE(post_div_table);
->> +	     post_div_index++) {
->> +		vco_out = pclk * pclk_div_table[pclk_div_index] *
->> +			  post_div_table[post_div_index];
->> +
->> +		if (vco_out >= HM1246_PLL_VCO_MIN &&
->> +		    vco_out <= HM1246_PLL_VCO_MAX)
->> +			break;
->> +	}
->> +	if (post_div_index >= ARRAY_SIZE(post_div_table))
->> +		return -EINVAL;
->> +
->> +	/* Find best pre-divider and multiplier values. */
->> +	best_vco_diff = U32_MAX;
->> +	for (u32 div = DIV_ROUND_UP(xclk, HM1246_PLL_INCLK_MAX);
->> +	     div <= xclk / HM1246_PLL_INCLK_MIN; div++) {
->> +		u32 multi, multi_h, multi_l, vco, diff;
->> +
->> +		multi = DIV_ROUND_CLOSEST_ULL((u64)vco_out * div, xclk);
->> +		if (multi < HM1246_PLL_MULTI_MIN ||
->> +		    multi > HM1246_PLL_MULTI_MAX)
->> +			continue;
->> +
->> +		multi_h = multi / (HM1246_PLL_MULTI_H_MIN *
->> +				   HM1246_PLL_MULTI_L_MAX) +
->> +			  2;
->> +		multi_l = multi / multi_h;
->> +		vco = div_u64((u64)xclk * multi_h * multi_l, div);
->> +
->> +		diff = abs_diff(vco_out, vco);
->> +
->> +		if (diff < best_vco_diff) {
->> +			best_vco_diff = diff;
->> +			pre_div = div;
->> +			multiplier_h = multi_h;
->> +			multiplier_l = multi_l;
->> +		}
->> +
->> +		if (!diff)
->> +			break;
->> +	}
->> +
->> +	if (best_vco_diff == U32_MAX)
->> +		return -EINVAL;
-> 
-> How much difference is acceptable? Isn't any difference a bug either in DT
-> or the code above? In other words, I'd return an error in that case.
 
-Hard to tell, but almost every input clock will result in a slight 
-difference. Even the recommended reference register configuration 
-doesn't create a perfect match. Therefore, I don't think it's a good 
-idea to treat every deviation as an error.
-
-However, every supported input frequency (6-27MHz) will result in a 
-pixel clock deviation of less than 0.5%. Since the sensor uses a 
-parallel interface, these frequencies will all work without any 
-problems. The frame timings may, of course, be slightly different.
-
-To change this and prevent any deviation, one would probably have to 
-replace the PLL calculation with one or more dedicated frequency-setup 
-pairs (with adjusted pixelclocks). Which wouldn't be ideal, as the 
-solution isn't very flexible - and I've invested quite a bit of effort 
-in the PLL calculation ;)
-
-Thanks
-  ~Matthias
-
-> 
->> +
->> +	*pll1 = HM1246_PLL1CFG_MULTIPLIER(multiplier_l - 1);
->> +	*pll2 = HM1246_PLL2CFG_PRE_DIV(pre_div - 1) |
->> +		HM1246_PLL2CFG_MULTIPLIER(multiplier_h - 2);
->> +	*pll3 = HM1246_PLL3CFG_POST_DIV(post_div_index) |
->> +		HM1246_PLL3CFG_SYSCLK_DIV(sysclk_div_index) |
->> +		HM1246_PLL3CFG_PCLK_DIV(pclk_div_index);
->> +
->> +	return 0;
->> +}
-> 
-
+-- 
+Best wishes,
+Vladimir
 
