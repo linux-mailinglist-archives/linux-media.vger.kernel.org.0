@@ -1,48 +1,47 @@
-Return-Path: <linux-media+bounces-49294-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49295-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEAADCD4F7E
-	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 09:20:52 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD269CD4F66
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 09:19:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7E76F30443F7
-	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 08:16:54 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 58DED3012976
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 08:17:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7A9F30DD36;
-	Mon, 22 Dec 2025 08:16:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4E2330DED0;
+	Mon, 22 Dec 2025 08:16:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ptPR9KjA"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="piQ+8I8o"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64ACC30C62D;
-	Mon, 22 Dec 2025 08:16:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95CD430DD39;
+	Mon, 22 Dec 2025 08:16:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766391404; cv=none; b=ghzT4+IguYi1AeEQAVh+cahOqYx3xSLg8uT4LB60jz5GJYyBFP3EebGutg6jMH5T3i9vaqL4SYIYDcZ94rHJ0IFqYPSG2eOnafD4HZkkyVnF02/yO2lfUuDPlF3EhTn2ic7GIJD4eYz2qNpe6nMYcfZWAQhxNjPzY+sRcjBKrh8=
+	t=1766391408; cv=none; b=u8v0IrOLiy7TnYT60c9Ap5vgWcSctcUVOm4d/WwLGkUi796DFOMMg4AHUs4goPiq12YulqQVm05jvf6gL0lbBDsvkDUz1qHg9EXGLoT9HQ1OliCo+i87/QT10v+j5Lzgrwbnt8wn/yhrnULw2S3kZ6f5IUo+V6O0zqUHsCQychA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766391404; c=relaxed/simple;
-	bh=WlpbZmmjqKJS3DmyyAUMl6LDaznhjOwdS3TShMr19Mk=;
+	s=arc-20240116; t=1766391408; c=relaxed/simple;
+	bh=aBef/jYI7+QaRlUmY0tFbBKGQybZ3pXAMfF1iRMR7NY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=L3Zg9zGFpZ2+W9BMtTQSCnKVtYCP4rM7WV2YQxTPAjO8wE3VaamcT8tw/CNWKSkQg8ffjvLDbPCWKGC3t59rYY2PUE8XotVrgfr4JH1mrfAUytklzSGntUgsZnfMj3Iu8PNLsU+b6u/yutYACdRjiPvr1l9OiBAtN1bRm/W2e3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ptPR9KjA; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=iNP/pFqDQz+H3pz6Lyx3P9cc6OJSjyxOKBoF1ccwN1qpmPDBBFwQWyuDoGxnpSK4gsjHka9TvcbrdvhcWHNVYY2CY7OnigVFstHYyZyf32gggDSDmFEFyBn11LCX50RXKm4lAp5SybWntw2togoyguoMAeAYCNvfiNgyH70epEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=piQ+8I8o; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c66:aa51:d08b:9316:9524:9005])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8F6E5177D;
-	Mon, 22 Dec 2025 09:16:30 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 22F8E1784;
+	Mon, 22 Dec 2025 09:16:34 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1766391391;
-	bh=WlpbZmmjqKJS3DmyyAUMl6LDaznhjOwdS3TShMr19Mk=;
+	s=mail; t=1766391395;
+	bh=aBef/jYI7+QaRlUmY0tFbBKGQybZ3pXAMfF1iRMR7NY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=ptPR9KjAqz67HxehAa/gTbSWK+8osFcXPffkLnEyZSfu6Yt2TBchmvei/aj7dp9Yw
-	 Wfd+AtcLSbyqncgw8OLdXWkxKzR8NS21EtuRybdZr0qlXV7khr7iWY+slshZF9Eay0
-	 FFGE9qE+gTpJo7pdce5/bhkCR0kXq0kfCDXas9TU=
+	b=piQ+8I8oGB+0tjkkgbVEY5ZEtColeAge8b/Pb+4HOYcq5jnOPbFyu0dzbNnFf6wWi
+	 mn8YymDoUxg7bO7XjhU9YeBChRq286soN5klaZlBKhkqjBP3xJS2+nozUA/KrHcZcC
+	 5Mtfmd2RCLkEsNAwlyO+jKKRsKGIiVt2am1frC4I=
 From: Jai Luthra <jai.luthra@ideasonboard.com>
-Date: Mon, 22 Dec 2025 13:45:32 +0530
-Subject: [PATCH v4 08/17] dt-bindings: media: ov5647: Allow props from
- video-interface-devices
+Date: Mon, 22 Dec 2025 13:45:33 +0530
+Subject: [PATCH v4 09/17] media: i2c: ov5647: Parse and register properties
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -51,7 +50,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251222-b4-rpi-ov5647-v4-8-b949c7309280@ideasonboard.com>
+Message-Id: <20251222-b4-rpi-ov5647-v4-9-b949c7309280@ideasonboard.com>
 References: <20251222-b4-rpi-ov5647-v4-0-b949c7309280@ideasonboard.com>
 In-Reply-To: <20251222-b4-rpi-ov5647-v4-0-b949c7309280@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -70,60 +69,67 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Peter Robinson <pbrobinson@gmail.com>, Stefan Wahren <wahrenst@gmx.net>, 
  "Ivan T. Ivanov" <iivanov@suse.de>, 
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
- Jai Luthra <jai.luthra@ideasonboard.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>
+ Jai Luthra <jai.luthra@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1229;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1531;
  i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
- bh=WlpbZmmjqKJS3DmyyAUMl6LDaznhjOwdS3TShMr19Mk=;
- b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBpSP4o/XZsKhZ+MX4vpXCnbmSzUdAt9DZQ2pOG5
- Fk4z28wL3+JAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaUj+KAAKCRBD3pH5JJpx
- RYYBD/9F2I6KWgrnf2KSGLnzvN00VmZrmj5nVoTwUXfhcu0AXGrDCLJfSMvoB2JS3FsVJvIdku9
- lSpJ1u5rPkuls7qHNLn3vsffeVGKySfBwxL5FINEvmvsW4AIAH3zUuWHfAJvHZpUhi1z7JC8UVl
- Pcq8dEQHhVf42y3Sp+lodHCs0gq0XB83eX/wJdM/XGQc1IG8A4EB+TCVrEYObekRHsLtcAmjaCx
- AodtDLtSFfxdWnbYvBsfJ2bJa7QBrCMRdPKb26B09tcisgJLl005mE8LgRCfla0Nzg/b5TZxWNw
- hRZZ3i+mKhVFiMGyyhQZxwyDKrY5mNHhtmddTfFusjBr+yfW8qvpeRyH7FdPuvrBRFQl3t5sogy
- uLuyjTMH+iCdozvs09MhQ5jPtqH2M+5FxPGO4+zDVSxzg5CLR98T6CcErB3n8piBUhNz9zRbzuJ
- 2KFw2cKQjf1XqAeyecEev9DH+Ax1pWUZXAC5Q84cpwQMXcQrKcAm6y6gpELMUewfXHWbQ/QRFuB
- Ft6v23Y/xVafXWerDyv1M54ww6P+016EwjnNdSDFDmN45GyTldsUI2Nv/AMEX9hUJ2+hwAF1qNN
- CPGBKtiG1HXbLiNw+IO4yGyxXrleGm5doUSSwpapXnyS2yn95BwxVaiJE0hiDkQTbBJFLS6M4Pk
- akqGGI4q7tyrOkg==
+ bh=+dWj9gvZAT5/YIrYwdI4I4Rm0IP1iBPg9NF/CD8ZgLc=;
+ b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBpSP4pqi/XEaF/yaLQYhl2jg1gXTPCr9Tp164Di
+ e7WNZNUxwqJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaUj+KQAKCRBD3pH5JJpx
+ RT4wEACnkKthkjTrSfhm/QBDMAqdh/z4DhZFJ2tuDVi9bhEbDSJQPSgwuaZqzyyjyjAi/V95y9d
+ lekL6OgQg1MyIm8PiESu6GdpARGO7fG3esEqgqFXdZpGEJ+ca7dtcxm36uX01ycfgPv3wHq/XzA
+ lI5hZX8p9tHNrB/+z+jgVEtvnWZmWXq9X5rCuWjMBb/CD+jtMjH0TfEIIBtfdRTMyfZ6EFE/1yi
+ /PxA26s96E5iJO/FjmmFH6Ic86mM0dOQ/PZNkWyEFBu/KBIFQPk2UOi6asofDitCwpBtfotXCu0
+ VI3YWp+t/yACHFF+dw0AWRD2CmegrmEcWzEapbExqHzW1RtVPfXGtc0ABnUXieybIlklWQ9/b9U
+ PMJwH6xTJXwbokqX55y1AbWJwQPgik3W4hULt3NnIJv1MSRsk/wBZSeh+N0UaMMb5Krlr5ZK9am
+ WyksYLHwQDaMeVpOclFnYcrojWHMJCzHGJG6WvLrk9dild/Qj7ukSbp1CLQ1THDj3zx+kKFQQRK
+ AfD6w6RH6Q19V1zgk9cuT1OUYLiVP5FA8qN5L6bKKsVomfJ9PTTY9zPRaNteFRSw137HxAj3s4Y
+ YrBiQ8a+Pry1OqBia0SBH/Df/5ULhhiXadOAh4p9iUgW1TqYwOD9segbMhPb4po2SItZdyyyrf2
+ kANH0CDJlf1sEow==
 X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
  fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
 
-Allow properties from video-interface-devices. The change is identical to
-commit 08fbd355be3d ("media: dt-bindings: sony,imx219: Allow props from
-video-interface-devices")
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+Parse device properties and register controls for them using the V4L2
+fwnode properties helpers.
+
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
 ---
- Documentation/devicetree/bindings/media/i2c/ovti,ov5647.yaml | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/media/i2c/ov5647.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5647.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5647.yaml
-index 9d3f7f1789cdedb357dae2e18b03c5af3c0e68e3..2d7937a372a2b0f12c6837b6f0d790b4bea7f553 100644
---- a/Documentation/devicetree/bindings/media/i2c/ovti,ov5647.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5647.yaml
-@@ -14,6 +14,9 @@ description: |-
-   The OV5647 is a raw image sensor with MIPI CSI-2 and CCP2 image data
-   interfaces and CCI (I2C compatible) control bus.
+diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+index 774d16335ebf4bdd0076cd4fdd2d8ef4a7c34906..6f07cac12c6c157e1b20abe000f95de82abd877a 100644
+--- a/drivers/media/i2c/ov5647.c
++++ b/drivers/media/i2c/ov5647.c
+@@ -1320,9 +1320,11 @@ static int ov5647_configure_regulators(struct device *dev,
+ static int ov5647_init_controls(struct ov5647 *sensor)
+ {
+ 	struct i2c_client *client = v4l2_get_subdevdata(&sensor->sd);
++	struct v4l2_fwnode_device_properties props;
+ 	int hblank, exposure_max, exposure_def;
++	struct device *dev = &client->dev;
  
-+allOf:
-+  - $ref: /schemas/media/video-interface-devices.yaml#
+-	v4l2_ctrl_handler_init(&sensor->ctrls, 9);
++	v4l2_ctrl_handler_init(&sensor->ctrls, 11);
+ 
+ 	v4l2_ctrl_new_std(&sensor->ctrls, &ov5647_ctrl_ops,
+ 			  V4L2_CID_AUTOGAIN, 0, 1, 1, 0);
+@@ -1371,6 +1373,11 @@ static int ov5647_init_controls(struct ov5647 *sensor)
+ 				     ARRAY_SIZE(ov5647_test_pattern_menu) - 1,
+ 				     0, 0, ov5647_test_pattern_menu);
+ 
++	v4l2_fwnode_device_parse(dev, &props);
 +
- properties:
-   compatible:
-     const: ovti,ov5647
-@@ -57,7 +60,7 @@ required:
-   - clocks
-   - port
++	v4l2_ctrl_new_fwnode_properties(&sensor->ctrls, &ov5647_ctrl_ops,
++					&props);
++
+ 	if (sensor->ctrls.error)
+ 		goto handler_free;
  
--additionalProperties: false
-+unevaluatedProperties: false
- 
- examples:
-   - |
 
 -- 
 2.52.0
