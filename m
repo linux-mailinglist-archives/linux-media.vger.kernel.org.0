@@ -1,80 +1,46 @@
-Return-Path: <linux-media+bounces-49341-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49342-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96911CD5CAD
-	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 12:20:43 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5705CD5CF6
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 12:30:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D760230433CA
-	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 11:19:41 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 349243022A9C
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 11:30:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8857315D2B;
-	Mon, 22 Dec 2025 11:19:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F18F2318120;
+	Mon, 22 Dec 2025 11:30:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KRJhjtXG"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="dorGyaAK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22B23313555
-	for <linux-media@vger.kernel.org>; Mon, 22 Dec 2025 11:19:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1F7831353E;
+	Mon, 22 Dec 2025 11:30:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766402380; cv=none; b=Dt5gYoGK+tSdgcZ2fUXnc8g6URNYqtldlfGAtd563GAsCkFRkaaVV/htBix02hlicrhL6A+X6NwiUMgTrQ4PrqtiRR1nPV6ySxka7Uu4Dw+yUT6nyHv4B48sN7T0S+8zQC8GUYJ2V4JEJWvMyZMlwvn/53zQ08n7GYL+E6EsoZI=
+	t=1766403004; cv=none; b=P5bGxdgm6C9pw3csNYQoVjSNyIpnYQMrxABoyp4FGc/7fyJ/4K1BvY+23gkmZZ9nbWDDAIgnnFVzI/FKwQYctk/q7oh+FgmfjC37qAKwOg53OXlool4kb4GjhhAK6MASMs6j+z938qI1eR1zZ78Qg/egcYfsHgQYPbNcKDlGkc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766402380; c=relaxed/simple;
-	bh=NYySMlRB1fJNBjIZgFY+gQqMAE3gSi8WFM84eavaktQ=;
+	s=arc-20240116; t=1766403004; c=relaxed/simple;
+	bh=dFIGGEqfmsWzdarRQMv07dt5eUZ/Gq5nkb9FVZUG7xg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lorNcVETrEyKPjSCO2b4Kun9n8WF2jGNSZfF7/qBqEFEekJbRlwqTgKxXrN6ks1Xk0bOgbFyhwb/6NPN1H+RrdRimy4vneRtrWkwNp1FGzWG9VgLii05s+Y9p9+JEoX2rHVlRuvijxmWhjcRgGX8TCFBMaVuDAjv4JqwKjM0m1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KRJhjtXG; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-59474f1308cso261297e87.1
-        for <linux-media@vger.kernel.org>; Mon, 22 Dec 2025 03:19:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1766402376; x=1767007176; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+nCdSVdtRzhabw5OEkxzKxb9YUm3JF1zKMZaKA3BdGo=;
-        b=KRJhjtXGkj8awhLFIZkPDoPUQ/JYNo4ux2GN0K1rTruCXdjlmmNp2NBmLolb5XR+j/
-         kHxjOM494mOeIkApxuoO/O1XS7158ngk8P7+LXkE+BX+5QycKz5TLH0U89sxN2ne9/Vi
-         1MjhvmwYgt/WrKlrOkDVYQhFbdsyVUr5oF5y9N0zOFA/cTn9Y88z5cu6kV39aA738sHv
-         EevVYaqXdnMA8jxL/o0/OOJ2wuAvSjgT4858OOISiLMmDTKN2zX0T9EvJf5nuPJ2vx3C
-         VoZV1hj+ZBHCn8KRgroQHao3ar9lDfNQwDlP0kruubcTSvsSCfluOce42N/kbqVUOIzs
-         sASA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766402376; x=1767007176;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+nCdSVdtRzhabw5OEkxzKxb9YUm3JF1zKMZaKA3BdGo=;
-        b=uKzIqD7pgXPkybdw7H3TEbLClUMhjb2iXfCfjbZ6CnYIwfUFlKUWvXs7iCoepAnLs/
-         kQP2A+m9VZHDLTOUoML3vkFqdgicmvPcLqxAwbznyaxtITfUZsTzdKPaxDlvzc2f32mm
-         sOAJbV2Wl+PDHBeCc/zGEOpYhA6qBfABbxxaK74fnykdUiNSZrb17BgKXvGMkKNJPoN6
-         YMmqGnYLLJ81yc1rR4JCQliMXKXiO1YtCElgt0VzeLaS61sLeGooMrE9vef1jJNVswN5
-         dgPmlF4Q5UGIoUhk7G7wY3WGGYzV5cDyYiTSKpZfiM3cPteOyS2GUI5GqKwoKTQZXikf
-         eLlw==
-X-Forwarded-Encrypted: i=1; AJvYcCX31mkcN5Yvttl8N8z818B1K0ux4nY6G29bYirlr4TGFkURFz2Va0pcQtddq2GPhWhePCOFMPBWhzVYIQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx6NBL0C6/s7MAcKVnx9eBqw23JQaY0cRMO/e+H15MiHmPVvK9H
-	XAnU1gHvWMUks5hE+o33e64o1GysfWJQhvZhjKCdVt+SgLcr2IUNGC/FaATJZ5X6N46PSaSu00z
-	dn76P
-X-Gm-Gg: AY/fxX6MGccQiEFe75s7r7oMjZGSER5Fxylh6LEXGlKCPwHvWc8DrwtwKFSD8P/SqJz
-	mSFxR7PcW1KCFL8KJ4DZ41q9qwl/X6JBulz65+OdoqBCHik0ZUAqLcEJuX9i0sZInrH7uZKeHpt
-	okZnAoRq6int4pj37M4/zN365BbzwsIS+Ym5svRB+3wIlRiiNnkMMjnxNHo1eDxCCAsb8UN1spw
-	c7k5uhjmaF0GS3haAnLTBHxRT6FqKnaGeCjptMwcrd2xs95jZrVNNyeAElGgr56GXiOHRTD0Gqg
-	6xAIwLEmOLP78rsYHhwDuZ8BjLl/YDWAR5Lyu5Np99U1PKh7xMcFJOibhLVzPrACljeifajza81
-	r3RznfbOhM0NN7LR0rCYEbzypyqn3XzPf6E/PR6aWNxG5X+awIJimwaYI2yDpFRtmjWEc6rKNYQ
-	hiA7jd9aZGD31lmCSgyeiQyeYTzwEnBLOQ5aOHqOl4nb27w/uiwijnCiO0fpfCfQ6Hvw==
-X-Google-Smtp-Source: AGHT+IFHwXMzFpo+8uZ8eDR6Lk00sHETgxWpEEajBWiAtPVohEtLXk0F+nt4In8Dh7Nww7AyT8N4jw==
-X-Received: by 2002:a05:6512:3a84:b0:592:f383:3aad with SMTP id 2adb3069b0e04-59a17df4092mr2238574e87.8.1766402376164;
-        Mon, 22 Dec 2025 03:19:36 -0800 (PST)
-Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59a186280bcsm3119201e87.90.2025.12.22.03.19.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Dec 2025 03:19:35 -0800 (PST)
-Message-ID: <cfb8f192-b327-4bb9-993e-a28184571712@linaro.org>
-Date: Mon, 22 Dec 2025 13:19:34 +0200
+	 In-Reply-To:Content-Type; b=j7pFEQunShSbN6BPcYN85wFvv5WSv7IbVhiuwM3yqNfKkN7gUx+9iBSPCG3HmBCt17bCw7Y+laCp1uZ/dxwYP7CziJACgeXM2E+QJTYJy7HAVuL3JkFM63bR5/zgo9XqVLhNVSnNb5mUKQB8J7wRWYYN7wXRQ+LLMnv31s/nH5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=dorGyaAK; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6927EC77;
+	Mon, 22 Dec 2025 12:29:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1766402990;
+	bh=dFIGGEqfmsWzdarRQMv07dt5eUZ/Gq5nkb9FVZUG7xg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=dorGyaAKE93O04w4g/JA/uWHu+DO5wZbjNehfIBrdH7Kaw3Qt5pecD6n6WR0pAY/v
+	 bH/+3ZNhJX1+Abdhf7yqlKjtHR1pTZzud2Tguh8aQXAtlSkrTONHTq4e5NHaZr77A7
+	 hKDHu2ZEEwg42m1VZzF9/0PRBNyku2K+Ex/emL0o=
+Message-ID: <07cef607-365f-4c09-a57e-5ddbdfde7027@ideasonboard.com>
+Date: Mon, 22 Dec 2025 13:29:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,175 +48,228 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] arm64: dts: qcom: talos-evk-camera: Add DT overlay
-To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>,
- Loic Poulain <loic.poulain@oss.qualcomm.com>, Robert Foss
- <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
+Subject: Re: [PATCH V3 3/4] media: dt-bindings: ti,ds90ub960: Add support for
+ DS90UB954-Q1
+To: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
+Cc: hansg@kernel.org, mehdi.djait@linux.intel.com, ribalda@chromium.org,
+ git@apitzsch.eu, vladimir.zapolskiy@linaro.org,
+ benjamin.mugnier@foss.st.com, dongcheng.yan@intel.com, u-kumar1@ti.com,
+ jai.luthra@linux.dev, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org
-References: <20251222-sm6150_evk-v1-0-4d260a31c00d@oss.qualcomm.com>
- <20251222-sm6150_evk-v1-3-4d260a31c00d@oss.qualcomm.com>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <20251222-sm6150_evk-v1-3-4d260a31c00d@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, hverkuil@xs4all.nl, sakari.ailus@linux.intel.com,
+ laurent.pinchart@ideasonboard.com
+References: <20251219122955.2078270-1-y-abhilashchandra@ti.com>
+ <20251219122955.2078270-4-y-abhilashchandra@ti.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20251219122955.2078270-4-y-abhilashchandra@ti.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 12/22/25 10:44, Wenmeng Liu wrote:
-> Enable IMX577 via CCI on Taloss EVK Core Kit.
+Hi,
+
+On 19/12/2025 14:29, Yemike Abhilash Chandra wrote:
+> DS90UB954-Q1 is an FPDLink-III deserializer that is mostly register
+> compatible with DS90UB960-Q1. The main difference is that it supports
+> half of the RX and TX ports, i.e. 2x FPDLink RX ports and 1x CSI TX
+> port. Therefore, add support for DS90UB954 within the existing bindings.
 > 
-> The Talos EVK board does not include a camera sensor
-> by default, this overlay reflects the possibility of
-> attaching an optional camera sensor.
-> For this reason, the camera sensor configuration is
-> placed in talos-evk-camera.dtso, rather than
-> modifying the base talos-evk.dts.
-> 
-> Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+> Link: https://www.ti.com/lit/gpn/ds90ub954-q1
+> Signed-off-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
 > ---
->   arch/arm64/boot/dts/qcom/Makefile              |  2 +
->   arch/arm64/boot/dts/qcom/talos-evk-camera.dtso | 64 ++++++++++++++++++++++++++
->   arch/arm64/boot/dts/qcom/talos.dtsi            | 21 +++++++++
-
-Please split QCS615 MCLK definitions change into a separate commit.
-
->   3 files changed, 87 insertions(+)
+> Changelog:
+> Changes in v3:
+> - Remove the example added for DS90UB954, as it is just a subset of the DS90UB960 example. (Rob)
 > 
-> diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
-> index 60121f133078b2754f98e6f45a3db4031b478cc8..b1d85b1f4a94714f2a5c976d162482d70ae920f2 100644
-> --- a/arch/arm64/boot/dts/qcom/Makefile
-> +++ b/arch/arm64/boot/dts/qcom/Makefile
-> @@ -325,7 +325,9 @@ dtb-$(CONFIG_ARCH_QCOM)	+= sm8650-qrd.dtb
->   dtb-$(CONFIG_ARCH_QCOM)	+= sm8750-mtp.dtb
->   dtb-$(CONFIG_ARCH_QCOM)	+= sm8750-qrd.dtb
->   dtb-$(CONFIG_ARCH_QCOM)	+= talos-evk.dtb
-> +talos-evk-camera-dtbs		:= talos-evk.dtb talos-evk-camera.dtbo
->   talos-evk-lvds-auo,g133han01-dtbs	:= talos-evk.dtb talos-evk-lvds-auo,g133han01.dtbo
-> +dtb-$(CONFIG_ARCH_QCOM)	+= talos-evk-camera.dtb
->   dtb-$(CONFIG_ARCH_QCOM)	+= talos-evk-lvds-auo,g133han01.dtb
->   x1e001de-devkit-el2-dtbs	:= x1e001de-devkit.dtb x1-el2.dtbo
->   dtb-$(CONFIG_ARCH_QCOM)	+= x1e001de-devkit.dtb x1e001de-devkit-el2.dtb
-> diff --git a/arch/arm64/boot/dts/qcom/talos-evk-camera.dtso b/arch/arm64/boot/dts/qcom/talos-evk-camera.dtso
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..ae1a02295b4dc48212aad40980a329ff458fe69a
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/qcom/talos-evk-camera.dtso
-> @@ -0,0 +1,64 @@
-> +// SPDX-License-Identifier: BSD-3-Clause
-> +/*
-> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-
-Please add a missing year of the change.
-
-> + */
-> +
-> +/dts-v1/;
-> +/plugin/;
-> +
-> +#include <dt-bindings/clock/qcom,qcs615-camcc.h>
-> +#include <dt-bindings/gpio/gpio.h>
-> +
-> +&camss {
-> +	vdd-csiphy-1p2-supply = <&vreg_l11a>;
-> +	vdd-csiphy-1p8-supply = <&vreg_l12a>;
-> +
-> +	status = "okay";
-> +
-> +	ports {
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +
-> +		port@1 {
-> +			reg = <1>;
-> +
-> +			csiphy1_ep: endpoint {
-> +				clock-lanes = <7>;
-
-Please remove 'clock-lanes' property.
-
-> +				data-lanes = <0 1 2 3>;
-> +				remote-endpoint = <&imx577_ep1>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&cci {
-> +	status = "okay";
-> +};
-> +
-> +&cci_i2c1 {
-> +	#address-cells = <1>;
-> +	#size-cells = <0>;
-> +
-> +	camera@1a {
-> +		compatible = "sony,imx577";
-> +		reg = <0x1a>;
-> +
-> +		reset-gpios = <&tlmm 29 GPIO_ACTIVE_LOW>;
-> +		pinctrl-0 = <&cam2_default>;
-> +		pinctrl-names = "default";
-> +
-> +		clocks = <&camcc CAM_CC_MCLK2_CLK>;
-> +		assigned-clocks = <&camcc CAM_CC_MCLK2_CLK>;
-> +		assigned-clock-rates = <24000000>;
-> +
-> +		avdd-supply = <&vreg_s4a>;
-
-Just one voltage supply?
-
-> +
-> +		port {
-> +			imx577_ep1: endpoint {
-> +				link-frequencies = /bits/ 64 <600000000>;
-> +				data-lanes = <1 2 3 4>;
-> +				remote-endpoint = <&csiphy1_ep>;
-> +			};
-> +		};
-> +	};
-> +};
-> diff --git a/arch/arm64/boot/dts/qcom/talos.dtsi b/arch/arm64/boot/dts/qcom/talos.dtsi
-> index ebb1807f0222c075d4207163ed4359a55616d903..3626312f138f2e8f1888eb6aa43fa474cdee884f 100644
-> --- a/arch/arm64/boot/dts/qcom/talos.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/talos.dtsi
-> @@ -1550,6 +1550,27 @@ tlmm: pinctrl@3100000 {
->   			#interrupt-cells = <2>;
->   			wakeup-parent = <&pdc>;
->   
-> +			cam0_default: cam0-default-state {
-> +				pins = "gpio28";
-> +				function = "cam_mclk";
-> +				drive-strength = <2>;
-> +				bias-disable;
-> +			};
-> +
-> +			cam1_default: cam1-default-state {
-> +				pins = "gpio29";
-> +				function = "cam_mclk";
-> +				drive-strength = <2>;
-> +				bias-disable;
-> +			};
-> +
-> +			cam2_default: cam2-default-state {
-> +				pins = "gpio30";
-> +				function = "cam_mclk";
-> +				drive-strength = <2>;
-> +				bias-disable;
-> +			};
-> +
-
-Please add to the list another pad with MCLK function, which is GPIO31.
-
->   			cci_default: cci0-default-state {
->   				cci_i2c0_default: cci-i2c0-default-pins {
->   					/* SDA, SCL */
+>  .../bindings/media/i2c/ti,ds90ub960.yaml      | 113 ++++++++++++------
+>  1 file changed, 77 insertions(+), 36 deletions(-)
 > 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
+> index cc61604eca37..8e2b82d6dc81 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
+> @@ -13,12 +13,10 @@ description:
+>    The TI DS90UB9XX devices are FPD-Link video deserializers with I2C and GPIO
+>    forwarding.
+>  
+> -allOf:
+> -  - $ref: /schemas/i2c/i2c-atr.yaml#
+> -
+>  properties:
+>    compatible:
+>      enum:
+> +      - ti,ds90ub954-q1
+>        - ti,ds90ub960-q1
+>        - ti,ds90ub9702-q1
+>  
+> @@ -129,39 +127,6 @@ properties:
+>        Ports represent FPD-Link inputs to the deserializer and CSI TX outputs
+>        from the deserializer. The number of ports is model-dependent.
+>  
+> -    properties:
+> -      port@0:
+> -        $ref: '#/$defs/FPDLink-input-port'
+> -        description: FPD-Link input 0
+> -
+> -      port@1:
+> -        $ref: '#/$defs/FPDLink-input-port'
+> -        description: FPD-Link input 1
+> -
+> -      port@2:
+> -        $ref: '#/$defs/FPDLink-input-port'
+> -        description: FPD-Link input 2
+> -
+> -      port@3:
+> -        $ref: '#/$defs/FPDLink-input-port'
+> -        description: FPD-Link input 3
+> -
+> -      port@4:
+> -        $ref: '#/$defs/CSI2-output-port'
+> -        description: CSI-2 Output 0
+> -
+> -      port@5:
+> -        $ref: '#/$defs/CSI2-output-port'
+> -        description: CSI-2 Output 1
+> -
+> -    required:
+> -      - port@0
+> -      - port@1
+> -      - port@2
+> -      - port@3
+> -      - port@4
+> -      - port@5
+> -
+>  required:
+>    - compatible
+>    - reg
+> @@ -204,6 +169,82 @@ $defs:
+>            - data-lanes
+>            - link-frequencies
+>  
+> +allOf:
+> +  - $ref: /schemas/i2c/i2c-atr.yaml#
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - ti,ds90ub960-q1
+> +              - ti,ds90ub9702-q1
+> +    then:
+> +      properties:
+> +        ports:
+> +          properties:
+> +            port@0:
+> +              $ref: '#/$defs/FPDLink-input-port'
+> +              description: FPD-Link input 0
+> +
+> +            port@1:
+> +              $ref: '#/$defs/FPDLink-input-port'
+> +              description: FPD-Link input 1
+> +
+> +            port@2:
+> +              $ref: '#/$defs/FPDLink-input-port'
+> +              description: FPD-Link input 2
+> +
+> +            port@3:
+> +              $ref: '#/$defs/FPDLink-input-port'
+> +              description: FPD-Link input 3
+> +
+> +            port@4:
+> +              $ref: '#/$defs/CSI2-output-port'
+> +              description: CSI-2 Output 0
+> +
+> +            port@5:
+> +              $ref: '#/$defs/CSI2-output-port'
+> +              description: CSI-2 Output 1
+> +
+> +          required:
+> +            - port@0
+> +            - port@1
+> +            - port@2
+> +            - port@3
+> +            - port@4
+> +            - port@5
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: ti,ds90ub954-q1
+> +    then:
+> +      properties:
+> +        ports:
+> +          properties:
+> +            port@0:
+> +              $ref: '#/$defs/FPDLink-input-port'
+> +              description: FPD-Link input 0
+> +
+> +            port@1:
+> +              $ref: '#/$defs/FPDLink-input-port'
+> +              description: FPD-Link input 1
+> +
+> +            port@2:
+> +              $ref: '#/$defs/CSI2-output-port'
+> +              description: CSI-2 Output 0
+> +
+> +          required:
+> +            - port@0
+> +            - port@1
+> +            - port@2
+> +
+> +        links:
+> +          properties:
+> +            link@2: false
+> +            link@3: false
+I can't help but think if this is good or not. In other words, if we
+specifically add ports per compatible, why wouldn't we also add
+specifically links per compatible? Or, if we just disable links as
+above, why don't we do it the same way for ports?
 
--- 
-Best wishes,
-Vladimir
+ Tomi
+
 
