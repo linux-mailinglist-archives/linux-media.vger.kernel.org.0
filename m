@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-49283-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49284-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4507DCD4D6E
+	by mail.lfdr.de (Postfix) with ESMTPS id D39A6CD4D71
 	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 08:06:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A2963300508E
-	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 07:06:38 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id ABD813004CCC
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 07:06:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15A7527F005;
-	Mon, 22 Dec 2025 07:06:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 117FE1E2606;
+	Mon, 22 Dec 2025 07:06:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OUngaYJF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e4UCFtgH"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B165B273D77
-	for <linux-media@vger.kernel.org>; Mon, 22 Dec 2025 07:06:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FFA5257452
+	for <linux-media@vger.kernel.org>; Mon, 22 Dec 2025 07:06:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766387197; cv=none; b=uZhDX/kuNaYdnySPJpu8fjGEJR09IJDk5JZ2DXKbLTbec50mIm9vCpKAB209N6++lSQ5MNJlGJMeIdg7A+mdFUf9rq8aoklT7WNODSwGyHMMHVAjGfRMnqfF2gHRblgHkYuAuAfdC8PDaQYj7YoeIj31E/hF0kjqZPLcct7G/jE=
+	t=1766387199; cv=none; b=QhGLXltx7h1bty2BPRMyYOjhodzTWaAVwaXApEXVdlQNHR/JE7wU8h20YUYzxUHmFkaqzlrDNfstwab1jQo0Re5AGaUL5eRlGqIubUQxY72pmvQnGJBOu8KaO/q6ZMrj52XQPn/AeVGrNJCwJW5rCup9NQyUUd1oJKCcnMy/X4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766387197; c=relaxed/simple;
-	bh=gKrzQXyh+kg+THyfqJ7ZX91Th+i2jMShR5QS1P7Dlwk=;
+	s=arc-20240116; t=1766387199; c=relaxed/simple;
+	bh=vSgCm+I2Z1qgLvLQmmOxiV3vWoiohvmEn7StdKb+RF8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=U8ryRBWgevsJ6ft5IKi/kYXB9mQoopvZTI/Jx4MJCNdC1wtYhC3RJ332s9GWuBQFDsJKti7YpriR8tWBABboDEAcwF6JT7owGZHVrhjghrf4qFMHFv+uoj+X6HKcxClVSiBqclK+pBbIOrcxx0ibFgQwmXF3cB6opaOBlvOUUeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OUngaYJF; arc=none smtp.client-ip=192.198.163.16
+	 MIME-Version; b=M4RFVJ5Ic7Fe2zgboBlmhFrYDn25e27JD9eqtsdVjav9UHVSnAzShpNKQYbJoItZLv9Nyi58clLldSo0ybUsnBfwEV0CAN8BWfl9Xllw61lMb7vWdaqx1em3LLAyGOsShFrEUzCoDJjpMl+nOvOpBf2jCyNvEFwQmbPceQD8MBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e4UCFtgH; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766387196; x=1797923196;
+  t=1766387198; x=1797923198;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=gKrzQXyh+kg+THyfqJ7ZX91Th+i2jMShR5QS1P7Dlwk=;
-  b=OUngaYJFwL9rEMTmcgmTa5IUN4/lRFqgXpTIkYc5OPCng2YcFCx1qMHx
-   /Yl/1pEGalz9m6ME8ET8/xdKHB0PAjvXHKuvnqfrVgRb1Xk1pEypVIBcL
-   jhvbyVNdPxFzaH5qOrX5L7xSon8Ts+9wFm41NeYYIQPIC90iLXwcJr6EM
-   AIbT884dZlefoz3jy39/tBPzKQLULHp4gdM5qFDxKzOsIEN82uV9C1Pdl
-   FSXpjaHccrYOPfatnE7WaWRVhaC7cKwAI65DxV7nz+gcGrYnJzTHq09Za
-   2zK8UXjq6oz5SQSQC7oVU5h3ZGjTd4Sk4AqVuKC0+auvx7kh/WkRgNdLK
-   Q==;
-X-CSE-ConnectionGUID: JwWoNzxLRzG6d/pMrdZY8Q==
-X-CSE-MsgGUID: 6hluVIS8R9WdgcdxxC2fLg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="55815083"
+  bh=vSgCm+I2Z1qgLvLQmmOxiV3vWoiohvmEn7StdKb+RF8=;
+  b=e4UCFtgHz2H4em/3ZI4+ddYm/3GzYmzI3zDLJhb3RJH4GfxiHH71gZI2
+   PSpAVl9anf/vFcBp2hcXF0qgR6cxkU+EGCq7sBFG/dqw6zOYilRVzAqet
+   +CQnEj2b/trA2OWxqFzqtV6kr6miJZr+8m+wgg9tIsDBKvFsafsQGRZad
+   3QxaLXTD+5Z/VFARHuVpVhi5ubieiKKFAaldacKZn0TITsqWWw9QjHPni
+   I47mnNevx7fWhQ5l1CRR/MGSuVJzZBGAaguf+qbkrmEoBMjG1bxn8Lx9H
+   QXntUFpGVvNGmZ6zLFDycyORrwG0wieOkEEKT+sXGCFhiMTpJvUqdU0qw
+   g==;
+X-CSE-ConnectionGUID: AYchE1UrSVilVhQ0ApkmNQ==
+X-CSE-MsgGUID: M0Og1qCyQRKASyIP+8qhaA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="55815087"
 X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="55815083"
+   d="scan'208";a="55815087"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 23:06:36 -0800
-X-CSE-ConnectionGUID: E2tmCExyTfCdY3lcVkI6fw==
-X-CSE-MsgGUID: 5wqcA5QeSZ2F2tQFdxzrOA==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 23:06:37 -0800
+X-CSE-ConnectionGUID: V0QXKJw7TiOcnNKsJSRX2g==
+X-CSE-MsgGUID: Jf+GlmfVRFWNh8cen5iwyg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="200347406"
+   d="scan'208";a="200347415"
 Received: from vtg-chrome.bj.intel.com ([172.16.116.150])
-  by fmviesa010.fm.intel.com with ESMTP; 21 Dec 2025 23:06:34 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 21 Dec 2025 23:06:36 -0800
 From: bingbu.cao@intel.com
 To: linux-media@vger.kernel.org,
 	sakari.ailus@linux.intel.com
@@ -63,9 +63,9 @@ Cc: bingbu.cao@intel.com,
 	bingbu.cao@linux.intel.com,
 	antti.laakso@linux.intel.com,
 	mehdi.djait@linux.intel.com
-Subject: [PATCH v2 2/4] media: staging/ipu7: call synchronous RPM suspend in probe failure
-Date: Mon, 22 Dec 2025 15:06:27 +0800
-Message-Id: <20251222070629.2018807-3-bingbu.cao@intel.com>
+Subject: [PATCH v2 3/4] media: ipu7: update CDPHY register settings
+Date: Mon, 22 Dec 2025 15:06:28 +0800
+Message-Id: <20251222070629.2018807-4-bingbu.cao@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251222070629.2018807-1-bingbu.cao@intel.com>
 References: <20251222070629.2018807-1-bingbu.cao@intel.com>
@@ -79,35 +79,65 @@ Content-Transfer-Encoding: 8bit
 
 From: Bingbu Cao <bingbu.cao@intel.com>
 
-If firmware authentication failed during driver probe, driver call
-an asynchronous API to suspend the psys device but the bus device
-will be removed soon, thus runtime PM of bus device will be disabled
-soon, that will cancel the suspend request, so use synchronous
-suspend to make sure the runtime suspend before disabling its RPM.
-
-IPU7 hardware has constraints that the PSYS device must be powered
-off before ISYS, otherwise it will cause machine check error.
+Some CPHY settings needs to updated according to the latest
+guide from SNPS. Program 45ohm for tuning resistance to fix
+CPHY problem and update the ITMINRX and GMODE for CPHY.
 
 Cc: Stable@vger.kernel.org
-Fixes: b7fe4c0019b1 ("media: staging/ipu7: add Intel IPU7 PCI device driver")
+Fixes: a516d36bdc3d ("media: staging/ipu7: add IPU7 input system device driver")
 Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
 ---
- drivers/staging/media/ipu7/ipu7.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/media/ipu7/ipu7-isys-csi-phy.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/media/ipu7/ipu7.c b/drivers/staging/media/ipu7/ipu7.c
-index 6c8c3eea44ac..fa5a1867626f 100644
---- a/drivers/staging/media/ipu7/ipu7.c
-+++ b/drivers/staging/media/ipu7/ipu7.c
-@@ -2620,7 +2620,7 @@ static int ipu7_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	if (!IS_ERR_OR_NULL(isp->isys) && !IS_ERR_OR_NULL(isp->isys->mmu))
- 		ipu7_mmu_cleanup(isp->isys->mmu);
- 	if (!IS_ERR_OR_NULL(isp->psys))
--		pm_runtime_put(&isp->psys->auxdev.dev);
-+		pm_runtime_put_sync(&isp->psys->auxdev.dev);
- 	ipu7_bus_del_devices(pdev);
- 	release_firmware(isp->cpd_fw);
- buttress_exit:
+diff --git a/drivers/staging/media/ipu7/ipu7-isys-csi-phy.c b/drivers/staging/media/ipu7/ipu7-isys-csi-phy.c
+index 2d5717883518..3f15af3b4c79 100644
+--- a/drivers/staging/media/ipu7/ipu7-isys-csi-phy.c
++++ b/drivers/staging/media/ipu7/ipu7-isys-csi-phy.c
+@@ -124,6 +124,7 @@ static const struct cdr_fbk_cap_prog_params table7[] = {
+ 	{ 1350, 1589, 4 },
+ 	{ 1590, 1949, 5 },
+ 	{ 1950, 2499, 6 },
++	{ 2500, 3500, 7 },
+ 	{ }
+ };
+ 
+@@ -838,9 +839,10 @@ static void ipu7_isys_cphy_config(struct ipu7_isys *isys, u8 id, u8 lanes,
+ 		dwc_phy_write_mask(isys, id, reg + 0x400 * i,
+ 				   reset_thresh, 9, 11);
+ 
++	/* Tuning ITMINRX to 2 for CPHY */
+ 	reg = CORE_DIG_CLANE_0_RW_LP_0;
+ 	for (i = 0; i < trios; i++)
+-		dwc_phy_write_mask(isys, id, reg + 0x400 * i, 1, 12, 15);
++		dwc_phy_write_mask(isys, id, reg + 0x400 * i, 2, 12, 15);
+ 
+ 	reg = CORE_DIG_CLANE_0_RW_LP_2;
+ 	for (i = 0; i < trios; i++)
+@@ -860,7 +862,11 @@ static void ipu7_isys_cphy_config(struct ipu7_isys *isys, u8 id, u8 lanes,
+ 	for (i = 0; i < (lanes + 1); i++) {
+ 		reg = CORE_DIG_IOCTRL_RW_AFE_LANE0_CTRL_2_9 + 0x400 * i;
+ 		dwc_phy_write_mask(isys, id, reg, 4U, 0, 2);
+-		dwc_phy_write_mask(isys, id, reg, 0U, 3, 4);
++		/* Set GMODE to 2 when CPHY >= 1.5Gsps */
++		if (mbps >= 1500)
++			dwc_phy_write_mask(isys, id, reg, 2U, 3, 4);
++		else
++			dwc_phy_write_mask(isys, id, reg, 0U, 3, 4);
+ 
+ 		reg = CORE_DIG_IOCTRL_RW_AFE_LANE0_CTRL_2_7 + 0x400 * i;
+ 		dwc_phy_write_mask(isys, id, reg, cap_prog, 10, 12);
+@@ -930,8 +936,9 @@ static int ipu7_isys_phy_config(struct ipu7_isys *isys, u8 id, u8 lanes,
+ 			   7, 12, 14);
+ 	dwc_phy_write_mask(isys, id, CORE_DIG_IOCTRL_RW_AFE_CB_CTRL_2_7,
+ 			   0, 8, 10);
++	/* resistance tuning: 1 for 45ohm, 0 for 50ohm */
+ 	dwc_phy_write_mask(isys, id, CORE_DIG_IOCTRL_RW_AFE_CB_CTRL_2_5,
+-			   0, 8, 8);
++			   1, 8, 8);
+ 
+ 	if (aggregation)
+ 		phy_mode = isys->csi2[0].phy_mode;
 -- 
 2.34.1
 
