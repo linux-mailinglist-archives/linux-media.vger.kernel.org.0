@@ -1,477 +1,225 @@
-Return-Path: <linux-media+bounces-49323-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49324-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C20ECD5589
-	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 10:37:21 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E319CD5646
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 10:50:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9B03130181B7
-	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 09:37:13 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 5E142300EA33
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 09:49:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4D4331196C;
-	Mon, 22 Dec 2025 09:37:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77F991BD9D0;
+	Mon, 22 Dec 2025 09:49:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O6HldR77"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="dK/f6JAq";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="aMc9hrWi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0277920DD48;
-	Mon, 22 Dec 2025 09:37:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D5B1157480
+	for <linux-media@vger.kernel.org>; Mon, 22 Dec 2025 09:49:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766396231; cv=none; b=TPGpd/qlNcPF22f+fxj6sv+7P+ydc0Cq1UZokDLo/e0i0jCMTOTiLI3Psn1gv24J28D9J12aUYOKgdRbwJMuPh/KkUHZhGm/0yyQ4AwUnC3RxsE2lKjLDzt9DnwOKGKgdR3PDt73+xZnwJ7RgxBhVus7oREWcGga7kZ2WaWPHSM=
+	t=1766396992; cv=none; b=S5sJ5KPspjRoJa316/qzKqxn6hC4qFMTV2PxtIvtK6jUK6UFdHDLOdyTN1zk/ZPiiHnfj5Thrsfi5JkYa/0Tr9SRNpoE197VmzC3WzekMJSZSc1dXu9gO7q3S4LqxS1HQZzf3jqH7hdZEq6gsXQreVuDWm6qGP6xtvlN7ise8+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766396231; c=relaxed/simple;
-	bh=gqxib882UaZ4zQvTYZpit3UtELR4ivp8MGrF00EAHng=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xuj9NhIYCbxDavip95kI9LfoHx9O4Ci4ErXMFGhf0KZvsEQazCCh8W4d0SD6USfNaGZwVjSyWqpSrcr7N9uj5psMYyULhTo5sIcs4iaCQ9TqdulSdD9jyPeaAe3ueiBe40yvVASaiXPPpa0W+lWGugew7n8Dwu6Q75cft4ns158=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O6HldR77; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766396229; x=1797932229;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gqxib882UaZ4zQvTYZpit3UtELR4ivp8MGrF00EAHng=;
-  b=O6HldR77zfmws3gFfJksUGfzUBP2rmNzvCNjLj/wt3pP3IPc/FwP9uZH
-   DTAlcgKKCDiPcQkOz3oFgDtkjN8J711gN+0K98kOImzgz71rDcTN8xuCO
-   XNyzeHbYEcHHBOd9QjcmN5SBcSPKORHO9ssSXY6CRqYSiJy8yRRPv3fMz
-   B7a6YdSSwBdwKDlGoyzSnSUc8oibpmUbXVPa78maFxe7t5eIs9QkwD8z2
-   OIjGqICQ1+BytMq9BRu5ScBksKmWQVcMlHq6HshmvbPtxZdku0pAt1HU8
-   lE6rVzy0SwsHcFN+cKdXMX4pDeWC/+wsoy12qtabZyPscLr5VR2bnv/Fn
-   A==;
-X-CSE-ConnectionGUID: R9xwO6R0Sna9ddmbgIhkNg==
-X-CSE-MsgGUID: 01uYNwqDTfS667Z5ZJAgWw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="79702497"
-X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="79702497"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 01:37:08 -0800
-X-CSE-ConnectionGUID: paj8LuLiQbmJPdHBUHb/LQ==
-X-CSE-MsgGUID: mCaGK95cQaqcqIEO/kHphQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="199125073"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.187])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 01:37:04 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id AFE7412063F;
-	Mon, 22 Dec 2025 11:37:04 +0200 (EET)
-Date: Mon, 22 Dec 2025 11:37:04 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Bin Du <Bin.Du@amd.com>
-Cc: mchehab@kernel.org, hverkuil@xs4all.nl,
-	laurent.pinchart+renesas@ideasonboard.com,
-	bryan.odonoghue@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	sultan@kerneltoast.com, pratap.nirujogi@amd.com,
-	benjamin.chan@amd.com, king.li@amd.com, gjorgji.rosikopulos@amd.com,
-	Phil.Jawich@amd.com, Dominic.Antony@amd.com,
-	mario.limonciello@amd.com, richard.gong@amd.com, anson.tsao@amd.com,
-	Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>,
-	Alexey Zagorodnikov <xglooom@gmail.com>
-Subject: Re: [PATCH v7 3/7] media: platform: amd: Add isp4 fw and hw interface
-Message-ID: <aUkRQEeAWDeQknP6@kekkonen.localdomain>
-References: <20251216091326.111977-1-Bin.Du@amd.com>
- <20251216091326.111977-4-Bin.Du@amd.com>
+	s=arc-20240116; t=1766396992; c=relaxed/simple;
+	bh=jZ1gy20BI+hPZbCo6LxsQGFErVJ08MmN3NyvoXuIrcM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oASeAYsS/cFv1+ZzfshVVJ25SdoCviWMDL/lXfpnuyxew1A6k7jJl4XcXB8udtFjEmShDUVE/oXXtQzMrl/SD6XcBN9pvla5LWYhwKDp2XiYXs0WX7DVoMfB5S6R85Wv8FGi3hygRQ4iTxzecWITWrwq9s3wdy03HZG2eOA2KNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=dK/f6JAq; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=aMc9hrWi; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BM86Bjm3805186
+	for <linux-media@vger.kernel.org>; Mon, 22 Dec 2025 09:49:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	QikoOVKOAaU3VQD1Nx/2DEE9L5YAA7S9otjAkNFCgvQ=; b=dK/f6JAqxdisNshh
+	yZy280dhJZ9LAb0ucnZDp+jiADxDiU1YFslj+Oemdcg6tkOGq1to86vLJ7kQyv5s
+	93r/YJjs3crpuusRTlD3RA6U8XQbl8Usk3Z8Bv1gLgK8VcZb/lut7S+sMmC65ufB
+	hVn3YMMnK5PrJtmvi+AZ3ORymugMv1UNfegvRy9TXZrjshjl5vO7LPpP2cupc7Ro
+	TTDdt2L/+zHuogi5Puuh7V4iav9XW2Z10af5sSpe6o6DI5S9zPh/uMaWqqghjHUx
+	lDFqM0gOEEA71wwA8bOBGKAydruPT3UhGc83pTS8kLD845rroCq1sarwsFe2f6US
+	HMDXtA==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b5mrtcjbm-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Mon, 22 Dec 2025 09:49:49 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-88fce043335so4218806d6.2
+        for <linux-media@vger.kernel.org>; Mon, 22 Dec 2025 01:49:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1766396988; x=1767001788; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QikoOVKOAaU3VQD1Nx/2DEE9L5YAA7S9otjAkNFCgvQ=;
+        b=aMc9hrWi+ZH4bWfZkZ0/Wzgsg+noEdGUJ6Iobmxb4KocdmuY0bUPfUHowl+B2xiMri
+         P2cISLeY4LtHmVezxLZgkjCWg4uZnQ99594SbFMnyMDk+gD/FLA0ukbw/JDCyObCrdc+
+         RIZEVmWvgqfQYfa/xH89BTCZexAig1c31DY5RBBt4Lw0KTC3DwYSCf9hDF3psxgLRP8o
+         HlAh++HdFxklxcYy1bkk+FgODPXHxiIPhkWQUCPTj5wkm9vHaby2+fDAwYM17/2eVMlc
+         FhSLpriLQE7D7Tfn2mEiWdzbfoC6VHQms2iycuzdSBfeDDTIYFkDNX/NHvEtsl8nZGsz
+         S9Ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766396988; x=1767001788;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QikoOVKOAaU3VQD1Nx/2DEE9L5YAA7S9otjAkNFCgvQ=;
+        b=AojIec6fsIwTWMB8KsIU6kXVdtambaYDGNMUFIXjOXxhQdL65bfQsYmzTp0tz4196U
+         Dqt3SJHGm5vQHH7KZdqXHaI67/RKwyI4TQgrkYmCFBFIqyBp2jitgydwBjH5lJzMbrvy
+         jrM53jKzVdfO886ntznTa88Hial4AtDrjyvlrZnw4dHUKr8UwU4C4rp0MPse3G3eVRuW
+         4F5pkXuNIEv2+ljh9bxHGvNbb2JPeeyYylvkJRLSbX7ItNYTnbbig1w0sg62l+Lp6JUV
+         kZtNx+sKI0N+oPc/yO0UfRhWY0vnENI5AppT9vbqDKC+mowp29qj3SMJXdXUyuNA5pix
+         69tQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWZDFnX9k97FLZeL8sYho9nGI8rFpp9Yc13OsxL+sMHsecd/EFw9DggiGRtmh1HGhsQbkPCSys/EYfHMA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyaVU+9qRsCGUFX8qb9zYkcO0BE48mPT7rX2Wflld2iHf4Q3YqC
+	uLK5rU67CAoJ/9wc27MlmEm/EgCW5nr/vSLpuhiLbd11lo6llw4DR5Nvo8+HFntBirQWSp+hCRB
+	ybkuaxc5kSk0D5mcpxsvV0VXx7a2D++YK01mwnNs9sFIQQ0M7t5qZ1xG24VplHKkStA==
+X-Gm-Gg: AY/fxX51qgH7eUvTBGUi0gERck/+mYd4ksnYGHTJeUodyq3mR0ztJRVeYNmodmSbiA0
+	ojATzArYVCLNeH0LynXg6zqyS3QosH7y+FXXzMO+sOEqk4pQKz6YUvBOvuSg+b3lJQBCqABuyfw
+	6ZCxl6uW3rnnCrizXOsH7u+hW6PYcO16qyqMlVpL5NiJ/VFfgMtAPkW8R6Uene93rdHUu18p40T
+	k1N2RcR8MBSPRuoIrBpqUQJXAaLWJTFq4IxKXUb4yq4a/n8PBdKwCvjFtvw/bq7Aqb56QE9jcWo
+	xu7vXgvRQBb8HYEEveyRZ1633uinIvPcOJs04wAlApxS90mRjkhlubOU0+0n2CPd1iHzG5+4qqH
+	LCCL/E65RFCdfx+ESuh6fk8/mKOG5clmcT9cXlt35xb1/jgQYzUs1z8jOOKDbyIfpOA==
+X-Received: by 2002:a05:622a:1993:b0:4e0:b24a:6577 with SMTP id d75a77b69052e-4f4abcd2349mr117197571cf.2.1766396988310;
+        Mon, 22 Dec 2025 01:49:48 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFWSVlfXTRSKe1NNCeLCnGxRG2+Y6FML/3XAhkgPNY70pmRHX8af0w7w0Znk0rJD5e92DcYuA==
+X-Received: by 2002:a05:622a:1993:b0:4e0:b24a:6577 with SMTP id d75a77b69052e-4f4abcd2349mr117197441cf.2.1766396987919;
+        Mon, 22 Dec 2025 01:49:47 -0800 (PST)
+Received: from [192.168.119.72] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8037ddffc7sm1040818566b.43.2025.12.22.01.49.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Dec 2025 01:49:47 -0800 (PST)
+Message-ID: <b96c10a5-942d-446e-b67e-a566a7d09274@oss.qualcomm.com>
+Date: Mon, 22 Dec 2025 10:49:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251216091326.111977-4-Bin.Du@amd.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] dt-bindings: i2c: qcom-cci: Document sm6150
+ compatible
+To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Loic Poulain <loic.poulain@oss.qualcomm.com>,
+        Robert Foss
+ <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+References: <20251222-sm6150_evk-v1-0-4d260a31c00d@oss.qualcomm.com>
+ <20251222-sm6150_evk-v1-1-4d260a31c00d@oss.qualcomm.com>
+ <43efa6fd-53c3-4680-8aca-7b37089ca295@kernel.org>
+ <68dffe33-fe4a-4c4b-890e-87e0229d84bf@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <68dffe33-fe4a-4c4b-890e-87e0229d84bf@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: OLVVDI77bIQ8mGnaOfCgs9j9vUTOiAVK
+X-Proofpoint-GUID: OLVVDI77bIQ8mGnaOfCgs9j9vUTOiAVK
+X-Authority-Analysis: v=2.4 cv=CeEFJbrl c=1 sm=1 tr=0 ts=6949143d cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=KwbCpzI-l7fhGBOHbL8A:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=OIgjcC2v60KrkQgK7BGD:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIyMDA4OCBTYWx0ZWRfX02oJraijyG0y
+ 6qXhZ6m+Msd3whpH2EdpgWU3gYmSxGGJBGVu4/iIitJQzVINWpAulaRVE96ul8N99U9QFTtOpHM
+ s5FVOpgHXmv2mcLI0StDxUo9GwzLFmYljx3XOWcdU/8cnLjDFAXJeSWwyKoqpMM4Cz5ZX1IFx1w
+ UsOd/CHxVJiA/AV2YlE1LYMWz6jwYo/rrAx3P2a/Gh2jIZFbgmTnkND1QTHAOW83JGsQlXx1nUh
+ Rd45Rvwlj35SzkAs/WtALb3icj7/WZbK9usEvLY6wrV2FJm82TI4AykpnnhFHQ0FboPtz2nTwdL
+ H41QX4tiwqsRiprO9DLCCaS0KOS1CMGveJVkAqwCKCwYhlxhjSCOcWAtNupsdtmtXMrJPWlY7RE
+ t+HlksY4Zd8SNg0/sJKzmSu3O7bDnSn0suav1RCIlzv8rXpLkfwATKUn8mlT90EGuStUXmzb+Dj
+ w49SVAExFESNhQOErTw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-21_05,2025-12-19_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 lowpriorityscore=0 priorityscore=1501 phishscore=0
+ bulkscore=0 adultscore=0 spamscore=0 clxscore=1015 malwarescore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
+ definitions=main-2512220088
 
-Hi Bin,
-
-On Tue, Dec 16, 2025 at 05:13:22PM +0800, Bin Du wrote:
-> ISP firmware controls ISP HW pipeline using dedicated embedded processor
-> called ccpu. The communication between ISP FW and driver is using commands
-> and response messages sent through the ring buffer. Command buffers support
-> either global setting that is not specific to the steam and support stream
-> specific parameters. Response buffers contain ISP FW notification
-> information such as frame buffer done and command done. IRQ is used for
-> receiving response buffer from ISP firmware, which is handled in the main
-> isp4 media device. ISP ccpu is booted up through the firmware loading
-> helper function prior to stream start. Memory used for command buffer and
-> response buffer needs to be allocated from amdgpu buffer manager because
-> isp4 is a child device of amdgpu.
+On 12/22/25 10:13 AM, Wenmeng Liu wrote:
 > 
-> Co-developed-by: Sultan Alsawaf <sultan@kerneltoast.com>
-> Signed-off-by: Sultan Alsawaf <sultan@kerneltoast.com>
-> Co-developed-by: Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>
-> Signed-off-by: Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>
-> Signed-off-by: Bin Du <Bin.Du@amd.com>
-> Tested-by: Alexey Zagorodnikov <xglooom@gmail.com>
-> ---
->  MAINTAINERS                                   |   3 +
->  drivers/media/platform/amd/isp4/Makefile      |   3 +-
->  .../platform/amd/isp4/isp4_fw_cmd_resp.h      | 314 +++++++
->  .../media/platform/amd/isp4/isp4_interface.c  | 786 ++++++++++++++++++
->  .../media/platform/amd/isp4/isp4_interface.h  | 141 ++++
->  5 files changed, 1246 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h
->  create mode 100644 drivers/media/platform/amd/isp4/isp4_interface.c
->  create mode 100644 drivers/media/platform/amd/isp4/isp4_interface.h
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 7aa17c7e71d6..cccae369c876 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1145,7 +1145,10 @@ F:	drivers/media/platform/amd/isp4/Kconfig
->  F:	drivers/media/platform/amd/isp4/Makefile
->  F:	drivers/media/platform/amd/isp4/isp4.c
->  F:	drivers/media/platform/amd/isp4/isp4.h
-> +F:	drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h
->  F:	drivers/media/platform/amd/isp4/isp4_hw_reg.h
-> +F:	drivers/media/platform/amd/isp4/isp4_interface.c
-> +F:	drivers/media/platform/amd/isp4/isp4_interface.h
->  
->  AMD KFD
->  M:	Felix Kuehling <Felix.Kuehling@amd.com>
-> diff --git a/drivers/media/platform/amd/isp4/Makefile b/drivers/media/platform/amd/isp4/Makefile
-> index de0092dad26f..a2a5bf98e912 100644
-> --- a/drivers/media/platform/amd/isp4/Makefile
-> +++ b/drivers/media/platform/amd/isp4/Makefile
-> @@ -3,4 +3,5 @@
->  # Copyright (C) 2025 Advanced Micro Devices, Inc.
->  
->  obj-$(CONFIG_AMD_ISP4) += amd_capture.o
-> -amd_capture-objs := isp4.o
-> +amd_capture-objs := isp4.o \
-> +		    isp4_interface.o
-> diff --git a/drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h b/drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h
-> new file mode 100644
-> index 000000000000..d571b3873edb
-> --- /dev/null
-> +++ b/drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h
-> @@ -0,0 +1,314 @@
-> +/* SPDX-License-Identifier: GPL-2.0+ */
-> +/*
-> + * Copyright (C) 2025 Advanced Micro Devices, Inc.
-> + */
-> +
-> +#ifndef _ISP4_CMD_RESP_H_
-> +#define _ISP4_CMD_RESP_H_
-> +
-> +/*
-> + * @brief Host and Firmware command & response channel.
-> + *        Two types of command/response channel.
-> + *          Type Global Command has one command/response channel.
-> + *          Type Stream Command has one command/response channel.
-> + *-----------                                        ------------
-> + *|         |       ---------------------------      |          |
-> + *|         |  ---->|  Global Command         |----> |          |
-> + *|         |       ---------------------------      |          |
-> + *|         |                                        |          |
-> + *|         |                                        |          |
-> + *|         |       ---------------------------      |          |
-> + *|         |  ---->|   Stream Command        |----> |          |
-> + *|         |       ---------------------------      |          |
-> + *|         |                                        |          |
-> + *|         |                                        |          |
-> + *|         |                                        |          |
-> + *|  HOST   |                                        | Firmware |
-> + *|         |                                        |          |
-> + *|         |                                        |          |
-> + *|         |       --------------------------       |          |
-> + *|         |  <----|  Global Response       |<----  |          |
-> + *|         |       --------------------------       |          |
-> + *|         |                                        |          |
-> + *|         |                                        |          |
-> + *|         |       --------------------------       |          |
-> + *|         |  <----|  Stream Response       |<----  |          |
-> + *|         |       --------------------------       |          |
-> + *|         |                                        |          |
-> + *|         |                                        |          |
-> + *-----------                                        ------------
-> + */
-> +
-> +/*
-> + * @brief command ID format
-> + *        cmd_id is in the format of following type:
-> + *        type: indicate command type, global/stream commands.
-> + *        group: indicate the command group.
-> + *        id: A unique command identification in one type and group.
-> + *        |<-Bit31 ~ Bit24->|<-Bit23 ~ Bit16->|<-Bit15 ~ Bit0->|
-> + *        |      type       |      group      |       id       |
-> + */
-> +
-> +#define CMD_TYPE_SHIFT                  24
-> +#define CMD_GROUP_SHIFT                 16
-> +#define CMD_TYPE_STREAM_CTRL            (0x2U << CMD_TYPE_SHIFT)
-> +
-> +#define CMD_GROUP_STREAM_CTRL           (0x1U << CMD_GROUP_SHIFT)
-> +#define CMD_GROUP_STREAM_BUFFER         (0x4U << CMD_GROUP_SHIFT)
-> +
-> +/* Stream  Command */
-> +#define CMD_ID_SET_STREAM_CONFIG        (CMD_TYPE_STREAM_CTRL | CMD_GROUP_STREAM_CTRL | 0x1)
-> +#define CMD_ID_SET_OUT_CHAN_PROP        (CMD_TYPE_STREAM_CTRL | CMD_GROUP_STREAM_CTRL | 0x3)
-> +#define CMD_ID_ENABLE_OUT_CHAN          (CMD_TYPE_STREAM_CTRL | CMD_GROUP_STREAM_CTRL | 0x5)
-> +#define CMD_ID_START_STREAM             (CMD_TYPE_STREAM_CTRL | CMD_GROUP_STREAM_CTRL | 0x7)
-> +#define CMD_ID_STOP_STREAM              (CMD_TYPE_STREAM_CTRL | CMD_GROUP_STREAM_CTRL | 0x8)
-> +
-> +/* Stream Buffer Command */
-> +#define CMD_ID_SEND_BUFFER              (CMD_TYPE_STREAM_CTRL | CMD_GROUP_STREAM_BUFFER | 0x1)
-> +
-> +/*
-> + * @brief response ID format
-> + *        resp_id is in the format of following type:
-> + *        type: indicate command type, global/stream commands.
-> + *        group: indicate the command group.
-> + *        id: A unique command identification in one type and group.
-> + *        |<-Bit31 ~ Bit24->|<-Bit23 ~ Bit16->|<-Bit15 ~ Bit0->|
-> + *        |      type       |      group      |       id       |
-> + */
-> +
-> +#define RESP_GROUP_SHIFT                16
-> +#define RESP_GROUP_MASK                 (0xff << RESP_GROUP_SHIFT)
-> +
-> +#define GET_RESP_GROUP_VALUE(resp_id)   (((resp_id) & RESP_GROUP_MASK) >> RESP_GROUP_SHIFT)
-> +#define GET_RESP_ID_VALUE(resp_id)      ((resp_id) & 0xffff)
-> +
-> +#define RESP_GROUP_GENERAL              (0x1 << RESP_GROUP_SHIFT)
-> +#define RESP_GROUP_NOTIFICATION         (0x3 << RESP_GROUP_SHIFT)
-> +
-> +/* General Response */
-> +#define RESP_ID_CMD_DONE                (RESP_GROUP_GENERAL | 0x1)
-> +
-> +/* Notification */
-> +#define RESP_ID_NOTI_FRAME_DONE         (RESP_GROUP_NOTIFICATION | 0x1)
-> +
-> +#define CMD_STATUS_SUCCESS              0
-> +#define CMD_STATUS_FAIL                 1
-> +#define CMD_STATUS_SKIPPED              2
-> +
-> +#define ADDR_SPACE_TYPE_GPU_VA          4
-> +
-> +#define FW_MEMORY_POOL_SIZE             (100 * 1024 * 1024)
-> +
-> +/*
-> + * standard ISP mipicsi=>isp
-> + */
-> +#define MIPI0_ISP_PIPELINE_ID           0x5f91
-> +
-> +enum isp4fw_sensor_id {
-> +	SENSOR_ID_ON_MIPI0  = 0,  /* Sensor id for ISP input from MIPI port 0 */
-> +};
-> +
-> +enum isp4fw_stream_id {
-> +	STREAM_ID_INVALID = -1, /* STREAM_ID_INVALID. */
-> +	STREAM_ID_1 = 0,        /* STREAM_ID_1. */
-> +	STREAM_ID_2 = 1,        /* STREAM_ID_2. */
-> +	STREAM_ID_3 = 2,        /* STREAM_ID_3. */
-> +	STREAM_ID_MAXIMUM       /* STREAM_ID_MAXIMUM. */
-> +};
-> +
-> +enum isp4fw_image_format {
-> +	IMAGE_FORMAT_NV12 = 1,              /* 4:2:0,semi-planar, 8-bit */
-> +	IMAGE_FORMAT_YUV422INTERLEAVED = 7, /* interleave, 4:2:2, 8-bit */
-> +};
-> +
-> +enum isp4fw_pipe_out_ch {
-> +	ISP_PIPE_OUT_CH_PREVIEW = 0,
-> +};
-> +
-> +enum isp4fw_yuv_range {
-> +	ISP_YUV_RANGE_FULL = 0,     /* YUV value range in 0~255 */
-> +	ISP_YUV_RANGE_NARROW = 1,   /* YUV value range in 16~235 */
-> +	ISP_YUV_RANGE_MAX
-> +};
-> +
-> +enum isp4fw_buffer_type {
-> +	BUFFER_TYPE_PREVIEW = 8,
-> +	BUFFER_TYPE_META_INFO = 10,
-> +	BUFFER_TYPE_MEM_POOL = 15,
-> +};
-> +
-> +enum isp4fw_buffer_status {
-> +	BUFFER_STATUS_INVALID,  /* The buffer is INVALID */
-> +	BUFFER_STATUS_SKIPPED,  /* The buffer is not filled with image data */
-> +	BUFFER_STATUS_EXIST,    /* The buffer is exist and waiting for filled */
-> +	BUFFER_STATUS_DONE,     /* The buffer is filled with image data */
-> +	BUFFER_STATUS_LACK,     /* The buffer is unavailable */
-> +	BUFFER_STATUS_DIRTY,    /* The buffer is dirty, probably caused by
-> +				 * LMI leakage
-> +				 */
-> +	BUFFER_STATUS_MAX       /* The buffer STATUS_MAX */
-> +};
-> +
-> +enum isp4fw_buffer_source {
-> +	/* The buffer is from the stream buffer queue */
-> +	BUFFER_SOURCE_STREAM,
-> +};
+> On 12/22/2025 4:58 PM, Krzysztof Kozlowski wrote:
+>> On 22/12/2025 09:44, Wenmeng Liu wrote:
+>>> Add the sm6150 CCI device string compatible.
+>>>
+>>> Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+>>> ---
+>>>   .../devicetree/bindings/i2c/qcom,i2c-cci.yaml          | 18 ++++++++++++++++++
+>>>   1 file changed, 18 insertions(+)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml b/Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml
+>>> index a3fe1eea6aece9685674feaa5ec53765c1ce23d8..cb5e6fd5b2ad1de79a9b29d54869d093c952d778 100644
+>>> --- a/Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml
+>>> +++ b/Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml
+>>> @@ -33,6 +33,7 @@ properties:
+>>>                 - qcom,sc8280xp-cci
+>>>                 - qcom,sdm670-cci
+>>>                 - qcom,sdm845-cci
+>>> +              - qcom,sm6150-cci
+>>>                 - qcom,sm6350-cci
+>>>                 - qcom,sm8250-cci
+>>>                 - qcom,sm8450-cci
+>>> @@ -263,6 +264,23 @@ allOf:
+>>>               - const: cpas_ahb
+>>>               - const: cci
+>>>   +  - if:
+>>> +      properties:
+>>> +        compatible:
+>>> +          contains:
+>>> +            enum:
+>>> +              - qcom,sm6150-cci
+>>> +    then:
+>>> +      properties:
+>>> +        clocks:
+>>> +          minItems: 3
+>>> +          maxItems: 3
+>>> +        clock-names:
+>>> +          items:
+>>> +            - const: soc_ahb
+>>
+>>
+>> Isn't this just camnoc_axi for this device (pay attention: to this device)?
+>>
+> 
+> On this SOC, both soc_ahb and camnoc_axi exist.
+> Is it suggested that I use the existing ones below?
+>  - if:
+>       properties:
+>         compatible:
+>           contains:
+>             enum:
+>               - qcom,sdm670-cci
+>     then:
+>       properties:
+>         clocks:
+>           minItems: 4
+>           maxItems: 4
+>         clock-names:
+>           items:
+>             - const: camnoc_axi
+>             - const: soc_ahb
+>             - const: cpas_ahb
+>             - const: cci
 
-Could you also use the ISP4 (or ISP4IF) prefix for these, please? Many look
-rather generic.
+Are both AXI and the two AHB clocks necessary for the CCI to operate?
+It wasn't the case on other similarly-aged platforms
 
-...
-
-> diff --git a/drivers/media/platform/amd/isp4/isp4_interface.h b/drivers/media/platform/amd/isp4/isp4_interface.h
-> new file mode 100644
-> index 000000000000..01d5268f7d4c
-> --- /dev/null
-> +++ b/drivers/media/platform/amd/isp4/isp4_interface.h
-> @@ -0,0 +1,141 @@
-> +/* SPDX-License-Identifier: GPL-2.0+ */
-> +/*
-> + * Copyright (C) 2025 Advanced Micro Devices, Inc.
-> + */
-> +
-> +#ifndef _ISP4_INTERFACE_H_
-> +#define _ISP4_INTERFACE_H_
-> +
-> +#include <drm/amd/isp.h>
-> +#include <linux/mutex.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/spinlock.h>
-> +
-> +struct isp4fw_resp;
-> +
-> +#define ISP4IF_RB_MAX 25
-> +#define ISP4IF_RESP_CHAN_TO_RB_OFFSET 9
-> +#define ISP4IF_RB_PMBMAP_MEM_SIZE (SZ_16M - 1)
-> +#define ISP4IF_RB_PMBMAP_MEM_CHUNK \
-> +	(ISP4IF_RB_PMBMAP_MEM_SIZE / (ISP4IF_RB_MAX - 1))
-> +#define ISP4IF_HOST2FW_COMMAND_SIZE sizeof(struct isp4fw_cmd)
-> +#define ISP4IF_MAX_NUM_HOST2FW_COMMAND 40
-> +#define ISP4IF_FW_CMD_BUF_SIZE \
-> +	(ISP4IF_MAX_NUM_HOST2FW_COMMAND * ISP4IF_HOST2FW_COMMAND_SIZE)
-> +#define ISP4IF_RB_FULL_SLEEP_US (33 * USEC_PER_MSEC)
-> +#define ISP4IF_RB_FULL_TIMEOUT_US (10 * ISP4IF_RB_FULL_SLEEP_US)
-> +
-> +#define ISP4IF_META_INFO_BUF_SIZE ALIGN(sizeof(struct isp4fw_meta_info), 0x8000)
-> +#define ISP4IF_MAX_STREAM_BUF_COUNT 8
-> +
-> +#define ISP4IF_FW_LOG_RINGBUF_SIZE SZ_2M
-> +
-> +enum isp4if_stream_id {
-> +	ISP4IF_STREAM_ID_GLOBAL = 0,
-> +	ISP4IF_STREAM_ID_1 = 1,
-> +	ISP4IF_STREAM_ID_MAX = 4
-> +};
-> +
-> +enum isp4if_status {
-> +	ISP4IF_STATUS_PWR_OFF,
-> +	ISP4IF_STATUS_PWR_ON,
-> +	ISP4IF_STATUS_FW_RUNNING,
-> +	ISP4IF_FSM_STATUS_MAX
-> +};
-> +
-> +struct isp4if_gpu_mem_info {
-> +	u64 mem_size;
-> +	u64 gpu_mc_addr;
-> +	void *sys_addr;
-> +	void *mem_handle;
-> +};
-> +
-> +struct isp4if_img_buf_info {
-> +	struct {
-> +		void *sys_addr;
-> +		u64 mc_addr;
-> +		u32 len;
-> +	} planes[3];
-> +};
-> +
-> +struct isp4if_img_buf_node {
-> +	struct list_head node;
-> +	struct isp4if_img_buf_info buf_info;
-> +};
-> +
-> +struct isp4if_cmd_element {
-> +	struct list_head list;
-> +	u32 seq_num;
-> +	u32 cmd_id;
-> +	struct completion cmd_done;
-> +	atomic_t refcnt;
-> +};
-> +
-> +struct isp4_interface {
-
-How about just "isp4if"? Up to you.
-
-> +	struct device *dev;
-> +	void __iomem *mmio;
-> +
-> +	spinlock_t cmdq_lock; /* used for cmdq access */
-> +	spinlock_t bufq_lock; /* used for bufq access */
-> +	struct mutex isp4if_mutex; /* used to send fw cmd and read fw log */
-> +
-> +	struct list_head cmdq; /* commands sent to fw */
-> +	struct list_head bufq; /* buffers sent to fw */
-> +
-> +	enum isp4if_status status;
-> +	u32 host2fw_seq_num;
-> +
-> +	/* ISP fw buffers */
-> +	struct isp4if_gpu_mem_info *fw_log_buf;
-> +	struct isp4if_gpu_mem_info *fw_cmd_resp_buf;
-> +	struct isp4if_gpu_mem_info *fw_mem_pool;
-> +	struct isp4if_gpu_mem_info *meta_info_buf[ISP4IF_MAX_STREAM_BUF_COUNT];
-> +};
-> +
-> +static inline void isp4if_split_addr64(u64 addr, u32 *lo, u32 *hi)
-> +{
-> +	if (lo)
-> +		*lo = addr & 0xffffffff;
-> +
-> +	if (hi)
-> +		*hi = addr >> 32;
-> +}
-> +
-> +static inline u64 isp4if_join_addr64(u32 lo, u32 hi)
-> +{
-> +	return (((u64)hi) << 32) | (u64)lo;
-> +}
-> +
-> +int isp4if_f2h_resp(struct isp4_interface *ispif, enum isp4if_stream_id stream,
-> +		    struct isp4fw_resp *resp);
-> +
-> +int isp4if_send_command(struct isp4_interface *ispif, u32 cmd_id, const void *package,
-> +			u32 package_size);
-> +
-> +int isp4if_send_command_sync(struct isp4_interface *ispif, u32 cmd_id, const void *package,
-> +			     u32 package_size);
-> +
-> +struct isp4if_cmd_element *isp4if_rm_cmd_from_cmdq(struct isp4_interface *ispif, u32 seq_num,
-> +						   u32 cmd_id);
-> +
-> +void isp4if_clear_cmdq(struct isp4_interface *ispif);
-> +
-> +void isp4if_clear_bufq(struct isp4_interface *ispif);
-> +
-> +void isp4if_dealloc_buffer_node(struct isp4if_img_buf_node *buf_node);
-> +
-> +struct isp4if_img_buf_node *isp4if_alloc_buffer_node(struct isp4if_img_buf_info *buf_info);
-> +
-> +struct isp4if_img_buf_node *isp4if_dequeue_buffer(struct isp4_interface *ispif);
-> +
-> +int isp4if_queue_buffer(struct isp4_interface *ispif, struct isp4if_img_buf_node *buf_node);
-> +
-> +int isp4if_stop(struct isp4_interface *ispif);
-> +
-> +int isp4if_start(struct isp4_interface *ispif);
-> +
-> +int isp4if_deinit(struct isp4_interface *ispif);
-> +
-> +int isp4if_init(struct isp4_interface *ispif, struct device *dev, void __iomem *isp_mmio);
-
-Could you run
-
-	$ ./scripts/checkpatch.pl --strict --max-line-length=80
-
-on the set, please?
-
-> +
-> +#endif /* _ISP4_INTERFACE_H_ */
-
--- 
-Kind regards,
-
-Sakari Ailus
+Konrad
 
