@@ -1,138 +1,139 @@
-Return-Path: <linux-media+bounces-49337-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49338-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D30DCD5AD0
-	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 11:55:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CDF5CD5AEB
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 11:56:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BD70730237A9
-	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 10:52:58 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CDFB2302AFB0
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 10:56:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AAB12DCC04;
-	Mon, 22 Dec 2025 10:52:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87F8631353E;
+	Mon, 22 Dec 2025 10:56:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="dx4dlihs"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JVEs/ZxU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6BBB219303;
-	Mon, 22 Dec 2025 10:52:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6276030149F;
+	Mon, 22 Dec 2025 10:55:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766400776; cv=none; b=gC3yL4r0mD4EETgcU8lsGm2Mldb8absCFiDkwR1EgaPuOHinvlGrDQvQw23aaxhSQJbwuofyLWOldWgSMWZ/OzmJSd6fSuCjDB1fRaxHDcDMtjpe6G053Y70KuFXm460jzylBpuOYjcCKruK2H8WCEmcnApSlAk5kCsu8o4KcWQ=
+	t=1766400960; cv=none; b=r33FYFc3aGuJwaInwicLrIl35yPaAyRY3WRefWkq2MDrTo97Sr8rEBN6FMfuRxK0BhOF1wLAjlegQjXTN2eqLwvi3Sair4pgMZVRCh9VBEff4EAieI3R5bNor+tbqARQvzugL23WKAcCfrruoJ3CABZ+bLjoq+cOEdA8oHZHFd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766400776; c=relaxed/simple;
-	bh=yR3XLlPsBVBt623zAwcBxYbHiscFPr+WDAuPWLeURTs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=fOFU5V1Qt8KJDqGO9DMc6UpZptjG9NxFo+hwbSZlDnQcmhi7Aqv+jcji8HJ832u/yJL6B8RZBW2CRDvD5M+KAZpFlqH4qbXdfGMFTtMvjeW+BTkP7c2Pji5tuQVYbyE6+3m3MoN6AzElVlQOkbY6uuBMWRwV2zaw+0+TfWmyEMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=dx4dlihs; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4dZZjT0csbz9sRx;
-	Mon, 22 Dec 2025 11:52:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1766400765;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WXI5KezZWY1SsMtfKiD420M+L57YvEvMyMG0dWoQ63A=;
-	b=dx4dlihs3ZwCVbMteeO+QOKd3lxhxY33iu1wAY3z0ikM2qcxQgP5ihVEga1FBzKqqGtYQ6
-	fKTcZH2gY8MiZ9rxZv/XPckVOYxh7HExQI13ZYqa0gY0LtHTop9/hM/adIJhosFrgy+udz
-	miKF6qJZPfSBwyvQDF8/Kp3eqhbEglj5VkayXcX+wKt75+Z4deHUaPrGIb5oo0i62xWiG/
-	RBaOvkJ7MHqTk2VwgzhFyaHyUs1CzsoY1UZBpluXCSTz++tc7JJeFUMPYjO/azf2QFmcE8
-	5c5dzsYdTsR8CMVZpfx9X3VdGC16+3nHxtWxMIKK4tTcHc5MWrSmhpC0itYADw==
-Message-ID: <de5e22b9-5a35-47b4-b290-06729b56c887@mailbox.org>
-Date: Mon, 22 Dec 2025 11:52:42 +0100
+	s=arc-20240116; t=1766400960; c=relaxed/simple;
+	bh=jclfNgEXwOMOyW4Z2tfBlK8j02atE7C52VCJecUW0JY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SCjOa2cNx+PIH8Uq57PSMz6tN/W8b0MLBUBI13saelr+Y/7qTL/mjtiPgUE9Y8LQatCLRjw0SA1aFvTwhFDXkjffvJtrZuvzfKiGUwBGLed5krk2o5Y16PY7pOlXsXRxicQm0E0PMTmWuykC3hPvn4keJkBigH7otwCPNeA3A1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JVEs/ZxU; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BA864E1F;
+	Mon, 22 Dec 2025 11:55:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1766400942;
+	bh=jclfNgEXwOMOyW4Z2tfBlK8j02atE7C52VCJecUW0JY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=JVEs/ZxUD9dk7vkh4NGAwwdquWG01nOsRebMB2+6uwWnI7s9vOHuvF2CC0N0Aim7d
+	 X73SAfsaDctRyVQKWoRYm5ypxtPem0YjaSDLJXZaJgf6pLTh8lyQPc8e2REh1a/n+P
+	 UOiiNkOctjn3LLQ92/0lybEtXO6ZZYrZQtt59T/8=
+Message-ID: <d00b500e-31e9-4951-852f-c612a5d779a0@ideasonboard.com>
+Date: Mon, 22 Dec 2025 12:55:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v4 00/12] media: Add support for R-Car ISP using Dreamchip
- RPPX1 ISP
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251111090228.2511734-1-niklas.soderlund+renesas@ragnatech.se>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V3 1/4] media: dt-bindings: ti,ds90ub960: Refactor port
+ definitions
+To: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>, mchehab@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ hverkuil@xs4all.nl, sakari.ailus@linux.intel.com,
+ laurent.pinchart@ideasonboard.com
+Cc: hansg@kernel.org, mehdi.djait@linux.intel.com, ribalda@chromium.org,
+ git@apitzsch.eu, vladimir.zapolskiy@linaro.org,
+ benjamin.mugnier@foss.st.com, dongcheng.yan@intel.com, u-kumar1@ti.com,
+ jai.luthra@linux.dev, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20251219122955.2078270-1-y-abhilashchandra@ti.com>
+ <20251219122955.2078270-2-y-abhilashchandra@ti.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <20251111090228.2511734-1-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 6b419733c5d4fab65a2
-X-MBO-RS-META: ycsxpgj5g79qpwqgb1ubox6gddueipzg
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20251219122955.2078270-2-y-abhilashchandra@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 11/11/25 10:02 AM, Niklas SÃ¶derlund wrote:
-> Hello,
-> 
-> This series adds support for two different devices that together enable
-> ISP support on Renesas R-Car Gen4 ISP processing. The first driver added
-> is for Dreamchip RPPX1 ISP, this device purely deals with image
-> processing algorithms, statistics and image conversion; but have no DMA
-> engines. The second driver is for the R-Car ISP CORE, this device
-> deals with DMA to/from the RPPX1 ISP and provides a V4L2 user-space
-> interface for the ISP.
-> 
-> The R-Car ISP driver uses the RPPX1 framework to drive the ISP and
-> together the two devices provide a functional ISP. For detailed
-> description of the RPPX1 see patch 1/12, and for details about the R-Car
-> ISP see commit message in patch 2/12.
-> 
-> The RPPX1 ISP is similar to functionality and design to the Rk1ISP
-> already supported upstream. For this reason this series reuses the pixel
-> format for ISP parameters (RK1E) and statistics (RK1S) as the user-space
-> ABI to configure the ISP. The primary difference to Rk1iSP is the over
-> all pipeline design and the register layout out is different enough to
-> make it impractical to bolt it on the existing drivers.
-> 
-> However on a functional block level the blocks amiable and their
-> register layout mapped to the buffer formats are similar enough to make
-> the reuse practical. Another difference is that RPPX1 operates at a
-> hight bitdepth then Rk1ISP, but this is easily supported by scaling the
-> values to/from the buffers.
-> 
-> All functional blocks present on the RPPX1 are not yet added to the
-> driver, but most are. Hence not all configuration blocks of the Rk1E
-> extensible format are supported, but most if not all can be added.
-> 
-> A libcamera pipeline reusing the Rk1ISP IPA have been posted and it can
-> exercise all function block enabled by this series. It produce good
-> images using all algorithms available.
-> 
-> Patch 1/12 adds the foundation for the RPPX1 framework. It deals with
-> probing all function blocks making sure every blocks version register is
-> supported and setup a "passthru" pipeline that just debayer RAW images.
-> 
-> Patch 2/12 integrates the adds the R-Car ISP CORE DMA parts and
-> integrates with the RPPX1 framework added in patch 1/12.
-> 
-> Patches 3/12 to 12/12 extends the RPPX1 framework with the logic to drive
-> the different IPS modules.
-> 
-> The sum of the work pass v4l2-compliance. A test suite for the enabled
-> function blocks exists and pass. The work have also been tested with
-> various libcamera utilities and compliance tests together with a IMX219
-> and IMX462 sensor on R-Car V4H.
-> 
-> Biggest change from v3 is small fixes that 0day found when building for
-> non ARM architectures.
+Hi,
 
-For this series, please add my:
+On 19/12/2025 14:29, Yemike Abhilash Chandra wrote:
+> The current bindings duplicate the port definitions for each FPD-Link RX
+> and CSI-2 TX ports. This results in a large amount of repeated schema
+> blocks and makes it harder to extend the bindings for new devices.
+> 
+> Refactor the bindings by introducing shared deftinitions for FPD-Link
+> input ports and CSI-2 output ports. No functional change intended.
+> 
+> Signed-off-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
+> ---
+> Changelog:
+> Changes in v3:
+> - Remove the | character from the ports description since preserving formatting is not required. (Rob)
+> - Wrap the ports description at 80 characters. (Rob)
+> 
+>  .../bindings/media/i2c/ti,ds90ub960.yaml      | 120 +++++++-----------
+>  1 file changed, 44 insertions(+), 76 deletions(-)
+My DT skills are not good enough to say if this is 100% correct or not,
+but it makes sense and looks good to me. So:
 
-Tested-by: Marek Vasut'<marek.vasut+renesas@mailbox.org>
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-# On Retronix Sparrow Hawk with Renesas R-Car R8A779G3 rev. 3.1 SoC .
+ Tomi
 
-Thank you !
 
