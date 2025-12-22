@@ -1,53 +1,60 @@
-Return-Path: <linux-media+bounces-49373-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49372-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A653CD720D
-	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 21:46:49 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFAB9CD7240
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 21:50:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 6F8EE3017860
-	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 20:46:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 48B05308FE0C
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 20:46:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC45D3446DF;
-	Mon, 22 Dec 2025 20:38:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A57D6344040;
+	Mon, 22 Dec 2025 20:37:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ejlr3a6j"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X1diPkQW"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EFF430BF62;
-	Mon, 22 Dec 2025 20:38:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07CA430BF62;
+	Mon, 22 Dec 2025 20:37:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766435881; cv=none; b=eLaTxjkhe8InpXO7A6iiYvE/i6wGby3j07HMZnHT4z1t7Wdux6ONF+di3RwavYdY4TtYQ1HEVtWTzj9LHMek1qzLsrNaMY62vZZ8GHt5i1mU1PgiQvHJKw685gHAUDbxwiAQ3Kq6ceURCQ68P8C/XGPaG0hvKSJeShxBmosojVg=
+	t=1766435878; cv=none; b=CTENrU0QoJSgil7qNz2zsyvFfJuxFgBW+FhMap9LFWYPFxEvhDRAAK7AISd7m4cy7P4I5DQA9v3az1Re5JDQ0TGWjlStk1nFUBbACrMkft7awjglM5Xi2T3XZEpRo0vwYToFYK1ZOEvTto2o3+rhCQ3w+Riocu5j5rzwS8tOZ7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766435881; c=relaxed/simple;
-	bh=Bib9KNCO9PkYkoUxSea/AkbvyVEBdlzoPe1J67Uyctw=;
+	s=arc-20240116; t=1766435878; c=relaxed/simple;
+	bh=QvJ1CW2dTGSVQI9v1hkF14kO+wZVUTltwp45UZxtMDc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rkDnpoT4Cz2f/O8woL4WQR1EYCfC0DGb2zvjiefjobcaSH4urxa6PWDWk+4SsqIJd2KL2tOCdqLke3Nt6Sttd1+KZkolNPFeVhTFSOZIjGrUNELjlt4GwSjcf7hrniUTSwLPRLLGnqVnYPxd0DdeWDM4W5TIFoNoJL1lSM97V+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ejlr3a6j; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 704AFC19421;
-	Mon, 22 Dec 2025 20:37:59 +0000 (UTC)
+	 MIME-Version:Content-Type; b=kFaY1NelKtK1gxdOSLYdCTg87lCkYlpFc1g/vJ6mUbRpmMckHfNPHUkoIbP04OtFgKa777BxiHNxHKKzMDV7W4OkHaBmFHftuDj6k4UwkQjIQAcce+vamWI9Y3erbva9F18aEwPCctprnkGLg9pa0TL+a3FONfUwAdzymCrI9Ik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X1diPkQW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 997FCC116D0;
+	Mon, 22 Dec 2025 20:37:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766435880;
-	bh=Bib9KNCO9PkYkoUxSea/AkbvyVEBdlzoPe1J67Uyctw=;
+	s=k20201202; t=1766435877;
+	bh=QvJ1CW2dTGSVQI9v1hkF14kO+wZVUTltwp45UZxtMDc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Ejlr3a6j5yCS6z/eXIDPXzhKH9PYXDuJ7ttFxoWtLUGPOOp7oDcw75vv+JBOj24B/
-	 Z/w1Th+8ozU0sQZexkgvd7Z0TF8z0m+6OzWnNF66oMr/6TahLrsFBLI6iE5QGQ3Llo
-	 XpfTiXhNgr/333pXl+PLt8bSrHZRJWfk/ouIcQYpaQMJr2Nl2fmOwROuqtz7OS8H3R
-	 CxDuDIzoaxIzAgentKjslAnPNmfbaVwrALnMnFfYxPdw9znsFJEHiO62lkXT7cbmXi
-	 t1C8A6fBNZULTTUlSzO7rk1Q3Jbzbd4TFJhj6eLwxBSKncP/7dw3xuL74gROSlhUQ5
-	 nq5IVblAO/5Dw==
+	b=X1diPkQWUD8viHi49Bj+t7AL3mo311LJJ0cqvIEZddRz7YYFXsFTenawWyC6fLyXW
+	 ViUwKvu2DMUbe+E6kt/2DYz2KZ12ieBkB8un3TqtyWegmi9ftTIvdlnvH4ixnprDKB
+	 BZK4h6lUKklET0HCNW93DYSyhN94AWwrgjDqY2AcLeDju/9kIa+BQNO8/hUMzOCrwB
+	 vo+keM3wp+mEioOmmQnsRANL66xi7zlvmh6BJ1H9kXmRbKaMuRgzLnEulsZCWQciZt
+	 j3euIabD1LY0/ylYkQHJ2Fh2QeAJR/ps2sTC7U4ouNRdqqZ6DeJJtya7BR7AWtZkNr
+	 PF/bouE5g9b8g==
 From: "Rafael J. Wysocki" <rafael@kernel.org>
 To: Linux PM <linux-pm@vger.kernel.org>
 Cc: LKML <linux-kernel@vger.kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
  Brian Norris <briannorris@chromium.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH v1 06/23] media: ccs: Discard pm_runtime_put() return value
-Date: Mon, 22 Dec 2025 21:03:25 +0100
-Message-ID: <22966634.EfDdHjke4D@rafael.j.wysocki>
+ Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Yunfei Dong <yunfei.dong@mediatek.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
+Subject:
+ [PATCH v1 07/23] media: mediatek: vcodec: Discard pm_runtime_put() return
+ value
+Date: Mon, 22 Dec 2025 21:06:16 +0100
+Message-ID: <3690736.iIbC2pHGDl@rafael.j.wysocki>
 Organization: Linux Kernel Development
 In-Reply-To: <6245770.lOV4Wx5bFT@rafael.j.wysocki>
 References: <6245770.lOV4Wx5bFT@rafael.j.wysocki>
@@ -62,18 +69,17 @@ Content-Type: text/plain; charset="UTF-8"
 
 From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-Passing the pm_runtime_put() return value to callers is not particularly
-useful.
+Printing error messages on pm_runtime_put() returning negative values
+is not particularly useful.
 
 Returning an error code from pm_runtime_put() merely means that it has
 not queued up a work item to check whether or not the device can be
 suspended and there are many perfectly valid situations in which that
 can happen, like after writing "on" to the devices' runtime PM "control"
-attribute in sysfs for one example.  It also happens when the kernel is
-configured with CONFIG_PM unset.
+attribute in sysfs for one example.
 
-Accordingly, update ccs_post_streamoff() to simply discard the return
-value of pm_runtime_put() and always return success to the caller.
+Accordingly, update mtk_vcodec_enc_pw_off() and mtk_vcodec_dec_pw_off()
+to simply discard the return value of pm_runtime_put().
 
 This will facilitate a planned change of the pm_runtime_put() return
 type to void in the future.
@@ -91,22 +97,40 @@ Otherwise, an ACK or equivalent will be appreciated, but also the lack
 of specific criticism will be eventually regarded as consent.
 
 ---
- drivers/media/i2c/ccs/ccs-core.c |    4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_pm.c |    6 +-----
+ drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_pm.c |    6 +-----
+ 2 files changed, 2 insertions(+), 10 deletions(-)
 
---- a/drivers/media/i2c/ccs/ccs-core.c
-+++ b/drivers/media/i2c/ccs/ccs-core.c
-@@ -1974,7 +1974,9 @@ static int ccs_post_streamoff(struct v4l
- 	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
- 	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
+--- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_pm.c
++++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_pm.c
+@@ -67,11 +67,7 @@ static int mtk_vcodec_dec_pw_on(struct m
  
--	return pm_runtime_put(&client->dev);
-+	pm_runtime_put(&client->dev);
-+
-+	return 0;
+ static void mtk_vcodec_dec_pw_off(struct mtk_vcodec_pm *pm)
+ {
+-	int ret;
+-
+-	ret = pm_runtime_put(pm->dev);
+-	if (ret && ret != -EAGAIN)
+-		dev_err(pm->dev, "pm_runtime_put fail %d", ret);
++	pm_runtime_put(pm->dev);
  }
  
- static int ccs_enum_mbus_code(struct v4l2_subdev *subdev,
+ static void mtk_vcodec_dec_clock_on(struct mtk_vcodec_pm *pm)
+--- a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_pm.c
++++ b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_pm.c
+@@ -71,11 +71,7 @@ int mtk_vcodec_enc_pw_on(struct mtk_vcod
+ 
+ void mtk_vcodec_enc_pw_off(struct mtk_vcodec_pm *pm)
+ {
+-	int ret;
+-
+-	ret = pm_runtime_put(pm->dev);
+-	if (ret && ret != -EAGAIN)
+-		dev_err(pm->dev, "pm_runtime_put fail %d", ret);
++	pm_runtime_put(pm->dev);
+ }
+ 
+ void mtk_vcodec_enc_clock_on(struct mtk_vcodec_pm *pm)
 
 
 
