@@ -1,221 +1,289 @@
-Return-Path: <linux-media+bounces-49353-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49354-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 865CCCD6297
-	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 14:31:50 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9227ACD657F
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 15:16:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B70AC3035D0E
-	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 13:30:48 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 026783044848
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 14:16:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 454C92F39B8;
-	Mon, 22 Dec 2025 13:30:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F5E52F12AB;
+	Mon, 22 Dec 2025 14:16:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HXoZtkov"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p/E900UC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC53B2F25EB;
-	Mon, 22 Dec 2025 13:30:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC0D92E8DE3;
+	Mon, 22 Dec 2025 14:16:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766410246; cv=none; b=ur6lhpC0f3/aHx5k7K4sToXUtEeG0s9Mr0XQk1OynXbPtrRnoOQYNIr6OsnF1ij4JzOirXI7Kp+6/OBtlLWgSRBu/nHrnRQ6kLx1XGbd71RKDS6q1aV8apfalbSlT6Gcmbc+Rq840I/pVkEuvmU+PBcu3so4MO+OLFXnbRon+Jg=
+	t=1766412968; cv=none; b=b709jq8F91dwmsz34qG0HgcRP61a5J8DimazfX99ztuC6rJsED/d6g1ibLEvjyU11nulqKkB/bCtyx3XYMlzooQgTXyhWgwrBctjzyAEz2NVgGDJdztqK4rhHj6+D6xZXp1l5fyXrGND2IKMcK0nn12Gwa6+nCAT7l0VD8NObzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766410246; c=relaxed/simple;
-	bh=xywLRq/TVdW8R65dbpzTh0nzVMEX2c5JYTa8jXNBQso=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T9yIoyk0fUwi8swoQ241J6vfg5vcaZ3SbqI9MLuA8uWN95saeUYTvPUlr8a7mrwaUKyVWIXF9FOEO0MvArprBhxi/Kjyr45uTJk80TcwYWZscGL91DNQGcGs1zAKFNchki15fKA3QuUFNQ0M80Pa8ucH5IHC40XY9Op6/OUxUxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HXoZtkov; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-152.bb.dnainternet.fi [81.175.209.152])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 4A2CFE1F;
-	Mon, 22 Dec 2025 14:30:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1766410227;
-	bh=xywLRq/TVdW8R65dbpzTh0nzVMEX2c5JYTa8jXNBQso=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HXoZtkov8W9TN4rqMJp4hgb5i4vG37F3x2VLnfwOVZaeypAVHYEswNPYuo+hzfkH6
-	 t2oeQ6Vi+epiVhWYZCjfJ5Qnq/bo5fPSfKDy24ej8/tE+/j14wxQcp+2s7IL1N5cLO
-	 7X1SNrUlFjTdWPcO2t9aVi0ls4VuEPfUNrlgn3es=
-Date: Mon, 22 Dec 2025 15:30:18 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Matthias Fend <matthias.fend@emfend.at>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>,
-	Tarang Raval <tarang.raval@siliconsignals.io>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Dongcheng Yan <dongcheng.yan@intel.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Jingjing Xiong <jingjing.xiong@intel.com>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>,
-	Svyatoslav Ryhel <clamor95@gmail.com>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Hao Yao <hao.yao@intel.com>
-Subject: Re: [PATCH v6 2/2] media: i2c: add Himax HM1246 image sensor driver
-Message-ID: <20251222133018.GB5317@pendragon.ideasonboard.com>
-References: <20251202-hm1246-v6-0-3e96ed6b3ffa@emfend.at>
- <20251202-hm1246-v6-2-3e96ed6b3ffa@emfend.at>
- <aUXRsv-r9-sQvpAm@kekkonen.localdomain>
- <2c6c4b36-6b97-4260-8c01-6861b6f36cea@emfend.at>
+	s=arc-20240116; t=1766412968; c=relaxed/simple;
+	bh=1jBc6qyZ3P/4T37ZcMfNxn0H2MMcyTFv/drl4N6XBps=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=NPJKqIz6c+LUrriEz8+b+1p6DUsgOjvrQ2XPVDqpPJIqWrunR03IB0VqKzig1MVAFNPWJgvkmPuY5LjfViEUJhEi/o+jQCC6jYP4C7+i2HK6mywVdYvp/lslH1K1OOATo4JK0XY35ZLx2FnLpmNa1q0V04lTto8dnV/j0KTSGOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p/E900UC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 567D3C4CEF1;
+	Mon, 22 Dec 2025 14:16:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766412967;
+	bh=1jBc6qyZ3P/4T37ZcMfNxn0H2MMcyTFv/drl4N6XBps=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=p/E900UC0maEYi9VESilWqLLqlpJHNgYZVxKX0GLKLQlwQfFEu0SDxm1n7HJnB3Pm
+	 Sy1fScAdSpTe53mDrwEVqUdollxWG3PVykir7MjSpsh7NBwDHY798RO2IbNpFy/9Q/
+	 ftFzroPFSH8AuR8KeeDe0nRoWYO0KZX6tVszO+Pk1msOXGsCRuMZOgTTdH8OyMp/Wf
+	 6hVybymE25EzBXCyACIWbhpGz1DDBGk47fDT+9cll9XwivRxOLu2dvVKB+HFOq0yDw
+	 xI9uY2W6VhLdSyPRzEAus4MA4bkaWvpiVdTbGEB/O4/7P9mIE9mFKXMSQVN7mD6kL9
+	 kUh0gerZAQ8vw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A848E674A9;
+	Mon, 22 Dec 2025 14:16:07 +0000 (UTC)
+From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
+Date: Mon, 22 Dec 2025 15:16:05 +0100
+Subject: [PATCH v4] media: dt-bindings: Correct camss supply description
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <2c6c4b36-6b97-4260-8c01-6861b6f36cea@emfend.at>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251222-docs-camss-fixes-v4-1-914a4e5f7822@ixit.cz>
+X-B4-Tracking: v=1; b=H4sIAKRSSWkC/33Nyw6CMBAF0F8hXTumMzA8XPkfxkXtQ7oQDCUEJ
+ fy7hY2YEJf3Ts6dSQTbeRvEKZlEZwcffNvEkB0SoWvV3C14E7MgSYyEBKbVAbR6hADOjzaAdIq
+ JqcCKUUT27Ox6iOpyjbn2oW+71/phwKX9MzYgILCWiCzZOa7OfvT9Ub/FMjXQlqc7nCJXpcpMZ
+ hh1rn95uuX5Dk9Bgqa0vOUlyqLAL5/n+QMezGP/LAEAAA==
+X-Change-ID: 20251212-docs-camss-fixes-0fa525271951
+To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Vikram Sharma <quic_vikramsa@quicinc.com>, 
+ Kapatrala Syed <akapatra@quicinc.com>, 
+ Hariram Purushothaman <hariramp@quicinc.com>, 
+ Richard Acayan <mailingradian@gmail.com>, Bryan O'Donoghue <bod@kernel.org>, 
+ Hans Verkuil <hverkuil@kernel.org>, Depeng Shao <quic_depengs@quicinc.com>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ phone-devel@vger.kernel.org, David Heidelberg <david@ixit.cz>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7481; i=david@ixit.cz;
+ h=from:subject:message-id;
+ bh=fEXRciR6Ys4gi4vUzVq3MtNpCpDy6zNHxbkNb0gMhmI=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpSVKl5PZ60LGSnxqmENG7hgH76D3/iClAfSrrX
+ /EqcjZawJaJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaUlSpQAKCRBgAj/E00kg
+ ciHJD/9V8KxeKCrEzpRWKO/a4XRSjC95uVY87L/TDRWXDsM3cUNSRn5ppsCzk3Za9NwlGI2LIQS
+ QuItCRcWVwhnn5a6PSPqH6dh07kcOVNvaQzDFDcX7c3SOrj0QSULiWlVq3CiSem52jDewnRJL+5
+ 8KHHbFtbksHk9iYdapmeZ+IwvnUfvWMWPuAbtMc08TLdjQ8+ol2jsRhCJDvyPDlrR4VQRnJYPom
+ qKj0yNU5rN3QDvMGbslOYKd2CzWGJ8OyLZPwscYUTtNduqBkJrap/GoCCziG0ANIwMQYfvUjodC
+ QSlfzfoDrXjnD1tJZCM/Ytxk2h+B3PP4WPAsFhaqxk/rasZMK9wxQvl76uGpYrM6UUHlqci9y2Z
+ G3RElnNOeJLgha70I1yzxCQ0Nfa8PRTUNGDE2ju5uznvWe6jupGyNHAGicSK/m4hMe1aY1yIwxh
+ SsmIML15ORMvL5Mkwq7gYxInK7jYrwmr4k7o/KGuCzvPkJjj10QMKwLEJPtxlS1qcXqR0cyzxaK
+ Kkg64zEkQJUPLmPyyXLcbNxmRWxBHvSic9jVXskue28xIrHiRdvHjhTLnpt1ZlNn47B6ONtONSe
+ m1MFB1onn4DhOk9XYL7PpMqDOGNeOK3IQtGCzZTMQmrvIuBmb5PI+RxsWV/67oa/zhdD2mY/Aca
+ MuOoUQY76z4r7Jg==
+X-Developer-Key: i=david@ixit.cz; a=openpgp;
+ fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
+X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
+X-Original-From: David Heidelberg <david@ixit.cz>
+Reply-To: david@ixit.cz
 
-On Mon, Dec 22, 2025 at 12:17:56PM +0100, Matthias Fend wrote:
-> Am 19.12.2025 um 23:29 schrieb Sakari Ailus:
-> > Hi Matthias,
-> > 
-> > Thanks for the update.
-> > 
-> > On Tue, Dec 02, 2025 at 04:26:06PM +0100, Matthias Fend wrote:
-> > 
-> > ...
-> > 
-> >> +static int hm1246_calc_pll(struct hm1246 *hm1246, u32 xclk, u32 link_freq,
-> >> +			   u32 clocks_per_pixel, u8 *pll1, u8 *pll2, u8 *pll3)
-> >> +{
-> >> +	const u8 pclk_div_table[] = { 4, 5, 6, 7, 8, 12, 14, 16 };
-> >> +	const u8 sysclk_div_table[] = { 1, 2, 3, 4 };
-> >> +	const u8 post_div_table[] = { 1, 2, 4, 8 };
-> >> +	const int sysclk_pclk_ratio = 3; /* Recommended value */
-> >> +	u32 pclk, vco_out, best_vco_diff;
-> >> +	int pclk_div_index, sysclk_div_index, post_div_index;
-> >> +	u8 pre_div = 0, multiplier_h = 0, multiplier_l = 0;
-> >> +	bool sysclk_pclk_ratio_found = false;
-> >> +
-> >> +	if (link_freq < HM1246_PCLK_MIN || link_freq > HM1246_PCLK_MAX)
-> >> +		return -EINVAL;
-> >> +
-> >> +	/*
-> >> +	 * In raw mode (1 pixel per clock) the pixel clock is internally
-> >> +	 * divided by two.
-> >> +	 */
-> >> +	pclk = 2 * link_freq / clocks_per_pixel;
-> >> +
-> >> +	/* Find suitable PCLK and SYSCLK dividers. */
-> >> +	for (pclk_div_index = 0; pclk_div_index < ARRAY_SIZE(pclk_div_table);
-> >> +	     pclk_div_index++) {
-> >> +		for (sysclk_div_index = 0;
-> >> +		     sysclk_div_index < ARRAY_SIZE(sysclk_div_table);
-> >> +		     sysclk_div_index++) {
-> >> +			if (sysclk_div_table[sysclk_div_index] *
-> >> +				    sysclk_pclk_ratio ==
-> >> +			    pclk_div_table[pclk_div_index]) {
-> >> +				sysclk_pclk_ratio_found = true;
-> >> +				break;
-> >> +			}
-> >> +		}
-> >> +		if (sysclk_pclk_ratio_found)
-> >> +			break;
-> >> +	}
-> >> +
-> >> +	if (!sysclk_pclk_ratio_found)
-> >> +		return -EINVAL;
-> >> +
-> >> +	/* Determine an appropriate post divider. */
-> >> +	for (post_div_index = 0; post_div_index < ARRAY_SIZE(post_div_table);
-> >> +	     post_div_index++) {
-> >> +		vco_out = pclk * pclk_div_table[pclk_div_index] *
-> >> +			  post_div_table[post_div_index];
-> >> +
-> >> +		if (vco_out >= HM1246_PLL_VCO_MIN &&
-> >> +		    vco_out <= HM1246_PLL_VCO_MAX)
-> >> +			break;
-> >> +	}
-> >> +	if (post_div_index >= ARRAY_SIZE(post_div_table))
-> >> +		return -EINVAL;
-> >> +
-> >> +	/* Find best pre-divider and multiplier values. */
-> >> +	best_vco_diff = U32_MAX;
-> >> +	for (u32 div = DIV_ROUND_UP(xclk, HM1246_PLL_INCLK_MAX);
-> >> +	     div <= xclk / HM1246_PLL_INCLK_MIN; div++) {
-> >> +		u32 multi, multi_h, multi_l, vco, diff;
-> >> +
-> >> +		multi = DIV_ROUND_CLOSEST_ULL((u64)vco_out * div, xclk);
-> >> +		if (multi < HM1246_PLL_MULTI_MIN ||
-> >> +		    multi > HM1246_PLL_MULTI_MAX)
-> >> +			continue;
-> >> +
-> >> +		multi_h = multi / (HM1246_PLL_MULTI_H_MIN *
-> >> +				   HM1246_PLL_MULTI_L_MAX) +
-> >> +			  2;
-> >> +		multi_l = multi / multi_h;
-> >> +		vco = div_u64((u64)xclk * multi_h * multi_l, div);
-> >> +
-> >> +		diff = abs_diff(vco_out, vco);
-> >> +
-> >> +		if (diff < best_vco_diff) {
-> >> +			best_vco_diff = diff;
-> >> +			pre_div = div;
-> >> +			multiplier_h = multi_h;
-> >> +			multiplier_l = multi_l;
-> >> +		}
-> >> +
-> >> +		if (!diff)
-> >> +			break;
-> >> +	}
-> >> +
-> >> +	if (best_vco_diff == U32_MAX)
-> >> +		return -EINVAL;
-> > 
-> > How much difference is acceptable? Isn't any difference a bug either in DT
-> > or the code above? In other words, I'd return an error in that case.
-> 
-> Hard to tell, but almost every input clock will result in a slight 
-> difference. Even the recommended reference register configuration 
-> doesn't create a perfect match. Therefore, I don't think it's a good 
-> idea to treat every deviation as an error.
+From: David Heidelberg <david@ixit.cz>
 
-I understand that the PLL won't be able to produce the exact nominal
-expected frequency, but can't we require the link-frequencies property
-in DT to match the PLL output exactly ? That's what we do with other
-sensors.
+Usually, the supply is around 1.2 V, not 1.8 V, and also correct wording.
 
-> However, every supported input frequency (6-27MHz) will result in a 
-> pixel clock deviation of less than 0.5%. Since the sensor uses a 
-> parallel interface, these frequencies will all work without any 
-> problems. The frame timings may, of course, be slightly different.
-> 
-> To change this and prevent any deviation, one would probably have to 
-> replace the PLL calculation with one or more dedicated frequency-setup 
-> pairs (with adjusted pixelclocks). Which wouldn't be ideal, as the 
-> solution isn't very flexible - and I've invested quite a bit of effort 
-> in the PLL calculation ;)
-> 
-> >> +
-> >> +	*pll1 = HM1246_PLL1CFG_MULTIPLIER(multiplier_l - 1);
-> >> +	*pll2 = HM1246_PLL2CFG_PRE_DIV(pre_div - 1) |
-> >> +		HM1246_PLL2CFG_MULTIPLIER(multiplier_h - 2);
-> >> +	*pll3 = HM1246_PLL3CFG_POST_DIV(post_div_index) |
-> >> +		HM1246_PLL3CFG_SYSCLK_DIV(sysclk_div_index) |
-> >> +		HM1246_PLL3CFG_PCLK_DIV(pclk_div_index);
-> >> +
-> >> +	return 0;
-> >> +}
+Signed-off-by: David Heidelberg <david@ixit.cz>
+---
+Eventually, if more changes would be requested, would make sense someone
+from Qualcomm to follow-up on these, as I don't have schematics,
+documentation or also no access to the internal resources.
 
+Thank you
+---
+Changes in v4:
+- Everything in one commit. (Krzysztof)
+- Dropped Fixes tag. (Bryan)
+- Updated rest of the files to make them in sync.
+- Link to v3: https://lore.kernel.org/r/20251216-docs-camss-fixes-v3-0-c238b6810771@ixit.cz
+
+Changes in v3:
+- Add commit improving vdda-phy-supply description to match more recent
+  bindings.
+- Double-checked and specified it's 1.2 V vdda-pll-supply. (Vladimir)
+- Link to v2: https://lore.kernel.org/r/20251213-docs-camss-fixes-v2-1-a8a4d4d51c6c@ixit.cz
+
+Changes in v2:
+- Applied suggestion to clarify the description. (Krzysztof)
+- Link to v1: https://lore.kernel.org/r/20251212-docs-camss-fixes-v1-1-5c011505ff59@ixit.cz
+---
+ Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml  | 4 ++--
+ Documentation/devicetree/bindings/media/qcom,sc7280-camss.yaml   | 4 ++--
+ Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml | 4 ++--
+ Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml   | 4 ++--
+ Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml   | 4 ++--
+ Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml   | 4 ++--
+ Documentation/devicetree/bindings/media/qcom,sm8550-camss.yaml   | 4 ++--
+ Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml | 4 ++--
+ 8 files changed, 16 insertions(+), 16 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml
+index 019caa2b09c32..48f280e998096 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml
+@@ -126,11 +126,11 @@ properties:
+ 
+   vdda-phy-supply:
+     description:
+-      Phandle to a regulator supply to PHY core block.
++      0.88V supply to CSIPHY IP blocks.
+ 
+   vdda-pll-supply:
+     description:
+-      Phandle to 1.8V regulator supply to PHY refclk pll block.
++      1.2V supply to CSIPHY IP blocks.
+ 
+   ports:
+     $ref: /schemas/graph.yaml#/properties/ports
+diff --git a/Documentation/devicetree/bindings/media/qcom,sc7280-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sc7280-camss.yaml
+index ee35e3bc97ffd..b1c54c5b01b28 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sc7280-camss.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sc7280-camss.yaml
+@@ -125,11 +125,11 @@ properties:
+ 
+   vdda-phy-supply:
+     description:
+-      Phandle to a regulator supply to PHY core block.
++      0.88V supply to CSIPHY IP blocks.
+ 
+   vdda-pll-supply:
+     description:
+-      Phandle to 1.8V regulator supply to PHY refclk pll block.
++      1.2V supply to CSIPHY IP blocks.
+ 
+   ports:
+     $ref: /schemas/graph.yaml#/properties/ports
+diff --git a/Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml
+index c99fe4106eee9..354130aba9fc9 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml
+@@ -264,11 +264,11 @@ properties:
+ 
+   vdda-phy-supply:
+     description:
+-      Phandle to a regulator supply to PHY core block.
++      0.88V supply to CSIPHY IP blocks.
+ 
+   vdda-pll-supply:
+     description:
+-      Phandle to 1.8V regulator supply to PHY refclk pll block.
++      1.2V supply to CSIPHY IP blocks.
+ 
+ required:
+   - clock-names
+diff --git a/Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml
+index 35c40fe223767..46cc7fff15992 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml
+@@ -91,11 +91,11 @@ properties:
+ 
+   vdda-phy-supply:
+     description:
+-      Phandle to a regulator supply to PHY core block.
++      0.88V supply to CSIPHY IP blocks.
+ 
+   vdda-pll-supply:
+     description:
+-      Phandle to 1.8V regulator supply to PHY refclk pll block.
++      1.2V supply to CSIPHY IP blocks.
+ 
+   ports:
+     $ref: /schemas/graph.yaml#/properties/ports
+diff --git a/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
+index 82bf4689d3300..be09cf3a3b3b8 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
+@@ -207,11 +207,11 @@ properties:
+ 
+   vdda-phy-supply:
+     description:
+-      Phandle to a regulator supply to PHY core block.
++      0.88V supply to CSIPHY IP blocks.
+ 
+   vdda-pll-supply:
+     description:
+-      Phandle to 1.8V regulator supply to PHY refclk pll block.
++      1.2V supply to CSIPHY IP blocks.
+ 
+ required:
+   - clock-names
+diff --git a/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
+index ebf68ff4ab961..a509d4bbcb4aa 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
+@@ -296,11 +296,11 @@ properties:
+ 
+   vdda-phy-supply:
+     description:
+-      Phandle to a regulator supply to PHY core block.
++      0.88V supply to CSIPHY IP blocks.
+ 
+   vdda-pll-supply:
+     description:
+-      Phandle to 1.8V regulator supply to PHY refclk pll block.
++      1.2V supply to CSIPHY IP blocks.
+ 
+ required:
+   - clock-names
+diff --git a/Documentation/devicetree/bindings/media/qcom,sm8550-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sm8550-camss.yaml
+index cd34f14916b42..4b9ab1352e914 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sm8550-camss.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sm8550-camss.yaml
+@@ -134,11 +134,11 @@ properties:
+ 
+   vdda-phy-supply:
+     description:
+-      Phandle to a regulator supply to PHY core block.
++      0.88V supply to CSIPHY IP blocks.
+ 
+   vdda-pll-supply:
+     description:
+-      Phandle to 1.2V regulator supply to PHY refclk pll block.
++      1.2V supply to CSIPHY IP blocks.
+ 
+   ports:
+     $ref: /schemas/graph.yaml#/properties/ports
+diff --git a/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml b/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
+index b87a13479a4bf..2d1662ef522b7 100644
+--- a/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
+@@ -120,11 +120,11 @@ properties:
+ 
+   vdd-csiphy-0p8-supply:
+     description:
+-      Phandle to a 0.8V regulator supply to a PHY.
++      0.8V supply to a PHY.
+ 
+   vdd-csiphy-1p2-supply:
+     description:
+-      Phandle to 1.2V regulator supply to a PHY.
++      1.2V supply to a PHY.
+ 
+   ports:
+     $ref: /schemas/graph.yaml#/properties/ports
+
+---
+base-commit: cc3aa43b44bdb43dfbac0fcb51c56594a11338a8
+change-id: 20251212-docs-camss-fixes-0fa525271951
+
+Best regards,
 -- 
-Regards,
+David Heidelberg <david@ixit.cz>
 
-Laurent Pinchart
+
 
