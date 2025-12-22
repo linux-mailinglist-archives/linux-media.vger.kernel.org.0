@@ -1,72 +1,72 @@
-Return-Path: <linux-media+bounces-49333-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49334-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E896CD5BD3
-	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 12:08:35 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 866A4CD59D7
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 11:36:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id F00A73058A11
-	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 11:06:52 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id BDC7530121BF
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 10:36:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12932315D33;
-	Mon, 22 Dec 2025 10:11:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E901F3148C2;
+	Mon, 22 Dec 2025 10:13:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WTIkY7ha"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fNCC7ifC"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B67493148D0
-	for <linux-media@vger.kernel.org>; Mon, 22 Dec 2025 10:11:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90D2331328E
+	for <linux-media@vger.kernel.org>; Mon, 22 Dec 2025 10:13:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766398301; cv=none; b=dcz5fn9CcmTQI+hlTBYpca5JkWTRgNiSa8yXxDPHSGKjPFC7rDLjatX8Cxd2c2qA2zVzlPCHJRLIoSkOTW7W2DSnhv9arM70l9c4vLnwEWTWud5aF22VMuox0KMwPxq8IQkkvzhNC4vZDQs1QJ+AqpnPQoxAdsxIp1xESuivZ/k=
+	t=1766398399; cv=none; b=Kjah+gL9+zne1+Lb/lg3KFRV/fko+eZVp1AsfAlqXLD3ZCB0/plR1ELTkUWa9TllmA/q4n9VbUhCDgg/s/pOmUCz9PD8BB6ZMD6Osx4OcoaBvzXg+JnDA4+efFhJ+GBfvCyUSkZv4aphX5kQhK4y9ichE3GXjKTY6zGf1HXgv1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766398301; c=relaxed/simple;
-	bh=8CRv7QC4AZTVXiOsBZLPL6tQuJWNTBcL2RikxX1XylE=;
+	s=arc-20240116; t=1766398399; c=relaxed/simple;
+	bh=nigwKEWUbyirDV4x3aN1CneJPEp6WCy5XmCrikSanbA=;
 	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=AjUXxJ3IkL46qjRlrZo9JOKv4oanKp9v/ie9cfU3vRdyVWEMHr+wLqhzJZZuonFY5BrZFCw39ojEt8H1n2Xz1FWzbqRYUXZXCk/OlkqlBhiizT1ge702Z07wVCOi7l7n8ZPorgvaeI8nEjItJln5BB+w9LO5HdxLR+RiFI+uCxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WTIkY7ha; arc=none smtp.client-ip=192.198.163.13
+	 In-Reply-To:Content-Type; b=EH5vYbs61/NUHeEMSPX76ykgYKiInKMK0XQmxVtTPDZWh8cLOdZBbIqiBPZx24UQNHb6ZbMV50PzKo/Z2g60ptf+0FCREgHqbfc8fi6AKceLPmXMj3BhcawJcsdiYEhz2zsp703gSYuxfuwdvSauL+18JrTP2XKUzhTOh+L1R74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fNCC7ifC; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766398300; x=1797934300;
+  t=1766398398; x=1797934398;
   h=subject:to:cc:references:from:message-id:date:
    mime-version:in-reply-to:content-transfer-encoding;
-  bh=8CRv7QC4AZTVXiOsBZLPL6tQuJWNTBcL2RikxX1XylE=;
-  b=WTIkY7ha1MK3DXYhEKYxTfvAB6bd8RwMSGjSzwtFrzuwbOyFYlwTJ8x3
-   aJFIntruPV33k1+OX+BZIW1MUlOKQwwGQQ5R666syxykPH7c6FmmthEqd
-   /ArMRev5EnEqMwSYW3SWupFk7nOxae0D3gpMyb0FTUuA03Zh2Cjt7SiGv
-   V2vnD2YvK+jUP/LKjPTHnDaB1QMHUOxUQC9IRVj/rSytUnZKZb5v8UO5s
-   VPdzBJmHhQm8/JIkbH1Oi6qwLQNJpWLIWhzA+68ut1Pp37ydp/72Ea1ZG
-   OhVy1gDHaEDMHSAe8BCJHNxf5srh2RMT5K0Fhg+bocmBDFtCyxGJm3eLO
+  bh=nigwKEWUbyirDV4x3aN1CneJPEp6WCy5XmCrikSanbA=;
+  b=fNCC7ifCOk1SWQLgFrxK9hyP1o5Dg0diCgDsJ7rTyH+/gMZvaGhNeZEp
+   GprRpc+QQkwhskqp//QxnENSsduNFnZohMVXN8wfVIl31BPixiOGTKNOi
+   sKjtYOILEYRwXdwW/pVhEbyH785L52ATSaLXI3aLn+pWxboBG9rIvPVDi
+   hD0tzS7fWx+AQh+0mDPpq/yae1ZkwU3TNnKg6ElU+8WU8m5/p3qkIZ8W1
+   KaPsFv9CyMuXP+huoQz4l4mp8a3JopXgeVosLx3qiTtS0r0Ru37LytbVu
+   APWoSnC5oKmrLQ8QMKYGlkauszM0Q/RNcT3FafnYQUUgFcHGGwLhprRm0
    g==;
-X-CSE-ConnectionGUID: Z3CvYaumTXeixwldCdboUA==
-X-CSE-MsgGUID: 11rUoLUwQnaOAC+wBUK00g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="70828849"
+X-CSE-ConnectionGUID: hk07ijgCTO+aNRj4tsLZLQ==
+X-CSE-MsgGUID: AX3JuDxIQ1ShOduPfWSSKw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="70828946"
 X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="70828849"
+   d="scan'208";a="70828946"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 02:11:39 -0800
-X-CSE-ConnectionGUID: /cXNHwoKS5eur/oy68ty0Q==
-X-CSE-MsgGUID: /aVRyRYKQvKp5/vKxOpdVA==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 02:13:15 -0800
+X-CSE-ConnectionGUID: JY5BtPVWSb+6+SUiZJrt0w==
+X-CSE-MsgGUID: g6L8d1lKQIWYz1ediZ10+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="230506569"
+   d="scan'208";a="230507146"
 Received: from ipu5-build.bj.intel.com (HELO [10.238.153.130]) ([10.238.153.130])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 02:11:37 -0800
-Subject: Re: [PATCH v2 2/4] media: staging/ipu7: call synchronous RPM suspend
- in probe failure
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 02:13:13 -0800
+Subject: Re: [PATCH v2 4/4] media: ipu6/7: fix typo and coding errors in IPU
+ mmu driver
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, bingbu.cao@intel.com
 Cc: linux-media@vger.kernel.org, antti.laakso@linux.intel.com,
  mehdi.djait@linux.intel.com
 References: <20251222070629.2018807-1-bingbu.cao@intel.com>
- <20251222070629.2018807-3-bingbu.cao@intel.com>
- <aUkDHvTQ5JH-_xM5@kekkonen.localdomain>
+ <20251222070629.2018807-5-bingbu.cao@intel.com>
+ <aUkDw4wtdWmZwn39@kekkonen.localdomain>
 From: Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <8fd50787-87f6-ac31-739f-5f3c64961abc@linux.intel.com>
-Date: Mon, 22 Dec 2025 18:03:02 +0800
+Message-ID: <817e0b8a-accb-6d72-5a31-00274cba50e4@linux.intel.com>
+Date: Mon, 22 Dec 2025 18:04:39 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 Precedence: bulk
@@ -75,7 +75,7 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <aUkDHvTQ5JH-_xM5@kekkonen.localdomain>
+In-Reply-To: <aUkDw4wtdWmZwn39@kekkonen.localdomain>
 Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -84,54 +84,75 @@ Sakari,
 
 Thanks for the review.
 
-On 12/22/25 4:36 PM, Sakari Ailus wrote:
+On 12/22/25 4:39 PM, Sakari Ailus wrote:
 > Hi Bingbu,
 > 
-> Thanks for the patchset.
-> 
-> On Mon, Dec 22, 2025 at 03:06:27PM +0800, bingbu.cao@intel.com wrote:
+> On Mon, Dec 22, 2025 at 03:06:29PM +0800, bingbu.cao@intel.com wrote:
 >> From: Bingbu Cao <bingbu.cao@intel.com>
 >>
->> If firmware authentication failed during driver probe, driver call
->> an asynchronous API to suspend the psys device but the bus device
->> will be removed soon, thus runtime PM of bus device will be disabled
->> soon, that will cancel the suspend request, so use synchronous
->> suspend to make sure the runtime suspend before disabling its RPM.
->>
->> IPU7 hardware has constraints that the PSYS device must be powered
->> off before ISYS, otherwise it will cause machine check error.
+>> Fix the coding errors in ipu6-mmu.c and ipu7-mmu.c, it has
+>> no impact on current driver functionality, however it needs
+>> a fix.
 > 
-> How does this differ from IPU6? In the ipu6 driver this has been addressed
-> by making the PSYS a child of ISYS. Would this work on IPU7, too?
+> Please wrap paragraphs (using your $EDITOR perhaps?) to use as much as
+> possible but still at most 75 characters per line. The above should look
+> like:
+> 
+> Fix the coding errors in ipu6-mmu.c and ipu7-mmu.c, it has no impact on
+> current driver functionality, however it needs a fix.
 
-For both IPU6 and IPU7, PSYS is child of ISYS. It can guarantee that PSYS
-auxiliary device will be powered off before ISYS except the probe failure
-case. Runtime PM disabling(in ipu7_bus_del_devices) may cancel the pending
-PSYS suspend request which cause machine check error on PTL which has clock
-hardware constraint.
-
+Thanks, I will.
 > 
 >>
->> Cc: Stable@vger.kernel.org
->> Fixes: b7fe4c0019b1 ("media: staging/ipu7: add Intel IPU7 PCI device driver")
+>> Fixes: 9163d83573e4 ("media: intel/ipu6: add IPU6 DMA mapping API and MMU table")
+>> Fixes: 71d81c25683a ("media: staging/ipu7: add IPU7 DMA APIs and MMU mapping")
+> 
+> Could you split this into two separate patches, please?
+
+Yes, I will update in v3.
+
+> 
 >> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
 >> ---
->>  drivers/staging/media/ipu7/ipu7.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>  drivers/media/pci/intel/ipu6/ipu6-mmu.c | 4 ++--
+>>  drivers/staging/media/ipu7/ipu7-mmu.c   | 2 +-
+>>  2 files changed, 3 insertions(+), 3 deletions(-)
 >>
->> diff --git a/drivers/staging/media/ipu7/ipu7.c b/drivers/staging/media/ipu7/ipu7.c
->> index 6c8c3eea44ac..fa5a1867626f 100644
->> --- a/drivers/staging/media/ipu7/ipu7.c
->> +++ b/drivers/staging/media/ipu7/ipu7.c
->> @@ -2620,7 +2620,7 @@ static int ipu7_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->>  	if (!IS_ERR_OR_NULL(isp->isys) && !IS_ERR_OR_NULL(isp->isys->mmu))
->>  		ipu7_mmu_cleanup(isp->isys->mmu);
->>  	if (!IS_ERR_OR_NULL(isp->psys))
->> -		pm_runtime_put(&isp->psys->auxdev.dev);
->> +		pm_runtime_put_sync(&isp->psys->auxdev.dev);
->>  	ipu7_bus_del_devices(pdev);
->>  	release_firmware(isp->cpd_fw);
->>  buttress_exit:
+>> diff --git a/drivers/media/pci/intel/ipu6/ipu6-mmu.c b/drivers/media/pci/intel/ipu6/ipu6-mmu.c
+>> index 6d1c0b90169d..85cc6d5b4dd1 100644
+>> --- a/drivers/media/pci/intel/ipu6/ipu6-mmu.c
+>> +++ b/drivers/media/pci/intel/ipu6/ipu6-mmu.c
+>> @@ -102,7 +102,7 @@ static void page_table_dump(struct ipu6_mmu_info *mmu_info)
+>>  		if (mmu_info->l1_pt[l1_idx] == mmu_info->dummy_l2_pteval)
+>>  			continue;
+>>  
+>> -		l2_phys = TBL_PHYS_ADDR(mmu_info->l1_pt[l1_idx];)
+>> +		l2_phys = TBL_PHYS_ADDR(mmu_info->l1_pt[l1_idx]);
+>>  		dev_dbg(mmu_info->dev,
+>>  			"l1 entry %u; iovas 0x%8.8x-0x%8.8x, at %pap\n",
+>>  			l1_idx, iova, iova + ISP_PAGE_SIZE, &l2_phys);
+>> @@ -248,7 +248,7 @@ static u32 *alloc_l2_pt(struct ipu6_mmu_info *mmu_info)
+>>  
+>>  	dev_dbg(mmu_info->dev, "alloc_l2: get_zeroed_page() = %p\n", pt);
+>>  
+>> -	for (i = 0; i < ISP_L1PT_PTES; i++)
+>> +	for (i = 0; i < ISP_L2PT_PTES; i++)
+>>  		pt[i] = mmu_info->dummy_page_pteval;
+>>  
+>>  	return pt;
+>> diff --git a/drivers/staging/media/ipu7/ipu7-mmu.c b/drivers/staging/media/ipu7/ipu7-mmu.c
+>> index ded1986eb8ba..ea35cce4830a 100644
+>> --- a/drivers/staging/media/ipu7/ipu7-mmu.c
+>> +++ b/drivers/staging/media/ipu7/ipu7-mmu.c
+>> @@ -231,7 +231,7 @@ static u32 *alloc_l2_pt(struct ipu7_mmu_info *mmu_info)
+>>  
+>>  	dev_dbg(mmu_info->dev, "alloc_l2: get_zeroed_page() = %p\n", pt);
+>>  
+>> -	for (i = 0; i < ISP_L1PT_PTES; i++)
+>> +	for (i = 0; i < ISP_L2PT_PTES; i++)
+>>  		pt[i] = mmu_info->dummy_page_pteval;
+>>  
+>>  	return pt;
 > 
 
 -- 
