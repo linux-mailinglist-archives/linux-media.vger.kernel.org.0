@@ -1,289 +1,226 @@
-Return-Path: <linux-media+bounces-49354-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49355-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9227ACD657F
-	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 15:16:27 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FB75CD6584
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 15:17:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 026783044848
-	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 14:16:12 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9F1EE303CF74
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 14:17:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F5E52F12AB;
-	Mon, 22 Dec 2025 14:16:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10E972EFD9B;
+	Mon, 22 Dec 2025 14:17:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p/E900UC"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="VzeRHv7J"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC0D92E8DE3;
-	Mon, 22 Dec 2025 14:16:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F23826B2AD
+	for <linux-media@vger.kernel.org>; Mon, 22 Dec 2025 14:17:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766412968; cv=none; b=b709jq8F91dwmsz34qG0HgcRP61a5J8DimazfX99ztuC6rJsED/d6g1ibLEvjyU11nulqKkB/bCtyx3XYMlzooQgTXyhWgwrBctjzyAEz2NVgGDJdztqK4rhHj6+D6xZXp1l5fyXrGND2IKMcK0nn12Gwa6+nCAT7l0VD8NObzY=
+	t=1766413024; cv=none; b=oWUxnFOnL8adMi1JH7t97C+QboHiihO1txHmQX/OTeuHVpsexUqIAHXVPEZcs1LXdKomgc1ePg90Ao7g/UzfZXQsQZ3c32SgszUFRZAzvyhdVBDy0PboWELemmwL6jZVQrII44t9y2ZMQ8EWMq+NS/M6AIa9R3HHCpanJK6mhtY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766412968; c=relaxed/simple;
-	bh=1jBc6qyZ3P/4T37ZcMfNxn0H2MMcyTFv/drl4N6XBps=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=NPJKqIz6c+LUrriEz8+b+1p6DUsgOjvrQ2XPVDqpPJIqWrunR03IB0VqKzig1MVAFNPWJgvkmPuY5LjfViEUJhEi/o+jQCC6jYP4C7+i2HK6mywVdYvp/lslH1K1OOATo4JK0XY35ZLx2FnLpmNa1q0V04lTto8dnV/j0KTSGOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p/E900UC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 567D3C4CEF1;
-	Mon, 22 Dec 2025 14:16:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766412967;
-	bh=1jBc6qyZ3P/4T37ZcMfNxn0H2MMcyTFv/drl4N6XBps=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=p/E900UC0maEYi9VESilWqLLqlpJHNgYZVxKX0GLKLQlwQfFEu0SDxm1n7HJnB3Pm
-	 Sy1fScAdSpTe53mDrwEVqUdollxWG3PVykir7MjSpsh7NBwDHY798RO2IbNpFy/9Q/
-	 ftFzroPFSH8AuR8KeeDe0nRoWYO0KZX6tVszO+Pk1msOXGsCRuMZOgTTdH8OyMp/Wf
-	 6hVybymE25EzBXCyACIWbhpGz1DDBGk47fDT+9cll9XwivRxOLu2dvVKB+HFOq0yDw
-	 xI9uY2W6VhLdSyPRzEAus4MA4bkaWvpiVdTbGEB/O4/7P9mIE9mFKXMSQVN7mD6kL9
-	 kUh0gerZAQ8vw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A848E674A9;
-	Mon, 22 Dec 2025 14:16:07 +0000 (UTC)
-From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Mon, 22 Dec 2025 15:16:05 +0100
-Subject: [PATCH v4] media: dt-bindings: Correct camss supply description
+	s=arc-20240116; t=1766413024; c=relaxed/simple;
+	bh=ADP0V/e0lB7hrxNre1IA6Ut/hQzma0pk/aLgLdl+oic=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bU4tAi2eIi7ttkIOGE3Aq68TUx/ESZVPl2VrtY+H+LUCtS+PQPFc1IB/8DCqwVx8N3mSzDY4qMX6Gtm5GbvhyQ7cRAS2VyB4lmRF1MI5Qo9899ZG8S7Ti3lCdZQTIe2RFV8tgMFcQaG6Hh8A3r8szGB+HyXXy7sayFn12WaAWrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=VzeRHv7J; arc=none smtp.client-ip=209.85.128.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-78c66bdf675so32886787b3.2
+        for <linux-media@vger.kernel.org>; Mon, 22 Dec 2025 06:17:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1766413020; x=1767017820; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GwY4dLSBmxV8Qa7Uu3Z1V/HTwaemSNvD3NMeFEXkxjs=;
+        b=VzeRHv7Je8k3urI44zezOK9a8DWA05IvcUUa0VZPQdHWtffaFnPFwG164ICh6Xmu2m
+         kVo5Y3XX2nPW/ZmXckspFtH2SFISJv9pEtxKd2zRvLz3S09PKeMvjjQT89cXy1KcrCmQ
+         T2zUgGH+tn/LqUAB6PrnzdQG79J/vrdZVmqtdQ2xDIzKytpBXihumRxwKOJJoH8s6BIs
+         icat5naepRDvwtE5LBt+zFtdD5NS6rDzacfBGSKf2krXi+yMltbG16nw4MyhzjWXg8/Q
+         S0xiVYxnpT5j1ssBd/j5nFNAS+SBb1TYDphC2rkLjZtx1QmbPHXcmymVcHDNJJxpUr6A
+         JLxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766413020; x=1767017820;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=GwY4dLSBmxV8Qa7Uu3Z1V/HTwaemSNvD3NMeFEXkxjs=;
+        b=ol+VvU0dlVpSzVO/9ud+d9Vxwg9niJOc/k9UgcZCoGiNdamFfaMhkCyl9Pb+bpxGjx
+         z63B3jvIfJ4I+s1Xsprjo5keTDrJw6W6YNcUV2ZxGMlyuTdIurFHG/BOOn1IfTdn7XC6
+         LKXVyG0Nho27T+PSll4Wgw0NA4gIrLKrzIK2oqGGVUKGGydSEoZfk6hi4BNcCh17zBAM
+         LxEXXL2ukCsNwANpiqII/5Mz4DEivN9DZH30tGFeQEHzUg877WLq3VXMNXYNjYXgC08T
+         awcUeg1XYvu9km2TH5WYRuCgoDPzqn8XxrCM3Jj1a4JjMEHHGoHykILJzSEM4elS7Z5+
+         0/Gg==
+X-Forwarded-Encrypted: i=1; AJvYcCVKqoZzQDkatLkfLR9eW5q/6iqrIkNsepbd+wG2SAeS4NyICfrYmJ1CTzsmsxl95TdEAEUtC8l+DQ0afA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/rZARSVCno627xC+IVNdjYWm6YUP8d8rvoPuBOsiSDBIqvBj7
+	Qiq10HExkxiAhggCA4kTty3mWSaoI97bMWc4oJL2uwp0RRIFxX5s34ESeaa024Zlq4ZkwmjDqOC
+	Ouplhx36kX9KkiVChrBDeYsbkyPALlbVxz5f4e977KDiJQZI2BEwE9FU=
+X-Gm-Gg: AY/fxX6Ja92G+OLdVD1UVNgWxSsYJ9/ZxiZE41x8fQbQQBHFmLqYkxjH4NlEJ7R+CJU
+	ydAMLJtwqCIo20fMV1KHqBTPhmB5KLIwNuf2he5nrTOZZNf1kACKLAyyQm+dUK8uDauS6YvykYc
+	9ZhoVdV7C0OVv1/SZKd8OsGhOs1fFb7WnY5hJJOdRxYHon96D53aZcHFoegXDyRmgZ093W/yE+z
+	/Gj3zFy8pS9O3a5I5567bv2vo+UbnKF5KhEiS8U2kfKx/UdwTieRUsp78EED3PjR4ad8N5tIq8g
+	CHjfsyWNTT66+XHiKtLha+vyn1w=
+X-Google-Smtp-Source: AGHT+IGeqCH8UBjWK2+dcoFWbu8LXb1Bgoh6BlDOq/kTeTCnIbaq3/N8NTv8+w2ZbH7GaJV8NJMaU67sVs0Ndqncbu8=
+X-Received: by 2002:a05:690c:f92:b0:786:45ce:9bd3 with SMTP id
+ 00721157ae682-78fb4146acbmr98350247b3.34.1766413020423; Mon, 22 Dec 2025
+ 06:17:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251222-docs-camss-fixes-v4-1-914a4e5f7822@ixit.cz>
-X-B4-Tracking: v=1; b=H4sIAKRSSWkC/33Nyw6CMBAF0F8hXTumMzA8XPkfxkXtQ7oQDCUEJ
- fy7hY2YEJf3Ts6dSQTbeRvEKZlEZwcffNvEkB0SoWvV3C14E7MgSYyEBKbVAbR6hADOjzaAdIq
- JqcCKUUT27Ox6iOpyjbn2oW+71/phwKX9MzYgILCWiCzZOa7OfvT9Ub/FMjXQlqc7nCJXpcpMZ
- hh1rn95uuX5Dk9Bgqa0vOUlyqLAL5/n+QMezGP/LAEAAA==
-X-Change-ID: 20251212-docs-camss-fixes-0fa525271951
-To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Vikram Sharma <quic_vikramsa@quicinc.com>, 
- Kapatrala Syed <akapatra@quicinc.com>, 
- Hariram Purushothaman <hariramp@quicinc.com>, 
- Richard Acayan <mailingradian@gmail.com>, Bryan O'Donoghue <bod@kernel.org>, 
- Hans Verkuil <hverkuil@kernel.org>, Depeng Shao <quic_depengs@quicinc.com>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- phone-devel@vger.kernel.org, David Heidelberg <david@ixit.cz>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7481; i=david@ixit.cz;
- h=from:subject:message-id;
- bh=fEXRciR6Ys4gi4vUzVq3MtNpCpDy6zNHxbkNb0gMhmI=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpSVKl5PZ60LGSnxqmENG7hgH76D3/iClAfSrrX
- /EqcjZawJaJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaUlSpQAKCRBgAj/E00kg
- ciHJD/9V8KxeKCrEzpRWKO/a4XRSjC95uVY87L/TDRWXDsM3cUNSRn5ppsCzk3Za9NwlGI2LIQS
- QuItCRcWVwhnn5a6PSPqH6dh07kcOVNvaQzDFDcX7c3SOrj0QSULiWlVq3CiSem52jDewnRJL+5
- 8KHHbFtbksHk9iYdapmeZ+IwvnUfvWMWPuAbtMc08TLdjQ8+ol2jsRhCJDvyPDlrR4VQRnJYPom
- qKj0yNU5rN3QDvMGbslOYKd2CzWGJ8OyLZPwscYUTtNduqBkJrap/GoCCziG0ANIwMQYfvUjodC
- QSlfzfoDrXjnD1tJZCM/Ytxk2h+B3PP4WPAsFhaqxk/rasZMK9wxQvl76uGpYrM6UUHlqci9y2Z
- G3RElnNOeJLgha70I1yzxCQ0Nfa8PRTUNGDE2ju5uznvWe6jupGyNHAGicSK/m4hMe1aY1yIwxh
- SsmIML15ORMvL5Mkwq7gYxInK7jYrwmr4k7o/KGuCzvPkJjj10QMKwLEJPtxlS1qcXqR0cyzxaK
- Kkg64zEkQJUPLmPyyXLcbNxmRWxBHvSic9jVXskue28xIrHiRdvHjhTLnpt1ZlNn47B6ONtONSe
- m1MFB1onn4DhOk9XYL7PpMqDOGNeOK3IQtGCzZTMQmrvIuBmb5PI+RxsWV/67oa/zhdD2mY/Aca
- MuOoUQY76z4r7Jg==
-X-Developer-Key: i=david@ixit.cz; a=openpgp;
- fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
-X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
-X-Original-From: David Heidelberg <david@ixit.cz>
-Reply-To: david@ixit.cz
+References: <20251222-imx412-v1-1-51c7e724b376@oss.qualcomm.com>
+ <aUkLKECix4vohyTB@kekkonen.localdomain> <bbf6dbc9-42b5-4dd6-9346-c8f38e460709@oss.qualcomm.com>
+ <CAPY8ntD9GO_Y13K=Ko5kxz-o1edaocJP=Ns50rUheJP0iJ9fNg@mail.gmail.com> <ffa7b849-51da-42f7-be1d-c3c7e1903e6e@oss.qualcomm.com>
+In-Reply-To: <ffa7b849-51da-42f7-be1d-c3c7e1903e6e@oss.qualcomm.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Mon, 22 Dec 2025 14:16:44 +0000
+X-Gm-Features: AQt7F2rp1lTwfmWwe9R0yd38-_1IhZQnrUP41X1Kntj2OmhXo4g2Ddu5R-r6JE8
+Message-ID: <CAPY8ntDAiJcJiixo2mTqcb898UC3AR-+NVPFPS6EtrGoEWKewg@mail.gmail.com>
+Subject: Re: [PATCH] media: i2c: imx412: Extend the power-on waiting time
+To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Wenmeng Liu <quic_wenmliu@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: David Heidelberg <david@ixit.cz>
+Hi Wenmeng
 
-Usually, the supply is around 1.2 V, not 1.8 V, and also correct wording.
+On Mon, 22 Dec 2025 at 12:20, Wenmeng Liu <wenmeng.liu@oss.qualcomm.com> wr=
+ote:
+>
+>
+>
+> On 12/22/2025 8:11 PM, Dave Stevenson wrote:
+> > Hi Wenmeng & Sakari
+> >
+> > On Mon, 22 Dec 2025 at 09:35, Wenmeng Liu <wenmeng.liu@oss.qualcomm.com=
+> wrote:
+> >>
+> >>
+> >>
+> >>
+> >>>>
+> >>>> The Arducam IMX577 module requires a longer reset time than the 1000=
+=C2=B5s
+> >>>> configured in the current driver. Increase the wait time after power=
+-on
+> >>>> to ensure proper initialization.
+> >>>
+> >>> Is this somehow specific to the Arducam module? If so, what's there i=
+n the
+> >>> module that requires this?
+> >>>
+> >>
+> >>
+> >> Yes, This issue occurred on the Arducam 22-pin IMX577 module.
+> >> I have tried changing the sequence of regulator, reset, and clock, and
+> >> found that this module must wait a sufficient amount of time after res=
+et
+> >> before registers can be written (10 ms is a safe duration). This issue
+> >> did not occur when using other IMX577 modules.
+> >
+> > Is it the probe that fails, or starting streaming?
+> >
+> > Google has found me a datasheet for IMX577 at [1]. I'm hoping you have
+> > an official datasheet, so do correct the following if that has any
+> > updates.
+> > Section 7-2-2 on page 30 for the startup sequence.
+> >
+> > The sequence is meant to be regulators, INCK, and then XCLR. The
+> > driver does XCLR before clock, so that would appear to be wrong.
+> >
+> > It also states that T6 as the time from XCLR to being able to read the
+> > version register is min 0.6ms, but T7 as the time before you can send
+> > "Streaming Commmand" is min 8ms "To complete reading all parameters
+> > from NVM".
+> > That would be a difference between probe and start_streaming, although
+> > admittedly sending the mode and control setup I2C commands will take
+> > up some of that time.
+> >
+> > Plausibly the other set of modules don't have the NVM programmed and
+> > hence they are ready sooner. Either way I'd say that does mean the
+> > driver currently isn't following the defined power up sequence, and
+> > the patch looks reasonable for IMX577.
+> > However as this is a shared driver does IMX412 have this restriction
+> > too? I can't find a datasheet for that one to check. For the sake of
+> > ~9ms it's not going to make a huge difference though.
+> >
+> >    Dave
+> >
+> > [1] https://en.sunnywale.com/uploadfile/2021/1222/IMX577-AACK-C(Awin).p=
+df
+> >
+>
+> Hi Dave,
+>
+> this issue appears in the write register when streamon
+> imx412_write_regs.  poweron->streamon.
+>
+> static int imx412_start_streaming(struct imx412 *imx412)
+> {
+>          const struct imx412_reg_list *reg_list;
+>          int ret;
+>
+>          /* Write sensor mode registers */
+>          reg_list =3D &imx412->cur_mode->reg_list;
+>          ret =3D imx412_write_regs(imx412, reg_list->regs,
+>                                  reg_list->num_of_regs);
+>          if (ret) {
+>                  dev_err(imx412->dev, "fail to write initial registers\n"=
+);
+>                  return ret;
+>          }
+>
+>          /* Setup handler will write actual exposure and gain */
+>          ret =3D  __v4l2_ctrl_handler_setup(imx412->sd.ctrl_handler);
+>          if (ret) {
+>                  dev_err(imx412->dev, "fail to setup handler\n");
+>                  return ret;
+>          }
+>
+>          /* Delay is required before streaming*/
+>          usleep_range(7400, 8000);
+>
+>          /* Start streaming */
+>          ret =3D imx412_write_reg(imx412, IMX412_REG_MODE_SELECT,
+>                                 1, IMX412_MODE_STREAMING);
+>          if (ret) {
+>                  dev_err(imx412->dev, "fail to start streaming\n");
+>                  return ret;
+>          }
+>
+>          return 0;
+> }
+>  > but T7 as the time before you can send "Streaming Commmand" is min 8ms=
+ "
+> I think the usleep_range(7400, 8000) represents the 8ms duration
+> required by T7.
 
-Signed-off-by: David Heidelberg <david@ixit.cz>
----
-Eventually, if more changes would be requested, would make sense someone
-from Qualcomm to follow-up on these, as I don't have schematics,
-documentation or also no access to the internal resources.
+I'd missed that one.
+If you've delayed for 10-12ms between coming out of reset and sending
+the first command, then does the Arducam module still require another
+8ms here, or can that be removed as you've already complied with T7?
 
-Thank you
----
-Changes in v4:
-- Everything in one commit. (Krzysztof)
-- Dropped Fixes tag. (Bryan)
-- Updated rest of the files to make them in sync.
-- Link to v3: https://lore.kernel.org/r/20251216-docs-camss-fixes-v3-0-c238b6810771@ixit.cz
+Have you asked Arducam as to why their module takes longer? I can't
+find an IMX577 module listed on their product pages so presumably it's
+discontinued. There are a few links for a Luxonis Oak DepthAI board
+[1] which is made by Arducam and is using IMX577, so is it that one?
+Generally I've not encountered an issue with Arducam adding any weird
+delay circuits on their sensor boards.
 
-Changes in v3:
-- Add commit improving vdda-phy-supply description to match more recent
-  bindings.
-- Double-checked and specified it's 1.2 V vdda-pll-supply. (Vladimir)
-- Link to v2: https://lore.kernel.org/r/20251213-docs-camss-fixes-v2-1-a8a4d4d51c6c@ixit.cz
+  Dave
 
-Changes in v2:
-- Applied suggestion to clarify the description. (Krzysztof)
-- Link to v1: https://lore.kernel.org/r/20251212-docs-camss-fixes-v1-1-5c011505ff59@ixit.cz
----
- Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml  | 4 ++--
- Documentation/devicetree/bindings/media/qcom,sc7280-camss.yaml   | 4 ++--
- Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml | 4 ++--
- Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml   | 4 ++--
- Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml   | 4 ++--
- Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml   | 4 ++--
- Documentation/devicetree/bindings/media/qcom,sm8550-camss.yaml   | 4 ++--
- Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml | 4 ++--
- 8 files changed, 16 insertions(+), 16 deletions(-)
+[1] https://shop.luxonis.com/products/oak-ffc-imx577-m12
 
-diff --git a/Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml
-index 019caa2b09c32..48f280e998096 100644
---- a/Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml
-+++ b/Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml
-@@ -126,11 +126,11 @@ properties:
- 
-   vdda-phy-supply:
-     description:
--      Phandle to a regulator supply to PHY core block.
-+      0.88V supply to CSIPHY IP blocks.
- 
-   vdda-pll-supply:
-     description:
--      Phandle to 1.8V regulator supply to PHY refclk pll block.
-+      1.2V supply to CSIPHY IP blocks.
- 
-   ports:
-     $ref: /schemas/graph.yaml#/properties/ports
-diff --git a/Documentation/devicetree/bindings/media/qcom,sc7280-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sc7280-camss.yaml
-index ee35e3bc97ffd..b1c54c5b01b28 100644
---- a/Documentation/devicetree/bindings/media/qcom,sc7280-camss.yaml
-+++ b/Documentation/devicetree/bindings/media/qcom,sc7280-camss.yaml
-@@ -125,11 +125,11 @@ properties:
- 
-   vdda-phy-supply:
-     description:
--      Phandle to a regulator supply to PHY core block.
-+      0.88V supply to CSIPHY IP blocks.
- 
-   vdda-pll-supply:
-     description:
--      Phandle to 1.8V regulator supply to PHY refclk pll block.
-+      1.2V supply to CSIPHY IP blocks.
- 
-   ports:
-     $ref: /schemas/graph.yaml#/properties/ports
-diff --git a/Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml
-index c99fe4106eee9..354130aba9fc9 100644
---- a/Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml
-+++ b/Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.yaml
-@@ -264,11 +264,11 @@ properties:
- 
-   vdda-phy-supply:
-     description:
--      Phandle to a regulator supply to PHY core block.
-+      0.88V supply to CSIPHY IP blocks.
- 
-   vdda-pll-supply:
-     description:
--      Phandle to 1.8V regulator supply to PHY refclk pll block.
-+      1.2V supply to CSIPHY IP blocks.
- 
- required:
-   - clock-names
-diff --git a/Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml
-index 35c40fe223767..46cc7fff15992 100644
---- a/Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml
-+++ b/Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml
-@@ -91,11 +91,11 @@ properties:
- 
-   vdda-phy-supply:
-     description:
--      Phandle to a regulator supply to PHY core block.
-+      0.88V supply to CSIPHY IP blocks.
- 
-   vdda-pll-supply:
-     description:
--      Phandle to 1.8V regulator supply to PHY refclk pll block.
-+      1.2V supply to CSIPHY IP blocks.
- 
-   ports:
-     $ref: /schemas/graph.yaml#/properties/ports
-diff --git a/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
-index 82bf4689d3300..be09cf3a3b3b8 100644
---- a/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
-+++ b/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
-@@ -207,11 +207,11 @@ properties:
- 
-   vdda-phy-supply:
-     description:
--      Phandle to a regulator supply to PHY core block.
-+      0.88V supply to CSIPHY IP blocks.
- 
-   vdda-pll-supply:
-     description:
--      Phandle to 1.8V regulator supply to PHY refclk pll block.
-+      1.2V supply to CSIPHY IP blocks.
- 
- required:
-   - clock-names
-diff --git a/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
-index ebf68ff4ab961..a509d4bbcb4aa 100644
---- a/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
-+++ b/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
-@@ -296,11 +296,11 @@ properties:
- 
-   vdda-phy-supply:
-     description:
--      Phandle to a regulator supply to PHY core block.
-+      0.88V supply to CSIPHY IP blocks.
- 
-   vdda-pll-supply:
-     description:
--      Phandle to 1.8V regulator supply to PHY refclk pll block.
-+      1.2V supply to CSIPHY IP blocks.
- 
- required:
-   - clock-names
-diff --git a/Documentation/devicetree/bindings/media/qcom,sm8550-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sm8550-camss.yaml
-index cd34f14916b42..4b9ab1352e914 100644
---- a/Documentation/devicetree/bindings/media/qcom,sm8550-camss.yaml
-+++ b/Documentation/devicetree/bindings/media/qcom,sm8550-camss.yaml
-@@ -134,11 +134,11 @@ properties:
- 
-   vdda-phy-supply:
-     description:
--      Phandle to a regulator supply to PHY core block.
-+      0.88V supply to CSIPHY IP blocks.
- 
-   vdda-pll-supply:
-     description:
--      Phandle to 1.2V regulator supply to PHY refclk pll block.
-+      1.2V supply to CSIPHY IP blocks.
- 
-   ports:
-     $ref: /schemas/graph.yaml#/properties/ports
-diff --git a/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml b/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
-index b87a13479a4bf..2d1662ef522b7 100644
---- a/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
-+++ b/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
-@@ -120,11 +120,11 @@ properties:
- 
-   vdd-csiphy-0p8-supply:
-     description:
--      Phandle to a 0.8V regulator supply to a PHY.
-+      0.8V supply to a PHY.
- 
-   vdd-csiphy-1p2-supply:
-     description:
--      Phandle to 1.2V regulator supply to a PHY.
-+      1.2V supply to a PHY.
- 
-   ports:
-     $ref: /schemas/graph.yaml#/properties/ports
-
----
-base-commit: cc3aa43b44bdb43dfbac0fcb51c56594a11338a8
-change-id: 20251212-docs-camss-fixes-0fa525271951
-
-Best regards,
--- 
-David Heidelberg <david@ixit.cz>
-
-
+> Thanks,
+> Wenmeng
+>
+>
 
