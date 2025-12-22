@@ -1,177 +1,149 @@
-Return-Path: <linux-media+bounces-49268-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49269-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BE89CD464E
-	for <lists+linux-media@lfdr.de>; Sun, 21 Dec 2025 23:48:31 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EE65CD47BF
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 01:22:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 915C93006604
-	for <lists+linux-media@lfdr.de>; Sun, 21 Dec 2025 22:48:27 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 548E4300479A
+	for <lists+linux-media@lfdr.de>; Mon, 22 Dec 2025 00:22:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85F2E234966;
-	Sun, 21 Dec 2025 22:48:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 546E31F3B85;
+	Mon, 22 Dec 2025 00:22:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L2u5tljV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j+r9UdTG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6611F09A5
-	for <linux-media@vger.kernel.org>; Sun, 21 Dec 2025 22:48:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EACC2AD37
+	for <linux-media@vger.kernel.org>; Mon, 22 Dec 2025 00:22:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766357305; cv=none; b=QaQq97c9x4e0gCAg1ni6WM34nxsjpvaxZYOJuSXPmJT2+HzmRPD8W/W2J0+VU3kXdw3N44WxE6yNPpbo+J+OGRox1PChVW8EDVf0dzvMBCHU/1HmcQf8izncZHXxaw7q/CI0vvJsyn58VvmX8/XuUxnjII1iL/MtJ5nn5frXyzg=
+	t=1766362958; cv=none; b=ObY9DjoFDMUohvuQ5T2J1Mn4syr5q/65bUk1PfPpj2xpALKAqb9UFmA29SbmR1pltqr10AGuzIjS6aE1ztIyjw/+9uAXGECDgwpwhUrNBNciOvl3+5ZmtOMJLEa8giB5c0LeZn4cwwisFaDk/IA57Fd5TVCapll4cw9K1z8qSPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766357305; c=relaxed/simple;
-	bh=gwNtwzbfk3ilrx18MzeaOFOVVXPqll0tpDxe9KR0gOU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i52gsO7CK4eQ6XHWsdwrvgQNTkWdjZGke/HkbKD9qvKq+Y48abkYFOZRdttzdEYCUK0YZ0Z6a21HeaKLKbVOXlUr8gUH6two2oHCAwHXCTujyXn54yUb3MhXzZqAkjTjzZYcCczbTrojk65BUFTWKsk9nzspaLyZTwjUvYDkWsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L2u5tljV; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766357303; x=1797893303;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gwNtwzbfk3ilrx18MzeaOFOVVXPqll0tpDxe9KR0gOU=;
-  b=L2u5tljVB4U9fDa2WbP4Nk/diX7XzBN3VE3MiZ39lzIZBq4uOpQQVsa9
-   31/pGUNUnPLcjpKChtNiiUwhrXEbhBY8/9GQAVhiAZaqGXRaAYejo/gOS
-   BQEwtCUACUVV7/2sC7LNY1flPr4/0yqyrKCDQheTfEEJR9FteYwyh1dTU
-   djQM9lwxIPkOeD0JVrkU0DGVb0mPPipPVDE+h5BhZ23Ob4ZrUbof8nlhs
-   /AD3QGdDaGrzjXuepQVAfzMq3Ad6TLSTXWsWIlxrsm5klNNSiUFpgDZ0c
-   f17k+KkijMO++m7BkAla4EgnGtPqjqkX69S1yRdB+BN7+/+Ddmz7bsq+2
-   A==;
-X-CSE-ConnectionGUID: CDiscUCKR+WEVdje49J2MA==
-X-CSE-MsgGUID: orjznegURLKUUdnHYjZCmg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="78938942"
-X-IronPort-AV: E=Sophos;i="6.21,166,1763452800"; 
-   d="scan'208";a="78938942"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 14:48:23 -0800
-X-CSE-ConnectionGUID: D5VjtRPHR/+D5/u7GJPdkA==
-X-CSE-MsgGUID: PukYKP5VQ6m1+nzOdrxrmw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,166,1763452800"; 
-   d="scan'208";a="198532541"
-Received: from lkp-server01.sh.intel.com (HELO 0713df988ca2) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 21 Dec 2025 14:48:21 -0800
-Received: from kbuild by 0713df988ca2 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vXSDp-000000000G9-3voY;
-	Sun, 21 Dec 2025 22:48:17 +0000
-Date: Mon, 22 Dec 2025 06:48:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, bingbu.cao@linux.intel.com,
-	tian.shu.qiu@intel.com, antti.laakso@linux.intel.com,
-	mehdi.djait@linux.intel.com
-Subject: Re: [PATCH 12/13] media: ipu6: Drop custom functions to obtain sd
- state information
-Message-ID: <202512220626.VOKkPjwN-lkp@intel.com>
-References: <20251219095829.2830843-13-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1766362958; c=relaxed/simple;
+	bh=/4VpmscdJAmltw6qgbzHKyfcQ9dPgSNzZHqoCv3OIE4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rLSqpNBeKLyinKIjpbBw5m2o1iQugbaHFPxZVh+trEU6FjqSCtZCk4xY07aEUEfLz/fRNgffeS3xg2R5XUNaf0nooTLKHkJDBHyxHq/3AgBmdPDmFDJ8l88mhHKQepBsXRr/v6q2sRZo7XxTQb5tXPFxQyPbtpIX9Nz2Ppcb800=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j+r9UdTG; arc=none smtp.client-ip=209.85.222.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-8be92e393f8so350201785a.1
+        for <linux-media@vger.kernel.org>; Sun, 21 Dec 2025 16:22:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766362956; x=1766967756; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2sD4hUVC58wHYj0/TBqBKJe071NUQ0n28qUzgcUEIws=;
+        b=j+r9UdTGB+f+xI0OH5hbwYm2BKLyDpiwuoorkOFAubWBCCUIZB5UWdWAoC+hbE+B+4
+         mhXzVGVtLle0R32QCHNg6SsnYOypCX54CbwjsmHOxP8bRtTojPZpkGdI+tRWMrnUydeQ
+         3D+jlF1lMuU95BQGlAVYHYp+Fvg2ruVN6wLi2Gp2E6DIz+w33eXVD416PHTsz5TVqOAO
+         OPv1SCausa2i9gMhMtKqWjVAOdJaoJzK7BENKyzn80wuJsp6YDaYMwxe51hScAYMy9vu
+         FZzaQg2aYthQxGQYvDYKNhy/zkv2Fjet8ZEqbq4PRV1CtD0rRAA8LKU0D83DZ6oIEEWZ
+         PoBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766362956; x=1766967756;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2sD4hUVC58wHYj0/TBqBKJe071NUQ0n28qUzgcUEIws=;
+        b=o546n6r0gZRDyMpibJzUCPX+ibBjK/wLRuJZrulznQWvJDQUqEJ4dzyhHNIGyBhh7i
+         h1J1FiCQIXvliEzsECRqaI31yTk0k5HUHboPRrZbx2R0U8c7dTCqPoS87Jgsrna/KavH
+         7najq5z7sKl5brhFOxVeIfn2jEq9QhsuhF5BlgJPLCZSF6k0Qo8XMcJuRu3RNNECu96s
+         k8T4+gRIRfOGi+MAEFZyT5bs5hpi7uEfxgLBI04zJ99w01MiptoDvIHBz/nbRtLsOzmu
+         fKJ6/24aRIj7Ak6Fw4QXkfLqHH1lbL5GDeG0PelcsF621w1DG/5PBYQ9oh3s0ZB+bXNm
+         mwUA==
+X-Forwarded-Encrypted: i=1; AJvYcCVnPG0dMwV82xb1pAlh/jTTXI+vDld5NVSlCLDcGJX9Hq57+bkqFS5ENWoXQvEe1L/f6yZgSL16f/ziqA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxlpxaqR5UfRMUamquB+B4o0hprUM8XucER+qVFG3zvJuQJHxz3
+	9NhLInaPL98wmldv0BMP5jQ25F2lA02UwWM9hKXwBs40rvkS/hAXjTpZ
+X-Gm-Gg: AY/fxX5HZL8l3L0v2bzWHnXvXEUBUk4Jc5cEbq1lrV4DPz0qUT450rMSsNQd2vPuGgK
+	LimjDVpGguCe/nJceeDZGNmSdqZvIcs0X33UGGvmlALkgPE2zlO0O6/abuQ7YguO+umzkA6AvkR
+	qXr2wWTPkpcpL/QDvryONjKl7JS+Vim7Pi1+W/AtiSIXvjx9xchxvh7aktfLJIWXjGy3TCblQ2E
+	eNKWKX0Yd+UAhSqzMPEo2D911jEzklWoNjL1goFO9cn5TaEZn4eiGFqZxqcUXa0x0WT0jTzNBfr
+	N+DAeINEO9R6IW/jHRNhBieXJKoVEMG2gQ/etxAPRKKDOC9XBrXBYF1NjAxDxxUlZW7h1AOWui/
+	Nh+dRsQIyQDM1HcOhuNNTbW92U14s+gWtBja90p7jJ7V94maEjgD+bbK7US/kOCu0IfdSfhNr0A
+	kUysOGB8WgSB6IORdL/WYiB1aXTVYIBnMdQeqU4lk8/l+0ASw50Mh+TADtQBoV3PzgaXEMYMy+p
+	cZGDx/P9u7Q+k1ccf0HI0LkV9gH4PgCzh4aTQVZzw==
+X-Google-Smtp-Source: AGHT+IHJJ3JeIp8QgT4PSUJx2el1EjjLL4jxtW3NEah7Hx+ksV/qcNiIL623TmA/6StQrVFzV1obAg==
+X-Received: by 2002:a05:620a:19a1:b0:8b2:e3c1:24b7 with SMTP id af79cd13be357-8bee79b99cdmr1940287985a.29.1766362956118;
+        Sun, 21 Dec 2025 16:22:36 -0800 (PST)
+Received: from seungjin-HP-ENVY-Desktop-TE02-0xxx.dartmouth.edu ([129.170.197.82])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c095b79b32sm708874785a.0.2025.12.21.16.22.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Dec 2025 16:22:35 -0800 (PST)
+From: pip-izony <eeodqql09@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Seungjin Bae <eeodqql09@gmail.com>,
+	Kyungtae Kim <Kyungtae.Kim@dartmouth.edu>,
+	Sanghoon Choi <csh0052@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: ttusb-dec: fix heap-buffer-overflow in ttusb_dec_process_urb_frame()
+Date: Sun, 21 Dec 2025 19:20:20 -0500
+Message-ID: <20251222002019.882867-2-eeodqql09@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251219095829.2830843-13-sakari.ailus@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Sakari,
+From: Seungjin Bae <eeodqql09@gmail.com>
 
-kernel test robot noticed the following build warnings:
+The `ttusb_dec_process_urb_frame()` parses the PVA packet from the
+USB device. However, it doesn't check whether the calculated
+`packet_payload_length` exceeds the size of the `packet` buffer.
 
-[auto build test WARNING on linuxtv-media-pending/master]
-[also build test WARNING on media-tree/master sailus-media-tree/master linus/master v6.19-rc1 next-20251219]
-[cannot apply to sailus-media-tree/streams]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+The `packet` buffer has a fixed size of `MAX_PVA_LENGTH + 4`. However,
+`packet_payload_length` is derived from 2 bytes of the input data,
+allowing a maximum value of 65543 bytes (8 + 0xFFFF).
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/media-ipu6-Ensure-stream_mutex-is-acquired-when-dealing-with-node-list/20251219-180136
-base:   https://git.linuxtv.org/media-ci/media-pending.git master
-patch link:    https://lore.kernel.org/r/20251219095829.2830843-13-sakari.ailus%40linux.intel.com
-patch subject: [PATCH 12/13] media: ipu6: Drop custom functions to obtain sd state information
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20251222/202512220626.VOKkPjwN-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512220626.VOKkPjwN-lkp@intel.com/reproduce)
+If a malicious USB device sends a packet with crafted data, it
+triggers a heap buffer overflow. This allows an attacker to overwrite
+adjacent fields in the `struct ttusb_dec`. Specifically, the `a_pes2ts`
+field, which contains a callback function pointer, is located after the
+`packet` buffer. Overwriting this pointer can lead to control flow
+hijacking.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512220626.VOKkPjwN-lkp@intel.com/
+Fix this by adding a bounds check for the parsed length against the
+buffer size.
 
-All warnings (new ones prefixed by >>):
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Co-developed-by: Sanghoon Choi <csh0052@gmail.com>
+Signed-off-by: Sanghoon Choi <csh0052@gmail.com>
+Signed-off-by: Seungjin Bae <eeodqql09@gmail.com>
+---
+ drivers/media/usb/ttusb-dec/ttusb_dec.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
->> drivers/media/pci/intel/ipu6/ipu6-isys-queue.c:449:6: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
-     449 |         if (ret) {
-         |             ^~~
-   drivers/media/pci/intel/ipu6/ipu6-isys-queue.c:433:9: note: initialize the variable 'ret' to silence this warning
-     433 |         int ret;
-         |                ^
-         |                 = 0
-   1 warning generated.
-
-
-vim +/ret +449 drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
-
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  423  
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  424  static int ipu6_isys_link_fmt_validate(struct ipu6_isys_queue *aq)
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  425  {
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  426  	struct v4l2_mbus_framefmt format;
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  427  	struct ipu6_isys_video *av = ipu6_isys_queue_to_video(aq);
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  428  	struct device *dev = &av->isys->adev->auxdev.dev;
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  429  	struct media_pad *remote_pad =
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  430  		media_pad_remote_pad_first(av->vdev.entity.pads);
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  431  	struct v4l2_subdev *sd;
-d3bd039cd2a0098 Bingbu Cao   2024-01-31  432  	u32 r_stream, code;
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  433  	int ret;
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  434  
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  435  	if (!remote_pad)
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  436  		return -ENOTCONN;
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  437  
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  438  	sd = media_entity_to_v4l2_subdev(remote_pad->entity);
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  439  	r_stream = ipu6_isys_get_src_stream_by_src_pad(sd, remote_pad->index);
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  440  
-627086672dc7e15 Sakari Ailus 2025-12-19  441  	struct v4l2_subdev_state *state =
-627086672dc7e15 Sakari Ailus 2025-12-19  442  		v4l2_subdev_lock_and_get_active_state(sd);
-627086672dc7e15 Sakari Ailus 2025-12-19  443  
-627086672dc7e15 Sakari Ailus 2025-12-19  444  	format = *v4l2_subdev_state_get_format(state, remote_pad->index,
-627086672dc7e15 Sakari Ailus 2025-12-19  445  					       r_stream);
-627086672dc7e15 Sakari Ailus 2025-12-19  446  
-627086672dc7e15 Sakari Ailus 2025-12-19  447  	v4l2_subdev_unlock_state(state);
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  448  
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31 @449  	if (ret) {
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  450  		dev_dbg(dev, "failed to get %s: pad %d, stream:%d format\n",
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  451  			sd->entity.name, remote_pad->index, r_stream);
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  452  		return ret;
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  453  	}
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  454  
-d3bd039cd2a0098 Bingbu Cao   2024-01-31  455  	if (format.width != ipu6_isys_get_frame_width(av) ||
-d3bd039cd2a0098 Bingbu Cao   2024-01-31  456  	    format.height != ipu6_isys_get_frame_height(av)) {
-4ff61c4ce93677c Sakari Ailus 2024-05-02  457  		dev_dbg(dev, "wrong width or height %ux%u (%ux%u expected)\n",
-d3bd039cd2a0098 Bingbu Cao   2024-01-31  458  			ipu6_isys_get_frame_width(av),
-d3bd039cd2a0098 Bingbu Cao   2024-01-31  459  			ipu6_isys_get_frame_height(av), format.width,
-d3bd039cd2a0098 Bingbu Cao   2024-01-31  460  			format.height);
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  461  		return -EINVAL;
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  462  	}
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  463  
-d3bd039cd2a0098 Bingbu Cao   2024-01-31  464  	code = ipu6_isys_get_isys_format(ipu6_isys_get_format(av), 0)->code;
-d3bd039cd2a0098 Bingbu Cao   2024-01-31  465  	if (format.code != code) {
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  466  		dev_dbg(dev, "wrong mbus code 0x%8.8x (0x%8.8x expected)\n",
-d3bd039cd2a0098 Bingbu Cao   2024-01-31  467  			code, format.code);
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  468  		return -EINVAL;
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  469  	}
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  470  
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  471  	return 0;
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  472  }
-3c1dfb5a69cf836 Bingbu Cao   2024-01-31  473  
-
+diff --git a/drivers/media/usb/ttusb-dec/ttusb_dec.c b/drivers/media/usb/ttusb-dec/ttusb_dec.c
+index b4575fe89c95..77452ff2522f 100644
+--- a/drivers/media/usb/ttusb-dec/ttusb_dec.c
++++ b/drivers/media/usb/ttusb-dec/ttusb_dec.c
+@@ -703,10 +703,18 @@ static void ttusb_dec_process_urb_frame(struct ttusb_dec *dec, u8 *b,
+ 
+ 			if (dec->packet_type == TTUSB_DEC_PACKET_PVA &&
+ 			    dec->packet_length == 8) {
+-				dec->packet_state++;
+-				dec->packet_payload_length = 8 +
++				int len = 8 +
+ 					(dec->packet[6] << 8) +
+ 					dec->packet[7];
++
++				if (len > MAX_PVA_LENGTH + 4) {
++					printk("%s: packet too long - discarding\n",
++					       __func__);
++					dec->packet_state = 0;
++				} else {
++					dec->packet_state++;
++					dec->packet_payload_length = len;
++				}
+ 			} else if (dec->packet_type ==
+ 					TTUSB_DEC_PACKET_SECTION &&
+ 				   dec->packet_length == 5) {
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
 
