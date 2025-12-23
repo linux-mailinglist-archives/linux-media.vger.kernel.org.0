@@ -1,472 +1,290 @@
-Return-Path: <linux-media+bounces-49380-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49381-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B225CD7A06
-	for <lists+linux-media@lfdr.de>; Tue, 23 Dec 2025 02:19:46 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB116CD7D98
+	for <lists+linux-media@lfdr.de>; Tue, 23 Dec 2025 03:17:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A182A3060F2A
-	for <lists+linux-media@lfdr.de>; Tue, 23 Dec 2025 01:19:09 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 354273011EF5
+	for <lists+linux-media@lfdr.de>; Tue, 23 Dec 2025 02:16:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E1412248A8;
-	Tue, 23 Dec 2025 01:19:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B18823D7DC;
+	Tue, 23 Dec 2025 02:16:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="CwGP/3xb"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="V5n4TvGK";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="IQPr6tC3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013050.outbound.protection.outlook.com [40.107.162.50])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C37BF142E83;
-	Tue, 23 Dec 2025 01:19:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766452746; cv=fail; b=Vopj+HvdLRE/hux7hbV29rgGUtw0Sbt02RANcMveR6kMQ7lHmvy6RgK8Jta31HVxPKl1isxzUgMntu9+Vln7hJFb+zSCB7MEpK/KimMmWqT4HGKk6vxYEIbOO/vzZ17DZDcXpg01EfDmw9vowXkU8UP6xh4Q4Zua20pD9/bodM4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766452746; c=relaxed/simple;
-	bh=u8rZbjrZKFl8v7z6tljjDY2yGq6YrKQ6w8Ksjy3eMtQ=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=VyZh8DZ0w+G79BMEiB7ilGBW6nGcbgoTLH3qVQ0JeWoHR+D86qx/Hj0AjlRHdBOvm5UhRB4PNBS4CzqRg5q6ktJGfHlFxutbAjJsT+7lIr6SkNx/hS/J7C+YPnx+xkv9qC99V/tp09IwZ4blNZrDywVSRMTsKN5rb0CTibLvno8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=CwGP/3xb; arc=fail smtp.client-ip=40.107.162.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UeJX1NqOkGwKrrI9uce0wLEauAUrWVbT2U2t2IZX5SquAYxQeSIa2Nsytd8l+sDMvqXMxB0052udP9VcTFsPf678UiM3STCGYwCPngIcBnrdFYxO0zZb70b624noQ1naZMZqX3W/wdbd1UkUmBEE+EsUQbRlRx02+P7mPesNsTZKpJGgtxxREXqOi5QI80MTCIZzGq7wkWQpI5GblFVGqmICXE76XrfsKO44TZD84baug2YtxYBXh99qyoK7e2KBLq6laD3086+ZulefjWzjIuuHE7LSMOm4+Um1+lv9JTTgR+2m5IG5wpxASuNSYkCXqlA/7t8Y0YWRGJYdKTZbTw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=elNwXEdcQcmASuYwS+WJw0qhcVX8URIeM6OQYsLi/MY=;
- b=ZRZWAOakY5lnAUO6sVyZXK9As/jEZYzYsnUBlbI/fSDHUHlZoGpOGHi3REw0yD8WDQCSwzkVeNwTom8/k1eAkFZP4HGulaHYChSOhYTSVFhC6Rwmp6Rq1z8sBmJq8FW3zodqJhTFOLmAmJHNNB0nyg1U9CvU7zAERZ1gJ0Lo/GhyKaCU7tPAwmpNSs0KRX/YJK0uPH5c3+ao9A36u2IisKmVj9VI7tehFvvcwJKkQ6F1mcHgsWguZTYTN8S/Ny3FGnG+LHlV0PRjF6NUkX/Rv60QtyNEkI9Yji8VTq+U0JZJjBoqMxz/vjCis97Xs4UbdTZUGkk/HcSgZjKRyIGEsQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=elNwXEdcQcmASuYwS+WJw0qhcVX8URIeM6OQYsLi/MY=;
- b=CwGP/3xbhVidSyB1bfQm2dDeNG5bSgkaoKJmTkmcB+dqLlONHx3MZp3VXNhdjXIZUdM4BmcKB9LPeqD935yXYPzI7zF8XPtefJvPB6XioNTX59RKeVNjmdoDkNpxOu1Tg+g9aWoreeF/pzSzvsqTn9H97XGwzyTONmniaMDpZD3VdWmgaQ9GefVXuKrszpuMI2gEg5au1V/rcZ/VpxYOcemaaCEM712RUuArQoYzDvwsSiCNfNd0mZfobLoOv37YBlFs9hE678VCRJtYcezArGCqv0ewCdG+Gm15HpQk3tE0VKBEDkaCJFhItE6Eov4fObvD/benRnw47mxrWT0aqg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB8254.eurprd04.prod.outlook.com (2603:10a6:102:1cd::24)
- by GVXPR04MB11523.eurprd04.prod.outlook.com (2603:10a6:150:289::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.11; Tue, 23 Dec
- 2025 01:18:58 +0000
-Received: from PAXPR04MB8254.eurprd04.prod.outlook.com
- ([fe80::2755:55ac:5d6f:4f87]) by PAXPR04MB8254.eurprd04.prod.outlook.com
- ([fe80::2755:55ac:5d6f:4f87%4]) with mapi id 15.20.9434.009; Tue, 23 Dec 2025
- 01:18:57 +0000
-Message-ID: <1261af9b-339a-4081-ab95-ad8a4d05636d@oss.nxp.com>
-Date: Tue, 23 Dec 2025 09:18:47 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: amphion: Use kmalloc instead of vmalloc
-To: Nicolas Dufresne <nicolas@ndufresne.ca>, linux-media@vger.kernel.org
-Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
- sebastian.fricke@collabora.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
- kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
- Frank.li@nxp.com, xiahong.bao@nxp.com, eagle.zhou@nxp.com,
- imx@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-References: <20251222084912.747-1-ming.qian@oss.nxp.com>
- <de871401c693088783de5ad8068533ac532a9f03.camel@ndufresne.ca>
-From: "Ming Qian(OSS)" <ming.qian@oss.nxp.com>
-In-Reply-To: <de871401c693088783de5ad8068533ac532a9f03.camel@ndufresne.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MA5PR01CA0238.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:1f4::19) To PAXPR04MB8254.eurprd04.prod.outlook.com
- (2603:10a6:102:1cd::24)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5364B20458A
+	for <linux-media@vger.kernel.org>; Tue, 23 Dec 2025 02:16:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1766456196; cv=none; b=K3eR5Uy6jlDPX6s79/qqEkJlKWNduy3p2ME9Vq2QJuibabEGrzDWA8zmZOR9UbmuumFt5wAS5Ge8ar4ENBLYWkt11DRlSxS53AWKNp/ANFWq75SmWsUSCPtch9KwgpppvDcZiJxtX6PE1OVJgoT8ZKC+iCjjO9wq9De/wEu4mAo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1766456196; c=relaxed/simple;
+	bh=HxRjEvF5S+Bn8nhnzL0lUBRx86h41CIniVPwPvbrutE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=P3lfhrnqDS8pePLZgEf3miGjSSKxbCqv3mqSTRITjgnBLCzc9pqAYS/B8ctae4PChxla69O75BhLmIgp3DNH9yaE6vC+TbTYK/v4705Drt19jjjqpnLrMp7A/emuiM/IFtmwTECfhbT3tsXBRM5Ge9l+AWELxMY+KGg+7cgiHPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=V5n4TvGK; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=IQPr6tC3; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BMKEKKI4044456
+	for <linux-media@vger.kernel.org>; Tue, 23 Dec 2025 02:16:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	BX4kp00cUTIqF2+i+oRIlkTaKl5Y4bXuMsl9PQdcnrA=; b=V5n4TvGKfrx2W/50
+	QtA4lZwOgutgCnA/1UrPUlpstQ1Nr6FfDFjAGRamQ+t7oOqyKRWYXwJ/3+nmr+za
+	7ChOErFQ7J1PNYgG7f5pFu5/nWagSTuGUfegR1C1xXQl5hLenSgTGPT5OyPf3vh/
+	GxPyeF0PunAmjLT+Bvx1YSbfdXIgfgSiKSllAh5V3MhIkP+FhWtxbFZcmgdOCtRr
+	X0rSvKE9cU+QGEn7IZRZFlKeHAXwZXNBwisIZLwYJAnfh7B6uSqNFhMFOJPqpqMt
+	5cZfXppH1wNWNP2Z1hb8FwDLlnnDjKiSBoF5b9+4OqOxgXXfQwW8NnshwQbNhR7C
+	/hYRaw==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b7cuh8r8e-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Tue, 23 Dec 2025 02:16:34 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8bb0ae16a63so510663685a.3
+        for <linux-media@vger.kernel.org>; Mon, 22 Dec 2025 18:16:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1766456193; x=1767060993; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BX4kp00cUTIqF2+i+oRIlkTaKl5Y4bXuMsl9PQdcnrA=;
+        b=IQPr6tC3fukXUUmnAOK+VqieriP9ZQjGmJbBvAXZf5uJX2k6bL0OkxQNlNdbSwuszN
+         Vm+S0vMU/A/OiU3ZWj+3n0/8l71hSBNKEforXUFDoiStE5fbMphCmJwdigA6p8T3ZL46
+         dFddJcRx0/ZIeEAN/GjnyOZSDgXrKTngcpw48OAi2mtjUZFE3zWjuJ/fIO0La6B9RZUe
+         OL3hHABw4UG9mXD8pw1kqiv6h3Akem64wuDQvEUE9sG4EAw5miIwZ8paDlAtFt/93M5A
+         zDJjCjsYvCJ1LqYXxKJaPk948v/SmVPten88BPJNznRPDosogicqF63dgnfkSIo2dvsx
+         7QOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766456193; x=1767060993;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BX4kp00cUTIqF2+i+oRIlkTaKl5Y4bXuMsl9PQdcnrA=;
+        b=dg0dtbc+8qKaBeftQuFzYoWdyvTLO2vZkqzK4+goFiknnZzOXNUu2QWrSUSo3yZmgT
+         GqWrGTy0BBYA817f+jnQBbBnEVhezbgRkVkzZgenRBciI876b7PZaSClBCqWQ84ptl5o
+         /sRMDwnhHoNgoOUwZSXuhPIIRfFwid6iZMWH7E3hgnWHBCBPRtpnWoNFD6Z+o54o2bhr
+         FRIDktil45jE3JZmv7ZJcV1/VY3gGIAcZ8/ftqz2MPsEwELTpbRbRn8z+09r+Xj98MNP
+         UD45D6WmejjZBlf0U2Dk6y1GAkavhsIx9KrITYH+BYLmzYV9h53Md7FjiQx56YDbhTwW
+         ddmg==
+X-Forwarded-Encrypted: i=1; AJvYcCWSc8+Ko44VSVdfy6hKHsDISuwvWd18Mk+ZLFQy91Qh9WmUKXYw9erhLBY13Xh+h3LA3sxMbE06lLaQDg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzby/FKjLysofEFHRQB7R9MO8cUqY6+50tdBBlkYVGdHTgT/y+E
+	DOgFUW8PN7kstTqKgRAmk9oqDWR4LB3IitaC/Asg7aZvrq3eHwQJI6NNeCnpJrbzQMlIQxhAxP8
+	xXKmPJzeQeWQdc7gqKkNKhWnJMns9daVnT3dkb0gA3kfUhu7+1J0U4rvEhoz5bXEuMg==
+X-Gm-Gg: AY/fxX7oT962stAv801gH4hRXY/yVLFndjEb1vsO4eJbT3OeaBqwpfB5gatrCdYuXv3
+	TAZ41HpKvUf8C73aVUD3+2f6I9q2ZAb+aPcnHyhNckpqMZLLzMFwNE6cf90F28s733MP/9PFlbZ
+	4drslGFAZ9S1MtWVL/JRtIALfTklOSeWpHRdQ0jKPyCD0wMxumtvMk46qqiTjDHuwSucr/sBgr5
+	+zulivucYg4n/QYB75d8MLeApwiGq6CNnD9Sr1I0A+ym6JyrDAEQ0jTUkxD7TKLow9GW4TfVPX2
+	bfqL45DggAIOgknQulC8tDSX8ZWpWIF8zr3FOkR9cOU95XiSkXkXdgzizB6zgyd/QGHCaMabhDh
+	KdaShFMx5zb00wMncBhJOKMYPO1Wb1bxqhHFe1NEKsb+mJQm6toXXfg/va/iUOlVDwC/vSu2o
+X-Received: by 2002:a05:620a:46a2:b0:8b4:3ea8:b30e with SMTP id af79cd13be357-8c08fd27810mr2018995785a.46.1766456193566;
+        Mon, 22 Dec 2025 18:16:33 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFqmopzBn8u2ezviYQp0qX7PRJlQCatO8SpKZPJ+5gMcp5GLL0l9H2hCgGmEX3VBIdmbU0FCw==
+X-Received: by 2002:a05:620a:46a2:b0:8b4:3ea8:b30e with SMTP id af79cd13be357-8c08fd27810mr2018992685a.46.1766456193092;
+        Mon, 22 Dec 2025 18:16:33 -0800 (PST)
+Received: from [10.38.247.176] (Global_NAT1_IAD_FW.qualcomm.com. [129.46.232.65])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88d9623fdd8sm93756866d6.4.2025.12.22.18.16.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Dec 2025 18:16:32 -0800 (PST)
+Message-ID: <a767acb3-8bb9-45f7-99a6-68a595e4ebb5@oss.qualcomm.com>
+Date: Tue, 23 Dec 2025 10:16:25 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8254:EE_|GVXPR04MB11523:EE_
-X-MS-Office365-Filtering-Correlation-Id: 570583c8-b813-4ac6-dcab-08de41c13e7c
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|19092799006|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?elh0akxXR0lzOEg0ZTdtaGxmdjNTbHFMRVN1VGhtZ29qQXo3bzk5TWtucnIr?=
- =?utf-8?B?NFY0NnM2ejNTMlFQMXQ2eHJEZ0UrL3J6MXZvdUFkTkZJTTk5a2xHbXRYUm5P?=
- =?utf-8?B?L0s2U2RQNlBlVWcrZ0psZHZBSGJGdzVHeWZsZlBEOWNidXhjZXhlRTk5a3A4?=
- =?utf-8?B?SnpTTkFxR3pJWWc4WW9tVjlBbFcwTWhOL3p0TnB0YXgxaEc5Zk9QZ2RGMjhy?=
- =?utf-8?B?dlZ5Y1NqdHFMNTJVOVlqdmFTQ2NrRW5zVW02YUtvalYrd2publB5S1p3TzlO?=
- =?utf-8?B?YklwUGRYbW15aHNTSlZpZy9uOVVmY3JvSU9VQWVTRmU5bk83dWpFTDhvblBL?=
- =?utf-8?B?cnlnbjBkTHhMTUFMOEMyaWxvSityNVd4YnN4VWg5MldtNnFvYW0wREhtYTRn?=
- =?utf-8?B?cnNpKy9CTk1yd1VGek4wamV4S3VIcWJMOHRXUzc4cUFEWGdVeStZNGw4K3p5?=
- =?utf-8?B?R3BRbjhuVGRMeGxEVTd6MXVWRTE5T3VIeUI4OTd2V1FnY3I5d1JKd3B2QkQy?=
- =?utf-8?B?QzZQVnNva1djOW9zTFJLYkZQUHUrTVpjSEJZNUpTcjNPOHZvN1ZXS0oyejRP?=
- =?utf-8?B?MTZ0c05NM2FWODd4UmFWQ09VNEVpYnJmYnpLYjhTSlhzUDNnSHJwYTVNT3lO?=
- =?utf-8?B?RzJMWHptVmFEcmo5ZFJnTmRGeVU4UGVhaWxnanR6aFF5V1pQVHBxRVRlbUwx?=
- =?utf-8?B?UTJubmk2MXFBME1SdUJ6cmxPdEduM20zdVhKRk1RSVNGL2piWHVKVE1kMjhV?=
- =?utf-8?B?akFSZVovaTdyL0RVbW1zR3lmektsQ1hINmZzWUZHSWh1US9Ub1RMZXNUVUFB?=
- =?utf-8?B?dlhySzhhYVdpeU9iVS9mNUFtM28wL1h6OFBYWGYxelNlU1V6a2kwd2JRWHlY?=
- =?utf-8?B?RXdPNGFWem5KWUVaYXZMWUdZQ1VIK3o5YmN5c0JpaXJKUnJXclJ3TUlkYXp6?=
- =?utf-8?B?c2JzZ2JJT0tZYmh5a1AvYnp3LzZ3V2d1RlZXZWNjckdMK0hTbE4zWTJDMStR?=
- =?utf-8?B?Qkt6OUtHc1VzMEN4WksybTJjc3AxQUJlUHZLMXFsRzJPMnpEb05HbjNrZi9U?=
- =?utf-8?B?MkljcHgwTy9EdWFFSFFCUkoxMXBzdnE1aHliaDdrU0FXMlRObGhCbzdlZEhM?=
- =?utf-8?B?bmNkZmpoaEpVYXBZdVUvNGE2Snl0em5SV1ZuK01FTnFCeUUxSStsOGNiTUhZ?=
- =?utf-8?B?ajVqaHpWYVlQOG1RZlpxdms4US9kbzduUmt5Z3FRY010NmYxbjJzeVNkdmhH?=
- =?utf-8?B?b3NwaGxRWFAwL0x2MmJ0OWZKdzdMRzEzUHltanBaWkRXckpnQUs4aEo2S0F6?=
- =?utf-8?B?WWlyRmFtVEVTV1hTcE5adTd0d1VqajVSMWVCdU1xTjA1U0lNYVovZHZXdUw3?=
- =?utf-8?B?dUVIVlRYOElUZG9ZNWFscUFwdXZ6QlRnT25ta3AyUWlScitXeS83OVZ3Nlpk?=
- =?utf-8?B?Zk1VSDVjQmNxZTJyaEpTQTU4WFU2WDhVWUdBMW9Gd3EzaFpRQ2ljTGczb0Jv?=
- =?utf-8?B?QldXMi9nQmI0am01NkF6NFBQQXQ5bU5kVVRLaUpWaVh5aGlydkViN2NCTUVK?=
- =?utf-8?B?MVBMUHBweW5KVWNhSkdqNGVSQ3Fwd1dXUEc0SHpXQURsR2JyM09GU2pWOXlD?=
- =?utf-8?B?RUJVNnNzT0NzVzk5dk8raXh0N2pqTTg3NjlTVGZxbU9lbmJuZXBrd0krQjg2?=
- =?utf-8?B?QURBSjY2Skd3WHBTMVRmMVpjM3NCclRCS0toa0ZKb2p1M29yN2NySzVWNXlO?=
- =?utf-8?B?clZMcm5jMkIxL05iYkczU0NnKzRJQWNhaGlnMWk0NnZwYUJCalh1aHprbXp0?=
- =?utf-8?B?SkpWaFhXTkFGYy9MWE9SUW12MTBsYUJCcnpPbEpzZXp6c1hFbURhR2ZsVFhz?=
- =?utf-8?B?cVo3aW9OTUtnMmZqT2s4N2hmRUFlYnJ6ZUJidUM3c0pTMnlWeXROUWgvdWcw?=
- =?utf-8?Q?r1sp3UCwgDHu2ixshv7HP1aVXdMtrd+b?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8254.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(19092799006)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cFN3YjBpeVE0dks4eVVsNU5JRkZjV3QvR0xxU1RNcWpJa3BRR3RhcFpDY2lz?=
- =?utf-8?B?S0pUTFpqWXBFUnJET2NuMWxkcFRyL0dhN2NDMXRGTEdUN2dzVXdadEcrWGpN?=
- =?utf-8?B?bzRUOVpGNEt6QTBkbUFLamZDRmNJL1UzTDhKTHE1UVhPdVFHbjdzTkFpWkEz?=
- =?utf-8?B?QmZmVURBQkhLTnV1WDI5RitSMEVicWRVTDFUcnFLSmFjUUE5aTZrSUoyd2li?=
- =?utf-8?B?U2N2UGMwVWE0TFphd0Eyb3JQQ0pyUHArcURQcERibG5BNkZERkxjbnFHTFha?=
- =?utf-8?B?VzF2WFpjalVqZkRpeGt2RWttUDBnRUlkTjJNMGdGM2hBczZWTit6dk1jY1Iw?=
- =?utf-8?B?eERlR1JWUHU1V2wxVkU0MGZhYlFqa3E2MkpTSGNZbnJkbGtmVkQ2MmFaa0xu?=
- =?utf-8?B?NkVlMGk5dGo1cjFNMzljcmlKNHF2RlQrdEFOWUxEYnpodkFBNDJqcFV1cCt3?=
- =?utf-8?B?a0YvOTZ0ekJzZUNKLzR1WkNBV1J3dnRDU0ZBcXhOZW95OG5hdXJlaDJ6ZHI0?=
- =?utf-8?B?Y2lwUVFaMEJYR0Fib01RWU8zcVhCY0lDM1JUMGhVWmJ3NnBrRzlpaHNmaTNi?=
- =?utf-8?B?N3dQeWxKOWF5azZNZjFRZ0pGNllDUXl5ai9rbWVkaGFpVjZmazVWQkZYWDhw?=
- =?utf-8?B?WFg1akJEYlVVTG9XT1hYY3RrZ0hGVE9YdGJrSTlGdTJPN1JIMFQvbnZlM2pF?=
- =?utf-8?B?ejVxeGE0MndmT1ZnODJNZllFS1ErUldaZk1qOG9XUHp0bVlIVDNGYTUwTk1K?=
- =?utf-8?B?Tk1ObS9kZ242SUp3K3RTNFJBemowbHV2TmE4Tm90OW80a2FJUXRkejl4UG1z?=
- =?utf-8?B?cWlWTEdTb2VOUUU0MCtQeExtRVBkdDh5amYxem9NM3UwVjR3ZWZvbVE5TURY?=
- =?utf-8?B?SE9GNGZlQk5OcXBRNitwamRzRU1HTjZ3ZDU2WloyRnYwZE9lVTNTQlVQdGg2?=
- =?utf-8?B?a25aQ21PWTMycGl2QkU4NlFzNEtQdTJSL3BmRUtzbkYzd3dIWERIOWpJS0F6?=
- =?utf-8?B?MFhOYUR2ZDJHQksyOEM3cG92MC9mU1E0cmROV0IxbjZMTkE2RTJwTmdkajhZ?=
- =?utf-8?B?QmNnbEh1bytvS1ZsaWVTTTh1a0ZBN2h0eGRqbm9vTFc3SUtucDViL0ZtWmJ4?=
- =?utf-8?B?RG8yeTI0Ty9YbzIvb1M1VkpQK0h3TWtuZjVmMFRWeFFuaDFZMTdYNWxtVXNj?=
- =?utf-8?B?M2NlazVNYU4wQjNnMmhFYzN2dU1sL3l0dXFORDF0TUgwTTd6MlJnZVpoWWo4?=
- =?utf-8?B?RGdYVlB4M3dyYzY2NnN5cGcwMlZOeUFaQWFFb3dQTzM5R3I0OWU3Z3RoL1VC?=
- =?utf-8?B?a3JNWWpjVmpwSlpNcDlVMlRGTnc3azlXZUU5OGlkZmdmNkFXYk5EbFVMWW5s?=
- =?utf-8?B?ZmkydngyM2Y5ZVQ3TEZXWDN2RXhHU1NMcTVYKzhVUnZpenRFd1BtNWNEdUFS?=
- =?utf-8?B?L0p0QXZlM3ZKVlpSVFdWL0E1NVYwVWk0SGVjN1RFVDV3T0EvbUswYUtOenho?=
- =?utf-8?B?OEJOSC9jVE8xTHl3R3YwNjc0cjhISEFkc29SVHVweDBTMkxLVERYWUFOWFlU?=
- =?utf-8?B?OGZRWlVxVkFlU291TjdheVRIYmhsMFJCTGJrYmtqOExxRUwrQy9CaVZNVWpj?=
- =?utf-8?B?clJFc3VpamlVN1FrWHozR0NWOHhSay9BOEVHZHZ4ditZb0p4RkRUcXUvWC9K?=
- =?utf-8?B?WitpWDBBcVd5dVB6L1p5WUNTQVY0ODNlTXgzQ3Axd3hGcENBRE5IdjlWd2Ja?=
- =?utf-8?B?c1VRMWtURmJVZFBYNHZURFU1Q0w1RGpNU1diRlkrNlFHWm5SUjVncnpDVjBW?=
- =?utf-8?B?Y3J1a3RneldjNytwckZTYlo0QzZQNFVNQWRXN29FR2hDWm1XcUV5SS9sZnhL?=
- =?utf-8?B?T2svZjlTMUVpVzV4eVpWVmdvSWlvYXM2clBrTzQ5dDV4MXd2Y0tmcFNXLzdP?=
- =?utf-8?B?VktwRW9wL05tM2htclhyV3M3VjZ1SkxjVTFGMkxHWm9FZW1BSHc4eG5ZekNp?=
- =?utf-8?B?dS9PdjZFaDdHY3dqWDZic3FIYmRnWjgrS1NDYW1CbVh3MlNGNnR4NFZkSFVn?=
- =?utf-8?B?eTA2SjRoN2VDeVpDV3RKeGhlRmxxZnRoNC9ob0d6aVZETCtBRHJ3Z3F2MFJv?=
- =?utf-8?B?Zi9ZSWxQTG8xK3hNckRNYkhwVXA1eGRnTWd5V2FWTGw0ZUl0aTc0S0pqcGhk?=
- =?utf-8?B?RGovMW1pM3NhbDN4Um94T3c4bGFCN2c3L0czMlJGSmVKNCttaWJod05ydlJs?=
- =?utf-8?B?aGRxZGNERG9Hc3NPTWZhVWY5bkNGYk9NOUhkajdzUit6Z21qM1V2b08vWGFu?=
- =?utf-8?B?MGU4YzBORWRnRXhWK053OE9VSWg0ZE1MaWplME5STEhHM3ZiczRoQT09?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 570583c8-b813-4ac6-dcab-08de41c13e7c
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8254.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2025 01:18:57.0378
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: k7fbNHW2z/Yx90IAT7blvkq8DlgsVB848Afq1ca0yOhS0VIJtRFAf40SFr6xAjW3wXEKBtuxZD3PkpELUGNjrw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB11523
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] arm64: dts: qcom: talos-evk-camera: Add DT overlay
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        Loic Poulain <loic.poulain@oss.qualcomm.com>,
+        Robert Foss
+ <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+References: <20251222-sm6150_evk-v1-0-4d260a31c00d@oss.qualcomm.com>
+ <20251222-sm6150_evk-v1-3-4d260a31c00d@oss.qualcomm.com>
+ <cfb8f192-b327-4bb9-993e-a28184571712@linaro.org>
+ <703a502c-883d-434a-8bcf-f785080f5102@oss.qualcomm.com>
+ <091b863b-fa0a-4d3c-8461-60cdc4970992@linaro.org>
+Content-Language: en-US
+From: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+In-Reply-To: <091b863b-fa0a-4d3c-8461-60cdc4970992@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: 6HBJLdzZD2wbEgRtsGtiJbLs0aWV8b7a
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIzMDAxNyBTYWx0ZWRfX5zSQbHXXVNJN
+ xyXs8D6StrJZt7mcKWkK8zFVETNuTiA88ugdDsi4e6PCQuTXjmNJLQW22BXPPay/qoAQXh+ll1w
+ DoHn6YSCvJOJeLrDvKLKTYHpypfT4Vnd90Pf8aEKqSVK446Tp4i89QWVpsx8RNhHxSyrFgtDiJh
+ qdf2cC17hlV1FIh3Z/Z6jGSD+t6RxbHukQ1johmCIZh2kEo0sbOajL5O9OJHI6lhRb+BPJGBibD
+ aNOL3yPPcPpCj5dLyGb+gBsOBXdLJ2cb2gsSwwyaOsqLcH0HLLd455kT4OHFaPriQ9cpIQqj1JT
+ YEwxqM8o9tLP36e4f336GU7uzxVcThmEU+KEQtYtY2RKA35jDmV7j/dQFamY6TzyR5jT1bfin47
+ GRF00+Gh0PPBITH6+NYgu7CY4rf2jFIXqnHqrOoDy2kiMYiIqatQfTt32v4W/RUltWQdy7daSgc
+ luK+mUx/vfTP9x7UsPg==
+X-Proofpoint-GUID: 6HBJLdzZD2wbEgRtsGtiJbLs0aWV8b7a
+X-Authority-Analysis: v=2.4 cv=NZDrFmD4 c=1 sm=1 tr=0 ts=6949fb82 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=kW7qbXk8jYSkC2qDlpcA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-22_04,2025-12-22_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 spamscore=0 clxscore=1015 impostorscore=0 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 adultscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512230017
 
-Hi Nicolas,
 
-On 12/23/2025 6:35 AM, Nicolas Dufresne wrote:
-> Hi,
+
+On 12/22/2025 11:45 PM, Vladimir Zapolskiy wrote:
+> On 12/22/25 13:41, Wenmeng Liu wrote:
+>>
+>>
+>> On 12/22/2025 7:19 PM, Vladimir Zapolskiy wrote:
+>>> On 12/22/25 10:44, Wenmeng Liu wrote:
+>>>> Enable IMX577 via CCI on Taloss EVK Core Kit.
+>>>>
+>>>> The Talos EVK board does not include a camera sensor
+>>>> by default, this overlay reflects the possibility of
+>>>> attaching an optional camera sensor.
+>>>> For this reason, the camera sensor configuration is
+>>>> placed in talos-evk-camera.dtso, rather than
+>>>> modifying the base talos-evk.dts.
+>>>>
+>>>> Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+>>>> ---
+>>>>    arch/arm64/boot/dts/qcom/Makefile              |  2 +
+>>>>    arch/arm64/boot/dts/qcom/talos-evk-camera.dtso | 64 ++++++++++++++++
+>>>> ++++++++++
+>>>>    arch/arm64/boot/dts/qcom/talos.dtsi            | 21 +++++++++
+>>>
+>>> Please split QCS615 MCLK definitions change into a separate commit.
+>> ACK.>
+>>>>    3 files changed, 87 insertions(+)
+>>>>
+>>>> diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/
+>>>> qcom/Makefile
+>>>> index
+>>>> 60121f133078b2754f98e6f45a3db4031b478cc8..b1d85b1f4a94714f2a5c976d162482d70ae920f2 100644
+>>>> --- a/arch/arm64/boot/dts/qcom/Makefile
+>>>> +++ b/arch/arm64/boot/dts/qcom/Makefile
+>>>> @@ -325,7 +325,9 @@ dtb-$(CONFIG_ARCH_QCOM)    += sm8650-qrd.dtb
+>>>>    dtb-$(CONFIG_ARCH_QCOM)    += sm8750-mtp.dtb
+>>>>    dtb-$(CONFIG_ARCH_QCOM)    += sm8750-qrd.dtb
+>>>>    dtb-$(CONFIG_ARCH_QCOM)    += talos-evk.dtb
+>>>> +talos-evk-camera-dtbs        := talos-evk.dtb talos-evk-camera.dtbo
+>>>>    talos-evk-lvds-auo,g133han01-dtbs    := talos-evk.dtb talos-evk-
+>>>> lvds-auo,g133han01.dtbo
+>>>> +dtb-$(CONFIG_ARCH_QCOM)    += talos-evk-camera.dtb
+>>>>    dtb-$(CONFIG_ARCH_QCOM)    += talos-evk-lvds-auo,g133han01.dtb
+>>>>    x1e001de-devkit-el2-dtbs    := x1e001de-devkit.dtb x1-el2.dtbo
+>>>>    dtb-$(CONFIG_ARCH_QCOM)    += x1e001de-devkit.dtb x1e001de-devkit-
+>>>> el2.dtb
+>>>> diff --git a/arch/arm64/boot/dts/qcom/talos-evk-camera.dtso b/arch/
+>>>> arm64/boot/dts/qcom/talos-evk-camera.dtso
+>>>> new file mode 100644
+>>>> index
+>>>> 0000000000000000000000000000000000000000..ae1a02295b4dc48212aad40980a329ff458fe69a
+>>>> --- /dev/null
+>>>> +++ b/arch/arm64/boot/dts/qcom/talos-evk-camera.dtso
+>>>> @@ -0,0 +1,64 @@
+>>>> +// SPDX-License-Identifier: BSD-3-Clause
+>>>> +/*
+>>>> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+>>>
+>>> Please add a missing year of the change.
+>> Now our requirement is a yearless copyright.>
 > 
-> Le lundi 22 décembre 2025 à 16:49 +0800, ming.qian@oss.nxp.com a écrit :
->> From: Ming Qian <ming.qian@oss.nxp.com>
->>
->> Replace vmalloc/vfree with kmalloc/kfree for allocating small
->> driver structures (vpu_inst, vdec_t, venc_t, vpu_cmd_t, and
->> frame objects).
->>
->> vmalloc() is designed for large memory allocations and incurs
->> unnecessary overhead for small objects due to virtual memory
->> mapping. kmalloc() is more appropriate as it allocates physically
->> contiguous memory with lower overhead.
->>
->> ftrace measurements of vpu_alloc_cmd() show significant improvement:
->>
->>    Before (vmalloc):  35-72 us   (avg ~45.7 us)
->>    After (kmalloc):   11-26 us   (avg ~16.8 us)
->>
->> This reduces allocation time by approximately 63%.
->>
->> No functional changes are intended.
->>
->> Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
+> Ack. It's a lawyers' domain anyway.
 > 
-> I don't see this patch on patchwork yet, I don't know why. Did you get a
-> notification or anything ? The patch looks good to me.
+>>>> + */
+>>>> +
+>>>> +/dts-v1/;
+>>>> +/plugin/;
+>>>> +
+>>>> +#include <dt-bindings/clock/qcom,qcs615-camcc.h>
+>>>> +#include <dt-bindings/gpio/gpio.h>
+>>>> +
+>>>> +&camss {
+>>>> +    vdd-csiphy-1p2-supply = <&vreg_l11a>;
+>>>> +    vdd-csiphy-1p8-supply = <&vreg_l12a>;
+>>>> +
+>>>> +    status = "okay";
+>>>> +
+>>>> +    ports {
+>>>> +        #address-cells = <1>;
+>>>> +        #size-cells = <0>;
+>>>> +
+>>>> +        port@1 {
+>>>> +            reg = <1>;
+>>>> +
+>>>> +            csiphy1_ep: endpoint {
+>>>> +                clock-lanes = <7>;
+>>>
+>>> Please remove 'clock-lanes' property.
+>> ACK.>
+>>>> +                data-lanes = <0 1 2 3>;
+>>>> +                remote-endpoint = <&imx577_ep1>;
+>>>> +            };
+>>>> +        };
+>>>> +    };
+>>>> +};
+>>>> +
+>>>> +&cci {
+>>>> +    status = "okay";
+>>>> +};
+>>>> +
+>>>> +&cci_i2c1 {
+>>>> +    #address-cells = <1>;
+>>>> +    #size-cells = <0>;
+>>>> +
+>>>> +    camera@1a {
+>>>> +        compatible = "sony,imx577";
+>>>> +        reg = <0x1a>;
+>>>> +
+>>>> +        reset-gpios = <&tlmm 29 GPIO_ACTIVE_LOW>;
+>>>> +        pinctrl-0 = <&cam2_default>;
+>>>> +        pinctrl-names = "default";
+>>>> +
+>>>> +        clocks = <&camcc CAM_CC_MCLK2_CLK>;
+>>>> +        assigned-clocks = <&camcc CAM_CC_MCLK2_CLK>;
+>>>> +        assigned-clock-rates = <24000000>;
+>>>> +
+>>>> +        avdd-supply = <&vreg_s4a>;
+>>>
+>>> Just one voltage supply?
+>> yes, 22pin camera module only have one pin for power.>
 > 
-> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> It's common that mezzanine boards are supplied with power from S4A or VBAT,
+> I've never seen a camera module supplied with just one voltage regulator,
+> that's why it attracts attention.
+> 
+> What is a camera module here, is it on an attachable vision mezzanine like
+> on RBx series or a part of Talos EVK PCB like on QRD series?
+> 
+> If it is a mezzanine, the support of mezzanine boards should be done as
+> a DT overlay.
 > 
 
-I did not receive any system notification or reply.
-It's currently in patchwork, and I'm not sure why there's been such a 
-long delay.
+It`s like RBx series, does not include a camera sensor
+by default.
 
-Thanks for your review.
-
-Regards,
-Ming
-
->> ---
->>   drivers/media/platform/amphion/vdec.c     | 16 +++++++---------
->>   drivers/media/platform/amphion/venc.c     | 20 +++++++++-----------
->>   drivers/media/platform/amphion/vpu_cmds.c | 15 +++++++--------
->>   drivers/media/platform/amphion/vpu_core.c | 11 ++++-------
->>   4 files changed, 27 insertions(+), 35 deletions(-)
->>
->> diff --git a/drivers/media/platform/amphion/vdec.c b/drivers/media/platform/amphion/vdec.c
->> index c0d2aabb9e0e..7a1c58cac02d 100644
->> --- a/drivers/media/platform/amphion/vdec.c
->> +++ b/drivers/media/platform/amphion/vdec.c
->> @@ -9,7 +9,6 @@
->>   #include <linux/list.h>
->>   #include <linux/kernel.h>
->>   #include <linux/module.h>
->> -#include <linux/vmalloc.h>
->>   #include <linux/videodev2.h>
->>   #include <media/v4l2-device.h>
->>   #include <media/v4l2-event.h>
->> @@ -17,7 +16,6 @@
->>   #include <media/v4l2-ioctl.h>
->>   #include <media/videobuf2-v4l2.h>
->>   #include <media/videobuf2-dma-contig.h>
->> -#include <media/videobuf2-vmalloc.h>
->>   #include "vpu.h"
->>   #include "vpu_defs.h"
->>   #include "vpu_core.h"
->> @@ -1642,9 +1640,9 @@ static void vdec_cleanup(struct vpu_inst *inst)
->>   		vdec->slots = NULL;
->>   		vdec->slot_count = 0;
->>   	}
->> -	vfree(vdec);
->> +	kfree(vdec);
->>   	inst->priv = NULL;
->> -	vfree(inst);
->> +	kfree(inst);
->>   }
->>   
->>   static void vdec_init_params(struct vdec_t *vdec)
->> @@ -1909,13 +1907,13 @@ static int vdec_open(struct file *file)
->>   	struct vdec_t *vdec;
->>   	int ret;
->>   
->> -	inst = vzalloc(sizeof(*inst));
->> +	inst = kzalloc(sizeof(*inst), GFP_KERNEL);
->>   	if (!inst)
->>   		return -ENOMEM;
->>   
->> -	vdec = vzalloc(sizeof(*vdec));
->> +	vdec = kzalloc(sizeof(*vdec), GFP_KERNEL);
->>   	if (!vdec) {
->> -		vfree(inst);
->> +		kfree(inst);
->>   		return -ENOMEM;
->>   	}
->>   
->> @@ -1923,8 +1921,8 @@ static int vdec_open(struct file *file)
->>   				    sizeof(*vdec->slots),
->>   				    GFP_KERNEL | __GFP_ZERO);
->>   	if (!vdec->slots) {
->> -		vfree(vdec);
->> -		vfree(inst);
->> +		kfree(vdec);
->> +		kfree(inst);
->>   		return -ENOMEM;
->>   	}
->>   	vdec->slot_count = VDEC_SLOT_CNT_DFT;
->> diff --git a/drivers/media/platform/amphion/venc.c b/drivers/media/platform/amphion/venc.c
->> index aced76401b69..9e5cbc2b0d3f 100644
->> --- a/drivers/media/platform/amphion/venc.c
->> +++ b/drivers/media/platform/amphion/venc.c
->> @@ -13,14 +13,12 @@
->>   #include <linux/videodev2.h>
->>   #include <linux/ktime.h>
->>   #include <linux/rational.h>
->> -#include <linux/vmalloc.h>
->>   #include <media/v4l2-device.h>
->>   #include <media/v4l2-event.h>
->>   #include <media/v4l2-mem2mem.h>
->>   #include <media/v4l2-ioctl.h>
->>   #include <media/videobuf2-v4l2.h>
->>   #include <media/videobuf2-dma-contig.h>
->> -#include <media/videobuf2-vmalloc.h>
->>   #include "vpu.h"
->>   #include "vpu_defs.h"
->>   #include "vpu_core.h"
->> @@ -844,7 +842,7 @@ static int venc_get_encoded_frames(struct vpu_inst *inst)
->>   					       v4l2_m2m_dst_buf_remove(inst->fh.m2m_ctx)))
->>   			break;
->>   		list_del_init(&frame->list);
->> -		vfree(frame);
->> +		kfree(frame);
->>   	}
->>   
->>   	return 0;
->> @@ -860,7 +858,7 @@ static int venc_frame_encoded(struct vpu_inst *inst, void *arg)
->>   	if (!info)
->>   		return -EINVAL;
->>   	venc = inst->priv;
->> -	frame = vzalloc(sizeof(*frame));
->> +	frame = kzalloc(sizeof(*frame), GFP_KERNEL);
->>   	if (!frame)
->>   		return -ENOMEM;
->>   
->> @@ -912,9 +910,9 @@ static void venc_cleanup(struct vpu_inst *inst)
->>   		return;
->>   
->>   	venc = inst->priv;
->> -	vfree(venc);
->> +	kfree(venc);
->>   	inst->priv = NULL;
->> -	vfree(inst);
->> +	kfree(inst);
->>   }
->>   
->>   static int venc_start_session(struct vpu_inst *inst, u32 type)
->> @@ -1067,7 +1065,7 @@ static void venc_cleanup_frames(struct venc_t *venc)
->>   
->>   	list_for_each_entry_safe(frame, tmp, &venc->frames, list) {
->>   		list_del_init(&frame->list);
->> -		vfree(frame);
->> +		kfree(frame);
->>   	}
->>   }
->>   
->> @@ -1151,7 +1149,7 @@ static int venc_process_capture(struct vpu_inst *inst, struct vb2_buffer *vb)
->>   		return ret;
->>   
->>   	list_del_init(&frame->list);
->> -	vfree(frame);
->> +	kfree(frame);
->>   	return 0;
->>   }
->>   
->> @@ -1309,13 +1307,13 @@ static int venc_open(struct file *file)
->>   	struct venc_t *venc;
->>   	int ret;
->>   
->> -	inst = vzalloc(sizeof(*inst));
->> +	inst = kzalloc(sizeof(*inst), GFP_KERNEL);
->>   	if (!inst)
->>   		return -ENOMEM;
->>   
->> -	venc = vzalloc(sizeof(*venc));
->> +	venc = kzalloc(sizeof(*venc), GFP_KERNEL);
->>   	if (!venc) {
->> -		vfree(inst);
->> +		kfree(inst);
->>   		return -ENOMEM;
->>   	}
->>   
->> diff --git a/drivers/media/platform/amphion/vpu_cmds.c b/drivers/media/platform/amphion/vpu_cmds.c
->> index 5695f5c1cb3e..ab69412e0aa7 100644
->> --- a/drivers/media/platform/amphion/vpu_cmds.c
->> +++ b/drivers/media/platform/amphion/vpu_cmds.c
->> @@ -13,7 +13,6 @@
->>   #include <linux/slab.h>
->>   #include <linux/types.h>
->>   #include <linux/delay.h>
->> -#include <linux/vmalloc.h>
->>   #include "vpu.h"
->>   #include "vpu_defs.h"
->>   #include "vpu_cmds.h"
->> @@ -84,13 +83,13 @@ static struct vpu_cmd_t *vpu_alloc_cmd(struct vpu_inst *inst, u32 id, void *data
->>   	int i;
->>   	int ret;
->>   
->> -	cmd = vzalloc(sizeof(*cmd));
->> +	cmd = kzalloc(sizeof(*cmd), GFP_KERNEL);
->>   	if (!cmd)
->>   		return NULL;
->>   
->> -	cmd->pkt = vzalloc(sizeof(*cmd->pkt));
->> +	cmd->pkt = kzalloc(sizeof(*cmd->pkt), GFP_KERNEL);
->>   	if (!cmd->pkt) {
->> -		vfree(cmd);
->> +		kfree(cmd);
->>   		return NULL;
->>   	}
->>   
->> @@ -98,8 +97,8 @@ static struct vpu_cmd_t *vpu_alloc_cmd(struct vpu_inst *inst, u32 id, void *data
->>   	ret = vpu_iface_pack_cmd(inst->core, cmd->pkt, inst->id, id, data);
->>   	if (ret) {
->>   		dev_err(inst->dev, "iface pack cmd %s fail\n", vpu_id_name(id));
->> -		vfree(cmd->pkt);
->> -		vfree(cmd);
->> +		kfree(cmd->pkt);
->> +		kfree(cmd);
->>   		return NULL;
->>   	}
->>   	for (i = 0; i < ARRAY_SIZE(vpu_cmd_requests); i++) {
->> @@ -118,8 +117,8 @@ static void vpu_free_cmd(struct vpu_cmd_t *cmd)
->>   		return;
->>   	if (cmd->last_response_cmd)
->>   		atomic_long_set(cmd->last_response_cmd, cmd->key);
->> -	vfree(cmd->pkt);
->> -	vfree(cmd);
->> +	kfree(cmd->pkt);
->> +	kfree(cmd);
->>   }
->>   
->>   static int vpu_session_process_cmd(struct vpu_inst *inst, struct vpu_cmd_t *cmd)
->> diff --git a/drivers/media/platform/amphion/vpu_core.c b/drivers/media/platform/amphion/vpu_core.c
->> index 168f0514851e..85cc4a14f8ed 100644
->> --- a/drivers/media/platform/amphion/vpu_core.c
->> +++ b/drivers/media/platform/amphion/vpu_core.c
->> @@ -17,7 +17,6 @@
->>   #include <linux/pm_runtime.h>
->>   #include <linux/pm_domain.h>
->>   #include <linux/firmware.h>
->> -#include <linux/vmalloc.h>
->>   #include "vpu.h"
->>   #include "vpu_defs.h"
->>   #include "vpu_core.h"
->> @@ -265,7 +264,7 @@ static int vpu_core_register(struct device *dev, struct vpu_core *core)
->>   	INIT_WORK(&core->msg_work, vpu_msg_run_work);
->>   	INIT_DELAYED_WORK(&core->msg_delayed_work, vpu_msg_delayed_work);
->>   	buffer_size = roundup_pow_of_two(VPU_MSG_BUFFER_SIZE);
->> -	core->msg_buffer = vzalloc(buffer_size);
->> +	core->msg_buffer = kzalloc(buffer_size, GFP_KERNEL);
->>   	if (!core->msg_buffer) {
->>   		dev_err(core->dev, "failed allocate buffer for fifo\n");
->>   		ret = -ENOMEM;
->> @@ -282,10 +281,8 @@ static int vpu_core_register(struct device *dev, struct vpu_core *core)
->>   
->>   	return 0;
->>   error:
->> -	if (core->msg_buffer) {
->> -		vfree(core->msg_buffer);
->> -		core->msg_buffer = NULL;
->> -	}
->> +	kfree(core->msg_buffer);
->> +	core->msg_buffer = NULL;
->>   	if (core->workqueue) {
->>   		destroy_workqueue(core->workqueue);
->>   		core->workqueue = NULL;
->> @@ -308,7 +305,7 @@ static int vpu_core_unregister(struct device *dev, struct vpu_core *core)
->>   
->>   	vpu_core_put_vpu(core);
->>   	core->vpu = NULL;
->> -	vfree(core->msg_buffer);
->> +	kfree(core->msg_buffer);
->>   	core->msg_buffer = NULL;
->>   
->>   	if (core->workqueue) {
->>
->> base-commit: b70886ff5833cf499e77af77d2324ce8f68b60ce
+Thanks,
+Wenmeng
 
