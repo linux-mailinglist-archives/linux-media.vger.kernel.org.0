@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-49385-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49386-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 277ABCD8322
-	for <lists+linux-media@lfdr.de>; Tue, 23 Dec 2025 06:39:01 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7178ACD831C
+	for <lists+linux-media@lfdr.de>; Tue, 23 Dec 2025 06:38:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id BA56E300FDAB
-	for <lists+linux-media@lfdr.de>; Tue, 23 Dec 2025 05:38:54 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id DFB1B30022CF
+	for <lists+linux-media@lfdr.de>; Tue, 23 Dec 2025 05:38:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4116D2E228D;
-	Tue, 23 Dec 2025 05:38:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D5D22F5319;
+	Tue, 23 Dec 2025 05:38:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LFsyIw9b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XVjzNsIx"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 851262F5491
-	for <linux-media@vger.kernel.org>; Tue, 23 Dec 2025 05:38:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DDDF2F5479
+	for <linux-media@vger.kernel.org>; Tue, 23 Dec 2025 05:38:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766468332; cv=none; b=uiyH3Amzb320MpW6SXUSQbTpgGq6I4u0Ukkq2q6gjamOGRdfJtmUf9ruV2odu8CBNzEegNyMHQs74DIOSqpxTway8oB4CwHjhmq9+h6okdqfwEoKtGygGz1VYaa9ZXNEOsKLpOsVWTbLdLKb41bjxocu62laoRRglQh12yVZgMU=
+	t=1766468333; cv=none; b=QXBIVzVM/c0Z5ACE+zlJL69rQwqPsJfxv751QXxTDFAuc1Tz+VIXGzD/2wuzqvxhZimPBuUoVGlGCpJh3u3e71tBOcTAxrbLm9OvCea0g3NjML7cNaJAEn5yHG8UndPd3HGDeZCXSIbVai967ptSGAila5TUjwOGsIHPmPBc4PA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766468332; c=relaxed/simple;
-	bh=2MZhpG67wwodmVlCxjb79Hixgepv7csutEKFGKRczq8=;
+	s=arc-20240116; t=1766468333; c=relaxed/simple;
+	bh=JRyZ7RH0Eb5ZxySYuXCSrO56rJzj8yNY/JxvjHZ6UZ4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=AIPAPo0BnX/PdMO0Wf3iiRNgHRh2SmnZWeKIXeZsQsQkOS+0JL0LydkdXyZC06p8MxR8MQ0wu7Q+KmxGG6SkYLKrz/Pkss2e623KENAIjDfSZFVUfNi9IR79EftkmXZqmi1ghdWjQ79tHjwzxNZKsm+bQSxFSMUCG69IKg6VuO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LFsyIw9b; arc=none smtp.client-ip=198.175.65.21
+	 MIME-Version; b=fWxIH5mTFQXRvb/mv+DBhtQUIMvH/W4p3n3KywBfBgMzq+yjOpzhIYfFiQNVdv1RLdkt0CjDRKZffjtfHDeuRC39qGjUtckFOxdcErW1v/NxfnaE7jw4QyjIr1gaNYbTuQ608z1iRb/pFejpm96hFkI35FlOwgJwM8WIbnNmHS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XVjzNsIx; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766468330; x=1798004330;
+  t=1766468331; x=1798004331;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=2MZhpG67wwodmVlCxjb79Hixgepv7csutEKFGKRczq8=;
-  b=LFsyIw9bju9lQQ9xxLT6brG4dicKcc1IqRShlgLQRE5bawK8KX+7KLhZ
-   tSWK5aAM4tQaiovT7hFuCgO68PyYoPxc6CnK2rE7Pc5upJEN4G28hkVnZ
-   2tGR1pHOTAvnI03vawpBueE+HLsnUnDYDGDLpjBAubFprmXgWSzavKUR7
-   5kTeOG7IP1alpk5gwGBq+RMcSMlOfI49JeOlaXoviFR08ghBFDBgM+af/
-   ADZImB+QolmSF1Ydk6VUFgm5WFaqiV93i18/pZwarDw5Ap8ztyttwYGXT
-   bRmcHrJCuzmTrIjFWIV5cfg60ru9d0TlfJXpfm9vnWTbC8aduFZ5vixcR
+  bh=JRyZ7RH0Eb5ZxySYuXCSrO56rJzj8yNY/JxvjHZ6UZ4=;
+  b=XVjzNsIx7sWTVeo1AwXnuLSop1DPqzeaFcwNjTLHXcTmbvrj0H9AENfe
+   iNxLvvSTElTmp9ZFNvCT2xBGvo/Us7NtaGZBqLLuYAeI1c1ft1wUnMS2Y
+   x9UQ7F2o0YuizhRzGlfE2XSAJINqPLj75bwQ6OuKrpDu2j4wMwddLUXm1
+   GeTUPvkh2vQ4a8DtJl5QHeneDLhKWb758DJd4AcsPL1g9WBzf2uxFiTts
+   ObklXnRFC2qjU7JkZgU9sjZCj1K1aPFZUHdbhjizkt5FvV4G8Oye0SeGR
+   F/pA8Dv87eBqzimimlSK69lYH1ga+pMQ/2vCqkz8ZIfdBe6mVPbSbtfdH
    g==;
-X-CSE-ConnectionGUID: mWZx5XcSQpucFjGCJuKfSg==
-X-CSE-MsgGUID: GuboPaobSgiffj0aieykxw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="68255979"
+X-CSE-ConnectionGUID: JpTkNjFFQV6l57bYIFVy9Q==
+X-CSE-MsgGUID: hGMqHbT/RhG8sqJD8eYJdQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="68255981"
 X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
-   d="scan'208";a="68255979"
+   d="scan'208";a="68255981"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 21:38:49 -0800
-X-CSE-ConnectionGUID: /qqaFcOxSkeCza2MMc2oGw==
-X-CSE-MsgGUID: /eUdrkOQSQGCXWeQQi3ZUg==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 21:38:51 -0800
+X-CSE-ConnectionGUID: anVKq5C1T1SmEH3EASkdfQ==
+X-CSE-MsgGUID: QVjVkC7zTFGTp7aVHA3sKA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; 
-   d="scan'208";a="199366565"
+   d="scan'208";a="199366571"
 Received: from vtg-chrome.bj.intel.com ([172.16.116.150])
-  by fmviesa007.fm.intel.com with ESMTP; 22 Dec 2025 21:38:47 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 22 Dec 2025 21:38:48 -0800
 From: bingbu.cao@intel.com
 To: linux-media@vger.kernel.org,
 	sakari.ailus@linux.intel.com
@@ -63,9 +63,9 @@ Cc: bingbu.cao@intel.com,
 	bingbu.cao@linux.intel.com,
 	antti.laakso@linux.intel.com,
 	mehdi.djait@linux.intel.com
-Subject: [PATCH v3 1/6] media: ipu6: fix typo and wrong constant in ipu6-mmu.c
-Date: Tue, 23 Dec 2025 13:38:39 +0800
-Message-Id: <20251223053844.3124621-2-bingbu.cao@intel.com>
+Subject: [PATCH v3 2/6] media: ipu6: fix RPM reference leak in probe error paths
+Date: Tue, 23 Dec 2025 13:38:40 +0800
+Message-Id: <20251223053844.3124621-3-bingbu.cao@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251223053844.3124621-1-bingbu.cao@intel.com>
 References: <20251223053844.3124621-1-bingbu.cao@intel.com>
@@ -79,43 +79,64 @@ Content-Transfer-Encoding: 8bit
 
 From: Bingbu Cao <bingbu.cao@intel.com>
 
-Fix two coding errors in ipu6-mmu.c:
+Several error paths in ipu6_pci_probe() were jumping directly to
+out_ipu6_bus_del_devices without releasing the runtime PM reference.
+Add pm_runtime_put_sync() before cleaning up other resources.
 
-1. Fix syntax error in page_table_dump() where the closing parenthesis
-   and semicolon were swapped in the TBL_PHYS_ADDR macro call.
-
-2. Fix incorrect loop bound in alloc_l2_pt(). When initializing L2 page
-   table entries, the loop was incorrectly using ISP_L1PT_PTES instead
-   of ISP_L2PT_PTES.
-
-Fixes: 9163d83573e4 ("media: intel/ipu6: add IPU6 DMA mapping API and MMU table")
+Cc: Stable@vger.kernel.org
+Fixes: 25fedc021985 ("media: intel/ipu6: add Intel IPU6 PCI device driver")
 Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
 ---
- drivers/media/pci/intel/ipu6/ipu6-mmu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/pci/intel/ipu6/ipu6.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-mmu.c b/drivers/media/pci/intel/ipu6/ipu6-mmu.c
-index 6d1c0b90169d..85cc6d5b4dd1 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-mmu.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-mmu.c
-@@ -102,7 +102,7 @@ static void page_table_dump(struct ipu6_mmu_info *mmu_info)
- 		if (mmu_info->l1_pt[l1_idx] == mmu_info->dummy_l2_pteval)
- 			continue;
+diff --git a/drivers/media/pci/intel/ipu6/ipu6.c b/drivers/media/pci/intel/ipu6/ipu6.c
+index 1f4f20b9c94d..a2768f44017a 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6.c
++++ b/drivers/media/pci/intel/ipu6/ipu6.c
+@@ -630,21 +630,21 @@ static int ipu6_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	if (ret) {
+ 		dev_err_probe(&isp->pdev->dev, ret,
+ 			      "Failed to set MMU hardware\n");
+-		goto out_ipu6_bus_del_devices;
++		goto out_ipu6_rpm_put;
+ 	}
  
--		l2_phys = TBL_PHYS_ADDR(mmu_info->l1_pt[l1_idx];)
-+		l2_phys = TBL_PHYS_ADDR(mmu_info->l1_pt[l1_idx]);
- 		dev_dbg(mmu_info->dev,
- 			"l1 entry %u; iovas 0x%8.8x-0x%8.8x, at %pap\n",
- 			l1_idx, iova, iova + ISP_PAGE_SIZE, &l2_phys);
-@@ -248,7 +248,7 @@ static u32 *alloc_l2_pt(struct ipu6_mmu_info *mmu_info)
+ 	ret = ipu6_buttress_map_fw_image(isp->psys, isp->cpd_fw,
+ 					 &isp->psys->fw_sgt);
+ 	if (ret) {
+ 		dev_err_probe(&isp->pdev->dev, ret, "failed to map fw image\n");
+-		goto out_ipu6_bus_del_devices;
++		goto out_ipu6_rpm_put;
+ 	}
  
- 	dev_dbg(mmu_info->dev, "alloc_l2: get_zeroed_page() = %p\n", pt);
+ 	ret = ipu6_cpd_create_pkg_dir(isp->psys, isp->cpd_fw->data);
+ 	if (ret) {
+ 		dev_err_probe(&isp->pdev->dev, ret,
+ 			      "failed to create pkg dir\n");
+-		goto out_ipu6_bus_del_devices;
++		goto out_ipu6_rpm_put;
+ 	}
  
--	for (i = 0; i < ISP_L1PT_PTES; i++)
-+	for (i = 0; i < ISP_L2PT_PTES; i++)
- 		pt[i] = mmu_info->dummy_page_pteval;
+ 	ret = devm_request_threaded_irq(dev, pdev->irq, ipu6_buttress_isr,
+@@ -652,7 +652,7 @@ static int ipu6_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 					IRQF_SHARED, IPU6_NAME, isp);
+ 	if (ret) {
+ 		dev_err_probe(dev, ret, "Requesting irq failed\n");
+-		goto out_ipu6_bus_del_devices;
++		goto out_ipu6_rpm_put;
+ 	}
  
- 	return pt;
+ 	ret = ipu6_buttress_authenticate(isp);
+@@ -683,6 +683,8 @@ static int ipu6_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 
+ out_free_irq:
+ 	devm_free_irq(dev, pdev->irq, isp);
++out_ipu6_rpm_put:
++	pm_runtime_put_sync(&isp->psys->auxdev.dev);
+ out_ipu6_bus_del_devices:
+ 	if (isp->psys) {
+ 		ipu6_cpd_free_pkg_dir(isp->psys);
 -- 
 2.34.1
 
