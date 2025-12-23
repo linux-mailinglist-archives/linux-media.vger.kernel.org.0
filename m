@@ -1,163 +1,172 @@
-Return-Path: <linux-media+bounces-49409-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49410-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81BA5CD8B82
-	for <lists+linux-media@lfdr.de>; Tue, 23 Dec 2025 11:06:20 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A058CD8C97
+	for <lists+linux-media@lfdr.de>; Tue, 23 Dec 2025 11:26:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 0F970300AC61
-	for <lists+linux-media@lfdr.de>; Tue, 23 Dec 2025 10:05:44 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 8C895301F031
+	for <lists+linux-media@lfdr.de>; Tue, 23 Dec 2025 10:25:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 260B332D0D0;
-	Tue, 23 Dec 2025 10:03:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9669E361DCE;
+	Tue, 23 Dec 2025 10:25:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="e98wvGZ1"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Ryk9ZoCL";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="bRCKJ600"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EFEA33B6D1
-	for <linux-media@vger.kernel.org>; Tue, 23 Dec 2025 10:03:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA16F361DA6
+	for <linux-media@vger.kernel.org>; Tue, 23 Dec 2025 10:25:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766484188; cv=none; b=VQSSwN4hs3xfSG2CstsriMg6Jken3Yjfmf2VqVoeoAy45LE3Who7NzInUw587DtL+uwkWGtoWlagbjLjBHbKgnqtO41L6pw5sgd8AjCuAGihgcPBLLf2qsxQwRve0iJQDw9Vc+U8ELvH5sLi++cjTrXnrORRp1Z/dlLrg7oMXYs=
+	t=1766485547; cv=none; b=ayOnVKXwqhrajdg97QhOIo+CkrZCK8Z/UUjIITqxEDheD7dIVtXUR7AzTDfiTptZJpHBf1nmMOrJULOgkilEPWBIP6rU5mjmiwknP6amT5EnrMCBNc32SnmB9/p9EBtDfa+RsSkHHQ3MqcwABv6TndmglIONg3Xc8fuj3lNNp68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766484188; c=relaxed/simple;
-	bh=ASfJiTL1q6DVJolR1J49qe+02Q0L4hQQW/yS4XZqnOQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=sdNrUymemnoPXUNZlAGz75NaI2WJ2UcHVo+bAtXY6oX1CASuzVr0/HEZ9IDc4DhUqaNE1TzNwzVrUdOP0eFD+UMR0sjjiKgFmHfRYf0zIm/PFeOT5xPHccozWtKuP9yuitlGB2Vyt5jFYS4/BzlCaqWke6O4B/QbOBqg5YWN9Gg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=e98wvGZ1; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-59581e32163so5712656e87.1
-        for <linux-media@vger.kernel.org>; Tue, 23 Dec 2025 02:03:03 -0800 (PST)
+	s=arc-20240116; t=1766485547; c=relaxed/simple;
+	bh=zvRwX/H11Iw+m/YGjFcVcWQhb1l1UXWRA00BxzUNWsQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FZt+ilUV0vnhzYJTXczTkVDmYUOxsnM9EqYMFk5t89xCyutz4ETdTxra6ud/bM4Ci2Vlg3kXATJmvHezN4h3wg8I5+wzGhlko8BoWiMtsdDbxfKQQnDafJ6QVbf8OVNF/pdvLufxuEqJElfylD7SIdq+hOmrDz9qysmUlnq/HeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Ryk9ZoCL; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=bRCKJ600; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BNAHdb61896911
+	for <linux-media@vger.kernel.org>; Tue, 23 Dec 2025 10:25:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=+OR//hUeZB61QBkWqkl9LRR0ZX0YqPUetfS
+	SzdnPBCc=; b=Ryk9ZoCL9pMOo5JmKb4fOW1rv03aWYfV/H5TdeSxOI8dQAw89pr
+	vOoq/6soG/RJFeUk+zP0aZIbUUR+MpTlUjHQCU7yFzvfyhaAbNyMyoU5kZMi5Tfe
+	+6l5zt6iKT0ICa9hi9/us6eYFhz717uC3GttRHsKgqnqKx2Ulij1QCrhi2xid4sq
+	1TwdahMlfP7Iu6cYzQGhF71j5hKrajxy8W9gTAU+wIJ7A5keQ0yZLR7uc7R894oK
+	cPgHMqYjGDrdepYT9W8+pDNq90MO2+2uKEBqvsPqFW4bMEiuY2Y3N6uwrlYhJnC1
+	pA0xpmnW3MC8YMkzEGabxYr73eWKf6Et8ew==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b74takh0b-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Tue, 23 Dec 2025 10:25:37 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4f4d60d1fbdso46220541cf.3
+        for <linux-media@vger.kernel.org>; Tue, 23 Dec 2025 02:25:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1766484182; x=1767088982; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hNHRxnSnE8voMM72m011bJb2yQG4C90b65WjUVIP41I=;
-        b=e98wvGZ1p6sfdQF9Xzg3pkqhXO1w04DzWfl779Sx8bN9cjs1GJkpicOQkXDH/ANd/A
-         3/aVAeME4L4oXKYB+pGFsY9G3oEWsoblAz6LrRKqU1FGL/KQ71MRTL7pFtReJbmCibdU
-         udftp9+UzwJaUla7CpqAk898ZfxoDvkxe+0tM=
+        d=oss.qualcomm.com; s=google; t=1766485537; x=1767090337; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+OR//hUeZB61QBkWqkl9LRR0ZX0YqPUetfSSzdnPBCc=;
+        b=bRCKJ600uy1xHA6XeHZrOfSIdI0nNgYD87rh0MFS3ZLj9OqTDTIzemOW1GplIaQBJe
+         Ex0KHHH4cdu07NbS3lQxZzAtTwzUQq13p3ETAKOqg8oHWq0mpwQZH67bRzbvaJaHKJ0A
+         HCPNkJiLMmRoG+t9YlbNHQnZX5ys/t8+vB//mkp95RYwjeVi/7whxb+UyECH77pp9dCh
+         PNNuATPkRN7i+kz0UinokwFQ7pP78gSYfG/CnUYy7X4sFpfZJ4QSzlHQtJJ8oIB1sN5Z
+         53XAY0/sNDy52kjkd3LPK58D5yjlVD7CFrJOQ2myW7izNV23vMqsXIWE/ykRmKIXltb7
+         ZT4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766484182; x=1767088982;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=hNHRxnSnE8voMM72m011bJb2yQG4C90b65WjUVIP41I=;
-        b=esvrmNnsdvhmddTqfZ66H880+3wnWRCCWuANcgHLxHcIzFMcLiNTJiLY5ALi8y3CQr
-         /TUdQ1GJXY6iJ2mW3X6eKVmdYHqlDut1nsWlo9b7H8u8Ei8D5cAhk6+wKDOpbMQN/g+x
-         NrmnGARb+onxkzoIKG8LC8KLzsB0chyVBDBdKXT1V9owZ/T53S2mKso1My5sajSxo9aJ
-         Y2fWrTDRLumo+ufnZwSyFnTgM2ZTYWG1BOut0Vof3CxLPnb6o7Jg6crvNmrNYFgjLpEv
-         /OnJPj9paTqjMS+PHv8u7AK+MZdPDh0MILmRXDNprguhrr/80vlUZgRWwry90oXx1nf/
-         o2/A==
-X-Forwarded-Encrypted: i=1; AJvYcCVldXwZzpnJykPPVbS1AlAv2qqUdrHXZBMER2F/d7yzPRVzC0zwvhvkJoqPI5mxtW5Xb3lGMtMMFRLPmQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJfRrGjUxuPKu0FFyHetjDFAAllshrbqAuyhSs+3pArd4AbEvl
-	EcrTO+Hbcw+wN0Mz3zna7z3K6JnWRoPhKn+dN5DCEg8ZrfhJ1E0BTj8JXpyqaat0TQ==
-X-Gm-Gg: AY/fxX43vn2AlB1UIL9sJRcauIwibdnpbcGK/m/cevfUYNkvBRKeN6nZO+PPhSbnQyA
-	1Fm1a3Idpmrue0z1Ei0rOwaHMrMkqAEfxtMQXfVC6eMOH3u9wPWw5DB/p98ssPgrzZFT+cH9xaV
-	BVEAlIYoyLhIcNL4rIu+UbCWkWejvz8EDaPgwfEAHn5SLtbSlJons3QsX29LAKStQhpLuZBpRCf
-	oRg01yTj43cq4Djrx4gXAf944ew8caIE2+pxV14rjhx7IFWhfH3/LM0m0ieR1bHhz3bWXfuMdZk
-	OEVkLJkQP86HzhMTtELbrQ1PTixWgd9Cw4KeOzt8hPgDRqg6H+jw1tbtxCIPYT7ozmxn0Kl8Wn2
-	WVquBV8uQBIdizNIV8Ss33IESqcOutAZqLCe/IygKUK7A8KfjPxKwat+SOcOFXRXyWY3AsJSOQz
-	Jamj6O1/oFmofHBVzbPgYwfAjpXhzh+WqYcLnHeqoD+ghcKZj2nWDVIL/tN7pfXNAzpNEtpg==
-X-Google-Smtp-Source: AGHT+IGNtNheNogZqw0341pm7gPXzJ8uyXpjG5TDNVfW1wZ6fEI74LDfk1NPk65WaE3b21JIBKcnSQ==
-X-Received: by 2002:a05:6512:10d5:b0:594:2dbb:723a with SMTP id 2adb3069b0e04-59a17d5da8bmr5427175e87.39.1766484181553;
-        Tue, 23 Dec 2025 02:03:01 -0800 (PST)
-Received: from ribalda.c.googlers.com (165.173.228.35.bc.googleusercontent.com. [35.228.173.165])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59a185ea248sm3891990e87.43.2025.12.23.02.03.00
+        d=1e100.net; s=20230601; t=1766485537; x=1767090337;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+OR//hUeZB61QBkWqkl9LRR0ZX0YqPUetfSSzdnPBCc=;
+        b=XXyMuBhv5cQodirRL0lzt7hvr7OpTzS/q2yjOXBRodrWyq1s60oDZz2Jja86LTVJfY
+         JtC+Cj/fgcce6K9I4aHuWJ0wNj+gpyUny394F9W8k5L1THlx0PED8iqz5fwfxtlj8JxC
+         b78lGDqqmAyGiSzILfGikyxYJs8E0e1RAL5P7BcJ/lzbuMUVybPKDtCbMCWZpaw3x5CG
+         aC2rBDhRBFAYZ1pN4rGuWHft36fOuI/TUYuHm7sjwy/zp4SSITYTCVsjcwiGzce8HBea
+         tLLpz1JwAKlVO/Atsg4mKPRD2SnnNt3GxtdWlQe0RqM4nulIGmFX1klUXC0LXR4E0iPI
+         yshQ==
+X-Gm-Message-State: AOJu0YypWW1nzNDi/R7Rj4HuqcIyVWnagG+8YQEGnEcwYaFgaCzryxey
+	MADI9AJliNtU5a5zkyhRyAffQtH5vQdlXTa/eMWypOhxQIuof8hf2x+B1lVYCsypfysgvbdOQXa
+	2s2USIE/Oet0tKBYiFvVdZVjJ2nUI4FPeg7xbuvde/anzW/DVL2eshsS9we/es10cYQ==
+X-Gm-Gg: AY/fxX7tzZO1NrK8GN1jBMHn5mfl93I2wE8uJeL4guWBa7ILQgiYEyOVQk/2Ipv9jBf
+	krwqQ+hzV19NLV4APEVf1MBiGBmOT5Gy2Jnjq3JUl5JHpoUVycsTf/6J8bj2tsvoAqvNIxOFrAE
+	ClJZHbi1EQn8QKGe74d7k3HugrEoZi1x6IY9oHvIczwRR5CPpiUgq4slWL7D9XJmgUw+aS9Ak96
+	98/CVh9wtvh9ZduMrCx9vc0d2R3Us+1bUE96PpdYMeEhd4I1AyUtYDkN1FT2DsLCLzc3otLuIyY
+	fDHLswGPTlwIV9AeatefwLdxBMiHsCtvZLNeXfJgRY02iQEYoFFk12gTRPzO7terL+cT0AAv5Gb
+	0RcIfR/3rxBaNsuLg9itjLpH1EtaEdIZcOMz6Rw==
+X-Received: by 2002:a05:622a:258f:b0:4ed:8103:8c46 with SMTP id d75a77b69052e-4f4abd6e488mr217434881cf.48.1766485536797;
+        Tue, 23 Dec 2025 02:25:36 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHl8fPW7TNWQRs7Hu9zO3NdksfR56nD4abYcEDk+i8v4nEY+Zxs/yOOf+hsxqarMZlRi2Jbtw==
+X-Received: by 2002:a05:622a:258f:b0:4ed:8103:8c46 with SMTP id d75a77b69052e-4f4abd6e488mr217434711cf.48.1766485536444;
+        Tue, 23 Dec 2025 02:25:36 -0800 (PST)
+Received: from brgl-qcom.home ([2a01:cb1d:dc:7e00:190a:1976:65e2:c61])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47be3a204e9sm110489935e9.2.2025.12.23.02.25.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Dec 2025 02:03:00 -0800 (PST)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 23 Dec 2025 10:02:58 +0000
-Subject: [PATCH v3 2/2] media: iris: Fix fps calculation
+        Tue, 23 Dec 2025 02:25:35 -0800 (PST)
+From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: [PATCH] media: iris: use devm_mutex_init()
+Date: Tue, 23 Dec 2025 11:25:28 +0100
+Message-ID: <20251223102528.14355-1-bartosz.golaszewski@oss.qualcomm.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251223-warnings-6-19-v3-2-e8f56cb204ec@chromium.org>
-References: <20251223-warnings-6-19-v3-0-e8f56cb204ec@chromium.org>
-In-Reply-To: <20251223-warnings-6-19-v3-0-e8f56cb204ec@chromium.org>
-To: Keke Li <keke.li@amlogic.com>, 
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
- Daniel Scally <dan.scally@ideasonboard.com>, 
- Hans Verkuil <hverkuil+cisco@kernel.org>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Vikash Garodia <vikash.garodia@oss.qualcomm.com>, 
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>, 
- Abhinav Kumar <abhinav.kumar@linux.dev>, Bryan O'Donoghue <bod@kernel.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.14.2
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=DPiCIiNb c=1 sm=1 tr=0 ts=694a6e21 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=wP3pNCr1ah4A:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8
+ a=QaAPo6qSa6uZtGOUjrQA:9 a=dawVfQjAaf238kedN5IG:22
+X-Proofpoint-GUID: SjTa4CB_Z45YDLMryP1JHxMetDtwOwdi
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIzMDA4MyBTYWx0ZWRfX56q9669z2ERy
+ 7EQBu0k0o1XQmur3RJu2+qXo+RH44N2lHSXRHOI0XlFG/7ekm44rnV2AWSvzmh35YEIjX17o+dD
+ lux6/weBjHbIoCW6NnVO3P5/O+lYMDP/SEWkaWDgvF2/lS9Ge2EGph8ud3/HxSdDuI6j9SZ2SRk
+ aqo7BfdDuHdOKOlpfEprAr/TTyF8gBn7Vsjy3DKNHiSPQpAPYvHDxGQxZ22fwUsVlNI0f9nwHkT
+ BCjG8zOvBWJk8TbL+7dp87+N990b7RlNpfMdXAs4EaDddBbtSA/nw6b/VdlJJvXLhVMqL+uirX+
+ ZSypWCG7+HhYJkkh4LQUED2nUiZ3WNLgZCeBDVFMTm08ejO/GX7zbCr4P8Y0PpBedLP4ohPh9GB
+ INvMCi9dev3clnSTrfGdIpOAP0v+Hzg/mrADX7qxEDivRXRiJORIGTEWs56/fJpNN0orOrdngAX
+ SgWDMNs7UAE1jawgXXQ==
+X-Proofpoint-ORIG-GUID: SjTa4CB_Z45YDLMryP1JHxMetDtwOwdi
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-23_03,2025-12-22_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 priorityscore=1501 malwarescore=0 spamscore=0 bulkscore=0
+ impostorscore=0 adultscore=0 lowpriorityscore=0 suspectscore=0 clxscore=1011
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512230083
 
-iris_venc_s_param() uses do_div to divide two 64 bits operators, this is
-wrong. Luckily for us, both of the operators fit in 32 bits, so we can use
-a normal division.
+Drop the call to mutex_destroy() in .remove() by using the managed API
+in .probe().
 
-Now that we are at it, mark the fps smaller than 1 as invalid, the code
-does not seem to handle them properly.
-
-The following cocci warning is fixed with this patch:
-./platform/qcom/iris/iris_venc.c:378:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead
-
-Fixes: 4ff586ff28e3 ("media: iris: Add support for G/S_PARM for encoder video device")
-Reviewed-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 ---
- drivers/media/platform/qcom/iris/iris_venc.c | 15 +++++----------
- 1 file changed, 5 insertions(+), 10 deletions(-)
+ drivers/media/platform/qcom/iris/iris_probe.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/iris/iris_venc.c b/drivers/media/platform/qcom/iris/iris_venc.c
-index 5830eba93c68b27fa9db87bac63a691eaca338d2..0ed5018f9fe3326f5bcc1678e854589c65e8a954 100644
---- a/drivers/media/platform/qcom/iris/iris_venc.c
-+++ b/drivers/media/platform/qcom/iris/iris_venc.c
-@@ -382,8 +382,7 @@ int iris_venc_s_param(struct iris_inst *inst, struct v4l2_streamparm *s_parm)
- 	struct v4l2_fract *timeperframe = NULL;
- 	u32 default_rate = DEFAULT_FPS;
- 	bool is_frame_rate = false;
--	u64 us_per_frame, fps;
--	u32 max_rate;
-+	u32 fps, max_rate;
+diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
+index 9bc9b34c2576..0a4e7595a16e 100644
+--- a/drivers/media/platform/qcom/iris/iris_probe.c
++++ b/drivers/media/platform/qcom/iris/iris_probe.c
+@@ -202,8 +202,6 @@ static void iris_remove(struct platform_device *pdev)
+ 	video_unregister_device(core->vdev_enc);
  
- 	int ret = 0;
- 
-@@ -405,23 +404,19 @@ int iris_venc_s_param(struct iris_inst *inst, struct v4l2_streamparm *s_parm)
- 			timeperframe->denominator = default_rate;
- 	}
- 
--	us_per_frame = timeperframe->numerator * (u64)USEC_PER_SEC;
--	do_div(us_per_frame, timeperframe->denominator);
+ 	v4l2_device_unregister(&core->v4l2_dev);
 -
--	if (!us_per_frame)
-+	fps = timeperframe->denominator / timeperframe->numerator;
-+	if (!fps)
- 		return -EINVAL;
+-	mutex_destroy(&core->lock);
+ }
  
--	fps = (u64)USEC_PER_SEC;
--	do_div(fps, us_per_frame);
- 	if (fps > max_rate) {
- 		ret = -ENOMEM;
- 		goto reset_rate;
- 	}
+ static void iris_sys_error_handler(struct work_struct *work)
+@@ -228,9 +226,12 @@ static int iris_probe(struct platform_device *pdev)
+ 	core->dev = dev;
  
- 	if (is_frame_rate)
--		inst->frame_rate = (u32)fps;
-+		inst->frame_rate = fps;
- 	else
--		inst->operating_rate = (u32)fps;
-+		inst->operating_rate = fps;
+ 	core->state = IRIS_CORE_DEINIT;
+-	mutex_init(&core->lock);
+ 	init_completion(&core->core_init_done);
  
- 	if ((s_parm->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE && vb2_is_streaming(src_q)) ||
- 	    (s_parm->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE && vb2_is_streaming(dst_q))) {
-
++	ret = devm_mutex_init(core->dev, &core->lock);
++	if (ret)
++		return ret;
++
+ 	core->response_packet = devm_kzalloc(core->dev, IFACEQ_CORE_PKT_SIZE, GFP_KERNEL);
+ 	if (!core->response_packet)
+ 		return -ENOMEM;
 -- 
-2.52.0.358.g0dd7633a29-goog
+2.47.3
 
 
