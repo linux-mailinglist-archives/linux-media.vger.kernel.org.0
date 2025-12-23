@@ -1,383 +1,288 @@
-Return-Path: <linux-media+bounces-49393-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49394-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 488CACD83B3
-	for <lists+linux-media@lfdr.de>; Tue, 23 Dec 2025 07:04:50 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F220CD83D5
+	for <lists+linux-media@lfdr.de>; Tue, 23 Dec 2025 07:19:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CB94E3016358
-	for <lists+linux-media@lfdr.de>; Tue, 23 Dec 2025 06:04:24 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 30656301296B
+	for <lists+linux-media@lfdr.de>; Tue, 23 Dec 2025 06:19:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86BCD2FDC52;
-	Tue, 23 Dec 2025 06:04:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B63F42F6935;
+	Tue, 23 Dec 2025 06:19:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OU+JSRl2"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="KB5aPTCB";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="EIprOB4P"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B12A20DD75
-	for <linux-media@vger.kernel.org>; Tue, 23 Dec 2025 06:04:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.17
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766469862; cv=fail; b=MVw21PlnkjbjodsLfynqGkymeWJ5sjClp+i8zBeGBYzAvuT3ki0RblXUM5MRJ25m88cpT9qimTbSjfTdGay88Z8BFqnhR6HoqgkW4JmoqBtBE5LKSGTIQt4Gm9FF6+sHvn/oLG4vI9XrPbX+vKvv05POcfGsGS0Nnai3wQ2TMzM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766469862; c=relaxed/simple;
-	bh=IfwqzzovQvEYkC96ErJrvyMXR3ChMov7CixmUSzjOKI=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=lab/2HMyKShhOl+R4QdI7LM83tgjXRVABcbruL9SdFy9DSM7aHafdlHQYBSYFr1jTmG4nTnhkrs0Qvp2baShjkzbEClSp651HFHAXWVYs0s2038wFmKyxv9uVflztk/PuxWUiFpwi/cSfmIl33D7GI0Q+m9ZYgJ0jp3e1OVOhQQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OU+JSRl2; arc=fail smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766469862; x=1798005862;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=IfwqzzovQvEYkC96ErJrvyMXR3ChMov7CixmUSzjOKI=;
-  b=OU+JSRl2SDYpEtCq3fnpeeGYXE8jJWRFRUaisv/0Om56yL1ppgPLIAIf
-   L32b7MYO7kuNGsItQh1EMnv6cvQ4JW4y7e4gTq3MtooPH6oIy4beappH7
-   76k6JFH7bXzo9lGKOKv++K2PF988yq2Wr0XjMEaPh73qNMTAMEmfxrSLb
-   W+SCDaaanvgKRe4NFpqfF30mgR+/TkMLfpxLZNyhMxErxddBlBSqMJoBA
-   rJXHD21w8lAQXR6BoCs8JvXQw0wIyLkaxBAtAGaIRs5V2FeAJODq2Eg+G
-   P34G5tt1keCmYiVsOONUVuBzn1/+t5V3VGtjuOr9zaeHXzPxtt0Uiq/Ed
-   Q==;
-X-CSE-ConnectionGUID: kn38LWYETiy9qJgspf5hww==
-X-CSE-MsgGUID: v4nSZ2c0RT6B3GgaEAXPVQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="68303903"
-X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; 
-   d="scan'208";a="68303903"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 22:04:21 -0800
-X-CSE-ConnectionGUID: nw3pfQvSSMmS+Vp0MLnDkw==
-X-CSE-MsgGUID: oVmIkFHASgG1zLaiS4wklQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; 
-   d="scan'208";a="204654988"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 22:04:19 -0800
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Mon, 22 Dec 2025 22:04:11 -0800
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Mon, 22 Dec 2025 22:04:11 -0800
-Received: from PH0PR06CU001.outbound.protection.outlook.com (40.107.208.15) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Mon, 22 Dec 2025 22:03:31 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HT/OBST3hSjfRlVW19jbK5ajegczvcrSP7sZEwy4TBPD5SR2BuXhde1+y/nRRlzgdOzENKC6NKCT9+slCWk/nrbqkMIsrWUs6ELep3aEMM525RfUH0le26Ss/rJbS7znOVxJb545NgoSuhtR5ymnAzPlgcqbvThcRSozi/q+RtxP6G7+ZvEU+tRp/zgf0/m0/GkRcO1JWbvYo/c+3fK04WIXQgftE9JvLLNE4R01ucGDakN6dGJ+hWGa1ptw/xXny1en3sEP/Cu2teWYAtoE5puDP43iAkKtg6Jc58TSdS0W1kjQPRWY4nSP6fCb/mHaPXm+Her8aPBHQQiFIsNFGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IfwqzzovQvEYkC96ErJrvyMXR3ChMov7CixmUSzjOKI=;
- b=Xlwrr9o/nrMMt3UrRU1/qCq2+eC6aCLJx3GXLl0UGFrolSgJZjl/hEf+TiC7vvG20noVHoTbmHnaq02MwrEvMTdoX0kmlu7nALMRoX+6CPn1HSyGB4u2/mMr9qaFF0H+bRAldNiMHlP1IgExqNMm4v3C+t+f+g2mY6del+s/itQBTfSNgPQlGyyoN3Q0wobARD340t1PWcKM7X6rQXVANyGKxuufE5s3yIdhREFhxRgG8V/MN/5E2wqrURG2uPpBm0OU661ar6wcG7bJQ7WwWpNQS8jyzGFaiZfGjBcn0Kz/hyxXKRDIcLsu/Cz9zmJgcfZbLEs6llZuQsgTgb9WxA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM8PR11MB5653.namprd11.prod.outlook.com (2603:10b6:8:25::8) by
- SJ0PR11MB7155.namprd11.prod.outlook.com (2603:10b6:a03:48d::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9434.11; Tue, 23 Dec 2025 06:03:29 +0000
-Received: from DM8PR11MB5653.namprd11.prod.outlook.com
- ([fe80::74e3:c0eb:29ee:fffa]) by DM8PR11MB5653.namprd11.prod.outlook.com
- ([fe80::74e3:c0eb:29ee:fffa%5]) with mapi id 15.20.9434.009; Tue, 23 Dec 2025
- 06:03:29 +0000
-From: "Cao, Bingbu" <bingbu.cao@intel.com>
-To: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>
-CC: "bingbu.cao@linux.intel.com" <bingbu.cao@linux.intel.com>
-Subject: Re: [PATCH v3 3/6] media: staging/ipu7: ignore interrupts when device
- is suspended
-Thread-Topic: [PATCH v3 3/6] media: staging/ipu7: ignore interrupts when
- device is suspended
-Thread-Index: AQHcc85vD0YA32RMUU6hrKf2MWPOxLUuu78+
-Date: Tue, 23 Dec 2025 06:03:29 +0000
-Message-ID: <DM8PR11MB5653FDA7233D3B05B3A4C66799B5A@DM8PR11MB5653.namprd11.prod.outlook.com>
-References: <20251223053844.3124621-1-bingbu.cao@intel.com>
- <20251223053844.3124621-4-bingbu.cao@intel.com>
-In-Reply-To: <20251223053844.3124621-4-bingbu.cao@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR11MB5653:EE_|SJ0PR11MB7155:EE_
-x-ms-office365-filtering-correlation-id: 4e8e6d1b-3c48-4eb1-6eb6-08de41e8fe85
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700021|7053199007;
-x-microsoft-antispam-message-info: =?iso-8859-1?Q?vtSEo47XNCe1ntef3/chZoYXJNYyBpnW8GkLkosHmLeEAIousog3iUH9q3?=
- =?iso-8859-1?Q?qWB33ur8lgOYgOczZ6OKzmmi40MfOkjQuPRpF4dmOwY16sdeiJtmbZossj?=
- =?iso-8859-1?Q?RKS9yiLZxohdqIy0KzIlFRXUr47ZYaBoTgy2tsF97BS6h/5U7C9qyjC99g?=
- =?iso-8859-1?Q?GPE5GqmZaMgo893VAk8LtqVbs3xOn+rX15DcSxoGsq9SXpQXsP8bsp/owh?=
- =?iso-8859-1?Q?1QWiLVF+xIuz7oeVF5EpiXad9rBlBsTjkovQNCY4CT3Z4OtVSqVp4O54xg?=
- =?iso-8859-1?Q?9xMq2eJpuT3R/gsKFrIzcJ20d6fvjngQaHl32CothR1JY4hmHzX1vLc7wN?=
- =?iso-8859-1?Q?6EMoA6gM/+3jQ3fDeDR4YBDllu4dNcONJPZNtEQabQTGUChFqhpmbZ3YaW?=
- =?iso-8859-1?Q?nB+v3LoP00B9aluXAaHjyFQgsiXbQqgvu9AKkA7G51SSZZ8DqNBuLYdJg7?=
- =?iso-8859-1?Q?r1llIoyAFl85UmRbRcUFoP8ziu9lpfH+lnyCZ+GltOu57bJQZw2pSdRg7z?=
- =?iso-8859-1?Q?fz6QXc0Vxk8Dsad5pYM1Fd/qW9ae30GOE46uzj67G5BVvBHz6kWpaOpfrz?=
- =?iso-8859-1?Q?RXR+BEPIEiT5ZBFIxBRjLmS1VsCi9MaLGrqOkjemHTsGjxsF9yJ5Kz8Umg?=
- =?iso-8859-1?Q?xSwhGjlpYEIHbW2GsiQ94akgX3v7tdeD4CrA4pwV2D0U4LatpPc4G4araF?=
- =?iso-8859-1?Q?KbiCwOR5jqztghmgnI9R2ci1egJxy3CncOWetGWf6cb54PTa3OGIZsTLYq?=
- =?iso-8859-1?Q?mP9bTYmxWU8OB9jQcJFpMD0Xk/zjXx+9ZIPbqUBlLi5cHnwVnqGBtUsxI8?=
- =?iso-8859-1?Q?+trTPNMQ2ksDvMmQTPHBft78Ohc6JMrRLO9Ec9j6rPO+grnCe/9jaN93Au?=
- =?iso-8859-1?Q?ShgZo9HPMhTGZtXz7UJjJaTkg4ysXbcerVlLU8Ry797VgTD4N51WB2v4Uo?=
- =?iso-8859-1?Q?SJTeIONKciWb0d2uPFUHfKGzKKO+hStWCqv+KykLz41EmnLt6/9uzaLFkJ?=
- =?iso-8859-1?Q?3iKT0uEuR9C3WUSt4b43bY2XhOuo2nP62/Lxt183k0ByyBYsWCwq+Weduw?=
- =?iso-8859-1?Q?aszvc5kiwhzBNr0gjuKlmUnM0q9ImNXL93miU/JCyKMb6N9zI72154X28C?=
- =?iso-8859-1?Q?g1RmuhUCLBeO2uEa7QT9NaVJFLtp1Vxl7STbt77LfKj/OftamltOJ+XZL+?=
- =?iso-8859-1?Q?bqT1xjzimKMZ5htFnIvwQqr0+UrZ4hLVpZQH2bNN3ACA54w7HPCsV6f2z/?=
- =?iso-8859-1?Q?TG3LDa8J+61gEJxDnfqJ02zb5BEq/wkk4YEIaFUruON1K5ZIXVNRMNms0/?=
- =?iso-8859-1?Q?u/Nmt6VLOm22/lbJJUAOd8OfLHCJQzOwKI5c+4AuANBsuBmX4sgk+GH9V9?=
- =?iso-8859-1?Q?c9ceDAduJlKVbryckSCOdhmrMPo41AZepowdYT7IRIAiQJsidgIVM5ywXa?=
- =?iso-8859-1?Q?NLNMKSbSf0wt2c9mnoTdgHC9XHNOrAa75NGKadlc3M0ou2Ah0yhTJvIkNn?=
- =?iso-8859-1?Q?lxbTdLmua8aWt5fCXwjIRHHE+CzupwutHLI/qNDYiwPoPB/l29a8cRUerq?=
- =?iso-8859-1?Q?nOExeyKNmb8iXCbMujpCgJm5Eq5H?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR11MB5653.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700021)(7053199007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?eKujp/ioFf2XqhNtAbNuUMSJ11LgnpG9141Qad+1AO8URhkw+mU65gLMZL?=
- =?iso-8859-1?Q?S6AHWxkYTWSPD4/vtCN96+aOEyP3mEKh9O3/6y1njf6Ljw9VsppGHd6PR5?=
- =?iso-8859-1?Q?4+RSs3sp+kPoT5E6/LFAIhzDNwhAK4b3Yf/fqkSlv+WnaO6nbB9m08/Ksh?=
- =?iso-8859-1?Q?+A8WDp1vfSp1HmXGQC9x4ToGN+nTA1NwG2WJACbUvhxXuxtNURoxVj6gPh?=
- =?iso-8859-1?Q?d+vbUvZx/VHFGIOKYlN7PKTlJbfiByE1+0W7MInRNHnsdy99DcyIM262NB?=
- =?iso-8859-1?Q?VyPllx972uWzScn0DkIZw8ABcsxyyHCNEsLFrExhORjtNnnQ7QlYoumKwU?=
- =?iso-8859-1?Q?9O4qRGTK9uwJShs78MlG8pltx68dM85YAUgomnobYNUDUhcVliRWDs0a/4?=
- =?iso-8859-1?Q?tLRcqXv24OrGMPFzS6u509vboTEJlKTPcch22Z2uRJa+F65SUj59zzd2YZ?=
- =?iso-8859-1?Q?eGIxQjonld0hkiIaPrN5Y60/flvRVY0F1pMVzQMO6QKyYl+JaPMHSx28Rv?=
- =?iso-8859-1?Q?DmHPESJsIQ7XkOXOEiWgRUehGTGMUEkaqRFNGxpu8fAChhbK7EFGt2UuSP?=
- =?iso-8859-1?Q?R2swjq+XhKAYD0cZLaksLZtyb3ucxtmW5tqG1Fbr90296SSmSRg7QOkcFA?=
- =?iso-8859-1?Q?NDDYCP5obrQVMD/xn0fJLnhDfL9cV3nCbIrf8EKV5FgNrJkOg6E1k3DX0e?=
- =?iso-8859-1?Q?MqZz/er4RzO72QDPGAevtVc6vMX9ND1rK7A9FLuzBZE2W+F3tUrg8Jvixd?=
- =?iso-8859-1?Q?IRAcQnOE6ys7kpZeWrdP0jZM9TkjjHjgnjChoeCx9OZJ4y2EvzdLuHGAzn?=
- =?iso-8859-1?Q?4Y6Xc+dRzCybhnibVTcQV3M3xT0y6KV2Wm76PKPTIrEEkUwV/i5W1J913b?=
- =?iso-8859-1?Q?3oxWiUkWdmQn8OPElpKlX9lroB/jxUdg4IADvb6BXIeNWB8KKNLPkGv7gr?=
- =?iso-8859-1?Q?akbRIxwE3oTjwvimTk8TA8jH45DPolFmedsXcraYiATTen0rU1vV1KkUPK?=
- =?iso-8859-1?Q?YFKrwpYFmxDWDJh+owH15EV0SXs06yDG+yj3SwuatVf4ryRWtL7MRRuSeW?=
- =?iso-8859-1?Q?pVAfS/9NeUjfZgln3YMVDSIFHWsooHxgOSNHyRMRlxsoN2H654nncShtcp?=
- =?iso-8859-1?Q?PKxeP5mC9qzooajUet/+mTD+BLeDHiUbnzyat/XzpbBDLRH8NsYUTW0v8+?=
- =?iso-8859-1?Q?iNX/UMfrSmQ2jgE6FuVzPbIq1eSm/KMaifNfDMARqT6n81h1w53jnzMal0?=
- =?iso-8859-1?Q?6tBaOIQuQqs5TY4yB9ZSJtY6qFMkRebNHzESYGdaZfPoIUjUaOP/fbowdL?=
- =?iso-8859-1?Q?Jn5P2UfQ7WsioyA/M3rHhNXcMoBd32tKh+K035/YSZgDqVlBcgY8uzbv16?=
- =?iso-8859-1?Q?2WTtFRSnYCfZTzKvfjID3byivc6gPatuBrPo/ujLgwixUnlqSh8DdxEO0C?=
- =?iso-8859-1?Q?mhFe6TG3zvww1kzvokIBGTCs3PqgSRh0d1JTxiRJ1C3eAMZZr7jQ2fT5pR?=
- =?iso-8859-1?Q?Yf6ubcz5jEbo6SAJgfpOiDFSgNaorXNGLUD6/XLVn3Y1gVtqKqtjS3NLVw?=
- =?iso-8859-1?Q?oN/16GQe44Vrr365AJUv2ooLGGfzOnFbYr2pO/vIPDyolISE5FIUPuZSjq?=
- =?iso-8859-1?Q?ACGASKlZxUGps8U686TABdB1ZA7LOA8ZzHw/tzVma5wZhrDrNcxWfFxwHf?=
- =?iso-8859-1?Q?WRv7nsk48xWgl+g0SC0gpLY1dhYT0HcVFttaw2gOfRyCZXXsKJSje2T22P?=
- =?iso-8859-1?Q?u67HBF6bWMkfeTQguEIs+I6XIqzHBos1JZ1AobFZU/yTvk?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89ECA202C5C
+	for <linux-media@vger.kernel.org>; Tue, 23 Dec 2025 06:19:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1766470767; cv=none; b=AaJsJpxxgffChtXr6l/FPv+Yu998niiaBdbV28AMKTjNX8b8+jHO+P1TsNDIZbrmEQdzozB3NpShmynW7fYOfgoa+1ujBimneIUoGKyiYb+VW8LDRMXTrzWWxRgr8gPpQP7U+8ECr9TQwWZjn3FlW/jMucm3g2Hqpvc6SHdlIw8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1766470767; c=relaxed/simple;
+	bh=ZsdSICv+2xC/3NbVQh/iSbgFFZdNKg9ZqpRKyBo+Xi4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AR72xjPU/pPlJLcAoNYLz5kQH2kNI0fLsY/j5A19701xoBNlkXLi0sZVTFhFNY/DHLyb2rVfoT8PcgS9aBVClrnHPUA3U5rc19naM7unnZCkeM00uOlsOOurzkvX3TbRhB3WcvuY5/mHhGkMhdgKzbcmjqbTTmNR7a0/mnSOHac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=KB5aPTCB; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=EIprOB4P; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BMKDpbZ2115394
+	for <linux-media@vger.kernel.org>; Tue, 23 Dec 2025 06:19:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	YG00h7DMLFKYHMMioGzh6se0vDVRvxk9MiUWHt+Cdi4=; b=KB5aPTCBzAZ6Ocu3
+	nfEYZ/JHgfe66jYHSnsWY8INg2CcXIc+8ebY5/LRUp/91Qi2TbUmJoqkV+/1RSDB
+	sSq8qLUJc/XVrRd6lepq1Gzn9fA+KcRrvsHqmOLYnhFjsdvB4rJdA2wqXajE5LiC
+	VSpT624WwbgRHPpSU9Cvfgkd1qXsto2ZvfCU1MD1tKuCajeMlIsQOIT+haVyfT4b
+	ebSSDjORcWKabs2XqJRE9CQHJTxTFoRkG/r73yVBjZjryOY7ekqs495kBg8doXLR
+	R7pxGDCcD2+YxHTKkXBJkrT4vYSeyG0GJBJ8Rz41IBfN3ctWp0gypZ3/c3J0CmCX
+	BvNfug==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b7cudhhvx-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Tue, 23 Dec 2025 06:19:24 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8b2217a9c60so1784262585a.3
+        for <linux-media@vger.kernel.org>; Mon, 22 Dec 2025 22:19:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1766470764; x=1767075564; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YG00h7DMLFKYHMMioGzh6se0vDVRvxk9MiUWHt+Cdi4=;
+        b=EIprOB4P9oa8fud957FivVZFDoMR3i02GKqn1UYS+ghQfk89+rTFHJLuMW3GeVi6YQ
+         vkXs7AVwT8DiHGIh4JRin0OJmwa6ffPO3w0mluaOtVE8CrNGhYsUriOzH4gUQW0dWgrK
+         iluRetZujPwWq//xqNkXXYMVlIKj29dwV0vLLRYeN2KDI41FVgRm3qj/38BYsyNvqhVm
+         y+jJ0UQMB7mEG6UAHFWV7x4pjHUA1WcB+cbl7vkhDPiXJIf03ngjhd8Joy+OHXElAabA
+         BYkqUthCw0DXOBpSWjN9sEHudxb9eKbu4lm4qoNt903qtv9AfBpP6ggquWfO73OEm76a
+         Qwgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766470764; x=1767075564;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YG00h7DMLFKYHMMioGzh6se0vDVRvxk9MiUWHt+Cdi4=;
+        b=UyJcJbuqyYTIPbzIjMEaBLD7sh2aflsOUASs9ZMoD7VB+yNeL85hHgyOtoN5rC5AfE
+         3VA7oBBHBCnKEGI4EHFw3B8cI+MHjz11A0Dbgpp54X93ccKE7WTTmwBb7mQd/BXlRNwY
+         x3X+hAitx8Fes++C+zl8EbeUWhcDmy/iY2SK9gOuI5pHnvWRb+z8kHLo/Fyc1KN6e+Xj
+         3HI9yNZZFgRHq2uoxLJv/WxBYwOcDcN+dduo227+s3gtXlQ8nbCqF5pdZJ7kKc+0rg2q
+         Wyamu9LbLDT0KFru00myaVd2I03CEPDyBITyQLJ0kuBbMl1HXGnURZ6ZlEH53xz2O+Yr
+         S8Yg==
+X-Forwarded-Encrypted: i=1; AJvYcCX9dKkDvabNhypdBA+RqJMYb9Tg2z2h8rC+8Cw9Xb2X2TIZS9ULRnMLzw4z/nBuSrMNFjEYK1vFFudOaw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyoyhJG3kixBaLHpkTuze0kB7Og2mclwnKL2OjourzpIaa5MO3/
+	NC2oP+1HqrmJWeib3szEoL+lp7+i4+GIS7a6pzgBFXYoS1Dwsc6cdU/mF9owdVdoZ0/HR/YRJH8
+	PYjWLNxsC4XhqH80Zvd27ww0BmQDa+4tUkkKcbuSa9o1PjOMgZmwkskXbDaZcesgN4A==
+X-Gm-Gg: AY/fxX7kknYBKqeXMVfyXyaOvxpkyDveOPbqggwpAO+490IYCUl6Ecuw+/Uf8nHSLV+
+	MhYe+afmI63QjOuvwOisJYAwwUGa9HjdoDmXA+zame8Rm8F4KelDdULoJDJnKj0UshDjpBYGDXS
+	kVFtp9BadrlsLBf7W4TN9ukw1/VRzE+qEAW6U68N4H0lHc/dEXZePkDpvyghtB21MP8vdrCld8x
+	ZnY1pL2vyNiL2WZuPhY5ckiX7iS6S3ULHIn//KllAcUi1lX45Y4+/gvHcmNCu+R4dpJvRrMt1fR
+	2DmKNeHGYzGIoo17bWURnMFxo2SVHFmywmOZ85qPd6GU21MPL0ezgEiMH+qJbba7uoe4rgZ8d5I
+	tfXeTnz/X+7ucqHtyTNIKPNQLhRcgAQYbANzZF7b1teDdXl/hFgN/w7l5eSrznca7XBgKblofYA
+	==
+X-Received: by 2002:a05:620a:4726:b0:8b6:1877:3689 with SMTP id af79cd13be357-8c08fbbbf2fmr2120920685a.35.1766470763656;
+        Mon, 22 Dec 2025 22:19:23 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHhKPyP8NjuiEvVwDteIDjwoxyq25xmJVZAy78YRrNoMvkacee1w1j5XXRq2Hc/UwrZGYtMdQ==
+X-Received: by 2002:a05:620a:4726:b0:8b6:1877:3689 with SMTP id af79cd13be357-8c08fbbbf2fmr2120918085a.35.1766470763063;
+        Mon, 22 Dec 2025 22:19:23 -0800 (PST)
+Received: from [10.111.161.169] (Global_NAT1_IAD_FW.qualcomm.com. [129.46.232.65])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88d9a44fe52sm98529406d6.45.2025.12.22.22.19.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Dec 2025 22:19:22 -0800 (PST)
+Message-ID: <88bcd810-872e-4705-91c0-df2a35f4a3b9@oss.qualcomm.com>
+Date: Tue, 23 Dec 2025 14:19:18 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5653.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4e8e6d1b-3c48-4eb1-6eb6-08de41e8fe85
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Dec 2025 06:03:29.1028
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 5RGmH8ZDY1E1TfzEWSeO8UB0DTUWNzmJKCyP/z+VnopAURkfhBHu9ADc/PYtUXLUW7PQblh5CJh3F5Ri9vwf4g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB7155
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: i2c: imx412: Extend the power-on waiting time
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Wenmeng Liu <quic_wenmliu@quicinc.com>
+References: <20251222-imx412-v1-1-51c7e724b376@oss.qualcomm.com>
+ <aUkLKECix4vohyTB@kekkonen.localdomain>
+ <bbf6dbc9-42b5-4dd6-9346-c8f38e460709@oss.qualcomm.com>
+ <CAPY8ntD9GO_Y13K=Ko5kxz-o1edaocJP=Ns50rUheJP0iJ9fNg@mail.gmail.com>
+ <ffa7b849-51da-42f7-be1d-c3c7e1903e6e@oss.qualcomm.com>
+ <CAPY8ntDAiJcJiixo2mTqcb898UC3AR-+NVPFPS6EtrGoEWKewg@mail.gmail.com>
+Content-Language: en-US
+From: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+In-Reply-To: <CAPY8ntDAiJcJiixo2mTqcb898UC3AR-+NVPFPS6EtrGoEWKewg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=ebkwvrEH c=1 sm=1 tr=0 ts=694a346c cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=mracZNplAAAA:8 a=rL1dbJK0AAAA:8 a=EUspDBNiAAAA:8
+ a=wZOUHB2QMR90tg45zx4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22 a=PluzFxL0rV-y9CnNSXcG:22 a=xbW4NaJqf-hZ9Pon6mAK:22
+X-Proofpoint-GUID: 9ltMJpUySD80V5SH_im6xSX5PC-4fyZQ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIzMDA1MSBTYWx0ZWRfX23LyfKVKvIi4
+ DIL4mEnHV2ACOU/dMtCfLqgIgA1uxsCBbo10d9EgCWdLXwriGfsDasmZjRH+FnvX2B+r2LOV+5s
+ toXztQS1TzHMizXVMDXI/2NmJjeSAHoyhXRmAo8diQi36EHf5ZqcB8NAtBPF6G+01C/MasKv4OV
+ 337hyLckAeeQFr6qrT9DeePePlrxBJeSNdKjyLD3pVE8ZfAjhFfk0V90K1IBfoNx/nRLAz6U+03
+ O9omDwZLH441Xb/ud239hxxMyzF8ELCZxk2JfFD/UZkEvVyRWmUQiapPRZSQxsbrYmvzbzIDCbK
+ kfC4RtdU77X+yTKf6ltY3Il4+EKyPdkfD7WfF/ckRJgu9mekW+08AWBFquakdeiDqmx8wqx0PZv
+ k5ZooIAS9KUkMQ3eeJfGmJ04AQb43pnnk36osFer4U0w79S8Lg7H7fDA5Kzk+4NS4rvB7KgvjNW
+ l1gX1wOKG3q1XORe4jg==
+X-Proofpoint-ORIG-GUID: 9ltMJpUySD80V5SH_im6xSX5PC-4fyZQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-23_02,2025-12-22_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 malwarescore=0 adultscore=0 suspectscore=0 clxscore=1015
+ priorityscore=1501 bulkscore=0 spamscore=0 impostorscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512230051
 
-Sakari,=0A=
-=0A=
-I forget to fix the WARN_ON_ONCE comment, let me address it in=0A=
-v4.=0A=
-=0A=
-------------------------------------------------------------------------=0A=
-BRs,=A0=0A=
-Bingbu Cao=0A=
-=A0=0A=
-=0A=
-=0A=
-=0A=
-=0A=
-________________________________________=0A=
-From:=A0Cao, Bingbu <bingbu.cao@intel.com>=0A=
-Sent:=A0Tuesday, December 23, 2025 1:38 PM=0A=
-To:=A0linux-media@vger.kernel.org <linux-media@vger.kernel.org>; sakari.ail=
-us@linux.intel.com <sakari.ailus@linux.intel.com>=0A=
-Cc:=A0Cao, Bingbu <bingbu.cao@intel.com>; bingbu.cao@linux.intel.com <bingb=
-u.cao@linux.intel.com>; antti.laakso@linux.intel.com <antti.laakso@linux.in=
-tel.com>; mehdi.djait@linux.intel.com <mehdi.djait@linux.intel.com>=0A=
-Subject:=A0[PATCH v3 3/6] media: staging/ipu7: ignore interrupts when devic=
-e is suspended=0A=
-=0A=
-=0A=
-From: Bingbu Cao <bingbu.cao@intel.com>=0A=
-=0A=
-=0A=
-=0A=
-IPU7 devices have shared interrupts with others. In some case when IPU7=0A=
-=0A=
-device is suspended, driver get unexpected interrupt and invalid irq=0A=
-=0A=
-status 0xffffffff from ISR_STATUS and PB LOCAL_STATUS registers as=0A=
-=0A=
-interrupt is triggered from other device on shared irq line.=0A=
-=0A=
-=0A=
-=0A=
-In order to avoid this issue use pm_runtime_get_if_active() to check if=0A=
-=0A=
-IPU7 device is resumed, ignore the invalid irq status and use=0A=
-=0A=
-synchronize_irq() in suspend.=0A=
-=0A=
-=0A=
-=0A=
-Cc: Stable@vger.kernel.org=0A=
-=0A=
-Fixes: b7fe4c0019b1 ("media: staging/ipu7: add Intel IPU7 PCI device driver=
-")=0A=
-=0A=
-Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>=0A=
-=0A=
----=0A=
-=0A=
-=A0drivers/staging/media/ipu7/ipu7-buttress.c | 12 ++++++++++--=0A=
-=0A=
-=A0drivers/staging/media/ipu7/ipu7.c=A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0 4 ++++=
-=0A=
-=0A=
-=A02 files changed, 14 insertions(+), 2 deletions(-)=0A=
-=0A=
-=0A=
-=0A=
-diff --git a/drivers/staging/media/ipu7/ipu7-buttress.c b/drivers/staging/m=
-edia/ipu7/ipu7-buttress.c=0A=
-=0A=
-index e5707f5e300b..e4328cafe91d 100644=0A=
-=0A=
---- a/drivers/staging/media/ipu7/ipu7-buttress.c=0A=
-=0A=
-+++ b/drivers/staging/media/ipu7/ipu7-buttress.c=0A=
-=0A=
-@@ -342,14 +342,22 @@ irqreturn_t ipu_buttress_isr(int irq, void *isp_ptr)=
-=0A=
-=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0 u32 disable_irqs =3D 0;=0A=
-=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0 u32 irq_status;=0A=
-=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0 unsigned int i;=0A=
-=0A=
-+=A0=A0=A0=A0=A0=A0 int active;=0A=
-=0A=
-=A0=0A=
-=0A=
--=A0=A0=A0=A0=A0=A0 pm_runtime_get_noresume(dev);=0A=
-=0A=
-+=A0=A0=A0=A0=A0=A0 active =3D pm_runtime_get_if_active(dev);=0A=
-=0A=
-+=A0=A0=A0=A0=A0=A0 if (active <=3D 0)=0A=
-=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return IRQ_NONE;=0A=
-=0A=
-=A0=0A=
-=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0 pb_irq =3D readl(isp->pb_base + INTERRUPT_STATUS);=
-=0A=
-=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0 writel(pb_irq, isp->pb_base + INTERRUPT_STATUS);=
-=0A=
-=0A=
-=A0=0A=
-=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0 /* check btrs ATS, CFI and IMR errors, BIT(0) is u=
-nused for IPU */=0A=
-=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0 pb_local_irq =3D readl(isp->pb_base + BTRS_LOCAL_I=
-NTERRUPT_MASK);=0A=
-=0A=
-+=A0=A0=A0=A0=A0=A0 if (WARN_ON_ONCE(pb_local_irq =3D=3D 0xffffffff)) {=0A=
-=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 pm_runtime_put_noidle(dev);=0A=
-=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return IRQ_NONE;=0A=
-=0A=
-+=A0=A0=A0=A0=A0=A0 }=0A=
-=0A=
-+=0A=
-=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0 if (pb_local_irq & ~BIT(0)) {=0A=
-=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dev_warn(dev, "PB interrup=
-t status 0x%x local 0x%x\n", pb_irq,=0A=
-=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
- pb_local_irq);=0A=
-=0A=
-@@ -365,7 +373,7 @@ irqreturn_t ipu_buttress_isr(int irq, void *isp_ptr)=0A=
-=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0 }=0A=
-=0A=
-=A0=0A=
-=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0 irq_status =3D readl(isp->base + BUTTRESS_REG_IRQ_=
-STATUS);=0A=
-=0A=
--=A0=A0=A0=A0=A0=A0 if (!irq_status) {=0A=
-=0A=
-+=A0=A0=A0=A0=A0=A0 if (!irq_status || WARN_ON_ONCE(irq_status =3D=3D 0xfff=
-fffff)) {=0A=
-=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 pm_runtime_put_noidle(dev)=
-;=0A=
-=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return IRQ_NONE;=0A=
-=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0 }=0A=
-=0A=
-diff --git a/drivers/staging/media/ipu7/ipu7.c b/drivers/staging/media/ipu7=
-/ipu7.c=0A=
-=0A=
-index 5cddc09c72bf..6c8c3eea44ac 100644=0A=
-=0A=
---- a/drivers/staging/media/ipu7/ipu7.c=0A=
-=0A=
-+++ b/drivers/staging/media/ipu7/ipu7.c=0A=
-=0A=
-@@ -2684,6 +2684,10 @@ static void ipu7_pci_reset_done(struct pci_dev *pdev=
-)=0A=
-=0A=
-=A0 */=0A=
-=0A=
-=A0static int ipu7_suspend(struct device *dev)=0A=
-=0A=
-=A0{=0A=
-=0A=
-+=A0=A0=A0=A0=A0=A0 struct pci_dev *pdev =3D to_pci_dev(dev);=0A=
-=0A=
-+=0A=
-=0A=
-+=A0=A0=A0=A0=A0=A0 synchronize_irq(pdev->irq);=0A=
-=0A=
-+=0A=
-=0A=
-=A0=A0=A0=A0=A0=A0=A0=A0 return 0;=0A=
-=0A=
-=A0}=0A=
-=0A=
-=A0=0A=
-=0A=
---=0A=
-=0A=
-2.34.1=0A=
-=0A=
-=0A=
-=0A=
+
+
+On 12/22/2025 10:16 PM, Dave Stevenson wrote:
+> Hi Wenmeng
+> 
+> On Mon, 22 Dec 2025 at 12:20, Wenmeng Liu <wenmeng.liu@oss.qualcomm.com> wrote:
+>>
+>>
+>>
+>> On 12/22/2025 8:11 PM, Dave Stevenson wrote:
+>>> Hi Wenmeng & Sakari
+>>>
+>>> On Mon, 22 Dec 2025 at 09:35, Wenmeng Liu <wenmeng.liu@oss.qualcomm.com> wrote:
+>>>>
+>>>>
+>>>>
+>>>>
+>>>>>>
+>>>>>> The Arducam IMX577 module requires a longer reset time than the 1000µs
+>>>>>> configured in the current driver. Increase the wait time after power-on
+>>>>>> to ensure proper initialization.
+>>>>>
+>>>>> Is this somehow specific to the Arducam module? If so, what's there in the
+>>>>> module that requires this?
+>>>>>
+>>>>
+>>>>
+>>>> Yes, This issue occurred on the Arducam 22-pin IMX577 module.
+>>>> I have tried changing the sequence of regulator, reset, and clock, and
+>>>> found that this module must wait a sufficient amount of time after reset
+>>>> before registers can be written (10 ms is a safe duration). This issue
+>>>> did not occur when using other IMX577 modules.
+>>>
+>>> Is it the probe that fails, or starting streaming?
+>>>
+>>> Google has found me a datasheet for IMX577 at [1]. I'm hoping you have
+>>> an official datasheet, so do correct the following if that has any
+>>> updates.
+>>> Section 7-2-2 on page 30 for the startup sequence.
+>>>
+>>> The sequence is meant to be regulators, INCK, and then XCLR. The
+>>> driver does XCLR before clock, so that would appear to be wrong.
+>>>
+>>> It also states that T6 as the time from XCLR to being able to read the
+>>> version register is min 0.6ms, but T7 as the time before you can send
+>>> "Streaming Commmand" is min 8ms "To complete reading all parameters
+>>> from NVM".
+>>> That would be a difference between probe and start_streaming, although
+>>> admittedly sending the mode and control setup I2C commands will take
+>>> up some of that time.
+>>>
+>>> Plausibly the other set of modules don't have the NVM programmed and
+>>> hence they are ready sooner. Either way I'd say that does mean the
+>>> driver currently isn't following the defined power up sequence, and
+>>> the patch looks reasonable for IMX577.
+>>> However as this is a shared driver does IMX412 have this restriction
+>>> too? I can't find a datasheet for that one to check. For the sake of
+>>> ~9ms it's not going to make a huge difference though.
+>>>
+>>>     Dave
+>>>
+>>> [1] https://en.sunnywale.com/uploadfile/2021/1222/IMX577-AACK-C(Awin).pdf
+>>>
+>>
+>> Hi Dave,
+>>
+>> this issue appears in the write register when streamon
+>> imx412_write_regs.  poweron->streamon.
+>>
+>> static int imx412_start_streaming(struct imx412 *imx412)
+>> {
+>>           const struct imx412_reg_list *reg_list;
+>>           int ret;
+>>
+>>           /* Write sensor mode registers */
+>>           reg_list = &imx412->cur_mode->reg_list;
+>>           ret = imx412_write_regs(imx412, reg_list->regs,
+>>                                   reg_list->num_of_regs);
+>>           if (ret) {
+>>                   dev_err(imx412->dev, "fail to write initial registers\n");
+>>                   return ret;
+>>           }
+>>
+>>           /* Setup handler will write actual exposure and gain */
+>>           ret =  __v4l2_ctrl_handler_setup(imx412->sd.ctrl_handler);
+>>           if (ret) {
+>>                   dev_err(imx412->dev, "fail to setup handler\n");
+>>                   return ret;
+>>           }
+>>
+>>           /* Delay is required before streaming*/
+>>           usleep_range(7400, 8000);
+>>
+>>           /* Start streaming */
+>>           ret = imx412_write_reg(imx412, IMX412_REG_MODE_SELECT,
+>>                                  1, IMX412_MODE_STREAMING);
+>>           if (ret) {
+>>                   dev_err(imx412->dev, "fail to start streaming\n");
+>>                   return ret;
+>>           }
+>>
+>>           return 0;
+>> }
+>>   > but T7 as the time before you can send "Streaming Commmand" is min 8ms "
+>> I think the usleep_range(7400, 8000) represents the 8ms duration
+>> required by T7.
+> 
+> I'd missed that one.
+> If you've delayed for 10-12ms between coming out of reset and sending
+> the first command, then does the Arducam module still require another
+> 8ms here, or can that be removed as you've already complied with T7?
+> 
+> Have you asked Arducam as to why their module takes longer? I can't
+> find an IMX577 module listed on their product pages so presumably it's
+> discontinued. There are a few links for a Luxonis Oak DepthAI board
+> [1] which is made by Arducam and is using IMX577, so is it that one?
+> Generally I've not encountered an issue with Arducam adding any weird
+> delay circuits on their sensor boards.
+> 
+>    Dave
+> 
+> [1] https://shop.luxonis.com/products/oak-ffc-imx577-m12
+> 
+>> Thanks,
+>> Wenmeng
+>>
+>>
+
+Hi Dave,
+
+Based on my testing, moving usleep_range(7400, 8000); to the beginning 
+of the imx412_start_streaming function allows the Arducam IMX577 module 
+to work properly. In contrast, other IMX577 sensors do not require this 
+delay. I believe this corresponds to the T7 timing requirement. I have 
+not yet confirmed this with Arducam, and I plan to compare once I 
+receive another type Arducam IMX577 sensor.
+
+Thanks,
+Wenmeng
+
 
