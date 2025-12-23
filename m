@@ -1,256 +1,110 @@
-Return-Path: <linux-media+bounces-49425-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49426-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C42A2CD9FD4
-	for <lists+linux-media@lfdr.de>; Tue, 23 Dec 2025 17:38:08 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFFCFCD9FE9
+	for <lists+linux-media@lfdr.de>; Tue, 23 Dec 2025 17:42:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B0560304B006
-	for <lists+linux-media@lfdr.de>; Tue, 23 Dec 2025 16:36:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C80723026510
+	for <lists+linux-media@lfdr.de>; Tue, 23 Dec 2025 16:42:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B0F92DC765;
-	Tue, 23 Dec 2025 16:36:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WTt8Aj8B"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B348A2E1C57;
+	Tue, 23 Dec 2025 16:42:41 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9A5A2BF002
-	for <linux-media@vger.kernel.org>; Tue, 23 Dec 2025 16:36:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72A032D47E8;
+	Tue, 23 Dec 2025 16:42:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766507796; cv=none; b=aJoZ507E3LUwJRHQlHw5Edf1P4yCMPDzPyYiFqS33HlTxq6FbCm+3aqSrX7mE7yo5EENLTcfmmzTCX5VSnn56/xRIXIdrNRN5UPUXSkEeSkDJzoJ65XtqT6VOiCvxTdJ5OcDr2bToSaOvb++A2lr1DHrvWGIHfuU6+/+KDbEVg8=
+	t=1766508161; cv=none; b=LKKDxaqTKOlH+I5MDmd5n6oozu/tN9tDc4g9k4eNBME0hY1UUyyNElWfxmWD8T5e5KjcrbnA+jVettPHvh519xnOxVPXWPV86E6MRQxwTvib6FOU02jCF/081+G9nrxC7Ns2p2daAJeKbO5iYG4N66GBcOuzrTUDHYXW1ixJ5oc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766507796; c=relaxed/simple;
-	bh=AsonnezPKVC7fI47RBf1taVr00tLuXlLrnBnGNUWfIU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AmGhUbSM34vE5grf8DtHmOT5I4JY9B69GKxWgWnC/UawWU5QxxV8FDiJtStS4YiNgAGLTG8tsi041rMciSdLwpXppVMFgITZiUGQwbVR4IGv/fsX78mY4frDkxOsYL6Y7JsQbR+8X1IQ6YQeysx4t9gS4xdaMmrJhAbswDcpdm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WTt8Aj8B; arc=none smtp.client-ip=209.85.208.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-37b9879f5e2so5569561fa.1
-        for <linux-media@vger.kernel.org>; Tue, 23 Dec 2025 08:36:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1766507793; x=1767112593; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FKS7HHgG53xO1wfAq0YsTD7AWJr4TDXXhEFRUFw3RgU=;
-        b=WTt8Aj8BN1jdpOjjN1beCTPTJ4dVMvp+neXzsbTAqyvK/4jqPIMH0n1tGR8oC4ITrv
-         WKCzS92XE/6ce/dJvQ5TyhC7lFZ5xC5HjxZJszahrAD57fzWaBQXpoIMPAXbdygq+J6B
-         VB9sxRVz2MLXX/KRTQ0tc3bl0q3mstW+uaLSSCNblW/2QWG8EyB7Bx8265mzxEFYJA08
-         hc1MOcagSFuT+hxEBnwj2EXXAo6/bCt4CoBdNbHTVQ1VbDIiNuTMHVXgDe25VR9Oze55
-         L9TB1q73aWZdLLPukK6d8DSoZTWlhXJqL6oU/l0sEh44/MC1Q/g3MrvTkcvMNsY3VeR5
-         5AEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766507793; x=1767112593;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FKS7HHgG53xO1wfAq0YsTD7AWJr4TDXXhEFRUFw3RgU=;
-        b=ijpwA4ivbEXoITdx6/e2HE9KdnUT7AV8kbpYh/tY0IsAYO10s8yAooEa4PKpsKWnt+
-         /KldzodAXx7DwzozJAJBcFCqi5uUczdnPIclvxqfA+x6FMJGN1vBGXHTsu8A20/xLG5+
-         YiZTJY432D3V6857VFaXhMtryD0sTjC6l0VgyS9VBiS4VpAlOJNI19pWdxcrnPAH8tS8
-         /JUwrZrgesR4lJHsrgNj/eZTuwjK0s/0cFOetwlRHrH54d6KmcxdW2iu9GCAB0/pKU6Y
-         c2EYct2QqVZlAmSVcgx5+UXoIAslQbCJZbDIHJGoKf5EJqL/CZwB2XtmKGdfyHLow0CI
-         dPZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV75cdKJAjkhuar9LjGrVbziYGCBiSZBEpJfRGVDKLrCoyECaa6K1HRgGfZhZwCHMkDHZuqKchUbCAm9g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZF2b3mrMdQW2EE6ZEwaOaEfXdb9M8XBksAMAPfBPk+IJxo3co
-	iS8HZih9D+1cRuaMPuVxn21cuocBLDQO6/W0I4sskGPoF5xYULAcFKaRcI4KeOEHvLg=
-X-Gm-Gg: AY/fxX4X8d4+v6AUZlOZopmNnw2HbFd9ABKm2QuPaxwxXC+UUUpMSjiMb0dPR6z7fdX
-	wKTfRcaL/euLqZkeaO3AKFBgGETe5W3Bq85EEEwEMBGmxpqz6A6NotrXWvd37jPPBaDJ+Rq69Bx
-	NedtBbJfSXPbRGBh3y/tLXMpOMZIHfrO08JHYWh4Ww6zvaHKl+iEP641Ph81mVwCB28wnQF/X7p
-	lmYSjEBu/CTCyUuo+yhjPr2gH3m7nXsbyvarjNoycVEpINCLXZMfjb82pcX4zjvDllB9vJgfGdu
-	e7vLVMepr9EcxhX6VlHb8t0uw/5K5wIBlnLXS1mK5CI97gcWo6z+nP6A4y43Ud1ZZiI7+yaVMFp
-	v2G9NXSBze4r8iopUWM7brxet7otyepH6mKZMGNnH7PmP5MQqaC8ElVj0ms2uA32QbjiVsTqJAd
-	SU8LpHxkwaI3+RKCqEyFf84XIfTysxQiEqPQMPM/zxqP36TH8ZR/T/OSuC5HfadVAsCw==
-X-Google-Smtp-Source: AGHT+IFzEMRoITpmQ6ZakNQMm/lZNEMEzobgiFj5hsm84XHa9Vri2Ps+bWTD3utj6T3YjxNIu83zkg==
-X-Received: by 2002:a05:651c:b0d:b0:37b:bafc:26a4 with SMTP id 38308e7fff4ca-3812156a320mr27330121fa.1.1766507792755;
-        Tue, 23 Dec 2025 08:36:32 -0800 (PST)
-Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38122693ad3sm33548271fa.49.2025.12.23.08.36.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Dec 2025 08:36:32 -0800 (PST)
-Message-ID: <f5df62d0-6b93-4630-92d0-d8af35432178@linaro.org>
-Date: Tue, 23 Dec 2025 18:36:23 +0200
+	s=arc-20240116; t=1766508161; c=relaxed/simple;
+	bh=6vka/YE3aJcwn2utS9yYSG1sxC7gToxVmZnewTkY5h4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cIjDWtO15vpnX/1nK4dfZ2h/s+WNIWV4MCdBT3w3UBuU0PVxZJyra9NoR/7PxdNvmXhehlRB4s18nndAJVu8u0U65V5kIbMFi01xbmjOsPOneq8IHeQfPfRWBUZAqWJ/uA1INFxR6uCb6tJ+7heRujcbnp/5UeK3r5tpDVCnxWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf14.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay09.hostedemail.com (Postfix) with ESMTP id 53D3A8ADC1;
+	Tue, 23 Dec 2025 16:42:37 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf14.hostedemail.com (Postfix) with ESMTPA id 44A942D;
+	Tue, 23 Dec 2025 16:42:34 +0000 (UTC)
+Date: Tue, 23 Dec 2025 11:44:24 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Xiang Gao <gxxa03070307@gmail.com>
+Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, mhiramat@kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, mathieu.desnoyers@efficios.com,
+ dhowells@redhat.com, kuba@kernel.org, brauner@kernel.org,
+ akpm@linux-foundation.org, linux-trace-kernel@vger.kernel.org, gaoxiang17
+ <gaoxiang17@xiaomi.com>
+Subject: Re: [PATCH v9] dma-buf: add some tracepoints to debug.
+Message-ID: <20251223114424.1c539f7a@gandalf.local.home>
+In-Reply-To: <20251223032749.1371913-1-gxxa03070307@gmail.com>
+References: <20251223032749.1371913-1-gxxa03070307@gmail.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] arm64: dts: qcom: talos-evk-camera: Add DT overlay
-To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>,
- Loic Poulain <loic.poulain@oss.qualcomm.com>, Robert Foss
- <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org
-References: <20251222-sm6150_evk-v1-0-4d260a31c00d@oss.qualcomm.com>
- <20251222-sm6150_evk-v1-3-4d260a31c00d@oss.qualcomm.com>
- <cfb8f192-b327-4bb9-993e-a28184571712@linaro.org>
- <703a502c-883d-434a-8bcf-f785080f5102@oss.qualcomm.com>
- <091b863b-fa0a-4d3c-8461-60cdc4970992@linaro.org>
- <a767acb3-8bb9-45f7-99a6-68a595e4ebb5@oss.qualcomm.com>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <a767acb3-8bb9-45f7-99a6-68a595e4ebb5@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: grxkiozmi3msuufb6c4ww3d6b1ijzhoh
+X-Rspamd-Server: rspamout01
+X-Rspamd-Queue-Id: 44A942D
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1+yIprTkm+nIvFVTiCDFSCukILDs9di80M=
+X-HE-Tag: 1766508154-450411
+X-HE-Meta: U2FsdGVkX1/RMwvb/I3i66TmfvJP/QYAChkQEo2YHhW8EcjemzG38cb5Wi0oW9rzAnkMwaEDpLPpnWxB+lFGcG97mdgnpnzmrWP679NlNX8FNGrdVhWTd65GLMBMoMUr+SjHIm1x2OKOW3x3Yv5CQqb+xZt2qB7wjbS1JbKgAmebXsOyZB7tdTKDStorhsE6A6YcLG7G2iDftxGHuAgcuZBnDFIVSxVQONazrjqzWjA/HgVOvmkCxGokE7ftA5fACYCUn8q6WO482an5qtVkv15JdqiiOObr0sXCp29/2DixiBpihMzyh/7Q8Y5Eio/BGGEmiOHfDVWrXM5VvhaHMuxVHi0VGfeK
 
-On 12/23/25 04:16, Wenmeng Liu wrote:
-> 
-> 
-> On 12/22/2025 11:45 PM, Vladimir Zapolskiy wrote:
->> On 12/22/25 13:41, Wenmeng Liu wrote:
->>>
->>>
->>> On 12/22/2025 7:19 PM, Vladimir Zapolskiy wrote:
->>>> On 12/22/25 10:44, Wenmeng Liu wrote:
->>>>> Enable IMX577 via CCI on Taloss EVK Core Kit.
->>>>>
->>>>> The Talos EVK board does not include a camera sensor
->>>>> by default, this overlay reflects the possibility of
->>>>> attaching an optional camera sensor.
->>>>> For this reason, the camera sensor configuration is
->>>>> placed in talos-evk-camera.dtso, rather than
->>>>> modifying the base talos-evk.dts.
->>>>>
->>>>> Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
->>>>> ---
->>>>>     arch/arm64/boot/dts/qcom/Makefile              |  2 +
->>>>>     arch/arm64/boot/dts/qcom/talos-evk-camera.dtso | 64 ++++++++++++++++
->>>>> ++++++++++
->>>>>     arch/arm64/boot/dts/qcom/talos.dtsi            | 21 +++++++++
->>>>
->>>> Please split QCS615 MCLK definitions change into a separate commit.
->>> ACK.>
->>>>>     3 files changed, 87 insertions(+)
->>>>>
->>>>> diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/
->>>>> qcom/Makefile
->>>>> index
->>>>> 60121f133078b2754f98e6f45a3db4031b478cc8..b1d85b1f4a94714f2a5c976d162482d70ae920f2 100644
->>>>> --- a/arch/arm64/boot/dts/qcom/Makefile
->>>>> +++ b/arch/arm64/boot/dts/qcom/Makefile
->>>>> @@ -325,7 +325,9 @@ dtb-$(CONFIG_ARCH_QCOM)    += sm8650-qrd.dtb
->>>>>     dtb-$(CONFIG_ARCH_QCOM)    += sm8750-mtp.dtb
->>>>>     dtb-$(CONFIG_ARCH_QCOM)    += sm8750-qrd.dtb
->>>>>     dtb-$(CONFIG_ARCH_QCOM)    += talos-evk.dtb
->>>>> +talos-evk-camera-dtbs        := talos-evk.dtb talos-evk-camera.dtbo
->>>>>     talos-evk-lvds-auo,g133han01-dtbs    := talos-evk.dtb talos-evk-
->>>>> lvds-auo,g133han01.dtbo
->>>>> +dtb-$(CONFIG_ARCH_QCOM)    += talos-evk-camera.dtb
->>>>>     dtb-$(CONFIG_ARCH_QCOM)    += talos-evk-lvds-auo,g133han01.dtb
->>>>>     x1e001de-devkit-el2-dtbs    := x1e001de-devkit.dtb x1-el2.dtbo
->>>>>     dtb-$(CONFIG_ARCH_QCOM)    += x1e001de-devkit.dtb x1e001de-devkit-
->>>>> el2.dtb
->>>>> diff --git a/arch/arm64/boot/dts/qcom/talos-evk-camera.dtso b/arch/
->>>>> arm64/boot/dts/qcom/talos-evk-camera.dtso
->>>>> new file mode 100644
->>>>> index
->>>>> 0000000000000000000000000000000000000000..ae1a02295b4dc48212aad40980a329ff458fe69a
->>>>> --- /dev/null
->>>>> +++ b/arch/arm64/boot/dts/qcom/talos-evk-camera.dtso
->>>>> @@ -0,0 +1,64 @@
->>>>> +// SPDX-License-Identifier: BSD-3-Clause
->>>>> +/*
->>>>> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
->>>>
->>>> Please add a missing year of the change.
->>> Now our requirement is a yearless copyright.>
->>
->> Ack. It's a lawyers' domain anyway.
->>
->>>>> + */
->>>>> +
->>>>> +/dts-v1/;
->>>>> +/plugin/;
->>>>> +
->>>>> +#include <dt-bindings/clock/qcom,qcs615-camcc.h>
->>>>> +#include <dt-bindings/gpio/gpio.h>
->>>>> +
->>>>> +&camss {
->>>>> +    vdd-csiphy-1p2-supply = <&vreg_l11a>;
->>>>> +    vdd-csiphy-1p8-supply = <&vreg_l12a>;
->>>>> +
->>>>> +    status = "okay";
->>>>> +
->>>>> +    ports {
->>>>> +        #address-cells = <1>;
->>>>> +        #size-cells = <0>;
->>>>> +
->>>>> +        port@1 {
->>>>> +            reg = <1>;
->>>>> +
->>>>> +            csiphy1_ep: endpoint {
->>>>> +                clock-lanes = <7>;
->>>>
->>>> Please remove 'clock-lanes' property.
->>> ACK.>
->>>>> +                data-lanes = <0 1 2 3>;
->>>>> +                remote-endpoint = <&imx577_ep1>;
->>>>> +            };
->>>>> +        };
->>>>> +    };
->>>>> +};
->>>>> +
->>>>> +&cci {
->>>>> +    status = "okay";
->>>>> +};
->>>>> +
->>>>> +&cci_i2c1 {
->>>>> +    #address-cells = <1>;
->>>>> +    #size-cells = <0>;
->>>>> +
->>>>> +    camera@1a {
->>>>> +        compatible = "sony,imx577";
->>>>> +        reg = <0x1a>;
->>>>> +
->>>>> +        reset-gpios = <&tlmm 29 GPIO_ACTIVE_LOW>;
->>>>> +        pinctrl-0 = <&cam2_default>;
->>>>> +        pinctrl-names = "default";
->>>>> +
->>>>> +        clocks = <&camcc CAM_CC_MCLK2_CLK>;
->>>>> +        assigned-clocks = <&camcc CAM_CC_MCLK2_CLK>;
->>>>> +        assigned-clock-rates = <24000000>;
->>>>> +
->>>>> +        avdd-supply = <&vreg_s4a>;
->>>>
->>>> Just one voltage supply?
->>> yes, 22pin camera module only have one pin for power.>
->>
->> It's common that mezzanine boards are supplied with power from S4A or VBAT,
->> I've never seen a camera module supplied with just one voltage regulator,
->> that's why it attracts attention.
->>
->> What is a camera module here, is it on an attachable vision mezzanine like
->> on RBx series or a part of Talos EVK PCB like on QRD series?
->>
->> If it is a mezzanine, the support of mezzanine boards should be done as
->> a DT overlay.
->>
-> 
-> It`s like RBx series, does not include a camera sensor
-> by default.
-> 
+On Tue, 23 Dec 2025 11:27:49 +0800
+Xiang Gao <gxxa03070307@gmail.com> wrote:
 
-Then to add the image sensor support please follow the model with DT overlays,
-and it means you shall get a schematics of the mezzanine to describe the
-attachable board.
+>  
+> +#define CREATE_TRACE_POINTS
+> +#include <trace/events/dma_buf.h>
+> +
+> +/*
+> + * dmabuf->name must be accessed with holding dmabuf->name_lock.
+> + * we need to take the lock around the tracepoint call itself where
+> + * it is called in the code.
+> + *
+> + * Note: FUNC##_enabled() is a static branch that will only
+> + *       be set when the trace event is enabled.
+> + */
+> +#define DMA_BUF_TRACE(FUNC, ...)					\
+> +	do {											\
+> +		if (FUNC##_enabled()) {						\
+> +			guard(spinlock)(&dmabuf->name_lock);	\
+> +			FUNC(__VA_ARGS__);						\
+> +		} else if (IS_ENABLED(CONFIG_LOCKDEP)) {	\
+> +			/* Expose this lock when lockdep is enabled */	\
+> +			guard(spinlock)(&dmabuf->name_lock);	\
+> +		}											\
+> +	} while (0)
+> +
 
-When you get the schematics, you will get a valid view on voltage distribution,
-sensor supplies will be derivatives from VBAT or S4A anyway, I believe.
+I hate to make another comment here, but I was just thinking that this can
+be made to look a little nicer. Basically, we want to make sure that when
+LOCKDEP is active, we always take the lock. But we also need to take the
+lock when tracing is enabled. The tracepoint itself is a static branch,
+which means it is a nop when not active, so there's no real problem with
+calling it. Thus, this could look better as:
 
-See sm8550-hdk-rear-camera-card.dtso or qrb5165-rb5-vision-mezzanine.dtso as
-the references.
+#define DMA_BUF_TRACE(FUNC, ...)					\
+	do {								\
+		/* Always expose lock if lockdep is enabled */		\
+		if (IS_ENABLED(CONFIG_LOCKDEP) || FUNC##_enabled()) {	\
+			guard(spinlock)(&dmabuf->name_lock);		\
+			FUNC(__VA_ARGS__);				\
+		}							\
+	} while (0)
 
--- 
-Best wishes,
-Vladimir
+
+-- Steve
 
