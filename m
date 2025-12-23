@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-49387-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49388-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89276CD832B
-	for <lists+linux-media@lfdr.de>; Tue, 23 Dec 2025 06:39:28 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6080CD831F
+	for <lists+linux-media@lfdr.de>; Tue, 23 Dec 2025 06:38:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 255BE301FBCC
-	for <lists+linux-media@lfdr.de>; Tue, 23 Dec 2025 05:38:58 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 636523002500
+	for <lists+linux-media@lfdr.de>; Tue, 23 Dec 2025 05:38:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A34C12F5319;
-	Tue, 23 Dec 2025 05:38:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B67732F5479;
+	Tue, 23 Dec 2025 05:38:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SAJlapQo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JsP0kGfu"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFDBA2F616E
-	for <linux-media@vger.kernel.org>; Tue, 23 Dec 2025 05:38:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 496DA2F5A32
+	for <linux-media@vger.kernel.org>; Tue, 23 Dec 2025 05:38:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766468335; cv=none; b=rpmgoxGcf18Ik4N96N4Hrt0hoO4zgQ69yg3qIWHua5aKx7WCaMNbsTCnnzl/JKr84tHsiuwcbL3booqClbKwRUOWQ/fVqMz+JUO6EXnEkWznR9DYqTZhcMQuFDAxXOrjaIsexS+3X0gRgGcYVNuu1BqPS7SlyUX+Xh3+g8MamjQ=
+	t=1766468337; cv=none; b=Q+q5hbTNvjS9HUJ0bKMOxxO2pf1VQgQVBEeKqkiUogHZv+nDCXtTzIAOgd1ONgQ97StpbtuqhnNf9sri+dPkwmQr6+UQ9eD+kneY/qSx8Yy03Id3lfEjlwdwA7dgoaeMSHPpm7453qbX7gMwW6ePQ4iZXbnf4U/MSXSiaPBj6zw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766468335; c=relaxed/simple;
-	bh=OXqXiIgVV505sFQP2/bOe/4bDZcTXW8+cy6dmrpQl2I=;
+	s=arc-20240116; t=1766468337; c=relaxed/simple;
+	bh=2xhFMwJNR9TRm071yTmB4kDsnZPxn0e8jQ3sOr/WCUU=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=qe7Nq+QWzj0EboVWJDhZrzdDKqtF1DqaTejERehQ30BzVosMdehfhm6ujTan9s/f8s6HCILFMYW8qcY6iK4RH7ZbSW5vip2FktYDkk0LG/MTrNjwSoZ0m0BSP2Q47ahSpUgN5hlrf+KRCnwcyxNw4AoOxyYyviyGGymeS6a2AxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SAJlapQo; arc=none smtp.client-ip=198.175.65.21
+	 MIME-Version; b=uIh41wylM8lzpe8DWjNrItDi0AvX10GFqfdkxUIRJ5YYZBXDGeXpOOMvqwlNC0UkWU2gEy1cTv0NpDWCpXOQnKTxfGK8L2rHsOzvl3hgC+drAZr22BLAq0GmiHken9NkPmUEgigLPSJJZR/09AbvB/JznGC+pwsmSinxfoT21oE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JsP0kGfu; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766468333; x=1798004333;
+  t=1766468334; x=1798004334;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=OXqXiIgVV505sFQP2/bOe/4bDZcTXW8+cy6dmrpQl2I=;
-  b=SAJlapQoU40pxpse/nQL/XkNLxw3Tb9qTmXg9YfmI9OA0fzH5RCXQ59+
-   G+b0cujTx2jW4It766iXYp8NDumifzdW1ktJeMvI7aVtFC7crxStD2PGv
-   IGnJzgyd4bRFzWT9jBMbwTSEXiPG71t0aCenMAoS3NWvXgAayddBtb4XY
-   rQfo98QhMRIrR+M2ET8lRehTWuikQZ+97IeIcOm2euJxiNOoJEibL4n60
-   eclPnqbfambFPrgNM4b9TgsF9/IYn+AhK9aJzueWQGv8sJbP2Ea2P+cw0
-   q5SS6K0Mer4o8d34g4G5xLiedUtqDPhRk6FeHXNvzo8ip/D0Ik3XmrkNb
-   g==;
-X-CSE-ConnectionGUID: yFy6wKHYTxuKrqBefrbB8Q==
-X-CSE-MsgGUID: jRCDbh0QRk+i1+ADDPKpjA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="68255987"
+  bh=2xhFMwJNR9TRm071yTmB4kDsnZPxn0e8jQ3sOr/WCUU=;
+  b=JsP0kGfutEdHvipwfabg0Fdetw+dnulqU+qDpbJbFN01S3ljUpkDRJRr
+   U5fYiBf5CCo2JdAPYigeG2R54G0uTar72iiXwCE+RU5yEmvNsmGQF4Nra
+   Ivz/2qh5QIxR67xtPgHMKqMAOIrOtTq5XrFTJDOlcpcUmzwQdB+q7WBaI
+   hreUmA8w7AYajmqKLcQvbENwC7LWrfSuB4SfOLgtoGQrqK56DhfIKE9PL
+   PQqDzc+moqxg/yFQq4eKWpJd30UQ573h9/3ljw9As4xufWZdMU7I/4Jma
+   tVKqoH7kA90sNiU8s+LJRh/UuT8CWCsrfbKW4GOOhxVs9VhqV/yrx9vq1
+   w==;
+X-CSE-ConnectionGUID: t5j6ePpHT8WVUiPhEI7/Fg==
+X-CSE-MsgGUID: j84WuRNlR2qnu9Aacbg5vQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="68255990"
 X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
-   d="scan'208";a="68255987"
+   d="scan'208";a="68255990"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 21:38:52 -0800
-X-CSE-ConnectionGUID: 4hyq442xRTmkkEnEcsqKDQ==
-X-CSE-MsgGUID: RB3W+Qm3SxyQjZxIdV8HHA==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 21:38:54 -0800
+X-CSE-ConnectionGUID: RmWGeSciQmW6IU6hFGJI4A==
+X-CSE-MsgGUID: iUvzIKHgTpuHdyQ0dgATqg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; 
-   d="scan'208";a="199366575"
+   d="scan'208";a="199366578"
 Received: from vtg-chrome.bj.intel.com ([172.16.116.150])
-  by fmviesa007.fm.intel.com with ESMTP; 22 Dec 2025 21:38:50 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 22 Dec 2025 21:38:52 -0800
 From: bingbu.cao@intel.com
 To: linux-media@vger.kernel.org,
 	sakari.ailus@linux.intel.com
@@ -63,9 +63,9 @@ Cc: bingbu.cao@intel.com,
 	bingbu.cao@linux.intel.com,
 	antti.laakso@linux.intel.com,
 	mehdi.djait@linux.intel.com
-Subject: [PATCH v3 3/6] media: staging/ipu7: ignore interrupts when device is suspended
-Date: Tue, 23 Dec 2025 13:38:41 +0800
-Message-Id: <20251223053844.3124621-4-bingbu.cao@intel.com>
+Subject: [PATCH v3 4/6] media: staging/ipu7: call synchronous RPM suspend in probe failure
+Date: Tue, 23 Dec 2025 13:38:42 +0800
+Message-Id: <20251223053844.3124621-5-bingbu.cao@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251223053844.3124621-1-bingbu.cao@intel.com>
 References: <20251223053844.3124621-1-bingbu.cao@intel.com>
@@ -79,75 +79,35 @@ Content-Transfer-Encoding: 8bit
 
 From: Bingbu Cao <bingbu.cao@intel.com>
 
-IPU7 devices have shared interrupts with others. In some case when IPU7
-device is suspended, driver get unexpected interrupt and invalid irq
-status 0xffffffff from ISR_STATUS and PB LOCAL_STATUS registers as
-interrupt is triggered from other device on shared irq line.
+If firmware authentication failed during driver probe, driver call an
+asynchronous API to suspend the psys device but the bus device will be
+removed soon, thus runtime PM of bus device will be disabled soon, that
+will cancel the suspend request, so use synchronous suspend to make
+sure the runtime suspend before disabling its RPM.
 
-In order to avoid this issue use pm_runtime_get_if_active() to check if
-IPU7 device is resumed, ignore the invalid irq status and use
-synchronize_irq() in suspend.
+IPU7 hardware has constraints that the PSYS device must be powered off
+before ISYS, otherwise it will cause machine check error.
 
 Cc: Stable@vger.kernel.org
 Fixes: b7fe4c0019b1 ("media: staging/ipu7: add Intel IPU7 PCI device driver")
 Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
 ---
- drivers/staging/media/ipu7/ipu7-buttress.c | 12 ++++++++++--
- drivers/staging/media/ipu7/ipu7.c          |  4 ++++
- 2 files changed, 14 insertions(+), 2 deletions(-)
+ drivers/staging/media/ipu7/ipu7.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/ipu7/ipu7-buttress.c b/drivers/staging/media/ipu7/ipu7-buttress.c
-index e5707f5e300b..e4328cafe91d 100644
---- a/drivers/staging/media/ipu7/ipu7-buttress.c
-+++ b/drivers/staging/media/ipu7/ipu7-buttress.c
-@@ -342,14 +342,22 @@ irqreturn_t ipu_buttress_isr(int irq, void *isp_ptr)
- 	u32 disable_irqs = 0;
- 	u32 irq_status;
- 	unsigned int i;
-+	int active;
- 
--	pm_runtime_get_noresume(dev);
-+	active = pm_runtime_get_if_active(dev);
-+	if (active <= 0)
-+		return IRQ_NONE;
- 
- 	pb_irq = readl(isp->pb_base + INTERRUPT_STATUS);
- 	writel(pb_irq, isp->pb_base + INTERRUPT_STATUS);
- 
- 	/* check btrs ATS, CFI and IMR errors, BIT(0) is unused for IPU */
- 	pb_local_irq = readl(isp->pb_base + BTRS_LOCAL_INTERRUPT_MASK);
-+	if (WARN_ON_ONCE(pb_local_irq == 0xffffffff)) {
-+		pm_runtime_put_noidle(dev);
-+		return IRQ_NONE;
-+	}
-+
- 	if (pb_local_irq & ~BIT(0)) {
- 		dev_warn(dev, "PB interrupt status 0x%x local 0x%x\n", pb_irq,
- 			 pb_local_irq);
-@@ -365,7 +373,7 @@ irqreturn_t ipu_buttress_isr(int irq, void *isp_ptr)
- 	}
- 
- 	irq_status = readl(isp->base + BUTTRESS_REG_IRQ_STATUS);
--	if (!irq_status) {
-+	if (!irq_status || WARN_ON_ONCE(irq_status == 0xffffffff)) {
- 		pm_runtime_put_noidle(dev);
- 		return IRQ_NONE;
- 	}
 diff --git a/drivers/staging/media/ipu7/ipu7.c b/drivers/staging/media/ipu7/ipu7.c
-index 5cddc09c72bf..6c8c3eea44ac 100644
+index 6c8c3eea44ac..fa5a1867626f 100644
 --- a/drivers/staging/media/ipu7/ipu7.c
 +++ b/drivers/staging/media/ipu7/ipu7.c
-@@ -2684,6 +2684,10 @@ static void ipu7_pci_reset_done(struct pci_dev *pdev)
-  */
- static int ipu7_suspend(struct device *dev)
- {
-+	struct pci_dev *pdev = to_pci_dev(dev);
-+
-+	synchronize_irq(pdev->irq);
-+
- 	return 0;
- }
- 
+@@ -2620,7 +2620,7 @@ static int ipu7_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	if (!IS_ERR_OR_NULL(isp->isys) && !IS_ERR_OR_NULL(isp->isys->mmu))
+ 		ipu7_mmu_cleanup(isp->isys->mmu);
+ 	if (!IS_ERR_OR_NULL(isp->psys))
+-		pm_runtime_put(&isp->psys->auxdev.dev);
++		pm_runtime_put_sync(&isp->psys->auxdev.dev);
+ 	ipu7_bus_del_devices(pdev);
+ 	release_firmware(isp->cpd_fw);
+ buttress_exit:
 -- 
 2.34.1
 
