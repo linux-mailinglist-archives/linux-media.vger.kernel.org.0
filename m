@@ -1,413 +1,322 @@
-Return-Path: <linux-media+bounces-49432-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49433-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E400CDB149
-	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 02:35:16 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DA98CDB234
+	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 03:12:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DEF853027D88
-	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 01:35:06 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 1BAF430224BD
+	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 02:12:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CB3427B4FB;
-	Wed, 24 Dec 2025 01:35:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 558602BEFF6;
+	Wed, 24 Dec 2025 02:12:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ho5Df/GZ"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="gf1h1UMB";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="KCLerXio"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B903C26B2D3
-	for <linux-media@vger.kernel.org>; Wed, 24 Dec 2025 01:35:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA501F0994
+	for <linux-media@vger.kernel.org>; Wed, 24 Dec 2025 02:12:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766540105; cv=none; b=UjOLgsOUEjFjL8tgtCf5Cy5GGuCBB/DRjKiZLXdli2TR85/Ex9BXOdwoyaH7xjlf0a/6PEWJpHc7kVCncCF4pHjQ+0gkrF2Z4u9rubEZp+9f7go8cZ1own/VPhH+TVCshrFQp2hnFlDUCZEPRPNyKP16pcTNdretIDffGncO3o4=
+	t=1766542336; cv=none; b=httIWuRGx2UMEkD6dG/N62HEF3JWJQwY77oyxz2otC7qHCMdAqO04MU81h9hj2OpBYMjnVVYF83HSRYuBVdESKQOWiPhnpAyCIa147nSgYcCYsRWkoHx+pPAZqvTu/3y/MgHx7H2lI+y51M4VnDXr/24kbHAmzgLiJbD5wuge1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766540105; c=relaxed/simple;
-	bh=Tv4vtw7Tbr+wgMrHd9/3cbmNcKI2RBnt+0OwiSlgBuU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=H1+rzoziJW66xAzNh1e3YniOtbTNfnnANsQ5kzcQVyKTjmr9hrgh8nKfKslpMvGpYLxa5uPATpD8ZJDNuaxNLJOEGm/P5G6M6iI4hfZtgsYkJEa+q2UBnpXt+NNin0S0r16bT7ZtWh5wzcHSJDPkOJl/12taG5Y8YtUu/TrRjxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ho5Df/GZ; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7f0db5700b2so4960471b3a.0
-        for <linux-media@vger.kernel.org>; Tue, 23 Dec 2025 17:35:03 -0800 (PST)
+	s=arc-20240116; t=1766542336; c=relaxed/simple;
+	bh=37z/owpX5jfxrYEHklbiOeTahWQfH6uG0Auq7XulCIo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kabmQgcD0TrPWUPDU60qkf0JGoRJy77Tq2sBgi+Y8OcoNakponMIWn+pIaD4myz3vVZk2E6pxKOsDFcHApcAbtEeUVTe4jWITnv+hE/1nQ1ma3RuPKRQibwj6SGip/quZA7kmNPXnD8fptkcze0+YQ3Akqx7JAs0OQgOg4Qjb2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=gf1h1UMB; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=KCLerXio; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BNErsWJ461339
+	for <linux-media@vger.kernel.org>; Wed, 24 Dec 2025 02:12:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	35S/WHqipbDYewb3d4hGu+2ig6o+3xLs6XWJlU23x8Y=; b=gf1h1UMBXUVCcEaW
+	arSRd5gfyjau6zyWQcWi5uC0Zmng2GGjvp227BDdv3vdyeLv+jvsG4ElYFRkSBcY
+	05bDJ9G8XdQOyoqhYvtJbJlu/0S7jLCAwToGDFdMNOBMm+8SMV114OFCyJQr88py
+	Miz1FqxV+4OZxdO8DmEwDqedrWuoI/tn6vuUyOU7yfT25nbd5S1kBM139IHL1Rmn
+	jHVKkZ4YuCO9wN/TinO139Fw6Oratz0WM4sp4FYsIpLTPRYFOHZN+aBotK1xx3XM
+	q5MgkZgGcdzh42CIA6hcKtb1WJq/tiIZ+GyfPzQVjOshkTuMkVu/vu+7joCWkvzN
+	Yzu97g==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b7w8fsqwt-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 24 Dec 2025 02:12:13 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-4ed7591799eso133780911cf.0
+        for <linux-media@vger.kernel.org>; Tue, 23 Dec 2025 18:12:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766540103; x=1767144903; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=eLgDSVcqpjH9P0lPmmEO0GCItc6WAA5nc00aszWHtzk=;
-        b=Ho5Df/GZZUCIZOrlM8/PQRX3Q0cZM3cUAcClf1msdbC5TWpwagfNaH/TtOsszo77mO
-         BkS0Gfn3jRd8CpwHO70z3EBC3faoZvnf+CResrUQZzJnefZHwT1DooIXp0EyrqpY8lAz
-         081g4VguqQjrWh32HeyWFCO1OHbfKHFxHAwg76Q/06La/qcwoeuu9HpmKhPYhFUzFnq/
-         5+ZGp5ipQKGyTCilTCkkFL651nQTY+15UT+zQWl2qq0+SH7lvOHmuMJZpLeZRUX0mlli
-         imC81vEkwKhsjxHgEoJGwjNamJ1rEWITjovKUqtbl/9hkWavC+p6t1OWU2Hj6o8Vcbyz
-         1Hpg==
+        d=oss.qualcomm.com; s=google; t=1766542333; x=1767147133; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=35S/WHqipbDYewb3d4hGu+2ig6o+3xLs6XWJlU23x8Y=;
+        b=KCLerXioRgeWRJjiJ3PQfJA3boEzMIABxPIhBRNHfBX8SlSnKp/owxFfe457EnIi1S
+         x8y8p70G/xsE5LaXSh37HsKfMwz92/oZ8L9xjBper1s3gFS2+nTTUDckcBOcYLysNGf2
+         vtnia4k7YrmsOMISSC3+FCSRsJiRSK1LGpMmwmbTkJX3YPW+10m20BL2o2sDz8bOY5B5
+         uFYZtXj8mGBZ0Jx9l/7QZPbcpNpIISz6UmdFiJMHrl5sLya4qmil3lzl29z21lXAikAC
+         +p1XVi/kbTAFLnKxKCi58ApBWydkXM1T/QBls2vcrl3SGVgzVdv/UzcxbToo5GZ7ucbn
+         sMqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766540103; x=1767144903;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eLgDSVcqpjH9P0lPmmEO0GCItc6WAA5nc00aszWHtzk=;
-        b=YBlJcbCGZeFOYQormzWJfx8IRZLTBmbz64wyNW8AYjiJqWBgeEGrsuJf8npVxU3OXx
-         9tNvkhYp9oDz2bKPJmvG6cSyoN7xhcjt5wRcRS3tqN4yVvrtocdAMT2OX7AWH5ww7Icz
-         cEB77LmMgeIfWzG76xKpIrYxb9hU5Yh5QhC0NjO+81ZT2dHyC/3mKWpzNdTTqKTF9stz
-         2DFNv6xjjBlL8/DLKkggH6ePzbyFI8Frxb2eM9lzeZ/Mf/qfYG1qwqz/TU2VyRMMN2vl
-         2wyzaPnn8q9O6r+Gkp5hp9Q06rAmbuCHZr8Oeb62xthob3f4B2xebR7cGFwbyfqeMeUR
-         LD4A==
-X-Gm-Message-State: AOJu0YzYA44X4Etzx+PDCRjcGnBphQrlW1UM8TDlXGWm82UvcEu3TvC5
-	Yd97akkQnZQFhh0C3Czti5dud3M+9ULriH6Ge6usIKp/wb+OjOsKxqIY
-X-Gm-Gg: AY/fxX4FzHgo2yuulPSWoJc6I4UTqCZACmpG6U0fk+J8jFNoeJeVafelKFB0Mw7ZkvJ
-	ji6r/wMA6OwOf826wL5BGIvm0qD8Y5CqWtYDdnAFOV5jx67rRZd/Yn5e2e6kX2Aks+F8P+cpuOv
-	+aNAkIPZBGOs9vYdcXBcPGSYF8iPUUG5QXGH12pEF+Iu0S/eCOJbnsnoZN0Mkct3Fro1b4nv5Fk
-	QXIezsijl70HiUeZWJzJXVy2fDYQVLnM+PKjn2ojjailTJy50GgkXfcfE444YF5+AEE0Q2Kmb6a
-	M7VVP5l9kSOSPTDMD8zaRKhkzaRkZ8Kvfwezkptlch6fqflhBO24T6Q3tZon+kF7BLVAodapqwv
-	u5pzZ9ctciHZmiv52Vavx9ud5mofRgTkKz7D6XBG0XmFcC5CYMyb6iQVMpRddWWvIv9ltqTwQt3
-	fExJPyHDo4/Xxg5BKpmRzj
-X-Google-Smtp-Source: AGHT+IFTBuM3TfizJm1mOjlbks6r4SS68r/TDo9u052WC6bOg2K+nOmrc49Dnw3fRCDvPURsdk9ABQ==
-X-Received: by 2002:a05:6a20:9392:b0:366:14af:9bc2 with SMTP id adf61e73a8af0-376ab2e7a5dmr14766328637.76.1766540102836;
-        Tue, 23 Dec 2025 17:35:02 -0800 (PST)
-Received: from xiao.mioffice.cn ([43.224.245.230])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7e682870sm14956614b3a.57.2025.12.23.17.34.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Dec 2025 17:35:02 -0800 (PST)
-From: Xiang Gao <gxxa03070307@gmail.com>
-To: sumit.semwal@linaro.org,
-	christian.koenig@amd.com,
-	rostedt@goodmis.org,
-	mhiramat@kernel.org
-Cc: linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	mathieu.desnoyers@efficios.com,
-	dhowells@redhat.com,
-	kuba@kernel.org,
-	brauner@kernel.org,
-	akpm@linux-foundation.org,
-	linux-trace-kernel@vger.kernel.org,
-	gaoxiang17 <gaoxiang17@xiaomi.com>
-Subject: [PATCH v10] dma-buf: add some tracepoints to debug.
-Date: Wed, 24 Dec 2025 09:34:55 +0800
-Message-Id: <20251224013455.1649879-1-gxxa03070307@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1766542333; x=1767147133;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=35S/WHqipbDYewb3d4hGu+2ig6o+3xLs6XWJlU23x8Y=;
+        b=NyFEpBnMDao5UvTuDWx7CYxdPo+oz3wWHP0GFe1Z+ukd+TotQTABS6cCnSpgGy7KXR
+         YrOvOB07+22/XH3l24OWv/qYQh+9GyV1qeGWijfJsiXqn7H4xKvzLh2Nn7gYUR2VaT7c
+         Qj28eFAlmJcYEaWtvcKGdMU05f3EMA0+FMpeA8qn7oPY51w/NxVlpye8wKWz1kgQRAD+
+         /onAcsb7LJraB5vAfulJK6KF9c/ODqGRDU5p2MRxaECMl2qsW02zEW4EWJd0FpkTr/VR
+         B4T2vPHGwzVYSaC4K4PlI+VMxRb6aheFfdFEdVYsfBcJeS4ym46j+f6y8YRlwKN3hJ1i
+         Dp6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXz7jT458mwKX9HjszKOjbQUgS+vwpa6fgQHh2ACaAc0bfgS63MR6lSdSVF+YtmeUPRhry+fUUF3kBfrw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJmBPj6ZjctFGbcEJJP8gf1ljsyE/EfssB1jXK+CsbEod2ZF5Y
+	HGUb2mqXtbUOYfelP5OD3yK+K9oiE7uTuIvAvrG3cpUS+Wln0cQszvwgPXEXgtZ2erwi4p+ZUr8
+	EhPcoFbl1HVQqiElwBvMG2AXfSZcmFxJeHVIVnUAoX3jUA7aCnIVkdMW1F6WNOiikUA==
+X-Gm-Gg: AY/fxX5cCq4yDmC2zS8evgodx9czxEgGFtB0DrNVHojQ8hr8Vg5VZPkJKdFHwQBxDLz
+	c0EwN7F2MHJHxU0g4AzUhaAacBkZYi6MiDRFtIJI1umom99YWxRuPduQxAKVqhdANsX7DsvKH84
+	RDJEdH9IMFL+/WidiJAqzdPHSLqkftR6NKRih1pLdR7qn1EF/H4JzNqd5HxGwdkV0uS7ehpLxos
+	lTSLRvF0puOmIM88cCOQAoDGzXUAnBK92cwo5HUHPct5ekdosohlsfcb2NYQ8uNIow4Iw8Y5Jgo
+	K4rTHxf9DKl7dUPd6a0YmrDPWvVayc97sPaCQCkRiw++0iRJVxACJ0+m1NmtAhqNQBXWeKIg01F
+	R2zKB+TBnCxM16j4vUwd8JNDP7Xt8Xl8LkYk46I/sW6DkC62ym+Fh0eQ+3NimV10gh3OTKbzkfA
+	==
+X-Received: by 2002:a05:622a:1e96:b0:4ee:1dd0:5a51 with SMTP id d75a77b69052e-4f4abcf632fmr212572721cf.2.1766542332866;
+        Tue, 23 Dec 2025 18:12:12 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGXXNTnPitVDMJVOsCBUeJpenK/gHnhoi7SLokwYZjACPve2gmLZdKA88zpHtCRpH41wfINfg==
+X-Received: by 2002:a05:622a:1e96:b0:4ee:1dd0:5a51 with SMTP id d75a77b69052e-4f4abcf632fmr212572531cf.2.1766542332317;
+        Tue, 23 Dec 2025 18:12:12 -0800 (PST)
+Received: from [10.111.161.169] (Global_NAT1_IAD_FW.qualcomm.com. [129.46.232.65])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88d997aeef5sm121407036d6.27.2025.12.23.18.12.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Dec 2025 18:12:11 -0800 (PST)
+Message-ID: <45aa9656-dbbd-4c1e-89c4-a24ea5996ff1@oss.qualcomm.com>
+Date: Wed, 24 Dec 2025 10:12:04 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] arm64: dts: qcom: talos-evk-camera: Add DT overlay
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        Loic Poulain <loic.poulain@oss.qualcomm.com>,
+        Robert Foss
+ <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+References: <20251222-sm6150_evk-v1-0-4d260a31c00d@oss.qualcomm.com>
+ <20251222-sm6150_evk-v1-3-4d260a31c00d@oss.qualcomm.com>
+ <cfb8f192-b327-4bb9-993e-a28184571712@linaro.org>
+ <703a502c-883d-434a-8bcf-f785080f5102@oss.qualcomm.com>
+ <091b863b-fa0a-4d3c-8461-60cdc4970992@linaro.org>
+ <a767acb3-8bb9-45f7-99a6-68a595e4ebb5@oss.qualcomm.com>
+ <f5df62d0-6b93-4630-92d0-d8af35432178@linaro.org>
+Content-Language: en-US
+From: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+In-Reply-To: <f5df62d0-6b93-4630-92d0-d8af35432178@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: 0OhCH1Q1dBMwt1atvK14F0NQkLM01_pD
+X-Proofpoint-ORIG-GUID: 0OhCH1Q1dBMwt1atvK14F0NQkLM01_pD
+X-Authority-Analysis: v=2.4 cv=QutTHFyd c=1 sm=1 tr=0 ts=694b4bfe cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=3HrGEc0Bd40ySK1zDqwA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI0MDAxNSBTYWx0ZWRfX7Zd05pdAhon8
+ Y2cCZl73bWTcKeRqEsOCNpmTQLy/Df7i/r6jSRAkLEIYS2BqL/TZi19WwxsyHheAO0izyRGzAzL
+ p98fZ1SorkA6YBLwc32v+w2DSKnpuiscS2nTmUnPIxewGszs2vS2S+b3pzOO8PEigrbc3/Nk7MB
+ Sei84rqULFoBqUjGhXALFn0A78qLkHsrRD50uigiTETUlkMmYTT+Ty76PVen5tXuYz4LCCpHHqs
+ 3DZGv65SuRfeDOeby0z+P4jsqzpv13irXVDPYUj2efrnQyLqvvMXvOmH3YftW3OsV9Iu+8CIJOh
+ SNyj/0q3v0Qn9WU/898Ih0mJ45bQbNnq2g+ZPFmfIS+VC10MxzywuM6bKnqr7CD/sFY13vu5wQU
+ ioZ/NFsQAk91DqDey4Whk0N1WWAliL4Cbp6L3H4q/5AtxxS+tZZPYqLP4AnYdcjF1MkQBDgGEc2
+ SBqOab0LWd1TvNfAOIQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-23_05,2025-12-22_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0 bulkscore=0 impostorscore=0 spamscore=0
+ malwarescore=0 clxscore=1015 lowpriorityscore=0 priorityscore=1501
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
+ definitions=main-2512240015
 
-From: gaoxiang17 <gaoxiang17@xiaomi.com>
 
-Since we can only inspect dmabuf by iterating over process FDs or the
-dmabuf_list, we need to add our own tracepoints to track its status in
-real time in production.
 
-For example:
-   binder:3016_1-3102    [006] ...1.   255.126521: dma_buf_export: exp_name=qcom,system size=12685312 ino=2738
-   binder:3016_1-3102    [006] ...1.   255.126528: dma_buf_fd: exp_name=qcom,system size=12685312 ino=2738 fd=8
-   binder:3016_1-3102    [006] ...1.   255.126642: dma_buf_mmap_internal: exp_name=qcom,system size=28672 ino=2739
-     kworker/6:1-86      [006] ...1.   255.127194: dma_buf_put: exp_name=qcom,system size=12685312 ino=2738
-    RenderThread-9293    [006] ...1.   316.618179: dma_buf_get: exp_name=qcom,system size=12771328 ino=2762 fd=176
-    RenderThread-9293    [006] ...1.   316.618195: dma_buf_dynamic_attach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
-    RenderThread-9293    [006] ...1.   318.878220: dma_buf_detach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
+On 12/24/2025 12:36 AM, Vladimir Zapolskiy wrote:
+> On 12/23/25 04:16, Wenmeng Liu wrote:
+>>
+>>
+>> On 12/22/2025 11:45 PM, Vladimir Zapolskiy wrote:
+>>> On 12/22/25 13:41, Wenmeng Liu wrote:
+>>>>
+>>>>
+>>>> On 12/22/2025 7:19 PM, Vladimir Zapolskiy wrote:
+>>>>> On 12/22/25 10:44, Wenmeng Liu wrote:
+>>>>>> Enable IMX577 via CCI on Taloss EVK Core Kit.
+>>>>>>
+>>>>>> The Talos EVK board does not include a camera sensor
+>>>>>> by default, this overlay reflects the possibility of
+>>>>>> attaching an optional camera sensor.
+>>>>>> For this reason, the camera sensor configuration is
+>>>>>> placed in talos-evk-camera.dtso, rather than
+>>>>>> modifying the base talos-evk.dts.
+>>>>>>
+>>>>>> Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+>>>>>> ---
+>>>>>>     arch/arm64/boot/dts/qcom/Makefile              |  2 +
+>>>>>>     arch/arm64/boot/dts/qcom/talos-evk-camera.dtso | 64 ++++++++++ 
+>>>>>> ++++++
+>>>>>> ++++++++++
+>>>>>>     arch/arm64/boot/dts/qcom/talos.dtsi            | 21 +++++++++
+>>>>>
+>>>>> Please split QCS615 MCLK definitions change into a separate commit.
+>>>> ACK.>
+>>>>>>     3 files changed, 87 insertions(+)
+>>>>>>
+>>>>>> diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/
+>>>>>> qcom/Makefile
+>>>>>> index
+>>>>>> 60121f133078b2754f98e6f45a3db4031b478cc8..b1d85b1f4a94714f2a5c976d162482d70ae920f2 100644
+>>>>>> --- a/arch/arm64/boot/dts/qcom/Makefile
+>>>>>> +++ b/arch/arm64/boot/dts/qcom/Makefile
+>>>>>> @@ -325,7 +325,9 @@ dtb-$(CONFIG_ARCH_QCOM)    += sm8650-qrd.dtb
+>>>>>>     dtb-$(CONFIG_ARCH_QCOM)    += sm8750-mtp.dtb
+>>>>>>     dtb-$(CONFIG_ARCH_QCOM)    += sm8750-qrd.dtb
+>>>>>>     dtb-$(CONFIG_ARCH_QCOM)    += talos-evk.dtb
+>>>>>> +talos-evk-camera-dtbs        := talos-evk.dtb talos-evk-camera.dtbo
+>>>>>>     talos-evk-lvds-auo,g133han01-dtbs    := talos-evk.dtb talos-evk-
+>>>>>> lvds-auo,g133han01.dtbo
+>>>>>> +dtb-$(CONFIG_ARCH_QCOM)    += talos-evk-camera.dtb
+>>>>>>     dtb-$(CONFIG_ARCH_QCOM)    += talos-evk-lvds-auo,g133han01.dtb
+>>>>>>     x1e001de-devkit-el2-dtbs    := x1e001de-devkit.dtb x1-el2.dtbo
+>>>>>>     dtb-$(CONFIG_ARCH_QCOM)    += x1e001de-devkit.dtb x1e001de- 
+>>>>>> devkit-
+>>>>>> el2.dtb
+>>>>>> diff --git a/arch/arm64/boot/dts/qcom/talos-evk-camera.dtso b/arch/
+>>>>>> arm64/boot/dts/qcom/talos-evk-camera.dtso
+>>>>>> new file mode 100644
+>>>>>> index
+>>>>>> 0000000000000000000000000000000000000000..ae1a02295b4dc48212aad40980a329ff458fe69a
+>>>>>> --- /dev/null
+>>>>>> +++ b/arch/arm64/boot/dts/qcom/talos-evk-camera.dtso
+>>>>>> @@ -0,0 +1,64 @@
+>>>>>> +// SPDX-License-Identifier: BSD-3-Clause
+>>>>>> +/*
+>>>>>> + * Copyright (c) Qualcomm Technologies, Inc. and/or its 
+>>>>>> subsidiaries.
+>>>>>
+>>>>> Please add a missing year of the change.
+>>>> Now our requirement is a yearless copyright.>
+>>>
+>>> Ack. It's a lawyers' domain anyway.
+>>>
+>>>>>> + */
+>>>>>> +
+>>>>>> +/dts-v1/;
+>>>>>> +/plugin/;
+>>>>>> +
+>>>>>> +#include <dt-bindings/clock/qcom,qcs615-camcc.h>
+>>>>>> +#include <dt-bindings/gpio/gpio.h>
+>>>>>> +
+>>>>>> +&camss {
+>>>>>> +    vdd-csiphy-1p2-supply = <&vreg_l11a>;
+>>>>>> +    vdd-csiphy-1p8-supply = <&vreg_l12a>;
+>>>>>> +
+>>>>>> +    status = "okay";
+>>>>>> +
+>>>>>> +    ports {
+>>>>>> +        #address-cells = <1>;
+>>>>>> +        #size-cells = <0>;
+>>>>>> +
+>>>>>> +        port@1 {
+>>>>>> +            reg = <1>;
+>>>>>> +
+>>>>>> +            csiphy1_ep: endpoint {
+>>>>>> +                clock-lanes = <7>;
+>>>>>
+>>>>> Please remove 'clock-lanes' property.
+>>>> ACK.>
+>>>>>> +                data-lanes = <0 1 2 3>;
+>>>>>> +                remote-endpoint = <&imx577_ep1>;
+>>>>>> +            };
+>>>>>> +        };
+>>>>>> +    };
+>>>>>> +};
+>>>>>> +
+>>>>>> +&cci {
+>>>>>> +    status = "okay";
+>>>>>> +};
+>>>>>> +
+>>>>>> +&cci_i2c1 {
+>>>>>> +    #address-cells = <1>;
+>>>>>> +    #size-cells = <0>;
+>>>>>> +
+>>>>>> +    camera@1a {
+>>>>>> +        compatible = "sony,imx577";
+>>>>>> +        reg = <0x1a>;
+>>>>>> +
+>>>>>> +        reset-gpios = <&tlmm 29 GPIO_ACTIVE_LOW>;
+>>>>>> +        pinctrl-0 = <&cam2_default>;
+>>>>>> +        pinctrl-names = "default";
+>>>>>> +
+>>>>>> +        clocks = <&camcc CAM_CC_MCLK2_CLK>;
+>>>>>> +        assigned-clocks = <&camcc CAM_CC_MCLK2_CLK>;
+>>>>>> +        assigned-clock-rates = <24000000>;
+>>>>>> +
+>>>>>> +        avdd-supply = <&vreg_s4a>;
+>>>>>
+>>>>> Just one voltage supply?
+>>>> yes, 22pin camera module only have one pin for power.>
+>>>
+>>> It's common that mezzanine boards are supplied with power from S4A or 
+>>> VBAT,
+>>> I've never seen a camera module supplied with just one voltage 
+>>> regulator,
+>>> that's why it attracts attention.
+>>>
+>>> What is a camera module here, is it on an attachable vision mezzanine 
+>>> like
+>>> on RBx series or a part of Talos EVK PCB like on QRD series?
+>>>
+>>> If it is a mezzanine, the support of mezzanine boards should be done as
+>>> a DT overlay.
+>>>
+>>
+>> It`s like RBx series, does not include a camera sensor
+>> by default.
+>>
+> 
+> Then to add the image sensor support please follow the model with DT 
+> overlays,
+> and it means you shall get a schematics of the mezzanine to describe the
+> attachable board.
+> 
+> When you get the schematics, you will get a valid view on voltage 
+> distribution,
+> sensor supplies will be derivatives from VBAT or S4A anyway, I believe.
+> 
+> See sm8550-hdk-rear-camera-card.dtso or qrb5165-rb5-vision- 
+> mezzanine.dtso as
+> the references.
+> 
 
-Signed-off-by: Xiang Gao <gaoxiang17@xiaomi.com>
----
- drivers/dma-buf/dma-buf.c      |  49 +++++++++-
- include/trace/events/dma_buf.h | 157 +++++++++++++++++++++++++++++++++
- 2 files changed, 204 insertions(+), 2 deletions(-)
- create mode 100644 include/trace/events/dma_buf.h
+yes, I think the module will distribute the supplies of S4A.
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index edaa9e4ee4ae..5e6f65cd0306 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -35,6 +35,26 @@
- 
- #include "dma-buf-sysfs-stats.h"
- 
-+#define CREATE_TRACE_POINTS
-+#include <trace/events/dma_buf.h>
-+
-+/*
-+ * dmabuf->name must be accessed with holding dmabuf->name_lock.
-+ * we need to take the lock around the tracepoint call itself where
-+ * it is called in the code.
-+ *
-+ * Note: FUNC##_enabled() is a static branch that will only
-+ *       be set when the trace event is enabled.
-+ */
-+#define DMA_BUF_TRACE(FUNC, ...)					\
-+	do {											\
-+		/* Always expose lock if lockdep is enabled */ 	\
-+		if (IS_ENABLED(CONFIG_LOCKDEP) || FUNC##_enabled()) {						\
-+			guard(spinlock)(&dmabuf->name_lock);	\
-+			FUNC(__VA_ARGS__);						\
-+		}											\
-+	} while (0)
-+
- static inline int is_dma_buf_file(struct file *);
- 
- static DEFINE_MUTEX(dmabuf_list_mutex);
-@@ -220,6 +240,8 @@ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
- 	    dmabuf->size >> PAGE_SHIFT)
- 		return -EINVAL;
- 
-+	DMA_BUF_TRACE(trace_dma_buf_mmap_internal, dmabuf);
-+
- 	return dmabuf->ops->mmap(dmabuf, vma);
- }
- 
-@@ -745,6 +767,8 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
- 
- 	__dma_buf_list_add(dmabuf);
- 
-+	DMA_BUF_TRACE(trace_dma_buf_export, dmabuf);
-+
- 	return dmabuf;
- 
- err_dmabuf:
-@@ -768,10 +792,16 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_export, "DMA_BUF");
-  */
- int dma_buf_fd(struct dma_buf *dmabuf, int flags)
- {
-+	int fd;
-+
- 	if (!dmabuf || !dmabuf->file)
- 		return -EINVAL;
- 
--	return FD_ADD(flags, dmabuf->file);
-+	fd = FD_ADD(flags, dmabuf->file);
-+	if (fd >= 0)
-+		DMA_BUF_TRACE(trace_dma_buf_fd, dmabuf, fd);
-+
-+	return fd;
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_fd, "DMA_BUF");
- 
-@@ -786,6 +816,7 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_fd, "DMA_BUF");
- struct dma_buf *dma_buf_get(int fd)
- {
- 	struct file *file;
-+	struct dma_buf *dmabuf;
- 
- 	file = fget(fd);
- 
-@@ -797,7 +828,11 @@ struct dma_buf *dma_buf_get(int fd)
- 		return ERR_PTR(-EINVAL);
- 	}
- 
--	return file->private_data;
-+	dmabuf = file->private_data;
-+
-+	DMA_BUF_TRACE(trace_dma_buf_get, dmabuf, fd);
-+
-+	return dmabuf;
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_get, "DMA_BUF");
- 
-@@ -817,6 +852,8 @@ void dma_buf_put(struct dma_buf *dmabuf)
- 		return;
- 
- 	fput(dmabuf->file);
-+
-+	DMA_BUF_TRACE(trace_dma_buf_put, dmabuf);
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_put, "DMA_BUF");
- 
-@@ -971,6 +1008,9 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
- 	list_add(&attach->node, &dmabuf->attachments);
- 	dma_resv_unlock(dmabuf->resv);
- 
-+	DMA_BUF_TRACE(trace_dma_buf_dynamic_attach, dmabuf, attach,
-+		dma_buf_attachment_is_dynamic(attach), dev);
-+
- 	return attach;
- 
- err_attach:
-@@ -1015,6 +1055,9 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
- 	if (dmabuf->ops->detach)
- 		dmabuf->ops->detach(dmabuf, attach);
- 
-+	DMA_BUF_TRACE(trace_dma_buf_detach, dmabuf, attach,
-+		dma_buf_attachment_is_dynamic(attach), attach->dev);
-+
- 	kfree(attach);
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_detach, "DMA_BUF");
-@@ -1480,6 +1523,8 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
- 	vma_set_file(vma, dmabuf->file);
- 	vma->vm_pgoff = pgoff;
- 
-+	DMA_BUF_TRACE(trace_dma_buf_mmap, dmabuf);
-+
- 	return dmabuf->ops->mmap(dmabuf, vma);
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_mmap, "DMA_BUF");
-diff --git a/include/trace/events/dma_buf.h b/include/trace/events/dma_buf.h
-new file mode 100644
-index 000000000000..2c9ba8533467
---- /dev/null
-+++ b/include/trace/events/dma_buf.h
-@@ -0,0 +1,157 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM dma_buf
-+
-+#if !defined(_TRACE_DMA_BUF_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _TRACE_DMA_BUF_H
-+
-+#include <linux/dma-buf.h>
-+#include <linux/tracepoint.h>
-+
-+DECLARE_EVENT_CLASS(dma_buf,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf),
-+
-+	TP_STRUCT__entry(
-+		__string(	exp_name,		dmabuf->exp_name)
-+		__field(	size_t,			size)
-+		__field(	ino_t,			ino)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(exp_name);
-+		__entry->size	= dmabuf->size;
-+		__entry->ino	= dmabuf->file->f_inode->i_ino;
-+	),
-+
-+	TP_printk("exp_name=%s size=%zu ino=%lu",
-+		  __get_str(exp_name),
-+		  __entry->size,
-+		  __entry->ino)
-+);
-+
-+DECLARE_EVENT_CLASS(dma_buf_attach_dev,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach,
-+		bool is_dynamic, struct device *dev),
-+
-+	TP_ARGS(dmabuf, attach, is_dynamic, dev),
-+
-+	TP_STRUCT__entry(
-+		__string(	dev_name,			dev_name(dev))
-+		__string(	exp_name,			dmabuf->exp_name)
-+		__field(	size_t,				size)
-+		__field(	ino_t,				ino)
-+		__field(	struct dma_buf_attachment *,	attach)
-+		__field(	bool,				is_dynamic)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(dev_name);
-+		__assign_str(exp_name);
-+		__entry->size		= dmabuf->size;
-+		__entry->ino		= dmabuf->file->f_inode->i_ino;
-+		__entry->is_dynamic	= is_dynamic;
-+		__entry->attach		= attach;
-+	),
-+
-+	TP_printk("exp_name=%s size=%zu ino=%lu attachment:%p is_dynamic=%d dev_name=%s",
-+		  __get_str(exp_name),
-+		  __entry->size,
-+		  __entry->ino,
-+		  __entry->attach,
-+		  __entry->is_dynamic,
-+		  __get_str(dev_name))
-+);
-+
-+DECLARE_EVENT_CLASS(dma_buf_fd,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, int fd),
-+
-+	TP_ARGS(dmabuf, fd),
-+
-+	TP_STRUCT__entry(
-+		__string(	exp_name,		dmabuf->exp_name)
-+		__field(	size_t,			size)
-+		__field(	ino_t,			ino)
-+		__field(	int,			fd)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(exp_name);
-+		__entry->size	= dmabuf->size;
-+		__entry->ino	= dmabuf->file->f_inode->i_ino;
-+		__entry->fd	= fd;
-+	),
-+
-+	TP_printk("exp_name=%s size=%zu ino=%lu fd=%d",
-+		  __get_str(exp_name),
-+		  __entry->size,
-+		  __entry->ino,
-+		  __entry->fd)
-+);
-+
-+DEFINE_EVENT(dma_buf, dma_buf_export,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf)
-+);
-+
-+DEFINE_EVENT(dma_buf, dma_buf_mmap_internal,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf)
-+);
-+
-+DEFINE_EVENT(dma_buf, dma_buf_mmap,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf)
-+);
-+
-+DEFINE_EVENT(dma_buf, dma_buf_put,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf)
-+);
-+
-+DEFINE_EVENT(dma_buf_attach_dev, dma_buf_dynamic_attach,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach,
-+		bool is_dynamic, struct device *dev),
-+
-+	TP_ARGS(dmabuf, attach, is_dynamic, dev)
-+);
-+
-+DEFINE_EVENT(dma_buf_attach_dev, dma_buf_detach,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach,
-+		bool is_dynamic, struct device *dev),
-+
-+	TP_ARGS(dmabuf, attach, is_dynamic, dev)
-+);
-+
-+DEFINE_EVENT(dma_buf_fd, dma_buf_fd,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, int fd),
-+
-+	TP_ARGS(dmabuf, fd)
-+);
-+
-+DEFINE_EVENT(dma_buf_fd, dma_buf_get,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, int fd),
-+
-+	TP_ARGS(dmabuf, fd)
-+);
-+
-+#endif /* _TRACE_DMA_BUF_H */
-+
-+/* This part must be outside protection */
-+#include <trace/define_trace.h>
--- 
-2.34.1
+Thanks,
+Wenmeng
 
 
