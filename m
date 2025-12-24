@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-49455-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49456-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C11B1CDBD89
-	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 10:44:52 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0EACCDBDBF
+	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 10:52:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0E875304A8DD
-	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 09:44:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CAD013035D37
+	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 09:51:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FCD7335BB4;
-	Wed, 24 Dec 2025 09:44:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD2FA33859B;
+	Wed, 24 Dec 2025 09:46:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NK3qv6fr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J54vKCR/"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7024D1624C6;
-	Wed, 24 Dec 2025 09:44:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFAFA337BB4;
+	Wed, 24 Dec 2025 09:46:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766569442; cv=none; b=dnV56lJGjMMay98DGw4IuKgL5pMqOk7nZphrezSh7NK/o8Yf1GZ2LJxLiHrnWj2isfnTRTtv+6bb9x5lupbHwwpcgwdEhKV/O8037+XMsp2gPsIBbILhfTn8q+VAcjMNkbTbQ+WTRcTThd1iJxZQ/Vcv/cEMtDqw8CT0HPp1Vt8=
+	t=1766569586; cv=none; b=upTXd8fWDRIGchgXpw+arWmwN3/dv8EVJL1KgJ4S51jo7IaI77t/YuKNu6MtIlQDNhErWIxxkoI8Zs1smnKe9Y9zcprwZYJyrc2abfugh5iTGOkmYNUXskWfXIMlIYyxr68r0rM7nffIMSxKKp4AfCztDHrVFWP+dQsKxPHduPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766569442; c=relaxed/simple;
-	bh=q57mZc/2LbAIyksFSSNzUpiDpsfut+dCIeMTLa6gpuk=;
+	s=arc-20240116; t=1766569586; c=relaxed/simple;
+	bh=XsevsM7oQwN9n4f9AWnmJLhBUmObUvLPJMfRVYWY2bk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XRL29/oiZYvkfJSCIOdSed+EaIwQT3dKnYn6d8ln1o0Jsjm1JKp0LQHJAg4fCVtzvRFdmWko7NrTvq4yFrbY14cMJWxJr7+5c2CjALaqEYzc7fnpU6bieTdT4Ct/uQGclw/RrgdzxTlTejTHf0AQG7e/vNTzsxEtywfJRw/p/mE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NK3qv6fr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EE04C4CEFB;
-	Wed, 24 Dec 2025 09:43:55 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=Q9hRamrhBeM/LwmVfyiTie+/C+QR8LwASD8nj0wHYI2l9eMzcjvdbLsDmvyP/YzW70iV05lmX9NmzNGv7lE5FiY2uvxtA7WlUgv6i/GaWm6yFMl4OfZ7Kf68KkvkqnxTywEJVWY45KIYLQovbcmc3NsTeKcq7RF842zryVOIPnA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J54vKCR/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42CC4C4CEFB;
+	Wed, 24 Dec 2025 09:46:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766569441;
-	bh=q57mZc/2LbAIyksFSSNzUpiDpsfut+dCIeMTLa6gpuk=;
+	s=k20201202; t=1766569585;
+	bh=XsevsM7oQwN9n4f9AWnmJLhBUmObUvLPJMfRVYWY2bk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=NK3qv6frurot9hYwqq6tsUKC9r2A6e5oCxi9Ic2Gs01wLKlzb++nvs/1H4dcOmmeb
-	 cnX0mRfeQTCtkjc2bETZS8+nQzmWJ/yblzj8endjRkGRWCXnhgvjyQQYBGNxVN0Gwr
-	 eX7k2ts8WaYmutDqdLCzT2BiI2WqczHQukTY90+qbJZzy5WbwbHdRtL8lOukdBgbX0
-	 3Uma9ABZR5SCIZMhTmAMazxebdUm/vq0YHfvlkQU8r282OJznq1FXr9Hk/LkRgbvxf
-	 tzEInpE8poM9qa0WFsNLK2y8VhQyCsxOtyv2PD5sKLpO7xaO6rYkzOsrfGLdCvOskP
-	 tiCc3dsWyCOcg==
-Message-ID: <57b55fc8-7350-4c5b-b5bf-9171b1954710@kernel.org>
-Date: Wed, 24 Dec 2025 10:43:53 +0100
+	b=J54vKCR/q0wfDLW+lqoepUU1YFXNenIMXZwQ3eb12rgheFEcNFplV85pnqk62mVL4
+	 SlJZ0mVRWBnU4QtCSJtfNPSGE92Ho97BOkft0vwuT+n1NJUugG6Qb4cdws+ZipoCa4
+	 wENiLZ08fnHoPCDYSifT+UN6v5h7HR8FCwQvQ6SqHGwe98bAU+YNPrRQZTpOSM3PhD
+	 q6J1i3X7mZGqLVEJnxMDirl3cK5nrtTl6JZB0xUyFCr2NCGa2PmrdREbcCP70f1GEd
+	 Ji69VrsFs0hNvnZAOX2o2M/WRvZZclSkt6VRSaHaZ04xfMkNWP30WK5NN9DtXEBIMn
+	 B+df8r1e/bmYw==
+Message-ID: <03a398f2-6108-49c6-aae0-77701fb066ea@kernel.org>
+Date: Wed, 24 Dec 2025 10:46:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -49,7 +49,8 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 1/3] media: dt-bindings: Add qcom,sm6150-camss
-To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
  Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
  Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
@@ -63,6 +64,10 @@ References: <20251222-sm6150-camss-v2-0-df8469a8343a@oss.qualcomm.com>
  <20251222-sm6150-camss-v2-1-df8469a8343a@oss.qualcomm.com>
  <20251223-pompous-inescapable-sponge-3fc9f0@quoll>
  <c6174a0a-9a76-4284-8675-bb5ca78a7b35@oss.qualcomm.com>
+ <eklzmnlnkanrper7lt46vap54u5giprsmwhwpr4am5ytwyohov@kjqvls5vjani>
+ <6b52d19e-8ff1-4bd6-b854-bcabccc7cd74@oss.qualcomm.com>
+ <3342fv43qdkmm66jgc63hho2kd3xn65p2fv3tyk3573izlxf7i@hgjsp2kwqyuh>
+ <26536725-19fe-4aa6-8a33-8e2e39261cd4@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -108,70 +113,82 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <c6174a0a-9a76-4284-8675-bb5ca78a7b35@oss.qualcomm.com>
+In-Reply-To: <26536725-19fe-4aa6-8a33-8e2e39261cd4@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 24/12/2025 04:18, Wenmeng Liu wrote:
+On 24/12/2025 06:36, Wenmeng Liu wrote:
 > 
 > 
-> On 12/23/2025 9:38 PM, Krzysztof Kozlowski wrote:
->> On Mon, Dec 22, 2025 at 04:28:39PM +0800, Wenmeng Liu wrote:
->>> +  interconnects:
->>> +    maxItems: 4
->>> +
->>> +  interconnect-names:
->>> +    items:
->>> +      - const: ahb
->>> +      - const: hf0_mnoc
->>> +      - const: hf1_mnoc
+> On 12/24/2025 1:03 PM, Dmitry Baryshkov wrote:
+>> On Wed, Dec 24, 2025 at 12:31:33PM +0800, Wenmeng Liu wrote:
+>>>
+>>>
+>>> On 12/24/2025 12:21 PM, Dmitry Baryshkov wrote:
+>>>> On Wed, Dec 24, 2025 at 11:18:02AM +0800, Wenmeng Liu wrote:
+>>>>>
+>>>>>
+>>>>> On 12/23/2025 9:38 PM, Krzysztof Kozlowski wrote:
+>>>>>> On Mon, Dec 22, 2025 at 04:28:39PM +0800, Wenmeng Liu wrote:
+>>>>>>> +  interconnects:
+>>>>>>> +    maxItems: 4
+>>>>>>> +
+>>>>>>> +  interconnect-names:
+>>>>>>> +    items:
+>>>>>>> +      - const: ahb
+>>>>>>> +      - const: hf0_mnoc
+>>>>>>> +      - const: hf1_mnoc
+>>>>>>
+>>>>>> Same comments as before, do not invent names.
+>>>>>
+>>>>> <&mmss_noc MASTER_CAMNOC_HF0 QCOM_ICC_TAG_ALWAYS
+>>>>> &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
+>>>>> <&mmss_noc MASTER_CAMNOC_HF1 QCOM_ICC_TAG_ALWAYS
+>>>>> &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
+>>>>>
+>>>>> This platform(qcs615) is different from others. It has two types of sf,
+>>>>> namely sf0 and sf1.
+>>>>> The same as it is:
+>>>>> sc7180 sc8180x sdm670 sdm845 sm8150
+>>>>> Do you have any suggestions about this?
+>>>>
+>>>> Which _names_ are used on other platforms? This question is quite clear
+>>>> from Krzysztof's comment.
+>>>
+>>> The platform mentioned above either has no camss ICC node or no support for
+>>> CAMSS on the upstream, so this is a new one.
 >>
->> Same comments as before, do not invent names.
-> 
-> <&mmss_noc MASTER_CAMNOC_HF0 QCOM_ICC_TAG_ALWAYS
-> &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
-> <&mmss_noc MASTER_CAMNOC_HF1 QCOM_ICC_TAG_ALWAYS
-> &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
-
-How is it relevant to the names?
-
-> 
-> This platform(qcs615) is different from others. It has two types of sf, 
-> namely sf0 and sf1.
-
-How is it relevant to the names?
-
-> The same as it is:
-> sc7180 sc8180x sdm670 sdm845 sm8150
-> Do you have any suggestions about this?
-
-Open any other binding. What are the names there?
-
-
-
-
-> 
+>> I did a quick look for you.
 >>
->> I finish review here and ignore the rest. You did not respond to
->> previous comments and I do not see any improvements.
-> 
-> I'm sorry about this. However, the previous comments did not clearly 
-> point out the problem.
-> 
->> Also, way you send patches makes it difficult for us, so I see no reason
->> why it should be my task to try to decipher all this.
+>> kodiak, lemans, monaco: ahb, hf_0
 >>
->> b4 diff '20251222-sm6150-camss-v2-1-df8469a8343a@oss.qualcomm.com'
->> Checking for older revisions
->> Grabbing search results from lore.kernel.org
->> ---
->> Analyzing 5 messages in the thread
->> Could not find lower series to compare against.
+>> x1e80100: ahb, hf_mnoc, sf_mnoc, sf_icp_mnoc
+>> sm8650: ahb, hf_mnoc
+>> agatti: ahb, hf_mnoc, sf_mnoc
+>> sm8550: ahb, hf_0_mnoc
+>>
+>> sc8280xp: cam_ahb, cam_hf_mnoc, cam_sf_mnoc, cam_sf_icp_mnoc
+>> sm8250: cam_ahb, cam_hf_0_mnoc, cam_sf_0_mnoc, cam_sf_icp_mnoc
+>> sdm660: vfe-mem
+>>
+>> I'd obviously hope for some unification here. Other than that, we have
+>> two clean winners: KLM and X Elite+SM8650+Agatti. Yours proposal is
+>> different from either of the options. In fact, none of the platforms
+>> have the same _approach_ as yours. Why?
+>>
 > 
-> --in-reply-to, will pay attention in the next version.
+> Yes, you're right.
+> But none of the above cases involved having two hf_mnoc simultaneously, 
+> so do you have any good suggestions for handling such a situation?
 
-What? No. You are supposed to use properly b4, which solves all these
-problems.
+And this is your answer to use completely different style? This makes no
+sense.
+
+This is your logic:
+1. If there is one HF, I will add underscore.
+2. If there is more than one HF, I will remove underscore.
+
+This makes absolutely NO SENSE.
 
 Best regards,
 Krzysztof
