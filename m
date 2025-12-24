@@ -1,168 +1,413 @@
-Return-Path: <linux-media+bounces-49431-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49432-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E56C9CDADE7
-	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 00:59:20 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E400CDB149
+	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 02:35:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2B0593056C5D
-	for <lists+linux-media@lfdr.de>; Tue, 23 Dec 2025 23:59:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DEF853027D88
+	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 01:35:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7890430C637;
-	Tue, 23 Dec 2025 23:59:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CB3427B4FB;
+	Wed, 24 Dec 2025 01:35:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AmDktxGz"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ho5Df/GZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41CE02F12C9;
-	Tue, 23 Dec 2025 23:58:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B903C26B2D3
+	for <linux-media@vger.kernel.org>; Wed, 24 Dec 2025 01:35:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766534340; cv=none; b=uNpxfzfcqsxgIhhsu2X7EC0CXV75nhTwlZLPuF0cpMkqevYEbIAWGeLUGBFAdOVejJcZy4j1KeuXVWk/CsftCUma57GlRxXh8b9xsLP8pgzVZKTt6a+fBtqzU68zVcpG0rGEA7Nd/JEZ28rev52OvpdRDgbr6c+RMPKH4Nmbb6E=
+	t=1766540105; cv=none; b=UjOLgsOUEjFjL8tgtCf5Cy5GGuCBB/DRjKiZLXdli2TR85/Ex9BXOdwoyaH7xjlf0a/6PEWJpHc7kVCncCF4pHjQ+0gkrF2Z4u9rubEZp+9f7go8cZ1own/VPhH+TVCshrFQp2hnFlDUCZEPRPNyKP16pcTNdretIDffGncO3o4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766534340; c=relaxed/simple;
-	bh=wbLqI2F7wg0GAZJFEKzvgXl0WujlC0eAlfgVTwT4Pnc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ekClxg3LPZuJUM73b4rVkYiseA0Z6Z+bZ8YMAR/yWGPS3sjkyz7f/oU5d5Bl1JK8h2yzzW0Uwe+Iyy1IA+0zGYSlKxBgxmlr4Zg4OTY+HDJ2wRnpNOlIyVKOe8FZkO7vboY2E2bI3/+yXQ1GnH4dJhqPy8Yz58M3MpAQdYhlNJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AmDktxGz; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766534339; x=1798070339;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wbLqI2F7wg0GAZJFEKzvgXl0WujlC0eAlfgVTwT4Pnc=;
-  b=AmDktxGz6As7TDCDiArpZwUFI3TctiOPKvOD/dPZr7Td8xbNWYrfcCZD
-   TcOvxhoIEQIURoUYhs2NgcsG/tQV2RIYDuWd01BKB+TvFkndrmzPrllxu
-   aPoqKMhOifXhHzwbZnOSAi0oW7qRPkpV99STDCs6qRK2u+lfwbRzqz4z1
-   1KOj4GMUbD9AhcL7E8T4ySpV/iOkT9wqx9WCoco648s9mUbBNo5rZqaP7
-   Pe2bFr8vPw2xle5rL1bsDhqGDEpdbHHaPprBwpGFNZgXq2NouvUbv3CVs
-   HELKrVvq16CVay0rylfefexnteFhNKbWHCXJ7aiTddMdXQyq60kz3Cjjv
-   g==;
-X-CSE-ConnectionGUID: /QR2UOgAQYewr1OliCngag==
-X-CSE-MsgGUID: DSDhPZVIRdiiTnmHKw+7VQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="79016466"
-X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; 
-   d="scan'208";a="79016466"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 15:58:58 -0800
-X-CSE-ConnectionGUID: TcJUReP5Qwy+NGFGsQ85Gg==
-X-CSE-MsgGUID: K0cnw6bARF6boThsyEe6Hw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; 
-   d="scan'208";a="199870155"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 23 Dec 2025 15:58:52 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vYCHC-000000002Uf-0n58;
-	Tue, 23 Dec 2025 23:58:50 +0000
-Date: Wed, 24 Dec 2025 07:58:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>,
-	linux-cxl@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Rafael J Wysocki <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Tony Luck <tony.luck@intel.com>,
-	Borislav Petkov <bp@alien8.de>, Hanjun Guo <guohanjun@huawei.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, Shuai Xue <xueshuai@linux.alibaba.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
-	Oliver O'Halloran <oohall@gmail.com>,
-	Bjorn Helgaas <helgaas@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-acpi@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-pci@vger.kernel.org,
-	"Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>
-Subject: Re: [PATCH 3/5 v8] acpi/ghes: Add helper for CPER CXL protocol
- errors checks
-Message-ID: <202512240711.Iv57ik8I-lkp@intel.com>
-References: <20251219124042.3759749-4-fabio.m.de.francesco@linux.intel.com>
+	s=arc-20240116; t=1766540105; c=relaxed/simple;
+	bh=Tv4vtw7Tbr+wgMrHd9/3cbmNcKI2RBnt+0OwiSlgBuU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=H1+rzoziJW66xAzNh1e3YniOtbTNfnnANsQ5kzcQVyKTjmr9hrgh8nKfKslpMvGpYLxa5uPATpD8ZJDNuaxNLJOEGm/P5G6M6iI4hfZtgsYkJEa+q2UBnpXt+NNin0S0r16bT7ZtWh5wzcHSJDPkOJl/12taG5Y8YtUu/TrRjxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ho5Df/GZ; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7f0db5700b2so4960471b3a.0
+        for <linux-media@vger.kernel.org>; Tue, 23 Dec 2025 17:35:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766540103; x=1767144903; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eLgDSVcqpjH9P0lPmmEO0GCItc6WAA5nc00aszWHtzk=;
+        b=Ho5Df/GZZUCIZOrlM8/PQRX3Q0cZM3cUAcClf1msdbC5TWpwagfNaH/TtOsszo77mO
+         BkS0Gfn3jRd8CpwHO70z3EBC3faoZvnf+CResrUQZzJnefZHwT1DooIXp0EyrqpY8lAz
+         081g4VguqQjrWh32HeyWFCO1OHbfKHFxHAwg76Q/06La/qcwoeuu9HpmKhPYhFUzFnq/
+         5+ZGp5ipQKGyTCilTCkkFL651nQTY+15UT+zQWl2qq0+SH7lvOHmuMJZpLeZRUX0mlli
+         imC81vEkwKhsjxHgEoJGwjNamJ1rEWITjovKUqtbl/9hkWavC+p6t1OWU2Hj6o8Vcbyz
+         1Hpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766540103; x=1767144903;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eLgDSVcqpjH9P0lPmmEO0GCItc6WAA5nc00aszWHtzk=;
+        b=YBlJcbCGZeFOYQormzWJfx8IRZLTBmbz64wyNW8AYjiJqWBgeEGrsuJf8npVxU3OXx
+         9tNvkhYp9oDz2bKPJmvG6cSyoN7xhcjt5wRcRS3tqN4yVvrtocdAMT2OX7AWH5ww7Icz
+         cEB77LmMgeIfWzG76xKpIrYxb9hU5Yh5QhC0NjO+81ZT2dHyC/3mKWpzNdTTqKTF9stz
+         2DFNv6xjjBlL8/DLKkggH6ePzbyFI8Frxb2eM9lzeZ/Mf/qfYG1qwqz/TU2VyRMMN2vl
+         2wyzaPnn8q9O6r+Gkp5hp9Q06rAmbuCHZr8Oeb62xthob3f4B2xebR7cGFwbyfqeMeUR
+         LD4A==
+X-Gm-Message-State: AOJu0YzYA44X4Etzx+PDCRjcGnBphQrlW1UM8TDlXGWm82UvcEu3TvC5
+	Yd97akkQnZQFhh0C3Czti5dud3M+9ULriH6Ge6usIKp/wb+OjOsKxqIY
+X-Gm-Gg: AY/fxX4FzHgo2yuulPSWoJc6I4UTqCZACmpG6U0fk+J8jFNoeJeVafelKFB0Mw7ZkvJ
+	ji6r/wMA6OwOf826wL5BGIvm0qD8Y5CqWtYDdnAFOV5jx67rRZd/Yn5e2e6kX2Aks+F8P+cpuOv
+	+aNAkIPZBGOs9vYdcXBcPGSYF8iPUUG5QXGH12pEF+Iu0S/eCOJbnsnoZN0Mkct3Fro1b4nv5Fk
+	QXIezsijl70HiUeZWJzJXVy2fDYQVLnM+PKjn2ojjailTJy50GgkXfcfE444YF5+AEE0Q2Kmb6a
+	M7VVP5l9kSOSPTDMD8zaRKhkzaRkZ8Kvfwezkptlch6fqflhBO24T6Q3tZon+kF7BLVAodapqwv
+	u5pzZ9ctciHZmiv52Vavx9ud5mofRgTkKz7D6XBG0XmFcC5CYMyb6iQVMpRddWWvIv9ltqTwQt3
+	fExJPyHDo4/Xxg5BKpmRzj
+X-Google-Smtp-Source: AGHT+IFTBuM3TfizJm1mOjlbks6r4SS68r/TDo9u052WC6bOg2K+nOmrc49Dnw3fRCDvPURsdk9ABQ==
+X-Received: by 2002:a05:6a20:9392:b0:366:14af:9bc2 with SMTP id adf61e73a8af0-376ab2e7a5dmr14766328637.76.1766540102836;
+        Tue, 23 Dec 2025 17:35:02 -0800 (PST)
+Received: from xiao.mioffice.cn ([43.224.245.230])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7e682870sm14956614b3a.57.2025.12.23.17.34.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Dec 2025 17:35:02 -0800 (PST)
+From: Xiang Gao <gxxa03070307@gmail.com>
+To: sumit.semwal@linaro.org,
+	christian.koenig@amd.com,
+	rostedt@goodmis.org,
+	mhiramat@kernel.org
+Cc: linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	mathieu.desnoyers@efficios.com,
+	dhowells@redhat.com,
+	kuba@kernel.org,
+	brauner@kernel.org,
+	akpm@linux-foundation.org,
+	linux-trace-kernel@vger.kernel.org,
+	gaoxiang17 <gaoxiang17@xiaomi.com>
+Subject: [PATCH v10] dma-buf: add some tracepoints to debug.
+Date: Wed, 24 Dec 2025 09:34:55 +0800
+Message-Id: <20251224013455.1649879-1-gxxa03070307@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251219124042.3759749-4-fabio.m.de.francesco@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Fabio,
+From: gaoxiang17 <gaoxiang17@xiaomi.com>
 
-kernel test robot noticed the following build errors:
+Since we can only inspect dmabuf by iterating over process FDs or the
+dmabuf_list, we need to add our own tracepoints to track its status in
+real time in production.
 
-[auto build test ERROR on ea1013c1539270e372fc99854bc6e4d94eaeff66]
+For example:
+   binder:3016_1-3102    [006] ...1.   255.126521: dma_buf_export: exp_name=qcom,system size=12685312 ino=2738
+   binder:3016_1-3102    [006] ...1.   255.126528: dma_buf_fd: exp_name=qcom,system size=12685312 ino=2738 fd=8
+   binder:3016_1-3102    [006] ...1.   255.126642: dma_buf_mmap_internal: exp_name=qcom,system size=28672 ino=2739
+     kworker/6:1-86      [006] ...1.   255.127194: dma_buf_put: exp_name=qcom,system size=12685312 ino=2738
+    RenderThread-9293    [006] ...1.   316.618179: dma_buf_get: exp_name=qcom,system size=12771328 ino=2762 fd=176
+    RenderThread-9293    [006] ...1.   316.618195: dma_buf_dynamic_attach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
+    RenderThread-9293    [006] ...1.   318.878220: dma_buf_detach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Fabio-M-De-Francesco/ACPI-extlog-Trace-CPER-Non-standard-Section-Body/20251219-204338
-base:   ea1013c1539270e372fc99854bc6e4d94eaeff66
-patch link:    https://lore.kernel.org/r/20251219124042.3759749-4-fabio.m.de.francesco%40linux.intel.com
-patch subject: [PATCH 3/5 v8] acpi/ghes: Add helper for CPER CXL protocol errors checks
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20251224/202512240711.Iv57ik8I-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512240711.Iv57ik8I-lkp@intel.com/reproduce)
+Signed-off-by: Xiang Gao <gaoxiang17@xiaomi.com>
+---
+ drivers/dma-buf/dma-buf.c      |  49 +++++++++-
+ include/trace/events/dma_buf.h | 157 +++++++++++++++++++++++++++++++++
+ 2 files changed, 204 insertions(+), 2 deletions(-)
+ create mode 100644 include/trace/events/dma_buf.h
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512240711.Iv57ik8I-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/acpi/apei/ghes_helpers.c: In function 'cxl_cper_sec_prot_err_valid':
->> drivers/acpi/apei/ghes_helpers.c:9:17: error: implicit declaration of function 'pr_err_ratelimited' [-Wimplicit-function-declaration]
-       9 |                 pr_err_ratelimited("CXL CPER invalid agent type\n");
-         |                 ^~~~~~~~~~~~~~~~~~
->> drivers/acpi/apei/ghes_helpers.c:27:17: error: implicit declaration of function 'pr_warn_ratelimited' [-Wimplicit-function-declaration]
-      27 |                 pr_warn_ratelimited(FW_WARN
-         |                 ^~~~~~~~~~~~~~~~~~~
->> drivers/acpi/apei/ghes_helpers.c:27:37: error: 'FW_WARN' undeclared (first use in this function)
-      27 |                 pr_warn_ratelimited(FW_WARN
-         |                                     ^~~~~~~
-   drivers/acpi/apei/ghes_helpers.c:27:37: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/acpi/apei/ghes_helpers.c:27:44: error: expected ')' before string constant
-      27 |                 pr_warn_ratelimited(FW_WARN
-         |                                    ~       ^
-         |                                            )
-      28 |                                     "CXL CPER no device serial number\n");
-         |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/pr_err_ratelimited +9 drivers/acpi/apei/ghes_helpers.c
-
-     5	
-     6	int cxl_cper_sec_prot_err_valid(struct cxl_cper_sec_prot_err *prot_err)
-     7	{
-     8		if (!(prot_err->valid_bits & PROT_ERR_VALID_AGENT_ADDRESS)) {
-   > 9			pr_err_ratelimited("CXL CPER invalid agent type\n");
-    10			return -EINVAL;
-    11		}
-    12	
-    13		if (!(prot_err->valid_bits & PROT_ERR_VALID_ERROR_LOG)) {
-    14			pr_err_ratelimited("CXL CPER invalid protocol error log\n");
-    15			return -EINVAL;
-    16		}
-    17	
-    18		if (prot_err->err_len != sizeof(struct cxl_ras_capability_regs)) {
-    19			pr_err_ratelimited("CXL CPER invalid RAS Cap size (%u)\n",
-    20					   prot_err->err_len);
-    21			return -EINVAL;
-    22		}
-    23	
-    24		if ((prot_err->agent_type == RCD || prot_err->agent_type == DEVICE ||
-    25		     prot_err->agent_type == LD || prot_err->agent_type == FMLD) &&
-    26		    !(prot_err->valid_bits & PROT_ERR_VALID_SERIAL_NUMBER))
-  > 27			pr_warn_ratelimited(FW_WARN
-
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index edaa9e4ee4ae..5e6f65cd0306 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -35,6 +35,26 @@
+ 
+ #include "dma-buf-sysfs-stats.h"
+ 
++#define CREATE_TRACE_POINTS
++#include <trace/events/dma_buf.h>
++
++/*
++ * dmabuf->name must be accessed with holding dmabuf->name_lock.
++ * we need to take the lock around the tracepoint call itself where
++ * it is called in the code.
++ *
++ * Note: FUNC##_enabled() is a static branch that will only
++ *       be set when the trace event is enabled.
++ */
++#define DMA_BUF_TRACE(FUNC, ...)					\
++	do {											\
++		/* Always expose lock if lockdep is enabled */ 	\
++		if (IS_ENABLED(CONFIG_LOCKDEP) || FUNC##_enabled()) {						\
++			guard(spinlock)(&dmabuf->name_lock);	\
++			FUNC(__VA_ARGS__);						\
++		}											\
++	} while (0)
++
+ static inline int is_dma_buf_file(struct file *);
+ 
+ static DEFINE_MUTEX(dmabuf_list_mutex);
+@@ -220,6 +240,8 @@ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
+ 	    dmabuf->size >> PAGE_SHIFT)
+ 		return -EINVAL;
+ 
++	DMA_BUF_TRACE(trace_dma_buf_mmap_internal, dmabuf);
++
+ 	return dmabuf->ops->mmap(dmabuf, vma);
+ }
+ 
+@@ -745,6 +767,8 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+ 
+ 	__dma_buf_list_add(dmabuf);
+ 
++	DMA_BUF_TRACE(trace_dma_buf_export, dmabuf);
++
+ 	return dmabuf;
+ 
+ err_dmabuf:
+@@ -768,10 +792,16 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_export, "DMA_BUF");
+  */
+ int dma_buf_fd(struct dma_buf *dmabuf, int flags)
+ {
++	int fd;
++
+ 	if (!dmabuf || !dmabuf->file)
+ 		return -EINVAL;
+ 
+-	return FD_ADD(flags, dmabuf->file);
++	fd = FD_ADD(flags, dmabuf->file);
++	if (fd >= 0)
++		DMA_BUF_TRACE(trace_dma_buf_fd, dmabuf, fd);
++
++	return fd;
+ }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_fd, "DMA_BUF");
+ 
+@@ -786,6 +816,7 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_fd, "DMA_BUF");
+ struct dma_buf *dma_buf_get(int fd)
+ {
+ 	struct file *file;
++	struct dma_buf *dmabuf;
+ 
+ 	file = fget(fd);
+ 
+@@ -797,7 +828,11 @@ struct dma_buf *dma_buf_get(int fd)
+ 		return ERR_PTR(-EINVAL);
+ 	}
+ 
+-	return file->private_data;
++	dmabuf = file->private_data;
++
++	DMA_BUF_TRACE(trace_dma_buf_get, dmabuf, fd);
++
++	return dmabuf;
+ }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_get, "DMA_BUF");
+ 
+@@ -817,6 +852,8 @@ void dma_buf_put(struct dma_buf *dmabuf)
+ 		return;
+ 
+ 	fput(dmabuf->file);
++
++	DMA_BUF_TRACE(trace_dma_buf_put, dmabuf);
+ }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_put, "DMA_BUF");
+ 
+@@ -971,6 +1008,9 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
+ 	list_add(&attach->node, &dmabuf->attachments);
+ 	dma_resv_unlock(dmabuf->resv);
+ 
++	DMA_BUF_TRACE(trace_dma_buf_dynamic_attach, dmabuf, attach,
++		dma_buf_attachment_is_dynamic(attach), dev);
++
+ 	return attach;
+ 
+ err_attach:
+@@ -1015,6 +1055,9 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
+ 	if (dmabuf->ops->detach)
+ 		dmabuf->ops->detach(dmabuf, attach);
+ 
++	DMA_BUF_TRACE(trace_dma_buf_detach, dmabuf, attach,
++		dma_buf_attachment_is_dynamic(attach), attach->dev);
++
+ 	kfree(attach);
+ }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_detach, "DMA_BUF");
+@@ -1480,6 +1523,8 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
+ 	vma_set_file(vma, dmabuf->file);
+ 	vma->vm_pgoff = pgoff;
+ 
++	DMA_BUF_TRACE(trace_dma_buf_mmap, dmabuf);
++
+ 	return dmabuf->ops->mmap(dmabuf, vma);
+ }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_mmap, "DMA_BUF");
+diff --git a/include/trace/events/dma_buf.h b/include/trace/events/dma_buf.h
+new file mode 100644
+index 000000000000..2c9ba8533467
+--- /dev/null
++++ b/include/trace/events/dma_buf.h
+@@ -0,0 +1,157 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#undef TRACE_SYSTEM
++#define TRACE_SYSTEM dma_buf
++
++#if !defined(_TRACE_DMA_BUF_H) || defined(TRACE_HEADER_MULTI_READ)
++#define _TRACE_DMA_BUF_H
++
++#include <linux/dma-buf.h>
++#include <linux/tracepoint.h>
++
++DECLARE_EVENT_CLASS(dma_buf,
++
++	TP_PROTO(struct dma_buf *dmabuf),
++
++	TP_ARGS(dmabuf),
++
++	TP_STRUCT__entry(
++		__string(	exp_name,		dmabuf->exp_name)
++		__field(	size_t,			size)
++		__field(	ino_t,			ino)
++	),
++
++	TP_fast_assign(
++		__assign_str(exp_name);
++		__entry->size	= dmabuf->size;
++		__entry->ino	= dmabuf->file->f_inode->i_ino;
++	),
++
++	TP_printk("exp_name=%s size=%zu ino=%lu",
++		  __get_str(exp_name),
++		  __entry->size,
++		  __entry->ino)
++);
++
++DECLARE_EVENT_CLASS(dma_buf_attach_dev,
++
++	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach,
++		bool is_dynamic, struct device *dev),
++
++	TP_ARGS(dmabuf, attach, is_dynamic, dev),
++
++	TP_STRUCT__entry(
++		__string(	dev_name,			dev_name(dev))
++		__string(	exp_name,			dmabuf->exp_name)
++		__field(	size_t,				size)
++		__field(	ino_t,				ino)
++		__field(	struct dma_buf_attachment *,	attach)
++		__field(	bool,				is_dynamic)
++	),
++
++	TP_fast_assign(
++		__assign_str(dev_name);
++		__assign_str(exp_name);
++		__entry->size		= dmabuf->size;
++		__entry->ino		= dmabuf->file->f_inode->i_ino;
++		__entry->is_dynamic	= is_dynamic;
++		__entry->attach		= attach;
++	),
++
++	TP_printk("exp_name=%s size=%zu ino=%lu attachment:%p is_dynamic=%d dev_name=%s",
++		  __get_str(exp_name),
++		  __entry->size,
++		  __entry->ino,
++		  __entry->attach,
++		  __entry->is_dynamic,
++		  __get_str(dev_name))
++);
++
++DECLARE_EVENT_CLASS(dma_buf_fd,
++
++	TP_PROTO(struct dma_buf *dmabuf, int fd),
++
++	TP_ARGS(dmabuf, fd),
++
++	TP_STRUCT__entry(
++		__string(	exp_name,		dmabuf->exp_name)
++		__field(	size_t,			size)
++		__field(	ino_t,			ino)
++		__field(	int,			fd)
++	),
++
++	TP_fast_assign(
++		__assign_str(exp_name);
++		__entry->size	= dmabuf->size;
++		__entry->ino	= dmabuf->file->f_inode->i_ino;
++		__entry->fd	= fd;
++	),
++
++	TP_printk("exp_name=%s size=%zu ino=%lu fd=%d",
++		  __get_str(exp_name),
++		  __entry->size,
++		  __entry->ino,
++		  __entry->fd)
++);
++
++DEFINE_EVENT(dma_buf, dma_buf_export,
++
++	TP_PROTO(struct dma_buf *dmabuf),
++
++	TP_ARGS(dmabuf)
++);
++
++DEFINE_EVENT(dma_buf, dma_buf_mmap_internal,
++
++	TP_PROTO(struct dma_buf *dmabuf),
++
++	TP_ARGS(dmabuf)
++);
++
++DEFINE_EVENT(dma_buf, dma_buf_mmap,
++
++	TP_PROTO(struct dma_buf *dmabuf),
++
++	TP_ARGS(dmabuf)
++);
++
++DEFINE_EVENT(dma_buf, dma_buf_put,
++
++	TP_PROTO(struct dma_buf *dmabuf),
++
++	TP_ARGS(dmabuf)
++);
++
++DEFINE_EVENT(dma_buf_attach_dev, dma_buf_dynamic_attach,
++
++	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach,
++		bool is_dynamic, struct device *dev),
++
++	TP_ARGS(dmabuf, attach, is_dynamic, dev)
++);
++
++DEFINE_EVENT(dma_buf_attach_dev, dma_buf_detach,
++
++	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach,
++		bool is_dynamic, struct device *dev),
++
++	TP_ARGS(dmabuf, attach, is_dynamic, dev)
++);
++
++DEFINE_EVENT(dma_buf_fd, dma_buf_fd,
++
++	TP_PROTO(struct dma_buf *dmabuf, int fd),
++
++	TP_ARGS(dmabuf, fd)
++);
++
++DEFINE_EVENT(dma_buf_fd, dma_buf_get,
++
++	TP_PROTO(struct dma_buf *dmabuf, int fd),
++
++	TP_ARGS(dmabuf, fd)
++);
++
++#endif /* _TRACE_DMA_BUF_H */
++
++/* This part must be outside protection */
++#include <trace/define_trace.h>
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
 
