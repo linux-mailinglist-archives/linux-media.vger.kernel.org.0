@@ -1,176 +1,255 @@
-Return-Path: <linux-media+bounces-49480-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49481-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F02B3CDC3BB
-	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 13:38:27 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D7C7CDC835
+	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 15:24:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 916E53119B9A
-	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 12:33:00 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id BBCA1300EDF6
+	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 14:24:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F40C33556D;
-	Wed, 24 Dec 2025 12:31:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 587E32D0620;
+	Wed, 24 Dec 2025 14:24:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Jetu+itw";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="GCnp4RiZ"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="0K7GIyoM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C8533890D
-	for <linux-media@vger.kernel.org>; Wed, 24 Dec 2025 12:31:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA93821FF30
+	for <linux-media@vger.kernel.org>; Wed, 24 Dec 2025 14:24:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766579497; cv=none; b=HONAl0C+xWrExraVqWDJPPWgq6CgX+hPTijz+wUCQOKcyKfzGfQ1tzlP1UgBIh9pHJDzg1zWPXs4KemMnBYpwLssc+azT1LmT16Ow495kgMDJt/s3uV8BcJjs0YZrBDkxSwrmAPZOu7OoZgJiTPGEPd8lK/1m5VjA3EmZ2Q9/4Q=
+	t=1766586267; cv=none; b=R3eT/FrDzexTQGSFQbxATNZzxzqUVFYlPbnQgCEgwPKYsfF6huMDLY1u4vFNX6WMJWGpX8lb7eA2uKWY6cdD13fl63l8JPzaF3ouixhkROeJEhWDYzpTJPx8Fa/Wr1i9qc9UFiQHTs+DU4ibZJFICDV8Nv2UlIRuVTKxlCkYBBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766579497; c=relaxed/simple;
-	bh=hloPmS/gU0jIzAKeFmhUtGJfp/7uHpLhIe0ol+k4rWg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=AX9KEZ1vT4DP4pXZHnwsaZI2wmPVRKVayamfxviqYEJgT1o4E04v1JNsZhD7xw6C9XNUXA+qfcK/7fIIX2O4c2dSrN9QaIUIumSe/UX6SXkNc0iC8ZXtA5cBPG4Fo4Xs2sKIzJKnpv4VqTKwu0qMkjQT2xNvv04q58tqSAP7KbE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Jetu+itw; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=GCnp4RiZ; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BO8V6MO1206453
-	for <linux-media@vger.kernel.org>; Wed, 24 Dec 2025 12:31:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	WKN4rmMuNZjMAPske/u/qV1QPc+BO+zGVACsa/L8Cyc=; b=Jetu+itwEs21hM1o
-	ppjaL+WyLdzyKwO086z8ia+hJw4gFLss3hmqElAKHRfIrK5say3giRS9g7/Ja4BF
-	M+GBYkBOG2bzD0JjPsDA+ecRd0DoTwSFWnApdt6vbkb4tP8XBZ2GELq8cCFuwelo
-	iyOvYkSUXucb9NByavG3v7m0jCwtwFrXVI3ovltnEG+fJaRokRoUPK5+6VB6IZYW
-	ljOFY/0kmpsz2oL/qQ0OJJ90CGT7VHnj1Vn05NWEQF0fBD6Kwgu7pH0SI3p4vnO4
-	1IG3K5eXMngy3tfcU3QH5iezeVClxOvRTocyFAyrExOAho9iizMEakvcRu0w8MZF
-	v0dCSg==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b827r23nw-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 24 Dec 2025 12:31:34 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4edad69b4e8so124273181cf.1
-        for <linux-media@vger.kernel.org>; Wed, 24 Dec 2025 04:31:34 -0800 (PST)
+	s=arc-20240116; t=1766586267; c=relaxed/simple;
+	bh=i+qFzc+frCs261rZV2/oV2Z5l2+LHQwpDCqA3TqF60o=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=IxLQRM5nzT/WGRwIy+PkKcGcTPF8yxT4NOZRcJGpS/uKNZh3/3OzY63hkn3a9wF+W8iym2uaUrI5SIys3OiXfvS3RKxCtMLASpi8GW2lKlBg3/VG24YB/QKKKJZ7bPgVwTKklQNMKSnIEH0YgWuVimVMLeqURM+74vuiLgxFRJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=0K7GIyoM; arc=none smtp.client-ip=209.85.219.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-88a34450f19so67070526d6.1
+        for <linux-media@vger.kernel.org>; Wed, 24 Dec 2025 06:24:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1766579494; x=1767184294; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WKN4rmMuNZjMAPske/u/qV1QPc+BO+zGVACsa/L8Cyc=;
-        b=GCnp4RiZySuELms8Pz/zh1nTx+PtPSDSjs7x9dXMS5Tb8v1uhs3ZxT9XSDSB4518xG
-         /xf37cmeC+ymSieLCJYMpMpIS5+R5JWKMC+2Bf2A+IbR8qVyXjKu0Igb5L0tGVnNmJ/j
-         enkN04hF4/mGJiTMX0EdVepMi6BnZTO+w5HBzBR1PrnRhyv2TbkuHjm7It5VXHp/BRSU
-         5Kw/rL8ZD2dmcPSBotchazirzYj3wOa5tMPUAyVHlOR+jjJ7OjPyj6UE0Sdmm2bJxAGM
-         ZeOeWAZ+H4DXErEP8H6xCTsc3wXsEyYUcgkrWlVs9sAWX+4xOfKlpWJdnvKONvEc8Rrz
-         FEBQ==
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1766586263; x=1767191063; darn=vger.kernel.org;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=sbtXpYWxITg7AJr/Jwg+F1OWRFSMP1K1yS5iR5eqeGE=;
+        b=0K7GIyoMnd00TcFsfP2pPEwsBVFDkQYKodfaKx8KzeRQXkQR0beY6Jnw62z43adM2c
+         UcTOOwONdjAbR4UxiqgTVnE4C6O4NBoAhGEJtb3QYiLXjfDjMyvVJzTNjyrRzdt6Yl1F
+         WUc09psfEhmg2U2xDKQYbfEiv3ffZrHhtDor8sitdpZAFOo3oB2KE1zq7lLX3b+vPEr4
+         CVbjF8LYD9W6/uCgKiZLWTii0Bsemjv78RHgTAJ139labLfZcumNH6eNZjXzjcR1kG18
+         NZSPE2fU94+ZfNbbPsOSXOH5B+/McNowLYuJp9UUuIB57oZgMQgYtGzE74ybgrckIwOn
+         cuug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766579494; x=1767184294;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=WKN4rmMuNZjMAPske/u/qV1QPc+BO+zGVACsa/L8Cyc=;
-        b=jhgb6jNzznbzodKkUfXHCisoONMlobMpIUG/Z/7HOgdktdw5f3ZagmEoEsOEMDaZWd
-         KFSRUEJXfHgSNongafMbO3e+CNCm8x5wsTgW5VF4HuSX1SMwe1HciFuG1QOnWTkgQFLF
-         93QZaYp8w5e73fqCtgjJRRrOGugXncnDgQ8A4qrivP2IuzE1rRU1r7zyh4lfWa2fTSLH
-         eVEUi0rum0K9CU90LmFP2miqGmDVomcH81XG7wfd4LMRJRiU/ZhL/LhhqR8Spui4oPLA
-         PmOETyzYtwPqLsXOvPMcHh/in2l2toqku+UkfcjwAvRuhJ6o4iYv4AKBjKiHjLrnXmb4
-         TIlw==
-X-Gm-Message-State: AOJu0Yw9DyHgoy2HUF3NM3L75oPiD5oZeRbWzsfuaoCXzmEd+MxBuN+K
-	QYlYZJYsAX0+jnkmMQN2o9nxL0X2Lloi41cs0GDW5fwRMwmTJeUzYSNA9pZ7wtsgTPTaiVjBg3x
-	Jik9rL191kyK5eZA+C1404h3cT72zuZCpnb9kNfiWEyTe1C+aUA3uhIuvOgffqY1W0g==
-X-Gm-Gg: AY/fxX54LueDaSwJj8NKJAb3LGdyXoLUYmDFwkO1sDUg7c/3Rl0L67B6G07R6uvqoxU
-	fTq5wE2AILyoQ7e9whfKM4bJBM6ErwOKfm728VzpciP6py/XrIkmHzsBKiGU+tIDTTx3Nu9Imnc
-	hGSygnGNm9TPPGW0OWulVJRWvS3PAJHIuEICbeAhKYfWTdrR8GfNfCFxqow3OV8mmJPViSeeqnE
-	eZrodUWg66XB1uChOHwINhj/Ce8sv4PrF7ka3aSJbmItXjFH/SefPvkQn3tvn066exFFOWD2MDN
-	JWsu8vjzXZPRIVLdyboH4+3H6JI3Q42diPKvOzAmH6RfoDIcsywXUu+5PG0m7S4XI0Y5KRKFONv
-	z3v5RkV0BmQz0O6uxbPcFQ1EuafxsOVwqf1sssCCbR03338c70aRX7MYJwwD6cph6ycbY4+fgYl
-	eyPcRrpKoqAvdhdpIcp8glb4jqxHeW8ISJMuSzUGg9
-X-Received: by 2002:ac8:5f8c:0:b0:4ee:bac:e3aa with SMTP id d75a77b69052e-4f35f46d1ddmr317594041cf.35.1766579493887;
-        Wed, 24 Dec 2025 04:31:33 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGIsZkGfhFcDEW3nArahjqs2pVGrQ6BHEQvjRiT7Tqzwb/XjrW/z34m/OteKuyL0bYQQbwRUQ==
-X-Received: by 2002:ac8:5f8c:0:b0:4ee:bac:e3aa with SMTP id d75a77b69052e-4f35f46d1ddmr317593741cf.35.1766579493531;
-        Wed, 24 Dec 2025 04:31:33 -0800 (PST)
-Received: from shalem.localdomain (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8037f0b12dsm1750304066b.48.2025.12.24.04.31.32
+        d=1e100.net; s=20230601; t=1766586263; x=1767191063;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sbtXpYWxITg7AJr/Jwg+F1OWRFSMP1K1yS5iR5eqeGE=;
+        b=lgUB+FQ6vKRzrfQd4xI1/pgk2v0xp7MJ5lAzRxmCsjk8Wo6WTZrlEDsyYVWOcfOj4U
+         kO9URiWuMWebgm8REsUaBlwjArTzTFdspI+xU34h/0HeOrqxQqHnTSvBp1SX8BvGmVUn
+         wI9V3h3vqLgq4q50IAwX/rHZ8b2nsmH/+KSpu6cEs9W93SqgnePEHlQ5RGJnNb3fEAfD
+         lLf5UetWCXEYFAxxNzeiBA1XOnzsUc3MYQ1nYbW/ItAcfc1hG8z6x9Ba28TYQjiDmflg
+         o+5FIVvwbhxhyZlfwZEcEwTEE/RbhiaeHa9KsBTySS0F7zdWijX959HwxTJHcYvWY26R
+         9TiQ==
+X-Gm-Message-State: AOJu0YzxTcUhqbijCCj4XMejPYKFXo0hL32hJxe780bdmyZNNzJEqWy6
+	oZoRd1Iz3JjgW/pPIjFdfwIJxCF9BpNPxB5YENmx01yL1d62iyCdUMsM9ZEdq7+s+g4=
+X-Gm-Gg: AY/fxX4C3+tCPO0iBfEfu68BkaiwH2xQiC+KnFYIRFrUk8Ka/sBsQmJ9Lw4Wpp44eSD
+	RCc7OgS0F4QkklMzI0cMKP5m1LHr8o+EjmH5Du262XlWvNFDR6bk3v45LgNaOmErICZ9/ARpM9l
+	E5wr4NVBwKpej3AfRiJjZGY1jAiz8s7rt7L4WJznpFQvDiKigIaNoSgaS55x/4JqzRjBulWkJLj
+	Mn3dGR4MLeYGopI0i1eqPYMjhPtXN8mQXzVhP83iLhYxdGFBCKLuoJmS/W7QCf7mftKXLqBIQUo
+	Eb/MD6vPoQaQ8zEIQ0JEsHHJkEaYoJKUCnUL5t2Si1dsSp+QNAsYClh/W1ecXwmAowWsLRGWpAd
+	Wm2AbDY2yRucOSuue6d9cgTDtpQzbh6He/ouKGrcua+zxenV6U2PBTH/WldLaBQiJ/qzmeT4pWG
+	pCwMrtElrzYqJPSvf2
+X-Google-Smtp-Source: AGHT+IFBXBD3jYFaArbbRnknDps/xO8oWwhKezx3DwQgqGe5GqPW6vUGgcAoj4hZpaaBRbI7eNh78Q==
+X-Received: by 2002:a05:6214:d04:b0:88f:a4ff:454e with SMTP id 6a1803df08f44-88fa4ff4642mr190361976d6.10.1766586262889;
+        Wed, 24 Dec 2025 06:24:22 -0800 (PST)
+Received: from ?IPv6:2606:6d00:17:7b4b::c41? ([2606:6d00:17:7b4b::c41])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88d9680dc3bsm128036936d6.14.2025.12.24.06.24.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Dec 2025 04:31:32 -0800 (PST)
-From: Hans de Goede <johannes.goede@oss.qualcomm.com>
-Date: Wed, 24 Dec 2025 13:31:24 +0100
-Subject: [PATCH v4 15/15] media: mt9m114: Add ACPI enumeration support
+        Wed, 24 Dec 2025 06:24:22 -0800 (PST)
+Message-ID: <fffbec0dbb95fe0aa34e847c89499e91ebc1df43.camel@ndufresne.ca>
+Subject: Re: [PATCH v2 02/22] media: v4l2-common: add has_alpha to
+ v4l2_format_info
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Sven =?ISO-8859-1?Q?P=FCschel?= <s.pueschel@pengutronix.de>, Jacob Chen
+	 <jacob-chen@iotwrt.com>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
+ Mauro Carvalho Chehab
+	 <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Rob Herring
+	 <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+	 <conor+dt@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, kernel@pengutronix.de
+Date: Wed, 24 Dec 2025 09:24:20 -0500
+In-Reply-To: <20251203-spu-rga3-v2-2-989a67947f71@pengutronix.de>
+References: <20251203-spu-rga3-v2-0-989a67947f71@pengutronix.de>
+	 <20251203-spu-rga3-v2-2-989a67947f71@pengutronix.de>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-fmKYZ+5/CD21oWsxEXAZ"
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251224-mt9m114-atomisp-v4-15-60b25da7a1bc@oss.qualcomm.com>
-References: <20251224-mt9m114-atomisp-v4-0-60b25da7a1bc@oss.qualcomm.com>
-In-Reply-To: <20251224-mt9m114-atomisp-v4-0-60b25da7a1bc@oss.qualcomm.com>
-To: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans de Goede <johannes.goede@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Proofpoint-ORIG-GUID: Ikh0URX0GHCh0TpLVZEsd1QNu-KzO0px
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI0MDEwOSBTYWx0ZWRfX8H7RCDbxtZpJ
- FLl9BII8DaDnDFs8hXlnO7WRaUKSIYq/MbyD4qiVpYHbs7mqunfOf3DXu5KL5uwQe+0jXmePWkK
- +ryoNy+Kje0QmU9PlmOy4CSQqbvSGkCAgxjy3eZZxGvimEd+aZQD2BrLVRmaGfVOLlWvvkc/4G8
- 3z5eW50tiAorjfT6d0nLDRNhUv7YzU1rG/bV6rYfaivupXyOU/sNLmoMMhE0LNlMV72QtwEsL8o
- nm9iTdLg37JZerbtclo/lDqJAExi8YpYzVIX7D7YVe1w2bx1lf0QHi03e1g4Wr1KCm3tNhqTw7r
- AqM1oYk+OKMt7SsNycl17p/cqU6fXhIt+zzh4xBYR5WJOHMq2YHVZ6B6AZh9NshoGCC0ELTnj62
- iQ7ej3UGxZ0ncU0GVaFexeII0QrNsnMRabQvboA+ufTl+iiSxWgD8Tzjb8mjE4YFzNjVwjeBehD
- Kg5Ax2gbD0c+P8ILDpA==
-X-Proofpoint-GUID: Ikh0URX0GHCh0TpLVZEsd1QNu-KzO0px
-X-Authority-Analysis: v=2.4 cv=RbSdyltv c=1 sm=1 tr=0 ts=694bdd26 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=P1BnusSwAAAA:8 a=EUspDBNiAAAA:8 a=5YKaq-4ml3F4CIf4D4IA:9 a=QEXdDO2ut3YA:10
- a=uxP6HrT_eTzRwkO_Te1X:22 a=D0XLA9XvdZm18NrgonBM:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-24_03,2025-12-22_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 impostorscore=0 priorityscore=1501 clxscore=1015 phishscore=0
- adultscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512240109
 
-Add support for the mt9m114 sensor being enumerated through ACPI
-using the INT33F0 HID as found on the Asus T100TA.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
----
- drivers/media/i2c/mt9m114.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+--=-fmKYZ+5/CD21oWsxEXAZ
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
-index 9bf900095515447d22265521349cce1d7892e9b8..836ba16d1accbfc1a6b8878ba8d3806ef7a1caa1 100644
---- a/drivers/media/i2c/mt9m114.c
-+++ b/drivers/media/i2c/mt9m114.c
-@@ -2640,11 +2640,18 @@ static const struct of_device_id mt9m114_of_ids[] = {
- };
- MODULE_DEVICE_TABLE(of, mt9m114_of_ids);
- 
-+static const struct acpi_device_id mt9m114_acpi_ids[] = {
-+	{ "INT33F0" },
-+	{ /* sentinel */ },
-+};
-+MODULE_DEVICE_TABLE(acpi, mt9m114_acpi_ids);
-+
- static struct i2c_driver mt9m114_driver = {
- 	.driver = {
- 		.name	= "mt9m114",
- 		.pm	= &mt9m114_pm_ops,
- 		.of_match_table = mt9m114_of_ids,
-+		.acpi_match_table = mt9m114_acpi_ids,
- 	},
- 	.probe		= mt9m114_probe,
- 	.remove		= mt9m114_remove,
+Le mercredi 03 d=C3=A9cembre 2025 =C3=A0 16:52 +0100, Sven P=C3=BCschel a =
+=C3=A9crit=C2=A0:
+> Add a has_alpha value to the v4l2_format_info struct to indicate if the
+> format contains an alpha component. The implementation is based on the
+> drm_format_info implementation.
+>=20
+> Signed-off-by: Sven P=C3=BCschel <s.pueschel@pengutronix.de>
 
--- 
-2.52.0
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
+> ---
+> =C2=A0drivers/media/v4l2-core/v4l2-common.c | 14 +++++++-------
+> =C2=A0include/media/v4l2-common.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 ++
+> =C2=A02 files changed, 9 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-c=
+ore/v4l2-common.c
+> index 554c591e11133..2c7ac70c0f486 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -256,10 +256,10 @@ const struct v4l2_format_info *v4l2_format_info(u32=
+ format)
+> =C2=A0		{ .format =3D V4L2_PIX_FMT_XRGB32,=C2=A0 .pixel_enc =3D V4L2_PIXE=
+L_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, =
+.bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> =C2=A0		{ .format =3D V4L2_PIX_FMT_RGBX32,=C2=A0 .pixel_enc =3D V4L2_PIXE=
+L_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, =
+.bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> =C2=A0		{ .format =3D V4L2_PIX_FMT_HSV32,=C2=A0=C2=A0 .pixel_enc =3D V4L2=
+_PIXEL_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, =
+0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> -		{ .format =3D V4L2_PIX_FMT_ARGB32,=C2=A0 .pixel_enc =3D V4L2_PIXEL_ENC=
+_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_=
+div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> -		{ .format =3D V4L2_PIX_FMT_RGBA32,=C2=A0 .pixel_enc =3D V4L2_PIXEL_ENC=
+_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_=
+div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> -		{ .format =3D V4L2_PIX_FMT_ABGR32,=C2=A0 .pixel_enc =3D V4L2_PIXEL_ENC=
+_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_=
+div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> -		{ .format =3D V4L2_PIX_FMT_BGRA32,=C2=A0 .pixel_enc =3D V4L2_PIXEL_ENC=
+_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_=
+div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> +		{ .format =3D V4L2_PIX_FMT_ARGB32,=C2=A0 .pixel_enc =3D V4L2_PIXEL_ENC=
+_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_=
+div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1, .has_alpha =3D true },
+> +		{ .format =3D V4L2_PIX_FMT_RGBA32,=C2=A0 .pixel_enc =3D V4L2_PIXEL_ENC=
+_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_=
+div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1, .has_alpha =3D true },
+> +		{ .format =3D V4L2_PIX_FMT_ABGR32,=C2=A0 .pixel_enc =3D V4L2_PIXEL_ENC=
+_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_=
+div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1, .has_alpha =3D true },
+> +		{ .format =3D V4L2_PIX_FMT_BGRA32,=C2=A0 .pixel_enc =3D V4L2_PIXEL_ENC=
+_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_=
+div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1, .has_alpha =3D true },
+> =C2=A0		{ .format =3D V4L2_PIX_FMT_RGB565,=C2=A0 .pixel_enc =3D V4L2_PIXE=
+L_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 }, =
+.bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> =C2=A0		{ .format =3D V4L2_PIX_FMT_RGB565X, .pixel_enc =3D V4L2_PIXEL_ENC=
+_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 }, .bpp_=
+div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> =C2=A0		{ .format =3D V4L2_PIX_FMT_RGB555,=C2=A0 .pixel_enc =3D V4L2_PIXE=
+L_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 }, =
+.bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> @@ -267,10 +267,10 @@ const struct v4l2_format_info *v4l2_format_info(u32=
+ format)
+> =C2=A0		{ .format =3D V4L2_PIX_FMT_BGR48_12, .pixel_enc =3D V4L2_PIXEL_EN=
+C_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 6, 0, 0, 0 }, .bpp=
+_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> =C2=A0		{ .format =3D V4L2_PIX_FMT_BGR48, .pixel_enc =3D V4L2_PIXEL_ENC_R=
+GB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 6, 0, 0, 0 }, .bpp_di=
+v =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> =C2=A0		{ .format =3D V4L2_PIX_FMT_RGB48, .pixel_enc =3D V4L2_PIXEL_ENC_R=
+GB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 6, 0, 0, 0 }, .bpp_di=
+v =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> -		{ .format =3D V4L2_PIX_FMT_ABGR64_12, .pixel_enc =3D V4L2_PIXEL_ENC_RG=
+B, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 8, 0, 0, 0 }, .bpp_div=
+ =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> -		{ .format =3D V4L2_PIX_FMT_RGBA1010102, .pixel_enc =3D V4L2_PIXEL_ENC_=
+RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_d=
+iv =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> +		{ .format =3D V4L2_PIX_FMT_ABGR64_12, .pixel_enc =3D V4L2_PIXEL_ENC_RG=
+B, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 8, 0, 0, 0 }, .bpp_div=
+ =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1, .has_alpha =3D true },
+> +		{ .format =3D V4L2_PIX_FMT_RGBA1010102, .pixel_enc =3D V4L2_PIXEL_ENC_=
+RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_d=
+iv =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1, .has_alpha =3D true },
+> =C2=A0		{ .format =3D V4L2_PIX_FMT_RGBX1010102, .pixel_enc =3D V4L2_PIXEL=
+_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .=
+bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> -		{ .format =3D V4L2_PIX_FMT_ARGB2101010, .pixel_enc =3D V4L2_PIXEL_ENC_=
+RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_d=
+iv =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> +		{ .format =3D V4L2_PIX_FMT_ARGB2101010, .pixel_enc =3D V4L2_PIXEL_ENC_=
+RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_d=
+iv =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1, .has_alpha =3D true },
+> =C2=A0
+> =C2=A0		/* YUV packed formats */
+> =C2=A0		{ .format =3D V4L2_PIX_FMT_YUYV,=C2=A0=C2=A0=C2=A0 .pixel_enc =3D=
+ V4L2_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0=
+, 0, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 1 },
+> diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
+> index f8b1faced79c8..401d8506c24b5 100644
+> --- a/include/media/v4l2-common.h
+> +++ b/include/media/v4l2-common.h
+> @@ -520,6 +520,7 @@ enum v4l2_pixel_encoding {
+> =C2=A0 * @vdiv: Vertical chroma subsampling factor
+> =C2=A0 * @block_w: Per-plane macroblock pixel width (optional)
+> =C2=A0 * @block_h: Per-plane macroblock pixel height (optional)
+> + * @has_alpha: Does the format embeds an alpha component?
+> =C2=A0 */
+> =C2=A0struct v4l2_format_info {
+> =C2=A0	u32 format;
+> @@ -532,6 +533,7 @@ struct v4l2_format_info {
+> =C2=A0	u8 vdiv;
+> =C2=A0	u8 block_w[4];
+> =C2=A0	u8 block_h[4];
+> +	bool has_alpha;
+> =C2=A0};
+> =C2=A0
+> =C2=A0static inline bool v4l2_is_format_rgb(const struct v4l2_format_info=
+ *f)
+
+--=-fmKYZ+5/CD21oWsxEXAZ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaUv3lAAKCRDZQZRRKWBy
+9ITFAP0SuxSrmoVrRQQArsjL7nVuYkwcZ8G4yi0itFrxxipp4gEAmtXbIy/6hv8m
+dQE9yLNIZrBWsXb+HsoBsrQZxSooGwc=
+=w5st
+-----END PGP SIGNATURE-----
+
+--=-fmKYZ+5/CD21oWsxEXAZ--
 
