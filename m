@@ -1,78 +1,77 @@
-Return-Path: <linux-media+bounces-49483-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49484-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4340CCDC98F
-	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 15:55:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04D44CDC998
+	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 15:56:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0282B30285DF
-	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 14:49:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E33AB30EE5FB
+	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 14:50:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8520B357A4B;
-	Wed, 24 Dec 2025 14:47:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBD7E30C375;
+	Wed, 24 Dec 2025 14:48:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="jNNPR/DR"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="N+UR2bE0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF26D34E255
-	for <linux-media@vger.kernel.org>; Wed, 24 Dec 2025 14:47:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46126215F7D
+	for <linux-media@vger.kernel.org>; Wed, 24 Dec 2025 14:48:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766587665; cv=none; b=r5RSqFn4vpDR7AKCAPHXh5asBfT8wWoZO3Z91bzGJuJ0f22nTZJmpCtAcDr3I+kKpWuygJ4Cw32KuTrAFOQu7JBEJnk4cx2nFVlMl+fbnh4d7D7Eh0ai2GoP8eL0HwDXWyhspQqjCWLqoyLxu1ZV77U7XVVnFslEhDtkw5lVyLE=
+	t=1766587720; cv=none; b=R0WGGKN9QGmP18rhj1PJQ0oLJ9m3o3lMieAw2LxbC1lqN3oAH2xohV/T8Yyesj8uBo1pasWPBmKq3M40F1D8VWHTr38KkgqBcWZdaZi7s04fZ6kWSt2ezcfu1P/rQnLAJYg+9CSdDTPBqmJ8XClACb1ClOW8rwIi7qkoYjZ/ANo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766587665; c=relaxed/simple;
-	bh=7qzSvj3aeiWcpjqtT7Dv1wqlepzRA5DFTHfh3aLKkyY=;
+	s=arc-20240116; t=1766587720; c=relaxed/simple;
+	bh=eyZGogHnJ3QU8HPtxdsQhPJIO7zYERNcin8cesCSMmQ=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=lZRj4liGRrEM7n7fubOvlyXVWguG0+A48orNAAeCQ3OPJSoBu1s/ZmxeMGwi98ZiUJy/MjsmZKnH2+8zeCI8B1tD6traVqNkrtwRdiGNwjcWSKFLeUhMvjP4AEnoU0o7X2+61eLW+pvSxUneZF4G7yGjO6bozsVKQhgH4EsILCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=jNNPR/DR; arc=none smtp.client-ip=209.85.222.181
+	 Content-Type:MIME-Version; b=uTiE5ZPXWsggXaHb+hWkvqCf68DPT+VPcSV/zbWdqxPYFDyI3bVpY2XguttNQI1iZ1OmgJKKXsP1VH59+cHNzJGVbX71BVvdhd/rwpnKP/IWL0v5zUp/FNSKBKnSkABpzmTpOYtC50kOhg8CcGLSOwOcM+A0GtVaFpHkIbZbAWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=N+UR2bE0; arc=none smtp.client-ip=209.85.219.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-8b25dd7ab33so430642185a.1
-        for <linux-media@vger.kernel.org>; Wed, 24 Dec 2025 06:47:43 -0800 (PST)
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-8888a16d243so53662466d6.1
+        for <linux-media@vger.kernel.org>; Wed, 24 Dec 2025 06:48:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1766587663; x=1767192463; darn=vger.kernel.org;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1766587717; x=1767192517; darn=vger.kernel.org;
         h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
          :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=LBEsDivGSChJbJTvUd/3eII9rLd6uaabObDsuMpVJ6k=;
-        b=jNNPR/DRwaFiUtlBy3AaZ46m2/4kQWyliUuYYdQdobm9XZBkg+/6BQCzKQwYhIDBNL
-         wDYEWXGUkY1mGKufIXcC47wm4ED4vaA6+ybICW/mX8lxnyZ3W80ilHsTpk6S3LnUFJWg
-         v660GMhsonrJXZKsg6lJZIa1G8dBvOOMtS4GGqLjhtze0N8M0zM7+M8mBFrsKjpheCDi
-         ja2+jK5+NQtsYPRsP+CEZcdUQjSnPbg0kMkIrANrXlJgXcruEjgksKGSO/6k1HFKsEbi
-         b/k+0Jn2l88xYc4GBFOvg7O/EYfDBKq2kh6YJzzb4DykNtmi0BubQk2Wuy3jHWgEKt/D
-         PRCA==
+        bh=kv8uVhQiYXeEfFC22LTWeYBZIiji9JQILeQzDCWhcvk=;
+        b=N+UR2bE0l7w9thgg4BWSNDnMDXe3mpculMK3GkX7dam+atiKoP4/Y4KTHU+YbKu7oM
+         i1krg2SyyH0x+znKQKAw+1lPPZVQUFubJDsPeF2Vnqk02Foj0a/+PO7+C81KA42kyp5f
+         imDObtN81WPLMXWAczLCYPdVjLpFV9ZKazqMKuonV7wL4UAPw7yOfEd3pAZJ9xrcrgXz
+         A0Gc73dMrJQqemv49dCVSWp/zAA1T1M1BBT+pHM7YvBSNtn3Btm0bS4sBB3dOOdUeCqn
+         2kd57p7KKmYu9yb4XpgWEgDPhESbChEPGV8RVDzILwzDaidn8zDQFwbMTn19JMuPvQb1
+         4gag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766587663; x=1767192463;
+        d=1e100.net; s=20230601; t=1766587717; x=1767192517;
         h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
          :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LBEsDivGSChJbJTvUd/3eII9rLd6uaabObDsuMpVJ6k=;
-        b=RfnjfY/VR1UwcBiOrdQNIlAUTb8/O8dli1r89GmjMkznGkk8evK49Lmr2QuZcDay46
-         SzVpA60qriKgjinDYMKYOgoXd3YRHfDZ256qBJkR4QPylVZSD0xntNCz9ebAx02zCXXY
-         Cx/20eh68rMv8oYG+GR1FJkT0ZcYD39ChLFyPY+/tWBnUhB+1FmxSswaXGgS0oSn0bxA
-         M3aF0xigM5k/MiYZRgOTJezWgvCeKuinhR26NooPcxVh4V4UOFgJbuyTYlJuNtFWQHhm
-         nx/NCoj3DJ3h8MKOnwh/ylng7zFr3EKNAsc7mdueTyEpI9JoCJDvYnuOxHQyG2d8SkF+
-         BFoQ==
-X-Gm-Message-State: AOJu0YwM+Dj6dyIeyzs3N6HcnESgvYec0STP8L1CZibWJS+ad6Zk8oxp
-	KktPwXFW1/Ods9e2LPbNt/FemnEnrdiiKSuBF5RRiZeWkv6pEskMIfZDX5U3njog1cs=
-X-Gm-Gg: AY/fxX7BTt6rIdR9VJ8KRqVwA96tsGk9lsaVfD8Zwd9/L/x9UVAoeDjdV3Wp8AgyvNK
-	rhUp8K3F42Nnyqt3ianZVpKPJWpS2eYJLc2mnZsLjN2JBUSCK3iX49DFM4EnLe/zakCPHgdSI3k
-	YvTLI8gLiRpGqZ0EUqQQl27HRUIgrQE8BiyOKOCvTUmXSwVKyYyVXiNIDQwAE2PwHseJomuXVoB
-	LaNNyRjCxTnWuFoE7CbhSAQzScDZlggNchT+kirGoKlzo4+vf1fBNW/a9ugFqwFMvEDFWc0bDso
-	kyrPbBUAoHtTbHsDmFlDpnCxyFXDYFJ7/Wd5HCbQN/VFzJCspugTSu5s6pOeVCg8NmQ2iB7P/So
-	yVXG44ucybALYHOAOaM4vzaDo2/VlWNQ0lglHxqFjSpXgdRDPTzMf+cby7e2WtvhKJGyR0fc7Mx
-	jMLGSIC325FxxQ53AyZN2WMQBG5M4=
-X-Google-Smtp-Source: AGHT+IHkL5S7c322hOUPMSd0JRYhx3f5vqqmst0RYftiEEMVjDrbHdesJAI78R34ucxzMcZvnLJBFg==
-X-Received: by 2002:a05:620a:17a7:b0:8b2:de6a:e3 with SMTP id af79cd13be357-8c09002815fmr2696981385a.81.1766587662056;
-        Wed, 24 Dec 2025 06:47:42 -0800 (PST)
+        bh=kv8uVhQiYXeEfFC22LTWeYBZIiji9JQILeQzDCWhcvk=;
+        b=Q6PY+dNnIDWOsMINzvJaQNvx2Y8XBzu9uReLiTwMds+os4Qso2DaGAR0E/Um90UoXI
+         6skVY3Q0mjXGQkpFlsDqzZqF3xteCTs/2ihq03Lq/WzCkpuog1BfWf8e235Y/p0SZiHq
+         MT605mcJY4pOP7qIrQjX6ZVIFvSipgk2T6/waaPqBpBQY9sQXu0KSs1rowCo7Dduplrp
+         uk4tBCm203yIH9DprGNL0yJdnL/KcXSpsK9ZxA0wTolcPJ3SYWQhd/1jGveN7igUJsfi
+         k5BHniveUrGYr7j9uYyUenl/fSnCbgAcR8F25EgIb0LimyfFv2QddYuYBwNXP0pcTtZt
+         p/4A==
+X-Gm-Message-State: AOJu0YzDp73ywHZvL1iRC7J14/rbkHnqusW6pVrJzM2VajopGfgBbIOX
+	01CrvGY+Q5rdKqaZHUIc2B2enh/dI+1U7m1GXLXurdn3c59Id7uamq/I94/YCZB/QiI=
+X-Gm-Gg: AY/fxX5Rd5aA80NrDPrCPJ2h1YyTLXZ42ZXDEvxT8mdpg7XUBez22Nj6ImfflrcmS7E
+	E8eoYkYPvDaFCbPpFcVmSxneyCXLu5SWI4zo6RmguMGmvCSd1v29Nf26onYFTv7391UT4i9FB6c
+	umc3825id8zRXWcTfmHr+qYvR1Zk1RAW5XWb9/3vT0y/tTIzMtWKOwXcqUPmIxqR86KkzkVjJSu
+	eMlC85sN7OeNwBge9WxgMp2p32sBadvUztexea3Z80WPdKDkaPguFIOD/17yZajw8hXJWdfxTmH
+	mDu8D9WMDENbQQvYEAzazuar4g1Hkfycm62k8bxiMjJDHOJZEn8sTKXMlnNAzj27trKzYupm6RE
+	VDlZ1QQX2K0dBUXn1HTJ/2Ik2eCJRVJoPOqyZ0K/d9l8BO74msrACsK0E94Wj0MJNooZG/0jLxB
+	pvgXA/zfhx5gfTlZnn
+X-Google-Smtp-Source: AGHT+IHUw306Ut7ymeV0kJIFuDFhQmJhzVDxJ8eqcQqn6KuZn3cQi9qGKe1+/PE9xQtkQkAuW1Wvfg==
+X-Received: by 2002:a05:6214:5013:b0:880:5851:3c49 with SMTP id 6a1803df08f44-88d82621f22mr305922536d6.0.1766587717216;
+        Wed, 24 Dec 2025 06:48:37 -0800 (PST)
 Received: from ?IPv6:2606:6d00:17:7b4b::c41? ([2606:6d00:17:7b4b::c41])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c0973f28e3sm1403379885a.45.2025.12.24.06.47.40
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88d969fed73sm128870776d6.15.2025.12.24.06.48.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Dec 2025 06:47:41 -0800 (PST)
-Message-ID: <43c953bd75ad65f249cf71115bb87179b6ba3f47.camel@ndufresne.ca>
-Subject: Re: [PATCH v2 03/22] media: v4l2-common: add
- v4l2_fill_pixfmt_mp_aligned helper
+        Wed, 24 Dec 2025 06:48:36 -0800 (PST)
+Message-ID: <43caf038367d00217d11237e54c82240c3caea5a.camel@ndufresne.ca>
+Subject: Re: [PATCH v2 04/22] media: rockchip: rga: use clk_bulk api
 From: Nicolas Dufresne <nicolas@ndufresne.ca>
 To: Sven =?ISO-8859-1?Q?P=FCschel?= <s.pueschel@pengutronix.de>, Jacob Chen
 	 <jacob-chen@iotwrt.com>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
@@ -83,10 +82,10 @@ To: Sven =?ISO-8859-1?Q?P=FCschel?= <s.pueschel@pengutronix.de>, Jacob Chen
 Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
 	devicetree@vger.kernel.org, kernel@pengutronix.de
-Date: Wed, 24 Dec 2025 09:47:39 -0500
-In-Reply-To: <20251203-spu-rga3-v2-3-989a67947f71@pengutronix.de>
+Date: Wed, 24 Dec 2025 09:48:35 -0500
+In-Reply-To: <20251203-spu-rga3-v2-4-989a67947f71@pengutronix.de>
 References: <20251203-spu-rga3-v2-0-989a67947f71@pengutronix.de>
-	 <20251203-spu-rga3-v2-3-989a67947f71@pengutronix.de>
+	 <20251203-spu-rga3-v2-4-989a67947f71@pengutronix.de>
 Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
  keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
  /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
@@ -101,7 +100,7 @@ Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
  ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
  bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-mZ8PQwwqOQIytKI71eZq"
+	protocol="application/pgp-signature"; boundary="=-5GfWg0gYb1YIqmTgJN+W"
 User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -111,198 +110,163 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 
---=-mZ8PQwwqOQIytKI71eZq
+--=-5GfWg0gYb1YIqmTgJN+W
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
 Le mercredi 03 d=C3=A9cembre 2025 =C3=A0 16:52 +0100, Sven P=C3=BCschel a =
 =C3=A9crit=C2=A0:
-> Add a v4l2_fill_pixfmt_mp_aligned helper which allows the user to
-> specify a custom stride alignment in bytes. This is necessary for
-> hardware like the Rockchip RGA3, which requires the stride value to be
-> aligned to a 16 byte boundary.
-
-                  byte -> bytes
-
-You way aligned to bytes here ...
-
-
+> Use the clk_bulk API to avoid code duplication for each of the three
+> clocks.
 >=20
 > Signed-off-by: Sven P=C3=BCschel <s.pueschel@pengutronix.de>
+
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
 > ---
-> =C2=A0drivers/media/v4l2-core/v4l2-common.c | 34 ++++++++++++++++++++++++=
-----------
-> =C2=A0include/media/v4l2-common.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 4 ++++
-> =C2=A02 files changed, 28 insertions(+), 10 deletions(-)
+> =C2=A0drivers/media/platform/rockchip/rga/rga.c | 64 ++++----------------=
+-----------
+> =C2=A0drivers/media/platform/rockchip/rga/rga.h |=C2=A0 5 +--
+> =C2=A02 files changed, 9 insertions(+), 60 deletions(-)
 >=20
-> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-c=
-ore/v4l2-common.c
-> index 2c7ac70c0f486..f86e7d7d29b8e 100644
-> --- a/drivers/media/v4l2-core/v4l2-common.c
-> +++ b/drivers/media/v4l2-core/v4l2-common.c
-> @@ -404,11 +404,12 @@ static inline unsigned int v4l2_format_block_height=
-(const struct v4l2_format_inf
-> =C2=A0}
+> diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/pl=
+atform/rockchip/rga/rga.c
+> index 43f6a8d993811..ef568b3758380 100644
+> --- a/drivers/media/platform/rockchip/rga/rga.c
+> +++ b/drivers/media/platform/rockchip/rga/rga.c
+> @@ -698,48 +698,10 @@ static const struct video_device rga_videodev =3D {
+> =C2=A0	.device_caps =3D V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING,
+> =C2=A0};
 > =C2=A0
-> =C2=A0static inline unsigned int v4l2_format_plane_stride(const struct v4=
-l2_format_info *info, int plane,
-> -						=C2=A0=C2=A0=C2=A0 unsigned int width)
-> +						=C2=A0=C2=A0=C2=A0 unsigned int width, u8 alignment)
+> -static int rga_enable_clocks(struct rockchip_rga *rga)
+> -{
+> -	int ret;
+> -
+> -	ret =3D clk_prepare_enable(rga->sclk);
+> -	if (ret) {
+> -		dev_err(rga->dev, "Cannot enable rga sclk: %d\n", ret);
+> -		return ret;
+> -	}
+> -
+> -	ret =3D clk_prepare_enable(rga->aclk);
+> -	if (ret) {
+> -		dev_err(rga->dev, "Cannot enable rga aclk: %d\n", ret);
+> -		goto err_disable_sclk;
+> -	}
+> -
+> -	ret =3D clk_prepare_enable(rga->hclk);
+> -	if (ret) {
+> -		dev_err(rga->dev, "Cannot enable rga hclk: %d\n", ret);
+> -		goto err_disable_aclk;
+> -	}
+> -
+> -	return 0;
+> -
+> -err_disable_aclk:
+> -	clk_disable_unprepare(rga->aclk);
+> -err_disable_sclk:
+> -	clk_disable_unprepare(rga->sclk);
+> -
+> -	return ret;
+> -}
+> -
+> -static void rga_disable_clocks(struct rockchip_rga *rga)
+> -{
+> -	clk_disable_unprepare(rga->sclk);
+> -	clk_disable_unprepare(rga->hclk);
+> -	clk_disable_unprepare(rga->aclk);
+> -}
+> -
+> =C2=A0static int rga_parse_dt(struct rockchip_rga *rga)
 > =C2=A0{
-> =C2=A0	unsigned int hdiv =3D plane ? info->hdiv : 1;
-> =C2=A0	unsigned int aligned_width =3D
-> =C2=A0		ALIGN(width, v4l2_format_block_width(info, plane));
-> +	aligned_width =3D ALIGN(aligned_width, alignment);
-
-But you actually align the width, which can already be achieved using frmsi=
-ze-
->step_width and v4l2_apply_frmsize_constraints(). It would make little sens=
-e for
-the step to not be a multiple of the block for tiled format, but it shows y=
-ou
-forgot to take into considering the fact that block_width has precedence he=
-re,
-since you can't split tiles.
-
-If you go back to your original idea, stride alignment, remember that you c=
-annot
-break the block alignment. For non-mplane format, you also need to special =
-case
-subsampled planer format (3 planes) so that userspace can guess the subsequ=
-ence
-plane strides (which is done by dividing the luma plane stride by 2, and if=
- you
-need 16 bytes alignment across all strides, then you need the luma plane to=
- be
-32 bytes alignment). The mplane format don't have this requirement, since y=
-ou
-pass explicitly the stride of each planes, though, you may want to double i=
-t
-anyway for compatibility reason (small cost, big gain).
-
-Nicolas
-
+> =C2=A0	struct reset_control *core_rst, *axi_rst, *ahb_rst;
+> +	int ret;
 > =C2=A0
-> =C2=A0	return DIV_ROUND_UP(aligned_width, hdiv) *
-> =C2=A0	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 info->bpp[plane] / info->bpp_=
-div[plane];
-> @@ -425,9 +426,10 @@ static inline unsigned int v4l2_format_plane_height(=
-const struct v4l2_format_inf
-> =C2=A0}
+> =C2=A0	core_rst =3D devm_reset_control_get(rga->dev, "core");
+> =C2=A0	if (IS_ERR(core_rst)) {
+> @@ -771,22 +733,10 @@ static int rga_parse_dt(struct rockchip_rga *rga)
+> =C2=A0	udelay(1);
+> =C2=A0	reset_control_deassert(ahb_rst);
 > =C2=A0
-> =C2=A0static inline unsigned int v4l2_format_plane_size(const struct v4l2=
-_format_info *info, int plane,
-> -						=C2=A0 unsigned int width, unsigned int height)
-> +						=C2=A0 unsigned int width, unsigned int height,
-> +						=C2=A0 u8 stride_alignment)
-> =C2=A0{
-> -	return v4l2_format_plane_stride(info, plane, width) *
-> +	return v4l2_format_plane_stride(info, plane, width, stride_alignment) *
-> =C2=A0	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v4l2_format_plane_height(info=
-, plane, height);
-> =C2=A0}
-> =C2=A0
-> @@ -448,8 +450,9 @@ void v4l2_apply_frmsize_constraints(u32 *width, u32 *=
-height,
-> =C2=A0}
-> =C2=A0EXPORT_SYMBOL_GPL(v4l2_apply_frmsize_constraints);
-> =C2=A0
-> -int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt,
-> -			u32 pixelformat, u32 width, u32 height)
-> +int v4l2_fill_pixfmt_mp_aligned(struct v4l2_pix_format_mplane *pixfmt,
-> +				u32 pixelformat, u32 width, u32 height,
-> +				u8 stride_alignment)
-> =C2=A0{
-> =C2=A0	const struct v4l2_format_info *info;
-> =C2=A0	struct v4l2_plane_pix_format *plane;
-> @@ -466,23 +469,34 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mpla=
-ne *pixfmt,
-> =C2=A0
-> =C2=A0	if (info->mem_planes =3D=3D 1) {
-> =C2=A0		plane =3D &pixfmt->plane_fmt[0];
-> -		plane->bytesperline =3D v4l2_format_plane_stride(info, 0, width);
-> +		plane->bytesperline =3D v4l2_format_plane_stride(info, 0, width,
-> +							=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 stride_alignment);
-> =C2=A0		plane->sizeimage =3D 0;
-> =C2=A0
-> =C2=A0		for (i =3D 0; i < info->comp_planes; i++)
-> =C2=A0			plane->sizeimage +=3D
-> -				v4l2_format_plane_size(info, i, width, height);
-> +				v4l2_format_plane_size(info, i, width, height,
-> +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 stride_alignment);
-> =C2=A0	} else {
-> =C2=A0		for (i =3D 0; i < info->comp_planes; i++) {
-> =C2=A0			plane =3D &pixfmt->plane_fmt[i];
-> =C2=A0			plane->bytesperline =3D
-> -				v4l2_format_plane_stride(info, i, width);
-> +				v4l2_format_plane_stride(info, i, width,
-> +							 stride_alignment);
-> =C2=A0			plane->sizeimage =3D plane->bytesperline *
-> =C2=A0				v4l2_format_plane_height(info, i, height);
-> =C2=A0		}
+> -	rga->sclk =3D devm_clk_get(rga->dev, "sclk");
+> -	if (IS_ERR(rga->sclk)) {
+> -		dev_err(rga->dev, "failed to get sclk clock\n");
+> -		return PTR_ERR(rga->sclk);
+> -	}
+> -
+> -	rga->aclk =3D devm_clk_get(rga->dev, "aclk");
+> -	if (IS_ERR(rga->aclk)) {
+> -		dev_err(rga->dev, "failed to get aclk clock\n");
+> -		return PTR_ERR(rga->aclk);
+> -	}
+> -
+> -	rga->hclk =3D devm_clk_get(rga->dev, "hclk");
+> -	if (IS_ERR(rga->hclk)) {
+> -		dev_err(rga->dev, "failed to get hclk clock\n");
+> -		return PTR_ERR(rga->hclk);
+> +	ret =3D devm_clk_bulk_get(rga->dev, ARRAY_SIZE(rga->clks), rga->clks);
+> +	if (ret) {
+> +		dev_err(rga->dev, "failed to get clocks\n");
+> +		return ret;
 > =C2=A0	}
+> =C2=A0
+> =C2=A0	return 0;
+> @@ -935,7 +885,7 @@ static int __maybe_unused rga_runtime_suspend(struct =
+device *dev)
+> =C2=A0{
+> =C2=A0	struct rockchip_rga *rga =3D dev_get_drvdata(dev);
+> =C2=A0
+> -	rga_disable_clocks(rga);
+> +	clk_bulk_disable_unprepare(ARRAY_SIZE(rga->clks), rga->clks);
+> =C2=A0
 > =C2=A0	return 0;
 > =C2=A0}
-> +EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt_mp_aligned);
-> +
-> +int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt,
-> +			u32 pixelformat, u32 width, u32 height)
-> +{
-> +	return v4l2_fill_pixfmt_mp_aligned(pixfmt, pixelformat,
-> +					=C2=A0=C2=A0 width, height, 1);
-> +}
-> =C2=A0EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt_mp);
+> @@ -944,7 +894,7 @@ static int __maybe_unused rga_runtime_resume(struct d=
+evice *dev)
+> =C2=A0{
+> =C2=A0	struct rockchip_rga *rga =3D dev_get_drvdata(dev);
 > =C2=A0
-> =C2=A0int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelforma=
-t,
-> @@ -502,12 +516,12 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt=
-, u32 pixelformat,
-> =C2=A0	pixfmt->width =3D width;
-> =C2=A0	pixfmt->height =3D height;
-> =C2=A0	pixfmt->pixelformat =3D pixelformat;
-> -	pixfmt->bytesperline =3D v4l2_format_plane_stride(info, 0, width);
-> +	pixfmt->bytesperline =3D v4l2_format_plane_stride(info, 0, width, 1);
-> =C2=A0	pixfmt->sizeimage =3D 0;
-> =C2=A0
-> =C2=A0	for (i =3D 0; i < info->comp_planes; i++)
-> =C2=A0		pixfmt->sizeimage +=3D
-> -			v4l2_format_plane_size(info, i, width, height);
-> +			v4l2_format_plane_size(info, i, width, height, 1);
-> =C2=A0	return 0;
+> -	return rga_enable_clocks(rga);
+> +	return clk_bulk_prepare_enable(ARRAY_SIZE(rga->clks), rga->clks);
 > =C2=A0}
-> =C2=A0EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt);
-> diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-> index 401d8506c24b5..edd416178c333 100644
-> --- a/include/media/v4l2-common.h
-> +++ b/include/media/v4l2-common.h
-> @@ -558,6 +558,10 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt,=
- u32 pixelformat,
-> =C2=A0		=C2=A0=C2=A0=C2=A0=C2=A0 u32 width, u32 height);
-> =C2=A0int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt, u32 =
-pixelformat,
-> =C2=A0			u32 width, u32 height);
-> +/* @stride_alignment is a power of 2 value in bytes */
-> +int v4l2_fill_pixfmt_mp_aligned(struct v4l2_pix_format_mplane *pixfmt,
-> +				u32 pixelformat, u32 width, u32 height,
-> +				u8 stride_alignment);
 > =C2=A0
-> =C2=A0/**
-> =C2=A0 * v4l2_get_link_freq - Get link rate from transmitter
+> =C2=A0static const struct dev_pm_ops rga_pm =3D {
+> diff --git a/drivers/media/platform/rockchip/rga/rga.h b/drivers/media/pl=
+atform/rockchip/rga/rga.h
+> index 72a28b120fabf..a922fac0c01a3 100644
+> --- a/drivers/media/platform/rockchip/rga/rga.h
+> +++ b/drivers/media/platform/rockchip/rga/rga.h
+> @@ -6,6 +6,7 @@
+> =C2=A0#ifndef __RGA_H__
+> =C2=A0#define __RGA_H__
+> =C2=A0
+> +#include <linux/clk.h>
+> =C2=A0#include <linux/platform_device.h>
+> =C2=A0#include <media/videobuf2-v4l2.h>
+> =C2=A0#include <media/v4l2-ctrls.h>
+> @@ -81,9 +82,7 @@ struct rockchip_rga {
+> =C2=A0	struct device *dev;
+> =C2=A0	struct regmap *grf;
+> =C2=A0	void __iomem *regs;
+> -	struct clk *sclk;
+> -	struct clk *aclk;
+> -	struct clk *hclk;
+> +	struct clk_bulk_data clks[3];
+> =C2=A0	struct rockchip_rga_version version;
+> =C2=A0
+> =C2=A0	/* vfd lock */
 
---=-mZ8PQwwqOQIytKI71eZq
+--=-5GfWg0gYb1YIqmTgJN+W
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaUv9CwAKCRDZQZRRKWBy
-9GnoAP9k199P3pJOTxl16yVHL1ryd4uoElf1GW6VBr1Og/rjyAEAlxzgLGtwgB8C
-GSr0/lkk8PfDbueJp3vtdCkiH0HR2wI=
-=+slk
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaUv9QwAKCRDZQZRRKWBy
+9PD/AP4tic+jV60iRFkPYzejPFAmtdDlWpNwzUiuwJZwW678VwEAnEx6nok/9TcX
+lGjkyKo77ZGxsPzeclf3xOMh+37c4QA=
+=g61U
 -----END PGP SIGNATURE-----
 
---=-mZ8PQwwqOQIytKI71eZq--
+--=-5GfWg0gYb1YIqmTgJN+W--
 
