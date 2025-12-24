@@ -1,195 +1,213 @@
-Return-Path: <linux-media+bounces-49456-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49457-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0EACCDBDBF
-	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 10:52:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCF31CDBF9D
+	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 11:22:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CAD013035D37
-	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 09:51:41 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BD619304F137
+	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 10:21:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD2FA33859B;
-	Wed, 24 Dec 2025 09:46:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D2F5313E01;
+	Wed, 24 Dec 2025 10:21:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J54vKCR/"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="OiSzker6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012002.outbound.protection.outlook.com [52.101.48.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFAFA337BB4;
-	Wed, 24 Dec 2025 09:46:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766569586; cv=none; b=upTXd8fWDRIGchgXpw+arWmwN3/dv8EVJL1KgJ4S51jo7IaI77t/YuKNu6MtIlQDNhErWIxxkoI8Zs1smnKe9Y9zcprwZYJyrc2abfugh5iTGOkmYNUXskWfXIMlIYyxr68r0rM7nffIMSxKKp4AfCztDHrVFWP+dQsKxPHduPg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766569586; c=relaxed/simple;
-	bh=XsevsM7oQwN9n4f9AWnmJLhBUmObUvLPJMfRVYWY2bk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Q9hRamrhBeM/LwmVfyiTie+/C+QR8LwASD8nj0wHYI2l9eMzcjvdbLsDmvyP/YzW70iV05lmX9NmzNGv7lE5FiY2uvxtA7WlUgv6i/GaWm6yFMl4OfZ7Kf68KkvkqnxTywEJVWY45KIYLQovbcmc3NsTeKcq7RF842zryVOIPnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J54vKCR/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42CC4C4CEFB;
-	Wed, 24 Dec 2025 09:46:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766569585;
-	bh=XsevsM7oQwN9n4f9AWnmJLhBUmObUvLPJMfRVYWY2bk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=J54vKCR/q0wfDLW+lqoepUU1YFXNenIMXZwQ3eb12rgheFEcNFplV85pnqk62mVL4
-	 SlJZ0mVRWBnU4QtCSJtfNPSGE92Ho97BOkft0vwuT+n1NJUugG6Qb4cdws+ZipoCa4
-	 wENiLZ08fnHoPCDYSifT+UN6v5h7HR8FCwQvQ6SqHGwe98bAU+YNPrRQZTpOSM3PhD
-	 q6J1i3X7mZGqLVEJnxMDirl3cK5nrtTl6JZB0xUyFCr2NCGa2PmrdREbcCP70f1GEd
-	 Ji69VrsFs0hNvnZAOX2o2M/WRvZZclSkt6VRSaHaZ04xfMkNWP30WK5NN9DtXEBIMn
-	 B+df8r1e/bmYw==
-Message-ID: <03a398f2-6108-49c6-aae0-77701fb066ea@kernel.org>
-Date: Wed, 24 Dec 2025 10:46:17 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C80C280033;
+	Wed, 24 Dec 2025 10:20:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.2
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1766571660; cv=fail; b=vFGLcqCzpjGW+1ZIqsTxXx/P/CKGBvqGfPKHvrWh3cVDKaiBDCUHiWba7BHDkc0egR8FCg8tS4uDNBO7Gm8v1ESIN96VAGVlB8T7DexEfIRGNa/YzmcaDbjKETRCT5CANHV/4gF1uVRcRUUA5pzbPEmkkKXHlEAG4nIa3XAbKno=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1766571660; c=relaxed/simple;
+	bh=4vpfboFJI8jslPhNkIPlModzvK0g45ECxkBVuHo4ZAQ=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Yf0Fjr/Ot5NcVa65QltyWqoQSy3Z6g+oNVaODpOIogSzK2lxEMqaJjioXIp+GXySDmtnnxZP4WKWJN/4eBIUcy3vxth1ujWcajxwy/gDCN1PmL+eLOQMMW7mizhPYaIw1pbeP3KKX2xcwpcNXUHZJO3n/42tlMfUpwuC77N1FSk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=OiSzker6; arc=fail smtp.client-ip=52.101.48.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fqAx2pAXRZ3qy/3oIls1Ssagr7t2t6XAbqJAbcxHpKu7ITQRZ0IlUxMofoEW6d78f3/L9ErOupEnSNPvUD+4plFfi4UW8Fr6jPcYJxRWpHWYjJeJOhZEzGfZ7pQcikQ4AMMIFafTt058iYRrSRz9bZmG4tAFasQprKYRMNpRSBQkJXhrbo7bKK5VMxdnd3glo8A3sqQP5GLSIx9iI2hyRevQyLtkM/dShSMs6QQ2ln0j3x5JMOklnSlRU9MOSC7iXgGPzcuuSZZNPmFLR97HqmojLdYUIsq7/NFZI3QxxEgvmQ5lje9QJ2v396skQcDbp3sHdR7GtJ/ldHfwARIslw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OJxTtSGUDeBCmKQRihyq0A48l9avtqh4GtepRf/CuWY=;
+ b=XzIDUz6fIVsKTgdcnBbJAf1S4oQtAE8z9YPmJCmDiQS8u11dy2LgJw05tGZ56hjBearZaqk6svAVFi07aRJ+tlydWP/F0Xi76Iw9fpslCU3NogpuasbaREA6M3q5hlZkExkl7SkVtB4f70lFguVrgb6scnvKHfFOYQxGMRNNfkz3lSZaiUQ+ZeNVcGcwxvqLRXOYDYfb2GZqSFnSlDqk9Ppg6QyfJNeo28kV/XZLZ1EVAgE77s2CkLpyP/eR+eIYLMqsA2uzKavcuuD+GL1iIvclNrAJ2A5bEQCh73vvv7wE8dgCgaDL80hVIPmYe5YZinahdqQwKOxQ1/lLd6vtQw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.195) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OJxTtSGUDeBCmKQRihyq0A48l9avtqh4GtepRf/CuWY=;
+ b=OiSzker6aHcmEkhMLYueHB2ZyWilVLwhVfHQUI1fezPxmnRHvs26UFrGDZrUfHCgUi0I9SWPaSNdVF7tRTH3vDQe1655oewdOrDUXF4FuZLBOO3S8qJGw7YTrQbp3VjfdQB22S0xLUdz6UKMNGjonz2c4y3EkFbt3biXEL3wI3o=
+Received: from MN2PR11CA0009.namprd11.prod.outlook.com (2603:10b6:208:23b::14)
+ by LV3PR10MB7940.namprd10.prod.outlook.com (2603:10b6:408:20f::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9456.11; Wed, 24 Dec
+ 2025 10:20:55 +0000
+Received: from BL6PEPF00020E62.namprd04.prod.outlook.com
+ (2603:10b6:208:23b:cafe::7c) by MN2PR11CA0009.outlook.office365.com
+ (2603:10b6:208:23b::14) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9434.11 via Frontend Transport; Wed,
+ 24 Dec 2025 10:20:55 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
+Received: from flwvzet201.ext.ti.com (198.47.21.195) by
+ BL6PEPF00020E62.mail.protection.outlook.com (10.167.249.23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9456.9 via Frontend Transport; Wed, 24 Dec 2025 10:20:54 +0000
+Received: from DFLE204.ent.ti.com (10.64.6.62) by flwvzet201.ext.ti.com
+ (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 24 Dec
+ 2025 04:20:50 -0600
+Received: from DFLE211.ent.ti.com (10.64.6.69) by DFLE204.ent.ti.com
+ (10.64.6.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 24 Dec
+ 2025 04:20:50 -0600
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE211.ent.ti.com
+ (10.64.6.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Wed, 24 Dec 2025 04:20:50 -0600
+Received: from abhilash-HP.dhcp.ti.com (abhilash-hp.dhcp.ti.com [10.24.68.198])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5BOAKk8e412110;
+	Wed, 24 Dec 2025 04:20:46 -0600
+From: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
+To: <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+	<conor+dt@kernel.org>, <hverkuil+cisco@kernel.org>
+CC: <sakari.ailus@linux.intel.com>, <bparrot@ti.com>,
+	<jai.luthra@ideasonboard.com>, <dale@farnsworth.org>,
+	<sbellary@baylibre.com>, <linux-media@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<u-kumar1@ti.com>, <y-abhilashchandra@ti.com>
+Subject: [PATCH V7 0/4] Add support for TI VIP
+Date: Wed, 24 Dec 2025 15:50:23 +0530
+Message-ID: <20251224102027.3343361-1-y-abhilashchandra@ti.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] media: dt-bindings: Add qcom,sm6150-camss
-To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251222-sm6150-camss-v2-0-df8469a8343a@oss.qualcomm.com>
- <20251222-sm6150-camss-v2-1-df8469a8343a@oss.qualcomm.com>
- <20251223-pompous-inescapable-sponge-3fc9f0@quoll>
- <c6174a0a-9a76-4284-8675-bb5ca78a7b35@oss.qualcomm.com>
- <eklzmnlnkanrper7lt46vap54u5giprsmwhwpr4am5ytwyohov@kjqvls5vjani>
- <6b52d19e-8ff1-4bd6-b854-bcabccc7cd74@oss.qualcomm.com>
- <3342fv43qdkmm66jgc63hho2kd3xn65p2fv3tyk3573izlxf7i@hgjsp2kwqyuh>
- <26536725-19fe-4aa6-8a33-8e2e39261cd4@oss.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <26536725-19fe-4aa6-8a33-8e2e39261cd4@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF00020E62:EE_|LV3PR10MB7940:EE_
+X-MS-Office365-Filtering-Correlation-Id: da25cd97-e8b7-4106-0ecc-08de42d61f00
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|376014|7416014|82310400026|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?5QPhgs4nBGMK76LrmYJLt/iIzn9xztQ9aaIB/E63/gtImPIs8NKkBduZUIRu?=
+ =?us-ascii?Q?Gtapu7TEn8UjWHu6dFSSkuwEr11yK1tUOo4uNQzRRAjm6Wx54IxBjUUlUWUo?=
+ =?us-ascii?Q?ST+/Biiekfj21+6ZlgQCrrHskCzYPCI7fqmVped0Dp85zANa0Egef09Nytsh?=
+ =?us-ascii?Q?b6wPlDhpKJ3Oul+pd1K+a7fhknE2QHdK1mv9qWNGPpqrcyyog0npIDTagCc9?=
+ =?us-ascii?Q?sqsh57n+1Qfnlns/3rmeqLtKrokcN3a7tuxGjeMHA5assV0pIRM6HL0dAPSt?=
+ =?us-ascii?Q?pbEUUXT6dv7DHKcB8JnDXvgrZB6bs+UEqKgcN6ilfTUmf7bON1rYTe7ZF+4G?=
+ =?us-ascii?Q?avfKfXc6PDCfEDWwitNg6oJGEIHzGW3JhILRW8NNDK24pNiaTJt1r6ar1B4D?=
+ =?us-ascii?Q?GslqpFiETRBnWD26PlPPdrlgyi5DmxlOiTpEwEmLXi+QMlhW5Oyiv/AdJZk4?=
+ =?us-ascii?Q?Z9885KTCSjhN95Q/iLWoJOnHNWmmIczJQI/yAAZR7Vkk4A3VLSxCcWCcHD3p?=
+ =?us-ascii?Q?q4T6D4Zng8NWHhQPQerBdNNvfpPHEOuJyPan0eWJhJSxWw2zV/aFW6DrrCcG?=
+ =?us-ascii?Q?RfzN/TDP0/3gPcIX2OyXw3yudn42RvopaaLleVFtbW/bMXw0je9f5m1H7G1y?=
+ =?us-ascii?Q?yt94RjNeh0KSIsV5JXDfpAKa4hSdpxzVPV0Vol8LxLt6vQamSkvDVxhBPB7J?=
+ =?us-ascii?Q?Mk8iiaW+dJgMjxysGIeRXwl4iNJBkUZesPHV9/xVrB+PH8VhIoZcSgEVsP3m?=
+ =?us-ascii?Q?sucHOriYNpa9dJMeSDgMGMJcNRTP8shakrIaxrILFYr37xKyliA3KhaMZLP1?=
+ =?us-ascii?Q?QirJ6lclOVbQ7A7bTgzrLnoHtMaULa4bFM691ev6CXXVkSuQoMSCKMG6BNp0?=
+ =?us-ascii?Q?3Ml4e4TpOVZ9vlM0FIc1T5er9nyx307YrLm3VCVdafqv72QJj7ZdUaphQtWM?=
+ =?us-ascii?Q?jFxtmXIbQ26rU8+WsLfytav/MAF/VfBKFfHdVLrVbDwyG9z4w5cdDVhVOK1t?=
+ =?us-ascii?Q?PoIbcFXRajLxE2VodF9lv+0rHvUDUcJpo+vDu404St8nL9jqD5FihABEBuC9?=
+ =?us-ascii?Q?Tgv/jtvl5+dbSlnA+EWZFUnX53PBS7tESozOtGvk1XlUsrsIvVzBCyFZ3WZD?=
+ =?us-ascii?Q?MG2M48i/KykOSIzTp2A4VmLNLl0TAXYb1XNLWagTDh2yQkdm33kHL3VMjM6p?=
+ =?us-ascii?Q?2uPQvALPd9IzrDARhUDdeqDzFLdE6Tq/cJpLMxxh6lj4eu5G9ReLH6q89gVL?=
+ =?us-ascii?Q?FtYaDF42dKi6QHk73WHTb6GYwc1h1JBWaiVOV9OlN+fde7IZu2L5SHH1/YZo?=
+ =?us-ascii?Q?+ZiYHIprnqnTASW+hW4wAu8LEgjkR7QdR2rGTbF+fF10AQr+4MoSes6LNAhy?=
+ =?us-ascii?Q?3rJ7fpzRGCq+PFpJDFTuINfnwbgqg21uGUH8LwOWHQKf/ejloPjkUHEdMAX2?=
+ =?us-ascii?Q?9VhixSbxV1jJ/5DKdniTma2/Y5wuZR3rPznmZEBipEsu4VXUIqWo+KM2IhjN?=
+ =?us-ascii?Q?BjFDosQnopvz3L0vh/PI9nLT/DKR6C/+b/ByJsMweKYCj17rkkCObtxIBoUK?=
+ =?us-ascii?Q?JrGQzIvW/iMMMkLvC0o=3D?=
+X-Forefront-Antispam-Report:
+	CIP:198.47.21.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet201.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(36860700013)(376014)(7416014)(82310400026)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Dec 2025 10:20:54.2670
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: da25cd97-e8b7-4106-0ecc-08de42d61f00
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.195];Helo=[flwvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL6PEPF00020E62.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR10MB7940
 
-On 24/12/2025 06:36, Wenmeng Liu wrote:
-> 
-> 
-> On 12/24/2025 1:03 PM, Dmitry Baryshkov wrote:
->> On Wed, Dec 24, 2025 at 12:31:33PM +0800, Wenmeng Liu wrote:
->>>
->>>
->>> On 12/24/2025 12:21 PM, Dmitry Baryshkov wrote:
->>>> On Wed, Dec 24, 2025 at 11:18:02AM +0800, Wenmeng Liu wrote:
->>>>>
->>>>>
->>>>> On 12/23/2025 9:38 PM, Krzysztof Kozlowski wrote:
->>>>>> On Mon, Dec 22, 2025 at 04:28:39PM +0800, Wenmeng Liu wrote:
->>>>>>> +  interconnects:
->>>>>>> +    maxItems: 4
->>>>>>> +
->>>>>>> +  interconnect-names:
->>>>>>> +    items:
->>>>>>> +      - const: ahb
->>>>>>> +      - const: hf0_mnoc
->>>>>>> +      - const: hf1_mnoc
->>>>>>
->>>>>> Same comments as before, do not invent names.
->>>>>
->>>>> <&mmss_noc MASTER_CAMNOC_HF0 QCOM_ICC_TAG_ALWAYS
->>>>> &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
->>>>> <&mmss_noc MASTER_CAMNOC_HF1 QCOM_ICC_TAG_ALWAYS
->>>>> &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
->>>>>
->>>>> This platform(qcs615) is different from others. It has two types of sf,
->>>>> namely sf0 and sf1.
->>>>> The same as it is:
->>>>> sc7180 sc8180x sdm670 sdm845 sm8150
->>>>> Do you have any suggestions about this?
->>>>
->>>> Which _names_ are used on other platforms? This question is quite clear
->>>> from Krzysztof's comment.
->>>
->>> The platform mentioned above either has no camss ICC node or no support for
->>> CAMSS on the upstream, so this is a new one.
->>
->> I did a quick look for you.
->>
->> kodiak, lemans, monaco: ahb, hf_0
->>
->> x1e80100: ahb, hf_mnoc, sf_mnoc, sf_icp_mnoc
->> sm8650: ahb, hf_mnoc
->> agatti: ahb, hf_mnoc, sf_mnoc
->> sm8550: ahb, hf_0_mnoc
->>
->> sc8280xp: cam_ahb, cam_hf_mnoc, cam_sf_mnoc, cam_sf_icp_mnoc
->> sm8250: cam_ahb, cam_hf_0_mnoc, cam_sf_0_mnoc, cam_sf_icp_mnoc
->> sdm660: vfe-mem
->>
->> I'd obviously hope for some unification here. Other than that, we have
->> two clean winners: KLM and X Elite+SM8650+Agatti. Yours proposal is
->> different from either of the options. In fact, none of the platforms
->> have the same _approach_ as yours. Why?
->>
-> 
-> Yes, you're right.
-> But none of the above cases involved having two hf_mnoc simultaneously, 
-> so do you have any good suggestions for handling such a situation?
+This patch series adds support for the TI VIP. VIP stands for Video
+Input Port, it can be found on devices such as DRA7xx and provides
+a parallel interface to a video source such as a sensor or TV decoder.
 
-And this is your answer to use completely different style? This makes no
-sense.
+Each VIP can support two inputs (slices) and a SoC can be configured
+with a variable number of VIP's. Each slice can support two ports
+each connected to its own sub-device.
 
-This is your logic:
-1. If there is one HF, I will add underscore.
-2. If there is more than one HF, I will remove underscore.
+Note: The main intention behind updating this series is to address
+the warnings reported by Media CI at [1].
 
-This makes absolutely NO SENSE.
+[1]: https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/88224108/artifacts/report.htm
 
-Best regards,
-Krzysztof
+Changelog:
+Changes in v7: 
+- Fix overflow warning by casting to u32 while doing reg_write in enable_irqs(). (Media CI)
+- In function add_out_dtd(), initialize max_width and max_height by replacing else if
+  with else to avoid possible use of uninitialized variables warning. (Media CI)
+- Add missing error code when video_device_alloc() fails in alloc_stream(). (Media CI)
+- Fix inconsistent indentation in switch-case block in vip_probe_complete(). (Media CI)
+- Correct pm_runtime_get_sync() handling in vip_probe() by checking ret < 0 instead of ret. (Media CI)
+- Add missing goto path when we fail to ioremap in vip_probe() for proper error handling. (Media CI)
+- Avoid passing zero to PTR_ERR() in vip_probe_slice() by using PTR_ERR_OR_ZERO(). (Media CI)
+- Prevent possible NULL dereference in vip_process_buffer_complete() by using list_first_entry_or_null(). (Media CI)
+
+v4l2-compliance output: https://gist.github.com/Yemike-Abhilash-Chandra/37fe86055f5f754d825dd18f739ee4c4
+v4l2-compliance output with -s: https://gist.github.com/Yemike-Abhilash-Chandra/f53334765660eaa2fcb3b880596d4878
+
+Test logs: https://gist.github.com/Yemike-Abhilash-Chandra/c95bd8aab9d8a43aa91286aab885f87c
+Link for v6: https://lore.kernel.org/all/20251120091030.2081594-1-y-abhilashchandra@ti.com/
+
+Note: The original author of the VIP is Dale. Benoit and Sukruth have also contributed to this
+driver in various capacities in our downstream tree. Before starting the upstreaming effort,
+I reached out to Dale, Benoit, and Sukruth and obtained their consent to retain their respective
+Signed-off-by tags.
+
+
+Dale Farnsworth (2):
+  dt-bindings: media: ti: vpe: Add support for Video Input Port
+  media: ti: vpe: Add the VIP driver
+
+Yemike Abhilash Chandra (2):
+  media: ti: vpe: Re-introduce multi-instance and multi-client support
+  media: ti: vpe: Export vpdma_load_firmware() function
+
+ .../devicetree/bindings/media/ti,vip.yaml     |  152 +
+ MAINTAINERS                                   |    1 +
+ drivers/media/platform/ti/Kconfig             |   13 +
+ drivers/media/platform/ti/vpe/Makefile        |    2 +
+ drivers/media/platform/ti/vpe/vip.c           | 3673 +++++++++++++++++
+ drivers/media/platform/ti/vpe/vip.h           |  717 ++++
+ drivers/media/platform/ti/vpe/vpdma.c         |   51 +-
+ drivers/media/platform/ti/vpe/vpdma.h         |    6 +
+ 8 files changed, 4614 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/media/ti,vip.yaml
+ create mode 100644 drivers/media/platform/ti/vpe/vip.c
+ create mode 100644 drivers/media/platform/ti/vpe/vip.h
+
+-- 
+2.34.1
+
 
