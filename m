@@ -1,828 +1,122 @@
-Return-Path: <linux-media+bounces-49487-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49488-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49BC8CDCA08
-	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 16:06:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4253CDCA23
+	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 16:11:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C4308300942E
-	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 15:06:04 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 837153014A20
+	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 15:11:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61F8D344053;
-	Wed, 24 Dec 2025 15:06:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E47A4346E63;
+	Wed, 24 Dec 2025 15:11:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="r3kXzz5N"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="MtsXlaMl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2477D27B4FB
-	for <linux-media@vger.kernel.org>; Wed, 24 Dec 2025 15:05:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 747A63469F4
+	for <linux-media@vger.kernel.org>; Wed, 24 Dec 2025 15:11:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766588763; cv=none; b=F4VwLSNGytNBgFLhMc/U950DCZqnLGbRRuVR5kTLI6vUVkT9q7m2/QsaztcOSnnxfIn0zeiTd67mlahC9aAqHttHU6UATZOe6Vfd5l7XNHovUAEp2mQL2bhYbiLmEwRe8sjhOf8jeBJ33YQ1xC9d5ke4RKZ6M8n3o4B0QHhRMrY=
+	t=1766589077; cv=none; b=FKyaG/+/qaBu4kHqOgPeuy/8OHNzDJp9Q4+AMdGrYxN5sx1QGgxKjnUkC0ctXKlQd/YJqZVMW7mrweWG1miMPPGfBFd2YhzThtK1USeKd+EDIpaknfAycTvnX4MdG1K6Gtj9U3MgPoKJLppdXmKeUTdE54eK+rugauto0tY1b8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766588763; c=relaxed/simple;
-	bh=3yU1n9eIyN3B3Aq4V79jmgq1icTynfJn8OFcolLCJts=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=de8GVR6PNMXgXQpHpfacuPv1IU1nySYxSjMCGvKYWdC2R8m5WrYCfwkLfVmwbkw5kZ7WYrJQ1WurpBK7mSwq93cBfu7RTrApDN9QCL/ZrBKnsxhsqH+O7xp9+7ASMBFyF8bgme1/9+9nv4V6HJ9b4KYLBkmOr+W9es2tF1NZydM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=r3kXzz5N; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-4edb6e678ddso86404431cf.2
-        for <linux-media@vger.kernel.org>; Wed, 24 Dec 2025 07:05:59 -0800 (PST)
+	s=arc-20240116; t=1766589077; c=relaxed/simple;
+	bh=mME6WYngxf9u9OyBAcxjfcEYR7sfl8+zdjis7ko6iE8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RROeJsXb2u4PUfakID5+gldxKoQy9RompYvHbRf+Mpua+Jr+uUjykCWPeoPAYpBg+uG8wbev47A+BfBjzNvWP3Rdchr5TiGHGpq5Ps9uwRZskj/TZPsHn0s1853dI0PIqtBj6yIQ9e50fjBvorYT/Az1U17w33B6hJsjX1GXpzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=MtsXlaMl; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-595910c9178so4895447e87.1
+        for <linux-media@vger.kernel.org>; Wed, 24 Dec 2025 07:11:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1766588759; x=1767193559; darn=vger.kernel.org;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=/sj1HHExKGWlQ/Xby6VMx9FFovM/8nIk9CS7FFzB9X8=;
-        b=r3kXzz5N6qdN4wwtaDLVXe/RpJ3jLnWE2nDkWylwaFSRWVppY0EdqA9S0kYcemkXQY
-         K01iMcUfR1VNcIQB588d5GmmxgHwu5skI6paKwYdsARs3g261IA8IOm62fT50+MfaKtx
-         rn4UWP+OmXUyMlkouIm50eI+RCUl3j2Nq+FskGIGSSKYyuwMz6BmJAWsOdU5AyL3hsek
-         zxShq/qmVCl+Xtrq3VYPWe2sNO04F5XqcHVtb8CPRzoAwAvFVaFPkzbY3XzpqCIJIzNK
-         UaIdb10D2v/YZyDrnhCN+grqDXNkdo1rJjqW3aKbyFhdZogOufXOypnOzTvbk+FoxSEI
-         a8Iw==
+        d=suse.com; s=google; t=1766589073; x=1767193873; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CIaTl5oO38vDqGOxjLCblHCqyMm72+Q1GNWTCa81nME=;
+        b=MtsXlaMleuv1jiua0v6azkRlBoZxB4FitQyav0opeqrZgJFA8/0eNFqGCVq4ZQ5hTS
+         kAtzvFLf/+QioBPCFXoaOJE816F/KeFH72/0wHRC/9aMbsuXsj5dHU/7PZDe39ATKPXI
+         Qx1cDWUYIEgUH4hL5/wsNoNtgpnvuAqABhCJ2My6LOcjLFlpwTc5tXKlXvvMBDrYnhgz
+         DCANtLtduevVwRfieZvPfMdF+rTnxgbAbmxucV74muore4FrV7VIk7XDng/0zSHIBQtH
+         a/EMUAWI1RMdG1NEj4Bw/Eb8YpdMqNU05oss56zAcNVN8AbbyW70mqBo33lTl2gu/J51
+         LIcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766588759; x=1767193559;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/sj1HHExKGWlQ/Xby6VMx9FFovM/8nIk9CS7FFzB9X8=;
-        b=mOl/Nz63UtCgnUJDjZzjTE0AOfg50oi3Clbg6ZOYD86ZX3N6P3hONXi64G2XdFMFWL
-         orT2H+jb3ar5AEOzGs98Azh957zoPb0H3nlpkGeHQ5j2yiGGW267ADMuyIayS/cjre5Q
-         +MRFNGd0rdLrjvd85xRLPOpigWuGa1NuOEYxIHYQdvHQQlu20U5xieRL6InkXnUmiHpD
-         21KjhfCaV/lrc5IoAiXTgrMu4CpLSmIMmW8loHcIIEciC7ThgtLujNyXm76HkMRWrRY/
-         5Z7ALOCkurs0ErVrGwfCOXzrkhzdhMttsPBxj7kGC26HZhC0xAP/ASsU2h5imFxlmrgX
-         5bAA==
-X-Gm-Message-State: AOJu0YyLbCpBOm1QfgIo/7IbXLEAQbv1L8e8pCgGOKYla9OkUMTC1nFC
-	YjXr7oLkaWr9hziQJsnxGQVj38WVGY60kidV6FKyqyMY4sEacJZn+qPPWyTahEang74=
-X-Gm-Gg: AY/fxX61VBiydFLs727J6sDcgW2nyq/ILc8Sh86gvqKKc/wuIv49Gb5Ij/4f0n8LzXu
-	ciqUZIEUE9GTtF1VJImmJUhGyTw/kieuB5l1JD/kB0G/kmEzShCvLLYYsKhaYcy5IvrQsePJfhE
-	/C9c3xgymowUkFPMlToIaYxMV0/e+QKasCD0wkpw78KydoVFmglTv0roFyQGGRvHTJnmrMBrk1d
-	MxurRH75csvNbRL5ZjEEamGaPqU7uYKME9oNEE3+O7TEncXu2fltdlMuNvgSTjV1nrTVny7ykfG
-	xhktfqbw+lXZ0S+Lakx7rF/P4qcqeNbLlFYN9pm2+YVQTycdM4SvcrTtlE5tBLcJCTDRLX5LDY2
-	Df7MYP30EzeR+pRphCChALf+cZeufk5usFd5C8pqnp6sZhsyN3ywWKgCWp+TgfwSg9XAPSpmb0H
-	BV6oCR56UcZED9ZiCj
-X-Google-Smtp-Source: AGHT+IETvBu+Guk12OJYgN5ssBD4uU83lBcS6wq53EZP7h8ORV81/fvJfk/oT/mQb3cIMhQp0AxXLg==
-X-Received: by 2002:a05:622a:1345:b0:4ee:1db1:a605 with SMTP id d75a77b69052e-4f4abcd8b3fmr302509791cf.20.1766588758799;
-        Wed, 24 Dec 2025 07:05:58 -0800 (PST)
-Received: from ?IPv6:2606:6d00:17:7b4b::c41? ([2606:6d00:17:7b4b::c41])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4f4ac62d53dsm126478521cf.19.2025.12.24.07.05.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Dec 2025 07:05:58 -0800 (PST)
-Message-ID: <be6c72090cdbf79d86dab5cc75a05db81cd1585c.camel@ndufresne.ca>
-Subject: Re: [PATCH v2 07/22] media: rockchip: rga: move hw specific parts
- to a dedicated struct
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Sven =?ISO-8859-1?Q?P=FCschel?= <s.pueschel@pengutronix.de>, Jacob Chen
-	 <jacob-chen@iotwrt.com>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
- Mauro Carvalho Chehab
-	 <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Rob Herring
-	 <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
-	 <conor+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, kernel@pengutronix.de
-Date: Wed, 24 Dec 2025 10:05:57 -0500
-In-Reply-To: <20251203-spu-rga3-v2-7-989a67947f71@pengutronix.de>
-References: <20251203-spu-rga3-v2-0-989a67947f71@pengutronix.de>
-	 <20251203-spu-rga3-v2-7-989a67947f71@pengutronix.de>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-awLPo3pA3zArYr6dvmmF"
-User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
+        d=1e100.net; s=20230601; t=1766589073; x=1767193873;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=CIaTl5oO38vDqGOxjLCblHCqyMm72+Q1GNWTCa81nME=;
+        b=o6RAl3I9GHf6LoJBOwMQchJUAfnsif4TAjQw24yPh396ynilPaOTQX2HeEmkZXW2yN
+         eUUoijJ59u0E4ZW9kcRl9lM9Cx4blyRZI3QNL6fOVZR+LRrj5/dMTBPXR0iYynulgCq1
+         F+XVqvQjHO7qd/dJ3maIhrNijBS5gcbys8lOMHsxcxaofSGkOs0fOv881slNF4Bc9Ixt
+         SNQUiXiy5uYEnDmlaHMXtDIEDhbcrObizq9H5SY7utcakCUFL1wnVrL8gobj/rTEPU4R
+         GynZm5QeeDOWUXPyKY7eiwZmPTb774fgVewWEk3vfazx5O2jSSoDrxPXVSmhzyU8AVH1
+         e/4w==
+X-Forwarded-Encrypted: i=1; AJvYcCU3g9/lPwYnUJQKTPcFzOQz+Cw7AevCanJeacoUy6MwwrI/7BkvUBsGhX47CmfoQ/7RD8hunqAl9/VREw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzbvov2/8G14MKpgqtl6nJF70x0SrvNdYydfg8c8TFmfIi024/U
+	DvIvqbYlbuTIZrIdnXyhdB0EuVpVEyL9RUEqc2scKfjrlOIMpQC1KZR1eEx6/FAZhrxK50N5s0t
+	MEe6pMb0uuPqkc8zOtlxltqL28+23BhIex/VOhgVtxr4vFLIiRxWX
+X-Gm-Gg: AY/fxX4WS2YhKWVGLImxKbC4i/PDqQq015DppPM0mL6fLITz9bJbxFO2MoqThBinm7w
+	RRnruEHtLVAO6OdW+SLu+9qShXkfM5xV1+3lQN9hEXuIEyoIK8VtN8q7llCJM2Gi9IcuTj/0BkC
+	VxYX/H8VhhIVEiIns551BKX7m88SjpasV2Hpg/WCCOPHkFQ4RmdFaayb2K+0fdZXJIzL5qXZyaA
+	dmsJTOf9rPkL81AyLZyiC+R2f4N0XK4yOoJJQFyN4YOAKylGSKsXeFkjKgpAW0cx0jEdltyNmhY
+	jv/CJokCkI4lKG/sWsOtH/c0e8kN
+X-Google-Smtp-Source: AGHT+IHdO+ycapfLLBNegWRhLFYZqlBHea1VY80HzXK/TMoBX4xJJRpd0EC7Wx2U5hQ6jnfhUvyssaiFrXaakkEWm6k=
+X-Received: by 2002:a05:6512:2388:b0:598:e327:96b5 with SMTP id
+ 2adb3069b0e04-59a17d5cea6mr5991507e87.44.1766589073420; Wed, 24 Dec 2025
+ 07:11:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-
-
---=-awLPo3pA3zArYr6dvmmF
+References: <20251107141052.221108-1-marco.crivellari@suse.com>
+In-Reply-To: <20251107141052.221108-1-marco.crivellari@suse.com>
+From: Marco Crivellari <marco.crivellari@suse.com>
+Date: Wed, 24 Dec 2025 16:11:02 +0100
+X-Gm-Features: AQt7F2rr4pKuzQsD0WP_B26_oYo2qEWk6yv-kFh7LuBV_kI-sE4PDHfVJjXzHlU
+Message-ID: <CAAofZF6e_3xgG3cWobDpMN-6VdxaiaaevN6_m0RZWSFJxZH29A@mail.gmail.com>
+Subject: Re: [PATCH] media: ddbridge: add WQ_PERCPU to alloc_workqueue users
+To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+	Frederic Weisbecker <frederic@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Michal Hocko <mhocko@suse.com>, Mauro Carvalho Chehab <mchehab@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Le mercredi 03 d=C3=A9cembre 2025 =C3=A0 16:52 +0100, Sven P=C3=BCschel a =
-=C3=A9crit=C2=A0:
-> In preparation for the RGA3 unit, move RGA2 specific parts from rga.c
-> to rga-hw.c and create a struct to reference the RGA2 specific functions
-> and formats. This also allows to remove the rga-hw.h reference from the
-> include list of the rga driver.
->=20
-> Also document the command finish interrupt with a dedicated define.
->=20
-> Signed-off-by: Sven P=C3=BCschel <s.pueschel@pengutronix.de>
-
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-
+On Fri, Nov 7, 2025 at 3:11=E2=80=AFPM Marco Crivellari
+<marco.crivellari@suse.com> wrote:
+> [...]
 > ---
-> =C2=A0drivers/media/platform/rockchip/rga/rga-hw.c | 183 ++++++++++++++++=
-++++-
-> =C2=A0drivers/media/platform/rockchip/rga/rga-hw.h |=C2=A0=C2=A0 5 +-
-> =C2=A0drivers/media/platform/rockchip/rga/rga.c=C2=A0=C2=A0=C2=A0 | 228 +=
-++++----------------------
-> =C2=A0drivers/media/platform/rockchip/rga/rga.h=C2=A0=C2=A0=C2=A0 |=C2=A0=
- 23 ++-
-> =C2=A04 files changed, 245 insertions(+), 194 deletions(-)
->=20
-> diff --git a/drivers/media/platform/rockchip/rga/rga-hw.c b/drivers/media=
-/platform/rockchip/rga/rga-hw.c
-> index f1d5237472941..7419784efc693 100644
-> --- a/drivers/media/platform/rockchip/rga/rga-hw.c
-> +++ b/drivers/media/platform/rockchip/rga/rga-hw.c
-> @@ -437,8 +437,8 @@ static void rga_cmd_set(struct rga_ctx *ctx,
-> =C2=A0		PAGE_SIZE, DMA_BIDIRECTIONAL);
-> =C2=A0}
-> =C2=A0
-> -void rga_hw_start(struct rockchip_rga *rga,
-> -		=C2=A0 struct rga_vb_buffer *src, struct rga_vb_buffer *dst)
-> +static void rga_hw_start(struct rockchip_rga *rga,
-> +			 struct rga_vb_buffer *src,=C2=A0 struct rga_vb_buffer *dst)
-> =C2=A0{
-> =C2=A0	struct rga_ctx *ctx =3D rga->curr;
-> =C2=A0
-> @@ -452,3 +452,182 @@ void rga_hw_start(struct rockchip_rga *rga,
-> =C2=A0
-> =C2=A0	rga_write(rga, RGA_CMD_CTRL, 0x1);
-> =C2=A0}
-> +
-> +static bool rga_handle_irq(struct rockchip_rga *rga)
-> +{
-> +	int intr;
-> +
-> +	intr =3D rga_read(rga, RGA_INT) & 0xf;
-> +
-> +	rga_mod(rga, RGA_INT, intr << 4, 0xf << 4);
-> +
-> +	return intr & RGA_INT_COMMAND_FINISHED;
-> +}
-> +
-> +static void rga_get_version(struct rockchip_rga *rga)
-> +{
-> +	rga->version.major =3D (rga_read(rga, RGA_VERSION_INFO) >> 24) & 0xFF;
-> +	rga->version.minor =3D (rga_read(rga, RGA_VERSION_INFO) >> 20) & 0x0F;
-> +}
-> +
-> +static struct rga_fmt formats[] =3D {
-> +	{
-> +		.fourcc =3D V4L2_PIX_FMT_ARGB32,
-> +		.color_swap =3D RGA_COLOR_ALPHA_SWAP,
-> +		.hw_format =3D RGA_COLOR_FMT_ABGR8888,
-> +		.depth =3D 32,
-> +		.uv_factor =3D 1,
-> +		.y_div =3D 1,
-> +		.x_div =3D 1,
-> +	},
-> +	{
-> +		.fourcc =3D V4L2_PIX_FMT_ABGR32,
-> +		.color_swap =3D RGA_COLOR_RB_SWAP,
-> +		.hw_format =3D RGA_COLOR_FMT_ABGR8888,
-> +		.depth =3D 32,
-> +		.uv_factor =3D 1,
-> +		.y_div =3D 1,
-> +		.x_div =3D 1,
-> +	},
-> +	{
-> +		.fourcc =3D V4L2_PIX_FMT_XBGR32,
-> +		.color_swap =3D RGA_COLOR_RB_SWAP,
-> +		.hw_format =3D RGA_COLOR_FMT_XBGR8888,
-> +		.depth =3D 32,
-> +		.uv_factor =3D 1,
-> +		.y_div =3D 1,
-> +		.x_div =3D 1,
-> +	},
-> +	{
-> +		.fourcc =3D V4L2_PIX_FMT_RGB24,
-> +		.color_swap =3D RGA_COLOR_NONE_SWAP,
-> +		.hw_format =3D RGA_COLOR_FMT_RGB888,
-> +		.depth =3D 24,
-> +		.uv_factor =3D 1,
-> +		.y_div =3D 1,
-> +		.x_div =3D 1,
-> +	},
-> +	{
-> +		.fourcc =3D V4L2_PIX_FMT_BGR24,
-> +		.color_swap =3D RGA_COLOR_RB_SWAP,
-> +		.hw_format =3D RGA_COLOR_FMT_RGB888,
-> +		.depth =3D 24,
-> +		.uv_factor =3D 1,
-> +		.y_div =3D 1,
-> +		.x_div =3D 1,
-> +	},
-> +	{
-> +		.fourcc =3D V4L2_PIX_FMT_ARGB444,
-> +		.color_swap =3D RGA_COLOR_RB_SWAP,
-> +		.hw_format =3D RGA_COLOR_FMT_ABGR4444,
-> +		.depth =3D 16,
-> +		.uv_factor =3D 1,
-> +		.y_div =3D 1,
-> +		.x_div =3D 1,
-> +	},
-> +	{
-> +		.fourcc =3D V4L2_PIX_FMT_ARGB555,
-> +		.color_swap =3D RGA_COLOR_RB_SWAP,
-> +		.hw_format =3D RGA_COLOR_FMT_ABGR1555,
-> +		.depth =3D 16,
-> +		.uv_factor =3D 1,
-> +		.y_div =3D 1,
-> +		.x_div =3D 1,
-> +	},
-> +	{
-> +		.fourcc =3D V4L2_PIX_FMT_RGB565,
-> +		.color_swap =3D RGA_COLOR_RB_SWAP,
-> +		.hw_format =3D RGA_COLOR_FMT_BGR565,
-> +		.depth =3D 16,
-> +		.uv_factor =3D 1,
-> +		.y_div =3D 1,
-> +		.x_div =3D 1,
-> +	},
-> +	{
-> +		.fourcc =3D V4L2_PIX_FMT_NV21,
-> +		.color_swap =3D RGA_COLOR_UV_SWAP,
-> +		.hw_format =3D RGA_COLOR_FMT_YUV420SP,
-> +		.depth =3D 12,
-> +		.uv_factor =3D 4,
-> +		.y_div =3D 2,
-> +		.x_div =3D 1,
-> +	},
-> +	{
-> +		.fourcc =3D V4L2_PIX_FMT_NV61,
-> +		.color_swap =3D RGA_COLOR_UV_SWAP,
-> +		.hw_format =3D RGA_COLOR_FMT_YUV422SP,
-> +		.depth =3D 16,
-> +		.uv_factor =3D 2,
-> +		.y_div =3D 1,
-> +		.x_div =3D 1,
-> +	},
-> +	{
-> +		.fourcc =3D V4L2_PIX_FMT_NV12,
-> +		.color_swap =3D RGA_COLOR_NONE_SWAP,
-> +		.hw_format =3D RGA_COLOR_FMT_YUV420SP,
-> +		.depth =3D 12,
-> +		.uv_factor =3D 4,
-> +		.y_div =3D 2,
-> +		.x_div =3D 1,
-> +	},
-> +	{
-> +		.fourcc =3D V4L2_PIX_FMT_NV12M,
-> +		.color_swap =3D RGA_COLOR_NONE_SWAP,
-> +		.hw_format =3D RGA_COLOR_FMT_YUV420SP,
-> +		.depth =3D 12,
-> +		.uv_factor =3D 4,
-> +		.y_div =3D 2,
-> +		.x_div =3D 1,
-> +	},
-> +	{
-> +		.fourcc =3D V4L2_PIX_FMT_NV16,
-> +		.color_swap =3D RGA_COLOR_NONE_SWAP,
-> +		.hw_format =3D RGA_COLOR_FMT_YUV422SP,
-> +		.depth =3D 16,
-> +		.uv_factor =3D 2,
-> +		.y_div =3D 1,
-> +		.x_div =3D 1,
-> +	},
-> +	{
-> +		.fourcc =3D V4L2_PIX_FMT_YUV420,
-> +		.color_swap =3D RGA_COLOR_NONE_SWAP,
-> +		.hw_format =3D RGA_COLOR_FMT_YUV420P,
-> +		.depth =3D 12,
-> +		.uv_factor =3D 4,
-> +		.y_div =3D 2,
-> +		.x_div =3D 2,
-> +	},
-> +	{
-> +		.fourcc =3D V4L2_PIX_FMT_YUV422P,
-> +		.color_swap =3D RGA_COLOR_NONE_SWAP,
-> +		.hw_format =3D RGA_COLOR_FMT_YUV422P,
-> +
-> +		.depth =3D 16,
-> +		.uv_factor =3D 2,
-> +		.y_div =3D 1,
-> +		.x_div =3D 2,
-> +	},
-> +	{
-> +		.fourcc =3D V4L2_PIX_FMT_YVU420,
-> +		.color_swap =3D RGA_COLOR_UV_SWAP,
-> +		.hw_format =3D RGA_COLOR_FMT_YUV420P,
-> +		.depth =3D 12,
-> +		.uv_factor =3D 4,
-> +		.y_div =3D 2,
-> +		.x_div =3D 2,
-> +	},
-> +};
-> +
-> +const struct rga_hw rga2_hw =3D {
-> +	.formats =3D formats,
-> +	.num_formats =3D ARRAY_SIZE(formats),
-> +	.cmdbuf_size =3D RGA_CMDBUF_SIZE,
-> +	.min_width =3D MIN_WIDTH,
-> +	.max_width =3D MAX_WIDTH,
-> +	.min_height =3D MIN_HEIGHT,
-> +	.max_height =3D MAX_HEIGHT,
-> +
-> +	.start =3D rga_hw_start,
-> +	.handle_irq =3D rga_handle_irq,
-> +	.get_version =3D rga_get_version,
-> +};
-> diff --git a/drivers/media/platform/rockchip/rga/rga-hw.h b/drivers/media=
-/platform/rockchip/rga/rga-hw.h
-> index cc6bd7f5b0300..f4752aa823051 100644
-> --- a/drivers/media/platform/rockchip/rga/rga-hw.h
-> +++ b/drivers/media/platform/rockchip/rga/rga-hw.h
-> @@ -15,9 +15,6 @@
-> =C2=A0#define MIN_WIDTH 34
-> =C2=A0#define MIN_HEIGHT 34
-> =C2=A0
-> -#define DEFAULT_WIDTH 100
-> -#define DEFAULT_HEIGHT 100
-> -
-> =C2=A0#define RGA_TIMEOUT 500
-> =C2=A0
-> =C2=A0/* Registers address */
-> @@ -178,6 +175,8 @@
-> =C2=A0#define RGA_ALPHA_COLOR_NORMAL 0
-> =C2=A0#define RGA_ALPHA_COLOR_MULTIPLY_CAL 1
-> =C2=A0
-> +#define RGA_INT_COMMAND_FINISHED 4
-> +
-> =C2=A0/* Registers union */
-> =C2=A0union rga_mode_ctrl {
-> =C2=A0	unsigned int val;
-> diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/pl=
-atform/rockchip/rga/rga.c
-> index f50fbbab0645e..d8b14c2d9f6a4 100644
-> --- a/drivers/media/platform/rockchip/rga/rga.c
-> +++ b/drivers/media/platform/rockchip/rga/rga.c
-> @@ -25,7 +25,6 @@
-> =C2=A0#include <media/videobuf2-dma-sg.h>
-> =C2=A0#include <media/videobuf2-v4l2.h>
-> =C2=A0
-> -#include "rga-hw.h"
-> =C2=A0#include "rga.h"
-> =C2=A0
-> =C2=A0static int debug;
-> @@ -47,7 +46,7 @@ static void device_run(void *prv)
-> =C2=A0
-> =C2=A0	dst =3D v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
-> =C2=A0
-> -	rga_hw_start(rga, vb_to_rga(src), vb_to_rga(dst));
-> +	rga->hw->start(rga, vb_to_rga(src), vb_to_rga(dst));
-> =C2=A0
-> =C2=A0	spin_unlock_irqrestore(&rga->ctrl_lock, flags);
-> =C2=A0}
-> @@ -55,13 +54,8 @@ static void device_run(void *prv)
-> =C2=A0static irqreturn_t rga_isr(int irq, void *prv)
-> =C2=A0{
-> =C2=A0	struct rockchip_rga *rga =3D prv;
-> -	int intr;
-> =C2=A0
-> -	intr =3D rga_read(rga, RGA_INT) & 0xf;
-> -
-> -	rga_mod(rga, RGA_INT, intr << 4, 0xf << 4);
-> -
-> -	if (intr & 0x04) {
-> +	if (rga->hw->handle_irq(rga)) {
-> =C2=A0		struct vb2_v4l2_buffer *src, *dst;
-> =C2=A0		struct rga_ctx *ctx =3D rga->curr;
-> =C2=A0
-> @@ -184,174 +178,17 @@ static int rga_setup_ctrls(struct rga_ctx *ctx)
-> =C2=A0	return 0;
-> =C2=A0}
-> =C2=A0
-> -static struct rga_fmt formats[] =3D {
-> -	{
-> -		.fourcc =3D V4L2_PIX_FMT_ARGB32,
-> -		.color_swap =3D RGA_COLOR_ALPHA_SWAP,
-> -		.hw_format =3D RGA_COLOR_FMT_ABGR8888,
-> -		.depth =3D 32,
-> -		.uv_factor =3D 1,
-> -		.y_div =3D 1,
-> -		.x_div =3D 1,
-> -	},
-> -	{
-> -		.fourcc =3D V4L2_PIX_FMT_ABGR32,
-> -		.color_swap =3D RGA_COLOR_RB_SWAP,
-> -		.hw_format =3D RGA_COLOR_FMT_ABGR8888,
-> -		.depth =3D 32,
-> -		.uv_factor =3D 1,
-> -		.y_div =3D 1,
-> -		.x_div =3D 1,
-> -	},
-> -	{
-> -		.fourcc =3D V4L2_PIX_FMT_XBGR32,
-> -		.color_swap =3D RGA_COLOR_RB_SWAP,
-> -		.hw_format =3D RGA_COLOR_FMT_XBGR8888,
-> -		.depth =3D 32,
-> -		.uv_factor =3D 1,
-> -		.y_div =3D 1,
-> -		.x_div =3D 1,
-> -	},
-> -	{
-> -		.fourcc =3D V4L2_PIX_FMT_RGB24,
-> -		.color_swap =3D RGA_COLOR_NONE_SWAP,
-> -		.hw_format =3D RGA_COLOR_FMT_RGB888,
-> -		.depth =3D 24,
-> -		.uv_factor =3D 1,
-> -		.y_div =3D 1,
-> -		.x_div =3D 1,
-> -	},
-> -	{
-> -		.fourcc =3D V4L2_PIX_FMT_BGR24,
-> -		.color_swap =3D RGA_COLOR_RB_SWAP,
-> -		.hw_format =3D RGA_COLOR_FMT_RGB888,
-> -		.depth =3D 24,
-> -		.uv_factor =3D 1,
-> -		.y_div =3D 1,
-> -		.x_div =3D 1,
-> -	},
-> -	{
-> -		.fourcc =3D V4L2_PIX_FMT_ARGB444,
-> -		.color_swap =3D RGA_COLOR_RB_SWAP,
-> -		.hw_format =3D RGA_COLOR_FMT_ABGR4444,
-> -		.depth =3D 16,
-> -		.uv_factor =3D 1,
-> -		.y_div =3D 1,
-> -		.x_div =3D 1,
-> -	},
-> -	{
-> -		.fourcc =3D V4L2_PIX_FMT_ARGB555,
-> -		.color_swap =3D RGA_COLOR_RB_SWAP,
-> -		.hw_format =3D RGA_COLOR_FMT_ABGR1555,
-> -		.depth =3D 16,
-> -		.uv_factor =3D 1,
-> -		.y_div =3D 1,
-> -		.x_div =3D 1,
-> -	},
-> -	{
-> -		.fourcc =3D V4L2_PIX_FMT_RGB565,
-> -		.color_swap =3D RGA_COLOR_RB_SWAP,
-> -		.hw_format =3D RGA_COLOR_FMT_BGR565,
-> -		.depth =3D 16,
-> -		.uv_factor =3D 1,
-> -		.y_div =3D 1,
-> -		.x_div =3D 1,
-> -	},
-> -	{
-> -		.fourcc =3D V4L2_PIX_FMT_NV21,
-> -		.color_swap =3D RGA_COLOR_UV_SWAP,
-> -		.hw_format =3D RGA_COLOR_FMT_YUV420SP,
-> -		.depth =3D 12,
-> -		.uv_factor =3D 4,
-> -		.y_div =3D 2,
-> -		.x_div =3D 1,
-> -	},
-> -	{
-> -		.fourcc =3D V4L2_PIX_FMT_NV61,
-> -		.color_swap =3D RGA_COLOR_UV_SWAP,
-> -		.hw_format =3D RGA_COLOR_FMT_YUV422SP,
-> -		.depth =3D 16,
-> -		.uv_factor =3D 2,
-> -		.y_div =3D 1,
-> -		.x_div =3D 1,
-> -	},
-> -	{
-> -		.fourcc =3D V4L2_PIX_FMT_NV12,
-> -		.color_swap =3D RGA_COLOR_NONE_SWAP,
-> -		.hw_format =3D RGA_COLOR_FMT_YUV420SP,
-> -		.depth =3D 12,
-> -		.uv_factor =3D 4,
-> -		.y_div =3D 2,
-> -		.x_div =3D 1,
-> -	},
-> -	{
-> -		.fourcc =3D V4L2_PIX_FMT_NV12M,
-> -		.color_swap =3D RGA_COLOR_NONE_SWAP,
-> -		.hw_format =3D RGA_COLOR_FMT_YUV420SP,
-> -		.depth =3D 12,
-> -		.uv_factor =3D 4,
-> -		.y_div =3D 2,
-> -		.x_div =3D 1,
-> -	},
-> -	{
-> -		.fourcc =3D V4L2_PIX_FMT_NV16,
-> -		.color_swap =3D RGA_COLOR_NONE_SWAP,
-> -		.hw_format =3D RGA_COLOR_FMT_YUV422SP,
-> -		.depth =3D 16,
-> -		.uv_factor =3D 2,
-> -		.y_div =3D 1,
-> -		.x_div =3D 1,
-> -	},
-> -	{
-> -		.fourcc =3D V4L2_PIX_FMT_YUV420,
-> -		.color_swap =3D RGA_COLOR_NONE_SWAP,
-> -		.hw_format =3D RGA_COLOR_FMT_YUV420P,
-> -		.depth =3D 12,
-> -		.uv_factor =3D 4,
-> -		.y_div =3D 2,
-> -		.x_div =3D 2,
-> -	},
-> -	{
-> -		.fourcc =3D V4L2_PIX_FMT_YUV422P,
-> -		.color_swap =3D RGA_COLOR_NONE_SWAP,
-> -		.hw_format =3D RGA_COLOR_FMT_YUV422P,
-> -		.depth =3D 16,
-> -		.uv_factor =3D 2,
-> -		.y_div =3D 1,
-> -		.x_div =3D 2,
-> -	},
-> -	{
-> -		.fourcc =3D V4L2_PIX_FMT_YVU420,
-> -		.color_swap =3D RGA_COLOR_UV_SWAP,
-> -		.hw_format =3D RGA_COLOR_FMT_YUV420P,
-> -		.depth =3D 12,
-> -		.uv_factor =3D 4,
-> -		.y_div =3D 2,
-> -		.x_div =3D 2,
-> -	},
-> -};
-> -
-> -#define NUM_FORMATS ARRAY_SIZE(formats)
-> -
-> -static struct rga_fmt *rga_fmt_find(u32 pixelformat)
-> +static struct rga_fmt *rga_fmt_find(struct rockchip_rga *rga, u32 pixelf=
-ormat)
-> =C2=A0{
-> =C2=A0	unsigned int i;
-> =C2=A0
-> -	for (i =3D 0; i < NUM_FORMATS; i++) {
-> -		if (formats[i].fourcc =3D=3D pixelformat)
-> -			return &formats[i];
-> +	for (i =3D 0; i < rga->hw->num_formats; i++) {
-> +		if (rga->hw->formats[i].fourcc =3D=3D pixelformat)
-> +			return &rga->hw->formats[i];
-> =C2=A0	}
-> =C2=A0	return NULL;
-> =C2=A0}
-> =C2=A0
-> -static struct rga_frame def_frame =3D {
-> -	.crop.left =3D 0,
-> -	.crop.top =3D 0,
-> -	.crop.width =3D DEFAULT_WIDTH,
-> -	.crop.height =3D DEFAULT_HEIGHT,
-> -	.fmt =3D &formats[0],
-> -};
-> -
-> =C2=A0struct rga_frame *rga_get_frame(struct rga_ctx *ctx, enum v4l2_buf_=
-type type)
-> =C2=A0{
-> =C2=A0	if (V4L2_TYPE_IS_OUTPUT(type))
-> @@ -366,6 +203,18 @@ static int rga_open(struct file *file)
-> =C2=A0	struct rockchip_rga *rga =3D video_drvdata(file);
-> =C2=A0	struct rga_ctx *ctx =3D NULL;
-> =C2=A0	int ret =3D 0;
-> +	u32 def_width =3D clamp(DEFAULT_WIDTH, rga->hw->min_width, rga->hw->max=
-_width);
-> +	u32 def_height =3D clamp(DEFAULT_HEIGHT, rga->hw->min_height, rga->hw->=
-max_height);
-> +	struct rga_frame def_frame =3D {
-> +		.crop.left =3D 0,
-> +		.crop.top =3D 0,
-> +		.crop.width =3D def_width,
-> +		.crop.height =3D def_height,
-> +		.fmt =3D &rga->hw->formats[0],
-> +	};
-> +
-> +	def_frame.stride =3D (def_width * def_frame.fmt->depth) >> 3;
-> +	def_frame.size =3D def_frame.stride * def_height;
-> =C2=A0
-> =C2=A0	ctx =3D kzalloc(sizeof(*ctx), GFP_KERNEL);
-> =C2=A0	if (!ctx)
-> @@ -376,9 +225,9 @@ static int rga_open(struct file *file)
-> =C2=A0	ctx->out =3D def_frame;
-> =C2=A0
-> =C2=A0	v4l2_fill_pixfmt_mp(&ctx->in.pix,
-> -			=C2=A0=C2=A0=C2=A0 ctx->in.fmt->fourcc, DEFAULT_WIDTH, DEFAULT_HEIGHT=
-);
-> +			=C2=A0=C2=A0=C2=A0 ctx->in.fmt->fourcc, def_width, def_height);
-> =C2=A0	v4l2_fill_pixfmt_mp(&ctx->out.pix,
-> -			=C2=A0=C2=A0=C2=A0 ctx->out.fmt->fourcc, DEFAULT_WIDTH, DEFAULT_HEIGH=
-T);
-> +			=C2=A0=C2=A0=C2=A0 ctx->out.fmt->fourcc, def_width, def_height);
-> =C2=A0
-> =C2=A0	if (mutex_lock_interruptible(&rga->mutex)) {
-> =C2=A0		kfree(ctx);
-> @@ -445,12 +294,13 @@ vidioc_querycap(struct file *file, void *priv, stru=
-ct v4l2_capability *cap)
-> =C2=A0
-> =C2=A0static int vidioc_enum_fmt(struct file *file, void *priv, struct v4=
-l2_fmtdesc *f)
-> =C2=A0{
-> +	struct rockchip_rga *rga =3D video_drvdata(file);
-> =C2=A0	struct rga_fmt *fmt;
-> =C2=A0
-> -	if (f->index >=3D NUM_FORMATS)
-> +	if (f->index >=3D rga->hw->num_formats)
-> =C2=A0		return -EINVAL;
-> =C2=A0
-> -	fmt =3D &formats[f->index];
-> +	fmt =3D &rga->hw->formats[f->index];
-> =C2=A0	f->pixelformat =3D fmt->fourcc;
-> =C2=A0
-> =C2=A0	return 0;
-> @@ -475,16 +325,18 @@ static int vidioc_g_fmt(struct file *file, void *pr=
-iv, struct v4l2_format *f)
-> =C2=A0static int vidioc_try_fmt(struct file *file, void *priv, struct v4l=
-2_format *f)
-> =C2=A0{
-> =C2=A0	struct v4l2_pix_format_mplane *pix_fmt =3D &f->fmt.pix_mp;
-> +	struct rockchip_rga *rga =3D video_drvdata(file);
-> +	const struct rga_hw *hw =3D rga->hw;
-> =C2=A0	struct rga_fmt *fmt;
-> =C2=A0
-> -	fmt =3D rga_fmt_find(pix_fmt->pixelformat);
-> +	fmt =3D rga_fmt_find(rga, pix_fmt->pixelformat);
-> =C2=A0	if (!fmt)
-> -		fmt =3D &formats[0];
-> +		fmt =3D &hw->formats[0];
-> =C2=A0
-> =C2=A0	pix_fmt->width =3D clamp(pix_fmt->width,
-> -			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (u32)MIN_WIDTH, (u32)MAX_WIDTH);
-> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 hw->min_width, hw->max_width);
-> =C2=A0	pix_fmt->height =3D clamp(pix_fmt->height,
-> -				(u32)MIN_HEIGHT, (u32)MAX_HEIGHT);
-> +				hw->min_height, hw->max_height);
-> =C2=A0
-> =C2=A0	v4l2_fill_pixfmt_mp(pix_fmt, fmt->fourcc, pix_fmt->width, pix_fmt-=
->height);
-> =C2=A0	pix_fmt->field =3D V4L2_FIELD_NONE;
-> @@ -519,7 +371,7 @@ static int vidioc_s_fmt(struct file *file, void *priv=
-, struct v4l2_format *f)
-> =C2=A0	frm->size =3D 0;
-> =C2=A0	for (i =3D 0; i < pix_fmt->num_planes; i++)
-> =C2=A0		frm->size +=3D pix_fmt->plane_fmt[i].sizeimage;
-> -	frm->fmt =3D rga_fmt_find(pix_fmt->pixelformat);
-> +	frm->fmt =3D rga_fmt_find(rga, pix_fmt->pixelformat);
-> =C2=A0	frm->stride =3D pix_fmt->plane_fmt[0].bytesperline;
-> =C2=A0
-> =C2=A0	/* Reset crop settings */
-> @@ -639,7 +491,7 @@ static int vidioc_s_selection(struct file *file, void=
- *priv,
-> =C2=A0
-> =C2=A0	if (s->r.left + s->r.width > f->pix.width ||
-> =C2=A0	=C2=A0=C2=A0=C2=A0 s->r.top + s->r.height > f->pix.height ||
-> -	=C2=A0=C2=A0=C2=A0 s->r.width < MIN_WIDTH || s->r.height < MIN_HEIGHT) =
-{
-> +	=C2=A0=C2=A0=C2=A0 s->r.width < rga->hw->min_width || s->r.height < rga=
-->hw->min_height) {
-> =C2=A0		v4l2_dbg(debug, 1, &rga->v4l2_dev, "unsupported crop value.\n");
-> =C2=A0		return -EINVAL;
-> =C2=A0	}
-> @@ -748,6 +600,10 @@ static int rga_probe(struct platform_device *pdev)
-> =C2=A0	if (!rga)
-> =C2=A0		return -ENOMEM;
-> =C2=A0
-> +	rga->hw =3D of_device_get_match_data(&pdev->dev);
-> +	if (!rga->hw)
-> +		return dev_err_probe(&pdev->dev, -ENODEV, "failed to get match data\n"=
-);
-> +
-> =C2=A0	rga->dev =3D &pdev->dev;
-> =C2=A0	spin_lock_init(&rga->ctrl_lock);
-> =C2=A0	mutex_init(&rga->mutex);
-> @@ -811,8 +667,7 @@ static int rga_probe(struct platform_device *pdev)
-> =C2=A0	if (ret < 0)
-> =C2=A0		goto rel_m2m;
-> =C2=A0
-> -	rga->version.major =3D (rga_read(rga, RGA_VERSION_INFO) >> 24) & 0xFF;
-> -	rga->version.minor =3D (rga_read(rga, RGA_VERSION_INFO) >> 20) & 0x0F;
-> +	rga->hw->get_version(rga);
-> =C2=A0
-> =C2=A0	v4l2_info(&rga->v4l2_dev, "HW Version: 0x%02x.%02x\n",
-> =C2=A0		=C2=A0 rga->version.major, rga->version.minor);
-> @@ -820,7 +675,7 @@ static int rga_probe(struct platform_device *pdev)
-> =C2=A0	pm_runtime_put(rga->dev);
-> =C2=A0
-> =C2=A0	/* Create CMD buffer */
-> -	rga->cmdbuf_virt =3D dma_alloc_attrs(rga->dev, RGA_CMDBUF_SIZE,
-> +	rga->cmdbuf_virt =3D dma_alloc_attrs(rga->dev, rga->hw->cmdbuf_size,
-> =C2=A0					=C2=A0=C2=A0 &rga->cmdbuf_phy, GFP_KERNEL,
-> =C2=A0					=C2=A0=C2=A0 DMA_ATTR_WRITE_COMBINE);
-> =C2=A0	if (!rga->cmdbuf_virt) {
-> @@ -828,9 +683,6 @@ static int rga_probe(struct platform_device *pdev)
-> =C2=A0		goto rel_m2m;
-> =C2=A0	}
-> =C2=A0
-> -	def_frame.stride =3D (DEFAULT_WIDTH * def_frame.fmt->depth) >> 3;
-> -	def_frame.size =3D def_frame.stride * DEFAULT_HEIGHT;
-> -
-> =C2=A0	ret =3D video_register_device(vfd, VFL_TYPE_VIDEO, -1);
-> =C2=A0	if (ret) {
-> =C2=A0		v4l2_err(&rga->v4l2_dev, "Failed to register video device\n");
-> @@ -843,7 +695,7 @@ static int rga_probe(struct platform_device *pdev)
-> =C2=A0	return 0;
-> =C2=A0
-> =C2=A0free_dma:
-> -	dma_free_attrs(rga->dev, RGA_CMDBUF_SIZE, rga->cmdbuf_virt,
-> +	dma_free_attrs(rga->dev, rga->hw->cmdbuf_size, rga->cmdbuf_virt,
-> =C2=A0		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rga->cmdbuf_phy, DMA_ATTR_WR=
-ITE_COMBINE);
-> =C2=A0rel_m2m:
-> =C2=A0	v4l2_m2m_release(rga->m2m_dev);
-> @@ -861,7 +713,7 @@ static void rga_remove(struct platform_device *pdev)
-> =C2=A0{
-> =C2=A0	struct rockchip_rga *rga =3D platform_get_drvdata(pdev);
-> =C2=A0
-> -	dma_free_attrs(rga->dev, RGA_CMDBUF_SIZE, rga->cmdbuf_virt,
-> +	dma_free_attrs(rga->dev, rga->hw->cmdbuf_size, rga->cmdbuf_virt,
-> =C2=A0		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rga->cmdbuf_phy, DMA_ATTR_WR=
-ITE_COMBINE);
-> =C2=A0
-> =C2=A0	v4l2_info(&rga->v4l2_dev, "Removing\n");
-> @@ -897,9 +749,11 @@ static const struct dev_pm_ops rga_pm =3D {
-> =C2=A0static const struct of_device_id rockchip_rga_match[] =3D {
-> =C2=A0	{
-> =C2=A0		.compatible =3D "rockchip,rk3288-rga",
-> +		.data =3D &rga2_hw,
-> =C2=A0	},
-> =C2=A0	{
-> =C2=A0		.compatible =3D "rockchip,rk3399-rga",
-> +		.data =3D &rga2_hw,
-> =C2=A0	},
-> =C2=A0	{},
-> =C2=A0};
-> diff --git a/drivers/media/platform/rockchip/rga/rga.h b/drivers/media/pl=
-atform/rockchip/rga/rga.h
-> index 7ec1fcc03ed32..98635ddd50d7c 100644
-> --- a/drivers/media/platform/rockchip/rga/rga.h
-> +++ b/drivers/media/platform/rockchip/rga/rga.h
-> @@ -14,6 +14,9 @@
-> =C2=A0
-> =C2=A0#define RGA_NAME "rockchip-rga"
-> =C2=A0
-> +#define DEFAULT_WIDTH 100
-> +#define DEFAULT_HEIGHT 100
-> +
-> =C2=A0struct rga_fmt {
-> =C2=A0	u32 fourcc;
-> =C2=A0	int depth;
-> @@ -69,6 +72,8 @@ static inline struct rga_ctx *file_to_rga_ctx(struct fi=
-le *filp)
-> =C2=A0	return container_of(file_to_v4l2_fh(filp), struct rga_ctx, fh);
-> =C2=A0}
-> =C2=A0
-> +struct rga_hw;
-> +
-> =C2=A0struct rockchip_rga {
-> =C2=A0	struct v4l2_device v4l2_dev;
-> =C2=A0	struct v4l2_m2m_dev *m2m_dev;
-> @@ -88,6 +93,8 @@ struct rockchip_rga {
-> =C2=A0	struct rga_ctx *curr;
-> =C2=A0	dma_addr_t cmdbuf_phy;
-> =C2=A0	void *cmdbuf_virt;
-> +
-> +	const struct rga_hw *hw;
-> =C2=A0};
-> =C2=A0
-> =C2=A0struct rga_addr_offset {
-> @@ -138,7 +145,19 @@ static inline void rga_mod(struct rockchip_rga *rga,=
- u32 reg, u32 val, u32 mask)
-> =C2=A0	rga_write(rga, reg, temp);
-> =C2=A0};
-> =C2=A0
-> -void rga_hw_start(struct rockchip_rga *rga,
-> -		=C2=A0 struct rga_vb_buffer *src, struct rga_vb_buffer *dst);
-> +struct rga_hw {
-> +	struct rga_fmt *formats;
-> +	u32 num_formats;
-> +	size_t cmdbuf_size;
-> +	u32 min_width, min_height;
-> +	u32 max_width, max_height;
-> +
-> +	void (*start)(struct rockchip_rga *rga,
-> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct rga_vb_buffer *src, struct rga_v=
-b_buffer *dst);
-> +	bool (*handle_irq)(struct rockchip_rga *rga);
-> +	void (*get_version)(struct rockchip_rga *rga);
-> +};
-> +
-> +extern const struct rga_hw rga2_hw;
-> =C2=A0
-> =C2=A0#endif
+>  drivers/media/pci/ddbridge/ddbridge-core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/pci/ddbridge/ddbridge-core.c b/drivers/media/p=
+ci/ddbridge/ddbridge-core.c
+> index 40e6c873c36d..d240e291ba4f 100644
+> --- a/drivers/media/pci/ddbridge/ddbridge-core.c
+> +++ b/drivers/media/pci/ddbridge/ddbridge-core.c
+> @@ -3430,7 +3430,7 @@ int ddb_init_ddbridge(void)
+>
+>         if (ddb_class_create() < 0)
+>                 return -1;
+> -       ddb_wq =3D alloc_workqueue("ddbridge", 0, 0);
+> +       ddb_wq =3D alloc_workqueue("ddbridge", WQ_PERCPU, 0);
+>         if (!ddb_wq)
+>                 return ddb_exit_ddbridge(1, -1);
 
---=-awLPo3pA3zArYr6dvmmF
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+Gentle ping.
 
------BEGIN PGP SIGNATURE-----
+Thanks!
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaUwBVQAKCRDZQZRRKWBy
-9EhfAP9NFN5Gi9iSlGoayoestjhwQjvne6kf9ylqAav2YZMMZAEA1vK9QTuK0wzf
-+eOOLadRyOphXELA/ZHF8GxcJghZbAM=
-=ru5T
------END PGP SIGNATURE-----
 
---=-awLPo3pA3zArYr6dvmmF--
+--=20
+
+Marco Crivellari
+
+L3 Support Engineer
 
