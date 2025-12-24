@@ -1,255 +1,326 @@
-Return-Path: <linux-media+bounces-49481-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49482-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D7C7CDC835
-	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 15:24:41 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50445CDC850
+	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 15:29:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id BBCA1300EDF6
-	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 14:24:33 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DAE3830213EB
+	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 14:29:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 587E32D0620;
-	Wed, 24 Dec 2025 14:24:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="0K7GIyoM"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6CA732A3C3;
+	Wed, 24 Dec 2025 14:29:25 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA93821FF30
-	for <linux-media@vger.kernel.org>; Wed, 24 Dec 2025 14:24:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C694D1F03C5;
+	Wed, 24 Dec 2025 14:29:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766586267; cv=none; b=R3eT/FrDzexTQGSFQbxATNZzxzqUVFYlPbnQgCEgwPKYsfF6huMDLY1u4vFNX6WMJWGpX8lb7eA2uKWY6cdD13fl63l8JPzaF3ouixhkROeJEhWDYzpTJPx8Fa/Wr1i9qc9UFiQHTs+DU4ibZJFICDV8Nv2UlIRuVTKxlCkYBBo=
+	t=1766586565; cv=none; b=gNFZWHfWHmQQ2M558kfNUqGfTAbISqN9oe2Cte3Jpd6T/751KaoPme4//JPh4W7Undd0SwkUzx40L+Sb9aNBW9QO5x2P0zyMorszo2sla/6Udz9Udv3IQlU/eIvuFSwSLo7MA1p78ED2aYE4aFu2x4YpeOYYfD7EBkeQlQrvmQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766586267; c=relaxed/simple;
-	bh=i+qFzc+frCs261rZV2/oV2Z5l2+LHQwpDCqA3TqF60o=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=IxLQRM5nzT/WGRwIy+PkKcGcTPF8yxT4NOZRcJGpS/uKNZh3/3OzY63hkn3a9wF+W8iym2uaUrI5SIys3OiXfvS3RKxCtMLASpi8GW2lKlBg3/VG24YB/QKKKJZ7bPgVwTKklQNMKSnIEH0YgWuVimVMLeqURM+74vuiLgxFRJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=0K7GIyoM; arc=none smtp.client-ip=209.85.219.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-88a34450f19so67070526d6.1
-        for <linux-media@vger.kernel.org>; Wed, 24 Dec 2025 06:24:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1766586263; x=1767191063; darn=vger.kernel.org;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=sbtXpYWxITg7AJr/Jwg+F1OWRFSMP1K1yS5iR5eqeGE=;
-        b=0K7GIyoMnd00TcFsfP2pPEwsBVFDkQYKodfaKx8KzeRQXkQR0beY6Jnw62z43adM2c
-         UcTOOwONdjAbR4UxiqgTVnE4C6O4NBoAhGEJtb3QYiLXjfDjMyvVJzTNjyrRzdt6Yl1F
-         WUc09psfEhmg2U2xDKQYbfEiv3ffZrHhtDor8sitdpZAFOo3oB2KE1zq7lLX3b+vPEr4
-         CVbjF8LYD9W6/uCgKiZLWTii0Bsemjv78RHgTAJ139labLfZcumNH6eNZjXzjcR1kG18
-         NZSPE2fU94+ZfNbbPsOSXOH5B+/McNowLYuJp9UUuIB57oZgMQgYtGzE74ybgrckIwOn
-         cuug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766586263; x=1767191063;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sbtXpYWxITg7AJr/Jwg+F1OWRFSMP1K1yS5iR5eqeGE=;
-        b=lgUB+FQ6vKRzrfQd4xI1/pgk2v0xp7MJ5lAzRxmCsjk8Wo6WTZrlEDsyYVWOcfOj4U
-         kO9URiWuMWebgm8REsUaBlwjArTzTFdspI+xU34h/0HeOrqxQqHnTSvBp1SX8BvGmVUn
-         wI9V3h3vqLgq4q50IAwX/rHZ8b2nsmH/+KSpu6cEs9W93SqgnePEHlQ5RGJnNb3fEAfD
-         lLf5UetWCXEYFAxxNzeiBA1XOnzsUc3MYQ1nYbW/ItAcfc1hG8z6x9Ba28TYQjiDmflg
-         o+5FIVvwbhxhyZlfwZEcEwTEE/RbhiaeHa9KsBTySS0F7zdWijX959HwxTJHcYvWY26R
-         9TiQ==
-X-Gm-Message-State: AOJu0YzxTcUhqbijCCj4XMejPYKFXo0hL32hJxe780bdmyZNNzJEqWy6
-	oZoRd1Iz3JjgW/pPIjFdfwIJxCF9BpNPxB5YENmx01yL1d62iyCdUMsM9ZEdq7+s+g4=
-X-Gm-Gg: AY/fxX4C3+tCPO0iBfEfu68BkaiwH2xQiC+KnFYIRFrUk8Ka/sBsQmJ9Lw4Wpp44eSD
-	RCc7OgS0F4QkklMzI0cMKP5m1LHr8o+EjmH5Du262XlWvNFDR6bk3v45LgNaOmErICZ9/ARpM9l
-	E5wr4NVBwKpej3AfRiJjZGY1jAiz8s7rt7L4WJznpFQvDiKigIaNoSgaS55x/4JqzRjBulWkJLj
-	Mn3dGR4MLeYGopI0i1eqPYMjhPtXN8mQXzVhP83iLhYxdGFBCKLuoJmS/W7QCf7mftKXLqBIQUo
-	Eb/MD6vPoQaQ8zEIQ0JEsHHJkEaYoJKUCnUL5t2Si1dsSp+QNAsYClh/W1ecXwmAowWsLRGWpAd
-	Wm2AbDY2yRucOSuue6d9cgTDtpQzbh6He/ouKGrcua+zxenV6U2PBTH/WldLaBQiJ/qzmeT4pWG
-	pCwMrtElrzYqJPSvf2
-X-Google-Smtp-Source: AGHT+IFBXBD3jYFaArbbRnknDps/xO8oWwhKezx3DwQgqGe5GqPW6vUGgcAoj4hZpaaBRbI7eNh78Q==
-X-Received: by 2002:a05:6214:d04:b0:88f:a4ff:454e with SMTP id 6a1803df08f44-88fa4ff4642mr190361976d6.10.1766586262889;
-        Wed, 24 Dec 2025 06:24:22 -0800 (PST)
-Received: from ?IPv6:2606:6d00:17:7b4b::c41? ([2606:6d00:17:7b4b::c41])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88d9680dc3bsm128036936d6.14.2025.12.24.06.24.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Dec 2025 06:24:22 -0800 (PST)
-Message-ID: <fffbec0dbb95fe0aa34e847c89499e91ebc1df43.camel@ndufresne.ca>
-Subject: Re: [PATCH v2 02/22] media: v4l2-common: add has_alpha to
- v4l2_format_info
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Sven =?ISO-8859-1?Q?P=FCschel?= <s.pueschel@pengutronix.de>, Jacob Chen
-	 <jacob-chen@iotwrt.com>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
- Mauro Carvalho Chehab
-	 <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Rob Herring
-	 <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
-	 <conor+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, kernel@pengutronix.de
-Date: Wed, 24 Dec 2025 09:24:20 -0500
-In-Reply-To: <20251203-spu-rga3-v2-2-989a67947f71@pengutronix.de>
-References: <20251203-spu-rga3-v2-0-989a67947f71@pengutronix.de>
-	 <20251203-spu-rga3-v2-2-989a67947f71@pengutronix.de>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-fmKYZ+5/CD21oWsxEXAZ"
-User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
+	s=arc-20240116; t=1766586565; c=relaxed/simple;
+	bh=tM6xIaKgl6OVRLKC793Jd6puEKXQMgfwb4zuJ/dUPj0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WSHtLpbsceCfiQJ7TO2W4KIa6E/zNgOpCyzPqVmfhFuAT2UCvl2b8drsN6nx1oOUsQAzU2HQFs7/ENZOPGATKwAStIYcvle4Jnf5Hu/N+ZRT3FkMYevDhs6+Y0cnB567Z/SaSIgmwvsum9iNJFC1E43AAcoS5vzBx4lwIV1wmxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf20.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay01.hostedemail.com (Postfix) with ESMTP id C29FD13117;
+	Wed, 24 Dec 2025 14:29:19 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf20.hostedemail.com (Postfix) with ESMTPA id DB6C520025;
+	Wed, 24 Dec 2025 14:29:16 +0000 (UTC)
+Date: Wed, 24 Dec 2025 09:31:09 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Xiang Gao <gxxa03070307@gmail.com>
+Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, mhiramat@kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, mathieu.desnoyers@efficios.com,
+ dhowells@redhat.com, kuba@kernel.org, brauner@kernel.org,
+ akpm@linux-foundation.org, linux-trace-kernel@vger.kernel.org, gaoxiang17
+ <gaoxiang17@xiaomi.com>
+Subject: Re: [PATCH v10] dma-buf: add some tracepoints to debug.
+Message-ID: <20251224093109.2fbbe3eb@gandalf.local.home>
+In-Reply-To: <20251224013455.1649879-1-gxxa03070307@gmail.com>
+References: <20251224013455.1649879-1-gxxa03070307@gmail.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: a1f9h8mczhiypyrc9nax5roha5mehkw9
+X-Rspamd-Server: rspamout02
+X-Rspamd-Queue-Id: DB6C520025
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1/VWMdqsvQo2J9WjH900tycJ9+JWRBlC3o=
+X-HE-Tag: 1766586556-832599
+X-HE-Meta: U2FsdGVkX1+3lwMfPTagKWldqY17UsKg76fQJZVkCrs5vxCIsqnyTtR6v0W+Lw6QXlS3bWaKNvLlR5onG9V3A1BdBmj5oJKGQModxmMyUa5xSYsANVCkZHdzEKf4SSWEDXTl2uIsQfvpT0sSxqcR7IaSgG24DTtgHszdEN4g01AXKHA6grdg9I/4tki9pYnAcGiBMOpH78ZsHG3DSVT+iokWOpFtN7KQX9Bxfd5J3Bah0SDhdLzGTlJoRIgv8QeBg3M7Z2DTAxTV1DhXGOrPH8ysnR3Fp0HOEuI85xWukv4zuOEedU+HHDyyTSN75PY+3+8gUR1M0A5VwFdYekBcBaYkclvXAbQ6sgmA5Xial2mqMefxlLFf3gHKczBiWMeaGKV9fBvtNPU=
 
+On Wed, 24 Dec 2025 09:34:55 +0800
+Xiang Gao <gxxa03070307@gmail.com> wrote:
 
---=-fmKYZ+5/CD21oWsxEXAZ
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Le mercredi 03 d=C3=A9cembre 2025 =C3=A0 16:52 +0100, Sven P=C3=BCschel a =
-=C3=A9crit=C2=A0:
-> Add a has_alpha value to the v4l2_format_info struct to indicate if the
-> format contains an alpha component. The implementation is based on the
-> drm_format_info implementation.
->=20
-> Signed-off-by: Sven P=C3=BCschel <s.pueschel@pengutronix.de>
-
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-
+> From: gaoxiang17 <gaoxiang17@xiaomi.com>
+> 
+> Since we can only inspect dmabuf by iterating over process FDs or the
+> dmabuf_list, we need to add our own tracepoints to track its status in
+> real time in production.
+> 
+> For example:
+>    binder:3016_1-3102    [006] ...1.   255.126521: dma_buf_export: exp_name=qcom,system size=12685312 ino=2738
+>    binder:3016_1-3102    [006] ...1.   255.126528: dma_buf_fd: exp_name=qcom,system size=12685312 ino=2738 fd=8
+>    binder:3016_1-3102    [006] ...1.   255.126642: dma_buf_mmap_internal: exp_name=qcom,system size=28672 ino=2739
+>      kworker/6:1-86      [006] ...1.   255.127194: dma_buf_put: exp_name=qcom,system size=12685312 ino=2738
+>     RenderThread-9293    [006] ...1.   316.618179: dma_buf_get: exp_name=qcom,system size=12771328 ino=2762 fd=176
+>     RenderThread-9293    [006] ...1.   316.618195: dma_buf_dynamic_attach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
+>     RenderThread-9293    [006] ...1.   318.878220: dma_buf_detach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
+> 
+> Signed-off-by: Xiang Gao <gaoxiang17@xiaomi.com>
 > ---
-> =C2=A0drivers/media/v4l2-core/v4l2-common.c | 14 +++++++-------
-> =C2=A0include/media/v4l2-common.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 ++
-> =C2=A02 files changed, 9 insertions(+), 7 deletions(-)
->=20
-> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-c=
-ore/v4l2-common.c
-> index 554c591e11133..2c7ac70c0f486 100644
-> --- a/drivers/media/v4l2-core/v4l2-common.c
-> +++ b/drivers/media/v4l2-core/v4l2-common.c
-> @@ -256,10 +256,10 @@ const struct v4l2_format_info *v4l2_format_info(u32=
- format)
-> =C2=A0		{ .format =3D V4L2_PIX_FMT_XRGB32,=C2=A0 .pixel_enc =3D V4L2_PIXE=
-L_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, =
-.bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
-> =C2=A0		{ .format =3D V4L2_PIX_FMT_RGBX32,=C2=A0 .pixel_enc =3D V4L2_PIXE=
-L_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, =
-.bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
-> =C2=A0		{ .format =3D V4L2_PIX_FMT_HSV32,=C2=A0=C2=A0 .pixel_enc =3D V4L2=
-_PIXEL_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, =
-0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
-> -		{ .format =3D V4L2_PIX_FMT_ARGB32,=C2=A0 .pixel_enc =3D V4L2_PIXEL_ENC=
-_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_=
-div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
-> -		{ .format =3D V4L2_PIX_FMT_RGBA32,=C2=A0 .pixel_enc =3D V4L2_PIXEL_ENC=
-_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_=
-div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
-> -		{ .format =3D V4L2_PIX_FMT_ABGR32,=C2=A0 .pixel_enc =3D V4L2_PIXEL_ENC=
-_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_=
-div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
-> -		{ .format =3D V4L2_PIX_FMT_BGRA32,=C2=A0 .pixel_enc =3D V4L2_PIXEL_ENC=
-_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_=
-div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
-> +		{ .format =3D V4L2_PIX_FMT_ARGB32,=C2=A0 .pixel_enc =3D V4L2_PIXEL_ENC=
-_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_=
-div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1, .has_alpha =3D true },
-> +		{ .format =3D V4L2_PIX_FMT_RGBA32,=C2=A0 .pixel_enc =3D V4L2_PIXEL_ENC=
-_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_=
-div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1, .has_alpha =3D true },
-> +		{ .format =3D V4L2_PIX_FMT_ABGR32,=C2=A0 .pixel_enc =3D V4L2_PIXEL_ENC=
-_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_=
-div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1, .has_alpha =3D true },
-> +		{ .format =3D V4L2_PIX_FMT_BGRA32,=C2=A0 .pixel_enc =3D V4L2_PIXEL_ENC=
-_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_=
-div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1, .has_alpha =3D true },
-> =C2=A0		{ .format =3D V4L2_PIX_FMT_RGB565,=C2=A0 .pixel_enc =3D V4L2_PIXE=
-L_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 }, =
-.bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
-> =C2=A0		{ .format =3D V4L2_PIX_FMT_RGB565X, .pixel_enc =3D V4L2_PIXEL_ENC=
-_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 }, .bpp_=
-div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
-> =C2=A0		{ .format =3D V4L2_PIX_FMT_RGB555,=C2=A0 .pixel_enc =3D V4L2_PIXE=
-L_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 }, =
-.bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
-> @@ -267,10 +267,10 @@ const struct v4l2_format_info *v4l2_format_info(u32=
- format)
-> =C2=A0		{ .format =3D V4L2_PIX_FMT_BGR48_12, .pixel_enc =3D V4L2_PIXEL_EN=
-C_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 6, 0, 0, 0 }, .bpp=
-_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
-> =C2=A0		{ .format =3D V4L2_PIX_FMT_BGR48, .pixel_enc =3D V4L2_PIXEL_ENC_R=
-GB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 6, 0, 0, 0 }, .bpp_di=
-v =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
-> =C2=A0		{ .format =3D V4L2_PIX_FMT_RGB48, .pixel_enc =3D V4L2_PIXEL_ENC_R=
-GB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 6, 0, 0, 0 }, .bpp_di=
-v =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
-> -		{ .format =3D V4L2_PIX_FMT_ABGR64_12, .pixel_enc =3D V4L2_PIXEL_ENC_RG=
-B, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 8, 0, 0, 0 }, .bpp_div=
- =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
-> -		{ .format =3D V4L2_PIX_FMT_RGBA1010102, .pixel_enc =3D V4L2_PIXEL_ENC_=
-RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_d=
-iv =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
-> +		{ .format =3D V4L2_PIX_FMT_ABGR64_12, .pixel_enc =3D V4L2_PIXEL_ENC_RG=
-B, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 8, 0, 0, 0 }, .bpp_div=
- =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1, .has_alpha =3D true },
-> +		{ .format =3D V4L2_PIX_FMT_RGBA1010102, .pixel_enc =3D V4L2_PIXEL_ENC_=
-RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_d=
-iv =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1, .has_alpha =3D true },
-> =C2=A0		{ .format =3D V4L2_PIX_FMT_RGBX1010102, .pixel_enc =3D V4L2_PIXEL=
-_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .=
-bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
-> -		{ .format =3D V4L2_PIX_FMT_ARGB2101010, .pixel_enc =3D V4L2_PIXEL_ENC_=
-RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_d=
-iv =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
-> +		{ .format =3D V4L2_PIX_FMT_ARGB2101010, .pixel_enc =3D V4L2_PIXEL_ENC_=
-RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_d=
-iv =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1, .has_alpha =3D true },
-> =C2=A0
-> =C2=A0		/* YUV packed formats */
-> =C2=A0		{ .format =3D V4L2_PIX_FMT_YUYV,=C2=A0=C2=A0=C2=A0 .pixel_enc =3D=
- V4L2_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0=
-, 0, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 1 },
-> diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-> index f8b1faced79c8..401d8506c24b5 100644
-> --- a/include/media/v4l2-common.h
-> +++ b/include/media/v4l2-common.h
-> @@ -520,6 +520,7 @@ enum v4l2_pixel_encoding {
-> =C2=A0 * @vdiv: Vertical chroma subsampling factor
-> =C2=A0 * @block_w: Per-plane macroblock pixel width (optional)
-> =C2=A0 * @block_h: Per-plane macroblock pixel height (optional)
-> + * @has_alpha: Does the format embeds an alpha component?
-> =C2=A0 */
-> =C2=A0struct v4l2_format_info {
-> =C2=A0	u32 format;
-> @@ -532,6 +533,7 @@ struct v4l2_format_info {
-> =C2=A0	u8 vdiv;
-> =C2=A0	u8 block_w[4];
-> =C2=A0	u8 block_h[4];
-> +	bool has_alpha;
-> =C2=A0};
-> =C2=A0
-> =C2=A0static inline bool v4l2_is_format_rgb(const struct v4l2_format_info=
- *f)
 
---=-fmKYZ+5/CD21oWsxEXAZ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+BTW, it's sometimes nice to have in new versions of a patch with a list of
+changes below the above "---" (here):
 
------BEGIN PGP SIGNATURE-----
+Changes since v9: https://lore.kernel.org/all/20251223032749.1371913-1-gxxa03070307@gmail.com/
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaUv3lAAKCRDZQZRRKWBy
-9ITFAP0SuxSrmoVrRQQArsjL7nVuYkwcZ8G4yi0itFrxxipp4gEAmtXbIy/6hv8m
-dQE9yLNIZrBWsXb+HsoBsrQZxSooGwc=
-=w5st
------END PGP SIGNATURE-----
+- <list changes here>
 
---=-fmKYZ+5/CD21oWsxEXAZ--
+That way it keeps a nice history of all the versions of the patch.
+No need to resend. Just giving you some advice for future patches.
+
+>  drivers/dma-buf/dma-buf.c      |  49 +++++++++-
+>  include/trace/events/dma_buf.h | 157 +++++++++++++++++++++++++++++++++
+>  2 files changed, 204 insertions(+), 2 deletions(-)
+>  create mode 100644 include/trace/events/dma_buf.h
+> 
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index edaa9e4ee4ae..5e6f65cd0306 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -35,6 +35,26 @@
+>  
+>  #include "dma-buf-sysfs-stats.h"
+>  
+> +#define CREATE_TRACE_POINTS
+> +#include <trace/events/dma_buf.h>
+> +
+> +/*
+> + * dmabuf->name must be accessed with holding dmabuf->name_lock.
+> + * we need to take the lock around the tracepoint call itself where
+> + * it is called in the code.
+> + *
+> + * Note: FUNC##_enabled() is a static branch that will only
+> + *       be set when the trace event is enabled.
+> + */
+> +#define DMA_BUF_TRACE(FUNC, ...)					\
+> +	do {											\
+> +		/* Always expose lock if lockdep is enabled */ 	\
+> +		if (IS_ENABLED(CONFIG_LOCKDEP) || FUNC##_enabled()) {						\
+> +			guard(spinlock)(&dmabuf->name_lock);	\
+> +			FUNC(__VA_ARGS__);						\
+> +		}											\
+> +	} while (0)
+
+I'm curious. Are the above backslashes lined up nicely in the code?
+
+> +
+>  static inline int is_dma_buf_file(struct file *);
+>  
+>  static DEFINE_MUTEX(dmabuf_list_mutex);
+> @@ -220,6 +240,8 @@ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
+>  	    dmabuf->size >> PAGE_SHIFT)
+>  		return -EINVAL;
+>  
+> +	DMA_BUF_TRACE(trace_dma_buf_mmap_internal, dmabuf);
+> +
+>  	return dmabuf->ops->mmap(dmabuf, vma);
+>  }
+>  
+> @@ -745,6 +767,8 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+>  
+>  	__dma_buf_list_add(dmabuf);
+>  
+> +	DMA_BUF_TRACE(trace_dma_buf_export, dmabuf);
+> +
+>  	return dmabuf;
+>  
+>  err_dmabuf:
+> @@ -768,10 +792,16 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_export, "DMA_BUF");
+>   */
+>  int dma_buf_fd(struct dma_buf *dmabuf, int flags)
+>  {
+> +	int fd;
+> +
+>  	if (!dmabuf || !dmabuf->file)
+>  		return -EINVAL;
+>  
+> -	return FD_ADD(flags, dmabuf->file);
+> +	fd = FD_ADD(flags, dmabuf->file);
+> +	if (fd >= 0)
+> +		DMA_BUF_TRACE(trace_dma_buf_fd, dmabuf, fd);
+
+Instead of adding the above if statement in the code, you can make the
+event conditional (See below). Then this could just be:
+
+-	return FD_ADD(flags, dmabuf->file);
++	fd = FD_ADD(flags, dmabuf->file);
++	DMA_BUF_TRACE(trace_dma_buf_fd, dmabuf, fd);
+
+And not have the condition hit when tracing isn't enabled.
+
+> +
+> +	return fd;
+>  }
+>  EXPORT_SYMBOL_NS_GPL(dma_buf_fd, "DMA_BUF");
+>  
+
+
+[..]
+
+> diff --git a/include/trace/events/dma_buf.h b/include/trace/events/dma_buf.h
+> new file mode 100644
+> index 000000000000..2c9ba8533467
+> --- /dev/null
+> +++ b/include/trace/events/dma_buf.h
+> @@ -0,0 +1,157 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#undef TRACE_SYSTEM
+> +#define TRACE_SYSTEM dma_buf
+> +
+> +#if !defined(_TRACE_DMA_BUF_H) || defined(TRACE_HEADER_MULTI_READ)
+> +#define _TRACE_DMA_BUF_H
+> +
+> +#include <linux/dma-buf.h>
+> +#include <linux/tracepoint.h>
+> +
+> +DECLARE_EVENT_CLASS(dma_buf,
+> +
+> +	TP_PROTO(struct dma_buf *dmabuf),
+> +
+> +	TP_ARGS(dmabuf),
+> +
+> +	TP_STRUCT__entry(
+> +		__string(	exp_name,		dmabuf->exp_name)
+> +		__field(	size_t,			size)
+> +		__field(	ino_t,			ino)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__assign_str(exp_name);
+> +		__entry->size	= dmabuf->size;
+> +		__entry->ino	= dmabuf->file->f_inode->i_ino;
+> +	),
+> +
+> +	TP_printk("exp_name=%s size=%zu ino=%lu",
+> +		  __get_str(exp_name),
+> +		  __entry->size,
+> +		  __entry->ino)
+> +);
+> +
+> +DECLARE_EVENT_CLASS(dma_buf_attach_dev,
+> +
+> +	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach,
+> +		bool is_dynamic, struct device *dev),
+> +
+> +	TP_ARGS(dmabuf, attach, is_dynamic, dev),
+> +
+> +	TP_STRUCT__entry(
+> +		__string(	dev_name,			dev_name(dev))
+> +		__string(	exp_name,			dmabuf->exp_name)
+> +		__field(	size_t,				size)
+> +		__field(	ino_t,				ino)
+> +		__field(	struct dma_buf_attachment *,	attach)
+> +		__field(	bool,				is_dynamic)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__assign_str(dev_name);
+> +		__assign_str(exp_name);
+> +		__entry->size		= dmabuf->size;
+> +		__entry->ino		= dmabuf->file->f_inode->i_ino;
+> +		__entry->is_dynamic	= is_dynamic;
+> +		__entry->attach		= attach;
+> +	),
+> +
+> +	TP_printk("exp_name=%s size=%zu ino=%lu attachment:%p is_dynamic=%d dev_name=%s",
+> +		  __get_str(exp_name),
+> +		  __entry->size,
+> +		  __entry->ino,
+> +		  __entry->attach,
+> +		  __entry->is_dynamic,
+> +		  __get_str(dev_name))
+> +);
+> +
+> +DECLARE_EVENT_CLASS(dma_buf_fd,
+> +
+> +	TP_PROTO(struct dma_buf *dmabuf, int fd),
+> +
+> +	TP_ARGS(dmabuf, fd),
+> +
+> +	TP_STRUCT__entry(
+> +		__string(	exp_name,		dmabuf->exp_name)
+> +		__field(	size_t,			size)
+> +		__field(	ino_t,			ino)
+> +		__field(	int,			fd)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__assign_str(exp_name);
+> +		__entry->size	= dmabuf->size;
+> +		__entry->ino	= dmabuf->file->f_inode->i_ino;
+> +		__entry->fd	= fd;
+> +	),
+> +
+> +	TP_printk("exp_name=%s size=%zu ino=%lu fd=%d",
+> +		  __get_str(exp_name),
+> +		  __entry->size,
+> +		  __entry->ino,
+> +		  __entry->fd)
+> +);
+> +
+
+[..]
+
+> +DEFINE_EVENT(dma_buf_fd, dma_buf_fd,
+> +
+> +	TP_PROTO(struct dma_buf *dmabuf, int fd),
+> +
+> +	TP_ARGS(dmabuf, fd)
+> +);
+
+If fd needs to be greater or equal to zero, you can make the above:
+
+DEFINE_EVENT_CONDITION(dma_buf_fd, dma_buf_fd,
+
+	TP_PROTO(struct dma_buf *dmabuf, int fd),
+
+	TP_ARGS(dmabuf, fd),
+
+	TP_CONDITION(fd >= 0)
+);
+
+This places the "fd >= 0" into the code that is called when the tracepoint
+is enabled. If the condition isn't met, then the tracepoint doesn't get
+recorded.
+
+-- Steve
+
+> +
+> +DEFINE_EVENT(dma_buf_fd, dma_buf_get,
+> +
+> +	TP_PROTO(struct dma_buf *dmabuf, int fd),
+> +
+> +	TP_ARGS(dmabuf, fd)
+> +);
+> +
+> +#endif /* _TRACE_DMA_BUF_H */
+> +
+> +/* This part must be outside protection */
+> +#include <trace/define_trace.h>
+
 
