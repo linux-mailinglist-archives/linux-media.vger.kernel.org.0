@@ -1,84 +1,84 @@
-Return-Path: <linux-media+bounces-49459-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49460-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95096CDBFCD
-	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 11:25:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3512ECDC01B
+	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 11:32:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1A1A630D10FB
-	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 10:21:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B3D6430399B4
+	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 10:31:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1E4A318120;
-	Wed, 24 Dec 2025 10:21:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00D163191D5;
+	Wed, 24 Dec 2025 10:21:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="C4U22uUM"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="ARSnVGM9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012061.outbound.protection.outlook.com [40.93.195.61])
+Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012019.outbound.protection.outlook.com [52.101.53.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B55AB313E1B;
-	Wed, 24 Dec 2025 10:21:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E952316914;
+	Wed, 24 Dec 2025 10:21:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.19
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766571676; cv=fail; b=YzHubpviEhlHW9owoCgTjlRGa0COe5jLG0xHBerXnaPGh4Bcg6Qqb6MtmNVavNIE9qMN2xOzkd5HaieI1XeryGqHoHnMWQ/u9htoniVK89OcP5Y+W2xhX5/CmmtcbZWkTxAcYqN31zSRlmlVXgNi9ePcVzbhjcmd/xH/FxLKmOo=
+	t=1766571686; cv=fail; b=OnpQ8PMtMwoZbKoHtx4MRm/kZZIvH7yYIf0mMftUfaFVYThZ1/c+6ifq44qaNoOMksKg56672UcNSsPVQBYJujBcQZENQJbq2y7kfedvy9PRhwuoUjZaHuLhQ0V5RKgSyPg+20x0juA7L3tstnOE++/Pkxx+STRX/4QhxEfIYzA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766571676; c=relaxed/simple;
-	bh=cVx7atmHtPvg8dKzH3g4atr5NjXtz5VOAFhwQdAsO3E=;
+	s=arc-20240116; t=1766571686; c=relaxed/simple;
+	bh=1hSoUn9EE/QdIKx7x5nhQdMAVbxHD2FPG3H1mi7MndY=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Z/qW/RvfYiFdgvjMXYRhfzYuomO6SDYQtkMN+s3lNgNg4d0i7jkwE/Fdt2Ktm4j/afqam8hOTLuSvTMjU48yoGPGd17dblKxxvCQOXluViH5z2q6HUZd65nx27pTJzfyApxtCumieuU4SntXFw9CN3MTgWQreUxK9hm/R7Mddko=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=C4U22uUM; arc=fail smtp.client-ip=40.93.195.61
+	 MIME-Version:Content-Type; b=OJ52PzwVKUBSyNP924aXZSfF4aaxJoRFG3nzG2adiET92KdMeI8o5+FMh5Js3dN435baWIAYilAM1gfxK5IcRJj8f2qiE6KbF0/pvpXkMlSxa4BJIteRL8UkH+d9lP0NwjrqLnMNv6UcL+BmAwuUKLPTtQqmElrPxnepGCbqTS4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=ARSnVGM9; arc=fail smtp.client-ip=52.101.53.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AM7rgV/VZwo4Z7pc2KLFNGpxOVyMvVUDAdDQpp30rlDTYWpmgPYXtcOsIN3D4/DfWYchROuH55GdBEbmCdMP3rdqVEOQVru0HaXNqLoqpLPfu4PrY1W2jD5QgAgKFhZTEuZaVz3IZRz5Cj1pFCU8rqqNuJqDFSPiTwGPkyRspVpjZw+rkforO0wQ/U4WAeLEFpCrWZJXjleiCj/Cor7y3FYa4zUXZ1/UCEF9y67HiSWhjnkUWlcGGfHZARIluZwfwY4l9KenCRsH8rbHDoWMQzWmFJQ/+cPY6Dq1BHgb+pMo/lrIpIYOB86AmZLfL54S8Y+mTgiKIhpOv9L2mZr2FA==
+ b=FefhWfJpy1XvL/x0YdM4LDs+ZVuL9iNUfuTnf/XH23k/2SGC40P4poRhB975P6pzy5ImmNLriwR8tZk74iYXzzNMtV3tSpbis1d2btOLQ19V5eGMHYLTVEVopi+a/pgqS/WItvl2G1ob/RTLpbrM8IFAd5grEAtH+DSx0WMfT7yACUy4keNprN5pvxt3mjDw60SBunmb4oR76OGnVpmdek3wTJwgMgFCCB3vn1CP4t5BeMeXcuFsS5CwCEykFOYk+PsyTUbTDZbcfllKfCk1j5TRM4yd/O5Xn07GraQcopUtJkFbgP7Jdu1Q3MseM44nWd6rCvNDvIsblZu9dZKfoA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eYrtYxUv6A51odEg2u6qENZ+oiyy0ej6DjO9vrLDx+0=;
- b=hikpnMYtXkm9CQ2z+1Q5eXKHVjOI5gT3QBiabb9je4XYD4hiW2q06vxs4aDlKK/rVTpcFu4ymaXuyAaFyPZpRajv9GF+ko6T4ctQLX0PxDuBwlzOJd3/H4fiyLQRTKSN1cdDQGPBQkaXeWq0cNzIp9nSeyqTHLfbKjq4bUlHsPGUbBm8gr2oF8qh2ojEKMPzc3XjMr2/HFGKlP0/KrOPjAHBLrDeSuxKybhJc6xenZ9shrC9lzPvx0ba5P1YFUXIS1cBvAHJ7y0i8ihhm8Vdg1PFuQafacBbx5eXj6ynO+eKy6MzfW8DsocQCQmUAGBvARuWUCbYZtOKlVYnyJLgnQ==
+ bh=07NdFqnTPFPwKx/hvl/R3OgC6OpEP3W5j/74PKhXe1I=;
+ b=K+yF6lYqt5JCXsNznTX/yx/XOY5aUQ5bEAMBJgJH5QXtVXTUg1ydiIupNlyhtBhMaAiGGArTTdJnCyEJynhtmg/xy8pYjs5DAvtCwjyCdLc2s/WoX+da72NePI21BkPX67B22oHuZaM+sQgYtn0x5+0sitenwtm9JJuSd4IZCD5XwtuGsnBkTZcQkk6Si4BW3jvFwJ0OFKD9GZP5koZbxXzocbxK0IpLMaM6G3MYYzHxkrtmjESJLc6Xqi7LiTqPhM4i6XIJ8aHKMOtdnoM7/XSRruXrgMR9Gb0j1Y/KthP9CXXdC6CDSNHJmSb7l/mPBORHtm2L+VTxxcpohtqv6g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ 198.47.21.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
  dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eYrtYxUv6A51odEg2u6qENZ+oiyy0ej6DjO9vrLDx+0=;
- b=C4U22uUMHcts+RrHmFPQYsQpeuo5X2vlEXVRDgvGAXLxkpSs3YRrxx+iaCUa/aUpvBUUloKnQEr8kBArdbnyC1CabQNUsGRAFhSy4yZpPZedzFro2ycTXmkW4tAJtEXFMMOkVZ++MfANZDGzURI2nDw6VzgP4+IPCoo28cKx7Tc=
-Received: from SA9PR11CA0011.namprd11.prod.outlook.com (2603:10b6:806:6e::16)
- by CY8PR10MB7378.namprd10.prod.outlook.com (2603:10b6:930:95::11) with
+ bh=07NdFqnTPFPwKx/hvl/R3OgC6OpEP3W5j/74PKhXe1I=;
+ b=ARSnVGM9UnG83JOOJKqjCiDtCUTxZSLrBZe3XrovclMYRZga3mSirAX3Bui5a462UGpzr0LcpnkmkpqpRi21uvIFs8HsqcMvBYxDVzgcD9GSHok3IiAgMKtN6O0aNPEbq+O3SJGmvCQDGO2VNzJB5fmLzF/xn8fHAKuk6J0GrLk=
+Received: from BYAPR11CA0053.namprd11.prod.outlook.com (2603:10b6:a03:80::30)
+ by BLAPR10MB4963.namprd10.prod.outlook.com (2603:10b6:208:326::23) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9456.11; Wed, 24 Dec
- 2025 10:21:02 +0000
-Received: from SN1PEPF0002529E.namprd05.prod.outlook.com
- (2603:10b6:806:6e:cafe::a9) by SA9PR11CA0011.outlook.office365.com
- (2603:10b6:806:6e::16) with Microsoft SMTP Server (version=TLS1_3,
+ 2025 10:21:13 +0000
+Received: from SJ1PEPF00001CEA.namprd03.prod.outlook.com
+ (2603:10b6:a03:80:cafe::75) by BYAPR11CA0053.outlook.office365.com
+ (2603:10b6:a03:80::30) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9456.11 via Frontend Transport; Wed,
- 24 Dec 2025 10:21:00 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
+ 24 Dec 2025 10:21:12 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
  smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
  action=none header.from=ti.com;
 Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
-Received: from lewvzet200.ext.ti.com (198.47.23.194) by
- SN1PEPF0002529E.mail.protection.outlook.com (10.167.242.5) with Microsoft
+ 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
+Received: from flwvzet200.ext.ti.com (198.47.21.194) by
+ SJ1PEPF00001CEA.mail.protection.outlook.com (10.167.242.26) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9456.9 via Frontend Transport; Wed, 24 Dec 2025 10:21:02 +0000
-Received: from DLEE205.ent.ti.com (157.170.170.85) by lewvzet200.ext.ti.com
- (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.9456.9 via Frontend Transport; Wed, 24 Dec 2025 10:21:11 +0000
+Received: from DFLE201.ent.ti.com (10.64.6.59) by flwvzet200.ext.ti.com
+ (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 24 Dec
- 2025 04:21:00 -0600
-Received: from DLEE207.ent.ti.com (157.170.170.95) by DLEE205.ent.ti.com
- (157.170.170.85) with Microsoft SMTP Server (version=TLS1_2,
+ 2025 04:21:05 -0600
+Received: from DFLE211.ent.ti.com (10.64.6.69) by DFLE201.ent.ti.com
+ (10.64.6.59) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 24 Dec
- 2025 04:21:00 -0600
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE207.ent.ti.com
- (157.170.170.95) with Microsoft SMTP Server (version=TLS1_2,
+ 2025 04:21:05 -0600
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE211.ent.ti.com
+ (10.64.6.69) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Wed, 24 Dec 2025 04:21:00 -0600
+ Transport; Wed, 24 Dec 2025 04:21:05 -0600
 Received: from abhilash-HP.dhcp.ti.com (abhilash-hp.dhcp.ti.com [10.24.68.198])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5BOAKk8g412110;
-	Wed, 24 Dec 2025 04:20:56 -0600
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5BOAKk8h412110;
+	Wed, 24 Dec 2025 04:21:01 -0600
 From: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
 To: <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
 	<conor+dt@kernel.org>, <hverkuil+cisco@kernel.org>
@@ -87,9 +87,9 @@ CC: <sakari.ailus@linux.intel.com>, <bparrot@ti.com>,
 	<sbellary@baylibre.com>, <linux-media@vger.kernel.org>,
 	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
 	<u-kumar1@ti.com>, <y-abhilashchandra@ti.com>
-Subject: [PATCH V7 2/4] media: ti: vpe: Export vpdma_load_firmware() function
-Date: Wed, 24 Dec 2025 15:50:25 +0530
-Message-ID: <20251224102027.3343361-3-y-abhilashchandra@ti.com>
+Subject: [PATCH V7 3/4] dt-bindings: media: ti: vpe: Add support for Video Input Port
+Date: Wed, 24 Dec 2025 15:50:26 +0530
+Message-ID: <20251224102027.3343361-4-y-abhilashchandra@ti.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251224102027.3343361-1-y-abhilashchandra@ti.com>
 References: <20251224102027.3343361-1-y-abhilashchandra@ti.com>
@@ -104,96 +104,240 @@ Content-Type: text/plain
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF0002529E:EE_|CY8PR10MB7378:EE_
-X-MS-Office365-Filtering-Correlation-Id: 226434d0-6889-4ff4-1b3b-08de42d623c4
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CEA:EE_|BLAPR10MB4963:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3b600746-f80f-4a5a-3bd7-08de42d6291b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|376014|1800799024|7416014|82310400026;
+	BCL:0;ARA:13230040|376014|7416014|36860700013|1800799024|82310400026;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?3TGQKOA1x7mY8yqVnOCsBLZcVxDEXivNXCvDR/UofqMfdLEE9EjaQhLounXY?=
- =?us-ascii?Q?nq1Pkbq2rj5SVyRZpPVMFVeXkwtZIEyHPuKhtzjdHLs5eyu5yvEn/XKqABTW?=
- =?us-ascii?Q?kk0lZZlIQJG1UWshhJIrexU+EPbYSKeE8FIUHY+llUxD9J387z2TsTqevec4?=
- =?us-ascii?Q?Bzg99SUMQcZ5lYaMF1iRA5TZrENq8R0gP9mJ2xRaf5Mx7nKNsYsmjwDrKnlM?=
- =?us-ascii?Q?4NjhKFf4NoEUUPXvwkiBqvEmtnPGlyPs2va/sSoP/dRgrK2a14zxZwy8EV+O?=
- =?us-ascii?Q?ztvrp0HBw/St6nqIRszOP7kGuoEpvGEyWpg1fw0WDSHvzMDSgxiquZYOGZx4?=
- =?us-ascii?Q?DKVyRBXoAQWUFX0HtdM9CCwp+tm87pK3JkWNhely8qB0Chf8JM0wCC8exCVH?=
- =?us-ascii?Q?LcA92evBdOq7elbMNUxxFIIKIv+xYcXQ4pnA+nAN9xiGakknHyOSUOmdiA9Y?=
- =?us-ascii?Q?0fUK2zRCZ8j10I6nS5OTDhXhdXTGtwqVpTUzc/XQkhbdCTEXLsND/DGqjaau?=
- =?us-ascii?Q?CRS0WdeYVLPAaxHuzxHDMyeknr662qLFbUFTuizrXT5Tg6lCzxKkXtZJgXZH?=
- =?us-ascii?Q?4AWjx+GaA/ZhYmgWu0n7VuEjQ9rJzA+OTsZGHdx4ZcFumNeYRX9v/ebknrOt?=
- =?us-ascii?Q?XSDlHzCt0S5cfAY8nSHS6XHbfnFnXdj6esaVMdloL3K1PR5372iIXBFtP/Lq?=
- =?us-ascii?Q?VRL+dnW7JrEHh1PduKETE313ki07gt+Mt2EN+DvHVeE3H0qzVaeJb5zRtRA6?=
- =?us-ascii?Q?To1u/RiW6Mf+kZeLPsi+MwGgZ5oVVO+bZypBcfZduxq1lj+e7Ho9emLYaPrr?=
- =?us-ascii?Q?e5jYi5b6/WIfXOJ04bmZqztEcsvAoUL1t97CVLy+QktEcjDFHfe8SkJQt6Ij?=
- =?us-ascii?Q?xcNDxgDzmMZNmmovuH74YPEPJ0ieytyuVVrVoMhmrUWRxV+5Bxem/dE/g7nI?=
- =?us-ascii?Q?/+4/BVS8ktgxgwMAs3Zy1EF1C/15dGgYw2u2gi2cfGJQtDz0dGozjIrZFad6?=
- =?us-ascii?Q?23kXsjvqs5MPd3o5Rtmx6TNLD2yt0oVe0IS9XPNPsMnGZrVJmmkJm95aVHK0?=
- =?us-ascii?Q?7DUgjx9y3ss7EBBNq3CP4uKPiBK7hewRyG0Ngofyu+Vy1DtTjjouE89FhHie?=
- =?us-ascii?Q?1VQsvPNP5Cw1GggycinjLcxltWyR4l40f8J2g6Fduiimy/OpdihSvCDUjPix?=
- =?us-ascii?Q?PSgvnIkUvdxGQM1ETHIteLtJnhIK7ulkBmblSuVFg4SAG5CuqdABL9O7IOi/?=
- =?us-ascii?Q?FDdyjNxCVlGmMXWDMvvEL2kp6f23IxbTgtwoCLMtO9TzlCmpjHtbSUvrDy9i?=
- =?us-ascii?Q?/WNZ+EMPLzZosxzblO7KYmOl6RMVzOI1U7lC3ks0LWO69PaPrQHxQDvSjwla?=
- =?us-ascii?Q?GkhUmZb5JNVj0XITAuewImDyNxc/rXSdIN+qu6NdEBhDgQ4CRQEJ5AOzmHLJ?=
- =?us-ascii?Q?ANS14KufME0vyPJ2yfbcU1Ck8yLHv6qpiInlQo7tVo/et8lgvw0ZbpgJPb1x?=
- =?us-ascii?Q?dVxyxeJ7YQT94UXrk2OVIjBBIVzUC3LvJ23RhjwhzQ9YjmPr83fQrh7WwGob?=
- =?us-ascii?Q?hezYHpHiCAGUplSNEy8=3D?=
+	=?us-ascii?Q?vp1xjO7nHdKD6hW6FdD0wdZNavm64TkP+QEfnvDbw28CFAKZhXqVfc+ORpbv?=
+ =?us-ascii?Q?cMgXGVRr8dMyo775lz6YcODcklv64T/fI9dB8Lo4FWdf4IQmmf7pG4pLuKlF?=
+ =?us-ascii?Q?k735OkIXLoaOie0sjrEq1XA8n1vKzgQglMem0NkVYZ/jTC52uPV0F/TdvZJV?=
+ =?us-ascii?Q?Ncmn1eR/Qmgm/fVs1Oqc0WAXdLh4XvDQwI1EjfXcLiISdomt+hBzj+vzkbGk?=
+ =?us-ascii?Q?Ub8vckmumuDmAc23ZrAkKxSUoVdfWGQlNbKq4E8Qp9YvL0kOqDgohRLMAE0i?=
+ =?us-ascii?Q?mOw+sF6CQCW+ko+O5vWdtRmO8BMWBTfBgvl0z4BRQUCZv/jO6eSB6DxVjxwL?=
+ =?us-ascii?Q?zkF4G5hI3tiQHUB6VqubNxP6OnyTIisWziMozJjlM5TszdSF1oeyu/YZhiik?=
+ =?us-ascii?Q?xeImdR5NQ6hSnhHyl35pyXmVO4J8oChFSrh5luFAvX8YwrR+WmPawV26x1x0?=
+ =?us-ascii?Q?RXnnW3R4IRmAwm/Mc6dVHR5a4UfCESbN4QObQ5jHaHiBUog8VwDxjqae/dJF?=
+ =?us-ascii?Q?zGkz1gsNwhYIGfqBKYhTNBAyoecCjQuE8Z5PcO8ZILqNZw9hDEhuV0FYJpY1?=
+ =?us-ascii?Q?qVNravRL94d1M4H+SdyUF9KoXl4AOSLnvSp62RNP93O8nHbIEmSffcv5lmGi?=
+ =?us-ascii?Q?U8IeRSvkREx20+e0fi52k7YIFhKsHv7qxcq5qwZgxqGTZqda0/s0Ysu/K0gQ?=
+ =?us-ascii?Q?W3qpOr6bA09ssUKj2FjvFeqDIO+v4pN6o43kU11DLI9gnfMGgOyH7eNE85+V?=
+ =?us-ascii?Q?FXquP+sv7Ul2x0jEcZEa72IZkDYtIn1xaFhgI6/rkN0DhKc6cds3zV38qPQt?=
+ =?us-ascii?Q?0BohDvTf+ZjMRv3LoDoj8zU4fsbJQI/T0rlROp97yHocmYhBCbQLGzzOAvap?=
+ =?us-ascii?Q?Xu5ee9WD5rcp2t1mbzvGv3C5LnP3w7xVNzS/1p2WM6bkYprpW3JS3t1ad7bQ?=
+ =?us-ascii?Q?9bGhG5gMuW79AHwtqPARTjPZKxo+/iZOnrehpmORGffp9XCPtpLDuvb05F2l?=
+ =?us-ascii?Q?T8RdLHO4PApzOrgdChX2K3y37OZhphdjjQ2DNLGzMnTgTY2k/cURnA608BdP?=
+ =?us-ascii?Q?nbDKuKTSVtuDYjocuBvyFuTlRz4dVpl5KNltZgP1Sa3rTkiWq5gKOIzYhpAF?=
+ =?us-ascii?Q?7V9VnjaOakoHte7wZ5YIPQrJc7E+J5EuEkwNaS01TSS8F2ckUjaIwXwjWGjL?=
+ =?us-ascii?Q?qLfSqUA1OD1sgNf4P9BHZlcB8QP8OmUJrLKojGPYg1Le2hc1u3mhMwq7nrry?=
+ =?us-ascii?Q?Ct3O9eu1xVlgRgvhFhtQGrVXhkFnLcqQN4nBtrkefHD2xEOea/y79STttwG2?=
+ =?us-ascii?Q?i8oETvE2brbcruG1bAcIRYtmBYONnB28gaHx/Xc+d8siKv6F4ZeimHsHVcBo?=
+ =?us-ascii?Q?ocN35RH7uKm/WJT/OwAW8i3jmKZ+um1uMftMQllXqfZlmTGv6gJD5qGxBY+B?=
+ =?us-ascii?Q?w2SQFyPx6vtgmNjaEyCz2P0vsU3AktrEAm05bt4gN6QSZ6VVt0wRvswI78k9?=
+ =?us-ascii?Q?u8hyFXqdZ4Lqz4k=3D?=
 X-Forefront-Antispam-Report:
-	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(376014)(1800799024)(7416014)(82310400026);DIR:OUT;SFP:1101;
+	CIP:198.47.21.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet200.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(376014)(7416014)(36860700013)(1800799024)(82310400026);DIR:OUT;SFP:1101;
 X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Dec 2025 10:21:02.3267
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Dec 2025 10:21:11.2276
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 226434d0-6889-4ff4-1b3b-08de42d623c4
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3b600746-f80f-4a5a-3bd7-08de42d6291b
 X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.194];Helo=[flwvzet200.ext.ti.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	SN1PEPF0002529E.namprd05.prod.outlook.com
+	SJ1PEPF00001CEA.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR10MB7378
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB4963
 
-Export vpdma_load_firmware() function which is needed by TI VIP to load
-the VPDMA firmware.
+From: Dale Farnsworth <dale@farnsworth.org>
 
+Add device tree bindings for the Video Input Port. Video Input Port (VIP)
+can be found on devices such as DRA7xx and provides a parallel interface
+to a video source such as a sensor or TV decoder.
+
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Signed-off-by: Dale Farnsworth <dale@farnsworth.org>
+Signed-off-by: Benoit Parrot <bparrot@ti.com>
+Signed-off-by: Sukrut Bellary <sbellary@baylibre.com>
 Signed-off-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
 ---
- drivers/media/platform/ti/vpe/vpdma.c | 3 ++-
- drivers/media/platform/ti/vpe/vpdma.h | 3 +++
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ .../devicetree/bindings/media/ti,vip.yaml     | 152 ++++++++++++++++++
+ MAINTAINERS                                   |   1 +
+ 2 files changed, 153 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/ti,vip.yaml
 
-diff --git a/drivers/media/platform/ti/vpe/vpdma.c b/drivers/media/platform/ti/vpe/vpdma.c
-index 29ee1918bc1c..573aa83f62eb 100644
---- a/drivers/media/platform/ti/vpe/vpdma.c
-+++ b/drivers/media/platform/ti/vpe/vpdma.c
-@@ -1135,7 +1135,7 @@ static void vpdma_firmware_cb(const struct firmware *f, void *context)
- 	release_firmware(f);
- }
- 
--static int vpdma_load_firmware(struct vpdma_data *vpdma)
-+int vpdma_load_firmware(struct vpdma_data *vpdma)
- {
- 	int r;
- 	struct device *dev = &vpdma->pdev->dev;
-@@ -1152,6 +1152,7 @@ static int vpdma_load_firmware(struct vpdma_data *vpdma)
- 
- 	return 0;
- }
-+EXPORT_SYMBOL_GPL(vpdma_load_firmware);
- 
- int vpdma_create(struct platform_device *pdev, struct vpdma_data *vpdma,
- 		void (*cb)(struct platform_device *pdev))
-diff --git a/drivers/media/platform/ti/vpe/vpdma.h b/drivers/media/platform/ti/vpe/vpdma.h
-index 5b3a0cd49a3c..1fc53fb33497 100644
---- a/drivers/media/platform/ti/vpe/vpdma.h
-+++ b/drivers/media/platform/ti/vpe/vpdma.h
-@@ -281,4 +281,7 @@ void vpdma_dump_regs(struct vpdma_data *vpdma);
- int vpdma_create(struct platform_device *pdev, struct vpdma_data *vpdma,
- 		void (*cb)(struct platform_device *pdev));
- 
-+/* load vpdma firmware*/
-+int vpdma_load_firmware(struct vpdma_data *vpdma);
+diff --git a/Documentation/devicetree/bindings/media/ti,vip.yaml b/Documentation/devicetree/bindings/media/ti,vip.yaml
+new file mode 100644
+index 000000000000..e30cc461542b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/ti,vip.yaml
+@@ -0,0 +1,152 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright (C) 2025 Texas Instruments Incorporated -  http://www.ti.com/
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/ti,vip.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- #endif
++title: Texas Instruments DRA7x Video Input Port (VIP)
++
++maintainers:
++  - Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
++
++description: |-
++  Video Input Port (VIP) can be found on devices such as DRA7xx and
++  provides the system interface and the processing capability to
++  connect parallel image-sensor as well as BT.656/1120 capable encoder
++  chip to DRA7x device.
++
++  Each VIP instance supports 2 independently configurable external
++  video input capture slices (Slice 0 and Slice 1) each providing
++  up to two video input ports (Port A and Port B).
++
++properties:
++  compatible:
++    enum:
++      - ti,dra7-vip
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    items:
++      - description: IRQ index 0 is used for Slice0 interrupts
++      - description: IRQ index 1 is used for Slice1 interrupts
++
++  ti,ctrl-module:
++    description:
++      Reference to the device control module that provides clock-edge
++      inversion control for VIP ports. These controls allow the
++      VIP to sample pixel data on the correct clock edge.
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    items:
++      items:
++        - description: phandle to device control module
++        - description: offset to the CTRL_CORE_SMA_SW_1 register
++        - description: Bit field to slice 0 port A
++        - description: Bit field to slice 0 port B
++        - description: Bit field to slice 1 port A
++        - description: Bit field to slice 1 port B
++    maxItems: 1
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    patternProperties:
++      '^port@[0-3]$':
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description: |
++          Each VIP instance supports 2 independently configurable external video
++          input capture slices (Slice 0 and Slice 1) each providing up to two video
++          input ports (Port A and Port B). These ports represent the following
++          port@0 -> Slice 0 Port A
++          port@1 -> Slice 0 Port B
++          port@2 -> Slice 1 Port A
++          port@3 -> Slice 1 Port B
++
++        properties:
++          endpoint:
++            $ref: /schemas/media/video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              bus-width:
++                enum: [8, 16, 24]
++                default: 8
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - ti,ctrl-module
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    video@48970000 {
++      compatible = "ti,dra7-vip";
++      reg = <0x48970000 0x1000>;
++      interrupts = <GIC_SPI 351 IRQ_TYPE_LEVEL_HIGH>,
++                   <GIC_SPI 392 IRQ_TYPE_LEVEL_HIGH>;
++      ti,ctrl-module = <&scm_conf 0x534 0x0 0x2 0x1 0x3>;
++
++      ports {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        vin1a: port@0 {
++          reg = <0>;
++
++          vin1a_ep: endpoint {
++            remote-endpoint = <&camera1>;
++            hsync-active = <1>;
++            vsync-active = <1>;
++            pclk-sample = <0>;
++            bus-width = <8>;
++          };
++        };
++
++        vin1b: port@1 {
++          reg = <1>;
++
++          vin1b_ep: endpoint {
++            remote-endpoint = <&camera2>;
++            hsync-active = <1>;
++            vsync-active = <1>;
++            pclk-sample = <0>;
++            bus-width = <8>;
++          };
++        };
++
++        vin2a: port@2 {
++          reg = <2>;
++
++          vin2a_ep: endpoint {
++            remote-endpoint = <&camera3>;
++            hsync-active = <1>;
++            vsync-active = <1>;
++            pclk-sample = <0>;
++            bus-width = <16>;
++          };
++        };
++
++        vin2b: port@3 {
++          reg = <3>;
++
++          vin2b_ep: endpoint {
++            remote-endpoint = <&camera4>;
++            hsync-active = <1>;
++            vsync-active = <1>;
++            pclk-sample = <0>;
++            bus-width = <8>;
++          };
++        };
++      };
++    };
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 0dbf349fc1ed..54bc9227cf35 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -26290,6 +26290,7 @@ S:	Maintained
+ W:	http://linuxtv.org/
+ Q:	http://patchwork.linuxtv.org/project/linux-media/list/
+ F:	Documentation/devicetree/bindings/media/ti,cal.yaml
++F:	Documentation/devicetree/bindings/media/ti,vip.yaml
+ F:	Documentation/devicetree/bindings/media/ti,vpe.yaml
+ F:	drivers/media/platform/ti/cal/
+ F:	drivers/media/platform/ti/vpe/
 -- 
 2.34.1
 
