@@ -1,79 +1,81 @@
-Return-Path: <linux-media+bounces-49511-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49512-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96B85CDD1A2
-	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 23:00:22 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB11CCDD1A7
+	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 23:00:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 79D7E301DBBC
-	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 22:00:17 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 2456B3001E36
+	for <lists+linux-media@lfdr.de>; Wed, 24 Dec 2025 22:00:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28A2E29D287;
-	Wed, 24 Dec 2025 22:00:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C5F22FF16C;
+	Wed, 24 Dec 2025 22:00:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LoCwg+UP"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cRjj2arn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE2771D6DB5
-	for <linux-media@vger.kernel.org>; Wed, 24 Dec 2025 22:00:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD31B30171A
+	for <linux-media@vger.kernel.org>; Wed, 24 Dec 2025 22:00:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766613615; cv=none; b=E0MmuAi1Hd2IohibucnQt2Uc5jH4sQ6Ifq3l1NvMeJRG0tJXRWw7B+H4RffUsD0TIPlTT22DaKHBhVWejOjNPl2upmKceBvOWVoM4V/uc0GjCbKlU3mwFzfUpBszbUGjXs7I/kKNngs6m3uCjXSihSFdDiSOGd8bZHDfiyHERck=
+	t=1766613617; cv=none; b=KABAgnhTPb1ol3kYC7FDKVq6ROnk6Ecc/mTsEQsJZnjuyR2DFVSBOLDsmoI7WUlvh9wyV14zTlpWs9osw7P8bnhFksbg+1gwXA4Ex1W+gCfmEQ0fGuXRgp38cdAV9zVzP2fsPUiYANVi3FG/fCmEvkpucnEzm0zz3OtG2rrXnMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766613615; c=relaxed/simple;
-	bh=lTzHgt2dP+FAADKvgSdKKeUJHcUUMW7u9Qq3+pqNE/Y=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=c3MbPGO7WhPtC5Bo0XnNhARXDqeA8aMrQokJ00F9j7QqdcIeD86pj3sCiuvuJfR1siJnDG33wPtxzZFLqUIkwsXdINk329AXR0kjkQNiy5JEmOa0ffoCj1JLlXe12nKElXZc94joci6qWG1X8Uajf0YxPprf3T/h81r4Qgfhjm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LoCwg+UP; arc=none smtp.client-ip=209.85.215.174
+	s=arc-20240116; t=1766613617; c=relaxed/simple;
+	bh=aKWT1s5XXurLtC43G3pL5aSf28bI9FrnmYBjxMP+Ydw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=gEdOFnVeYJPKFs54ha/auiaRwgTKuOD9Mfv3VMdimT+3TiMAF6nIukUwAjgzdTu/eAOE4FNw7RhpMXVCetzrNUoh/Jn5UIY092AEkXM4jmXJq/+JusRxIQujt5Z6yl7LReb4R3QRCA1hG9wCBOwJAgy0g7+t45NItso7YDVl3yU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cRjj2arn; arc=none smtp.client-ip=74.125.82.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-c13771b2cf9so5299034a12.1
-        for <linux-media@vger.kernel.org>; Wed, 24 Dec 2025 14:00:13 -0800 (PST)
+Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-2ae24015dc0so6423746eec.1
+        for <linux-media@vger.kernel.org>; Wed, 24 Dec 2025 14:00:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766613613; x=1767218413; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JOx7OI94a8zNv6mkfOrWrisafdhGI21lh68KgBCdS9I=;
-        b=LoCwg+UP3QwTaiAi2cJycOjsNjhPBxArwM7U/pUdeBGhHIqLj9D3cXAzHkCUKbxrzP
-         rxhZMz+Svmns208e/X+PEsUJ01tDtjxGl9iSey9zp7ODl17vao7IFwnsjH8MJQW5wEK9
-         fdcvTMqre81bBYJZ1s9RH4sLMUSnzkJCG+YcedVBLX+2bob45ifPMrxRvw2aibTnJNkU
-         e/s2iC4ArJmYvRs8tPc/rA1CZQaCK79hsE51QuXBzqsZKHXYyayw9uOdPL1MQYDJMgg1
-         q95qVP/PRnI1TscHimdldDWFZWXeQN9YUgHo10BkhmqKalT4JIP+5uIAIZme/llMJ1ed
-         Y/Ug==
+        d=gmail.com; s=20230601; t=1766613615; x=1767218415; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3bi3r/lddmRdZ339dbw+mk/Ac8K1qVhYyB6AaKyzY7U=;
+        b=cRjj2arna7SGUg1ago1e92R6ENdqUVD5aFYfe90S/aDNmaxewwPVT55zUh+oYFJPze
+         rglqfPC20aR7d+Fd4q/syDMbn4LmWzm1OnWlWP/cE7EVxgVrwIOjndFbvuaiAJliRN27
+         cvbkAONpoCXpIIm5hMGb3IgFCLNZZJXGQQZ3lbQfweIJ5qDb06O9NGipiqsLg7/gN+Uu
+         ggxw9RVEyhiwFS3IbfGKyL6F1jxDntXrWcHGY9SPVU4YK00rY2K67vKW+wCcqwejhcSL
+         AfzDeHrDq7IpImNE6h5Ph61So91Vd+JjOBypK2+8hl4Obztvf/ydbwZ4XYLMkUaq/7GJ
+         +7Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766613613; x=1767218413;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JOx7OI94a8zNv6mkfOrWrisafdhGI21lh68KgBCdS9I=;
-        b=wDrFQf9ZrAuKjOZJ+JLnpU2bAQcIQIiWYkOn0mfl2RO0MJJM5KHApkR9Z4WCPhNsC6
-         l6c4V/nlfBpbGTyokfMFB6HGwieK6dD4ItwhQ5VilSPUOVd3qRHttkycI1ghNTgSOzBV
-         NkMzniMMKt8OLic0k+VZ6PYyEbG4/qG2WeDg3yvKU7WEk3r4ZtzZNBKU/mUbJvSCfxjZ
-         FF8/wyg2vfwr6ORzXyY+C8DWCuhI3BveMpkfvQZp7+ZSmIOkANLoQBYaBW3eaQ74dEin
-         gTqUUfKe2jt/qiUuk0mMYpAZQ9SiHrcR5WTKi4zzLv2G3X4/N9NJolkWPemmFHqVRiMu
-         N4Sw==
-X-Forwarded-Encrypted: i=1; AJvYcCVTUPmbMZCleVvEJaI80bc6zYJkE/xa24enRoGLnO89oDS1l4whQMfutN1CkOyM6jY9O4/dEFQN4fSVZQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRNZVqsc+Ic7iSVnjte83aaSQlgnmuE8lf7A76Lkqnn7kMjfua
-	AMk1DolyDtPuXGCFQxIbNtaySALxA0dhxpYzjERMPgjOETftzrj/9nDm
-X-Gm-Gg: AY/fxX4+Zmzm3Cr5VxSRZOgWSdGJSvlJvlKC2IARUh3vAtVTxvRqMpEKN1BaTvDHOvt
-	6MJCHaoT+oW+N7Dl2sybP1himBBrlhcvROJAdbtRCQfbzEtpjbs7PBAmsgfX6LyHLIKDq7lO4vw
-	M56FpG2UPchsUBSBBN/Gdf7pcRXau32t2Oj2l5jnMFsRawScPEUDQhY2s+HqDR5sufg9JeARZwZ
-	JfIlGQLlYnQ97Cx1aw9x2llpSKoBsJjVzuhqGWmTRrUmPnqMGTxehIYbDEGHRO2mK++S0TukQ9B
-	oUxPgN28flOp2F9FhRXB9jfO39VA67NyjGS8ynI9lvRNE0jXgrvfq9sxbgJlRKSw6q2tY8RaU5X
-	1GAlCniWz11FszYjMHvqF9zPCuHBB269Ujy+6eELavBXobiuY1O+bs3xql4zweLJDuD2lroIfoM
-	PbUZ7yEmReNNd0/Sg6Q62YIw==
-X-Google-Smtp-Source: AGHT+IHcJ9YX7/vbKvd1DTvDt4x1SCf4fmNYgRW5Ft2pvYLXa1mJWJxx1uYTmto2kAsZOR2MooNtZw==
-X-Received: by 2002:a05:7300:fa18:b0:2ae:546a:f2c3 with SMTP id 5a478bee46e88-2b05eb7d6b3mr15755485eec.3.1766613613123;
-        Wed, 24 Dec 2025 14:00:13 -0800 (PST)
+        d=1e100.net; s=20230601; t=1766613615; x=1767218415;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=3bi3r/lddmRdZ339dbw+mk/Ac8K1qVhYyB6AaKyzY7U=;
+        b=uy9+Kp+Zx9ELGRGGvomRvZKjDho1zOgTzJl3+R7f67zJ/Z/ZwukJ1CzlI3bVGWBckI
+         +wRvyVlqSU3pwQapDSJLIzWlx6TnXWe/113XNRUmLPgEzQHjGBCxGhp0j2qSn+OTEvOb
+         Hg6b+d5Lx99Z6319w+o33oa4aLLlZeOTFenYBCNDauwX9cQ2oNeoDNK1FI7/w/lt4MDO
+         eAzex83+nePyoMPyW7noQEWIwBFoYWwrTM9ywJmyAUmsZczrANNhSq/E93b0xm0r1vV+
+         QkXDa6sOaC1QsDPLNl/qhFuWKdUZU2zDkPUmqNKfxaJmqoN5UQj9uTjzk+1vi4WHXGIE
+         loSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU5ve/oXPl2XyYzEE1ka5SQDkaoQiBtay1FLrg/MBQSIOIzv2spqVg6MmLp0/gmVQEbezPdPCgqZMfnrA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwiFU+ipYw9/390gAEbInb/gnL3Sj1wFUvl/aFBmpcV3XsfGVVb
+	4gzN1D1iJOgb6AESjE+DAyu2Ho+lX02WPN5IPX6azY1S/Wq2FYsn31fC
+X-Gm-Gg: AY/fxX4pr1pMxIK8NmliD3uncfXqhZnWBJwRk7HgSwpTonXyJ9MdOc6f4chRBSBBoK8
+	VdyahRa8p7BKP58xdrc/NP8sTIZI1xoXA21qhMbMpCWDhVc/4Lf3OP4qfSb1kQZ5FYL87m0IaK9
+	IUxq+le02L4wl5Nm8uuRfp8cwuHIhD04ds8BGrLfCS5jZcTwHqyw0/onwfPoMU5pBfWSLPrGQ75
+	YqCl5AT9M+P89SlPM1h3hBQp4WRBcu5hILLhva8cG5Z1uht0DUiCrrShgwfVh500s89sYQ8+bgN
+	lWNcOPMjiJSfZhgEEPoPwxhdvI0E5E3kcJMoR+CYS8/1hJgqivt1x72ScyErVt3QHNYwVC1z92g
+	U76M6E2lXR6BX5n90eM3D8M8QygU+QO77Z48b0d9Yc9HhS6DUJLkBJnK98U57hISONt24zx9Oan
+	UEfP6c86B+IGZDFRCOKrPjpA==
+X-Google-Smtp-Source: AGHT+IGoHlJZks2rdSFVjlZ+Z0yLSpEpVq1Zsq6IU0wJUUHPixPZen6GBXVpt5JBO3a5D0xfokl5VA==
+X-Received: by 2002:a05:693c:8119:b0:2b0:4b17:c383 with SMTP id 5a478bee46e88-2b05e66bb9dmr11438936eec.11.1766613614625;
+        Wed, 24 Dec 2025 14:00:14 -0800 (PST)
 Received: from [192.168.5.77] ([172.59.162.202])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b05ff8634csm46610293eec.3.2025.12.24.14.00.11
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b05ff8634csm46610293eec.3.2025.12.24.14.00.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Dec 2025 14:00:12 -0800 (PST)
+        Wed, 24 Dec 2025 14:00:14 -0800 (PST)
 From: Alex Tran <alex.t.tran@gmail.com>
-Subject: [PATCH v2 0/2] Convert et8ek8 and omap3isp bindings to DT schema
-Date: Wed, 24 Dec 2025 13:59:57 -0800
-Message-Id: <20251224-dt-bindings-et8ek8-omap3isp-v2-0-0728cc1fee27@gmail.com>
+Date: Wed, 24 Dec 2025 13:59:58 -0800
+Subject: [PATCH v2 1/2] media: dt-bindings: i2c: toshiba,et8ek8: Convert to
+ DT schema
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,10 +84,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAF1iTGkC/x3MwQqDMAwA0F+RnBdY4zrFXxke6pppEGtpigjSf
- 7fs+C7vAuUkrDA0FyQ+RGUPFfRo4Lu4MDOKrwZ6kjVEBn3GSYKXMCty7nntcd9cbEUjkrP+zS/
- TmamDOsTEPzn/+2cs5QbaYhwIbQAAAA==
-X-Change-ID: 20251221-dt-bindings-et8ek8-omap3isp-2a5d6e4171b7
+Message-Id: <20251224-dt-bindings-et8ek8-omap3isp-v2-1-0728cc1fee27@gmail.com>
+References: <20251224-dt-bindings-et8ek8-omap3isp-v2-0-0728cc1fee27@gmail.com>
+In-Reply-To: <20251224-dt-bindings-et8ek8-omap3isp-v2-0-0728cc1fee27@gmail.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@kernel.org>, 
@@ -95,58 +96,204 @@ Cc: Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Alex Tran <alex.t.tran@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1500; i=alex.t.tran@gmail.com;
- h=from:subject:message-id; bh=lTzHgt2dP+FAADKvgSdKKeUJHcUUMW7u9Qq3+pqNE/Y=;
- b=owEBbQKS/ZANAwAKAXT5fTREJs3IAcsmYgBpTGJrRqA3Oyl9w5gWZx9WNeqNeH7aXxTIh/uxW
- BD4R67Cvl2JAjMEAAEKAB0WIQQAohViG04SVxUVrcd0+X00RCbNyAUCaUxiawAKCRB0+X00RCbN
- yI/bD/99m+9DvwNp9UiwppuoAGeeLC/AgXN7ffWBFTVcxEbtwfyZHRZvU19yws/+XpgslUjp20J
- zdTjzJ2gDuMZt8hgrb6JqSFE18p9pe+fTkJN5AVIIfPKNPxVvzbFZgn1vZoN3mmleUfPrij15NB
- rzXJ0ARwqZTpnRJpM10RG72YhNKqfN+jgcSdW/o5uYu1J9ggimLfz08OztV88l1A8zClHLGKeLP
- mn8fgrDU2c1ff0vuY6Q2cHdjx/xXYjWa1O0lYylenmcVV80+B30lp2DFs4nuWR5mPvSziJ1R6Nz
- NqfAxCW8XQsEIFNdYK0jXBn9jydhe2nT5KRj5iPDSu054iJ5EB4nQTqSems4rTUJIvBFE1CyXZ8
- hC3hbedTSI6bzVyfkLd4CoTrhzDX87sgtRhrz822YPnTlo7sV+1Pf/GETEJXI6lPnEy2UtwrcOt
- seF38exJ8OqXsRWxEXeKs5myPzIVTmCjNxXtqp3ZgoDnat1lgHMWjS5cCpu4IJh/bWOIVxAkMnO
- byM/9YCIypEOltsS2/ZNhl4dkj8ZqWWQzhAR3MtkcmoajeJYemWoHPbhdGyM0vACIyjil1YpEYW
- OwMO72PdxamFGeQxdLy8CY93Cf0wfyg4XsPSvOs359tmx2WhY5aMFwyoxp8WtYP/oWXa+hv2pSb
- eSUkivypS9/J7Ag==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5177; i=alex.t.tran@gmail.com;
+ h=from:subject:message-id; bh=aKWT1s5XXurLtC43G3pL5aSf28bI9FrnmYBjxMP+Ydw=;
+ b=owEBbQKS/ZANAwAKAXT5fTREJs3IAcsmYgBpTGJrHcinxiL2rav0CQURHPgpKJ23R2Jdrjr81
+ mvtLDv8nVqJAjMEAAEKAB0WIQQAohViG04SVxUVrcd0+X00RCbNyAUCaUxiawAKCRB0+X00RCbN
+ yOkBEADDoSORKG/GWkzJZZvDxwtqt6VgYlbfhHTC6k4ORlKUqmT//b8XyIdUWl6LlKDuJ88CT3e
+ g0rP1ak90i3eReHggVJMYXPmH1AsmzBa4Mw6HollHJ17rHr6fsbC+Htus6ZqHgMYStfiIpJStwi
+ J1S4h5hs9TsYLWU4dDeLAvRub3b7imUBsWqUfwUxUXEZh8rBvaH4sP3bkY7HoRgMVXA7rZfsSmy
+ GFnl+e0fUka3sCnERZlYPaIOxRLOOhzePWhKLYVnC01s/UaP5NHSPKk6CaKU+aiFPzhq7a4ECXF
+ 9bCnchR5uxFotfaFvjPdE6SsNPNRLWljzrQAFPDCRPy1hCqiBnIwWrNqaXZg7J48UJuHKbakzBk
+ aZaqZWCb515Me6BWMqvd1N8Vd8kwE5zZFxfrL8M7A2UU2GZIpLxwpjVAOosmqhJk+IsyJaYWBtQ
+ iUZLDGzER0aJfDYtFbF66JLprWa+6w67P/5ac1qW54UWUeoHJ4rqWqP6qe4THFmGe0FO0O03FQ6
+ yB6FwMnSnXVr6oM/VW5VCxrgwsJpzisCgUfQQWw5FYqrYFxy2B1bspQQ77p0LpX0d+tBgrm/VwI
+ Qt9igHUQKY3mrzOlsLIYiPPMwYX3pPDAzpNakaS3ECNFZmEOn3b8LRHOOrn66tLZhRptp1+JDH2
+ ZJ8dfYoDsuTfYCQ==
 X-Developer-Key: i=alex.t.tran@gmail.com; a=openpgp;
  fpr=00A215621B4E12571515ADC774F97D344426CDC8
 
-This patch series converts the dt-bindings for media components
-toshiba,et8ek8 and ti,omap3isp from the TXT to YAML schema.
-
-The series is composed of:
-Patch 1: Converts the Toshiba ET8EK8 sensor binding and updates
-the MAINTAINERS file under the NOKIA N900 CAMERA SUPPORT accordingly.
-Patch 2: Converts the TI OMAP 3 ISP binding.
-
-Changes in v2:
-- Dropped obvious et8ek8 clocks description.
-- lens-focus and flash-leds: fixed schema reference to
-  video-interface-devices.yaml using allOf.
-- Dropped pointless et8ek8 remote-endpoint property.
-- Dropped obvious omap3isp interrupts/iommus description.
-- Removed standard property omap3isp descriptions.
-- Completed examples for et8ek8 and omap3isp.
+Convert binding for toshiba,et8ek8 from TXT to YAML format.
+Update MAINTAINERS file accordingly. The binding references
+video-interface-devices.yaml to inherit flash-leds and
+lens-focus properties.
 
 Signed-off-by: Alex Tran <alex.t.tran@gmail.com>
 ---
-Alex Tran (2):
-      media: dt-bindings: i2c: toshiba,et8ek8: Convert to DT schema
-      media: dt-bindings: ti,omap3isp: Convert to DT schema
+ .../bindings/media/i2c/toshiba,et8ek8.txt          | 55 --------------
+ .../bindings/media/i2c/toshiba,et8ek8.yaml         | 88 ++++++++++++++++++++++
+ MAINTAINERS                                        |  1 +
+ 3 files changed, 89 insertions(+), 55 deletions(-)
 
- .../bindings/media/i2c/toshiba,et8ek8.txt          |  55 ------
- .../bindings/media/i2c/toshiba,et8ek8.yaml         |  88 ++++++++++
- .../devicetree/bindings/media/ti,omap3isp.txt      |  71 --------
- .../devicetree/bindings/media/ti,omap3isp.yaml     | 189 +++++++++++++++++++++
- MAINTAINERS                                        |   1 +
- 5 files changed, 278 insertions(+), 126 deletions(-)
----
-base-commit: fa084c35afa13ab07a860ef0936cd987f9aa0460
-change-id: 20251221-dt-bindings-et8ek8-omap3isp-2a5d6e4171b7
+diff --git a/Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.txt b/Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.txt
+deleted file mode 100644
+index 8d8e40c5687283d2f582895542cc9b765983d025..0000000000000000000000000000000000000000
+--- a/Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.txt
++++ /dev/null
+@@ -1,55 +0,0 @@
+-Toshiba et8ek8 5MP sensor
+-
+-Toshiba et8ek8 5MP sensor is an image sensor found in Nokia N900 device
+-
+-More detailed documentation can be found in
+-Documentation/devicetree/bindings/media/video-interfaces.txt .
+-
+-
+-Mandatory properties
+---------------------
+-
+-- compatible: "toshiba,et8ek8"
+-- reg: I2C address (0x3e, or an alternative address)
+-- vana-supply: Analogue voltage supply (VANA), 2.8 volts
+-- clocks: External clock to the sensor
+-- reset-gpios: XSHUTDOWN GPIO. The XSHUTDOWN signal is active low. The sensor
+-  is in hardware standby mode when the signal is in the low state.
+-
+-
+-Optional properties
+--------------------
+-
+-- flash-leds: See ../video-interfaces.txt
+-- lens-focus: See ../video-interfaces.txt
+-
+-
+-Endpoint node mandatory properties
+-----------------------------------
+-
+-- remote-endpoint: A phandle to the bus receiver's endpoint node.
+-
+-
+-Example
+--------
+-
+-&i2c3 {
+-	clock-frequency = <400000>;
+-
+-	cam1: camera@3e {
+-		compatible = "toshiba,et8ek8";
+-		reg = <0x3e>;
+-		vana-supply = <&vaux4>;
+-
+-		clocks = <&isp 0>;
+-		assigned-clocks = <&isp 0>;
+-		assigned-clock-rates = <9600000>;
+-
+-		reset-gpio = <&gpio4 6 GPIO_ACTIVE_HIGH>; /* 102 */
+-		port {
+-			csi_cam1: endpoint {
+-				remote-endpoint = <&csi_out1>;
+-			};
+-		};
+-	};
+-};
+diff --git a/Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.yaml b/Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..78e07955a2ed75c97612259644593fee90235c64
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.yaml
+@@ -0,0 +1,88 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/toshiba,et8ek8.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Toshiba et8ek8 5MP sensor
++
++maintainers:
++  - Pavel Machek <pavel@ucw.cz>
++  - Sakari Ailus <sakari.ailus@iki.fi>
++
++description:
++  Toshiba et8ek8 5MP sensor is an image sensor found in Nokia N900 device
++
++allOf:
++  - $ref: /schemas/media/video-interface-devices.yaml#
++
++properties:
++  compatible:
++    const: toshiba,et8ek8
++
++  reg:
++    description:
++      I2C address (0x3e, or an alternative address)
++    maxItems: 1
++
++  vana-supply:
++    description:
++      Analogue voltage supply (VANA), 2.8 volts
++
++  clocks:
++    maxItems: 1
++
++  reset-gpios:
++    description:
++      XSHUTDOWN GPIO. The XSHUTDOWN signal is active low. The sensor
++      is in hardware standby mode when the signal is in the low state.
++    maxItems: 1
++
++  flash-leds: true
++  lens-focus: true
++
++  port:
++    $ref: /schemas/graph.yaml#/$defs/port-base
++    additionalProperties: false
++
++    properties:
++      endpoint:
++        $ref: /schemas/media/video-interfaces.yaml#
++        unevaluatedProperties: false
++
++required:
++  - compatible
++  - reg
++  - vana-supply
++  - clocks
++  - reset-gpios
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        camera@3e {
++            compatible = "toshiba,et8ek8";
++            reg = <0x3e>;
++            vana-supply = <&vaux4>;
++            clocks = <&isp 0>;
++            assigned-clocks = <&isp 0>;
++            assigned-clock-rates = <9600000>;
++            reset-gpios = <&gpio4 6 GPIO_ACTIVE_HIGH>;
++            flash-leds = <&led>;
++            lens-focus = <&vcm>;
++
++            port {
++                csi_cam1: endpoint {
++                    remote-endpoint = <&csi_out1>;
++                };
++            };
++        };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index dc731d37c8feeff25613c59fe9c929927dadaa7e..50722537d5483611eea3c8af6c68ae0ec5e4aee8 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -18582,6 +18582,7 @@ M:	Sakari Ailus <sakari.ailus@iki.fi>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/media/i2c/adi,ad5820.yaml
++F:	Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.yaml
+ F:	drivers/media/i2c/ad5820.c
+ F:	drivers/media/i2c/et8ek8
+ 
 
-Best regards,
 -- 
-Alex Tran <alex.t.tran@gmail.com>
+2.51.0
 
 
