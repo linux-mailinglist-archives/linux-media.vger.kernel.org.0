@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-49527-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49528-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46E34CDD85A
-	for <lists+linux-media@lfdr.de>; Thu, 25 Dec 2025 09:41:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7242CCDD860
+	for <lists+linux-media@lfdr.de>; Thu, 25 Dec 2025 09:44:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E115E30413D2
-	for <lists+linux-media@lfdr.de>; Thu, 25 Dec 2025 08:40:58 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C7C9F3022F30
+	for <lists+linux-media@lfdr.de>; Thu, 25 Dec 2025 08:44:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7D5C30BB89;
-	Thu, 25 Dec 2025 08:40:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D446E3101BC;
+	Thu, 25 Dec 2025 08:44:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R7FGkynZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F7CgKroS"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2D5C3093D7;
-	Thu, 25 Dec 2025 08:40:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EBDF30BB94;
+	Thu, 25 Dec 2025 08:44:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766652037; cv=none; b=IL0/x8twQKE9KMR7VJLbsU7qf4HpXwSHHJepR5+3Y6vnLLboxFiWo1Vwp21NnuxptmwPtYgfZgtYlEikSIOdHmqWz/O+yNupObiI/hNneVTWGGonmKy/9YiiF6qtjn+outoS3vencEjiKOmYYoHOZDfsatlVunXuCoySUZ5YVeg=
+	t=1766652250; cv=none; b=jxnaa82uw7yxcyCHM5Bl2o8FwSukySSAjI6CcGSu7TRY+3bRleLrfqgzaKUQCMWRwzQ28LDJihflWVY9vi66clJd+Fct9Gj4J5lXI5oZX6jGsPlSoFhvrGX78kb5QcuZg6psaDugJLGK7COpBMHeRubB5cxTv+gavlRj1MYOcC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766652037; c=relaxed/simple;
-	bh=7D+FfZrohfrkpo7hAyvWlPRjbvKG7Rx9yoTMJZMzh94=;
+	s=arc-20240116; t=1766652250; c=relaxed/simple;
+	bh=bUCXZ3pfLES+5SeJPlUNEC5SNoea4MX9fh0hk3pg3v0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T5FDl5teqI7+qAyIqiLLTRax0PbJ2GXi5rQQIU20E4goFU373OMxq265HWg08e/2sR17rNwkPBMwdEDNvAoOd2xG1fE/y7QsouQqef4m49hPyhRr1t3qvTEj3hcM0Bq+JRFvZhYq38uLwzjP7iY1T7t3N6227fW3MTRObhbxnrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R7FGkynZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61EA1C4CEF1;
-	Thu, 25 Dec 2025 08:40:31 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=TbSM2C/79zWyzGHpJqN5aEA4WvCOH0fk+vUzXNbFv3eOxspdMNTpkb3y0+6IkbOF281VfWwTk1z1ES/9M482sTLJ4Coc7uZu4PwpbiDXpXjthO8kismdpB3KKSyU0MmOPCMMq0Gin5DSTlQk5L5yI4yBMhSfeBl9jDHowGFfOX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F7CgKroS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C140C4CEF1;
+	Thu, 25 Dec 2025 08:44:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766652036;
-	bh=7D+FfZrohfrkpo7hAyvWlPRjbvKG7Rx9yoTMJZMzh94=;
+	s=k20201202; t=1766652248;
+	bh=bUCXZ3pfLES+5SeJPlUNEC5SNoea4MX9fh0hk3pg3v0=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=R7FGkynZI0NrD2Mei6znoabqLiC0pWWDePkphe/lztV/8s1m1yXHQ9/uhA/7USxdJ
-	 1lWC0lGr8SQnpa4EaMlnU+Drgh8Mebfhvf78h5fiP0VRSDLerdmesTJNZwkeHs0VG0
-	 xW4Y6aJ+LhMIXKg0ww4RZOqrio6LoI/ZDQM24vR2TMu8sMHWzOiTVx4l2owzuFpPmO
-	 0DRNU7tZToIMgCKyYhV2Kxqj1AB31yZto0mraNLclwVRLhKNqWC+2MGM5bz/AGiR6k
-	 2vKPMSFPj4BRIALWNUqUH8qRdrdBGwUrGptJoa21FwFMZLTqKHZT/ODXUQKGHnr7xT
-	 6KFpCziuG5NYA==
-Message-ID: <a7126a74-48f2-467b-91bb-21f28a251400@kernel.org>
-Date: Thu, 25 Dec 2025 09:40:28 +0100
+	b=F7CgKroS0AYpQVz81GX6IaaKmoB1TtMb7Ra5z+gnlsYeiU2KjlfqmykNvWmuxL0xY
+	 PsyHkPne8popTgRxHXuaTtsyf9ypnCRLPm2lH6jp+0BXBWTHMd8NI9lqO2vlb2vrQO
+	 mwOX5TKyOzYz+FxuW3Ixv+PxrGAkcTu0c/d8LB50yxn9upf8nfthEE6j2pxH1MiaLT
+	 Wui8raSOYMad+YkPkp9IYeIuk8QHydXUHjvCRaBrpGB25cl/byBXpOvtFnx8388S8y
+	 qdWhz8rh4XH7KLkFRbt8meUO3/M+8dUpNr6cwqUBSA+zd/y4MJEbWR/5B+smdsJUEC
+	 b+pohsLiPJY9g==
+Message-ID: <1a316fab-4a98-426a-b708-9530279b204d@kernel.org>
+Date: Thu, 25 Dec 2025 09:44:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -48,8 +48,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] media: dt-bindings: i2c: toshiba,et8ek8: Convert
- to DT schema
+Subject: Re: [PATCH v2 2/2] media: dt-bindings: ti,omap3isp: Convert to DT
+ schema
 To: Alex Tran <alex.t.tran@gmail.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
@@ -59,7 +59,7 @@ To: Alex Tran <alex.t.tran@gmail.com>,
 Cc: Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20251224-dt-bindings-et8ek8-omap3isp-v2-0-0728cc1fee27@gmail.com>
- <20251224-dt-bindings-et8ek8-omap3isp-v2-1-0728cc1fee27@gmail.com>
+ <20251224-dt-bindings-et8ek8-omap3isp-v2-2-0728cc1fee27@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -105,23 +105,44 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251224-dt-bindings-et8ek8-omap3isp-v2-1-0728cc1fee27@gmail.com>
+In-Reply-To: <20251224-dt-bindings-et8ek8-omap3isp-v2-2-0728cc1fee27@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 24/12/2025 22:59, Alex Tran wrote:
 > +
-> +  reset-gpios:
-> +    description:
-> +      XSHUTDOWN GPIO. The XSHUTDOWN signal is active low. The sensor
-> +      is in hardware standby mode when the signal is in the low state.
-> +    maxItems: 1
+> +examples:
+> +  - |
+> +    #include <dt-bindings/media/omap3-isp.h>
 > +
-> +  flash-leds: true
-> +  lens-focus: true
+> +    isp@480bc000 {
+> +        compatible = "ti,omap3-isp";
+> +        reg = <0x480bc000 0x12fc>,
+> +              <0x480bd800 0x0600>;
+> +        interrupts = <24>;
+> +        iommus = <&mmu_isp>;
+> +        syscon = <&scm_conf 0x2f0>;
+> +        ti,phy-type = <OMAP3ISP_PHY_TYPE_CSIPHY>;
+> +        #clock-cells = <1>;
+> +        vdd-csiphy1-supply = <&vaux2>;
+> +        vdd-csiphy2-supply = <&vaux2>;
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +              reg = <0>;
+> +              parallel_ep: endpoint {
+> +                remote-endpoint = <&parallel>;
 
-No, where did you find this syntax. I do not see how you carefully fixed
-it. You need proper schema for these.
+Messed indentation.
+
+> +              };
+> +            };
+> +
+> 
+
 
 Best regards,
 Krzysztof
