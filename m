@@ -1,81 +1,81 @@
-Return-Path: <linux-media+bounces-49560-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49561-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id A40C1CDE1BC
-	for <lists+linux-media@lfdr.de>; Thu, 25 Dec 2025 22:03:31 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB5FFCDE1CB
+	for <lists+linux-media@lfdr.de>; Thu, 25 Dec 2025 22:04:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 1BC023001038
-	for <lists+linux-media@lfdr.de>; Thu, 25 Dec 2025 21:03:31 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 76EE73017EC5
+	for <lists+linux-media@lfdr.de>; Thu, 25 Dec 2025 21:03:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84C3827EFE3;
-	Thu, 25 Dec 2025 21:03:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE7112BD030;
+	Thu, 25 Dec 2025 21:03:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PZt2ySP7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LgA10jL6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A235294A10
-	for <linux-media@vger.kernel.org>; Thu, 25 Dec 2025 21:03:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C00C28851F
+	for <linux-media@vger.kernel.org>; Thu, 25 Dec 2025 21:03:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766696607; cv=none; b=NxhHOGrPEPN0EBXvio4w/JJ6yylTNF04ma4fpP0FX3UGXXaFCXC4mjGY/wUdjj4Pc25HMMt3L+GzkxyYCfeCyRFArw4lBeL+vTNuoZFidvOUgCHTBjp1aw3yb1HHEfSrugO5ax679BrAFwfR3y40AqxABDo0kGXHV38AL4P0Sio=
+	t=1766696609; cv=none; b=mdIjlW+VaEWNTdUe9lThp/ZnfKBZmAqxCxzlhsaEOA50HpYwkjdkNPgwjbs9i7uXEEAZtC1sOv8qNvYFZxOY+GnBi7+g7CdPQU6ByajOwCY8zoOhzB8aZmu90ivDN2r/5YIaTyWYU7VEdSzvIYakuLcS7hpiTeODd+tjz9q0xPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766696607; c=relaxed/simple;
-	bh=/+lZcqPywT3eD3agzd50PrRYt5+R2R4TSYTVLvfWz/0=;
+	s=arc-20240116; t=1766696609; c=relaxed/simple;
+	bh=QTYAYLX9cyK63LJsZQA3buVLpKA8Ar82kX/gmIYypc0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qDwv0YX5sV8UNQWYp+/0YQbdcggcFolnhMjboy0gx3KlvBVRl5agTEZxnLW9H5ulPywh5eSnJeIr3CLGchTFiQseeHRPNX8wwJU7HjQUTfnBlGSb+ESEElIEI9wXY6s+M1qSBrxDTiLg1LjhhRJKlHzAFWu/9fIdbmtzyaG0TYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PZt2ySP7; arc=none smtp.client-ip=74.125.82.174
+	 In-Reply-To:To:Cc; b=eblgaWNGM716Wp17vPEt+wB7feGGOdJOTGAvf8fUEsZa03NWPIMOSMNynX8BWD1JS0+MDjDNRh+AYqShc+bKZtdU718QcM+dLWpugge79AbBVjp4tCu0q8/9aAKMGslzMJ0o+JjjlGk+gDLvVy8u0FaS95w4CgqXXGPSMONk19M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LgA10jL6; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-2ae24015dc0so6809042eec.1
-        for <linux-media@vger.kernel.org>; Thu, 25 Dec 2025 13:03:25 -0800 (PST)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2a0bae9aca3so98313495ad.3
+        for <linux-media@vger.kernel.org>; Thu, 25 Dec 2025 13:03:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766696605; x=1767301405; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1766696607; x=1767301407; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZgTLElFuvb05dCGmTgzWC9Muq2FxtnuH04aRURL+kRg=;
-        b=PZt2ySP7D+OaKPXeqnSHroJm1tNKIDr2XOYtd5JTI3lYR0zz1gmVypDl917a5HMe0R
-         e1LkcudoQRIJSlwxGXK8m6U8p0Js31Nu5MGkFSkFd8bB7Gt1jLIZO6TWu1qq4cjzFH85
-         i8ogD04l+qT3DHL+Zr9D3/0NIP4vphts4F1cxSIqSN9uQE3kydmPhnOgboWGKYExp0GD
-         x9lkUo0TvUPEJ5SmGkEhmvQZlgd0CJvdNa7JQ5RGK6SKP/x9MWCMhl/CKavuzo+LkQSF
-         ejoIe2Im0s2xMLMCvsklssySa/FjOF3YD2ueEyRAik3/oruY/4Zi4WPEvfBJXRKc+S6a
-         FjTg==
+        bh=ugG/KfmO5D9jHJGU1k7FApOGJz/nVp13tryVY99MucE=;
+        b=LgA10jL6ziq/Nc2/dN5MSwguVhpVVGNSEu1DvAOaTLxceLR0oggaO/W+ckM7oFZ7C9
+         fLpY/ET4+hRV/GuJgTIX3Dzf1klWrPvPVIgvB8XfCUl2+szdCFo2L8Wm/A3U5mVQNx1g
+         nZO+EZZd+yVdSSUcuYFEjClHezTpOeuJ28onvnEJjr5hbsV116smw1huvXE9e4oZWrft
+         0nmNA3l6fTRTc9KlLfWzq0vEqScjJrbGnk2q6XpaWbQdqDzpQQH+Ou6kF0fheaZmmuzT
+         YJ4Ims2g9fNWHwbOMxmdyIXH5ktZ03s+PyICLT77CkcKQRiRZFZiW673iya5m8a612M1
+         CkyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766696605; x=1767301405;
+        d=1e100.net; s=20230601; t=1766696607; x=1767301407;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=ZgTLElFuvb05dCGmTgzWC9Muq2FxtnuH04aRURL+kRg=;
-        b=wDnzlrHDjv7OSy+ywx4bIuYBv5+iJ3aq14SNCEEYhZ6+NVZeIn3KWdRC3pYBCIqVTR
-         Ik9CmtXocXJZ0rHnUjb3pDGWgVbHw8KmiTfpNGLSp26HidW2eCSvtDrBHhZa+0u17T4K
-         2aneGl4fk1oz37vHUbSEW2HEeSMp99p9i6yEBODiYEM30ScHGzJRIgLswuhMeIqo3wdU
-         hTad+gnCH7vgcnBddBSdmJ9+EWoXcaUDFdymNtmzvT8FsotJdcYqWoB3LHs47zlUB7Ob
-         B8q+2kc6LNll4HfBRwxN6LxxvrvYa2aT6nrrTtzi3unJG9EpP8jComG+WdpFF9dKwEH9
-         KH/g==
-X-Forwarded-Encrypted: i=1; AJvYcCVpWNbYxSanG/5MztlPoo1Uo/p+Ybj+IG/YVxpd28NXoRdacHn6o0MgV/CSw2mNNtVA6pnzNA9kOnt1IQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxGX2na3gWHYbm1rwlPNoXKMcW2q+OCWAEAapHNByzBGScTpqux
-	3+iF3E8M0ejTTGnL21NyFJQL0uleHrFhFNNaFQppKPM6JAzLmTtpIFRu
-X-Gm-Gg: AY/fxX7aF0ouNGLJy63ObYbxbxTOszfxoh8+VillD7bZDH5pkhgbrpqL9cqT6BjjW8h
-	zYRoMmVVWidep5FOvIfiJMiTkMOA+OyFd8inLJRWzt3Szi5Cw49l95atdBZA3pF8uDRiXPs0EPS
-	5oeyUw1a0lOixYXQIAsmZ3cfuwMCjNMYKg9xnb+mhljXUFUsRqVVeGDBHnHnTazD/a+Z/hFj8iI
-	7SgvaY5uEUPUJDkBuRDJSL2tFZgp91ZD4H7x/tZY7/Tm9D4wMTMEDeEG1HBNNquOyLvW0YKdJF5
-	o5t2gb1pvg9sIsU57c7BDJ9sceMPkvex58DBsmGCrNatd+itIrMZjifIG5caA69Ff3EruhHZTuk
-	C6UiJ0ifjzduoxz5r1bdZMQWtnU5+zgQjMcgcivikKFO+nvF3O84f36sZfgPSyB31ygg0FjhD4g
-	RHaiXlTOuMUhgAvnWlok3EaQ==
-X-Google-Smtp-Source: AGHT+IHaRAAm6zTU8WaDLCgIm8cn0gIN1vyirvlhsK7UY7lq5OMBlSx01baipq209Z4NtI+4xI6i5w==
-X-Received: by 2002:a05:7022:526:b0:11b:ca88:c4f1 with SMTP id a92af1059eb24-12171ae9239mr20726406c88.20.1766696604981;
-        Thu, 25 Dec 2025 13:03:24 -0800 (PST)
+        bh=ugG/KfmO5D9jHJGU1k7FApOGJz/nVp13tryVY99MucE=;
+        b=C1PLZ8u4CJ4HrVMOID7IOI2363eEKsCkUHFr9shRBy2Krn6jmikovEmhA58VWIlezA
+         WzZtd68QH2cwkDLs9o7MJ6Y4sDQlaj+kBwE5J7fITLDqMTjamSXsvHFISXAoiL8WRyxW
+         i+PeEedRv40nKUogQvwmhUqMPrX/szWKI43K9ayJBzfbX09BYydNhYUQNnmM9YOt8Ud2
+         GN/PEBTP6gkz7W/jyhEn2zx2+QmG7CINODjWLUBDUPTD1BdNmaS6aLtbGWcXiuG8DGyC
+         KY3SPO8hNfIFsBESUQuj1uUhJ+r++iKliQnQ7EqXYYox8Aj67JEaRbtI5lIw9gH8twxc
+         gMVg==
+X-Forwarded-Encrypted: i=1; AJvYcCVISwagGaF0+0I0YWBuNHoBfNkR+wFFeAjEsevREXhP9NKTME/hgvTdBsB530YkDpA3TT+sCb6eXfY3jw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzvVS7+jrtfvvfazB+p1DII2WIeci+6o3mN93CW9w6qqLu3yxGF
+	kHJhP+OXBUotWNVN3QNmJlUjo+kS1Y/pmOPfg52PMx0BFvfO9kQOfzwY
+X-Gm-Gg: AY/fxX5WZa0mjwnucfHdQjM0XzEmfJipNW7Z9KZofNMmIXExqG/8xHzeWkEGXlEwUOC
+	4944HQq1nBMGxP/LYWLUUVzmAqchaSheCmwGd56o2ChCzbuFOq3oxJMAokQiQQw8tzHDXH4T9K9
+	a5hwEZCb5LithuOcPULQ3XW3c7mP1mYDoVQpTXaO8u8hFwbimy+bjpYTUda/fA4YY7WlVQ48yC2
+	2ckXKpassXpI98jN0uRAc20wO+DlDw9a8tyKBs0Ose3D/hTequOewkjX3cdeFkhxPNh7PvTL6Gw
+	gtKyLQdvbgUygwAmOPd8TP+fKbGxosEsYREYv8Y9LQUprhBG3VtkoSbN2qPjD3Us/FjLcao6wVz
+	YiZHDFl+RaUXibBQSFi+P2ONtl+O291Xuf/tpKvs5yLYHBf7I1/2mPJXIBAV356FQhTsY3iWIxo
+	TujWUmXHqXi/qhuocfXoo6Ig==
+X-Google-Smtp-Source: AGHT+IGLZ4IAtoP+SyRlMq23IbYeLRzGMd+E9XIT0gLtPeFiZLdvI+lGz8pEv1yiNCKDtsVdl2ZiHw==
+X-Received: by 2002:a05:701b:2710:b0:119:e569:fb9a with SMTP id a92af1059eb24-121722ac2a4mr17546538c88.9.1766696606423;
+        Thu, 25 Dec 2025 13:03:26 -0800 (PST)
 Received: from [192.168.5.77] ([172.59.162.202])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1217254c734sm83006203c88.13.2025.12.25.13.03.23
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1217254c734sm83006203c88.13.2025.12.25.13.03.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Dec 2025 13:03:24 -0800 (PST)
+        Thu, 25 Dec 2025 13:03:26 -0800 (PST)
 From: Alex Tran <alex.t.tran@gmail.com>
-Date: Thu, 25 Dec 2025 13:03:07 -0800
-Subject: [PATCH v3 1/2] media: dt-bindings: i2c: toshiba,et8ek8: Convert to
- DT schema
+Date: Thu, 25 Dec 2025 13:03:08 -0800
+Subject: [PATCH v3 2/2] media: dt-bindings: ti,omap3isp: Convert to DT
+ schema
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -84,7 +84,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251225-dt-bindings-et8ek8-omap3isp-v3-1-b027e0db69a5@gmail.com>
+Message-Id: <20251225-dt-bindings-et8ek8-omap3isp-v3-2-b027e0db69a5@gmail.com>
 References: <20251225-dt-bindings-et8ek8-omap3isp-v3-0-b027e0db69a5@gmail.com>
 In-Reply-To: <20251225-dt-bindings-et8ek8-omap3isp-v3-0-b027e0db69a5@gmail.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -96,201 +96,303 @@ Cc: Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Alex Tran <alex.t.tran@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5131; i=alex.t.tran@gmail.com;
- h=from:subject:message-id; bh=/+lZcqPywT3eD3agzd50PrRYt5+R2R4TSYTVLvfWz/0=;
- b=owEBbQKS/ZANAwAKAXT5fTREJs3IAcsmYgBpTaaaNqcw7yB1ijDDPKb9bb171Hm2DRfYJryfW
- l8WhDUzpzOJAjMEAAEKAB0WIQQAohViG04SVxUVrcd0+X00RCbNyAUCaU2mmgAKCRB0+X00RCbN
- yPbEEADDEpwm/D2yHvYx1AquF2X8hT1Xt3l5eI2NY9xNCHCgR7HRsAvyNaTbDDB+4ALeZdqJjMm
- aoxxfSvDzCFX+0hz2QhBiurcmtk2hVFYIa+murGCOJm57oZ4CNThBZGByI380VLXjGlIlj9/IUG
- HMUgn8PbhTR/JRnW/xUQnWXL8bCbgVtRNi6Rfh50/pttItQPpgjJcD8FkkMBFF43RNKAGsz85oX
- GQTdrO66kBIVOd3OMyizzmdCJaHz+Y6XX6/EkqsBFWLR4H9wRNsfiI03yFlP4ffxwZxq3pFfExn
- 3lrk/CSTrA7Vl0qT6C6uQjtkqYZIB0g+cqp1JcJr70YLK2tMinN5QGhdUxVua1Uengua/qLPkVj
- eqj+CGYvg9v1DxXyOcPZSK3fHHgc9mQQrLAjVk6CkeEi+j07pldwPVcQlkOFaBMMSi5uNt+U0Xz
- AFKviM5DI9GHV810XHj8jHjeqUtdS13ORJ7BVM1QDZnSAkaBE+8y/sJ988Xim6gkvYc+9wHbmmG
- P8wyrpuy0fKIaqVxBEGrG3ZW8GBAvOeK9VUj0lZAIoaaeIX7osuVVn+aResj5af2rRyf8jDNOkD
- m2CGukrMUmtEssDr5D5/TMdyHYdTG7kS0Vif7svdlOr120MVto/p3FA0L0QYs64mr+OpoSxWgEN
- IWFLWcPaxr6l60g==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8393; i=alex.t.tran@gmail.com;
+ h=from:subject:message-id; bh=QTYAYLX9cyK63LJsZQA3buVLpKA8Ar82kX/gmIYypc0=;
+ b=owEBbQKS/ZANAwAKAXT5fTREJs3IAcsmYgBpTaaa8PSmG7RBzDHXs+N700GMb0MDuOFGF970g
+ 6WVB1TwcoyJAjMEAAEKAB0WIQQAohViG04SVxUVrcd0+X00RCbNyAUCaU2mmgAKCRB0+X00RCbN
+ yMshEACQ//FJbbkjvlHaEBuDt6+MWP0iCPsS5MsdrgA7V4T1a3brX43Tg5T56hAOnyPm4K8LyNl
+ Ak6hQu1U0ZB3imHXlOBIDOQqZxk/TqCP3VY1uJNeui9WUXXc08T9sYyHh9Z2F53cQxC8qugslFs
+ 70cvVnkdZCnIkiy1P9E6qBndkeIayQIq14MwMni1ijg6CmIdN5w5C2iHTlZileRGISQSFjXXvXe
+ D6vqV5ge8/zK3+8PJHJsmI8Kj0a+pl9A6oSspupnfST0KkuQs/kSUUhK9mYGJKHFoIQonem3Hjz
+ xPYQzzcH1Puc0PcbQnY8VoteG2g0vHrF3E7yOFGA9A8hPv2Scf+UhugNBPT07iJK/ieesGFrtbo
+ gdfgEZFH55jlCK7ZseFtbh7ObrkIJaWNqadaAm1KHxr3candVkneEgxi1kiMl90emKb5jkFYNo0
+ VU3cuXgTe9+d5ctXumHnlm5nt0ehR8Nw5d/pT2RLQbqWrHFhWU2/xNg0pjY5KMk57cxyKrGwewo
+ AQPiss6khuQCzJH19wteEP+hPMCBEBtwQ6CCkLbaiiBalVwPAHtNGk9NcTggNgQYC26kbnKCKpD
+ koIShEsvOAL/DKSZIndmh3lismqkxMlycxaiO2aR3dUwVAgoczvHKiPUoUbj8fuC9BAQXE8OzCa
+ 36nBicogvSQ0Aaw==
 X-Developer-Key: i=alex.t.tran@gmail.com; a=openpgp;
  fpr=00A215621B4E12571515ADC774F97D344426CDC8
 
-Convert binding for toshiba,et8ek8 from TXT to YAML format.
-Update MAINTAINERS file accordingly. The binding references
-video-interface-devices.yaml at top level to inherit flash-leds
-property.
+Convert binding for ti,omap3isp from TXT to YAML format.
 
 Signed-off-by: Alex Tran <alex.t.tran@gmail.com>
 ---
- .../bindings/media/i2c/toshiba,et8ek8.txt          | 55 --------------
- .../bindings/media/i2c/toshiba,et8ek8.yaml         | 87 ++++++++++++++++++++++
- MAINTAINERS                                        |  1 +
- 3 files changed, 88 insertions(+), 55 deletions(-)
+ .../devicetree/bindings/media/ti,omap3isp.txt      |  71 --------
+ .../devicetree/bindings/media/ti,omap3isp.yaml     | 189 +++++++++++++++++++++
+ 2 files changed, 189 insertions(+), 71 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.txt b/Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.txt
+diff --git a/Documentation/devicetree/bindings/media/ti,omap3isp.txt b/Documentation/devicetree/bindings/media/ti,omap3isp.txt
 deleted file mode 100644
-index 8d8e40c5687283d2f582895542cc9b765983d025..0000000000000000000000000000000000000000
---- a/Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.txt
+index ac23de8556412c52710f46c3ea015d2976c96dad..0000000000000000000000000000000000000000
+--- a/Documentation/devicetree/bindings/media/ti,omap3isp.txt
 +++ /dev/null
-@@ -1,55 +0,0 @@
--Toshiba et8ek8 5MP sensor
+@@ -1,71 +0,0 @@
+-OMAP 3 ISP Device Tree bindings
+-===============================
 -
--Toshiba et8ek8 5MP sensor is an image sensor found in Nokia N900 device
+-The DT definitions can be found in include/dt-bindings/media/omap3-isp.h.
 -
--More detailed documentation can be found in
--Documentation/devicetree/bindings/media/video-interfaces.txt .
+-Required properties
+-===================
 -
+-compatible	: must contain "ti,omap3-isp"
 -
--Mandatory properties
----------------------
+-reg		: the two registers sets (physical address and length) for the
+-		  ISP. The first set contains the core ISP registers up to
+-		  the end of the SBL block. The second set contains the
+-		  CSI PHYs and receivers registers.
+-interrupts	: the ISP interrupt specifier
+-iommus		: phandle and IOMMU specifier for the IOMMU that serves the ISP
+-syscon		: the phandle and register offset to the Complex I/O or CSI-PHY
+-		  register
+-ti,phy-type	: 0 -- OMAP3ISP_PHY_TYPE_COMPLEX_IO (e.g. 3430)
+-		  1 -- OMAP3ISP_PHY_TYPE_CSIPHY (e.g. 3630)
+-#clock-cells	: Must be 1 --- the ISP provides two external clocks,
+-		  cam_xclka and cam_xclkb, at indices 0 and 1,
+-		  respectively. Please find more information on common
+-		  clock bindings in ../clock/clock-bindings.txt.
 -
--- compatible: "toshiba,et8ek8"
--- reg: I2C address (0x3e, or an alternative address)
--- vana-supply: Analogue voltage supply (VANA), 2.8 volts
--- clocks: External clock to the sensor
--- reset-gpios: XSHUTDOWN GPIO. The XSHUTDOWN signal is active low. The sensor
--  is in hardware standby mode when the signal is in the low state.
+-Port nodes (optional)
+----------------------
 -
+-More documentation on these bindings is available in
+-video-interfaces.txt in the same directory.
+-
+-reg		: The interface:
+-		  0 - parallel (CCDC)
+-		  1 - CSIPHY1 -- CSI2C / CCP2B on 3630;
+-		      CSI1 -- CSIb on 3430
+-		  2 - CSIPHY2 -- CSI2A / CCP2B on 3630;
+-		      CSI2 -- CSIa on 3430
 -
 -Optional properties
---------------------
+-===================
 -
--- flash-leds: See ../video-interfaces.txt
--- lens-focus: See ../video-interfaces.txt
+-vdd-csiphy1-supply : voltage supply of the CSI-2 PHY 1
+-vdd-csiphy2-supply : voltage supply of the CSI-2 PHY 2
 -
+-Endpoint nodes
+---------------
 -
--Endpoint node mandatory properties
------------------------------------
--
--- remote-endpoint: A phandle to the bus receiver's endpoint node.
+-lane-polarities	: lane polarity (required on CSI-2)
+-		  0 -- not inverted; 1 -- inverted
+-data-lanes	: an array of data lanes from 1 to 3. The length can
+-		  be either 1 or 2. (required on CSI-2)
+-clock-lanes	: the clock lane (from 1 to 3). (required on CSI-2)
 -
 -
 -Example
---------
+-=======
 -
--&i2c3 {
--	clock-frequency = <400000>;
--
--	cam1: camera@3e {
--		compatible = "toshiba,et8ek8";
--		reg = <0x3e>;
--		vana-supply = <&vaux4>;
--
--		clocks = <&isp 0>;
--		assigned-clocks = <&isp 0>;
--		assigned-clock-rates = <9600000>;
--
--		reset-gpio = <&gpio4 6 GPIO_ACTIVE_HIGH>; /* 102 */
--		port {
--			csi_cam1: endpoint {
--				remote-endpoint = <&csi_out1>;
+-		isp@480bc000 {
+-			compatible = "ti,omap3-isp";
+-			reg = <0x480bc000 0x12fc
+-			       0x480bd800 0x0600>;
+-			interrupts = <24>;
+-			iommus = <&mmu_isp>;
+-			syscon = <&scm_conf 0x2f0>;
+-			ti,phy-type = <OMAP3ISP_PHY_TYPE_CSIPHY>;
+-			#clock-cells = <1>;
+-			ports {
+-				#address-cells = <1>;
+-				#size-cells = <0>;
 -			};
 -		};
--	};
--};
-diff --git a/Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.yaml b/Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.yaml
+diff --git a/Documentation/devicetree/bindings/media/ti,omap3isp.yaml b/Documentation/devicetree/bindings/media/ti,omap3isp.yaml
 new file mode 100644
-index 0000000000000000000000000000000000000000..f0186ae87de2d918f70ec6e0a48b46be9c5951b5
+index 0000000000000000000000000000000000000000..7155fd3db505ec577b03df537f4dfa92ce784094
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.yaml
-@@ -0,0 +1,87 @@
++++ b/Documentation/devicetree/bindings/media/ti,omap3isp.yaml
+@@ -0,0 +1,189 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/media/i2c/toshiba,et8ek8.yaml#
++$id: http://devicetree.org/schemas/media/ti,omap3isp.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Toshiba et8ek8 5MP sensor
++title: Texas Instruments OMAP 3 Image Signal Processor (ISP)
 +
 +maintainers:
-+  - Pavel Machek <pavel@ucw.cz>
++  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 +  - Sakari Ailus <sakari.ailus@iki.fi>
 +
 +description:
-+  Toshiba et8ek8 5MP sensor is an image sensor found in Nokia N900 device
-+
-+allOf:
-+  - $ref: /schemas/media/video-interface-devices.yaml#
++  The OMAP 3 ISP is an image signal processor present in OMAP 3 SoCs.
 +
 +properties:
 +  compatible:
-+    const: toshiba,et8ek8
++    const: ti,omap3-isp
 +
 +  reg:
++    items:
++      - description: Core ISP registers up to the end of the SBL block
++      - description: CSI PHYs and receivers registers
++
++  interrupts:
++    maxItems: 1
++
++  iommus:
++    maxItems: 1
++
++  syscon:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    items:
++      - items:
++          - description: phandle to System Control Module
++          - description: register offset to Complex I/O or CSI-PHY register
 +    description:
-+      I2C address (0x3e, or an alternative address)
-+    maxItems: 1
++      Phandle and register offset to the Complex I/O or CSI-PHY register
 +
-+  vana-supply:
++  ti,phy-type:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum: [0, 1]
 +    description:
-+      Analogue voltage supply (VANA), 2.8 volts
++      0 - OMAP3ISP_PHY_TYPE_COMPLEX_IO (e.g. OMAP 3430)
++      1 - OMAP3ISP_PHY_TYPE_CSIPHY (e.g. OMAP 3630)
 +
-+  clocks:
-+    maxItems: 1
-+
-+  reset-gpios:
++  '#clock-cells':
++    const: 1
 +    description:
-+      XSHUTDOWN GPIO. The XSHUTDOWN signal is active low. The sensor
-+      is in hardware standby mode when the signal is in the low state.
-+    maxItems: 1
++      The ISP provides two external clocks, cam_xclka and cam_xclkb,
++      at indices 0 and 1 respectively.
 +
-+  flash-leds:
-+    maxItems: 1
++  vdd-csiphy1-supply:
++    description: Voltage supply of the CSI-2 PHY 1
 +
-+  port:
-+    $ref: /schemas/graph.yaml#/$defs/port-base
-+    additionalProperties: false
++  vdd-csiphy2-supply:
++    description: Voltage supply of the CSI-2 PHY 2
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
 +
 +    properties:
-+      endpoint:
-+        $ref: /schemas/media/video-interfaces.yaml#
++      port@0:
++        $ref: /schemas/graph.yaml#/$defs/port-base
 +        unevaluatedProperties: false
++        description: Parallel (CCDC) interface
++
++        properties:
++          endpoint:
++            $ref: /schemas/media/video-interfaces.yaml#
++            unevaluatedProperties: false
++
++      port@1:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description: |
++          CSIPHY1 interface:
++            OMAP 3630: CSI2C / CCP2B
++            OMAP 3430: CSI1 (CSIb)
++
++        properties:
++          endpoint:
++            $ref: /schemas/media/video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              lane-polarities:
++                minItems: 2
++                maxItems: 3
++
++              data-lanes:
++                minItems: 1
++                maxItems: 2
++                items:
++                  minimum: 1
++                  maximum: 3
++
++              clock-lanes:
++                minimum: 1
++                maximum: 3
++
++      port@2:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description: |
++          CSIPHY2 interface:
++            OMAP 3630: CSI2A / CCP2B
++            OMAP 3430: CSI2 (CSIa)
++
++        properties:
++          endpoint:
++            $ref: /schemas/media/video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              lane-polarities:
++                minItems: 2
++                maxItems: 3
++
++              data-lanes:
++                minItems: 1
++                maxItems: 2
++                items:
++                  minimum: 1
++                  maximum: 3
++
++              clock-lanes:
++                minimum: 1
++                maximum: 3
 +
 +required:
 +  - compatible
 +  - reg
-+  - vana-supply
-+  - clocks
-+  - reset-gpios
-+  - port
++  - interrupts
++  - iommus
++  - syscon
++  - ti,phy-type
++  - '#clock-cells'
 +
-+unevaluatedProperties: false
++additionalProperties: false
 +
 +examples:
 +  - |
-+    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/media/omap3-isp.h>
 +
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
++    isp@480bc000 {
++        compatible = "ti,omap3-isp";
++        reg = <0x480bc000 0x12fc>,
++              <0x480bd800 0x0600>;
++        interrupts = <24>;
++        iommus = <&mmu_isp>;
++        syscon = <&scm_conf 0x2f0>;
++        ti,phy-type = <OMAP3ISP_PHY_TYPE_CSIPHY>;
++        #clock-cells = <1>;
++        vdd-csiphy1-supply = <&vaux2>;
++        vdd-csiphy2-supply = <&vaux2>;
 +
-+        camera@3e {
-+            compatible = "toshiba,et8ek8";
-+            reg = <0x3e>;
-+            vana-supply = <&vaux4>;
-+            clocks = <&isp 0>;
-+            assigned-clocks = <&isp 0>;
-+            assigned-clock-rates = <9600000>;
-+            reset-gpios = <&gpio4 6 GPIO_ACTIVE_HIGH>;
-+            flash-leds = <&led>;
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
 +
-+            port {
-+                csi_cam1: endpoint {
-+                    remote-endpoint = <&csi_out1>;
++            port@0 {
++                reg = <0>;
++                parallel_ep: endpoint {
++                    remote-endpoint = <&parallel>;
++                };
++            };
++
++            port@1 {
++                reg = <1>;
++                csi1_ep: endpoint {
++                    remote-endpoint = <&smia_1>;
++                    clock-lanes = <1>;
++                    data-lanes = <2>;
++                    lane-polarities = <0 0>;
++                };
++            };
++
++            port@2 {
++                reg = <2>;
++                csi2a_ep: endpoint {
++                    remote-endpoint = <&smia_2>;
++                    clock-lanes = <2>;
++                    data-lanes = <1 3>;
++                    lane-polarities = <1 1 1>;
 +                };
 +            };
 +        };
 +    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index dc731d37c8feeff25613c59fe9c929927dadaa7e..50722537d5483611eea3c8af6c68ae0ec5e4aee8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18582,6 +18582,7 @@ M:	Sakari Ailus <sakari.ailus@iki.fi>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/media/i2c/adi,ad5820.yaml
-+F:	Documentation/devicetree/bindings/media/i2c/toshiba,et8ek8.yaml
- F:	drivers/media/i2c/ad5820.c
- F:	drivers/media/i2c/et8ek8
- 
 
 -- 
 2.51.0
