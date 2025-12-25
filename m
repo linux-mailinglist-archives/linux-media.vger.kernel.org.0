@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-49526-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49527-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B767CDD82D
-	for <lists+linux-media@lfdr.de>; Thu, 25 Dec 2025 09:37:51 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46E34CDD85A
+	for <lists+linux-media@lfdr.de>; Thu, 25 Dec 2025 09:41:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9AAB4302E17A
-	for <lists+linux-media@lfdr.de>; Thu, 25 Dec 2025 08:37:28 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E115E30413D2
+	for <lists+linux-media@lfdr.de>; Thu, 25 Dec 2025 08:40:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B40530B50A;
-	Thu, 25 Dec 2025 08:37:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7D5C30BB89;
+	Thu, 25 Dec 2025 08:40:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SOqgNpLN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R7FGkynZ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681B02222A9;
-	Thu, 25 Dec 2025 08:37:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2D5C3093D7;
+	Thu, 25 Dec 2025 08:40:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766651844; cv=none; b=Sg6MAgdJqLWO3NztoGr5gxoJBpma0kgzRFkMfUVLpTxGoMZp26FzTxywss/MnMNRdUUpyGFOgBPuJ1pTk71wRd1aek9lFmQcr4DJWrnCRS9itMrO7W1ReAe9RfA/Q6UZs5NE6f4nr29+OaWRZeEXGToMyRNHU4q0HkUkEVX9If0=
+	t=1766652037; cv=none; b=IL0/x8twQKE9KMR7VJLbsU7qf4HpXwSHHJepR5+3Y6vnLLboxFiWo1Vwp21NnuxptmwPtYgfZgtYlEikSIOdHmqWz/O+yNupObiI/hNneVTWGGonmKy/9YiiF6qtjn+outoS3vencEjiKOmYYoHOZDfsatlVunXuCoySUZ5YVeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766651844; c=relaxed/simple;
-	bh=kgAIrjuZjHs8OpeqHy6FN4PjDtpOcy88ZQN1QSfUG7s=;
+	s=arc-20240116; t=1766652037; c=relaxed/simple;
+	bh=7D+FfZrohfrkpo7hAyvWlPRjbvKG7Rx9yoTMJZMzh94=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GxtIz4iCF74yQkcaHmR7BEt2Z2h7fhnehkaUvvVP3LXLsCiKItkKxMO2Rb0aE3bT9aX9XA2lW8bInE3n+VtMei7qPCbhI1ciRxD6fY1rsV2pQkmQNd52JokBwMkjIHLO+2LjXujVahVIK5cdJ8Ts5fPiJLlrHRY7VTCDaujrN3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SOqgNpLN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABFFAC4CEF1;
-	Thu, 25 Dec 2025 08:37:19 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=T5FDl5teqI7+qAyIqiLLTRax0PbJ2GXi5rQQIU20E4goFU373OMxq265HWg08e/2sR17rNwkPBMwdEDNvAoOd2xG1fE/y7QsouQqef4m49hPyhRr1t3qvTEj3hcM0Bq+JRFvZhYq38uLwzjP7iY1T7t3N6227fW3MTRObhbxnrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R7FGkynZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61EA1C4CEF1;
+	Thu, 25 Dec 2025 08:40:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766651844;
-	bh=kgAIrjuZjHs8OpeqHy6FN4PjDtpOcy88ZQN1QSfUG7s=;
+	s=k20201202; t=1766652036;
+	bh=7D+FfZrohfrkpo7hAyvWlPRjbvKG7Rx9yoTMJZMzh94=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=SOqgNpLN2+ed2GsF6Isdv7e72pG5m2ePrjp4cBmdtlu9iZZH59jb5z67si7cFF+VN
-	 2tfM1hgHDLA97A9VKx+doVxRxdK03++NlnhiiMrp/l0Q9JQyb/ErbxT2myhzBxhSF6
-	 uOvbs0aGa4UuSLzpmlRnRLV1TBSKIDMQdrdmE1SK9QZUjGa5EGhLiATfGDW30c1h9l
-	 QBdqOY7YAJ0Z1GiatfLNx186kv6DPvk/K+BpPT8GD7tiPXYtGMQrh79tnrg9GOk7r2
-	 2dfBBKN8FTWJn/9iVjYEDjzrpKCPMI7s7zntZDawaniuW0QyjvdJ9f9v1a4pLNoiRQ
-	 5tEHIju0Q/F0Q==
-Message-ID: <1e8ec6ac-91e2-411c-8ca5-562b48443be6@kernel.org>
-Date: Thu, 25 Dec 2025 09:37:16 +0100
+	b=R7FGkynZI0NrD2Mei6znoabqLiC0pWWDePkphe/lztV/8s1m1yXHQ9/uhA/7USxdJ
+	 1lWC0lGr8SQnpa4EaMlnU+Drgh8Mebfhvf78h5fiP0VRSDLerdmesTJNZwkeHs0VG0
+	 xW4Y6aJ+LhMIXKg0ww4RZOqrio6LoI/ZDQM24vR2TMu8sMHWzOiTVx4l2owzuFpPmO
+	 0DRNU7tZToIMgCKyYhV2Kxqj1AB31yZto0mraNLclwVRLhKNqWC+2MGM5bz/AGiR6k
+	 2vKPMSFPj4BRIALWNUqUH8qRdrdBGwUrGptJoa21FwFMZLTqKHZT/ODXUQKGHnr7xT
+	 6KFpCziuG5NYA==
+Message-ID: <a7126a74-48f2-467b-91bb-21f28a251400@kernel.org>
+Date: Thu, 25 Dec 2025 09:40:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -48,18 +48,18 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/2] media: dt-bindings: i2c: toshiba,et8ek8: Convert
+Subject: Re: [PATCH v2 1/2] media: dt-bindings: i2c: toshiba,et8ek8: Convert
  to DT schema
-To: Alex Tran <alex.t.tran@gmail.com>
-Cc: mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, pavel@kernel.org, sakari.ailus@linux.intel.com,
- mehdi.djait@linux.intel.com, laurent.pinchart@ideasonboard.com,
- hverkuil+cisco@kernel.org, linux-media@vger.kernel.org,
+To: Alex Tran <alex.t.tran@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Pavel Machek <pavel@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1766123192.git.alex.t.tran@gmail.com>
- <6f34ec79ac21d5ab9ad3fafe34a0bf6aca49a10d.1766123192.git.alex.t.tran@gmail.com>
- <20251221-platinum-mongoose-of-might-feec86@quoll>
- <CA+hkOd4B425PRzirxLW-J2L+mDGusfRDJ5y1nKLwG9a-dd4M8A@mail.gmail.com>
+References: <20251224-dt-bindings-et8ek8-omap3isp-v2-0-0728cc1fee27@gmail.com>
+ <20251224-dt-bindings-et8ek8-omap3isp-v2-1-0728cc1fee27@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -105,40 +105,23 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <CA+hkOd4B425PRzirxLW-J2L+mDGusfRDJ5y1nKLwG9a-dd4M8A@mail.gmail.com>
+In-Reply-To: <20251224-dt-bindings-et8ek8-omap3isp-v2-1-0728cc1fee27@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 24/12/2025 22:07, Alex Tran wrote:
->>> +    maxItems: 1
->>> +
->>> +  reset-gpios:
->>> +    description:
->>> +      XSHUTDOWN GPIO. The XSHUTDOWN signal is active low. The sensor
->>> +      is in hardware standby mode when the signal is in the low state.
->>> +    maxItems: 1
->>> +
->>> +  flash-leds:
->>> +    $ref: /schemas/media/video-interfaces.yaml#
->>
->> This and...
->>
->>> +
->>> +  lens-focus:
->>> +    $ref: /schemas/media/video-interfaces.yaml#
->>
->> ... this are weird. LEDs are not video interfaces, for sure. lens focus
->> shouldn't be video interface, either.
->>
->> You also miss unevaluatedProps there.
->>
->> This needs careful fixing/rewriting, with explanation in commit msg.
->>
-> 
-> My mistake. The correct schema reference for these 2 should be video
-> interface devices.
+On 24/12/2025 22:59, Alex Tran wrote:
+> +
+> +  reset-gpios:
+> +    description:
+> +      XSHUTDOWN GPIO. The XSHUTDOWN signal is active low. The sensor
+> +      is in hardware standby mode when the signal is in the low state.
+> +    maxItems: 1
+> +
+> +  flash-leds: true
+> +  lens-focus: true
 
-No. LEDs are not video interface devices, either. LEDs are LEDs.
+No, where did you find this syntax. I do not see how you carefully fixed
+it. You need proper schema for these.
 
 Best regards,
 Krzysztof
