@@ -1,378 +1,143 @@
-Return-Path: <linux-media+bounces-49565-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49568-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79735CDE4C6
-	for <lists+linux-media@lfdr.de>; Fri, 26 Dec 2025 04:44:07 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D7AFCDE66C
+	for <lists+linux-media@lfdr.de>; Fri, 26 Dec 2025 07:57:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8D4D83011180
-	for <lists+linux-media@lfdr.de>; Fri, 26 Dec 2025 03:44:00 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 11C763007222
+	for <lists+linux-media@lfdr.de>; Fri, 26 Dec 2025 06:57:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D39051C5F1B;
-	Fri, 26 Dec 2025 03:43:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C18542EAD09;
+	Fri, 26 Dec 2025 06:57:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="eQz/QBmP"
+	dkim=pass (2048-bit key) header.d=mac.com header.i=@mac.com header.b="JGsyUQn3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+Received: from outbound.st.icloud.com (p-east2-cluster3-host3-snip4-10.eps.apple.com [57.103.77.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0585B665;
-	Fri, 26 Dec 2025 03:43:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.166.238
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766720638; cv=fail; b=mWjRbt2I5ga8Px3RS7V2cKyKdOrJnm0h/V7m6dD2nJxDX/aYKWzEXyDdiiAak7VOwHOg3YxF2AkLMaEnP3PrROTXiJKeEbFLqLaMXUpMrtdkQGezZV8QGTJ9tpas9h/LDycLME2dbnDkvk6yRA15haHGF8Ms59ybdAALKWPz++M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766720638; c=relaxed/simple;
-	bh=IcmXdG4G/eHctR5c1qXWoDomauV9Y1p56N7ZXL/6SBg=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85B1317BA2
+	for <linux-media@vger.kernel.org>; Fri, 26 Dec 2025 06:57:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.77.161
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1766732273; cv=none; b=c+WS7+OakFi725AtaYifg74Eq4o66r8S08oH2fXJKFa2ze8ebMl+tMmfxC4O2iA1m1QgZGTUA5lqwT63nCUV8Kh54rXEv4Ruwqbc0WZvsHRbmKMLLm54LPjbn0bhR15s3gLzppRAzYkcvUYC0pEhYt7KwJO8CM4ZNWHN6Z+Gup0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1766732273; c=relaxed/simple;
+	bh=rJk6IcKRFE1vfFBgIHDrdPr8IBOT+sUw+uky5TiatMc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=WZ+qJoi3TwzGzb1A1Yatn4Fj2MjtBOa2HbhgzZlhq/n2xugNN61uHB5G/bK5gDmVvTaMD0HsOLgVUQ8VgJtqHxWmTbyl+fZ2aVKOtL+469gQbco05ckz1/my3OeSSWFkgbhO46Nh+lGaIO3SrYozPAlKvwm/TVh6CrBwGyedbNc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=eQz/QBmP; arc=fail smtp.client-ip=205.220.166.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BQ2mxJb2152822;
-	Thu, 25 Dec 2025 19:14:01 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=2qtjmGj5b4nZ37ZSKkvhaN9xBCLaY3Crm2fg8NRtQYU=; b=
-	eQz/QBmP6yvgh2oAco7lXpKs7Dxj2W0/B3x2m8OB13pF6o2StYqWfIfbAgmcBt7K
-	FUISYhonjCcTciMPwN+FsVN7SVQAPCp/E3wnoHhTnVI1kfSCC6XwZkIEp61vbdux
-	lKP9K/Jsh11se2SeostWe5dd7gGaQfYawWUQuaNJxkgPVjOrOtk6QIWunTAksWR4
-	frP16juTS68bdhxRKAYYUT+ZT4SH74xWfM8s5lInMM8ug6u0caU8lF3rdA0IjyIt
-	R+xyHFO+K1joF3iHwTz1+jO+AM1KFU+ov3hBqqJJuZsqPET1NqeXLbsEmkGkvntU
-	uuvOgpc/lSRuwyAhqXi3Xg==
-Received: from ph0pr06cu001.outbound.protection.outlook.com (mail-westus3azon11011043.outbound.protection.outlook.com [40.107.208.43])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4b5qy4wab5-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 25 Dec 2025 19:14:01 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SOWQt3LeGPKSYbOklNn/9nQ3c2SYDfQF5Ygo7udPoeCUplHx5Skw2nIlz0v25OvINouILiXv8KJZQnx2rX/bRoMEsZsHGf86r7NMyMTZXUBLX1EaYK+an4Y0F2D6VelCjZANhMh8Gjjv8bnfe8FEsNm8J/JjtcMftOjWPrNY5AKpBX5AgU/tW47P3/WS5FrOV8t0WDfe7z3xKY+uEoujHEUVlpbK9Axbndbo14i9GyCEg3hZPnHkbWSNbftdNGK+FN+dFxQ5KyFnWGY7N3WEehWdUYF4qlxFsmmDTDIaN6jbzcstGdDLlim1qFbjt4GIsw8FqRS97uIT7kiampEihg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2qtjmGj5b4nZ37ZSKkvhaN9xBCLaY3Crm2fg8NRtQYU=;
- b=HS1BcKA820xyyEwNJZKt9LzQrIclRzTFVLTX6MSt1x/Al2mI7Q0chAgiPl1yg0ayUVCMu9nkfWyEhpkvURg7RnqPz5gpZctR2TkgtaBZbEq4CA1vavm47qizDXQ2newGlB/5ssTH/VpONWsdtyUhyyDj6yyMyrJpBASqhGOE3GOOUJKGegSg2oj8e58mB6XHvVcdS/ZFUq+YMjSqXMkCYy9cgBzcOtVMqAkRnFmoe1ZV4tt6+P0G+030VNFwcyFW+zP1zGQ/NciBSPSXfUeDwqFfp5wVKCmvl+RxspfiJY29pXLEKPpl7NT5wnJpJ/QYTnmLodaZBL2IifNKccoUgQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DS4PPFD667CEBB6.namprd11.prod.outlook.com
- (2603:10b6:f:fc02::53) by DM6PR11MB4660.namprd11.prod.outlook.com
- (2603:10b6:5:2ad::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9456.11; Fri, 26 Dec
- 2025 03:13:59 +0000
-Received: from DS4PPFD667CEBB6.namprd11.prod.outlook.com
- ([fe80::56cb:3868:6b6c:193d]) by DS4PPFD667CEBB6.namprd11.prod.outlook.com
- ([fe80::56cb:3868:6b6c:193d%6]) with mapi id 15.20.9456.008; Fri, 26 Dec 2025
- 03:13:59 +0000
-From: Xiaolei Wang <xiaolei.wang@windriver.com>
-To: sakari.ailus@linux.intel.com, dave.stevenson@raspberrypi.com,
-        jacopo@jmondi.org, mchehab@kernel.org,
-        prabhakar.mahadev-lad.rj@bp.renesas.com,
-        laurent.pinchart@ideasonboard.com, hverkuil+cisco@kernel.org,
-        johannes.goede@oss.qualcomm.com, hverkuil-cisco@xs4all.nl,
-        jai.luthra@ideasonboard.com, Xiaolei.Wang@windriver.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] media: i2c: ov5647: Switch to using the sub-device state lock
-Date: Fri, 26 Dec 2025 11:13:11 +0800
-Message-ID: <20251226031311.2068414-3-xiaolei.wang@windriver.com>
+	 MIME-Version; b=khuARuSppcU2MzIL8pznDVrO45mI/uiB3aSYVq3nZxP1xZxfkqA4wYlzEB654vVXlG8CiJbP1F9mpGUSQWRJNFycMVMS97VJZD9727wzSh7KybH+ckMBhwIq1mvpOqbzHZ9OVV1aU0lgbQ41tyAV9nNnhXGJS2cnizM23ISL89I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mac.com; spf=pass smtp.mailfrom=mac.com; dkim=pass (2048-bit key) header.d=mac.com header.i=@mac.com header.b=JGsyUQn3; arc=none smtp.client-ip=57.103.77.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mac.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mac.com
+Received: from outbound.st.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-east-1a-60-percent-6 (Postfix) with ESMTPS id B38121800298;
+	Fri, 26 Dec 2025 06:57:46 +0000 (UTC)
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mac.com; s=1a1hai; bh=RAroO2ClZIbnC/hB3ui8hfLRmdGMNEQR4jPTC48xlT4=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=JGsyUQn38lfpdDFcJDLr2oXvNkRlbHQl5HPfkZkpZkVM/tahoBhWVBt0UDp/AtiPn0q3XPWmKQKoJCZ2cp9dAhrjXQH011WefiuAOugKdHi4UEX1RfLdOuhpp5xE7Bm0LBgZNrzim8gH6DkYZiWqCcbigffosVvmpjVHGGanbi9+D084KfrrJlMAdHoxsSHBoyM2AW6lXVqM1Dcl0ZTh4K0LGOdojN2x+I2q8Wsq0fS+6JGY+NvMQP5PokQBP3mkz5KMkvglK/EbnLitH/RjM0vc/fd/ClYnd/uSE877tRsVB9j5NGIekAPCTTlTDnnpOK9F6l2LE9Us32olEfYCMw==
+Received: from Emu-Server-7.tail5a259e.ts.net (unknown [17.42.251.67])
+	by p00-icloudmta-asmtp-us-east-1a-60-percent-6 (Postfix) with ESMTPSA id 0CCF0180028F;
+	Fri, 26 Dec 2025 06:57:44 +0000 (UTC)
+From: Oliver Collyer <ovcollyer@mac.com>
+To: laurent.pinchart@ideasonboard.com,
+	hansg@kernel.org
+Cc: linux-media@vger.kernel.org,
+	Oliver Collyer <ovcollyer@mac.com>
+Subject: [PATCH v2] media: uvcvideo: Add support for P010 pixel format
+Date: Fri, 26 Dec 2025 06:57:18 +0000
+Message-ID: <20251226065718.95504-1-ovcollyer@mac.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251226031311.2068414-1-xiaolei.wang@windriver.com>
-References: <20251226031311.2068414-1-xiaolei.wang@windriver.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI1PR02CA0027.apcprd02.prod.outlook.com
- (2603:1096:4:1f4::18) To DS4PPFD667CEBB6.namprd11.prod.outlook.com
- (2603:10b6:f:fc02::53)
+In-Reply-To: <25886965-BB9A-4AFB-BEBA-E845B6CAB43A@mac.com>
+References: <25886965-BB9A-4AFB-BEBA-E845B6CAB43A@mac.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS4PPFD667CEBB6:EE_|DM6PR11MB4660:EE_
-X-MS-Office365-Filtering-Correlation-Id: 45237120-9607-4393-6632-08de442ccfd5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|52116014|38350700014|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?DOikvhkd8+rMO7XhziCofJQKthTDHkBRKoU+dov0m2Z4ffG+XAsNYmAu0gKh?=
- =?us-ascii?Q?zQxq054uK6DszfsmxXlBQ7aAbTGAOPrBe8vUS7Zd4sB1pQXeHthWFMmstN1S?=
- =?us-ascii?Q?DMXUqX2f0CWFWhO1ddzFhAh5WeWXy2bf1oAIL4XqJTQuYJIqbw9Mqc7d6vQY?=
- =?us-ascii?Q?jARWBmhZA7eZeTGeiOboO+BBHes99ZPRbDeHoCcKjQfujE3rJCryAH7GgzwB?=
- =?us-ascii?Q?NCuXsS7MndNkXfAOZGhpG2ErYJ6HscGyJLKe4a0B0LlEUouV8yRxgG4ptPn+?=
- =?us-ascii?Q?5CESMJJAtsT/16f6z3vENVyFyLLBMdFpDVzPO06M4/TEMI0aewzyda1cXhAX?=
- =?us-ascii?Q?yLtB1BcOoz+4wpM1vXCASdNOksOVQazaQyDB1ZvyjgH/kZLIoe7OXT2sXVcU?=
- =?us-ascii?Q?L+8L/VwYpsjgVGy9fG5sxurX9Pf4+fDsjmgmB7HsEoc/fQtwGsnR+c2b/3le?=
- =?us-ascii?Q?w19hI4PcAQg1T1VO9W7i3zpWr9McA8tNSpeq7IPg8ecNOCLKxT42BuBO+BKW?=
- =?us-ascii?Q?vYDYAiKYWGKZjt7FLmmEukW68TeQgAG8mA1idS7WaeOLDgXK9SZJBMliwr45?=
- =?us-ascii?Q?Ev3cgveomvz5ylETtJTDiyzYdeggKslkzKeXu+HMCjVPZa5ULZfdUIUImpsw?=
- =?us-ascii?Q?HhbBba72TolMH38SW51vVfvzK4nOMtk+VE6alPhazsvMIxFAGbWQFmKXeUEn?=
- =?us-ascii?Q?3CBjKJ3H9TqQLYcvIt5EjMx/tEou5ubfWHwZFfm0wBecoOmhPYkc4WdHBzZs?=
- =?us-ascii?Q?8DbnQwGSTB+wq8XhgWV0JSt56mJpRwG7lrJf+UGWJefmnm18yzqXMEdxMPSi?=
- =?us-ascii?Q?8K9YeRAn5QMRq+A9ZaiSuHNVYBDcZ3ZO1mNRAzGLCGXdM+GEY3rugYVddVfj?=
- =?us-ascii?Q?oNy+xsrmoFPqeuWIEBJ69vRtjxgYQu/yPIJmrUYVWINuaIAtiM0Ah9oIeEqD?=
- =?us-ascii?Q?fcfimxI32Gdejxtd2wdxnvQWLBEjDLGSKAL+BVmuoJT4YP48akT3eGAjCYlC?=
- =?us-ascii?Q?L/Yw9Y9Tcc4rUQpIrYcshwXZfmaLUuOcorzLss6u+mzPYGowbC+3dQg04f5w?=
- =?us-ascii?Q?DXmniJan09Yq5O19gTAliM1jlsRXlWZ7qmQEJcE9upiDrELUi/dq/MZo/PER?=
- =?us-ascii?Q?MWVkevVHy3JsXsW8fG3nOQnuF5ChMckmF0AgucYLdKyXbdw4ij/S1bChj5Ac?=
- =?us-ascii?Q?j52CdeznI4Sya9iWVFt+Ykv5HItlsGN8Yx5cTg+I76nue3ozc1vCW4Fk5nTH?=
- =?us-ascii?Q?UadblbJNp91HJvS3YfJwvM1Sjr9X2o5DgIvO0RG86bXW8i4LHnClqmSMEQe4?=
- =?us-ascii?Q?EjkxKtpiruL5WwffpLoAZjhzwuDk0isPiDM0tde9mlMFSWkZYfwzKoXO2meM?=
- =?us-ascii?Q?P6brRjoovM2mOrbT+yF7numHieyhqx+rzrs6LoYEI+lzY8XaFF2uaxi1WtpM?=
- =?us-ascii?Q?w9brRw4gfSLScGzL25xPr9RM7HnsEpNLbXP7YxtJuO6IPxsOr8Fcv+h43cCT?=
- =?us-ascii?Q?q5zBwK87BJmDUkpPDeq+u0E6PL7lPeLzgth8F3kCCcf9Xy0d6mw6Hh64pg?=
- =?us-ascii?Q?=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPFD667CEBB6.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(52116014)(38350700014)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?ikDA2F8rAcNGEx30gLKuxDxCpmsGSeZhX5ioIQIZvx9VTzP318njijB4gGFX?=
- =?us-ascii?Q?MN4+bvZ3C16Ynpek8Y5S0y0UhWX1NDONR+2U/8Ep+cdKjxEhhwIDMDgWv1dJ?=
- =?us-ascii?Q?e2HkbpsyxXMthd4Xibx+UKLSsbK53aMriXp0UraIZ6gXujrE3FJkvsZizswD?=
- =?us-ascii?Q?qu1aX9dIZOiVazSEbeMjAbORxBg2l2fRQzp73Uiw764UiAbKKp7RbtdcEKJH?=
- =?us-ascii?Q?I50V8bm17fbRHuvk+11spjBSXGT+19P6Qd2QhyHV956g8QgpzePih/pdOgko?=
- =?us-ascii?Q?BqySQkhRirqoMBFRffYmKWFl5sowRmemLIeZO9R/mLsAlUo9VDAzQhYbbRH4?=
- =?us-ascii?Q?5z273f4rSuJabW0+99d4P7ys8E0hPh9R554TE198XOxWr/15XdgR3hg6rQgB?=
- =?us-ascii?Q?JAE4WZpc5YGyoDEuEfOhGCSLrSdaZLM3pSE8TkeYpPNFzwRoxw6eog9M8nYM?=
- =?us-ascii?Q?nFR445JiBQaMKAgfwLAb21BXf/s31G0oZj0nq6Ug96IlJKTrs4qc28RUBVGd?=
- =?us-ascii?Q?hExf6/JFnlUZXHxBtn61AxuBm3UCjFFH+OAdbD8WSZilNVib2kTJPq8Eu9kx?=
- =?us-ascii?Q?knENHr3V5yUQKLJSSOfsVShDNcHWNOuzlKqPIsMxfSqRLt04MFfk9AGqrxv3?=
- =?us-ascii?Q?xqQn8hb3twy87k4fOGE6EfBs6wtSzoix5FPwLuK4eZKFb5qKB0xXLAu5Nusu?=
- =?us-ascii?Q?B2+s3AcXMS0sSO5hDP4jFq5TwpijJ0h96J8nq5BRNJZqPr7aE4/r/+L5fIDI?=
- =?us-ascii?Q?u59QMucVlG+UQldsMKSY+C17ziYhsjLSaWh1/UoLrWONslEQJBkp8Ov1kXL5?=
- =?us-ascii?Q?vUEV9W8vQf+R1JJRlMfo6d0/s5nTkdnSdKxk0U5QlSMqym7dNicdWxaystLi?=
- =?us-ascii?Q?UC9r3tSceBpi+aH/29+xGTVpvTZt9VVamgBVVN7QSriL8x5H91+4Sc4ic07V?=
- =?us-ascii?Q?rRGOShm1UsiMhiTyesunFQbWrOdZcnAT7bgs1m0PaLczrw9IEly6NnBcPOf0?=
- =?us-ascii?Q?MojgRndfi3oUr0oenOsF0JHsxjImZYCtsUte6NG4vRaAKGDZoKiVmC0BKfsV?=
- =?us-ascii?Q?OkgwKBiILx7E1lLiToCgxSUcjm36LA2FaocMxy7bN4oGE5wrGsB/QwoO5w45?=
- =?us-ascii?Q?0Puy/kbFpANAuWx5/rMhibS5+uAACcwBKEZ9myrlRs72mSwiVKhJcx8HADL5?=
- =?us-ascii?Q?VZc9Wsx482SRy3FLFfo2Bjn0dMq5KB2t7Y6MAtfDnj0s4tu1f5BBJUULOtzg?=
- =?us-ascii?Q?TPI656uUYdRD1vxBRBjpfH8fBkSg79aPXdGxvL034Wf9O09e3Vr1DnotjiiF?=
- =?us-ascii?Q?+x8O1oFhIkUDQwZPFLD8LWVxe3R2Lq2uDplNX3lHsRVg9aCq0bGc257eUX24?=
- =?us-ascii?Q?K6M/9cOvk5m/yYDubpBk3LkYvwFzbOdUEwgJLtDP6iFeAPEHtiEd+iF2Gewb?=
- =?us-ascii?Q?yV5j8NJpvPjQGcX8ByOx2MmRaAKS83GPn9qLiUUsN7gM/ltERO+maJNIZjWC?=
- =?us-ascii?Q?SEm5WNyaOv7pZJszCdvjMZMUCzYRtXKDyxiz/VoOy0F/7TogyExTvDb6Gq1q?=
- =?us-ascii?Q?wN0w2ofk3MjYYCNmHqwcTs+jIWQVCgaHCsPehSyzCNC4sJynRpBYD6Pk75Ya?=
- =?us-ascii?Q?e0dZl5x62xDvcslacPV4eXzWa/Hp0ZsI+UhmYKEKzd5oPGks+LRgdrVq89jp?=
- =?us-ascii?Q?qiX85zV2RV4rKhjOVzIMMQPlG934zyaAjc/LXWPDteGA7mm5nhXLxCQuPMCj?=
- =?us-ascii?Q?P+OEEcEefj/lhPvibvLotcH9jclqBcg=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 45237120-9607-4393-6632-08de442ccfd5
-X-MS-Exchange-CrossTenant-AuthSource: DS4PPFD667CEBB6.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Dec 2025 03:13:59.0952
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: je6zOA+bD2bMn9hexywUmUDCk5NRetEQbBkCogm6Jt1LbJ7BerUjkbsVC2MlijqH10G+BgJ+iQMJZjXjnpMH2oDR+8qj1nBSkHnn6zY+0LA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4660
-X-Proofpoint-GUID: TImIRxv3IVhEBa8CfqE4cP-ojs-QdwD1
-X-Authority-Analysis: v=2.4 cv=Q+vfIo2a c=1 sm=1 tr=0 ts=694dfd79 cx=c_pps
- a=dlt6EHtatQYmFek7NWVDaw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=t7CeM3EgAAAA:8 a=Q8O0FyF9z40g30L6lpcA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI2MDAyOSBTYWx0ZWRfX4bLerRsxEiWC
- eRWTZ45c/D3054t2LBBIWym1e3JxDswUovkCwzxrxRBOWdCMSvKt2VU0KGYAMVel3HoyWlV3S26
- mLa8E+Ccbo2GFGetmx3wFf2dMPHZRADCOx5AeribRS2ywSJlan1mDsJfbnpg3f2uBofcjuDBCoi
- zUhVP0xtCDrW+J7LiLW4TchOyhNYZgFipufPNWzeyhfy2yRS/9pEMnWFtu3JMxE0y9Xl0rkYgq5
- oGr4GYWoIkCJmkcuOd/tpX8Z5Tx2T7WkUF9j4mcCPrLIjq3yL6DcprceG3/+zUCQmtZVMCW9fnt
- YmPUtFg5FOnkdja5A6ANM+h/A/kq5oqtnxezf3mpmKU5fCTIQDfU2Vl0eHFZP8LVyFWmHSPiMdi
- e5Ms1enM6ciDFh/kPQEVh9tvKvOjxVQ12kxtT15r6e8MGT5fgMe2VZ3PpC1yYok/cb9MNq3T2LC
- MET2MMIdj4Vy/cNtt+g==
-X-Proofpoint-ORIG-GUID: TImIRxv3IVhEBa8CfqE4cP-ojs-QdwD1
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI2MDA2MyBTYWx0ZWRfXxlj//iqgj4QX
+ ZuwdgWirNA97XT7RWXsySBfqN64N+Q6hqwjHHrzBx9nObVE+NVSkFtu4aPhFPfyrYM502gUop7p
+ E8UgRuYGgAzi6Ui2o5I20Qy4y/95Y2dhTz0Sc/ydNICt1jva9dXlPmeAiAXNAnvpgjlMob9Lcq4
+ Pak6/SZk/HWO+vLaQJBRsXHT6JeDgp6oyo+4Cv+BgugTElaaSpqSWuOBPKF5bVrWqtrO757mJq3
+ kvFYBS7HwYKmnKnAOfrxpNZ/BYFmCv230x1+9341flpGAVXAoPa+OMJfFmPoC6tvdZLGQeDeg5/
+ migRDdC2uYLgLw+z85e
+X-Proofpoint-GUID: QBXYE-nEj-wr9he_Mh_aJg_wFC2GuZv-
+X-Proofpoint-ORIG-GUID: QBXYE-nEj-wr9he_Mh_aJg_wFC2GuZv-
+X-Authority-Info: v=2.4 cv=UI7Q3Sfy c=1 sm=1 tr=0 ts=694e31eb cx=c_apl:c_pps
+ a=YrL12D//S6tul8v/L+6tKg==:117 a=YrL12D//S6tul8v/L+6tKg==:17
+ a=wP3pNCr1ah4A:10 a=x7bEGLp0ZPQA:10 a=_fXtljRHFhkA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=NEAV23lmAAAA:8 a=n-kJSqksAAAA:8
+ a=A5ZFctxe7bNW9o5TEMQA:9 a=fMAGXkzVR7cRuVcbbVfL:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-26_01,2025-12-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 bulkscore=0 malwarescore=0 adultscore=0 impostorscore=0
- suspectscore=0 phishscore=0 spamscore=0 priorityscore=1501 clxscore=1011
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512260029
+ definitions=2025-12-26_02,2025-12-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ spamscore=0 suspectscore=0 malwarescore=0 bulkscore=0 phishscore=0
+ clxscore=1015 mlxlogscore=999 mlxscore=0 classifier=spam authscore=0 adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512260063
+X-JNJ: AAAAAAABvqqns6K4Hyg4utwCeUA5teMsDe9UAU5Xf2moW7m2gX6+T2EvMYYs4wUwJNBO4H00gKQfxDePthgbpXYJ3w67ew5SMpYmtB3nuzFdy4ejaw/A3QSXrypxxxgjHhHUU615AF0UNj8Yet7PHmJFG02mtLHbDNVjV+6Nj6tBD7lNfJUul8bkhw1HXj0wCKjRkXKIkOrKwfvXSFUmB9g3Dwgodwy9LguUucconLYyek6fMaOdlTIBUpcaFBuWH0FM/mjHz5uK2p92wfN3cEyONAk2Be3x426nnvbT4cY/VDKqe1kTgaVHNExw+0pjo805HNrN7B70xyPQ+8WlMcTp8nhX/inO0OXAAzrRiylT03fkEPK7C6kHC/BrSDcYqj3J7CzFu6kDHsWVxOX/+JQ/jPb2r9DPt3D8A81Wn5xeIMuO2TlHo05tR5T0DXSTNsuzH1+xDQq4twrt/LIr45kn0E/TxOqFPOiq5Aqu//EwtUCuZDa4nSfJA9VOEQJhd9058H0AameS+DNPCQtNW6eHfVMv7dPQdAr4c4Be3+lojKqxPO+QdNeNM1CQQP8xXwuaLS1Un3LuC4CiSx2GxR47ux3USWByU+2jfd6Q+x8FAW7W9F5s1XeU87SCgxb0M9V7EMiRUZsdoeXnFn1Vs9Y=
 
-Switch to using the sub-device state lock and properly call
-v4l2_subdev_init_finalize() / v4l2_subdev_cleanup() on probe() /
-remove().
+Add support for the P010 (10-bit Y/UV 4:2:0) pixel format to the
+uvcvideo driver. This format is exposed by USB capture devices such as
+the Magewell USB Capture HDMI 4K Pro when capturing HDR10 content.
 
-Signed-off-by: Xiaolei Wang <xiaolei.wang@windriver.com>
+P010 stores 10-bit Y and interleaved UV samples in 16-bit little-endian
+words, with data in the upper 10 bits and zeros in the lower 6 bits.
+This requires 2 bytes per sample, so bytesperline is wWidth * 2.
+
+V4L2_PIX_FMT_P010 was added to the V4L2 core in commit 5374d8fb75f3
+("media: Add P010 video format").
+
+Based on the community DKMS patch from awawa-dev/P010_for_V4L2.
+
+Link: https://lore.kernel.org/linux-media/[email protected]/
+Link: https://github.com/awawa-dev/P010_for_V4L2
+Signed-off-by: Oliver Collyer <ovcollyer@mac.com>
 ---
- drivers/media/i2c/ov5647.c | 40 +++++++++++++-------------------------
- 1 file changed, 14 insertions(+), 26 deletions(-)
+ drivers/media/common/uvc.c       | 4 ++++
+ drivers/media/usb/uvc/uvc_v4l2.c | 3 +++
+ include/linux/usb/uvc.h          | 3 +++
+ 3 files changed, 10 insertions(+)
 
-diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-index 1f8e173417b8..2619971353fd 100644
---- a/drivers/media/i2c/ov5647.c
-+++ b/drivers/media/i2c/ov5647.c
-@@ -96,7 +96,6 @@ struct ov5647 {
- 	struct v4l2_subdev		sd;
- 	struct regmap                   *regmap;
- 	struct media_pad		pad;
--	struct mutex			lock;
- 	struct clk			*xclk;
- 	struct gpio_desc		*pwdn;
- 	bool				clock_ncont;
-@@ -657,7 +656,7 @@ static int ov5647_stream_on(struct v4l2_subdev *sd)
- 	}
- 
- 	/* Apply customized values from user when stream starts. */
--	ret =  __v4l2_ctrl_handler_setup(sd->ctrl_handler);
-+	ret =  v4l2_ctrl_handler_setup(sd->ctrl_handler);
- 	if (ret)
- 		return ret;
- 
-@@ -821,15 +820,12 @@ __ov5647_get_pad_crop(struct ov5647 *ov5647,
- static int ov5647_s_stream(struct v4l2_subdev *sd, int enable)
- {
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	struct ov5647 *sensor = to_sensor(sd);
- 	int ret;
- 
--	mutex_lock(&sensor->lock);
--
- 	if (enable) {
- 		ret = pm_runtime_resume_and_get(&client->dev);
- 		if (ret < 0)
--			goto error_unlock;
-+			return ret;
- 
- 		ret = ov5647_stream_on(sd);
- 		if (ret < 0) {
-@@ -845,14 +841,10 @@ static int ov5647_s_stream(struct v4l2_subdev *sd, int enable)
- 		pm_runtime_put(&client->dev);
- 	}
- 
--	mutex_unlock(&sensor->lock);
--
- 	return 0;
- 
- error_pm:
- 	pm_runtime_put(&client->dev);
--error_unlock:
--	mutex_unlock(&sensor->lock);
- 
- 	return ret;
- }
-@@ -900,7 +892,6 @@ static int ov5647_get_pad_fmt(struct v4l2_subdev *sd,
- 	const struct v4l2_mbus_framefmt *sensor_format;
- 	struct ov5647 *sensor = to_sensor(sd);
- 
--	mutex_lock(&sensor->lock);
- 	switch (format->which) {
- 	case V4L2_SUBDEV_FORMAT_TRY:
- 		sensor_format = v4l2_subdev_state_get_format(sd_state,
-@@ -912,7 +903,6 @@ static int ov5647_get_pad_fmt(struct v4l2_subdev *sd,
- 	}
- 
- 	*fmt = *sensor_format;
--	mutex_unlock(&sensor->lock);
- 
- 	return 0;
- }
-@@ -930,7 +920,6 @@ static int ov5647_set_pad_fmt(struct v4l2_subdev *sd,
- 				      fmt->width, fmt->height);
- 
- 	/* Update the sensor mode and apply at it at streamon time. */
--	mutex_lock(&sensor->lock);
- 	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
- 		*v4l2_subdev_state_get_format(sd_state, format->pad) = mode->format;
- 	} else {
-@@ -959,7 +948,6 @@ static int ov5647_set_pad_fmt(struct v4l2_subdev *sd,
- 					 exposure_def);
- 	}
- 	*fmt = mode->format;
--	mutex_unlock(&sensor->lock);
- 
- 	return 0;
- }
-@@ -972,10 +960,8 @@ static int ov5647_get_selection(struct v4l2_subdev *sd,
- 	case V4L2_SEL_TGT_CROP: {
- 		struct ov5647 *sensor = to_sensor(sd);
- 
--		mutex_lock(&sensor->lock);
- 		sel->r = *__ov5647_get_pad_crop(sensor, sd_state, sel->pad,
- 						sel->which);
--		mutex_unlock(&sensor->lock);
- 
- 		return 0;
- 	}
-@@ -1149,9 +1135,6 @@ static int ov5647_s_ctrl(struct v4l2_ctrl *ctrl)
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
- 	int ret = 0;
- 
--
--	/* v4l2_ctrl_lock() locks our own mutex */
--
- 	if (ctrl->id == V4L2_CID_VBLANK) {
- 		int exposure_max, exposure_def;
- 
-@@ -1351,13 +1334,11 @@ static int ov5647_probe(struct i2c_client *client)
- 		return -EINVAL;
- 	}
- 
--	mutex_init(&sensor->lock);
--
- 	sensor->mode = OV5647_DEFAULT_MODE;
- 
- 	ret = ov5647_init_controls(sensor);
- 	if (ret)
--		goto mutex_destroy;
-+		return ret;
- 
- 	sd = &sensor->sd;
- 	v4l2_i2c_subdev_init(sd, client, &ov5647_subdev_ops);
-@@ -1385,9 +1366,16 @@ static int ov5647_probe(struct i2c_client *client)
- 	if (ret < 0)
- 		goto power_off;
- 
-+	sd->state_lock = sensor->ctrls.lock;
-+	ret = v4l2_subdev_init_finalize(sd);
-+	if (ret < 0) {
-+		dev_err(&client->dev, "failed to init subdev: %d", ret);
-+		goto power_off;
-+	}
+diff --git a/include/linux/usb/uvc.h b/include/linux/usb/uvc.h
+--- a/include/linux/usb/uvc.h
++++ b/include/linux/usb/uvc.h
+@@ -109,6 +109,9 @@
+ #define UVC_GUID_FORMAT_M420 \
+ 	{ 'M',  '4',  '2',  '0', 0x00, 0x00, 0x10, 0x00, \
+ 	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
++#define UVC_GUID_FORMAT_P010 \
++	{ 'P',  '0',  '1',  '0', 0x00, 0x00, 0x10, 0x00, \
++	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+
+ #define UVC_GUID_FORMAT_H264 \
+ 	{ 'H',  '2',  '6',  '4', 0x00, 0x00, 0x10, 0x00, \
+diff --git a/drivers/media/common/uvc.c b/drivers/media/common/uvc.c
+--- a/drivers/media/common/uvc.c
++++ b/drivers/media/common/uvc.c
+@@ -40,6 +40,10 @@ static const struct uvc_format_desc uvc_fmts[] = {
+ 		.guid		= UVC_GUID_FORMAT_M420,
+ 		.fcc		= V4L2_PIX_FMT_M420,
+ 	},
++	{
++		.guid		= UVC_GUID_FORMAT_P010,
++		.fcc		= V4L2_PIX_FMT_P010,
++	},
+ 	{
+ 		.guid		= UVC_GUID_FORMAT_UYVY,
+ 		.fcc		= V4L2_PIX_FMT_UYVY,
+diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+--- a/drivers/media/usb/uvc/uvc_v4l2.c
++++ b/drivers/media/usb/uvc/uvc_v4l2.c
+@@ -235,6 +235,9 @@ static u32 uvc_v4l2_get_bytesperline(const struct uvc_format *format,
+ 	case V4L2_PIX_FMT_M420:
+ 		return frame->wWidth;
+
++	case V4L2_PIX_FMT_P010:
++		return frame->wWidth * 2;
 +
- 	ret = v4l2_async_register_subdev(sd);
- 	if (ret < 0)
--		goto power_off;
-+		goto v4l2_subdev_cleanup;
- 
- 	/* Enable runtime PM and turn off the device */
- 	pm_runtime_set_active(dev);
-@@ -1398,14 +1386,14 @@ static int ov5647_probe(struct i2c_client *client)
- 
- 	return 0;
- 
-+v4l2_subdev_cleanup:
-+	v4l2_subdev_cleanup(sd);
- power_off:
- 	ov5647_power_off(dev);
- entity_cleanup:
- 	media_entity_cleanup(&sd->entity);
- ctrl_handler_free:
- 	v4l2_ctrl_handler_free(&sensor->ctrls);
--mutex_destroy:
--	mutex_destroy(&sensor->lock);
- 
- 	return ret;
- }
-@@ -1416,11 +1404,11 @@ static void ov5647_remove(struct i2c_client *client)
- 	struct ov5647 *sensor = to_sensor(sd);
- 
- 	v4l2_async_unregister_subdev(&sensor->sd);
-+	v4l2_subdev_cleanup(sd);
- 	media_entity_cleanup(&sensor->sd.entity);
- 	v4l2_ctrl_handler_free(&sensor->ctrls);
- 	v4l2_device_unregister_subdev(sd);
- 	pm_runtime_disable(&client->dev);
--	mutex_destroy(&sensor->lock);
- }
- 
- static const struct dev_pm_ops ov5647_pm_ops = {
--- 
+ 	default:
+ 		return format->bpp * frame->wWidth / 8;
+ 	}
+--
 2.43.0
-
 
