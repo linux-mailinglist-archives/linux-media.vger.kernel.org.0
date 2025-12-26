@@ -1,172 +1,136 @@
-Return-Path: <linux-media+bounces-49579-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49580-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 015BECDED24
-	for <lists+linux-media@lfdr.de>; Fri, 26 Dec 2025 17:42:38 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85981CDEFD4
+	for <lists+linux-media@lfdr.de>; Fri, 26 Dec 2025 21:41:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CCE1E3007FCE
-	for <lists+linux-media@lfdr.de>; Fri, 26 Dec 2025 16:42:31 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E047530065BE
+	for <lists+linux-media@lfdr.de>; Fri, 26 Dec 2025 20:41:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 768D3248880;
-	Fri, 26 Dec 2025 16:42:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A4462FB093;
+	Fri, 26 Dec 2025 20:41:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jThOXULy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5AF441C71;
-	Fri, 26 Dec 2025 16:42:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 251EF2F6918;
+	Fri, 26 Dec 2025 20:41:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766767349; cv=none; b=XsGvLFOVydedqEnKWuxELzrh4A/oL6RtBi947nO12o1P8uG3nFp1zwTOebJlXntXmh80lhW885XMTmX9djPS2Nc9txmRhKSZLlNbFaCZImkT2HknGta0VfZfPdiSoRg+HmItXCnYIUO7ijI1aBNwu8j0IuOp0nJQx46swdtCQYU=
+	t=1766781693; cv=none; b=fuBJsV2FS0uLippSvhPeHzrr4edGJsDNnbyVHhaEbeMqkQQHjArAotPptweVy7ycb2R0Vdc9ABo95HP2cgwSbR10xftDQpUl223UgSu6vm3XkGQep7Qqu4IWh0NXwKEQxcQ02JpPqaMFJ62fC9Zr4yKA1ILMC53D66dLEkAtjuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766767349; c=relaxed/simple;
-	bh=Db0M6QRjaiDj95ol3hwsbB+lgYyxQJrKVF2XpJt4aT8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fIvMZdFkBzSbKI6b1Q39fzNYUyCNaOaLf1F24A+HcN7wBsCjMpqLHwQp36OaXSDcovMNZ7Z6D24HxucKDEIBCGvkDfHJl6SU9x8o55Qy9tnc2/qVUqayEtUt6dBhpkYd/lOjb1Xl/AUySeUxXVoY0zbMysFBOX2Ohq7ImPlKVwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf08.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay07.hostedemail.com (Postfix) with ESMTP id A00F7161978;
-	Fri, 26 Dec 2025 16:42:19 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf08.hostedemail.com (Postfix) with ESMTPA id C35DF20025;
-	Fri, 26 Dec 2025 16:42:16 +0000 (UTC)
-Date: Fri, 26 Dec 2025 11:42:15 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Xiang Gao <gxxa03070307@gmail.com>
-Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, mhiramat@kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, mathieu.desnoyers@efficios.com,
- dhowells@redhat.com, kuba@kernel.org, brauner@kernel.org,
- akpm@linux-foundation.org, linux-trace-kernel@vger.kernel.org, gaoxiang17
- <gaoxiang17@xiaomi.com>
-Subject: Re: [PATCH v11] dma-buf: add some tracepoints to debug.
-Message-ID: <20251226114215.02be95a3@gandalf.local.home>
-In-Reply-To: <20251225121119.2194228-1-gxxa03070307@gmail.com>
-References: <20251225121119.2194228-1-gxxa03070307@gmail.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1766781693; c=relaxed/simple;
+	bh=PyFxoXyQpqjaFoS+Oep2NkkcIARWnKpl4IWfANJTiVU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CIZ8xTxMGHdUEJgvhYRnnAoL71mN/7w24wqt5qoGtXY9wHtnb9tVPXF1VCLoK2ypnomtKI2b1utQ8+zo4q9S6XH0fPLj0WYsdqqlBfNNoJpCG/zfTBDE+ei0ot33FuRVmTkV0nugzWNokneXmnPEHwwXhJ0+8t/JFhUgv3YR598=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jThOXULy; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766781691; x=1798317691;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PyFxoXyQpqjaFoS+Oep2NkkcIARWnKpl4IWfANJTiVU=;
+  b=jThOXULy4fNb/mFfwTC/NDrrjvYKpIEfYUsYMDmaJ5ptwO/Uj9Mb3kQO
+   sXpanaQ8P8FSp34rMWJifPtb1QQM6TE9HEskGusBh4ntyEUDRRfVkyojp
+   FEbeo1B1QlVulFioU3Pa7wzImhwV07SuKQXNd2w0EkJfA3cWNJ26kiG2l
+   X8AfFmN8t9IPer/MhxnZjlRqi5QK+O0ejFcLrgn1B4K3Th/uAc+TFchDi
+   5ApN8d+quwTorFYLCyuOTmEDGxrTiNzw4El/YG41mMryMwPMvLI42WyhZ
+   MbiGyGBNh2RX2TsvcaJFYPg54MUx8fBTXSWvkEMLKxLYcA2TTjqKWPMWu
+   Q==;
+X-CSE-ConnectionGUID: hXO3z4vWQrONacpPTttlxw==
+X-CSE-MsgGUID: td5AoPM9T2aYpY0XAIuqaA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="68458814"
+X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
+   d="scan'208";a="68458814"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2025 12:41:31 -0800
+X-CSE-ConnectionGUID: XYSpYpMjS8W4LFkqruQfjQ==
+X-CSE-MsgGUID: VZOYvB9xSwWguOa+bU8EcA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,178,1763452800"; 
+   d="scan'208";a="223928692"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 26 Dec 2025 12:41:28 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vZEcn-000000005LN-0zFH;
+	Fri, 26 Dec 2025 20:41:25 +0000
+Date: Sat, 27 Dec 2025 04:40:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Xiaolei Wang <xiaolei.wang@windriver.com>, sakari.ailus@linux.intel.com,
+	dave.stevenson@raspberrypi.com, jacopo@jmondi.org,
+	mchehab@kernel.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
+	laurent.pinchart@ideasonboard.com, hverkuil+cisco@kernel.org,
+	johannes.goede@oss.qualcomm.com, hverkuil-cisco@xs4all.nl,
+	jai.luthra@ideasonboard.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] media: i2c: ov5647: Convert to CCI register access
+ helpers
+Message-ID: <202512270443.nNMHyu7p-lkp@intel.com>
+References: <20251226031311.2068414-2-xiaolei.wang@windriver.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Server: rspamout06
-X-Rspamd-Queue-Id: C35DF20025
-X-Stat-Signature: sb3okpjn4xktd9o367eubuc7tjpuuo8w
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX19y+kWzNgiBVYvXdKvKhYqoIT4fp8XtU9A=
-X-HE-Tag: 1766767336-212146
-X-HE-Meta: U2FsdGVkX19gExpci4Wk1XwFWElhAQMVFkVQMAJTMNsriPzFgQn959SDYSuxQJdsirEAsvSI6xQ0DiUq8KM/8ZkpbMBkNyu4pqs40H2rT4AqUiwb0VkaaCmlzz64evx4R68xA/OC59jcOftx01SCBKOoSDIz90pJqE1Q2CGYf4cYJL7CpHbs1VY8lWRAcuxaIdNi7jK1/9+11Ll2ud2gi0UVBeq2fqO9ukLjyXeCmNdPjYydj7HzROqKGW+1gzNLZOk9JKsKEuWQf28dqyVm4SGVIItuJocV7tLjFaCsmfBBXXw+xte/1t0/ygVua2bdW9a721Ni1NNgxpzHYxHxEHrDTJBtdUiBp+KIuLFnYAevQ8n5nmm1GqblgXxRVM7h/rdaIpyr1cHt4kkb4pegJOdAHIMUGyxwmVC+eGw99dRTwKqca51ET7Sp4izAra0zE17qM1x8aq4=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251226031311.2068414-2-xiaolei.wang@windriver.com>
 
-On Thu, 25 Dec 2025 20:11:19 +0800
-Xiang Gao <gxxa03070307@gmail.com> wrote:
+Hi Xiaolei,
 
-> From: gaoxiang17 <gaoxiang17@xiaomi.com>
->=20
-> Since we can only inspect dmabuf by iterating over process FDs or the
-> dmabuf_list, we need to add our own tracepoints to track its status in
-> real time in production.
->=20
-> For example:
->    binder:3016_1-3102    [006] ...1.   255.126521: dma_buf_export: exp_na=
-me=3Dqcom,system size=3D12685312 ino=3D2738
->    binder:3016_1-3102    [006] ...1.   255.126528: dma_buf_fd: exp_name=
-=3Dqcom,system size=3D12685312 ino=3D2738 fd=3D8
->    binder:3016_1-3102    [006] ...1.   255.126642: dma_buf_mmap_internal:=
- exp_name=3Dqcom,system size=3D28672 ino=3D2739
->      kworker/6:1-86      [006] ...1.   255.127194: dma_buf_put: exp_name=
-=3Dqcom,system size=3D12685312 ino=3D2738
->     RenderThread-9293    [006] ...1.   316.618179: dma_buf_get: exp_name=
-=3Dqcom,system size=3D12771328 ino=3D2762 fd=3D176
->     RenderThread-9293    [006] ...1.   316.618195: dma_buf_dynamic_attach=
-: exp_name=3Dqcom,system size=3D12771328 ino=3D2762 attachment:ffffff880a18=
-dd00 is_dynamic=3D0 dev_name=3Dkgsl-3d0
->     RenderThread-9293    [006] ...1.   318.878220: dma_buf_detach: exp_na=
-me=3Dqcom,system size=3D12771328 ino=3D2762 attachment:ffffff880a18dd00 is_=
-dynamic=3D0 dev_name=3Dkgsl-3d0
->=20
-> Signed-off-by: Xiang Gao <gaoxiang17@xiaomi.com>
-> ---
->=20
-> Changes since v10: https://lore.kernel.org/all/20251224013455.1649879-1-g=
-xxa03070307@gmail.com/
+kernel test robot noticed the following build warnings:
 
-You only need to show the last revision (but since you haven't showed the
-others, before it's good to show them now). But you also want to say "what =
-changed"
+[auto build test WARNING on sailus-media-tree/master]
+[also build test WARNING on linus/master v6.19-rc2 next-20251219]
+[cannot apply to sailus-media-tree/streams]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-For example:
+url:    https://github.com/intel-lab-lkp/linux/commits/Xiaolei-Wang/media-i2c-ov5647-Convert-to-CCI-register-access-helpers/20251226-115543
+base:   git://linuxtv.org/sailus/media_tree.git master
+patch link:    https://lore.kernel.org/r/20251226031311.2068414-2-xiaolei.wang%40windriver.com
+patch subject: [PATCH 1/2] media: i2c: ov5647: Convert to CCI register access helpers
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20251227/202512270443.nNMHyu7p-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251227/202512270443.nNMHyu7p-lkp@intel.com/reproduce)
 
-- Used DEFINE_EVENT_CONDITION() to move the condition branch into the trace=
-point.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512270443.nNMHyu7p-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/media/i2c/ov5647.c: In function 'ov5647_sensor_set_register':
+>> drivers/media/i2c/ov5647.c:790:13: warning: unused variable 'ret' [-Wunused-variable]
+     790 |         int ret;
+         |             ^~~
 
 
-> Changes since v9: https://lore.kernel.org/all/20251223032749.1371913-1-gx=
-xa03070307@gmail.com/
-> Changes since v8: https://lore.kernel.org/all/20251218062853.819744-1-gxx=
-a03070307@gmail.com/
-> Changes since v7: https://lore.kernel.org/all/20251217105132.643300-1-gxx=
-a03070307@gmail.com/
-> Changes since v6: https://lore.kernel.org/all/20251216063952.516364-1-gxx=
-a03070307@gmail.com/
-> Changes since v5: https://lore.kernel.org/all/20251201112148.843572-1-gxx=
-a03070307@gmail.com/
-> Changes since v4: https://lore.kernel.org/all/20251128085215.550100-1-gxx=
-a03070307@gmail.com/
-> Changes since v3: https://lore.kernel.org/all/20251127004352.376307-1-gxx=
-a03070307@gmail.com/
-> Changes since v2: https://lore.kernel.org/all/20251125162949.220488-1-gxx=
-a03070307@gmail.com/
-> Changes since v1: https://lore.kernel.org/all/20251124133648.72668-1-gxxa=
-03070307@gmail.com/
->=20
->  drivers/dma-buf/dma-buf.c      |  48 +++++++++-
->  include/trace/events/dma_buf.h | 159 +++++++++++++++++++++++++++++++++
->  2 files changed, 205 insertions(+), 2 deletions(-)
->  create mode 100644 include/trace/events/dma_buf.h
->=20
+vim +/ret +790 drivers/media/i2c/ov5647.c
 
+   785	
+   786	static int ov5647_sensor_set_register(struct v4l2_subdev *sd,
+   787					      const struct v4l2_dbg_register *reg)
+   788	{
+   789		struct ov5647 *sensor = to_sensor(sd);
+ > 790		int ret;
+   791	
+   792		return cci_write(sensor->regmap, reg->reg & 0xff, reg->val & 0xff, NULL);
+   793	}
+   794	#endif
+   795	
 
-> +/*
-> + * dmabuf->name must be accessed with holding dmabuf->name_lock.
-> + * we need to take the lock around the tracepoint call itself where
-> + * it is called in the code.
-> + *
-> + * Note: FUNC##_enabled() is a static branch that will only
-> + *       be set when the trace event is enabled.
-> + */
-> +#define DMA_BUF_TRACE(FUNC, ...)					\
-> +	do {								\
-> +		/* Always expose lock if lockdep is enabled */		\
-> +		if (IS_ENABLED(CONFIG_LOCKDEP) || FUNC##_enabled()) {	\
-> +			guard(spinlock)(&dmabuf->name_lock);		\
-> +			FUNC(__VA_ARGS__);				\
-> +		}							\
-> +	} while (0)
-> +
->  static inline int is_dma_buf_file(struct file *);
-> =20
-
-> +
-> +DEFINE_EVENT_CONDITION(dma_buf_fd, dma_buf_fd,
-> +
-> +	TP_PROTO(struct dma_buf *dmabuf, int fd),
-> +
-> +	TP_ARGS(dmabuf, fd),
-> +
-> +	TP_CONDITION(fd >=3D 0)
-> +);
-> +
-
-
-=46rom a tracing point of view (It's up to the dma maintainers to decide to
-take this patch):
-
-Reviewed-by: Steven Rostedt (Google) <rostedt@goodmis.org>
-
--- Steve
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
