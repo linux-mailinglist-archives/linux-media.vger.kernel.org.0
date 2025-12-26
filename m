@@ -1,318 +1,172 @@
-Return-Path: <linux-media+bounces-49578-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49579-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 949CACDEB1F
-	for <lists+linux-media@lfdr.de>; Fri, 26 Dec 2025 13:25:34 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 015BECDED24
+	for <lists+linux-media@lfdr.de>; Fri, 26 Dec 2025 17:42:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id C84A3300855F
-	for <lists+linux-media@lfdr.de>; Fri, 26 Dec 2025 12:25:31 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CCE1E3007FCE
+	for <lists+linux-media@lfdr.de>; Fri, 26 Dec 2025 16:42:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9C13320CAB;
-	Fri, 26 Dec 2025 12:25:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WxDROA42"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 768D3248880;
+	Fri, 26 Dec 2025 16:42:29 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3422320A33
-	for <linux-media@vger.kernel.org>; Fri, 26 Dec 2025 12:25:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5AF441C71;
+	Fri, 26 Dec 2025 16:42:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766751928; cv=none; b=NgIHN4VTLgO000MGPiw1U9G2IP0Y/L1SxIwcIiYyG0nDPZF+luqhYWGb1eaXPVAm22dHL3K6+B1hvXpl41yajp+SaYrMKwp7kpWnl4l1dpURqxIEekWV1KIxWq0Jymm79SykZ17NQQ622SerThEJTJH6CzYuRyBjYG8jpdrZBBA=
+	t=1766767349; cv=none; b=XsGvLFOVydedqEnKWuxELzrh4A/oL6RtBi947nO12o1P8uG3nFp1zwTOebJlXntXmh80lhW885XMTmX9djPS2Nc9txmRhKSZLlNbFaCZImkT2HknGta0VfZfPdiSoRg+HmItXCnYIUO7ijI1aBNwu8j0IuOp0nJQx46swdtCQYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766751928; c=relaxed/simple;
-	bh=s0igInVi2fsL8o4Z4M/V+k7XSMGGxM39qOmVRGDnFFo=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=CJ9ikpx9fgouRcsjP0HyLpdcRk5JQa6xTyNlla9AhzLwoRR2/JZwUc40FQu9eDKjm8HQGK+If0qNp5QXA4p+aCEDVUAzX0GT4Fi5NjBX47WpK2tvSiTLbpuVyvrTWl+/MxiQh6qJnEmzOAHvQXTYkdC8WwM2VA+f05nKpZKLDs4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WxDROA42; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-477a219dbcaso58774985e9.3
-        for <linux-media@vger.kernel.org>; Fri, 26 Dec 2025 04:25:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766751924; x=1767356724; darn=vger.kernel.org;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=x/QWZMgTcROcYFJ0cFP0webMTrmmuMu3SFDdjIFr7Xg=;
-        b=WxDROA42RUsr0RY3rgG+wgchKtUffrDJ3mducqIIRnG6S4wXv8RNF/Wxe1NDCsKszJ
-         nJLhqzIzqYWYv3vIYrHNtnKnmXFsnVbalMuCOX5PDYmJrHnzcLnUMhrcQeUj/MANVmuz
-         EwVmyjjdQXAWobnVt9hXJy2uMl6gsobG4YrLrM1lrSECsAMZfEbniPJJ1f5F1yNHSF2Q
-         o91AFXXS3oHFyWmBdnsgmeY3omOg5LUT72ikVUVRrhcT6A0Lte4uoSP1KBwFyoLy3g1D
-         mQ1CIH1y6ZYubF6YW/DYicj8umCJxt5/aisihz654x6GbAyiwxOPGaNUK2Ff96cbX+hl
-         5NEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766751924; x=1767356724;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=x/QWZMgTcROcYFJ0cFP0webMTrmmuMu3SFDdjIFr7Xg=;
-        b=dI9hd+UAVE6e4CzMMf2cLg05nX10EXHbkatHwCakOJ8zXBRYlkd7oLtrnUwOSUnk05
-         h8jRKhIReY93GrLKUMwFa8TB2HtP1zsW5qetomNrwuuy3Vi9Hbb8qubflbmi2cIIehRk
-         XcLptYMxDPPvbKNG2yxGucvw5xVPtfnSpL9pVxj067QHsmbErc5xwQutPeou3N3qSqQi
-         Nmo6025QLdnbupct26Wusz8ij3jsZ6PdeQdK/UL6rAX7xgxnjv63+uqYT+pVgjUqEaxg
-         M2XIvahJtORoeecvpHGzCOYZmeESQ8J66/i1zB5egxqOppYiKKArVJbK8vv5dTRkJSTX
-         gh1w==
-X-Forwarded-Encrypted: i=1; AJvYcCVIKhp61n/AY1ap7izA/u+yc/REh/QVoHDjL15pxNdYP/sbYSakvU3VW6N/cNZCtogDLEKyvD9cjBJdWQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxCQZP/73q+jQqXAHe7Z6zr2GGWmFXAXabVDzYVS6KYP5pmE3BT
-	nmixMjTSqS83JYpjlo2VzuXixcyoYj1IKgLZuYR2D3cPlozAWGL13KqD
-X-Gm-Gg: AY/fxX5w0Ic0X7nKY5Bv/rOd/2Cq6OvyY8b4YLdRXvJtfMpUFbZzPDQHulYGIf53PL7
-	nT4AC0TwZ8lS7G0+NcFirx619CxwLPgc4ZrJT7j0iuPpdKosFCvowB6VOekAHxAUbyjbQDFKXqx
-	SujXgwJTJpYtUesujps/BxT+TMB20VdjIIvatZNT+QVtgve2FQWj+uk0R9AYgaPVjC/8cVcKOA+
-	PdeCqXpr13G5MXqV8asMa/+3owkLeGwJBq4qIS/sfJd+0yMdw5/n43JQVkkLL7jEGVOWpduEPYX
-	zVv5yYRpg2yyj7kAM0B/0VuPQg1E0KBVwnYZeREcNaOuK0tEDsp8x+fh7vSMztMLQfBP5BMgr17
-	jQux93gOrbMJgIuTipkVgjkm3JneVKF3fe8m/aqqjnbgQwmZz4O440uAGR2U1uHqkm56coUFQKI
-	iV/xITetKOsbEWZ3oWx0Y/eBvT2ACP9ZHN1O3bZODXZikwH8A5NjDlGP66bL+H4RJqLpKLQrFlq
-	7g8WjJb1g==
-X-Google-Smtp-Source: AGHT+IGc8Z2MAoLbOks33fyQFWGK5GI9Gp1WejsRvglw//425ZHkxFEhT7LmB7wnFeheTO44I6eLuA==
-X-Received: by 2002:a05:600c:620d:b0:47b:da85:b9ef with SMTP id 5b1f17b1804b1-47d19569c23mr295125695e9.16.1766751924042;
-        Fri, 26 Dec 2025 04:25:24 -0800 (PST)
-Received: from smtpclient.apple (static.253.36.98.91.clients.your-server.de. [91.98.36.253])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324ea82feasm45346320f8f.24.2025.12.26.04.25.20
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 26 Dec 2025 04:25:23 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
+	s=arc-20240116; t=1766767349; c=relaxed/simple;
+	bh=Db0M6QRjaiDj95ol3hwsbB+lgYyxQJrKVF2XpJt4aT8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fIvMZdFkBzSbKI6b1Q39fzNYUyCNaOaLf1F24A+HcN7wBsCjMpqLHwQp36OaXSDcovMNZ7Z6D24HxucKDEIBCGvkDfHJl6SU9x8o55Qy9tnc2/qVUqayEtUt6dBhpkYd/lOjb1Xl/AUySeUxXVoY0zbMysFBOX2Ohq7ImPlKVwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf08.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay07.hostedemail.com (Postfix) with ESMTP id A00F7161978;
+	Fri, 26 Dec 2025 16:42:19 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf08.hostedemail.com (Postfix) with ESMTPA id C35DF20025;
+	Fri, 26 Dec 2025 16:42:16 +0000 (UTC)
+Date: Fri, 26 Dec 2025 11:42:15 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Xiang Gao <gxxa03070307@gmail.com>
+Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, mhiramat@kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, mathieu.desnoyers@efficios.com,
+ dhowells@redhat.com, kuba@kernel.org, brauner@kernel.org,
+ akpm@linux-foundation.org, linux-trace-kernel@vger.kernel.org, gaoxiang17
+ <gaoxiang17@xiaomi.com>
+Subject: Re: [PATCH v11] dma-buf: add some tracepoints to debug.
+Message-ID: <20251226114215.02be95a3@gandalf.local.home>
+In-Reply-To: <20251225121119.2194228-1-gxxa03070307@gmail.com>
+References: <20251225121119.2194228-1-gxxa03070307@gmail.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81.1.3\))
-Subject: Re: [PATCH v2 2/3] media: rkvdec: Add support for the VDPU346 variant
-From: Christian Hewitt <christianshewitt@gmail.com>
-In-Reply-To: <DF84QZ0YBLY8.2DYCSM2EQIF5@cknow-tech.com>
-Date: Fri, 26 Dec 2025 16:25:09 +0400
-Cc: Detlev Casanova <detlev.casanova@collabora.com>,
- Nicolas Dufresne <nicolas.collabora@collabora.com>,
- =?utf-8?Q?Olivier_Cr=C3=AAte?= <olivier.crete@collabora.com>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Dragan Simic <dsimic@manjaro.org>,
- Chukun Pan <amadeus@jmu.edu.cn>,
- linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org,
- devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <71EA9FB8-83DB-4785-86C1-2E6BA9C739D9@gmail.com>
-References: <20251226113140.573759-1-christianshewitt@gmail.com>
- <20251226113140.573759-3-christianshewitt@gmail.com>
- <DF84QZ0YBLY8.2DYCSM2EQIF5@cknow-tech.com>
-To: Diederik de Haas <diederik@cknow-tech.com>
-X-Mailer: Apple Mail (2.3826.700.81.1.3)
+X-Rspamd-Server: rspamout06
+X-Rspamd-Queue-Id: C35DF20025
+X-Stat-Signature: sb3okpjn4xktd9o367eubuc7tjpuuo8w
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX19y+kWzNgiBVYvXdKvKhYqoIT4fp8XtU9A=
+X-HE-Tag: 1766767336-212146
+X-HE-Meta: U2FsdGVkX19gExpci4Wk1XwFWElhAQMVFkVQMAJTMNsriPzFgQn959SDYSuxQJdsirEAsvSI6xQ0DiUq8KM/8ZkpbMBkNyu4pqs40H2rT4AqUiwb0VkaaCmlzz64evx4R68xA/OC59jcOftx01SCBKOoSDIz90pJqE1Q2CGYf4cYJL7CpHbs1VY8lWRAcuxaIdNi7jK1/9+11Ll2ud2gi0UVBeq2fqO9ukLjyXeCmNdPjYydj7HzROqKGW+1gzNLZOk9JKsKEuWQf28dqyVm4SGVIItuJocV7tLjFaCsmfBBXXw+xte/1t0/ygVua2bdW9a721Ni1NNgxpzHYxHxEHrDTJBtdUiBp+KIuLFnYAevQ8n5nmm1GqblgXxRVM7h/rdaIpyr1cHt4kkb4pegJOdAHIMUGyxwmVC+eGw99dRTwKqca51ET7Sp4izAra0zE17qM1x8aq4=
 
-> On 26 Dec 2025, at 4:00=E2=80=AFpm, Diederik de Haas =
-<diederik@cknow-tech.com> wrote:
->=20
-> Hi Christian,
->=20
-> On Fri Dec 26, 2025 at 12:31 PM CET, Christian Hewitt wrote:
->> VDPU346 is similar to VDPU381 but with a single core and limited
->> to 4K60 media. It is also limited to H264 L5.1 and omits AV1 and
->> AVS2 capabilities. VDPU346 is used with RK3566 and RK3568.
->>=20
->> Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
->> Reviewed-by: Nicolas Dufresne <nicolas.collabora@collabora.com>
->> ---
->> .../media/platform/rockchip/rkvdec/rkvdec.c   | 103 =
-++++++++++++++++++
->> 1 file changed, 103 insertions(+)
->>=20
->> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c =
-b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
->> index e547057dc75f..6b39e99d8a8b 100644
->> --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
->> +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
->> @@ -236,6 +236,62 @@ static const struct rkvdec_ctrls =
-rkvdec_hevc_ctrls =3D {
->> .num_ctrls =3D ARRAY_SIZE(rkvdec_hevc_ctrl_descs),
->> };
->>=20
->> +static const struct rkvdec_ctrl_desc vdpu346_hevc_ctrl_descs[] =3D {
->> + {
->> + .cfg.id =3D V4L2_CID_STATELESS_HEVC_DECODE_PARAMS,
->> + },
->> + {
->> + .cfg.id =3D V4L2_CID_STATELESS_HEVC_SPS,
->> + .cfg.ops =3D &rkvdec_ctrl_ops,
->> + },
->> + {
->> + .cfg.id =3D V4L2_CID_STATELESS_HEVC_PPS,
->> + },
->> + {
->> + .cfg.id =3D V4L2_CID_STATELESS_HEVC_SCALING_MATRIX,
->> + },
->> + {
->> + .cfg.id =3D V4L2_CID_STATELESS_HEVC_DECODE_MODE,
->> + .cfg.min =3D V4L2_STATELESS_HEVC_DECODE_MODE_FRAME_BASED,
->> + .cfg.max =3D V4L2_STATELESS_HEVC_DECODE_MODE_FRAME_BASED,
->> + .cfg.def =3D V4L2_STATELESS_HEVC_DECODE_MODE_FRAME_BASED,
->> + },
->> + {
->> + .cfg.id =3D V4L2_CID_STATELESS_HEVC_START_CODE,
->> + .cfg.min =3D V4L2_STATELESS_HEVC_START_CODE_ANNEX_B,
->> + .cfg.def =3D V4L2_STATELESS_HEVC_START_CODE_ANNEX_B,
->> + .cfg.max =3D V4L2_STATELESS_HEVC_START_CODE_ANNEX_B,
->> + },
->> + {
->> + .cfg.id =3D V4L2_CID_MPEG_VIDEO_HEVC_PROFILE,
->> + .cfg.min =3D V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN,
->> + .cfg.max =3D V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10,
->> + .cfg.menu_skip_mask =3D
->> + BIT(V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_STILL_PICTURE),
->> + .cfg.def =3D V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN,
->> + },
->> + {
->> + .cfg.id =3D V4L2_CID_MPEG_VIDEO_HEVC_LEVEL,
->> + .cfg.min =3D V4L2_MPEG_VIDEO_HEVC_LEVEL_1,
->> + .cfg.max =3D V4L2_MPEG_VIDEO_HEVC_LEVEL_5_1,
->> + },
->> + {
->> + .cfg.id =3D V4L2_CID_STATELESS_HEVC_EXT_SPS_ST_RPS,
->> + .cfg.ops =3D &rkvdec_ctrl_ops,
->> + .cfg.dims =3D { 65 },
->> + },
->> + {
->> + .cfg.id =3D V4L2_CID_STATELESS_HEVC_EXT_SPS_LT_RPS,
->> + .cfg.ops =3D &rkvdec_ctrl_ops,
->> + .cfg.dims =3D { 65 },
->> + },
->> +};
->> +
->> +static const struct rkvdec_ctrls vdpu346_hevc_ctrls =3D {
->> + .ctrls =3D vdpu346_hevc_ctrl_descs,
->> + .num_ctrls =3D ARRAY_SIZE(vdpu346_hevc_ctrl_descs),
->> +};
->> +
->> static const struct rkvdec_ctrl_desc vdpu38x_hevc_ctrl_descs[] =3D {
->> {
->> .cfg.id =3D V4L2_CID_STATELESS_HEVC_DECODE_PARAMS,
->> @@ -463,6 +519,41 @@ static const struct rkvdec_coded_fmt_desc =
-rk3288_coded_fmts[] =3D {
->> }
->> };
->>=20
->> +static const struct rkvdec_coded_fmt_desc vdpu346_coded_fmts[] =3D {
->> + {
->> + .fourcc =3D V4L2_PIX_FMT_HEVC_SLICE,
->> + .frmsize =3D {
->> + .min_width =3D 64,
->> + .max_width =3D 65472,
->=20
-> This should be 4096 according to page 469 of RK3568 TRM Part 2 ...
->=20
->> + .step_width =3D 64,
->> + .min_height =3D 64,
->> + .max_height =3D 65472,
->=20
-> ... and this 2304.
->=20
->> + .step_height =3D 16,
->> + },
->> + .ctrls =3D &vdpu346_hevc_ctrls,
->> + .ops =3D &rkvdec_vdpu381_hevc_fmt_ops,
->> + .num_decoded_fmts =3D ARRAY_SIZE(rkvdec_hevc_decoded_fmts),
->> + .decoded_fmts =3D rkvdec_hevc_decoded_fmts,
->> + .subsystem_flags =3D VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF,
->> + },
->> + {
->> + .fourcc =3D V4L2_PIX_FMT_H264_SLICE,
->> + .frmsize =3D {
->> + .min_width =3D 64,
->> + .max_width =3D  65520,
->=20
-> This too should be 4096 according to page 469 of RK3568 TRM Part 2 ...
->=20
->> + .step_width =3D 64,
->> + .min_height =3D 64,
->> + .max_height =3D  65520,
->=20
-> ... and this 2304.
->=20
-> I guess this also explains the 'green images' Nicolas noticed.
+On Thu, 25 Dec 2025 20:11:19 +0800
+Xiang Gao <gxxa03070307@gmail.com> wrote:
 
-Quite probably. I=E2=80=99ve picked the above changes into my working =
-tree
-(for those following it) and will send a v3 series in response to
-the next revision of Detlev=E2=80=99s patches.
-
-> + .step_height =3D 16,
->> + },
->> + .ctrls =3D &rkvdec_h264_ctrls,
->> + .ops =3D &rkvdec_vdpu381_h264_fmt_ops,
->> + .num_decoded_fmts =3D ARRAY_SIZE(rkvdec_h264_decoded_fmts),
->> + .decoded_fmts =3D rkvdec_h264_decoded_fmts,
->> + .subsystem_flags =3D VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF,
->> + },
+> From: gaoxiang17 <gaoxiang17@xiaomi.com>
 >=20
-> I see you've reversed the order of the blocks so that HEVC now comes
-> before the H264 block. While that makes it consistent with what Detlev
-> has in their v7 and with the existing code in the driver ... I =
-actually
-> prefer having H264 before HEVC as the alphabetical sorting order is
-> H264 before HEVC.
-> In the existing code the VP9 'stuff' is listed below H264 and HEVC.
+> Since we can only inspect dmabuf by iterating over process FDs or the
+> dmabuf_list, we need to add our own tracepoints to track its status in
+> real time in production.
 >=20
-> But then Detlev should do that too in their patch set ... and =
-'ideally'
-> the order of the existing code be updated to be alphabetically too.
+> For example:
+>    binder:3016_1-3102    [006] ...1.   255.126521: dma_buf_export: exp_na=
+me=3Dqcom,system size=3D12685312 ino=3D2738
+>    binder:3016_1-3102    [006] ...1.   255.126528: dma_buf_fd: exp_name=
+=3Dqcom,system size=3D12685312 ino=3D2738 fd=3D8
+>    binder:3016_1-3102    [006] ...1.   255.126642: dma_buf_mmap_internal:=
+ exp_name=3Dqcom,system size=3D28672 ino=3D2739
+>      kworker/6:1-86      [006] ...1.   255.127194: dma_buf_put: exp_name=
+=3Dqcom,system size=3D12685312 ino=3D2738
+>     RenderThread-9293    [006] ...1.   316.618179: dma_buf_get: exp_name=
+=3Dqcom,system size=3D12771328 ino=3D2762 fd=3D176
+>     RenderThread-9293    [006] ...1.   316.618195: dma_buf_dynamic_attach=
+: exp_name=3Dqcom,system size=3D12771328 ino=3D2762 attachment:ffffff880a18=
+dd00 is_dynamic=3D0 dev_name=3Dkgsl-3d0
+>     RenderThread-9293    [006] ...1.   318.878220: dma_buf_detach: exp_na=
+me=3Dqcom,system size=3D12771328 ino=3D2762 attachment:ffffff880a18dd00 is_=
+dynamic=3D0 dev_name=3Dkgsl-3d0
 >=20
-> OTOH, a consistent order works for me too.
+> Signed-off-by: Xiang Gao <gaoxiang17@xiaomi.com>
+> ---
+>=20
+> Changes since v10: https://lore.kernel.org/all/20251224013455.1649879-1-g=
+xxa03070307@gmail.com/
 
-I believe the reorder was requested by Nic (offline from the list) so
-there=E2=80=99s probably a reason behind it. I=E2=80=99ll keep things =
-aligned to the
-order in Detlev=E2=80=99s series (whatever that is).
+You only need to show the last revision (but since you haven't showed the
+others, before it's good to show them now). But you also want to say "what =
+changed"
 
-Christian
+For example:
+
+- Used DEFINE_EVENT_CONDITION() to move the condition branch into the trace=
+point.
 
 
-> Cheers,
->  Diederik
+> Changes since v9: https://lore.kernel.org/all/20251223032749.1371913-1-gx=
+xa03070307@gmail.com/
+> Changes since v8: https://lore.kernel.org/all/20251218062853.819744-1-gxx=
+a03070307@gmail.com/
+> Changes since v7: https://lore.kernel.org/all/20251217105132.643300-1-gxx=
+a03070307@gmail.com/
+> Changes since v6: https://lore.kernel.org/all/20251216063952.516364-1-gxx=
+a03070307@gmail.com/
+> Changes since v5: https://lore.kernel.org/all/20251201112148.843572-1-gxx=
+a03070307@gmail.com/
+> Changes since v4: https://lore.kernel.org/all/20251128085215.550100-1-gxx=
+a03070307@gmail.com/
+> Changes since v3: https://lore.kernel.org/all/20251127004352.376307-1-gxx=
+a03070307@gmail.com/
+> Changes since v2: https://lore.kernel.org/all/20251125162949.220488-1-gxx=
+a03070307@gmail.com/
+> Changes since v1: https://lore.kernel.org/all/20251124133648.72668-1-gxxa=
+03070307@gmail.com/
 >=20
->> +};
->> +
->> static const struct rkvdec_coded_fmt_desc vdpu381_coded_fmts[] =3D {
->> {
->> .fourcc =3D V4L2_PIX_FMT_HEVC_SLICE,
->> @@ -1643,6 +1734,14 @@ static const struct rkvdec_variant_ops =
-vdpu381_variant_ops =3D {
->> .flatten_matrices =3D transpose_and_flatten_matrices,
->> };
->>=20
->> +static const struct rkvdec_variant vdpu346_variant =3D {
->> + .coded_fmts =3D vdpu346_coded_fmts,
->> + .num_coded_fmts =3D ARRAY_SIZE(vdpu346_coded_fmts),
->> + .rcb_sizes =3D vdpu381_rcb_sizes,
->> + .num_rcb_sizes =3D ARRAY_SIZE(vdpu381_rcb_sizes),
->> + .ops =3D &vdpu381_variant_ops,
->> +};
->> +
->> static const struct rkvdec_variant vdpu381_variant =3D {
->> .coded_fmts =3D vdpu381_coded_fmts,
->> .num_coded_fmts =3D ARRAY_SIZE(vdpu381_coded_fmts),
->> @@ -1691,6 +1790,10 @@ static const struct of_device_id =
-of_rkvdec_match[] =3D {
->> .compatible =3D "rockchip,rk3399-vdec",
->> .data =3D &rk3399_rkvdec_variant,
->> },
->> + {
->> + .compatible =3D "rockchip,rk3568-vdec",
->> + .data =3D &vdpu346_variant,
->> + },
->> {
->> .compatible =3D "rockchip,rk3588-vdec",
->> .data =3D &vdpu381_variant,
+>  drivers/dma-buf/dma-buf.c      |  48 +++++++++-
+>  include/trace/events/dma_buf.h | 159 +++++++++++++++++++++++++++++++++
+>  2 files changed, 205 insertions(+), 2 deletions(-)
+>  create mode 100644 include/trace/events/dma_buf.h
+>=20
 
 
+> +/*
+> + * dmabuf->name must be accessed with holding dmabuf->name_lock.
+> + * we need to take the lock around the tracepoint call itself where
+> + * it is called in the code.
+> + *
+> + * Note: FUNC##_enabled() is a static branch that will only
+> + *       be set when the trace event is enabled.
+> + */
+> +#define DMA_BUF_TRACE(FUNC, ...)					\
+> +	do {								\
+> +		/* Always expose lock if lockdep is enabled */		\
+> +		if (IS_ENABLED(CONFIG_LOCKDEP) || FUNC##_enabled()) {	\
+> +			guard(spinlock)(&dmabuf->name_lock);		\
+> +			FUNC(__VA_ARGS__);				\
+> +		}							\
+> +	} while (0)
+> +
+>  static inline int is_dma_buf_file(struct file *);
+> =20
+
+> +
+> +DEFINE_EVENT_CONDITION(dma_buf_fd, dma_buf_fd,
+> +
+> +	TP_PROTO(struct dma_buf *dmabuf, int fd),
+> +
+> +	TP_ARGS(dmabuf, fd),
+> +
+> +	TP_CONDITION(fd >=3D 0)
+> +);
+> +
+
+
+=46rom a tracing point of view (It's up to the dma maintainers to decide to
+take this patch):
+
+Reviewed-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+
+-- Steve
 
