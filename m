@@ -1,180 +1,154 @@
-Return-Path: <linux-media+bounces-49601-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49602-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBD2ACDFE15
-	for <lists+linux-media@lfdr.de>; Sat, 27 Dec 2025 15:55:26 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C576ECDFE68
+	for <lists+linux-media@lfdr.de>; Sat, 27 Dec 2025 16:34:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 513523001617
-	for <lists+linux-media@lfdr.de>; Sat, 27 Dec 2025 14:55:23 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4ABF83013964
+	for <lists+linux-media@lfdr.de>; Sat, 27 Dec 2025 15:34:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2F5723815B;
-	Sat, 27 Dec 2025 14:55:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87D2C258ECA;
+	Sat, 27 Dec 2025 15:34:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AonkSmGp"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="St6Nvnnz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11EDA17A31C
-	for <linux-media@vger.kernel.org>; Sat, 27 Dec 2025 14:55:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6591978F26
+	for <linux-media@vger.kernel.org>; Sat, 27 Dec 2025 15:34:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766847320; cv=none; b=GLPe9HEYTms6n9/4MO+9AiLob48XfxUkIHIcOMqOUwfNlUdIMA6hXBs8kAkW91AtJqMFG6hDL/sHTnS/MAfdyLba0PjIA0+Z/BlOKPzxMLJgOtcSXTDYEAkQLyTUQrxb2nJeEexOPa9UsTx2L1HvlF90qRnlgXXz3C2RwTLNx10=
+	t=1766849650; cv=none; b=V+ryQk2fprITG5VcxmUelz3sscDBctpLaB80ntQ+xV8zOpm8hlFEIcJb61lJwyvKjGDZwhHTEx2kjHhh+3MrC1hY+0RuPFIEjwM2/13aFotrHa99Axj45tD6hqAm/W2P7hbbyJX0Vs87aVQ0G5vlCupeXDdwxdaeeJnGydERDB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766847320; c=relaxed/simple;
-	bh=hR349umQ+q8s41UU+mWuhCrU+wCYGFr3gMIDy7xn0xM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ccv1L8Imo+HuCIgYuiqA9hJkGbDlQcZo3EW7C4/QG1/DdH9ZX+P+wQPZ0wGAJnCGximSDOmGo/kDk4rOIef5Mcw34b9LAqPa+NH/2Sfy85Z0s3wxyAfkz6r9BEzqtmUPvYoH8slmg2xCoSPNpyglojPkDu88AhRq/+f6KR7vF78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=AonkSmGp; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-152.bb.dnainternet.fi [81.175.209.152])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 9877524A;
-	Sat, 27 Dec 2025 15:55:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1766847301;
-	bh=hR349umQ+q8s41UU+mWuhCrU+wCYGFr3gMIDy7xn0xM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AonkSmGpx0/Mg7SoxmMWOBzDj9FiQYpQmzaI78J9n/yCNEroOra5/dHtjcc2NDZFn
-	 tuiwfHoSjBqnCQG70mWhTfsrFMQ9cWDTiHxKQbRXujhHkBmNSpZdfbF0DQS9aus1CE
-	 KPytHUqCTYTHj3mPWThAXwpWt4lDvVVe2pKpN6ZQ=
-Date: Sat, 27 Dec 2025 16:54:58 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans de Goede <hansg@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mathis Foerst <mathis.foerst@mt.com>, linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 14/15] media: mt9m114: Return -EPROBE_DEFER if no
- endpoint is found
-Message-ID: <20251227145458.GL4094@pendragon.ideasonboard.com>
-References: <20250629205626.68341-1-hansg@kernel.org>
- <20250629205626.68341-15-hansg@kernel.org>
- <20250702005323.GH17819@pendragon.ideasonboard.com>
- <ee136d75-16a3-4b30-a6e0-981f33494713@kernel.org>
+	s=arc-20240116; t=1766849650; c=relaxed/simple;
+	bh=NQxvX3x5mTPTYKHrVRDAHbgDoSQDOwlDQvMBzCndDkU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IIATLUlYdmH+8e76zxp/tqwrMV7Xm/pO6h8Ar5uPaLLzH9xvxXNoByBlI1UNz133Uo0llwXBsUApTWDEKUK9Ckctpv5OwqzTg/WNyJBjtH7HmCrcBdIogoS2BI1cMP3t+AO1o4PGSY0JEfRWtPoPJIfNkumEuI5ivyjZK+GoTdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=St6Nvnnz; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-34c3cb504efso9156433a91.2
+        for <linux-media@vger.kernel.org>; Sat, 27 Dec 2025 07:34:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766849649; x=1767454449; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WR8po4wMQCtr4pqMRQrDJXgtKDL3uFWi+WklqGaf9Js=;
+        b=St6NvnnzragNaGH14xG3LsGvTtyGa8qRBB0fIXYKGHp+BVUzckNsHf84OR5hVciiPs
+         yq4cF9GHfHa5Qe4h40T6Uc++rpHG1xOpIXMbFWxswf3Oj6Gf7fBW6FLPPfOueL9m6NGK
+         tAH21lDbio5bVM/Nh3dlo4CxDwsSdJG5fzWte0pMb+eltpms5Av0a+852nPdd8yMOfxE
+         Fvj+38QuJuLd/SUB9JG9qPHkqN/PABBTSJc/i2sPBskUENzyfHgyLXnZU5vHMuu74fUg
+         buoWU9pgmH+ct8mk9/uuIbrhpPaDhfPbiJez/q5uE5+aFXY4OkDjULphnKxtxALj63W3
+         5OsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766849649; x=1767454449;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=WR8po4wMQCtr4pqMRQrDJXgtKDL3uFWi+WklqGaf9Js=;
+        b=Q82EpGcHJvtiNowglqVKoPVJ61RZmEmP746SPvoL74XxhPnoxMunXBEdwJ+g6glGxG
+         2M3Nw50Es+L3pQm9WTw1NR1sSpt92hQrmwrIimM6Dd2rdMiWt0pRXv7NQQ09C7E/aNBZ
+         dfo66CJ/Pk1/+ZqLXyiW2CYOLK5wUNYDwaMw8zZfyjg/TAYnQ1ZlHk5VKYTPSVCwA2Ys
+         o7aopYfkUaYovpSJUAlE57wJLXnMzPybC1pl6Yn4sX+N+2sukMSiTblfeAfWZyhWDpfc
+         VVbtT79iGKvCkjFjXx9O3qpRnV+sAq/53Di4x6/uycdskf1s6SpHHLGKrHT+dA97qRp2
+         sE3A==
+X-Forwarded-Encrypted: i=1; AJvYcCVz4gbb8I5tE0q2EfaDsIRV+0HIwCisCB+4gIcuzEKH2TE90JYmrSKPo7mTymbxB2Dh2sDVhuICw3kXeg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzjmuZLG/l+ilTLnzBhe1CxvJBV+S8uH7m5Knf2CVQAbMaZ0Vd3
+	A49ON7QLff5x/BS5t5SqmyNyIyK25ZMxJ//6wbACoXQvCC/8flVF60GFCeNsSVhz7/cAkTdEUC1
+	ZU0bEpL8DVYUQnbNyL1e27gQJZWzsnwQ=
+X-Gm-Gg: AY/fxX4p1hw6XboS+P5AdMTx2cGbjkPAkZLj+ARJwrPum2RWuKYeY00uxfa9G2JpnSC
+	xfCqj53uwAVANGCb7Wy8FqVUHfh18bSe+Vs+SaGSVhq/DGVU/7CJYxtEXNcjxT3ZrP4G1a+Xz8i
+	TdT6QYnBq0aYTcuOmvV9Hq536jlWJtdPyTfxEGH6PDlkT9KPWKMguBRpkVYTz7NrZeXn9+mrzqy
+	R6xRFmUCX3qPpXQ0n4q+3JNLqp7XLbTr2fKH6JfSpeXOvC0j+Apih2SIYxchCkApabske8=
+X-Google-Smtp-Source: AGHT+IE5DYtBJYl10TUXBXy3+f0mRUBJcQtw4g3ss57gq7T6xAuE3sPpG3l4wauq7IqQtjuZux7c/Ckz/JEuRBVOLPc=
+X-Received: by 2002:a05:7022:6887:b0:11b:a892:80b4 with SMTP id
+ a92af1059eb24-121721ab83amr30442872c88.5.1766849648296; Sat, 27 Dec 2025
+ 07:34:08 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ee136d75-16a3-4b30-a6e0-981f33494713@kernel.org>
+References: <20251227121946.67935-1-alperyasinak1@gmail.com> <20251227130514.GA21104@pendragon.ideasonboard.com>
+In-Reply-To: <20251227130514.GA21104@pendragon.ideasonboard.com>
+From: Alper Ak <alperyasinak1@gmail.com>
+Date: Sat, 27 Dec 2025 18:33:56 +0300
+X-Gm-Features: AQt7F2rO103jEFBGZ1IiFklkHlG984Yl3rCqlhBEhg2YgnVe3_tCRJx_pfWJNXQ
+Message-ID: <CAGpma=5i21ObECvQL9EZRQUJ3rfXTZ=78CFkFtLmwoq+Te7c1w@mail.gmail.com>
+Subject: Re: [PATCH] media: renesas: rzg2l-cru: Fix possible ERR_PTR
+ dereference in rzg2l_cru_get_virtual_channel()
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: mchehab@kernel.org, hverkuil+cisco@kernel.org, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
+	Daniel Scally <dan.scally+renesas@ideasonboard.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 24, 2025 at 01:12:28PM +0100, Hans de Goede wrote:
-> On 2-Jul-25 02:53, Laurent Pinchart wrote:
-> > On Sun, Jun 29, 2025 at 10:56:24PM +0200, Hans de Goede wrote:
-> >> With IPU# bridges, endpoints may only be created when the IPU bridge is
-> >> initialized. This may happen after the sensor driver's first probe().
-> >>
-> >> Signed-off-by: Hans de Goede <hansg@kernel.org>
-> >> ---
-> >>  drivers/media/i2c/mt9m114.c | 11 +++++++----
-> >>  1 file changed, 7 insertions(+), 4 deletions(-)
-> >>
-> >> diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
-> >> index ec5e9ce24d1c..5e759a23e6cc 100644
-> >> --- a/drivers/media/i2c/mt9m114.c
-> >> +++ b/drivers/media/i2c/mt9m114.c
-> >> @@ -2448,11 +2448,14 @@ static int mt9m114_parse_dt(struct mt9m114 *sensor)
-> >>  	struct fwnode_handle *ep;
-> >>  	int ret;
-> >>  
-> >> +	/*
-> >> +	 * Sometimes the fwnode graph is initialized by the bridge driver,
-> >> +	 * wait for this.
-> >> +	 */
-> > 
-> > I'm still not thrilled by this, but there's no real alternative for the
-> > time being. Still, as Sakari mentioned, the IPU bridge code should at
-> > some point be moved to the ACPI framework, so let's record here that the
-> > sensor driver should then be updated:
-> > 
-> > 	/*
-> > 	 * On ACPI systems the fwnode graph can be initialized by a bridge
-> > 	 * driver, which may not have probed yet. Wait for this.
-> > 	 *
-> > 	 * TODO: Return an error once bridge driver code will have moved
-> > 	 * to the ACPI core.
-> > 	 */
-> > 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > 
-> > I wouldn't like to see this being replicated in lots of sensor drivers
-> > though.
-> 
-> I understand. With the new __devm_v4l2_sensor_clk_get() helper we could
-> do something like this:
-> 
-> From f7b13937af5f706bce3eed87c67a8f484f049c6a Mon Sep 17 00:00:00 2001
-> From: Hans de Goede <johannes.goede@oss.qualcomm.com>
-> Date: Wed, 24 Dec 2025 13:04:09 +0100
-> Subject: [PATCH] media: v4l2-common: sensor_clk_get(): Wait for endpoint
->  fwnode to show up
-> 
-> On ACPI systems the fwnode graph can be initialized by a bridge driver,
-> which may not have probed yet.
-> 
-> Currently all sensor drivers which are used on ACPI platforms need to wait
-> for this themselves.
-> 
-> Add a check for the endpoint fwnode being present to
-> the devm_v4l2_sensor_clk_get() helper, this allows sensor drivers to drop
-> the check for this themselves as long as they call the helper before doing
-> any endpoint fwnode parsing.
-> 
-> Signed-off-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
-> ---
->  drivers/media/v4l2-core/v4l2-common.c | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> index 554c591e1113..b68b5567a508 100644
-> --- a/drivers/media/v4l2-core/v4l2-common.c
-> +++ b/drivers/media/v4l2-core/v4l2-common.c
-> @@ -743,11 +743,27 @@ struct clk *__devm_v4l2_sensor_clk_get(struct device *dev, const char *id,
->  {
->  	bool of_node = is_of_node(dev_fwnode(dev));
->  	const char *clk_id __free(kfree) = NULL;
-> +	struct fwnode_handle *ep;
->  	struct clk_hw *clk_hw;
->  	struct clk *clk;
->  	u32 rate = clk_rate;
->  	int ret = 0;
->  
-> +	/*
-> +	 * On ACPI systems the fwnode graph can be initialized by a bridge
-> +	 * driver, which may not have probed yet. The bridge driver also sets
-> +	 * the clock-frequency property which is used below. Wait for this.
-> +	 *
-> +	 * TODO: Return an error once bridge driver code will have moved
-> +	 * to the ACPI core.
-> +	 */
-> +	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
-> +	if (!ep)
-> +		return dev_err_probe(dev, -EPROBE_DEFER,
-> +				     "waiting for fwnode graph endpoint\n");
-> +
-> +	fwnode_handle_put(ep);
-> +
->  	clk = devm_clk_get_optional(dev, id);
->  	if (IS_ERR(clk))
->  		return clk;
-> and then in e.g. the mt9m114.c code move the devm_v4l2_sensor_clk_get()
-> call to above mt9m114_parse_dt() and then the handling for this can be
-> dropped from the mt9m114.c code (and the same for other sensor drivers
-> with a similar check).
-> 
-> The downside of this is that it makes having an endpoint fwnode available
-> mandatory for all sensor drivers which use the devm_v4l2_sensor_clk_get()
-> helper, but AFAICT having an endpoint fwnode is mandatory for all sensor
-> drivers anyways, so this should not be an issue ?
+> What makes you think this can happen ?
 
-Yes I think that would work, and would avoid copying the hack in
-multiple drivers. Sakari, is this OK with you ?
+media_pad_remote_pad_unique() explicitly documents that it can return
+-ENOTUNIQ when multiple links are enabled and -ENOLINK when no connected
+pad is found.
 
--- 
-Regards,
+The return value is dereferenced immediately via remote_pad->index in
+the v4l2_subdev_call() without any error check.
 
-Laurent Pinchart
+While these situations may not occur for this driver, I have
+seen other media drivers perform IS_ERR() checks after calling the same
+function, so adding the same defensive handling here would be
+consistent with existing usage.
+
+
+Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 27 Ara 2025 Cmt,
+16:05 tarihinde =C5=9Funu yazd=C4=B1:
+>
+> On Sat, Dec 27, 2025 at 03:19:44PM +0300, Alper Ak wrote:
+> > media_pad_remote_pad_unique() can return ERR_PTR(-ENOTUNIQ) or
+> > ERR_PTR(-ENOLINK) on error situation.
+> >
+> > The current code dereferences remote_pad without checking for
+> > these error cases, which could lead to invalid memory access.
+>
+> What makes you think this can happen ?
+>
+> > Add IS_ERR() check before dereferencing the pointer.
+> >
+> > Fixes: d7d72dae81d5 ("media: rzg2l-cru: Retrieve virtual channel inform=
+ation")
+> > Signed-off-by: Alper Ak <alperyasinak1@gmail.com>
+> > ---
+> >  drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/d=
+rivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > index 162e2ace6931..bf7d96841c78 100644
+> > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > @@ -411,6 +411,9 @@ static int rzg2l_cru_get_virtual_channel(struct rzg=
+2l_cru_dev *cru)
+> >       int ret;
+> >
+> >       remote_pad =3D media_pad_remote_pad_unique(&cru->ip.pads[RZG2L_CR=
+U_IP_SINK]);
+> > +     if (IS_ERR(remote_pad))
+> > +             return PTR_ERR(remote_pad);
+> > +
+> >       ret =3D v4l2_subdev_call(cru->ip.remote, pad, get_frame_desc, rem=
+ote_pad->index, &fd);
+> >       if (ret < 0 && ret !=3D -ENOIOCTLCMD) {
+> >               dev_err(cru->dev, "get_frame_desc failed on IP remote sub=
+dev\n");
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
