@@ -1,131 +1,127 @@
-Return-Path: <linux-media+bounces-49583-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49584-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E428CDF4DA
-	for <lists+linux-media@lfdr.de>; Sat, 27 Dec 2025 08:05:21 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC935CDF545
+	for <lists+linux-media@lfdr.de>; Sat, 27 Dec 2025 09:41:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id ABA3530080C0
-	for <lists+linux-media@lfdr.de>; Sat, 27 Dec 2025 07:05:19 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 3CD0F3000FA1
+	for <lists+linux-media@lfdr.de>; Sat, 27 Dec 2025 08:41:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC34D23D7C4;
-	Sat, 27 Dec 2025 07:05:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03CC926E708;
+	Sat, 27 Dec 2025 08:41:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YtTdb0Xd"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A44aVtPX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8EE31DE2AD;
-	Sat, 27 Dec 2025 07:05:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B606F1EB9F2
+	for <linux-media@vger.kernel.org>; Sat, 27 Dec 2025 08:41:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766819117; cv=none; b=ZjDVs52szGjaJpRhNyy7k4MHkK36WVD51qI6NKeGI6YLbeW6T49NdZPZZ3LtGzY8fyQz7+WA2m/6Eiea5FWCmxtwog8p0Vgmfras3RZzU8df0nYktt8/lmgipGTGaVxw5mlZbI9EgL/bNoWdNkPc7mBtdiMPF+59XqmnIMRq3G0=
+	t=1766824862; cv=none; b=H641qPBnazYVTAPSFX5DiLJBXDFPL2UmlCLOeOUesZSYe1E9achCGlN0GFROgQqhaXPkK5Fh0b9005V3waZPxWt6NwVHtoQ+jZ6QcOyZN72lcm91z9alshquLuMsEQj9v7oACxK/IhrTHEelQsh3dD25T3xa16dMsa2JWilWzO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766819117; c=relaxed/simple;
-	bh=+MYBUvaekcX2sSPzpj1fUpCCoIuWlnhasEc3m8SvhqA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nz4GgB0JnYlgxT4szaARfXRW3wkd9kMW1tkj7+qzwnKTStKZTojDnT5v+8qZ38x7QcHYvU4OS3mfMrfveF40dpKhv7jczy+CNrYZ/zsp1sSVnl1txBI+6+hYiJy1yqB/s5/RC21IjUdHreXMpLFS29w8eLYC65yiSe/RA2VZvxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YtTdb0Xd; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766819116; x=1798355116;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+MYBUvaekcX2sSPzpj1fUpCCoIuWlnhasEc3m8SvhqA=;
-  b=YtTdb0Xd7gynPlzJOFsQ7d/0l2H6MN3HsKJWWlqwA/c/WJwF8WDNw2dQ
-   MGaXvH39fAS2OTIQaGtFEkKpaNLvYfQNK0TOEUqy+zq4lc130tA9YcaUQ
-   0u7wPfsdvrGseAt0dr/l1Jc8GpD4vHAqzLQZErZFtqwlfuDi7XWB5CYMD
-   QnS9DfFwxRa2fW9ifkhigr6hUGWLl+LBho7lzK3XlpNoPNg1inodbHCT5
-   KP96Q1qyksUcagJ10EJpGtFXIfaK8dKeihHovXyimPcKTtl2QfmRp/R1j
-   jBkO2dTtKGS4ok0v+wExfzvzjcnCQwgfMWYWgivyeKdu7C+D2bG/msY1k
-   A==;
-X-CSE-ConnectionGUID: fIR6vycGT4i7Wk+Bb+oU3Q==
-X-CSE-MsgGUID: 4fFSosFKThe57VmwPAjBdA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11653"; a="79654591"
-X-IronPort-AV: E=Sophos;i="6.21,180,1763452800"; 
-   d="scan'208";a="79654591"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2025 23:05:16 -0800
-X-CSE-ConnectionGUID: jAODHWteRYC//AAY5npWTQ==
-X-CSE-MsgGUID: /KSrmsRoQoq1h6O7SH1EIA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,180,1763452800"; 
-   d="scan'208";a="200247943"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 26 Dec 2025 23:05:10 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vZOMN-000000005dB-26Cp;
-	Sat, 27 Dec 2025 07:05:07 +0000
-Date: Sat, 27 Dec 2025 15:04:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Detlev Casanova <detlev.casanova@collabora.com>,
-	linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	Detlev Casanova <detlev.casanova@collabora.com>,
+	s=arc-20240116; t=1766824862; c=relaxed/simple;
+	bh=Nj68t+K0+EIx3131fR5DrdLX+H05YAGgkEp3NfJOl1o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L1H/d08VUnV46TtDZ0VtOy0I/EIarp98HqEUKiVU7pyBX7H7nGT6CQegYE4+x+jiLyJkeoVan4r5Csu9KYF/4ouu+cGtjIIs+SeosKwzaznpM0SWSzNXxKsZdLD7hO3qoUXQm45lErzpqGZmGBF91am019J6lx7Ntl9dvDSgmbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A44aVtPX; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5942b58ac81so6498506e87.2
+        for <linux-media@vger.kernel.org>; Sat, 27 Dec 2025 00:41:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766824859; x=1767429659; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=h1mzLS7EMQ7CMEUjGijkTRd2ui9VJENWahANf3YnZYY=;
+        b=A44aVtPXm+ESJJrYrED3Uyap2BNM96Q361FcnJ9tKyS8i107kh+LikQOFEyc4BYiAz
+         gBDyLlOHhgOEJFtwPh6K737l5WHID/ldlnFAnm2SMgu9pRUL6d7Minf0U+IgOb5PHVRt
+         gB2jNbh1m5zQojxZ5RgdcL/w92auru8Y+vfTkk7EVqyfb9pdA9Pnv0EIkIwrFhA4GXlG
+         YmiB+voU8krkhX/EY2K77EsfcGqTNya4mLUmRX4iJID9z4TTqySGqOSWlBNwQ+zzFRKI
+         NaZtmZHVjyzpDetD4u0n3+M7hSqVuaIG0sjFdq8SK0kumRpcGtxpw76lg7PXC98CL0jX
+         SfkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766824859; x=1767429659;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h1mzLS7EMQ7CMEUjGijkTRd2ui9VJENWahANf3YnZYY=;
+        b=XvHp6+3kDt8EKPhQ7j3OlcGiVpkwLa5x+h6nVjZh3k1YXN8PdgIVwi+m8ytNjz1RfB
+         zfeO6AmHibnaPYoClGyBg0aOBNkKab8Tt7ybBuLuTxeqOyyEAD+4ajFUrIOaxirImlWF
+         +/STP46RYC2Ax19tAiBERC1botbN/QHr+N9ZG1tVMJnlhcTcc+tQVWWP+YqFZsJAAIJj
+         NhFjuPFlfHA8OrKDgEOr+STDHQE2TZ4Ggcvxe23LaaDumfZ+lVIvFjAx/fdhEC+3eA8t
+         rLZ7BNPeZ5uB15efXst5FqDvV2lf+dGUy7izipu/zdAQUPFJBxW4BcqwBi/kSgnjoWYs
+         9LIg==
+X-Forwarded-Encrypted: i=1; AJvYcCW2KL9njD1XF2uJ9K6cIDscn1gKZQzlGlf7a7BFxGQuoz++BGW/apUPT04VYD09hKsuMtVmhIj0bLWfCQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzWEExwLdiTQykkb3OUgRNiRYJ7GI1g6+zNcaY9E/XEvV35T2kc
+	hUY77PDs72Op4nQ068nD4TsCH8BHxYL7ALs6mWIQU2B/MBkMCeGqWItk
+X-Gm-Gg: AY/fxX5GddHtcKcFzAvVRHWJXS7QBpxm9ABSKBn8n0qWZS74wEo0RVEG1e5ZNtF4dcd
+	1Rr5LQhqLOsGVvnkUid7ni+Bn2P96bWphS2/wuT7FTtHmKadc/vg/ipqQtHAFLkBxF2MLz8NY+2
+	za7+x/S6YpqBv+Ma/7gbFeHtMIzZ377UMijkOSRVGvLaYtBNPQFT7WyYSahZ/88leo3ORLgA4sV
+	ZoGiBc7RXKlTUbYzWNKaaolKQoXjTC7iVGNvymNar/PNLlkktlcgAfZv2i4Hm4UXk+z3DB3sl3w
+	7R9ddlbzLu+qvYAfuSZK7Vxm4S2D+Ql9YwWqyjsRuVEhdEvKpOpJD5qhW4UDC2UItq5cxfV1PV6
+	/QVDlzzWM6jQBt4qpK65ECuYYELOS19NpAsRtp/TgSlKqasP+BES5NuH7rEXuDRXX9/TS8jlPYy
+	Kld6iUS4PRM1zH/v8t9ZcLZqQCTJA=
+X-Google-Smtp-Source: AGHT+IE1gCiVZ/51w+w16JK8HSkIEZBaavUo8dO1lP3TNd8GAXnf3MFYxs6ktYqH0uvy4VDHnjLsEQ==
+X-Received: by 2002:a05:6512:3b9c:b0:594:34ae:1446 with SMTP id 2adb3069b0e04-59a17deb93amr8297083e87.41.1766824858531;
+        Sat, 27 Dec 2025 00:40:58 -0800 (PST)
+Received: from localhost.localdomain ([176.33.65.121])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59a1861ffffsm7171646e87.81.2025.12.27.00.40.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Dec 2025 00:40:56 -0800 (PST)
+From: Alper Ak <alperyasinak1@gmail.com>
+To: hverkuil@kernel.org,
+	mchehab@kernel.org
+Cc: Alper Ak <alperyasinak1@gmail.com>,
+	Jacob Chen <jacob-chen@iotwrt.com>,
 	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
 	Heiko Stuebner <heiko@sntech.de>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>, Yunke Cao <yunkec@google.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Pavan Bobba <opensource206@gmail.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	James Cowgill <james.cowgill@blaize.com>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	linux-media@vger.kernel.org,
 	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, kernel@collabora.com,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Diederik de Haas <didi.debian@cknow.org>
-Subject: Re: [PATCH v7 14/17] media: rkvdec: Add H264 support for the VDPU381
- variant
-Message-ID: <202512271444.48dPgeMW-lkp@intel.com>
-References: <20251218232829.337811-15-detlev.casanova@collabora.com>
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: rockchip: rga: Fix possible ERR_PTR dereference in rga_buf_init()
+Date: Sat, 27 Dec 2025 11:40:37 +0300
+Message-ID: <20251227084038.28679-1-alperyasinak1@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251218232829.337811-15-detlev.casanova@collabora.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Detlev,
+rga_get_frame() can return ERR_PTR(-EINVAL) when buffer type is
+unsupported or invalid. rga_buf_init() does not check the return value
+and unconditionally dereferences the pointer when accessing f->size.
 
-kernel test robot noticed the following build errors:
+Add proper ERR_PTR checking and return the error to prevent
+dereferencing an invalid pointer.
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linus/master v6.19-rc2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Fixes: 6040702ade23 ("media: rockchip: rga: allocate DMA descriptors per buffer")
+Signed-off-by: Alper Ak <alperyasinak1@gmail.com>
+---
+ drivers/media/platform/rockchip/rga/rga-buf.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Detlev-Casanova/media-uapi-HEVC-Add-v4l2_ctrl_hevc_ext_sps_-ls-t_rps-controls/20251219-074342
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20251218232829.337811-15-detlev.casanova%40collabora.com
-patch subject: [PATCH v7 14/17] media: rkvdec: Add H264 support for the VDPU381 variant
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20251227/202512271444.48dPgeMW-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251227/202512271444.48dPgeMW-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512271444.48dPgeMW-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "__hexagon_udivdi3" [drivers/media/platform/rockchip/rkvdec/rockchip-vdec.ko] undefined!
-
+diff --git a/drivers/media/platform/rockchip/rga/rga-buf.c b/drivers/media/platform/rockchip/rga/rga-buf.c
+index 730bdf98565a..bb575873f2b2 100644
+--- a/drivers/media/platform/rockchip/rga/rga-buf.c
++++ b/drivers/media/platform/rockchip/rga/rga-buf.c
+@@ -80,6 +80,9 @@ static int rga_buf_init(struct vb2_buffer *vb)
+ 	struct rga_frame *f = rga_get_frame(ctx, vb->vb2_queue->type);
+ 	size_t n_desc = 0;
+ 
++	if (IS_ERR(f))
++		return PTR_ERR(f);
++
+ 	n_desc = DIV_ROUND_UP(f->size, PAGE_SIZE);
+ 
+ 	rbuf->n_desc = n_desc;
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
 
