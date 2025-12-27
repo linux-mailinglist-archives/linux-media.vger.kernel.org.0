@@ -1,264 +1,133 @@
-Return-Path: <linux-media+bounces-49590-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49591-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 272DACDF8D3
-	for <lists+linux-media@lfdr.de>; Sat, 27 Dec 2025 12:21:54 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 759E3CDF8E5
+	for <lists+linux-media@lfdr.de>; Sat, 27 Dec 2025 12:23:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 49B4530026B9
-	for <lists+linux-media@lfdr.de>; Sat, 27 Dec 2025 11:21:52 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2BCEE300E02F
+	for <lists+linux-media@lfdr.de>; Sat, 27 Dec 2025 11:23:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0734B3126C7;
-	Sat, 27 Dec 2025 11:21:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC7BC312812;
+	Sat, 27 Dec 2025 11:23:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iAQleKYn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="enb7n0bB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 632A31D5ACE;
-	Sat, 27 Dec 2025 11:21:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29CBE223708;
+	Sat, 27 Dec 2025 11:23:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766834509; cv=none; b=qj6kk0j1KQADmQc3B4QOmIIX9CiVqOuDwSWgXNJpIAld+Yu5wSWIGuSGFcAUWtN3Sylo6UEZUj1XHqMrWpm8UTrE5iU3EeYMuArL9RXck7cHBq1V5q8+NXUP9tGloEn91IOcaBLJXT0mYkUuz0/zwyCS1M/b9jfWGTzMWJwQ7v4=
+	t=1766834600; cv=none; b=txkQ0WeDf7KuyqKD70UoaZQMkMyQCZitNuvHfwN19jX9YO9CqhaiRE8pXmcSNbmUhHZJ2ilHlQ/vCmgs9cw+sfup1S9OtCubl8j7x4ayDgGdFknstYgHBDI03H8o5x9zfv7TIAqjqk6jOB6NPDsYH91r84qOIpuPuZX9I8VkKaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766834509; c=relaxed/simple;
-	bh=UCfM3fBvJJ7jzqMjWSYORYijW2zgyf4nfpvGuTxnO+k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cGwOuY9X5PLlP+GC9ldHRkl9dQu6CtCVlU6O9Z7m9P/S5pYLkryg18uaTO0PEf302/Cr5YF/7xyD1ZiNcJi4U7ODkhXyUNRh8LLi0LFThJFVNK4oK8OmQpYDPZkZjKKfdkjvKsCfQXPwxxZ2FaciTBlA/ehuzeDRw4WWdla9/ZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=iAQleKYn; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-152.bb.dnainternet.fi [81.175.209.152])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id B6731BB;
-	Sat, 27 Dec 2025 12:21:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1766834491;
-	bh=UCfM3fBvJJ7jzqMjWSYORYijW2zgyf4nfpvGuTxnO+k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iAQleKYnEt5UiFAUWl4leUGShzP4eEVJsi3yWZ3EhrvpeZSru1Pi3+t8y7AUW0D7c
-	 vMEpRA4Sd9WhgIOku8VIEG3snyfxxw7Q8hr57bPb4s3ZhTQl3QzAaWQiTyOImL6UNA
-	 JzV3qamqtsi6B0217wy1qKTtKmun7e3zcfFcO6wk=
-Date: Sat, 27 Dec 2025 13:21:29 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Xiaolei Wang <xiaolei.wang@windriver.com>
-Cc: sakari.ailus@linux.intel.com, dave.stevenson@raspberrypi.com,
-	jacopo@jmondi.org, mchehab@kernel.org,
-	prabhakar.mahadev-lad.rj@bp.renesas.com, hverkuil+cisco@kernel.org,
-	johannes.goede@oss.qualcomm.com, hverkuil-cisco@xs4all.nl,
-	jai.luthra@ideasonboard.com, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: i2c: ov5647: Switch to using the sub-device
- state lock
-Message-ID: <20251227112129.GG4094@pendragon.ideasonboard.com>
-References: <20251226031311.2068414-1-xiaolei.wang@windriver.com>
- <20251226031311.2068414-3-xiaolei.wang@windriver.com>
+	s=arc-20240116; t=1766834600; c=relaxed/simple;
+	bh=aCg4IZkB1SD3nvK2YU+/0LG81w0qWEJvDlMSztsn36s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mkHx8wjCUIOCEFdXxR/zYRrsCWFB3Gn76aUYGZ2a1t2wR07R1joRkY2PDC8vLH8RDSuqb/FeHWvXWnzgTA+j0Ixx7tq3a5fulsDPz/QEfyZj5ngX2yXoQTa8wtdRVhys8f+Y2WkbAm+YfOmjmHF0072GEPSuz2DFLDFLc2jbDbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=enb7n0bB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20DAAC116D0;
+	Sat, 27 Dec 2025 11:23:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766834599;
+	bh=aCg4IZkB1SD3nvK2YU+/0LG81w0qWEJvDlMSztsn36s=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=enb7n0bB+YJ0uYBsArd3+lDn3QXLVIGANNeA69We7LZs5j23DGSw3d3If2tBCL6E/
+	 WjOEQCjZQT9sbITbQSCroklGE7AZgWRdKdMmAhQ1EkvBf9Ln1nNb9FAWEi1BE4Sud0
+	 yG46m7DQlSFuZKtfZ6nfpWs4OcdN93iRKZ7UEoNXHE9dq2eQ6dgdW+V6QqKg5AEU8b
+	 4HBzYxzb8tTbgyAmFqpX8MTUT23kE45BK3d53tpowLiDcWw0YyjmgLIhO0v1jADBly
+	 COggKqfR0bx7BglIhiUXg8ZNnF/3/td2y+brs2XCYkvSikuVqZqA/9XxdA9shRFKiO
+	 FYzEsEgEKXNxg==
+Message-ID: <b1637433-6bbf-4e08-8f58-0e9bad37b790@kernel.org>
+Date: Sat, 27 Dec 2025 12:23:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251226031311.2068414-3-xiaolei.wang@windriver.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] media: dt-bindings: i2c: toshiba,et8ek8: Convert
+ to DT schema
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Alex Tran <alex.t.tran@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Pavel Machek <pavel@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Pavel Machek <pavel@ucw.cz>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20251224-dt-bindings-et8ek8-omap3isp-v2-0-0728cc1fee27@gmail.com>
+ <20251224-dt-bindings-et8ek8-omap3isp-v2-1-0728cc1fee27@gmail.com>
+ <a7126a74-48f2-467b-91bb-21f28a251400@kernel.org>
+ <CA+hkOd4rJAyQPe1kgJYreGX+Wpi+EoX8s-CsD_JCP77WE5a=Mw@mail.gmail.com>
+ <ec9a2f6a-4cad-4989-8d40-af7b718a164b@kernel.org>
+ <20251227111206.GF4094@pendragon.ideasonboard.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20251227111206.GF4094@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Xiaolei,
-
-Thank you for the patch.
-
-On Fri, Dec 26, 2025 at 11:13:11AM +0800, Xiaolei Wang wrote:
-> Switch to using the sub-device state lock and properly call
-> v4l2_subdev_init_finalize() / v4l2_subdev_cleanup() on probe() /
-> remove().
-
-We try to convert image sensor drivers to the .enable_streams() and
-.disable_streams() operations at the same time as the conversion to
-v4l2_subdev_init_finalize(), to standardize on recent APIs. This hasn't
-been entirely successful so far (there are 40 drivers using
-v4l2_subdev_init_finalize() and only 22 of those use the new
-operations), but let's avoid making it worse :-)
-
-Could you please include a patch in v2 to move to the new
-.enable_streams() and .disable_streams() operations ?
-
-> Signed-off-by: Xiaolei Wang <xiaolei.wang@windriver.com>
-> ---
->  drivers/media/i2c/ov5647.c | 40 +++++++++++++-------------------------
->  1 file changed, 14 insertions(+), 26 deletions(-)
+On 27/12/2025 12:12, Laurent Pinchart wrote:
+> Regarding flash-leds, none of the existing bindings set a constraint on
+> the number of items. I'm not sure there are use cases for more than two,
+> but the number of flash LEDs is not an intrinsic properties of the image
+> sensor. I think listing
 > 
-> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-> index 1f8e173417b8..2619971353fd 100644
-> --- a/drivers/media/i2c/ov5647.c
-> +++ b/drivers/media/i2c/ov5647.c
-> @@ -96,7 +96,6 @@ struct ov5647 {
->  	struct v4l2_subdev		sd;
->  	struct regmap                   *regmap;
->  	struct media_pad		pad;
-> -	struct mutex			lock;
->  	struct clk			*xclk;
->  	struct gpio_desc		*pwdn;
->  	bool				clock_ncont;
-> @@ -657,7 +656,7 @@ static int ov5647_stream_on(struct v4l2_subdev *sd)
->  	}
->  
->  	/* Apply customized values from user when stream starts. */
-> -	ret =  __v4l2_ctrl_handler_setup(sd->ctrl_handler);
-> +	ret =  v4l2_ctrl_handler_setup(sd->ctrl_handler);
->  	if (ret)
->  		return ret;
->  
-> @@ -821,15 +820,12 @@ __ov5647_get_pad_crop(struct ov5647 *ov5647,
->  static int ov5647_s_stream(struct v4l2_subdev *sd, int enable)
->  {
->  	struct i2c_client *client = v4l2_get_subdevdata(sd);
-> -	struct ov5647 *sensor = to_sensor(sd);
->  	int ret;
->  
-> -	mutex_lock(&sensor->lock);
-> -
->  	if (enable) {
->  		ret = pm_runtime_resume_and_get(&client->dev);
->  		if (ret < 0)
-> -			goto error_unlock;
-> +			return ret;
->  
->  		ret = ov5647_stream_on(sd);
->  		if (ret < 0) {
-> @@ -845,14 +841,10 @@ static int ov5647_s_stream(struct v4l2_subdev *sd, int enable)
->  		pm_runtime_put(&client->dev);
->  	}
->  
-> -	mutex_unlock(&sensor->lock);
-> -
->  	return 0;
->  
->  error_pm:
->  	pm_runtime_put(&client->dev);
-> -error_unlock:
-> -	mutex_unlock(&sensor->lock);
->  
->  	return ret;
->  }
-> @@ -900,7 +892,6 @@ static int ov5647_get_pad_fmt(struct v4l2_subdev *sd,
->  	const struct v4l2_mbus_framefmt *sensor_format;
->  	struct ov5647 *sensor = to_sensor(sd);
->  
-> -	mutex_lock(&sensor->lock);
->  	switch (format->which) {
->  	case V4L2_SUBDEV_FORMAT_TRY:
->  		sensor_format = v4l2_subdev_state_get_format(sd_state,
-> @@ -912,7 +903,6 @@ static int ov5647_get_pad_fmt(struct v4l2_subdev *sd,
->  	}
->  
->  	*fmt = *sensor_format;
-> -	mutex_unlock(&sensor->lock);
->  
->  	return 0;
->  }
-> @@ -930,7 +920,6 @@ static int ov5647_set_pad_fmt(struct v4l2_subdev *sd,
->  				      fmt->width, fmt->height);
->  
->  	/* Update the sensor mode and apply at it at streamon time. */
-> -	mutex_lock(&sensor->lock);
->  	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
->  		*v4l2_subdev_state_get_format(sd_state, format->pad) = mode->format;
->  	} else {
-> @@ -959,7 +948,6 @@ static int ov5647_set_pad_fmt(struct v4l2_subdev *sd,
->  					 exposure_def);
->  	}
->  	*fmt = mode->format;
-> -	mutex_unlock(&sensor->lock);
->  
->  	return 0;
->  }
-> @@ -972,10 +960,8 @@ static int ov5647_get_selection(struct v4l2_subdev *sd,
->  	case V4L2_SEL_TGT_CROP: {
->  		struct ov5647 *sensor = to_sensor(sd);
->  
-> -		mutex_lock(&sensor->lock);
->  		sel->r = *__ov5647_get_pad_crop(sensor, sd_state, sel->pad,
->  						sel->which);
-> -		mutex_unlock(&sensor->lock);
->  
->  		return 0;
->  	}
-> @@ -1149,9 +1135,6 @@ static int ov5647_s_ctrl(struct v4l2_ctrl *ctrl)
->  	struct i2c_client *client = v4l2_get_subdevdata(sd);
->  	int ret = 0;
->  
-> -
-> -	/* v4l2_ctrl_lock() locks our own mutex */
-> -
->  	if (ctrl->id == V4L2_CID_VBLANK) {
->  		int exposure_max, exposure_def;
->  
-> @@ -1351,13 +1334,11 @@ static int ov5647_probe(struct i2c_client *client)
->  		return -EINVAL;
->  	}
->  
-> -	mutex_init(&sensor->lock);
-> -
->  	sensor->mode = OV5647_DEFAULT_MODE;
->  
->  	ret = ov5647_init_controls(sensor);
->  	if (ret)
-> -		goto mutex_destroy;
-> +		return ret;
->  
->  	sd = &sensor->sd;
->  	v4l2_i2c_subdev_init(sd, client, &ov5647_subdev_ops);
-> @@ -1385,9 +1366,16 @@ static int ov5647_probe(struct i2c_client *client)
->  	if (ret < 0)
->  		goto power_off;
->  
-> +	sd->state_lock = sensor->ctrls.lock;
-> +	ret = v4l2_subdev_init_finalize(sd);
-> +	if (ret < 0) {
-> +		dev_err(&client->dev, "failed to init subdev: %d", ret);
-> +		goto power_off;
-> +	}
-> +
->  	ret = v4l2_async_register_subdev(sd);
->  	if (ret < 0)
-> -		goto power_off;
-> +		goto v4l2_subdev_cleanup;
->  
->  	/* Enable runtime PM and turn off the device */
->  	pm_runtime_set_active(dev);
-> @@ -1398,14 +1386,14 @@ static int ov5647_probe(struct i2c_client *client)
->  
->  	return 0;
->  
-> +v4l2_subdev_cleanup:
-> +	v4l2_subdev_cleanup(sd);
->  power_off:
->  	ov5647_power_off(dev);
->  entity_cleanup:
->  	media_entity_cleanup(&sd->entity);
->  ctrl_handler_free:
->  	v4l2_ctrl_handler_free(&sensor->ctrls);
-> -mutex_destroy:
-> -	mutex_destroy(&sensor->lock);
->  
->  	return ret;
->  }
-> @@ -1416,11 +1404,11 @@ static void ov5647_remove(struct i2c_client *client)
->  	struct ov5647 *sensor = to_sensor(sd);
->  
->  	v4l2_async_unregister_subdev(&sensor->sd);
-> +	v4l2_subdev_cleanup(sd);
->  	media_entity_cleanup(&sensor->sd.entity);
->  	v4l2_ctrl_handler_free(&sensor->ctrls);
->  	v4l2_device_unregister_subdev(sd);
->  	pm_runtime_disable(&client->dev);
-> -	mutex_destroy(&sensor->lock);
->  }
->  
->  static const struct dev_pm_ops ov5647_pm_ops = {
+>   flash-leds: true
+> 
+> is correct. Sakari may have more information.
+> 
 
--- 
-Regards,
+IOW, that's not a pin going from the sensor to the LED but rather final
+board/system design? And same sensor could be used that way with
+arbitrary number of LEDs?
 
-Laurent Pinchart
+Best regards,
+Krzysztof
 
