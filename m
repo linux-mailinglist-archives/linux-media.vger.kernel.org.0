@@ -1,128 +1,110 @@
-Return-Path: <linux-media+bounces-49596-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49597-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08272CDFCFA
-	for <lists+linux-media@lfdr.de>; Sat, 27 Dec 2025 14:15:14 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA7E0CDFB1F
+	for <lists+linux-media@lfdr.de>; Sat, 27 Dec 2025 13:33:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0372B303D9FA
-	for <lists+linux-media@lfdr.de>; Sat, 27 Dec 2025 13:11:51 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 287883008D51
+	for <lists+linux-media@lfdr.de>; Sat, 27 Dec 2025 12:33:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31AFE32B99B;
-	Sat, 27 Dec 2025 12:20:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 935093314D3;
+	Sat, 27 Dec 2025 12:33:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sh09vUZJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o/XDgj5W"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01FB532B99A
-	for <linux-media@vger.kernel.org>; Sat, 27 Dec 2025 12:20:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F1232FA1E;
+	Sat, 27 Dec 2025 12:32:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766838033; cv=none; b=P7UH9EWeMo5tpbZJ9YQqSvjfHGY9uR56ImA3jeN9ZBFSv/v0rTqJXhyxsym/WNiQ2ceotOQAaI8n73Jv64hU7Xswbgm9D4dy4c+XuOfgJDHX/f/TbYhaEZo/npgIxQIeQgXs13y0V0orzKlX1vVy8HRs23jh++vzPzlPAbr5Z8I=
+	t=1766838781; cv=none; b=KsP0BIV3e5Zl1qJT8GrXSyR36xcckNwQclTpj4Mc+o7bn6nQUdZ5v/C/Qb/lMRZnBhrbYqMvZVn9W4LfaaJ4sQfoFGxpBr0hBcnC9xcbjPC9tcAkLkk5CmSy/twXJgIwxx1Y3lyfgSy3tCqvEXK+yk0+ifrUltCEycguDYRkZzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766838033; c=relaxed/simple;
-	bh=ViShpRpNoxGO8Zvlyak7SFSG0dz1mWoEy2EgxRhIuYU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=D2F8KpVZ8xlHkt2RcNgIGn4bOtqcPdrNnm7MXCRyGPKN7k+08GlUmr1q56zeQyAWA8Je8Ukg1ZsdYo6GruQ0UwEyfMaLvppdxPBq5GkXzii0kn0q5sJMwn5IG5dh4TGASXXkzz2CWqYXrfKctj2A67udWXWkZjJNaaU3Z8vXIrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Sh09vUZJ; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5942b58ac81so6572396e87.2
-        for <linux-media@vger.kernel.org>; Sat, 27 Dec 2025 04:20:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766838030; x=1767442830; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gu0hdt3x2HR6dSPqUKV/8Rrx3e+fQI4f8ZaVCl3DxKI=;
-        b=Sh09vUZJwVNKvMAwpJxAg6T9ayf8h2AOJam8lGLGvxW4RE00rheTp6Pv3AhFNH62ll
-         mnX0nlTdpJodnontvJ1JkVxKrgyHdcZbUiCcH/brbFUfmo1k6yCPhsSWzCMBQt/wZidi
-         sb1DiUiQa1P4nxWkAPh5RxoQHf/+EwdM0tjpilP1iGOnJ5WqSdClAwl98UScEerWxIN9
-         3J5s79WGp+yeHRohmySNF2lCqF5lNJrICxRADRG92KVppqsovczb8twsTPTAeloQF+W7
-         D4IsCNkxkGmPTlrF6WPbyIbfy0qFkTMd+9ojmhXZXGCiwjWrPlopeBjJrujjOtMdY15k
-         Hmfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766838030; x=1767442830;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gu0hdt3x2HR6dSPqUKV/8Rrx3e+fQI4f8ZaVCl3DxKI=;
-        b=Br1UyCJVUk7/6EbPRIEdbs9itpk8DaOiK4nnaOiuMa4bdvnzFvbbw1q47rmUIaAnWk
-         YxvYaml+qbWjc5VHw0FL2LZbvKL/BDUbOpJYy3vKMJcjMzHgjiS1WabF5afdNcyeWibr
-         VL56HfFTq6fCV+PrNosLy3OcAezMEcNI0W3fSuGvk4jSRlc6pwM8frhKDsqjy5RG2GA6
-         oFa1GzMizTQh6Ff1mMvPLB3oGZgrbkXuhQ8NDOHQL5PB6S1heXxPq9waGNn/anFwEuRh
-         W3e25IBdvOWI7L7g9pQfKWK8Jh5k6SYgULjq7ocghBEnOTrUvfv7ARg2jOX0qG5rSgLA
-         6faw==
-X-Forwarded-Encrypted: i=1; AJvYcCXZo67OB7qmKjYvMRdgbOn7zZIiEz5R04dOK8uqX8DfGM5IJCeRg37YcZ+2C6Cor24xp1lvZx2O/A/yeQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPsybmdC96PcuhIwGFgi/Sy8NJehqRAgn265M2xEErHeD5UQGR
-	Fj5+qKuKzJ0c/OpP7URUmp9x/6qi0oMrkSHX+n0a/DBw+P0dKDQpBu1H
-X-Gm-Gg: AY/fxX7+2sFCGFWjRAg+Dd8q9B2PNr6Z8YNTdni+KnWHXHiqAHU+M5IcyI0VIJioY10
-	h1sA48+i06OY6HiCsFOIK3vj8otRIvBNI6PqD2AY6vQ8sFz6OuSxp78vF7qTqT1eaJL6WtUdSLw
-	B/+iSEvcp3b9R3o2GUuf21FFwYlaZpM7jrFHFfxx3solhd1/275V9/Hv9dp+cXhAcZIHp0FQM/I
-	Sxbd6yCQH5lx7FjcmlymoWQntMtA+8aYGAXMYBogMW8RLzJPizgWvpHczcYb9VcbBKYLVXV23u5
-	vwytvVcgVxBZBeNCdMys/Ph2y41/gVoUtkdQoPZ2A4YvYdqJhZEQBLhUj1TBdEmf1+pb3ttDdSm
-	xO/OVU4t3RMl3iVvdfsschd7qphSX0k8JijqR1O8aw2FhB/x5m7y/g4j0szxLDM2VzX8jCyYZY7
-	9+zChTY2IfXCDlZ6Z7iREe7AYBzrU=
-X-Google-Smtp-Source: AGHT+IE3nq/gbPSFuEDdA5YBhzgkzKmx4GdK6dsDzMoBwJOj7JjaPLrx1nwV7C8th3UvQh4+NFI6qg==
-X-Received: by 2002:a05:6512:131c:b0:59a:1152:57d9 with SMTP id 2adb3069b0e04-59a17d722bdmr7507324e87.6.1766838029960;
-        Sat, 27 Dec 2025 04:20:29 -0800 (PST)
-Received: from localhost.localdomain ([176.33.65.121])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59a185d5f07sm7356479e87.12.2025.12.27.04.20.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Dec 2025 04:20:28 -0800 (PST)
-From: Alper Ak <alperyasinak1@gmail.com>
-To: mchehab@kernel.org,
-	hverkuil+cisco@kernel.org
-Cc: Alper Ak <alperyasinak1@gmail.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
-	Daniel Scally <dan.scally+renesas@ideasonboard.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: renesas: rzg2l-cru: Fix possible ERR_PTR dereference in rzg2l_cru_get_virtual_channel()
-Date: Sat, 27 Dec 2025 15:19:44 +0300
-Message-ID: <20251227121946.67935-1-alperyasinak1@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1766838781; c=relaxed/simple;
+	bh=8ehUF8iI3V2JVPJRE2KySeqarSaCv7UrkDB5YzapNqw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hVC7Ix1OXubM0491cMQJy6N5aTfGOiqwZfaAhfMZFmbTFBdY2BSv+aXAYa+1mENTwCmXXj0q3xut+Tzv6+O5146Y8ksGXUQ7Tf3nhDScq9hyC4fz5TaomNdFwOPhp+G81XgBgUsEEK14IlwZlpf1YqDN1zre3CSwDYbaEWw/VZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o/XDgj5W; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0737C4CEF1;
+	Sat, 27 Dec 2025 12:32:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766838779;
+	bh=8ehUF8iI3V2JVPJRE2KySeqarSaCv7UrkDB5YzapNqw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=o/XDgj5WaTbz4WrqV+IBoxhdV/NzmbYVJqpQqz2k2V84Qs8qK93nQpnYVwYbLOCKE
+	 gtMN7tu+qfWbVpo4dT6t2rtMgffYBzuEMeU//nc37vWNO2vV69F9vPdDrlAIyIL3fx
+	 TxfPRlRf8NxD3h5a6xxkymrKnM5Oaxm0IYQnU/z3gmKJOZid8sVMizdx2Ay/C8YKk2
+	 nTHvcp9ZWOUVVeDTRWjh559fTiwaB1kJrmIF0/h6F31aKOLR4CbV9oRfP5gxDcgcas
+	 9EmezOjTuXBNy9zk2U+2/15E46EyNtGav54xyh/CuvLVcGb7d4khHTZcbvO+NAWurw
+	 a5SuYpab67xcw==
+Date: Sat, 27 Dec 2025 13:32:57 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Jianhua Lin <jianhua.lin@mediatek.com>
+Cc: mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	Project_Global_Chrome_Upstream_Group@mediatek.com, sirius.wang@mediatek.com, vince-wl.liu@mediatek.com, 
+	jh.hsu@mediatek.com
+Subject: Re: [PATCH v2 3/4] dt-bindings: media: mediatek-jpeg-encoder: add
+ MT8189 compatible string
+Message-ID: <20251227-glittering-opalescent-caterpillar-3c24d8@quoll>
+References: <20251224031721.9942-1-jianhua.lin@mediatek.com>
+ <20251224031721.9942-4-jianhua.lin@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251224031721.9942-4-jianhua.lin@mediatek.com>
 
-media_pad_remote_pad_unique() can return ERR_PTR(-ENOTUNIQ) or
-ERR_PTR(-ENOLINK) on error situation.
+On Wed, Dec 24, 2025 at 11:17:20AM +0800, Jianhua Lin wrote:
+> Compared to the previous generation IC, the MT8189 uses 34-bit iova
+> address-space (16GB)  and requires a single clock configuration.
+> Therefore, add "mediatek,mt8189-jpgenc" compatible to the binding document.
+> Additionally, it corrects the inheritance for MT8188, aligning it
 
-The current code dereferences remote_pad without checking for
-these error cases, which could lead to invalid memory access.
+Two different issues. Don't mix them up. See submitting patches.
 
-Add IS_ERR() check before dereferencing the pointer.
+> with MT8189 due to their shared architecture and 34-bit iova address
+> space (16GB) requirements.
+> Previously, MT8188 was incorrectly defined alongside SoCs with 32-bit
+> iova address-space (4GB), such as "mediatek,mtk-jpgenc". This mismatch
+> results in an ABI break, as MT8188 cannot function correctly under
+> the 32-bit iova address-space (4GB) configuration.
+> 
+> Key changes include:
 
-Fixes: d7d72dae81d5 ("media: rzg2l-cru: Retrieve virtual channel information")
-Signed-off-by: Alper Ak <alperyasinak1@gmail.com>
----
- drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 3 +++
- 1 file changed, 3 insertions(+)
+How is this related to above?
+> - Introducing "mediatek,mt8189-jpgenc" as a new compatible string to
+>   represent the correct architecture.
 
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-index 162e2ace6931..bf7d96841c78 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-@@ -411,6 +411,9 @@ static int rzg2l_cru_get_virtual_channel(struct rzg2l_cru_dev *cru)
- 	int ret;
- 
- 	remote_pad = media_pad_remote_pad_unique(&cru->ip.pads[RZG2L_CRU_IP_SINK]);
-+	if (IS_ERR(remote_pad))
-+		return PTR_ERR(remote_pad);
-+
- 	ret = v4l2_subdev_call(cru->ip.remote, pad, get_frame_desc, remote_pad->index, &fd);
- 	if (ret < 0 && ret != -ENOIOCTLCMD) {
- 		dev_err(cru->dev, "get_frame_desc failed on IP remote subdev\n");
--- 
-2.43.0
+Why are you repeating the same?
+
+> - Updating MT8188 to inherit from MT8189, ensuring proper support for
+>   34-bit iova address-space (16GB).
+> - Add property "mediatek,larb" for MT8189 requirements.
+> - Improved formatting for better readability and consistency.
+> 
+> These changes ensure that both MT8188 and MT8189 are correctly supported
+> with the necessary 34-bit iova address-space (16GB), while maintaining
+> compatibility with their shared architecture.
+
+This is not a contest who writes the longest commit msg by repeating
+obvious things.
+
+> 
+> Extensive internal review and testing have been conducted to validate
+> these changes and ensure compliance with DT binding standards.
+
+Really, no.
+
+Best regards,
+Krzysztof
 
 
