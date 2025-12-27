@@ -1,123 +1,134 @@
-Return-Path: <linux-media+bounces-49588-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49589-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04008CDF841
-	for <lists+linux-media@lfdr.de>; Sat, 27 Dec 2025 11:56:34 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5836ECDF890
+	for <lists+linux-media@lfdr.de>; Sat, 27 Dec 2025 12:12:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id CBD50300304F
-	for <lists+linux-media@lfdr.de>; Sat, 27 Dec 2025 10:56:31 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C876430111AB
+	for <lists+linux-media@lfdr.de>; Sat, 27 Dec 2025 11:12:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C85ED275AFD;
-	Sat, 27 Dec 2025 10:56:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0053D2F361B;
+	Sat, 27 Dec 2025 11:12:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZO6jiFHe"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="b1Gzj6JW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDD101EB9F2
-	for <linux-media@vger.kernel.org>; Sat, 27 Dec 2025 10:56:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 747AAB665;
+	Sat, 27 Dec 2025 11:12:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766832989; cv=none; b=TQRJgBXTQ17xbbJV/nxXZxrOzxPpbl9v3W1hAO4ksvCLpYlcm+38jn38UUOGPICS3pKauf5YaOvekj5VFBsOX1sUSdEHafRukZIbcRTiOZflZLAqde+6sW5ujl2EVnexKNAVPJCvyHuyl89knoWD4MTo71WbL1FOfvwlqCHpxC0=
+	t=1766833946; cv=none; b=tykE1wELgZiNwKWD6jcwDj7PprG3dW14JTzbtM/uCSg7BMqdyFaYqUCqxHuJvdp4Vo2aRJNqkqFxqi+x86CIbjD4HAgB8jUH02mj2gA7uLcG7oQl7XuxSyDlAJAa1tO8FdEUI6VaFvuGO8ainWDiNgdAD/7gvxn5iJxPkfAf/xA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766832989; c=relaxed/simple;
-	bh=rwK8Yb8lMppqkdA0k3CGzENNnh2QljvEb2uEw3c5S/0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C62JTXNi3V5YG05njZRJZD1H1xRDs0aLk6FHnjyKvDtksF3Je7QVdDIduux6CIbFbyvuWLIn7bc3ZwFBusbQTJgfGYAeVW0lWWN9s/79/zAIHMj7OVieVY7FAqGilzUBv9WkJP9S3NO+hrKN12wUQd+AMtF81/WB+t+rnnpMhVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZO6jiFHe; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2a0f3f74587so111361565ad.2
-        for <linux-media@vger.kernel.org>; Sat, 27 Dec 2025 02:56:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766832987; x=1767437787; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LVirW5At3YCuRHq9p7Wco6R/vGAcg0AwQjMQ8Fn6NiU=;
-        b=ZO6jiFHebHT3Js4aL2Oc7FnF2eL8eGbasGm9w1w6LomMggam1lxr8zCMBlIZSJ8a5X
-         iyPeYlHmLHutElm3xRgpqSr31InIw1D749znp/1EUGHShRlreaovMpihsC5sVKPT3IRN
-         OXCihNu0QPxtAbwhLFfzlzDEnD2Jkm2WDXXNBBcQf0fNpHbr1Ag0PRJLd6Pue7+I8BkH
-         3kNSVFrzCGxvJ/nsGjy4i2Gx3pbwLhmYwbDm/uPGrsIoRMlCq9jPaK2UIWdDLIKLsFQi
-         yO+Mb+lCPCJXrsNtpZDkh7cIhG074rtnn1kTqlVu8x9IG7jpeX4ppnv0a6Y87pOhW1Uh
-         35pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766832987; x=1767437787;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LVirW5At3YCuRHq9p7Wco6R/vGAcg0AwQjMQ8Fn6NiU=;
-        b=loYD/g5HvqB3ntcTIqAtd3xr//I1dADjtmqfVYDH1E4lulPZY3gfID5uUvtNDt199+
-         qp6w8sQEdG/AySUJ/JApNCu1tKUTMm33b5BZDL04g7XERelJ2Je8ykJoQdi9abBHDnoE
-         TZe0HdH+PNbnooalcwIyoIxl+COAgxyh9QStOBTSqaGmigWr2KNaU3naVaYElghP+htm
-         l0FY67hZf8XDpwUcwEXRFmWW94C0lt0W7lQHsSlcxJc0GMq/pNxRaadNHgMNvXV3h7E7
-         569wCY1JWaak8tIZNEdQIM06yBvDm51Neg78fMJwvHON9hZtpiTFVpjeygcm1+Yp14r+
-         YJqA==
-X-Forwarded-Encrypted: i=1; AJvYcCV7sl3AXEfAHDyndPBBL3qD5Abhk7kqeMpC+UHuJuI+yl/TvgAqfjfjVXFW2XtsXUL4Uc5BUctY9VGwnw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxmdAtqJJDiJyODCJh/RpxKw60zOneS9JIia62QgAgbhSifiW+t
-	9bCJOhziQ0zw4mO4ziTM5zRu140VzrWQcVi1vtLALZ/m6HWM0mZO+MM+
-X-Gm-Gg: AY/fxX4eVwg2/IlT3qtG4lFduMsdl6R8ZJM16+Iyk2NWJC3/fpJIrwCHBYQZ2K5JP8a
-	9UUcCbEXDySSeyH44V+jthhfEBWx1qQ5vpz40D/h5zr6kmLy+dugCF+5Mbuc4IKf5zwXlMH4mhQ
-	bv8/1yTv3kIwrMfX4TZ3ytBUsq08lDmfiostujo7oE8U0LddgHqzZMpTvQJwG8c+XosfnXAtItF
-	fDH4DnDbgLQtLUwnSMMes2++XSPIRIC+9DHN1CB6cOZCVlzmtMJYDWT05kZJTsZFPHgs/S5Tp95
-	GCDH6WU5JtK0JX9Z53fnqrH29xjFvuf5lIxXEZ9wfr/JeugIod8XA1EqyHlxDo03dPJbkXqvBIe
-	XfemP81yF8nlMLeraVNcyNHshZ7tRbcP0uDeioN2Fn4YswGym1fC2i3/3cvTnUHfD/d7dujDYtP
-	m7gjreeh9KW0ijsvUGv8vEQg==
-X-Google-Smtp-Source: AGHT+IGRAYT/ctmH6zSNM1LdV5E+cpyyJcWG5cuzwamCZbhyzUijnn7x7Xah8sTXzyJBA6LMg8AO3g==
-X-Received: by 2002:a17:903:2448:b0:2a0:e80e:b118 with SMTP id d9443c01a7336-2a2f2212781mr276888145ad.7.1766832987225;
-        Sat, 27 Dec 2025 02:56:27 -0800 (PST)
-Received: from karthik.. ([43.247.159.43])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3c8286esm227372435ad.33.2025.12.27.02.56.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Dec 2025 02:56:26 -0800 (PST)
-From: Karthikey D Kadati <karthikey3608@gmail.com>
-To: Hans de Goede <hansg@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Karthikey D Kadati <karthikey3608@gmail.com>
-Subject: [PATCH] staging: media: atomisp: fix block comment coding style
-Date: Sat, 27 Dec 2025 16:26:13 +0530
-Message-ID: <20251227105613.23283-1-karthikey3608@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1766833946; c=relaxed/simple;
+	bh=a/qD89sjTFhKU17Y1Bja5fweNzEn4WGn8snkyMT/rXw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T8zNC0MRXXzzX0UueCItWmFACWjkwZbuy8bUj+wa0KB5FiEQZrm4S19FZT5Dc0X2dOiBWiq7WYXoVHdo990k8eDpGLiSsUcxXdO1oyOKeQA5RhlQXyKhDGd0byiXjUawLep806aASRizN3RnFTV/w0S4F+1yrFf2KM526Oil4+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=b1Gzj6JW; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-152.bb.dnainternet.fi [81.175.209.152])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id C1CE9BB;
+	Sat, 27 Dec 2025 12:12:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1766833929;
+	bh=a/qD89sjTFhKU17Y1Bja5fweNzEn4WGn8snkyMT/rXw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=b1Gzj6JWQI8NY5zMBmM1wSD1QUgAtrRInhdVvdUimt/F+BJRPFg/VQXLZg25LO9DJ
+	 9/NMMxWv6E4yvE4Vj+V3oW6Hukpty2a5i68VrX85+YTbSwDwLF18lAxy2Nk8+GffuF
+	 lBJJjty8zvTjlyEuOim//zJ6dlKiXxSWhoSyIJ5I=
+Date: Sat, 27 Dec 2025 13:12:06 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Alex Tran <alex.t.tran@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] media: dt-bindings: i2c: toshiba,et8ek8: Convert
+ to DT schema
+Message-ID: <20251227111206.GF4094@pendragon.ideasonboard.com>
+References: <20251224-dt-bindings-et8ek8-omap3isp-v2-0-0728cc1fee27@gmail.com>
+ <20251224-dt-bindings-et8ek8-omap3isp-v2-1-0728cc1fee27@gmail.com>
+ <a7126a74-48f2-467b-91bb-21f28a251400@kernel.org>
+ <CA+hkOd4rJAyQPe1kgJYreGX+Wpi+EoX8s-CsD_JCP77WE5a=Mw@mail.gmail.com>
+ <ec9a2f6a-4cad-4989-8d40-af7b718a164b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <ec9a2f6a-4cad-4989-8d40-af7b718a164b@kernel.org>
 
-Fix the checkpatch.pl warning:
-WARNING: Block comments use a trailing */ on a separate line
+Hi Krzysztof,
 
-This change aligns the block comment at line 1384 with the standard
-Linux kernel coding style for better readability.
+On Thu, Dec 25, 2025 at 10:08:47AM +0100, Krzysztof Kozlowski wrote:
+> On 25/12/2025 09:57, Alex Tran wrote:
+> > On Thu, Dec 25, 2025 at 12:40 AM Krzysztof Kozlowski wrote:
+> >> On 24/12/2025 22:59, Alex Tran wrote:
+> >>> +
+> >>> +  reset-gpios:
+> >>> +    description:
+> >>> +      XSHUTDOWN GPIO. The XSHUTDOWN signal is active low. The sensor
+> >>> +      is in hardware standby mode when the signal is in the low state.
+> >>> +    maxItems: 1
+> >>> +
+> >>> +  flash-leds: true
+> >>> +  lens-focus: true
+> >>
+> >> No, where did you find this syntax. I do not see how you carefully fixed
+> >> it. You need proper schema for these.
+> >>
+> >> Best regards,
+> >> Krzysztof
+> > 
+> > I saw it used under sony,imx214.yaml and mipi-ccs.yaml. I thought referencing
+> > video-interface-devices.yaml in this schema was correct because the flash-leds
+> > and lens-focus properties are both specified in that file.
+> 
+> Ah, so you wanted to reference video-inteface-devices in top-level?
+> Wasn't this already before? If that was missing then that's another
+> thing to fix.
+> 
+> And then you need to use unevaluatedProperties: false. flash-leds needs
+> constraints, number of items. lens-focus you simply remove.
 
-Signed-off-by: Karthikey D Kadati <karthikey3608@gmail.com>
----
- drivers/staging/media/atomisp/pci/atomisp_cmd.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+I do have a preference in general for keeping 'additionalProperties:
+false' and listing
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 3a4eb4f6d..327836372 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -1380,8 +1380,10 @@ static void atomisp_update_grid_info(struct atomisp_sub_device *asd,
- 	if (atomisp_css_get_grid_info(asd, pipe_id))
- 		return;
- 
--	/* We must free all buffers because they no longer match
--	   the grid size. */
-+	/*
-+	 * We must free all buffers because they no longer match
-+	 * the grid size.
-+	 */
- 	atomisp_css_free_stat_buffers(asd);
- 
- 	err = atomisp_alloc_css_stat_bufs(asd, ATOMISP_INPUT_STREAM_GENERAL);
+  lens-focus: true
+
+(with a reference to /schemas/media/video-interface-devices.yaml at the
+top level of course).
+
+The reason is that using 'unevaluatedProperties: false' will make all
+the properties defined in video-interface-devices.yaml valid, even the
+ones that don't apply to this device. This being said, most of the other
+properties defined by video-interface-devices.yaml are applicable to
+this device (the exceptions being 'leds' and 'led-names'), so I won't
+fight for this in this specific case, even if I think it's better as a
+general rule.
+
+Regarding flash-leds, none of the existing bindings set a constraint on
+the number of items. I'm not sure there are use cases for more than two,
+but the number of flash LEDs is not an intrinsic properties of the image
+sensor. I think listing
+
+  flash-leds: true
+
+is correct. Sakari may have more information.
+
 -- 
-2.43.0
+Regards,
 
+Laurent Pinchart
 
