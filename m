@@ -1,132 +1,165 @@
-Return-Path: <linux-media+bounces-49585-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49586-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B5ABCDF7DC
-	for <lists+linux-media@lfdr.de>; Sat, 27 Dec 2025 11:28:57 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89229CDF82F
+	for <lists+linux-media@lfdr.de>; Sat, 27 Dec 2025 11:49:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 98285300EE7E
-	for <lists+linux-media@lfdr.de>; Sat, 27 Dec 2025 10:28:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B10C4300ACFA
+	for <lists+linux-media@lfdr.de>; Sat, 27 Dec 2025 10:49:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7CE1274B53;
-	Sat, 27 Dec 2025 10:28:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B61C24A06A;
+	Sat, 27 Dec 2025 10:49:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NVXl27R/"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="K5GbzvLB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC4F23D7D4
-	for <linux-media@vger.kernel.org>; Sat, 27 Dec 2025 10:28:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D65F487BE
+	for <linux-media@vger.kernel.org>; Sat, 27 Dec 2025 10:49:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766831324; cv=none; b=j0Z7bluU6CCpMk6q4zklQ+SQHZiIXKWZpTdL7DaLi/FlihAvtvXiGzygXJ1fSIMEXA98Ok5IPj9iFhJUMrHYgrGe6k2sQdL9k33SuCQuloq/t4MtyiRvjvd7Kdpr5YzWkpbkLUrjftpas6l+vYGU8ZCgfFCxGMHbcDGo2j0adnY=
+	t=1766832559; cv=none; b=iLPJy16fQG26qMqkg6c9JfEh5UHTE3oHTP687sonI2TYAGdzp9/8q+LnazDN+PSl2s9EiRgZHl+M+bolsg95ivMrDbWf8XH2yvlhqmVgI6QGWvN391i/fR6IezKfjFQtmgzVy37Bx2DfdUzW4dbWiuz+s8OBHOfufJDUwLljSQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766831324; c=relaxed/simple;
-	bh=7ifwGnwU2gSMG4rlAGg9IHam02eL0qNZQeZmcuAb10A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B0jM02QhzKQg9Q+GFy3mL4GmtPoUCUFMN0gfmHHkyCyAi3p8NP+iVa9jAT3JS1lYOCrrVrt/autegzEq1v7pt5ed+J3v/lrCWkFljHEqHdAUAwcznBEWgJ5yzdbNTuX4tFhQwezXQkcOPE5cEGALoT8mI/s5Ldq65FjfA9F+gZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NVXl27R/; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-59911cb8c3cso8617353e87.2
-        for <linux-media@vger.kernel.org>; Sat, 27 Dec 2025 02:28:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766831321; x=1767436121; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dyV3/IfGZSZhz5jBAppPai6Eu+WvUPDRdhge/3Q6vjo=;
-        b=NVXl27R/inmgaXapaDqKU5H1P0FV30pOP9pBvSNUU4FiKLuPeTUwsve9kdk/B987Sa
-         TQdi8NgexOawYNtyV9SNVHAYT0aiVga27AcBJZZxwndinmhslZtk8EOp6CrSuoItsjq1
-         8cm/LiC4O6gXQcsyalj94r1Zz7vKUQb44ov3rCWUHEdvdxpPf4Xuf/IurOiiPwNdrM/3
-         zANeLdukFXwnYLBEFSkqpvIiA3eEKd33ZfOlzEDtmo2d/5VK9CaK1AVkWo6YI5J73BK2
-         on1cnhrzVaGsPZAObOfia8PLgD0AI1UlOcebPqGpXLV/LkFH4GGKzJ+xYPKVARWfl7pz
-         9fiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766831321; x=1767436121;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dyV3/IfGZSZhz5jBAppPai6Eu+WvUPDRdhge/3Q6vjo=;
-        b=IcnmRh5P9dByyMDavLRZ0s2HpZUiNYEVouaSwi1EVkOygHFlKoR59M0HjsOk9+HpdV
-         zmsBr7c179VIbvfx/114t/sfXK/6Jho9gmJxFCUlHaG1wfjBoPHevMZChUQt+GH0I6po
-         9jIj9XdnTOozu/SzaOuipVUNTroUyliTul3WNPMp8+PMQjri9WPbSBCPOUlYsZUp1fHH
-         5LtZHqk8JuRdSWNQ86jTTF8DlW03UIuFGjSF7tAnV4kaWaR1ck0nY2BIJr04iYTy/5/U
-         IEjUIorrUmXBBg57gCUTltgN2pvdjDgcDHkR/Dqzo4qcHY9bEw0a04NfD0/DNFItL6RF
-         2dRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXuEAVXHbKdH97l4AaheD6NyvQHwbRPUyobPwM0ONGTSQFktmIDfmfi83UXNov67y+/7BTZ9n6a4zUzTw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzxyRf3uqCS/v6EVHmcyiJC1rySEQ7oaFBxyoyjB236U+m0nhVC
-	nBLFwUje1iKKBBCLaT7VwltnBFsYdL3UTjnVNXU8T3RSStcQ0Mb7ak3h
-X-Gm-Gg: AY/fxX7GJg69+O3S6Kkbof03CIZjs/MR0LA7HO8ixsHpiXDMNg+xu/Dk9SsiIiqMFTl
-	OcViC5VKrlnFjvXHOkXnsd1FdSZyKFmlRS05v2dotNWjI+DhvwRGlHZ+46bpiJtYYCZ4exiFdNZ
-	j52K3jt9NYCI77F0HZDkZN2x45+SrVzAi6mlzJ2CN6XerbWZkUXbE+Eok1z0hFKkDQI1xGuAPeA
-	2mkdNdOVOJRutEsdNHcMm29nRihGr2GvQEp3jIlo7zyYRE6WvRl7p4k5d9lIht0s+Vo8oygaqvB
-	JTgnJo4lW36naGykjz0moVIUWyLg/KHB3QI9VPVvkFr4FIsLmJWmoQjcpMK3YmX7NSn4QUa6aKh
-	diRuX/Gpqnr/xY+Ej/dSdDixzptErPeRDiV+F83nrbtTNDg7M9TgXCA6zVreFQtc1rtfziVW52F
-	2xHfj7V4bUF+LR6oj2fl5SkXMpnEg=
-X-Google-Smtp-Source: AGHT+IE90WFoUZjrTLGRhe0P8f2Vkr/jZhcbkZMYy7AeoSZMCzqYFaNAxbgBLHqiUPw8Nc2EhLIzFA==
-X-Received: by 2002:a05:6512:3b0a:b0:591:ec0f:fa92 with SMTP id 2adb3069b0e04-59a17d18184mr9594424e87.3.1766831320381;
-        Sat, 27 Dec 2025 02:28:40 -0800 (PST)
-Received: from localhost.localdomain ([176.33.65.121])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59b2958aae1sm3054055e87.41.2025.12.27.02.28.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Dec 2025 02:28:38 -0800 (PST)
-From: Alper Ak <alperyasinak1@gmail.com>
-To: hverkuil@kernel.org,
-	mchehab@kernel.org
-Cc: Alper Ak <alperyasinak1@gmail.com>,
-	Robert Foss <rfoss@kernel.org>,
-	Todor Tomov <todor.too@gmail.com>,
-	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Jonathan Marek <jonathan@marek.ca>,
-	linux-media@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: qcom: camss: vfe: Fix out-of-bounds access in vfe_isr_reg_update()
-Date: Sat, 27 Dec 2025 13:24:41 +0300
-Message-ID: <20251227102442.44989-1-alperyasinak1@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1766832559; c=relaxed/simple;
+	bh=U4CWAwybJxVEqyFj5d8Z98mHFSUw5M8z0cpsak4zav8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hzzxscro6oE8aIcSC5aZvtdX/t0yFexBFnyl37jbQNrKJfHd2gz/DPv4lZb9aPpIOonXT0eOOAah3vZvot8YzwE4I2T1/VAyRovJGNCKBA7oj2e8KTnKxTKpDF1Is9HGHQ5czqblhUvRSc0DSpz/NicaqYoW1dllo+F0nnl3hrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=K5GbzvLB; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-152.bb.dnainternet.fi [81.175.209.152])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id B4EAA10D;
+	Sat, 27 Dec 2025 11:49:00 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1766832540;
+	bh=U4CWAwybJxVEqyFj5d8Z98mHFSUw5M8z0cpsak4zav8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=K5GbzvLBXp1NwKw82Ao42/RNFy9Ol5zaHy/yZkcy1k7pAoHVz64YovKlB7T6EYTfj
+	 ZZINBnartV19a0Bjf/6mFtLG2kviHpFvr6WJ3aLT1Rax8R9SDbWO76Ofz6Ebeq527c
+	 XawWEHpkgl4QnFDfXQSMdwq4pR6GX0qI5i6H2a+U=
+Date: Sat, 27 Dec 2025 12:48:58 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Oliver Collyer <ovcollyer@mac.com>
+Cc: hansg@kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v2] media: uvcvideo: Add support for P010 pixel format
+Message-ID: <20251227104858.GC4094@pendragon.ideasonboard.com>
+References: <25886965-BB9A-4AFB-BEBA-E845B6CAB43A@mac.com>
+ <20251226065718.95504-1-ovcollyer@mac.com>
+ <20251226204201.GA4094@pendragon.ideasonboard.com>
+ <F9865198-1EA7-4FFE-9FE3-A631A9D2E10A@mac.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <F9865198-1EA7-4FFE-9FE3-A631A9D2E10A@mac.com>
 
-vfe_isr() iterates using MSM_VFE_IMAGE_MASTERS_NUM(7) as the loop
-bound and passes the index to vfe_isr_reg_update(). However,
-vfe->line[] array is defined with VFE_LINE_NUM_MAX(4):
+Hi Oliver,
 
-    struct vfe_line line[VFE_LINE_NUM_MAX];
+On Fri, Dec 26, 2025 at 10:26:50PM +0000, Oliver Collyer wrote:
+> Hello Laurent
+> 
+> Please find attached the relevant output from ‘lsusb -v’ for the device.
 
-When index is 4, 5, 6, the access to vfe->line[line_id] exceeds
-the array bounds and resulting in out-of-bounds memory access.
+Thank you.
 
-Add a bounds check to ensure line_id is within valid range before
-accessing the array.
+> I’m not sure what is wrong with my email setup or what exactly you’re
+> seeing but I’ll try and figure it out, sorry!
 
-Fixes: 4edc8eae715c ("media: camss: Add initial support for VFE hardware version Titan 480")
-Signed-off-by: Alper Ak <alperyasinak1@gmail.com>
----
- drivers/media/platform/qcom/camss/camss-vfe-480.c | 3 +++
- 1 file changed, 3 insertions(+)
+Something somewhere replaced the message ID in the Link: trailer with
+"[email protected]":
 
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe-480.c b/drivers/media/platform/qcom/camss/camss-vfe-480.c
-index 4feea590a47b..fac111135c78 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe-480.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe-480.c
-@@ -237,6 +237,9 @@ static void vfe_isr_reg_update(struct vfe_device *vfe, enum vfe_line_id line_id)
- 	struct vfe_output *output;
- 	unsigned long flags;
- 
-+	if (line_id >= VFE_LINE_NUM_MAX)
-+		return;
-+
- 	spin_lock_irqsave(&vfe->output_lock, flags);
- 	vfe_reg_update_clear(vfe, line_id);
- 
+Link: https://lore.kernel.org/linux-media/[email protected]/
+
+The vger.kernel.org server doesn't do that, so it must be on your side.
+Given that you seem to have used git-send-email (based on the "X-Mailer:
+git-send-email 2.43.0" mail header in your patch), I assume it must have
+happened somewhere on icloud. I don't know if the behaviour can be
+configured, if not you may need to consider switching to a different
+e-mail provider that doesn't mangle with the content of patches. Another
+option would be to submit patches using the b4 web submission endpoint,
+see https://b4.docs.kernel.org/en/latest/contributor/send.html.
+
+[snip]
+
+> > On 26 Dec 2025, at 20:42, Laurent Pinchart wrote:
+> > On Fri, Dec 26, 2025 at 06:57:18AM +0000, Oliver Collyer wrote:
+> >> Add support for the P010 (10-bit Y/UV 4:2:0) pixel format to the
+> >> uvcvideo driver. This format is exposed by USB capture devices such as
+> >> the Magewell USB Capture HDMI 4K Pro when capturing HDR10 content.
+> > 
+> > Could you pelase provide the 'lsusb -v' output for that device ?
+> > 
+> >> P010 stores 10-bit Y and interleaved UV samples in 16-bit little-endian
+> >> words, with data in the upper 10 bits and zeros in the lower 6 bits.
+> >> This requires 2 bytes per sample, so bytesperline is wWidth * 2.
+> >> 
+> >> V4L2_PIX_FMT_P010 was added to the V4L2 core in commit 5374d8fb75f3
+> >> ("media: Add P010 video format").
+> >> 
+> >> Based on the community DKMS patch from awawa-dev/P010_for_V4L2.
+> >> 
+> >> Link: https://lore.kernel.org/linux-media/[email protected]/
+> > 
+> > Please fix your e-mail setup to avoid this.
+> > 
+> >> Link: https://github.com/awawa-dev/P010_for_V4L2
+> >> Signed-off-by: Oliver Collyer <ovcollyer@mac.com>
+> >> ---
+> >> drivers/media/common/uvc.c       | 4 ++++
+> >> drivers/media/usb/uvc/uvc_v4l2.c | 3 +++
+> >> include/linux/usb/uvc.h          | 3 +++
+> >> 3 files changed, 10 insertions(+)
+> >> 
+> >> diff --git a/include/linux/usb/uvc.h b/include/linux/usb/uvc.h
+> >> --- a/include/linux/usb/uvc.h
+> >> +++ b/include/linux/usb/uvc.h
+> >> @@ -109,6 +109,9 @@
+> >> #define UVC_GUID_FORMAT_M420 \
+> >> 	{ 'M',  '4',  '2',  '0', 0x00, 0x00, 0x10, 0x00, \
+> >> 	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> >> +#define UVC_GUID_FORMAT_P010 \
+> >> +	{ 'P',  '0',  '1',  '0', 0x00, 0x00, 0x10, 0x00, \
+> >> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+> >> 
+> >> #define UVC_GUID_FORMAT_H264 \
+> >> 	{ 'H',  '2',  '6',  '4', 0x00, 0x00, 0x10, 0x00, \
+> >> diff --git a/drivers/media/common/uvc.c b/drivers/media/common/uvc.c
+> >> --- a/drivers/media/common/uvc.c
+> >> +++ b/drivers/media/common/uvc.c
+> >> @@ -40,6 +40,10 @@ static const struct uvc_format_desc uvc_fmts[] = {
+> >> 		.guid		= UVC_GUID_FORMAT_M420,
+> >> 		.fcc		= V4L2_PIX_FMT_M420,
+> >> 	},
+> >> +	{
+> >> +		.guid		= UVC_GUID_FORMAT_P010,
+> >> +		.fcc		= V4L2_PIX_FMT_P010,
+> >> +	},
+> >> 	{
+> >> 		.guid		= UVC_GUID_FORMAT_UYVY,
+> >> 		.fcc		= V4L2_PIX_FMT_UYVY,
+> >> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> >> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> >> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> >> @@ -235,6 +235,9 @@ static u32 uvc_v4l2_get_bytesperline(const struct uvc_format *format,
+> >> 	case V4L2_PIX_FMT_M420:
+> >> 		return frame->wWidth;
+> >> 
+> >> +	case V4L2_PIX_FMT_P010:
+> >> +		return frame->wWidth * 2;
+> >> +
+> >> 	default:
+> >> 		return format->bpp * frame->wWidth / 8;
+> >> 	}
+
 -- 
-2.43.0
+Regards,
 
+Laurent Pinchart
 
