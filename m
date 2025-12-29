@@ -1,332 +1,216 @@
-Return-Path: <linux-media+bounces-49643-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49644-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BD3FCE6E1A
-	for <lists+linux-media@lfdr.de>; Mon, 29 Dec 2025 14:26:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D483ACE6E20
+	for <lists+linux-media@lfdr.de>; Mon, 29 Dec 2025 14:27:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AAC88300D420
-	for <lists+linux-media@lfdr.de>; Mon, 29 Dec 2025 13:26:28 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7F3E33016186
+	for <lists+linux-media@lfdr.de>; Mon, 29 Dec 2025 13:26:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEF1F3164DE;
-	Mon, 29 Dec 2025 13:26:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50C043168E8;
+	Mon, 29 Dec 2025 13:26:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b="F/Yq/Orw"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="iF9dp4Oc";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="jCkFvyy4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PNYPR01CU001.outbound.protection.outlook.com (mail-centralindiaazon11020087.outbound.protection.outlook.com [52.101.225.87])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10EC43164C3;
-	Mon, 29 Dec 2025 13:26:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.225.87
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767014786; cv=fail; b=WUkF4/zKge9BVYanAOsMvJl3SGsvXp2YhXJE1hdPOvEOWsuOil36Tlflr138543FcDITNZKL/x/0rrtzwqnvcQXpsLRdb77+zw835fAx6IXMkR+2A5wPiVYgoE9/Sr10GDo7vK0nwmr+HJCbqdtnVLAo/JSPX1XmqLqG4w+ZBVk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767014786; c=relaxed/simple;
-	bh=gcesGHTXCu0y6Asw82XNW4O4fS1csQ5qhMmP77NvDrU=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=jAoJQF/tXd925EOvKwbPtTFEMTR1nu6fxQW8iJLqfcBGxQf9WdUruks2hrkBTMpE92a22v4Dpda4qMEKfaZhzTKMZophBSHuU6MpiCA/F2NF28rya19GEvsNA6e0sOjFUYrutNlJpEvHu863pRVhbuUstX4DqbXZvjc0X3djL08=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b=F/Yq/Orw; arc=fail smtp.client-ip=52.101.225.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siliconsignals.io
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=a6E69db9iXQRy5jIAYYou1VQUspsVpItgK2K1tUmVjBoni6PdVXKI8R4B5wl31+IONGKF8OyopxRu95dsreNydUrqS/mfxQTy8e67jqtYt4nfp/sUjOoDdpEAc14xORwdfAaHmkhzjeNbo5hRVU9cCxt5UaV3IkyViuGgJx8BbECDRqQbgChGKtXon5VTnac3OglY5zCBlvn6qi98psJeuTP3/t8mrXEuj/ZwFBlocYNalbtrRTP423F5NlpvyZCUMlA1x6pagbTlC+BWZCK1VcHLaAALLZTPgakX9I4YVraT8hW0aBqZpI2Zgxd8rPmzUKroaR1fTCkWm6aoAGYAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gcesGHTXCu0y6Asw82XNW4O4fS1csQ5qhMmP77NvDrU=;
- b=mWh6ACezD4I4MasrpnE9QFcW9CMccMYhlajthROc4CP2MexQHqK3gsyK3+OXBEGgCqmZR/uVutczUFQfi9ClxvrRuYaPm6/NTyWgLgskDT4avyAygvGKXx4FVecU0zSfZeBl78xNoCpmRXUlDH0XVbdGBjtop3NlQO6jp7W65VA93t/gAaWL1y0cEQmjMILlOd1TpEx8QtHM6qb756N26YciB4oDITnRg3OK4LogVbArwgXp2USHKPdF74aU1r++Wmkr5dwzQquOsBjBjF/TiCWt5QThKfi5FKViFCCOu7vErJbj3sbuYb3OOUj0ORwa5yO+xZJDIzV+CfA+QZskpw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
- header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siliconsignals.io;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gcesGHTXCu0y6Asw82XNW4O4fS1csQ5qhMmP77NvDrU=;
- b=F/Yq/OrwrjwBz5N1B9+7R6DOiiSOAuKx9UQ1ITIzxb5XoZ50OUP0fPTYD5YdZ7YLd+bO2JE9khJ/2HyoyECVklFcA8glUD/F0myAbTwxoCcwICnDs6rUB22BjW2kCc3spF6q8U31YM3gGHhd/L9b8zes8n5+3Glw5GKNmHHLnWPCRZc1vM3413NfeZa5PoBLfv7izczvWnd3Zr9gNE7OfSh8Zpu8iABh56zjIQtsWj/ZTDvHCDIdrGUXZCZ7oQk83niKFmEGIJMZ6/R+jEA6hXbT816/eEGhUhJCI+8K1nxBfDAiWetw4NlBEg5oTtWogIR+XSe0spn8tzV+YbC2WQ==
-Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:199::7)
- by MAZP287MB0608.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:10e::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9456.14; Mon, 29 Dec
- 2025 13:26:20 +0000
-Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
- ([fe80::ce63:5749:b390:508b]) by PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
- ([fe80::ce63:5749:b390:508b%6]) with mapi id 15.20.9456.013; Mon, 29 Dec 2025
- 13:26:20 +0000
-From: Tarang Raval <tarang.raval@siliconsignals.io>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Xiaolei Wang
-	<xiaolei.wang@windriver.com>
-CC: "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
-	"dave.stevenson@raspberrypi.com" <dave.stevenson@raspberrypi.com>,
-	"jacopo@jmondi.org" <jacopo@jmondi.org>, "mchehab@kernel.org"
-	<mchehab@kernel.org>, "prabhakar.mahadev-lad.rj@bp.renesas.com"
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>, "hverkuil+cisco@kernel.org"
-	<hverkuil+cisco@kernel.org>, "johannes.goede@oss.qualcomm.com"
-	<johannes.goede@oss.qualcomm.com>, "hverkuil-cisco@xs4all.nl"
-	<hverkuil-cisco@xs4all.nl>, "jai.luthra@ideasonboard.com"
-	<jai.luthra@ideasonboard.com>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 1/3] media: i2c: ov5647: Convert to CCI register access
- helpers
-Thread-Topic: [PATCH v2 1/3] media: i2c: ov5647: Convert to CCI register
- access helpers
-Thread-Index: AQHceGtVPBdG+t2I+kKz5/UzjeME2LU4iZqAgAAL/gCAAADWyw==
-Date: Mon, 29 Dec 2025 13:26:20 +0000
-Message-ID:
- <PN3P287MB1829C61C82B611DB6013B10F8BBFA@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
-References: <20251229023018.2933405-1-xiaolei.wang@windriver.com>
- <20251229023018.2933405-2-xiaolei.wang@windriver.com>
- <PN3P287MB18291169FABF1E8A01AA88B88BBFA@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
- <20251229130116.GC6598@pendragon.ideasonboard.com>
-In-Reply-To: <20251229130116.GC6598@pendragon.ideasonboard.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siliconsignals.io;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PN3P287MB1829:EE_|MAZP287MB0608:EE_
-x-ms-office365-filtering-correlation-id: 0c851091-3ddc-48ad-607a-08de46ddda81
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|376014|366016|1800799024|38070700021;
-x-microsoft-antispam-message-info:
- =?iso-8859-1?Q?/uRKzhm+uBuqP9Xn7uTL5IKJoAYuL294OUDJIvdxZJUzviZv8CkcK1sMe/?=
- =?iso-8859-1?Q?YJ1ASnIwHyv6QvVAaA2xJmqOQ7ChjTjsirKFy/B1Jalslc9OXHkgKufzt0?=
- =?iso-8859-1?Q?52EOCtgMgnxmSzWkQQoBqNZ4m+pEp20RJhYPW6z7wyUV+3H/fSy5HYgMtE?=
- =?iso-8859-1?Q?ySpZa21XZfmBklrWNCuJNEHCqbq8z1WNewF1Uf4uVrX+SS3KOLLfFJYzrX?=
- =?iso-8859-1?Q?m0aIOI94MGOa2nyIr7XVXbeux1LH7/Iq7UWLU6H+Sn2fCoaFJLlPNoN7AK?=
- =?iso-8859-1?Q?c9FbwZ+3oe49FJ/v98PrEAcbBK6JJx5ECwjdls49hQoO64loogTtiPzBp9?=
- =?iso-8859-1?Q?ZwoPntIxYpEiy5v3fdcNBmfhllTRIzdC582LmrDbu2qP02rGh5YfOFtzOl?=
- =?iso-8859-1?Q?pBVQ9CLMSmZY1iiNGsOEn+vszwNxVZF5AAoX7gpAqDmcVn9eqZklOKerTr?=
- =?iso-8859-1?Q?AXn4pyr7rPqdrxGtBI9YJ6qsnT4bPPmcG+4vmWnEg4AA0/Ay3/02tITFB2?=
- =?iso-8859-1?Q?TzazrVw1H13xSu4J2aJUn+OksOXRD/eI0lBzQ2a+ilKrG5RoZc1j6NGVpY?=
- =?iso-8859-1?Q?Qb5Mu0O5XgegvTnbMuAOjiLmpUDYGMkwi8lqvs/KWenzenyhTBoSTN9Z2W?=
- =?iso-8859-1?Q?KneqiL4+5ZiNVnfyKJjCkhJr/UmEmNsaQVT9xpkhUrYsWoWWpCAcxVkxFy?=
- =?iso-8859-1?Q?k6MTM6tU1HMeXe1Whe3QzpQ47RtAPLZQZ5DRPWdWAVm7uvf33cLjNxW4K8?=
- =?iso-8859-1?Q?Par7+tSQUw1O48ZZvINvxObQTNesqebZUDvThXh6JXnRMJvuWH0TDj8XqB?=
- =?iso-8859-1?Q?zoLamTA/Ix8244evp5C9HdDe9MR5gG1xK/ZTLT1zCm6WqXeYzHdbFpLA6L?=
- =?iso-8859-1?Q?STvvKcgh8gXQHAQ6/fTm1I/xIv7mg8gCt7mYIAykzSdbaLWpQrvmYw3XzY?=
- =?iso-8859-1?Q?ji/dXgF5Em/QCcNdOJw6MJ5KmnVw2zT/OIPVG1rJwBjK9fCAXPLQw2gnkN?=
- =?iso-8859-1?Q?g+Mn1czc/m6QcqIxnBvxzTnrmul89m7nOsJvH1DIDnnUTHqlT0ldMD4dwk?=
- =?iso-8859-1?Q?NlCkdvR6L8yUpxn2dOarJolfjSKeMvobZaSkdQp8zbvy6e9q7g924typAa?=
- =?iso-8859-1?Q?Mfl4L/8liZEJaXmaJdnCo0EzJ75AYS8aWaZZueap/HF66EBnjK6eqfMVMt?=
- =?iso-8859-1?Q?XYOikuBr6tijvpdJv1DOFpOoNVfim+yzPBtVVe3/GTALpFy+IJtSpwCEN1?=
- =?iso-8859-1?Q?69SEnKGq1ZjI7Db1W2ufbNw4avmpEt6EJSd7d2WwOpPJCFffbSXILliKzF?=
- =?iso-8859-1?Q?hwC4/GV6eihLOGd+pUc+5uuiikjZxc8xT6IM0/HrMWC97CJa5w/HBmQmup?=
- =?iso-8859-1?Q?tv708U+/SISMkjPSnsuOOx9Lpkb6zVSupR686I/1zP/wFf0tXrA3+EJYVj?=
- =?iso-8859-1?Q?FVOUGS6gNppY2jrlZl5RbNPueZGsda9MQ7sNoU+aOZ/0fTgjRs0WTdzsdl?=
- =?iso-8859-1?Q?Hh8L6+OVPH6zTmjsNptLddbmzXgE79B5U9HZCD0swB5rUUEyY2aKN+V2Pw?=
- =?iso-8859-1?Q?tWHiBRDe2VMgIYvqYgwq8rno64AJ?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB1829.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(38070700021);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?3YsDPNR2GKfrdTHypPCAeVL+0H/hdbdPXopLSHW2iWVV/xxgJPL+UXp/ld?=
- =?iso-8859-1?Q?6EMKT0ezwD8oYZ+U2e6ENZEkEKHTq51eHWjo56RPRFGzWp01YA6hf2KT2y?=
- =?iso-8859-1?Q?EZ+Bb5X2MLj78ueeV2OH01tN5nj9Y6XwoiKGQpkwvH5ltlJlE5G8GLIjnz?=
- =?iso-8859-1?Q?I+BN42Snbd7vx95BSKB26dG1KglGvDzLrBs3tJSrtaNh74WdIUNa9mrbR4?=
- =?iso-8859-1?Q?lP7jGgzgzrKLk75+FGldUw9WoUmzbuOgMOuhsWA8w1G8faywEIKGJfvYjP?=
- =?iso-8859-1?Q?w9sTLjyU7akVu0r6uwn9aljkoonG9ENvhT49M+3E3icpmcZUwwtfLQaBqW?=
- =?iso-8859-1?Q?l8yijnxJraofo8lL7aFtnH8W1JqQLbDmsVxM1CB/q36hg8d6II9i6Jg3Yt?=
- =?iso-8859-1?Q?/oeW47g5Qm+NCQ0l5Ar+RjBU0Hu4KDVUzRGBK6p5/Obn/rrCiCg7L54sjA?=
- =?iso-8859-1?Q?eEu8Yfo+f7XEF22gvrf9uPim3Hb6fKWF+NAQTKrudeUZJI4bSzK/Sb1Bjm?=
- =?iso-8859-1?Q?gByr6kqc0ZBp96iWPuy0Lhwc3iaVuu7zqjPhyDjtdz1ZSw4fzZ1hgjdZMT?=
- =?iso-8859-1?Q?xzmONm5Re9o3UGaNyT/PBH2qGOBF5P+YAZsNfwYByUwGlCZiJrUntLxA3X?=
- =?iso-8859-1?Q?llIyjUqxt11PeUztgwKbXsxJEvQ/XFwEePvulhA9mH234GrWgYcMcCj+oi?=
- =?iso-8859-1?Q?IKQpKSl/5JuepOX0ZYajGCq1ZSUqfqR88JEy3qjprF0el/xtgrCgWQFole?=
- =?iso-8859-1?Q?3kq/yN3uX256zJECCHSAhvRum+FA9WGb7YmcJEt69ywVDw5s17nWLs1V6p?=
- =?iso-8859-1?Q?ktez82pdG7QNCtYGv6xbLERt6QFVMbK4ALvrcWHy+8c8Ve4bEHxpLRys5f?=
- =?iso-8859-1?Q?qwYp1EU7z6UBdnq1+IxIanUcNuzwwWxgsnYGtaZ9uLk378BIstpsUBKfJA?=
- =?iso-8859-1?Q?jW+xqjwB+9/8MMYupBJ++aMeSVfRfHP9YmIZZ/ftiUQpQH+Qsj+M95SB0q?=
- =?iso-8859-1?Q?mCK68Di79va5HiF/cS8jlNGk+BzgbqnQh/ZxlQ65uoxWIR8DE7WjfzOapU?=
- =?iso-8859-1?Q?He361xUp76zUwN4+mvhbQY2HXetEuC7LHlND+yamFE/Hjyu5MvjYK1p2VD?=
- =?iso-8859-1?Q?PYZsokpLzBDge9aeQECXy4GZuAbm+pilMCcgxSGtffDUEqvKC9yyqHjjwL?=
- =?iso-8859-1?Q?N8e00N59yIjvvJ/qp335W6x2ludWEPSQgr4NA8+uRHNKQgOKZ/EBBdibfd?=
- =?iso-8859-1?Q?Ylb/aEfGWiBYDCsSNks9klzaWBgGvS43Qx+QgVbwwFVytS5dRWl4DxTSEY?=
- =?iso-8859-1?Q?10GcMJ2kemzCq3im819swclch+EeJ/VrtkRYZXGCre9+K7HZeANNRsYpFf?=
- =?iso-8859-1?Q?LFfPVdWr2wcFsWnAsqwI/zIkrDojrfLkXWzGSa3KjhVd0ga9htFssutxg3?=
- =?iso-8859-1?Q?Xw35V25hJe5nNEuL3iz1S/Sr7hr/IAYCWHfjFmYQmGlvhQej27yfH4pvCl?=
- =?iso-8859-1?Q?Ae3pdzFRYrugWncLaYpekvCCHauX/fdv1rcUoW3L07WhKErZu6fVYB82z2?=
- =?iso-8859-1?Q?Ils63yz9i2yWVuDJmwMDZLICXe6pWUbmuQ6Uj13d5t4ohmytichMrF7SQj?=
- =?iso-8859-1?Q?9ePdeOMrNQCM85poAfvF/JPT2PCIrvqGIPbZh3hmdmVHlmi1khi+Ki+U3b?=
- =?iso-8859-1?Q?pV3uKv84Y55icMmF2uZQ4gfYMZRCdRm565TymJERHxRSERQNf+zijZABbM?=
- =?iso-8859-1?Q?bPnuS0r3VhmD6yhJ2r7XzpMFWsnXSEPSoIm2ZG2qMlQRU9VWYEFiex314F?=
- =?iso-8859-1?Q?osdvWW9RfQ=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B9F13164AB
+	for <linux-media@vger.kernel.org>; Mon, 29 Dec 2025 13:26:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767014795; cv=none; b=s87sdhpckJNAjUdzIH4vVNeEqjjf9XDb5JPxy26slyMMXEZd/prs6GDxnjv5VPXRVgfUUOejtCOSvpQgExnA2hht4JE/3W6vmeFN4Lg+VMwMpPUoQp1DrSO6BE5vw29OeFfgRJwRyr/RiJU11Qpp/uEyYTDcodD34T6ZQPVZuYI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767014795; c=relaxed/simple;
+	bh=tu9pbE692wxXiosE+tAqK1si4bIsObC4y9I3BfIvOAw=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=QksMGXNc4hjrAku3AUzYQWedXzOpTXl6E9y6tMqnI8fD/lKQ+Cjx1Qp4qCSl7vWQlo46f9ul7KHJc50/8de/U4hkpBpWwW33wd7aNTzb8WlgXv4t4413mqJY0cFxYbIMcK7ZgB6QeFOXciFNnpe0rHduaoDMMEMP0krfzWyiRCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=iF9dp4Oc; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=jCkFvyy4; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BTA6mIc052941
+	for <linux-media@vger.kernel.org>; Mon, 29 Dec 2025 13:26:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	YjVb/8rbV2EMth5U/d7jNe4gBOXFEG56654Hv01mIgA=; b=iF9dp4OcJdQaKEOT
+	n1Qluldgwa7Jq7GNsaLsP6ok+iuS7wv22Hb4r0OwkPd3EODrE8wyG3pCgR2vFNaT
+	t2Mg1nLkeqFSJ+Y8Oq6eXEnlYsrY4+PFd6nxZkrLGh+xUGmLQXTiaRpf+84cacA7
+	NN3C/SMyXK5fDPaJt1jtAMbNUjV1EJSr8rCth1aIOf9dFJnOZ2HgyT25No1AOo8G
+	wdVIbygzHiR+aeZg9wZrBNlfg8mDYHU4w9n2mhlJJwbXkM+QM/K6cFyA5L8VQqyi
+	X25A5A8SEdKr7Y8eRvJe/kDWtMpoR9zeAXjAh3jTf4mdy5fmWJG+v7K1qN80uUbm
+	E+Ajkw==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ba71wvdun-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Mon, 29 Dec 2025 13:26:33 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-4f4a5dba954so233533071cf.0
+        for <linux-media@vger.kernel.org>; Mon, 29 Dec 2025 05:26:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1767014792; x=1767619592; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=YjVb/8rbV2EMth5U/d7jNe4gBOXFEG56654Hv01mIgA=;
+        b=jCkFvyy4d8nwmNw+hNoYPmFi7ZutbitOJWPy/5wfjRHouYNe+Wd2FeL6DdYbrZTnSm
+         3LjJ2lx4hJx1vDlxkN7p05rqY6kIaDCFXBnNr0gjME51nPXirYlv/QsexCAIkX2lQPAe
+         YEagwOXo0K+ZEWM8staPgHp4NzeD+ryEiZkzyMvCI0igxEJRkwvYSaTvaPs8lY+UYav9
+         s1hGnjCDLZWdY1i+CzqfTZ3keHb8JNzCD1hAMH+j/5UKLTyg1PhUmvGLGC9RcMa+6w0D
+         vLENZQ9vJ8ekWVhinA7mNLg0B7L6Nm2KPenpE4biEL4EEZJuif6C4iAtOJVZxalW0rHP
+         IZzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767014792; x=1767619592;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YjVb/8rbV2EMth5U/d7jNe4gBOXFEG56654Hv01mIgA=;
+        b=PiI6DBxESNNuLf16YDi/UHCe1LK6eaH4tR8AsRqm8pD4fbH2I5DV24Dxl+2lpsSjER
+         aDxyKsoyQ4bbGMkQnSK72iqUX2RLRs8KsQdhJ4GTljmYWLX8wKYFROeM5iDLQ8ijIYg7
+         3y0WA8mZ0+cPRaFVC3LXKOoyeWukfTQi0VYWN5yxQn7ewq1GoP0wn/G18zAIJ7tn58NY
+         /EZ5ZObeLz+OciIKDRw9F7TEe+B/D5iab5OthfVRG6m+XX5x+VqPwysqZ7Y+j5cxWL5g
+         SUCdMUaTUSQqDNdSxySsmBhxc6CpqLTrQgEn5o14wiOCpis0jYTx1LjLx7QJwVCk8L6b
+         9qtg==
+X-Gm-Message-State: AOJu0YwnTo5a1B3iejHIxE0e55ytmybHO6lE/hnP5pcklqjjX3nsGOz1
+	4sFrlYk3Y5Joray6UQfk3GSkwsJAuFyxhghp6YxskiMjzgMqbNm2VVkajyWvvDtkm/1VuBsjJ33
+	0NzSIiuk0T/N69pVrwlbZ696xvFdWSspZCAKH67/17+shs9fyoxAM1almrDT2w75hSA==
+X-Gm-Gg: AY/fxX5uviVBTe4SaRR0qm25UEypiUUsy6R2ogOlyYzsv4mTwVRDNP31a/Dfck4mnJ1
+	RknE6QijazTvVh4/shjV/dYIuJlZuULEkanjW532ZB6vvcojGW3o+Y3FLu5OFMUFaBbGxpBnBsZ
+	zcPdPNzVw8nUHJYhHqUWvQdQvgPWbw1JPo0fEuFbJvHFNSNFu9M8t9hor+N/qc+u7t2kLx2W/Hf
+	FpHiJCD4Bk4iROU5wgC/z2Jsw0mk28wpMi7zFM3fDZwWNumH1CEPPFK1mFwQoUuyFdYQpdtkr3Q
+	VaLrnbZGHWQuCpUctrnFbF7qJx/xc3UCF1c65uBtAE6uu8m28j1cDje69PfEFCpyUTUWFY+5mZK
+	h5ZvqR/umISJjCc4ENb6cPvq7Psb3JTJ2x3LxhWNH1KTVo9eXrgld0CMxDexngCEF1iTq7M4WzJ
+	VfP9f1pXKfd/hiifOg6vLwTMYyY+e2ztTfYxhGaAoKoZgl7HnA0tIjlXAgxly3IZX1yBdYNhVsH
+	MlW
+X-Received: by 2002:a05:622a:1307:b0:4e8:a413:bb3a with SMTP id d75a77b69052e-4f4abd799fdmr481009861cf.46.1767014792431;
+        Mon, 29 Dec 2025 05:26:32 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHGPYrW7LKNepzxbF9g864ygyvqGatn0G4vZhPzLn2fxtBE60dTlRKJNjMFTzdTDhMDfxbG4w==
+X-Received: by 2002:a05:622a:1307:b0:4e8:a413:bb3a with SMTP id d75a77b69052e-4f4abd799fdmr481009391cf.46.1767014791895;
+        Mon, 29 Dec 2025 05:26:31 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8037f519c0sm3306895666b.71.2025.12.29.05.26.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Dec 2025 05:26:30 -0800 (PST)
+Message-ID: <33e3e806-935f-4867-9a94-fa914d17a3ab@oss.qualcomm.com>
+Date: Mon, 29 Dec 2025 14:26:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: siliconsignals.io
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0c851091-3ddc-48ad-607a-08de46ddda81
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Dec 2025 13:26:20.0753
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: zQ8NUFp1TdNAqDGHa5Ip2zQVi/1aDGR5I8gcGh6/Ej/Ok2FA4M1BsKLS+0kUx3khFbx4JHfMHzSnqkRJ27p9vRPi+3AVm8OtuOxDJlnFViw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAZP287MB0608
+User-Agent: Mozilla Thunderbird
+From: johannes.goede@oss.qualcomm.com
+Subject: Re: [PATCH v2 1/3] media: i2c: ov5647: Convert to CCI register access
+ helpers
+To: Xiaolei Wang <xiaolei.wang@windriver.com>,
+        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
+        dave.stevenson@raspberrypi.com, jacopo@jmondi.org, mchehab@kernel.org,
+        prabhakar.mahadev-lad.rj@bp.renesas.com, hverkuil+cisco@kernel.org,
+        hverkuil-cisco@xs4all.nl, jai.luthra@ideasonboard.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20251229023018.2933405-1-xiaolei.wang@windriver.com>
+ <20251229023018.2933405-2-xiaolei.wang@windriver.com>
+Content-Language: en-US, nl
+In-Reply-To: <20251229023018.2933405-2-xiaolei.wang@windriver.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI5MDEyNSBTYWx0ZWRfX1Eeo78FvdISG
+ ksZZyjxOl9qa8o1IOTBqVcIon4YVLK+kXLXP/DcOvk1U16VP0n+xxZyWATpbG32T8wKfcLIWl/8
+ 0D14ViHnViEYUdScgTjBKRgCZNyymsBfpHui+ZDQpkZYTuXJCJBblnxNRBtJj30tze/vYEqo1e0
+ RNcwDoNmgjHNg9fwGZhg9P8RSyCFKoUIKRk0iLWJm/aOsNkB0iRuDcTWZDfNPhZGfP7Z+Wt4Rh/
+ zBSkwrprj9x4bYcVVDnHhcHE/2ZXOvgHCW5vz/ZdcZiGyMXeTjNabdvZKBqkRoo/RBgjuUZ35+V
+ gvus91i2kTUh5OYgcK7igQ7VaRfoWoQStGH7xpAppCcttVG28Tq6b1VnvNr+HczPKr2a5pE9f55
+ XvqesZw65mTGXPgThzvDxeQjFaH0rnZ8a/ED/2sgtU2TXmj4Il5kJB9seIjoFi71TLINKbjaFhT
+ EJYs90lbDbYXOpgNqtg==
+X-Proofpoint-ORIG-GUID: eAhXzyky23r4Wqv9A2vvS5yZ-uQtK0D4
+X-Proofpoint-GUID: eAhXzyky23r4Wqv9A2vvS5yZ-uQtK0D4
+X-Authority-Analysis: v=2.4 cv=CK4nnBrD c=1 sm=1 tr=0 ts=69528189 cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=t7CeM3EgAAAA:8 a=Wueqb6rkilQwuqZitWQA:9 a=QEXdDO2ut3YA:10
+ a=kacYvNCVWA4VmyqE58fU:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-29_04,2025-12-29_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 impostorscore=0 lowpriorityscore=0 clxscore=1015 spamscore=0
+ adultscore=0 suspectscore=0 priorityscore=1501 phishscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512290125
 
-> On Mon, Dec 29, 2025 at 12:37:41PM +0000, Tarang Raval wrote:=0A=
-> > > Use the new common CCI register access helpers to replace the private=
-=0A=
-> > > register access helpers in the ov5647 driver. This simplifies the dri=
-ver=0A=
-> > > by reducing the amount of code.=0A=
-> > >=0A=
-> > > Signed-off-by: Xiaolei Wang <xiaolei.wang@windriver.com>=0A=
-> > > ---=0A=
-> > >=A0 drivers/media/i2c/Kconfig=A0 |=A0=A0 1 +=0A=
-> > >=A0 drivers/media/i2c/ov5647.c | 997 +++++++++++++++++----------------=
-----=0A=
-> > >=A0 2 files changed, 453 insertions(+), 545 deletions(-)=0A=
-> > >=0A=
-> > > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig=0A=
-> > > index 4b4db8c4f496..cce63349e71e 100644=0A=
-> > > --- a/drivers/media/i2c/Kconfig=0A=
-> > > +++ b/drivers/media/i2c/Kconfig=0A=
-> > > @@ -529,6 +529,7 @@ config VIDEO_OV5645=0A=
-> > >=0A=
-> > >=A0 config VIDEO_OV5647=0A=
-> > >=A0=A0=A0=A0=A0=A0=A0=A0 tristate "OmniVision OV5647 sensor support"=
-=0A=
-> > > +=A0=A0=A0=A0=A0=A0 select V4L2_CCI_I2C=0A=
-> > >=A0=A0=A0=A0=A0=A0=A0=A0 help=0A=
-> > >=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 This is a Video4Linux2 sensor driver fo=
-r the OmniVision=0A=
-> > >=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 OV5647 camera.=0A=
-> > > diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c=
-=0A=
-> > > index e193fef4fced..fd69f1616794 100644=0A=
-> > > --- a/drivers/media/i2c/ov5647.c=0A=
-> > > +++ b/drivers/media/i2c/ov5647.c=0A=
-> > > @@ -22,6 +22,7 @@=0A=
-> > >=A0 #include <linux/pm_runtime.h>=0A=
-> > >=A0 #include <linux/slab.h>=0A=
-> > >=A0 #include <linux/videodev2.h>=0A=
-> > > +#include <media/v4l2-cci.h>=0A=
-> > >=A0 #include <media/v4l2-ctrls.h>=0A=
-> > >=A0 #include <media/v4l2-device.h>=0A=
-> > >=A0 #include <media/v4l2-event.h>=0A=
-> > > @@ -41,24 +42,19 @@=0A=
-> > >=A0 #define MIPI_CTRL00_BUS_IDLE=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0 BIT(2)=0A=
-> > >=A0 #define MIPI_CTRL00_CLOCK_LANE_DISABLE=A0=A0=A0=A0=A0=A0=A0=A0 BIT=
-(0)=0A=
-> > >=0A=
-> > > -#define OV5647_SW_STANDBY=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0x0=
-100=0A=
-> > > -#define OV5647_SW_RESET=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0 0x0103=0A=
-> > > -#define OV5647_REG_CHIPID_H=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0x300a=
-=0A=
-> > > -#define OV5647_REG_CHIPID_L=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0x300b=
-=0A=
-> > > -#define OV5640_REG_PAD_OUT=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0x300=
-d=0A=
-> > > -#define OV5647_REG_EXP_HI=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0x3=
-500=0A=
-> > > -#define OV5647_REG_EXP_MID=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0x350=
-1=0A=
-> > > -#define OV5647_REG_EXP_LO=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0x3=
-502=0A=
-> > > -#define OV5647_REG_AEC_AGC=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0x350=
-3=0A=
-> > > -#define OV5647_REG_GAIN_HI=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0x350=
-a=0A=
-> > > -#define OV5647_REG_GAIN_LO=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0x350=
-b=0A=
-> > > -#define OV5647_REG_VTS_HI=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0x3=
-80e=0A=
-> > > -#define OV5647_REG_VTS_LO=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0x3=
-80f=0A=
-> > > -#define OV5647_REG_FRAME_OFF_NUMBER=A0=A0=A0 0x4202=0A=
-> > > -#define OV5647_REG_MIPI_CTRL00=A0=A0=A0=A0=A0=A0=A0=A0 0x4800=0A=
-> > > -#define OV5647_REG_MIPI_CTRL14=A0=A0=A0=A0=A0=A0=A0=A0 0x4814=0A=
-> > > -#define OV5647_REG_AWB=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0 0x5001=0A=
-> > > -#define OV5647_REG_ISPCTRL3D=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0x503d=0A=
-> > > +#define OV5647_SW_STANDBY=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 CCI=
-_REG8(0x0100)=0A=
-> > > +#define OV5647_SW_RESET=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0 CCI_REG8(0x0103)=0A=
-> > > +#define OV5647_REG_CHIPID=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 CCI=
-_REG16(0x300a)=0A=
-> > > +#define OV5640_REG_PAD_OUT=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 CCI_R=
-EG8(0x300d)=0A=
-> > > +#define OV5647_REG_EXPOSURE=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 CCI_REG=
-24(0x3500)=0A=
-> > > +#define OV5647_REG_AEC_AGC=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 CCI_R=
-EG8(0x3503)=0A=
-> > > +#define OV5647_REG_GAIN=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0 CCI_REG16(0x350b)=0A=
-> >=0A=
-> > It should be 0x350a, not 0x350b.=0A=
-> >=0A=
-> > > +#define OV5647_REG_VTS=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0 CCI_REG16(0x380e)=0A=
-> > > +#define OV5647_REG_FRAME_OFF_NUMBER=A0=A0=A0 CCI_REG8(0x4202)=0A=
-> > > +#define OV5647_REG_MIPI_CTRL00=A0=A0=A0=A0=A0=A0=A0=A0 CCI_REG8(0x48=
-00)=0A=
-> > > +#define OV5647_REG_MIPI_CTRL14=A0=A0=A0=A0=A0=A0=A0=A0 CCI_REG8(0x48=
-14)=0A=
-> > > +#define OV5647_REG_AWB=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0 CCI_REG8(0x5001)=0A=
-> > > +#define OV5647_REG_ISPCTRL3D=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 CCI_REG8(=
-0x503d)=0A=
-> > >=0A=
-> > >=A0 #define REG_TERM 0xfffe=0A=
-> > >=A0 #define VAL_TERM 0xfe=0A=
-> > > @@ -81,23 +77,19 @@=0A=
-> > >=A0 #define OV5647_EXPOSURE_DEFAULT=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0 1000=0A=
-> > >=A0 #define OV5647_EXPOSURE_MAX=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 65535=
-=0A=
-> >=0A=
-> > ...=0A=
-> >=0A=
-> > > @@ -1435,6 +1335,13 @@ static int ov5647_probe(struct i2c_client *cli=
-ent)=0A=
-> > >=A0=A0=A0=A0=A0=A0=A0=A0 if (ret < 0)=0A=
-> > >=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 goto ctrl_handler_fre=
-e;=0A=
-> > >=0A=
-> > > +=A0=A0=A0=A0=A0=A0 sensor->regmap =3D devm_cci_regmap_init_i2c(clien=
-t, 16);=0A=
-> > > +=A0=A0=A0=A0=A0=A0 if (IS_ERR(sensor->regmap)) {=0A=
-> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ret =3D PTR_ERR(sensor->r=
-egmap);=0A=
-> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dev_err(dev, "failed to i=
-nitialize CCI: %d\n", ret);=0A=
-> >=0A=
-> > Use return dev_err_probe();=0A=
->=A0=0A=
-> dev_err_probe() is fine, but goto entity_cleanup is needed.=0A=
-=0A=
-Yes, my bad. =0A=
-=0A=
-Keep the existing return path.=A0=0A=
-=0A=
-> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 goto entity_cleanup;=0A=
-> > > +=A0=A0=A0=A0=A0=A0 }=0A=
-> > > +=0A=
-> > >=A0=A0=A0=A0=A0=A0=A0=A0 ret =3D ov5647_power_on(dev);=0A=
-> > >=A0=A0=A0=A0=A0=A0=A0=A0 if (ret)=0A=
-> > >=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 goto entity_cleanup;=
-=0A=
->=A0=0A=
-> --=0A=
-> Regards,=0A=
->=A0=0A=
-> Laurent Pinchart=
+Hi,
+
+On 29-Dec-25 03:30, Xiaolei Wang wrote:
+> Use the new common CCI register access helpers to replace the private
+> register access helpers in the ov5647 driver. This simplifies the driver
+> by reducing the amount of code.
+
+Thank you for your patch, it is great to see more drivers
+being converted to the CCI register access helpers.
+
+> Signed-off-by: Xiaolei Wang <xiaolei.wang@windriver.com>
+> ---
+
+...
+
+> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+> index e193fef4fced..fd69f1616794 100644
+> --- a/drivers/media/i2c/ov5647.c
+> +++ b/drivers/media/i2c/ov5647.c
+
+...
+
+> @@ -130,377 +122,377 @@ static const u8 ov5647_test_pattern_val[] = {
+>  	0x81,	/* Random Data */
+>  };
+>  
+> -static const struct regval_list sensor_oe_disable_regs[] = {
+> -	{0x3000, 0x00},
+> -	{0x3001, 0x00},
+> -	{0x3002, 0x00},
+> +static const struct cci_reg_sequence sensor_oe_disable_regs[] = {
+> +	{ CCI_REG8(0x3000), 0x00 },
+> +	{ CCI_REG8(0x3001), 0x00 },
+> +	{ CCI_REG8(0x3002), 0x00 },
+>  };
+>  
+> -static const struct regval_list sensor_oe_enable_regs[] = {
+> -	{0x3000, 0x0f},
+> -	{0x3001, 0xff},
+> -	{0x3002, 0xe4},
+> +static const struct cci_reg_sequence sensor_oe_enable_regs[] = {
+> +	{ CCI_REG8(0x3000), 0x0f },
+> +	{ CCI_REG8(0x3001), 0xff },
+> +	{ CCI_REG8(0x3002), 0xe4 },
+>  };
+
+For these 2, but also for the 2 much longer arrays with
+address, value pairs which you are replacing, you are
+replacing all the register addresses with CCI_REG8(0x3000).
+
+Even though some of these are like 16 bit or even 24bit
+registers, this in itself is not a problem.
+
+But if you are replacing them 1:1 like this anyway then
+IMHO it is better to just:
+
+- Directly use struct reg_sequence instead of struct cci_reg_sequence
+- Call regmap_multi_reg_write() instead of cci_multi_reg_write()
+
+then you can keep all the initializer values for
+the arrays the same (no need to add CCI_REG8() around
+the addresses). This is also how this was done in other
+drivers when they were converted to the CCI helpers.
+
+This greatly reduces the size of the diff and makes it
+much easier to review the patch.
+
+Regards,
+
+Hans
+
+
 
