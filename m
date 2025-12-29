@@ -1,180 +1,182 @@
-Return-Path: <linux-media+bounces-49639-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49640-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07D9BCE6D02
-	for <lists+linux-media@lfdr.de>; Mon, 29 Dec 2025 14:05:29 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7195ACE6D5D
+	for <lists+linux-media@lfdr.de>; Mon, 29 Dec 2025 14:10:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A34A13043F7D
-	for <lists+linux-media@lfdr.de>; Mon, 29 Dec 2025 13:01:49 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 601713000B6C
+	for <lists+linux-media@lfdr.de>; Mon, 29 Dec 2025 13:10:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5261E1FF5E3;
-	Mon, 29 Dec 2025 13:01:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27F08313E33;
+	Mon, 29 Dec 2025 13:10:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="K2/Ij/ou"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ArypPUYP";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Ca3p8/8l"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A6D51DF759;
-	Mon, 29 Dec 2025 13:01:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2BB6313551
+	for <linux-media@vger.kernel.org>; Mon, 29 Dec 2025 13:10:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767013306; cv=none; b=Q2lp0NMJHPnVg45TtFXgp3IizWqQeh4saUiPdaOCzZc0/ixzqNNysqPpJ8dq74UHp9wp3uXr2OElefp7McIKnQ2Y6aqe8jwUM1KJ+1zzycNcp7CKjG441PtWYFPWHGgOxuqx6MWXPmYD8lwmItk+Dl7IyQ+5a3oEPO8+1975J1w=
+	t=1767013802; cv=none; b=bpkU1/SAKVfPQRv4Yb0/fQJ0rWY0K5nSjudC4qQ5YnePQ3HIkZyCzoJSSdM/Y9apHmNKpCwcCKhY/eBUkVwZ8+A0lT7ZLM1VIHwgd/4VWOQhtERqh8sV2zSjoLIUcK95louFzg0LyFZJl2x8f+iGwFNN66rKBhkk0ZSqUcNYcJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767013306; c=relaxed/simple;
-	bh=5miWv1lVi8/9CHl5nnHbDok0s1Q+OqxuNdI/rHrOVk0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FiLM+43S+OZ9fB0vb74ZxqGBIUlZG4bAnuvlpxLscaH4h96XEl7t9XSa107JUdWb/oeElu2QOaBzw0U/p1O7m4J04qRAG45tkJovIsPJ98q1J8LEIhRkFjAQsWumFDDctOA4f2US+cyqAjtbf7t7WIQDb4Obn5iJWwrPUhO8YXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=K2/Ij/ou; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-152.bb.dnainternet.fi [81.175.209.152])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 2FD81BCA;
-	Mon, 29 Dec 2025 14:01:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1767013279;
-	bh=5miWv1lVi8/9CHl5nnHbDok0s1Q+OqxuNdI/rHrOVk0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=K2/Ij/ouF2yW3Pd18hdu+qO9gXdJB7MFRx8lhZc1Wlnduh8Wh/SMUL2BPemmPBueQ
-	 49YmkzLvaS6uxKCe2ocPpNyi8dtuwy9UCOQnqe+cvQDHIoe9XPtN6oIUWGAQ+8Vdin
-	 USRQ5nTdH32w5PLo2FgeTrnmHzzLAVK1Lgk94/ik=
-Date: Mon, 29 Dec 2025 15:01:16 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tarang Raval <tarang.raval@siliconsignals.io>
-Cc: Xiaolei Wang <xiaolei.wang@windriver.com>,
-	"sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
-	"dave.stevenson@raspberrypi.com" <dave.stevenson@raspberrypi.com>,
-	"jacopo@jmondi.org" <jacopo@jmondi.org>,
-	"mchehab@kernel.org" <mchehab@kernel.org>,
-	"prabhakar.mahadev-lad.rj@bp.renesas.com" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	"hverkuil+cisco@kernel.org" <hverkuil+cisco@kernel.org>,
-	"johannes.goede@oss.qualcomm.com" <johannes.goede@oss.qualcomm.com>,
-	"hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-	"jai.luthra@ideasonboard.com" <jai.luthra@ideasonboard.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 1/3] media: i2c: ov5647: Convert to CCI register
- access helpers
-Message-ID: <20251229130116.GC6598@pendragon.ideasonboard.com>
-References: <20251229023018.2933405-1-xiaolei.wang@windriver.com>
- <20251229023018.2933405-2-xiaolei.wang@windriver.com>
- <PN3P287MB18291169FABF1E8A01AA88B88BBFA@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
+	s=arc-20240116; t=1767013802; c=relaxed/simple;
+	bh=uzRIwvYsnyggvosgt2+KHtoM9B0+eZ6xtRrRv4Y3FcI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=W2r7ESLhVjBh+C4GnbhOIC7286aLYJnBv1rTYF55YMedH7aMxezjkhycRF58lU/6msteW2LQ0V/bvq05cDgBgSbwfRnafSh9gxAd4Pq+SlnvNMfUG2O+MhRAkijplc0+LB0Kx0TnWO95Z2wHvDKXNDqbCT4zvGBm+n8n0oy5EDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ArypPUYP; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Ca3p8/8l; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BTA398c3825984
+	for <linux-media@vger.kernel.org>; Mon, 29 Dec 2025 13:09:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	1U2KevJnmKY84jN42Ic3+RugWNFdMyVeLE8MTpZ9s20=; b=ArypPUYPJymm+FeX
+	ot84me93MTAVg0bKv0v3vYkVHfj1gkXhfUKwsWvlQq5eSRNrhxjjcoDKX0d4uYv6
+	0XgmH6kvZ5R6VvWD77hqN1upOfmXBd0BjkvdOH1b9zA1x+GEqgiC9FLLIfuZ+sn3
+	gf8dE+cduWrd6TiEKIWoyiY0yjYWKnV9ge2t4HG4Eu3MFF/lcgsh7Cgx4LeF4408
+	OcrqSh2kvP0G7xNiPnrJnKwGUYfxuJ8DBzSa31qQqtQhtmwaUElEJX+ARk3xF3wy
+	Y2bekP7sy1WNziNqamVG2WAfoWyuD7NeQlMtdBX9kYduQnOhsdc9jAJCyY9Lc7EM
+	B6a74Q==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ba6sg4e6g-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Mon, 29 Dec 2025 13:09:59 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4f34c24e2cbso30795691cf.3
+        for <linux-media@vger.kernel.org>; Mon, 29 Dec 2025 05:09:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1767013799; x=1767618599; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1U2KevJnmKY84jN42Ic3+RugWNFdMyVeLE8MTpZ9s20=;
+        b=Ca3p8/8lbi5K79oY1HMum42fRDJxq3w3+ExdDtYZmkq8O7DkZ0LI8Yw8LBVa4ZS8iC
+         Op/qADKnYCr2sVdX9jhc7CzacIPIHQ6NwLwdLCfe+FUWhksWTVQET5UckKAMMHeqxiaN
+         Y90Xot2SmYuvjj95FGZ9MRv0DGR7n934onB+IufwuTjS37KmWgdDHCgWBhpwsbkt99DT
+         IXRYXqS1UnXkVDEUghBmbsGU6Mawu6ZEApIQpyIVZbSbeyPg2HVdhjkC4dqwfzEmnxiI
+         IGihnKSfKBztDSwxtMMfem3Hpwy8bMneZrB/H3QlYKPPWKqsXqWNrKm3blvJy3kPaT6W
+         BypQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767013799; x=1767618599;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1U2KevJnmKY84jN42Ic3+RugWNFdMyVeLE8MTpZ9s20=;
+        b=Vqkbu5R0cqobgcCFUbIOFDMceq5chX2YTtiI+01KM1czO3Yr8Vg9CTm+tv8caehqiF
+         usVq/IZDx4XEXB3q595SGzEhF2sBMhoUfje41Qy0deCaBV3v6Ui7tGzdkSuWHX8DJGqj
+         kkQm7cXgK9iGxtLHU4/vBcsOPwINyI/M+ezoRiMVvPbYdja7kZnNP2XD3Q12J4A/mJNW
+         3OxDlG0OxS9R8yFfkQwEyaT2B5W11W6nX6iCH2fL+fnzGuqAu8Qqau55B85uLSdKbyXy
+         Urxu/9Mq6OY8fbWuXKyC8XSWaVEiAgxaV4ydVfUZR+Gf9FQmiczH/dzL3tZEUo3RLlHE
+         7dOA==
+X-Forwarded-Encrypted: i=1; AJvYcCXnKZfSs7M8IKHMY4AQjSKfrS6LkRMsVLVWyiKS9hzFxKjgR1CpOpj3B1tXmw6u64EC2qGiMJdg980jtg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyyu1zGSPUn1hKJ3tnCXQeoGyK1Xv2HEv+TjCCHUwmJViLxO1Vz
+	uS62yWPD8bksKO+7JT6PAzDOfEHOCnDgVSIMXBloYWaCq3lXcXuzES6LeL6SvriwXOC0e1H6KJP
+	DufZUPYSgvkFXBVINsGlQ0BB/90Ssw0Ub7ZZy1D1bipj6ZQrIU1RhKsXgIYWv5GM0WA==
+X-Gm-Gg: AY/fxX7OzAz9LhkpOE4i1D6o9msyJG3TSM7JXCCMGkpvUwKVyM0F1sxnvMhRWIdidl5
+	GmAq8NUoJaZ8iw/08Ale3cSWEQvJqCmLr0xdeODJmPnUZvg7NhGUjoS861Jdc+0JsG4tIk+c4u/
+	cG0iKFnYZ27Pazu2Y8G9agNyugx9FQhZpl7D6ZhLpGXKqLsm20JGgOvR1GaCQeI1nILdkojLZ5T
+	TOnobBrmFSvJBycq7eZGD+ozEprK7eNiJLc0ZJC0qM0B9Y60a0ncFE+E3HOC1hLu+qttownq4d5
+	RPDOWU/2pCI7JCB1BcX+C8Q2XjsQbO3WUGg/xuKLQy8+T7YQFEeZWeF+0C6c5u+q5x60fU91Ku0
+	hvfnfRKhQnCRyLvFwq61pyqsboZqhvaZE2XMZ+KVg+TXUz9ESO8z3cIBVI+gfughveg==
+X-Received: by 2002:ac8:5891:0:b0:4f1:840a:c90f with SMTP id d75a77b69052e-4f4abccd72amr343273711cf.2.1767013799165;
+        Mon, 29 Dec 2025 05:09:59 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFeFn+ULom0MaqOFCpJdzSzf47AT9NbQIchSG4rj+Gfty0bp0BAWaFjA8ywPw14vBH4HYDXuQ==
+X-Received: by 2002:ac8:5891:0:b0:4f1:840a:c90f with SMTP id d75a77b69052e-4f4abccd72amr343273221cf.2.1767013798757;
+        Mon, 29 Dec 2025 05:09:58 -0800 (PST)
+Received: from [192.168.119.72] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-64b91494c0esm31675297a12.20.2025.12.29.05.09.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Dec 2025 05:09:57 -0800 (PST)
+Message-ID: <47cfbdbe-1b73-4fbb-aa55-fd1b29ddbb18@oss.qualcomm.com>
+Date: Mon, 29 Dec 2025 14:09:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <PN3P287MB18291169FABF1E8A01AA88B88BBFA@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 5/5] arm64: dts: qcom: monaco-evk-camera: Add DT
+ overlay
+To: Nihal Kumar Gupta <quic_nihalkum@quicinc.com>, bryan.odonoghue@linaro.org,
+        mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+        conor+dt@kernel.org, andersson@kernel.org, konradybcio@kernel.org,
+        hverkuil-cisco@xs4all.nl, cros-qcom-dts-watchers@chromium.org,
+        catalin.marinas@arm.com, will@kernel.org
+Cc: linux-arm-kernel@lists.infradead.org, quic_svankada@quicinc.com,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Ravi Shankar <quic_rshankar@quicinc.com>,
+        Vishal Verma <quic_vishverm@quicinc.com>,
+        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+References: <20251222095914.1995041-1-quic_nihalkum@quicinc.com>
+ <20251222095914.1995041-6-quic_nihalkum@quicinc.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20251222095914.1995041-6-quic_nihalkum@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: 6wIKwjrZpJN0Ved1Hos45kZW3hPlzWOV
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI5MDEyMiBTYWx0ZWRfX6XN16odNrblV
+ Hz7g1rM2Iv6EnWy5ic6QyU8xRjqIwp2eEUzbJ1bmzKp9BqiEM0uTSlWkzg9WhzdITwIbP+zjFGV
+ sOWZp5o6niEGUxGTgQMNsjweawbwLeHB4gqjFbtgtb6Lk+BzNr47vCVWQ7jC3WlgVWeFeWkHMvf
+ Ae/PfddDy4zAkN6wogxHj0MGQPNtesMbtN9FNkIjGoHZPCye53GesdaMrYAitMwSkKEcaPi9UWe
+ aXe0600YDY9TA+nZMjsBoNq7AOb6F3rf2yRGtkgAsmN3YdrrFcZPwiPttwS8xv2dJc6728vzjqH
+ Bnq2ZZZocp9AQoaeQABdsDL1p0vbuOjRxT5nZbBPD+td0eEp7bm6Z+7APwc5QZLktdZnuVsKNjh
+ bvAsWJqqgvLd1U8Zr9GFUF12ZbTwYao4miVWlPx/7nGfXj4+arTTe9QtWCiEUoHmcKXWwXXA0C5
+ wj1W0u7K+uqKMgA2Vnw==
+X-Proofpoint-ORIG-GUID: 6wIKwjrZpJN0Ved1Hos45kZW3hPlzWOV
+X-Authority-Analysis: v=2.4 cv=Y+L1cxeN c=1 sm=1 tr=0 ts=69527da7 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=COk6AnOGAAAA:8 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8
+ a=dh2O1nY2NKEWDLYW15gA:9 a=QEXdDO2ut3YA:10 a=dawVfQjAaf238kedN5IG:22
+ a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-29_04,2025-12-29_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 spamscore=0 malwarescore=0 clxscore=1015 phishscore=0
+ lowpriorityscore=0 priorityscore=1501 suspectscore=0 bulkscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512290122
 
-On Mon, Dec 29, 2025 at 12:37:41PM +0000, Tarang Raval wrote:
-> > Use the new common CCI register access helpers to replace the private
-> > register access helpers in the ov5647 driver. This simplifies the driver
-> > by reducing the amount of code.
-> > 
-> > Signed-off-by: Xiaolei Wang <xiaolei.wang@windriver.com>
-> > ---
-> >  drivers/media/i2c/Kconfig  |   1 +
-> >  drivers/media/i2c/ov5647.c | 997 +++++++++++++++++--------------------
-> >  2 files changed, 453 insertions(+), 545 deletions(-)
-> > 
-> > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> > index 4b4db8c4f496..cce63349e71e 100644
-> > --- a/drivers/media/i2c/Kconfig
-> > +++ b/drivers/media/i2c/Kconfig
-> > @@ -529,6 +529,7 @@ config VIDEO_OV5645
-> > 
-> >  config VIDEO_OV5647
-> >         tristate "OmniVision OV5647 sensor support"
-> > +       select V4L2_CCI_I2C
-> >         help
-> >           This is a Video4Linux2 sensor driver for the OmniVision
-> >           OV5647 camera.
-> > diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-> > index e193fef4fced..fd69f1616794 100644
-> > --- a/drivers/media/i2c/ov5647.c
-> > +++ b/drivers/media/i2c/ov5647.c
-> > @@ -22,6 +22,7 @@
-> >  #include <linux/pm_runtime.h>
-> >  #include <linux/slab.h>
-> >  #include <linux/videodev2.h>
-> > +#include <media/v4l2-cci.h>
-> >  #include <media/v4l2-ctrls.h>
-> >  #include <media/v4l2-device.h>
-> >  #include <media/v4l2-event.h>
-> > @@ -41,24 +42,19 @@
-> >  #define MIPI_CTRL00_BUS_IDLE                   BIT(2)
-> >  #define MIPI_CTRL00_CLOCK_LANE_DISABLE         BIT(0)
-> > 
-> > -#define OV5647_SW_STANDBY              0x0100
-> > -#define OV5647_SW_RESET                        0x0103
-> > -#define OV5647_REG_CHIPID_H            0x300a
-> > -#define OV5647_REG_CHIPID_L            0x300b
-> > -#define OV5640_REG_PAD_OUT             0x300d
-> > -#define OV5647_REG_EXP_HI              0x3500
-> > -#define OV5647_REG_EXP_MID             0x3501
-> > -#define OV5647_REG_EXP_LO              0x3502
-> > -#define OV5647_REG_AEC_AGC             0x3503
-> > -#define OV5647_REG_GAIN_HI             0x350a
-> > -#define OV5647_REG_GAIN_LO             0x350b
-> > -#define OV5647_REG_VTS_HI              0x380e
-> > -#define OV5647_REG_VTS_LO              0x380f
-> > -#define OV5647_REG_FRAME_OFF_NUMBER    0x4202
-> > -#define OV5647_REG_MIPI_CTRL00         0x4800
-> > -#define OV5647_REG_MIPI_CTRL14         0x4814
-> > -#define OV5647_REG_AWB                 0x5001
-> > -#define OV5647_REG_ISPCTRL3D           0x503d
-> > +#define OV5647_SW_STANDBY              CCI_REG8(0x0100)
-> > +#define OV5647_SW_RESET                        CCI_REG8(0x0103)
-> > +#define OV5647_REG_CHIPID              CCI_REG16(0x300a)
-> > +#define OV5640_REG_PAD_OUT             CCI_REG8(0x300d)
-> > +#define OV5647_REG_EXPOSURE            CCI_REG24(0x3500)
-> > +#define OV5647_REG_AEC_AGC             CCI_REG8(0x3503)
-> > +#define OV5647_REG_GAIN                        CCI_REG16(0x350b)
+On 12/22/25 10:59 AM, Nihal Kumar Gupta wrote:
+> Monaco EVK board does not include a camera sensor in its default hardware
+> configuration. Introducing a device tree overlay to support optional
+> integration of the IMX577 sensor via CSIPHY1.
 > 
-> It should be 0x350a, not 0x350b.
+> Camera reset is handled through an I2C expander, and power is enabled
+> via TLMM GPIO74.
 > 
-> > +#define OV5647_REG_VTS                 CCI_REG16(0x380e)
-> > +#define OV5647_REG_FRAME_OFF_NUMBER    CCI_REG8(0x4202)
-> > +#define OV5647_REG_MIPI_CTRL00         CCI_REG8(0x4800)
-> > +#define OV5647_REG_MIPI_CTRL14         CCI_REG8(0x4814)
-> > +#define OV5647_REG_AWB                 CCI_REG8(0x5001)
-> > +#define OV5647_REG_ISPCTRL3D           CCI_REG8(0x503d)
-> > 
-> >  #define REG_TERM 0xfffe
-> >  #define VAL_TERM 0xfe
-> > @@ -81,23 +77,19 @@
-> >  #define OV5647_EXPOSURE_DEFAULT                1000
-> >  #define OV5647_EXPOSURE_MAX            65535
->  
-> ...
+> An example media-ctl pipeline for the imx577 is:
 > 
-> > @@ -1435,6 +1335,13 @@ static int ov5647_probe(struct i2c_client *client)
-> >         if (ret < 0)
-> >                 goto ctrl_handler_free;
-> > 
-> > +       sensor->regmap = devm_cci_regmap_init_i2c(client, 16);
-> > +       if (IS_ERR(sensor->regmap)) {
-> > +               ret = PTR_ERR(sensor->regmap);
-> > +               dev_err(dev, "failed to initialize CCI: %d\n", ret);
+> media-ctl --reset
+> media-ctl -V '"imx577 3-001a":0[fmt:SRGGB10/4056x3040 field:none]'
+> media-ctl -V '"msm_csiphy1":0[fmt:SRGGB10/4056x3040]'
+> media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
+> media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
+> media-ctl -l '"msm_csiphy1":1->"msm_csid0":0[1]'
+> media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+> yavta -B capture-mplane -c -I -n 5 -f SRGGB10P -s 4056x3040 -F /dev/video1
 > 
-> Use return dev_err_probe();
+> Signed-off-by: Nihal Kumar Gupta <quic_nihalkum@quicinc.com>
+> Co-developed-by: Ravi Shankar <quic_rshankar@quicinc.com>
+> Signed-off-by: Ravi Shankar <quic_rshankar@quicinc.com>
+> Co-developed-by: Vishal Verma <quic_vishverm@quicinc.com>
+> Signed-off-by: Vishal Verma <quic_vishverm@quicinc.com>
+> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+> Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
 
-dev_err_probe() is fine, but goto entity_cleanup is needed.
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-> > +               goto entity_cleanup;
-> > +       }
-> > +
-> >         ret = ov5647_power_on(dev);
-> >         if (ret)
-> >                 goto entity_cleanup;
-
--- 
-Regards,
-
-Laurent Pinchart
+Konrad
 
