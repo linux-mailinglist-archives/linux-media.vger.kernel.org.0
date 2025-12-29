@@ -1,58 +1,58 @@
-Return-Path: <linux-media+bounces-49616-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49619-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAB5FCE5BD0
-	for <lists+linux-media@lfdr.de>; Mon, 29 Dec 2025 03:31:39 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48637CE5BE2
+	for <lists+linux-media@lfdr.de>; Mon, 29 Dec 2025 03:32:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E89E430038CC
-	for <lists+linux-media@lfdr.de>; Mon, 29 Dec 2025 02:31:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DD0BD300C5DA
+	for <lists+linux-media@lfdr.de>; Mon, 29 Dec 2025 02:31:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD60121D3C5;
-	Mon, 29 Dec 2025 02:31:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAB26262FC7;
+	Mon, 29 Dec 2025 02:31:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="mMxiR1+a"
+	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="UY3hjIQ3"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81A893A1E66;
-	Mon, 29 Dec 2025 02:31:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 848882135D7;
+	Mon, 29 Dec 2025 02:31:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.166.238
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766975495; cv=fail; b=ak9P4BlhYKrHMLxYn38zMZTk9ZK2uUNwU3NOorVn8qqk5jAWEECaIgCXIU+3eNv1fOl/QQwYoG2Nno91S43z2lZl7AsPWbi8PWceedKX2nedRujBpKIyg51u1qsKonMYConCT5NSgDPyFgUlyfDOcdCMXWHOvInVntrKzJJPk4E=
+	t=1766975497; cv=fail; b=VaxiZ9DZT/Kfcrkme1oQbwOdoNSZ15sbD4Oy4GmealSxE4fqVTxwDtqK1Ca7u83CBJXwXACsVi+TSHTiYYVhp/gzh4fFQz2gLFmPyzl50TwnLEIZ/6/gtllFQut85atg9r9m4OSe2l8Lj6WJy9DYDS1JzJwtgRVL3zItn3bbJfQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766975495; c=relaxed/simple;
-	bh=H1/JmXTVTWLbavEZr/rm4Mi4BspPkK0Kbi6PiljHewI=;
+	s=arc-20240116; t=1766975497; c=relaxed/simple;
+	bh=bHaYB0gTyPBfM8TmrhZ7Ui1FNEwC8/aHpyrPiJyTZAk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=AWO3blVB34NL8eNIdqI2OS79CYE/5p8h1yqmboYawIs9s2v/1sJaE5H1IoFGEND37a/bKNeREDCXYDnkcCz025aEOFB9bJBdDlF4cxp1W05zTGPH2fVBN2I/2HFtytLyN2bTy5szg0Ilg0kHNDAY8hEpPrzsTlGt3c348QJDrag=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=mMxiR1+a; arc=fail smtp.client-ip=205.220.166.238
+	 Content-Type:MIME-Version; b=eyX25bw4tSVBNLeTz05fvrnEVVo/5kizv83xQxUWzIuL8p2WZfMaika2HQRaNdvDP2aBCt/IbhNRsbjW+hG56kxB5todDSCCND7DFHI07ZYR+MyThhbYDFFMUy9HK/v7OQff6IZFU8m0t+AOWjEZ3gKUaIYhuUJoIy4isrNSKU8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=UY3hjIQ3; arc=fail smtp.client-ip=205.220.166.238
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
 Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BT1t1fL151482;
-	Sun, 28 Dec 2025 18:31:12 -0800
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BT1t1fM151482;
+	Sun, 28 Dec 2025 18:31:17 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
 	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=YpdQfu9aunAyCccxatGyS3NEA0bSSx+fdUDjhr+oK38=; b=
-	mMxiR1+a/xwckbx1WSV5rHcbUy4wC09+lugyx/c8ebnd1J1IOjeCslgqxGVKV2b9
-	Y9fYrlgZ/jdPO3IC7TD1QRLtTGoTKfyBauHG1P9dLfB/n75sxCQR8XElhuCjZ3Dh
-	szDeb1NPMVbfYGgvVWdDP5Nw9SHYtlnJko3iV+qKSFStbQLX9Q/8Q0VfRjhnDw7R
-	l05mkeE9uyudXQf85cffqd7WyQv7umLePHhF4Kilz50NVIhLCjyBjydu+8ir56iF
-	oYh1QakfmZLvHFe1/V12+Bxc65AvCwcyxMW4EF2T03ZouClbAnrvzybDI+s1fW4R
-	pifn7lxynnv/MbEE4Cr61w==
-Received: from co1pr03cu002.outbound.protection.outlook.com (mail-westus2azon11010026.outbound.protection.outlook.com [52.101.46.26])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4bafuk901w-1
+	PPS06212021; bh=7HN5FZ7CcrAqKoHzQU5uEQ52A5OoiQPK8L7CAiBRDO0=; b=
+	UY3hjIQ30uadAKrGUxYy6A/+wi4FN0FuRA1pAyPiBKv+Bx4kr1NlF7S0Hv9m66Gh
+	KztjEyrPiQttPOJj1PkHpR/1veYbPw0tpV7u0ROckzD9sqKflwpLL50kXUv+CvEm
+	PnWq2Nfq4QXYzhdg4OOvqiT/QaQSirC/01zP0secQ4pu8ZeLmrQ3wlPUp1VwUAs7
+	rkzj9daU/8BAtXrLSTwRPFpK85a5mZT2xOmmP/5njj0L3gKMcjqsj7V5zayvQVCv
+	PO5xtNtfSygSNi8+rWu/mh2H+sbvOezk5WQQNhQueVOmOFR4DxZAxb47S5f0bU1q
+	lS2n9FOz0z20FxNNNlnJYA==
+Received: from co1pr03cu002.outbound.protection.outlook.com (mail-westus2azon11010049.outbound.protection.outlook.com [52.101.46.49])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4bafuk9020-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Sun, 28 Dec 2025 18:31:12 -0800 (PST)
+	Sun, 28 Dec 2025 18:31:17 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=sACj2AfcBhHHi+LoaxvFCP0iDwybAcOsdoCDsKWdfg0Sf+rzfz7ti8eitS2poJRqCZpYHdxBoCTRktk8Mm1JXVsWh5VIwHmGgi6Hx4c2bXBcpDmp7//CHL2IEvhDvuyK87Y9pbxpUGt2OtaiA8SZ8CofHM3NAvN8jGYuANoHA2js1p6YnPD4bb/48ojf2sj/Gjo4M1ljwsHoVoIhvA8XZnRQfTi0PPEpUJ3I4RNqFD/UBsi1HjQfhkAVXptWAFKpcPDKZJlFV32umSBdsNOpTE2xuTYrwAJhBADS3x3TpHEy1dDBF1BROymM7foJWrFMOCJ0AZvcGHr12gr5y4LFzw==
+ b=Rw+u72Dxjb2VRtFddzmtU8kW9hmc/2w+EOKSH02eWJfsyD/7lxw1oD8zMKV7uNCevulFb2lID1OhGH3aoerAUeKgUofHpL+RiRbetONlWVKkOu6pjMOzdgUZVsTrIgju55BQwiUWnbF41r4BVnBKkkivUfrZ797dZ3CSu9t+aRzKiHQmBQSA+P3dYSt3qvNIGbeBN0xV/mCOt3uQ+wAyu3CR1neEfLtWSBD/2ERuZtu2FNpGGs+6j2DuhBoZCGd2TvL/Vc4dS0CQ3mNG97CfigLO9Q3Cr0b67kmCvcn9fjoJWs/NZeVZhm9My0OWSxcV2VN5nBu7/GLf5/iusxjzcA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YpdQfu9aunAyCccxatGyS3NEA0bSSx+fdUDjhr+oK38=;
- b=HbKADlIShIkAZ82rAV2cI2e3ePAHE3GovMBeojL7FKrho5fGThc4ECB/PfICJ53txRVuWLwoacj3VgViOLtZBzTCrNOGd6vaRzExFnzITAuerL6Qw12dFSMQfmukkG158jTF+VAdLtzfWEjt7VwD0k7V6yzmAae0JiNMAaKRr/S1z/YeksagBfAqrDTJZxxGxtnQIutm7p+xCBOUq5DJdkr3mLFxkjmpYnFuGoQcVEWFwIZ1Htb1snATMvpEExbIKnDAZhVvSFXDI2O31LzM6r+wv1JDpyNOxLLT6ysI631/VXK8vC8lyMeg/qJiGrCwjd3KlzVxF0S9AXZE9z+3+Q==
+ bh=7HN5FZ7CcrAqKoHzQU5uEQ52A5OoiQPK8L7CAiBRDO0=;
+ b=OuCYUmZVN4FqC8Ss03uNuikvhWtW27CozhgM0rjWGcBxxZRmlNWHO9f4VC348mtw0ZTOT+nq09CwplbOSUBFqRgwlhManioyafm6aIs55VkeXQ4s/ymPs/OQ+dEIfFm+BAaMpMN6I96qPxLjFc6UP4ZpiSWyy6IuVrnJjT7tgRtwGqqxS29y52n792x6OoyOweiZtHRMEYfuFPYFC4WGvPInFW9a1EV9vtx0NwO+IMwphG2VhWUYQFeA5becPQUhYki8lWczICE7bhVLcTr82enyYygeZcJ973Z6WMIKKwchHPRxY00/1pt7DOLrYl5WpsJs/+51Lfpcnmxxr7agRA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -60,11 +60,11 @@ Received: from DS4PPFD667CEBB6.namprd11.prod.outlook.com
  (2603:10b6:f:fc02::53) by MW4PR11MB7103.namprd11.prod.outlook.com
  (2603:10b6:303:225::8) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9456.14; Mon, 29 Dec
- 2025 02:31:11 +0000
+ 2025 02:31:15 +0000
 Received: from DS4PPFD667CEBB6.namprd11.prod.outlook.com
  ([fe80::56cb:3868:6b6c:193d]) by DS4PPFD667CEBB6.namprd11.prod.outlook.com
  ([fe80::56cb:3868:6b6c:193d%6]) with mapi id 15.20.9456.013; Mon, 29 Dec 2025
- 02:31:10 +0000
+ 02:31:15 +0000
 From: Xiaolei Wang <xiaolei.wang@windriver.com>
 To: laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
         dave.stevenson@raspberrypi.com, jacopo@jmondi.org, mchehab@kernel.org,
@@ -72,9 +72,9 @@ To: laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
         johannes.goede@oss.qualcomm.com, hverkuil-cisco@xs4all.nl,
         jai.luthra@ideasonboard.com, xiaolei.wang@windriver.com
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/3] media: i2c: ov5647: Switch to using the sub-device state lock
-Date: Mon, 29 Dec 2025 10:30:17 +0800
-Message-ID: <20251229023018.2933405-3-xiaolei.wang@windriver.com>
+Subject: [PATCH v2 3/3] media: i2c: ov5647: switch to {enable,disable}_streams
+Date: Mon, 29 Dec 2025 10:30:18 +0800
+Message-ID: <20251229023018.2933405-4-xiaolei.wang@windriver.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251229023018.2933405-1-xiaolei.wang@windriver.com>
 References: <20251229023018.2933405-1-xiaolei.wang@windriver.com>
@@ -91,99 +91,99 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DS4PPFD667CEBB6:EE_|MW4PR11MB7103:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9801229a-8983-4e8c-fca5-08de4682542e
+X-MS-Office365-Filtering-Correlation-Id: 42a12eb9-7376-4375-a272-08de468256fd
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|52116014|7416014|376014|366016|1800799024|38350700014|921020;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?G0fAmD7QL/MmiO+TxzfVi3toYS6KP5T7C8Zkbo2xVLKLw7A35l55AgTe9nc/?=
- =?us-ascii?Q?636QDrIj1o4dxsLZLnTUVw05dPTTXYK1zfqPjx6gUAEW3Opd6yviKVdjXAgM?=
- =?us-ascii?Q?OZzIwnw1Qu0vDX2aT1pQz7mtUQMfH9sR7c57AiEuYB+Re6P1TjCuWj5LtDrP?=
- =?us-ascii?Q?6xU8bNNZ4hVOyRNxNJMfEjEYnPDq3poHpXBoWkXQOFYkG2nuwlEIzyCk/QLf?=
- =?us-ascii?Q?1ef8ZCQwPubkAnXQORra0SD3BD08BEowI1xqZfeVgTYJEBaS5DbpIeVWiGnR?=
- =?us-ascii?Q?9JM7PyNBVudTswrZIVZbe+4Mhff7sEqNl4084sKbBdRKa8P5d3ubKUXqHNbH?=
- =?us-ascii?Q?w+nir88RKPoZMxbSOGz2vCAnGZF8vNFV5hjHRU8/Bd37hJq4pjL/hMxCRVRP?=
- =?us-ascii?Q?weKhKBKTwOD8G47umnU+OU2/8Y1aw5RO7cqwuLDZzmDTgj5jnBAoyZ1/pEFd?=
- =?us-ascii?Q?+hC1o007GNRZUd66N1p9460lwUw2CCHplcfftGEfsbBB/xnDi5xcSXm7F933?=
- =?us-ascii?Q?IXqqK7DlWq9xAuXoltm/1UmDXahDW6XTi6q+18nW0QOcFFZ6AFBqCXrof7B5?=
- =?us-ascii?Q?YfpHUAvnGOYSpKB3LNq/RK8yflMgPVEG5w4HgJIynTAXTc8YFm74heau1T/S?=
- =?us-ascii?Q?FFSiH4IT9302fKJZMl0nkay5ewo6aSIzjIe3ZPtzDJFZMH0d7aDtodIcIeaD?=
- =?us-ascii?Q?VoCSngFvchAeSIoHkSEDfPqDxJk/JrMH+umaWB0T27a8VbkTjJNHhsPA+s1X?=
- =?us-ascii?Q?pzAVMHkEXBLv1csyj8MPs+SJS8ZllAoDtbNEyG9p0xXbMUAni4wtLVzyiEGL?=
- =?us-ascii?Q?fOksh9FTTcZrOdkLbMP/3E9BbwtzwqjwqN+fqaWVSdZKOWlFG39+1756+XcX?=
- =?us-ascii?Q?2yXr/PPFdvgU2f0RnwefCrGl82q6wtwt5JQZORf4q6XLTO0xdVy0zxPZq2i/?=
- =?us-ascii?Q?1LrtjsjgLeom8FmOpSc1TqBAbPRtQ3noGSX9rzYVKArSLPqzHWjYyWCZYsSI?=
- =?us-ascii?Q?W36uRQ36JL3VmOupkq8P9aln0C1KZi+MRfn8RIlcKV6p2N+cuT17zQ7lSvZe?=
- =?us-ascii?Q?VcYkpLJJy2wFCc0My+qMPrm2pomB8293Sefei4/VWcoKIRUu222MB2hcBdjZ?=
- =?us-ascii?Q?ERsxBrUVMbgDz0ctC5cs3CtLsviiYI1TgP0UpukO6ZVkcMcgUZCWjHCWdODU?=
- =?us-ascii?Q?eimslejunLLkMAhuCt5rYO2WE7aNqQJebPOEiWD931guSWRovaD0oxIsTvW9?=
- =?us-ascii?Q?g3scp4N6mdgLwv4T8qFsP4tBMMYxh5Pyad1Zoux8RpPW4Q0Mb6EkRV6JGuJn?=
- =?us-ascii?Q?hFyJxA7wBNRMXOPvpik7TNC9shMNL+49l9HqGJBRT1BAjRrhVQnvJI9YGH5K?=
- =?us-ascii?Q?xhsB9LMxkJLd4m2+XOF87AIqYU5kyeCy/TOIYoAige/W0SpNB1dWzHRxus1N?=
- =?us-ascii?Q?hn4VQnc+sI/xy3jBTdYr+CIY4rd/QsfytUMhXuDQ8f+lCGI0Y49WHWqHXprt?=
- =?us-ascii?Q?BWZBPM9mUaQOKes4imqKOp4SHZkjL4ZLeeFnxKepKYNS+vR1LeJ5DHnGig?=
+	=?us-ascii?Q?PlDEWfu/kMc809T3roUCH/r/dAajS/NnanFmIT8/Cv8eEWxP+fOby9nUNPmq?=
+ =?us-ascii?Q?jCYjkrSEXP9zWMXkC16fx7V8/K+bAGYzhFs8/3/+xkUrdkfX1G+SAZW0167W?=
+ =?us-ascii?Q?1w/u6VdN9tMwALESS4P83OM/nGGwAasmqQd7QBI/ozhow0ckb5DLedd047FL?=
+ =?us-ascii?Q?mtYKilcnT/LrJNrhaUa5WMx0S2ESKVobE/cPcXAjLlSe1rMx8o5tMBdM4UM5?=
+ =?us-ascii?Q?9kweFpDcCG/gzESnY6PkgJqvkRCuGb0MvjbKR/4y9ApZ9s439ZepDc5NrgXd?=
+ =?us-ascii?Q?mbmD16dryLOavt3oSUucX5axPE7H7kch1qJ101IsWaDnpGoQ6ADCfwAvdBpp?=
+ =?us-ascii?Q?ny5SYtvYg4yVbaV8yoGkMsBgzUtWW0Q74RlxGInTNSH8JspDHL4zZpCW0l25?=
+ =?us-ascii?Q?fPu4EUMbqjWRbkRp9x2RJTPLjh5Lk0+8HHjQKGJv7HRiWmhdkro7DdfkXGP3?=
+ =?us-ascii?Q?p295ioiYSJFsCv9DCMg7UB9vhbLPN4QebcyT90PdW/1JRZ20BSvzoVD1V/g6?=
+ =?us-ascii?Q?MdZLdLWXJUtMCHzYhmasm1oA1FsEIsEMU/Ipx6rHB0el7UmrTJ8at1OybuEo?=
+ =?us-ascii?Q?4zLbvDFbDGJrfEOOW3Kmr2hTh+QQ5V0RqC+xrCUEsGfGJJ1P4Xw1ik/ut/Xu?=
+ =?us-ascii?Q?v8AkGFKTcdmezzls+HD6PTYnGTshBrRivGpDEaL+mDaO44jQ4AMALsFTLkJZ?=
+ =?us-ascii?Q?MYbKxE2lPuqaizC2P0jahikWxKgSgr7GGrSHp2sw4QDC+SQ3Wmgk2GCrgxoO?=
+ =?us-ascii?Q?9wZDqcIL4NE4UAO1ODOcJPGXmnyvIIJqrJD5Db/EP1N/X0Uskfn6PJuEC4bM?=
+ =?us-ascii?Q?67rWMiRhfTiSsRqU3O7o10fOGFYvphfIWRjWzG2Pe4drFXqR3Lz7MFKb6I9Z?=
+ =?us-ascii?Q?lvcRlcIHIb3MJmX1Tgn1MlsH9/7S4FieJkGr4NRFXfAIQvf1tf0lPk+xxa8G?=
+ =?us-ascii?Q?5QLVv49ZCah93TU1G3w2+WQg7uTQZqEildJj9UiduL4vD+t6TcAMc8EA/Jc/?=
+ =?us-ascii?Q?AEYoVAj5Ss3xSse3Ew5fuEnLBAOOe7P/HUxlNppBZw7uU8bTIs6uIlNo7uS3?=
+ =?us-ascii?Q?afVLRLKj0TOm65OuwOkUboh+tSmYHD8Vcq1fCtPEPI4aTeLeqq3E/hMEPQ26?=
+ =?us-ascii?Q?leZ/XeBIzMRxPYxEh8sP0vjMNWeeLCuBkZrNC0+H57o6paxZX6JLEpP8/D0z?=
+ =?us-ascii?Q?/kDteQySfotABVNiWULKG5j1a6RJAIMHOO1lYC9qlqloOeDAunRAjSkoeIj0?=
+ =?us-ascii?Q?Qr/Ur5+aoI3u0u82Yu6p2IcOgDWe8eEkVgbbffL870v/2Da1Az9DPyrON1jG?=
+ =?us-ascii?Q?az9le1ESz+ME2T0GpIc4y6TpvQtIT/iSLVcIO19xHoDVpMFEHHLW2sUlkS17?=
+ =?us-ascii?Q?ZPcLjeUHnnCqsKUCctNaNLYWzTRsgLC3+rV8nECF+6F7AzIiBPIZ4BqY1uA8?=
+ =?us-ascii?Q?iR1w1SCjYdBIsH+PdKKgIS05tcueJZxpzuUycMU4jrAwtl1hEF8bgV22zZDu?=
+ =?us-ascii?Q?GqBvjCH7GGMZdw9YKqUcqhL/SA+dOybTlVKZLHa1BBmlmJFfaTK5vHgurg?=
  =?us-ascii?Q?=3D=3D?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPFD667CEBB6.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(7416014)(376014)(366016)(1800799024)(38350700014)(921020);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?7tVb7Eet45/gGKw1L6gJTXY1g3yAfLsg7A85XHe2baurOZlYbggCDy4ysv8t?=
- =?us-ascii?Q?v/hKLaAbl07Y2o3VVOt3/Z8RqVheVFX8NwaijuFJwmvUBdL7JcCQhIgLT4U/?=
- =?us-ascii?Q?WVW/otSrMSXBFUserELq7YNzyyGVjFp0vK75zQZEfw+klcG7piscPC2Txb4g?=
- =?us-ascii?Q?KI2y3k1qyEHPdI/gM+ZSBOdRJQrZu7HZyGw3+ZoOZb2be8C4YYluM8oULDnn?=
- =?us-ascii?Q?+76lfQ7By652YuQAt8n43u3SYX6N361plvH0N7DYHhzzw5YBcyhHM1pWRl82?=
- =?us-ascii?Q?P5nilAubAhjlzoYoEt/o18QqhbGVjLjT1NxUQllNqqr1fHYhQGyv3MBDRFgE?=
- =?us-ascii?Q?6Ci+9+m+4bDYDtsV9FeGDFtud1y8rRjS3fGP71slDYX8X5CbiuXSGaDbUtzn?=
- =?us-ascii?Q?y7X1XPnQuFrqOfoQqiHdE6GW3gVjz4lQCmz3Hx3G5VK1Ld6zbJByEfQtgjTO?=
- =?us-ascii?Q?a+gxSgx9KpTxR7DM4ZNBMBwzh1Vb6yARtCEddv9A4zoIrkO+618FTq9ULvzz?=
- =?us-ascii?Q?xVtg4+e9TVJt48Xd6hMqhdYGGw9w+3uqS05ohwkrv044iHmIfSD2qeBEDlbt?=
- =?us-ascii?Q?j1qAWK1Dq8DiVl5LvOqPsewuq51TEN02gMZFBP/tMaIJHrNAKThJeFqzswSo?=
- =?us-ascii?Q?2pOszo0V1cCGGiEejpmGZ4s1prRRn0T1QL9j6ayPksYLjZviIXuX1rFDIAYA?=
- =?us-ascii?Q?xrmmaH36yhBjTckHLe4hCkw++CHN/55ClAINoRkNh57u2LvrKJvEa2KWSWSF?=
- =?us-ascii?Q?ubuO5aUvj4ZLz4Xvm8TTRW4RJI5D2pwAKw0jedhU07jtfl9A1kSAvkh4HSoM?=
- =?us-ascii?Q?O2TqzyMz9jPuIN5gvmJ3t6wi/5eej/2PDkknIs2RXIdmcbzXhIqad0V+ZF61?=
- =?us-ascii?Q?NBShzTMlThs5vEE13wITXOlA9MH/PbghK9BZEzF2w/9sjDsm2ltTTefX/RUe?=
- =?us-ascii?Q?wEhkX3zDKnnRZF9fmTFrSchuUSBIMGOBNr+MSDVktKRQjC7RwEqsAkkyZLen?=
- =?us-ascii?Q?h2iHFGUGPD3ZU7L8yihPPMwf3Gdx+LzeNTjDafQfmyyQNQFfXv6RL1yn8sai?=
- =?us-ascii?Q?gb8eFPpcZ14TbSkYGFGs+/YjkXuVxdiMXATgmwbLrU7fG450LSwKbrbFRBLk?=
- =?us-ascii?Q?CqYzBBpTJUm93p9QQvRMROF5JndIWJUmoxlTP782Lh9G1cmUrdVxUqwGS2zJ?=
- =?us-ascii?Q?aCrh2WMOavBLCzPA5yLbXWXpMs3cf005HLRP/zY4K1RKR0UEvvCZoyhZb6Kt?=
- =?us-ascii?Q?HuBzQuN33wAJofTv8nX0jjCpixnpnnD65IuKJiaVFPdCN3DJ9v9HNGCrw+Rt?=
- =?us-ascii?Q?Mnzv1UpwOiNc/crz1/nGVCS9VnrWj8UJH/Z7og++Vl12XoINkBA1MUyf1OOa?=
- =?us-ascii?Q?WA0ITlE32rvzNy2Bt7HQwu4vTq0muq6CN6Z7MFOg3fXpjDqQ1Or3SVlJqw66?=
- =?us-ascii?Q?WKRDYDjtBaqClqUyShk1xQ5OpUJBG5hOyL/7He6EkoIRY5CtivAsr6KM84eg?=
- =?us-ascii?Q?B7heArpM0PBT8yclKgNElwoIxkf2Wh5Xdpwl1UEIK7KSdVoXeGf6qIhZcYtv?=
- =?us-ascii?Q?4kh2IWks5OHzeojWOEyoiy0cFhTM/KL1s5KOYmWPN5fh6WeNu35aZyTcLlTc?=
- =?us-ascii?Q?SQfl35BbUiJKhEPZ0RXPtmJJ6h1eBgUfCAXjniFd7T1oIAGPMnQ50vkRDox/?=
- =?us-ascii?Q?Yi++v9syhebVwY3qWeru5VQrwYfApw+twMCconE/k6t3EeL3n+z12xZ4l1f5?=
- =?us-ascii?Q?ESY/wLtpIAGft7tn93SBZH/TqKkj6eM=3D?=
+	=?us-ascii?Q?UR3rW/okekRt+NlIHniW1s6U+bLLZCCAAa1MfuQHTHDlBKVXhpyAdb9T4mpe?=
+ =?us-ascii?Q?o57tuQHwEmz9A22ORXPfJoRzL/lESo68DMjbswtL0K1AMh5nUGNRSueP/IUe?=
+ =?us-ascii?Q?0bXSkoS4b8rgQQ3E5LlcplBxCVt7cBYrkr4A8XNNdsL+SF8cg7F2wjDZQbES?=
+ =?us-ascii?Q?KhKVnvvqEzn0/86AAEsBnwoM4ZSYR2HvnUj3Nc342Mx52+QfXRKA5Oex2VDs?=
+ =?us-ascii?Q?rnF+NcZXIw/IDddJ5BKCaVEjazTpgkFk5lg/UmeOSVvFZfmjeLjNfgpL7K1u?=
+ =?us-ascii?Q?PMC4ITMHyD1/KDyF6dTWaM78xX3LM6TgX94fJcF31QMGxwOpwHsRvGTT9bt8?=
+ =?us-ascii?Q?dDUuTHPgMYk9YA60PiYw7gJFhSmiQ7wRAW63M5wl1eGh4AhyE9iHygpjBByk?=
+ =?us-ascii?Q?rIqvzSHLdxv2qJw5f7UXPvO8f1qCvohLIkmBotm7EPfjnUdWIp1ObwmMJrCa?=
+ =?us-ascii?Q?nHMY4r/3EGuemLDvbiVerqnaUzfIvV7jJzZU1yD6iTHeC2V0HWLvFld3bt5H?=
+ =?us-ascii?Q?RR/V2zQ85esWc811NP5H3dibHt4tD0+sYMXJ5eBL6I7F9UBpuIDPs3WT+uE9?=
+ =?us-ascii?Q?sJI9uROZ7zp9n6Rp9fqDSl/wCR+5dvpthuNyTb0oFPHH5oPH4N4EkNZaCbzQ?=
+ =?us-ascii?Q?Aq2dUGByeO3Nnq3XUSv//YhBhKYFwxJSx0uvKtKOol95iafj+msbX9wGPnqx?=
+ =?us-ascii?Q?WTNQlk6xBGeg15OgPcf1erU2hJiWr9hxv0Ybkp8ZqSCYPHKhv3+52d6eEh9B?=
+ =?us-ascii?Q?CFXVv/XPQvgfKfbhBQJr2l3IkPWldsqnRQoY1fF/m9b62nEvF3q94FNN2f0E?=
+ =?us-ascii?Q?zmjNuUAJol6L1/EDxAcgXCaVTgP2t1wiaeftUJPRmRkUjPj9TTnc9gr3TqCw?=
+ =?us-ascii?Q?h2aUSWLTKVF7wcj392fUopIeNXeqPvP7zKIC9hdT6nmoEIK/g6VnrLZ/f/df?=
+ =?us-ascii?Q?iGoek0Q5nROFU+XnKsp0PrDivhcEv80SzHPDaXK866qxAcfqqeW8ojI/X0je?=
+ =?us-ascii?Q?mPW5FELXQ5TIHKaEUFm0Ona77JO3u3GUA4vPOtaOupY/e6n1qoZog625w26X?=
+ =?us-ascii?Q?WvNMatsJh7LNvTC0FazRag7j6bothzBJTmqRAsn1+wX9Fzidvou4sa5ecBjx?=
+ =?us-ascii?Q?YmqTQF/7HmsFjDTnqSrnwYxvlwysOq+SOl7WyxQ/kwf7C0fvUKcB0djsZHHC?=
+ =?us-ascii?Q?BlanmtWHn9puIjsgd1jk4eAL1/QTyBwFClSKmu67c33YfZbovts8RM//iilo?=
+ =?us-ascii?Q?R2UrvbilGeCpYz/9ppn7OXrQyhQlBOalHjrrm/GE2e6t7rJyvokQ9N/zkNad?=
+ =?us-ascii?Q?teMW1Dx9Ikzr+KQElMcGHSSyJeDDacMeHMh2CGBP+1hkZIqJVu9+u17XkRaV?=
+ =?us-ascii?Q?bLtts+VSHPzk8JVDp1CFVyut9I4JU2MVncQnM5IANH9djQLNHlBNaC4Yc6bq?=
+ =?us-ascii?Q?w3rwimCH0zC4K1OeNTTal3c4GynHxhW9PKd89vyT6ErL5FPQYZPA1ONNlWh+?=
+ =?us-ascii?Q?g/8krxzVhTo0+7ctKvOT8Li3WSj1tjUxobHuE7Co+irh8JXIW1WEZMU3Oaux?=
+ =?us-ascii?Q?LUzDgZJnaAsSps476PL9UFwo4UDj9bVMaJrcpgAMhcjfD4Sv42QNSSfw7lSI?=
+ =?us-ascii?Q?MYswZoNmgdXP5hxiJgACf19Qh6eYXOnMrED/HQ6Ai27IevjQRvr7snw1cvtm?=
+ =?us-ascii?Q?GYBRFaabIHQ4z42fzZoycHRdVaiWIaBtyniR3cdVb1qC+Ladd+ds43ai8s26?=
+ =?us-ascii?Q?/YYheD3RkLcWGA/IPa2v3T+c8Zuor/4=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9801229a-8983-4e8c-fca5-08de4682542e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 42a12eb9-7376-4375-a272-08de468256fd
 X-MS-Exchange-CrossTenant-AuthSource: DS4PPFD667CEBB6.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Dec 2025 02:31:10.7298
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Dec 2025 02:31:15.4253
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pSISnP/m7gIH8piqij698dYwsBJbRwHbSuLehAMsJQi0Y0sXnywphGdbyVo9N1Lls4jsBBIl7F2w3l5A84paeBct8FHkuiAS7IWin+JyWuc=
+X-MS-Exchange-CrossTenant-UserPrincipalName: HBODPz50bH7zERSrUA3BOja9lI514SENO1ecfLFv5osBge/hi8ies+hnObV930wFs9hKmFmbqjIPOOVT3XrtEC2akMwTzSUI6GG91lbquNE=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB7103
-X-Authority-Analysis: v=2.4 cv=ccjfb3DM c=1 sm=1 tr=0 ts=6951e7f0 cx=c_pps
- a=oJ9tI0XfeScUaspqi3eqJg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-Authority-Analysis: v=2.4 cv=ccjfb3DM c=1 sm=1 tr=0 ts=6951e7f5 cx=c_pps
+ a=+5nsKerQHvRPAoQt0ERV+A==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=t7CeM3EgAAAA:8 a=Lc8NSlXapXXr_nlJwJIA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: gJN3sX1-yyRnhdaUg4AOShu5YSj8kMcN
-X-Proofpoint-ORIG-GUID: gJN3sX1-yyRnhdaUg4AOShu5YSj8kMcN
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI5MDAyMSBTYWx0ZWRfX84rLHrwztBMm
- X8wqofeVGgDKBU1EQPzclb9aaC3DtL8ZkDJJfxGP2Leuxw8DybU9FiJgmoeWGgQ2U0KAOFjKUJd
- 7kP4YGgTRIcOzkL+zr/okAWnccqoa+6WDgMUS17JPD2adjTHykUfUKhVEO+GMDQuagjOTk38rWP
- mRnQJcAd4LiXg4LebR+MEfhNeXAAvyKyFa3ZFCBOXEeY8LQrPbq10QQe/e9DyQJ834NapfZBQzP
- epcR/jow+2VcK7vofY8Qw726FvKt9Wctjst/mXbXCD22SZP6Ghy9joxLiZ8h65RYpf25l1+LH/3
- ZE9jJ2JkPK9B6bNMieOmPlgbIrZGLHnT/By1n7Feb2FDIDAUieL1mHEy4M1a0+TVSQOueIjH++T
- Rlr6DlELVSDLFx2tI5FbRfQ9Lyh1fmCJ6sKge/uoh/fXNVLnFgXhV8LhOSmQPzZSc2sEX4YO293
- JdCiUiuitFH37TpdVYw==
+ a=t7CeM3EgAAAA:8 a=pG3TpReAhpfUgZjo6d8A:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: -W3XJNbYKc3L4oF7YFqY4OOc4GBVpXct
+X-Proofpoint-ORIG-GUID: -W3XJNbYKc3L4oF7YFqY4OOc4GBVpXct
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI5MDAyMSBTYWx0ZWRfX7/ZbqR46+kFB
+ 6jcPpgr1pViteHBTOzBEv0Pio/W8BjkAhrU3YjItzNxFgtTvXZ2iigTJbG3ChBHoPVysAOBim7j
+ f5bDXfqsLSFfeoM6WGJ0LHUfKk6iZqlvfMM6IknNqUgY8IApDVEXjcBLZ8vLS5K9Vs7/AcKIGHR
+ 6PRhVUGzjWplYC0rYwA9/pM02BCPxv40Vt+ISfadzqbIps6BmerdbAsKCYpiXD6EKEoEtODkJ8D
+ F0JLZwCQDuuJ8o0Um2qvXFVmlWJN3lnDBNdXmr6G5WZKopgNC1zZ/y4JG0CFaUusqcVC2SprOLI
+ 2ccvJ4Ci93fndTFBFwUnWIr7pRHosW5ZXMkaH9LzFSWE1c1KykrKzyYeH+mUB3Wv8eFbWnTjDTr
+ Z4IEoLFkeC/e+ZCPR6xiS1tEgbvgJvQKUPkvUrtkDfLBm7z7899OL1Fued90o/oHkf6xQSFAie7
+ Wt6UIzbKdR682MjPKWg==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-28_08,2025-12-26_01,2025-10-01_01
@@ -194,184 +194,152 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
  definitions=main-2512290021
 
-Switch to using the sub-device state lock and properly call
-v4l2_subdev_init_finalize() / v4l2_subdev_cleanup() on probe() /
-remove().
+Switch from s_stream to enable_streams and disable_streams callbacks.
 
 Signed-off-by: Xiaolei Wang <xiaolei.wang@windriver.com>
 ---
- drivers/media/i2c/ov5647.c | 40 +++++++++++++-------------------------
- 1 file changed, 14 insertions(+), 26 deletions(-)
+ drivers/media/i2c/ov5647.c | 69 ++++++++++++++++----------------------
+ 1 file changed, 29 insertions(+), 40 deletions(-)
 
 diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-index fd69f1616794..f0ca8cc14794 100644
+index f0ca8cc14794..7f4541f46335 100644
 --- a/drivers/media/i2c/ov5647.c
 +++ b/drivers/media/i2c/ov5647.c
-@@ -91,7 +91,6 @@ struct ov5647 {
- 	struct v4l2_subdev		sd;
- 	struct regmap                   *regmap;
- 	struct media_pad		pad;
--	struct mutex			lock;
- 	struct clk			*xclk;
- 	struct gpio_desc		*pwdn;
- 	bool				clock_ncont;
-@@ -652,7 +651,7 @@ static int ov5647_stream_on(struct v4l2_subdev *sd)
+@@ -637,23 +637,29 @@ static int ov5647_set_mode(struct v4l2_subdev *sd)
+ 	return 0;
+ }
+ 
+-static int ov5647_stream_on(struct v4l2_subdev *sd)
++static int ov5647_enable_streams(struct v4l2_subdev *sd,
++				 struct v4l2_subdev_state *state, u32 pad,
++				 u64 streams_mask)
+ {
+ 	struct i2c_client *client = v4l2_get_subdevdata(sd);
+ 	struct ov5647 *sensor = to_sensor(sd);
+ 	u8 val = MIPI_CTRL00_BUS_IDLE;
+ 	int ret = 0;
+ 
++	ret = pm_runtime_resume_and_get(&client->dev);
++	if (ret < 0)
++		return ret;
++
+ 	ret = ov5647_set_mode(sd);
+ 	if (ret) {
+ 		dev_err(&client->dev, "Failed to program sensor mode: %d\n", ret);
+-		return ret;
++		goto err_rpm_put;
  	}
  
  	/* Apply customized values from user when stream starts. */
--	ret =  __v4l2_ctrl_handler_setup(sd->ctrl_handler);
-+	ret =  v4l2_ctrl_handler_setup(sd->ctrl_handler);
+-	ret =  v4l2_ctrl_handler_setup(sd->ctrl_handler);
++	ret = __v4l2_ctrl_handler_setup(sd->ctrl_handler);
  	if (ret)
- 		return ret;
+-		return ret;
++		goto err_rpm_put;
  
-@@ -807,15 +806,12 @@ __ov5647_get_pad_crop(struct ov5647 *ov5647,
- static int ov5647_s_stream(struct v4l2_subdev *sd, int enable)
- {
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	struct ov5647 *sensor = to_sensor(sd);
- 	int ret;
+ 	if (sensor->clock_ncont)
+ 		val |= MIPI_CTRL00_CLOCK_LANE_GATE |
+@@ -663,11 +669,18 @@ static int ov5647_stream_on(struct v4l2_subdev *sd)
+ 	cci_write(sensor->regmap, OV5647_REG_FRAME_OFF_NUMBER, 0x00, &ret);
+ 	cci_write(sensor->regmap, OV5640_REG_PAD_OUT, 0x00, &ret);
  
--	mutex_lock(&sensor->lock);
--
- 	if (enable) {
- 		ret = pm_runtime_resume_and_get(&client->dev);
- 		if (ret < 0)
--			goto error_unlock;
-+			return ret;
- 
- 		ret = ov5647_stream_on(sd);
- 		if (ret < 0) {
-@@ -831,14 +827,10 @@ static int ov5647_s_stream(struct v4l2_subdev *sd, int enable)
- 		pm_runtime_put(&client->dev);
- 	}
- 
--	mutex_unlock(&sensor->lock);
--
- 	return 0;
- 
- error_pm:
- 	pm_runtime_put(&client->dev);
--error_unlock:
--	mutex_unlock(&sensor->lock);
- 
++err_rpm_put:
++	if (ret)
++		pm_runtime_put(&client->dev);
++
  	return ret;
  }
-@@ -886,7 +878,6 @@ static int ov5647_get_pad_fmt(struct v4l2_subdev *sd,
- 	const struct v4l2_mbus_framefmt *sensor_format;
+ 
+-static int ov5647_stream_off(struct v4l2_subdev *sd)
++static int ov5647_disable_streams(struct v4l2_subdev *sd,
++				  struct v4l2_subdev_state *state, u32 pad,
++				  u64 streams_mask)
+ {
++	struct i2c_client *client = v4l2_get_subdevdata(sd);
  	struct ov5647 *sensor = to_sensor(sd);
- 
--	mutex_lock(&sensor->lock);
- 	switch (format->which) {
- 	case V4L2_SUBDEV_FORMAT_TRY:
- 		sensor_format = v4l2_subdev_state_get_format(sd_state,
-@@ -898,7 +889,6 @@ static int ov5647_get_pad_fmt(struct v4l2_subdev *sd,
- 	}
- 
- 	*fmt = *sensor_format;
--	mutex_unlock(&sensor->lock);
- 
- 	return 0;
- }
-@@ -916,7 +906,6 @@ static int ov5647_set_pad_fmt(struct v4l2_subdev *sd,
- 				      fmt->width, fmt->height);
- 
- 	/* Update the sensor mode and apply at it at streamon time. */
--	mutex_lock(&sensor->lock);
- 	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
- 		*v4l2_subdev_state_get_format(sd_state, format->pad) = mode->format;
- 	} else {
-@@ -945,7 +934,6 @@ static int ov5647_set_pad_fmt(struct v4l2_subdev *sd,
- 					 exposure_def);
- 	}
- 	*fmt = mode->format;
--	mutex_unlock(&sensor->lock);
- 
- 	return 0;
- }
-@@ -958,10 +946,8 @@ static int ov5647_get_selection(struct v4l2_subdev *sd,
- 	case V4L2_SEL_TGT_CROP: {
- 		struct ov5647 *sensor = to_sensor(sd);
- 
--		mutex_lock(&sensor->lock);
- 		sel->r = *__ov5647_get_pad_crop(sensor, sd_state, sel->pad,
- 						sel->which);
--		mutex_unlock(&sensor->lock);
- 
- 		return 0;
- 	}
-@@ -1114,9 +1100,6 @@ static int ov5647_s_ctrl(struct v4l2_ctrl *ctrl)
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
  	int ret = 0;
  
--
--	/* v4l2_ctrl_lock() locks our own mutex */
--
- 	if (ctrl->id == V4L2_CID_VBLANK) {
- 		int exposure_max, exposure_def;
+@@ -677,13 +690,15 @@ static int ov5647_stream_off(struct v4l2_subdev *sd)
+ 	cci_write(sensor->regmap, OV5647_REG_FRAME_OFF_NUMBER, 0x0f, &ret);
+ 	cci_write(sensor->regmap, OV5640_REG_PAD_OUT, 0x01, &ret);
  
-@@ -1316,13 +1299,11 @@ static int ov5647_probe(struct i2c_client *client)
- 		return -EINVAL;
- 	}
- 
--	mutex_init(&sensor->lock);
--
- 	sensor->mode = OV5647_DEFAULT_MODE;
- 
- 	ret = ov5647_init_controls(sensor);
- 	if (ret)
--		goto mutex_destroy;
-+		return ret;
- 
- 	sd = &sensor->sd;
- 	v4l2_i2c_subdev_init(sd, client, &ov5647_subdev_ops);
-@@ -1350,9 +1331,16 @@ static int ov5647_probe(struct i2c_client *client)
- 	if (ret < 0)
- 		goto power_off;
- 
-+	sd->state_lock = sensor->ctrls.lock;
-+	ret = v4l2_subdev_init_finalize(sd);
-+	if (ret < 0) {
-+		dev_err(&client->dev, "failed to init subdev: %d", ret);
-+		goto power_off;
-+	}
++	pm_runtime_put(&client->dev);
 +
- 	ret = v4l2_async_register_subdev(sd);
- 	if (ret < 0)
--		goto power_off;
-+		goto v4l2_subdev_cleanup;
- 
- 	/* Enable runtime PM and turn off the device */
- 	pm_runtime_set_active(dev);
-@@ -1363,14 +1351,14 @@ static int ov5647_probe(struct i2c_client *client)
- 
- 	return 0;
- 
-+v4l2_subdev_cleanup:
-+	v4l2_subdev_cleanup(sd);
- power_off:
- 	ov5647_power_off(dev);
- entity_cleanup:
- 	media_entity_cleanup(&sd->entity);
- ctrl_handler_free:
- 	v4l2_ctrl_handler_free(&sensor->ctrls);
--mutex_destroy:
--	mutex_destroy(&sensor->lock);
- 
  	return ret;
  }
-@@ -1381,11 +1369,11 @@ static void ov5647_remove(struct i2c_client *client)
- 	struct ov5647 *sensor = to_sensor(sd);
  
- 	v4l2_async_unregister_subdev(&sensor->sd);
-+	v4l2_subdev_cleanup(sd);
- 	media_entity_cleanup(&sensor->sd.entity);
- 	v4l2_ctrl_handler_free(&sensor->ctrls);
- 	v4l2_device_unregister_subdev(sd);
- 	pm_runtime_disable(&client->dev);
--	mutex_destroy(&sensor->lock);
+ static int ov5647_power_on(struct device *dev)
+ {
+ 	struct ov5647 *sensor = dev_get_drvdata(dev);
+-	int ret;
++	int ret = 0;
+ 
+ 	dev_dbg(dev, "OV5647 power on\n");
+ 
+@@ -706,7 +721,11 @@ static int ov5647_power_on(struct device *dev)
+ 	}
+ 
+ 	/* Stream off to coax lanes into LP-11 state. */
+-	ret = ov5647_stream_off(&sensor->sd);
++	cci_write(sensor->regmap, OV5647_REG_MIPI_CTRL00,
++		  MIPI_CTRL00_CLOCK_LANE_GATE | MIPI_CTRL00_BUS_IDLE |
++		  MIPI_CTRL00_CLOCK_LANE_DISABLE, &ret);
++	cci_write(sensor->regmap, OV5647_REG_FRAME_OFF_NUMBER, 0x0f, &ret);
++	cci_write(sensor->regmap, OV5640_REG_PAD_OUT, 0x01, &ret);
+ 	if (ret < 0) {
+ 		dev_err(dev, "camera not available, check power\n");
+ 		goto error_clk_disable;
+@@ -803,40 +822,8 @@ __ov5647_get_pad_crop(struct ov5647 *ov5647,
+ 	return NULL;
  }
  
- static const struct dev_pm_ops ov5647_pm_ops = {
+-static int ov5647_s_stream(struct v4l2_subdev *sd, int enable)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	int ret;
+-
+-	if (enable) {
+-		ret = pm_runtime_resume_and_get(&client->dev);
+-		if (ret < 0)
+-			return ret;
+-
+-		ret = ov5647_stream_on(sd);
+-		if (ret < 0) {
+-			dev_err(&client->dev, "stream start failed: %d\n", ret);
+-			goto error_pm;
+-		}
+-	} else {
+-		ret = ov5647_stream_off(sd);
+-		if (ret < 0) {
+-			dev_err(&client->dev, "stream stop failed: %d\n", ret);
+-			goto error_pm;
+-		}
+-		pm_runtime_put(&client->dev);
+-	}
+-
+-	return 0;
+-
+-error_pm:
+-	pm_runtime_put(&client->dev);
+-
+-	return ret;
+-}
+-
+ static const struct v4l2_subdev_video_ops ov5647_subdev_video_ops = {
+-	.s_stream =		ov5647_s_stream,
++	.s_stream = v4l2_subdev_s_stream_helper,
+ };
+ 
+ static int ov5647_enum_mbus_code(struct v4l2_subdev *sd,
+@@ -979,6 +966,8 @@ static const struct v4l2_subdev_pad_ops ov5647_subdev_pad_ops = {
+ 	.set_fmt		= ov5647_set_pad_fmt,
+ 	.get_fmt		= ov5647_get_pad_fmt,
+ 	.get_selection		= ov5647_get_selection,
++	.enable_streams         = ov5647_enable_streams,
++	.disable_streams        = ov5647_disable_streams,
+ };
+ 
+ static const struct v4l2_subdev_ops ov5647_subdev_ops = {
 -- 
 2.43.0
 
