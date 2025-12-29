@@ -1,92 +1,95 @@
-Return-Path: <linux-media+bounces-49631-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49632-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB126CE6120
-	for <lists+linux-media@lfdr.de>; Mon, 29 Dec 2025 08:01:49 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA23CCE62B0
+	for <lists+linux-media@lfdr.de>; Mon, 29 Dec 2025 08:52:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 693B63007C6D
-	for <lists+linux-media@lfdr.de>; Mon, 29 Dec 2025 07:01:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 02E0A3008FBC
+	for <lists+linux-media@lfdr.de>; Mon, 29 Dec 2025 07:52:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79FED2D323D;
-	Mon, 29 Dec 2025 07:01:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 393BD2701B1;
+	Mon, 29 Dec 2025 07:52:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZBPbaYDH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BC1vgVry"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79325265606
-	for <linux-media@vger.kernel.org>; Mon, 29 Dec 2025 07:01:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 253041A4F3C
+	for <linux-media@vger.kernel.org>; Mon, 29 Dec 2025 07:52:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766991700; cv=none; b=D+ZkSqOnDC1lIYgKpLnRcojM13/oSQQ4poXtavlnzFyHjsBtX/gGPhaclkp4Sf9u6ohwwaJ2LSfGWrCDoh7/778aX55ifwZsTz6SNsLfu3E7qM+4kvWoD91QJ25GnJghOCV32HYdnnA4LI9KtiheA1XcDSzBSBF8SXcB9gO8qGw=
+	t=1766994751; cv=none; b=m42keDIdxypIt/LIEOwc9W68p7dMGVXYfKsKQLMpUxxF/0uSS3SMYnVgtisWW8upHQ2Pn6ehvch83qWAEjq0qqvKoA3P69ooYztRropfPU7zK4WFv5cJtDZvPTAtdvsu+zUvE7UsamC8eiHEbHQxJ8hH+K/FBbDZr5SEAs4H1O0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766991700; c=relaxed/simple;
-	bh=h2keJZQTTt4orCNWk1YI1WP1CMKaiyM8tZBdR25fcFI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mZNvuH4naUixSnM0VoMaeoI7G0qxaGtLZ9lLem7f1mz/QQryeEwakoiOg7rhVa920yjfgLwyUoKyUaI5jz4XngohP3KoBfeOOH4kS7b8BA9fFYwM+mbbj2S66DaRzrZehreDz0iOpIoXVtNc1Qg/GAqyuqBcWxSm9OqGINcN/Rk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZBPbaYDH; arc=none smtp.client-ip=209.85.215.172
+	s=arc-20240116; t=1766994751; c=relaxed/simple;
+	bh=uJDU7774F/XHA0B0XTRONQLG1mBUzool/kLyuvfVWYc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=gqiVOxZUfQIBt8MItyqzQfF6Ziu1+iqrnX202Zsbdx4pOcgC/dZuAC6b0gZGaxy2yoQB2Fg4cHcLhrUnyV/rprzPxWnj0PniaaqTiHXODbNiUyQOrEPvr1YuWaynTZWOvSeZyswL1kqTfnJQk0tzZMmC6EtXH3/CdE8A3SI+ZtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BC1vgVry; arc=none smtp.client-ip=209.85.208.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-bc17d39ccd2so5414510a12.3
-        for <linux-media@vger.kernel.org>; Sun, 28 Dec 2025 23:01:39 -0800 (PST)
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-37fcec29834so74316851fa.0
+        for <linux-media@vger.kernel.org>; Sun, 28 Dec 2025 23:52:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766991699; x=1767596499; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4cn1YA2jaa3c7NmmlHPNdV/Y/XHTIDC7PRzAlwxcDII=;
-        b=ZBPbaYDH0xuJKjqCgutSEDZSTGc04FGk7hfaPe75+gzjaLvZ0fdV4zocAHJN+kj3S0
-         n4IBlzQ0rso5bFwhhU6JY4CMboQr1le/5Ll6ygjdCjJ14MjWrvRj/a3daX0hJJnJYvMF
-         HBiW0iaJquQR6XURPrkoPvQmoZ7b7bT5Orma5Q7bGbTPoe0SdTTbGAUOtGiDbhp2zwcG
-         sMnmFlBBpeCGUPEYmbnI3uj0Az2j2uq4rPTDxC1eT6aTDJVz7dQ7i14exMFJF201GkDW
-         wKRCusDdx9+OGUTV06enq+0p+n9JMizC2r4DcYjMSEhFXPmjlTi5iuuOn7JzOr1cWcNP
-         Q8Tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766991699; x=1767596499;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1766994748; x=1767599548; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4cn1YA2jaa3c7NmmlHPNdV/Y/XHTIDC7PRzAlwxcDII=;
-        b=K/OYPpHTfZZw8tgYA5sqCK+W6RmpIdMgHfqFfayhXcQwTvqerjls+nOnfkdxGDVKwC
-         uELoqawd6FyeriIKjnJGAW1rOrYrnqaWk7R/VvZCQm8t3+ZDSDYsE9NztiVylOFGHzZU
-         LG01lIGsRzBHy4wNg7TTPiIJ5SGx4k7URHhjrVM/jyop0WWEzUBPXwYDhoSngDfZjc7F
-         Vi+m46MnLo/6JwSOnTb1+YtY01lgwsmiDvEHsyX0Qf0I+7W+Djpbnkg4NSgqDfpYJ9pH
-         dtwQd1qrv8d5WTV6hTllTrGrMgI1ZacdxXMtzKG+ngteXOigWHtnTI2vXIlXbRlEHBZm
-         3aAw==
-X-Forwarded-Encrypted: i=1; AJvYcCUvfSbOEoqd5dYBEzjjODvSF/qylqHNMQN7OxyzShqE3abeeCaLrkjV9ngKbpu9tYANDGPz2kJ8a+JjKA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxaC5+fVskzu4EGtokRUuQTYnUtDazzBuZ++6In1eiBHTu49lBQ
-	WTM4JTdr0lJDAazJlvmUsJ9TK46vEIT2FeaLlDol8STaEQa1ywn2f+F2
-X-Gm-Gg: AY/fxX5sb2GJVvtSx0+BS/caiMLukhmRDc9G40go+c8oFIRetMxYMhQV76bQYdlALue
-	a5nKQyIhcLsGOHHSnYfgAvgmwg6CtBMgLxgAVlX//cXQgdr4NBoLJEHS+EVJPfzCIa2E7VkjEdu
-	gWm8ui+v2ZIQgP3zOKJVqzXLnx2J/yAuXV1CMfriEBh4yYnR7csuI7WWv3+2PRVE+Ue8W/DoQh9
-	HxaKn0JZEbprK02oh4XM0x1guRvd1vubMMKDgq/gY+smWSX/qCkAxDZd6wlzQsUMssnfvEZZP/j
-	fDmSjIGy4BWGy8MaknTJY9eKggJChuw0tKs4nhTiJ+JblUzIUFiOQVV49dZgTemMJF/5obIUz4Z
-	9lpdI5NMwxupLf0h8gPCLB+U0VZpYYUmYi+ti7CzMV/3SFEUb6U+XwBp/8XCy7RkBEdOujh6TOR
-	kJYelqaAyhCLWdAG4e5Ufq/1X0FHcfXgHvJ8N7t+ADcPpgWGZQmkFttcqK/nC+4YIZDKkg80Dt/
-	mKyGDA=
-X-Google-Smtp-Source: AGHT+IEg54VjCsdGwWrQZg836LQ7kq2l1RLk9ija49iOphX2yVvtnRWpvx5GP4wRoVgfNEIVMzd4YA==
-X-Received: by 2002:a05:7300:f584:b0:2ae:566b:1213 with SMTP id 5a478bee46e88-2b05ec74b3fmr17880492eec.28.1766991698499;
-        Sun, 28 Dec 2025 23:01:38 -0800 (PST)
-Received: from ubuntu-linux-2404.. (108-214-96-168.lightspeed.sntcca.sbcglobal.net. [108.214.96.168])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b06a046e99sm73086507eec.6.2025.12.28.23.01.34
+        bh=W9rs18lnfFY/HykoHJUbNuPfbr0n92mG5VNAEHVdWKA=;
+        b=BC1vgVryNW8/YK2PLm9waay29X1ECg7IYlH/GftvFDPbXLn1cmUxRxJ5tDBhvLAXD5
+         tRbbicNmOd6zHj+c0sIslfaXzZMNNKefNHBljxshAySzl+0127Cv5TC22MC5TYrnUKBy
+         NS+aR+U92QGyILOR5eZcJm3fq4efkeUiHKYBccMr8arMzgs+KILIPrUiCSsnlhUn1U0V
+         E8knvOpbcEKrySDHcNESvGPSJIBYdVbyyPW5OWyey7A1Zi9XwVwj907+jREdXhklCBLR
+         Vg4UfdEUUNDTPBXsk+VmbCuHsg0Az8MBizD24hPUi3W5DQT7TxR0fcV7GDXVU5CkoQz1
+         +38Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766994748; x=1767599548;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=W9rs18lnfFY/HykoHJUbNuPfbr0n92mG5VNAEHVdWKA=;
+        b=eAjcVuv9N+GG3dqivCtf4yilB9lUrFza/Nqgp2csgWVg9+O6bWVl2pfj9Ru0rZEh8Q
+         PgXjr+x7GfCMp+NYnyaTTxg9l70iFg5gQNq3ETFVeODPEekO4jgBQ2C99jHXwusQgcHZ
+         cshAXrbl/1qdZCr/dvjRiYuPJddEhEiEVlzO2IvI1zhhJbsfjDYSA9SJ8KXek1c5d9Ll
+         8gPd0NUIWbzoUNqkg//0ekSANxxJSMzotPyr51Y1+63L5sO+spf8vsP7gLjZLahTCPC5
+         HO8iqLVpDeh/0aTy8Bh5wAJkVQhf/p0Jax675zlJQ0YesKcjvHT/L7HvFRxqfhbwygsX
+         tHuw==
+X-Forwarded-Encrypted: i=1; AJvYcCWHlT2uTJws0BECF0TDXrLHmdZArCncHJi7T5WzRW/jonWLkww/HqWiBy5QNjarPbVTFVlpZZ/pJQreKg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyknrQHMouOtVJL5kz4DVacOIAFfyvTDf/4vTauS9Q0njMiqvjW
+	PVUEtG9gt98qnZlKpZcg2Bj3nbgPRoTJNfNutnXUMHgLnsZtX3XS47sR
+X-Gm-Gg: AY/fxX7FMmAinQyGirsQ1nD1KP5005a4TbwuXXbl80hlUsEFCMy9yD6jUKG9JNbndvN
+	oJlZjsPEMXxsoLDq8L5lOHaObUNYFGIY/YrXbhiYme2wASUvhGxtjKsWBviMzogew5HX90TtKYK
+	9QHWwZNhsoNI49zTKiSDDZ672hHnd4KzGL0tnNLmqPgzkN7cEPSdPAhlPYqslNxaUMQh8BWbJfz
+	XH7AXwKB1jAt/HZEvM2omMAOpKc1H9dGJ1CNeXHO+6WybzKuYwbEna//umRFl6wVOvWIV7MGDM8
+	oouhyVpAGNsSiCfzI/na8IxrPOWpZpx8kexAPuZLYItDPh92xWeleoJOLejTOgIjyrGIZbSGYF3
+	+6utJ8S3lx422Py0IYryW4qWlwi9+Zir17gHTLS8uJH55VItdzRyfuNHuOxPwA2rauXrnBc4Ysr
+	JctEZpv3WrQzncnwLzQvceneTUzWU=
+X-Google-Smtp-Source: AGHT+IFBqmjeNgh+c60lum29DrLVr2dbfNlizQapILb6hM0WEBpPRqHwp9gGkFB2ObIIJ9QEFgNRww==
+X-Received: by 2002:a2e:a595:0:b0:37b:9e0b:e0d8 with SMTP id 38308e7fff4ca-3812159c5cemr81261581fa.14.1766994748017;
+        Sun, 28 Dec 2025 23:52:28 -0800 (PST)
+Received: from localhost.localdomain ([176.33.65.121])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-382861ef4ccsm13496141fa.23.2025.12.28.23.52.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Dec 2025 23:01:38 -0800 (PST)
-From: Sun Jian <sun.jian.kdev@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-staging@lists.linux.dev,
+        Sun, 28 Dec 2025 23:52:27 -0800 (PST)
+From: Alper Ak <alperyasinak1@gmail.com>
+To: bryan.odonoghue@linaro.org
+Cc: alperyasinak1@gmail.com,
+	hverkuil@kernel.org,
+	jonathan@marek.ca,
+	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Sun Jian <sun.jian.kdev@gmail.com>
-Subject: [PATCH] staging: media: tegra-video: move tegra210_csi_soc declaration to csi.h
-Date: Mon, 29 Dec 2025 15:01:25 +0800
-Message-ID: <20251229070125.98741-1-sun.jian.kdev@gmail.com>
+	linux-media@vger.kernel.org,
+	mchehab@kernel.org,
+	rfoss@kernel.org,
+	todor.too@gmail.com,
+	vladimir.zapolskiy@linaro.org
+Subject: [PATCH v2] media: qcom: camss: vfe: Fix out-of-bounds access in vfe_isr_reg_update()
+Date: Mon, 29 Dec 2025 10:52:17 +0300
+Message-ID: <20251229075217.24679-1-alperyasinak1@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <8d260d93-38cc-459d-b8f5-40bec5497277@linaro.org>
+References: <8d260d93-38cc-459d-b8f5-40bec5497277@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -95,49 +98,43 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Sparse warns that tegra210_csi_soc is not declared in tegra210.c.
-The symbol is referenced from csi.c, so it must remain global. Move the
-declaration to csi.h so users see it via the header and avoid extern
-declarations in .c files.
+vfe_isr() iterates using MSM_VFE_IMAGE_MASTERS_NUM(7) as the loop
+bound and passes the index to vfe_isr_reg_update(). However,
+vfe->line[] array is defined with VFE_LINE_NUM_MAX(4):
 
-No functional change intended.
+    struct vfe_line line[VFE_LINE_NUM_MAX];
 
-Signed-off-by: Sun Jian <sun.jian.kdev@gmail.com>
+When index is 4, 5, 6, the access to vfe->line[line_id] exceeds
+the array bounds and resulting in out-of-bounds memory access.
+
+Fix this by using separate loops for output lines and write masters.
+
+Fixes: 4edc8eae715c ("media: camss: Add initial support for VFE hardware version Titan 480")
+Signed-off-by: Alper Ak <alperyasinak1@gmail.com>
 ---
- drivers/staging/media/tegra-video/csi.c | 4 ----
- drivers/staging/media/tegra-video/csi.h | 4 ++++
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/media/platform/qcom/camss/camss-vfe-480.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
-index 604185c00a1a..3c3f6e3fd1ec 100644
---- a/drivers/staging/media/tegra-video/csi.c
-+++ b/drivers/staging/media/tegra-video/csi.c
-@@ -835,10 +835,6 @@ static void tegra_csi_remove(struct platform_device *pdev)
- 	pm_runtime_disable(&pdev->dev);
- }
+diff --git a/drivers/media/platform/qcom/camss/camss-vfe-480.c b/drivers/media/platform/qcom/camss/camss-vfe-480.c
+index 4feea590a47b..d73f733fde04 100644
+--- a/drivers/media/platform/qcom/camss/camss-vfe-480.c
++++ b/drivers/media/platform/qcom/camss/camss-vfe-480.c
+@@ -202,11 +202,13 @@ static irqreturn_t vfe_isr(int irq, void *dev)
+ 		writel_relaxed(status, vfe->base + VFE_BUS_IRQ_CLEAR(0));
+ 		writel_relaxed(1, vfe->base + VFE_BUS_IRQ_CLEAR_GLOBAL);
  
--#if defined(CONFIG_ARCH_TEGRA_210_SOC)
--extern const struct tegra_csi_soc tegra210_csi_soc;
--#endif
--
- static const struct of_device_id tegra_csi_of_id_table[] = {
- #if defined(CONFIG_ARCH_TEGRA_210_SOC)
- 	{ .compatible = "nvidia,tegra210-csi", .data = &tegra210_csi_soc },
-diff --git a/drivers/staging/media/tegra-video/csi.h b/drivers/staging/media/tegra-video/csi.h
-index 3e6e5ee1bb1e..609c5952e050 100644
---- a/drivers/staging/media/tegra-video/csi.h
-+++ b/drivers/staging/media/tegra-video/csi.h
-@@ -130,6 +130,10 @@ struct tegra_csi_soc {
- 	unsigned int tpg_frmrate_table_size;
- };
+-		/* Loop through all WMs IRQs */
+-		for (i = 0; i < MSM_VFE_IMAGE_MASTERS_NUM; i++) {
++		for (i = 0; i < MAX_VFE_OUTPUT_LINES; i++) {
+ 			if (status & BUS_IRQ_MASK_0_RDI_RUP(vfe, i))
+ 				vfe_isr_reg_update(vfe, i);
++		}
  
-+#if defined(CONFIG_ARCH_TEGRA_210_SOC)
-+extern const struct tegra_csi_soc tegra210_csi_soc;
-+#endif
-+
- /**
-  * struct tegra_csi - NVIDIA Tegra CSI device structure
-  *
++		/* Loop through all WMs IRQs */
++		for (i = 0; i < MSM_VFE_IMAGE_MASTERS_NUM; i++) {
+ 			if (status & BUS_IRQ_MASK_0_COMP_DONE(vfe, RDI_COMP_GROUP(i)))
+ 				vfe_buf_done(vfe, i);
+ 		}
 -- 
 2.43.0
 
