@@ -1,120 +1,165 @@
-Return-Path: <linux-media+bounces-49649-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49650-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 841A8CE74AB
-	for <lists+linux-media@lfdr.de>; Mon, 29 Dec 2025 17:04:54 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 460B0CE7F52
+	for <lists+linux-media@lfdr.de>; Mon, 29 Dec 2025 19:55:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2603C301A1FB
-	for <lists+linux-media@lfdr.de>; Mon, 29 Dec 2025 16:04:47 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 09440300EA1D
+	for <lists+linux-media@lfdr.de>; Mon, 29 Dec 2025 18:55:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D791F32E74B;
-	Mon, 29 Dec 2025 16:04:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0490332900;
+	Mon, 29 Dec 2025 18:55:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AvU8x32w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="blK9cXPg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D01C32E6B4
-	for <linux-media@vger.kernel.org>; Mon, 29 Dec 2025 16:04:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC67627B335;
+	Mon, 29 Dec 2025 18:55:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767024285; cv=none; b=sKLMOXX0ktJ+DTa9kY39I8U7NCc0wdxzJrPeQdzKYzPSHGjjMyNR+vlERbS1n3GjhWM/EXwnTvrAWuJzBca0teVEfqQUAfOU2lNnKK64Yj0hjTkdQ6NwNGUX/xJZK+aUjsUSnWlaI+X0Eo/DscJKSBiYoxj1nQNzI3CxznyNcms=
+	t=1767034518; cv=none; b=bvZ1Te0frFrMkFWrQpeg1csitOIr902wgF/0iju4qH5WGvb6tiTA9yxPx2heLGysHTrY2t803KC1OaXdqdkw1SrdVjs4JJ5WgnJSURgLsAYm3pU1X9prF/LoLUEreCtRnuBjC9Q+XKkKnEmjdYsiQ4PMwSrziFZCJPQecBfRHmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767024285; c=relaxed/simple;
-	bh=eoQ6TjP0U6zFg/WIh3bDnspBDved8nX/cYF0YcABtZc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Szcn2incy3ITYqCsry6iYc8tHTukSo8Jqy0AYZ2P1gOj7MEWf2gexkPjVrlswsZVwq8a8pXB+EaTINZBBG2sq7zIEvBqesXLYLqONGOsBvg/8Z7xYOVq7n685ZoGF9A/vRQY9rZYHSwlAKuE/Ee/jwsWJExAMqbTwws1TKc7lk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AvU8x32w; arc=none smtp.client-ip=209.85.216.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-34c1d84781bso10508741a91.2
-        for <linux-media@vger.kernel.org>; Mon, 29 Dec 2025 08:04:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767024283; x=1767629083; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eoQ6TjP0U6zFg/WIh3bDnspBDved8nX/cYF0YcABtZc=;
-        b=AvU8x32wzMXs/cDkGIQ6pWiObqmIVeD1Ou0eHjmRb+OVs/TxfTkVxW3OP4wpRpdFlj
-         iQPRkTM3DjlrMatZepNZjY9GtbyHGE4xGrLyyb0op3impl2k+GruTK49dhms5BePinSY
-         cBk4KiEMt1rxyr6mcw9pejqakEp/p5vC9kXK7pAv1sJNTIGQag8oc+h1mQIxzEFv2ZwK
-         MNBImxWA8jPIXObzeow9KsNrjT66CziWfixS3LklImNF2hroNXB5muJVijS/Hb/V4T9y
-         YLWmgqxvyCyuwSbG+b0NS02WGO7Ezl/PnKscktVULtkB6X+BVOQVPbO55ds1OuI8cKId
-         NrRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767024283; x=1767629083;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=eoQ6TjP0U6zFg/WIh3bDnspBDved8nX/cYF0YcABtZc=;
-        b=NLND8x0y0p2/TsJorpXbQ4KpRJfAjJ3ffTDny/6YIo2s0W1515A9s0hYw1SW0YQK4I
-         d1URjz/rWME/ZApIoJz8PGEuOJRbN/k+KVPP4ShVDLNpjuqxrs01VgVFOuASEQSNjntI
-         ymfm7Z1LtuYfwG3xYKCvlgY0L6fAfHOPJPrwkdE+Nv4ipv0GwEqw2+Z3Vu5FIOpXie7A
-         qp/KxuaQlijldHLJrcPR7DkKV2fcAYaKolVHwd+DC3aRU0+HGbnQU2AcN7vylIMiNuCD
-         zKQY+hT5LHNkWasn9ZYslyvOhWV/LzbDcKUVq51pwAEGE/9C/g6IjjzSk42BYqDjUaMY
-         ENWw==
-X-Forwarded-Encrypted: i=1; AJvYcCWD7/AdHUgT7CN/ipy+i1a2hgDIxJ5Ar/B0QlMPVx0IYmZYOEpPuOIoDclSi8+LJmUhtl+bHsW1LPtPVQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwXGyHxM6SzjXL6Xg41PJ8pOWxq0GTdzIyoaKzTUiAV8JV4NKtg
-	b+z6hxt2MtN5307wav1d7GoHRW0lKNIYaNi6tyq/MqnX9o36spW8/3ptIyL3M3uUl8fp2uq9RRB
-	pChwTrbF1Jt6IB+EmmIr36iWkBo+pYTE=
-X-Gm-Gg: AY/fxX7TLyfpwjhABDa5aUudfJkEpTJ+qJHo5TrXknL3RYA7Kh+wmLyiToNQSB/7jNn
-	lj++7LoKbC4pM37d8/bnEbnjIHA6N831RB3cphNJ76wsGoJ2Ux6hCGTsmT0N6oJtiT5Vo28QD7E
-	XJ9L23XZae7tzZXUrnwq7Lxj5c/X0kp/zSdXHaoEKbr5ySo/hP7Ty/CjZzMU4jASpG26qikPgKZ
-	JVvf6SHeK4e4VTQwge63tzw4Rapp44G/8lPIloSklCrGQTc4zI4g2OVbrqylpf0ivhpsKo/ThTQ
-	iBrzHvEvkiN0ob/nBpPpGBS9VuV/Qg==
-X-Google-Smtp-Source: AGHT+IG+GgX/x8tY+W4R6BDIQuWdLL1jiny0l219vGTzeEkbjR1NoxlxIjcj9q6SdajUF4TPJ6WjeLLERmL/5RqrDM8=
-X-Received: by 2002:a17:90b:2585:b0:341:8ac6:2244 with SMTP id
- 98e67ed59e1d1-34e9212a9fbmr26453852a91.9.1767024283198; Mon, 29 Dec 2025
- 08:04:43 -0800 (PST)
+	s=arc-20240116; t=1767034518; c=relaxed/simple;
+	bh=+RQ+PEEx5EiVW+SfueM9IutFHk8/qNcISvQNvYLC1c0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sbEo7OZMvWU3MEWy0JL8LOZa+W3kJfbByaSkAH3EuzMR9p2YPhphqaMcP3b67L9k3Nhod0F5LdbZOqmxR8ZUFa177g+ksWiivSWrURWbfD6CtNgjtCRVuIZdBtnBi7R6FrwIOGtvLMwLmPj05FffYV/XzFcU8zvUqLA9sc/+Dgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=blK9cXPg; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767034515; x=1798570515;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+RQ+PEEx5EiVW+SfueM9IutFHk8/qNcISvQNvYLC1c0=;
+  b=blK9cXPgWTDaJU+odj/dbru0VmkOuv7OFzLwpc2qENyTPTgtNI7D1JwO
+   qSgMOp6Y71gqRFUI6/lrLq/fAVtEBwgMrpPAo/29UttSDk68laT3YPzqq
+   i1rwL1iCmLBI2oVgirEq8eMusf5Rkgain250DWSjl0sbvbrCEJ931zlz0
+   0cUHY0zMwYfqXsIEhpJvE3X0znRL46hS2OC0UMLZy0AxycH2x3JUVpg57
+   qdbnYSaNvzLNgO/kHTrNovdLAB/Rz750xQ5s5+RLlqSFrJe3tEqj/T8vP
+   bfolT0kQemfNRicocrO+uHLngY3bHQr6hCl9Oo4Ib+qduvoaujmKWd+Ie
+   g==;
+X-CSE-ConnectionGUID: UJuZQfocTAqsrZHvrBTF5Q==
+X-CSE-MsgGUID: pt/0U8tPSc6rGaiRL3cC1A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11656"; a="86219829"
+X-IronPort-AV: E=Sophos;i="6.21,186,1763452800"; 
+   d="scan'208";a="86219829"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2025 10:55:14 -0800
+X-CSE-ConnectionGUID: 4nIsS+gwShuhf9kSpl/GuA==
+X-CSE-MsgGUID: +euSgNiaR8aS52+b/gOu3A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,186,1763452800"; 
+   d="scan'208";a="200979069"
+Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.65])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2025 10:55:13 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 0E035121D81;
+	Mon, 29 Dec 2025 20:55:19 +0200 (EET)
+Date: Mon, 29 Dec 2025 20:55:18 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Xiaolei Wang <xiaolei.wang@windriver.com>
+Cc: laurent.pinchart@ideasonboard.com, dave.stevenson@raspberrypi.com,
+	jacopo@jmondi.org, mchehab@kernel.org,
+	prabhakar.mahadev-lad.rj@bp.renesas.com, hverkuil+cisco@kernel.org,
+	johannes.goede@oss.qualcomm.com, hverkuil-cisco@xs4all.nl,
+	jai.luthra@ideasonboard.com, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] media: i2c: ov5647: Switch to using the
+ sub-device state lock
+Message-ID: <aVLOlkqSHn-N5Wi0@kekkonen.localdomain>
+References: <20251229023018.2933405-1-xiaolei.wang@windriver.com>
+ <20251229023018.2933405-3-xiaolei.wang@windriver.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251120084926.18620-1-opensource206@gmail.com>
- <832f4621-53af-465a-a5e9-f7d65a082481@linuxfoundation.org>
- <CAKPKb8-qyqMmp6c9OnO+AapRRJyE8ygtQUyuUqK8+C0LvMTYTg@mail.gmail.com>
- <CAKPKb8-8ctSewOwBk7fFUMVnb-F_gXnyXS8gd9xJ-fpnW1_ZYA@mail.gmail.com>
- <b5240bd1-eee7-47fd-be70-88435519b12a@linuxfoundation.org> <CAKPKb8-VW3C8c-BmwLEWdLXZ8LVuH_MDMdVzzFs6O8QWmpDeuA@mail.gmail.com>
-In-Reply-To: <CAKPKb8-VW3C8c-BmwLEWdLXZ8LVuH_MDMdVzzFs6O8QWmpDeuA@mail.gmail.com>
-From: opensource india <opensource206@gmail.com>
-Date: Mon, 29 Dec 2025 21:34:32 +0530
-X-Gm-Features: AQt7F2oerpc_9amvflTtqUl8AmDSBFbTxJ63YPslAzW0GEkApQmyVZgpAbUmBtc
-Message-ID: <CAKPKb8_PGYUStAovWjWG8XxabjB5WuT7kQ3qxT3NuYSKihgDDA@mail.gmail.com>
-Subject: Re: [PATCH 0/5] media: vimc: add RGB/YUV input entity and improve
- pipeline support
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: kieran.bingham@ideasonboard.com, mchehab@kernel.org, 
-	Hans Verkuil <hverkuil@xs4all.nl>, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251229023018.2933405-3-xiaolei.wang@windriver.com>
 
-Hi Shuah,
+Hi Xiaolei,
 
-On Tue, Dec 16, 2025 at 8:27=E2=80=AFAM opensource india
-<opensource206@gmail.com> wrote:
->
-> On Tue, Dec 16, 2025 at 12:40=E2=80=AFAM Shuah Khan <skhan@linuxfoundatio=
-n.org> wrote:
->
-> > >>
-> > >> Hi Kieran and Hans,
-> > >> can you please review?
-> > >
-> > > Hi team, can someone please review?
-> >
-> > I will send these up in my pull request to Mauro - it might be
-> > later in December of early January.
-> >
-> > thanks,
-> > -- Shuah
-> >
->
-> Thank you so much Shuah
+On Mon, Dec 29, 2025 at 10:30:17AM +0800, Xiaolei Wang wrote:
+> Switch to using the sub-device state lock and properly call
+> v4l2_subdev_init_finalize() / v4l2_subdev_cleanup() on probe() /
+> remove().
+> 
+> Signed-off-by: Xiaolei Wang <xiaolei.wang@windriver.com>
+> ---
+>  drivers/media/i2c/ov5647.c | 40 +++++++++++++-------------------------
+>  1 file changed, 14 insertions(+), 26 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+> index fd69f1616794..f0ca8cc14794 100644
+> --- a/drivers/media/i2c/ov5647.c
+> +++ b/drivers/media/i2c/ov5647.c
+> @@ -91,7 +91,6 @@ struct ov5647 {
+>  	struct v4l2_subdev		sd;
+>  	struct regmap                   *regmap;
+>  	struct media_pad		pad;
+> -	struct mutex			lock;
+>  	struct clk			*xclk;
+>  	struct gpio_desc		*pwdn;
+>  	bool				clock_ncont;
+> @@ -652,7 +651,7 @@ static int ov5647_stream_on(struct v4l2_subdev *sd)
+>  	}
+>  
+>  	/* Apply customized values from user when stream starts. */
+> -	ret =  __v4l2_ctrl_handler_setup(sd->ctrl_handler);
+> +	ret =  v4l2_ctrl_handler_setup(sd->ctrl_handler);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -807,15 +806,12 @@ __ov5647_get_pad_crop(struct ov5647 *ov5647,
+>  static int ov5647_s_stream(struct v4l2_subdev *sd, int enable)
+>  {
+>  	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> -	struct ov5647 *sensor = to_sensor(sd);
+>  	int ret;
+>  
+> -	mutex_lock(&sensor->lock);
 
-able to pick my changes?
+Note that you shouldn't remove mutex_lock() here quite yet -- s_stream()
+callback won't involve sub-device state and thus the caller won't take the
+state lock either. In other words, the end result is fine after the third
+patch so you should explicitly lock the active state and remove that in the
+third patch (see e.g. v4l2_subdev_lock_and_get_active_state() in
+drivers/media/i2c/imx290.c).
+
+> -
+>  	if (enable) {
+>  		ret = pm_runtime_resume_and_get(&client->dev);
+>  		if (ret < 0)
+> -			goto error_unlock;
+> +			return ret;
+>  
+>  		ret = ov5647_stream_on(sd);
+>  		if (ret < 0) {
+> @@ -831,14 +827,10 @@ static int ov5647_s_stream(struct v4l2_subdev *sd, int enable)
+>  		pm_runtime_put(&client->dev);
+>  	}
+>  
+> -	mutex_unlock(&sensor->lock);
+> -
+>  	return 0;
+>  
+>  error_pm:
+>  	pm_runtime_put(&client->dev);
+> -error_unlock:
+> -	mutex_unlock(&sensor->lock);
+>  
+>  	return ret;
+>  }
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
