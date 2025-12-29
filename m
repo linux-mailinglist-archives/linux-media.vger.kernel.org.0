@@ -1,451 +1,186 @@
-Return-Path: <linux-media+bounces-49620-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49621-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 794C5CE5CF1
-	for <lists+linux-media@lfdr.de>; Mon, 29 Dec 2025 04:16:31 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09ACBCE6055
+	for <lists+linux-media@lfdr.de>; Mon, 29 Dec 2025 07:31:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1EB68300A341
-	for <lists+linux-media@lfdr.de>; Mon, 29 Dec 2025 03:15:59 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id AD6F73006445
+	for <lists+linux-media@lfdr.de>; Mon, 29 Dec 2025 06:31:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3A4C2253A1;
-	Mon, 29 Dec 2025 03:15:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D64882853F2;
+	Mon, 29 Dec 2025 06:31:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lp/4jH3i"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="O/jTYO9Q";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="HLAvqz3z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97DC81DF73A
-	for <linux-media@vger.kernel.org>; Mon, 29 Dec 2025 03:15:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE0A1C8606
+	for <linux-media@vger.kernel.org>; Mon, 29 Dec 2025 06:31:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766978157; cv=none; b=jlmQaImW8SfQ5YPAMt+ADPpifteJOceuZGv2P5Zsj3QsKwUGvxCvlF/M2o2ROxqVPQlggKF73E6LVLwlE7EZiABFdNvnW91+FbZPWU4tXFFpGjxEkPcmP//Lb/j0X8+/e/FxOiNSL/0yy9CtROTYPG9DBOVlM3bDM0P36irD09Q=
+	t=1766989902; cv=none; b=sLlIyzuhIBHTb3vJTBeuoWNiuWDWqXqanXl78zQ0gbZwqph3DKhouSFM4n/uFeIBoiMJY9kxXQF8w8m1ChUuqXYhPFkAxGqUm5wOyk/UXDfVik9tcbt13PWSl5Pg6Gvw1daLlloYVikWfPGc66MP/iJ1PtHa6GX2USzx+jieaNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766978157; c=relaxed/simple;
-	bh=tjLDeYcpl/vpg2S6X8j0JtmfiEoYZ1rjjdk8EACqhpo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=u/1lPW5+A/OykhWgQvGH54Psw9YTbWyvTcAUCapTiAJr64RlIEGcPqRj+R1pDtyZm73xcpaqPSZkZSOvASO+yVatTDpBjQ2zims7nziQa3ta6HdK9F+q1jnduVd2Ft5kDRDAxzX1+gz9t81nJAOjrtq1uJZotdTxc2rTWhpbTM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lp/4jH3i; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7f651586be1so4109501b3a.1
-        for <linux-media@vger.kernel.org>; Sun, 28 Dec 2025 19:15:55 -0800 (PST)
+	s=arc-20240116; t=1766989902; c=relaxed/simple;
+	bh=l3HYQfLfyDGmAdRdmedMRdKbd3YII9iS9an4QWGWaFQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=RJod93qwvohp5b0siWPkaJUBYz5Yv7Z/54ApHjR2fVgNSOvXsQFHXYTeiXb/StKxxTwYuoOHmG0/nmuMIR8LiQYv5gg+c+LOScedYbLmztHH3oufF71pTcL5ex6NJ0kYXE0AugPlpS0DgdEh5hIjdzSOdPmhRxRyqHpEbZkOy1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=O/jTYO9Q; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=HLAvqz3z; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BSMlWk33215628
+	for <linux-media@vger.kernel.org>; Mon, 29 Dec 2025 06:31:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=WMiYL2e1fGj83Lu/5WYNPF
+	G4N3K7VEAwd6MaaQi4AfQ=; b=O/jTYO9QjHgbil3XWiTze+MKXkErR3dGjdp1hy
+	G+uIw/y2bVPybedb8RHs+htMGdLZMWfQKvFlWfDItvsO/AAKJ3tlRJC4Am03qfnu
+	G0IcGVYP2hupg/CGOnDQDTOLPJdyeWY5wr0JMFq3C9V7XA1kpsgZdBnrAGdyEJm0
+	dYLLlA0CoYN/Jp8ZX5tzUsb9H5eooT/Bea73efkLT9xLPRwoHyjwtM5CAHBznd7j
+	etBqmZ76tjbxu2r7cpDwEoj7UHJ7bo8SQ/jugQbHJ7//ly6i2RfNVaRZ5K2RPGIl
+	8i9VHesNJTVBQ1dntARonIyV/0yX8uSTfWuvJeftNeixySdA==
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ba8r6bfgv-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Mon, 29 Dec 2025 06:31:39 +0000 (GMT)
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-7aa148105a2so8518092b3a.1
+        for <linux-media@vger.kernel.org>; Sun, 28 Dec 2025 22:31:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766978155; x=1767582955; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6kLoZB5QMQc+K/aIrEr+4NYhtJKe9kWjjOywPC1m2Es=;
-        b=Lp/4jH3iVLt3MNri1oYdsiyobKqTsAHENFM1ku+fsTeV17TwYhjjjHvBytg35LGVp4
-         hmzZaBcDxFXz207z90KEOtRmeKRRdpUINBepl+bFMx1Aynz3DLCHVIeUDY2sRtpc91Lj
-         7/Eym6aS617DsD4l02cWlg+dDfuTo2c1rVhHcsleBlMuFJWJ43iE4DcyYcm71uUC8dKb
-         UHrIg2Jp/ptpNgvxZGLsc8xRFOMS3Scjr+ORzj76vRAuiymmawd5EvwXG9NzoCsWjGix
-         020cCQdRVz9vnU0Qs0qzzST7omjGbsEzCziYrNxOh7+2aTDJzSYBj74JuOXI7KLk0M7B
-         d4Jg==
+        d=oss.qualcomm.com; s=google; t=1766989899; x=1767594699; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WMiYL2e1fGj83Lu/5WYNPFG4N3K7VEAwd6MaaQi4AfQ=;
+        b=HLAvqz3zLZMffgexyaZdnXod3xXc68PObBmmuCXv5RbXatlNo7IId5QwYbw8u43Y/s
+         B1bn70yLLocVF7WGO653kH6mObyziF5tMoimX9vJ73DOUNUhxS/rVn426wgBbz3BFbKX
+         dy44z5BQpaxbRGvVZ1+GOlwgnD3hLr3HPZWV3R9oyFzSatpVEYn/FTodymCCeudlrCE9
+         /7QdbEiAcIDywS7HaFS6BnWrtrPFq/6znjrJ/eO63RnPWm8XEJj/apwkpWrvPl43IrSb
+         9uVKGcmDGYSByc02MF/WfpmBgfzvPKQIKHijNh2CNNjyOtOsAaP7/CZfmKsrZ1uMwGgb
+         RJAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766978155; x=1767582955;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1766989899; x=1767594699;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6kLoZB5QMQc+K/aIrEr+4NYhtJKe9kWjjOywPC1m2Es=;
-        b=P/SzyVYvKAmniGN/yni3Kbw7I1s+3BgSXMLxDsIKG/J2CYNmkE3A3t/mPVQzdisxRB
-         Jf7V47Ykb1g0b6sL8Ed+R8C1ivNn4JdHcB+qoO9zAJq7CO6+xnXg+Yue2wv7hjENjqEk
-         o6dg4LN3EMAXjXiy1xM8yL2uv+eQN924JBafdSSE/57hKju7S9dJZt3w2U5T8Y2I1jgj
-         3NaTi7Y+Jo7VnxHAh4rFBtiXyZVOp/PDDeOk1EDPApouOvWELNbKHWPJkueQKOsYOiWs
-         k2UaFS0l9YQz2J2egKwNs69zDOcYxJKZawCerOB1+WY24NF/6uDQmyGKpYlr8PHxS0jh
-         M/5A==
-X-Gm-Message-State: AOJu0Yy+I47S1Hnkt0qpiRR7mXfiv/CeLSVGGEO8P63Y+IGAQn76pzrs
-	eg+XYbVns4VJOmIJs7rO9JuVtiF34jScRNAeMIEJ45VQqs86Yglf74fO
-X-Gm-Gg: AY/fxX4mbGQ7ZPaFzrEUZfoAGQUJpLnoCaUrByBYTG+Ja/YLxKsBYM02N8A15IN7Ijs
-	pjcQoYjZTfhOe3cRqEYb+CMlPpdrTVZ5wHbeCVlZ/bFC+U+DthNhQW0SpjPqkvjjS82B6KYOGol
-	tDB1/T9+D0UZ8vtQzQrY8NQsuYNOgYbMF93Rh/i+VDD3BkOYkCJBt4TIFwai6iSBVMOvmJml+ZJ
-	vcoZzIVjj/BYngx7qaQnG4M4Piix3Toq9VQZt50C8qWciTARK8n7sbKTM/YCpvvuOAeKZP8XRqo
-	IVnVqk0uSuhlfXVXO+JtmvDVW1t+5dVkrEPWrUuJ9T0WIz/BFkmgF7nDNgYzaahLR5OC2b2Ptfq
-	W6V6rxFwDKaNhWVuz5g5VIps0R2HyJAlF3exaxxQh1uJXExlVumbFyG6RnIcZLnDlVvtY1Bz7eh
-	70d9Zw9Qbz1rTw9CyUuOFvaoYUweKtxYQ=
-X-Google-Smtp-Source: AGHT+IFaS92fvg7qIdSkG8OVXret7v/N5DAvufFQ6j12Iv44PrQ8ceHxTlqDy0oxGWdWmtlvryWrgQ==
-X-Received: by 2002:a05:6a00:451c:b0:7e8:3fcb:bc46 with SMTP id d2e1a72fcca58-7ff54c01878mr28259482b3a.27.1766978154707;
-        Sun, 28 Dec 2025 19:15:54 -0800 (PST)
-Received: from xiao.mioffice.cn ([43.224.245.230])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7af2b537sm27529677b3a.20.2025.12.28.19.15.51
+        bh=WMiYL2e1fGj83Lu/5WYNPFG4N3K7VEAwd6MaaQi4AfQ=;
+        b=K0UON+FSck9W4mAI+3zVq5kg2vqyLMBbMyaC9kWc3TlwaQsj88m1p+BaNziIUpiBTM
+         I6jeMrAwBycQAr/71nd9Y60NuWj+sWGGMAq5wXoF3fA38FJtwZIAerpLM77aNL9FwIiw
+         tSfglVX2HKvS73Wy/BW0dprjq96DVNayrie4dcBY8uyrppXXR0bWxqqGERXSAGwfNc7Q
+         HfkO9exOLsIIbEL7iaE7mPzZ59UomukDlEdZS1MxHOer/ag1817ufElH1M/jfLQoNNTp
+         K5WjG9no8PtyJdRIq3gesj/suACOF/ZK+s0GfdYicdlme8Pi6It2XKDwrqoXxkLxSO3Q
+         eelg==
+X-Gm-Message-State: AOJu0YxIE2e48IThM1V2FF3oNF6im1YUs3lqLbDwxcfh4bUW7lGOP8zY
+	jDRDw3WaZeP6t/B0jG4gnK/Nv7qQqvkNGUshLeX5wYuHq7SYysPWxLC77E5h3Qd6LLU84P2qAp4
+	jWB+/VIqR+LdiYXN8mCSq1GoXi3D5OKK7z44debkN+feSgnpWd8/QOOi2Z8if6VDl1Q==
+X-Gm-Gg: AY/fxX6f7pPsvG4mdeotvab/yjssvJJ8w5FQmV8yGHXW12wANaiK6M/oKlAxk66iEcn
+	ICtQYOHdUnQ/crVbFbre9Tu/QSp16GIv095Ol4EgPoiugO6xjogKXNiXal/nRA4IIoWmVMh6Rto
+	LpAi+5p/jOXxlFJb7dTqsDK65dGOD73tLxidszkFr5kkt20sG+R6yLnR8jpgj8foOvOwxzz+uoM
+	N2NZtjaXIvCcRx34EZHJ6OaJMdwz0GYFUJVSov111xohDzmRlClrKOCQ9vpCbQyh3lG3edyEmPK
+	9BnzITZo2YVrjrB4a24aqAJnsVDSDl6QQgJMPXVobrpDQD8y7pK/YniozDC6SoqyFKW2dyQfIhs
+	OtnTpaJ+MmFhtPGVeGdbF0K8q0cN872Y8TFuCiEzkxBV2Mi4=
+X-Received: by 2002:aa7:9312:0:b0:7e8:43f5:bd56 with SMTP id d2e1a72fcca58-7ff6784e709mr23526980b3a.66.1766989898591;
+        Sun, 28 Dec 2025 22:31:38 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHoCrIhzru6J9/SBY6w94BLXM3xiqCUW/yKnyKPD2FdthRnHntCF2oEREJHuj2YxYdf/T18Og==
+X-Received: by 2002:aa7:9312:0:b0:7e8:43f5:bd56 with SMTP id d2e1a72fcca58-7ff6784e709mr23526950b3a.66.1766989898096;
+        Sun, 28 Dec 2025 22:31:38 -0800 (PST)
+Received: from hu-dikshita-hyd.qualcomm.com ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7e797ab9sm28308962b3a.59.2025.12.28.22.31.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Dec 2025 19:15:54 -0800 (PST)
-From: Xiang Gao <gxxa03070307@gmail.com>
-To: sumit.semwal@linaro.org,
-	christian.koenig@amd.com,
-	rostedt@goodmis.org,
-	mhiramat@kernel.org
-Cc: linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	mathieu.desnoyers@efficios.com,
-	dhowells@redhat.com,
-	kuba@kernel.org,
-	brauner@kernel.org,
-	akpm@linux-foundation.org,
-	linux-trace-kernel@vger.kernel.org,
-	gaoxiang17 <gaoxiang17@xiaomi.com>
-Subject: [PATCH v12] dma-buf: add some tracepoints to debug.
-Date: Mon, 29 Dec 2025 11:15:47 +0800
-Message-Id: <20251229031547.59272-1-gxxa03070307@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Sun, 28 Dec 2025 22:31:37 -0800 (PST)
+From: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+Subject: [PATCH v2 0/6] media: iris: misc fixes for fluster, seek and
+ concurrency issues
+Date: Mon, 29 Dec 2025 12:01:19 +0530
+Message-Id: <20251229-iris-fixes-v2-0-6dce2063d782@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADcgUmkC/02MQQ6CMBBFr0JmbUmnAaquvIdhgWUqkwjFjhIN6
+ d2txIWbSd78/98KQpFJ4FisEGlh4TBlMLsC3NBNV1LcZwajTY0GG8WRRXl+kajqQhp78uishzy
+ YI21B7p/bzAPLI8T35l7w+/1pTPWvWVBpVXt72DdotSZ3CiLl/dndXBjHMh9oU0ofaAvHXKsAA
+ AA=
+X-Change-ID: 20251216-iris-fixes-4be01def1c7f
+To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@kernel.org>,
+        Stefan Schmidt <stefan.schmidt@linaro.org>,
+        Hans Verkuil <hverkuil+cisco@kernel.org>,
+        Wangao Wang <wangao.wang@oss.qualcomm.com>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1766989894; l=1323;
+ i=dikshita.agarwal@oss.qualcomm.com; s=20240917; h=from:subject:message-id;
+ bh=l3HYQfLfyDGmAdRdmedMRdKbd3YII9iS9an4QWGWaFQ=;
+ b=VqAogHl/5mSdNnD94YerpXy9Xh7ZJQ3tsVbrf52ETgJaHqBDk1Jx8B6eR2LYYlWLDnyyx8LH3
+ iJK+rSpf03aCA0hiMjB6PPCs+OWPA9slVk8hxf43f5whWQ4suZkOv+C
+X-Developer-Key: i=dikshita.agarwal@oss.qualcomm.com; a=ed25519;
+ pk=EEvKY6Ar1OI5SWf44FJ1Ebo1KuQEVbbf5UNPO+UHVhM=
+X-Authority-Analysis: v=2.4 cv=Raidyltv c=1 sm=1 tr=0 ts=6952204b cx=c_pps
+ a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=qJ7AGJJM78aGNJrzRvkA:9 a=QEXdDO2ut3YA:10 a=zc0IvFSfCIW2DFIPzwfm:22
+X-Proofpoint-ORIG-GUID: i1qfpMG41bSGhOjYkelzHSIHX_sOpvrs
+X-Proofpoint-GUID: i1qfpMG41bSGhOjYkelzHSIHX_sOpvrs
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI5MDA1NyBTYWx0ZWRfX14u6AH3T2aNF
+ vnSskr+M25iPzDiZhRRNZS5EKOVa5ndnTLzpERuw9ohJPkgnI6gQQXZqWODeloKQ60k5C4kx7uP
+ HZ6Kc+ZK45cR4qNCU0VPC3vB1P06cVJFna9COCbu29G0afFv1oW2lhnmUBN9bjXbFAmdtMCWpZL
+ u/LeK2gunSN+OAr+CfEskHCf/ppGO30FgJehGiBxt5dBXQ5gOBFA8jmMRex4YnM3Ru8/sAjOdU3
+ SKRXOZ0VD5uCOzOkCe8ygRCp6G4QYpjDqMoX5Pgiq6bMcFtWU/3kRfWnpyE6GmDZpwch7dfvg1r
+ yKZGj79URbrmDqg/X+Zxe1TlOzS1sHrnTZTpdeEUJMQi/oI7YWJCZ2ktdbMxHzY1sOIQC1iXANO
+ B39FL/dnLXPiP7EwLpBWOlGvm2XAM0zvZobMZibgp2538Y6D7gU62kgZmPERp38bqVrU3TVMqzu
+ 31X9fntzjGxDxeBLanA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-29_01,2025-12-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 clxscore=1015 phishscore=0 impostorscore=0 suspectscore=0
+ lowpriorityscore=0 bulkscore=0 malwarescore=0 spamscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512290057
 
-From: gaoxiang17 <gaoxiang17@xiaomi.com>
+This series contains a set of fixes addressing issues uncovered during
+fluster test, resolution-change, seek and concurrency on Iris.
 
-Since we can only inspect dmabuf by iterating over process FDs or the
-dmabuf_list, we need to add our own tracepoints to track its status in
-real time in production.
+Changes in v2:
+- Added missing fixes tags (Bryan)
+- Link to v1: https://lore.kernel.org/r/20251224-iris-fixes-v1-0-5f79861700ec@oss.qualcomm.com
 
-For example:
-   binder:3016_1-3102    [006] ...1.   255.126521: dma_buf_export: exp_name=qcom,system size=12685312 ino=2738
-   binder:3016_1-3102    [006] ...1.   255.126528: dma_buf_fd: exp_name=qcom,system size=12685312 ino=2738 fd=8
-   binder:3016_1-3102    [006] ...1.   255.126642: dma_buf_mmap_internal: exp_name=qcom,system size=28672 ino=2739
-     kworker/6:1-86      [006] ...1.   255.127194: dma_buf_put: exp_name=qcom,system size=12685312 ino=2738
-    RenderThread-9293    [006] ...1.   316.618179: dma_buf_get: exp_name=qcom,system size=12771328 ino=2762 fd=176
-    RenderThread-9293    [006] ...1.   316.618195: dma_buf_dynamic_attach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
-    RenderThread-9293    [006] ...1.   318.878220: dma_buf_detach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
-
-Signed-off-by: Xiang Gao <gaoxiang17@xiaomi.com>
+Signed-off-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
 ---
+Dikshita Agarwal (5):
+      media: iris: Add buffer to list only after successful allocation
+      media: iris: Skip resolution set on first IPSC
+      media: iris: gen1: Destroy internal buffers after FW releases
+      Revert "media: iris: Add sanity check for stop streaming"
+      media: iris: gen2: Add sanity check for session stop
 
-Changes since v11: https://lore.kernel.org/all/20251225121119.2194228-1-gxxa03070307@gmail.com/
-- Lined up the backslashes nicely for the macro DMA_BUF_TRACE.
-- Used DEFINE_EVENT_CONDITION() to move the condition branch into the tracepoint.
+Vishnu Reddy (1):
+      media: iris: Prevent output buffer queuing before stream-on completes
 
-Changes since v10: https://lore.kernel.org/all/20251224013455.1649879-1-gxxa03070307@gmail.com/
-- Always expose dmabuf->name_lock if lockdep is enabled.
+ drivers/media/platform/qcom/iris/iris_buffer.c         |  7 +++++--
+ .../media/platform/qcom/iris/iris_hfi_gen1_command.c   |  4 +++-
+ .../media/platform/qcom/iris/iris_hfi_gen2_command.c   |  3 +++
+ drivers/media/platform/qcom/iris/iris_vb2.c            | 18 ++++++++++--------
+ 4 files changed, 21 insertions(+), 11 deletions(-)
+---
+base-commit: 1f2353f5a1af995efbf7bea44341aa0d03460b28
+change-id: 20251216-iris-fixes-4be01def1c7f
 
-Changes since v9: https://lore.kernel.org/all/20251223032749.1371913-1-gxxa03070307@gmail.com/
-- Fixed some whitespace issues with the macro DMA_BUF_TRACE again.
-
-Changes since v8: https://lore.kernel.org/all/20251218062853.819744-1-gxxa03070307@gmail.com/
-- Expose dmabuf->name_lock when lockdep is enabled but trace event is not.
-
-Changes since v7: https://lore.kernel.org/all/20251217105132.643300-1-gxxa03070307@gmail.com/
-- Fixed some whitespace issues with the macro DMA_BUF_TRACE.
-
-Changes since v6: https://lore.kernel.org/all/20251216063952.516364-1-gxxa03070307@gmail.com/
-- Add a comment for the macro DMA_BUF_TRACE.
-
-Changes since v5: https://lore.kernel.org/all/20251201112148.843572-1-gxxa03070307@gmail.com/
-- Add the macro DMA_BUF_TRACE.
-- Modify the commit message.
-
-Changes since v4: https://lore.kernel.org/all/20251128085215.550100-1-gxxa03070307@gmail.com/
-- Remove the tracepoints exporting.
-- Remove the file refcount for the trace.
-- Print the dev_name last.
-- Add the parameter of whether dma_buf attachment is dynamic.
-
-Changes since v3: https://lore.kernel.org/all/20251127004352.376307-1-gxxa03070307@gmail.com/
-- Take the dmabuf->name_lock around the tracepoint call itself.
-- Used DECLARE_EVENT_CLASS() and a DEFINE_EVENT().
-
-Changes since v2: https://lore.kernel.org/all/20251125162949.220488-1-gxxa03070307@gmail.com/
-- Add more explanation to the commit message.
-
- drivers/dma-buf/dma-buf.c      |  48 +++++++++-
- include/trace/events/dma_buf.h | 159 +++++++++++++++++++++++++++++++++
- 2 files changed, 205 insertions(+), 2 deletions(-)
- create mode 100644 include/trace/events/dma_buf.h
-
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index edaa9e4ee4ae..dee59d4c0b12 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -35,6 +35,26 @@
- 
- #include "dma-buf-sysfs-stats.h"
- 
-+#define CREATE_TRACE_POINTS
-+#include <trace/events/dma_buf.h>
-+
-+/*
-+ * dmabuf->name must be accessed with holding dmabuf->name_lock.
-+ * we need to take the lock around the tracepoint call itself where
-+ * it is called in the code.
-+ *
-+ * Note: FUNC##_enabled() is a static branch that will only
-+ *       be set when the trace event is enabled.
-+ */
-+#define DMA_BUF_TRACE(FUNC, ...)					\
-+	do {								\
-+		/* Always expose lock if lockdep is enabled */		\
-+		if (IS_ENABLED(CONFIG_LOCKDEP) || FUNC##_enabled()) {	\
-+			guard(spinlock)(&dmabuf->name_lock);		\
-+			FUNC(__VA_ARGS__);				\
-+		}							\
-+	} while (0)
-+
- static inline int is_dma_buf_file(struct file *);
- 
- static DEFINE_MUTEX(dmabuf_list_mutex);
-@@ -220,6 +240,8 @@ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
- 	    dmabuf->size >> PAGE_SHIFT)
- 		return -EINVAL;
- 
-+	DMA_BUF_TRACE(trace_dma_buf_mmap_internal, dmabuf);
-+
- 	return dmabuf->ops->mmap(dmabuf, vma);
- }
- 
-@@ -745,6 +767,8 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
- 
- 	__dma_buf_list_add(dmabuf);
- 
-+	DMA_BUF_TRACE(trace_dma_buf_export, dmabuf);
-+
- 	return dmabuf;
- 
- err_dmabuf:
-@@ -768,10 +792,15 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_export, "DMA_BUF");
-  */
- int dma_buf_fd(struct dma_buf *dmabuf, int flags)
- {
-+	int fd;
-+
- 	if (!dmabuf || !dmabuf->file)
- 		return -EINVAL;
- 
--	return FD_ADD(flags, dmabuf->file);
-+	fd = FD_ADD(flags, dmabuf->file);
-+	DMA_BUF_TRACE(trace_dma_buf_fd, dmabuf, fd);
-+
-+	return fd;
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_fd, "DMA_BUF");
- 
-@@ -786,6 +815,7 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_fd, "DMA_BUF");
- struct dma_buf *dma_buf_get(int fd)
- {
- 	struct file *file;
-+	struct dma_buf *dmabuf;
- 
- 	file = fget(fd);
- 
-@@ -797,7 +827,11 @@ struct dma_buf *dma_buf_get(int fd)
- 		return ERR_PTR(-EINVAL);
- 	}
- 
--	return file->private_data;
-+	dmabuf = file->private_data;
-+
-+	DMA_BUF_TRACE(trace_dma_buf_get, dmabuf, fd);
-+
-+	return dmabuf;
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_get, "DMA_BUF");
- 
-@@ -817,6 +851,8 @@ void dma_buf_put(struct dma_buf *dmabuf)
- 		return;
- 
- 	fput(dmabuf->file);
-+
-+	DMA_BUF_TRACE(trace_dma_buf_put, dmabuf);
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_put, "DMA_BUF");
- 
-@@ -971,6 +1007,9 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
- 	list_add(&attach->node, &dmabuf->attachments);
- 	dma_resv_unlock(dmabuf->resv);
- 
-+	DMA_BUF_TRACE(trace_dma_buf_dynamic_attach, dmabuf, attach,
-+		dma_buf_attachment_is_dynamic(attach), dev);
-+
- 	return attach;
- 
- err_attach:
-@@ -1015,6 +1054,9 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
- 	if (dmabuf->ops->detach)
- 		dmabuf->ops->detach(dmabuf, attach);
- 
-+	DMA_BUF_TRACE(trace_dma_buf_detach, dmabuf, attach,
-+		dma_buf_attachment_is_dynamic(attach), attach->dev);
-+
- 	kfree(attach);
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_detach, "DMA_BUF");
-@@ -1480,6 +1522,8 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
- 	vma_set_file(vma, dmabuf->file);
- 	vma->vm_pgoff = pgoff;
- 
-+	DMA_BUF_TRACE(trace_dma_buf_mmap, dmabuf);
-+
- 	return dmabuf->ops->mmap(dmabuf, vma);
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_mmap, "DMA_BUF");
-diff --git a/include/trace/events/dma_buf.h b/include/trace/events/dma_buf.h
-new file mode 100644
-index 000000000000..3bb88d05bcc8
---- /dev/null
-+++ b/include/trace/events/dma_buf.h
-@@ -0,0 +1,159 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM dma_buf
-+
-+#if !defined(_TRACE_DMA_BUF_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _TRACE_DMA_BUF_H
-+
-+#include <linux/dma-buf.h>
-+#include <linux/tracepoint.h>
-+
-+DECLARE_EVENT_CLASS(dma_buf,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf),
-+
-+	TP_STRUCT__entry(
-+		__string(	exp_name,		dmabuf->exp_name)
-+		__field(	size_t,			size)
-+		__field(	ino_t,			ino)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(exp_name);
-+		__entry->size	= dmabuf->size;
-+		__entry->ino	= dmabuf->file->f_inode->i_ino;
-+	),
-+
-+	TP_printk("exp_name=%s size=%zu ino=%lu",
-+		  __get_str(exp_name),
-+		  __entry->size,
-+		  __entry->ino)
-+);
-+
-+DECLARE_EVENT_CLASS(dma_buf_attach_dev,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach,
-+		bool is_dynamic, struct device *dev),
-+
-+	TP_ARGS(dmabuf, attach, is_dynamic, dev),
-+
-+	TP_STRUCT__entry(
-+		__string(	dev_name,			dev_name(dev))
-+		__string(	exp_name,			dmabuf->exp_name)
-+		__field(	size_t,				size)
-+		__field(	ino_t,				ino)
-+		__field(	struct dma_buf_attachment *,	attach)
-+		__field(	bool,				is_dynamic)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(dev_name);
-+		__assign_str(exp_name);
-+		__entry->size		= dmabuf->size;
-+		__entry->ino		= dmabuf->file->f_inode->i_ino;
-+		__entry->is_dynamic	= is_dynamic;
-+		__entry->attach		= attach;
-+	),
-+
-+	TP_printk("exp_name=%s size=%zu ino=%lu attachment:%p is_dynamic=%d dev_name=%s",
-+		  __get_str(exp_name),
-+		  __entry->size,
-+		  __entry->ino,
-+		  __entry->attach,
-+		  __entry->is_dynamic,
-+		  __get_str(dev_name))
-+);
-+
-+DECLARE_EVENT_CLASS(dma_buf_fd,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, int fd),
-+
-+	TP_ARGS(dmabuf, fd),
-+
-+	TP_STRUCT__entry(
-+		__string(	exp_name,		dmabuf->exp_name)
-+		__field(	size_t,			size)
-+		__field(	ino_t,			ino)
-+		__field(	int,			fd)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(exp_name);
-+		__entry->size	= dmabuf->size;
-+		__entry->ino	= dmabuf->file->f_inode->i_ino;
-+		__entry->fd	= fd;
-+	),
-+
-+	TP_printk("exp_name=%s size=%zu ino=%lu fd=%d",
-+		  __get_str(exp_name),
-+		  __entry->size,
-+		  __entry->ino,
-+		  __entry->fd)
-+);
-+
-+DEFINE_EVENT(dma_buf, dma_buf_export,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf)
-+);
-+
-+DEFINE_EVENT(dma_buf, dma_buf_mmap_internal,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf)
-+);
-+
-+DEFINE_EVENT(dma_buf, dma_buf_mmap,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf)
-+);
-+
-+DEFINE_EVENT(dma_buf, dma_buf_put,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf)
-+);
-+
-+DEFINE_EVENT(dma_buf_attach_dev, dma_buf_dynamic_attach,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach,
-+		bool is_dynamic, struct device *dev),
-+
-+	TP_ARGS(dmabuf, attach, is_dynamic, dev)
-+);
-+
-+DEFINE_EVENT(dma_buf_attach_dev, dma_buf_detach,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach,
-+		bool is_dynamic, struct device *dev),
-+
-+	TP_ARGS(dmabuf, attach, is_dynamic, dev)
-+);
-+
-+DEFINE_EVENT_CONDITION(dma_buf_fd, dma_buf_fd,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, int fd),
-+
-+	TP_ARGS(dmabuf, fd),
-+
-+	TP_CONDITION(fd >= 0)
-+);
-+
-+DEFINE_EVENT(dma_buf_fd, dma_buf_get,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, int fd),
-+
-+	TP_ARGS(dmabuf, fd)
-+);
-+
-+#endif /* _TRACE_DMA_BUF_H */
-+
-+/* This part must be outside protection */
-+#include <trace/define_trace.h>
+Best regards,
 -- 
-2.34.1
+Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
 
 
