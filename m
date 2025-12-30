@@ -1,138 +1,130 @@
-Return-Path: <linux-media+bounces-49725-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49731-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DADACE9C00
-	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 14:11:22 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68DEECE9CB2
+	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 14:34:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8C5D830388A7
-	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 13:10:19 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0FB9930206B0
+	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 13:34:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C213121C160;
-	Tue, 30 Dec 2025 13:10:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6E602376FD;
+	Tue, 30 Dec 2025 13:34:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VxW6GiI2"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XOoH+vs5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F412B217F2E
-	for <linux-media@vger.kernel.org>; Tue, 30 Dec 2025 13:10:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA1FE1A5B84;
+	Tue, 30 Dec 2025 13:34:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767100218; cv=none; b=M8+PMFmZEytlIqXtUv50vUZ1AHRKseewT44OqpXDfEmA0LW/TPsjiiSJI0CgzDxSU22oJkWEtemV1oTPM7fYxBVFf1XEjdW9/5YXoXaF7WTwsaugtl8cf1XqAftrOrY6g2iCmiC8yAplXXQ1ILhZNSz3SYW9aX+H3KL9yNazw/U=
+	t=1767101663; cv=none; b=TW7h84MLlW94J4kNxtjMWz2B3ZOcoIMWO6FXzUzgZXBH8VFGFZ/u2nq04gNHSrsjfMai5Lcss47Eu8EVTxEhQQf0OIBKfraLAn7mBG0EdsviA1Rq5QdwLGQwc4JxW72gWiPhqichYZojKZ5midrLzr0mfMADRvEUBgtiNlQ3iec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767100218; c=relaxed/simple;
-	bh=FqMRHSfQenk6hO30f5hru5DkeFH+mbarcv3hMgYjNNQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Tlghz04KHhn9bk4OQy3USDvaQHa0jU52n73tCARR1YkOKGG9guA2cWrV0JVHGco1ncAVfqaxsG8JYRAIoOUbVHRbpiIQuocdIZJZPTQPDk1Bs5BbZrXPaul1zsMZ1KfhnHMNZ7lD/xj2qWE5ld1pQDvL/StQIUmdg8lN4F0Yvoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VxW6GiI2; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767100216; x=1798636216;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=FqMRHSfQenk6hO30f5hru5DkeFH+mbarcv3hMgYjNNQ=;
-  b=VxW6GiI2KQ1JYtvWugC/C6orHt6+1LzBjKf3zVmjwwIPGfsL1TZrkOjk
-   R8gHiJSfQVuqSGVMWjgYy/kpcrtCYWCpm5O1p0jg9q6OZ5wdZODGMyzwI
-   mrHRrYOMkjXFPPZ/C0gxd0xcx8FD0gP6w54r7DIXIABplDyYCWillijpG
-   5SGg9IJ0Bq5E/TrW72poxtcj0WXubEHGhfLq4ZFb9Xt7WX5w8SCHv6+k1
-   B/aPKmBVrsSzgV4MoqMClivrRyanqK3V8iTOuJ0ZOJOXAcTKf6SpXq2OK
-   A9ZqVqYchHljuKUttSZ7wx8mKhItkwBAAy/AIlkNza6MidrGPgteggs/9
-   Q==;
-X-CSE-ConnectionGUID: /JzvnKaqRvu9IFGU6TbZ2Q==
-X-CSE-MsgGUID: hvfJ449tR5ycMc+8s5fd1w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11656"; a="72309258"
-X-IronPort-AV: E=Sophos;i="6.21,188,1763452800"; 
-   d="scan'208";a="72309258"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 05:10:12 -0800
-X-CSE-ConnectionGUID: vweNgcAuRxu3P410sDnF2w==
-X-CSE-MsgGUID: xMQSJKPIRUqhp5EHw1P6Dg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,188,1763452800"; 
-   d="scan'208";a="231882151"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.96])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 05:10:10 -0800
-Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id B5219121E72;
-	Tue, 30 Dec 2025 15:10:14 +0200 (EET)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
-	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1vaZUL-00000000Jcj-1l97;
-	Tue, 30 Dec 2025 15:10:13 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: linux-media@vger.kernel.org
-Cc: bingbu.cao@linux.intel.com,
-	tian.shu.qiu@intel.com,
-	antti.laakso@linux.intel.com,
-	mehdi.djait@linux.intel.com
-Subject: [PATCH v3 13/13] media: ipu6: Always call video_device_pipeline_alloc_start()
-Date: Tue, 30 Dec 2025 15:10:13 +0200
-Message-ID: <20251230131013.75338-14-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251230131013.75338-1-sakari.ailus@linux.intel.com>
-References: <20251230131013.75338-1-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1767101663; c=relaxed/simple;
+	bh=lMq+1h7QC1VVEVe0XAMeUptGZhwTBmsEtr6h+tH9y3c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rSz8qU/71369uZLGb4CIzqehVn+mAAGhQkHZXj135oo72WNTSOdJejqq93Oj/R1rW/3qzXuUOv6o7RnOK5R1KAaE6TYMHtTMZv8ykgGoCoNZMP1VTrAc+u5MpdLEsENnZBLfzm9DTgjqmN7wV/3ol6x5u4RvKkymujMOMW+aOGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=XOoH+vs5; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-152.bb.dnainternet.fi [81.175.209.152])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 02C4855C;
+	Tue, 30 Dec 2025 14:33:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1767101637;
+	bh=lMq+1h7QC1VVEVe0XAMeUptGZhwTBmsEtr6h+tH9y3c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XOoH+vs52zNezGp8KdFJ7wCNHmgQCZ6w0867mIupmqYVhBGcL1B2t18WajnSVKGZn
+	 Ozk6vFtLg5ieSKRW3hjjbRUheRGDzosVQ8OO/ub5Yni9xLpSajmfAc+fI3w1mrAnXN
+	 2aH0D7wLP32XiL155pPgZtK7UdzbQkjodkBPVsZw=
+Date: Tue, 30 Dec 2025 15:33:54 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, krzk+dt@kernel.org,
+	andersson@kernel.org, konradybcio@kernel.org,
+	dave.stevenson@raspberrypi.com, robh@kernel.org,
+	conor+dt@kernel.org, mchehab@kernel.org,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 1/4] media: i2c: ov9282: Fix reset-gpio logical state
+Message-ID: <20251230133354.GA24182@pendragon.ideasonboard.com>
+References: <20251114133822.434171-1-loic.poulain@oss.qualcomm.com>
+ <20251114133822.434171-2-loic.poulain@oss.qualcomm.com>
+ <aRtbwK0Afo50Lh0B@kekkonen.localdomain>
+ <CAFEp6-1Tdmr5v0r+q0qeOG6qqA-hiBaF1iTEcmhBA0oTjLgbgg@mail.gmail.com>
+ <aT_Xc6LR161QBRFp@kekkonen.localdomain>
+ <CAFEp6-2PP0ufge0RXTrE2Nrn_sLCN5erokxpJsuGeHq7ZEZ83g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFEp6-2PP0ufge0RXTrE2Nrn_sLCN5erokxpJsuGeHq7ZEZ83g@mail.gmail.com>
 
-Even if a video device is part of a pipeline already,
-video_device_pipeline_alloc_start() handles that case gracefully. Don't
-explicitly differentiate between video_device_pipeline_start() and
-video_device_pipeline_alloc_start() based on the existence of a pipeline.
+On Mon, Dec 15, 2025 at 11:19:51AM +0100, Loic Poulain wrote:
+> On Mon, Dec 15, 2025 at 10:40 AM Sakari Ailus wrote:
+> > On Mon, Dec 15, 2025 at 10:35:15AM +0100, Loic Poulain wrote:
+> > > On Mon, Nov 17, 2025 at 6:30 PM Sakari Ailus wrote:
+> > > > On Fri, Nov 14, 2025 at 02:38:19PM +0100, Loic Poulain wrote:
+> > > > > Ensure reset state is low in the power-on state and high in the
+> > > > > power-off state (assert reset). Note that the polarity is abstracted
+> > > > > by the GPIO subsystem, so the logic level reflects the intended reset
+> > > > > behavior.
+> > > >
+> > > > That's an interesting approach to fix DTS gone systematically wrong.
+> > > >
+> > > > I was thinking of the drivers that have this issue, too, but I would have
+> > > > introduced a new GPIO under a different name (many sensors use "enable",
+> > > > too). Any thoughts?
+> > >
+> > > Apologies for missing your point earlier. We can’t really name it
+> > > enable, as it performs the opposite function and that would be
+> > > confusing in the device tree description. A property like reset2 would
+> > > be more accurate, but I suspect such a binding wouldn’t be acceptable
+> > > from a device tree/bindings perspective.
+> >
+> > Many sensor datasheets document a pin called "xshutdown" or alike. That's
+> > not exactly "reset" or "enable" but it can be mapped to either and this can
+> > be seen in the existing bindings. The polarity is effectively the opposite,
+> > yes, but does that matter?
+> 
+> I assume naming a pin 'xshutdown' or 'xreset' indicates that its
+> polarity is inverted at the driver level, the driver interprets the
+> shutdown or reset function as being active when the logical level is 0
+> (low), as they actually incorrectly do for the 'reset' gpio.
+> 
+> From the driver’s perspective, this naming convention is acceptable;
+> however, it causes the devicetree description to slightly diverge from
+> the datasheet and leaves the reset property effectively inverted (and
+> therefore incorrect).
+> 
+> Honestly, in this specific case, the simplest solution would be to fix
+> the driver, since there is currently no upstream devicetree using this
+> sensor. That would technically break backward compatibility for any
+> out-of-tree DTS (if they exist), but those would have been incorrect
+> in the first place.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/media/pci/intel/ipu6/ipu6-isys-queue.c | 1 -
- drivers/media/pci/intel/ipu6/ipu6-isys-video.c | 7 +------
- 2 files changed, 1 insertion(+), 7 deletions(-)
+I would either fix the driver, or update the DT bindings to indicate the
+polarity should be inverted due to a historical mistake.
 
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
-index c862de31af9c..fabaed63df0c 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
-@@ -427,7 +427,6 @@ static int ipu6_isys_link_fmt_validate(struct ipu6_isys_queue *aq)
- 		media_pad_remote_pad_first(av->vdev.entity.pads);
- 	struct v4l2_subdev *sd;
- 	u32 r_stream, code;
--	int ret;
- 
- 	if (!remote_pad)
- 		return -ENOTCONN;
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-video.c b/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
-index c7f9f888c46d..9da7ac85e02e 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
-@@ -1177,7 +1177,6 @@ int ipu6_isys_setup_video(struct ipu6_isys_video *av,
- 	struct v4l2_subdev *remote_sd =
- 		media_entity_to_v4l2_subdev(remote_pad->entity);
- 	struct ipu6_isys_subdev *asd = to_ipu6_isys_subdev(remote_sd);
--	struct media_pipeline *pipeline;
- 	int ret = -EINVAL;
- 
- 	*nr_queues = 0;
-@@ -1217,11 +1216,7 @@ int ipu6_isys_setup_video(struct ipu6_isys_video *av,
- 		return ret;
- 	}
- 
--	pipeline = media_entity_pipeline(&av->vdev.entity);
--	if (!pipeline)
--		ret = video_device_pipeline_alloc_start(&av->vdev);
--	else
--		ret = video_device_pipeline_start(&av->vdev, pipeline);
-+	ret = video_device_pipeline_alloc_start(&av->vdev);
- 	if (ret < 0) {
- 		dev_dbg(dev, "media pipeline start failed\n");
- 		return ret;
+I don't think this patch is right. The polarity in DT is meant to
+describe board-level inversion of the GPIO, so you can't consider that
+ACTIVE_HIGH is a DT bug and print a warning.
+
+> But yes, this seems like a good opportunity to discuss and define a
+> more general approach that can be applied to other drivers with
+> similar polarity or naming issues.
+> 
+> Krzysztof, any thoughts?
+
 -- 
-2.47.3
+Regards,
 
+Laurent Pinchart
 
