@@ -1,143 +1,136 @@
-Return-Path: <linux-media+bounces-49659-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49660-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 728F1CE88EE
-	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 03:28:49 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20B9ECE8900
+	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 03:29:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6FEC6301F8CB
-	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 02:28:11 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9EE2F30173B4
+	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 02:29:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D5852DF136;
-	Tue, 30 Dec 2025 02:28:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6208A2E0902;
+	Tue, 30 Dec 2025 02:29:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CtmdeF5g"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HscSfh2J"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76D732DF15C
-	for <linux-media@vger.kernel.org>; Tue, 30 Dec 2025 02:28:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B4D62DF3CC
+	for <linux-media@vger.kernel.org>; Tue, 30 Dec 2025 02:29:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767061689; cv=none; b=hoVp9rDXdGHXazvEB3HkEIl6aTua6h+/dcULup/mmnfeYTVY1VXSvEyvL7X7jKJ7E6V1t/U0fxqCxh2WLp2TUQ6QK8Ma7ew9LiDYs5LhB2crHfhp5qe5prLFjaf5cq/zOgdRfFHeIuEobdk2AEXZss9law+SDV75GqajP0H3WWM=
+	t=1767061765; cv=none; b=A9Ash2NPbhKk9MCoS5pju524DwQ2zkSYoir2VtMP2XupZ46wtWeWuq6jkK2CjlWc9FU2lmyphLvfANrnbbUj0gFr6j8b1g8eUxcQnRkTCDBqKMZFO/s8dHpxiPVWsBXyUYaj+xMqit8g3VirKV8JXzY9kbI+Z8h4TkuYc0A/Bio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767061689; c=relaxed/simple;
-	bh=hZMAxnWL5r+KiexN1e6GrVKsiCsKBA3Ey90h4qQueSU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fEzYMsg3e88gufzBABh8GcNkDBb5MB/uGk9kg27IeMI5mL/TwqOTJXmY+mDXtuIlZBnQg5LxHMit+lv0Y/urMHhHqhqwrHXBSrhudQQgMFo9RO8dxBsNHSaWSvnFk8UYY1pwsxZaVHIgfCjp3gou1W/lzDX0gf2sTcOA7M8nibY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CtmdeF5g; arc=none smtp.client-ip=209.85.160.170
+	s=arc-20240116; t=1767061765; c=relaxed/simple;
+	bh=tnl41ZSqOs3vutxxNmBDAHdEueEiaaq8cJJrJX1XRo0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kZvOLjH5eIZf9XJ5AEJ/0ei4RfjEF93JsQHHFYvikt+qd57XYF4GcmjVM3SjySsifQgK1jPXRkDLIo04VQliplytRyC9cOwe5w0vqk5BYYm8QPH7v0fYwQIrizHnL4bmHYiQz292zjA+gXGOX10h+0d2gvacCkdBe1U605KhLx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HscSfh2J; arc=none smtp.client-ip=209.85.160.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4eda77e2358so84362541cf.1
-        for <linux-media@vger.kernel.org>; Mon, 29 Dec 2025 18:28:08 -0800 (PST)
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4ee13dc0c52so82603161cf.2
+        for <linux-media@vger.kernel.org>; Mon, 29 Dec 2025 18:29:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767061687; x=1767666487; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0Boc0hyaruKu7zfPgeDx+KGd5hDYj3D0Tb7d06swQ2k=;
-        b=CtmdeF5gazjNOm2BZfnELhBuhN3h0NAGZqhtArcVccRTTup5immNbsMid4fn6ULxeG
-         NO0N1p3+17Z1hzu6HmZP0enxImt/27HZ7tJHwI4i02si9UY77c1tsvjgIMmXlmJqYThP
-         dCMDPGbqnXCgFRx1iSxqDsZ/sel3enT4dzSbbmbq98BgoS0yPBmda537jH0s/z7wPCK1
-         M7zVBRpN2mz3202syT/xKbskz5Q1P+NpxJKEZRx9Kn/fd0kF8x2NCb9c5cl7VOVMo4qm
-         I0YWOXm6NVz9ixHuc7GrJaCxD7Of6/k9GC6tai46V0R9AOMq8k6lm3xSwdouBiYklGLt
-         vFFw==
+        d=gmail.com; s=20230601; t=1767061763; x=1767666563; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=R0w28WIRcTstXXfBO265wq3fXHKY3ZwwZgohd1inI7o=;
+        b=HscSfh2JeKqPUSu8TrqnErdwt9pVBEJfGinAaGLp6GE6B7gieusRoamUWE3MsXMo+9
+         gcy/enbr36azdaUX2e82C3+Di2tII+4eBUHSXqTXlbmveIGiSsenyStjebjcgc/fq67r
+         MLQaGYOPp4Rtmzvitk8/WxEOFtL1isRIhtuXb3pm1oDve+3pi8xp7JewpNFT8UC52fvI
+         yzIbyX3WHW/ShATq9lJKEwQ7VEgXOPsMU0PNi/Ny51elmvoMiKwQ0QDjjWzM8+4NcQ0n
+         VcgVOhO8jLH8ys1lqDNwtNdCeXOZwlLq67eIF9FldiD+hTlVcW4BBWyL0MDGWPA7U7nQ
+         lLLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767061687; x=1767666487;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=0Boc0hyaruKu7zfPgeDx+KGd5hDYj3D0Tb7d06swQ2k=;
-        b=a5p+bFg2aWUY2zfqdWBqR5sEi8gg8fy2kUwGaB/EsLjET7FfROJMzLyKCiEbZJXFj0
-         LRchpeWmzV5o7c8lAl8AMi53nUUY2ea8C1IhCA0bcaiHiL2YOmUU6eR2Mv5y4ePjBCoO
-         Z9w4EJxCxJbjgfKtrfeW0zVxhHccild1GCIUZkhhd6XEAfNMxM+jLBrFrkNpctQfFXoE
-         IatWptBO7qWzq2bTovymV1TMvpjvUx5bMQfIAOSzrTLsDpPGok/OVWfZSpTecbDLyEPa
-         zm5q4TpK6U+RUPwmcon7JekVx3l/veSU2/uLsk+ej17EAm9mpWHW7wSwErfJUavS+Td9
-         tozA==
-X-Forwarded-Encrypted: i=1; AJvYcCXCeVw/Ih6pfoV0uzUOV6fboTOgsUEEkjWWEB2nz+0noxiriK2aOmx0BseGx8hgrC1GE4ZufYrxoeFIRA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzeIzMI7SPaozKEyh3MPLmqQ+NohVTX/5xIgT3DnR/EdzvPktaY
-	Yds8/LpjrVsPqLcmHub1dpO9qykzWk5NaoG0SXcWV8mWlFUwzcBTrgig
-X-Gm-Gg: AY/fxX7gnz71uTx63JC3cF5N8W3bxEpOM56AvoNayhwBBpvoI11YyhXks83DBR6uCRp
-	CGeAo0F5i5IhOS6nURKIfW7btzi7Wf4mlQQX28trxreB4HXBDTXYV/MjFLFgbfkGymq6bbbVY8E
-	FgIfWhB6uu0atRhcagu+fA6lV9p+L6JMoDCaxHE9X+En6E6cMdo3+Re+Hha7GchsxLSwpEzd38P
-	V7QGKS+XVmrRJP49J16QLKuff9B/tnqsCBV/Y4w+X3QU7uBarpBwameTFO1l4PApxH83bXHFMmw
-	TFYZZbSmy2+MdABNO1tucTT8lez86OujFH2ivKYfiYh0qK5UfAYsljKijGuv9rtlXInjQNVSTDB
-	/7cdiDd8CteUb5/94Mwr8heFMiLzRsXWb7uiToZkxkGE7EHjWA3Ew/63KN0tjr17l1rQrlzRQkX
-	1t0RbBNyKH3xRbQg==
-X-Google-Smtp-Source: AGHT+IFEAMQrwwwqZI6BcR86cj8VNjvEbJgT3zi/3zKCZBfFKORHXJEZ4ohqq/vIUFDgz0WWZXwE2A==
-X-Received: by 2002:a05:622a:130e:b0:4ee:26bd:13fa with SMTP id d75a77b69052e-4f4abdd147bmr480786931cf.80.1767061687220;
-        Mon, 29 Dec 2025 18:28:07 -0800 (PST)
+        d=1e100.net; s=20230601; t=1767061763; x=1767666563;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=R0w28WIRcTstXXfBO265wq3fXHKY3ZwwZgohd1inI7o=;
+        b=op/6VSxr5U228S4OxcWOn0kWfwLh6cOCBazs69tW6ME5tXLM4GXW6otcap0qswchmG
+         X0Hw0K6+ousLmf9Hiyjhnvmh134B6LDabMeCV12Io01/p4oJPIJJMD6/yHojlxc06dCd
+         3Nv4Iwn2LLG5DbDl3ePooVERErW9AlkLvsqn5JBlx/i51ZOEMVJzaXWs2+CmxHVUADRA
+         hWH8kYh+CKAtQxa9j3nI+GYpElVJfOuBIjvD6qBCG+9u6LhDQARL5M8kuvn/FTw7Bk9M
+         6FMkDm2yziMz1df+N6KoaaJtkMen4Mlsz/j/PNtDEvcGMhT5BIxmPY9l435KosCxs+pN
+         Yk6A==
+X-Forwarded-Encrypted: i=1; AJvYcCVOFOoOyRLH9WJgpA6HEVkKL3ZclGa42MwiLVTI+6fqrgli+j5Gz+CiUrDNtAh8inQZSMInvPoFMPPsRQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3Ppiqrj4v1c+Ew31v9m1qiwojU1sxngNMqzHQAhyffMMSERfA
+	smK1FE9AeLT42yi3VpaPfGxRsImi/t0AavrxgPY6s4opim7docLwVdJb
+X-Gm-Gg: AY/fxX6hc9knIFQ+x2COdL70MBthpSM0jd56jh7QjUVg+mLyo4IK00jH2fSWJijY2FJ
+	2BWUeNUBUfJ9UXX38UXR5gD1UvFmqvWd8ZJJxPV02bhiMbd/AZSAGQfHJSatckjkuebhZa5mzh/
+	2bGx3W5swP0NLiGEIuVs9H21A0zk/IztqOby6KQ9o/Yaf2DsHCZMaI4UYn+TNp4o7xFfme8ovrQ
+	z+NyfbLiW18eOqZUPgSKjnUNaNXWFi6/1AaHkp03nrN79MaJtpf0d44v6+0UnRKbqX2mM2kmEx+
+	YcQv8H+mlYAsuwJZAIn2r/y2w4xX4AO5m6cTzEZSZb7g/oJsMeTomvHjLcx08gbOPhrXFInNZHi
+	MEqczoH3lwLW0cPY/dsRpzH4K09RoGC02Ce0EJsfve00GSVgYGTpVkjKP6XMklBXfOUVW5fF3Oy
+	VuRfiIWzHVWAJe4A==
+X-Google-Smtp-Source: AGHT+IHVKBzSADEPx+Onea6LnwYi82VGcAGjBi5hads4qZclwVnVUfA3HzsrqDnFgWQ38aXo7QC4yQ==
+X-Received: by 2002:a05:622a:2304:b0:4ed:1880:2863 with SMTP id d75a77b69052e-4f4abd93e82mr506193651cf.57.1767061763264;
+        Mon, 29 Dec 2025 18:29:23 -0800 (PST)
 Received: from localhost ([184.144.58.243])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4f4ac532d08sm229328881cf.6.2025.12.29.18.28.06
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4f4ac54a6acsm251760861cf.8.2025.12.29.18.29.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Dec 2025 18:28:06 -0800 (PST)
+        Mon, 29 Dec 2025 18:29:22 -0800 (PST)
+Date: Mon, 29 Dec 2025 21:29:42 -0500
 From: Richard Acayan <mailingradian@gmail.com>
-To: Robert Foss <rfoss@kernel.org>,
-	Todor Tomov <todor.too@gmail.com>,
-	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	linux-arm-msm@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: Richard Acayan <mailingradian@gmail.com>
-Subject: [RFC PATCH 3/3] arm64: dts: qcom: sdm670: remove status properties of camss endpoints
-Date: Mon, 29 Dec 2025 21:27:59 -0500
-Message-ID: <20251230022759.9449-4-mailingradian@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20251230022759.9449-1-mailingradian@gmail.com>
-References: <20251230022759.9449-1-mailingradian@gmail.com>
+	Robert Mader <robert.mader@collabora.com>
+Subject: Re: [PATCH v4 5/5] arm64: dts: qcom: sdm670-google-sargo: add imx355
+ front camera
+Message-ID: <aVM5FrvQkoxGwgph@rdacayan>
+References: <20251211014846.16602-6-mailingradian@gmail.com>
+ <wwpqaecvz42jopgaboasbh353ieelctpvgo3yj6y5tnxoem5oz@j5sbx3yxntot>
+ <aTtkwQb2gOeWAFuv@rdacayan>
+ <d7jcawzugobqern6zlo5jwcnximtsroxywix53v2yp2isvzo5r@ymxicmgfjmzq>
+ <341012f3-18bd-4f96-98c1-f964d1fedb8f@oss.qualcomm.com>
+ <1d830282-a778-44aa-918b-5ab3e1516c0d@linaro.org>
+ <4c4e8e5b-66b1-4227-86ee-756eca945972@oss.qualcomm.com>
+ <fa131841-ae9e-49ee-a7c6-728b4a6a4b60@linaro.org>
+ <aUIKWMQMAIzjybHO@rdacayan>
+ <79e2bb5b-9bca-4712-87bb-e0371b36bf50@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <79e2bb5b-9bca-4712-87bb-e0371b36bf50@linaro.org>
 
-These properties are unnecessary and can be removed. The endpoints are
-disconnected, but this is implied by a missing remote-parent.
+On Wed, Dec 17, 2025 at 05:11:11AM +0200, Vladimir Zapolskiy wrote:
+> On 12/17/25 03:41, Richard Acayan wrote:
+> > On Tue, Dec 16, 2025 at 05:23:53PM +0200, Vladimir Zapolskiy wrote:
+> > > For whatever reason CAMSS on SDM670 is very special, because IIRC there is no
+> > > other platform with preset status poperties of endpoints. This exclusive SDM670
+> > > specifics shall be analysed and eliminated, since it hasn't been done during
+> > > patch review time, it's time to do it right now then.
+> > 
+> > An SoC-common endpoint node is how panels are hooked up to DSI. This
+> > seems to be the case for SDM670, SDM845, SM8[123456]50, etc.
+> > It's not special or unpopular for DSI, but CAMSS seems to be the
+> > subsystem where an endpoint node pre-defined by the SoC is only in
+> > SDM670.
+> 
+> Only SDM670 CAMSS endpoints contain 'status' property, not DSI, not
+> CAMSS on any other platform. This makes SDM670 CAMSS special, and as
+> I've said above this very odd exclusiveness should be eliminated.
 
-Signed-off-by: Richard Acayan <mailingradian@gmail.com>
----
- arch/arm64/boot/dts/qcom/sdm670.dtsi | 3 ---
- 1 file changed, 3 deletions(-)
+Oh, if everyone is actually fine with empty endpoints for CAMSS
+(`camss_endpoint0: endpoint {};` in SoC dtsi), it might be easier to
+patch the driver to accept this:
 
-diff --git a/arch/arm64/boot/dts/qcom/sdm670.dtsi b/arch/arm64/boot/dts/qcom/sdm670.dtsi
-index b8a8dcbdfbe3..e841309221e2 100644
---- a/arch/arm64/boot/dts/qcom/sdm670.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sdm670.dtsi
-@@ -1780,7 +1780,6 @@ port@0 {
- 					reg = <0>;
- 
- 					camss_endpoint0: endpoint {
--						status = "disabled";
- 					};
- 				};
- 
-@@ -1788,7 +1787,6 @@ port@1 {
- 					reg = <1>;
- 
- 					camss_endpoint1: endpoint {
--						status = "disabled";
- 					};
- 				};
- 
-@@ -1796,7 +1794,6 @@ port@2 {
- 					reg = <2>;
- 
- 					camss_endpoint2: endpoint {
--						status = "disabled";
- 					};
- 				};
- 			};
--- 
-2.52.0
-
+https://lore.kernel.org/r/20251230022759.9449-1-mailingradian@gmail.com
 
