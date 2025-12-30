@@ -1,101 +1,101 @@
-Return-Path: <linux-media+bounces-49754-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49755-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4FA5CEA439
-	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 18:06:24 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id E463DCEA442
+	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 18:07:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A3CC2302B7B5
-	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 17:04:10 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 4625B3047AD3
+	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 17:04:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D72DA318156;
-	Tue, 30 Dec 2025 17:03:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C800330B10;
+	Tue, 30 Dec 2025 17:03:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="gwr9UFQH";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="gn2USVno"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="o82qzU75";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="MkehyYhf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2858432F74E
-	for <linux-media@vger.kernel.org>; Tue, 30 Dec 2025 17:03:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5794A32FA2F
+	for <linux-media@vger.kernel.org>; Tue, 30 Dec 2025 17:03:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767114208; cv=none; b=Rn7eFXX7H5vTd8KllxkcmrY6gFRUeZZWFfOWKvmCw2TVv6+Klu41aR7lqmBgM82I7Y9DrKh6GztHx5BCwMqZ8ebvB3x/v6R4jWFFEFUe+kOgEjkFN4EnohVg6+aiT1lNoOFCV3Dd/jtwvZpOoK6yCzNoeve67n21oRcES6aqwtU=
+	t=1767114210; cv=none; b=ou4hAvP+hTk0NqHCQTd4+Yzw7LODcEYPHUe3zV11T6aeg78K2BlRhEcSxyY6EWaVTD/J/Qe9I5ZKmgFAS+LRytDlSE6tWP7sDbyqZxKu+us+eb9Cp3PVSmnxaxapqQksvKnqDfVZ7oXknSOqN+GZ/a8T0w+WpS+1zc8bl7mVJ6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767114208; c=relaxed/simple;
-	bh=GAEYvp3W0KSl1TDifaa6L8tfxr38bL0Dcxr0BViSuq4=;
+	s=arc-20240116; t=1767114210; c=relaxed/simple;
+	bh=kA1N2hOuLQrj/EaUF95l88PLLc5P0t4Cl5tmXihS2sI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=dC7kJXok+emB3xGpFYoTt3yG29Pgp34f+4GqtzUMVwZMJBkEcnOgv135sRL0BgMgnrYCYXIL/2KbW+tFNb8ss2Tb+1V62To4lbEHMWaQbSVgpSEOUv3ftlReX9jtLxcTwgN97jwjJRmOyHewSXX/IAcOoLCzFPBJlUudKh3E7ng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=gwr9UFQH; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=gn2USVno; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:To:Cc; b=P+J7zOudIcBkqobDlV/FZvT/tnI8ViVDh+XtQt+tndUUbl6pDGmB68O4BIMvVtnX4VqvlgsAS6pGG3sWtZTmCqSf3S7RpEmu8HcQ4cqUtVi7wwoU84yIWL29gHy2T3x50YxAdio6NnEmna4fwi4GL+iF17EmtxMlQmZqsb7WQ9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=o82qzU75; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=MkehyYhf; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BUD7GZa2548850
-	for <linux-media@vger.kernel.org>; Tue, 30 Dec 2025 17:03:26 GMT
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BUCtXDY714846
+	for <linux-media@vger.kernel.org>; Tue, 30 Dec 2025 17:03:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	zOf0kuvuEBaHXAfQ+YC93H7I4ZGEiW36M69f0BMm6CU=; b=gwr9UFQHSpDv597F
-	IgkmIyFxKeFIPjD+FfR1kA9bcGJs/dfj4NfrtuT8EE+2aZrzmue5ISA1UVWe6FqK
-	Zbl7in06noFwbn9UWXDu1r1/mojSfxSp1Uk+ovd3TCvAcMeK5j9HyjRoJK0NQZdm
-	Ef2Z6kfxj0cgSWC3s6bSIYhwRZPctQFIeMRX+vYT58hhl3qqvyM2uKETT3RIzx3b
-	DBLzTVB5frycOpbuE8hlVRX//gemHKgrMxztG+I/T2fy9E5hO3+CyE8QUHZaJq5l
-	1/ltUntp56PR7v6OwK3Yh2qGbVRSte7+YXhw9qd0p6+mahFH24Bsw2UWsJ7aA3HH
-	77JtJQ==
-Received: from mail-yx1-f71.google.com (mail-yx1-f71.google.com [74.125.224.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bc7399sax-1
+	gf2M/z0Ttme8n6CVO3CwrC/GTtTad5tzePlYQsx+38Y=; b=o82qzU75gXhbRpdG
+	wcQM/eamZdmrpLq+RwBjPP2zyIpvCxOKN/MlKo+ZhAhb1ifztPvyjj4DMbF+bY9f
+	OnQb17jWCf0/jTtPtNU+dXDOtq9PAOCf0/G/2MbMEAjwtAXEBvH9c7KrFInM43fZ
+	ePSX0gKRZ3NMc7KYAbUSXlzpNu5o7oTRBuC4sIKXgiv8RRMkHph3e32jJMiPZO9i
+	yHxi18aighDZxfZqG+AXPdRpt+PzRiXkmHuxBt4CNroh/3FJggZ5hHXNr6XOyjtZ
+	gK4NLB3rnJtlphbaZkItVDWtDXF0hBLuMMQuqFsmeevbqDjb3m1MqTNGVCsPjaMP
+	ksuXkw==
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com [209.85.128.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bcf5yrjs0-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Tue, 30 Dec 2025 17:03:26 +0000 (GMT)
-Received: by mail-yx1-f71.google.com with SMTP id 956f58d0204a3-64651279fbdso14881078d50.0
-        for <linux-media@vger.kernel.org>; Tue, 30 Dec 2025 09:03:26 -0800 (PST)
+	for <linux-media@vger.kernel.org>; Tue, 30 Dec 2025 17:03:27 +0000 (GMT)
+Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-7900ab6755fso53748807b3.0
+        for <linux-media@vger.kernel.org>; Tue, 30 Dec 2025 09:03:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=oss.qualcomm.com; s=google; t=1767114206; x=1767719006; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zOf0kuvuEBaHXAfQ+YC93H7I4ZGEiW36M69f0BMm6CU=;
-        b=gn2USVnoSKoSdCH2AECuYmD5Rt9zZo3D6502DPqF9B16K2OeFcRwdzVWWJMH/OPPa3
-         gOTPdS5msydWCfABI5GuYrSHgemhloddEOfxQku9rZhLPDPBwOh0CJnwRiQBsWVvti1u
-         kPx8uWBibDzxflgV1LefUg9vczR9uNl+I6XTw5vpZ3kl4BLeGjN+tfZh4++Csz8/wqY+
-         6iAVeAfrAN8STXFk2WEhn00RN8iQ09bxb8/nCxoNGTQskp5Pxic3HnrPyWGGGrtzK/vT
-         dmnIVJOe8N75/xwNvOO3aGgILWoHLXGAht4TbF5CUuJSZAQqsy6HZGd+oBU0zDxV+Z1C
-         7LwA==
+        bh=gf2M/z0Ttme8n6CVO3CwrC/GTtTad5tzePlYQsx+38Y=;
+        b=MkehyYhfG7lG4CJQC4dfTl9z7rVX5cHNsECVnTvj7W+inigxXZXObY2rwXs9tAICQE
+         OyDyoV50dO5xwYKvR0vCMqzkBGTyu72E9TAnoGzPmYvK0aRLiMb8WeGzSKUVuqu1gdmz
+         UlNq9LPfVdc13K+gqzvkNhdXFejYB1tPE9MxYH/5UHDAz0ZsU0mWxU7V5wX0UhXYAWjo
+         ca+gvFa+MKNuYFSMgr9x554xxyzB1+Gyr5hwT9MacQIJlm+lRtgTJshkm/EhjUXzQQij
+         n/7lGY6TeIl/4wB33ZLFL/kkWxCNeIpb//GdbDcoyOn27b/mG+yxEBasAJB2ytAMnpeO
+         HVtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1767114206; x=1767719006;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=zOf0kuvuEBaHXAfQ+YC93H7I4ZGEiW36M69f0BMm6CU=;
-        b=vZUZM8wF2wqEH+b1SnuQ9i1fDJTsnEKJjbaM1JPCzZrPsVgSoFEDtV5JPATY+03kgW
-         9jwsNFjz2SpQunaU6HkkCTDwnwEl4BU5LhxUePsmeDyCnfH755dSUXg7clnnHxwzNZVh
-         i+1JMEu76Vx7ydM668tv1nUDG3niKVh0fbZqwKE6x2Frl3vQSrZVTigdo00tLrY8t0qD
-         h8FOTco01deM3v04PdOLNGYg0XQbc49skPUeNtdvMvFntybOPl18HgbkE3YP+GTIeDxw
-         tq5jwFDC441XlOTwRbOX74tyin++BTFstkjjtAnQ793cy3msv9LFHhxGw87xijO7YZqs
-         d0jg==
-X-Gm-Message-State: AOJu0YxQBugn6wXxTEvrWfLh3uIs0ve/zMmynfbqJMJQZfPV8RhSlCIt
-	Qw5vZIs71w6paaksugmCiEJKSy5WVuaOdw1KaczXuomoUoju5OLfULl83onLUrDkugOCIyqe3P6
-	lKYDJDygcemJxfYAUOHl0U5FMKnuD0e1aILM44XqIrUiLqNrNajfB+DjBwnDv3YGCsg==
-X-Gm-Gg: AY/fxX51ap2fA2ldTZb33B6fseAsF62k1WIUSRLIS+qL1/on4kUhf7/RGsQxR2dyTP7
-	7GOsbLlC3IZ+i27PPgJhmB5ssS2J0cAwUJf2HQvWe3q/re9NwmgKW22f602oNdO4DFDR4nvfUn4
-	kUgwegV/byatLTEwshxOl9jPkgzFhMVbWQJ4Th6H4LOQaQR0uEi74xorV3ZA0QJTXdke0snS9ht
-	SoAbMioqqfKqKs0cZh8fRL75devjq5MqkVop8YHatcb/KnW+H8mb6fQx9RtqCoDGCho3pw5LbWX
-	bKoqkiowJ0KYfJa6nWx6n5wd8dJy8a3iWynuDYdfArLNK5Lb9iwwCa9E7QOOnZi3qn/D7ZQI5lh
-	TxpKW3WQiH6eCpV5xQGlILnRUaO8wSzI5ZzG+aF27UWJbjUEwPbbiGDZGPQiDDdGAUwvYYfUKlw
-	v6lwjuX/w+FhS5p2sRD8i6R6AE/IuBDMKWITOL8KCs
-X-Received: by 2002:a05:690e:2101:b0:641:f5bc:69a6 with SMTP id 956f58d0204a3-6466a8d2f31mr18696294d50.84.1767114205460;
+        bh=gf2M/z0Ttme8n6CVO3CwrC/GTtTad5tzePlYQsx+38Y=;
+        b=s88VEvo5G569352iAydw/cx38rO/SbHZXmhRTX8sIwGigp4venxnQ0MFLN0tee8Yv2
+         ABP6Om2NOudlXfYn7WLCpvRZ8nhaFnzu8m7AVF8y/vQotsDcOuDMhYm1/aEovHTt2JRt
+         3PJTmL4vQhR9XXlW54M2AcYkPxBV90ZLDqlbF8a0lG+CNz2Zey53XFPOxE1ii5OR305Q
+         yo5TD7jeCgzMnkAWrbctXQNYcCzA33cOpE+7nvjJKItxXT8+h3/iqmv3LXQV7sXs5KAR
+         L+tW4UB+6KnZMbQsh0mBOar4Dd8JtMn9a+xFWuggSUKiwAxevUrqxKxqGdCFUAFRGXqf
+         6D8A==
+X-Gm-Message-State: AOJu0Yxlv85QGUbV76YZIBnVsVhPa/ueuNCvgvXlHZeGsTrNhwKOfF+c
+	PbkhAD3SbyDv388Squ1NwoZET3lftosMS0syshJG1LUmcC5q60x5N6Jgd0SGBZSnNxTPoKzZsOW
+	C6Di54zN9CHLOlWjfG333UiuHMq+47CvCrTHdkyH7J9GWaugmOaK5d2m40S/E08biuQ==
+X-Gm-Gg: AY/fxX6DgEm8X9GVoICrBSsgpsMNNNVy3qTI9UqP0Lx7VMg5Mg8uzKtKPk5kzUXnbJQ
+	jWK6WMMa6P6OLF/cb38aqCWD7A/QkhCGHltFxcUC4+ysFY+hAuV2qHKoKvDqHcaiPHxO/bbTDVb
+	Qvlv5YFif6u7MOyH0EmMoPveBPaldQlf6NAOyhOvw/LzfxRIkqqXbhmj0bJY1fMai4cs5VhAxgU
+	BVhBPrz/l2rGGPu1lkg+7wL7F98A46mK9SZXjcRr7NOmgaIFl54GROz2xl//9ybkBY2EFxkVviH
+	WWFCxXofVrs0d/8GfBO3K+iOdEsUTSMOObaTgJl3w50jRtnCHEjg9xq/l5rANV4JMaEJpFhMA76
+	bcNoh/ni9Pm0D4Iu8+wOQG64jq5i6lAa1sF0wxAcZrdr5rZ15ofzsygFOi02vsmr+mgte5E2fTE
+	PnmFBb/0f9JwVUhB0Z/VwVnSb1lxAJtgpEzdqWrJRu
+X-Received: by 2002:a53:bf89:0:b0:644:457e:a58a with SMTP id 956f58d0204a3-6466a8443f6mr21716445d50.7.1767114206386;
+        Tue, 30 Dec 2025 09:03:26 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEiL4SgoIsztZDtlVQfOtybYtaReJL9rnPrj4hpvD2o4RhoYZuFv0cTAfrROPJhzn/Ejkqnxw==
+X-Received: by 2002:a53:bf89:0:b0:644:457e:a58a with SMTP id 956f58d0204a3-6466a8443f6mr21716426d50.7.1767114205935;
         Tue, 30 Dec 2025 09:03:25 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHYeOD07as/XBeCYJwqhLI3N605Dzx8wPU8dDwklpMUKRy+jTAZHIwXbzua4HPo3h3az0orUQ==
-X-Received: by 2002:a05:690e:2101:b0:641:f5bc:69a6 with SMTP id 956f58d0204a3-6466a8d2f31mr18696271d50.84.1767114204901;
-        Tue, 30 Dec 2025 09:03:24 -0800 (PST)
 Received: from shalem.localdomain (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8037a5bdb9sm3776086266b.7.2025.12.30.09.03.24
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8037a5bdb9sm3776086266b.7.2025.12.30.09.03.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Dec 2025 09:03:24 -0800 (PST)
+        Tue, 30 Dec 2025 09:03:25 -0800 (PST)
 From: Hans de Goede <johannes.goede@oss.qualcomm.com>
-Date: Tue, 30 Dec 2025 18:03:08 +0100
-Subject: [PATCH v5 11/14] media: mt9m114: Don't allow changing the IFP
- crop/compose selections when bypassing the scaler
+Date: Tue, 30 Dec 2025 18:03:09 +0100
+Subject: [PATCH v5 12/14] media: mt9m114: Drop start-, stop-streaming
+ sequence from initialize
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -104,7 +104,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251230-mt9m114-atomisp-v5-11-763539e76094@oss.qualcomm.com>
+Message-Id: <20251230-mt9m114-atomisp-v5-12-763539e76094@oss.qualcomm.com>
 References: <20251230-mt9m114-atomisp-v5-0-763539e76094@oss.qualcomm.com>
 In-Reply-To: <20251230-mt9m114-atomisp-v5-0-763539e76094@oss.qualcomm.com>
 To: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
@@ -114,95 +114,137 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Hans de Goede <johannes.goede@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Proofpoint-GUID: A9LkpAPW99qfUsAYfHvkr54Z__B8iDjt
-X-Authority-Analysis: v=2.4 cv=HrV72kTS c=1 sm=1 tr=0 ts=695405de cx=c_pps
- a=ngMg22mHWrP7m7pwYf9JkA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjMwMDE1MyBTYWx0ZWRfX1Ujto6qAA266
+ PbEPYgIszxKVE61LaFpiqN9C4bMyOC3oJxVnbNMWNeadfRwvCPbDOLB52n0ecst2U0S/u8vcTfI
+ xYMWBpjo5EpoT5+ayP+XkSIKi88L0X822hjocD3iNyrF8tk4BRpisfaDPe6ZlZFfEwd5qYcrMbo
+ bnWM0dUim0GLoiIj4UgxCM2j12RQ7iI0Bin9WWWD8bxv0FSWvt1Js0Z4r02j5RQedfNC6pH3ke9
+ J0lTGvrW3crofrUsSCBgITW6XTGiDXgc8pkLs8sFMJZpUN/6swHLokLVofiR/Xm+GcfItyBoPG2
+ oW5XxW0ob3HwNuqONER5QapI9TZobN1aV3zCjK+ywSc1Y4Lh2KxT+SPVmLBglAM5yMuc6NrzhJc
+ +IfsMINfIDVQuf6jZ9uCxRIYvD9CWbURB7rSugcI7Tc2qJIP/7FqvYUWrzeLFDzCtI6ZTcD0iDl
+ sjcohZhdyY+xPWJVRuQ==
+X-Proofpoint-ORIG-GUID: Gng76lTHQOT7-M5ZWetwZ_5KQtJ9oqVp
+X-Authority-Analysis: v=2.4 cv=KvNAGGWN c=1 sm=1 tr=0 ts=695405df cx=c_pps
+ a=0mLRTIufkjop4KoA/9S1MA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=P1BnusSwAAAA:8 a=EUspDBNiAAAA:8 a=FI8FN61yIa-P2m5uk4AA:9 a=QEXdDO2ut3YA:10
- a=yHXA93iunegOHmWoMUFd:22 a=D0XLA9XvdZm18NrgonBM:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjMwMDE1MyBTYWx0ZWRfX5s5a3uro7XgQ
- FCf/06Lo6gXmY8hFAJ50RoFn3ME71obq8gTAEXYxTHfWvFF3kALgwZWsMgxBBr4J3DBQKzznGuc
- g3N2uhvVPdUrkiTFqzgHuAj7c1TyLv+P8dkwutHcVMRsl5eaNn94YGRz2Xmk+UFAssOGsN6Ymdx
- ny2tyviE6Hwkr5JoPhYX0JUrfdijFdL1oXW9BOHmshBHYvvJ4JV12BM5SSjSwBhtDe9xOGgTcj5
- xrzaKDcQYGPNFC+Xa7M3Y6nvdWSJnPwmudKFYqDKxG4I4g0t86TBKhk3pzl+fJ+/+swNZ5kwY6I
- aRjqaED9B/ysna5xWvxNVPuwXJF5UY+XSY7UOddfmBiWCI8b/hix8bP8V92L1kLJPoIAQsI85Hg
- TNJ3m8i9JU4LdtYeU5MutP9Pgpk/OpBuRCT4HaTxKK211sddGM3JgLhauNDqOriwuTu2Aoz+ZwL
- c7zbcGayzle8h/emn4w==
-X-Proofpoint-ORIG-GUID: A9LkpAPW99qfUsAYfHvkr54Z__B8iDjt
+ a=P1BnusSwAAAA:8 a=EUspDBNiAAAA:8 a=hSCjdWxdfPpt4Nx0-uUA:9 a=QEXdDO2ut3YA:10
+ a=WgItmB6HBUc_1uVUp3mg:22 a=D0XLA9XvdZm18NrgonBM:22
+X-Proofpoint-GUID: Gng76lTHQOT7-M5ZWetwZ_5KQtJ9oqVp
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-30_02,2025-12-30_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0 adultscore=0 suspectscore=0 clxscore=1015
- lowpriorityscore=0 malwarescore=0 priorityscore=1501 bulkscore=0 spamscore=0
+ phishscore=0 malwarescore=0 adultscore=0 priorityscore=1501 suspectscore=0
+ bulkscore=0 clxscore=1015 lowpriorityscore=0 spamscore=0 impostorscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512300153
 
-The scaler is bypassed when the ISP source/output pad's pixel-format is
-set to MEDIA_BUS_FMT_SGRBG10_1X10. Don't allow changing the IFP crop and/or
-compose selections when in this mode.
+Drop the start-, stop-streaming sequence from initialize.
 
-Instead of returning -EINVAL simply return the current (noop) crop and
-compose rectangles.
+When streaming is started with a runtime-suspended sensor,
+mt9m114_start_streaming() will runtime-resume the sensor which calls
+mt9m114_initialize() immediately followed by calling
+mt9m114_set_state(ENTER_CONFIG_CHANGE).
+
+This results in the following state changes in quick succession:
+
+mt9m114_set_state(ENTER_CONFIG_CHANGE) -> transitions to STREAMING
+mt9m114_set_state(ENTER_SUSPEND)       -> transitions to SUSPENDED
+mt9m114_set_state(ENTER_CONFIG_CHANGE) -> transitions to STREAMING
+
+these quick state changes confuses the CSI receiver on atomisp devices
+causing streaming to not work.
+
+Drop the state changes from mt9m114_initialize() and move
+the mt9m114_initialize() call to mt9m114_start_streaming()
+so that only a single mt9m114_set_state(ENTER_CONFIG_CHANGE) call
+is made when streaming is started with a runtime-suspend sensor.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
 ---
-Changes in v4:
-- Move crop = v4l2_subdev_state_get_crop(state, 0); up a couple of lines
-  to avoid having to call it twice
+Changes in v5:
+- Drop "and identify it " from comment in probe()
 
-Changes in v3:
-- This is a new patch in v3 of this patch-set, which comes from splitting
-  up "media: mt9m114: Fix scaler bypass mode" into multiple patches
-- Add src_format local variable
+Changes in v4:
+- Move the mt9m114_initialize() call to mt9m114_start_streaming()
+  and drop the config_change_pending flag
 ---
- drivers/media/i2c/mt9m114.c | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+ drivers/media/i2c/mt9m114.c | 33 +++++++--------------------------
+ 1 file changed, 7 insertions(+), 26 deletions(-)
 
 diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
-index d111f9e45d2d9c47de315d06ee8a6adb28700146..5e0fbc34921023e1e7a69ec3d098f936eba93ebb 100644
+index 5e0fbc34921023e1e7a69ec3d098f936eba93ebb..18fcf1a105a4268a501f517a155f12def0753929 100644
 --- a/drivers/media/i2c/mt9m114.c
 +++ b/drivers/media/i2c/mt9m114.c
-@@ -1984,7 +1984,7 @@ static int mt9m114_ifp_set_selection(struct v4l2_subdev *sd,
- 				     struct v4l2_subdev_state *state,
- 				     struct v4l2_subdev_selection *sel)
- {
--	struct v4l2_mbus_framefmt *format;
-+	struct v4l2_mbus_framefmt *format, *src_format;
- 	struct v4l2_rect *crop;
- 	struct v4l2_rect *compose;
- 	unsigned int border;
-@@ -1997,8 +1997,16 @@ static int mt9m114_ifp_set_selection(struct v4l2_subdev *sd,
- 	if (sel->pad != 0)
- 		return -EINVAL;
+@@ -789,14 +789,6 @@ static int mt9m114_initialize(struct mt9m114 *sensor)
+ 	if (ret < 0)
+ 		return ret;
  
--	format = v4l2_subdev_state_get_format(state, 0);
- 	crop = v4l2_subdev_state_get_crop(state, 0);
-+
-+	/* Crop and compose cannot be changed when bypassing the scaler. */
-+	src_format = v4l2_subdev_state_get_format(state, 1);
-+	if (src_format->code == MEDIA_BUS_FMT_SGRBG10_1X10) {
-+		sel->r = *crop;
-+		return 0;
-+	}
-+
-+	format = v4l2_subdev_state_get_format(state, 0);
- 	compose = v4l2_subdev_state_get_compose(state, 0);
- 
- 	if (sel->target == V4L2_SEL_TGT_CROP) {
-@@ -2043,9 +2051,8 @@ static int mt9m114_ifp_set_selection(struct v4l2_subdev *sd,
- 	}
- 
- 	/* Propagate the compose rectangle to the source format. */
--	format = v4l2_subdev_state_get_format(state, 1);
--	format->width = compose->width;
--	format->height = compose->height;
-+	src_format->width = compose->width;
-+	src_format->height = compose->height;
- 
+-	ret = mt9m114_set_state(sensor, MT9M114_SYS_STATE_ENTER_CONFIG_CHANGE);
+-	if (ret < 0)
+-		return ret;
+-
+-	ret = mt9m114_set_state(sensor, MT9M114_SYS_STATE_ENTER_SUSPEND);
+-	if (ret < 0)
+-		return ret;
+-
  	return 0;
  }
+ 
+@@ -967,6 +959,10 @@ static int mt9m114_start_streaming(struct mt9m114 *sensor,
+ 	if (ret)
+ 		return ret;
+ 
++	ret = mt9m114_initialize(sensor);
++	if (ret)
++		goto error;
++
+ 	ret = mt9m114_configure_ifp(sensor, ifp_state);
+ 	if (ret)
+ 		goto error;
+@@ -2318,19 +2314,8 @@ static int __maybe_unused mt9m114_runtime_resume(struct device *dev)
+ {
+ 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+ 	struct mt9m114 *sensor = ifp_to_mt9m114(sd);
+-	int ret;
+ 
+-	ret = mt9m114_power_on(sensor);
+-	if (ret)
+-		return ret;
+-
+-	ret = mt9m114_initialize(sensor);
+-	if (ret) {
+-		mt9m114_power_off(sensor);
+-		return ret;
+-	}
+-
+-	return 0;
++	return mt9m114_power_on(sensor);
+ }
+ 
+ static int __maybe_unused mt9m114_runtime_suspend(struct device *dev)
+@@ -2574,8 +2559,8 @@ static int mt9m114_probe(struct i2c_client *client)
+ 	/*
+ 	 * Identify the sensor. The driver supports runtime PM, but needs to
+ 	 * work when runtime PM is disabled in the kernel. To that end, power
+-	 * the sensor on manually here, and initialize it after identification
+-	 * to reach the same state as if resumed through runtime PM.
++	 * the sensor on manually here to reach the same state as if resumed
++	 * through runtime PM.
+ 	 */
+ 	ret = mt9m114_power_on(sensor);
+ 	if (ret < 0) {
+@@ -2587,10 +2572,6 @@ static int mt9m114_probe(struct i2c_client *client)
+ 	if (ret < 0)
+ 		goto error_power_off;
+ 
+-	ret = mt9m114_initialize(sensor);
+-	if (ret < 0)
+-		goto error_power_off;
+-
+ 	/*
+ 	 * Enable runtime PM with autosuspend. As the device has been powered
+ 	 * manually, mark it as active, and increase the usage count without
 
 -- 
 2.52.0
