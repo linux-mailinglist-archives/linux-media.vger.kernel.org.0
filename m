@@ -1,204 +1,199 @@
-Return-Path: <linux-media+bounces-49687-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49689-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4270CCE91C8
-	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 09:59:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89096CE90E1
+	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 09:41:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id ABF1A3050CDE
-	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 08:56:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1DE803016733
+	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 08:41:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98E7031D364;
-	Tue, 30 Dec 2025 08:34:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="K/qyYT3v";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="YZSitEg9"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 464C9325726;
+	Tue, 30 Dec 2025 08:41:30 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f78.google.com (mail-oo1-f78.google.com [209.85.161.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8378731985C
-	for <linux-media@vger.kernel.org>; Tue, 30 Dec 2025 08:34:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BA48325709
+	for <linux-media@vger.kernel.org>; Tue, 30 Dec 2025 08:41:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767083686; cv=none; b=Mo/7Igv1GY7R6kOPUggWCYl5qZH/Cq3HtFex8Hbg3pDe7I8PRWs+KJ8mFx7jbKPHknxsk/Lw0WkmhYSPBqPEWYzssLqBqf5wMoqQrAiG0Q18e1VeshptF75XBYQW9kNknIevHlTG8vv7xTSXSNBPuaZiVEGNPx+keSP01aj7p54=
+	t=1767084089; cv=none; b=lN8xNZcvDVPbHGzGdx4k4DjLXcdjS/UW5DlgyhSyOiXty76qbym4fVFgaZVWuftLQGpOzalodvyS9pamcqiO9sqKCXVictriWAs5egbaDhmVQz2QTI3xJp1VCNOkqGtFUToWIWe23g+i+12J6eLg724sBWtyPDkJVw0D4knoi6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767083686; c=relaxed/simple;
-	bh=b/Uih+xiwgtulW8Q6FcNJAqo6CPuzz/bAKmol36Ckxg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iLuqDxhMnOLmKfqDkwYabrMaI/OvC9p+w2Q7pUeRWfUtVewgycfe7pGK7u1FrJz/gp48IyeFgqO27bNg8bY7V0CwhMTUI/yZTO8hU0wsY9O96CQ3zcc3Ya6I1oVzhInRHkWQyji8F/le3ewuiT+9x868JWdGBmp0swHJd3UQyQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=K/qyYT3v; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=YZSitEg9; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BU1KbJ93115933
-	for <linux-media@vger.kernel.org>; Tue, 30 Dec 2025 08:34:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=sZJbn45uJvfmwLsLmP3C6rwKckT3pBqOOeK
-	KHYLcVaw=; b=K/qyYT3vUAF5edM/I9sKFEjz24nD4KP2MnAz8suPHT8/1BUg8VJ
-	jjrQighZsF4AqT79IUASxm7gZ1OP4ZTG+YkeStUGxOLF4SGftgcNOtK+tHKJhJUs
-	OVuturZhhfnF72720WkbCO8pQWwPOR7Lvq4rKKD+QCqXHmxKlJnlDKc56fltnlIV
-	c0j9vFb7zzSpDX6NvRCjJtL5+jfeFFiG55QmOT1lCkYSIMF0u+trZ53fVo/MPTjW
-	3jRrgmToYsO50TSHf8RntrmBJ7i1HW8piF60g8i42E7DIeWAROMOOMLcG/3OSxKd
-	4/Mua1PDXJ/tXKHksMKhsp0PBtHe9WLSsGw==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bc0skha93-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Tue, 30 Dec 2025 08:34:43 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4f4a5dba954so250390361cf.0
-        for <linux-media@vger.kernel.org>; Tue, 30 Dec 2025 00:34:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1767083683; x=1767688483; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sZJbn45uJvfmwLsLmP3C6rwKckT3pBqOOeKKHYLcVaw=;
-        b=YZSitEg90uwyoM6r6NBOQYw1/i6mQeeUT/ERTZAVbThxlhdx7x0yYGLXdtjW1g1A0Q
-         +iGa+p6l+byzCR2ExhIay+5x5N0a7KjGW39I4nINbvq9mRYYA9Rjc8764AWwRm/s/wgo
-         B8UaBcRiPW7ytL617hbYQQqQM0LoWr3qlHExZFA9BkNPjNDulxW44IJ82MYZD3hdSSFA
-         KIEAVq8yLMQh5nVSkjWvpLnRaDpgj/un8Uao7Qnq+v1HesnqqeMx/tvZHTGx4GIVHRqy
-         SJ3+mjPQvKIY/kJw9Ejz+sD7qYG3FfwK+HA8tL9us23uv6MlAN0ThMr+3SHYbrFMSq1s
-         ertw==
+	s=arc-20240116; t=1767084089; c=relaxed/simple;
+	bh=d9XaLVbma4B1bPJg+vvzLfsoG5PqSXKhSJORD+B2AT4=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=Vy1n2H5zJ9PpycF3bbPpkVmrWTmwUMXHgpzjC7HR0wc338sTZi5x/BiYHiVFLuuKMtGyr8xF4vsPnQhPlTkBsVYtygp24/ByuJUT+GeMPqRhFQ9oCy64LU9y//KbRRweYQD9f9ENzaF/p8e4Cij88kybd8UjaE74Kf5orAxEhqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f78.google.com with SMTP id 006d021491bc7-65d004d4d01so10943816eaf.1
+        for <linux-media@vger.kernel.org>; Tue, 30 Dec 2025 00:41:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767083683; x=1767688483;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sZJbn45uJvfmwLsLmP3C6rwKckT3pBqOOeKKHYLcVaw=;
-        b=ugADPBUlcFwe11WWGzcpbQcURIj4jZqb3URYp+3ElT8JWl3pxmnratW1GamOg+RqNI
-         kIkcXo5H3GCOjEQm1n8VZVhS8fMrElRDwfacE3uH+uy1VILo1rDeY2+G+X7bKN26VVxd
-         VWPUFnpaie2+bOO6hbFnW4JYrMHNGMXWyQeLCiLrrB/1weXH4BzOQITCe1NuVBpAz3PD
-         6qVY8ez1kjSiCxXeBmhbETCOPM3CGLZTvOKExNQUlCJwFabqPMgIa3AuQKVayUeuPorc
-         3jeBQg1FtGN/tOm1u04HwU8sIc/EiCOFg6LRfnOG+N8ZzD92rB4DfuG35Dg8tkkWX2CV
-         zOqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVAaX35ze7ZIr1ASi1LBp+dFo822pcSTQrKabXFNYccXGnBF1C6NRqpQr1M1PPPePEbMXyy0+O09Q8anw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwzWizKF19qU1kh3kmAlDP8EbPohC7VVggufp2WaMFY2lVn1vv3
-	rkJmTEUISb+rxDyF/FLJIezOtzyhWEZx5Y7MxbfXzzK/MuDF60YvyrsjJFQOuOXH27T37JwmSQh
-	rXkDFyBXVTUvmtnIZooiDCrvy6UpkPgbNiZDRod5e69m+pfdBhS6cfmfN2PmrNUeZiA==
-X-Gm-Gg: AY/fxX56OGJ6AsWiEho1WPOjD2vaakIcSyYrNq+ci8RHJKLqDC4lzjKd7UyHMlfJZrm
-	IfNgTMo4FMXmnCVVo4CcOS57dCcxKh2oIjhghdCl/UduykAAXDu9fZhd9HjtkOcnMj39dEr8nDz
-	Fo+wcofk1qID2mtaZrcKRoNVNongHZrqCa5AzFcqM6LcO5g7HzKF4fbn+w/5JKKqxFWwmeSkHRX
-	V/vE8Kbt2/ES+Jyr/I4I2tLYLlktOrXiKyNCv98HFoQT0SowP6v/wNOU9spYmcq1fvoWcu+oIxH
-	CjvztDwc9zVLcnD3NKrymG1ojmEWiwyWhaMgVltXLUo30cqp5WgiRs1uqKepbvmlM8vMNW4VwXZ
-	hSYW1g4Xgqxy+h2kWxAJg7x4TXA==
-X-Received: by 2002:a05:622a:410f:b0:4ee:fe8:9348 with SMTP id d75a77b69052e-4f4abdb47b4mr464621481cf.72.1767083682792;
-        Tue, 30 Dec 2025 00:34:42 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IG4XA0VX9aTNRxLaLeYSbI1rMjpMyLklw2uq6TJ9ZMtX9AROBkgbnuiWYFvumn2wU1Y6p/9Pw==
-X-Received: by 2002:a05:622a:410f:b0:4ee:fe8:9348 with SMTP id d75a77b69052e-4f4abdb47b4mr464621351cf.72.1767083682357;
-        Tue, 30 Dec 2025 00:34:42 -0800 (PST)
-Received: from quoll ([178.197.218.229])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47be272eaf8sm625934515e9.5.2025.12.30.00.34.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Dec 2025 00:34:41 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-To: Hans Verkuil <hverkuil@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Pavel Machek <pavel@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: [PATCH] media: i2c: Add note to prevent buggy code re-use
-Date: Tue, 30 Dec 2025 09:34:36 +0100
-Message-ID: <20251230083435.26267-2-krzysztof.kozlowski@oss.qualcomm.com>
-X-Mailer: git-send-email 2.51.0
+        d=1e100.net; s=20230601; t=1767084087; x=1767688887;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XqwUls/9gcmNA76KILqg51dqtLsjep3YFa7r6IYdAs4=;
+        b=GCeoWXKupbg43Wb8PZQlPTvevHydauxtdz7n4y/aFK2oAJG5/a5JiHnrUCQ+6+HPeB
+         aJaHkUVTOBEKVsXECkgKdV3erFOjQZ5bPS81lEDZIJ3YWrsk5oJ4x4giNw26nqF8tOh6
+         a0ZIdV2ZjEZyo9uZ6EYCk7xFi1b2zxsccz56g7qGwCUZWoedA+tqXNKDxuEMA1Kvg9Xt
+         2XUAgNAN1LZL69QY/dxYLsIQlveEyta2EPf9SwX2+nBrGrUGs1+j0qScD6IWXPmVITIu
+         0od27jyPXQujqnoAXnIDmrgYSPYbqHFi3bT1+FQlOLTm5uEMrAxkFDZJzRAYqcoWnuSa
+         zChA==
+X-Forwarded-Encrypted: i=1; AJvYcCXOdfiAd+bzB3iCJZlcvxeoZ1/n53s+zMuTwL90if/V1GtT0iYpao1WASkhutV4sEVh4q/W0hgvkc8yOQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxV9s3Ga6g5ICyIo3XqbsRnANzJ+fSs9U5IaBtyL7yDOPSpisI3
+	0G+WS4Cw89d1QwXJafDFBglmD2n289Q8A1TzHEZMrG462GIMoQWej1jXAuaOy5uIJ/WDVi5t9pd
+	AeFIaCy9mxoQLWtvwj92JNoUyUdyZj61NvJHk8s/4od2chtfP4fR2ayCb1ek=
+X-Google-Smtp-Source: AGHT+IE3+q0urcbUOQVcFf+5AEn41FMVPul2DWoNa3ubP8HlnWhuVnFT3+oH2NxbPLUpoB1Pnr4uQobSND7UvinJpWvWndueLsS8
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2296; i=krzysztof.kozlowski@oss.qualcomm.com;
- h=from:subject; bh=b/Uih+xiwgtulW8Q6FcNJAqo6CPuzz/bAKmol36Ckxg=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBpU46bVjB45o55TH2nXgFo7ACAsYJzj+Tg2GTdu
- LbT7KVil66JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaVOOmwAKCRDBN2bmhouD
- 191XD/47KROIfKw8M+58kkKgG73eBeihc7lcIJWo4biHrdFT8Vchyjf8HGv0prqx4VNJSqsZmEK
- gNOiXvxd+HKO9bt93FZImjaFASddopB/pGSwmfwL9yTiERcyJEMQsEDac00pGA6M3COeh75YWMK
- cdO12U586A2mpcofzYWDlsWu343OIO4jUBl3SDLFmlWzwscRqDBigMFvRB/F0a90WRiO210xiup
- XuAyyQMkdab9oKyaX0uBinTLEyECFa2clxzPuWm76Nvxvam1XxLUJSIfTyVX2HjM8dLDDYVRgpP
- TI4V/ftLY/ESQpz2IVALpTpsGYqSTrR2WDjjYcP2A78/1oYqT52bVcsVgWtxJGuAY3iKQYpzEuq
- 9leESTvmE4SKn9QpRH/p/NX7EVriPhXedgnI0ANPSRw6D8M0ATfgsbnPue5++WFZE+sskJijBe6
- oDKrHF0cJBFMCsF4x+qEertLMlbJSTBNOcXO6eDIRaPGq/RgqhUx7QErKWCLJFRrH2G16342T1i
- uTt3tH9FgaipL/ct6s1TEgeHqchHbaKqzppwX1P53QeXcQdiCRMZQZKM6iXKt2FDdQG6gip8kmr
- vp+PXFV885P7PmlewsTrqSNff97eKLgyZ1ZdLpyP6jHCw5NvJ7jMA5jpFXP2Iqoha3Rj//m2cH8 v2BAsAtq4FzOnRw==
-X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjMwMDA3NiBTYWx0ZWRfX9n1N15YKvGaK
- e8VOqZcWPS6UXOor1iBlnbHqngmp79GGqO1JObFMixUcqoBbrmorrDPTlrPabM+/XyEeriykqyd
- 4MdjDSDDpkMmRniFb87/R0m2yVgirKVsQ1YgFNA+nYCr4IgkLss+05ezKybQHAUD6ZCjWcPIBSI
- Sy0TBv4qsYEn/x9rzD1wepN2mVUu5Ie90w2773qvOrwgtKugw+DpmgQ7F00pA86FifTM/uwDuoW
- 0wM8Xm/pBUvT+IndcDdLZga5T+Q46FHgY9t7yEzArFw4IjPn3u5DfZXcB9aeAnUiypUTGaM5hF/
- G0a9V5mvc9w/Wm5r4RjGQHpNyJtbw/elO3dIBS35b25cjya8zWlWM89BAXyLaiNZt5ml5eQ3naB
- zh8NrDWnv5fuCOurtZ5Y9xxtCjF+re9GqUmFgnw0y+AlKgiF2yZUw3npae6ZM2icuWuo2GzFNrH
- kEMTBv+kSty7AC0pCDg==
-X-Proofpoint-ORIG-GUID: q2OtNd32ZyvINIvYiFXA18MjO3UX2wQy
-X-Proofpoint-GUID: q2OtNd32ZyvINIvYiFXA18MjO3UX2wQy
-X-Authority-Analysis: v=2.4 cv=FJ0WBuos c=1 sm=1 tr=0 ts=69538ea3 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=Eb9f15NH/cHKzfGOmZSO4Q==:17
- a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=2IlOcs2IsCq10ZUakEwA:9 a=uxP6HrT_eTzRwkO_Te1X:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-29_07,2025-12-30_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1011 suspectscore=0 priorityscore=1501 impostorscore=0
- spamscore=0 phishscore=0 malwarescore=0 adultscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512300076
+X-Received: by 2002:a05:6820:f028:b0:65d:4d4:e7b8 with SMTP id
+ 006d021491bc7-65d0e963e41mr14549247eaf.8.1767084087182; Tue, 30 Dec 2025
+ 00:41:27 -0800 (PST)
+Date: Tue, 30 Dec 2025 00:41:27 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69539037.050a0220.329c0f.052f.GAE@google.com>
+Subject: [syzbot] [media?] general protection fault in vidtv_psi_desc_assign
+From: syzbot <syzbot+1f5bcc7c919ec578777a@syzkaller.appspotmail.com>
+To: dwlsalmeida@gmail.com, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, mchehab@kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-adv7604 and et8ek8 sensor drivers have mixed up logical and line level
-for reset/powerdown signal.  They call it a reset signal (it indeed
-behaves like that), but drivers assert the reset to operate which is
-clearly incorrect and relies on wrong ACTIVE_HIGH flag in the DTS.
+Hello,
 
-People in discussions copy existing poor code and claim they can repeat
-same mistake, so add a note to prevent that.
+syzbot found the following issue on:
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+HEAD commit:    c875a6c32467 Merge tag 'usb-6.19-rc3' of git://git.kernel...
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=10e63bb4580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=8bfa57a8c0ab3aa8
+dashboard link: https://syzkaller.appspot.com/bug?extid=1f5bcc7c919ec578777a
+compiler:       gcc (Debian 12.2.0-14+deb12u1) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/8899a01b839d/disk-c875a6c3.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/24b995d869e5/vmlinux-c875a6c3.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/a87050fc4ee8/bzImage-c875a6c3.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+1f5bcc7c919ec578777a@syzkaller.appspotmail.com
+
+RBP: 00007fbc65813f91 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007fbc659e6038 R14: 00007fbc659e5fa0 R15: 00007ffcd46bbaa8
+ </TASK>
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000000: 0000 [#1] SMP KASAN PTI
+KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+CPU: 0 UID: 0 PID: 17992 Comm: syz.1.2581 Tainted: G             L      syzkaller #0 PREEMPT(full) 
+Tainted: [L]=SOFTLOCKUP
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/25/2025
+RIP: 0010:vidtv_psi_desc_assign+0x24/0x90 drivers/media/test-drivers/vidtv/vidtv_psi.c:629
+Code: 90 90 90 90 90 90 0f 1f 40 d6 41 54 55 48 89 f5 53 48 89 fb e8 dd 65 b9 f9 48 89 da 48 b8 00 00 00 00 00 fc ff df 48 c1 ea 03 <80> 3c 02 00 75 47 4c 8b 23 49 39 ec 74 36 e8 b9 65 b9 f9 4d 85 e4
+RSP: 0018:ffffc9000c61fa20 EFLAGS: 00010247
+RAX: dffffc0000000000 RBX: 0000000000000005 RCX: ffffc9000daab000
+RDX: 0000000000000000 RSI: ffffffff8804f313 RDI: 0000000000000005
+RBP: ffff88807da44660 R08: 0000000000000000 R09: 4453534204050000
+R10: 0000000000000005 R11: ffff88802cc229b0 R12: 0000000000000000
+R13: ffff88807b485640 R14: ffff88801feace80 R15: ffff8880338e7800
+FS:  00007fbc665bb6c0(0000) GS:ffff8881248fc000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000200001000000 CR3: 00000000767b2000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ vidtv_channel_pmt_match_sections drivers/media/test-drivers/vidtv/vidtv_channel.c:349 [inline]
+ vidtv_channel_si_init+0x1445/0x1a50 drivers/media/test-drivers/vidtv/vidtv_channel.c:479
+ vidtv_mux_init+0x526/0xbe0 drivers/media/test-drivers/vidtv/vidtv_mux.c:519
+ vidtv_start_streaming drivers/media/test-drivers/vidtv/vidtv_bridge.c:194 [inline]
+ vidtv_start_feed+0x33e/0x4d0 drivers/media/test-drivers/vidtv/vidtv_bridge.c:239
+ dmx_ts_feed_start_filtering+0xf6/0x220 drivers/media/dvb-core/dvb_demux.c:747
+ dvb_dmxdev_start_feed+0x273/0x3f0 drivers/media/dvb-core/dmxdev.c:655
+ dvb_dmxdev_filter_start+0x1b6/0xe10 drivers/media/dvb-core/dmxdev.c:766
+ dvb_dmxdev_pes_filter_set drivers/media/dvb-core/dmxdev.c:963 [inline]
+ dvb_demux_do_ioctl+0x9de/0x12f0 drivers/media/dvb-core/dmxdev.c:1077
+ dvb_usercopy+0x167/0x340 drivers/media/dvb-core/dvbdev.c:999
+ dvb_demux_ioctl+0x29/0x40 drivers/media/dvb-core/dmxdev.c:1186
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:597 [inline]
+ __se_sys_ioctl fs/ioctl.c:583 [inline]
+ __x64_sys_ioctl+0x18e/0x210 fs/ioctl.c:583
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xcd/0xf80 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fbc6578f7c9
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fbc665bb038 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007fbc659e5fa0 RCX: 00007fbc6578f7c9
+RDX: 0000000000000000 RSI: 0000000040146f2c RDI: 0000000000000003
+RBP: 00007fbc65813f91 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007fbc659e6038 R14: 00007fbc659e5fa0 R15: 00007ffcd46bbaa8
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:vidtv_psi_desc_assign+0x24/0x90 drivers/media/test-drivers/vidtv/vidtv_psi.c:629
+Code: 90 90 90 90 90 90 0f 1f 40 d6 41 54 55 48 89 f5 53 48 89 fb e8 dd 65 b9 f9 48 89 da 48 b8 00 00 00 00 00 fc ff df 48 c1 ea 03 <80> 3c 02 00 75 47 4c 8b 23 49 39 ec 74 36 e8 b9 65 b9 f9 4d 85 e4
+RSP: 0018:ffffc9000c61fa20 EFLAGS: 00010247
+RAX: dffffc0000000000 RBX: 0000000000000005 RCX: ffffc9000daab000
+RDX: 0000000000000000 RSI: ffffffff8804f313 RDI: 0000000000000005
+RBP: ffff88807da44660 R08: 0000000000000000 R09: 4453534204050000
+R10: 0000000000000005 R11: ffff88802cc229b0 R12: 0000000000000000
+R13: ffff88807b485640 R14: ffff88801feace80 R15: ffff8880338e7800
+FS:  00007fbc665bb6c0(0000) GS:ffff8881248fc000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000557f4c7cc950 CR3: 00000000767b2000 CR4: 00000000003526f0
+----------------
+Code disassembly (best guess):
+   0:	90                   	nop
+   1:	90                   	nop
+   2:	90                   	nop
+   3:	90                   	nop
+   4:	90                   	nop
+   5:	90                   	nop
+   6:	0f 1f 40 d6          	nopl   -0x2a(%rax)
+   a:	41 54                	push   %r12
+   c:	55                   	push   %rbp
+   d:	48 89 f5             	mov    %rsi,%rbp
+  10:	53                   	push   %rbx
+  11:	48 89 fb             	mov    %rdi,%rbx
+  14:	e8 dd 65 b9 f9       	call   0xf9b965f6
+  19:	48 89 da             	mov    %rbx,%rdx
+  1c:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
+  23:	fc ff df
+  26:	48 c1 ea 03          	shr    $0x3,%rdx
+* 2a:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1) <-- trapping instruction
+  2e:	75 47                	jne    0x77
+  30:	4c 8b 23             	mov    (%rbx),%r12
+  33:	49 39 ec             	cmp    %rbp,%r12
+  36:	74 36                	je     0x6e
+  38:	e8 b9 65 b9 f9       	call   0xf9b965f6
+  3d:	4d 85 e4             	test   %r12,%r12
+
 
 ---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Similar to my commit 9d108d226224 ("media: i2c: imx: Add note to prevent
-buggy code re-use"). I went through rest of i2c drivers and found only
-these two doing it incorrectly.
----
- drivers/media/i2c/adv7604.c              | 8 +++++++-
- drivers/media/i2c/et8ek8/et8ek8_driver.c | 4 ++++
- 2 files changed, 11 insertions(+), 1 deletion(-)
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
-index 516553fb17e9..67116a4ef134 100644
---- a/drivers/media/i2c/adv7604.c
-+++ b/drivers/media/i2c/adv7604.c
-@@ -3453,7 +3453,13 @@ static int configure_regmaps(struct adv76xx_state *state)
- static void adv76xx_reset(struct adv76xx_state *state)
- {
- 	if (state->reset_gpio) {
--		/* ADV76XX can be reset by a low reset pulse of minimum 5 ms. */
-+		/*
-+		 * Note: Misinterpretation of reset assertion - do not re-use
-+		 * this code.  The reset pin is using incorrect (for a reset
-+		 * signal) logical level.
-+		 *
-+		 * ADV76XX can be reset by a low reset pulse of minimum 5 ms.
-+		 */
- 		gpiod_set_value_cansleep(state->reset_gpio, 0);
- 		usleep_range(5000, 10000);
- 		gpiod_set_value_cansleep(state->reset_gpio, 1);
-diff --git a/drivers/media/i2c/et8ek8/et8ek8_driver.c b/drivers/media/i2c/et8ek8/et8ek8_driver.c
-index 2cb7b718782b..50121c3e5b48 100644
---- a/drivers/media/i2c/et8ek8/et8ek8_driver.c
-+++ b/drivers/media/i2c/et8ek8/et8ek8_driver.c
-@@ -835,6 +835,10 @@ static int et8ek8_power_on(struct et8ek8_sensor *sensor)
- 
- 	udelay(10); /* I wish this is a good value */
- 
-+	/*
-+	 * Note: Misinterpretation of reset assertion - do not re-use this code.
-+	 * The reset pin is using incorrect (for a reset signal) logical level.
-+	 */
- 	gpiod_set_value(sensor->reset, 1);
- 
- 	msleep(5000 * 1000 / sensor->xclk_freq + 1); /* Wait 5000 cycles */
--- 
-2.51.0
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
 
