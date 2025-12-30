@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-49735-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49736-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12DFCCE9D36
-	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 14:54:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BB52CE9D51
+	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 14:56:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6194C302104E
-	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 13:54:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 232563021E75
+	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 13:56:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3F0D23F431;
-	Tue, 30 Dec 2025 13:54:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52380241103;
+	Tue, 30 Dec 2025 13:56:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jJhlOldH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h5hJIonm"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 440627262E;
-	Tue, 30 Dec 2025 13:54:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A73DB86331;
+	Tue, 30 Dec 2025 13:56:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767102859; cv=none; b=p6GKhyvDkDJVrrbRyFn7UIo1vznDNp2D470IYw8EWr81O3KghLg62W8T7oSf513NWpsx9EtXSRL91Imove3lPv1518bcq4GwwJsQ8cab+bdvCgq1jjwhVd51D+z8Uy+vTx5S1s43ohHUb/e9FpWPkxr6ciwZc50o8684m4owuIU=
+	t=1767102984; cv=none; b=oK9/PnzTQ8xMnEjWIbmNvFJiQrIiRZWDK4Qr9QZeRYCkFHeUAhMsajbT0qkkOw3WXPUv1a77vIrQ6y9b5z9D1OQoZ20Zeaclxy2BJ6spb+iaUbgknD2oWSGnCrIYPxJUryjI9k9CqkjNIc2tspfI8UHp2+4JbBr95gbcKnDIc2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767102859; c=relaxed/simple;
-	bh=5lMqJZwb4hgYOByED8z0hZEet9gjORTV1yz896z2ftk=;
+	s=arc-20240116; t=1767102984; c=relaxed/simple;
+	bh=xFldLpic3xtmpqNCQf3ZKKmpQw/J0VkqHyqv6pzJSIY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dDf0eamEnw9XhnmIn9mmEquQ1m8J4NEzljN8Xi3Kcb6jmRgUZhd+7eXFUGw6Wx+yKB5hedGL4y77dlkLNLk+y+V8rrvWbYYGmbd4GLUsK8plEwGWZzsiZql1fz7s50s/1xVU8ka70HD037xZnKfmFPcumOFn+AdAkuIFiPwOQ0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jJhlOldH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DEEEC4CEFB;
-	Tue, 30 Dec 2025 13:54:15 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=S5zIjxw237aVYciw74T32lodibUQSNCUZ0O48h8aB0Bl7oZI0BwuCxVhHlrOZqBNcmacPjxTPv5GuIGpGjicpw6AVmA7ZVPOs5/HQexT3eQZyqeIQi2yFlA5S3dluXq9mNL9GjtNFt8ejMyTWoYSO3KBhkko51DNySd6hyZf1oc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h5hJIonm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 805CDC4CEFB;
+	Tue, 30 Dec 2025 13:56:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767102858;
-	bh=5lMqJZwb4hgYOByED8z0hZEet9gjORTV1yz896z2ftk=;
+	s=k20201202; t=1767102983;
+	bh=xFldLpic3xtmpqNCQf3ZKKmpQw/J0VkqHyqv6pzJSIY=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=jJhlOldHcuIN0nef9IO/i4twvy7tnxnz4bJjugDFrHqp+KfqbCytlgiNyhe5EKzw9
-	 RQPxQvGINXBUuvCj+n6gUP+/CKbgQui911OkDqkBKf56qAdtjAPuTgIzqdECW+dMpi
-	 nVtO72co2Wbh40RpsLijVLxgxVSHPl5IQys4qs6wmRWoFBAdOmt7A3h6wDE5Nia4jL
-	 dza6lYZjyisXkoPoxncqBU3U4asD5lKVr+YnCrKvydm1hKyVrSXKD3bCQdbd12rrZd
-	 WuoRyW/uY/6jNt+m9QP5AQB1pdnzRQgu1D61MEcFx8byThpR1OMmeE1bt7JVBO/GTf
-	 cWHAWU+NWkgDg==
-Message-ID: <41447e2e-52af-4fe0-8204-7ee7f43841c6@kernel.org>
-Date: Tue, 30 Dec 2025 14:54:14 +0100
+	b=h5hJIonmpNmEX04j/5wjuUIxZ7sbNhEDFDmUY7tdibNnDXRrLOXO08eYho8Eopesi
+	 GY3yZ1hKGHyxRL3azXgAmc7572rNJOrFzsKIMddYsXA5XGFCbfnpGoUhHah7Z2H343
+	 VNXuGsR21A/PXRCcPfM5mbOWVVOHyoPVNPIzjhTZDtNGLc/eSKgZQMDhNR5kTHTdYn
+	 TgWyKkTumcumrBqxqKZau2PtLMTEIFtl0TZxbuvhFu4MWg1PvM3TLpG3Bp2YkvnBUc
+	 iaxI3J/MFE6GGNmqYy/LO3PjlsUXAcoaqlKEYf0o5yh+FFs/7EePtF3ODq2srdVejn
+	 EHOiIGNTFMIow==
+Message-ID: <2bba9546-225f-4a77-b9d9-483cb5a41611@kernel.org>
+Date: Tue, 30 Dec 2025 14:56:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,18 +50,16 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 1/4] media: i2c: ov9282: Fix reset-gpio logical state
 To: Loic Poulain <loic.poulain@oss.qualcomm.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, krzk+dt@kernel.org
+ Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: andersson@kernel.org, konradybcio@kernel.org,
- dave.stevenson@raspberrypi.com, robh@kernel.org, conor+dt@kernel.org,
- mchehab@kernel.org, linux-arm-msm@vger.kernel.org,
+ dave.stevenson@raspberrypi.com, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, mchehab@kernel.org, linux-arm-msm@vger.kernel.org,
  devicetree@vger.kernel.org, linux-media@vger.kernel.org,
  laurent.pinchart@ideasonboard.com
 References: <20251114133822.434171-1-loic.poulain@oss.qualcomm.com>
  <20251114133822.434171-2-loic.poulain@oss.qualcomm.com>
  <aRtbwK0Afo50Lh0B@kekkonen.localdomain>
- <CAFEp6-1Tdmr5v0r+q0qeOG6qqA-hiBaF1iTEcmhBA0oTjLgbgg@mail.gmail.com>
- <aT_Xc6LR161QBRFp@kekkonen.localdomain>
- <CAFEp6-2PP0ufge0RXTrE2Nrn_sLCN5erokxpJsuGeHq7ZEZ83g@mail.gmail.com>
+ <CAFEp6-1zoU2cfVU06MoeOtAwMYN+XAxCwc0ebwaQyo78VNBf2Q@mail.gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -107,78 +105,58 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <CAFEp6-2PP0ufge0RXTrE2Nrn_sLCN5erokxpJsuGeHq7ZEZ83g@mail.gmail.com>
+In-Reply-To: <CAFEp6-1zoU2cfVU06MoeOtAwMYN+XAxCwc0ebwaQyo78VNBf2Q@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 15/12/2025 11:19, Loic Poulain wrote:
-> On Mon, Dec 15, 2025 at 10:40 AM Sakari Ailus
+On 03/12/2025 11:00, Loic Poulain wrote:
+> Hi Laurent,
+> 
+> On Mon, Nov 17, 2025 at 6:30 PM Sakari Ailus
 > <sakari.ailus@linux.intel.com> wrote:
 >>
 >> Hi Loic,
 >>
->> On Mon, Dec 15, 2025 at 10:35:15AM +0100, Loic Poulain wrote:
->>> Hi Sakari,
->>>
->>> On Mon, Nov 17, 2025 at 6:30 PM Sakari Ailus
->>> <sakari.ailus@linux.intel.com> wrote:
->>>>
->>>> Hi Loic,
->>>>
->>>> On Fri, Nov 14, 2025 at 02:38:19PM +0100, Loic Poulain wrote:
->>>>> Ensure reset state is low in the power-on state and high in the
->>>>> power-off state (assert reset). Note that the polarity is abstracted
->>>>> by the GPIO subsystem, so the logic level reflects the intended reset
->>>>> behavior.
->>>>
->>>> That's an interesting approach to fix DTS gone systematically wrong.
->>>>
->>>> I was thinking of the drivers that have this issue, too, but I would have
->>>> introduced a new GPIO under a different name (many sensors use "enable",
->>>> too). Any thoughts?
->>>
->>> Apologies for missing your point earlier. We can’t really name it
->>> enable, as it performs the opposite function and that would be
->>> confusing in the device tree description. A property like reset2 would
->>> be more accurate, but I suspect such a binding wouldn’t be acceptable
->>> from a device tree/bindings perspective.
+>> On Fri, Nov 14, 2025 at 02:38:19PM +0100, Loic Poulain wrote:
+>>> Ensure reset state is low in the power-on state and high in the
+>>> power-off state (assert reset). Note that the polarity is abstracted
+>>> by the GPIO subsystem, so the logic level reflects the intended reset
+>>> behavior.
 >>
->> Many sensor datasheets document a pin called "xshutdown" or alike. That's
->> not exactly "reset" or "enable" but it can be mapped to either and this can
->> be seen in the existing bindings. The polarity is effectively the opposite,
->> yes, but does that matter?
+>> That's an interesting approach to fix DTS gone systematically wrong.
+>>
+>> I was thinking of the drivers that have this issue, too, but I would have
+>> introduced a new GPIO under a different name (many sensors use "enable",
+>> too). Any thoughts?
+>>
+>> Cc Laurent.
 > 
-> I assume naming a pin 'xshutdown' or 'xreset' indicates that its
-> polarity is inverted at the driver level, the driver interprets the
-> shutdown or reset function as being active when the logical level is 0
-> (low), as they actually incorrectly do for the 'reset' gpio.
+> Do you have any feedback on this change?
 > 
-> From the driver’s perspective, this naming convention is acceptable;
-> however, it causes the devicetree description to slightly diverge from
-> the datasheet and leaves the reset property effectively inverted (and
-> therefore incorrect).
-> 
-> Honestly, in this specific case, the simplest solution would be to fix
-> the driver, since there is currently no upstream devicetree using this
-> sensor. That would technically break backward compatibility for any
-> out-of-tree DTS (if they exist), but those would have been incorrect
-> in the first place.
-> 
-> But yes, this seems like a good opportunity to discuss and define a
-> more general approach that can be applied to other drivers with
-> similar polarity or naming issues.
-> 
-> Krzysztof, any thoughts?
+>>
+>>>
+>>> To maintain backward compatibility with DTS files that use an incorrect
+>>> flag, we implement a mechanism similar to:
+>>>   commit 738455858a2d ("ASoC: codecs: wsa881x: Use proper shutdown GPIO polarity")
 
-You need to first CC me. You sent it to the special bulk email
-address... Anyway, please be specific about the question.
+Heh, so you even found my commit which exactly points which cases are
+broken, but you:
 
-I responded to earlier message that your claims in your comment in this
-patch are clearly wrong, but what it is surprising me, it's second
-approach this month people completely ignore existing and new DTS. Other
-was MT7530 where author also claim all is fine, but actually both old
-and new DTS were broken. Same here.
+...
 
+
+>>> +     /*
+>>> +      * Backwards compatibility work-around.
+>>> +      *
+>>> +      * The reset GPIO is active-low, but the driver has always used the
+>>> +      * gpiod API with inverted logic. As a result, the DTS had to
+>>> +      * incorrectly mark the GPIO as active-high to compensate for this
+>>> +      * behavior. Changing the flag in the driver now would break backward
+>>> +      * compatibility with existing DTS configurations. To address this,
+>>> +      * we add a simple value inversion so the driver works with both old
+>>> +      * and new DTS.
+
+claim everything is working fine. Please read my commit.
 
 
 Best regards,
