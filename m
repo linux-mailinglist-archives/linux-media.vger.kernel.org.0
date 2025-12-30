@@ -1,164 +1,144 @@
-Return-Path: <linux-media+bounces-49736-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49737-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BB52CE9D51
-	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 14:56:35 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E83D4CE9E41
+	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 15:13:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 232563021E75
-	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 13:56:27 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2D913302533E
+	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 14:12:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52380241103;
-	Tue, 30 Dec 2025 13:56:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3399D258EE9;
+	Tue, 30 Dec 2025 14:12:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h5hJIonm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BZ/WwwoH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A73DB86331;
-	Tue, 30 Dec 2025 13:56:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F324519C540;
+	Tue, 30 Dec 2025 14:12:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767102984; cv=none; b=oK9/PnzTQ8xMnEjWIbmNvFJiQrIiRZWDK4Qr9QZeRYCkFHeUAhMsajbT0qkkOw3WXPUv1a77vIrQ6y9b5z9D1OQoZ20Zeaclxy2BJ6spb+iaUbgknD2oWSGnCrIYPxJUryjI9k9CqkjNIc2tspfI8UHp2+4JbBr95gbcKnDIc2U=
+	t=1767103957; cv=none; b=If4INimc7I5CSFgsTFWsxCUWPm9e1so4Wf8XO32ai6w+9HGp9gTvZp8Y+sr8+zLzebFHPhyV8To+VRDWKA3RCvgY8mnDj2Qsp1y+/574TyfZ/la11ddLSTnF+Co5gN2IXDNvmXf5c/A3B40lzPXpntD9ki4RqCm7Zi4pJw89ec4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767102984; c=relaxed/simple;
-	bh=xFldLpic3xtmpqNCQf3ZKKmpQw/J0VkqHyqv6pzJSIY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S5zIjxw237aVYciw74T32lodibUQSNCUZ0O48h8aB0Bl7oZI0BwuCxVhHlrOZqBNcmacPjxTPv5GuIGpGjicpw6AVmA7ZVPOs5/HQexT3eQZyqeIQi2yFlA5S3dluXq9mNL9GjtNFt8ejMyTWoYSO3KBhkko51DNySd6hyZf1oc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h5hJIonm; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 805CDC4CEFB;
-	Tue, 30 Dec 2025 13:56:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767102983;
-	bh=xFldLpic3xtmpqNCQf3ZKKmpQw/J0VkqHyqv6pzJSIY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=h5hJIonmpNmEX04j/5wjuUIxZ7sbNhEDFDmUY7tdibNnDXRrLOXO08eYho8Eopesi
-	 GY3yZ1hKGHyxRL3azXgAmc7572rNJOrFzsKIMddYsXA5XGFCbfnpGoUhHah7Z2H343
-	 VNXuGsR21A/PXRCcPfM5mbOWVVOHyoPVNPIzjhTZDtNGLc/eSKgZQMDhNR5kTHTdYn
-	 TgWyKkTumcumrBqxqKZau2PtLMTEIFtl0TZxbuvhFu4MWg1PvM3TLpG3Bp2YkvnBUc
-	 iaxI3J/MFE6GGNmqYy/LO3PjlsUXAcoaqlKEYf0o5yh+FFs/7EePtF3ODq2srdVejn
-	 EHOiIGNTFMIow==
-Message-ID: <2bba9546-225f-4a77-b9d9-483cb5a41611@kernel.org>
-Date: Tue, 30 Dec 2025 14:56:18 +0100
+	s=arc-20240116; t=1767103957; c=relaxed/simple;
+	bh=+XjXcJ4GhKv85nZfYc1QRh2CMSdyJoxS5WD1B5mB56A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=usVWKIOYUgfW5veFs28OzBnQJqtIFvNpnu7is5afr8Ra3VJLMx7qMZdliVSpv0TinquTS5B3UC1xl68yzyQJH0g53H5VRaWvFnSnURriA2WfbOHEOAhqxyCpdN10d9tjCn+PCm6i85RhEpsExzb5DTVur1k1JszlvFS4CEC0qUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BZ/WwwoH; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767103954; x=1798639954;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+XjXcJ4GhKv85nZfYc1QRh2CMSdyJoxS5WD1B5mB56A=;
+  b=BZ/WwwoHw5vBYcL0XPtoxJaW76SSoPSc7bfgblqDwS/rvTmf5zclSYpX
+   2ZkBEfqYLpuMjEABXDtFu2kmqBpBs8ZJGMfOsRLczsNcCa33G4scRW1iW
+   +aoZHGya6Q51YGikzK9pxeLX4PiTGiLpdl+2d+tfLQfhf/MVwfVo3RR9S
+   T20Eshkx/U8xGiw9lumdf2XfCKW+8bwuAJENgpYExBOqyiW2v5nOPxkwy
+   tGlzepU3DbgUXsAUvqqQHIMLPCb6Sjeva7su5prxHAuSPTCjt44jZhwAw
+   6cyfPhtLLy0incEYHCKoMGTCEnFZSvSwICv5L/rCkBM0ACuk/arS7VueZ
+   A==;
+X-CSE-ConnectionGUID: wJDCboZPQ26OaUcHp5ccuQ==
+X-CSE-MsgGUID: NQHtdqrBTfeH0H/BcR1a+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11656"; a="67886603"
+X-IronPort-AV: E=Sophos;i="6.21,189,1763452800"; 
+   d="scan'208";a="67886603"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 06:12:33 -0800
+X-CSE-ConnectionGUID: CA4y/SiFS2ynZgnzHJ5Rsg==
+X-CSE-MsgGUID: pRAfP4MiTMKrBRfByMxJVA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,189,1763452800"; 
+   d="scan'208";a="231892881"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.96])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 06:12:31 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 69F32121D82;
+	Tue, 30 Dec 2025 16:12:38 +0200 (EET)
+Date: Tue, 30 Dec 2025 16:12:38 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: johannes.goede@oss.qualcomm.com,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Ondrej Jirman <megi@xff.cz>, Hans Verkuil <hverkuil@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	neil.sun@lcfuturecenter.com, naomi.huang@lcfuturecenter.com
+Subject: Re: [PATCH] media: dw9714: Fix powerup sequence
+Message-ID: <aVPd1j48895zm67e@kekkonen.localdomain>
+References: <20251210-dw9174-timing-v1-1-4a5036465727@chromium.org>
+ <023d20e6-23ef-4f64-8ea6-31f973b33c95@oss.qualcomm.com>
+ <CANiDSCsiu5E0nmm9dAgMGZ4y26cjwr8XKB1KRu2wZSVgdP-Brw@mail.gmail.com>
+ <aUl-JZZ5U5GgTasb@kekkonen.localdomain>
+ <CANiDSCuhGQXJmswNt4XCcUS5jBjfFNh-ZeByORquRoVc1JHbow@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/4] media: i2c: ov9282: Fix reset-gpio logical state
-To: Loic Poulain <loic.poulain@oss.qualcomm.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: andersson@kernel.org, konradybcio@kernel.org,
- dave.stevenson@raspberrypi.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, mchehab@kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-media@vger.kernel.org,
- laurent.pinchart@ideasonboard.com
-References: <20251114133822.434171-1-loic.poulain@oss.qualcomm.com>
- <20251114133822.434171-2-loic.poulain@oss.qualcomm.com>
- <aRtbwK0Afo50Lh0B@kekkonen.localdomain>
- <CAFEp6-1zoU2cfVU06MoeOtAwMYN+XAxCwc0ebwaQyo78VNBf2Q@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <CAFEp6-1zoU2cfVU06MoeOtAwMYN+XAxCwc0ebwaQyo78VNBf2Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANiDSCuhGQXJmswNt4XCcUS5jBjfFNh-ZeByORquRoVc1JHbow@mail.gmail.com>
 
-On 03/12/2025 11:00, Loic Poulain wrote:
-> Hi Laurent,
+On Tue, Dec 23, 2025 at 08:49:06AM +0100, Ricardo Ribalda wrote:
+> On Mon, 22 Dec 2025 at 18:21, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+> >
+> > Hi Ricardo,
+> >
+> > On Mon, Dec 15, 2025 at 09:46:46AM +0100, Ricardo Ribalda wrote:
+> > > Hi Hans
+> > >
+> > > On Wed, 10 Dec 2025 at 09:21, <johannes.goede@oss.qualcomm.com> wrote:
+> > > >
+> > > > Hi,
+> > > >
+> > > > On 10-Dec-25 8:53 AM, Ricardo Ribalda wrote:
+> > > > > We have experienced seen multiple I2C errors while doing stress test on
+> > > > > the module:
+> > > > >
+> > > > > dw9714 i2c-PRP0001:01: dw9714_vcm_resume I2C failure: -5
+> > > > > dw9714 i2c-PRP0001:01: I2C write fail
+> > > > >
+> > > > > Inspecting the powerup sequence we found that it does not match the
+> > > > > documentation at:
+> > > > > https://blog.arducam.com/downloads/DW9714A-DONGWOON(Autofocus_motor_manual).pdf
+> > > > >
+> > > > > """
+> > > > > (2) DW9714A requires waiting time of 12ms after power on. During this
+> > > > > waiting time, the offset calibration of internal amplifier is
+> > > > > operating for minimization of output offset current .
+> > > > > """
+> > > > >
+> > > > > This patch increases the powerup delay to follow the documentation.
+> > > > >
+> > > > > Fixes: 9d00ccabfbb5 ("media: i2c: dw9714: Fix occasional probe errors")
+> > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > >
+> > > > Thanks, patch looks good to me:
+> > > >
+> > > > Reviewed-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
+> > >
+> > > Some tags for the record
+> > >
+> > > Tested-by: Neil Sun <neil.sun@lcfuturecenter.com>
+> > > Co-developed-by: Naomi Huang <naomi.huang@lcfuturecenter.com>
+> >
+> > Co-developed-by: requires Sob. Do we have that as well?
 > 
-> On Mon, Nov 17, 2025 at 6:30 PM Sakari Ailus
-> <sakari.ailus@linux.intel.com> wrote:
->>
->> Hi Loic,
->>
->> On Fri, Nov 14, 2025 at 02:38:19PM +0100, Loic Poulain wrote:
->>> Ensure reset state is low in the power-on state and high in the
->>> power-off state (assert reset). Note that the polarity is abstracted
->>> by the GPIO subsystem, so the logic level reflects the intended reset
->>> behavior.
->>
->> That's an interesting approach to fix DTS gone systematically wrong.
->>
->> I was thinking of the drivers that have this issue, too, but I would have
->> introduced a new GPIO under a different name (many sensors use "enable",
->> too). Any thoughts?
->>
->> Cc Laurent.
+> Good point, I did not get a explicit Sob.
 > 
-> Do you have any feedback on this change?
+> I wanted to give them credit for this patch, because they did a great
+> job reporting the issue.
 > 
->>
->>>
->>> To maintain backward compatibility with DTS files that use an incorrect
->>> flag, we implement a mechanism similar to:
->>>   commit 738455858a2d ("ASoC: codecs: wsa881x: Use proper shutdown GPIO polarity")
+> Let's do a Reported-by with no Closes. Does that work for you?
 
-Heh, so you even found my commit which exactly points which cases are
-broken, but you:
+It generates a checkpatch.pl warning. I'm fine with that though.
 
-...
-
-
->>> +     /*
->>> +      * Backwards compatibility work-around.
->>> +      *
->>> +      * The reset GPIO is active-low, but the driver has always used the
->>> +      * gpiod API with inverted logic. As a result, the DTS had to
->>> +      * incorrectly mark the GPIO as active-high to compensate for this
->>> +      * behavior. Changing the flag in the driver now would break backward
->>> +      * compatibility with existing DTS configurations. To address this,
->>> +      * we add a simple value inversion so the driver works with both old
->>> +      * and new DTS.
-
-claim everything is working fine. Please read my commit.
-
-
-Best regards,
-Krzysztof
+-- 
+Sakari Ailus
 
