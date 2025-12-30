@@ -1,354 +1,204 @@
-Return-Path: <linux-media+bounces-49686-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49687-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D48B6CE90ED
-	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 09:42:04 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4270CCE91C8
+	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 09:59:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 15B51301D622
-	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 08:41:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id ABF1A3050CDE
+	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 08:56:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B062531A54A;
-	Tue, 30 Dec 2025 08:34:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98E7031D364;
+	Tue, 30 Dec 2025 08:34:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="soVgEcMV"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="K/qyYT3v";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="YZSitEg9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010007.outbound.protection.outlook.com [52.101.201.7])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14CBA319616;
-	Tue, 30 Dec 2025 08:34:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.7
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767083685; cv=fail; b=iv4t17TlDNHbiQi8FoUaZX1XeCz9toGG1BDiAo3gpqUZYKna4n/6miai0NS1bd3U7gx6F4tdJDxRIBmDl7zjaho/heKMXeSWGATK9aqRLRufh5CN98i0fRpEEiyd83H5qvn2eMlQgEsWyqnC9+lYPmKC99G9z8JsBUYPnLOX+rc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767083685; c=relaxed/simple;
-	bh=c0Zq5TWjrgBTdtILy0uUwOhuAIk6Xko0eENqtSlm42Y=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=abQ3FNLqncHqDOSPFXoNZNSSxk9ubMAAC/2ZqyOp6SyFSy8NyA3AYIOBp/f4mopxtR11N8+6M7nWFH2vmk48twd51sglQ/OIBamC2V/EE/8XgoKL50aBcbdpbGjIYAsQKWBp3ptlVumYD3O6xqt8pI1rUpF8B0M6RvBpktNNmBg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=soVgEcMV; arc=fail smtp.client-ip=52.101.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BcneB8BFwQ9ZE41u3hH57RR7G/UC6nBxCnqK+ZQQ50ZBviUQYfHE9rpIhecZAfeycHS8p/S3P9fb7fyNwa0i8oYKvqjQQ5ZWtiTkGogujbrOWKE5ii8QbfVILkQvIkXcN/jfQDPvdT7y98CLxdL9EnmplFzqvZ32zwU+j0kP9fvB7iUKV7HMs1cXaHl+BHRF4S5C4Z+kpuvQL/ZjT2OX4MO0jLBmajao4MIz9JvgZeozRa41OXGpP+Vp8UX5u5BSyfrGSEumCrXg/pQjN/GQTZSzZkjeiPo9nKO3/OT7J/NMMC4DJ/J85ALQHaLJFt9+wcvOfdKFcVaP0DejqNd7bA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PQoqDenSCp7uy5O3+90wy48yedFAgkb9sBIidhy1Jgk=;
- b=sKU62JHuRXaElPxCUAm9tMZUxqejMcrqU1dLtXb5fVaiFedM7hz5MbeVlRKEcUZMLld8vwMW8hmSP3LraqmO0EzKnjWNPuMDhgwrYRoCNWS7SlCPZDRLihJS1dauu2rTIwEj8G88jSDgldI/3HxGXQkBgCeh8kVQ8V8H6QuVkSbJkOlzlWZcDfu7k/T7wRInn6ci6tmAMomzwV9mA6pBKHIwcYU+EgEpClFrjhZgvFF4SLG/GBWSgqkADWAVA20xeJk/p0mDfX7i4p6al+82o6580cwB2QmnAO3i0nXKIOtfQn5pnLuCeV0HK5iiG6GtyGhejSOubJEO85kjQTalGg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.195) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PQoqDenSCp7uy5O3+90wy48yedFAgkb9sBIidhy1Jgk=;
- b=soVgEcMVbBfF/avAJY52g6czoh67Fo+wevoNmEhXaecJV5KTz5+tfcorzat5lWKFvCw18+etddJ9ePpksqJJ1sZuYHLI8vB7/tXJZHxlFcdpIuGlcKvtCxt5vutS3jVEW996yRYjeLWFqNnaCX3erDFuOR+cWMMRfyhC/eE/fBM=
-Received: from SJ0P220CA0020.NAMP220.PROD.OUTLOOK.COM (2603:10b6:a03:41b::26)
- by SA2PR10MB4618.namprd10.prod.outlook.com (2603:10b6:806:11f::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9478.4; Tue, 30 Dec
- 2025 08:34:40 +0000
-Received: from SJ1PEPF00002326.namprd03.prod.outlook.com
- (2603:10b6:a03:41b:cafe::c1) by SJ0P220CA0020.outlook.office365.com
- (2603:10b6:a03:41b::26) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9456.14 via Frontend Transport; Tue,
- 30 Dec 2025 08:34:40 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
-Received: from flwvzet201.ext.ti.com (198.47.21.195) by
- SJ1PEPF00002326.mail.protection.outlook.com (10.167.242.89) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9478.4 via Frontend Transport; Tue, 30 Dec 2025 08:34:39 +0000
-Received: from DFLE213.ent.ti.com (10.64.6.71) by flwvzet201.ext.ti.com
- (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 30 Dec
- 2025 02:34:33 -0600
-Received: from DFLE214.ent.ti.com (10.64.6.72) by DFLE213.ent.ti.com
- (10.64.6.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 30 Dec
- 2025 02:34:33 -0600
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE214.ent.ti.com
- (10.64.6.72) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Tue, 30 Dec 2025 02:34:33 -0600
-Received: from ws.dhcp.ti.com (ws.dhcp.ti.com [172.24.233.149])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5BU8WL9m579464;
-	Tue, 30 Dec 2025 02:34:27 -0600
-From: Rishikesh Donadkar <r-donadkar@ti.com>
-To: <jai.luthra@linux.dev>, <laurent.pinchart@ideasonboard.com>,
-	<mripard@kernel.org>
-CC: <r-donadkar@ti.com>, <y-abhilashchandra@ti.com>, <devarsht@ti.com>,
-	<s-jain1@ti.com>, <vigneshr@ti.com>, <mchehab@kernel.org>, <robh@kernel.org>,
-	<krzk+dt@kernel.org>, <p.zabel@pengutronix.de>, <conor+dt@kernel.org>,
-	<sakari.ailus@linux.intel.com>, <hverkuil-cisco@xs4all.nl>,
-	<tomi.valkeinen@ideasonboard.com>, <jai.luthra@ideasonboard.com>,
-	<changhuang.liang@starfivetech.com>, <jack.zhu@starfivetech.com>,
-	<sjoerd@collabora.com>, <dan.carpenter@linaro.org>,
-	<hverkuil+cisco@kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>
-Subject: [PATCH v9 19/19] media: ti: j721e-csi2rx: Support system suspend using pm_notifier
-Date: Tue, 30 Dec 2025 14:02:20 +0530
-Message-ID: <20251230083220.2405247-20-r-donadkar@ti.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251230083220.2405247-1-r-donadkar@ti.com>
-References: <20251230083220.2405247-1-r-donadkar@ti.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8378731985C
+	for <linux-media@vger.kernel.org>; Tue, 30 Dec 2025 08:34:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767083686; cv=none; b=Mo/7Igv1GY7R6kOPUggWCYl5qZH/Cq3HtFex8Hbg3pDe7I8PRWs+KJ8mFx7jbKPHknxsk/Lw0WkmhYSPBqPEWYzssLqBqf5wMoqQrAiG0Q18e1VeshptF75XBYQW9kNknIevHlTG8vv7xTSXSNBPuaZiVEGNPx+keSP01aj7p54=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767083686; c=relaxed/simple;
+	bh=b/Uih+xiwgtulW8Q6FcNJAqo6CPuzz/bAKmol36Ckxg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iLuqDxhMnOLmKfqDkwYabrMaI/OvC9p+w2Q7pUeRWfUtVewgycfe7pGK7u1FrJz/gp48IyeFgqO27bNg8bY7V0CwhMTUI/yZTO8hU0wsY9O96CQ3zcc3Ya6I1oVzhInRHkWQyji8F/le3ewuiT+9x868JWdGBmp0swHJd3UQyQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=K/qyYT3v; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=YZSitEg9; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BU1KbJ93115933
+	for <linux-media@vger.kernel.org>; Tue, 30 Dec 2025 08:34:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=sZJbn45uJvfmwLsLmP3C6rwKckT3pBqOOeK
+	KHYLcVaw=; b=K/qyYT3vUAF5edM/I9sKFEjz24nD4KP2MnAz8suPHT8/1BUg8VJ
+	jjrQighZsF4AqT79IUASxm7gZ1OP4ZTG+YkeStUGxOLF4SGftgcNOtK+tHKJhJUs
+	OVuturZhhfnF72720WkbCO8pQWwPOR7Lvq4rKKD+QCqXHmxKlJnlDKc56fltnlIV
+	c0j9vFb7zzSpDX6NvRCjJtL5+jfeFFiG55QmOT1lCkYSIMF0u+trZ53fVo/MPTjW
+	3jRrgmToYsO50TSHf8RntrmBJ7i1HW8piF60g8i42E7DIeWAROMOOMLcG/3OSxKd
+	4/Mua1PDXJ/tXKHksMKhsp0PBtHe9WLSsGw==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bc0skha93-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Tue, 30 Dec 2025 08:34:43 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4f4a5dba954so250390361cf.0
+        for <linux-media@vger.kernel.org>; Tue, 30 Dec 2025 00:34:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1767083683; x=1767688483; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sZJbn45uJvfmwLsLmP3C6rwKckT3pBqOOeKKHYLcVaw=;
+        b=YZSitEg90uwyoM6r6NBOQYw1/i6mQeeUT/ERTZAVbThxlhdx7x0yYGLXdtjW1g1A0Q
+         +iGa+p6l+byzCR2ExhIay+5x5N0a7KjGW39I4nINbvq9mRYYA9Rjc8764AWwRm/s/wgo
+         B8UaBcRiPW7ytL617hbYQQqQM0LoWr3qlHExZFA9BkNPjNDulxW44IJ82MYZD3hdSSFA
+         KIEAVq8yLMQh5nVSkjWvpLnRaDpgj/un8Uao7Qnq+v1HesnqqeMx/tvZHTGx4GIVHRqy
+         SJ3+mjPQvKIY/kJw9Ejz+sD7qYG3FfwK+HA8tL9us23uv6MlAN0ThMr+3SHYbrFMSq1s
+         ertw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767083683; x=1767688483;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sZJbn45uJvfmwLsLmP3C6rwKckT3pBqOOeKKHYLcVaw=;
+        b=ugADPBUlcFwe11WWGzcpbQcURIj4jZqb3URYp+3ElT8JWl3pxmnratW1GamOg+RqNI
+         kIkcXo5H3GCOjEQm1n8VZVhS8fMrElRDwfacE3uH+uy1VILo1rDeY2+G+X7bKN26VVxd
+         VWPUFnpaie2+bOO6hbFnW4JYrMHNGMXWyQeLCiLrrB/1weXH4BzOQITCe1NuVBpAz3PD
+         6qVY8ez1kjSiCxXeBmhbETCOPM3CGLZTvOKExNQUlCJwFabqPMgIa3AuQKVayUeuPorc
+         3jeBQg1FtGN/tOm1u04HwU8sIc/EiCOFg6LRfnOG+N8ZzD92rB4DfuG35Dg8tkkWX2CV
+         zOqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVAaX35ze7ZIr1ASi1LBp+dFo822pcSTQrKabXFNYccXGnBF1C6NRqpQr1M1PPPePEbMXyy0+O09Q8anw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwzWizKF19qU1kh3kmAlDP8EbPohC7VVggufp2WaMFY2lVn1vv3
+	rkJmTEUISb+rxDyF/FLJIezOtzyhWEZx5Y7MxbfXzzK/MuDF60YvyrsjJFQOuOXH27T37JwmSQh
+	rXkDFyBXVTUvmtnIZooiDCrvy6UpkPgbNiZDRod5e69m+pfdBhS6cfmfN2PmrNUeZiA==
+X-Gm-Gg: AY/fxX56OGJ6AsWiEho1WPOjD2vaakIcSyYrNq+ci8RHJKLqDC4lzjKd7UyHMlfJZrm
+	IfNgTMo4FMXmnCVVo4CcOS57dCcxKh2oIjhghdCl/UduykAAXDu9fZhd9HjtkOcnMj39dEr8nDz
+	Fo+wcofk1qID2mtaZrcKRoNVNongHZrqCa5AzFcqM6LcO5g7HzKF4fbn+w/5JKKqxFWwmeSkHRX
+	V/vE8Kbt2/ES+Jyr/I4I2tLYLlktOrXiKyNCv98HFoQT0SowP6v/wNOU9spYmcq1fvoWcu+oIxH
+	CjvztDwc9zVLcnD3NKrymG1ojmEWiwyWhaMgVltXLUo30cqp5WgiRs1uqKepbvmlM8vMNW4VwXZ
+	hSYW1g4Xgqxy+h2kWxAJg7x4TXA==
+X-Received: by 2002:a05:622a:410f:b0:4ee:fe8:9348 with SMTP id d75a77b69052e-4f4abdb47b4mr464621481cf.72.1767083682792;
+        Tue, 30 Dec 2025 00:34:42 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IG4XA0VX9aTNRxLaLeYSbI1rMjpMyLklw2uq6TJ9ZMtX9AROBkgbnuiWYFvumn2wU1Y6p/9Pw==
+X-Received: by 2002:a05:622a:410f:b0:4ee:fe8:9348 with SMTP id d75a77b69052e-4f4abdb47b4mr464621351cf.72.1767083682357;
+        Tue, 30 Dec 2025 00:34:42 -0800 (PST)
+Received: from quoll ([178.197.218.229])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47be272eaf8sm625934515e9.5.2025.12.30.00.34.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Dec 2025 00:34:41 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+To: Hans Verkuil <hverkuil@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Pavel Machek <pavel@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: [PATCH] media: i2c: Add note to prevent buggy code re-use
+Date: Tue, 30 Dec 2025 09:34:36 +0100
+Message-ID: <20251230083435.26267-2-krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2296; i=krzysztof.kozlowski@oss.qualcomm.com;
+ h=from:subject; bh=b/Uih+xiwgtulW8Q6FcNJAqo6CPuzz/bAKmol36Ckxg=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBpU46bVjB45o55TH2nXgFo7ACAsYJzj+Tg2GTdu
+ LbT7KVil66JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaVOOmwAKCRDBN2bmhouD
+ 191XD/47KROIfKw8M+58kkKgG73eBeihc7lcIJWo4biHrdFT8Vchyjf8HGv0prqx4VNJSqsZmEK
+ gNOiXvxd+HKO9bt93FZImjaFASddopB/pGSwmfwL9yTiERcyJEMQsEDac00pGA6M3COeh75YWMK
+ cdO12U586A2mpcofzYWDlsWu343OIO4jUBl3SDLFmlWzwscRqDBigMFvRB/F0a90WRiO210xiup
+ XuAyyQMkdab9oKyaX0uBinTLEyECFa2clxzPuWm76Nvxvam1XxLUJSIfTyVX2HjM8dLDDYVRgpP
+ TI4V/ftLY/ESQpz2IVALpTpsGYqSTrR2WDjjYcP2A78/1oYqT52bVcsVgWtxJGuAY3iKQYpzEuq
+ 9leESTvmE4SKn9QpRH/p/NX7EVriPhXedgnI0ANPSRw6D8M0ATfgsbnPue5++WFZE+sskJijBe6
+ oDKrHF0cJBFMCsF4x+qEertLMlbJSTBNOcXO6eDIRaPGq/RgqhUx7QErKWCLJFRrH2G16342T1i
+ uTt3tH9FgaipL/ct6s1TEgeHqchHbaKqzppwX1P53QeXcQdiCRMZQZKM6iXKt2FDdQG6gip8kmr
+ vp+PXFV885P7PmlewsTrqSNff97eKLgyZ1ZdLpyP6jHCw5NvJ7jMA5jpFXP2Iqoha3Rj//m2cH8 v2BAsAtq4FzOnRw==
+X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00002326:EE_|SA2PR10MB4618:EE_
-X-MS-Office365-Filtering-Correlation-Id: fdc9ee0c-6a0e-4684-d1c7-08de477e4586
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|376014|7416014|36860700013|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?Pa3Z92ZZfQQoBc0OyAYOR/Hag+RjTYSgte/tgIchYa2nQOob2lE8bNRN1L+6?=
- =?us-ascii?Q?5ZvGhiDfpG3wwBz1DQfB4zM6sZrfk0L+4/edLEfFRlJ4GOQ7PfE3HnKIQIMr?=
- =?us-ascii?Q?RMLjaciGxm3RhoCCmQTb/i31dUvoEUD3oyk46Ck1jKMPLsj9T/sMdH5aJTe9?=
- =?us-ascii?Q?Zt7Sfjmwj771wFXDIXQqfTlw408dD4qoAqb/yR7UB753ln6kXd7N97t90fUr?=
- =?us-ascii?Q?CEpPLos5/PhqussmEcRGbV7Ow7V/tsxzt6HME+1TJDfsilUXAXq+lh8RosFE?=
- =?us-ascii?Q?BEOR6v24384fRztERr0I05UszjjkG1bbdeGrZUdB410axpR7BYr0sVEmv0VM?=
- =?us-ascii?Q?LEKKWKGaFh+e824UyIis/7LOS7Dsoknz4dLrY9h0IwVXRzoQmsZ0vnFONppS?=
- =?us-ascii?Q?okqiCO3aoSrd3nT5tUytA7X7r44mDRBThazTZ1DcW3bUi2Y7tQ+bv84HKoeS?=
- =?us-ascii?Q?D1zpTqiA0zD1A5LEjpXt+FvdlGkJ2UjAsOY4GM63OEB9AKc2L6GNX/1JKq0b?=
- =?us-ascii?Q?WhIb+9YIA6qG6Z/77se8qWmiL6Upkr4NVY59ac38AbEi3bVhaNFJFcsclOxS?=
- =?us-ascii?Q?lxIfEAnFkXSzorUz53MC0k3Ec6gSmKj2jFTLc4DPYGps+4iujAld6Hotkhoh?=
- =?us-ascii?Q?p9UvTDX8Xl/S08ztQyKYrM0JU4Q5lcFz8cKxi4s3hjKKSKUgdBuo69fnzbCa?=
- =?us-ascii?Q?7uwyP2sULrD2RIuMR4KniKn3dBgj+L03kTXCTyQ/aUu0khKDlKOdUN37YsjD?=
- =?us-ascii?Q?GEPIDD2XPtt3U/TROq5tUpUhnC5qP5ON+zgZ1si3ZOojdiwmi1jrmtmgXnOW?=
- =?us-ascii?Q?K6IV907n9X1cp65OpLJx80hf+bcwwgk7uP8qbzCfMc5IcSxybp2PJdH2b3D+?=
- =?us-ascii?Q?xNHz8bNUnp6GZtwutm4/NxozU0qM6K++Ssn/7es58Ko3zl2y6G+ZA524rLMT?=
- =?us-ascii?Q?5KlloUDbOr/uufql6wFWMNQonoc3sEXGCHI9rekgpobceDOD4TDcJONcmpDM?=
- =?us-ascii?Q?+rNB2+5g/uXnVn8L3PL/g520Y4zn2HGOp+TmuY23/mqm1PRVah5y2eeg498D?=
- =?us-ascii?Q?oDCK9fc8ummy5jcTpMV+TwhM5tBolmtPt3CK79jlwRyiaYeDVQxyP7Iszb75?=
- =?us-ascii?Q?Sp1+sxBzpZ+EXwS17zDGstmtD2/yUOPJ1pKCZ11ZwpaBf9xqQgfiRGVNcpro?=
- =?us-ascii?Q?gwIKWUT+s9qr1VU0aoM5tCxfKhsRBQbBirqoZi4BpXUlTxxyB072i4SWW7O2?=
- =?us-ascii?Q?Rwl6YAna/FeloOZFyl2Nth4IefHxwxV2w3ToweTkejQzOVQwEfxTeXckJIri?=
- =?us-ascii?Q?SecK9AyWsoO0/DZziJKcwyCfWTGlyB0Tj7kmvn3q7NubWbUznsyNb5ei8LXF?=
- =?us-ascii?Q?uB7p6XrXt4ws5k7RIAa1M2O1GIxz6+iFrOPkKsAyiIyDSZR4tsoiB+JviihO?=
- =?us-ascii?Q?B/gNc2rPz7RUFmlgiWXPWoGWbgMrN5LPXSHLrNi0fSoyg0Jy5FBT/WfSr3Kj?=
- =?us-ascii?Q?D611/r5oFuSL5HMBhp62X3BL7zpM56KElqj1jIj4rsJALn4nvAdzeWR0H6sz?=
- =?us-ascii?Q?TEspy2lMQ6VWnJKt710=3D?=
-X-Forefront-Antispam-Report:
-	CIP:198.47.21.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet201.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(82310400026)(376014)(7416014)(36860700013)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Dec 2025 08:34:39.0374
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fdc9ee0c-6a0e-4684-d1c7-08de477e4586
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.195];Helo=[flwvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF00002326.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR10MB4618
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjMwMDA3NiBTYWx0ZWRfX9n1N15YKvGaK
+ e8VOqZcWPS6UXOor1iBlnbHqngmp79GGqO1JObFMixUcqoBbrmorrDPTlrPabM+/XyEeriykqyd
+ 4MdjDSDDpkMmRniFb87/R0m2yVgirKVsQ1YgFNA+nYCr4IgkLss+05ezKybQHAUD6ZCjWcPIBSI
+ Sy0TBv4qsYEn/x9rzD1wepN2mVUu5Ie90w2773qvOrwgtKugw+DpmgQ7F00pA86FifTM/uwDuoW
+ 0wM8Xm/pBUvT+IndcDdLZga5T+Q46FHgY9t7yEzArFw4IjPn3u5DfZXcB9aeAnUiypUTGaM5hF/
+ G0a9V5mvc9w/Wm5r4RjGQHpNyJtbw/elO3dIBS35b25cjya8zWlWM89BAXyLaiNZt5ml5eQ3naB
+ zh8NrDWnv5fuCOurtZ5Y9xxtCjF+re9GqUmFgnw0y+AlKgiF2yZUw3npae6ZM2icuWuo2GzFNrH
+ kEMTBv+kSty7AC0pCDg==
+X-Proofpoint-ORIG-GUID: q2OtNd32ZyvINIvYiFXA18MjO3UX2wQy
+X-Proofpoint-GUID: q2OtNd32ZyvINIvYiFXA18MjO3UX2wQy
+X-Authority-Analysis: v=2.4 cv=FJ0WBuos c=1 sm=1 tr=0 ts=69538ea3 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=Eb9f15NH/cHKzfGOmZSO4Q==:17
+ a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=EUspDBNiAAAA:8 a=2IlOcs2IsCq10ZUakEwA:9 a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-29_07,2025-12-30_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1011 suspectscore=0 priorityscore=1501 impostorscore=0
+ spamscore=0 phishscore=0 malwarescore=0 adultscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512300076
 
-From: Jai Luthra <jai.luthra@ideasonboard.com>
+adv7604 and et8ek8 sensor drivers have mixed up logical and line level
+for reset/powerdown signal.  They call it a reset signal (it indeed
+behaves like that), but drivers assert the reset to operate which is
+clearly incorrect and relies on wrong ACTIVE_HIGH flag in the DTS.
 
-As this device is the "orchestrator" for the rest of the media
-pipeline, we need to stop all on-going streams before system suspend and
-enable them back when the system wakes up from sleep.
+People in discussions copy existing poor code and claim they can repeat
+same mistake, so add a note to prevent that.
 
-Using .suspend/.resume callbacks does not work, as the order of those
-callbacks amongst various devices in the camera pipeline like the sensor,
-FPD serdes, CSI bridge etc. is impossible to enforce, even with
-device links. For example, the Cadence CSI bridge is a child device of
-this device, thus we cannot create a device link with the CSI bridge as
-a provider and this device as consumer. This can lead to situations
-where all the dependencies for the bridge have not yet resumed when we
-request the subdev to start streaming again through the .resume callback
-defined in this device.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-Instead here we register a notifier callback with the PM framework
-which is triggered when the system is fully functional. At this point we
-can cleanly stop or start the streams, because we know all other devices
-and their dependencies are functional. A downside of this approach is
-that the userspace is also alive (not frozen yet, or just thawed), so
-the suspend notifier might complete before the userspace has completed
-all ioctls, like QBUF/DQBUF/STREAMON/STREAMOFF.
-
-Tested-by: Rishikesh Donadkar <r-donadkar@ti.com>
-Reviewed-by: Rishikesh Donadkar <r-donadkar@ti.com>
-Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
 ---
- .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 128 ++++++++++++++++++
- 1 file changed, 128 insertions(+)
 
-diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-index 72da58738e16e..f8e55aa402e0b 100644
---- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-+++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-@@ -132,6 +132,7 @@ struct ti_csi2rx_dev {
- 	struct v4l2_subdev		*source;
- 	struct v4l2_subdev		subdev;
- 	struct ti_csi2rx_ctx		ctx[TI_CSI2RX_MAX_CTX];
-+	struct notifier_block		pm_notifier;
- 	u8				pix_per_clk;
- 	/* Buffer to drain stale data from PSI-L endpoint */
- 	struct {
-@@ -1539,6 +1540,124 @@ static int ti_csi2rx_runtime_resume(struct device *dev)
- 	return 0;
- }
+Similar to my commit 9d108d226224 ("media: i2c: imx: Add note to prevent
+buggy code re-use"). I went through rest of i2c drivers and found only
+these two doing it incorrectly.
+---
+ drivers/media/i2c/adv7604.c              | 8 +++++++-
+ drivers/media/i2c/et8ek8/et8ek8_driver.c | 4 ++++
+ 2 files changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
+index 516553fb17e9..67116a4ef134 100644
+--- a/drivers/media/i2c/adv7604.c
++++ b/drivers/media/i2c/adv7604.c
+@@ -3453,7 +3453,13 @@ static int configure_regmaps(struct adv76xx_state *state)
+ static void adv76xx_reset(struct adv76xx_state *state)
+ {
+ 	if (state->reset_gpio) {
+-		/* ADV76XX can be reset by a low reset pulse of minimum 5 ms. */
++		/*
++		 * Note: Misinterpretation of reset assertion - do not re-use
++		 * this code.  The reset pin is using incorrect (for a reset
++		 * signal) logical level.
++		 *
++		 * ADV76XX can be reset by a low reset pulse of minimum 5 ms.
++		 */
+ 		gpiod_set_value_cansleep(state->reset_gpio, 0);
+ 		usleep_range(5000, 10000);
+ 		gpiod_set_value_cansleep(state->reset_gpio, 1);
+diff --git a/drivers/media/i2c/et8ek8/et8ek8_driver.c b/drivers/media/i2c/et8ek8/et8ek8_driver.c
+index 2cb7b718782b..50121c3e5b48 100644
+--- a/drivers/media/i2c/et8ek8/et8ek8_driver.c
++++ b/drivers/media/i2c/et8ek8/et8ek8_driver.c
+@@ -835,6 +835,10 @@ static int et8ek8_power_on(struct et8ek8_sensor *sensor)
  
-+static int ti_csi2rx_suspend(struct device *dev)
-+{
-+	struct ti_csi2rx_dev *csi = dev_get_drvdata(dev);
-+	enum ti_csi2rx_dma_state state;
-+	struct ti_csi2rx_ctx *ctx;
-+	struct ti_csi2rx_dma *dma;
-+	unsigned long flags = 0;
-+	int i, ret = 0;
-+
-+	/* If device was not in use we can simply suspend */
-+	if (pm_runtime_status_suspended(dev))
-+		return 0;
-+
+ 	udelay(10); /* I wish this is a good value */
+ 
 +	/*
-+	 * If device is running, assert the pixel reset to cleanly stop any
-+	 * on-going streams before we suspend.
++	 * Note: Misinterpretation of reset assertion - do not re-use this code.
++	 * The reset pin is using incorrect (for a reset signal) logical level.
 +	 */
-+	writel(0, csi->shim + SHIM_CNTL);
-+
-+	for (i = 0; i < csi->num_ctx; i++) {
-+		ctx = &csi->ctx[i];
-+		dma = &ctx->dma;
-+
-+		spin_lock_irqsave(&dma->lock, flags);
-+		state = dma->state;
-+		spin_unlock_irqrestore(&dma->lock, flags);
-+
-+		if (state != TI_CSI2RX_DMA_STOPPED) {
-+			/* Disable source */
-+			ret = v4l2_subdev_disable_streams(&csi->subdev,
-+							  TI_CSI2RX_PAD_FIRST_SOURCE + ctx->idx,
-+							  BIT(0));
-+			if (ret)
-+				dev_err(csi->dev, "Failed to stop subdev stream\n");
-+		}
-+
-+		/* Stop any on-going streams */
-+		writel(0, csi->shim + SHIM_DMACNTX(ctx->idx));
-+
-+		/* Drain DMA */
-+		ti_csi2rx_drain_dma(ctx);
-+
-+		/* Terminate DMA */
-+		ret = dmaengine_terminate_sync(ctx->dma.chan);
-+		if (ret)
-+			dev_err(csi->dev, "Failed to stop DMA\n");
-+	}
-+
-+	return ret;
-+}
-+
-+static int ti_csi2rx_resume(struct device *dev)
-+{
-+	struct ti_csi2rx_dev *csi = dev_get_drvdata(dev);
-+	struct ti_csi2rx_ctx *ctx;
-+	struct ti_csi2rx_dma *dma;
-+	struct ti_csi2rx_buffer *buf;
-+	unsigned long flags = 0;
-+	unsigned int reg;
-+	int i, ret = 0;
-+
-+	/* If device was not in use, we can simply wakeup */
-+	if (pm_runtime_status_suspended(dev))
-+		return 0;
-+
-+	/* If device was in use before, restore all the running streams */
-+	reg = SHIM_CNTL_PIX_RST;
-+	writel(reg, csi->shim + SHIM_CNTL);
-+
-+	for (i = 0; i < csi->num_ctx; i++) {
-+		ctx = &csi->ctx[i];
-+		dma = &ctx->dma;
-+		spin_lock_irqsave(&dma->lock, flags);
-+		if (dma->state != TI_CSI2RX_DMA_STOPPED) {
-+			/* Re-submit all previously submitted buffers to DMA */
-+			list_for_each_entry(buf, &ctx->dma.submitted, list) {
-+				ti_csi2rx_start_dma(ctx, buf);
-+			}
-+			spin_unlock_irqrestore(&dma->lock, flags);
-+
-+			/* Restore stream config */
-+			ti_csi2rx_setup_shim(ctx);
-+
-+			ret = v4l2_subdev_enable_streams(&csi->subdev,
-+							 TI_CSI2RX_PAD_FIRST_SOURCE + ctx->idx,
-+							 BIT(0));
-+			if (ret)
-+				dev_err(ctx->csi->dev, "Failed to start subdev\n");
-+		} else {
-+			spin_unlock_irqrestore(&dma->lock, flags);
-+		}
-+	}
-+
-+	return ret;
-+}
-+
-+static int ti_csi2rx_pm_notifier(struct notifier_block *nb,
-+				 unsigned long action, void *data)
-+{
-+	struct ti_csi2rx_dev *csi =
-+		container_of(nb, struct ti_csi2rx_dev, pm_notifier);
-+
-+	switch (action) {
-+	case PM_HIBERNATION_PREPARE:
-+	case PM_SUSPEND_PREPARE:
-+	case PM_RESTORE_PREPARE:
-+		ti_csi2rx_suspend(csi->dev);
-+		break;
-+	case PM_POST_SUSPEND:
-+	case PM_POST_HIBERNATION:
-+	case PM_POST_RESTORE:
-+		ti_csi2rx_resume(csi->dev);
-+		break;
-+	}
-+
-+	return NOTIFY_DONE;
-+}
-+
- static const struct dev_pm_ops ti_csi2rx_pm_ops = {
- 	RUNTIME_PM_OPS(ti_csi2rx_runtime_suspend, ti_csi2rx_runtime_resume,
- 		       NULL)
-@@ -1613,6 +1732,13 @@ static int ti_csi2rx_probe(struct platform_device *pdev)
- 		goto err_notifier;
- 	}
+ 	gpiod_set_value(sensor->reset, 1);
  
-+	csi->pm_notifier.notifier_call = ti_csi2rx_pm_notifier;
-+	ret = register_pm_notifier(&csi->pm_notifier);
-+	if (ret) {
-+		dev_err(csi->dev, "Failed to create PM notifier: %d\n", ret);
-+		goto err_notifier;
-+	}
-+
- 	return 0;
- 
- err_notifier:
-@@ -1642,6 +1768,8 @@ static void ti_csi2rx_remove(struct platform_device *pdev)
- 		ti_csi2rx_cleanup_ctx(&csi->ctx[i]);
- 
- 	ti_csi2rx_cleanup_notifier(csi);
-+	unregister_pm_notifier(&csi->pm_notifier);
-+
- 	ti_csi2rx_cleanup_v4l2(csi);
- 	mutex_destroy(&csi->mutex);
- 	dma_free_coherent(csi->dev, csi->drain.len, csi->drain.vaddr,
+ 	msleep(5000 * 1000 / sensor->xclk_freq + 1); /* Wait 5000 cycles */
 -- 
-2.34.1
+2.51.0
 
 
