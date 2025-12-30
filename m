@@ -1,199 +1,154 @@
-Return-Path: <linux-media+bounces-49689-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49690-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89096CE90E1
-	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 09:41:37 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id DED48CE923E
+	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 10:06:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1DE803016733
-	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 08:41:32 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D2F5E3019BFB
+	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 09:05:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 464C9325726;
-	Tue, 30 Dec 2025 08:41:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFDDD274659;
+	Tue, 30 Dec 2025 09:05:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KN/OKcLi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oo1-f78.google.com (mail-oo1-f78.google.com [209.85.161.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BA48325709
-	for <linux-media@vger.kernel.org>; Tue, 30 Dec 2025 08:41:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A9D71E5B70;
+	Tue, 30 Dec 2025 09:05:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767084089; cv=none; b=lN8xNZcvDVPbHGzGdx4k4DjLXcdjS/UW5DlgyhSyOiXty76qbym4fVFgaZVWuftLQGpOzalodvyS9pamcqiO9sqKCXVictriWAs5egbaDhmVQz2QTI3xJp1VCNOkqGtFUToWIWe23g+i+12J6eLg724sBWtyPDkJVw0D4knoi6I=
+	t=1767085525; cv=none; b=t6xpN7l6Zg5yFcNpJRb4Nsa55x+sqZLThHdxSAbP25lXyi/0fOJSN9jSPYXtzk2tyYANKaaZqgIYMKcb/iUlBkbEAx/txPrJPIHRrQvitfFYjt6zC4h01H5m153vJhLkGUy+lrtSje6Yg2zkLvt9+6OeKYbuMIDVtb7l7xnDAR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767084089; c=relaxed/simple;
-	bh=d9XaLVbma4B1bPJg+vvzLfsoG5PqSXKhSJORD+B2AT4=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=Vy1n2H5zJ9PpycF3bbPpkVmrWTmwUMXHgpzjC7HR0wc338sTZi5x/BiYHiVFLuuKMtGyr8xF4vsPnQhPlTkBsVYtygp24/ByuJUT+GeMPqRhFQ9oCy64LU9y//KbRRweYQD9f9ENzaF/p8e4Cij88kybd8UjaE74Kf5orAxEhqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f78.google.com with SMTP id 006d021491bc7-65d004d4d01so10943816eaf.1
-        for <linux-media@vger.kernel.org>; Tue, 30 Dec 2025 00:41:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767084087; x=1767688887;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XqwUls/9gcmNA76KILqg51dqtLsjep3YFa7r6IYdAs4=;
-        b=GCeoWXKupbg43Wb8PZQlPTvevHydauxtdz7n4y/aFK2oAJG5/a5JiHnrUCQ+6+HPeB
-         aJaHkUVTOBEKVsXECkgKdV3erFOjQZ5bPS81lEDZIJ3YWrsk5oJ4x4giNw26nqF8tOh6
-         a0ZIdV2ZjEZyo9uZ6EYCk7xFi1b2zxsccz56g7qGwCUZWoedA+tqXNKDxuEMA1Kvg9Xt
-         2XUAgNAN1LZL69QY/dxYLsIQlveEyta2EPf9SwX2+nBrGrUGs1+j0qScD6IWXPmVITIu
-         0od27jyPXQujqnoAXnIDmrgYSPYbqHFi3bT1+FQlOLTm5uEMrAxkFDZJzRAYqcoWnuSa
-         zChA==
-X-Forwarded-Encrypted: i=1; AJvYcCXOdfiAd+bzB3iCJZlcvxeoZ1/n53s+zMuTwL90if/V1GtT0iYpao1WASkhutV4sEVh4q/W0hgvkc8yOQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxV9s3Ga6g5ICyIo3XqbsRnANzJ+fSs9U5IaBtyL7yDOPSpisI3
-	0G+WS4Cw89d1QwXJafDFBglmD2n289Q8A1TzHEZMrG462GIMoQWej1jXAuaOy5uIJ/WDVi5t9pd
-	AeFIaCy9mxoQLWtvwj92JNoUyUdyZj61NvJHk8s/4od2chtfP4fR2ayCb1ek=
-X-Google-Smtp-Source: AGHT+IE3+q0urcbUOQVcFf+5AEn41FMVPul2DWoNa3ubP8HlnWhuVnFT3+oH2NxbPLUpoB1Pnr4uQobSND7UvinJpWvWndueLsS8
+	s=arc-20240116; t=1767085525; c=relaxed/simple;
+	bh=PE6NPGXVML7KQDnspAbSkdZVdGs24GuLOwH/jrUPFmM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OELJC/WFG+u5v6zKwdUcd97vTFmxnqq+T9FyrhC8h4XG7vTuFGO5bZ6ujEOMFifwGIsHRyhO1RtNbtZY6RWZMo65SgPAeuQrWz2OMRVL0YhWjyi/m0FXstt26vv72sBJVHYHspHaHb0j6uUGpi1RH5R9O8Bl+IGS+t2QovBt29c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KN/OKcLi; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767085523; x=1798621523;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PE6NPGXVML7KQDnspAbSkdZVdGs24GuLOwH/jrUPFmM=;
+  b=KN/OKcLibOsRkwzANY4GMzW9ydaLGQOB7J9whtDIiD1sJPRJEV0vejLn
+   L6sVJJecOz9USUeNXgqgXa+hgf/uh8wUdiqb9HMuEdI3h8KR7iqeX806D
+   ELeUO90iQHUMcRBv3jwTFIonutWLZ3spo+1ZbCHIla5lOS7pGIrC3aW2C
+   ugNDKR+9TMLqO9jDMC/V4AiVaMwQFtBI9o71fZl7ZHOuNAC0nSoA/qgFf
+   HPupE9/xiO7gGjbgwjsQR1WYkfQh+0RDQPa08k2RUb/2VmNab8gu6SVOd
+   MhZIhBEvbzW0mJeQ6Di9KHrGIsy+MGTI79FnxmhGGneQlD5GM32HxbTqH
+   w==;
+X-CSE-ConnectionGUID: Wi5mk2EkQCSMcjDiMW8Hhg==
+X-CSE-MsgGUID: twUh2SWjTTSfcFIFlYU3tw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11656"; a="68712145"
+X-IronPort-AV: E=Sophos;i="6.21,188,1763452800"; 
+   d="scan'208";a="68712145"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 01:05:22 -0800
+X-CSE-ConnectionGUID: Eux4PWfFQ5KRLgeFwzNWQQ==
+X-CSE-MsgGUID: OeZWY3JHRQqfTjsbz0rMJA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,188,1763452800"; 
+   d="scan'208";a="205696221"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.96])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 01:05:21 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 258B4121D81;
+	Tue, 30 Dec 2025 11:05:29 +0200 (EET)
+Date: Tue, 30 Dec 2025 11:05:29 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Hans Verkuil <hverkuil@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Pavel Machek <pavel@kernel.org>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: i2c: Add note to prevent buggy code re-use
+Message-ID: <aVOV2QrFvoCVQSrA@kekkonen.localdomain>
+References: <20251230083435.26267-2-krzysztof.kozlowski@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:f028:b0:65d:4d4:e7b8 with SMTP id
- 006d021491bc7-65d0e963e41mr14549247eaf.8.1767084087182; Tue, 30 Dec 2025
- 00:41:27 -0800 (PST)
-Date: Tue, 30 Dec 2025 00:41:27 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69539037.050a0220.329c0f.052f.GAE@google.com>
-Subject: [syzbot] [media?] general protection fault in vidtv_psi_desc_assign
-From: syzbot <syzbot+1f5bcc7c919ec578777a@syzkaller.appspotmail.com>
-To: dwlsalmeida@gmail.com, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, mchehab@kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251230083435.26267-2-krzysztof.kozlowski@oss.qualcomm.com>
 
-Hello,
+Hi Krzysztof,
 
-syzbot found the following issue on:
+Thanks for the patch.
 
-HEAD commit:    c875a6c32467 Merge tag 'usb-6.19-rc3' of git://git.kernel...
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=10e63bb4580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=8bfa57a8c0ab3aa8
-dashboard link: https://syzkaller.appspot.com/bug?extid=1f5bcc7c919ec578777a
-compiler:       gcc (Debian 12.2.0-14+deb12u1) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+On Tue, Dec 30, 2025 at 09:34:36AM +0100, Krzysztof Kozlowski wrote:
+> adv7604 and et8ek8 sensor drivers have mixed up logical and line level
+> for reset/powerdown signal.  They call it a reset signal (it indeed
+> behaves like that), but drivers assert the reset to operate which is
+> clearly incorrect and relies on wrong ACTIVE_HIGH flag in the DTS.
+> 
+> People in discussions copy existing poor code and claim they can repeat
+> same mistake, so add a note to prevent that.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> 
+> ---
+> 
+> Similar to my commit 9d108d226224 ("media: i2c: imx: Add note to prevent
+> buggy code re-use"). I went through rest of i2c drivers and found only
+> these two doing it incorrectly.
+> ---
+>  drivers/media/i2c/adv7604.c              | 8 +++++++-
+>  drivers/media/i2c/et8ek8/et8ek8_driver.c | 4 ++++
+>  2 files changed, 11 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
+> index 516553fb17e9..67116a4ef134 100644
+> --- a/drivers/media/i2c/adv7604.c
+> +++ b/drivers/media/i2c/adv7604.c
+> @@ -3453,7 +3453,13 @@ static int configure_regmaps(struct adv76xx_state *state)
+>  static void adv76xx_reset(struct adv76xx_state *state)
+>  {
+>  	if (state->reset_gpio) {
+> -		/* ADV76XX can be reset by a low reset pulse of minimum 5 ms. */
+> +		/*
+> +		 * Note: Misinterpretation of reset assertion - do not re-use
+> +		 * this code.  The reset pin is using incorrect (for a reset
+> +		 * signal) logical level.
+> +		 *
+> +		 * ADV76XX can be reset by a low reset pulse of minimum 5 ms.
+> +		 */
+>  		gpiod_set_value_cansleep(state->reset_gpio, 0);
+>  		usleep_range(5000, 10000);
+>  		gpiod_set_value_cansleep(state->reset_gpio, 1);
+> diff --git a/drivers/media/i2c/et8ek8/et8ek8_driver.c b/drivers/media/i2c/et8ek8/et8ek8_driver.c
+> index 2cb7b718782b..50121c3e5b48 100644
+> --- a/drivers/media/i2c/et8ek8/et8ek8_driver.c
+> +++ b/drivers/media/i2c/et8ek8/et8ek8_driver.c
+> @@ -835,6 +835,10 @@ static int et8ek8_power_on(struct et8ek8_sensor *sensor)
+>  
+>  	udelay(10); /* I wish this is a good value */
+>  
+> +	/*
+> +	 * Note: Misinterpretation of reset assertion - do not re-use this code.
+> +	 * The reset pin is using incorrect (for a reset signal) logical level.
+> +	 */
+>  	gpiod_set_value(sensor->reset, 1);
+>  
+>  	msleep(5000 * 1000 / sensor->xclk_freq + 1); /* Wait 5000 cycles */
 
-Unfortunately, I don't have any reproducer for this issue yet.
+Related to the topic, would you be able to comment on the discussion
+related to <20251114133822.434171-2-loic.poulain@oss.qualcomm.com>? I
+believe you're cc'd, with your @kernel.org address.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/8899a01b839d/disk-c875a6c3.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/24b995d869e5/vmlinux-c875a6c3.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/a87050fc4ee8/bzImage-c875a6c3.xz
+What I don't like too much is that there's no way to write correct DTS
+without fixing these drivers somehow. :-(
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+1f5bcc7c919ec578777a@syzkaller.appspotmail.com
+-- 
+Kind regards,
 
-RBP: 00007fbc65813f91 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007fbc659e6038 R14: 00007fbc659e5fa0 R15: 00007ffcd46bbaa8
- </TASK>
-Oops: general protection fault, probably for non-canonical address 0xdffffc0000000000: 0000 [#1] SMP KASAN PTI
-KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
-CPU: 0 UID: 0 PID: 17992 Comm: syz.1.2581 Tainted: G             L      syzkaller #0 PREEMPT(full) 
-Tainted: [L]=SOFTLOCKUP
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/25/2025
-RIP: 0010:vidtv_psi_desc_assign+0x24/0x90 drivers/media/test-drivers/vidtv/vidtv_psi.c:629
-Code: 90 90 90 90 90 90 0f 1f 40 d6 41 54 55 48 89 f5 53 48 89 fb e8 dd 65 b9 f9 48 89 da 48 b8 00 00 00 00 00 fc ff df 48 c1 ea 03 <80> 3c 02 00 75 47 4c 8b 23 49 39 ec 74 36 e8 b9 65 b9 f9 4d 85 e4
-RSP: 0018:ffffc9000c61fa20 EFLAGS: 00010247
-RAX: dffffc0000000000 RBX: 0000000000000005 RCX: ffffc9000daab000
-RDX: 0000000000000000 RSI: ffffffff8804f313 RDI: 0000000000000005
-RBP: ffff88807da44660 R08: 0000000000000000 R09: 4453534204050000
-R10: 0000000000000005 R11: ffff88802cc229b0 R12: 0000000000000000
-R13: ffff88807b485640 R14: ffff88801feace80 R15: ffff8880338e7800
-FS:  00007fbc665bb6c0(0000) GS:ffff8881248fc000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000200001000000 CR3: 00000000767b2000 CR4: 00000000003526f0
-Call Trace:
- <TASK>
- vidtv_channel_pmt_match_sections drivers/media/test-drivers/vidtv/vidtv_channel.c:349 [inline]
- vidtv_channel_si_init+0x1445/0x1a50 drivers/media/test-drivers/vidtv/vidtv_channel.c:479
- vidtv_mux_init+0x526/0xbe0 drivers/media/test-drivers/vidtv/vidtv_mux.c:519
- vidtv_start_streaming drivers/media/test-drivers/vidtv/vidtv_bridge.c:194 [inline]
- vidtv_start_feed+0x33e/0x4d0 drivers/media/test-drivers/vidtv/vidtv_bridge.c:239
- dmx_ts_feed_start_filtering+0xf6/0x220 drivers/media/dvb-core/dvb_demux.c:747
- dvb_dmxdev_start_feed+0x273/0x3f0 drivers/media/dvb-core/dmxdev.c:655
- dvb_dmxdev_filter_start+0x1b6/0xe10 drivers/media/dvb-core/dmxdev.c:766
- dvb_dmxdev_pes_filter_set drivers/media/dvb-core/dmxdev.c:963 [inline]
- dvb_demux_do_ioctl+0x9de/0x12f0 drivers/media/dvb-core/dmxdev.c:1077
- dvb_usercopy+0x167/0x340 drivers/media/dvb-core/dvbdev.c:999
- dvb_demux_ioctl+0x29/0x40 drivers/media/dvb-core/dmxdev.c:1186
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:597 [inline]
- __se_sys_ioctl fs/ioctl.c:583 [inline]
- __x64_sys_ioctl+0x18e/0x210 fs/ioctl.c:583
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0xcd/0xf80 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fbc6578f7c9
-Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fbc665bb038 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 00007fbc659e5fa0 RCX: 00007fbc6578f7c9
-RDX: 0000000000000000 RSI: 0000000040146f2c RDI: 0000000000000003
-RBP: 00007fbc65813f91 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007fbc659e6038 R14: 00007fbc659e5fa0 R15: 00007ffcd46bbaa8
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:vidtv_psi_desc_assign+0x24/0x90 drivers/media/test-drivers/vidtv/vidtv_psi.c:629
-Code: 90 90 90 90 90 90 0f 1f 40 d6 41 54 55 48 89 f5 53 48 89 fb e8 dd 65 b9 f9 48 89 da 48 b8 00 00 00 00 00 fc ff df 48 c1 ea 03 <80> 3c 02 00 75 47 4c 8b 23 49 39 ec 74 36 e8 b9 65 b9 f9 4d 85 e4
-RSP: 0018:ffffc9000c61fa20 EFLAGS: 00010247
-RAX: dffffc0000000000 RBX: 0000000000000005 RCX: ffffc9000daab000
-RDX: 0000000000000000 RSI: ffffffff8804f313 RDI: 0000000000000005
-RBP: ffff88807da44660 R08: 0000000000000000 R09: 4453534204050000
-R10: 0000000000000005 R11: ffff88802cc229b0 R12: 0000000000000000
-R13: ffff88807b485640 R14: ffff88801feace80 R15: ffff8880338e7800
-FS:  00007fbc665bb6c0(0000) GS:ffff8881248fc000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000557f4c7cc950 CR3: 00000000767b2000 CR4: 00000000003526f0
-----------------
-Code disassembly (best guess):
-   0:	90                   	nop
-   1:	90                   	nop
-   2:	90                   	nop
-   3:	90                   	nop
-   4:	90                   	nop
-   5:	90                   	nop
-   6:	0f 1f 40 d6          	nopl   -0x2a(%rax)
-   a:	41 54                	push   %r12
-   c:	55                   	push   %rbp
-   d:	48 89 f5             	mov    %rsi,%rbp
-  10:	53                   	push   %rbx
-  11:	48 89 fb             	mov    %rdi,%rbx
-  14:	e8 dd 65 b9 f9       	call   0xf9b965f6
-  19:	48 89 da             	mov    %rbx,%rdx
-  1c:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
-  23:	fc ff df
-  26:	48 c1 ea 03          	shr    $0x3,%rdx
-* 2a:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1) <-- trapping instruction
-  2e:	75 47                	jne    0x77
-  30:	4c 8b 23             	mov    (%rbx),%r12
-  33:	49 39 ec             	cmp    %rbp,%r12
-  36:	74 36                	je     0x6e
-  38:	e8 b9 65 b9 f9       	call   0xf9b965f6
-  3d:	4d 85 e4             	test   %r12,%r12
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+Sakari Ailus
 
