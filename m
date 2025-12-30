@@ -1,84 +1,84 @@
-Return-Path: <linux-media+bounces-49682-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49688-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33BC8CE91A4
-	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 09:57:52 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27BFFCE9147
+	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 09:46:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0CFF93032951
-	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 08:56:39 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 1C18030133E3
+	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 08:43:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 837FE313298;
-	Tue, 30 Dec 2025 08:34:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17CD8321F54;
+	Tue, 30 Dec 2025 08:35:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="MZoCNoQ8"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="dGMDK5UL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010015.outbound.protection.outlook.com [52.101.46.15])
+Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012053.outbound.protection.outlook.com [40.107.200.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCFA4312836;
-	Tue, 30 Dec 2025 08:34:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 202F6320CB1;
+	Tue, 30 Dec 2025 08:35:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.53
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767083649; cv=fail; b=KUba4ZMb4JB8ZiCKa6GCogUIA9zdLxtrcsswqloVUwo+6KX7f/9jP6nY+Sk8YpFIjMtKLIDNhZ3+eOc8lzKS/hpmBp7iRCv9Y/c91MFZ6nro3JcTIO1zzFRieoA40uv72ramWkO9tZ/GBgkT5flNKxWGXTd2e7A8yFBvmtrsiUA=
+	t=1767083730; cv=fail; b=fGggIDR5uz7wM3aT9SbGZUDge9QCfG3p3WcxJyPBM4K4O5pMRDTxBEIMRuVNNoN2XG+TIy56YfNXP7xhJutZbEzG1TV42/zB9Rz1rV/m0vrbtPov+SprqT0yJZJAZCUcfzVdBfh5JWuOfE5YXyfOJvSZstf60/7WGcGbREZz3d8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767083649; c=relaxed/simple;
-	bh=TjeIR0NtVyVcbN/H2ZcXoJaZF7CT9GrrjUbLkfL/v3o=;
+	s=arc-20240116; t=1767083730; c=relaxed/simple;
+	bh=5B6j1mZjcoCiIm6xO9Dotf4+SPIx1bdkdJxE2ZjzsFA=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=f69Pff0XvnZWRZGjX7BzArh8s31Sjxh97UywE72PhY4S1nH55AmsrBb7tTtcp+Cs67pQBzGfxTg6ST7bs90tTqSiONOPBXnD/ZiAbjw4XcPCN6RigU9ythP9ygBazHUEZW6eAuPbPDSw2Ak+/jlM+CpWK9mUPPvebV5/MZHvJmA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=MZoCNoQ8; arc=fail smtp.client-ip=52.101.46.15
+	 MIME-Version:Content-Type; b=AovvzeW46rFGRkDhKqp5SfdjiI8kQMEAPaESsKlFCr+ztOiOaOp0OAUg1JHfkJrT047yICMG4fAJIWYiDGbrgrWyvuuVx8LPcwYKsanSSNacDJ8A0C9Xm6sDhS/+5Nh1UC8gjMjcbJeKMk/SwHRdcK9N++TxKYNLwYpovEGrujo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=dGMDK5UL; arc=fail smtp.client-ip=40.107.200.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nVg5o8siG5zk+GNpnsKGq/onttWqrmtkP6RfrKO3+2PO4K9Dxoep9zs5dJRS/cJRGtTpIM0O5cnZF4nQ2umljWXQ9MgeQEFu9Xuvulk9UXrVbVRIB5NmrVrBTgeLbz+hDOjPOH4El9qYPvSBsz8WLLelWRc2Hh4tySzlQrzFEoSQ5XvRe1FZuR62rtghjPTD0qAGoGMO9tyoGvjLvcFxr4WF7712nS9EnfEayiDqo60czU/xPr1pC4YLdcx68RND0QNGwFX/TXFodZuO/xPE2hq1zjmlFZ0NNDwrPiapiVsFJ+VY+8aFZse5XEU+j1Y3XViMJfzLQ6xjY4KLZ9i9iw==
+ b=sGU3+DsXobTInbJb6XW63dfiR0un0f6D5koMLhOjQzVGKyp0xqvHG7msBcLsYLVtnMBITZcq1K80R087FSGN99bNdVuC6qvYBuKofclzNhC7bYp4vQVj6qT6PziC4wsQ77t0i8VPCNWx4bFA9NQNbBn2mgNW4Z4NiP7TS+aLcmFOqwG8s0AFP+3Xic02m2c5irPrrEU6axmesnxOluDBkkTvmpw+7HfSKFj2tREmX75v8/qFwKwkSSSK1wQAplcclGVP1c4uksDvOXyyBXQchZIooyR7QParq/ZdwVVXHEJWFNQcNV7jL2rtwWKd0PwVmA9gQJnr9fLiJ5C51q7+xg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ijA9VJNl/LRT7IyMSm+ZJ1ppx6dBuN652VB+VkDlkG8=;
- b=sPDl8cryL8nrB9LgFh4tXQY0sEK9wIwc4jejVompvkWD6c6QcNZQ7yHBU8uLRV42A4+JlubuBqeZ2anXH88Nqta00CIjJhkgHASuqIGzboXVs7FUftQrzPSNAih/6KJPW1zQwhiq7MmJGSvU79PoqjJclXZPFmuhysDUDsAxKNKKVG+Nb7IJAeUjVTbRa1rzwrwgKiP+F6UX2nsvnPm3t/r1Samn3DQXLnaJfyG+9MKdfFVJDLNtGKZeprgLxcXPo/tO0PiGYhLZShc9pLgvueUhWFNEF1Vk1D6eRuiAOUJC13I+rrj78x9lsL3PH70D14n7FRQaC3IEB5JnqexdDw==
+ bh=n5+SmWo/m/BD4868dX/kVNeXjTg1wVj5+bTh3gIVVVE=;
+ b=E5ERDPrBC35t8QX5i80KKhohYu8VJkuHk3WZDxGLQXfwAIfMrPr+AyXEg8sX5NBe+7Ry9KFnnhhyKzEoXnL7Eu5BTgUw843/twnXtE6feRbyBw3PBdNrp3+1NUTtgsz0NQyyzerG0XirL1LhMAOISyHC2pXkMM1P1fUl/9cLDiUCqPo3lcD+6Y89t4wDDeazBGdFGztMFSiFS8lxu/WN0fxIPzuOLgNFcDjjZK7g5+ph9gzX/iAWyNU60+fBcHZQGARFjxyobljmFqcJu3zwAvwSuFnPijENw32+0lY0zpBIQNiFsYIaksA7er9xXf5jE0qt1q7c9lp/sQM7J52Yvw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.195) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ 198.47.21.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
  dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ijA9VJNl/LRT7IyMSm+ZJ1ppx6dBuN652VB+VkDlkG8=;
- b=MZoCNoQ8e244jJ7e9ZhNANFDlHj8W3hOGJZwfFege8jM0VIrALQXhYIrFq6/FM0ShFhLTvAsTYHenRWoLEo6FkLVVspxV8uAcogPW+bf7aaYsjR9EpuxWV/M04AqaJr3B+BVKAXJZEf+jYpWPox2oaSjSFoM0ksheJ4BG2G1LL0=
-Received: from CH0PR03CA0243.namprd03.prod.outlook.com (2603:10b6:610:e5::8)
- by SJ0PR10MB5696.namprd10.prod.outlook.com (2603:10b6:a03:3ef::9) with
+ bh=n5+SmWo/m/BD4868dX/kVNeXjTg1wVj5+bTh3gIVVVE=;
+ b=dGMDK5ULT03RkYtxfstIUoSHI8jNkLsHcwuCxRtYypAAs1rj6+69DW3JR3sBr9v5adcTPOWmGJ2umihKFNuP+CqK/jniJeZUNDKCTGKW6qKNWvj0wxdz50YlNHZ5YCQLIHsWDIEbP3595mIiIGJiwtE1b4tBd8Jg1DdfoqYn18c=
+Received: from BN9PR03CA0320.namprd03.prod.outlook.com (2603:10b6:408:112::25)
+ by PH0PR10MB5658.namprd10.prod.outlook.com (2603:10b6:510:fd::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9456.14; Tue, 30 Dec
- 2025 08:34:05 +0000
-Received: from CH2PEPF0000009A.namprd02.prod.outlook.com
- (2603:10b6:610:e5:cafe::34) by CH0PR03CA0243.outlook.office365.com
- (2603:10b6:610:e5::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9456.14 via Frontend Transport; Tue,
- 30 Dec 2025 08:34:04 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
+ 2025 08:34:14 +0000
+Received: from BN1PEPF00004682.namprd03.prod.outlook.com
+ (2603:10b6:408:112:cafe::42) by BN9PR03CA0320.outlook.office365.com
+ (2603:10b6:408:112::25) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9456.11 via Frontend Transport; Tue,
+ 30 Dec 2025 08:34:13 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
  smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
  action=none header.from=ti.com;
 Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
-Received: from lewvzet201.ext.ti.com (198.47.23.195) by
- CH2PEPF0000009A.mail.protection.outlook.com (10.167.244.22) with Microsoft
+ 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
+Received: from flwvzet200.ext.ti.com (198.47.21.194) by
+ BN1PEPF00004682.mail.protection.outlook.com (10.167.243.88) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9456.9 via Frontend Transport; Tue, 30 Dec 2025 08:34:04 +0000
-Received: from DLEE203.ent.ti.com (157.170.170.78) by lewvzet201.ext.ti.com
- (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.9478.4 via Frontend Transport; Tue, 30 Dec 2025 08:34:11 +0000
+Received: from DFLE204.ent.ti.com (10.64.6.62) by flwvzet200.ext.ti.com
+ (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 30 Dec
- 2025 02:34:00 -0600
-Received: from DLEE201.ent.ti.com (157.170.170.76) by DLEE203.ent.ti.com
- (157.170.170.78) with Microsoft SMTP Server (version=TLS1_2,
+ 2025 02:34:07 -0600
+Received: from DFLE212.ent.ti.com (10.64.6.70) by DFLE204.ent.ti.com
+ (10.64.6.62) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 30 Dec
- 2025 02:34:00 -0600
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE201.ent.ti.com
- (157.170.170.76) with Microsoft SMTP Server (version=TLS1_2,
+ 2025 02:34:07 -0600
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE212.ent.ti.com
+ (10.64.6.70) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Tue, 30 Dec 2025 02:34:00 -0600
+ Transport; Tue, 30 Dec 2025 02:34:07 -0600
 Received: from ws.dhcp.ti.com (ws.dhcp.ti.com [172.24.233.149])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5BU8WL9h579464;
-	Tue, 30 Dec 2025 02:33:54 -0600
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5BU8WL9i579464;
+	Tue, 30 Dec 2025 02:34:00 -0600
 From: Rishikesh Donadkar <r-donadkar@ti.com>
 To: <jai.luthra@linux.dev>, <laurent.pinchart@ideasonboard.com>,
 	<mripard@kernel.org>
@@ -91,9 +91,9 @@ CC: <r-donadkar@ti.com>, <y-abhilashchandra@ti.com>, <devarsht@ti.com>,
 	<sjoerd@collabora.com>, <dan.carpenter@linaro.org>,
 	<hverkuil+cisco@kernel.org>, <linux-kernel@vger.kernel.org>,
 	<linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>
-Subject: [PATCH v9 14/19] media: ti: j721e-csi2rx: Submit all available buffers
-Date: Tue, 30 Dec 2025 14:02:15 +0530
-Message-ID: <20251230083220.2405247-15-r-donadkar@ti.com>
+Subject: [PATCH v9 15/19] media: ti: j721e-csi2rx: Change the drain architecture for multistream
+Date: Tue, 30 Dec 2025 14:02:16 +0530
+Message-ID: <20251230083220.2405247-16-r-donadkar@ti.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251230083220.2405247-1-r-donadkar@ti.com>
 References: <20251230083220.2405247-1-r-donadkar@ti.com>
@@ -108,155 +108,299 @@ Content-Type: text/plain
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PEPF0000009A:EE_|SJ0PR10MB5696:EE_
-X-MS-Office365-Filtering-Correlation-Id: c6d9869f-ac4a-4648-c4c7-08de477e3100
+X-MS-TrafficTypeDiagnostic: BN1PEPF00004682:EE_|PH0PR10MB5658:EE_
+X-MS-Office365-Filtering-Correlation-Id: 955f5d6f-59cb-46e9-74d0-08de477e352c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|82310400026|7416014|376014|36860700013;
+	BCL:0;ARA:13230040|36860700013|376014|7416014|82310400026|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?ZCiK/+deNzmH098NqoRvUyIOQkvdo7Klw8M43WFlAiPXMi2Vda1jtg4RiNmk?=
- =?us-ascii?Q?eq7t7hI9LSBnj67CQnJANNDEI6DS2MH9iM+8VifYllKX1VPKRd6vgVAbCjYt?=
- =?us-ascii?Q?UklHQxqpEHEbFUOD0kWTuv05BrNePPyVynp8S9rNsWbdvNCtM9wBzDz/YHYH?=
- =?us-ascii?Q?0sxotzTpgQBlBjTgX4E2YUstDcvHZ5wdHWWgh+hdk1LDKOI4rUH9cTXRLUTp?=
- =?us-ascii?Q?1Rje9UPgqjR7iymgrR4VR74ucou1nRgWw6vH7+9yISXl1ZxkbouOuvKmlh6L?=
- =?us-ascii?Q?cOWuUcNY9dIK+aOUaMk16DjZN8/V0v4v2iCogCU9o8TuIp7vTrMKtGbanWJs?=
- =?us-ascii?Q?aOGdXt8xKvHBjRaqmf2uxSlBGI8z+OWXiSiLEDledUYRVUTQSZxDXvsl1Og5?=
- =?us-ascii?Q?V7nFE0u7ozD1Ye7YfgVneqG8gGMp1+ANSFy8bYYVDgddDFOh/Dy6Z24b8Jxk?=
- =?us-ascii?Q?0Nr2C0rjY/7GKsLavSVsMMOCe15xmroXokMr0cfRj809PX23aRbR8Roqu93G?=
- =?us-ascii?Q?iC8LHjCj05bhteiv/OfjdgymZ7RHC0o69CB1QtnVyKqRPcf6SdefdqRPm2ld?=
- =?us-ascii?Q?bUIM67yuGp5q3TT/vUtXIekgvHWT5z+V12zL5rNeL4JM3Ox5X+Kl+/YJn8gp?=
- =?us-ascii?Q?yr2JgYHjqx+rtKDYFCyyBLXKpkCCAjyGZDepiOPscuFCra6vTL+NI9OVxxfR?=
- =?us-ascii?Q?K1eu/HyO/4pnLhLPExr5l6flkkfy4IjzEqAhYj8WtKgi7zAjNNnU+rqnvgo8?=
- =?us-ascii?Q?JDFfBNMnKbAoDzi9WxRpq6A0ul0aLGuFz+YDQ+SdLakt20Vd+KVzLH3LVtKY?=
- =?us-ascii?Q?045JAOGgyAUIbTLQ5lye7fqKWYPA6Y9LXs00Tgunhw4sAjyaDaVzj1srLm1y?=
- =?us-ascii?Q?//CvQ1j3rYYmsnzy1GrKKX20iTY7dGvkvb9Z/dDTsw5g+x2msoIViRPpqr78?=
- =?us-ascii?Q?0Q3nxQmmcHlSa6/cmj1wGefwNl7JJNtW3pmZoVZI3MkuxqYAKbrX1WuzAsCx?=
- =?us-ascii?Q?gujOp/9AQpL017a1GSCtzRLhWkk/8Q/FXUAhXg2BwuAPeblBceMg0mzMA3CX?=
- =?us-ascii?Q?x8nQnmthNkYLi5Q4z1uhm6fPeJGMJ8ZY7pmiiMD23T1REqaYSz9ii86PzvwG?=
- =?us-ascii?Q?V2YFI56EUXP2nzRAKqMlDXqHV3nm0a7h0RGBy0RGVQ8L9L6oFQEH5jrja6JX?=
- =?us-ascii?Q?UWzPZ96K7URN1M1+ZKQKdjx9FZWc+d1poH7V8ckTPUb/hv4aXToDWooJWWkD?=
- =?us-ascii?Q?WDDf4QZ/dEjhhLdnceFlvae1FLRiknvzT+YUDp4AzrFhJmd+i5t/krzeyC7e?=
- =?us-ascii?Q?jf91PG0uyDXCsc7xl8IbcGoLOQRn7uszaw3jT2vCzcmY0Yh+ZFhrd3T/wUWh?=
- =?us-ascii?Q?Q1bd6uoXV+7IKEeIFMCkleaJVbH4zRKODEnt6wVJPeGe5qJhib7pkL9VKrLr?=
- =?us-ascii?Q?ksEmB03qhuonQtg9DMYQ5oBrynSoxZEABG+/4jDWsWMaNav0ch5QPz0W/jOQ?=
- =?us-ascii?Q?ISP5jTGkIaMma8y8mbSLnIUeRhGKBpTD+WDv/kpOCFldl2I+ws95LR2+fwyT?=
- =?us-ascii?Q?+30Mfq9kCIhBpY9l5tA=3D?=
+	=?us-ascii?Q?9WTHhe3lXLKTg4GcAUU26qM3UeZompS1edzMyiSPCCsk/elCHZb13s4IdzOK?=
+ =?us-ascii?Q?p5ewzp5aW/0GdJWWyC4N3gvZc/VacZyPabcoENPoSIOsUFf6zCRJ3x8VU/ci?=
+ =?us-ascii?Q?3OslGWgOfOkX2NLlVcB4LP9dP2srG3rMvlb+HZILGzU/Aa+S1B7RwKtEk2PP?=
+ =?us-ascii?Q?u+0l3YFMoPlJWItMftYfB/r/k8QMV0YPpTMbx0CskkKPimfXykIMgusY9oY/?=
+ =?us-ascii?Q?DqhoaqdXqrDVwTmMx+cUXCyv7moN8ERlQz2yi956/XBI4VTefwPx8+2lpYct?=
+ =?us-ascii?Q?xwIivk11PUfEsgxZ2htSt0BNlkSax7/hafFEM6t8CV/BkeyUhVaPGs0M3i5S?=
+ =?us-ascii?Q?GkxBj2AuNzhK1omy5hwHjnFSOUvIo9oq2zCw8wafOyOHJHKSw4ZkNWqGoqeU?=
+ =?us-ascii?Q?L+07sFaKxX6Cfj+vj8GCaWMJFd5W01fGUkY3DBGs7gAc3wXIfifjoFDz314m?=
+ =?us-ascii?Q?ldzUNh07p6L9XpfMdsoivoFOScdS2i06A6Jj+ASLMO0aCkPVwjO/miEhjFLr?=
+ =?us-ascii?Q?5wJ61n1/q5uU6Hsy9CqtUFPcxcKix+eHCrCRZbaZADMEuRmARll4ohkLYmOV?=
+ =?us-ascii?Q?cF8wYqS4M7+lpBiL61DNwGeSsKfMP5JOQ7ZnmaBND2qDV4IHeGSwSpJHnDS1?=
+ =?us-ascii?Q?5nqRCsVxIdgA8aMtTfZYz8PYkFUJXcGhb49zlcFqg3UAn8cehVE/5YFK14Gu?=
+ =?us-ascii?Q?+F8xvcY3hDICvUL8EH4etsBvFvvFUm3pz5N0uFinM+bS+V7p8s+/M92afd54?=
+ =?us-ascii?Q?lYc1Hq/QyuwLpiGXnsRUTK8YlHvVxNpJ+0vSETcndgjdCk3U35gOfhHWeg9y?=
+ =?us-ascii?Q?Dm8R8/EG8wcseMl4BdzGApy5afBeh/OOqFJE0xWaucG5p2fF8YVbHfHDXXkj?=
+ =?us-ascii?Q?aAS8uwwMMLwYII1uadn5YxTl3i8QWi2r5pcJ8Ypw0/0RhVU4nH2LXHwiUuF7?=
+ =?us-ascii?Q?YuChvg3TtW+QpFwPSByYli4BKH4fi2u3SqZCT0UxvHQh39vWNlM++MYumpdL?=
+ =?us-ascii?Q?k9Q9EDqseThSbq0K7lf89y38llFnzJkj8xo0EO9U4nPyRPasuF5ZOr4XV0IA?=
+ =?us-ascii?Q?I6tIu7aQuVfmRwTVKWdnJTE6PHlB477GlRsTv9YgHKbFQgWeXtDtmzbTqPAa?=
+ =?us-ascii?Q?V5rjaASbnFAyjPk1ZNbuBBL4bitm2OI73XcKOyB615auKVftWly4PL7In9As?=
+ =?us-ascii?Q?Omn14EpVK3efDHxdmwNpu7OYBhIu8HYBBdxSwEy2Pxq0t+OmJ8KbM75cO2N5?=
+ =?us-ascii?Q?78v6qqN7/xs6WHEswAhJTYUrGAtUb0Ew3h5RE9N8NhoICXCpH6ID7DSTqAjN?=
+ =?us-ascii?Q?tz3DiuwcupIqSyBoBVVNQl+MHWS0srLTGrvGiSLWaP6v2hfaH4aXxDNXgZ6L?=
+ =?us-ascii?Q?i5M68dpjehjfkjsXm76KDGSBDpjo1/7kDv77QVa1OsLUnPjUi/Y3+SFgt+Wp?=
+ =?us-ascii?Q?2gtBXm+5MJTEs+KKGOW+WZfjU6zs8rxX5ewc0XePyC5BFxku11il0MD+2BKo?=
+ =?us-ascii?Q?6eJY/xAR79QK1iMgRoDgyz29Ks2BDBPFDRzbbJ1em/VkyFEPkhd2suQhFB8x?=
+ =?us-ascii?Q?VPYC6v9dQr0X0FiA9Z8=3D?=
 X-Forefront-Antispam-Report:
-	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(7416014)(376014)(36860700013);DIR:OUT;SFP:1101;
+	CIP:198.47.21.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet200.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(36860700013)(376014)(7416014)(82310400026)(1800799024);DIR:OUT;SFP:1101;
 X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Dec 2025 08:34:04.5890
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Dec 2025 08:34:11.5519
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c6d9869f-ac4a-4648-c4c7-08de477e3100
+X-MS-Exchange-CrossTenant-Network-Message-Id: 955f5d6f-59cb-46e9-74d0-08de477e352c
 X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.194];Helo=[flwvzet200.ext.ti.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	CH2PEPF0000009A.namprd02.prod.outlook.com
+	BN1PEPF00004682.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB5696
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB5658
 
-From: Jai Luthra <j-luthra@ti.com>
+On buffer starvation the DMA is marked IDLE, and the stale data in the
+internal FIFOs gets drained only on the next VIDIOC_QBUF call from the
+userspace. This approach works fine for a single stream case.
 
-We already make sure to submit all available buffers to DMA in each DMA
-completion callback.
+But in multistream scenarios, buffer starvation for one stream i.e. one
+virtual channel, can block the shared HW FIFO of the CSI2RX IP. This can
+stall the pipeline for all other virtual channels, even if buffers are
+available for them.
 
-Move that logic in a separate function, and use it during stream start
-as well, as most application queue all their buffers before stream on.
+This patch introduces a new architecture, that continuously drains data
+from the shared HW FIFO into a small (32KiB) buffer if no buffers are made
+available to the driver from the userspace. This ensures independence
+between different streams, where a slower downstream element for one
+camera does not block streaming for other cameras.
 
-Signed-off-by: Jai Luthra <j-luthra@ti.com>
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Additionally, after a drain is done for a VC, the next frame will be a
+partial frame, as a portion of its data will have already been drained
+before a valid buffer is queued by user space to the driver.
+
+Use wait for completion barrier to make sure the shared hardware FIFO
+is cleared of the data at the end of stream after the source has stopped
+sending data.
+
+Reviewed-by: Jai Luthra <jai.luthra@ideasonboard.com>
 Reviewed-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
-Co-developed-by: Rishikesh Donadkar <r-donadkar@ti.com>
 Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
 ---
- .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 42 +++++++++++--------
- 1 file changed, 24 insertions(+), 18 deletions(-)
+ .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 112 ++++++++----------
+ 1 file changed, 50 insertions(+), 62 deletions(-)
 
 diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-index 4a063364f893e..fa6152464d4b6 100644
+index fa6152464d4b6..e713293696eb1 100644
 --- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
 +++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-@@ -672,11 +672,32 @@ static int ti_csi2rx_drain_dma(struct ti_csi2rx_ctx *ctx)
- 	return ret;
+@@ -82,7 +82,6 @@ struct ti_csi2rx_buffer {
+ 
+ enum ti_csi2rx_dma_state {
+ 	TI_CSI2RX_DMA_STOPPED,	/* Streaming not started yet. */
+-	TI_CSI2RX_DMA_IDLE,	/* Streaming but no pending DMA operation. */
+ 	TI_CSI2RX_DMA_ACTIVE,	/* Streaming and pending DMA operation. */
+ };
+ 
+@@ -109,6 +108,7 @@ struct ti_csi2rx_ctx {
+ 	struct v4l2_format		v_fmt;
+ 	struct ti_csi2rx_dma		dma;
+ 	struct media_pad		pad;
++	struct completion		drain_complete;
+ 	u32				sequence;
+ 	u32				idx;
+ 	u32				vc;
+@@ -251,6 +251,10 @@ static const struct ti_csi2rx_fmt ti_csi2rx_formats[] = {
+ static int ti_csi2rx_start_dma(struct ti_csi2rx_ctx *ctx,
+ 			       struct ti_csi2rx_buffer *buf);
+ 
++/* Forward declarations needed by ti_csi2rx_drain_callback. */
++static int ti_csi2rx_drain_dma(struct ti_csi2rx_ctx *ctx);
++static int ti_csi2rx_dma_submit_pending(struct ti_csi2rx_ctx *ctx);
++
+ static const struct ti_csi2rx_fmt *find_format_by_fourcc(u32 pixelformat)
+ {
+ 	unsigned int i;
+@@ -617,9 +621,32 @@ static void ti_csi2rx_setup_shim(struct ti_csi2rx_ctx *ctx)
+ 
+ static void ti_csi2rx_drain_callback(void *param)
+ {
+-	struct completion *drain_complete = param;
++	struct ti_csi2rx_ctx *ctx = param;
++	struct ti_csi2rx_dma *dma = &ctx->dma;
++	unsigned long flags;
++
++	spin_lock_irqsave(&dma->lock, flags);
++
++	if (dma->state == TI_CSI2RX_DMA_STOPPED) {
++		complete(&ctx->drain_complete);
++		spin_unlock_irqrestore(&dma->lock, flags);
++		return;
++	}
+ 
+-	complete(drain_complete);
++	/*
++	 * If dma->queue is empty, it indicates that no buffer has been
++	 * provided by user space. In this case, initiate a transactions
++	 * to drain the DMA. Since one drain of size DRAIN_BUFFER_SIZE
++	 * will be done here, the subsequent frame will be a
++	 * partial frame, with a size of frame_size - DRAIN_BUFFER_SIZE
++	 */
++	if (list_empty(&dma->queue)) {
++		if (ti_csi2rx_drain_dma(ctx))
++			dev_warn(ctx->csi->dev, "DMA drain failed\n");
++	} else {
++		ti_csi2rx_dma_submit_pending(ctx);
++	}
++	spin_unlock_irqrestore(&dma->lock, flags);
  }
  
-+static int ti_csi2rx_dma_submit_pending(struct ti_csi2rx_ctx *ctx)
-+{
-+	struct ti_csi2rx_dma *dma = &ctx->dma;
-+	struct ti_csi2rx_buffer *buf;
-+	int ret = 0;
-+
-+	/* If there are more buffers to process then start their transfer. */
-+	while (!list_empty(&dma->queue)) {
-+		buf = list_entry(dma->queue.next, struct ti_csi2rx_buffer, list);
-+		ret = ti_csi2rx_start_dma(ctx, buf);
-+		if (ret) {
-+			dev_err(ctx->csi->dev,
-+				"Failed to queue the next buffer for DMA\n");
-+			vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
-+			list_del(&buf->list);
-+		} else {
-+			list_move_tail(&buf->list, &dma->submitted);
-+		}
-+	}
-+	return ret;
-+}
-+
- static void ti_csi2rx_dma_callback(void *param)
+ /*
+@@ -637,12 +664,9 @@ static int ti_csi2rx_drain_dma(struct ti_csi2rx_ctx *ctx)
  {
- 	struct ti_csi2rx_buffer *buf = param;
- 	struct ti_csi2rx_ctx *ctx = buf->ctx;
--	struct ti_csi2rx_dev *csi = ctx->csi;
- 	struct ti_csi2rx_dma *dma = &ctx->dma;
- 	unsigned long flags;
+ 	struct ti_csi2rx_dev *csi = ctx->csi;
+ 	struct dma_async_tx_descriptor *desc;
+-	struct completion drain_complete;
+ 	dma_cookie_t cookie;
+ 	int ret;
  
-@@ -693,18 +714,7 @@ static void ti_csi2rx_dma_callback(void *param)
- 	vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
- 	list_del(&buf->list);
- 
--	/* If there are more buffers to process then start their transfer. */
--	while (!list_empty(&dma->queue)) {
--		buf = list_entry(dma->queue.next, struct ti_csi2rx_buffer, list);
+-	init_completion(&drain_complete);
 -
--		if (ti_csi2rx_start_dma(ctx, buf)) {
--			dev_err(csi->dev, "Failed to queue the next buffer for DMA\n");
--			list_del(&buf->list);
--			vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
--		} else {
--			list_move_tail(&buf->list, &dma->submitted);
--		}
--	}
-+	ti_csi2rx_dma_submit_pending(ctx);
- 
- 	if (list_empty(&dma->submitted))
- 		dma->state = TI_CSI2RX_DMA_IDLE;
-@@ -1143,7 +1153,6 @@ static int ti_csi2rx_sd_enable_streams(struct v4l2_subdev *sd,
- 	struct ti_csi2rx_ctx *ctx = &csi->ctx[pad - TI_CSI2RX_PAD_FIRST_SOURCE];
- 	struct ti_csi2rx_dma *dma = &ctx->dma;
- 	struct media_pad *remote_pad;
--	struct ti_csi2rx_buffer *buf;
- 	const struct ti_csi2rx_fmt *fmt;
- 	unsigned long flags;
- 	u64 sink_streams;
-@@ -1170,16 +1179,13 @@ static int ti_csi2rx_sd_enable_streams(struct v4l2_subdev *sd,
- 	ctx->sequence = 0;
- 
- 	spin_lock_irqsave(&dma->lock, flags);
--	buf = list_entry(dma->queue.next, struct ti_csi2rx_buffer, list);
- 
--	ret = ti_csi2rx_start_dma(ctx, buf);
-+	ret = ti_csi2rx_dma_submit_pending(ctx);
- 	if (ret) {
--		dev_err(csi->dev, "Failed to start DMA: %d\n", ret);
- 		spin_unlock_irqrestore(&dma->lock, flags);
- 		return ret;
+ 	desc = dmaengine_prep_slave_single(ctx->dma.chan, csi->drain.paddr,
+ 					   csi->drain.len, DMA_DEV_TO_MEM,
+ 					   DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
+@@ -652,7 +676,7 @@ static int ti_csi2rx_drain_dma(struct ti_csi2rx_ctx *ctx)
  	}
  
--	list_move_tail(&buf->list, &dma->submitted);
- 	dma->state = TI_CSI2RX_DMA_ACTIVE;
+ 	desc->callback = ti_csi2rx_drain_callback;
+-	desc->callback_param = &drain_complete;
++	desc->callback_param = ctx;
+ 
+ 	cookie = dmaengine_submit(desc);
+ 	ret = dma_submit_error(cookie);
+@@ -661,13 +685,6 @@ static int ti_csi2rx_drain_dma(struct ti_csi2rx_ctx *ctx)
+ 
+ 	dma_async_issue_pending(ctx->dma.chan);
+ 
+-	if (!wait_for_completion_timeout(&drain_complete,
+-					 msecs_to_jiffies(DRAIN_TIMEOUT_MS))) {
+-		dmaengine_terminate_sync(ctx->dma.chan);
+-		dev_dbg(csi->dev, "DMA transfer timed out for drain buffer\n");
+-		ret = -ETIMEDOUT;
+-		goto out;
+-	}
+ out:
+ 	return ret;
+ }
+@@ -716,9 +733,11 @@ static void ti_csi2rx_dma_callback(void *param)
+ 
+ 	ti_csi2rx_dma_submit_pending(ctx);
+ 
+-	if (list_empty(&dma->submitted))
+-		dma->state = TI_CSI2RX_DMA_IDLE;
+-
++	if (list_empty(&dma->submitted)) {
++		if (ti_csi2rx_drain_dma(ctx))
++			dev_warn(ctx->csi->dev,
++				 "DMA drain failed on one of the transactions\n");
++	}
+ 	spin_unlock_irqrestore(&dma->lock, flags);
+ }
+ 
+@@ -754,6 +773,7 @@ static int ti_csi2rx_start_dma(struct ti_csi2rx_ctx *ctx,
+ static void ti_csi2rx_stop_dma(struct ti_csi2rx_ctx *ctx)
+ {
+ 	struct ti_csi2rx_dma *dma = &ctx->dma;
++	struct ti_csi2rx_dev *csi = ctx->csi;
+ 	enum ti_csi2rx_dma_state state;
+ 	unsigned long flags;
+ 	int ret;
+@@ -763,6 +783,8 @@ static void ti_csi2rx_stop_dma(struct ti_csi2rx_ctx *ctx)
+ 	dma->state = TI_CSI2RX_DMA_STOPPED;
  	spin_unlock_irqrestore(&dma->lock, flags);
  
++	init_completion(&ctx->drain_complete);
++
+ 	if (state != TI_CSI2RX_DMA_STOPPED) {
+ 		/*
+ 		 * Normal DMA termination does not clean up pending data on
+@@ -771,11 +793,20 @@ static void ti_csi2rx_stop_dma(struct ti_csi2rx_ctx *ctx)
+ 		 * enforced before terminating DMA.
+ 		 */
+ 		ret = ti_csi2rx_drain_dma(ctx);
+-		if (ret && ret != -ETIMEDOUT)
++		if (ret)
+ 			dev_warn(ctx->csi->dev,
+ 				 "Failed to drain DMA. Next frame might be bogus\n");
+ 	}
+ 
++	/* We wait for the drain to complete so that the stream stops
++	 * cleanly, making sure the shared hardware FIFO is cleared of
++	 * data from the current stream. No more data will be coming from
++	 * the source after this.
++	 */
++	if (!wait_for_completion_timeout(&ctx->drain_complete,
++					 msecs_to_jiffies(DRAIN_TIMEOUT_MS)))
++		dev_dbg(csi->dev, "DMA transfer timed out for drain buffer\n");
++
+ 	ret = dmaengine_terminate_sync(ctx->dma.chan);
+ 	if (ret)
+ 		dev_err(ctx->csi->dev, "Failed to stop DMA: %d\n", ret);
+@@ -838,57 +869,14 @@ static void ti_csi2rx_buffer_queue(struct vb2_buffer *vb)
+ 	struct ti_csi2rx_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
+ 	struct ti_csi2rx_buffer *buf;
+ 	struct ti_csi2rx_dma *dma = &ctx->dma;
+-	bool restart_dma = false;
+ 	unsigned long flags = 0;
+-	int ret;
+ 
+ 	buf = container_of(vb, struct ti_csi2rx_buffer, vb.vb2_buf);
+ 	buf->ctx = ctx;
+ 
+ 	spin_lock_irqsave(&dma->lock, flags);
+-	/*
+-	 * Usually the DMA callback takes care of queueing the pending buffers.
+-	 * But if DMA has stalled due to lack of buffers, restart it now.
+-	 */
+-	if (dma->state == TI_CSI2RX_DMA_IDLE) {
+-		/*
+-		 * Do not restart DMA with the lock held because
+-		 * ti_csi2rx_drain_dma() might block for completion.
+-		 * There won't be a race on queueing DMA anyway since the
+-		 * callback is not being fired.
+-		 */
+-		restart_dma = true;
+-		dma->state = TI_CSI2RX_DMA_ACTIVE;
+-	} else {
+-		list_add_tail(&buf->list, &dma->queue);
+-	}
++	list_add_tail(&buf->list, &dma->queue);
+ 	spin_unlock_irqrestore(&dma->lock, flags);
+-
+-	if (restart_dma) {
+-		/*
+-		 * Once frames start dropping, some data gets stuck in the DMA
+-		 * pipeline somewhere. So the first DMA transfer after frame
+-		 * drops gives a partial frame. This is obviously not useful to
+-		 * the application and will only confuse it. Issue a DMA
+-		 * transaction to drain that up.
+-		 */
+-		ret = ti_csi2rx_drain_dma(ctx);
+-		if (ret && ret != -ETIMEDOUT)
+-			dev_warn(ctx->csi->dev,
+-				 "Failed to drain DMA. Next frame might be bogus\n");
+-
+-		spin_lock_irqsave(&dma->lock, flags);
+-		ret = ti_csi2rx_start_dma(ctx, buf);
+-		if (ret) {
+-			vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
+-			dma->state = TI_CSI2RX_DMA_IDLE;
+-			spin_unlock_irqrestore(&dma->lock, flags);
+-			dev_err(ctx->csi->dev, "Failed to start DMA: %d\n", ret);
+-		} else {
+-			list_add_tail(&buf->list, &dma->submitted);
+-			spin_unlock_irqrestore(&dma->lock, flags);
+-		}
+-	}
+ }
+ 
+ static int ti_csi2rx_get_stream(struct ti_csi2rx_ctx *ctx)
 -- 
 2.34.1
 
