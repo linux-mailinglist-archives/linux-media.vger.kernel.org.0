@@ -1,243 +1,298 @@
-Return-Path: <linux-media+bounces-49712-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49713-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4762ECE98AA
-	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 12:33:57 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C683CE9A58
+	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 13:24:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C252D3021049
-	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 11:33:51 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3D22630155BE
+	for <lists+linux-media@lfdr.de>; Tue, 30 Dec 2025 12:24:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A58CC29CB3A;
-	Tue, 30 Dec 2025 11:33:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 115532ED159;
+	Tue, 30 Dec 2025 12:24:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IOk7k8w0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vduaqgsa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03EAB322A;
-	Tue, 30 Dec 2025 11:33:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E7502ED161;
+	Tue, 30 Dec 2025 12:24:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767094430; cv=none; b=RHYIp7YO2KRFI7thLXeqfBNIy4pjQVVJ9H70Cw1SG+yYp3VePOovXabOGJ2IDr72pe0jIRIBxwehjgPF3Ai0JFwk63zXSQ6iYqIhwW4pYpLhdgOsWdfVic0S919EoRocAAykRIWl+YQn9aWjODteQ0HHyDyPiDWoh1l23ip95Xo=
+	t=1767097491; cv=none; b=RDsw9LqfLBsl4oWumiZ0HAX77IBe0rWoi0wMEvp+Q6pvbvvRl/QVGuzyLI/b8CBIIaQ1djhHeMmBVmBrKoqEFMZUoww7o7rsLxooY9Xv3zQBD1cXvJC6QLbtsq/HmhedT4MfJ4+ufFUvqGfSvfQQSq93NSwVnqTxtVW4ptDRnfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767094430; c=relaxed/simple;
-	bh=8Vy8cVqw6HmNeCJEQEZyD/S5VG8nBCUbYU8MQraPgIA=;
+	s=arc-20240116; t=1767097491; c=relaxed/simple;
+	bh=6+6xt+LiW38aHxA6iMQZ1KurJ98AJNKevf3nxZTuUTU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rCdawgjld7YnI1fxYWqnY6Wu+LWQHQMBFAiM8w68mU8JQO13HQwYoja9JEgvBIIsBUXiEaKabqckA4Qldbr7qXI5gla/+dGG/EdIUxuIrCDf8rBMcLT6J5owzdIObbZvx6OSxGiATt3HNRDlHLPG2igJrSnGdpE0Gc1OrDaBcRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IOk7k8w0; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=s05cQC9tjE3HPs/IO+jEOAx5CmFGlnwEfayU2qh1AUm1Tpydz49AWc4ywbHX3d1ENc8gc/7seN9IYf+YHUIfxOiiW71YG8KVwF5nY6Wi1hdbX4OHdoqly7KxR+kg93QRKtKVYZ3f86m/NHpRIpOC0LqiSX/9tui8dWZM6Dg2k2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vduaqgsa; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767094428; x=1798630428;
+  t=1767097490; x=1798633490;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=8Vy8cVqw6HmNeCJEQEZyD/S5VG8nBCUbYU8MQraPgIA=;
-  b=IOk7k8w0W3C3Qkmr6R7aUtb1cTARe9AO1MsdO4fhOi54tp+HsGFHmnHa
-   Dgu4aFiMqxQZ1pqXt+nG5bL8y2rsSLPQBWHJZZW4GsRtEfpRrWqY4L4Vh
-   35bRwSBuBhLCSRdyoCPTgXbpjfYBX7jQ/vyQpa2DWtYArR3+wbbqt+enW
-   58LNRh/MBiaQaeDMV3C8hJNyOC5iD30c44d6wpPnC6ED4SHjE5xYdF0ba
-   KwCJMudA/T8JA3EcEx7pxGUXUKr5MCY6V9BK3Fd3xvxyOjR5fsYDR9yDG
-   +QwQsp+34JdIvKFSSECyn103dwdp4hwIDGi1RoaC7racxodCUsFM6uB4F
+   mime-version:in-reply-to;
+  bh=6+6xt+LiW38aHxA6iMQZ1KurJ98AJNKevf3nxZTuUTU=;
+  b=VduaqgsaCVYXKkOueR6gisWXEHsX8Q5jJmLQp0OUC7+0EawXrLD5Ktmm
+   SF7ImJQolZKbRE5zQEYJ+U0rxEwV2S469rZm9ieqS8bMqA+Fp/dfj51fm
+   w6fH0tpdalEA+QI+1k7ZF+D+KGelZb1b0r3lPlUrbn8P4d+zqgVR9H5lY
+   I/TmFgGZyDQMlYziScecfKXj3sryYUZALwnNGDPEeSK9z2/kHecS2Tl9I
+   2x7lcBI2Ng9C0BLWQ0LdugCmEfVyAsXmfxQozRD7YSNZ4DfyIHTK94sKQ
+   KJTq3IL52dY91rIdnW9tK/va17X2wFg75fOWUIwAX7tZRy7wc0yUbjabe
    A==;
-X-CSE-ConnectionGUID: IekCfUR9Rhea7kRXLPRQlA==
-X-CSE-MsgGUID: kJ4S7ixGRPy3vzYMV1puQQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11656"; a="91337751"
+X-CSE-ConnectionGUID: 5A6+n8MiTIuq/V6XSSzeoA==
+X-CSE-MsgGUID: ymFNWqlLTgOppx0jw+VhZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11656"; a="68730433"
 X-IronPort-AV: E=Sophos;i="6.21,188,1763452800"; 
-   d="scan'208";a="91337751"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 03:33:48 -0800
-X-CSE-ConnectionGUID: u01a9WM5TB+SAHPUivj5Lg==
-X-CSE-MsgGUID: gHzmzJXZTjCb5nWRS0AoTw==
+   d="scan'208";a="68730433"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 04:24:47 -0800
+X-CSE-ConnectionGUID: xMcXjUpWRgG9vZduR4k1Ug==
+X-CSE-MsgGUID: +X2p9811TxejztLvgvSQyA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,188,1763452800"; 
-   d="scan'208";a="205676778"
+   d="scan'208";a="224701204"
 Received: from egrumbac-mobl6.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.96])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 03:33:45 -0800
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 04:24:42 -0800
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 60C26121D81;
-	Tue, 30 Dec 2025 13:33:53 +0200 (EET)
-Date: Tue, 30 Dec 2025 13:33:53 +0200
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 2186F121D81;
+	Tue, 30 Dec 2025 14:24:50 +0200 (EET)
+Date: Tue, 30 Dec 2025 14:24:50 +0200
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+To: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
+Cc: robh@kernel.org, krzk+dt@kernel.org,
+	Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Wenmeng Liu <quic_wenmliu@quicinc.com>
-Subject: Re: [PATCH] media: i2c: imx412: Extend the power-on waiting time
-Message-ID: <aVO4oX2I-FEuR4WS@kekkonen.localdomain>
-References: <20251222-imx412-v1-1-51c7e724b376@oss.qualcomm.com>
- <aUkLKECix4vohyTB@kekkonen.localdomain>
- <bbf6dbc9-42b5-4dd6-9346-c8f38e460709@oss.qualcomm.com>
- <CAPY8ntD9GO_Y13K=Ko5kxz-o1edaocJP=Ns50rUheJP0iJ9fNg@mail.gmail.com>
- <ffa7b849-51da-42f7-be1d-c3c7e1903e6e@oss.qualcomm.com>
- <CAPY8ntDAiJcJiixo2mTqcb898UC3AR-+NVPFPS6EtrGoEWKewg@mail.gmail.com>
- <88bcd810-872e-4705-91c0-df2a35f4a3b9@oss.qualcomm.com>
+	Conor Dooley <conor+dt@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Dongcheng Yan <dongcheng.yan@intel.com>,
+	Svyatoslav Ryhel <clamor95@gmail.com>,
+	Jingjing Xiong <jingjing.xiong@intel.com>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 2/2] media: i2c: add os05b10 image sensor driver
+Message-ID: <aVPEkhP2587xcF78@kekkonen.localdomain>
+References: <20251219084526.22841-1-himanshu.bhavani@siliconsignals.io>
+ <20251219084526.22841-3-himanshu.bhavani@siliconsignals.io>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <88bcd810-872e-4705-91c0-df2a35f4a3b9@oss.qualcomm.com>
+In-Reply-To: <20251219084526.22841-3-himanshu.bhavani@siliconsignals.io>
 
-Hi Wenmeng,
+Hi Himanshu,
 
-On Tue, Dec 23, 2025 at 02:19:18PM +0800, Wenmeng Liu wrote:
-> 
-> 
-> On 12/22/2025 10:16 PM, Dave Stevenson wrote:
-> > Hi Wenmeng
-> > 
-> > On Mon, 22 Dec 2025 at 12:20, Wenmeng Liu <wenmeng.liu@oss.qualcomm.com> wrote:
-> > > 
-> > > 
-> > > 
-> > > On 12/22/2025 8:11 PM, Dave Stevenson wrote:
-> > > > Hi Wenmeng & Sakari
-> > > > 
-> > > > On Mon, 22 Dec 2025 at 09:35, Wenmeng Liu <wenmeng.liu@oss.qualcomm.com> wrote:
-> > > > > 
-> > > > > 
-> > > > > 
-> > > > > 
-> > > > > > > 
-> > > > > > > The Arducam IMX577 module requires a longer reset time than the 1000µs
-> > > > > > > configured in the current driver. Increase the wait time after power-on
-> > > > > > > to ensure proper initialization.
-> > > > > > 
-> > > > > > Is this somehow specific to the Arducam module? If so, what's there in the
-> > > > > > module that requires this?
-> > > > > > 
-> > > > > 
-> > > > > 
-> > > > > Yes, This issue occurred on the Arducam 22-pin IMX577 module.
-> > > > > I have tried changing the sequence of regulator, reset, and clock, and
-> > > > > found that this module must wait a sufficient amount of time after reset
-> > > > > before registers can be written (10 ms is a safe duration). This issue
-> > > > > did not occur when using other IMX577 modules.
-> > > > 
-> > > > Is it the probe that fails, or starting streaming?
-> > > > 
-> > > > Google has found me a datasheet for IMX577 at [1]. I'm hoping you have
-> > > > an official datasheet, so do correct the following if that has any
-> > > > updates.
-> > > > Section 7-2-2 on page 30 for the startup sequence.
-> > > > 
-> > > > The sequence is meant to be regulators, INCK, and then XCLR. The
-> > > > driver does XCLR before clock, so that would appear to be wrong.
-> > > > 
-> > > > It also states that T6 as the time from XCLR to being able to read the
-> > > > version register is min 0.6ms, but T7 as the time before you can send
-> > > > "Streaming Commmand" is min 8ms "To complete reading all parameters
-> > > > from NVM".
-> > > > That would be a difference between probe and start_streaming, although
-> > > > admittedly sending the mode and control setup I2C commands will take
-> > > > up some of that time.
-> > > > 
-> > > > Plausibly the other set of modules don't have the NVM programmed and
-> > > > hence they are ready sooner. Either way I'd say that does mean the
-> > > > driver currently isn't following the defined power up sequence, and
-> > > > the patch looks reasonable for IMX577.
-> > > > However as this is a shared driver does IMX412 have this restriction
-> > > > too? I can't find a datasheet for that one to check. For the sake of
-> > > > ~9ms it's not going to make a huge difference though.
-> > > > 
-> > > >     Dave
-> > > > 
-> > > > [1] https://en.sunnywale.com/uploadfile/2021/1222/IMX577-AACK-C(Awin).pdf
-> > > > 
-> > > 
-> > > Hi Dave,
-> > > 
-> > > this issue appears in the write register when streamon
-> > > imx412_write_regs.  poweron->streamon.
-> > > 
-> > > static int imx412_start_streaming(struct imx412 *imx412)
-> > > {
-> > >           const struct imx412_reg_list *reg_list;
-> > >           int ret;
-> > > 
-> > >           /* Write sensor mode registers */
-> > >           reg_list = &imx412->cur_mode->reg_list;
-> > >           ret = imx412_write_regs(imx412, reg_list->regs,
-> > >                                   reg_list->num_of_regs);
-> > >           if (ret) {
-> > >                   dev_err(imx412->dev, "fail to write initial registers\n");
-> > >                   return ret;
-> > >           }
-> > > 
-> > >           /* Setup handler will write actual exposure and gain */
-> > >           ret =  __v4l2_ctrl_handler_setup(imx412->sd.ctrl_handler);
-> > >           if (ret) {
-> > >                   dev_err(imx412->dev, "fail to setup handler\n");
-> > >                   return ret;
-> > >           }
-> > > 
-> > >           /* Delay is required before streaming*/
-> > >           usleep_range(7400, 8000);
-> > > 
-> > >           /* Start streaming */
-> > >           ret = imx412_write_reg(imx412, IMX412_REG_MODE_SELECT,
-> > >                                  1, IMX412_MODE_STREAMING);
-> > >           if (ret) {
-> > >                   dev_err(imx412->dev, "fail to start streaming\n");
-> > >                   return ret;
-> > >           }
-> > > 
-> > >           return 0;
-> > > }
-> > >   > but T7 as the time before you can send "Streaming Commmand" is min 8ms "
-> > > I think the usleep_range(7400, 8000) represents the 8ms duration
-> > > required by T7.
-> > 
-> > I'd missed that one.
-> > If you've delayed for 10-12ms between coming out of reset and sending
-> > the first command, then does the Arducam module still require another
-> > 8ms here, or can that be removed as you've already complied with T7?
-> > 
-> > Have you asked Arducam as to why their module takes longer? I can't
-> > find an IMX577 module listed on their product pages so presumably it's
-> > discontinued. There are a few links for a Luxonis Oak DepthAI board
-> > [1] which is made by Arducam and is using IMX577, so is it that one?
-> > Generally I've not encountered an issue with Arducam adding any weird
-> > delay circuits on their sensor boards.
-> > 
-> >    Dave
-> > 
-> > [1] https://shop.luxonis.com/products/oak-ffc-imx577-m12
-> > 
-> > > Thanks,
-> > > Wenmeng
-> > > 
-> > > 
-> 
-> Hi Dave,
-> 
-> Based on my testing, moving usleep_range(7400, 8000); to the beginning of
-> the imx412_start_streaming function allows the Arducam IMX577 module to work
-> properly. In contrast, other IMX577 sensors do not require this delay. I
-> believe this corresponds to the T7 timing requirement. I have not yet
-> confirmed this with Arducam, and I plan to compare once I receive another
-> type Arducam IMX577 sensor.
+Thanks for the set. A few comments below...
 
-Thanks for investigating this.
+On Fri, Dec 19, 2025 at 02:15:19PM +0530, Himanshu Bhavani wrote:
+> +static int os05b10_disable_streams(struct v4l2_subdev *sd,
+> +				   struct v4l2_subdev_state *state,
+> +				   u32 pad, u64 streams_mask)
+> +{
+> +	struct os05b10 *os05b10 = to_os05b10(sd);
+> +	int ret;
+> +
+> +	ret = cci_write(os05b10->cci, OS05B10_REG_CTRL_MODE,
+> +			OS05B10_MODE_STANDBY, NULL);
+> +	if (ret)
+> +		dev_err(os05b10->dev, "%s failed to set stream off\n", __func__);
 
-Have you checked how long it actually takes elsewhere (where the sensor
-works) before the mode related registers are written (and when they start
-being written) on systems where it actually works? As I²C writes require
-sleeping and depend on a process getting scheduled a large number of times,
-this might play a role here.
+I'd drop the function name here, it's obvious where this comes from. Same
+elsewhere.
 
-These patches might be useful in sensor drivers at large (but won't address
-this problem)
-<URL:https://git.retiisi.eu/?p=~sailus/linux.git;a=shortlog;h=refs/heads/pm-resume-delay>.
+> +
+> +	pm_runtime_put(os05b10->dev);
+> +
+> +	return ret;
+> +}
+> +
+> +static int os05b10_init_state(struct v4l2_subdev *sd,
+> +			      struct v4l2_subdev_state *state)
+> +{
+> +	struct v4l2_mbus_framefmt *format;
+> +	const struct os05b10_mode *mode;
+> +
+> +	/* Initialize try_fmt */
+> +	format = v4l2_subdev_state_get_format(state, 0);
+> +
+> +	mode = &supported_modes_10bit[0];
+> +	format->code = MEDIA_BUS_FMT_SBGGR10_1X10;
+> +
+> +	/* Update image pad formate */
+> +	format->width = mode->width;
+> +	format->height = mode->height;
+> +	format->field = V4L2_FIELD_NONE;
+> +	format->colorspace = V4L2_COLORSPACE_RAW;
+> +	format->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+> +	format->xfer_func = V4L2_XFER_FUNC_NONE;
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct v4l2_subdev_video_ops os05b10_video_ops = {
+> +	.s_stream = v4l2_subdev_s_stream_helper,
+> +};
+> +
+> +static const struct v4l2_subdev_pad_ops os05b10_pad_ops = {
+> +	.enum_mbus_code = os05b10_enum_mbus_code,
+> +	.get_fmt = v4l2_subdev_get_fmt,
+> +	.set_fmt = os05b10_set_pad_format,
+> +	.get_selection = os05b10_get_selection,
+> +	.enum_frame_size = os05b10_enum_frame_size,
+> +	.enable_streams = os05b10_enable_streams,
+> +	.disable_streams = os05b10_disable_streams,
+> +};
+> +
+> +static const struct v4l2_subdev_internal_ops os05b10_internal_ops = {
+> +	.init_state = os05b10_init_state,
+> +};
+> +
+> +static const struct v4l2_subdev_ops os05b10_subdev_ops = {
+> +	.video = &os05b10_video_ops,
+> +	.pad = &os05b10_pad_ops,
+> +};
+> +
+> +static const struct v4l2_ctrl_ops os05b10_ctrl_ops = {
+> +	.s_ctrl = os05b10_set_ctrl,
+> +};
+> +
+> +static int os05b10_identify_module(struct os05b10 *os05b10)
+> +{
+> +	int ret;
+> +	u64 val;
+> +
+> +	ret = cci_read(os05b10->cci, OS05B10_REG_CHIP_ID, &val, NULL);
+> +	if (ret)
+> +		return dev_err_probe(os05b10->dev, ret,
+> +				     "failed to read chip id %x\n",
+> +				     OS05B10_CHIP_ID);
+> +
+> +	if (val != OS05B10_CHIP_ID)
+> +		return dev_err_probe(os05b10->dev, -ENODEV,
+> +				     "chip id mismatch: %x!=%llx\n",
+> +				     OS05B10_CHIP_ID, val);
+> +
+> +	return 0;
+> +}
+> +
+> +static int os05b10_power_on(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct os05b10 *os05b10 = to_os05b10(sd);
+> +	unsigned long delay_us;
+> +	int ret;
+> +
+> +	/* Enable power rails */
+> +	ret = regulator_bulk_enable(ARRAY_SIZE(os05b10_supply_name),
+> +				    os05b10->supplies);
+> +	if (ret) {
+> +		dev_err(os05b10->dev, "failed to enable regulators\n");
+> +		return ret;
+> +	}
+> +
+> +	/* Enable xclk */
+> +	ret = clk_prepare_enable(os05b10->xclk);
+> +	if (ret) {
+> +		dev_err(os05b10->dev, "failed to enable clock\n");
+> +		goto err_regulator_off;
+> +	}
+> +
+> +	gpiod_set_value_cansleep(os05b10->reset_gpio, 0);
+> +
+> +	/* Delay T1 */
+> +	fsleep(5 * USEC_PER_MSEC);
+> +
+> +	/* Delay T2 (8192 cycles before SCCB/I2C access) */
+> +	delay_us = DIV_ROUND_UP(8192, OS05B10_XCLK_FREQ / 1000 / 1000);
+> +	usleep_range(delay_us, delay_us * 2);
+> +
+> +	return 0;
+> +
+> +err_regulator_off:
+> +	regulator_bulk_disable(ARRAY_SIZE(os05b10_supply_name),
+> +			       os05b10->supplies);
+> +
+> +	return ret;
+> +}
+> +
+> +static int os05b10_power_off(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct os05b10 *os05b10 = to_os05b10(sd);
+> +
+> +	gpiod_set_value_cansleep(os05b10->reset_gpio, 1);
+> +
+> +	regulator_bulk_disable(ARRAY_SIZE(os05b10_supply_name), os05b10->supplies);
+
+Can you run
+
+	$ ./scripts/checkpatch.pl --strict --max-line-length=80
+
+on the set, please?
+
+> +	clk_disable_unprepare(os05b10->xclk);
+> +
+> +	return 0;
+> +}
+> +
+> +static int os05b10_parse_endpoint(struct os05b10 *os05b10)
+> +{
+> +	struct v4l2_fwnode_endpoint bus_cfg = {
+> +		.bus_type = V4L2_MBUS_CSI2_DPHY
+> +	};
+> +	unsigned long link_freq_bitmap;
+> +	struct fwnode_handle *ep;
+> +	int ret;
+> +
+> +	ep = fwnode_graph_get_next_endpoint(dev_fwnode(os05b10->dev), NULL);
+
+Please use fwnode-graph_get_endpoint_by_id() instead.
+
+> +	if (!ep) {
+> +		dev_err(os05b10->dev, "Failed to get next endpoint\n");
+> +		return -ENXIO;
+> +	}
+> +
+> +	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
+> +	fwnode_handle_put(ep);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (bus_cfg.bus.mipi_csi2.num_data_lanes != 4) {
+> +		ret = dev_err_probe(os05b10->dev, -EINVAL,
+> +				    "only 4 data lanes are supported\n");
+> +		goto error_out;
+> +	}
+> +
+> +	ret = v4l2_link_freq_to_bitmap(os05b10->dev, bus_cfg.link_frequencies,
+> +				       bus_cfg.nr_of_link_frequencies,
+> +				       link_frequencies,
+> +				       ARRAY_SIZE(link_frequencies),
+> +				       &link_freq_bitmap);
+> +
+> +	if (ret)
+> +		dev_err(os05b10->dev, "only 600MHz frequency is available\n");
+> +
+> +error_out:
+> +	v4l2_fwnode_endpoint_free(&bus_cfg);
+> +
+> +	return ret;
+> +}
 
 -- 
 Kind regards,
