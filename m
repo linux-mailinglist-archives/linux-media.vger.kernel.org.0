@@ -1,78 +1,78 @@
-Return-Path: <linux-media+bounces-49804-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49805-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81437CEBFEB
-	for <lists+linux-media@lfdr.de>; Wed, 31 Dec 2025 13:40:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A98A1CEBFF1
+	for <lists+linux-media@lfdr.de>; Wed, 31 Dec 2025 13:41:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2B6573032AE5
-	for <lists+linux-media@lfdr.de>; Wed, 31 Dec 2025 12:40:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A96433020351
+	for <lists+linux-media@lfdr.de>; Wed, 31 Dec 2025 12:40:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F390B3168E3;
-	Wed, 31 Dec 2025 12:40:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C637310774;
+	Wed, 31 Dec 2025 12:40:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ijs1SRiR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VbcwKfHj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9487261B9D
-	for <linux-media@vger.kernel.org>; Wed, 31 Dec 2025 12:40:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA2A723D7E0
+	for <linux-media@vger.kernel.org>; Wed, 31 Dec 2025 12:40:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767184815; cv=none; b=nLzn5KUoGWKpdV53wqmkdsBs6vYNpiNzK5BMY0ZC9rVbpOGt+Xn4yc0REcuO89P0yl6gTPI88XCOrcB7Jau/qzxO1+QAZfa5qkrGU6Xmu16q5Z4hAefpfXrIgaJ2+9M38mKm6faDq9+9OuZpPSJTvAXOQ6lCfvGJX2IWVSHe5yA=
+	t=1767184855; cv=none; b=qh5o4qecFsjFDL0931rdDHClUaVN0md56T2XmAj1khgkPJiK/Euc9lryevfOYu1vd/7Krv+NaUzX3fhp6om7zUncyI7jV6Ap/Q9yvheHeE2+S+7uJCp/og3kykX0G09vrH/ay20IzUHp9iPUswrmAMF3fyWgO0NSlc2g04T3QT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767184815; c=relaxed/simple;
-	bh=QeOzoma0bEwKJTmy78B7HhWmFn2PQZkre2zLCJd9faw=;
+	s=arc-20240116; t=1767184855; c=relaxed/simple;
+	bh=bpc64xTes/6DSqbbfKw7utwCw290qXBNArmOt6zd9U8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iyduz82WYIb3yxznWPLBEsWHStEWD13nhQ7FTsaSj17MyyMV2zh+0q1raSUkDJ17a+I8cPLJ8WhkD4isSWthrUvFrhMRumH5plL1LOUygESbIMVtLdXuRn2zjQyxlAGReUMMiRhCAF+xK4Zl/DDGccB57Ec24FwkuBaDhrX2aSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ijs1SRiR; arc=none smtp.client-ip=209.85.128.182
+	 MIME-Version; b=Z83vkr8niwwLtHHRkRwFhoRazojDlKWbSI6rhOOfFQtJ+vkt5wNgVGZatwPLZ1iJ5ks1PPSnvx1Zls7L0feJfGC4gToCLHUOs9g4N5cK2doIFpOOfIjldQW4EPIkmZvZoEaTJtO23+rlDlA98zCCwzDoQsPNMIT/4gtC6Hj916s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VbcwKfHj; arc=none smtp.client-ip=209.85.128.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-78fb9a67b06so82984257b3.1
-        for <linux-media@vger.kernel.org>; Wed, 31 Dec 2025 04:40:12 -0800 (PST)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-787da30c53dso102468317b3.0
+        for <linux-media@vger.kernel.org>; Wed, 31 Dec 2025 04:40:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767184812; x=1767789612; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1767184852; x=1767789652; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xO5H5t3OeipHl8rga8srT12DcrRvTCrCfotIF69iAAk=;
-        b=Ijs1SRiRqjPK8XxiOOU/0HE30fg3eh+xa9AHpcRJb0DjflofVbJij7WwoH6rwAEKC8
-         LT9I/2a/EiEkKExo8Mc4cu9nv6FtBnAWy4VbzXKCFSG74IKlDtTVsKlHPvTA0Znm2XHT
-         gbjC0vshFnOTldB7Bd3Hy8yaFsGRE/Ibd+TZvZY5v3obkIAiQc3SGeDmSfljiEGA8F68
-         HXIv/xzaw3rozXirPf+l4QWcIOqVV3Z8EDibmiBNwCJPndTcSsSlHH5UFvN4QjkaUuuk
-         XUBoDsIECQLVC8X0lX++EEdLLPbDVpPINjFvc/2YoSRjMejU3JUoqzu6uqPVnnhOBRd7
-         i7Gw==
+        bh=MMZ9zgZdVr3pbZQDIH7NpdxYpjnjDbphEYD5vgBclQo=;
+        b=VbcwKfHjmJPyojiLD2Ehe76AtAOZ0xAOszb0e8C3Npgqv2EOB1vNL0VU5wMSzxqqoS
+         aa31X+bxkM8AQhNNvcejoYiFuG2dlYCA83aPGnXj7y9QBQcUDMhwpVcv+YBsf3XHzFfq
+         xVHWm0XbtfI2yr1DtUrywH5yKwY8nWBHl0QtcGTI92R0rWsifUkTrya6z01s6SR4Ovit
+         q/Z77f4AglJoOzr+q9ARFgYHIO0X5zzWWtfeFnh+3mhBVrEt/OE6PJ6u0P4iPIRFu1tr
+         5AoHxAJcbHhXoN6ttYiORUxrflhPh3uq6s/iJ+/uh3VbffmXRi5XDbDuIZ7fot+3/VfX
+         xC5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767184812; x=1767789612;
+        d=1e100.net; s=20230601; t=1767184852; x=1767789652;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=xO5H5t3OeipHl8rga8srT12DcrRvTCrCfotIF69iAAk=;
-        b=ZS+b3Qr+b8242z03ss467f57DU2QCUMLMFlMz6R6l+YW7br1vtYLgHPYhgIjtK6IpD
-         UePshKZ5ogPONDO5IXfEG5UneX33YXNLAvYnO031rViRDd+52tv9NAuDw6V0FmNlf6Cj
-         gmP0dlT22eIqZ3XniYCnvQInf51X5YtIkyvg9oEIdUYDxh5GQLZeh2wiTytj30S9JVPj
-         vEFijyBUm9tBtIdlgcTLsLwHUbzM2WEuX/3uw6U8cWFgkKIyT7zk9yV+jdAWXL2U+DYa
-         ewCdSi4J6XnhVnZEER/qJPtJIUKb80LWLbEEtRUvIUx0NxfUXFBr3JEWQr9EcuI9W9jq
-         0cLA==
-X-Forwarded-Encrypted: i=1; AJvYcCUEw7g4rzKtYeyL+5N/1uPjYG1HKPeCGamTA/M3L0PAI51RY0yEBAmmvSasLsgrfMt4lfNrvgvUGtp5RQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyYih/MEPJbENNlQOwCPd+hYt6wa/wr4cAXHVyYDQwFiWIoWH6n
-	WXV8sszmDodFviLgG0wnMjxQaqWWg8rbkDnqLWJdKISPFLVXVKHG6EnD
-X-Gm-Gg: AY/fxX500uM/YcCVqqKXl/bfJQzmNOnpVhELvqXrGGUnfYZAAvC7g0DUfo1vY4o2eGY
-	SbEgl83Nr/YFuKTkFi1dG+gGbd0yb+ogLnQFqm6WUm8F3hOgErm1gNWFSmW7xyYIV8jryBv5jQG
-	CNDLET2bz+b0CHiYJKPulK8cfdKu4oXkgJLCqfGR9S1gddBwCWa9BOYuB10W23RvlmBnEQOvYMi
-	LeFxSRm/eGC75t2ju4MOhvc1ADapetAQJOkDFsDgGHSL0eu1jil2mBaLqFQnigZUuSUQdZmS+6x
-	D7L3ihf8sDmBn+FQH1qcx4WDGoQHHi8Tcv+OLQamHaf4HK71FjXXUY/ziYjE9B4z5k7cS3lC3GK
-	J5FPCOOez+ZTwx5w/bM1cby++z0w/gnA25dJOBT1f7kTy9mo9cU65JnHfKcnWfkXkzU8zaVthZ7
-	gLNoqq/unBXFvAqJVfHHPtbp5PshrAOzR/FvR/xItB8GAB1SC88wnFeUDZZAfEbNj2unLbtPtrF
-	U/VfUs=
-X-Google-Smtp-Source: AGHT+IGJFWHmis9CdJXj7mgYsSVBx6L8ZVMm9aBmS3lTkz+kX5H35E381Fw8LrQh+Ej4t0OC3yedUg==
-X-Received: by 2002:a05:690c:64c4:b0:78d:6254:d162 with SMTP id 00721157ae682-78fb3f517damr306846497b3.31.1767184811814;
-        Wed, 31 Dec 2025 04:40:11 -0800 (PST)
+        bh=MMZ9zgZdVr3pbZQDIH7NpdxYpjnjDbphEYD5vgBclQo=;
+        b=XATMXLZ7188+iaC/DaajyR6DKqvEW98k+Urgup/uvc7DOWuxfnBNVcp8IqtocWgHRW
+         gQXbkg1W+1o5c+NuouB7+c1Z9vvf3jg/3IPMYbI6Afaq3GqY3PFAvCx7mQMx5ASjjymj
+         2bbtvn+IpIesyuz0gyT91A3J7dUoT30iZ1+2R+yAJYCNke3l97vX1fiGKGKotnac5Qzj
+         NuXc3IILX8yl997APBIh6zmxwRAxqA6NucNlDUMKvDLuzmc0AlzxXoiUu+pAIYhfapwX
+         LXIb9Fq7OrU+9lHNNcD70tpYXK8K1D10Bh4rH7qzF0hrwMuti+b2w3sfqdXylxLWhUa6
+         8CZw==
+X-Forwarded-Encrypted: i=1; AJvYcCVEqxuW7j2wAY8sK5nAM7Lab0u6njWiqJvNrGxV7b+BaArCzjH4+EjTYQdY62qPNd9/fUsbZpBUXrDqJA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxMQCX33StH21Iq76D+MGF/uxQrr9it6nekvkOf/VQ2qDB0AcAa
+	Ohd/PxM3qwXtyMw9Ogw8UKrZzo5wI4Pcc6F3utxVOwYUqdP9PjMeiVYs
+X-Gm-Gg: AY/fxX7b9PviEwjl3CfIdntlt1L9pyQ8uOcto2GU3BbvSe/1bioJVlYH5arUzAANFtu
+	qs1l6HkntHTJLpEzVDIxBPFkMDqcG86yCNy8Fq/KZyo+k8IOUMare/0HbJteSnzmb4md+HVtJTT
+	LOBTDHIJxLf1v6mrgxDnANsTWVaCDAJXQRssUTbRFfNkYsLXjlEuJRJzka79o1vGxOpgdgdaLEK
+	n3WNJXy2BSmF8OpoHDyi4m/VMesCqvcZg96V4TJYQf2c9Y4E2FdgexoOIBpkY4JOrad76NFslpc
+	OZF1jN4IbyUHaPQIJvzQo6Ua2FnwV3zXR3KhiB3rlErVcgG91DdQedUPMgOlBXgRUYopYllVmbJ
+	kX/3IXoOlSLnkTyDuYICnjEVyO+elUeoxgW6OPzPjgguyY6PYaXlt2pSLbtnMApd671yIuMj6cF
+	qtfURu3IPttJ3mgAhWo7THoT8UWPcBuOxGd+C+NZNFf1YLc/K15Ki2d7eHQuJJLZ5vwVT+CQgXV
+	cYJC7k=
+X-Google-Smtp-Source: AGHT+IFrXQD2q7MyIixphdEVMQQUK0nDKmR0bPg/g+JbhcBEInhr1pMYlAHk+OMHNNhDorAD0CekqQ==
+X-Received: by 2002:a05:690e:418d:b0:644:2c33:42d2 with SMTP id 956f58d0204a3-6466a85b6c3mr26405383d50.23.1767184851830;
+        Wed, 31 Dec 2025 04:40:51 -0800 (PST)
 Received: from ubuntu-linux-2404.. (108-214-96-168.lightspeed.sntcca.sbcglobal.net. [108.214.96.168])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-78fb43b2690sm137555257b3.18.2025.12.31.04.40.07
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-78fb43b2690sm137555257b3.18.2025.12.31.04.40.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Dec 2025 04:40:11 -0800 (PST)
+        Wed, 31 Dec 2025 04:40:51 -0800 (PST)
 From: Sun Jian <sun.jian.kdev@gmail.com>
 To: luca.ceresoli@bootlin.com
 Cc: linux-staging@lists.linux.dev,
@@ -85,12 +85,13 @@ Cc: linux-staging@lists.linux.dev,
 	gregkh@linuxfoundation.org,
 	linux-kernel@vger.kernel.org,
 	Sun Jian <sun.jian.kdev@gmail.com>
-Subject: [PATCH v2 0/2] staging: media: tegra-video: clean up shared SoC declarations
-Date: Wed, 31 Dec 2025 20:39:53 +0800
-Message-ID: <20251231123955.277384-1-sun.jian.kdev@gmail.com>
+Subject: [PATCH v2 1/2] staging: media: tegra-video: move tegra210_csi_soc declaration to csi.h
+Date: Wed, 31 Dec 2025 20:39:54 +0800
+Message-ID: <20251231123955.277384-2-sun.jian.kdev@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251229070125.98741-1-sun.jian.kdev@gmail.com>
+In-Reply-To: <20251231123955.277384-1-sun.jian.kdev@gmail.com>
 References: <20251229070125.98741-1-sun.jian.kdev@gmail.com>
+ <20251231123955.277384-1-sun.jian.kdev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -99,30 +100,53 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series cleans up tegra-video SoC data declarations shared across .c
-files by moving them to the corresponding headers.
+Sparse warns that tegra210_csi_soc is not declared in tegra210.c.
+The symbol is referenced from csi.c, so it must remain global. Move the
+declaration to csi.h so users see it via the header and avoid extern
+declarations in .c files.
+
+SPARSE: drivers/staging/media/tegra-video/tegra210.c:1214:28: warning: symbol 'tegra210_csi_soc' was not declared. Should it be static?
 
 No functional change intended.
 
+Link: https://lore.kernel.org/linux-staging/DFCAOR6T9DPE.2MOL0K9O3HP1N@bootlin.com/T/
+Suggested-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Sun Jian <sun.jian.kdev@gmail.com>
 ---
-Changes in v2:
-  - Add exact sparse warning line to patch 1 commit message.
-  - Add patch 2 moving tegra20_vip_soc declaration to vip.h for consistency.
-
-Changes in v1:
-  - Initial version.
-
-Sun Jian (2):
-  staging: media: tegra-video: move tegra210_csi_soc declaration to
-    csi.h
-  staging: media: tegra-video: move tegra20_vip_soc declaration to vip.h
-
  drivers/staging/media/tegra-video/csi.c | 4 ----
  drivers/staging/media/tegra-video/csi.h | 4 ++++
- drivers/staging/media/tegra-video/vip.c | 4 ----
- drivers/staging/media/tegra-video/vip.h | 4 ++++
- 4 files changed, 8 insertions(+), 8 deletions(-)
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
+index 604185c00a1a..3c3f6e3fd1ec 100644
+--- a/drivers/staging/media/tegra-video/csi.c
++++ b/drivers/staging/media/tegra-video/csi.c
+@@ -835,10 +835,6 @@ static void tegra_csi_remove(struct platform_device *pdev)
+ 	pm_runtime_disable(&pdev->dev);
+ }
+ 
+-#if defined(CONFIG_ARCH_TEGRA_210_SOC)
+-extern const struct tegra_csi_soc tegra210_csi_soc;
+-#endif
+-
+ static const struct of_device_id tegra_csi_of_id_table[] = {
+ #if defined(CONFIG_ARCH_TEGRA_210_SOC)
+ 	{ .compatible = "nvidia,tegra210-csi", .data = &tegra210_csi_soc },
+diff --git a/drivers/staging/media/tegra-video/csi.h b/drivers/staging/media/tegra-video/csi.h
+index 3e6e5ee1bb1e..609c5952e050 100644
+--- a/drivers/staging/media/tegra-video/csi.h
++++ b/drivers/staging/media/tegra-video/csi.h
+@@ -130,6 +130,10 @@ struct tegra_csi_soc {
+ 	unsigned int tpg_frmrate_table_size;
+ };
+ 
++#if defined(CONFIG_ARCH_TEGRA_210_SOC)
++extern const struct tegra_csi_soc tegra210_csi_soc;
++#endif
++
+ /**
+  * struct tegra_csi - NVIDIA Tegra CSI device structure
+  *
 -- 
 2.43.0
 
