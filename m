@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-49794-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49795-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB112CEBA88
-	for <lists+linux-media@lfdr.de>; Wed, 31 Dec 2025 10:15:33 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C05F7CEBB10
+	for <lists+linux-media@lfdr.de>; Wed, 31 Dec 2025 10:30:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 502F5300DA94
-	for <lists+linux-media@lfdr.de>; Wed, 31 Dec 2025 09:15:33 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id DD38C300910E
+	for <lists+linux-media@lfdr.de>; Wed, 31 Dec 2025 09:30:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF0F53191BA;
-	Wed, 31 Dec 2025 09:15:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD9813195E3;
+	Wed, 31 Dec 2025 09:30:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="OIph+V/F"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jWiLN4Xk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1712A311C39;
-	Wed, 31 Dec 2025 09:15:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74B363164AF
+	for <linux-media@vger.kernel.org>; Wed, 31 Dec 2025 09:30:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767172509; cv=none; b=X4pIxihBIEiXY7iZ682EtpNs/7ET3VrndQsggXSBe6ROWr7FvYCBltl27ZxorBFpoVjCEn8NRX6NHwG7ppUBkUuhtLvyO8Vds+EaXbPRZcpMLle9aAs1x+T4QxaG/ZUi9fsFlqqqPY9W9goqnZZlmkAfxqLhKZj/wU7PF9LDeg0=
+	t=1767173406; cv=none; b=FkwO1+DHMrV+nVblKme8YLt8R8vXgxDnj5kUNs3gPdPl7At3pRBT3aTEktMtqmvuLsC8gt/Jtbr5Nv21L6ItGq7nwsgyln2Ak5PUcvSfhjjeVwybQW/8P43XBOFUPHrVey502b4fi87Fvh4GdZq2Vqm4kKtGFGQfZSX0X+ilGVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767172509; c=relaxed/simple;
-	bh=uZmzez1T6S0fBcGIezUGYNQA09lX0Gmu4FE7Smv2TMQ=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=slSplxvZp3d86LWsEDp8ExErctqX89EK6s9wZDT7EdcfcXHmRZk/eXt9hJ07z2ESma9iyX+F8oglgm9zu4Owv+9IcT5JDp+7Czc+ytFixzHPVyyQUGxC7047rLlTe2I1e0tUk7FhEoYYKgiLr/nR42SH41/5zvY11ih7CyV9+kE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=OIph+V/F; arc=none smtp.client-ip=185.246.85.4
+	s=arc-20240116; t=1767173406; c=relaxed/simple;
+	bh=mcb+WNmqcLIQtlYfTU4ucRU1UPv72geQQ+dKok83As0=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
+	 References:In-Reply-To; b=PbZlzdjjaU+SrilAzqia1H3dG5TkOTb4KQS0A7N1aT8wYeoUVBTM3zYuivTA9qdioSFnAt4+ThME2uVtfB/SMhwRALBeYGmwLhwpXUD075aZ/y2DpP8vUK8D1ame2URRkUeoaxdMDSf8DODprgxaZ/VLaBOfB/wBg8afL0wA0P4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jWiLN4Xk; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 4A2A24E41EAE;
-	Wed, 31 Dec 2025 09:15:04 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id E5D29C1AE22;
+	Wed, 31 Dec 2025 09:29:34 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 206C260744;
-	Wed, 31 Dec 2025 09:15:04 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 05415113B0755;
-	Wed, 31 Dec 2025 10:14:59 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 692A860744;
+	Wed, 31 Dec 2025 09:30:00 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1E74B113B0757;
+	Wed, 31 Dec 2025 10:29:57 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1767172502; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1767173399; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=0063sSsioo5ahiIjYE6TqPfIYj5Bo6k+tEWffoXGQJI=;
-	b=OIph+V/F3Y1bjGywnpWRPDI58cuEHLeLvz2ZmVj8NSw63tGOtIhdMHPT7+ENbrF26Akrde
-	vHDGQYv5Y9heKah/Wka3akEjYl+2T3YiyuTXXn9ZI219Qn30s8WpFtUeXFftiCiZd2fyJ0
-	G7MgbXFxkgWHBo7mIPHWNeYuAxO32DXuQd56wrMKhUPxdONPhT1qo6YFIrpaR13WEW1bbg
-	Tjpe1k9KC1rQZx+3aPMbXd1ZuFk6+lbGJ5F3CIxPkF/Tu9QuUx5D6ggvH8G419uEd//NYy
-	iMq4ta1KdagYePHUS2kmz0G/GSK0SWABA7ZZ9JT2G7NYZFAYV+g9Fwczpn9BEw==
+	bh=TkkU5jcb/hdBJx170lfeqjGUWMcCydpY7rj/NxG0hig=;
+	b=jWiLN4Xk7ImoHS5S1In2EAqHaJlxyoqCz554HPg9xlz1BTd5VYseYiYAxkvVLL4B0HnMaS
+	d8PMKGZNX4UwQsOxKgqHJXwFhvdhhQrPHwjDHAG9TE4NqcQPmz29uCTzfTikiXLUMP/aYM
+	JLu0ZXFbQPZpBNeLzxHonZlTteQBqXmRDgffmkAdx1W/2Hs9VFPEfTtG+kmqzC/IVs2ni8
+	WT88GPMvmGvoMqV575mr2xxiA7xrlZPWJC726q9Qtq+WRN/f52Qw2Y99GdC70CLU2WUpU8
+	95XG+KEWVc83R+pZKKYct4KsOREF4TXkMeFOywfYv8aX2O6hEi9uKt2rAtbZCg==
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -54,41 +54,82 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 31 Dec 2025 10:14:59 +0100
-Message-Id: <DFCADAUEQ81L.MTQZKYR0C33S@bootlin.com>
-Subject: Re: [PATCH 2/2] host1x: Convert to bus methods
-Cc: <linux-crypto@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linux-media@vger.kernel.org>, <linux-staging@lists.linux.dev>
-To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, "Akhil
- R" <akhilrajeev@nvidia.com>, "Herbert Xu" <herbert@gondor.apana.org.au>,
- "David S. Miller" <davem@davemloft.net>, "Thierry Reding"
- <thierry.reding@gmail.com>, "Jonathan Hunter" <jonathanh@nvidia.com>,
- "Mikko Perttunen" <mperttunen@nvidia.com>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Sowjanya
- Komatineni" <skomatineni@nvidia.com>, "Mauro Carvalho Chehab"
- <mchehab@kernel.org>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Date: Wed, 31 Dec 2025 10:29:57 +0100
+Message-Id: <DFCAOR6T9DPE.2MOL0K9O3HP1N@bootlin.com>
 From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH] staging: media: tegra-video: move tegra210_csi_soc
+ declaration to csi.h
+Cc: "Jonathan Hunter" <jonathanh@nvidia.com>, "Sowjanya Komatineni"
+ <skomatineni@nvidia.com>, "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ <linux-media@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+ <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+To: "Sun Jian" <sun.jian.kdev@gmail.com>, "Thierry Reding"
+ <thierry.reding@gmail.com>
 X-Mailer: aerc 0.20.1
-References: <cover.1765355236.git.u.kleine-koenig@baylibre.com>
- <dd55d034c68953268ea416aa5c13e41b158fcbb4.1765355236.git.u.kleine-koenig@baylibre.com>
-In-Reply-To: <dd55d034c68953268ea416aa5c13e41b158fcbb4.1765355236.git.u.kleine-koenig@baylibre.com>
+References: <20251229070125.98741-1-sun.jian.kdev@gmail.com>
+In-Reply-To: <20251229070125.98741-1-sun.jian.kdev@gmail.com>
 X-Last-TLS-Session-Version: TLSv1.3
 
-On Wed Dec 10, 2025 at 9:31 AM CET, Uwe Kleine-K=C3=B6nig wrote:
-> The callbacks .probe(), .remove() and .shutdown() for device_drivers
-> should go away. So migrate to bus methods. There are two differences
-> that need addressing:
->
->  - The bus remove callback returns void while the driver remove callback
->    returns int (the actual value is ignored by the core).
->  - The bus shutdown callback is also called for unbound devices, so an
->    additional check for dev->driver !=3D NULL is needed.
->
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>
+Hello Sun,
 
-Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com> # tegra20 tegra-video
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+On Mon Dec 29, 2025 at 8:01 AM CET, Sun Jian wrote:
+> Sparse warns that tegra210_csi_soc is not declared in tegra210.c.
+> The symbol is referenced from csi.c, so it must remain global. Move the
+> declaration to csi.h so users see it via the header and avoid extern
+> declarations in .c files.
+
+Can you please add the exact sparse message to your commit log?
+
+>  drivers/staging/media/tegra-video/csi.c | 4 ----
+>  drivers/staging/media/tegra-video/csi.h | 4 ++++
+>  2 files changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/me=
+dia/tegra-video/csi.c
+> index 604185c00a1a..3c3f6e3fd1ec 100644
+> --- a/drivers/staging/media/tegra-video/csi.c
+> +++ b/drivers/staging/media/tegra-video/csi.c
+> @@ -835,10 +835,6 @@ static void tegra_csi_remove(struct platform_device =
+*pdev)
+>  	pm_runtime_disable(&pdev->dev);
+>  }
+>
+> -#if defined(CONFIG_ARCH_TEGRA_210_SOC)
+> -extern const struct tegra_csi_soc tegra210_csi_soc;
+> -#endif
+> -
+>  static const struct of_device_id tegra_csi_of_id_table[] =3D {
+>  #if defined(CONFIG_ARCH_TEGRA_210_SOC)
+>  	{ .compatible =3D "nvidia,tegra210-csi", .data =3D &tegra210_csi_soc },
+> diff --git a/drivers/staging/media/tegra-video/csi.h b/drivers/staging/me=
+dia/tegra-video/csi.h
+> index 3e6e5ee1bb1e..609c5952e050 100644
+> --- a/drivers/staging/media/tegra-video/csi.h
+> +++ b/drivers/staging/media/tegra-video/csi.h
+> @@ -130,6 +130,10 @@ struct tegra_csi_soc {
+>  	unsigned int tpg_frmrate_table_size;
+>  };
+>
+> +#if defined(CONFIG_ARCH_TEGRA_210_SOC)
+> +extern const struct tegra_csi_soc tegra210_csi_soc;
+> +#endif
+
+Looks like a good idea indeed.
+
+I checked how other structs shared across .c files are implemented by using
+'git grep -w extern -- drivers/staging/media/tegra-video/' and I
+discovered:
+
+ * tegra20_vip_soc uses the exact same pattern you are fixing (extern
+   declaration in .c file)
+ * tegra20_vi_soc and tegra210_vi_soc have the extern declaration in an
+   include file already, as you are proposing
+
+So it would be nice to convert tegra20_vip_soc as well, in the same way as
+tegra210_csi_soc. It can be a second patch in your v2 series.
+
+Luca
 
 --
 Luca Ceresoli, Bootlin
