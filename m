@@ -1,58 +1,58 @@
-Return-Path: <linux-media+bounces-49822-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49819-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1856CCECF3A
-	for <lists+linux-media@lfdr.de>; Thu, 01 Jan 2026 11:31:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D6FECECF28
+	for <lists+linux-media@lfdr.de>; Thu, 01 Jan 2026 11:31:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id CF36730056FC
-	for <lists+linux-media@lfdr.de>; Thu,  1 Jan 2026 10:31:25 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 0F1D030080F1
+	for <lists+linux-media@lfdr.de>; Thu,  1 Jan 2026 10:31:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D91B429D269;
-	Thu,  1 Jan 2026 10:31:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09134298CC4;
+	Thu,  1 Jan 2026 10:31:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="B4sapvhp"
+	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="KtJYPdeR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3265E1F4CA9;
-	Thu,  1 Jan 2026 10:31:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.178.238
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C4B914A8E;
+	Thu,  1 Jan 2026 10:31:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.166.238
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767263478; cv=fail; b=JWo+WfjhVEKYeH9bwPIv1lEEO1Kr7oYG0arV5HyCYI0uXCW6eWBHzXLDFZ1g67viR5sH24Xtv3lLkoMBpOzJ383VyQVtenZbJn63Z1uAbWcMLjx3numqEB8HuWNFnBP1hCFi1C897DmrEWQjVZF+FTU/w2D1R232u4N5Cbic5Hk=
+	t=1767263476; cv=fail; b=X9MsXXWMYlK2Ca08v9fk4kTKMLShHJseNXV4urvruq9C+qMHZJ58b68Wq6NtNqOE63bkxbsOqiKsuUz4a3yXvolSAK8KkRquvepF7jCASk2cEREcI+jmRRNO1C8AYBmu48sdVq/89ZP6sbE2JkbVYPhNZDBXS9Ssc2PPfyllsRo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767263478; c=relaxed/simple;
-	bh=NO+3e7m2FWdbb7BeeoP2lKgC3oare+EZ5DRIs9ZI4Q0=;
+	s=arc-20240116; t=1767263476; c=relaxed/simple;
+	bh=l4sXmP3tb6lvgdPrjBExbGkDmFTOcCWKRG2KYAaiMTA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=YuJKhzNJ1EwwGviBBsXF5v++JOZJVWm4J/WBg4f5GaKB33efS9NeAYZ+EkbjVfBIE+rHY3w1Dku+Rdi3sBYWIOlThQcu1p3mo9H6nTFcFIsO5aAq+Apnpsr84JJrzY/y5xMVz68cV5Qui/XXd8aTtkpaQUxk+a3Yhc5UryZ5aEU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=B4sapvhp; arc=fail smtp.client-ip=205.220.178.238
+	 Content-Type:MIME-Version; b=fU0fP10pDw0c3lFE4IeQ6uEPn/vHalzqPyARIyNkUBeTE+73XRUglu9BCssnWODbSmjEqO1nDDs+5KImzUfh5hwuZam6lHA5CVMeYgTRPmw5nGeR2lAeIG6RELZVRsQUtL385Kyyn/x08jIb7FUJ58tUA4pyyk6YfxXj/7owzgM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=KtJYPdeR; arc=fail smtp.client-ip=205.220.166.238
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 601AQcD01044411;
-	Thu, 1 Jan 2026 10:30:35 GMT
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 601AKtAM4117147;
+	Thu, 1 Jan 2026 02:30:41 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
 	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=lK5vWQF74v0QyhnMlSjQW7sK9pWrJbBKLgaXYx+g8Oc=; b=
-	B4sapvhpms2jb5OsJ22eB79nApXgNQOUHGh18YaY5twU2K14tqzRra0rGcCu5Cov
-	QPQlv9fqUEeo8bpn+LwEI32O9HHhs0KE9a+Mso1b/9jp0WcaWuYLSex4q6OSZ7cK
-	yyaU1GDm0NeFjXy8SejIO0fBHbp8JupSSz16GqZixbMZBgmJFC/ZJ34AXbinRwLi
-	bbHFTQ09RI/guodvyadY5rD5eSIxo2l7ZawfMDCsHuNA1t6qjWZsRnlGc0dxywuq
-	sQAmCAfyRGID6hoxAYy5/fjQwvy4n+KVZQI9YhhvbfM9GzQnX08wChBUUrBBRttL
-	p9wGrPUyl3XOpE8WDTtOow==
-Received: from bn1pr04cu002.outbound.protection.outlook.com (mail-eastus2azon11010025.outbound.protection.outlook.com [52.101.56.25])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ba6e4vfqq-1
+	PPS06212021; bh=4H3lZ1gYkZGLL5nUCCy9E1Ak8i6Uf0wpO6PD0h+vBOk=; b=
+	KtJYPdeRXU0JgHx6mgyPxP9YZ96f62nEMDqLfI99WRZgYfqZx6lAYJe0O56YSsPt
+	9EpjSda8ycO7OGn6Sc91UIo+xQNvyLCa2GLO/3LI6FB/c4E+iioItKilzdiyp+d/
+	GNyZI+ZfcDj71d4OzED/fD0zpe8hAZBrRLN5xtANZP8amWXrPuRwRXnSjeTRuPSA
+	PHOsTnTSrjbI0yOJklclVyvGOaQBV+VFCJODDb6VikYTla/oN95ECWr/CK4WTVCj
+	EMrSco9fQGISHHWJwuL+gSkyZARWCM7cZ0wQ4sy4eqUwT8VXFJ50ztT5rCtzSOVe
+	HyvTcOTvjiff6MoQ6trnxw==
+Received: from bn1pr04cu002.outbound.protection.outlook.com (mail-eastus2azon11010023.outbound.protection.outlook.com [52.101.56.23])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4bafukc9ev-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 01 Jan 2026 10:30:35 +0000 (GMT)
+	Thu, 01 Jan 2026 02:30:40 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Urn7F+qKmvRlQedsf7fEKnMv1nji2AAhOvkStobj9xXZHXZ34BbFsbn+iwRFMGsXz4joxtUtzSFdkGJeOVTW+cP8u2zVIO9Op1ymfEelrtSHSGvMjf1Zn3E78+ueMcIwsen40N/XywCzI3k4dEWrXYctJjVI+G5LZCyx6MCjtbrNyjiWjWgleTbqzoBCQjcpoUI2vtuomgGsegZycYlz3tP2bDgRBVH1IoswkYudq+0twMzP9170sv7UmzhQFRXVEN0p7Q2rM9wyxaQO58RcmruAUF9CkMc3UPz9DTMsQVQ69leSaVgMrLEFpVVsPPXdyhi2l0/FFtwFRIuNnasXcw==
+ b=GpFDhqqfg1ouTvq5o/cImI7zpXSMe+dDKN6dsmpAWs0rmD0ZfQ5juecMc/THWxdQlK3boed0cNSXQROjl2IOAbr8SyAQGS8y3nsyTVfKT6pQ6xvI1g/nQOYU7ajvwPDNEV53lBhT0QVbEN5RL82Rj0jAQch6C3kHaBHGrghbwTLy0tjP9MawBFkVk6YMOfTc/h+PY4XxRHvQSOXTbJ0J1DyvZtQHt3Bmj+hWFfyqCkLZUMt9JYzvBVrTMuM0MUhnzRtwIdG4+9HW86GxfId9R51W0KwIHN3QIjie2GECVF+mVXB67cutPO2R9wm7hjfOePAmjPCWXjTyggAZzwnYkw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lK5vWQF74v0QyhnMlSjQW7sK9pWrJbBKLgaXYx+g8Oc=;
- b=D8p+EgQmGyOVgruR09NSncW6zv/IsaugftnXITP2rBsCMeY3Zcaq/4oZdAUra05bYjlCDs7uIzHGHvtzltf4zh62CPnMyAAwhfU7yIbhkgvT3yrdVvEe262Edn4YGhRiE5Kf4+9tyPB4DXze8CfyNgfSK5TdRlQJIoX9XKCZ4zLkPRQ8/+devWatGW0Qv4WJtAICvrq5aI3g/aALfCXNGDJCgrMI1BNepmQglag3xUO8udv9Oz/QoTLvVzPpipQkcZgSD+edkRDSsx2uOgI+44a86aqiIaiJLvCNzAxdUbcuPnGkuUZtR9oDbSQMxunG4mIMXkIz1eEpSMwrw1Gqug==
+ bh=4H3lZ1gYkZGLL5nUCCy9E1Ak8i6Uf0wpO6PD0h+vBOk=;
+ b=joxwai/pM810SzejXwqQd4YdrMr7qxnrOH2otNm3QVy1+R54f5qn6NOWK//xqSNqWQh0dcNQK9ri+eZfp34hFp+sKAr4zkTkSFcMKQ2IMizXuf1qOoXP6BaUo8it2SHCpAaQJJmbtDAJGDAgjjwr74tkzWuVG5BRsJO69Ld2pXRCxnDzz4ewlQYWSaXjmOBBAIUj5sJSyfKwvjLORIUSQg1mEjRkBL6sIXNByfkhsBfV2eOBjEkW2Qps5Y32SAe23y/ffbpsoWA8Gz42Rl4tlI/WZutPE/mOo3z4pkLQ7bIS4Hz4tbrYAWGwOKWzuqMC2NAS27PXolQVzd1z9XldHQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -60,11 +60,11 @@ Received: from DS4PPFD667CEBB6.namprd11.prod.outlook.com
  (2603:10b6:f:fc02::53) by CY8PR11MB7876.namprd11.prod.outlook.com
  (2603:10b6:930:7d::5) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9456.14; Thu, 1 Jan
- 2026 10:30:33 +0000
+ 2026 10:30:38 +0000
 Received: from DS4PPFD667CEBB6.namprd11.prod.outlook.com
  ([fe80::92d2:113:b2d3:1d3e]) by DS4PPFD667CEBB6.namprd11.prod.outlook.com
  ([fe80::92d2:113:b2d3:1d3e%6]) with mapi id 15.20.9478.004; Thu, 1 Jan 2026
- 10:30:33 +0000
+ 10:30:38 +0000
 From: Xiaolei Wang <xiaolei.wang@windriver.com>
 To: tarang.raval@siliconsignals.io, laurent.pinchart@ideasonboard.com,
         sakari.ailus@linux.intel.com, dave.stevenson@raspberrypi.com,
@@ -73,9 +73,9 @@ To: tarang.raval@siliconsignals.io, laurent.pinchart@ideasonboard.com,
         johannes.goede@oss.qualcomm.com, hverkuil-cisco@xs4all.nl,
         jai.luthra@ideasonboard.com, Xiaolei.Wang@windriver.com
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v4 1/3] media: i2c: ov5647: Convert to CCI register access helpers
-Date: Thu,  1 Jan 2026 18:29:59 +0800
-Message-ID: <20260101103001.207194-2-xiaolei.wang@windriver.com>
+Subject: [PATCH v4 2/3] media: i2c: ov5647: Switch to using the sub-device state lock
+Date: Thu,  1 Jan 2026 18:30:00 +0800
+Message-ID: <20260101103001.207194-3-xiaolei.wang@windriver.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260101103001.207194-1-xiaolei.wang@windriver.com>
 References: <20260101103001.207194-1-xiaolei.wang@windriver.com>
@@ -92,693 +92,277 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DS4PPFD667CEBB6:EE_|CY8PR11MB7876:EE_
-X-MS-Office365-Filtering-Correlation-Id: e03ac2fa-e540-4b64-8680-08de4920cb78
+X-MS-Office365-Filtering-Correlation-Id: 3f924a13-f186-4bfb-3a3f-08de4920ce7c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|7416014|376014|52116014|1800799024|366016|7053199007|38350700014|921020;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?ScBx4lCOsuOVvkDv+SwBaVkn+0hmZ6K6eV7j83nmBqr00cQ/FrCsMzMVyN3x?=
- =?us-ascii?Q?zkWxxZn+8OfYkbjobUGLi3dRFGv8ambIC+e0/Y66PzFx9rpqPi+nAigqX8Y5?=
- =?us-ascii?Q?GyDad4pMuw2VK+BFke835esUcbufgLmdKeBoyqtCTU0iHMnW7IMoEP7tiFv8?=
- =?us-ascii?Q?L/8VDqrQyQEvGhAqDcvmsMOYdb2tpsInWeqGp1A+AMHbl1aOO4qfB8l+iQ+7?=
- =?us-ascii?Q?NmLSZhCQoVyn/4YUsLEGAdtUveHEd9BStqmQGMiuSRLY+id5CvRLOIugCnQ6?=
- =?us-ascii?Q?uFXwIBQ2BLkmtxqR+yrCy4N0JsjFlyrmNQmjBP1KtMi0mgQclpquaF2M6c88?=
- =?us-ascii?Q?EsRj3xXwKceVpt9McjvgqIexf8LhOimqagiYA21kOev0E/5G+u5GfxZpmnX3?=
- =?us-ascii?Q?xm4dqtCp0pKD6VdYKNtLWlupyqIHGSEQ4DHbqeqedWmkkZto2ErLSFDZu8Oc?=
- =?us-ascii?Q?HGEANkPq+LmAo3Ppq/Bk+eRRQ09GK3ApwAE1EyhJrs/beRmCNzQCk85EmZek?=
- =?us-ascii?Q?24uv3Vbt53zHvKqrTsmZC4ZTSMzYtGuV9HbyS02i8ncO2bgiPDX6dSO4Y/Qt?=
- =?us-ascii?Q?5FAMm+aWc+IWCYGoR+3Y8wZ+FUT3C+Yj34KS3C5dWizB6xYIJzjpEEiCYRQj?=
- =?us-ascii?Q?wY7JNaAWDxoqo1pjYWJJEOojIXnsDAGoeX55nA4HHE3v3fdCq6EuO4CXuJA0?=
- =?us-ascii?Q?gCXcmsGQzPQxRFoNAfHxoLM3boyR5iCOdGzyZdDr7bq4br7TP6oiFnZL/qAJ?=
- =?us-ascii?Q?sh5P4W45yOMa/ZopMayoSimKeX5tQ++jFGXAK+xZv+nNQGb8J6RjBgblU8rq?=
- =?us-ascii?Q?dyHjmub81EmpfOXRUVJbRnPxDhQgxozUe8uTW9c/wBVTmO2aD4mam3CXV6wD?=
- =?us-ascii?Q?rlqaiLqgP/2zTeoYUojTPax056ooXgY30qd/wJDpmZfZM/HP8irHBz9u/J0f?=
- =?us-ascii?Q?mYsY0t6OtM4fVYgruombEc9+lSy5mkTZsn6T+w9K8FhVAX+ConVQlVRqsC5J?=
- =?us-ascii?Q?7b4eL8R6Yoj3x5In6MyCXf6gSwsNnE0rADaYzwgVrW+gzU1clLS6GH0t9agp?=
- =?us-ascii?Q?h9MXPgk+PbVAAs4N3uGr85oK1zee9KQefZhuTftvFdUVflz4jinZO+IGydvJ?=
- =?us-ascii?Q?55TwgrGMDeJDh+65OSem5MFbtSDw73s8YsfGri0KPcWmBf74ieSaYS+4MrWY?=
- =?us-ascii?Q?GgcpGzekVOvcIM/x2u+OpjewhcLLAj/+SoR9jViP9K57yclatjE/Swwew9Wx?=
- =?us-ascii?Q?ZjV4ztPIkYcIraCuCwQkn392M0+YnxxZqtunB6AgUdIX3QQf90tZiaf+99/Z?=
- =?us-ascii?Q?i1aPLGlSdJNraY3TUTY3DogFGoY5K6H1eIUQmsDzVRWSGgCEJMJjWfljHaTT?=
- =?us-ascii?Q?4P8Cym4CwYc9npZjUJH2L6lXiVlzEi5XlKVZPWnPvlyhOZYUAeClXPnDy/EA?=
- =?us-ascii?Q?3dbvimGquem08QHURGOIV3+3kq3lMV7UkEkbfvpkacaBfIvyorhljTSxpSDy?=
- =?us-ascii?Q?WeyISe4DR6cxYclffO2UCsSW6CQdgtkuGqrWbYdyDG4UmSFqtN0DsMre+w?=
+	=?us-ascii?Q?EEoJYdKFURYYLPMmNP282AtJWD2guHAxg8TltkC2Ev+SlM6m1gAmFBl2dBWh?=
+ =?us-ascii?Q?xKop5XuM+MDixCGV6e8zpj0hIqqTGvo6bJxEB7Hc+dfLpDhDlDl83r6lsQZ4?=
+ =?us-ascii?Q?YIjhSulWaf+zaoNNw3aPALI7LnkahnbMy66HAFddeoYMCFHiWo6ocbxMnV0s?=
+ =?us-ascii?Q?vjik7p38IqAh+Ifsy1IBcERNZ/DvkiFDtoMlztgiV4PLy25Ht7VRTPMJsWW8?=
+ =?us-ascii?Q?CBAE69ngmZUVVorK0th0xrkQcqRdMSKrf3jhQVSynsMQ44taMm89K26wYv2H?=
+ =?us-ascii?Q?NxKSzepsFhl01rmwk3sOdRerGYu+4SIq5yWXizZ80mYdZY3OSnGM5PdRYv2G?=
+ =?us-ascii?Q?XbKBed1WqJR0LHiDeIxT47Gg7O5BFYgvsk/Romyb3X76mmOk5q1QlvuadswE?=
+ =?us-ascii?Q?eeEdBirJ1TKVwNzU0l2w1csK4a0qgfFInCn8zaKE4hFJU3FCrtpMiZD7kbzm?=
+ =?us-ascii?Q?3gUJNK94zirQ5bt/wgr4W9As7Tggz/hlhBMrHWE3Qp2mRNB7ywXV3A9HST6D?=
+ =?us-ascii?Q?5EDr3XlI4+I19J3G82aB7FRqekI5t6QS9IOcJnUV2mf1Hw+/Rv3OshTeBNDV?=
+ =?us-ascii?Q?G/wZOzdMxggP3rCSI/FGJsNnjy/tC7bBMKIRBBOefOennbcMzLoOmrFqPXEb?=
+ =?us-ascii?Q?3kKoJZr9JFCQsxqUoL6XO3LQFodoSNciCk4EAjPpgKAlnhUUDBFQB8te8bhc?=
+ =?us-ascii?Q?EaghN4Cg0EllWGQaoOi5Yow+LpT9Gx2yWdysd1Ewhpd4qaBNhIsp22jSf+qi?=
+ =?us-ascii?Q?fVgu3Z7qrYn9OD+pr+eOqnn/RPLe+bV1InFXlqYcSyu1xXRLEayaRKVWr96F?=
+ =?us-ascii?Q?0+15swnA5A5q5ddMB4zb8rsTr9lt+zDEMnmhKguzZDV5kitkahM4KKnXWIe5?=
+ =?us-ascii?Q?frlX3TyvdiXsjE33IJGf6ItkpMof2LJcA3Bu3gHiVxSzOzvycKNl/kivo6F0?=
+ =?us-ascii?Q?kQ5BqNSt/j13Ugq6FKJ9fsYbd5VG7mMDBPU86EGU7uI/+z6Qf6DZP0ktY/8W?=
+ =?us-ascii?Q?UxGFfGep+Cx9A+RTWMVZzb19QFvrkHvK0xeMkLUkZB3LltCcWGspdN9gsoAn?=
+ =?us-ascii?Q?tHOujoSpJT33lrnlFiiFOYYoToykH7fD/Md5T/eVobGAwe4Dj7F92mUp5wji?=
+ =?us-ascii?Q?i9F/zTcM6OkycfkKvHU5KJz5z5f9ThPGHsuu4sVHF1qjKYc6ulvuWj5YuXc8?=
+ =?us-ascii?Q?tR0MI82UMSQSU/iJWDTuCm+toGkUf25uALxBElf7ZS5CYGRsb96i08h0NnRW?=
+ =?us-ascii?Q?E8tH5y3SE5aRE1xI12/MWgHk6N6SuG8s+zdAoCiuYEsgTOdqhCVf7aC2Xl2R?=
+ =?us-ascii?Q?ntuBas9dx3WLTy6rXvPyGSzNHqom6+JQi6xqIwoLgTnj+EMJwWISptFYAxuv?=
+ =?us-ascii?Q?p9abw317hYkU6fkyHes4J+VeO5VqAGmpNAVOvZkCQEOqGr3cU3tXbi/GYHR5?=
+ =?us-ascii?Q?9oLjnN8QDsdWnt+w0Ez06g/STTp3ZdsqTK+iTZ8SJK57hDG5pdd5gkhbtcGh?=
+ =?us-ascii?Q?kErDsDUQMShTKg5+rWIAGm9/jf48pSkrIqlXh+PyvUgwe9ZCzr9nkI8yLg?=
  =?us-ascii?Q?=3D=3D?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPFD667CEBB6.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(52116014)(1800799024)(366016)(7053199007)(38350700014)(921020);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?7A8y2YUaBSYilA899xAsXlvIijLb8mq1chSOio/6de4guO0F1udv4Vuyf/kx?=
- =?us-ascii?Q?dwLEiWlA/RR5B63+kp9yNW4fQ7JVEzoDE4uaFBg0H46Ezs+8o6SijbcR8miZ?=
- =?us-ascii?Q?EMyd0nRfEy2t+SbDkZv2m15Ndxv/eYy2MNf7UWQ6gYsZtQHH2fmK7lZGnbNV?=
- =?us-ascii?Q?3IzQdvZl4eDrxFHua6FCb/czDR/ZgIUQECtRE5C+qKx43l1I433UkZEYDgQt?=
- =?us-ascii?Q?HmTJjYgdQqbM1UCwO+MyEVEY7EIbPYhA9XY+qj9R2ncRPPmSmfCF2svi+Gj0?=
- =?us-ascii?Q?4OffiEbFTKEaqgJPTgKqrMdLiAka5lFbbnXzrDJ64OeHSWaApcRZkgEdGOWn?=
- =?us-ascii?Q?90vpLBFEF9SXk/QlCmkPOAa0X0MGdBHqDpIpPVpsep92I64gTaaTuYupU6sx?=
- =?us-ascii?Q?D3J94COWCa2hpwo01akl7fXBcEcMPX8y2voteTgMJ8F30TLUrA01RDBGSBoj?=
- =?us-ascii?Q?zT+Dp4xfjtxAnrSpDvYqEJGlLgRTKuU4cgDA5SvwjqkDWxmvBcrDgQ6Bgfpn?=
- =?us-ascii?Q?GdvmoHoYBfa4kjzLgm+yr5H8RR1VP5/Ne8EFviKr4v4CK8EWt33iFsExv7da?=
- =?us-ascii?Q?uuUAuwWGpDyKX4TLclcGIlR0YzwvQxH4KnYBR1hyWQG6IxB7dzcwx1J6vC39?=
- =?us-ascii?Q?IsQiAw8hFOKhw8TiZmc/EwAnxceZdPv7r2BR6YjGW1HMFTVG9fqf7WtKy3PK?=
- =?us-ascii?Q?le722DD6xN3zOuPyXqvH85Oqzh/QcTBe2coWWi+hHpRbkdB8dkJvqupcAJuo?=
- =?us-ascii?Q?BqHtzT/3rO5A9ACLuvNMZhBCiW4Lzy677k7Tj6G1MAkz4eZnMrcQZnTV8bog?=
- =?us-ascii?Q?UelrhzNGP6Ac1QVhdywX/Q5S3mv0EJGgUgBlj95ioFrdhtlrVdE1yMDysK4F?=
- =?us-ascii?Q?QJDTMcto4J/BGJuedFgZYQN2z5xjEkjlaLURPMEMoDgaqbalkTVbICLIq/pE?=
- =?us-ascii?Q?rzEfpMSJyDq+3FYQoVBQTHMYZnZrwL3kWyO77dJuq+AXbpgSzrP+M3ljr1wU?=
- =?us-ascii?Q?1sGti6fUDF8eNCT1nSIUD4Qtt8YRQCHy+R8M+uioYhqyUqwLlMFatAk8mRqi?=
- =?us-ascii?Q?nA2lvf21eyn0cElaV+3qpzTWmHYXmb/tTbjde4rNngwP9dto3w9F5gdzBB0G?=
- =?us-ascii?Q?S+JW6zMbVorAOOcx0s4BJcqfP0Ks4gPlFC65DLCAtXN1Hyt4X3cTlYUuYXBT?=
- =?us-ascii?Q?JAfOOdw8BqiQc2iP9UBAsUkQFc57mmHkQyt2q9TqS/n16juFISK2ZifNLf9W?=
- =?us-ascii?Q?7cludZQpiBHv97Xe3Og3ZuwYdUae9qvXDb35YK80mXtrIqNEoTspZ2QXphh6?=
- =?us-ascii?Q?ICq6w61DtzloISm4nzdEUI1ZUisMAhqTis8QolCSlgp5JySYq4DPLlk2mR35?=
- =?us-ascii?Q?Z3fFpI5zli2Hk8t3Ln8aJ+hxSm41Mof1UJBBKQOulI2d8SETw4izQnUpOxh7?=
- =?us-ascii?Q?fqvZyXzIOzV2cQjzaBb0sSANyJwTy71nyljSdXhJuNLE40nyD0WGGLE754YE?=
- =?us-ascii?Q?l7BKCcik/8SkeL6gIckCI04YjMhsc50LkLzPG/MummcwYq5kmxdA11iyU+AJ?=
- =?us-ascii?Q?2EAmBa28froGgEr0VLKOlCckxw2ECJ/5so4xcOdgRyycOOJ851A0UC+Q2zdY?=
- =?us-ascii?Q?BDxZbN2hda/Fv9laenBbMf0DtiaVeBMBZri3hSgFSsY4AX5/abF6U58j3beP?=
- =?us-ascii?Q?OI1vv286ovFDzDweez/TQzj/AJYcLjtWmai1vi18nfgP+LGhRmjeFh6sQo1T?=
- =?us-ascii?Q?E/wXYVlgzIJKR0bEQY31RaIWsGg3mcI=3D?=
+	=?us-ascii?Q?E8xtSsb47DOgLjlzCLKlUHz5O1WUS7nuDh+zlIFX0c9Hl+FTxpdKlT3ojUqb?=
+ =?us-ascii?Q?LVm4vB1Jls2x5htXj9bgX9sxyQBihvJ6a6/rsvGsYBkVVHCB4XSkzx8wD9YY?=
+ =?us-ascii?Q?dTCk0QZ0NNbVDbH82ay23Ycj4wGdWUzMVvaAmkWtQZduWHto2qGA0komOrgl?=
+ =?us-ascii?Q?Vu/XwiINI6L7ENK/o/0yXTaV3KX+QxRjhk2UwcBBBw5AfPqUmotwfLjYO3j+?=
+ =?us-ascii?Q?/CDDBOF7X0YODAU88Nml/Ll8LT6UHPTKXKZwp+e5ZvApn0hYntlSTcehcgrP?=
+ =?us-ascii?Q?66fI840qvIXr+cwayKtTF3z0m+RsqqmKWoMkZvBd0ibrA06W/ygz5ghWA/PR?=
+ =?us-ascii?Q?J0vAoIhTY7urPu2D0x7Vnvzyg9+HgspbUSultmCMiY+PLVw3P4LBxtUPd5Y3?=
+ =?us-ascii?Q?NqrfVCrxdt1Q1akOS3tyzqTtEpIUrqX3Q624P/YL48RRAESeO7laDAvv6eo2?=
+ =?us-ascii?Q?ETo7qsWB73VBssswyzjEqCK5bU+0Av6gClcnzhVEbvyjrgLSLZAC0O0+iENB?=
+ =?us-ascii?Q?26BLM0IFgo9lARibLKezbmL8xYTz5pchFTII4oglzz9/codG1LIUM5N0x9IU?=
+ =?us-ascii?Q?ut5wdc8DGWPShYGmbQJOxgrk2pGe3Au6PuO0qFUNtQIpXhKHwe5lID/QquRK?=
+ =?us-ascii?Q?4ShNtO4beXNG9eed9ruYYiaQQRzL7UDg3+C1zfVe31LR8C7ah+R6pSsRdwxb?=
+ =?us-ascii?Q?0I3Z0c2AAvameq3h8pbcV/ju5w5Nxz8p11nFXE4u18eQyU/vJqL5ziMPNqz+?=
+ =?us-ascii?Q?4Vo7dc+aMNE4ZiM5//Ak+AmJy6lvX0/eNTFlfxE6cVGiWBZ85t5ZSo0/A5lA?=
+ =?us-ascii?Q?JopatLipFO005Por1pBBxijBmQe6O637smW+wsJw6cJnHRPkQDiRRwhi8LOB?=
+ =?us-ascii?Q?V/2TtJVoRGP9Dp68Lz0N5JfPM1PKDfVfFczj3lul8CjGhtyqNarRX1T2PzJi?=
+ =?us-ascii?Q?fTnHdbd9hp/EbwE7GOjJCmXHiksvypoEvfvnRBjHWp04jOfbLyI+dcfWPPS5?=
+ =?us-ascii?Q?qe1X42B8H0VXJtuCnNNNUH3+633FruFumkpYroiDQOJZkt7P5DufORBHwv3v?=
+ =?us-ascii?Q?TzFprBaXzCZvwCstfglYiMWBq82JJ+2dqbLKr9mMvlmy0jQwSGNk7Msl3a0t?=
+ =?us-ascii?Q?yxqOpiZHGP57ZUZVPusoAiD+609hO0/FOa8NgqPF+aETYfXBoCT3S6wMdAJt?=
+ =?us-ascii?Q?xw3o4MYjnjSBxgnAJ7/PpXotzKmd0VX2cMVYRXGHbrZwkXxTahh/bRlGpzNY?=
+ =?us-ascii?Q?ErbwEY4duJM/SXkXCW33F3QlSjK0/D+GOBy7+JK6pvpdPy+p/SE/bnewFbHg?=
+ =?us-ascii?Q?BD+n/sh92HpHlIVEf8QFlNmVs5T2+kojhTK1qxGGyKIu7FPxKOLIyqG6PAm3?=
+ =?us-ascii?Q?ohttfpdrLIuqfpoAP1L9yq3XBJfKXw2GVUAHtc2Yie3r2NT8isT7rTdGcXxb?=
+ =?us-ascii?Q?QnIUQRqG3zn9ZbqH7QcCBs4bN4yh9PpyS2vgL60ntaSJ8/2ZNM52L6E8x+iu?=
+ =?us-ascii?Q?IgtwO3CmDKEhv/D9tZSYOxAloorVWPSGFF922SNhJzc30P85i8fyAa5cO0oc?=
+ =?us-ascii?Q?M4TR8+yCv1LJDtHmEQ2P2QbrXd+YyztNa7QXFk+Xrn6g2PO9wrEXm0qTK/AO?=
+ =?us-ascii?Q?7UzQl4l33IBZkTn3q22+moaBo9W52uw2ysVT2MI6EdW8N7lJBB9GgL4ET3/4?=
+ =?us-ascii?Q?y288GmVnv2dAu7XJJb8WKSHo8PjefcyJAOAP5VKpszNOQuI/2b/4ZZ4NdWyF?=
+ =?us-ascii?Q?Z/HaSO2BXSgiNhnrglTYDjkvIQ9g/J0=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e03ac2fa-e540-4b64-8680-08de4920cb78
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3f924a13-f186-4bfb-3a3f-08de4920ce7c
 X-MS-Exchange-CrossTenant-AuthSource: DS4PPFD667CEBB6.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jan 2026 10:30:33.8418
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jan 2026 10:30:38.7325
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: I3ZvsalM5s86HZ03JMvxrZTFdXn5ozRgGMVE2hysMXHkoDjjjZfqwpIon1gBfQ5czy6/4X2VjRzJsPChtAANUw8Ehs39Is7Fi4Bgr/4ZcnI=
+X-MS-Exchange-CrossTenant-UserPrincipalName: IQURL4DPSGusp9tLgEOhFTOu3OwMElHXv5ADhS/zg4JNMayq6V4Yoaf7+pPwKnPKGNhaqu09nLYwNp3JBlsP8UuaeX09gOsvEXy8v9ehKH0=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7876
-X-Proofpoint-ORIG-GUID: XzXXFrw67Yw24G7xnwuu2WkR5wDoWO--
-X-Authority-Analysis: v=2.4 cv=V4NwEOni c=1 sm=1 tr=0 ts=69564ccb cx=c_pps
- a=I+0PaAUBL5uRonxG4DgGUw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-Authority-Analysis: v=2.4 cv=ccjfb3DM c=1 sm=1 tr=0 ts=69564cd0 cx=c_pps
+ a=55pr0gqEmxT9FJl44qZDsQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=t7CeM3EgAAAA:8 a=uE7DuzBMNn_X1jFd8tgA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: XzXXFrw67Yw24G7xnwuu2WkR5wDoWO--
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTAxMDA5MiBTYWx0ZWRfX6a5c0TLCDA09
- aOxBGSy3uVkd95fKmZIyxHfT4etB9G8XFxDlmA8HIjJpMgQb8TuLwfPz+gwV6IVX1cU46dpnRoG
- 6Bx9mqHSaZMxoDsGEVRE9RDpNml0x29/kJfW9NOXMo5G7mrTUmErloKQPipvjKu4IDpk/GPkgr/
- Zq7YOgjAU/9c44e2+yhtKYz2516NA1RNvYeObmA1Xp/dEuih/QBUeDWwsrVUBh1Nnqo4ECku8yO
- TOMN4PvUpR7cHNt7hLSKsJzMTjVDNiGqB+y6C1ZYxIGU/jWs1iwKM0yulIB12qO8qqPq1hMMhxY
- CIk0uNVc7rqeecxDazABVACr70DSnsAy6XZXcWxFFIoR+LrgcHV4ndt8S991KnDFXYxtNibc7BT
- uX0ggytjxSudXxElymOW8qz6igP+ZGMqnrPrTlp82aFZ9VwF0ryBeOE3LvoCT5TBrqloEMDHRk5
- AnUT97yFTdNGxfQlOhA==
+ a=t7CeM3EgAAAA:8 a=Lc8NSlXapXXr_nlJwJIA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: -09jbkVVv4KJIqx4pTX4Ar9y7ifP-ThY
+X-Proofpoint-ORIG-GUID: -09jbkVVv4KJIqx4pTX4Ar9y7ifP-ThY
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTAxMDA5MiBTYWx0ZWRfX/EmQlfr37hf+
+ 8n9wPpyQdjsGF11iemT2QPD24X3Belg2+/LwfZcOhPdcLWEUUCxTvmm4JkxzMSw2+j8B/PSor1I
+ 3YsU5M9k3Xhc6udRpodVDs1tvBERENTWoJIzn3NUcymOhZkKhoe6PTaCIMWnfCQjUp4yrBpomtF
+ rEnIzFIjmFeGy3b1TLKGo2NR132QF+ZKn+TQ9vi/Qxn1vqykXLPvVIUunt8jgvS8ZedO3C9895Z
+ LCGzAsMQZujjZnpYLwJ0CHabc2/FrPJsDvVOKuvL5MZovTJJBilBRvFNEIQcm3E47kzkPJ9X/2I
+ gLd5AFKe1NvguvDek/maG0R/sHz5iqNwETShLd9jldOadeOQKJqAPcdSyyBVj08bIZ8OF3eBqW1
+ JT/F75HVxONyWLtLAnENtZmroZTPPUQJV67SEwslTK40GUnqfXXKJXBjXi50m8aOpd3xTFcYUUg
+ agpICceWuG+IoNyBNQg==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2026-01-01_04,2025-12-31_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 suspectscore=0 phishscore=0 spamscore=0 bulkscore=0
- adultscore=0 malwarescore=0 clxscore=1015 impostorscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601010092
+ priorityscore=1501 spamscore=0 lowpriorityscore=0 adultscore=0
+ impostorscore=0 phishscore=0 bulkscore=0 clxscore=1015 malwarescore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
+ definitions=main-2601010092
 
-Use the new common CCI register access helpers to replace the private
-register access helpers in the ov5647 driver. This simplifies the driver
-by reducing the amount of code.
+Switch to using the sub-device state lock and properly call
+v4l2_subdev_init_finalize() / v4l2_subdev_cleanup() on probe() /
+remove().
 
 Signed-off-by: Xiaolei Wang <xiaolei.wang@windriver.com>
 Reviewed-by: Tarang Raval <tarang.raval@siliconsignals.io>
 ---
- drivers/media/i2c/Kconfig  |   1 +
- drivers/media/i2c/ov5647.c | 350 +++++++++++--------------------------
- 2 files changed, 103 insertions(+), 248 deletions(-)
+ drivers/media/i2c/ov5647.c | 37 ++++++++++++++++---------------------
+ 1 file changed, 16 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 4b4db8c4f496..cce63349e71e 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -529,6 +529,7 @@ config VIDEO_OV5645
- 
- config VIDEO_OV5647
- 	tristate "OmniVision OV5647 sensor support"
-+	select V4L2_CCI_I2C
- 	help
- 	  This is a Video4Linux2 sensor driver for the OmniVision
- 	  OV5647 camera.
 diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-index e193fef4fced..24a160bbb079 100644
+index 24a160bbb079..822804633d0f 100644
 --- a/drivers/media/i2c/ov5647.c
 +++ b/drivers/media/i2c/ov5647.c
-@@ -20,8 +20,10 @@
- #include <linux/module.h>
- #include <linux/of_graph.h>
- #include <linux/pm_runtime.h>
-+#include <linux/regmap.h>
- #include <linux/slab.h>
- #include <linux/videodev2.h>
-+#include <media/v4l2-cci.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-event.h>
-@@ -41,25 +43,23 @@
- #define MIPI_CTRL00_BUS_IDLE			BIT(2)
- #define MIPI_CTRL00_CLOCK_LANE_DISABLE		BIT(0)
- 
--#define OV5647_SW_STANDBY		0x0100
--#define OV5647_SW_RESET			0x0103
--#define OV5647_REG_CHIPID_H		0x300a
--#define OV5647_REG_CHIPID_L		0x300b
--#define OV5640_REG_PAD_OUT		0x300d
--#define OV5647_REG_EXP_HI		0x3500
--#define OV5647_REG_EXP_MID		0x3501
--#define OV5647_REG_EXP_LO		0x3502
--#define OV5647_REG_AEC_AGC		0x3503
--#define OV5647_REG_GAIN_HI		0x350a
--#define OV5647_REG_GAIN_LO		0x350b
--#define OV5647_REG_VTS_HI		0x380e
--#define OV5647_REG_VTS_LO		0x380f
--#define OV5647_REG_FRAME_OFF_NUMBER	0x4202
--#define OV5647_REG_MIPI_CTRL00		0x4800
--#define OV5647_REG_MIPI_CTRL14		0x4814
--#define OV5647_REG_AWB			0x5001
--#define OV5647_REG_ISPCTRL3D		0x503d
--
-+#define OV5647_SW_STANDBY		CCI_REG8(0x0100)
-+#define OV5647_SW_RESET			CCI_REG8(0x0103)
-+#define OV5647_REG_CHIPID		CCI_REG16(0x300a)
-+#define OV5640_REG_PAD_OUT		CCI_REG8(0x300d)
-+#define OV5647_REG_EXPOSURE		CCI_REG24(0x3500)
-+#define OV5647_REG_AEC_AGC		CCI_REG8(0x3503)
-+#define OV5647_REG_GAIN			CCI_REG16(0x350a)
-+#define OV5647_REG_VTS			CCI_REG16(0x380e)
-+#define OV5647_REG_FRAME_OFF_NUMBER	CCI_REG8(0x4202)
-+#define OV5647_REG_MIPI_CTRL00		CCI_REG8(0x4800)
-+#define OV5647_REG_MIPI_CTRL14		CCI_REG8(0x4814)
-+#define OV5647_REG_MIPI_CTRL14_CHANNEL_MASK	GENMASK(7, 6)
-+#define OV5647_REG_MIPI_CTRL14_CHANNEL_SHIFT	6
-+#define OV5647_REG_AWB			CCI_REG8(0x5001)
-+#define OV5647_REG_ISPCTRL3D		CCI_REG8(0x503d)
-+
-+#define OV5647_CHIP_ID 0x5647
- #define REG_TERM 0xfffe
- #define VAL_TERM 0xfe
- #define REG_DLY  0xffff
-@@ -81,23 +81,19 @@
- #define OV5647_EXPOSURE_DEFAULT		1000
- #define OV5647_EXPOSURE_MAX		65535
- 
--struct regval_list {
--	u16 addr;
--	u8 data;
--};
--
- struct ov5647_mode {
- 	struct v4l2_mbus_framefmt	format;
- 	struct v4l2_rect		crop;
- 	u64				pixel_rate;
- 	int				hts;
- 	int				vts;
--	const struct regval_list	*reg_list;
-+	const struct reg_sequence	*reg_list;
- 	unsigned int			num_regs;
- };
- 
- struct ov5647 {
+@@ -95,7 +95,6 @@ struct ov5647 {
  	struct v4l2_subdev		sd;
-+	struct regmap			*regmap;
+ 	struct regmap			*regmap;
  	struct media_pad		pad;
- 	struct mutex			lock;
+-	struct mutex			lock;
  	struct clk			*xclk;
-@@ -130,19 +126,19 @@ static const u8 ov5647_test_pattern_val[] = {
- 	0x81,	/* Random Data */
- };
- 
--static const struct regval_list sensor_oe_disable_regs[] = {
-+static const struct reg_sequence sensor_oe_disable_regs[] = {
- 	{0x3000, 0x00},
- 	{0x3001, 0x00},
- 	{0x3002, 0x00},
- };
- 
--static const struct regval_list sensor_oe_enable_regs[] = {
-+static const struct reg_sequence sensor_oe_enable_regs[] = {
- 	{0x3000, 0x0f},
- 	{0x3001, 0xff},
- 	{0x3002, 0xe4},
- };
- 
--static struct regval_list ov5647_2592x1944_10bpp[] = {
-+static const struct reg_sequence ov5647_2592x1944_10bpp[] = {
- 	{0x0100, 0x00},
- 	{0x0103, 0x01},
- 	{0x3034, 0x1a},
-@@ -231,7 +227,7 @@ static struct regval_list ov5647_2592x1944_10bpp[] = {
- 	{0x0100, 0x01},
- };
- 
--static struct regval_list ov5647_1080p30_10bpp[] = {
-+static const struct reg_sequence ov5647_1080p30_10bpp[] = {
- 	{0x0100, 0x00},
- 	{0x0103, 0x01},
- 	{0x3034, 0x1a},
-@@ -320,7 +316,7 @@ static struct regval_list ov5647_1080p30_10bpp[] = {
- 	{0x0100, 0x01},
- };
- 
--static struct regval_list ov5647_2x2binned_10bpp[] = {
-+static const struct reg_sequence ov5647_2x2binned_10bpp[] = {
- 	{0x0100, 0x00},
- 	{0x0103, 0x01},
- 	{0x3034, 0x1a},
-@@ -413,7 +409,7 @@ static struct regval_list ov5647_2x2binned_10bpp[] = {
- 	{0x0100, 0x01},
- };
- 
--static struct regval_list ov5647_640x480_10bpp[] = {
-+static const struct reg_sequence ov5647_640x480_10bpp[] = {
- 	{0x0100, 0x00},
- 	{0x0103, 0x01},
- 	{0x3035, 0x11},
-@@ -594,109 +590,29 @@ static const struct ov5647_mode ov5647_modes[] = {
- #define OV5647_DEFAULT_MODE	(&ov5647_modes[3])
- #define OV5647_DEFAULT_FORMAT	(ov5647_modes[3].format)
- 
--static int ov5647_write16(struct v4l2_subdev *sd, u16 reg, u16 val)
--{
--	unsigned char data[4] = { reg >> 8, reg & 0xff, val >> 8, val & 0xff};
--	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	int ret;
--
--	ret = i2c_master_send(client, data, 4);
--	if (ret < 0) {
--		dev_dbg(&client->dev, "%s: i2c write error, reg: %x\n",
--			__func__, reg);
--		return ret;
--	}
--
--	return 0;
--}
--
--static int ov5647_write(struct v4l2_subdev *sd, u16 reg, u8 val)
--{
--	unsigned char data[3] = { reg >> 8, reg & 0xff, val};
--	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	int ret;
--
--	ret = i2c_master_send(client, data, 3);
--	if (ret < 0) {
--		dev_dbg(&client->dev, "%s: i2c write error, reg: %x\n",
--				__func__, reg);
--		return ret;
--	}
--
--	return 0;
--}
--
--static int ov5647_read(struct v4l2_subdev *sd, u16 reg, u8 *val)
--{
--	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	u8 buf[2] = { reg >> 8, reg & 0xff };
--	struct i2c_msg msg[2];
--	int ret;
--
--	msg[0].addr = client->addr;
--	msg[0].flags = client->flags;
--	msg[0].buf = buf;
--	msg[0].len = sizeof(buf);
--
--	msg[1].addr = client->addr;
--	msg[1].flags = client->flags | I2C_M_RD;
--	msg[1].buf = buf;
--	msg[1].len = 1;
--
--	ret = i2c_transfer(client->adapter, msg, 2);
--	if (ret != 2) {
--		dev_err(&client->dev, "%s: i2c read error, reg: %x = %d\n",
--			__func__, reg, ret);
--		return ret >= 0 ? -EINVAL : ret;
--	}
--
--	*val = buf[0];
--
--	return 0;
--}
--
--static int ov5647_write_array(struct v4l2_subdev *sd,
--			      const struct regval_list *regs, int array_size)
--{
--	int i, ret;
--
--	for (i = 0; i < array_size; i++) {
--		ret = ov5647_write(sd, regs[i].addr, regs[i].data);
--		if (ret < 0)
--			return ret;
--	}
--
--	return 0;
--}
--
- static int ov5647_set_virtual_channel(struct v4l2_subdev *sd, int channel)
- {
--	u8 channel_id;
--	int ret;
--
--	ret = ov5647_read(sd, OV5647_REG_MIPI_CTRL14, &channel_id);
--	if (ret < 0)
--		return ret;
--
--	channel_id &= ~(3 << 6);
-+	struct ov5647 *sensor = to_sensor(sd);
- 
--	return ov5647_write(sd, OV5647_REG_MIPI_CTRL14,
--			    channel_id | (channel << 6));
-+	return cci_update_bits(sensor->regmap, OV5647_REG_MIPI_CTRL14,
-+			       OV5647_REG_MIPI_CTRL14_CHANNEL_MASK,
-+			       channel << OV5647_REG_MIPI_CTRL14_CHANNEL_SHIFT,
-+			       NULL);
- }
- 
- static int ov5647_set_mode(struct v4l2_subdev *sd)
+ 	struct gpio_desc		*pwdn;
+ 	bool				clock_ncont;
+@@ -799,10 +798,10 @@ __ov5647_get_pad_crop(struct ov5647 *ov5647,
+ static int ov5647_s_stream(struct v4l2_subdev *sd, int enable)
  {
  	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct ov5647 *sensor = to_sensor(sd);
++	struct v4l2_subdev_state *state;
+ 	int ret;
+ 
+-	mutex_lock(&sensor->lock);
++	state = v4l2_subdev_lock_and_get_active_state(sd);
+ 
+ 	if (enable) {
+ 		ret = pm_runtime_resume_and_get(&client->dev);
+@@ -823,14 +822,14 @@ static int ov5647_s_stream(struct v4l2_subdev *sd, int enable)
+ 		pm_runtime_put(&client->dev);
+ 	}
+ 
+-	mutex_unlock(&sensor->lock);
++	v4l2_subdev_unlock_state(state);
+ 
+ 	return 0;
+ 
+ error_pm:
+ 	pm_runtime_put(&client->dev);
+ error_unlock:
+-	mutex_unlock(&sensor->lock);
++	v4l2_subdev_unlock_state(state);
+ 
+ 	return ret;
+ }
+@@ -878,7 +877,6 @@ static int ov5647_get_pad_fmt(struct v4l2_subdev *sd,
+ 	const struct v4l2_mbus_framefmt *sensor_format;
  	struct ov5647 *sensor = to_sensor(sd);
--	u8 resetval, rdval;
-+	u64 resetval, rdval;
- 	int ret;
  
--	ret = ov5647_read(sd, OV5647_SW_STANDBY, &rdval);
-+	ret = cci_read(sensor->regmap, OV5647_SW_STANDBY, &rdval, NULL);
- 	if (ret < 0)
- 		return ret;
- 
--	ret = ov5647_write_array(sd, sensor->mode->reg_list,
--				 sensor->mode->num_regs);
-+	ret = regmap_multi_reg_write(sensor->regmap, sensor->mode->reg_list,
-+				     sensor->mode->num_regs);
- 	if (ret < 0) {
- 		dev_err(&client->dev, "write sensor default regs error\n");
- 		return ret;
-@@ -706,13 +622,13 @@ static int ov5647_set_mode(struct v4l2_subdev *sd)
- 	if (ret < 0)
- 		return ret;
- 
--	ret = ov5647_read(sd, OV5647_SW_STANDBY, &resetval);
-+	ret = cci_read(sensor->regmap, OV5647_SW_STANDBY, &resetval, NULL);
- 	if (ret < 0)
- 		return ret;
- 
- 	if (!(resetval & 0x01)) {
- 		dev_err(&client->dev, "Device was in SW standby");
--		ret = ov5647_write(sd, OV5647_SW_STANDBY, 0x01);
-+		ret = cci_write(sensor->regmap, OV5647_SW_STANDBY, 0x01, NULL);
- 		if (ret < 0)
- 			return ret;
- 	}
-@@ -742,32 +658,25 @@ static int ov5647_stream_on(struct v4l2_subdev *sd)
- 		val |= MIPI_CTRL00_CLOCK_LANE_GATE |
- 		       MIPI_CTRL00_LINE_SYNC_ENABLE;
- 
--	ret = ov5647_write(sd, OV5647_REG_MIPI_CTRL00, val);
--	if (ret < 0)
--		return ret;
--
--	ret = ov5647_write(sd, OV5647_REG_FRAME_OFF_NUMBER, 0x00);
--	if (ret < 0)
--		return ret;
-+	cci_write(sensor->regmap, OV5647_REG_MIPI_CTRL00, val, &ret);
-+	cci_write(sensor->regmap, OV5647_REG_FRAME_OFF_NUMBER, 0x00, &ret);
-+	cci_write(sensor->regmap, OV5640_REG_PAD_OUT, 0x00, &ret);
- 
--	return ov5647_write(sd, OV5640_REG_PAD_OUT, 0x00);
-+	return ret;
- }
- 
- static int ov5647_stream_off(struct v4l2_subdev *sd)
- {
--	int ret;
--
--	ret = ov5647_write(sd, OV5647_REG_MIPI_CTRL00,
--			   MIPI_CTRL00_CLOCK_LANE_GATE | MIPI_CTRL00_BUS_IDLE |
--			   MIPI_CTRL00_CLOCK_LANE_DISABLE);
--	if (ret < 0)
--		return ret;
-+	struct ov5647 *sensor = to_sensor(sd);
-+	int ret = 0;
- 
--	ret = ov5647_write(sd, OV5647_REG_FRAME_OFF_NUMBER, 0x0f);
--	if (ret < 0)
--		return ret;
-+	cci_write(sensor->regmap, OV5647_REG_MIPI_CTRL00,
-+		  MIPI_CTRL00_CLOCK_LANE_GATE | MIPI_CTRL00_BUS_IDLE |
-+		  MIPI_CTRL00_CLOCK_LANE_DISABLE, &ret);
-+	cci_write(sensor->regmap, OV5647_REG_FRAME_OFF_NUMBER, 0x0f, &ret);
-+	cci_write(sensor->regmap, OV5640_REG_PAD_OUT, 0x01, &ret);
- 
--	return ov5647_write(sd, OV5640_REG_PAD_OUT, 0x01);
-+	return ret;
- }
- 
- static int ov5647_power_on(struct device *dev)
-@@ -788,8 +697,8 @@ static int ov5647_power_on(struct device *dev)
- 		goto error_pwdn;
+-	mutex_lock(&sensor->lock);
+ 	switch (format->which) {
+ 	case V4L2_SUBDEV_FORMAT_TRY:
+ 		sensor_format = v4l2_subdev_state_get_format(sd_state,
+@@ -890,7 +888,6 @@ static int ov5647_get_pad_fmt(struct v4l2_subdev *sd,
  	}
  
--	ret = ov5647_write_array(&sensor->sd, sensor_oe_enable_regs,
--				 ARRAY_SIZE(sensor_oe_enable_regs));
-+	ret = regmap_multi_reg_write(sensor->regmap, sensor_oe_enable_regs,
-+				     ARRAY_SIZE(sensor_oe_enable_regs));
- 	if (ret < 0) {
- 		dev_err(dev, "write sensor_oe_enable_regs error\n");
- 		goto error_clk_disable;
-@@ -815,23 +724,17 @@ static int ov5647_power_on(struct device *dev)
- static int ov5647_power_off(struct device *dev)
- {
- 	struct ov5647 *sensor = dev_get_drvdata(dev);
--	u8 rdval;
- 	int ret;
+ 	*fmt = *sensor_format;
+-	mutex_unlock(&sensor->lock);
  
- 	dev_dbg(dev, "OV5647 power off\n");
- 
--	ret = ov5647_write_array(&sensor->sd, sensor_oe_disable_regs,
--				 ARRAY_SIZE(sensor_oe_disable_regs));
-+	ret = regmap_multi_reg_write(sensor->regmap, sensor_oe_disable_regs,
-+				     ARRAY_SIZE(sensor_oe_disable_regs));
- 	if (ret < 0)
- 		dev_dbg(dev, "disable oe failed\n");
- 
- 	/* Enter software standby */
--	ret = ov5647_read(&sensor->sd, OV5647_SW_STANDBY, &rdval);
--	if (ret < 0)
--		dev_dbg(dev, "software standby failed\n");
--
--	rdval &= ~0x01;
--	ret = ov5647_write(&sensor->sd, OV5647_SW_STANDBY, rdval);
-+	ret = cci_update_bits(sensor->regmap, OV5647_SW_STANDBY, 0x01, 0x00, NULL);
- 	if (ret < 0)
- 		dev_dbg(dev, "software standby failed\n");
- 
-@@ -845,10 +748,11 @@ static int ov5647_power_off(struct device *dev)
- static int ov5647_sensor_get_register(struct v4l2_subdev *sd,
- 				      struct v4l2_dbg_register *reg)
- {
-+	struct ov5647 *sensor = to_sensor(sd);
- 	int ret;
--	u8 val;
-+	u64 val;
- 
--	ret = ov5647_read(sd, reg->reg & 0xff, &val);
-+	ret = cci_read(sensor->regmap, reg->reg & 0xff, &val, NULL);
- 	if (ret < 0)
- 		return ret;
- 
-@@ -861,7 +765,9 @@ static int ov5647_sensor_get_register(struct v4l2_subdev *sd,
- static int ov5647_sensor_set_register(struct v4l2_subdev *sd,
- 				      const struct v4l2_dbg_register *reg)
- {
--	return ov5647_write(sd, reg->reg & 0xff, reg->val & 0xff);
-+	struct ov5647 *sensor = to_sensor(sd);
-+
-+	return cci_write(sensor->regmap, reg->reg & 0xff, reg->val & 0xff, NULL);
+ 	return 0;
  }
- #endif
+@@ -908,7 +905,6 @@ static int ov5647_set_pad_fmt(struct v4l2_subdev *sd,
+ 				      fmt->width, fmt->height);
  
-@@ -1089,33 +995,27 @@ static const struct v4l2_subdev_ops ov5647_subdev_ops = {
+ 	/* Update the sensor mode and apply at it at streamon time. */
+-	mutex_lock(&sensor->lock);
+ 	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
+ 		*v4l2_subdev_state_get_format(sd_state, format->pad) = mode->format;
+ 	} else {
+@@ -937,7 +933,6 @@ static int ov5647_set_pad_fmt(struct v4l2_subdev *sd,
+ 					 exposure_def);
+ 	}
+ 	*fmt = mode->format;
+-	mutex_unlock(&sensor->lock);
  
- static int ov5647_detect(struct v4l2_subdev *sd)
- {
-+	struct ov5647 *sensor = to_sensor(sd);
+ 	return 0;
+ }
+@@ -950,10 +945,8 @@ static int ov5647_get_selection(struct v4l2_subdev *sd,
+ 	case V4L2_SEL_TGT_CROP: {
+ 		struct ov5647 *sensor = to_sensor(sd);
+ 
+-		mutex_lock(&sensor->lock);
+ 		sel->r = *__ov5647_get_pad_crop(sensor, sd_state, sel->pad,
+ 						sel->which);
+-		mutex_unlock(&sensor->lock);
+ 
+ 		return 0;
+ 	}
+@@ -1046,9 +1039,6 @@ static int ov5647_s_ctrl(struct v4l2_ctrl *ctrl)
  	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	u8 read;
-+	u64 read;
- 	int ret;
+ 	int ret = 0;
  
--	ret = ov5647_write(sd, OV5647_SW_RESET, 0x01);
-+	ret = cci_write(sensor->regmap, OV5647_SW_RESET, 0x01, NULL);
- 	if (ret < 0)
- 		return ret;
+-
+-	/* v4l2_ctrl_lock() locks our own mutex */
+-
+ 	if (ctrl->id == V4L2_CID_VBLANK) {
+ 		int exposure_max, exposure_def;
  
--	ret = ov5647_read(sd, OV5647_REG_CHIPID_H, &read);
-+	ret = cci_read(sensor->regmap, OV5647_REG_CHIPID, &read, NULL);
- 	if (ret < 0)
--		return ret;
-+		return dev_err_probe(&client->dev, ret,
-+				     "failed to read chip id %x\n",
-+				     OV5647_REG_CHIPID);
- 
--	if (read != 0x56) {
--		dev_err(&client->dev, "ID High expected 0x56 got %x", read);
-+	if (read != OV5647_CHIP_ID) {
-+		dev_err(&client->dev, "Chip ID expected 0x5647 got 0x%llx", read);
- 		return -ENODEV;
+@@ -1263,13 +1253,11 @@ static int ov5647_probe(struct i2c_client *client)
+ 		return -EINVAL;
  	}
  
--	ret = ov5647_read(sd, OV5647_REG_CHIPID_L, &read);
--	if (ret < 0)
--		return ret;
+-	mutex_init(&sensor->lock);
 -
--	if (read != 0x47) {
--		dev_err(&client->dev, "ID Low expected 0x47 got %x", read);
--		return -ENODEV;
--	}
--
--	return ov5647_write(sd, OV5647_SW_RESET, 0x00);
-+	return cci_write(sensor->regmap, OV5647_SW_RESET, 0x00, NULL);
- }
+ 	sensor->mode = OV5647_DEFAULT_MODE;
  
- static int ov5647_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-@@ -1138,74 +1038,6 @@ static const struct v4l2_subdev_internal_ops ov5647_subdev_internal_ops = {
- 	.open = ov5647_open,
- };
+ 	ret = ov5647_init_controls(sensor);
+ 	if (ret)
+-		goto mutex_destroy;
++		return ret;
  
--static int ov5647_s_auto_white_balance(struct v4l2_subdev *sd, u32 val)
--{
--	return ov5647_write(sd, OV5647_REG_AWB, val ? 1 : 0);
--}
--
--static int ov5647_s_autogain(struct v4l2_subdev *sd, u32 val)
--{
--	int ret;
--	u8 reg;
--
--	/* Non-zero turns on AGC by clearing bit 1.*/
--	ret = ov5647_read(sd, OV5647_REG_AEC_AGC, &reg);
--	if (ret)
--		return ret;
--
--	return ov5647_write(sd, OV5647_REG_AEC_AGC, val ? reg & ~BIT(1)
--							: reg | BIT(1));
--}
--
--static int ov5647_s_exposure_auto(struct v4l2_subdev *sd, u32 val)
--{
--	int ret;
--	u8 reg;
--
--	/*
--	 * Everything except V4L2_EXPOSURE_MANUAL turns on AEC by
--	 * clearing bit 0.
--	 */
--	ret = ov5647_read(sd, OV5647_REG_AEC_AGC, &reg);
--	if (ret)
--		return ret;
--
--	return ov5647_write(sd, OV5647_REG_AEC_AGC,
--			    val == V4L2_EXPOSURE_MANUAL ? reg | BIT(0)
--							: reg & ~BIT(0));
--}
--
--static int ov5647_s_analogue_gain(struct v4l2_subdev *sd, u32 val)
--{
--	int ret;
--
--	/* 10 bits of gain, 2 in the high register. */
--	ret = ov5647_write(sd, OV5647_REG_GAIN_HI, (val >> 8) & 3);
--	if (ret)
--		return ret;
--
--	return ov5647_write(sd, OV5647_REG_GAIN_LO, val & 0xff);
--}
--
--static int ov5647_s_exposure(struct v4l2_subdev *sd, u32 val)
--{
--	int ret;
--
--	/*
--	 * Sensor has 20 bits, but the bottom 4 bits are fractions of a line
--	 * which we leave as zero (and don't receive in "val").
--	 */
--	ret = ov5647_write(sd, OV5647_REG_EXP_HI, (val >> 12) & 0xf);
--	if (ret)
--		return ret;
--
--	ret = ov5647_write(sd, OV5647_REG_EXP_MID, (val >> 4) & 0xff);
--	if (ret)
--		return ret;
--
--	return ov5647_write(sd, OV5647_REG_EXP_LO, (val & 0xf) << 4);
--}
--
- static int ov5647_s_ctrl(struct v4l2_ctrl *ctrl)
- {
- 	struct ov5647 *sensor = container_of(ctrl->handler,
-@@ -1239,27 +1071,42 @@ static int ov5647_s_ctrl(struct v4l2_ctrl *ctrl)
- 
- 	switch (ctrl->id) {
- 	case V4L2_CID_AUTO_WHITE_BALANCE:
--		ret = ov5647_s_auto_white_balance(sd, ctrl->val);
-+		ret = cci_write(sensor->regmap, OV5647_REG_AWB,
-+				ctrl->val ? 1 : 0, NULL);
- 		break;
- 	case V4L2_CID_AUTOGAIN:
--		ret = ov5647_s_autogain(sd, ctrl->val);
-+		/* Non-zero turns on AGC by clearing bit 1.*/
-+		return cci_update_bits(sensor->regmap, OV5647_REG_AEC_AGC, BIT(1),
-+				       ctrl->val ? 0 : BIT(1), NULL);
- 		break;
- 	case V4L2_CID_EXPOSURE_AUTO:
--		ret = ov5647_s_exposure_auto(sd, ctrl->val);
-+		/*
-+		 * Everything except V4L2_EXPOSURE_MANUAL turns on AEC by
-+		 * clearing bit 0.
-+		 */
-+		return cci_update_bits(sensor->regmap, OV5647_REG_AEC_AGC, BIT(0),
-+				       ctrl->val == V4L2_EXPOSURE_MANUAL ? BIT(0) : 0, NULL);
- 		break;
- 	case V4L2_CID_ANALOGUE_GAIN:
--		ret =  ov5647_s_analogue_gain(sd, ctrl->val);
-+		/* 10 bits of gain, 2 in the high register. */
-+		return cci_write(sensor->regmap, OV5647_REG_GAIN,
-+				 ctrl->val & 0x3ff, NULL);
- 		break;
- 	case V4L2_CID_EXPOSURE:
--		ret = ov5647_s_exposure(sd, ctrl->val);
-+		/*
-+		 * Sensor has 20 bits, but the bottom 4 bits are fractions of a line
-+		 * which we leave as zero (and don't receive in "val").
-+		 */
-+		ret = cci_write(sensor->regmap, OV5647_REG_EXPOSURE,
-+				ctrl->val << 4, NULL);
- 		break;
- 	case V4L2_CID_VBLANK:
--		ret = ov5647_write16(sd, OV5647_REG_VTS_HI,
--				     sensor->mode->format.height + ctrl->val);
-+		ret = cci_write(sensor->regmap, OV5647_REG_VTS,
-+				sensor->mode->format.height + ctrl->val, NULL);
- 		break;
- 	case V4L2_CID_TEST_PATTERN:
--		ret = ov5647_write(sd, OV5647_REG_ISPCTRL3D,
--				   ov5647_test_pattern_val[ctrl->val]);
-+		ret = cci_write(sensor->regmap, OV5647_REG_ISPCTRL3D,
-+				ov5647_test_pattern_val[ctrl->val], NULL);
- 		break;
- 
- 	/* Read-only, but we adjust it based on mode. */
-@@ -1435,6 +1282,13 @@ static int ov5647_probe(struct i2c_client *client)
+ 	sd = &sensor->sd;
+ 	v4l2_i2c_subdev_init(sd, client, &ov5647_subdev_ops);
+@@ -1297,9 +1285,16 @@ static int ov5647_probe(struct i2c_client *client)
  	if (ret < 0)
- 		goto ctrl_handler_free;
+ 		goto power_off;
  
-+	sensor->regmap = devm_cci_regmap_init_i2c(client, 16);
-+	if (IS_ERR(sensor->regmap)) {
-+		ret = dev_err_probe(dev, PTR_ERR(sensor->regmap),
-+				    "Failed to init CCI\n");
-+		goto entity_cleanup;
++	sd->state_lock = sensor->ctrls.lock;
++	ret = v4l2_subdev_init_finalize(sd);
++	if (ret < 0) {
++		ret = dev_err_probe(dev, ret, "failed to init subdev\n");
++		goto power_off;
 +	}
 +
- 	ret = ov5647_power_on(dev);
- 	if (ret)
- 		goto entity_cleanup;
+ 	ret = v4l2_async_register_subdev(sd);
+ 	if (ret < 0)
+-		goto power_off;
++		goto v4l2_subdev_cleanup;
+ 
+ 	/* Enable runtime PM and turn off the device */
+ 	pm_runtime_set_active(dev);
+@@ -1310,14 +1305,14 @@ static int ov5647_probe(struct i2c_client *client)
+ 
+ 	return 0;
+ 
++v4l2_subdev_cleanup:
++	v4l2_subdev_cleanup(sd);
+ power_off:
+ 	ov5647_power_off(dev);
+ entity_cleanup:
+ 	media_entity_cleanup(&sd->entity);
+ ctrl_handler_free:
+ 	v4l2_ctrl_handler_free(&sensor->ctrls);
+-mutex_destroy:
+-	mutex_destroy(&sensor->lock);
+ 
+ 	return ret;
+ }
+@@ -1328,11 +1323,11 @@ static void ov5647_remove(struct i2c_client *client)
+ 	struct ov5647 *sensor = to_sensor(sd);
+ 
+ 	v4l2_async_unregister_subdev(&sensor->sd);
++	v4l2_subdev_cleanup(sd);
+ 	media_entity_cleanup(&sensor->sd.entity);
+ 	v4l2_ctrl_handler_free(&sensor->ctrls);
+ 	v4l2_device_unregister_subdev(sd);
+ 	pm_runtime_disable(&client->dev);
+-	mutex_destroy(&sensor->lock);
+ }
+ 
+ static const struct dev_pm_ops ov5647_pm_ops = {
 -- 
 2.43.0
 
