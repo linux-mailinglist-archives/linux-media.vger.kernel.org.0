@@ -1,162 +1,185 @@
-Return-Path: <linux-media+bounces-49826-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49827-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87EA9CED2D2
-	for <lists+linux-media@lfdr.de>; Thu, 01 Jan 2026 17:41:34 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15D7ECED427
+	for <lists+linux-media@lfdr.de>; Thu, 01 Jan 2026 19:15:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D36263007FD4
-	for <lists+linux-media@lfdr.de>; Thu,  1 Jan 2026 16:41:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B45B33006A76
+	for <lists+linux-media@lfdr.de>; Thu,  1 Jan 2026 18:15:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99EF72EDD78;
-	Thu,  1 Jan 2026 16:41:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jH14ez4C"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F67D2F1FFE;
+	Thu,  1 Jan 2026 18:15:07 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from rmisp-mx-out1.tele.net (rmisp-mx-out1.tele.net [194.208.23.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F3551C84AB
-	for <linux-media@vger.kernel.org>; Thu,  1 Jan 2026 16:41:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D0792E54A3;
+	Thu,  1 Jan 2026 18:15:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.208.23.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767285688; cv=none; b=SdqtYA3df8G26YR+XCvvJcp/rby4v/paFS3SUg5PJXxW1xUo9ltHg3u0xsEeuEXpuBF7RuhcDV0IEGbjcLkbpq1xXFU1zJ24A/6N0CNrqRCBmJG1xR7pCDD7wPoe2r2/kCD77d9wTStIzdm2J0oxJ4rMZGmznF/fDgasU4vgOLU=
+	t=1767291306; cv=none; b=ko591HkGLoqaHFP3tf7hRoM5WSSznoz5aq+piRQ8tnKTHiYP3Pqg5G74ODjUO45rxZnTMjNt/F/98v76v6slub7w8T7K9nMgjfG/ndsVnp5oYfv/vFChjQDudunEl7lFTAa6X4n9RW/XJkHV55bt67B0IwEJTIWlU4ZajhO2ofQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767285688; c=relaxed/simple;
-	bh=NQEfzUm8CoXDEDaIg+I/sw4HQyVJ5kOYQMNLSWHizCU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HgTMKjjsnx1clMuEEZBmBUo5Eo7vw6w7QMdYWMxNGifSEARvWfXqYYhHYJ4ODWlS1KTh/WrWrNsIGzUwvOa4nD4fVg0Sm4B5pO2w+YA/gRhnay5y+8N0gISMIdHwXXJt4yT+OtqnNyPO0BQaXLemoUr493OjiwWOTTK4FDKv/1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jH14ez4C; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-47d3ffb0f44so35372745e9.3
-        for <linux-media@vger.kernel.org>; Thu, 01 Jan 2026 08:41:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767285685; x=1767890485; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZFn5mZZ1GFrLX+zltD0NdQ5QIlUaqG+YHTjhL+HRPtI=;
-        b=jH14ez4CGYlAuJPeerdc2xSYo+P9DWkt9sHPTEDCvB+Zb60pl1NWdCEUCU3m/RmdqH
-         8OMpzYLBJ49xGovlqMuy0Pt0n1jFxMfw+GGArMHOEaEbNvZ6+4lc3x2b69rgm0Q7s495
-         o0WBGayAFwBuwmnhvr9R8PaoOoOWiTgbvuycG29OzTA6Ce6H7IGu0AGOlzG7QvTlttVh
-         uKiEDk94/pVsg4MHd9QqQbzELwORK/Wjq9Fk9jvsBwas2OePNv8a3hF7uZ5UX1SQoZvE
-         AsPQpIw1Re7CpKQ8fEE8OCupYL20eYyhtGtrzY6/vFUP181oXSwRU8i8PvoHsVY48wnE
-         0viA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767285685; x=1767890485;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZFn5mZZ1GFrLX+zltD0NdQ5QIlUaqG+YHTjhL+HRPtI=;
-        b=Oipk4KGksxDVJrbVJsKLp3D9Uhg+tvKTAdgIgx6l6duFl8rZg2SXkvTp76zUUGV5Dv
-         FP029KpkUS0cvosUW8H98C8d1JKJ4arNDFFvs7rdexyWBfVXwwcyWCQV2tuR5CcaqyCK
-         pDC3Pc0EcaTaUSk/xjECBhZyq4EPnKdAgOBNqqFPk8A1egEaptvgbJhWI/amtOAPDd2A
-         bk/DWwJIpx6Bc2dfpiWIHN4ZaGLOdYajKSAw1yQtJoOqcS65ICDrxS63pazxuoy5Z0sJ
-         1Ny8cTLMzrNRdrtDagYnJXGpJZshsIV4BJIFz+S3R1F3rX5wug9HxZI9rFIMe78/treC
-         vi+A==
-X-Forwarded-Encrypted: i=1; AJvYcCX4wjTEcTY031CnXeuOvd99BW90X6Lenqsr6NTPh7LdZc1ZoSxmmjAZJmLYpTbkBJWUAwiiMehxWR/o+w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwKvI9nF7v5mPRWzUKlhuPWNmnYIHaVeNp8WZqb1QhK3u+Y8Wv7
-	wmwh+MnDCf0Zlyeo9p/3P5c9hxm+ExZ6SdVKvTluONVbgRXneFsOqMKJ
-X-Gm-Gg: AY/fxX6Jr2t+b50U04V+pYH4glLjBAvWi/BjtqZk/VG1rh83OHObO4CSPOzPu1sX7xf
-	h5oB9vYakG7bkSdONj5SmfNkwln1uBQpC+zv7TUQcvbfpkI18di4YXa+aFclPPdwSng+5Flxc2G
-	mQLZy99A2lPoSoqZ9CmUgIwrkl12Z8BkP65hv7ecQWKWTmnDQumKFKpIO1n+EQr8LjdXAtSZFq9
-	Qj92euxmgwRQx1Is+iIFUC67VQpuxmskZWUBXvqoiCB3UCxEfrhf+j9rGJ01T16lMMAP1uGOqtP
-	Yp6GpHtjHWBVh2cBTYM2TbTHCkN5IX8uMMaMzUUteb1H0QfYsjDoDVEqc3iznaIldHkPDcRSVRg
-	WhvUcDpFWpUlQWBo0SqNxr3UGt5dmTkfDCBw4MIqEjm+WDHOzIEc4Yc17HKWaewnOQ6ZAK01ecf
-	YJZjvOZ9MZ5KAgRySK42gJw9Pa
-X-Google-Smtp-Source: AGHT+IFvVQu4Gd5ZRQSV1t2Koilx6EPmTM0D/s54QwT1w/8bMlds5wzVPAa25EjjdjImABNxaa+7tg==
-X-Received: by 2002:a05:600c:4fd4:b0:477:7bca:8b34 with SMTP id 5b1f17b1804b1-47d1955b744mr452339575e9.6.1767285684569;
-        Thu, 01 Jan 2026 08:41:24 -0800 (PST)
-Received: from localhost.localdomain ([2400:adc1:447:6d00:1c1a:7818:23f6:aae1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324e9ba877sm80995853f8f.0.2026.01.01.08.41.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Jan 2026 08:41:24 -0800 (PST)
-From: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org,
-	andy@kernel.org
-Cc: sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
-Subject: [PATCH] media: atomisp: Fix block comment coding style in sh_css_param_shading.c
-Date: Thu,  1 Jan 2026 21:41:17 +0500
-Message-ID: <20260101164117.14292-1-mahad.ibrahim.dev@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	s=arc-20240116; t=1767291306; c=relaxed/simple;
+	bh=Rmuqu+Ek+T5YtxAgpWBAVcG8C34jeDmR34VUZXa+XOU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tQT5UAx3xybP+GiQSAUhtw5EnO0SAYMAf6jbUWAVfk6ZLVlHKzJAddcJDcqhPchBSxsxfj1WMgoAXru0i3stWNgQLGdfPbk5m4h2Ip+h2taSTtkTtxV1QpKJ1RwtI/jAKfkl2qOcFG0L/gB4gmQVdM34NAwKlkCAtSo3swBt3lE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=fail smtp.mailfrom=emfend.at; arc=none smtp.client-ip=194.208.23.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=emfend.at
+Received: from [192.168.0.207] (194-208-208-245.tele.net [194.208.208.245])
+	by rmisp-mx-out1.tele.net (Postfix) with ESMTPA id 0C26F10E2A89;
+	Thu,  1 Jan 2026 19:09:14 +0100 (CET)
+Message-ID: <1cca1105-07dc-4482-b131-eadf9ed3a5f0@emfend.at>
+Date: Thu, 1 Jan 2026 19:09:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] media: i2c: imx283: add support for non-continuous
+ MIPI clock mode
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Rob Herring <robh@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Umang Jain <uajain@igalia.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20251217-imx283-ext-v1-0-906a762f592d@emfend.at>
+ <20251217-imx283-ext-v1-2-906a762f592d@emfend.at>
+ <176709148864.3401191.3323585790771042734@ping.linuxembedded.co.uk>
+Content-Language: de-DE
+From: Matthias Fend <matthias.fend@emfend.at>
+In-Reply-To: <176709148864.3401191.3323585790771042734@ping.linuxembedded.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Fix checkpatch.pl warnings in sh_css_param_shading.c regarding block
-comment formatting.
+Hi Kieran,
 
-The warning was:
-- Block comments use a trailing */ on a separate line
+thanks for your feedback.
 
-This change also moves text from the first line of block comments to
-subsequent lines to adhere to the standard Linux kernel coding style.
+Am 30.12.2025 um 11:44 schrieb Kieran Bingham:
+> Quoting Matthias Fend (2025-12-17 07:06:01)
+>> Add support for selecting between continuous and non-continuous MIPI clock
+>> mode.
+>>
+>> Previously, the CSI-2 non-continuous clock endpoint flag was ignored and
+>> the sensor was always configured for non-continuous clock mode. For
+>> existing device tree nodes that do not have this property enabled, this
+>> update will therefore change the actual clock mode.
+> 
+> So this means that not specifying non-continous will now enforce
+> continuous mode on existing devices ?
 
-Signed-off-by: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
----
- .../media/atomisp/pci/sh_css_param_shading.c   | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+Yes.
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_shading.c b/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
-index 513e272f2fdc..b5e9d11b28a6 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
-@@ -20,7 +20,8 @@
- 
- #include "platform_support.h"
- 
--/* Bilinear interpolation on shading tables:
-+/*
-+ * Bilinear interpolation on shading tables:
-  * For each target point T, we calculate the 4 surrounding source points:
-  * ul (upper left), ur (upper right), ll (lower left) and lr (lower right).
-  * We then calculate the distances from the T to the source points: x0, x1,
-@@ -116,8 +117,10 @@ crop_and_interpolate(unsigned int cropped_width,
- 		 */
- 		ty = out_start_row + i * out_cell_size;
- 
--		/* calculate closest source points in shading table and
--		   make sure they fall within the table */
-+		/*
-+		 * calculate closest source points in shading table and
-+		 * make sure they fall within the table
-+		 */
- 		src_y0 = ty / (int)in_cell_size;
- 		if (in_cell_size < out_cell_size)
- 			src_y1 = (ty + out_cell_size) / in_cell_size;
-@@ -173,7 +176,8 @@ crop_and_interpolate(unsigned int cropped_width,
- 			dx0 = tx - sx0;
- 			dx1 = sx1 - tx;
- 			divx = sx1 - sx0;
--			/* if we're at the edge, we just use the closest
-+			/*
-+			 * if we're at the edge, we just use the closest
- 			 * point still in the grid. We make up for the divider
- 			 * in this case by setting the distance to
- 			 * out_cell_size, since it's actually 0.
-@@ -291,8 +295,10 @@ prepare_shading_table(const struct ia_css_shading_table *in_table,
- 	input_width  = min(input_width,  in_table->sensor_width);
- 	input_height = min(input_height, in_table->sensor_height);
- 
--	/* This prepare_shading_table() function is called only in legacy API (not in new API).
--	   Then, the legacy shading table width and height should be used. */
-+	/*
-+	 * This prepare_shading_table() function is called only in legacy API (not in new API).
-+	 * Then, the legacy shading table width and height should be used.
-+	 */
- 	table_width  = binary->sctbl_width_per_color;
- 	table_height = binary->sctbl_height;
- 
--- 
-2.47.3
+> 
+> Are there any implications to that? I know there are quite a few users
+> of the sensor on Raspberry Pi for instance.
+
+This shouldn't cause any problems. Several sensors already use different 
+clock modes. However, it can't be completely ruled out that some MIPI 
+receivers might have issues with it.
+
+At least on an i.MX8MP, both modes work without any problems.
+
+> 
+> I think it should be fine though.
+> 
+>> Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
+>> ---
+>>   drivers/media/i2c/imx283.c | 12 ++++++++++++
+>>   1 file changed, 12 insertions(+)
+>>
+>> diff --git a/drivers/media/i2c/imx283.c b/drivers/media/i2c/imx283.c
+>> index 8ab63ad8f385f6e2a2d7432feff0af09a5356dc4..7a6ab2941ea985401b21d60163b58e980cf31ddc 100644
+>> --- a/drivers/media/i2c/imx283.c
+>> +++ b/drivers/media/i2c/imx283.c
+>> @@ -149,6 +149,9 @@
+>>   #define IMX283_REG_PLSTMG02            CCI_REG8(0x36aa)
+>>   #define   IMX283_PLSTMG02_VAL          0x00
+>>   
+>> +#define IMX283_REG_MIPI_CLK            CCI_REG8(0x3a43)
+>> +#define   IMX283_MIPI_CLK_NONCONTINUOUS        BIT(0)
+> 
+> I can't find this in my datasheet, so no specific comment on the
+> register I'm afraid. Did you get this from the vendor or is it an
+> assumption from other sony drivers?
+
+This was a hint from the vendor.
+
+> 
+> I assume you can measurably detect that this register impacts the clock
+> on a CSI scope or such perhaps from the receiver?
+
+Yes, on an scope you can clearly see whether the clock switches to the 
+low-power state during the inactive phases.
+
+Some MIPI receivers (such as the i.MX8MP) also have a status flag that 
+indicates the current ULP state of the clock lane.
+
+By increasing the vblank, this register can also be used to determine 
+quite reliable whether the clock lane sometimes switches to the ULP state.
+
+> 
+> So even with all that I think this appears to be correct. I'll test it
+> more when I can but otherwise:
+
+Thanks!
+
+~Matthias
+
+> 
+> 
+> Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+> 
+>> +
+>>   #define IMX283_REG_EBD_X_OUT_SIZE      CCI_REG16_LE(0x3a54)
+>>   
+>>   /* Test pattern generator */
+>> @@ -565,6 +568,7 @@ struct imx283 {
+>>          struct v4l2_ctrl *hblank;
+>>          struct v4l2_ctrl *vflip;
+>>   
+>> +       bool mipi_clk_noncontinuous;
+>>          unsigned long link_freq_bitmap;
+>>   
+>>          u16 hmax;
+>> @@ -988,6 +992,7 @@ static int imx283_set_pad_format(struct v4l2_subdev *sd,
+>>   static int imx283_standby_cancel(struct imx283 *imx283)
+>>   {
+>>          unsigned int link_freq_idx;
+>> +       u8 mipi_clk;
+>>          int ret = 0;
+>>   
+>>          cci_write(imx283->cci, IMX283_REG_STANDBY,
+>> @@ -1007,6 +1012,10 @@ static int imx283_standby_cancel(struct imx283 *imx283)
+>>          /* Enable PLL */
+>>          cci_write(imx283->cci, IMX283_REG_STBPL, IMX283_STBPL_NORMAL, &ret);
+>>   
+>> +       /* Configure MIPI clock mode */
+>> +       mipi_clk = imx283->mipi_clk_noncontinuous ? IMX283_MIPI_CLK_NONCONTINUOUS : 0;
+>> +       cci_write(imx283->cci, IMX283_REG_MIPI_CLK, mipi_clk, &ret);
+>> +
+>>          /* Configure the MIPI link speed */
+>>          link_freq_idx = __ffs(imx283->link_freq_bitmap);
+>>          cci_multi_reg_write(imx283->cci, link_freq_reglist[link_freq_idx].regs,
+>> @@ -1426,6 +1435,9 @@ static int imx283_parse_endpoint(struct imx283 *imx283)
+>>                  goto done_endpoint_free;
+>>          }
+>>   
+>> +       imx283->mipi_clk_noncontinuous =
+>> +               bus_cfg.bus.mipi_csi2.flags & V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK;
+>> +
+>>          ret = v4l2_link_freq_to_bitmap(imx283->dev, bus_cfg.link_frequencies,
+>>                                         bus_cfg.nr_of_link_frequencies,
+>>                                         link_frequencies, ARRAY_SIZE(link_frequencies),
+>>
+>> -- 
+>> 2.34.1
+>>
 
 
