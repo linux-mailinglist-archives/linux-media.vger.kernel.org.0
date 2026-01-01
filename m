@@ -1,406 +1,377 @@
-Return-Path: <linux-media+bounces-49814-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49815-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CCB5CECC10
-	for <lists+linux-media@lfdr.de>; Thu, 01 Jan 2026 03:04:49 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 109ACCECD6D
+	for <lists+linux-media@lfdr.de>; Thu, 01 Jan 2026 07:19:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E1EEB30111BC
-	for <lists+linux-media@lfdr.de>; Thu,  1 Jan 2026 02:04:43 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 184C230056D6
+	for <lists+linux-media@lfdr.de>; Thu,  1 Jan 2026 06:19:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E911E2877DC;
-	Thu,  1 Jan 2026 02:04:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 384AC212554;
+	Thu,  1 Jan 2026 06:19:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="hPsSIYWH"
+	dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b="RWNfLyfz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazon11021088.outbound.protection.outlook.com [40.107.57.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D971CEADB;
-	Thu,  1 Jan 2026 02:04:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.166.238
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38CB9749C;
+	Thu,  1 Jan 2026 06:19:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.57.88
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767233081; cv=fail; b=kqnBeUWLwXFQx1JSF/3vkrtWBFGZNnl7cj4jbRWS85XP2RIvVRadqNgS1q3ZuT0/pWb/kwCQquXIqiaa43hNaN0SmV5Ze3jnQJRryQHOp4uFRrmxzbNiunwToV+w3zNOkAbzomHtS2JZoSSv4VlopG5/2X2jCvSMmY79QPUus1Y=
+	t=1767248348; cv=fail; b=s1LlkntXFGfVbaE8jYlKeYWt+8JFV3/w0rBqMhzgeuZaJAjYoARhvsLUdPK0FafPPw6FFR0ufhifp+1KpLqDxEx8d0+YndmXmGg2lz9XAXq351gUUGENQkomakMy3uGNMdm2cOy2Dh9URKr57QHKwdAceWJWYBEgRJ1O9F2rV3s=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767233081; c=relaxed/simple;
-	bh=YgmndwMQl9obf3w+awMSFCSHBDxRGOmN/niUl+3LXRQ=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Nh2vmoNRK/hUy591Ow8K5gwYbaA+RNuLy2kv7tVlRiOgNibtLrQDYYncJ8Brbr1tMj53gHA6Fg/3ESfEDCA601+K0db7Snv+6VrSnD/SPDeN2+SQRG7uiEHVnUC32DVz8lTgxJiXkANhzZPMWAG5c+5lly9DZOguPiS/Qy4vouo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=hPsSIYWH; arc=fail smtp.client-ip=205.220.166.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60124Glr3327599;
-	Wed, 31 Dec 2025 18:04:16 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=ewtJ8OrLjYZ2yC+G60Pxk2iqhCfPY/jm+bwR/dK0HxM=; b=
-	hPsSIYWHZkdMGMpNnki+bG9opt7nZUTIaeOql1Wh3woha6RT0v+qyQImQtMr53Xg
-	Za0MD2U31KQ2nD1h58je2Q8qhOxum6SdSjCUZfsCYJgFHjeP/rg8yXZpHI9kUqmu
-	XIS223iy4SY0d015CeYwGUjVsGN2wrOKY2TLcAviZjct+M10+4wuQSIlmDhMC6t4
-	1YQlwWVvVahTJGXIhrLsRWeo/9i2AyCq00rjsvhAtJ1dYeWw9MuZF487RF6hqgUa
-	wtFPSwZs/dLLzd47Prln1efyLtfwHAHc0mROKIpgzC7Kp1wi+c/MXZjUX7jeRrvi
-	yjG/nisdvcu7f+YoSS5UMA==
-Received: from bl2pr02cu003.outbound.protection.outlook.com (mail-eastusazon11011042.outbound.protection.outlook.com [52.101.52.42])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4bafukc3a3-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 31 Dec 2025 18:04:16 -0800 (PST)
+	s=arc-20240116; t=1767248348; c=relaxed/simple;
+	bh=tWXsBYSmOP6dFeogXNsgvg2YeQ8cbNuImUOLbwmWYcc=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=e7BFxpUpuuQ1lw/yYav5rjD40jvvAmdDupcHQlFC47l5OpAn8mbX7hAjg6zcngEt80aAKZz3dP0kLg9i5/f7UVc0jUV7+cue3drKOjPZYihI8LeZBHiXnebBunlkayDtv2lzvdE7XiXwaoH9Ac10eiAWVLQPgb374+fkaw1BLOM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b=RWNfLyfz; arc=fail smtp.client-ip=40.107.57.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siliconsignals.io
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FQK4o4VlMPNO/8p+C/P2Rt7v49otT0xVmUuu5pyKNJlsEDg2RtnSM1eopENHPUNbtcAPtLaEekTQzLv7VYFWj470ag9waUfLs3E5pf1Fm0Io0Y3wjNhn79pLPU8LOjyv6fjAKBxZzMxqIyQP7BM9O0CvXILyEgvTO6rC2mrujw0vHl0PDIqYneUl2vACqWAxoPP3iwgJOt1XZMvFM64ub0ZnuO6ZLxiFSMGFXFFgdMBFRMNBq8Tca0Z3zpDgB2FlXXFO9y0M72nimA1k+2bYeQrazUal9OTAYJBCxkYkFkFkMoCk62H2Jhwys9u+Ib1AnNvRKEj7jTV7Bv8ZjqOoeg==
+ b=H+t6oVv6CgdaKHri+SCLV/BPKnLxM4BXbCmQTG6YuFEbWjAe3vypbKfc0pDnY6wPSW9CZPo/m23Yn5auS7/PSW9R1taVrOQJHS3fovpjhryyrmrILnIBTjpwHx1HffZl6GyKNw1UD4UDabwL33ZtyzA0if0dPqpIF0d4pGohk3uO/+LffTVaIZDEH7p3wpdhwXnP4iNGhovIP0Q7i5cVn3q2dpo4CyBByxYA0eupuOzN1jENiXCJjpIN/AMwJucVJugTE3/WZxfuziUOsD4u/GyxbiLs1QRURLRJvJjNh6SQzmzPc1Tpl58juj3fPZaOWUJmcJlhPZ65oUDFLO3z8g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ewtJ8OrLjYZ2yC+G60Pxk2iqhCfPY/jm+bwR/dK0HxM=;
- b=a+WvYaq45JJLq+NGWRxIOg2XhQqIBrtPaoNqfo8emT++ZgTjDQJusRf1B4PfWDYw/YGjVKF8XfkjYm4z1j2n676jGSokVjCTkU3MCeRi7fdCXzGw/4Jwkx0IXU8O660CdYNuo9+MiAQTNKf3d/DGgt9ZY0d3CUACCUfYENLVRTbVDM5z/VaJfsFcIxKVQnxkuNJ9mRxqR6CT4wuAOuTtBFL6NU3HHaQiNDbt5AOpIhpiBruKW9yH9bYfFoPuzkPAUqnNSnHrozRQiRTYuZAULxd9y/y+U/SRpLDy6w+IQ+ZJBXO1hXJzBC8vq7MsfnTfhMWLSpuvK07NTvoT4kIZIQ==
+ bh=tWXsBYSmOP6dFeogXNsgvg2YeQ8cbNuImUOLbwmWYcc=;
+ b=Kf5jbOPbAhrxjkR5hQE119cWxSX8zRi7AcRKgleZBeU8nP3/5LzRIkS1onKWe92mT8HQoHHpj0YVsx8cqXzXvO3s0eSuBWk4H3DLPdVqySc3VQ97GneRZRM/p6VR9qrLkVxTfRzGKQex5ec2Pdi7p4aAstPYh8YX2NyfxDKRXwbY8TJXgUXRS3hsIHTE/CnTh1pP6o2iIxP+r1udJZqIMQY4RNrOJdNXYI/uz4b8foWThjFAB0mWkpJWlaEBmqSGKa24Ol1pJ4GS98DtB17qgQLcFJuGL1tqes1d65y/bzxcMqnQNNm9dj2iCfCkXjcIV5StH/6TGQXWr3ah2/QPdA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DS4PPFD667CEBB6.namprd11.prod.outlook.com
- (2603:10b6:f:fc02::53) by DS0PR11MB8069.namprd11.prod.outlook.com
- (2603:10b6:8:12c::20) with Microsoft SMTP Server (version=TLS1_2,
+ smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
+ header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siliconsignals.io;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tWXsBYSmOP6dFeogXNsgvg2YeQ8cbNuImUOLbwmWYcc=;
+ b=RWNfLyfzFJoM53GBtopNApc3+AgXRyQqkfopyp20YEsXbFmzUIpCo5pxmQgLRq/Bb6R1Oi3qQ+1f2yp9GaTgVro/DC5gT4a7rDj9stl0vObsV3SUWgz7uZ7yf2o9a4Syas4YHCEGAKZS2QfuNZXKYsFje+MvWg05kwQ2s/aEOraJVrJyaM2zrPevFmSkAg7NkMhdhwLepDpJaIcqOYdoGDaGvZQc9MGUyrr5kTaV5AXqTAqqnaMzyVdsvPoXtIx+Wh3AXLwpqpC7ahdTSJ8XPBpKCy9mEX4hOUspHL5Hu9hnH7VvzPGByOfLCs91sIwMcaIT7WpStX+m/OPssqVplA==
+Received: from PN0P287MB2019.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:1b8::9)
+ by MAUP287MB5218.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:1c2::22) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9478.4; Thu, 1 Jan
- 2026 02:04:13 +0000
-Received: from DS4PPFD667CEBB6.namprd11.prod.outlook.com
- ([fe80::92d2:113:b2d3:1d3e]) by DS4PPFD667CEBB6.namprd11.prod.outlook.com
- ([fe80::92d2:113:b2d3:1d3e%6]) with mapi id 15.20.9478.004; Thu, 1 Jan 2026
- 02:04:13 +0000
-Message-ID: <11c603c6-93e1-402a-a7f0-40b7cf56b4d2@windriver.com>
-Date: Thu, 1 Jan 2026 10:04:10 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/3] media: i2c: ov5647: switch to
- {enable,disable}_streams
-To: Tarang Raval <tarang.raval@siliconsignals.io>,
-        "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
-        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
-        "dave.stevenson@raspberrypi.com" <dave.stevenson@raspberrypi.com>,
-        "jacopo@jmondi.org" <jacopo@jmondi.org>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "prabhakar.mahadev-lad.rj@bp.renesas.com"
- <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "hverkuil+cisco@kernel.org" <hverkuil+cisco@kernel.org>,
-        "johannes.goede@oss.qualcomm.com" <johannes.goede@oss.qualcomm.com>,
-        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-        "jai.luthra@ideasonboard.com" <jai.luthra@ideasonboard.com>
-Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20251231083924.2657165-1-xiaolei.wang@windriver.com>
- <20251231083924.2657165-4-xiaolei.wang@windriver.com>
- <PN3P287MB18293AE98858CE9B30DB6C0E8BBDA@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
-Content-Language: en-US
-From: xiaolei wang <xiaolei.wang@windriver.com>
-In-Reply-To: <PN3P287MB18293AE98858CE9B30DB6C0E8BBDA@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: TY4P286CA0108.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:380::14) To DS4PPFD667CEBB6.namprd11.prod.outlook.com
- (2603:10b6:f:fc02::53)
+ 2026 06:19:02 +0000
+Received: from PN0P287MB2019.INDP287.PROD.OUTLOOK.COM
+ ([fe80::ebd8:538d:c705:8432]) by PN0P287MB2019.INDP287.PROD.OUTLOOK.COM
+ ([fe80::ebd8:538d:c705:8432%7]) with mapi id 15.20.9478.004; Thu, 1 Jan 2026
+ 06:19:02 +0000
+From: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, "robh@kernel.org"
+	<robh@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	"sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>
+CC: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>, Mehdi Djait
+	<mehdi.djait@linux.intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, Hans
+ de Goede <hansg@kernel.org>, =?iso-8859-1?Q?Andr=E9_Apitzsch?=
+	<git@apitzsch.eu>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Dongcheng Yan <dongcheng.yan@intel.com>, Benjamin Mugnier
+	<benjamin.mugnier@foss.st.com>, Sylvain Petinot
+	<sylvain.petinot@foss.st.com>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, Jingjing Xiong
+	<jingjing.xiong@intel.com>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v7 2/2] media: i2c: add os05b10 image sensor driver
+Thread-Topic: [PATCH v7 2/2] media: i2c: add os05b10 image sensor driver
+Thread-Index: AQHceiQl+WEzRulge0qviSo23SPS6rU7YjqAgAFzx7s=
+Date: Thu, 1 Jan 2026 06:19:02 +0000
+Message-ID:
+ <PN0P287MB2019969BACCD6EF1325BE3069ABAA@PN0P287MB2019.INDP287.PROD.OUTLOOK.COM>
+References: <20251231070645.16434-1-himanshu.bhavani@siliconsignals.io>
+ <20251231070645.16434-3-himanshu.bhavani@siliconsignals.io>
+ <8838a2f3-4eec-42ee-88ee-55a71f789037@linaro.org>
+In-Reply-To: <8838a2f3-4eec-42ee-88ee-55a71f789037@linaro.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-GB
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siliconsignals.io;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PN0P287MB2019:EE_|MAUP287MB5218:EE_
+x-ms-office365-filtering-correlation-id: 3c454174-550c-4b34-3c9d-08de48fda87d
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|7416014|1800799024|366016|38070700021;
+x-microsoft-antispam-message-info:
+ =?iso-8859-1?Q?Xi76q8Z1w5iIjV5iiKfqeoh155ji4nNFsZnUgVTaSgzhXioO1gjwjdBFcu?=
+ =?iso-8859-1?Q?oqNPoL06IgrjhBAYq9j6kMpaY5aGBGlYbeBx0nISEJsjMjSR2uPIa3G4Yv?=
+ =?iso-8859-1?Q?qIqROBubx09vzDG4epvvJkyVVgY9pmHX8dmSpVYmY42xPv7W2RymM46Co+?=
+ =?iso-8859-1?Q?RuKQ9RsnC37qsx2s3VjchQYWNyyqqv1yM+yiLAaWFxqD1bYxJZuymvefGn?=
+ =?iso-8859-1?Q?Hz3XQVd17ITB8gwK1viToSsBSXp5+XaYniQCzwNkzWrDBw9Tgk8mmBXHhB?=
+ =?iso-8859-1?Q?4cT1OqvOTMKoqXSRg5OyVfMXpy16PBCJzDz2P2C8z7+DOGGZc7PrJao1LL?=
+ =?iso-8859-1?Q?+BSxs6KesJMCrXEcf0xCyKrrdeAijQztZflWEARlNBEYfXfQlQLbwF0CdK?=
+ =?iso-8859-1?Q?hpQEgk8RRKehaV4Awvqt7DJCEsHOzBr7ZT5rx7druYy+4fDvinUVz1wqm8?=
+ =?iso-8859-1?Q?mOVOqBmEhI1iiiCPzU07MkjSR+JL8f3TEjUEdy3gFpN9FodlGe2MBKrXk0?=
+ =?iso-8859-1?Q?Up4SqJOtZrBXs4IWDnVv780l9WczSW9Pem/LuAhHzEfVJVjF9weAItokCj?=
+ =?iso-8859-1?Q?zZ5SL9nz9f64kwNYmnkwNjSJIEP69kWkZOCd39/p9+YGjoXmS07ZmAjpRg?=
+ =?iso-8859-1?Q?SKELJypd7qmeC6ygbDapJ2qYZ8UhUsBqxli48F8lN9Dn5EvpbBQ0c4hk3h?=
+ =?iso-8859-1?Q?9Gl0rTukB5gG21b9jb3E2nRA81anTrkZAsJZP22vpDKKS4BsZ/oAgNY2fS?=
+ =?iso-8859-1?Q?NXP3fIlFheVdgUbUNIW3TvDwlrpxedsZdQcOKdIkl8soKM0HbJxwJugx6X?=
+ =?iso-8859-1?Q?br6NA6a1akZCXJ6nsioU8eAcsgEghg3HE/4LeWuG0asWXDJHOXAGnVwJxN?=
+ =?iso-8859-1?Q?L0jbjHrNb9wHkx6mUsRess9ublFka8s3nLShYFrEB7EjfzePIjLkHjSxI1?=
+ =?iso-8859-1?Q?i4MGGM79ffRlGjwTWrohGOG7z1871l/WiyFGA5YP4QLHW/8ol1p5h1UHd7?=
+ =?iso-8859-1?Q?Sa0qgHkKiv6VaUYi5NThmhSzZf6Ne7tEu5NPjyPkQUiYfvjbFhfakt3dgj?=
+ =?iso-8859-1?Q?Ds4h9Nm+kbPDbWJFG0g5RlQbip4lXfJ+GOoPOe1c+4QJF+16QKXbfULm/G?=
+ =?iso-8859-1?Q?lWNuqINiL50qEH3rPGiIc5cxAk52T8KUDLKyF4rsM5ND3t4kV7Uc9rZmq2?=
+ =?iso-8859-1?Q?TFhwtQR33yX6TySA+39nXGFQ3zDwUqI8/RP2rnSc+TkstyW5eZOo1f28Kw?=
+ =?iso-8859-1?Q?TaNbRZMe6jw83vVPnktud+DfRggmGkV6ceGPF+4EuFI3BZ879e5nqEQR2B?=
+ =?iso-8859-1?Q?pfcKbvxo48QvfapAU57yW8o5ayOSDbmmyhl1192AZOq94M0myyaPuzGuBN?=
+ =?iso-8859-1?Q?gdQS+mUxBnbLURMiYSOPYYl7VCEwkStbKA1fM+RUFzHJhksl64vg+N4hKI?=
+ =?iso-8859-1?Q?d1O6jRGGzZ8x3fqmZFugsb4YzQn0RUHgpruCyUpOy9TertgUaI35nFK6d7?=
+ =?iso-8859-1?Q?LQ7sNFCcoJLL/L0g1+LcAvgh/2/K3lZ0agDAQxFhU/PoXLRZing7SDLK4b?=
+ =?iso-8859-1?Q?yq005ikmrJBJgMsTsYi1Z9K5NSrl?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN0P287MB2019.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(38070700021);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?xOZimfF6C0z7nKB2zqD2J/Sds07cbznTMTkdkqplk2UrO0PmzBjBwddASz?=
+ =?iso-8859-1?Q?plwPDMuUNkG5o+xmjBvoo0nnjdpE3ZAPfUjTyhDw3/48Lay0nFXH8jz2BV?=
+ =?iso-8859-1?Q?xcK7NByw7P4UKohIWs7kwKYw3KZQRuwlyZYko0KYE8g9fqfi7Hm3f9YbjD?=
+ =?iso-8859-1?Q?PfcNrqVaxq0PJhTgR8Eyv0a0LAyjj/vDOM9WjbgnoA94ixp/o3tPq7ylzm?=
+ =?iso-8859-1?Q?3aD2TWPyzb9YOJplQytm9rlv0Ilf0V0fz4igxYQp+cdcc9lI5WaRYJcljV?=
+ =?iso-8859-1?Q?DZVOgWiephEB9Etng8E/kAeMmChH7rXiHScRhYf4ohiqhUT6edJHOQyZoG?=
+ =?iso-8859-1?Q?JowB1V66JZzUh59aUQTGI28Al+hD5RJg7J6mpOoiGoNsjzkae+bbmmXxH5?=
+ =?iso-8859-1?Q?xuXTk2Wt++WtZhy0tZiMZ6UUkUtCtwdW8qsv1/YIYZcrP5H5LkCylXbq6Z?=
+ =?iso-8859-1?Q?6nvhD6vZhncjKR7yqHXb8XNfp1shzVkSdaRHXUijIl24l0E8zk4T8goRH2?=
+ =?iso-8859-1?Q?0LKB4lYSGYSF4s+AaopOwxB2r0ifv5sQOntEdrWeCLAVqwLYhkdcTtBQRo?=
+ =?iso-8859-1?Q?tSasFB/4QCdOYtcOph8DZbSJHhsjaxj1/6U9y9Vvs25i3tARvuT9deYG+h?=
+ =?iso-8859-1?Q?DriX+0wBIasJn/H4t0yCBpF8bB4RZbai38U8vwKlOc2U0Dj2R3W+D6f+Ta?=
+ =?iso-8859-1?Q?z2/JUmz9whgluCFjGp435MJl64KA/PMN+ZDGWHqLVAKAQP3vscILj8Kq19?=
+ =?iso-8859-1?Q?2PBksy2+AwxOz2EDF/4VxeJBNof0B91F+Rq8KbkLySkpqClbcNIz5/GFoP?=
+ =?iso-8859-1?Q?0MZb8w4C1cFiZQphHZmgK3a5bIRBZ4isQ2khn4urF8DlrE/lHl3ij5c/ks?=
+ =?iso-8859-1?Q?mK90bbEp8w0L/zKzhEAcS7/fCZb1xrgsFzn2FKwzEiRTcrl4vVHmE4kv7B?=
+ =?iso-8859-1?Q?5tjmNTwHZj3EE2bjLPpCSN4sywjfz955KJgQEt4lqKU9y0y2Bdva0y9FMU?=
+ =?iso-8859-1?Q?ku9lTUDGTfV/y3qx52e2NF8Eo/m2AXSLKqxh1fL0zYDMZFIWcnuYWgNYBp?=
+ =?iso-8859-1?Q?8wn24G0bOWpiS8vjsXILCFHFmVhTHz8eRkfTeG+Q7R3aFdPF4T+elUc9GS?=
+ =?iso-8859-1?Q?bNs8rUPsUbT2atdFt6yfSGY4GTuDO/wrB7MgCMd689TZlo5GED/b6m2D5l?=
+ =?iso-8859-1?Q?jdXxD+6Tx1eFQUgIQjY75X/75D66yoULnISjpBC4YlJZ1TwdH2ilm29tl8?=
+ =?iso-8859-1?Q?1xc4AfriF14mq8Sz0BNwBn6HLGgFEmlQs9S/VUeBRr4ktxckndGe0CDNjA?=
+ =?iso-8859-1?Q?PbDJAs6PqVPG0xWh1C4d6zNigpsCfPSPRWkPGshHbO/vQSH9crQ52H0vz2?=
+ =?iso-8859-1?Q?b6p6Kb3X5lHvbcu9bqcZMmsz4B4JSA21JlhYrJNGAwbE/gYx+a2g0Hbnk/?=
+ =?iso-8859-1?Q?PJZkhOngzJPok2nkxySUZl/u+CJ7DBdUVo4VU+UtUoldxcH2WjQ7/FvqS+?=
+ =?iso-8859-1?Q?MVSdjSHP3E3Vw5zWHT+L+J+Vpa3hRRqfvfT+7v72WWtdnq3XpwnCANtjuN?=
+ =?iso-8859-1?Q?B6oTJAddQiXOqAgl2eakPxwShO6BOZ+PydU/ZvJNWym2d8ur2zXm1i9Wx1?=
+ =?iso-8859-1?Q?y98pnytUBZ6ZswzJoztGWRrBNAX0g49EkWdibnHg6DZL5xvzwU3V8Mizwe?=
+ =?iso-8859-1?Q?MC0Px393B7kMluv4JBrc22T9TchLVn5ho5ga2E9rkuwPfjzswA02bGWpEp?=
+ =?iso-8859-1?Q?6jvrLjsginDyYJwJ+J5LiQQhK/CyQnSu3JuNPir0OrRozLlDvoSUML/8F2?=
+ =?iso-8859-1?Q?RynfiFz8V4UDh+dHHqXywo3eloKKRYU=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS4PPFD667CEBB6:EE_|DS0PR11MB8069:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4e64ea8f-40c0-48a8-5613-08de48da0f7e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|10070799003|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?WEJpM05ieERBdTYvdUhDKy9IbG0zUi9XTE56a1VqMDlpRERJV0FlbnFuTzlX?=
- =?utf-8?B?M1VQSm9EbW1CSU9pSFhoTWF1Nmk2MEhaSFRDOFdIRENqeUVQeFppODRvNysw?=
- =?utf-8?B?eDlobzB6ellqeC8zYmpFMW5BOUVib0lVcUhkbHhLSU4vVkhBZnlIOVpDdVJz?=
- =?utf-8?B?M3cyYTlaSWZmY3hBYkNMdUtzeTNZZVdZWG0wM0txeCtUZm1aR3g4cFJOekY2?=
- =?utf-8?B?VklyR3Roank1OEVmalVXTGw3UUhQMDRFL3N4bkhjb245ZHVrRWlrZ3RpWk1u?=
- =?utf-8?B?QWM1cDcxNlJubHNRd21kT3RWSXFFY1lVZTRZMzIrS3NvdWl1bm0xRGhXdXd0?=
- =?utf-8?B?Nk1JczhQdk5LUnMxUFZOYmdNQWdGZzJDMlNNTHJhZHRFUGo0NzF6cVRkYTNn?=
- =?utf-8?B?bkJ0YWZHVm0rcnRLUHdLUW90c21NRXA1dXBLV3RRQUxGYmdrV2x6clFVTTgz?=
- =?utf-8?B?VHM3QURnVHRMVDkxOE5ldzAxbzZtcmM2M2gwellEMjh2Yi8wbWtScWRDTmY0?=
- =?utf-8?B?dTh2bS9WUUNvQVZ2NkJyL3VSUWtiU2J4TnJMcXdHeEFPZjRDM0FYVDIwdlZG?=
- =?utf-8?B?T1Jzc0dBQ01lR21zYW1qQktGSVBUVE1RM2s3UldQS2tyb1oyR0t2Mzk4bm5P?=
- =?utf-8?B?Qy9hTElpTFE4SEVHN3l0bHpDV1BZQTI1dG9TaW12T2FFVjRoNUhKcEtVc0FE?=
- =?utf-8?B?UlFLOFNnL1MwQjBYa3JVa1NMOW4vVUZnZ05PVCtuN21zMDY5ZHpkR0k2b1py?=
- =?utf-8?B?dnNGU1RyRVFSMklsSzdTNUR5ZllwVm5MOC9udXhLY01DcEJiNGFXdzFLTHQ0?=
- =?utf-8?B?eTJBYXF3bXhMZ21qZ21ON1JHWElmTnZzdXhHdDQxSzNkeTVhUHN6NHBWemlG?=
- =?utf-8?B?NmNMSlVJd1EwVGdMMjdzTjFNTkM2RXdOOGFzOStVTW9UaWowZCt6N0VsTFgx?=
- =?utf-8?B?dDhrcTZJYlR3RzRROTlUeE51eStoQ2VFK2JhYTZzSi9DZ3BJU0VhTzZudERu?=
- =?utf-8?B?VmxpVUJHUnlQY0FSendyNzRvcStJNm8waWt1aFJGSjlaZXQ4dGJUeFNVMGh3?=
- =?utf-8?B?TmRlQitRVFNsZ0RUMlBvd3VtbmdvL0dtTmk4N293R0poYjc3SDVwZmJtZDhu?=
- =?utf-8?B?Nys2SWIzOHpCdmNobjJoMncyNVM1VzFIbXFNYUNxU0drZFJaWnhzWkdLdmJE?=
- =?utf-8?B?amZxOEJ0cFNBZFdBeTZ1RDFTSElhMmF0dXNhSEFVNHYxU3krcGVNWVpiR3Rk?=
- =?utf-8?B?YnVIcVNvT0RSN1dGTXN0OUd5UC9Pak1uSHEwQTRud21TZlZzNU5WUWltbmgw?=
- =?utf-8?B?MjBmR2pxbzg2S2Y1M01MN0VqUENWOEUyVTZRd1V3Q3lOaTlTMEJ1OXJyem54?=
- =?utf-8?B?WThubm04dTByVDNXWmt3L1grZ1NVSEIzUSticzd5MklEcnk2UjN5UjhzMWlM?=
- =?utf-8?B?NmVhK1pxaWNHTGpnaWtkZUlFZ2J4SWRERk5iZHBRaUNIaEpqSTZzem9BR1U3?=
- =?utf-8?B?Q0thaW9BbWFsRHBuNkM4cWhzZWFUVlhUOFZqMWNHcVVTQzVPdFlrWFc4MmRr?=
- =?utf-8?B?ZGR3aFZybmVPUHJ4SWJKUlprZmRET1pZOHh1S1NmSzZGSVNEZlV0dXhCZUQv?=
- =?utf-8?B?TXM4VUtDUHg3ZjFFZ1ZvVWdlMDNwZnRhVG9IVS9BMjBxMXFXbXVjbkVqT0FJ?=
- =?utf-8?B?dFZndWZKbWxDNlhhSFdrV09WcFhDMkcxaFA1SXV1c05uYUdhbXQ5aUFSbHFi?=
- =?utf-8?B?N0lOMW9kNmdFcG1tNjlKaDQ3bEpzTDhYaElrc2lYTnQ4TFdwUjA0UGtHbSt2?=
- =?utf-8?B?elFlZHF2bEhRbG5vTUV3RXErcHJKeFNOSVFpbzU1S0pYMHFZM3VYWGpZdTBw?=
- =?utf-8?B?Unczb2MyUkNGWk9Sc3R2RzIyWUlFejlLaHJmREdWcktZMXdwMGswMHlCY1N6?=
- =?utf-8?B?a1cwaDdYUHQ1ajY2SGVVUTdWZFNRVTY3ZldHZTNscGFUYXhMRzE0MnFvUlhO?=
- =?utf-8?Q?ZPBVoMrkrq6gDZiKbn45gn8XLDKwIM=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPFD667CEBB6.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(10070799003)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?amVMYTRGRkJ4ZjlDK0JPbXdoRUtZdy8zTlZ0Z3ptZlM3eEorTU5TdXpNU1lE?=
- =?utf-8?B?US9qZ28zbUkyWUlpNEVDek5KWXcxNy8vOHU0d2EzOVBweENIQTlWK09HelJU?=
- =?utf-8?B?ekJabldXUTJrNWFIQk5JWDFBbU56dmpwcFhRdzd4SHFiNFhxblBUK3k5bE5s?=
- =?utf-8?B?OEdkTlJQTzMzVnI0bWhDSSt0MjFTK081YVBOZzF1R2xzamMzaWJ6cDF6QkVo?=
- =?utf-8?B?cGEycXhtYXduWmd6cVhVeDhVYjhFdXVZalpxYTRiWnBja2tZWXpVN2Vzc2F4?=
- =?utf-8?B?dXZDYUxlUklvMkNHV2pVc2ZWQXJqajFLRE01U3BITjh4MWFBSHNpM2Fjd1NI?=
- =?utf-8?B?M3Q1ODVhU2JqMU5wTmtWVlR2MFlyNElUU1RFcytNamQxWVJOSlZrZkgzdzdS?=
- =?utf-8?B?eGpkTnhFMjVWbGEySEhLYVk4VFdLNzdkbVBKODA5TTF1SHNKT2xlNW1DZmFu?=
- =?utf-8?B?b0EwWkZONU9BNDJHbzVQTjczZFFMd3BIa1c1Q0pWL1FxS1lVSTBPc0FtMito?=
- =?utf-8?B?UlljNmozN2NyYmx1WjIzMnU0cG1GeHRSUFZkbytUc3dxOG9iM1FkQWhhcDI0?=
- =?utf-8?B?ZTRJYVNxd1RZK0xTTGp6RU00dDJMVCsrOFNhQXFzSXFmd3graG12d1haV1B3?=
- =?utf-8?B?cEd4T0NqcnNUWTBDSjlSMTNlUE4vK1MyeldpVzQ4blZ6QTh1eUZiZmorY0wy?=
- =?utf-8?B?RnNkdVhWb1pwd0xlenlvTHo5MnByT3MrME9jT2NKaFlsYnJLNFN5cTAyUXU5?=
- =?utf-8?B?dHN6YzFRUkg0TVFIb2NsVEhGQmVvS0ErcEZzZkNmNXI1Ty9UTkxabC9kUXZM?=
- =?utf-8?B?VlJWaXhiaFdCMSsrbXdsSk9WZDZjR1BSTmFKK1lMTG5zSDNUY1RqOXp6YU1B?=
- =?utf-8?B?YWVNRDVPQ2NWMjlHRlJLQy8vUXVBUnJqc2NFWm1MTklRdkxpWkt0d01ENm1a?=
- =?utf-8?B?TVJBVWJNU1JSTlp4QjFjM2VkU0RMWXZSc2ErOXBxYUp1dDJTaGJzRU02bGFZ?=
- =?utf-8?B?Z0xSMVNzN04vVTVCZU1oQzdzdjhPbUllcUkzWG9VaEx3Q1gxeXo4Vnlhcmov?=
- =?utf-8?B?UzJDb3VrZmFpUmNHQ2tndHlVL24yS2tqdCtBNFErMlNvdm0xd1dIbmJ2QVNk?=
- =?utf-8?B?Q1RYYk5xR3dNVFROTi94Z2lOWForb1JmZVFpRFowMEt6ZGdFMFRrNjZURlEz?=
- =?utf-8?B?eWJVdFRoS0Y1cWJuMXVpeUk3SDN6STIzSXhXVWRIOFJJRkcwcFdHTGpXSlF2?=
- =?utf-8?B?YkUybXgzTjVCeTNodGllNVNCQVErdUFrMVRrK1pZZWE0N3I5V0FydkV5L0d0?=
- =?utf-8?B?TjU4MjhCc3BKcUsyamV1OGdIamhCcUI3V3l0c1dxcVNNT2pmT0FvcUJTWTVS?=
- =?utf-8?B?b0t5ZGlIeTVTYWRWRzRqalo1Y1Y0ekdISExnRGtFSWNEZnhXZk1Na2hZcUkw?=
- =?utf-8?B?VnJ2QUVXZHY3OWJLV3hhclp3ZVQ1WlBKTXJmdkpoSFpCcDEvT1RoNCtXYmZQ?=
- =?utf-8?B?UXFkUGtTci9naHE0alpveEU5MTlIM00rcS9iSkl3TVU5NEIxTjA1Y1E2alJr?=
- =?utf-8?B?VUQvWTBQcUFrRXVDMTFHYUNTY3NaUnZIUE9Vdlk1OWhVVmRkUy96cXErbUpi?=
- =?utf-8?B?ZVNLRll5NllSeE1La0lQYXQxOXBXNmV6QzhvUXI0N1d1azRhZmg0MWlaUDZO?=
- =?utf-8?B?YXc0bnFVdkRhUGJpWlVmcG9XRDIrRHZRcW1Ga0VTWU8xUnBvOWpzRzd1OGRv?=
- =?utf-8?B?RlF3NWpQK1VKTlpUcEUva3Q3OWxwMVYzeDI5bUtacTZsTzRIUCtBQlc3Qk0v?=
- =?utf-8?B?eUFDN2F4TkRTZlp1MWtlSVNoT1FUYXczdWNLTndoKzdGeEJzbjNXbndJdFd0?=
- =?utf-8?B?R0NQT3lqTXJ5elpIWkNic2RWd1QyMTZXYnpQdlA1OFc3UGxHZDJheUdia3Nu?=
- =?utf-8?B?V056K25VbDlCUUtLd1R6NFdFNHMrVVJpbEQwN0pRVUpkZkhzMVdnVlB3TWRw?=
- =?utf-8?B?ZE4zZ25WWTQrQUdCeVBRUnpIdmRiOW5hcmgxOWZBSzNGZWlWUW5FZjlPSnI3?=
- =?utf-8?B?U2RDM0VQYnRrenF2aUhXblFNNytJZXN3TVJsZk14eldaeVhDWjhvdm5XMnpq?=
- =?utf-8?B?RnpnNzBMMDY1TEtmUnQwdTg5TDNsTUtTb2ZhSm9lMm4xV1hMaUNTR09XOHZv?=
- =?utf-8?B?djVsOEc2NGhqNmw3U2NEQXM0N055dGxybWRuNDVGMit1M1Jia24yL2t2QnIy?=
- =?utf-8?B?RU5MUGgxSlZLMXFFYzRDL2pYK2FhVFIwVWEyMHdSR3l3QnRiOWRnelp1TFJF?=
- =?utf-8?B?S0ZKc2o2SGJqMk5na1M1eVU4cXVjTCsxM0VrRllibU9tYzgyMlI3MjR3cERZ?=
- =?utf-8?Q?srki4tVeHGaR+xcF3oCjT8/wQ45tqzl4U4PtLSM3dBKZV?=
-X-MS-Exchange-AntiSpam-MessageData-1: Gl4RFefc+ja4kTXWh8lu+NKSLUUHUvNBoLU=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4e64ea8f-40c0-48a8-5613-08de48da0f7e
-X-MS-Exchange-CrossTenant-AuthSource: DS4PPFD667CEBB6.namprd11.prod.outlook.com
+X-OriginatorOrg: siliconsignals.io
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jan 2026 02:04:13.4370
+X-MS-Exchange-CrossTenant-AuthSource: PN0P287MB2019.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3c454174-550c-4b34-3c9d-08de48fda87d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jan 2026 06:19:02.3165
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: m9CY4GjBxLGeRHylc/mV+cEsQVekn3Xr8VQo/lMIFs39gSgSy7tqqzHed0nSqJb9hm/jUjZt4zs2z6CeHoAf/qst8NtCMZZKhL5Lkc/m+p8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB8069
-X-Authority-Analysis: v=2.4 cv=ccjfb3DM c=1 sm=1 tr=0 ts=6955d620 cx=c_pps
- a=zXfEoyyUBsLHcbwyVEaNwg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10
- a=VkNPw1HP01LnGYTKEx00:22 a=t7CeM3EgAAAA:8 a=P1BnusSwAAAA:8
- a=Az1iKwsi0BcMPrQXuo4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=FdTzh2GWekK77mhwV6Dw:22 a=D0XLA9XvdZm18NrgonBM:22
-X-Proofpoint-GUID: Pbgs_hnOB8dowkq9fcOhJdPwRgCjgTs9
-X-Proofpoint-ORIG-GUID: Pbgs_hnOB8dowkq9fcOhJdPwRgCjgTs9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTAxMDAxNiBTYWx0ZWRfX0qySiS6YrHCB
- dODNgNKZGzkZiZW9UaPLKBWF3VAAqanpin/w17CruyyuP3l+tGYDb6DYHRC0MIxnGFREPQA9dM6
- dhCrg0hfK2jXlAoGAnmqlKLwfLxVuBOlFqEN9Jp/M41yh5vmU21EhLqiw1txyGf5SFc7OGil9w5
- xrpXKG2uq7WDa5RNpNT9DT7Bi+bGDTOhBH6DWUKn1+yRJudedF5PnW23mS0IauIeAxbQS91XqB0
- +xX0Gi4mUpSMPi8cA6X2u8+9MB0MoG4O6dwkXlo0wf74DQCH9/k0gGncSAlyvYkjlRd4dsYt8vf
- VG//vc0XTczX0RVvm1AFXMxPewxVx6oCrF5RAPF/F4HBkmrEVNUktxSv5teTL/UTR3YkofE0IfM
- oByabVPe/dZ/69JijBNeFVfeiptLO/UHyhgXTQwNTeA3E5k8DsInahEcMLq/Vq9EXgahYHQKLrG
- jFfdo5KI14D/7wdUlAA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-01_01,2025-12-31_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 spamscore=0 lowpriorityscore=0 adultscore=0
- impostorscore=0 phishscore=0 bulkscore=0 clxscore=1015 malwarescore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
- definitions=main-2601010016
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: PwIS1zTEC3OpSdnNfNVUremPyzsvc7lwN8DKvkVFkWOvhDt71xroYVHAxuvniBsanMwVlS9Eu5paa7LUIUNnytn+SRj/JmNuuIvwWWcJHLSMR6bkORhduMMAldq7MOSy
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAUP287MB5218
 
-
-On 12/31/25 19:03, Tarang Raval wrote:
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender and know the content is safe.
->
-> Hi Xiaolei,
->
->> Switch from s_stream to enable_streams and disable_streams callbacks.
->>   
->> Signed-off-by: Xiaolei Wang <xiaolei.wang@windriver.com>
->> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->> ---
->>   drivers/media/i2c/ov5647.c | 89 ++++++++++++++++----------------------
->>   1 file changed, 38 insertions(+), 51 deletions(-)
->>   
->> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
->> index bc81f378436a..7091081a0828 100644
->> --- a/drivers/media/i2c/ov5647.c
->> +++ b/drivers/media/i2c/ov5647.c
->> @@ -637,23 +637,42 @@ static int ov5647_set_mode(struct v4l2_subdev *sd)
->>      return 0;
->>   }
->>
->> -static int ov5647_stream_on(struct v4l2_subdev *sd)
->> +static int ov5647_stream_stop(struct ov5647 *sensor)
->> +{
->> +   int ret = 0;
->> +
->> +   cci_write(sensor->regmap, OV5647_REG_MIPI_CTRL00,
->> +           MIPI_CTRL00_CLOCK_LANE_GATE | MIPI_CTRL00_BUS_IDLE |
->> +           MIPI_CTRL00_CLOCK_LANE_DISABLE, &ret);
->> +   cci_write(sensor->regmap, OV5647_REG_FRAME_OFF_NUMBER, 0x0f, &ret);
->> +   cci_write(sensor->regmap, OV5640_REG_PAD_OUT, 0x01, &ret);
->> +
->> +   return ret;
->> +}
->> +
->> +static int ov5647_enable_streams(struct v4l2_subdev *sd,
->> +                      struct v4l2_subdev_state *state, u32 pad,
->> +                      u64 streams_mask)
->>   {
->>      struct i2c_client *client = v4l2_get_subdevdata(sd);
->>      struct ov5647 *sensor = to_sensor(sd);
->>      u8 val = MIPI_CTRL00_BUS_IDLE;
->>      int ret = 0;
-> No need for zero initialization.
-
-I will correct this in the next version.
-
-Best Regards,
-Xiaolei
-
->
->> +   ret = pm_runtime_resume_and_get(&client->dev);
->> +   if (ret < 0)
->> +         return ret;
->> +
->>      ret = ov5647_set_mode(sd);
->>      if (ret) {
->>            dev_err(&client->dev, "Failed to program sensor mode: %d\n", ret);
->> -         return ret;
->> +         goto done;
->>      }
->>
->>      /* Apply customized values from user when stream starts. */
->>      ret =  __v4l2_ctrl_handler_setup(sd->ctrl_handler);
->>      if (ret)
->> -         return ret;
->> +         goto done;
->>
->>      if (sensor->clock_ncont)
->>            val |= MIPI_CTRL00_CLOCK_LANE_GATE |
->> @@ -663,19 +682,24 @@ static int ov5647_stream_on(struct v4l2_subdev *sd)
->>      cci_write(sensor->regmap, OV5647_REG_FRAME_OFF_NUMBER, 0x00, &ret);
->>      cci_write(sensor->regmap, OV5640_REG_PAD_OUT, 0x00, &ret);
->>
->> +done:
->> +   if (ret)
->> +         pm_runtime_put(&client->dev);
->> +
->>      return ret;
->>   }
->>
->> -static int ov5647_stream_off(struct v4l2_subdev *sd)
->> +static int ov5647_disable_streams(struct v4l2_subdev *sd,
->> +                       struct v4l2_subdev_state *state, u32 pad,
->> +                       u64 streams_mask)
->>   {
->> +   struct i2c_client *client = v4l2_get_subdevdata(sd);
->>      struct ov5647 *sensor = to_sensor(sd);
->> -   int ret = 0;
->> +   int ret;
->>
->> -   cci_write(sensor->regmap, OV5647_REG_MIPI_CTRL00,
->> -           MIPI_CTRL00_CLOCK_LANE_GATE | MIPI_CTRL00_BUS_IDLE |
->> -           MIPI_CTRL00_CLOCK_LANE_DISABLE, &ret);
->> -   cci_write(sensor->regmap, OV5647_REG_FRAME_OFF_NUMBER, 0x0f, &ret);
->> -   cci_write(sensor->regmap, OV5640_REG_PAD_OUT, 0x01, &ret);
->> +   ret = ov5647_stream_stop(sensor);
->> +
->> +   pm_runtime_put(&client->dev);
->>
->>      return ret;
->>   }
->> @@ -706,7 +730,7 @@ static int ov5647_power_on(struct device *dev)
->>      }
->>
->>      /* Stream off to coax lanes into LP-11 state. */
->> -   ret = ov5647_stream_off(&sensor->sd);
->> +   ret = ov5647_stream_stop(sensor);
->>      if (ret < 0) {
->>            dev_err(dev, "camera not available, check power\n");
->>            goto error_clk_disable;
->> @@ -803,47 +827,8 @@ __ov5647_get_pad_crop(struct ov5647 *ov5647,
->>      return NULL;
->>   }
->>
->> -static int ov5647_s_stream(struct v4l2_subdev *sd, int enable)
->> -{
->> -   struct i2c_client *client = v4l2_get_subdevdata(sd);
->> -   struct v4l2_subdev_state *state;
->> -   int ret;
->> -
->> -   state = v4l2_subdev_lock_and_get_active_state(sd);
->> -
->> -   if (enable) {
->> -         ret = pm_runtime_resume_and_get(&client->dev);
->> -         if (ret < 0)
->> -               goto error_unlock;
->> -
->> -         ret = ov5647_stream_on(sd);
->> -         if (ret < 0) {
->> -               dev_err(&client->dev, "stream start failed: %d\n", ret);
->> -               goto error_pm;
->> -         }
->> -   } else {
->> -         ret = ov5647_stream_off(sd);
->> -         if (ret < 0) {
->> -               dev_err(&client->dev, "stream stop failed: %d\n", ret);
->> -               goto error_pm;
->> -         }
->> -         pm_runtime_put(&client->dev);
->> -   }
->> -
->> -   v4l2_subdev_unlock_state(state);
->> -
->> -   return 0;
->> -
->> -error_pm:
->> -   pm_runtime_put(&client->dev);
->> -error_unlock:
->> -   v4l2_subdev_unlock_state(state);
->> -
->> -   return ret;
->> -}
->> -
->>   static const struct v4l2_subdev_video_ops ov5647_subdev_video_ops = {
->> -   .s_stream =       ov5647_s_stream,
->> +   .s_stream = v4l2_subdev_s_stream_helper,
->>   };
->>
->>   static int ov5647_enum_mbus_code(struct v4l2_subdev *sd,
->> @@ -986,6 +971,8 @@ static const struct v4l2_subdev_pad_ops ov5647_subdev_pad_ops = {
->>      .set_fmt          = ov5647_set_pad_fmt,
->>      .get_fmt          = ov5647_get_pad_fmt,
->>      .get_selection          = ov5647_get_selection,
->> +   .enable_streams         = ov5647_enable_streams,
->> +   .disable_streams  = ov5647_disable_streams,
->>   };
->>
->>   static const struct v4l2_subdev_ops ov5647_subdev_ops = {
->> --
->> 2.43.0
-> Reviewed-by: Tarang Raval <tarang.raval@siliconsignals.io>
->
-> Best Regards,
-> Tarang
+Hi Vladimir,=0A=
+=0A=
+>please find just a few more review comments, overall the driver is in=0A=
+>a good shape.=0A=
+>=0A=
+>On 12/31/25 09:06, Himanshu Bhavani wrote:=0A=
+>> Add a v4l2 subdevice driver for the Omnivision OS05B10 sensor.=0A=
+>>=0A=
+>> The Omnivision OS05B10 image sensor with an active=0A=
+>> array size of 2592 x 1944.=0A=
+>>=0A=
+>> The following features are supported:=0A=
+>> - Manual exposure an gain control support=0A=
+>> - vblank/hblank control support=0A=
+>> - Supported resolution: 2592 x 1944 @ 60fps (SBGGR10)=0A=
+>>=0A=
+>> Co-developed-by: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>=
+=0A=
+>> Signed-off-by: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>=0A=
+>> Signed-off-by: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>=0A=
+>> Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>=0A=
+>> Reviewed-by: Mehdi Djait <mehdi.djait@linux.intel.com>=0A=
+>> ---=0A=
+>>=A0=A0 MAINTAINERS=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=
+=A0=A0 1 +=0A=
+>>=A0=A0 drivers/media/i2c/Kconfig=A0=A0 |=A0=A0 10 +=0A=
+>>=A0=A0 drivers/media/i2c/Makefile=A0 |=A0=A0=A0 1 +=0A=
+>>=A0=A0 drivers/media/i2c/os05b10.c | 1115 +++++++++++++++++++++++++++++++=
+++++=0A=
+>>=A0=A0 4 files changed, 1127 insertions(+)=0A=
+>>=A0=A0 create mode 100644 drivers/media/i2c/os05b10.c=0A=
+>>=0A=
+>> diff --git a/MAINTAINERS b/MAINTAINERS=0A=
+>> index c85915d5d20e..c48d04ca38d1 100644=0A=
+>> --- a/MAINTAINERS=0A=
+>> +++ b/MAINTAINERS=0A=
+>> @@ -19240,6 +19240,7 @@ M:=A0=A0=A0 Elgin Perumbilly <elgin.perumbilly@s=
+iliconsignals.io>=0A=
+>>=A0=A0 L:=A0 linux-media@vger.kernel.org=0A=
+>>=A0=A0 S:=A0 Maintained=0A=
+>>=A0=A0 F:=A0 Documentation/devicetree/bindings/media/i2c/ovti,os05b10.yam=
+l=0A=
+>> +F:=A0=A0 drivers/media/i2c/os05b10.c=0A=
+>>=0A=
+>>=A0=A0 OMNIVISION OV01A10 SENSOR DRIVER=0A=
+>>=A0=A0 M:=A0 Bingbu Cao <bingbu.cao@intel.com>=0A=
+>> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig=0A=
+>> index 4b4db8c4f496..9800ba50b9a6 100644=0A=
+>> --- a/drivers/media/i2c/Kconfig=0A=
+>> +++ b/drivers/media/i2c/Kconfig=0A=
+>> @@ -371,6 +371,16 @@ config VIDEO_OG0VE1B=0A=
+>>=A0=A0=A0=A0=A0=A0=A0=A0 To compile this driver as a module, choose M her=
+e: the=0A=
+>>=A0=A0=A0=A0=A0=A0=A0=A0 module will be called og0ve1b.=0A=
+>>=0A=
+>> +config VIDEO_OS05B10=0A=
+>> +=A0=A0=A0=A0=A0=A0=A0 tristate "OmniVision OS05B10 sensor support"=0A=
+>> +=A0=A0=A0=A0=A0=A0=A0 select V4L2_CCI_I2C=0A=
+>> +=A0=A0=A0=A0=A0=A0=A0 help=0A=
+>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0 This is a Video4Linux2 sensor driver for Om=
+nivision=0A=
+>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0 OS05B10 camera sensor.=0A=
+>> +=0A=
+>> +=A0=A0=A0=A0=A0=A0 To compile this driver as a module, choose M here: t=
+he=0A=
+>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0 module will be called os05b10.=0A=
+>> +=0A=
+>>=A0=A0 config VIDEO_OV01A10=0A=
+>>=A0=A0=A0=A0=A0=A0 tristate "OmniVision OV01A10 sensor support"=0A=
+>>=A0=A0=A0=A0=A0=A0 help=0A=
+>> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile=0A=
+>> index c5f17602454f..561d37939875 100644=0A=
+>> --- a/drivers/media/i2c/Makefile=0A=
+>> +++ b/drivers/media/i2c/Makefile=0A=
+>> @@ -84,6 +84,7 @@ obj-$(CONFIG_VIDEO_MT9V032) +=3D mt9v032.o=0A=
+>>=A0=A0 obj-$(CONFIG_VIDEO_MT9V111) +=3D mt9v111.o=0A=
+>>=A0=A0 obj-$(CONFIG_VIDEO_OG01A1B) +=3D og01a1b.o=0A=
+>>=A0=A0 obj-$(CONFIG_VIDEO_OG0VE1B) +=3D og0ve1b.o=0A=
+>> +obj-$(CONFIG_VIDEO_OS05B10) +=3D os05b10.o=0A=
+>>=A0=A0 obj-$(CONFIG_VIDEO_OV01A10) +=3D ov01a10.o=0A=
+>>=A0=A0 obj-$(CONFIG_VIDEO_OV02A10) +=3D ov02a10.o=0A=
+>>=A0=A0 obj-$(CONFIG_VIDEO_OV02C10) +=3D ov02c10.o=0A=
+>> diff --git a/drivers/media/i2c/os05b10.c b/drivers/media/i2c/os05b10.c=
+=0A=
+>> new file mode 100644=0A=
+>> index 000000000000..7fa6e60d5d58=0A=
+>> --- /dev/null=0A=
+>> +++ b/drivers/media/i2c/os05b10.c=0A=
+>> @@ -0,0 +1,1115 @@=0A=
+>> +// SPDX-License-Identifier: GPL-2.0=0A=
+>> +/*=0A=
+>> + * V4L2 Support for the os05b10=0A=
+>> + *=0A=
+>> + * Copyright (C) 2025 Silicon Signals Pvt. Ltd.=0A=
+>> + *=0A=
+>> + * Inspired from imx219, ov2735 camera drivers.=0A=
+>> + */=0A=
+>> +=0A=
+>> +#include <linux/array_size.h>=0A=
+>> +#include <linux/clk.h>=0A=
+>> +#include <linux/container_of.h>=0A=
+>> +#include <linux/delay.h>=0A=
+>> +#include <linux/device/devres.h>=0A=
+>> +#include <linux/err.h>=0A=
+>> +#include <linux/gpio/consumer.h>=0A=
+>> +#include <linux/i2c.h>=0A=
+>> +#include <linux/module.h>=0A=
+>> +#include <linux/pm_runtime.h>=0A=
+>> +#include <linux/regulator/consumer.h>=0A=
+>> +#include <linux/types.h>=0A=
+>> +#include <linux/time.h>=0A=
+>> +#include <linux/units.h>=0A=
+>> +=0A=
+>> +#include <media/v4l2-cci.h>=0A=
+>> +#include <media/v4l2-ctrls.h>=0A=
+>> +#include <media/v4l2-device.h>=0A=
+>> +#include <media/v4l2-fwnode.h>=0A=
+>> +#include <media/v4l2-mediabus.h>=0A=
+>> +=0A=
+>> +#define OS05B10_XCLK_FREQ=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 (24 * HZ_PER=
+_MHZ)=0A=
+>> +=0A=
+>> +#define OS05B10_REG_CHIP_ID=A0=A0=A0=A0=A0=A0=A0=A0=A0 CCI_REG24(0x300A=
+)=0A=
+>=0A=
+>In the CCI register write sequence all hex values are lower case, please=
+=0A=
+>convert this and other register addresses/values to lower case as well.=0A=
+>=0A=
+>> +#define OS05B10_CHIP_ID=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0 0x530641=0A=
+>> +=0A=
+>> +#define OS05B10_REG_CTRL_MODE=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0 CCI_REG8(0x0100)=0A=
+>> +#define OS05B10_MODE_STANDBY=A0=A0=A0=A0=A0=A0=A0=A0 0x00=0A=
+>> +#define OS05B10_MODE_STREAMING=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0 0x01=0A=
+>> +=0A=
+>> +#define OS05B10_REG_VTS=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0 CCI_REG16(0x380E)=0A=
+>> +#define OS05B10_VTS_MAX=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0 0xFFFF=0A=
+>> +=0A=
+>> +#define OS05B10_REG_HTS=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0 CCI_REG16(0x380C)=0A=
+>> +=0A=
+>> +#define OS05B10_REG_ANALOG_GAIN=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 =
+CCI_REG16(0x3508)=0A=
+>> +#define OS05B10_ANALOG_GAIN_MIN=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 =
+0x80=0A=
+>> +#define OS05B10_ANALOG_GAIN_MAX=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 =
+0x7C0=0A=
+>> +#define OS05B10_ANALOG_GAIN_STEP=A0=A0=A0=A0 1=0A=
+>> +#define OS05B10_ANALOG_GAIN_DEFAULT=A0=A0=A0=A0 0x80=0A=
+>> +=0A=
+>> +#define OS05B10_REG_EXPOSURE=A0=A0=A0=A0=A0=A0=A0=A0 CCI_REG24(0x3500)=
+=0A=
+>=0A=
+>For sake of better reading let me ask you to reorder the list of register=
+=0A=
+>macro in this order:=0A=
+>- OS05B10_REG_EXPOSURE=0A=
+>- OS05B10_REG_ANALOG_GAIN=0A=
+>- OS05B10_REG_HTS=0A=
+>- OS05B10_REG_VTS=0A=
+>=0A=
+>It would be clear which position to insert another added register descript=
+ion,=0A=
+>since it follows an ascending register value order, only OS05B10_REG_CHIP_=
+ID=0A=
+>is outstanding.=0A=
+>=0A=
+>> +#define OS05B10_EXPOSURE_MIN=A0=A0=A0=A0=A0=A0=A0=A0 2=0A=
+>> +#define OS05B10_EXPOSURE_STEP=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0 1=0A=
+>> +#define OS05B10_EXPOSURE_MARGIN=A0=A0=A0=A0=A0=A0=A0=A0 8=0A=
+>> +=0A=
+>> +#define OS05B10_PIXEL_RATE=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 (480 * HZ_PER_=
+MHZ)=0A=
+>=0A=
+>Here pixel rate should not be hardcoded, it'd be computed in runtime=0A=
+>as 600MHz * 2 * 4 lanes / 10 bpp =3D 480MHz.=0A=
+>=0A=
+>The sensor may be wired over 2 lanes or (presumably) it can stream 8 bpp d=
+ata.=0A=
+=0A=
+We are not supporting 2 lanes right now, driver supports only for 4 lanes a=
+nd =0A=
+10 bpp data. So technically OS05B10_PIXEL_RATE will never change.=0A=
+For reference I will add OS05B10_PIXEL_RATE calculation in comments.=0A=
+I would prefer the hardcoded at the moment. Other than this comment =0A=
+I will resolve and send new version.=0A=
+=0A=
+Thanks for reviewing the driver.=0A=
+=0A=
+Regards,=0A=
+Himanshu Bhavani=
 
