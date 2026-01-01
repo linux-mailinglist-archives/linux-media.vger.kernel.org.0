@@ -1,185 +1,133 @@
-Return-Path: <linux-media+bounces-49827-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49828-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15D7ECED427
-	for <lists+linux-media@lfdr.de>; Thu, 01 Jan 2026 19:15:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C86BCCED4FF
+	for <lists+linux-media@lfdr.de>; Thu, 01 Jan 2026 20:39:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B45B33006A76
-	for <lists+linux-media@lfdr.de>; Thu,  1 Jan 2026 18:15:09 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BAE773007969
+	for <lists+linux-media@lfdr.de>; Thu,  1 Jan 2026 19:39:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F67D2F1FFE;
-	Thu,  1 Jan 2026 18:15:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89F6D29A309;
+	Thu,  1 Jan 2026 19:39:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RgIcWEyP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from rmisp-mx-out1.tele.net (rmisp-mx-out1.tele.net [194.208.23.36])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D0792E54A3;
-	Thu,  1 Jan 2026 18:15:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.208.23.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 885BC202963
+	for <linux-media@vger.kernel.org>; Thu,  1 Jan 2026 19:39:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767291306; cv=none; b=ko591HkGLoqaHFP3tf7hRoM5WSSznoz5aq+piRQ8tnKTHiYP3Pqg5G74ODjUO45rxZnTMjNt/F/98v76v6slub7w8T7K9nMgjfG/ndsVnp5oYfv/vFChjQDudunEl7lFTAa6X4n9RW/XJkHV55bt67B0IwEJTIWlU4ZajhO2ofQ=
+	t=1767296349; cv=none; b=BhAkAqC8q7HGRvAHruhppW0TkAJ8K42lt3NC6F6ZnWUYRVPAnctl05ioZuIEsUn1yyYF447xEKujoiYtuSPvhv+5ZRSJnJd4Cv7iPIMCIUrHK5qh6i+umAcF+D5H2ifVc8qNSERRoHICprQazh7b8dbBG+X11xQdixnogtQuvuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767291306; c=relaxed/simple;
-	bh=Rmuqu+Ek+T5YtxAgpWBAVcG8C34jeDmR34VUZXa+XOU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tQT5UAx3xybP+GiQSAUhtw5EnO0SAYMAf6jbUWAVfk6ZLVlHKzJAddcJDcqhPchBSxsxfj1WMgoAXru0i3stWNgQLGdfPbk5m4h2Ip+h2taSTtkTtxV1QpKJ1RwtI/jAKfkl2qOcFG0L/gB4gmQVdM34NAwKlkCAtSo3swBt3lE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=fail smtp.mailfrom=emfend.at; arc=none smtp.client-ip=194.208.23.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=emfend.at
-Received: from [192.168.0.207] (194-208-208-245.tele.net [194.208.208.245])
-	by rmisp-mx-out1.tele.net (Postfix) with ESMTPA id 0C26F10E2A89;
-	Thu,  1 Jan 2026 19:09:14 +0100 (CET)
-Message-ID: <1cca1105-07dc-4482-b131-eadf9ed3a5f0@emfend.at>
-Date: Thu, 1 Jan 2026 19:09:07 +0100
+	s=arc-20240116; t=1767296349; c=relaxed/simple;
+	bh=suETZyDLt5H76te9Bl1oKMv/XRQnds1llUml6ncWBIg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lcQ7zCgQDXoLuD7KCT71QRrtmJyPu6e6clPevEwTIzZRpFXXtNyd9ajyQbU251/dr7+/EaRbMGSgqeLXj2x4/6RpyqweW2hMlbJspywbJv52/Rz7pExnBamwizNr23ln7rLwwVmOmaBuMqG8GnJPqOKqWfBhiIEziXGNR634iSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RgIcWEyP; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767296347; x=1798832347;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=suETZyDLt5H76te9Bl1oKMv/XRQnds1llUml6ncWBIg=;
+  b=RgIcWEyPSgg5LyAU68MpfkKKNozcNDJls82dUbt3DAf9CNYZCvjJt/0U
+   SotTgiDj3yJRereWOlbtCdrcQhjRFmHnFpgsXt9+9NZECUP+vflLzGsl4
+   2WDBfwMP2c04EmWdw4EQH1K2PD+19OvauRS+VmUwUpwL4qDS5DraMsjQf
+   lyuea0OFcQyGZ5rUgQDh2KHVms1EU7iyXrkR7BIcutJSqfeUYr8sxsvdx
+   yQNwfHFkGVmrum8PY1y2lWEEc9lmznDhrIqSZcwzLKj0CIuwX4Avy0Dou
+   2CTVnvX3a3Jd4gfcTl/oZ3A5/0RqndYXukMQJEjgByXEOKDySIldVPJXg
+   w==;
+X-CSE-ConnectionGUID: o8dE0oVlRoeiypJuPNZ7tg==
+X-CSE-MsgGUID: frNuQUWZSk+3iwGNiZ/PBA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11658"; a="68725911"
+X-IronPort-AV: E=Sophos;i="6.21,195,1763452800"; 
+   d="scan'208";a="68725911"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2026 11:39:06 -0800
+X-CSE-ConnectionGUID: GyM1yS3ISHmcjZlZ1wyHGw==
+X-CSE-MsgGUID: 7Fyu0+D5TSuxhMM+7rMCMQ==
+X-ExtLoop1: 1
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.249])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2026 11:39:04 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id B25F811F87B;
+	Thu, 01 Jan 2026 21:39:14 +0200 (EET)
+Date: Thu, 1 Jan 2026 21:39:14 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Bingbu Cao <bingbu.cao@linux.intel.com>
+Cc: linux-media@vger.kernel.org, tian.shu.qiu@intel.com,
+	antti.laakso@linux.intel.com, mehdi.djait@linux.intel.com
+Subject: Re: [PATCH v3 02/13] media: ipu6: Drop MMU hardware initialisation
+ in probe()
+Message-ID: <aVbNYh0UEskdVLhB@kekkonen.localdomain>
+References: <20251230131013.75338-1-sakari.ailus@linux.intel.com>
+ <20251230131013.75338-3-sakari.ailus@linux.intel.com>
+ <6edacdf3-05ad-f5d4-d919-4b2e57cd2e91@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] media: i2c: imx283: add support for non-continuous
- MIPI clock mode
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Rob Herring <robh@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Umang Jain <uajain@igalia.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251217-imx283-ext-v1-0-906a762f592d@emfend.at>
- <20251217-imx283-ext-v1-2-906a762f592d@emfend.at>
- <176709148864.3401191.3323585790771042734@ping.linuxembedded.co.uk>
-Content-Language: de-DE
-From: Matthias Fend <matthias.fend@emfend.at>
-In-Reply-To: <176709148864.3401191.3323585790771042734@ping.linuxembedded.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6edacdf3-05ad-f5d4-d919-4b2e57cd2e91@linux.intel.com>
 
-Hi Kieran,
+Hi Bingbu,
 
-thanks for your feedback.
+Thanks for the review.
 
-Am 30.12.2025 um 11:44 schrieb Kieran Bingham:
-> Quoting Matthias Fend (2025-12-17 07:06:01)
->> Add support for selecting between continuous and non-continuous MIPI clock
->> mode.
->>
->> Previously, the CSI-2 non-continuous clock endpoint flag was ignored and
->> the sensor was always configured for non-continuous clock mode. For
->> existing device tree nodes that do not have this property enabled, this
->> update will therefore change the actual clock mode.
+On Wed, Dec 31, 2025 at 01:38:00PM +0800, Bingbu Cao wrote:
+> Sakari,
 > 
-> So this means that not specifying non-continous will now enforce
-> continuous mode on existing devices ?
-
-Yes.
-
+> Thanks for the patch.
 > 
-> Are there any implications to that? I know there are quite a few users
-> of the sensor on Raspberry Pi for instance.
+> On 12/30/25 9:10 PM, Sakari Ailus wrote:
+> > The MMU hardware is initialised in the runtime PM resume callback. Do not
+> > do it in probe().
+> 
+> It's correct. The MMU hardware initialization was there as firmware
+> open happen during ISYS probe before, but now it was moved at stream
+> starting stage.
+> 
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  drivers/media/pci/intel/ipu6/ipu6-isys.c | 4 ----
+> >  1 file changed, 4 deletions(-)
+> > 
+> > diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys.c b/drivers/media/pci/intel/ipu6/ipu6-isys.c
+> > index fc0ec0a4b8f5..eb45544a9f05 100644
+> > --- a/drivers/media/pci/intel/ipu6/ipu6-isys.c
+> > +++ b/drivers/media/pci/intel/ipu6/ipu6-isys.c
+> > @@ -1070,10 +1070,6 @@ static int isys_probe(struct auxiliary_device *auxdev,
+> >  	if (!isys->csi2)
+> >  		return -ENOMEM;
+> >  
+> > -	ret = ipu6_mmu_hw_init(adev->mmu);
+> > -	if (ret)
+> > -		return ret;
+> > -
+> 
+> So, also need to remove the ipu6_mmu_hw_cleanup() below. :)
 
-This shouldn't cause any problems. Several sensors already use different 
-clock modes. However, it can't be completely ruled out that some MIPI 
-receivers might have issues with it.
-
-At least on an i.MX8MP, both modes work without any problems.
+I'll add that for v4.
 
 > 
-> I think it should be fine though.
+> >  	/* initial sensor type */
+> >  	isys->sensor_type = isys->pdata->ipdata->sensor_type_start;
+> >  
+> > 
 > 
->> Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
->> ---
->>   drivers/media/i2c/imx283.c | 12 ++++++++++++
->>   1 file changed, 12 insertions(+)
->>
->> diff --git a/drivers/media/i2c/imx283.c b/drivers/media/i2c/imx283.c
->> index 8ab63ad8f385f6e2a2d7432feff0af09a5356dc4..7a6ab2941ea985401b21d60163b58e980cf31ddc 100644
->> --- a/drivers/media/i2c/imx283.c
->> +++ b/drivers/media/i2c/imx283.c
->> @@ -149,6 +149,9 @@
->>   #define IMX283_REG_PLSTMG02            CCI_REG8(0x36aa)
->>   #define   IMX283_PLSTMG02_VAL          0x00
->>   
->> +#define IMX283_REG_MIPI_CLK            CCI_REG8(0x3a43)
->> +#define   IMX283_MIPI_CLK_NONCONTINUOUS        BIT(0)
-> 
-> I can't find this in my datasheet, so no specific comment on the
-> register I'm afraid. Did you get this from the vendor or is it an
-> assumption from other sony drivers?
 
-This was a hint from the vendor.
+-- 
+Kind regards,
 
-> 
-> I assume you can measurably detect that this register impacts the clock
-> on a CSI scope or such perhaps from the receiver?
-
-Yes, on an scope you can clearly see whether the clock switches to the 
-low-power state during the inactive phases.
-
-Some MIPI receivers (such as the i.MX8MP) also have a status flag that 
-indicates the current ULP state of the clock lane.
-
-By increasing the vblank, this register can also be used to determine 
-quite reliable whether the clock lane sometimes switches to the ULP state.
-
-> 
-> So even with all that I think this appears to be correct. I'll test it
-> more when I can but otherwise:
-
-Thanks!
-
-~Matthias
-
-> 
-> 
-> Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> 
->> +
->>   #define IMX283_REG_EBD_X_OUT_SIZE      CCI_REG16_LE(0x3a54)
->>   
->>   /* Test pattern generator */
->> @@ -565,6 +568,7 @@ struct imx283 {
->>          struct v4l2_ctrl *hblank;
->>          struct v4l2_ctrl *vflip;
->>   
->> +       bool mipi_clk_noncontinuous;
->>          unsigned long link_freq_bitmap;
->>   
->>          u16 hmax;
->> @@ -988,6 +992,7 @@ static int imx283_set_pad_format(struct v4l2_subdev *sd,
->>   static int imx283_standby_cancel(struct imx283 *imx283)
->>   {
->>          unsigned int link_freq_idx;
->> +       u8 mipi_clk;
->>          int ret = 0;
->>   
->>          cci_write(imx283->cci, IMX283_REG_STANDBY,
->> @@ -1007,6 +1012,10 @@ static int imx283_standby_cancel(struct imx283 *imx283)
->>          /* Enable PLL */
->>          cci_write(imx283->cci, IMX283_REG_STBPL, IMX283_STBPL_NORMAL, &ret);
->>   
->> +       /* Configure MIPI clock mode */
->> +       mipi_clk = imx283->mipi_clk_noncontinuous ? IMX283_MIPI_CLK_NONCONTINUOUS : 0;
->> +       cci_write(imx283->cci, IMX283_REG_MIPI_CLK, mipi_clk, &ret);
->> +
->>          /* Configure the MIPI link speed */
->>          link_freq_idx = __ffs(imx283->link_freq_bitmap);
->>          cci_multi_reg_write(imx283->cci, link_freq_reglist[link_freq_idx].regs,
->> @@ -1426,6 +1435,9 @@ static int imx283_parse_endpoint(struct imx283 *imx283)
->>                  goto done_endpoint_free;
->>          }
->>   
->> +       imx283->mipi_clk_noncontinuous =
->> +               bus_cfg.bus.mipi_csi2.flags & V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK;
->> +
->>          ret = v4l2_link_freq_to_bitmap(imx283->dev, bus_cfg.link_frequencies,
->>                                         bus_cfg.nr_of_link_frequencies,
->>                                         link_frequencies, ARRAY_SIZE(link_frequencies),
->>
->> -- 
->> 2.34.1
->>
-
+Sakari Ailus
 
