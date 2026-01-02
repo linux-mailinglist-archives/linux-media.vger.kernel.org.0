@@ -1,153 +1,119 @@
-Return-Path: <linux-media+bounces-49847-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49848-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAD8ACEEA06
-	for <lists+linux-media@lfdr.de>; Fri, 02 Jan 2026 14:04:40 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E731CEEAD6
+	for <lists+linux-media@lfdr.de>; Fri, 02 Jan 2026 14:30:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 0B2B1300D310
-	for <lists+linux-media@lfdr.de>; Fri,  2 Jan 2026 13:02:22 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 236103016DCA
+	for <lists+linux-media@lfdr.de>; Fri,  2 Jan 2026 13:30:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F7CB325708;
-	Fri,  2 Jan 2026 12:51:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 473437082F;
+	Fri,  2 Jan 2026 13:30:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="tNt5/pyZ"
+	dkim=pass (1024-bit key) header.d=ralfj.de header.i=@ralfj.de header.b="vOZKE8+A"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from r-passerv.ralfj.de (r-passerv.ralfj.de [109.230.236.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 101D23254B1
-	for <linux-media@vger.kernel.org>; Fri,  2 Jan 2026 12:51:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AD631D6BB
+	for <linux-media@vger.kernel.org>; Fri,  2 Jan 2026 13:30:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.230.236.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767358294; cv=none; b=OxrbblAI6UKyHfYZi8xRaLuKFL22OOvZ/UvzDH3w5oMt0DFauuQ0uT6wc8EqK+AK5uoPlPupWjdEC8279xj5O9I2wNA9SLkQcShAdN6wvqfJzbRIdxVC6cPnkxKjGbBIOjTdl5uTOi5nAHIub5lM6EkDICZ+T1w2g8y/M3LX1hY=
+	t=1767360624; cv=none; b=TtD4d4MKbR8vqFIIL4oAVjTs9dVTCisFOzaIAAWAOacDiqnFOlXpoe0guqjR/u2QR7Gkm8atWQhGaRCNIwIDNMlmiJ4ffN1LG7MM0VjiI+wOPFWkrUYGio/SJoL+DEv8QtPCxlexcJQmDMhDBijpXo/+aPWvNCqQwnxiRh+7iVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767358294; c=relaxed/simple;
-	bh=3xheS4w2GEIWpVAWQeD490HJWB+f2Iut3gHL/V5aVUA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g2xqdJSFkLrsvVqifvRb6RKef1bjYYufmyAnbbVYdhlh/rkXlaVdQX6+PURL7C6kWqt0cSbyFiUPNfPE9RpNLgXQrzGxboJ1ysc09p/tBZ7QEooR8GivvjvPLIuoKPrFuNBzk+gosXzECziKVEQM14xKql5P0hiGFHvJOOtbi70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=tNt5/pyZ; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-152.bb.dnainternet.fi [81.175.209.152])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 3389D228;
-	Fri,  2 Jan 2026 13:51:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1767358264;
-	bh=3xheS4w2GEIWpVAWQeD490HJWB+f2Iut3gHL/V5aVUA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tNt5/pyZii8bRPzPhrygkIBpRh+TA+qvJcqjI8xd8BA27hzYw/AR/wRL+rxH7Ws4v
-	 EWPn5Ic6PLchrSsOyRuqYkRaddGFo344nZMo7cA+UYN4sTS7jUE+VOayec6+XHmJCp
-	 pew1B/+bbF+RT/vcuAtO5IDa1kvg5wPnR6CQE1X0=
-Date: Fri, 2 Jan 2026 14:51:03 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Dmitry Antipov <dmantipov@yandex.ru>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
-	lvc-project@linuxtesting.org,
-	syzbot+2bf29e42be0666f2df70@syzkaller.appspotmail.com,
-	syzbot+37fd81fa4305a9eadfb0@syzkaller.appspotmail.com
-Subject: Re: [PATCH] media: media-request: fix race between
- media_request_alloc() and media_request_close()
-Message-ID: <20260102125103.GC15048@pendragon.ideasonboard.com>
-References: <20260102121410.710456-1-dmantipov@yandex.ru>
+	s=arc-20240116; t=1767360624; c=relaxed/simple;
+	bh=UXKcJiNPxEThWry79hrHBonMfRqzlQMXS4YeO8EpFa8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YOfhH8VsvUJ7/e5VJ6GSa9T8niVwJQ9oTt8OFNQIp+0mAszhe5RJetIUzRHBA0nAoPTpXOTbxrTbbRl0xC9cGllpln1Hjm6APtryKNO/ag/MkMAIZT5U9Taqh/XznrMi8nSrzHb+XP5N0UiMj31C+K0WNEpKM6zjDFIoz8KVFdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ralfj.de; spf=pass smtp.mailfrom=ralfj.de; dkim=pass (1024-bit key) header.d=ralfj.de header.i=@ralfj.de header.b=vOZKE8+A; arc=none smtp.client-ip=109.230.236.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ralfj.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ralfj.de
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ralfj.de; s=mail;
+	t=1767360266; bh=UXKcJiNPxEThWry79hrHBonMfRqzlQMXS4YeO8EpFa8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=vOZKE8+A7K2uSS/tHoRs5Rr4XtDhedt38FInZ6mYHDlhCWj0reDp4XMFTxweL7la5
+	 g0dExyk4bHDqInBqJBq5ms2C48eIfqiIRZ2U2wGrX+GZ01V/Kn4T905i1T9Pzvj7uM
+	 ylDfAS+PiAIBkhQKdDFH664JTev//1HEEw0Xw/m8=
+Received: from [IPV6:2003:e0:bf47:e100:5e:3d5f:ba07:241b] (p200300e0bf47e100005e3d5fba07241b.dip0.t-ipconnect.de [IPv6:2003:e0:bf47:e100:5e:3d5f:ba07:241b])
+	by r-passerv.ralfj.de (Postfix) with ESMTPSA id 5C6F320525EF;
+	Fri,  2 Jan 2026 14:24:26 +0100 (CET)
+Message-ID: <0490a39a-28d9-4925-a162-5e4d498be257@ralfj.de>
+Date: Fri, 2 Jan 2026 14:24:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260102121410.710456-1-dmantipov@yandex.ru>
+User-Agent: Mozilla Thunderbird
+Subject: Re: Bug#1121718: linux-image-6.17.8+deb14-amd64: Logitech C920 HD Pro
+ Webcam shows flickering artifacts (sometimes)
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ Ricardo Ribalda <ribalda@chromium.org>
+Cc: 1121718@bugs.debian.org, Salvatore Bonaccorso <carnil@debian.org>,
+ linux-media@vger.kernel.org, regressions@lists.linux.dev,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <176458169204.346596.13968096833088921213.reportbug@r-ethtop>
+ <aS8YBLEPwF0-NtJO@eldamar.lan>
+ <176458169204.346596.13968096833088921213.reportbug@r-ethtop>
+ <ba9a132e-6296-451f-8351-4045c0b72d6c@ralfj.de>
+ <4rnbopkefvp6h3dwttj4h7cexehqtbuzzz4gatnebdnjzdy2li@bupytpnlk2xh>
+ <2ed13f74-8de3-4caf-8972-26dd5a31e9fc@ralfj.de>
+ <uboug5ectzm4s32yfgopjbcxq2uhsoc4kluaby7a4b7nzfjave@boco7oocnftr>
+From: Ralf Jung <post@ralfj.de>
+Content-Language: en-US, de-DE
+In-Reply-To: <uboug5ectzm4s32yfgopjbcxq2uhsoc4kluaby7a4b7nzfjave@boco7oocnftr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Dmitry,
+Hi all,
 
-Thank you for the patch.
+I did a (lengthy) bisect session, and came out with this commit:
 
-On Fri, Jan 02, 2026 at 03:14:10PM +0300, Dmitry Antipov wrote:
-> Syzbot has hit (seems twice at least) the following race condition between
-> 'media_request_alloc()' and 'media_request_close()':
-> 
-> Thread 0:                                       Thread 1:
-> ...
-> media_request_alloc(...)
-> ...
->   req = kzalloc(...)
->   ...
->   fd_prepare_file(fdf)->private_data = req; [1] ...
->   ...                                           media_request_close(...)
->   snprintf(req->debug_str, ...)                   media_request_put(req)
->   ...
-> 
-> After [1], an instance of 'struct media_request' is available for
-> 'media_request_close()' via the filesystem interface, so 'snprintf()'
-> in thread 0 may be issued for a free-in-progress request. Fix this
-> by managing an extra reference for that request in 'media_request_alloc()'
-> by using 'media_request_get()' and 'media_request_put()' in the former.
+52fbe173baa4df9d14bd733f42ee6b9ceab8299b is the first bad commit
+commit 52fbe173baa4df9d14bd733f42ee6b9ceab8299b (HEAD)
+Author: Ricardo Ribalda <ribalda@chromium.org>
+Date:   Wed Dec 18 21:39:09 2024 +0000
 
-This has already been fixed by
-https://lore.kernel.org/all/20251209210903.603958-1-minipli@grsecurity.net/
-> 
-> Reported-by: syzbot+2bf29e42be0666f2df70@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=2bf29e42be0666f2df70
-> Reported-by: syzbot+37fd81fa4305a9eadfb0@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=37fd81fa4305a9eadfb0
-> Fixes: 10905d70d788 ("media: media-request: implement media requests")
-> Signed-off-by: Dmitry Antipov <dmantipov@yandex.ru>
-> ---
->  drivers/media/mc/mc-request.c | 15 +++++----------
->  1 file changed, 5 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/media/mc/mc-request.c b/drivers/media/mc/mc-request.c
-> index 2ac9ac0a740b..969051c1f07c 100644
-> --- a/drivers/media/mc/mc-request.c
-> +++ b/drivers/media/mc/mc-request.c
-> @@ -282,7 +282,7 @@ EXPORT_SYMBOL_GPL(media_request_get_by_fd);
->  int media_request_alloc(struct media_device *mdev, int *alloc_fd)
->  {
->  	struct media_request *req;
-> -	int ret;
-> +	int ret = 0;
->  
->  	/* Either both are NULL or both are non-NULL */
->  	if (WARN_ON(!mdev->ops->req_alloc ^ !mdev->ops->req_free))
-> @@ -305,12 +305,13 @@ int media_request_alloc(struct media_device *mdev, int *alloc_fd)
->  	req->updating_count = 0;
->  	req->access_count = 0;
->  
-> +	media_request_get(req);
->  	FD_PREPARE(fdf, O_CLOEXEC,
->  		   anon_inode_getfile("request", &request_fops, NULL,
->  				      O_CLOEXEC));
->  	if (fdf.err) {
->  		ret = fdf.err;
-> -		goto err_free_req;
-> +		goto out;
->  	}
->  
->  	fd_prepare_file(fdf)->private_data = req;
-> @@ -321,14 +322,8 @@ int media_request_alloc(struct media_device *mdev, int *alloc_fd)
->  		 atomic_inc_return(&mdev->request_id), *alloc_fd);
->  	dev_dbg(mdev->dev, "request: allocated %s\n", req->debug_str);
->  
-> -	return 0;
-> -
-> -err_free_req:
-> -	if (mdev->ops->req_free)
-> -		mdev->ops->req_free(req);
-> -	else
-> -		kfree(req);
-> -
-> +out:
-> +	media_request_put(req);
->  	return ret;
->  }
->  
+     media: uvcvideo: Invert default value for nodrop module param
 
--- 
-Regards,
+     The module param `nodrop` defines what to do with frames that contain an
+     error: drop them or sending them to userspace.
 
-Laurent Pinchart
+     The default in the rest of the media subsystem is to return buffers with
+     an error to userspace with V4L2_BUF_FLAG_ERROR set in v4l2_buffer.flags.
+     In UVC we drop buffers with errors by default.
+
+     Change the default behaviour of uvcvideo to match the rest of the
+     drivers and maybe get rid of the module parameter in the future.
+
+     Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+     Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+     Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+     Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+     Link: 
+https://lore.kernel.org/r/20241218-uvc-deprecate-v2-2-ab814139e983@chromium.org
+     Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+     Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+  drivers/media/usb/uvc/uvc_driver.c | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+
+I added Ricardo in Cc. Ricardo, see 
+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1121718 for context.
+
+The bug does not always immediately manifest, so there is a small chance that 
+for some of the commits that I marked "good", artifacts would have started 
+appearing if I had waited a bit longer. But the commit seems reasonably 
+plausible to be able to cause the kind of error I am seeing.
+
+Given that this is about a module parameter, I assume I could test this by 
+booting the latest kernel and setting the parameter back to its previous 
+value... but I don't know enough about how the kernel works to actually do 
+that.^^ Happy to try that if someone gives me some pointers.
+
+Kind regards,
+Ralf
+
 
