@@ -1,64 +1,64 @@
-Return-Path: <linux-media+bounces-49835-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49836-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74E89CED988
-	for <lists+linux-media@lfdr.de>; Fri, 02 Jan 2026 02:42:37 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BE77CED9F5
+	for <lists+linux-media@lfdr.de>; Fri, 02 Jan 2026 04:38:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 563D13009ABF
-	for <lists+linux-media@lfdr.de>; Fri,  2 Jan 2026 01:42:30 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5F63430076A2
+	for <lists+linux-media@lfdr.de>; Fri,  2 Jan 2026 03:38:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 978DF1F4631;
-	Fri,  2 Jan 2026 01:42:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C157D27F73A;
+	Fri,  2 Jan 2026 03:38:26 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oo1-f79.google.com (mail-oo1-f79.google.com [209.85.161.79])
+Received: from mail-oo1-f80.google.com (mail-oo1-f80.google.com [209.85.161.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A811E230E
-	for <linux-media@vger.kernel.org>; Fri,  2 Jan 2026 01:42:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.79
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87D6C1A254E
+	for <linux-media@vger.kernel.org>; Fri,  2 Jan 2026 03:38:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767318148; cv=none; b=nIO7zEYsLorpsA5GKZiAD89e/ck0ZYoWAnADM0HY9JZrjiQ7b3qEKBFOv+mxpqh5AsOJhp1MIGIdk2UOUTBEMqB1Tcuv4AlBIh8yrfSn0MupU8K607BjqqFDWcaWi2hK17xxrV4LZpQT+LtE7jxHSY946+e4UDFkawjHl08zv4A=
+	t=1767325106; cv=none; b=HKNMm0zDrtx+B9L+NU6idKK2VFfy2fxX/7L8Rcs9wcvG4YJKg0+CE2fW9bHDudZczy59Z6+I17NITx+tTBeBhiINsB/eemEanVHvHTRPOdfSTHDWIIthfpsKxRerw1PW7+WJmdBLCaYQJvpeUCEFMxYtc5dHy7TsAYoiKbuAYzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767318148; c=relaxed/simple;
-	bh=UyW3b+UjCRHIsmaMb3GDhuuWbdBtj8S5IO0sJx4INSo=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=SoxVn0PTlEKaT/V4iGsT1oHPl9C1Z21DM+/w2SKxa9xqeYTXFVBuk3Xrjo8C24YMh1MnWpvOiOG2SuJTT2bgEyP06eVapNba4Ob8Di3Mz1jTXIMXJcfL4Pk/QyB7F5QGcvgK2pwfWN/QtJt4F3BM5R9s1NR4ZedafVYyV4NMtBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.79
+	s=arc-20240116; t=1767325106; c=relaxed/simple;
+	bh=/f0lmPAc5Wpz/ifZ6BW8tUpNKuIPtZRlTclzRAUiM3w=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=LQN8Er/Gqt5KB99/3YBmgZt7XDxYttJNvigAh7HZNqkvwpTmF2xTGrGMmYX9rRpc0OHm14peWoDlbPiEvbFKukpfX1rwZMkf+aYltqhD8JC04ei+deH+G4jUfHwBWmcQ2nLTdJhE4pSrqLfumk9ZxXHn1p7VXEsdVNsgGB5IHFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.80
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f79.google.com with SMTP id 006d021491bc7-656cc4098f3so21602731eaf.2
-        for <linux-media@vger.kernel.org>; Thu, 01 Jan 2026 17:42:26 -0800 (PST)
+Received: by mail-oo1-f80.google.com with SMTP id 006d021491bc7-65742f8c565so22307612eaf.1
+        for <linux-media@vger.kernel.org>; Thu, 01 Jan 2026 19:38:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767318145; x=1767922945;
+        d=1e100.net; s=20230601; t=1767325103; x=1767929903;
         h=to:from:subject:message-id:date:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=tAgi8W48Gb9AonGwKbsuKd25sYLZn1A6g7qrX7ZIn+k=;
-        b=ani6EHR0G7HGzvJdSqsqPOv4GhEbB3oy8O1s40u9gt4KB/nYkXHDPHLLceW+IBr4Vf
-         +jGKazap9nTqYLgX9HfM0THNses+OlNKVykgCzyH4TaySAHMvXeTP4YD4Fq4CN962ALX
-         6gAAI0BRipgduW5Wto6wGnybmWizNf9tX4jLuywblAUNSAiajCp6Vs03jYQNL1AErR8S
-         jUUIuzcDyqEICGyupuJohf3VsIS8hyU2jGomWY6iOo6VcuSjxipFrzSO6EVnuoeb7jTW
-         NlFYrDps7yJZJm8HsL8mRF+c0/lXkbP+tgdFRafKBxjBlfNXTC76hSFrjOnQwMbow+Zq
-         H6wA==
-X-Forwarded-Encrypted: i=1; AJvYcCVs5FcYCrPwKkoAw/VkHUllfjSdGKrw80FepgEYZa+HYhCi3cfRf7ANAZ76bAq7TDmVk7poP35DWnRAxQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRJypPrFeMnBX4yjICDsrDnwat6yCg66gnD+T8L+oHtH6Ocjsf
-	0AfIsGW48F+gGVMu9K5GiEmDctIJmFv/PhLAX+IRkurTMjFCLWklwaZG9kUctG2To2bxpiZVOLI
-	xykGyijNe8ZWrGqWk/LKDeVsy20UOqh81/XxPgKzbfQIb6Gfe9jYQBjRUq0Y=
-X-Google-Smtp-Source: AGHT+IHnMhZLesfdZw/rTtNEDFnGDysVqRKH4lWgDs2fNi7/ASU2QC1wrSScq/PbspiPfeSEFuspsO6NVx50uh3MfdFW/dyHwTDL
+        bh=hymX+KyykheFpSqMpGnb6HizxrH4r135iRr4xWQgs2k=;
+        b=E58wzFc3D/C3+WdQ5mx3+DHOzsyU+lBYelSVqT5RmqZqhojQ2OScaIiRTHOFl6V3gp
+         oEiVDShJhZG4Yc9RqBRq1G99Uhj81XRW4PElGbVVZHwHMNkdlweuZ+JdY0yE/Ta36R34
+         1AXZVupXqWNqBRB/IX+n0xeZBAcUE3e9H+dKkF0//Nac44LvcCpNHjZz3DYxJF+f77Ch
+         xexJf/RwVh7tIASlaP6URnS7o2rIGraFlv2JLRA8qA6tbJz5h1Ws1AazfH7I0RtYLOvF
+         dV2MM+xoeSdlDOq4dzFUlFJ+nkaac9VINZHJeGWTvztFnY8SJp/c/NxQRR6T6RKOWeZ1
+         SK+A==
+X-Forwarded-Encrypted: i=1; AJvYcCVu2g+pUHe/GRidIV00qWhweiZRwpenyIAyjuO3geHgqrviLHDtUNqDl99zzPbPxuQHtK3CJ89iwG5YYg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyzy4G+dRRxJQ41au9bCpw3iZTTOAm9E07HPmFZ/uhyaUzL4bLb
+	boTkIL5so3W3Zd+OlfJ6VLQv/ox1y8lYrtacd3PmyeJLo3paM//n66aqFKtaGENrysHYS4wuqfl
+	aLAQEHPk0NCuvUfjmuC9dXQ6Svxy2kzz1AYekLJITwrGZg+yqjIgknlQ9HlE=
+X-Google-Smtp-Source: AGHT+IHVAybCaLfNfnmw/yZ/cfgauOKzm2UR9J8hb1ene/cQBbVILCPAe515j03PJRGdzNiOA7st66VgBZ9NjoZIUmsJlJJtIqpI
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a4a:a50f:0:b0:659:9a49:8fe4 with SMTP id
- 006d021491bc7-65d0e933d50mr12761700eaf.17.1767318145493; Thu, 01 Jan 2026
- 17:42:25 -0800 (PST)
-Date: Thu, 01 Jan 2026 17:42:25 -0800
+X-Received: by 2002:a05:6820:4a83:b0:65d:48c:34c4 with SMTP id
+ 006d021491bc7-65d0eb93836mr14550532eaf.63.1767325103588; Thu, 01 Jan 2026
+ 19:38:23 -0800 (PST)
+Date: Thu, 01 Jan 2026 19:38:23 -0800
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69572281.050a0220.a1b6.0349.GAE@google.com>
-Subject: [syzbot] [media?] KASAN: slab-use-after-free Write in number
-From: syzbot <syzbot+37fd81fa4305a9eadfb0@syzkaller.appspotmail.com>
+Message-ID: <69573daf.050a0220.a1b6.034d.GAE@google.com>
+Subject: [syzbot] [media?] KASAN: slab-use-after-free Write in media_request_alloc
+From: syzbot <syzbot+2bf29e42be0666f2df70@syzkaller.appspotmail.com>
 To: laurent.pinchart@ideasonboard.com, linux-kernel@vger.kernel.org, 
 	linux-media@vger.kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com, 
 	syzkaller-bugs@googlegroups.com
@@ -70,12 +70,11 @@ syzbot found the following issue on:
 
 HEAD commit:    c875a6c32467 Merge tag 'usb-6.19-rc3' of git://git.kernel...
 git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=16fa349a580000
+console output: https://syzkaller.appspot.com/x/log.txt?x=1395e49a580000
 kernel config:  https://syzkaller.appspot.com/x/.config?x=513255d80ab78f2b
-dashboard link: https://syzkaller.appspot.com/bug?extid=37fd81fa4305a9eadfb0
+dashboard link: https://syzkaller.appspot.com/bug?extid=2bf29e42be0666f2df70
 compiler:       Debian clang version 20.1.8 (++20250708063551+0c9f909b7976-1~exp1~20250708183702.136), Debian LLD 20.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11953bb4580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=178f7c9a580000
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1795e49a580000
 
 Downloadable assets:
 disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-c875a6c3.raw.xz
@@ -83,13 +82,13 @@ vmlinux: https://storage.googleapis.com/syzbot-assets/a757db7716a5/vmlinux-c875a
 kernel image: https://storage.googleapis.com/syzbot-assets/3095f726e048/bzImage-c875a6c3.xz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+37fd81fa4305a9eadfb0@syzkaller.appspotmail.com
+Reported-by: syzbot+2bf29e42be0666f2df70@syzkaller.appspotmail.com
 
 ==================================================================
-BUG: KASAN: slab-use-after-free in number+0xc48/0xf60 lib/vsprintf.c:572
-Write of size 1 at addr ffff88801158b60c by task syz.0.30/5548
+BUG: KASAN: slab-use-after-free in vsnprintf+0x38b/0xee0 lib/vsprintf.c:2898
+Write of size 1 at addr ffff888042136c11 by task syz.4.761/7191
 
-CPU: 0 UID: 0 PID: 5548 Comm: syz.0.30 Not tainted syzkaller #0 PREEMPT(full) 
+CPU: 0 UID: 0 PID: 7191 Comm: syz.4.761 Not tainted syzkaller #0 PREEMPT(full) 
 Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
 Call Trace:
  <TASK>
@@ -97,8 +96,10 @@ Call Trace:
  print_address_description mm/kasan/report.c:378 [inline]
  print_report+0xca/0x240 mm/kasan/report.c:482
  kasan_report+0x118/0x150 mm/kasan/report.c:595
- number+0xc48/0xf60 lib/vsprintf.c:572
- vsnprintf+0x8e5/0xee0 lib/vsprintf.c:2911
+ check_region_inline mm/kasan/generic.c:-1 [inline]
+ kasan_check_range+0x2b0/0x2c0 mm/kasan/generic.c:200
+ __asan_memcpy+0x40/0x70 mm/kasan/shadow.c:106
+ vsnprintf+0x38b/0xee0 lib/vsprintf.c:2898
  snprintf+0xda/0x120 lib/vsprintf.c:3041
  media_request_alloc+0x319/0x5b0 drivers/media/mc/mc-request.c:320
  media_device_request_alloc+0x98/0xd0 drivers/media/mc/mc-device.c:380
@@ -109,17 +110,17 @@ Call Trace:
  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
  do_syscall_64+0xec/0xf80 arch/x86/entry/syscall_64.c:94
  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fe41c98f7c9
+RIP: 0033:0x7f801458f7c9
 Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fe41bffe038 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 00007fe41cbe5fa0 RCX: 00007fe41c98f7c9
+RSP: 002b:00007f801547d038 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007f80147e5fa0 RCX: 00007f801458f7c9
 RDX: 0000000000000000 RSI: 0000000080047c05 RDI: 0000000000000003
-RBP: 00007fe41ca13f91 R08: 0000000000000000 R09: 0000000000000000
+RBP: 00007f8014613f91 R08: 0000000000000000 R09: 0000000000000000
 R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007fe41cbe6038 R14: 00007fe41cbe5fa0 R15: 00007ffce8739818
+R13: 00007f80147e6038 R14: 00007f80147e5fa0 R15: 00007ffd838327f8
  </TASK>
 
-Allocated by task 5548:
+Allocated by task 7191:
  kasan_save_stack mm/kasan/common.c:56 [inline]
  kasan_save_track+0x3e/0x80 mm/kasan/common.c:77
  poison_kmalloc_redzone mm/kasan/common.c:397 [inline]
@@ -138,7 +139,7 @@ Allocated by task 5548:
  do_syscall_64+0xec/0xf80 arch/x86/entry/syscall_64.c:94
  entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-Freed by task 5549:
+Freed by task 7194:
  kasan_save_stack mm/kasan/common.c:56 [inline]
  kasan_save_track+0x3e/0x80 mm/kasan/common.c:77
  kasan_save_free_info+0x46/0x50 mm/kasan/generic.c:584
@@ -161,20 +162,20 @@ Freed by task 5549:
  do_syscall_64+0x2b7/0xf80 arch/x86/entry/syscall_64.c:100
  entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-The buggy address belongs to the object at ffff88801158b600
+The buggy address belongs to the object at ffff888042136c00
  which belongs to the cache kmalloc-256 of size 256
-The buggy address is located 12 bytes inside of
- freed 256-byte region [ffff88801158b600, ffff88801158b700)
+The buggy address is located 17 bytes inside of
+ freed 256-byte region [ffff888042136c00, ffff888042136d00)
 
 The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x1158b
-flags: 0xfff00000000000(node=0|zone=1|lastcpupid=0x7ff)
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x42136
+flags: 0x4fff00000000000(node=1|zone=1|lastcpupid=0x7ff)
 page_type: f5(slab)
-raw: 00fff00000000000 ffff88801a441b40 dead000000000122 0000000000000000
-raw: 0000000000000000 0000000080080008 00000000f5000000 0000000000000000
+raw: 04fff00000000000 ffff88801a441b40 ffffea000105e940 dead000000000008
+raw: 0000000000000000 0000000000080008 00000000f5000000 0000000000000000
 page dumped because: kasan: bad access detected
 page_owner tracks the page as allocated
-page last allocated via order 0, migratetype Unmovable, gfp_mask 0x52cc0(GFP_KERNEL|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP), pid 5548, tgid 5547 (syz.0.30), ts 109855780649, free_ts 109836972307
+page last allocated via order 0, migratetype Unmovable, gfp_mask 0x52cc0(GFP_KERNEL|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP), pid 6435, tgid 6433 (syz.5.390), ts 150606964609, free_ts 150605503050
  set_page_owner include/linux/page_owner.h:32 [inline]
  post_alloc_hook+0x234/0x290 mm/page_alloc.c:1846
  prep_new_page mm/page_alloc.c:1854 [inline]
@@ -200,7 +201,7 @@ page last allocated via order 0, migratetype Unmovable, gfp_mask 0x52cc0(GFP_KER
  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
  do_syscall_64+0xec/0xf80 arch/x86/entry/syscall_64.c:94
  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-page last free pid 15 tgid 15 stack trace:
+page last free pid 5325 tgid 5325 stack trace:
  reset_page_owner include/linux/page_owner.h:25 [inline]
  free_pages_prepare mm/page_alloc.c:1395 [inline]
  __free_frozen_pages+0xbc8/0xd30 mm/page_alloc.c:2943
@@ -209,19 +210,27 @@ page last free pid 15 tgid 15 stack trace:
  rcu_do_batch kernel/rcu/tree.c:2605 [inline]
  rcu_core+0xc8e/0x1720 kernel/rcu/tree.c:2857
  handle_softirqs+0x22b/0x7c0 kernel/softirq.c:622
- run_ksoftirqd+0x36/0x60 kernel/softirq.c:1063
- smpboot_thread_fn+0x542/0xa60 kernel/smpboot.c:160
- kthread+0x711/0x8a0 kernel/kthread.c:463
- ret_from_fork+0x510/0xa50 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:246
+ do_softirq+0x76/0xd0 kernel/softirq.c:523
+ __local_bh_enable_ip+0xf8/0x130 kernel/softirq.c:450
+ lock_sock include/net/sock.h:1700 [inline]
+ tcp_sendmsg+0x21/0x50 net/ipv4/tcp.c:1411
+ sock_sendmsg_nosec net/socket.c:727 [inline]
+ __sock_sendmsg+0x19c/0x270 net/socket.c:742
+ sock_write_iter+0x279/0x360 net/socket.c:1195
+ new_sync_write fs/read_write.c:593 [inline]
+ vfs_write+0x5c9/0xb30 fs/read_write.c:686
+ ksys_write+0x145/0x250 fs/read_write.c:738
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xec/0xf80 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
 Memory state around the buggy address:
- ffff88801158b500: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
- ffff88801158b580: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
->ffff88801158b600: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                      ^
- ffff88801158b680: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff88801158b700: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff888042136b00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff888042136b80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>ffff888042136c00: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                         ^
+ ffff888042136c80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff888042136d00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
 ==================================================================
 
 
