@@ -1,167 +1,252 @@
-Return-Path: <linux-media+bounces-49834-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49835-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF044CED96D
-	for <lists+linux-media@lfdr.de>; Fri, 02 Jan 2026 02:20:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74E89CED988
+	for <lists+linux-media@lfdr.de>; Fri, 02 Jan 2026 02:42:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1EAB63009F86
-	for <lists+linux-media@lfdr.de>; Fri,  2 Jan 2026 01:19:59 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 563D13009ABF
+	for <lists+linux-media@lfdr.de>; Fri,  2 Jan 2026 01:42:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08B6E13635E;
-	Fri,  2 Jan 2026 01:19:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rogers.com header.i=@rogers.com header.b="H2dvZkAY"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 978DF1F4631;
+	Fri,  2 Jan 2026 01:42:28 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from sonic316-10.consmr.mail.gq1.yahoo.com (sonic316-10.consmr.mail.gq1.yahoo.com [98.137.69.34])
+Received: from mail-oo1-f79.google.com (mail-oo1-f79.google.com [209.85.161.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B416F28F5
-	for <linux-media@vger.kernel.org>; Fri,  2 Jan 2026 01:19:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=98.137.69.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A811E230E
+	for <linux-media@vger.kernel.org>; Fri,  2 Jan 2026 01:42:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.79
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767316796; cv=none; b=h9/Ut6nodKp89NPHLFz7TXhYCVhn35p4QKb0gdplob7hpzxidzMmG5SjhlT+5ctD97pxyv7l53h3/3tcx5B+2pA0aE4+FigIyHs8iPlm672hY9GtbxaVsdID9F34OKkuNREYtAqUtmTlkFYXz612uUujYsIM7qKWONkhoXfCR1g=
+	t=1767318148; cv=none; b=nIO7zEYsLorpsA5GKZiAD89e/ck0ZYoWAnADM0HY9JZrjiQ7b3qEKBFOv+mxpqh5AsOJhp1MIGIdk2UOUTBEMqB1Tcuv4AlBIh8yrfSn0MupU8K607BjqqFDWcaWi2hK17xxrV4LZpQT+LtE7jxHSY946+e4UDFkawjHl08zv4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767316796; c=relaxed/simple;
-	bh=3sMkmG/f6zaWym78b3gZbqVlPxi7VRn2lEWZzwfgKuk=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=NdwIhRg0bMoR2RA5vYVMR1boWbE7FhLRdLSysRckajvdnW7M2RpYkgnZ+Xez+syTN9JUyXF7K7AJ6w3p6FRN++8fGvYLTUnVtz+CZfunP4Z4N1bk5aybG07jzGWxjPa5DRkzeyxoGpDqAigOzIEMb2vLCPGABOKT9NxCb6WVAeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rogers.com; spf=pass smtp.mailfrom=rogers.com; dkim=pass (2048-bit key) header.d=rogers.com header.i=@rogers.com header.b=H2dvZkAY; arc=none smtp.client-ip=98.137.69.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rogers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rogers.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rogers.com; s=s2048; t=1767316794; bh=/mclJI+EBCWo8ioXbLs87HMZLRYaOlftsXJYbvWteuA=; h=Date:To:Cc:References:Subject:From:In-Reply-To:From:Subject:Reply-To; b=H2dvZkAYzWVlDiGIQ6i/gA+BxKvuLg6yhCgZ/2Lx0T01HwwX+3HPTFq3I3x2rubzpfxjt29gXeiiMQ7ReXWhUFHQmXXDmT1mcp0mwUJomwliKlftm2Tv+Frjt9uVZbGSPizDcyku8kgwCPO6WqpX6s9wzC4B70UbwmDJMwThH0/YMmNO/WDDWeoh+61WRoqw003ySneVDarsRZh8YSzl4E1xDxv+Aun+/k/0muHuq6iA+NWx0Z3giUSywvaCIPFIPXLKRoRn3MahAZ8hoxWYDfSPDZJgx5wMv92QH4znAKaWTfZUor37tXtnnsflFvYxYcCubPNE3JmnSgvvE6Q1aA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1767316794; bh=7zBasFCOoFBe21wrco2mTMSp8gdn1nnAiCDZ7YB6/D6=; h=X-Sonic-MF:Date:To:Subject:From:From:Subject; b=CCAlFXWVHtTfZ9/i5ORS5ovcn5fdLCihPtojjfTaAnc2aZhnTNg5IhSvosF7yRDQQFH1pkjhMhObSoWFD6CDIj46gM9v15iYL+GZHRgk2gMW28wSe8TwKWdMJVc4Dya9opR8vmbNxi+NZrLKLKhHkWGjtd9gSEEuMxQz/1ZFUydhJtf2TMOGuLSgb/sUQW2PJWh8cjp0OBX+DECVKMQfs8YSYCwLIDSYfXgo9xWvjei9FTR5enUab05Vb7m+RJ+P7vyfK6Km6H3XOxw+u/vdgltLwpBELRc26dqzdGrtMfrT4lVtrrkFoFsw5YnNMvCMU6XBJG+wkQMURY7sMEwHTQ==
-X-YMail-OSG: qBCQbxcVM1kftC6NqzKP.NlDJvu0Y6VWBH1ZGF_aFG66kW74875Rz2GsDyB0cjx
- c0zOMWKyL5rusgvTC1rDR1vUYGr7eE18He.HAmiz9BqMe5rlh2bF_Crvlre9x9GJ9R3XVyKYi24F
- i9XJQA08JfkCQFHGLkYWdTwkA8i0vLOcTiA9fQmgZqMhJ6d8ZFqn.hbdshrMhiBOZDZwfOPnw3JN
- qePHB0xnkcmrAaVdlHMViyhPCrdtBhjDVj22eOrsC0HchUcjXjqjd8Gz6TimP3K0VmNSBZZ5lwai
- bAKoLLR2Djfd6LIb7pi4D0K3rsGnd7SgcbWSTOy.U4U1ANAm9Lln679gH7mVtZF8Qi6z9vDACPJ1
- HjfbnAfJkCw5HL61g7N2UimGtEuwCwgx_rI4G7LmfvSe1tWWZuZGEtRwA8bIQUoN1mm9SJlZb8H5
- 7jWGlC6OVPjHaJhP7GWB26MN23AComlz8tz7TcEMa44Psh0Uw2XWvLfKV6Uy29IMBzo0BTzF7bX7
- 48r._ZW8IuRhecg10wws0fskxEb0u_IBmgiRhH1piwf0G6b659gZLKG9Dt9VQQT5wBMjdaVJkI1v
- QKqm09dIg85ERwusNFnY6QYYDheFWQltdqkqgRs1nUAjF_nu49AhCldLOF_O1cypysdCzTVF778g
- IMAP8zW9Cbs.AgWePGlrWX7Ui41z607zBwLaxWNGQt8rS4tYore9XzUk7_LM0sB6tsabl82POqvA
- 9IPVaq0RMagbi8t2eum8t6v8FXkX5SSkWMb3fFvnqVBig69K9HbrdqInnjHVdjhfqvUO_Ct190uS
- sxGdv.mBEYm0fxvA641oYmbLc54AFUIqgN5kHpP6nOjQHjVFzoPZOPHfOi_3ljl7oDnSuV0gzRGN
- o.hSbSHAuWq_GKgvjdZmVs_7juxax6IWONvKFJf2x6pvwjW94vRRuGxoKnYassEncY1o4kTYmFim
- kYqy9Kmi.wuK_RrzD8gvLOmFeyh7FXndPQAnnJ7Zi2STMYHv17lIdIs_Vx7kgi4xQbRPznlyjy5F
- XLHdO_fUuODfcC_vMz2tE06IJEy7C2jVAGX6OR8rgjeGfQP9qMxzsNysI7tGUpSczuEyxs_SZk95
- 4WXHJG7yh82fmBDV0wfJeJERahRsreP2F.ZFluAMG6RbKJ5vgjQ17ZUWOZXnhqE59aBiRZrudxCp
- GVw10wxrVbqWX6N8MXBpm_FLXWBwazNc6YNr6sfzZpmhw7Gq8SZuZ6psbT_qAN7M8rpVude4fmhO
- w5uSEXEEdiKdSGbwVC15Zcbdv6O16de2rsoT6p9PkDF6SYneFAe2cBeptdBE2hIyU2Oidq2oO20F
- RTU5TPRjz2ij0WHHIVFVYWRP25y8NXylAo6sHQGwtQ3_012raOQjpQWqu5tYTJ5cvDdfh0JL0UZm
- h6V28_uOzXgKRRmQrujNfDkbCov8oXmWx8ACtsPm2iG.o0qPXwM_6eP5Q1RHuIt04j4QS1CpColv
- .IEuE4rL1d3W6Vq4yB3eDySOLCCBM5CtZ_zdoKrz0qMWKNLJKCjaJvQyJd4fGwGePPHmDXIH6Dw.
- ALg8OiMhur44lSc3Lr2EmAGQCtMVAgbXnHHKbDXWSf7QnhfWrwr6Hc1X4qg5A0zlofbWhOWxA3dW
- afry1uUO.pGlHjGS1i1JzjnBpr4rtZ903s.vgDscDNrVZs.ABqtai.E.A8wiNP_FV04Ooql4aGPS
- eTRFe1Xpw1G19WSdveLOUByGQlpFFzjjB3q4rQEKftA8n6oaEd4PHNX9oz8BU3NgZcGMIMPeoBi.
- nBuEy41FE1i7nMfPZoSvK16kVFJLtXf4Ns25Q9HesFOActRHcfJNJI0LTV9mZleawST9WxpHIstx
- eRW7GRtf3nRRBiJMHR16R6k5IXf0D4c5haQtjDrMFMwHLHc5Ij9xm4Q3Gm8XyXjw80iEg9MuMs0X
- 9cbiAs2mHxRebEFhcTz8QXVgkZF0JnJQ3ydK3WVUrEVovMXDt6Tqw2TAbfh64WPwIRT6Qtvk_4O7
- x7JB1RNYbgYWQ56NPJjJxTZEwp7Is1XGKAmRal_MGHrcVjcvVftfsuPuyiS1aop1a8CKG6svOk40
- G9e1SSFdNJ.PimvCmcwPg0VZDBkCJkV.09Pj4L2H0s7P7yU3RcCPea8LiFyfFXulKlM2XlfRMl6_
- _KFomhGC54P09NnM2LKE53FgCakkUJCGe02zUN5LHgzvKYY9_BnReM.KYc7JHeYNgpZR0Bv06jsC
- PrNpcaoUm2iWAJqYvqiGkuHdSKC8-
-X-Sonic-MF: <emveepee2@rogers.com>
-X-Sonic-ID: b2e0a9c6-670c-4caa-b03c-05a3b10e033d
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic316.consmr.mail.gq1.yahoo.com with HTTP; Fri, 2 Jan 2026 01:19:54 +0000
-Received: by hermes--production-bf1-55f79789b4-dlqhd (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 2dcdad2462d1b00971dad00a8e4cc42b;
-          Fri, 02 Jan 2026 00:49:32 +0000 (UTC)
-Message-ID: <104e2223-aef7-4c5b-89b3-762365a03ec8@rogers.com>
-Date: Thu, 1 Jan 2026 19:49:30 -0500
+	s=arc-20240116; t=1767318148; c=relaxed/simple;
+	bh=UyW3b+UjCRHIsmaMb3GDhuuWbdBtj8S5IO0sJx4INSo=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=SoxVn0PTlEKaT/V4iGsT1oHPl9C1Z21DM+/w2SKxa9xqeYTXFVBuk3Xrjo8C24YMh1MnWpvOiOG2SuJTT2bgEyP06eVapNba4Ob8Di3Mz1jTXIMXJcfL4Pk/QyB7F5QGcvgK2pwfWN/QtJt4F3BM5R9s1NR4ZedafVYyV4NMtBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f79.google.com with SMTP id 006d021491bc7-656cc4098f3so21602731eaf.2
+        for <linux-media@vger.kernel.org>; Thu, 01 Jan 2026 17:42:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767318145; x=1767922945;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tAgi8W48Gb9AonGwKbsuKd25sYLZn1A6g7qrX7ZIn+k=;
+        b=ani6EHR0G7HGzvJdSqsqPOv4GhEbB3oy8O1s40u9gt4KB/nYkXHDPHLLceW+IBr4Vf
+         +jGKazap9nTqYLgX9HfM0THNses+OlNKVykgCzyH4TaySAHMvXeTP4YD4Fq4CN962ALX
+         6gAAI0BRipgduW5Wto6wGnybmWizNf9tX4jLuywblAUNSAiajCp6Vs03jYQNL1AErR8S
+         jUUIuzcDyqEICGyupuJohf3VsIS8hyU2jGomWY6iOo6VcuSjxipFrzSO6EVnuoeb7jTW
+         NlFYrDps7yJZJm8HsL8mRF+c0/lXkbP+tgdFRafKBxjBlfNXTC76hSFrjOnQwMbow+Zq
+         H6wA==
+X-Forwarded-Encrypted: i=1; AJvYcCVs5FcYCrPwKkoAw/VkHUllfjSdGKrw80FepgEYZa+HYhCi3cfRf7ANAZ76bAq7TDmVk7poP35DWnRAxQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRJypPrFeMnBX4yjICDsrDnwat6yCg66gnD+T8L+oHtH6Ocjsf
+	0AfIsGW48F+gGVMu9K5GiEmDctIJmFv/PhLAX+IRkurTMjFCLWklwaZG9kUctG2To2bxpiZVOLI
+	xykGyijNe8ZWrGqWk/LKDeVsy20UOqh81/XxPgKzbfQIb6Gfe9jYQBjRUq0Y=
+X-Google-Smtp-Source: AGHT+IHnMhZLesfdZw/rTtNEDFnGDysVqRKH4lWgDs2fNi7/ASU2QC1wrSScq/PbspiPfeSEFuspsO6NVx50uh3MfdFW/dyHwTDL
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: linux-media@vger.kernel.org
-Cc: r3o2c7fi@duck.com
-References: <20260101224231.486-1-r3o2c7fi@duck.com>
-Subject: Re: [PATCH] libdvbv5: modify T2 delivery system descriptor
-Content-Language: en-CA
-From: Martin Vallevand <emveepee2@rogers.com>
-In-Reply-To: <20260101224231.486-1-r3o2c7fi@duck.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Mailer: WebService/1.1.24866 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+X-Received: by 2002:a4a:a50f:0:b0:659:9a49:8fe4 with SMTP id
+ 006d021491bc7-65d0e933d50mr12761700eaf.17.1767318145493; Thu, 01 Jan 2026
+ 17:42:25 -0800 (PST)
+Date: Thu, 01 Jan 2026 17:42:25 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69572281.050a0220.a1b6.0349.GAE@google.com>
+Subject: [syzbot] [media?] KASAN: slab-use-after-free Write in number
+From: syzbot <syzbot+37fd81fa4305a9eadfb0@syzkaller.appspotmail.com>
+To: laurent.pinchart@ideasonboard.com, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-I have received the attached and I don't have a clue what it means.  If 
-anyone can help please let me know.
+Hello,
 
-Patchwork Integration <patchwork@media-ci.org>
-	
-6:30 PM (38 minutes ago)
-	
-	
-to me
-Dear Martin Vallevand:
+syzbot found the following issue on:
 
-Thanks for your patches! Unfortunately the Media CI robot has not been
-able to test them.
+HEAD commit:    c875a6c32467 Merge tag 'usb-6.19-rc3' of git://git.kernel...
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=16fa349a580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=513255d80ab78f2b
+dashboard link: https://syzkaller.appspot.com/bug?extid=37fd81fa4305a9eadfb0
+compiler:       Debian clang version 20.1.8 (++20250708063551+0c9f909b7976-1~exp1~20250708183702.136), Debian LLD 20.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11953bb4580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=178f7c9a580000
 
-Make sure that the whole series 20260101224231.486-1-r3o2c7fi@duck.com is
-available at lore. And that it can be cherry-picked on top the "next"
-branch of "https://gitlab.freedesktop.org/linux-media/media-committers.git".
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-c875a6c3.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/a757db7716a5/vmlinux-c875a6c3.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/3095f726e048/bzImage-c875a6c3.xz
 
-You can try something like this:
-     git fetch 
-https://gitlab.freedesktop.org/linux-media/media-committers.git next
-     git checkout FETCH_HEAD
-     b4 shazam 20260101224231.486-1-r3o2c7fi@duck.com
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+37fd81fa4305a9eadfb0@syzkaller.appspotmail.com
 
-Error message:
-Trying branch next b70886ff5833cf499e77af77d2324ce8f68b60ce...
-Running in OFFLINE mode
-Analyzing 1 messages in the thread
-Checking attestation on all messages, may take a moment...
+==================================================================
+BUG: KASAN: slab-use-after-free in number+0xc48/0xf60 lib/vsprintf.c:572
+Write of size 1 at addr ffff88801158b60c by task syz.0.30/5548
+
+CPU: 0 UID: 0 PID: 5548 Comm: syz.0.30 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0xca/0x240 mm/kasan/report.c:482
+ kasan_report+0x118/0x150 mm/kasan/report.c:595
+ number+0xc48/0xf60 lib/vsprintf.c:572
+ vsnprintf+0x8e5/0xee0 lib/vsprintf.c:2911
+ snprintf+0xda/0x120 lib/vsprintf.c:3041
+ media_request_alloc+0x319/0x5b0 drivers/media/mc/mc-request.c:320
+ media_device_request_alloc+0x98/0xd0 drivers/media/mc/mc-device.c:380
+ media_device_ioctl+0x278/0x430 drivers/media/mc/mc-device.c:465
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:597 [inline]
+ __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:583
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xec/0xf80 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fe41c98f7c9
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fe41bffe038 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007fe41cbe5fa0 RCX: 00007fe41c98f7c9
+RDX: 0000000000000000 RSI: 0000000080047c05 RDI: 0000000000000003
+RBP: 00007fe41ca13f91 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007fe41cbe6038 R14: 00007fe41cbe5fa0 R15: 00007ffce8739818
+ </TASK>
+
+Allocated by task 5548:
+ kasan_save_stack mm/kasan/common.c:56 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:77
+ poison_kmalloc_redzone mm/kasan/common.c:397 [inline]
+ __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:414
+ kasan_kmalloc include/linux/kasan.h:262 [inline]
+ __kmalloc_cache_noprof+0x3e2/0x700 mm/slub.c:5776
+ kmalloc_noprof include/linux/slab.h:957 [inline]
+ kzalloc_noprof include/linux/slab.h:1094 [inline]
+ media_request_alloc+0xe4/0x5b0 drivers/media/mc/mc-request.c:294
+ media_device_request_alloc+0x98/0xd0 drivers/media/mc/mc-device.c:380
+ media_device_ioctl+0x278/0x430 drivers/media/mc/mc-device.c:465
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:597 [inline]
+ __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:583
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xec/0xf80 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Freed by task 5549:
+ kasan_save_stack mm/kasan/common.c:56 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:77
+ kasan_save_free_info+0x46/0x50 mm/kasan/generic.c:584
+ poison_slab_object mm/kasan/common.c:252 [inline]
+ __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:284
+ kasan_slab_free include/linux/kasan.h:234 [inline]
+ slab_free_hook mm/slub.c:2540 [inline]
+ slab_free mm/slub.c:6670 [inline]
+ kfree+0x1c0/0x660 mm/slub.c:6878
+ media_request_close+0x38/0x50 drivers/media/mc/mc-request.c:89
+ __fput+0x44c/0xa70 fs/file_table.c:468
+ task_work_run+0x1d4/0x260 kernel/task_work.c:233
+ resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+ __exit_to_user_mode_loop kernel/entry/common.c:44 [inline]
+ exit_to_user_mode_loop+0xef/0x4e0 kernel/entry/common.c:75
+ __exit_to_user_mode_prepare include/linux/irq-entry-common.h:226 [inline]
+ syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:256 [inline]
+ syscall_exit_to_user_mode_work include/linux/entry-common.h:159 [inline]
+ syscall_exit_to_user_mode include/linux/entry-common.h:194 [inline]
+ do_syscall_64+0x2b7/0xf80 arch/x86/entry/syscall_64.c:100
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+The buggy address belongs to the object at ffff88801158b600
+ which belongs to the cache kmalloc-256 of size 256
+The buggy address is located 12 bytes inside of
+ freed 256-byte region [ffff88801158b600, ffff88801158b700)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x1158b
+flags: 0xfff00000000000(node=0|zone=1|lastcpupid=0x7ff)
+page_type: f5(slab)
+raw: 00fff00000000000 ffff88801a441b40 dead000000000122 0000000000000000
+raw: 0000000000000000 0000000080080008 00000000f5000000 0000000000000000
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 0, migratetype Unmovable, gfp_mask 0x52cc0(GFP_KERNEL|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP), pid 5548, tgid 5547 (syz.0.30), ts 109855780649, free_ts 109836972307
+ set_page_owner include/linux/page_owner.h:32 [inline]
+ post_alloc_hook+0x234/0x290 mm/page_alloc.c:1846
+ prep_new_page mm/page_alloc.c:1854 [inline]
+ get_page_from_freelist+0x24e0/0x2580 mm/page_alloc.c:3915
+ __alloc_frozen_pages_noprof+0x181/0x370 mm/page_alloc.c:5210
+ alloc_pages_mpol+0x232/0x4a0 mm/mempolicy.c:2486
+ alloc_slab_page mm/slub.c:3075 [inline]
+ allocate_slab+0x86/0x3b0 mm/slub.c:3248
+ new_slab mm/slub.c:3302 [inline]
+ ___slab_alloc+0xe53/0x1820 mm/slub.c:4656
+ __slab_alloc+0x65/0x100 mm/slub.c:4779
+ __slab_alloc_node mm/slub.c:4855 [inline]
+ slab_alloc_node mm/slub.c:5251 [inline]
+ __kmalloc_cache_noprof+0x41e/0x700 mm/slub.c:5771
+ kmalloc_noprof include/linux/slab.h:957 [inline]
+ kzalloc_noprof include/linux/slab.h:1094 [inline]
+ media_request_alloc+0xe4/0x5b0 drivers/media/mc/mc-request.c:294
+ media_device_request_alloc+0x98/0xd0 drivers/media/mc/mc-device.c:380
+ media_device_ioctl+0x278/0x430 drivers/media/mc/mc-device.c:465
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:597 [inline]
+ __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:583
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xec/0xf80 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+page last free pid 15 tgid 15 stack trace:
+ reset_page_owner include/linux/page_owner.h:25 [inline]
+ free_pages_prepare mm/page_alloc.c:1395 [inline]
+ __free_frozen_pages+0xbc8/0xd30 mm/page_alloc.c:2943
+ __tlb_remove_table_free mm/mmu_gather.c:227 [inline]
+ tlb_remove_table_rcu+0x85/0x100 mm/mmu_gather.c:290
+ rcu_do_batch kernel/rcu/tree.c:2605 [inline]
+ rcu_core+0xc8e/0x1720 kernel/rcu/tree.c:2857
+ handle_softirqs+0x22b/0x7c0 kernel/softirq.c:622
+ run_ksoftirqd+0x36/0x60 kernel/softirq.c:1063
+ smpboot_thread_fn+0x542/0xa60 kernel/smpboot.c:160
+ kthread+0x711/0x8a0 kernel/kthread.c:463
+ ret_from_fork+0x510/0xa50 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:246
+
+Memory state around the buggy address:
+ ffff88801158b500: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff88801158b580: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>ffff88801158b600: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                      ^
+ ffff88801158b680: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff88801158b700: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+==================================================================
+
+
 ---
-   [PATCH] libdvbv5: modify T2 delivery system descriptor
-     + Link: 
-https://lore.kernel.org/r/20260101224231.486-1-r3o2c7fi@duck.com
----
-Total patches: 1
----
-Applying: libdvbv5: modify T2 delivery system descriptor
-Patch failed at 0001 libdvbv5: modify T2 delivery system descriptor
-When you have resolved this problem, run "git am --continue".
-If you prefer to skip this patch, run "git am --skip" instead.
-To restore the original branch and stop patching, run "git am --abort".
-error: lib/libdvbv5/descriptors/desc_t2_delivery.c: does not exist in index
-hint: Use 'git am --show-current-patch=diff' to see the failed patch
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Trying branch fixes 27afd6e066cfd80ddbe22a4a11b99174ac89cced...
-Running in OFFLINE mode
-Analyzing 1 messages in the thread
-Checking attestation on all messages, may take a moment...
----
-   [PATCH] libdvbv5: modify T2 delivery system descriptor
-     + Link: 
-https://lore.kernel.org/r/20260101224231.486-1-r3o2c7fi@duck.com
----
-Total patches: 1
----
-Applying: libdvbv5: modify T2 delivery system descriptor
-Patch failed at 0001 libdvbv5: modify T2 delivery system descriptor
-When you have resolved this problem, run "git am --continue".
-If you prefer to skip this patch, run "git am --skip" instead.
-To restore the original branch and stop patching, run "git am --abort".
-error: lib/libdvbv5/descriptors/desc_t2_delivery.c: does not exist in index
-hint: Use 'git am --show-current-patch=diff' to see the failed patch
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
-Best regards, and Happy Hacking!
-Media CI robot on behalf of the linux-media community.
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
----
-Check the latest rules for contributing your patches at:
-https://docs.kernel.org/driver-api/media/maintainer-entry-profile.html
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
 
-If you believe that the CI is wrong, kindly open an issue at
-https://gitlab.freedesktop.org/linux-media/media-ci/-/issues or reply-all
-to this message.
-
-
+If you want to undo deduplication, reply with:
+#syz undup
 
