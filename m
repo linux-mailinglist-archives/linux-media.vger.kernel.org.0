@@ -1,231 +1,151 @@
-Return-Path: <linux-media+bounces-49853-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49854-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B87FBCEF58B
-	for <lists+linux-media@lfdr.de>; Fri, 02 Jan 2026 22:22:50 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27187CEF591
+	for <lists+linux-media@lfdr.de>; Fri, 02 Jan 2026 22:23:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3CFF3301E1AE
-	for <lists+linux-media@lfdr.de>; Fri,  2 Jan 2026 21:22:41 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 83F813001BF9
+	for <lists+linux-media@lfdr.de>; Fri,  2 Jan 2026 21:23:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D92B730F55A;
-	Fri,  2 Jan 2026 21:22:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC35E196C7C;
+	Fri,  2 Jan 2026 21:23:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d5tL2Dur"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b/ERfZp/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E76F3125A0;
-	Fri,  2 Jan 2026 21:22:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AAD52D6E52;
+	Fri,  2 Jan 2026 21:23:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767388958; cv=none; b=DDNgHlnwAx/von4b0z7QgnidywmaSEeRkToL4Cxx1TsppDVsQyrnBUStQjyd/aWJHw56EukGMqEojwrElUpVRm4iGaLiaq7Gm7tYrdHcg6VusApbbiamm6Mq/NvKYe8Yc78VZwi+Qnvir0Uy59Xap4susLp99oqQUTux3mvo2Ok=
+	t=1767388999; cv=none; b=QZvqY74Z9WtlaBNBqZktDbhOlg/i5y6phZyaiPxR4TWycrFiKoX1fb2YD34iGbydwCm3bMTSBwlcM0n0h6nmo5HxzhEpgOgI7aNmXIobMrD1Jh1oAR9WbZa79LTwfLHT1sX4VBqiFhjax03bcGu9M7eYukAcq9P4DOmfKwA/5s4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767388958; c=relaxed/simple;
-	bh=2gemW1+rue0s3cm9dqW/GVpOIyGsOrxlDcTl3tCWmv0=;
+	s=arc-20240116; t=1767388999; c=relaxed/simple;
+	bh=WrdhhwEThTZ3bAHzKdIZNwrlr9f65T2D49973kC+EQk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qxJhv2F6W9TZCV4QZ1vplKHiyR7WeF5WeY2MNtsQFkn56c6jkFf2TGpDB0yxliku1Qe/OWJQi9ecX4gadrs0HeKCdu+09iEUF+7w8XiVcRQCLV0af/51VuOVQBARMfD4cjKL6rvltDIDfE+CuIzzGF0DVlAcPPRlERJxcmeca5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d5tL2Dur; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=AnJBew+iSGBfzDBNFswNEJxaC6xWJ46uJf5TXbip0JOLasYOXRgv3YV5UieKCLBp7k/WFftzSJ1whCp4eBRGYceZkJFO9Enk14tlxCTqdHc5io70wDurvVUksxgedd9YYoN9zKXQPFdG6K7fNXy2bYvDaeG1E6Nc/Vj0jGImlaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b/ERfZp/; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767388956; x=1798924956;
+  t=1767388998; x=1798924998;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2gemW1+rue0s3cm9dqW/GVpOIyGsOrxlDcTl3tCWmv0=;
-  b=d5tL2Dur+roucTJcVAoyGe4QquxH0gzOC6xqqvBFNZGKoN4Kt4PjzgL7
-   0J6EFXp01vtXAhV5MTmS4uMsaAGQSVEWt+L1fnvRGeyLmRbCfSoFwoVMg
-   qDARgjWAL2ZQKQd7O1Qn4onkZjjo6gdbtQWegUfU+CFRHw224yn/puR2T
-   jwZkAsWmBAJazF5TvbdBYMibjHbOWb7m7ZXPxv6Bv+9OsiAI3BSdMAURh
-   D7m4T7TjvV95cAMamqfcxr3M73CIB00D0x44DyS+Eg6uO/VIdsTJkmqVK
-   cN9WtnofrgDWAaJ2nephScmJyg7GF4UrWefMHF5DRxJX85dZM/+YBpgjH
-   Q==;
-X-CSE-ConnectionGUID: cWepnhbZQwufbAzT+CP0jA==
-X-CSE-MsgGUID: vJO4IxBaT4uOubEHQjSdHw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11659"; a="79994983"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=WrdhhwEThTZ3bAHzKdIZNwrlr9f65T2D49973kC+EQk=;
+  b=b/ERfZp/IWsjfk4bZgR+q2PqxzfkGdyNnFccy4HIqkVpw10aaerXmqPp
+   kFWXrzdd9Hrp0sp6ZRsSddq3/K1T3EJcJFAhDtYy/LXStpZvEUvjPgrte
+   lAfIXYkjYGBG+f4nubtWleDZU+qq+RIaXt4smQarAvNtRzyBYzR6NfZzX
+   LtT9G2ha+P6Jlcikfvyl9cK8BOUoyJYL/rEoCxAMfw0sX1E2fmSKAUsxE
+   72zfPtA3x7YRlCsmDktMz9w9n6ujK88cMnFO/QVYyT5uHL0W1583sDkQD
+   8d7cwWdaE5E1Na2ErnsIk4puMRs6ctH3HXUMja9FYjOY9VS+6cGK/eP6f
+   g==;
+X-CSE-ConnectionGUID: KVxbHVATSuqXCi7kdOuIcg==
+X-CSE-MsgGUID: c4e+IQEgTverhktU80LV2w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11659"; a="68783851"
 X-IronPort-AV: E=Sophos;i="6.21,198,1763452800"; 
-   d="scan'208";a="79994983"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2026 13:22:35 -0800
-X-CSE-ConnectionGUID: jpS9+jIiSwClVoT2d0YSyA==
-X-CSE-MsgGUID: s9Nta6FTTTOUqgj2PwoydQ==
+   d="scan'208";a="68783851"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2026 13:23:17 -0800
+X-CSE-ConnectionGUID: B1XtvhIDT36rIblJp6DoSQ==
+X-CSE-MsgGUID: NGcD83snQ2a4a4LxfOCuZw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,198,1763452800"; 
-   d="scan'208";a="206376458"
+   d="scan'208";a="202847362"
 Received: from amilburn-desk.amilburn-desk (HELO kekkonen.fi.intel.com) ([10.245.244.62])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2026 13:22:31 -0800
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2026 13:23:12 -0800
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id E2C7B11F83C;
-	Fri, 02 Jan 2026 23:22:40 +0200 (EET)
-Date: Fri, 2 Jan 2026 23:22:40 +0200
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 6A35811F83C;
+	Fri, 02 Jan 2026 23:23:23 +0200 (EET)
+Date: Fri, 2 Jan 2026 23:23:23 +0200
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
+From: "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>
 To: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
-Cc: robh@kernel.org, krzk+dt@kernel.org,
-	Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>,
+Cc: Tarang Raval <tarang.raval@siliconsignals.io>,
 	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	"robh@kernel.org" <robh@kernel.org>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>,
 	Mehdi Djait <mehdi.djait@linux.intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Hans Verkuil <hverkuil@kernel.org>,
 	Hans de Goede <hansg@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Dongcheng Yan <dongcheng.yan@intel.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
 	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
 	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Svyatoslav Ryhel <clamor95@gmail.com>,
 	Jingjing Xiong <jingjing.xiong@intel.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 2/2] media: i2c: add os05b10 image sensor driver
-Message-ID: <aVg3IFprdKIfQcOL@kekkonen.localdomain>
-References: <20260101084254.20014-1-himanshu.bhavani@siliconsignals.io>
- <20260101084254.20014-3-himanshu.bhavani@siliconsignals.io>
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v7 2/2] media: i2c: add os05b10 image sensor driver
+Message-ID: <aVg3S5xnTpXCBUyf@kekkonen.localdomain>
+References: <20251231070645.16434-1-himanshu.bhavani@siliconsignals.io>
+ <20251231070645.16434-3-himanshu.bhavani@siliconsignals.io>
+ <8838a2f3-4eec-42ee-88ee-55a71f789037@linaro.org>
+ <PN0P287MB2019969BACCD6EF1325BE3069ABAA@PN0P287MB2019.INDP287.PROD.OUTLOOK.COM>
+ <aVbTiM35Z_64mwFA@kekkonen.localdomain>
+ <PN0P287MB2019BC24EA2955911FA4AC6F9ABBA@PN0P287MB2019.INDP287.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260101084254.20014-3-himanshu.bhavani@siliconsignals.io>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <PN0P287MB2019BC24EA2955911FA4AC6F9ABBA@PN0P287MB2019.INDP287.PROD.OUTLOOK.COM>
 
 Hi Himanshu,
 
-On Thu, Jan 01, 2026 at 02:12:47PM +0530, Himanshu Bhavani wrote:
-> Add a v4l2 subdevice driver for the Omnivision OS05B10 sensor.
+On Fri, Jan 02, 2026 at 06:10:09AM +0000, Himanshu Bhavani wrote:
+> Hi Sakari,
+> >
+> >On Thu, Jan 01, 2026 at 06:19:02AM +0000, Himanshu Bhavani wrote:
+> >> >> +#define OS05B10_PIXEL_RATE           (480 * HZ_PER_MHZ)
+> >> >
+> >> >Here pixel rate should not be hardcoded, it'd be computed in runtime
+> >> >as 600MHz * 2 * 4 lanes / 10 bpp = 480MHz.
+> >> >
+> >> >The sensor may be wired over 2 lanes or (presumably) it can stream 8 bpp data.
+> >>
+> >> We are not supporting 2 lanes right now, driver supports only for 4 lanes and
+> >> 10 bpp data. So technically OS05B10_PIXEL_RATE will never change.
+> >> For reference I will add OS05B10_PIXEL_RATE calculation in comments.
+> >> I would prefer the hardcoded at the moment. Other than this comment
+> >> I will resolve and send new version.
+> >
+> >The pixel rate on the pixel array may be disconnected from the link
+> >frequency (and throughput) -- it may be more (with e.g. binning) or less,
+> >depending on the sensor of course. Calculating it, if possible, is always
+> >better than using a fixed value; experience has shown these are often
+> >simply incorrect and sometimes not updated when other changes are made (and
+> >same goes for the link frequency).
 > 
-> The Omnivision OS05B10 image sensor with an active
-> array size of 2592 x 1944.
+> Okay, I just want to know if this is non-blocking comment and we can go ahead
+> with current version of driver.
 > 
-> The following features are supported:
-> - Manual exposure an gain control support
-> - vblank/hblank control support
-> - Supported resolution: 2592 x 1944 @ 60fps (SBGGR10)
-> 
-> Co-developed-by: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
-> Signed-off-by: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
-> Signed-off-by: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
-> Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-> Reviewed-by: Mehdi Djait <mehdi.djait@linux.intel.com>
-> ---
->  MAINTAINERS                 |    1 +
->  drivers/media/i2c/Kconfig   |   10 +
->  drivers/media/i2c/Makefile  |    1 +
->  drivers/media/i2c/os05b10.c | 1109 +++++++++++++++++++++++++++++++++++
->  4 files changed, 1121 insertions(+)
->  create mode 100644 drivers/media/i2c/os05b10.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index c85915d5d20e..c48d04ca38d1 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -19240,6 +19240,7 @@ M:	Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
->  L:	linux-media@vger.kernel.org
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/media/i2c/ovti,os05b10.yaml
-> +F:	drivers/media/i2c/os05b10.c
-> 
->  OMNIVISION OV01A10 SENSOR DRIVER
->  M:	Bingbu Cao <bingbu.cao@intel.com>
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index 4b4db8c4f496..9800ba50b9a6 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -371,6 +371,16 @@ config VIDEO_OG0VE1B
->  	  To compile this driver as a module, choose M here: the
->  	  module will be called og0ve1b.
-> 
-> +config VIDEO_OS05B10
-> +        tristate "OmniVision OS05B10 sensor support"
-> +        select V4L2_CCI_I2C
-> +        help
-> +          This is a Video4Linux2 sensor driver for Omnivision
-> +          OS05B10 camera sensor.
-> +
-> +	  To compile this driver as a module, choose M here: the
-> +          module will be called os05b10.
-> +
->  config VIDEO_OV01A10
->  	tristate "OmniVision OV01A10 sensor support"
->  	help
-> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-> index c5f17602454f..561d37939875 100644
-> --- a/drivers/media/i2c/Makefile
-> +++ b/drivers/media/i2c/Makefile
-> @@ -84,6 +84,7 @@ obj-$(CONFIG_VIDEO_MT9V032) += mt9v032.o
->  obj-$(CONFIG_VIDEO_MT9V111) += mt9v111.o
->  obj-$(CONFIG_VIDEO_OG01A1B) += og01a1b.o
->  obj-$(CONFIG_VIDEO_OG0VE1B) += og0ve1b.o
-> +obj-$(CONFIG_VIDEO_OS05B10) += os05b10.o
->  obj-$(CONFIG_VIDEO_OV01A10) += ov01a10.o
->  obj-$(CONFIG_VIDEO_OV02A10) += ov02a10.o
->  obj-$(CONFIG_VIDEO_OV02C10) += ov02c10.o
-> diff --git a/drivers/media/i2c/os05b10.c b/drivers/media/i2c/os05b10.c
-> new file mode 100644
-> index 000000000000..7ec6947adef8
-> --- /dev/null
-> +++ b/drivers/media/i2c/os05b10.c
-> @@ -0,0 +1,1109 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * V4L2 Support for the os05b10
-> + *
-> + * Copyright (C) 2025 Silicon Signals Pvt. Ltd.
-> + *
-> + * Inspired from imx219, ov2735 camera drivers.
-> + */
-> +
-> +#include <linux/array_size.h>
-> +#include <linux/clk.h>
-> +#include <linux/container_of.h>
-> +#include <linux/delay.h>
-> +#include <linux/device/devres.h>
-> +#include <linux/err.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/i2c.h>
-> +#include <linux/module.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/regulator/consumer.h>
-> +#include <linux/types.h>
-> +#include <linux/time.h>
-> +#include <linux/units.h>
-> +
-> +#include <media/v4l2-cci.h>
-> +#include <media/v4l2-ctrls.h>
-> +#include <media/v4l2-device.h>
-> +#include <media/v4l2-fwnode.h>
-> +#include <media/v4l2-mediabus.h>
-> +
-> +#define OS05B10_XCLK_FREQ		(24 * HZ_PER_MHZ)
-> +
-> +#define OS05B10_REG_CHIP_ID		CCI_REG24(0x300a)
-> +#define OS05B10_CHIP_ID			0x530641
-> +
-> +#define OS05B10_REG_CTRL_MODE		CCI_REG8(0x0100)
-> +#define OS05B10_MODE_STANDBY		0x00
-> +#define OS05B10_MODE_STREAMING		0x01
-> +
-> +#define OS05B10_REG_EXPOSURE		CCI_REG24(0x3500)
-> +#define OS05B10_EXPOSURE_MIN		2
-> +#define OS05B10_EXPOSURE_STEP		1
-> +#define OS05B10_EXPOSURE_MARGIN         8
-> +
-> +#define OS05B10_REG_ANALOG_GAIN		CCI_REG16(0x3508)
-> +#define OS05B10_ANALOG_GAIN_MIN		0x80
-> +#define OS05B10_ANALOG_GAIN_MAX		0x7C0
-> +#define OS05B10_ANALOG_GAIN_STEP	1
-> +#define OS05B10_ANALOG_GAIN_DEFAULT     0x80
+> Meanwhile my colleague Tarang is working on some features and he is planning
+> to send a series on top of this driver. If he takes up this comment in that
+> series will it be okay with you?
 
-Please fix the indentation issues here.
+Isn't calculating the frequency a fairly trivial thing to do? Why not to do
+it now?
+
+> 
+> And also I have already sent next revision v8.
+> Please let me know.
+> 
 
 -- 
-Kind regards,
+Regards,
 
 Sakari Ailus
 
