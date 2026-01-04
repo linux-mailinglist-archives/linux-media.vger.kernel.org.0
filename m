@@ -1,75 +1,77 @@
-Return-Path: <linux-media+bounces-49871-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49872-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33B7BCF13BA
-	for <lists+linux-media@lfdr.de>; Sun, 04 Jan 2026 20:05:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAF9FCF13C0
+	for <lists+linux-media@lfdr.de>; Sun, 04 Jan 2026 20:06:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 36DD23001BFA
-	for <lists+linux-media@lfdr.de>; Sun,  4 Jan 2026 19:05:25 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 4FBE130011AE
+	for <lists+linux-media@lfdr.de>; Sun,  4 Jan 2026 19:06:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50487314A76;
-	Sun,  4 Jan 2026 19:05:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29B0F314A60;
+	Sun,  4 Jan 2026 19:06:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hhC858iu"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DgsI0eA1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACFE9238C33
-	for <linux-media@vger.kernel.org>; Sun,  4 Jan 2026 19:05:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E821527FD43
+	for <linux-media@vger.kernel.org>; Sun,  4 Jan 2026 19:05:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767553521; cv=none; b=lmfJj9i9NNYpCU1qWqRhMC209qU7EzV1yodsDd4oYlNYhZ1DvNDKkURuP5zA0Zbt4l1f2hhIMXTygoOI2KQWTp6ExAdwedONVl+832cZJKzbyT+WWS4saxLxLUTEtNELACSQQ+fUr9GuJvqgmcmeHUYr8ul3xNnk/HI04FdJeCo=
+	t=1767553559; cv=none; b=hbNPqFcv1b9+kf45Qr4+ZBlZLN1n4TbJOR1N8nR6BMFp7dR5K4i9939nq95X6BcA/UQTdi19zaEd/sFkRYNRyXZCkEdsG7XWgygbwIrBtKJ7fqZQpMEeJDDt0MaJrLohDu+vGMPyJ4L5R46ZBXgMf4YVECcDFCyL+73u3FTD4fU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767553521; c=relaxed/simple;
-	bh=6/zCJJXx9DZfY48PIkypH/UZeZ/cOMZ7xcc/kYBfYdg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QoNmOLKM8250wxAIOKBUiCCtMIB+WC7qsxvxjKiRy7+dob2Oje5OTpQtFsVgA3x2woZuVgdlomTl0QO01evite8mJQ6pRxwsM3uHNLXRXhVuaalRBYR47K/QaAcxUhoVJnzNYrOvjtJWydn5KREEKQ44VbPtdEGF1jYxDqtWPU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hhC858iu; arc=none smtp.client-ip=209.85.128.68
+	s=arc-20240116; t=1767553559; c=relaxed/simple;
+	bh=OyC+g03aFlX7lZSthSQHkxNGwEsoEs0Tb0cf0wHv4Gc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=A3lqTrqcMACICfF8yZdSS4bqmEksDuo28hPdPVS89EwRNBfJ2Opl1rhAOgkkltnAHlcMccQYooLFoKvkuPWZksoaBOgKh1om7tu9Y2SaTZW7R7QEvV7TUh0fSKwbizwxg7vgj0RVLZZdkhqjuTCWko7gOS6WcSDrHObY2DYh6s8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DgsI0eA1; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-4775ae77516so139949045e9.1
-        for <linux-media@vger.kernel.org>; Sun, 04 Jan 2026 11:05:18 -0800 (PST)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-42fb2314f52so7464732f8f.0
+        for <linux-media@vger.kernel.org>; Sun, 04 Jan 2026 11:05:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767553517; x=1768158317; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kH7dAkCMy49tzMgoDi5R1yw9hpYDlkp4ghtVJ345QuA=;
-        b=hhC858iucHyz0+Q8I9Ba+UpFCKBQsdHwZGuwEw1c+FAW1Ewp6YYRJle/yjh9w+rSWw
-         8EAoVezVTP5L9kocI9W9OZ0/4N5vhgwn+qr9iYjOnKl63pGjIuJastdYWcKmEAT3Nzmu
-         rGGLgL0FZ90kPR9MPxSD8okrobY351zAgJjien2BQ5HF3DpBoZg/PC5bXymz0XfopnG3
-         1BIRL8NZ0a0I/HtSp26/rzlHSU8+PUzti1G8f1CYrGRrtf9KuK6aNlvwwNsETAOBc2hR
-         +7wOyMPjCqEferFjDLYByDGwMYtRv4wDxE7SiTDh0axqpJZGEEFaeAmKsT7VkQk8vXAf
-         YeTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767553517; x=1768158317;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1767553556; x=1768158356; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kH7dAkCMy49tzMgoDi5R1yw9hpYDlkp4ghtVJ345QuA=;
-        b=qlkzV11yYQxBFciTSOnDvGz+OkrOEsKJ1rFJkZAaDJj0rCU4eIvD6UGh/zzCidCS47
-         TDLgOfOV3QdxHSJBx7fpCI6azdHDZSEIVbllR6t1I1g6ZPtXtgHfe5hhlXBN3cSV0/Ca
-         i79EafXJulZDGRK5uBC//ZWJHZy2kceMD7/JNf4BfkxM735zMc35jAk7PX8Y4dd04sQv
-         2EcjW23aCUQHq8wo46bDnzGKSqGkIunl8MZPEk7GoTlFWjPAhtzz+u8m1EqUJ0UEi3YU
-         Se75k3Mwtf5ct79aPrtPOoXmx70goy4485z68Fi8vysoP+3tWSYEnty2ERNBoMSkSNP5
-         0H/w==
-X-Forwarded-Encrypted: i=1; AJvYcCWuC68kzAp9cwPWlRcbbB9Mjso9mnQXCiG2WfxcfjDPbgU2fRxhlPzzcy5fERgUvQ3k6PpYKfxAJ8VZYA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz91o6KKXs5C5/stfp0mqCZuidlayNFUs4++xYrwc6sd58dTF/d
-	LqgtJSKvyIosn8QPdBPInF+ex2rZEgltkAQ7ns+0HOc7O/RpVYoZo+PJmKqhjeTB+Yg=
-X-Gm-Gg: AY/fxX6M85+QHREUVWewTIuPpfqP+Cj50AJn9JnqRNq9crYCIVpiUqYZcr46qns+ym1
-	YphU2vB81j4E0wZrC6j04IQDIl473LIT5Ldty+MzXlvdvKG40VqM+mRhiFKN+fP3KycK5yunsi8
-	+j8FeVcYgixzvB2PzFA9MgujgJObtDrXVQu+bUqAMi/H5JwYEPmdBgZ0f73PdWWGVD+o9rsj/+r
-	CkxuTtMvWPgUVGfMqKWHx43llA1ynOPbNDb5lG2ZYfVZbo49afapX3I7DR/PTPQbvcDYmw+QKsX
-	EBo89rZAW4pWRJmimsPa65qVEYA5TbLHUD5BnMLpYqnILP251YHllyAP+Uj2zCMgEiJwzBzg221
-	6+1ZoMynlmxc9Flc1zrUZwtBefRvUX1zV+UvIdqrTf+BRGEnUXJkBP8tbffl9WECE7G8d0jbxCW
-	dKaTIp/uBWb4jIFXkTDfV/YFsgAvlAMB1XI0YItnw=
-X-Google-Smtp-Source: AGHT+IHrVdiL/42Ek87wCD1+Dv/YGTDvseNRtk1LjSkqIgCTkDD3F5Hmvfq293naJjBGVzQPVVIIbg==
-X-Received: by 2002:a05:600c:8b56:b0:479:3a86:dc1a with SMTP id 5b1f17b1804b1-47d5b21d77emr251472445e9.36.1767553516932;
-        Sun, 04 Jan 2026 11:05:16 -0800 (PST)
+        bh=PWgc9+y+yljidHQMYhQLHs/5E2QnwKnp6O+oSXf5cSk=;
+        b=DgsI0eA1ccl1d6XKUCif/qWvr+LWl+7q2rWeBJKnf1Bo4eZUlkJ7/5laTHZ+hAZ7gM
+         BPtRuyIhxyAfBsnbeG0rXWhXvVhBuOPu0cbjtsYV96aacXX3fhZwBstxFn4M/MQOZ5Hw
+         U3fqeo9Sg9/yBmCoEllUvrTTMKEXQ/zqy7AMeO/7mqCcSbhp/0dUCCB9MIPh1+4uGSDX
+         xv3CBMs76xEje104vJbchXVum4OFqJbctmgS5c7EbAgbcXp5ns3PPVMfOdV2/aEaUBxY
+         qMAMMnVIPGcMX5p3bgNI9gCgO32eoJAtL1/SXUL4QJWvS8aaxfhTXf2shbqVlsKV+WkT
+         wl/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767553556; x=1768158356;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=PWgc9+y+yljidHQMYhQLHs/5E2QnwKnp6O+oSXf5cSk=;
+        b=GLrsDL0jBZksFLcA3HyXFw4MxAsVYXghtcD/AqdpYARGzndQYuGu7btiy7sd5FVZk0
+         Xgvi0G6n96buduEo1R1SLpW+jM/H4sUiJpztfMGrIs8cvZaYUF15ZagfrfOwUH9fXZw5
+         j7Kq9nTzvvNv/ZnH84nd7rWoeu8SchFjIqlS+1JMpQ6h/VOm0uJGEUWndJbkp9kOu6C9
+         NZQ1cQPH3r2wCjddZeBkxyBM3yO4cVS3LLnQGH0Z5i4EW3CJC8NAITldhFJ5xfea7fKk
+         8L7H4YJLxPsI9BHVj3O6gqBsgl+T3soBxZceISxbvnDwAMQy7Jbq89lkfimH3hkjTm47
+         5y/g==
+X-Forwarded-Encrypted: i=1; AJvYcCVJeYuNq1XxiWTjY63fhL560UyEtxlfUbY4EC31rVlRW5dDJ5xt9CD7qrDAqpOtexf0CX8awxVcW1ArjQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyrTJ5PAr6ftrx6P8e/ne2MsQ7VEYjzwWBXRdoyXHkusM+7cg+K
+	LcD3D5C+v3IohYAn5SbgjvWnl7zgBX+5prfr2qSCzDpReVJKLkkgwvyT
+X-Gm-Gg: AY/fxX6v/2DswkcVYuzaCb70wm9iSyw8Mg5p7AmP6GMZoWSied/q54q1aN30V1HKqjA
+	RFGeQypMSYWudQ/k7wCz8Hifaye1UEqYk4DU/P7zHR2EZu4MBXej7f+Id5fVK4tr8Q/8ZvYurBe
+	NBSLCFgB4HUpA2qPmpqkgJ4uflvbIaRBVuclSEpZOqy8NoE9xDDlsgqffU+lfRH0CQxQI8Ai3FC
+	YMyQ4fMkEUqnaFiGEhwR1rf3sHwmIddn0bhN7l9oYy3hzoPMsYHkNZa6UXaXj6rEPSntCuAeFu+
+	W9Rc54afXIY00IhRHuxKs4o61DwgtfgAnvY0j1ZiirP4XFwSLIqZQyAXhrXhMREkY5UVRWSC/+k
+	juNOp9F5SjSsUIZnmuIub5M3UJaER6aDOeaiSCevNuzzYmQpuNY5b/gQYfPfc33Vb5NU/ttLC1Z
+	uaSurnu4584yomjhdX5/YeMrLJuEvyz+ya3kBtDcb0g96X+J/LLQ==
+X-Google-Smtp-Source: AGHT+IE0wNk1jmGNWpzD9tmrWUTxX1bKR2z9THWxZWvHHtqvM339Z8w94MLeOag/HytCXIrXR+WPrA==
+X-Received: by 2002:a05:6000:2203:b0:42f:b707:56e6 with SMTP id ffacd0b85a97d-4324e5035d1mr50944550f8f.34.1767553556057;
+        Sun, 04 Jan 2026 11:05:56 -0800 (PST)
 Received: from localhost.localdomain ([2400:adc1:447:6d00:1c1a:7818:23f6:aae1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324eab2c4fsm96505089f8f.42.2026.01.04.11.05.14
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324eab2c4fsm96505089f8f.42.2026.01.04.11.05.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Jan 2026 11:05:16 -0800 (PST)
+        Sun, 04 Jan 2026 11:05:55 -0800 (PST)
 From: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
 To: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>,
 	Hans de Goede <hansg@kernel.org>,
@@ -80,10 +82,12 @@ Cc: Andy Shevchenko <andy@kernel.org>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 0/5] media: atomisp: Cleanup and documentation fixes for mmu_public.h
-Date: Mon,  5 Jan 2026 00:05:04 +0500
-Message-ID: <20260104190509.19683-1-mahad.ibrahim.dev@gmail.com>
+Subject: [PATCH v1 1/5] media: atomisp: Remove redundant return statement
+Date: Mon,  5 Jan 2026 00:05:05 +0500
+Message-ID: <20260104190509.19683-2-mahad.ibrahim.dev@gmail.com>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260104190509.19683-1-mahad.ibrahim.dev@gmail.com>
+References: <20260104190509.19683-1-mahad.ibrahim.dev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -92,30 +96,29 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series addresses multiple style and documentation issues in the
-AtomISP staging driver, specifically in pci/hive_isp_css_include/host/mmu_public.h.
+The function mmu_reg_store() returns void. The final return
+statement is redundant as it is followed by the closing brace.
 
-The series starts by fixing checkpatch warnings regarding redundant
-return statements, function signature alignment, and block comment coding
-style issues.
+Remove the redundant return statement to simplify code and adhere to
+kernel coding style.
 
-It then removes erroneous function documentation where additional parameters
-were being shown but the actual function signature did not accept any
-such parameters.
+Signed-off-by: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
+---
+ .../media/atomisp/pci/hive_isp_css_include/host/mmu_public.h     | 1 -
+ 1 file changed, 1 deletion(-)
 
-Finally, the Doxygen-style comments were converted to the standard
-kernel-doc format to adhere to the Linux kernel standards.
-
-Mahad Ibrahim (5):
-  media: atomisp: Remove redundant return statement
-  media: atomisp: Fix function signature alignment
-  media: atomisp: Fix block comment coding style
-  media: atomisp: Fix erroneous parameter descriptions
-  media: atomisp: Convert comments to kernel-doc
-
- .../hive_isp_css_include/host/mmu_public.h    | 87 ++++++++-----------
- 1 file changed, 38 insertions(+), 49 deletions(-)
-
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/mmu_public.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/mmu_public.h
+index 1a435a348318..2fc137ef46da 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/mmu_public.h
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/mmu_public.h
+@@ -63,7 +63,6 @@ static inline void mmu_reg_store(
+ 	assert(ID < N_MMU_ID);
+ 	assert(MMU_BASE[ID] != (hrt_address) - 1);
+ 	ia_css_device_store_uint32(MMU_BASE[ID] + reg * sizeof(hrt_data), value);
+-	return;
+ }
+ 
+ /*! Read from a control register of MMU[ID]
 -- 
 2.47.3
 
