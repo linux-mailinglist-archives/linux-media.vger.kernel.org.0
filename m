@@ -1,77 +1,77 @@
-Return-Path: <linux-media+bounces-49875-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49876-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20938CF13D8
-	for <lists+linux-media@lfdr.de>; Sun, 04 Jan 2026 20:07:15 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A8FFCF13DB
+	for <lists+linux-media@lfdr.de>; Sun, 04 Jan 2026 20:07:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AAB213027A65
-	for <lists+linux-media@lfdr.de>; Sun,  4 Jan 2026 19:06:15 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3311C3010CD9
+	for <lists+linux-media@lfdr.de>; Sun,  4 Jan 2026 19:06:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02BDE314D38;
-	Sun,  4 Jan 2026 19:06:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2521314D24;
+	Sun,  4 Jan 2026 19:06:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LKV0XPw/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M/KXFfz4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74466314A6D
-	for <linux-media@vger.kernel.org>; Sun,  4 Jan 2026 19:06:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96F59314D02
+	for <linux-media@vger.kernel.org>; Sun,  4 Jan 2026 19:06:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767553567; cv=none; b=OQAIr/v/RJTYxVLKgaL/VfNelAjObp1wzUOourUktkqUk+QU4vsDF3FrW7dC+ZRMKX6z8Lf9X4XauCPdgSruSqRuZLKn75rLeFWWqlp8HqwmSq9YESp8uH0nQAxzPqrSGM0o7x/bx/zzYIlMFmEJlItAJzKEdT6KU9RcxOIy9Mo=
+	t=1767553571; cv=none; b=Lhdq2IQJ8/R4ZAyav7Mfey+u23z9F3EJEu7qLSpCtTULwgweznUOYTrwWaEpiupKOeIAnbRLMkbxO9bn3dMY77OyVgaE/dei8kpOUuMuMDe4b3AkpXH23Md/yq5cObfFjDB/orbrSy7ZPk8KmcP59xrSEYF+7xB2g4SmrlhyKbY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767553567; c=relaxed/simple;
-	bh=OeWqv3x4vXNpequnFxYPQjSTl4yPG1PFNq+yGKZsjK0=;
+	s=arc-20240116; t=1767553571; c=relaxed/simple;
+	bh=ZK5uX/GFgJyLUCjHyioeL6D474O5WD3tQ+XmE+pnOXY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FaypoXrpygia1gXaHchKqagYhz7r+hhLSGStxAPJjbzW9A9NuSYo2e4YlrVZ/rhZ8Ix8NXoP9A7ab4zVJqJ++OG+LpmzSkCN2br9/bjf1gj9Ui823F/U05svdRlQ2bnZ6bMmaZMHp69RrxK4FmP3o3t4YeUODYy1ip1ja03Sz8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LKV0XPw/; arc=none smtp.client-ip=209.85.221.47
+	 MIME-Version; b=rXOPemOFSXfP81o9WD/ERIu6lojzoujTajxQsDCXTvRAbqiWqpC7wVYB/ZnqzLji8JkGq2fPdG5f0kJWxSMBbMWZxB02NmBp5Jzp3qutyrzf5mcg8D70On8YuP5o4t+uEX9NH7R0orN/i0b714lK1/c1ZKIlBW46yeBEqyGMhtA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M/KXFfz4; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-42fbc305882so6341905f8f.0
-        for <linux-media@vger.kernel.org>; Sun, 04 Jan 2026 11:06:04 -0800 (PST)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-42fbc305882so6341913f8f.0
+        for <linux-media@vger.kernel.org>; Sun, 04 Jan 2026 11:06:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767553562; x=1768158362; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1767553565; x=1768158365; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lZ3Vo4XDf8d33cecZM2n9uZLMWmVIB6ElfJWOAil5Sg=;
-        b=LKV0XPw//lThm9LXf6hqFegl4QsYZXyxGVQcs/zFNeX7IWeG4knUingu9xhdwqcLVX
-         y/u4aDEr70w0/Th21nlmqhuSnUF88Y++nV1/Ft/v62U0mtpVo7qvGZBScXpBV9+NhSMu
-         dkH76pdQv3H7o8o2GpwjuFp6KErgSzndBT78jMgAgQ/Yl4QgGjlzy92/0ZLW7Aq6fcpk
-         i97oz7Zx3NIbeYt3Q+Aalhf5N7CXiM/UahjXHH013DCQygdP26mLqda4jRriqz4W2/mu
-         +xJ7/ewhZg3ljTFR6VVMWN8dmQLVvHPJTgJbblcqa7t3oKP8rbESMh9LTRmDzf6hW6eN
-         vVUQ==
+        bh=ebOgnSrN48fxkQK6SNZdklEbQHgjDwwzirduEj6RKHM=;
+        b=M/KXFfz4uhkYjYVd/3lHbuegZWbcG7ha/fgAZApixkl1N3lYBzm4OUi6rHLNnY94yF
+         mcrNIHtl1aiVOTDc2GujyWDQDL4RAt4WGyhONM/qycMYwOrWSo/Bw4T6orFGpTjdnGG8
+         7FOgVaBRuwYICbBpECQqJikEwt5kxN+AgIF8vwFTyPf6kew0W8HvhE1VS2BFac7LPDgv
+         b1NLPL+5VWYv1GxawfF1Ti30U8fF0AvNr+2fYu0DtOb2h0bdyMk53ITisT8CeadP05L4
+         hDvFjGonMXNnVDbjCRhH1XwQxoqcvn/i75j2ybebO5r7EX/koWSqICEHmSdVPft+LCQj
+         /kmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767553562; x=1768158362;
+        d=1e100.net; s=20230601; t=1767553565; x=1768158365;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=lZ3Vo4XDf8d33cecZM2n9uZLMWmVIB6ElfJWOAil5Sg=;
-        b=GjfAZwvWM1bYWyI6vfCP1z4MmSo8uM03PQqkNywn/CKPeH/QCpJ8afDMMQO8UYZaQw
-         qUZvaH5RFHFPmzSr8NwXttSiXfvim1mZnajZvvqUSKBHd8tPYgY0+fuAoJdCENwF8TsR
-         qWTq7WGoEFTbZ3D+30Wzf26rsoe4iWG1TYWFtudAQoE0TH+NQ/DALWnJ90rWRosbx7zb
-         tbe2qH9Ze05fL8fTXk3vCf5M5QUE5CIVr0koGJoOpRFWdlYhaPF8B8+oFS3+NHsGOMvk
-         hYgHnCCboJs4LqxcnCvDbT6H5su5JYsImtvhViz5T93nPBa4/peANxEwRAGHqZIjVot6
-         nRbg==
-X-Forwarded-Encrypted: i=1; AJvYcCUMDtdIl2ucogkQSq0KB9xTasLwn8an9iLwse5b9anped4D5C5JWxf9qNX/rKOU5kSaKPLLNBJ+aXW48A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwcnPWO92qX93VsLxiD7VRJbehctS5HBpxsjs45EQT7rTIuLzYS
-	/FK8MUqAomZwVtI3wqn9vFAqZ3b3dfKuCNZLkK5dyQwl7eqPRZ1zdCCvx2M1zPsv
-X-Gm-Gg: AY/fxX55n24G4/8m4iNLBO8Jk35PgfPEerGs7vpSFDJl4d2gblTgSs3IdX/jH4rVIbB
-	93yNg5Gi6HvSSew4OoZ9Xhid7uMl4PShgnr3Z0yGyG3+3srakQxwOpsljiAxStyDfx80DwDXcbk
-	nRNafEa0JbTkUFmtlq25DEJoxTh/MB+skWOJLb6sUyqCMKaSe/R1Qdu6K/SHxi0Wi740lZ3eY87
-	syvBbszaGCgqIdJlnOae0lDus2wH0LbAkZPnx2HHgMnGcfv3qdmsDrpULOc9Emon9I7PYGjeZqf
-	mwjO2KC2wdzFpoC8FyG0QPTZgoMDPGB3ULQWgjgolmGShodOxRtaIQLXpjKNDqcNef0cpTsCEtY
-	vPYAmgkd0l5zRJS76Iou07m/wNTfDBELt0kFRXzbGUv6m/fc7mUqKOqmwcbbmSpYGHfQCO5Hid2
-	IEMdtmqH6wXYnje6FOQymM95QA4qzEIlHLa7O84sE=
-X-Google-Smtp-Source: AGHT+IFMqb+P79D6s0rZ42eMiSzskYTFWAxJDYuPAZrqbcUt6nli/XEunoys89ausHc9hjH5F7sVwQ==
-X-Received: by 2002:a5d:5f54:0:b0:431:907:f307 with SMTP id ffacd0b85a97d-4324e506ab1mr61282976f8f.48.1767553562427;
-        Sun, 04 Jan 2026 11:06:02 -0800 (PST)
+        bh=ebOgnSrN48fxkQK6SNZdklEbQHgjDwwzirduEj6RKHM=;
+        b=N/rpGWcWSV3LgAPHQ4uOgXqjPfPIWwB/aBIOeyjT/x63/+qcI8D0cjd1I127UO3xz6
+         msUCAqdgNZOLl948zRH09graL7uoAet8peuuGzbuRc43jk3UuXfWyYzJDUn9hxgljfN5
+         OHNyb93D5DwSpeXx0BerwvLlloiG7Qp5uADq/iJKzEMW8+igZ+d0dfyqV2Lkgy+OPkkI
+         rdCseujI0iN2EyyGHyo8gQhtGNriJj2p85AeKid5gUKcA6AM0MYWWUfJkSB02OqdJ5ca
+         z5BxDjJTzx645eEzllwvSd2YkNNws/RJ/TVcricTPS1ESNAL0Am5ZGLgorqq5HeGf7oh
+         A97g==
+X-Forwarded-Encrypted: i=1; AJvYcCXUKPwTohdLObMCC9hN2N7dD24YbjUDsvNWgxj5ZnAV1ZHclv1/TBM7u2/UnVH78k4LzvmA/TxqhrxAwA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzkEo/tq7OVFVI4C/uA7ePbHt4j0DdnwvipgJHgxbYcIjnZqhSj
+	+xOCCRV8uECzSqPjS9MTLntckH2XIZ/6DdGRMMSnV4jYcERgEsRsCcgp
+X-Gm-Gg: AY/fxX4u2Yf+JRCzlsB+cDYX2unESZB3+P/sBCLBuz9Bgi5GUhdHd0Psgy6Six5NYQj
+	seetxUSdLNjyarBhA2RwohhywJ+aVjHmyAgnRBM0e7IlTA5ZlTwii9HAsjHD5tRSQmHcALHqSZr
+	qUkumwzeHDRGjqYuKxF1qWPi6M6eWbc+frcYukHIYLVjZ61KeR3nEHbuRkfPFYgwZ0b/8TBDjxF
+	C77kAZjIIV7kiIuIrso7bySJqBGunI/ZoHxjPPxwkt7y77Fsrfayo4QBKegMlK6eKGnNF3R210O
+	fvDwLG1zkgQnm6228/x9vRhrdPNCm3rM6/Cz+FlPD7cqwNhtv9w8RMgK4DRFlLuXRqtYZI/cUKi
+	3BGvQ0bXHeeij/nTo7upOu+/zJGXkaSrJ+zRZn6VNXQooAMEOlheWpBIIQ3Ylf+0BcCZkN3CEC1
+	47x1lcaJJQ+MXcbJmD2QYp84DemsdSp0kVVOTRqZY=
+X-Google-Smtp-Source: AGHT+IHIP5Wv68Zp/SZhZsLMise/WRvMupz/fef9S9rk4hz4fUw3ic6mFpAGlWl+s7LC1UyZTgG9FQ==
+X-Received: by 2002:a5d:584e:0:b0:430:f622:8cca with SMTP id ffacd0b85a97d-4324e511553mr63803347f8f.56.1767553564535;
+        Sun, 04 Jan 2026 11:06:04 -0800 (PST)
 Received: from localhost.localdomain ([2400:adc1:447:6d00:1c1a:7818:23f6:aae1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324eab2c4fsm96505089f8f.42.2026.01.04.11.06.00
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324eab2c4fsm96505089f8f.42.2026.01.04.11.06.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Jan 2026 11:06:02 -0800 (PST)
+        Sun, 04 Jan 2026 11:06:04 -0800 (PST)
 From: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
 To: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>,
 	Hans de Goede <hansg@kernel.org>,
@@ -82,9 +82,9 @@ Cc: Andy Shevchenko <andy@kernel.org>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 4/5] media: atomisp: Fix erroneous parameter descriptions
-Date: Mon,  5 Jan 2026 00:05:08 +0500
-Message-ID: <20260104190509.19683-5-mahad.ibrahim.dev@gmail.com>
+Subject: [PATCH v1 5/5] media: atomisp: Convert comments to kernel-doc
+Date: Mon,  5 Jan 2026 00:05:09 +0500
+Message-ID: <20260104190509.19683-6-mahad.ibrahim.dev@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260104190509.19683-1-mahad.ibrahim.dev@gmail.com>
 References: <20260104190509.19683-1-mahad.ibrahim.dev@gmail.com>
@@ -96,39 +96,112 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The function mmu_get_page_table_base_index() accepts only one argument
-mmu_ID_t, the block comment for it shows an erroneous additional
-argument base_index[in]. Similarly, mmu_reg_load() only accepts two
-arguments, however the block comment explaining it shows an erroneous
-argument 'value[in]'.
+Existing comments in mmu_public.h used Doxygen syntax and had
+inconsistent formatting.
 
-Remove incorrect documentation lines.
+Convert the function documentation to the standard kernel-doc format to
+adhere to the Linux kernel coding style.
 
 Signed-off-by: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
 ---
- .../media/atomisp/pci/hive_isp_css_include/host/mmu_public.h    | 2 --
- 1 file changed, 2 deletions(-)
+ .../hive_isp_css_include/host/mmu_public.h    | 59 +++++++++----------
+ 1 file changed, 27 insertions(+), 32 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/mmu_public.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/mmu_public.h
-index c3495ec4835c..611755e88e9f 100644
+index 611755e88e9f..b321f4101193 100644
 --- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/mmu_public.h
 +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/mmu_public.h
-@@ -25,7 +25,6 @@ void mmu_set_page_table_base_index(const mmu_ID_t ID, const hrt_data base_index)
-  *! Get the page table base index of MMU[ID]
-  *
-  *\param	ID[in]				MMU identifier
+@@ -11,49 +11,45 @@
+ #include "device_access.h"
+ #include "assert_support.h"
+ 
+-/*
+- *! Set the page table base index of MMU[ID]
+- *
+- *\param	ID[in]				MMU identifier
 - *\param	base_index[in]		page table base index
++/**
++ * mmu_set_page_table_base_index() - Set the page table base index of MMU[ID]
++ * @ID:				MMU identifier
++ * @base_index:			page table base index
   *
-  *\return MMU[ID].page_table_base_index
+- *\return none, MMU[ID].page_table_base_index = base_index
++ * Return: none, MMU[ID].page_table_base_index = base_index
   */
-@@ -68,7 +67,6 @@ static inline void mmu_reg_store(const mmu_ID_t ID, const unsigned int reg, cons
+ void mmu_set_page_table_base_index(const mmu_ID_t ID, const hrt_data base_index);
+ 
+-/*
+- *! Get the page table base index of MMU[ID]
++/**
++ * mmu_get_page_table_base_index() - Get the page table base index of MMU[ID]
++ * @ID:				MMU identifier
   *
-  *\param	ID[in]				MMU identifier
-  *\param	reg[in]				register index
+- *\param	ID[in]				MMU identifier
+- *
+- *\return MMU[ID].page_table_base_index
++ * Return: MMU[ID].page_table_base_index
+  */
+ hrt_data mmu_get_page_table_base_index(const mmu_ID_t ID);
+ 
+-/*
+- *! Invalidate the page table cache of MMU[ID]
+- *
+- *\param	ID[in]				MMU identifier
++/**
++ * mmu_invalidate_cache() - nvalidate the page table cache of MMU[ID]
++ * @ID:				MMU identifier
+  *
+- *\return none
++ * Return: none
+  */
+ void mmu_invalidate_cache(const mmu_ID_t ID);
+ 
+-/*
+- *! Invalidate the page table cache of all MMUs
++/**
++ * mmu_invalidate_cache_all() - Invalidate the page table cache of all MMUs
+  *
+- *\return none
++ * Return: none
+  */
+ void mmu_invalidate_cache_all(void);
+ 
+-/*
+- *! Write to a control register of MMU[ID]
+- *
+- *\param	ID[in]				MMU identifier
+- *\param	reg[in]				register index
 - *\param value[in]			The data to be written
++/**
++ * mmu_reg_store() - Write to a control register of MMU[ID]
++ * @ID:				MMU identifier
++ * @reg:			register index
++ * @value:			The data to be written
   *
-  *\return MMU[ID].ctrl[reg]
+- *\return none, MMU[ID].ctrl[reg] = value
++ * Return: none, MMU[ID].ctrl[reg] = value
   */
+ static inline void mmu_reg_store(const mmu_ID_t ID, const unsigned int reg, const hrt_data value)
+ {
+@@ -62,13 +58,12 @@ static inline void mmu_reg_store(const mmu_ID_t ID, const unsigned int reg, cons
+ 	ia_css_device_store_uint32(MMU_BASE[ID] + reg * sizeof(hrt_data), value);
+ }
+ 
+-/*
+- *! Read from a control register of MMU[ID]
+- *
+- *\param	ID[in]				MMU identifier
+- *\param	reg[in]				register index
++/**
++ * mmu_reg_load() - Read from a control register of MMU[ID]
++ * @ID:				MMU identifier
++ * @reg:			register index
+  *
+- *\return MMU[ID].ctrl[reg]
++ * Return: MMU[ID].ctrl[reg]
+  */
+ static inline hrt_data mmu_reg_load(const mmu_ID_t ID, const unsigned int reg)
+ {
 -- 
 2.47.3
 
