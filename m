@@ -1,208 +1,158 @@
-Return-Path: <linux-media+bounces-49876-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49877-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A8FFCF13DB
-	for <lists+linux-media@lfdr.de>; Sun, 04 Jan 2026 20:07:57 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98920CF1448
+	for <lists+linux-media@lfdr.de>; Sun, 04 Jan 2026 20:50:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3311C3010CD9
-	for <lists+linux-media@lfdr.de>; Sun,  4 Jan 2026 19:06:21 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id ECA3D300441B
+	for <lists+linux-media@lfdr.de>; Sun,  4 Jan 2026 19:50:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2521314D24;
-	Sun,  4 Jan 2026 19:06:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0370B2D3ECF;
+	Sun,  4 Jan 2026 19:50:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M/KXFfz4"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ghsLiKF+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96F59314D02
-	for <linux-media@vger.kernel.org>; Sun,  4 Jan 2026 19:06:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C2781C84A0;
+	Sun,  4 Jan 2026 19:50:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767553571; cv=none; b=Lhdq2IQJ8/R4ZAyav7Mfey+u23z9F3EJEu7qLSpCtTULwgweznUOYTrwWaEpiupKOeIAnbRLMkbxO9bn3dMY77OyVgaE/dei8kpOUuMuMDe4b3AkpXH23Md/yq5cObfFjDB/orbrSy7ZPk8KmcP59xrSEYF+7xB2g4SmrlhyKbY=
+	t=1767556243; cv=none; b=dK39MQunaVf8Io5HI4RTOjlscmkt9/N6yEETUbYTRjviSE4crjkSA+TPTzWIxMOUVc1PYV93cR3BjEoewre67Wa6PTQdAL+9/fbdAok29Sp2xF6T5p0OyCYrkbX26/XFLsi8XNRslPHsVfg3jHf3QkULutOS3Sg4v0mv1GZCGzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767553571; c=relaxed/simple;
-	bh=ZK5uX/GFgJyLUCjHyioeL6D474O5WD3tQ+XmE+pnOXY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rXOPemOFSXfP81o9WD/ERIu6lojzoujTajxQsDCXTvRAbqiWqpC7wVYB/ZnqzLji8JkGq2fPdG5f0kJWxSMBbMWZxB02NmBp5Jzp3qutyrzf5mcg8D70On8YuP5o4t+uEX9NH7R0orN/i0b714lK1/c1ZKIlBW46yeBEqyGMhtA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M/KXFfz4; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-42fbc305882so6341913f8f.0
-        for <linux-media@vger.kernel.org>; Sun, 04 Jan 2026 11:06:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767553565; x=1768158365; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ebOgnSrN48fxkQK6SNZdklEbQHgjDwwzirduEj6RKHM=;
-        b=M/KXFfz4uhkYjYVd/3lHbuegZWbcG7ha/fgAZApixkl1N3lYBzm4OUi6rHLNnY94yF
-         mcrNIHtl1aiVOTDc2GujyWDQDL4RAt4WGyhONM/qycMYwOrWSo/Bw4T6orFGpTjdnGG8
-         7FOgVaBRuwYICbBpECQqJikEwt5kxN+AgIF8vwFTyPf6kew0W8HvhE1VS2BFac7LPDgv
-         b1NLPL+5VWYv1GxawfF1Ti30U8fF0AvNr+2fYu0DtOb2h0bdyMk53ITisT8CeadP05L4
-         hDvFjGonMXNnVDbjCRhH1XwQxoqcvn/i75j2ybebO5r7EX/koWSqICEHmSdVPft+LCQj
-         /kmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767553565; x=1768158365;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ebOgnSrN48fxkQK6SNZdklEbQHgjDwwzirduEj6RKHM=;
-        b=N/rpGWcWSV3LgAPHQ4uOgXqjPfPIWwB/aBIOeyjT/x63/+qcI8D0cjd1I127UO3xz6
-         msUCAqdgNZOLl948zRH09graL7uoAet8peuuGzbuRc43jk3UuXfWyYzJDUn9hxgljfN5
-         OHNyb93D5DwSpeXx0BerwvLlloiG7Qp5uADq/iJKzEMW8+igZ+d0dfyqV2Lkgy+OPkkI
-         rdCseujI0iN2EyyGHyo8gQhtGNriJj2p85AeKid5gUKcA6AM0MYWWUfJkSB02OqdJ5ca
-         z5BxDjJTzx645eEzllwvSd2YkNNws/RJ/TVcricTPS1ESNAL0Am5ZGLgorqq5HeGf7oh
-         A97g==
-X-Forwarded-Encrypted: i=1; AJvYcCXUKPwTohdLObMCC9hN2N7dD24YbjUDsvNWgxj5ZnAV1ZHclv1/TBM7u2/UnVH78k4LzvmA/TxqhrxAwA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzkEo/tq7OVFVI4C/uA7ePbHt4j0DdnwvipgJHgxbYcIjnZqhSj
-	+xOCCRV8uECzSqPjS9MTLntckH2XIZ/6DdGRMMSnV4jYcERgEsRsCcgp
-X-Gm-Gg: AY/fxX4u2Yf+JRCzlsB+cDYX2unESZB3+P/sBCLBuz9Bgi5GUhdHd0Psgy6Six5NYQj
-	seetxUSdLNjyarBhA2RwohhywJ+aVjHmyAgnRBM0e7IlTA5ZlTwii9HAsjHD5tRSQmHcALHqSZr
-	qUkumwzeHDRGjqYuKxF1qWPi6M6eWbc+frcYukHIYLVjZ61KeR3nEHbuRkfPFYgwZ0b/8TBDjxF
-	C77kAZjIIV7kiIuIrso7bySJqBGunI/ZoHxjPPxwkt7y77Fsrfayo4QBKegMlK6eKGnNF3R210O
-	fvDwLG1zkgQnm6228/x9vRhrdPNCm3rM6/Cz+FlPD7cqwNhtv9w8RMgK4DRFlLuXRqtYZI/cUKi
-	3BGvQ0bXHeeij/nTo7upOu+/zJGXkaSrJ+zRZn6VNXQooAMEOlheWpBIIQ3Ylf+0BcCZkN3CEC1
-	47x1lcaJJQ+MXcbJmD2QYp84DemsdSp0kVVOTRqZY=
-X-Google-Smtp-Source: AGHT+IHIP5Wv68Zp/SZhZsLMise/WRvMupz/fef9S9rk4hz4fUw3ic6mFpAGlWl+s7LC1UyZTgG9FQ==
-X-Received: by 2002:a5d:584e:0:b0:430:f622:8cca with SMTP id ffacd0b85a97d-4324e511553mr63803347f8f.56.1767553564535;
-        Sun, 04 Jan 2026 11:06:04 -0800 (PST)
-Received: from localhost.localdomain ([2400:adc1:447:6d00:1c1a:7818:23f6:aae1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324eab2c4fsm96505089f8f.42.2026.01.04.11.06.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Jan 2026 11:06:04 -0800 (PST)
-From: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
-To: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Andy Shevchenko <andy@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
+	s=arc-20240116; t=1767556243; c=relaxed/simple;
+	bh=6ukWqjRpQdjYYJyk9p/qs+RmptkqD1TpF6rvsMVlAJ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=foKZML9ufAO2A3BJ5rVKhC1KUDr0szOWH/xJpTrF/lgiX6QtkudsC8b0kcSFnHPax8yD7kTGHEnQbnSApMAUPCxOsX3Ni2ZeK6epm1jFF0+d1djgiGEYV1AHtshfAyfEEMIAORCjK++F/J0Xk91fFfV/X9Gmf7g7XfHUurC4elY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ghsLiKF+; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-152.bb.dnainternet.fi [81.175.209.152])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 0D9DA502;
+	Sun,  4 Jan 2026 20:50:11 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1767556212;
+	bh=6ukWqjRpQdjYYJyk9p/qs+RmptkqD1TpF6rvsMVlAJ0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ghsLiKF+jc4sHc1O//wSYBtqnsy8WJ9XMq9c5C7ig9/GBEQH89aTDc+yc1lk/DkuV
+	 cD8IsWJm8kg1DofjqOyCU/htr8Ui7yWaW7uRUSRIr/mu9Pb/a05Yz1Gxwb3AwP8xNq
+	 mCkNSCpCahY/blIpcvcC5yQJtADJLedaFMCF1Qb4=
+Date: Sun, 4 Jan 2026 21:50:13 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Chen Changcheng <chenchangcheng@kylinos.cn>
+Cc: hansg@kernel.org, mchehab@kernel.org, linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 5/5] media: atomisp: Convert comments to kernel-doc
-Date: Mon,  5 Jan 2026 00:05:09 +0500
-Message-ID: <20260104190509.19683-6-mahad.ibrahim.dev@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260104190509.19683-1-mahad.ibrahim.dev@gmail.com>
-References: <20260104190509.19683-1-mahad.ibrahim.dev@gmail.com>
+Subject: Re: [PATCH] media: uvcvideo: Use scope-based cleanup helper
+Message-ID: <20260104195013.GA4898@pendragon.ideasonboard.com>
+References: <20260104064520.115462-1-chenchangcheng@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260104064520.115462-1-chenchangcheng@kylinos.cn>
 
-Existing comments in mmu_public.h used Doxygen syntax and had
-inconsistent formatting.
+On Sun, Jan 04, 2026 at 02:45:20PM +0800, Chen Changcheng wrote:
+> Replace the manual kfree() with __free(kfree) annotation for data
+> references. This aligns the code with the latest kernel style.
 
-Convert the function documentation to the standard kernel-doc format to
-adhere to the Linux kernel coding style.
+There are more occurrences through the driver, please address them all.
 
-Signed-off-by: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
----
- .../hive_isp_css_include/host/mmu_public.h    | 59 +++++++++----------
- 1 file changed, 27 insertions(+), 32 deletions(-)
+> No functional change intended.
+> 
+> Signed-off-by: Chen Changcheng <chenchangcheng@kylinos.cn>
+> ---
+>  drivers/media/usb/uvc/uvc_video.c | 19 ++++++-------------
+>  1 file changed, 6 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> index 2094e059d7d3..1ee06d597431 100644
+> --- a/drivers/media/usb/uvc/uvc_video.c
+> +++ b/drivers/media/usb/uvc/uvc_video.c
+> @@ -291,7 +291,7 @@ static int uvc_get_video_ctrl(struct uvc_streaming *stream,
+>  	struct uvc_streaming_control *ctrl, int probe, u8 query)
+>  {
+>  	u16 size = uvc_video_ctrl_size(stream);
+> -	u8 *data;
+> +	u8 *data __free(kfree) = NULL;
+>  	int ret;
+>  
+>  	if ((stream->dev->quirks & UVC_QUIRK_PROBE_DEF) &&
+> @@ -317,8 +317,7 @@ static int uvc_get_video_ctrl(struct uvc_streaming *stream,
+>  			"supported. Enabling workaround.\n");
+>  		memset(ctrl, 0, sizeof(*ctrl));
+>  		ctrl->wCompQuality = le16_to_cpup((__le16 *)data);
+> -		ret = 0;
+> -		goto out;
+> +		return 0
+>  	} else if (query == UVC_GET_DEF && probe == 1 && ret != size) {
+>  		/*
+>  		 * Many cameras don't support the GET_DEF request on their
+> @@ -328,15 +327,13 @@ static int uvc_get_video_ctrl(struct uvc_streaming *stream,
+>  		uvc_warn_once(stream->dev, UVC_WARN_PROBE_DEF, "UVC non "
+>  			"compliance - GET_DEF(PROBE) not supported. "
+>  			"Enabling workaround.\n");
+> -		ret = -EIO;
+> -		goto out;
+> +		return -EIO;
+>  	} else if (ret != size) {
+>  		dev_err(&stream->intf->dev,
+>  			"Failed to query (%s) UVC %s control : %d (exp. %u).\n",
+>  			uvc_query_name(query), probe ? "probe" : "commit",
+>  			ret, size);
+> -		ret = (ret == -EPROTO) ? -EPROTO : -EIO;
+> -		goto out;
+> +		return (ret == -EPROTO) ? -EPROTO : -EIO;
+>  	}
+>  
+>  	ctrl->bmHint = le16_to_cpup((__le16 *)&data[0]);
+> @@ -371,18 +368,15 @@ static int uvc_get_video_ctrl(struct uvc_streaming *stream,
+>  	 * format and frame descriptors.
+>  	 */
+>  	uvc_fixup_video_ctrl(stream, ctrl);
+> -	ret = 0;
+>  
+> -out:
+> -	kfree(data);
+> -	return ret;
+> +	return 0;
+>  }
+>  
+>  static int uvc_set_video_ctrl(struct uvc_streaming *stream,
+>  	struct uvc_streaming_control *ctrl, int probe)
+>  {
+>  	u16 size = uvc_video_ctrl_size(stream);
+> -	u8 *data;
+> +	u8 *data __free(kfree) = NULL;
+>  	int ret;
+>  
+>  	data = kzalloc(size, GFP_KERNEL);
+> @@ -419,7 +413,6 @@ static int uvc_set_video_ctrl(struct uvc_streaming *stream,
+>  		ret = -EIO;
 
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/mmu_public.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/mmu_public.h
-index 611755e88e9f..b321f4101193 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/mmu_public.h
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/mmu_public.h
-@@ -11,49 +11,45 @@
- #include "device_access.h"
- #include "assert_support.h"
- 
--/*
-- *! Set the page table base index of MMU[ID]
-- *
-- *\param	ID[in]				MMU identifier
-- *\param	base_index[in]		page table base index
-+/**
-+ * mmu_set_page_table_base_index() - Set the page table base index of MMU[ID]
-+ * @ID:				MMU identifier
-+ * @base_index:			page table base index
-  *
-- *\return none, MMU[ID].page_table_base_index = base_index
-+ * Return: none, MMU[ID].page_table_base_index = base_index
-  */
- void mmu_set_page_table_base_index(const mmu_ID_t ID, const hrt_data base_index);
- 
--/*
-- *! Get the page table base index of MMU[ID]
-+/**
-+ * mmu_get_page_table_base_index() - Get the page table base index of MMU[ID]
-+ * @ID:				MMU identifier
-  *
-- *\param	ID[in]				MMU identifier
-- *
-- *\return MMU[ID].page_table_base_index
-+ * Return: MMU[ID].page_table_base_index
-  */
- hrt_data mmu_get_page_table_base_index(const mmu_ID_t ID);
- 
--/*
-- *! Invalidate the page table cache of MMU[ID]
-- *
-- *\param	ID[in]				MMU identifier
-+/**
-+ * mmu_invalidate_cache() - nvalidate the page table cache of MMU[ID]
-+ * @ID:				MMU identifier
-  *
-- *\return none
-+ * Return: none
-  */
- void mmu_invalidate_cache(const mmu_ID_t ID);
- 
--/*
-- *! Invalidate the page table cache of all MMUs
-+/**
-+ * mmu_invalidate_cache_all() - Invalidate the page table cache of all MMUs
-  *
-- *\return none
-+ * Return: none
-  */
- void mmu_invalidate_cache_all(void);
- 
--/*
-- *! Write to a control register of MMU[ID]
-- *
-- *\param	ID[in]				MMU identifier
-- *\param	reg[in]				register index
-- *\param value[in]			The data to be written
-+/**
-+ * mmu_reg_store() - Write to a control register of MMU[ID]
-+ * @ID:				MMU identifier
-+ * @reg:			register index
-+ * @value:			The data to be written
-  *
-- *\return none, MMU[ID].ctrl[reg] = value
-+ * Return: none, MMU[ID].ctrl[reg] = value
-  */
- static inline void mmu_reg_store(const mmu_ID_t ID, const unsigned int reg, const hrt_data value)
- {
-@@ -62,13 +58,12 @@ static inline void mmu_reg_store(const mmu_ID_t ID, const unsigned int reg, cons
- 	ia_css_device_store_uint32(MMU_BASE[ID] + reg * sizeof(hrt_data), value);
- }
- 
--/*
-- *! Read from a control register of MMU[ID]
-- *
-- *\param	ID[in]				MMU identifier
-- *\param	reg[in]				register index
-+/**
-+ * mmu_reg_load() - Read from a control register of MMU[ID]
-+ * @ID:				MMU identifier
-+ * @reg:			register index
-  *
-- *\return MMU[ID].ctrl[reg]
-+ * Return: MMU[ID].ctrl[reg]
-  */
- static inline hrt_data mmu_reg_load(const mmu_ID_t ID, const unsigned int reg)
- {
+You can return -EIO here...
+
+>  	}
+>  
+> -	kfree(data);
+>  	return ret;
+
+... and replace this with return 0. That's a change in behaviour, but as
+far as I can tell, none of the callers use the positive return values, so
+returning 0 on success should be fine.
+
+>  }
+>  
+> 
+> base-commit: 805f9a061372164d43ddef771d7cd63e3ba6d845
+
 -- 
-2.47.3
+Regards,
 
+Laurent Pinchart
 
