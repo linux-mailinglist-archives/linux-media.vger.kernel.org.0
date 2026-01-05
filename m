@@ -1,61 +1,59 @@
-Return-Path: <linux-media+bounces-49951-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49952-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63A2ECF6062
-	for <lists+linux-media@lfdr.de>; Tue, 06 Jan 2026 00:45:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B2B5CF60CF
+	for <lists+linux-media@lfdr.de>; Tue, 06 Jan 2026 00:59:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 34E203063272
-	for <lists+linux-media@lfdr.de>; Mon,  5 Jan 2026 23:45:26 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0546330783EE
+	for <lists+linux-media@lfdr.de>; Mon,  5 Jan 2026 23:59:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B85482C027F;
-	Mon,  5 Jan 2026 23:45:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1E7530F92E;
+	Mon,  5 Jan 2026 23:59:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HCApnSpg"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="faMVzk/d"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 736653A1E77;
-	Mon,  5 Jan 2026 23:45:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2BFF56B81;
+	Mon,  5 Jan 2026 23:59:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767656723; cv=none; b=YcC6Koy+hQHe7pXgDX1asPC424guOXjG0e1uVFEdYRTYxx+14m1FZQND+qyLNCfpafxNkNlOU/B1gRA+ZF4kGLVXgknEIsg1M8zKqvm/z52hcEmo5WklSF63N71WemJGJcgnOnunvGPYN94FfMik5hNyOvld4or7zcnNwGJoU+o=
+	t=1767657585; cv=none; b=WMxaZS9v9KxKvTLIQeeAWlx0F6Lirk+WsgjgkstUFqQD7CIBtAVohtydxFGRh/AHBKEpWFiezsOm64nLjYGoDeHEXynx2x+IAscmnWKu6Iroyr2seVEtv43qhhPVjN6bo3YcOOxXdpkeUJYcRbUtaca3b15ZP1UFcG3k1K61/ZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767656723; c=relaxed/simple;
-	bh=1udTEG1rrOGddP0tf1nuF4S9QpeftqT/36M8cqJBoAs=;
+	s=arc-20240116; t=1767657585; c=relaxed/simple;
+	bh=kjtbRsl2yxrgQaA3VRK6Xkc51MI2dztHlINk6nGhPd8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VwAfvjOqhLXASXbQdngHN9TN3vKdOoIJKYpdwvWS8ovD3Xf1YELU8WebpCm+evgDoHrFsT0I5KApUDMX/peMXjetqUY4ufOaGooq/xO9lCIQZRf0yhvkvzx84nZB4xn1nbRkai3TxgSIVqXpYjWe7NfvoYnqdpZYjKQZZJjwNQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HCApnSpg; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=DoJLK0DNBKSfj+u39/HSi3yILPNvuTLjS2T/kA817ks30t0xTumE9nr3LKe1lH7OD2c5k9g1NEzN5CdEFB7olhXBobjcchzL2poMhCmh+02VJ/1YN+znHzK5d2HiCyQP/wB/ZEAw0nAjmBqaw/YX4xo1SX5Tp1g/qtOAIFV4Zzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=faMVzk/d; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-152.bb.dnainternet.fi [81.175.209.152])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 67EA355A;
-	Tue,  6 Jan 2026 00:44:50 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 463706DF;
+	Tue,  6 Jan 2026 00:59:20 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1767656690;
-	bh=1udTEG1rrOGddP0tf1nuF4S9QpeftqT/36M8cqJBoAs=;
+	s=mail; t=1767657560;
+	bh=kjtbRsl2yxrgQaA3VRK6Xkc51MI2dztHlINk6nGhPd8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HCApnSpgg2YPavVNsNtNunjsth5gStYETUKtlZ7Mi+upr9BV589a88Kxqu5M2Z1UH
-	 ZBdGM2CopVuxS49PnMbN6/5uk//XQmbPARnFYN6mTSJCFWB75FL8tL861yXRpVRAvO
-	 OhBZbXZwH1IPUvhTNU0MusfV9CWQDu1nkbhE9R7s=
-Date: Tue, 6 Jan 2026 01:44:52 +0200
+	b=faMVzk/dgr8I9pQQTWKyCl2UeK+MI640ke4MLhR/Y20xcSOT4f2WASE5xUOjruRha
+	 b4+zV3IA/eNYmVKPBORlWlwnQ2Sr5QgPqQkbbU156uPG9XqVSdaKQhtmkBQ7xZdukT
+	 UWYru2mxyjGqVBjvEjKmyYA8cEUN6LECPW4q57ro=
+Date: Tue, 6 Jan 2026 01:59:21 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Nicolas Dufresne <nicolas@ndufresne.ca>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
+To: Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc: Stefan Klug <stefan.klug@ideasonboard.com>,
 	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>, linux-media@vger.kernel.org,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH 4/4] media: dw100: Split interrupt handler to fix timeout
- error
-Message-ID: <20260105234452.GH10026@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 3/4] media: dw100: Fix kernel oops with PREEMPT_RT enabled
+Message-ID: <20260105235921.GI10026@pendragon.ideasonboard.com>
 References: <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-0-65af34d04fd8@ideasonboard.com>
- <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-4-65af34d04fd8@ideasonboard.com>
- <1c04d8cd1a6cf29f45d7ea9422dd3fe0a633a957.camel@ndufresne.ca>
- <20260105163748.2488d506@gandalf.local.home>
+ <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-3-65af34d04fd8@ideasonboard.com>
+ <8a8ec84e5484d7a1a5e6fac9a5238f3cae66abc3.camel@ndufresne.ca>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,41 +63,61 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260105163748.2488d506@gandalf.local.home>
+In-Reply-To: <8a8ec84e5484d7a1a5e6fac9a5238f3cae66abc3.camel@ndufresne.ca>
 
-On Mon, Jan 05, 2026 at 04:37:48PM -0500, Steven Rostedt wrote:
-> On Mon, 05 Jan 2026 14:03:58 -0500 Nicolas Dufresne wrote:
-> > Le lundi 05 janvier 2026 à 12:35 +0100, Stefan Klug a écrit :
-> > > In the previous commit, the interrupt handler was changed to threaded.
-> > > This sometimes leads to DW100_INTERRUPT_STATUS_INT_ERR_TIME_OUT being
-> > > set after changing the vertex map. This can be seen by repeated error
-> > > outputs in dmesg:
-> > > 
-> > > dw100 32e30000.dwe: Interrupt error: 0x1
-> > > 
-> > > As there is no documentation available, it is unclear why that happens
-> > > and if this condition can simply be ignored. By splitting the interrupt
-> > > handling into two parts and only handling the dw100_job_finish() within
-> > > the threaded part, the error does not occur anymore.
-> > > 
-> > > Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>  
+On Mon, Jan 05, 2026 at 02:02:38PM -0500, Nicolas Dufresne wrote:
+> Le lundi 05 janvier 2026 à 12:35 +0100, Stefan Klug a écrit :
+> > On kernels with PREEMPT_RT enabled, a "BUG: scheduling while atomic"
+> > kernel oops occurs inside dw100_irq_handler -> vb2_buffer_done. This is
+> > because vb2_buffer_done takes a spinlock which is not allowed within
+> > interrupt context on PREEMPT_RT.
 > > 
-> > Ok, but arguably, this could be squashed.
+> > Fix that by making the irq handler threaded. The threaded interrupt
+> > handling might cause the interrupt line to be disabled a little longer
+> > than before. As the line is not shared, this has no negative side
+> > effects.
+> 
+> That's interesting, do you plan to update more drivers ? There is a lot of m2m
+> using hard IRQ to minimize the idle time (save a context switch), but RT support
+> might be more worth then that.
 
-Stefan mentioned that in the cover letter, yes. The patches are
-currently split because 4/4 shouldn't be needed based on our
-understanding of the hardware. We're hoping for feedback on the issue
-from someone with knowledge of the DW100 and access to its
-documentation.
+This is a part of PREEMPT_RT that puzzles me. By turning regular
+spinlocks into mutexes, RT seems to break drivers that use those
+spinlocks in hard IRQ handlers. That's a very large number of drivers
+given how widespread regular spinlock usage is. Do drivers need to be
+manually converted to either raw spinlocks or threaded IRQ handlers ?
+What about non-RT kernels, how can a driver avoid the thread scheduling
+penalty in those cases, do they need to manually select between
+request_irq() and request_threaded_irq() based on if RT is enabled ?
+This puzzles me, it feels like I must be missing something.
 
-> Agreed. Because it doesn't seem to make sense to have a oneshot threaded
-> irq handler that doesn't have the two parts (non-threaded to acknowledge the
-> irq, and the threaded to handle it and re-enable it).
-
-Why is so ? Isn't oneshot meant exactly for this purpose ? It's
-documented as not reenabling the interrupt after the hardirq handler
-(which is absent after 3/4) returns, why would a hardirq handler be
-mandatory then ?
+> > Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
+> 
+> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> 
+> > ---
+> >  drivers/media/platform/nxp/dw100/dw100.c | 5 +++--
+> >  1 file changed, 3 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/nxp/dw100/dw100.c
+> > b/drivers/media/platform/nxp/dw100/dw100.c
+> > index
+> > 8a421059a1c9b55f514a29d3c2c5a6ffb76e0a64..4f5ef70e5f4a052fb5f208e35f8785f9d30d
+> > c54e 100644
+> > --- a/drivers/media/platform/nxp/dw100/dw100.c
+> > +++ b/drivers/media/platform/nxp/dw100/dw100.c
+> > @@ -1600,8 +1600,9 @@ static int dw100_probe(struct platform_device *pdev)
+> >  
+> >  	pm_runtime_put_sync(&pdev->dev);
+> >  
+> > -	ret = devm_request_irq(&pdev->dev, irq, dw100_irq_handler, IRQF_ONESHOT,
+> > -			       dev_name(&pdev->dev), dw_dev);
+> > +	ret = devm_request_threaded_irq(&pdev->dev, irq, NULL,
+> > +					dw100_irq_handler, IRQF_ONESHOT,
+> > +					dev_name(&pdev->dev), dw_dev);
+> >  	if (ret < 0) {
+> >  		dev_err(&pdev->dev, "Failed to request irq: %d\n", ret);
+> >  		goto err_pm;
 
 -- 
 Regards,
