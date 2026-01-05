@@ -1,151 +1,100 @@
-Return-Path: <linux-media+bounces-49923-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49924-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B72DBCF4001
-	for <lists+linux-media@lfdr.de>; Mon, 05 Jan 2026 14:59:14 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D4EECF413A
+	for <lists+linux-media@lfdr.de>; Mon, 05 Jan 2026 15:19:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D398B312B658
-	for <lists+linux-media@lfdr.de>; Mon,  5 Jan 2026 13:47:59 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id E4294300749D
+	for <lists+linux-media@lfdr.de>; Mon,  5 Jan 2026 14:19:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4492828CF6F;
-	Mon,  5 Jan 2026 13:41:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E44DF26A09B;
+	Mon,  5 Jan 2026 14:08:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="vytZmFC1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bUb5V8Nq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69879254B19;
-	Mon,  5 Jan 2026 13:41:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59603315D47;
+	Mon,  5 Jan 2026 14:08:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767620517; cv=none; b=SXFcVHYiil8Ot3x38aSLX4bcX4CD+HOGSlG76O7u5mpesom2xwTVgLUiImWSE48ZsMrc3TiZ7fxQt63Obhe2loqS0H5rU3LBpiiCS83sajnwT7+/7oam5DqBfJ0CTtsCIs+MJqXp28aL5O5yKfpG7thRwa9DhubEAJDki1GhHVU=
+	t=1767622114; cv=none; b=Ww87qqTkIgpdEDmYIq8fSgJU/yQ7qhxdSBCAhNcHmzMB2mtMQVO850O/uzVIMyOIxxrGeV2ibfSsDCfhXY3xt1pBMuQ1EkR0IE/AM79OShbU7s/VbfFW2w6FLJnl/GehDY317KS1NjXh+sa7CHr2vIjf1IdnzMVbCvk4hloCSf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767620517; c=relaxed/simple;
-	bh=a3Sj0a26r3lVQlAJmFwNu/sL9HQAEQqcEw3msVeSpzM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=fcl+jfEMe/mNUFn6zmJq9yVULWGvO/XBC7yWTd6Arrgtdv3dchWYqSC0QwAmrN97Ka1Iltejqt3US6youl0vze6DHP7VqHh2ayS8FnFxu9P2T04IVh0FSaqR7uyO62EuM/p9niW2pnmSTPeVi7zCS8tyTR+UCfmHp1WqGCNKI4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=vytZmFC1; arc=none smtp.client-ip=68.232.153.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1767620514; x=1799156514;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=a3Sj0a26r3lVQlAJmFwNu/sL9HQAEQqcEw3msVeSpzM=;
-  b=vytZmFC1inOCa0CmBOTec6lCQHktGHtYs0j1yF+KbGznCOoobE9c0mb5
-   qbsf3pFBLtO7dpMx13/+g9lRkX5viZWKLpDIHKWUTencZzfXW0WWR2W2t
-   9SnCJu4av6vtKJ1HwGwPpeCT8+OlH4gFOiohUb5uMtIyq8I6JU6hte+Cg
-   PwSdeCtCbF5rBKYj9aTRZu+sArpltNL1v2ynSYOAXQuUgzAVeVf25gp5Y
-   1BKgmvPbJvqIVc/JvlFZBim05Hjqj+YCxpr7YChpQ/GpNN/S0iBquzoro
-   xaKjXC/fSCf5RztQgM8+G2G0yb9QTK3sXjad6g44c5rNmF7cptvFZ/Ta9
-   w==;
-X-CSE-ConnectionGUID: HBkZ5l8JRtWI55dHimVviw==
-X-CSE-MsgGUID: JZGd2c01Rd6FFUdxsxi0Mw==
-X-IronPort-AV: E=Sophos;i="6.21,203,1763449200"; 
-   d="scan'208";a="58252843"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 05 Jan 2026 06:41:52 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.58; Mon, 5 Jan 2026 06:41:52 -0700
-Received: from [10.159.245.205] (10.10.85.11) by chn-vm-ex04.mchp-main.com
- (10.10.85.152) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
- Transport; Mon, 5 Jan 2026 06:41:43 -0700
-Message-ID: <49ebaa9d-cad9-42cd-8bb9-5210fe18eeb5@microchip.com>
-Date: Mon, 5 Jan 2026 14:41:47 +0100
+	s=arc-20240116; t=1767622114; c=relaxed/simple;
+	bh=lhRqkJCiNXB/Z5CTm0DjouaCzn5YbbAFUtBaa7SbiDU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sFGWg+w2GKXUUWhmvu106z9x9fK4nBU2abc76qq4+CySYvzIS11oLyxO6+NWFk2Q+8KgdQJFxQl0W4/0kLVOCK1onGOeDaVReBIEqJHSUxSNRhCl2yAcdrKVhOyDcOSjjUlw/PxVGEvdPl6a4rEyMXM29mjwmbw0+uIQp9G13D8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bUb5V8Nq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38600C2BCB3;
+	Mon,  5 Jan 2026 14:08:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767622113;
+	bh=lhRqkJCiNXB/Z5CTm0DjouaCzn5YbbAFUtBaa7SbiDU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=bUb5V8Nq+E7wDEUQSZnxy0EkhZUz6L4b7PrbHKAE1K8RHbT3yRXt1WYNIcHpRlTDf
+	 9kzCmAWZWTqL/8x3+doFRK8ZevmNuE2YQg3hhYoW+/QEu6wqs6pCUvm+l99MGyE+mQ
+	 qlKioxCtyOQxZYOqf25XFhsjufqa1dYtCIF2FMGU9k8mN9fK7zDebkQjFjOdf9yZoD
+	 jqIdA1979GgdHwkSKOXmP941pzu7Av9YQcrzCYGOY5jDO7F2LjZ2lsUBrB0FRgl9tY
+	 FDoMy+Id56EWGR/PkZgWCh2nxwaWmcaOs+O5OuzXCyEDKXrukKoI1uuPgHSUeSDoMG
+	 KvxZnRArgsscA==
+From: Bjorn Andersson <andersson@kernel.org>
+To: bryan.odonoghue@linaro.org,
+	mchehab@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	konradybcio@kernel.org,
+	cros-qcom-dts-watchers@chromium.org,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Vikram Sharma <quic_vikramsa@quicinc.com>
+Cc: linux-arm-kernel@lists.infradead.org,
+	quic_svankada@quicinc.com,
+	linux-media@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	quic_nihalkum@quicinc.com
+Subject: Re: (subset) [PATCH v6 0/2] qcom: qcs8300: Add qcs8300 camss support
+Date: Mon,  5 Jan 2026 08:07:36 -0600
+Message-ID: <176762206420.2923194.7249195555946524673.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20251107162521.511536-1-quic_vikramsa@quicinc.com>
+References: <20251107162521.511536-1-quic_vikramsa@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/11] ARM: at91: Simplify with scoped for each OF child
- loop
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, Miguel Ojeda
-	<ojeda@kernel.org>, Rob Herring <robh@kernel.org>, Saravana Kannan
-	<saravanak@google.com>, Nathan Chancellor <nathan@kernel.org>, Nick
- Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling
-	<morbo@google.com>, Justin Stitt <justinstitt@google.com>, Russell King
-	<linux@armlinux.org.uk>, Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Krzysztof Kozlowski
-	<krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, Madhavan Srinivasan
-	<maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin
-	<npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Nipun Gupta <nipun.gupta@amd.com>, Nikhil Agarwal <nikhil.agarwal@amd.com>,
-	Abel Vesa <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>, Michael
- Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Shawn
- Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
-	Vinod Koul <vkoul@kernel.org>, Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>, "Rafael J. Wysocki"
-	<rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<llvm@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-samsung-soc@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>,
-	<linux-clk@vger.kernel.org>, <imx@lists.linux.dev>,
-	<dmaengine@vger.kernel.org>, <linux-media@vger.kernel.org>,
-	<linux-pm@vger.kernel.org>
-References: <20260105-of-for-each-compatible-scoped-v1-0-24e99c177164@oss.qualcomm.com>
- <20260105-of-for-each-compatible-scoped-v1-2-24e99c177164@oss.qualcomm.com>
-From: Nicolas Ferre <nicolas.ferre@microchip.com>
-Content-Language: en-US, fr
-Organization: microchip
-In-Reply-To: <20260105-of-for-each-compatible-scoped-v1-2-24e99c177164@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Krzysztof,
 
-On 05/01/2026 at 14:33, Krzysztof Kozlowski wrote:
-> Use scoped for-each loop when iterating over device nodes to make code a
-> bit simpler.
+On Fri, 07 Nov 2025 21:55:19 +0530, Vikram Sharma wrote:
+> QCS8300 is a Qualcomm SoC. This series adds bindings and devicetree
+> and driver changes to bring up CSIPHY, TPG, CSID, VFE/RDI interfaces
+> in QCS8300.
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> QCS8300 provides
+> - 2 x VFE, 3 RDI per VFE
+> - 5 x VFE Lite, 6 RDI per VFE
+> - 2 x CSID
+> - 5 x CSID Lite
+> - 3 x TPG
+> - 3 x CSIPHY
+> 
+> [...]
 
-Thanks for handling this!
-Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
+Applied, thanks!
+
+[2/2] arm64: dts: qcom: qcs8300: Add support for camss
+      commit: ec593a86dfa1bbb5ef02165711f7ed8bb1046e29
 
 Best regards,
-   Nicolas
-
-> ---
-> 
-> Depends on the first patch.
-> ---
->   arch/arm/mach-at91/pm.c | 7 ++-----
->   1 file changed, 2 insertions(+), 5 deletions(-)
-> 
-> diff --git a/arch/arm/mach-at91/pm.c b/arch/arm/mach-at91/pm.c
-> index 35058b99069c..68bb4a86cd94 100644
-> --- a/arch/arm/mach-at91/pm.c
-> +++ b/arch/arm/mach-at91/pm.c
-> @@ -982,15 +982,12 @@ static void __init at91_pm_sram_init(void)
->          struct gen_pool *sram_pool;
->          phys_addr_t sram_pbase;
->          unsigned long sram_base;
-> -       struct device_node *node;
->          struct platform_device *pdev = NULL;
-> 
-> -       for_each_compatible_node(node, NULL, "mmio-sram") {
-> +       for_each_compatible_node_scoped(node, NULL, "mmio-sram") {
->                  pdev = of_find_device_by_node(node);
-> -               if (pdev) {
-> -                       of_node_put(node);
-> +               if (pdev)
->                          break;
-> -               }
->          }
-> 
->          if (!pdev) {
-> 
-> --
-> 2.51.0
-> 
-
+-- 
+Bjorn Andersson <andersson@kernel.org>
 
