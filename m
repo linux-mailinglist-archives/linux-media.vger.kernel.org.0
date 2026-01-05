@@ -1,110 +1,130 @@
-Return-Path: <linux-media+bounces-49896-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49897-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECBEECF313D
-	for <lists+linux-media@lfdr.de>; Mon, 05 Jan 2026 11:55:09 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF47CCF346C
+	for <lists+linux-media@lfdr.de>; Mon, 05 Jan 2026 12:34:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0CE9E30652BF
-	for <lists+linux-media@lfdr.de>; Mon,  5 Jan 2026 10:51:52 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7512C3042FF0
+	for <lists+linux-media@lfdr.de>; Mon,  5 Jan 2026 11:29:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F2A931A818;
-	Mon,  5 Jan 2026 10:41:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8DC7330D2F;
+	Mon,  5 Jan 2026 11:29:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EzzMb8HO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE26131A07F;
-	Mon,  5 Jan 2026 10:41:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A2432B99C;
+	Mon,  5 Jan 2026 11:29:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767609698; cv=none; b=d5S4aWPObcCaQMnt92JwtHAWmjjBxbA1Y17N1jw3XY/DGl6XQjC11y78JaDsHrjkpMRQgsYxYT6J1IDPiUgYlLLCf0MPoonjF7fIHQKYVQ7QioxJX3DG1WWXg0jX3lsRD/wGNal1poVwApSmSOIXYtpq0PaFHzweFkFfLc/tiKA=
+	t=1767612582; cv=none; b=jWJciMILvn363pEXyTSyXUxjIb5vfJP/3Olivbp3jpQJ7Y1NDuq4vCvk2wruTaQi3HdcVROXvUuv2j8O4w7Zbxq+F2Rhl8n/37qpny+vMep9RSlI0YLnosQ0wFa2/G4PovfluaMM0q3kmZiOf3GrVHvOrWGPne5MrYgjW36vKvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767609698; c=relaxed/simple;
-	bh=O0eGpzcZBXdoUgn5aOeJ0bBOfxhqxXr16waodX4cHhQ=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KTeRGxY0lw7OiL8AkMpqDOb0kqrg1TrjHj03Jo7LMCQyjVBSvprw904HMdrFtcuJNY/oBY5W8qSke6iTs41F9SC/1QTThdIIuAALUFQAReaU75TOEYor4rq/uA0pkL3TUnkWbGkOsHtqioIU8xj7YUS82DnbCdwx5q1TmD6jPy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.150])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dl9p42jYGzHnGdM;
-	Mon,  5 Jan 2026 18:41:32 +0800 (CST)
-Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
-	by mail.maildlp.com (Postfix) with ESMTPS id 6A79340539;
-	Mon,  5 Jan 2026 18:41:34 +0800 (CST)
-Received: from localhost (10.48.146.88) by dubpeml100005.china.huawei.com
- (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Mon, 5 Jan
- 2026 10:41:33 +0000
-Date: Mon, 5 Jan 2026 10:41:31 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-CC: Sylwester Nawrocki <s.nawrocki@samsung.com>, Mauro Carvalho Chehab
-	<mchehab@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar
-	<alim.akhtar@samsung.com>, <linux-media@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] media: samsung: exynos4-is: Simplify with scoped for
- each OF child loop
-Message-ID: <20260105104131.00005693@huawei.com>
-In-Reply-To: <20260102124955.64904-2-krzysztof.kozlowski@oss.qualcomm.com>
-References: <20260102124955.64904-2-krzysztof.kozlowski@oss.qualcomm.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1767612582; c=relaxed/simple;
+	bh=iISwdZtvnnraV/VMYYVj79jvGkuZPTBqF1C6SfCyOhY=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=ZE1X8SvyziuAxJDUyXfGFxI4Ic+bRLOLNK2IKwGU0BT7Kv1VT0o3DmjJVsd1oWeUPn0rwzI2+hcchZdOwhRWEuWmJJ31R+FvnOibizrrmezxcqrb4OBWZynjIzEfUxGiJpNbDaoqYQv2LwLVfuvRKwh5bAiepAz6YprQLTwIP5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=EzzMb8HO; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 15C42664;
+	Mon,  5 Jan 2026 12:29:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1767612550;
+	bh=iISwdZtvnnraV/VMYYVj79jvGkuZPTBqF1C6SfCyOhY=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=EzzMb8HOeneWwzjW6sYtITaQ8Sg50f2HmArAmxA9vGADkwgV6rGLYbY4Aps7IK0Ys
+	 qdJMpeVTgDso/wLf6WaCRV6v3Uylym63LK83uGB9IhtwGTE6E+6Vvc5YbsbEn0WI1L
+	 L90b+d9rvoArIvwQYmg3m+NbAijw4cYgT/Na4k7k=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500010.china.huawei.com (7.191.174.240) To
- dubpeml100005.china.huawei.com (7.214.146.113)
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <176465775606.135635.13034018447792643478@localhost>
+References: <20251202015025.601549-1-rui.wang@ideasonboard.com> <20251202015025.601549-2-rui.wang@ideasonboard.com> <176465775606.135635.13034018447792643478@localhost>
+Subject: Re: [PATCH v1 1/1] media: rkisp1: Fix filter mode register configuration
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: libcamera-devel@lists.libcamera.org, Rui Wang <rui.wang@ideasonboard.com>
+To: Rui Wang <rui.wang@ideasonboard.com>, Stefan Klug <stefan.klug@ideasonboard.com>, dafna@fastmail.com, heiko@sntech.de, laurent.pinchart@ideasonboard.com, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, mchehab@kernel.org
+Date: Mon, 05 Jan 2026 11:29:27 +0000
+Message-ID: <176761256763.3192372.8001486757502337420@ping.linuxembedded.co.uk>
+User-Agent: alot/0.9.1
 
-On Fri,  2 Jan 2026 13:49:56 +0100
-Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com> wrote:
-
-> Use scoped for-each loop when iterating over device nodes to make code a
-> bit simpler.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Change is fine but I wonder it it is worth going further.  See inline.
-> ---
->  drivers/media/platform/samsung/exynos4-is/fimc-is.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-is.c b/drivers/media/platform/samsung/exynos4-is/fimc-is.c
-> index 0827fdaf455a..14d84cc96831 100644
-> --- a/drivers/media/platform/samsung/exynos4-is/fimc-is.c
-> +++ b/drivers/media/platform/samsung/exynos4-is/fimc-is.c
-> @@ -200,7 +200,7 @@ static int fimc_is_parse_sensor_config(struct fimc_is *is, unsigned int index,
->  
->  static int fimc_is_register_subdevs(struct fimc_is *is)
->  {
-> -	struct device_node *i2c_bus, *child;
-> +	struct device_node *i2c_bus;
->  	int ret, index = 0;
->  
->  	ret = fimc_isp_subdev_create(&is->isp);
-> @@ -208,11 +208,10 @@ static int fimc_is_register_subdevs(struct fimc_is *is)
->  		return ret;
->  
->  	for_each_compatible_node(i2c_bus, NULL, "samsung,exynos4212-i2c-isp") {
-I haven't checked how frequently this would help, but at least in this case
-I'd consider adding a
-	for_each_compatible_node_scoped() following same approach as
-other scoped loops.
+Quoting Stefan Klug (2025-12-02 06:42:36)
+> Hi Rui,
+>=20
+> Thank you for the patch.
+>=20
+> Quoting Rui Wang (2025-12-02 02:50:25)
+> > The rkisp1_flt_config() function performs an initial direct write to
+> > RKISP1_CIF_ISP_FILT_MODE without including the RKISP1_CIF_ISP_FLT_ENA
+> > bit, which clears the filter enable bit in the hardware.
+>=20
+> That sentence is a bit hard for me to understand. Maybe:
+>=20
+> "The rkisp1_flt_config() function overwrites RKISP1_CIF_ISP_FILT_MODE
+> without preserving the RKISP1_CIF_ISP_FLT_ENA bit thereby unconditionally
+> disabling the hardware block on reconfiguration.
 
 
-> -		for_each_available_child_of_node(i2c_bus, child) {
-> +		for_each_available_child_of_node_scoped(i2c_bus, child) {
->  			ret = fimc_is_parse_sensor_config(is, index, child);
->  
->  			if (ret < 0 || index >= FIMC_IS_SENSORS_NUM) {
-> -				of_node_put(child);
->  				of_node_put(i2c_bus);
->  				return ret;
->  			}
+Stefan's proposal sounds good here.
 
+
+Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+
+>=20
+> But as I'm no native speaker you could maybe wait for feedback from a
+> native speaker.
+>=20
+> Functionality wise the change is correct.
+>=20
+> Reviewed-by: Stefan Klug <stefan.klug@ideasonboard.com>
+>=20
+> Best regards,
+> Stefan
+>=20
+> >=20
+> > The subsequent read/modify/write sequence then reads back the register
+> > with the enable bit already cleared and cannot restore it, resulting in
+> > the filter being inadvertently disabled.
+> >=20
+> > Remove the redundant direct write. The read/modify/write sequence alone
+> > correctly preserves the existing enable bit state while updating the
+> > DNR mode and filter configuration bits.
+> >=20
+> > Signed-off-by: Rui Wang <rui.wang@ideasonboard.com>
+> > ---
+> >  drivers/media/platform/rockchip/rkisp1/rkisp1-params.c | 6 ------
+> >  1 file changed, 6 deletions(-)
+> >=20
+> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/d=
+rivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> > index c9f88635224c..6442436a5e42 100644
+> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> > @@ -411,12 +411,6 @@ static void rkisp1_flt_config(struct rkisp1_params=
+ *params,
+> >         rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_FILT_LUM_WEIGHT,
+> >                      arg->lum_weight);
+> > =20
+> > -       rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_FILT_MODE,
+> > -                    (arg->mode ? RKISP1_CIF_ISP_FLT_MODE_DNR : 0) |
+> > -                    RKISP1_CIF_ISP_FLT_CHROMA_V_MODE(arg->chr_v_mode) |
+> > -                    RKISP1_CIF_ISP_FLT_CHROMA_H_MODE(arg->chr_h_mode) |
+> > -                    RKISP1_CIF_ISP_FLT_GREEN_STAGE1(arg->grn_stage1));
+> > -
+> >         /* avoid to override the old enable value */
+> >         filt_mode =3D rkisp1_read(params->rkisp1, RKISP1_CIF_ISP_FILT_M=
+ODE);
+> >         filt_mode &=3D RKISP1_CIF_ISP_FLT_ENA;
+> > --=20
+> > 2.43.0
+> >
 
