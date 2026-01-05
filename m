@@ -1,151 +1,138 @@
-Return-Path: <linux-media+bounces-49928-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49929-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92C3ACF44EC
-	for <lists+linux-media@lfdr.de>; Mon, 05 Jan 2026 16:08:11 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B93F4CF4725
+	for <lists+linux-media@lfdr.de>; Mon, 05 Jan 2026 16:40:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 33C74303BA90
-	for <lists+linux-media@lfdr.de>; Mon,  5 Jan 2026 15:06:49 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C0FC330EEC38
+	for <lists+linux-media@lfdr.de>; Mon,  5 Jan 2026 15:29:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48DE4314A6E;
-	Mon,  5 Jan 2026 14:58:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C66CE2DE6FF;
+	Mon,  5 Jan 2026 15:29:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aLZ7nyLI"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="d5i9wTa2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A2B63128DF
-	for <linux-media@vger.kernel.org>; Mon,  5 Jan 2026 14:58:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914FF27FD54
+	for <linux-media@vger.kernel.org>; Mon,  5 Jan 2026 15:29:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767625111; cv=none; b=uS8BDtLMnaMWwjKqrW9GEQFqwlJR8ED78WONsVT8N8KS9Tq6ZRiIk1di8rCrEycgFF3YIK0Fh7jQyAoOvntsO+iyZZ2A/y337NpglzHMF/tZEefYgTN7MFAKaXsq/tYHBbgq7tgLPt9PDKzchqlqrxXNMdPnpg6TjqhJm2SKXws=
+	t=1767626982; cv=none; b=KzcSk2eYHWEvYlc6Qi+mcVrts6F/AnnjsdJmD1Hh3wvTUAN5hpm33HfF1/tzeml32BeQpKRbO9lWzEPyfQQy6THpsLdS0BbomrbRjgV1n2BbgRGSDvs/lTRgvvI/K/z0QTbQPBwnSya/OpjK8LNDTKA0j+3fFPuImRe9Gf94+6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767625111; c=relaxed/simple;
-	bh=VcJC7sCWJodERaoTS9t7XlGBxL7hprZHiIDPn09Ne7s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jgoM1Ni5FD2bmXJOl2NBV4dQXKjQEodhMcZ+meF9QbgaQHvDKqKAYRBpgccvqVr2heNTsL9kYLE8QwzB5c8BJjDToYFaFB+WdsTMO9vAePhag6d9LcNzIHRFZ+9RgJWzs3gbqZuffELcebjnmw2t3QAkohkO7fkn5cz6KzhLzmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aLZ7nyLI; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-81345800791so34115b3a.0
-        for <linux-media@vger.kernel.org>; Mon, 05 Jan 2026 06:58:30 -0800 (PST)
+	s=arc-20240116; t=1767626982; c=relaxed/simple;
+	bh=wVFiwFCaN+6MmHP7qawZpv5epVl+edZbriJpg3foN/I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dtm96McIuJPpR6jOef8upLkK/rBaMpEX0rDRoMg57wedEcX4Akakggfxo0iFe6/bEGmyfFS6hZBQKhQkkbjZUXcvOBo5Oh2vVGb/RDY5g9wRVqDtCteyve9/voUeS2fBb+TWkTFMoQzBcQOo7WQd8ojJyZVKKFiTSFBlhier66M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=d5i9wTa2; arc=none smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-37b935df7bfso276761fa.2
+        for <linux-media@vger.kernel.org>; Mon, 05 Jan 2026 07:29:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767625110; x=1768229910; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Bw6fgNtZmBe2W56ugS12P5lnC0TRTn4SZrhJOxug+wQ=;
-        b=aLZ7nyLI5ISY1e8Lnq3V3hGK4/90QvWT0qYWnZb1+PYdO7fy7UZ7vi43XwCYtOclpc
-         QLBJUZZNwX/paQs+dk8MPLJWjCNtsVBDQpGIZnhXX+ZnWd4zNkmx1O/YvZ8nOotQpjtn
-         94PZ9IO52oTJEtSuattxoZnHbPMFnoGhb+TUCM6T527NkvE+hGVzi+UAhB8cMOKXnVpb
-         rvtl6RMdBSQKtLznImarXMPZgFCUxkPrSiZONvHLuptKsIz3bCFg+I/SglobSpxhTR39
-         EllzMR2Y0giGpBzyf82CSo/Myx9uP7weM+c6YbtcwNGsVK21nxwUd/n9fZJ2ebiD1781
-         Qpsw==
+        d=chromium.org; s=google; t=1767626978; x=1768231778; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=wVFiwFCaN+6MmHP7qawZpv5epVl+edZbriJpg3foN/I=;
+        b=d5i9wTa2pd73lzJCYTvmxudRXVoO0YpwaRTMewSKfpTIEVQuAicOma2kChfa9yYGn+
+         L+wNVoxnIa4aGRq59oBsUT8fjgcKJVi+K6kSEoDKFqrvtlIjfykRMM06Gv1kX+oxC/mz
+         kDkzP7TSBCvLCls57jgJLXxMuHqMhUmKbcMu0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767625110; x=1768229910;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Bw6fgNtZmBe2W56ugS12P5lnC0TRTn4SZrhJOxug+wQ=;
-        b=urd1K7mRN9wNkv3qGACmWyW5r5ABXw+hzcTvKu6hvFRwUj3NI/xNCPe9NkASDecRwA
-         yRD8g6B+Olxp2mdv2PWYiL5m1PnJ8/jeyBuBxadjYVHAmCb/SixAErGh6ARbhqsnursE
-         DTMvKscy4jXxiHLZ7r6q9ik+x4uewb6mDldQ/zvEtuwrM4UKVvMKIJGjkf2iuEgx4ByF
-         PgSwrblsUi6YJFyc5KehgVRyYIi1QFOC3vGlvsT7MKMiZJcPbwNAZ6bFYVXPq2arqbZy
-         gZzZK7Z7ZdkfFEaRIJ9EqoNAoPgq7utT+3R4ivwro/s5iUL3hlw8f+mKp/rErO9KYBxY
-         iMnQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWOS8kZMEv5CjEP/I16EMkfRukBEFWUXtrEpXzmVk7OuFOr18NS8SQLh+tp/9yJyoMlVfXl5f2t8Gyeaw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw32SRhpdNNakKNnAr03nNrrRYXvZwkU4p7p+tv+kemppY4Siv2
-	2rBxFe2tWzSozACZczTDComcDAq29iR3mh1wAHMkHOvjXsIHbCi4QCeC
-X-Gm-Gg: AY/fxX6twS9OH/vbr96k6Sq8+lsG8fsJa/A9Sti1cZweMKfQmj1jA2WIXJJcHHIj8gR
-	eFL+RN0ogIHZWqd3exAkZiPlaVVWA3MVHqDsXLo7nSJdHYpXbYCahJx8pBS2O1IuJ2hAcmc0Dl5
-	pu8zqZII5uma536v9+m/Nu/ccnq+Mq1Auh7hPWrvGb7poNeADRCl+Zwl88+0cmkTGzZZKASfh8l
-	p727t3J+Q0aMLtOY40M3oRRHxFDrEbWX4D0JCY7rXaAvj1imC9raTIK7E4bIkA7Vf4IFEnFTCWO
-	M0C1Puawltm37yZ6A2CF56CvxnHNc/rbih+hvSKGElnMUrmNDtSL5hcVASqeXgYAKPlLQXxvtnX
-	y3mIAM/rm5nxpUy0JuDukBgFGZyRyaFpIOreiUPwM/3R+BIA5WiZcGI5Ruf9yyCdo+5dbQzjSEn
-	QK6z7sfDAodlE=
-X-Google-Smtp-Source: AGHT+IHd0J7CYDZvoLfOcn3yuW4Bcd7pC34RjnYz8x8yPWpwNDXN3La7THKi3GPsSVNRoAdXAZJ7RQ==
-X-Received: by 2002:a05:6a20:6a08:b0:342:1f0:9af3 with SMTP id adf61e73a8af0-376a81dcc3dmr42857702637.29.1767625109526;
-        Mon, 05 Jan 2026 06:58:29 -0800 (PST)
-Received: from karthik.. ([43.247.159.43])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e2b81484sm715955ad.78.2026.01.05.06.58.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jan 2026 06:58:29 -0800 (PST)
-From: Karthikey D Kadati <karthikey3608@gmail.com>
-To: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Karthikey D Kadati <karthikey3608@gmail.com>
-Subject: [PATCH v2 3/3] media: atomisp: propagate errors from ISP xnr and IRQ enable
-Date: Mon,  5 Jan 2026 20:27:24 +0530
-Message-ID: <20260105145724.37305-4-karthikey3608@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260105145724.37305-1-karthikey3608@gmail.com>
-References: <81e2d12c-342b-4b88-88a0-3e24115541aa@kernel.org>
- <20260105145724.37305-1-karthikey3608@gmail.com>
+        d=1e100.net; s=20230601; t=1767626978; x=1768231778;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wVFiwFCaN+6MmHP7qawZpv5epVl+edZbriJpg3foN/I=;
+        b=UGW6odd5orXZoXnJRJuCRBzY5cGBvH3SYaf1zQg69AAGTMhryJO71/DQBtzaUUc4Pm
+         eOrdvDV3r88g4AdrESt9gfsMW5dzfbSsmrFqSTLIsaNZiXGg9f2EZPOgZwrKiUAsdKgP
+         S/WY2x38WObO1+JKexbvn9zWaVN4IBlEJAOWrVaNhXi5MV0oMaIEKbp1mvVKZzS54DmR
+         xld0yWXkhRTFPb5Tz71wZJlJS/GBaV2ve6n9Zc/RXI2ZoTHe6XFkuLyXkxCBDYFmxLmT
+         ICcXGE0rcpy8/PY/0Tfh6aJVdZj35iRrPqjtOsAZO5V4k83bf8GGmgKGxEW6l8cxliAQ
+         Dwxg==
+X-Forwarded-Encrypted: i=1; AJvYcCXPzXjjrkP3Cc+emiZsvS78AYgTJ3aDRb/0uIryI3VfjokDqQAjZk6LESMjIo6BsCH4TNhoWaMWEu+6pQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLU2Oen8ZWKTvg3R0XnlS51GnmvSgM5zNs7piDU7NQlWusk4ec
+	aPEXjoFPnKFHcbircA59otmMAJ6NfGpOCDg4FJonrh90sRxXqrtiBpO2sUPTnLUfUaKt5c/gfKU
+	1F/2LIg==
+X-Gm-Gg: AY/fxX68VT3cAcW9Si+ZKIpb/iDsAn+i+YJd+3tEldYW4aYTdnB92tYcEB1LD1lI90x
+	mNnYT6btcNjblsU3/TVno4VZUikNPlPT0WUwx9Y+VnOcqTkuttR1vtoofE6tfWgqPmMXXWsrpKp
+	H7rTIPPSf5sna3BVr4CGvnw+v1MAT3WzYxa61rt5fPI34OesMYytnyPUZSDo6H8FVIQ7HD5WkHT
+	epXMsfJ5O7aV1MLho+qwOgZSktsv+2Uti5bd0mGord9S3ZTfEg4hhJhUSbBNL2MZTrCgmoXnX2h
+	1CcyPI3zYSxipyD+BiW73zi91PkNB8IhJoWLLSLR8OZzZNl93OJuPJoFQiq/Mwf1UgLv7dmXtow
+	iKR4m2w+96J9QkjcNGhuEL14Zd79zQS/ckbTqragLUwQru7Np+UVoDtvvdbPgn9b1QiLFbwPRfZ
+	ss7GySRYo//e/HNZkQfdCrdIC4CxD2FdLxXS936zX7MlhQBf4Ukgej
+X-Google-Smtp-Source: AGHT+IHpg4rhloOgvbhvc+/ItgiTwDWk//XlZyx8FOVueM+Zq7OR7UvAxOdrxodyI9J5UsVmT4Hitw==
+X-Received: by 2002:a2e:a587:0:b0:37e:69fb:cd5c with SMTP id 38308e7fff4ca-381216b5525mr128151741fa.44.1767626978000;
+        Mon, 05 Jan 2026 07:29:38 -0800 (PST)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com. [209.85.208.174])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3812269da5esm133626041fa.50.2026.01.05.07.29.36
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 Jan 2026 07:29:37 -0800 (PST)
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-37b9d8122fdso189201fa.3
+        for <linux-media@vger.kernel.org>; Mon, 05 Jan 2026 07:29:36 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUp5J0GhjcWFGeohi1Er21dm6J8TaPN+bI3y3g/QYrycnfs0UMCCwGHmOBj065vBQcsv24mmxvsjqI8yw==@vger.kernel.org
+X-Received: by 2002:a2e:a992:0:b0:382:aebc:1b82 with SMTP id
+ 38308e7fff4ca-382aebc1e8emr49592951fa.32.1767626976294; Mon, 05 Jan 2026
+ 07:29:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <aS8YBLEPwF0-NtJO@eldamar.lan> <ba9a132e-6296-451f-8351-4045c0b72d6c@ralfj.de>
+ <4rnbopkefvp6h3dwttj4h7cexehqtbuzzz4gatnebdnjzdy2li@bupytpnlk2xh>
+ <2ed13f74-8de3-4caf-8972-26dd5a31e9fc@ralfj.de> <uboug5ectzm4s32yfgopjbcxq2uhsoc4kluaby7a4b7nzfjave@boco7oocnftr>
+ <176458169204.346596.13968096833088921213.reportbug@r-ethtop>
+ <0490a39a-28d9-4925-a162-5e4d498be257@ralfj.de> <aVfPmZ8rUm3Vf7pT@eldamar.lan>
+ <58a7c628-63dc-48f7-8a46-357ca2d7d500@ralfj.de>
+In-Reply-To: <58a7c628-63dc-48f7-8a46-357ca2d7d500@ralfj.de>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Mon, 5 Jan 2026 16:29:24 +0100
+X-Gmail-Original-Message-ID: <CANiDSCtX-RJrmfiK_rOqi870CK06_ONvnsvqWRZczBXY38eg0w@mail.gmail.com>
+X-Gm-Features: AQt7F2qBQEC1VJODXlCb-m5Fcx4Bj5FjDghrxH2sodmPito6_a_megm_dzvXV14
+Message-ID: <CANiDSCtX-RJrmfiK_rOqi870CK06_ONvnsvqWRZczBXY38eg0w@mail.gmail.com>
+Subject: Re: Bug#1121718: linux-image-6.17.8+deb14-amd64: Logitech C920 HD Pro
+ Webcam shows flickering artifacts (sometimes)
+To: Ralf Jung <post@ralfj.de>
+Cc: Salvatore Bonaccorso <carnil@debian.org>, 1121718@bugs.debian.org, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+	linux-media@vger.kernel.org, regressions@lists.linux.dev, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Propagate the return value of atomisp_css_capture_enable_xnr() in
+Hi Ralf
 
-atomisp_xnr().
+Thanks for the bisect and the report.
 
-Also check the return value of atomisp_css_irq_enable() and log an
 
-error once using dev_err_once() to avoid flooding dmesg.
+The patch to remove noprod parameter has been queued for 6.20 :S so we
+should look into a more permanent fix soon.
 
-Signed-off-by: Karthikey D Kadati <karthikey3608@gmail.com>
----
- drivers/staging/media/atomisp/pci/atomisp_cmd.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+When you say zoom, do you mean the desktop version of zoom (
+https://zoom.us/download?os=linux ) or the web version
+I would assume that it is the zoom app, that is ignoring the "error"
+flag from the frames and showing them to the users. Can you confirm
+that? Hopefully we can reach zoom and they can fix it.
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 4ed6b8aea..da2481af2 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -874,7 +874,8 @@ void atomisp_assert_recovery_work(struct work_struct *work)
- 	if (!isp->asd.streaming)
- 		goto out_unlock;
- 
--	atomisp_css_irq_enable(isp, IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF, false);
-+	if (atomisp_css_irq_enable(isp, IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF, false))
-+		dev_err_once(isp->dev, "atomisp_css_irq_enable failed\n");
- 
- 	spin_lock_irqsave(&isp->lock, flags);
- 	isp->asd.streaming = false;
-@@ -925,8 +926,9 @@ void atomisp_assert_recovery_work(struct work_struct *work)
- 
- 	atomisp_csi2_configure(&isp->asd);
- 
--	atomisp_css_irq_enable(isp, IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF,
--			       atomisp_css_valid_sof(isp));
-+	if (atomisp_css_irq_enable(isp, IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF,
-+				   atomisp_css_valid_sof(isp)))
-+		dev_err_once(isp->dev, "atomisp_css_irq_enable failed\n");
- 
- 	if (atomisp_freq_scaling(isp, ATOMISP_DFS_MODE_AUTO, true) < 0)
- 		dev_dbg(isp->dev, "DFS auto failed while recovering!\n");
-@@ -1196,9 +1198,7 @@ int atomisp_xnr(struct atomisp_sub_device *asd, int flag,
- 		return 0;
- 	}
- 
--	atomisp_css_capture_enable_xnr(asd, !!*xnr_enable);
--
--	return 0;
-+	return atomisp_css_capture_enable_xnr(asd, !!*xnr_enable);
- }
- 
- /*
--- 
-2.43.0
 
+Now about the error flag. I have given a fast look at your usb trace
+and have only seen 4 frames with "error bits" [1]. Can you add more
+tracing?
+Do something like:
+rmmod uvcvideo
+modprobe uvcvideo trace=0xffffffff
+
+Then start zoom, trigger the error and share the content of your
+dmesg. It should contain an explanation of why the driver thinks that
+the frames are invalid.
+
+Thanks!
+
+[1] I used this filter in wireshark: usb.iso.data[1]!=0x0d &&
+usb.iso.data[1]!=0x0c && usb.iso.data[1]!=0x0f &&
+usb.iso.data[1]!=0x0e && usb.addr == "3.34.1"
 
