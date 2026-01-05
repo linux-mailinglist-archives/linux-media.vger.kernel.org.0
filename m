@@ -1,128 +1,147 @@
-Return-Path: <linux-media+bounces-49930-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49931-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87AF1CF47B2
-	for <lists+linux-media@lfdr.de>; Mon, 05 Jan 2026 16:46:10 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4273CF47BE
+	for <lists+linux-media@lfdr.de>; Mon, 05 Jan 2026 16:46:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 02BA6300A3DD
-	for <lists+linux-media@lfdr.de>; Mon,  5 Jan 2026 15:46:10 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 98E7430223E4
+	for <lists+linux-media@lfdr.de>; Mon,  5 Jan 2026 15:46:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00B05221DB6;
-	Mon,  5 Jan 2026 15:43:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 413A932E72A;
+	Mon,  5 Jan 2026 15:44:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ralfj.de header.i=@ralfj.de header.b="CjDgjmwJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K+oVeAmy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from r-passerv.ralfj.de (r-passerv.ralfj.de [109.230.236.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA762DEA78
-	for <linux-media@vger.kernel.org>; Mon,  5 Jan 2026 15:43:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.230.236.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D6C231C9F
+	for <linux-media@vger.kernel.org>; Mon,  5 Jan 2026 15:44:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767627823; cv=none; b=m2E9jbcYDKKgUy6E06nofOzOVKd1NtG2iPPoZkf/aMQ8/vKtoX/joY6ULVL5wOb5tNO4jo16vypSOPEKmkRCz0/QIV/wpZ/ln1Ve/FbHr+j9Je57vP+BjDo1hXutrUrkLHMEk3reMDRb27Ax8n6oa3mjYoG4VkpXgjoEGwe49zI=
+	t=1767627850; cv=none; b=ttUXmjI/K0au2tB0KglQE8jVKqmPYiifz9czXe201XpJ4mpI3wgsgaa9P4gA3dc+Va3AmGU4qFyyhufiamIR8dK45D8pAWt98FVXE5cUMTyBIxzIY9pqO2vYabibEmWZV5AJKRJFhZQB43xXzI3zpZR5fnN8PnFhMK9jK+onmBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767627823; c=relaxed/simple;
-	bh=aKTG7CDSCYFVA//Qy4W50BjRXCEdB/SIworKV5sfRQQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ozO5uE2XVsGKQdug0yVoG4ynnoU5lsfenYZOxZX4dPf0HgmUHvWNBWO+E+dO6k+EHhmKwDI5D6464ySAP7cQzfRSVJP8wFNg11QUvAYNZvDGjxE4TMashhbExBOY44T2YyKfJXOKI4YrlHLjf5QqGwZqEi8mKpFeZtPDY7zailE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ralfj.de; spf=pass smtp.mailfrom=ralfj.de; dkim=pass (1024-bit key) header.d=ralfj.de header.i=@ralfj.de header.b=CjDgjmwJ; arc=none smtp.client-ip=109.230.236.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ralfj.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ralfj.de
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ralfj.de; s=mail;
-	t=1767627813; bh=aKTG7CDSCYFVA//Qy4W50BjRXCEdB/SIworKV5sfRQQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=CjDgjmwJpvj3hU+TxroSGnFtY7bXM5OX5o/QngwHXLowaCBL4tKhhux1ZvRfJ6X/w
-	 Wn/BS9GTVdmweV8fMVf/MExkucxzo1j7GRGJjTSP7t0iY/DOFFCxIYIqt/zLMsoNXv
-	 G4eGOYAnkOadY2VF9kdeCr9IginIFN7RbfqOS714=
-Received: from [IPV6:2001:67c:10ec:5784:8000::143] (2001-67c-10ec-5784-8000--143.net6.ethz.ch [IPv6:2001:67c:10ec:5784:8000::143])
-	by r-passerv.ralfj.de (Postfix) with ESMTPSA id 5CD702053392;
-	Mon,  5 Jan 2026 16:43:33 +0100 (CET)
-Message-ID: <70471ef9-9faf-4303-b983-63234ea469b7@ralfj.de>
-Date: Mon, 5 Jan 2026 16:43:26 +0100
+	s=arc-20240116; t=1767627850; c=relaxed/simple;
+	bh=KiNxep5hkYX8mBtTbqMNksK7S57ebqc/+kkLTcHNE4k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tyLcRSb0q5kleDSwDj5LfFZID1cSNLjvEBq6ewzwRergrdgxJ8TeBjSc4c26lm9jXVUOxtMWyYoByPLBo/e9aKlPmFDhgLDU/j94JpRjf5JD9wPgPrco5tYDFXBnbADBujVJ4Orw07WiketHYWLSEcXPMm5QM4CchFS6CnDRUYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K+oVeAmy; arc=none smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-790948758c1so1048397b3.1
+        for <linux-media@vger.kernel.org>; Mon, 05 Jan 2026 07:44:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767627848; x=1768232648; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wYkOfrIXwEeEFPSymxR3igzs8AcT4FFM6Z9IKdtfy90=;
+        b=K+oVeAmyEIii94itEfFsZ/vynH7usZ5Xqi9M9EjHJvCCTHQbDjN6C3zziwWrJD8NH1
+         JxYUz9uuHNi0S9le0OSWfOCMLX9ySLpaay0oQK1elBPH3rWXt0Q+9Ldzq/9P3XK3G8Qo
+         Ng6dbg41sxvYGLR+dgFhrQkHXbrxREAjLywobWuOSXIRfWACD7wod0NKUYOpO2GuT68+
+         7BgtRugchK1vwNYagSakPWiTqn4vjfkVfohLFp4ZwClWp6QiQDa/liBKKGpPoF0wdVyt
+         PUDOTHLHqD6wV3PDfRh1shkRXbdU1ad/4X9BaFrO7CNx7NWksTtSQeyimkgwFHQCLxuE
+         vj0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767627848; x=1768232648;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=wYkOfrIXwEeEFPSymxR3igzs8AcT4FFM6Z9IKdtfy90=;
+        b=Ebt3STLfuAp42Q6JC3wqQoS0V9y7z3U7FCxe4+TG6QwNoyatgBfAXk+axwkY1JAPBQ
+         0wDTAi/1BbYCXL+83pmd7FSl2VfcmPwVD7MMGzGTbPyFE5XkBoeveqZqwx8+e2QByNI5
+         3bBSN85mFPvtU8+MaH4K8ieKZg15tAYzIVLGUbK7uNqSrz22SjlQCvkLhkVeXEy6go4D
+         DVFMYauxBNxh4YFUOUu3YDl7L9Pnj6lB/3fgkMitGom+6mWlMkywndGsPxaorR4JpRU/
+         LUr0NfcOfFzwyDaJtOYEh5Se104CGdQwEebaacWVLf4fjtxKylmT0ixz69oMLCMz83CV
+         W/5w==
+X-Forwarded-Encrypted: i=1; AJvYcCU7nqgIKWjso/Xg9vN4nMu64hzFcde677hJyHzjtIPTFbN/lBVmgTRd+uh9ydwDiTGaV96dUG8INZIUFw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YydAOz/W4l43ZDPKm3pNuOfJsEswL5kS7iSPW+zViHT9YaFlB/j
+	sqA7fCYQrtwQ4DhbtAggQdTM1sfis/ZVWzz6SmRnJOKsfnFJEXqHB7jHx9cDnzDQTZdlTgp+vYf
+	wM95mRZRw0f9MpYfexDEypUvQEIQIQt0=
+X-Gm-Gg: AY/fxX6zcOoQYNMRV+QzsqOJegZ2BVpdxiMcCCeNGWWq6IhXCR6lY5rU7d9MylhLihK
+	K0ZqzN6Du3IRuf06sEBtPK9egvzxUS/9BhLfGkvTLHJDdpGlXQlyb9U9Y6/eS26YF37OYfdMIB+
+	hhPb2V+gds/AbS7GnuAqjXmxAUI+Gwo97dFd9/0IYeQaXjwQnYOlbL5EpavfiXvzzL/8iaV98Jp
+	tKk5sW36dguYe5m6cfMkDWwoZP/F0pgGvNvSkMztuaAa1aIbFOyUOLRGpA5XwDJy5K0BNFaFoeR
+X-Google-Smtp-Source: AGHT+IENHVUmB19L8XKrR9F3h/bUcv670rXLNPc8TlmGC/MryKRU0KhX2UylF41J4XgVldLhv8H5dvEksf5MSA62IC0=
+X-Received: by 2002:a05:690e:1901:b0:644:79fb:7dbb with SMTP id
+ 956f58d0204a3-6466a87edffmr38658466d50.6.1767627847953; Mon, 05 Jan 2026
+ 07:44:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Bug#1121718: linux-image-6.17.8+deb14-amd64: Logitech C920 HD Pro
- Webcam shows flickering artifacts (sometimes)
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Salvatore Bonaccorso <carnil@debian.org>, 1121718@bugs.debian.org,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- linux-media@vger.kernel.org, regressions@lists.linux.dev,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Hans de Goede
- <hansg@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <aS8YBLEPwF0-NtJO@eldamar.lan>
- <ba9a132e-6296-451f-8351-4045c0b72d6c@ralfj.de>
- <4rnbopkefvp6h3dwttj4h7cexehqtbuzzz4gatnebdnjzdy2li@bupytpnlk2xh>
- <2ed13f74-8de3-4caf-8972-26dd5a31e9fc@ralfj.de>
- <uboug5ectzm4s32yfgopjbcxq2uhsoc4kluaby7a4b7nzfjave@boco7oocnftr>
- <176458169204.346596.13968096833088921213.reportbug@r-ethtop>
- <0490a39a-28d9-4925-a162-5e4d498be257@ralfj.de>
- <aVfPmZ8rUm3Vf7pT@eldamar.lan>
- <58a7c628-63dc-48f7-8a46-357ca2d7d500@ralfj.de>
- <CANiDSCtX-RJrmfiK_rOqi870CK06_ONvnsvqWRZczBXY38eg0w@mail.gmail.com>
-From: Ralf Jung <post@ralfj.de>
-Content-Language: en-US, de-DE
-In-Reply-To: <CANiDSCtX-RJrmfiK_rOqi870CK06_ONvnsvqWRZczBXY38eg0w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20251229070125.98741-1-sun.jian.kdev@gmail.com>
+ <20260102114501.42312-1-sun.jian.kdev@gmail.com> <DFE83EE9TFJ8.FZBQIKRUYFS5@bootlin.com>
+In-Reply-To: <DFE83EE9TFJ8.FZBQIKRUYFS5@bootlin.com>
+From: sun jian <sun.jian.kdev@gmail.com>
+Date: Mon, 5 Jan 2026 23:43:56 +0800
+X-Gm-Features: AQt7F2oqegGb5yKIGMER6lWYmnSkEDaT2O4LmiDNPF01eLd1hF7mOVwPxQMX72g
+Message-ID: <CABFUUZGXjQttwmVfXSYiiswju4TomsDLS2S5_xv_ukMMJxh69Q@mail.gmail.com>
+Subject: Re: [PATCH v3 0/2] staging: media: tegra-video: move shared SoC
+ declarations to headers
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Sowjanya Komatineni <skomatineni@nvidia.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
+	linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Ricardo,
+Hi all,
 
-> Thanks for the bisect and the report.
+Sorry =E2=80=94 I mistakenly replied only to Luca off-thread earlier.
+Re-sending the same note here via reply-to-all so everyone in the
+thread has the context.
 
-Thanks for taking a look. :)
+v3 was sent only to silence the Media CI checkpatch warning about >75
+columns in the commit message. I agree that for an exact sparse
+error/warning line, keeping it unwrapped makes more sense.
 
-> The patch to remove noprod parameter has been queued for 6.20 :S so we
-> should look into a more permanent fix soon.
+So: v2 keeps the original single-line SPARSE message, while v3 only
+wraps that line. There are no code changes between v2 and v3.
 
-Ah, the days of my work-around are counted then -- good to know.
+I=E2=80=99ll defer to the maintainer who picks up the series =E2=80=94 if y=
+ou prefer
+one over the other (v2 vs v3) I can follow that convention for the
+next revision.
 
-> When you say zoom, do you mean the desktop version of zoom (
-> https://zoom.us/download?os=linux ) or the web version
-> I would assume that it is the zoom app, that is ignoring the "error"
-> flag from the frames and showing them to the users. Can you confirm
-> that? Hopefully we can reach zoom and they can fix it.
+Luca, sorry for the extra mail =E2=80=94 posting this publicly to keep the
+discussion in one place.
 
-Yes, I mean the Zoom app (specifically, the flatpak version: 
-https://flathub.org/en/apps/us.zoom.Zoom). I have no idea how the protocol stack 
-works here (how frames go from the camera to zoom and which layer is responsible 
-to do what along the way); while I am a developer, I am entirely a user when it 
-comes to webcam things. :D
+Thanks,
+Sun Jian
 
-I have not seen the error occur in Firefox -- but I am also not sure if Firefox 
-ever puts the camera into the other "mode" the way Zoom does (when someone joins 
-the call, the field of view of the camera slightly increases, so there are now 
-things visible on the side of the frame that were previously cut off -- and then 
-a few seconds later, the artifacts start to appear).
-
-I will try the tracing flags you mention later when I have access to the camera 
-again.
-
-Kind regards,
-Ralf
-
-> 
-> 
-> Now about the error flag. I have given a fast look at your usb trace
-> and have only seen 4 frames with "error bits" [1]. Can you add more
-> tracing?
-> Do something like:
-> rmmod uvcvideo
-> modprobe uvcvideo trace=0xffffffff
-> 
-> Then start zoom, trigger the error and share the content of your
-> dmesg. It should contain an explanation of why the driver thinks that
-> the frames are invalid.
-> 
-> Thanks!
-> 
-> [1] I used this filter in wireshark: usb.iso.data[1]!=0x0d &&
-> usb.iso.data[1]!=0x0c && usb.iso.data[1]!=0x0f &&
-> usb.iso.data[1]!=0x0e && usb.addr == "3.34.1"
-
+On Fri, Jan 2, 2026 at 11:53=E2=80=AFPM Luca Ceresoli <luca.ceresoli@bootli=
+n.com> wrote:
+>
+> On Fri Jan 2, 2026 at 12:44 PM CET, Sun Jian wrote:
+> > This series cleans up tegra-video SoC data declarations shared across
+> > translation units by moving them to the corresponding headers, avoiding
+> > local extern declarations in .c files.
+> >
+> > No functional change intended.
+> >
+> > ---
+> > Changes in v3:
+> >   - Wrap the SPARSE warning in patch 1 commit message to <=3D 75 column=
+s.
+>
+> My understanding and my knowledge of the common practice is that you
+> shouldn't wrap lines if they are quoting a single path, log message, erro=
+r
+> message and the like.
+>
+> So I think v2 should be applied, not v3. But I'll leave the decision to
+> maintainers applying the patches.
+>
+> Luca
+>
+> --
+> Luca Ceresoli, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
