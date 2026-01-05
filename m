@@ -1,186 +1,257 @@
-Return-Path: <linux-media+bounces-49894-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49895-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01475CF2D91
-	for <lists+linux-media@lfdr.de>; Mon, 05 Jan 2026 10:52:20 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5953CF2E09
+	for <lists+linux-media@lfdr.de>; Mon, 05 Jan 2026 10:58:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 02BB13008F52
-	for <lists+linux-media@lfdr.de>; Mon,  5 Jan 2026 09:51:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C52B4307CA6E
+	for <lists+linux-media@lfdr.de>; Mon,  5 Jan 2026 09:52:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DA592BE62E;
-	Mon,  5 Jan 2026 09:42:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE12730F52C;
+	Mon,  5 Jan 2026 09:52:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="ZFlJOfp/"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="gGHdH/6O";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="K46E8ve4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.15.4])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3D862E6CC7;
-	Mon,  5 Jan 2026 09:42:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 653232F25E1
+	for <linux-media@vger.kernel.org>; Mon,  5 Jan 2026 09:52:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767606167; cv=none; b=HdMYFtYbQ9Uws+VmDq6/XxLEmFpbgvEmgJnEZtlUIPFL9YhaVqO6uGr9hsQ9aw8528DgJTyaq9GFkARngVb0EjXSUZje13rSw8/8kq8NcH7MDldg5JZQq5Y7pXBshWKUlTBeq7A8jg8tYonTLiFcUZzMbg4J6fXLvn6RjIbJ7lY=
+	t=1767606729; cv=none; b=MVglLsY4F39QTtVjdjZYxiOVdQOCk4j1S/7C42+xcdnRTPMsg1BCSx7rMErD+XbNfZehfemnVg5efm4O9Mi2vwXnj1VGq6jg2NETE/YXFsweuUHIKLm4jGrHu80Ih09DjK7CbrakXJvL7sCSphRsWkrZYsrU6/e+Ch9RWxWWjm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767606167; c=relaxed/simple;
-	bh=w/CAFBpyvbmqbTn79K86CjA2kpdqkRDtQMOZd7qaevo=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=Ml+mYdtc2bpo6BUgGJWeOl+pKstmPb+iiRuH6UN54Vlv3UI3M0XHVenDR2md3nnXIK7bzCZQrsCVG/NJUQhg3zgZpXzKX3TQ5mDJsDD180hgF/dItHI5ku0c0cZm4F2xbWnNwR3jq3CkC61rQxOwB8KQ6AeOVGC6IiTcErtO2n4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=ZFlJOfp/; arc=none smtp.client-ip=212.227.15.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1767606142; x=1768210942; i=markus.elfring@web.de;
-	bh=WWiA4vf+jEoOfa8h0KtLn83SGsy8urJIcVZJJ2S7zsc=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=ZFlJOfp/KFcmEqhibLNLoGdi4CW8HoaCJDtBmSEPu8/OP9PFQwgkIMZvayFP7RrI
-	 Vn5AYS9St204jk88IqVw0gxIlZ2BDB0PpzCZZpzMGQXiO7UeLK7Rz9SoxLfJa9MzP
-	 LI3CTXxniuoGRpLXcZgPuLOCrQ6rreFt3pChnMC+0Jk536Zkggfxn0+HT+UPT/hxI
-	 +uSB5ETGNfyLWJeMKF0u2hTxqQzSNxDqWfkf1kWbwRrMxNvkBlOLD9TCIpd3bnGLs
-	 6YMLr0Jxg4h1XwVp4SGse7OlhjhDAi10POp2kF7OdZ69WSXTylBx9OkFfW9cvIDGQ
-	 Qd5JsHtyftauwMNYug==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.69.232]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MODiX-1vEJWR0RrN-00RRS1; Mon, 05
- Jan 2026 10:42:22 +0100
-Message-ID: <2738ac2f-a8b4-4d39-8bda-dab9927828c4@web.de>
-Date: Mon, 5 Jan 2026 10:42:20 +0100
+	s=arc-20240116; t=1767606729; c=relaxed/simple;
+	bh=PY/vWrwkmC3rE8an8wbxBfu+JdIgIZc28Y/3rJMRg10=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Quddgun+RQ1IIPoO2X7fu5bSax/dy9HSxPU2dG4VH3wW0+cYelesgx6m1Srt9t32epzsPRsqhzfrtTL6h+5CfdFTZMpc40+McJnuvW754yfXfwOD4xP/XOdGeYRfg+ppM3hPT0Wc0pcW8ZsnyOQNag19x/74fkfs6N3RwmTJ7wE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=gGHdH/6O; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=K46E8ve4; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6058UTLv1207936
+	for <linux-media@vger.kernel.org>; Mon, 5 Jan 2026 09:52:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	ZFj/d3x1hw4BjQeGbLCpbgmb7YLWZWo6j8+s+Btri9M=; b=gGHdH/6O/7EfnN4H
+	Dhh4cPXdMFa6tc3Kr/FiQ4NwvlUQ0DiLR7NhnUiE0DqPAqlQ+EQwGy8tu1THiVq0
+	0BI4VhenJZn8+rUEuY2SVtxMYsCwOCeWMF5w/v1W2H1pOrqmYbqKkRbd5qaSH904
+	gm4odX6aE2LSMerWByJjVLvAIF5GjtTbMWxpgDh1uEjAXakb3jweqm2py8xSw2CC
+	D509SCJ3QmPec3eWVNBKs6UEovRFVveWEfTunVTChSq0bUtp+UjrnIDA+8nyrOcp
+	ygqD0y1Hn5MC8zRD0dVUWgf207BxYbJk+XEKQ27lGjvTWysF1P9WTINaRniDlRwJ
+	R3OGQw==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bev9hc0ff-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Mon, 05 Jan 2026 09:52:05 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2a0b7eb0a56so337074285ad.1
+        for <linux-media@vger.kernel.org>; Mon, 05 Jan 2026 01:52:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1767606725; x=1768211525; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZFj/d3x1hw4BjQeGbLCpbgmb7YLWZWo6j8+s+Btri9M=;
+        b=K46E8ve40AMnWBlbsyB8gKO5hEKUmPGwqRBJ1LQ5w175Gh237MxexsbsmgQOjznBmr
+         +bon8odxBRCI/AHPMY9LVJ7QPDxKNDN4rjRbHMrpKoq23P4N6hQQp6EoyoPr3lXEdphb
+         AmdLi3mrIqWupItIH5X3a3h3XiUjOW4b8++rSjnTI0rcG77rB2nsjvieaVYsB5UAYhu0
+         NI3YCGmTDNfxExU4fPiz2+3Nj7fT+tORoawyqga+XxCLxRv7ZWg/ASgbo9k/wjcfLVVF
+         rrN98VGqrC0LoJtfK2oxGWYTwkxEETXOIre+GTtHwEiMq3lIZBwX6T2k65qbpek+yhgl
+         lJig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767606725; x=1768211525;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZFj/d3x1hw4BjQeGbLCpbgmb7YLWZWo6j8+s+Btri9M=;
+        b=sV/sXIWUaI+UOzQN2gDyMyso0SIyoa3Vps4FadNGuI5ISOKog9I465JKKZwmGU0ttL
+         1tUXWTqykPwkujppjAUnjlvvTTCp/YVA2igONin+6uC42qtPwXynts3jy9GF6EHh4hwZ
+         7n+2jwEEow3mgg3qJPwJApwZet330xAu8+CGwdUhA05QoaAeJdKkXp1EB0X4wRa3Y9H/
+         xzIYmNkly9Pbk0biUFC2xznyCqj2oYB6p5zsVv3Sr4N+re4HP2Vl4CkRZk8tsIC/djKw
+         9VNkC20mu/OafIi275n1h0gnS4CzMp81mcaXDrZlbBo8BUJ9BvdPY6Qq9b1UeP3F5UXp
+         qLSQ==
+X-Gm-Message-State: AOJu0YyNppZonjhzRARFLBj7bjLoLr9nGlzN9GAp+9bAbohK5m/El42i
+	R5V57BT+LySblwQgfYHhPZlRlCXO7sEY3RDooxWlZF+vyXhYNa0dSCo+CSPoxdK8CiWhkFZG/9t
+	KC92Y5D8RJK0xGzsSVbyLmLILlDUYLhalXCMKGy/cuu3pMbK8wRuK21t0TtIzQy+adw==
+X-Gm-Gg: AY/fxX45mj+VFETM/WipH2k3U7efQeIfVX5BPtFVyLYwDI4ZyYs4Q4VpRdf/mdi5Y7d
+	i8rNYI6Ns+2uRjXdNADAdp6om2KhnGmnHN2qaBwrPxxaY64TJbDaoi4BQeFWKfAxVw61qpzilkn
+	2iFFfrTNgcXzmw1rPfNMcJVMFN/cUKF9Yukkzexj9Fz7aBJli0/nfCbSudSz77mFJOwswnMI+h9
+	ofgsMP/gpCyAmGUNXZknOQu3T6jfJm49ULQJYoMhTVlNlJv3x+mYEkctOSmUIC7wKNj18V1O13g
+	Ql6Xmdq3DyZsXnqvcqshe5NphfKuaI8l/yhFEP4dWYZ5zaGT36RwWKupaV01ITCNahPFGdew3AS
+	zcWEkxEu53GoIxeHlC/YuppJ6/nfUOnlAsXzLiWpwGfH1
+X-Received: by 2002:a17:902:d584:b0:29e:9c82:a91e with SMTP id d9443c01a7336-2a2f21fc506mr527919295ad.7.1767606724651;
+        Mon, 05 Jan 2026 01:52:04 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHQjZNT26R3hug1VetovPBZshR48geoV8oj08OmGFIuvl1nrIlFHq0cRbx3/mJ/zcumVZnUAA==
+X-Received: by 2002:a17:902:d584:b0:29e:9c82:a91e with SMTP id d9443c01a7336-2a2f21fc506mr527919105ad.7.1767606724130;
+        Mon, 05 Jan 2026 01:52:04 -0800 (PST)
+Received: from [10.206.109.90] ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3c8286esm448829815ad.33.2026.01.05.01.52.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 Jan 2026 01:52:03 -0800 (PST)
+Message-ID: <a899436d-d14e-bd16-7727-e342fcd02de6@oss.qualcomm.com>
+Date: Mon, 5 Jan 2026 15:21:58 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Chen Changcheng <chenchangcheng@kylinos.cn>, linux-media@vger.kernel.org,
- Hans de Goede <hansg@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>
-References: <20260105005617.37511-1-chenchangcheng@kylinos.cn>
-Subject: Re: [PATCH v2] media: uvcvideo: Use scope-based cleanup helper
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20260105005617.37511-1-chenchangcheng@kylinos.cn>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2 4/6] Revert "media: iris: Add sanity check for stop
+ streaming"
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@kernel.org>,
+        Stefan Schmidt <stefan.schmidt@linaro.org>,
+        Hans Verkuil <hverkuil+cisco@kernel.org>,
+        Wangao Wang <wangao.wang@oss.qualcomm.com>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20251229-iris-fixes-v2-0-6dce2063d782@oss.qualcomm.com>
+ <20251229-iris-fixes-v2-4-6dce2063d782@oss.qualcomm.com>
+ <859778df-4f46-4a32-93ff-dcdae7dacb0f@linaro.org>
+Content-Language: en-US
+From: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+In-Reply-To: <859778df-4f46-4a32-93ff-dcdae7dacb0f@linaro.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:u0zP2msgINvXUIg2+DwRQyKf30W8tPyh/WcJz8uyR3cJWR+kYM5
- yZvBkH/8oVmUZoa/v0DP6twKUMCXkdHijI7wMKQOGp2WsrPdum17k0RCKUDJx38Z540WZND
- ghgWuHyKKMTWsVo4lL/comgW8IQyQfsud7RvMQ5dyM5x7TxcLYcMuIxvlJ9YpeHZCcmd1dh
- ENhbJcraZQ4i3g6jBTt8w==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:bU7uN2rDum0=;2MX+e8J8e+tJ8uwDoYmakgBbP5o
- siU8PCbhhYH3cU1JVy1qnwLTT1zftC33e4iR6ZfJWAXdCuCiHW0ec40Lcj+HqNxXap2k8Vs+K
- LQ0BOlpNF1OAR7YYPYi6zhhk3q5qvySE4iZdErIsJny/zvVwqPWDaKFGX/r9trrgvs4YFl5iw
- 3yVeclUpuAUL1Lyxp6PXpqPcJjh197dpOpkqDvOSQRlbBUJ//m6qh9z/FVpNy5+hiEvHDX/aa
- TbVe9/U/2IR973r0d4pp9znS+wpk6QZ5whxwuuwzLr16MWn6rIfWHscRHRFBiQaMQ73irU7AC
- RNRjBChFqTr0Xcyqli+2psO4R7Ohd+5+PFJzCfBAx6Xt0ZZ/T5Ca8t00MI8o5722gh8402zqw
- +Jo7TC0ac3EKCzdAk9nMpPCU1i93YmSX1lhIuf+CSkMMbTLYi0rljymrD9rn1UelODME2xg3H
- qrYUUota1E7l2QXVYtiksHDE37jck5WLI/DGlmifUn28u9Hy5PooBIqCU4FH8ziHYWZ16P+Zn
- OFIbql9ktW9cUEvi6jghhWSsRbmb15rYQv88Gyfm1bdY8guMsZCiyoeJdWJQIxWVYUr0UHKNI
- rXEU4VfxDZD3iekU+qNjfKvu5l6fiAkDVR1YKrMshADvFPSknuUfK9jlIWpKJc7qDuhxf4r/t
- 03ZixWPwayR3CUS8NCZV6e/53y3o3vgDxgD9ty1AcyoI4M7QKkSxvjwfd6Z4l2mUu1m9cI9CC
- mxrDMjFCkUTD9VRkgcCDNo5wP34TjPtqpTe8WygI5e/IdxEmNgoZA15aTe6K23CcFfK86pyX+
- iqTP4/PPwg0ceJ/D6UfdXADjEEmWQIlfJJLi/sUAuBzX2XDa69Ht1SgtlSKDpAKHA4yxhpPyL
- fgDFMGx5YGEY6/jUohYJViGOjkdm1honBT6Fb+ThhFRq0wLQ6rMEbQpFUb1ePiP+KSuFfnCX6
- Uhzmo4cN27lF15V1iqu4BP222YUZi+qrlfq/Ltsb2nYl0e9EyVL+MGYzJ9/DlIcR/1mhmPitk
- Sxa/3N2ZC/cWOY+5FxfL5Oh3so07EjbvRTHTAYh1q060eIbiohW4HWumWil0XjjR54xXb+U4e
- p+8e3laQZYTT7v43K2wwRFVDi650iVLGZeKXca9nJJHB70oQeWrw865fzpdDEFZbtruf+59QZ
- 2yC0HF3a+S7XmixWcIYE6K027WOEF4ohfSEFtqkK7+8aBjTHVdY0hF3bfKPg5LeWSa44jAZXa
- 2XHoGLcFduFKazdffDuEhxpz2lyVN9K2zDPtv8jJ2QYYwlT3jnyZ/s9ur4KbE5qJzDCzBrwCx
- yX71xVTkLScdo8lvyZNRT22Vp3urHO7482wbrgSSHLcbumKtTH0VjPedIfKz4HG56Uf/+/OWm
- OztHhBxReypP84UH6j7GPLpu+dv/qtLn5XbjA4f3yHCp4cjncqL0bKD2fkX71UGan1i+KP6Ea
- FT/nqDDWtkXtgx5XJp2RWbwGE0OQoO2QsyZ6gRJREUu4JrxRleVrsygbFnCWC3ZZgZKghA7Jd
- 7Oz/UqLKQSoxZwAqft1rDZcCMCTUcAj/AsCPJ6XEoaxqkMk3qDUvj14mCQfSlHokSCLQMlprl
- hw7PaU8DV3r7PKEBsKF3ToGdPUf63sH0glaV+kQPpmG5qomfxXwsWCFbV5N4kyfcocdrm/EFL
- 4jEL5NVgmqALUXxNiEJc/ITnAxsUCmkJzJBOPn8NufXNsL5JNikNismxYQtLM/4+Jwke1ciBf
- ffc2YimZbL15p3OK4MTT3plaK11TGG8ACab4BU3MM+rDhhWS9HZEkIsUQryKQ3qIMQBYYuxFd
- blcRfWCGbu9rTsWrGT56qu8OYG5boT7CHpMrIEDy1HoxYrvhvkV6LNuAgLC1VLj9Pq3nMoa6J
- BImAtJBIa4Z5cPJTJQgIn0oeRfU6dk03BTvWa55gDZ7OrS2Utp92jgrhvE99xt+n1lRT8jGY+
- QxAYbELw9xMP4rDsC7HVsd4RHmpsaOlvjXGLuEYyjgArQkXvrUfU8p1V/CjFd6LLur4zJ6Ho7
- oH5YQ5xUXhPqeA89L3sLVUGz1Mc70VHr2LIZ1J0xuAmSMAtysnf8IdMkorp4aqFU6gXec8cqQ
- ih0XFXmMhrCS1/L03cRx/LqF0U7txIIEwnq4YopERaAb75F++hTrINeSdmE1LXW3dauIwii6f
- 6Fytv6lOfuqozUdIFb/zyu6ebPN9eh8lBG67P+hPlQo3uqRujHzfP+3InuyOQfxy549zDW7mG
- a+NRFRzlqvVLAKjb1280jzzurqScMGK4wPBPke4hS8Ks25v4GAh4wk4/IYgPFfCDIbsR565vV
- Zuk+ZvZyhp9l8v4houQEIEQHSFKHEuAZYUPzpKSY7tPJFny7NHaa5Xcd83HXshKmFxCYuUQyf
- xTCAjF4Y3uLB2AruyRFVImZ81jtin0I1TOK4dJ1ZIS4kDo6vMbTZnzNzBmPoi+sU4Vmfu+96L
- u6vQl7u960rPoDM/6LJw470iD4YDX/adpsjP64V6gf5c4afbQDGSshwtEUjxrYQ/JEbcqglIg
- gHDrAN5k9bnCEPwg/CA1FV1iEwjPmV7cfZm3TEpm7t0ch91W8mT5A/ojp5z+ZHdZ9cNx63eht
- qu4sKb4j5D5trpVZecsJLJh6Uy0DRhmkHZ7tggu3RPIu3TqHbfYZp/Aru81erVrjQNYE7sax3
- 2OgAJibcQILI04/PmiWAFzI4llUcFKmAyCGXHu+03DRhMEDWSUPMttzx3rXK8PtR+06HWweFy
- O9L6bFuxbsyiI6+qvR8R9dXGcA6mZX+lryr2bA0zw86/7vunbqAYa4MUpkuIX/vjrdO2WAD6b
- SwAq0WomFU4yKhbfw4a5I2ovf2hDvI0FJ7l6vLRtjVBmKnLJh9Gr7WZ1T762l8KrHxA4k/Mpt
- qdnbJKZaWllxHB5H3yrJjh+YsGyG/OjX1mJlc2SBewqWcdCQTCTUPPCLdi2xDQSzdnWbs2TM4
- Jh3QSwLSecTKZ8j9eGYw8Jrk/EhYhabswmDQlGHa7Qh64oGrzX1FBAqpJABhZSCVSsRMI5dlo
- IEt5nuP6vxh3/ox/5LERzR5LXNsDtwOUl6jnd9khvM5IxorWZU94umMQ6EE6rzFDaAQmaZLU2
- dGlHaUATwq60Q717VbKMBw9q2jFSFD+5/WQp1f9CFNRgCd2iNC0wM8bd0gUUvR6io1zo3vQmC
- QpLqYsFRl3b/zluwWbP0fuYj0cHHfkezWJ+qUkxIkXvuSq0L3azuMCN5U6KFd7fulLz+4NtC+
- LJARsFOVuRle7wfUpuOU48qxziyRlXkCUdZtzopa3r+vpllNX5uHiSf9hWWE/Tbmer0wL/RGl
- xRqUah7RUEb+G1rprsBQdmktFBNlaZipp3EzLQJHwG3RiuhWcftrxm5bXm4V01QqzKrvgNKi2
- wVPAs6Wju8Q2pxWhL92n7CAyOwuV5yqm2aLnzr+DWDQHCXhHkMJlT+k/z13yNWXweQqjIUxlY
- /cK4C7L9yE5SRz98weyA3M8WBmwmTcsacXmuQwf2T3ebVuX4SeZlL47HzMYU853lk4e0rWIn7
- q6BMoJgWpJsRz9XA6+tOxzywTGw3MxIdToR3/CUEqDh2GibmSawO6W2aQaNuIKsYs1n8TfjZ1
- aR3sRLl4/OPmPFVhJfGdm55+NKr8SREQTmYf6yoNi2rPeXJLW7n4Zohrr+AD4kAzt3wQU6njZ
- KgyzSonZfIm56He+PGQRGIshA2SPkkZMsykZbrFF6Mx5puIdcq80i3P76JGEOWX9R8MZ6ZcEP
- QXhSO0L+p1N/ET4YFUaUTspOL54BUWmyQ4ZgKk38diiVi2tW8rXsGyhN4GL/j5x/XU/GEm80K
- 1e7nJt1TioglsewDXdU7gnMLV7OlPbF+4t649/soNJ/gTSL/hhq5XpHkSfTfYgE2ZIK57BB39
- jQrOJ6K4Z57Z6iwAP1YfJZ6CiHKf9SOrrkmNSCc1lDvzvRAVNq7CU4jl9QMHgRc5XH7wLcEI0
- CyFbIcv0dOK2u/psIAv6wm4l4+VbsiK7qlXEtT8h88uG6qI8DF9N/BlGaLgA4B+WXqaMY0Md6
- IVFz09YgxIN9re7ngaoAgpLcv/QmaqF0J8YeaeOxkuZcf+WvFBCgLVQyGpX0WjPSBuPLA8s9V
- Rr7vh6AR1wDVR7cRD6LnZHkur/L+MB39jMzKWrGbFRkbp5OvR8dznHgBq3sc7S0Qe0FDQ3VKx
- e2JyT9P7qJNSqkQ+SoQvsZqIaF+b6DIJFRjQ4MCUOZ/7ww+kfAsYSpPSIiO5J2xQeV9JA1svr
- 9O9eM6PfpdburzbeAHz9UxCvDuCDeQlHwjdS+0K+xqvaxxr0s6832TeWzJv8YHgxY7ghgElFE
- xcQZTmLe+8nh/Ku8vI/nVhmtxCGf+dehmkSPBXX5PlG415+bZFGkQ0usSyqcRBYbWGAmKPvTG
- qjbTvW82vwPs1r5g1PcQxUDFgeQyJmaVLgTBL9BUKpePeiVFY+5EqfMqzyNKOIV3fjRIM2x8c
- qXNtbzxQJBpkgMAlwhCnVgzE25ZuYb//vLPGpgZ3BY/t8k8wuz9VeEYB43VN16TABLfbWZbHW
- CE+4xStPYARz3Y6i2eaLwgiiBeSk8DKgWnL2toNQHgqVzDmERiX8pL1K1yv84OM/yY/SLOcwv
- HdtOniqcdXYg/NDBkr0s+32URsRX1CwdmiDY2RK3+jhMhYhSC6b1f+pHmOAA7Hw+8Tp1mvkeK
- ID4v7LFVmAW/c8NhhHMkujj45J9X5m/EY1BHZHY9Mz0UFVr3vLzkw/D5gT9OpdMj0vZ+7lkFv
- LG785wXSYaRl74jlcnvhz54YnX/AxwK/xpS+/7slXYS5i4EiSNt9OD6f7EAazSJoANdxWyGfh
- uIvHOsBLf7kIlC/Z8SGIbCz8NhZEG8cRUnI21sKPd7LUTSXPeXAVDh2FFovBhBpX2ylauBB1P
- F4HLIJhN2UCHtXMbY+xK1DsBckZ4nprMz3CyBAMnRBTqIUArSPeT9fXsPraWVUyYMQyTkhIhN
- BNIhs28fOUwJzfCrE7hU0sLZsNFxwSKjD/HMPUxlmYi0Ldyqz0EcWoLEgGHRn6dDEW4w6tisC
- vf6nOvtu3xwCdC1oEZa6ZqaNtjf5JEeE6rWqqPPGrBt8YEKUxW7VVcm38ijk0roBKairoSiVy
- G+C+jl+rXMEuzHGZd4ylOMdH5rxG7FiCPNpYBJ+cGzLgxb/61k6/k/6OHRA7Kbe/4a+oGyT6v
- a6bNWJZrj88qdwjtNYxv2zr32GxQ2T2j9wOLF50weJHNmhRmplQ==
-
-=E2=80=A6
-> Replace the manual kfree() with __free(kfree) annotation for data
-> references. This aligns the code with the latest kernel style.
-
-              Align?
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTA1MDA4NyBTYWx0ZWRfX8O8l6QuYQb+c
+ 5JetwvVmtl+UvhEN/cHLPtIyaDqN8xBwv9xUL6dmO5hHMcOmle8Cr55TbfPckJUGJNlR1KUiejR
+ O67hMxcyv2ZnHpmsUX/ldAiq2/7Vz0wysM5BcPeawX4arIDcsSQ5RieNzKK3SQJF3qpqjndOMOw
+ s7UvtCB8BxAnOiojR5YSbeXg0dNVnIey7EAdz1Kc674i6/6f2AQ23HsuWfmn9ppPHUrMQAdleZU
+ uC9e3qQTP5MpqH6JVePVRUcKW7wCeyFxp8zuEurLqZLLSDE3nx6yEd0VXnnoNzEOPP/w0Q2tW2M
+ hEr4JTB0GHPfXTAljKRiNlN/KiHDcLxj6QaSRVA9nuqmjeFm3Zzval7hzuMCngWH/JcowYAVntI
+ cJZ9goX1+kgGaJ9QY0P7XWtGKb4+1iqZE1iYpIKbSW2WRGLf5Uxb7Fy658d3YBc1G8FcFj8IVzW
+ gkfOmWuO3HePCqgXRuQ==
+X-Proofpoint-GUID: XUVl2O8yI7w54_dH8nSfqw2NrVB5YZkb
+X-Authority-Analysis: v=2.4 cv=RrbI7SmK c=1 sm=1 tr=0 ts=695b89c5 cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8
+ a=qBENiv7BgfysxtCeYdIA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=1OuFwYUASf3TG4hYMiVC:22
+X-Proofpoint-ORIG-GUID: XUVl2O8yI7w54_dH8nSfqw2NrVB5YZkb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-05_01,2025-12-31_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015 spamscore=0 impostorscore=0 malwarescore=0
+ suspectscore=0 adultscore=0 priorityscore=1501 bulkscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601050087
 
 
-=E2=80=A6
+
+On 12/30/2025 3:55 PM, Bryan O'Donoghue wrote:
+> On 29/12/2025 06:31, Dikshita Agarwal wrote:
+>> Revert the check that skipped stop_streaming when the instance was in
+>> IRIS_INST_ERROR, as it caused multiple regressions:
+>>
+>> 1. Buffers were not returned to vb2 when the instance was already in
+>>     error state, triggering warnings in the vb2 core because buffer
+>>     completion was skipped.
+>>
+>> 2. If a session failed early (e.g. unsupported configuration), the
+>>     instance transitioned to IRIS_INST_ERROR. When userspace attempted
+>>     to stop streaming for cleanup, stop_streaming was skipped due to the
+>>     added check, preventing proper teardown and leaving the firmware
+>>     in an inconsistent state.
+>>
+>> Fixes: ad699fa78b59 ("media: iris: Add sanity check for stop streaming")
+>> Signed-off-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+>> ---
+>>   drivers/media/platform/qcom/iris/iris_vb2.c | 8 +++-----
+>>   1 file changed, 3 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/qcom/iris/iris_vb2.c
+>> b/drivers/media/platform/qcom/iris/iris_vb2.c
+>> index
+>> db8768d8a8f61c9ceb04e423d0a769d35114e20e..139b821f7952feb33b21a7045aef9e8a4782aa3c 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_vb2.c
+>> +++ b/drivers/media/platform/qcom/iris/iris_vb2.c
+>> @@ -231,8 +231,6 @@ void iris_vb2_stop_streaming(struct vb2_queue *q)
+>>           return;
+>>         mutex_lock(&inst->lock);
+>> -    if (inst->state == IRIS_INST_ERROR)
+>> -        goto exit;
+>>         if (!V4L2_TYPE_IS_OUTPUT(q->type) &&
+>>           !V4L2_TYPE_IS_CAPTURE(q->type))
+>> @@ -243,10 +241,10 @@ void iris_vb2_stop_streaming(struct vb2_queue *q)
+>>           goto exit;
+>>     exit:
+>> -    if (ret) {
+>> -        iris_helper_buffers_done(inst, q->type, VB2_BUF_STATE_ERROR);
+>> +    iris_helper_buffers_done(inst, q->type, VB2_BUF_STATE_ERROR);
+>> +    if (ret)
+>>           iris_inst_change_state(inst, IRIS_INST_ERROR);
+>> -    }
+>> +
+>>       mutex_unlock(&inst->lock);
+>>   }
+>>  
+> 
+> This revert looks strange, should be something like:
+> 
+> commit 9b6b11d31918722b4522b8982141d7b9646c0e48 (HEAD -> next-6.19-camss-v2)
+> Author: Bryan O'Donoghue <bod@kernel.org>
+> Date:   Tue Dec 30 10:20:01 2025 +0000
+> 
+>     Revert "media: iris: Add sanity check for stop streaming"
+> 
+>     This reverts commit ad699fa78b59241c9d71a8cafb51525f3dab04d4.
+> 
+>     Everything is broken I give up.
+> 
+>     Signed-off-by: Bryan O'Donoghue <bod@kernel.org>
+> 
+> diff --git a/drivers/media/platform/qcom/iris/iris_vb2.c
+> b/drivers/media/platform/qcom/iris/iris_vb2.c
+> index db8768d8a8f61..139b821f7952f 100644
+> --- a/drivers/media/platform/qcom/iris/iris_vb2.c
+> +++ b/drivers/media/platform/qcom/iris/iris_vb2.c
+> @@ -231,8 +231,6 @@ void iris_vb2_stop_streaming(struct vb2_queue *q)
+>                 return;
+> 
+>         mutex_lock(&inst->lock);
+> -       if (inst->state == IRIS_INST_ERROR)
+> -               goto exit;
+> 
+>         if (!V4L2_TYPE_IS_OUTPUT(q->type) &&
+>             !V4L2_TYPE_IS_CAPTURE(q->type))
+> @@ -243,10 +241,10 @@ void iris_vb2_stop_streaming(struct vb2_queue *q)
+>                 goto exit;
+> 
+>  exit:
+> -       if (ret) {
+> -               iris_helper_buffers_done(inst, q->type, VB2_BUF_STATE_ERROR);
+> +       iris_helper_buffers_done(inst, q->type, VB2_BUF_STATE_ERROR);
+> +       if (ret)
+>                 iris_inst_change_state(inst, IRIS_INST_ERROR);
+> -       }
+> +
+>         mutex_unlock(&inst->lock);
+>  }
+> 
+> Just `git revert ad699fa78b59241c9d71a8cafb51525f3dab04d4` and add your
+> commit log ?!
+
+Yeah I did the same, revert and changed the commit message.
+
+BTW, I don't see any difference in my change and your commit, anything I am
+missing here?
+
+Thanks,
+Dikshita
+
+> 
 > ---
->  drivers/media/usb/uvc/uvc_video.c | 23 ++++++++---------------
-=E2=80=A6
-
-Some contributors would appreciate patch version descriptions.
-https://lore.kernel.org/all/?q=3D%22This+looks+like+a+new+version+of+a+pre=
-viously+submitted+patch%22
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/submitting-patches.rst?h=3Dv6.19-rc4#n310
-
-
-=E2=80=A6
-> +++ b/drivers/media/usb/uvc/uvc_video.c
-> @@ -291,7 +291,7 @@ static int uvc_get_video_ctrl(struct uvc_streaming *=
-stream,
->  	struct uvc_streaming_control *ctrl, int probe, u8 query)
->  {
->  	u16 size =3D uvc_video_ctrl_size(stream);
-> -	u8 *data;
-> +	u8 *data __free(kfree) =3D NULL;
->  	int ret;
-=E2=80=A6
-
-How do you think about to reduce the scopes also for these local variables=
-?
-
-Regards,
-Markus
+> bod
 
