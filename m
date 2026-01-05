@@ -1,100 +1,121 @@
-Return-Path: <linux-media+bounces-49924-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49925-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D4EECF413A
-	for <lists+linux-media@lfdr.de>; Mon, 05 Jan 2026 15:19:13 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5841FCF44F2
+	for <lists+linux-media@lfdr.de>; Mon, 05 Jan 2026 16:08:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id E4294300749D
-	for <lists+linux-media@lfdr.de>; Mon,  5 Jan 2026 14:19:04 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 8A579300C366
+	for <lists+linux-media@lfdr.de>; Mon,  5 Jan 2026 15:07:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E44DF26A09B;
-	Mon,  5 Jan 2026 14:08:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2714D309DDC;
+	Mon,  5 Jan 2026 14:57:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bUb5V8Nq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RKJ8C34Z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59603315D47;
-	Mon,  5 Jan 2026 14:08:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E7A6309DA1
+	for <linux-media@vger.kernel.org>; Mon,  5 Jan 2026 14:57:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767622114; cv=none; b=Ww87qqTkIgpdEDmYIq8fSgJU/yQ7qhxdSBCAhNcHmzMB2mtMQVO850O/uzVIMyOIxxrGeV2ibfSsDCfhXY3xt1pBMuQ1EkR0IE/AM79OShbU7s/VbfFW2w6FLJnl/GehDY317KS1NjXh+sa7CHr2vIjf1IdnzMVbCvk4hloCSf4=
+	t=1767625071; cv=none; b=DSeknoOIDENpQxuqtR5PXWYm/8L+bT+3DiyV0KuwDrbLId3uvfSNmTnn8M/0dUDBJ4R4D8TkXsMIyhyCjEEek8n3JAdCGV9VYLZ8uPgfUHsEAEdbQWdryhRkvDAGNmtEy7Yw22ES1+IT0B2jGXR/hvp/BtGYdICuDqFAMh3isx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767622114; c=relaxed/simple;
-	bh=lhRqkJCiNXB/Z5CTm0DjouaCzn5YbbAFUtBaa7SbiDU=;
+	s=arc-20240116; t=1767625071; c=relaxed/simple;
+	bh=PIgdhokxKmOQqn2YJNx64hxKMduQw5sTcwbexWtt+eU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sFGWg+w2GKXUUWhmvu106z9x9fK4nBU2abc76qq4+CySYvzIS11oLyxO6+NWFk2Q+8KgdQJFxQl0W4/0kLVOCK1onGOeDaVReBIEqJHSUxSNRhCl2yAcdrKVhOyDcOSjjUlw/PxVGEvdPl6a4rEyMXM29mjwmbw0+uIQp9G13D8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bUb5V8Nq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38600C2BCB3;
-	Mon,  5 Jan 2026 14:08:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767622113;
-	bh=lhRqkJCiNXB/Z5CTm0DjouaCzn5YbbAFUtBaa7SbiDU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bUb5V8Nq+E7wDEUQSZnxy0EkhZUz6L4b7PrbHKAE1K8RHbT3yRXt1WYNIcHpRlTDf
-	 9kzCmAWZWTqL/8x3+doFRK8ZevmNuE2YQg3hhYoW+/QEu6wqs6pCUvm+l99MGyE+mQ
-	 qlKioxCtyOQxZYOqf25XFhsjufqa1dYtCIF2FMGU9k8mN9fK7zDebkQjFjOdf9yZoD
-	 jqIdA1979GgdHwkSKOXmP941pzu7Av9YQcrzCYGOY5jDO7F2LjZ2lsUBrB0FRgl9tY
-	 FDoMy+Id56EWGR/PkZgWCh2nxwaWmcaOs+O5OuzXCyEDKXrukKoI1uuPgHSUeSDoMG
-	 KvxZnRArgsscA==
-From: Bjorn Andersson <andersson@kernel.org>
-To: bryan.odonoghue@linaro.org,
-	mchehab@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	konradybcio@kernel.org,
-	cros-qcom-dts-watchers@chromium.org,
-	catalin.marinas@arm.com,
-	will@kernel.org,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Vikram Sharma <quic_vikramsa@quicinc.com>
-Cc: linux-arm-kernel@lists.infradead.org,
-	quic_svankada@quicinc.com,
+	 MIME-Version; b=VfbWQqkf4cmuycDoAxeURCiK1nZLsh0HX39ZlP4TBUf/jlPr96CfSebQdrzubA6JiretmsWlaiDYG8e9KMUxEo0racJ+umwXNWpzNeZ5IpNZs+ug8wOUDrduyfxPmU55yw6R80QpPGpPCPwmChGQ523Z2xQkqsDk3g6fGlUSVDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RKJ8C34Z; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2a0c09bb78cso64515ad.0
+        for <linux-media@vger.kernel.org>; Mon, 05 Jan 2026 06:57:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767625069; x=1768229869; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WxGmxcm8W090/d5nMTt/wORMSUlKQtayAk95lHOSsFw=;
+        b=RKJ8C34ZxnuIpN68TJ0r5KfKzToLvoH4i2y+/S59KY6JO5uEHKbalgEFfFootsNnKk
+         LwVgZDP7FAOuK1OIPBiz3ihWP7JJFmpWiXv6y6YcSKQ/slEYuLuYGPBqUsBubEFiHxBs
+         +68BGeiUAwS+kykFLcqFxcYylzNAeV/Q9A03GY4JrnwmnoEAOIKk5sd4X/uV0ZddWI9v
+         FiWhvFZtd7SdVzOkbFTgyR9WBzGoNMOIWkWF68tzhU12FYePz9x2sqcanKBkW7Ssd2u3
+         Y0xP+I/XACJSwZscw7r+9WWVMuAKmchaRBJcpWsHCTOXmvax3E3xiJ2JLYeEaiWxpMgb
+         908w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767625069; x=1768229869;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=WxGmxcm8W090/d5nMTt/wORMSUlKQtayAk95lHOSsFw=;
+        b=RXV4ZLFiZ0FV6ZHjUxoqCEFfzzSZrtOIZIpzqiAmKfv82EmHHSnzGqwf4cRiZzXrU0
+         Rk/Ymcm6aGbUEwNY+huK09J2E+uqgxF370wtbFbqYCHlkuZvUL/gGaUaxBGcQC9Yjqsh
+         He4DQTZJQeaK5PIXb+sHVPXk+5+RtQQJdOp3l9GGpmIap3/isdRRCO0IIM0kQ0ps6F34
+         nbR0rfSx8ZOaGHcnW0iOzlxeBFa31zn0dm4LUXVVliEq4+FuPqrWsE+FN9nAhEHlLTZu
+         29NJp7Bd8Kp7Dat4gc8UV6LnhlhrJYo57Io8ur1cwVnq+E7n1IIJLV0z9VRfi0zaJC5T
+         /rqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVHf6VgSrHDKy8bpcPviqYz7p81U2MDeF/FXcDiFjvEMYWmqqwySS01ovbcN6RDTJQ/lKkFqqWwZX5hGg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwIG4XD3tT+XgrtGfFS0Hs8enQzgv3N7Zy5pZCQyy2fm0s0hYp+
+	1ADG2agYU/KdDG0/KRQctkSZ1AsAvUUBiEzD5dGR1LMu2gdfTfUqVwpo
+X-Gm-Gg: AY/fxX6TRP5GVdcm2i7B68m5Oig4VSWKS3nPkWROom+hPM80wGwMxcX3cfUGVCVY2u3
+	bI4QczHcqKrEcGsWH0hM6o2WdNN4OKNaWZI7w92gBuG0ou/dEP2FmJ3/JmhMjVaoux/L7ay+HYV
+	ho0QVcWErGjENCcLCMO84MBBLTVmMpC78Ax74wf9aic9UFtjBgnU9m8ZsXkeiK3UQjoVCOWyJKG
+	kO/HG+ZzXHLpcCMpQyVI/FP/XUil/PaN/+kf16DYC4pV+Kb1VCdkvsM/rre1KEgkMBcUYII2zs+
+	+LIrixQiJxJNhCFUugtpSrwC+U4Q/ShOhRQLlSa+1HQTF2eH7RHs8UCexFHlucmV9RyN/jltlQM
+	7C5YDdcsz+BJShCc8ScP9AAPr1eprrnfDArreSzSjFEue5M2HPGr55m/fK5AN6NgnXcAHtAFV/t
+	TWtMAddPwV/HBpag2Ouuhdkw==
+X-Google-Smtp-Source: AGHT+IH9bhTd8a5PTZAsdrcqR6Tk62oZsZ52+Tf7ZJ2jXCA76IraDDZerhlgKhUX7z3DplqKSOR0sA==
+X-Received: by 2002:a17:903:1967:b0:2a0:971b:151 with SMTP id d9443c01a7336-2a3c095613amr75717105ad.2.1767625069442;
+        Mon, 05 Jan 2026 06:57:49 -0800 (PST)
+Received: from karthik.. ([43.247.159.43])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e2b81484sm715955ad.78.2026.01.05.06.57.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Jan 2026 06:57:48 -0800 (PST)
+From: Karthikey D Kadati <karthikey3608@gmail.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	linux-media@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	quic_nihalkum@quicinc.com
-Subject: Re: (subset) [PATCH v6 0/2] qcom: qcs8300: Add qcs8300 camss support
-Date: Mon,  5 Jan 2026 08:07:36 -0600
-Message-ID: <176762206420.2923194.7249195555946524673.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20251107162521.511536-1-quic_vikramsa@quicinc.com>
-References: <20251107162521.511536-1-quic_vikramsa@quicinc.com>
+	Karthikey D Kadati <karthikey3608@gmail.com>
+Subject: [PATCH v2 0/3] media: atomisp: refactoring and fixes for V4L2 compliance
+Date: Mon,  5 Jan 2026 20:27:21 +0530
+Message-ID: <20260105145724.37305-1-karthikey3608@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <81e2d12c-342b-4b88-88a0-3e24115541aa@kernel.org>
+References: <81e2d12c-342b-4b88-88a0-3e24115541aa@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
+This patch series addresses maintainer feedback and fixes build errors
+in the atomisp driver.
 
-On Fri, 07 Nov 2025 21:55:19 +0530, Vikram Sharma wrote:
-> QCS8300 is a Qualcomm SoC. This series adds bindings and devicetree
-> and driver changes to bring up CSIPHY, TPG, CSID, VFE/RDI interfaces
-> in QCS8300.
-> 
-> QCS8300 provides
-> - 2 x VFE, 3 RDI per VFE
-> - 5 x VFE Lite, 6 RDI per VFE
-> - 2 x CSID
-> - 5 x CSID Lite
-> - 3 x TPG
-> - 3 x CSIPHY
-> 
-> [...]
+Patch 1: Standardizes the 'Bridge' structs significantly by using v4l2_rect instead of custom shadow structs and aligning ia_css_region members with V4L2 conventions.
+Patch 2: Introduces a helper function for statistics buffer allocation to reduce code duplication and centralize error handling logic.
+Patch 3: Adds missing error propagation for IRQ enable and XNR configuration to improve robustness.
 
-Applied, thanks!
+This series is based on the latest staging/next tree and has been verified with checkpatch.pl --strict.
 
-[2/2] arm64: dts: qcom: qcs8300: Add support for camss
-      commit: ec593a86dfa1bbb5ef02165711f7ed8bb1046e29
+Karthikey D Kadati (3):
+  media: atomisp: replace shadow zoom structs with v4l2_rect
+  media: atomisp: consolidate statistics buffer allocation
+  media: atomisp: propagate errors from ISP xnr and IRQ enable
 
-Best regards,
+ .../media/atomisp/include/linux/atomisp.h     |  19 +--
+ .../staging/media/atomisp/pci/atomisp_cmd.c   | 142 +++++++++---------
+ .../staging/media/atomisp/pci/atomisp_ioctl.c | 123 +++++++++------
+ .../staging/media/atomisp/pci/ia_css_types.h  |   6 +-
+ .../staging/media/atomisp/pci/sh_css_params.c |  16 +-
+ 5 files changed, 166 insertions(+), 140 deletions(-)
+
 -- 
-Bjorn Andersson <andersson@kernel.org>
+2.43.0
+
 
