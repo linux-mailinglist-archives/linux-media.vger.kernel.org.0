@@ -1,80 +1,100 @@
-Return-Path: <linux-media+bounces-49883-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49884-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 535C9CF245E
-	for <lists+linux-media@lfdr.de>; Mon, 05 Jan 2026 08:51:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86D5ACF25AC
+	for <lists+linux-media@lfdr.de>; Mon, 05 Jan 2026 09:17:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8193330249FE
-	for <lists+linux-media@lfdr.de>; Mon,  5 Jan 2026 07:51:14 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 64A56304BD0C
+	for <lists+linux-media@lfdr.de>; Mon,  5 Jan 2026 08:14:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A74E32DA774;
-	Mon,  5 Jan 2026 07:51:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2145430E84B;
+	Mon,  5 Jan 2026 08:14:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="NNfK/c/5"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="aS5lVBgU";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="TDWy09G6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012031.outbound.protection.outlook.com [52.101.66.31])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23CF2261393;
-	Mon,  5 Jan 2026 07:51:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.31
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767599472; cv=fail; b=fjGKATTorbCfQh1xRm9jr4AwoZDL3ryX+AMDH6m4clZWYSKIDfEMz5MjYHqHB5TAY4RgWmxKmtZFYa5L6AVGdqyRM1Hd6QDaAWr9Piy0ZUeFVtYLdcNdKlzw391givlqWApTtQDaNnnITMhAgckiAoB1C31pvrVXDTvsRB95SFI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767599472; c=relaxed/simple;
-	bh=EjdEmstEUdZsE+EXTcFCrY6OrG3noUKuvMHA6/BI7UY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=QdAXKHJtovOP6XlWyOAoDCRplfEAXzwypWuLUTVQ8EhwCh48OPIzti/sAi3fOsJCeWOYRi1GqRVpjVGMQ6NoAYvP5gcj91bCnCoPFK6BS5h4SGP4JZu2guQhpK3sBJbveH4p+1cE1TSl88U9WTTVSGbEQN6XAO5C3K7v2qUOQ6c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=NNfK/c/5; arc=fail smtp.client-ip=52.101.66.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mcSQQRfIIJSb5iBxGsqjPul1+quYN94UBNs7UEGigkgAmtBK0VEYRSBRsddknIicd4sIoGvL07bsAhR82GDCXEaOOhcV1UGoFvtfTNG8gVsyXWm31K6X9Yyv3/4F0ZXPslqUpAsFfP+j/f7v+nEvQa4Uc5axszqljLoubF+Njrnd5X+IYWNjHaeogLusrP/SAKBZHA+kEJvKuJvOnd6HbdLeqL+KcFo07w8HYiWYEgq3/amP9lehsgBGSLvZ2yrBmYEUcWit96AW0IU6+oZvvx6g7hmIfAtKh4aPQAK/5JftoT7XuLxfF5nv/M0q/sSO/aO/ZBW29ra8xK+Mmq3aRA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ej8tixVab4Csa5LP85L7d//tuATCC5+B3KkIV+txH78=;
- b=eKaFGzO91dtFEN2+UMSTpY1tqbv7PiAaPa2JrbgpI5lyomI/4TaOXh5WeHBOsot9i9yftMK3l8vgtQ+milf9sdkZbcZIV0EdbEXhk2thv2TarUfdOh6BuKiXsI9N5BXp0OIzRrlcR0tvowQ6/+kDGr2KIALyCsl95x5Uw1t1DlVbTFyDbXIkg2rg3PoDku24vVr1qPoSaUgBxXC7S9g60UTkN4Hx63SMxlkUxf1EdPJSlHgsVnPMhv3F8PkToNADFItv3bC45uh/QnLpepDvYRAwKdgt/RbdFNN1xsHlCOUvLTYcPPoDNo2UhzqdTlpGZyBpkSOD+a1gyftaORtVAA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 164.130.1.59) smtp.rcpttodomain=mess.org smtp.mailfrom=foss.st.com;
- dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ej8tixVab4Csa5LP85L7d//tuATCC5+B3KkIV+txH78=;
- b=NNfK/c/5YyosPRuS7mdWJ4THpyeTnflV2I1kTMnm16Kr3rZOqZcc0+OKqQ5STHYnv4QrU5N+hY4pMp9TVAKBbxG6GkBqNxVRMgcwnnvu7RvFoPsOkAfM9pdlBZhHW9VWrbZzrMIRI5SRbxK3ljDr8V6irYi6kY3hZ+2q1jggS+lPEdgREsL4Gr5j3QLPwudWN+ZAN+qyM7yGT6xMStUnmc+iDOEbkIsgy5Iy4DboW5sX9IEXQIYrsTOwEy7RYHBUyfpM7ENAwD+VIyq5gIyEeR4DWNBJl28woQdM1FxU2SRBYtOfSAioFC9cgs1Yo/nT12dWUoPphJlK+aa5Md1Raw==
-Received: from AS8PR07CA0020.eurprd07.prod.outlook.com (2603:10a6:20b:451::13)
- by AS2PR10MB7106.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:5e9::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9478.4; Mon, 5 Jan
- 2026 07:51:06 +0000
-Received: from AM4PEPF00025F97.EURPRD83.prod.outlook.com
- (2603:10a6:20b:451:cafe::bc) by AS8PR07CA0020.outlook.office365.com
- (2603:10a6:20b:451::13) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9499.1 via Frontend Transport; Mon, 5
- Jan 2026 07:51:06 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.59)
- smtp.mailfrom=foss.st.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=none header.from=foss.st.com;
-Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
- designate 164.130.1.59 as permitted sender) receiver=protection.outlook.com;
- client-ip=164.130.1.59; helo=smtpO365.st.com;
-Received: from smtpO365.st.com (164.130.1.59) by
- AM4PEPF00025F97.mail.protection.outlook.com (10.167.16.6) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9520.0 via Frontend Transport; Mon, 5 Jan 2026 07:51:06 +0000
-Received: from STKDAG1NODE1.st.com (10.75.128.132) by smtpo365.st.com
- (10.250.44.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 5 Jan
- 2026 08:52:19 +0100
-Received: from [10.48.87.93] (10.48.87.93) by STKDAG1NODE1.st.com
- (10.75.128.132) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 5 Jan
- 2026 08:51:04 +0100
-Message-ID: <8d8b5d79-4b70-4ad0-9496-8d409495cbc9@foss.st.com>
-Date: Mon, 5 Jan 2026 08:51:03 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72DFA30DEB9
+	for <linux-media@vger.kernel.org>; Mon,  5 Jan 2026 08:14:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767600880; cv=none; b=E+RaDDM4o8kewPtoH+SVNq1015MaTjnU0/EwLWwJRVjyXh8MaefiZayfZBmb6hAgV8/Z+apWHDpIcHE1aY5xfQhhu9YKJLWEULc0XILVuuB3FwoN8ui7JLRcgpgwtnpaSoIX93GGPi2hUH/gbmTpBvsL8CIXm7hO4mE0UtmrXcM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767600880; c=relaxed/simple;
+	bh=TYY6BNSDQsgSuMCgB1bD+vqO5W39ptBJmrv2adHFBRo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=poth3vrZKUwUHixZmOsBlC+JfOyvAiAwi8P+pTdNlIkBouk/kP/rso8sQNQh75b6w5p+qs+TqRMyYAGvpuMTL+FRrgzCL4VMZkEOqMK6LYKVTwBQ874rjn426c0OZhvU/C4c89EpbDjo8JR/lTV19ydK8QoxShnsmxti8EuoAJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=aS5lVBgU; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=TDWy09G6; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 604Mnf8j1113132
+	for <linux-media@vger.kernel.org>; Mon, 5 Jan 2026 08:14:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	phzZUdczsGAzJ2VTKu0mS32y13KkKxQihXQMekfoVrU=; b=aS5lVBgU2jyjm/IE
+	gJahBDjEI8F2gXJpzfKvy5+Wnn63UbslIPI0TpnmLkJ6yJ23fPam1XIHa2Ty00Ff
+	CzTQGg0Ptw3WrEIdUbzQqYc5BF2EzsLrbP+ed0+Thivc1Z/PfzWjp4TE+BtbjHGC
+	78qhKKBg+wSF+eAWjDKD3fWIrtR/twM4rkB8iIuc8xB2ekC0zHmr89JABNbMXJb+
+	FJoD/tTEMjseRgyczUS+/fpNaxoUB8xZc29mCYCCEp4MMc9Fc66LOmHAbCvEQlfQ
+	Dl6mizIsOCEKqsKqOMMOWo+fg9RQGlfMY+SHIvH87BrqoLkgiBTQNOmMPEmB6We8
+	tDDZ6g==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bev9hbntw-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Mon, 05 Jan 2026 08:14:29 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8c35a72a116so394081285a.2
+        for <linux-media@vger.kernel.org>; Mon, 05 Jan 2026 00:14:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1767600868; x=1768205668; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=phzZUdczsGAzJ2VTKu0mS32y13KkKxQihXQMekfoVrU=;
+        b=TDWy09G6VZWZ1qtzhNzNf2/xQg5ZVkgw+lTosAKJ50Lyd85QjKmUMf5j0CCcyKmMP5
+         5+8AJZL8y9wdvYCP5fsMCfIdGEP4iZ4n/3mdByLUCSjzHmAFhVHPH4+s+SRuGwQ3TS+H
+         AfdGoJdeD3wXbmZV+fsV/OwyOzFGUvKjczK0c59Q/nbw+T3KLZ/8orH7mUjNabp6PLIJ
+         +LaR0oSK1uOGGfYdbWD5pXORmNe03SjW4zcWlvmk3tauFRVpInlut5466B8JVWiQ5MR1
+         LoQzN6sb0eAw4fgOtaRRfhcjLSNyhT8pLEfXIzG4Ws/MH0lHaCEpUzdzkE6MvKnGP/95
+         ggpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767600868; x=1768205668;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=phzZUdczsGAzJ2VTKu0mS32y13KkKxQihXQMekfoVrU=;
+        b=VTFZcV3jZebhF3DJdvgQ1ybPOIwfir9VfRf/wZGoHvtui7iZG1WZVKt5SYGdpUIBuW
+         rqzYu0c8dTKimath+6AVbREMcAQrtB3vwsBmSpDbw92Wc4hHdrDHieRqSWfTwN5C9Y7u
+         B87OkOBW1ou5UYP3+IlCk0MeVldFvB1B2gD2dIp5a8ReuheVx9Z/1MfEpWrzKtmY8Ab9
+         N4ZF7mL1VbuzC3jTFlp800hMwCgL1t/KzZKMCo877lAOeyewA82FzqYXTfVdW3RpuOCt
+         w0E96i3gxOlGctj+u4kJZTds1MWSPBCbYsXDIDfN7g+Z3XzLKI/QJfQpJiGFGIwY+KVj
+         Vspw==
+X-Forwarded-Encrypted: i=1; AJvYcCXHDPBnQxmvGMuK5mCxkgFbU5pUo0DCRNWpXIR3lWepCaY9wt0G3iu12+fsquxWP5ej3ore2AK4w3CAxA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4ZSaSY8+aUBlq1Lb9grhCB6xLlSLYgFVeZMpeERdxLuFe1lbo
+	sfw3o9t+f+W624+ydiIuuyCVlqCTM3pvdyssz8IGLpP5kUrg2kYlmFUIslKbBnGytFs5gs9qoFv
+	TXUVpl0/CN/qqXWxjU+RxeQcS7gv8fpM7BXsXuby+WwkdmrlvW9a1KdX6aayD9xeiig==
+X-Gm-Gg: AY/fxX5Y2qTrTdDQiUTVaQUFtp2nQvvZ2KDabyQj2jzgkqwF0jEoz4UVCzpAGgmWiF7
+	rk/uB1j32d4594dOz54JgaepBIby2VoetUyKDIBnttkth2HvRY9NkzMwQ3dZOGjZuHkokYxUGx3
+	LXzq05K3WS1tBM4+RjTnxffcjb++Ofh6K7GfJFG888Mk8fBuAIf9LTLL8qIHwHL/dCjkFD5j8QX
+	m261iU+WSHvWb8kTRc4Fv2tBlTTObuRSHMvYtYicd0Eg8f0NC8SHgsxrGdnzsvcmWKWDWanSDlb
+	q7HTvdDnjl/H+eMbzLjwHLFH+f2RGRi2sveFF1heUaNRJj/RmqlkhbolOF6Sp5aJRhceglRzEvI
+	XFFwEJon0f9aFdI27ZdUVgyuvD9rkSzAAnh+9xYWs0ai3AXHXz3oCHsFovgdcuDj8/l/VfKmN
+X-Received: by 2002:a05:622a:5912:b0:4f1:8412:46e9 with SMTP id d75a77b69052e-4f4abcf6815mr684003551cf.16.1767600868228;
+        Mon, 05 Jan 2026 00:14:28 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE8cxSP7wU2d3C/OWNPNHpSnTaGxucl0xLQE6eh8k4RCRNqDywhXyIz7QesYuRmn36sn1u57Q==
+X-Received: by 2002:a05:622a:5912:b0:4f1:8412:46e9 with SMTP id d75a77b69052e-4f4abcf6815mr684003371cf.16.1767600867656;
+        Mon, 05 Jan 2026 00:14:27 -0800 (PST)
+Received: from [10.38.247.225] (Global_NAT1_IAD_FW.qualcomm.com. [129.46.232.65])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4f4ac66865asm364865021cf.31.2026.01.05.00.14.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 Jan 2026 00:14:27 -0800 (PST)
+Message-ID: <b2cf8a59-a8bc-405c-8b7e-78805d0b4502@oss.qualcomm.com>
+Date: Mon, 5 Jan 2026 16:14:21 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,195 +102,253 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: rc: rc_unregister_device() should not call
- rc_free_device()
-To: Sean Young <sean@mess.org>, Andrzej Hajda <andrzej.hajda@intel.com>, "Neil
- Armstrong" <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
-	<jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
-	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
-	<airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	=?UTF-8?Q?Bruno_Pr=C3=A9mont?= <bonbons@linux-vserver.org>, Jiri Kosina
-	<jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, Hans Verkuil
-	<hverkuil@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, "Maxim
- Levitsky" <maximlevitsky@gmail.com>, Chen-Yu Tsai <wens@kernel.org>, "Samuel
- Holland" <samuel@sholland.org>, =?UTF-8?Q?David_H=C3=A4rdeman?=
-	<david@hardeman.nu>, Benjamin Valentin <benpicco@googlemail.com>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: Haotian Zhang <vulab@iscas.ac.cn>, <dri-devel@lists.freedesktop.org>,
-	<linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
-	<linux-media@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-staging@lists.linux.dev>
-References: <20251220222757.7063-1-sean@mess.org>
+Subject: Re: [PATCH] media: i2c: imx412: Extend the power-on waiting time
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Wenmeng Liu <quic_wenmliu@quicinc.com>
+References: <20251222-imx412-v1-1-51c7e724b376@oss.qualcomm.com>
+ <aUkLKECix4vohyTB@kekkonen.localdomain>
+ <bbf6dbc9-42b5-4dd6-9346-c8f38e460709@oss.qualcomm.com>
+ <CAPY8ntD9GO_Y13K=Ko5kxz-o1edaocJP=Ns50rUheJP0iJ9fNg@mail.gmail.com>
+ <ffa7b849-51da-42f7-be1d-c3c7e1903e6e@oss.qualcomm.com>
+ <CAPY8ntDAiJcJiixo2mTqcb898UC3AR-+NVPFPS6EtrGoEWKewg@mail.gmail.com>
+ <88bcd810-872e-4705-91c0-df2a35f4a3b9@oss.qualcomm.com>
+ <aVO4oX2I-FEuR4WS@kekkonen.localdomain>
 Content-Language: en-US
-From: Patrice CHOTARD <patrice.chotard@foss.st.com>
-In-Reply-To: <20251220222757.7063-1-sean@mess.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: ENXCAS1NODE2.st.com (10.75.128.138) To STKDAG1NODE1.st.com
- (10.75.128.132)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM4PEPF00025F97:EE_|AS2PR10MB7106:EE_
-X-MS-Office365-Filtering-Correlation-Id: a79621e0-ae8f-4dab-64ef-08de4c2f2e8d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|36860700013|82310400026|7053199007|13003099007|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?WkN5TGxJbDB4RXBVYmlsUytjdVZ2ZzFjUjZta0tTeURJaTdXZmtSeG8zTmJ3?=
- =?utf-8?B?K1ZsS2FRaGNIMzl2OTVrNGpVOGRYRlRQQUt0ZzJSYndPQitra2xXT0VTUFJU?=
- =?utf-8?B?bjQ4c0YrOG1Lcnc1US9mclliN0RPYXRqV3RJVWNFSzhWV29lR3hnbGVmNXZD?=
- =?utf-8?B?Y1grNDYrcjFiaXRxVjk5UXBEdEkwY1FhazVNKzEyUVhzcjFlTVpibTZBUEs3?=
- =?utf-8?B?YU9xLy85ZTNIOFRwSFI4V2F5dWFpWTZnTk9iODFjdXVTSytwZGxJSTc2a0d3?=
- =?utf-8?B?ZWFEQWY0bDZtWU1EaXVUSWIzOTlBUUNHUm1YZEY3Tm9TK2FuWWxvdll0L2g4?=
- =?utf-8?B?WS9uTDdhUzNZUjZUWGw1REFCU285UENtSGJBS2pDU2tRTXZBajhKNnFrVDlS?=
- =?utf-8?B?WmJKSDcvbHpHSnVHWnZvY2dsMENIbGJuMGI1OTBRb0hnUTJCZElCaXcyZTh5?=
- =?utf-8?B?ZVc5cmM2eXM5SGI0T0x1aDBDUjhmMjNiMDd5N3YyTzBrNHJpaUpMZ0hrQjZt?=
- =?utf-8?B?ZHVkekUrWTRaaXJiQ2dOd3g2WmVReFE5RnNscHdvb3ZqMThtSTAwYkYxK3VM?=
- =?utf-8?B?NjVPdldOM083c25HUkQ3OTRsM0M5OXlQU0lEOG5vNHlHVUk5djB3ZjQvSUZH?=
- =?utf-8?B?dGZxaUpTMnArN3M1Rzg1cHBjSFVjQkE1aU9xSHd0eks2RU8vLzk5enlrcWF2?=
- =?utf-8?B?Zzd2cEw1VUsvSkk1d3lTVk4yZG93V2dCRTRmRUo2UUxSbVlMTmtIMmc5Si9X?=
- =?utf-8?B?OHFNNXVUR1gzSm5LM3ZyMmR1VFlTZnlIN000L0tIVnVDb2N4aDFSZTA3aGJu?=
- =?utf-8?B?YzNZWXM1SDN5VWg0Rzc4T0RzTTdiN1dQYlp3N3hnb01ZNTRmWncyTTZtaHAz?=
- =?utf-8?B?NVhBdWV5dUtKeWFqb0czNGFCTVR0cHV1Y2JpUWJnR3RSR2s1RmZOVUNCaTBM?=
- =?utf-8?B?MHVyWUw4Mjl6SThDUFNGcG1ZZ2JEN0lLanljazhyUnEvUkVSOVBuZFM4QVpB?=
- =?utf-8?B?b0JwNlJ1Vko5WEh2bUJkR09oL0o1STZkVGVFSDRFMVZ2TWp1dGNjYkw3ZmJH?=
- =?utf-8?B?ektCVEIwM0hLYUg1YUo5eC9jdTllaEp1SHFuSGl4L0REa04wUERXbnVMRFF4?=
- =?utf-8?B?SDZKM2dORFY0VTlmdC9ld2UzaFI4VXZFTE05UGRDUkR5WWxvem1mTUpCMm11?=
- =?utf-8?B?cEJHRWlNV2tZanUwMmRVR3lGUFlKWlZ2ai96SnhSNmVTdjhZZ0pNVytqSnVr?=
- =?utf-8?B?eERma1lyTFFmWm5KRzVVVjNvcXh4NHF6bk00Q2w5eWNEM1ZlTVNzMC9KbmJh?=
- =?utf-8?B?Q3ZrNlJWNk94MkVpcEU5R0dxV1BnakY3L3JOSmdvajFRY002T2JrRlgrOTNu?=
- =?utf-8?B?RnZoVUY2ZEp5OGd0akQ0cXZuQWlqZmFya2grMnp2TlI3RGVpU1pNckFHNEl4?=
- =?utf-8?B?M011dW5MdWs0QTBuOEE0TjVtN29kc1E1R0U5bkIybTNodFhWTUlFV3NxcXZC?=
- =?utf-8?B?ZHU4S2VZdStiVWk1dmFqaS9mb1doeHdqYWlRZkU4ZFhnSjY5dWc3QVdYWmNo?=
- =?utf-8?B?bVJCc09HWFJKRzBVb0FMSjFxRlhVMEhTL3h2M0ZlUTFRVWFyeE1TQ3NtSno4?=
- =?utf-8?B?NFduVXBEWHgrVlIwb0dQWFNSQUo2bkFMeVp1L0lGUEVPQ1ZTNW0zdC90ZkNZ?=
- =?utf-8?B?N1pVeVFkb0tJcHYwZ2xvMG9zcXJLbnc0NVVwUkxmMDlCSzArcVp2Qlc3c1dY?=
- =?utf-8?B?Vk5Mc1l0S3FGTHVpZU51aVAxUUJBY21UVjlCUlM4Tkl5bXhJZ055VDAxelQv?=
- =?utf-8?B?Zk0ySmlwOUkxK3NrRHc1MmJsZDdJZlpEaU9vYW8wcW1YTENHRk84NEF4Mm8v?=
- =?utf-8?B?R1R2NUk5UlBjd2QrNWlYUVVmaS9YU1RVQjYybU1qQWNwLzhCUTdobXdmL0Uw?=
- =?utf-8?B?ZnZaMWhYeHZ5a2lsaCtxSm4vdFNNSFFnbG1sMnZ3N25CMm5iSHRwQlpmaFlj?=
- =?utf-8?B?YW9DS1dtdUFlU25oMVplY3dSWUI5NVNMZHQ3bWhUSTBjWkljSGdoZllnVGxj?=
- =?utf-8?B?blZBOWcxekhmTUFrdHFiOHdobGtWN0p1RSs5clJWanZUbnBEekt1enBzKzRF?=
- =?utf-8?B?MFRBQ2pYcExZRHlubWpUNC94SENQOUxqV2tlMmMwWm5mL09PVStRTVNDOUFa?=
- =?utf-8?B?ZHc9PQ==?=
-X-Forefront-Antispam-Report:
-	CIP:164.130.1.59;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(36860700013)(82310400026)(7053199007)(13003099007)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	CobXj9tYxhWVAkSvd1gKJXGTV5918KBac9bymEkGS3QgMIcCW5MIRLhvup0tof/gLhgOusQxtzkudxn45p/THhDVSs5pKcOdAuT10LeK20irnzs5nKwdrLvimhqEdzGVQcvU1pCxweekUvXFxlSxmDol8uUWu4mNr+iVqhsQT3rWkuiX10RPUsUfKYImu8zPPOQuBH+/QtOWvelz5r9eak1qM6QBY2gTERlPyvUrH8a/+KeruAaIK4975CN3veFzVA4hkE7QkjufPdq8hbqtfbm/Um9P/2AuWywOW7yzLwMcuRsykcMOrAV7/yjsi20AAuL4rNcwepoeYZnPK7P1z3+wPlJNC3qgV23MR1MFTKjfgYgxXUB4rBnIW2c7XBkPeHpr031I48fol0Mxetwt74n5QuQiZuCbToI3V3lD9AJ+BjnGEjuMIAoeEqKeSeRKB2KkfLBQ+Vojb+VYNbqaTk6VOIZiruI/GnBXiFSOiJ0NHd3+3Jz9/1BwHITkBHIfJrFT1xSwFWDRsru+x5my63rK5sZEj2Tu5NEIy+z7azCybZ4z4r+aZ73PKInqHvUyWIJ4fADIiYv0mtyfKjM1+q8usSFCUHDFx5jcGXN6BCq+U9fgDlSw5Dky3mhq4dHCgfosQ5X2ypjhGNeKQBEkXVhwtf1zAs+hyKxjaYxxiuwe8ifBPYGPZ30tBPbfOvb+
-X-OriginatorOrg: foss.st.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2026 07:51:06.0889
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a79621e0-ae8f-4dab-64ef-08de4c2f2e8d
-X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.59];Helo=[smtpO365.st.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	AM4PEPF00025F97.EURPRD83.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR10MB7106
+From: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+In-Reply-To: <aVO4oX2I-FEuR4WS@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTA1MDA3MiBTYWx0ZWRfX8jNmXj6+Pc74
+ pWRLA03+69d4QPVtcF0m4sGPEBOZ9QYfhLiOLmTnpSig13GzJEOrc+GMjadfO+DqWBtpjsS4LHA
+ C6TyZEbmR65afkD5PjnE4/ISD83shGcJgRR0wKwsFxhAKJ0z3PutUJG0zhH+G6RWL9uENgiUUe1
+ w0QTP11j5Y47aUxyXuGBylF5af6jrgxIdsqVcOsE1WC8g4ryVXuksWkGtI5LANHwZ2gv/TOkem0
+ yiwl+6qPQLGCukQswLvFXjJRYtM3zRf8pq9M7Yl1L9OW8HXqLAQmE4TZhCQUowhRWwoiArTe0VY
+ pK7NYrg2JCF/E4T2bvPel0bZoXcwGL8UAb34IbY3+WKzyYzcuj09t1fIdBiMuNCdyc/6sB3BFGF
+ FL4GzJZCk7dzi4rpxjsdzZOXGJKuQgX9i6RpdS+pbXRQ12KeBRpwmyF+ERpaeS1z92/B/2BpXXL
+ SOeaTo6eu0+5kse9gzA==
+X-Proofpoint-GUID: pHGZVbbK3CramExB4xMSZvF6QiY85dzv
+X-Authority-Analysis: v=2.4 cv=RrbI7SmK c=1 sm=1 tr=0 ts=695b72e5 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
+ a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=mracZNplAAAA:8 a=rL1dbJK0AAAA:8 a=0plRyFmWAAAA:8
+ a=KtRVGM7OAAAA:8 a=EUspDBNiAAAA:8 a=F5uwWvBdR0jjad105IUA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=ct7v8gV3xnkA:10 a=CgqesQyPL7wA:10 a=Bv5VFBYUiN4A:10
+ a=ph6XRQtNn88A:10 a=bTQJ7kPSJx9SKPbeHEYW:22 a=PluzFxL0rV-y9CnNSXcG:22
+ a=xbW4NaJqf-hZ9Pon6mAK:22 a=4tO_KGIOfzmgBqjB6OKc:22 a=fO9at-cOa0qPyS5aOM0m:22
+X-Proofpoint-ORIG-GUID: pHGZVbbK3CramExB4xMSZvF6QiY85dzv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-05_01,2025-12-31_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015 spamscore=0 impostorscore=0 malwarescore=0
+ suspectscore=0 adultscore=0 priorityscore=1501 bulkscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601050072
 
 
 
-On 12/20/25 23:27, Sean Young wrote:
-> rc_unregister_device() does two things: it marks the device as
-> unregistered, so no new commands can be issued via the lirc chardev,
-> and also frees the rc device. Device drivers want to both cancel
-> in-flight commands (i.e. kill urbs) and prevent further commands from
-> being issued. Only once both are done, can we really free the rc device,
-> because it might be referenced in urb callbacks. This is impossible to
-> do with the current way of things.
+On 12/30/2025 7:33 PM, Sakari Ailus wrote:
+> Hi Wenmeng,
 > 
-> This change removes the implicit call to rc_free_device() from
-> rc_unregister_device(). This means that device drivers can call
-> rc_unregister_device() in their remove or disconnect function, then cancel
-> all the urbs and interrupts before explicitly calling rc_free_device().
+> On Tue, Dec 23, 2025 at 02:19:18PM +0800, Wenmeng Liu wrote:
+>>
+>>
+>> On 12/22/2025 10:16 PM, Dave Stevenson wrote:
+>>> Hi Wenmeng
+>>>
+>>> On Mon, 22 Dec 2025 at 12:20, Wenmeng Liu <wenmeng.liu@oss.qualcomm.com> wrote:
+>>>>
+>>>>
+>>>>
+>>>> On 12/22/2025 8:11 PM, Dave Stevenson wrote:
+>>>>> Hi Wenmeng & Sakari
+>>>>>
+>>>>> On Mon, 22 Dec 2025 at 09:35, Wenmeng Liu <wenmeng.liu@oss.qualcomm.com> wrote:
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>>>>
+>>>>>>>> The Arducam IMX577 module requires a longer reset time than the 1000µs
+>>>>>>>> configured in the current driver. Increase the wait time after power-on
+>>>>>>>> to ensure proper initialization.
+>>>>>>>
+>>>>>>> Is this somehow specific to the Arducam module? If so, what's there in the
+>>>>>>> module that requires this?
+>>>>>>>
+>>>>>>
+>>>>>>
+>>>>>> Yes, This issue occurred on the Arducam 22-pin IMX577 module.
+>>>>>> I have tried changing the sequence of regulator, reset, and clock, and
+>>>>>> found that this module must wait a sufficient amount of time after reset
+>>>>>> before registers can be written (10 ms is a safe duration). This issue
+>>>>>> did not occur when using other IMX577 modules.
+>>>>>
+>>>>> Is it the probe that fails, or starting streaming?
+>>>>>
+>>>>> Google has found me a datasheet for IMX577 at [1]. I'm hoping you have
+>>>>> an official datasheet, so do correct the following if that has any
+>>>>> updates.
+>>>>> Section 7-2-2 on page 30 for the startup sequence.
+>>>>>
+>>>>> The sequence is meant to be regulators, INCK, and then XCLR. The
+>>>>> driver does XCLR before clock, so that would appear to be wrong.
+>>>>>
+>>>>> It also states that T6 as the time from XCLR to being able to read the
+>>>>> version register is min 0.6ms, but T7 as the time before you can send
+>>>>> "Streaming Commmand" is min 8ms "To complete reading all parameters
+>>>>> from NVM".
+>>>>> That would be a difference between probe and start_streaming, although
+>>>>> admittedly sending the mode and control setup I2C commands will take
+>>>>> up some of that time.
+>>>>>
+>>>>> Plausibly the other set of modules don't have the NVM programmed and
+>>>>> hence they are ready sooner. Either way I'd say that does mean the
+>>>>> driver currently isn't following the defined power up sequence, and
+>>>>> the patch looks reasonable for IMX577.
+>>>>> However as this is a shared driver does IMX412 have this restriction
+>>>>> too? I can't find a datasheet for that one to check. For the sake of
+>>>>> ~9ms it's not going to make a huge difference though.
+>>>>>
+>>>>>      Dave
+>>>>>
+>>>>> [1] https://en.sunnywale.com/uploadfile/2021/1222/IMX577-AACK-C(Awin).pdf
+>>>>>
+>>>>
+>>>> Hi Dave,
+>>>>
+>>>> this issue appears in the write register when streamon
+>>>> imx412_write_regs.  poweron->streamon.
+>>>>
+>>>> static int imx412_start_streaming(struct imx412 *imx412)
+>>>> {
+>>>>            const struct imx412_reg_list *reg_list;
+>>>>            int ret;
+>>>>
+>>>>            /* Write sensor mode registers */
+>>>>            reg_list = &imx412->cur_mode->reg_list;
+>>>>            ret = imx412_write_regs(imx412, reg_list->regs,
+>>>>                                    reg_list->num_of_regs);
+>>>>            if (ret) {
+>>>>                    dev_err(imx412->dev, "fail to write initial registers\n");
+>>>>                    return ret;
+>>>>            }
+>>>>
+>>>>            /* Setup handler will write actual exposure and gain */
+>>>>            ret =  __v4l2_ctrl_handler_setup(imx412->sd.ctrl_handler);
+>>>>            if (ret) {
+>>>>                    dev_err(imx412->dev, "fail to setup handler\n");
+>>>>                    return ret;
+>>>>            }
+>>>>
+>>>>            /* Delay is required before streaming*/
+>>>>            usleep_range(7400, 8000);
+>>>>
+>>>>            /* Start streaming */
+>>>>            ret = imx412_write_reg(imx412, IMX412_REG_MODE_SELECT,
+>>>>                                   1, IMX412_MODE_STREAMING);
+>>>>            if (ret) {
+>>>>                    dev_err(imx412->dev, "fail to start streaming\n");
+>>>>                    return ret;
+>>>>            }
+>>>>
+>>>>            return 0;
+>>>> }
+>>>>    > but T7 as the time before you can send "Streaming Commmand" is min 8ms "
+>>>> I think the usleep_range(7400, 8000) represents the 8ms duration
+>>>> required by T7.
+>>>
+>>> I'd missed that one.
+>>> If you've delayed for 10-12ms between coming out of reset and sending
+>>> the first command, then does the Arducam module still require another
+>>> 8ms here, or can that be removed as you've already complied with T7?
+>>>
+>>> Have you asked Arducam as to why their module takes longer? I can't
+>>> find an IMX577 module listed on their product pages so presumably it's
+>>> discontinued. There are a few links for a Luxonis Oak DepthAI board
+>>> [1] which is made by Arducam and is using IMX577, so is it that one?
+>>> Generally I've not encountered an issue with Arducam adding any weird
+>>> delay circuits on their sensor boards.
+>>>
+>>>     Dave
+>>>
+>>> [1] https://shop.luxonis.com/products/oak-ffc-imx577-m12
+>>>
+>>>> Thanks,
+>>>> Wenmeng
+>>>>
+>>>>
+>>
+>> Hi Dave,
+>>
+>> Based on my testing, moving usleep_range(7400, 8000); to the beginning of
+>> the imx412_start_streaming function allows the Arducam IMX577 module to work
+>> properly. In contrast, other IMX577 sensors do not require this delay. I
+>> believe this corresponds to the T7 timing requirement. I have not yet
+>> confirmed this with Arducam, and I plan to compare once I receive another
+>> type Arducam IMX577 sensor.
 > 
-> Note this is an alternative fix for an issue found by Haotian Zhang, see
-> the Closes: tags.
+> Thanks for investigating this.
 > 
-> Reported-by: Haotian Zhang <vulab@iscas.ac.cn>
-> Closes: https://lore.kernel.org/linux-media/20251114101432.2566-1-vulab@iscas.ac.cn
-> Closes: https://lore.kernel.org/linux-media/20251114101418.2548-1-vulab@iscas.ac.cn
-> Closes: https://lore.kernel.org/linux-media/20251114101346.2530-1-vulab@iscas.ac.cn/
-> Closes: https://lore.kernel.org/linux-media/20251114090605.2413-1-vulab@iscas.ac.cn/
-> Signed-off-by: Sean Young <sean@mess.org>
-> ---
->  drivers/gpu/drm/bridge/sil-sii8620.c        | 1 +
->  drivers/hid/hid-picolcd_cir.c               | 1 +
->  drivers/media/cec/core/cec-core.c           | 2 +-
->  drivers/media/common/siano/smsir.c          | 1 +
->  drivers/media/i2c/ir-kbd-i2c.c              | 2 ++
->  drivers/media/pci/bt8xx/bttv-input.c        | 1 +
->  drivers/media/pci/cx23885/cx23885-input.c   | 1 +
->  drivers/media/pci/cx88/cx88-input.c         | 1 +
->  drivers/media/pci/dm1105/dm1105.c           | 1 +
->  drivers/media/pci/mantis/mantis_input.c     | 1 +
->  drivers/media/pci/saa7134/saa7134-input.c   | 1 +
->  drivers/media/pci/smipcie/smipcie-ir.c      | 1 +
->  drivers/media/pci/ttpci/budget-ci.c         | 1 +
->  drivers/media/rc/ati_remote.c               | 4 ++--
->  drivers/media/rc/ene_ir.c                   | 2 +-
->  drivers/media/rc/fintek-cir.c               | 3 ++-
->  drivers/media/rc/igorplugusb.c              | 1 +
->  drivers/media/rc/iguanair.c                 | 1 +
->  drivers/media/rc/img-ir/img-ir-hw.c         | 3 ++-
->  drivers/media/rc/img-ir/img-ir-raw.c        | 3 ++-
->  drivers/media/rc/imon.c                     | 3 ++-
->  drivers/media/rc/ir-hix5hd2.c               | 2 +-
->  drivers/media/rc/ir_toy.c                   | 1 +
->  drivers/media/rc/ite-cir.c                  | 2 +-
->  drivers/media/rc/mceusb.c                   | 1 +
->  drivers/media/rc/rc-ir-raw.c                | 5 -----
->  drivers/media/rc/rc-loopback.c              | 1 +
->  drivers/media/rc/rc-main.c                  | 6 +-----
->  drivers/media/rc/redrat3.c                  | 4 +++-
->  drivers/media/rc/st_rc.c                    | 2 +-
->  drivers/media/rc/streamzap.c                | 3 ++-
->  drivers/media/rc/sunxi-cir.c                | 1 +
->  drivers/media/rc/ttusbir.c                  | 2 +-
->  drivers/media/rc/winbond-cir.c              | 2 +-
->  drivers/media/rc/xbox_remote.c              | 3 ++-
->  drivers/media/usb/au0828/au0828-input.c     | 1 +
->  drivers/media/usb/dvb-usb-v2/dvb_usb_core.c | 1 +
->  drivers/media/usb/dvb-usb/dvb-usb-remote.c  | 6 ++++--
->  drivers/media/usb/em28xx/em28xx-input.c     | 1 +
->  drivers/staging/media/av7110/av7110_ir.c    | 1 +
->  include/media/rc-core.h                     | 2 --
->  41 files changed, 52 insertions(+), 30 deletions(-)
+> Have you checked how long it actually takes elsewhere (where the sensor
+> works) before the mode related registers are written (and when they start
+> being written) on systems where it actually works? As I²C writes require
+> sleeping and depend on a process getting scheduled a large number of times,
+> this might play a role here.
+> 
+> These patches might be useful in sensor drivers at large (but won't address
+> this problem)
+> <URL:https://git.retiisi.eu/?p=~sailus/linux.git;a=shortlog;h=refs/heads/pm-resume-delay>.
 > 
 
-[...]
+Hi Sakari,
 
-> diff --git a/drivers/media/rc/st_rc.c b/drivers/media/rc/st_rc.c
-> index 6b70bac5f45d6..0ba06bfc9e14b 100644
-> --- a/drivers/media/rc/st_rc.c
-> +++ b/drivers/media/rc/st_rc.c
-> @@ -203,6 +203,7 @@ static void st_rc_remove(struct platform_device *pdev)
->  	device_init_wakeup(&pdev->dev, false);
->  	clk_disable_unprepare(rc_dev->sys_clock);
->  	rc_unregister_device(rc_dev->rdev);
-> +	rc_free_device(rc_dev->rdev);
->  }
->  
->  static int st_rc_open(struct rc_dev *rdev)
-> @@ -334,7 +335,6 @@ static int st_rc_probe(struct platform_device *pdev)
->  	return ret;
->  rcerr:
->  	rc_unregister_device(rdev);
-> -	rdev = NULL;
->  clkerr:
->  	clk_disable_unprepare(rc_dev->sys_clock);
->  err:
-> diff --git a/drivers/media/rc/streamzap.c b/drivers/media/rc/streamzap.c
-> index d3b48a0dd1f47..b9b241fe46ea1 100644
+Based on my testing, it takes about 6.5ms before the registers become 
+writable. I believe this is not a CCI issue, because I have tested 
+multiple platforms and only the Arducam 22-pin IMX577 shows this 
+problem. This delay seems to correspond to the time required for T7. I 
+made the following changes and ran multiple tests, and this approach 
+works fine:
 
-Reviewed-by: Patrice Chotard <patrice.chotard@foss.st.com>
+diff --git a/drivers/media/i2c/imx412.c b/drivers/media/i2c/imx412.c
+index 459cca36493e..5be698863653 100644
+--- a/drivers/media/i2c/imx412.c
++++ b/drivers/media/i2c/imx412.c
+@@ -798,6 +798,9 @@ static int imx412_start_streaming(struct imx412 *imx412)
+         const struct imx412_reg_list *reg_list;
+         int ret;
 
-Thanks
-Patrice
++       /* Delay is required before streaming*/
++       usleep_range(7400, 8000);
++
+         /* Write sensor mode registers */
+         reg_list = &imx412->cur_mode->reg_list;
+         ret = imx412_write_regs(imx412, reg_list->regs,
+@@ -814,9 +817,6 @@ static int imx412_start_streaming(struct imx412 *imx412)
+                 return ret;
+         }
+
+-       /* Delay is required before streaming*/
+-       usleep_range(7400, 8000);
+-
+         /* Start streaming */
+         ret = imx412_write_reg(imx412, IMX412_REG_MODE_SELECT,
+                                1, IMX412_MODE_STREAMING);
+
+
+ From the perspective of the spec timing, I believe the above 
+modification to the delay position is an acceptable change. What do you 
+think?
+
+sensor link:
+https://www.arducam.com/arducam-imx577-mini-camera-module-for-qualcomm-rb3g2.html
+https://www.arducam.com/arducam-imx477-camera-module-for-depthai-oak-b0369.html
+
+Thanks,
+Wenmeng
+
 
 
