@@ -1,97 +1,196 @@
-Return-Path: <linux-media+bounces-49954-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49955-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id D08CACF6184
-	for <lists+linux-media@lfdr.de>; Tue, 06 Jan 2026 01:39:27 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EE1ACF618A
+	for <lists+linux-media@lfdr.de>; Tue, 06 Jan 2026 01:42:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 992EB302DB3F
-	for <lists+linux-media@lfdr.de>; Tue,  6 Jan 2026 00:39:26 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A57D73055739
+	for <lists+linux-media@lfdr.de>; Tue,  6 Jan 2026 00:42:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52FF41D63EF;
-	Tue,  6 Jan 2026 00:39:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65B031D88D7;
+	Tue,  6 Jan 2026 00:42:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AFVTsMpU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB7163A1E63;
-	Tue,  6 Jan 2026 00:39:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 687BF405F7;
+	Tue,  6 Jan 2026 00:42:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767659965; cv=none; b=QOj/abPAknJk2NAmTEd9bL/6S71DH23/m4PtDiXAZ7qjs2Zwl9pYtSOFsfhY/+wyKfxM45MZ8TGProd7LJXJ1K72WHJAGLro9bSFUhPjcyTCwH8ToBxRxRbhraB7NWaruicrtkAK94IdQ1BFFv3AQ+AhRUAe9dsWZEdy5sCh9ac=
+	t=1767660149; cv=none; b=l5AabsqCocahhZ+Q3He+bBXyBNU+XD3aeNRAnQv35OPjArC9ddCHhNaeauam+dJJPljnpxXpblqeUd1vjccuO2nNbLmG1ozCezF1wPBJKFo8ItIKC8rrTxK8IZvJu7kWuuRphOUOn4wrT+R0aX3Z2vHIo/kVrJL1TdgfeR0H+5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767659965; c=relaxed/simple;
-	bh=Oyrwnd6iX7XuIfagXrIfDAmgi63aTsjq/viTSjXf/1c=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LTXX894nzCbNBnutyrbt/diOOL86XM9YU230rAIciZtB2IroYLE192Tuiz9tfqaLOsgWdH+3galfqh3FwzfZqhlrxXpIZb/TLpKMT2jGm4KrNRSPGn4SJIxisgoEs03zMBwix0IY0XcwMbkf3+Q9e2wdGhWBo/pPKXTHnArOWlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf19.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay10.hostedemail.com (Postfix) with ESMTP id D26E4C1757;
-	Tue,  6 Jan 2026 00:39:12 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf19.hostedemail.com (Postfix) with ESMTPA id 9309D20028;
-	Tue,  6 Jan 2026 00:39:10 +0000 (UTC)
-Date: Mon, 5 Jan 2026 19:39:33 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Nicolas Dufresne <nicolas@ndufresne.ca>, Stefan Klug
- <stefan.klug@ideasonboard.com>, Xavier Roumegue
- <xavier.roumegue@oss.nxp.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams
- <clrkwllms@kernel.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH 3/4] media: dw100: Fix kernel oops with PREEMPT_RT
- enabled
-Message-ID: <20260105193933.40485807@gandalf.local.home>
-In-Reply-To: <20260105235921.GI10026@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1767660149; c=relaxed/simple;
+	bh=njFHNNpR4vIL8elGWx5dSKPW9Zlow0wY8rDV/m3iEeI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uaq7NRKnYIAgNUL1JNt9l5q9vHwFb1TKcTA8xP9/m4sROFQrrdi5Um1Yfqk2vsM3KciMYR6widSwN955UwEo0aONquXRagij28WV7uQ4aJ6SiGzHBzdzOmNanFxckGPyxplSFxv469fRvaEtHJ5An3h2lcamWE/knQcKq+0WaY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=AFVTsMpU; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-152.bb.dnainternet.fi [81.175.209.152])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 163E76DF;
+	Tue,  6 Jan 2026 01:42:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1767660125;
+	bh=njFHNNpR4vIL8elGWx5dSKPW9Zlow0wY8rDV/m3iEeI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AFVTsMpUJzrf3THWIspUfJKDQoss9IsAiC8Pe7i9QhoFzNYIaPGePTtrRPejMUMnC
+	 vIWqq9sX3rzLPZ1kpjDHRX4m8ajvuFTSKnjXJXsxphJil9FcT/VdVVM3MPxyPTGaH5
+	 9utWTThSrQzbXzgXPLnwbvrJOBepvzTaBlSkisVg=
+Date: Tue, 6 Jan 2026 02:42:06 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc: Stefan Klug <stefan.klug@ideasonboard.com>,
+	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH 2/4] media: dw100: Implement dynamic vertex map update
+Message-ID: <20260106004206.GK10026@pendragon.ideasonboard.com>
 References: <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-0-65af34d04fd8@ideasonboard.com>
-	<20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-3-65af34d04fd8@ideasonboard.com>
-	<8a8ec84e5484d7a1a5e6fac9a5238f3cae66abc3.camel@ndufresne.ca>
-	<20260105235921.GI10026@pendragon.ideasonboard.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-2-65af34d04fd8@ideasonboard.com>
+ <f4e0b1f13ee54d88d1035828af548f5cf3a25c16.camel@ndufresne.ca>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: 9g3fymwneetyszmde1d4grc7nedxsr7y
-X-Rspamd-Server: rspamout02
-X-Rspamd-Queue-Id: 9309D20028
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1+jyBUrmzGz/LIwDu33A2ymGczKKjDEAkw=
-X-HE-Tag: 1767659950-586319
-X-HE-Meta: U2FsdGVkX1+7VVNXxP1MAPsGOmGqsjr2CdajrWager3p8/66b/7VqrFtu8H8OFk5Qrbdbi7VIQE0ntXCY4/NJ/Jdp5AlFD+l73lG9mQkHbcwV4Vhxd3ITNHWRv/F9b23QBUgrx3rLtDMSAGSUrfpRg0ygrdm8rBRrArh0OzJFLAoENV84Hd72sO1ughXFVz9PyLzA75X1Oc8G4I59xp7uULpZXcHbXqCcemz9m4hBnXtYDiw2CTD5wPDbFUgsRFEamU8o2UhHTJS2B7j0ClDTiA6rwzXKpxveETZzmgR3i0hLL86ksNNxdO6ylI+qw4s/rmnyKL1X+FYtNvk+CU3NLRYEdTMOSflE/vvCrtOkstn6W6OwiZAU839Hz6lilyV
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f4e0b1f13ee54d88d1035828af548f5cf3a25c16.camel@ndufresne.ca>
 
-On Tue, 6 Jan 2026 01:59:21 +0200
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
-
-> > That's interesting, do you plan to update more drivers ? There is a lot of m2m
-> > using hard IRQ to minimize the idle time (save a context switch), but RT support
-> > might be more worth then that.  
+On Mon, Jan 05, 2026 at 01:58:25PM -0500, Nicolas Dufresne wrote:
+> Le lundi 05 janvier 2026 à 12:35 +0100, Stefan Klug a écrit :
+> > Implement dynamic vertex map updates by handling the
+> > V4L2_CID_DW100_DEWARPING_16x16_VERTEX_MAP control during streaming. This
+> > allows to implement features like dynamic zoom, pan, rotate and dewarp.
+> > 
+> > To stay compatible with the old version, updates of
+> > V4L2_CID_DW100_DEWARPING_16x16_VERTEX_MAP are ignored during streaming
+> > when requests are not used. Print a corresponding warning once.
+> > 
+> > Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
+> > ---
+> >  drivers/media/platform/nxp/dw100/dw100.c | 27 +++++++++++++++++++++------
+> >  1 file changed, 21 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/nxp/dw100/dw100.c b/drivers/media/platform/nxp/dw100/dw100.c
+> > index 7f14b82c15a071605c124dbb868f8003856c4fc0..8a421059a1c9b55f514a29d3c2c5a6ffb76e0a64 100644
+> > --- a/drivers/media/platform/nxp/dw100/dw100.c
+> > +++ b/drivers/media/platform/nxp/dw100/dw100.c
+> > @@ -98,6 +98,8 @@ struct dw100_ctx {
+> >  	unsigned int			map_width;
+> >  	unsigned int			map_height;
+> >  	bool				user_map_is_set;
+> > +	bool				user_map_needs_update;
+> > +	bool				warned_dynamic_update;
+> >  
+> >  	/* Source and destination queue data */
+> >  	struct dw100_q_data		q_data[2];
+> > @@ -293,11 +295,15 @@ static u32 dw100_map_format_coordinates(u16 xq, u16 yq)
+> >  	return (u32)((yq << 16) | xq);
+> >  }
+> >  
+> > -static u32 *dw100_get_user_map(struct dw100_ctx *ctx)
+> > +static void dw100_update_mapping(struct dw100_ctx *ctx)
+> >  {
+> >  	struct v4l2_ctrl *ctrl = ctx->ctrls[DW100_CTRL_DEWARPING_MAP];
+> >  
+> > -	return ctrl->p_cur.p_u32;
+> > +	if (!ctx->user_map_needs_update)
+> > +		return;
+> > +
+> > +	memcpy(ctx->map, ctrl->p_cur.p_u32, ctx->map_size);
+> > +	ctx->user_map_needs_update = false;
+> >  }
+> >  
+> >  /*
+> > @@ -306,8 +312,6 @@ static u32 *dw100_get_user_map(struct dw100_ctx *ctx)
+> >   */
+> >  static int dw100_create_mapping(struct dw100_ctx *ctx)
+> >  {
+> > -	u32 *user_map;
+> > -
+> >  	if (ctx->map)
+> >  		dma_free_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
+> >  				  ctx->map, ctx->map_dma);
+> > @@ -318,8 +322,8 @@ static int dw100_create_mapping(struct dw100_ctx *ctx)
+> >  	if (!ctx->map)
+> >  		return -ENOMEM;
+> >  
+> > -	user_map = dw100_get_user_map(ctx);
+> > -	memcpy(ctx->map, user_map, ctx->map_size);
+> > +	ctx->user_map_needs_update = true;
+> > +	dw100_update_mapping(ctx);
+> >  
+> >  	dev_dbg(&ctx->dw_dev->pdev->dev,
+> >  		"%ux%u %s mapping created (d:%pad-c:%p) for stream %ux%u->%ux%u\n",
+> > @@ -351,6 +355,7 @@ static int dw100_s_ctrl(struct v4l2_ctrl *ctrl)
+> >  	switch (ctrl->id) {
+> >  	case V4L2_CID_DW100_DEWARPING_16x16_VERTEX_MAP:
+> >  		ctx->user_map_is_set = true;
+> > +		ctx->user_map_needs_update = true;
 > 
-> This is a part of PREEMPT_RT that puzzles me. By turning regular
-> spinlocks into mutexes, RT seems to break drivers that use those
-> spinlocks in hard IRQ handlers. That's a very large number of drivers
-> given how widespread regular spinlock usage is. Do drivers need to be
-> manually converted to either raw spinlocks or threaded IRQ handlers ?
+> This will be called before the new mapping is applied by
+> v4l2_ctrl_request_complete(), and then may be cleared too soon if you queue
+> depth is high enough.
 
-No. Pretty much all interrupts are converted into threaded interrupt
-handlers unless IRQF_NO_THREAD, IRQF_PERCPU, or IRQF_ONESHOT are specified.
+v4l2_ctrl_request_complete() does not apply a mapping, what am I missing
+?
 
-The interrupt line is disabled until the thread handler is called.
+> Instead, you should check in the request for the presence of
+> V4L2_CID_DW100_DEWARPING_16x16_VERTEX_MAP to optimize the updates. Yo may still
+> set this to true if if there is no request, in the case you also wanted to
+> change the original behaviour of only updating that vertex on streamon, but I
+> don't see much point though.
+> 
+> >  		break;
+> >  	}
+> >  
+> > @@ -405,6 +410,7 @@ static void dw100_ctrl_dewarping_map_init(const struct v4l2_ctrl *ctrl,
+> >  	}
+> >  
+> >  	ctx->user_map_is_set = false;
+> > +	ctx->user_map_needs_update = true;
+> >  }
+> >  
+> >  static const struct v4l2_ctrl_type_ops dw100_ctrl_type_ops = {
+> > @@ -1482,6 +1488,15 @@ static void dw100_device_run(void *priv)
+> >  	v4l2_ctrl_request_setup(src_buf->vb2_buf.req_obj.req,
+> >  				&ctx->hdl);
+> >  
+> > +	if (src_buf->vb2_buf.req_obj.req) {
+> > +		dw100_update_mapping(ctx);
+> > +	} else if (ctx->user_map_needs_update && !ctx->warned_dynamic_update) {
+> > +		ctx->warned_dynamic_update = true;
+> > +		dev_warn(&ctx->dw_dev->pdev->dev,
+> > +			"V4L2 requests are required to update the vertex map dynamically"
+> 
+> Do you know about dev_warn_once() ? That being said, the driver is usable
+> without requests and a static vertex (and must stay this way to not break the
+> ABI). I don't think you should warn here at all.
 
+Applications should move to using requests. We'll do so in libcamera
+unconditionally. I don't expect many other direct users, so warning that
+the mapping won't be applied when an application sets the corresponding
+control during streaming without using requests seems fair to me. It
+will help debugging issues.
 
-> What about non-RT kernels, how can a driver avoid the thread scheduling
-> penalty in those cases, do they need to manually select between
-> request_irq() and request_threaded_irq() based on if RT is enabled ?
-> This puzzles me, it feels like I must be missing something.
+> > +		);
+> > +	}
+> > +
+> >  	v4l2_ctrl_request_complete(src_buf->vb2_buf.req_obj.req,
+> >  				   &ctx->hdl);
+> >  
 
-The issue here is that the interrupt handler specifies ONESHOT which causes
-the handler to be executed in hard interrupt context.
+-- 
+Regards,
 
--- Steve
+Laurent Pinchart
 
