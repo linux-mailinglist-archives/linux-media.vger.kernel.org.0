@@ -1,322 +1,234 @@
-Return-Path: <linux-media+bounces-50036-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50037-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92ABCCF8EAE
-	for <lists+linux-media@lfdr.de>; Tue, 06 Jan 2026 15:57:47 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9DE7CF8E5E
+	for <lists+linux-media@lfdr.de>; Tue, 06 Jan 2026 15:54:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 798813045DA6
-	for <lists+linux-media@lfdr.de>; Tue,  6 Jan 2026 14:54:18 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 7CC063029819
+	for <lists+linux-media@lfdr.de>; Tue,  6 Jan 2026 14:54:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2D6F31353A;
-	Tue,  6 Jan 2026 14:54:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8545D333729;
+	Tue,  6 Jan 2026 14:54:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="dKi3Mi3T"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="LC72UMxW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010055.outbound.protection.outlook.com [52.101.84.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 864FF329389;
-	Tue,  6 Jan 2026 14:54:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767711256; cv=none; b=kA+PQEzs5vs+L8GZSrk8y5DFTB6f/IgK4hFWcQ01ttQaVNn/UG552U2ChYmT9DvX64XrBJ2A5eG4BwjUT6P9SWVjiPBPkd/kTaBGCFPgPOFoxBnPHMbtp8cY5tuTBratmNi44vTJxNUAg9lwO//ePf0mRR2t5Ppi0WmN0pmSBDo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767711256; c=relaxed/simple;
-	bh=CUjbk7hVsel6XSYq8DT1YnQlnOT/v60DN4Ha3wTkCjk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZacEjiGDCmKRAaSE1x8wNSxcte3EfCCULPkvFilccOI/Iegu8bjfvcOHukWv9lDZqX+zSuopfBTI1daEbpVUkzPzlTYzQfuw4lk6OqHAPDjSVziGSUZzrbC55fWkPuu6iyFE/nJMZWQOUND0aSdkwR2qnVGeKut7f2toH1fQJaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=dKi3Mi3T; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-152.bb.dnainternet.fi [81.175.209.152])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id D3112129;
-	Tue,  6 Jan 2026 15:53:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1767711232;
-	bh=CUjbk7hVsel6XSYq8DT1YnQlnOT/v60DN4Ha3wTkCjk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dKi3Mi3TztBsTY/JzljqfUW2jxzSHfEEtUKa9Td9E8BhZj43lWZ/U3d/b+TetRisO
-	 vaHvf+Orfgv72eiiBvL3POWkZYmkCMgbYkgw9Dv/VMunE0Ht4rEVc51FVTSUxnAPol
-	 fL/p82xxSH4ZT8Xl4lpfIHJmZHFrCCGvnDlGM8gc=
-Date: Tue, 6 Jan 2026 16:53:54 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Stefan Klug <stefan.klug@ideasonboard.com>
-Cc: Nicolas Dufresne <nicolas@ndufresne.ca>,
-	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7E803346AF;
+	Tue,  6 Jan 2026 14:54:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.55
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767711259; cv=fail; b=YKUaRD87pEJrwORpzklsgUcDhrl21Epu26v35mN81bMMLwAp+T3uf2gFAETEihvFWDnyBRw+iNTlu9+d41bbhAn0yAt4D8Cd9p8OJQC7re5B9qcx4ZCr825x8mXm3yldmOlS71XFYasJDYvgZhM5gL0g8/UZo/OgwH2AO2uRlg0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767711259; c=relaxed/simple;
+	bh=xPQPRK4fRdcmDO6AV4bwoI3rLUeyj6bx0O+0PpVaroQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=UqXuGZ3WkjkZ49dSAWsxyWedp3iuKvHWA6zqccJDPKYNRaFvlr/KT/QtfTuLFM4oYFxURro6ZiSGVc9ySWBJ4QcSCWSQiAri+RwQYqt2wfKY8o5LzX3DryFnp4xqXTx9lekJSE1Wp7YLzc4BAY/RJdIar1QbQT9B3DPZ0HDWGYQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=LC72UMxW; arc=fail smtp.client-ip=52.101.84.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DB59Dc+NzpwOrQpN7K5WwWaD7QxQ6kMJoBeFcNAFkE6nMJ9ZrOacCiy3Dn134v3QUJFb1D9rwgu1krLqpbTMYODMIbbMfLZgIdO7XnAgBhto8cf2abAHQTQwzsCz0ixu17T9l8o6/v9KvUO1bQgs63cP/KgvTfVFCBsyti1M0lklrNV2wY2KAYvycxdvGFSzaAGZsmgHmZvlqZdFS04pAYJj4ss8t/0WPIxIRCdYbGDy/+4us31r553hm9AZvKV/YmvstvEHd0MLD6H14Yui8JskU51Y22ssFleTM8wU5ugmsGtZG/+b0o+llNVAA6l54C616RwsufWGuatAbXl9lw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1hDdH1nu5arQYKvg2xWz+eTPsfNJIvS8YOlNjVUI5CI=;
+ b=y1sLd9A1tk7+kkGRUYlHFkxFYBBWDmw3E3BTuCCA1rEpRaGhQL4ApYXoxsrQ5WE7bYl/lP/Uhw5s0rMwBWW1GGhSlCh19QXxYtI682t/d/airwFbK/wt7sBG5+YG5sjTv9Qr7LeA6YvtSkm0GmQUDXqfnCEJfoUWLnDe0tmlD9niV+rkBYm2ylN5ybTE00fa0C9gYczQeWPubmYdTRZjPCWot/JfAs5t0Ek+RqtmZFnEtOUbnOzlAIPlNgDik7M+d0IgSfTWwL1G6dzzh+IygWLNr7wJnHrL7GNz5mcMOhpwfHV3zmQoT9t7w//JQcnVInoLRjCg0GbPWHRRWvJ6zw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1hDdH1nu5arQYKvg2xWz+eTPsfNJIvS8YOlNjVUI5CI=;
+ b=LC72UMxWorV8ZN/pQBMl1KJzTHQ1PdTOR9VCygXnkqPmp2f7Y7FBVFTKeVFmiamKyuYHjMPplYcS0Gedajh+vNhPmC8YHuRcSpaH5vQQaOFgXsxPy6tka8rhhHa2tOlVZ+pxPBFFve0z/PU/pBsk/ND4gyM7ia/tgG9T9nQ6HmWQX88tEc5Rqvwb8eyfYDkgMi9yD+htdDyPYxE+1INhx1cVnBWvIMfU6ZgqGDtIQUJ84FMGBGjhTeN74ZXZgPPqtQ73x66avGD5+s8rLRs2o5qpmpJp6fpl9457BBO1Fle2Ao3wh8qeYp5T9j9lCJf0ppjWzAZ/1aJVjieEvfasJg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DU2PR04MB8951.eurprd04.prod.outlook.com (2603:10a6:10:2e2::22)
+ by AS1PR04MB9333.eurprd04.prod.outlook.com (2603:10a6:20b:4df::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9478.4; Tue, 6 Jan
+ 2026 14:54:14 +0000
+Received: from DU2PR04MB8951.eurprd04.prod.outlook.com
+ ([fe80::753c:468d:266:196]) by DU2PR04MB8951.eurprd04.prod.outlook.com
+ ([fe80::753c:468d:266:196%4]) with mapi id 15.20.9478.004; Tue, 6 Jan 2026
+ 14:54:14 +0000
+Date: Tue, 6 Jan 2026 09:54:00 -0500
+From: Frank Li <Frank.li@nxp.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Abel Vesa <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Vinod Koul <vkoul@kernel.org>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Hans Verkuil <hans@jjverkuil.nl>
-Subject: Re: [PATCH 1/4] media: dw100: Implement V4L2 requests support
-Message-ID: <20260106145354.GB26157@pendragon.ideasonboard.com>
-References: <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-0-65af34d04fd8@ideasonboard.com>
- <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-1-65af34d04fd8@ideasonboard.com>
- <40dfd12b585681d8edf9641967160c086cc120c3.camel@ndufresne.ca>
- <20260106003302.GJ10026@pendragon.ideasonboard.com>
- <176770897731.12184.12302111059048415045@localhost>
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	llvm@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-clk@vger.kernel.org, imx@lists.linux.dev,
+	dmaengine@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Subject: Re: [PATCH v2 07/11] clk: imx: imx27: Simplify with scoped for each
+ OF child loop
+Message-ID: <aV0iCGjODqJI5F5U@lizhi-Precision-Tower-5810>
+References: <20260106-of-for-each-compatible-scoped-v2-0-05eb948d91f2@oss.qualcomm.com>
+ <20260106-of-for-each-compatible-scoped-v2-7-05eb948d91f2@oss.qualcomm.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260106-of-for-each-compatible-scoped-v2-7-05eb948d91f2@oss.qualcomm.com>
+X-ClientProxiedBy: BYAPR07CA0038.namprd07.prod.outlook.com
+ (2603:10b6:a03:60::15) To DU2PR04MB8951.eurprd04.prod.outlook.com
+ (2603:10a6:10:2e2::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <176770897731.12184.12302111059048415045@localhost>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU2PR04MB8951:EE_|AS1PR04MB9333:EE_
+X-MS-Office365-Filtering-Correlation-Id: f076a4b1-7815-4f38-51b8-08de4d337558
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|19092799006|52116014|7416014|376014|1800799024|366016|38350700014|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?3l223IbWcfeLB/rL9w7WKDhPNDwGQkHUqBkTKbjUGTXK3zXmL0qgkc5tJSnK?=
+ =?us-ascii?Q?wo9qbvgUvnUZLTF0WJVlGcqQuZSpB+ki3/62eOqwMjSwqZcoP3HCNYvSsNeb?=
+ =?us-ascii?Q?XbHg73uBbdZFfEHETb8m3XL/Cnn9r1uLm2W9Vw9396QdJJOHQo3fQ3aUSNOQ?=
+ =?us-ascii?Q?GUBVXcAQamgojTs0xro4vbr+K77csbwXHwKM8TXvi1mtvXmkrVaRAFrcULdA?=
+ =?us-ascii?Q?Yz++L1iEyFB1xOW9O4XNXDsJMFthmE6ybY9zSRwDZDrC9upRiVzMvyCCD2jp?=
+ =?us-ascii?Q?Fjncqi260512pmaS8OzJ/dynCZBtVSfYj5mActYF0crfOVGi7Y9IcgZNWM/8?=
+ =?us-ascii?Q?3CvGma+ZvaI8tnVoUFFF5Ghj9Bs43gjmWt6yqwd3PyUMX/RbDcLMTtEJ4WLw?=
+ =?us-ascii?Q?fIICH3wRboFbJQW46r+i2trkg26jGJDsE4k6gP80AZCQ6ddrS4ktC/ZYdrJp?=
+ =?us-ascii?Q?D4gT1BZyXLPkV9J/Ek+kkqYhBW7psaRHfkb0CGFYTOUB/Mzh39e3g36qNs2X?=
+ =?us-ascii?Q?XWxDQ0G6aR2c4OyqpjkhSfNuNRx39bonwZKNukYfR1hMdcUwRDVB9FBp2J9b?=
+ =?us-ascii?Q?vo5FSKFMrkKDCD9TeAxrnG6YclxR4VP1xoS2DjjBryiqpPpw7F46XQN4vzb5?=
+ =?us-ascii?Q?+hCZT3gTjlgqTq+68VgeXxUWUMEzpJ7jWxYmVmGfDDWfi8k3z/Xf7gFB79O6?=
+ =?us-ascii?Q?WU5tInmXwYTsHci990QbtX7MphfAfh9kfy7pxOmwPSwHXZbzoN7q1Fabo38i?=
+ =?us-ascii?Q?XfDBdxCIvUUuIcMTpd3dg9hX4g3S/7OcK06uAANqF9hlzeYYzr/Nlyf09DtY?=
+ =?us-ascii?Q?89bN9ADzIMO3xtjgIBEsz7sJx/8jlKUj3ELzQyi5sulb/mEQqe+9Qtzs1s/s?=
+ =?us-ascii?Q?58qgoArdJkMaWlB/v2wsugIS1fYL/8TNY8jqVFYrTWeWPI8O9VYUIC65bo7/?=
+ =?us-ascii?Q?bxFs6OQZANcg/z1Rl7P39CnHGCbdrDWeTGGTjZAelmkzXJaQvGtp7XGMMNuR?=
+ =?us-ascii?Q?jvJ9X2K9fAOg54iJYtZFmeuoVu4jBNH19gQ/QoTyfcwZVVUgXdUh29reRC1a?=
+ =?us-ascii?Q?/ByxO6CQ1fCVXGYD+mnypnW54xdwoyKhjuMCGnZwe6Yi5R5G7AgulK3+eOGp?=
+ =?us-ascii?Q?ZY9caDwVaRwsT1zHg/T179U3Nf7sF/TvvW7Ujt8z1XgWXzlHJzM8XZM9JTtj?=
+ =?us-ascii?Q?DqN2Y4knNuvs2kYS37H+Emk5sVNLQHVnHgtcSV9Hyhepj8/rV99mE/gFIlho?=
+ =?us-ascii?Q?uT3/wlSw58DGwf6Ti/YRKQyE3SwXZjNd+hbw0GHh/2YWUpKLcX7fi6BnwsBT?=
+ =?us-ascii?Q?8QVM93WAc9x7AyFP5mJwC0DLCeowOrcfOFLhd1kmFb67ReXwzPzyxKOlHlQh?=
+ =?us-ascii?Q?OMwS/u97B9n+0l0kliQt1T9abRvI/QRxL+3YWYQa4fkdcL8i5x38oWjFu69w?=
+ =?us-ascii?Q?Sm9soaPzH3oGpXcjjV9dZI0NDzQBVkv7HlrOPUuBxKCwG4xuZQUuFVdybAPs?=
+ =?us-ascii?Q?qLWxbWmP1awtQiooo+LrALaBh+oHhjQvIe1I?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8951.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(52116014)(7416014)(376014)(1800799024)(366016)(38350700014)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?DKql+K3RO2qkLqbE0siTOvCdTn00z4GcG5Hxb0hm9Tpoqc0+sAdYC5rjW+uV?=
+ =?us-ascii?Q?ifQTLG9UZVBiwKIARP7pi0IGs3XWgn9CmpOUkkJxh/2mdOYk8fwc/2IIaeOY?=
+ =?us-ascii?Q?SrMnMdDIBZGtBoEPLshHdYDf535v/ALekiZzYTSfcMpaiE/3Gax5z0q1e9Uz?=
+ =?us-ascii?Q?ti3fBDnieHXnmGv2tNhj6yqATY3welxmqV4qavtoAUNsz60VfAvsQUJJkvpP?=
+ =?us-ascii?Q?F7qLQYdKRBzzjcw23v2gtyHZYjbAdaDfTfLanQffYF2PKWOgr0Gk1zPnjCXX?=
+ =?us-ascii?Q?nvc2+xDS1QcTFHnKbwTbcdxA4B7yFIOGGEKqMC8mP0pToRzuBFfiUsz/6b8n?=
+ =?us-ascii?Q?l+NtXtEFYU0rxVlGhh0wyZjg9PCaHU9DPovTLVU2iBgt/9/ZNVtUeXk6NH25?=
+ =?us-ascii?Q?86jPJH6fon2b1refgRH1S1fOaZtD7IsfVqXlUO5idCLGYp/bN0HOznFmc8ch?=
+ =?us-ascii?Q?r1VGE7N2i9j8SV5M0k5oxft9KnxgOinVBgkscxFR84Wc+FAbEERxOUfWmZ+J?=
+ =?us-ascii?Q?RQ6UjlJ5s2c3MhaKh3zu3S/OuYeSUw+iR5SA+AE0Khsb+75Q8GUlejFJTpsW?=
+ =?us-ascii?Q?EYGr+myHlmwBWcH0SXrkrLsGEb7enu2tUSuScyytANa2ikuiLW/d6Dltn9Hd?=
+ =?us-ascii?Q?agOeXtKnzPFNVLj8Am0veO5tzZk22xrKxvP3CtKptswtfO7cdo21e8cO8jTH?=
+ =?us-ascii?Q?2qOUOxsWhVwbdFRQKEdOKAiRfn8Pd545GfXMth0GsXeNZxYuDFrutCa6XqAV?=
+ =?us-ascii?Q?Wt3P00boarvrnreWMZePMn+zp+s5LoBzmKl3es4d3ffTjvccu6v2/BoAhrvW?=
+ =?us-ascii?Q?Pwgphc3MCa5XMO4z0iukVCa9uQLVth0RIDQOMjWPi85ePlSlLzFQo40lR64G?=
+ =?us-ascii?Q?ge3vU+L4xBGkfHr8WqByeQprtiwkGoAGzOKucx31ND7Y4AvZK+P4CirEzkUW?=
+ =?us-ascii?Q?XF/6wrGmPaUOlD8lEWmOEP8YtLs4dgHu6hPT+06kOghYZtYpWbtAWjkKfLNq?=
+ =?us-ascii?Q?ksMpXQgOzS9nonV+3IzzHlCPaQU7KmGsK6W5yEggDzgKz+76lHBZAjY9nQKa?=
+ =?us-ascii?Q?YAr9T2u1R8SfYqeFQ75hB5oU4hSdPWXRdUhVkRZd9xiMA5XGM84Dbon+GEyr?=
+ =?us-ascii?Q?iKQFG4G1UL3PYFhNwthH7eEgQjE5mfv5DDT0uX+ZxfpSxB8/6Cc58gs8oqPw?=
+ =?us-ascii?Q?IIu/qnNhZIc9IC6RF913wYq2bFIch6zqULNgWNgyTRanNFVEsR/j8IQvnz8a?=
+ =?us-ascii?Q?+J1zWeSisDOsRCQlsV++qVAYCgQ4q6cFMQxAqY0kK6fbqxJY1U+URrv/Ev1z?=
+ =?us-ascii?Q?rrEHzV1UfjJvMEQjrzg9BCkFHaTGRxYfivIwRPsDqHA3mFhzDEDTmAUblood?=
+ =?us-ascii?Q?aVrrbuvAQLzpfZDJoRYbs8Cl8G4AZNqgh9/m8yOKci1SiPYxvdDgraiqFpNB?=
+ =?us-ascii?Q?cqPVvq3ZQuLqkGNnuEu4pMUGejFDfgpyR5hRP2H3bYv/tsmiGtLY3spfuHDT?=
+ =?us-ascii?Q?Uuu0inQf+7uXIZ8OPEb3+5+Y8qnzXkFA66NbJ++aGe2x3XGMWzh5Z1kEaY5c?=
+ =?us-ascii?Q?EO5qDU5UQMfJBrehlGfVoGRA6eMT570U1W+WIUCS72LahoaoWJxaNn+LJMJB?=
+ =?us-ascii?Q?r3CRyxv0KWELIN6BSPsNmx/88paONNJVVsinYvvNG9l7Sn1ms4A9RD28hM8j?=
+ =?us-ascii?Q?NrZx3ZJtmuasVJdTw2y/kT2JDYXsmQxh+RSKTj2oRdpyfLfF?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f076a4b1-7815-4f38-51b8-08de4d337558
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8951.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2026 14:54:14.1939
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pr8KLBxxGK0fupajo5m50geFyijAeUfJJa2W55y1q0jsMRsem15SpbYYN9oThVEIQcaBT9BQhITAZOrp4X22tw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR04MB9333
 
-CC'ing Hans Verkuil for two questions below.
+On Tue, Jan 06, 2026 at 10:15:17AM +0100, Krzysztof Kozlowski wrote:
+> Use scoped for-each loop when iterating over device nodes to make code a
+> bit simpler.
+>
+> Reviewed-by: Peng Fan <peng.fan@nxp.com>
 
-On Tue, Jan 06, 2026 at 03:16:17PM +0100, Stefan Klug wrote:
-> Hi Nicolas, hi Laurent,
-> 
-> Thank you for the review.
-> 
-> Quoting Laurent Pinchart (2026-01-06 01:33:02)
-> > On Mon, Jan 05, 2026 at 01:46:46PM -0500, Nicolas Dufresne wrote:
-> > > Le lundi 05 janvier 2026 à 12:35 +0100, Stefan Klug a écrit :
-> > > > The dw100 dewarper hardware present on the NXP i.MX8MP allows very
-> > > > flexible dewarping using a freely configurable vertex map. Aside from
-> > > > lens dewarping the vertex map can be used to implement things like
-> > > > arbitrary zoom, pan and rotation. The current driver supports setting
-> > > > that vertex map before calling VIDIOC_STREAMON.
-> > > > 
-> > > > To control above mentioned features during streaming it is necessary to
-> > > > update the vertex map dynamically. To do that in a race free manner V4L2
-> > > > requests support is required. This patch adds V4L2 requests support to
-> > > > prepare for dynamic vertex map updates.
-> > > > 
-> > > > Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
-> > > > 
-> > > > ---
-> > > > 
-> > > > Changes in v1:
-> > > > - Moved v4l2_ctrl_request_complete into dw100_device_run
-> > > > ---
-> > > >  drivers/media/platform/nxp/dw100/dw100.c | 41 ++++++++++++++++++++++++++++----
-> > > >  1 file changed, 36 insertions(+), 5 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/media/platform/nxp/dw100/dw100.c b/drivers/media/platform/nxp/dw100/dw100.c
-> > > > index 4aaf9c3fff5397f0441944ee926f2c8ba6fc864a..7f14b82c15a071605c124dbb868f8003856c4fc0 100644
-> > > > --- a/drivers/media/platform/nxp/dw100/dw100.c
-> > > > +++ b/drivers/media/platform/nxp/dw100/dw100.c
-> > > > @@ -459,6 +459,15 @@ static int dw100_queue_setup(struct vb2_queue *vq,
-> > > >     return 0;
-> > > >  }
-> > > >  
-> > > > +static int dw100_buf_out_validate(struct vb2_buffer *vb)
-> > > > +{
-> > > > +   struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-> > > > +
-> > > > +   vbuf->field = V4L2_FIELD_NONE;
-> > > > +
-> > > > +   return 0;
-> > > > +}
-> > 
-> > Stefan, how is this related to requests support ?
-> 
-> vb2_queue_or_prepare_buf() errors out if this is not implemented and the
-> buffer uses requests. This was the implementation I saw on most drivers.
-> And as I don't expect anyone to try to use the dewarper with interleaved
-> data I didn't bother to add a warning.
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
 
-I wasn't aware of that. Reading the code, I'm really puzzled by why
-.buf_out_validate() was added, it seems that validating .field in
-.buf_prepare() would be enough. Hans, could you shed some light on that
-?
-
-> > > > +
-> > > >  static int dw100_buf_prepare(struct vb2_buffer *vb)
-> > > >  {
-> > > >     unsigned int i;
-> > > > @@ -500,6 +509,13 @@ static void dw100_buf_queue(struct vb2_buffer *vb)
-> > > >     v4l2_m2m_buf_queue(ctx->fh.m2m_ctx, vbuf);
-> > > >  }
-> > > >  
-> > > > +static void dw100_buf_request_complete(struct vb2_buffer *vb)
-> > > > +{
-> > > > +   struct dw100_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
-> > > > +
-> > > > +   v4l2_ctrl_request_complete(vb->req_obj.req, &ctx->hdl);
-> > 
-> > Unless I'm missing something, this will call
-> > v4l2_ctrl_request_complete() twice, once on each of the source and
-> > destination buffers, for the same request and control handler. Is that
-> > desired ?
-> 
-> The docs say "a buffer that was never queued to the driver but is
-> associated with a queued request was canceled..." So to my understanding
-> the only purpose of this function is to mark all controls in the request
-> as being handled, so that the request can be finished.
-
-That doesn't explain why it should be done twice per request. Hans,
-could you clarify this ?
-
-> All the implementations I found in the kernel are exactly the same and
-> are to my understanding only necessary to map from a vb2_buffer to a
-> v4l2_ctrl_handler (which is then passed to v4l2_ctrl_request_complete())
-> 
-> > > > +}
-> > > > +
-> > > >  static void dw100_return_all_buffers(struct vb2_queue *q,
-> > > >                                  enum vb2_buffer_state state)
-> > > >  {
-> > > > @@ -553,11 +569,13 @@ static void dw100_stop_streaming(struct vb2_queue *q)
-> > > >  }
-> > > >  
-> > > >  static const struct vb2_ops dw100_qops = {
-> > > > -   .queue_setup     = dw100_queue_setup,
-> > > > -   .buf_prepare     = dw100_buf_prepare,
-> > > > -   .buf_queue       = dw100_buf_queue,
-> > > > -   .start_streaming = dw100_start_streaming,
-> > > > -   .stop_streaming  = dw100_stop_streaming,
-> > > > +   .queue_setup          = dw100_queue_setup,
-> > > > +   .buf_out_validate     = dw100_buf_out_validate,
-> > > > +   .buf_prepare          = dw100_buf_prepare,
-> > > > +   .buf_queue            = dw100_buf_queue,
-> > > > +   .start_streaming      = dw100_start_streaming,
-> > > > +   .stop_streaming       = dw100_stop_streaming,
-> > > > +   .buf_request_complete = dw100_buf_request_complete,
-> > > >  };
-> > > >  
-> > > >  static int dw100_m2m_queue_init(void *priv, struct vb2_queue *src_vq,
-> > > > @@ -575,6 +593,7 @@ static int dw100_m2m_queue_init(void *priv, struct vb2_queue *src_vq,
-> > > >     src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
-> > > >     src_vq->lock = &ctx->vq_mutex;
-> > > >     src_vq->dev = ctx->dw_dev->v4l2_dev.dev;
-> > > > +   src_vq->supports_requests = true;
-> > > >  
-> > > >     ret = vb2_queue_init(src_vq);
-> > > >     if (ret)
-> > > > @@ -1460,6 +1479,12 @@ static void dw100_device_run(void *priv)
-> > > >     src_buf = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
-> > > >     dst_buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
-> > > >  
-> > > > +   v4l2_ctrl_request_setup(src_buf->vb2_buf.req_obj.req,
-> > > > +                           &ctx->hdl);
-> > > > +
-> > > > +   v4l2_ctrl_request_complete(src_buf->vb2_buf.req_obj.req,
-> > > > +                              &ctx->hdl);
-> > > 
-> > > The request should always be signalled last, so nothing wrong with applying the
-> > > controls as soon as possible in this case. Complete is a bit of a miss-leading
-> > > name, this function actually changes the global controls value (apply) and
-> > > removes its participation in request completion. Since the OUTPUT buffer for
-> > > that request is still queued, the request is not signalled yet.
-> > 
-> > I'm very confused here. As far as I can tell,
-> > v4l2_ctrl_request_complete() doesn't apply controls (i.e. cause
-> > .s_ctrl() to be called), it copies the value of controls back to the
-> > request to report them to the application. Am I missing something ?
-> > 
-> > As there's nothing to report back to the application (no volatile
-> > control whose value will come from the hardware), calling
-> > v4l2_ctrl_request_complete() here seems fine to me. Is that what you
-> > were trying to explain ?
-> 
-> I think that was meant, yes (see next comment)
-> 
-> > > But you have to flip over the order to buffer signalling in dw100_job_finish()
-> > > though. My recommendation is to use the helper
-> > > v4l2_m2m_buf_done_and_job_finish(). Something like this (not tested):
-> > > 
-> > >    diff --git a/drivers/media/platform/nxp/dw100/dw100.c b/drivers/media/platform/nxp/dw100/dw100.c
-> > >    index 4aaf9c3fff53..c5f9ee238345 100644
-> > >    --- a/drivers/media/platform/nxp/dw100/dw100.c
-> > >    +++ b/drivers/media/platform/nxp/dw100/dw100.c
-> > >    @@ -1058,7 +1058,6 @@ static const struct v4l2_ioctl_ops dw100_ioctl_ops = {
-> > >     static void dw100_job_finish(struct dw100_device *dw_dev, bool with_error)
-> > >     {
-> > >            struct dw100_ctx *curr_ctx;
-> > >    -       struct vb2_v4l2_buffer *src_vb, *dst_vb;
-> > >            enum vb2_buffer_state buf_state;
-> > >     
-> > >            curr_ctx = v4l2_m2m_get_curr_priv(dw_dev->m2m_dev);
-> > >    @@ -1069,16 +1068,12 @@ static void dw100_job_finish(struct dw100_device *dw_dev, bool with_error)
-> > >                    return;
-> > >            }
-> > >     
-> > >    -       src_vb = v4l2_m2m_src_buf_remove(curr_ctx->fh.m2m_ctx);
-> > >    -       dst_vb = v4l2_m2m_dst_buf_remove(curr_ctx->fh.m2m_ctx);
-> > >    -
-> > >            if (likely(!with_error))
-> > >                    buf_state = VB2_BUF_STATE_DONE;
-> > >            else
-> > >                    buf_state = VB2_BUF_STATE_ERROR;
-> > >     
-> > >    -       v4l2_m2m_buf_done(src_vb, buf_state);
-> > >    -       v4l2_m2m_buf_done(dst_vb, buf_state);
-> > >    +       v4l2_m2m_buf_done_and_job_finish(dw_dev->m2m_dev, buf_state);
-> > >     
-> > >            dev_dbg(&dw_dev->pdev->dev, "Finishing transaction with%s error(s)\n",
-> > >                    with_error ? "" : "out");
-> > >    
-> > > You might be tempted to keep the logical order, and move the
-> > > v4l2_ctrl_request_complete() call into dw100_job_finish(), unfortunately this
-> > > does not work, since nothing mandate that any control was included in this
-> > > request, and that will lead to calling v4l2_ctrl_request_complete() on an
-> > > already completed request. Since its a single function HW, I don't see why you'd
-> > > want this, but it would require the manual request completion.
-> > > 
-> 
-> Nicolas, if I go you right you mean that one might be tempted to do
-> 
-> v4l2_ctrl_request_setup()
-> v4l2_m2m_buf_done(src)
-> v4l2_m2m_buf_done(dst)
-> v4l2_ctrl_request_complete()
-> 
-> which feels natural from the names of the functions, but the
-> v4l2_m2m_buf_done(src) might complete the request if it has no
-> associated controls and therefore the later v4l2_ctrl_request_complete()
-> would fail...
-> 
-> I see that the usage of v4l2_m2m_buf_done_and_job_finish() is more
-> compact and will use that in v2. For the sake of understanding: The only
-> functional issue with my code is that v4l2_m2m_buf_done(src_buf) is
-> called before v4l2_m2m_buf_done(dest_buf), right?
-
-Is that an issue, why would the destination buffer need to be completed
-first ?
-
-> > > > +
-> > > >     dw100_start(ctx, src_buf, dst_buf);
-> > > 
-> > > nit: I really don't see why this is a separate function ...
-> 
-> I wondered that also, but didn't want to mess too much with existing
-> code. Maybe as a fixup on top?
-
-A separate patch would be better.
-
-> > > >  }
-> > > >  
-> > > > @@ -1467,6 +1492,11 @@ static const struct v4l2_m2m_ops dw100_m2m_ops = {
-> > > >     .device_run     = dw100_device_run,
-> > > >  };
-> > > >  
-> > > > +static const struct media_device_ops dw100_m2m_media_ops = {
-> > > > +   .req_validate = vb2_request_validate,
-> > > > +   .req_queue = v4l2_m2m_request_queue,
-> > > > +};
-> > > > +
-> > > >  static struct video_device *dw100_init_video_device(struct dw100_device *dw_dev)
-> > > >  {
-> > > >     struct video_device *vfd = &dw_dev->vfd;
-> > > > @@ -1578,6 +1608,7 @@ static int dw100_probe(struct platform_device *pdev)
-> > > >     dw_dev->mdev.dev = &pdev->dev;
-> > > >     strscpy(dw_dev->mdev.model, "dw100", sizeof(dw_dev->mdev.model));
-> > > >     media_device_init(&dw_dev->mdev);
-> > > > +   dw_dev->mdev.ops = &dw100_m2m_media_ops;
-> > > >     dw_dev->v4l2_dev.mdev = &dw_dev->mdev;
-> > > >  
-> > > >     ret = video_register_device(vfd, VFL_TYPE_VIDEO, -1);
-
--- 
-Regards,
-
-Laurent Pinchart
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> ---
+>
+> Depends on first patch.
+> ---
+>  drivers/clk/imx/clk-imx27.c | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/clk/imx/clk-imx27.c b/drivers/clk/imx/clk-imx27.c
+> index 99618ded0939..f2f0d3fe5c52 100644
+> --- a/drivers/clk/imx/clk-imx27.c
+> +++ b/drivers/clk/imx/clk-imx27.c
+> @@ -171,17 +171,14 @@ static void __init _mx27_clocks_init(unsigned long fref)
+>
+>  static void __init mx27_clocks_init_dt(struct device_node *np)
+>  {
+> -	struct device_node *refnp;
+>  	u32 fref = 26000000; /* default */
+>
+> -	for_each_compatible_node(refnp, NULL, "fixed-clock") {
+> +	for_each_compatible_node_scoped(refnp, NULL, "fixed-clock") {
+>  		if (!of_device_is_compatible(refnp, "fsl,imx-osc26m"))
+>  			continue;
+>
+> -		if (!of_property_read_u32(refnp, "clock-frequency", &fref)) {
+> -			of_node_put(refnp);
+> +		if (!of_property_read_u32(refnp, "clock-frequency", &fref))
+>  			break;
+> -		}
+>  	}
+>
+>  	ccm = of_iomap(np, 0);
+>
+> --
+> 2.51.0
+>
 
