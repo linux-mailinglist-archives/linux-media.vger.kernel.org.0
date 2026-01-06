@@ -1,95 +1,86 @@
-Return-Path: <linux-media+bounces-49967-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-49968-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 608A3CF7050
-	for <lists+linux-media@lfdr.de>; Tue, 06 Jan 2026 08:20:36 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 389B1CF73F1
+	for <lists+linux-media@lfdr.de>; Tue, 06 Jan 2026 09:14:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id B70753013BF4
-	for <lists+linux-media@lfdr.de>; Tue,  6 Jan 2026 07:20:32 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BBBE130D4A3B
+	for <lists+linux-media@lfdr.de>; Tue,  6 Jan 2026 08:12:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18668309F1F;
-	Tue,  6 Jan 2026 07:20:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gUu547Pe"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F211309F1C;
+	Tue,  6 Jan 2026 08:12:06 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 747253093B6
-	for <linux-media@vger.kernel.org>; Tue,  6 Jan 2026 07:20:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798DB309DDB;
+	Tue,  6 Jan 2026 08:11:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767684031; cv=none; b=CDaF4oQ6/vtV20nH9qjqn305u30zeepCM95jwm6/pWZbQhHjQ5aLwsK0RSyeZovjsq6e9KxG+7O5plEHoYDj/TXpiIgJTQ8E6UMfPCYP59pgtXvZ0TZjHTxt2SThfJsfsfkfV1HBQsOkIHXhVxMvyRXXSvbyvYYLTXlIyqBG4Cs=
+	t=1767687125; cv=none; b=B3mO/ToDDkmityjNRF1ssFMJrO0pvQsn6ZjitV3lI1CmQtUzWWaEjbZal/aZHtPUJMNvHB/staknNW0xlx5iJaodc6qP+DrofKggGANNjJZi2TU7E3685Ya13M1lmCN6dWr+PQ3KcoRrVqC9M2Ylj/+Xge2O0GQxJeUQCyTYaKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767684031; c=relaxed/simple;
-	bh=/zEBAlZBiYqagAPa8sWBswU7epl23YZNGOBcV8Nyubk=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Rfzox/a5A0hmAsRzjYB9EeUTuNkqUDcR7jNT71eBx3uhR3ToezvYAT/1qhEi8yrjHqLCQK2xueBXSLwWsxodvnOuqTMRsgITzBZ+2nT7GilzN9F7V734OIK/xpsYOW21dnwCAQ+orcSkMasue9PJg0JYM+Z5xYujROXRHt8oFDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gUu547Pe; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37C6AC19423;
-	Tue,  6 Jan 2026 07:20:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767684030;
-	bh=/zEBAlZBiYqagAPa8sWBswU7epl23YZNGOBcV8Nyubk=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=gUu547PeIgr/MqjqRuZ6v/oSyKoXeje/z7zd/fIle5yrwP899vrGm7kfD1mz1otad
-	 t8CZFKGOO6a7IoCwp/YXw9K3PCsF7PWSpytb4N0ai16mM/bXvNTVmhSXB4Ep24sEG9
-	 gRmGatTI8q5Xg4neBfbDRD4DPQNschz0qkFEL56fKi4YTALuMhTBYEMUGmGUWZTL1O
-	 yBBRm1DnR9wgB0wzgj13DF+3r76iC7IY13RDoiXH1r6Tp0EQtEzgyA5FU1iJwsaknY
-	 bBE8MWgaibBBZWX6MmQdH42xes+LRa7dBEOuc0ZQw4rQPMbXkhcu8h5AGdVH7ok98P
-	 lP72bzzR7397Q==
-Message-ID: <63f21eb4-e789-4e77-b362-9ff94e1fdfcb@kernel.org>
-Date: Tue, 6 Jan 2026 08:20:28 +0100
+	s=arc-20240116; t=1767687125; c=relaxed/simple;
+	bh=JuNuDBhL7/IDUPgaL8v9dCU9XQO4PwPYzDaLxgXk8Uw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=jG7TsR7KtzAgfw8wyc+VsP43KtE7w/+U2ebtGGYGiiiuO4SqoCbXZ8mdkFI0KEMMoS2t7ffoNpX7dXmq4Vqtf21TiBTYMzNweD/ktl2sqBN03eio/Jg/EX2cU2q6ATwrxKZZhrKCicHLEVOFeXGLadh/AJTxT+I0+Cnx+t45DLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 5961022aead711f0a38c85956e01ac42-20260106
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.6,REQID:3c7ec42a-db62-4f28-97d7-2c8a90912194,IP:0,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:0
+X-CID-META: VersionHash:a9d874c,CLOUDID:02b9d54f5d5d5b7c8b91eea5f4419164,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|817|850|898,TC:nil,Conte
+	nt:-10|-8|-5|14|50,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC
+	:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 5961022aead711f0a38c85956e01ac42-20260106
+X-User: chenchangcheng@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <chenchangcheng@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 283087918; Tue, 06 Jan 2026 16:11:48 +0800
+From: Chen Changcheng <chenchangcheng@kylinos.cn>
+To: laurent.pinchart@ideasonboard.com
+Cc: chenchangcheng@kylinos.cn,
+	hansg@kernel.org,
+	krzk@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	mchehab@kernel.org
+Subject: Re: [PATCH v2] media: uvcvideo: Use scope-based cleanup helper
+Date: Tue,  6 Jan 2026 16:11:46 +0800
+Message-Id: <20260106081146.123729-1-chenchangcheng@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260106035159.GA11450@pendragon.ideasonboard.com>
+References: <20260106035159.GA11450@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCHv3 00/12] media: omap3isp: v4l2-compliance fixes
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
-References: <cover.1764661880.git.hverkuil+cisco@kernel.org>
- <aUVGY_zKzbyDKJMU@kekkonen.localdomain>
-Content-Language: en-US, nl
-In-Reply-To: <aUVGY_zKzbyDKJMU@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 19/12/2025 13:34, Sakari Ailus wrote:
-> Hi Hans,
-> 
-> On Tue, Dec 02, 2025 at 08:51:08AM +0100, Hans Verkuil wrote:
->> When I worked on the patch series to remove the vb2 wait_prepare/finish
->> callbacks, I had to test that series on my Beagle xM board with a
->> Leopard Imaging li5m03 camera.
->>
->> Since I wanted to use v4l2-compliance to test the vb2 change, I first had
->> to fix a bunch of other compliance problems in this driver so it would
->> actually be able to run the streaming tests.
->>
->> This series contains the fixes I made to get to that point.
->>
->> It depends on one sensor driver fix (posted separately):
->>
->> https://patchwork.linuxtv.org/project/linux-media/patch/554fb9d7-374b-4868-b91b-959b8fd69b4d@kernel.org/
->>
->> This series doesn't fix all compliance problems, but at least it is
->> a lot better now.
-> 
-> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> 
-> Also let me know if you'd wish me to pick these.
-> 
+> > > This is an undesired syntax explicitly documented as one to avoid. You
+> > > need here proper assignment, not NULL. Please don't use cleanup.h if you
+> > > do not intend to follow it because it does not make the code simpler.
+> >
+> > Thank you for your correction and feedback. I made the change initially
+> > because I saw similar patterns using "__free(...) = NULL" in patches from
+> > other driver modules, which led me to overlook the core paradigm of
+> > cleanup.h that requires a "declaration with a meaningful initializer."
 
-I can take this series and add your Ack.
+> Do you plan to send a v3 ?
 
-Thank you for looking at this!
+No, I don't plan to send a v3. Thank you.
 
-Regards,
-
-	Hans
+Best regards,
+Changcheng Chen
 
