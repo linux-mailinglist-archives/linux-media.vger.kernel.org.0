@@ -1,89 +1,92 @@
-Return-Path: <linux-media+bounces-50075-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50076-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 766CCCFAE12
-	for <lists+linux-media@lfdr.de>; Tue, 06 Jan 2026 21:13:21 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01074CFB0F3
+	for <lists+linux-media@lfdr.de>; Tue, 06 Jan 2026 22:12:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id DB11030537A4
-	for <lists+linux-media@lfdr.de>; Tue,  6 Jan 2026 20:13:19 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 581B430361CA
+	for <lists+linux-media@lfdr.de>; Tue,  6 Jan 2026 21:11:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DFB92D23A6;
-	Tue,  6 Jan 2026 20:13:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD8ED2D3750;
+	Tue,  6 Jan 2026 21:11:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="fxbO5wvu"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="BZd2o/pU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A4D20F079
-	for <linux-media@vger.kernel.org>; Tue,  6 Jan 2026 20:13:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E39D29B793
+	for <linux-media@vger.kernel.org>; Tue,  6 Jan 2026 21:11:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767730397; cv=none; b=I/TUtW5ReapSUp/XsHTXvVbX52vdD42ynbsUAwf2LxUZJh69loVSV1Zb7M/0LoumUtNRLJRwbwh9VPS39t7D47UiM8pr+RRTY8HTojK4EuS84IHIxgEEQ9J+wmiPehYHun7qab1qnWmsI+S0AjYKWDi88mrbCtgCb3NkIyL//Gw=
+	t=1767733904; cv=none; b=tbbTrIJi3IJ9QH85Swa8xIYFrSh3DorQPGZAcrAcbebfo1JKr5G8oHrKxZgI4er++hlFFDkmt3VvKdweC11EyPXDjeu2u5kDwjShU7AXS9J9jqs6SQRzszH2EXH+a0ILsqQO3gUNsz2tx949tIsGtHBTajjqKvWlf7NU0GMxrks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767730397; c=relaxed/simple;
-	bh=jPVdqhWs2TPwcHlMq0L0CE1YYe4u5iPs7FdsFKOVGs8=;
+	s=arc-20240116; t=1767733904; c=relaxed/simple;
+	bh=rhCOm1dYgXC082yhaNw3lvg0VrdND0R4ZLKYpr3qYzc=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=DclXjNT5DHGg24c5DOXgxbHdAXHkacdCIs6lSz0DoxRsT0eHDwszBEs0WPCIcu5NVm2p4Zl5ql2e+LVUKjfPfd8iIQ4/9XldzDsmhT3O1kRfAgwM/JBUAq7K6E8IEBsy3Jlhr+ooycBA4Q8pWMDvfSbFzMcAWqXd0bp6H6RVtLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=fxbO5wvu; arc=none smtp.client-ip=209.85.222.171
+	 Content-Type:MIME-Version; b=qa7OaiBxr5uKlUoA2PkzoPVnhdknpyfrTCm+K4GXU1Yd5gNQw8Au3HwtiFva7UE4pHEZ9jh/tne0z2+7XW2hRM4IIQKBtWsGNX9CEpQ7oOqY7vrc4jqhc2TY5uu3vEvfVsAEn6cexj8/HXVLzDps1CxWltn8Qzud4BktnMZyxAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=BZd2o/pU; arc=none smtp.client-ip=209.85.219.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-8b22b1d3e7fso130348185a.3
-        for <linux-media@vger.kernel.org>; Tue, 06 Jan 2026 12:13:15 -0800 (PST)
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-88a288811a4so13772946d6.3
+        for <linux-media@vger.kernel.org>; Tue, 06 Jan 2026 13:11:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1767730395; x=1768335195; darn=vger.kernel.org;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1767733901; x=1768338701; darn=vger.kernel.org;
         h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
          :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=zGgADW9nZD17Da1M/Fe+ypFmIKBVR0gBMWrtY6svF8g=;
-        b=fxbO5wvuFe/12mh+1/rlMle/bCJZ4HCbX0Wn9qzk8HHBz2qjewjAqU8VEoL3ytAwbl
-         lpzhGiTf/+ORFUhwxIbEDMau+A54DmJsBM1VuHObC/osD6DA6jsHnKO3r7PujwCmKWzJ
-         e7vSkacZrPiIkTlEe2rq3m37iNTrLe9erLBHSGiZ2Di8Huyh6ZbKwW8a3+tQNR/Rr+FK
-         OtKIgyokcifREamf5D/4tL5R261MwuoXYGksllVoxD4TdlaBEGgnAPQTVLngIsbViZgD
-         TCho3ne7ZRCY0d6SRhn3zVAhzc09MHyD+891GuOFuIv8+aQz5MFq6Th/eACoaRJZO+ks
-         JsxA==
+        bh=QhN1WAuMMr05B3KPSfvPQnFSaJ788oFx+QDIhlRIVYE=;
+        b=BZd2o/pU+5/KCd4RVg4pTLxhS9G99oA3pLzzXJamGRT0S0pADv7Qcy1c89Ilpf4gqi
+         qzUOkvuHTj7NgoKFd4BVU6NR+cSrxvDosMPzKaaqcQyBJUFUuZT5ljS7lAuYYRV6c4EF
+         hRaJl4+k0LY8O9fQz/ysn3zLVZYTdLn/2XlyUK0fgtqXp1O/Dxme139RsVArRfkCDrCh
+         VXm86QudFRCknH0grwHWKtC27SVjlXH1M0Gkh8UbHGlX/inzo9UpYtIKW6hjcYwo7YA8
+         WxGFX5ycZMG/KMo1IMjCwpCNwUFipjB1Pm4yqBQciLC6VwR34uSEilnL2C3PjQ7acHUF
+         n7uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767730395; x=1768335195;
+        d=1e100.net; s=20230601; t=1767733901; x=1768338701;
         h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
          :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zGgADW9nZD17Da1M/Fe+ypFmIKBVR0gBMWrtY6svF8g=;
-        b=dJFHliXC7m2AU2wfSAeL/31OUdy/5pEnUFMH51AoJxGSE8PrNn7P4auQM7hp6LrAxR
-         pAAIT9kVqGNN2xAM8LxBhLeklalb/MVgFzWqKEp5FKjO6gb5zqWmQq4Q+Pk9vR2RDsJf
-         VnWkpMMZshF9P0Z3Qz2A0pz4G/lsa+POHSSWH1TAQvYRXW3wp/ZBAbluu7l29ZtfiuC3
-         6zjzeF4mPh6BJSyhJxklU2ZmgZNfIbDQmNJzQZDSckQKiFrhYW6K7pIs4d4HVCRyCeBf
-         cdyw3jEzn4+RuXVecNyUBTZUI30wlvw5mejhKFczPTROdDw45EAfZevpOrkLjpt0ErJp
-         do0g==
-X-Forwarded-Encrypted: i=1; AJvYcCW14cQPUTK8Ytei7r0pYqhXTlk5k2RjvbLVO1EefyyNUxIte32pOYJBfiAV3xoKaUszAQogH1RWvOwHUg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzE5hZUFnQeFVFxYEl96Wc/NxerdmkUYn8NHhz5jVrmrYsQUihH
-	VdR9ucrfJhoNQnCp/1QzsI793kJH57KMLuDW1RI//azhyA33k1SBDfRClcUNzwIjDTU=
-X-Gm-Gg: AY/fxX58yXw+NhB9CshESuKbuwfJyDa06S0z6mnAoeIEMWvU1va8MUSx2XfRLk60EhI
-	mNptcSjm3FBZ/C59dDy7wanupCPwQ0HF2lXTVHQspb2ez3F+zZwTdNKtOJVtFPFRlqLEscSE+zJ
-	v3iZwRddemyrfFLsnP6736bHfeWl4b2y/s64QY/zki6JB85vucrlxD/8zHIXiwM94hczWkFe1wf
-	PUmc9iFM+J9qCBEQAzhvyMCgdFzCH9LX9ZHWFsrfEn8rS9Ta2AX2+C3BoesHknBVRVPDaGNdCu+
-	vMvopT/e/Rc9r13ARWsYhqQCSXLsrNHnYZlJgG3sVLUKAy/7Aa1PNn3rtpvM5Ah+GZqqCcACRZ8
-	Yq8UeIWZsOnuT9UYl2N35o9aTWzNrR+LXdjPM43S4IDk1KIQQqrMcIrPyHrianrNuJJ/6lcgR9V
-	ja2BNk+/RCfnNz2cLX
-X-Google-Smtp-Source: AGHT+IH/wLE7DdiFM+Bb8jYRFbO6Or+cMF7NwB8CGndt9QUJmgsJUJfLZ+U7BiCGgvq+Cm5fvn3UeQ==
-X-Received: by 2002:a05:620a:29cc:b0:8b2:e1bc:f2a2 with SMTP id af79cd13be357-8c3893eb72bmr8510985a.54.1767730394771;
-        Tue, 06 Jan 2026 12:13:14 -0800 (PST)
+        bh=QhN1WAuMMr05B3KPSfvPQnFSaJ788oFx+QDIhlRIVYE=;
+        b=cBiF0967mQQVrLU5cfcHTHoCyZxnfYRVIwhMEerHtaU/wNIq+L8Fx2rQPLcvV+iLqk
+         /rvCdNHykVXDCPSLGBHE91LUlEQPmbyEwPNDXPKkPtuj3QU2KMWO2asC0uDbMbouZiSU
+         9z6cLIzV1oHQuP/2vVIesP9QpmKmQcnHJMWEXrELh9mUZFY1USD1e1FMhTP5KbCyyoZe
+         cL5YmBID+Rfh408HwPCa+8GI9hYTfwj2DTIqJgzlvcFLvonnIPwj7LftzOa5s0+3078F
+         Eiwzacsn/bD/BY75eQC5+X210nrv6T0LCj5CZpdpx8cDeGcTGFUjeWQVvxwwrx939Uoh
+         unMg==
+X-Forwarded-Encrypted: i=1; AJvYcCV3Ljt8gzF0yAqwzVfIZyw1PR3VgnvV30lPPukPhE9gafENjl6FxYSsZbjYDpVn7Ec58uAScpJW56dxgQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyyfc/PAg7oUECl0DbO8zew3QhR+E0voAQ2wBzuSwAjpWFHVwA/
+	OY55ZSaoZ3pNqgqTe//O49iLQDCX6OZv1VTP6jq7+JlNrcAHTGPEcapday7/yrUXJow=
+X-Gm-Gg: AY/fxX4DFfwiBGIqI1OMgwSdLzBRgVKPbMmOyBGHjsmFb5qFP4qtD0JapdGA8Ba/dtE
+	3P7eN+g/NiAo262PNHvnR5K5uEzvych3/J2tLKTtnCmwAHILxkrjSenRUgZhXnenwfrGEho2of8
+	fr0ZjtxCI5N1lYNQk73PUGuDDyeGKltMRxpuEqz5E2dUMQyIWogUcCoSoyPTWv7DxTeg3knWoOr
+	+8Dqb8tn4lsLU6hMYxziiU9+tADrJf/H+t52dArhZ3j0c/hD6kVo6lOfz/zqHOcXUtmENe+rpt0
+	kFLWJfys9ya5v357rTbNV79eKx5mLTv0Z5iuEu/Oqh6GcoFwM6sohjJ29/9s3KbW0QsI8qJJ1nV
+	bfsED1LQv1CKWhFz71Mbnl4bB3dL7CJBT5HAnadmZ9k9v3kCdFr1zDlFaaoJ6mdtonU/xfWm8EI
+	SZ1WAabh2Ckv3YNfoC
+X-Google-Smtp-Source: AGHT+IGkuyCRu/Q0Kl0G1KNS2qkhBKE92qfOqtUSoW0GG/DuxCV7QpwSsCvsAQoK2tmgoaaLEgC0Kw==
+X-Received: by 2002:a05:6214:3c8f:b0:88a:2c78:d625 with SMTP id 6a1803df08f44-89084257197mr4038516d6.48.1767733901288;
+        Tue, 06 Jan 2026 13:11:41 -0800 (PST)
 Received: from ?IPv6:2606:6d00:17:7b4b::5ac? ([2606:6d00:17:7b4b::5ac])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c37f51cf95sm232070985a.33.2026.01.06.12.13.13
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89077234c96sm20302746d6.27.2026.01.06.13.11.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jan 2026 12:13:13 -0800 (PST)
-Message-ID: <5ae7ea006e78377c22181b7455aea280214b8471.camel@ndufresne.ca>
-Subject: Re: [PATCH] media: amphion: Use kmalloc instead of vmalloc
+        Tue, 06 Jan 2026 13:11:40 -0800 (PST)
+Message-ID: <e792da7b15eb4f58820f4c44dc695ddfe40d5007.camel@ndufresne.ca>
+Subject: Re: [PATCH v2 2/4] dt-bindings: media: mediatek-jpeg-decoder: add
+ MT8189 compatible string
 From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: ming.qian@oss.nxp.com, linux-media@vger.kernel.org
-Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl, 
-	sebastian.fricke@collabora.com, shawnguo@kernel.org,
- s.hauer@pengutronix.de, 	kernel@pengutronix.de, festevam@gmail.com,
- linux-imx@nxp.com, Frank.li@nxp.com, 	xiahong.bao@nxp.com,
- eagle.zhou@nxp.com, imx@lists.linux.dev, 	linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-Date: Tue, 06 Jan 2026 15:13:12 -0500
-In-Reply-To: <20251222084912.747-1-ming.qian@oss.nxp.com>
-References: <20251222084912.747-1-ming.qian@oss.nxp.com>
+To: Jianhua Lin <jianhua.lin@mediatek.com>, mchehab@kernel.org,
+ robh@kernel.org, 	krzk+dt@kernel.org, conor+dt@kernel.org,
+ matthias.bgg@gmail.com, 	angelogioacchino.delregno@collabora.com
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, 
+	Project_Global_Chrome_Upstream_Group@mediatek.com,
+ sirius.wang@mediatek.com, 	vince-wl.liu@mediatek.com, jh.hsu@mediatek.com
+Date: Tue, 06 Jan 2026 16:11:38 -0500
+In-Reply-To: <20251224031721.9942-3-jianhua.lin@mediatek.com>
+References: <20251224031721.9942-1-jianhua.lin@mediatek.com>
+	 <20251224031721.9942-3-jianhua.lin@mediatek.com>
 Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
  keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
  /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
@@ -98,7 +101,7 @@ Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
  ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
  bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-FYyUlJPAcllBQWTM48ij"
+	protocol="application/pgp-signature"; boundary="=-eEh22EQQUYjPOaWs78RQ"
 User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -108,327 +111,246 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 
---=-FYyUlJPAcllBQWTM48ij
+--=-eEh22EQQUYjPOaWs78RQ
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
+Le mercredi 24 d=C3=A9cembre 2025 =C3=A0 11:17 +0800, Jianhua Lin a =C3=A9c=
+rit=C2=A0:
+> Compared to the previous generation IC, the MT8189 uses 34-bit iova
+> address-space (16GB) and requires a single clock configuration.
+> Therefore, add "mediatek,mt8189-jpgdec" compatible to the binding documen=
+t.
+> Additionally, it corrects the inheritance for MT8188, aligning it
+> with MT8189 due to their shared architecture and 34-bit iova address
+> space (16GB) and singlesingle clock requirement.
 
-Le lundi 22 d=C3=A9cembre 2025 =C3=A0 16:49 +0800, ming.qian@oss.nxp.com a =
-=C3=A9crit=C2=A0:
-> From: Ming Qian <ming.qian@oss.nxp.com>
->=20
-> Replace vmalloc/vfree with kmalloc/kfree for allocating small
-> driver structures (vpu_inst, vdec_t, venc_t, vpu_cmd_t, and
-> frame objects).
->=20
-> vmalloc() is designed for large memory allocations and incurs
-> unnecessary overhead for small objects due to virtual memory
-> mapping. kmalloc() is more appropriate as it allocates physically
-> contiguous memory with lower overhead.
->=20
-> ftrace measurements of vpu_alloc_cmd() show significant improvement:
->=20
-> =C2=A0 Before (vmalloc):=C2=A0 35-72 us=C2=A0=C2=A0 (avg ~45.7 us)
-> =C2=A0 After (kmalloc):=C2=A0=C2=A0 11-26 us=C2=A0=C2=A0 (avg ~16.8 us)
->=20
-> This reduces allocation time by approximately 63%.
->=20
-> No functional changes are intended.
->=20
-> Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
+singlesingle -> single
 
-Looks good to me.
+> Previously, MT8188 was incorrectly defined alongside SoCs with 32-bit
+> iova address-space (4GB), such as "mediatek,mt2701-jpgdec". This mismatch
+> results in an ABI break, as MT8188 cannot function correctly under
+> the 32-bit iova address-space (4GB) configuration.
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Was already mentioned earlier, badly introduce DT code create an ABI, and f=
+ixing
+it is the ABI break, not the other way around. The MT8188 issue should be f=
+ixed
+on its own, with proper Fixes: tag.
 
+>=20
+> Key changes include:
+> - Introducing "mediatek,mt8189-jpgdec" as a new compatible string to
+> =C2=A0 represent the correct architecture.
+> - Updating MT8188 to inherit from MT8189, ensuring proper support for
+
+It is odd to have older chips inherit from newer one, should be reversed
+assuming you can fix MT8188. See more comment below.
+
+> =C2=A0 34-bit iova address-space (16GB) and simplifying clock configurati=
+on.
+> - Add property "mediatek,larb" for MT8189 requirements.
+> - Improved formatting for better readability and consistency.
+
+Do style change in it own commit, I don't mixing reformating, with fixed an=
+d new
+feature in one patch will create much interest in your set from the DT
+maintainers. So please break this into at least 3 patches.
+
+> These changes ensure that both MT8188 and MT8189 are correctly supported
+> with the necessary 34-bit iova address-space (16GB), while maintaining
+> compatibility with their shared architecture.
+>=20
+> Extensive internal review and testing have been conducted to validate
+> these changes and ensure compliance with DT binding standards.
+
+This last paragraph does not seem relevant as a commit message. Consider re=
+ading
+this message in 5 years, would it be useful, and answer is not, since we ca=
+n't
+see the review and testing process.
+
+>=20
+> Signed-off-by: Jianhua Lin <jianhua.lin@mediatek.com>
 > ---
-> =C2=A0drivers/media/platform/amphion/vdec.c=C2=A0=C2=A0=C2=A0=C2=A0 | 16 =
-+++++++---------
-> =C2=A0drivers/media/platform/amphion/venc.c=C2=A0=C2=A0=C2=A0=C2=A0 | 20 =
-+++++++++-----------
-> =C2=A0drivers/media/platform/amphion/vpu_cmds.c | 15 +++++++--------
-> =C2=A0drivers/media/platform/amphion/vpu_core.c | 11 ++++-------
-> =C2=A04 files changed, 27 insertions(+), 35 deletions(-)
+> =C2=A0.../bindings/media/mediatek-jpeg-decoder.yaml | 50 ++++++++++++++++=
+---
+> =C2=A01 file changed, 44 insertions(+), 6 deletions(-)
 >=20
-> diff --git a/drivers/media/platform/amphion/vdec.c
-> b/drivers/media/platform/amphion/vdec.c
-> index c0d2aabb9e0e..7a1c58cac02d 100644
-> --- a/drivers/media/platform/amphion/vdec.c
-> +++ b/drivers/media/platform/amphion/vdec.c
-> @@ -9,7 +9,6 @@
-> =C2=A0#include <linux/list.h>
-> =C2=A0#include <linux/kernel.h>
-> =C2=A0#include <linux/module.h>
-> -#include <linux/vmalloc.h>
-> =C2=A0#include <linux/videodev2.h>
-> =C2=A0#include <media/v4l2-device.h>
-> =C2=A0#include <media/v4l2-event.h>
-> @@ -17,7 +16,6 @@
-> =C2=A0#include <media/v4l2-ioctl.h>
-> =C2=A0#include <media/videobuf2-v4l2.h>
-> =C2=A0#include <media/videobuf2-dma-contig.h>
-> -#include <media/videobuf2-vmalloc.h>
-> =C2=A0#include "vpu.h"
-> =C2=A0#include "vpu_defs.h"
-> =C2=A0#include "vpu_core.h"
-> @@ -1642,9 +1640,9 @@ static void vdec_cleanup(struct vpu_inst *inst)
-> =C2=A0		vdec->slots =3D NULL;
-> =C2=A0		vdec->slot_count =3D 0;
-> =C2=A0	}
-> -	vfree(vdec);
-> +	kfree(vdec);
-> =C2=A0	inst->priv =3D NULL;
-> -	vfree(inst);
-> +	kfree(inst);
-> =C2=A0}
-> =C2=A0
-> =C2=A0static void vdec_init_params(struct vdec_t *vdec)
-> @@ -1909,13 +1907,13 @@ static int vdec_open(struct file *file)
-> =C2=A0	struct vdec_t *vdec;
-> =C2=A0	int ret;
-> =C2=A0
-> -	inst =3D vzalloc(sizeof(*inst));
-> +	inst =3D kzalloc(sizeof(*inst), GFP_KERNEL);
-> =C2=A0	if (!inst)
-> =C2=A0		return -ENOMEM;
-> =C2=A0
-> -	vdec =3D vzalloc(sizeof(*vdec));
-> +	vdec =3D kzalloc(sizeof(*vdec), GFP_KERNEL);
-> =C2=A0	if (!vdec) {
-> -		vfree(inst);
-> +		kfree(inst);
-> =C2=A0		return -ENOMEM;
-> =C2=A0	}
-> =C2=A0
-> @@ -1923,8 +1921,8 @@ static int vdec_open(struct file *file)
-> =C2=A0				=C2=A0=C2=A0=C2=A0 sizeof(*vdec->slots),
-> =C2=A0				=C2=A0=C2=A0=C2=A0 GFP_KERNEL | __GFP_ZERO);
-> =C2=A0	if (!vdec->slots) {
-> -		vfree(vdec);
-> -		vfree(inst);
-> +		kfree(vdec);
-> +		kfree(inst);
-> =C2=A0		return -ENOMEM;
-> =C2=A0	}
-> =C2=A0	vdec->slot_count =3D VDEC_SLOT_CNT_DFT;
-> diff --git a/drivers/media/platform/amphion/venc.c
-> b/drivers/media/platform/amphion/venc.c
-> index aced76401b69..9e5cbc2b0d3f 100644
-> --- a/drivers/media/platform/amphion/venc.c
-> +++ b/drivers/media/platform/amphion/venc.c
-> @@ -13,14 +13,12 @@
-> =C2=A0#include <linux/videodev2.h>
-> =C2=A0#include <linux/ktime.h>
-> =C2=A0#include <linux/rational.h>
-> -#include <linux/vmalloc.h>
-> =C2=A0#include <media/v4l2-device.h>
-> =C2=A0#include <media/v4l2-event.h>
-> =C2=A0#include <media/v4l2-mem2mem.h>
-> =C2=A0#include <media/v4l2-ioctl.h>
-> =C2=A0#include <media/videobuf2-v4l2.h>
-> =C2=A0#include <media/videobuf2-dma-contig.h>
-> -#include <media/videobuf2-vmalloc.h>
-> =C2=A0#include "vpu.h"
-> =C2=A0#include "vpu_defs.h"
-> =C2=A0#include "vpu_core.h"
-> @@ -844,7 +842,7 @@ static int venc_get_encoded_frames(struct vpu_inst *i=
-nst)
-> =C2=A0					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v4l2_m2m_dst_buf_remove(i=
-nst-
-> >fh.m2m_ctx)))
-> =C2=A0			break;
-> =C2=A0		list_del_init(&frame->list);
-> -		vfree(frame);
-> +		kfree(frame);
-> =C2=A0	}
-> =C2=A0
-> =C2=A0	return 0;
-> @@ -860,7 +858,7 @@ static int venc_frame_encoded(struct vpu_inst *inst, =
-void
-> *arg)
-> =C2=A0	if (!info)
-> =C2=A0		return -EINVAL;
-> =C2=A0	venc =3D inst->priv;
-> -	frame =3D vzalloc(sizeof(*frame));
-> +	frame =3D kzalloc(sizeof(*frame), GFP_KERNEL);
-> =C2=A0	if (!frame)
-> =C2=A0		return -ENOMEM;
-> =C2=A0
-> @@ -912,9 +910,9 @@ static void venc_cleanup(struct vpu_inst *inst)
-> =C2=A0		return;
-> =C2=A0
-> =C2=A0	venc =3D inst->priv;
-> -	vfree(venc);
-> +	kfree(venc);
-> =C2=A0	inst->priv =3D NULL;
-> -	vfree(inst);
-> +	kfree(inst);
-> =C2=A0}
-> =C2=A0
-> =C2=A0static int venc_start_session(struct vpu_inst *inst, u32 type)
-> @@ -1067,7 +1065,7 @@ static void venc_cleanup_frames(struct venc_t *venc=
-)
-> =C2=A0
-> =C2=A0	list_for_each_entry_safe(frame, tmp, &venc->frames, list) {
-> =C2=A0		list_del_init(&frame->list);
-> -		vfree(frame);
-> +		kfree(frame);
-> =C2=A0	}
-> =C2=A0}
-> =C2=A0
-> @@ -1151,7 +1149,7 @@ static int venc_process_capture(struct vpu_inst *in=
-st,
-> struct vb2_buffer *vb)
-> =C2=A0		return ret;
-> =C2=A0
-> =C2=A0	list_del_init(&frame->list);
-> -	vfree(frame);
-> +	kfree(frame);
-> =C2=A0	return 0;
-> =C2=A0}
-> =C2=A0
-> @@ -1309,13 +1307,13 @@ static int venc_open(struct file *file)
-> =C2=A0	struct venc_t *venc;
-> =C2=A0	int ret;
-> =C2=A0
-> -	inst =3D vzalloc(sizeof(*inst));
-> +	inst =3D kzalloc(sizeof(*inst), GFP_KERNEL);
-> =C2=A0	if (!inst)
-> =C2=A0		return -ENOMEM;
-> =C2=A0
-> -	venc =3D vzalloc(sizeof(*venc));
-> +	venc =3D kzalloc(sizeof(*venc), GFP_KERNEL);
-> =C2=A0	if (!venc) {
-> -		vfree(inst);
-> +		kfree(inst);
-> =C2=A0		return -ENOMEM;
-> =C2=A0	}
-> =C2=A0
-> diff --git a/drivers/media/platform/amphion/vpu_cmds.c
-> b/drivers/media/platform/amphion/vpu_cmds.c
-> index 5695f5c1cb3e..ab69412e0aa7 100644
-> --- a/drivers/media/platform/amphion/vpu_cmds.c
-> +++ b/drivers/media/platform/amphion/vpu_cmds.c
-> @@ -13,7 +13,6 @@
-> =C2=A0#include <linux/slab.h>
-> =C2=A0#include <linux/types.h>
-> =C2=A0#include <linux/delay.h>
-> -#include <linux/vmalloc.h>
-> =C2=A0#include "vpu.h"
-> =C2=A0#include "vpu_defs.h"
-> =C2=A0#include "vpu_cmds.h"
-> @@ -84,13 +83,13 @@ static struct vpu_cmd_t *vpu_alloc_cmd(struct vpu_ins=
-t
-> *inst, u32 id, void *data
-> =C2=A0	int i;
-> =C2=A0	int ret;
-> =C2=A0
-> -	cmd =3D vzalloc(sizeof(*cmd));
-> +	cmd =3D kzalloc(sizeof(*cmd), GFP_KERNEL);
-> =C2=A0	if (!cmd)
-> =C2=A0		return NULL;
-> =C2=A0
-> -	cmd->pkt =3D vzalloc(sizeof(*cmd->pkt));
-> +	cmd->pkt =3D kzalloc(sizeof(*cmd->pkt), GFP_KERNEL);
-> =C2=A0	if (!cmd->pkt) {
-> -		vfree(cmd);
-> +		kfree(cmd);
-> =C2=A0		return NULL;
-> =C2=A0	}
-> =C2=A0
-> @@ -98,8 +97,8 @@ static struct vpu_cmd_t *vpu_alloc_cmd(struct vpu_inst
-> *inst, u32 id, void *data
-> =C2=A0	ret =3D vpu_iface_pack_cmd(inst->core, cmd->pkt, inst->id, id, dat=
-a);
-> =C2=A0	if (ret) {
-> =C2=A0		dev_err(inst->dev, "iface pack cmd %s fail\n",
-> vpu_id_name(id));
-> -		vfree(cmd->pkt);
-> -		vfree(cmd);
-> +		kfree(cmd->pkt);
-> +		kfree(cmd);
-> =C2=A0		return NULL;
-> =C2=A0	}
-> =C2=A0	for (i =3D 0; i < ARRAY_SIZE(vpu_cmd_requests); i++) {
-> @@ -118,8 +117,8 @@ static void vpu_free_cmd(struct vpu_cmd_t *cmd)
-> =C2=A0		return;
-> =C2=A0	if (cmd->last_response_cmd)
-> =C2=A0		atomic_long_set(cmd->last_response_cmd, cmd->key);
-> -	vfree(cmd->pkt);
-> -	vfree(cmd);
-> +	kfree(cmd->pkt);
-> +	kfree(cmd);
-> =C2=A0}
-> =C2=A0
-> =C2=A0static int vpu_session_process_cmd(struct vpu_inst *inst, struct vp=
-u_cmd_t
-> *cmd)
-> diff --git a/drivers/media/platform/amphion/vpu_core.c
-> b/drivers/media/platform/amphion/vpu_core.c
-> index 168f0514851e..85cc4a14f8ed 100644
-> --- a/drivers/media/platform/amphion/vpu_core.c
-> +++ b/drivers/media/platform/amphion/vpu_core.c
-> @@ -17,7 +17,6 @@
-> =C2=A0#include <linux/pm_runtime.h>
-> =C2=A0#include <linux/pm_domain.h>
-> =C2=A0#include <linux/firmware.h>
-> -#include <linux/vmalloc.h>
-> =C2=A0#include "vpu.h"
-> =C2=A0#include "vpu_defs.h"
-> =C2=A0#include "vpu_core.h"
-> @@ -265,7 +264,7 @@ static int vpu_core_register(struct device *dev, stru=
-ct
-> vpu_core *core)
-> =C2=A0	INIT_WORK(&core->msg_work, vpu_msg_run_work);
-> =C2=A0	INIT_DELAYED_WORK(&core->msg_delayed_work, vpu_msg_delayed_work);
-> =C2=A0	buffer_size =3D roundup_pow_of_two(VPU_MSG_BUFFER_SIZE);
-> -	core->msg_buffer =3D vzalloc(buffer_size);
-> +	core->msg_buffer =3D kzalloc(buffer_size, GFP_KERNEL);
-> =C2=A0	if (!core->msg_buffer) {
-> =C2=A0		dev_err(core->dev, "failed allocate buffer for fifo\n");
-> =C2=A0		ret =3D -ENOMEM;
-> @@ -282,10 +281,8 @@ static int vpu_core_register(struct device *dev, str=
-uct
-> vpu_core *core)
-> =C2=A0
-> =C2=A0	return 0;
-> =C2=A0error:
-> -	if (core->msg_buffer) {
-> -		vfree(core->msg_buffer);
-> -		core->msg_buffer =3D NULL;
-> -	}
-> +	kfree(core->msg_buffer);
-> +	core->msg_buffer =3D NULL;
-> =C2=A0	if (core->workqueue) {
-> =C2=A0		destroy_workqueue(core->workqueue);
-> =C2=A0		core->workqueue =3D NULL;
-> @@ -308,7 +305,7 @@ static int vpu_core_unregister(struct device *dev, st=
-ruct
-> vpu_core *core)
-> =C2=A0
-> =C2=A0	vpu_core_put_vpu(core);
-> =C2=A0	core->vpu =3D NULL;
-> -	vfree(core->msg_buffer);
-> +	kfree(core->msg_buffer);
-> =C2=A0	core->msg_buffer =3D NULL;
-> =C2=A0
-> =C2=A0	if (core->workqueue) {
->=20
-> base-commit: b70886ff5833cf499e77af77d2324ce8f68b60ce
+> diff --git a/Documentation/devicetree/bindings/media/mediatek-jpeg-decode=
+r.yaml b/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.yaml
+> index a4aacd3eb189..814b53ef46e7 100644
+> --- a/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.yaml
+> +++ b/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.yaml
+> @@ -17,13 +17,19 @@ properties:
+> =C2=A0=C2=A0=C2=A0=C2=A0 oneOf:
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - items:
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - enum:
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 - mediatek,mt8173-jpgdec
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 - mediatek,mt2701-jpgdec
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 - mediatek,mt8173-jpgdec
 
---=-FYyUlJPAcllBQWTM48ij
+I guess you sorted these, this is the type of style change that makes revie=
+wer
+unhappy, do this cleanup on it own.
+
+One thing the driver implementation tells me is that mediatek,mt8173-jpgdec=
+ is
+not different from mediatek,mt2701-jpgdec, so in theory, the DTS should hav=
+e
+aimed for the second item and an implementation of:
+
+  compatible =3D "mediatek,mt8173-jpgdec", "mediatek,mt2701-jpgdec";
+
+That just shows the screw-up started a while ago, I'm not saying to change =
+that
+now.
+
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - items:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - enum:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 - mediatek,mt8189-jpgdec
+
+That one make no sense, if you want to allow this compatible alone, put it =
+the
+very first item, its meant for that. Though, considering the chronology, it
+would be logical to say that MT8189 is based on MT8188. If we go that way,
+MT8188 should get added into the single item choice and the enum/const pair
+shoudl be reversed.
+
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - items:
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - enum:
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 - mediatek,mt7623-jpgdec
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 - mediatek,mt8188-jpgdec
+
+This must be kept, its unfortunate, but its in the ABI.
+
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: med=
+iatek,mt2701-jpgdec
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - items:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - enum:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 - mediatek,mt8188-jpgdec
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: mediatek=
+,mt8189-jpgdec
+
+This would be reversed.
+
+On the implementation side, in code, you'd introduce a variants that matche=
+s
+mediatek,mt8188-jpgdec, this will ensure the driver now works properly with=
+ past
+DTS.
+
+Then in DTS, which is not my domain here at all, what is appropriate will d=
+epend
+on what happens if you assume MT8188 is same as MT2701. In my personal opin=
+ion,
+if that is unusable or worse crash or hang the systems, I'd drop the broken
+"mediatek,mt2701-jpgdec" so it won't probe anymore on older drivers. If its
+usable / used in some ways, e.g. if it work on 4GB systems, you'll have to =
+leave
+it this way, since you'd regress some users.
+
+The rest is a bit over my head, I've a simple users of DT like you, but
+hopefully these hints are good enough to un-lock the situation. Notice the
+chronology logic needs to be applied down below too.
+
+> =C2=A0
+> =C2=A0=C2=A0 reg:
+> =C2=A0=C2=A0=C2=A0=C2=A0 maxItems: 1
+> @@ -32,13 +38,16 @@ properties:
+> =C2=A0=C2=A0=C2=A0=C2=A0 maxItems: 1
+> =C2=A0
+> =C2=A0=C2=A0 clocks:
+> +=C2=A0=C2=A0=C2=A0 minItems: 1
+> =C2=A0=C2=A0=C2=A0=C2=A0 maxItems: 2
+> -=C2=A0=C2=A0=C2=A0 minItems: 2
+> =C2=A0
+> =C2=A0=C2=A0 clock-names:
+> -=C2=A0=C2=A0=C2=A0 items:
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: jpgdec-smi
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: jpgdec
+
+So what happened once the driver on MT8188 tried to enable jpgdec-smi clock=
+ ?
+This is relevant to what can and cannot be changed, was it completely unusa=
+ble ?
+
+regards,
+Nicolas
+
+> +=C2=A0=C2=A0=C2=A0 minItems: 1
+> +=C2=A0=C2=A0=C2=A0 maxItems: 2
+> +
+> +=C2=A0 mediatek,larb:
+> +=C2=A0=C2=A0=C2=A0 $ref: /schemas/types.yaml#/definitions/phandle
+> +=C2=A0=C2=A0=C2=A0 description: a phandle to the smi_larb node.
+> =C2=A0
+> =C2=A0=C2=A0 power-domains:
+> =C2=A0=C2=A0=C2=A0=C2=A0 maxItems: 1
+> @@ -51,6 +60,35 @@ properties:
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Documentation/devicetree/bindings/io=
+mmu/mediatek,iommu.yaml for details.
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Ports are according to the HW.
+> =C2=A0
+> +allOf:
+> +=C2=A0 - if:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 properties:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 compatible:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 contains:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 enum:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 - mediatek,mt2701-jpgdec
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 - mediatek,mt8173-jpgdec
+> +
+> +=C2=A0=C2=A0=C2=A0 then:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 properties:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 clock-names:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 items:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - con=
+st: jpgdec-smi
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - con=
+st: jpgdec
+> +
+> +=C2=A0 - if:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 properties:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 compatible:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 contains:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 enum:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 - mediatek,mt8189-jpgdec
+> +
+> +=C2=A0=C2=A0=C2=A0 then:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 properties:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 clock-names:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 items:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - con=
+st: jpgdec
+> +
+> =C2=A0required:
+> =C2=A0=C2=A0 - compatible
+> =C2=A0=C2=A0 - reg
+
+--=-eEh22EQQUYjPOaWs78RQ
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaV1s2AAKCRDZQZRRKWBy
-9MQyAQDxpxzr9kihozUH+t2YsCS8uiqoV1YKptAS4KpREXxtcAEAiT1yqKfjFLoF
-EuHuBeiiTmRL6/5CkzLEg5xRbhEOxAE=
-=1XYq
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaV16iwAKCRDZQZRRKWBy
+9IFvAP9gJU9igmAjidakuJKz0akdpOjt4yNcvs8FjB1MMY98fQEA1nsKZhTWxs1n
+ad7uFPYE7mdheCU2tU4bBl/ournlIQs=
+=cORP
 -----END PGP SIGNATURE-----
 
---=-FYyUlJPAcllBQWTM48ij--
+--=-eEh22EQQUYjPOaWs78RQ--
 
