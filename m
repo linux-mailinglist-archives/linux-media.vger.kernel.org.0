@@ -1,247 +1,137 @@
-Return-Path: <linux-media+bounces-50029-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50030-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5772CF8A57
-	for <lists+linux-media@lfdr.de>; Tue, 06 Jan 2026 15:00:17 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE4DCCF8ACF
+	for <lists+linux-media@lfdr.de>; Tue, 06 Jan 2026 15:07:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2E53B30DB4B6
-	for <lists+linux-media@lfdr.de>; Tue,  6 Jan 2026 13:49:40 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 3B343302DD5E
+	for <lists+linux-media@lfdr.de>; Tue,  6 Jan 2026 14:06:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D6EA33030F;
-	Tue,  6 Jan 2026 13:48:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18838313E18;
+	Tue,  6 Jan 2026 14:00:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="0jLnEXHv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dhgT7hGB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB6EF33D51C
-	for <linux-media@vger.kernel.org>; Tue,  6 Jan 2026 13:48:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C1326FD9A;
+	Tue,  6 Jan 2026 14:00:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767707284; cv=none; b=SbWHqppzzvUY2YaWLRx8ODgG7VGWn0hxDSb6lgKjPfxvxcAu0ANcxaY/RvMyCWGaywRtVIxZcI6detaRr9LZ4GHPHDRSdIkLZ1CY39ih5H9hptmHYc818Yx3/KQNMGIJgzqmNU+HlGvKjEWI0xjMPgCnMgDFQfsRrwjT72GN0Cw=
+	t=1767708001; cv=none; b=VAwOIu62X30HcLqO2t+qCFVvoU3BXbeR7AGVnHUXaQ5C2Q/9Z3rbfBi0tjj+9cBOoQtyA53kDSa6E6uTV2SzEB15UcvnfVX9xyZQ5Z5SrxRVtQ1Gte1HVLTDlUUr2lpikFNL30rEQWDZA/jvKtlBdXMsJXm85gAjfKPCKy99JJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767707284; c=relaxed/simple;
-	bh=jDJRIImtUM+Sap2ZZ70MkzYXTKPe2n+pedbG3qOpp1Q=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=fdCUeMIrNgWveg2tIcrON36AohTUh+iimGefC08MD5WnOk+VnljXLhBlPFhOAMQxJ8WeHtGa3mMYAA4MFxWpEI5cmOkMP6FaK1O+f1vT4ici7SKFJ18hJZ+mpaxniYTLfSqau9zPP1ctA+6n6fHPthlQ+7nM8PBHQK5MQ4qxfZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=0jLnEXHv; arc=none smtp.client-ip=209.85.222.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-8c0f15e8247so126662485a.3
-        for <linux-media@vger.kernel.org>; Tue, 06 Jan 2026 05:48:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1767707281; x=1768312081; darn=vger.kernel.org;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=QYQAMvkDBUiH8527EZY8gzXitbwedJ/WC+XJbOfoPE4=;
-        b=0jLnEXHvhLpaQo2QMtoT+s4eNmtd9zOubrFk2kW2RzwEbOfoXc79fZxGyuTrfIftKE
-         OgWr5M6wwIfJEC7z0Ub/K61mo7lncfGYCQgsrKZQv5Oc4pLVRUkyUhrqcaZ1datdjzGJ
-         HH0ZVPvVztIoHYW9Mac7RQt9kdPyD1JD0ucIkWZ89YkpTVl5sLNqTMEin0R+jeXoIush
-         3VXSPkSr5yhn1BSMXe0BbgOGeEvkPVPjIlaiPrZmUyUaaF0yWy2jwBoeTkhz/XMDeHnM
-         8701VJGPGQwpSeK+Y0Sp+fLsNHztj2esjMZpvPtYypvCmwy0LHY3FUZdP1RCxdI4Wocy
-         Xtdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767707281; x=1768312081;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QYQAMvkDBUiH8527EZY8gzXitbwedJ/WC+XJbOfoPE4=;
-        b=efKwBY/k/FSEkO4Sl8/GYWpaSn/a9vwsdT3nvKOS+NdyurpPjm3BaHqZNZsTI+I0KD
-         I1TThoUqfRjSjpzhVaooFiJoPa1A9m2a6x9ekOxV/wudL09z3hmdgPfOYTSAvnLZ8wKd
-         8g9UJmkSY8sXiyuCldqP6M4Hi/1uyZssDq3Xf7Tf9goh3IlkMjas6C9tVRQAT7G5ii2Y
-         9xSGj9cG01y0bBzOY1zBU8w+vjuATNO6lDKznKgRPXcZVpkpcom6aLaBKQEr8dSyVWTD
-         lIM2DauVYhhBmH+cs6yCQ0EhP2WR/UDx3bWHvGE52f3eo/1IvwjcZd99JS98FO8LMMDE
-         wlTw==
-X-Forwarded-Encrypted: i=1; AJvYcCVMADu+NqQJwkT/PVd8CPGcbhOgGYs21kyqjBIPXLlIV7chTEYYOStoTAxm80RdPOonyTe8qHwuqSgvSg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwsjwvWh7rP6rQun30TuV/MwBkZ4njZno3k0Ku19OG+kjLL8MsZ
-	0POCcqAtWXl5t3Y7thcq3Ir0OPBgedCofyYxX/pe4Hc5FSOkReZMqUvLRN1Dz/Xcq8g=
-X-Gm-Gg: AY/fxX4vf+jH564D7ou7jUZ3EDJ1B/N3KLA/Y7/oB/v2vXNVRsIAIYFG9DotH1Bxhqv
-	e14UNY1nrx4rnyDbUIhdFD/JfCovMu+TnOefT91jWIkfzpJpQ168X15QCnAzF1pa6dDN1qCeRg+
-	KUWLODuDYzVmrUscApimMKQez9cxmrb5PILEUbDfvT8qmgWRxwbRERyDnkyeqDjtMDSrKFh5EiA
-	IQSJealOZioL8dv8lB3IzFNHsOWEOdAbGLmlmIQFyIJX26gC/cTWg0KavC6V4EYJ+Asn0ZgPSsD
-	DrbGH7zdSd3U5n0a/Em5iV6kzjNPYQo58ZiebDZ1LN9qXOXZmJrRGLBXmIlFjKJmb1ZXxERjblp
-	/SEdj7Uf52brNLiRmCFf9RhXVD0nhxAvrAfTISBIi6C8VUT4y0V8WacsrcKMNCgnql0VFEbpKlH
-	EU3eWQ+AIL16ZDaXjloxnLoBxpoEY=
-X-Google-Smtp-Source: AGHT+IEIZHwvMbSK8vnvsSywqF7t6CLAMyaEdlU775mO1QqZdH6WE9vc5np1VrqWDys4zXUvYly1gQ==
-X-Received: by 2002:a05:620a:d96:b0:8b2:e565:50b5 with SMTP id af79cd13be357-8c37ebdedf0mr375341285a.60.1767707281506;
-        Tue, 06 Jan 2026 05:48:01 -0800 (PST)
-Received: from ?IPv6:2606:6d00:17:7b4b::5ac? ([2606:6d00:17:7b4b::5ac])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-890770e20bcsm13660196d6.15.2026.01.06.05.48.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jan 2026 05:48:00 -0800 (PST)
-Message-ID: <2dbb2c41422cb4dbc8c3692646aeaf70c4d87df0.camel@ndufresne.ca>
-Subject: Re: [PATCH 2/4] media: dw100: Implement dynamic vertex map update
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Stefan Klug <stefan.klug@ideasonboard.com>, Xavier Roumegue	
- <xavier.roumegue@oss.nxp.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sebastian Andrzej Siewior	 <bigeasy@linutronix.de>, Clark Williams
- <clrkwllms@kernel.org>, Steven Rostedt	 <rostedt@goodmis.org>,
- linux-media@vger.kernel.org, 	linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-Date: Tue, 06 Jan 2026 08:47:59 -0500
-In-Reply-To: <20260106004206.GK10026@pendragon.ideasonboard.com>
-References: 
-	<20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-0-65af34d04fd8@ideasonboard.com>
-	 <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-2-65af34d04fd8@ideasonboard.com>
-	 <f4e0b1f13ee54d88d1035828af548f5cf3a25c16.camel@ndufresne.ca>
-	 <20260106004206.GK10026@pendragon.ideasonboard.com>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-jG59v6/w1zB+en1MGiEP"
-User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
+	s=arc-20240116; t=1767708001; c=relaxed/simple;
+	bh=P98Jjcl+mgxzrWbHTl9Bj6JEDNwdl9d4sAXMQ5Ojz/U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TT+sUDAfwWfizW/Qj/n6/kAe+VWQom4UmmZ5FjlAz7aqb2vR0ZHHQuubzKpXETuPz3pw7e3rKTokAIors8Es+NQolxp629RMDq91h61IzZ9CYXNR/gX7EQinfMajvZjQfO8wgkuQA/dSzs2uw2U9pDNQfSUXw4a473rOm4NBoys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dhgT7hGB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA10BC116C6;
+	Tue,  6 Jan 2026 13:59:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767708000;
+	bh=P98Jjcl+mgxzrWbHTl9Bj6JEDNwdl9d4sAXMQ5Ojz/U=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=dhgT7hGBhClaKwrpoIgLQB8L6ZoTliSCG80xew94sIMbTvclpZxqTAcI3goGdkChQ
+	 N0a/dGJ2Qs2ZYhlMF+K5cj+XVnAYDTYowtzJSTU/ZuAnc1fhmccZ/VN9tokNXot4uy
+	 iXrCFK9hp0smRqQf18weHBtsdwgrsr/h5htypjYAHQv+ZEdXIwgybgQH9gzM6twg1L
+	 i8XCXh3eE+gB6LJvdG5cjU73+mqJaxrF19yG1ICaAS//AJGKsD2ZGIZkmsedTrr3zR
+	 jTdLRegLk7aMh0A5uberjTQcbrYXb+szF8+wnrl6NS7QJjZJJxR8ktSc1t5BEO0vgt
+	 ZmGTLtQSMEblg==
+Message-ID: <b2480095-a4c6-4164-ad50-51a58db5ac4f@kernel.org>
+Date: Tue, 6 Jan 2026 14:59:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/3] media: dt-bindings: Add qcom,sm6150-camss
+To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>, Robert Foss
+ <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260106-sm6150-camss-v3-0-d1d5c4d02b0b@oss.qualcomm.com>
+ <20260106-sm6150-camss-v3-1-d1d5c4d02b0b@oss.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20260106-sm6150-camss-v3-1-d1d5c4d02b0b@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+On 06/01/2026 10:04, Wenmeng Liu wrote:
+> Add bindings for the Camera Subsystem on the SM6150 SoC
+> 
+> The SM6150 platform provides:
+> - 2 x VFE (version 170), each with 3 RDI
+> - 1 x VFE Lite (version 170), each with 4 RDI
+> - 2 x CSID (version 170)
+> - 1 x CSID Lite (version 170)
+> - 3 x CSIPHY (version 2.0.0)
+> - 1 x BPS (Bayer Processing Segment)
+> - 1 x ICP (Imaging Control Processor)
+> - 1 x IPE (Image Postprocessing Engine)
+> - 1 x JPEG Encoder/Decoder
+> - 1 x LRME (Low Resolution Motion Estimation)
+> 
+> Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+> Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+> ---
 
 
---=-jG59v6/w1zB+en1MGiEP
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-Hi,
-
-Le mardi 06 janvier 2026 =C3=A0 02:42 +0200, Laurent Pinchart a =C3=A9crit=
-=C2=A0:
-> On Mon, Jan 05, 2026 at 01:58:25PM -0500, Nicolas Dufresne wrote:
-> > Le lundi 05 janvier 2026 =C3=A0 12:35 +0100, Stefan Klug a =C3=A9crit=
-=C2=A0:
-> > > Implement dynamic vertex map updates by handling the
-> > > V4L2_CID_DW100_DEWARPING_16x16_VERTEX_MAP control during streaming. T=
-his
-> > > allows to implement features like dynamic zoom, pan, rotate and dewar=
-p.
-> > >=20
-> > > To stay compatible with the old version, updates of
-> > > V4L2_CID_DW100_DEWARPING_16x16_VERTEX_MAP are ignored during streamin=
-g
-> > > when requests are not used. Print a corresponding warning once.
-> > >=20
-> > > Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
-> > > ---
-> > > =C2=A0drivers/media/platform/nxp/dw100/dw100.c | 27 +++++++++++++++++=
-++++------
-> > >=20
-
-[...]
-
-> > > =C2=A0	dev_dbg(&ctx->dw_dev->pdev->dev,
-> > > =C2=A0		"%ux%u %s mapping created (d:%pad-c:%p) for stream %ux%u->%ux=
-%u\n",
-> > > @@ -351,6 +355,7 @@ static int dw100_s_ctrl(struct v4l2_ctrl *ctrl)
-> > > =C2=A0	switch (ctrl->id) {
-> > > =C2=A0	case V4L2_CID_DW100_DEWARPING_16x16_VERTEX_MAP:
-> > > =C2=A0		ctx->user_map_is_set =3D true;
-> > > +		ctx->user_map_needs_update =3D true;
-> >=20
-> > This will be called before the new mapping is applied by
-> > v4l2_ctrl_request_complete(), and then may be cleared too soon if you q=
-ueue
-> > depth is high enough.
->=20
-> v4l2_ctrl_request_complete() does not apply a mapping, what am I missing
-> ?
-
-Sorry for my confusion, after reading back, you are correct, this is called
-v4l2_ctrl_request_setup() inside the device_run() function. You can dismiss=
- the
-bit about user_map_needs_update in my review (the paragraph below).
-
->=20
-> > Instead, you should check in the request for the presence of
-> > V4L2_CID_DW100_DEWARPING_16x16_VERTEX_MAP to optimize the updates. Yo m=
-ay still
-> > set this to true if if there is no request, in the case you also wanted=
- to
-> > change the original behaviour of only updating that vertex on streamon,=
- but I
-> > don't see much point though.
-> >=20
-> > > =C2=A0		break;
-> > > =C2=A0	}
-> > > =C2=A0
-> > > @@ -405,6 +410,7 @@ static void dw100_ctrl_dewarping_map_init(const s=
-truct v4l2_ctrl *ctrl,
-> > > =C2=A0	}
-> > > =C2=A0
-> > > =C2=A0	ctx->user_map_is_set =3D false;
-> > > +	ctx->user_map_needs_update =3D true;
-> > > =C2=A0}
-> > > =C2=A0
-> > > =C2=A0static const struct v4l2_ctrl_type_ops dw100_ctrl_type_ops =3D =
-{
-> > > @@ -1482,6 +1488,15 @@ static void dw100_device_run(void *priv)
-> > > =C2=A0	v4l2_ctrl_request_setup(src_buf->vb2_buf.req_obj.req,
-> > > =C2=A0				&ctx->hdl);
-> > > =C2=A0
-> > > +	if (src_buf->vb2_buf.req_obj.req) {
-> > > +		dw100_update_mapping(ctx);
-> > > +	} else if (ctx->user_map_needs_update && !ctx->warned_dynamic_updat=
-e) {
-> > > +		ctx->warned_dynamic_update =3D true;
-> > > +		dev_warn(&ctx->dw_dev->pdev->dev,
-> > > +			"V4L2 requests are required to update the vertex map dynamically"
-> >=20
-> > Do you know about dev_warn_once() ? That being said, the driver is usab=
-le
-> > without requests and a static vertex (and must stay this way to not bre=
-ak the
-> > ABI). I don't think you should warn here at all.
->=20
-> Applications should move to using requests. We'll do so in libcamera
-> unconditionally. I don't expect many other direct users, so warning that
-> the mapping won't be applied when an application sets the corresponding
-> control during streaming without using requests seems fair to me. It
-> will help debugging issues.
-
-It is also a miss-use of dev_warn which is meant to indicate a problem with=
- the
-driver or the hardware. The V4L2 core uses dev_dbg() or customer log level =
-for
-that in general. Also, don't re-implement _once() variants with
-warned_dynamic_update please. Personally, I would just let the out-of reque=
-st
-change the control on the next device_run(), even if that means its out of =
-sync.
-
-Nicolas
-
->=20
-> > > +		);
-> > > +	}
-> > > +
-> > > =C2=A0	v4l2_ctrl_request_complete(src_buf->vb2_buf.req_obj.req,
-> > > =C2=A0				=C2=A0=C2=A0 &ctx->hdl);
-> > > =C2=A0
-
---=-jG59v6/w1zB+en1MGiEP
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaV0SjwAKCRDZQZRRKWBy
-9I0zAPwMBT2m5Eu08OcMqqAgIeUrDuena/auDvFtv/Y48D62SQEA+0CzAV/t1+5d
-shzTvTgiPmZHbLaeT9awJ6BCeTc4DQY=
-=NgWR
------END PGP SIGNATURE-----
-
---=-jG59v6/w1zB+en1MGiEP--
+Best regards,
+Krzysztof
 
