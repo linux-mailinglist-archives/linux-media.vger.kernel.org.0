@@ -1,315 +1,156 @@
-Return-Path: <linux-media+bounces-50051-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50052-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24127CF93F1
-	for <lists+linux-media@lfdr.de>; Tue, 06 Jan 2026 17:04:44 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB60BCF990C
+	for <lists+linux-media@lfdr.de>; Tue, 06 Jan 2026 18:12:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 60C96301518E
-	for <lists+linux-media@lfdr.de>; Tue,  6 Jan 2026 16:04:29 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id F03DF3029805
+	for <lists+linux-media@lfdr.de>; Tue,  6 Jan 2026 17:12:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0311B33F8C3;
-	Tue,  6 Jan 2026 16:04:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B9E329D273;
+	Tue,  6 Jan 2026 17:11:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="IV/Klcb5"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="L+1o1nDS"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB5333F396
-	for <linux-media@vger.kernel.org>; Tue,  6 Jan 2026 16:04:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C94F340283;
+	Tue,  6 Jan 2026 17:11:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767715448; cv=none; b=sPpaPM4QgURBBium4lt20g26AA9mO0gWC8D0EtrxwhRecC07iBSfmHQfXOfYgqXWHvIWJyDpN/b2pn1lDNA/3mCCWlneR/zBjL7dp80g+g8lnzejkHk/7dccySq61YtR4R9pWmfr8oQjgu1cl7UX9Q196Jj+kfzU7xJwj9LLCzk=
+	t=1767719493; cv=none; b=BRGRi6u79rWdIv7SDmjz0zYdvp4y5DlWlONrmPfQjE+stMPyXptTU/zLJrY2CnWJmveNHWg40M0GC7eW5bXsNEt5WFailu/K3fMaIf1GLT2yrpXdRZA3IxxeihaB+89X/t2Ez7HxR9/Rj4Jm+edZEEzuc13bij/SotAB7liKuec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767715448; c=relaxed/simple;
-	bh=5G/+nUhJD0Wn816WxDxaa6K8L80DgvEIRkS+FfcW+74=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qEeTWwWbBkUg4tsLpTO1QJsQLiPbYHcD0+6ZVwk7r0lUg6GhJXiQxDi0AKjx/PhXVf8o0lzJoMVoxFGR0L//zFn9/OI3u2RnVz/rsnR4XL1AePcS2KUEcukao8f88sEAR88U6M4L/++NQ4nI0ogNEVdtPALv2d763H+M4aEdxGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=IV/Klcb5; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1767719493; c=relaxed/simple;
+	bh=rk8wYmSTmpV9eyE5i+/fQzwLidr/XrTLsAR6/Dd1ZbQ=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=SUxNA4bz4ZB6nQ2AoAeBRrpt07Z3hmHWj7nudnO/6l2ci1nrSzFp8lBy8I/y2fOjcUZzn1XcLRhlrNbxqAr5UW1z74fuhfSuokLucx2bTL3V3BDN2V7g8CtEBX/bJxUYJOk5SZ6q/EY6BKcAm8pjz3HVTlGye3665GZIUIZsxTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=L+1o1nDS; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-152.bb.dnainternet.fi [81.175.209.152])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 6AE8F82A;
-	Tue,  6 Jan 2026 17:03:43 +0100 (CET)
+Received: from ideasonboard.com (unknown [IPv6:2a00:6020:448c:6c00:8c3f:64f1:feb8:928b])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 60D5F78E;
+	Tue,  6 Jan 2026 18:11:09 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1767715423;
-	bh=5G/+nUhJD0Wn816WxDxaa6K8L80DgvEIRkS+FfcW+74=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IV/Klcb5cF30mwZuL3Xqo2dsqL608TBQV3KhGnzWuUmpY359rjWeB061Wc1jKsGlm
-	 k11UCba1V8fRCRvzqs3l4MHUijg9ir4X+hNkwrYMZl2qF59KvRpKn1B9T5lXGYaYH1
-	 g2RU442RZ/w/dIWO6kdXlLzHFzBr5iWYjhfQEJOY=
-Date: Tue, 6 Jan 2026 18:03:46 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Daniel Scally <dan.scally@ideasonboard.com>,
-	Dafna Hirschfeld <dafna@fastmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>, linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] media: rkisp1: request/free irqs in PM runtime ops
-Message-ID: <20260106160346.GE26157@pendragon.ideasonboard.com>
-References: <20260105-rkisp1-irqs-v1-1-922f6a94a2e2@ideasonboard.com>
- <3ea77c79-20b9-423d-88b6-115b1188845e@ideasonboard.com>
+	s=mail; t=1767719469;
+	bh=rk8wYmSTmpV9eyE5i+/fQzwLidr/XrTLsAR6/Dd1ZbQ=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=L+1o1nDS6RXtYejgSIZuTWlQOt6QcVaJwKfdi+BIQauW313F/x8q+osGyKF7eBG8G
+	 WQyEO1QfHEfEUymqRvCauKfprkrl6d8daRUZkRlKjBrQ9NcQJLkD1AHH/m9tk+L8v6
+	 UQNSsv+0EZPK9xDZ51BjWP6H05RP4RiRGOFzakrE=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <3ea77c79-20b9-423d-88b6-115b1188845e@ideasonboard.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260106004928.GL10026@pendragon.ideasonboard.com>
+References: <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-0-65af34d04fd8@ideasonboard.com> <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-3-65af34d04fd8@ideasonboard.com> <8a8ec84e5484d7a1a5e6fac9a5238f3cae66abc3.camel@ndufresne.ca> <20260105235921.GI10026@pendragon.ideasonboard.com> <20260105193933.40485807@gandalf.local.home> <20260106004928.GL10026@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 3/4] media: dw100: Fix kernel oops with PREEMPT_RT enabled
+From: Stefan Klug <stefan.klug@ideasonboard.com>
+Cc: Nicolas Dufresne <nicolas@ndufresne.ca>, Xavier Roumegue <xavier.roumegue@oss.nxp.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Steven Rostedt <rostedt@goodmis.org>
+Date: Tue, 06 Jan 2026 18:11:27 +0100
+Message-ID: <176771948736.12184.11458532023194713133@localhost>
+User-Agent: alot/0.12.dev8+g2c003385c862.d20250602
 
-On Tue, Jan 06, 2026 at 06:01:38PM +0200, Tomi Valkeinen wrote:
-> Hi,
-> 
-> On 05/01/2026 18:19, Daniel Scally wrote:
-> > The rkisp1 driver tracks whether the IRQ handlers should take any
-> > action through the use of an "irqs_enabled" flag which is set true
-> > at the end of .runtime_resume() and false at the start of
-> > .runtime_suspend(). In .runtime_suspend(), after setting the flag,
-> > there's then a short window during which the hardware has not yet
-> > been disabled by the clock APIs but interrupts remain enabled. If an
-> > interrupt is triggered during that window the IRQ handlers will return
-> > IRQ_NONE and fail to clear the ISP's IRQ reset registers.
-> > 
-> > Instead, delay calling request_irq() from .probe() to the end of the
-> > .runtime_resume() callback, and call free_irq() at the start of the
-> > .runtime_suspend() callback. This will prevent the interrupt handlers
-> > being called at all for the device once .runtime_suspend() has been
-> > called for it.
-> 
-> Shouldn't we usually always properly disable the IP before suspend? I've
-> seen IPs that definitely did not like at all cutting the clocks
-> arbitrarily when it's active.
+Quoting Laurent Pinchart (2026-01-06 01:49:28)
+> On Mon, Jan 05, 2026 at 07:39:33PM -0500, Steven Rostedt wrote:
+> > On Tue, 6 Jan 2026 01:59:21 +0200 Laurent Pinchart wrote:
+> >=20
+> > > > That's interesting, do you plan to update more drivers ? There is a=
+ lot of m2m
+> > > > using hard IRQ to minimize the idle time (save a context switch), b=
+ut RT support
+> > > > might be more worth then that. =20
+> > >=20
+> > > This is a part of PREEMPT_RT that puzzles me. By turning regular
+> > > spinlocks into mutexes, RT seems to break drivers that use those
+> > > spinlocks in hard IRQ handlers. That's a very large number of drivers
+> > > given how widespread regular spinlock usage is. Do drivers need to be
+> > > manually converted to either raw spinlocks or threaded IRQ handlers ?
+> >=20
+> > No. Pretty much all interrupts are converted into threaded interrupt
+> > handlers unless IRQF_NO_THREAD, IRQF_PERCPU, or IRQF_ONESHOT are specif=
+ied.
+> >=20
+> > The interrupt line is disabled until the thread handler is called.
+> >=20
+> > > What about non-RT kernels, how can a driver avoid the thread scheduli=
+ng
+> > > penalty in those cases, do they need to manually select between
+> > > request_irq() and request_threaded_irq() based on if RT is enabled ?
+> > > This puzzles me, it feels like I must be missing something.
+> >=20
+> > The issue here is that the interrupt handler specifies ONESHOT which ca=
+uses
+> > the handler to be executed in hard interrupt context.
+>=20
+> Gotcha.
+>=20
+> Stefan, please explain in the commit message why the ONESHOT flag is
+> set by the driver.
 
-Yes we should. The driver should have real system suspend/resume
-handlers that stop and restart streaming.
+Hah, if I knew that :-).
 
-> And I don't think clk disable should be considered "disabling the
-> hardware". The clocks may not even be disabled at that time, if they're
-> shared clocks or always on clocks. So if the driver assumes that after
-> clk disable call it won't get any interrupts... I don't think that right.
-> 
-> If we can't sensibly disable the IP, I think we can at least mask the
-> IP's interrupts in its interrupt enable register (which we probably
-> should do even if we can disable the IP), and wait for any possible irq
-> handler to stop running. After that we won't get any interrupts,
-> regardless of the clocks.
-> 
->  Tomi
-> 
-> > Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
-> > ---
-> > We noticed this problem when testing hibernation with the streams
-> > running. In a typical use-case the stream might be stopped before the
-> > runtime PM suspend callback is called, and so the problem is avoided,
-> > but when hibernated with active streams there are sufficient interrupts
-> > coming in to reliably land one in the window between the irqs_enabled
-> > flag being set to false and the hardware being disabled through
-> > clk_bulk_disable_unprepare().
-> > 
-> > I'm under the impression that requesting the IRQs when the device is
-> > in use in the manner of this patch and releasing the when it is not
-> > in use is preferred over requesting them in the .probe() function -
-> > possibly an impression I picked up from Linux Device Drivers. It
-> > doesn't seem to be a particularly common model though, so I thought
-> > I'd flag the method here.
-> > ---
-> >  .../platform/rockchip/rkisp1/rkisp1-capture.c      |  3 -
-> >  .../media/platform/rockchip/rkisp1/rkisp1-common.h |  2 -
-> >  .../media/platform/rockchip/rkisp1/rkisp1-csi.c    |  3 -
-> >  .../media/platform/rockchip/rkisp1/rkisp1-dev.c    | 82 +++++++++++++++-------
-> >  .../media/platform/rockchip/rkisp1/rkisp1-isp.c    |  3 -
-> >  5 files changed, 57 insertions(+), 36 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> > index 6dcefd144d5abe358323e37ac6133c6134ac636e..510d1e8d8bbc86e8b8be3579571e308e5ad9f260 100644
-> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> > @@ -820,9 +820,6 @@ irqreturn_t rkisp1_capture_isr(int irq, void *ctx)
-> >  	unsigned int i;
-> >  	u32 status;
-> >  
-> > -	if (!rkisp1->irqs_enabled)
-> > -		return IRQ_NONE;
-> > -
-> >  	status = rkisp1_read(rkisp1, RKISP1_CIF_MI_MIS);
-> >  	if (!status)
-> >  		return IRQ_NONE;
-> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> > index 5e6a4d5f6fd12baf45a0083eff75de1095162b2d..2a5f6f69b217cdba2fa7c4d1f230ede5aff49149 100644
-> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> > @@ -507,7 +507,6 @@ struct rkisp1_debug {
-> >   * @debug:	   debug params to be exposed on debugfs
-> >   * @info:	   version-specific ISP information
-> >   * @irqs:          IRQ line numbers
-> > - * @irqs_enabled:  the hardware is enabled and can cause interrupts
-> >   */
-> >  struct rkisp1_device {
-> >  	void __iomem *base_addr;
-> > @@ -532,7 +531,6 @@ struct rkisp1_device {
-> >  	struct rkisp1_debug debug;
-> >  	const struct rkisp1_info *info;
-> >  	int irqs[RKISP1_NUM_IRQS];
-> > -	bool irqs_enabled;
-> >  };
-> >  
-> >  /*
-> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
-> > index ddc6182f3e4bdacdd1962c86f6259334b16aa505..bfc33365ad9d09ccace4ccbb2b19a2fbe1b77eb2 100644
-> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
-> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
-> > @@ -196,9 +196,6 @@ irqreturn_t rkisp1_csi_isr(int irq, void *ctx)
-> >  	struct rkisp1_device *rkisp1 = dev_get_drvdata(dev);
-> >  	u32 val, status;
-> >  
-> > -	if (!rkisp1->irqs_enabled)
-> > -		return IRQ_NONE;
-> > -
-> >  	status = rkisp1_read(rkisp1, RKISP1_CIF_MIPI_MIS);
-> >  	if (!status)
-> >  		return IRQ_NONE;
-> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> > index 1791c02a40ae18205f5eb2fd6edca6cda6b459bf..6fa76423bacf3e92cbbb4ef1ceb55e194b88d963 100644
-> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> > @@ -307,28 +307,62 @@ static int rkisp1_subdev_notifier_register(struct rkisp1_device *rkisp1)
-> >   * Power
-> >   */
-> >  
-> > -static int __maybe_unused rkisp1_runtime_suspend(struct device *dev)
-> > +static void rkisp1_free_irqs(struct rkisp1_device *rkisp1)
-> >  {
-> > -	struct rkisp1_device *rkisp1 = dev_get_drvdata(dev);
-> > +	for (unsigned int i = 0; i < ARRAY_SIZE(rkisp1->irqs); i++) {
-> > +		if (rkisp1->irqs[i] == -1)
-> > +			continue;
-> >  
-> > -	rkisp1->irqs_enabled = false;
-> > -	/* Make sure the IRQ handler will see the above */
-> > -	mb();
-> > +		if (irq_has_action(rkisp1->irqs[i]))
-> > +			free_irq(rkisp1->irqs[i], rkisp1->dev);
-> > +	}
-> > +}
-> >  
-> > -	/*
-> > -	 * Wait until any running IRQ handler has returned. The IRQ handler
-> > -	 * may get called even after this (as it's a shared interrupt line)
-> > -	 * but the 'irqs_enabled' flag will make the handler return immediately.
-> > -	 */
-> > -	for (unsigned int il = 0; il < ARRAY_SIZE(rkisp1->irqs); ++il) {
-> > -		if (rkisp1->irqs[il] == -1)
-> > +static int rkisp1_request_irqs(struct rkisp1_device *rkisp1)
-> > +{
-> > +	const struct rkisp1_info *info = rkisp1->info;
-> > +	int ret;
-> > +
-> > +	for (unsigned int irqn = 0; irqn < ARRAY_SIZE(rkisp1->irqs); irqn++) {
-> > +		unsigned int isrn;
-> > +
-> > +		if (rkisp1->irqs[irqn] == -1)
-> >  			continue;
-> >  
-> > -		/* Skip if the irq line is the same as previous */
-> > -		if (il == 0 || rkisp1->irqs[il - 1] != rkisp1->irqs[il])
-> > -			synchronize_irq(rkisp1->irqs[il]);
-> > +		if (irq_has_action(rkisp1->irqs[irqn]))
-> > +			continue;
-> > +
-> > +		for (isrn = 0; isrn < info->isr_size; isrn++)
-> > +			if ((info->isrs[isrn].line_mask & BIT(irqn)))
-> > +				break;
-> > +
-> > +		if (isrn == info->isr_size) {
-> > +			dev_err(rkisp1->dev, "Failed to find IRQ handler\n");
-> > +			return -EINVAL;
-> > +		}
-> > +
-> > +		ret = request_irq(rkisp1->irqs[irqn], info->isrs[isrn].isr,
-> > +				  IRQF_SHARED, dev_driver_string(rkisp1->dev),
-> > +				  rkisp1->dev);
-> > +		if (ret) {
-> > +			dev_err(rkisp1->dev, "Failed to request IRQ\n");
-> > +			goto err_free_irqs;
-> > +		}
-> >  	}
-> >  
-> > +	return 0;
-> > +
-> > +err_free_irqs:
-> > +	rkisp1_free_irqs(rkisp1);
-> > +	return ret;
-> > +}
-> > +
-> > +static int __maybe_unused rkisp1_runtime_suspend(struct device *dev)
-> > +{
-> > +	struct rkisp1_device *rkisp1 = dev_get_drvdata(dev);
-> > +
-> > +	rkisp1_free_irqs(rkisp1);
-> > +
-> >  	clk_bulk_disable_unprepare(rkisp1->clk_size, rkisp1->clks);
-> >  	return pinctrl_pm_select_sleep_state(dev);
-> >  }
-> > @@ -345,11 +379,16 @@ static int __maybe_unused rkisp1_runtime_resume(struct device *dev)
-> >  	if (ret)
-> >  		return ret;
-> >  
-> > -	rkisp1->irqs_enabled = true;
-> > -	/* Make sure the IRQ handler will see the above */
-> > -	mb();
-> > +	ret = rkisp1_request_irqs(rkisp1);
-> > +	if (ret)
-> > +		goto err_clk_disable;
-> >  
-> >  	return 0;
-> > +
-> > +err_clk_disable:
-> > +	clk_bulk_disable_unprepare(rkisp1->clk_size, rkisp1->clks);
-> > +
-> > +	return ret;
-> >  }
-> >  
-> >  static const struct dev_pm_ops rkisp1_pm_ops = {
-> > @@ -694,13 +733,6 @@ static int rkisp1_probe(struct platform_device *pdev)
-> >  			if (info->isrs[i].line_mask & BIT(il))
-> >  				rkisp1->irqs[il] = irq;
-> >  		}
-> > -
-> > -		ret = devm_request_irq(dev, irq, info->isrs[i].isr, IRQF_SHARED,
-> > -				       dev_driver_string(dev), dev);
-> > -		if (ret) {
-> > -			dev_err(dev, "request irq failed: %d\n", ret);
-> > -			return ret;
-> > -		}
-> >  	}
-> >  
-> >  	ret = rkisp1_init_clocks(rkisp1);
-> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> > index 2311672cedb1b6c9dd7f1b883adcac1516a685ae..c6b1ecd2d0c260f6739726c9f32562b98ca31364 100644
-> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> > @@ -1106,9 +1106,6 @@ irqreturn_t rkisp1_isp_isr(int irq, void *ctx)
-> >  	struct rkisp1_device *rkisp1 = dev_get_drvdata(dev);
-> >  	u32 status, isp_err;
-> >  
-> > -	if (!rkisp1->irqs_enabled)
-> > -		return IRQ_NONE;
-> > -
-> >  	status = rkisp1_read(rkisp1, RKISP1_CIF_ISP_MIS);
-> >  	if (!status)
-> >  		return IRQ_NONE;
-> > 
-> > ---
-> > base-commit: ee5b462b97162dbb6c536e18a37b3048f6520019
-> > change-id: 20260105-rkisp1-irqs-8af5a1e0b887
+The pieces I have are:
+In the DT the interrupt line is marked as IRQ_TYPE_LEVEL_HIGH. I don't
+know why and couldn't find a reference to that in the reference manual.
+Assuming it is a level interrupt, then it makes sense to treat it as ONESHO=
+T,
+otherwise it would fire again immediately after handling the hard
+interrupt...but it was a hard interrupt in first place - huh.
 
--- 
-Regards,
+I just realize that I still miss a bit of the puzzle:
+ONESHOT is doumented as:
 
-Laurent Pinchart
+"Interrupt is not reenabled after the hardirq handler finished. Used by
+threaded interrupts which need to keep the irq line disabled until the
+threaded handler has been run."
+
+That makes perfect sense. So ONESHOT disables the irq line until the
+thread_fn has completed (if it was set). Now on preempt_rt inside
+irq_setup_forced_threading() we don't force threading if ONESHOT is
+requested. Why is that?
+
+So I'm left with two questions:
+- Why aren't ONESHOT irq handlers forced to threaded on preempt_rt?
+- Why was ONESHOT requested in first place as to my current knowledge it
+  really only makes sense if a thread_fn is defined.
+
+Did I just answer my own question? ONESHOT only makes sense if there is
+a thread_fn and it is assumed that the hard handler is necessary. So
+preempt_rt doesn't try to change that?
+
+That would mean the ONESHOT in the dw100 was not necessary in first
+place but didn't do any harm until preempt_rt was enabled... And if
+ONSHOT is *not* set preempt_rt would automatically force the irq handler
+to be threaded and set the ONESHOT flag in irq_setup_forced_threading().
+
+So everything would be fine except that we'd still hit the timeout issue
+from patch 4/4.
+
+So if I got that right, the dw100 driver is in the unfortunate
+situation, that the irq handler consists of two parts where the first
+part *must* run in hard interrupt context and the second part *should* run
+in hard interrupt context but it is fine if it becomes threaded due to
+preempt_rt. As we can't model that, the best we can do is to always run
+the second part threaded...
+
+So patch 4/4 seems correct until we get new information about the
+hardware.
+
+Any thoughts?
+
+Best regards,
+Stefan
+
+>=20
+> --=20
+> Regards,
+>=20
+> Laurent Pinchart
 
