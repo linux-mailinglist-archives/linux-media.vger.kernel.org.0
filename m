@@ -1,114 +1,158 @@
-Return-Path: <linux-media+bounces-50148-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50159-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0198CCFEB63
-	for <lists+linux-media@lfdr.de>; Wed, 07 Jan 2026 16:54:55 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80F98CFEAB2
+	for <lists+linux-media@lfdr.de>; Wed, 07 Jan 2026 16:48:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C46453065E28
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jan 2026 15:48:50 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4ECEF304E16B
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jan 2026 15:41:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC838334692;
-	Wed,  7 Jan 2026 14:22:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BZtTwTaC"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A61E34E769;
+	Wed,  7 Jan 2026 14:52:20 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B024A332ED1
-	for <linux-media@vger.kernel.org>; Wed,  7 Jan 2026 14:22:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A23C231AA8D
+	for <linux-media@vger.kernel.org>; Wed,  7 Jan 2026 14:52:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767795730; cv=none; b=TALMXCeTCby2Sm+//d+Bwbd/KvOiLgumpQGJjPlq6mBFBaC09kMBmNuK9LFWK6HpIT76EeCZX1yxiwzGHOc9BECssjIlz5Dwt6USf1B2F5Qzv4JshjiA4G1NzWKNppjKPCfNOnD0cA+yAkktOa5EWsKRdv7a4AHYQ6ZM0zZPJ8o=
+	t=1767797539; cv=none; b=Ji9FmyYWk94iSr1U8A0NgbIMufrsyq1+BZ7SiK6mG7o5h9Prmqm57Uykz9Cba9z5pjFUQ5ubhcWRR0xZORB9kBpMoI4bfw1DkFhFSdJyhbmnaG+8VuXU9V6o6jU7Dv18oyTpT5BNCX5grWbLwOj/Jp/MAw5/2PHZTxf9QUgLkbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767795730; c=relaxed/simple;
-	bh=0U9koCOJzgH9JvfmV6YnkoehTxq2ubIy486JlKUz+Eg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s8MEuiyC0MiM5GPfT+TOxcBOqZjcEm5NWH9TTY7gaAIFhP2PLzTAKMjg3PoO79dTW07mc2I47yWyIRH2W9XPl4ZnRKQtnGoVhk4GMtBOzHs6UQg4lnOyegI/KPVOhfiBGsDeAli42pz6TueZ1Pdy5EzSrdU/3Iq2Rus0u0M94uI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BZtTwTaC; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-432777da980so1144291f8f.0
-        for <linux-media@vger.kernel.org>; Wed, 07 Jan 2026 06:22:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1767795727; x=1768400527; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gOW2y+VKVeFQcfSJXk3+EmObS/JtRwV2ILjhb679FFA=;
-        b=BZtTwTaCPYKN4U1ENrTg4NY7bqn4GtsEg59zPMvRl88uj+UDjB4cukY8HoOvcttVdi
-         rDn+TAbKVcmdp+bm23AoqHSC9j9EDsTSmfSHKqnaDKzp1ennDNux6SDOQ9EDlXQS3k+i
-         3sSTdu7pONZ7AtA+MCks4m+d40YPl7jI7vr3EAeGgulCOa264tHaxaOYb2971CZX/g3Z
-         djQdb3KqljT3iSP9VxeVfummGeOpzZBx8cjcH794WmUQtcjIWHhmPOhvXaFOfhbhjvCY
-         9dg1U/XrXTbgO0DCm/onRieAUGHp/oKqXrx1sEITkkuFCbUKndWz361facKz6a3HC5rw
-         evrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767795727; x=1768400527;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gOW2y+VKVeFQcfSJXk3+EmObS/JtRwV2ILjhb679FFA=;
-        b=Te4jF91F8CseEasVo7rAajbkuaYgYorD7bwqV32bka0tNOLBkRaab5pVvmjU4AkJT3
-         gXy1xDQ5eh4A4YmoNOqnzPLa4nqGPJlcSdQ1/84NYwLhv6vK1SWntqSiCE7l+QkbPT0i
-         zYmaTSyvKA5AxKXEqWhkBtbBA+YHtLP1apF3DhDPOvnK6UuOuVFb21Z7rTjBBFjeJFK1
-         aq5mnJa30RAYY2IFV/TSkHDh+hRoM3NwnY+vquGlaT9pe/YstomjbHSC49DIHXTu+MEQ
-         zRSq7eQ4J9mX8wl//kNlT7bye4Kds4awzOXk1bcLgTXGo/aSeVLvgGITSz+6J3HP/hdi
-         XQCg==
-X-Forwarded-Encrypted: i=1; AJvYcCX1kw9Zpxdl9rP7Cxq/gJs9Jl+jl071fx/FCjoIjThmOzb224j8/EQlMi/I6ftyMuwPhj/8HP+pTSv1Qg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQkBv3+X0oNFEMrGh2awzj+DXVUp2PCn3iG+sjmaeWgLwns7L/
-	iBYP6jQofdCOo6ltvLrYjwUni+C2MCdgjvic02xBNC9/7kwrc2QIAY5fcgO/ZQl7DDs=
-X-Gm-Gg: AY/fxX67gCJaOwL1C50H/ut1UiWx+Ndoy6QFq3zPIztkzr4p2TC+FFHVx/6UjWFQZMf
-	dwU69uyKwzC1Zv0Vo8SBwEM20sFijtRBnBe+hzF+awSMwtAKPEnP8ep2Z94Oy0uslnK0Gth8R32
-	BW2aRssFu2YcX16QDPCkvAx89/kJLqoGSoAXvkkrtomGRaT+JAOt4uHPm17fHm2RxCMCh8ficZ4
-	7mLy2bsorzTPKNX9cnxNcsm8bf1M1OM6ctCW6uD86YJgfL8tyMG3Na46Qp66R2t5I9lMNhPmyM1
-	n8QaHzCZgCtPfSMNvD3VQjsOyeHH0uhD4oyoTs+ZSpuosLhDvT77ylj/TkroMFxiKmUhTrUPWXY
-	8nnNHu/26CtXVS9ZcznnenSEAFhMJ67pMO0H/fsEYgrZPKNCJ7n9kXeKl+T2Hi4nxUDKqrpWTmD
-	4j/agRWYJhCY90gLHf
-X-Google-Smtp-Source: AGHT+IFJwknu9uPiQ2jlGnRv7HuAdmdncQ8NphWGfQ7jlTeHbYr70BvYEzG8mcTbKTU43DrbU8ZoXw==
-X-Received: by 2002:a05:6000:2204:b0:430:ff41:5c87 with SMTP id ffacd0b85a97d-432c3775a44mr3337365f8f.60.1767795726838;
-        Wed, 07 Jan 2026 06:22:06 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0dad8bsm10912638f8f.8.2026.01.07.06.22.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jan 2026 06:22:06 -0800 (PST)
-Date: Wed, 7 Jan 2026 17:22:03 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Karthikey D Kadati <karthikey3608@gmail.com>
-Cc: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 RESEND 0/3] media: atomisp: refactoring and fixes for
- V4L2 compliance
-Message-ID: <aV5sC_udoJ3qdjBD@stanley.mountain>
-References: <81e2d12c-342b-4b88-88a0-3e24115541aa@kernel.org>
- <20260107134844.68074-1-karthikey3608@gmail.com>
+	s=arc-20240116; t=1767797539; c=relaxed/simple;
+	bh=rEI4N32RTUkp6hm6LhzSfgzxDUsDYJqv7mwhnacev+0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jRJke2jYZFWuFXnIQDBo1mTEURHorsdcaakrxAUFxpi7683Nx35gdtbVFx7Rw3bgAtUDsH69OZhmvAi5Yld9S448KRfJB7yl7TrPAdPXyyiHmlh9XZn48mI+EgHKpI0Qz0d0pbSDR5sz2/UTVi0kppOnOHQhI+Gch85KzSZ1Aws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <s.pueschel@pengutronix.de>)
+	id 1vdUtK-0002O9-IV; Wed, 07 Jan 2026 15:52:06 +0100
+Message-ID: <1f4720ea-fa9c-41b7-9a6c-24abffa4bd77@pengutronix.de>
+Date: Wed, 7 Jan 2026 15:52:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260107134844.68074-1-karthikey3608@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 18/22] media: rockchip: rga: move rga_fmt to rga-hw.h
+To: Nicolas Dufresne <nicolas@ndufresne.ca>,
+ Jacob Chen <jacob-chen@iotwrt.com>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, kernel@pengutronix.de
+References: <20251203-spu-rga3-v2-0-989a67947f71@pengutronix.de>
+ <20251203-spu-rga3-v2-18-989a67947f71@pengutronix.de>
+ <de09023e7bdb1698c0bcdeb8d625101cbf647595.camel@ndufresne.ca>
+Content-Language: en-US
+From: =?UTF-8?Q?Sven_P=C3=BCschel?= <s.pueschel@pengutronix.de>
+In-Reply-To: <de09023e7bdb1698c0bcdeb8d625101cbf647595.camel@ndufresne.ca>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: s.pueschel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
-When you're sending v2, it's better to just start a new thread.  We stopped
-sending them as a reply years ago.  It makes threads too confusing.
+Hi,
 
-On Wed, Jan 07, 2026 at 07:18:41PM +0530, Karthikey D Kadati wrote:
-> This patch series addresses maintainer feedback and fixes build errors
-> in the atomisp driver.
-> 
-> Patch 1: Standardizes the 'Bridge' structs significantly by using v4l2_rect instead of custom shadow structs and aligning ia_css_region members with V4L2 conventions.
-> Patch 2: Introduces a helper function for statistics buffer allocation to reduce code duplication and centralize error handling logic.
-> Patch 3: Adds missing error propagation for IRQ enable and XNR configuration to improve robustness.
-> 
+On 12/24/25 4:59 PM, Nicolas Dufresne wrote:
+> Le mercredi 03 décembre 2025 à 16:52 +0100, Sven Püschel a écrit :
+>> Move rga_fmt to rga-hw in preparation of the RGA3 addition, as the struct
+>> contains many RGA2 specific values. They are used to write the correct
+>> register values quickly based on the chosen format. Therefore the
+>> pointer to the rga_fmt struct is kept but changed to an opaque void
+>> pointer outside of the rga-hw.h.
+[...]
+>> diff --git a/drivers/media/platform/rockchip/rga/rga-hw.h b/drivers/media/platform/rockchip/rga/rga-hw.h
+>> index fffcab0131225..3bc4b1f5acba2 100644
+>> --- a/drivers/media/platform/rockchip/rga/rga-hw.h
+>> +++ b/drivers/media/platform/rockchip/rga/rga-hw.h
+>> @@ -6,6 +6,8 @@
+>>   #ifndef __RGA_HW_H__
+>>   #define __RGA_HW_H__
+>>   
+>> +#include <linux/types.h>
+>> +
+>>   #define RGA_CMDBUF_SIZE 0x20
+>>   
+>>   /* Hardware limits */
+>> @@ -431,4 +433,14 @@ union rga_pat_con {
+>>   	} data;
+>>   };
+>>   
+>> +struct rga_fmt {
+>> +	u32 fourcc;
+>> +	int depth;
+>> +	u8 uv_factor;
+>> +	u8 y_div;
+>> +	u8 x_div;
+>> +	u8 color_swap;
+>> +	u8 hw_format;
+>> +};
 
-Please line wrap your emails at 72 characters.
+[...]
 
-regards,
-dan carpenter
+>>   
+>> -struct rga_fmt {
+>> -	u32 fourcc;
+>> -	int depth;
+>> -	u8 uv_factor;
+>> -	u8 y_div;
+>> -	u8 x_div;
+>> -	u8 color_swap;
+>> -	u8 hw_format;
+>> -};
+> Ah! here's the removal of the unused variable. Not review friendly, but at last
+> removed.
 
+I've just moved it, so your review comments are still right. x_div/y_div 
+is still used at one place in rga_hw.c, but I'll remove it too in my v3 
+(and have these removals in the other commits to keep this reviewed-by).
+
+Sincerely
+     Sven
+
+>
+> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+>
+>> -
+>>   struct rga_frame {
+>>   	/* Crop */
+>>   	struct v4l2_rect crop;
+>>   
+>>   	/* Image format */
+>> -	struct rga_fmt *fmt;
+>> +	void *fmt;
+>>   	struct v4l2_pix_format_mplane pix;
+>>   };
+>>   
+>> @@ -145,8 +135,6 @@ static inline void rga_mod(struct rockchip_rga *rga, u32 reg, u32 val, u32 mask)
+>>   struct rga_hw {
+>>   	const char *card_type;
+>>   	bool has_internal_iommu;
+>> -	struct rga_fmt *formats;
+>> -	u32 num_formats;
+>>   	size_t cmdbuf_size;
+>>   	u32 min_width, min_height;
+>>   	u32 max_width, max_height;
+>> @@ -158,6 +146,9 @@ struct rga_hw {
+>>   		      struct rga_vb_buffer *src, struct rga_vb_buffer *dst);
+>>   	bool (*handle_irq)(struct rockchip_rga *rga);
+>>   	void (*get_version)(struct rockchip_rga *rga);
+>> +	void *(*adjust_and_map_format)(struct v4l2_pix_format_mplane *format,
+>> +				       bool is_output);
+>> +	int (*enum_format)(struct v4l2_fmtdesc *f);
+>>   };
+>>   
+>>   static inline bool rga_has_internal_iommu(const struct rockchip_rga *rga)
 
