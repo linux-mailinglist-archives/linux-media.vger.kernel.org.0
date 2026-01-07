@@ -1,80 +1,77 @@
-Return-Path: <linux-media+bounces-50128-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50129-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47532CFD6E1
-	for <lists+linux-media@lfdr.de>; Wed, 07 Jan 2026 12:38:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 647CBCFD7E0
+	for <lists+linux-media@lfdr.de>; Wed, 07 Jan 2026 12:52:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8C6963013972
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jan 2026 11:38:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AC565304A989
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jan 2026 11:48:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B24CB328B49;
-	Wed,  7 Jan 2026 11:38:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14C7C30FC16;
+	Wed,  7 Jan 2026 11:48:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ure10IyA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NX7vzuNw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E5830F52D
-	for <linux-media@vger.kernel.org>; Wed,  7 Jan 2026 11:37:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7D1B189BB6;
+	Wed,  7 Jan 2026 11:48:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767785881; cv=none; b=O2bnrDa2STiCqoShyu9HG9tNe0tk+b+/Tk/1b8zIK/DcJuT8cVFiTn1dh66b1l9ZfV2wz/S2RDOwRtmhGBm5OrG0FtLcpQf84V+N4qBVjFAAgzTllNaoHPL2Vgq8qVKd+xwqMeDEvWx9TARAD6f88BsKdZJAuxsJ5zvcw895PFQ=
+	t=1767786517; cv=none; b=cS7C5F5t3IWML59Vh0+Svp4RCBJR2okDgD47ngp7EPv2r2c77OkupVqA0YAMJCRqNi5FYwvNya+jV3r4OwM7DLsyQ4j02BX/ETGXu+FtZwQBWSp5PrLnT24nhCXZWC6komJ+iVEBZbAmKEehmeDgQjcyQMDYhVsbTSmXDsLELP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767785881; c=relaxed/simple;
-	bh=N3/wTqXdrOgjt1QdycyAPCawnY1Nw3hDT/PHnupDaDw=;
+	s=arc-20240116; t=1767786517; c=relaxed/simple;
+	bh=ZToniWAp35sk8rm5uVKrMMQORpt4RMkaD9UDQfZgs+g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uB/CEEDxS+rRu+QbwG0whpWCGpAl24Ux8ywZbaKlwThF0gtCD3ZebZLDU7O+TUPTo+yKBFX+m6URP6AzZK71SRUqv/Z9uDRgOUjBb0+51BshEGoyB5RZF4bhz8WvCdeXJ2nI4PuzHWqlZXVczwd1jOZyR+GCYtS6kSb+3AKR7x4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ure10IyA; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=EdazBR65aCMDQw4oMc8fEkXao7D5GXvCa1bWTbQwL9gJnjV2Ps9rWPU+8wVSZdKLE9rQLuX7nzzhXmYY1+LKxkPwYSOHVnIZ8OcBuN6oo40Hals4MWAKQ0koWLp5m1Wo7ata/m/Fa35iTLIsd2J5HobgeZxH0CqfRIn/opCKjVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NX7vzuNw; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767785880; x=1799321880;
+  t=1767786516; x=1799322516;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=N3/wTqXdrOgjt1QdycyAPCawnY1Nw3hDT/PHnupDaDw=;
-  b=Ure10IyA2rlZJvPvkFY6ZP1WjZEpKMQmdoF/e/yhaC2kYjRShlEHYUxR
-   JwjkDQgzZurs3pkDkkQ8cQ5Sg4TCy+NrbQN2c5PlA+LpX3CQW6rM09nTv
-   PdZKxzfSTusa9DWG66iJinpyHFSXb5lnF+5Ua04G+clqGcng7M85moUpd
-   js5L6Z3vzUYdqHyPeLXcfuuVJdTUYTBejzQFOuXufaMHSXIlKkFbx4nnd
-   Ku9mzRkbEH2lgB1bb90QJClb56RBpMRSOB/esdJVJ0DuPbNlygeCPwFGW
-   z3kvW+q7lRvhzEK/GA5T1YM5+u5dDcDJIt2FhpL87UCebe3UHmgdvolJC
-   w==;
-X-CSE-ConnectionGUID: c541ma7qTmC9Qyn91xvRvQ==
-X-CSE-MsgGUID: 11QLcduKT4mb35eGwcPkBg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11663"; a="86739653"
-X-IronPort-AV: E=Sophos;i="6.21,207,1763452800"; 
-   d="scan'208";a="86739653"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 03:37:59 -0800
-X-CSE-ConnectionGUID: m+zdtv3sS0aD2RZfu2NNQg==
-X-CSE-MsgGUID: ub22VaJqQWS4rQwJAUZe7Q==
+  bh=ZToniWAp35sk8rm5uVKrMMQORpt4RMkaD9UDQfZgs+g=;
+  b=NX7vzuNw2xVymrclhGkKR2Jwyy0iMi8PsBs9oZM2cU3n9UvWUq3Yw6LV
+   /9cz9a8ZtEeb2Uzo9jxh6Q/h1NuVugKkMDpDlhjoEQyNJcaCczxsdHoqW
+   DWDcpPASrjZbDvC3v63VrbcpGCMq7RckGViC8hR1LcddIZ8bG/62/VzJI
+   zGmwmBmbo89o1QOJph0MaTMbsJ5Ih6KwawyKQZHVjMgns0ldd6ZBtHGvk
+   DqMgYdkBJlRs8np2PoUP8FYsfxIxP5ik1fAsqkKTt6HgKsWoI22gryG0M
+   rwv1qikn9VBOSMas8Bf5kqID6Bl6UXQltvClaDUPAAVvH59mxPEsdQjBM
+   Q==;
+X-CSE-ConnectionGUID: 2r3TkMLUSdyBfKe0TVry0Q==
+X-CSE-MsgGUID: 9eMl4+hYQhiPtoQGmMnL8A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11663"; a="73001829"
+X-IronPort-AV: E=Sophos;i="6.21,208,1763452800"; 
+   d="scan'208";a="73001829"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 03:48:36 -0800
+X-CSE-ConnectionGUID: YsnEqYNUQISZeHQPxuHdpw==
+X-CSE-MsgGUID: rsAdJWyzSKy16qmRda/0jA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,207,1763452800"; 
-   d="scan'208";a="207770660"
+X-IronPort-AV: E=Sophos;i="6.21,208,1763452800"; 
+   d="scan'208";a="207384585"
 Received: from smoticic-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.143])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 03:37:57 -0800
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 03:48:34 -0800
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 9039D121D80;
-	Wed, 07 Jan 2026 13:38:11 +0200 (EET)
-Date: Wed, 7 Jan 2026 13:38:11 +0200
+	by kekkonen.fi.intel.com (Postfix) with SMTP id AB4BA121D80;
+	Wed, 07 Jan 2026 13:48:47 +0200 (EET)
+Date: Wed, 7 Jan 2026 13:48:47 +0200
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Mehdi Djait <mehdi.djait@linux.intel.com>
-Cc: Hans de Goede <johannes.goede@oss.qualcomm.com>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Linux Media Mailing List <linux-media@vger.kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [GIT FIXES for v6.19] media: ov02c10: h/vflip fixes
-Message-ID: <aV5Fo-tuEVmQxSiL@kekkonen.localdomain>
-References: <df8059ac-2c6a-46e2-9494-974fc6460184@oss.qualcomm.com>
- <7ae434c0-0e36-4434-826a-2122c4e9ccb4@kernel.org>
- <ed3d569f-ce42-4594-ae49-5ed67139acd9@oss.qualcomm.com>
- <aV481_mfjuHGumUS@kekkonen.localdomain>
- <ns64xwfqm4xpju26c2yifcg7spa7j2nwfc7slrvlhdmdat5lra@dsgbsq4liude>
+To: Hans de Goede <johannes.goede@oss.qualcomm.com>
+Cc: Hans Verkuil <hverkuil@kernel.org>, Bryan O'Donoghue <bod@kernel.org>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Sebastian Reichel <sre@kernel.org>, linux-media@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2 2/5] media: ov02c10: Adjust x-win/y-win when changing
+ flipping to preserve bayer-pattern
+Message-ID: <aV5IH7PIFnySHhYC@kekkonen.localdomain>
+References: <20251210112436.167212-1-johannes.goede@oss.qualcomm.com>
+ <20251210112436.167212-3-johannes.goede@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,83 +80,23 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ns64xwfqm4xpju26c2yifcg7spa7j2nwfc7slrvlhdmdat5lra@dsgbsq4liude>
+In-Reply-To: <20251210112436.167212-3-johannes.goede@oss.qualcomm.com>
 
-Hi Mehdi, Hanses,
+Hi Hans,
 
-On Wed, Jan 07, 2026 at 12:19:15PM +0100, Mehdi Djait wrote:
-> Hi Sakari,
+On Wed, Dec 10, 2025 at 12:24:33PM +0100, Hans de Goede wrote:
+> The ov02c10 is capable of having its (crop) window shifted around with 1
+> pixel precision while streaming.
 > 
-> On Wed, Jan 07, 2026 at 01:00:39PM +0200, Sakari Ailus wrote:
-> > Hi Hanses,
-> > 
-> > On Tue, Jan 06, 2026 at 11:43:32AM +0100, Hans de Goede wrote:
-> > > Hi Hans,
-> > > 
-> > > On 6-Jan-26 09:44, Hans Verkuil wrote:
-> > > > Hi Hans,
-> > > > 
-> > > > On 19/12/2025 16:03, Hans de Goede wrote:
-> > > >> Hi Hans, Mauro,
-> > > >>
-> > > >> As discussed in:
-> > > >>
-> > > >> https://lore.kernel.org/linux-media/382e2dc1-6552-4ff4-adb2-7e4bfafaefb4@kernel.org/
-> > > >>
-> > > >> Here is a pull-request for a set of ov02c10: h/vflip fixes.
-> > > >>
-> > > >> Note the tag has a -2 suffix, because for -1 I had accidentally
-> > > >> used a random post v6.19-rc1 commit from Torvald's tree instead
-> > > >> of v6.19-rc1. The -2 tag is correctly based on top of v6.19-rc1.
-> > > >>
-> > > >> The following changes since commit 8f0b4cce4481fb22653697cced8d0d04027cb1e8:
-> > > >>
-> > > >>   Linux 6.19-rc1 (2025-12-14 16:05:07 +1200)
-> > > >>
-> > > >> are available in the Git repository at:
-> > > >>
-> > > >>   git://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git tags/ov02c10-fixes-for-6.19-2
-> > > >>
-> > > >> for you to fetch changes up to ddf8d8757cb36654cb146f90c4af6a82d0edff25:
-> > > >>
-> > > >>   media: ov02c10: Remove unnecessary hflip and vflip pointers (2025-12-19 15:50:49 +0100)
-> > > > 
-> > > > The patches are for this v2 series:
-> > > > 
-> > > > https://patchwork.linuxtv.org/project/linux-media/cover/20251210112436.167212-1-johannes.goede@oss.qualcomm.com/
-> > > > 
-> > > > However, this series is marked as Superseded in patchwork. Is that a mistake?
-> > > > 
-> > > > The v1 series https://patchwork.linuxtv.org/project/linux-media/list/?series=20131
-> > > > is still marked as 'New'. Did you mark the wrong series as Superseded?
-> > > > 
-> > > > Also, most of the v2 patches are delegated to Sakari, not Hans de Goede.
-> > > > 
-> > > > I just wanted to clarify this before merging anything to the fixes branch, and
-> > > > make sure you and Sakari are on the same page.
-> > > 
-> > > I did not make any changes in patchwork, so I assume those were done
-> > > by Sakari.
-> > > 
-> > > I guess Sakari may have marked these for picking up by him, but since
-> > > these fix a regression in 6.19-rc# these should get picked up as
-> > > fixes, rather then go to media-committers/next.
-> > > 
-> > > Sakari ?
-> > 
-> > I've squashed the changes Hans posted plus trivial fixes; I'll send v2 (and
-> > a PR) once Mehdi has tested it. The patches can be found here
-> > <URL:https://git.retiisi.eu/?p=~sailus/linux.git;a=shortlog;h=refs/heads/ov01a10>.
-> 
-> This is a different sensor the ov01a10 and not the ov02c10 or am I missing something here ?
+> This allows changing the x/y window coordinates when changing flipping to
+> preserve the bayer-pattern.
 
-Oops. Yes, you're right.
-
-That PR is fine IMO. I've fixed the state in Patchwork (v1 is now
-superseded).
+Ideally we'd use the crop selection to configure this, but given these
+sensors (and drivers) are generally what they are, I guess this is probably
+a reasonable way to go.
 
 -- 
-Kind regards,
+Regards,
 
 Sakari Ailus
 
