@@ -1,77 +1,77 @@
-Return-Path: <linux-media+bounces-50143-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50144-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 125D0CFE1DB
-	for <lists+linux-media@lfdr.de>; Wed, 07 Jan 2026 14:58:39 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1238CFE1B4
+	for <lists+linux-media@lfdr.de>; Wed, 07 Jan 2026 14:57:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 3F09530AEAA2
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jan 2026 13:51:13 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E5A6A3092839
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jan 2026 13:51:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3782332EBD;
-	Wed,  7 Jan 2026 13:49:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6228433342A;
+	Wed,  7 Jan 2026 13:49:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i5xWl8vC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gxJYz8bt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE9C13328E2
-	for <linux-media@vger.kernel.org>; Wed,  7 Jan 2026 13:49:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D6AE332EA3
+	for <linux-media@vger.kernel.org>; Wed,  7 Jan 2026 13:49:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767793759; cv=none; b=pmL5MyydXg7AcJz+QQdbcDSimDL76xiwT7XxRunFHi+f4TytmbS4sTCURjTaPeNthxBbPkXyaszuyTpEXTuDcEXO/a/NYO0arLNUvdRtq8K0D8BosovPdkuM5chF1ITbikcqOawjkNRypC6gPnqR3r7Ahc/JIzbIgOL9ShpOw48=
+	t=1767793760; cv=none; b=gKuwcT3yz7yLb6X4Un5YnDzDSMSGKr4WFfl+TeuZXXXdUrxdUYG9Nj2SLKancfbBgI26ljO/G4cOVnV28cS5n+nOhuR+bcpFN6wI8Y7Ck/eefWCG5BKwMJdxhTy0zhvqRvxNQ0WgbEG8aUOncpEdthCE4Iy2J0cc3LjlhOUuL+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767793759; c=relaxed/simple;
-	bh=7aFJtkTCn/RUyXBqDN5A8Rl1FrpL/MQORLd7fWn3cOI=;
+	s=arc-20240116; t=1767793760; c=relaxed/simple;
+	bh=VcJC7sCWJodERaoTS9t7XlGBxL7hprZHiIDPn09Ne7s=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YiBPh7hETIPun9Gc9upBZHvm2DQ+E2XP2XonXUyip2c5KgL3ODw4DgUhmCCtIvpB05BcczrdjRz0IKCaDhScsQPFfVfwAhNIhbyIiG1S3p63fiieqBYuYixGtuzdgj/KDdvGCxFgYXXvxAHqpKjOqove7HaR5kNTEcxaDvyIUso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i5xWl8vC; arc=none smtp.client-ip=209.85.216.41
+	 MIME-Version; b=cjWWfQwl+Nl56JPuzQlVQm09pfXzTT0XD4vfQn6CGrw0rYD0AnRwiL6+Qh7QU4pPrMlKvRYCNpJQoLccHTmKdWgLImN44eX0cKDCD5gekI6vG27zC5MOYHqO7v4cU0ocTRgjFT6jJSy86ayjoBbxU6aFvGZ8nWw+ussOcMmwJHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gxJYz8bt; arc=none smtp.client-ip=209.85.210.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-34cf1e31f85so1500059a91.1
-        for <linux-media@vger.kernel.org>; Wed, 07 Jan 2026 05:49:15 -0800 (PST)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-7bb710d1d1dso2403076b3a.1
+        for <linux-media@vger.kernel.org>; Wed, 07 Jan 2026 05:49:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767793755; x=1768398555; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1767793758; x=1768398558; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0L8w8zzA7n7ZIE7wj1Nj7dJ97iLU993N1NE76Z8Jakg=;
-        b=i5xWl8vCXaigEqSuE1V5RY8bQkqBbNHHINBNQ+Rs2XSi8P08eAbLPQ4gjojz6YDJtR
-         xnp6pMFT0XjdoK7IIgh05/tIqE+/Ie1EwrWz22k8Ef7qnZMM6ao8tkShQNDtE6dUT4Jo
-         AhQ5zsJVwIHAsCCY3uZ3UQGE1Q6y1YwjkdmnLI8Als3+rk29pkwvurQSso7QoFZYQMlb
-         SGonTbEPpHbVObh+d0t8uJvjwFmJjimlPCmEJ0xV195QkgZLallu5lu7VLs5WFqMLmzz
-         R8w8p44uTsAuWybosPLUr7hQMShPJmNmmlahY8NFP8ysdK0HxJqba8iEAZFEM6492Qdd
-         DZfA==
+        bh=Bw6fgNtZmBe2W56ugS12P5lnC0TRTn4SZrhJOxug+wQ=;
+        b=gxJYz8bt/oZWkgpgaOd6u2u1vp5NupVrTV28o7GAMqG/gNb/5MIwE/mQ+eLk16y44C
+         /SwwjQa/mMB9W9jIEPqQgxLYMi6DKCjrI0bEh8TjBDduUp3OHS18IQkfsE+xoEO8uw97
+         zi0ZsPBBF9cVtWgNKEc2Hu32F9kQRoFkTagClrG7GI4cT5NIFpn+8Y8aFvyVPZrLjmJy
+         Twa8y3hACCRLTm7ePSOm9oWLQwogNhZdCyuu/D7V0LeYq/sKTRI4hqpvkYoaJ5bXsFLp
+         INm2Gw5FEti9G0w2BTUI3+yz8KoNTTNHvHtkZFGyrIXSVhRI7yihqEtF2GEDgOvJ+h7t
+         DBgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767793755; x=1768398555;
+        d=1e100.net; s=20230601; t=1767793758; x=1768398558;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=0L8w8zzA7n7ZIE7wj1Nj7dJ97iLU993N1NE76Z8Jakg=;
-        b=F4lsPSEgk77ufAM5KSsmnGV/DvMsIQvzaJZb1HhgOejkvVDdkm0xbFL4p8c8Kv3szR
-         ZQFuMgdZTmU3X0Lh4m3mAqOeLYSJXimSWdPW39LLyUPcBxT2YQbtp62B5qrGfsYQ6Y2w
-         xdMVGVp9m8/cimRNrrRL2Z6ip67I7yL3L27GeSNOcgTXpLmfCH8IQNszyiQmaW+tJi0A
-         Ead9YL6oqw0jX++eb/RSDnPkyXy/3YCKgwCzRucQRYVbSGlDuJWmHk/Pm99QQyYQlPSm
-         SpOAPoVTKbm6So4p+TdHYIFT9taOmMRGPBsK/BiVtOC+VBjmwBAbgK5n4JQB8CNrZCfC
-         +LDg==
-X-Forwarded-Encrypted: i=1; AJvYcCUIm3L0TUNsrmwBuEGH9auCoLIcdUB+caDjLzd5SSAbPgX5btHXoHtbj7fxBtVAQmpeRc7dFQv1g8egAg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQBTTPiA1EZRCcQ0Jcz4ddpRN0PiG6OyLvLoyP+eb8y4zuydKD
-	dkCfbiFOk0b7Lr37JtB4gPl8vih6ICtdgo4xqjr7C92ogf5fs3Q36/6i
-X-Gm-Gg: AY/fxX5ClOxX1YCLy5fcUGDCG9s3PFu7cUZM3PVgmEvHTKFzL5iR7IHytmTLUfued/S
-	8kRnlaWQO44dXituUEW/NmVHamEX8ld5XZHaQfk6krzXPUMbtByczpXppy0/QhEqRrkMjPbIS00
-	n1HDQ0dNlSLTO6uLrjgTfR8oTP7YloqBQGom3nobJppIduTUsbKDuRSFvTG5dBifI+VDVl4LTW2
-	jPQB11VMSHB0melkqEfX5MDJlWHs8Qar/6ufIY8dKGUV/3wWX/gUDZhXA/O9Qkhu9aQ56e432KZ
-	etLJBrOqHG2FihQDxrwhSyR0bUEjz2WvGhn+I+n9f0a2APgtbWz3ZRqXzTvJyqiRY3ZELk+Jjrs
-	XI2f3X2k4i9sSkFunACsXvG8P+VCtX5yPzOSqp++TUrHkSr2sFY4tcM79hq+jMp0OEOLLcHkw+j
-	8CO0FwpaSQ7Rua32267sHuGA==
-X-Google-Smtp-Source: AGHT+IE7J+DUw5Iqs5C2fpYR9e3jAQUDZORywRhmTE7GqrIw5ManxpPFTH52JMOGUB9mdhbFJlJkqQ==
-X-Received: by 2002:a17:90b:2251:b0:33e:30e8:81cb with SMTP id 98e67ed59e1d1-34f68b65ff0mr2290395a91.13.1767793755014;
-        Wed, 07 Jan 2026 05:49:15 -0800 (PST)
+        bh=Bw6fgNtZmBe2W56ugS12P5lnC0TRTn4SZrhJOxug+wQ=;
+        b=GSOudl15+5maVsLsxo9tjDkHgivfRxyG25YlhujAN8lByT5E7A1jM7zjWWaqNN9q+h
+         W3OnSEbOicvIclT2Tl5CSO/NcgVvqmcO5tR5Cwr7cGV2ZF6OFuovmuc6+gZcMb0qOrpH
+         znlljEp6ey9awBsEfxSdjGd0Ycyf5y1TsfPvg0/w4aACdKMUqrgNXq1t+4rltTW/6/2m
+         0YL0pD5+2iVU0ZU5uAVbTIa+WUHnzI3IAI2AdlhFmRQUzWBRLFz3OUBw5O1FwOsNFKDY
+         fSdcZrjDX5fRmqmLEgNTBb+JKGE+5HN1M1T66nz9MleQ0GpIyFGO48ZZXrC9xF02bi9o
+         YZCg==
+X-Forwarded-Encrypted: i=1; AJvYcCWI1kLpKBXs6e5Y5Sc7gr2Y8gEbulhk5Smr1UjyOxvWVO2AX0pM+HZYya4/ihfUYKjae72jgVIcpgl2Fw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyjqomBhfj4AGxt9O2McHhjKPvID9ovZlOl64W0rGrvL68rARLM
+	qc50YOi24trgldd+bjJs4wvqvCxuuWgEfveVUvVtQ6KSqn0SKAEBw7u2
+X-Gm-Gg: AY/fxX7QZNl4PxH3M4DwKLQZigwTfqU7uVtYGXkOPqH5BGIkMcOOxE9lxxuYaR7uO2W
+	0p9FrefG7bYFufl2QLaXlgKtotnnVZp+hAshnuVqYmXgVu3yeH3/ElMr1x3v1YiU1QraGY7p94W
+	qKbNhuhyC+kAFTlP8vDEIrxZ5oF5Zz+PerAQbdzlnje0DBR2fETW62hYrtg04LHy6PWI+vJA64W
+	A5QKQeMwXhiGArgHH0wPupvXPcTkwCq1RY3uBrdMbd3v1U52Yb3P4AMGAOqyhubi0nurPKKzliT
+	vM0L86+FKHzmVKsvIxaxvH4tCE9CWy6QVIgflKXuOZsO1CTCxIkg0Wrl3JPshXMTI6yqkODW3yM
+	mQwsumkf0970XbzfNSYFqpHWfQrbOFRoXve7bQyyLu/13byawc2R67Do/MQlBx2kI3xaTovJPYH
+	J6GUDXLEXyUj4=
+X-Google-Smtp-Source: AGHT+IFj4SFEIp18Y5M2C38LwZUCcGWQNMHaApWC/2wyk9IyQIwapqJnVP0bVg04ZV9jnPoyGDdrDA==
+X-Received: by 2002:a05:6a20:6a26:b0:35d:cad7:cd63 with SMTP id adf61e73a8af0-3898f91d20fmr2344473637.30.1767793758490;
+        Wed, 07 Jan 2026 05:49:18 -0800 (PST)
 Received: from karthik.. ([43.247.159.43])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-819c5302c61sm5109577b3a.42.2026.01.07.05.49.11
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-819c5302c61sm5109577b3a.42.2026.01.07.05.49.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jan 2026 05:49:14 -0800 (PST)
+        Wed, 07 Jan 2026 05:49:18 -0800 (PST)
 From: Karthikey D Kadati <karthikey3608@gmail.com>
 To: Hans de Goede <hansg@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -80,9 +80,9 @@ Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Karthikey D Kadati <karthikey3608@gmail.com>
-Subject: [PATCH v2 RESEND v2 2/3] media: atomisp: consolidate statistics buffer allocation
-Date: Wed,  7 Jan 2026 19:18:43 +0530
-Message-ID: <20260107134844.68074-3-karthikey3608@gmail.com>
+Subject: [PATCH v2 RESEND v2 3/3] media: atomisp: propagate errors from ISP xnr and IRQ enable
+Date: Wed,  7 Jan 2026 19:18:44 +0530
+Message-ID: <20260107134844.68074-4-karthikey3608@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260107134844.68074-1-karthikey3608@gmail.com>
 References: <81e2d12c-342b-4b88-88a0-3e24115541aa@kernel.org>
@@ -95,182 +95,56 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Refactor atomisp_alloc_css_stat_bufs() to use a new helper function
+Propagate the return value of atomisp_css_capture_enable_xnr() in
 
-atomisp_alloc_stat_bufs_list().
+atomisp_xnr().
 
-This reduces code duplication for allocating 3A, DIS, and metadata
+Also check the return value of atomisp_css_irq_enable() and log an
 
-buffers and centralizes the allocation loop logic.
-
-The helper returns -ENOMEM on failure, triggering the existing
-
-cleanup path in the caller which correctly frees any partially
-
-allocated lists.
+error once using dev_err_once() to avoid flooding dmesg.
 
 Signed-off-by: Karthikey D Kadati <karthikey3608@gmail.com>
 ---
- .../staging/media/atomisp/pci/atomisp_ioctl.c | 123 ++++++++++++------
- 1 file changed, 81 insertions(+), 42 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index 5c0a1d92b..9e572b3e6 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -678,13 +678,78 @@ static int atomisp_g_fmt_cap(struct file *file, void *fh,
- 	return atomisp_try_fmt_cap(file, fh, f);
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index 4ed6b8aea..da2481af2 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -874,7 +874,8 @@ void atomisp_assert_recovery_work(struct work_struct *work)
+ 	if (!isp->asd.streaming)
+ 		goto out_unlock;
+ 
+-	atomisp_css_irq_enable(isp, IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF, false);
++	if (atomisp_css_irq_enable(isp, IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF, false))
++		dev_err_once(isp->dev, "atomisp_css_irq_enable failed\n");
+ 
+ 	spin_lock_irqsave(&isp->lock, flags);
+ 	isp->asd.streaming = false;
+@@ -925,8 +926,9 @@ void atomisp_assert_recovery_work(struct work_struct *work)
+ 
+ 	atomisp_csi2_configure(&isp->asd);
+ 
+-	atomisp_css_irq_enable(isp, IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF,
+-			       atomisp_css_valid_sof(isp));
++	if (atomisp_css_irq_enable(isp, IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF,
++				   atomisp_css_valid_sof(isp)))
++		dev_err_once(isp->dev, "atomisp_css_irq_enable failed\n");
+ 
+ 	if (atomisp_freq_scaling(isp, ATOMISP_DFS_MODE_AUTO, true) < 0)
+ 		dev_dbg(isp->dev, "DFS auto failed while recovering!\n");
+@@ -1196,9 +1198,7 @@ int atomisp_xnr(struct atomisp_sub_device *asd, int flag,
+ 		return 0;
+ 	}
+ 
+-	atomisp_css_capture_enable_xnr(asd, !!*xnr_enable);
+-
+-	return 0;
++	return atomisp_css_capture_enable_xnr(asd, !!*xnr_enable);
  }
  
-+static int atomisp_alloc_stat_bufs_list(struct atomisp_sub_device *asd,
-+					u16 stream_id,
-+					struct list_head *buf_list,
-+					int count,
-+					enum ia_css_buffer_type type)
-+{
-+	struct atomisp_s3a_buf *s3a_buf;
-+	struct atomisp_dis_buf *dis_buf;
-+	struct atomisp_metadata_buf *md_buf;
-+
-+	while (count--) {
-+		switch (type) {
-+		case IA_CSS_BUFFER_TYPE_3A_STATISTICS:
-+			s3a_buf = kzalloc(sizeof(*s3a_buf), GFP_KERNEL);
-+			if (!s3a_buf)
-+				return -ENOMEM;
-+
-+			if (atomisp_css_allocate_stat_buffers(asd,
-+							      stream_id,
-+							      s3a_buf,
-+							      NULL,
-+							      NULL)) {
-+				kfree(s3a_buf);
-+				return -ENOMEM;
-+			}
-+			list_add_tail(&s3a_buf->list, buf_list);
-+			break;
-+		case IA_CSS_BUFFER_TYPE_DIS_STATISTICS:
-+			dis_buf = kzalloc(sizeof(*dis_buf), GFP_KERNEL);
-+			if (!dis_buf)
-+				return -ENOMEM;
-+
-+			if (atomisp_css_allocate_stat_buffers(asd,
-+							      stream_id,
-+							      NULL,
-+							      dis_buf,
-+							      NULL)) {
-+				kfree(dis_buf);
-+				return -ENOMEM;
-+			}
-+			list_add_tail(&dis_buf->list, buf_list);
-+			break;
-+		case IA_CSS_BUFFER_TYPE_METADATA:
-+			md_buf = kzalloc(sizeof(*md_buf), GFP_KERNEL);
-+			if (!md_buf)
-+				return -ENOMEM;
-+
-+			if (atomisp_css_allocate_stat_buffers(asd,
-+							      stream_id,
-+							      NULL,
-+							      NULL,
-+							      md_buf)) {
-+				kfree(md_buf);
-+				return -ENOMEM;
-+			}
-+			list_add_tail(&md_buf->list, buf_list);
-+			break;
-+		default:
-+			return -EINVAL;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- int atomisp_alloc_css_stat_bufs(struct atomisp_sub_device *asd,
--				uint16_t stream_id)
-+				u16 stream_id)
- {
- 	struct atomisp_device *isp = asd->isp;
--	struct atomisp_s3a_buf *s3a_buf = NULL, *_s3a_buf;
--	struct atomisp_dis_buf *dis_buf = NULL, *_dis_buf;
--	struct atomisp_metadata_buf *md_buf = NULL, *_md_buf;
-+	struct atomisp_dis_buf *dis_buf, *_dis_buf;
-+	struct atomisp_s3a_buf *s3a_buf, *_s3a_buf;
-+	struct atomisp_metadata_buf *md_buf, *_md_buf;
- 	int count;
- 	struct ia_css_dvs_grid_info *dvs_grid_info =
- 	    atomisp_css_get_dvs_grid_info(&asd->params.curr_grid_info);
-@@ -695,37 +760,20 @@ int atomisp_alloc_css_stat_bufs(struct atomisp_sub_device *asd,
- 		count = ATOMISP_CSS_Q_DEPTH +
- 			ATOMISP_S3A_BUF_QUEUE_DEPTH_FOR_HAL;
- 		dev_dbg(isp->dev, "allocating %d 3a buffers\n", count);
--		while (count--) {
--			s3a_buf = kzalloc(sizeof(struct atomisp_s3a_buf), GFP_KERNEL);
--			if (!s3a_buf)
--				goto error;
--
--			if (atomisp_css_allocate_stat_buffers(
--				asd, stream_id, s3a_buf, NULL, NULL)) {
--				kfree(s3a_buf);
--				goto error;
--			}
--
--			list_add_tail(&s3a_buf->list, &asd->s3a_stats);
--		}
-+		if (atomisp_alloc_stat_bufs_list(asd, stream_id,
-+						 &asd->s3a_stats, count,
-+						 IA_CSS_BUFFER_TYPE_3A_STATISTICS))
-+			goto error;
- 	}
- 
- 	if (list_empty(&asd->dis_stats) && dvs_grid_info &&
- 	    dvs_grid_info->enable) {
- 		count = ATOMISP_CSS_Q_DEPTH + 1;
- 		dev_dbg(isp->dev, "allocating %d dis buffers\n", count);
--		while (count--) {
--			dis_buf = kzalloc(sizeof(struct atomisp_dis_buf), GFP_KERNEL);
--			if (!dis_buf)
--				goto error;
--			if (atomisp_css_allocate_stat_buffers(
--				asd, stream_id, NULL, dis_buf, NULL)) {
--				kfree(dis_buf);
--				goto error;
--			}
--
--			list_add_tail(&dis_buf->list, &asd->dis_stats);
--		}
-+		if (atomisp_alloc_stat_bufs_list(asd, stream_id,
-+						 &asd->dis_stats, count,
-+						 IA_CSS_BUFFER_TYPE_DIS_STATISTICS))
-+			goto error;
- 	}
- 
- 	for (i = 0; i < ATOMISP_METADATA_TYPE_NUM; i++) {
-@@ -736,19 +784,10 @@ int atomisp_alloc_css_stat_bufs(struct atomisp_sub_device *asd,
- 				ATOMISP_METADATA_QUEUE_DEPTH_FOR_HAL;
- 			dev_dbg(isp->dev, "allocating %d metadata buffers for type %d\n",
- 				count, i);
--			while (count--) {
--				md_buf = kzalloc(sizeof(struct atomisp_metadata_buf),
--						 GFP_KERNEL);
--				if (!md_buf)
--					goto error;
--
--				if (atomisp_css_allocate_stat_buffers(
--					asd, stream_id, NULL, NULL, md_buf)) {
--					kfree(md_buf);
--					goto error;
--				}
--				list_add_tail(&md_buf->list, &asd->metadata[i]);
--			}
-+			if (atomisp_alloc_stat_bufs_list(asd, stream_id,
-+							 &asd->metadata[i], count,
-+							 IA_CSS_BUFFER_TYPE_METADATA))
-+				goto error;
- 		}
- 	}
- 	return 0;
+ /*
 -- 
 2.43.0
 
