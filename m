@@ -1,269 +1,190 @@
-Return-Path: <linux-media+bounces-50147-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50146-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3612CFE477
-	for <lists+linux-media@lfdr.de>; Wed, 07 Jan 2026 15:27:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03F85CFE465
+	for <lists+linux-media@lfdr.de>; Wed, 07 Jan 2026 15:26:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BED133014DA5
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jan 2026 14:20:28 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id F063630DC65C
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jan 2026 14:20:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3033B341AC7;
-	Wed,  7 Jan 2026 14:20:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AC2934107A;
+	Wed,  7 Jan 2026 14:20:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FjAmDuZl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69BFB341678
-	for <linux-media@vger.kernel.org>; Wed,  7 Jan 2026 14:20:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 511DC3081AD
+	for <linux-media@vger.kernel.org>; Wed,  7 Jan 2026 14:20:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767795619; cv=none; b=aNYl6TPXqDPcCgE+BFdai0XAJA30y/xl38vGf/u05hzsVYynZ8etfseXn5mrrqUg5ySgaP8uUV10BenJNjwvCBSByenHwLGcllbqpHV+v/oVH9CWZVIG+Ywk3zi+Q9B6Sgo0VqDU0lmtRqAOXEe2pBGvO23B/M9uAmgf+hxLqFI=
+	t=1767795614; cv=none; b=LplqU7psqdvyd64/oiBdnBYbp8G3oyHve3mKR7P5rDIxqnQoFnQ6bB6kIRITiPQ02XEgvL7zbWWaafsVFZhFIZLZ6ObIGrNfeMET0RXTqkVKUkxlNAccTaohaxQPAxhd+p2A8zGvPtCUUlsc4gxYjRLzZvRMDxi9EjvdULMZdak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767795619; c=relaxed/simple;
-	bh=WVCWhmkT1n7wl3cPNOcNOjcXWQPvqaIOLhJ2zLVZfBk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ymiw8PKV0BYhio2/7m8DSC0JV6Bd8/76cmDGvp8yUEvXz/CHWqYsQt3ACK04BoVVnnX3XY8VJf5WcGX9BnsMyyhk+BedJ9uSM8C2gzugnnz/6bTd/8eRL1mmVVbBRMm3PUGGBz4IdR/H1FbTl/BArKrc8sUgjwmV8XPCNhXHcuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <s.pueschel@pengutronix.de>)
-	id 1vdUO9-0007DI-H7; Wed, 07 Jan 2026 15:19:53 +0100
-Message-ID: <b4b1a113-a8dc-4ed7-b395-eaa0deb6a957@pengutronix.de>
-Date: Wed, 7 Jan 2026 15:19:50 +0100
+	s=arc-20240116; t=1767795614; c=relaxed/simple;
+	bh=RP6yrOmfkgG1pSCCp/KgSQ837psbCw1sb+DDsPfjTA0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qL6Zg95h72q0B5oopUUfBJ8CgboNTmJWToyXrtyw9QhpFAcbqdAJReoxZMsVZhenHByDGeGXA0A1OPLVP4dD2N/04ms0lpzH3z93jnZRlaXJepVfPSFM8DWMpUMTKgLCoCSvYleCoi+AibUaUd0Kax2GR12lUleCDaKO1jVuNIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FjAmDuZl; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-42fb4eeb482so1158706f8f.0
+        for <linux-media@vger.kernel.org>; Wed, 07 Jan 2026 06:20:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1767795611; x=1768400411; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/3EuWWmPchcdKXlx3oZPsaTz80UKO5qPXs+yQV6vLYk=;
+        b=FjAmDuZlSZE5kI+yW/BorTqN0MGGTsR0db90eFSlkd18rEgZXF/9Q+IJrjIVOPVbWI
+         goVrwAiwmjuGybZyplrEX4TAMPDG6KXxzORDcJ6p7n8ATSRBgNstvuwO3PhB1O6HYodi
+         oJcaEXRDkKpxcGOVA0src+6a+dzq5YFmcvcj2v1K8uKBNJKms/UQGG3pLB457kCi3Czl
+         rJBAeRPbANvXE27bJjr2XQZm/FGBuArF1iVzZTLk0Fp6yJK0Vm+Aq4ksLwZ8vjFKjN0w
+         bW7RaQ3mi8rrxkeu8+TQ0V+Utgyn29Zq0Pbl2vkTJ3PbT91t9j/8FquOWJC+7EvR+ewM
+         RSHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767795611; x=1768400411;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/3EuWWmPchcdKXlx3oZPsaTz80UKO5qPXs+yQV6vLYk=;
+        b=PwaUKt8najRyPz9cuDzXGXWsW/ON9rDO4neP8ol2YdXG6VLrlZq4I67RcdhqYtAJcI
+         Uu/sJTe2X7OCwmGfpR4lGNhstmb/LnNzI2ODpFOGXuXMG45KYqAwDZQ9Ed7PnB1w/nEi
+         84gdh+QUSw0peZURSromddRBJtTukd6q3e7qWRn5zzO0F2yL27A0hRrk/tae5yXrxY3Y
+         TlXPj1d9gdPvX3mxZ/vmxLyOdNkY0BJaeEbN5ydgmz4dgBKTNruj0rA9lr1XFeBS8vXH
+         CiZBzLGLJYU/woySvXechds2UmuCmiMMVFG93k3ty3czJ2WQ1OsJwhCcu64oEFhMWwJV
+         rv1g==
+X-Forwarded-Encrypted: i=1; AJvYcCXUQnoYl9sxb/Sl5AY15XwGfYaPdWRUZYMyWNE5OZC+f8BLikB8SaxT4eEMImIn77/q1aUCTBFWeGxYgg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwdEDyavpFJyzMt56uXLy5tVeDsftmjqpCgjpOkXLfRyHoKhqP9
+	KmozyucgQ7IUc8aWbFMApfRdEODIVs7D6daHwF8BojwuKD8OyWMcpFI4ZV95l2mLDCc=
+X-Gm-Gg: AY/fxX6hR23eO8dkby+emEp0Uf+3FKh0uF9znKlPJZG+lB8+uVpQsvqaQKWtSjgV9W2
+	CLnT/Ma40+MaaI5Dta61w9FctC2lNGNv/9cJHF0NTnzYZbKZz72enoptj+n0/HGvRMlRQQSGLHV
+	5D7Cgo3M/e4rLrB1FzJUbz39427fQN9ukgZoiHciRQ/zwockh5+2aIE7i2tzqcYWRTchWYhaKeF
+	LmLNQ0c64ZoVHvIhYUgd1EQzebiVhSgNb3QFtSbWnQmMWS2/rKm47etHv1BPRZSjk4z3Kh+4xah
+	OLbm5YX3x/wm4FI+fYqU9I1FzRx6yUxmj/YaZJNB8IgBn9YOKtVta0TRIxcWNdvU2cYUx1peI9d
+	ZnnbptgsXkBBXdjBlZGNKzlmURbCVepJ9EocputhjMgNl3reDh3VzoV7yg7f6hHio0VMOoKCUUt
+	lLXK9dcNj9LMODWZX/xI/CUkhBavg=
+X-Google-Smtp-Source: AGHT+IHUqb1cXUtZCpRJ8P4UFLSIpAgDZ36o1m7wd/K9meyda/t653aOMHHTvrT9/dtiigGlLK+MGQ==
+X-Received: by 2002:a05:6000:2302:b0:431:316:920a with SMTP id ffacd0b85a97d-432c3628fdemr2605337f8f.8.1767795610407;
+        Wed, 07 Jan 2026 06:20:10 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd5ff319sm10689604f8f.43.2026.01.07.06.20.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jan 2026 06:20:09 -0800 (PST)
+Date: Wed, 7 Jan 2026 17:20:06 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Karthikey D Kadati <karthikey3608@gmail.com>
+Cc: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 RESEND v2 1/3] media: atomisp: replace shadow zoom
+ structs with v4l2_rect
+Message-ID: <aV5rloYmYfLMkMKA@stanley.mountain>
+References: <81e2d12c-342b-4b88-88a0-3e24115541aa@kernel.org>
+ <20260107134844.68074-1-karthikey3608@gmail.com>
+ <20260107134844.68074-2-karthikey3608@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 14/22] media: rockchip: rga: support external iommus
-To: Nicolas Dufresne <nicolas@ndufresne.ca>,
- Jacob Chen <jacob-chen@iotwrt.com>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, kernel@pengutronix.de
-References: <20251203-spu-rga3-v2-0-989a67947f71@pengutronix.de>
- <20251203-spu-rga3-v2-14-989a67947f71@pengutronix.de>
- <c5b6707e3e6748bf923aaf34db1ae231c7e121ad.camel@ndufresne.ca>
-Content-Language: en-US
-From: =?UTF-8?Q?Sven_P=C3=BCschel?= <s.pueschel@pengutronix.de>
-In-Reply-To: <c5b6707e3e6748bf923aaf34db1ae231c7e121ad.camel@ndufresne.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: s.pueschel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260107134844.68074-2-karthikey3608@gmail.com>
 
-Hi,
+On Wed, Jan 07, 2026 at 07:18:42PM +0530, Karthikey D Kadati wrote:
+> Remove custom atomisp_zoom_point and atomisp_zoom_region structs and
+> 
+> usage in favor of standard v4l2_rect within atomisp_dz_config.
+> 
+> This aligns the driver with V4L2 standards and removes unnecessary
+> 
+> custom types.
+> 
+> Also standardizes the internal ia_css_region struct members to match
+> 
+> V4L2 naming conventions (left, top, width, height) to facilitate the
+> 
+> bridge mapping.
+> 
+> Updates atomisp_cmd.c and sh_css_params.c to use the new member names
+> 
+> and ensures safe math using long long casts to prevent overflow during
+> 
+> resolution scaling.
+> 
 
-On 12/24/25 4:50 PM, Nicolas Dufresne wrote:
-> Le mercredi 03 décembre 2025 à 16:52 +0100, Sven Püschel a écrit :
->> In preparation for the RGA3 add support for external iommus. This is a
->> transition step to just disable the RGA2 specific mmu table setup code.
->>
->> Currently a simple rga_hw struct field is used to set the internal iommu.
->> But to handle the case of more sophisticated detection mechanisms
->> (e.g. check for an iommu property in the device tree), it is abstracted
->> by an inline function.
->>
->> Signed-off-by: Sven Püschel <s.pueschel@pengutronix.de>
->> ---
->>   drivers/media/platform/rockchip/rga/rga-buf.c | 46 ++++++++++++++++-----------
->>   drivers/media/platform/rockchip/rga/rga-hw.c  |  1 +
->>   drivers/media/platform/rockchip/rga/rga.c     | 11 +++++--
->>   drivers/media/platform/rockchip/rga/rga.h     |  6 ++++
->>   4 files changed, 43 insertions(+), 21 deletions(-)
->>
->> diff --git a/drivers/media/platform/rockchip/rga/rga-buf.c b/drivers/media/platform/rockchip/rga/rga-buf.c
->> index 8845e1f894f29..e8d1e2e579140 100644
->> --- a/drivers/media/platform/rockchip/rga/rga-buf.c
->> +++ b/drivers/media/platform/rockchip/rga/rga-buf.c
->> @@ -12,6 +12,7 @@
->>   #include <media/v4l2-ioctl.h>
->>   #include <media/v4l2-mem2mem.h>
->>   #include <media/videobuf2-dma-sg.h>
->> +#include <media/videobuf2-dma-contig.h>
->>   #include <media/videobuf2-v4l2.h>
->>   
->>   #include "rga.h"
->> @@ -79,14 +80,16 @@ static int rga_buf_init(struct vb2_buffer *vb)
->>   	struct rga_frame *f = rga_get_frame(ctx, vb->vb2_queue->type);
->>   	size_t n_desc = 0;
->>   
->> -	n_desc = DIV_ROUND_UP(f->size, PAGE_SIZE);
->> +	if (rga_has_internal_iommu(rga)) {
->> +		n_desc = DIV_ROUND_UP(f->size, PAGE_SIZE);
-> n_desc is not used outside of this scope, perhap drop the definition with the 0
-> init, and use:
->
-> 		const size_t n_desc = DIV_ROUND_UP(f->size, PAGE_SIZE);
-> 		
->>   
->> -	rbuf->n_desc = n_desc;
->> -	rbuf->dma_desc = dma_alloc_coherent(rga->dev,
->> -					    rbuf->n_desc * sizeof(*rbuf->dma_desc),
->> -					    &rbuf->dma_desc_pa, GFP_KERNEL);
->> -	if (!rbuf->dma_desc)
->> -		return -ENOMEM;
->> +		rbuf->n_desc = n_desc;
->> +		rbuf->dma_desc = dma_alloc_coherent(rga->dev,
->> +						    rbuf->n_desc * sizeof(*rbuf->dma_desc),
->> +						    &rbuf->dma_desc_pa, GFP_KERNEL);
->> +		if (!rbuf->dma_desc)
->> +			return -ENOMEM;
->> +	}
->>   
->>   	return 0;
->>   }
->> @@ -133,17 +136,21 @@ static int rga_buf_prepare(struct vb2_buffer *vb)
->>   	for (i = 0; i < vb->num_planes; i++) {
->>   		vb2_set_plane_payload(vb, i, f->pix.plane_fmt[i].sizeimage);
->>   
->> -		/* Create local MMU table for RGA */
->> -		n_desc = fill_descriptors(&rbuf->dma_desc[curr_desc],
->> -					  rbuf->n_desc - curr_desc,
->> -					  vb2_dma_sg_plane_desc(vb, i));
->> -		if (n_desc < 0) {
->> -			v4l2_err(&ctx->rga->v4l2_dev,
->> -				 "Failed to map video buffer to RGA\n");
->> -			return n_desc;
->> +		if (rga_has_internal_iommu(ctx->rga)) {
->> +			/* Create local MMU table for RGA */
->> +			n_desc = fill_descriptors(&rbuf->dma_desc[curr_desc],
->> +						  rbuf->n_desc - curr_desc,
->> +						  vb2_dma_sg_plane_desc(vb, i));
->> +			if (n_desc < 0) {
->> +				v4l2_err(&ctx->rga->v4l2_dev,
->> +					 "Failed to map video buffer to RGA\n");
->> +				return n_desc;
->> +			}
->> +			dma_addrs[i] = curr_desc << PAGE_SHIFT;
->> +			curr_desc += n_desc;
->> +		} else {
->> +			dma_addrs[i] = vb2_dma_contig_plane_dma_addr(vb, i);
->>   		}
->> -		dma_addrs[i] = curr_desc << PAGE_SHIFT;
->> -		curr_desc += n_desc;
->>   	}
->>   
->>   	/* Fill the remaining planes */
->> @@ -173,8 +180,9 @@ static void rga_buf_cleanup(struct vb2_buffer *vb)
->>   	struct rga_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
->>   	struct rockchip_rga *rga = ctx->rga;
->>   
->> -	dma_free_coherent(rga->dev, rbuf->n_desc * sizeof(*rbuf->dma_desc),
->> -			  rbuf->dma_desc, rbuf->dma_desc_pa);
->> +	if (rga_has_internal_iommu(rga))
->> +		dma_free_coherent(rga->dev, rbuf->n_desc * sizeof(*rbuf->dma_desc),
->> +				  rbuf->dma_desc, rbuf->dma_desc_pa);
->>   }
->>   
->>   static void rga_buf_return_buffers(struct vb2_queue *q,
->> diff --git a/drivers/media/platform/rockchip/rga/rga-hw.c b/drivers/media/platform/rockchip/rga/rga-hw.c
->> index fe6f518aedd4e..fb0389ae8e132 100644
->> --- a/drivers/media/platform/rockchip/rga/rga-hw.c
->> +++ b/drivers/media/platform/rockchip/rga/rga-hw.c
->> @@ -617,6 +617,7 @@ static struct rga_fmt formats[] = {
->>   
->>   const struct rga_hw rga2_hw = {
->>   	.card_type = "rga2",
->> +	.has_internal_iommu = true,
->>   	.formats = formats,
->>   	.num_formats = ARRAY_SIZE(formats),
->>   	.cmdbuf_size = RGA_CMDBUF_SIZE,
->> diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
->> index c9719c7bcfc1c..f28ec88c186fa 100644
->> --- a/drivers/media/platform/rockchip/rga/rga.c
->> +++ b/drivers/media/platform/rockchip/rga/rga.c
->> @@ -23,6 +23,7 @@
->>   #include <media/v4l2-ioctl.h>
->>   #include <media/v4l2-mem2mem.h>
->>   #include <media/videobuf2-dma-sg.h>
->> +#include <media/videobuf2-dma-contig.h>
->>   #include <media/videobuf2-v4l2.h>
->>   
->>   #include "rga.h"
->> @@ -95,13 +96,16 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
->>   	src_vq->io_modes = VB2_MMAP | VB2_DMABUF;
->>   	src_vq->drv_priv = ctx;
->>   	src_vq->ops = &rga_qops;
->> -	src_vq->mem_ops = &vb2_dma_sg_memops;
->> +	src_vq->mem_ops = &vb2_dma_contig_memops;
-> That's a bit I'm less knowledgeable here, since I never used the sg_memops in
-> any of my work, but what is the consequence ? (appart from gaining external
-> iommu support)
+The commit message has extra new lines obviously.
 
-This is only for the external iommu support, which uses the 
-vb2_dma_contig_plane_dma_addr function to get a single linear address 
-(instead of vb2_dma_sg_plane_desc used for the manual iommu mapping).
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+> index 327836372..4ed6b8aea 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+> @@ -1764,15 +1764,13 @@ int atomisp_calculate_real_zoom_region(struct atomisp_sub_device *asd,
+>  		return -EINVAL;
+>  	}
+>  
+> -	if (dz_config->zoom_region.resolution.width
+> -	    == asd->sensor_array_res.width
+> -	    || dz_config->zoom_region.resolution.height
+> -	    == asd->sensor_array_res.height) {
+> +	if (dz_config->zoom_region.width == asd->sensor_array_res.width ||
+> +	    dz_config->zoom_region.height == asd->sensor_array_res.height) {
+>  		/*no need crop region*/
+> -		dz_config->zoom_region.origin.x = 0;
+> -		dz_config->zoom_region.origin.y = 0;
+> -		dz_config->zoom_region.resolution.width = eff_res.width;
+> -		dz_config->zoom_region.resolution.height = eff_res.height;
+> +		dz_config->zoom_region.left = 0;
+> +		dz_config->zoom_region.top = 0;
+> +		dz_config->zoom_region.width = eff_res.width;
+> +		dz_config->zoom_region.height = eff_res.height;
+>  		return 0;
+>  	}
+>  
+> @@ -1783,18 +1781,18 @@ int atomisp_calculate_real_zoom_region(struct atomisp_sub_device *asd,
+>  	 */
+>  
+>  	if (!IS_ISP2401) {
+> -		dz_config->zoom_region.origin.x = dz_config->zoom_region.origin.x
+> -						  * eff_res.width
+> -						  / asd->sensor_array_res.width;
+> -		dz_config->zoom_region.origin.y = dz_config->zoom_region.origin.y
+> -						  * eff_res.height
+> -						  / asd->sensor_array_res.height;
+> -		dz_config->zoom_region.resolution.width = dz_config->zoom_region.resolution.width
+> -							  * eff_res.width
+> -							  / asd->sensor_array_res.width;
+> -		dz_config->zoom_region.resolution.height = dz_config->zoom_region.resolution.height
+> -							  * eff_res.height
+> -							  / asd->sensor_array_res.height;
+> +		dz_config->zoom_region.left =
+> +			(s32)((long long)dz_config->zoom_region.left *
+> +			      eff_res.width / asd->sensor_array_res.width);
+> +		dz_config->zoom_region.top =
+> +			(s32)((long long)dz_config->zoom_region.top *
+> +			      eff_res.height / asd->sensor_array_res.height);
+> +		dz_config->zoom_region.width =
+> +			(u32)((long long)dz_config->zoom_region.width *
+> +			      eff_res.width / asd->sensor_array_res.width);
+> +		dz_config->zoom_region.height =
+> +			(u32)((long long)dz_config->zoom_region.height *
+> +			      eff_res.height / asd->sensor_array_res.height);
 
-Without an external iommu the value is overridden afterwards to 
-vb2_dma_sg_memops. I probably should move the if up to make clear that 
-this is only set for the external iommu case.
 
-Or did I misunderstand your question?
+Why do we need this new casting?  Is it a bugfix?
 
->>   	src_vq->gfp_flags = __GFP_DMA32;
->>   	src_vq->buf_struct_size = sizeof(struct rga_vb_buffer);
->>   	src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
->>   	src_vq->lock = &ctx->rga->mutex;
->>   	src_vq->dev = ctx->rga->v4l2_dev.dev;
->>   
->> +	if (rga_has_internal_iommu(ctx->rga))
->> +		src_vq->mem_ops = &vb2_dma_sg_memops;
->> +
->>   	ret = vb2_queue_init(src_vq);
->>   	if (ret)
->>   		return ret;
->> @@ -110,13 +114,16 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
->>   	dst_vq->io_modes = VB2_MMAP | VB2_DMABUF;
->>   	dst_vq->drv_priv = ctx;
->>   	dst_vq->ops = &rga_qops;
->> -	dst_vq->mem_ops = &vb2_dma_sg_memops;
->> +	dst_vq->mem_ops = &vb2_dma_contig_memops;
->>   	dst_vq->gfp_flags = __GFP_DMA32;
->>   	dst_vq->buf_struct_size = sizeof(struct rga_vb_buffer);
->>   	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
->>   	dst_vq->lock = &ctx->rga->mutex;
->>   	dst_vq->dev = ctx->rga->v4l2_dev.dev;
->>   
->> +	if (rga_has_internal_iommu(ctx->rga))
->> +		dst_vq->mem_ops = &vb2_dma_sg_memops;
->> +
->>   	return vb2_queue_init(dst_vq);
->>   }
->>   
->> diff --git a/drivers/media/platform/rockchip/rga/rga.h b/drivers/media/platform/rockchip/rga/rga.h
->> index 772f7dff9a8e5..fc81bc5562792 100644
->> --- a/drivers/media/platform/rockchip/rga/rga.h
->> +++ b/drivers/media/platform/rockchip/rga/rga.h
->> @@ -148,6 +148,7 @@ static inline void rga_mod(struct rockchip_rga *rga, u32 reg, u32 val, u32 mask)
->>   
->>   struct rga_hw {
->>   	const char *card_type;
->> +	bool has_internal_iommu;
->>   	struct rga_fmt *formats;
->>   	u32 num_formats;
->>   	size_t cmdbuf_size;
->> @@ -163,6 +164,11 @@ struct rga_hw {
->>   	void (*get_version)(struct rockchip_rga *rga);
->>   };
->>   
->> +static inline bool rga_has_internal_iommu(const struct rockchip_rga *rga)
->> +{
->> +	return rga->hw->has_internal_iommu;
->> +}
->> +
->>   extern const struct rga_hw rga2_hw;
->>   
->>   #endif
+I don't love the casts to s32 and u32.  Those are unnecessary.  Also
+width and height are s32 so why are we casting to u32?  Same comments
+for the other casts later on.
+
+There are more style changes than strictly necessary to just rename the
+struct members.
+
+regards,
+dan carpenter
+
 
