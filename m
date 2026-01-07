@@ -1,146 +1,145 @@
-Return-Path: <linux-media+bounces-50174-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50175-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4802AD0032B
-	for <lists+linux-media@lfdr.de>; Wed, 07 Jan 2026 22:42:00 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98039D00418
+	for <lists+linux-media@lfdr.de>; Wed, 07 Jan 2026 22:57:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 08D2730734CA
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jan 2026 21:36:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 05FAB302A385
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jan 2026 21:53:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02FF23358C2;
-	Wed,  7 Jan 2026 21:36:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC0253164C8;
+	Wed,  7 Jan 2026 21:53:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lr8Ogtu/"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cbhRrnHI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6327A23D7F5;
-	Wed,  7 Jan 2026 21:36:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73ECA2C15A3
+	for <linux-media@vger.kernel.org>; Wed,  7 Jan 2026 21:53:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767821782; cv=none; b=tS6iYoiI5XI7m83471k86FvVBsexYeYWYNa9SP3tUxhYXSbg7o0dH3w21Y/wVwIYTg/vfUX4WkOAcsgbuopfhCSnERTjhJfYpPM50AZWxyU06YYu1qK/zZc4xUdSjIQLmz1vGYJ/aP0+thdd6C/UWUsLpE+TxMATryu3NZQIays=
+	t=1767822817; cv=none; b=okKCBF2pEcKGcogNqewEs6beRNFY/Tm9xECE/dF5xnBCPJuoGJ8AaVM/syM0+S+OfToHcxbkGe3cVm/tnXHZtFukX0g9diRp7rRcXhvjJHBs2OvtWA0aM14MTLiVGJenmajpEXScNNViu4AwFxr+lKLOEpihwmPrBW+6MHf6rQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767821782; c=relaxed/simple;
-	bh=Jv1QUG25wuai81VCP0AUr8gPDustG1rrgp1TER68Iok=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ofe3aPYWiDrdf6NuNs9lu7mq4sv8L74NMKxKFIAv9pvhEscwUro8OFN8lqcP3OgkHc6I2vJI1AOsH+H/UnIdebg9C2naN1z3yeFd4+bvpb1cnxr4Skv1mZrYdIziHz16GWcuARQ+ScpH0krZaQ36UMrmF6LByOdW08YGTNTz6HE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lr8Ogtu/; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767821780; x=1799357780;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Jv1QUG25wuai81VCP0AUr8gPDustG1rrgp1TER68Iok=;
-  b=Lr8Ogtu/qVbqFt5dZgJJe4YyF4Khy6M4T8bEax4zkdIzvUn1TtidAyJr
-   xun+YzV6DHIMOofwCHHhNuqbzy+9x+pAlHq4FvAgsby8RJmV4w83IV9Ip
-   8mvxRFIW6mz2MtX1WBDn8GY3LeGWlj4wgs7pFIrTVOval05aBPM//NJH3
-   IX6ufj2XvtBy/48ePPUunvbgEUzPIiEwyMaAn/ItlF8aEPBbM4AbPuaLI
-   irugGkM4GlENeuFORn4ygEsPxyrec6c62w5OQiYFIdrW9VL8VaNZu1Uml
-   TD+4voaIFGDhIoDkkF8slaIWTPEED/iyCQumqv2sW2p5mYH0oMaR11rwS
-   Q==;
-X-CSE-ConnectionGUID: NXQ9MyaaSRWzIkbxeKUiHg==
-X-CSE-MsgGUID: 67so7DLOTZCpnuaXH+D1LA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="73054489"
-X-IronPort-AV: E=Sophos;i="6.21,209,1763452800"; 
-   d="scan'208";a="73054489"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 13:36:19 -0800
-X-CSE-ConnectionGUID: tJRiHJN9RF6ZGDNPHDsqnA==
-X-CSE-MsgGUID: r+OdD+waT6aDR9PDgOay6w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,209,1763452800"; 
-   d="scan'208";a="202153770"
-Received: from vpanait-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.174])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 13:36:18 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 3AB9C1203D1;
-	Wed, 07 Jan 2026 23:36:31 +0200 (EET)
-Date: Wed, 7 Jan 2026 23:36:31 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans de Goede <johannes.goede@oss.qualcomm.com>
-Cc: Hans Verkuil <hverkuil@kernel.org>, Bryan O'Donoghue <bod@kernel.org>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Sebastian Reichel <sre@kernel.org>, linux-media@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2 2/5] media: ov02c10: Adjust x-win/y-win when changing
- flipping to preserve bayer-pattern
-Message-ID: <aV7R30bSVxXRxCok@kekkonen.localdomain>
-References: <20251210112436.167212-1-johannes.goede@oss.qualcomm.com>
- <20251210112436.167212-3-johannes.goede@oss.qualcomm.com>
- <aV5IH7PIFnySHhYC@kekkonen.localdomain>
- <082db370-e6cb-45fd-aaf9-bcd9f80dc242@oss.qualcomm.com>
+	s=arc-20240116; t=1767822817; c=relaxed/simple;
+	bh=UHwqB3gjL3ptwXoinVWuZA+mO2tTt6i7X4c8KTM3w5I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=X+kFljO8tImL1ltfMITEH10dJ8OdfyC78WXfhXaRgaR7RYh3UBRGJ8gIZE2Nbp7q8Staxek7RPqRFJZZucsivcyAb4nbd1FVziJFtuBFqAY+1awMaz6GJ8WWEIVPwJHMT2hgrW9dDK7o0Hfk6Pmb77KI8gBR4kG3jn1ywxQl6FM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cbhRrnHI; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5942708701dso244156e87.3
+        for <linux-media@vger.kernel.org>; Wed, 07 Jan 2026 13:53:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1767822813; x=1768427613; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KwYyN47XdExhmtpr22dRuy2KKRRsROowGgiRYq00HHY=;
+        b=cbhRrnHIwSxba8s0l+xIuvvGw1khORdElAWEc/iAYgbxmrtdVJ+/nl7MRtrVd4IgOX
+         QW171/Z65LOS1TUPgrNDNZrCbrdzUkB4I9QLNf3jKgNQT7WbitpncEEMKSH0bsH5ZkxN
+         uidK2ckuvLif3cjDxAcfF4me7fW/i9I1giLE9oY08+DI+KsCxNFzAeGxju9csKHUu0Ia
+         jzcm47lBRP/VGQshHncMq8T0K+yi7Y+owMZCZD3NNwA4qYW1nH/1N2IxArVZe6J8Lplz
+         Rocr4FByVMgCkcNlAPg93tmb92saOKZuz4Ah+RmQpYvm/a1yAqjwTDsMxAGqYDf8Xblh
+         QR2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767822813; x=1768427613;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KwYyN47XdExhmtpr22dRuy2KKRRsROowGgiRYq00HHY=;
+        b=PoW8ySWMsC9nU9Uqy1v9BRXd9borXqw1ImDinHeUdUGuyEK2zWyOlhbWVwb3v4eFjY
+         eoISNtPUHcjnM+QWBm03WiLG/E0KfWSZzGp4WPWB2YbIlVzgPctGVMY3IJx2xwJRxy2d
+         b/+lzuH/ClvoDOtSFPhCundJ89V4xfeTiqVqPXg4HZJQ9eiTKh1SAI/wjinb0VrNj78b
+         +JYj/KL3BrAj3lbBVV+pn2G6Ttp3en2xxxAziT33SeV6kueqsJrFx4vYDY6WBPLp6l0G
+         DJSBTDmBEK2J59RvFbGIX3hie1GTF1dVL4Jod0GjwURXiY0hb0uBSoz55mkXhLvGdS4c
+         3/Sg==
+X-Forwarded-Encrypted: i=1; AJvYcCVFyGOeW4dZFnWxDbX6RMexYWoZzkhT8Rs1vByTasxSKoLLEXY9mTdtKsWPoa+5/OaYLK3Pd1CWLBJXQQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yycxy7ln/bB/zZPoltuuMn4yWuYo7L+ff8ZqlECvc2F6HUPDQcE
+	rfHXxHjjzUpNLbgS6iBQjO4r3vkZDepel1Xqb00OeD98VpSUO0d0H6SK8Ymf8j8PtiA=
+X-Gm-Gg: AY/fxX42JcukNtdBkXCFMUgJlXvCKjVoVjz6urehtpBvTbU77dX44NI/ml+IOCrapCz
+	tJU7r2mkTZ0p4nZAtE2hQDRHPyQvUQGYxxwkA89QSGrHkyPUwD9ofY6GWiZX3WF3q+6M9a65BhP
+	Poo3wdS6BU7aBjqLqigyi+7mjxP2MLwCR8LWJN/g4xL8Z8wouClfS2YyJoJEkHWgdxcwiIL4u2X
+	Ol0EBoLyHw8mZLnEy6P6EZfjXz0LZ/i45sY5/NwYLZ5mukGsXgagx3S8Ta3rz+LK+FFPvsSxbOl
+	uIoALhKKtdom3kpkrK1lY3yXzoLeGTv0xXU/ojnpzq0E9XatJqgqxhrH/LTfGH3Sx64K6UxYEOq
+	WM75RYbeQD+yARfGcMqMiWbWpOb3inGqtHA6TKbla7MDUs+6WSDmKZQcJqayZJvNuiBGOOGxvSu
+	C4xDLwm4ojcsVVRHIQgF+E8tt3gb2/uxyRAPlK0pjSMNfDe8awVxWsWiNXiN28v2GwOvQjv9kFS
+	sBW
+X-Google-Smtp-Source: AGHT+IEnE7TRgr0qgv5X/Q7XVeME7jEJg54IM1ntnuvOBQBuc3vf8rcsAvJ6z2UwtAWIpQusEkXc/Q==
+X-Received: by 2002:a05:6512:3d1c:b0:59b:1d24:7db7 with SMTP id 2adb3069b0e04-59b6ebd30d8mr766233e87.0.1767822813450;
+        Wed, 07 Jan 2026 13:53:33 -0800 (PST)
+Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59b65d6985csm1566062e87.78.2026.01.07.13.53.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Jan 2026 13:53:31 -0800 (PST)
+Message-ID: <de0d0f9d-be70-490d-9cc0-53f017c69985@linaro.org>
+Date: Wed, 7 Jan 2026 23:53:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <082db370-e6cb-45fd-aaf9-bcd9f80dc242@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/5] media: ipu-bridge: Add DMI quirk for Dell XPS
+ laptops with upside down sensors
+To: Hans de Goede <johannes.goede@oss.qualcomm.com>,
+ Hans Verkuil <hverkuil@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Bryan O'Donoghue <bod@kernel.org>
+Cc: Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+ Sebastian Reichel <sre@kernel.org>, linux-media@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20251210112436.167212-1-johannes.goede@oss.qualcomm.com>
+ <20251210112436.167212-5-johannes.goede@oss.qualcomm.com>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20251210112436.167212-5-johannes.goede@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Hans,
+On 12/10/25 13:24, Hans de Goede wrote:
+> The Dell XPS 13 9350 and XPS 16 9640 both have an upside-down mounted
+> OV02C10 sensor. This rotation of 180° is reported in neither the SSDB nor
+> the _PLD for the sensor (both report a rotation of 0°).
+> 
+> Add a DMI quirk mechanism for upside-down sensors and add 2 initial entries
+> to the DMI quirk list for these 2 laptops.
+> 
+> Note the OV02C10 driver was originally developed on a XPS 16 9640 which
+> resulted in inverted vflip + hflip settings making it look like the sensor
+> was upright on the XPS 16 9640 and upside down elsewhere this has been
+> fixed in commit 69fe27173396 ("media: ov02c10: Fix default vertical flip").
+> This makes this commit a regression fix since now the video is upside down
+> on these Dell XPS models where it was not before.
+> 
+> Fixes: d5ebe3f7d13d ("media: ov02c10: Fix default vertical flip")
+> Cc: stable@vger.kernel.org
+> Reviewed-by: Bryan O'Donoghue <bod@kernel.org>
+> Signed-off-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
+> ---
+> Changes in v2:
+> - Fix fixes tag to use the correct commit hash
+> - Drop || COMPILE_TEST from Kconfig to fix compile errors when ACPI is disabled
+> ---
+>   drivers/media/pci/intel/Kconfig      |  2 +-
+>   drivers/media/pci/intel/ipu-bridge.c | 29 ++++++++++++++++++++++++++++
+>   2 files changed, 30 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/pci/intel/Kconfig b/drivers/media/pci/intel/Kconfig
+> index d9fcddce028b..3f14ca110d06 100644
+> --- a/drivers/media/pci/intel/Kconfig
+> +++ b/drivers/media/pci/intel/Kconfig
+> @@ -6,7 +6,7 @@ source "drivers/media/pci/intel/ivsc/Kconfig"
+>   
+>   config IPU_BRIDGE
+>   	tristate "Intel IPU Bridge"
+> -	depends on ACPI || COMPILE_TEST
+> +	depends on ACPI
 
-On Wed, Jan 07, 2026 at 02:45:18PM +0100, Hans de Goede wrote:
-> Hi Sakari,
-> 
-> On 7-Jan-26 12:48, Sakari Ailus wrote:
-> > Hi Hans,
-> > 
-> > On Wed, Dec 10, 2025 at 12:24:33PM +0100, Hans de Goede wrote:
-> >> The ov02c10 is capable of having its (crop) window shifted around with 1
-> >> pixel precision while streaming.
-> >>
-> >> This allows changing the x/y window coordinates when changing flipping to
-> >> preserve the bayer-pattern.
-> > 
-> > Ideally we'd use the crop selection to configure this, but given these
-> > sensors (and drivers) are generally what they are, I guess this is probably
-> > a reasonable way to go.
-> 
-> Even in sensor drivers where we allow setting the crop selection
-> to get arbritrary modes, we always round the coordinates to a multiple
-> of 2, to avoid changing the bayer-pattern seen by userspace when
-> userspace changes the crop. See e.g. ov2680_set_selection().
-> 
-> And then when doing flipping we might add 1 to either the x and/or y
-> coordinate to the userspace provided crop x, y before sending it to
-> the sensor to make flipping not change the bayer order, see e.g.
-> ov01a10_set_hflip() after the v2 series you've here:
-> 
-> https://git.retiisi.eu/?p=~sailus/linux.git;a=shortlog;h=refs/heads/ov01a10
-> 
-> which does (simplified):
-> 
->         offset = crop->left;
->         if (hflip)
->                 offset++;
-> 
->         cci_write(ov01a10->regmap, OV01A10_REG_X_WIN, offset, &ret);
-> 
-> IOW we are trying to not make userspace be able to affect the bayer-pattern
-> through setting the crop-selection and/or flip.
-> 
-> So I'm not sure what you mean with "Ideally we'd use the crop selection"
-> because we are actively trying to avoid to have the crop-selection change
-> the bayer order ?
-> 
-> Generally speaking I think we should avoid any settings change the bayer-order
-> whenever possible.
-
-That's up to the userspace. The UAPI allows to do either so why should the
-driver decide?
-
-As noted, in this case providing that flexibility probably causes more
-hassle than any benefits, so I guess this is fine.
+Why this change is done? Apparently there should be a new dependency on DMI.
 
 -- 
-Kind regards,
-
-Sakari Ailus
+Best wishes,
+Vladimir
 
