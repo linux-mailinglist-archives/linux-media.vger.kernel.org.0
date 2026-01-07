@@ -1,131 +1,74 @@
-Return-Path: <linux-media+bounces-50166-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50167-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25DEDCFED92
-	for <lists+linux-media@lfdr.de>; Wed, 07 Jan 2026 17:24:28 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF8FBCFEDC2
+	for <lists+linux-media@lfdr.de>; Wed, 07 Jan 2026 17:27:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BF4D93291928
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jan 2026 16:08:52 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id EFEAD32DEF75
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jan 2026 16:11:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5977C350A10;
-	Wed,  7 Jan 2026 16:01:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="Ft7TghyP"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33285378D70;
+	Wed,  7 Jan 2026 16:02:25 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 600ED352958
-	for <linux-media@vger.kernel.org>; Wed,  7 Jan 2026 16:00:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63BEF3A89A9;
+	Wed,  7 Jan 2026 16:02:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767801665; cv=none; b=fUXQITaIe/euj5iRUuTxUWZ4HXiPcBMi2vty9M7TUNY0Uz9abGTXcgDIKU+o94FSSeZ8UHDEIpFB4a2GhIiTZyPlQAjZ4u8h2em3m8cY2IAIlewmSUbB7D4FLP1Ebg2X2PyGvQg5+X4tdQ/nbgUhaqYW0YeCrUKhVMClDAttylY=
+	t=1767801733; cv=none; b=OjKt9juAptk26FHkRiSRms+WxepZS0jwMjhlupoMvkk+67xpAJyc2a5rX3g/0gjc/3gmj/QMNA209dkxnG//VBVBw8vz4vZ5/+FiDoAGJ5Xth6YYnQlnPgykRv02CM+qbkwjn/ueXUuWC49NNzIjlq/RdTKTcypqEOeBzaJKfTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767801665; c=relaxed/simple;
-	bh=V4bVj2wSElYjvUgQlZ6az/4rqywQNYaAH3LZ9i/qB6M=;
+	s=arc-20240116; t=1767801733; c=relaxed/simple;
+	bh=x0JIweeKnhzsIrSSoe0lNzCEnwjXJ48x2cBRuxek93Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JSk/AkerEsX7TBeY105i11Qs4h53ddy33sleJD9t7Keb67x+L0LStYOJIOMmIawxwoY6LwxeHqHPt2LsIBjzgFKs2r04TuSiE4yq7ZEw5AcMUfSSMPQ/3+qrxxlRVKZTdbRoVvonTsSgpqhJORV8yL7lKl+q9vdm3iUAryZCUh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=Ft7TghyP; arc=none smtp.client-ip=209.85.219.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-888310b91c5so6818016d6.1
-        for <linux-media@vger.kernel.org>; Wed, 07 Jan 2026 08:00:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1767801653; x=1768406453; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ftSoJlbCa6MOGNHtdz3xW3rHVknPRmwRfQPP71m23p0=;
-        b=Ft7TghyPMhyrb8gGBX881I5VOypjVaEZudanM8zG1RpGlp6JpOZRBP/0Mdbd+OShn3
-         IzoJ2JeRQ0szwl765mDxp+X2zzojtSinUIXBNjPLLVPV4tnqC7r27qQYNkHzmsaQjMV2
-         Fpi1OmRALrgsBXYzyy3GCO5MZtF1qd4fDxqsKiiuNv8REzkXSfrhYJno863pzO54/9AF
-         T4xQ/nB36plu0hFqGot8QHfW1Mnn9n/ICptAuofp3gWnnXjtjaUIDy3dkEPsKuuyDMng
-         DATsBIDSSoJkiYVa+hFPO7j4VoUMm8OfGFzEFjWifY2YbyI5t8iNsSie7bUNNTw3umZZ
-         IUgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767801653; x=1768406453;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ftSoJlbCa6MOGNHtdz3xW3rHVknPRmwRfQPP71m23p0=;
-        b=YJIoUPBG14tizRFYXKRjCbjaNnnqkRv2qqa92ocGtx7TtvQ2GZHNP3ZTv8pTGbgYpK
-         ngNH+uhJLh89UQ6yTjwCej2nDbdFjfSyHv4jkRC7qqRqJJB5ZUyluN9UdP6XvcuXncop
-         WDfXJyrGeIv26pt6CSyLtQgyoIPLzZ7TfRrm61wfCc780eO7l/Rxr9AsZDSzSf4qHOp4
-         p1Fec8zL/CRv2FyjAAYJ+7UfMLIIttIZTWfMDh9dNlGJiTWJ3BMzFQ3LbKHykek0FJ32
-         Jh/etcrnEqzV9ozy+9x1wd6dBtATMSW6JosVByT44+mW5OwIGgpPFWjTjQ2S2iA2IYuV
-         0fkQ==
-X-Forwarded-Encrypted: i=1; AJvYcCURcVZfPYl9HyYtfCutzbv8yW0inmK3ALfrwQYvY1YPJIWJ4Tx0XxcwLi7JNAZCpf89/SjVWcLLKb7c1g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwPOd1g+f/Bi9gsCSPNIYpUk0lO8YSqTyIjLBM2FgP0V+yMB35E
-	0IhGteAfynOc32h8hrr8dZKT1UAq3ifGZmtbBnBqYQKj3q0JN8T6mv8Emd50tNy6RBA=
-X-Gm-Gg: AY/fxX54vqvPTKSc0EPlRiEY7OFGDrMia3dbkQemenEvli6gzAG7+hBvp8bNErkt6MP
-	7wRBfKkNBauaepyptN96qZ+n2run5+GlE46enaBYuJ5qKhVwGSEf+D/+lhLTUCEsjE4K2gRoPgb
-	TV3uoWK6mPYpIbSXOwn1cTG8LbgdyuD5d2ppTV86msp9qUXYkGzWyj5AP8i30nHyxDPpSn/X3fa
-	irUxxSoDEHLrrmnzGW0O5G/TXBZ66NY0DyjCIA78Y3sWGF/J7n+ZWel5EFu9v9Z0emEo7hjDYsH
-	An1St9mzQLXNXbghbmz+5Fjl5xNaxJvoLszwRZR/SqjQYRBguZ5XmeByTW1O522nN9ni5Lm9yLb
-	NCMXVIlY6Hn8t+UIC+jEWFmvS+cM62IwDImsSGhMV1TZM4kqw+Wv6TBD0WMdNNinCa2TSo9G4I0
-	6hmNfTNwEGJACxvBiFnDv1fjO4BkQ9lSEZ3N7EwIdwaMFhkXgB+BjpMZfSTdPeWiIzANBZhfYYw
-	gr6Fw==
-X-Google-Smtp-Source: AGHT+IEsFTBclBHNaJgPLh58sVSxPObjQlXbE6JZhrOur9VbgMkz2k1BHIEIa/RCFDyuscOAoE/vIQ==
-X-Received: by 2002:a05:6214:411:b0:888:4930:7989 with SMTP id 6a1803df08f44-89083d0d91bmr44153996d6.36.1767801649963;
-        Wed, 07 Jan 2026 08:00:49 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8907725ffc7sm34937966d6.44.2026.01.07.08.00.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jan 2026 08:00:49 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1vdVxn-00000002CVI-0vE2;
-	Wed, 07 Jan 2026 12:00:47 -0400
-Date: Wed, 7 Jan 2026 12:00:47 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Alex Williamson <alex@shazbot.org>, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-	kvm@vger.kernel.org, Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <skolothumtho@nvidia.com>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Matthew Wilcox <willy@infradead.org>, Jens Axboe <axboe@kernel.dk>
-Subject: Re: types: reuse common =?utf-8?Q?phys=5Fv?=
- =?utf-8?Q?ec_type_instead_of_DMABUF_open=E2=80=91coded?= variant
-Message-ID: <20260107160047.GB340082@ziepe.ca>
-References: <20260107-convert-to-pvec-v1-1-6e3ab8079708@nvidia.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=PlooZrRo0w8LsIFTxvDB/PNrBHefiQxPW6YKpXVAxe7AeLxDTtdlzv4KJW/B5deTkHl9eRUYNahQozhV5jviFa6U+wnBkNbkc2wMtCrGNSeZO+jPk15+rMFklaAsuRZxLOfVe315sDxv2ArMCjECI1Xq+GqxlgbWxJH5zoNBwEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id D9186227A87; Wed,  7 Jan 2026 17:01:51 +0100 (CET)
+Date: Wed, 7 Jan 2026 17:01:51 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Ming Lei <ming.lei@redhat.com>, Christoph Hellwig <hch@lst.de>,
+	Pavel Begunkov <asml.silence@gmail.com>,
+	linux-block@vger.kernel.org, io-uring@vger.kernel.org,
+	Vishal Verma <vishal1.verma@intel.com>, tushar.gohad@intel.com,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [RFC v2 01/11] file: add callback for pre-mapping dmabuf
+Message-ID: <20260107160151.GA21887@lst.de>
+References: <cover.1763725387.git.asml.silence@gmail.com> <74d689540fa200fe37f1a930165357a92fe9e68c.1763725387.git.asml.silence@gmail.com> <7b2017f4-02a3-482a-a173-bb16b895c0cb@amd.com> <20251204110709.GA22971@lst.de> <0571ca61-7b17-4167-83eb-4269bd0459fe@amd.com> <20251204131025.GA26860@lst.de> <aVnFnzRYWC_Y5zHg@fedora> <754b4cc9-20ab-4d87-85bf-eb56be058856@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260107-convert-to-pvec-v1-1-6e3ab8079708@nvidia.com>
+In-Reply-To: <754b4cc9-20ab-4d87-85bf-eb56be058856@amd.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Wed, Jan 07, 2026 at 11:14:14AM +0200, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
+On Wed, Jan 07, 2026 at 04:56:05PM +0100, Christian König wrote:
+> > But I am wondering why not make it as one subsystem interface, such as nvme
+> > ioctl, then the whole implementation can be simplified a lot. It is reasonable
+> > because subsystem is exactly the side for consuming/importing the dma-buf.
 > 
-> After commit fcf463b92a08 ("types: move phys_vec definition to common header"),
-> we can use the shared phys_vec type instead of the DMABUFâ€‘specific
-> dma_buf_phys_vec, which duplicated the same structure and semantics.
-> 
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> ---
-> Alex,
-> 
-> According to diffstat, VFIO is the subsystem with the largest set of changes,
-> so it would be great if you could take it through your tree.
-> 
-> The series is based on the for-7.0/blk-pvec shared branch from Jens:
-> https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git/log/?h=for-7.0/blk-pvec
+> Yeah that it might be better if it's more nvme specific came to me as well.
 
-Great!
+The feature is in no way nvme specific.  nvme is just the initial
+underlying driver.  It makes total sense to support this for any high
+performance block device, and to pass it through file systems.
 
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-
-Jason
 
