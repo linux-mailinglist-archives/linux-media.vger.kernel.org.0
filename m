@@ -1,293 +1,232 @@
-Return-Path: <linux-media+bounces-50138-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50139-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C461CFE02E
-	for <lists+linux-media@lfdr.de>; Wed, 07 Jan 2026 14:41:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40D97CFE03F
+	for <lists+linux-media@lfdr.de>; Wed, 07 Jan 2026 14:41:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 48B67307CE4F
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jan 2026 13:36:56 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B2C353086364
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jan 2026 13:37:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E50133F364;
-	Wed,  7 Jan 2026 13:36:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89A0133F37F;
+	Wed,  7 Jan 2026 13:37:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VZqe0JAp"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mouWI9Zf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29ABD33EB0A;
-	Wed,  7 Jan 2026 13:36:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D867724397A;
+	Wed,  7 Jan 2026 13:37:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767792997; cv=none; b=qe388VwBe5NrmE0e7TumYOMDF7Ghyil5P0tGBoGhwtuo8TJIBz/8uNqqBIVKuwGR0jnkwRjLYfktRuq1BIv9JqKLmVwxI7/LIm2kzM66tSnEcTbKflDOG0uW55aXI+8H8aVJgpX5ZbZVGILP6wCm/i/YO37aPxK4l166wK535Uc=
+	t=1767793029; cv=none; b=XSVntW+iERaRzZ7i6pSK0VM4R9OT6lWTe0VWoRxI+02uGXZhAATy2blvtlAS96ZusheWE45sXONccdsVd3fLNF+v1RLPZzsAPiuAaeIOaJBuHb54nVYc3Gd2KTM48QzDorg4dTtlMVafPUobq8SDYNLLwcClpYY64SRoDQPgr6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767792997; c=relaxed/simple;
-	bh=5v6FyRxHJcd6yBaWtKXdII4MCpnFH5zMXKpCRzlg/pA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iPxjgC7lR6yqBfv6mhTZQkgMiQvoItHy7D7vq5AUcgYhcyaS0ZE6iR3MkJ4KPciKpzaY+wjIWcwpwyIhADttadQFyqMedEOihYCTMXIQ2xDp0ahPNvMXIZ1IqVp4fXob6t/2BONt7hw1QEWgocgeDW8/+0nlFS3s4nd4Abn4wvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VZqe0JAp; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767792995; x=1799328995;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=5v6FyRxHJcd6yBaWtKXdII4MCpnFH5zMXKpCRzlg/pA=;
-  b=VZqe0JAp3OSIMxhoeLf/nf/Ke12l0k7gdDAJTKu0lAqTbZmyGKXOjXg8
-   wknkeCWUfxqlHXAg9ZgN9z9lMWEgMcGTgmkB1XPv7kZV0Zxiuf6QXubjN
-   QDUrEJWdhdm+6bIIMGGEH7Iujpeb+Zw8d/mhEE1wSReh4gsLL9y7pxack
-   GIDDqxWSCL3or7pDMjwOq8bhQObGWdo0KVOF+2/NidcYLJN+/DVJMfiwb
-   9gz19gd504GlcsyRVxzTBGpGamBKq7Q+IEBuRJ2FjefrSxQasTzDN47Rx
-   A5Syg8VMQyEt90bfUXD4/oYzk0lMdR5qbTJqEZLogyxBxiUWvi4YfYhgT
-   Q==;
-X-CSE-ConnectionGUID: tdTvoEsfTI26obEeiM11Nw==
-X-CSE-MsgGUID: lIBziKKaQWOB3uhPpoM6bQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="86747750"
-X-IronPort-AV: E=Sophos;i="6.21,208,1763452800"; 
-   d="scan'208";a="86747750"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 05:36:34 -0800
-X-CSE-ConnectionGUID: j7MIqVFSTk+wQS9dsFXLhg==
-X-CSE-MsgGUID: mamNXkKWTQm65Lxa6qbAOA==
-X-ExtLoop1: 1
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.143])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 05:36:32 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 602FA121D80;
-	Wed, 07 Jan 2026 15:36:46 +0200 (EET)
-Date: Wed, 7 Jan 2026 15:36:46 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Wenmeng Liu <quic_wenmliu@quicinc.com>
-Subject: Re: [PATCH] media: i2c: imx412: Extend the power-on waiting time
-Message-ID: <aV5hbvzYxKpV5OzO@kekkonen.localdomain>
-References: <20251222-imx412-v1-1-51c7e724b376@oss.qualcomm.com>
- <aUkLKECix4vohyTB@kekkonen.localdomain>
- <bbf6dbc9-42b5-4dd6-9346-c8f38e460709@oss.qualcomm.com>
- <CAPY8ntD9GO_Y13K=Ko5kxz-o1edaocJP=Ns50rUheJP0iJ9fNg@mail.gmail.com>
- <ffa7b849-51da-42f7-be1d-c3c7e1903e6e@oss.qualcomm.com>
- <CAPY8ntDAiJcJiixo2mTqcb898UC3AR-+NVPFPS6EtrGoEWKewg@mail.gmail.com>
- <88bcd810-872e-4705-91c0-df2a35f4a3b9@oss.qualcomm.com>
- <aVO4oX2I-FEuR4WS@kekkonen.localdomain>
- <b2cf8a59-a8bc-405c-8b7e-78805d0b4502@oss.qualcomm.com>
+	s=arc-20240116; t=1767793029; c=relaxed/simple;
+	bh=LEUoa7l62g+TJDfOSn+FtDTHetT0GTOmCxQjZ+1AEjE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DYcbvKQnfHSfMdcO5qcXZsDyDWefqjN7rcSA4Ho0m5LUtzPl1aFI51LMRCokUdzuV+XYkNxROXvjGBchQ9rzzVp+R9gjDnj5ZycfUVQUrpgwMej7RuO/6MMdJQzqK/aCUNmmAIzp9OGWA52vUcVBkkqnpS5WzJjpoyHEgaaI3+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mouWI9Zf; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18926C4CEF7;
+	Wed,  7 Jan 2026 13:37:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767793026;
+	bh=LEUoa7l62g+TJDfOSn+FtDTHetT0GTOmCxQjZ+1AEjE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=mouWI9Zf32XLOQEelSa+xFNC/a0QZxxOxrNj1fDX69KtJEaIDyhDaRz+5vrWE8bup
+	 dLARXI52uUwF1Uj/hQNk05OMMzTtvh4Ain9n6i29PkSabkkV08dmyqidZ/NX/hbh6M
+	 XpYHRTuJi65V/B/GsNj13w9At+O7Cy79BhshquL/WZzRkayDWoNgZNNfO/P6L9qbZb
+	 tx+96BiTOS0SLxMeFzn71n1LBC46Gcji3Dt84L0ySNF2t/E0qhDEGqLFSEJdi+oMbq
+	 7vwIT3idtOyr3LO8L0dC580q0yO0B4joAY0sPvqo4EdVOTPL1ljGbR5sHOC+z47xwb
+	 lCUZ4FNwmd7nA==
+Message-ID: <a352539e-13a2-44f2-802c-f92747115732@kernel.org>
+Date: Wed, 7 Jan 2026 13:37:00 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b2cf8a59-a8bc-405c-8b7e-78805d0b4502@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 5/5] arm64: dts: qcom: sdm670-google-sargo: add imx355
+ front camera
+To: Richard Acayan <mailingradian@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Tianshu Qiu <tian.shu.qiu@intel.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Robert Mader <robert.mader@collabora.com>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ David Heidelberg <david@ixit.cz>, phone-devel@vger.kernel.org
+References: <20260107043044.92485-1-mailingradian@gmail.com>
+ <EH_uOtpcVsNitfFOqaxIc6mwDxTGSTrk6KihkoFf_tDOuglAxp2x9I70hChJgfC43qZUQKje80MW4gngc29-Mw==@protonmail.internalid>
+ <20260107043044.92485-6-mailingradian@gmail.com>
+From: Bryan O'Donoghue <bod@kernel.org>
+Content-Language: en-US
+In-Reply-To: <20260107043044.92485-6-mailingradian@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Wenmeng,
-
-On Mon, Jan 05, 2026 at 04:14:21PM +0800, Wenmeng Liu wrote:
+On 07/01/2026 04:30, Richard Acayan wrote:
+> The Sony IMX355 is the front camera on the Pixel 3a, mounted in portrait
+> mode. It is connected to CSIPHY1 and CCI I2C1, and uses MCLK2. Add
+> support for it.
 > 
+> Co-developed-by: Robert Mader <robert.mader@collabora.com>
+> Signed-off-by: Robert Mader <robert.mader@collabora.com>
+> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+> ---
+>   .../boot/dts/qcom/sdm670-google-sargo.dts     | 104 ++++++++++++++++++
+>   1 file changed, 104 insertions(+)
 > 
-> On 12/30/2025 7:33 PM, Sakari Ailus wrote:
-> > Hi Wenmeng,
-> > 
-> > On Tue, Dec 23, 2025 at 02:19:18PM +0800, Wenmeng Liu wrote:
-> > > 
-> > > 
-> > > On 12/22/2025 10:16 PM, Dave Stevenson wrote:
-> > > > Hi Wenmeng
-> > > > 
-> > > > On Mon, 22 Dec 2025 at 12:20, Wenmeng Liu <wenmeng.liu@oss.qualcomm.com> wrote:
-> > > > > 
-> > > > > 
-> > > > > 
-> > > > > On 12/22/2025 8:11 PM, Dave Stevenson wrote:
-> > > > > > Hi Wenmeng & Sakari
-> > > > > > 
-> > > > > > On Mon, 22 Dec 2025 at 09:35, Wenmeng Liu <wenmeng.liu@oss.qualcomm.com> wrote:
-> > > > > > > 
-> > > > > > > 
-> > > > > > > 
-> > > > > > > 
-> > > > > > > > > 
-> > > > > > > > > The Arducam IMX577 module requires a longer reset time than the 1000µs
-> > > > > > > > > configured in the current driver. Increase the wait time after power-on
-> > > > > > > > > to ensure proper initialization.
-> > > > > > > > 
-> > > > > > > > Is this somehow specific to the Arducam module? If so, what's there in the
-> > > > > > > > module that requires this?
-> > > > > > > > 
-> > > > > > > 
-> > > > > > > 
-> > > > > > > Yes, This issue occurred on the Arducam 22-pin IMX577 module.
-> > > > > > > I have tried changing the sequence of regulator, reset, and clock, and
-> > > > > > > found that this module must wait a sufficient amount of time after reset
-> > > > > > > before registers can be written (10 ms is a safe duration). This issue
-> > > > > > > did not occur when using other IMX577 modules.
-> > > > > > 
-> > > > > > Is it the probe that fails, or starting streaming?
-> > > > > > 
-> > > > > > Google has found me a datasheet for IMX577 at [1]. I'm hoping you have
-> > > > > > an official datasheet, so do correct the following if that has any
-> > > > > > updates.
-> > > > > > Section 7-2-2 on page 30 for the startup sequence.
-> > > > > > 
-> > > > > > The sequence is meant to be regulators, INCK, and then XCLR. The
-> > > > > > driver does XCLR before clock, so that would appear to be wrong.
-> > > > > > 
-> > > > > > It also states that T6 as the time from XCLR to being able to read the
-> > > > > > version register is min 0.6ms, but T7 as the time before you can send
-> > > > > > "Streaming Commmand" is min 8ms "To complete reading all parameters
-> > > > > > from NVM".
-> > > > > > That would be a difference between probe and start_streaming, although
-> > > > > > admittedly sending the mode and control setup I2C commands will take
-> > > > > > up some of that time.
-> > > > > > 
-> > > > > > Plausibly the other set of modules don't have the NVM programmed and
-> > > > > > hence they are ready sooner. Either way I'd say that does mean the
-> > > > > > driver currently isn't following the defined power up sequence, and
-> > > > > > the patch looks reasonable for IMX577.
-> > > > > > However as this is a shared driver does IMX412 have this restriction
-> > > > > > too? I can't find a datasheet for that one to check. For the sake of
-> > > > > > ~9ms it's not going to make a huge difference though.
-> > > > > > 
-> > > > > >      Dave
-> > > > > > 
-> > > > > > [1] https://en.sunnywale.com/uploadfile/2021/1222/IMX577-AACK-C(Awin).pdf
-> > > > > > 
-> > > > > 
-> > > > > Hi Dave,
-> > > > > 
-> > > > > this issue appears in the write register when streamon
-> > > > > imx412_write_regs.  poweron->streamon.
-> > > > > 
-> > > > > static int imx412_start_streaming(struct imx412 *imx412)
-> > > > > {
-> > > > >            const struct imx412_reg_list *reg_list;
-> > > > >            int ret;
-> > > > > 
-> > > > >            /* Write sensor mode registers */
-> > > > >            reg_list = &imx412->cur_mode->reg_list;
-> > > > >            ret = imx412_write_regs(imx412, reg_list->regs,
-> > > > >                                    reg_list->num_of_regs);
-> > > > >            if (ret) {
-> > > > >                    dev_err(imx412->dev, "fail to write initial registers\n");
-> > > > >                    return ret;
-> > > > >            }
-> > > > > 
-> > > > >            /* Setup handler will write actual exposure and gain */
-> > > > >            ret =  __v4l2_ctrl_handler_setup(imx412->sd.ctrl_handler);
-> > > > >            if (ret) {
-> > > > >                    dev_err(imx412->dev, "fail to setup handler\n");
-> > > > >                    return ret;
-> > > > >            }
-> > > > > 
-> > > > >            /* Delay is required before streaming*/
-> > > > >            usleep_range(7400, 8000);
-> > > > > 
-> > > > >            /* Start streaming */
-> > > > >            ret = imx412_write_reg(imx412, IMX412_REG_MODE_SELECT,
-> > > > >                                   1, IMX412_MODE_STREAMING);
-> > > > >            if (ret) {
-> > > > >                    dev_err(imx412->dev, "fail to start streaming\n");
-> > > > >                    return ret;
-> > > > >            }
-> > > > > 
-> > > > >            return 0;
-> > > > > }
-> > > > >    > but T7 as the time before you can send "Streaming Commmand" is min 8ms "
-> > > > > I think the usleep_range(7400, 8000) represents the 8ms duration
-> > > > > required by T7.
-> > > > 
-> > > > I'd missed that one.
-> > > > If you've delayed for 10-12ms between coming out of reset and sending
-> > > > the first command, then does the Arducam module still require another
-> > > > 8ms here, or can that be removed as you've already complied with T7?
-> > > > 
-> > > > Have you asked Arducam as to why their module takes longer? I can't
-> > > > find an IMX577 module listed on their product pages so presumably it's
-> > > > discontinued. There are a few links for a Luxonis Oak DepthAI board
-> > > > [1] which is made by Arducam and is using IMX577, so is it that one?
-> > > > Generally I've not encountered an issue with Arducam adding any weird
-> > > > delay circuits on their sensor boards.
-> > > > 
-> > > >     Dave
-> > > > 
-> > > > [1] https://shop.luxonis.com/products/oak-ffc-imx577-m12
-> > > > 
-> > > > > Thanks,
-> > > > > Wenmeng
-> > > > > 
-> > > > > 
-> > > 
-> > > Hi Dave,
-> > > 
-> > > Based on my testing, moving usleep_range(7400, 8000); to the beginning of
-> > > the imx412_start_streaming function allows the Arducam IMX577 module to work
-> > > properly. In contrast, other IMX577 sensors do not require this delay. I
-> > > believe this corresponds to the T7 timing requirement. I have not yet
-> > > confirmed this with Arducam, and I plan to compare once I receive another
-> > > type Arducam IMX577 sensor.
-> > 
-> > Thanks for investigating this.
-> > 
-> > Have you checked how long it actually takes elsewhere (where the sensor
-> > works) before the mode related registers are written (and when they start
-> > being written) on systems where it actually works? As I²C writes require
-> > sleeping and depend on a process getting scheduled a large number of times,
-> > this might play a role here.
-> > 
-> > These patches might be useful in sensor drivers at large (but won't address
-> > this problem)
-> > <URL:https://git.retiisi.eu/?p=~sailus/linux.git;a=shortlog;h=refs/heads/pm-resume-delay>.
-> > 
-> 
-> Hi Sakari,
-> 
-> Based on my testing, it takes about 6.5ms before the registers become
-> writable. I believe this is not a CCI issue, because I have tested multiple
-> platforms and only the Arducam 22-pin IMX577 shows this problem. This delay
-> seems to correspond to the time required for T7. I made the following
-> changes and ran multiple tests, and this approach works fine:
-> 
-> diff --git a/drivers/media/i2c/imx412.c b/drivers/media/i2c/imx412.c
-> index 459cca36493e..5be698863653 100644
-> --- a/drivers/media/i2c/imx412.c
-> +++ b/drivers/media/i2c/imx412.c
-> @@ -798,6 +798,9 @@ static int imx412_start_streaming(struct imx412 *imx412)
->         const struct imx412_reg_list *reg_list;
->         int ret;
-> 
-> +       /* Delay is required before streaming*/
-> +       usleep_range(7400, 8000);
+> diff --git a/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts b/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
+> index ed55646ca419..ec447fe3959a 100644
+> --- a/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
+> +++ b/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
+> @@ -172,6 +172,34 @@ vreg_s2b_1p05: vreg-s2b-regulator {
+>   		regulator-min-microvolt = <1050000>;
+>   		regulator-max-microvolt = <1050000>;
+>   	};
 > +
->         /* Write sensor mode registers */
->         reg_list = &imx412->cur_mode->reg_list;
->         ret = imx412_write_regs(imx412, reg_list->regs,
-> @@ -814,9 +817,6 @@ static int imx412_start_streaming(struct imx412 *imx412)
->                 return ret;
->         }
+> +	cam_front_ldo: cam-front-ldo-regulator {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "cam_front_ldo";
+> +		regulator-min-microvolt = <1352000>;
+> +		regulator-max-microvolt = <1352000>;
+> +		regulator-enable-ramp-delay = <135>;
+> +
+> +		gpios = <&pm660l_gpios 4 GPIO_ACTIVE_HIGH>;
+> +		enable-active-high;
+> +
+> +		pinctrl-0 = <&cam_front_ldo_pin>;
+> +		pinctrl-names = "default";
+> +	};
+> +
+> +	cam_vio_ldo: cam-vio-ldo-regulator {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "cam_vio_ldo";
+> +		regulator-min-microvolt = <1800000>;
+> +		regulator-max-microvolt = <1800000>;
+> +		regulator-enable-ramp-delay = <233>;
+> +
+> +		gpios = <&pm660_gpios 13 GPIO_ACTIVE_HIGH>;
+> +		enable-active-high;
+> +
+> +		pinctrl-0 = <&cam_vio_pin>;
+> +		pinctrl-names = "default";
+> +	};
+>   };
 > 
-> -       /* Delay is required before streaming*/
-> -       usleep_range(7400, 8000);
-> -
->         /* Start streaming */
->         ret = imx412_write_reg(imx412, IMX412_REG_MODE_SELECT,
->                                1, IMX412_MODE_STREAMING);
+>   &apps_rsc {
+> @@ -392,6 +420,61 @@ vreg_bob: bob {
+>   	};
+>   };
 > 
+> +&camss {
+> +	vdda-phy-supply = <&vreg_l1a_1p225>;
+> +	vdda-pll-supply = <&vreg_s6a_0p87>;
+> +
+> +	status = "okay";
+> +};
+> +
+> +&camss_port1 {
+> +	camss_endpoint1: endpoint {
+> +		clock-lanes = <7>;
+> +		data-lanes = <0 1 2 3>;
+> +		remote-endpoint = <&cam_front_endpoint>;
+> +	};
+> +};
+> +
+> +&cci {
+> +	pinctrl-0 = <&cci1_default>;
+> +	pinctrl-1 = <&cci1_sleep>;
+> +	pinctrl-names = "default", "sleep";
+> +
+> +	status = "okay";
+> +};
+> +
+> +&cci_i2c1 {
+> +	camera@1a {
+> +		compatible = "sony,imx355";
+> +		reg = <0x1a>;
+> +
+> +		clocks = <&camcc CAM_CC_MCLK2_CLK>;
+> +
+> +		assigned-clocks = <&camcc CAM_CC_MCLK2_CLK>;
+> +		assigned-clock-rates = <19200000>;
+> +
+> +		reset-gpios = <&tlmm 9 GPIO_ACTIVE_LOW>;
+> +
+> +		avdd-supply = <&cam_front_ldo>;
+> +		dvdd-supply = <&cam_front_ldo>;
+> +		dovdd-supply = <&cam_vio_ldo>;
+> +
+> +		pinctrl-0 = <&cam_front_default &cam_mclk2_default>;
+> +		pinctrl-names = "default";
+> +
+> +		rotation = <270>;
+> +		orientation = <0>;
+> +
+> +		port {
+> +			cam_front_endpoint: endpoint {
+> +				data-lanes = <1 2 3 4>;
+> +				link-frequencies = /bits/ 64 <360000000>;
+> +				remote-endpoint = <&camss_endpoint1>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+>   &gcc {
+>   	protected-clocks = <GCC_QSPI_CORE_CLK>,
+>   			   <GCC_QSPI_CORE_CLK_SRC>,
+> @@ -490,6 +573,14 @@ &pm660_charger {
+>   	status = "okay";
+>   };
 > 
-> From the perspective of the spec timing, I believe the above modification to
-> the delay position is an acceptable change. What do you think?
-
-Could you also add a comment explaining the issue? Otherwise there are good
-chances someone will (at least try to) "fix" this later on.
-
--- 
-Kind regards,
-
-Sakari Ailus
+> +&pm660_gpios {
+> +	cam_vio_pin: cam-vio-state {
+> +		pins = "gpio13";
+> +		function = "normal";
+> +		power-source = <0>;
+> +	};
+> +};
+> +
+>   &pm660_rradc {
+>   	status = "okay";
+>   };
+> @@ -508,6 +599,12 @@ led-0 {
+>   };
+> 
+>   &pm660l_gpios {
+> +	cam_front_ldo_pin: cam-front-state {
+> +		pins = "gpio4";
+> +		function = "normal";
+> +		power-source = <0>;
+> +	};
+> +
+>   	vol_up_pin: vol-up-state {
+>   		pins = "gpio7";
+>   		function = "normal";
+> @@ -547,6 +644,13 @@ &sdhc_1 {
+>   &tlmm {
+>   	gpio-reserved-ranges = <0 4>, <81 4>;
+> 
+> +	cam_front_default: cam-front-default-state {
+> +		pins = "gpio9";
+> +		function = "gpio";
+> +		drive-strength = <2>;
+> +		bias-disable;
+> +	};
+> +
+>   	panel_default: panel-default-state {
+>   		te-pins {
+>   			pins = "gpio10";
+> --
+> 2.52.0
+> 
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
