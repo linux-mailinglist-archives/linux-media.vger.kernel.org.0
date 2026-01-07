@@ -1,77 +1,77 @@
-Return-Path: <linux-media+bounces-50150-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50151-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06DF1CFE6F4
-	for <lists+linux-media@lfdr.de>; Wed, 07 Jan 2026 15:59:45 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41368CFE691
+	for <lists+linux-media@lfdr.de>; Wed, 07 Jan 2026 15:53:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3FD503095A91
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jan 2026 14:51:56 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A88693067925
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jan 2026 14:52:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59267346AFF;
-	Wed,  7 Jan 2026 14:31:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40691352FB6;
+	Wed,  7 Jan 2026 14:33:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pMZyLATV"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qHtH8alC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED4EC346AE8
-	for <linux-media@vger.kernel.org>; Wed,  7 Jan 2026 14:31:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1116E352F9F
+	for <linux-media@vger.kernel.org>; Wed,  7 Jan 2026 14:33:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767796270; cv=none; b=SOM8Q8VeCbv4WtN7YbFwuqgDjz/rFcVlPPdcYCJWBHzxElNU94yLyrWxNuHdpPoAUjm4DUoGFwkE88cJ7hYmNgERDhp4THtnuMpzPWVSXr85KS3XBXa4gHcz5rwtwIybMDIUqJhY9Zk43Ls4Vk6iagR57hINfHp8/zeL2wude2I=
+	t=1767796404; cv=none; b=Ytf3Ee1I5byD5f42yd1hCfFhEiFQbQe/xZQEva/XlXGCayj+Xkob2IMnXLLXiZB/V0czeCDiliHphIGzkUkkidqL/j22+ZB30WqH18xdkGseWNyQ5ZHDQ9uRumqzbPWJf4AT2PCIzkhFtlHP/0F5w1agSwgVlcJBBFv8Wylxp3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767796270; c=relaxed/simple;
-	bh=D8AxSemiKWwzplSHLSboj4TJDF/1ewd39FU62I//Zww=;
+	s=arc-20240116; t=1767796404; c=relaxed/simple;
+	bh=2bzqlIKsXX9eO3lZgBojgE7dcdQpm//aVw2u08myThA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TjWnni0bJQ2rmfjo9SMYS0ypf2/eCIydmx4uuZoZ/AdLP1cVfNqFD+gijA3uFsysjgZ/RBMmlVuEKINtA5vyyUJY9773BPihWfU6rT0HQhsjGpwOBJI9QeCxe1gEyq/3bxfNJRbDxbZNJvEskEmfeb4NK9M8kRFH2BpiUybN5Qk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pMZyLATV; arc=none smtp.client-ip=209.85.221.53
+	 Content-Type:Content-Disposition:In-Reply-To; b=rHWY7ulxpc+JiePQN8ly1ip6xsjkNCm22ziSEr1wSlLXXXjcyxXkaIuEk89v6kLVIOKvRNiWcJwrnNGW/ZTv7G6OKcl7lmWT1Y+ZDEAjxQ7gMbTNE3RdSu68W2JcJop/mPSlVIXhnqdQUdlFooY8S9GfPkzIqIX2I1GqDwM5z0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qHtH8alC; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43260a5a096so1445256f8f.0
-        for <linux-media@vger.kernel.org>; Wed, 07 Jan 2026 06:31:08 -0800 (PST)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4779ce2a624so17726995e9.2
+        for <linux-media@vger.kernel.org>; Wed, 07 Jan 2026 06:33:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1767796267; x=1768401067; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1767796401; x=1768401201; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0Zk7xXnEuh19gRn4MSw/h56LQt8KgVnQ0vjZH6L/AeM=;
-        b=pMZyLATV1mp70dMhs1wM8FyvwF63r3NqBDbtkvjdk+ycguHwfgy4RbBwe+Pp6DNDiz
-         3AI/wagMF20aGFyEYo2DuE/WhSdCofPlPhDHXVkd/1D805OahOt/eppWNYP6tIDvx7Fy
-         ldOx8WpC80/1rT+qn7V8M25Thdl9+3BRQgPITvdixG9/ApX72DZXJH4oe0YNPsFd3dFn
-         qnVMK7g8I6CRw+bmDJp+JWfkSMq30YWtIZtLHmgOahzRduYhgaksKOVEKggMRn7nIL2r
-         ELt7pxTAgIpvzuuxxI7FXi4JC3jlAsw44vJSNHV8/dZsTdBCRvSxFsQwLU3gZl24h02g
-         cPXQ==
+        bh=ehCzga0f5q0xi43P9nCB2+2oc9tg1sqwri9arZAFlk4=;
+        b=qHtH8alCNALBmwUDnfTi7rVypHeszjuGel3MAfkugPcQLBe2i3g+JbolEdcHZkBjhQ
+         U9jW1+bmQ6lWuCsIJ4xcIyyY/tjARe107PNbLusCFYRS+b1RZgXEk7PCD59ksbT3yMmm
+         /5IuI3b7ZSYJtVDdZlQ2h2rMNHjk/Ji+rHmtbYnIGQaxNJJtkmHktx5b9UvBVWQnQorB
+         487SNM4wlW/i9fDvN+2tXZkAD1At0hyJG2HJZjAvSTzhOUL36vflHA401R2+UOnGLttQ
+         sl8Hibew2UAFZ8dWwBstBSDn3OkelRlwBnqm3VQJ7QU9tLNSxz3fwxusuxJF3PEdPeif
+         DDuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767796267; x=1768401067;
+        d=1e100.net; s=20230601; t=1767796401; x=1768401201;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0Zk7xXnEuh19gRn4MSw/h56LQt8KgVnQ0vjZH6L/AeM=;
-        b=R5F+z0gNMEdVNuG43m+RzCgrRzn8Izwk9lSTugDPGSi8RpRIhDHngISzPitFa+jtHg
-         w1LoT5wWcge1MuLJr2y732QIaVcQEI7CsU9TBtN04na0tbphGy9a9awUQqjg9FWTmrOO
-         Rry2GtVvDL78sng4xojsvKnFqytNrjsZKA5vqjPH+IfoHvOHVZKIodOiEh6ZI4DvMglS
-         RBX6+soa+JFzcMEb81KxNWadNtevJ561D9kPtfDxyVOMiAHPtiaqPSh/XwaMgqaZ1tad
-         7hxN3uW/w6iFdsL5l+kjTmlo24RWS3SAWVR+JSsp9KCXf+SjRvTr66m8JOfUmOTNQJxv
-         or0w==
-X-Forwarded-Encrypted: i=1; AJvYcCUT+cdOVZavpgnFdHTbg5slugcIzWgy1o/bG0eeDqkjmA7PnMWu9HoqDI+DNQ7cvXm6URPGfvQLb4yS6w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGwIeAsi756aCdnknXhfj8LW22GnIf3PVze8n4Xh285sY5oywc
-	MecSVX0LSfA6vf/rBDA7GBoDeRhmZFE6UFtj4Hx6CMMu1yErm2bOCkLOT0LIEskZa3U=
-X-Gm-Gg: AY/fxX4VIIzJG36t1VvNsG5jYdA1NGBxgziwhFBNz423vuLcq3Wb+88mEPqTVmGYntG
-	vThVWVhdufJ9+sWgN2Gbb2fYUim3wN+47AWKAN7URQOR+fEAoOpb/pSMnam7YBqASf5I+wLmP6c
-	cJzsZeyj4u0cohpIWY1jZE4UQHuznYGvUO8K4xMOKYiOD6VQckvcOFe93skJcPn5PxDDwzGPlo+
-	9X6ji4rmV0XSKNHpfzp7KXpd3Vl/16f/OZSyVf5iEbLkZZ5Qr89JpQBTppbeJWwMu4qH+fzP0MT
-	/khgvnH6kUhsOXKBAUn47br3P1/lqBGeDH9URg5PuZ5GbkVRvAc6FzfNrQKSZiMc7vCgcqWzbXw
-	dQVYLxmYtJd96Lk3eQhy3xh3t+ayPJMiPIK0WYiCYw7v3Up+qebTe/EiRpVXFcPbnpQfz2RMuzc
-	uxXFGLg7FrQw6lLHwv
-X-Google-Smtp-Source: AGHT+IGKFvF9bPd/K7p2LRS+DkckL1HEjJZEVJ9c56W23qxdplsmQlw5GknvyXFPwiNFQLGI8KElVg==
-X-Received: by 2002:a05:6000:1acb:b0:430:f879:a0fc with SMTP id ffacd0b85a97d-432c3790b06mr3439013f8f.21.1767796267143;
-        Wed, 07 Jan 2026 06:31:07 -0800 (PST)
+        bh=ehCzga0f5q0xi43P9nCB2+2oc9tg1sqwri9arZAFlk4=;
+        b=CQ2WMExlWHXkzBb/fjWQcvEBkLmEQBBN4cMlASvmsYb/XxLOYB2wbCF8KQ8t3QR/iJ
+         l5K2AD/Aums1bHX0L8Dl8SEvynKwb3iDsRMcdxUNUaNSVx6X4j+0xZkOmYY3VDGSkTLr
+         /yrtHDLFjPCBq5wFzdk86IegMLr6c72ht3DlwzBfYaUDOwNIUiXVv+Zi7RJMMSKIJacx
+         JOITQd/cOtPHFa1sv6FYlBw3ggGRlpxTYtM+2ojDlK4RYdNzUnddH8BpMjk5oYG1Ydth
+         179veFd/3zmT65hqAK2+TPOCz9kn3qE8pAvLoW2ImMQphiZRVhuo5pgwvpFMEP0GKEBh
+         g6Eg==
+X-Forwarded-Encrypted: i=1; AJvYcCV+tgw9tSr/PqH/IYdEFBszaQnrtiloeb3aAaIsYpdCo7i8ifBnE269VbzNs1lIgxWCfnGoLRbrHOU0iQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxaJEw5VVkmoa35IGiUtGkl0p36eHlHQ5NKKFvAoirbD/SykLcI
+	qlotcGLv6AlEZhT7eAZsM/B0uX5XOjSonmqDdgpkfpTpkgvcNYYJEHjBCM4a7cGeR1M=
+X-Gm-Gg: AY/fxX6r20n5iIOZpepkrr9drixR3v8hZ5rMDfmcj72MS6ehtz7JWGsAF5IWECkesXK
+	T8rAHq08OcTHxZirx7qqB5Ny1VORZ1HTk9PnwtW3F09cKwkaYsU1qcj+I6KG5bvIE9DRbFxF2j8
+	lnxr+xUPA2K5bzi9iwBFov2A8G+YMPII8RPJSK0ALiWQ9e75rsTydaAxDKqQMGvuWHB8qcwcfr6
+	spLda4JpkIGncegdO3KTaDix4NS3omJn+joJ59bFig3FZ4x74ZJ2S/9kJERAkHJVNOmfRvqc44a
+	X23q94a1OezGa4sfpDl7nlU6wOzQg3+wA2EjUVIrRJFACGGXU87AG2wb4hsKMqhMGzS1OID79nw
+	p98LWWE5pTkXtSwBe5b3QZsF1P5y8IokMeMyho5voDZZUOt/DLOTu36T2HDeDYcXpvuWOqgyR3e
+	jojAGdSr6Hjg7msl3g
+X-Google-Smtp-Source: AGHT+IHkgW927iPiW7zVWJf1VnqJUxtlpbfccw9OxZ6+AFkNdl4ava7yOMMQmuHv9ZI+fg8GpAmGDQ==
+X-Received: by 2002:a05:600c:4692:b0:47d:3ead:7439 with SMTP id 5b1f17b1804b1-47d84b5403dmr31430905e9.37.1767796401195;
+        Wed, 07 Jan 2026 06:33:21 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd5df8besm10132548f8f.26.2026.01.07.06.31.06
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d7f653cd6sm106370605e9.9.2026.01.07.06.33.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jan 2026 06:31:06 -0800 (PST)
-Date: Wed, 7 Jan 2026 17:31:03 +0300
+        Wed, 07 Jan 2026 06:33:20 -0800 (PST)
+Date: Wed, 7 Jan 2026 17:33:17 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Karthikey D Kadati <karthikey3608@gmail.com>
 Cc: Hans de Goede <hansg@kernel.org>,
@@ -79,12 +79,12 @@ Cc: Hans de Goede <hansg@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 RESEND v2 2/3] media: atomisp: consolidate statistics
- buffer allocation
-Message-ID: <aV5uJ-bB6wQcq3s6@stanley.mountain>
+Subject: Re: [PATCH v2 RESEND v2 3/3] media: atomisp: propagate errors from
+ ISP xnr and IRQ enable
+Message-ID: <aV5urWWGzYlZr3lo@stanley.mountain>
 References: <81e2d12c-342b-4b88-88a0-3e24115541aa@kernel.org>
  <20260107134844.68074-1-karthikey3608@gmail.com>
- <20260107134844.68074-3-karthikey3608@gmail.com>
+ <20260107134844.68074-4-karthikey3608@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -93,72 +93,21 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260107134844.68074-3-karthikey3608@gmail.com>
+In-Reply-To: <20260107134844.68074-4-karthikey3608@gmail.com>
 
-On Wed, Jan 07, 2026 at 07:18:43PM +0530, Karthikey D Kadati wrote:
-> Refactor atomisp_alloc_css_stat_bufs() to use a new helper function
+On Wed, Jan 07, 2026 at 07:18:44PM +0530, Karthikey D Kadati wrote:
+> Propagate the return value of atomisp_css_capture_enable_xnr() in
 > 
-> atomisp_alloc_stat_bufs_list().
+> atomisp_xnr().
 > 
-> This reduces code duplication for allocating 3A, DIS, and metadata
+> Also check the return value of atomisp_css_irq_enable() and log an
 > 
-> buffers and centralizes the allocation loop logic.
+> error once using dev_err_once() to avoid flooding dmesg.
 > 
-> The helper returns -ENOMEM on failure, triggering the existing
-> 
-> cleanup path in the caller which correctly frees any partially
-> 
-> allocated lists.
-> 
-> Signed-off-by: Karthikey D Kadati <karthikey3608@gmail.com>
-> ---
->  .../staging/media/atomisp/pci/atomisp_ioctl.c | 123 ++++++++++++------
->  1 file changed, 81 insertions(+), 42 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> index 5c0a1d92b..9e572b3e6 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> @@ -678,13 +678,78 @@ static int atomisp_g_fmt_cap(struct file *file, void *fh,
->  	return atomisp_try_fmt_cap(file, fh, f);
->  }
->  
-> +static int atomisp_alloc_stat_bufs_list(struct atomisp_sub_device *asd,
-> +					u16 stream_id,
-> +					struct list_head *buf_list,
-> +					int count,
-> +					enum ia_css_buffer_type type)
-> +{
-> +	struct atomisp_s3a_buf *s3a_buf;
-> +	struct atomisp_dis_buf *dis_buf;
-> +	struct atomisp_metadata_buf *md_buf;
-> +
-> +	while (count--) {
-> +		switch (type) {
-> +		case IA_CSS_BUFFER_TYPE_3A_STATISTICS:
-> +			s3a_buf = kzalloc(sizeof(*s3a_buf), GFP_KERNEL);
-> +			if (!s3a_buf)
-> +				return -ENOMEM;
-> +
-> +			if (atomisp_css_allocate_stat_buffers(asd,
-> +							      stream_id,
-> +							      s3a_buf,
-> +							      NULL,
-> +							      NULL)) {
-> +				kfree(s3a_buf);
-> +				return -ENOMEM;
-> +			}
 
-The caller doesn't propogate the error code either so this doesn't
-affect runtime, but generally we should propogate error codes.
-
-	ret = atomisp_css_allocate_stat_buffers();
-	if (ret) {
-		kfree(s3a_buf);
-		return ret;
-	}
-
-Same later as well...
+Leave off the "to avoid flooding dmesg" because otherwise it makes it
+sound like we were flooding dmesg before.  Just say:  "Also print an
+error message if atomisp_css_irq_enable() fails".
 
 regards,
 dan carpenter
