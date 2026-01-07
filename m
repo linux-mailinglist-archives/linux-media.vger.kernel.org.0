@@ -1,213 +1,160 @@
-Return-Path: <linux-media+bounces-50112-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50113-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3723CFD1FD
-	for <lists+linux-media@lfdr.de>; Wed, 07 Jan 2026 11:12:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3237DCFD215
+	for <lists+linux-media@lfdr.de>; Wed, 07 Jan 2026 11:15:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B99E93014AEB
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jan 2026 10:08:09 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BB12430A2E69
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jan 2026 10:10:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEDDD306486;
-	Wed,  7 Jan 2026 10:08:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90EB1311953;
+	Wed,  7 Jan 2026 10:10:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Ypk1jSHw";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Une8yqh+"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="G2ErqJiy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E67FA305E05
-	for <linux-media@vger.kernel.org>; Wed,  7 Jan 2026 10:08:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF88B306B25;
+	Wed,  7 Jan 2026 10:10:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767780486; cv=none; b=hTqH7fQaXI7A4FSN9vnVFN38A+/kfhykRJkMtGQrhZMu8QNx3LJAHlivvInbqY33EtHErB8LGIg57YuTXTUEowIia8m7Nn8/zon8nxDZF5lstYjDp9W7pi7vzcatnp1MfbuEdVyuV5TRLBuLnle//pDH1SRsSL7Obofo674emGo=
+	t=1767780618; cv=none; b=qNjQCU9yDm1JaXQjNPB4AYze3yda+1LuDFiDsUBsO1C/yNummJF2KdBbPHgEXulkPtvnDnr231+fcm1q1jGPmX31RdMru0Aj9snn2+mp6Erzmw7eZLxDGy8qnUOZvU4VK3odycIWBEwFUWXOe1eCsTiFKz/tlzAGTOd6B54Vl3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767780486; c=relaxed/simple;
-	bh=L69VkYdJmsTIClgxVnQFqU6KGnt9Tyfdb9oAJudyy7o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i1b0h4UhtyMnC2cUku8+znKveRP0x9mPtUFwCXtBqt7bfxD7wKBXBg2jo3BIxVlDBD6N0yobNZkLOissot6lGSVSQoADJqnzGRIgDyqARb0j/4LPQAbgI3JePM7wcG9foWz09MBCXRBwyF8qRwiQPsAb8blaIpr3U2B2BQvHj1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Ypk1jSHw; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Une8yqh+; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6078dvbF2578076
-	for <linux-media@vger.kernel.org>; Wed, 7 Jan 2026 10:08:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	iCZy5ZimfodLcwbOaVLFHW7iZbjkqH8ixo5lKjkcUd8=; b=Ypk1jSHwl/b00Pfk
-	2AOrICYvkLZD5SxoBmRjodjR59meIdRymT11tyO6PLPzHHDfYptjq25kVnf17a3t
-	vm58JPvgWMlm5At1d3rhW0pgnN3QgWSPFl7tzpUIFoDK5QhId7dmn0VCxefXqyaj
-	2+Jnm+kW2OuX5V0PjyYiunkEg7aQVeBv7zbNO0T2MW5B6X8pOlLG6+KNqZflbqgK
-	U2lH/zUfGhrg3D44O/coBCe+B+Al8BWnPNnAXbbbiUtYemzAuIvltnhITH3MRWFv
-	HdP61BcSANtI5mTgQNwGSi1GNT/Q6xs7zuk/sTbVUrbVR+VqKDrQw75NWry0C5F0
-	DQynHA==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bhm6589wb-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 07 Jan 2026 10:08:03 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8b17194d321so285916485a.0
-        for <linux-media@vger.kernel.org>; Wed, 07 Jan 2026 02:08:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1767780483; x=1768385283; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=iCZy5ZimfodLcwbOaVLFHW7iZbjkqH8ixo5lKjkcUd8=;
-        b=Une8yqh+WD/C5bg8CpP3Mzj3aL1KzV/eUx19vWVqyAIIryLD580oqo787wp56Y4JqH
-         HlmpacHF6uogs5ShylLo8EiKyQVQSp8IL5pOrkCgz8TzQ7ETQ6njgzYP7p/CqQsKQBuy
-         tlMm7kAcxOT5Zzx0Ohtn4CJ6J6sxEm/kXRiO9K+eEtxmPHZkP/hgXmyLNuTDaQmv3gyk
-         w/FFiqUpnRwVVWsp79swFrwrOzRVkpvrziQfz0c9KwsE+v+3LiZd5zXpd/WE2UKWZDLF
-         Kx+FhCiU/OBI+ZlT8iyTr/SCcYgKNnnMqGfGYE15yR7UxmkcCvyr47fmXIhAPtinVkji
-         FBPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767780483; x=1768385283;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iCZy5ZimfodLcwbOaVLFHW7iZbjkqH8ixo5lKjkcUd8=;
-        b=oxv2S4qT54jQE/URJc9PBeDAV327zC2DsJ0dXAU5tP+cV4CqAAIWtWsPmmyUext7Fc
-         FopquTq1tUiFpECpK5iawFkIeo1mbuIUiAqDSKiHXc1EH1pNTa8Al7AYv2z7kvCEiFvp
-         UmvnIqvE1cjT6+zvC+WVRDrND7SCZn/yc549tPSpE6ZUjmmDfA4B32F9GCVCEa6QsGap
-         k/JAZocUotDQR7iaynOzSYXvLgClU01xiLfCnTFQqFWZW4TorhKZQVVj6MYa8S7lnaWn
-         20rKUU9/AR9d+1q8xnFV37z0s3xmAQhp0n9EXkq5Jq1hyK9U+I9m0dr0fktmxXytyKTk
-         m68A==
-X-Forwarded-Encrypted: i=1; AJvYcCUHNY6ej8+QmyFrHfe0j3oAKwHawe0k5qtulMl4t8Z4MwXnmXdeGD7O+uaGxMMkgkQPHd3PYD8AOGNYjQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/NtvuYKUsiKOO7Jd7LhAEt6MfXo80g20PK2G5zH/2R/WzcGic
-	V8TPrft01qqYyCBX0sGzmnD9HYdytvzKstJhlL0uJ1KDYKGY5RN8QpdCnIwxfTBjAoVeuwdL9Q5
-	/wmi34iZwwy+/xpp+iMQutN0z192QDf+bnG2ouUCu5/4lZol60jnm5HBMknRdlSY4FA==
-X-Gm-Gg: AY/fxX5UTreEC1O8lx+W7rFpDy5Mgfkp6x00OD4GqpO61dlXd4h2Pn+h0l2fmvkmkzY
-	jsWp8F3ArXe3NufaiS5Hs7WLy8Eirms2xx00EV8Zs6AETjFyjLLh9DhRHuyavUdoRw91WqwiX+t
-	NZgVpujskSiM+Csush8NGZQaYG0qq4zSAZAKR2AKzN6N6JODn0rZdZmkwp/aPVFdwP6qztVfA1a
-	dFkUWtnTD+DG05rKRJqG8/4jxrEiSwpK/agS9HZClNZJF/ua5B7fd2MZEwb6zrTzt08buTwP2wB
-	VlsPWJpeQ2QnVAIyMa8mY9SbUlAwCG3XWXebHeUO6Kej7ljVISwog6OAW1y8AOpygajppIwpaIV
-	E0mK7e5jjnvQdfovUNNblwIiiOvsiZtgToxEWRwrOXRoZrvZ1so0eCJi6lqoxFrLP6bVZur1x
-X-Received: by 2002:a05:620a:290d:b0:8b2:edc8:13cc with SMTP id af79cd13be357-8c38938b5d4mr225851885a.40.1767780483223;
-        Wed, 07 Jan 2026 02:08:03 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEYzNjbE4AMTRaewbQHl+ZKSYZkDqR+2I4qrIYfJq5OvqY9hClxKzkE7h9e9jyTqreaqFI0Xw==
-X-Received: by 2002:a05:620a:290d:b0:8b2:edc8:13cc with SMTP id af79cd13be357-8c38938b5d4mr225848585a.40.1767780482751;
-        Wed, 07 Jan 2026 02:08:02 -0800 (PST)
-Received: from [10.38.247.225] (Global_NAT1_IAD_FW.qualcomm.com. [129.46.232.65])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c37f540650sm347290185a.47.2026.01.07.02.07.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Jan 2026 02:08:02 -0800 (PST)
-Message-ID: <674b8615-dcd3-4ae8-8433-cda6e8347048@oss.qualcomm.com>
-Date: Wed, 7 Jan 2026 18:07:54 +0800
+	s=arc-20240116; t=1767780618; c=relaxed/simple;
+	bh=KOzFr3CAfSgNpnDPdkCG81xM9fUQ94llU5hQD+SKDg8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=NwzFiwwOKRbcRimzVLHP/D3GBI8PgA7u7W1rUtA6sL32cSbkAl8nTtHw6twgdp9k4D39eXqvraYowa+86h17IosJKt5443ANUSvqZiVwhY8XFQG5IcFue5pUwAcv1wh3MdBOkViXcqGB9EWKPOqPMfaxbEweTP11MR8Oypfk8qM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=G2ErqJiy; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1767780614;
+	bh=KOzFr3CAfSgNpnDPdkCG81xM9fUQ94llU5hQD+SKDg8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=G2ErqJiyQSsdoSvIgcd8EM4c2V6NxbkKALYOGcFNMIbSN7v/l3w/AtNmEO//YQNXr
+	 0uVBAlSbS2grRYsyuiu+zhWp98tglpVSM3vDLPyve1bo38/ml0YekryEboVc9eCDD9
+	 /U/hMZPfFEKyUrJNRWMNE993M1wUSFUcH0QQmvOeT89LUy5mLv0LyZBbn86UyHtRU8
+	 +TaEMGYXcjyCcw6DbF/Y0sHddJrlx6CPi86p9sr3enDvd8cQVE8gPgz1BUs9P1TFCB
+	 kdpQ2LVsvCVu/tnGF+uvno8anKnfAqeyxf7oFm+4kldpW/pmBn7YJI1W939pvFaAT9
+	 DGoMYzy57BUmg==
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:7e36:2305:d47f:6e43])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 5D1E617E1146;
+	Wed,  7 Jan 2026 11:10:14 +0100 (CET)
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: joro@8bytes.org,
+	will@kernel.org,
+	robin.murphy@arm.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	heiko@sntech.de,
+	nicolas.dufresne@collabora.com,
+	p.zabel@pengutronix.de,
+	mchehab@kernel.org
+Cc: iommu@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-media@vger.kernel.org,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v11 0/7] Add support for Verisilicon IOMMU used by media
+Date: Wed,  7 Jan 2026 11:09:50 +0100
+Message-ID: <20260107101005.84039-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] dt-bindings: i2c: qcom-cci: Document sm6150
- compatible
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Loic Poulain <loic.poulain@oss.qualcomm.com>,
-        Robert Foss <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-        linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-References: <20260106-sm6150_evk-v2-0-bb112cb83d74@oss.qualcomm.com>
- <20260106-sm6150_evk-v2-1-bb112cb83d74@oss.qualcomm.com>
- <20260107-tungsten-barracuda-of-management-5edb0b@quoll>
- <6a74e675-b011-4e1d-860c-4c3232beb2a2@oss.qualcomm.com>
- <7fc7c14c-a305-422e-8755-22e7c28bcfb3@kernel.org>
-Content-Language: en-US
-From: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
-In-Reply-To: <7fc7c14c-a305-422e-8755-22e7c28bcfb3@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=XpL3+FF9 c=1 sm=1 tr=0 ts=695e3083 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
- a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=tqjSdkmDS9pqd0uHxZsA:9 a=QEXdDO2ut3YA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-ORIG-GUID: G9k0AGfbdmfBYKZLnikVRIzIPu8dvQqv
-X-Proofpoint-GUID: G9k0AGfbdmfBYKZLnikVRIzIPu8dvQqv
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTA3MDA4MSBTYWx0ZWRfX6aK1UwI6Paxo
- cPmrdYhzrxXb0iBPOcvqdk+HmxV0zynI1/yz2NFX/CWoYSYwgAR3Wrnfa8uYeBxY4xj/6w94oP+
- 5y7AUiLRQLLtFd2fkfT6qe7E8vPpQPwedwo5n7jb7PMHcHyzHEjjuRzj+DVetBuehR015nScpdb
- MoDKxUUNqKlZVCnqU/zOE6VEr4vYegWcfQa/jCKk6vBUiRBWjqC1SxrGsWZQFvmmKkHHq84QVNf
- OtPa47o5rZk+kSQSCUPLrCOcvrxwI/KkwnuRTe52yWbwuMfzsJvkDAU567YqLixyTcY1loOhL5w
- GoiXiyPgW3u7ZZLktvrOIHaD5U3PmlHfHV2s5dqYVMkSJyBxx6O63HNqBjYOS4SOJuhIetpVTQT
- wjqebfUNbE2FbQv7ph+a0OIlqxgEsRA7ZsvQ0D/+O8+G6PeN0TcQi1/vH1YfbMp79JKngr6PgYc
- JSb+IULx0ADTYbHDW5A==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-06_03,2026-01-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0 clxscore=1015 suspectscore=0 priorityscore=1501
- adultscore=0 spamscore=0 impostorscore=0 lowpriorityscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601070081
+Content-Type: text/plain; charset=y
+Content-Transfer-Encoding: 8bit
 
+Hi all,
 
+This patch series adds support for the Verisilicon IOMMU, which is found
+in front
+of hardware encoder and decoder blocks in several SoCs using Verisilicon
+IP. 
+A first implementation of this IOMMU is available on the Rockchip RK3588
+SoC.
 
-On 1/7/2026 4:34 PM, Krzysztof Kozlowski wrote:
-> On 07/01/2026 09:17, Wenmeng Liu wrote:
->>
->>
->> On 1/7/2026 4:00 PM, Krzysztof Kozlowski wrote:
->>> On Tue, Jan 06, 2026 at 05:39:53PM +0800, Wenmeng Liu wrote:
->>>> +  - if:
->>>> +      properties:
->>>> +        compatible:
->>>> +          contains:
->>>> +            enum:
->>>> +              - qcom,sm6150-cci
->>>> +    then:
->>>> +      properties:
->>>> +        clocks:
->>>> +          minItems: 3
->>>> +          maxItems: 3
->>>> +        clock-names:
->>>> +          items:
->>>> +            - const: soc_ahb
->>>
->>> Same question as before. I did not see any resolution of this in
->>> changelog or commit msg.
->>>
->> Will update commit msg in next version:
->>
->> For this platform, it uses soc_ahb instead of camnoc_axi.
-> 
-> That was not my question from v1. AHB and AXI are both bus clocks,
-> meaning for this device the same. You again name the clocks how you
-> called them in clock controller which is wrong. You name here CLOCK
-> INPUTS. What is the role of this clock FOR THIS DEVICE?
-> 
-> I already asked to pay attention to this difference.
-> 
-> Best regards,
-> Krzysztof
+Rockchip provides a driver for this hardware in their 6.1 kernel branch:
+https://github.com/rockchip-linux/kernel/blob/develop-6.1/drivers/iommu/rockchip-iommu-av1d.c
 
-Ok, i got it, just feel a bit confused.
+This series includes:
+- a new binding for the Verisilicon IOMMU
+- a driver implementation
+- DT updates for RK3588
 
-+			clocks = <&camcc CAM_CC_SOC_AHB_CLK>,
-+				 <&camcc CAM_CC_CPAS_AHB_CLK>,
-+				 <&camcc CAM_CC_CCI_CLK>;
-+			clock-names = "camnoc_axi",
-+				      "cpas_ahb",
-+				      "cci";
+The driver was forward-ported from Rockchip’s 6.1 implementation, 
+the prefix was renamed to vsi for generality, and several fixes were
+applied.
 
+AV1 decoding was tested using the stateless VPU driver and Fluster.
+The test results show a score of 205/239, which confirms that no
+regressions
+were introduced by this series.
 
-	clocks = <&camcc CAM_CC_SOC_AHB_CLK>,
-	clock-names = "camnoc_axi";
+Feedback and testing welcome.
 
-If this is acceptable, I will update it this way in the next version.
+changes in version 11:
+- Fix dependency issue when decoder driver is build as module.
 
-Thanks,
-Wenmeng
+changes in version 10:
+- Update vsi_iommu_identity_attach() and vsi_iommu_attach_device()
+  prototypes.
+- Fix build as module issue when Verisilicon video decoder is built-in.
+- Rebase on master branch.
+
+changes in version 9:
+- removing blanks lines.
+
+changes in version 8:
+- Add myself in MAINTAINERS file.
+- Add API to restore VSI iommu context from decoder driver
+- Fix reported checkpatch issues: add comment in pinlock_t declaration
+  and remove blank line.
+- Include board name in defconfig patch commit message
+
+changes in version 7:
+- fix locking issues.
+- add a patch in AV1 video decoder to manage per context iommu domain.
+- fix compilation issues when build as module.
+- remove useless "rockchip,rk3588-av1-iommu" compatible in driver code.
+
+Benjamin Gaignard (7):
+  dt-bindings: vendor-prefixes: Add Verisilicon
+  dt-bindings: iommu: verisilicon: Add binding for VSI IOMMU
+  iommu: Add verisilicon IOMMU driver
+  MAINTAINERS: Add entry for Verisilicon IOMMU driver
+  media: verisilicon: AV1: Restore IOMMU context before decoding a frame
+  arm64: dts: rockchip: Add verisilicon IOMMU node on RK3588
+  arm64: defconfig: enable Verisilicon IOMMU for Rockchip RK3588
+
+ .../bindings/iommu/verisilicon,iommu.yaml     |  71 ++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ MAINTAINERS                                   |   8 +
+ arch/arm64/boot/dts/rockchip/rk3588-base.dtsi |  11 +
+ arch/arm64/configs/defconfig                  |   1 +
+ drivers/iommu/Kconfig                         |  11 +
+ drivers/iommu/Makefile                        |   1 +
+ drivers/iommu/vsi-iommu.c                     | 808 ++++++++++++++++++
+ .../verisilicon/rockchip_vpu981_hw_av1_dec.c  |  15 +
+ include/linux/vsi-iommu.h                     |  21 +
+ 10 files changed, 949 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/iommu/verisilicon,iommu.yaml
+ create mode 100644 drivers/iommu/vsi-iommu.c
+ create mode 100644 include/linux/vsi-iommu.h
+
+-- 
+2.43.0
 
 
