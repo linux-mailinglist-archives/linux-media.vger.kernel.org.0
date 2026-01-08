@@ -1,131 +1,128 @@
-Return-Path: <linux-media+bounces-50221-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50223-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96280D021F1
-	for <lists+linux-media@lfdr.de>; Thu, 08 Jan 2026 11:31:43 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id B57B1D0202E
+	for <lists+linux-media@lfdr.de>; Thu, 08 Jan 2026 11:06:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id AB935334873C
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jan 2026 09:48:22 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id ACBCB30060F4
+	for <lists+linux-media@lfdr.de>; Thu,  8 Jan 2026 10:05:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C42D2347BB9;
-	Thu,  8 Jan 2026 08:50:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 750E73B5300;
+	Thu,  8 Jan 2026 09:41:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kvo4+A9E"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MqWxwzDk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 413DE345CBF;
-	Thu,  8 Jan 2026 08:49:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2968F3C26F8
+	for <linux-media@vger.kernel.org>; Thu,  8 Jan 2026 09:40:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767862198; cv=none; b=HFhYSh9FU/v0WYB5a+2sVmFE7pKBBc+Hz+yK7lplYKhsjwgwK9P+5YVHIi92Cq2e7BGjSffdh/4+7mPXGTAcTcR3ihHy1UPPg34RHZS9c5uMWVlo0FbssYF1Sqp8NKcj/vyb63JX7xeLU3SkY6P33euVQUS/OF945E+4DRKxvos=
+	t=1767865255; cv=none; b=iXTPlPngUefeiOtlYWuJFzisMR5QuN7qMyMBQy2enQE9tkNci83UDpyFQv1YN0eA3HeCtQA3x0Xg64oMaXbIk05pE2DF9XlQDT6S3URW1y4+a57LAKQnRfxaQiAaWoTUdkgDrHzVgPyiFRaFk3ozSVBM+P58i6c2JHmNzng53Nc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767862198; c=relaxed/simple;
-	bh=CcP4M2fIfl+Zsp6RV9ovc01tuBG8/9NSa6NmSQfTg1k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tKWiT7aaC7ajXQTm2UlDo1+vuoZkeg8QD0qCTAU+q4J+8kBBCDSnR1cBJae/TQWMlRpjR8HQNHTT+Y3F3kv+xLleGDjNEI/2eDIOYdpIPVmNPll6BCryBv6SwK0gC53cCWClOkf1scdf5rUDlhGOwBI9NqdzsflZGKHkodZ8GQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kvo4+A9E; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767862192; x=1799398192;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CcP4M2fIfl+Zsp6RV9ovc01tuBG8/9NSa6NmSQfTg1k=;
-  b=kvo4+A9EGzPc6PoOfEuCcIVni2UF8A9alZSsKz9AUIqGJpArG+orCPs4
-   XjZ+LJwTo/PuwzelQJZxc3ConlhLsdad+IVEAf7cVoGU1D0qES5XlG5Pp
-   y5CZtswWTvvSI0su9pOdbnITyRRh8N5fz9yb0WCEM5FGs7GbMVOyC1D+I
-   FgBlJub73kdmAnKQvn1mlWyAv0AEOu6LbTGz8qtXwMItWIkR7+mUpw0YX
-   Xh7+9YWROd4Zofl0cmDG/LwgRoynaFVd4UPefHE+gvXChucwxvnrj876B
-   9ABvbsKYh8DTdTK3SvmtPNUN60izWtieTdCtSE54JUIOqZaa/tEWuuRbT
-   g==;
-X-CSE-ConnectionGUID: lTXgdfn8ThCFZPV0vHzb1A==
-X-CSE-MsgGUID: 46B3koi9QhatX/fhy9/pSQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="94703795"
-X-IronPort-AV: E=Sophos;i="6.21,210,1763452800"; 
-   d="scan'208";a="94703795"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 00:49:44 -0800
-X-CSE-ConnectionGUID: 6esznvGJRZmfIhuOnwI7nw==
-X-CSE-MsgGUID: ehJ8enqqToaAnlafOQd48Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,210,1763452800"; 
-   d="scan'208";a="203208075"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa008.jf.intel.com with ESMTP; 08 Jan 2026 00:49:40 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 072FB98; Thu, 08 Jan 2026 09:49:39 +0100 (CET)
-Date: Thu, 8 Jan 2026 09:49:39 +0100
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: "Luck, Tony" <tony.luck@intel.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Chris Li <sparse@chrisli.org>, Eric Biggers <ebiggers@kernel.org>,
-	Kees Cook <kees@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
-	Rusty Russell <rusty@rustcorp.com.au>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	"linux-modules@vger.kernel.org" <linux-modules@vger.kernel.org>,
-	Malcolm Priestley <tvboxspy@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>
-Subject: Re: [PATCH 3/3] module: Add compile-time check for embedded NUL
- characters
-Message-ID: <aV9vo7_turBr84bs@black.igk.intel.com>
-References: <SJ1PR11MB6083C6D97484ED4E4710268EFCA3A@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <aThSGiKwJRYOB6kx@agluck-desk3>
- <aThqcq0iGge1pQCr@agluck-desk3>
- <20251210010020.GA2522829@google.com>
- <aTn0WdVv-S_EpQmS@agluck-desk3>
- <aTqAxfiVCR2ch4I5@stanley.mountain>
- <CABCJKufWw4VQA_k6Deuf5Bn6401cbYv_St8VV_0-LAau6F0nTw@mail.gmail.com>
- <083ebd92-4b3f-47f8-bf0f-395a604b5f05@kernel.org>
- <aUVI9smf2t7PvDF6@stanley.mountain>
- <aUV7kyjxlijuy5sC@agluck-desk3>
+	s=arc-20240116; t=1767865255; c=relaxed/simple;
+	bh=HyxZki6nNfkVhrly9fkFjvuP1iEjFH9IVkZjZbAirVY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pD1AuGObAkr0pho1Qul43KwKsoDCcC/75YbzvvgnLFRyYxRAHv0MLA1RheUtdnnx4cqV70/ysGi7wcvgjFJ1BqvsGpxN4IsO4GTWjGn9ReaGUvf8b7wtj6TvHYNQCLkZXAAbBKuzLv3/WogkrHcUwocrZEqr2nqm46IizR5W5qM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MqWxwzDk; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-34b75fba315so2069798a91.3
+        for <linux-media@vger.kernel.org>; Thu, 08 Jan 2026 01:40:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767865243; x=1768470043; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=s5Sclxc2Sofk/X67T0fLHkI5fsomZW08NQuzmRvsgLw=;
+        b=MqWxwzDkSv0gqZ/lM2VBzOX8YGObJ1CuD+l0p/+g8LZz82eVJ226Jsmy48U3a1cnau
+         DULFbbY3RizJjDTZuu3eXWJEU3y0RxNegqkYRLTxLNA0EgrQOq6M/N+crkkxXPlzFSk9
+         l8igR4IVppJvVIAquoYveFw2yJqruEib9ERX0M4DvqPLNKAJ7qAMFz5Uz7mJPAFclXWh
+         minM/RlFGzTPoWyFJhPr0YfWMWfDs5qAGxCvfnYiMcwyiXW9lNhaKQSsBqJ0BxegZRso
+         npAaCpxpWZN3AUHlFx+jsYfnnGIM2/50zJNW/qFP7zOr0suNOPIy9yzNasuOAAHyaMVq
+         HFcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767865243; x=1768470043;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=s5Sclxc2Sofk/X67T0fLHkI5fsomZW08NQuzmRvsgLw=;
+        b=wfUrvCzOS+JnSBQDrD70/uTr9NsBmtTx5xQAIAy8/AWQm8A4y60i1ampVfzbe4UwQM
+         EkGrVIDbvpchfsZ3J5onBgsPDn2Hv5HF6GGQzoaYQ+UchoBD7L/OEuIKJ+QkOuMlQE9D
+         TAFxRRRvWIvOhmBCWx5oEMu9pIJ9OyGvg+OndttCT4j3Yyjrq/wf6rdWyYy1eHl1s4uY
+         +jc0I9kFDDXvpLqcxQ2R35JB3afQpu8xckP9Z6bBqiBAjlx+t3TGzNjGH4eE02Mn091d
+         DqbmzjTl0ysvYWDuCRXw6rxsNC/XdaG7nlu4lsm6ugaR1RZYejOWyfjs97UmhkLQlgXd
+         f4LA==
+X-Gm-Message-State: AOJu0Yz4884gUE2KkIxdKXwLlPWNmAToBrFOdw9g6EKSmTEeyUHkTL3i
+	XzQ3TInxqA9c7qsZhOkegE9W8wAx38pFqi6v9SSXKxfLpugINIw73CE=
+X-Gm-Gg: AY/fxX66V2n4m0V1L2y9QP7yrisQBrF45hZiUFWiGhzDctjcyjpZFCpkWuoLCDtJWWV
+	KZ1yYc5vTydbHgr0H/L6PTh+EkZG5vyRYa3yE7NfySTd5sU3CqT5oowUCJsWhyR50SlUGMpC3Rb
+	aAb5yt7ndFpbjG5xaAvrmf0zVLQiSX6eegLstSCRHPHsiR1lpLTLyX9voLIZRBipDToEFamfC7d
+	yi79eyBk5oCMlsdNuzQEDv38oHsMUeHzm906D6qluwth02NIxR3va8tqsfcYHqTvb4h9wAyumy2
+	vBSLjcpHqjpiPC74N+04Q5kfRhJ6xbNmopdEp9jlDWiuWvvOUHJNXzve6a5ZWKFTqI7ZtNDnxHg
+	HQuEwk2us39SRj3QVUltMOMpq3UuhTzHNB5TGCH8vBNX9R+6TKRhSaNS2tlgtKXGjdks3BvMMP+
+	thNWULlq7/4d4+fKWi43EIjH/loDcBitMURCC2Kfy3cHMSc4HPImjdcvbNKCWjvGBIhIWhWr5sT
+	SATF5O3
+X-Google-Smtp-Source: AGHT+IGA0UEhRwr63Gu5xiKlrZZ3FbUDz3z1/JjxeBG/PvE4VB4E4W7wD6q3MMuPkLYc91Kof5SjHw==
+X-Received: by 2002:a17:90b:2c84:b0:32e:389b:8762 with SMTP id 98e67ed59e1d1-34f68adb8a1mr4850271a91.0.1767865243137;
+        Thu, 08 Jan 2026 01:40:43 -0800 (PST)
+Received: from DESKTOP-BKIPFGN (ec2-54-169-177-146.ap-southeast-1.compute.amazonaws.com. [54.169.177.146])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34f5fa93ee7sm7333918a91.7.2026.01.08.01.40.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Jan 2026 01:40:42 -0800 (PST)
+From: Kery Qi <qikeyu2017@gmail.com>
+To: mchehab@kernel.org
+Cc: linux-media@vger.kernel.org,
+	Kery Qi <qikeyu2017@gmail.com>
+Subject: [PATCH] media: ttusb-budget: validate DiSEqC msg_len before memcpy (CVE-2014-8884 style)
+Date: Thu,  8 Jan 2026 17:40:33 +0800
+Message-ID: <20260108094033.1650-1-qikeyu2017@gmail.com>
+X-Mailer: git-send-email 2.50.1.windows.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aUV7kyjxlijuy5sC@agluck-desk3>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Fri, Dec 19, 2025 at 08:21:39AM -0800, Luck, Tony wrote:
-> On Fri, Dec 19, 2025 at 03:45:42PM +0300, Dan Carpenter wrote:
-> > On Fri, Dec 12, 2025 at 02:30:48AM +0900, Daniel Gomez wrote:
-> > > Maybe the flag fix just needs to be applied to the evaluation? Other op
-> > > structs do the same. But Dan's patch did not implement evaluate. E.g.:
-> > > 
-> > > static struct symbol_op constant_p_op = {
-> > > 	.evaluate = evaluate_to_int_const_expr,
-> > > 	.expand = expand_constant_p
-> > > };
-> > 
-> > I was waiting for you to send this as a patch.  I can do it if you
-> > need me to.
-> 
-> Al Viro thought this was wrong. His alternative patch is here:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/viro/sparse.git/commit/?id=2634e39bf02697a18fece057208150362c985992
+ttusb_send_diseqc() builds a fixed 12-byte stack buffer and copies
+cmd->msg into it using cmd->msg_len without any bounds check. A crafted
+(or buggy) msg_len can make memcpy() write past the end of the stack
+buffer.
 
-Sparse still is PITA as of today, can we get some fix (Al's or alternative)
-ASAP to be applied and sparse tagged as 0.6.5 so the distros will pack the
-new version, please?
+If this code path is reachable, a local user can trigger the issue via
+the DVB frontend DiSEqC master command ioctl by supplying an oversized
+msg_len.
 
+Fix by rejecting cmd->msg_len values that do not fit into the remaining
+space of the local buffer before calling memcpy(), mirroring the
+defensive check used in the CVE-2014-8884 fix.
+
+Although this appears to be dead/unreachable code today, keep it
+hardened to avoid future regressions.
+
+Signed-off-by: Kery Qi <qikeyu2017@gmail.com>
+---
+ drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c b/drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c
+index 9e016b71aa91..946c763281cf 100644
+--- a/drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c
++++ b/drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c
+@@ -456,7 +456,9 @@ static int ttusb_send_diseqc(struct dvb_frontend* fe,
+ 	b[4] = 0xFF;		/* send diseqc master, not burst */
+ 	b[5] = cmd->msg_len;
+ 
+-	memcpy(b + 5, cmd->msg, cmd->msg_len);
++	if (cmd->msg_len > sizeof(b) - 6)
++		return -EINVAL;
++	memcpy(b + 6, cmd->msg, cmd->msg_len);
+ 
+ 	/* Diseqc */
+ 	if ((err = ttusb_cmd(ttusb, b, 4 + b[3], 0))) {
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.34.1
 
 
