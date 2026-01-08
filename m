@@ -1,124 +1,135 @@
-Return-Path: <linux-media+bounces-50251-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50252-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F029AD05F93
-	for <lists+linux-media@lfdr.de>; Thu, 08 Jan 2026 21:04:31 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 478E7D05FF4
+	for <lists+linux-media@lfdr.de>; Thu, 08 Jan 2026 21:11:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0D5223052A8A
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jan 2026 20:03:40 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E8338302A7AF
+	for <lists+linux-media@lfdr.de>; Thu,  8 Jan 2026 20:11:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9CC832D443;
-	Thu,  8 Jan 2026 20:03:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19E8232D42B;
+	Thu,  8 Jan 2026 20:10:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="A5qyu6IH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hNykH8i+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D76328B43
-	for <linux-media@vger.kernel.org>; Thu,  8 Jan 2026 20:03:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F5843101BF;
+	Thu,  8 Jan 2026 20:10:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767902617; cv=none; b=qQseUwxBJYgPDrQ9xK1/SvXCvlyoBReRTGm14oOFGf3aR4Mc6TD1B6ZA4xbc11Fi/1a71lnf6F76zOSx8FomkBul4YImZ/sPCWC+L3P2Em7ybz4KgNZCJEf3rqirhaCiFoju7/GFnkUapjyua0Lx/7d/8kqd/6Hvy0lvEHjTqf8=
+	t=1767903056; cv=none; b=ff1lI40cmMUn9n0vBFiQ4evd8RjV9Wix5HtZhCSZhJpqCtgVivf5eXS+paDXRPFwu1N+/1V1xkhJPp9yCKDnVkwQu8BHI9+5edVHfXCD3gL6QyiqaBibqWKaIFdnwIpIkkDo6rbd34rwIDXD3ZlkiSL0Rz7z1KEVdFg+CezPjXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767902617; c=relaxed/simple;
-	bh=xW14wuO3rpDunHqMU7wmi3C0CV34THPunsb7vXrsYYk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=g7JXP2rY3x1K3hjQSrgYirWqPEwdHZxO6K7egWPVwRhvyuFBaGBtoONytvA/PYEjDNvPJ1CsAyS5vz9w+HuRMrzfzpCvKuiCwRlMMGtamdesSoHEPvmb/E3uvQYryVvqzVSWrnmwjXXAAMF32eE2dwflhYpvQg77Z3XaxQpXfDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=A5qyu6IH; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-477619f8ae5so28355145e9.3
-        for <linux-media@vger.kernel.org>; Thu, 08 Jan 2026 12:03:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1767902614; x=1768507414; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=U+0IrpcN+V0oqtValorBiZ1wiITEvHQIGq+jybV+6PM=;
-        b=A5qyu6IHAjh3j5QjY1VhAY3yO1sfc1KUyNuIKKeBkeOsWVx7zoO9GKB+fDcQvNGIXE
-         BWs/OtZJ6mdXNGkU1vzDawn74EgHQpn1APPyexKB/EMT2vFqHhF3KHj6ZtZ0l9PXn0LP
-         j/CKjD0QFvnljZZopQiPmIkCDjQLxCyNHdO0LTejCS02g5DE9d9+xVSSR84kabENFK9n
-         sADsdummxNvO+JEhIQVgHTOrHGWI0TAlmIcNzsyrIytCHGRlhTxMAeq1+ftyW5l6Ei06
-         vClD1nDo0Yh0UK7kpQ1c6YqXZxGpilcvCr64Dp4Osk8dlbgJM9dO7vGJ3lB9euan+Jym
-         sgXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767902614; x=1768507414;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=U+0IrpcN+V0oqtValorBiZ1wiITEvHQIGq+jybV+6PM=;
-        b=FeBpYasyQtfWfTCUjDvA9IKaWUTxING/KOJXgwfJ3s2NP50BvVW+FeDj+1iaaPjKnU
-         log06e2uzgpuL+NAC2yl9M5wgNmYj84gjKRESKVyamHiw8xnHg1JqqVRB6YgQbKb6Lyi
-         Liwuv8fJvKFUSrK4INSXQ1PaTwfz7h7Kcvc7xTOK8tXqghIgqiNLvMJYmf+Z8kbtJvlT
-         S0x+xFZA3yg8OO1HwDQuc6XOEuK9db0YVqgOHqFDUZhjkPdHKlsZnMx5smTyAd4PE2LZ
-         66n++C7S1s8Rw+Ro64R4zLSi+i5FiOojXXFnssde8ub5blHB6ZzLUXeabPd1Lcz8aJ0d
-         XO3g==
-X-Forwarded-Encrypted: i=1; AJvYcCXoiqrfQpBZGUcsXC1my2xdoE7sR6RJE9/o6vpq/nHFMATuX4TYbcDXEqFqU/xLtDK8crXXUURLLKyWRg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWL7IDqSrXLHT1OGp83Atygsw9EaW8kPqG4x0C/7D1cY/ZD/k9
-	KZ/Yos2tX6KoEv+kw0NHUPdhiQzlrvatX78OLioCFjREK3qzh5Y4WtLrZFXePmhkNR8=
-X-Gm-Gg: AY/fxX4nnvZPQWbtnrO0hcNk7fj9iUrXuLbrN55dypfoZX7Bg5MzJeBWt8yrWtNOvU+
-	A2e8yXHZ2t9G9YArIC7fcc6/m/hgHbudvuujyJ5jOPx7VF7/nid6fWi7UbNQx/H51AiPbli9SFi
-	dWJmdaoUUN/75Zk2HdYnr/7F2XYSuSx6uZsxDos8k0OZOg3Kl+TMwyQsLB9qVFN/nhHidLnGmIG
-	dqAXRJZQc4UldmzxJaIfOzZOxcB7mu6e7j/3LZy6bKB/tfedTDnZMFS/3lB3H6SdGdscESf9gEd
-	SGFVSkA5xFrKtydAk6rwYrm73XjrmbJN/tjcLZ/Lb3g/GvdI+WKG1IF3Ol7U7Ol+GNqm+qwVqq2
-	LTgtstLtDvYTG+wnBCVBVpS3MQZk0nDtj9QYt8hriJaXwC2xPTwzIsqLWk8ogDt/K1PKeUKg3m8
-	ZirBpUzqaE84HTnfIO
-X-Google-Smtp-Source: AGHT+IF09Jx1RsKf/ckE/pQqCWP+iFQloONpAQuOq6DavbULp1WEe4q21ANMIGV5Sd+vyzTCa2FeOg==
-X-Received: by 2002:a05:600c:450f:b0:479:3a89:121e with SMTP id 5b1f17b1804b1-47d84b614c6mr85847175e9.37.1767902614177;
-        Thu, 08 Jan 2026 12:03:34 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d7f65d9f0sm177083095e9.12.2026.01.08.12.03.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jan 2026 12:03:33 -0800 (PST)
-Date: Thu, 8 Jan 2026 23:03:31 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Shreeya Patel <shreeya.patel@collabora.com>
-Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Dingxian Wen <shawn.wen@rock-chips.com>,
-	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
-	kernel@collabora.com, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: [PATCH] media: synopsys: hdmirx: fix integer overflow in
- hdmirx_get_edid()
-Message-ID: <aWANkxRApxDeReRW@stanley.mountain>
+	s=arc-20240116; t=1767903056; c=relaxed/simple;
+	bh=RMfV9b+DAX0amlCOIjcjIC2wo+5TdsJChTlPQU1feQo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Sh7eSlC8cSeCOmqEa4i+AWbIsGTky/50WlpHHa7679e/d72WPF9563j79z2q9qAQWPnA5uopvho9Ij9smc4PMwXRgdFfXEnftID9nzc89DXbAfLR15F+CFae7IrsMMMC16QW0SasU3zMj4uKs9vFmjMkU1d3Qg3XCvZYnjm4XeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hNykH8i+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBA49C16AAE;
+	Thu,  8 Jan 2026 20:10:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767903056;
+	bh=RMfV9b+DAX0amlCOIjcjIC2wo+5TdsJChTlPQU1feQo=;
+	h=From:Date:Subject:To:Cc:From;
+	b=hNykH8i+8fcVQ7HTWBcQR51XyTPW7BOEiNjrA5LJkNQWL6Ei0VIMHktv15MANNXK5
+	 mmEn9xZfEB8zMiR9nGrA/vKe7ZCX234Tx0hPE5JdFC/h+lNINJDgix4R83ASo/oigT
+	 9f+jlnGPh39onSOHT4GvAlVwySYSlCnlsw6PdEvJT2XtdEwOeCCvWKilHYYTG1Ilmn
+	 l2DhrpRuhSZe0rnxh45T7C9O3x7278K81LjlSfTbCPzlLcouMZ5F3d2i+OFezNFaXu
+	 738GuwtVd6toKHJVswlloCMjKFErXF/A0MIagFaUpmRXs0BJHSQDWjPVpyRZ1mc0Rv
+	 9do6atueBVBfg==
+From: Mark Brown <broonie@kernel.org>
+Date: Thu, 08 Jan 2026 20:08:47 +0000
+Subject: [PATCH] media: synopsys: hdmirx: support use with sleeping GPIOs
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260108-media-synopsys-hdmirx-fix-gpio-cansleep-v1-1-3570518d8bab@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAM8OYGkC/yXNQQrCMBCF4auUWTuQBizVq4iLZDJtR2wSMiotp
+ Xdv1OUHj/9toFyEFa7NBoU/opJiRXtqgCYXR0YJ1WCN7Uxrepw5iENdY8q6Kk5hlrLgIAuOWRK
+ Si/pkzhgu1Puz7ch5hlrLhevo93S7/61v/2B6ffOw7wfPmUsKiwAAAA==
+X-Change-ID: 20260108-media-synopsys-hdmirx-fix-gpio-cansleep-d9c8b526cabe
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+ Heiko Stuebner <heiko@sntech.de>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, Aishwarya.TCV@arm.com, 
+ Robin.Murphy@arm.com, linux-media@vger.kernel.org, kernel@collabora.com, 
+ linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.15-dev-47773
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2449; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=RMfV9b+DAX0amlCOIjcjIC2wo+5TdsJChTlPQU1feQo=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpYA9LqC9OFLEUSTbCmmCbzCXF/GM9xmmJWMckK
+ 5w2euJbRA+JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaWAPSwAKCRAk1otyXVSH
+ 0FlsB/9KHcObLLrD8rcqnmlipdnzefg6yU7vjoSgc8i0CPAtK4nZ1ubKEgpwWcBEzdFDfcjGERZ
+ dEnlVuWp4eQ5bLnb1wGjliS0FEjJiJG5Y8WIeJcTK0BXxxrcEFt03FQe8k5qTkjHAK6UR0Kv1+6
+ UdU/CzmTdjYFCXNIMD3u1ssJml11zGpRTaI0fd0AhuLJ6mB5C7vx+yCdqmih+7wtViQK23O3j8a
+ zf7yLGIqFYIuQQzDn9IfwGMI1Y+DCaPFZ//gcKxRxm/LIzoCoObR3AUcXcD9u3lOjOPjxuqMjAo
+ o/Sm3GUN1ssLAnGaL/T6heYjg+VpXzDDMbXiSdoV1Yb8meWG
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-The "edid->blocks" variable comes from the user via the ioctl.  It's
-a u32 and "edid->start_block" is a u32 too.  The addition operation
-could have an integer wrapping bug, so use the size_add() function to
-prevent that.
+The recent change in 20cf2aed89ac (gpio: rockchip: mark the GPIO
+controller as sleeping) to mark the rockchip GPIO driver as sleeping has
+started triggering the warning at drivers/gpio/gpiolib.c:3523 indicating
+that a sleepable GPIO was called via the non-sleeping APIs on the Rock 5B:
 
-Cc: stable@vger.kernel.org
-Fixes: 7b59b132ad43 ("media: platform: synopsys: Add support for HDMI input driver")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+<4>[   14.699308] Call trace:
+<4>[   14.699545]  gpiod_get_value+0x90/0x98 (P)
+<4>[   14.699928]  tx_5v_power_present+0x44/0xd0 [synopsys_hdmirx]
+<4>[   14.700446]  hdmirx_delayed_work_hotplug+0x34/0x128 [synopsys_hdmirx]
+<4>[   14.701031]  process_one_work+0x14c/0x28c
+<4>[   14.701405]  worker_thread+0x184/0x300
+<4>[   14.701756]  kthread+0x11c/0x128
+<4>[   14.702065]  ret_from_fork+0x10/0x20
+
+Currently the active use of the GPIO is all done from process context so
+can be simply converted to use gpiod_get_value_cansleep(). There is one use
+of the GPIO from hard interrupt context but this is only done so the status
+can be displayed in a debug print so can simply be deleted without any
+functional effect.
+
+Signed-off-by: Mark Brown <broonie@kernel.org>
 ---
- drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
 diff --git a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
-index c3007e09bc9f..f054e30cbfb0 100644
+index c3007e09bc9f..1eaa25efee21 100644
 --- a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
 +++ b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
-@@ -717,7 +717,7 @@ static int hdmirx_get_edid(struct file *file, void *fh, struct v4l2_edid *edid)
- 	if (edid->start_block >= hdmirx_dev->edid_blocks_written || !edid->blocks)
- 		return -EINVAL;
+@@ -230,7 +230,7 @@ static bool tx_5v_power_present(struct snps_hdmirx_dev *hdmirx_dev)
  
--	if (edid->start_block + edid->blocks > hdmirx_dev->edid_blocks_written)
-+	if (size_add(edid->start_block, edid->blocks) > hdmirx_dev->edid_blocks_written)
- 		edid->blocks = hdmirx_dev->edid_blocks_written - edid->start_block;
+ 	for (i = 0; i < 10; i++) {
+ 		usleep_range(1000, 1100);
+-		val = gpiod_get_value(hdmirx_dev->detect_5v_gpio);
++		val = gpiod_get_value_cansleep(hdmirx_dev->detect_5v_gpio);
+ 		if (val > 0)
+ 			cnt++;
+ 		if (cnt >= detection_threshold)
+@@ -2204,10 +2204,6 @@ static void hdmirx_delayed_work_res_change(struct work_struct *work)
+ static irqreturn_t hdmirx_5v_det_irq_handler(int irq, void *dev_id)
+ {
+ 	struct snps_hdmirx_dev *hdmirx_dev = dev_id;
+-	u32 val;
+-
+-	val = gpiod_get_value(hdmirx_dev->detect_5v_gpio);
+-	v4l2_dbg(3, debug, &hdmirx_dev->v4l2_dev, "%s: 5v:%d\n", __func__, val);
  
- 	memcpy(edid->edid, hdmirx_dev->edid, edid->blocks * EDID_BLOCK_SIZE);
--- 
-2.51.0
+ 	queue_delayed_work(system_unbound_wq,
+ 			   &hdmirx_dev->delayed_work_hotplug,
+
+---
+base-commit: 9ace4753a5202b02191d54e9fdf7f9e3d02b85eb
+change-id: 20260108-media-synopsys-hdmirx-fix-gpio-cansleep-d9c8b526cabe
+
+Best regards,
+--  
+Mark Brown <broonie@kernel.org>
 
 
