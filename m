@@ -1,99 +1,174 @@
-Return-Path: <linux-media+bounces-50234-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50235-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5B10D03146
-	for <lists+linux-media@lfdr.de>; Thu, 08 Jan 2026 14:37:37 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5B34D03916
+	for <lists+linux-media@lfdr.de>; Thu, 08 Jan 2026 15:54:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 40E29306EC18
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jan 2026 13:30:00 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id B1BE83018341
+	for <lists+linux-media@lfdr.de>; Thu,  8 Jan 2026 14:50:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0943A481A80;
-	Thu,  8 Jan 2026 13:29:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4E0D44DB86;
+	Thu,  8 Jan 2026 13:57:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="aTnFmhZ0"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iMXshUmD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94650481654;
-	Thu,  8 Jan 2026 13:29:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E896A3EF0C0;
+	Thu,  8 Jan 2026 13:57:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767878995; cv=none; b=t/Zw8wxD60AIyq1ulxGboRj2YzOc5keLYiXl5cC5BZGTG784Ybun5HcikC+l7pEavxrHniut6R243Npodb33L+E56tefJFknWgvSFp8r71dWU4Miw98/J8E9m6MAIxBCiyndVnKITvGRQH3dBh4bslDOvB2zIgPfioXFelR4Hqw=
+	t=1767880640; cv=none; b=PQrw6OG8N9nde/lXMy4hv7YakOkXuK1MxyMRBkFUQb46j74MB0kwgKHO5MuuNGOJp9qf3tbNi+NoZAyXgP36OlICE74QCQ/OPXjGjNusj146J89mLQ/p+0hTgLOP7/InJ+ZDr/IqpHXj+4YIBFFxYmhLvEcOB6FZqgieiQiQ644=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767878995; c=relaxed/simple;
-	bh=sIlDWrOUP2JFRN9/cVJwfUTM671Pu56/TH4sEK7QQsI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nt/RlFjdm27Gf2QKqBONVvWPJO8WRgb0ynFahVo+5/4Ts3UgkDxox1uWGXxXL6Oddzf9v5i25jJR2OEjymjWxgf+pvnjWJKftmAEEmr1XTEB/ZVHfbwe59WdXkKWLfvaiyD/xS4Ucs4t0RLJAEBTeDNBXsVfDhxI6LaXmsjOMEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=aTnFmhZ0; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1767878991;
-	bh=sIlDWrOUP2JFRN9/cVJwfUTM671Pu56/TH4sEK7QQsI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=aTnFmhZ0lSs1xmPq401SxkkAYGNmeLx0XA7Dwma72H/04axAzuApv70rFYE6IeyTL
-	 hctJxmdxCIhurkVDaneGBSdYWiBTB0m177T4vwZ0csGZccXdjlp17XYsvly5q53aK7
-	 H7R19w5yIkLQf26oNRd/yqEbpatxVYinEcl/VD41AMLvuS9LKtK7WR59a69Wa2/inN
-	 UavydTX76RcsGvPp18Juddycr6zEx4DQtQr+/F2L87G9EG96xaeLDcT6T53Q0y0eqN
-	 vIb4qf6sA/J3BBZHfQgxYB6J6E0Jpp78uX6uvoibnxsmp6wotO5nfJ2S9W1g0o22DH
-	 VrJyg7tQH4/Kg==
-Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:5c27:a8a7:cb3e:bb4f])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 74A4B17E0DB7;
-	Thu,  8 Jan 2026 14:29:51 +0100 (CET)
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: nicolas.dufresne@collabora.com,
-	p.zabel@pengutronix.de,
-	mchehab@kernel.org,
-	heiko@sntech.de
-Cc: linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Jianfeng Liu <liujianfeng1994@gmail.com>
-Subject: [PATCH] media: verisilicon: AV1: Set IDR flag for intra_only frame type
-Date: Thu,  8 Jan 2026 14:29:46 +0100
-Message-ID: <20260108132946.74853-1-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1767880640; c=relaxed/simple;
+	bh=OhHA0eiU//TrBNRmklDdGYlUq5mXP8Cp8oS03aXdCYs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UlvkV37dvyKdlkW6eNfMEmxU65ygGbZWj3kIG68eeFcq36KBri5ZZSR8Bf1qpVRP0ew1eAwno6RV8O9bEo/aXwyC1EB74yQeg683Siiet688HTh/Nk7DyaTL7vS7VssRdPYh9fYjWZSudJobmm76AmoqMW1IIsvHclJ0yiWIC/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=iMXshUmD; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 59016557;
+	Thu,  8 Jan 2026 14:56:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1767880611;
+	bh=OhHA0eiU//TrBNRmklDdGYlUq5mXP8Cp8oS03aXdCYs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=iMXshUmD+UDKTDziY3G91hBa6LzsYjYgmVKP99BDy0LGerDLiP6ZXnrSzACaoCcQP
+	 RIF+Lg06qMWSXkVyrv742257giYOivBEzB13++twaP9ZUy/wDdgqjvuYXCp9/sLj67
+	 LhrYstJKoGuy3ww/Rnl4q5+e4b7ZYKcB2RqaxtQY=
+Message-ID: <459d26bc-f847-42cc-91fa-a939b6f205a8@ideasonboard.com>
+Date: Thu, 8 Jan 2026 15:57:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 00/15] media: rcar: Streams support
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+References: <20251216-rcar-streams-v4-0-f28b4831cc67@ideasonboard.com>
+ <20251231095739.GA3091492@ragnatech.se>
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Content-Language: en-US
+In-Reply-To: <20251231095739.GA3091492@ragnatech.se>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Intra_only frame could be considered as a key frame so Instantaneous
-Decoding Refresh (IDR) flag must be set of the both case and not only
-for key frames.
+Hi Niklas,
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Reported-by: Jianfeng Liu <liujianfeng1994@gmail.com>
-Fixes: 727a400686a2c ("media: verisilicon: Add Rockchip AV1 decoder")
----
- drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 31/12/2025 11:57, Niklas Söderlund wrote:
+> Hi Tomi,
+> 
+> Thanks for your persistent work on this series!
+> 
+> On 2025-12-16 17:18:17 +0200, Tomi Valkeinen wrote:
+>> Add streams support to Renesas rcar platform driver.
+>>
+>> The series keaps compatibility with the current upstream for a single
+>> stream use case. However, in upstream there's a limited custom
+>> multi-stream support implemented to the rcar driver, which will be
+>> replaced with the upstream's Streams API.
+>>
+>> I have tested this series on Sparrow-Hawk board, with a few different
+>> setups:
+>>
+>> IMX219 connected to the CSI0 connector
+>> - The following patches applied to my test branch in addition to this
+>>   series:
+>>   1) The v4l2_subdev_get_frame_desc_passthrough dependency
+>>   2) Revert of commit e7376745ad5c8548e31d9ea58adfb5a847e017a4 ("media:
+>>      rcar-vin: Fix stride setting for RAW8 formats"), as that commit
+>>      breaks RAW8
+> 
+> That is so odd, I do grab RAW8 on V4H with a IMX219. In what way is do 
+> you see RAW8 breaking?
 
-diff --git a/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c b/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
-index 1605cfd55d36..3a8123bbe144 100644
---- a/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
-+++ b/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
-@@ -2047,7 +2047,7 @@ static void rockchip_vpu981_av1_dec_set_parameters(struct hantro_ctx *ctx)
- 			 !!(ctrls->frame->quantization.flags
- 			    & V4L2_AV1_QUANTIZATION_FLAG_DELTA_Q_PRESENT));
- 
--	hantro_reg_write(vpu, &av1_idr_pic_e, !ctrls->frame->frame_type);
-+	hantro_reg_write(vpu, &av1_idr_pic_e, IS_INTRA(ctrls->frame->frame_type));
- 	hantro_reg_write(vpu, &av1_quant_base_qindex, ctrls->frame->quantization.base_q_idx);
- 	hantro_reg_write(vpu, &av1_bit_depth_y_minus8, ctx->bit_depth - 8);
- 	hantro_reg_write(vpu, &av1_bit_depth_c_minus8, ctx->bit_depth - 8);
--- 
-2.43.0
+I also used V4H with IMX219. Let's compare our setups and results on irc
+and find out what's going on.
+
+>> - Tested with a single video stream
+>>
+>> IMX219 connected to the CSI0 connector
+>> - Plenty of other patches applied to enable full streams support and
+>>   embedded data support in imx219 and v4l2 framework
+>> - Tested with video and embedded data streams
+>>  
+>> Arducam FPD-Link board + 4 x IMX219 connected to the CSI0 connector
+>> - Plenty of other patches applied to enable full streams support and
+>>   embedded data support in imx219 and v4l2 framework, and TPG support in
+>>   ub953
+>> - Tested with video and embedded data streams from all four cameras (so
+>>   8 streams in total)
+>> - Also tested with ub953's TPG, combined with video & embedded streams
+>>   from other cameras.
+> 
+> As there are dependencies on patches that have been on the list for a 
+> long time that would block merging this work. Could we try and shift 
+> focus and get some of the nice fixups and cleanups merged first? IMHO we 
+> could even aim for merging the rework (reduction) of the ad-hoc VC 
+> support done in the graph ASAP to get it out of the way.
+> 
+> It would also be nice if we could sort the RAW8 issue separately to get 
+> it out of the way.
+
+Sounds fine to me.
+
+> I have other work touching these drivers I'm holding of on to not cause 
+> conflicts with your nice work, and it will make my work smaller/easier 
+> too!
+> 
+> Could we start by breaking this out into:
+> 
+> - A series that just removes the ad-hoc VC thru media graph in the R-Car 
+>   VIN and CSI-2 drivers.
+
+That's just the patch 6, "media: rcar-vin: Link VINs on Gen3 to a single
+channel on each CSI-2" patch, isn't it?
+
+> - And then we can follow up with the cleanup of each of the drivers as 
+>   separate series.
+
+How about merging 1-6 as a first step (assuming they pass reviews and
+tests =)? I'm not sure if there's any benefit in sending the above VIN
+patch alone, then the cleanups after that. Or perhaps patches 1-8.
+
+> This would make it easier for everybody I think. Each series becomes 
+> smaller to review, we can get fixes and cleanup in now and not wait for 
+> all stream dependences to land first.
+
+I'm fine with breaking it to smaller pieces than 1-8 if you want. I
+think the split could then be 1-5, 6-8, and the rest later. But I think
+1-5 are quite small and straightforward, so I'm hoping we can work with
+smaller amount of patch sets.
+
+>> I have observed one issue with the embedded data (i.e. requiring bunch
+>> of patches not in upstream): when stopping streaming, VIN says that it
+>> cannot stop the stream. I haven't debugged that, but a possible issue is
+>> that the if the video stream for the imx219 is stopped first, the
+>> embedded data stops also, and VIN does not get the frame-end it is
+>> waiting for.
+> 
+> I would not be comfortable merging with this regression. I have bad 
+> experiences when VIN report it can't stop the stream. More often then 
+> not it also means it then can't start streaming again...
+
+It's not a regression, and on the "why it doesn't matter" side is that
+embedded data is not supported upstream, so the user cannot hit this
+issue. Also, I did not notice any issues in restarting the streaming again.
+
+That said, I agree that it must be sorted out.
+
+ Tomi
 
 
