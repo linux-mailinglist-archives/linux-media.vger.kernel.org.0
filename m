@@ -1,67 +1,67 @@
-Return-Path: <linux-media+bounces-50195-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50203-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 106D0D01AA1
-	for <lists+linux-media@lfdr.de>; Thu, 08 Jan 2026 09:53:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10EF8D01AB3
+	for <lists+linux-media@lfdr.de>; Thu, 08 Jan 2026 09:54:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 3CAB9313250E
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jan 2026 08:42:03 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3E8C03791F77
+	for <lists+linux-media@lfdr.de>; Thu,  8 Jan 2026 08:43:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 031B136657F;
-	Thu,  8 Jan 2026 08:17:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EE9E37F8DA;
+	Thu,  8 Jan 2026 08:17:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Za8OCnVf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nz77OSHJ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992773A9018
-	for <linux-media@vger.kernel.org>; Thu,  8 Jan 2026 08:17:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7554A37E306
+	for <linux-media@vger.kernel.org>; Thu,  8 Jan 2026 08:17:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767860235; cv=none; b=edq1tZbMdKRWEV129/X1iYTZ0aakgLeH6brHghZlqwr3zbRMlcfIfYom2r6q7LchK9WtAbafE1P4J+77LXKtMSanWHeTJfHp3pCn7WxRFIAdrnxpAnDCl3i/yb8VFw0Z3IQRWOaZ+shABe2y1Rgg6gqeJuYnoYlVN1QstOqyW0I=
+	t=1767860257; cv=none; b=r32TJb5p/LpQf+PJ+/G8VmC4vy/FAoyS+Vm6a61wNa3CWAC1NSYyhuAfATNwtPjnDl1rxepJmVuX/MYg3GPK//wpJh6kJj/ryBt2zARYAk/u08D2xSYt4GwIxLEempznPASM6HDgCLXl1iETvJSz1xWcJCGLCsLRynxG/4OcrgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767860235; c=relaxed/simple;
-	bh=CXUWGXZWPH9THtmuceG5sOLkXgStI19vcErcsemp5YU=;
+	s=arc-20240116; t=1767860257; c=relaxed/simple;
+	bh=8AKOXXwezlVvdEyrc6eapqBRZqZU9JetLIIGx0xT3UA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iYcZq5mfzILGmBXHpuXfJsR2MsuNVkL5X4ljU4m2D0BlbKBbVBqRF/S86/2vvCA/41+D/S3r78+WNZj8mN8r7q7hXkZByOEnJewPT2XpxpnmG/SaKIcg5oZ1kk2iyE8CpbSecqIPWtb5K1tRx/jkSQCkx1IuA8Xw6FfAaaF9cNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Za8OCnVf; arc=none smtp.client-ip=198.175.65.15
+	 MIME-Version; b=DBk4TE7EfRh14PhdKMay6G3PidWvhn71t/sNptfiCC6Ftpwqze6lgWnROGmXhJUSu7X6hFEu0+Yr8RMV5qJ7RsJ3QPk41NTuAxKf1busK1NL3SjCKUalJQrGfsr9y69hwCwPiuD1TVxKme6wGlKqOJuwrrsg8uD3DwppOvVMmrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nz77OSHJ; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767860229; x=1799396229;
+  t=1767860253; x=1799396253;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=CXUWGXZWPH9THtmuceG5sOLkXgStI19vcErcsemp5YU=;
-  b=Za8OCnVfYRFO54oGlouHgOvj8FOMPDC7ul2sxb8Ed2fe0Rim2gRIblSS
-   g4vWbgvrx8M5zDiprZwUOqsRyVl9n246QqSfDsFRs5BPw/pvHrLVlWAnS
-   ia/NfxmiQwHP97OJXXeyVNLf0N8VV1TTpphZVITAF+5iGHD1m1iVm4/2R
-   4/WinzBXTU7qtYH94RpJppyA7QNN4NKdAL50jcXa90NDeXgrPpvQsGKQv
-   4VpcsE7xDUAcxXMSEFmwoVn+p9neNGcHfVwNzFOIdDG2Fhsd6WS+Ua9mu
-   lE/0EuXH1ZlixItimJhUNDfgHAdUKsczy7JH50FBXPLpd89TizMovjcrS
-   A==;
-X-CSE-ConnectionGUID: k6KbaZ9WRsCwe7NSf7FDPg==
-X-CSE-MsgGUID: S3MFFb22Tba58oNpACa8EQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="72869918"
+  bh=8AKOXXwezlVvdEyrc6eapqBRZqZU9JetLIIGx0xT3UA=;
+  b=Nz77OSHJsE+nZt6nUL4eG60LdqvOq4FA+qFu2eblBTVs3ErLE7z5w2d/
+   sQHw25ydchRpSlHKrAqRDSGNlYQ/NnIn2ZzHaZbt+QmiLxK3HbwDGjH7j
+   EdEQwQl0jLrQyb9qQ4FKa2Omn3900CNO1CMG/wlT4QEedH+69Y21h4Rky
+   sjmwz1CKXHsNGxfp8+QhRrEy1GYd+z6nh28h4SK7kLB4Yk8sFpJVd3pKD
+   2zz3EHuJugEmTF2Kmi5YuWzYjfYhGh7IY6FbxJwsg89xodGyF5nu6SrS7
+   PmITLPrjxH5ZQiDuLIOCftKp1IausxZqUE/gYx+PdxlfYkL45YaKsu9mG
+   w==;
+X-CSE-ConnectionGUID: 3tn/yMNMSROL/ZRawrkqQQ==
+X-CSE-MsgGUID: p0lb+ZtWQlCO1Zer2Ca4CQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="72869934"
 X-IronPort-AV: E=Sophos;i="6.21,210,1763452800"; 
-   d="scan'208";a="72869918"
+   d="scan'208";a="72869934"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 00:17:02 -0800
-X-CSE-ConnectionGUID: y7ZT79NZThm/gKoTZ0svlQ==
-X-CSE-MsgGUID: QfuE7P8pT2q66RJKPdFXVg==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 00:17:06 -0800
+X-CSE-ConnectionGUID: 8aRO2LUYSuSb2HwMFSHMJg==
+X-CSE-MsgGUID: oTl7wWBCTlitsguU1bxVGw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,210,1763452800"; 
-   d="scan'208";a="233842946"
+   d="scan'208";a="233842980"
 Received: from egrumbac-mobl6.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.211])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 00:17:01 -0800
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 00:17:05 -0800
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 679BC121D95;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 6FD72121E10;
 	Thu, 08 Jan 2026 10:17:13 +0200 (EET)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1vdlCi-00000002HSF-0Uvx;
+	id 1vdlCi-00000002HSO-0c99;
 	Thu, 08 Jan 2026 10:17:12 +0200
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -70,9 +70,9 @@ Cc: bingbu.cao@linux.intel.com,
 	tian.shu.qiu@intel.com,
 	antti.laakso@linux.intel.com,
 	mehdi.djait@linux.intel.com
-Subject: [PATCH v4 03/14] media: ipu6: Remove redundant driver data checks
-Date: Thu,  8 Jan 2026 10:17:00 +0200
-Message-ID: <20260108081712.543704-4-sakari.ailus@linux.intel.com>
+Subject: [PATCH v4 05/14] media: ipu6: Remove redundant streaming start via buffer queueing
+Date: Thu,  8 Jan 2026 10:17:02 +0200
+Message-ID: <20260108081712.543704-6-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260108081712.543704-1-sakari.ailus@linux.intel.com>
 References: <20260108081712.543704-1-sakari.ailus@linux.intel.com>
@@ -84,45 +84,33 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Both runtime PM resume and suspend callbacks check whether the driver's
-data is set for the device. This is done in probe(); drop the redundant
-checks.
+The videobuf2 framework will ensure buffers are queued before streaming is
+started. Remove support for starting streaming via the buf_queue()
+callback.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Bingbu Cao <bingbu.cao@intel.com>
 ---
- drivers/media/pci/intel/ipu6/ipu6-isys.c | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+ drivers/media/pci/intel/ipu6/ipu6-isys-queue.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys.c b/drivers/media/pci/intel/ipu6/ipu6-isys.c
-index 226bfae21c16..ef01dcb635fa 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-isys.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-isys.c
-@@ -857,9 +857,6 @@ static int isys_runtime_pm_resume(struct device *dev)
- 	unsigned long flags;
- 	int ret;
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
+index 8f05987cdb4e..fdf41b3cf60e 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
++++ b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
+@@ -408,13 +408,6 @@ static void buf_queue(struct vb2_buffer *vb)
+ 	ipu6_isys_buf_to_fw_frame_buf(buf, stream, &bl);
+ 	ipu6_fw_isys_dump_frame_buff_set(dev, buf, stream->nr_output_pins);
  
--	if (!isys)
--		return 0;
+-	if (!stream->streaming) {
+-		ret = ipu6_isys_stream_start(av, &bl, true);
+-		if (ret)
+-			dev_err(dev, "stream start failed.\n");
+-		goto out;
+-	}
 -
- 	ret = ipu6_mmu_hw_init(adev->mmu);
- 	if (ret)
- 		return ret;
-@@ -884,13 +881,9 @@ static int isys_runtime_pm_resume(struct device *dev)
- static int isys_runtime_pm_suspend(struct device *dev)
- {
- 	struct ipu6_bus_device *adev = to_ipu6_bus_device(dev);
--	struct ipu6_isys *isys;
-+	struct ipu6_isys *isys = dev_get_drvdata(dev);
- 	unsigned long flags;
- 
--	isys = dev_get_drvdata(dev);
--	if (!isys)
--		return 0;
--
- 	spin_lock_irqsave(&isys->power_lock, flags);
- 	isys->power = 0;
- 	spin_unlock_irqrestore(&isys->power_lock, flags);
+ 	/*
+ 	 * We must queue the buffers in the buffer list to the
+ 	 * appropriate video buffer queues BEFORE passing them to the
 -- 
 2.47.3
 
