@@ -1,268 +1,203 @@
-Return-Path: <linux-media+bounces-50218-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50220-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2EFCD0205B
-	for <lists+linux-media@lfdr.de>; Thu, 08 Jan 2026 11:07:41 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61011D01BD8
+	for <lists+linux-media@lfdr.de>; Thu, 08 Jan 2026 10:08:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 29E3E3006F71
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jan 2026 09:50:27 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A85B0308559D
+	for <lists+linux-media@lfdr.de>; Thu,  8 Jan 2026 09:04:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2989F335555;
-	Thu,  8 Jan 2026 08:32:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5192934105C;
+	Thu,  8 Jan 2026 08:41:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PYEvjE3a"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="OPve4reT";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="F7eD2iLG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED92314B93
-	for <linux-media@vger.kernel.org>; Thu,  8 Jan 2026 08:32:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15966346774
+	for <linux-media@vger.kernel.org>; Thu,  8 Jan 2026 08:41:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767861143; cv=none; b=rM3yjBmX5V70fkvq08Jz/eMPytoZzGU64q7Babt/U3QNC+h+5O2MbhWV3Qwdrv0yidhknDjJoxgU5oVEdYBl8aYGrdP3zS6+JUXa3d6qPKIq/9hcsrLXP2RKE5YCsRpTwIz+WW5ECEcSRAK+h6lz7vdH8Rds6olvLgTo1lnutTY=
+	t=1767861672; cv=none; b=YzkwbljTyajALHxwc6+SBzEfnqhougVP5co0Kb8w7UMlgfkU966ym6BkSn/bvhzBu6h8YvUZ7Sxhn1ujGG6JOLu1lF+AUnac+SArb1RitA23R1t8roewiqdypvGNfpLVDKceZf2E4lUUW8CAepwMK6hZkTRjFYMzly85ud2SF/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767861143; c=relaxed/simple;
-	bh=YDBAlDkKk7Tj8b0XQcfHgfeggiQHDFyxpIdOJWwg7RE=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=ZTyqklPigxC0uvoR1PDv3iZ1MKglWO0lgy852lE1wse9ZkY0jRKpbQbQM1zIf4wTn3oZAfGnRYhL7Wdbk8YKDvUSTkbl0QhkEizflT0RyfAhzIiuc2E3pxOCkM6605IulYm1ntfPCPVn/y1eQyi7Rr4QwlGql8x5AUPmmHlCIGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PYEvjE3a; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767861137; x=1799397137;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=YDBAlDkKk7Tj8b0XQcfHgfeggiQHDFyxpIdOJWwg7RE=;
-  b=PYEvjE3aIBMLuqPJDQBUze5mTLZV8qbWkY96Y9KVfkQr/8eGwMJCTAi2
-   I5hNVNi/YdxOQ3W213tMHKw6zz+858Fy3Q5J2SEJmNDSpRDTrQoinWPRZ
-   7USFyIcYnf06R+PfbQQZ9Nrj290jFCQpFmOZ+DcbjGYEGjRw2aEstrEAs
-   JYGesX1pTJGY4Fc84xJlhomGaIqBD2TIS0ptHJaAVwMoIs2Kl62Aw41Wp
-   S6h+mATtbi3paG3FRzkBvymYSIJ7sKuDvrTG7RC0OQdDRzloQLGOfv/1b
-   XN7T+cdFdeVqUOtmkIhEJ66c4ZTYIpyV80Gtex5Q5cbczu8D4BZrO/KPt
-   Q==;
-X-CSE-ConnectionGUID: NCTvKsXXTRqEYr4NYQvSpw==
-X-CSE-MsgGUID: pVGWwgWqS4ybh9SNZOjTjA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="68969473"
-X-IronPort-AV: E=Sophos;i="6.21,210,1763452800"; 
-   d="scan'208";a="68969473"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 00:32:10 -0800
-X-CSE-ConnectionGUID: wdRSptyyQ+uT7E3g2qjLaQ==
-X-CSE-MsgGUID: 6TfKEDt4TMC3pfvG5Ipw+g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,210,1763452800"; 
-   d="scan'208";a="203052970"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.153.130]) ([10.238.153.130])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 00:32:08 -0800
-Subject: Re: [PATCH v4 13/14] media: ipu6: Drop custom functions to obtain sd
- state information
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
-Cc: tian.shu.qiu@intel.com, antti.laakso@linux.intel.com,
- mehdi.djait@linux.intel.com
-References: <20260108081712.543704-1-sakari.ailus@linux.intel.com>
- <20260108081712.543704-14-sakari.ailus@linux.intel.com>
-From: Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <10f1de80-42a1-48cd-a5df-acd8807b3df6@linux.intel.com>
-Date: Thu, 8 Jan 2026 16:22:02 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+	s=arc-20240116; t=1767861672; c=relaxed/simple;
+	bh=xjHglDM/JW2NmeVeyAr0+dj+UOkaL7HkzdzU4RxRwmk=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=TaZtq4WhaO+keRwBuTcP+xC0qGbgjS6yRdaP3GviEFl96ELHAuGkIl5CIoFgSvI3SnB+94FNsTrhjeliQrPgi2QnPgyOblmw/utgx0jwXLVKj016cAR0Hh5fsK4bTbbVa943/BaPla2oB9eAinRj56wLFhrhRqhG1/dOQJWzKbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=OPve4reT; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=F7eD2iLG; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6081E9uL877882
+	for <linux-media@vger.kernel.org>; Thu, 8 Jan 2026 08:41:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	rJGaMaxcuDZkeMl5qtNbvmW1qLM20Z6W7DUk5Nd+ylo=; b=OPve4reTFeGDugdT
+	7nHIJNmjpV1vNAhlkyOidifyNZDah4vhB3qKCbdF/u6nyX7tthRY+adja4iTljJK
+	FFAsrQzIOnXyaPaC8CZYS4sj7TwsD+0+ppfWl6/MHbFhLtpCNvzfxOCX9jye8rnb
+	nWocUNcr+liTaAen+b+mfcjYa1NBqbaijRHNSSaRhRR8IvA2jbvrB5sOHFIDtkKd
+	ao18FdyN1FbZX+HaiJ8QoLy8rqaLAEDXPQz8F/zkwsVgIWmkNy3ev/NKwWmFV6Q9
+	6rxrYZTpj6I3G3bQsbqXdy7YVVc6F0egYHMJLfUWvLgNJ4lcD59s3gssMaveVSNL
+	t8s5TQ==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bj2r316t6-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Thu, 08 Jan 2026 08:41:01 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4ee09211413so80705851cf.2
+        for <linux-media@vger.kernel.org>; Thu, 08 Jan 2026 00:41:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1767861661; x=1768466461; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=rJGaMaxcuDZkeMl5qtNbvmW1qLM20Z6W7DUk5Nd+ylo=;
+        b=F7eD2iLGUwekbHg5a/0NWXq2ruRw64zVEYhn/43Zu0zY7byjOeUuIaYMUnitQGpWRN
+         QSdzZEvr0V3oq+AhfZ7Pc7FJ2rucrbDeDlKG4xm2zMfQTohwPZ7dTMHLwBrd4KnrFUFE
+         Ufy1JDKgButOGF1WZKTW1XuUx0tH2/LwNgmqtQ7dIfgP4OIoT0swpGWRfftKuU5EP62+
+         Qd+p41pUvdJqIzkJgkGIq0e2t2+4NKWn5LXONfV3vKcOFmJger4HZE/NFgcntkPXdEVA
+         z32nOpekxhgOq/okc7BhUNB8RMZ/vHP6DnAuFt56X69FxacGTmGDFCa3cIu7jJniNdiL
+         RozA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767861661; x=1768466461;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rJGaMaxcuDZkeMl5qtNbvmW1qLM20Z6W7DUk5Nd+ylo=;
+        b=hkRw7HFM8/nhmmZtcG/Y2E0adSwTgZVran4wUoCiap3QhQyeq8rXCRE2OzZ3BdqY+c
+         u6EPx//VvxTisSsu85IYcBpVZjr9AnbAuiKdtAXIBuDVonDQi52mHZRD409cM9NY5Nwf
+         94ilBbWxfU8PrRLXtJFDWEzxXc0OTJ7QIdnXv+JqJRsekpFQVX8XHEJgpxBVmhPrvr0t
+         2ns3L7CWqFSbROyAc6UjnjkCq4eQbb7JqXuMYcmX8IDGfCkloXm19olOvCJ4oPe6bFIc
+         KABHcIGN1NwQB5UX5nmYxeJOGDsKNN2pWWwNVAnqwzM3q/N4KEsZaFBSnyrcQKOolaK5
+         n4sg==
+X-Forwarded-Encrypted: i=1; AJvYcCUxgwlcf7N+Zd/KGRZIf70/3iEa/PfPUZh12ygQanXo6OVwnqjInUswYzroOMZNge3aZx962eo3XdjcpA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwySLaRltrslGHp/+SiCDQ4+8ZNrdHs2k63MnzEwAiglTrWn3Wa
+	zjAYrX7YdH+lbB9zMOaannRa33MhJlMNEUQ2Dwrz1s1DL03bGhHLSijVMIxncn2A5Bg8vyxFF6g
+	DhaMy0mEueRS7ztlwpePIFh8u3VmIib40pslprfd4XTmhqyWuzZO/Vv4VvkU8t9bc7A==
+X-Gm-Gg: AY/fxX7aM7ou++FM8/iFwzjCoSB6hft1QtrUa5L47gNpTfAxkKffnGTFEXEsL3HwmK7
+	tYRe6bHejOmsXYo2pgRF/GS5DpbgIlX6CyekBe6oEigqJLT5Twl84Siy22xb6rhY1Rp1plTdPJQ
+	mR6ty/sCTIj6iAmdLrq0m8ybvwPbuQKN8szyiah6JN5EGZpbPFUy3wrgGi8hzizu7HkpF+NGnd6
+	TnhkQhhrtm/AGZKUMtxVXeab7ZFnB1A/O2ZDlbdPtAjnO22ZZIg2oTUC2xa+8oru5FIdJN/mRCJ
+	HrDWbJZx0/1ca8IXkSCw9ifEIbzM78Q2gnDCeQAa4BefBdA69zEQxhN6QknxPj3GcmT2uOwmzVf
+	yDAWbiP4N5Z6QItXNI7ipO+ASaMyhC13PGHSVbkgvXVcTa2K13Od+VEoARRkLe+e4osi3J2+xYo
+	uy2CIw/yvUUUzvZQj3YyqUSo9m3A5PC9/UrRDO6+dh38vNELOsrHlPzo1PZuTZ9ljKn8YH2En8/
+	bF2
+X-Received: by 2002:a05:622a:229e:b0:4ee:18b8:2ddf with SMTP id d75a77b69052e-4ffb48c7dccmr72101111cf.37.1767861660737;
+        Thu, 08 Jan 2026 00:41:00 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE+8iWsWKz3GaphD0sGgOVLN5BUK3qaL4MHY1YyUeBUAd9hOKS8/HEl0W/5EmvI/dSudEq58A==
+X-Received: by 2002:a05:622a:229e:b0:4ee:18b8:2ddf with SMTP id d75a77b69052e-4ffb48c7dccmr72100991cf.37.1767861660324;
+        Thu, 08 Jan 2026 00:41:00 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6507bf66214sm6946786a12.27.2026.01.08.00.40.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Jan 2026 00:40:59 -0800 (PST)
+Message-ID: <7e96da9f-5e48-436d-8e19-d8bb124ab106@oss.qualcomm.com>
+Date: Thu, 8 Jan 2026 09:40:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20260108081712.543704-14-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+From: Hans de Goede <johannes.goede@oss.qualcomm.com>
+Subject: Re: [PATCH v2 4/5] media: ipu-bridge: Add DMI quirk for Dell XPS
+ laptops with upside down sensors
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        Hans Verkuil <hverkuil@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bryan O'Donoghue <bod@kernel.org>
+Cc: Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+        Sebastian Reichel <sre@kernel.org>, linux-media@vger.kernel.org,
+        stable@vger.kernel.org
+References: <20251210112436.167212-1-johannes.goede@oss.qualcomm.com>
+ <20251210112436.167212-5-johannes.goede@oss.qualcomm.com>
+ <de0d0f9d-be70-490d-9cc0-53f017c69985@linaro.org>
+Content-Language: en-US, nl
+In-Reply-To: <de0d0f9d-be70-490d-9cc0-53f017c69985@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTA4MDA1OCBTYWx0ZWRfXzd4xmDQmBXsl
+ MF2pgKs9Sim249E6LrUGITs2hZ4Y+ryWaBvR7/duJ/D6TK9ejE+lESYBN9zazk7NYJR551Yd/rw
+ 05cUFMmN7JR2jHWpE7+yyRLBI1eqJY8wK13eI9ky90kApPFErRBO3GT19fUXJ1O3SQOS+vQ92RN
+ BhqdoTaAcfDkQT6Iwuf9G0SYivgdR3qWs2S6NALmTCivGNV4170LVkq9kPqQleN3zvagHzGVkXi
+ Op37bm1O6p9fn6Lah1cQSPN/ma14uZlVyPttygcvfMIlc1VGOMYphb/wNggveH/ZGyP1HQE1wUB
+ esukAdKpXJD0qsnad5XReZZLkoE8f103wYlIVI/aQSG3wmX7iWXBQx7clIxjaD1KqJcD4dF6wUm
+ yKa7HWw8lBxYJgNniC0IFVGlS9o+Z8WBPaCzzzqPiTFQMUpQ2vUMVtoZhh8PqqthAsz5pS04r25
+ tzHkxbLy7pfpCvm21nQ==
+X-Proofpoint-ORIG-GUID: vTc3YiQNiF_H3kYo7rcHIpBw4XBLtoBr
+X-Proofpoint-GUID: vTc3YiQNiF_H3kYo7rcHIpBw4XBLtoBr
+X-Authority-Analysis: v=2.4 cv=S4nUAYsP c=1 sm=1 tr=0 ts=695f6d9d cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=XBQUi1Y4SS8Vamh7PKcA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-08_01,2026-01-07_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 malwarescore=0 clxscore=1015 priorityscore=1501 spamscore=0
+ lowpriorityscore=0 adultscore=0 phishscore=0 bulkscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601080058
 
-Sakari,
+HI,
 
-Thanks for the patch.
-Reviewed-by: Bingbu Cao <bingbu.cao@intel.com>
-
-On 1/8/26 4:17 PM, Sakari Ailus wrote:
-> Drop the custom functions that are used to obtain information from the
-> sub-device state.
+On 7-Jan-26 22:53, Vladimir Zapolskiy wrote:
+> On 12/10/25 13:24, Hans de Goede wrote:
+>> The Dell XPS 13 9350 and XPS 16 9640 both have an upside-down mounted
+>> OV02C10 sensor. This rotation of 180° is reported in neither the SSDB nor
+>> the _PLD for the sensor (both report a rotation of 0°).
+>>
+>> Add a DMI quirk mechanism for upside-down sensors and add 2 initial entries
+>> to the DMI quirk list for these 2 laptops.
+>>
+>> Note the OV02C10 driver was originally developed on a XPS 16 9640 which
+>> resulted in inverted vflip + hflip settings making it look like the sensor
+>> was upright on the XPS 16 9640 and upside down elsewhere this has been
+>> fixed in commit 69fe27173396 ("media: ov02c10: Fix default vertical flip").
+>> This makes this commit a regression fix since now the video is upside down
+>> on these Dell XPS models where it was not before.
+>>
+>> Fixes: d5ebe3f7d13d ("media: ov02c10: Fix default vertical flip")
+>> Cc: stable@vger.kernel.org
+>> Reviewed-by: Bryan O'Donoghue <bod@kernel.org>
+>> Signed-off-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
+>> ---
+>> Changes in v2:
+>> - Fix fixes tag to use the correct commit hash
+>> - Drop || COMPILE_TEST from Kconfig to fix compile errors when ACPI is disabled
+>> ---
+>>   drivers/media/pci/intel/Kconfig      |  2 +-
+>>   drivers/media/pci/intel/ipu-bridge.c | 29 ++++++++++++++++++++++++++++
+>>   2 files changed, 30 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/pci/intel/Kconfig b/drivers/media/pci/intel/Kconfig
+>> index d9fcddce028b..3f14ca110d06 100644
+>> --- a/drivers/media/pci/intel/Kconfig
+>> +++ b/drivers/media/pci/intel/Kconfig
+>> @@ -6,7 +6,7 @@ source "drivers/media/pci/intel/ivsc/Kconfig"
+>>     config IPU_BRIDGE
+>>       tristate "Intel IPU Bridge"
+>> -    depends on ACPI || COMPILE_TEST
+>> +    depends on ACPI
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  .../media/pci/intel/ipu6/ipu6-isys-queue.c    | 17 ++++++---
->  .../media/pci/intel/ipu6/ipu6-isys-subdev.c   | 36 -------------------
->  .../media/pci/intel/ipu6/ipu6-isys-subdev.h   |  4 ---
->  .../media/pci/intel/ipu6/ipu6-isys-video.c    | 33 +++++++----------
->  4 files changed, 24 insertions(+), 66 deletions(-)
-> 
-> diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
-> index 651ddab9ef14..c862de31af9c 100644
-> --- a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
-> +++ b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
-> @@ -420,7 +420,7 @@ static void buf_queue(struct vb2_buffer *vb)
->  
->  static int ipu6_isys_link_fmt_validate(struct ipu6_isys_queue *aq)
->  {
-> -	struct v4l2_mbus_framefmt format;
-> +	struct v4l2_mbus_framefmt format, *__format;
->  	struct ipu6_isys_video *av = ipu6_isys_queue_to_video(aq);
->  	struct device *dev = &av->isys->adev->auxdev.dev;
->  	struct media_pad *remote_pad =
-> @@ -435,13 +435,20 @@ static int ipu6_isys_link_fmt_validate(struct ipu6_isys_queue *aq)
->  	sd = media_entity_to_v4l2_subdev(remote_pad->entity);
->  	r_stream = ipu6_isys_get_src_stream_by_src_pad(sd, remote_pad->index);
->  
-> -	ret = ipu6_isys_get_stream_pad_fmt(sd, remote_pad->index, r_stream,
-> -					   &format);
-> +	struct v4l2_subdev_state *state =
-> +		v4l2_subdev_lock_and_get_active_state(sd);
->  
-> -	if (ret) {
-> +	__format = v4l2_subdev_state_get_format(state, remote_pad->index,
-> +						r_stream);
-> +	if (__format)
-> +		format = *__format;
-> +
-> +	v4l2_subdev_unlock_state(state);
-> +
-> +	if (!__format) {
->  		dev_dbg(dev, "failed to get %s: pad %d, stream:%d format\n",
->  			sd->entity.name, remote_pad->index, r_stream);
-> -		return ret;
-> +		return -EPIPE;
->  	}
->  
->  	if (format.width != ipu6_isys_get_frame_width(av) ||
-> diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c b/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c
-> index 869e7d4ba572..dbd6f76a066d 100644
-> --- a/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c
-> +++ b/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c
-> @@ -265,42 +265,6 @@ static int subdev_set_routing(struct v4l2_subdev *sd,
->  	return v4l2_subdev_set_routing_with_fmt(sd, state, routing, &format);
->  }
->  
-> -int ipu6_isys_get_stream_pad_fmt(struct v4l2_subdev *sd, u32 pad, u32 stream,
-> -				 struct v4l2_mbus_framefmt *format)
-> -{
-> -	struct v4l2_mbus_framefmt *fmt;
-> -	struct v4l2_subdev_state *state;
-> -
-> -	if (!sd || !format)
-> -		return -EINVAL;
-> -
-> -	state = v4l2_subdev_lock_and_get_active_state(sd);
-> -	fmt = v4l2_subdev_state_get_format(state, pad, stream);
-> -	if (fmt)
-> -		*format = *fmt;
-> -	v4l2_subdev_unlock_state(state);
-> -
-> -	return fmt ? 0 : -EINVAL;
-> -}
-> -
-> -int ipu6_isys_get_stream_pad_crop(struct v4l2_subdev *sd, u32 pad, u32 stream,
-> -				  struct v4l2_rect *crop)
-> -{
-> -	struct v4l2_subdev_state *state;
-> -	struct v4l2_rect *rect;
-> -
-> -	if (!sd || !crop)
-> -		return -EINVAL;
-> -
-> -	state = v4l2_subdev_lock_and_get_active_state(sd);
-> -	rect = v4l2_subdev_state_get_crop(state, pad, stream);
-> -	if (rect)
-> -		*crop = *rect;
-> -	v4l2_subdev_unlock_state(state);
-> -
-> -	return rect ? 0 : -EINVAL;
-> -}
-> -
->  u32 ipu6_isys_get_src_stream_by_src_pad(struct v4l2_subdev *sd, u32 pad)
->  {
->  	struct v4l2_subdev_state *state;
-> diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h b/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h
-> index 268dfa01e903..35069099c364 100644
-> --- a/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h
-> +++ b/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h
-> @@ -38,10 +38,6 @@ int ipu6_isys_subdev_enum_mbus_code(struct v4l2_subdev *sd,
->  				    struct v4l2_subdev_mbus_code_enum
->  				    *code);
->  u32 ipu6_isys_get_src_stream_by_src_pad(struct v4l2_subdev *sd, u32 pad);
-> -int ipu6_isys_get_stream_pad_fmt(struct v4l2_subdev *sd, u32 pad, u32 stream,
-> -				 struct v4l2_mbus_framefmt *format);
-> -int ipu6_isys_get_stream_pad_crop(struct v4l2_subdev *sd, u32 pad, u32 stream,
-> -				  struct v4l2_rect *crop);
->  int ipu6_isys_subdev_set_routing(struct v4l2_subdev *sd,
->  				 struct v4l2_subdev_state *state,
->  				 enum v4l2_subdev_format_whence which,
-> diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-video.c b/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
-> index b035c7342a91..e9dab8a709ef 100644
-> --- a/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
-> +++ b/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
-> @@ -455,6 +455,7 @@ static int ipu6_isys_fw_pin_cfg(struct ipu6_isys_video *av,
->  {
->  	struct media_pad *src_pad = media_pad_remote_pad_first(&av->pad);
->  	struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(src_pad->entity);
-> +	struct v4l2_subdev_state *state = v4l2_subdev_get_locked_active_state(sd);
->  	struct ipu6_fw_isys_input_pin_info_abi *input_pin;
->  	struct ipu6_fw_isys_output_pin_info_abi *output_pin;
->  	struct ipu6_isys_stream *stream = av->stream;
-> @@ -464,26 +465,13 @@ static int ipu6_isys_fw_pin_cfg(struct ipu6_isys_video *av,
->  		ipu6_isys_get_isys_format(ipu6_isys_get_format(av), 0);
->  	struct v4l2_rect v4l2_crop;
->  	struct ipu6_isys *isys = av->isys;
-> -	struct device *dev = &isys->adev->auxdev.dev;
->  	int input_pins = cfg->nof_input_pins++;
->  	int output_pins;
->  	u32 src_stream;
-> -	int ret;
->  
->  	src_stream = ipu6_isys_get_src_stream_by_src_pad(sd, src_pad->index);
-> -	ret = ipu6_isys_get_stream_pad_fmt(sd, src_pad->index, src_stream,
-> -					   &fmt);
-> -	if (ret < 0) {
-> -		dev_err(dev, "can't get stream format (%d)\n", ret);
-> -		return ret;
-> -	}
-> -
-> -	ret = ipu6_isys_get_stream_pad_crop(sd, src_pad->index, src_stream,
-> -					    &v4l2_crop);
-> -	if (ret < 0) {
-> -		dev_err(dev, "can't get stream crop (%d)\n", ret);
-> -		return ret;
-> -	}
-> +	fmt = *v4l2_subdev_state_get_format(state, src_pad->index, src_stream);
-> +	v4l2_crop = *v4l2_subdev_state_get_crop(state, src_pad->index, src_stream);
->  
->  	input_pin = &cfg->input_pins[input_pins];
->  	input_pin->input_res.width = fmt.width;
-> @@ -784,13 +772,16 @@ void ipu6_isys_configure_stream_watermark(struct ipu6_isys_video *av,
->  	csi2 = ipu6_isys_subdev_to_csi2(av->stream->asd);
->  	link_freq = ipu6_isys_csi2_get_link_freq(csi2);
->  	if (link_freq > 0) {
-> +		struct v4l2_subdev_state *state =
-> +			v4l2_subdev_lock_and_get_active_state(&csi2->asd.sd);
-> +
->  		lanes = csi2->nlanes;
-> -		ret = ipu6_isys_get_stream_pad_fmt(&csi2->asd.sd, 0,
-> -						   av->source_stream, &format);
-> -		if (!ret) {
-> -			bpp = ipu6_isys_mbus_code_to_bpp(format.code);
-> -			pixel_rate = mul_u64_u32_div(link_freq, lanes * 2, bpp);
-> -		}
-> +		format = *v4l2_subdev_state_get_format(state, 0,
-> +						       av->source_stream);
-> +		bpp = ipu6_isys_mbus_code_to_bpp(format.code);
-> +		pixel_rate = mul_u64_u32_div(link_freq, lanes * 2, bpp);
-> +
-> +		v4l2_subdev_unlock_state(state);
->  	}
->  
->  	av->watermark.pixel_rate = pixel_rate;
-> 
+> Why this change is done? Apparently there should be a new dependency on DMI.
 
--- 
-Best regards,
-Bingbu Cao
+This patch introduces an acpi_dev_hid_match() call which requires config ACPI
+to be set.
+
+And there is very little value in having COMPILE_TEST here since this driver
+only makes sense in combination with ACPI, as it works-around short-comings
+of the MIPI camera descriptions in ACPI tables.
+
+Regards,
+
+Hans
+
+
+
 
