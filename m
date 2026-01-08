@@ -1,157 +1,144 @@
-Return-Path: <linux-media+bounces-50215-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50222-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 695EBD025AA
-	for <lists+linux-media@lfdr.de>; Thu, 08 Jan 2026 12:21:42 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD181D02C5E
+	for <lists+linux-media@lfdr.de>; Thu, 08 Jan 2026 13:56:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 74C763097959
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jan 2026 11:21:13 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 2197831D510E
+	for <lists+linux-media@lfdr.de>; Thu,  8 Jan 2026 12:06:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32D672877FC;
-	Thu,  8 Jan 2026 08:30:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D043543D510;
+	Thu,  8 Jan 2026 09:37:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ESNfDKUc"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Fy6ON4kU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EA14362156
-	for <linux-media@vger.kernel.org>; Thu,  8 Jan 2026 08:29:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E09D3ED123;
+	Thu,  8 Jan 2026 09:37:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767860995; cv=none; b=ZI90HtNnafmVywhQZ9dSzDJ/CkOla3SFlTt5c1Ndr444Ar54ZCI1xlJHifxP08lfKXFWmwegF+q5Q9K+xYjLISkhw6Zl+MRUqcMNKs5e9mAnXYfloa80F7+BoxfjWHNBFL6xrlOLMs4LUq8kbA+sJqRxWBJH9x3NekrT/Mvn8Wc=
+	t=1767865070; cv=none; b=a5lj5zHNCPBhxHYu2YmaymJPCKvmfojLnFx9HuWpxDuryB2QxvsIFEH8LXtCCuXHfpSkyJn8nf0ZK9UY6dpzU6q/U4RfHWmirnUHcqlNzv36UV0gBQq0fzN7Wjhv+5uoHVaeWyGfE2KtI2kOA7uYPi4FK5/8SfTVf2acoVn54tQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767860995; c=relaxed/simple;
-	bh=5sk6/5Nd4/qijmlD8hMIsjpd8UG8ZGftgSPflAQcyf0=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=WtEBEL8CLTL8yFjCX77uAfpc8MaMcp77fq89BTAqX9XjrK457w/hI/3ygn4/NOT11NhIvDFDpgEWmmmAccbPz4AUMU4jSvMgwNE8AakfVCiZ4NketpTy2yj+iiH2gGIEM6BwtaKLpCPuNBAyv3KELgdU+PcDxLJng+67GTHBVSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ESNfDKUc; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767860987; x=1799396987;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=5sk6/5Nd4/qijmlD8hMIsjpd8UG8ZGftgSPflAQcyf0=;
-  b=ESNfDKUcSLT9GAN9uL/pC/Mx7HBHuYHEO48qV1q2s62JfuNJNCkgt6Ms
-   ZnzlxVgtDsYr0KuTzkpQnB+qcEqadrIbe8vFTS3lpG5zmd79N53eftcn4
-   LB27CQMkXK3ur4H1N5+2vxO5is3g3Su0zUU8Sy6/mWCmHjb7LbeVgJjiy
-   /pssyc4hYEqI2HB9/+P/q7k+2X3vMSkJo7EAbaYo/QD17BhtTnnBkyU9E
-   M8XME7tYadynY+HnzsKKk1hRiOHY9tPCmrmFXqAWKvz+voIh23a4lN2XU
-   doscJPybwy97uG4Qf0hg8hVqef791oY+DEKZ6NMaBJs7cGwchC6vHYhin
-   w==;
-X-CSE-ConnectionGUID: 6JgMosh3Q561DDrtdl99ZA==
-X-CSE-MsgGUID: /ReFtaOUTreGt42z+CiDGw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="86822752"
-X-IronPort-AV: E=Sophos;i="6.21,210,1763452800"; 
-   d="scan'208";a="86822752"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 00:29:35 -0800
-X-CSE-ConnectionGUID: iWvrST+mQraPhiqTc8n+pQ==
-X-CSE-MsgGUID: wQiYtyRYQGyxYxQ3E3nGcw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,210,1763452800"; 
-   d="scan'208";a="202761210"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.153.130]) ([10.238.153.130])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 00:29:33 -0800
-Subject: Re: [PATCH v4 09/14] media: ipu6: Drop error argument from
- ipu6_isys_stream_start()
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
-Cc: tian.shu.qiu@intel.com, antti.laakso@linux.intel.com,
- mehdi.djait@linux.intel.com
-References: <20260108081712.543704-1-sakari.ailus@linux.intel.com>
- <20260108081712.543704-10-sakari.ailus@linux.intel.com>
-From: Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <2150c9e7-b322-45f7-82b5-8553fe9c4ac8@linux.intel.com>
-Date: Thu, 8 Jan 2026 16:19:26 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+	s=arc-20240116; t=1767865070; c=relaxed/simple;
+	bh=+QUCh+BiJaBruD2vdyKisViWbUs5fQdsky3TtckYH1s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tswlra3LzMjZDHOv9qJuRpcISWW+6rdRL+EJFHNRTpdBQZNcVllmOEJXzdZN1LNBJUvaQh63xQOkhx2/dM/G2YCawotUhsbK8T8x9g8JBBOIXLY06Fzvx82cuSPdZpUxByHKXbLtuuXQ/a6bperJFu0duuUQll9pNyVFqpgfzLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Fy6ON4kU; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1767865056;
+	bh=+QUCh+BiJaBruD2vdyKisViWbUs5fQdsky3TtckYH1s=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Fy6ON4kUwZ7sOCvN0m9+ZwtFwRLoUBghzLMyZb0KTCNefUJkRsK7HOn8Xf3WgbnAY
+	 C6FFfzKThnYDfrm4/5X8yMkPsqch0SBLOJFWEv02DmIfTFcAH5R5ay6keNlJtRjsM2
+	 q3Tb87mS6hBwW3rsM1IlSMDVJK8jRb0BQt6PgkScPQP7DUIPN5x2kSGstiJmWxz/bU
+	 zFXXp3CBjoAIeke4xIvKlGVAFsAImrQCygWhaOp2Q/fJkx78c5UnxErlkKgC/Itlu8
+	 NIo58fwbwhOxxjRh7jpPlt3PDVxK05cPDj4Z4eqwnT+8f2mACjYBSDlGvrLtpzc9s2
+	 kttCq8N/OwYfg==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id C4B4A17E11FB;
+	Thu,  8 Jan 2026 10:37:35 +0100 (CET)
+Message-ID: <e6c2c86d-71bd-453c-847c-1eff2be88be7@collabora.com>
+Date: Thu, 8 Jan 2026 10:37:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20260108081712.543704-10-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=windows-1252
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/9] Add GCE support for MT8196 (series 1/4)
+To: Jason-JH Lin <jason-jh.lin@mediatek.com>,
+ Jassi Brar <jassisinghbrar@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>, Nancy Lin <nancy.lin@mediatek.com>,
+ Singo Chang <singo.chang@mediatek.com>,
+ Paul-PL Chen <paul-pl.chen@mediatek.com>, Moudy Ho <moudy.ho@mediatek.com>,
+ Xiandong Wang <xiandong.wang@mediatek.com>,
+ Sirius Wang <sirius.wang@mediatek.com>, Fei Shao <fshao@chromium.org>,
+ Chen-yu Tsai <wenst@chromium.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ Jason-jh Lin <jason-jh.lin@mediatek.corp-partner.google.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+References: <20251031155838.1650833-1-jason-jh.lin@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
+In-Reply-To: <20251031155838.1650833-1-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-
-Reviewed-by: Bingbu Cao <bingbu.cao@intel.com>
-
-On 1/8/26 4:17 PM, Sakari Ailus wrote:
-> error argument for ipu6_isys_stream_start() is always false, remove the
-> argument. The IPU6_ISYS_BUFFER_LIST_FL_SET_STATE buffer flag also becomes
-> redundant as a result, remove it as well.
+Il 31/10/25 16:56, Jason-JH Lin ha scritto:
+> From: Jason-jh Lin <jason-jh.lin@mediatek.corp-partner.google.com>
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> This series adds initial support for the MediaTek MT8196 GCE in the CMDQ
+> driver, including related API changes for new hardware requirements.
+> 
+> Series application order:
+>    1. [Fixes] Refine DMA address handling for the command buffer
+>    - https://lore.kernel.org/all/20251022171847.379470-1-jason-jh.lin@mediatek.com/
+>    2. [Series 1/4] Add GCE support for MT8196 and update CMDQ APIs (this series)
+>    3. [Series 2/4] Migrate subsystems to new CMDQ APIs
+>    4. [Series 3/4] Remove shift_pa from CMDQ jump functions
+>    5. [Series 4/4] Remove deprecated CMDQ APIs
+> 
+> Please apply this series after the DMA address handling Fixes patch[1],
+> and before the following series.
+> 
+
+Jassi, since this is touching both mailbox and soc/mediatek, can we avoid to create
+immutable branches to pick this entire thing?
+
+If you wish, I'm fine with you picking the soc/mediatek commits as well as the
+mailbox ones, or I can pick the mailbox ones instead if you're okay with that.
+
+Whole series is, of course...
+
+Acked-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
+Cheers,
+Angelo
+
 > ---
->  drivers/media/pci/intel/ipu6/ipu6-isys-queue.c | 12 +++---------
->  drivers/media/pci/intel/ipu6/ipu6-isys-queue.h |  1 -
->  2 files changed, 3 insertions(+), 10 deletions(-)
 > 
-> diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
-> index dcad6aafee29..0e9f0025aeb3 100644
-> --- a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
-> +++ b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
-> @@ -132,9 +132,6 @@ void ipu6_isys_buffer_list_queue(struct ipu6_isys_buffer_list *bl,
->  			list_add_tail(&ib->head, &aq->incoming);
->  		spin_unlock_irqrestore(&aq->lock, flags);
->  
-> -		if (op_flags & IPU6_ISYS_BUFFER_LIST_FL_SET_STATE)
-> -			vb2_buffer_done(vb, state);
-> -
->  		if (first) {
->  			dev_dbg(dev,
->  				"queue buf list %p flags %lx, s %d, %d bufs\n",
-> @@ -290,7 +287,7 @@ ipu6_isys_buf_to_fw_frame_buf(struct ipu6_fw_isys_frame_buff_set_abi *set,
->  
->  /* Start streaming for real. The buffer list must be available. */
->  static int ipu6_isys_stream_start(struct ipu6_isys_video *av,
-> -				  struct ipu6_isys_buffer_list *bl, bool error)
-> +				  struct ipu6_isys_buffer_list *bl)
->  {
->  	struct ipu6_isys_stream *stream = av->stream;
->  	struct device *dev = &stream->isys->adev->auxdev.dev;
-> @@ -336,10 +333,7 @@ static int ipu6_isys_stream_start(struct ipu6_isys_video *av,
->  out_requeue:
->  	if (bl && bl->nbufs)
->  		ipu6_isys_buffer_list_queue(bl,
-> -					    IPU6_ISYS_BUFFER_LIST_FL_INCOMING |
-> -					    (error ?
-> -					    IPU6_ISYS_BUFFER_LIST_FL_SET_STATE :
-> -					     0), error ? VB2_BUF_STATE_ERROR :
-> +					    IPU6_ISYS_BUFFER_LIST_FL_INCOMING,
->  					    VB2_BUF_STATE_QUEUED);
->  	flush_firmware_streamon_fail(stream);
->  
-> @@ -590,7 +584,7 @@ static int start_streaming(struct vb2_queue *q, unsigned int count)
->  		goto out;
->  	}
->  
-> -	ret = ipu6_isys_stream_start(av, bl, false);
-> +	ret = ipu6_isys_stream_start(av, bl);
->  	if (ret)
->  		goto out_stream_start;
->  
-> diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.h b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.h
-> index 844dfda15ab6..dec1fed44dd2 100644
-> --- a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.h
-> +++ b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.h
-> @@ -39,7 +39,6 @@ struct ipu6_isys_video_buffer {
->  
->  #define IPU6_ISYS_BUFFER_LIST_FL_INCOMING	BIT(0)
->  #define IPU6_ISYS_BUFFER_LIST_FL_ACTIVE	BIT(1)
-> -#define IPU6_ISYS_BUFFER_LIST_FL_SET_STATE	BIT(2)
->  
->  struct ipu6_isys_buffer_list {
->  	struct list_head head;
+> Jason-JH Lin (9):
+>    arm64: dts: mediatek: Add GCE header for MT8196
+>    mailbox: mtk-cmdq: Add cmdq private data to cmdq_pkt for generating
+>      instruction
+>    mailbox: mtk-cmdq: Add GCE hardware virtualization configuration
+>    mailbox: mtk-cmdq: Add mminfra_offset configuration for DRAM
+>      transaction
+>    mailbox: mtk-cmdq: Add driver data to support for MT8196
+>    soc: mediatek: mtk-cmdq: Add cmdq_get_mbox_priv() in cmdq_pkt_create()
+>    soc: mediatek: mtk-cmdq: Add pa_base parsing for hardware without
+>      subsys ID support
+>    soc: mediatek: mtk-cmdq: Extend cmdq_pkt_write API for SoCs without
+>      subsys ID
+>    soc: mediatek: mtk-cmdq: Add mminfra_offset adjustment for DRAM
+>      addresses
+> 
+>   arch/arm64/boot/dts/mediatek/mt8196-gce.h | 612 ++++++++++++++++++++++
+>   drivers/mailbox/mtk-cmdq-mailbox.c        |  74 ++-
+>   drivers/soc/mediatek/mtk-cmdq-helper.c    |  77 ++-
+>   include/linux/mailbox/mtk-cmdq-mailbox.h  |  19 +
+>   include/linux/soc/mediatek/mtk-cmdq.h     |  93 ++++
+>   5 files changed, 869 insertions(+), 6 deletions(-)
+>   create mode 100644 arch/arm64/boot/dts/mediatek/mt8196-gce.h
 > 
 
--- 
-Best regards,
-Bingbu Cao
+
+
 
