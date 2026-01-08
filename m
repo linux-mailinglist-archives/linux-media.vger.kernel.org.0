@@ -1,211 +1,124 @@
-Return-Path: <linux-media+bounces-50250-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50251-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09892D05E8F
-	for <lists+linux-media@lfdr.de>; Thu, 08 Jan 2026 20:53:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F029AD05F93
+	for <lists+linux-media@lfdr.de>; Thu, 08 Jan 2026 21:04:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C210D302C4FC
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jan 2026 19:51:55 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0D5223052A8A
+	for <lists+linux-media@lfdr.de>; Thu,  8 Jan 2026 20:03:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B2D132A3F0;
-	Thu,  8 Jan 2026 19:51:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9CC832D443;
+	Thu,  8 Jan 2026 20:03:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="isjtNIRa"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="A5qyu6IH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 040FB2F4A19
-	for <linux-media@vger.kernel.org>; Thu,  8 Jan 2026 19:51:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D76328B43
+	for <linux-media@vger.kernel.org>; Thu,  8 Jan 2026 20:03:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767901914; cv=none; b=kFJ/Q8QORfYRgiSvKPqQlkRsBCByG2rln+gWjjDxqrXnpvEMOmsDB1zh0t2JbmuFRU+hFxIxevNdLzPBue709c84rMTYsu6KpvUgAbQqsuphI0aDd01LixJ2ssmcQ/rSiQ7B5k+LN8kvzqAf+inec+yPkJFbEa+vMxF6F624brU=
+	t=1767902617; cv=none; b=qQseUwxBJYgPDrQ9xK1/SvXCvlyoBReRTGm14oOFGf3aR4Mc6TD1B6ZA4xbc11Fi/1a71lnf6F76zOSx8FomkBul4YImZ/sPCWC+L3P2Em7ybz4KgNZCJEf3rqirhaCiFoju7/GFnkUapjyua0Lx/7d/8kqd/6Hvy0lvEHjTqf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767901914; c=relaxed/simple;
-	bh=02JsuwhWOjcj3EkU/m/bMwt0dkHrFQ69ZpfsGOyMPP0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=TgsI5rrqKGpF+hPsm670G9bVdE7bXL+Ezw682Yh9x+bbLgJrsLLwnjgyYLlNE8LvyhjG4gq0Y/IAqHvTE+8KtnqSMiucEbh4o8AN52iIwrnyzy2FJs0xe3YOnST0Se647gZNLZ4PTGUe4UhJbzf5k91LNsGK1iF6MvitxMNSQWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=isjtNIRa; arc=none smtp.client-ip=209.85.222.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-8b25dd7ab33so270220885a.1
-        for <linux-media@vger.kernel.org>; Thu, 08 Jan 2026 11:51:52 -0800 (PST)
+	s=arc-20240116; t=1767902617; c=relaxed/simple;
+	bh=xW14wuO3rpDunHqMU7wmi3C0CV34THPunsb7vXrsYYk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=g7JXP2rY3x1K3hjQSrgYirWqPEwdHZxO6K7egWPVwRhvyuFBaGBtoONytvA/PYEjDNvPJ1CsAyS5vz9w+HuRMrzfzpCvKuiCwRlMMGtamdesSoHEPvmb/E3uvQYryVvqzVSWrnmwjXXAAMF32eE2dwflhYpvQg77Z3XaxQpXfDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=A5qyu6IH; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-477619f8ae5so28355145e9.3
+        for <linux-media@vger.kernel.org>; Thu, 08 Jan 2026 12:03:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1767901912; x=1768506712; darn=vger.kernel.org;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=3t5MxAZO6uHQlXqGxbxcJlRM3XpAxH2j68+Yng+n1tE=;
-        b=isjtNIRaNrv6obFJKOV8bAi2gdJM+y5iGvVZK2zqWIpuaJOK+lrYu8LQBlCNRd7Wml
-         yCPJBS6YMp6deGtI0vxgq5rttSEeum7tuEMTyKnlCMeGGBwrNdrQIi4xUNpPkgM+Z8w1
-         3IXaxU0HI1nez/BSbZ0qXwgv2DBINOztZ/40hSayASL1/HDb+/v7h+M6gwontwlKuevw
-         36+ljNBIhFLdli+lUk8trtJkPf1XdYVxHoYTiRdNl/axysgaQ4z3Y1VstVpk0Yk9aJey
-         LJ6PBGyNDbHX0Q1a7XCIoYIYGPwEwHkoJGKiqI6bT9h7JpMRo7aAgMYV1C4JRvNFIIIt
-         7BTw==
+        d=linaro.org; s=google; t=1767902614; x=1768507414; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=U+0IrpcN+V0oqtValorBiZ1wiITEvHQIGq+jybV+6PM=;
+        b=A5qyu6IHAjh3j5QjY1VhAY3yO1sfc1KUyNuIKKeBkeOsWVx7zoO9GKB+fDcQvNGIXE
+         BWs/OtZJ6mdXNGkU1vzDawn74EgHQpn1APPyexKB/EMT2vFqHhF3KHj6ZtZ0l9PXn0LP
+         j/CKjD0QFvnljZZopQiPmIkCDjQLxCyNHdO0LTejCS02g5DE9d9+xVSSR84kabENFK9n
+         sADsdummxNvO+JEhIQVgHTOrHGWI0TAlmIcNzsyrIytCHGRlhTxMAeq1+ftyW5l6Ei06
+         vClD1nDo0Yh0UK7kpQ1c6YqXZxGpilcvCr64Dp4Osk8dlbgJM9dO7vGJ3lB9euan+Jym
+         sgXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767901912; x=1768506712;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3t5MxAZO6uHQlXqGxbxcJlRM3XpAxH2j68+Yng+n1tE=;
-        b=EmKT03rcIbtXzazHl/waUnrRq8KCnpgbatRo6cc6swMJxAgfPwunwIWQiVd5xt1N0D
-         OQYqeXqtiRG4kV5K3GbaoHJJgR+jVa3i7f7DpZyFqmoN7JW25Tmw5Njq2omT1RZmKbd9
-         j5jwjGwAH6RwniYbsaEZshygrGilIDpD5HanORzOxiJwsqQhyernRAQU59+V5y5SVYiL
-         IrYkSda8eZfPeBmQ4lB3GpvGadG8GQ36dKdvoOA+ArIXHOxWrnlPGn0aL6pmmx8a3wCE
-         vCSxxHrKWs/KBqnKgeuUjdon26aZB20OqCVo5ycfVYF2OI+Rou+pM5NHFDmtp78cJqko
-         7CsA==
-X-Forwarded-Encrypted: i=1; AJvYcCVvl5xyVWTwl/kbAVMyNzogvhPgg1sPvrEAA/wkr8dvN+NqeLWtZOqZyUt55dpPHoVt1X8XJcD5JTA/3g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwwdapxbQSySyy7aCHQc+rHxlelm9llIva09435xoToHAUhRD92
-	dDMwg0sxjp1fhbYJwGO59ZHCQEHEYC6pHqi8QjszvFF9ELQoVb+NsN8213D/Y9QkDWI=
-X-Gm-Gg: AY/fxX7JClvW+Q+AvV97rR/Qv8tSEFfMkZU9ISibuEyWhiGJ7dPhMhi2tfZyyYFOHYt
-	N0WNtAGBG5FkGF+9dRV0Qawoljte8iJdT9eIR5E27zZKZf/cPCc3FBCXEnlDYk8X+1l+AXomyFO
-	YXgxLbWtPyYFVluuuUgEZLcgRbZcUT9fPP3n3CeFnlsqVMbqrk7/VOIsj8dnCyMVIlKkuXLydJx
-	K1LX83XkCmw7GHhI09lE0AUOT3GqkP3/YMxvvOSwTCWpjiZG1w+57QEHcUIEeDSRJKuYP8b43l0
-	cGlVpQ3AV0t7ycrDEMRJ5qFxg8itcNivxaX9p8nNJS7FFSrxNsREjEvLlvssTC0WyEViV8O77WV
-	yD3FIA+dMJvL7scY/SODXgp2uhe6Yw+IWXVSTrjCs1IN2tlCi10z1Q7ubhm5LGtzBs0WUoV1Dod
-	oPzVojtvtcCK//EQOPD6ubBkA46ds7Mj4=
-X-Google-Smtp-Source: AGHT+IF07vV+0WA/n4b9oP2PTX45WFaUh5y+p0py1YN4/ZlnP6MfTnWeIOiCqeBE4tQFLsfHKxwQ0g==
-X-Received: by 2002:a05:622a:11d3:b0:4f1:cd0c:80f6 with SMTP id d75a77b69052e-4ffb4a44431mr96306501cf.49.1767901911767;
-        Thu, 08 Jan 2026 11:51:51 -0800 (PST)
-Received: from [192.168.42.140] (mtl.collabora.ca. [66.171.169.34])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-890770e4262sm58884036d6.20.2026.01.08.11.51.50
+        d=1e100.net; s=20230601; t=1767902614; x=1768507414;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=U+0IrpcN+V0oqtValorBiZ1wiITEvHQIGq+jybV+6PM=;
+        b=FeBpYasyQtfWfTCUjDvA9IKaWUTxING/KOJXgwfJ3s2NP50BvVW+FeDj+1iaaPjKnU
+         log06e2uzgpuL+NAC2yl9M5wgNmYj84gjKRESKVyamHiw8xnHg1JqqVRB6YgQbKb6Lyi
+         Liwuv8fJvKFUSrK4INSXQ1PaTwfz7h7Kcvc7xTOK8tXqghIgqiNLvMJYmf+Z8kbtJvlT
+         S0x+xFZA3yg8OO1HwDQuc6XOEuK9db0YVqgOHqFDUZhjkPdHKlsZnMx5smTyAd4PE2LZ
+         66n++C7S1s8Rw+Ro64R4zLSi+i5FiOojXXFnssde8ub5blHB6ZzLUXeabPd1Lcz8aJ0d
+         XO3g==
+X-Forwarded-Encrypted: i=1; AJvYcCXoiqrfQpBZGUcsXC1my2xdoE7sR6RJE9/o6vpq/nHFMATuX4TYbcDXEqFqU/xLtDK8crXXUURLLKyWRg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyWL7IDqSrXLHT1OGp83Atygsw9EaW8kPqG4x0C/7D1cY/ZD/k9
+	KZ/Yos2tX6KoEv+kw0NHUPdhiQzlrvatX78OLioCFjREK3qzh5Y4WtLrZFXePmhkNR8=
+X-Gm-Gg: AY/fxX4nnvZPQWbtnrO0hcNk7fj9iUrXuLbrN55dypfoZX7Bg5MzJeBWt8yrWtNOvU+
+	A2e8yXHZ2t9G9YArIC7fcc6/m/hgHbudvuujyJ5jOPx7VF7/nid6fWi7UbNQx/H51AiPbli9SFi
+	dWJmdaoUUN/75Zk2HdYnr/7F2XYSuSx6uZsxDos8k0OZOg3Kl+TMwyQsLB9qVFN/nhHidLnGmIG
+	dqAXRJZQc4UldmzxJaIfOzZOxcB7mu6e7j/3LZy6bKB/tfedTDnZMFS/3lB3H6SdGdscESf9gEd
+	SGFVSkA5xFrKtydAk6rwYrm73XjrmbJN/tjcLZ/Lb3g/GvdI+WKG1IF3Ol7U7Ol+GNqm+qwVqq2
+	LTgtstLtDvYTG+wnBCVBVpS3MQZk0nDtj9QYt8hriJaXwC2xPTwzIsqLWk8ogDt/K1PKeUKg3m8
+	ZirBpUzqaE84HTnfIO
+X-Google-Smtp-Source: AGHT+IF09Jx1RsKf/ckE/pQqCWP+iFQloONpAQuOq6DavbULp1WEe4q21ANMIGV5Sd+vyzTCa2FeOg==
+X-Received: by 2002:a05:600c:450f:b0:479:3a89:121e with SMTP id 5b1f17b1804b1-47d84b614c6mr85847175e9.37.1767902614177;
+        Thu, 08 Jan 2026 12:03:34 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d7f65d9f0sm177083095e9.12.2026.01.08.12.03.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jan 2026 11:51:50 -0800 (PST)
-Message-ID: <aa5536613a517caf5e954e94435f1a2229bad877.camel@ndufresne.ca>
-Subject: Re: [RESEND][PATCH v1] media: mediatek: vcodec: Discard
- pm_runtime_put() return value
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: "Rafael J. Wysocki" <rafael@kernel.org>, Linux PM
- <linux-pm@vger.kernel.org>, 	linux-media@vger.kernel.org
-Cc: LKML <linux-kernel@vger.kernel.org>, Ulf Hansson
- <ulf.hansson@linaro.org>,  Brian Norris <briannorris@chromium.org>, Tiffany
- Lin <tiffany.lin@mediatek.com>, Andrew-CT Chen	
- <andrew-ct.chen@mediatek.com>, Yunfei Dong <yunfei.dong@mediatek.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno	
- <angelogioacchino.delregno@collabora.com>,
- linux-mediatek@lists.infradead.org
-Date: Thu, 08 Jan 2026 14:51:47 -0500
-In-Reply-To: <3396476.aeNJFYEL58@rafael.j.wysocki>
-References: <3396476.aeNJFYEL58@rafael.j.wysocki>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-a3j3e/TWQhiEXlEjiWOs"
-User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
+        Thu, 08 Jan 2026 12:03:33 -0800 (PST)
+Date: Thu, 8 Jan 2026 23:03:31 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Shreeya Patel <shreeya.patel@collabora.com>
+Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Dingxian Wen <shawn.wen@rock-chips.com>,
+	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
+	kernel@collabora.com, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: [PATCH] media: synopsys: hdmirx: fix integer overflow in
+ hdmirx_get_edid()
+Message-ID: <aWANkxRApxDeReRW@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 
+The "edid->blocks" variable comes from the user via the ioctl.  It's
+a u32 and "edid->start_block" is a u32 too.  The addition operation
+could have an integer wrapping bug, so use the size_add() function to
+prevent that.
 
---=-a3j3e/TWQhiEXlEjiWOs
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc: stable@vger.kernel.org
+Fixes: 7b59b132ad43 ("media: platform: synopsys: Add support for HDMI input driver")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Le jeudi 08 janvier 2026 =C3=A0 16:23 +0100, Rafael J. Wysocki a =C3=A9crit=
-=C2=A0:
-> From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
->=20
-> Printing error messages on pm_runtime_put() returning negative values
-> is not particularly useful.
->=20
-> Returning an error code from pm_runtime_put() merely means that it has
-> not queued up a work item to check whether or not the device can be
-> suspended and there are many perfectly valid situations in which that
-> can happen, like after writing "on" to the devices' runtime PM "control"
-> attribute in sysfs for one example.
->=20
-> Accordingly, update mtk_vcodec_enc_pw_off() and mtk_vcodec_dec_pw_off()
-> to simply discard the return value of pm_runtime_put().
->=20
-> This will facilitate a planned change of the pm_runtime_put() return
-> type to void in the future.
->=20
-> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+diff --git a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
+index c3007e09bc9f..f054e30cbfb0 100644
+--- a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
++++ b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
+@@ -717,7 +717,7 @@ static int hdmirx_get_edid(struct file *file, void *fh, struct v4l2_edid *edid)
+ 	if (edid->start_block >= hdmirx_dev->edid_blocks_written || !edid->blocks)
+ 		return -EINVAL;
+ 
+-	if (edid->start_block + edid->blocks > hdmirx_dev->edid_blocks_written)
++	if (size_add(edid->start_block, edid->blocks) > hdmirx_dev->edid_blocks_written)
+ 		edid->blocks = hdmirx_dev->edid_blocks_written - edid->start_block;
+ 
+ 	memcpy(edid->edid, hdmirx_dev->edid, edid->blocks * EDID_BLOCK_SIZE);
+-- 
+2.51.0
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-
-> ---
->=20
-> This is requisite for converting pm_runtime_put() into a void function.
->=20
-> If you decide to pick it up, please let me know.
->=20
-> Otherwise, an ACK or equivalent will be appreciated, but also the lack
-> of specific criticism will be eventually regarded as consent.
->=20
-> Originally posted here:
->=20
-> https://lore.kernel.org/linux-pm/3690736.iIbC2pHGDl@rafael.j.wysocki/
->=20
-> ---
-> =C2=A0drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_pm.c =
-|=C2=A0=C2=A0=C2=A0 6 +--
-> ---
-> =C2=A0drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_pm.c =
-|=C2=A0=C2=A0=C2=A0 6 +--
-> ---
-> =C2=A02 files changed, 2 insertions(+), 10 deletions(-)
->=20
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_pm.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_pm.c
-> @@ -67,11 +67,7 @@ static int mtk_vcodec_dec_pw_on(struct m
-> =C2=A0
-> =C2=A0static void mtk_vcodec_dec_pw_off(struct mtk_vcodec_pm *pm)
-> =C2=A0{
-> -	int ret;
-> -
-> -	ret =3D pm_runtime_put(pm->dev);
-> -	if (ret && ret !=3D -EAGAIN)
-> -		dev_err(pm->dev, "pm_runtime_put fail %d", ret);
-> +	pm_runtime_put(pm->dev);
-> =C2=A0}
-> =C2=A0
-> =C2=A0static void mtk_vcodec_dec_clock_on(struct mtk_vcodec_pm *pm)
-> --- a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_pm.c
-> +++ b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_pm.c
-> @@ -71,11 +71,7 @@ int mtk_vcodec_enc_pw_on(struct mtk_vcod
-> =C2=A0
-> =C2=A0void mtk_vcodec_enc_pw_off(struct mtk_vcodec_pm *pm)
-> =C2=A0{
-> -	int ret;
-> -
-> -	ret =3D pm_runtime_put(pm->dev);
-> -	if (ret && ret !=3D -EAGAIN)
-> -		dev_err(pm->dev, "pm_runtime_put fail %d", ret);
-> +	pm_runtime_put(pm->dev);
-> =C2=A0}
-> =C2=A0
-> =C2=A0void mtk_vcodec_enc_clock_on(struct mtk_vcodec_pm *pm)
->=20
->=20
->=20
-
---=-a3j3e/TWQhiEXlEjiWOs
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaWAK0wAKCRDZQZRRKWBy
-9JWRAQCunAzY4/PdIocPz0mGcldjnSIJV/RkIqS9BMGGkQGOtwD+P2Z19p1bMZMu
-4dMSY/Q84vZtJ9361u3hPjMZ2jdANAo=
-=LCTp
------END PGP SIGNATURE-----
-
---=-a3j3e/TWQhiEXlEjiWOs--
 
