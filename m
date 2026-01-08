@@ -1,175 +1,136 @@
-Return-Path: <linux-media+bounces-50239-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50240-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5450D044A2
-	for <lists+linux-media@lfdr.de>; Thu, 08 Jan 2026 17:19:41 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3143FD041A7
+	for <lists+linux-media@lfdr.de>; Thu, 08 Jan 2026 16:59:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B9A53315D6B1
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jan 2026 15:08:49 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id DFD6F30C2417
+	for <lists+linux-media@lfdr.de>; Thu,  8 Jan 2026 15:41:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80D38274650;
-	Thu,  8 Jan 2026 15:08:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 147953033F7;
+	Thu,  8 Jan 2026 15:23:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G4s2YCTw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n3Qrp9Hl"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEFC026CE1E
-	for <linux-media@vger.kernel.org>; Thu,  8 Jan 2026 15:08:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 623B238F9C;
+	Thu,  8 Jan 2026 15:23:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767884894; cv=none; b=WqDWEhdtvqn91D3R+YSFYVq+ZIvsNDy+/OVJQLSCNeQ2lsNGhVxR9ICKCeLo4mMM8mXPWqH7v3es3SlXE1LwjN00EWZMlh9oDuLQcKWo3U4SUoHTOldnGYWUc7d+Y96KSrqC+wi4CCKyr/xqHbrpsqTbKbHxdaKyZKe/5W5y954=
+	t=1767885807; cv=none; b=NesrzPHI6lEIw6y4x/l+jpsXITibOk7dHGRknaoUmKerE0ZJixYEuiXfUWNLflGKbfJGSxK1mTXTtk671iC17EGSoedUZvSU7Y+kzx0muK9zoCsv6QZiksMKoD/HwOjqpUd0VW6qVnCHmEChJvJbl/Ku5Oy7YKVKAgX4kgWw+pc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767884894; c=relaxed/simple;
-	bh=39Z9S4WdE/PvsD7g4HhaCFW2OPS03zLo06BGT58/Sdg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pQsj42CrToFt0UgOwOtsAGjqzaWK/BkM/tI5jFgXgFfBZaTmMIrhSC3DT9UTgNX4TyqshH/b2P+QRXYYVzpEHf+v2SY/+GXWSojb1X4Q54dctIgMuiR/Gh0GMjkvGc/gHUD4lI3DpWBKTLfeg9oHHNQIkLaHwIiCjMfc8tdW6qU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G4s2YCTw; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86EF3C4AF09
-	for <linux-media@vger.kernel.org>; Thu,  8 Jan 2026 15:08:13 +0000 (UTC)
+	s=arc-20240116; t=1767885807; c=relaxed/simple;
+	bh=lKUjOpQjsrio8LVg2MdCngrlvUGtYnTK5X3c+0ZSIYo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ZKK7llP6Hecw6bAsp//RLPNkYYvkLW2UUbIQQpmImHkl3B8W9dHs/W1U7yRWXrTRQFHkltYpiwxfswku7g26xM+VvsiA0DncBK025uw64jvGGFlWvY+dW3Vy3/Puiv5oKpYagVyuyKFiJw6326knuR4kaNSxc2cgyiq3DaE1czM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n3Qrp9Hl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC136C116C6;
+	Thu,  8 Jan 2026 15:23:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767884893;
-	bh=39Z9S4WdE/PvsD7g4HhaCFW2OPS03zLo06BGT58/Sdg=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=G4s2YCTwalIIEOa5+zNpraynj/0tm4IP0B4nWh1B8yEFVsk2q/4Nwsv9udsyPMb/V
-	 c2DO2apYh/CjwSMjCs/GFKynWKqfctOOJP6KTPot1qppd7LbMrXROq0hxcvzwvQYug
-	 gbDa6i9pWATYUX1E67v6srC0L0rFGdb0qk2RXH+dPDqmYfqT2ULqYl2m7iJb8TvW22
-	 0Iv4ktk6Y54LOfGHWKdahqYrTTBH9vq6aJnCj8p4vWkSJl+TSizIs5myGfq2YeVxMD
-	 qU871L9PFs1zSFfmyBQZGNRSvkUNcOwVXUaUaOQ9oAi7VSMKLK5wPCr1O6DH+MZ5QT
-	 kdU2zU/LkS7rw==
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7c76f65feb5so2557969a34.0
-        for <linux-media@vger.kernel.org>; Thu, 08 Jan 2026 07:08:13 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWf9UMEPUAgvDYm+Uap0LSXDwFofz+lY4cFlZG4HShM5G63c7dSwDG8dtmP1TXeP1K4/orfJvc78bQLzQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQ5JDFCqhriWiH+cx5wdqHz0mhvJgBWXYDxwnmmuG/uUGZ0vEK
-	U1yARvfP0WNsc4ZyG3vtupFxvUpI7w1JxNN1Yhz0mJtjQBIKCrlnx9A6V2q1kM+3n4JnMI1bxMo
-	B/MrVumnz3jCOUp4zXxg1PgrOLC0O9wo=
-X-Google-Smtp-Source: AGHT+IH/gnEZYqIaFUUN6qjbp6n1QUe5qlNXozvSo/LvWHOByHxaNwk2S8ODoFI4rDHWqv0owwBmLR26/u3UOEkO0ho=
-X-Received: by 2002:a05:6820:6181:b0:65f:5d31:2965 with SMTP id
- 006d021491bc7-65f5d313701mr1029748eaf.47.1767884892592; Thu, 08 Jan 2026
- 07:08:12 -0800 (PST)
+	s=k20201202; t=1767885807;
+	bh=lKUjOpQjsrio8LVg2MdCngrlvUGtYnTK5X3c+0ZSIYo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=n3Qrp9HlW1xrqaqUaRwRMbdaq/9N4aGFW+NM127LkZkMDfTYE4inb+azVV5tht7i8
+	 QsiGoMvagiPVlUKtIhp50p11MBGyT/TtnjAgAoEnjQtMXrl/15OJku0y6IHN/07uNJ
+	 QGsr1YwJnD1wFYjKKISVfoNwpJQvNUi7pJ5CziFdSl83plkXG2W5KnmhDhXHQMmOLc
+	 UcnVy8PVrDXgtNGiPfhCjTe9oQ3Z3oXNuxxV7Dg3XKXi9q1DhINovMiOPShOc9dx3E
+	 HQFrEh6/fCgDhY+qmXcUfod23YvO7XjP3Y50sqsx4wzPxHcI0DQtYmbiAP6/GuOtiV
+	 FGWJ+3+xMegew==
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+To: Linux PM <linux-pm@vger.kernel.org>, linux-media@vger.kernel.org
+Cc: LKML <linux-kernel@vger.kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Brian Norris <briannorris@chromium.org>,
+ Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Yunfei Dong <yunfei.dong@mediatek.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-mediatek@lists.infradead.org
+Subject:
+ [RESEND][PATCH v1] media: mediatek: vcodec: Discard pm_runtime_put() return
+ value
+Date: Thu, 08 Jan 2026 16:23:21 +0100
+Message-ID: <3396476.aeNJFYEL58@rafael.j.wysocki>
+Organization: Linux Kernel Development
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251225103616.3203473-1-wens@kernel.org> <20251225103616.3203473-5-wens@kernel.org>
- <13929653.uLZWGnKmhe@jernej-laptop>
-In-Reply-To: <13929653.uLZWGnKmhe@jernej-laptop>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Thu, 8 Jan 2026 23:07:52 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65LzhdXfX16HTgGbC7OYkuX=vqCzB65=BqD4i1SiCQeRw@mail.gmail.com>
-X-Gm-Features: AQt7F2r3aAZUypwXBa9lAFiH8eexcqiOW8WUO-M-nGoH39uZtjTr8DirPSqIr98
-Message-ID: <CAGb2v65LzhdXfX16HTgGbC7OYkuX=vqCzB65=BqD4i1SiCQeRw@mail.gmail.com>
-Subject: Re: [PATCH 4/4] ARM: dts: allwinner: Replace status "failed" with "fail"
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej@kernel.org>, 
-	Samuel Holland <samuel@sholland.org>, Linus Walleij <linusw@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, devicetree@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-gpio@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 26, 2025 at 2:49=E2=80=AFAM Jernej =C5=A0krabec <jernej.skrabec=
-@gmail.com> wrote:
->
-> Dne =C4=8Detrtek, 25. december 2025 ob 11:36:15 Srednjeevropski standardn=
-i =C4=8Das je Chen-Yu Tsai napisal(a):
-> > The device tree bindings specify using "fail", not "failed".
-> >
-> > Fix up all the ones that are wrong.
->
-> While patch indeed fixes the issue, I wonder if "fail" is proper value?
-> According to specs, it means that device needs repair. What about just
-> keep "disabled"?
+From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-"disabled" isn't right either, as that means its disconnected or not used.
-These are definitely connected.
+Printing error messages on pm_runtime_put() returning negative values
+is not particularly useful.
 
-On the other hand we could fix these and describe the supplies for the
-external as supplies for the pin banks? But I doubt anyone has these
-devices around for testing.
+Returning an error code from pm_runtime_put() merely means that it has
+not queued up a work item to check whether or not the device can be
+suspended and there are many perfectly valid situations in which that
+can happen, like after writing "on" to the devices' runtime PM "control"
+attribute in sysfs for one example.
 
-ChenYu
+Accordingly, update mtk_vcodec_enc_pw_off() and mtk_vcodec_dec_pw_off()
+to simply discard the return value of pm_runtime_put().
 
-> Best regards,
-> Jernej
->
-> >
-> > Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
-> > ---
-> >  arch/arm/boot/dts/allwinner/sun4i-a10-dserve-dsrv9703c.dts | 2 +-
-> >  arch/arm/boot/dts/allwinner/sun4i-a10-pov-protab2-ips9.dts | 2 +-
-> >  arch/arm/boot/dts/allwinner/sun6i-a31-hummingbird.dts      | 2 +-
-> >  arch/arm/boot/dts/allwinner/sun6i-a31s-primo81.dts         | 2 +-
-> >  4 files changed, 4 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/arch/arm/boot/dts/allwinner/sun4i-a10-dserve-dsrv9703c.dts=
- b/arch/arm/boot/dts/allwinner/sun4i-a10-dserve-dsrv9703c.dts
-> > index 63e77c05bfda..f2413ba6a858 100644
-> > --- a/arch/arm/boot/dts/allwinner/sun4i-a10-dserve-dsrv9703c.dts
-> > +++ b/arch/arm/boot/dts/allwinner/sun4i-a10-dserve-dsrv9703c.dts
-> > @@ -112,7 +112,7 @@ axp209: pmic@34 {
-> >
-> >  &i2c1 {
-> >       /* pull-ups and devices require AXP209 LDO3 */
-> > -     status =3D "failed";
-> > +     status =3D "fail";
-> >  };
-> >
-> >  &i2c2 {
-> > diff --git a/arch/arm/boot/dts/allwinner/sun4i-a10-pov-protab2-ips9.dts=
- b/arch/arm/boot/dts/allwinner/sun4i-a10-pov-protab2-ips9.dts
-> > index c32596947647..e0c7099015da 100644
-> > --- a/arch/arm/boot/dts/allwinner/sun4i-a10-pov-protab2-ips9.dts
-> > +++ b/arch/arm/boot/dts/allwinner/sun4i-a10-pov-protab2-ips9.dts
-> > @@ -96,7 +96,7 @@ axp209: pmic@34 {
-> >
-> >  &i2c1 {
-> >       /* pull-ups and devices require AXP209 LDO3 */
-> > -     status =3D "failed";
-> > +     status =3D "fail";
-> >  };
-> >
-> >  &i2c2 {
-> > diff --git a/arch/arm/boot/dts/allwinner/sun6i-a31-hummingbird.dts b/ar=
-ch/arm/boot/dts/allwinner/sun6i-a31-hummingbird.dts
-> > index 5bce7a32651e..5dfd36e3a49d 100644
-> > --- a/arch/arm/boot/dts/allwinner/sun6i-a31-hummingbird.dts
-> > +++ b/arch/arm/boot/dts/allwinner/sun6i-a31-hummingbird.dts
-> > @@ -170,7 +170,7 @@ hdmi_out_con: endpoint {
-> >
-> >  &i2c0 {
-> >       /* pull-ups and devices require AXP221 DLDO3 */
-> > -     status =3D "failed";
-> > +     status =3D "fail";
-> >  };
-> >
-> >  &i2c1 {
-> > diff --git a/arch/arm/boot/dts/allwinner/sun6i-a31s-primo81.dts b/arch/=
-arm/boot/dts/allwinner/sun6i-a31s-primo81.dts
-> > index b32b70ada7fd..fefd887fbc39 100644
-> > --- a/arch/arm/boot/dts/allwinner/sun6i-a31s-primo81.dts
-> > +++ b/arch/arm/boot/dts/allwinner/sun6i-a31s-primo81.dts
-> > @@ -90,7 +90,7 @@ hdmi_out_con: endpoint {
-> >
-> >  &i2c0 {
-> >       /* pull-ups and device VDDIO use AXP221 DLDO3 */
-> > -     status =3D "failed";
-> > +     status =3D "fail";
-> >  };
-> >
-> >  &i2c1 {
-> >
->
->
->
->
->
+This will facilitate a planned change of the pm_runtime_put() return
+type to void in the future.
+
+Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+---
+
+This is requisite for converting pm_runtime_put() into a void function.
+
+If you decide to pick it up, please let me know.
+
+Otherwise, an ACK or equivalent will be appreciated, but also the lack
+of specific criticism will be eventually regarded as consent.
+
+Originally posted here:
+
+https://lore.kernel.org/linux-pm/3690736.iIbC2pHGDl@rafael.j.wysocki/
+
+---
+ drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_pm.c |    6 +-----
+ drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_pm.c |    6 +-----
+ 2 files changed, 2 insertions(+), 10 deletions(-)
+
+--- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_pm.c
++++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_pm.c
+@@ -67,11 +67,7 @@ static int mtk_vcodec_dec_pw_on(struct m
+ 
+ static void mtk_vcodec_dec_pw_off(struct mtk_vcodec_pm *pm)
+ {
+-	int ret;
+-
+-	ret = pm_runtime_put(pm->dev);
+-	if (ret && ret != -EAGAIN)
+-		dev_err(pm->dev, "pm_runtime_put fail %d", ret);
++	pm_runtime_put(pm->dev);
+ }
+ 
+ static void mtk_vcodec_dec_clock_on(struct mtk_vcodec_pm *pm)
+--- a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_pm.c
++++ b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_pm.c
+@@ -71,11 +71,7 @@ int mtk_vcodec_enc_pw_on(struct mtk_vcod
+ 
+ void mtk_vcodec_enc_pw_off(struct mtk_vcodec_pm *pm)
+ {
+-	int ret;
+-
+-	ret = pm_runtime_put(pm->dev);
+-	if (ret && ret != -EAGAIN)
+-		dev_err(pm->dev, "pm_runtime_put fail %d", ret);
++	pm_runtime_put(pm->dev);
+ }
+ 
+ void mtk_vcodec_enc_clock_on(struct mtk_vcodec_pm *pm)
+
+
+
 
