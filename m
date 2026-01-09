@@ -1,257 +1,184 @@
-Return-Path: <linux-media+bounces-50261-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50262-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E5CDD071D4
-	for <lists+linux-media@lfdr.de>; Fri, 09 Jan 2026 05:22:32 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A650D072B2
+	for <lists+linux-media@lfdr.de>; Fri, 09 Jan 2026 05:49:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 0E91F30118F5
-	for <lists+linux-media@lfdr.de>; Fri,  9 Jan 2026 04:22:31 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4FAEF301D654
+	for <lists+linux-media@lfdr.de>; Fri,  9 Jan 2026 04:49:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DA6126B76A;
-	Fri,  9 Jan 2026 04:22:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90AF1261B80;
+	Fri,  9 Jan 2026 04:49:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="CGB5MtIT";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="TWhea14/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oi1-f205.google.com (mail-oi1-f205.google.com [209.85.167.205])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 462BB500958
-	for <linux-media@vger.kernel.org>; Fri,  9 Jan 2026 04:22:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C22CECA6B
+	for <linux-media@vger.kernel.org>; Fri,  9 Jan 2026 04:49:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767932546; cv=none; b=QFpiirR+l5mTJjvURLfqN20hgcWPCjKK45g2FddROqthezecPTQ5UEkATld5c5WvgryLcBxQxIOQwTxDDnbaAVZnMwmm7BnsTur8V55f57RFjieqhQf9KuAPNPZeW7hdJ3cZvuIlXEimjny+OAxDYwvKga5LOfosA/oZrGbAQdA=
+	t=1767934173; cv=none; b=ikSOtMVI9B1SsUN4/RLxJiJXhqMaOhjGVVTL3pM0vk0Iz+dulPJcttazR/MwGsGqzAG9xWINOMJz3+Z+P4EchbUXp3hjyg+0Nfi9FhW8Vil4MUlc4Jlc8VTz0Hml5pdNafTRGot07ZANOaStX6fQ0RvuELtekB0aypROXU4eB1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767932546; c=relaxed/simple;
-	bh=NZ75YZ7Tn05NgGQUp73W8cZmWpLaaohs3C7ZygAwd2Q=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=NCjIuXDyd9kNxwphF0eImiWMS0qXbebupKQPK0Ren5UxTIF+BLF5kKUIvANdTQLf08hqnjehoZaU+FIGwQKfVEAcOuS9ZM8C1UNFPF7QFe1LcGli8LdfCFIr79A1BMPDtL/sLDV2nVwkTURG3Fo5toZosoyyFgosSqbhdFHQkb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f205.google.com with SMTP id 5614622812f47-459df8c820eso4514365b6e.3
-        for <linux-media@vger.kernel.org>; Thu, 08 Jan 2026 20:22:25 -0800 (PST)
+	s=arc-20240116; t=1767934173; c=relaxed/simple;
+	bh=5nu0clrNhiT08OdX2YjcD+8rItHzYZs7mGppKc9/fBw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Gfj0+J9dd+dehCJABWxWX0wgqfLjFRC8y7YU9OhKzj4Gb3/sPEAhEFxu6XYzjYD+D+V/BVXErxzH8YvQJ4tnxt49z+G8KDZXnRdzmt2rkr91XzX8eVUAlU9eLLBZB4W9QpIddc+Tw42I9lywayu+YfedR49KPDDEPXyiyHjmfrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=CGB5MtIT; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=TWhea14/; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 608JFoTG3019527
+	for <linux-media@vger.kernel.org>; Fri, 9 Jan 2026 04:49:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=aZ+/ekIdSYikpbxfIVe6JD
+	OX0MUg3x4flhnwmoIhSLw=; b=CGB5MtITjQGVnw5zTcpD1P0jJRUik9hrfZKYzR
+	jQ+uMCyX0y8S/ckVnXL/sUA8pw/OtXxgIpuw2iftgJm2YDxeh1EiYZEJmgKzQ8O5
+	9hNTdXHfWOrApRmGZqofSSQ9Sw5nuinj5yPEyiThnb5fyiB4rsubtF61JZ7UbKfP
+	0T4pukeEstwsXxeSZ4m5wKZOMVW98adhotlqwAYwC0VxxrHM0nX0q1y25/FXtXM3
+	9QhzsN5D3BKiTPZreYditnK6gS492rJcao5V2exmZLxBCF0aVFPXFWkPNx/FfW4R
+	wzLrsOx4ET5SFpwdXxqfg8VW8n7OKtvepnJTfQm6eSgDtziw==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bjjk3hamq-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Fri, 09 Jan 2026 04:49:31 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4ed6ff3de05so109400901cf.3
+        for <linux-media@vger.kernel.org>; Thu, 08 Jan 2026 20:49:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1767934170; x=1768538970; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aZ+/ekIdSYikpbxfIVe6JDOX0MUg3x4flhnwmoIhSLw=;
+        b=TWhea14/kOmnIbmCzCcD0d5iIXxN2miAi8OZ5IJqXxDev2jXegVH39hQWVMl7XwBNO
+         VsXuRqeMnvhbnIjl3a88V2VXla11EKiIlu0dN4VL5AcxNqJBZNUD9Rbm4UeGoyD0r5VN
+         WMd998ZThfp8ZQXAzofdonL61SAoqfXAud9mrhf8XDNFa4nWHOExQnAdyhr0UYmXLDe8
+         hitxFh6bOfn7at2DvQK2aujgTNRsXNzxghFpZEKUlKGuHKNeXDdGDXyxwYcL6PHLKhYV
+         G3o+rRFDEr79YrNE6i/pd1yLWXTWJQ76qezZ4TGs6GJhJE8rJE4B3/8ru+ZJIdLKokQf
+         YtBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767932544; x=1768537344;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sHkoHnmzmaFkOhc7IWELffY1V37BKa3aswjaYPg0VhU=;
-        b=Ml+pfz2Ucf1MCwj5ROE0WZrbFlG72iRHDxHn/5+CzZvdk9g9hjkbOJ79AmHlo5NJu1
-         XtNxvZ8OHQR4X56FVdSX+u34MgAhPhZqJ+8IUe0g+jHnogfhrRlzmbVsL94GFcPwi9tC
-         sp6DztiQsZwPz+1H/kL/0Ikn3J/EGjWfVZ3maA+WvapyLv18pxbe2Dnmx/PqV4ULEbMR
-         wU+x3xbcZkj5XXKmqMSiBhbL5kcukbAjvUFrx2m4f/AjjYuA5Bye5yaQ8xYVZPI3idT0
-         ypywN+y8jVcvxG0aQLd2LjvVUUvxcpq9ZmZ8j3mGZZeqJ4KNj+yEklAUUVWzCgiivmsH
-         Vo/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXAoeutd0gSK8tMGfsKjd65Hol6ouvLh6dtFVQZaeMXpnMLJ3QLle09FbYzNCd9utzImbicDpuPtuTcXQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwBAmemRYhCSC0I+gKywvsD8UZ01vkin32a1f9xZlH1WAN6dXmR
-	6GtZRGVuFQ2PVelvZ+VMu+ytRQ/+/2plBNXjC7tZ99dsaOeeRHICSDwu0pjH9M2OTKzwjnOHKtb
-	rjN/2oiVytEUncvxhEeImMuKcDtMYCXPRpxJVivWjoxvogAnU42jPoqxk8AM=
-X-Google-Smtp-Source: AGHT+IGR4eZTOLg1To+EEAfpXuwqdU0fyjKT56Q9wXXJkDB1IKkMBZH4hccBP2CnK8FZ+eB6Bndqcin9lfoRRzIQb7n4G1IwrZKS
+        d=1e100.net; s=20230601; t=1767934170; x=1768538970;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aZ+/ekIdSYikpbxfIVe6JDOX0MUg3x4flhnwmoIhSLw=;
+        b=dR0kwRtf9Q4NouwdAsRD1E3ePP55ZuWOwiMbBHCWOMjpCh1v+PjD7AJ1/5ZnEvm2KS
+         wQKJ3fGAzEDenr7S9yqtbJGtrvzJv4HbCxEStoyKOou4agaYqyPT8pXvTzEqMaEkKuTU
+         s77d8ppZGxiIsXwdP+wdW7zkgLSbiN8I4WJ09cE2Yq5PXESu93d6Ezr1o06qSbY5La73
+         xuQmvTGTgM4e7NPF/nf5YoF6OWzUsbIsDp8VDsNn35zEQmrQIbRoL/rnvot44HxZj0Qv
+         IAP100klzfs7k0c6qEC+hwD1YopUS8qShFsk6ba0I9VnLOU/M3Def4dFIG47xO/GmRB1
+         FmDw==
+X-Gm-Message-State: AOJu0YxDBWVj9cq1BJEOwRFcaWyFoDJhulOwnn6IuW9X+h/V7vJ+SjUh
+	LWyIQJZC+En45dkA5IZodFFHEi7Ii06JYSBxp5MyoQWWWBiFYrn5MOeZDWgEVdjq0IutfH8Yx1H
+	+WilYu/xwChN6yhxwTQuQNH45Uw9zs7v6U8yAtOrqw9Dv/WWFY+VAJPtT8iqD4a7P1A==
+X-Gm-Gg: AY/fxX4EbzymO+ahJtyviXV8C6XHHuSD3OD0gNljLcCj4+fevSWZJVB017/xH6P3GDB
+	cAyf+MeO+twUKSk2/JSinDv4rAW8WyYV4SAL7k8Q42AaAGlGXfWCkyXGEZVwqtXDrXoJxNJfkBd
+	Rb+cHUDR1iqDbyr64MN4iG/T31+R+BVgTnpYB/LeTn4oQO6/OSIgDHs1Gmf7yQs9Muez6ZfHdvj
+	h8ZgPbjr0201tC1QfmXJJu+eSxlPt9b9IUSDbDNkTtBTgn6q0PSIBAIjJxXfctfObVy9Oct/0lH
+	m985Dk41BjQ1kWydBnACtAb7hncDS0jy+it3+huLx1RDRLO6HugjEnO5pOx8EC4BLqmRIsu5LxI
+	KLX0j4qTlvwG0TTTeihnJn3/TMKYtK5VGl0YTKURYZza9pCsMY0QSKLx/QIyQDkmrJQcWPwIe
+X-Received: by 2002:a05:622a:5916:b0:4f3:59a7:67b3 with SMTP id d75a77b69052e-4ffb48c4709mr119260651cf.20.1767934170068;
+        Thu, 08 Jan 2026 20:49:30 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE2p36nlS/pu5IyinOLSzYhkcjkXOzckkWiACQ3sysHMqUNUqN6S/YQ8apY2qdC80DHiqx0aQ==
+X-Received: by 2002:a05:622a:5916:b0:4f3:59a7:67b3 with SMTP id d75a77b69052e-4ffb48c4709mr119260371cf.20.1767934169639;
+        Thu, 08 Jan 2026 20:49:29 -0800 (PST)
+Received: from WENMLIU-LAB01.qualcomm.com (Global_NAT1_IAD_FW.qualcomm.com. [129.46.232.65])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4ffa8e36232sm61049991cf.22.2026.01.08.20.49.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Jan 2026 20:49:28 -0800 (PST)
+From: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+To: sakari.ailus@linux.intel.com, mchehab@kernel.org
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        wenmeng.liu@oss.qualcomm.com
+Subject: [PATCH v2] media: i2c: imx412: wait for NVM read (T7) before programming mode registers
+Date: Fri,  9 Jan 2026 12:49:13 +0800
+Message-Id: <20260109044913.3310-1-wenmeng.liu@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:17a1:b0:44d:bdeb:f577 with SMTP id
- 5614622812f47-45a6be3889dmr3345600b6e.31.1767932544335; Thu, 08 Jan 2026
- 20:22:24 -0800 (PST)
-Date: Thu, 08 Jan 2026 20:22:24 -0800
-In-Reply-To: <00000000000092be0b061eae907e@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69608280.050a0220.1c677c.03b0.GAE@google.com>
-Subject: Re: [syzbot] [media?] KASAN: slab-use-after-free Read in em28xx_release_resources
-From: syzbot <syzbot+16062f26c6480975e5ed@syzkaller.appspotmail.com>
-To: laurent.pinchart@ideasonboard.com, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: Uo7RzqpL0n8wQOv6E3NRT6cCOTsfoBAf
+X-Authority-Analysis: v=2.4 cv=EazFgfmC c=1 sm=1 tr=0 ts=696088db cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
+ a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=Rz3T_L-m2ZCUWiLNYVcA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=dawVfQjAaf238kedN5IG:22
+X-Proofpoint-GUID: Uo7RzqpL0n8wQOv6E3NRT6cCOTsfoBAf
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTA5MDAzMCBTYWx0ZWRfX0oN08B/F0o0T
+ ZrBfE9d7BuIsfeCmQNmOJlB7Q55mBL5Vfl3Y6OzQkPxT4uQH2LoKC34FaI/EHYt6eXCv8wVZ/VL
+ WcvSBR5z91zTGtRafucPJxBR9fHgwPLNLiTsdWboOzMbw7IJEcX4duJ7TGQIsjeSoCRkrogYllC
+ CUo5qLk0iwoUowIty3dyuWJjK9Rw10Iu1ZG46YlyCqqBb8N4ALzaO1TM8IWYR88NHJtcIhQZ7FE
+ FcvdNDprmhKIOAr45ZqTx9G376WKu3tNu27JPMpu1ffrnf1aZdwIhO+09hBMC6o/xpSShea7dEI
+ z+K7f5RnuaKz0uJJ/sI9+iala/5ZsNU8GGQ4x0/RAK1UBkJmUSkuIsFk1ld5UNjL6C7vMmrrg4N
+ EQGmzjlwc96LjyVknXaP4jnIpxJnkLFynMjqLo23tHnVlVlrPnR3AmPLkUHHWVz/BTtR5Q8xYPC
+ o+qdp03wpYo4wkggUKg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-09_01,2026-01-08_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 spamscore=0 adultscore=0 impostorscore=0 priorityscore=1501
+ malwarescore=0 bulkscore=0 lowpriorityscore=0 phishscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601090030
 
-syzbot has found a reproducer for the following issue on:
+During sensor bring-up, the IMX412 performs CCI ID read (T6 ~0.6 ms) and
+parameter loading from NVM (T7 ≤ 8 ms) after INCK/XCLR rise. Writing the
+mode register list while T7 is in progress can cause  failed
+register programming.
 
-HEAD commit:    79b95d74470d Merge tag 'hid-for-linus-2026010801' of git:/..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=112b219a580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=a94030c847137a18
-dashboard link: https://syzkaller.appspot.com/bug?extid=16062f26c6480975e5ed
-compiler:       Debian clang version 20.1.8 (++20250708063551+0c9f909b7976-1~exp1~20250708183702.136), Debian LLD 20.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=152b219a580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13e6e922580000
+Move the usleep_range(7400, 8000) to the beginning of
+imx412_start_streaming(), so the driver waits for the NVM read window (T7)
+to complete before pushing the mode registers and sending the streaming
+command (T8). This change preserves the original delay length but fixes
+the ordering to match the datasheet timing:
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/1a9f5da29b00/disk-79b95d74.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/7c4b0c995534/vmlinux-79b95d74.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/5089d6692134/bzImage-79b95d74.xz
+- T6: CCI ID read wait (~0.6 ms)
+- T7: NVM parameter read (≤ 8 ms) — now fully elapsed before any
+      register writes
+- T8: start of first streaming after issuing MODE_SELECT
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+16062f26c6480975e5ed@syzkaller.appspotmail.com
-
-em28xx 5-1:0.132: Closing input extension
-==================================================================
-BUG: KASAN: slab-use-after-free in media_device_unregister+0x141/0x430 drivers/media/mc/mc-device.c:804
-Read of size 8 at addr ffff88807c114210 by task kworker/1:9/6093
-
-CPU: 1 UID: 0 PID: 6093 Comm: kworker/1:9 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/25/2025
-Workqueue: usb_hub_wq hub_event
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_address_description mm/kasan/report.c:378 [inline]
- print_report+0xca/0x240 mm/kasan/report.c:482
- kasan_report+0x118/0x150 mm/kasan/report.c:595
- media_device_unregister+0x141/0x430 drivers/media/mc/mc-device.c:804
- em28xx_unregister_media_device drivers/media/usb/em28xx/em28xx-cards.c:3511 [inline]
- em28xx_release_resources+0xac/0x240 drivers/media/usb/em28xx/em28xx-cards.c:3532
- em28xx_usb_disconnect+0x19f/0x2f0 drivers/media/usb/em28xx/em28xx-cards.c:4201
- usb_unbind_interface+0x26e/0x910 drivers/usb/core/driver.c:458
- device_remove drivers/base/dd.c:571 [inline]
- __device_release_driver drivers/base/dd.c:1282 [inline]
- device_release_driver_internal+0x4d9/0x800 drivers/base/dd.c:1305
- bus_remove_device+0x34d/0x440 drivers/base/bus.c:616
- device_del+0x511/0x8e0 drivers/base/core.c:3878
- usb_disable_device+0x3d4/0x8e0 drivers/usb/core/message.c:1418
- usb_disconnect+0x32f/0x990 drivers/usb/core/hub.c:2345
- hub_port_connect drivers/usb/core/hub.c:5407 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
- port_event drivers/usb/core/hub.c:5871 [inline]
- hub_event+0x1ca9/0x4ef0 drivers/usb/core/hub.c:5953
- process_one_work kernel/workqueue.c:3257 [inline]
- process_scheduled_works+0xad1/0x1770 kernel/workqueue.c:3340
- worker_thread+0x8a0/0xda0 kernel/workqueue.c:3421
- kthread+0x711/0x8a0 kernel/kthread.c:463
- ret_from_fork+0x510/0xa50 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:246
- </TASK>
-
-Allocated by task 5932:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
- __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:415
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __kmalloc_cache_noprof+0x3e2/0x700 mm/slub.c:5776
- kmalloc_noprof include/linux/slab.h:957 [inline]
- kzalloc_noprof include/linux/slab.h:1094 [inline]
- em28xx_v4l2_init+0x10b/0x2e70 drivers/media/usb/em28xx/em28xx-video.c:2532
- em28xx_init_extension+0x120/0x1c0 drivers/media/usb/em28xx/em28xx-core.c:1117
- process_one_work kernel/workqueue.c:3257 [inline]
- process_scheduled_works+0xad1/0x1770 kernel/workqueue.c:3340
- worker_thread+0x8a0/0xda0 kernel/workqueue.c:3421
- kthread+0x711/0x8a0 kernel/kthread.c:463
- ret_from_fork+0x510/0xa50 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:246
-
-Freed by task 5932:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- kasan_save_free_info+0x46/0x50 mm/kasan/generic.c:584
- poison_slab_object mm/kasan/common.c:253 [inline]
- __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:285
- kasan_slab_free include/linux/kasan.h:235 [inline]
- slab_free_hook mm/slub.c:2540 [inline]
- slab_free mm/slub.c:6670 [inline]
- kfree+0x1c0/0x660 mm/slub.c:6878
- em28xx_free_v4l2 drivers/media/usb/em28xx/em28xx-video.c:2118 [inline]
- kref_put include/linux/kref.h:65 [inline]
- em28xx_v4l2_init+0x1683/0x2e70 drivers/media/usb/em28xx/em28xx-video.c:2901
- em28xx_init_extension+0x120/0x1c0 drivers/media/usb/em28xx/em28xx-core.c:1117
- process_one_work kernel/workqueue.c:3257 [inline]
- process_scheduled_works+0xad1/0x1770 kernel/workqueue.c:3340
- worker_thread+0x8a0/0xda0 kernel/workqueue.c:3421
- kthread+0x711/0x8a0 kernel/kthread.c:463
- ret_from_fork+0x510/0xa50 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:246
-
-The buggy address belongs to the object at ffff88807c114000
- which belongs to the cache kmalloc-8k of size 8192
-The buggy address is located 528 bytes inside of
- freed 8192-byte region [ffff88807c114000, ffff88807c116000)
-
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x7c110
-head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-ksm flags: 0xfff00000000040(head|node=0|zone=1|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 00fff00000000040 ffff88813ffa7280 ffffea00007dc800 0000000000000003
-raw: 0000000000000000 0000000080020002 00000000f5000000 0000000000000000
-head: 00fff00000000040 ffff88813ffa7280 ffffea00007dc800 0000000000000003
-head: 0000000000000000 0000000080020002 00000000f5000000 0000000000000000
-head: 00fff00000000003 ffffea0001f04401 00000000ffffffff 00000000ffffffff
-head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000008
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 5959, tgid 5959 (syz-executor), ts 109562656564, free_ts 109528923164
- set_page_owner include/linux/page_owner.h:32 [inline]
- post_alloc_hook+0x234/0x290 mm/page_alloc.c:1857
- prep_new_page mm/page_alloc.c:1865 [inline]
- get_page_from_freelist+0x24e0/0x2580 mm/page_alloc.c:3915
- __alloc_frozen_pages_noprof+0x181/0x370 mm/page_alloc.c:5210
- alloc_pages_mpol+0x232/0x4a0 mm/mempolicy.c:2486
- alloc_slab_page mm/slub.c:3075 [inline]
- allocate_slab+0x86/0x3b0 mm/slub.c:3248
- new_slab mm/slub.c:3302 [inline]
- ___slab_alloc+0xe53/0x1820 mm/slub.c:4656
- __slab_alloc+0x65/0x100 mm/slub.c:4779
- __slab_alloc_node mm/slub.c:4855 [inline]
- slab_alloc_node mm/slub.c:5251 [inline]
- __kmalloc_cache_noprof+0x41e/0x700 mm/slub.c:5771
- kmalloc_noprof include/linux/slab.h:957 [inline]
- kzalloc_noprof include/linux/slab.h:1094 [inline]
- macvlan_port_create drivers/net/macvlan.c:1246 [inline]
- macvlan_common_newlink+0x5a3/0x1980 drivers/net/macvlan.c:1484
- macvtap_newlink+0x13c/0x1b0 drivers/net/macvtap.c:108
- rtnl_newlink_create+0x310/0xb00 net/core/rtnetlink.c:3840
- __rtnl_newlink net/core/rtnetlink.c:3957 [inline]
- rtnl_newlink+0x16e7/0x1c90 net/core/rtnetlink.c:4072
- rtnetlink_rcv_msg+0x7cf/0xb70 net/core/rtnetlink.c:6958
- netlink_rcv_skb+0x208/0x470 net/netlink/af_netlink.c:2550
- netlink_unicast_kernel net/netlink/af_netlink.c:1318 [inline]
- netlink_unicast+0x82f/0x9e0 net/netlink/af_netlink.c:1344
- netlink_sendmsg+0x805/0xb30 net/netlink/af_netlink.c:1894
-page last free pid 5959 tgid 5959 stack trace:
- reset_page_owner include/linux/page_owner.h:25 [inline]
- free_pages_prepare mm/page_alloc.c:1406 [inline]
- __free_frozen_pages+0xbc8/0xd30 mm/page_alloc.c:2943
- discard_slab mm/slub.c:3346 [inline]
- __put_partials+0x146/0x170 mm/slub.c:3886
- __slab_free+0x294/0x320 mm/slub.c:5952
- qlink_free mm/kasan/quarantine.c:163 [inline]
- qlist_free_all+0x97/0x100 mm/kasan/quarantine.c:179
- kasan_quarantine_reduce+0x148/0x160 mm/kasan/quarantine.c:286
- __kasan_slab_alloc+0x22/0x80 mm/kasan/common.c:350
- kasan_slab_alloc include/linux/kasan.h:253 [inline]
- slab_post_alloc_hook mm/slub.c:4953 [inline]
- slab_alloc_node mm/slub.c:5263 [inline]
- kmem_cache_alloc_node_noprof+0x43c/0x720 mm/slub.c:5315
- __alloc_skb+0x1dc/0x3a0 net/core/skbuff.c:679
- alloc_skb include/linux/skbuff.h:1383 [inline]
- nlmsg_new include/net/netlink.h:1055 [inline]
- netlink_ack+0x146/0xa50 net/netlink/af_netlink.c:2487
- netlink_rcv_skb+0x28c/0x470 net/netlink/af_netlink.c:2556
- netlink_unicast_kernel net/netlink/af_netlink.c:1318 [inline]
- netlink_unicast+0x82f/0x9e0 net/netlink/af_netlink.c:1344
- netlink_sendmsg+0x805/0xb30 net/netlink/af_netlink.c:1894
- sock_sendmsg_nosec net/socket.c:727 [inline]
- __sock_sendmsg+0x21c/0x270 net/socket.c:742
- __sys_sendto+0x3bd/0x520 net/socket.c:2206
- __do_sys_sendto net/socket.c:2213 [inline]
- __se_sys_sendto net/socket.c:2209 [inline]
- __x64_sys_sendto+0xde/0x100 net/socket.c:2209
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0xec/0xf80 arch/x86/entry/syscall_64.c:94
-
-Memory state around the buggy address:
- ffff88807c114100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff88807c114180: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->ffff88807c114200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                         ^
- ffff88807c114280: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff88807c114300: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
-
-
+Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
 ---
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+Changes in v2:
+- Move the 7.4–8 ms delay before mode-register programming to satisfy T7 (NVM read).
+- Link to v1: https://lore.kernel.org/all/20251222-imx412-v1-1-51c7e724b376@oss.qualcomm.com/
+---
+ drivers/media/i2c/imx412.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/media/i2c/imx412.c b/drivers/media/i2c/imx412.c
+index b3826f803547..ed249a95ff35 100644
+--- a/drivers/media/i2c/imx412.c
++++ b/drivers/media/i2c/imx412.c
+@@ -798,6 +798,9 @@ static int imx412_start_streaming(struct imx412 *imx412)
+ 	const struct imx412_reg_list *reg_list;
+ 	int ret;
+ 
++	/* Wait T7 (≤8ms) so NVM read finishes; avoid I2C NACK when writing mode regs */
++	usleep_range(7400, 8000);
++
+ 	/* Write sensor mode registers */
+ 	reg_list = &imx412->cur_mode->reg_list;
+ 	ret = imx412_write_regs(imx412, reg_list->regs,
+@@ -814,9 +817,6 @@ static int imx412_start_streaming(struct imx412 *imx412)
+ 		return ret;
+ 	}
+ 
+-	/* Delay is required before streaming*/
+-	usleep_range(7400, 8000);
+-
+ 	/* Start streaming */
+ 	ret = imx412_write_reg(imx412, IMX412_REG_MODE_SELECT,
+ 			       1, IMX412_MODE_STREAMING);
+-- 
+2.34.1
+
 
