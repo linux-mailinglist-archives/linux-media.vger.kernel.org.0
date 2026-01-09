@@ -1,135 +1,96 @@
-Return-Path: <linux-media+bounces-50281-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50282-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60361D09D12
-	for <lists+linux-media@lfdr.de>; Fri, 09 Jan 2026 13:39:32 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AA51D09F49
+	for <lists+linux-media@lfdr.de>; Fri, 09 Jan 2026 13:48:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 25C03310997A
-	for <lists+linux-media@lfdr.de>; Fri,  9 Jan 2026 12:33:04 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id B04D8306EC3A
+	for <lists+linux-media@lfdr.de>; Fri,  9 Jan 2026 12:36:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E2AC35B141;
-	Fri,  9 Jan 2026 12:32:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8921E35B137;
+	Fri,  9 Jan 2026 12:36:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="reUlOVVz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oJZP8UuN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 814E731E107;
-	Fri,  9 Jan 2026 12:32:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80A2231ED6D;
+	Fri,  9 Jan 2026 12:36:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767961978; cv=none; b=kJd8SUIGLBLWmkQ+Q30KRyiGNAyykZiBE20XMmARCvKyWXtHULGxVyZvwuDDK5IbaZCN++nkAdSFABN9M7JLoo3kW3fSY4InoNiCRPDBHZDMKYuskSEmj5SmkVA6Vcs/2YrQmFfS/PM544ThIv6uZNjpgVe2ip8sOlthPfsuyUI=
+	t=1767962187; cv=none; b=Y5bxNFY8XFFxHyu1LzbjI0gk89oX4KlSpgfRCoOu4hm0YCpwW0xpOTwhmOCcejqaac1itoCr++9L0rCXH86xczydR7t76lm1tU4s4BvQwZ1juZQuJYaJ4Xp2iVIc7UurLdMcIuSDXmk49uLSAaf+4ia5IYgtxVan0f8+1gOUb24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767961978; c=relaxed/simple;
-	bh=RvaGYB0K7abFbaCYUVw7EmN+x5RQ9FAWltYCa30ryB0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O5e/eQbpTwTYM5Wq8KdrSY9jTrSjBtC46pB5p0gQg42ooUjv6EZC/rlTw5tyr4DgWGJxU+GxoUuR8ehnAMK6HPhM6AmT41hBf9jgPb6ZYKvJjuaGHJyMB7IcfxQWC6zqoVC5I9nu/kwNV6suyZj0/epclHd+6MpIf74QAPTwYy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=reUlOVVz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BEB9C19421;
-	Fri,  9 Jan 2026 12:32:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767961978;
-	bh=RvaGYB0K7abFbaCYUVw7EmN+x5RQ9FAWltYCa30ryB0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=reUlOVVzewLtXHtb79/J8vOMrGzvcDWQ7cgu6VRCvBh0WZKb/4fTWTGrXbDF3Ad0o
-	 eFEVE2fR0JjqJFpbCs17LXLBtzOKKeCNU+Ki84CDlQbcQdstK8Xgp9TKTrQg6XTI16
-	 kybT+Z6KMxL8t7z7zeF8slpNIL3YrAhYB+uWdftgQoad3MIAJpIx4a4cPC6be99Pi9
-	 QB1XOHGrNxItpn9L0qZ9Oq8CxUXYbpet9v2mwqwJ8H7jRKCuCLCYJVlwbgXViN9IXC
-	 bVzQYP1w+P3U5hj/p2/6tPc5pJe5/ZW3Lm6WIzefntNeoiBZ6VODKwP8BOxwngnES4
-	 NVWpPRGKMgmXQ==
-Message-ID: <dc68db73-163e-4443-b334-31e2ae529e99@kernel.org>
-Date: Fri, 9 Jan 2026 12:32:52 +0000
+	s=arc-20240116; t=1767962187; c=relaxed/simple;
+	bh=w2Bv2Upj5UBhrRqSGhN5Cjw5w8pKSCo7nDq2DNh1JKQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dDskRdU2abOwGTk0l4C2WlHJTQEfpKxAupSZLIGlruSPLnSkT+q/Ng8b9vKqwwbLXlmaV8/+FIgSRqic9whdhG5UHgmvfv2JphTnz8tJMf5mie0JVlIwjl7smiXQntSDEx/rYPrO2bPWTMYp6uJX9MPvBrgVsTeTiY4yG9fStbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oJZP8UuN; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767962186; x=1799498186;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=w2Bv2Upj5UBhrRqSGhN5Cjw5w8pKSCo7nDq2DNh1JKQ=;
+  b=oJZP8UuNMbGOP/92kKPlULbUXuBUZjawyVzAh54Bq+SDBsctcDAXjRar
+   DYWrlx00yuPPEehCnW7SQdOB3ImrE7oCkDWSYmpQMrWYbcOoFh9M7zWX1
+   E+4MRbsmgJsVa5uWHUUveNJWTQbs5RNM62Euz9Q1ilQPKofmEbAHeXeMu
+   v+yJ5q4bIVuf5RVq2bjho9n3jZM/KTnN6kK7h05VebLDTeSpiuLFPAEj0
+   KcqpL9eZbHztNumWWYjc2NU0IExIL6dxDKUWs2YadpPdNpgdfWhT6MFIk
+   wCv7up6NW7Fua5cz4opq85TAPPvhx+jUANZstEQI2xDiy/bnveUgZtmf8
+   w==;
+X-CSE-ConnectionGUID: Od4KbJpgTgKrAQk7BBVZqQ==
+X-CSE-MsgGUID: Y4tnP8sKSIOZSs9Pej0FMw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="94812943"
+X-IronPort-AV: E=Sophos;i="6.21,212,1763452800"; 
+   d="scan'208";a="94812943"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2026 04:36:25 -0800
+X-CSE-ConnectionGUID: 7J3M7jUdRE6j7SkNZx7L5A==
+X-CSE-MsgGUID: Ko4jKXLKRsWF/6k9oArCkw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,212,1763452800"; 
+   d="scan'208";a="203242702"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO mdjait-mobl) ([10.245.244.161])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2026 04:36:22 -0800
+Date: Fri, 9 Jan 2026 13:36:15 +0100
+From: Mehdi Djait <mehdi.djait@linux.intel.com>
+To: david@ixit.cz
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	phone-devel@vger.kernel.org, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH v2] media: ccs: Accommodate C-PHY into the calculation
+Message-ID: <dpfnnipikl2hk5gazqxsfe2572yanzbe4h22cvyzur7hhha7hx@s2iiuonsn3m7>
+References: <20260108-ccs-account-for-cphy-v2-1-f2749ecf0733@ixit.cz>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] media: i2c: imx412: wait for NVM read (T7) before
- programming mode registers
-To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>, sakari.ailus@linux.intel.com,
- mchehab@kernel.org
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <tjF2Z2nt6dR-T_d-5cSpzZqItgoMsUzNmUBQ-jucG9SMQ9Q4y9cCrW4aya-hRJR0dQG-q63OBmZajTWMbxfeUA==@protonmail.internalid>
- <20260109044913.3310-1-wenmeng.liu@oss.qualcomm.com>
-From: Bryan O'Donoghue <bod@kernel.org>
-Content-Language: en-US
-In-Reply-To: <20260109044913.3310-1-wenmeng.liu@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260108-ccs-account-for-cphy-v2-1-f2749ecf0733@ixit.cz>
 
-On 09/01/2026 04:49, Wenmeng Liu wrote:
-> During sensor bring-up, the IMX412 performs CCI ID read (T6 ~0.6 ms) and
-> parameter loading from NVM (T7 ≤ 8 ms) after INCK/XCLR rise. Writing the
-> mode register list while T7 is in progress can cause  failed
-> register programming.
-> 
-> Move the usleep_range(7400, 8000) to the beginning of
-> imx412_start_streaming(), so the driver waits for the NVM read window (T7)
-> to complete before pushing the mode registers and sending the streaming
-> command (T8). This change preserves the original delay length but fixes
-> the ordering to match the datasheet timing:
-> 
-> - T6: CCI ID read wait (~0.6 ms)
-> - T7: NVM parameter read (≤ 8 ms) — now fully elapsed before any
->        register writes
-> - T8: start of first streaming after issuing MODE_SELECT
-> 
-> Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
-> ---
-> Changes in v2:
-> - Move the 7.4–8 ms delay before mode-register programming to satisfy T7 (NVM read).
-> - Link to v1: https://lore.kernel.org/all/20251222-imx412-v1-1-51c7e724b376@oss.qualcomm.com/
-> ---
->   drivers/media/i2c/imx412.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/imx412.c b/drivers/media/i2c/imx412.c
-> index b3826f803547..ed249a95ff35 100644
-> --- a/drivers/media/i2c/imx412.c
-> +++ b/drivers/media/i2c/imx412.c
-> @@ -798,6 +798,9 @@ static int imx412_start_streaming(struct imx412 *imx412)
->   	const struct imx412_reg_list *reg_list;
->   	int ret;
-> 
-> +	/* Wait T7 (≤8ms) so NVM read finishes; avoid I2C NACK when writing mode regs */
-> +	usleep_range(7400, 8000);
-> +
->   	/* Write sensor mode registers */
->   	reg_list = &imx412->cur_mode->reg_list;
->   	ret = imx412_write_regs(imx412, reg_list->regs,
-> @@ -814,9 +817,6 @@ static int imx412_start_streaming(struct imx412 *imx412)
->   		return ret;
->   	}
-> 
-> -	/* Delay is required before streaming*/
-> -	usleep_range(7400, 8000);
-> -
->   	/* Start streaming */
->   	ret = imx412_write_reg(imx412, IMX412_REG_MODE_SELECT,
->   			       1, IMX412_MODE_STREAMING);
-> --
-> 2.34.1
-> 
-> 
+Hi David,
 
-This delay should go at the end of the operation that requires the delay 
-not at the start of the streaming operation.
+Thank you for the patch!
 
-The delay after the stream write, should be related to the stream write 
-command, not the antecedent - the command that came before start_streaming.
+On Thu, Jan 08, 2026 at 12:04:30AM +0100, David Heidelberg via B4 Relay wrote:
+> From: David Heidelberg <david@ixit.cz>
+> 
+> We need to set correct mode for PLL to calculate correct frequency.
+> Signalling mode is known at this point, so use it for that.
+> 
+> Fixes: 47b6eaf36eba ("media: ccs-pll: Differentiate between CSI-2 D-PHY and C-PHY")
+> Signed-off-by: David Heidelberg <david@ixit.cz>
 
-Basically I think you need to put your delay into the CCI_ID read NVM 
-parameter load routine so that it guarantees its own completion.
+Reviewed-by: Mehdi Djait <mehdi.djait@linux.intel.com>
 
-Because for argument's sake if start_streaming() were not to be the 
-thing to happen after CCI_ID/NVM loading, the logic would no longer work.
-
-And you need a Fixes: tag for this patch too.
-
----
-bod
+--
+Kind Regards
+Mehdi Djait
 
