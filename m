@@ -1,87 +1,87 @@
-Return-Path: <linux-media+bounces-50327-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50328-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8C34D0C6A9
-	for <lists+linux-media@lfdr.de>; Fri, 09 Jan 2026 23:12:00 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 468CDD0C6BB
+	for <lists+linux-media@lfdr.de>; Fri, 09 Jan 2026 23:12:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 09B1C3044876
-	for <lists+linux-media@lfdr.de>; Fri,  9 Jan 2026 22:10:41 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B359C304F17B
+	for <lists+linux-media@lfdr.de>; Fri,  9 Jan 2026 22:11:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03727314B6D;
-	Fri,  9 Jan 2026 22:10:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 035D130DD01;
+	Fri,  9 Jan 2026 22:11:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RD87ctP4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UloHmcb4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11A53002D8
-	for <linux-media@vger.kernel.org>; Fri,  9 Jan 2026 22:10:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06BDC3002D8
+	for <linux-media@vger.kernel.org>; Fri,  9 Jan 2026 22:10:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767996639; cv=none; b=r2i8jtAQoJRWZg8jZ14zVc7os6v4LN3r1F9wMaykZOLH8rAo+agF95MjXOIRkcmvtecUwus0fciyM15geTIeWMZO+ZXFbLGcy6w7ZJcOCMss11G+Nnpq0wMpZiFZx7xWKTYFHa3eyERgzHYwHIO6lzFKjl6S0ZrH+HVJp93+vP8=
+	t=1767996659; cv=none; b=VB9Zdh6yBWSLTAnOL2uqX5rieYRRUbjBl1ferfacq4ddIQ9UHi2+6ovxLUrtXfu58dCV/hxNVzO8z4ZnhcsmXa8E+2EXcslr03GbYVHsQJhnuj5CvAn365lPiSsRhHAerPEIU6H4F9d/iZVDcTu3FrMmOQcVRY8m6mCC91uvSmc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767996639; c=relaxed/simple;
-	bh=3QJ52a/bgPzuUKTzUBTOpjnpR6DZhhOjRgWi3SR/6pk=;
+	s=arc-20240116; t=1767996659; c=relaxed/simple;
+	bh=Db4IGIMQd4LmUYsiqwesFeGgBbcj5W1R0TGppOvvNBw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ckDGZj7MVb5WMOVKdOv/UUjRPUOPmm5wvv5ejb/EmZD7zhiwTvx0a+8JAsp8TnGp5CLTd1mSgRsp8Hl+CYZ+IiNDpl+WwMpArEoQb6hOd56qeoUxLfCUgGSVUp60Gc+46nLRKrWYCzye6dLBxKO1rZu/nlITLC7YIiMnfd8Mfnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RD87ctP4; arc=none smtp.client-ip=209.85.221.44
+	 To:Cc:Content-Type; b=SJ/jp3LvpHXi2+0fCvfwA3lpDLTxRmJ6AESYwVPILFmtoCanGnkPNi3cRAPQ6Rf7xFcaAyIdbXk4hxeGSiYnjzYAYwJM9WkWA4FxbGIqe/G7Ut2ATRwHmrH0gd0vqKs79fXF6mKbXDXZmoJrb2oI8BjRAESX6b2vmPpNEZHYpug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UloHmcb4; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-432d256c2e6so1639153f8f.3
-        for <linux-media@vger.kernel.org>; Fri, 09 Jan 2026 14:10:37 -0800 (PST)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-430f5ecaa08so2288779f8f.3
+        for <linux-media@vger.kernel.org>; Fri, 09 Jan 2026 14:10:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767996636; x=1768601436; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1767996656; x=1768601456; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DfQX3D2SQZ81h5MUWXgygzdao1nDh7Pskp4FXNApMag=;
-        b=RD87ctP401Xb21HlFGLTLDPbhgmAqn4QYzEA+us3ggcTMNZml1qRymN1eqN7+aP/xS
-         ihYCgGnt6vIo4U3lGZXWifUfcXk5we6r7B/bPWIDesg2DNM18ZyO+82dhDvSYJJKt2Jc
-         NDyltjLkltKqdUvfR7jdj21xbbpq6RXE8cgcTwsr5VYDoKe9BCshZVHrm3VF/U4e3ouY
-         RbRM+ZoUYZI6+LOFQyDu3LICXGS6gEHrV2obGSTnRLPt52VWNIXK+dMXlzraikOKUg3a
-         V842ZNHo3WTV4uzGMxNnxL3tm/rPM3XrYesqwFfcYJEv+0pufdArjUyvNP+YW7/wwZ4d
-         uWkw==
+        bh=P5NhJM0K5QjhR4JNeyJKDoRb5o/7IYUpcb7JTn526G8=;
+        b=UloHmcb4g2JYor+XBB+MfNLpo6iwaCJ/OJ0m8GPVQVswpL5YUAcp0z0d6XdVHsxAXw
+         5y6WRaEhwkCRBuP6sYsJL2iczg2TPqN3v9i7SoZk0J93UIvO8vFEtAJFY3gynbqVO0yv
+         e0nLJ5M9SwZfDN6mXHPMMRB/62c5kERSSe+y7x/Qk2uK3FW2lcq+1HcJzWPChPE+qWqV
+         Ne+MfGqhUgnWNKp8h+dzedDU6W8T+BN8+WfzmNI6GzkKDYoNTHGZrA537CfwwWxBb1hT
+         zy+tKR4qxw45SEJdWDc6BjqjntczstMjJdyjWDGCyM9QZNkLF8jtKf5WioB5ebEd0KzX
+         CSpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767996636; x=1768601436;
+        d=1e100.net; s=20230601; t=1767996656; x=1768601456;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=DfQX3D2SQZ81h5MUWXgygzdao1nDh7Pskp4FXNApMag=;
-        b=CLc7nUtMnPZH6rK80XTScdGQVAr2HZcvreNDE21LfdwrOTnKTv4vBV2N7iWET0DjaN
-         7R/ftc06BNNoBe/8Y9jz+rExXje1shUjTJBwsNLE/TVz09O/yVG2tJ3eKjSElIjJHipN
-         n9m92cegKN+bIAez7BEWwB49XiQz5Ih03yfP+u1xjXWUt3LnvnaWOisXGnLy0G76WFch
-         WBpo02iKmrA4GATDBR0X7kyP5FnD0WIKcCcK9dVwm/lN3sFjVJIx4bjvKi1ZQYefJSoq
-         E+nI2aWetoxwIu5zgYgw5T16T9BnbVGjRr+5sn4dJXIkb7cmTwRIJpWBxDS9lfnv6eY9
-         fObg==
-X-Forwarded-Encrypted: i=1; AJvYcCVhqn1selE+XI/LrOxrsvGmtNwZMjWWdfuerjCLdLhklSzSRqL74q3pvBHlDcWK10jwDv5GVFylP0faXg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8HEJ46yrN/+TvnkVPF9mr0tYRvG/pu1rHGXc24lMialsYbSw3
-	HNyRXpPm7leOrr+LyuisvDkLh+QVam5yI9bgsG4sWyzUzezq2B/8VNWMekyWspV+lfAGnYcxO77
-	5MCQSFRDnAqa9hMfupNfA2HpJuhjjZjBGmUrBPMk=
-X-Gm-Gg: AY/fxX5JSVkfpBKAzWqfx91lSBluFBT6i7aOaLjWq3y219/z5aP/ajgS+NnRfoFEstC
-	Qyv+Eguu04qbVYbab1eXLDyAzOQ2UKkI6+9c3qZ0zHqfrc4NsFt0/87LMv7/6CBmAsbuOqa/O28
-	ojOEZBFUOSFmyN4VzJXy078/3r9BWMmh7kaj9TsBw15Yc+elAi/nOBwClKE/Y8/uqu1g42SQxym
-	fFIVRxHuAVO3ssSV9hg9i8sCIhJxQGeMceKb9MzARNhhoINVjeAsByf6b8Z6M47e4Tnnx6P/LwA
-	zplg9ZEM3D+4qhOAW9FMIHvBB60EUTEqZO6Wmv7L/eI06N8KgpJW/vamcg==
-X-Google-Smtp-Source: AGHT+IHal3Q6HFx6YVC8+0mAQiKOoH3MXiFcxAmSjJQKYvO2x41v3zKHjCGVp4VEpxzUGTgRZFvHvhW4UYQw8D8sctM=
-X-Received: by 2002:a05:6000:4387:b0:42c:b8fd:21b3 with SMTP id
- ffacd0b85a97d-432c37a756bmr14376383f8f.57.1767996636042; Fri, 09 Jan 2026
- 14:10:36 -0800 (PST)
+        bh=P5NhJM0K5QjhR4JNeyJKDoRb5o/7IYUpcb7JTn526G8=;
+        b=bfiR1Y3rwGvxts5HeIZYO9LXw2QlN0SLSzIkVUEz935hUFMk/gaS0SELghixcfg9kY
+         gV5PyRsq/YqilLu+QO2hx5YGyxgNL7ny4pB/20wHdNHX7W8XDanjlR2TcAyhdJGaS5Rz
+         9F2FlVTxncawGCvKSzNKOspPUnCJvG0cB5Johcchr6s0LcN1kLtKYoGMcrnG9pkUBB52
+         ULzrfEWIGG7zYSKxuxo/My9QHDGzFd//xF7CRSZ2HdEKWJHKVf4iG6hTcuCr2hLsXCkr
+         hLw9n/piHqNoxFTCSTKM+dexGIJzu7XTX+ZVak9CRMx59OZjKqngpADlgR4FpLRPiOy0
+         sTSw==
+X-Forwarded-Encrypted: i=1; AJvYcCX3Xotiw3rMMRqv3XEvh9DtZHUaKiGK360+UTdEUSpVE78r71NwkHCD1bQ/7iekoWY1ScQL10rnyzj1vQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyk5pBu0PBtZ4fNcD0M+7FQTmflfpzcorCibPOHod+9a7N2X35u
+	HiJPg4VTLcNX3WiOHUr/e/sLLJxZpkfSXc1F9Z15UPerB3SA1rvtR5K3Ft4lcVKkT6jlilVBALe
+	Hrpx4oaKqasoPp8DBPFBHRPt1yeM75gc=
+X-Gm-Gg: AY/fxX7ijlE//3BEO8DavP69fdr2nZ5G9WOYi29PxwclX+NlqjoeMsEpnncscedLjJu
+	0gAXWRZO13Ozj8LLzKNaJG6wQX7FrTkWmJaSDKP30Dmm7fXtd2QPk5C8b77wzg9tTcSzKQAJVM7
+	sKVuJCuPdgwPLoGmvdzY97s/R95S/5HXZCOCqJ4IA08gFZAdmieCyl+iHal2PySWqQmPKDxkDfg
+	m79/TKHb8EfKlr9lsYXzFj9avZ5+2b4JupfaLssETz3KyQsGfOo45kOMrAduMMO9Q+ZOG/tzeTM
+	GxHDnsReKQsjyHbbGo8R1S0oI7OpvXX3MkrTkkmg1oxg9aE1h9sVTcuOhg==
+X-Google-Smtp-Source: AGHT+IGG85skGm1/8zEUqdvndPqc7FGD8urUZQlwxB2eWmHd789FzuO40vVQEjDxWWsjRJMNX3bB7MeXcjEV5DTQGmw=
+X-Received: by 2002:a05:6000:2584:b0:432:8585:3416 with SMTP id
+ ffacd0b85a97d-432c37614femr13247899f8f.45.1767996656337; Fri, 09 Jan 2026
+ 14:10:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1767114395.git.tommaso.merciai.xr@bp.renesas.com> <b9aeabb34829b8e97559610a3d00ef67399a300c.1767114395.git.tommaso.merciai.xr@bp.renesas.com>
-In-Reply-To: <b9aeabb34829b8e97559610a3d00ef67399a300c.1767114395.git.tommaso.merciai.xr@bp.renesas.com>
+References: <cover.1767114395.git.tommaso.merciai.xr@bp.renesas.com> <62200deb6cceb09fa9f6086c3d9ef9031b8db5e4.1767114395.git.tommaso.merciai.xr@bp.renesas.com>
+In-Reply-To: <62200deb6cceb09fa9f6086c3d9ef9031b8db5e4.1767114395.git.tommaso.merciai.xr@bp.renesas.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 9 Jan 2026 22:10:08 +0000
-X-Gm-Features: AZwV_QjTEWHsOF-enm5ILtjYfjq3ZPjFoDTCBeAIzDNXHIv7z0QOsdW1H2Ls98E
-Message-ID: <CA+V-a8vqyO0w5qp-Zu1SuYOTjZiZaiRVL2VGwQSPcUGF0vuuHw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] media: rzg2l-cru: Skip ICnMC configuration when
- ICnSVC is used
+Date: Fri, 9 Jan 2026 22:10:30 +0000
+X-Gm-Features: AZwV_QiT08weSKN92Wn716Ch1jglNnPbAVNjLtQsofGTWEQqSXOBp7zaou6xOlI
+Message-ID: <CA+V-a8vZuNj5yft6gu7SNgkhri8ZT-9gFOvwg8XErD8+DobCAA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] media: rzg2l-cru: Use only frame end interrupts for
+ DMA stopping state
 To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
 	biju.das.jz@bp.renesas.com, Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -90,52 +90,82 @@ Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
 	Daniel Scally <dan.scally+renesas@ideasonboard.com>, 
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Tue, Dec 30, 2025 at 5:16=E2=80=AFPM Tommaso Merciai
 <tommaso.merciai.xr@bp.renesas.com> wrote:
 >
-> When the CRU is configured to use ICnSVC for virtual channel mapping,
-> as on the RZ/{G3E, V2H/P} SoC, the ICnMC register must not be
-> programmed.
+> On RZ/G3E the CRU driver relies on frame end interrupts to detect the
+> completion of an active frame when stopping DMA.
 >
-> Return early after setting up ICnSVC to avoid overriding the ICnMC
-> register, which is not applicable in this mode.
+> Update the driver to enable only frame end interrupts (CRUnIE2_FExE),
+> dropping the use of frame start interrupts, which are not required for
+> this flow.
 >
-> This prevents unintended register programming when ICnSVC is enabled.
+> Fix the interrupt status handling in the DMA stopping state by checking
+> the correct frame end status bits (FExS) instead of the frame start ones
+> (FSxS). Add a dedicated CRUnINTS2_FExS() macro to reflect the actual
+> register bit layout.
 >
-> Fixes: 3c5ca0a48bb0 ("media: rzg2l-cru: Drop function pointer to configur=
-e CSI")
-> Cc: stable@vger.kernel.org
+> This ensures that DMA stopping is triggered by the intended frame end
+> events and avoids incorrect interrupt handling.
+>
 > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 > ---
->  drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  .../media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h    | 1 +
+>  drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c   | 9 ++++-----
+>  2 files changed, 5 insertions(+), 5 deletions(-)
 >
-
 Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Cheers,
 Prabhakar
+
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h b/=
+drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h
+> index a5a57369ef0e..102a2fec5037 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h
+> @@ -19,6 +19,7 @@
+>
+>  #define CRUnINTS_SFS                   BIT(16)
+>
+> +#define CRUnINTS2_FExS(x)              BIT(((x) * 3) + 1)
+>  #define CRUnINTS2_FSxS(x)              BIT(((x) * 3))
+>
+>  #define CRUnRST_VRESETN                        BIT(0)
 > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/dri=
 vers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> index 162e2ace6931..480e9b5dbcfe 100644
+> index 480e9b5dbcfe..34e74e5796e8 100644
 > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
 > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> @@ -268,6 +268,8 @@ static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev=
- *cru,
->                 rzg2l_cru_write(cru, ICnSVCNUM, csi_vc);
->                 rzg2l_cru_write(cru, ICnSVC, ICnSVC_SVC0(0) | ICnSVC_SVC1=
-(1) |
->                                 ICnSVC_SVC2(2) | ICnSVC_SVC3(3));
-> +
-> +               return;
->         }
+> @@ -437,7 +437,6 @@ static int rzg2l_cru_get_virtual_channel(struct rzg2l=
+_cru_dev *cru)
 >
->         icnmc |=3D rzg2l_cru_read(cru, info->image_conv) & ~ICnMC_INF_MAS=
-K;
+>  void rzg3e_cru_enable_interrupts(struct rzg2l_cru_dev *cru)
+>  {
+> -       rzg2l_cru_write(cru, CRUnIE2, CRUnIE2_FSxE(cru->svc_channel));
+>         rzg2l_cru_write(cru, CRUnIE2, CRUnIE2_FExE(cru->svc_channel));
+>  }
+>
+> @@ -697,10 +696,10 @@ irqreturn_t rzg3e_cru_irq(int irq, void *data)
+>                 }
+>
+>                 if (cru->state =3D=3D RZG2L_CRU_DMA_STOPPING) {
+> -                       if (irq_status & CRUnINTS2_FSxS(0) ||
+> -                           irq_status & CRUnINTS2_FSxS(1) ||
+> -                           irq_status & CRUnINTS2_FSxS(2) ||
+> -                           irq_status & CRUnINTS2_FSxS(3))
+> +                       if (irq_status & CRUnINTS2_FExS(0) ||
+> +                           irq_status & CRUnINTS2_FExS(1) ||
+> +                           irq_status & CRUnINTS2_FExS(2) ||
+> +                           irq_status & CRUnINTS2_FExS(3))
+>                                 dev_dbg(cru->dev, "IRQ while state stoppi=
+ng\n");
+>                         return IRQ_HANDLED;
+>                 }
 > --
 > 2.43.0
 >
