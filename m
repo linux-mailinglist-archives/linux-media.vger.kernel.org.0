@@ -1,87 +1,86 @@
-Return-Path: <linux-media+bounces-50259-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50260-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC525D06CD9
-	for <lists+linux-media@lfdr.de>; Fri, 09 Jan 2026 03:11:55 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8BBAD06EC7
+	for <lists+linux-media@lfdr.de>; Fri, 09 Jan 2026 04:08:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 61A5730128E8
-	for <lists+linux-media@lfdr.de>; Fri,  9 Jan 2026 02:11:38 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E3EDD303B795
+	for <lists+linux-media@lfdr.de>; Fri,  9 Jan 2026 03:07:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE5AC277C9E;
-	Fri,  9 Jan 2026 02:11:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C48D832ED3B;
+	Fri,  9 Jan 2026 03:07:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UoMEMf1O"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pqcn5xAL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FEFB274643
-	for <linux-media@vger.kernel.org>; Fri,  9 Jan 2026 02:11:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18A5A243387;
+	Fri,  9 Jan 2026 03:07:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767924690; cv=none; b=YhIYmhd9+LnC7R6XuIi5+kBoJW6KVYlxuC/JFJD3nGh2BlUAPzyxsnTojKOBSpMLjeQowxsweUExR9P6r0RwaJC9kZ+WQAtZgRLUpaguZaALbTld9t5Ikrq5EDefarnAJ5CwSGtQK4ZrXO9fr5u+QuNV+eGVvKZE0LXisIt+vQA=
+	t=1767928036; cv=none; b=ISTXiC4FTAoHwZ3dvbFLLAdM4EOSKl7nJPkBhwW95tINN8TP6lRKNv14Vibfb2bA/esixpZtuLZT8/hRfwJ3zciDd2r0CzWeD8RXyyTRxTTuaZiLy9PkvpluslPxATIHKQfK/qzvABOe7ITUnU+BKpv8pDB1maYTVI5ePiMEAQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767924690; c=relaxed/simple;
-	bh=4xHCKtZXDRo7uO8OxrPGMlVhxh8phR1fHCKcxDBXTjc=;
+	s=arc-20240116; t=1767928036; c=relaxed/simple;
+	bh=SuA+4ZjGkTKfJszZr/F94qjYrQFU261YheQwQvC7VgQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OHPUvfeBOT5IJ2SEgTbrYArXp+MI42q4G8lpt3qmaDSkeVIY9fm6mR2Hvlv6J/4zBKr4Bgf2OX3KTH/HHpF5dtLLBY7IApTqEx45VN0dwNAVyjBTHuUVk0pEFTDq6dHX+j1pTYYjnu3O6KFPGnzwFQMU5u8RD62fNPmDcYHbYoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UoMEMf1O; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1767924686;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=09fZuRtKBthvUPFZRfmDU+5G5cxlC+xjTolnVnh0EhI=;
-	b=UoMEMf1O40LkIi6WANFNaI48z5sSTvurS70UcDmTVf+yt5szkHp2MST3ee/KR8Kvw3grfA
-	plQqPfhGjFQ5KmotLcHbmy468h2sW52B7eEfDiTQVnGHGkLViFaxJm8mSviHC17SuExv8k
-	liyt8WXRWad4aDfPnjqKFN6iBqTPj2I=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-264-A_n-5HUKMWaEy_K0o4HrYg-1; Thu,
- 08 Jan 2026 21:11:20 -0500
-X-MC-Unique: A_n-5HUKMWaEy_K0o4HrYg-1
-X-Mimecast-MFC-AGG-ID: A_n-5HUKMWaEy_K0o4HrYg_1767924676
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5CBA9195608F;
-	Fri,  9 Jan 2026 02:11:14 +0000 (UTC)
-Received: from fedora (unknown [10.72.116.172])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E4C1230002D5;
-	Fri,  9 Jan 2026 02:11:02 +0000 (UTC)
-Date: Fri, 9 Jan 2026 10:10:57 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Pavel Begunkov <asml.silence@gmail.com>,
-	linux-block@vger.kernel.org, io-uring@vger.kernel.org,
-	Vishal Verma <vishal1.verma@intel.com>, tushar.gohad@intel.com,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [RFC v2 01/11] file: add callback for pre-mapping dmabuf
-Message-ID: <aWBjsa2RZ_uaO9Ns@fedora>
-References: <74d689540fa200fe37f1a930165357a92fe9e68c.1763725387.git.asml.silence@gmail.com>
- <7b2017f4-02a3-482a-a173-bb16b895c0cb@amd.com>
- <20251204110709.GA22971@lst.de>
- <0571ca61-7b17-4167-83eb-4269bd0459fe@amd.com>
- <20251204131025.GA26860@lst.de>
- <aVnFnzRYWC_Y5zHg@fedora>
- <754b4cc9-20ab-4d87-85bf-eb56be058856@amd.com>
- <20260107160151.GA21887@lst.de>
- <aV8UJvkt7VGzHjxS@fedora>
- <20260108101703.GA24709@lst.de>
+	 Content-Type:Content-Disposition:In-Reply-To; b=lhIpVeJGyrDb4Vo0oiLvy/M8szdrcc3mtyvv5QYL/Jxkvbo2g+/UJkD+9YJu4jiSnGXZfkgg0z4j0eXPkKCS+OhombpVbWDBrhWXGyrgTv/xxwmVhoSNY0iMbKSnr6hiq0W7bcMxZ4nUUmlOTzacOcK9X7akuLw+aTCVRdIjJqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pqcn5xAL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08D5DC116C6;
+	Fri,  9 Jan 2026 03:07:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767928035;
+	bh=SuA+4ZjGkTKfJszZr/F94qjYrQFU261YheQwQvC7VgQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Pqcn5xALsfEQBur8sts2W7grb6lheBRXWxs+Isfos4lloqU43t+b/hZUsc5h5apPn
+	 DLtexPSgzr5RbFYi1QRvU9CvZ11WAY5WutKaWouarfRuh6ABHJWOtQroPfpCv8++mO
+	 ut1jVC4aTf1gkfQrjYFedYI7Md9htvkR8oalTANlfzI7ps/Y5rXTkCvD7CbuD2rMS+
+	 AQMhTZ6BtYs5CKMMrGiXlNa9UkFywNpZAa5zXFi9aiPjzvVzZhXy0UUMG7+E5jC4D4
+	 C/ic7pYBp2rXeHrpIW2LC/cSy0TpLI1lFb6QyMBx5TCie5mTYjlEnNH4CNsAz7c+GE
+	 WkMIFzVBzdcCw==
+Date: Fri, 9 Jan 2026 08:37:12 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Abel Vesa <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	llvm@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-clk@vger.kernel.org, imx@lists.linux.dev,
+	dmaengine@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Subject: Re: [PATCH v2 09/11] dmaengine: fsl_raid: Simplify with scoped for
+ each OF child loop
+Message-ID: <aWBw4EgoaNSGrg_F@vaman>
+References: <20260106-of-for-each-compatible-scoped-v2-0-05eb948d91f2@oss.qualcomm.com>
+ <20260106-of-for-each-compatible-scoped-v2-9-05eb948d91f2@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -90,43 +89,15 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260108101703.GA24709@lst.de>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+In-Reply-To: <20260106-of-for-each-compatible-scoped-v2-9-05eb948d91f2@oss.qualcomm.com>
 
-On Thu, Jan 08, 2026 at 11:17:03AM +0100, Christoph Hellwig wrote:
-> On Thu, Jan 08, 2026 at 10:19:18AM +0800, Ming Lei wrote:
-> > > The feature is in no way nvme specific.  nvme is just the initial
-> > > underlying driver.  It makes total sense to support this for any high
-> > > performance block device, and to pass it through file systems.
-> > 
-> > But why does FS care the dma buffer attachment? Since high performance
-> > host controller is exactly the dma buffer attachment point.
-> 
-> I can't parse what you're trying to say here.
+On 06-01-26, 10:15, Krzysztof Kozlowski wrote:
+> Use scoped for-each loop when iterating over device nodes to make code a
+> bit simpler.
 
-dma buffer attachment is simply none of FS's business.
-
-> 
-> > If the callback is added in `struct file_operations` for wiring dma buffer
-> > and the importer(host contrller), you will see it is hard to let it cross device
-> > mapper/raid or other stackable block devices.
-> 
-> Why?
-> 
-> But even when not stacking, the registration still needs to go
-> through the file system even for a single device, never mind multiple
-> controlled by the file system.
-
-dma_buf can have multiple importers, so why does it have to go through FS for
-single device only?
-
-If the registered buffer is attached to single device before going
-through FS, it can not support stacking block device, and it can't or not
-easily to use for multiple block device, no matter if they are behind same
-host controller or multiple.
+Acked-by: Vinod Koul <vkoul@kernel.org>
 
 
-Thanks,
-Ming
-
+-- 
+~Vinod
 
