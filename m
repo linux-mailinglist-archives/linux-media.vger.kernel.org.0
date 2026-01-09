@@ -1,132 +1,146 @@
-Return-Path: <linux-media+bounces-50257-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50258-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F1B2D06966
-	for <lists+linux-media@lfdr.de>; Fri, 09 Jan 2026 01:04:00 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B153D0697E
+	for <lists+linux-media@lfdr.de>; Fri, 09 Jan 2026 01:09:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id A2E61300E8CC
-	for <lists+linux-media@lfdr.de>; Fri,  9 Jan 2026 00:03:57 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BBFEB30255A9
+	for <lists+linux-media@lfdr.de>; Fri,  9 Jan 2026 00:09:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16CDDD515;
-	Fri,  9 Jan 2026 00:03:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E0D11F95C;
+	Fri,  9 Jan 2026 00:09:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Zi5yp1Ak"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jCPxMkmb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F27FF11CA0
-	for <linux-media@vger.kernel.org>; Fri,  9 Jan 2026 00:03:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BF69249EB
+	for <linux-media@vger.kernel.org>; Fri,  9 Jan 2026 00:09:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767917035; cv=none; b=Zv5CeHwp3rPyz8yb9dScMpSU+c3Qv6OsHFFGy/9LMEDfRdqeMSXtzUsfAGUIJHhYELBJg04ukHnjhAOaFRfiJgdGhyLq1k08aeQe7fbfM/Rj1OouJGRoojVI9ADlyFgu8L0pXt+9F3pbXeWYkSF1Lhv4M1V5QNyJ8bJKm0b5WZo=
+	t=1767917379; cv=none; b=jBvKdVOcG9e5ShIi8CkmKadf1qjH33mj28KBbkYKdNvwbNIRbDzNpOcfS7gQ8CiV5p7pcCMgNPHsre1ifJmeXlSQRdk0iNtot0fRZY/Dr5wLRv04/JnWRJEQSKfQqMcfOxRWut1T8cebuJ9Al5pzbkFH6r4MMbiEsl5cuHAV92M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767917035; c=relaxed/simple;
-	bh=v+9ee2Aa4r3g9HfDKthd6QFz7+h1HZRTWQXetJ5JnUk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Nd4uwjyH5PzfHy9AQzsx5x7koOSg0GyQCLjthYf0+BeOg1yOEoxLV+4edr29TxVknnY74MZyemEqHmNnLirw1gL8NFeJMAk0vXgTXV0sb8DrorVvh4mbnDJS3CBe2D0X+SXrwbG/ZLb+ydYiynSxbgn95ZGtbER3YJ/Qqw4/tAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Zi5yp1Ak; arc=none smtp.client-ip=209.85.210.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-7ce614de827so523465a34.1
-        for <linux-media@vger.kernel.org>; Thu, 08 Jan 2026 16:03:53 -0800 (PST)
+	s=arc-20240116; t=1767917379; c=relaxed/simple;
+	bh=tfrXfpFvES9XZjLIOw7ts89hAIvMyB8rFddr9wCACfc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ApQ/XYJ0EG3JzC3AksIpWqOLd1NgQ7IJnU0SQ/OjbqCPj0pukZbFYXuJENlJmRB1s0843C+l/xY3zdKdL6kTjhKtY5gIBh5JIzUakFPS4adc6hXFZrOmQncgDJ3WR70Fi/By23ZqoK1bigl7QbkiNTXXBOgMDZLRqA4FW5DR/aY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jCPxMkmb; arc=none smtp.client-ip=209.85.219.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-88a32bf0248so29658196d6.0
+        for <linux-media@vger.kernel.org>; Thu, 08 Jan 2026 16:09:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1767917032; x=1768521832; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qTHH3F2aPJMirJc88nZSw2IdPsNNpolNwsQT8W41faE=;
-        b=Zi5yp1AkUEg5uk3w7tRAWT2mz27u2cOLeLmeTSNe29T0k8NcLl6xQ9n4Cp0qExRRUL
-         XXaMqmE6sxAaiVNfJYH9nV6aI0He1Ux8hw2aj+D7wqRvWIJKPpM3jXACTucr9/BkCdhJ
-         1SoNt+1El35krVT0NdNqaliGiv41noFaYNFCI=
+        d=gmail.com; s=20230601; t=1767917377; x=1768522177; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y0X9PQa7fUGrEbdnnXe+R6baEV2kodyl2SCibPqNBU0=;
+        b=jCPxMkmbtsYaq/v8UQrFl4h3XYCyVJlkKLXAgZpnkN8wPBfSykXRmK+sGraT+Y1tTX
+         Pwvc41aLcS955ahmtIDo+gi2R3/t6a3BzjtoM8E0m+HnJZIM93/Ckt39adU7x0THTPMS
+         DfB7Kt+J1twta+1DdlUGtJW1W/mlXKi0jDKmOeZum17/lCXZFOEUxnyhOEk9LssYqB+V
+         Tlt5UD/PPCWVvPZ9upgv/gDUOoCLpaEGLLsmycXlimazalx55HIRr+IeDOT2gQLEfD7X
+         erQGW9wyt12Vsl8+woXlrcOHmQOr8cCY+g5ITYLWMFLzFZcedb7EwKpVoi4SV2trwgbs
+         vixg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767917032; x=1768521832;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qTHH3F2aPJMirJc88nZSw2IdPsNNpolNwsQT8W41faE=;
-        b=UmnOcuZ26DDttLazpz6mA5zSguKkjkyUxX7KG2ep9H2CehakN4Kf9Urg/AvvbmPqgq
-         9q/hI/kimtb0vzNHFF6MhAYYJZnIDvpxHmBbqrBmepm2bFIji1oyhsnESUUqOjwibhnb
-         dq7lPZc7jrrXQiG0HhpNKNneR57jxElWKQtIAYsMlGEic4mI1m2tWOeBX4s2WnwFZZaH
-         hsE5tp3GvXvzOC8Plc2damAzLZKDOIyr6OwAqZbHA5UVlPkca4+uOO9nw2ZjzICDKn5X
-         HJC6cvI39zX/65KTPpyLhcggKjld7ujkZKUv1wvjq4UWKfkjdrgv67k3yqH3XzuEKwsu
-         19IQ==
-X-Gm-Message-State: AOJu0YwM4UbhRO9Rn1BstUtAxT7zm3IRzwS8Qo5Jso8S2PQNk+3P4H7J
-	Q1QxVkoSOZ2CHydTsCCN1FKTTNgvrYNm9i9Fj7C0KLOTZVYHGAGqWRNP1rfR/F1vcPo9XcnJq9k
-	uOhiF
-X-Gm-Gg: AY/fxX6hSxf1onPnEREDn1lnGuh3cRXfn6oBcLtev3WZ7554n+vhOaeuitPcNcO6cLS
-	B5aP2UeAbtd55gzK/DfkzYCNrhDf/whIhQPekFU/Emi5seePP3U4yCLBQfqvWf0OSVxUgrN1QRx
-	5Zj9C1qPdattCZml1WFyHfhAPUE9u7Ky4ORZ1M/rZcTY/z9SsOUpa3SOITuBh3FAtN7TSibC1AF
-	SM4r8baSadanrS+XKKTyHjIEAjwFYV89uqNpoH7v8k8ym03VJORAV/BAOIM+ITd6zECELA6yJn/
-	YczqdlMx95UxcN8+Sn3lJt+1sFLCEu9uNjnb9CLdM7omiONW+D0v5CS7S1Gvr1BpsmvEvuzS4H9
-	0elYTycD3fOSuXBRpQe4jyx/wtZ+XzLDrPqUKJRgxktmnxxDdNRGVvkF57RYmUNrcYs1u8oCTfl
-	TwKcaC9TOBPnj7+QV4YR5zdGw=
-X-Google-Smtp-Source: AGHT+IE8cqDmZjGbSLV6LCBvmeV/5XsKvjJZtlV2J/E3imfQR5JQjlUJbtfs36UelNJlUzod7xV04A==
-X-Received: by 2002:a05:6830:2709:b0:7cb:1287:e3d4 with SMTP id 46e09a7af769-7ce50a88c52mr4168739a34.36.1767917032489;
-        Thu, 08 Jan 2026 16:03:52 -0800 (PST)
-Received: from [192.168.1.14] ([38.175.187.108])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ce4781c286sm6680757a34.8.2026.01.08.16.03.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Jan 2026 16:03:51 -0800 (PST)
-Message-ID: <97f56d44-8452-4d0c-9022-a67935c2b9fb@linuxfoundation.org>
-Date: Thu, 8 Jan 2026 17:03:50 -0700
+        d=1e100.net; s=20230601; t=1767917377; x=1768522177;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Y0X9PQa7fUGrEbdnnXe+R6baEV2kodyl2SCibPqNBU0=;
+        b=mc0KTEOtGLjGu9Xq8iON2vJjSbWJGO+Wn3eC46U6ybor/ercfjUeCarit6iSQce3wz
+         KjpY3UUyR45nmfzbQEkYHeZIbWcsBIL35e73W7EbgG4FANwc+KpIkdgLFocbfXrj8ZEb
+         u4kFqJXN73vAfdDoQCts8G9VW+I4ugWvBkEe8GM09mfoFzhUCgH7QZREa2huDcTTbFS6
+         jPuYlzBUE48sa9ny/cy0FvJVEQOwwc6HcdwNlvJHvEkbukgNqf6PY3twbMdnUZH/wkUn
+         lWt4lfQ6VAikgJ1Ppm4TYngzdGoFIIUpYYeM/jF3Hkf3N1NKIGqVWNfdhk1feCE+O9R0
+         a/Gg==
+X-Forwarded-Encrypted: i=1; AJvYcCUCzt195VGDRb1A2aUBhahBwU7jqmbvscJjQcuh1B9sQ9aWpTi0LB5B3KDYzazkGV+5CGKevRsuP0TU/Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzm9mwGl1hktePo/jZ6ZiLf10s1boPLHfY2tJtwSgwpQct8vL+H
+	1i5gy3k2bckNkZmEXrVxL044Zb5LBGDWBorE/ZeZesfv/CsBO0A9LQIhlYvVRQ==
+X-Gm-Gg: AY/fxX4eYnr3lPltR6yocB4gIaAzExK38DyDCLvhOlhgyAWCdSCJK9NwAdX/aJidVwc
+	TidAMJMjMaBnarVzWcZYvOaHIjaJDlUydiFb0keyXfSGhBnSxLp2gutdrQDrvPZ6a0cqpGQv1+L
+	kkX+2x9o/5hwuXhTrJ5QCaHxf6Xwr/kINDhAAY2t74Qnhe66tj53IMcRaAHGEl++tPg5sF/Apna
+	Qb2iTE2943eJhishMD0jLoXrQIOxZrsGiz1r/VuKTUm7R36HjgcMXQc4Uw5s8WMP7kTWELwsHuR
+	wNtCL7/0UtiUWvnmOPdSnE6HCPCzDjd2nkEQ/FkMYFLruXa38j9Oh94ZYXTNteVgIpNE1+d/3Eg
+	TFUklDW0iia5rQAtWLjPkumrnhWVA7XIt1CQabjKHM2M3O3u7YyW/20wfLNxAXVkILmsmSsYxME
+	SQeKxx0kXfzhAGS5cITXtLwCZq
+X-Google-Smtp-Source: AGHT+IE53QNgO8H5ekocStQPoh1dkomyApC3B9GarKSN3SFKH4LWIoibjHSscmdkAjc4QCj5ErkGzw==
+X-Received: by 2002:a05:6214:2347:b0:7f5:eda2:a54b with SMTP id 6a1803df08f44-890842e1b55mr117237186d6.62.1767917376936;
+        Thu, 08 Jan 2026 16:09:36 -0800 (PST)
+Received: from localhost ([184.144.58.243])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89077234ca1sm62882266d6.36.2026.01.08.16.09.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Jan 2026 16:09:36 -0800 (PST)
+Date: Thu, 8 Jan 2026 19:09:57 -0500
+From: Richard Acayan <mailingradian@gmail.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Robert Mader <robert.mader@collabora.com>,
+	Bryan O'Donoghue <bod@kernel.org>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	David Heidelberg <david@ixit.cz>, phone-devel@vger.kernel.org
+Subject: Re: [PATCH v6 1/5] dt-bindings: media: i2c: Add Sony IMX355
+Message-ID: <aWBHVUBhPa6iZ0ib@rdacayan>
+References: <20260107043044.92485-1-mailingradian@gmail.com>
+ <20260107043044.92485-2-mailingradian@gmail.com>
+ <20260107-aspiring-unselfish-dogfish-963c1e@quoll>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT,PULL] Linux Media vimc update for 6.20-rc1
-To: linux-media@vger.kernel.org
-Cc: linuxtv-commits@linuxtv.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <5e808887-c849-4ccd-8fbf-77d12e3d8730@linuxfoundation.org>
- <696040cd.050a0220.1fd978.b2a7@mx.google.com>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <696040cd.050a0220.1fd978.b2a7@mx.google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260107-aspiring-unselfish-dogfish-963c1e@quoll>
 
-On 1/8/26 16:42, Patchwork Integration wrote:
-> Dear Shuah Khan:
+On Wed, Jan 07, 2026 at 08:35:25AM +0100, Krzysztof Kozlowski wrote:
+> On Tue, Jan 06, 2026 at 11:30:40PM -0500, Richard Acayan wrote:
+> > The IMX355 camera sensor is a camera sensor that can be found as the
+> > front camera in some smartphones, such as the Pixel 3, Pixel 3 XL, Pixel
+> > 3a, and Pixel 3a XL. It already has a driver, but needs support for
+> > device tree. Document the IMX355 to support defining it in device tree.
+> > 
+> > Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+> > ---
+(snip)
+> <form letter>
+> This is a friendly reminder during the review process.
 > 
-> Thanks for your patches! Unfortunately the Media CI robot detected some
-> issues:
+> It looks like you received a tag and forgot to add it.
 > 
-> # Test virtme32:test-virtme
-> Final Summary: 1412, Succeeded: 1384, Failed: 28, Warnings: 0
-> Errors Found!
+> If you do not know the process, here is a short explanation:
+> Please add Acked-by/Reviewed-by/Tested-by tags when posting new
+> versions of patchset, under or above your Signed-off-by tag, unless
+> patch changed significantly (e.g. new properties added to the DT
+> bindings). Tag is "received", when provided in a message replied to you
+> on the mailing list. Tools like b4 can help here. However, there's no
+> need to repost patches *only* to add the tags. The upstream maintainer
+> will do that for tags received on the version they apply.
 > 
-> # Test virtme64:test-virtme
-> Final Summary: 1388, Succeeded: 1360, Failed: 28, Warnings: 0
-> Errors Found!
+> Please read:
+> https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/process/submitting-patches.rst#L577
 > 
-> # Test media-patchstyle:./0001-Linux-Media-vimc-update-for-6.20-rc1.patch media style
-> ERROR: ./0001-Linux-Media-vimc-update-for-6.20-rc1.patch: Missing author Shuah Khan <skhan@linuxfoundation.org> Signed-off-by
-> WARNING: Missing commit description - Add an appropriate one
+> If a tag was not added on purpose, please state why and what changed.
+> </form letter>
 > 
-> total: 0 errors, 1 warnings, 500 lines checked
-> 
-> ERROR: Fails one or more mandatory checkpatch tests
-> ERROR: 9ea34411540210db961bca65857fa0c27278276b: Missing 'media:' prefix in Subject
+> Read carefully last sentence above.
 
-One of the patches is documentation patch -is that warning here?
+You left some comments after tagging your Reviewed-by, so I was unsure
+if this changed the tag:
 
-docs: media: vimc: document RGB/YUV input entity
+- https://lore.kernel.org/r/bc831622-8cbb-4bc6-b96c-9b87fb414725@kernel.org/
+  "Ah, here, this obviously was not ever [compile] tested."
+- https://lore.kernel.org/r/fedeaca3-5549-4d57-8f13-f0ac58d1e4d0@kernel.org/
+  "why do you need data-lanes if they are fixed?"
 
-     
-
-> 
-> # Test checkpatch:./0001-Linux-Media-vimc-update-for-6.20-rc1.patch checkpatch
-> WARNING: Missing commit description - Add an appropriate one
-
-The tag has the description - this is routine pull request.
-Is there something different that needs to be done for media
-pull requests?
-
-thanks,
--- Shuah
+About the data-lanes, they are unused by the driver and can be dropped
+next revision.
 
