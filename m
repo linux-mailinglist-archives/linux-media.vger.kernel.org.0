@@ -1,96 +1,87 @@
-Return-Path: <linux-media+bounces-50258-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50259-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B153D0697E
-	for <lists+linux-media@lfdr.de>; Fri, 09 Jan 2026 01:09:47 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC525D06CD9
+	for <lists+linux-media@lfdr.de>; Fri, 09 Jan 2026 03:11:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BBFEB30255A9
-	for <lists+linux-media@lfdr.de>; Fri,  9 Jan 2026 00:09:40 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 61A5730128E8
+	for <lists+linux-media@lfdr.de>; Fri,  9 Jan 2026 02:11:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E0D11F95C;
-	Fri,  9 Jan 2026 00:09:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE5AC277C9E;
+	Fri,  9 Jan 2026 02:11:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jCPxMkmb"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UoMEMf1O"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BF69249EB
-	for <linux-media@vger.kernel.org>; Fri,  9 Jan 2026 00:09:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FEFB274643
+	for <linux-media@vger.kernel.org>; Fri,  9 Jan 2026 02:11:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767917379; cv=none; b=jBvKdVOcG9e5ShIi8CkmKadf1qjH33mj28KBbkYKdNvwbNIRbDzNpOcfS7gQ8CiV5p7pcCMgNPHsre1ifJmeXlSQRdk0iNtot0fRZY/Dr5wLRv04/JnWRJEQSKfQqMcfOxRWut1T8cebuJ9Al5pzbkFH6r4MMbiEsl5cuHAV92M=
+	t=1767924690; cv=none; b=YhIYmhd9+LnC7R6XuIi5+kBoJW6KVYlxuC/JFJD3nGh2BlUAPzyxsnTojKOBSpMLjeQowxsweUExR9P6r0RwaJC9kZ+WQAtZgRLUpaguZaALbTld9t5Ikrq5EDefarnAJ5CwSGtQK4ZrXO9fr5u+QuNV+eGVvKZE0LXisIt+vQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767917379; c=relaxed/simple;
-	bh=tfrXfpFvES9XZjLIOw7ts89hAIvMyB8rFddr9wCACfc=;
+	s=arc-20240116; t=1767924690; c=relaxed/simple;
+	bh=4xHCKtZXDRo7uO8OxrPGMlVhxh8phR1fHCKcxDBXTjc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ApQ/XYJ0EG3JzC3AksIpWqOLd1NgQ7IJnU0SQ/OjbqCPj0pukZbFYXuJENlJmRB1s0843C+l/xY3zdKdL6kTjhKtY5gIBh5JIzUakFPS4adc6hXFZrOmQncgDJ3WR70Fi/By23ZqoK1bigl7QbkiNTXXBOgMDZLRqA4FW5DR/aY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jCPxMkmb; arc=none smtp.client-ip=209.85.219.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-88a32bf0248so29658196d6.0
-        for <linux-media@vger.kernel.org>; Thu, 08 Jan 2026 16:09:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767917377; x=1768522177; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y0X9PQa7fUGrEbdnnXe+R6baEV2kodyl2SCibPqNBU0=;
-        b=jCPxMkmbtsYaq/v8UQrFl4h3XYCyVJlkKLXAgZpnkN8wPBfSykXRmK+sGraT+Y1tTX
-         Pwvc41aLcS955ahmtIDo+gi2R3/t6a3BzjtoM8E0m+HnJZIM93/Ckt39adU7x0THTPMS
-         DfB7Kt+J1twta+1DdlUGtJW1W/mlXKi0jDKmOeZum17/lCXZFOEUxnyhOEk9LssYqB+V
-         Tlt5UD/PPCWVvPZ9upgv/gDUOoCLpaEGLLsmycXlimazalx55HIRr+IeDOT2gQLEfD7X
-         erQGW9wyt12Vsl8+woXlrcOHmQOr8cCY+g5ITYLWMFLzFZcedb7EwKpVoi4SV2trwgbs
-         vixg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767917377; x=1768522177;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Y0X9PQa7fUGrEbdnnXe+R6baEV2kodyl2SCibPqNBU0=;
-        b=mc0KTEOtGLjGu9Xq8iON2vJjSbWJGO+Wn3eC46U6ybor/ercfjUeCarit6iSQce3wz
-         KjpY3UUyR45nmfzbQEkYHeZIbWcsBIL35e73W7EbgG4FANwc+KpIkdgLFocbfXrj8ZEb
-         u4kFqJXN73vAfdDoQCts8G9VW+I4ugWvBkEe8GM09mfoFzhUCgH7QZREa2huDcTTbFS6
-         jPuYlzBUE48sa9ny/cy0FvJVEQOwwc6HcdwNlvJHvEkbukgNqf6PY3twbMdnUZH/wkUn
-         lWt4lfQ6VAikgJ1Ppm4TYngzdGoFIIUpYYeM/jF3Hkf3N1NKIGqVWNfdhk1feCE+O9R0
-         a/Gg==
-X-Forwarded-Encrypted: i=1; AJvYcCUCzt195VGDRb1A2aUBhahBwU7jqmbvscJjQcuh1B9sQ9aWpTi0LB5B3KDYzazkGV+5CGKevRsuP0TU/Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzm9mwGl1hktePo/jZ6ZiLf10s1boPLHfY2tJtwSgwpQct8vL+H
-	1i5gy3k2bckNkZmEXrVxL044Zb5LBGDWBorE/ZeZesfv/CsBO0A9LQIhlYvVRQ==
-X-Gm-Gg: AY/fxX4eYnr3lPltR6yocB4gIaAzExK38DyDCLvhOlhgyAWCdSCJK9NwAdX/aJidVwc
-	TidAMJMjMaBnarVzWcZYvOaHIjaJDlUydiFb0keyXfSGhBnSxLp2gutdrQDrvPZ6a0cqpGQv1+L
-	kkX+2x9o/5hwuXhTrJ5QCaHxf6Xwr/kINDhAAY2t74Qnhe66tj53IMcRaAHGEl++tPg5sF/Apna
-	Qb2iTE2943eJhishMD0jLoXrQIOxZrsGiz1r/VuKTUm7R36HjgcMXQc4Uw5s8WMP7kTWELwsHuR
-	wNtCL7/0UtiUWvnmOPdSnE6HCPCzDjd2nkEQ/FkMYFLruXa38j9Oh94ZYXTNteVgIpNE1+d/3Eg
-	TFUklDW0iia5rQAtWLjPkumrnhWVA7XIt1CQabjKHM2M3O3u7YyW/20wfLNxAXVkILmsmSsYxME
-	SQeKxx0kXfzhAGS5cITXtLwCZq
-X-Google-Smtp-Source: AGHT+IE53QNgO8H5ekocStQPoh1dkomyApC3B9GarKSN3SFKH4LWIoibjHSscmdkAjc4QCj5ErkGzw==
-X-Received: by 2002:a05:6214:2347:b0:7f5:eda2:a54b with SMTP id 6a1803df08f44-890842e1b55mr117237186d6.62.1767917376936;
-        Thu, 08 Jan 2026 16:09:36 -0800 (PST)
-Received: from localhost ([184.144.58.243])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89077234ca1sm62882266d6.36.2026.01.08.16.09.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jan 2026 16:09:36 -0800 (PST)
-Date: Thu, 8 Jan 2026 19:09:57 -0500
-From: Richard Acayan <mailingradian@gmail.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Robert Mader <robert.mader@collabora.com>,
-	Bryan O'Donoghue <bod@kernel.org>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	David Heidelberg <david@ixit.cz>, phone-devel@vger.kernel.org
-Subject: Re: [PATCH v6 1/5] dt-bindings: media: i2c: Add Sony IMX355
-Message-ID: <aWBHVUBhPa6iZ0ib@rdacayan>
-References: <20260107043044.92485-1-mailingradian@gmail.com>
- <20260107043044.92485-2-mailingradian@gmail.com>
- <20260107-aspiring-unselfish-dogfish-963c1e@quoll>
+	 Content-Type:Content-Disposition:In-Reply-To; b=OHPUvfeBOT5IJ2SEgTbrYArXp+MI42q4G8lpt3qmaDSkeVIY9fm6mR2Hvlv6J/4zBKr4Bgf2OX3KTH/HHpF5dtLLBY7IApTqEx45VN0dwNAVyjBTHuUVk0pEFTDq6dHX+j1pTYYjnu3O6KFPGnzwFQMU5u8RD62fNPmDcYHbYoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UoMEMf1O; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1767924686;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=09fZuRtKBthvUPFZRfmDU+5G5cxlC+xjTolnVnh0EhI=;
+	b=UoMEMf1O40LkIi6WANFNaI48z5sSTvurS70UcDmTVf+yt5szkHp2MST3ee/KR8Kvw3grfA
+	plQqPfhGjFQ5KmotLcHbmy468h2sW52B7eEfDiTQVnGHGkLViFaxJm8mSviHC17SuExv8k
+	liyt8WXRWad4aDfPnjqKFN6iBqTPj2I=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-264-A_n-5HUKMWaEy_K0o4HrYg-1; Thu,
+ 08 Jan 2026 21:11:20 -0500
+X-MC-Unique: A_n-5HUKMWaEy_K0o4HrYg-1
+X-Mimecast-MFC-AGG-ID: A_n-5HUKMWaEy_K0o4HrYg_1767924676
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5CBA9195608F;
+	Fri,  9 Jan 2026 02:11:14 +0000 (UTC)
+Received: from fedora (unknown [10.72.116.172])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E4C1230002D5;
+	Fri,  9 Jan 2026 02:11:02 +0000 (UTC)
+Date: Fri, 9 Jan 2026 10:10:57 +0800
+From: Ming Lei <ming.lei@redhat.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Pavel Begunkov <asml.silence@gmail.com>,
+	linux-block@vger.kernel.org, io-uring@vger.kernel.org,
+	Vishal Verma <vishal1.verma@intel.com>, tushar.gohad@intel.com,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [RFC v2 01/11] file: add callback for pre-mapping dmabuf
+Message-ID: <aWBjsa2RZ_uaO9Ns@fedora>
+References: <74d689540fa200fe37f1a930165357a92fe9e68c.1763725387.git.asml.silence@gmail.com>
+ <7b2017f4-02a3-482a-a173-bb16b895c0cb@amd.com>
+ <20251204110709.GA22971@lst.de>
+ <0571ca61-7b17-4167-83eb-4269bd0459fe@amd.com>
+ <20251204131025.GA26860@lst.de>
+ <aVnFnzRYWC_Y5zHg@fedora>
+ <754b4cc9-20ab-4d87-85bf-eb56be058856@amd.com>
+ <20260107160151.GA21887@lst.de>
+ <aV8UJvkt7VGzHjxS@fedora>
+ <20260108101703.GA24709@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -99,48 +90,43 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260107-aspiring-unselfish-dogfish-963c1e@quoll>
+In-Reply-To: <20260108101703.GA24709@lst.de>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-On Wed, Jan 07, 2026 at 08:35:25AM +0100, Krzysztof Kozlowski wrote:
-> On Tue, Jan 06, 2026 at 11:30:40PM -0500, Richard Acayan wrote:
-> > The IMX355 camera sensor is a camera sensor that can be found as the
-> > front camera in some smartphones, such as the Pixel 3, Pixel 3 XL, Pixel
-> > 3a, and Pixel 3a XL. It already has a driver, but needs support for
-> > device tree. Document the IMX355 to support defining it in device tree.
+On Thu, Jan 08, 2026 at 11:17:03AM +0100, Christoph Hellwig wrote:
+> On Thu, Jan 08, 2026 at 10:19:18AM +0800, Ming Lei wrote:
+> > > The feature is in no way nvme specific.  nvme is just the initial
+> > > underlying driver.  It makes total sense to support this for any high
+> > > performance block device, and to pass it through file systems.
 > > 
-> > Signed-off-by: Richard Acayan <mailingradian@gmail.com>
-> > ---
-(snip)
-> <form letter>
-> This is a friendly reminder during the review process.
+> > But why does FS care the dma buffer attachment? Since high performance
+> > host controller is exactly the dma buffer attachment point.
 > 
-> It looks like you received a tag and forgot to add it.
-> 
-> If you do not know the process, here is a short explanation:
-> Please add Acked-by/Reviewed-by/Tested-by tags when posting new
-> versions of patchset, under or above your Signed-off-by tag, unless
-> patch changed significantly (e.g. new properties added to the DT
-> bindings). Tag is "received", when provided in a message replied to you
-> on the mailing list. Tools like b4 can help here. However, there's no
-> need to repost patches *only* to add the tags. The upstream maintainer
-> will do that for tags received on the version they apply.
-> 
-> Please read:
-> https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/process/submitting-patches.rst#L577
-> 
-> If a tag was not added on purpose, please state why and what changed.
-> </form letter>
-> 
-> Read carefully last sentence above.
+> I can't parse what you're trying to say here.
 
-You left some comments after tagging your Reviewed-by, so I was unsure
-if this changed the tag:
+dma buffer attachment is simply none of FS's business.
 
-- https://lore.kernel.org/r/bc831622-8cbb-4bc6-b96c-9b87fb414725@kernel.org/
-  "Ah, here, this obviously was not ever [compile] tested."
-- https://lore.kernel.org/r/fedeaca3-5549-4d57-8f13-f0ac58d1e4d0@kernel.org/
-  "why do you need data-lanes if they are fixed?"
+> 
+> > If the callback is added in `struct file_operations` for wiring dma buffer
+> > and the importer(host contrller), you will see it is hard to let it cross device
+> > mapper/raid or other stackable block devices.
+> 
+> Why?
+> 
+> But even when not stacking, the registration still needs to go
+> through the file system even for a single device, never mind multiple
+> controlled by the file system.
 
-About the data-lanes, they are unused by the driver and can be dropped
-next revision.
+dma_buf can have multiple importers, so why does it have to go through FS for
+single device only?
+
+If the registered buffer is attached to single device before going
+through FS, it can not support stacking block device, and it can't or not
+easily to use for multiple block device, no matter if they are behind same
+host controller or multiple.
+
+
+Thanks,
+Ming
+
 
