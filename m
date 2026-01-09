@@ -1,192 +1,1723 @@
-Return-Path: <linux-media+bounces-50275-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50276-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05D8BD08637
-	for <lists+linux-media@lfdr.de>; Fri, 09 Jan 2026 11:02:04 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDF81D086D2
+	for <lists+linux-media@lfdr.de>; Fri, 09 Jan 2026 11:08:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A919130312E0
-	for <lists+linux-media@lfdr.de>; Fri,  9 Jan 2026 10:01:40 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6BD14301C97D
+	for <lists+linux-media@lfdr.de>; Fri,  9 Jan 2026 10:08:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B340F334692;
-	Fri,  9 Jan 2026 10:01:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77050335553;
+	Fri,  9 Jan 2026 10:08:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f+IMqNhV"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="jFBLxKgc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010000.outbound.protection.outlook.com [40.93.198.0])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58B9E329390
-	for <linux-media@vger.kernel.org>; Fri,  9 Jan 2026 10:01:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767952896; cv=none; b=bQvFg3oEjJI5s2aaWhtb1RZ+J80dxjgFdgHRa6XAAiwxrEmvvKIKDMN4Cin9QDAbzOGcSlUUGhIu0oGqjn1ZP6gf3qDBsU7fxgjlnqmcHhCc+fYjc7OtDcOjAQ4W/eBkk+e293syLYQ4QigZz/FCIo9lVpFNiXIXeJlOnBFktNE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767952896; c=relaxed/simple;
-	bh=Cvpoz9GABsXijK6MZLFLlRL9Ws/h5Zbiivk0aPoRqfw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=WpT0ProVasvjmnsqAiVsQ5q9xJ3HI36tUbdXHfnombWUkUqLvDndQ9YM6WXrnHVI9a2qjl2KEn5gkntC0SFPf7h6Qk9WKv+Tnq1yFBmW+76KH2SMeMeDWjqoh6MZvfFDuKgzJSeza5R2pdeYe+bCoVN8RdgtelrQy5/LkGGSto4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f+IMqNhV; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767952894; x=1799488894;
-  h=date:from:to:cc:subject:message-id;
-  bh=Cvpoz9GABsXijK6MZLFLlRL9Ws/h5Zbiivk0aPoRqfw=;
-  b=f+IMqNhVZClj7QSs/tmB9nKx9btcoIYM7/iORh7+Pj8z7nwnRt2GygJu
-   cIhJFKzDwSj8oDnHWH74sFxP4YrtsEZz2FGCUEySePsgVAOAmEontQHJ7
-   pmQYUc8nDQT4j7c46Rt5jJsvGAgE1MDjr7T4j0ozOXx58R5USihcw5SCL
-   zVcTFwOX3QhAfBKtSc5+sGnHvrcIcjzhq5r7zdpftivGVKdt02Mu6dhYB
-   S2tagcH3XHZ3aIkBhdLOj78RAUNcDsFKaMIEX8XbefChwqGriiLp9olV1
-   hcxLLwh1ijCMe+SYxhxoWrQxTyTfhvTmIF4/4Vkre2eMNVfLV+lgor1Tx
-   g==;
-X-CSE-ConnectionGUID: P9FC+pI3R+Osc5oyvKafPA==
-X-CSE-MsgGUID: 9Ie7yivLR+yA36IJIyqNJg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="69246566"
-X-IronPort-AV: E=Sophos;i="6.21,212,1763452800"; 
-   d="scan'208";a="69246566"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2026 02:01:34 -0800
-X-CSE-ConnectionGUID: RmURfDcmSUK/dn0gV3P++A==
-X-CSE-MsgGUID: Kn34J/4+RjGVKXaRUXEZqg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,212,1763452800"; 
-   d="scan'208";a="203460709"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 09 Jan 2026 02:01:32 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1ve9JB-000000005iy-3erj;
-	Fri, 09 Jan 2026 10:01:29 +0000
-Date: Fri, 09 Jan 2026 18:00:35 +0800
-From: kernel test robot <lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C71852D592C;
+	Fri,  9 Jan 2026 10:08:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.0
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767953301; cv=fail; b=aKPwUmGbDjUTinAM1+nhSQG1IGbogyr9xDJHQ9CEOP8hasEmSt5tUcppIeCdlH99SNrmdHQ2VUqSLOSs7tM4vi75WcWvuYfCoSJmsfqEBkGht9pYfLQpAmYVJjtS/2e4qiiO3esqxB6lTMUIa7NH5N/Yuk5yZFBHRPL/em8zYqU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767953301; c=relaxed/simple;
+	bh=6L0nI8q1LusC3TcRmAnvnCUIzmqY3MJiyHF+vun2gtA=;
+	h=Message-ID:Date:From:Subject:To:Cc:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=SUlnXUefubAcdCm8lysRnm13EdLDqprIS1B7IvLmIcrd5twWLPqg7MIxkWmZ0z/RzfgEV1MIP9bwyNr7PL9iqaBis9i788dSe26CtL3el0dBNeSqys2wQKVBd6DLQMrJ6D5AiC+ZTEvaz51l5ZyrEy6WoV76z7W1yWJ/5aieGIo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=jFBLxKgc; arc=fail smtp.client-ip=40.93.198.0
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=A2e5iumkwQ0ZAL/5O5ZucjNj2v6qAbSbEpmPQ5hzBtlwD7ct2DTXwQeM0Ih2Ube2nT/5Vt8RkMXSe7Izt1zx7UPvVvuKbE2utxh/cQoWJbiRcH3jcAqS5H1XzLjMja7eN0VANt3hoLf8ZyV0Bjmeg2x3bMKFMbnHCZRK3jwg9ftisoa2e12+ur/MQgihZqpfSBuOajPrLjtpv/XSCr3VZzDeVufxhsyRfchAQH9ZQlSJUGLebBkW9rh5+l/LjC7PIjouSzMztV2o0akJjOSgrz4p6BAKPN1b1Nin0DlJhTXzIZFey24wpHAoGgNsUgp+ZoBi2TAHqWp2/sD5N7WtgA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xreJOOCmZkumaZU868RwQf2zKuba6mQVWRIIz1zlz90=;
+ b=CJiX1qwYy13BFBLTnKtu4XyOVfM5GCyreDgxIc5ukPC4I7y0w0pER63Z9nCH3MSL8NtcsabISE4ULKMUCys0ag0R4QY9fnAVf6QSI8qUIaqbVfz3R6M8HGIN9mksReCXr7TcYr4BV0g+cnQGF9AjJ9tHmDW6hkJhDJPzkgQ2TWcT5dsZzLCYx3stH6PUjWymKBToRmUw2qa6IFDiPb6AAJNMbMy3jJRPIJxyVzxcSUHqXHdSnmmqJVJKPGPHUCleuHAY8Gck2Dooumi6nRYEX1nuT0bFJDYoSBMPWzNs6zPegtYWJ7uKsSKyp8FIKsz3cOk3xVJrS+X6LfS/muh+pw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xreJOOCmZkumaZU868RwQf2zKuba6mQVWRIIz1zlz90=;
+ b=jFBLxKgcf67TlrRfNukGE8x8xhAG5DV/v8yFtEjbRKTLRuipkTOJfnlkcIa17A6tyMvFhGoGU87QLRPxm+kj/4/zXGFljUGJCUuzRMIfKHgxFN1EVENV0L6mCBwcJFG4ZBz53T4rvR5JHwGt5G4hGmP9mlBlCr1BhW5uMGpOSh0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from LV9PR12MB9829.namprd12.prod.outlook.com (2603:10b6:408:2eb::9)
+ by SN7PR12MB6958.namprd12.prod.outlook.com (2603:10b6:806:262::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.3; Fri, 9 Jan
+ 2026 10:08:11 +0000
+Received: from LV9PR12MB9829.namprd12.prod.outlook.com
+ ([fe80::2bc0:451f:661a:ac32]) by LV9PR12MB9829.namprd12.prod.outlook.com
+ ([fe80::2bc0:451f:661a:ac32%7]) with mapi id 15.20.9499.004; Fri, 9 Jan 2026
+ 10:08:11 +0000
+Message-ID: <f62729ba-a271-4f3f-a929-4f07ae3368b2@amd.com>
+Date: Fri, 9 Jan 2026 18:08:00 +0800
+User-Agent: Mozilla Thunderbird
+From: "Du, Bin" <bin.du@amd.com>
+Subject: Re: [PATCH v7 5/7] media: platform: amd: isp4 video node and buffers
+ handling added
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org
-Subject: [sailus-media-tree:devel] BUILD SUCCESS
- d2432f513e7655050d03fd609a715ea833f5f598
-Message-ID: <202601091830.36XV7Xws-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: "mchehab@kernel.org" <mchehab@kernel.org>,
+ "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
+ "laurent.pinchart+renesas@ideasonboard.com"
+ <laurent.pinchart+renesas@ideasonboard.com>,
+ "bryan.odonoghue@linaro.org" <bryan.odonoghue@linaro.org>,
+ "prabhakar.mahadev-lad.rj@bp.renesas.com"
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "sultan@kerneltoast.com" <sultan@kerneltoast.com>,
+ "Nirujogi, Pratap" <Pratap.Nirujogi@amd.com>,
+ "Chan, Benjamin (Koon Pan)" <Benjamin.Chan@amd.com>,
+ "Li, King" <King.Li@amd.com>,
+ "Rosikopulos, Gjorgji" <Gjorgji.Rosikopulos@amd.com>,
+ "Jawich, Phil" <Phil.Jawich@amd.com>,
+ "Antony, Dominic" <Dominic.Antony@amd.com>,
+ "Limonciello, Mario" <Mario.Limonciello@amd.com>,
+ "Gong, Richard" <Richard.Gong@amd.com>, "Tsao, Anson" <anson.tsao@amd.com>,
+ Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>,
+ Alexey Zagorodnikov <xglooom@gmail.com>
+References: <20251216091326.111977-1-Bin.Du@amd.com>
+ <20251216091326.111977-6-Bin.Du@amd.com>
+ <aUl61d5mQq2ep8qE@kekkonen.localdomain>
+Content-Language: en-US
+In-Reply-To: <aUl61d5mQq2ep8qE@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: KL1PR01CA0005.apcprd01.prod.exchangelabs.com
+ (2603:1096:820::17) To IA4PR12MB9834.namprd12.prod.outlook.com
+ (2603:10b6:208:5d3::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV9PR12MB9829:EE_|SN7PR12MB6958:EE_
+X-MS-Office365-Filtering-Correlation-Id: b6b3838c-abda-4626-7063-08de4f66fe4b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?bitaR0x1dXlDMkFIMTZoUXM2MlNtem12K1pud3EzcHdnNDBQT1JENGtFMG1N?=
+ =?utf-8?B?ZkVXSTVYa1R6Y3Q0MTdWRjJ5V1ZGdHNMcmFrdmV1L0lIT3NzTUVvVUJHUjdq?=
+ =?utf-8?B?OXZCVG41UVNHWmE2Y1dEQnZFYTZCN2YyeFV2NlgwT1p5dUUrMXZyTFVrNnlB?=
+ =?utf-8?B?b25WWjFTakUzbjRyYVltUGc1aCtpNDNjSlh6aktnMm5zOUE3dm0vc0I0Sitl?=
+ =?utf-8?B?aWY3Vy9IY3ZBVStid2orSkJYd2dpQm10UHhGL3lYWVJ1aFZpNlkvMk51RHZ1?=
+ =?utf-8?B?ME4rMWZlQVVIdXE1Q2J4em5iN2ZBeXRKSEFtRm1QdXhJZDdSV2FUeXRNUXkr?=
+ =?utf-8?B?Nm16VmN3L3dXL0VwRVJKTGR2Y1FSOE5QbXB2RE5XdEVaZzZPald5V2c0UTRu?=
+ =?utf-8?B?VWlLNlZ1VGhGRHNFWDVEOWpBQlVuRldxU0FEUEMwU2RWQ2gyT01tUTBHQ1Vt?=
+ =?utf-8?B?T2VuVDRNYmQ0SWYwRFVXQWRYelJVckRHbEFibEJMSnY0bkNiT3FudzJaUDdX?=
+ =?utf-8?B?cTV4TlEyNTNhOFhkb3A0WjdydWsxV0loQ0pYNjlKVmRjdFgvWlMzOFBDRjdx?=
+ =?utf-8?B?MkhoTmQ0S090VVJFdHhNRGhFUS90R2xNMUFESTh4QWtEZktFbVZKWldtR0Ja?=
+ =?utf-8?B?N1RkNm42WHdOMW9kVGtjQVcwQzZqaXFIaGdjRHJ2ZzEyWDk4T1ZUQjJFd2pp?=
+ =?utf-8?B?cVRjMHZzbHVXQ3VMT0pWaHBKUmtoZ3ZUeVhpeEVhRE90UndrcGdKbzVxenpN?=
+ =?utf-8?B?b2NUT294aDJjQzl0ODdnVnpvaXp1d2dvVGN3WFBqZUdFWWlBVEJZZmsvdDd4?=
+ =?utf-8?B?YmVFYUVuRmVMYzV6V2R6dmg1UE9UN1hrRWRvVmNKUU9QaWNkcWpRUXlDUWVE?=
+ =?utf-8?B?OEFWbzJVTFlxdTQ3WnNNNUVXdjJpbURoU3NadUh3cVZQcW9vdDlqNzFxcjRa?=
+ =?utf-8?B?cUZvcC9IbC9aR1dWcEsrY1hHWHhTRHM1Sjc3NWtYQklaVlVleG9ZWk81NTRo?=
+ =?utf-8?B?L2dXbTRpcUt0V0haQ1ZGSkVDUlpHVlJOcUlmYkRGMUMvWis3K1lUNlludmhv?=
+ =?utf-8?B?Z3RteVlJazhITjR6SlpDUjJRYkJFVFRBRDBacGI5cEszTU1YL3RmanVtTVlu?=
+ =?utf-8?B?QUFJTThsbEF3VXJEMzZxb1ZaMThYSGRDRlQ2WDgvcnJQMWhHek9lVnNjdnpw?=
+ =?utf-8?B?c2VzS3VZcndMRlQwMnc1RDR5KzB0QjRLTUxGQUV0NGRVajdTbFdibzhIZjI0?=
+ =?utf-8?B?bUZkcVd6N2lpTng0Qi8yUXpnOWRDTEc5N0l0bmlSVkRRWVlrekl2TEYzMW5F?=
+ =?utf-8?B?SFNXSXFYVVZrUWFQVHRQdCtBWHQxV3NER2UvVkx3Wis1L0c2aG01RkNXM3ZI?=
+ =?utf-8?B?VURqQU54VjI1NkFiMFpzdVlTT2sreHJseHdnY1NpL1Jldi9icnA0aWlLUTNU?=
+ =?utf-8?B?U3dqZ0tNZXJiZ0tvWmtnL2pmY3h6dHYzS0E4L1RKY1o3YnE0QTZ5NEhONHhr?=
+ =?utf-8?B?a2Y1WFZDaEU1M0puWWJGcGtGNnI0WnZoS3h4WFhQdDBTUnY1MVpZMXhLUUNT?=
+ =?utf-8?B?aitIWkVGcHluUm1kdFJvdlIwSjRrdHVuQVJUeFhqMFlTandYek5FUys5OFlv?=
+ =?utf-8?B?VzhsNTJ5bUpMaUs5ZnNhYW54N3lOdXVTNkdjeFFzTThIRlpkcnRURGpQNVVR?=
+ =?utf-8?B?cEpDcTFzNzdybE5Bcm1iK1ZsQkE3bmVwa1BDbU5ReEkybHEzdG1WUHVreEdw?=
+ =?utf-8?B?a2xlaTFPQ3ZoYWhBTForM1FncjNqSGs3Q1NxVVJSRTR0UE9LampZdjFiQ09s?=
+ =?utf-8?B?SlNrMWduYVVPNlYwOVk3V3p4MWNZT0N3d1lSdlF2cno0RzVUeTNJMGRIak4r?=
+ =?utf-8?B?S250V3pFeGlsYk03ek04K25xSHhOSHZVbWxsVjcvN0hnYmRBQTVidDk1dzRT?=
+ =?utf-8?Q?3uBtstPPXbnU7DctUCIDB7gtP7Aam26p?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV9PR12MB9829.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?VWpQV1ZhYnZTSU03NzVEMWJ1V1kyWjNwNmJSR211R093dG9FSVJhWnRZcUl5?=
+ =?utf-8?B?bEZSTUJwa1Z0WmhkSXNoQ04rZmhWemloK2Q2R09ic2x2eU9kNFo3MEhPcVAy?=
+ =?utf-8?B?YWU5SXpUTWF4QTZFMEoyNHExOEdUd3B3QnR2SFl1N3NsYzV4YTNiNFAwcVYv?=
+ =?utf-8?B?eFgwUHdkQ2JwSVpabksxOS9xVGEweUc0K1hCRnRkR29WWjgzYjNpWGNPa0lq?=
+ =?utf-8?B?RzZCZ0E2N2tZKzlYT2VTNExLNjkwVU05QXBpN3lOZUlzN01yNjF5Ky81QVZz?=
+ =?utf-8?B?bnVtL21TNDFpK3lqbXNvTEpYSndYQXhaUmY3NzdaTW9xbDFwU0kzZDM1djd5?=
+ =?utf-8?B?d3I0eUV2MHlXdmZmUnVvTXFSc0lzUGVNclA0ZXpST1lJRSs5aFQzdGtPK25y?=
+ =?utf-8?B?RVJIUjNSOEY0VVNCZWVMWU9pOWE1c0UyVUgrMDVvcFc1ZmJjbFZXSVFlcEFi?=
+ =?utf-8?B?RXRPUU5PM3QwajAyV2wvQXgwK1FXUi85dzdpTGpLNVdxOUNDNlRBL0VnQWZr?=
+ =?utf-8?B?RTRGeFlpYnNIMVVIMWdyZUtMNHZnMFFpdDZhZ3lza2FPcUplR3piMmVhdTRX?=
+ =?utf-8?B?TzNTNXpVV2dDOXltSDUyVEl1dlNrM2ZoWWhyTnZmdWk4UjJQRlNsREFzK1Vk?=
+ =?utf-8?B?TTRoUW82N0xzZXFpcGQ2S2ZPMnBvTVZheHQxZ1ZCM1JRMFZOVFM5SElXQlhu?=
+ =?utf-8?B?TGpQV2hXMHh5dzE5c3p2REZ3bUdHQmd3dm4yZGNtT05jTWVaOEZJT0dhTUhh?=
+ =?utf-8?B?WTNQOEpwUzlWVFp4eUVLN2JETjRTZk8xeC9xNXJTMk93Wlo5ckpLd0ZSR2l0?=
+ =?utf-8?B?RzUxaythQkkyR09Wc1FTT0JuaVdvbCs1ZW9VNDkzU0JmQVl3RW8wU0JDTnRX?=
+ =?utf-8?B?ZzRGanByOU1vcC8wSEZxbHR1Y2VCK3hUbnlRRitiM1JEN2JLSm1iVXcycUt0?=
+ =?utf-8?B?ZkNCdHhqdkh5ck5mYklaOXVaWE1heTlPaDRZTzZSaDBGc1Eva2htTXpjM3RO?=
+ =?utf-8?B?UVJidkV0S0Q2ZDU2U2ZlaC90RzVFNnA1WXQ3cjU4Rkh1ZlpkRWM4Znh3Z09q?=
+ =?utf-8?B?YUwrT251eXVPN3cxSGpTN3JpUTJlKzRoTENWeldoTU9PWkZvYjRZWjVxYk1V?=
+ =?utf-8?B?bzdSdnNSQWdKNmNaNUJMNnorS0F6eXd0b2ZuWjhHS29nWkM4NXZYdk9Tdmp2?=
+ =?utf-8?B?R3lLQkUzTGJ6T2hzeHVJaW9JOEk1UldJR0ErS0xLZ0xuSFNad0VXdzRXQVlB?=
+ =?utf-8?B?Mjhxc1FJU29TcCtlbDNlZmdJSHZqYzdVbTcvVG9CRFpkYVhjZFRzU2xSNENU?=
+ =?utf-8?B?V1dvYmptOWRIQ0xKSENIVlFKaEVKOUE0M1p0TGZxU2JHdXRBSHhCQlFoVEhT?=
+ =?utf-8?B?QzFVZkkzUmpuaXllWGNsbDVJenozTm5rTlVseFl5TXBGakhNM0s0NDJYQUhN?=
+ =?utf-8?B?aXFUTVlPc0Q1WXYzZ1BWdG4yN1MzaXhVL1krWEU2bStyekNWd0Z0cGY0OXFy?=
+ =?utf-8?B?dEJKSW1zUzZlc0IvdVB5eXNmMjZ2S2xQZmNLb1U3dVhyakdrczFyWHhsWnFi?=
+ =?utf-8?B?L2RkZVpMaUNmZWdRckZVTW9JL1FkcXh1OHN1T0NZN0h2anlmZEo4d1BROHhO?=
+ =?utf-8?B?SHZIUXNqbnlpYUF4OFUxWmExcjM0WFJoN2xvOTB4ZzR2RHJKZnlSSFRsa281?=
+ =?utf-8?B?ZEFxVExQNkY3VEI3VVNKSEQ1MXJuczM4a2YxVjF1RGZTK3h5b241MElUMjhq?=
+ =?utf-8?B?WGtPUTZBR3R6aVk3c0hGbzFWSi9ZcXhXaVkrNVZ5RFhEd1BuYlRheGJ5WnVi?=
+ =?utf-8?B?cXJuSEozVlNGR2Z0V09BUmUwYzFzTXQ0VEN6QjVpaG5NdTZkSkN5UWoycDJ4?=
+ =?utf-8?B?dWx0RVRreHMzNDloSHFWbXpsaXM0ZDZGWUZZRXMvMzFJRmhzOTVwdm1FVzk3?=
+ =?utf-8?B?RjNzQnBxcVFMZFBEaTlIY09rV1VhTXgxTFVOcVRwSFJ0TVF5WGJFMGxxUlM0?=
+ =?utf-8?B?eHhxSEdvRGdiUk5HZGM0bndtZFpPVFE5c21nZ09hdWpta21pOTltdDZaS0Ur?=
+ =?utf-8?B?TmtIK28vQXFjWHRQTkZJaUQvZDVUVkRaQWY3bXhlTWU5U0hQbnA0K0FGcGRQ?=
+ =?utf-8?B?SGZMZ1c4b29qS0l1RmFxOXliMjR6eXBKdjE5bVBDQzc3UlVybFhISUs4ZGFj?=
+ =?utf-8?B?UDhZRUdtWUNDekdMVWwrUDl5VVBjbWt5WTk0NDE4QzAwRmFSRHV6T3UvUXU1?=
+ =?utf-8?B?aU0yaEFrR244WUhNY3dDS0FRSlpQRm1URm05Yldpc3BPZXJ1Yk1helF5emQ3?=
+ =?utf-8?Q?8UM4xKtpUisasdISNB?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b6b3838c-abda-4626-7063-08de4f66fe4b
+X-MS-Exchange-CrossTenant-AuthSource: IA4PR12MB9834.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2026 10:08:11.0215
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZTQMOTv59NqPivXArVCTavrlv76LiCvzsP0YRFc5W6r/IKBb7dD09o9wT/vP3bYa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6958
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git devel
-branch HEAD: d2432f513e7655050d03fd609a715ea833f5f598  media: i2c: add os05b10 image sensor driver
+Thanks Sakari for the review.
 
-elapsed time: 2042m
+On 12/23/2025 1:07 AM, Sakari Ailus wrote:
+> Hi Bin,
+> 
+> On Tue, Dec 16, 2025 at 05:13:24PM +0800, Bin Du wrote:
+>> Isp video implements v4l2 video interface and supports NV12 and YUYV. It
+>> manages buffers, pipeline power and state. Cherry-picked Sultan's DMA
+>> buffer related fix from branch v6.16-drm-tip-isp4-for-amd on
+>> https://github.com/kerneltoast/kernel_x86_laptop.git
+>>
+>> Co-developed-by: Sultan Alsawaf <sultan@kerneltoast.com>
+>> Signed-off-by: Sultan Alsawaf <sultan@kerneltoast.com>
+>> Co-developed-by: Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>
+>> Signed-off-by: Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>
+>> Signed-off-by: Bin Du <Bin.Du@amd.com>
+>> Tested-by: Alexey Zagorodnikov <xglooom@gmail.com>
+>> ---
+>>   MAINTAINERS                                   |    2 +
+>>   drivers/media/platform/amd/isp4/Makefile      |    3 +-
+>>   drivers/media/platform/amd/isp4/isp4.c        |   10 +
+>>   drivers/media/platform/amd/isp4/isp4_subdev.c |   79 +-
+>>   drivers/media/platform/amd/isp4/isp4_subdev.h |    2 +
+>>   drivers/media/platform/amd/isp4/isp4_video.c  | 1165 +++++++++++++++++
+>>   drivers/media/platform/amd/isp4/isp4_video.h  |   65 +
+>>   7 files changed, 1321 insertions(+), 5 deletions(-)
+>>   create mode 100644 drivers/media/platform/amd/isp4/isp4_video.c
+>>   create mode 100644 drivers/media/platform/amd/isp4/isp4_video.h
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 48ffc8bbdcee..80c966fde0b4 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -1151,6 +1151,8 @@ F:	drivers/media/platform/amd/isp4/isp4_interface.c
+>>   F:	drivers/media/platform/amd/isp4/isp4_interface.h
+>>   F:	drivers/media/platform/amd/isp4/isp4_subdev.c
+>>   F:	drivers/media/platform/amd/isp4/isp4_subdev.h
+>> +F:	drivers/media/platform/amd/isp4/isp4_video.c
+>> +F:	drivers/media/platform/amd/isp4/isp4_video.h
+>>   
+>>   AMD KFD
+>>   M:	Felix Kuehling <Felix.Kuehling@amd.com>
+>> diff --git a/drivers/media/platform/amd/isp4/Makefile b/drivers/media/platform/amd/isp4/Makefile
+>> index 6d4e6d6ac7f5..398c20ea7866 100644
+>> --- a/drivers/media/platform/amd/isp4/Makefile
+>> +++ b/drivers/media/platform/amd/isp4/Makefile
+>> @@ -5,4 +5,5 @@
+>>   obj-$(CONFIG_AMD_ISP4) += amd_capture.o
+>>   amd_capture-objs := isp4.o \
+>>   		    isp4_interface.o \
+>> -		    isp4_subdev.o
+>> +		    isp4_subdev.o \
+>> +		    isp4_video.o
+>> diff --git a/drivers/media/platform/amd/isp4/isp4.c b/drivers/media/platform/amd/isp4/isp4.c
+>> index bcd7cad32afd..b5470f6dc93e 100644
+>> --- a/drivers/media/platform/amd/isp4/isp4.c
+>> +++ b/drivers/media/platform/amd/isp4/isp4.c
+>> @@ -169,6 +169,16 @@ static int isp4_capture_probe(struct platform_device *pdev)
+>>   		goto err_pm_disable;
+>>   	}
+>>   
+>> +	ret = media_create_pad_link(&isp_dev->isp_subdev.sdev.entity,
+>> +				    0, &isp_dev->isp_subdev.isp_vdev.vdev.entity,
+>> +				    0,
+>> +				    MEDIA_LNK_FL_ENABLED |
+>> +				    MEDIA_LNK_FL_IMMUTABLE);
+>> +	if (ret) {
+>> +		dev_err_probe(dev, ret, "fail to create pad link\n");
+>> +		goto err_isp4_deinit;
+>> +	}
+>> +
+>>   	ret = media_device_register(&isp_dev->mdev);
+>>   	if (ret) {
+>>   		dev_err_probe(dev, ret, "fail to register media device\n");
+>> diff --git a/drivers/media/platform/amd/isp4/isp4_subdev.c b/drivers/media/platform/amd/isp4/isp4_subdev.c
+>> index 3a25d1fc49ce..8c33187efc54 100644
+>> --- a/drivers/media/platform/amd/isp4/isp4_subdev.c
+>> +++ b/drivers/media/platform/amd/isp4/isp4_subdev.c
+>> @@ -449,7 +449,7 @@ static void isp4sd_fw_resp_frame_done(struct isp4_subdev *isp_subdev,
+>>   		return;
+>>   	}
+>>   
+>> -	dev_dbg(dev, "ts:%llu,streamId:%d,poc:%u,preview_en:%u(%i)\n",
+>> +	dev_dbg(dev, "ts:%llu,streamId:%d,poc:%u,preview_en:%u,(%i)\n",
+> 
+> Please make the change to the patch adding the line.
+> 
 
-configs tested: 101
-configs skipped: 2
+Sure, will do that.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+>>   		ktime_get_ns(), stream_id, meta->poc,
+>>   		meta->preview.enabled,
+>>   		meta->preview.status);
+>> @@ -459,11 +459,13 @@ static void isp4sd_fw_resp_frame_done(struct isp4_subdev *isp_subdev,
+>>   	     meta->preview.status == BUFFER_STATUS_DONE ||
+>>   	     meta->preview.status == BUFFER_STATUS_DIRTY)) {
+>>   		prev = isp4if_dequeue_buffer(ispif);
+>> -		if (prev)
+>> +		if (prev) {
+>> +			isp4vid_handle_frame_done(&isp_subdev->isp_vdev,
+>> +						  &prev->buf_info);
+>>   			isp4if_dealloc_buffer_node(prev);
+>> -		else
+>> +		} else {
+>>   			dev_err(dev, "fail null prev buf\n");
+>> -
+>> +		}
+>>   	} else if (meta->preview.enabled) {
+>>   		dev_err(dev, "fail bad preview status %u\n",
+>>   			meta->preview.status);
+>> @@ -794,6 +796,65 @@ static int isp4sd_start_stream(struct isp4_subdev *isp_subdev,
+>>   	return ret;
+>>   }
+>>   
+>> +static int isp4sd_ioc_send_img_buf(struct v4l2_subdev *sd,
+>> +				   struct isp4if_img_buf_info *buf_info)
+>> +{
+>> +	struct isp4_subdev *isp_subdev = to_isp4_subdev(sd);
+>> +	struct isp4_interface *ispif = &isp_subdev->ispif;
+>> +	struct isp4if_img_buf_node *buf_node;
+>> +	struct device *dev = isp_subdev->dev;
+>> +	int ret;
+>> +
+>> +	guard(mutex)(&isp_subdev->ops_mutex);
+>> +
+>> +	if (ispif->status != ISP4IF_STATUS_FW_RUNNING) {
+>> +		dev_err(dev, "fail send img buf for bad fsm %d\n",
+>> +			ispif->status);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	buf_node = isp4if_alloc_buffer_node(buf_info);
+>> +	if (!buf_node) {
+>> +		dev_err(dev, "fail alloc sys img buf info node\n");
+>> +		return -ENOMEM;
+>> +	}
+>> +
+>> +	ret = isp4if_queue_buffer(ispif, buf_node);
+>> +	if (ret) {
+>> +		dev_err(dev, "fail to queue image buf, %d\n", ret);
+>> +		goto error_release_buf_node;
+>> +	}
+>> +
+>> +	if (!isp_subdev->sensor_info.start_stream_cmd_sent) {
+>> +		isp_subdev->sensor_info.buf_sent_cnt++;
+>> +
+>> +		if (isp_subdev->sensor_info.buf_sent_cnt >=
+>> +		    ISP4SD_MIN_BUF_CNT_BEF_START_STREAM) {
+>> +			ret = isp4if_send_command(ispif, CMD_ID_START_STREAM,
+>> +						  NULL, 0);
+>> +			if (ret) {
+>> +				dev_err(dev, "fail to START_STREAM");
+>> +				goto error_release_buf_node;
+>> +			}
+>> +			isp_subdev->sensor_info.start_stream_cmd_sent = true;
+>> +			isp_subdev->sensor_info.output_info.start_status =
+>> +				ISP4SD_START_STATUS_STARTED;
+>> +			isp_subdev->sensor_info.status =
+>> +				ISP4SD_START_STATUS_STARTED;
+>> +		} else {
+>> +			dev_dbg(dev, "no send start, required %u, buf sent %u\n",
+>> +				ISP4SD_MIN_BUF_CNT_BEF_START_STREAM,
+>> +				isp_subdev->sensor_info.buf_sent_cnt);
+>> +		}
+>> +	}
+>> +
+>> +	return 0;
+>> +
+>> +error_release_buf_node:
+>> +	isp4if_dealloc_buffer_node(buf_node);
+>> +	return ret;
+>> +}
+>> +
+>>   static int isp4sd_set_power(struct v4l2_subdev *sd, int on)
+>>   {
+>>   	struct isp4_subdev *isp_subdev = to_isp4_subdev(sd);
+>> @@ -892,6 +953,10 @@ static const struct media_entity_operations isp4sd_sdev_ent_ops = {
+>>   	.link_validate = isp4sd_sdev_link_validate,
+>>   };
+>>   
+>> +static const struct isp4vid_ops isp4sd_isp4vid_ops = {
+>> +	.send_buffer = isp4sd_ioc_send_img_buf,
+>> +};
+>> +
+>>   int isp4sd_init(struct isp4_subdev *isp_subdev, struct v4l2_device *v4l2_dev,
+>>   		int irq[ISP4SD_MAX_FW_RESP_STREAM_NUM])
+>>   {
+>> @@ -952,6 +1017,11 @@ int isp4sd_init(struct isp4_subdev *isp_subdev, struct v4l2_device *v4l2_dev,
+>>   	isp_subdev->host2fw_seq_num = 1;
+>>   	ispif->status = ISP4IF_STATUS_PWR_OFF;
+>>   
+>> +	ret = isp4vid_dev_init(&isp_subdev->isp_vdev, &isp_subdev->sdev,
+>> +			       &isp4sd_isp4vid_ops);
+>> +	if (ret)
+>> +		goto err_subdev_unreg;
+>> +
+>>   	return 0;
+>>   
+>>   err_subdev_unreg:
+>> @@ -966,6 +1036,7 @@ void isp4sd_deinit(struct isp4_subdev *isp_subdev)
+>>   {
+>>   	struct isp4_interface *ispif = &isp_subdev->ispif;
+>>   
+>> +	isp4vid_dev_deinit(&isp_subdev->isp_vdev);
+>>   	v4l2_device_unregister_subdev(&isp_subdev->sdev);
+>>   	media_entity_cleanup(&isp_subdev->sdev.entity);
+>>   	isp4if_deinit(ispif);
+>> diff --git a/drivers/media/platform/amd/isp4/isp4_subdev.h b/drivers/media/platform/amd/isp4/isp4_subdev.h
+>> index 70007b9de3f3..386e4e68f3fa 100644
+>> --- a/drivers/media/platform/amd/isp4/isp4_subdev.h
+>> +++ b/drivers/media/platform/amd/isp4/isp4_subdev.h
+>> @@ -17,6 +17,7 @@
+>>   #include "isp4_fw_cmd_resp.h"
+>>   #include "isp4_hw_reg.h"
+>>   #include "isp4_interface.h"
+>> +#include "isp4_video.h"
+>>   
+>>   /*
+>>    * one is for none sesnor specefic response which is not used now
+>> @@ -93,6 +94,7 @@ struct isp4_subdev_thread_param {
+>>   struct isp4_subdev {
+>>   	struct v4l2_subdev sdev;
+>>   	struct isp4_interface ispif;
+>> +	struct isp4vid_dev isp_vdev;
+>>   
+>>   	struct media_pad sdev_pad;
+>>   
+>> diff --git a/drivers/media/platform/amd/isp4/isp4_video.c b/drivers/media/platform/amd/isp4/isp4_video.c
+>> new file mode 100644
+>> index 000000000000..5006e5021155
+>> --- /dev/null
+>> +++ b/drivers/media/platform/amd/isp4/isp4_video.c
+>> @@ -0,0 +1,1165 @@
+>> +// SPDX-License-Identifier: GPL-2.0+
+>> +/*
+>> + * Copyright (C) 2025 Advanced Micro Devices, Inc.
+>> + */
+>> +
+>> +#include <linux/vmalloc.h>
+>> +#include <media/v4l2-ioctl.h>
+>> +#include <media/v4l2-mc.h>
+>> +
+>> +#include "isp4_interface.h"
+>> +#include "isp4_subdev.h"
+>> +#include "isp4_video.h"
+>> +
+>> +#define ISP4VID_ISP_DRV_NAME "amd_isp_capture"
+>> +#define ISP4VID_MAX_PREVIEW_FPS 30
+>> +#define ISP4VID_DEFAULT_FMT isp4vid_formats[0]
+>> +
+>> +#define ISP4VID_PAD_VIDEO_OUTPUT 0
+>> +
+>> +/* timeperframe default */
+>> +#define ISP4VID_ISP_TPF_DEFAULT isp4vid_tpfs[0]
+>> +
+>> +/* amdisp buffer for vb2 operations */
+>> +struct isp4vid_vb2_buf {
+>> +	struct device			*dev;
+>> +	void				*vaddr;
+>> +	unsigned long			size;
+>> +	refcount_t			refcount;
+>> +	struct dma_buf			*dbuf;
+>> +	void				*bo;
+>> +	u64				gpu_addr;
+>> +	struct vb2_vmarea_handler	handler;
+>> +};
+>> +
+>> +static void isp4vid_vb2_put(void *buf_priv);
+>> +
+>> +static const char *const isp4vid_video_dev_name = "Preview";
+>> +
+>> +/* Sizes must be in increasing order */
+>> +static const struct v4l2_frmsize_discrete isp4vid_frmsize[] = {
+>> +	{640, 360},
+>> +	{640, 480},
+>> +	{1280, 720},
+>> +	{1280, 960},
+>> +	{1920, 1080},
+>> +	{1920, 1440},
+>> +	{2560, 1440},
+>> +	{2880, 1620},
+>> +	{2880, 1624},
+>> +	{2888, 1808},
+>> +};
+>> +
+>> +static const u32 isp4vid_formats[] = {
+>> +	V4L2_PIX_FMT_NV12,
+>> +	V4L2_PIX_FMT_YUYV
+>> +};
+>> +
+>> +/* timeperframe list */
+>> +static const struct v4l2_fract isp4vid_tpfs[] = {
+>> +	{ 1, ISP4VID_MAX_PREVIEW_FPS }
+>> +};
+>> +
+>> +void isp4vid_handle_frame_done(struct isp4vid_dev *isp_vdev,
+>> +			       const struct isp4if_img_buf_info *img_buf)
+>> +{
+>> +	struct isp4vid_capture_buffer *isp4vid_buf;
+>> +	void *vbuf;
+>> +
+>> +	scoped_guard(mutex, &isp_vdev->buf_list_lock) {
+>> +		/* Get the first entry of the list */
+>> +		isp4vid_buf = list_first_entry_or_null(&isp_vdev->buf_list, typeof(*isp4vid_buf),
+>> +						       list);
+>> +		if (!isp4vid_buf)
+>> +			return;
+>> +
+>> +		vbuf = vb2_plane_vaddr(&isp4vid_buf->vb2.vb2_buf, 0);
+>> +
+>> +		if (vbuf != img_buf->planes[0].sys_addr) {
+>> +			dev_err(isp_vdev->dev, "Invalid vbuf");
+>> +			return;
+>> +		}
+>> +
+>> +		/* Remove this entry from the list */
+>> +		list_del(&isp4vid_buf->list);
+>> +	}
+>> +
+>> +	/* Fill the buffer */
+>> +	isp4vid_buf->vb2.vb2_buf.timestamp = ktime_get_ns();
+>> +	isp4vid_buf->vb2.sequence = isp_vdev->sequence++;
+>> +	isp4vid_buf->vb2.field = V4L2_FIELD_ANY;
+>> +
+>> +	/* at most 2 planes */
+>> +	vb2_set_plane_payload(&isp4vid_buf->vb2.vb2_buf,
+>> +			      0, isp_vdev->format.sizeimage);
+>> +
+>> +	vb2_buffer_done(&isp4vid_buf->vb2.vb2_buf, VB2_BUF_STATE_DONE);
+>> +
+>> +	dev_dbg(isp_vdev->dev, "call vb2_buffer_done(size=%u)\n",
+>> +		isp_vdev->format.sizeimage);
+>> +}
+>> +
+>> +static unsigned int isp4vid_vb2_num_users(void *buf_priv)
+>> +{
+>> +	struct isp4vid_vb2_buf *buf = buf_priv;
+>> +
+>> +	return refcount_read(&buf->refcount);
+>> +}
+>> +
+>> +static int isp4vid_vb2_mmap(void *buf_priv, struct vm_area_struct *vma)
+>> +{
+>> +	struct isp4vid_vb2_buf *buf = buf_priv;
+>> +	int ret;
+>> +
+>> +	if (!buf) {
+>> +		pr_err("fail no memory to map\n");
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	ret = remap_vmalloc_range(vma, buf->vaddr, 0);
+>> +	if (ret) {
+>> +		dev_err(buf->dev, "fail remap vmalloc mem, %d\n", ret);
+>> +		return ret;
+>> +	}
+>> +
+>> +	/*
+>> +	 * Make sure that vm_areas for 2 buffers won't be merged together
+>> +	 */
+>> +	vm_flags_set(vma, VM_DONTEXPAND);
+>> +
+>> +	/*
+>> +	 * Use common vm_area operations to track buffer refcount.
+>> +	 */
+>> +	vma->vm_private_data	= &buf->handler;
+>> +	vma->vm_ops		= &vb2_common_vm_ops;
+>> +
+>> +	vma->vm_ops->open(vma);
+>> +
+>> +	dev_dbg(buf->dev, "mmap isp user bo 0x%llx size %ld refcount %d\n",
+>> +		buf->gpu_addr, buf->size, refcount_read(&buf->refcount));
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static void *isp4vid_vb2_vaddr(struct vb2_buffer *vb, void *buf_priv)
+>> +{
+>> +	struct isp4vid_vb2_buf *buf = buf_priv;
+>> +
+>> +	if (!buf->vaddr) {
+>> +		dev_err(buf->dev,
+>> +			"fail for buf vaddr is null\n");
+> 
+> Fits on the prefious line.
+> 
 
-tested configs:
-alpha                               defconfig    gcc-15.2.0
-arc                                 defconfig    gcc-15.2.0
-arc                     nsimosci_hs_defconfig    gcc-15.2.0
-arc                   randconfig-001-20260109    gcc-13.4.0
-arc                   randconfig-002-20260109    gcc-9.5.0
-arm                       netwinder_defconfig    gcc-15.2.0
-arm                   randconfig-001-20260109    gcc-10.5.0
-arm                   randconfig-002-20260109    gcc-15.2.0
-arm                   randconfig-003-20260109    gcc-8.5.0
-arm                   randconfig-004-20260109    gcc-11.5.0
-arm64                 randconfig-001-20260109    clang-22
-arm64                 randconfig-002-20260109    clang-22
-arm64                 randconfig-003-20260109    gcc-11.5.0
-arm64                 randconfig-004-20260109    gcc-8.5.0
-csky                  randconfig-001-20260109    gcc-9.5.0
-csky                  randconfig-002-20260109    gcc-15.2.0
-hexagon               randconfig-001-20260109    clang-22
-hexagon               randconfig-002-20260109    clang-17
-i386        buildonly-randconfig-001-20260109    clang-20
-i386        buildonly-randconfig-002-20260109    gcc-14
-i386        buildonly-randconfig-003-20260109    gcc-14
-i386        buildonly-randconfig-004-20260109    clang-20
-i386        buildonly-randconfig-005-20260109    gcc-12
-i386        buildonly-randconfig-006-20260109    clang-20
-i386                                defconfig    clang-20
-i386                  randconfig-001-20260109    gcc-14
-i386                  randconfig-002-20260109    gcc-14
-i386                  randconfig-003-20260109    gcc-12
-i386                  randconfig-004-20260109    gcc-14
-i386                  randconfig-005-20260109    gcc-14
-i386                  randconfig-006-20260109    clang-20
-i386                  randconfig-007-20260109    gcc-14
-i386                  randconfig-011-20260109    clang-20
-i386                  randconfig-012-20260109    gcc-14
-i386                  randconfig-013-20260109    clang-20
-i386                  randconfig-014-20260109    gcc-14
-i386                  randconfig-015-20260109    clang-20
-i386                  randconfig-016-20260109    clang-20
-i386                  randconfig-017-20260109    clang-20
-loongarch             randconfig-001-20260109    clang-22
-loongarch             randconfig-002-20260109    gcc-15.2.0
-m68k                          amiga_defconfig    gcc-15.2.0
-m68k                                defconfig    gcc-15.2.0
-microblaze                          defconfig    gcc-15.2.0
-nios2                               defconfig    gcc-11.5.0
-nios2                 randconfig-001-20260109    gcc-8.5.0
-nios2                 randconfig-002-20260109    gcc-8.5.0
-openrisc                            defconfig    gcc-15.2.0
-parisc                              defconfig    gcc-15.2.0
-parisc                randconfig-001-20260109    gcc-12.5.0
-parisc                randconfig-002-20260109    gcc-15.2.0
-powerpc                    adder875_defconfig    gcc-15.2.0
-powerpc                     kmeter1_defconfig    gcc-15.2.0
-powerpc                     ksi8560_defconfig    gcc-15.2.0
-powerpc               mpc834x_itxgp_defconfig    clang-22
-powerpc               randconfig-001-20260109    clang-22
-powerpc               randconfig-002-20260109    clang-22
-powerpc64             randconfig-001-20260109    gcc-15.2.0
-powerpc64             randconfig-002-20260109    gcc-8.5.0
-riscv                               defconfig    clang-22
-riscv                 randconfig-001-20260109    gcc-14.3.0
-riscv                 randconfig-002-20260109    gcc-8.5.0
-s390                                defconfig    clang-22
-s390                  randconfig-001-20260109    clang-22
-s390                  randconfig-002-20260109    clang-22
-sh                                  defconfig    gcc-15.2.0
-sh                    randconfig-001-20260109    gcc-14.3.0
-sh                    randconfig-002-20260109    gcc-13.4.0
-sh                            shmin_defconfig    gcc-15.2.0
-sparc                               defconfig    gcc-15.2.0
-sparc                 randconfig-001-20260109    gcc-8.5.0
-sparc                 randconfig-002-20260109    gcc-13.4.0
-sparc64                             defconfig    clang-20
-sparc64               randconfig-001-20260109    gcc-8.5.0
-sparc64               randconfig-002-20260109    clang-20
-um                                  defconfig    clang-22
-um                             i386_defconfig    gcc-14
-um                    randconfig-001-20260109    gcc-14
-um                    randconfig-002-20260109    gcc-14
-um                           x86_64_defconfig    clang-22
-x86_64      buildonly-randconfig-001-20260109    clang-20
-x86_64      buildonly-randconfig-002-20260109    gcc-14
-x86_64      buildonly-randconfig-003-20260109    gcc-14
-x86_64      buildonly-randconfig-004-20260109    gcc-14
-x86_64      buildonly-randconfig-005-20260109    gcc-14
-x86_64      buildonly-randconfig-006-20260109    gcc-14
-x86_64                              defconfig    gcc-14
-x86_64                randconfig-001-20260109    clang-20
-x86_64                randconfig-002-20260109    clang-20
-x86_64                randconfig-003-20260109    gcc-14
-x86_64                randconfig-004-20260109    clang-20
-x86_64                randconfig-005-20260109    clang-20
-x86_64                randconfig-006-20260109    gcc-14
-x86_64                randconfig-071-20260109    gcc-14
-x86_64                randconfig-072-20260109    clang-20
-x86_64                randconfig-073-20260109    gcc-14
-x86_64                randconfig-074-20260109    gcc-14
-x86_64                randconfig-075-20260109    gcc-14
-x86_64                randconfig-076-20260109    gcc-12
-xtensa                randconfig-001-20260109    gcc-12.5.0
-xtensa                randconfig-002-20260109    gcc-14.3.0
+Thanks for catching this,
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> Is this a driver bug or something that can be triggered by the user?
+
+No, our implementation follows the same check as vb2_vmalloc_vaddr().
+
+> 
+>> +		return NULL;
+>> +	}
+>> +
+>> +	return buf->vaddr;
+>> +}
+>> +
+>> +static void isp4vid_vb2_detach_dmabuf(void *mem_priv)
+>> +{
+>> +	struct isp4vid_vb2_buf *buf = mem_priv;
+>> +
+>> +	dev_dbg(buf->dev, "detach dmabuf of isp user bo 0x%llx size %ld",
+>> +		buf->gpu_addr, buf->size);
+>> +
+>> +	kfree(buf);
+>> +}
+>> +
+>> +static void *isp4vid_vb2_attach_dmabuf(struct vb2_buffer *vb, struct device *dev,
+>> +				       struct dma_buf *dbuf,
+>> +				       unsigned long size)
+>> +{
+>> +	struct isp4vid_vb2_buf *dbg_buf = dbuf->priv;
+>> +	struct isp4vid_vb2_buf *buf;
+>> +
+>> +	if (dbuf->size < size) {
+>> +		dev_err(dev, "Invalid dmabuf size %zu %lu", dbuf->size, size);
+>> +		return ERR_PTR(-EFAULT);
+>> +	}
+>> +
+>> +	buf = kzalloc(sizeof(*buf), GFP_KERNEL);
+>> +	if (!buf)
+>> +		return ERR_PTR(-ENOMEM);
+>> +
+>> +	buf->dev = dev;
+>> +	buf->dbuf = dbuf;
+>> +	buf->size = size;
+>> +
+>> +	dev_dbg(dev, "attach dmabuf of isp user bo 0x%llx size %ld",
+>> +		dbg_buf->gpu_addr, dbg_buf->size);
+>> +
+>> +	return buf;
+>> +}
+>> +
+>> +static void isp4vid_vb2_unmap_dmabuf(void *mem_priv)
+>> +{
+>> +	struct isp4vid_vb2_buf *buf = mem_priv;
+>> +	struct iosys_map map = IOSYS_MAP_INIT_VADDR(buf->vaddr);
+>> +
+>> +	dev_dbg(buf->dev, "unmap dmabuf of isp user bo 0x%llx size %ld",
+>> +		buf->gpu_addr, buf->size);
+>> +
+>> +	dma_buf_vunmap_unlocked(buf->dbuf, &map);
+>> +	buf->vaddr = NULL;
+>> +}
+>> +
+>> +static int isp4vid_vb2_map_dmabuf(void *mem_priv)
+>> +{
+>> +	struct isp4vid_vb2_buf *buf = mem_priv, *mmap_buf;
+>> +	struct iosys_map map;
+>> +	int ret;
+>> +
+>> +	ret = dma_buf_vmap_unlocked(buf->dbuf, &map);
+>> +	if (ret) {
+>> +		dev_err(buf->dev, "vmap_unlocked fail");
+>> +		return -EFAULT;
+>> +	}
+>> +
+>> +	buf->vaddr = map.vaddr;
+>> +	mmap_buf = buf->dbuf->priv;
+>> +	buf->gpu_addr = mmap_buf->gpu_addr;
+>> +
+>> +	dev_dbg(buf->dev, "map dmabuf of isp user bo 0x%llx size %ld",
+>> +		buf->gpu_addr, buf->size);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +#ifdef CONFIG_HAS_DMA
+>> +struct isp4vid_vb2_amdgpu_attachment {
+>> +	struct sg_table sgt;
+>> +	enum dma_data_direction dma_dir;
+>> +};
+>> +
+>> +static int isp4vid_dmabuf_ops_attach(struct dma_buf *dbuf,
+>> +				     struct dma_buf_attachment *dbuf_attach)
+>> +{
+>> +	struct isp4vid_vb2_buf *buf = dbuf->priv;
+>> +	int num_pages = PAGE_ALIGN(buf->size) / PAGE_SIZE;
+>> +	struct isp4vid_vb2_amdgpu_attachment *attach;
+>> +	void *vaddr = buf->vaddr;
+>> +	struct scatterlist *sg;
+>> +	struct sg_table *sgt;
+>> +	int ret;
+>> +	int i;
+>> +
+>> +	attach = kzalloc(sizeof(*attach), GFP_KERNEL);
+>> +	if (!attach)
+>> +		return -ENOMEM;
+>> +
+>> +	sgt = &attach->sgt;
+>> +	ret = sg_alloc_table(sgt, num_pages, GFP_KERNEL);
+>> +	if (ret) {
+>> +		kfree(attach);
+>> +		return ret;
+>> +	}
+>> +
+>> +	for_each_sgtable_sg(sgt, sg, i) {
+>> +		struct page *page = vmalloc_to_page(vaddr);
+>> +
+>> +		if (!page) {
+>> +			sg_free_table(sgt);
+>> +			kfree(attach);
+>> +			return -ENOMEM;
+>> +		}
+>> +
+>> +		sg_set_page(sg, page, PAGE_SIZE, 0);
+>> +		vaddr = ((char *)vaddr) + PAGE_SIZE;
+>> +	}
+>> +
+>> +	attach->dma_dir = DMA_NONE;
+>> +	dbuf_attach->priv = attach;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static void isp4vid_dmabuf_ops_detach(struct dma_buf *dbuf,
+>> +				      struct dma_buf_attachment *dbuf_attach)
+>> +{
+>> +	struct isp4vid_vb2_amdgpu_attachment *attach = dbuf_attach->priv;
+>> +	struct sg_table *sgt;
+>> +
+>> +	if (!attach) {
+>> +		pr_err("fail invalid attach handler\n");
+>> +		return;
+>> +	}
+>> +
+>> +	sgt = &attach->sgt;
+>> +
+>> +	/* release the scatterlist cache */
+>> +	if (attach->dma_dir != DMA_NONE)
+>> +		dma_unmap_sgtable(dbuf_attach->dev, sgt, attach->dma_dir, 0);
+>> +
+>> +	sg_free_table(sgt);
+>> +	kfree(attach);
+>> +	dbuf_attach->priv = NULL;
+>> +}
+>> +
+>> +static struct sg_table *isp4vid_dmabuf_ops_map(struct dma_buf_attachment *dbuf_attach,
+>> +					       enum dma_data_direction dma_dir)
+>> +{
+>> +	struct isp4vid_vb2_amdgpu_attachment *attach = dbuf_attach->priv;
+>> +	struct sg_table *sgt;
+>> +
+>> +	sgt = &attach->sgt;
+>> +	/* return previously mapped sg table */
+>> +	if (attach->dma_dir == dma_dir)
+>> +		return sgt;
+>> +
+>> +	/* release any previous cache */
+>> +	if (attach->dma_dir != DMA_NONE) {
+>> +		dma_unmap_sgtable(dbuf_attach->dev, sgt, attach->dma_dir, 0);
+>> +		attach->dma_dir = DMA_NONE;
+>> +	}
+>> +
+>> +	/* mapping to the client with new direction */
+>> +	if (dma_map_sgtable(dbuf_attach->dev, sgt, dma_dir, 0)) {
+>> +		dev_err(dbuf_attach->dev, "fail to map scatterlist");
+>> +		return ERR_PTR(-EIO);
+>> +	}
+>> +
+>> +	attach->dma_dir = dma_dir;
+>> +
+>> +	return sgt;
+>> +}
+>> +
+>> +static void isp4vid_dmabuf_ops_unmap(struct dma_buf_attachment *dbuf_attach,
+>> +				     struct sg_table *sgt,
+>> +				     enum dma_data_direction dma_dir)
+>> +{
+>> +	/* nothing to be done here */
+>> +}
+>> +
+>> +static int isp4vid_dmabuf_ops_vmap(struct dma_buf *dbuf,
+>> +				   struct iosys_map *map)
+>> +{
+>> +	struct isp4vid_vb2_buf *buf = dbuf->priv;
+>> +
+>> +	iosys_map_set_vaddr(map, buf->vaddr);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static void isp4vid_dmabuf_ops_release(struct dma_buf *dbuf)
+>> +{
+>> +	struct isp4vid_vb2_buf *buf = dbuf->priv;
+>> +
+>> +	/* drop reference obtained in isp4vid_vb2_get_dmabuf */
+>> +	if (dbuf != buf->dbuf)
+>> +		isp4vid_vb2_put(buf);
+>> +	else
+>> +		kfree(buf);
+>> +}
+>> +
+>> +static int isp4vid_dmabuf_ops_mmap(struct dma_buf *dbuf, struct vm_area_struct *vma)
+>> +{
+>> +	return isp4vid_vb2_mmap(dbuf->priv, vma);
+>> +}
+>> +
+>> +static const struct dma_buf_ops isp4vid_dmabuf_ops = {
+>> +	.attach = isp4vid_dmabuf_ops_attach,
+>> +	.detach = isp4vid_dmabuf_ops_detach,
+>> +	.map_dma_buf = isp4vid_dmabuf_ops_map,
+>> +	.unmap_dma_buf = isp4vid_dmabuf_ops_unmap,
+>> +	.vmap = isp4vid_dmabuf_ops_vmap,
+>> +	.mmap = isp4vid_dmabuf_ops_mmap,
+>> +	.release = isp4vid_dmabuf_ops_release,
+>> +};
+>> +
+>> +static struct dma_buf *isp4vid_get_dmabuf(struct isp4vid_vb2_buf *buf, unsigned long flags)
+>> +{
+>> +	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
+>> +	struct dma_buf *dbuf;
+>> +
+>> +	if (WARN_ON(!buf->vaddr))
+>> +		return NULL;
+>> +
+>> +	exp_info.ops = &isp4vid_dmabuf_ops;
+>> +	exp_info.size = buf->size;
+>> +	exp_info.flags = flags;
+>> +	exp_info.priv = buf;
+>> +
+>> +	dbuf = dma_buf_export(&exp_info);
+>> +	if (IS_ERR(dbuf))
+>> +		return NULL;
+>> +
+>> +	return dbuf;
+>> +}
+>> +
+>> +static struct dma_buf *isp4vid_vb2_get_dmabuf(struct vb2_buffer *vb, void *buf_priv,
+>> +					      unsigned long flags)
+>> +{
+>> +	struct isp4vid_vb2_buf *buf = buf_priv;
+>> +	struct dma_buf *dbuf;
+>> +
+>> +	dbuf = isp4vid_get_dmabuf(buf, flags);
+>> +	if (!dbuf) {
+>> +		dev_err(buf->dev, "fail to get isp dma buffer\n");
+>> +		return NULL;
+>> +	}
+>> +
+>> +	refcount_inc(&buf->refcount);
+>> +
+>> +	dev_dbg(buf->dev, "buf exported, refcount %d\n",
+>> +		refcount_read(&buf->refcount));
+>> +
+>> +	return dbuf;
+>> +}
+>> +#endif /* CONFIG_HAS_DMA */
+>> +
+>> +static void isp4vid_vb2_put(void *buf_priv)
+>> +{
+>> +	struct isp4vid_vb2_buf *buf = buf_priv;
+>> +
+>> +	dev_dbg(buf->dev,
+>> +		"release isp user bo 0x%llx size %ld refcount %d",
+>> +		buf->gpu_addr, buf->size,
+>> +		refcount_read(&buf->refcount));
+>> +
+>> +	if (refcount_dec_and_test(&buf->refcount)) {
+>> +		isp_user_buffer_free(buf->bo);
+>> +		vfree(buf->vaddr);
+>> +		/*
+>> +		 * Putting the implicit dmabuf frees `buf`. Freeing `buf` must
+>> +		 * be done from the dmabuf release callback since dma_buf_put()
+>> +		 * isn't always synchronous; it's just an fput(), which may be
+>> +		 * deferred. Since the dmabuf release callback needs to access
+>> +		 * `buf`, this means `buf` cannot be freed until then.
+>> +		 */
+>> +		dma_buf_put(buf->dbuf);
+>> +	}
+>> +}
+>> +
+>> +static void *isp4vid_vb2_alloc(struct vb2_buffer *vb, struct device *dev, unsigned long size)
+>> +{
+>> +	struct isp4vid_vb2_buf *buf;
+>> +	u64 gpu_addr;
+>> +	void *bo;
+>> +	int ret;
+>> +
+>> +	buf = kzalloc(sizeof(*buf), GFP_KERNEL | vb->vb2_queue->gfp_flags);
+>> +	if (!buf)
+>> +		return ERR_PTR(-ENOMEM);
+>> +
+>> +	buf->dev = dev;
+>> +	buf->size = size;
+>> +	buf->vaddr = vmalloc_user(buf->size);
+>> +	if (!buf->vaddr) {
+>> +		dev_err(dev, "fail to vmalloc buffer\n");
+>> +		goto free_buf;
+>> +	}
+>> +
+>> +	buf->handler.refcount = &buf->refcount;
+>> +	buf->handler.put = isp4vid_vb2_put;
+>> +	buf->handler.arg = buf;
+>> +
+>> +	/* get implicit dmabuf */
+>> +	buf->dbuf = isp4vid_get_dmabuf(buf, 0);
+>> +	if (!buf->dbuf) {
+>> +		dev_err(dev, "fail to get implicit dmabuf\n");
+>> +		goto free_user_vmem;
+>> +	}
+>> +
+>> +	/* create isp user BO and obtain gpu_addr */
+>> +	ret = isp_user_buffer_alloc(dev, buf->dbuf, &bo, &gpu_addr);
+>> +	if (ret) {
+>> +		dev_err(dev, "fail to create isp user BO\n");
+>> +		goto put_dmabuf;
+>> +	}
+>> +
+>> +	buf->bo = bo;
+>> +	buf->gpu_addr = gpu_addr;
+>> +
+>> +	refcount_set(&buf->refcount, 1);
+>> +
+>> +	dev_dbg(dev, "allocated isp user bo 0x%llx size %ld refcount %d\n",
+>> +		buf->gpu_addr, buf->size, refcount_read(&buf->refcount));
+>> +
+>> +	return buf;
+>> +
+>> +put_dmabuf:
+>> +	dma_buf_put(buf->dbuf);
+>> +free_user_vmem:
+>> +	vfree(buf->vaddr);
+>> +free_buf:
+>> +	ret = buf->vaddr ? -EINVAL : -ENOMEM;
+>> +	kfree(buf);
+>> +	return ERR_PTR(ret);
+>> +}
+>> +
+>> +static const struct vb2_mem_ops isp4vid_vb2_memops = {
+>> +	.alloc		= isp4vid_vb2_alloc,
+>> +	.put		= isp4vid_vb2_put,
+>> +#ifdef CONFIG_HAS_DMA
+>> +	.get_dmabuf	= isp4vid_vb2_get_dmabuf,
+>> +#endif
+>> +	.map_dmabuf	= isp4vid_vb2_map_dmabuf,
+>> +	.unmap_dmabuf	= isp4vid_vb2_unmap_dmabuf,
+>> +	.attach_dmabuf	= isp4vid_vb2_attach_dmabuf,
+>> +	.detach_dmabuf	= isp4vid_vb2_detach_dmabuf,
+>> +	.vaddr		= isp4vid_vb2_vaddr,
+>> +	.mmap		= isp4vid_vb2_mmap,
+>> +	.num_users	= isp4vid_vb2_num_users,
+>> +};
+> 
+> Could you elaborate a bit why do you need your own videobuf mem ops?
+> 
+
+Sure, ISP FW/HW can access system memory only via GPU VA, not system VA, 
+so vb2_vmalloc_memops can't be used directly, we need to base on it to 
+implement our own videobuf mem ops to support both GPU VA and system VA.
+
+>> +
+>> +static const struct v4l2_pix_format isp4vid_fmt_default = {
+>> +	.width = 1920,
+>> +	.height = 1080,
+>> +	.pixelformat = ISP4VID_DEFAULT_FMT,
+>> +	.field = V4L2_FIELD_NONE,
+>> +	.colorspace = V4L2_COLORSPACE_SRGB,
+>> +};
+>> +
+>> +static void isp4vid_capture_return_all_buffers(struct isp4vid_dev *isp_vdev,
+>> +					       enum vb2_buffer_state state)
+>> +{
+>> +	struct isp4vid_capture_buffer *vbuf, *node;
+>> +
+>> +	scoped_guard(mutex, &isp_vdev->buf_list_lock) {
+>> +		list_for_each_entry_safe(vbuf, node, &isp_vdev->buf_list, list)
+>> +			vb2_buffer_done(&vbuf->vb2.vb2_buf, state);
+>> +		INIT_LIST_HEAD(&isp_vdev->buf_list);
+>> +	}
+>> +
+>> +	dev_dbg(isp_vdev->dev, "call vb2_buffer_done(%d)\n", state);
+>> +}
+>> +
+>> +static int isp4vid_vdev_link_validate(struct media_link *link)
+>> +{
+>> +	return 0;
+>> +}
+>> +
+>> +static const struct media_entity_operations isp4vid_vdev_ent_ops = {
+>> +	.link_validate = isp4vid_vdev_link_validate,
+>> +};
+>> +
+>> +static const struct v4l2_file_operations isp4vid_vdev_fops = {
+>> +	.owner = THIS_MODULE,
+>> +	.open = v4l2_fh_open,
+>> +	.release = vb2_fop_release,
+>> +	.read = vb2_fop_read,
+>> +	.poll = vb2_fop_poll,
+>> +	.unlocked_ioctl = video_ioctl2,
+>> +	.mmap = vb2_fop_mmap,
+>> +};
+>> +
+>> +static int isp4vid_ioctl_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
+>> +{
+>> +	struct isp4vid_dev *isp_vdev = video_drvdata(file);
+>> +
+>> +	strscpy(cap->driver, ISP4VID_ISP_DRV_NAME, sizeof(cap->driver));
+>> +	snprintf(cap->card, sizeof(cap->card), "%s", ISP4VID_ISP_DRV_NAME);
+>> +	cap->capabilities |= V4L2_CAP_STREAMING | V4L2_CAP_VIDEO_CAPTURE;
+>> +
+>> +	dev_dbg(isp_vdev->dev, "%s|capabilities=0x%X", isp_vdev->vdev.name, cap->capabilities);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int isp4vid_g_fmt_vid_cap(struct file *file, void *priv, struct v4l2_format *f)
+>> +{
+>> +	struct isp4vid_dev *isp_vdev = video_drvdata(file);
+>> +
+>> +	f->fmt.pix = isp_vdev->format;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int isp4vid_fill_buffer_size(struct v4l2_pix_format *fmt)
+>> +{
+>> +	int ret = 0;
+>> +
+>> +	switch (fmt->pixelformat) {
+>> +	case V4L2_PIX_FMT_NV12:
+>> +		fmt->bytesperline = fmt->width;
+>> +		fmt->sizeimage = fmt->bytesperline * fmt->height * 3 / 2;
+>> +		break;
+>> +	case V4L2_PIX_FMT_YUYV:
+>> +		fmt->bytesperline = fmt->width * 2;
+>> +		fmt->sizeimage = fmt->bytesperline * fmt->height;
+>> +		break;
+>> +	default:
+>> +		ret = -EINVAL;
+>> +		break;
+>> +	}
+>> +
+>> +	return ret;
+>> +}
+>> +
+>> +static int isp4vid_try_fmt_vid_cap(struct file *file, void *priv, struct v4l2_format *f)
+>> +{
+>> +	struct isp4vid_dev *isp_vdev = video_drvdata(file);
+>> +	struct v4l2_pix_format *format = &f->fmt.pix;
+>> +	const struct v4l2_frmsize_discrete *fsz;
+>> +	int i;
+>> +
+>> +	if (f->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+>> +		return -EINVAL;
+> 
+> The framework already does the check.
+> 
+
+Thanks for catching this, will remove the redundant check.
+
+>> +
+>> +	/*
+>> +	 * Check if the hardware supports the requested format, use the default
+>> +	 * format otherwise.
+>> +	 */
+>> +	for (i = 0; i < ARRAY_SIZE(isp4vid_formats); i++)
+>> +		if (isp4vid_formats[i] == format->pixelformat)
+>> +			break;
+>> +
+>> +	if (i == ARRAY_SIZE(isp4vid_formats))
+>> +		format->pixelformat = ISP4VID_DEFAULT_FMT;
+>> +
+>> +	switch (format->pixelformat) {
+>> +	case V4L2_PIX_FMT_NV12:
+>> +	case V4L2_PIX_FMT_YUYV:
+>> +		fsz = v4l2_find_nearest_size(isp4vid_frmsize, ARRAY_SIZE(isp4vid_frmsize),
+>> +					     width, height, format->width, format->height);
+>> +		format->width = fsz->width;
+>> +		format->height = fsz->height;
+>> +		break;
+>> +	default:
+>> +		dev_err(isp_vdev->dev, "%s|unsupported fmt=%u", isp_vdev->vdev.name,
+>> +			format->pixelformat);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	/* There is no need to check the return value, as failure will never happen here */
+>> +	isp4vid_fill_buffer_size(format);
+>> +
+>> +	if (format->field == V4L2_FIELD_ANY)
+>> +		format->field = isp4vid_fmt_default.field;
+>> +
+>> +	if (format->colorspace == V4L2_COLORSPACE_DEFAULT)
+>> +		format->colorspace = isp4vid_fmt_default.colorspace;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int isp4vid_set_fmt_2_isp(struct v4l2_subdev *sdev, struct v4l2_pix_format *pix_fmt)
+>> +{
+>> +	struct v4l2_subdev_format fmt = {};
+>> +
+>> +	switch (pix_fmt->pixelformat) {
+>> +	case V4L2_PIX_FMT_NV12:
+>> +		fmt.format.code = MEDIA_BUS_FMT_YUYV8_1_5X8;
+>> +		break;
+>> +	case V4L2_PIX_FMT_YUYV:
+>> +		fmt.format.code = MEDIA_BUS_FMT_YUYV8_1X16;
+>> +		break;
+>> +	default:
+>> +		return -EINVAL;
+>> +	}
+>> +	fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
+>> +	fmt.pad = ISP4VID_PAD_VIDEO_OUTPUT;
+>> +	fmt.format.width = pix_fmt->width;
+>> +	fmt.format.height = pix_fmt->height;
+>> +	return v4l2_subdev_call(sdev, pad, set_fmt, NULL, &fmt);
+>> +}
+>> +
+>> +static int isp4vid_s_fmt_vid_cap(struct file *file, void *priv, struct v4l2_format *f)
+>> +{
+>> +	struct isp4vid_dev *isp_vdev = video_drvdata(file);
+>> +	int ret;
+>> +
+>> +	/* Do not change the format while stream is on */
+>> +	if (vb2_is_busy(&isp_vdev->vbq))
+>> +		return -EBUSY;
+>> +
+>> +	if (f->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+>> +		return -EINVAL;
+> 
+> Ditto.
+> 
+
+Yes, will remove it.
+
+>> +
+>> +	ret = isp4vid_try_fmt_vid_cap(file, priv, f);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	dev_dbg(isp_vdev->dev, "%s|width height:%ux%u->%ux%u",
+>> +		isp_vdev->vdev.name,
+>> +		isp_vdev->format.width, isp_vdev->format.height,
+>> +		f->fmt.pix.width, f->fmt.pix.height);
+>> +	dev_dbg(isp_vdev->dev, "%s|pixelformat:0x%x-0x%x",
+>> +		isp_vdev->vdev.name, isp_vdev->format.pixelformat,
+>> +		f->fmt.pix.pixelformat);
+>> +	dev_dbg(isp_vdev->dev, "%s|bytesperline:%u->%u",
+>> +		isp_vdev->vdev.name, isp_vdev->format.bytesperline,
+>> +		f->fmt.pix.bytesperline);
+>> +	dev_dbg(isp_vdev->dev, "%s|sizeimage:%u->%u",
+>> +		isp_vdev->vdev.name, isp_vdev->format.sizeimage,
+>> +		f->fmt.pix.sizeimage);
+>> +
+>> +	isp_vdev->format = f->fmt.pix;
+>> +	ret = isp4vid_set_fmt_2_isp(isp_vdev->isp_sdev, &isp_vdev->format);
+>> +
+>> +	return ret;
+>> +}
+>> +
+>> +static int isp4vid_enum_fmt_vid_cap(struct file *file, void *priv, struct v4l2_fmtdesc *f)
+>> +{
+>> +	struct isp4vid_dev *isp_vdev = video_drvdata(file);
+>> +
+>> +	switch (f->index) {
+>> +	case 0:
+>> +		f->pixelformat = V4L2_PIX_FMT_NV12;
+>> +		break;
+>> +	case 1:
+>> +		f->pixelformat = V4L2_PIX_FMT_YUYV;
+>> +		break;
+>> +	default:
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	dev_dbg(isp_vdev->dev, "%s|index=%d, pixelformat=0x%X",
+>> +		isp_vdev->vdev.name, f->index, f->pixelformat);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int isp4vid_enum_framesizes(struct file *file, void *fh, struct v4l2_frmsizeenum *fsize)
+>> +{
+>> +	struct isp4vid_dev *isp_vdev = video_drvdata(file);
+>> +	unsigned int i;
+>> +
+>> +	for (i = 0; i < ARRAY_SIZE(isp4vid_formats); i++) {
+>> +		if (isp4vid_formats[i] == fsize->pixel_format)
+>> +			break;
+>> +	}
+>> +	if (i == ARRAY_SIZE(isp4vid_formats))
+>> +		return -EINVAL;
+>> +
+>> +	if (fsize->index < ARRAY_SIZE(isp4vid_frmsize)) {
+>> +		fsize->type = V4L2_FRMSIZE_TYPE_DISCRETE;
+>> +		fsize->discrete = isp4vid_frmsize[fsize->index];
+>> +		dev_dbg(isp_vdev->dev, "%s|size[%d]=%dx%d",
+>> +			isp_vdev->vdev.name, fsize->index,
+>> +			fsize->discrete.width, fsize->discrete.height);
+>> +	} else {
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int isp4vid_ioctl_enum_frameintervals(struct file *file, void *priv,
+>> +					     struct v4l2_frmivalenum *fival)
+>> +{
+>> +	struct isp4vid_dev *isp_vdev = video_drvdata(file);
+>> +	int i;
+>> +
+>> +	if (fival->index >= ARRAY_SIZE(isp4vid_tpfs))
+>> +		return -EINVAL;
+>> +
+>> +	for (i = 0; i < ARRAY_SIZE(isp4vid_formats); i++)
+>> +		if (isp4vid_formats[i] == fival->pixel_format)
+>> +			break;
+>> +
+>> +	if (i == ARRAY_SIZE(isp4vid_formats))
+>> +		return -EINVAL;
+>> +
+>> +	for (i = 0; i < ARRAY_SIZE(isp4vid_frmsize); i++)
+>> +		if (isp4vid_frmsize[i].width == fival->width &&
+>> +		    isp4vid_frmsize[i].height == fival->height)
+>> +			break;
+>> +
+>> +	if (i == ARRAY_SIZE(isp4vid_frmsize))
+>> +		return -EINVAL;
+>> +
+>> +	fival->type = V4L2_FRMIVAL_TYPE_DISCRETE;
+>> +	fival->discrete = isp4vid_tpfs[fival->index];
+>> +	v4l2_simplify_fraction(&fival->discrete.numerator,
+>> +			       &fival->discrete.denominator, 8, 333);
+>> +
+>> +	dev_dbg(isp_vdev->dev, "%s|interval[%d]=%d/%d",
+>> +		isp_vdev->vdev.name, fival->index,
+>> +		fival->discrete.numerator,
+>> +		fival->discrete.denominator);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int isp4vid_ioctl_g_param(struct file *file, void *priv, struct v4l2_streamparm *param)
+>> +{
+>> +	struct v4l2_captureparm *capture = &param->parm.capture;
+>> +	struct isp4vid_dev *isp_vdev = video_drvdata(file);
+>> +
+>> +	if (param->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+>> +		return -EINVAL;
+>> +
+>> +	capture->capability   = V4L2_CAP_TIMEPERFRAME;
+>> +	capture->timeperframe = isp_vdev->timeperframe;
+>> +	capture->readbuffers  = 0;
+>> +
+>> +	dev_dbg(isp_vdev->dev, "%s|timeperframe=%d/%d", isp_vdev->vdev.name,
+>> +		capture->timeperframe.numerator,
+>> +		capture->timeperframe.denominator);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static const struct v4l2_ioctl_ops isp4vid_vdev_ioctl_ops = {
+>> +	/* VIDIOC_QUERYCAP handler */
+>> +	.vidioc_querycap = isp4vid_ioctl_querycap,
+>> +
+>> +	/* VIDIOC_ENUM_FMT handlers */
+>> +	.vidioc_enum_fmt_vid_cap = isp4vid_enum_fmt_vid_cap,
+>> +
+>> +	/* VIDIOC_G_FMT handlers */
+>> +	.vidioc_g_fmt_vid_cap = isp4vid_g_fmt_vid_cap,
+>> +
+>> +	/* VIDIOC_S_FMT handlers */
+>> +	.vidioc_s_fmt_vid_cap = isp4vid_s_fmt_vid_cap,
+>> +
+>> +	/* VIDIOC_TRY_FMT handlers */
+>> +	.vidioc_try_fmt_vid_cap = isp4vid_try_fmt_vid_cap,
+>> +
+>> +	/* Buffer handlers */
+>> +	.vidioc_reqbufs = vb2_ioctl_reqbufs,
+>> +	.vidioc_querybuf = vb2_ioctl_querybuf,
+>> +	.vidioc_qbuf = vb2_ioctl_qbuf,
+>> +	.vidioc_expbuf = vb2_ioctl_expbuf,
+>> +	.vidioc_dqbuf = vb2_ioctl_dqbuf,
+>> +	.vidioc_create_bufs = vb2_ioctl_create_bufs,
+>> +	.vidioc_prepare_buf = vb2_ioctl_prepare_buf,
+>> +
+>> +	/* Stream on/off */
+>> +	.vidioc_streamon = vb2_ioctl_streamon,
+>> +	.vidioc_streamoff = vb2_ioctl_streamoff,
+>> +
+>> +	/* Stream type-dependent parameter ioctls */
+>> +	.vidioc_g_parm        = isp4vid_ioctl_g_param,
+>> +	.vidioc_s_parm        = isp4vid_ioctl_g_param,
+>> +
+>> +	.vidioc_enum_framesizes = isp4vid_enum_framesizes,
+>> +	.vidioc_enum_frameintervals = isp4vid_ioctl_enum_frameintervals,
+>> +
+> 
+> I believe you can drop the above comments; they provide no additional
+> information whatsoever. Extra newline above, too.
+> 
+
+Yes, excatly, will do that.
+
+>> +};
+>> +
+>> +static unsigned int isp4vid_get_image_size(struct v4l2_pix_format *fmt)
+>> +{
+>> +	switch (fmt->pixelformat) {
+>> +	case V4L2_PIX_FMT_NV12:
+>> +		return fmt->width * fmt->height * 3 / 2;
+>> +	case V4L2_PIX_FMT_YUYV:
+>> +		return fmt->width * fmt->height * 2;
+>> +	default:
+>> +		return 0;
+>> +	}
+>> +}
+>> +
+>> +static int isp4vid_qops_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
+>> +				    unsigned int *nplanes, unsigned int sizes[],
+>> +				    struct device *alloc_devs[])
+>> +{
+>> +	struct isp4vid_dev *isp_vdev = vb2_get_drv_priv(vq);
+>> +	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
+>> +
+>> +	if (*nplanes > 1) {
+>> +		dev_err(isp_vdev->dev,
+>> +			"fail to setup queue, no mplane supported %u\n",
+>> +			*nplanes);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	if (*nplanes == 1) {
+>> +		unsigned int size;
+>> +
+>> +		size = isp4vid_get_image_size(&isp_vdev->format);
+>> +		if (sizes[0] < size) {
+>> +			dev_err(isp_vdev->dev,
+>> +				"fail for small plane size %u, %u expected\n",
+>> +				sizes[0], size);
+>> +			return -EINVAL;
+>> +		}
+>> +	}
+>> +
+>> +	if (q_num_bufs + *nbuffers < ISP4IF_MAX_STREAM_BUF_COUNT)
+>> +		*nbuffers = ISP4IF_MAX_STREAM_BUF_COUNT - q_num_bufs;
+>> +
+>> +	switch (isp_vdev->format.pixelformat) {
+>> +	case V4L2_PIX_FMT_NV12:
+>> +	case V4L2_PIX_FMT_YUYV: {
+>> +		*nplanes = 1;
+>> +		sizes[0] = max(sizes[0], isp_vdev->format.sizeimage);
+>> +		isp_vdev->format.sizeimage = sizes[0];
+>> +	}
+>> +	break;
+>> +	default:
+>> +		dev_err(isp_vdev->dev, "%s|unsupported fmt=%u\n",
+>> +			isp_vdev->vdev.name, isp_vdev->format.pixelformat);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	dev_dbg(isp_vdev->dev, "%s|*nbuffers=%u *nplanes=%u sizes[0]=%u\n",
+>> +		isp_vdev->vdev.name,
+>> +		*nbuffers, *nplanes, sizes[0]);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static void isp4vid_qops_buffer_queue(struct vb2_buffer *vb)
+>> +{
+>> +	struct isp4vid_capture_buffer *buf =
+>> +		container_of(vb, struct isp4vid_capture_buffer, vb2.vb2_buf);
+>> +	struct isp4vid_dev *isp_vdev = vb2_get_drv_priv(vb->vb2_queue);
+>> +
+>> +	struct isp4vid_vb2_buf *priv_buf = vb->planes[0].mem_priv;
+>> +	struct isp4if_img_buf_info *img_buf = &buf->img_buf;
+>> +
+>> +	dev_dbg(isp_vdev->dev, "%s|index=%u", isp_vdev->vdev.name, vb->index);
+>> +
+>> +	dev_dbg(isp_vdev->dev, "queue isp user bo 0x%llx size=%lu",
+>> +		priv_buf->gpu_addr,
+>> +		priv_buf->size);
+>> +
+>> +	switch (isp_vdev->format.pixelformat) {
+>> +	case V4L2_PIX_FMT_NV12: {
+>> +		u32 y_size = isp_vdev->format.sizeimage / 3 * 2;
+>> +		u32 uv_size = isp_vdev->format.sizeimage / 3;
+>> +
+>> +		img_buf->planes[0].len = y_size;
+>> +		img_buf->planes[0].sys_addr = priv_buf->vaddr;
+>> +		img_buf->planes[0].mc_addr = priv_buf->gpu_addr;
+>> +
+>> +		dev_dbg(isp_vdev->dev, "img_buf[0]: mc=0x%llx size=%u",
+>> +			img_buf->planes[0].mc_addr,
+>> +			img_buf->planes[0].len);
+>> +
+>> +		img_buf->planes[1].len = uv_size;
+>> +		img_buf->planes[1].sys_addr = priv_buf->vaddr + y_size;
+>> +		img_buf->planes[1].mc_addr = priv_buf->gpu_addr + y_size;
+>> +
+>> +		dev_dbg(isp_vdev->dev, "img_buf[1]: mc=0x%llx size=%u",
+>> +			img_buf->planes[1].mc_addr,
+>> +			img_buf->planes[1].len);
+>> +
+>> +		img_buf->planes[2].len = 0;
+>> +	}
+>> +	break;
+>> +	case V4L2_PIX_FMT_YUYV: {
+>> +		img_buf->planes[0].len = isp_vdev->format.sizeimage;
+>> +		img_buf->planes[0].sys_addr = priv_buf->vaddr;
+>> +		img_buf->planes[0].mc_addr = priv_buf->gpu_addr;
+>> +
+>> +		dev_dbg(isp_vdev->dev, "img_buf[0]: mc=0x%llx size=%u",
+>> +			img_buf->planes[0].mc_addr,
+>> +			img_buf->planes[0].len);
+>> +
+>> +		img_buf->planes[1].len = 0;
+>> +		img_buf->planes[2].len = 0;
+>> +	}
+>> +	break;
+>> +	default:
+>> +		dev_err(isp_vdev->dev, "%s|unsupported fmt=%u",
+>> +			isp_vdev->vdev.name, isp_vdev->format.pixelformat);
+>> +		return;
+>> +	}
+>> +
+>> +	if (isp_vdev->stream_started)
+>> +		isp_vdev->ops->send_buffer(isp_vdev->isp_sdev, img_buf);
+>> +
+>> +	scoped_guard(mutex, &isp_vdev->buf_list_lock)
+>> +		list_add_tail(&buf->list, &isp_vdev->buf_list);
+>> +}
+>> +
+>> +static int isp4vid_qops_start_streaming(struct vb2_queue *vq, unsigned int count)
+>> +{
+>> +	struct isp4vid_dev *isp_vdev = vb2_get_drv_priv(vq);
+>> +	struct isp4vid_capture_buffer *isp4vid_buf;
+>> +	struct media_entity *entity;
+>> +	struct v4l2_subdev *subdev;
+>> +	struct media_pad *pad;
+>> +	int ret = 0;
+>> +
+>> +	isp_vdev->sequence = 0;
+>> +	ret = v4l2_pipeline_pm_get(&isp_vdev->vdev.entity);
+>> +	if (ret) {
+>> +		dev_err(isp_vdev->dev, "power up isp fail %d\n", ret);
+>> +		goto release_buffers;
+>> +	}
+>> +
+>> +	entity = &isp_vdev->vdev.entity;
+>> +	while (1) {
+>> +		pad = &entity->pads[0];
+>> +		if (!(pad->flags & MEDIA_PAD_FL_SINK))
+>> +			break;
+>> +
+>> +		pad = media_pad_remote_pad_first(pad);
+>> +		if (!pad || !is_media_entity_v4l2_subdev(pad->entity))
+>> +			break;
+>> +
+>> +		entity = pad->entity;
+>> +		subdev = media_entity_to_v4l2_subdev(entity);
+>> +
+>> +		ret = v4l2_subdev_call(subdev, video, s_stream, 1);
+>> +		if (ret < 0 && ret != -ENOIOCTLCMD) {
+>> +			dev_dbg(isp_vdev->dev, "fail start streaming: %s %d\n",
+>> +				subdev->name, ret);
+>> +			goto release_buffers;
+>> +		}
+>> +	}
+>> +
+>> +	list_for_each_entry(isp4vid_buf, &isp_vdev->buf_list, list)
+>> +		isp_vdev->ops->send_buffer(isp_vdev->isp_sdev, &isp4vid_buf->img_buf);
+>> +
+>> +	/* Start the media pipeline */
+>> +	ret = video_device_pipeline_start(&isp_vdev->vdev, &isp_vdev->pipe);
+>> +	if (ret) {
+>> +		dev_err(isp_vdev->dev, "video_device_pipeline_start fail:%d",
+>> +			ret);
+>> +		goto release_buffers;
+>> +	}
+>> +
+>> +	isp_vdev->stream_started = true;
+>> +
+>> +	return 0;
+>> +
+>> +release_buffers:
+>> +	isp4vid_capture_return_all_buffers(isp_vdev, VB2_BUF_STATE_QUEUED);
+>> +	return ret;
+>> +}
+>> +
+>> +static void isp4vid_qops_stop_streaming(struct vb2_queue *vq)
+>> +{
+>> +	struct isp4vid_dev *isp_vdev = vb2_get_drv_priv(vq);
+>> +	struct v4l2_subdev *subdev;
+>> +	struct media_entity *entity;
+>> +	struct media_pad *pad;
+>> +	int ret;
+>> +
+>> +	entity = &isp_vdev->vdev.entity;
+>> +	while (1) {
+>> +		pad = &entity->pads[0];
+>> +		if (!(pad->flags & MEDIA_PAD_FL_SINK))
+>> +			break;
+>> +
+>> +		pad = media_pad_remote_pad_first(pad);
+>> +		if (!pad || !is_media_entity_v4l2_subdev(pad->entity))
+>> +			break;
+>> +
+>> +		entity = pad->entity;
+>> +		subdev = media_entity_to_v4l2_subdev(entity);
+>> +
+>> +		ret = v4l2_subdev_call(subdev, video, s_stream, 0);
+>> +
+>> +		if (ret < 0 && ret != -ENOIOCTLCMD)
+>> +			dev_dbg(isp_vdev->dev, "fail stop streaming: %s %d\n",
+>> +				subdev->name, ret);
+>> +	}
+>> +
+>> +	isp_vdev->stream_started = false;
+>> +	v4l2_pipeline_pm_put(&isp_vdev->vdev.entity);
+> 
+> Please don't add new users of these functions. (Just omit them.)
+> 
+
+Thanks, will remove calls to these deprecated functions including 
+v4l2_pipeline_pm_get();
+
+>> +
+>> +	/* Stop the media pipeline */
+>> +	video_device_pipeline_stop(&isp_vdev->vdev);
+>> +
+>> +	/* Release all active buffers */
+>> +	isp4vid_capture_return_all_buffers(isp_vdev, VB2_BUF_STATE_ERROR);
+>> +}
+>> +
+>> +static const struct vb2_ops isp4vid_qops = {
+>> +	.queue_setup = isp4vid_qops_queue_setup,
+>> +	.buf_queue = isp4vid_qops_buffer_queue,
+>> +	.start_streaming = isp4vid_qops_start_streaming,
+>> +	.stop_streaming = isp4vid_qops_stop_streaming,
+>> +	.wait_prepare = vb2_ops_wait_prepare,
+>> +	.wait_finish = vb2_ops_wait_finish,
+>> +};
+>> +
+>> +int isp4vid_dev_init(struct isp4vid_dev *isp_vdev, struct v4l2_subdev *isp_sdev,
+>> +		     const struct isp4vid_ops *ops)
+>> +{
+>> +	const char *vdev_name = isp4vid_video_dev_name;
+>> +	struct v4l2_device *v4l2_dev;
+>> +	struct video_device *vdev;
+>> +	struct vb2_queue *q;
+>> +	int ret;
+>> +
+>> +	if (!isp_vdev || !isp_sdev || !isp_sdev->v4l2_dev)
+>> +		return -EINVAL;
+>> +
+>> +	v4l2_dev = isp_sdev->v4l2_dev;
+>> +	vdev = &isp_vdev->vdev;
+>> +
+>> +	isp_vdev->isp_sdev = isp_sdev;
+>> +	isp_vdev->dev = v4l2_dev->dev;
+>> +	isp_vdev->ops = ops;
+>> +
+>> +	/* Initialize the vb2_queue struct */
+>> +	mutex_init(&isp_vdev->vbq_lock);
+>> +	q = &isp_vdev->vbq;
+>> +	q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+>> +	q->io_modes = VB2_MMAP | VB2_DMABUF;
+>> +	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+>> +	q->buf_struct_size = sizeof(struct isp4vid_capture_buffer);
+>> +	q->min_queued_buffers = 2;
+>> +	q->ops = &isp4vid_qops;
+>> +	q->drv_priv = isp_vdev;
+>> +	q->mem_ops = &isp4vid_vb2_memops;
+>> +	q->lock = &isp_vdev->vbq_lock;
+>> +	q->dev = v4l2_dev->dev;
+>> +	ret = vb2_queue_init(q);
+>> +	if (ret) {
+>> +		dev_err(v4l2_dev->dev, "vb2_queue_init error:%d", ret);
+>> +		return ret;
+>> +	}
+>> +	/* Initialize buffer list and its lock */
+>> +	mutex_init(&isp_vdev->buf_list_lock);
+>> +	INIT_LIST_HEAD(&isp_vdev->buf_list);
+>> +
+>> +	/* Set default frame format */
+>> +	isp_vdev->format = isp4vid_fmt_default;
+>> +	isp_vdev->timeperframe = ISP4VID_ISP_TPF_DEFAULT;
+>> +	v4l2_simplify_fraction(&isp_vdev->timeperframe.numerator,
+>> +			       &isp_vdev->timeperframe.denominator, 8, 333);
+>> +
+>> +	ret = isp4vid_fill_buffer_size(&isp_vdev->format);
+>> +	if (ret) {
+>> +		dev_err(v4l2_dev->dev, "fail to fill buffer size: %d\n", ret);
+>> +		goto err_release_vb2_queue;
+>> +	}
+>> +
+>> +	ret = isp4vid_set_fmt_2_isp(isp_sdev, &isp_vdev->format);
+>> +	if (ret) {
+>> +		dev_err(v4l2_dev->dev, "fail init format :%d\n", ret);
+>> +		goto err_release_vb2_queue;
+>> +	}
+>> +
+>> +	/* Initialize the video_device struct */
+>> +	isp_vdev->vdev.entity.name = vdev_name;
+>> +	isp_vdev->vdev.entity.function = MEDIA_ENT_F_IO_V4L;
+>> +	isp_vdev->vdev_pad.flags = MEDIA_PAD_FL_SINK;
+>> +	ret = media_entity_pads_init(&isp_vdev->vdev.entity, 1,
+>> +				     &isp_vdev->vdev_pad);
+>> +
+>> +	if (ret) {
+>> +		dev_err(v4l2_dev->dev, "init media entity pad fail:%d\n", ret);
+>> +		goto err_release_vb2_queue;
+>> +	}
+>> +
+>> +	vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE |
+>> +			    V4L2_CAP_STREAMING | V4L2_CAP_IO_MC;
+>> +	vdev->entity.ops = &isp4vid_vdev_ent_ops;
+>> +	vdev->release = video_device_release_empty;
+>> +	vdev->fops = &isp4vid_vdev_fops;
+>> +	vdev->ioctl_ops = &isp4vid_vdev_ioctl_ops;
+>> +	vdev->lock = NULL;
+>> +	vdev->queue = q;
+>> +	vdev->v4l2_dev = v4l2_dev;
+>> +	vdev->vfl_dir = VFL_DIR_RX;
+>> +	strscpy(vdev->name, vdev_name, sizeof(vdev->name));
+>> +	video_set_drvdata(vdev, isp_vdev);
+>> +
+>> +	ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
+>> +	if (ret) {
+>> +		dev_err(v4l2_dev->dev, "register video device fail:%d\n", ret);
+>> +		goto err_entity_cleanup;
+>> +	}
+>> +
+>> +	return 0;
+>> +
+>> +err_entity_cleanup:
+>> +	media_entity_cleanup(&isp_vdev->vdev.entity);
+>> +err_release_vb2_queue:
+>> +	vb2_queue_release(q);
+>> +	return ret;
+>> +}
+>> +
+>> +void isp4vid_dev_deinit(struct isp4vid_dev *isp_vdev)
+>> +{
+>> +	vb2_video_unregister_device(&isp_vdev->vdev);
+>> +}
+>> diff --git a/drivers/media/platform/amd/isp4/isp4_video.h b/drivers/media/platform/amd/isp4/isp4_video.h
+>> new file mode 100644
+>> index 000000000000..b87316d2a2e5
+>> --- /dev/null
+>> +++ b/drivers/media/platform/amd/isp4/isp4_video.h
+>> @@ -0,0 +1,65 @@
+>> +/* SPDX-License-Identifier: GPL-2.0+ */
+>> +/*
+>> + * Copyright (C) 2025 Advanced Micro Devices, Inc.
+>> + */
+>> +
+>> +#ifndef _ISP4_VIDEO_H_
+>> +#define _ISP4_VIDEO_H_
+>> +
+>> +#include <media/videobuf2-memops.h>
+>> +#include <media/v4l2-dev.h>
+>> +
+>> +#include "isp4_interface.h"
+>> +
+>> +struct isp4vid_capture_buffer {
+>> +	/*
+>> +	 * struct vb2_v4l2_buffer must be the first element
+>> +	 * the videobuf2 framework will allocate this struct based on
+>> +	 * buf_struct_size and use the first sizeof(struct vb2_buffer) bytes of
+>> +	 * memory as a vb2_buffer
+>> +	 */
+>> +	struct vb2_v4l2_buffer vb2;
+>> +	struct isp4if_img_buf_info img_buf;
+>> +	struct list_head list;
+>> +};
+>> +
+>> +struct isp4vid_ops {
+>> +	int (*send_buffer)(struct v4l2_subdev *sd,
+>> +			   struct isp4if_img_buf_info *img_buf);
+> 
+> Is there a reason why isp4sd_ioc_send_img_buf() isn't called directly?
+> 
+
+In our design, isp4sd serves as the upper layer of video. Therefore, 
+isp4sd can directly call functions within video, but not vice versa, 
+This callback mechanism is implemented to support the call from video to 
+isp4sd by indirect way.
+
+>> +};
+>> +
+>> +struct isp4vid_dev {
+>> +	struct video_device vdev;
+>> +	struct media_pad vdev_pad;
+>> +	struct v4l2_pix_format format;
+>> +
+>> +	/* mutex that protects vbq */
+>> +	struct mutex vbq_lock;
+>> +	struct vb2_queue vbq;
+>> +
+>> +	/* mutex that protects buf_list */
+>> +	struct mutex buf_list_lock;
+>> +	struct list_head buf_list;
+>> +
+>> +	u32 sequence;
+>> +	bool stream_started;
+>> +
+>> +	struct media_pipeline pipe;
+>> +	struct device *dev;
+>> +	struct v4l2_subdev *isp_sdev;
+>> +	struct v4l2_fract timeperframe;
+>> +
+>> +	/* Callback operations */
+>> +	const struct isp4vid_ops *ops;
+>> +};
+>> +
+>> +int isp4vid_dev_init(struct isp4vid_dev *isp_vdev,
+>> +		     struct v4l2_subdev *isp_sdev,
+>> +		     const struct isp4vid_ops *ops);
+>> +
+>> +void isp4vid_dev_deinit(struct isp4vid_dev *isp_vdev);
+>> +
+>> +void isp4vid_handle_frame_done(struct isp4vid_dev *isp_vdev,
+>> +			       const struct isp4if_img_buf_info *img_buf);
+>> +
+>> +#endif /* _ISP4_VIDEO_H_ */
+> 
+
+Regards,
+Bin
+
 
