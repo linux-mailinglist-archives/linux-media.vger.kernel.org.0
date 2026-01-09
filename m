@@ -1,148 +1,143 @@
-Return-Path: <linux-media+bounces-50324-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50325-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B349ED0BC51
-	for <lists+linux-media@lfdr.de>; Fri, 09 Jan 2026 18:59:20 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 726AAD0BFE6
+	for <lists+linux-media@lfdr.de>; Fri, 09 Jan 2026 20:03:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C007B301274A
-	for <lists+linux-media@lfdr.de>; Fri,  9 Jan 2026 17:57:09 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E424A306026C
+	for <lists+linux-media@lfdr.de>; Fri,  9 Jan 2026 19:02:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 472D6364046;
-	Fri,  9 Jan 2026 17:57:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DBA12E3AF1;
+	Fri,  9 Jan 2026 19:02:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Oknncg47"
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="io4aeSwi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA1D526ED3D;
-	Fri,  9 Jan 2026 17:57:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EB252D7DF3;
+	Fri,  9 Jan 2026 19:02:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767981427; cv=none; b=Sl8PVO3tiAtF6xVRavOBGiRSQovhPfdYAsPxl09h+K/Zp/zZ5Du7SwX8sWFv4gRkJvCGOAgRB9xpOvkLd//j8O6Y2xDRpQfQvb6JALgmPm1Zlmq/gKp5jMPVrM1l4Sf9ufPI/KOzFpS2xlHk3DJZpGdLPN5aS/kKjpT444+ODl4=
+	t=1767985335; cv=none; b=jW1lD1ezD7udxe9v5iDr5fD/0OSZ/4L6lKi+/ye/0ISB4WbHvFy/md1V94NkLMb2wGBtlWnpJd1X6zCcjPl+EIlrQqNoXsq3xGKmB5o8RHcJ33p2KPQsz/dEPwLpTTFfDKiep6VLFDEsOsc9ZdmFVPv6nNNKdUqcAVjOazzg0SQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767981427; c=relaxed/simple;
-	bh=GTgHrJ2Zn6DwPfrRw6paeS4hhO+K+iNFok55Z6ID4cA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=AlZZaErTNIVf2fzTAHk720nQWyBNH7qENQV8hLLLzuBAVABKna7WpnzM0uDwuj1DJkFqZvUAXQJ7LbiP41sl8odhqUHFeLoOL46KTJQ1oGc48m5SaPQQsD5+gduuwwdGrdbr7dbvRmRW+/RbcHNtW6yoUJ8kw4h5PNHHlHPxZYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Oknncg47; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7779AC19422;
-	Fri,  9 Jan 2026 17:57:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767981427;
-	bh=GTgHrJ2Zn6DwPfrRw6paeS4hhO+K+iNFok55Z6ID4cA=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=Oknncg47YT5SX2ViwF3zDiyVaenzctpz+vK6YLT4/yiKNkgMKU1bM2MyVO1AoiCCT
-	 6V96Xnp9GAy952thXCNf20PYQPv9Je1gDITxqsqt7svv4OiOVv5f6PX8/ftmfDCQNe
-	 EMeQDXhw8f+W3YpsCDkBSDlgmZkABC/2KcgNy1SLoa4qil+OnuayApVumeWqVLKhh0
-	 kyoMFKbl3UfaoScM5SxmUzdfTEgpZogOeVPtUq074DmQOs5+PD20q7dgEzH26vILKD
-	 IYNbh4tSY59o27aIBVyGZ2Tpy0M96dMi/gp2kZkfwXD7jttb5M776VbjkfOWEcMT+K
-	 wdL3e9Ved9nwA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ED78D26D7F;
-	Fri,  9 Jan 2026 17:57:07 +0000 (UTC)
-From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Fri, 09 Jan 2026 18:57:07 +0100
-Subject: [PATCH v3] media: ccs: Accommodate C-PHY into the calculation
+	s=arc-20240116; t=1767985335; c=relaxed/simple;
+	bh=SIfjtsJLsWU5FTYSSM4rE9H9OQRxWrEyhFx816boWl0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XIw6Vb+Ks8pWtWYkvrIq7KO6MjfjSOQHRE4OioKtAxckwEVgOiAm6XjUM17KnXkRHAzEKCFZUb8PSKi1atefzS4Z9fnjd12nzdY6i6QI3grnYRRLGrfoW0vBRoY+MyZvumSFAGj2qSJ+6NauCzD31pGiQnX2GB/HrNzdzYkCtWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=io4aeSwi; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+	bh=rUG4AqLOAotmEjMwBGwvy+v3yU8rvr0O7bMcFZzU8bs=; b=io4aeSwifbaCk9EBeFgwnKyehD
+	EGLDctYVN35Bq1CHf+evDxW/u4wqjCv05gRBzLQzFUvmTg06BmsxAtDU1ui0BbiSsrhG46ajlS0eX
+	xGpt0RISSJ84La5xVHxA7UkkCXIzsF7tm9cG1Tu4che9lb+0vaj/w5dnEYWQGM9GKPTV2Y8qHXM1L
+	WGeyz5JpNkBmHWHR1SswYiDB7FPX50WZ7ruLQPh8slqYOomGOXB767x8E3t4WgttmTsP9GSUFFtSI
+	hI5W88sS9xCIym5yZwB7MWYfh0tt3Vf/IMKgRdc3XHIWZu4gcmlP8V/KgkADFMQxLz4NAHVXH8ptH
+	ADWEz1KA==;
+Received: from [192.76.154.238] (helo=phil.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1veHkJ-001fcj-Vq; Fri, 09 Jan 2026 20:02:04 +0100
+From: Heiko Stuebner <heiko@sntech.de>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Mark Brown <broonie@kernel.org>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Aishwarya.TCV@arm.com,
+ Robin.Murphy@arm.com, linux-media@vger.kernel.org, kernel@collabora.com,
+ linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH] media: synopsys: hdmirx: support use with sleeping GPIOs
+Date: Fri, 09 Jan 2026 20:02:03 +0100
+Message-ID: <18643681.geO5KgaWL5@phil>
+In-Reply-To:
+ <20260108-media-synopsys-hdmirx-fix-gpio-cansleep-v1-1-3570518d8bab@kernel.org>
+References:
+ <20260108-media-synopsys-hdmirx-fix-gpio-cansleep-v1-1-3570518d8bab@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260109-ccs-account-for-cphy-v3-1-e2f1d4fdefc9@ixit.cz>
-X-B4-Tracking: v=1; b=H4sIAHJBYWkC/4XNTQ6CMBCG4auQrh3TH9NSV97DuMChldlQ0mIDE
- u5uYaMb4/L9knlmYclFcomdq4VFlylR6EuoQ8Wwa/qHA2pLM8ml5oJrQEzQIIZnP4IPEXDoZmi
- 8NXV911xaz8rpEJ2naWevt9IdpTHEef+Sxbb+AbMAAai0sq3mWhpxoYnGI77YxmX5TdQ/CFkIL
- 83JOvTcKPUh1nV9A/uhukL5AAAA
-X-Change-ID: 20260106-ccs-account-for-cphy-af9788b6029f
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- phone-devel@vger.kernel.org, 
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
- Mehdi Djait <mehdi.djait@linux.intel.com>, David Heidelberg <david@ixit.cz>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2134; i=david@ixit.cz;
- h=from:subject:message-id;
- bh=SSeDb6Dcr02AMjIrsAJrl7pAouBCagBE/oCQYvj01+o=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpYUFyqJvdX4xzJNFisvNwbQpYy92hmqe0z9696
- F5Ir07ZKymJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaWFBcgAKCRBgAj/E00kg
- clSiD/9jEsnZ6Nc66RZ8QqrV4C3jccjSlvnfwPgBhrgkhl+AJgK8wkI2opaw5m11D38BulJfyMV
- cQWXxuy6k5hoBqLrgCt6wmf9wH+qw8Kwmmm4UlJe5GAiDVN4zM7mFcsVt3ZoUWCjPD43m1zDkOb
- AsMyStCXkutNC3UTsnefzCmLj24Ugwm1olBBARRLddYXRNpRddLoaFp8P0C9AmdyprtwmWU5qh8
- GETaIOQqQodmOz12IWlHN7vA4cMGdWWMYrYRNDumz+4hs35fBzJ31nKbL0Bzk2IWwBeaCyiwkIK
- TqJFVY2FO0dYnkuqVG8oM976TClsdF5oN/jFhvqcZMrjvNir+c/NuxJm1XZ3Lh8mS0ipOIC++cA
- ZNJQnTM2WfU3kIiygGaBi587pafttNVxz4OBwDg1r7LU5TgyW6AgwqeaJU/8kBxm0UW/W6whek/
- rrZIAbzOjJyCeT5EGAmx1fcVzesCXJjW6Y8LN4+iP2Yke1ZF/hIWUaZDIqllIivclchk8t6yWws
- a1g1vdszIu/qQOZJK7nhfmPnqIFI4qSPZLU0UxMVhpdpcUENpzC5ntNrkGzkfFFHQXneKjrwDa/
- fNtB7e2kr9SPWhzOdHmmuFc7q6g/zaRzCmtu1sVmT+25z554wdi/JUcsjCo8PWl+NEDM/Ba+Hhh
- Niegd126KfPaFJw==
-X-Developer-Key: i=david@ixit.cz; a=openpgp;
- fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
-X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
-X-Original-From: David Heidelberg <david@ixit.cz>
-Reply-To: david@ixit.cz
 
-From: David Heidelberg <david@ixit.cz>
+Am Donnerstag, 8. Januar 2026, 21:08:47 Mitteleurop=C3=A4ische Normalzeit s=
+chrieb Mark Brown:
+> The recent change in 20cf2aed89ac (gpio: rockchip: mark the GPIO
+> controller as sleeping) to mark the rockchip GPIO driver as sleeping has
+> started triggering the warning at drivers/gpio/gpiolib.c:3523 indicating
+> that a sleepable GPIO was called via the non-sleeping APIs on the Rock 5B:
+>=20
+> <4>[   14.699308] Call trace:
+> <4>[   14.699545]  gpiod_get_value+0x90/0x98 (P)
+> <4>[   14.699928]  tx_5v_power_present+0x44/0xd0 [synopsys_hdmirx]
+> <4>[   14.700446]  hdmirx_delayed_work_hotplug+0x34/0x128 [synopsys_hdmir=
+x]
+> <4>[   14.701031]  process_one_work+0x14c/0x28c
+> <4>[   14.701405]  worker_thread+0x184/0x300
+> <4>[   14.701756]  kthread+0x11c/0x128
+> <4>[   14.702065]  ret_from_fork+0x10/0x20
+>=20
+> Currently the active use of the GPIO is all done from process context so
+> can be simply converted to use gpiod_get_value_cansleep(). There is one u=
+se
+> of the GPIO from hard interrupt context but this is only done so the stat=
+us
+> can be displayed in a debug print so can simply be deleted without any
+> functional effect.
+>=20
+> Signed-off-by: Mark Brown <broonie@kernel.org>
 
-We need to set correct mode for PLL to calculate correct frequency.
-Signalling mode is known at this point, so use it for that.
+Reviewed-by: Heiko Stuebner <heiko@sntech.de>
 
-Fixes: 47b6eaf36eba ("media: ccs-pll: Differentiate between CSI-2 D-PHY and C-PHY")
-Reviewed-by: Mehdi Djait <mehdi.djait@linux.intel.com>
-Signed-off-by: David Heidelberg <david@ixit.cz>
----
-Changes in v3:
-- Typo sneaked in (; instead of : in case statement), fix it.
-- Link to v2: https://lore.kernel.org/r/20260108-ccs-account-for-cphy-v2-1-f2749ecf0733@ixit.cz
+> ---
+>  drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c b/drive=
+rs/media/platform/synopsys/hdmirx/snps_hdmirx.c
+> index c3007e09bc9f..1eaa25efee21 100644
+> --- a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
+> +++ b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
+> @@ -230,7 +230,7 @@ static bool tx_5v_power_present(struct snps_hdmirx_de=
+v *hdmirx_dev)
+> =20
+>  	for (i =3D 0; i < 10; i++) {
+>  		usleep_range(1000, 1100);
+> -		val =3D gpiod_get_value(hdmirx_dev->detect_5v_gpio);
+> +		val =3D gpiod_get_value_cansleep(hdmirx_dev->detect_5v_gpio);
+>  		if (val > 0)
+>  			cnt++;
+>  		if (cnt >=3D detection_threshold)
+> @@ -2204,10 +2204,6 @@ static void hdmirx_delayed_work_res_change(struct =
+work_struct *work)
+>  static irqreturn_t hdmirx_5v_det_irq_handler(int irq, void *dev_id)
+>  {
+>  	struct snps_hdmirx_dev *hdmirx_dev =3D dev_id;
+> -	u32 val;
+> -
+> -	val =3D gpiod_get_value(hdmirx_dev->detect_5v_gpio);
+> -	v4l2_dbg(3, debug, &hdmirx_dev->v4l2_dev, "%s: 5v:%d\n", __func__, val);
+> =20
+>  	queue_delayed_work(system_unbound_wq,
+>  			   &hdmirx_dev->delayed_work_hotplug,
+>=20
+> ---
+> base-commit: 9ace4753a5202b02191d54e9fdf7f9e3d02b85eb
+> change-id: 20260108-media-synopsys-hdmirx-fix-gpio-cansleep-d9c8b526cabe
+>=20
+> Best regards,
+> -- =20
+> Mark Brown <broonie@kernel.org>
+>=20
+>=20
 
-Changes in v2:
-- Account for CCP2 which PLL calculation handled same way as D-PHY.
-- Add default statement for error handling. (Mehdi)
-- Link to v1: https://lore.kernel.org/r/20260106-ccs-account-for-cphy-v1-1-c3639d606271@ixit.cz
----
- drivers/media/i2c/ccs/ccs-core.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-index 0d7b922fd4c48..ffa2707276284 100644
---- a/drivers/media/i2c/ccs/ccs-core.c
-+++ b/drivers/media/i2c/ccs/ccs-core.c
-@@ -3427,7 +3427,22 @@ static int ccs_probe(struct i2c_client *client)
- 	sensor->scale_m = CCS_LIM(sensor, SCALER_N_MIN);
- 
- 	/* prepare PLL configuration input values */
--	sensor->pll.bus_type = CCS_PLL_BUS_TYPE_CSI2_DPHY;
-+	switch (sensor->hwcfg.csi_signalling_mode) {
-+	case CCS_CSI_SIGNALING_MODE_CSI_2_CPHY:
-+		sensor->pll.bus_type = CCS_PLL_BUS_TYPE_CSI2_CPHY;
-+		break;
-+	case CCS_CSI_SIGNALING_MODE_CSI_2_DPHY:
-+	case SMIAPP_CSI_SIGNALLING_MODE_CCP2_DATA_CLOCK:
-+	case SMIAPP_CSI_SIGNALLING_MODE_CCP2_DATA_STROBE:
-+		sensor->pll.bus_type = CCS_PLL_BUS_TYPE_CSI2_DPHY;
-+		break;
-+	default:
-+		dev_err(&client->dev, "unsupported signalling mode %u\n",
-+			sensor->hwcfg.csi_signalling_mode);
-+		rval = -EINVAL;
-+		goto out_cleanup;
-+
-+	}
- 	sensor->pll.csi2.lanes = sensor->hwcfg.lanes;
- 	if (CCS_LIM(sensor, CLOCK_CALCULATION) &
- 	    CCS_CLOCK_CALCULATION_LANE_SPEED) {
-
----
-base-commit: f417b7ffcbef7d76b0d8860518f50dae0e7e5eda
-change-id: 20260106-ccs-account-for-cphy-af9788b6029f
-
-Best regards,
--- 
-David Heidelberg <david@ixit.cz>
 
 
 
