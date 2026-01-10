@@ -1,190 +1,187 @@
-Return-Path: <linux-media+bounces-50336-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50337-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A41EED0D004
-	for <lists+linux-media@lfdr.de>; Sat, 10 Jan 2026 06:38:23 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01FD5D0D50B
+	for <lists+linux-media@lfdr.de>; Sat, 10 Jan 2026 11:51:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 9263D3019B6A
-	for <lists+linux-media@lfdr.de>; Sat, 10 Jan 2026 05:38:01 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B048C3025307
+	for <lists+linux-media@lfdr.de>; Sat, 10 Jan 2026 10:50:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA07D33B6FE;
-	Sat, 10 Jan 2026 05:37:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F36E3191A9;
+	Sat, 10 Jan 2026 10:50:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XQAaKIA7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bQhF22t+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BAFA33F8B2
-	for <linux-media@vger.kernel.org>; Sat, 10 Jan 2026 05:37:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EDF1318ECA
+	for <linux-media@vger.kernel.org>; Sat, 10 Jan 2026 10:50:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768023466; cv=none; b=UY7R9uCbUZmvOfDkuWtm0rK9DCWs5OHaofz6YXwAHa+BZXP3dyBq9be3k7hDhtGk/yoX3mX+DiCh4p2fAXNZe1vxZatIedz4PUq04dt4tezLzyuA56YdBGkL5mMEaITyKuRiZrCAh554cYTbDpc0YpL8wusktxqJ9E7IFFv/TjI=
+	t=1768042251; cv=none; b=h8ygyG+92EPYv8nd5+rUo2WFeEyiNW4nztRsiI1PmoxmoeyEWoKlWFLlRvs25+aWrok1Wbdgnvqf8o2o6CiAzGkbA6pzy/Qzr0kyCJ4wUG95sRByYImPk4n08K1+Pd0/tigHLwTKgv9oWUSaIMgqxr/dHkwvqEUz438Qxik5K0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768023466; c=relaxed/simple;
-	bh=aiQH21puKQPZom1FBS2CS8wFKMYZxOyOP1j3Sjj8KqQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AeoGYxbbkTeCouZ1zd+y49rd/YCVPTFxqAUMwQMekjEzHvbAQXN66x2N9+m49yGXH7pTHiqjJcuZRzlcooryUYDVOO1ixoI4GVq7iYENg9ZIDYFYfMU76E3zONsOK9wBqfiQFt/JNw/v22OzWNfAkhK54Sd1MrcdCzryHNfRj8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XQAaKIA7; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-4327555464cso2837315f8f.1
-        for <linux-media@vger.kernel.org>; Fri, 09 Jan 2026 21:37:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768023463; x=1768628263; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KBV1jttw9vA0jCOoGP99Ua6fivA5lzhlMS+1uYQ4YFE=;
-        b=XQAaKIA75JzKzrthVP89Cqf5lUYtymozYmjUgktIN6oWhMG6LDtPcVKAtJesOzmZzd
-         M1eE1JZF8Jcfzjwcl0DHx5khfKSOgJ8LxsKKTi7U6pJT5mAKBpwOMfWafpeZKnzLlS0o
-         2Y0NeLU4dH/PZlF+NW5qR+P5SqhwCB9K0sxPAdsmquN08VNtA+X80Zd+joY3T9/cAmI9
-         K/6K9Isxb2OhjY/EErvIOboTVZZUvxn6iH0hf2IicjBnCfQaoOyRlV0u3oARqW10AvOx
-         s7AGi9RLbjC/9C+gKhiR383uK0GaJpuEsn+VbI5k5wG2t3DiyB0kNchxsBT7X5iXxOPW
-         wbcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768023463; x=1768628263;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=KBV1jttw9vA0jCOoGP99Ua6fivA5lzhlMS+1uYQ4YFE=;
-        b=fxtn4wOSqgkNRifwRsCA2ZK6JZVq2Dsgz+84RPOcnOEexNo1aVsh5z2EfMnE/TWPz8
-         WwxBV+Q3pIUt9WyL+4GIw9u9FxoS13N8pIbEXfKXQBE1MkovUhSLUkdmZJZqdJvQdGd8
-         0KjMBbhjWQIiOpsLKgZpGl9MGAJzk/9HuKtilmbQd1FE/6Y78RentAJzCeh60thKj0tm
-         vtMKajUlY4vxpF4KQH/uyKHAaEvbs8d8LtwGoy7PK9mOpK10Maw5FROWzDLRix5SVDxx
-         KY/B5N3M4teS+AHzZCXCQWAt4pZo5/xtfGYVQaE195w6T6vxz+xewJ6xCm0ex4uCkI5S
-         yqgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVkSsCW0xC8qnsRudscRUyKUKAGWSy8ppZX7O64x5vrRCJZX0cYce/HGJUCsXXz631rw8Y25YtqTOJ3Rg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwesVsh80Q5sbFCMrNAl+TDChQK9bRhcUDyfLj4xesb+0+VK/1s
-	5KL1EhV/0P5BE8WLBBJYvwNyPYmUZjMrB5R+EqItxCdag94XkQVOVi5N
-X-Gm-Gg: AY/fxX4KhVR7hHxNGpAAQYYyPq0SQWVVR0ki8OVjz8FUdvZpcNhJK5p/mHdSK8jOaSi
-	02bRxQrGDRriyQLEdq+lTZhZJGe1k8sCHRMMTHYlhGyGLLsRuFfoMBKUPMFGplyxi3IvEIGyXb9
-	5+PNUPy+uY6gLCeOV1MIxbKSMkUKMrMLwcU2Hsfw5pkbUfFfEgh4PdK1of+aMOpTUmiP6FozglB
-	IqUQjcO1/Juc7y6EK0BikMKID68jJCAKprtI1K1NFueMo2qsHyp8LvVUqD+trMffnxaqqN6IkGh
-	4TwxJ/9yWjA4tHuOplwpyulP+2R2Z2OWgdY/mC4BQ4lokO4VikaPa8q5HuYPY6E15A1f4Lbgwe0
-	s+YbzJUj9TYz/vi24gXoRS9qW0WCh3a8EsOT01xCr5Ci52fej2fvK/V9FKrSy3rpTr04vWukBcR
-	D9fSjIq8h7F9oEa+c=
-X-Google-Smtp-Source: AGHT+IFcfMPIrhWiXPkS98R5rwsX/ACoRCaVo+plXZiPZaElaqnswMgbw6+184Fm/K+bJwMBmWeKXg==
-X-Received: by 2002:a05:6000:4287:b0:432:851d:35ef with SMTP id ffacd0b85a97d-432c37a3b62mr16501208f8f.42.1768023462952;
-        Fri, 09 Jan 2026 21:37:42 -0800 (PST)
-Received: from toolbox.. ([87.200.95.144])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0dadcfsm25973825f8f.3.2026.01.09.21.37.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jan 2026 21:37:42 -0800 (PST)
-From: Christian Hewitt <christianshewitt@gmail.com>
-To: Detlev Casanova <detlev.casanova@collabora.com>,
-	=?UTF-8?q?Olivier=20Cr=C3=AAte?= <olivier.crete@collabora.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Diederik de Haas <diederik@cknow-tech.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Dragan Simic <dsimic@manjaro.org>,
-	Chukun Pan <amadeus@jmu.edu.cn>,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-Subject: [PATCH v3 3/3] arm64: dts: rockchip: Add the vdpu346 Video Decoders on RK356X
-Date: Sat, 10 Jan 2026 05:37:27 +0000
-Message-ID: <20260110053727.2295260-4-christianshewitt@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260110053727.2295260-1-christianshewitt@gmail.com>
-References: <20260110053727.2295260-1-christianshewitt@gmail.com>
+	s=arc-20240116; t=1768042251; c=relaxed/simple;
+	bh=eF44bDkNy6ANQWvHtfdSwYu3s5YcBteKl+pPxZHg9v0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=NYrAgDezmNDbiK2zJ7DSCD4FPuyTEViGH58ElrieLUtoAvoS69expXO/xynyhty3LqWYiuX6QonA2QRSbuBt3jb7MRVwka2OFvUqnPkOyhxK1KuC3y6AUtB6Iuih+skyt1h3p+FtInu2CX0ESCn2hoIT1MANJhzdRtAiwbV1y08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bQhF22t+; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768042251; x=1799578251;
+  h=date:from:to:cc:subject:message-id;
+  bh=eF44bDkNy6ANQWvHtfdSwYu3s5YcBteKl+pPxZHg9v0=;
+  b=bQhF22t+pAPCc6uCyS8ERp4sK+k9AJitXRhwdTqrks0ZGjfyalBuiw4/
+   O0D3cYrZw66xHqK5AI013duvqzfPZrR3Q9OeqJN9kmLmxE+8YISbheZGY
+   dTgGUQ2xpL8/EvmHEoMSRX2wkQ+3yfT8eUzeKrakQK1W/mVCVp7XiBYFc
+   gpXA09CMgusAcgyY7WHRv++2cHQoZbUuZl47YAHUpBKFD6fv9qxbetPXZ
+   kZC+NS8cYRNnqQb7wDc93QFAWUG5cMxWJI/mMKQHNzcy46O0YdhPCOg0R
+   HwM5mR4Hbjt3Y6HVsqPGLURPODBlz6usZ9XLV3uwHEnnLGME11bNoi6lX
+   w==;
+X-CSE-ConnectionGUID: d64ib28ERNmZHkpcyd1Png==
+X-CSE-MsgGUID: 7mMfAZIYTDi0OnLf8HjSCA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11666"; a="69137946"
+X-IronPort-AV: E=Sophos;i="6.21,215,1763452800"; 
+   d="scan'208";a="69137946"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2026 02:50:49 -0800
+X-CSE-ConnectionGUID: h05a/Uh0Qk+bBZKfXNYnWw==
+X-CSE-MsgGUID: XkMv9SLpSOuEEHIiVAFmXA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,215,1763452800"; 
+   d="scan'208";a="204101161"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 10 Jan 2026 02:50:47 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1veWYP-000000008YW-1b1J;
+	Sat, 10 Jan 2026 10:50:45 +0000
+Date: Sat, 10 Jan 2026 18:49:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Subject: [sailus-media-tree:cleanup] BUILD SUCCESS
+ 2694330ab99db2f115c8b26a2e26d6011bbc2bc5
+Message-ID: <202601101848.QpzKaMcM-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Add the vdpu346 Video Decoders to the rk356x-base devicetree to
-enable support on RK3566 and RK3568 boards. Also add the needed
-sram and vdec_mmu nodes.
+tree/branch: git://linuxtv.org/sailus/media_tree.git cleanup
+branch HEAD: 2694330ab99db2f115c8b26a2e26d6011bbc2bc5  media: i2c: ov5647: use our own mutex for the ctrl lock
 
-Suggested-by: Diederik de Haas <diederik@cknow-tech.com>
-Suggested-by: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
----
- arch/arm64/boot/dts/rockchip/rk356x-base.dtsi | 49 +++++++++++++++++++
- 1 file changed, 49 insertions(+)
+elapsed time: 3002m
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk356x-base.dtsi b/arch/arm64/boot/dts/rockchip/rk356x-base.dtsi
-index a2c4957a5899..11536684479b 100644
---- a/arch/arm64/boot/dts/rockchip/rk356x-base.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk356x-base.dtsi
-@@ -383,6 +383,19 @@ usb2phy1_grf: syscon@fdca8000 {
- 		reg = <0x0 0xfdca8000 0x0 0x8000>;
- 	};
- 
-+	sram@fdcc0000 {
-+		compatible = "mmio-sram";
-+		reg = <0x0 0xfdcc0000 0x0 0xb000>;
-+		ranges = <0x0 0x0 0xfdcc0000 0xb000>;
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+
-+		vdec_sram: rkvdec-sram@0 {
-+			reg = <0x0 0xb000>;
-+			pool;
-+		};
-+	};
-+
- 	pmucru: clock-controller@fdd00000 {
- 		compatible = "rockchip,rk3568-pmucru";
- 		reg = <0x0 0xfdd00000 0x0 0x1000>;
-@@ -619,6 +632,42 @@ vepu_mmu: iommu@fdee0800 {
- 		#iommu-cells = <0>;
- 	};
- 
-+	vdec: video-codec@fdf80100 {
-+		compatible = "rockchip,rk3568-vdec";
-+		reg = <0x0 0xfdf80200 0x0 0x500>,
-+		      <0x0 0xfdf80100 0x0 0x100>,
-+		      <0x0 0xfdf80700 0x0 0x100>;
-+		reg-names = "function", "link", "cache";
-+		interrupts = <GIC_SPI 91 IRQ_TYPE_LEVEL_HIGH>;
-+		clocks = <&cru ACLK_RKVDEC>, <&cru HCLK_RKVDEC>,
-+			 <&cru CLK_RKVDEC_CA>, <&cru CLK_RKVDEC_CORE>,
-+			 <&cru CLK_RKVDEC_HEVC_CA>;
-+		clock-names = "axi", "ahb", "cabac", "core", "hevc_cabac";
-+		assigned-clocks = <&cru ACLK_RKVDEC>,
-+				  <&cru CLK_RKVDEC_CORE>,
-+				  <&cru CLK_RKVDEC_CA>,
-+				  <&cru CLK_RKVDEC_HEVC_CA>;
-+		assigned-clock-rates = <297000000>, <297000000>,
-+				       <297000000>, <600000000>;
-+		iommus = <&vdec_mmu>;
-+		power-domains = <&power RK3568_PD_RKVDEC>;
-+		resets = <&cru SRST_A_RKVDEC>, <&cru SRST_H_RKVDEC>,
-+			 <&cru SRST_RKVDEC_CA>, <&cru SRST_RKVDEC_CORE>,
-+			 <&cru SRST_RKVDEC_HEVC_CA>;
-+		reset-names = "axi", "ahb", "cabac", "core", "hevc_cabac";
-+		sram = <&vdec_sram>;
-+	};
-+
-+	vdec_mmu: iommu@fdf80800 {
-+		compatible = "rockchip,rk3568-iommu";
-+		reg = <0x0 0xfdf80800 0x0 0x40>, <0x0 0xfdf80840 0x0 0x40>;
-+		interrupts = <GIC_SPI 92 IRQ_TYPE_LEVEL_HIGH>;
-+		clocks = <&cru ACLK_RKVDEC>, <&cru HCLK_RKVDEC>;
-+		clock-names = "aclk", "iface";
-+		power-domains = <&power RK3568_PD_RKVDEC>;
-+		#iommu-cells = <0>;
-+	};
-+
- 	vicap: video-capture@fdfe0000 {
- 		compatible = "rockchip,rk3568-vicap";
- 		reg = <0x0 0xfdfe0000 0x0 0x200>;
--- 
-2.43.0
+configs tested: 96
+configs skipped: 1
 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                   allnoconfig    gcc-15.2.0
+alpha                  allyesconfig    gcc-15.2.0
+alpha                     defconfig    gcc-15.2.0
+arc                    allmodconfig    clang-16
+arc                     allnoconfig    gcc-15.2.0
+arc                       defconfig    gcc-15.2.0
+arm                     allnoconfig    gcc-15.2.0
+arm                    allyesconfig    clang-16
+arm                       defconfig    gcc-15.2.0
+arm64                   allnoconfig    gcc-15.2.0
+arm64                     defconfig    gcc-15.2.0
+csky                   allmodconfig    gcc-15.2.0
+csky                    allnoconfig    gcc-15.2.0
+csky                      defconfig    gcc-15.2.0
+hexagon                allmodconfig    gcc-15.2.0
+hexagon                 allnoconfig    gcc-15.2.0
+hexagon                   defconfig    gcc-15.2.0
+hexagon     randconfig-001-20260110    clang-22
+hexagon     randconfig-002-20260110    clang-22
+i386                    allnoconfig    gcc-15.2.0
+i386                      defconfig    gcc-15.2.0
+i386        randconfig-001-20260110    gcc-14
+i386        randconfig-002-20260110    gcc-14
+i386        randconfig-003-20260110    gcc-14
+i386        randconfig-004-20260110    gcc-14
+i386        randconfig-005-20260110    gcc-14
+i386        randconfig-006-20260110    gcc-14
+i386        randconfig-007-20260110    gcc-14
+loongarch               allnoconfig    gcc-15.2.0
+loongarch   randconfig-001-20260110    clang-22
+loongarch   randconfig-002-20260110    clang-22
+m68k                   allmodconfig    gcc-15.2.0
+m68k                    allnoconfig    gcc-15.2.0
+m68k                   allyesconfig    clang-16
+microblaze              allnoconfig    gcc-15.2.0
+microblaze             allyesconfig    gcc-15.2.0
+mips                   allmodconfig    gcc-15.2.0
+mips                    allnoconfig    gcc-15.2.0
+mips                   allyesconfig    gcc-15.2.0
+nios2                  allmodconfig    clang-22
+nios2                   allnoconfig    clang-22
+nios2       randconfig-001-20260110    clang-22
+nios2       randconfig-002-20260110    clang-22
+openrisc               allmodconfig    clang-22
+openrisc                allnoconfig    clang-22
+openrisc                  defconfig    gcc-15.2.0
+parisc                 allmodconfig    gcc-15.2.0
+parisc                  allnoconfig    clang-22
+parisc                 allyesconfig    clang-19
+parisc                    defconfig    gcc-15.2.0
+powerpc                allmodconfig    gcc-15.2.0
+powerpc                 allnoconfig    clang-22
+riscv                   allnoconfig    clang-22
+riscv                  allyesconfig    clang-16
+riscv                     defconfig    gcc-15.2.0
+riscv       randconfig-001-20260110    gcc-15.2.0
+riscv       randconfig-002-20260110    gcc-15.2.0
+s390                   allmodconfig    clang-19
+s390                    allnoconfig    clang-22
+s390                   allyesconfig    gcc-15.2.0
+s390                      defconfig    gcc-15.2.0
+s390        randconfig-001-20260110    gcc-15.2.0
+s390        randconfig-002-20260110    gcc-15.2.0
+sh                     allmodconfig    gcc-15.2.0
+sh                      allnoconfig    clang-22
+sh                     allyesconfig    clang-19
+sh          randconfig-001-20260110    gcc-15.2.0
+sh          randconfig-002-20260110    gcc-15.2.0
+sparc                   allnoconfig    clang-22
+sparc                     defconfig    gcc-15.2.0
+sparc64                allmodconfig    clang-22
+um                     allmodconfig    clang-19
+um                      allnoconfig    clang-22
+um                     allyesconfig    gcc-15.2.0
+x86_64                  allnoconfig    clang-22
+x86_64                        kexec    clang-20
+x86_64      randconfig-001-20260110    clang-20
+x86_64      randconfig-002-20260110    clang-20
+x86_64      randconfig-003-20260110    clang-20
+x86_64      randconfig-004-20260110    clang-20
+x86_64      randconfig-005-20260110    clang-20
+x86_64      randconfig-006-20260110    clang-20
+x86_64      randconfig-071-20260110    clang-20
+x86_64      randconfig-072-20260110    clang-20
+x86_64      randconfig-073-20260110    clang-20
+x86_64      randconfig-074-20260110    clang-20
+x86_64      randconfig-075-20260110    clang-20
+x86_64      randconfig-076-20260110    clang-20
+x86_64                     rhel-9.4    clang-20
+x86_64                 rhel-9.4-bpf    gcc-14
+x86_64                rhel-9.4-func    clang-20
+x86_64          rhel-9.4-kselftests    clang-20
+x86_64               rhel-9.4-kunit    gcc-14
+x86_64                 rhel-9.4-ltp    gcc-14
+xtensa                  allnoconfig    clang-22
+xtensa                 allyesconfig    clang-22
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
