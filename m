@@ -1,134 +1,161 @@
-Return-Path: <linux-media+bounces-50341-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50342-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0719D0D827
-	for <lists+linux-media@lfdr.de>; Sat, 10 Jan 2026 16:11:52 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C3C3D0D88E
+	for <lists+linux-media@lfdr.de>; Sat, 10 Jan 2026 16:27:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id E240C3027E5E
-	for <lists+linux-media@lfdr.de>; Sat, 10 Jan 2026 15:10:37 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id BB73F3016ED8
+	for <lists+linux-media@lfdr.de>; Sat, 10 Jan 2026 15:27:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F568349B0A;
-	Sat, 10 Jan 2026 15:09:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC9E2346FB6;
+	Sat, 10 Jan 2026 15:27:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="UR3LYot3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QX8nwCoS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C3A34A786
-	for <linux-media@vger.kernel.org>; Sat, 10 Jan 2026 15:09:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B80A1343D6E
+	for <linux-media@vger.kernel.org>; Sat, 10 Jan 2026 15:27:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768057793; cv=none; b=JwDt7qwDJSV886J7FtP9RN6afxmBAcWcpWNQHnfey7jKUrAyRQ/PxDqj/F7/K2avMWEK0BueRiklZXDdWQTsyxmipgdAXWKyIb0sZMcxNXGDYVq+PzCbifWp9vMNIoZr438V6WL7c6JOlR4bydGQ+x/kyJTJEUv97B246dik/VQ=
+	t=1768058839; cv=none; b=h80pkL7PZij7hStpz5xj/7nP20YcTIsth1uoASPgOKxQnNtewQ9UfTsid1L+Qf8giRxURbrzOodhwUXWIDwQI3D+RygaxWQHLEUoFWUDnhS29/MF2LtaavjJKMtYC+FF580W6lHsbP2oW36+Z7jXmN2Z+bfc6a5J/snLTK/ycyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768057793; c=relaxed/simple;
-	bh=veOrw/m8cCXNOzS0YhBEMZHiqb+wrCM+D/j1ZadzRgQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WTdrJuknZSwZiS8vKuMiRTYVYrCbfsD0mE5/SEKs9iLUEtkIW/Jawd+iSs2I9V06nXIalau+PEp90+Ymo2+esT4kwhx5uFMfRUEvr2TZxWS/m0R0HL9M7uENBco/MnwqbUn/vPux0z8XdDj19hqyWdoVZrHLTo95jh81wPbGBcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=UR3LYot3; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-432755545fcso2961671f8f.1
-        for <linux-media@vger.kernel.org>; Sat, 10 Jan 2026 07:09:45 -0800 (PST)
+	s=arc-20240116; t=1768058839; c=relaxed/simple;
+	bh=xu8YmLa9g/+vSRsD/1C8fTOol2NBa1KWM6qO1hoOa0g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mX5qYUYwfrp0IwNdivCo7Z0qpp5b3HyLbmbTUDLS+gcq+CLC5q+OIUc3Oqul4/uLsFDXwbOlStDi2jnTViHq54m1X0VvW1fStjvHE3FMNlX/wWZRF4WUAx805eFBtGD4Zx16XeVB5tYsBUR9ueSgRKhcxF6kusv3HKZ4ItWHid8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QX8nwCoS; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2a09a3bd9c5so35557485ad.3
+        for <linux-media@vger.kernel.org>; Sat, 10 Jan 2026 07:27:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1768057784; x=1768662584; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZYFiIfX0/KjQWE2M1MYc+2i7VSmAxQXe92tai7T06wg=;
-        b=UR3LYot3X99B0iocnSlHLBo6xcEdvqWff5fJcdU9Exm6L/VyIsE1xVQ3sVYgXj7q3/
-         AJgsd1EMgirOEF5wAn7H3E2taaHVG0xxbScSmK/eNkl7JVSrD9tlrn9K3U+JEY1JherW
-         Qz8doesvUqWD5kfvD+tIrJouA/o6VYr3xVkPxj51Z9B+MKoAfeYgqiPVYyYZKZrNhk/F
-         P9bB6TJNL306n/2z4mmOJ83Oy5KeskaYSjMWq2a8PkNrM/SO+irij/BR+IX+izMpqtjd
-         cF/nBHWOZQPzwd+sng08PL/DHPEqiDOLBhZ8Qyrf6Ffy1AiCqVfxLza0Qx4ukc3S/Gwv
-         Y6Nw==
+        d=gmail.com; s=20230601; t=1768058837; x=1768663637; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xs1NcoSCG83oetkS9nkeOp/DwLHdbXKpQV7fIcvsjA4=;
+        b=QX8nwCoSQoP8SmgRFl2wE+K70xsxPkoH7S/UBQ9DkkUcu82NjTCmMJlYQqfXZyWkN9
+         b8jPXJgUfyAbT4O3KMFPZC85PToYo06vAIHYhyoo7HwBXwGLP12RA/MAdBchuDNbGZhA
+         4gDWoDB5HzV/V+MvZfjf2XINJqM8i/Ixz0j9goTSNMazdofuzxEpVXpC+Bf8Eak89ZB8
+         WoTfJRQYE9UilO5XxB13tTEuYoQiOmVhjrzgemhFCRDxDyzHR4HMTF1hFpwSImVGef3E
+         QTTBweR+KEPB1GL3UD9z10K+nCaNADXo0wpbdeh6jDQw5djw5Fm5pQCE8Coy2CmI1pv2
+         YGGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768057784; x=1768662584;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZYFiIfX0/KjQWE2M1MYc+2i7VSmAxQXe92tai7T06wg=;
-        b=iQW6MS80VGP/2F2q+B4ilgbRWUpAz8d/0+f6Kyo9IAjkCZePZ2VAzDqxYl6w+T36W0
-         P4AzLimqfp6E6v7fGmUn4RWkR1oKolUddhMCW1fACEpCuafc3UBtudiCw97Z7Nf6VdzB
-         YWG1dusQdzOnGy1HfspfmSLVbBJsSDVeUY1u1DPKiF1r8cbRVi4HEPLOiU0ImepmafWx
-         1RTjWLVaj7s2upapdnN5DTnpsSHx+pXC6W7a0aeylYfZSKuEC+tMeJegMSmIETBYLaiU
-         OYJndcmIzWPb0r/0Hw8lfWTVJ83nyk+r32iQVpf+hbL4Rdsem9F2xsERLIKVDwjQ13yw
-         EwRw==
-X-Forwarded-Encrypted: i=1; AJvYcCWyOoTMT5kMrSArklgI1aJnRd5Iw2n08bVhggqUpC64BN9LMmmrp6X2BsW1w2/JIPKyzPCH+Y74rRS72w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDLALjZTRnacCdus4uOPPTbmd3+NyhIsHx2n1NMtAKWZ1wPCty
-	cvQZlr2l8x3szU7tj+ZdKVT6FY+KdQRmdVTyCAoAQWTquhT3WkCDe9f4kK0nucEwbPo=
-X-Gm-Gg: AY/fxX59c47YdRSm+p0LIMfV7dXbc71Mv+Y6pqJWx6QcL+zJjcrHb+w6MJu97Di0iUB
-	a/EQjOgXB28wZIQuhmknV+X+OmIbiy4UIyKFQh/e80dB/5PJO3id955BVAC/8QbZXJtU9Mj/Nwj
-	RMSPJjFBHnHyCNOLQFnq0W0bNBeBm8uJ3j8pqIhnR1otBIuh3HzjAZtd6JnbG28xcIvcTQh9vwG
-	DrlDuZ+sZI/Sdp5UerZmA93PdtCL5pSWseQyUctJuiWJjR4Kwn275PkEdN8rQPqafI+tjV1IC9R
-	QqxZRc++E3ZOyIdMGZbzzVOQYeA/cNTmdFg31dGGBaA7ZRzOA0PgK/5T86MKkNkzKDHa5aqSZlH
-	XZqVaArKKYhoT481XItch1SYUuimFp/SzMq+8qhMtypfOhAYJATzAxLhSOZhWz3Pk3h9GAOBroZ
-	GiG/+33HqJy/xl93kAe1lBBuxNz2dB
-X-Google-Smtp-Source: AGHT+IHwvRNK+qwBLjP9mJj148RzU5png6+Rsy9u3J7EYhE07UUYa3vVSxYXarlT5BZGC6AC5xVP2w==
-X-Received: by 2002:a05:6000:40da:b0:430:f23f:4bc5 with SMTP id ffacd0b85a97d-432c3760d02mr14529601f8f.45.1768057784134;
-        Sat, 10 Jan 2026 07:09:44 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.31])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0e199bsm28208208f8f.16.2026.01.10.07.09.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 10 Jan 2026 07:09:43 -0800 (PST)
-Message-ID: <6c2612f9-97de-49e4-a7c2-eacea2d33f51@tuxon.dev>
-Date: Sat, 10 Jan 2026 17:09:40 +0200
+        d=1e100.net; s=20230601; t=1768058837; x=1768663637;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Xs1NcoSCG83oetkS9nkeOp/DwLHdbXKpQV7fIcvsjA4=;
+        b=bFQEKU4alMzFNfusHwduX8RREaRl0KTOTv09zWDDr7Z6pQhAPpgbwJX/3xwt74WWHn
+         32z0gkdjrYEEDHPn81KH6e70orTQiEDQ7h9uzCxIXw66eqzfzB9y8DxZ+9kfAhBIghZV
+         pu250TcgTDVn58XU8QadLldXyELcRhUDuhqcNsewFQAk6S5pOc6PQFKUAq4lUXIp68p/
+         JacOy06MPyUUVEPl/CsQ49GorC76Ikyo/NGd9T5tSWQ6lBRrnVzqtRz+N+JUiSOoJ1H5
+         LRhTY/B9GII7ysU8zIstBnmu0o1anKDjdJ8dZZagqxkZJhvgfcBnXsNXYFVdSaGKOgWQ
+         +0ZA==
+X-Forwarded-Encrypted: i=1; AJvYcCW7y4bQzy4KL+hLo2GyIiNxE/GQAHkdN1kObWM/OcXns3vEDQ+MQvfgpx64sdRuTp2vqHk+aRUF9fHxNg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbjXxcWeCZock/fkMgCqmH0ODTGz6TefGr/W6RyYsM/m0PPLD5
+	5AfNHDZ1SoXhGc9W2GdkFyu3YEQIdxfXBCDjgRr9bA47nB5iJxu5/gV3
+X-Gm-Gg: AY/fxX6eQv/PctCoAWlsGIWPrbauqYuXZEK9Ycx5UfBTENMST5Mk0hNOFzTshNyFGkg
+	7saXU8zptTomsYvZW/sRQxtLlHXo+Ao53UhN4817liukGMLMCStFjGk6LPnAldwgayPPI5eNHaM
+	SsUBrhnqjb25Yu/6tXPs2KR0mzKR6WWis/zG3H18ijOHRN2OIjBxh6uQhfWAXcZlYDPPTp+cJ8C
+	D0jZsbCd61DdZ2kQLKv2g/VnX4enZSAsKfcrrOWt9seuv1rRgqJD3oqa8Eva9/gsl2dIXRGlZuE
+	uA18xSkzF8oBW6cuXr4SCy6jdkQzUbyxZPe0O9315lhAyF68MV5SY4nB8VDBaqAx9Pq+LiiLYj7
+	hrvV2gXamEbqOZSSFlnTbbNIN5SKNIZzVLTXXnjgI2tPiwvJvxRqxRymZ0ND6Io375fA5QSLOZK
+	5AU7yaPyK5EpTUI+cD9P1b/lcMZ7GF21cGKifyOw==
+X-Google-Smtp-Source: AGHT+IFS7Czhg55hKmIHgUDpb396S6tfxneJqb6vjnaIo6fdMRy08wY3beDzB8AqxuS9tTnynMe9Pw==
+X-Received: by 2002:a17:903:3c27:b0:2a0:86cd:1e3a with SMTP id d9443c01a7336-2a3ee4b23a9mr131778325ad.44.1768058836907;
+        Sat, 10 Jan 2026 07:27:16 -0800 (PST)
+Received: from name2965-Precision-7820-Tower.. ([121.185.186.233])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3c3a512sm133838105ad.10.2026.01.10.07.27.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Jan 2026 07:27:16 -0800 (PST)
+From: Jeongjun Park <aha310510@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: Alexey Khoroshilov <khoroshilov@ispras.ru>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	syzbot+47321e8fd5a4c84088db@syzkaller.appspotmail.com,
+	Jeongjun Park <aha310510@gmail.com>
+Subject: [PATCH v3] media: as102: fix to not free memory after the device is registered in as102_usb_probe()
+Date: Sun, 11 Jan 2026 00:17:53 +0900
+Message-Id: <20260110151753.1274725-1-aha310510@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 02/12] ARM: at91: Simplify with scoped for each OF
- child loop
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
- Miguel Ojeda <ojeda@kernel.org>, Rob Herring <robh@kernel.org>,
- Saravana Kannan <saravanak@google.com>, Nathan Chancellor
- <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Russell King <linux@armlinux.org.uk>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar
- <alim.akhtar@samsung.com>, Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Nipun Gupta <nipun.gupta@amd.com>, Nikhil Agarwal <nikhil.agarwal@amd.com>,
- Abel Vesa <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Vinod Koul <vkoul@kernel.org>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- llvm@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-clk@vger.kernel.org, imx@lists.linux.dev, dmaengine@vger.kernel.org,
- linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
- Jonathan Cameron <jonathan.cameron@huawei.com>
-References: <20260109-of-for-each-compatible-scoped-v3-0-c22fa2c0749a@oss.qualcomm.com>
- <20260109-of-for-each-compatible-scoped-v3-2-c22fa2c0749a@oss.qualcomm.com>
-Content-Language: en-US
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <20260109-of-for-each-compatible-scoped-v3-2-c22fa2c0749a@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+In as102_usb driver, the following race condition occurs:
+```
+		CPU0						CPU1
+as102_usb_probe()
+  kzalloc(); // alloc as102_dev_t
+  ....
+  usb_register_dev();
+						fd = sys_open("/path/to/dev"); // open as102 fd
+						....
+  usb_deregister_dev();
+  ....
+  kfree(); // free as102_dev_t
+  ....
+						sys_close(fd);
+						  as102_release() // UAF!!
+						    as102_usb_release()
+						      kfree(); // DFB!!
+```
 
+When a USB character device registered with usb_register_dev() is later
+unregistered (via usb_deregister_dev() or disconnect), the device node is
+removed so new open() calls fail. However, file descriptors that are
+already open do not go away immediately: they remain valid until the last
+reference is dropped and the driver's .release() is invoked.
 
-On 1/9/26 18:57, Krzysztof Kozlowski wrote:
-> Use scoped for-each loop when iterating over device nodes to make code a
-> bit simpler.
-> 
-> Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
-> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Reviewed-by: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+In as102, as102_usb_probe() calls usb_register_dev() and then, on an
+error path, does usb_deregister_dev() and frees as102_dev_t right away.
+If userspace raced a successful open() before the deregistration, that
+open FD will later hit as102_release() --> as102_usb_release() and access
+or free as102_dev_t again, occur a race to use-after-free and
+double-free vuln.
+
+The fix is to never kfree(as102_dev_t) directly once usb_register_dev()
+has succeeded. After deregistration, defer freeing memory to .release().
+
+In other words, let release() perform the last kfree when the final open
+FD is closed.
+
+Cc: <stable@vger.kernel.org>
+Reported-by: syzbot+47321e8fd5a4c84088db@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=47321e8fd5a4c84088db
+Fixes: cd19f7d3e39b ("[media] as102: fix leaks at failure paths in as102_usb_probe()")
+Signed-off-by: Jeongjun Park <aha310510@gmail.com>
+---
+v3: Add missing initialize intf pointer
+- Link to v2: https://lore.kernel.org/all/20250904054629.3849431-1-aha310510@gmail.com/
+v2: Fix incorrect patch description style and CC stable mailing list
+- Link to v1: https://lore.kernel.org/all/20250822143539.1157329-1-aha310510@gmail.com/
+---
+ drivers/media/usb/as102/as102_usb_drv.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/media/usb/as102/as102_usb_drv.c b/drivers/media/usb/as102/as102_usb_drv.c
+index e0ef66a522e2..44565f0297cd 100644
+--- a/drivers/media/usb/as102/as102_usb_drv.c
++++ b/drivers/media/usb/as102/as102_usb_drv.c
+@@ -403,7 +403,9 @@ static int as102_usb_probe(struct usb_interface *intf,
+ failed_dvb:
+ 	as102_free_usb_stream_buffer(as102_dev);
+ failed_stream:
++	usb_set_intfdata(intf, NULL);
+ 	usb_deregister_dev(intf, &as102_usb_class_driver);
++	return ret;
+ failed:
+ 	usb_put_dev(as102_dev->bus_adap.usb_dev);
+ 	usb_set_intfdata(intf, NULL);
+--
 
