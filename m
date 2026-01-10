@@ -1,161 +1,250 @@
-Return-Path: <linux-media+bounces-50342-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50343-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C3C3D0D88E
-	for <lists+linux-media@lfdr.de>; Sat, 10 Jan 2026 16:27:34 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4824DD0DB5F
+	for <lists+linux-media@lfdr.de>; Sat, 10 Jan 2026 20:36:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id BB73F3016ED8
-	for <lists+linux-media@lfdr.de>; Sat, 10 Jan 2026 15:27:23 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A36823029572
+	for <lists+linux-media@lfdr.de>; Sat, 10 Jan 2026 19:35:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC9E2346FB6;
-	Sat, 10 Jan 2026 15:27:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 888991DF97C;
+	Sat, 10 Jan 2026 19:35:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QX8nwCoS"
+	dkim=pass (2048-bit key) header.d=cknow-tech.com header.i=@cknow-tech.com header.b="fxLw6WmC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B80A1343D6E
-	for <linux-media@vger.kernel.org>; Sat, 10 Jan 2026 15:27:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B30EE500948;
+	Sat, 10 Jan 2026 19:35:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768058839; cv=none; b=h80pkL7PZij7hStpz5xj/7nP20YcTIsth1uoASPgOKxQnNtewQ9UfTsid1L+Qf8giRxURbrzOodhwUXWIDwQI3D+RygaxWQHLEUoFWUDnhS29/MF2LtaavjJKMtYC+FF580W6lHsbP2oW36+Z7jXmN2Z+bfc6a5J/snLTK/ycyk=
+	t=1768073748; cv=none; b=Iqiuwu28PEPQ44K5bqpYh8zla1pTVX3Pg+42GnG09j5YapjwHVXAJGzAU2K5Y21iOgZn5O7jl4x8Li9llqlfcaQfmzglfUJRDAXf5/oe0U+HJwWKd+tO4J7t7GDchxKys+E85wkrlJ73nVSAO09bvBFDmE+/RdbFzAXW7YGbXRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768058839; c=relaxed/simple;
-	bh=xu8YmLa9g/+vSRsD/1C8fTOol2NBa1KWM6qO1hoOa0g=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mX5qYUYwfrp0IwNdivCo7Z0qpp5b3HyLbmbTUDLS+gcq+CLC5q+OIUc3Oqul4/uLsFDXwbOlStDi2jnTViHq54m1X0VvW1fStjvHE3FMNlX/wWZRF4WUAx805eFBtGD4Zx16XeVB5tYsBUR9ueSgRKhcxF6kusv3HKZ4ItWHid8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QX8nwCoS; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2a09a3bd9c5so35557485ad.3
-        for <linux-media@vger.kernel.org>; Sat, 10 Jan 2026 07:27:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768058837; x=1768663637; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xs1NcoSCG83oetkS9nkeOp/DwLHdbXKpQV7fIcvsjA4=;
-        b=QX8nwCoSQoP8SmgRFl2wE+K70xsxPkoH7S/UBQ9DkkUcu82NjTCmMJlYQqfXZyWkN9
-         b8jPXJgUfyAbT4O3KMFPZC85PToYo06vAIHYhyoo7HwBXwGLP12RA/MAdBchuDNbGZhA
-         4gDWoDB5HzV/V+MvZfjf2XINJqM8i/Ixz0j9goTSNMazdofuzxEpVXpC+Bf8Eak89ZB8
-         WoTfJRQYE9UilO5XxB13tTEuYoQiOmVhjrzgemhFCRDxDyzHR4HMTF1hFpwSImVGef3E
-         QTTBweR+KEPB1GL3UD9z10K+nCaNADXo0wpbdeh6jDQw5djw5Fm5pQCE8Coy2CmI1pv2
-         YGGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768058837; x=1768663637;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Xs1NcoSCG83oetkS9nkeOp/DwLHdbXKpQV7fIcvsjA4=;
-        b=bFQEKU4alMzFNfusHwduX8RREaRl0KTOTv09zWDDr7Z6pQhAPpgbwJX/3xwt74WWHn
-         32z0gkdjrYEEDHPn81KH6e70orTQiEDQ7h9uzCxIXw66eqzfzB9y8DxZ+9kfAhBIghZV
-         pu250TcgTDVn58XU8QadLldXyELcRhUDuhqcNsewFQAk6S5pOc6PQFKUAq4lUXIp68p/
-         JacOy06MPyUUVEPl/CsQ49GorC76Ikyo/NGd9T5tSWQ6lBRrnVzqtRz+N+JUiSOoJ1H5
-         LRhTY/B9GII7ysU8zIstBnmu0o1anKDjdJ8dZZagqxkZJhvgfcBnXsNXYFVdSaGKOgWQ
-         +0ZA==
-X-Forwarded-Encrypted: i=1; AJvYcCW7y4bQzy4KL+hLo2GyIiNxE/GQAHkdN1kObWM/OcXns3vEDQ+MQvfgpx64sdRuTp2vqHk+aRUF9fHxNg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzbjXxcWeCZock/fkMgCqmH0ODTGz6TefGr/W6RyYsM/m0PPLD5
-	5AfNHDZ1SoXhGc9W2GdkFyu3YEQIdxfXBCDjgRr9bA47nB5iJxu5/gV3
-X-Gm-Gg: AY/fxX6eQv/PctCoAWlsGIWPrbauqYuXZEK9Ycx5UfBTENMST5Mk0hNOFzTshNyFGkg
-	7saXU8zptTomsYvZW/sRQxtLlHXo+Ao53UhN4817liukGMLMCStFjGk6LPnAldwgayPPI5eNHaM
-	SsUBrhnqjb25Yu/6tXPs2KR0mzKR6WWis/zG3H18ijOHRN2OIjBxh6uQhfWAXcZlYDPPTp+cJ8C
-	D0jZsbCd61DdZ2kQLKv2g/VnX4enZSAsKfcrrOWt9seuv1rRgqJD3oqa8Eva9/gsl2dIXRGlZuE
-	uA18xSkzF8oBW6cuXr4SCy6jdkQzUbyxZPe0O9315lhAyF68MV5SY4nB8VDBaqAx9Pq+LiiLYj7
-	hrvV2gXamEbqOZSSFlnTbbNIN5SKNIZzVLTXXnjgI2tPiwvJvxRqxRymZ0ND6Io375fA5QSLOZK
-	5AU7yaPyK5EpTUI+cD9P1b/lcMZ7GF21cGKifyOw==
-X-Google-Smtp-Source: AGHT+IFS7Czhg55hKmIHgUDpb396S6tfxneJqb6vjnaIo6fdMRy08wY3beDzB8AqxuS9tTnynMe9Pw==
-X-Received: by 2002:a17:903:3c27:b0:2a0:86cd:1e3a with SMTP id d9443c01a7336-2a3ee4b23a9mr131778325ad.44.1768058836907;
-        Sat, 10 Jan 2026 07:27:16 -0800 (PST)
-Received: from name2965-Precision-7820-Tower.. ([121.185.186.233])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3c3a512sm133838105ad.10.2026.01.10.07.27.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Jan 2026 07:27:16 -0800 (PST)
-From: Jeongjun Park <aha310510@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: Alexey Khoroshilov <khoroshilov@ispras.ru>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	syzbot+47321e8fd5a4c84088db@syzkaller.appspotmail.com,
-	Jeongjun Park <aha310510@gmail.com>
-Subject: [PATCH v3] media: as102: fix to not free memory after the device is registered in as102_usb_probe()
-Date: Sun, 11 Jan 2026 00:17:53 +0900
-Message-Id: <20260110151753.1274725-1-aha310510@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1768073748; c=relaxed/simple;
+	bh=BouuCuF49YicOQAMmeVM4mcbxurlxIPZZs4gzyYPhxs=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=LXNcLPf11WRNqxLLSj+NuyCYfJHJKiOU4/JLXmwyguQ/aemkyWYsbdwxdjWNzFDAmfGWOyGCLztF1RKxqDV2uRVLlURSCvb0hyhWOCCBZFYBZ05FWjrebJA1Lc/MKc+PnJQndIx3RUQYCffKGv+BnSd0Kba2zvz1e+um/c7CIo8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow-tech.com; spf=pass smtp.mailfrom=cknow-tech.com; dkim=pass (2048-bit key) header.d=cknow-tech.com header.i=@cknow-tech.com header.b=fxLw6WmC; arc=none smtp.client-ip=91.218.175.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow-tech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow-tech.com
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow-tech.com;
+	s=key1; t=1768073742;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YYRmxOMkxzng4TMKTpoi3lSayf/NyY8ahAeAqOwq/3Q=;
+	b=fxLw6WmCoewuA/NmZizqtsuK2ZU49/df/OHEUiOiX6DS8PzOCAax5HvdogS/qo82H1nCIm
+	hYFIADCxjtguJY1oe2w941M0KkhzfmFvwlydh3o5fBEyXxy3pDghAK98WPsUG/EaDpQOJ2
+	i2hIrLqvnMYRs5MnVd33JqiZZQKvLH5WNNoSqXdJEWv0EaU0KmNOIbXydf33+1blEzliIg
+	B4q0NmMlVHKC0MxGJw3rsNZO7wtHtZ/ZKt0rsOE7bVBOCxZg/8Mu2VyMs/5HqVaupezTSu
+	zfqA737e8YP5MxZLG3xPycrIi7+JS32jEUUkeanaVsFvTH5METUHKrhutKYDaA==
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 10 Jan 2026 20:35:37 +0100
+Message-Id: <DFL5TY0QQNMN.1RS04UM9D1V8S@cknow-tech.com>
+Cc: "Nicolas Dufresne" <nicolas.dufresne@collabora.com>, "Dang Huynh"
+ <dang.huynh@mainlining.org>
+Subject: Re: [PATCH v3 2/3] media: rkvdec: Add support for the VDPU346
+ variant
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Diederik de Haas" <diederik@cknow-tech.com>
+To: "Christian Hewitt" <christianshewitt@gmail.com>, "Detlev Casanova"
+ <detlev.casanova@collabora.com>, =?utf-8?q?Olivier_Cr=C3=AAte?=
+ <olivier.crete@collabora.com>, "Ezequiel Garcia"
+ <ezequiel@vanguardiasur.com.ar>, "Mauro Carvalho Chehab"
+ <mchehab@kernel.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "Heiko Stuebner" <heiko@sntech.de>, "Diederik de Haas"
+ <diederik@cknow-tech.com>, "Dmitry Osipenko"
+ <dmitry.osipenko@collabora.com>, "Thomas Gleixner" <tglx@linutronix.de>,
+ "Dragan Simic" <dsimic@manjaro.org>, "Chukun Pan" <amadeus@jmu.edu.cn>,
+ <linux-media@vger.kernel.org>, <linux-rockchip@lists.infradead.org>,
+ <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>
+References: <20260110053727.2295260-1-christianshewitt@gmail.com>
+ <20260110053727.2295260-3-christianshewitt@gmail.com>
+In-Reply-To: <20260110053727.2295260-3-christianshewitt@gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-In as102_usb driver, the following race condition occurs:
-```
-		CPU0						CPU1
-as102_usb_probe()
-  kzalloc(); // alloc as102_dev_t
-  ....
-  usb_register_dev();
-						fd = sys_open("/path/to/dev"); // open as102 fd
-						....
-  usb_deregister_dev();
-  ....
-  kfree(); // free as102_dev_t
-  ....
-						sys_close(fd);
-						  as102_release() // UAF!!
-						    as102_usb_release()
-						      kfree(); // DFB!!
-```
+Hi Christian,
 
-When a USB character device registered with usb_register_dev() is later
-unregistered (via usb_deregister_dev() or disconnect), the device node is
-removed so new open() calls fail. However, file descriptors that are
-already open do not go away immediately: they remain valid until the last
-reference is dropped and the driver's .release() is invoked.
+On Sat Jan 10, 2026 at 6:37 AM CET, Christian Hewitt wrote:
+> VDPU346 is similar to VDPU381 but with a single core and limited
+> to 4K60 media. It is also limited to H264 L5.1 and omits AV1 and
+> AVS2 capabilities. VDPU346 is used with RK3566 and RK3568.
+>
+> Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
+> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Tested-by: Dang Huynh <dang.huynh@mainlining.org> # Pinetab2
+> ---
+>  .../media/platform/rockchip/rkvdec/rkvdec.c   | 103 ++++++++++++++++++
+>  1 file changed, 103 insertions(+)
+>
+> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c b/drivers/me=
+dia/platform/rockchip/rkvdec/rkvdec.c
+> index a5cf6f3240f8..6e49b129d11f 100644
+> --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> @@ -236,6 +236,62 @@ static const struct rkvdec_ctrls rkvdec_hevc_ctrls =
+=3D {
+>  	.num_ctrls =3D ARRAY_SIZE(rkvdec_hevc_ctrl_descs),
+>  };
+> =20
+> +static const struct rkvdec_ctrl_desc vdpu346_hevc_ctrl_descs[] =3D {
+> +	{
+> +		.cfg.id =3D V4L2_CID_STATELESS_HEVC_DECODE_PARAMS,
+> +	},
+> +	{
+> +		.cfg.id =3D V4L2_CID_STATELESS_HEVC_SPS,
+> +		.cfg.ops =3D &rkvdec_ctrl_ops,
+> +	},
+> +	{
+> +		.cfg.id =3D V4L2_CID_STATELESS_HEVC_PPS,
+> +	},
+> +	{
+> +		.cfg.id =3D V4L2_CID_STATELESS_HEVC_SCALING_MATRIX,
+> +	},
+> +	{
+> +		.cfg.id =3D V4L2_CID_STATELESS_HEVC_DECODE_MODE,
+> +		.cfg.min =3D V4L2_STATELESS_HEVC_DECODE_MODE_FRAME_BASED,
+> +		.cfg.max =3D V4L2_STATELESS_HEVC_DECODE_MODE_FRAME_BASED,
+> +		.cfg.def =3D V4L2_STATELESS_HEVC_DECODE_MODE_FRAME_BASED,
+> +	},
+> +	{
+> +		.cfg.id =3D V4L2_CID_STATELESS_HEVC_START_CODE,
+> +		.cfg.min =3D V4L2_STATELESS_HEVC_START_CODE_ANNEX_B,
+> +		.cfg.def =3D V4L2_STATELESS_HEVC_START_CODE_ANNEX_B,
+> +		.cfg.max =3D V4L2_STATELESS_HEVC_START_CODE_ANNEX_B,
+> +	},
+> +	{
+> +		.cfg.id =3D V4L2_CID_MPEG_VIDEO_HEVC_PROFILE,
+> +		.cfg.min =3D V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN,
+> +		.cfg.max =3D V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10,
+> +		.cfg.menu_skip_mask =3D
+> +			BIT(V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_STILL_PICTURE),
+> +		.cfg.def =3D V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN,
+> +	},
+> +	{
+> +		.cfg.id =3D V4L2_CID_MPEG_VIDEO_HEVC_LEVEL,
+> +		.cfg.min =3D V4L2_MPEG_VIDEO_HEVC_LEVEL_1,
+> +		.cfg.max =3D V4L2_MPEG_VIDEO_HEVC_LEVEL_5_1,
+> +	},
+> +	{
+> +		.cfg.id =3D V4L2_CID_STATELESS_HEVC_EXT_SPS_ST_RPS,
+> +		.cfg.ops =3D &rkvdec_ctrl_ops,
+> +		.cfg.dims =3D { 65 },
+> +	},
+> +	{
+> +		.cfg.id =3D V4L2_CID_STATELESS_HEVC_EXT_SPS_LT_RPS,
+> +		.cfg.ops =3D &rkvdec_ctrl_ops,
+> +		.cfg.dims =3D { 65 },
+> +	},
+> +};
+> +
+> +static const struct rkvdec_ctrls vdpu346_hevc_ctrls =3D {
+> +	.ctrls =3D vdpu346_hevc_ctrl_descs,
+> +	.num_ctrls =3D ARRAY_SIZE(vdpu346_hevc_ctrl_descs),
+> +};
+> +
+>  static const struct rkvdec_ctrl_desc vdpu38x_hevc_ctrl_descs[] =3D {
+>  	{
+>  		.cfg.id =3D V4L2_CID_STATELESS_HEVC_DECODE_PARAMS,
+> @@ -463,6 +519,41 @@ static const struct rkvdec_coded_fmt_desc rk3288_cod=
+ed_fmts[] =3D {
+>  	}
+>  };
+> =20
+> +static const struct rkvdec_coded_fmt_desc vdpu346_coded_fmts[] =3D {
+> +	{
+> +		.fourcc =3D V4L2_PIX_FMT_HEVC_SLICE,
+> +		.frmsize =3D {
+> +			.min_width =3D 64,
+> +			.max_width =3D 4096,
+> +			.step_width =3D 64,
+> +			.min_height =3D 64,
+> +			.max_height =3D 2304,
+> +			.step_height =3D 16,
+> +		},
+> +		.ctrls =3D &vdpu346_hevc_ctrls,
+> +		.ops =3D &rkvdec_vdpu381_hevc_fmt_ops,
+> +		.num_decoded_fmts =3D ARRAY_SIZE(rkvdec_hevc_decoded_fmts),
+> +		.decoded_fmts =3D rkvdec_hevc_decoded_fmts,
+> +		.subsystem_flags =3D VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF,
+> +	},
+> +	{
+> +		.fourcc =3D V4L2_PIX_FMT_H264_SLICE,
+> +		.frmsize =3D {
+> +			.min_width =3D 64,
+> +			.max_width =3D  4096,
+> +			.step_width =3D 64,
+> +			.min_height =3D 64,
+> +			.max_height =3D  2304,
+> +			.step_height =3D 16,
+> +		},
+> +		.ctrls =3D &rkvdec_h264_ctrls,
+> +		.ops =3D &rkvdec_vdpu381_h264_fmt_ops,
+> +		.num_decoded_fmts =3D ARRAY_SIZE(rkvdec_h264_decoded_fmts),
+> +		.decoded_fmts =3D rkvdec_h264_decoded_fmts,
+> +		.subsystem_flags =3D VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF,
+> +	},
+> +};
+> +
+>  static const struct rkvdec_coded_fmt_desc vdpu381_coded_fmts[] =3D {
+>  	{
+>  		.fourcc =3D V4L2_PIX_FMT_HEVC_SLICE,
+> @@ -1657,6 +1748,14 @@ static const struct rkvdec_variant_ops vdpu381_var=
+iant_ops =3D {
+>  	.flatten_matrices =3D transpose_and_flatten_matrices,
+>  };
+> =20
+> +static const struct rkvdec_variant vdpu346_variant =3D {
+> +	.coded_fmts =3D vdpu346_coded_fmts,
+> +	.num_coded_fmts =3D ARRAY_SIZE(vdpu346_coded_fmts),
+> +	.rcb_sizes =3D vdpu381_rcb_sizes,
 
-In as102, as102_usb_probe() calls usb_register_dev() and then, on an
-error path, does usb_deregister_dev() and frees as102_dev_t right away.
-If userspace raced a successful open() before the deregistration, that
-open FD will later hit as102_release() --> as102_usb_release() and access
-or free as102_dev_t again, occur a race to use-after-free and
-double-free vuln.
+AFAICT this is not correct, the rcb_sizes are different for vdpu346 vs
+vdpu381. While for vdpu381 the sizes are the same across codecs, they
+vary for vdpu346. And vdpu346 does not have 'STRMD Row', 'Transd Row'
+and 'Transd col'.
 
-The fix is to never kfree(as102_dev_t) directly once usb_register_dev()
-has succeeded. After deregistration, defer freeing memory to .release().
+For RK3588/vdpu381 it is defined in RK3588 TRM V1.0 Part1 in
+paragraph 5.4.4.3 in 'Table 5-13 Row or Col buffer size required' on
+page 381.
 
-In other words, let release() perform the last kfree when the final open
-FD is closed.
+For RK3568/vdpu346 is is defines in RK3568 TRM V1.1 Part2 in
+paragraph 10.4.8 in 'Table 10-9 Row or Col buffer size required' on page
+474 and 475.
 
-Cc: <stable@vger.kernel.org>
-Reported-by: syzbot+47321e8fd5a4c84088db@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=47321e8fd5a4c84088db
-Fixes: cd19f7d3e39b ("[media] as102: fix leaks at failure paths in as102_usb_probe()")
-Signed-off-by: Jeongjun Park <aha310510@gmail.com>
----
-v3: Add missing initialize intf pointer
-- Link to v2: https://lore.kernel.org/all/20250904054629.3849431-1-aha310510@gmail.com/
-v2: Fix incorrect patch description style and CC stable mailing list
-- Link to v1: https://lore.kernel.org/all/20250822143539.1157329-1-aha310510@gmail.com/
----
- drivers/media/usb/as102/as102_usb_drv.c | 2 ++
- 1 file changed, 2 insertions(+)
+Cheers,
+  Diederik
 
-diff --git a/drivers/media/usb/as102/as102_usb_drv.c b/drivers/media/usb/as102/as102_usb_drv.c
-index e0ef66a522e2..44565f0297cd 100644
---- a/drivers/media/usb/as102/as102_usb_drv.c
-+++ b/drivers/media/usb/as102/as102_usb_drv.c
-@@ -403,7 +403,9 @@ static int as102_usb_probe(struct usb_interface *intf,
- failed_dvb:
- 	as102_free_usb_stream_buffer(as102_dev);
- failed_stream:
-+	usb_set_intfdata(intf, NULL);
- 	usb_deregister_dev(intf, &as102_usb_class_driver);
-+	return ret;
- failed:
- 	usb_put_dev(as102_dev->bus_adap.usb_dev);
- 	usb_set_intfdata(intf, NULL);
---
+> +	.num_rcb_sizes =3D ARRAY_SIZE(vdpu381_rcb_sizes),
+> +	.ops =3D &vdpu381_variant_ops,
+> +};
+> +
+>  static const struct rkvdec_variant vdpu381_variant =3D {
+>  	.coded_fmts =3D vdpu381_coded_fmts,
+>  	.num_coded_fmts =3D ARRAY_SIZE(vdpu381_coded_fmts),
+> @@ -1705,6 +1804,10 @@ static const struct of_device_id of_rkvdec_match[]=
+ =3D {
+>  		.compatible =3D "rockchip,rk3399-vdec",
+>  		.data =3D &rk3399_rkvdec_variant,
+>  	},
+> +	{
+> +		.compatible =3D "rockchip,rk3568-vdec",
+> +		.data =3D &vdpu346_variant,
+> +	},
+>  	{
+>  		.compatible =3D "rockchip,rk3588-vdec",
+>  		.data =3D &vdpu381_variant,
+
 
