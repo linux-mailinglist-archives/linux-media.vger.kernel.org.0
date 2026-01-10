@@ -1,133 +1,179 @@
-Return-Path: <linux-media+bounces-50338-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50339-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AEA8D0D7AB
-	for <lists+linux-media@lfdr.de>; Sat, 10 Jan 2026 15:49:18 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 642BBD0D7C4
+	for <lists+linux-media@lfdr.de>; Sat, 10 Jan 2026 15:59:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 640E1300E827
-	for <lists+linux-media@lfdr.de>; Sat, 10 Jan 2026 14:49:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AA11E3020491
+	for <lists+linux-media@lfdr.de>; Sat, 10 Jan 2026 14:58:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 087033451CE;
-	Sat, 10 Jan 2026 14:49:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCFAA345756;
+	Sat, 10 Jan 2026 14:58:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="EecNqfHS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Iyx8sXgF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2176319F12D
-	for <linux-media@vger.kernel.org>; Sat, 10 Jan 2026 14:49:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA7701D5AD4
+	for <linux-media@vger.kernel.org>; Sat, 10 Jan 2026 14:58:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768056545; cv=none; b=fVx7h/O1+3p6pqVcK0TNRfENADm9LukM/wIXBrEbM2fu2SgzOeapwf8KImmkSmwlne+CsdbF1lgiUqyB+tSqTonrHy7ZbYoMHvMWp+n+QCE+4xyl37puEJ+6YVcJt5CoklLtHCVv0cwsXSiszHpHPc8BOguRavTN2+iMbfrMpAQ=
+	t=1768057123; cv=none; b=s18UVUs6hr0hFnmkSgySUJWuAzyDnjZV4gp1C58IN2W+aRtTIAIv3cVlAgEIVUWUA7DYuO7p6wG2e+wtG5AMAKt9Ue2SyDouWfn5bkPQwztQrPsjo+WYd2pXMBTEfjUDvjkPHMGmM5dPMhKcTerGUZNQ6J1UlRQjN7sX8dmVuI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768056545; c=relaxed/simple;
-	bh=8cZF88ZHHeswEWIoZ1XSpuokeFUHz2t/rDtmfT1Fb54=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s1Hz5hu6OZT5XvTOWvYTaTYDcY+tfaZ2bnXg30/93MGXWKB01dwx+QPYgDjslQ5IOjweAELqk8Jg0eKJkl9tVznFxoDyYPeBEGV65UbB1x++3ge9G7SRKscBoy60rQostB1rAxMO1p1xrmFbpOcA3WtEnLULbRwdxTks5tGlCWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=EecNqfHS; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-42fbbc3df8fso2562003f8f.2
-        for <linux-media@vger.kernel.org>; Sat, 10 Jan 2026 06:49:01 -0800 (PST)
+	s=arc-20240116; t=1768057123; c=relaxed/simple;
+	bh=Rq7taqbcYAudhnjWfE+Iy0uiElntprTwPQhe1JH2x6M=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ZmJ70XL9BFD5rwrWvb9KGVTyZwkigE/FRMKFmR5O86MYDL1G+e8COj2qt+ZOn5u3t8CxF8vhE0JZjX0TRLLkg1oxqA0ywsEDEg1UruCd1+JK9uxf3zuI7hzTpSygTNb8+9m5PCKXryDyb94u9kka2UPlg2vOP5XnSFXY5TyoeXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Iyx8sXgF; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-81db1530173so933320b3a.1
+        for <linux-media@vger.kernel.org>; Sat, 10 Jan 2026 06:58:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1768056540; x=1768661340; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IHk6EgoNk8lP2vqJMYUzvRzyl3K2JzNhjFEm/rJg//s=;
-        b=EecNqfHSZs06v18jqARlP9k1rRdjxC5rUdz/jxGgFVrZljBbTmYS9L0TQobkdqccxN
-         TTe2xjZtAdjKQ57catv9RuhOA2LeI5qXpQYtyGFLy1B8mUnqC+1Wfrc4bF+zjsQjK4en
-         V9sGY/5D9wzFWxSLIrSHmL6MnugPw62J02oboA4OVLBToaF0g1oEbYvWvK9PBC0QAqxm
-         X7DfQ1R3AeNHbmI6nAlJTc569VGTwaIOA4MTx25J+sVjBzQW9DAOpbZyVU3yMYPSVaOR
-         vn/4Gg+tvob/2yq4G0xQEIgD6SjeC4Fn4rnONlaSH7sfgZxhEnI/kLpOQMR0nl82B0Wt
-         AJHQ==
+        d=gmail.com; s=20230601; t=1768057121; x=1768661921; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vSd8AuPpUuiKUe+YAMcslcyKGUwMD/nV4tJRG30j/GI=;
+        b=Iyx8sXgFNclmI5Gwr/+LPcZZjAW60bfE+ZE/+n1s/vdQMzO1eiQJ9MALmgrUC5vr8T
+         zA9flVpEiHIF1thUIeTp/oo8Eo8A4LJUO5ZFYE5/NFt/L44sstMisQceMMZRgROYPOZp
+         KxeutltUWUnQxHdRclD609zsgJPNTTL+uNq2wr0ic5tvFwyaWl6BfyXRY7eHn5X4H9o6
+         kPgCSinIj4jq/nv11OrDq8a0WP/2CTIkGl6IgI1YM00PGN4TCOJ1hIA4/8qFOy1y3BHQ
+         BfEgTfakpn0ICzD5rEAhQDStuo86oIAFI7gx8qkX+vxC78e+QIZ+QRyQssb5lfqMVxA6
+         /3UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768056540; x=1768661340;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IHk6EgoNk8lP2vqJMYUzvRzyl3K2JzNhjFEm/rJg//s=;
-        b=LgQ4OlT1bTP1ktYSVRkmGZRowJCdziOsD5RtdfC9U+4x0HWKOmAjCXKDIGHUxNqlFG
-         0oR786l4MVXIO13JOGbLfPHwswAiMYEnC8K2qkktRGm1S0JnYirDpkoIZ7gwyL+7rEjY
-         pXhMe6QPizWSw/oNvzveqxkwhyjE3v0O71zKmWhvbDB/fEuznW0pYvnAG6AbNOYu5U9k
-         OlxEfDPSpcNZ4N3RZwtA+MrONhmC8f5sinDv4CsJYRKAK6Gxq21YMjGhTxOdG6Pns0C3
-         jCcRRnKzO3PYMiGs9OS5hCk7iYR5IvYVbIU4Jmaj/2WPMkYP2lk5jgvbUGwCuLcQuyiM
-         wRHg==
-X-Forwarded-Encrypted: i=1; AJvYcCU6TZH8jgrrusg3PvMn4JFfYw2yvFFdwCFLQcPev26htLudn2DDTRB2ejIrc5JCS1E/OJNIFt3sWlQ1KA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywzd3NHZnSWEn/rNFHno9CRetc/Ad7rllUbDusWsYzFOeCktUfD
-	uN0nxasoqyh7W1iPrV9QVvjClGU3udDWCzVKAdnrbUVefdh7V255EikYSp5yzkQ74L8=
-X-Gm-Gg: AY/fxX5oCJ+XJIEnzPzG5SLiTxrnwqp00K3mPlZGqhNL4QrFjZjbr0g0V4obfeaF7lh
-	AEETyrsQMZf8wXwYh24RqLo7FfricO/ya5l9yYevFcq1fmqciJvXWvhb7pvcpO3n5cxZ+LWPO4s
-	3pazj5pBJ1y/khJL9MCZgJ9oY6fj0+2DKEBs/MCrczr5xXVKohr1BkR/wtD/J7wDTLF8Kc16fF7
-	/XhYJPsO9Ah45UlBfnomJTDFmCDAQlnO8WX3VGcPt9muZXoLjNNokbRncCyWoWlDwb1iE9AL76E
-	Kh26h0ePae2PFAS4VjOYAr0VnOwfVRjvQ4lxhyaosapsu/UT9+LfLcG+a2E1SKsQrUjEtQW9kr1
-	jEqPqaAZerAiSfuO0+pT4mBETAv3VfET8nzQYKph7sH8TxDLgCoeg3NuPYGMjBySZ3o9av0ncKy
-	s/1sNQ4oo2nKzOrgU9HfFomjfg2fEB
-X-Google-Smtp-Source: AGHT+IExDiyl6+cMqnLU0OScR46v/DhXxaFlI7KfbIz5c0gjBYd8wiO/Eo5iH1Cn00OMlkpwekH3Hg==
-X-Received: by 2002:adf:f54f:0:b0:432:e00b:866f with SMTP id ffacd0b85a97d-432e00b8b14mr2891143f8f.60.1768056540373;
-        Sat, 10 Jan 2026 06:49:00 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.31])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0dacd1sm27764794f8f.4.2026.01.10.06.48.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 10 Jan 2026 06:48:59 -0800 (PST)
-Message-ID: <b0dec3fb-51df-4bcd-ba13-c2049695266e@tuxon.dev>
-Date: Sat, 10 Jan 2026 16:48:55 +0200
+        d=1e100.net; s=20230601; t=1768057121; x=1768661921;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vSd8AuPpUuiKUe+YAMcslcyKGUwMD/nV4tJRG30j/GI=;
+        b=WSpU7cM9Vhe7Tq5DFjdi+49PdJQJcChA//T85kD/sEKB7yd2oCGHcao00JelLvsTwc
+         AQihmDZG50gqb+5hgDNgnwEbNadEyGlXtPhyx8SElxt28tndmZKjsAPIQwLXnav8ZEBY
+         X+tLyT3/9k3kMDkjiPv8dFVJp7VAuosaTqnDaHgw55GEHS0m1aE+A1ag8cnD5VMj+qCH
+         PHQeVYb2NQA/huvZlhWkXK7S/C2gbV6MIsbkkkCiViUYSVcQ2sTM3MLU5uj0QhSRXHHf
+         OLnKyi0jtp8ffsU8in9qlbuBTLy01XTiI/WYE2nI1/yPJZDEVCh7zTE4cdyIKqZPNFCB
+         ACAw==
+X-Forwarded-Encrypted: i=1; AJvYcCW7/lU9egzd0b8d/6YEkEZUkN8W9pwm6JtYsFa9nINXo7AtaLla/SuteLYInsiRqrPzdZPqHLdO5IKpPg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHJSUvemIMNn8BCF4LB++se9P8AIE6RO3w066vwvywi8p+eIEr
+	jExvflob7xkWZ9tkRHgARVHQIZRn8vUTcGlHMd3nvxqlMr4Z0jwMRtoU
+X-Gm-Gg: AY/fxX7xeVGu6IRFVkH/LKyI5cLC+79Wt6k+f3tulP1mpAm36gngra0ZkZBP4d22Hey
+	MiaGwQeugHI0C6MvizHpmqRCyXiFSGDqmJue9efgIMcLWfgftopO68N3vyBxNmbkVZPxmR3qUws
+	dAnXXvMlA/5+c+DRyIJh3yPAAlfgUzjLvnb2owRDeyeq73VbtP6c7AnyU7GjSeGsxJ5akusAxMG
+	Hs/fo4sMR91hfUrSHG4bz/QK/tT+TmEhl027zLhXF7+BfQumQy/agScOchi7EwTG0kf47c+I54N
+	KUi/8mZ0wrC7X52uOpy3yhSJnq766wWsFt+g9/dgAX8WrALHD9Rd0quHDqkrmjpcJ/g28SapO9r
+	M7b6GEGlwk3jGRSmCj74ffioUYjAXC0OcYSQNj73sxlQTQX4YyyqyQ2MmLpxMRQYzPF4W/B71/C
+	2UadT1rk1A0AYZbvfWRfmPQq0rHvQw2Zj3G2LN9Q==
+X-Google-Smtp-Source: AGHT+IEN0gmkw3iX4YOGGXw6fws4EadygKI1RaDNV5HQdJC6wXkGTXhvL337jPo9VnmAKfL7O6sxuQ==
+X-Received: by 2002:a05:6a00:1c8a:b0:81f:477d:58da with SMTP id d2e1a72fcca58-81f477d5ab9mr567254b3a.60.1768057121194;
+        Sat, 10 Jan 2026 06:58:41 -0800 (PST)
+Received: from name2965-Precision-7820-Tower.. ([121.185.186.233])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-819bafe991dsm13086157b3a.16.2026.01.10.06.58.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Jan 2026 06:58:40 -0800 (PST)
+From: Jeongjun Park <aha310510@gmail.com>
+To: mchehab@kernel.org,
+	hans.verkuil@cisco.com
+Cc: crope@iki.fi,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	syzbot+6ffd76b5405c006a46b7@syzkaller.appspotmail.com,
+	syzbot+f1b20958f93d2d250727@syzkaller.appspotmail.com,
+	Jeongjun Park <aha310510@gmail.com>
+Subject: [PATCH v3] media: hackrf: fix to not free memory after the device is registered in hackrf_probe()
+Date: Sat, 10 Jan 2026 23:58:29 +0900
+Message-Id: <20260110145829.1274298-1-aha310510@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/11] ARM: at91: Simplify with scoped for each OF child
- loop
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
- Miguel Ojeda <ojeda@kernel.org>, Rob Herring <robh@kernel.org>,
- Saravana Kannan <saravanak@google.com>, Nathan Chancellor
- <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Russell King <linux@armlinux.org.uk>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar
- <alim.akhtar@samsung.com>, Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Nipun Gupta <nipun.gupta@amd.com>, Nikhil Agarwal <nikhil.agarwal@amd.com>,
- Abel Vesa <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Vinod Koul <vkoul@kernel.org>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- llvm@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-clk@vger.kernel.org, imx@lists.linux.dev, dmaengine@vger.kernel.org,
- linux-media@vger.kernel.org, linux-pm@vger.kernel.org
-References: <20260105-of-for-each-compatible-scoped-v1-0-24e99c177164@oss.qualcomm.com>
- <20260105-of-for-each-compatible-scoped-v1-2-24e99c177164@oss.qualcomm.com>
-Content-Language: en-US
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <20260105-of-for-each-compatible-scoped-v1-2-24e99c177164@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+In hackrf driver, the following race condition occurs:
+```
+		CPU0						CPU1
+hackrf_probe()
+  kzalloc(); // alloc hackrf_dev
+  ....
+  v4l2_device_register();
+  ....
+						fd = sys_open("/path/to/dev"); // open hackrf fd
+						....
+  v4l2_device_unregister();
+  ....
+  kfree(); // free hackrf_dev
+  ....
+						sys_ioctl(fd, ...);
+						  v4l2_ioctl();
+						    video_is_registered() // UAF!!
+						....
+						sys_close(fd);
+						  v4l2_release() // UAF!!
+						    hackrf_video_release()
+						      kfree(); // DFB!!
+```
 
+When a V4L2 or video device is unregistered, the device node is removed so
+new open() calls are blocked.
 
-On 1/5/26 15:33, Krzysztof Kozlowski wrote:
-> Use scoped for-each loop when iterating over device nodes to make code a
-> bit simpler.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> 
+However, file descriptors that are already open-and any in-flight I/O-do
+not terminate immediately; they remain valid until the last reference is
+dropped and the driver's release() is invoked.
 
-Reviewed-by: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Therefore, freeing device memory on the error path after hackrf_probe()
+has registered dev it will lead to a race to use-after-free vuln, since
+those already-open handles haven't been released yet.
+
+And since release() free memory too, race to use-after-free and 
+double-free vuln occur.
+
+To prevent this, if device is registered from probe(), it should be
+modified to free memory only through release() rather than calling
+kfree() directly.
+
+Cc: <stable@vger.kernel.org>
+Reported-by: syzbot+6ffd76b5405c006a46b7@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=6ffd76b5405c006a46b7
+Reported-by: syzbot+f1b20958f93d2d250727@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=f1b20958f93d2d250727
+Fixes: 8bc4a9ed8504 ("[media] hackrf: add support for transmitter")
+Signed-off-by: Jeongjun Park <aha310510@gmail.com>
+---
+v3: Fix potential memory leak bug
+- Link to v2: https://lore.kernel.org/all/20250904054232.3848637-1-aha310510@gmail.com/
+v2: Fix incorrect patch description style and CC stable mailing list
+- Link to v1: https://lore.kernel.org/all/20250822142729.1156816-1-aha310510@gmail.com/
+---
+ drivers/media/usb/hackrf/hackrf.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/media/usb/hackrf/hackrf.c b/drivers/media/usb/hackrf/hackrf.c
+index 0b50de8775a3..c3c4247194d1 100644
+--- a/drivers/media/usb/hackrf/hackrf.c
++++ b/drivers/media/usb/hackrf/hackrf.c
+@@ -1485,7 +1485,7 @@ static int hackrf_probe(struct usb_interface *intf,
+ 	if (ret) {
+ 		dev_err(dev->dev,
+ 			"Failed to register as video device (%d)\n", ret);
+-		goto err_v4l2_device_unregister;
++		goto err_v4l2_device_put;
+ 	}
+ 	dev_info(dev->dev, "Registered as %s\n",
+ 		 video_device_node_name(&dev->rx_vdev));
+@@ -1513,8 +1513,9 @@ static int hackrf_probe(struct usb_interface *intf,
+ 	return 0;
+ err_video_unregister_device_rx:
+ 	video_unregister_device(&dev->rx_vdev);
+-err_v4l2_device_unregister:
+-	v4l2_device_unregister(&dev->v4l2_dev);
++err_v4l2_device_put:
++	v4l2_device_put(&dev->v4l2_dev);
++	return ret;
+ err_v4l2_ctrl_handler_free_tx:
+ 	v4l2_ctrl_handler_free(&dev->tx_ctrl_handler);
+ err_v4l2_ctrl_handler_free_rx:
+--
 
