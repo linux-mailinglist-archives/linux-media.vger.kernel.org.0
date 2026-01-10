@@ -1,174 +1,114 @@
-Return-Path: <linux-media+bounces-50330-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50331-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id A644AD0C6EE
-	for <lists+linux-media@lfdr.de>; Fri, 09 Jan 2026 23:14:52 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C8C4D0CACD
+	for <lists+linux-media@lfdr.de>; Sat, 10 Jan 2026 02:02:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E10E03016AC9
-	for <lists+linux-media@lfdr.de>; Fri,  9 Jan 2026 22:14:44 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 8458C300DD86
+	for <lists+linux-media@lfdr.de>; Sat, 10 Jan 2026 01:02:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CABCE34252C;
-	Fri,  9 Jan 2026 22:14:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB89619CD0A;
+	Sat, 10 Jan 2026 01:02:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="dsh3RzNB"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f1zGE/ap"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3BF63019A4
-	for <linux-media@vger.kernel.org>; Fri,  9 Jan 2026 22:14:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF061AA7A6
+	for <linux-media@vger.kernel.org>; Sat, 10 Jan 2026 01:02:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767996881; cv=none; b=uklO2JAtboZoRjpfR2IlONyHpQ7hgC2f/UbvFmwJGXciLfSPzgwJudmGyh7bwHZZua5g+NHP738u++HaV0dL5AHkH7htb5tvQsi62frO1BfXzsx9Xu2lH0Rl2fMnDNChjbOp7nU9RwnfDIO9sN7qP1xUVyLJBMmckO7cVHK7vh8=
+	t=1768006967; cv=none; b=i0IuKorxiu0PS5AcfsRSkDoYpEdINvqmc8e5XBof3Ry1FpkdYVGIqOSOJLfVDXkC1bHl3w2MkoQfCunCd7aTiO4A0KI/x6CekZs1fWSzUDQ9DWmblZMYPrsmaFak/BeDDXA0YnNq/5ivn7KnfK0O6WS4YebEabOGj2LQn7N6Ny4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767996881; c=relaxed/simple;
-	bh=3UrPH7c23PwLOEJQH/PMBXfdSjds+08uJuyJsFFyzzg=;
-	h=Message-ID:Subject:From:To:Date:Content-Type:MIME-Version; b=sIgBaLd17cNyqQrPu2WXEGOsHE9WiZVFcLj8wZ/ts7+K/syrU+5CcCkuReP7cvkVOVOmLjhGoOIwMe9Z8pk/GyPuFctlbbYlGqVFhBUEZ2ZoMRGoDbT8H6lgF5ReSoUYdP3fUGesRn7MPgmOQuoLJ5APxjbbmdO1/rdyDq1qLCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=dsh3RzNB; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1767996878;
-	bh=3UrPH7c23PwLOEJQH/PMBXfdSjds+08uJuyJsFFyzzg=;
-	h=Subject:From:To:Date:From;
-	b=dsh3RzNB87suMzD+odScT7JMIt7W8hbBbLo9fLIiI6jS6SbhnXipBkJn46kA2KqUj
-	 X3aDhiCvYgxyWHFnsfggqA4Q+jonWhCEJ0M7lGVrIFpWSz01wn/CwGRPpVSxkRNzdT
-	 fHLZClfg6iHEGCZ1TjgObiPr6B7DzljLfMfzRnYNsV0M/YmR3N1C1WqBvGjJPZkNDH
-	 tvbfffERbT8ESdcBjQCasgaBIg9pJdc+zWmF9B/rE03RxzbWLUCcGmiTDiru8JQzE6
-	 7I+lvdfblkxFy+OdeH6BWzQg4c7aiOrWRrqdmnNISF+MBx73THUmss81g6KRXXA7Zg
-	 9ZA9hJ+yQIz9w==
-Received: from [IPv6:2606:6d00:17:7b4b::c41] (unknown [IPv6:2606:6d00:17:7b4b::c41])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 99EE717E1404
-	for <linux-media@vger.kernel.org>; Fri,  9 Jan 2026 23:14:37 +0100 (CET)
-Message-ID: <a2fd1988da766722c3fdb9fe069c04beebc2f169.camel@collabora.com>
-Subject: [GIT PULL FOR 6.20] Media codec 2026-01-09
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: linux-media@vger.kernel.org
-Date: Fri, 09 Jan 2026 17:14:35 -0500
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-1qo+4r3nbRy/NlSwZaSV"
-User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
+	s=arc-20240116; t=1768006967; c=relaxed/simple;
+	bh=ixJdBpkE90qTHpaWpqSYWXgG2UnXLGOifDLwOvD7fYo=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZJNTUtmkpZAr7NsnV1PROyATnek+SE/IaiTRBq/58Gc4L8YflemqoPFEh3ErxJX/UEBXa0+sBg1nn9JHNPNcanMhVMkCy6/t2myopShi7H1gAfeY9xnMBTtcFj5W3+nO7OAgVs9BDi7Uq+OoyORpBMaxJ5QJ+N4qMxBZlJcvzic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f1zGE/ap; arc=none smtp.client-ip=209.85.222.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-8b2d6df99c5so360681885a.1
+        for <linux-media@vger.kernel.org>; Fri, 09 Jan 2026 17:02:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768006965; x=1768611765; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=D46mdQMDj5+zG9XaeLULmbTRXkuU68sa+3jgTbNzvHI=;
+        b=f1zGE/apwKIZ9XuSlDBjitRepgmRXnjNFx5hCiGOdhcTpvuOTZxFe5NLzZCAScDzIB
+         30KGjdOB49YmdDjm6fVMeYgXK30nwVDADY1cuB6ifSihuMwpe9aEASlYcfRIuT4+JVeE
+         NqwyqTl5IBcjr+owxzZ8n19KlPU3sUeI0AGBYC5MtDUOIfiVr1tsboEhLNW6Vi7eSzq8
+         FRKwZ0k5Ve39d6sD0mrG06ZhXSEkfqT6jpjI5daIjEnmfHqpqPeoP/hGWVYFX4jVXr80
+         F47Ncx0/+T7g9MlN0h2JzRxRCaEZDrj0kcFtKaQVW984hkZdvUbcKsDAbGqkFBPMlx4/
+         CwFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768006965; x=1768611765;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=D46mdQMDj5+zG9XaeLULmbTRXkuU68sa+3jgTbNzvHI=;
+        b=HFUjpBsI8Iz80fYn6TXqOEjUQ/Av9YiFWaY/YrtcEw99z+cwC7xbb+c6SYLyq2NFDn
+         HpMvA5XWKf+tE7G2ZmilT5OwPA7S+0jDX1Kcvp7Z8PrdmUmCU7eGhP8ILPtPGjDqhv6B
+         Oz9AkYHUJQ0LEVoMI4C54YxVNNeBrelocgPSWbcYNu5n/HDPTHW0e2tE1BCsbZW6wYg3
+         KzjtJa1iVGtIDzdDFyQ4l9vy4a4p+0cDez2cc+Jvq3xTTNAbCyYIv5fgP+FonEbjvQKi
+         SPWNisoV91nL4yXRTr/275j0eDF+DpU0GiFaYor1/Eq4c0x1v+af4c6zWrMW+ivzLk/u
+         u+NA==
+X-Forwarded-Encrypted: i=1; AJvYcCWT8oWTYOh3TcXFEqMrs1a+EfK/ZSfxWh+68iS83MHghpoKfxGyIVsAok5nqhNMG0Aog0FmvNfK0IKOhw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwNzfTWA2SXIu1xk9scZFwQt63d5FxXy74VWNe4t32p8KX78qur
+	18wvC/8eGBTyPi56+Zv0K1gn5NbKb+h/qSQq+FdIyy7jd3NmQxMFH1sC
+X-Gm-Gg: AY/fxX6wIwDlJ477iZ5tsiN1dMV/rqVUaIZM49RkvLzJ/pDqGLcT1166wtlOR0b1FKA
+	6AL4XDrjnlpFlgC+WGZmu/lV/vnQQw52nkrj54GQN+TbMbRTJx19EVpntOzwXyCeVjoVvTzeQkr
+	t9eZxbdWaKHaF2AQFtuAREuSNdtmyHil8ok34NIjHEdncQl05w/W3pnSyqHCp2QcO+9Zan/1vPt
+	gz71wwIflcsuB2THGJ4eluooxTq2P2U8xhqL19YqDIvwBY2u8XJlVghbggMPLvaGMPRayLL4wAl
+	dwXriqp3u15pckV5/AX0RV44KueYy358SArskt4cpMxiZoMSrn86jzvVTngn2GwMxOXcPcJqcSF
+	kWJoTDURKQ6sAi5xHctQHDqCavwIizk3Ni0fVWSX7Y2Gu5Yz2NfY+Fn0OiyZbks6T3eGnjzJX3y
+	LB/YOLfuEyZy2Rqw==
+X-Google-Smtp-Source: AGHT+IHBDzRmIpO26TQmtd7BhHH/NO3lWFMVLoQAqkeDRXpg/uMd9p6q/2JbD1+tj8TUF+imdXBEMQ==
+X-Received: by 2002:a05:620a:4805:b0:8c1:aadb:5313 with SMTP id af79cd13be357-8c388bd8ef1mr1683928485a.25.1768006964911;
+        Fri, 09 Jan 2026 17:02:44 -0800 (PST)
+Received: from localhost ([184.144.58.243])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c37f51ceb5sm996870685a.35.2026.01.09.17.02.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Jan 2026 17:02:44 -0800 (PST)
+Date: Fri, 9 Jan 2026 20:03:03 -0500
+From: Richard Acayan <mailingradian@gmail.com>
+To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [RFC PATCH 0/3] media: qcom: camss: support for empty endpoint
+ nodes
+Message-ID: <aWGlR31aNYbogtrg@rdacayan>
+References: <20251230022759.9449-1-mailingradian@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251230022759.9449-1-mailingradian@gmail.com>
 
+On Mon, Dec 29, 2025 at 09:27:56PM -0500, Richard Acayan wrote:
+> This series adds support for empty endpoint nodes. It is currently RFC
+> because it continues an ongoing discussion on how to selectively connect
+> some CAMSS ports to cameras and leave others disconnected.
+> 
+> The SDM670 patches are for a full example. If agreed on, this should
+> expand to SoCs that have CAMSS.
 
---=-1qo+4r3nbRy/NlSwZaSV
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This series is abandoned now that it seems fine to add port labels. No
+need for me to revisit this unless someone has an issue with the
+proposed port labels in SDM670[1].
 
-Hi Mauro, Hans,
-
-This is a small PR which include mostly bug fixes in Mediatek, Amphion and
-Verisilicon codec driver and Rockchip RGA 2D m2m driver. The Amphion fixes =
-comes
-with documentation for the case where the decoder colorspace changes at run=
--
-time, which was not clearly documented.
-
-cheers,
-Nicolas
-
----
-
-The following changes since commit 336367fab9b96db7b0ee174443c426fc6c53b912=
-:
-
-  media: chips-media: wave5: Fix Potential Probe Resource Leak (2026-01-05 =
-15:56:32 +0100)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/linux-media/users/ndufresne.git tags/for-6=
-.2.20-media-codecs-2026-01-09
-
-for you to fetch changes up to f3267bbadecd3cad2a1187332c49c7dda1433f38:
-
-  media: verisilicon: AV1: Set IDR flag for intra_only frame type (2026-01-=
-09 16:42:27 -0500)
-
-----------------------------------------------------------------
-Media Codec Fixes
-
-----------------------------------------------------------------
-Alper Ak (1):
-      media: rockchip: rga: Fix possible ERR_PTR dereference in rga_buf_ini=
-t()
-
-Benjamin Gaignard (1):
-      media: verisilicon: AV1: Set IDR flag for intra_only frame type
-
-Ming Qian (5):
-      media: docs: dev-decoder: Trigger dynamic source change for colorspac=
-e
-      media: amphion: Clear last_buffer_dequeued flag for DEC_CMD_START
-      media: amphion: Trigger source change if colorspace changed
-      media: amphion: Use kmalloc instead of vmalloc
-      media: amphion: Drop min_queued_buffers assignment
-
-Rafael J. Wysocki (1):
-      media: mediatek: vcodec: Discard pm_runtime_put() return value
-
- Documentation/userspace-api/media/v4l/dev-decoder.rst              |  5 ++=
-++-
- drivers/media/platform/amphion/vdec.c                              | 78 ++=
-++++++++++++++++++++++++++++++++++++++++++++++-----------------------------=
--
- drivers/media/platform/amphion/venc.c                              | 20 ++=
-+++++++-----------
- drivers/media/platform/amphion/vpu_cmds.c                          | 15 ++=
-+++++--------
- drivers/media/platform/amphion/vpu_core.c                          | 11 ++=
-++-------
- drivers/media/platform/amphion/vpu_v4l2.c                          |  3 --=
--
- drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_pm.c |  6 +-=
-----
- drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_pm.c |  6 +-=
-----
- drivers/media/platform/rockchip/rga/rga-buf.c                      |  3 ++=
-+
- drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c    |  2 +-
- 10 files changed, 78 insertions(+), 71 deletions(-)
-
---=20
-Nicolas Dufresne
-Principal Engineer at Collabora
-
---=-1qo+4r3nbRy/NlSwZaSV
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaWF9ywAKCRDZQZRRKWBy
-9L4jAP0R4UECCk5r207cGUgd/zSYb8ug+/sVWPaW3pTIuBEfMgD/SYmPAQ77LdPS
-Crdtoja4oKf9lxOOEE/ouSiMbSCYVw8=
-=CsUQ
------END PGP SIGNATURE-----
-
---=-1qo+4r3nbRy/NlSwZaSV--
+[1] https://lore.kernel.org/all/20260107043044.92485-4-mailingradian@gmail.com/
 
