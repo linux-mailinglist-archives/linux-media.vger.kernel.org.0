@@ -1,187 +1,133 @@
-Return-Path: <linux-media+bounces-50337-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50338-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01FD5D0D50B
-	for <lists+linux-media@lfdr.de>; Sat, 10 Jan 2026 11:51:04 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AEA8D0D7AB
+	for <lists+linux-media@lfdr.de>; Sat, 10 Jan 2026 15:49:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B048C3025307
-	for <lists+linux-media@lfdr.de>; Sat, 10 Jan 2026 10:50:52 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 640E1300E827
+	for <lists+linux-media@lfdr.de>; Sat, 10 Jan 2026 14:49:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F36E3191A9;
-	Sat, 10 Jan 2026 10:50:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 087033451CE;
+	Sat, 10 Jan 2026 14:49:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bQhF22t+"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="EecNqfHS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EDF1318ECA
-	for <linux-media@vger.kernel.org>; Sat, 10 Jan 2026 10:50:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2176319F12D
+	for <linux-media@vger.kernel.org>; Sat, 10 Jan 2026 14:49:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768042251; cv=none; b=h8ygyG+92EPYv8nd5+rUo2WFeEyiNW4nztRsiI1PmoxmoeyEWoKlWFLlRvs25+aWrok1Wbdgnvqf8o2o6CiAzGkbA6pzy/Qzr0kyCJ4wUG95sRByYImPk4n08K1+Pd0/tigHLwTKgv9oWUSaIMgqxr/dHkwvqEUz438Qxik5K0k=
+	t=1768056545; cv=none; b=fVx7h/O1+3p6pqVcK0TNRfENADm9LukM/wIXBrEbM2fu2SgzOeapwf8KImmkSmwlne+CsdbF1lgiUqyB+tSqTonrHy7ZbYoMHvMWp+n+QCE+4xyl37puEJ+6YVcJt5CoklLtHCVv0cwsXSiszHpHPc8BOguRavTN2+iMbfrMpAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768042251; c=relaxed/simple;
-	bh=eF44bDkNy6ANQWvHtfdSwYu3s5YcBteKl+pPxZHg9v0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NYrAgDezmNDbiK2zJ7DSCD4FPuyTEViGH58ElrieLUtoAvoS69expXO/xynyhty3LqWYiuX6QonA2QRSbuBt3jb7MRVwka2OFvUqnPkOyhxK1KuC3y6AUtB6Iuih+skyt1h3p+FtInu2CX0ESCn2hoIT1MANJhzdRtAiwbV1y08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bQhF22t+; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768042251; x=1799578251;
-  h=date:from:to:cc:subject:message-id;
-  bh=eF44bDkNy6ANQWvHtfdSwYu3s5YcBteKl+pPxZHg9v0=;
-  b=bQhF22t+pAPCc6uCyS8ERp4sK+k9AJitXRhwdTqrks0ZGjfyalBuiw4/
-   O0D3cYrZw66xHqK5AI013duvqzfPZrR3Q9OeqJN9kmLmxE+8YISbheZGY
-   dTgGUQ2xpL8/EvmHEoMSRX2wkQ+3yfT8eUzeKrakQK1W/mVCVp7XiBYFc
-   gpXA09CMgusAcgyY7WHRv++2cHQoZbUuZl47YAHUpBKFD6fv9qxbetPXZ
-   kZC+NS8cYRNnqQb7wDc93QFAWUG5cMxWJI/mMKQHNzcy46O0YdhPCOg0R
-   HwM5mR4Hbjt3Y6HVsqPGLURPODBlz6usZ9XLV3uwHEnnLGME11bNoi6lX
-   w==;
-X-CSE-ConnectionGUID: d64ib28ERNmZHkpcyd1Png==
-X-CSE-MsgGUID: 7mMfAZIYTDi0OnLf8HjSCA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11666"; a="69137946"
-X-IronPort-AV: E=Sophos;i="6.21,215,1763452800"; 
-   d="scan'208";a="69137946"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2026 02:50:49 -0800
-X-CSE-ConnectionGUID: h05a/Uh0Qk+bBZKfXNYnWw==
-X-CSE-MsgGUID: XkMv9SLpSOuEEHIiVAFmXA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,215,1763452800"; 
-   d="scan'208";a="204101161"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 10 Jan 2026 02:50:47 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1veWYP-000000008YW-1b1J;
-	Sat, 10 Jan 2026 10:50:45 +0000
-Date: Sat, 10 Jan 2026 18:49:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org
-Subject: [sailus-media-tree:cleanup] BUILD SUCCESS
- 2694330ab99db2f115c8b26a2e26d6011bbc2bc5
-Message-ID: <202601101848.QpzKaMcM-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1768056545; c=relaxed/simple;
+	bh=8cZF88ZHHeswEWIoZ1XSpuokeFUHz2t/rDtmfT1Fb54=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=s1Hz5hu6OZT5XvTOWvYTaTYDcY+tfaZ2bnXg30/93MGXWKB01dwx+QPYgDjslQ5IOjweAELqk8Jg0eKJkl9tVznFxoDyYPeBEGV65UbB1x++3ge9G7SRKscBoy60rQostB1rAxMO1p1xrmFbpOcA3WtEnLULbRwdxTks5tGlCWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=EecNqfHS; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-42fbbc3df8fso2562003f8f.2
+        for <linux-media@vger.kernel.org>; Sat, 10 Jan 2026 06:49:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1768056540; x=1768661340; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IHk6EgoNk8lP2vqJMYUzvRzyl3K2JzNhjFEm/rJg//s=;
+        b=EecNqfHSZs06v18jqARlP9k1rRdjxC5rUdz/jxGgFVrZljBbTmYS9L0TQobkdqccxN
+         TTe2xjZtAdjKQ57catv9RuhOA2LeI5qXpQYtyGFLy1B8mUnqC+1Wfrc4bF+zjsQjK4en
+         V9sGY/5D9wzFWxSLIrSHmL6MnugPw62J02oboA4OVLBToaF0g1oEbYvWvK9PBC0QAqxm
+         X7DfQ1R3AeNHbmI6nAlJTc569VGTwaIOA4MTx25J+sVjBzQW9DAOpbZyVU3yMYPSVaOR
+         vn/4Gg+tvob/2yq4G0xQEIgD6SjeC4Fn4rnONlaSH7sfgZxhEnI/kLpOQMR0nl82B0Wt
+         AJHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768056540; x=1768661340;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IHk6EgoNk8lP2vqJMYUzvRzyl3K2JzNhjFEm/rJg//s=;
+        b=LgQ4OlT1bTP1ktYSVRkmGZRowJCdziOsD5RtdfC9U+4x0HWKOmAjCXKDIGHUxNqlFG
+         0oR786l4MVXIO13JOGbLfPHwswAiMYEnC8K2qkktRGm1S0JnYirDpkoIZ7gwyL+7rEjY
+         pXhMe6QPizWSw/oNvzveqxkwhyjE3v0O71zKmWhvbDB/fEuznW0pYvnAG6AbNOYu5U9k
+         OlxEfDPSpcNZ4N3RZwtA+MrONhmC8f5sinDv4CsJYRKAK6Gxq21YMjGhTxOdG6Pns0C3
+         jCcRRnKzO3PYMiGs9OS5hCk7iYR5IvYVbIU4Jmaj/2WPMkYP2lk5jgvbUGwCuLcQuyiM
+         wRHg==
+X-Forwarded-Encrypted: i=1; AJvYcCU6TZH8jgrrusg3PvMn4JFfYw2yvFFdwCFLQcPev26htLudn2DDTRB2ejIrc5JCS1E/OJNIFt3sWlQ1KA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywzd3NHZnSWEn/rNFHno9CRetc/Ad7rllUbDusWsYzFOeCktUfD
+	uN0nxasoqyh7W1iPrV9QVvjClGU3udDWCzVKAdnrbUVefdh7V255EikYSp5yzkQ74L8=
+X-Gm-Gg: AY/fxX5oCJ+XJIEnzPzG5SLiTxrnwqp00K3mPlZGqhNL4QrFjZjbr0g0V4obfeaF7lh
+	AEETyrsQMZf8wXwYh24RqLo7FfricO/ya5l9yYevFcq1fmqciJvXWvhb7pvcpO3n5cxZ+LWPO4s
+	3pazj5pBJ1y/khJL9MCZgJ9oY6fj0+2DKEBs/MCrczr5xXVKohr1BkR/wtD/J7wDTLF8Kc16fF7
+	/XhYJPsO9Ah45UlBfnomJTDFmCDAQlnO8WX3VGcPt9muZXoLjNNokbRncCyWoWlDwb1iE9AL76E
+	Kh26h0ePae2PFAS4VjOYAr0VnOwfVRjvQ4lxhyaosapsu/UT9+LfLcG+a2E1SKsQrUjEtQW9kr1
+	jEqPqaAZerAiSfuO0+pT4mBETAv3VfET8nzQYKph7sH8TxDLgCoeg3NuPYGMjBySZ3o9av0ncKy
+	s/1sNQ4oo2nKzOrgU9HfFomjfg2fEB
+X-Google-Smtp-Source: AGHT+IExDiyl6+cMqnLU0OScR46v/DhXxaFlI7KfbIz5c0gjBYd8wiO/Eo5iH1Cn00OMlkpwekH3Hg==
+X-Received: by 2002:adf:f54f:0:b0:432:e00b:866f with SMTP id ffacd0b85a97d-432e00b8b14mr2891143f8f.60.1768056540373;
+        Sat, 10 Jan 2026 06:49:00 -0800 (PST)
+Received: from [192.168.50.4] ([82.78.167.31])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0dacd1sm27764794f8f.4.2026.01.10.06.48.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 10 Jan 2026 06:48:59 -0800 (PST)
+Message-ID: <b0dec3fb-51df-4bcd-ba13-c2049695266e@tuxon.dev>
+Date: Sat, 10 Jan 2026 16:48:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 02/11] ARM: at91: Simplify with scoped for each OF child
+ loop
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Rob Herring <robh@kernel.org>,
+ Saravana Kannan <saravanak@google.com>, Nathan Chancellor
+ <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Russell King <linux@armlinux.org.uk>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar
+ <alim.akhtar@samsung.com>, Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Nipun Gupta <nipun.gupta@amd.com>, Nikhil Agarwal <nikhil.agarwal@amd.com>,
+ Abel Vesa <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Vinod Koul <vkoul@kernel.org>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ llvm@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-clk@vger.kernel.org, imx@lists.linux.dev, dmaengine@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-pm@vger.kernel.org
+References: <20260105-of-for-each-compatible-scoped-v1-0-24e99c177164@oss.qualcomm.com>
+ <20260105-of-for-each-compatible-scoped-v1-2-24e99c177164@oss.qualcomm.com>
+Content-Language: en-US
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <20260105-of-for-each-compatible-scoped-v1-2-24e99c177164@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git cleanup
-branch HEAD: 2694330ab99db2f115c8b26a2e26d6011bbc2bc5  media: i2c: ov5647: use our own mutex for the ctrl lock
 
-elapsed time: 3002m
 
-configs tested: 96
-configs skipped: 1
+On 1/5/26 15:33, Krzysztof Kozlowski wrote:
+> Use scoped for-each loop when iterating over device nodes to make code a
+> bit simpler.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> 
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                   allnoconfig    gcc-15.2.0
-alpha                  allyesconfig    gcc-15.2.0
-alpha                     defconfig    gcc-15.2.0
-arc                    allmodconfig    clang-16
-arc                     allnoconfig    gcc-15.2.0
-arc                       defconfig    gcc-15.2.0
-arm                     allnoconfig    gcc-15.2.0
-arm                    allyesconfig    clang-16
-arm                       defconfig    gcc-15.2.0
-arm64                   allnoconfig    gcc-15.2.0
-arm64                     defconfig    gcc-15.2.0
-csky                   allmodconfig    gcc-15.2.0
-csky                    allnoconfig    gcc-15.2.0
-csky                      defconfig    gcc-15.2.0
-hexagon                allmodconfig    gcc-15.2.0
-hexagon                 allnoconfig    gcc-15.2.0
-hexagon                   defconfig    gcc-15.2.0
-hexagon     randconfig-001-20260110    clang-22
-hexagon     randconfig-002-20260110    clang-22
-i386                    allnoconfig    gcc-15.2.0
-i386                      defconfig    gcc-15.2.0
-i386        randconfig-001-20260110    gcc-14
-i386        randconfig-002-20260110    gcc-14
-i386        randconfig-003-20260110    gcc-14
-i386        randconfig-004-20260110    gcc-14
-i386        randconfig-005-20260110    gcc-14
-i386        randconfig-006-20260110    gcc-14
-i386        randconfig-007-20260110    gcc-14
-loongarch               allnoconfig    gcc-15.2.0
-loongarch   randconfig-001-20260110    clang-22
-loongarch   randconfig-002-20260110    clang-22
-m68k                   allmodconfig    gcc-15.2.0
-m68k                    allnoconfig    gcc-15.2.0
-m68k                   allyesconfig    clang-16
-microblaze              allnoconfig    gcc-15.2.0
-microblaze             allyesconfig    gcc-15.2.0
-mips                   allmodconfig    gcc-15.2.0
-mips                    allnoconfig    gcc-15.2.0
-mips                   allyesconfig    gcc-15.2.0
-nios2                  allmodconfig    clang-22
-nios2                   allnoconfig    clang-22
-nios2       randconfig-001-20260110    clang-22
-nios2       randconfig-002-20260110    clang-22
-openrisc               allmodconfig    clang-22
-openrisc                allnoconfig    clang-22
-openrisc                  defconfig    gcc-15.2.0
-parisc                 allmodconfig    gcc-15.2.0
-parisc                  allnoconfig    clang-22
-parisc                 allyesconfig    clang-19
-parisc                    defconfig    gcc-15.2.0
-powerpc                allmodconfig    gcc-15.2.0
-powerpc                 allnoconfig    clang-22
-riscv                   allnoconfig    clang-22
-riscv                  allyesconfig    clang-16
-riscv                     defconfig    gcc-15.2.0
-riscv       randconfig-001-20260110    gcc-15.2.0
-riscv       randconfig-002-20260110    gcc-15.2.0
-s390                   allmodconfig    clang-19
-s390                    allnoconfig    clang-22
-s390                   allyesconfig    gcc-15.2.0
-s390                      defconfig    gcc-15.2.0
-s390        randconfig-001-20260110    gcc-15.2.0
-s390        randconfig-002-20260110    gcc-15.2.0
-sh                     allmodconfig    gcc-15.2.0
-sh                      allnoconfig    clang-22
-sh                     allyesconfig    clang-19
-sh          randconfig-001-20260110    gcc-15.2.0
-sh          randconfig-002-20260110    gcc-15.2.0
-sparc                   allnoconfig    clang-22
-sparc                     defconfig    gcc-15.2.0
-sparc64                allmodconfig    clang-22
-um                     allmodconfig    clang-19
-um                      allnoconfig    clang-22
-um                     allyesconfig    gcc-15.2.0
-x86_64                  allnoconfig    clang-22
-x86_64                        kexec    clang-20
-x86_64      randconfig-001-20260110    clang-20
-x86_64      randconfig-002-20260110    clang-20
-x86_64      randconfig-003-20260110    clang-20
-x86_64      randconfig-004-20260110    clang-20
-x86_64      randconfig-005-20260110    clang-20
-x86_64      randconfig-006-20260110    clang-20
-x86_64      randconfig-071-20260110    clang-20
-x86_64      randconfig-072-20260110    clang-20
-x86_64      randconfig-073-20260110    clang-20
-x86_64      randconfig-074-20260110    clang-20
-x86_64      randconfig-075-20260110    clang-20
-x86_64      randconfig-076-20260110    clang-20
-x86_64                     rhel-9.4    clang-20
-x86_64                 rhel-9.4-bpf    gcc-14
-x86_64                rhel-9.4-func    clang-20
-x86_64          rhel-9.4-kselftests    clang-20
-x86_64               rhel-9.4-kunit    gcc-14
-x86_64                 rhel-9.4-ltp    gcc-14
-xtensa                  allnoconfig    clang-22
-xtensa                 allyesconfig    clang-22
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Reviewed-by: Claudiu Beznea <claudiu.beznea@tuxon.dev>
 
