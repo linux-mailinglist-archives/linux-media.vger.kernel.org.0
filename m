@@ -1,114 +1,194 @@
-Return-Path: <linux-media+bounces-50331-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50332-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C8C4D0CACD
-	for <lists+linux-media@lfdr.de>; Sat, 10 Jan 2026 02:02:59 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBB11D0CE17
+	for <lists+linux-media@lfdr.de>; Sat, 10 Jan 2026 04:46:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 8458C300DD86
-	for <lists+linux-media@lfdr.de>; Sat, 10 Jan 2026 01:02:49 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 48AF630222D2
+	for <lists+linux-media@lfdr.de>; Sat, 10 Jan 2026 03:46:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB89619CD0A;
-	Sat, 10 Jan 2026 01:02:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DBDC254AF5;
+	Sat, 10 Jan 2026 03:46:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f1zGE/ap"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="huYNZhm9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF061AA7A6
-	for <linux-media@vger.kernel.org>; Sat, 10 Jan 2026 01:02:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62F2013B58A
+	for <linux-media@vger.kernel.org>; Sat, 10 Jan 2026 03:46:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768006967; cv=none; b=i0IuKorxiu0PS5AcfsRSkDoYpEdINvqmc8e5XBof3Ry1FpkdYVGIqOSOJLfVDXkC1bHl3w2MkoQfCunCd7aTiO4A0KI/x6CekZs1fWSzUDQ9DWmblZMYPrsmaFak/BeDDXA0YnNq/5ivn7KnfK0O6WS4YebEabOGj2LQn7N6Ny4=
+	t=1768016780; cv=none; b=DwklLQPfbDbL1sUPIdWsvQnMtkqJ/HepPB0KSdpp9ncGNnUFgjJzXqKY4O+hp7ZrD9jBwbmGxZ5UbR+CkHn+0wCuNf3hiMu2eFLjOHF1G+Vf1j79/2So5tuOOhkMhsNWv2tlKoN16u/10NQlJ0T+dcQ2XJbHMkqJJcxr587VSos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768006967; c=relaxed/simple;
-	bh=ixJdBpkE90qTHpaWpqSYWXgG2UnXLGOifDLwOvD7fYo=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZJNTUtmkpZAr7NsnV1PROyATnek+SE/IaiTRBq/58Gc4L8YflemqoPFEh3ErxJX/UEBXa0+sBg1nn9JHNPNcanMhVMkCy6/t2myopShi7H1gAfeY9xnMBTtcFj5W3+nO7OAgVs9BDi7Uq+OoyORpBMaxJ5QJ+N4qMxBZlJcvzic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f1zGE/ap; arc=none smtp.client-ip=209.85.222.181
+	s=arc-20240116; t=1768016780; c=relaxed/simple;
+	bh=Il2boBEAwxmBb6scch+XX0oqCWE3N+NmO1rnljMDW74=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mPuSpZzfxGbNwnuOT4F8qCxqt2TI/Uqv2qnYRKGF9uyiWzhfvWse0pWJzGbmAOU6mlTqFq3QX69IvTKD9LL0LAORPTRgJ4XC8GcewDnnWSK06b7b7KAub2iGfoLMGgd0c5jxz8nFjEU6J/VNU84z8iGEIeWopFV0+BLtgmgecgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=huYNZhm9; arc=none smtp.client-ip=209.85.216.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-8b2d6df99c5so360681885a.1
-        for <linux-media@vger.kernel.org>; Fri, 09 Jan 2026 17:02:45 -0800 (PST)
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-34c1d84781bso2808929a91.2
+        for <linux-media@vger.kernel.org>; Fri, 09 Jan 2026 19:46:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768006965; x=1768611765; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=D46mdQMDj5+zG9XaeLULmbTRXkuU68sa+3jgTbNzvHI=;
-        b=f1zGE/apwKIZ9XuSlDBjitRepgmRXnjNFx5hCiGOdhcTpvuOTZxFe5NLzZCAScDzIB
-         30KGjdOB49YmdDjm6fVMeYgXK30nwVDADY1cuB6ifSihuMwpe9aEASlYcfRIuT4+JVeE
-         NqwyqTl5IBcjr+owxzZ8n19KlPU3sUeI0AGBYC5MtDUOIfiVr1tsboEhLNW6Vi7eSzq8
-         FRKwZ0k5Ve39d6sD0mrG06ZhXSEkfqT6jpjI5daIjEnmfHqpqPeoP/hGWVYFX4jVXr80
-         F47Ncx0/+T7g9MlN0h2JzRxRCaEZDrj0kcFtKaQVW984hkZdvUbcKsDAbGqkFBPMlx4/
-         CwFg==
+        d=gmail.com; s=20230601; t=1768016779; x=1768621579; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=JV5XPQSlkP0KT1539S/zXsLMM0QQpO+Ub+Lr7dpN/aM=;
+        b=huYNZhm9hi9wVWVuv3Wevsov90wln2lXitgcyrSc6WSk1Vboo3dNFVXfffnXJFrB7Q
+         hjXp9yKflK+H5hs2WuHaE1yEWo9k7gyM6uvvyEovVQ9nMTnh9YMwarTZoD62FEmzi5ce
+         U8+5/Pt7qIWay2BwqhINnolG87tKZ2Rn/M41K3EslujDZqCps0A0ARZC/KVmv/E6oW+M
+         pwjZ9+MNlWKNuxwquQ3bGZz5XolnPAmIiKnvQUc7AHuGzug7XwKm7ZSM500SJfgHpOwn
+         Me9PPetewzsAmokil+vybL43Pk9lqc/98do31n89dFF9ko6ZVwszqLe01SifcUhMgL5T
+         P8bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768006965; x=1768611765;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=D46mdQMDj5+zG9XaeLULmbTRXkuU68sa+3jgTbNzvHI=;
-        b=HFUjpBsI8Iz80fYn6TXqOEjUQ/Av9YiFWaY/YrtcEw99z+cwC7xbb+c6SYLyq2NFDn
-         HpMvA5XWKf+tE7G2ZmilT5OwPA7S+0jDX1Kcvp7Z8PrdmUmCU7eGhP8ILPtPGjDqhv6B
-         Oz9AkYHUJQ0LEVoMI4C54YxVNNeBrelocgPSWbcYNu5n/HDPTHW0e2tE1BCsbZW6wYg3
-         KzjtJa1iVGtIDzdDFyQ4l9vy4a4p+0cDez2cc+Jvq3xTTNAbCyYIv5fgP+FonEbjvQKi
-         SPWNisoV91nL4yXRTr/275j0eDF+DpU0GiFaYor1/Eq4c0x1v+af4c6zWrMW+ivzLk/u
-         u+NA==
-X-Forwarded-Encrypted: i=1; AJvYcCWT8oWTYOh3TcXFEqMrs1a+EfK/ZSfxWh+68iS83MHghpoKfxGyIVsAok5nqhNMG0Aog0FmvNfK0IKOhw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwNzfTWA2SXIu1xk9scZFwQt63d5FxXy74VWNe4t32p8KX78qur
-	18wvC/8eGBTyPi56+Zv0K1gn5NbKb+h/qSQq+FdIyy7jd3NmQxMFH1sC
-X-Gm-Gg: AY/fxX6wIwDlJ477iZ5tsiN1dMV/rqVUaIZM49RkvLzJ/pDqGLcT1166wtlOR0b1FKA
-	6AL4XDrjnlpFlgC+WGZmu/lV/vnQQw52nkrj54GQN+TbMbRTJx19EVpntOzwXyCeVjoVvTzeQkr
-	t9eZxbdWaKHaF2AQFtuAREuSNdtmyHil8ok34NIjHEdncQl05w/W3pnSyqHCp2QcO+9Zan/1vPt
-	gz71wwIflcsuB2THGJ4eluooxTq2P2U8xhqL19YqDIvwBY2u8XJlVghbggMPLvaGMPRayLL4wAl
-	dwXriqp3u15pckV5/AX0RV44KueYy358SArskt4cpMxiZoMSrn86jzvVTngn2GwMxOXcPcJqcSF
-	kWJoTDURKQ6sAi5xHctQHDqCavwIizk3Ni0fVWSX7Y2Gu5Yz2NfY+Fn0OiyZbks6T3eGnjzJX3y
-	LB/YOLfuEyZy2Rqw==
-X-Google-Smtp-Source: AGHT+IHBDzRmIpO26TQmtd7BhHH/NO3lWFMVLoQAqkeDRXpg/uMd9p6q/2JbD1+tj8TUF+imdXBEMQ==
-X-Received: by 2002:a05:620a:4805:b0:8c1:aadb:5313 with SMTP id af79cd13be357-8c388bd8ef1mr1683928485a.25.1768006964911;
-        Fri, 09 Jan 2026 17:02:44 -0800 (PST)
-Received: from localhost ([184.144.58.243])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c37f51ceb5sm996870685a.35.2026.01.09.17.02.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jan 2026 17:02:44 -0800 (PST)
-Date: Fri, 9 Jan 2026 20:03:03 -0500
-From: Richard Acayan <mailingradian@gmail.com>
-To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [RFC PATCH 0/3] media: qcom: camss: support for empty endpoint
- nodes
-Message-ID: <aWGlR31aNYbogtrg@rdacayan>
-References: <20251230022759.9449-1-mailingradian@gmail.com>
+        d=1e100.net; s=20230601; t=1768016779; x=1768621579;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JV5XPQSlkP0KT1539S/zXsLMM0QQpO+Ub+Lr7dpN/aM=;
+        b=r3NVC1GCZFddmUQYNFfPXfwdoMz+/KrZf1VR/jySVQRBsBt8uz6BXQ5z+y2V38nEhi
+         G6snvw2K7yildjZ5jz2qID/73UbZfOvJwSzPKwXksLhdQ3dbqKf4hpn22IgLEj7cfpMi
+         LDDXbeA24OshXMb+OWEptRmkG2IJ+ezwU19C6fb25hPbUEnLd8OJf7/DL4q434eJSSLu
+         oMMC+SdaexqiwCx7sYzNha23kJ3co4zKQk2XEaIHKCiBSm1L1iSkwmI7aYh1nAiH+Hbw
+         fJC6jaz2IQ+2EE0JBiAwLYDJeq5kJZDUrValw+RT7cIZSN0Gx8HYoEKGz+yguhghKtCa
+         K5NQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW4hThsrbf5unTFH8lkQg1lV+gs3YopSzjck1Ze3AJIfgxKwH8d4rJtaq3KEiHldRcrD6cj/S08iXsOkg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDDHDO/vkWs+TLn5a6D4eMirt6qCZsciA3CVr+iR+ucNWI4yAI
+	gytmm5USZySEzf41dy4d0KVCbJJJm5psy10hVBFjfQKEO2ju9P8t5Q0qXT2Ri0w0N1XtBrQLaLG
+	sgzDeIq1bvfh/BlCs8r8+vQmHI9dit1s=
+X-Gm-Gg: AY/fxX4g/r7oFhIumNyYx4ZQChxsJm81bir9EnP5hDOM07vvLm4EC2hxWvkhsN9lOQ7
+	hHX8hradpGjlFOOoMJRr8AUfV2nkCE8tZ5WKzTnInIE06tKDG6mHhJMynnfWzbB7PKCkqvXO8UW
+	V2SDZVH7+lhEQjrRyDpV0qRGzCimkA3krdh8hhai1aOuFKqr5tlkwnrwN3mJA1UFUzCbX7J6/ao
+	Zjhx+ed76RqWt0ULsn5ef/KNrNpEjY4ygom+jP656N+bkteHKg/BTJ5/JdiM2JP3v6kJdfLUhYy
+	//COHZGcEozX7LKojTh+3v1LlOJnu+zIrKJCUA==
+X-Google-Smtp-Source: AGHT+IE4uECXxtDUReK7t4LLPjwqWqeyFbXYeIs/0hXGW+lG9xyxoex3kbCSBDFzmQ/oo56xKozqf2rYrgpaViDleWw=
+X-Received: by 2002:a17:90b:5848:b0:34c:27ad:71e7 with SMTP id
+ 98e67ed59e1d1-34f68cccd55mr11259029a91.35.1768016778708; Fri, 09 Jan 2026
+ 19:46:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251230022759.9449-1-mailingradian@gmail.com>
+References: <20250904054232.3848637-1-aha310510@gmail.com> <aa78a288-0a1e-4851-a2a5-4378e96da305@kernel.org>
+In-Reply-To: <aa78a288-0a1e-4851-a2a5-4378e96da305@kernel.org>
+From: Jeongjun Park <aha310510@gmail.com>
+Date: Sat, 10 Jan 2026 12:46:07 +0900
+X-Gm-Features: AQt7F2rCEhIfpIUArvj5ymsknplv85t0YI7wshsnxjoWUB6KQQyyPkQ5DRbZUGY
+Message-ID: <CAO9qdTEgnft880Hm2V2jF8Li0m3d96iu2Zwi_jHN9ErHH7TOTQ@mail.gmail.com>
+Subject: Re: [PATCH v2 RESEND] media: hackrf: fix to not free memory after the
+ device is registered in hackrf_probe()
+To: Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: mchehab@kernel.org, hverkuil@kernel.org, 
+	laurent.pinchart+renesas@ideasonboard.com, crope@iki.fi, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org, syzbot+6ffd76b5405c006a46b7@syzkaller.appspotmail.com, 
+	syzbot+f1b20958f93d2d250727@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Dec 29, 2025 at 09:27:56PM -0500, Richard Acayan wrote:
-> This series adds support for empty endpoint nodes. It is currently RFC
-> because it continues an ongoing discussion on how to selectively connect
-> some CAMSS ports to cameras and leave others disconnected.
-> 
-> The SDM670 patches are for a full example. If agreed on, this should
-> expand to SoCs that have CAMSS.
+Hi Hans,
 
-This series is abandoned now that it seems fine to add port labels. No
-need for me to revisit this unless someone has an issue with the
-proposed port labels in SDM670[1].
+Hans Verkuil <hverkuil+cisco@kernel.org> wrote:
+>
+> Hi Jeongjun Park,
+>
+> On 04/09/2025 07:42, Jeongjun Park wrote:
+> > In hackrf driver, the following race condition occurs:
+> > ```
+> >               CPU0                                            CPU1
+> > hackrf_probe()
+> >   kzalloc(); // alloc hackrf_dev
+> >   ....
+> >   v4l2_device_register();
+> >   ....
+> >                                               open("/path/to/dev"); // open hackrf dev
+> >                                               ....
+> >   v4l2_device_unregister();
+> >   ....
+> >   kfree(); // free hackrf_dev
+> >   ....
+> >                                               ioctl(fd, ...);
+> >                                                 v4l2_ioctl();
+> >                                                   video_is_registered() // UAF!!
+> >                                               ....
+> >                                               close(fd);
+> >                                                 v4l2_release() // UAF!!
+> >                                                   hackrf_video_release()
+> >                                                     kfree(); // DFB!!
+> > ```
+> >
+> > When a V4L2 or video device is unregistered, the device node is removed so
+> > new open() calls are blocked.
+> >
+> > However, file descriptors that are already open-and any in-flight I/O-do
+> > not terminate immediately; they remain valid until the last reference is
+> > dropped and the driver's release() is invoked.
+> >
+> > Therefore, freeing device memory on the error path after hackrf_probe()
+> > has registered dev it will lead to a race to use-after-free vuln, since
+> > those already-open handles haven't been released yet.
+> >
+> > And since release() free memory too, race to use-after-free and
+> > double-free vuln occur.
+> >
+> > To prevent this, if device is registered from probe(), it should be
+> > modified to free memory only through release() rather than calling
+> > kfree() directly.
+> >
+> > Cc: <stable@vger.kernel.org>
+> > Reported-by: syzbot+6ffd76b5405c006a46b7@syzkaller.appspotmail.com
+> > Closes: https://syzkaller.appspot.com/bug?extid=6ffd76b5405c006a46b7
+> > Reported-by: syzbot+f1b20958f93d2d250727@syzkaller.appspotmail.com
+> > Closes: https://syzkaller.appspot.com/bug?extid=f1b20958f93d2d250727
+> > Fixes: 8bc4a9ed8504 ("[media] hackrf: add support for transmitter")
+> > Signed-off-by: Jeongjun Park <aha310510@gmail.com>
+> > ---
+> > v2: Fix incorrect patch description style and CC stable mailing list
+> > - Link to v1: https://lore.kernel.org/all/20250822142729.1156816-1-aha310510@gmail.com/
+> > ---
+> >  drivers/media/usb/hackrf/hackrf.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+> > diff --git a/drivers/media/usb/hackrf/hackrf.c b/drivers/media/usb/hackrf/hackrf.c
+> > index 0b50de8775a3..d7a84422193d 100644
+> > --- a/drivers/media/usb/hackrf/hackrf.c
+> > +++ b/drivers/media/usb/hackrf/hackrf.c
+> > @@ -1515,6 +1515,8 @@ static int hackrf_probe(struct usb_interface *intf,
+> >       video_unregister_device(&dev->rx_vdev);
+> >  err_v4l2_device_unregister:
+> >       v4l2_device_unregister(&dev->v4l2_dev);
+>
+> Instead of v4l2_device_unregister() this should call v4l2_device_put().
+> Otherwise the memory will never be freed since the v4l2_device refcount
+> will never reach 0.
 
-[1] https://lore.kernel.org/all/20260107043044.92485-4-mailingradian@gmail.com/
+Oh, you're right.
+
+Calling v4l2_device_unregister() instead of v4l2_device_put() causes a
+memory leak here.
+
+I'll write a v3 patch for hackrf and as102 and send it to you right away.
+
+>
+> > +     dev_dbg(&intf->dev, "failed=%d\n", ret);
+>
+> Drop this line, it doesn't add anything.
+>
+> Regards,
+>
+>         Hans
+>
+> > +     return ret;
+> >  err_v4l2_ctrl_handler_free_tx:
+> >       v4l2_ctrl_handler_free(&dev->tx_ctrl_handler);
+> >  err_v4l2_ctrl_handler_free_rx:
+> > --
+> >
+>
+
+Regards,
+Jeongjun Park
 
