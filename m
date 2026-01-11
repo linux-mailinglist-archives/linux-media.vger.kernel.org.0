@@ -1,136 +1,309 @@
-Return-Path: <linux-media+bounces-50356-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50357-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BE14D0E151
-	for <lists+linux-media@lfdr.de>; Sun, 11 Jan 2026 06:29:33 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02833D0E892
+	for <lists+linux-media@lfdr.de>; Sun, 11 Jan 2026 11:07:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id C9E3C30090D5
-	for <lists+linux-media@lfdr.de>; Sun, 11 Jan 2026 05:29:31 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B5BFC300E7AC
+	for <lists+linux-media@lfdr.de>; Sun, 11 Jan 2026 10:07:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53981221554;
-	Sun, 11 Jan 2026 05:29:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D6D833064B;
+	Sun, 11 Jan 2026 10:07:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="XqRrEOca"
+	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="rOd2gvgk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from out203-205-221-242.mail.qq.com (out203-205-221-242.mail.qq.com [203.205.221.242])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B212F2147F9;
-	Sun, 11 Jan 2026 05:29:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.242
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 399B62D0C64
+	for <linux-media@vger.kernel.org>; Sun, 11 Jan 2026 10:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768109366; cv=none; b=nraAlOCn+TmYBvQSfYzmgihP/P18DkKid41lXZlDJDP8yTJot0Quh14MKbMvaE6SDNU6kIZiL0a1lgEbAc46roIPsDD9GLHJORoyirHwrjnLRH+MwFRNVM5AyI9PG/g0+rCyjl/pW58VDp/etsh1hajjAskHtcpGlYsYj0CrNWU=
+	t=1768126068; cv=none; b=I0BuKB5ya8RDg8TXdHXNItChNU5VN6NR8d8mP9c5I3TNjQu6wcOlhzX9gBzRFsXk2Nj6T0kGrTsjuqBBBl3z68WJdXrQrdic+pqVvFAb9aCygKOXuU06w180JVu0rChpy2hUyPgrOvihUnubvfrwWdfrk1gM6Gclm14Cg5JAxF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768109366; c=relaxed/simple;
-	bh=Us4ObEfgEB0ramXYIdbOidLQEzelW+Em6uNQ935uAuU=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=Ow5tMeJZK3TmA4tHiAE3Z2jdvBP+pYktHrd7cRgdABIXQHYUBQVElGGvLPKuErzBbe5RB8BnGBmVNQoKcpA3AVMi91LQaCr7yNIqSpCrm5wKG9t4YsVvTgT5FA0I2z8I1YFxEAiE6YZTh8CF64K0uLPBsuJssiY55O/I1HbsFcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=XqRrEOca; arc=none smtp.client-ip=203.205.221.242
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1768109351; bh=FIJZoRZFqGFgDLRXyZboB/L+VsC0PCugQ4Iidn54Few=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=XqRrEOcaWR8dGsYdhmLUttkP7Q+UyOH92D5kMEGNlKtRyqxp6hRd/Y1hbuxbV9t7A
-	 E3Gb9pcWO4wEuButzy4A53nzHppa56itZ2CJnBIDKpyt5DPLNjbugaOvdNHlBvzW32
-	 T8MF/bCJjO+h5d/ls3aKy9ZpFf2SppKlKKq7q740=
-Received: from lxu-ped-host.. ([114.244.57.24])
-	by newxmesmtplogicsvrszc43-0.qq.com (NewEsmtp) with SMTP
-	id 7499A036; Sun, 11 Jan 2026 13:29:09 +0800
-X-QQ-mid: xmsmtpt1768109349taoyq8orx
-Message-ID: <tencent_0D8C88E7C506C4D2C2064149816ECB6EDB06@qq.com>
-X-QQ-XMAILINFO: NIMuNtoIESZaZPkVnoUyUkR4nSAC3lrMTK3CetMX3J7T9IgE85vKPizkmcLGcI
-	 UQGaegUQE3ONwre4gT3kU2/nYl+O4NuWA/5Yu0LNpOJKdDCPq8/2WHp+hhFQ3trZAJ21ZdwAQJbg
-	 YQWIEKVTCX+ydUkof4c1QLT1IpjNLK+8JXCFrLjqQZ8FqF2iYKloH4yMpJgBUUKrzcgn8tNquTUE
-	 0dXV6ABZsH7R7lDmuURafpvhlv3hNDOM4KPVXFxqzxIWRIAOms235/KF2R/K1LaWm4dpuDBtPwzF
-	 VavZmuJV67+ZztaXBGX1gUHm3o8Ufs2UXjl8AFnRiOygNtxIFVtXahcyGQCjQZCHQbyZuNvc49d3
-	 Ix8alCa7tIlS5LTBMoMuAZKKrBDYNli78E78lRv8/DWnBKqeRiaj/EichZ15qjjTws4oZi1Mg8OO
-	 IpBXeAHnA0yUq08hr3yfkJwYc5SVCdQ0Lt23QVljhR3s+GBVwWqVb+gQSsYqPbD5DvOfj4aSWDnK
-	 feGx7WPIQIOrD9HpZW3EWmeJhv0/zG63QU5wdFGp5+wRpGkmi5WKRW7fz602kCaiBo2wFhHdaiyr
-	 jUY95ooPW4x1EqUm2tDZN4MHzV+mJUGSclXRpCc1+o2QeF9Fb0TjvhpOksehYE/mScv8aV62MKsq
-	 TAwNThnm66DlfDLhpy6MJHbJV5Kbd1UCKH9odB/SE7bpb4MJxOLKIZvWETHYiBGo3S0I9mYPlUrE
-	 He+pS0n49x1npFVgsw/Msg3+tyy8D39mhWyJxUjfJTWIJBVh1ewtBOsVAUc1XD+7jEmBHreUtj+R
-	 WRsuDSGP76h3eL8bJgPSVCouQ9Lw8GX4dOs+xlLT1wJxndFABJxL8PfZYweDThh37s+ZKAehnI8w
-	 MXgTgTzdkT6CMoP6dN0NyRAgs9zSYDpdwzQ+y2K3s7KG6pH0NEizCxO720js21M7Vcz6o0Am6WQI
-	 QllwDNCWdjklamKVX5zns49QQ/GJZrJ2ZjPrYhxSiybo0Z5a++YEi7Kcn7R4sUGaDRLuR5pu9aNB
-	 eTEt0u5Q==
-X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
-From: Edward Adam Davis <eadavis@qq.com>
-To: syzbot+16062f26c6480975e5ed@syzkaller.appspotmail.com
-Cc: laurent.pinchart@ideasonboard.com,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	syzkaller-bugs@googlegroups.com
-Subject: [PATCH 1/2] media: em28xx-video: add the unregister of video/VBI entity
-Date: Sun, 11 Jan 2026 13:29:10 +0800
-X-OQ-MSGID: <20260111052909.611879-3-eadavis@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <69608280.050a0220.1c677c.03b0.GAE@google.com>
-References: <69608280.050a0220.1c677c.03b0.GAE@google.com>
+	s=arc-20240116; t=1768126068; c=relaxed/simple;
+	bh=rxgsSPSKdzxMUHkQo66o1KVIL5tsZtem9fAIcvNkaL8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uUijyCTw3HBS4QPV566DCeTvYE8qt3iUa1XnAI8BKVNm2pQGP6pN/v+fwOtprd6A1xgPp58igQks3kkbAw7XwOAmWJslH6O3CK7JVs1Jf0BRjxVy3pdePP130xPUM3dqlJZj2lw20l/Ch7AwkdsbAhCaTH+Ns44QZ0Lqav5hFhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=rOd2gvgk; arc=none smtp.client-ip=74.125.82.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
+Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-121a0bcd364so5887030c88.0
+        for <linux-media@vger.kernel.org>; Sun, 11 Jan 2026 02:07:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google; t=1768126066; x=1768730866; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uyMAX1x2Y0epKteEKFdwiyRtITpoGa8ZZ4lTxMaMdXs=;
+        b=rOd2gvgkKtBvhFC1JxjvigviSmli356RlgILdEuTgHY/7z5kdsKIbcyytOxGCImQvU
+         Nx0OdjxNUGjKSgCcv/A2Lb0c5aOdH1m7E1WTgFPLMH/8/xRq4TD76zbShCPzOxi6ehqP
+         nKcxB2a+JW1o9+STg41ElnawApN0YcofMyv+0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768126066; x=1768730866;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=uyMAX1x2Y0epKteEKFdwiyRtITpoGa8ZZ4lTxMaMdXs=;
+        b=Wx0z4dDS1URK/81CzHUvQsKUGQCm8xLD+J28X79q/LA+z2aL6/gC1c8HPHWNdIM36o
+         keBBCEJV6VPdtxXEMl617pjmOnVoEI1N0/CrsJm7NUpaC0BStDN/7SDFMaXQp2pt5Ncy
+         aGIbEpemgcqdLp7StvEf70ObC0bK6SrPgTTKl5hKhAXqfgRbCPy5L6D03tBUG94T6+H1
+         /A7OQQyDHNfkN87qdP9rFe/u2LmZJ9sj/AuKRMpyufGz6LZVA3r5wkxDOY8F+G9IQ9IR
+         l4Ai5rccAjiDSRCBS1PUFCUqgVozIQ5mdyMeDjoxdAQ06jYRDa/T4ZdmiyQb1kY3Gpzx
+         lifg==
+X-Forwarded-Encrypted: i=1; AJvYcCVEqi9aV4nrLjiSdPgxdinKi/G46RQfw18wO/woImi4yjyugCG7gUoRadQRghhEcpPiLdXZI2W+RJ6IEg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzmv/tkAaYpqC+PDuQpRes7rvEJCjDcwBVM5KOjMqC+LBqka4ip
+	B4TPzHkSqq1tK8/TNrpf1mvseJE5NhxPRn3uRU1y1PbHoLRk17lXYIhbz25VxTq2JWTkAg+xDZJ
+	rVzzR2/LIlJmU9ujjYLf7DnG2HE9HHeej/SgJGQXSv/6eCP9SBdqss05urA==
+X-Gm-Gg: AY/fxX5L5CS2tHxPjwNa7oNwgNjKawPwD7X0SIP22w+GlM7pgj+mHbUBU0DRhlkuCIB
+	oY9uRj8edLSp2CP4uEZ3ewENPndxEZAF5SGxN2ErqOT9q94OkkfUGqeBNkkpeHs+3Q9WWnypUqi
+	Ir7zwKIyPRNtteCTgqiHfJ5JPQ/ZT87SllToK2imWQJlVv5cSYDeNoqr3CevtqwnszTrXAL4SEY
+	hrNR6/1jy4qV6PkHloKCZT/zIZJO1/E95MtKsrU38JaXvmNsPHNd6NuEtBKsnVfcPHBSge2hg6Z
+	4dRR4gP/NXLGG9nHuG0S7Qf1Mw==
+X-Google-Smtp-Source: AGHT+IE8izWSrQAsbRd14p0HLyBpUoq3HIvYZGQLw1U2T1g9mA5JJpHNCuhyWjkRFWsmj5cJZeDqYngThv/1hEhhCmM=
+X-Received: by 2002:a05:701a:c945:b0:119:e56c:1899 with SMTP id
+ a92af1059eb24-121f8afc35bmr9644174c88.1.1768126066125; Sun, 11 Jan 2026
+ 02:07:46 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAOf5uwmTTFcizew2QRAr=TZ12hTfXg6NFEsDYKASB7wPeB4odw@mail.gmail.com>
+ <7b37c5679994281ae1806f2ee84d1aede77ca836.camel@collabora.com>
+ <CAOf5uw=uPkC60gE7Ea_ZnEZdYJRYRJKz=OVUN0RvO_NVe2tw5A@mail.gmail.com>
+ <96dc1231c7d18f8106e4b5e56a336add377ee235.camel@collabora.com>
+ <CAOf5uwnofTZ1ARzqAD0Tevz_gX1w=Uv5b7Q8=-ZnwQpioZvXuw@mail.gmail.com>
+ <4158785f415986924f916f4bfe1988376806f8ed.camel@collabora.com> <c835dbbe-7046-4763-832b-cd81a3b54147@foss.st.com>
+In-Reply-To: <c835dbbe-7046-4763-832b-cd81a3b54147@foss.st.com>
+From: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
+Date: Sun, 11 Jan 2026 11:07:33 +0100
+X-Gm-Features: AZwV_QiJXOVjIUAjb6caKUfzcqOLyUD9LBUIuaNSwJyc6M_CC3ESW7cgDItU73U
+Message-ID: <CAOf5uwnMGZS1d0+2gfp18Ojpd6Z7tELjC3Rzy7pXYTYw0-e8Vg@mail.gmail.com>
+Subject: Re: Hantro G1 jpeg decoder stm32mp2 (plain text)
+To: Hugues FRUCHET <hugues.fruchet@foss.st.com>
+Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
+	linux-media <linux-media@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-When creating a media graph, a failure occurred due to the lack of
-a corresponding decoder. During the subsequent media device release
-process, the video and VBI devices were not properly unregistered,
-leading to a use-after-free vulnerability reported by syzbot [1].
+Hi
 
-The fix involves adding the necessary unregister operations.
+On Wed, Jan 7, 2026 at 8:56=E2=80=AFAM Hugues FRUCHET
+<hugues.fruchet@foss.st.com> wrote:
+>
+> Hi Michael,
+>
+> Sorry for late reply but my foss mail account was out of order for
+> monthes...
+>
+> As you know -but Nicolas may not- I have added the jpeg decoder support
+> to upstream hantro driver here:
+> https://github.com/STMicroelectronics/linux/blob/v6.6-stm32mp/drivers/med=
+ia/platform/verisilicon/hantro_g1_jpeg_dec.c
+> It has not been yet upstream but I hope to push that in coming weeks.
+>
+> Compared to the code currently available on github, the restart marker
+> interval support has been added, this is the same fix that the one you
+> shared previously.
 
-[1]
-BUG: KASAN: slab-use-after-free in media_device_unregister+0x141/0x430 drivers/media/mc/mc-device.c:804
-Read of size 8 at addr ffff88807c114210 by task kworker/1:9/6093
-Call Trace:
- media_device_unregister+0x141/0x430 drivers/media/mc/mc-device.c:804
- em28xx_unregister_media_device drivers/media/usb/em28xx/em28xx-cards.c:3511 [inline]
- em28xx_release_resources+0xac/0x240 drivers/media/usb/em28xx/em28xx-cards.c:3532
- em28xx_usb_disconnect+0x19f/0x2f0 drivers/media/usb/em28xx/em28xx-cards.c:4201
- usb_unbind_interface+0x26e/0x910 drivers/usb/core/driver.c:458
- 
-Allocated by task 5932:
- em28xx_v4l2_init+0x10b/0x2e70 drivers/media/usb/em28xx/em28xx-video.c:2532
- em28xx_init_extension+0x120/0x1c0 drivers/media/usb/em28xx/em28xx-core.c:1117
- 
-Freed by task 5932:
- em28xx_free_v4l2 drivers/media/usb/em28xx/em28xx-video.c:2118 [inline]
- kref_put include/linux/kref.h:65 [inline]
- em28xx_v4l2_init+0x1683/0x2e70 drivers/media/usb/em28xx/em28xx-video.c:2901
- 
-Reported-by: syzbot+16062f26c6480975e5ed@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=16062f26c6480975e5ed
-Tested-by: syzbot+16062f26c6480975e5ed@syzkaller.appspotmail.com
-Signed-off-by: Edward Adam Davis <eadavis@qq.com>
----
- drivers/media/usb/em28xx/em28xx-video.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Very good, and thank you to integrate it
 
-diff --git a/drivers/media/usb/em28xx/em28xx-video.c b/drivers/media/usb/em28xx/em28xx-video.c
-index 2dfa3242a7ab..45b68ebf2e9c 100644
---- a/drivers/media/usb/em28xx/em28xx-video.c
-+++ b/drivers/media/usb/em28xx/em28xx-video.c
-@@ -882,9 +882,12 @@ static void em28xx_v4l2_media_release(struct em28xx *dev)
- 
- 	for (i = 0; i < MAX_EM28XX_INPUT; i++) {
- 		if (!INPUT(i)->type)
--			return;
-+			break;
- 		media_device_unregister_entity(&dev->input_ent[i]);
- 	}
-+	media_device_unregister_entity(&dev->v4l2->vdev.entity);
-+	if (em28xx_vbi_supported(dev))
-+		media_device_unregister_entity(&dev->v4l2->vbi_dev.entity);
- #endif
- }
- 
--- 
-2.43.0
+> I have an additional fix about support of unaligned resolution such as
+> 800x600 or 1920x1080: will be part of the upstream serie and pushed on
+> github.
+>
 
+Ok
+
+> About NV16 and NV12 decoder output: these are the only one output format
+> supported because STM32MP2 doesn't have G1 post-processor support, so
+> STM32MP2 G1 decoder only output the "native" JPEG encoded format on its
+> semi-planar form, either 422 =3D> NV16 or 420 =3D> NV12.
+> As most of USB JPEG camera are streaming 422, no way, we have to deal
+> with NV16...
+> Unfortunately, GPU sub-system doesn't support NV16, so waylandsink
+> cannot handle NV16 directly: a software conversion is needed, so we come
+
+Let me test it again, for now I have solved for barcode scanning decoding a=
+nd
+going to lower resolutions and opencl transformation using opencv
+
+Michael
+
+> to the pipeline that you have already shared:
+>
+> v4l2jpegdec ! video/x-raw, framerate=3D30/1, width=3D640, height=3D480,
+> format=3DNV16 ! videoconvert ! waylandsink
+>
+> with a big performance penalty of software video conversion...
+>
+> BUT you can limit the performance penalty by forcing NV12 caps after
+> videoconvert:
+>
+> v4l2jpegdec ! video/x-raw, framerate=3D30/1, width=3D640, height=3D480,
+> format=3DNV16 ! videoconvert ! video/x-raw, format=3DNV12 ! waylandsink
+>
+> Doing so, we switch from a costly NV16 =3D> YUY2 software conversion to a
+> light-weight NV16 =3D> NV12 conversion.
+>
+> With my Nexigo930 HD camera I can reach 720p@30fps:
+>
+> $> gst-launch-1.0 v4l2src device=3D/dev/video7 ! image/jpeg, width=3D1280=
+,
+> height=3D720, format=3DMJPG ! jpegparse ! v4l2jpegdec ! video
+> /x-raw, format=3DNV16 ! queue ! videoconvert ! queue ! video/x-raw,
+> format=3DNV12 ! fpsdisplaysink sync=3Dfalse text-overlay=3Dfalse
+> video-sink=3D"waylandsink fullscreen=3Dtrue" -v
+>
+> /GstPipeline:pipeline0/GstFPSDisplaySink:fpsdisplaysink0: last-message =
+=3D
+> rendered: 93, dropped: 0, current: 30.99, average: 30.00
+>
+> Hope this could help.
+>
+> Best regards,
+> Hugues.
+>
+> On 9/2/25 16:55, Nicolas Dufresne wrote:
+> > Le mardi 02 septembre 2025 =C3=A0 15:30 +0200, Michael Nazzareno Trimar=
+chi a =C3=A9crit :
+> >> Hi Nicolas
+> >>
+> >> On Tue, Sep 2, 2025 at 3:13=E2=80=AFPM Nicolas Dufresne
+> >> <nicolas.dufresne@collabora.com> wrote:
+> >>>
+> >>> Hi,
+> >>>
+> >>> Le mardi 02 septembre 2025 =C3=A0 15:01 +0200, Michael Nazzareno Trim=
+archi a =C3=A9crit :
+> >>>>> If you only have one format support, you don't need to force anythi=
+ng in
+> >>>>> GStreamer. Some extra information about Hantro post-processor. When=
+ used, you
+> >>>>> need to provide 2 sets of buffers. The decoder will still produce N=
+V16, and a
+> >>>>> secondary set of buffers is (in parallel, pipeline mode) written ba=
+ck into the
+> >>>>> format you have configured on the PP register set.
+> >>>>
+> >>>> Those sets of buffers are provided by gstreamer or how does this
+> >>>> handle in practice for
+> >>>> other decoders?
+> >>>>
+> >>>>>
+> >>>>> The post-processor can also be used in standalone mode, but this fe=
+ature is
+> >>>>> often fused out. In that mode, in can input interleaved YUV, as oft=
+en produced
+> >>>>> as raw format by USB cameras (and most cameras using serial links).
+> >>>>
+> >>>> Much better. Now I need to understand better about the two set of bu=
+ffers
+> >>>
+> >>> the V4L2 API does not have the notion of primary vs secondary buffers=
+ (unlike as
+> >>> an example Vulkan Video, which is 20 years younger :-D). So we endup =
+hiding the
+> >>> primary buffers inside the kernel driver [0]. Just notice the this al=
+location
+> >>> allocates reference buffers for the decoder, and the decoder actually=
+ allocate
+> >>> the final buffers. This is quite convoluted imho. Note that some impo=
+rtant fixes
+> >>> have happen on this part of the postproc code (which arguably still n=
+eed a lot
+> >>> of cleanup, a proper split between G1 and G2 (and merging back VC8000=
+ into G2
+> >>> since this is largely compatible).
+> >>>
+> >>> https://gitlab.freedesktop.org/linux-media/media-committers/-/blob/ne=
+xt/drivers/media/platform/verisilicon/hantro_postproc.c?ref_type=3Dheads#L2=
+24
+> >>> https://gitlab.freedesktop.org/linux-media/media-committers/-/commit/=
+db300ab0e9d38b1e1b0b561333b66a5beacb9994
+> >>>
+> >>
+> >> Ok, I read the code, but I have some doubt:
+> >>
+> >> - the NV16 and NV12 are both available as the primary buffer for the
+> >> decoder but you don't know until you plug the camera and start
+> >> streaming, so I suppose that in this
+> >> case the size of the primary buffer should be computed based on the
+> >> biggest format.
+> >
+> > Since JPEG is a stateful decoder, it needs to implement the respective =
+portion
+> > of the stateful decoder specification. In short,
+> >
+> > - Userspace should prepare the OUTPUT queue and provide a first buffer
+> > - The driver should parse the frame header**
+> > - The driver should notify that the resolution/format has been found
+> > - Userspace will enum or get the information and configura capture queu=
+e
+> >
+> >
+> > ** JPEG is the only codec we allow in-kernel parsing to take place, oth=
+er
+> > codec must defer this to a firmware or implement the stateless spec
+> >
+> > With that mechanism in-place, there is no need to allocate bigger then =
+needed.
+> >
+> >> - I think that hantro_set_reference_frames_format assumption is to
+> >> keep the one supported from decoder and match the first one match the
+> >> bit_depth,
+> >>    so it can set as reference the NV12 and not the NV16
+> >>
+> >> Is this correct?
+> >
+> > Its the bitstream that dictate which of NV12 and NV16. The main issue y=
+ou are
+> > facing is that only bit depth (8 and 10bit) has been implemented so far=
+. There
+> > might be more work to support 422. Note that G1 is unique, since the de=
+coder
+> > part already support 2 formats. Though, in mainline we did not expose t=
+he tiled
+> > format (8x4 tiling). So if you have a 422 JPEG stream, your choices are=
+ NV16 or
+> > 8x4 NV16.
+> >>
+> >> The postproc_enable happens if we have prepare_run it means that the
+> >> buffers are allocated already but the buffer will be known only when
+> >> someone
+> >> enqueues them to the decoder. In such a scenario is there any driver
+> >> already solving it?
+> >
+> > As this code have only been used through the stateless specification, s=
+ome work
+> > will be needed to support stateful for that context. CODA960 support mi=
+ght serve
+> > as inspiration.
+> >
+> > Nicolas
+> >
+> >>
+> >> Michael
+> >>
+> >>>
+> >>> regards,
+> >>> Nicolas
+>
+
+
+--=20
+Michael Nazzareno Trimarchi
+Co-Founder & Chief Executive Officer
+M. +39 347 913 2170
+michael@amarulasolutions.com
+__________________________________
+
+Amarula Solutions BV
+Joop Geesinkweg 125, 1114 AB, Amsterdam, NL
+T. +31 (0)85 111 9172
+info@amarulasolutions.com
+www.amarulasolutions.com
 
