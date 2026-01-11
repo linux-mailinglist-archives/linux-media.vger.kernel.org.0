@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-50369-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50370-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1832D0FE27
-	for <lists+linux-media@lfdr.de>; Sun, 11 Jan 2026 22:03:33 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C15ECD0FE42
+	for <lists+linux-media@lfdr.de>; Sun, 11 Jan 2026 22:05:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 41A1F30142CE
-	for <lists+linux-media@lfdr.de>; Sun, 11 Jan 2026 21:03:28 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5B3683053304
+	for <lists+linux-media@lfdr.de>; Sun, 11 Jan 2026 21:05:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07AEF24886E;
-	Sun, 11 Jan 2026 21:03:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57BBE25A645;
+	Sun, 11 Jan 2026 21:05:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dBlHjjsh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rtKdEy1I"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DFAB500963;
-	Sun, 11 Jan 2026 21:03:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE298500963;
+	Sun, 11 Jan 2026 21:05:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768165403; cv=none; b=nJf8DDONBqaWeIqVRWL4w2ILhhOWEAgKj5a/gyR77sMEprF+wF3SUmvGmdIXe4H5/EpmPgwjByoY9VxJOMpZ1WKEzv6mkEXKHj/QY+ikpD281/6IvmgBXiBWtPFAG4jQzoagvjN+tdrvKkApFvU8+fIfgN8qA/x76b3S8LJ/wYc=
+	t=1768165542; cv=none; b=TAcmLHlta4VXnNYatJMx/25PwGlEs2J20qQYj/IoxiEXPWRgUUrv40YaIpwG8BhcPOznQ5/Ivgb4JFo0Jifl8sujjDsIA5u7JtmD4GRPhntGPbyn0B2tSTfC6wmeiarQMmsH1VjpyjPe1MZMOXszj/+KyG+M/u70ckl4ZsFCQ3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768165403; c=relaxed/simple;
-	bh=98SF4EWDPtPWNz2NGKy6Q4k9fisJSYi7J5ndWT0pWOQ=;
+	s=arc-20240116; t=1768165542; c=relaxed/simple;
+	bh=cAYliiNA8SLRvSWdlx6nI/Y2kpsMyFDFJQVvBbaYjTg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NILYBcZbFUAN6ebFsFjhlGc4QO5GAj/99h6dt/CbH8M3cuRTERMcGGljqTeSAuLr11Ah3JXiNeT/ibMr+3XwZfWqqyjnZ18nSWAXG01iY4VUHczDintD/2B4jqtKDPubux++WvBgHRluvrhcNIQFbWVvO1z5j3T0530aQHjXaEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dBlHjjsh; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3E41C4CEF7;
-	Sun, 11 Jan 2026 21:03:18 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=TEstahzcOpnPCNK+E6BULiEfDenOoByn+qD6l6UX3uWBODUfu/YZ+NJTQm4+0Kcgq/aPNg/c2kVBsr25wNdK6GaOAh+VPaKJdkYg62pSMlrZL8m78rYMMLiWmAytaxYRj8JLhmOqpbX8saZhtz621QKUpMc5CJ7NLMaNiNqpqJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rtKdEy1I; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A802C4CEF7;
+	Sun, 11 Jan 2026 21:05:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768165403;
-	bh=98SF4EWDPtPWNz2NGKy6Q4k9fisJSYi7J5ndWT0pWOQ=;
+	s=k20201202; t=1768165542;
+	bh=cAYliiNA8SLRvSWdlx6nI/Y2kpsMyFDFJQVvBbaYjTg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=dBlHjjshBzEfzfnSG45GSFz8aW+CrrDYdFV45vH4eBEYfHuWBXTNwIZXBq+9M2S+6
-	 ZK2Zn8xwWCJyq6AGbII8K1kSVReN3xH/zbbLxquv93S1JzrNHhxv/5hWUKs8WoDpcL
-	 FQZHOtMgyqIUwh+jxMaTrjsHzbbdgChin0lAK1KMBCpge+xD80soRMd2L9mEYX2AIY
-	 Hf9sJF3cdPM7U3QzxBZVHHSnzWWaoV+H17aSvV7QMeyXHn9AcQ2a2Mc4vCx98EZC4n
-	 j/r/ZqYrjf9Oy0dGkMxaVsIQTmPB9/GPzQWuzOtZKx1uzupzKyrTOP2c3BweNUKgKa
-	 HV1W0KmXn6x+Q==
-Message-ID: <40046fe6-4b30-4f12-a5ca-f85d27cf935e@kernel.org>
-Date: Sun, 11 Jan 2026 21:03:16 +0000
+	b=rtKdEy1IVFdkQz8oemqb4Yg7DwiCin1gwsMpRcOY2kUFSU0IUDpJ43pfSDvU/T4uo
+	 DsdhyV7ZW0bWQ68QCwGpWmS7tr3D0YvXPErgw8Wyw8p3X5V+xCR6gnJdEDPIcS2AVo
+	 WCtjWaSjHD9A+H/fT1SpJ8rBbcGwXm0BkQUqcalqbXOnvfH4JdegHMRDIar/tyowv4
+	 SI0hWcrO+D4K5Z3Vc9HUuOILaAWJHq8RMsyHTw5khYdKViXkslLJJiqzJCnuahn3P1
+	 WX0fv/wb4QWC7Xlzx+0Gh2r94Hy1TIDixoiJAZrmM3bzhpXQBe4GxTrX7RvfsLxiMz
+	 OtbcU1oBUUoig==
+Message-ID: <bd95734f-5c38-46d0-a3f3-e88f85d384f5@kernel.org>
+Date: Sun, 11 Jan 2026 21:05:35 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -98,9 +98,20 @@ On 10/01/2026 19:37, Dmitry Baryshkov wrote:
 > +		 cfg->ubwc_dec_version == UBWC_3_0);
 > +}
 > +
-Does that indentation pass checkpatch ?
+>   #endif /* __QCOM_UBWC_H__ */
+> 
+> --
+> 2.47.3
+> 
+> 
 
-I assume so but, please check.
+Why not have this function return either 64 if the above is true or 32 
+if not, then rename to qcom_ubwc_min_acc_length() ?
 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+You could imagine some function SoC having a 128b length for argument's 
+sake, it would make more sense just to modify this function then instead 
+of all of the callsites.
+
+---
+bod
 
