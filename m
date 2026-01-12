@@ -1,166 +1,192 @@
-Return-Path: <linux-media+bounces-50439-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50440-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA542D120FD
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 11:54:46 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id D534CD12124
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 11:55:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 05EB03047FED
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 10:53:17 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 9020530563FD
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 10:54:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06D2E34DCDB;
-	Mon, 12 Jan 2026 10:53:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DED3A34EF02;
+	Mon, 12 Jan 2026 10:53:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TOvu2V8v"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lLXx+aT1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27DE834DCE2
-	for <linux-media@vger.kernel.org>; Mon, 12 Jan 2026 10:53:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A00134E777
+	for <linux-media@vger.kernel.org>; Mon, 12 Jan 2026 10:53:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768215194; cv=none; b=qYFBjel4IhTkeU4mxQCKf4/4U8fhEMWyWmJhB2wXGEV0Zr57gkIXeE7ytnkHl86uUiMnuu9ZfLTyF68np1wrEVwO7VC1zOH9KMNhqU/txBPUFkf5TEKnhZU7IY1tX7cHPlg7qCIgOXpmauUxRlFzigQN/aSBw4JOJmmvNUx+cdI=
+	t=1768215234; cv=none; b=J/JMUPa+7ty1ilRYzjIpeOOUZfg8SvHaPuDOHW24r9omm3xP/Ue0eXyXMRFUeFYFI9GTvxyWSmmqaVX9Lh2cyGoQByRJXwbtuXkN9yA15zBYBS1jbbGJrHEpEbiUrUSwZ7midRRtQDUSL7bX9+Fu4+bauyFfflWcWtZiNI0CrYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768215194; c=relaxed/simple;
-	bh=kcCLF8haeZnlyS5+6ms21wsAf7Gfj6MMoJrY4svq7U8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AKOGhImwVP9+LehIEhVsp0gdY2My7Ki4RG+6ignqjgZH5h4p/GDrpMkWhfFeT/WjzP7OV6+DLIqdi1bkiQChg8VxH3KK6+55+XFZMs4MVxdwoI8s3gg8+gohHFp24jV30vXZLGt+hNfLusgbQplQhjIk0V1DR+r/g4ECM2kXSU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TOvu2V8v; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768215193; x=1799751193;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kcCLF8haeZnlyS5+6ms21wsAf7Gfj6MMoJrY4svq7U8=;
-  b=TOvu2V8vT4tcxJ13ALrFLKj8ee7kWS4/TfRfDkLFqNZw7cay3DSJM7Rp
-   k+P6P2CaMe26ngS3ESoVeLXP1nSlVjCzbPwpHNNNvE7jHYXlQrmlA50Ma
-   KhhHETmzXVH8p28JWv94EygZJr2DWrZk3Gu5Jwix6cSbirwnl9syIlkfJ
-   AFyIrMOB8d6rPzhC3yKjAOrjmQr2Nf6DgpLZ/hcO4ujKjjS/Wt68hmjep
-   3xGyBZ3Bq/7f1U9LvFDjNQKEIEN0HZPZHZCW4eAvuunebONjkDYQbpB7P
-   O0tYBm2QVC54pTeaJKtDoeMescwEKH12WY2TE22mvhWYByHlN9lo5Qq6+
-   Q==;
-X-CSE-ConnectionGUID: TOxgcSobT4u4GOhGjqdlHA==
-X-CSE-MsgGUID: iOQpaMcRSxajcHcIVtfWvw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="80853317"
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="80853317"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 02:53:12 -0800
-X-CSE-ConnectionGUID: 8YIzBCZvRIOPHeU/C1akSg==
-X-CSE-MsgGUID: eTG0y8dnS9WGAMevo8CG9g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="208540647"
-Received: from zzombora-mobl1 (HELO kekkonen.fi.intel.com) ([10.245.245.52])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 02:53:10 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 820AF121E83;
-	Mon, 12 Jan 2026 12:53:08 +0200 (EET)
-Date: Mon, 12 Jan 2026 12:53:08 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Karthikey Kadati <karthikey3608@gmail.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
-	andy@kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Unix Antigravity <unix.antigravity@test.com>
-Subject: Re: [PATCH 4/4] staging: atomisp: Replace ia_css_region with
- v4l2_rect
-Message-ID: <aWTSlHaTiYejXoag@kekkonen.localdomain>
-References: <20260112102518.19926-1-karthikey3608@gmail.com>
+	s=arc-20240116; t=1768215234; c=relaxed/simple;
+	bh=sAHFH1frPEbW4Tsm+MC0aaCUfB+E4Z13yEHNemnd7vA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YIOSSMH3AuDLl212JeVy3CY369i1V3ChSD22IeiGgUomY5Kg2nGnoealNGkQAfyfhVjPBALrjCv+8Gad54IeVRHmUc+QRjdEHQQ8ekWWvlNjAKjlaXEfZx+3ERa7CEKc6eLYpx0HYiBgOfucUpdxD9XSDKQ2oSF1u51AsdLREW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lLXx+aT1; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-43284ed32a0so3126742f8f.3
+        for <linux-media@vger.kernel.org>; Mon, 12 Jan 2026 02:53:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1768215229; x=1768820029; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tKHpGelNrHeyewNQEr1a50NI52JXiox3dXfR2mRoZpk=;
+        b=lLXx+aT1LM/X8hXwoLCuY6SnvehUbAGcWJieLz6cbWsN0h+X97mvonel6fGfmZE4go
+         Q0VN+t00l6TEfXhOgJR3SAiDqf4kBVGxUNhlWbi70LmK3uJNCVqJr9Y3K5Fop/TUnfgC
+         S50x9SZmDrPFclt6Uk4AzodHkvyP3sPwZblDpTdG1/NNxvno3jbYhher97+xGLXDufsr
+         rgS33h4yNJdvBSHZHb+SnzMEIqepV4M9syRFc3R4HHCEHBbE1qMlI/nSt/kNRjoNwQXL
+         TwGF+Oo0D0qCSYxKz1QXhrSSshTUB8C7psHmaRoMqSqtousAoZk02zmeddbvkIMdaSqC
+         eaUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768215229; x=1768820029;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tKHpGelNrHeyewNQEr1a50NI52JXiox3dXfR2mRoZpk=;
+        b=S+GSvwHmj25oqJDnL10pGBqV9W8AHSOWUXfudGT3ZLufAe1FxXDYXdLAaB4862NYX2
+         EEwVJMcGG6E2p2B7G683gmQuyyS7oxv9QcLTWxNn0hoK4j1QNzqpNjkf7Gri7e7NKtaU
+         gK73zsCyj/houNPLNH4VcVua/l8RdNh3jGpToTfPboRC+InDXrQoQAYNNXKuk6v/EIbM
+         6mL0JORKpSWDsYAfGgJw0FBg0wn6obA/bgnn0h8iQHcANmOIdfnHD9JjPAP3UzX6LUT5
+         P/GJdPg+9jeYkQpPxmT259DY823MQ+rFI/gqa+A3RqqJUtgvBrBk29QZ/HViYB7ElLW6
+         PCOw==
+X-Gm-Message-State: AOJu0Yx/pg/T/qBgvH4SiICb4YIMRuuiBWi+z/8BaF6IOUCaYO1Ew7Sj
+	L422ZJCsEW1/KEV27zVfJZf+4tqEZ08YxwHOmnXLMttumGQ+a9GAiJK0nIgfgdXFc/o=
+X-Gm-Gg: AY/fxX4Jw8qWJwxy+VybXk2HXrp3/o2FI8yPoGJs0xmSMbH8/dOXgEVjkU4+rmBEy+S
+	TsI5Nsvjvg9zEd3v1IMpD1piYwul7NE011GQw3iW5be2UJIUwuBHuDvKENLA5nt85HJ4T+IypFG
+	/p0sR/7+hTG26W65Z4YPzxyBITt8WSQs1UqUaGSuIYXFZC9YGKpCpy4XBlVivDdVOyUbadVKd+4
+	1AXCODNCruJfyneIfYVLMfSO8UgX/cdJ/Po/P3lbC2xAi3nz5wAdnMhT26krYXqbVb3w/l79KcU
+	lxTiC35EQ5WlkiqXjbdm6ZBkOtiCzUitDqZ7Er2Zm/8Jd1xwz6mHsLJ20dkhwvXvZOazVD5F0IE
+	8EVn0PFQFQYbSl9Qa68zKz8MkuVY2CxVB+b8/zUtuAJ8qDoE3YBv0z1WHdOJV/A9fPL4Qjdw7Ec
+	hqBXJekzm3NoAlflsaFdJ98uH5MHmOPwnH2YMnI4W3/REl8vR0VPYh
+X-Google-Smtp-Source: AGHT+IFGRdazPlXnjk1IjCltW0erFj1I3/O/pzsQ0N3ouxwIEI8Uga6lJP1zjpKUInJyP4eIL/HEFg==
+X-Received: by 2002:a05:6000:1a8b:b0:432:84f9:95f4 with SMTP id ffacd0b85a97d-432c374f4a7mr21083778f8f.31.1768215229185;
+        Mon, 12 Jan 2026 02:53:49 -0800 (PST)
+Received: from [192.168.0.40] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432dfa6dc4esm16185568f8f.23.2026.01.12.02.53.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Jan 2026 02:53:48 -0800 (PST)
+Message-ID: <0236bf83-228d-4d6e-8740-b9589d096f6a@linaro.org>
+Date: Mon, 12 Jan 2026 10:53:47 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260112102518.19926-1-karthikey3608@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] media: camss: csiphy: Make CSIPHY status macro
+ cross-platform
+To: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260112-camss-extended-csiphy-macro-v2-1-ee7342f2aaf5@oss.qualcomm.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <20260112-camss-extended-csiphy-macro-v2-1-ee7342f2aaf5@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Karthikey,
-
-Thanks for the patches.
-
-On Mon, Jan 12, 2026 at 03:55:18PM +0530, Karthikey Kadati wrote:
-> Replace custom struct ia_css_region with standard struct v4l2_rect
+On 12/01/2026 08:11, Hangxiang Ma wrote:
+> The current value of '0xb0' that represents the offset to the status
+> registers within the common registers of the CSIPHY has been changed on
+> the newer SOCs and it requires generalizing the macro using a new
+> variable 'common_status_offset'. This variable is initialized in the
+> csiphy_init() function.
 > 
-> to align with V4L2 API.
-
-You seem to systematically have an extra newline between the lines of text
-in the commit messages. Please fix that.
-
-Please try to send patches in consistent sets to the relevant recipients
-and avoid sending new versions before people have time to comment on the
-previous ones. Also please think before sending whether there's still
-something to fix and detail what changes there were from the previous
-version (below the '---' line).
-
-> 
-> Signed-off-by: Unix Antigravity <unix.antigravity@test.com>
-
-I guess this is possible but it looks like bogus Sob: line.
-
-Who wrote the patch, should there be Co-developed-by: tag?
-
-> Signed-off-by: Karthikey Kadati <karthikey3608@gmail.com>
+> Signed-off-by: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
 > ---
->  drivers/staging/media/atomisp/pci/ia_css_types.h | 15 +++++++--------
->  1 file changed, 7 insertions(+), 8 deletions(-)
+> This change introduces common_status_offset to replace the hardcoded
+> offset in CSIPHY_3PH_CMN_CSI_COMMON_STATUSn.
+> ---
+> Changes in v2:
+> - Rebase this series due to conflict - bod
+> - Link to v1: https://lore.kernel.org/r/20251023-make-csiphy-status-macro-cross-platform-v1-1-5746446dfdc6@oss.qualcomm.com
+> ---
+>   .../media/platform/qcom/camss/camss-csiphy-3ph-1-0.c  | 19 +++++++++++++------
+>   drivers/media/platform/qcom/camss/camss-csiphy.h      |  1 +
+>   2 files changed, 14 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/staging/media/atomisp/pci/ia_css_types.h b/drivers/staging/media/atomisp/pci/ia_css_types.h
-> index 5c21a5415..7cfb355c8 100644
-> --- a/drivers/staging/media/atomisp/pci/ia_css_types.h
-> +++ b/drivers/staging/media/atomisp/pci/ia_css_types.h
-> @@ -18,6 +18,7 @@
->  #include <type_support.h>
->  
->  #include "ia_css_frac.h"
-> +#include <linux/videodev2.h>
->  
->  #include "isp/kernels/aa/aa_2/ia_css_aa2_types.h"
->  #include "isp/kernels/anr/anr_1.0/ia_css_anr_types.h"
-> @@ -430,12 +431,10 @@ struct ia_css_point {
->  /**
->   * This specifies the region
->   */
-> -struct ia_css_region {
-> -	s32 left; /** Starting point coordinates for the region */
-> -	s32 top;
-> -	s32 width; /** Region resolution */
-> -	s32 height;
-> -};
-> +/**
-> + * This specifies the region
-> + */
-> +/* struct v4l2_rect has been replaced by struct v4l2_rect */
->  
->  /**
->   * Digital zoom:
-> @@ -444,7 +443,7 @@ struct ia_css_region {
->   * Set the digital zoom factor, this is a logarithmic scale. The actual zoom
->   * factor will be 64/x.
->   * Setting dx or dy to 0 disables digital zoom for that direction.
-> - * New API change for Digital zoom:(added struct ia_css_region zoom_region)
-> + * New API change for Digital zoom:(added struct v4l2_rect zoom_region)
->   * zoom_region specifies the origin of the zoom region and width and
->   * height of that region.
->   * origin : This is the coordinate (x,y) within the effective input resolution
-> @@ -457,7 +456,7 @@ struct ia_css_region {
->  struct ia_css_dz_config {
->  	u32 dx; /** Horizontal zoom factor */
->  	u32 dy; /** Vertical zoom factor */
-> -	struct ia_css_region zoom_region; /** region for zoom */
-> +	struct v4l2_rect zoom_region; /** region for zoom */
->  };
->  
->  /* The still capture mode, this can be RAW (simply copy sensor input to DDR),
-
--- 
-Regards,
-
-Sakari Ailus
+> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+> index 619abbf60781..d70d4f611798 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+> @@ -46,7 +46,8 @@
+>   #define CSIPHY_3PH_CMN_CSI_COMMON_CTRL5_CLK_ENABLE	BIT(7)
+>   #define CSIPHY_3PH_CMN_CSI_COMMON_CTRL6_COMMON_PWRDN_B	BIT(0)
+>   #define CSIPHY_3PH_CMN_CSI_COMMON_CTRL6_SHOW_REV_ID	BIT(1)
+> -#define CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(offset, n)	((offset) + 0xb0 + 0x4 * (n))
+> +#define CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(offset, common_status_offset, n) \
+> +	((offset) + (common_status_offset) + 0x4 * (n))
+>   
+>   #define CSIPHY_DEFAULT_PARAMS		0
+>   #define CSIPHY_LANE_ENABLE		1
+> @@ -810,13 +811,17 @@ static void csiphy_hw_version_read(struct csiphy_device *csiphy,
+>   	       CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->offset, 6));
+>   
+>   	hw_version = readl_relaxed(csiphy->base +
+> -				   CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(regs->offset, 12));
+> +		CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(regs->offset,
+> +						  regs->common_status_offset, 12));
+>   	hw_version |= readl_relaxed(csiphy->base +
+> -				   CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(regs->offset, 13)) << 8;
+> +		CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(regs->offset,
+> +						  regs->common_status_offset, 13)) << 8;
+>   	hw_version |= readl_relaxed(csiphy->base +
+> -				   CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(regs->offset, 14)) << 16;
+> +		CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(regs->offset,
+> +						  regs->common_status_offset, 14)) << 16;
+>   	hw_version |= readl_relaxed(csiphy->base +
+> -				   CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(regs->offset, 15)) << 24;
+> +		CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(regs->offset,
+> +						  regs->common_status_offset, 15)) << 24;
+>   
+>   	dev_dbg(dev, "CSIPHY 3PH HW Version = 0x%08x\n", hw_version);
+>   }
+> @@ -845,7 +850,8 @@ static irqreturn_t csiphy_isr(int irq, void *dev)
+>   	for (i = 0; i < 11; i++) {
+>   		int c = i + 22;
+>   		u8 val = readl_relaxed(csiphy->base +
+> -				       CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(regs->offset, i));
+> +			CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(regs->offset,
+> +							  regs->common_status_offset, i));
+>   
+>   		writel_relaxed(val, csiphy->base +
+>   			       CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->offset, c));
+> @@ -1086,6 +1092,7 @@ static int csiphy_init(struct csiphy_device *csiphy)
+>   
+>   	csiphy->regs = regs;
+>   	regs->offset = 0x800;
+> +	regs->common_status_offset = 0xb0;
+>   
+>   	switch (csiphy->camss->res->version) {
+>   	case CAMSS_845:
+> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.h b/drivers/media/platform/qcom/camss/camss-csiphy.h
+> index 895f80003c44..2d5054819df7 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csiphy.h
+> +++ b/drivers/media/platform/qcom/camss/camss-csiphy.h
+> @@ -90,6 +90,7 @@ struct csiphy_device_regs {
+>   	const struct csiphy_lane_regs *lane_regs;
+>   	int lane_array_size;
+>   	u32 offset;
+> +	u32 common_status_offset;
+>   };
+>   
+>   struct csiphy_device {
+> 
+> ---
+> base-commit: 31d167f54de93f14fa8e4bc6cbc4adaf7019fd94
+> change-id: 20260111-camss-extended-csiphy-macro-486b9f3b950f
+> 
+> Best regards,
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
