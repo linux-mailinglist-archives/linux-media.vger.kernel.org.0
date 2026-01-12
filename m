@@ -1,100 +1,60 @@
-Return-Path: <linux-media+bounces-50462-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50464-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2CB2D12790
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 13:10:02 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60159D12815
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 13:20:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B1E5C30A8BA4
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 12:09:22 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 2D954301B8B4
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 12:20:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E03C357720;
-	Mon, 12 Jan 2026 12:09:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B997356A22;
+	Mon, 12 Jan 2026 12:20:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tk67MVYV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iL2K02pv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFA4B357703;
-	Mon, 12 Jan 2026 12:09:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8931B2C21F3;
+	Mon, 12 Jan 2026 12:20:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768219761; cv=none; b=cED+Hdl7A9yNxdw7R/touGDyR8BFZLzUNdcMMp+/qdsZJcMNmXI4W/uKyfW/NobF7TYXaNXGvNqQjFW4FFVDgR41zQJkYpZmlqDONlJIjjgdzkqw8a5cR82Sxo36i8jkggM2m+11afpR5YRier+lBNIZqxHO6Sui2D0SUxxNFyQ=
+	t=1768220402; cv=none; b=DfDQFN0rrTo8HwD2+WwOHtKI+KamQp/DShjRLe/a0k9K9P7fwNg7tknpLwTgGFl94UUUT2ZGGxyqJmcoR3ZhWVjKw4v73Ur4WqNDs9oNPISiIQtJTczF7An+dGPVkjP56Zd0n2U+jPMdr3sj1Rxw7DY24V0gikIUUEiZWeYdKC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768219761; c=relaxed/simple;
-	bh=hfc/Ob5dZ76luUNNZHvRKZDuyU0hH1rZPgN2p81Dnjs=;
+	s=arc-20240116; t=1768220402; c=relaxed/simple;
+	bh=+Nliq3Hq9k4ThIYArW3/W+oRJeWgrnz/ZUwpOJtv0cM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KyMxn1pSNs/20oSuQ6+xAv3nLvj72APt+0tcoilm6L9cUzrkqHe42mmQjBtKq33IxdvijiXfe/8gHSV1n/O1qKRLI5FdNtugkVrmPRu3iubtdK9wXouS1yAVKKdbcEnexI1hjwFi74t2AWtpZEwHygi8z9k6OeAN4tlVtz+fIho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tk67MVYV; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768219760; x=1799755760;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=hfc/Ob5dZ76luUNNZHvRKZDuyU0hH1rZPgN2p81Dnjs=;
-  b=Tk67MVYVnCyj2wSQpXYTH6l1MPZaUbEEnEuokr5rDI9FDYkCaqGK3Az7
-   Ec0AkkL99ulYMelLy4uttyqUySknouwJ14hyBqPOf8paB3u2vcNSsppXh
-   sR5kj0SkMGex7uEusIwmZmtQEF+0vWo9sG21we0ILzZwln1v7U+fiMBdt
-   E4cfMKqq5yfhyKbfkEt1zEOC5iatuOLJ5IZkY7P7QFnn6eB9sPIQhEdoT
-   yIVoBOf7XWMtVkafFFa4wB9O+IMdhywoPU3hQrSpy/U4Q0gzfHenD7Ocr
-   aLgXBSLPyd9wf3iV+HJUq7IreJeyryg973FSWSxwTBtcwYGVft5EvXXFC
-   Q==;
-X-CSE-ConnectionGUID: roj5b3zpSbSSe70djoBxYA==
-X-CSE-MsgGUID: MM83cIK1RoCibSsmdiKk5Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="68697703"
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="68697703"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 04:09:19 -0800
-X-CSE-ConnectionGUID: vBTU07+aRai9rWTvtaOsuw==
-X-CSE-MsgGUID: qvvqzlEnR+egReGJB+4aZQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="209149781"
-Received: from zzombora-mobl1 (HELO kekkonen.fi.intel.com) ([10.245.245.52])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 04:09:14 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 36F5B1229EA;
-	Mon, 12 Jan 2026 14:09:10 +0200 (EET)
-Date: Mon, 12 Jan 2026 14:09:10 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Matthias Fend <matthias.fend@emfend.at>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-	Tarang Raval <tarang.raval@siliconsignals.io>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Dongcheng Yan <dongcheng.yan@intel.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Jingjing Xiong <jingjing.xiong@intel.com>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>,
-	Svyatoslav Ryhel <clamor95@gmail.com>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Hao Yao <hao.yao@intel.com>
-Subject: Re: [PATCH v6 2/2] media: i2c: add Himax HM1246 image sensor driver
-Message-ID: <aWTkZpcc8GDbKTEZ@kekkonen.localdomain>
-References: <20251202-hm1246-v6-0-3e96ed6b3ffa@emfend.at>
- <20251202-hm1246-v6-2-3e96ed6b3ffa@emfend.at>
- <aUXRsv-r9-sQvpAm@kekkonen.localdomain>
- <2c6c4b36-6b97-4260-8c01-6861b6f36cea@emfend.at>
- <20251222133018.GB5317@pendragon.ideasonboard.com>
- <19848593-4879-46fa-8969-d34c2fc511ed@emfend.at>
+	 Content-Type:Content-Disposition:In-Reply-To; b=K+688+kJTHQ4HLSVF02wSH16ASWCT6732uP2dJVY9/JJZJV0HdLex233haeowDxr5N3qMXQz5pXw1/sqO2fU3X0YkyhT4tPVEi/bXLV1k8R8nyRan59TwBT/nWtNLLI23sxvA80wwe967TxkX5fTxPqBQi36YscFOyAUjVJvBEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iL2K02pv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 233D1C16AAE;
+	Mon, 12 Jan 2026 12:20:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768220402;
+	bh=+Nliq3Hq9k4ThIYArW3/W+oRJeWgrnz/ZUwpOJtv0cM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iL2K02pvk6E1DsvDlqWboBCtpQHXaKUBrL1wltPlg05hlgRoVPE9d6yCnJgpfHU3K
+	 5wnwkxG9AmFATvFjjgHmhJmW/kYdcxNn5zEl7CCQGsXozborPGix1NS3B6tfKluFUp
+	 4+jaQq6nlsWR88DToo/mPKJ87brhQnhnntP/R+nXtW3dhiXFicBW1f3BpAsty+mLjZ
+	 99FE2FBFc/kRsz2G+ht2VEMhhnQ2twEqyml4iPXDcjXNFCp0ahYY66D1dhde+2mS0q
+	 8Y77nf0bPjNjJG2JcBS0x7Evxif8Ub6tPWPTIo5nqywmPi5aJOLKCeAsDSKhiNLd77
+	 0aouxLftPfDUw==
+Date: Mon, 12 Jan 2026 14:19:56 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Sumit Semwal <sumit.semwal@linaro.org>,
+	Alex Williamson <alex@shazbot.org>,
+	Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	linux-rdma@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
+	iommu@lists.linux.dev
+Subject: Re: [PATCH 0/4] dma-buf: add revoke mechanism to invalidate shared
+ buffers
+Message-ID: <20260112121956.GE14378@unreal>
+References: <20260111-dmabuf-revoke-v1-0-fb4bcc8c259b@nvidia.com>
+ <eed9fd4c-ca36-4f6a-af10-56d6e0997d8c@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -104,143 +64,130 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <19848593-4879-46fa-8969-d34c2fc511ed@emfend.at>
+In-Reply-To: <eed9fd4c-ca36-4f6a-af10-56d6e0997d8c@amd.com>
 
-Hi Matthias,
-
-On Mon, Dec 22, 2025 at 04:58:28PM +0100, Matthias Fend wrote:
-> Hi Laurent,
+On Mon, Jan 12, 2026 at 11:04:38AM +0100, Christian König wrote:
+> On 1/11/26 11:37, Leon Romanovsky wrote:
+> > This series implements a dma-buf “revoke” mechanism: to allow a dma-buf
+> > exporter to explicitly invalidate (“kill”) a shared buffer after it has
+> > been distributed to importers, so that further CPU and device access is
+> > prevented and importers reliably observe failure.
 > 
-> Am 22.12.2025 um 14:30 schrieb Laurent Pinchart:
-> > On Mon, Dec 22, 2025 at 12:17:56PM +0100, Matthias Fend wrote:
-> > > Am 19.12.2025 um 23:29 schrieb Sakari Ailus:
-> > > > Hi Matthias,
-> > > > 
-> > > > Thanks for the update.
-> > > > 
-> > > > On Tue, Dec 02, 2025 at 04:26:06PM +0100, Matthias Fend wrote:
-> > > > 
-> > > > ...
-> > > > 
-> > > > > +static int hm1246_calc_pll(struct hm1246 *hm1246, u32 xclk, u32 link_freq,
-> > > > > +			   u32 clocks_per_pixel, u8 *pll1, u8 *pll2, u8 *pll3)
-> > > > > +{
-> > > > > +	const u8 pclk_div_table[] = { 4, 5, 6, 7, 8, 12, 14, 16 };
-> > > > > +	const u8 sysclk_div_table[] = { 1, 2, 3, 4 };
-> > > > > +	const u8 post_div_table[] = { 1, 2, 4, 8 };
-> > > > > +	const int sysclk_pclk_ratio = 3; /* Recommended value */
-> > > > > +	u32 pclk, vco_out, best_vco_diff;
-> > > > > +	int pclk_div_index, sysclk_div_index, post_div_index;
-> > > > > +	u8 pre_div = 0, multiplier_h = 0, multiplier_l = 0;
-> > > > > +	bool sysclk_pclk_ratio_found = false;
-> > > > > +
-> > > > > +	if (link_freq < HM1246_PCLK_MIN || link_freq > HM1246_PCLK_MAX)
-> > > > > +		return -EINVAL;
-> > > > > +
-> > > > > +	/*
-> > > > > +	 * In raw mode (1 pixel per clock) the pixel clock is internally
-> > > > > +	 * divided by two.
-> > > > > +	 */
-> > > > > +	pclk = 2 * link_freq / clocks_per_pixel;
-> > > > > +
-> > > > > +	/* Find suitable PCLK and SYSCLK dividers. */
-> > > > > +	for (pclk_div_index = 0; pclk_div_index < ARRAY_SIZE(pclk_div_table);
-> > > > > +	     pclk_div_index++) {
-> > > > > +		for (sysclk_div_index = 0;
-> > > > > +		     sysclk_div_index < ARRAY_SIZE(sysclk_div_table);
-> > > > > +		     sysclk_div_index++) {
-> > > > > +			if (sysclk_div_table[sysclk_div_index] *
-> > > > > +				    sysclk_pclk_ratio ==
-> > > > > +			    pclk_div_table[pclk_div_index]) {
-> > > > > +				sysclk_pclk_ratio_found = true;
-> > > > > +				break;
-> > > > > +			}
-> > > > > +		}
-> > > > > +		if (sysclk_pclk_ratio_found)
-> > > > > +			break;
-> > > > > +	}
-> > > > > +
-> > > > > +	if (!sysclk_pclk_ratio_found)
-> > > > > +		return -EINVAL;
-> > > > > +
-> > > > > +	/* Determine an appropriate post divider. */
-> > > > > +	for (post_div_index = 0; post_div_index < ARRAY_SIZE(post_div_table);
-> > > > > +	     post_div_index++) {
-> > > > > +		vco_out = pclk * pclk_div_table[pclk_div_index] *
-> > > > > +			  post_div_table[post_div_index];
-> > > > > +
-> > > > > +		if (vco_out >= HM1246_PLL_VCO_MIN &&
-> > > > > +		    vco_out <= HM1246_PLL_VCO_MAX)
-> > > > > +			break;
-> > > > > +	}
-> > > > > +	if (post_div_index >= ARRAY_SIZE(post_div_table))
-> > > > > +		return -EINVAL;
-> > > > > +
-> > > > > +	/* Find best pre-divider and multiplier values. */
-> > > > > +	best_vco_diff = U32_MAX;
-> > > > > +	for (u32 div = DIV_ROUND_UP(xclk, HM1246_PLL_INCLK_MAX);
-> > > > > +	     div <= xclk / HM1246_PLL_INCLK_MIN; div++) {
-> > > > > +		u32 multi, multi_h, multi_l, vco, diff;
-> > > > > +
-> > > > > +		multi = DIV_ROUND_CLOSEST_ULL((u64)vco_out * div, xclk);
-> > > > > +		if (multi < HM1246_PLL_MULTI_MIN ||
-> > > > > +		    multi > HM1246_PLL_MULTI_MAX)
-> > > > > +			continue;
-> > > > > +
-> > > > > +		multi_h = multi / (HM1246_PLL_MULTI_H_MIN *
-> > > > > +				   HM1246_PLL_MULTI_L_MAX) +
-> > > > > +			  2;
-> > > > > +		multi_l = multi / multi_h;
-> > > > > +		vco = div_u64((u64)xclk * multi_h * multi_l, div);
-> > > > > +
-> > > > > +		diff = abs_diff(vco_out, vco);
-> > > > > +
-> > > > > +		if (diff < best_vco_diff) {
-> > > > > +			best_vco_diff = diff;
-> > > > > +			pre_div = div;
-> > > > > +			multiplier_h = multi_h;
-> > > > > +			multiplier_l = multi_l;
-> > > > > +		}
-> > > > > +
-> > > > > +		if (!diff)
-> > > > > +			break;
-> > > > > +	}
-> > > > > +
-> > > > > +	if (best_vco_diff == U32_MAX)
-> > > > > +		return -EINVAL;
-> > > > 
-> > > > How much difference is acceptable? Isn't any difference a bug either in DT
-> > > > or the code above? In other words, I'd return an error in that case.
-> > > 
-> > > Hard to tell, but almost every input clock will result in a slight
-> > > difference. Even the recommended reference register configuration
-> > > doesn't create a perfect match. Therefore, I don't think it's a good
-> > > idea to treat every deviation as an error.
+> We already have that. This is what the move_notify is all about.
+> 
+> > Today, dma-buf effectively provides “if you have the fd, you can keep using
+> > the memory indefinitely.” That assumption breaks down when an exporter must
+> > reclaim, reset, evict, or otherwise retire backing memory after it has been
+> > shared. Concrete cases include GPU reset and recovery where old allocations
+> > become unsafe to access, memory eviction/overcommit where backing storage
+> > must be withdrawn, and security or isolation situations where continued access
+> > must be prevented. While drivers can sometimes approximate this with
+> > exporter-specific fencing and policy, there is no core dma-buf state transition
+> > that communicates “this buffer is no longer valid; fail access” across all
+> > access paths.
+> 
+> It's not correct that there is no DMA-buf handling for this use case.
+> 
+> > The change in this series is to introduce a core “revoked” state on the dma-buf
+> > object and a corresponding exporter-triggered revoke operation. Once a dma-buf
+> > is revoked, new access paths are blocked so that attempts to DMA-map, vmap, or
+> > mmap the buffer fail in a consistent way.
 > > 
-> > I understand that the PLL won't be able to produce the exact nominal
-> > expected frequency, but can't we require the link-frequencies property
-> > in DT to match the PLL output exactly ? That's what we do with other
-> > sensors.
+> > In addition, the series aims to invalidate existing access as much as the kernel
+> > allows: device mappings are torn down where possible so devices and IOMMUs cannot
+> > continue DMA.
+> > 
+> > The semantics are intentionally simple: revoke is a one-way, permanent transition
+> > for the lifetime of that dma-buf instance.
+> > 
+> > From a compatibility perspective, users that never invoke revoke are unaffected,
+> > and exporters that adopt it gain a core-supported enforcement mechanism rather
+> > than relying on ad hoc driver behavior. The intent is to keep the interface
+> > minimal and avoid imposing policy; the series provides the mechanism to terminate
+> > access, with policy remaining in the exporter and higher-level components.
 > 
-> You mean that any link frequency (within the allowed range) can be specified
-> in the device tree, which the PLL can generate exactly? The values ​​for the
+> As far as I can see that patch set is completely superfluous.
+> 
+> The move_notify mechanism has been implemented exactly to cover this use case and is in use for a couple of years now.
+> 
+> What exactly is missing?
 
-Correct.
+From what I can tell, the missing piece is what happens after .move_notify()
+is called. According to the documentation, the exporter remains valid, and
+the importer is expected to recreate all mappings.
 
-> v4l2 controls V4L2_CID_PIXEL_RATE and V4L2_CID_LINK_FREQ are then also based
-> on the DT link freuqency.
+include/linux/dma-buf.h:
+  471          * Mappings stay valid and are not directly affected by this callback.
+  472          * But the DMA-buf can now be in a different physical location, so all
+  473          * mappings should be destroyed and re-created as soon as possible.
+  474          *
+  475          * New mappings can be created after this callback returns, and will
+  476          * point to the new location of the DMA-buf.
 
-Yes, they should be.
+Call to dma_buf_move_notify() does not prevent new attachments to that
+exporter, while "revoke" does. In the current code, the importer is not aware
+that the exporter no longer exists and will continue calling
+dma_buf_map_attachment().
+
+In summary, the current implementation allows a single .attach() check but
+permits multiple .map_dma_buf() calls. With "revoke", we gain the ability to
+block any subsequent .map_dma_buf() operations.
+
+Main use case is VFIO as exporter and IOMMUFD as importer.
+
+Thanks
 
 > 
-> The recently added IMX111 does something similar. For many other sensors,
-> the link frequencies are rather fixed.
-
-Those drivers have no PLL calculators. As you can use an exact frequencies,
-please do so. Any error would be visible in frame rates, for instance.
-
--- 
-Kind regards,
-
-Sakari Ailus
+> Regards,
+> Christian.
+> 
+> > 
+> > BTW, see this megathread [1] for additional context.  
+> > Ironically, it was posted exactly one year ago.
+> > 
+> > [1] https://lore.kernel.org/all/20250107142719.179636-2-yilun.xu@linux.intel.com/
+> > 
+> > Thanks
+> > 
+> > Cc: linux-rdma@vger.kernel.org
+> > Cc: linux-kernel@vger.kernel.org
+> > Cc: linux-media@vger.kernel.org
+> > Cc: dri-devel@lists.freedesktop.org
+> > Cc: linaro-mm-sig@lists.linaro.org
+> > Cc: kvm@vger.kernel.org
+> > Cc: iommu@lists.linux.dev
+> > To: Jason Gunthorpe <jgg@ziepe.ca>
+> > To: Leon Romanovsky <leon@kernel.org>
+> > To: Sumit Semwal <sumit.semwal@linaro.org>
+> > To: Christian König <christian.koenig@amd.com>
+> > To: Alex Williamson <alex@shazbot.org>
+> > To: Kevin Tian <kevin.tian@intel.com>
+> > To: Joerg Roedel <joro@8bytes.org>
+> > To: Will Deacon <will@kernel.org>
+> > To: Robin Murphy <robin.murphy@arm.com>
+> > 
+> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> > ---
+> > Leon Romanovsky (4):
+> >       dma-buf: Introduce revoke semantics
+> >       vfio: Use dma-buf revoke semantics
+> >       iommufd: Require DMABUF revoke semantics
+> >       iommufd/selftest: Reuse dma-buf revoke semantics
+> > 
+> >  drivers/dma-buf/dma-buf.c          | 36 ++++++++++++++++++++++++++++++++----
+> >  drivers/iommu/iommufd/pages.c      |  2 +-
+> >  drivers/iommu/iommufd/selftest.c   | 12 ++++--------
+> >  drivers/vfio/pci/vfio_pci_dmabuf.c | 27 ++++++---------------------
+> >  include/linux/dma-buf.h            | 31 +++++++++++++++++++++++++++++++
+> >  5 files changed, 74 insertions(+), 34 deletions(-)
+> > ---
+> > base-commit: 9ace4753a5202b02191d54e9fdf7f9e3d02b85eb
+> > change-id: 20251221-dmabuf-revoke-b90ef16e4236
+> > 
+> > Best regards,
+> > --  
+> > Leon Romanovsky <leonro@nvidia.com>
+> > 
+> 
+> 
 
