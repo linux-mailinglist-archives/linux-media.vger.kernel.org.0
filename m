@@ -1,67 +1,67 @@
-Return-Path: <linux-media+bounces-50422-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50425-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2D58D11AD2
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 11:01:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8167D11AE4
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 11:01:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 2A48A30537BC
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 10:00:20 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id AC04830499E7
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 10:00:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4873C28A3F8;
-	Mon, 12 Jan 2026 10:00:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BF95290DBB;
+	Mon, 12 Jan 2026 10:00:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VfIlXI0S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NQ2ZbpYy"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C339D284670
-	for <linux-media@vger.kernel.org>; Mon, 12 Jan 2026 10:00:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4314F285072
+	for <linux-media@vger.kernel.org>; Mon, 12 Jan 2026 10:00:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768212015; cv=none; b=J274RMd/RL8q7f6QWjBcrkLL/o14yhFTXH/tfWbKhgnJ+wQqIz3ohb2Th+POqjnqIAY9D/50HUg0zdf5zFYM6eEST8bcRzXrK4XrNfzUzm6fFs3/bB2a8CIE1+udV7M1X4xewdn+DXXo8+uyc0Gev80xlWahuOGY3EQO90hUsYc=
+	t=1768212017; cv=none; b=bWw45Vyxjvc0O8rSEJSNEjWCyRhxbx8wVgCvKPEvJJAowN1XCB5XTHrLCqMlKXiVX63GVx8lFIgiI9BSB6SdQPYlQ9ulJl9jjpwXmd/iHF0YuRj98ZBwQls13jTKSOhEVz1GBxUtXn2A5PK1rL0YsFDAWuNkg028uZXrYICyVuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768212015; c=relaxed/simple;
-	bh=haNl4zEs3Ly3I43IVlN9BQcj6yvhor/TbGpNlWxpWQI=;
+	s=arc-20240116; t=1768212017; c=relaxed/simple;
+	bh=E0Uhe0V2Qg8Bef4VP9VePcP9BvNCFOdkg32pifpoXMo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RmW7wGqozp4HBIE650vK66kH8C167bbdj6Luu3knq0RuR2Qw9Z4x+ILZ52sUhhKaP/FwXxYWxZdd6JcibqQIOIq+c/xHd1PD6HxNDx+shKM40s/JczUVgdXS5CB4THAtX4wxJma57MwXad3YWP/zdnROD3THGVjy39PAqIT+XQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VfIlXI0S; arc=none smtp.client-ip=198.175.65.20
+	 MIME-Version; b=SpSF94AtBFEyrKgHvwxPjomINS9rdI5CTK2fndkCw/NsEkUTvMjdVaMTTPJo52JaJO03hWY+c4DjpZdN3A4XpkB6UFS80CsW7/qYw3fk2Amv+ZSkQ+bu/w8do+P47XYCuGL5iZ+gRpJ3oWnZp3cCsY00ZbQvhmZQiTEoxFp4TjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NQ2ZbpYy; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768212014; x=1799748014;
+  t=1768212016; x=1799748016;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=haNl4zEs3Ly3I43IVlN9BQcj6yvhor/TbGpNlWxpWQI=;
-  b=VfIlXI0SIl6xselUWYvZhYLFxpacNQ0I16ZCo0o8kkUR+YwY5ojU76FM
-   /FnYqsjcdcIQikKJ0m709eoFXr6DfN78wgA3YxY2JHLylrwSs/uGEYPqG
-   uJlKse7R7mjQCCPywtwzfGwWYbeCWnKOFi2GrU0aCbccxTubixBuFGcmw
-   NrbaQg5kqX3Igah7XsritBe6B6fbnFQ+Xr/FhRtNGW+B6h0hj6Li5msg1
-   zozVKRhu2H+/KIzMYNCrEgyRfyLj1vMbKySpa/VHNM4FKC7PiJogmtSnf
-   j5ugCdSHkJXy9YSBpi9r/Ig74tjFWqBluhvp8qLOyVbYuVuVjmnjrXQGj
-   Q==;
-X-CSE-ConnectionGUID: hAmoY2rKRoyvK31ehKuIuw==
-X-CSE-MsgGUID: yy4dMJsuRby5+Io4XGWQDQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="69218811"
+  bh=E0Uhe0V2Qg8Bef4VP9VePcP9BvNCFOdkg32pifpoXMo=;
+  b=NQ2ZbpYy5aa+sWA4av7THEDFg3GVErzLa52OHy+3ekI+7j3qR6ildPQ0
+   l0mzPPCNYjFt+e+hE5xPF1AZ87JKTUEP+szSIEnDsAuVZNNp8x6VvIXnY
+   9zTGTLHijpf+XHepEfdZGeimI3qIztqdMx2B73AnwrufMdKehx7lLLaHF
+   rOcA3Ji+Dwrk1tFAxa/YuTXehBDduA6UMojWg9uOoLUPiEkmoGVJxWDu8
+   VvkSOZKOi6yTxhuQUHKgYrJb2+fkhQ2aCHV44ScHTaZy2nNqENOPzVZ+h
+   r0How57azoxJRqprkjifo0fvhBvWmNhZntZqe48PMq2KQeg9b5WI+fgo7
+   g==;
+X-CSE-ConnectionGUID: 7SjQ9/okSW2JTtAX9FhvDg==
+X-CSE-MsgGUID: wxQ2h6sRRRaR7352uMkEkg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="69218817"
 X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="69218811"
+   d="scan'208";a="69218817"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
   by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 02:00:01 -0800
-X-CSE-ConnectionGUID: 77oUG4lLSwStnbodnWbfgA==
-X-CSE-MsgGUID: KqdF0rzFSBCB+so/grQoBQ==
+X-CSE-ConnectionGUID: Ei3XKJGDRaaX2bd/IHfx3w==
+X-CSE-MsgGUID: fjEEQQ+oTZaVyEB0PgDdmw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="234743167"
+   d="scan'208";a="234743173"
 Received: from zzombora-mobl1 (HELO kekkonen.fi.intel.com) ([10.245.245.52])
   by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 01:59:59 -0800
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 4FD9B121FC6;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 5376C121FCE;
 	Mon, 12 Jan 2026 11:59:50 +0200 (EET)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1vfEiE-0000000012L-0nFZ;
+	id 1vfEiE-0000000012R-0qkD;
 	Mon, 12 Jan 2026 11:59:50 +0200
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -69,9 +69,9 @@ To: linux-media@vger.kernel.org
 Cc: Bingbu Cao <bingbu.cao@intel.com>,
 	Hans de Goede <hansg@kernel.org>,
 	mehdi.djait@intel.com
-Subject: [PATCH v2 17/23] media: i2c: ov01a10: Remove struct ov01a10_reg_list
-Date: Mon, 12 Jan 2026 11:59:43 +0200
-Message-ID: <20260112095949.3851-18-sakari.ailus@linux.intel.com>
+Subject: [PATCH v2 18/23] media: i2c: ov01a10: Replace exposure->min/step with direct define use
+Date: Mon, 12 Jan 2026 11:59:44 +0200
+Message-ID: <20260112095949.3851-19-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260112095949.3851-1-sakari.ailus@linux.intel.com>
 References: <20260112095949.3851-1-sakari.ailus@linux.intel.com>
@@ -85,70 +85,33 @@ Content-Transfer-Encoding: 8bit
 
 From: Hans de Goede <hansg@kernel.org>
 
-After the conversion to the CCI register access helpers, struct
-ov01a10_reg_list is only used inside struct ov01a10_link_freq_config.
-
-Simplify things by embedding the ov01a10_reg_list members directly into
-struct ov01a10_link_freq_config.
+The exposure minimum and step are constant use the defines for this
+instead of retrieving these from the exposure-control.
 
 Signed-off-by: Hans de Goede <hansg@kernel.org>
 Tested-by: Mehdi Djait <mehdi.djait@linux.intel.com> # Dell XPS 9315
 Reviewed-by: Mehdi Djait <mehdi.djait@linux.intel.com>
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/i2c/ov01a10.c | 22 ++++++++--------------
- 1 file changed, 8 insertions(+), 14 deletions(-)
+ drivers/media/i2c/ov01a10.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/media/i2c/ov01a10.c b/drivers/media/i2c/ov01a10.c
-index 349fd3d06df5..1af0af00df24 100644
+index 1af0af00df24..76c75da4d7c8 100644
 --- a/drivers/media/i2c/ov01a10.c
 +++ b/drivers/media/i2c/ov01a10.c
-@@ -98,13 +98,9 @@
- #define OV01A10_MEDIA_BUS_FMT		MEDIA_BUS_FMT_SBGGR10_1X10
- #define OV01A10_BAYER_PATTERN_SIZE	2 /* 2x2 */
+@@ -366,9 +366,8 @@ static int ov01a10_set_ctrl(struct v4l2_ctrl *ctrl)
+ 		exposure_max = fmt->height + ctrl->val -
+ 			       OV01A10_EXPOSURE_MAX_MARGIN;
+ 		__v4l2_ctrl_modify_range(ov01a10->exposure,
+-					 ov01a10->exposure->minimum,
+-					 exposure_max, ov01a10->exposure->step,
+-					 exposure_max);
++					 OV01A10_EXPOSURE_MIN, exposure_max,
++					 OV01A10_EXPOSURE_STEP, exposure_max);
+ 	}
  
--struct ov01a10_reg_list {
--	u32 num_of_regs;
--	const struct reg_sequence *regs;
--};
--
- struct ov01a10_link_freq_config {
--	const struct ov01a10_reg_list reg_list;
-+	const struct reg_sequence *regs;
-+	int regs_len;
- };
- 
- static const struct reg_sequence mipi_data_rate_720mbps[] = {
-@@ -237,10 +233,8 @@ static const s64 link_freq_menu_items[] = {
- 
- static const struct ov01a10_link_freq_config link_freq_configs[] = {
- 	{
--		.reg_list = {
--			.num_of_regs = ARRAY_SIZE(mipi_data_rate_720mbps),
--			.regs = mipi_data_rate_720mbps,
--		}
-+		.regs = mipi_data_rate_720mbps,
-+		.regs_len = ARRAY_SIZE(mipi_data_rate_720mbps),
- 	},
- };
- 
-@@ -550,12 +544,12 @@ static int ov01a10_set_mode(struct ov01a10 *ov01a10)
- 
- static int ov01a10_start_streaming(struct ov01a10 *ov01a10)
- {
--	const struct ov01a10_reg_list *reg_list;
-+	const struct ov01a10_link_freq_config *freq_cfg;
- 	int ret;
- 
--	reg_list = &link_freq_configs[ov01a10->link_freq_index].reg_list;
--	ret = regmap_multi_reg_write(ov01a10->regmap, reg_list->regs,
--				     reg_list->num_of_regs);
-+	freq_cfg = &link_freq_configs[ov01a10->link_freq_index];
-+	ret = regmap_multi_reg_write(ov01a10->regmap, freq_cfg->regs,
-+				     freq_cfg->regs_len);
- 	if (ret) {
- 		dev_err(ov01a10->dev, "failed to set plls\n");
- 		return ret;
+ 	if (!pm_runtime_get_if_in_use(ov01a10->dev))
 -- 
 2.47.3
 
