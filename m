@@ -1,153 +1,219 @@
-Return-Path: <linux-media+bounces-50482-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50483-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B69D14219
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 17:45:11 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41A6ED14500
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 18:21:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 92253300E8E7
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 16:44:44 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6CEE33185C43
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 17:08:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF9C836A010;
-	Mon, 12 Jan 2026 16:44:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAE19245019;
+	Mon, 12 Jan 2026 17:04:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bH1T5z96"
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="l7zXiZ/a"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B28936999B
-	for <linux-media@vger.kernel.org>; Mon, 12 Jan 2026 16:44:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68BB2DFA5B
+	for <linux-media@vger.kernel.org>; Mon, 12 Jan 2026 17:04:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768236278; cv=none; b=oWLg40oHQwzP5v8sWR/hssW1E1JCjt9F+yCMleZh49ER0/m+0Vll10lEuT7k1qnKxZRKXfijExscNgD481hzeqmalSbrljkSj2q9jodnf8mBam5wydzqeY6B5ofB0U71BEx7EuzPufTjkngSIoB7eIvZBIbCYxBcrb/mNFx6NMg=
+	t=1768237480; cv=none; b=GUNDSM7yRnfrKrcu1gXwXX+2n59d/C8tu4obopbPSt2nu3bi7pbA/lPXdDyQWS0YPCQeDSXgLNNSUrvjuuFcEHH5OpYhEos8YJZuhuZPkkU5Ija57Uc4R8G055mV9gJZpIleV5dtutmPSWEFEK4ondqSV9Di2Pe/pGbrZ8Fng3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768236278; c=relaxed/simple;
-	bh=15bJV717b3BmCRep7g3f3eqDSXeQzdRiVGChJjyTeQY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uURS7K30EZyi7OmY9bnTCDJvTnSPnUZ8zwmTrFLdtNN6V7ZPhre/Bk+cTg75CFRs36B3CMgPYvs4BjMBphYrOvK/rS3Ak+3+/FISOe17IMEvq3UnStXdExapMP2SvcPxQYtvOauJC4FH8kG6PcV2LkkbSCd+5CAFnem11JOf0cI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bH1T5z96; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-47a95efd2ceso58015105e9.2
-        for <linux-media@vger.kernel.org>; Mon, 12 Jan 2026 08:44:35 -0800 (PST)
+	s=arc-20240116; t=1768237480; c=relaxed/simple;
+	bh=kqVUiqT6KtRytlahMDtuyi2Socb+UOgt4TA6Nk04jRA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BAu5ezX73wuPPHjTVqhjfY7ELWFQ1uvnaDG+sIAEL/lQRrzR5iorGjo80I25HZaQ3+wNPT5NtgyWGQbmJUCEyfrPxpi8Nv5xOA0rCYGLAZN6BEt7C/q9Q0Zz6iZY1vMI1O2/C0P1YyX4R5zVtNZms0Zury8WBzNdVsj8BKl7Wss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=l7zXiZ/a; arc=none smtp.client-ip=209.85.222.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-8c0f15e8247so935575885a.3
+        for <linux-media@vger.kernel.org>; Mon, 12 Jan 2026 09:04:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768236273; x=1768841073; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cD2W84EqNYwKoDXJN6AUPaelb23t6+j5pqlOt/nW9so=;
-        b=bH1T5z96+EQKTkzc7oWa96oLtOaQAGPXrLdTh5cSkS996Fo97FtWnR1kvgFmC+2q2c
-         D1i0FIK64uY2AiEZqtLhq3TlBYZoGVA/9VRvfYZeZkXmF15JxrGIcKBM8fA1+6w7Dr9X
-         0c87ROpOjeTCAQpYsoBywYqkdMtulPXhV9o5DTigMu+k24P/jDknmWfEM/tJ+Ev7SPhz
-         LQVqmoQyKOO2QLkFQ/9e65wiSmdsQ7n+2NBiG98fSaU8ktpvJobQodePyd0Dvhm4hYST
-         lk908nc7wt6tRB4f4dPJ3k59nQoeeGK/aKhSFwgyoG1/bWqYKp92v8d6Ex8sk13ooeYm
-         vDSQ==
+        d=ziepe.ca; s=google; t=1768237477; x=1768842277; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=OcyVQ16xm+GiG5uZamh0DYF4z7rm9kbmhFMirpeUsGo=;
+        b=l7zXiZ/aW+yD1Lv6DQdcw5be3vS+3NHd7+FDGKooRgEbQI6AqXfFuAIWjkUm6CnH7V
+         WLgNA/iA+xYpZmsSFB33UemonE6M2qdmV6VRIKY1GKU8x4ry/68eS8UB94cynvPnLpeH
+         5Ubp3Jr0ipJixDxja4/jscEMwwcBGK836j0E+1rh2nMA4t9qjmi8uY2F3NVTZ/8FpnTB
+         F+3/wAZasvEB0FYVd5Xkka/xfcpQiKuvn+7Ong8qGxeIn50jZfTjDbPHXxNOMctSbKFG
+         pwAy4nc+ZKZNsVrYlcIlNHMt6FEeMVpkedypb3/mt0QVC1toBayqtsCyhBYNJWmnaRoR
+         mAOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768236274; x=1768841074;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=cD2W84EqNYwKoDXJN6AUPaelb23t6+j5pqlOt/nW9so=;
-        b=odxWXp0Nk3iriu3P2sphUXaUOBFtoNjVoopjaeR86eJqIHmz+zjbzPfXbZmRG5z7jU
-         Ld+cBFo51BPRv3IPHQ14dcDH59yG2itN2LULATLfsAjesn4rXcm9oiMymU0VcrCLh+uZ
-         8n9oJ5AV0VuFlUlpcT1MhR3kouWrc8WEeY+TWLikkatxKLjzCVu9owoH5STy6JIREkOE
-         yOrbuXavJpyTYBHX34FABg5K1b2OrfWXVJ94y/nDCikSl0hXg1Q7psaDJz6i+Th9OcXz
-         TvDCxbyQ6dH20NKpD5nu7Qg79/AxpJe3xVKW4WRpGtYxLhj/AjTQCDW6srWlK8y82zux
-         mrdA==
-X-Forwarded-Encrypted: i=1; AJvYcCWb+e4TLeI5sSGa36u3sy2IEedZvjjyp24xfbsoFr8IIxfJippQLxHs84LgSacAagMJIJsa7ovX9cBD6Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHeL2tDtCbiv6M563mslnVZTLmuG2oJz2ymkiYA3+lFS92ho80
-	SdRhPv4mQAMq/9dqAYYsPN8CaPwEXUfEs1ru8Jx+BrEYCdxKqz6zi7p/t3aNQhXGCjT4Lh4iQ91
-	VrpH762vutRtfmJT5vDG12xQ/3m5W620=
-X-Gm-Gg: AY/fxX4JeOF41SYuSLyrU4kHlziBlDzpnPdPeDDw+rzFLXs76n5/kiEQkOmJ9Uh4rmj
-	IfxdRltAXg7ngH0hKYDXLpvIh1ndXg5hH7rM06TDdRq5LbvTJVR1lAYNU21LJXjcrXSE83tZJ8F
-	YnUuZIy6wgtUZrxABf43InM2i9p+tYRz9PAA9HHiiOe4BL1CPL5McYY4Y1o/Pxxmh1GJUVKada7
-	7vXlZ5Jl0yQ9w1vXJKhB8Rwk/OeO/AyMa3ElITJZ1HwF+77oAOaBmmeFZAuzAQA5XSyOmc2XIUk
-	q6Oi1NcWFE2Ie09iPh05GcqEImJdroi7IfELOuKJxetBRbAAEKks33Y=
-X-Google-Smtp-Source: AGHT+IGau+W3RGt608fIO3PobvK9WHuMcah1IGzOIOuD1jKefcV1nFFm2JOlx2I3P0NzrOE0nXKM9dKGfg70UFuX9rs=
-X-Received: by 2002:a05:600c:8b0a:b0:46f:c55a:5a8d with SMTP id
- 5b1f17b1804b1-47d84b0aa97mr211947485e9.4.1768236273225; Mon, 12 Jan 2026
- 08:44:33 -0800 (PST)
+        d=1e100.net; s=20230601; t=1768237477; x=1768842277;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OcyVQ16xm+GiG5uZamh0DYF4z7rm9kbmhFMirpeUsGo=;
+        b=cH281S5+zOfHPtJonVoa9wjG+0Z1zwXyBq+i7p4igTYRcRUZaV26sv4hqyTgKPOWzS
+         2gukxtYFL1cGRCFEKYvZv/eS5cZph8MiONWy347cdvo4D7X094lm/dzEuJXgDeolO6XR
+         qXYX7H8v26PFxgXaIf8/8uwGBGSrnTdNkhkBvrCT/sgziaW8aWu7Et0y/EafLxkRE5Qb
+         3YcQy0/1RZb4fD+cV9epej1R3/NtZgOvgvM7YzJJ4UwJPTQj5Z/nDqOPuzCqWy7QTCRM
+         GRPDiLyAWNAikptrTO1/cCgLAL2VJ1qruAkmkCNRyM+MIXPwh3S/E3w1sjZdDELjxW+b
+         CO8A==
+X-Forwarded-Encrypted: i=1; AJvYcCVETzMecOiWx8x+4AATodDCVdVGGTfqTJuJnKPamatQGEDv4FC8Jnts3kpaOGRrZUzBBEKrDaoG9peTdw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHNR9XHXfL4FU0B6QPpbwTjk7AF3d95nPLbCh+rQVIv6uT2tBJ
+	FBICvi8AYJ6feh+sZf91uaAD/7yvu/MhIn0MVDtpCl4XIph7RhcymMXQEG3cY0MoZIE=
+X-Gm-Gg: AY/fxX4kNkbi46Onp0NvNL06QcGYEk9FvwiOVLeIYM6VXRcGkV99ykO5A+wdBOZWtPp
+	TgGeHMNgEnXbzvzZQ6Q584AmmTiaf7I4ycWr4/npcGGnsCuIyenD+POtkcfH5P8CH5R6/RzyZea
+	KX+isz4n2N8N7hcU7ails2Tu3esBsMY9b6Fvf3Tfvu0grT1tHkNlI1+zg2DTqytpG2VLIkrl3Lp
+	K+b1evbRGe7IGDPtLONM2p1i49GAlePRt1cXx+2Pm9phNauLPihyShGm7dQfL3dDOzXrfVLgo1s
+	sq1Sxjds7rlZelr4tecwquEVnkfT0gn6euZeMVcVqlIFGSQ01MEUvlFRIp114hlGrpL/cWQ2RxU
+	jpyppqtWa7DwWP3H84Pj4wl81UWgUAq4u8FtT3MQJp3luRZzgf5LjTiUD3Dha7/FmYMaB9kZmvv
+	ZprNSfWw5/0PqIezxwosOfS1IQwLjyaccuzLyGBrJ7MPuKDWQ8LoCiSy7CgGvX9vf/roi76WrKu
+	GYhtw==
+X-Google-Smtp-Source: AGHT+IFNLsjliAScqbFFhKVSqiGiRJW+dH1w6MdFsmu8SpI9IHI7Dx7AHxGoF9vGvT6LPNemfh4Zsw==
+X-Received: by 2002:a05:620a:2807:b0:8b5:5a03:36e3 with SMTP id af79cd13be357-8c38936c4e7mr2741533585a.16.1768237475821;
+        Mon, 12 Jan 2026 09:04:35 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c37f51cdcesm1544825185a.26.2026.01.12.09.04.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jan 2026 09:04:35 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1vfLLG-00000003RoH-2rL8;
+	Mon, 12 Jan 2026 13:04:34 -0400
+Date: Mon, 12 Jan 2026 13:04:34 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>,
+	Leon Romanovsky <leon@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Alex Williamson <alex@shazbot.org>,
+	Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	linux-rdma@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
+	iommu@lists.linux.dev
+Subject: Re: [PATCH 0/4] dma-buf: add revoke mechanism to invalidate shared
+ buffers
+Message-ID: <20260112170434.GH745888@ziepe.ca>
+References: <20260111-dmabuf-revoke-v1-0-fb4bcc8c259b@nvidia.com>
+ <eed9fd4c-ca36-4f6a-af10-56d6e0997d8c@amd.com>
+ <20260112121956.GE14378@unreal>
+ <2db90323-9ddc-4408-9074-b44d9178bc68@amd.com>
+ <20260112141440.GE745888@ziepe.ca>
+ <f7f1856a-44fa-44af-b496-eb1267a05d11@amd.com>
+ <20260112153503.GF745888@ziepe.ca>
+ <f2f82341-3799-4379-a0e7-6e9d56a7eda1@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251103194554.54313-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20251104120141.GC27255@pendragon.ideasonboard.com>
-In-Reply-To: <20251104120141.GC27255@pendragon.ideasonboard.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 12 Jan 2026 16:44:07 +0000
-X-Gm-Features: AZwV_Qig6PsppKVhEERX8F-92Y9pCzvropDxY-lGZwStB3z6BiMeRd5H2J_Pg1I
-Message-ID: <CA+V-a8sP6o2GUju2ub0q1exiV87zHrkTddvkv8GKR_7wBF+vSA@mail.gmail.com>
-Subject: Re: [PATCH] media: dt-bindings: media: renesas,fcp: Allow three
- clocks for RZ/V2N SoC
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f2f82341-3799-4379-a0e7-6e9d56a7eda1@amd.com>
 
-Hi Laurent,
+On Mon, Jan 12, 2026 at 05:12:36PM +0100, Christian König wrote:
+> > static struct dma_buf_attach_ops ib_umem_dmabuf_attach_pinned_ops = {
+> > 	.allow_peer2peer = true,
+> > 	.move_notify = ib_umem_dmabuf_unsupported_move_notify,
+> > };
+> > 
+> > So we can't just allow it to attach to exporters that are going to
+> > start calling move_notify while pinned.
+> 
+> The point is exporters are already doing this.
 
-Thank you for the review.
+:( So obviously this doesn't work fully correctly..
 
-On Tue, Nov 4, 2025 at 12:01=E2=80=AFPM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Prabhakar,
->
-> Thank you for the patch.
->
-> On Mon, Nov 03, 2025 at 07:45:54PM +0000, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Update the FCP DT schema to permit three clock inputs for the RZ/V2N So=
-C.
-> > The FCP block on this SoC requires three separate clocks, unlike other
-> > variants which use only one.
-> >
-> > Fixes: f42eddf44fbf ("media: dt-bindings: media: renesas,fcp: Document =
-RZ/V2N SoC")
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->
-> > ---
-> > Note, there are no current users of the RZ/V2N FCP compatible string in
-> > the kernel tree.
-> > ---
-> >  Documentation/devicetree/bindings/media/renesas,fcp.yaml | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-Can you please pick this patch.
+> > Which is why we are coming to negotiation because at least the above
+> > isn't going to work if move_notify is called for revoke reasons, and
+> > we'd like to block attaching exporters that need revoke for the above.
+> 
+> Ah, yes that makes sense. This is clearly a new requirement.
+> 
+> So basically for PCIe hotplug was a rare event were we said we have
+> some problems with non-ODP but we can live with that, but for this
+> use case here it's more like a perfectly normal condition that
+> userspace can trigger.
 
-Cheers,
-Prabhakar
+Yes that seems to be exactly the case. I didn't know about the PCI RAS
+case until now :(
 
-> > diff --git a/Documentation/devicetree/bindings/media/renesas,fcp.yaml b=
-/Documentation/devicetree/bindings/media/renesas,fcp.yaml
-> > index cf92dfe69637..b5eff6fec8a9 100644
-> > --- a/Documentation/devicetree/bindings/media/renesas,fcp.yaml
-> > +++ b/Documentation/devicetree/bindings/media/renesas,fcp.yaml
-> > @@ -77,6 +77,7 @@ allOf:
-> >                - renesas,r9a07g043u-fcpvd
-> >                - renesas,r9a07g044-fcpvd
-> >                - renesas,r9a07g054-fcpvd
-> > +              - renesas,r9a09g056-fcpvd
-> >                - renesas,r9a09g057-fcpvd
-> >      then:
-> >        properties:
->
-> --
-> Regards,
->
-> Laurent Pinchart
+> So the exporter wants to reject importers which can't handle a
+> mapping invalidation while the BO is pinned, correct?
+
+Yes. I think at a minimum exporters where it is a normal use case
+should block it so unpriv user space cannot trigger incorrect behavior
+/ ignored invalidation. ie VFIO will trigger this based on unpriv user
+system calls.
+
+I supposed we have to retain the PCI RAS misbehavior for now at least.
+It would probably be uAPI regression to start blocking some of the
+existing ones.
+
+It also seems we should invest in the RDMA side to minimize where this
+is used.
+
+> > So, would you be happier with this if we documented that move_notify
+> > can be called for pinned importers for revoke purposes and figure out
+> > something to mark the above as special so exporters can fail pin if
+> > they are going to call move_notify?
+> 
+> That would work for me. I mean it is already current practice, we
+> just never fully documented it.
+
+OK
+ 
+> > Then this series would transform into documentation, making VFIO
+> > accept pin and continue to call move_notify as it does right now, and
+> > some logic to reject the RDMA non-ODP importer.
+> 
+> I think we just need to expose this with flags or similar from the
+> importer side. As far as I know RDMA without ODP is currently the
+> only one really needing this (except for cross device scanout, but
+> that is special anyway).
+
+I did not see any other importers with an obvious broken move_notify,
+so I hope this is right. Even iommufd has a working move_notify
+(disruptive, but working).
+
+How do you feel about an enum in the ops:
+
++enum dma_buf_move_notify_level {
++	/*
++	 * The importer can pause HW access while move_notify is running
++	 * and cleanly handle dynamic changes to the DMA mapping without
++	 * any disruption.
++	 */
++	DMA_BUF_MOVE_NOTIFY_FAULTING = 0,
++	/*
++	 * The importer can stop HW access and disruptively fail any
++	 * of its DMA activity. move_notify should only be called if the
++	 * exporter is experiencing an unusual error and can accept
++	 * that the importer will be disrupted.
++	 */
++	DMA_BUF_MOVE_NOTIFY_REVOKING,
++	/*
++	 * move_notify is not supported at all and must not be called. Do not
++	 * introduce new drivers using this, it has significant draw backs
++	 * around PCI error handling and other cases. It has the most limited
++	 * set of compatible importers.
++	 */
++	DMA_BUF_MOVE_NOTIFY_UNSUPPORTED,
++};
++
+ /**
+  * struct dma_buf_attach_ops - importer operations for an attachment
+  *
+@@ -457,6 +480,8 @@ struct dma_buf_attach_ops {
+ 	 */
+ 	bool allow_peer2peer;
+ 
++	enum dma_buf_move_notify_level move_notify_level;
++
+ 	/**
+ 	 * @move_notify: [optional] notification that the DMA-buf is moving
+ 	 *
+
+Jason
 
