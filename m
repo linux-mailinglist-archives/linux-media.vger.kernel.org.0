@@ -1,198 +1,163 @@
-Return-Path: <linux-media+bounces-50455-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50456-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65BBFD12336
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 12:14:32 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14C67D125A3
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 12:43:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 576403106EF2
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 11:10:03 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 9CFC23019E1C
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 11:43:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 899253559E3;
-	Mon, 12 Jan 2026 11:10:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B75E1356A1A;
+	Mon, 12 Jan 2026 11:43:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="lq6vwzjc";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="IWcEpgwA"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="eVkktZvJ";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="OPLn+7ot"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B53D7355806
-	for <linux-media@vger.kernel.org>; Mon, 12 Jan 2026 11:09:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA4E1356A1F;
+	Mon, 12 Jan 2026 11:43:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768216200; cv=none; b=fuPyYgnziOA5MZLuLc36V4FNeP8GELILjKiGAn9SGViQ7+EDRuNs23dLGwqthGhkicxd0mLuAMhXaj3p+X808fvbypT7V/eWc5Rv+crG8Aj3Qhr4iz9ibZqZC4L/ay5kGNqFmR33WnNNsS+WaPGS7mN0IA5SLg/N/14O4Se5Msg=
+	t=1768218199; cv=none; b=Ja5ViMQ4zYkD6vVMNngCGEb3Z078cQYqqcPgwbgEVk7YhmFI6xHm57hVA14oE6+QciOeURPsVIv0S72z6c8uVx9Q+GKa7VaKF2YMtzsEqjJp7VgcuW9dkpTCdcDH3RcW8YjW7YBqjvpfiNHjM6e3OO9NNJdJQ+6qppvzRDb0Peg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768216200; c=relaxed/simple;
-	bh=ZtPbgqz7BJQtQmo/NQXXac9kWs26vpASRvb6TMW6ziY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Xp20IrM5GYnNe/W3MV5SS5n83g88cGIRFFN4yDIqVu+v8L3cRc0YxC3aseuTTH4Du4bqdcO60PR9HsGT8rlsxU4PRWKmAoIoHBS7MsaoIwp8n1TNRTYvMUPqC95UqXNoS2WcbFRRqtoikMQgWgrXQIEgWxbJLsu4n8rNL+sMEEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=lq6vwzjc; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=IWcEpgwA; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60C9F3rh1092200
-	for <linux-media@vger.kernel.org>; Mon, 12 Jan 2026 11:09:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	015MT2ydsbb65/BcmwavatLyyBIiF0F1nAMSpF1TgcM=; b=lq6vwzjclFv6c8L/
-	vWi4NYqOA9JFlEzAXqtC6SFerAkgwE2C2SFp/w4l0ZyPx99N19Nm7i/Q0MbUWmYu
-	3BdqT879HyXd2x5PAmRKIV8AsjwjN/fyZLVtYPXngLJ2ZY1lBa7qB1K87vtj73ys
-	Q73k4j7d3UgVaGkZTLmSf9HR4TIW92ZCyy8S79ypy3DLKihC9otgr3uog+CKTs2E
-	ronr6A9vuj4fvIZeyqVfhVLiibV9yg5SENrLt6Rx7foBH/cNHrzmdr5ofP5tis5N
-	1O+0jTJt6Vv4KMKj+/YbwSvQCiH0Qe3YWSI6AGM780n9l55FFCRzR/AJQV182kN8
-	BM5f3A==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bmx5mgbb8-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Mon, 12 Jan 2026 11:09:57 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2a08cbeb87eso70985125ad.3
-        for <linux-media@vger.kernel.org>; Mon, 12 Jan 2026 03:09:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1768216196; x=1768820996; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=015MT2ydsbb65/BcmwavatLyyBIiF0F1nAMSpF1TgcM=;
-        b=IWcEpgwAU4ckMyQ6qUKL/kYs9ROc6ftsZxdz/2p+Nba0RzMxQ49QPkmzap+8Ynv6oO
-         H6MA1HS4HEIoR6XFwrQitHgAX8nl6sWuZ6A9CUNP1rNMgblAeCPfv9b3fGJYYFehAqxU
-         t83VcEBjQoWKDYDP8eR7AwFrtdzq2Ewt4ZbQDqquJxdVj7+e1pjtwrJOthcrfkACzD7b
-         0LTvzucEPxf1NN/pdaGPWBji92VcxqQbIZc8kyeBiV4HGCLE8iDZyppzEvHk47jlm0jJ
-         8wa6xzs0brlizzRnZHw1QJ1H5NIHYLriEPsKiEN5qrikJXGxLhi9bcsAoWg3ofFPK2Xd
-         OUpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768216196; x=1768820996;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=015MT2ydsbb65/BcmwavatLyyBIiF0F1nAMSpF1TgcM=;
-        b=kdSHUv8dJC6S6+f3XeEcf2Xr4QeTig+w54tEW52fS5V1OufuKPQcvutXxXZk1gp8g7
-         cRbkHiLeuifXemqvd7hQf9LSz0Z9jFw9aGoa1GQnOeYjpk39887TX4KjMKZc48UpjzRN
-         qvttsilCZnmvqo4f13o3RofnHwueQ55NSSdSYF6crP1Z90+ShYfimvEYI3fp2zYVukwD
-         DKfbSfALtBK+4MBdLQdaiGeYnAmDGY7EaA9r+jqSp35wlMZYuBcK4jtgy5S0BeyueRgp
-         5HUdE948X9EAbHcxAwykfkP3oyj6zunJqjEz9lsEGyH+O/YS7qV9rgdGtOXUqovJ/W8y
-         gvww==
-X-Gm-Message-State: AOJu0YyB5TCKh2XmKF+xvgkBlYMFN/EoRzcAFqck/zBIO1DWkiSg6KUB
-	iveVgRPM7CmxVMAeLkxdq2APjpIKmcAavOyX0UsgbpNpvbD8eHzkVt4WdmDwsNPvcNRqwh93rzH
-	MNt6XH0HPTp8Qd0OSqWi2hHkX6OyvpMlx1K6tTigWjy0CFIFb/oh0OF1Lg2x6NF3AqD6RQAFmMg
-	==
-X-Gm-Gg: AY/fxX5L/X5BMCxyh/fT5DrI6kahYedbkZlCCAHes1nAeQBeLVy6FL2+7Or7TgW7F0L
-	PkEeSrlOjijI+5cABq1KInyTcthk8RUlQdwYAjvSJQL9ZTii9kBJeIm+MEXE0LrIKT1v58ydH8G
-	5L8Qn2tpp1GuLlWm1JNmKsw0MpBOgsLCkyvyzfb9NGCP4d8J5PVYBATZnj1z6zjzZayZAUrAIZK
-	G7jfl8bQ7ZSjFGuAboMEPL7NSRXaCfQIMRAM/CL7FCtJMRsfa1ZeQkECFobEvlbYeql7Ei/88C1
-	RWwZahtuozvg75nTrsMaSerkfW6PVzYObaUEK6+fwsVp93Um0XtF45DPCII8GlrJbGcaM5eC2Kx
-	hExBVCwu5yHgt5a/vfEPxIoa7fFxo+ilzNs0JqbLU/fs=
-X-Received: by 2002:a17:903:1585:b0:295:ceaf:8d76 with SMTP id d9443c01a7336-2a3ee4aae0cmr169650645ad.47.1768216196340;
-        Mon, 12 Jan 2026 03:09:56 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEYc30TnIeP2dYkT6BhxScbMNpGpox1e5JPKeXjC5ZrQm8QkZyBqhdkrzoFxFEzQvExNTPw+A==
-X-Received: by 2002:a17:903:1585:b0:295:ceaf:8d76 with SMTP id d9443c01a7336-2a3ee4aae0cmr169650425ad.47.1768216195892;
-        Mon, 12 Jan 2026 03:09:55 -0800 (PST)
-Received: from [192.168.0.171] ([49.205.249.58])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cd3284sm174523235ad.91.2026.01.12.03.09.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Jan 2026 03:09:55 -0800 (PST)
-Message-ID: <44e3dabf-fd08-49fc-b679-d496d125e788@oss.qualcomm.com>
-Date: Mon, 12 Jan 2026 16:39:50 +0530
+	s=arc-20240116; t=1768218199; c=relaxed/simple;
+	bh=FR2uZsoo66h4Nk5/I2ZK0kwZbKETV3eY+yMO6voVimY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fNhuMuaOiEfAew+QO60mxqB8pkGfmJ0/LlcaUF/2wbPlD2U+6pJEGShUqJRUTcnvTtB9zav4u44Na2o6UbaOay4m9jzE2A6OooOO4sMfRTsWSxmGlTtozSVP7D+aqmxq8OLpZXhP1bVcaaBOUVnLD78kPYpAV5z1pQvu0W5BGDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=eVkktZvJ; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=OPLn+7ot; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Date: Mon, 12 Jan 2026 12:43:13 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1768218195;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rkzi987TcoICfrsQFj2zvBdxgU9Mxrngu2PrpsNfLsQ=;
+	b=eVkktZvJ38ZAxJs6ySz/B7kjT4hCOdXD9zbhfB/OEPK0uFSjDqcORnGETjU1GuZZzsoWvz
+	/ExxRZH0YZLjwTYccVdT/FprMu2SqE5NtLxYhD8egBw4HxiOMSXeuJhZZhZand3HEhhgFC
+	MUUa13DcZnzxN0T5z3MbHGIgOcNXIUg4iTngi7i1JRohitGzqHTgaw3UJ19tFQLIZ2K88i
+	fJDJCKvEuqth15UUDz9EjPBtRXC39zQqgQ6QoHa10jzxAuetqC4QscSr/une2YueOOe+xB
+	NZgUty5jIQQF6WD97y1O1jq5Px4QyA/pAipNQ2m5MlhwnCsxGD9+fIapJWSvpg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1768218195;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rkzi987TcoICfrsQFj2zvBdxgU9Mxrngu2PrpsNfLsQ=;
+	b=OPLn+7otecFzTYhsQpPPinjW30U84YdReV1WEN0Yq9zNA81v7Cd0Y2ul4k2O7DiCRpCiOx
+	JV8sd5uPq4lKW2Dw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Stefan Klug <stefan.klug@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Nicolas Dufresne <nicolas@ndufresne.ca>,
+	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Clark Williams <clrkwllms@kernel.org>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH 3/4] media: dw100: Fix kernel oops with PREEMPT_RT enabled
+Message-ID: <20260112114313.woeZoGZP@linutronix.de>
+References: <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-0-65af34d04fd8@ideasonboard.com>
+ <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-3-65af34d04fd8@ideasonboard.com>
+ <8a8ec84e5484d7a1a5e6fac9a5238f3cae66abc3.camel@ndufresne.ca>
+ <20260105235921.GI10026@pendragon.ideasonboard.com>
+ <20260105193933.40485807@gandalf.local.home>
+ <20260106004928.GL10026@pendragon.ideasonboard.com>
+ <176771948736.12184.11458532023194713133@localhost>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/6] media: iris: Prevent output buffer queuing before
- stream-on completes
-To: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@kernel.org>,
-        Stefan Schmidt <stefan.schmidt@linaro.org>,
-        Hans Verkuil <hverkuil+cisco@kernel.org>,
-        Wangao Wang <wangao.wang@oss.qualcomm.com>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-References: <20251229-iris-fixes-v2-0-6dce2063d782@oss.qualcomm.com>
- <20251229-iris-fixes-v2-6-6dce2063d782@oss.qualcomm.com>
-Content-Language: en-US
-From: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-In-Reply-To: <20251229-iris-fixes-v2-6-6dce2063d782@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTEyMDA4OCBTYWx0ZWRfX3bdBamRZ3C59
- reS/H4QQI+RM1Daktb7+pPcVQF6MJ3u8J+kvWyVvUsygNr9uQPEZUmvFYVyr3+dTphL7GE3uo1h
- DCHsPA2aQDztlYknp1MicRnbPHBmXPKrNnXnbHFQ2z0QnbMwzcD4Df6SpKZn/suKh+YnOMU6Acr
- 4X4qF/5j8XSRuiWPh5rGyzRjFgyE3dm5dUa3rKaM4ZeDYely52EqhhDjp7FLbKdGEyI+hMASneQ
- 0FpW6uZOevk6EqNXOhSFlVgK+/XobO8A2bgeepRnQ7xBKulNN4LfnB2MtTxEYb3YNUFxZfeUBqw
- pafTMtfVqGL7IVxo1vJFCWG1fyYBbFVNJFAoNJzNhr9HENvKJJ+txXCI8A3/JeihSbVq6MnXs/H
- z8qGxVgXPKNj+8s3iPHdlfEocc72Dw2hwM6AtkFVUH5qbHEyZXk7piv18z3xZExQviifqsGawDN
- AP2uy00IaefsEg3p8tQ==
-X-Proofpoint-ORIG-GUID: roqq2v-ZQmCWJiuAkw0OMu8-OT6eYmWr
-X-Proofpoint-GUID: roqq2v-ZQmCWJiuAkw0OMu8-OT6eYmWr
-X-Authority-Analysis: v=2.4 cv=Q8zfIo2a c=1 sm=1 tr=0 ts=6964d685 cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=ntuG9qRpOVxPRPblRsQ5Fw==:17
- a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=-cBt4YmGFOJx8w6EWXAA:9
- a=QEXdDO2ut3YA:10 a=1OuFwYUASf3TG4hYMiVC:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-12_03,2026-01-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 clxscore=1015 spamscore=0 priorityscore=1501 phishscore=0
- malwarescore=0 adultscore=0 impostorscore=0 bulkscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601120088
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <176771948736.12184.11458532023194713133@localhost>
 
+On 2026-01-06 18:11:27 [+0100], Stefan Klug wrote:
+> Hah, if I knew that :-).
+> 
+> The pieces I have are:
+> In the DT the interrupt line is marked as IRQ_TYPE_LEVEL_HIGH. I don't
+> know why and couldn't find a reference to that in the reference manual.
 
-On 12/29/2025 12:01 PM, Dikshita Agarwal wrote:
-> From: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-> 
-> During normal playback, stream-on for input is followed by output, and
-> only after input stream-on does actual streaming begin. However, when
-> gst-play performs a seek, both input and output streams are stopped,
-> and on restart, output stream-on occurs first. At this point, firmware
-> has not yet started streaming. Queuing output buffers before the firmware
-> begins streaming causes it to process buffers in an invalid state, leading
-> to an error response. These buffers are returned to the driver as errors,
-> forcing the driver into an error state and stopping playback.
-> 
-> Fix this by deferring output buffer queuing until stream-on completes.
-> Input buffers can still be queued before stream-on as required.
-> 
-> Fixes: 92e007ca5ab6 ("media: iris: Add V4L2 streaming support for encoder video device")
-> Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-> Signed-off-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
-> ---
->   drivers/media/platform/qcom/iris/iris_vb2.c | 10 +++++++---
->   1 file changed, 7 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/iris/iris_vb2.c b/drivers/media/platform/qcom/iris/iris_vb2.c
-> index 139b821f7952feb33b21a7045aef9e8a4782aa3c..bf0b8400996ece5c9d449b99609a302da726bf9a 100644
-> --- a/drivers/media/platform/qcom/iris/iris_vb2.c
-> +++ b/drivers/media/platform/qcom/iris/iris_vb2.c
-> @@ -193,10 +193,14 @@ int iris_vb2_start_streaming(struct vb2_queue *q, unsigned int count)
->   	buf_type = iris_v4l2_type_to_driver(q->type);
->   
->   	if (inst->domain == DECODER) {
-> -		if (inst->state == IRIS_INST_STREAMING)
-> +		if (buf_type == BUF_INPUT)
-> +			ret = iris_queue_deferred_buffers(inst, BUF_INPUT);
-> +
-> +		if (!ret && inst->state == IRIS_INST_STREAMING) {
->   			ret = iris_queue_internal_deferred_buffers(inst, BUF_DPB);
-> -		if (!ret)
-> -			ret = iris_queue_deferred_buffers(inst, buf_type);
-> +			if (!ret)
-> +				ret = iris_queue_deferred_buffers(inst, BUF_OUTPUT);
-> +		}
->   	} else {
->   		if (inst->state == IRIS_INST_STREAMING) {
->   			ret = iris_queue_deferred_buffers(inst, BUF_INPUT);
-> 
+It is either a LEVEL interrupt or just marked as such. But it seems to
+behave as such.
 
-Reviewed-by: Vikash Garodia<vikash.garodia@oss.qualcomm.com>
+> Assuming it is a level interrupt, then it makes sense to treat it as ONESHOT,
+> otherwise it would fire again immediately after handling the hard
+> interrupt...but it was a hard interrupt in first place - huh.
+
+So setting it ONESHOT while it is non-threaded does not seem to make
+sense, correct.
+
+> I just realize that I still miss a bit of the puzzle:
+> ONESHOT is doumented as:
+> 
+> "Interrupt is not reenabled after the hardirq handler finished. Used by
+> threaded interrupts which need to keep the irq line disabled until the
+> threaded handler has been run."
+> 
+> That makes perfect sense. So ONESHOT disables the irq line until the
+> thread_fn has completed (if it was set). Now on preempt_rt inside
+> irq_setup_forced_threading() we don't force threading if ONESHOT is
+> requested. Why is that?
+
+Because ONESHOT is usually used where there is no primary handler/ the
+primary handler does just a wake of thread.
+
+> So I'm left with two questions:
+> - Why aren't ONESHOT irq handlers forced to threaded on preempt_rt?
+
+See above. Also PREEMPT_RT just enforces the kernel command line
+threadirqs
+
+> - Why was ONESHOT requested in first place as to my current knowledge it
+>   really only makes sense if a thread_fn is defined.
+
+I would say it was a mistake and nobody noticed it. There is no visible
+difference if there is just the primary handler and the system does not
+use threadirqs (or PREEMPT_RT which enforces it).
+
+> Did I just answer my own question? ONESHOT only makes sense if there is
+> a thread_fn and it is assumed that the hard handler is necessary. So
+> preempt_rt doesn't try to change that?
+
+Yes. ONESHOT is used if the interrupt source within the IRQ chip has to
+be masked until after the thread completed. So setting ONESHOT without a
+threaded handler is dubious.
+
+> That would mean the ONESHOT in the dw100 was not necessary in first
+> place but didn't do any harm until preempt_rt was enabled... And if
+> ONSHOT is *not* set preempt_rt would automatically force the irq handler
+> to be threaded and set the ONESHOT flag in irq_setup_forced_threading().
+
+correct.
+
+> So everything would be fine except that we'd still hit the timeout issue
+> from patch 4/4.
+> 
+> So if I got that right, the dw100 driver is in the unfortunate
+> situation, that the irq handler consists of two parts where the first
+> part *must* run in hard interrupt context and the second part *should* run
+> in hard interrupt context but it is fine if it becomes threaded due to
+> preempt_rt. As we can't model that, the best we can do is to always run
+> the second part threaded...
+
+So happens if you avoid the IRQF_ONESHOT? Do you still get these
+timeout errors?
+
+> So patch 4/4 seems correct until we get new information about the
+> hardware.
+> 
+> Any thoughts?
+> 
+> Best regards,
+> Stefan
+
+Sebastian
 
