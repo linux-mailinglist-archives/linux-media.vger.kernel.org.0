@@ -1,179 +1,112 @@
-Return-Path: <linux-media+bounces-50479-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50480-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48B04D13C32
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 16:44:08 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D50BD13E48
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 17:08:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 9926D300A520
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 15:43:54 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 14B7E30285EA
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 16:08:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C0D2361675;
-	Mon, 12 Jan 2026 15:43:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77C7B364053;
+	Mon, 12 Jan 2026 16:08:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QXsIKePI"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LBZ3Gw+L"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09286361667
-	for <linux-media@vger.kernel.org>; Mon, 12 Jan 2026 15:43:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9728B364036
+	for <linux-media@vger.kernel.org>; Mon, 12 Jan 2026 16:08:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768232630; cv=none; b=hi7zOu10+uE4F9JKiTjhNm10YoDWXmvmtmQnGfplDyp3R+eMHUpnU4BvmySbzbpSCkM9Iv4CLMCtL2oVVYAqGa54KcfR76kUZs3QXEYRPij8JzSt/05vAhWelSNDWd9hoErskbRpDIy24nnNoIohfqzCKJlJFmK/FYE4M7B67uw=
+	t=1768234095; cv=none; b=RAomoE65SKQFz4jIm+qfZEJ32lLgO4t0PUmhNj7MwdqYudqPkGevf9n7cpy4PJpGMM/kAMvp9Iwa0HMe96Nk20zMmF75/lXN8XIfHx7RRh5QCMRAye/8gVcu13uN+LGr2VcNkn4BOhJ93cBTU3tgzL+AB+54GSaGPwW8uBJgaUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768232630; c=relaxed/simple;
-	bh=bDOKb4bt6pQUBoxgz/5fJcKrJ6eRISq2KUdu/jMV3n0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=o31KVySjKmAgSWQXE7155Z0rOwnmJaeo68CXvOYx7w9nZSObvf6S4USqyIanpL49tKOwSALrm2sHFklNS6pn7HuQW6t0DW6yWP9tSRppWfR+u9VBnkxReAEmBpy1DExg0ez1gC2Z/LI7XdZl2LxDPko3YQ3Us6EJ0C52O/6SpVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QXsIKePI; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-432d256c2e6so3209356f8f.3
-        for <linux-media@vger.kernel.org>; Mon, 12 Jan 2026 07:43:48 -0800 (PST)
+	s=arc-20240116; t=1768234095; c=relaxed/simple;
+	bh=x0s0sgtzUWDOu2JlUu6QQr4f9XO0D3MtX4Z0A4Twiqk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=vGVY3NOqYuZ5IcGOygRWU+zG+AYm0lWOIDQu4xAxflSfzjcOQUWfvc0yi1sbVNIQuASRQHK9fLS++4Cbq6BjA4yFsnK36PD3E7akS20I+BrDWrZa1JfYKuxj2gajNdBhAfR9gEyKFOabH9I2LyMtlauEg2oCD7UbC8ypHoIcun8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LBZ3Gw+L; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-64b9b0b4d5dso13733959a12.1
+        for <linux-media@vger.kernel.org>; Mon, 12 Jan 2026 08:08:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1768232627; x=1768837427; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CfITgAVylD2bxVCFRISaE2whe/NjaF4IpuobYf1dsMQ=;
-        b=QXsIKePIN89K1ES1G3MQqDelrmG0Vh6AYWLKFbLnvHPGPCDOIM80XaHh047YtptK7b
-         CV2MUU/ITMmVWnB4VmxUmsqqhBbR57pUaxogaewiqsycalOB16smaygLU2+uvR2zFBfG
-         rlYXIXIRL3SwkTW62Sc9xevA9S5hboZl4AIxulj2BOC/Aa4wmCLbSoD4EEUi0pA/gSIv
-         YNcCJIloh4ibr0Ipf+DA9jgqYhv1OiIqb65QHXAdQtC0wiSDtMnrhvGhZ2OMP9kX+lAI
-         +6vu27A3PMefrQZBW1qQBGpDALlcG0+MWaA03kwayfFPRlDKGrFajKGcNo5/R/os13YH
-         KrnQ==
+        d=gmail.com; s=20230601; t=1768234092; x=1768838892; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=irOVk04OnB1Z7xuGyQdMIz/lIlx98ijNd4adgMdIp0w=;
+        b=LBZ3Gw+Lsngc8I2FqE32F9XJ0H0hgHwRWQsKXns2TAqmUXlO/hh+sieaP7tDv9N6ch
+         myVg7V3vUiqW+kuveQg+yskbEPUKBBHlyBfdsEYTy2JtJSkLitNz2kaCrYMLo4NYZxBH
+         9eozZ5w4IoOBiKh41j+tOwNivH1oCIzoJta8ROQNMRUanuGXpW10COw9ztAUHtwC/Dl7
+         2AX4SyR0PiQsv02fPeHOABKBEn86yjAijW8fxlYefAKUTKnfbZR2wnCPpUohl4ylfecV
+         CD+U4AgY6AWL4ZQ547asnch9aM5ZCHQxP+7JLxlJpyHSIPCR/BCCx4md9nDHlK3Q3I4S
+         598Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768232627; x=1768837427;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CfITgAVylD2bxVCFRISaE2whe/NjaF4IpuobYf1dsMQ=;
-        b=nBzGj+UeqDBbBGEF7Ymr1sY28t00r73A3pQ7QqEKRPkHOVIfG4ZyFgfLDGQOoFXx8w
-         5q8/PqmMbJgFeQmP6ItNofqxZ+rlJdd2ul+lHzhkcaDlaLBdte/zoMVxjPFXM0QBj3My
-         f8m+gI35V0jJi8tG767B2u4C+EY2LTgfDhdE/OIN0jGAXe5ITbJ/GbLdynXopOf9J6hx
-         zfnXu+WpZ9ORgIHD/DGdsaPRuGKhavr6M8dn6i2ogKMFtzIj7td0Z8CwoS73lo6l3C6L
-         hkN38bSTZOVj9BkA5JLnIR4iFHtGD2alJYzmnh/xytBpAkq+eJpyXjukK1oPMXKAo8ek
-         YwNw==
-X-Forwarded-Encrypted: i=1; AJvYcCW6SvGosgmnYIuDzA+87Rn8C5V9aPE1W+jKgi42/v5/724cTYtfinwt85xyfdoRkG6w5+uQpWeZ6Ek1WA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzNLmAlqXezUlF2IOqVmDLdayWp50hIW7By8cFQZCCGCLL8Ddta
-	MEYOSmr/8TNn8vvnt7DBNEN5fjOCLeKybGU6O/E0sqCZ3nMdPRwMHJoDaMHAos2sQyg=
-X-Gm-Gg: AY/fxX4dS10pkJZoAGtVGNy1rSttaM5r13Nr4N2P4X1I3cM59KUG+WoNAmoPXbuCB/X
-	RLSw5iDBqUN5VKQTMsNj53hwE5aENBcNAX7disXwni30OS4e4V9i1XmnzwdggIpq71hTS8ApPlx
-	ZfZ196bs1UpgOnMLCrp7SI+qPX+LodJHalGXNr3pxXGU/M3XC60dMOHHfjzEjBJiERh+ANp7sU9
-	SKgKamM+56qCzGBWHySfTO2EEcFc3joDIlhTcIBmOaQEbnUp1FHm+zlf0+aEUH3AcyFmvF1TT4k
-	w4Ky7348SfMTLr2LCvQNak0dy/e/w1ALXOv/lwGptnLY2J0UPsoj9nBiuyANQssXXHFJkT3hz3Q
-	nHxjvj8YhpD1TGmK/7GLsYP9MfbFHKRB/NgeqytWkejU8PBBTiWEICQmX9NUsndftgEEK4CP5Aj
-	OY1rOwlkdoRZlADUdfD4RCmQAxIK0o2UKicCQGo91B5Q0QTr2q8jnD
-X-Google-Smtp-Source: AGHT+IHkTHCS0yDczJqxEufBpsoO4n9Qx7B7U8QsQlmoG/9TL0Rz3x550kM7xKtoXN1SA4fkUD3sXA==
-X-Received: by 2002:a05:6000:24c1:b0:431:266:d14d with SMTP id ffacd0b85a97d-432c379f21dmr22844140f8f.47.1768232626951;
-        Mon, 12 Jan 2026 07:43:46 -0800 (PST)
-Received: from [192.168.0.40] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd5df96asm38525693f8f.28.2026.01.12.07.43.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Jan 2026 07:43:46 -0800 (PST)
-Message-ID: <250743e3-66d8-4a39-a487-947ae1c831b8@linaro.org>
-Date: Mon, 12 Jan 2026 15:43:45 +0000
+        d=1e100.net; s=20230601; t=1768234092; x=1768838892;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=irOVk04OnB1Z7xuGyQdMIz/lIlx98ijNd4adgMdIp0w=;
+        b=uCF2UiaXMJgtFIeNzKaiE97ef23kI1dO8gLVe8OkMZk6tabnOb0jaLePLiBFo89dYx
+         1WewYya7tsWrGSPSXlLfSREhdlMlQ++7kDjlCrOMQVeXDv2X6YZ7b2XblAVqLfpDt5Lj
+         FJXUc6mC7wIiS1ZjyQri6z0CeKGpOqW1NQVkpbgWV5V63jYmLH+a9Rq5KUAno1fh0vkX
+         valFJlXPGQQP+AH696B0HWqD7ai8Clq0FRnmUc1jQ3nff/G7lJF8wMqGUE1238H+hjDs
+         Bacc1e1CHm2HlGVplZIcpyS+Vo+EdYKXCjRNozQ2VPnylANourXwJiLgbPgfws9eByx8
+         +CIQ==
+X-Gm-Message-State: AOJu0YxwjEEYds/kFJROzQvndfpoRZawJdR/leX9R2yGoP42YWbVpLl0
+	rpkAYkOo40cUI76RGPlsDQmwLgebptK0fXvcM8BFS195oXlgi/dA51w4JK29LA==
+X-Gm-Gg: AY/fxX7righZCyBUL1nAPP1CytwDGReUKl8ZMAYL1s1rK5jWeuUhMEPTpCN3nASpduM
+	LZAstlp2chwMTlgIeYGlypP9Q6ps4EvifATKuE0NH9+9TCMpDE9c5y2REfz/WKKBZ2vIisMy+YF
+	tbrnzl8dixxIlahMi8td/GvklZYijA8k7fcWM9vaGdHa10/Nsj+WDukEN1g18H7yYRfOJHeDJM0
+	tI/MybzYL2dl24oQ2bOmPB8+6IrkQpOrijPH2mYl++kCupczyYE88OB8UpiRon8RMAUkhi0nR4/
+	s/N73V1oHIwUfBn52s0ZVG9vezHzarinLSkJgBP1c8rm9Cf3LTa7sNxiRqBl1KJZsbYDcKAFV1Q
+	ZH1lpetmZRbx3UTZ3tKqgiiqFvThcRC6MsDH3OCD2pzKD1nLaVFvNjKk3mUlYj7Dz7RbHPAR4qR
+	739G2ZfOh3Hny60p6lp++m/m3LsD2n1HN73csZOAQV9VFzgZ2GUcTRYQ==
+X-Google-Smtp-Source: AGHT+IFK5/qRoMOhzHdOzDn7wOBWLrNYnn3vootDt8k8wqJ2rVAfYGF4c7rP9ogHzBebRKJdm+ykCw==
+X-Received: by 2002:a05:6402:2803:b0:64d:23ac:6caf with SMTP id 4fb4d7f45d1cf-65097dea284mr17171126a12.10.1768234091493;
+        Mon, 12 Jan 2026 08:08:11 -0800 (PST)
+Received: from MacBookPro ([2a02:8071:2186:3703:6de9:eb98:99c8:7af2])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6507bf6648fsm17850422a12.28.2026.01.12.08.08.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jan 2026 08:08:11 -0800 (PST)
+From: Nauman Sabir <officialnaumansabir@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org,
+	Nauman Sabir <officialnaumansabir@gmail.com>
+Subject: [PATCH v3] media: docs: Fix typo 'hardwares' to 'hardware'
+Date: Mon, 12 Jan 2026 17:08:10 +0100
+Message-ID: <20260112160810.19051-1-officialnaumansabir@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 3/3] media: qcom: camss: tpg: Add TPG support for
- multiple targets
-To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>, Robert Foss
- <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org
-References: <20251226-camss_tpg-v7-0-ccb536734805@oss.qualcomm.com>
- <20251226-camss_tpg-v7-3-ccb536734805@oss.qualcomm.com>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-US
-In-Reply-To: <20251226-camss_tpg-v7-3-ccb536734805@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 26/12/2025 09:19, Wenmeng Liu wrote:
-> Add support for TPG found on LeMans, Monaco, Hamoa.
-> 
-> Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
-> ---
->   drivers/media/platform/qcom/camss/Makefile         |   1 +
->   drivers/media/platform/qcom/camss/camss-csid-680.c |  16 ++
->   .../media/platform/qcom/camss/camss-csid-gen3.c    |  16 ++
->   drivers/media/platform/qcom/camss/camss-tpg-gen1.c | 257 +++++++++++++++++++++
->   drivers/media/platform/qcom/camss/camss.c          | 128 ++++++++++
->   5 files changed, 418 insertions(+)
-This is causing a regression on Hamoa.
+Fix incorrect plural form of the uncountable noun 'hardware' in the
+legacy DVB audio documentation.
 
-Did you check the camera itself still streams ? For me, camera streaming 
-breaks when this patch is applied.
-
-Please look into this.
-
-➞  git bisect good 
-  
-                 [git:60c1b50b1f2f5] ✖
-9d1d90cca34ca66617ade951d42c94d5f086717f is the first bad commit
-commit 9d1d90cca34ca66617ade951d42c94d5f086717f
-Author: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
-Date:   Fri Dec 26 17:19:12 2025 +0800
-
-     media: qcom: camss: tpg: Add TPG support for multiple targets
-
-     Add support for TPG found on LeMans, Monaco, Hamoa.
-
-     Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
-     Signed-off-by: Bryan O'Donoghue <bod@kernel.org>
-
-  drivers/media/platform/qcom/camss/Makefile          |   1 +
-  drivers/media/platform/qcom/camss/camss-csid-680.c  |  16 ++++++++
-  drivers/media/platform/qcom/camss/camss-csid-gen3.c |  16 ++++++++
-  drivers/media/platform/qcom/camss/camss-tpg-gen1.c  | 257 
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  drivers/media/platform/qcom/camss/camss.c           | 128 
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  5 files changed, 418 insertions(+)
-  create mode 100644 drivers/media/platform/qcom/camss/camss-tpg-gen1.c
-
-➞  git bisect log 
-  
-                 [git:60c1b50b1f2f5] ✖
-git bisect start
-# status: waiting for both good and bad commits
-# bad: [2ae8c3645005e9115f39e8aa61dea9ea48cc356e] media: qcom: camss: 
-add support for SM6150 camss
-
-git bisect bad 2ae8c3645005e9115f39e8aa61dea9ea48cc356e
-# status: waiting for good commit(s), bad commit known
-# good: [f89c11002f67740aaed818137d513d6c3dbc348a] dt-bindings: media: 
-qcom,x1e80100-camss: Add missing regs, clocks, iommus
-
-git bisect good f89c11002f67740aaed818137d513d6c3dbc348a
-# good: [18f74c5866cb470123eb0b39cf3248a09fab3ef9] media: qcom: camss: 
-Add common TPG support
-
-git bisect good 18f74c5866cb470123eb0b39cf3248a09fab3ef9
-# bad: [9aaf62e09bb1bb17c186addc49984343623df50e] media: qcom: camss: 
-csid-340: Fix unused variables
-
-git bisect bad 9aaf62e09bb1bb17c186addc49984343623df50e
-# bad: [9d1d90cca34ca66617ade951d42c94d5f086717f] media: qcom: camss: 
-tpg: Add TPG support for multiple targets
-
-git bisect bad 9d1d90cca34ca66617ade951d42c94d5f086717f
-# good: [60c1b50b1f2f5466c07aeb4148df25227b5f6d55] media: qcom: camss: 
-Add link support for TPG
-
-git bisect good 60c1b50b1f2f5466c07aeb4148df25227b5f6d55
-# first bad commit: [9d1d90cca34ca66617ade951d42c94d5f086717f] media: 
-qcom: camss: tpg: Add TPG support for multiple targets
-
+Signed-off-by: Nauman Sabir <officialnaumansabir@gmail.com>
 ---
-bod
+ Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst b/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst
+index 81b762ef17c4..99ffda355204 100644
+--- a/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst
++++ b/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst
+@@ -444,7 +444,7 @@ Description
+ ~~~~~~~~~~~
+ 
+ A call to `AUDIO_GET_CAPABILITIES`_ returns an unsigned integer with the
+-following bits set according to the hardwares capabilities.
++following bits set according to the hardware's capabilities.
+ 
+ 
+ -----
+-- 
+2.52.0
+
 
