@@ -1,65 +1,65 @@
-Return-Path: <linux-media+bounces-50487-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50488-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03809D151EF
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 20:46:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FD3BD1549B
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 21:41:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 33762304A7FC
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 19:46:23 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BEB8F30BEA64
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 20:38:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 368AC324B0C;
-	Mon, 12 Jan 2026 19:46:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05BE434B40F;
+	Mon, 12 Jan 2026 20:38:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lzo1rJdW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GCjCoqvK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8B3E199EAD;
-	Mon, 12 Jan 2026 19:46:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF5134D4DE;
+	Mon, 12 Jan 2026 20:38:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768247181; cv=none; b=tC8B+7HqEzYHHdJ6NB6oJp60llIz6Ww8POJcZLPU094fUfOy94z93J3lmvVhRonA65aEq0yktYGTa3veacvUEVmRreJZyKh1x28kZsqOvWubUZ1WoDq6bJw7dOWpM5gL4Sw90+eBfrmkjQ1rG0W1Ajv7ut6vFOFcPXa2o5bIpeY=
+	t=1768250313; cv=none; b=ne71ShzidjEbDUS8/EKqFHt0ay58DcA9Xlz4xJLUF65z+lyV8NGsGpxOlYdIVSrfRpI2B0CkuIbHKWhVUiYXuPCDEp57EL6NDuOoCTrC7TS971VkspTfxxrYWxZm/a/m/HlrIE0eVjyHCQlDfGsdDlckS9iJ0rVl9Z4Rr+uhGOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768247181; c=relaxed/simple;
-	bh=VXJ6h3xFbwt2UIWSnC4R8hbSW7fTxGdJagGd17ozxnM=;
+	s=arc-20240116; t=1768250313; c=relaxed/simple;
+	bh=lSrniqls8q58SL+mNZZrelB2bUs6+uanK5IoiZ/KDbI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NYLMHTFHjF1Sr18zo/b86RAnWHZjkXX6kTW9OotYys5VQSGlEjQEa8BIdVrchfuEV7kEIWh2jdo9swRfdG4HZ7aeiIkcnvYt5mxJmk0pGzmf6N8XIPComsvzMaIYn9zOUjxcYg5k1Rxw4L7GPh0DNy+5kGHahKAxQAlUxsh+VGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lzo1rJdW; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=MUtBdMxYOJWXjOSawSe+jRfN7uxpV52rzjZBCUtwnTiKbKqIvWRTIaMy+sCVOSt8KYCyd5Ke3f4arrZjKh+WEdo1ASZyt5oWABEDT5PKBznuyqSdF9+GGsVTA2Wk07Ux323+10gFTIz8fKVS+TXTfE/6Ykk1wRyOBHHw9KvW9oE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GCjCoqvK; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768247180; x=1799783180;
+  t=1768250311; x=1799786311;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=VXJ6h3xFbwt2UIWSnC4R8hbSW7fTxGdJagGd17ozxnM=;
-  b=Lzo1rJdWrzWSn+8B3pT5UxeSImmZ5Az9Wt62FVlG/wz7Hc/KkY0E+CSm
-   Uun2yR1Ib6Wp79c44Z09OglefpVM/kxItSzXPJwcDlkYuh+3wiBXWNy5a
-   6tv1qXgiMC08wfScQRO6MZXYSys5FSqFQc+1vGqzwSzZt/DokZMiQf3Ij
-   LIRdRGgtsVPxdCyW1JF8ERpiiBHR88J5u7xtOWwtA9Mg7P9kqoB6MjMG1
-   iBKguOw+ICa8hUVqzdaKc3bKs/2sTu/di2XZwnvciszlGKPILykW3IeOo
-   ZUft59JZaTxji7PLFLS5NiwKfZ3VCjFH2WFgsP4k9bVtILhsKYSEfIl80
-   A==;
-X-CSE-ConnectionGUID: mZ34YCZaSdaMeATnsZqILQ==
-X-CSE-MsgGUID: 2cznFjS1QSyrfZ2mXJeFHQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="79823763"
+  bh=lSrniqls8q58SL+mNZZrelB2bUs6+uanK5IoiZ/KDbI=;
+  b=GCjCoqvK8Jl1h60vz+11TNz3I6DvQT5MpEoJtSHiscJfOuxym6g0BErE
+   ASXMcvRuyEP2J+lNsI7Vivw1JPXEe/RIwJPK5Z2ozyHFP4ZoJwrYcqNAL
+   Sef/I5l0vziW5r2T2Qg4hbXF/RrY2Yt/na0eakYC2CJTVN/Gn4dsPaRUP
+   eejMBMVosXr0lZhQaSbNuSL4w1MKbaLpFtdAKputge5gKfx7ze8DXjWZX
+   FnPWCSKUMDKyu4x/ghp3O6gTawqrYAIazrZhcUOWrL2geB/pg8R7i77Fw
+   M6w+osaUnLF+6uVvMXNvxv5GkwaH/QXV3w3hLY4sj/d7IspFvirC0fBBE
+   w==;
+X-CSE-ConnectionGUID: V0l0p5LGS9C1jUdbxSTY1w==
+X-CSE-MsgGUID: zaYTB7MeTLyizbbNHjjD4Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="73375905"
 X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
-   d="scan'208";a="79823763"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 11:46:19 -0800
-X-CSE-ConnectionGUID: Oh/FLYvsRpiq7l8qsCeGYg==
-X-CSE-MsgGUID: w/b5Z9c3Q8aw0OB7g6Hw3w==
+   d="scan'208";a="73375905"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 12:38:30 -0800
+X-CSE-ConnectionGUID: Z3moQNkrSFuXxebSFbcCMg==
+X-CSE-MsgGUID: XLs82n9rRcyD6tBC2o/mOw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
-   d="scan'208";a="234884303"
+   d="scan'208";a="204590044"
 Received: from egrumbac-mobl6.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.154])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 11:46:12 -0800
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 12:38:23 -0800
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 1C7BC120742;
-	Mon, 12 Jan 2026 21:46:10 +0200 (EET)
-Date: Mon, 12 Jan 2026 21:46:10 +0200
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 0FA9C120742;
+	Mon, 12 Jan 2026 22:38:21 +0200 (EET)
+Date: Mon, 12 Jan 2026 22:38:20 +0200
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: Matthias Fend <matthias.fend@emfend.at>
@@ -89,11 +89,10 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Hao Yao <hao.yao@intel.com>,
 	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
 	bsp-development.geo@leica-geosystems.com
-Subject: Re: [PATCH v7 1/2] media: dt-bindings: i2c: add Himax HM1246 image
- sensor
-Message-ID: <aWVPgtRnxfL2zSSu@kekkonen.localdomain>
+Subject: Re: [PATCH v7 2/2] media: i2c: add Himax HM1246 image sensor driver
+Message-ID: <aWVbvINTohogZbLw@kekkonen.localdomain>
 References: <20260112-hm1246-v7-0-fee8587f2808@emfend.at>
- <20260112-hm1246-v7-1-fee8587f2808@emfend.at>
+ <20260112-hm1246-v7-2-fee8587f2808@emfend.at>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -102,169 +101,853 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260112-hm1246-v7-1-fee8587f2808@emfend.at>
+In-Reply-To: <20260112-hm1246-v7-2-fee8587f2808@emfend.at>
 
 Hi Matthias,
 
-On Mon, Jan 12, 2026 at 03:49:32PM +0100, Matthias Fend wrote:
-> Add YAML device tree binding for Himax HM1246 image sensor.
+Thanks for the update. A few minor comments below.
+
+On Mon, Jan 12, 2026 at 03:49:33PM +0100, Matthias Fend wrote:
+> Add a V4L2 sub-device driver for Himax HM1246 image sensor.
 > 
-> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> The Himax HM1246-AWD is a 1/3.7-Inch CMOS image sensor SoC with an active
+> array size of 1296 x 976. It is programmable through an I2C interface and
+> connected via parallel bus.
+> 
+> The sensor has an internal ISP with a complete image processing pipeline
+> including control loops. However, this driver uses the sensor in raw mode
+> and the entire ISP is bypassed.
+> 
 > Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
 > ---
->  .../bindings/media/i2c/himax,hm1246.yaml           | 117 +++++++++++++++++++++
->  MAINTAINERS                                        |   7 ++
->  2 files changed, 124 insertions(+)
+>  MAINTAINERS                |    1 +
+>  drivers/media/i2c/Kconfig  |   10 +
+>  drivers/media/i2c/Makefile |    1 +
+>  drivers/media/i2c/hm1246.c | 1302 ++++++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 1314 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/himax,hm1246.yaml b/Documentation/devicetree/bindings/media/i2c/himax,hm1246.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..deecc1105105a67e81d1ddb7f31324baa8188f88
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/himax,hm1246.yaml
-> @@ -0,0 +1,117 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright 2025 Matthias Fend <matthias.fend@emfend.at>
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/himax,hm1246.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Himax HM1246-AWD 1/3.7-Inch megapixel SoC image sensor
-> +
-> +maintainers:
-> +  - Matthias Fend <matthias.fend@emfend.at>
-> +
-> +description:
-> +  The Himax HM1246-AWD is a 1/3.7-Inch CMOS image sensor SoC with an active
-> +  array size of 1296 x 976. It is programmable through an I2C interface and
-> +  connected via parallel bus.
-> +
-> +allOf:
-> +  - $ref: /schemas/media/video-interface-devices.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: himax,hm1246
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    description: Input reference clock (6 - 27 MHz)
-> +    maxItems: 1
-> +
-> +  reset-gpios:
-> +    description: Active low XSHUTDOWN pin
-> +    maxItems: 1
-> +
-> +  avdd-supply:
-> +    description: Power for analog circuit (3.0 - 3.6 V)
-> +
-> +  iovdd-supply:
-> +    description: Power for I/O circuit (1.7 - 3.6 V)
-> +
-> +  dvdd-supply:
-> +    description: Power for digital circuit (1.5 / 1.8 V)
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    additionalProperties: false
-> +    description: Parallel video output port
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          hsync-active:
-> +            default: 1
-> +
-> +          vsync-active:
-> +            default: 1
-> +
-> +          pclk-sample:
-> +            default: 0
-
-I think you should have bus-width here as well -- either make it mandatory
-or add a default.
-
-> +
-> +        required:
-> +          - link-frequencies
-> +
-> +    required:
-> +      - endpoint
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - avdd-supply
-> +  - iovdd-supply
-> +  - dvdd-supply
-> +  - port
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/media/video-interfaces.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        sensor@24 {
-> +            compatible =  "himax,hm1246";
-> +            reg = <0x24>;
-> +
-> +            clocks = <&hm1246_clk>;
-> +
-> +            reset-gpios = <&gpio0 0 GPIO_ACTIVE_LOW>;
-> +
-> +            avdd-supply = <&hm1246_avdd>;
-> +            iovdd-supply = <&hm1246_iovdd>;
-> +            dvdd-supply = <&hm1246_dvdd>;
-> +
-> +            orientation = <2>;
-> +            rotation = <0>;
-> +
-> +            port {
-> +                endpoint {
-> +                    remote-endpoint = <&isp_par_in>;
-> +                    bus-width = <10>;
-> +                    hsync-active = <1>; /* active high */
-> +                    vsync-active = <1>; /* active high */
-> +                    pclk-sample = <1>; /* sample on rising edge */
-> +                    link-frequencies = /bits/ 64 <42200000>;
-> +                };
-> +            };
-> +        };
-> +    };
 > diff --git a/MAINTAINERS b/MAINTAINERS
-> index 752ccaea38b0ee74282e06f233463eba122fa92c..c09de45c5260b70af8a524721d4a999a1efa415d 100644
+> index c09de45c5260b70af8a524721d4a999a1efa415d..a68f318fcbbe7f96408c26db156119815920b967 100644
 > --- a/MAINTAINERS
 > +++ b/MAINTAINERS
-> @@ -11290,6 +11290,13 @@ L:	linux-kernel@vger.kernel.org
+> @@ -11296,6 +11296,7 @@ L:	linux-media@vger.kernel.org
 >  S:	Maintained
->  F:	drivers/misc/hisi_hikey_usb.c
+>  T:	git git://linuxtv.org/media_tree.git
+>  F:	Documentation/devicetree/bindings/media/i2c/himax,hm1246.yaml
+> +F:	drivers/media/i2c/hm1246.c
 >  
-> +HIMAX HM1246 SENSOR DRIVER
-> +M:	Matthias Fend <matthias.fend@emfend.at>
-> +L:	linux-media@vger.kernel.org
-> +S:	Maintained
-> +T:	git git://linuxtv.org/media_tree.git
-
-I think this can be dropped as I understand you don't have commit access.
-
-> +F:	Documentation/devicetree/bindings/media/i2c/himax,hm1246.yaml
-> +
 >  HIMAX HX83112B TOUCHSCREEN SUPPORT
 >  M:	Job Noorman <job@noorman.info>
->  L:	linux-input@vger.kernel.org
-> 
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index 6dcae0aa98ee4411a4a66ea50f7354a6305099c7..b995f382aae7beddef9cf05f696314589363f0c7 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -137,6 +137,16 @@ config VIDEO_HI847
+>            To compile this driver as a module, choose M here: the
+>            module will be called hi847.
+>  
+> +config VIDEO_HM1246
+> +	tristate "Himax HM1246 sensor support"
+> +	select V4L2_CCI_I2C
+> +	help
+> +	  This is a Video4Linux2 sensor driver for the Himax
+> +	  HM1246 camera.
+> +
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called hm1246.
+> +
+>  config VIDEO_IMX111
+>  	tristate "Sony IMX111 sensor support"
+>  	select V4L2_CCI_I2C
+> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+> index a3a6396df3c4525c894238c9c4724684cf1f464c..44e2e01bd6b1d853debcae57c8889c16a40b7a2b 100644
+> --- a/drivers/media/i2c/Makefile
+> +++ b/drivers/media/i2c/Makefile
+> @@ -45,6 +45,7 @@ obj-$(CONFIG_VIDEO_GC2145) += gc2145.o
+>  obj-$(CONFIG_VIDEO_HI556) += hi556.o
+>  obj-$(CONFIG_VIDEO_HI846) += hi846.o
+>  obj-$(CONFIG_VIDEO_HI847) += hi847.o
+> +obj-$(CONFIG_VIDEO_HM1246) += hm1246.o
+>  obj-$(CONFIG_VIDEO_I2C) += video-i2c.o
+>  obj-$(CONFIG_VIDEO_IMX111) += imx111.o
+>  obj-$(CONFIG_VIDEO_IMX208) += imx208.o
+> diff --git a/drivers/media/i2c/hm1246.c b/drivers/media/i2c/hm1246.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..d368b9219f6b531ecf6d8785dd147063c5b76624
+> --- /dev/null
+> +++ b/drivers/media/i2c/hm1246.c
+> @@ -0,0 +1,1302 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Driver for Himax HM1246 image sensor
+> + *
+> + * Copyright 2025 Matthias Fend <matthias.fend@emfend.at>
+
+Happy New Year! :-)
+
+> + */
+> +
+> +#include <linux/array_size.h>
+> +#include <linux/bitops.h>
+> +#include <linux/clk.h>
+> +#include <linux/delay.h>
+> +#include <linux/device.h>
+> +#include <linux/err.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/i2c.h>
+> +#include <linux/limits.h>
+> +#include <linux/math.h>
+> +#include <linux/math64.h>
+> +#include <linux/module.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/property.h>
+> +#include <linux/regulator/consumer.h>
+> +#include <linux/types.h>
+> +#include <linux/units.h>
+> +#include <media/media-entity.h>
+> +#include <media/v4l2-async.h>
+> +#include <media/v4l2-cci.h>
+> +#include <media/v4l2-common.h>
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-fwnode.h>
+> +#include <media/v4l2-subdev.h>
+> +
+> +/* Status registers */
+> +#define HM1246_MODEL_ID_REG		 CCI_REG16(0x0000)
+> +
+> +/* General setup registers */
+> +#define HM1246_MODE_SELECT_REG		 CCI_REG8(0x0100)
+> +#define HM1246_MODE_SELECT_STANDBY	 0x00
+> +#define HM1246_MODE_SELECT_STREAM	 0x01
+> +#define HM1246_MODE_SELECT_STOP		 0x02
+> +#define HM1246_IMAGE_ORIENTATION_REG	 CCI_REG8(0x0101)
+> +#define HM1246_IMAGE_ORIENTATION_VFLIP	 BIT(1)
+> +#define HM1246_IMAGE_ORIENTATION_HFLIP	 BIT(0)
+> +#define HM1246_CMU_UPDATE_REG		 CCI_REG8(0x0104)
+> +
+> +/* Output setup registers */
+> +#define HM1246_COARSE_INTG_REG		 CCI_REG16(0x0202)
+> +#define HM1246_ANALOG_GLOBAL_GAIN_REG	 CCI_REG8(0x0205)
+> +
+> +/* Clock setup registers */
+> +#define HM1246_PLL1CFG_REG		 CCI_REG8(0x0303)
+> +#define HM1246_PLL1CFG_MULTIPLIER(x)	 (((x) & 0xff) << 0)
+> +#define HM1246_PLL2CFG_REG		 CCI_REG8(0x0305)
+> +#define HM1246_PLL2CFG_PRE_DIV(x)	 (((x) & 0x1f) << 1)
+> +#define HM1246_PLL2CFG_MULTIPLIER(x)	 (((x) & 0x01) << 0)
+> +#define HM1246_PLL3CFG_REG		 CCI_REG8(0x0307)
+> +#define HM1246_PLL3CFG_POST_DIV(x)	 (((x) & 0x3) << 6)
+> +#define HM1246_PLL3CFG_SYSCLK_DIV(x)	 (((x) & 0x3) << 4)
+> +#define HM1246_PLL3CFG_PCLK_DIV(x)	 (((x) & 0x7) << 0)
+> +
+> +/* Frame timing registers */
+> +#define HM1246_FRAME_LENGTH_LINES_REG	 CCI_REG16(0x0340)
+> +#define HM1246_LINE_LENGTH_PCK_REG	 CCI_REG16(0x0342)
+> +
+> +/* Image size registers */
+> +#define HM1246_X_ADDR_START_REG		 CCI_REG16(0x0344)
+> +#define HM1246_Y_ADDR_START_REG		 CCI_REG16(0x0346)
+> +#define HM1246_X_ADDR_END_REG		 CCI_REG16(0x0348)
+> +#define HM1246_Y_ADDR_END_REG		 CCI_REG16(0x034a)
+> +#define HM1246_X_LA_START_REG		 CCI_REG16(0x0351)
+> +#define HM1246_X_LA_END_REG		 CCI_REG16(0x0353)
+> +#define HM1246_Y_LA_START_REG		 CCI_REG16(0x0355)
+> +#define HM1246_Y_LA_END_REG		 CCI_REG16(0x0357)
+> +
+> +/* Test pattern registers */
+> +#define HM1246_TEST_PATTERN_MODE_REG	 CCI_REG8(0x0601)
+> +#define HM1246_TEST_PATTERN_MODE_MODE(x) (((x) & 0xf) << 4)
+> +#define HM1246_TEST_PATTERN_MODE_ENABLE	 BIT(0)
+> +#define HM1246_TEST_DATA_BLUE_REG	 CCI_REG16(0x0602)
+> +#define HM1246_TEST_DATA_GB_REG		 CCI_REG16(0x0604)
+> +#define HM1246_TEST_DATA_RED_REG	 CCI_REG16(0x0606)
+> +#define HM1246_TEST_DATA_GR_REG		 CCI_REG16(0x0608)
+> +
+> +/* SBC registers */
+> +#define HM1246_SBC_BOOT_REF2_REG	 CCI_REG8(0x2001)
+> +#define HM1246_SBC_BOOT_REF2_PLL_LOCK	 BIT(4)
+> +#define HM1246_SBC_CTRL_REG		 CCI_REG8(0x2003)
+> +#define HM1246_SBC_CTRL_PLL_EN		 BIT(0)
+> +
+> +/* System registers */
+> +#define HM1246_OUTPUT_PRT_CTRL_REG	 CCI_REG8(0x2f02)
+> +#define HM1246_POLARITY_CTRL_REG	 CCI_REG8(0x2f20)
+> +#define HM1246_POLARITY_CTRL_HSYNC	 BIT(7)
+> +#define HM1246_POLARITY_CTRL_VSYNC	 BIT(6)
+> +#define HM1246_PCLK_CTRL_REG		 CCI_REG8(0x2f24)
+> +#define HM1246_PCLK_CTRL_POL		 BIT(3)
+> +
+> +/* Digital window control & parameter registers */
+> +#define HM1246_DWIN_XOFFSET_REG		 CCI_REG16(0xd5e4)
+> +#define HM1246_DWIN_XSIZE_REG		 CCI_REG16(0xd5e6)
+> +#define HM1246_DWIN_YOFFSET_REG		 CCI_REG16(0xd5e8)
+> +#define HM1246_DWIN_YSIZE_REG		 CCI_REG16(0xd5ea)
+> +
+> +#define HM1246_MODEL_ID			 0x1245
+> +
+> +#define HM1246_NATIVE_WIDTH		 1296
+> +#define HM1246_NATIVE_HEIGHT		 976
+> +
+> +#define HM1246_VTS_MAX			 65535
+> +
+> +#define HM1246_COARSE_INTG_MARGIN	 2
+> +#define HM1246_COARSE_INTG_MIN		 4
+> +#define HM1246_COARSE_INTG_STEP		 1
+> +
+> +#define HM1246_ANALOG_GLOBAL_GAIN_MIN	 0x00
+> +#define HM1246_ANALOG_GLOBAL_GAIN_MAX	 0xe8
+> +#define HM1246_ANALOG_GLOBAL_GAIN_STEP	 1
+> +
+> +#define HM1246_XCLK_MIN			 (6 * HZ_PER_MHZ)
+> +#define HM1246_XCLK_MAX			 (27 * HZ_PER_MHZ)
+> +
+> +#define HM1246_PCLK_MIN			 (8 * HZ_PER_MHZ)
+> +#define HM1246_PCLK_MAX			 (96 * HZ_PER_MHZ)
+> +
+> +#define HM1246_PLL_VCO_MIN		 (360 * HZ_PER_MHZ)
+> +#define HM1246_PLL_VCO_MAX		 (680 * HZ_PER_MHZ)
+> +
+> +#define HM1246_PLL_INCLK_MIN		 (1000 * HZ_PER_KHZ)
+> +#define HM1246_PLL_INCLK_MAX		 (2500 * HZ_PER_KHZ)
+> +
+> +#define HM1246_PLL_MULTI_L_MIN		 1
+> +#define HM1246_PLL_MULTI_L_MAX		 256
+> +
+> +#define HM1246_PLL_MULTI_H_MIN		 2
+> +#define HM1246_PLL_MULTI_H_MAX		 3
+> +
+> +#define HM1246_PLL_MULTI_MIN \
+> +	(HM1246_PLL_MULTI_H_MIN * HM1246_PLL_MULTI_L_MIN)
+> +#define HM1246_PLL_MULTI_MAX \
+> +	(HM1246_PLL_MULTI_H_MAX * HM1246_PLL_MULTI_L_MAX)
+> +
+> +static const char *const hm1246_test_pattern_menu[] = {
+> +	"Disabled",
+> +	"Checkboard",
+> +	"Ramp",
+> +	"Moving ones",
+> +	"Blending color bars",
+> +	"Color bars",
+> +	"Solid white",
+> +	"Solid black",
+> +	"Solid red",
+> +	"Solid green",
+> +	"Solid blue",
+> +};
+> +
+> +static const char *const hm1246_supply_names[] = {
+> +	"avdd",
+> +	"iovdd",
+> +	"dvdd",
+> +};
+> +
+> +struct hm1246 {
+> +	struct device *dev;
+> +	struct v4l2_subdev sd;
+> +	struct media_pad pad;
+> +
+> +	struct regulator_bulk_data supplies[ARRAY_SIZE(hm1246_supply_names)];
+> +	struct clk *xclk;
+> +	unsigned long xclk_freq;
+> +	struct gpio_desc *reset_gpio;
+> +	unsigned int mbus_flags;
+> +	s64 link_frequency;
+> +
+> +	struct v4l2_ctrl_handler ctrls;
+> +	struct v4l2_ctrl *pixel_rate_ctrl;
+> +	struct v4l2_ctrl *link_freq_ctrl;
+> +	struct v4l2_ctrl *exposure_ctrl;
+> +	struct v4l2_ctrl *vblank_ctrl;
+> +	struct v4l2_ctrl *hblank_ctrl;
+> +	struct v4l2_ctrl *hflip_ctrl;
+> +	struct v4l2_ctrl *vflip_ctrl;
+
+Do you refer all of these?
+
+> +
+> +	struct regmap *regmap;
+> +
+> +	bool identified;
+> +};
+> +
+> +static const struct cci_reg_sequence mode_1296x976_raw[] = {
+> +	{ HM1246_X_LA_START_REG, 60 },
+> +	{ HM1246_X_LA_END_REG, 1355 },
+> +	{ HM1246_Y_LA_START_REG, 0 },
+> +	{ HM1246_Y_LA_END_REG, 975 },
+> +	{ HM1246_OUTPUT_PRT_CTRL_REG, 0x20 },
+> +	{ CCI_REG8(0x300a), 0x01 },
+> +	{ CCI_REG8(0x300b), 0x00 },
+> +	{ CCI_REG8(0x50f5), 0x01 },
+> +	{ CCI_REG8(0x50dd), 0x00 },
+> +	{ CCI_REG8(0x50a1), 0x02 },
+> +	{ CCI_REG8(0x50aa), 0x1c },
+> +	{ CCI_REG8(0x50ac), 0xdd },
+> +	{ CCI_REG8(0x50ad), 0x08 },
+> +	{ CCI_REG8(0x50ab), 0x04 },
+> +	{ CCI_REG8(0x50a0), 0x40 },
+> +	{ CCI_REG8(0x50a2), 0x12 },
+> +	{ CCI_REG8(0x50ae), 0x30 },
+> +	{ CCI_REG8(0x50b3), 0x04 },
+> +	{ CCI_REG8(0x5204), 0x40 },
+> +	{ CCI_REG8(0x5208), 0x55 },
+> +	{ CCI_REG8(0x520b), 0x05 },
+> +	{ CCI_REG8(0x520d), 0x40 },
+> +	{ CCI_REG8(0x5214), 0x18 },
+> +	{ CCI_REG8(0x5215), 0x0f },
+> +	{ CCI_REG8(0x5217), 0x01 },
+> +	{ CCI_REG8(0x5218), 0x07 },
+> +	{ CCI_REG8(0x5219), 0x01 },
+> +	{ CCI_REG8(0x521a), 0x50 },
+> +	{ CCI_REG8(0x521b), 0x24 },
+> +	{ CCI_REG8(0x5232), 0x01 },
+> +	{ CCI_REG8(0x5220), 0x11 },
+> +	{ CCI_REG8(0x5227), 0x01 },
+> +	{ CCI_REG8(0x5106), 0xc1 },
+> +	{ CCI_REG8(0x5115), 0xc0 },
+> +	{ CCI_REG8(0x5116), 0xc1 },
+> +	{ CCI_REG8(0x5138), 0x40 },
+> +	{ CCI_REG8(0x5139), 0x60 },
+> +	{ CCI_REG8(0x513a), 0x80 },
+> +	{ CCI_REG8(0x513b), 0xa0 },
+> +	{ CCI_REG8(0x513c), 0xa1 },
+> +	{ CCI_REG8(0x513d), 0xa2 },
+> +	{ CCI_REG8(0x513e), 0xa3 },
+> +	{ CCI_REG8(0x5140), 0x40 },
+> +	{ CCI_REG8(0x5141), 0x60 },
+> +	{ CCI_REG8(0x5142), 0x80 },
+> +	{ CCI_REG8(0x5143), 0x81 },
+> +	{ CCI_REG8(0x5144), 0x82 },
+> +	{ CCI_REG8(0x5145), 0x83 },
+> +	{ CCI_REG8(0x5146), 0x93 },
+> +	{ CCI_REG8(0x51c1), 0xc3 },
+> +	{ CCI_REG8(0x51c5), 0xc3 },
+> +	{ CCI_REG8(0x51c9), 0xc3 },
+> +	{ CCI_REG8(0x51cd), 0xc2 },
+> +	{ CCI_REG8(0x51d1), 0xc1 },
+> +	{ CCI_REG8(0x51d5), 0xc1 },
+> +	{ CCI_REG8(0x51d9), 0x81 },
+> +	{ CCI_REG8(0x51dd), 0x81 },
+> +	{ CCI_REG8(0x51c2), 0x49 },
+> +	{ CCI_REG8(0x51c6), 0x49 },
+> +	{ CCI_REG8(0x51ca), 0x49 },
+> +	{ CCI_REG8(0x51ce), 0x49 },
+> +	{ CCI_REG8(0x51d2), 0x49 },
+> +	{ CCI_REG8(0x51d6), 0x59 },
+> +	{ CCI_REG8(0x51da), 0x59 },
+> +	{ CCI_REG8(0x51de), 0x59 },
+> +	{ CCI_REG8(0x51c3), 0x20 },
+> +	{ CCI_REG8(0x51c7), 0x38 },
+> +	{ CCI_REG8(0x51cb), 0x21 },
+> +	{ CCI_REG8(0x51cf), 0x11 },
+> +	{ CCI_REG8(0x51d3), 0x11 },
+> +	{ CCI_REG8(0x51d7), 0x13 },
+> +	{ CCI_REG8(0x51db), 0x13 },
+> +	{ CCI_REG8(0x51df), 0x13 },
+> +	{ CCI_REG8(0x51e0), 0x03 },
+> +	{ CCI_REG8(0x51e2), 0x03 },
+> +	{ CCI_REG8(0x51f0), 0x42 },
+> +	{ CCI_REG8(0x51f1), 0x40 },
+> +	{ CCI_REG8(0x51f2), 0x4a },
+> +	{ CCI_REG8(0x51f3), 0x48 },
+> +	{ CCI_REG8(0x5015), 0x73 },
+> +	{ CCI_REG8(0x504a), 0x04 },
+> +	{ CCI_REG8(0x5044), 0x07 },
+> +	{ CCI_REG8(0x5040), 0x03 },
+> +	{ CCI_REG8(0x5135), 0xc4 },
+> +	{ CCI_REG8(0x5136), 0xc5 },
+> +	{ CCI_REG8(0x5166), 0xc4 },
+> +	{ CCI_REG8(0x5196), 0xc4 },
+> +	{ CCI_REG8(0x51c0), 0x10 },
+> +	{ CCI_REG8(0x51c4), 0x10 },
+> +	{ CCI_REG8(0x51c8), 0xa0 },
+> +	{ CCI_REG8(0x51cc), 0xa0 },
+> +	{ CCI_REG8(0x51d0), 0xa1 },
+> +	{ CCI_REG8(0x51d4), 0xa5 },
+> +	{ CCI_REG8(0x51d8), 0xa5 },
+> +	{ CCI_REG8(0x51dc), 0xa5 },
+> +	{ CCI_REG8(0x5200), 0xe4 },
+> +	{ CCI_REG8(0x5209), 0x04 },
+> +	{ CCI_REG8(0x301b), 0x01 },
+> +	{ CCI_REG8(0x3130), 0x01 },
+> +	{ CCI_REG8(0x5013), 0x07 },
+> +	{ CCI_REG8(0x5016), 0x01 },
+> +	{ CCI_REG8(0x501d), 0x50 },
+> +	{ CCI_REG8(0x0350), 0xfe },
+> +	{ CCI_REG8(0x2f03), 0x15 },
+> +	{ CCI_REG8(0xd380), 0x00 },
+> +	{ CCI_REG8(0x3047), 0x7f },
+> +	{ CCI_REG8(0x304d), 0x34 },
+> +	{ CCI_REG8(0x3041), 0x4b },
+> +	{ CCI_REG8(0x3042), 0x2d },
+> +	{ CCI_REG8(0x3056), 0x64 },
+> +	{ CCI_REG8(0x3059), 0x1e },
+> +	{ CCI_REG8(0x305e), 0x10 },
+> +	{ CCI_REG8(0x305f), 0x10 },
+> +	{ CCI_REG8(0x306d), 0x10 },
+> +	{ CCI_REG8(0x306e), 0x0c },
+> +	{ CCI_REG8(0x3064), 0x50 },
+> +	{ CCI_REG8(0x3067), 0x78 },
+> +	{ CCI_REG8(0x3068), 0x4b },
+> +	{ CCI_REG8(0x306a), 0x78 },
+> +	{ CCI_REG8(0x306b), 0x4b },
+> +	{ CCI_REG8(0xd442), 0x3d },
+> +	{ CCI_REG8(0xd443), 0x06 },
+> +	{ CCI_REG8(0xd440), 0x63 },
+> +	{ CCI_REG8(0xd446), 0xb0 },
+> +	{ CCI_REG8(0xd447), 0x60 },
+> +	{ CCI_REG8(0xd448), 0x48 },
+> +	{ CCI_REG8(0xd449), 0x30 },
+> +	{ CCI_REG8(0xd44a), 0x18 },
+> +	{ CCI_REG8(0xd360), 0x03 },
+> +	{ CCI_REG8(0x30ac), 0x10 },
+> +	{ CCI_REG8(0x30ad), 0x10 },
+> +	{ CCI_REG8(0x30ae), 0x10 },
+> +	{ CCI_REG8(0x3040), 0x0b },
+> +	{ CCI_REG8(0x2002), 0x00 },
+> +	{ CCI_REG8(0x2000), 0x08 },
+> +};
+> +
+> +struct hm1246_reg_list {
+> +	u32 num_of_regs;
+> +	const struct cci_reg_sequence *regs;
+> +};
+> +
+> +struct hm1246_mode {
+> +	u32 codes[4];
+> +	u32 clocks_per_pixel;
+> +	u32 top;
+> +	u32 left;
+> +	u32 width;
+> +	u32 height;
+> +	u32 hts;
+> +	u32 vts_min;
+> +	const struct hm1246_reg_list reg_list;
+> +};
+> +
+> +#define FLIP_FORMAT_INDEX(v, h) ((v ? 2 : 0) | (h ? 1 : 0))
+> +
+> +/* Get the format code of the mode considering current flip setting. */
+> +static u32 hm1246_get_format_code(struct hm1246 *hm1246,
+> +				  const struct hm1246_mode *hm1246_mode)
+> +{
+> +	return hm1246_mode->codes[FLIP_FORMAT_INDEX(hm1246->vflip_ctrl->val,
+> +						    hm1246->hflip_ctrl->val)];
+> +}
+> +
+> +static const struct hm1246_mode hm1246_modes[] = {
+> +	{
+> +		.codes = {
+> +			[FLIP_FORMAT_INDEX(0, 0)] = MEDIA_BUS_FMT_SBGGR10_1X10,
+> +			[FLIP_FORMAT_INDEX(0, 1)] = MEDIA_BUS_FMT_SGBRG10_1X10,
+> +			[FLIP_FORMAT_INDEX(1, 0)] = MEDIA_BUS_FMT_SGRBG10_1X10,
+> +			[FLIP_FORMAT_INDEX(1, 1)] = MEDIA_BUS_FMT_SRGGB10_1X10,
+> +		},
+> +		.clocks_per_pixel = 1,
+> +		.top = 0,
+> +		.left = 0,
+> +		.width = 1296,
+> +		.height = 976,
+> +		.hts = 1420,
+> +		.vts_min = 990,
+> +		.reg_list = {
+> +			.num_of_regs = ARRAY_SIZE(mode_1296x976_raw),
+> +			.regs = mode_1296x976_raw,
+> +		},
+> +	},
+> +};
+> +
+> +static inline struct hm1246 *to_hm1246(struct v4l2_subdev *sd)
+> +{
+> +	return container_of_const(sd, struct hm1246, sd);
+> +}
+> +
+> +static const struct hm1246_mode *
+> +hm1246_find_mode_by_mbus_code(struct hm1246 *hm1246, u32 code)
+> +{
+> +	for (unsigned int i = 0; i < ARRAY_SIZE(hm1246_modes); i++) {
+> +		if (code == hm1246_get_format_code(hm1246, &hm1246_modes[i]))
+> +			return &hm1246_modes[i];
+> +	}
+> +
+> +	return ERR_PTR(-EINVAL);
+
+I think returning NULL would be easier -- I don't expect you to have more
+error codes here anyway.
+
+> +}
+> +
+> +static int hm1246_power_on(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct hm1246 *hm1246 = to_hm1246(sd);
+> +	int ret;
+> +
+> +	ret = regulator_bulk_enable(ARRAY_SIZE(hm1246_supply_names),
+> +				    hm1246->supplies);
+> +	if (ret) {
+> +		dev_err(hm1246->dev, "failed to enable regulators\n");
+> +		return ret;
+> +	}
+> +
+> +	ret = clk_prepare_enable(hm1246->xclk);
+> +	if (ret) {
+> +		regulator_bulk_disable(ARRAY_SIZE(hm1246_supply_names),
+> +				       hm1246->supplies);
+> +		dev_err(hm1246->dev, "failed to enable clock\n");
+> +		return ret;
+> +	}
+> +
+> +	gpiod_set_value_cansleep(hm1246->reset_gpio, 0);
+> +
+> +	/*
+> +	 * XSHUTDOWN to crystal clock oscillation (tcrystal):  650us (typical)
+> +	 * Sample bootstrap pin (tsample):                    2000us (maximum)
+> +	 * Built in self test (tbist):                        3000us (maximum)
+> +	 */
+> +	fsleep(6 * USEC_PER_MSEC);
+> +
+> +	return 0;
+> +}
+> +
+> +static int hm1246_power_off(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct hm1246 *hm1246 = to_hm1246(sd);
+> +
+> +	gpiod_set_value_cansleep(hm1246->reset_gpio, 1);
+> +
+> +	clk_disable_unprepare(hm1246->xclk);
+> +
+> +	regulator_bulk_disable(ARRAY_SIZE(hm1246_supply_names),
+> +			       hm1246->supplies);
+> +
+> +	return 0;
+> +}
+> +
+> +static int hm1246_enum_mbus_code(struct v4l2_subdev *sd,
+> +				 struct v4l2_subdev_state *sd_state,
+> +				 struct v4l2_subdev_mbus_code_enum *code)
+> +{
+> +	struct hm1246 *hm1246 = to_hm1246(sd);
+> +
+> +	if (code->index >= ARRAY_SIZE(hm1246_modes))
+> +		return -EINVAL;
+> +
+> +	code->code = hm1246_get_format_code(hm1246, &hm1246_modes[code->index]);
+> +
+> +	return 0;
+> +}
+> +
+> +static int hm1246_enum_frame_size(struct v4l2_subdev *subdev,
+> +				  struct v4l2_subdev_state *sd_state,
+> +				  struct v4l2_subdev_frame_size_enum *fse)
+> +{
+> +	struct hm1246 *hm1246 = to_hm1246(subdev);
+> +	const struct hm1246_mode *mode;
+> +
+> +	if (fse->index > 0)
+> +		return -EINVAL;
+> +
+> +	mode = hm1246_find_mode_by_mbus_code(hm1246, fse->code);
+> +	if (IS_ERR(mode))
+> +		return PTR_ERR(mode);
+> +
+> +	fse->min_width = mode->width;
+> +	fse->max_width = mode->width;
+> +	fse->min_height = mode->height;
+> +	fse->max_height = mode->height;
+> +
+> +	return 0;
+> +}
+> +
+> +static void hm1246_update_pad_format(struct hm1246 *hm1246,
+> +				     const struct hm1246_mode *hm1246_mode,
+> +				     struct v4l2_mbus_framefmt *fmt)
+> +{
+> +	fmt->width = hm1246_mode->width;
+> +	fmt->height = hm1246_mode->height;
+> +	fmt->code = hm1246_get_format_code(hm1246, hm1246_mode);
+> +	fmt->field = V4L2_FIELD_NONE;
+> +	fmt->colorspace = V4L2_COLORSPACE_RAW;
+> +	fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(fmt->colorspace);
+> +	fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+> +	fmt->xfer_func = V4L2_XFER_FUNC_NONE;
+> +}
+> +
+> +static int hm1246_set_format(struct v4l2_subdev *sd,
+> +			     struct v4l2_subdev_state *state,
+> +			     struct v4l2_subdev_format *fmt)
+> +{
+> +	struct hm1246 *hm1246 = to_hm1246(sd);
+> +	struct v4l2_mbus_framefmt *mbus_fmt;
+> +	struct v4l2_rect *crop;
+> +	const struct hm1246_mode *mode;
+> +
+> +	mode = hm1246_find_mode_by_mbus_code(hm1246, fmt->format.code);
+> +	if (IS_ERR(mode))
+> +		mode = &hm1246_modes[0];
+> +
+> +	crop = v4l2_subdev_state_get_crop(state, 0);
+> +	crop->top = mode->top;
+> +	crop->left = mode->left;
+> +	crop->width = mode->width;
+> +	crop->height = mode->height;
+> +
+> +	hm1246_update_pad_format(hm1246, mode, &fmt->format);
+> +	mbus_fmt = v4l2_subdev_state_get_format(state, 0);
+> +	*mbus_fmt = fmt->format;
+
+You could do this well without a local variable. Up to you.
+
+> +
+> +	return 0;
+> +}
+> +
+> +static int hm1246_get_selection(struct v4l2_subdev *sd,
+> +				struct v4l2_subdev_state *state,
+> +				struct v4l2_subdev_selection *sel)
+> +{
+> +	const struct v4l2_mbus_framefmt *format;
+> +	const struct hm1246_mode *mode;
+> +
+> +	format = v4l2_subdev_state_get_format(state, 0);
+> +	mode = v4l2_find_nearest_size(hm1246_modes, ARRAY_SIZE(hm1246_modes),
+> +				      width, height, format->width,
+> +				      format->height);
+> +
+> +	switch (sel->target) {
+> +	case V4L2_SEL_TGT_CROP:
+> +		sel->r = *v4l2_subdev_state_get_crop(state, 0);
+> +		return 0;
+> +
+> +	case V4L2_SEL_TGT_NATIVE_SIZE:
+> +		sel->r.top = 0;
+> +		sel->r.left = 0;
+> +		sel->r.width = HM1246_NATIVE_WIDTH;
+> +		sel->r.height = HM1246_NATIVE_HEIGHT;
+> +		return 0;
+> +
+> +	case V4L2_SEL_TGT_CROP_DEFAULT:
+> +	case V4L2_SEL_TGT_CROP_BOUNDS:
+> +		sel->r.top = mode->top;
+> +		sel->r.left = mode->left;
+> +		sel->r.width = mode->width;
+> +		sel->r.height = mode->height;
+> +		return 0;
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +static int hm1246_init_state(struct v4l2_subdev *sd,
+> +			     struct v4l2_subdev_state *state)
+> +{
+> +	struct hm1246 *hm1246 = to_hm1246(sd);
+> +	struct v4l2_subdev_format fmt = {
+> +		.which = V4L2_SUBDEV_FORMAT_TRY,
+> +		.pad = 0,
+> +		.format = {
+> +			.code = hm1246_get_format_code(hm1246,
+> +						       &hm1246_modes[0]),
+> +			.width = hm1246_modes[0].width,
+> +			.height = hm1246_modes[0].height,
+> +		},
+> +	};
+> +
+> +	hm1246_set_format(sd, state, &fmt);
+> +
+> +	return 0;
+> +}
+> +
+> +static int hm1246_calc_pll(u32 xclk, u32 link_freq, u32 clocks_per_pixel,
+> +			   u8 *pll1, u8 *pll2, u8 *pll3)
+> +{
+> +	const u8 pclk_div_table[] = { 4, 5, 6, 7, 8, 12, 14, 16 };
+> +	const u8 sysclk_div_table[] = { 1, 2, 3, 4 };
+> +	const u8 post_div_table[] = { 1, 2, 4, 8 };
+> +	const int sysclk_pclk_ratio = 3; /* Recommended value */
+> +	u32 pclk, vco_out;
+> +	int pclk_div_index, sysclk_div_index, post_div_index;
+> +	bool sysclk_pclk_ratio_found = false;
+> +
+> +	if (link_freq < HM1246_PCLK_MIN || link_freq > HM1246_PCLK_MAX)
+> +		return -EINVAL;
+> +
+> +	/*
+> +	 * In raw mode (1 pixel per clock) the pixel clock is internally
+> +	 * divided by two.
+> +	 */
+> +	pclk = 2 * link_freq / clocks_per_pixel;
+> +
+> +	/* Find suitable PCLK and SYSCLK dividers. */
+> +	for (pclk_div_index = 0; pclk_div_index < ARRAY_SIZE(pclk_div_table);
+> +	     pclk_div_index++) {
+> +		for (sysclk_div_index = 0;
+> +		     sysclk_div_index < ARRAY_SIZE(sysclk_div_table);
+> +		     sysclk_div_index++) {
+> +			if (sysclk_div_table[sysclk_div_index] *
+> +				    sysclk_pclk_ratio ==
+> +			    pclk_div_table[pclk_div_index]) {
+> +				sysclk_pclk_ratio_found = true;
+> +				break;
+> +			}
+> +		}
+> +		if (sysclk_pclk_ratio_found)
+> +			break;
+> +	}
+> +
+> +	if (!sysclk_pclk_ratio_found)
+> +		return -EINVAL;
+> +
+> +	/* Determine an appropriate post divider. */
+> +	for (post_div_index = 0; post_div_index < ARRAY_SIZE(post_div_table);
+> +	     post_div_index++) {
+> +		vco_out = pclk * pclk_div_table[pclk_div_index] *
+> +			  post_div_table[post_div_index];
+> +
+> +		if (vco_out >= HM1246_PLL_VCO_MIN &&
+> +		    vco_out <= HM1246_PLL_VCO_MAX)
+> +			break;
+> +	}
+> +	if (post_div_index >= ARRAY_SIZE(post_div_table))
+> +		return -EINVAL;
+> +
+> +	/* Find pre-divider and multiplier values. */
+> +	for (u32 div = DIV_ROUND_UP(xclk, HM1246_PLL_INCLK_MAX);
+> +	     div <= xclk / HM1246_PLL_INCLK_MIN; div++) {
+> +		u32 multi, multi_h, multi_l, vco;
+> +
+> +		multi = DIV_ROUND_CLOSEST_ULL((u64)vco_out * div, xclk);
+> +		if (multi < HM1246_PLL_MULTI_MIN ||
+> +		    multi > HM1246_PLL_MULTI_MAX)
+> +			continue;
+> +
+> +		multi_h = multi / (HM1246_PLL_MULTI_H_MIN *
+> +				   HM1246_PLL_MULTI_L_MAX) +
+> +			  2;
+> +		multi_l = multi / multi_h;
+> +		vco = div_u64((u64)xclk * multi_h * multi_l, div);
+> +
+> +		if (vco != vco_out)
+> +			continue;
+> +
+> +		if (pll1 && pll2 && pll3) {
+> +			*pll1 = HM1246_PLL1CFG_MULTIPLIER(multi_l - 1);
+> +			*pll2 = HM1246_PLL2CFG_PRE_DIV(div - 1) |
+> +				HM1246_PLL2CFG_MULTIPLIER(multi_h - 2);
+> +			*pll3 = HM1246_PLL3CFG_POST_DIV(post_div_index) |
+> +				HM1246_PLL3CFG_SYSCLK_DIV(sysclk_div_index) |
+> +				HM1246_PLL3CFG_PCLK_DIV(pclk_div_index);
+> +		}
+> +
+> +		return 0;
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +static int hm1246_cci_write_pll(struct hm1246 *hm1246, u8 pll1, u8 pll2,
+> +				u8 pll3)
+> +{
+> +	const struct cci_reg_sequence pll_regs[] = {
+> +		{ HM1246_PLL1CFG_REG, pll1 },
+> +		{ HM1246_PLL2CFG_REG, pll2 },
+> +		{ HM1246_PLL3CFG_REG, pll3 },
+> +		{ HM1246_SBC_CTRL_REG, HM1246_SBC_CTRL_PLL_EN },
+> +	};
+> +
+> +	return cci_multi_reg_write(hm1246->regmap, pll_regs,
+> +				   ARRAY_SIZE(pll_regs), NULL);
+> +}
+> +
+> +static int hm1246_pll_check_locked(struct hm1246 *hm1246)
+> +{
+> +	u64 boot_ref2;
+> +	int ret;
+> +
+> +	ret = cci_read(hm1246->regmap, HM1246_SBC_BOOT_REF2_REG, &boot_ref2,
+> +		       NULL);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return (boot_ref2 & HM1246_SBC_BOOT_REF2_PLL_LOCK) ? 0 : -EIO;
+
+Redunrant parentheses.
+
+> +}
+> +
+> +static int hm1246_setup_pll(struct hm1246 *hm1246,
+> +			    const struct hm1246_mode *mode)
+> +{
+> +	u8 pll1, pll2, pll3;
+> +	int ret;
+> +
+> +	ret = hm1246_calc_pll(hm1246->xclk_freq, hm1246->link_frequency,
+> +			      mode->clocks_per_pixel, &pll1, &pll2, &pll3);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = hm1246_cci_write_pll(hm1246, pll1, pll2, pll3);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* PLL lock time (tpll): 100us (typical) */
+> +	fsleep(200);
+> +
+> +	return hm1246_pll_check_locked(hm1246);
+> +}
+> +
+> +static int hm1246_cci_write_test_pattern(struct hm1246 *hm1246, u8 mode, u16 r,
+> +					 u16 g, u16 b)
+> +{
+> +	const struct cci_reg_sequence tpg_enable_regs[] = {
+> +		{ HM1246_TEST_DATA_RED_REG, r },
+> +		{ HM1246_TEST_DATA_GR_REG, g },
+> +		{ HM1246_TEST_DATA_GB_REG, g },
+> +		{ HM1246_TEST_DATA_BLUE_REG, b },
+> +		{ HM1246_TEST_PATTERN_MODE_REG, mode },
+> +	};
+> +
+> +	return cci_multi_reg_write(hm1246->regmap, tpg_enable_regs,
+> +				   ARRAY_SIZE(tpg_enable_regs), NULL);
+> +}
+> +
+> +static int hm1246_test_pattern(struct hm1246 *hm1246, u32 index)
+> +{
+> +	const u16 RGBMIN = 0, RGBMAX = 0x3ff;
+
+You could make this configurable -- CCS does. I don't really have much
+opinion on this though.
+
+> +	const struct tp {
+> +		int pattern;
+> +		u16 r, g, b;
+> +	} tps[] = {
+> +		/* Disabled */
+> +		[0] = { .pattern = 0, .r = RGBMIN, .g = RGBMIN, .b = RGBMIN },
+> +		/* Checkboard pattern */
+> +		[1] = { .pattern = 0, .r = RGBMIN, .g = RGBMIN, .b = RGBMIN },
+> +		/* Ramp */
+> +		[2] = { .pattern = 1, .r = RGBMIN, .g = RGBMIN, .b = RGBMIN },
+> +		/* Moving ones */
+> +		[3] = { .pattern = 2, .r = RGBMIN, .g = RGBMIN, .b = RGBMIN },
+> +		/* Blending color bars */
+> +		[4] = { .pattern = 3, .r = RGBMIN, .g = RGBMIN, .b = RGBMIN },
+> +		/* Color bars */
+> +		[5] = { .pattern = 4, .r = RGBMIN, .g = RGBMIN, .b = RGBMIN },
+> +		/* Solid white */
+> +		[6] = { .pattern = 15, .r = RGBMAX, .g = RGBMAX, .b = RGBMAX },
+> +		/* Solid black */
+> +		[7] = { .pattern = 15, .r = RGBMIN, .g = RGBMIN, .b = RGBMIN },
+> +		/* Solid red */
+> +		[8] = { .pattern = 15, .r = RGBMAX, .g = RGBMIN, .b = RGBMIN },
+> +		/* Solid green */
+> +		[9] = { .pattern = 15, .r = RGBMIN, .g = RGBMAX, .b = RGBMIN },
+> +		/* Solid blue */
+> +		[10] = { .pattern = 15, .r = RGBMIN, .g = RGBMIN, .b = RGBMAX },
+> +	};
+> +	u8 mode;
 
 -- 
 Kind regards,
