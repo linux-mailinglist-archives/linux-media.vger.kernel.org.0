@@ -1,119 +1,66 @@
-Return-Path: <linux-media+bounces-50401-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50402-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39F90D11736
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 10:17:57 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A21D11793
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 10:24:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 3DF7B304D196
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 09:17:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 270BE306579E
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jan 2026 09:20:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22E75346E56;
-	Mon, 12 Jan 2026 09:17:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1D3F347BDC;
+	Mon, 12 Jan 2026 09:20:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="arAhRpIP"
+	dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b="0MCcXtZj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mg.richtek.com (mg.richtek.com [220.130.44.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A8183254B5
-	for <linux-media@vger.kernel.org>; Mon, 12 Jan 2026 09:17:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC1BF310762;
+	Mon, 12 Jan 2026 09:20:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.130.44.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768209431; cv=none; b=k4GzMqZvaDirWFHvynp4n4vo3MKGjvqrUrzXNqDDYCd7e8qlqDEyl8Ughfc6IKO1e1EnQmD2O+d6SqMCWJlGHo79M7faPMuzyifu82zl9z55WHzU6HU438A5qtt+wr/mCv0mfJd7p+u8ktxmU14WAafxtM2Es0LHKPJS0R8kQLo=
+	t=1768209634; cv=none; b=EsebYHxZmll7IgSjTa0aTc7RZx+sDNPwsWBrUFEBoF0XkDLia3Gisi+aL12IXGGokonhfFRn2szZvhsjdVl/pdx7WG327SIcvWxk9LEte1ilQljYEhNN2OiZ7ypuvTrPHTTfIs/V2NzOEXFDt0E9wXVhglAXLE+QAZLFgxcCX4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768209431; c=relaxed/simple;
-	bh=7JQzKSeQVZx457uwRMkr4aCIBLk4y7oY3Lw/r19JkC4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YOCYV/gvF7EUIt7cToCIPDdAL57Iw8vdPSpwG0uVkZMblkqgDn/KR1noClt2SMrnFhzLmYAHq5gzsiOfPkwFvjOQUnaQeWtTIDXP2Yae/DyWh3bLYHDdBbU91oAiRgqHRDHa3EYSiRrg0Uw8azsepm7L/W3V1B0/Ri/7ePHaXPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=arAhRpIP; arc=none smtp.client-ip=209.85.208.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f65.google.com with SMTP id 4fb4d7f45d1cf-64bea6c5819so9284563a12.3
-        for <linux-media@vger.kernel.org>; Mon, 12 Jan 2026 01:17:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768209428; x=1768814228; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zd0BPdweYbYZbQyn2qW1okTKg1KegiW0299KXASGYXY=;
-        b=arAhRpIPJOIZE4JPX3GVuwxOOJCYX5WoSOlFTrT2D8Vsv2LeID0RpiJsuZXZ12fvqJ
-         g70rNpszBFEP5Zqbf8Jkv3Y3ieMRcZV0ou0O/7wc6Mqv4fvas/YHSUALmcx+WqdESD6I
-         HnwyaCZB3sfigAKVNpmv/aoVlwnaIIrzpznCXRB2svRDUzocNHlKOdprCHb3au5gysuo
-         /J4J3sYaRt9YJFjvA2L4Azcju2XJvrlWBRVAOZBMpiJN8nVEmvm2l215OnsRqW9muD7S
-         2g8BSzW7YeVCnlYaISJkS8s1g5zg19o5aV9Ca7CoZqPiQxkpv/al4GMl5dGJUkYg1wNz
-         KiNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768209428; x=1768814228;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zd0BPdweYbYZbQyn2qW1okTKg1KegiW0299KXASGYXY=;
-        b=EpMc8eIagnb934t7p3vO1P1XEqPa7XGfJ1tkNJJuZ/GbXI7RnY4/dRy3WUpAZAJ8Gj
-         PiCvfWe/lBEy9hk8ba7IFTHfJNHtrtYCGo+m7rYL34w/+G+8pM5gqa2S9XUs4nAyfwIe
-         gTZqYFX8AOcxDg1CZjyxEEti/U9ieubsEjvOJbh93wVU+ijpalSla+xMJ0fZ26Q3HOkP
-         0+4XrAq8SX39DHtRfVHaGstyxu+aNi4yc7+uXWRTyd80CFafU9eD8xunW1CTbSx+d7Y3
-         CgdG2ggDy8JqEE0zpXHwt+MxbNw4vQ/hC4G8asKUHyBwCT1Yq4ANoMDub4EZL9rpRk6V
-         MKAA==
-X-Forwarded-Encrypted: i=1; AJvYcCU3b7GuIwcmof6nZAVHNTF1IFgX++LPMfAphKEzOI+Y7ExoC0Y+xFUZfltgrzZkgKTcNfJvosdHPx3ikg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyIsz85yvFN/DQ+i2P//4QlAU8ZZ8qfVxUjUrf4vMTVTK7EbnzW
-	GBCorWxSgSBM+vkFEluUUzJxtEYeOEzyE+6O6lu8zAq91D3XQa7GwTDj
-X-Gm-Gg: AY/fxX5rSt6Q2s5lWgTQLGrwXkKsYgn0sQmDmZO/DDqbw3RnANS+pSyKYs53xjGH8pL
-	L7/ZF8n/OtGq18kCO1VGhRZhVa12nfPtmsWHo0NmYbpFn09ROCBeCIwusO4k9aXzDIMU1a/JHUm
-	HbzLcfvC/Hl24LqYs4yqWAx5VZwV5aoZ0JNkc9P1FOoZUFPCDyQXiegkykyIFqcDU6RX6sQVM/5
-	IV/ymOe6YRkpXM9j+qUA9CcdJhdOfDcug+oCOnQiLKz/d397dtigj/lp4If853S2KxIMaBJPi4/
-	8MsBi4bmTdUpuSne2I9DI90jVYk+aFatWL3/Z5XH8YU0aNddvC8+HMYy8Mwx42aAxn8/O6dUSgo
-	tvAN2UnJHQ+idyH2YKS5RVqTlIFurrxDWgN3aD6Wg9REF4LaQ+xLDGtN79N2WJw1IcvHrs8I2++
-	Z7n3SFir/a5yAEa6MvzHC7bCsRCK1fKW8bcjdEXrqN2iE=
-X-Google-Smtp-Source: AGHT+IEVkFHwWdARDiOC3T5oubH1b0HSoQYmd/NAnJNXQ0ysw0Xt1Fgn+FqRVmFL8guwSSYOYkTxEQ==
-X-Received: by 2002:a17:907:7202:b0:b87:efa:8786 with SMTP id a640c23a62f3a-b870efae612mr369083166b.55.1768209427070;
-        Mon, 12 Jan 2026 01:17:07 -0800 (PST)
-Received: from MacBookPro ([2a02:8071:2186:3703:6de9:eb98:99c8:7af2])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b870b0dba4esm411401466b.17.2026.01.12.01.17.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jan 2026 01:17:06 -0800 (PST)
-From: Nauman Sabir <officialnaumansabir@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Cc: Nauman Sabir <officialnaumansabir@gmail.com>,
-	Tejun Heo <tj@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Gao Xiang <xiang@kernel.org>,
-	Chao Yu <chao@kernel.org>,
-	Yue Hu <zbestahu@gmail.com>,
-	Jeffle Xu <jefflexu@linux.alibaba.com>,
-	Sandeep Dhavale <dhavale@google.com>,
-	Hongbo Li <lihongbo22@huawei.com>,
-	Chunhai Guo <guochunhai@vivo.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Jitao shi <jitao.shi@mediatek.com>,
-	linux-kernel@vger.kernel.org,
-	cgroups@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-mediatek@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-erofs@lists.ozlabs.org,
-	linux-kbuild@vger.kernel.org,
-	workflows@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2] Documentation: Fix typos and grammatical errors
-Date: Mon, 12 Jan 2026 10:16:56 +0100
-Message-ID: <20260112091659.12316-1-officialnaumansabir@gmail.com>
-X-Mailer: git-send-email 2.52.0
+	s=arc-20240116; t=1768209634; c=relaxed/simple;
+	bh=YcoDp1xRfU2RgOGualudavWqplWNYj+vqh7bdVcfYNY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=NlsXgY3q8bc9YnDAIV3J6A8OVyYaPie/mclmfS1iOtcbWBBG6bMZszfXu5tsPhsVxSMO5P4josgMdUhMqIvhdpIWyDEHwhXT3VDaThJKnci3JleL5yv0RT2YDPBppB11qrRCS8q+iW/0oYL3VvunvOQcc25ZU69tsHycCTSVEJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com; spf=pass smtp.mailfrom=richtek.com; dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b=0MCcXtZj; arc=none smtp.client-ip=220.130.44.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=richtek.com
+X-MailGates: (SIP:2,PASS,NONE)(compute_score:DELIVER,40,3)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=richtek.com;
+	s=richtek; t=1768209629;
+	bh=9YVDhrBinYzjrRTisNlGCOPvmAc8V6H7vwl9pQeQ6Jo=; l=1905;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=0MCcXtZjRsPdlLanQPVbNuv1aFfftI3cdnXM6NSneYdmwFjJNWBBHyB1wnPNy7Yj6
+	 sQ4r8n+UU9Q5EtYiN3q5xTQ0tIYzJpI+M2hZck7OWyv6mbiuDgurGoy2MbVw6neY9h
+	 S9bM+3ECCzkj+D1CnbHrPQ7arGc/d/IzdEu/L1hYnG9mWpm9iGF7bGnCgNeXCZWEsm
+	 blvtvN+eMbc4GZLGWNl1J6APf1dHWpZj0MckF1/1UCFZxiFwapb1MmgvA9zxCVSHsP
+	 fDUDixx9WhU/YBvgWp0zGmhPdUdEroiNmMQLqpGDWYVVRryUs6TRP0c18epsW959jQ
+	 dGcahCLqlXPdA==
+Received: from 192.168.10.46
+	by mg.richtek.com with MailGates ESMTPS Server V6.0(2572445:0:AUTH_RELAY)
+	(envelope-from <cy_huang@richtek.com>)
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256/256); Mon, 12 Jan 2026 17:20:08 +0800 (CST)
+Received: from ex4.rt.l (192.168.10.47) by ex3.rt.l (192.168.10.46) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.26; Mon, 12 Jan
+ 2026 17:20:07 +0800
+Received: from git-send.richtek.com (192.168.10.154) by ex4.rt.l
+ (192.168.10.45) with Microsoft SMTP Server id 15.2.1748.26 via Frontend
+ Transport; Mon, 12 Jan 2026 17:20:07 +0800
+From: <cy_huang@richtek.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: Bryan Wu <cooloney@gmail.com>, Kyungmin Park <kyungmin.park@samsung.com>,
+	Jacek Anaszewski <j.anaszewski@samsung.com>, ChiYuan Huang
+	<cy_huang@richtek.com>, <roger-hy.wang@mediatek.com>,
+	<linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<stable@vger.kernel.org>
+Subject: [PATCH v3] media: v4l2-flash: Enter LED off state after file handle closed
+Date: Mon, 12 Jan 2026 17:20:04 +0800
+Message-ID: <1106c60cb96786ade1f60c692e566c408d7d8174.1768209230.git.cy_huang@richtek.com>
+X-Mailer: git-send-email 2.43.5
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -121,196 +68,60 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Fix various typos and grammatical errors across multiple documentation
-files to improve clarity and consistency.
+From: ChiYuan Huang <cy_huang@richtek.com>
 
-Changes include:
-- Fix missing preposition 'in' in process/changes.rst
-- Correct 'result by' to 'result from' in admin-guide/README.rst
-- Fix 'before hand' to 'beforehand' (3 instances) in cgroup-v1/hugetlb.rst
-- Correct 'allows to limit' to 'allows limiting' in cgroup-v1/hugetlb.rst,
-  cgroup-v2.rst, and kconfig-language.rst
-- Fix 'needs precisely know' to 'needs to precisely know' in
-  cgroup-v1/hugetlb.rst
-- Correct 'overcommited' to 'overcommitted' in cgroup-v1/hugetlb.rst
-- Fix subject-verb agreement: 'never causes' to 'never cause' (2 instances)
-  in cgroup-v1/hugetlb.rst
-- Fix subject-verb agreement: 'there is enough' to 'there are enough' in
-  cgroup-v1/hugetlb.rst
-- Remove incorrect plural from uncountable nouns: 'metadatas' to 'metadata'
-  in filesystems/erofs.rst, and 'hardwares' to 'hardware' in
-  devicetree/bindings/.../mediatek,dp.yaml, userspace-api/.../legacy_dvb_audio.rst,
-  and scsi/ChangeLog.sym53c8xx
+To make sure LED enter off state after file handle is closed, initiatively
+configure LED_MODE to NONE. This can guarantee whatever the previous state
+is torch or strobe mode, the final state will be off.
 
-Note: British spelling 'recognised' retained per maintainer feedback.
-
-These corrections improve the overall quality and readability of the
-kernel documentation.
-
-Signed-off-by: Nauman Sabir <officialnaumansabir@gmail.com>
+Cc: stable@vger.kernel.org
+Fixes: 42bd6f59ae90 ("media: Add registration helpers for V4L2 flash sub-devices")
+Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
 ---
- Documentation/admin-guide/README.rst           |  2 +-
- .../admin-guide/cgroup-v1/hugetlb.rst          | 18 +++++++++---------
- Documentation/admin-guide/cgroup-v2.rst        |  2 +-
- .../bindings/display/mediatek/mediatek,dp.yaml |  2 +-
- Documentation/filesystems/erofs.rst            |  2 +-
- Documentation/kbuild/kconfig-language.rst      |  2 +-
- Documentation/process/changes.rst              |  2 +-
- Documentation/scsi/ChangeLog.sym53c8xx         |  2 +-
- .../media/dvb/legacy_dvb_audio.rst             |  2 +-
- 9 files changed, 17 insertions(+), 17 deletions(-)
+Still cannot pass patch integration check, send v3 patch to fix all.
 
-diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
-index 05301f03b..77fec1de6 100644
---- a/Documentation/admin-guide/README.rst
-+++ b/Documentation/admin-guide/README.rst
-@@ -53,7 +53,7 @@ Documentation
-    these typically contain kernel-specific installation notes for some
-    drivers for example. Please read the
-    :ref:`Documentation/process/changes.rst <changes>` file, as it
--   contains information about the problems, which may result by upgrading
-+   contains information about the problems which may result from upgrading
-    your kernel.
+v3
+- Remove 'Reported-by' tag
+- Fix identation check for patch integration
+
+v2
+- Fix commit message redudant space cause patch robot parsing error
+
+Hi,
+  We encounter an issue. When the upper layer camera process is crashed,
+if the new process did not reinit the LED,  it will keeps the previous
+state whatever it's in torch or strobe mode
+
+OS will handle the resource management. So when the process is crashed
+or terminated, the 'close' API will be called to release resources.
+That's why we add the initiative action to trigger LED off in file
+handle close is called.
+---
+ drivers/media/v4l2-core/v4l2-flash-led-class.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/media/v4l2-core/v4l2-flash-led-class.c b/drivers/media/v4l2-core/v4l2-flash-led-class.c
+index 355595a0fefa..46606f5cc192 100644
+--- a/drivers/media/v4l2-core/v4l2-flash-led-class.c
++++ b/drivers/media/v4l2-core/v4l2-flash-led-class.c
+@@ -623,6 +623,12 @@ static int v4l2_flash_close(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+ 		return 0;
  
- Installing the kernel source
-diff --git a/Documentation/admin-guide/cgroup-v1/hugetlb.rst b/Documentation/admin-guide/cgroup-v1/hugetlb.rst
-index 493a8e386..b5f3873b7 100644
---- a/Documentation/admin-guide/cgroup-v1/hugetlb.rst
-+++ b/Documentation/admin-guide/cgroup-v1/hugetlb.rst
-@@ -77,7 +77,7 @@ control group and enforces the limit during page fault. Since HugeTLB
- doesn't support page reclaim, enforcing the limit at page fault time implies
- that, the application will get SIGBUS signal if it tries to fault in HugeTLB
- pages beyond its limit. Therefore the application needs to know exactly how many
--HugeTLB pages it uses before hand, and the sysadmin needs to make sure that
-+HugeTLB pages it uses beforehand, and the sysadmin needs to make sure that
- there are enough available on the machine for all the users to avoid processes
- getting SIGBUS.
+ 	if (led_cdev) {
++		/* If file handle is released, make sure LED enter off state */
++		ret = v4l2_ctrl_s_ctrl(v4l2_flash->ctrls[LED_MODE],
++				       V4L2_FLASH_LED_MODE_NONE);
++		if (ret)
++			return ret;
++
+ 		mutex_lock(&led_cdev->led_access);
  
-@@ -91,23 +91,23 @@ getting SIGBUS.
-   hugetlb.<hugepagesize>.rsvd.usage_in_bytes
-   hugetlb.<hugepagesize>.rsvd.failcnt
- 
--The HugeTLB controller allows to limit the HugeTLB reservations per control
-+The HugeTLB controller allows limiting the HugeTLB reservations per control
- group and enforces the controller limit at reservation time and at the fault of
- HugeTLB memory for which no reservation exists. Since reservation limits are
--enforced at reservation time (on mmap or shget), reservation limits never causes
--the application to get SIGBUS signal if the memory was reserved before hand. For
-+enforced at reservation time (on mmap or shget), reservation limits never cause
-+the application to get SIGBUS signal if the memory was reserved beforehand. For
- MAP_NORESERVE allocations, the reservation limit behaves the same as the fault
- limit, enforcing memory usage at fault time and causing the application to
- receive a SIGBUS if it's crossing its limit.
- 
- Reservation limits are superior to page fault limits described above, since
- reservation limits are enforced at reservation time (on mmap or shget), and
--never causes the application to get SIGBUS signal if the memory was reserved
--before hand. This allows for easier fallback to alternatives such as
-+never cause the application to get SIGBUS signal if the memory was reserved
-+beforehand. This allows for easier fallback to alternatives such as
- non-HugeTLB memory for example. In the case of page fault accounting, it's very
--hard to avoid processes getting SIGBUS since the sysadmin needs precisely know
--the HugeTLB usage of all the tasks in the system and make sure there is enough
--pages to satisfy all requests. Avoiding tasks getting SIGBUS on overcommited
-+hard to avoid processes getting SIGBUS since the sysadmin needs to precisely know
-+the HugeTLB usage of all the tasks in the system and make sure there are enough
-+pages to satisfy all requests. Avoiding tasks getting SIGBUS on overcommitted
- systems is practically impossible with page fault accounting.
- 
- 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 7f5b59d95..098d6831b 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -2816,7 +2816,7 @@ DMEM Interface Files
- HugeTLB
- -------
- 
--The HugeTLB controller allows to limit the HugeTLB usage per control group and
-+The HugeTLB controller allows limiting the HugeTLB usage per control group and
- enforces the controller limit during page fault.
- 
- HugeTLB Interface Files
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
-index 274f59080..8f4bd9fb5 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
-@@ -11,7 +11,7 @@ maintainers:
-   - Jitao shi <jitao.shi@mediatek.com>
- 
- description: |
--  MediaTek DP and eDP are different hardwares and there are some features
-+  MediaTek DP and eDP are different hardware and there are some features
-   which are not supported for eDP. For example, audio is not supported for
-   eDP. Therefore, we need to use two different compatibles to describe them.
-   In addition, We just need to enable the power domain of DP, so the clock
-diff --git a/Documentation/filesystems/erofs.rst b/Documentation/filesystems/erofs.rst
-index 08194f194..e61db115e 100644
---- a/Documentation/filesystems/erofs.rst
-+++ b/Documentation/filesystems/erofs.rst
-@@ -154,7 +154,7 @@ to be as simple as possible::
-   0 +1K
- 
- All data areas should be aligned with the block size, but metadata areas
--may not. All metadatas can be now observed in two different spaces (views):
-+may not. All metadata can be now observed in two different spaces (views):
- 
-  1. Inode metadata space
- 
-diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-index abce88f15..7067ec3f0 100644
---- a/Documentation/kbuild/kconfig-language.rst
-+++ b/Documentation/kbuild/kconfig-language.rst
-@@ -216,7 +216,7 @@ applicable everywhere (see syntax).
- 
- - numerical ranges: "range" <symbol> <symbol> ["if" <expr>]
- 
--  This allows to limit the range of possible input values for int
-+  This allows limiting the range of possible input values for int
-   and hex symbols. The user can only input a value which is larger than
-   or equal to the first symbol and smaller than or equal to the second
-   symbol.
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 62951cdb1..0cf97dbab 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -218,7 +218,7 @@ DevFS has been obsoleted in favour of udev
- Linux documentation for functions is transitioning to inline
- documentation via specially-formatted comments near their
- definitions in the source.  These comments can be combined with ReST
--files the Documentation/ directory to make enriched documentation, which can
-+files in the Documentation/ directory to make enriched documentation, which can
- then be converted to PostScript, HTML, LaTex, ePUB and PDF files.
- In order to convert from ReST format to a format of your choice, you'll need
- Sphinx.
-diff --git a/Documentation/scsi/ChangeLog.sym53c8xx b/Documentation/scsi/ChangeLog.sym53c8xx
-index 3435227a2..6bca91e03 100644
---- a/Documentation/scsi/ChangeLog.sym53c8xx
-+++ b/Documentation/scsi/ChangeLog.sym53c8xx
-@@ -3,7 +3,7 @@ Sat May 12 12:00 2001 Gerard Roudier (groudier@club-internet.fr)
- 	- Ensure LEDC bit in GPCNTL is cleared when reading the NVRAM.
- 	  Fix sent by Stig Telfer <stig@api-networks.com>.
- 	- Backport from SYM-2 the work-around that allows to support 
--	  hardwares that fail PCI parity checking.
-+	  hardware that fails PCI parity checking.
- 	- Check that we received at least 8 bytes of INQUIRY response 
- 	  for byte 7, that contains device capabilities, to be valid.
- 	- Define scsi_set_pci_device() as nil for kernel < 2.4.4.
-diff --git a/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst b/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst
-index 81b762ef1..99ffda355 100644
---- a/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst
-+++ b/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst
-@@ -444,7 +444,7 @@ Description
- ~~~~~~~~~~~
- 
- A call to `AUDIO_GET_CAPABILITIES`_ returns an unsigned integer with the
--following bits set according to the hardwares capabilities.
-+following bits set according to the hardware's capabilities.
- 
- 
- -----
+ 		if (v4l2_flash->ctrls[STROBE_SOURCE])
+
+base-commit: 8ac28a6642d1cc8bac0632222e66add800b027fa
 -- 
-2.52.0
+2.34.1
 
 
