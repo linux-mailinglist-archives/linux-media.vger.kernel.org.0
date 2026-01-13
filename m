@@ -1,169 +1,102 @@
-Return-Path: <linux-media+bounces-50531-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50534-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD168D17961
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 10:24:00 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E70F4D17AF9
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 10:38:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DE4063011FB8
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 09:19:42 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 4DA9A3055DE0
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 09:34:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BD5A38170C;
-	Tue, 13 Jan 2026 09:19:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C83F341AB8;
+	Tue, 13 Jan 2026 09:34:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jsWhm9Dm"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="UIqnpgs3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out203-205-221-190.mail.qq.com (out203-205-221-190.mail.qq.com [203.205.221.190])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBC35369213;
-	Tue, 13 Jan 2026 09:19:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24FCA2EA48F
+	for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 09:34:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.190
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768295972; cv=none; b=Y9ZSzphLNTLIVfXaWKwbIFHK/O6pSFV5rpTCBiXTbfameLkI9aZ3aymB0nV5Ksg+AQazaUASewJmjv0CJ5NadnnB+6GQhWQeY07KXgGXYubua0onI2nD5I0ZRpE3OY+auYkRGcBiE5uA/5A+DoDXlhEhDHHmNGbf6dt6Cu3gT40=
+	t=1768296858; cv=none; b=IoTdf0vbcPTB8/vKRkhPu1nk7xvGcrLD3t0JR3mY9JZso46fKtl3XamXLcUC8qUpTWWu2iMl7stR6XYAyr2tukWjkeKB28H04KQkI1u1MfRJ/0ka1So39mXwMhGk5z35+Aj3VaEZzidjgGUCuXmPUEmylMMMnEewqjULKPSr+pw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768295972; c=relaxed/simple;
-	bh=pMp/vP+6V6CNi+Sf5/eXNH8L5FL9MmyBessBv3fX9cc=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=pfpY3b4UUPLYQeAm0GKzm86R7iD71qT5jvgJH/d+GLF3pEU7jiqUJ6r9MzSTAGAQv2+7I2Iy4UWEBCIqc3tD5hPKsfZkv/V7Zk6cRfn9QwykkshGMTs80UfJPCdBOoYPskkQQlyl0YciU23yhDHH1QL2Bqgkvfpn5Vu+pyC+GUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jsWhm9Dm; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CEC6C116C6;
-	Tue, 13 Jan 2026 09:19:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768295969;
-	bh=pMp/vP+6V6CNi+Sf5/eXNH8L5FL9MmyBessBv3fX9cc=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=jsWhm9DmJyHuxMjWm1c98DoMzIEce03ZWxKflnlWpdEKNrup2MBJ5RStk6QXFT0zl
-	 uIvcuQHhcdsndorBJ7t6YqGkHg5Ex75N8CyMljEHNA2BCxdTC4fUetEfog+qFYgojw
-	 ekhL+RHQ2H/oqFinbRBmCRMBrzMj0ExA9s4vHBMUGK9lq5iclKHrRrvNkBxiJVj2Gi
-	 EPy3ZRjt+cg7xs9eSSH1EGzQLzbsGEQKRlhSv3tewOuo7gaXU5hSA70XoU/4f/14e1
-	 dlZV+0bIKEFpAdZMA9U0pBwdNWm/7PGzJHunjCmWF/oZ8Dy+7iQBTqJmpeYfYiIdKl
-	 zVvil8oVut7YA==
-Message-ID: <e9098813-3b5a-47a1-b1a8-192040093541@kernel.org>
-Date: Tue, 13 Jan 2026 10:19:25 +0100
+	s=arc-20240116; t=1768296858; c=relaxed/simple;
+	bh=k7LSUBeA9DlvOYaRqTZCmvGAyT2AzCvymJOUa4lgACY=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=pXrFJv6tdzs4bWhof3uOkmAE30Jd4glb0x89pYK1Kh4SwdnXfqcKaafmg2DKdKmCpz2QWe2gEDcDvywOSf0KkBdI00g00aEATKr9edYySRqObGxZjIPNzZioohNq2iHBoOow8McMOS/VvhSBlQTthkN89J4kJ5o8RWfa3F0owfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=UIqnpgs3; arc=none smtp.client-ip=203.205.221.190
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1768296847; bh=YjYddL/2pKHYBNAKBVaIyzdnVwUZghzUWLF1Z/Yb/Jo=;
+	h=From:To:Cc:Subject:Date;
+	b=UIqnpgs3K4/3lN13m55c/PFqWwmUsDJog8WwbNqBAEB5w4etwB8pjlTCgbdfWWkpw
+	 gEw/EGn41yzXjMB/42Z9giMzJzRkutFDnyYr38CY0IPfp3YGnAMqQNclOHHt4cju61
+	 2wtpekmOGBCaombHC5ITxzUTCdCG3NqQC+Y8yAM0=
+Received: from kfuzz ([202.120.234.33])
+	by newxmesmtplogicsvrsza56-0.qq.com (NewEsmtp) with SMTP
+	id 6673D4E3; Tue, 13 Jan 2026 17:25:39 +0800
+X-QQ-mid: xmsmtpt1768296339t3f4mveaq
+Message-ID: <tencent_7DEC784AAFE550A8BA532E65E60491E1D705@qq.com>
+X-QQ-XMAILINFO: NmhoXJR/eu5xN2f88XAyGAy8CqNO44QsoRbUBkkwBzOGpGaLENEum7D8s29Sy0
+	 NXQVXI0wccjGKvpsL/McQm1rBv6jN+/gPPGaBqQMHPeoBdNZxS+eo7u8sbYnxw27yIJX3vXZtFnV
+	 UBSY7YA1t0JJ/A5CI4mYktHBHt+/NG67wYc96Ob0j3dzJqm6yA5qeaMKDJf/G7dMKBCmYXKDp1Yw
+	 Uchqt64lIMkG4+7bg9dCRePdTTiZz1KCOiSjrRCQnRChXeGDRDJygsm7KlMi5vGu2mRlzVbwckOq
+	 9MNr7LScpQs4pirwKaBuy0396BCU18nMaUPibJ82L8AAiHoy0x4+Z+FoHJITYz/BBgbCoakoTGXD
+	 tBe0+7mJlSlF4TAUkBz2i9Q1Nn/jaJHf0SYAOAbfnPzwsLGsvFafQXu2WNbPB8lg7v+Nf9IzonSg
+	 1Meb1XZq2mNlBhVKkOCOUqmCrR4+PZNEYJSmqKIvS5NeK9FesNLYoXT4m8PJiTURNGkRd0b3DBSs
+	 7laxol8LgWi7Yn+W6hTGmG4C30jBYKNv2BwPORmrW2ddVrNRWrnJl32kWx15nNNgAbhxU66+kGyx
+	 vj+1p2Y7/rE+vdk4Rf0IdQ29Lpa7lpPr3BTuFmqYNig41tScVB5aGzDxMlI9pamB+i8LtNagMrxG
+	 S/uOv1TNY0yZvboiKmWjtAWb2Xpd3RO5rEOwDiO0JlRoywJlmpqbP28N81W3T3i2bU1ONlTVXtR5
+	 h3p+pbt3b2wlvKwiORS458D2LkhPaddnaOa+Uc0cymPTrXAZLARPP7uCWPLXOTlYSzfojOYSrfEq
+	 o5z7PSQQ84o3LXAQaTCNl5HqNYTa9Y+5FQJ+PKyfc9DginzCHzrm6DDzel3hyZu1nUcq2EGqJ+8y
+	 4+Fx8JBF1GscMIfld6za6lDJP+hPRHJKYbd/XOx6DcwqaDsVeXhyMITajCbO8Mw4Jbjr5U+Lxedi
+	 FQotS0gqRtGzbBWx4d+sApGIyrIEF3gjEm2sk8TIwJL+PjmiPEAfrCi/4ImvClMzJZD1MUc/bc/m
+	 D84bWecbgDwJ6xtNtt1kuNTkH4LRU=
+X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
+From: q1ming <1643771613@qq.com>
+To: klimov.linux@gmail.com
+Cc: mchehab@kernel.org,
+	linux-media@vger.kernel.org,
+	q1ming <1643771613@qq.com>
+Subject: [PATCH] media: radio-mr800: fix memory leak on error path
+Date: Tue, 13 Jan 2026 09:25:37 +0000
+X-OQ-MSGID: <20260113092537.60520-1-1643771613@qq.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [GIT PULL] Linux Media vimc update for 6.20-rc1
-To: Shuah Khan <skhan@linuxfoundation.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Hans Verkuil <hverkuil@xs4all.nl>, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, Pavan Bobba <opensource206@gmail.com>,
- shuah <shuah@kernel.org>
-References: <5e808887-c849-4ccd-8fbf-77d12e3d8730@linuxfoundation.org>
-Content-Language: en-US, nl
-In-Reply-To: <5e808887-c849-4ccd-8fbf-77d12e3d8730@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Shuah, Pavan,
+Fix a memory leak in usb_amradio_probe() where the v4l2 control
+handler is not properly cleaned up if control registration fails.
 
-On 08/01/2026 22:42, Shuah Khan wrote:
-> Hi Mauro,
-> 
-> Please pull the vimc next update for Linux 6.20-rc1.
-> 
-> Adds
->      RGB/YUV input entity implementation
->      support for V4L2_FIELD_ALTERNATE in vimc-sensor
->      support for multiple RGB formats in vimc-debayer
->      support custom bytesperline values in vimc-capture
->      document RGB/YUV input entity
-> 
-> diff is attached.
+The error handling jumps to err_ctrl instead of err_vdev, skipping
+the cleanup of the v4l2 control handler and leaking memory.
 
-Unfortunately these vimc changes cause regressions in the vimc test-media test.
+Signed-off-by: qym <1643771613@qq.com>
+---
+ drivers/media/radio/radio-mr800.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This test is run in our CI to catch regressions, so it must always pass.
-
-The test is in the v4l-utils git repository (https://git.linuxtv.org/v4l-utils.git/)
-in the contrib/test directory. It's run as: 'sudo ./test-media vimc'.
-
-It could be that these changes require changes in the vimc test itself.
-In that case I need a patch for test-media fixing this. However, looking
-at the failures I think that at least some of the issues are caused by these
-patches.
-
-Since this series adds a new entity, I think that test-media needs to be patched
-anyway with a new test that tests this new entity as well.
-
-Running the test-media vimc test results in:
-
-Summary:
-
-Total for vimc device /dev/media4: 8, Succeeded: 8, Failed: 0, Warnings: 0
-Total for vimc device /dev/video13: 60, Succeeded: 49, Failed: 11, Warnings: 0
-Total for vimc device /dev/video14: 60, Succeeded: 60, Failed: 0, Warnings: 0
-Total for vimc device /dev/video15: 60, Succeeded: 49, Failed: 11, Warnings: 0
-Total for vimc device /dev/v4l-subdev0: 54, Succeeded: 54, Failed: 0, Warnings: 0
-Total for vimc device /dev/v4l-subdev1: 54, Succeeded: 54, Failed: 0, Warnings: 0
-Total for vimc device /dev/v4l-subdev2: 61, Succeeded: 59, Failed: 2, Warnings: 0
-Total for vimc device /dev/v4l-subdev3: 61, Succeeded: 59, Failed: 2, Warnings: 0
-Total for vimc device /dev/v4l-subdev4: 54, Succeeded: 52, Failed: 2, Warnings: 0
-Total for vimc device /dev/v4l-subdev5: 61, Succeeded: 61, Failed: 0, Warnings: 0
-Total for vimc device /dev/v4l-subdev6: 47, Succeeded: 47, Failed: 0, Warnings: 0
-Total for vimc device /dev/v4l-subdev7: 47, Succeeded: 47, Failed: 0, Warnings: 0
-Grand Total for vimc device /dev/media4: 627, Succeeded: 599, Failed: 28, Warnings: 0
-
-So I'm dropping this PR.
-
-Regards,
-
-	Hans
-
-> 
-> thanks,
-> -- Shuah
-> 
-> ----------------------------------------------------------------
-> 
-> The following changes since commit 8f0b4cce4481fb22653697cced8d0d04027cb1e8:
-> 
->    Linux 6.19-rc1 (2025-12-14 16:05:07 +1200)
-> 
-> are available in the Git repository at:
-> 
->    git://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux tags/linux-vimc-6.20-rc1
-> 
-> for you to fetch changes up to c3a017646b770b76f0f08c96aa74fbc4404ef674:
-> 
->    docs: media: vimc: document RGB/YUV input entity (2025-12-15 12:43:25 -0700)
-> 
-> ----------------------------------------------------------------
-> linux-vimc-6.20-rc1
-> 
-> Adds
->      RGB/YUV input entity implementation
->      support for V4L2_FIELD_ALTERNATE in vimc-sensor
->      support for multiple RGB formats in vimc-debayer
->      support custom bytesperline values in vimc-capture
->      document RGB/YUV input entity
-> 
-> ----------------------------------------------------------------
-> Pavan Bobba (5):
->        media: vimc: add RGB/YUV input entity implementation
->        media: vimc: add support for V4L2_FIELD_ALTERNATE in vimc-sensor
->        media: vimc: debayer: add support for multiple RGB formats
->        media: vimc: capture: support custom bytesperline values
->        docs: media: vimc: document RGB/YUV input entity
-> 
->   Documentation/admin-guide/media/vimc.rst       |  39 +++--
->   drivers/media/test-drivers/vimc/Makefile       |   3 +-
->   drivers/media/test-drivers/vimc/vimc-capture.c |  15 +-
->   drivers/media/test-drivers/vimc/vimc-common.h  |   1 +
->   drivers/media/test-drivers/vimc/vimc-core.c    |   3 +-
->   drivers/media/test-drivers/vimc/vimc-debayer.c | 113 ++++++++++---
->   drivers/media/test-drivers/vimc/vimc-input.c   | 210 +++++++++++++++++++++++++
->   drivers/media/test-drivers/vimc/vimc-sensor.c  |   9 +-
->   8 files changed, 352 insertions(+), 41 deletions(-)
->   create mode 100644 drivers/media/test-drivers/vimc/vimc-input.c
-> 
-> ----------------------------------------------------------------
+diff --git a/drivers/media/radio/radio-mr800.c b/drivers/media/radio/radio-mr800.c
+index cb0437b4c331..530765c7cef6 100644
+--- a/drivers/media/radio/radio-mr800.c
++++ b/drivers/media/radio/radio-mr800.c
+@@ -529,7 +529,7 @@ static int usb_amradio_probe(struct usb_interface *intf,
+ 	if (radio->hdl.error) {
+ 		retval = radio->hdl.error;
+ 		dev_err(&intf->dev, "couldn't register control\n");
+-		goto err_ctrl;
++		goto err_vdev;
+ 	}
+ 	mutex_init(&radio->lock);
+ 
+-- 
+2.50.1
 
 
