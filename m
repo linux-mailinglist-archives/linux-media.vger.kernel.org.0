@@ -1,147 +1,162 @@
-Return-Path: <linux-media+bounces-50573-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50574-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7889D1A186
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 17:09:21 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19436D1A1BD
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 17:11:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AF8A5303B1A1
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 16:09:13 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 72ED3303C20D
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 16:11:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B682B36CDFC;
-	Tue, 13 Jan 2026 16:09:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19E0638946D;
+	Tue, 13 Jan 2026 16:10:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E9S1vkOP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mn5SO9lb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C20253451BB
-	for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 16:09:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8022C236B;
+	Tue, 13 Jan 2026 16:10:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768320552; cv=none; b=Zz79n7mBSfM2Wq+5NvozzJIJU914R6FmiAznQpFbutNZ82EUHWfjjZ8vZlDOLMUAMG3ZYeXCNPTEdRtGwno4nf44OiDVVVixG0Zwl7rqW5M0B/GVm1M+vOdkb6n42FmXh/vNhKNYmqJwzA4QCO+T5U3r8oabmNazR8nIZUgdcGA=
+	t=1768320658; cv=none; b=jt0CVL0ArE+n7O/mA5pL2XihULpjmpWcIqPaj5UjEd3kJiyxtF/1eUj0V30m832xECbTczh4l7zhDsXckBY0G31SJTRgkSGASzrQqi0LvHE+vuUH/3X4BATnsW9GbDgoVigKFiRmle8BULjOC6d5JYOAB0Seit3rXVSPp9cTqX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768320552; c=relaxed/simple;
-	bh=XPTzA4rbEuUKeMehzdYIUkN4IWvw4Daz8IFyVgbjSyQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Kl37oxBuelMFU5+zNqnMYIhZ7TIx9W35aDp9gEAyMSqi0idsDO92Xcpof42HpA7F/whHpFlViDanKehAB4BYnwzC10nm8DhCEfPwbcG6vEZ1HQ8stYQzdIf+UsFxe4W+9zFsjc7l+ts+pYS/wKoNsLOje/xf/9SpyRVVYOWAG94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E9S1vkOP; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-38316445a67so38512481fa.3
-        for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 08:09:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768320549; x=1768925349; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XPTzA4rbEuUKeMehzdYIUkN4IWvw4Daz8IFyVgbjSyQ=;
-        b=E9S1vkOPMMOTMkH9vGVt5V3RVHcEq4EW/Do6DEGGeEPXGVq3FXEUc1z9X4XHpm4JMT
-         yl8VPG+6uEOGc+6razqcgm/2oQ09yc4lrWLxn+ugijPU3fJYL7JE3k8K4OncDaQx/8sU
-         MONMeQqumzzTAvnn0wjhcqP5lqmTLGg7TiPNxJz86prlqABb6fHCh3RJHBaSMSF3+iDx
-         FOfZHATaJJo+XfUpZit0FK4p5GYIVebcXy0zWxFReI/EH+W4gTeFL+evrqbzEzl8HDKi
-         iWnDgWSfpccb/l7ItmXps+aoU/2xNoF6Z6mN9F1eHDsSxw/A7F0DfW6pAGPJIO2VKCHi
-         6bfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768320549; x=1768925349;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=XPTzA4rbEuUKeMehzdYIUkN4IWvw4Daz8IFyVgbjSyQ=;
-        b=QtY5eP9R66Qno6M3ajPaZwS40hdqM8QJq1GHAmbzH5+pRJmtzBQk701jCCHnF+I71O
-         M7wn5fTfaxpIbMLu2JCJzR4Lkq3+RjJ+N1RRtu7uT6EVLkLGSUEIPRyn1e33CehhBj8P
-         +6Q1MTmV22MecU45Qn3N/3+zGmsMHh6P0olyZaWhPYlLJ8dP5OV7aITvTfNWpL/H4cN9
-         pCRBA6lNpTmWLEyatSVFoVxWx74lbKwtb4CIPSKh7qjZ4VzmcZ2VBlo2+zkRoZ9D5tqe
-         WTgvfRiQDUzboydMAUEk3oepyKrPQmyEURFuh2Ch0hyX8YeyZ24RKAg7jhalkbU4kfm7
-         GRlQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVMl0z2Va6ZTMqp2HROpsuJDX49gxTPlm2oDRypDtp3bXLdzL0KHV8U3TYYhZN2k44KG8aR444Q8a/TgQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJJnZgnnkL9iJ0hQgQ8d9SfNwR+AqTc/e9Vac3mlQJVLGR762y
-	/YR3fbbHF9+FZ1yQ27aFHAuer0opIfz36RG+jrK5StnrUDMRy9xO6vNcOKPNYJL8fQixX10SWoq
-	A4guWCLC8IjiItPFbtAWXpWq5aXOg3zpkRFoX
-X-Gm-Gg: AY/fxX4YgviRZz2oNG9/y5pfxo+S0ncS2OokVQrznmuUrir3c2CNAadeEeVx3QN0R/C
-	DtlpAi45uuXF4YFUrYppa6lSPC+ruSo6t+8kwa7bD7Vjd34WlXWM2MPL6EVH/KyODHtvb2y3BC3
-	C1yLG0uOajamSXS546ibIgSitDqq1u8aUFXe/yUWJKtdrCtFxe3xnSrHRmmSD8mmBes+OYh/lqv
-	6rDtlA3KzzF3UO8qK7yAU+QDc+fj9OROMVp2sHo2d2x4O1ik9/ruUPC3zGbG5FnuTuAqk8Zvw==
-X-Google-Smtp-Source: AGHT+IHePHMDyoi6sr0yljTx/L6uNJTAHhACCTqgMHSNmrJtCfTvA9/YPbW8Y42q7oYdiGaWSr8QPTCuea49dVmU3D4=
-X-Received: by 2002:a05:651c:1596:b0:37f:8bb4:6b with SMTP id
- 38308e7fff4ca-382ff82321dmr57334941fa.38.1768320548451; Tue, 13 Jan 2026
- 08:09:08 -0800 (PST)
+	s=arc-20240116; t=1768320658; c=relaxed/simple;
+	bh=48Es2S409yTlI0s3L/SUlUr5jxhH+oDf+zUm7CAM85k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eje8HprUnq/CA6mjtVwRpbSiU9DzotNPFv9/cF91PYVo3hUH0xsxFkFn5HlNFSxo2Nk5prPfmmfF9z5N1CXReq18UIOxpL6+BZHHyXdnXmYXP7JuKSJHLB61lbUZe5FpSrPtIRB9tzCqj5vtzqtcw4yrO4t6IbtFCVcELXy3dI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mn5SO9lb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA060C116C6;
+	Tue, 13 Jan 2026 16:10:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768320658;
+	bh=48Es2S409yTlI0s3L/SUlUr5jxhH+oDf+zUm7CAM85k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mn5SO9lbfHAajh8SBuC1H52zRDk2i1cJjIXW4qSymf39CjYWseqUy+bq7qbrv1v35
+	 Okv56wH8VLF1fAJoHtVOrHuuNNCxiTUxSkOMtvnK7PQ8oF7K01s2f5l2U4OYv+M845
+	 uIhdzWAuIeGrpzS29zWnuC5JY688XqjDUTY4Ji8KI4AOojEQ8+0QMy3dw6Z9MaFxhK
+	 ANsgSFDkVCihoDbdNvSzy9o3M48u9zHfM5BLWecw7+Fi8XnSX20vvdyEa7IyOZsUhv
+	 LFJONDt1lusgdG+GL3mZxhOY0e0El8obSA7NESf5HW/4M83g5dCiVkSDZV88sNsjy2
+	 cG2Ruju+DQ6lQ==
+Date: Tue, 13 Jan 2026 16:10:51 +0000
+From: Will Deacon <will@kernel.org>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: joro@8bytes.org, robin.murphy@arm.com, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, heiko@sntech.de,
+	nicolas.dufresne@collabora.com, p.zabel@pengutronix.de,
+	mchehab@kernel.org, iommu@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
+	kernel@collabora.com
+Subject: Re: [PATCH v11 3/7] iommu: Add verisilicon IOMMU driver
+Message-ID: <aWZui-rn5RDPwpEO@willie-the-truck>
+References: <20260107101005.84039-1-benjamin.gaignard@collabora.com>
+ <20260107101005.84039-4-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260112190054.9828-1-dev.anubhavk@gmail.com> <aWVIF_rkHzxs3k-r@smile.fi.intel.com>
- <CAF6CsJwg8EFtCT+zyKWex=RbWu4TyZanbXnqip=J7=sCZDab5Q@mail.gmail.com> <CAHp75VcuO2qNeWLcrDqVfE_aQs=2ZiRB0CDxJpFquXJ6jd5eSg@mail.gmail.com>
-In-Reply-To: <CAHp75VcuO2qNeWLcrDqVfE_aQs=2ZiRB0CDxJpFquXJ6jd5eSg@mail.gmail.com>
-From: Anubhav Kokane <dev.anubhavk@gmail.com>
-Date: Tue, 13 Jan 2026 21:38:56 +0530
-X-Gm-Features: AZwV_QhWQUVOnPDw5tPps3huJowa_xdkMpSs3Gvbmjzbuuh8CFwVJn92wlqUGAU
-Message-ID: <CAF6CsJxKZ2FvRWVR0SjyfYR=Nj+4uCMgaJgO4BVBtbMvakXhVQ@mail.gmail.com>
-Subject: Re: [PATCH] staging: media: atomisp: refactor sizeof(struct type) to sizeof(*ptr)
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, hansg@kernel.org, mchehab@kernel.org, 
-	andy@kernel.org, sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260107101005.84039-4-benjamin.gaignard@collabora.com>
 
-On Tue, Jan 13, 2026 at 4:16=E2=80=AFPM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-> > I looked into implementing kcalloc() as suggested. But the issue is str=
-uct
-> > atomisp_s3a_buf (and the other buffers) are defined as list nodes with
-> > struct list_head list embedded in them.
->
-> Yes, and how does it affect the allocation?
->
-> > The driver relies on adding these
-> > individually to asd->s3a_stats and freeing them individually using kfre=
-e()
-> > in multiple cleanup paths (including error path here).
->
-> Is it the issue? Instead of incrementing by a pointer size, you will
-> increment an address by a structure size, this is how + operator works
-> in C from the beginning (or close enough to that time).
->
-> > Switching to kcalloc() would mean the s3a_buf is no longer a standalone
-> > object but a slice of an array. This would lead to invalid or double fr=
-ees
-> > if the existing code tries kfree() on this array element.
->
-> How? As I showed above you need to carefully move and replace
-> individual handling by a common one. So, instead of allocation per
-> item it will be an allocation per bucket.
->
-> > Addressing this requires a larger refactor of the buffer management log=
-ic
-> > across the driver,
->
-> Exactly! And that's what I think is the best way moving forward. You
-> will kill two birds with one stone: fixing the issue at hand and
-> improving the memory allocations in the driver in this area a lot.
->
-> > would you prefer I stick to the sizeof(*ptr) hardening for
-> > now to fix the checkpatch warning?
->
-> See above. As now I think this is unneeded churn as the idea would
-> still be the same =E2=80=94 moving towards kcalloc().
+Hi Benjamin,
 
-Hi Andy,
+Thanks for posting a v11.
 
-Thanks for the explanation regarding the pointer arithmetic and bucket
-allocation.
+On Wed, Jan 07, 2026 at 11:09:53AM +0100, Benjamin Gaignard wrote:
+> The Verisilicon IOMMU hardware block can be found in combination
+> with Verisilicon hardware video codecs (encoders or decoders) on
+> different SoCs.
+> Enable it will allow us to use non contiguous memory allocators
+> for Verisilicon video codecs.
+> If both decoder and this iommu driver are compiled has modules
+> there is undefined symboles issues so this iommu driver could
+> only be compiled has built-in.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+> changes in version 11:
+> - Fix dependency issue when decoder driver is build as module.
+> 
+>  drivers/iommu/Kconfig     |  11 +
+>  drivers/iommu/Makefile    |   1 +
+>  drivers/iommu/vsi-iommu.c | 808 ++++++++++++++++++++++++++++++++++++++
+>  include/linux/vsi-iommu.h |  21 +
+>  4 files changed, 841 insertions(+)
+>  create mode 100644 drivers/iommu/vsi-iommu.c
+>  create mode 100644 include/linux/vsi-iommu.h
 
-I understand the approach now, will work on refactoring the allocation
-to use kcalloc() and updating the cleanup paths to handle the array
-correctly.
+Based on your reply to v9:
 
-I'll send a v2 once I have verified the changes, though it might take me
-a little time to ensure the cleanup logic is robust.
+https://lore.kernel.org/all/0eff8b1a-c45f-47b1-a871-59f4a0101f0f@collabora.com/
 
-Regards,
-Anubhav
+I took another look at this to see whether it had changed significantly
+from v6 when compared to the rockchip driver. Sadly, they still look
+very similar to me and I continue to suspect that the hardware is a
+derivative. I really don't understand why having a shared implementation
+of the default domain ops is difficult or controversial. Have you tried
+to write it?
+
+However, given that nobody from the Rockchip side has contributed to the
+discussion and you claim that this is a distinct piece of IP, I don't
+want to block the merging of the driver by leaving the conversation
+hanging.
+
+There is still one thing I don't understand (which, amusingly, the
+rockchip driver doesn't seem to suffer from):
+
+> +static void vsi_iommu_flush_tlb_all(struct iommu_domain *domain)
+> +{
+> +	struct vsi_iommu_domain *vsi_domain = to_vsi_domain(domain);
+> +	struct list_head *pos;
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&vsi_domain->lock, flags);
+> +
+> +	list_for_each(pos, &vsi_domain->iommus) {
+> +		struct vsi_iommu *iommu;
+> +		int ret;
+> +
+> +		iommu = list_entry(pos, struct vsi_iommu, node);
+> +		ret = pm_runtime_resume_and_get(iommu->dev);
+> +		if (ret < 0)
+> +			continue;
+> +
+> +		spin_lock(&iommu->lock);
+> +
+> +		writel(VSI_MMU_BIT_FLUSH, iommu->regs + VSI_MMU_FLUSH_BASE);
+> +		writel(0, iommu->regs + VSI_MMU_FLUSH_BASE);
+> +
+> +		spin_unlock(&iommu->lock);
+> +		pm_runtime_put_autosuspend(iommu->dev);
+> +	}
+> +
+> +	spin_unlock_irqrestore(&vsi_domain->lock, flags);
+> +}
+
+[...]
+
+> +static const struct iommu_ops vsi_iommu_ops = {
+> +	.identity_domain = &vsi_identity_domain,
+> +	.release_domain = &vsi_identity_domain,
+> +	.domain_alloc_paging = vsi_iommu_domain_alloc_paging,
+> +	.of_xlate = vsi_iommu_of_xlate,
+> +	.probe_device = vsi_iommu_probe_device,
+> +	.release_device = vsi_iommu_release_device,
+> +	.device_group = generic_single_device_group,
+> +	.owner = THIS_MODULE,
+> +	.default_domain_ops = &(const struct iommu_domain_ops) {
+> +		.attach_dev		= vsi_iommu_attach_device,
+> +		.map_pages		= vsi_iommu_map,
+> +		.unmap_pages		= vsi_iommu_unmap,
+> +		.flush_iotlb_all	= vsi_iommu_flush_tlb_all,
+
+This has no callers and so your unmap routine appears to be broken.
+
+Will
 
