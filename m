@@ -1,47 +1,48 @@
-Return-Path: <linux-media+bounces-50516-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50517-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEC74D17888
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 10:13:27 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84ED3D1789D
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 10:13:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9FEB6303AE87
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 09:07:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 705CF30A2E55
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 09:07:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A63C3815D5;
-	Tue, 13 Jan 2026 09:07:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92ED23815EC;
+	Tue, 13 Jan 2026 09:07:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZAovOSOk"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="M3i3wLec"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E9C43806DB
-	for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 09:07:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CA8D3815C5
+	for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 09:07:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768295254; cv=none; b=fafwaq3Zc3IOwepsvwuwMl1NzjqGGS9Bsc60C7jb8rWq2b2OrZWCymNpiyE0R07SPAsIrynkNWt4MkZ1pEfCx9Kfapp+79XCBpfupnXvuan9nOBydsWIJgSvSU4J6YdlNPlQagpwN2XW+cI0kBEZQWwsONG4V50xUBVbKR2Pdco=
+	t=1768295260; cv=none; b=pu6R1pv+R+KqOGm0GR25weY+MgoANNHfSez23VCVN4RMriTWImIyZpeOPa6L6xJQyDmSS8ZLGPDDVLAz7Uga36qGS4PjWA/9fg9lonW44FEjMv5riIipSg5I0BbgkS9Me82FEOIYRcp9umeSFU9qzSE1soSBY08WBjtWCKMe8c0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768295254; c=relaxed/simple;
-	bh=REklIFVXmRlmq0LmpKSuw9wuteAuE3Gnu30O2/rYrz0=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=lVf5ErFVnexCxXVwH2ZtL3Vy9/UX+Sy6jOUmbGaoGZhX8ZVE+GxiWsNl4cbW6ksalu7vuSvcogdYchOLRW/dY2yBq7ajnj4wIHUoMN5Luev5VCEsxs3QkknwNLkVDJw88xhDQ3Ow4rhRLVqtKZjMzf9yGRcSDoJ1do9L9fU81B0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZAovOSOk; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1768295260; c=relaxed/simple;
+	bh=7QGmoI9vind2ZVUFgIhBfbjxqfPpt+PLukssWGIqkYY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=FDaqa+4TodoJTGl/gSoTfOasHvB2K36MTWWFdQLCyB/azyBn7VNAwtpdLx76TnULAKlB7wsrHDZbR5QIZGeiyDHFnZDfsw3NGg2qQ4r02xVGItt5N1Q+P1K3JF5rfFsyz48di9HSBZKgSrnbSoipojZua/2AUvjQ0r6SKIB5KCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=M3i3wLec; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c68:a473:c554:ed1f:46ad:1ead])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6F3092E0;
-	Tue, 13 Jan 2026 10:07:04 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5823A316;
+	Tue, 13 Jan 2026 10:07:11 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1768295224;
-	bh=REklIFVXmRlmq0LmpKSuw9wuteAuE3Gnu30O2/rYrz0=;
-	h=From:Subject:Date:To:Cc:From;
-	b=ZAovOSOkmmoqGenK0eDXUjaXi/qu4VyIRySq5dMefq7AD7lZTe4MoopCttupYMCn4
-	 uosUxgLoWMW9UBDKqwgP6q43wSx2GIhq6cGOJCJCHeAVsKLaDXz/p5IUbIyo7+0YXL
-	 6p16S0nSILshDC3w3VLuWvgHDe1QzFZZww7UpwUQ=
+	s=mail; t=1768295231;
+	bh=7QGmoI9vind2ZVUFgIhBfbjxqfPpt+PLukssWGIqkYY=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=M3i3wLecmrsU6j0jdR4uMqjVnPhMLPPC4icCNRjk7q6JWeOTiYLRtZqnj2ZhVx4qa
+	 S6d9hpUGBI0dpNSLkrhXi4Km4eVE3jfJOFPc3wZw2uuaUUqcEjHG2i3rsaOLLQrWqi
+	 oZvb/uxes7HmD0D4l3ipIgRrFpRdLNfh9KI0uBnY=
 From: Jai Luthra <jai.luthra@ideasonboard.com>
-Subject: [PATCH 00/10] media: Add support for Raspberry Pi 4 ISP
-Date: Tue, 13 Jan 2026 14:35:20 +0530
-Message-Id: <20260113-b4-vchiq-isp-v1-0-ea0b300bffc8@ideasonboard.com>
+Date: Tue, 13 Jan 2026 14:35:21 +0530
+Subject: [PATCH 01/10] platform/raspberrypi: vchiq-mmal: Move headers to
+ include/linux
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,11 +51,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIANEKZmkC/yWNwY7CMAxEf6XKGa9ck7ZpT/wH4pA4LviQFhKoV
- kL8+2bpbd5I8+ZtimSVYqbmbbJsWnRdKrSHxvDNL1cBjZUNIXU40hGChY1v+gAtdxjEMRGT65F
- NndyzzPr71Z0vO2d5vKr1uZcmSSn+a52a6uyxxW53QknAycNGgGCjFz/YkSWOJ43iy7qE1ef4w
- 2v6fwq+CNSc9Dk1bsZgmcVa186BqO+O/TjUIrqIES3SwKEVZy6fzx9wuhzv8gAAAA==
-X-Change-ID: 20250923-b4-vchiq-isp-7e8c22c2860c
+Message-Id: <20260113-b4-vchiq-isp-v1-1-ea0b300bffc8@ideasonboard.com>
+References: <20260113-b4-vchiq-isp-v1-0-ea0b300bffc8@ideasonboard.com>
+In-Reply-To: <20260113-b4-vchiq-isp-v1-0-ea0b300bffc8@ideasonboard.com>
 To: Florian Fainelli <florian.fainelli@broadcom.com>, 
  Tomasz Figa <tfiga@chromium.org>, 
  Marek Szyprowski <m.szyprowski@samsung.com>, 
@@ -65,117 +64,131 @@ Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>, 
  Naushir Patuck <naush@raspberrypi.com>, Stefan Wahren <wahrenst@gmx.net>, 
  linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- linux-media@vger.kernel.org, Jai Luthra <jai.luthra@ideasonboard.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.org>, 
- Umang Jain <uajain@igalia.com>
+ linux-media@vger.kernel.org, Jai Luthra <jai.luthra@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4557;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5202;
  i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
- bh=REklIFVXmRlmq0LmpKSuw9wuteAuE3Gnu30O2/rYrz0=;
- b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBpZgs5e+Ch/lz2cxZ3hmn5Jqqf9Mdi/IOSjDsbo
- Hu4jFLRoQGJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaWYLOQAKCRBD3pH5JJpx
- Ra60D/43niiXSmYxhdDtI6hfPiYhB0BeImTed2qZwjNkP9fNh0t2n83b8VPuKVdvYTvBGuy6Qzr
- 5/5KDmIhkg8A226QPMtsvt5jR+jGh7BgLvjp9gJ8zvQJQ4/SLxlwMqEGW0XvJPga3vMpTUIz8GU
- i2RfEFVGgT1LM5EEsZBZxlMqZSPCTnRma5H0p84AV8SMMrSPfJzu4j1K5ij+pwiLUa85u+LKhPv
- Yy8puKCXWjPKcDORqxA+famD3XHZinOURNxismgcMk3np2H4x9HJwUZujTIxFgcGJpShdsEoer7
- h/O+7Xxb0CXttS7hry3qGp+FdnH1tFQBCb3dTzTxJ/7fE8Awv6FiStw76NSJLQOLJ/tKM+4+FhI
- btI1nr89zhlAXmb7UQrADgLjdqOR7VeGJxqoFBHyvpKl9DIrJnFJr2yD+wTVykvbhVgZCTjPdOP
- FduQ7oEbJl/5P9PG6uDurCjQ/IJdMVoP+4VnEVWTdxnIFgyuuBWHrDUfI+Dk5p8SagusZgFRkaQ
- wivM1kayUHJH5lNK9jADMjPh5IPyF741y7VYrryaAuEEXVNuAyABPd5HhYG7+oD3tRSAgJ3eUaN
- ym8ge9nL+hStM9U+m6l1PgUvpW4U1sM0oF6N8mmWe8lbFQ5xjVnU+uNUMyZumzAt8Qsi8drrdQI
- ua/A014B4pxbtVg==
+ bh=7QGmoI9vind2ZVUFgIhBfbjxqfPpt+PLukssWGIqkYY=;
+ b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBpZgtDzretoqmR5rIAujIK70XJTnbA3in/McmBH
+ grIFpetAcmJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaWYLQwAKCRBD3pH5JJpx
+ RWpAEACOzKU2wibcjkO5/BJFxH3EbyzTKDJvv36CRqsisZkHkqSWqHU2THp7IX5wp4elOHh/DW8
+ NskNUEmc8H+2ICwJZt3OSfRxQztKUOHqDcZQ+HT7NaPPVqQ0PvwbqlXARhohaenTgmPqS8PQIF8
+ MXvdSbvOVxOfJhtherDMIeS99DKLeHYUVAvnlyRh0wr+APFhHceqaSQmQvvzqFrGbEFnIZHHyMm
+ i1kpI1Hwk85XGzkWncC9834ddk1PUmn94eRN2LPk+R7aZCUcskMe72S9YT87vWDJ/jsUq0fl7oq
+ dwxrX/JkjiKufQb6/4GSuA7Cy/4j6rwRHgFgaod1JvQ/pZe5zPcKcNOWfD0CIDODBkRA7UgUuP1
+ wONRnCNiVOTh0LJwdoKYzqdoImMfenpSajtMjBE+FnYseR9PTm3ownE6YdzhRxJraPyJrT3ocrX
+ fSKtl77ycKn1M5W+6Tf1fYT4NosmkZEupZ1w2aO4+4StAQN/uKZSKaCi6f+aw0mOYs9XNsLTN3G
+ AKXcuVQL1EiELdlu8sWvUOmL7uemj/gkm1HRnf8zE0iHOkK8AIAykHHsJ7sZKOoIdmQXlWfFJdm
+ 2IclYwziSCLrTh8N1j3w+z4XYpxsW9wVMgdl2imieqkWGu0lmYPNq2HrZPdvXmfGKvKtF0J2KXE
+ u9e1ujjblgzMyuA==
 X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
  fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
 
-Hi,
+Now that VCHIQ interface is destaged, different drivers (like ISP or
+codec) no longer live under the same tree as VCHIQ MMAL, but in their
+relevant trees like media or audio.
 
-This series adds support for the ISP used in Raspberry Pi 4 (and earlier
-variants) by adding the bcm2835-isp V4L2 driver.
-
-The underlying hardware for the ISP is accessed through the VideoCore
-VPU, via the VCHIQ/MMAL interface that was recently destaged under
-platform/raspberrypi. The ISP driver, and thus this series depends on
-VCSM CMA driver for shared memory support (for lens shading buffers):
-
-https://lore.kernel.org/all/20260105-b4-vc-sm-cma-v2-0-4daea749ced9@ideasonboard.com/
-
-The ISP driver introduced in this series has been taken from the one
-present in the downstream raspberrypi 6.12 tree, squashing together
-various commits, along with minor cleanups and renaming directories. For
-testing it with libcamera, please use this branch that supports upstream
-unicam and the correct base ID for ISP controls:
-
-https://github.com/jailuthra/libcamera/tree/pi4-upstream
-
-Thanks,
-Jai
+Enable access to VCHIQ headers for such drivers by moving these headers
+under include/linux/raspberrypi with other VCHIQ related headers.
 
 Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
 ---
-Dave Stevenson (1):
-      media: videobuf2: Allow exporting of a struct dmabuf
+ MAINTAINERS                                                      | 1 +
+ drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c             | 9 ++++-----
+ .../vchiq-mmal => include/linux/raspberrypi}/mmal-common.h       | 2 ++
+ .../vchiq-mmal => include/linux/raspberrypi}/mmal-encodings.h    | 0
+ .../vchiq-mmal => include/linux/raspberrypi}/mmal-msg-common.h   | 0
+ .../vchiq-mmal => include/linux/raspberrypi}/mmal-msg-format.h   | 0
+ .../vchiq-mmal => include/linux/raspberrypi}/mmal-msg-port.h     | 0
+ .../vchiq-mmal => include/linux/raspberrypi}/mmal-msg.h          | 0
+ .../vchiq-mmal => include/linux/raspberrypi}/mmal-parameters.h   | 0
+ .../vchiq-mmal => include/linux/raspberrypi}/mmal-vchiq.h        | 0
+ 10 files changed, 7 insertions(+), 5 deletions(-)
 
-Jai Luthra (5):
-      platform/raspberrypi: vchiq-mmal: Move headers to include/linux
-      platform/raspberrypi: vchiq-mmal: Support ISP parameters and stats
-      platform/raspberrypi: vchiq-mmal: Support bayer and gray formats
-      platform/raspberrypi: vchiq: Add helpers for vchiq driver data
-      media: platform: broadcom: Move unicam driver to subdir
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 816cceb5dc2d066665501aa8bbc04a2edd751087..16002c21fe06913ed57f495265b0b1ad14772c55 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -4927,6 +4927,7 @@ F:	Documentation/devicetree/bindings/pci/brcm,stb-pcie.yaml
+ F:	drivers/pci/controller/pcie-brcmstb.c
+ F:	drivers/platform/raspberrypi/vchiq-*
+ F:	drivers/staging/vc04_services
++F:	include/linux/raspberrypi/mmal*
+ F:	include/linux/raspberrypi/vchiq*
+ N:	bcm2711
+ N:	bcm2712
+diff --git a/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c b/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c
+index a228098d8cc0af5d5900b92b2847a1626a6d599c..3ead81dd2d0f48be7a5dd87256c38d6ba0dbcd0e 100644
+--- a/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c
++++ b/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c
+@@ -22,17 +22,16 @@
+ #include <linux/mm.h>
+ #include <linux/slab.h>
+ #include <linux/completion.h>
++#include <linux/raspberrypi/mmal-common.h>
++#include <linux/raspberrypi/mmal-parameters.h>
++#include <linux/raspberrypi/mmal-vchiq.h>
++#include <linux/raspberrypi/mmal-msg.h>
+ #include <linux/raspberrypi/vchiq.h>
+ #include <linux/raspberrypi/vchiq_arm.h>
+ #include <linux/raspberrypi/vc_sm_knl.h>
+ #include <linux/vmalloc.h>
+ #include <media/videobuf2-vmalloc.h>
+ 
+-#include "mmal-common.h"
+-#include "mmal-parameters.h"
+-#include "mmal-vchiq.h"
+-#include "mmal-msg.h"
+-
+ /*
+  * maximum number of components supported.
+  * This matches the maximum permitted by default on the VPU
+diff --git a/drivers/platform/raspberrypi/vchiq-mmal/mmal-common.h b/include/linux/raspberrypi/mmal-common.h
+similarity index 97%
+rename from drivers/platform/raspberrypi/vchiq-mmal/mmal-common.h
+rename to include/linux/raspberrypi/mmal-common.h
+index 6c5092a68b99594a0234f56b48b785fbc611bf5a..e7f065c539bcae7480a8dc2000d2a1e4cec7883c 100644
+--- a/drivers/platform/raspberrypi/vchiq-mmal/mmal-common.h
++++ b/include/linux/raspberrypi/mmal-common.h
+@@ -16,6 +16,8 @@
+ #ifndef MMAL_COMMON_H
+ #define MMAL_COMMON_H
+ 
++#include <media/videobuf2-v4l2.h>
++
+ #define MMAL_FOURCC(a, b, c, d) ((a) | (b << 8) | (c << 16) | (d << 24))
+ #define MMAL_MAGIC MMAL_FOURCC('m', 'm', 'a', 'l')
+ 
+diff --git a/drivers/platform/raspberrypi/vchiq-mmal/mmal-encodings.h b/include/linux/raspberrypi/mmal-encodings.h
+similarity index 100%
+rename from drivers/platform/raspberrypi/vchiq-mmal/mmal-encodings.h
+rename to include/linux/raspberrypi/mmal-encodings.h
+diff --git a/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-common.h b/include/linux/raspberrypi/mmal-msg-common.h
+similarity index 100%
+rename from drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-common.h
+rename to include/linux/raspberrypi/mmal-msg-common.h
+diff --git a/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-format.h b/include/linux/raspberrypi/mmal-msg-format.h
+similarity index 100%
+rename from drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-format.h
+rename to include/linux/raspberrypi/mmal-msg-format.h
+diff --git a/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-port.h b/include/linux/raspberrypi/mmal-msg-port.h
+similarity index 100%
+rename from drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-port.h
+rename to include/linux/raspberrypi/mmal-msg-port.h
+diff --git a/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg.h b/include/linux/raspberrypi/mmal-msg.h
+similarity index 100%
+rename from drivers/platform/raspberrypi/vchiq-mmal/mmal-msg.h
+rename to include/linux/raspberrypi/mmal-msg.h
+diff --git a/drivers/platform/raspberrypi/vchiq-mmal/mmal-parameters.h b/include/linux/raspberrypi/mmal-parameters.h
+similarity index 100%
+rename from drivers/platform/raspberrypi/vchiq-mmal/mmal-parameters.h
+rename to include/linux/raspberrypi/mmal-parameters.h
+diff --git a/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.h b/include/linux/raspberrypi/mmal-vchiq.h
+similarity index 100%
+rename from drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.h
+rename to include/linux/raspberrypi/mmal-vchiq.h
 
-Naushir Patuck (4):
-      media: uapi: v4l-ctrls: Add CID base for the bcm2835-isp driver
-      media: uapi: v4l2-core: Add ISP statistics output V4L2 fourcc type
-      media: platform: broadcom: Add bcm2835-isp driver
-      platform/raspberrypi: vchiq: Load bcm2835_isp driver from vchiq
-
- Documentation/admin-guide/media/bcm2835-isp.rst    |  127 ++
- .../userspace-api/media/drivers/index.rst          |    1 +
- .../userspace-api/media/v4l/meta-formats.rst       |    1 +
- .../media/v4l/pixfmt-meta-bcm2835-isp-stats.rst    |   35 +
- MAINTAINERS                                        |   12 +-
- drivers/media/common/videobuf2/videobuf2-core.c    |   21 +-
- drivers/media/platform/broadcom/Kconfig            |   23 +-
- drivers/media/platform/broadcom/Makefile           |    3 +-
- .../media/platform/broadcom/bcm2835-isp/Kconfig    |   14 +
- .../media/platform/broadcom/bcm2835-isp/Makefile   |    4 +
- .../broadcom/bcm2835-isp/bcm2835-isp-ctrls.h       |   73 +
- .../broadcom/bcm2835-isp/bcm2835-isp-fmts.h        |  558 ++++++
- .../broadcom/bcm2835-isp/bcm2835-v4l2-isp.c        | 1836 ++++++++++++++++++++
- .../media/platform/broadcom/bcm2835-unicam/Kconfig |   23 +
- .../platform/broadcom/bcm2835-unicam/Makefile      |    3 +
- .../{ => bcm2835-unicam}/bcm2835-unicam-regs.h     |    0
- .../broadcom/{ => bcm2835-unicam}/bcm2835-unicam.c |    0
- drivers/media/v4l2-core/v4l2-ioctl.c               |    1 +
- .../raspberrypi/vchiq-interface/vchiq_arm.c        |    2 +
- .../platform/raspberrypi/vchiq-mmal/mmal-vchiq.c   |    9 +-
- .../linux/raspberrypi}/mmal-common.h               |    2 +
- .../linux/raspberrypi}/mmal-encodings.h            |   68 +
- .../linux/raspberrypi}/mmal-msg-common.h           |    0
- .../linux/raspberrypi}/mmal-msg-format.h           |    0
- .../linux/raspberrypi}/mmal-msg-port.h             |    0
- .../linux/raspberrypi}/mmal-msg.h                  |    0
- .../linux/raspberrypi}/mmal-parameters.h           |   86 +
- .../linux/raspberrypi}/mmal-vchiq.h                |    0
- include/linux/raspberrypi/vchiq_arm.h              |    1 +
- include/linux/raspberrypi/vchiq_bus.h              |   10 +
- include/media/videobuf2-core.h                     |   15 +
- include/uapi/linux/bcm2835-isp.h                   |  347 ++++
- include/uapi/linux/v4l2-controls.h                 |    6 +
- include/uapi/linux/videodev2.h                     |    1 +
- 34 files changed, 3252 insertions(+), 30 deletions(-)
----
-base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
-change-id: 20250923-b4-vchiq-isp-7e8c22c2860c
-prerequisite-message-id: 20260105-b4-vc-sm-cma-v2-0-4daea749ced9@ideasonboard.com
-prerequisite-patch-id: 07e50207cc947f44e1d626b31d0ace7e12a8f3a1
-prerequisite-patch-id: 3d82a2605799686668729fdc2677c3f6b7c2aa0d
-prerequisite-patch-id: f65e3f6e8db823fcfc37421da10a76f92cf56d9d
-prerequisite-patch-id: dbfc2fc4237c738e499e802be972dd8f2736a714
-prerequisite-patch-id: 1898d91213e9bd75be3109180527fb0caf6d7174
-prerequisite-patch-id: d0cfc49c673c8c4a4c13d44a547104c24f57cb49
-
-Best regards,
 -- 
-Jai Luthra <jai.luthra@ideasonboard.com>
+2.52.0
 
 
