@@ -1,115 +1,155 @@
-Return-Path: <linux-media+bounces-50506-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50507-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5672D17229
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 08:58:40 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D88ED173B5
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 09:16:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4ED2A305CAB9
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 07:58:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 74DBA30443D8
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 08:14:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7502A312821;
-	Tue, 13 Jan 2026 07:57:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E2503793C9;
+	Tue, 13 Jan 2026 08:14:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="AqTHmoeA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hHwtSCUr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69DF830FC36;
-	Tue, 13 Jan 2026 07:57:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E083030F946
+	for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 08:14:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768291078; cv=none; b=t9zdK23YzV8DD+SOG+Wkkd8pxoWd09sxfAxz8gav+XtEBhs7wX5K95H7vaKH8iutJO8d7wn8f+gcgrsIGW8s82J8tNbdhFvBedCQ1+74KW067RLNs2gdMxrCs68QgZ2Ym3r9Bl3apay0enS4bLgLglvhAghFe16WNSle8dxhqsA=
+	t=1768292048; cv=none; b=M2OaFHvk0n0vtnEXz06XYQqTjQmsLBLeo/nfGTFpXc3IT9+zUJsUFpuqSsZkJ9pt3tM9XwScwnAv/3BzJCnDmDoxzjVNAgx/0WpI0VFnysfFR8RijhruQQ7n0QGxITREP20KbBGDncCL6jWBHgl3t47xS2GmCwZA6xHDD6BORfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768291078; c=relaxed/simple;
-	bh=RSwUxRFF6Z/dPuUyC8jeEFPS51IHNjDAEBSyaOM/Rd8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=i4PKccZsYwMxv8vv59bhvS8ZE98Gsd+oBfLL0H+fHqzUpjqR/dNzdDo37w41JfclZEyQBmiOmlov270N/xZzK8gI8M9YH4cwn7q0vQhUYYARklgsLMW10dUpUTB1SzF582RYizk6izsCnz75bRniFZ6Uk2eMihhDnMJepfG5CzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=AqTHmoeA; arc=none smtp.client-ip=117.135.210.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=n8
-	t6Gfh26cV4Yl2r+TklcwvlkWArlrbACINPjCxbpIA=; b=AqTHmoeAOrzwIZZAW5
-	xuBk5UrvOQ97gMcOAllqnV4ERHAJZOgVcF7Ug3HVfLuYXOyyCN7ZGyAqWwpb3rAe
-	mgNLqWGlXuFlmgRGpuraJBh8dQ31y93C4UThboQaqoc5fqu0ptFg35zc4u5VI23W
-	/ipdAJ56FmlTWxvzktTyH59Bs=
-Received: from localhost.localdomain (unknown [])
-	by gzga-smtp-mtada-g1-1 (Coremail) with SMTP id _____wCHMIzj+mVpY0+FFQ--.125S2;
-	Tue, 13 Jan 2026 15:57:25 +0800 (CST)
-From: "jempty.liang" <imntjempty@163.com>
-To: dan.scally@ideasonboard.com,
-	jacopo.mondi@ideasonboard.com,
-	mchehab@kernel.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"jempty.liang" <imntjempty@163.com>
-Subject: [PATCH] media: mali-c55: Fix NULL dev stream alert for tpg sub-device
-Date: Tue, 13 Jan 2026 07:57:22 +0000
-Message-Id: <20260113075722.143238-1-imntjempty@163.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1768292048; c=relaxed/simple;
+	bh=kE/smxxHATp9H64VZeGLdv3P1RKDeIDKctbphPX0ioc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CR/PVsTI/LwQUcPaGTgQEbYbdfO8vXXhppkeGJ1rZrEhEwtN2ve4FD3gVnvEkzS9fFsV/56kair3Kv6ksCVXCZBhO1zzTYYEMf1PvxABs82nlwQLDWrAf5BMLGhqq8fNXkWO0QtGszwJa6cNNNm97gX84hyPWRTddQrt0roEP38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hHwtSCUr; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768292047; x=1799828047;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kE/smxxHATp9H64VZeGLdv3P1RKDeIDKctbphPX0ioc=;
+  b=hHwtSCUr0frzNTTWHkAGPNXbf610P5Pfd2hj6WPUs2aJbDoKo2Ij1rQB
+   Q30oGj49/lgig2iQG0kTgOQWkYTMY2Ub03lyyp61wuhN7rl0NSCpiaUOY
+   SdPDkeCcG0GX8JZp8ku2Ab5pdk3fBT0N9+1btsSHRzGs3Z0py9WF7tmJ5
+   gbrPtikhMbAJdxuzY/kRIyCLDgPNGotwJJI2y9v+qpP77L5ViwQDq5hJX
+   cPcfzkuIQBZz30UnfF1V/uh2CIeEs7oBprfruT7beSVlyBfqVrhqW1U0C
+   sk1H913AII0EHY/4A9iiHKmPXjlyAxZirQtmu9zzlcL3EhCF9Wo4WXMLY
+   A==;
+X-CSE-ConnectionGUID: f0fZaXpkSTy+rA4AFbqppA==
+X-CSE-MsgGUID: P5lB8PXGTau8Dc0urH5/1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="79868438"
+X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
+   d="scan'208";a="79868438"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 00:14:07 -0800
+X-CSE-ConnectionGUID: W0OLhbu4TKiu7Uj8+Igl7Q==
+X-CSE-MsgGUID: 1czKJaZ5TOKYaae2T5mv3g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
+   d="scan'208";a="204334122"
+Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.182])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 00:14:05 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id A4FD111FC37;
+	Tue, 13 Jan 2026 10:14:02 +0200 (EET)
+Date: Tue, 13 Jan 2026 10:14:02 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Bingbu Cao <bingbu.cao@linux.intel.com>
+Cc: linux-media@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>,
+	Hans de Goede <hansg@kernel.org>, mehdi.djait@intel.com
+Subject: Re: [PATCH v2 06/23] media: i2c: ov01a10: Fix test-pattern disabling
+Message-ID: <aWX-ykmED-tw3pdo@kekkonen.localdomain>
+References: <20260112095949.3851-1-sakari.ailus@linux.intel.com>
+ <20260112095949.3851-7-sakari.ailus@linux.intel.com>
+ <419da2e9-1532-a39c-e4e6-dad0141e1002@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wCHMIzj+mVpY0+FFQ--.125S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxWr15AF4DAF4kAFy7Zw1DZFb_yoW5XrW8pF
-	48JFWxZry7GF1jgw1UA3W7ZFW5Gw1Fqayj9r97uw4aqa4DCF9rJr1aka4ayFy5CF1UA3W3
-	JFWIqr4Y9rs0vw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0JU2hF7UUUUU=
-X-CM-SenderInfo: hlpq3yxhps35i6rwjhhfrp/xtbC3AWrrGll+uUiAAAA3v
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <419da2e9-1532-a39c-e4e6-dad0141e1002@linux.intel.com>
 
-Fix "(NULL device *): collect_streams: sub-device 'mali-c55 tpg'
-does not support streams" by setting `sd->dev = mali_c55->dev`
-for isp/resizer/tpg modules.
+Hi Bingbu,
 
-Signed-off-by: jempty.liang <imntjempty@163.com>
----
- drivers/media/platform/arm/mali-c55/mali-c55-isp.c     | 1 +
- drivers/media/platform/arm/mali-c55/mali-c55-resizer.c | 1 +
- drivers/media/platform/arm/mali-c55/mali-c55-tpg.c     | 1 +
- 3 files changed, 3 insertions(+)
+Thank you for the review!
 
-diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-isp.c b/drivers/media/platform/arm/mali-c55/mali-c55-isp.c
-index 497f25fbdd13..ce84aad9f1d5 100644
---- a/drivers/media/platform/arm/mali-c55/mali-c55-isp.c
-+++ b/drivers/media/platform/arm/mali-c55/mali-c55-isp.c
-@@ -610,6 +610,7 @@ int mali_c55_register_isp(struct mali_c55 *mali_c55)
- 	sd->entity.ops = &mali_c55_isp_media_ops;
- 	sd->entity.function = MEDIA_ENT_F_PROC_VIDEO_ISP;
- 	sd->internal_ops = &mali_c55_isp_internal_ops;
-+	sd->dev = mali_c55->dev;
- 	strscpy(sd->name, MALI_C55_DRIVER_NAME " isp", sizeof(sd->name));
- 
- 	isp->pads[MALI_C55_ISP_PAD_SINK_VIDEO].flags = MEDIA_PAD_FL_SINK |
-diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-resizer.c b/drivers/media/platform/arm/mali-c55/mali-c55-resizer.c
-index a8d739af74b6..c4f46651dcee 100644
---- a/drivers/media/platform/arm/mali-c55/mali-c55-resizer.c
-+++ b/drivers/media/platform/arm/mali-c55/mali-c55-resizer.c
-@@ -1070,6 +1070,7 @@ static int mali_c55_register_resizer(struct mali_c55 *mali_c55,
- 	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_STREAMS;
- 	sd->entity.function = MEDIA_ENT_F_PROC_VIDEO_SCALER;
- 	sd->internal_ops = &mali_c55_resizer_internal_ops;
-+	sd->dev = mali_c55->dev;
- 
- 	rsz->pads[MALI_C55_RSZ_SINK_PAD].flags = MEDIA_PAD_FL_SINK;
- 	rsz->pads[MALI_C55_RSZ_SOURCE_PAD].flags = MEDIA_PAD_FL_SOURCE;
-diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-tpg.c b/drivers/media/platform/arm/mali-c55/mali-c55-tpg.c
-index 1af5d2759a83..894f4cf377af 100644
---- a/drivers/media/platform/arm/mali-c55/mali-c55-tpg.c
-+++ b/drivers/media/platform/arm/mali-c55/mali-c55-tpg.c
-@@ -370,6 +370,7 @@ int mali_c55_register_tpg(struct mali_c55 *mali_c55)
- 	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_HAS_EVENTS;
- 	sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
- 	sd->internal_ops = &mali_c55_tpg_internal_ops;
-+	sd->dev = mali_c55->dev;
- 	strscpy(sd->name, MALI_C55_DRIVER_NAME " tpg", sizeof(sd->name));
- 
- 	pad->flags = MEDIA_PAD_FL_SOURCE;
+On Tue, Jan 13, 2026 at 10:59:51AM +0800, Bingbu Cao wrote:
+> Sakari and Hans,
+> 
+> On 1/12/26 5:59 PM, Sakari Ailus wrote:
+> > From: Hans de Goede <hansg@kernel.org>
+> > 
+> > When the test-pattern control gets set to 0 (Disabled) 0 should be written
+> > to the test-pattern register, rather then doing nothing.
+> > 
+> > Fixes: 0827b58dabff ("media: i2c: add ov01a10 image sensor driver")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Hans de Goede <hansg@kernel.org>
+> > Tested-by: Mehdi Djait <mehdi.djait@linux.intel.com> # Dell XPS 9315
+> > Reviewed-by: Mehdi Djait <mehdi.djait@linux.intel.com>
+> > Reviewed-by: Bingbu Cao <bingbu.cao@intel.com>
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  drivers/media/i2c/ov01a10.c | 11 ++++-------
+> >  1 file changed, 4 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/drivers/media/i2c/ov01a10.c b/drivers/media/i2c/ov01a10.c
+> > index dd2b6d381175..3ad516e4d369 100644
+> > --- a/drivers/media/i2c/ov01a10.c
+> > +++ b/drivers/media/i2c/ov01a10.c
+> > @@ -249,9 +249,8 @@ static const struct ov01a10_reg sensor_1280x800_setting[] = {
+> >  static const char * const ov01a10_test_pattern_menu[] = {
+> >  	"Disabled",
+> >  	"Color Bar",
+> > -	"Top-Bottom Darker Color Bar",
+> > -	"Right-Left Darker Color Bar",
+> > -	"Color Bar type 4",
+> > +	"Left-Right Darker Color Bar",
+> > +	"Bottom-Top Darker Color Bar",
+> >  };
+> >  
+> >  static const s64 link_freq_menu_items[] = {
+> > @@ -406,10 +405,8 @@ static int ov01a10_update_digital_gain(struct ov01a10 *ov01a10, u32 d_gain)
+> >  
+> >  static int ov01a10_test_pattern(struct ov01a10 *ov01a10, u32 pattern)
+> >  {
+> > -	if (!pattern)
+> > -		return 0;
+> > -
+> > -	pattern = (pattern - 1) | OV01A10_TEST_PATTERN_ENABLE;
+> > +	if (pattern)
+> > +		pattern |= OV01A10_TEST_PATTERN_ENABLE;
+> >
+> 
+> It should be 'pattern - 1', the pattern value for register start as 0.
+
+I'll use:
+
+	if (pattern)
+		pattern = (pattern - 1) | OV01A10_TEST_PATTERN_ENABLE;
+
+
+I already sent a PR so I'll add a new patch for this.
+
+> 
+> >  	return ov01a10_write_reg(ov01a10, OV01A10_REG_TEST_PATTERN, 1, pattern);
+> >  }
+> > 
+> 
+
 -- 
-2.25.1
+Kind regards,
 
+Sakari Ailus
 
