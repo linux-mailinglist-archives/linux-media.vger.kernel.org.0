@@ -1,62 +1,62 @@
-Return-Path: <linux-media+bounces-50532-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50533-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 220EDD17A15
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 10:31:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7883CD17A27
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 10:32:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id CBF46300217E
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 09:31:44 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id B6C03300EE44
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 09:31:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 463E138A721;
-	Tue, 13 Jan 2026 09:29:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0277341AB1;
+	Tue, 13 Jan 2026 09:30:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="htDAx1B5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Up6ZaMm1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8CCE387589;
-	Tue, 13 Jan 2026 09:29:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A127136C590;
+	Tue, 13 Jan 2026 09:30:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768296551; cv=none; b=HcYbP37zhVIMFtEbcVL8oY+0oYCreRbfaqJT5Bl7d62RsecczLC/jcLgwA//LioLU/cm769K5A9ZgCbzOD+YM9LaQhcgc0RtrZu1sdSKu4TwgabM8fU+StwyDySoK0/zVJ8Zaykzn94TcwJC7FKgHpMGZUy3cTbkxGioh9u2eC8=
+	t=1768296642; cv=none; b=RPtWcUPjvI0ulyrzCNsSjMan+S1xEuWPM3b9Ul7xWkX3/Vp2j8wRHHxbVOhiIB735TPhEXjvks/BkknJRMqqOP2R2z+IjUrvrycoAanfPrCdFsDXqHUMtsIruIegoP9NXF2YUBe4A27Aul6EOOBrq3tUFCHk8XGAhz0k1VRUYnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768296551; c=relaxed/simple;
-	bh=kQMGQJt3EWSe0u3U839AQ9IRNSi4mm7LKDLeTyueEOY=;
+	s=arc-20240116; t=1768296642; c=relaxed/simple;
+	bh=5ubcJKa03epeMU/Rz/HAE+xd6v1dXE+MKytXOHB4lzY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eOB8aWLtaVxsWlLn4FHzs+cB1OE2lTXk7+SZ0VMGVXiPjLnER2PsXr18cM8PzBAI07mfN0jfzcplwTbpq92kCTckSwonldE27MDAxHLOc5kXzOAiu6PT1t6V/4EliMwAtSSsWb7Qo0zgtr8ZMAwB5PCPMlQte4doLZUY13yKNoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=htDAx1B5; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=mVDsFo2/qx7UKCY42fKVfu8X3Ik/TtkdNTG7hU378kCWjEW1Q83S/Unz4nzEw88Gb8U0zS/+FMjs8SkuCtmLieS2u+ZB7pDyMSYiI+2UqrwikwdAOWGkp8kjcU71fkPh0S6BMrHeL6IeR2J13U7LL8Q9GP14svY1qsFPj8vXyb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Up6ZaMm1; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768296549; x=1799832549;
+  t=1768296641; x=1799832641;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=kQMGQJt3EWSe0u3U839AQ9IRNSi4mm7LKDLeTyueEOY=;
-  b=htDAx1B5PrcKx7Tuin+u2kn1nPmbp2PLHhPxne2Z2Fpx6HxQc0rcyqdH
-   VSxAkbY8vbBve0OeRMJ2lrfAW4AUQdlqLyb1WLZJJ5CcJ05sFxMhCvgMc
-   xyJC/wLIR4m4B1PeJG5iQ4UC1NbdV8E/PIBFRPLJkQ0zbxRkFFbuUbo9U
-   0PwLl6FyW6rD4t3jXu6+r1Jwi/qqTktuXsfm5DwCEU0enB6814/k8jKIZ
-   ZD4RskskK0sslOSiGBa/g8hLm5CatZn1v75doJbFrAlSbBQTzRMWxoUpp
-   Qw0q9o7viUbnQaJck1c4TtVvar6s1MGSc8pi5+qfCjkI0nBEkTA485E2q
-   g==;
-X-CSE-ConnectionGUID: PdF+/WN8QReZ/cd6n1RSKA==
-X-CSE-MsgGUID: fZIsDEU/QraplTJJojL+5A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="80298205"
+   mime-version:in-reply-to;
+  bh=5ubcJKa03epeMU/Rz/HAE+xd6v1dXE+MKytXOHB4lzY=;
+  b=Up6ZaMm18eH2qlUg0FHgvY126FSIXC0ioB1e5kMgqBJVh5ZAHTwsMqad
+   SCNpPo4fZ0ZA03ENGeuphG57NRf1fED45bfQKSF7qgMK2ubmjdsgVKUw/
+   9reTLJN7e2d8BsV7DqReYDLHFnZECEpxKQjzGZpiVsz7IPpEB2zqr3CcU
+   aagV3wv9JYWAxbIdHZ18jvPYiLSc62p2x+TANyqO2Me4mBOOo9Bc8V16I
+   tHGYSilX85CrivKHzkK0dAi+jXeQH919P44vJ6oyq9gK02quUrmSrvZaB
+   Xn2RveSL0g+OyYR7kTiJFG76QzWw1Y2SX7HNErcuFh5pRwODbS0b/rChU
+   Q==;
+X-CSE-ConnectionGUID: oRVlcP6zTPCXiQPLH++bpw==
+X-CSE-MsgGUID: Omr78eGxQB2vHOrxiHQgIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="95052377"
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="80298205"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 01:29:05 -0800
-X-CSE-ConnectionGUID: xGYGW6cpT7m2vKG8s5vKcw==
-X-CSE-MsgGUID: HwnBLT8/S1CG/FeRRl7THg==
+   d="scan'208";a="95052377"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 01:30:40 -0800
+X-CSE-ConnectionGUID: WHA9BL8TRma+ka8v6pkKgA==
+X-CSE-MsgGUID: X85ZyysRT8eGLEY/qntF4g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="204419013"
+   d="scan'208";a="204738667"
 Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.245.177])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 01:28:59 -0800
-Date: Tue, 13 Jan 2026 11:28:56 +0200
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 01:30:34 -0800
+Date: Tue, 13 Jan 2026 11:30:32 +0200
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Matthias Fend <matthias.fend@emfend.at>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -85,129 +85,34 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Hao Yao <hao.yao@intel.com>,
 	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
 	bsp-development.geo@leica-geosystems.com
-Subject: Re: [PATCH v7 2/2] media: i2c: add Himax HM1246 image sensor driver
-Message-ID: <aWYQWAQnnFW0Kf9z@smile.fi.intel.com>
-References: <20260112-hm1246-v7-0-fee8587f2808@emfend.at>
- <20260112-hm1246-v7-2-fee8587f2808@emfend.at>
- <aWVFE-Y5HRi_XZRE@smile.fi.intel.com>
- <f2e77bb5-957e-4751-8304-d9fb94927417@emfend.at>
+Subject: Re: [PATCH v8 0/2] media: add Himax HM1246 image sensor
+Message-ID: <aWYQuJDinMlmxHgk@smile.fi.intel.com>
+References: <20260113-hm1246-v8-0-ea93947b192e@emfend.at>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f2e77bb5-957e-4751-8304-d9fb94927417@emfend.at>
+In-Reply-To: <20260113-hm1246-v8-0-ea93947b192e@emfend.at>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Jan 13, 2026 at 10:06:36AM +0100, Matthias Fend wrote:
-> Hi Andy,
-> Am 12.01.2026 um 20:01 schrieb Andy Shevchenko:
-> > On Mon, Jan 12, 2026 at 03:49:33PM +0100, Matthias Fend wrote:
+On Tue, Jan 13, 2026 at 10:07:25AM +0100, Matthias Fend wrote:
 
-...
+> this series adds support for the Himax HM1246 image sensor.
+> The Himax HM1246-AWD is a 1/3.7-Inch CMOS image sensor SoC with an active
+> array size of 1296 x 976.
+> Currently, only the native RAW mode is supported. Other modes and the
+> internal image signal processing pipeline are not currently supported.
+> The data sheet is available on the manufacturer's website [1].
+> Tested on i.MX8MP hardware. A Toshiba TC358746 bridge was used to convert
+> the sensor's parallel video output into MIPI signals for the i.MX8MP.
 
-> > > +struct hm1246_mode {
-> > > +	u32 codes[4];
-> > > +	u32 clocks_per_pixel;
-> > 
-> > > +	u32 top;
-> > > +	u32 left;
-> > > +	u32 width;
-> > > +	u32 height;
-> > 
-> > Why not use struct v4l2_rect?
-> 
-> Valid question. I would save something in six places, but add something in
-> about 27 others. Because of this ratio, I opted for the current way.
-
-It's more about standardization. Can you provide an example of the place where
-you need to add something?
-
-> > > +	u32 hts;
-> > > +	u32 vts_min;
-> > > +	const struct hm1246_reg_list reg_list;
-> > > +};
-
-...
-
-> > > +static int hm1246_get_selection(struct v4l2_subdev *sd,
-> > > +				struct v4l2_subdev_state *state,
-> > > +				struct v4l2_subdev_selection *sel)
-> > > +{
-> > > +	const struct v4l2_mbus_framefmt *format;
-> > > +	const struct hm1246_mode *mode;
-> > > +
-> > > +	format = v4l2_subdev_state_get_format(state, 0);
-> > > +	mode = v4l2_find_nearest_size(hm1246_modes, ARRAY_SIZE(hm1246_modes),
-> > > +				      width, height, format->width,
-> > > +				      format->height);
-> > > +
-> > > +	switch (sel->target) {
-> > > +	case V4L2_SEL_TGT_CROP:
-> > > +		sel->r = *v4l2_subdev_state_get_crop(state, 0);
-> > > +		return 0;
-> > > +
-> > > +	case V4L2_SEL_TGT_NATIVE_SIZE:
-> > > +		sel->r.top = 0;
-> > > +		sel->r.left = 0;
-> > > +		sel->r.width = HM1246_NATIVE_WIDTH;
-> > > +		sel->r.height = HM1246_NATIVE_HEIGHT;
-> > > +		return 0;
-> > > +
-> > > +	case V4L2_SEL_TGT_CROP_DEFAULT:
-> > > +	case V4L2_SEL_TGT_CROP_BOUNDS:
-> > 
-> > > +		sel->r.top = mode->top;
-> > > +		sel->r.left = mode->left;
-> > > +		sel->r.width = mode->width;
-> > > +		sel->r.height = mode->height;
-> > 
-> > Seems in the same way here.
-> > 
-> > > +		return 0;
-> > > +	}
-> > 
-> > > +	return -EINVAL;
-> > 
-> > Why not making it a default case?
-> 
-> I prefer it when the return statement is at the end of the function. Do you
-> see a problem here?
-
-For the matter of fact I do see a problem here. But it's not how code works
-right now, it's about maintenance. The disrupted returns like this may lead
-to subtle mistakes when the code gets changed (grows) and more cases added
-including ones that might want to share something as a success path.
-
-> > > +}
-
-...
-
-> > > +	hm1246->reset_gpio =
-> > > +		devm_gpiod_get_optional(hm1246->dev, "reset", GPIOD_OUT_HIGH);
-> > > +	if (IS_ERR(hm1246->reset_gpio))
-> > > +		return dev_err_probe(hm1246->dev, PTR_ERR(hm1246->reset_gpio),
-> > > +				     "failed to get reset GPIO\n");
-> > 
-> > Can it be GPIO reset driver used instead? (Note, it's made agnostic now.)
-> 
-> That would probably be possible, but I currently don't see any advantage for
-> I2C image sensors. If I understand correctly, you would first have to define
-> a reset controller that could then be used in the sensor – instead of simply
-> specifying the GPIO directly.
-
-Again, standardization.
-
-> The advantage of being able to share the reset line with other components
-> probably doesn't make sense for these sensors in most cases. That's perhaps
-> also the reason why it hasn't been used before.
-> 
-> Maybe the media maintainers have an opinion on this?
+Please, do not send a new version when we have been in the middle of the
+discussion.
 
 -- 
 With Best Regards,
