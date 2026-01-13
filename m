@@ -1,136 +1,221 @@
-Return-Path: <linux-media+bounces-50529-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50530-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13E03D178D9
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 10:15:54 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5C11D17910
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 10:19:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9D0BF3056755
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 09:08:54 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id A8F02302CA00
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 09:15:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E71A7369213;
-	Tue, 13 Jan 2026 09:08:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="b9kj9ujh"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4B83389DFA;
+	Tue, 13 Jan 2026 09:15:16 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from rmisp-mx-out2.tele.net (rmisp-mx-out2.tele.net [194.208.23.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ED6538170F
-	for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 09:08:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDCD6389475;
+	Tue, 13 Jan 2026 09:15:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.208.23.37
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768295313; cv=none; b=f9N/PEo9XSTlMkNvAwOZWoYneUjZ1Zaiu73z2im1qL6KgD68SmWvGefOdrj8e6kmFABYCqmnvWUQuysyEjb3zF3swcV+8xraO/OsLqetdROtDdRAzrJf8SRPDqRLejCD0PT/0qr8Vwpc8/2/DOqyKpOrs8RCZXGO/6kUCn8SrTQ=
+	t=1768295710; cv=none; b=FyEfV4sEHukxfHf+F6xSZ1qOVcRG6vy3QQ0nvmrnaGmGdmFBgm/Xy5Yhlt2Xj1uw8vtBZSPE56XFwUSEK+/oBtNwcMf/WGBBF3G32vC+hSjDB9twCxRdasY2xSjtVH7519a9k40cRqenMVZLeVXnKCuDFhYQ127sW7FI0qmEl1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768295313; c=relaxed/simple;
-	bh=xmJwrHf4q2IDWFmUdj1fcF9TnssMBp/VNjUuGh/3isk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gvcLLJC3boLIm1KSFS4vOojIM+T6VrnXtd7VZOaIQ081kGo1ovIUUQ3HCO0sRymbEAksaKUDwZzEiSJxeD8YP0T22w/9lj2ao7ba2s5I+hcIvn8TWnTmEdee3OeNaSQVkWH43vZeWd0BtfVznd2I6q2O/lYDYzbo6rQEvy0y/G8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=b9kj9ujh; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c68:a473:c554:ed1f:46ad:1ead])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 16A3117D8;
-	Tue, 13 Jan 2026 10:07:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1768295279;
-	bh=xmJwrHf4q2IDWFmUdj1fcF9TnssMBp/VNjUuGh/3isk=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=b9kj9ujho0ykhVDkP0S0pdmncSlBA4a2C6TTQgRC5EoRSYRlTJg0Vr/icyiFQaPaC
-	 LsqqreBQ7D+30UZOEeUIcNPzBupT5aMKoMcaiwUofFK4LmpgT779X30w5tjDKN+d2W
-	 cc0oPjikesgHeQPMHpi8wg8UtLobl28X1AtQz5FY=
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Date: Tue, 13 Jan 2026 14:35:30 +0530
-Subject: [PATCH 10/10] platform/raspberrypi: vchiq: Load bcm2835_isp driver
- from vchiq
+	s=arc-20240116; t=1768295710; c=relaxed/simple;
+	bh=O4Qpy5B7lwVnt3ddGls9FXndTqJkqO3iFyLaT5+kbW0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=td0to7UUwHH8jzW7/yGneapmSIfdQorYElG40ybtTdyKlsuMUqbNxtT1XkL41mfGprvmE7bcmLAHpV5KRpTmUEgjNYnq2+p6wxsNthUziapjRDgBzp7ceXQu5WDsamO35VD9+QrZD3RSJOex//gPLEuX3NRdVc57/Di7r2drJPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=fail smtp.mailfrom=emfend.at; arc=none smtp.client-ip=194.208.23.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=emfend.at
+Received: from [192.168.0.207] (194-208-208-245.tele.net [194.208.208.245])
+	by rmisp-mx-out2.tele.net (Postfix) with ESMTPA id 743C610E3CAC;
+	Tue, 13 Jan 2026 10:06:42 +0100 (CET)
+Message-ID: <f2e77bb5-957e-4751-8304-d9fb94927417@emfend.at>
+Date: Tue, 13 Jan 2026 10:06:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260113-b4-vchiq-isp-v1-10-ea0b300bffc8@ideasonboard.com>
-References: <20260113-b4-vchiq-isp-v1-0-ea0b300bffc8@ideasonboard.com>
-In-Reply-To: <20260113-b4-vchiq-isp-v1-0-ea0b300bffc8@ideasonboard.com>
-To: Florian Fainelli <florian.fainelli@broadcom.com>, 
- Tomasz Figa <tfiga@chromium.org>, 
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham@ideasonboard.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Naushir Patuck <naush@raspberrypi.com>, Stefan Wahren <wahrenst@gmx.net>, 
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- linux-media@vger.kernel.org, Jai Luthra <jai.luthra@ideasonboard.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1901;
- i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
- bh=eCv09Mqfnqp7/pBKKBSALZWW1w+B4jVcEjaPNOpfR1M=;
- b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBpZgtM8Io5KQ86hzFpdf9di4bsIKka9CQE06FDc
- XmlsCsnybKJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaWYLTAAKCRBD3pH5JJpx
- RbHwEACgTujZNs9ZxjKfYVFhttjbCstHBwY0w6WsbCj6y2OX4AxugO0OWX9aZeI/w8njRxQLaid
- G5TPoAROIIO2q/facKFkI1aOn9novutvCx+FDPiGLyOG3H6sJNuprnWwdND9Z+MUB1z9PgiCiXQ
- TqsQywdDyXww2QntwGTX9QpsCGjzxzWipwzh4AcExh7R77ksc8HrSzmMvYsqC4WqFouW/n608Fe
- r2U5n9iXQRitY1iSZXU3hHSMAl/Uh9+6fuHAt0/PmOsJdctd9vWjD1IngMDousGI6mbe+/GpXlV
- OBw1k0cTEXk4maVhYjPE/S6t7mKmHrZkkuBWVh1ea0RSMM4mOFtgi+V8vALgvnVFOsqjqCG/3iP
- nfd9+tarYqxBbqAIDnff/FlxbyPAbBogaY8iNEbCJTTXxjCdGgTgdW3CrIngTWZhbagWTMXzF91
- +uavRE664sf8YaKzxS1rurr61NnaKQRiIgRvVWSq8UM0RzKnEw0hoGZOzvndt9pE6mlSfW8QguO
- zn1V7pH0+2I4OQ6gRPFagHsaEqGk1iM1iwZrlf4GQcR+B/IS7EnCTTh/MDpsCgLcN+n8V5GHqXZ
- GPFuiKOoB4k92WmWzxcD8UR01SxiLHPCQw4HCrxoLRNrSYU2RMOTCUNVkv4b1WVvpz035h4B60c
- vrSIacoZHT7i8Vg==
-X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
- fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 2/2] media: i2c: add Himax HM1246 image sensor driver
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Hans Verkuil <hverkuil@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Hans de Goede
+ <hansg@kernel.org>, Ricardo Ribalda <ribalda@chromium.org>,
+ =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
+ Tarang Raval <tarang.raval@siliconsignals.io>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Sylvain Petinot <sylvain.petinot@foss.st.com>,
+ Dongcheng Yan <dongcheng.yan@intel.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Alan Stern <stern@rowland.harvard.edu>,
+ Jingjing Xiong <jingjing.xiong@intel.com>,
+ Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+ Mehdi Djait <mehdi.djait@linux.intel.com>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>,
+ Svyatoslav Ryhel <clamor95@gmail.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Hao Yao <hao.yao@intel.com>,
+ Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
+ bsp-development.geo@leica-geosystems.com
+References: <20260112-hm1246-v7-0-fee8587f2808@emfend.at>
+ <20260112-hm1246-v7-2-fee8587f2808@emfend.at>
+ <aWVFE-Y5HRi_XZRE@smile.fi.intel.com>
+Content-Language: de-DE
+From: Matthias Fend <matthias.fend@emfend.at>
+In-Reply-To: <aWVFE-Y5HRi_XZRE@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-From: Naushir Patuck <naush@raspberrypi.com>
+Hi Andy,
 
-Broadcom BCM2835 ISP driver is managed through the VCHIQ interface, so
-register it to the VCHIQ driver, similar to the audio and shared memory
-drivers.
+thanks a lot for feedback.
 
-Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
-Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
----
- drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c | 2 ++
- include/linux/raspberrypi/vchiq_arm.h                    | 1 +
- 2 files changed, 3 insertions(+)
+Am 12.01.2026 um 20:01 schrieb Andy Shevchenko:
+> On Mon, Jan 12, 2026 at 03:49:33PM +0100, Matthias Fend wrote:
+>> Add a V4L2 sub-device driver for Himax HM1246 image sensor.
+>>
+>> The Himax HM1246-AWD is a 1/3.7-Inch CMOS image sensor SoC with an active
+>> array size of 1296 x 976. It is programmable through an I2C interface and
+>> connected via parallel bus.
+>>
+>> The sensor has an internal ISP with a complete image processing pipeline
+>> including control loops. However, this driver uses the sensor in raw mode
+>> and the entire ISP is bypassed.
+> 
+> ...
+> 
+>> +struct hm1246_mode {
+>> +	u32 codes[4];
+>> +	u32 clocks_per_pixel;
+> 
+>> +	u32 top;
+>> +	u32 left;
+>> +	u32 width;
+>> +	u32 height;
+> 
+> Why not use struct v4l2_rect?
 
-diff --git a/drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c b/drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c
-index 00c31f18bb69fa8f21a2a048393ea76615eb926b..fe841c13677bd9cb63a825a7f99d45470d457c18 100644
---- a/drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c
-+++ b/drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c
-@@ -1416,6 +1416,7 @@ static int vchiq_probe(struct platform_device *pdev)
- 
- 	mgmt->audio_dev = vchiq_device_register(&pdev->dev, "bcm2835-audio");
- 	mgmt->vcsm_cma_dev = vchiq_device_register(&pdev->dev, "vcsm-cma");
-+	mgmt->isp_dev = vchiq_device_register(&pdev->dev, "bcm2835-isp");
- 
- 	return 0;
- }
-@@ -1424,6 +1425,7 @@ static void vchiq_remove(struct platform_device *pdev)
- {
- 	struct vchiq_drv_mgmt *mgmt = dev_get_drvdata(&pdev->dev);
- 
-+	vchiq_device_unregister(mgmt->isp_dev);
- 	vchiq_device_unregister(mgmt->vcsm_cma_dev);
- 	vchiq_device_unregister(mgmt->audio_dev);
- 	vchiq_debugfs_deinit();
-diff --git a/include/linux/raspberrypi/vchiq_arm.h b/include/linux/raspberrypi/vchiq_arm.h
-index d59837eaaa8c0e699575897c01d17359a58b0e62..ea1bd419e471cf3c8e66445ca6b6c706458657bd 100644
---- a/include/linux/raspberrypi/vchiq_arm.h
-+++ b/include/linux/raspberrypi/vchiq_arm.h
-@@ -63,6 +63,7 @@ struct vchiq_drv_mgmt {
- 	 */
- 	struct vchiq_device *audio_dev;
- 	struct vchiq_device *vcsm_cma_dev;
-+	struct vchiq_device *isp_dev;
- };
- 
- struct user_service {
+Valid question. I would save something in six places, but add something 
+in about 27 others. Because of this ratio, I opted for the current way.
 
--- 
-2.52.0
+> 
+>> +	u32 hts;
+>> +	u32 vts_min;
+>> +	const struct hm1246_reg_list reg_list;
+>> +};
+> 
+> ...
+> 
+>> +static int hm1246_set_format(struct v4l2_subdev *sd,
+>> +			     struct v4l2_subdev_state *state,
+>> +			     struct v4l2_subdev_format *fmt)
+>> +{
+>> +	struct hm1246 *hm1246 = to_hm1246(sd);
+>> +	struct v4l2_mbus_framefmt *mbus_fmt;
+>> +	struct v4l2_rect *crop;
+>> +	const struct hm1246_mode *mode;
+>> +
+>> +	mode = hm1246_find_mode_by_mbus_code(hm1246, fmt->format.code);
+>> +	if (IS_ERR(mode))
+>> +		mode = &hm1246_modes[0];
+>> +
+>> +	crop = v4l2_subdev_state_get_crop(state, 0);
+> 
+>> +	crop->top = mode->top;
+>> +	crop->left = mode->left;
+>> +	crop->width = mode->width;
+>> +	crop->height = mode->height;
+> 
+> With the above done this becomes a one-liner:
+> 
+> 	*crop = mode.<rect>; // <rect> is whatever name for the embedded field
+> 
+>> +	hm1246_update_pad_format(hm1246, mode, &fmt->format);
+>> +	mbus_fmt = v4l2_subdev_state_get_format(state, 0);
+>> +	*mbus_fmt = fmt->format;
+>> +
+>> +	return 0;
+>> +}
+> 
+> ...
+> 
+>> +static int hm1246_get_selection(struct v4l2_subdev *sd,
+>> +				struct v4l2_subdev_state *state,
+>> +				struct v4l2_subdev_selection *sel)
+>> +{
+>> +	const struct v4l2_mbus_framefmt *format;
+>> +	const struct hm1246_mode *mode;
+>> +
+>> +	format = v4l2_subdev_state_get_format(state, 0);
+>> +	mode = v4l2_find_nearest_size(hm1246_modes, ARRAY_SIZE(hm1246_modes),
+>> +				      width, height, format->width,
+>> +				      format->height);
+>> +
+>> +	switch (sel->target) {
+>> +	case V4L2_SEL_TGT_CROP:
+>> +		sel->r = *v4l2_subdev_state_get_crop(state, 0);
+>> +		return 0;
+>> +
+>> +	case V4L2_SEL_TGT_NATIVE_SIZE:
+>> +		sel->r.top = 0;
+>> +		sel->r.left = 0;
+>> +		sel->r.width = HM1246_NATIVE_WIDTH;
+>> +		sel->r.height = HM1246_NATIVE_HEIGHT;
+>> +		return 0;
+>> +
+>> +	case V4L2_SEL_TGT_CROP_DEFAULT:
+>> +	case V4L2_SEL_TGT_CROP_BOUNDS:
+> 
+>> +		sel->r.top = mode->top;
+>> +		sel->r.left = mode->left;
+>> +		sel->r.width = mode->width;
+>> +		sel->r.height = mode->height;
+> 
+> Seems in the same way here.
+> 
+>> +		return 0;
+>> +	}
+> 
+>> +	return -EINVAL;
+> 
+> Why not making it a default case?
+
+I prefer it when the return statement is at the end of the function. Do 
+you see a problem here?
+
+> 
+>> +}
+> 
+> ...
+> 
+>> +	hm1246->reset_gpio =
+>> +		devm_gpiod_get_optional(hm1246->dev, "reset", GPIOD_OUT_HIGH);
+>> +	if (IS_ERR(hm1246->reset_gpio))
+>> +		return dev_err_probe(hm1246->dev, PTR_ERR(hm1246->reset_gpio),
+>> +				     "failed to get reset GPIO\n");
+> 
+> Can it be GPIO reset driver used instead? (Note, it's made agnostic now.)
+
+That would probably be possible, but I currently don't see any advantage 
+for I2C image sensors. If I understand correctly, you would first have 
+to define a reset controller that could then be used in the sensor – 
+instead of simply specifying the GPIO directly.
+The advantage of being able to share the reset line with other 
+components probably doesn't make sense for these sensors in most cases. 
+That's perhaps also the reason why it hasn't been used before.
+
+Maybe the media maintainers have an opinion on this?
+
+Thanks
+  ~Matthias
+
+> 
 
 
