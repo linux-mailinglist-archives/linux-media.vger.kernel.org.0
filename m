@@ -1,230 +1,154 @@
-Return-Path: <linux-media+bounces-50556-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50557-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89577D18B83
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 13:30:54 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA901D18BCB
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 13:33:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2F4AB303CF65
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 12:30:35 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 13E5C300D906
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 12:33:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFBF838F25C;
-	Tue, 13 Jan 2026 12:30:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEC7038F24C;
+	Tue, 13 Jan 2026 12:33:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZraZb6kd"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nW/woVd5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75C5035CB73
-	for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 12:30:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5257C2BE7D6
+	for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 12:33:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768307430; cv=none; b=ghr8INoMNJtFFkMjdNEYvLlz5PItYXYvVbXXdNIH4/ZVn5wtTkD340DoVSv4mZ/5IyubnVZN1cB72wT7Zh4lnXq+qAMIOv/OJS842o6PfeUCEUwVAPSWF3RnSN3PeiAGmsX92hD2G6jTXqHZiBg4OqJw/msKo5AG9ztv1KS3DLQ=
+	t=1768307607; cv=none; b=lwvUHtkuQsQfpaQnRBDRiJQktpASVG6A53bM5lXeaL6iF2YBRbPJN0/1VLw4zBvaouU3+2kqHkRLV6GK/v3IbX25VjRgqpJKySQwh7GZMjcu7JiGVbrmgu4juW9ZfKoHX8LAlhrSclyr0QwHRSWEyx+WFmP3R9taUNGSxHznVng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768307430; c=relaxed/simple;
-	bh=vfnQpi20yYVsX3238jAiRf7Uqe3atzItvjZ3rR/ouIU=;
+	s=arc-20240116; t=1768307607; c=relaxed/simple;
+	bh=gF7/fWQyWmzkPClAmAUBXGyZOOP4YJ6wqtt/fKXe3BU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uPD0Pb3hCuaYvva9GgrurE+9ulcpNTc8zEksIYWiJAmCHRVGahvYiVO9bVWTGrmCifCyB5+XxIpGp5D1Cme2QaP9WjYzc+Ty5Azo9HgURJ3roFtx0QsWscvEWtYLWXdMEIG5XAymB/BRJjMAgJ2viHSavEykwnzCM/a+YJbEYEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZraZb6kd; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768307427; x=1799843427;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vfnQpi20yYVsX3238jAiRf7Uqe3atzItvjZ3rR/ouIU=;
-  b=ZraZb6kd2EqD534DgiMWuFhsNsUyzuyk/UYC82GM3fMP0qIr1vjHCF3Z
-   iSsDWTSh6g2Pw476tiBjLoqHNHxPB5wSlqeFSWs8AG1bJG/2ulEM9fAdW
-   ko6C5mAWnj2pDtuqsotdy+n7WtTGWCJhVd/Sr7NFIl70rXCH8daB6CjSM
-   mJ2Jiv4a+mjT9fLeqj4d5Pg+n2JttP4RTOf9wrL3PWaM7QBO87dsKem8w
-   +GtK1ToDRQ0njNU+bYFmsRsnGePCpS6M+ZNC9XpwaaoTkND4EsVpS0Z0s
-   mpF1SuhBStjS6y2p6k6emEnCcz1u0+ytCjI1lKzGDh1BZFhOwrWtNxCHV
-   A==;
-X-CSE-ConnectionGUID: bniJF26qT6WDQiFZwdWS4A==
-X-CSE-MsgGUID: YVa+rhN+RyGIS8mIQnx1Sg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="69747992"
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="69747992"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 04:30:22 -0800
-X-CSE-ConnectionGUID: CDv510wsQUGvmKKbvg9Y1A==
-X-CSE-MsgGUID: Z/z/k3c/TSWRBwdUcPYOHw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="203585159"
-Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.182])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 04:30:15 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 54E7C11FB85;
-	Tue, 13 Jan 2026 14:30:12 +0200 (EET)
-Date: Tue, 13 Jan 2026 14:30:12 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Mirela Rabulea <mirela.rabulea@nxp.com>
-Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
-	laurent.pinchart@ideasonboard.com,
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
-	Alexander Shiyan <eagle.alexander923@gmail.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Julien Massot <julien.massot@collabora.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
-	"Cao, Bingbu" <bingbu.cao@intel.com>,
-	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
-	"Wang, Hongju" <hongju.wang@intel.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Ricardo Ribalda Delgado <ribalda@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [EXT] [PATCH v10 15/64] media: uapi: Add generic CSI-2 raw
- pixelformats
-Message-ID: <aWY61FKxtnD6x7qI@kekkonen.localdomain>
-References: <20250619115836.1946016-1-sakari.ailus@linux.intel.com>
- <20250619115836.1946016-16-sakari.ailus@linux.intel.com>
- <41ad339a-c78c-4c16-922a-b23b6b79bdde@nxp.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=f5VAuAeV2WdxlMDBvOHJDLEOmM4SuOcdcq2ZL+XlgEKMYfZY0Xxge5nQ2Dzy0KsLi5STyapbVktGCBQ2cfmYb9x5UqzP4ouPODjYiL2dr1LvWjaPYK2ZdHLAuzGgfEIICZXEIeMakoHov5j6C9CAE/uv8xwKmiElhCTa2EFWrT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nW/woVd5; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-47d1d8a49f5so47862345e9.3
+        for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 04:33:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768307605; x=1768912405; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=iu+hM+o5OVgosv83g1p0lFler2aXUxBOVyQODWO4k74=;
+        b=nW/woVd5LvN2qWY5heeat0v6qpN9B7ABv9Mx33OkYs68QDqwkqrY995dROwBwuiDHo
+         z5/GkKhVGVtWs3V94cCzdMpnZikEHhbPSnB4y+QEVUN1LGLxixtZN61qyApPK3r7NO2l
+         PBxA8RXw4WDwItgp9jzVnRqRK99CEr6H63xp+iuRNK5eVsqGg251ycV3/asg2RrZsI6E
+         HOTqEY/yJYpHufBiT8U5J3s/7rJiNYYit2VPkZV6Gjwq5XhmEJVrmeXg2Ja2x4uw5GYl
+         4hAdTMYigz6NoMfKEe1xAGL+DIQ8e0irxBKPO8hfLyh23D/bFP8/ONR0pH5zZ1liGzAJ
+         EZRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768307605; x=1768912405;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iu+hM+o5OVgosv83g1p0lFler2aXUxBOVyQODWO4k74=;
+        b=dyfPlkMXbYLWIHgf0dZnaGG07TVXKf4lgBT7uupvWLala5HZw+noVhjGYeuPlVDDRY
+         N1TgmcmCyk3j2TLH/CXHbkN2T5p2IARE7jmF7h3JtYZO1EPJdIc1ogHUGrlBrXVLHcRS
+         gYvuYHVsoszSU0VVAwpI4r+grHjQtcg75lWLze1Y9WCgQEGqJgQoQ3fA0B/sVoYStI9U
+         LE0J1uEtIXH0JkHdhHl7P6SmCh2pWjYrKcV/8iUqqUqhV8cJucw0CtH9Qu9Dp4e2cjDd
+         A7Se/wg7WusgO/LBQx9nMn2DJOo0Ee+/cIkHLU6IJswPNLZb8TXPwJy8ko8PZdJ/YU/c
+         RsAg==
+X-Forwarded-Encrypted: i=1; AJvYcCVYLna40AET1eYTiO1Py8yD/eogJgHnizQ/pUo4Rn5ojL5R7tPasrlasxtADwbrKIDbH0+AaeIm6IrDcg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8Rje1Kb7JRnG4htU59xWAZTzHzrkoUDogEeP5il9wPgNGek21
+	xCf/nh8OHqAIOhVPIJK5c3PQV40fUXSJteblF4eAHAHlB7pQvB6PJxtZ
+X-Gm-Gg: AY/fxX4lCzYAoh2uuLyp4OMICvyYJ+5PHlPZaA/I/wF7OUrThLjjHTnXhNFQH5hRvcZ
+	f26hT+MQY3vLMy53WSOxAZtsc5eOeEa2sMG7v+q7O2rDqRPdVpCal0Qc1xhzAB6V7X02DDKBnea
+	+ewj/yYiJAb3DgOl3vsf04/pRGkCw6jl3JaK++BpfO0BSXb7mduzBKGoUuhjIZwWSqVP7Im6Nzr
+	EyUy54wuenK7tGrUMaECj8tPsDBmzpso6up3pDsbomp0kSasdEZIbshGRv2oOecmvGkEH+jx0aU
+	P4wN5SK4u28/A8h4rfmWXsJhjpHtqgBQPm+fH5zzcjGMaWvezSzpJ/A5Ov6zqujyo8yYrtZsmb+
+	Szq4ABznEgrpM/dnS2QSFyjBwfMKfsvfr8gWfi+cmGx+LLxDBF7qZ8BMD2g/p8Hr3tzyOJoApId
+	kdm4TfurpBQaH3cFrSMzMsLO5DGbf5fEy95w9HBeRWx9e77kBUVTp6ufotfGFQFWdoHUNeKoWGW
+	hxrrSJHB3PW
+X-Google-Smtp-Source: AGHT+IG8MSHR6UelEVmGpCyFD9NdUlMZd6tKUDDeZ0GaaRamXIcxo7BgHJmGz6YZQf7c2j4pEDiVyw==
+X-Received: by 2002:a05:600c:83c7:b0:479:3a86:dc1c with SMTP id 5b1f17b1804b1-47d84b52e31mr244947625e9.36.1768307604465;
+        Tue, 13 Jan 2026 04:33:24 -0800 (PST)
+Received: from orome (p200300e41f0ffa00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f0f:fa00:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d7f390a69sm399651475e9.0.2026.01.13.04.33.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Jan 2026 04:33:22 -0800 (PST)
+Date: Tue, 13 Jan 2026 13:33:20 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Akhil R <akhilrajeev@nvidia.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Sowjanya Komatineni <skomatineni@nvidia.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-crypto@vger.kernel.org, linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 0/2] host1x: Convert to bus methods
+Message-ID: <aWY7f5V_VE2RY74T@orome>
+References: <cover.1765355236.git.u.kleine-koenig@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="u2bmktfhhry3gyx6"
 Content-Disposition: inline
-In-Reply-To: <41ad339a-c78c-4c16-922a-b23b6b79bdde@nxp.com>
+In-Reply-To: <cover.1765355236.git.u.kleine-koenig@baylibre.com>
 
-Hi Mirela,
 
-On Sat, Jul 12, 2025 at 08:08:15PM +0300, Mirela Rabulea wrote:
-> Hi Sakari,
-> 
-> On 6/19/25 14:57, Sakari Ailus wrote:
-> > Caution: This is an external email. Please take care when clicking links or opening attachments. When in doubt, report the message using the 'Report this email' button
-> > 
-> > 
-> > Add generic raw pixelformats for bit depths 8, 10, 12, 14, 16, 20, 24 and
-> > 28. These formats are CSI-2 packed, apart from the 8-, 16- and 24-bit
-> > formats.
-> > 
-> > Signed-off-by: Sakari Ailus<sakari.ailus@linux.intel.com>
-> > ---
-> >   .../media/v4l/pixfmt-raw-generic.rst          | 398 ++++++++++++++++++
-> >   .../userspace-api/media/v4l/pixfmt.rst        |   1 +
-> >   include/uapi/linux/videodev2.h                |  10 +
-> >   3 files changed, 409 insertions(+)
-> >   create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-raw-generic.rst
-> > 
-> > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-raw-generic.rst b/Documentation/userspace-api/media/v4l/pixfmt-raw-generic.rst
-> > new file mode 100644
-> > index 000000000000..8561233f5262
-> > --- /dev/null
-> > +++ b/Documentation/userspace-api/media/v4l/pixfmt-raw-generic.rst
-> > @@ -0,0 +1,398 @@
-> > +.. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-no-invariants-or-later
-> > +
-> > +************************************************************************************************************************************************************************************************************************************************************************************
-> > +V4L2_PIX_FMT_RAW_8 ('RAW8'), V4L2_PIX_FMT_RAW_CSI2_10 ('RACA'), V4L2_PIX_FMT_RAW_CSI2_12 ('RACC'), V4L2_PIX_FMT_RAW_CSI2_14 ('RACE'), V4L2_PIX_FMT_RAW_16 ('RAWG'), V4L2_PIX_FMT_RAW_CSI2_20 ('RACK'), V4L2_PIX_FMT_RAW_24 ('RAWO'), V4L2_PIX_FMT_RAW_CSI2_28 ('RACS')
-> > +************************************************************************************************************************************************************************************************************************************************************************************
-> > +
-> > +
-> > +Generic line-based image data formats
-> 
-> Looking at the generated documentation, this does not appear very nice:
-> 
-> https://www.retiisi.eu/~sailus/v4l2/tmp/common-raw/userspace-api/media/v4l/pixfmt.html
-> 
-> Instead of 2.7 V4L2_PIX_FMT_RAW_8 ('RAW8'), V4L2_PIX_FMT_RAW_CSI2_10
-> ('RACA'), ....
-> 
-> Would be nice to have "Generic line-based image data formats" instead, I
-> think that should be the title.
+--u2bmktfhhry3gyx6
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 0/2] host1x: Convert to bus methods
+MIME-Version: 1.0
 
-Interesting idea. There will probably be (much?) less use for the non-raw
-formats though. I wonder what others think. It'd mean re-naming these
-macros effectively.
+On Wed, Dec 10, 2025 at 09:31:36AM +0100, Uwe Kleine-K=C3=B6nig wrote:
+> Hello,
+>=20
+> with the eventual goal to get rid of the callbacks .probe(), .remove()
+> and .shutdown() in struct device_driver, migrate host1x to use bus
+> callbacks instead.
+>=20
+> Best regards
+> Uwe
+>=20
+> Uwe Kleine-K=C3=B6nig (2):
+>   host1x: Make remove callback return void
+>   host1x: Convert to bus methods
+>=20
+>  drivers/crypto/tegra/tegra-se-main.c      |  4 +-
+>  drivers/gpu/drm/tegra/drm.c               |  4 +-
+>  drivers/gpu/host1x/bus.c                  | 67 +++++++++++------------
+>  drivers/staging/media/tegra-video/video.c |  4 +-
+>  include/linux/host1x.h                    |  2 +-
+>  5 files changed, 37 insertions(+), 44 deletions(-)
 
-> 
-> > +
-> > +
-> > +Description
-> > +===========
-> > +
-> > +These generic raw image data formats define the memory layout of the data
-> > +without defining the order of the pixels in the format or even the CFA (Colour
-> > +Filter Array) itself. These formats may only be used with a Media Controller
-> > +pipeline where the more specific format is reported by an :ref:`internal sink
-> > +pad <MEDIA-PAD-FL-INTERNAL>` of the source sub-device. See also :ref:`source
-> > +routes <subdev-routing>`.
-> > +
-> > +.. _v4l2-pix-fmt-raw-8:
-> > +
-> > +V4L2_PIX_FMT_RAW_8
-> > +------------------
-> > +
-> > +The V4L2_PIX_FMT_GENERIC_8 format is a plain 8-bit raw pixel data format. This
-> > +format is used on CSI-2 for 8 bits per :term:`Data Unit`.
-> > +
-> > +**Byte Order Of V4L2_PIX_FMT_RAW_8.**
-> > +Each cell is one byte. "P" denotes a pixel. + +.. tabularcolumns::
-> > |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}| + +.. flat-table:: Sample
-> > 4x2 Image Frame + :header-rows: 0 + :stub-columns: 0 + :widths: 12 8 8 8
-> > 8 + + * - start + 0: + - P\ :sub:`00` + - P\ :sub:`10` + - P\ :sub:`20`
-> > + - P\ :sub:`30` + * - start + 4: + - P\ :sub:`01` + - P\ :sub:`11` + -
-> > P\ :sub:`21` + - P\ :sub:`31` + +.. _v4l2-pix-fmt-raw-csi2-10: +
-> > +V4L2_PIX_FMT_RAW_CSI2_10 +------------------------ +
-> > +V4L2_PIX_FMT_RAW_CSI2_10 contains 10-bit packed image data, with four
-> > bytes +containing the top 8 bits of the pixels followed by lowest 2 bits
-> > of the pixels +packed into one byte. This format is typically used by
-> > CSI-2 receivers with +a source that transmits MEDIA_BUS_FMT_RAW_10 and
-> > the CSI-2 receiver writes the +received data to memory as-is. + +The
-> > packing of the data follows the MIPI CSI-2 specification. + +This format
-> > is little endian. + +**Byte Order Of V4L2_PIX_FMT_RAW_CSI2_10.** +Each
-> > cell is one byte. "P" denotes a pixel.
-> > +
-> > +.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.8cm}|
-> > +
-> > +.. flat-table:: Sample 4x2 Image Frame
-> > +    :header-rows:  0
-> > +    :stub-columns: 0
-> > +    :widths: 12 8 8 8 8 8
-> > +
-> > +    * - start + 0:
-> > +      - P\ :sub:`00 bits 9--2`
-> These elements of the table do not show up nice, perhaps adjusting the
-> widths would improve the readability?
+Applied, thanks.
 
-Hmm. They seem fine here. Which browser are you using?
+Thierry
 
-That being said, there are issues with wider tables below. I'll try to
-improve this for v12.
+--u2bmktfhhry3gyx6
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> > +      - P\ :sub:`10 bits 9--2`
-> > +      - P\ :sub:`20 bits 9--2`
-> > +      - P\ :sub:`30 bits 9--2`
-> > +      - P\ :sub:`00 bits 1--0` (bits 1--0)
-> > +        P\ :sub:`10 bits 1--0` (bits 3--2)
-> 
-> Is this intentional? It shows up as bits 1--0 and then again as bits 3--2. I
-> think this should not be on 2 rows, it's not readable. Same comments for the
-> remaining tables.
+-----BEGIN PGP SIGNATURE-----
 
-I'm not sure how much we have control over how the browser decides to wrap
-this. Perhaps adding commas between elements could improve readability?
+iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmlmO40ACgkQ3SOs138+
+s6GKWBAAkeHMxtj03MuTuHomrmoj2kYvczHvqu0BchkARJlcBuq1QbDBow2Tyjil
+qTY5YZp/VaU/tTbssrx5tdAsTOEK2yYugUOxfVz5IbyDzavUQAv8tq6kKLhY468g
+v4+p3ypGVT+XiQaAoQOn7GVdKp9X5SLxkJclGirBiepzO2CrJR6ci+NjBqaBBa7n
+mO8nh6jRN891vYt9IyZSd0VUf7W4K4mFS/RDKQaQYreFWSNiBAqdYMWCoUknnNY4
+lSKKIwp8IUO7wSW6kO7sEFfrQDdQjzp7kBDmG18NkhOsaXs+WjXgEFP3aQqKgmu9
+PYV79R8kRqMLuin51hrHrNvGuFbZqNOYFFJe86ipiO2wZTdXbaR4FjkBV5bGcj/a
+nwGAeax2FkhF4wGu9Zlfo0Zc0IuAb+S03c+RojN5EguuwTQpj8Fpd4TM6wLC/hur
+86LbYnh7oDIeq6rF31GpQv/uQKoXtbseL5CKi0uK9wc+MP0xP/LwONb8oNHbynRq
+rPyCADy46HhE0MX7Ki6wONVMloMept5PQdKzt7uizTB7W9cTZDJzIbPCq/kUhw4q
+AT9+bH0Pxgn7Q4MpCoQCwvz164tWFowRgcKmbuVO5Bp9WfkzhCNsp01s9+Y+PL+0
+1zY/BIC2SpeWjz1ip4Cl19Vid5SJ+6Tv/3EXKQ/PauUfgWbF2sU=
+=lJz6
+-----END PGP SIGNATURE-----
 
--- 
-Kind regards,
-
-Sakari Ailus
+--u2bmktfhhry3gyx6--
 
