@@ -1,134 +1,147 @@
-Return-Path: <linux-media+bounces-50623-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50624-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBBF0D1B921
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 23:19:24 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CD4ED1B933
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 23:21:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B6961302FBF6
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 22:19:23 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id AD7D730082D1
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 22:21:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE590354AEB;
-	Tue, 13 Jan 2026 22:19:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8578E36215D;
+	Tue, 13 Jan 2026 22:21:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dCA4tIGO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TIOjMLph"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7B5A352C30
-	for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 22:19:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BABBC352F89
+	for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 22:20:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768342762; cv=none; b=oxNbNHfBkDfW85nfJLExb5KF4IQ+M3oloudYuO1BVDcJdp6/VntgLmb8ptQU4KEmODoWw69rVA0YB24BkQTYsQXkPJknCxyveEAdiYgYxJfw743xNRE8mTLyP61SxA4a0mauVurIsuvXFI2nJMMH+LyiXaU1pM1kTmYOLBQdAZU=
+	t=1768342860; cv=none; b=X8l3JhZTTbBAYztDd9T5WtcrGsvolywpeatqLsFFSvZcG8t3vuvRDicX2UmjoLpOmG76VBpeeQWF6lzcrUEFjTAepO4m7z3srdD8lTVQn/bstwrvomGvl0LrEBG3rgR+PA6ZLvGmVj3oYeLodwc5dDvI2ZcCmj5rBqcSOJmHwqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768342762; c=relaxed/simple;
-	bh=BBQeA3S7wkPk3ylGqFxEBJEVJdA6W7zYKUStbYHAlv4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RetwyZX1eXgO7fsWBRfngwkJXQF+6/y7KTkUkIpfGz+l35ULP6RTriC12v34v4aUTuSa9Q/Yhc/JLELJFLK3TwfrMpYVoufXOzh6J1h4m0K1Co4KzlqgEOQkKHZ1aLMlCIMqvvdUaRWnPge0x30qTeFW9ovD10EU3rGvyyOECB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dCA4tIGO; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-b87174fbacdso49492366b.2
-        for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 14:19:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768342759; x=1768947559; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OTSi22MXyVIFLI49ZaUvuLMSU1XbYOIX8FSnyulljAg=;
-        b=dCA4tIGO0iqH18s2wwV06fNVOyF3e1Gh3E1003hhzWO7JZ0L0lSb2LSWkOodE8ThI5
-         2ZyjEhGYcGEwpbAYuDoqdUt3ct0BF1TySAuNa97kd6YjO7OTWzdEQ8M1LZwUCSG4Y7zn
-         8SZ9C0rZ6pD6A6rJzdl952adePwIt3tyqshE26Y/dekxlnIJUJ4upxSM2nKzJg6EoHvM
-         xZjcE7UckdtlHIiYxHI9G180hBnwu4ofqyFSiAQApITqAb9vMfTVZD3d6/XsYpu2VtqO
-         dtIE2spsOu+v4qcYzMdvJaveB+tn4ztOiZ3YRQwWX99OaL+M/Ki6tNTUOCjBQivtnvX5
-         KmRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768342759; x=1768947559;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OTSi22MXyVIFLI49ZaUvuLMSU1XbYOIX8FSnyulljAg=;
-        b=ABMaucb0Hair0WCxb2vU4LP5aHJpYdKG9IfKaOt3z76WJAJWFtjSD+iLzKdFEIK0w8
-         2VTdKXJaRRRpXGRzibQSptT5fQBnTkOadJG8sqre+AimS6EeroSRnc2Ftk6OROdkEOcX
-         zYrSm44zlBO7QFgowBGAOxvSu/I3R5bXpXnOyz5MFDSp+Ak4abKoyt4vPJ2YoTx41tSF
-         aH+MUB5pLBKpuYCV0ZKUh0deDPWCxGjhhbE5O2VYqoIjxUHxrrzoyGVN4LzDUDvkF6fS
-         HF5m1myf1haNc+484jQ0rSE9sBEIBHbXDDGWq7K7HLqrvWBzh4qchlmcmUM58Xs4DI0K
-         jyaA==
-X-Gm-Message-State: AOJu0YwIAJNUt+xgIeydj2RwtGyPBdv6AAx3gW3BZhjRKFwEa3+2Ltt4
-	V3vgq3CfH0WuVjR+Ar83/NBNVqu5ODsp4MWJuo8NqhQtxCdCSU9Ew/lZwpzQww==
-X-Gm-Gg: AY/fxX7s0IA+QWxvF/Hy4dvX2xE4N376PcgcSoPxy75IxoqxDbNCh+ytlDBUswqOo/J
-	8251+IcJvY952v6BXH6ExFUBElNN5foHF+9PD3C2fLxYMczHYk3ALUn3o/sXZf2cmhWtKxdHdM0
-	DgDIqkFtiLZwYohqHiP9zL8Ttf1VEcoWrsIss+Kx+h+H4H6yYmGMCWn8AN1vXnK/Nr6GyW4NYcb
-	XSJJRUMmP0Q6GZjBBEg7RDBtc7PFA/1yK2FGISx62hYnzRysNnyq/GcvzcmQP+v0PCzkPe2nKo9
-	yrYEybvwrPEtHKTjM+YVjFrGMNQRyh3o/qeKa9VjCDERdsyCUD9Q7sQLuobGhS7RTpGnj8QAWrq
-	V4p8/eqW46MEI01NujvWJfK32ECBwgAkHXECnwNefX5EnfcPdaJuXCHByQO4O3Pw9gqDQy9iDK5
-	n08WGAwrImQB+gW2L9GMK8WgXJIlXXn8cyfL34c11d3qQyq7kOMsnf4MAcFVbyE0rP
-X-Received: by 2002:a17:907:3e14:b0:b87:515e:654a with SMTP id a640c23a62f3a-b8760fe6a05mr30181366b.2.1768342758835;
-        Tue, 13 Jan 2026 14:19:18 -0800 (PST)
-Received: from laptok.lan (87-205-5-123.static.ip.netia.com.pl. [87.205.5.123])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b871188ec63sm823759966b.1.2026.01.13.14.19.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jan 2026 14:19:18 -0800 (PST)
-From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
-To: linux-media@vger.kernel.org
-Cc: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
-Subject: [PATCH] edid-decode: Always show VRR min/max values
-Date: Tue, 13 Jan 2026 23:19:16 +0100
-Message-ID: <20260113221916.175175-1-tomasz.pakula.oficjalny@gmail.com>
-X-Mailer: git-send-email 2.52.0
+	s=arc-20240116; t=1768342860; c=relaxed/simple;
+	bh=ucEGbb5bBBfL22ip+iffxcX0KVTu95nthaJSSfZZaOU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=btMbZyYStDOL1QUixWgKE8PTpeAnTTmDMfhreufl0dVSz4HYesS4v+9PQ/ZMWxHBHo2NeOJcxDrvVAXnVyg7qyaMQfBgo1M1rMOKQ3eHxPIJvOo1Vtvo628uU4NGq2WaV2Ob1s5kYXGIfo6ANI7zt7dvxisyRKMT+cg+FknhnP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TIOjMLph; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768342859; x=1799878859;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ucEGbb5bBBfL22ip+iffxcX0KVTu95nthaJSSfZZaOU=;
+  b=TIOjMLphqmGfEMpojCGyGn2szjxFl+m+k71GdBdkZwfS7fcWXbtIpNgk
+   7SU7ZLzr4lK2LWn04S9NxXz9F0PF0yP/3YFbRjqlU/LEwna6Xs1jTs3D3
+   s2V8pcc7cShpcAIo5Y53SarMED4G5LNCcJzXsR/bMbjEGRFjTEOw2lEMJ
+   PaEmGWk846LDX75W4u91ha3b5fcfVGQW1uXu88hFz5+h1yCRM6R8RB9ih
+   GDrGy5Xd4r2YhOVgIuG2TNGVt0az/FUQWE1HbCsDiGWAR1Te6jiIVHWcz
+   Q5QNuBbM+3OYhkN+SJx2TR4xgqgxqd95rQPnF4kA0MjzFmrLZCGD8wtpo
+   w==;
+X-CSE-ConnectionGUID: KWfXWytERdKIqZSfXP/BGQ==
+X-CSE-MsgGUID: qTrUrMx/RQGnWoIwKaI+fw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="73495837"
+X-IronPort-AV: E=Sophos;i="6.21,224,1763452800"; 
+   d="scan'208";a="73495837"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 14:20:58 -0800
+X-CSE-ConnectionGUID: vESE4WhSSU6KBbWlUrPZGg==
+X-CSE-MsgGUID: sgJJ26dJSpG/GJIfHGCafA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,224,1763452800"; 
+   d="scan'208";a="204780706"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.58])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 14:20:52 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 253DE120831;
+	Wed, 14 Jan 2026 00:20:50 +0200 (EET)
+Date: Wed, 14 Jan 2026 00:20:50 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	laurent.pinchart@ideasonboard.com,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	"Wang, Hongju" <hongju.wang@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v10 40/64] media: Documentation: Add subdev configuration
+ models, raw sensor model
+Message-ID: <aWbFQl_sTXdCrOPW@kekkonen.localdomain>
+References: <20250619115836.1946016-1-sakari.ailus@linux.intel.com>
+ <20250619115836.1946016-41-sakari.ailus@linux.intel.com>
+ <aWZbAuW6qx_ZYZVS@zed>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aWZbAuW6qx_ZYZVS@zed>
 
-It's useful to always see VRRmin and VRRmax values, even if they are 0
-especially becasue VRRmax==0 is a valid value that indicates the upper
-VRR boundary is based on the current selected video mode.
+Hi Jacopo,
 
-Currently, VRRmax is completely hidden if it's 0. Some Philips TVs do
-actually set it to this value though it is very rare among TVs.
+Thank you for the review.
 
-Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
----
- utils/edid-decode/parse-cta-block.cpp | 20 ++++++++------------
- 1 file changed, 8 insertions(+), 12 deletions(-)
+On Tue, Jan 13, 2026 at 03:50:01PM +0100, Jacopo Mondi wrote:
+> > +Routes
+> > +^^^^^^
+> > +
+> > +A sub-device conforming to common raw camera sensor model implements the
+> > +following routes.
+> > +
+> > +.. flat-table:: Routes
+> > +    :header-rows: 1
+> > +
+> > +    * - Sink pad/stream
+> > +      - Source pad/stream
+> > +      - Static (X/M(aybe)/-)
+> > +      - Mandatory (X/-)
+> > +      - Synopsis
+> 
+> In my understanding a route can be
+> 
+>         - Mandatory (Y/N)
+>         - Static (Y/N)
+> 
+> I found the Maybe/- options confusing
+> 
+> What does it mean "Maybe" here ? Ehtier a route is static or not, the
+> "Maybe" and "No" cases seems to express the same concept in my
+> opinion...
 
-diff --git a/utils/edid-decode/parse-cta-block.cpp b/utils/edid-decode/parse-cta-block.cpp
-index ecf32b9f..404dee55 100644
---- a/utils/edid-decode/parse-cta-block.cpp
-+++ b/utils/edid-decode/parse-cta-block.cpp
-@@ -1377,19 +1377,15 @@ void edid_state::cta_hf_scdb(const unsigned char *x, unsigned length)
- 		return;
- 
- 	v = x[5] & 0x3f;
--	if (v) {
--		printf("    VRRmin: %u Hz\n", v);
--		if (v > 48)
--			fail("VRRmin > 48.\n");
--	}
-+	printf("    VRRmin: %u Hz\n", v);
-+	if (v > 48)
-+		fail("VRRmin > 48.\n");
- 	v = (x[5] & 0xc0) << 2 | x[6];
--	if (v) {
--		printf("    VRRmax: %u Hz\n", v);
--		if (!(x[5] & 0x3f))
--			fail("VRRmin == 0, but VRRmax isn't.\n");
--		else if (v < 100)
--			fail("VRRmax < 100.\n");
--	}
-+	printf("    VRRmax: %u Hz\n", v);
-+	if (!(x[5] & 0x3f))
-+		fail("VRRmin == 0, but VRRmax isn't.\n");
-+	else if (v > 0 && v < 100)
-+		fail("0 < VRRmax < 100.\n");
- 
- 	if (length <= 7)
- 		return;
+It depends on the hardware. This should in fact be "immutable" instead of
+"static" actually -- there's been some flux of terminology over the course
+of the set.
+
 -- 
-2.52.0
+Regards,
 
+Sakari Ailus
 
