@@ -1,48 +1,47 @@
-Return-Path: <linux-media+bounces-50523-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50524-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB9B8D17822
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 10:09:35 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62942D178C1
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 10:15:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 4C95E30089AB
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 09:08:35 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5C4CA304B3FE
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 09:08:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93EE33815F1;
-	Tue, 13 Jan 2026 09:07:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECCE1315760;
+	Tue, 13 Jan 2026 09:08:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="RdgR5R+i"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Y2xMHsCM"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD053815FB
-	for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 09:07:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 089A13815C5
+	for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 09:07:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768295276; cv=none; b=NUYakZ5HNqwtrwTaTTn/stYr4rbcz5bGo7sayZT0JVnBPvcQNMvbzqaut2Ei0sK53G0mzWJ4djAMst81ABGFOvfE9cjuhRwq973iZaoH5mPSQn69yfccE1+BpbjkAsBhq7P49M2fya6n8FAN0Ign1bXYVobC2qRLZHOirViR8C0=
+	t=1768295281; cv=none; b=PNq9Xa+aUc1BWPbAMSwOIAxWdVCNcKqprI/XRaxju8ZfsrZuozA8RlADTgRNPryw9knrHw7EIC72HcNPJuDzgDoUSVhBhMp4WEVjTeBVRrUCFz49cloP8aN4ZDYwfu2pTSqaOzrTricay+X2Um5ZPen7JERFQrpUAs3duLFmVgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768295276; c=relaxed/simple;
-	bh=2sCGzoSzlhrxwPHsDW8b9Ti5c4ohWUGul3MmOV8ix28=;
+	s=arc-20240116; t=1768295281; c=relaxed/simple;
+	bh=C2D8ZrofyoQF+2NV+5i1Wn9PVdCVY7W973Seq32HEiQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=XVE1F/TnOGCElnjcRDU4KLysM8HpeSPBwDB2NOtGFD7NIbPuPQMFmj2DeHhV9X0ip5P8NnfU1EojmqUPzhxoCtJ+jEe0kBFowaH4ZSSmGhdsMaimzitoFY/5bJqxlgpnFAEFjokZYTCMnEDq87HX7MhPYJ7oUAh5SY7cEYdqguo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=RdgR5R+i; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=pOt6IaLxqiIDzrFdl+iPd/hKxIh3v7m5EXJr1fMAkBdoWMNshtEUZDGeqq3vG7Hy0w2ZBg4c5vg45L3V3xq8zPvdgF/ZyiDheMbN5W26yrn+ykihVKGH0soGvXT4XiQbZ2qeILmGPsKYTVQloTV+oHW7eoV+8oXqSonFlN3hPfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Y2xMHsCM; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c68:a473:c554:ed1f:46ad:1ead])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 37F462E0;
-	Tue, 13 Jan 2026 10:07:27 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 75EAA2E0;
+	Tue, 13 Jan 2026 10:07:32 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1768295247;
-	bh=2sCGzoSzlhrxwPHsDW8b9Ti5c4ohWUGul3MmOV8ix28=;
+	s=mail; t=1768295252;
+	bh=C2D8ZrofyoQF+2NV+5i1Wn9PVdCVY7W973Seq32HEiQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=RdgR5R+ia87a0N8L0nDCfg9aHft7I1PYvzp9NPCaP2rxuMFsw6hLpNrMXsuEag7ox
-	 KOdWVcHUF50L0CpBJ4YEkiWPNp4A3pFZx/I90FCQhHsaWHGkPNomAg0N95Fy5fotjR
-	 fIT53FKmyEJO8nUw3UxQAe+8tQED8ZRd1EIWl5Io=
+	b=Y2xMHsCMArE5DVTBfwE1/pIGK+k+oxEbghUjV0chBAsZzrslfqPuhTs2KXc+3FSWM
+	 ih27eGOMKh8qwfIzUh3mqQPU2Uopp0SzDShMGiJ46UqDgCmvzgv2tgW5f+0SPTWKnz
+	 LfkceRxIoUELCEgqYEDWeAw8yE6MeAPkRdUsIKhU=
 From: Jai Luthra <jai.luthra@ideasonboard.com>
-Date: Tue, 13 Jan 2026 14:35:24 +0530
-Subject: [PATCH 04/10] platform/raspberrypi: vchiq: Add helpers for vchiq
- driver data
+Date: Tue, 13 Jan 2026 14:35:25 +0530
+Subject: [PATCH 05/10] media: videobuf2: Allow exporting of a struct dmabuf
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -51,7 +50,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260113-b4-vchiq-isp-v1-4-ea0b300bffc8@ideasonboard.com>
+Message-Id: <20260113-b4-vchiq-isp-v1-5-ea0b300bffc8@ideasonboard.com>
 References: <20260113-b4-vchiq-isp-v1-0-ea0b300bffc8@ideasonboard.com>
 In-Reply-To: <20260113-b4-vchiq-isp-v1-0-ea0b300bffc8@ideasonboard.com>
 To: Florian Fainelli <florian.fainelli@broadcom.com>, 
@@ -65,57 +64,110 @@ Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Naushir Patuck <naush@raspberrypi.com>, Stefan Wahren <wahrenst@gmx.net>, 
  linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
  linux-media@vger.kernel.org, Jai Luthra <jai.luthra@ideasonboard.com>, 
- Umang Jain <uajain@igalia.com>
+ Dave Stevenson <dave.stevenson@raspberrypi.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1152;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3305;
  i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
- bh=2sCGzoSzlhrxwPHsDW8b9Ti5c4ohWUGul3MmOV8ix28=;
- b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBpZgtGmZOjclOCJK85U9Q+xLbI3zQbMCWvKU34L
- xfgBhq4mq+JAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaWYLRgAKCRBD3pH5JJpx
- RVwxD/9NI1SbAADbi6B5DofPysMgqbZqohGe5vEtV93olv8Ghr9B7MsHWK/yFXpgCjg7yroiEKT
- 8PcTJ8/WwnMCo2iWOZrnXUt28RSqw0LsQ2p/hn4H/koebZRGlk/W61yMu6oDY8sACl4GTbPnn+w
- M0NwGv4C1WUQ7G66mGdYiHPg+FpKmpGU4vsD8/8ONlN4hyLMq1B0A37s+oGHNbCop07cr3TDPrd
- RY6cbV1iQhj2cCosVfmiwXsQXiTKlrUr4HjLEoeTRoY2FNfeajurFGUesNL2J4Ra07yVz4lWBBt
- FTHQx504z5nJYT5lIDhdmA7DdaWqGu/nFomBgeeyL79bs23VrXeuhn1I0U32C8XFBf3wUm2roJQ
- GQmWOu5caxlD2WF/jqhrdnOa1sfZar+g7da2X/Nn08RHuujaSG+OykLG4xdWmYnSdThZIvZpQju
- WZaU/RI3TLBoeF9LSJAcTJBRtJYjGvnhLGuUiP/N0P12yX1cMQu4+ENyKq0IenS5qX6rtG4wqfP
- Z3vKtY/Peg+vdajJ0bkfPgLV0OpDoGghTGRwi81rQ8v52gusaxZuLiTAVMex1IUmLrOKvR8iwpr
- 5LmqPaQ8wcpg2AlXBxzHHHYY+W9va3YrAh1zdB/7x2K6saFC73cDjG4LO7jVoosoZDoFRf2tWZ2
- OOx5jNNB1Jyy5jg==
+ bh=j7qzDqakzZei+9a6emX3yapjgMO8lsfF6tpVIix0pJs=;
+ b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBpZgtH+lptJm6nWwFPUpR8CUfI/3bGTOPtR4oEZ
+ StDFij9t9OJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaWYLRwAKCRBD3pH5JJpx
+ RaGLD/9crGSKCvfjDyfQI5Lr8R8+nDa6cgUjoczSF5D/Oek+pPFraOf0Mc7AvfoWTlRiz54KlbZ
+ 2XZWdmbfIZ07KvYclZKAza4lx2f63bPTqXiFKZ0fUKQaESMoRrnzBbnZ3py1WNUFt8cec6Jx+VF
+ J5HckusxSmPmzCYxFt0m3tGqzLVzcTJVy9GetBzy7lIkS1THm4MEXsrDOK2Q56eX96FxpmEE5Xe
+ kbmopu+R37bxjxw+6Jt09TKrqJ7375nF4BfA0FD5L/3mb07d+VCh6DEHkHyP+XrAYzhrxcLriF7
+ xcruGh3U0QVahh/+pqe1y6uUkYJUHVHhv7EpCIR7dtIL6GTaM8tmUzkVshA4Bba81yykmlZ0YB7
+ 7u0CQwfTvnyIe454uathFBgiS7771cwKrOisAAk95S0Z+QTCYY6N96dwfVvpIzEBb7TxcZ7SqyS
+ Q/VBoUUflb8f2myPQkSPk0HcuXSv/wXrkeKz8/nfhrJJVqB9abq3rJEWHV/B405nD+ASWtRkAlx
+ vgrZWBkqlnPF1sX0juxTCTJKdc0pNKa520C6T/3KwIg9uyVrtZSmNQWPM/RPgxYLFadCXEvTz7+
+ gyNUTPpvoyXttYmWRqZcoOIyiGJeVVqwe2G5sK9ZxPzfX+m7PKOlxdf9iFiSbbty20wQl8XL+LW
+ IePgYkjQKNPAZ7A==
 X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
  fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
 
-Add helpers to set and get vchiq driver data. vchiq_set_drvdata() and
-vchiq_get_drvdata() wraps dev_set_drvdata() and dev_get_drvdata()
-respectively.
+From: Dave Stevenson <dave.stevenson@raspberrypi.org>
 
-Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+videobuf2 only allowed exporting a dmabuf as a file descriptor,
+but there are instances where having the struct dma_buf is
+useful within the kernel.
+
+Split the current implementation into two, one step which
+exports a struct dma_buf, and the second which converts that
+into an fd.
+
+Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
 Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
 ---
- include/linux/raspberrypi/vchiq_bus.h | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/media/common/videobuf2/videobuf2-core.c | 21 ++++++++++++++++++---
+ include/media/videobuf2-core.h                  | 15 +++++++++++++++
+ 2 files changed, 33 insertions(+), 3 deletions(-)
 
-diff --git a/include/linux/raspberrypi/vchiq_bus.h b/include/linux/raspberrypi/vchiq_bus.h
-index 9de179b39f85e5e94c1e948030fccf0c52a00fcd..6eff6b0bf5995683ef0468bc811334b7ff4f8c19 100644
---- a/include/linux/raspberrypi/vchiq_bus.h
-+++ b/include/linux/raspberrypi/vchiq_bus.h
-@@ -37,6 +37,16 @@ static inline struct vchiq_driver *to_vchiq_driver(struct device_driver *d)
- 	return container_of(d, struct vchiq_driver, driver);
+diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+index 2df566f409b65eb99fa7fbe308b8e3afe1bdcbca..f316864d99fc5c5abb2e5a27779cbc371c1a211d 100644
+--- a/drivers/media/common/videobuf2/videobuf2-core.c
++++ b/drivers/media/common/videobuf2/videobuf2-core.c
+@@ -2431,11 +2431,11 @@ static int __find_plane_by_offset(struct vb2_queue *q, unsigned long offset,
+ 	return 0;
  }
  
-+static inline void *vchiq_get_drvdata(const struct vchiq_device *device)
-+{
-+	return dev_get_drvdata(&device->dev);
-+}
-+
-+static inline void vchiq_set_drvdata(struct vchiq_device *device, void *data)
-+{
-+	dev_set_drvdata(&device->dev, data);
-+}
-+
- extern const struct bus_type vchiq_bus_type;
+-int vb2_core_expbuf(struct vb2_queue *q, int *fd, unsigned int type,
+-		    struct vb2_buffer *vb, unsigned int plane, unsigned int flags)
++int vb2_core_expbuf_dmabuf(struct vb2_queue *q, unsigned int type,
++			   struct vb2_buffer *vb, unsigned int plane,
++			   unsigned int flags, struct dma_buf **dmabuf)
+ {
+ 	struct vb2_plane *vb_plane;
+-	int ret;
+ 	struct dma_buf *dbuf;
  
- struct vchiq_device *
+ 	if (q->memory != VB2_MEMORY_MMAP) {
+@@ -2480,6 +2480,21 @@ int vb2_core_expbuf(struct vb2_queue *q, int *fd, unsigned int type,
+ 		return -EINVAL;
+ 	}
+ 
++	*dmabuf = dbuf;
++	return 0;
++}
++EXPORT_SYMBOL_GPL(vb2_core_expbuf_dmabuf);
++
++int vb2_core_expbuf(struct vb2_queue *q, int *fd, unsigned int type,
++		    struct vb2_buffer *vb, unsigned int plane, unsigned int flags)
++{
++	struct dma_buf *dbuf;
++	int ret;
++
++	ret = vb2_core_expbuf_dmabuf(q, type, vb, plane, flags, &dbuf);
++	if (ret)
++		return ret;
++
+ 	ret = dma_buf_fd(dbuf, flags & ~O_ACCMODE);
+ 	if (ret < 0) {
+ 		dprintk(q, 3, "buffer %d, plane %d failed to export (%d)\n",
+diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+index 9b02aeba41089c42b552998b49f27906dc70eeae..c75b4f14581a353d8dbe68d8bedd2b2ee86934d2 100644
+--- a/include/media/videobuf2-core.h
++++ b/include/media/videobuf2-core.h
+@@ -967,6 +967,21 @@ int vb2_core_streamon(struct vb2_queue *q, unsigned int type);
+  */
+ int vb2_core_streamoff(struct vb2_queue *q, unsigned int type);
+ 
++/**
++ * vb2_core_expbuf_dmabuf() - Export a buffer as a dma_buf structure
++ * @q:         videobuf2 queue
++ * @type:      buffer type
++ * @index:     id number of the buffer
++ * @plane:     index of the plane to be exported, 0 for single plane queues
++ * @flags:     flags for newly created file, currently only O_CLOEXEC is
++ *             supported, refer to manual of open syscall for more details
++ * @dmabuf:    Returns the dmabuf pointer
++ *
++ */
++int vb2_core_expbuf_dmabuf(struct vb2_queue *q, unsigned int type,
++			   struct vb2_buffer *vb, unsigned int plane,
++			   unsigned int flags, struct dma_buf **dmabuf);
++
+ /**
+  * vb2_core_expbuf() - Export a buffer as a file descriptor.
+  * @q:		pointer to &struct vb2_queue with videobuf2 queue.
 
 -- 
 2.52.0
