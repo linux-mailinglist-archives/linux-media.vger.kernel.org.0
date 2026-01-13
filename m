@@ -1,68 +1,68 @@
-Return-Path: <linux-media+bounces-50493-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50494-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 377FED1668B
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 04:10:07 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84AE6D1672B
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 04:15:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 91212300D909
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 03:10:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9EF0830262BA
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 03:15:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D7CC3090C5;
-	Tue, 13 Jan 2026 03:09:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 092B42E0925;
+	Tue, 13 Jan 2026 03:15:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IQFf3lvj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TI9PD5Vx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B913074AB
-	for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 03:09:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43F4B2E0402
+	for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 03:15:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768273798; cv=none; b=fCXMdP79FYNz+aVj8FlnmTUbMTrynduYD9WduiGi/6ZjUQNCm2wrGpwnhZ/f8Coy7AO0NwQRk2Gka4qP9i5KeLSviDEq0F/cQzTHnjTsh7OiWSUS6P6U8CcNWlKb23TXEBKDZw6YenYyMQ0nE0PdZ2uZoceTggEncFmZx6PHIdQ=
+	t=1768274147; cv=none; b=cMQHZ7P6Ozo4pgj5j4UsmovE4dQlO0wJtIwCCn2t85yw/Yq/12cWebRTqa4SEHyn7oPeKTg2cQ8hxlqCf7pNa2XiHY3coZE6blTS2jpW/1XjhlQm88g76C4PGVB9cPgNi4Qg51hOwKvcFUwoQkxjt3BvQD9uAPVA6eXn93mV1zY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768273798; c=relaxed/simple;
-	bh=dtJxcBWgxySmxWxmTVIvgHphDTgCLjeQWxcm4RPwk/8=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=lgElgor8NgsrJNXOit7cPHgTfpBIVpdsfeNHb6thLiI42tmrtqCi/Vb1JYdsAMWFdBVWTcQzsihv1wrr6F9KrkSeXvxcwyBx9TGQmnFSA88YIReSeyZZ/b+c2T2O592eRK4L3UUunx41minnzSXP3/vTV1no/tqGxIWsiCLB4go=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IQFf3lvj; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1768274147; c=relaxed/simple;
+	bh=KsYQV41RrKNy3lqoy8SeSL0ENoso3JphHV/7KER8KtM=;
+	h=Subject:To:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=KH14Ndd2aP46MYaTVDZVgANMp6edZRs24ukhPSGA0dVRWWvXBOJqH/VXaYv/n/NR1vMvQHjMylYqnGv6ZB7rQDCxJM8sUwll9E1hx4UdDaVHt4KKgMV+xpfb0rLG1/v7dX698EsHUqoiAs+XPpp4xYJF0muMGZVFFIjSWzePPN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TI9PD5Vx; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768273797; x=1799809797;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=dtJxcBWgxySmxWxmTVIvgHphDTgCLjeQWxcm4RPwk/8=;
-  b=IQFf3lvjG/N3Cw5UKwzLP1knxPnuPqN9/zzogZUpiPXG8FPir0TuTH2j
-   8HlswTq+BTPMIl/aFKJ2M3hoT9lythRjDL1fPhvFwgRPveFIkBa3GRq+z
-   CATSIrfQ5uGFOGzoZnJMeXUGMj6GBzFc55juRly2SVLFvsAHtVDzFy5dW
-   MlDr9hRW3yAOv9+T0azbzcr9lqgUK2TrTDfDLFcjXT1ZmQVr+uYohaS2M
-   q2fq1AAq5+G/dXpb8tMwzt+a7RLt+OTuMvNa4WEi2ajw3EigK4+JoevPH
-   jxvbQg1zCFlFl1PS2cmw1B6gPffZut3GJuHMuEepeV/0EeqNwuw7k1dCn
-   Q==;
-X-CSE-ConnectionGUID: Rh8dvWjkRsK0Z3bXTAWKPw==
-X-CSE-MsgGUID: nagcHXneSy2Xf93bpUyFBg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="57110962"
+  t=1768274146; x=1799810146;
+  h=subject:to:references:from:message-id:date:mime-version:
+   in-reply-to:content-transfer-encoding;
+  bh=KsYQV41RrKNy3lqoy8SeSL0ENoso3JphHV/7KER8KtM=;
+  b=TI9PD5VxAuAkM8ElDdJzjXMIO2GxLRbjiU1xfYWknRPs78U0g0yMqX2k
+   KPJ5iJYFktL2a1UTM58235AVPvfW5zfuyMwAH4qeO+MTqJkOPM/s7k/GS
+   zRRX6PzESEN9QzMexJxPssrU75Bq55cxF+LHCMMWGeLXJUmtnJfI/WJXq
+   fsqcvpdq99TKyUk6MbLQbMWqqsiAJayfzHsbTkAFXefLxeL91o+mcDD+g
+   kGILJegmwXJ3KIIKgUxEMqStwUmNYyebBDKQUczW0Fjxnxd1KPR8kSmQE
+   W9iJ5HnVNU8l5rfXlUUFtV5ED6VQkqUs1vywwt5jSLKpmJGeuR1o8le3R
+   g==;
+X-CSE-ConnectionGUID: TZPD59FPSTiqrgca5TBVbA==
+X-CSE-MsgGUID: p5gAC3jLRbqzKKrfukJ8yA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="80275145"
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="57110962"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 19:09:56 -0800
-X-CSE-ConnectionGUID: f8WHkkUoTIGzDjZqHdVShA==
-X-CSE-MsgGUID: tSVi+0XbTGuD4MSzv1PYdg==
+   d="scan'208";a="80275145"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 19:15:45 -0800
+X-CSE-ConnectionGUID: 4QfHTkqFTSC7hPBb5ylhPA==
+X-CSE-MsgGUID: cpTvPcUdS+uSIupp9pvoEw==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
+   d="scan'208";a="235509053"
 Received: from ipu5-build.bj.intel.com (HELO [10.238.153.130]) ([10.238.153.130])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 19:09:55 -0800
-Subject: Re: [PATCH v2 06/23] media: i2c: ov01a10: Fix test-pattern disabling
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
-Cc: Bingbu Cao <bingbu.cao@intel.com>, Hans de Goede <hansg@kernel.org>,
- mehdi.djait@intel.com
-References: <20260112095949.3851-1-sakari.ailus@linux.intel.com>
- <20260112095949.3851-7-sakari.ailus@linux.intel.com>
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 19:15:44 -0800
+Subject: Re: [PATCH v2] media: hi556: correct the test pattern configuration
+To: bingbu.cao@intel.com, linux-media@vger.kernel.org,
+ sakari.ailus@linux.intel.com, hansg@kernel.org
+References: <20250630090420.479790-1-bingbu.cao@intel.com>
 From: Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <419da2e9-1532-a39c-e4e6-dad0141e1002@linux.intel.com>
-Date: Tue, 13 Jan 2026 10:59:51 +0800
+Message-ID: <8593dee9-8cab-8427-f25f-83086ef9a235@linux.intel.com>
+Date: Tue, 13 Jan 2026 11:05:41 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 Precedence: bulk
@@ -71,62 +71,101 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20260112095949.3851-7-sakari.ailus@linux.intel.com>
+In-Reply-To: <20250630090420.479790-1-bingbu.cao@intel.com>
 Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-Sakari and Hans,
+Sakari,
 
-On 1/12/26 5:59 PM, Sakari Ailus wrote:
-> From: Hans de Goede <hansg@kernel.org>
+It seems this patch was missing, could you help check?
+
+On 6/30/25 5:04 PM, bingbu.cao@intel.com wrote:
+> From: Bingbu Cao <bingbu.cao@intel.com>
 > 
-> When the test-pattern control gets set to 0 (Disabled) 0 should be written
-> to the test-pattern register, rather then doing nothing.
+> Hynix hi556 support 8 test pattern modes:
+> hi556_test_pattern_menu[] = {
+> {
+> 	"Disabled",
+> 	"Solid Colour",
+> 	"100% Colour Bars",
+> 	"Fade To Grey Colour Bars",
+> 	"PN9",
+> 	"Gradient Horizontal",
+> 	"Gradient Vertical",
+> 	"Check Board",
+> 	"Slant Pattern",
+> }
 > 
-> Fixes: 0827b58dabff ("media: i2c: add ov01a10 image sensor driver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Hans de Goede <hansg@kernel.org>
-> Tested-by: Mehdi Djait <mehdi.djait@linux.intel.com> # Dell XPS 9315
-> Reviewed-by: Mehdi Djait <mehdi.djait@linux.intel.com>
-> Reviewed-by: Bingbu Cao <bingbu.cao@intel.com>
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> The test pattern is set by a 8-bit register according to the
+> specification.
+> +--------+-------------------------------+
+> | BIT[0] |  Solid color                  |
+> +--------+-------------------------------+
+> | BIT[1] |  Color bar                    |
+> +--------+-------------------------------+
+> | BIT[2] |  Fade to grey color bar       |
+> +--------+-------------------------------+
+> | BIT[3] |  PN9                          |
+> +--------+-------------------------------+
+> | BIT[4] |  Gradient horizontal          |
+> +--------+-------------------------------+
+> | BIT[5] |  Gradient vertical            |
+> +--------+-------------------------------+
+> | BIT[6] |  Check board                  |
+> +--------+-------------------------------+
+> | BIT[7] |  Slant pattern                |
+> +--------+-------------------------------+
+> Based on function above, current test pattern programming is wrong.
+> This patch fixes it by 'BIT(pattern - 1)'. If pattern is 0, driver
+> will disable the test pattern generation and set the pattern to 0.
+> 
+> Fixes: e62138403a84 ("media: hi556: Add support for Hi-556 sensor")
+> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
 > ---
->  drivers/media/i2c/ov01a10.c | 11 ++++-------
->  1 file changed, 4 insertions(+), 7 deletions(-)
+>  drivers/media/i2c/hi556.c | 26 ++++++++++++++------------
+>  1 file changed, 14 insertions(+), 12 deletions(-)
 > 
-> diff --git a/drivers/media/i2c/ov01a10.c b/drivers/media/i2c/ov01a10.c
-> index dd2b6d381175..3ad516e4d369 100644
-> --- a/drivers/media/i2c/ov01a10.c
-> +++ b/drivers/media/i2c/ov01a10.c
-> @@ -249,9 +249,8 @@ static const struct ov01a10_reg sensor_1280x800_setting[] = {
->  static const char * const ov01a10_test_pattern_menu[] = {
->  	"Disabled",
->  	"Color Bar",
-> -	"Top-Bottom Darker Color Bar",
-> -	"Right-Left Darker Color Bar",
-> -	"Color Bar type 4",
-> +	"Left-Right Darker Color Bar",
-> +	"Bottom-Top Darker Color Bar",
->  };
+> diff --git a/drivers/media/i2c/hi556.c b/drivers/media/i2c/hi556.c
+> index aed258211b8a..dce78af444db 100644
+> --- a/drivers/media/i2c/hi556.c
+> +++ b/drivers/media/i2c/hi556.c
+> @@ -756,21 +756,23 @@ static int hi556_test_pattern(struct hi556 *hi556, u32 pattern)
+>  	int ret;
+>  	u32 val;
 >  
->  static const s64 link_freq_menu_items[] = {
-> @@ -406,10 +405,8 @@ static int ov01a10_update_digital_gain(struct ov01a10 *ov01a10, u32 d_gain)
+> -	if (pattern) {
+> -		ret = hi556_read_reg(hi556, HI556_REG_ISP,
+> -				     HI556_REG_VALUE_08BIT, &val);
+> -		if (ret)
+> -			return ret;
+> +	ret = hi556_read_reg(hi556, HI556_REG_ISP,
+> +			     HI556_REG_VALUE_08BIT, &val);
+> +	if (ret)
+> +		return ret;
 >  
->  static int ov01a10_test_pattern(struct ov01a10 *ov01a10, u32 pattern)
->  {
-> -	if (!pattern)
-> -		return 0;
-> -
-> -	pattern = (pattern - 1) | OV01A10_TEST_PATTERN_ENABLE;
-> +	if (pattern)
-> +		pattern |= OV01A10_TEST_PATTERN_ENABLE;
->
-
-It should be 'pattern - 1', the pattern value for register start as 0.
-
->  	return ov01a10_write_reg(ov01a10, OV01A10_REG_TEST_PATTERN, 1, pattern);
+> -		ret = hi556_write_reg(hi556, HI556_REG_ISP,
+> -				      HI556_REG_VALUE_08BIT,
+> -				      val | HI556_REG_ISP_TPG_EN);
+> -		if (ret)
+> -			return ret;
+> -	}
+> +	val = pattern ? (val | HI556_REG_ISP_TPG_EN) :
+> +		(val & ~HI556_REG_ISP_TPG_EN);
+> +
+> +	ret = hi556_write_reg(hi556, HI556_REG_ISP,
+> +			      HI556_REG_VALUE_08BIT, val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	val = pattern ? BIT(pattern - 1) : 0;
+>  
+>  	return hi556_write_reg(hi556, HI556_REG_TEST_PATTERN,
+> -			       HI556_REG_VALUE_08BIT, pattern);
+> +			       HI556_REG_VALUE_08BIT, val);
 >  }
+>  
+>  static int hi556_set_ctrl(struct v4l2_ctrl *ctrl)
 > 
 
 -- 
