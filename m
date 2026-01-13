@@ -1,189 +1,136 @@
-Return-Path: <linux-media+bounces-50563-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50564-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0E2AD191CE
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 14:34:40 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EB66D194E5
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 15:09:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 68AD43016AD9
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 13:34:38 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 2DA19308F172
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 14:05:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 881EA299949;
-	Tue, 13 Jan 2026 13:34:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0962392B93;
+	Tue, 13 Jan 2026 14:05:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="F0iM8WcD"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="VjB/GM71"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C91738F923;
-	Tue, 13 Jan 2026 13:34:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 771DE392B8E
+	for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 14:04:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768311277; cv=none; b=euBmcE9k63nPkDnnsEAYDKZ4QUHf1GlnHiD0PADCCZeRVdGEO5KclIhZwl7djRIvlVGFHeXAi4GZDLILriYaXe6NRjxodCOxRQHKiAyDHe0OqT/UnWBZVM0RiUou/WntPey1KwwGGD87WHpb3NugtFb/sl9zbJ8mEWhljhvMBhQ=
+	t=1768313102; cv=none; b=XyioSUeCUUQAh0d0In0k95iHlCekz8T+oHDg5e9jxWDiK+wyTvn/wbfjNUySScAMXldHzhKEhzUwWDZJnYdteoE4LkzTSvm2BY49O4jcyEMPZpkJm+1+SHptEq/jysTsMSlKdmwTZitFYpEgiro3F2UDNW22YYe5spabE9tyJqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768311277; c=relaxed/simple;
-	bh=CR+orG/qbe/C0GlPkXwqD5UGr9NFcOAlxx/Wol43yiE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kIj6Zm1KzwXK/LRCXLjdV+UfDFHPS7d+ek05Z/NF3cRFBb+TfEqlfgY0NdBteESo7cupf6WTciF8mCSVDW9Nu75IP2bM+zBweBhkmX4+tJO+Bl/3uB+n6eM09m9GK8wutrnAiKajzlBVaeJpMVy22QgSlb8RFoOaLK0aBqOpeE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=F0iM8WcD; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-152.bb.dnainternet.fi [81.175.209.152])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 1352F316;
-	Tue, 13 Jan 2026 14:34:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1768311247;
-	bh=CR+orG/qbe/C0GlPkXwqD5UGr9NFcOAlxx/Wol43yiE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=F0iM8WcD5EjhNzgbvd+IOpMitYfEBiPU4qhvAPeWUWsFO7Fq2cxmyWQilrMuKODVu
-	 Q4r7j8uVGQwrUQN1+AtuqVzyqgy7So5G6u13Y90iDLTx89vbQ9DCMoUBmBQhG9h0Kg
-	 /HDl6ChueVG78jxdifogzZAJ7xx0Zl4sEIXZnwm0=
-Date: Tue, 13 Jan 2026 15:34:12 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Ralf Jung <post@ralfj.de>
-Subject: Re: [PATCH] Revert "media: uvcvideo: Remove nodrop parameter"
-Message-ID: <20260113133412.GE6198@pendragon.ideasonboard.com>
-References: <20260113-uvc-revert-v1-1-0a873393774c@chromium.org>
+	s=arc-20240116; t=1768313102; c=relaxed/simple;
+	bh=BtF8M5GNbyGfVQK6YPDvinM4wdUKCO9L2UbWnIhUM9c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XtvurBrznGRb7dM+agx3n5frCxhvhaCG26fWj5bcDNpqy4XHh5GZ/iL7+sIB5V+cQj6aGRp8pqBOiE6F9riQ7AyJxR4e836OGqK8Av+5wL5xjDmVXRyZz6KL4aHTMcFfkdLr5RxOobGBUtQ1duN7vvChiZlleC6fbWGID9PDUG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=VjB/GM71; arc=none smtp.client-ip=209.85.128.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-47775fb6c56so72858235e9.1
+        for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 06:04:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1768313092; x=1768917892; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=p84fI36fdNfKK4nFeHfATGotDZ4IBurD5TkPYZOWVOY=;
+        b=VjB/GM71Gh/2Ba4F9EOFVlDeinsukcJJYUiet9TBldbi/zMZTbne4o4nk33iH/86Tl
+         fP/ZMTl7jC9MpB/ayzyfzL1t8NkxHFTR80X7PoafSpfC6cxrgIymWSlw2IGOZbqnJT+b
+         xZwjJLUVFhRCm5yq0Lm3qYdPjZym4w6v/By01FmMbftgHxctIFJ+ZLceJCbXIplZOuFf
+         vmTSkWTKz4bCDA/WPQurDzGd15ArJ8regRP86nPRAkhVkxCWnKAcvBbTQa7kLzM1Gzwy
+         +7Q2jWsg42BPSnCFk84z0IXhg3P7zz5YZvk33tVOPDDv9J22uPnG1rtDcr3Fv6eFZwdX
+         7sgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768313092; x=1768917892;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=p84fI36fdNfKK4nFeHfATGotDZ4IBurD5TkPYZOWVOY=;
+        b=Mog0q9I3USKI2ApfaGM2suK6DUeQs1wG9IAHd0oUJReoVdjw+PPh6pvMtfYvidyDk0
+         2YUIwI93APOshrQducY8HfJxY62VEP5BNdVybjp+AFSu/QQBrINaY6UwbZijEkwBMLnC
+         u5nOAX7NagJhf6vFNorOiax7hXnZfmwcAI7j1ouB3EMGpFxjsUn3g3RWnOLb9eibnQPC
+         Jx0zR0n+qz9thG6q6rzUvjEH21vexEY3z4WQQ2a1mA6LLpA6ThrQ0Rw3xpRuUtO2Dbjx
+         dfWXP8PZXy5V9Qv3FHLLVMb6Tlubn6XYaKMRj6rTsCav+Epuc5sF2HBYb2TUiIruXqdZ
+         16lg==
+X-Forwarded-Encrypted: i=1; AJvYcCUDThdQkfiHQqTjzHCrbYQNqjFjV6DHSbVuJywD7WD1ATd8J838JJliZuN09kY3pIZLm+CeVlEAOG7J/w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzB9xpYiDfRk81nHc0D5dzSWeRBn0aMbdsEPCQzDQNEPtVBTfaU
+	4+TDcXvR84CNOK7GfEhWKHsglaR5unXdZEt0ENZQabxYokWAlcO2uxCs+I1G+1mvrlA=
+X-Gm-Gg: AY/fxX5pkfQqbM4w08/ykcW25xVr1ewJMtbSqB70wuFxUC4D8IUdGb3+441+n92XA2+
+	RxsNBRmpvRJquO56eyIEqtIrOmSDc0ovlkaoE0G3qikZJZfZeohDCpRQIOF46eLhIvMOwajEaKl
+	n0YBfjwCkvrK3e6TTw3llBf8cFg2ETooRbtvt1YF/JfApQQAoNag6BhD7Qj9vVLh2wfptOqvh4j
+	1AGG1NQWAnFzFzCys96bYUIZpB8WSwdpdhwLpM361IutToEpo2WaeUMebZVWFJqoEmsUqqDpnps
+	6PgTj3+OcYeNvGM+JXgxC/ZgNrj/PytDrtkjsBRIR0XzORhE9q/tw9ICGJvhHUHLzelDb2NMmmK
+	MVp9UBkACkoL/v7Z/wJABXxqWLszpj7ZIUeWNkm3cN+rimT9YbOyAD5vkcDuq+CnEWKOyedaHYl
+	WcVUSMQxS5YVYiz+UhPaMBNuc15ZtbZM0wXVo=
+X-Google-Smtp-Source: AGHT+IFy4jTuYvAbeRYENjCXYaT+C8Fdb5qR7XUNs3xUqAIMubhbGLVu9HHf26Og6SEebDy9K4MJFA==
+X-Received: by 2002:a05:600c:3114:b0:477:76c2:49c9 with SMTP id 5b1f17b1804b1-47d84b18954mr216480705e9.2.1768313092453;
+        Tue, 13 Jan 2026 06:04:52 -0800 (PST)
+Received: from localhost.localdomain ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47ee0b45b8fsm1421975e9.4.2026.01.13.06.04.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Jan 2026 06:04:52 -0800 (PST)
+From: Marco Crivellari <marco.crivellari@suse.com>
+To: linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org
+Cc: Tejun Heo <tj@kernel.org>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Marco Crivellari <marco.crivellari@suse.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Daniel Scally <dan.scally@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH] media: platform: Add WQ_PERCPU to alloc_workqueue users
+Date: Tue, 13 Jan 2026 15:04:46 +0100
+Message-ID: <20260113140446.196930-1-marco.crivellari@suse.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260113-uvc-revert-v1-1-0a873393774c@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jan 13, 2026 at 01:29:46PM +0000, Ricardo Ribalda wrote:
-> This reverts commit 27ccc44a511b0cd76dc607e2a4893b876192ee1b.
-> 
-> A user has reported that the Zoom Video Conferencing tool is not capable
-> of handling invalid frames. Due to this, he has to continue using this
-> parameter.
-> 
-> We will keep working with Zoom so they can handle invalid frames
-> correctly, but for this cycle the safest option is to revert this
-> parameter drop.
+This continues the effort to refactor workqueue APIs, which began with
+the introduction of new workqueues and a new alloc_workqueue flag in:
 
-Zoom is unlikely to be the only affected application.
+   commit 128ea9f6ccfb ("workqueue: Add system_percpu_wq and system_dfl_wq")
+   commit 930c2ea566af ("workqueue: Add new WQ_PERCPU flag")
 
-> Fixes: 27ccc44a511b ("media: uvcvideo: Remove nodrop parameter")
-> Reported-by: Ralf Jung <post@ralfj.de>
-> Closes: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1121718
-> Closes: https://lore.kernel.org/linux-media/uboug5ectzm4s32yfgopjbcxq2uhsoc4kluaby7a4b7nzfjave@boco7oocnftr/
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+The refactoring is going to alter the default behavior of
+alloc_workqueue() to be unbound by default.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+With the introduction of the WQ_PERCPU flag (equivalent to !WQ_UNBOUND),
+any alloc_workqueue() caller that doesn’t explicitly specify WQ_UNBOUND
+must now use WQ_PERCPU. For more details see the Link tag below.
 
-Hans, Mauro, can you pick this up ? Alternatively I can prepare a pull
-request.
+In order to keep alloc_workqueue() behavior identical, explicitly request
+WQ_PERCPU.
 
-> ---
->  drivers/media/usb/uvc/uvc_driver.c | 19 +++++++++++++++++++
->  drivers/media/usb/uvc/uvc_queue.c  | 25 +++++++++++++++++++++++++
->  drivers/media/usb/uvc/uvcvideo.h   |  1 +
->  3 files changed, 45 insertions(+)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index 71563d8f4bcf581694ccd4b665ff52b629caa0b6..ee4f54d6834962414979a046afc59c5036455124 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -32,6 +32,7 @@
->  
->  unsigned int uvc_clock_param = CLOCK_MONOTONIC;
->  unsigned int uvc_hw_timestamps_param;
-> +unsigned int uvc_no_drop_param = 1;
->  static unsigned int uvc_quirks_param = -1;
->  unsigned int uvc_dbg_param;
->  unsigned int uvc_timeout_param = UVC_CTRL_STREAMING_TIMEOUT;
-> @@ -2467,6 +2468,24 @@ MODULE_PARM_DESC(clock, "Video buffers timestamp clock");
->  module_param_named(hwtimestamps, uvc_hw_timestamps_param, uint, 0644);
->  MODULE_PARM_DESC(hwtimestamps, "Use hardware timestamps");
->  
-> +static int param_set_nodrop(const char *val, const struct kernel_param *kp)
-> +{
-> +	pr_warn_once("uvcvideo: "
-> +		     DEPRECATED
-> +		     "nodrop parameter will be eventually removed.\n");
-> +	return param_set_bool(val, kp);
-> +}
-> +
-> +static const struct kernel_param_ops param_ops_nodrop = {
-> +	.set = param_set_nodrop,
-> +	.get = param_get_uint,
-> +};
-> +
-> +param_check_uint(nodrop, &uvc_no_drop_param);
-> +module_param_cb(nodrop, &param_ops_nodrop, &uvc_no_drop_param, 0644);
-> +__MODULE_PARM_TYPE(nodrop, "uint");
-> +MODULE_PARM_DESC(nodrop, "Don't drop incomplete frames");
-> +
->  module_param_named(quirks, uvc_quirks_param, uint, 0644);
->  MODULE_PARM_DESC(quirks, "Forced device quirks");
->  module_param_named(trace, uvc_dbg_param, uint, 0644);
-> diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
-> index 3bc54456b4d98ed50b1ea250ce8501e67141e1ef..681a74ed09fb1f109d2b21bf490e8b26eeec0a3e 100644
-> --- a/drivers/media/usb/uvc/uvc_queue.c
-> +++ b/drivers/media/usb/uvc/uvc_queue.c
-> @@ -331,9 +331,34 @@ struct uvc_buffer *uvc_queue_get_current_buffer(struct uvc_video_queue *queue)
->  	return nextbuf;
->  }
->  
-> +/*
-> + * uvc_queue_buffer_requeue: Requeue a buffer on our internal irqqueue
-> + *
-> + * Reuse a buffer through our internal queue without the need to 'prepare'.
-> + * The buffer will be returned to userspace through the uvc_buffer_queue call if
-> + * the device has been disconnected.
-> + */
-> +static void uvc_queue_buffer_requeue(struct uvc_video_queue *queue,
-> +				     struct uvc_buffer *buf)
-> +{
-> +	buf->error = 0;
-> +	buf->state = UVC_BUF_STATE_QUEUED;
-> +	buf->bytesused = 0;
-> +	vb2_set_plane_payload(&buf->buf.vb2_buf, 0, 0);
-> +
-> +	uvc_buffer_queue(&buf->buf.vb2_buf);
-> +}
-> +
->  static void uvc_queue_buffer_complete(struct kref *ref)
->  {
->  	struct uvc_buffer *buf = container_of(ref, struct uvc_buffer, ref);
-> +	struct vb2_buffer *vb = &buf->buf.vb2_buf;
-> +	struct uvc_video_queue *queue = vb2_get_drv_priv(vb->vb2_queue);
-> +
-> +	if (buf->error && !uvc_no_drop_param) {
-> +		uvc_queue_buffer_requeue(queue, buf);
-> +		return;
-> +	}
->  
->  	buf->state = buf->error ? UVC_BUF_STATE_ERROR : UVC_BUF_STATE_DONE;
->  	vb2_set_plane_payload(&buf->buf.vb2_buf, 0, buf->bytesused);
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index 911016047687f7c74fa1bf0dd0ecf2d072361346..d583425893a5f716185153a07aae9bfe20182964 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -659,6 +659,7 @@ static inline struct uvc_fh *to_uvc_fh(struct file *filp)
->  #define UVC_WARN_XU_GET_RES	2
->  
->  extern unsigned int uvc_clock_param;
-> +extern unsigned int uvc_no_drop_param;
->  extern unsigned int uvc_dbg_param;
->  extern unsigned int uvc_timeout_param;
->  extern unsigned int uvc_hw_timestamps_param;
-> 
-> ---
-> base-commit: 3aa9296a23ec41a8424e9a2346eea59fb6cb7d8c
-> change-id: 20260113-uvc-revert-cd60dc7f16ec
+Link: https://lore.kernel.org/all/20250221112003.1dSuoGyc@linutronix.de/
+Suggested-by: Tejun Heo <tj@kernel.org>
+Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
+---
+ drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
+index 799453250b85..e3ff0482a84e 100644
+--- a/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
++++ b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
+@@ -445,7 +445,7 @@ int rzv2h_ivc_init_vdev(struct rzv2h_ivc *ivc, struct v4l2_device *v4l2_dev)
+ 	INIT_LIST_HEAD(&ivc->buffers.queue);
+ 	INIT_WORK(&ivc->buffers.work, rzv2h_ivc_transfer_buffer);
+ 
+-	ivc->buffers.async_wq = alloc_workqueue("rzv2h-ivc", 0, 0);
++	ivc->buffers.async_wq = alloc_workqueue("rzv2h-ivc", WQ_PERCPU, 0);
+ 	if (!ivc->buffers.async_wq)
+ 		return -EINVAL;
+ 
 -- 
-Regards,
+2.52.0
 
-Laurent Pinchart
 
