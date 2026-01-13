@@ -1,155 +1,109 @@
-Return-Path: <linux-media+bounces-50507-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50508-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D88ED173B5
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 09:16:12 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36E03D17458
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 09:25:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 74DBA30443D8
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 08:14:11 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 60E04300A526
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 08:25:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E2503793C9;
-	Tue, 13 Jan 2026 08:14:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE9F437FF6A;
+	Tue, 13 Jan 2026 08:25:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hHwtSCUr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nvIb93aV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E083030F946
-	for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 08:14:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A17C337FF67
+	for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 08:25:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768292048; cv=none; b=M2OaFHvk0n0vtnEXz06XYQqTjQmsLBLeo/nfGTFpXc3IT9+zUJsUFpuqSsZkJ9pt3tM9XwScwnAv/3BzJCnDmDoxzjVNAgx/0WpI0VFnysfFR8RijhruQQ7n0QGxITREP20KbBGDncCL6jWBHgl3t47xS2GmCwZA6xHDD6BORfc=
+	t=1768292718; cv=none; b=G0I2OTUuxl1EXckux0JpWDDy6Cm6RXqBap5rwUDWLcgC37ONzw1Ya/vqWvNYMk2ZxIKgT04NR8sZW+rcq1qTUwIUuclcAKxP2QrkK6cCZFyjXtjmvPpFogXw/18spRwH8N1Qlet9l7UEc8VwwqvVMSGqcvM8ZbtQyi2dXMUjtEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768292048; c=relaxed/simple;
-	bh=kE/smxxHATp9H64VZeGLdv3P1RKDeIDKctbphPX0ioc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CR/PVsTI/LwQUcPaGTgQEbYbdfO8vXXhppkeGJ1rZrEhEwtN2ve4FD3gVnvEkzS9fFsV/56kair3Kv6ksCVXCZBhO1zzTYYEMf1PvxABs82nlwQLDWrAf5BMLGhqq8fNXkWO0QtGszwJa6cNNNm97gX84hyPWRTddQrt0roEP38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hHwtSCUr; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1768292718; c=relaxed/simple;
+	bh=tbxxkOxSpaPzfkJTN6J143TEw0bSwwTaPkH6fCClvFQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SyowC4zDYkv1VsWXak96HBzjUj2kmQ1B0GeLXBO4d0asHD/J2INy3wFsCHH/dhz9iCKpijOzxifas52tMVXHLf9zq08vyvVwcdlVFSLU2Ov90ZU9FmTOovc7COypxjvtye7POj+kI5xqF1ZF8Q1nsnWxXQcuIp/s6totuF+XNvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nvIb93aV; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768292047; x=1799828047;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kE/smxxHATp9H64VZeGLdv3P1RKDeIDKctbphPX0ioc=;
-  b=hHwtSCUr0frzNTTWHkAGPNXbf610P5Pfd2hj6WPUs2aJbDoKo2Ij1rQB
-   Q30oGj49/lgig2iQG0kTgOQWkYTMY2Ub03lyyp61wuhN7rl0NSCpiaUOY
-   SdPDkeCcG0GX8JZp8ku2Ab5pdk3fBT0N9+1btsSHRzGs3Z0py9WF7tmJ5
-   gbrPtikhMbAJdxuzY/kRIyCLDgPNGotwJJI2y9v+qpP77L5ViwQDq5hJX
-   cPcfzkuIQBZz30UnfF1V/uh2CIeEs7oBprfruT7beSVlyBfqVrhqW1U0C
-   sk1H913AII0EHY/4A9iiHKmPXjlyAxZirQtmu9zzlcL3EhCF9Wo4WXMLY
+  t=1768292717; x=1799828717;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=tbxxkOxSpaPzfkJTN6J143TEw0bSwwTaPkH6fCClvFQ=;
+  b=nvIb93aVN7wwNnbqN+yWkd1FGa5B/xu9hDvIHT75XTp3P49MxZoARGv/
+   7tbkZNtNSo3gaMsrWHegm/kNi3lNR1LpFPuRZAbd7+lw4lmsGRZaG85K9
+   J2Pyxs1/h1j+00msWZzvgLDFLM9xkvWvEgDO6URp7Pf3e8NX1Jdr7PTsE
+   v4NS3yf1OxABUF8IYWmXEXjnOIsmgAJguckTgdufv9ogMI0SF6x5E3Kpi
+   ga8v3tyhjLsDcTTsvHfHahB9SnCTTBwSkwcg0l7I5OmnxMM4caHjN2Y5m
+   Y2cfMuuM4apndd7Uxb6+Jpt5tCazNzEaRFqyd6lL2fGfwerzqdZ4sr20x
    A==;
-X-CSE-ConnectionGUID: f0fZaXpkSTy+rA4AFbqppA==
-X-CSE-MsgGUID: P5lB8PXGTau8Dc0urH5/1w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="79868438"
+X-CSE-ConnectionGUID: VFgTV5liQUKtCGTFS+J89A==
+X-CSE-MsgGUID: MpDEm+ZAROK85fXLj7YQRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="86988130"
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="79868438"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 00:14:07 -0800
-X-CSE-ConnectionGUID: W0OLhbu4TKiu7Uj8+Igl7Q==
-X-CSE-MsgGUID: 1czKJaZ5TOKYaae2T5mv3g==
+   d="scan'208";a="86988130"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 00:25:16 -0800
+X-CSE-ConnectionGUID: FYcZlDa+QfSx3cyDFPhONA==
+X-CSE-MsgGUID: d/iZCJsFQ3aRJiu1Jbz0yA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="204334122"
+   d="scan'208";a="235034268"
 Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.182])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 00:14:05 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id A4FD111FC37;
-	Tue, 13 Jan 2026 10:14:02 +0200 (EET)
-Date: Tue, 13 Jan 2026 10:14:02 +0200
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 00:25:15 -0800
+Received: from punajuuri.localdomain (unknown [192.168.240.130])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id DEB2911FC37;
+	Tue, 13 Jan 2026 10:25:12 +0200 (EET)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
+	(envelope-from <sakari.ailus@linux.intel.com>)
+	id 1vfZiC-00000000Qjv-2nOR;
+	Tue, 13 Jan 2026 10:25:12 +0200
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Bingbu Cao <bingbu.cao@linux.intel.com>
-Cc: linux-media@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>,
-	Hans de Goede <hansg@kernel.org>, mehdi.djait@intel.com
-Subject: Re: [PATCH v2 06/23] media: i2c: ov01a10: Fix test-pattern disabling
-Message-ID: <aWX-ykmED-tw3pdo@kekkonen.localdomain>
-References: <20260112095949.3851-1-sakari.ailus@linux.intel.com>
- <20260112095949.3851-7-sakari.ailus@linux.intel.com>
- <419da2e9-1532-a39c-e4e6-dad0141e1002@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: Bingbu Cao <bingbu.cao@intel.com>,
+	Hans de Goede <hansg@kernel.org>,
+	mehdi.djait@intel.com
+Subject: [PATCH 1/1] media: ov01a10: Fix test pattern assignment
+Date: Tue, 13 Jan 2026 10:25:12 +0200
+Message-ID: <20260113082512.102779-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <419da2e9-1532-a39c-e4e6-dad0141e1002@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Bingbu,
+The test patterns of the test pattern menu control start from 1 whereas
+register values start from 0. Fix this.
 
-Thank you for the review!
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+This goes on top of my recent ov01a10 series.
 
-On Tue, Jan 13, 2026 at 10:59:51AM +0800, Bingbu Cao wrote:
-> Sakari and Hans,
-> 
-> On 1/12/26 5:59 PM, Sakari Ailus wrote:
-> > From: Hans de Goede <hansg@kernel.org>
-> > 
-> > When the test-pattern control gets set to 0 (Disabled) 0 should be written
-> > to the test-pattern register, rather then doing nothing.
-> > 
-> > Fixes: 0827b58dabff ("media: i2c: add ov01a10 image sensor driver")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Hans de Goede <hansg@kernel.org>
-> > Tested-by: Mehdi Djait <mehdi.djait@linux.intel.com> # Dell XPS 9315
-> > Reviewed-by: Mehdi Djait <mehdi.djait@linux.intel.com>
-> > Reviewed-by: Bingbu Cao <bingbu.cao@intel.com>
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  drivers/media/i2c/ov01a10.c | 11 ++++-------
-> >  1 file changed, 4 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/drivers/media/i2c/ov01a10.c b/drivers/media/i2c/ov01a10.c
-> > index dd2b6d381175..3ad516e4d369 100644
-> > --- a/drivers/media/i2c/ov01a10.c
-> > +++ b/drivers/media/i2c/ov01a10.c
-> > @@ -249,9 +249,8 @@ static const struct ov01a10_reg sensor_1280x800_setting[] = {
-> >  static const char * const ov01a10_test_pattern_menu[] = {
-> >  	"Disabled",
-> >  	"Color Bar",
-> > -	"Top-Bottom Darker Color Bar",
-> > -	"Right-Left Darker Color Bar",
-> > -	"Color Bar type 4",
-> > +	"Left-Right Darker Color Bar",
-> > +	"Bottom-Top Darker Color Bar",
-> >  };
-> >  
-> >  static const s64 link_freq_menu_items[] = {
-> > @@ -406,10 +405,8 @@ static int ov01a10_update_digital_gain(struct ov01a10 *ov01a10, u32 d_gain)
-> >  
-> >  static int ov01a10_test_pattern(struct ov01a10 *ov01a10, u32 pattern)
-> >  {
-> > -	if (!pattern)
-> > -		return 0;
-> > -
-> > -	pattern = (pattern - 1) | OV01A10_TEST_PATTERN_ENABLE;
-> > +	if (pattern)
-> > +		pattern |= OV01A10_TEST_PATTERN_ENABLE;
-> >
-> 
-> It should be 'pattern - 1', the pattern value for register start as 0.
+ drivers/media/i2c/ov01a10.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'll use:
-
-	if (pattern)
-		pattern = (pattern - 1) | OV01A10_TEST_PATTERN_ENABLE;
-
-
-I already sent a PR so I'll add a new patch for this.
-
-> 
-> >  	return ov01a10_write_reg(ov01a10, OV01A10_REG_TEST_PATTERN, 1, pattern);
-> >  }
-> > 
-> 
-
+diff --git a/drivers/media/i2c/ov01a10.c b/drivers/media/i2c/ov01a10.c
+index 3dbc77430e0e..0a66d8974974 100644
+--- a/drivers/media/i2c/ov01a10.c
++++ b/drivers/media/i2c/ov01a10.c
+@@ -319,7 +319,7 @@ static int ov01a10_update_digital_gain(struct ov01a10 *ov01a10, u32 d_gain)
+ static int ov01a10_test_pattern(struct ov01a10 *ov01a10, u32 pattern)
+ {
+ 	if (pattern)
+-		pattern |= OV01A10_TEST_PATTERN_ENABLE;
++		pattern = (pattern - 1) | OV01A10_TEST_PATTERN_ENABLE;
+ 
+ 	return cci_write(ov01a10->regmap, OV01A10_REG_TEST_PATTERN, pattern,
+ 			 NULL);
 -- 
-Kind regards,
+2.47.3
 
-Sakari Ailus
 
