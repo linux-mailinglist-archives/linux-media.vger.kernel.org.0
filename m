@@ -1,101 +1,51 @@
-Return-Path: <linux-media+bounces-50551-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50552-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 106DDD18846
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 12:38:36 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A25E0D18954
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 12:52:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8F2C7301A71F
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 11:38:26 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 5620830194C8
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 11:52:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D076A38BDC6;
-	Tue, 13 Jan 2026 11:38:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 452683446AD;
+	Tue, 13 Jan 2026 11:52:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NpBv9ocn"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="B/zszqRj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 235261E7C12;
-	Tue, 13 Jan 2026 11:38:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7DBE38E112
+	for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 11:52:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768304304; cv=none; b=cSt3bAJEHRJF9cCaybOo1Sd5u/BHFVENr+qOxP1HhzWQCRQjlf+ZS2KgANldsp59kdhWCiDIxWN8pMCXdt/FiPExLrTLxHILxbknI5OGZyfp9r9y/CmaiwrlJVjflqt79kJkTm5zNXBAUJeTKd/zHdQtisiWAgoBTgSEZn58nUw=
+	t=1768305135; cv=none; b=GdRjIfWPZMBD/QKegNyK1Mbsq/qdEhIspBc/p3Ffrgds2qeC5yo0u1oSox/Rf4/PvXXjKX2KvpelG6l1J8Mvz1RkPy2yXJ5FOIGGlIzB21uVSRNOP1ZMckztXq7z+2xOjVD2VN6Wpsz1EbCe5dUM18b8tkVGMGJSppZXDyMtQQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768304304; c=relaxed/simple;
-	bh=fJaHPuFEDihSEaz+1W2ZGym2aLOYWzJSXb2oElMTFnA=;
+	s=arc-20240116; t=1768305135; c=relaxed/simple;
+	bh=zzQCJcQlku8pTvRJifIfGJruURb8pNkuNP7DddttNzE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ULzbjbFbQ4HuBhWqLrNKOKL16tn+/LGjClTgWQIaQQrZ6CaPM9zEubqeK2T+gsYkYFJbdO+OR3garPxK99MfjtJNOe61/luOr4Z0U8T2pzyhTGz4EJyglMZH1Y69mCP55tyPIN557tyqGxe5z0pMeXtMRcEbbdFhYdP5qfhdx4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NpBv9ocn; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768304302; x=1799840302;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=fJaHPuFEDihSEaz+1W2ZGym2aLOYWzJSXb2oElMTFnA=;
-  b=NpBv9ocnX+n8GD7UXqPCOMwWz/uIcxqWcQp/NvXBa3ZDoOIv1ZoeG+AE
-   6t3+qGl890HNu+osHCWnrkDaDmYVQykaEyBCqKH5/i+U8pLyO2Nx8+J4h
-   OSEeJB4adBpJIXTl5LhRylq/Dvinxoa6/pL7dc3P3HkD2ZACkw+ifuFQ3
-   o0BquF6DOXADi0J6WdZc/7EncKNE+obWJS7yaia6w6Fz+e8ltwfZeE4HZ
-   3+tBsQ65USI0xQnKmgo219NUcq8XoTLLccmOaYXv+jkpq4vvjA7qIxX1W
-   EVMJ7oxFRxUzCIA1Mx801aMiO006S/LiKdXY6oCgLyptt7P4NVsD10in/
-   A==;
-X-CSE-ConnectionGUID: nTmif9u9SqWtxxCR5LPFhg==
-X-CSE-MsgGUID: YocMNJ5iTSOq4DZXdz+JMQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="80232228"
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="80232228"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 03:38:21 -0800
-X-CSE-ConnectionGUID: 279owJbJSFOvbzzy57NpIg==
-X-CSE-MsgGUID: qJRB9onbQl6BQLAkxpTprw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="204763491"
-Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.182])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 03:38:15 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 6B48B11FB85;
-	Tue, 13 Jan 2026 13:38:13 +0200 (EET)
-Date: Tue, 13 Jan 2026 13:38:13 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Matthias Fend <matthias.fend@emfend.at>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-	Tarang Raval <tarang.raval@siliconsignals.io>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Dongcheng Yan <dongcheng.yan@intel.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Jingjing Xiong <jingjing.xiong@intel.com>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>,
-	Svyatoslav Ryhel <clamor95@gmail.com>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Hao Yao <hao.yao@intel.com>,
-	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
-	bsp-development.geo@leica-geosystems.com
-Subject: Re: [PATCH v7 2/2] media: i2c: add Himax HM1246 image sensor driver
-Message-ID: <aWYupZ3xp7-IycFD@kekkonen.localdomain>
-References: <20260112-hm1246-v7-0-fee8587f2808@emfend.at>
- <20260112-hm1246-v7-2-fee8587f2808@emfend.at>
- <aWVFE-Y5HRi_XZRE@smile.fi.intel.com>
- <f2e77bb5-957e-4751-8304-d9fb94927417@emfend.at>
- <aWYQWAQnnFW0Kf9z@smile.fi.intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=r33Z7u5eBQ+47LlEnXHOJG00nSKNV6ENc/30GHHuxDHUGzH+ggzY4NKLKiwjyRDVS0+EuRiGomsD52hMLr7C0T7DFeuKUnDTXiIi3q2sxc8lS1RoG1zvqUJU4yaCQPhv6YOPW/yjftgiOnxKKGO6F9teS1ExCXARN7J+S7CEmHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=B/zszqRj; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-152.bb.dnainternet.fi [81.175.209.152])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id EE3F6316;
+	Tue, 13 Jan 2026 12:51:45 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1768305106;
+	bh=zzQCJcQlku8pTvRJifIfGJruURb8pNkuNP7DddttNzE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=B/zszqRji0xufg4iqsvMUdHqpf5TlR50eqlsZEc+DRf29cobflEDGchGcrqLQtPGB
+	 QzZyWAGvKcmqcrmYRhIiQGyfLk1v2cx+opzCoDirc/9s5kCVOMgYfqcLKFF7VCbH37
+	 5QZ24YsD3nsbMSbnJqMfkH1mQdkMkZux6RKvM9jE=
+Date: Tue, 13 Jan 2026 13:51:51 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Itay Chamiel <itay.chamiel@q.ai>
+Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: Re: uvc_alloc_urb_buffers() fails for small frame sizes
+Message-ID: <20260113115151.GB6198@pendragon.ideasonboard.com>
+References: <DU2PR10MB77866A2E27FA9670E867EC20E18EA@DU2PR10MB7786.EURPRD10.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -105,137 +55,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aWYQWAQnnFW0Kf9z@smile.fi.intel.com>
+In-Reply-To: <DU2PR10MB77866A2E27FA9670E867EC20E18EA@DU2PR10MB7786.EURPRD10.PROD.OUTLOOK.COM>
 
-Hi Andy, Matthias,
+Hi Itay,
 
-On Tue, Jan 13, 2026 at 11:28:56AM +0200, Andy Shevchenko wrote:
-> On Tue, Jan 13, 2026 at 10:06:36AM +0100, Matthias Fend wrote:
-> > Hi Andy,
-> > Am 12.01.2026 um 20:01 schrieb Andy Shevchenko:
-> > > On Mon, Jan 12, 2026 at 03:49:33PM +0100, Matthias Fend wrote:
+On Tue, Jan 13, 2026 at 10:06:03AM +0000, Itay Chamiel wrote:
+> In drivers/media/usb/uvc/uvc_video.c the function
+> uvc_alloc_urb_buffers allocates buffers for transferring frames from a
+> video source to the host over USB. It gets a frame size ('size') and
+> the USB packet size ('psize').
 > 
-> ...
+> Typically the frame size is an order of magnitude larger than the
+> packet size, and everything works normally. But I think I've found a
+> bug: if the frame size happens to be small - smaller than or equal to
+> the packet size - then npackets==1 and the allocator 'for' loop is
+> never entered. The allocation fails and the stream fails to open.
 > 
-> > > > +struct hm1246_mode {
-> > > > +	u32 codes[4];
-> > > > +	u32 clocks_per_pixel;
-> > > 
-> > > > +	u32 top;
-> > > > +	u32 left;
-> > > > +	u32 width;
-> > > > +	u32 height;
-> > > 
-> > > Why not use struct v4l2_rect?
-> > 
-> > Valid question. I would save something in six places, but add something in
-> > about 27 others. Because of this ratio, I opted for the current way.
+> This is because of line 1815 in the current git version:
+>       for (; npackets > 1; npackets /= 2) {
 > 
-> It's more about standardization. Can you provide an example of the place where
-> you need to add something?
+> Shouldn't the condition have been 'npackets >= 1' ? Is there some
+> requirement for a minimum of 2 packets allocated? If so then it
+> doesn't seem to be documented.
 
-We have around as many driver mode structs for more or less similar
-purposes as we have register-list based drivers, so certainly some help
-from the framework could be useful. But I don't think this problem is
-solved by switching to struct v4l2_rect here (albeit I don't think it's a
-bad idea as such either).
+I don't see such a requirement, no. Switching to >= 1 seems to be a good
+idea. Would you like to submit a patch ?
 
-> 
-> > > > +	u32 hts;
-> > > > +	u32 vts_min;
-> > > > +	const struct hm1246_reg_list reg_list;
-> > > > +};
-> 
-> ...
-> 
-> > > > +static int hm1246_get_selection(struct v4l2_subdev *sd,
-> > > > +				struct v4l2_subdev_state *state,
-> > > > +				struct v4l2_subdev_selection *sel)
-> > > > +{
-> > > > +	const struct v4l2_mbus_framefmt *format;
-> > > > +	const struct hm1246_mode *mode;
-> > > > +
-> > > > +	format = v4l2_subdev_state_get_format(state, 0);
-> > > > +	mode = v4l2_find_nearest_size(hm1246_modes, ARRAY_SIZE(hm1246_modes),
-> > > > +				      width, height, format->width,
-> > > > +				      format->height);
-> > > > +
-> > > > +	switch (sel->target) {
-> > > > +	case V4L2_SEL_TGT_CROP:
-> > > > +		sel->r = *v4l2_subdev_state_get_crop(state, 0);
-> > > > +		return 0;
-> > > > +
-> > > > +	case V4L2_SEL_TGT_NATIVE_SIZE:
-> > > > +		sel->r.top = 0;
-> > > > +		sel->r.left = 0;
-> > > > +		sel->r.width = HM1246_NATIVE_WIDTH;
-> > > > +		sel->r.height = HM1246_NATIVE_HEIGHT;
-> > > > +		return 0;
-> > > > +
-> > > > +	case V4L2_SEL_TGT_CROP_DEFAULT:
-> > > > +	case V4L2_SEL_TGT_CROP_BOUNDS:
-> > > 
-> > > > +		sel->r.top = mode->top;
-> > > > +		sel->r.left = mode->left;
-> > > > +		sel->r.width = mode->width;
-> > > > +		sel->r.height = mode->height;
-> > > 
-> > > Seems in the same way here.
-> > > 
-> > > > +		return 0;
-> > > > +	}
-> > > 
-> > > > +	return -EINVAL;
-> > > 
-> > > Why not making it a default case?
-> > 
-> > I prefer it when the return statement is at the end of the function. Do you
-> > see a problem here?
-> 
-> For the matter of fact I do see a problem here. But it's not how code works
-> right now, it's about maintenance. The disrupted returns like this may lead
-> to subtle mistakes when the code gets changed (grows) and more cases added
-> including ones that might want to share something as a success path.
-
-I'd also move returning to the default case -- the function doesn't do
-anything else after the switch.
-
-> 
-> > > > +}
-> 
-> ...
-> 
-> > > > +	hm1246->reset_gpio =
-> > > > +		devm_gpiod_get_optional(hm1246->dev, "reset", GPIOD_OUT_HIGH);
-> > > > +	if (IS_ERR(hm1246->reset_gpio))
-> > > > +		return dev_err_probe(hm1246->dev, PTR_ERR(hm1246->reset_gpio),
-> > > > +				     "failed to get reset GPIO\n");
-> > > 
-> > > Can it be GPIO reset driver used instead? (Note, it's made agnostic now.)
-> > 
-> > That would probably be possible, but I currently don't see any advantage for
-> > I2C image sensors. If I understand correctly, you would first have to define
-> > a reset controller that could then be used in the sensor – instead of simply
-> > specifying the GPIO directly.
-> 
-> Again, standardization.
-> 
-> > The advantage of being able to share the reset line with other components
-> > probably doesn't make sense for these sensors in most cases. That's perhaps
-> > also the reason why it hasn't been used before.
-> > 
-> > Maybe the media maintainers have an opinion on this?
-
-I think this is a good idea: the reset line is sometimes shared with
-another device (VCM driver in this case). Right now we don't have a sensor
-driver doing this however. Do you know of a driver that would serve as an
-example?
-
-That being said, I think adding this could be done on top of this set as
-well.
+> In my case we are working on a custom camera, whose packet size is
+> 21504 bytes but the desired small resolutions are 50x50 (=2500 bytes)
+> or 160x120 (=19200 bytes) both of which fail because of this issue.
 
 -- 
-Kind regards,
+Regards,
 
-Sakari Ailus
+Laurent Pinchart
 
