@@ -1,98 +1,98 @@
-Return-Path: <linux-media+bounces-50616-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50617-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id D15A6D1B683
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 22:33:32 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB7F4D1B68C
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 22:34:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id B33C83013D4A
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 21:33:28 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3B869304EBF4
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 21:33:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA089340A6C;
-	Tue, 13 Jan 2026 21:33:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87E2134D907;
+	Tue, 13 Jan 2026 21:33:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="POlG7/uL";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="kqr/6nnM"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HnFJOPDy";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="bcP/39sL"
 X-Original-To: linux-media@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD93531AA92
-	for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 21:33:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A007833FE2B
+	for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 21:33:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768340001; cv=none; b=bvzYYJ1sco9GBaBvWcoK5mOYAflUaHCp8FKAqkGT3MR8MviEU5or9GsZySIl/OhNk9nV2q4OQwSQv83SUtywDabIgmxHrtTCu+DCu/rWRWXnhjH7oxx8R57rm3EzAm8/AOhw5e5Li2GQMgIXvbEjkXJM80tuzZOiPii5MqTTe/Q=
+	t=1768340003; cv=none; b=nD7fnpctTazOtsviCSpNY/DFTbUAdGrCSrLMwhQMJzVZ+BkZPlGe9qkXqx+GQ14kaDWoUTLqzZtx5EtnRabNz91ztMTvpGPD8bPnlmcQvQSWUPHH3ve3QfrFmwWKpjvLxVtDmz8qfUu7WUcmFg4Ek3SKd0LtjY+ADVn2dEGGVs4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768340001; c=relaxed/simple;
-	bh=ZWJnmPWfWVf378+SE5bFLrcxXaooa53b6CwQljwKQRU=;
+	s=arc-20240116; t=1768340003; c=relaxed/simple;
+	bh=EDJzO86JKqPT/j5xHbRoDVIahm8DxIRb2MqBjzWRIzU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Y0F2U3Q1OML8bWKszSomNS/dU9TVYOBsUb1UOE7btkEm2UNTyZ4gLmD71kThAmZ66z0WMwmsz5cfpFNAa/1JZof/BX4m3J9/J8E0axLb50z3j8LmLN/la91S/tkyBJDt5kNWNadFRi3Rn8KI51kX3vKvrJqx0BpbjaCZF52EriM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=POlG7/uL; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=kqr/6nnM; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:To:Cc; b=J9ElGO0pRhtbOHDF+q441MJGOFf+elD5/TqxjyK+zkZrgTtW/TuVAbCWxAiRrOn7k281zUHQe2MqTNCssCYmXY02BZcWlg5hm8kF1A9CnqcD2+5ifHXsYtrxwy65Vv8dQiYdezbFpHvhtkG4mvTjBphNMIMaahuW2Yfi5XewRWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HnFJOPDy; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=bcP/39sL; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1768339998;
+	s=mimecast20190719; t=1768340000;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=K1tY2jOzHY+cvWTFhoRqTcHQY4mx0y53P502cs7Wi0g=;
-	b=POlG7/uLy7HNzk7vEucZPvAHsQPNgkvkloek9bC1PZpJUUTo5U6Vrn+thQkjnJL6A4c0cJ
-	RQ0P/Ndd3rBMfRjEMEbc0NXu15l0ZzAQ3x48hg9nycNMDPworwwZbLuvsbM27cAFSJJen9
-	X7xLFyIX25zfmwV20Rimyqs6cniZJm0=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=Ix94cAHm6joBtNxj2zTeHiWa8RvsRVDwgdWzBk5YVco=;
+	b=HnFJOPDyL76Hj+Np1PzN+ymyR6LcG34/wl4los9fa51VFUx8Y32qERAcsLZCrcH4Ts2+Xq
+	qjh4ct9dxg9uYQNPNncWRiH4oEdkllp4iyxulptv4OWQMOJDUCvxmtWJ5PRCzY18v0jhJz
+	XU2pa0pM4Iioyt+DTQ8Wx4i4OyNoFVw=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-368-pdjgpFvWPo-vKspeg24e_g-1; Tue, 13 Jan 2026 16:33:17 -0500
-X-MC-Unique: pdjgpFvWPo-vKspeg24e_g-1
-X-Mimecast-MFC-AGG-ID: pdjgpFvWPo-vKspeg24e_g_1768339997
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4ed7591799eso208649331cf.0
-        for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 13:33:17 -0800 (PST)
+ us-mta-34-21PqNTJpOUeHazO5aj87rg-1; Tue, 13 Jan 2026 16:33:19 -0500
+X-MC-Unique: 21PqNTJpOUeHazO5aj87rg-1
+X-Mimecast-MFC-AGG-ID: 21PqNTJpOUeHazO5aj87rg_1768339999
+Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-88883a2cabbso318322276d6.0
+        for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 13:33:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1768339997; x=1768944797; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1768339999; x=1768944799; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=K1tY2jOzHY+cvWTFhoRqTcHQY4mx0y53P502cs7Wi0g=;
-        b=kqr/6nnMIej2Hksflyel0AdS8Gc02E0OTYS4W8sgcA1mV0BWsgm/qAfEcbuGki5y22
-         iHZ2UHwE7BX0pzOTWTBZKSZ4yDOkt9wkotmqVC+pnO3RfdCV5BEdeAPhiqVuWhRqTyOy
-         IuNc9nx6ZBiGI7px1jNH8f6p4W/vdbEeJ397hBoTvbgCh8AuvEmuX4z2RPDiCTnkUulw
-         o83t/aY0VJT+UTzC4kCmHHRpYDSKDV2d9RjpDl0Mp/zz0l8cR1dsOtbQFiRNqJwoSO7Y
-         n0udWXljVyRdC3Z3e9+rMVPL2Kh6wAeIl2Rb3Syop4JEGvRjvs00iRp5WRm4OP8A/gV/
-         QJbw==
+        bh=Ix94cAHm6joBtNxj2zTeHiWa8RvsRVDwgdWzBk5YVco=;
+        b=bcP/39sLDreiiV9Ab5wHE5E9aQvpWVa6JwTYEGpt0U+ifDOXX47WLXCy7gnY6Je0zv
+         BzgOuYRo+W0ABPqbqbHms6n47vuPRa6L1syC1QsyCJywbDYTF4rKtjrADOLisNMUmBrk
+         CSum/lvTfhz7NvaSJdRXI0klDY7fs74e/E8f4FNjH1YyJm4JPXXgDUPh2aroiC953y8a
+         Qvw7Ez2k/J1jpcmk1p4HKgFN3qXXQ6J/9245erquHaj1r+Me/8S7zz4zd5cyGPLgk13G
+         biyXycv/mydnwsz8PDnq0HugZlijT4VdnAuSRHUlrlT9yYYnrJd5fnmzdnzDvXFqMxzZ
+         y+5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768339997; x=1768944797;
+        d=1e100.net; s=20230601; t=1768339999; x=1768944799;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=K1tY2jOzHY+cvWTFhoRqTcHQY4mx0y53P502cs7Wi0g=;
-        b=mP46mNTyfxHSwxD8mYgjasyGyMDIfOl1tHPvp8Iq15NwJfWprIIPnQb9xGBBVbKlyz
-         9kxa2VZwF1FGlLeGBgy/1t1o2YHd7Igd6L4oLRSUv2k0sWgHMe4IeXvxtrd4b4ZqZIIW
-         +o1uboUfru8tGQRlhuXn6XFhkBhB/R/VSmjq6YdPTIdXHDsJMqmytuKlwtNp8WD1b0wo
-         qlgvQVdQCIyEfVFc2vMWrPtFqZ0Qy31T5eOxo21J5HXfluS3EToHJpIv/WeaMq4yyGyg
-         EF/f5kjuR3+ve7YMKdlabKcxQg7MWPHdcF9zMIr7OU4rqquIJeqL4CtLTPQwLlPQjY39
-         FfMQ==
-X-Gm-Message-State: AOJu0Ywjn5Lzv4G6f5lMnHVjj7bSAOKENKU1RA1pyxM9SKdvo68BVkiJ
-	l826hQxyWCJVeW+ysMK3XVUJOOiTHXBySMI96h88cUpD/p6MdecngUmPgoGY1A7G4zTobUB+AhL
-	h7P0c6z88+ZxmpnuUlB8KYcTwEf4M/HYy3CRS+oqqp2EqDz5QKSf6b6KFuySmG7uH
-X-Gm-Gg: AY/fxX4/52Oqa5VWDM++Dxt6MHpzyfounMLAlYv4fdhesXpMDnHBJlZMAvFbrpHFwSM
-	YJFxvGobuAxGO1um0qj1e48mIm272ggsBMl54f+VF0Crn0lfGpPWiiVLgkPvDaqexfumvu7HyPI
-	IvqZVu2PfYDwQLuXuq9OnYszhbCVydePTKo0AuKLBxlWXEhLu0gqK7fADKHop1HwWQ7Pviz+awq
-	fL8n2Y7+RY8UzBgC0nZ3TcBOHslXQKBk2GFScEEw71q7WmmlDIFZ4fC128udI97g9rZm0+hPEwE
-	1kX3j4Z6sEskNEyKXl5ZdwAjrGmpU5A9G5jB4GFwgob0rzMB8V/GVxGJ8m5rtl0TQ6zGb6Fc8MQ
-	LRFx7dsUFjErYp7NdZbD4BrNFeAllMXy+VRYZ27sItguhMaflZbM=
-X-Received: by 2002:ac8:58d4:0:b0:4ed:bb39:9a60 with SMTP id d75a77b69052e-5014846b14dmr8396871cf.40.1768339996913;
-        Tue, 13 Jan 2026 13:33:16 -0800 (PST)
-X-Received: by 2002:ac8:58d4:0:b0:4ed:bb39:9a60 with SMTP id d75a77b69052e-5014846b14dmr8396511cf.40.1768339996449;
-        Tue, 13 Jan 2026 13:33:16 -0800 (PST)
+        bh=Ix94cAHm6joBtNxj2zTeHiWa8RvsRVDwgdWzBk5YVco=;
+        b=vNBhfJn3Yii87N1vrWFmf95jqaAYwRcQqUeGZBtLF9PmmLeW+QHEJEWd+4hL5dIVeF
+         NpZbcKTKFiqopFpW7H53Kp4YbOgYVU1b3E9BUc+VM0QBr+QOyQx1b+J9Ia0ch276pt3I
+         8bryf4F2g+x3Y9S/G7Ya0yH3pDhx9Xm1Sn5bGwGaileh5EiYQI7nBzV3/kuKil2pSVFq
+         xnbpB6W8k5beBwkgOsonW6UkajG+pAXRkF4AW9dDry+mrocJeJbrOFo8dWdITEEi3bLV
+         9Q0bOQYKJB3H280bsAbn1M51ttWPfTA2uIDhu2gxgF+Hbi4tDs38wPl1+tc4/cLMoXQ+
+         DTaA==
+X-Gm-Message-State: AOJu0YzoIDMkwhj3sObAV4FU3bY9zfYsspw0q1rrz9CKZduRf3LP2mOi
+	5izYzGaL4mXMQ1qeSztZ9+RPo6jEzFi2FpfkncRUEwHI0DeOFRJR5dAW0fMqlZLFgfVjJpH5vh1
+	kTXBEYYHDWHJAOCAcRxPg4yPXEte6WiP0pZE3ZqAzgJbEBNKCd21YiunLxBWp1iP6
+X-Gm-Gg: AY/fxX74QrT4Fswd7RM2yBUzYHBflWLotdI90bwRCPNrEyOaO32/yUg7N7zNXMV5j9y
+	t85jVPIhc/m/VBB7/aA10zkGT2KPXdfdZoWfpdzYwzZDItwl41SbQMWVRjAxXWjiDfZRGkFaDEh
+	VM82XyX3D+DUyipk8EaA+UR4mJXDT8ieQiqFh82Donz0tFMUAFCOgfU5fTiWf60/RTwePsDdPZS
+	HY/Pu30bBaBBozV6qZcfZuSfVbJ/shaB7S8OiPcRyWYeqQvLK2VCLyUoD/hy1tnfhcQIXCH+DVp
+	yHOI1AkfkSUzPw+fW3NvnM7+PTyPRbVbF7XeIX22JKiRtaQnAXWUhs/grtmuncr5BdK712pD8ln
+	G6BKn6lgIo5cr+L6lER3f2rYkP1cvoJoi9FrvjYTDrR1XsD6WSPM=
+X-Received: by 2002:a05:620a:1a1b:b0:8b2:77aa:73d3 with SMTP id af79cd13be357-8c52fb37f7cmr83797285a.2.1768339998757;
+        Tue, 13 Jan 2026 13:33:18 -0800 (PST)
+X-Received: by 2002:a05:620a:1a1b:b0:8b2:77aa:73d3 with SMTP id af79cd13be357-8c52fb37f7cmr83793585a.2.1768339998302;
+        Tue, 13 Jan 2026 13:33:18 -0800 (PST)
 Received: from localhost (pool-100-17-20-16.bstnma.fios.verizon.net. [100.17.20.16])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50148df8305sm1253971cf.9.2026.01.13.13.33.15
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8907726041fsm172437926d6.45.2026.01.13.13.33.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jan 2026 13:33:15 -0800 (PST)
+        Tue, 13 Jan 2026 13:33:17 -0800 (PST)
 From: Eric Chanudet <echanude@redhat.com>
-Date: Tue, 13 Jan 2026 16:32:44 -0500
-Subject: [PATCH v2 1/2] dma-buf: heaps: add parameter to account
- allocations using cgroup
+Date: Tue, 13 Jan 2026 16:32:45 -0500
+Subject: [PATCH v2 2/2] dma-buf: system_heap: account for system heap
+ allocation in memcg
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -101,7 +101,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260113-dmabuf-heap-system-memcg-v2-1-e85722cc2f24@redhat.com>
+Message-Id: <20260113-dmabuf-heap-system-memcg-v2-2-e85722cc2f24@redhat.com>
 References: <20260113-dmabuf-heap-system-memcg-v2-0-e85722cc2f24@redhat.com>
 In-Reply-To: <20260113-dmabuf-heap-system-memcg-v2-0-e85722cc2f24@redhat.com>
 To: Sumit Semwal <sumit.semwal@linaro.org>, 
@@ -115,32 +115,51 @@ Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Eric Chanudet <echanude@redhat.com>
 X-Mailer: b4 0.14.2
 
-Add a parameter to enable dma-buf heaps allocation accounting using
-cgroup for heaps that implement it. It is disabled by default as doing
-so incurs caveats based on how memcg currently accounts for shared
-buffers.
+The system dma-buf heap lets userspace allocate buffers from the page
+allocator. However, these allocations are not accounted for in memcg,
+allowing processes to escape limits that may be configured.
+
+Pass __GFP_ACCOUNT for system heap allocations, based on the
+dma_heap.mem_accounting parameter, to use memcg and account for them.
 
 Signed-off-by: Eric Chanudet <echanude@redhat.com>
 ---
- drivers/dma-buf/dma-heap.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/dma-buf/heaps/system_heap.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-index 8ab49924f8b71a0272dc89a609539a429feaf6c8..f72e93cb8367fa196e5b87e762a60463023887df 100644
---- a/drivers/dma-buf/dma-heap.c
-+++ b/drivers/dma-buf/dma-heap.c
-@@ -49,6 +49,11 @@ static dev_t dma_heap_devt;
- static struct class *dma_heap_class;
- static DEFINE_XARRAY_ALLOC(dma_heap_minors);
+diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+index 4c782fe33fd497a74eb5065797259576f9b651b6..139b50df64ed4c4a6fdd69f25fe48324fbe2c481 100644
+--- a/drivers/dma-buf/heaps/system_heap.c
++++ b/drivers/dma-buf/heaps/system_heap.c
+@@ -52,6 +52,8 @@ static gfp_t order_flags[] = {HIGH_ORDER_GFP, HIGH_ORDER_GFP, LOW_ORDER_GFP};
+ static const unsigned int orders[] = {8, 4, 0};
+ #define NUM_ORDERS ARRAY_SIZE(orders)
  
-+bool mem_accounting;
-+module_param(mem_accounting, bool, 0444);
-+MODULE_PARM_DESC(mem_accounting,
-+		 "Enable cgroup-based memory accounting for dma-buf heap allocations (default=false).");
++extern bool mem_accounting;
 +
- static int dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
- 				 u32 fd_flags,
- 				 u64 heap_flags)
+ static int dup_sg_table(struct sg_table *from, struct sg_table *to)
+ {
+ 	struct scatterlist *sg, *new_sg;
+@@ -320,14 +322,17 @@ static struct page *alloc_largest_available(unsigned long size,
+ {
+ 	struct page *page;
+ 	int i;
++	gfp_t flags;
+ 
+ 	for (i = 0; i < NUM_ORDERS; i++) {
+ 		if (size <  (PAGE_SIZE << orders[i]))
+ 			continue;
+ 		if (max_order < orders[i])
+ 			continue;
+-
+-		page = alloc_pages(order_flags[i], orders[i]);
++		flags = order_flags[i];
++		if (mem_accounting)
++			flags |= __GFP_ACCOUNT;
++		page = alloc_pages(flags, orders[i]);
+ 		if (!page)
+ 			continue;
+ 		return page;
 
 -- 
 2.52.0
