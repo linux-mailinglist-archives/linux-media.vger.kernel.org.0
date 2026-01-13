@@ -1,135 +1,138 @@
-Return-Path: <linux-media+bounces-50625-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50626-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69AFBD1B945
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 23:26:08 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD041D1B9DC
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 23:40:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B2AAC3038F63
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 22:26:06 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 3274B300FD43
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jan 2026 22:40:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C18453563ED;
-	Tue, 13 Jan 2026 22:26:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 443D2354AE9;
+	Tue, 13 Jan 2026 22:40:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="feXbpW2z"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ItW+8e7q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E3B241690
-	for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 22:26:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1405D30F806
+	for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 22:40:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768343162; cv=none; b=LWiqX3n5Y0M3bYqf4pupVs5yS4BlyRSVYeBSl37LNRQWLx6a75mxRaJitmTs59uvsb7rB1zgIAM0LRDYb4hvy6rLpBJDSHXwvCQOVMjXpJXQAgm7DHw9/r7Yhgu3jH283KfsEH1/6WYbDgcDjnLit/dpfKKcgIrYfqBOt9KdRK0=
+	t=1768344011; cv=none; b=F+gS/d+GfdnFkDxNqx6QrOhCrtePQnwh0AjxQaxVlrFa7eO112vE3gqxtlZql01p3Hs5S4u4xVIRDwP8IHvHPEkugtRp79HZZeXPBnsXqJ33aaLRSFNJHoHufCTTU35w5zcTAF0JFZ/lzYVpoeOwlFO4ij2BB/m3EWCM3GenF5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768343162; c=relaxed/simple;
-	bh=BBQeA3S7wkPk3ylGqFxEBJEVJdA6W7zYKUStbYHAlv4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=IxEaJoJVseP/m8SOIpr7v0scA+DZZo2a2Bwi2xjvjZ4B1JxcBasbWtnOXksDaUf+3xsbwa1yxdXN2LRodpTPaQcw6GKomqzQC9jVEeVRHChly96PpOAH7tCP5P8FV/TcFPsAd59B+RmHaEhDOoxY84LOp2AqFwGsKGilO7SipLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=feXbpW2z; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-64b5b68a9bdso1339100a12.3
-        for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 14:26:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768343159; x=1768947959; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OTSi22MXyVIFLI49ZaUvuLMSU1XbYOIX8FSnyulljAg=;
-        b=feXbpW2zKd8+A8sycJliwxJQS9vCea5yrC0Acm8nNDxikOOBD3XVcBjrDjYnkQGo6O
-         UIb9DHbrL/h3OmP/hGDaCpS3u2FAH2XBIGimfgOtPDxkWvxvjkNDCYRxQMi5T67VAXyf
-         7Zlk9/Pcmi8nJm7rYktgfEckLjm5QK6211fGIsWPvdur8QbvBHrV1Nwl0d9Ub7i3fTiG
-         HJK5ekzx3Q2S0uupLQGXGPx6CaRjpIEsxkuhf3cj1R2qrU3ww7xaHwmdtXl7HM+E6huf
-         A81ZxLSkCLirk7/idZPwLbAzqnVjtC6+gzbnJPVG5usj5Hy2yzE2q3ZgtETRhplkxzKq
-         B0QA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768343159; x=1768947959;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OTSi22MXyVIFLI49ZaUvuLMSU1XbYOIX8FSnyulljAg=;
-        b=uEREUW2qB3QQ+BjUNPUhQ7ew0YTDWO0gE4WNz2NOn17XhvBVj1t1SkX0lUiiHjn+eH
-         6mICVmZCnStS+YetDQbVr44W8bjl/0tkEKVd5zdTJzNkAdHFag0CddQgRx2UYYtbF2mQ
-         IKn2V5GAqcPEeJh2IT1bPU5dAbk4qTfQWo/n/pzdwM4j0lpsdVsyjcbu+sAQIkxxj9BK
-         DUQe5SjtfYmeJqgdPPLGglzp2nRf8yx7xr24stDkpKVW6VrGZGVcvcFbP5b6YW5kXuQ5
-         yFMK/LWXnuThL8WuIEE36SU00eXI4HxjXjq3NBmp9fzZSTnIkrmQry3qPQEcfDgrPmGP
-         U7Fg==
-X-Gm-Message-State: AOJu0YwKRXT8LiVxGuaQbp3AeX2RFP8310S0Z/nTgTQuw/hHVYcEADta
-	9xAdbpb1txX16gi+BtNH9YpAdJaZKhCb/wNkldA6zBl1RrrLdQoUQpKlMYIlPg==
-X-Gm-Gg: AY/fxX44yckPJRYiCmtsu5bqbzLGhaWMoOUUJg3RGJKJwrvMxJtKtoZb7V+NPVwrfj+
-	4jn8nDfX4YbMJH3d0ScmRTJEJq+uqsiOQKDxX3aGVUujQM5WrgQKfCEvipx9L4iS/4uN5INrpAw
-	Ub5CKvxgUPRValCfLAaL7PjDdxcILr/Hzw5AY3q7+58fvGCJZbm3Zf+Sq8Mzc3O+oEFJPFz9RuU
-	+UnkI27lkyDD6t4x2mcfOmXG9ftKvnEYZNyVbnuPsTDK3JX7E0k4qzfoGv9JF81bYbkV7wP230x
-	ALqNsZsTzRDoscyRSNMjmHGr46/htL72exw3zrvacPRR5rK65uF8lce0mamQSWr/zMWPHdgLpyk
-	T4L6jB8ah0EFn1a45lYcWx+XRcZffIWIDsTyRiEw2VcU3I1HHtWFbjrNylRFJrhtbSBC4MPesWv
-	Gb79xxnp7f/sGL0VfYZaI0WA3HeXE2013IchzqC16WC1D9eyW8zIRvlTwWgBZZqgGfJ7RKbcBw6
-	v8=
-X-Received: by 2002:a05:6402:35d1:b0:64b:4e7a:bbc8 with SMTP id 4fb4d7f45d1cf-653ec461c8emr206465a12.5.1768343158725;
-        Tue, 13 Jan 2026 14:25:58 -0800 (PST)
-Received: from laptok.lan (87-205-5-123.static.ip.netia.com.pl. [87.205.5.123])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6507bf6d5d4sm21336995a12.32.2026.01.13.14.25.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jan 2026 14:25:58 -0800 (PST)
-From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
-To: linux-media@vger.kernel.org
-Cc: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
-Subject: [PATCH v4l-utils] edid-decode: Always show VRR min/max values
-Date: Tue, 13 Jan 2026 23:25:56 +0100
-Message-ID: <20260113222556.181609-1-tomasz.pakula.oficjalny@gmail.com>
-X-Mailer: git-send-email 2.52.0
+	s=arc-20240116; t=1768344011; c=relaxed/simple;
+	bh=vlkcRkPWo/fwDVBcC6t4+DvWZzC1GemObqREPudjpUI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mtc/q1DRGG8dwYkXFZM49aL0VK1BfY5/WIBaOgAD/z8usLh8RxKuv10pjuhN7SklCohOyo3L+6vjgZPlLt8nYJYoxmRKIYYJKe6mQwk227Molomdp4rZBzFW1+Ms/QZuuCV3McnDzrWYybmb/ncMBQKCwxrw4IT7Iy93StdWsfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ItW+8e7q; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-152.bb.dnainternet.fi [81.175.209.152])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id ECC003A4;
+	Tue, 13 Jan 2026 23:39:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1768343975;
+	bh=vlkcRkPWo/fwDVBcC6t4+DvWZzC1GemObqREPudjpUI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ItW+8e7qMjG2sWWrw6mDSP882FxRhYmFSyYig/Z4Z4MLUhKzpXLr2f7nw2YdGneHl
+	 clZFZiRtCr70p0cMH87RrTMd9dlMiWf/bhEd4PxsDKZmehQFlLJvH7/d24L3sPrKpO
+	 pQmCTu1v5Iol+iTn8mtLsJgsqChDe08x6ftNK6IU=
+Date: Wed, 14 Jan 2026 00:39:40 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Mirela Rabulea <mirela.rabulea@nxp.com>, linux-media@vger.kernel.org,
+	hans@jjverkuil.nl, Prabhakar <prabhakar.csengg@gmail.com>,
+	Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	"Wang, Hongju" <hongju.wang@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v10 19/64] media: v4l: uapi: Add a control for color
+ pattern flipping effect
+Message-ID: <20260113223940.GF30544@pendragon.ideasonboard.com>
+References: <20250619115836.1946016-1-sakari.ailus@linux.intel.com>
+ <20250619115836.1946016-20-sakari.ailus@linux.intel.com>
+ <ce6153ae-10fe-4160-b1d7-4b431f4d45f3@nxp.com>
+ <aWY-ldR_PMFcI1LR@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aWY-ldR_PMFcI1LR@kekkonen.localdomain>
 
-It's useful to always see VRRmin and VRRmax values, even if they are 0
-especially becasue VRRmax==0 is a valid value that indicates the upper
-VRR boundary is based on the current selected video mode.
+On Tue, Jan 13, 2026 at 02:46:13PM +0200, Sakari Ailus wrote:
+> Hi Mirela,
+> 
+> On Wed, Jul 23, 2025 at 01:14:44AM +0300, Mirela Rabulea wrote:
+> > Hi Sakari,
+> > 
+> > On 6/19/25 14:57, Sakari Ailus wrote:
+> > > 
+> > > 
+> > > Add a bitmask control (V4L2_CID_COLOR_PATTERN_FLIP) to tell whether
+> > > flipping results in a change in the sensor's color pattern, separately
+> > > horizontally and vertically. The information is essential for raw formats
+> > > when using generic raw mbus codes.
+> > > 
+> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > ---
+> > >   .../userspace-api/media/v4l/ext-ctrls-image-source.rst | 10 ++++++++++
+> > >   drivers/media/v4l2-core/v4l2-ctrls-defs.c              |  2 ++
+> > >   include/uapi/linux/v4l2-controls.h                     |  5 +++++
+> > >   3 files changed, 17 insertions(+)
+> > > 
+> > > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> > > index b19aaaffbce0..43a62a85afb8 100644
+> > > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> > > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> > > @@ -131,3 +131,13 @@ Image Source Control IDs
+> > >         - Raw Bayer, with alternating lines beginning with green, blue pixels and
+> > >           red, green pixels.
+> > >         - 3
+> > > +
+> > > +``V4L2_CID_COLOR_PATTERN_FLIP (bitmask)``
+> > > +    Whether the horizontal or vertical flipping controls (V4L2_CID_HFLIP and
+> > 
+> > Maybe "Report whether the horizontal or vertical flipping controls..."
+> > sounds more like a sentence?
+> 
+> How about "This control determines whether..."?
 
-Currently, VRRmax is completely hidden if it's 0. Some Philips TVs do
-actually set it to this value though it is very rare among TVs.
+"whether" normally requires a correlative "or". You could write "This
+control determines if the horizontal or vertical flipping controls ...".
 
-Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
----
- utils/edid-decode/parse-cta-block.cpp | 20 ++++++++------------
- 1 file changed, 8 insertions(+), 12 deletions(-)
+> > Also, it looks like this is also a read-only control, so it would be nice to
+> > mention it also in this doc.
+> 
+> Agreed.
 
-diff --git a/utils/edid-decode/parse-cta-block.cpp b/utils/edid-decode/parse-cta-block.cpp
-index ecf32b9f..404dee55 100644
---- a/utils/edid-decode/parse-cta-block.cpp
-+++ b/utils/edid-decode/parse-cta-block.cpp
-@@ -1377,19 +1377,15 @@ void edid_state::cta_hf_scdb(const unsigned char *x, unsigned length)
- 		return;
- 
- 	v = x[5] & 0x3f;
--	if (v) {
--		printf("    VRRmin: %u Hz\n", v);
--		if (v > 48)
--			fail("VRRmin > 48.\n");
--	}
-+	printf("    VRRmin: %u Hz\n", v);
-+	if (v > 48)
-+		fail("VRRmin > 48.\n");
- 	v = (x[5] & 0xc0) << 2 | x[6];
--	if (v) {
--		printf("    VRRmax: %u Hz\n", v);
--		if (!(x[5] & 0x3f))
--			fail("VRRmin == 0, but VRRmax isn't.\n");
--		else if (v < 100)
--			fail("VRRmax < 100.\n");
--	}
-+	printf("    VRRmax: %u Hz\n", v);
-+	if (!(x[5] & 0x3f))
-+		fail("VRRmin == 0, but VRRmax isn't.\n");
-+	else if (v > 0 && v < 100)
-+		fail("0 < VRRmax < 100.\n");
- 
- 	if (length <= 7)
- 		return;
 -- 
-2.52.0
+Regards,
 
+Laurent Pinchart
 
