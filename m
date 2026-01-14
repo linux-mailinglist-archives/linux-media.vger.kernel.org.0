@@ -1,133 +1,245 @@
-Return-Path: <linux-media+bounces-50631-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50632-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5272BD1BE65
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 02:19:47 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD3A1D1BF34
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 02:35:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 86A1A300B8AE
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 01:19:32 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CEDBC302E151
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 01:35:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2719267714;
-	Wed, 14 Jan 2026 01:19:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 199762E8B8A;
+	Wed, 14 Jan 2026 01:35:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hbl5O9X/"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZiA2R61a";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Ya1IrjUt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 891B0261393
-	for <linux-media@vger.kernel.org>; Wed, 14 Jan 2026 01:19:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2DE2BEFFE
+	for <linux-media@vger.kernel.org>; Wed, 14 Jan 2026 01:35:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768353566; cv=none; b=krheuQk+7sU0zgN1k/zdzuYIThxV9ChrDb/iZIA79oALSpfbSpRuDePLz/3I20gQmxHkzRuz3FETrY5Vw268aFgWhFngviFMvqWze07k8lQjR5LSrfzcQNVfBGqNfk8gGLjdGpzHHChSUTTGmHW4xITIctewYbXqPvJphBaPEgo=
+	t=1768354525; cv=none; b=BCk3HAaa6rZVXxii7o4cT4B/w9+c1gwkj3p6PamRDyfHNApuNHES7fmhQmi/QVTI+aZg4PlHheM8ibHOklcBOt025SwlFGbFgh/dRAPTTbi1Puwg7d9Wfa7PYBZZXXnPEdt3d09qwmt0dRZ5WIiGOWzBts2jFo4DJDW6di7dYfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768353566; c=relaxed/simple;
-	bh=N1p38W0iVbak8+3zdvplZlrUgU+ik0XxFV04WIfsPNw=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=CY0pKGg9dwn97g74ofd0GpqrG8LpU7EKsACaEKai7vLiMWLAFGtpIynO35Zcss0LxtKkLNEDLUpN38cXVWp/Ut2QEd/AiapxHX0Z6EKUct7fI3p8HKlXhLeIe+gSM96ywU2eNTAGKgH05DFVXaH1XGeL/vcky7FXSkYLu7Iabhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hbl5O9X/; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-29efd139227so56138505ad.1
-        for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 17:19:24 -0800 (PST)
+	s=arc-20240116; t=1768354525; c=relaxed/simple;
+	bh=UBZ0xQQc9x8hovtqO2IzmbFI/0v4QnsYfchssHdggm0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=p4fXCqJ8YenYX8W1Vj5SqwLWFP1oNivViFOxmCCNaUZXe4Jpp8aNGfpwAxIj9jD3jBZWS0oth1DyTXTCs1oX2ivjwBLEymeRmPPU7qv7HYuttOSY7c51nh2QSZikReTGf5FVr/S0wdD0RM52r9mo0Xs5zHBANhCUfbkjI0Ta7KA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ZiA2R61a; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Ya1IrjUt; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60DNIBSj1961464
+	for <linux-media@vger.kernel.org>; Wed, 14 Jan 2026 01:35:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	tbLyVWXmVL2eJA5y9LHtBYuhAL4cRiZrb7+YgmccOwA=; b=ZiA2R61aKbKsjkg7
+	Td8zVE0CnaONJv/7WcJYbYZq3z4DJ7cH/G3jjWGjPuPJw0eYqg7wU/DRdgT4tQqj
+	gRhMepTlYfvIMg3ZSLkbwTEg8WDPbNjyRSZb2QrDJzJ2XP/chbJ27mKcJNrG7hyF
+	jN1s3kKZrgDlvKxtoyCjWBc64T3KFzY0C6pP9iHqQT3i14n2YaWCQuRGxgT40HlM
+	OwS4VBAWR5jUUS8BEAnffexffy7GmYoPS6/5BzJDDFUZZwk3xZ0OwAhibNQgne0f
+	Ehz5Bl8c6z175gJU4LUbCh0vBEqesJKTy/bcLbw2e1EbQ6MomP1mYvF5vTnogvPU
+	WC0FAg==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bny89gbma-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 14 Jan 2026 01:35:21 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2a0dabc192eso79344955ad.0
+        for <linux-media@vger.kernel.org>; Tue, 13 Jan 2026 17:35:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768353564; x=1768958364; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=dlOXF98nQWsAI+xBrlydKqrONWGhVbP1fEx5oYHqnV4=;
-        b=Hbl5O9X/dJ+HddP8qyhJ15K+EM122ob2br/cCwQnKOrG8w6W3Q46rFEOx+3MWo4k/g
-         MWDYniUt1MW8jYxQwrRLFph0NF9DV+DcEFTMnIsvT73ha4wP5vi7bPK7/K2crhpT42Rv
-         Xl9Xy7LGoRCwqNzowC3f9VNdltKd0ic3+O2WZQk4AKzMqPQj5aj5ukahKBB3uw87kwLO
-         9CzA2enH7suvCyqluP0NZKsjM99nNIRB8kwIP6Payq/FDC5kZstCSb2wVsLFBl9rOqGa
-         JfOWIsTInLlLNwjGEQvn4a1vMPWHHbB5GSSVCZRX8y83w/EUIF9hTYWYEGJ6MTPhV4vA
-         7yqg==
+        d=oss.qualcomm.com; s=google; t=1768354520; x=1768959320; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tbLyVWXmVL2eJA5y9LHtBYuhAL4cRiZrb7+YgmccOwA=;
+        b=Ya1IrjUtRwRgqnmkoHXH/97iCaA9lrBJLTi4KAWIqmc0inWajrj9j72NcTvq6rmvpK
+         8qejhs362O14suT+RSsJJOWKKt51DuFeJCjo8oTj7VNt6djHel0pf9bBAtS2Nuq3agXA
+         ImvMLIVQee/MFciclHKFVariq/upMdenhVyTdwd4Hfb4KeGj1Kfye1aAETWniTk0i3QH
+         RGg/Zisd7+eeplLOi5eqUgcIJYOYmzmnNw2W8hI3mUKxObop8u73GwPnctmwQ/jSJ9ZX
+         KkT12ZdE424GzSPzNKxNiNt0LCwJS56d/SfPUcLtEYKO/xHkiXqrdZRjIhFT80eqVzjD
+         tyhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768353564; x=1768958364;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dlOXF98nQWsAI+xBrlydKqrONWGhVbP1fEx5oYHqnV4=;
-        b=G/MoR+VadTNb6Tj+KiLvRGr24cSWd2Q96RxgxAZI+RocYalV++Hkj8wEYme5kVjuQI
-         mk1VfFOxP/iKeVA7EWYnrkP1p29/6sO/tWBESu22N6mlXNWz2O3XHS0p20nw6XNYYd4f
-         W6KbkKcRItor5LA+5OI/HALWb7DagdWdsc6GekstoY3ssmKrkpuUGfBttaA971MLaxSw
-         eWC7oUIuo2n/pzQ47z1Dzk3uMYXLCZ0rxv2j7EyFd8tthtXXlplZ/BPFY3TUd90Beouz
-         n7CXy15B99gCa0/MFtP+hgBM4UMZnM2DYdPkpgH38h6FFE0bPyI+LH1yUepLNyQPd0do
-         0yAw==
-X-Forwarded-Encrypted: i=1; AJvYcCXMhJTRq5iM222v4e3ssMDTp/nLt0A7qzKjw130UNJ3NSwxyW11Cd7lZbZD+MikqrXOYqXY0KFv/1nIFA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/Ge1/yEMnX5GHhvea8dL6zakUAR0gDv1+w2hlpOU2BJlR/rD1
-	E4sjTzKyp10JB/DmczOKtEBFgIuvF/6C7e7iNQIvpgZ3XczYdvIt5/1M
-X-Gm-Gg: AY/fxX5H7KC0zfSTB50QJNpWsv2VkxBl6IdRj+fBY7iJZ+vhYRHtdfMvtVWcGHUlOID
-	erbodTYx6vsmuQsZfH/0DhlIrjMZgKqKZKIbGUegRoDzYzXmWuRJCGIOPOGva6JK4aB2R8vAdDt
-	+t/B8FJf/Pt+NwdLxCV71tX4SQtSPtRe4cGqKmJqPELhKKwEfo3Kp6cnD0p+GgpEuTi3T48NVxP
-	tr2nEW8yyhOWW9EbNLPR+vzJai4gFf1t/Fp+Ab+34GMQYD4KLF1AbddFj5htoAJpwSOT6n/Z/un
-	oG0LQBI3Bvkf9OV8viS3YmtRYKc0MyCf9i72lECXdKfI2L6dnjPS5TeZMA3uGNsIylE8c4+JHRN
-	aYlsvE6KfO1vPAWJ2JaH/ErYd5BUlXeE5TrwXl+7ceTjjtlN3WbngIDInXD8fB35TBE3y6U2Zhs
-	E0d8cp
-X-Received: by 2002:a17:902:c410:b0:29e:a615:f508 with SMTP id d9443c01a7336-2a599e23086mr9306655ad.28.1768353563768;
-        Tue, 13 Jan 2026 17:19:23 -0800 (PST)
-Received: from localhost ([2001:67c:1562:8007::aac:4468])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cb2e26sm208067015ad.48.2026.01.13.17.19.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jan 2026 17:19:23 -0800 (PST)
-Sender: AceLan Kao <acelan@gmail.com>
-From: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
-To: Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] dma-buf: set SB_I_NOEXEC and SB_I_NODEV on dmabuf filesystem
-Date: Wed, 14 Jan 2026 09:19:16 +0800
-Message-ID: <20260114011917.241196-1-acelan.kao@canonical.com>
-X-Mailer: git-send-email 2.51.0
+        d=1e100.net; s=20230601; t=1768354520; x=1768959320;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tbLyVWXmVL2eJA5y9LHtBYuhAL4cRiZrb7+YgmccOwA=;
+        b=uGjZaQQWLUAuS/cRStnZhBuOVNSmzY7n3VLl0OUaTjWj1S00JzHOlreHucmVpOglHH
+         T3gh9GY3V2bCRC7RXGXBtWGtFvBidHvOM7i9eQDDwezeOZNxXjvxLb1Gux9t+8bD75A5
+         +dY85U/EAVYhTLfvUjHAC7Ka6V+hwmg1p00Qx505VD9+QbfvPzepEr4lFplGHYT1VlLU
+         YtpZQRqEpOYpL0FNVXx6ia5583gkpx1svP2pT5TeIT5TSYOFiRrpq4dwl0m+aoVGJldb
+         mfLU2U5IGQaf131RSo0UMHgF0GsiHf6Wfhq0iW2i4e9kt+CiG8XoL8b6TFqDpiiBNdIV
+         X9iQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVMChP8+xWF9J7TfjYR+5B7QQpAWulcs2cOupZu8/V1lJUqZUoztDBxF3vQDJvY5BBPwAbNOgdUQOsxlw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyKxngKsOGOkye21Xs4Zr69gA9asMc99rjHK0C63bS0rjPgn5WG
+	LLqryD8JY+t3iIEMtlf7sHonPKZSxDPViziRwRBv1sGwSKdH8Vab4vuArW0utuUQMy85ywa4S15
+	S9QrfCTcyCI0M+RwOHStkNSeTNA+tdXHgLHnWoa8op4qPDukpGnrihzSVLMNd2jfD3Q==
+X-Gm-Gg: AY/fxX4vdbvONEW+748Z0BsAKzpgyA96MuTBPCZcFR7zHXvfFXzv9VZCxjbrqa2jd2l
+	Wa8ayrSRtG/DfiaSNp+05iYgPgxHxywJPx8u9q3Vws8JDvIOdDUX+Osqu0Y9+0hdYZk+fLnZHHc
+	RaORuUXHVg5J6mEU7AWhL9aCSB6TuJDK2tY78wrMVwp50KDal/I4kvOkLnsFJvuhf+8laWc4cMo
+	SrFD5CBHvxqxBIKY0hgQ1Q2KG26RwbFqKH8setrt9EPSH5nz/ICttuSiAASKxmKao3rt/zCN84d
+	slMdA5SCsSiBkAkGeUr1Yf3nvkpprLdm+wxfmMFM34depZ01WItaHC1p0ut92kTXdHbm1lVBiAB
+	z3up17XPMReK1fZl+FR+zp/XrVOFkCEHw/0HKu+bk7X9XnZkf+F1LAk/ADPdC+TLUgKo5FATy3/
+	Fmm+Q7xg==
+X-Received: by 2002:a17:902:c410:b0:29e:a615:f508 with SMTP id d9443c01a7336-2a599e23086mr9724655ad.28.1768354520259;
+        Tue, 13 Jan 2026 17:35:20 -0800 (PST)
+X-Received: by 2002:a17:902:c410:b0:29e:a615:f508 with SMTP id d9443c01a7336-2a599e23086mr9724405ad.28.1768354519752;
+        Tue, 13 Jan 2026 17:35:19 -0800 (PST)
+Received: from [10.133.33.186] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3ba03f9sm210077615ad.0.2026.01.13.17.35.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Jan 2026 17:35:19 -0800 (PST)
+Message-ID: <b3cf9b7c-b692-4a17-8e22-6df356db8834@oss.qualcomm.com>
+Date: Wed, 14 Jan 2026 09:35:12 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/5] media: qcom: camss: Add SM8750 compatible camss
+ driver
+To: Vijay Kumar Tumati <vijay.tumati@oss.qualcomm.com>,
+        Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        jeyaprakash.soundrapandian@oss.qualcomm.com
+References: <20260113-sm8750-camss-v2-0-e5487b98eada@oss.qualcomm.com>
+ <20260113-sm8750-camss-v2-2-e5487b98eada@oss.qualcomm.com>
+ <61801034-225f-429c-9f34-f80044506bf3@oss.qualcomm.com>
+Content-Language: en-US
+From: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
+In-Reply-To: <61801034-225f-429c-9f34-f80044506bf3@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE0MDAwOCBTYWx0ZWRfX99MJlBEe6GB7
+ AUVKs6TiSLK+m2JoA9mo81JLrHvCdbzaL7Jgodppjv63b1kS0JJzAJbIt4/tu1G10FevDp8oT5N
+ r7Uk3HEtme2RvkUX87bBHG+mnJNBIxBNp3uVDK7pGcH8yjeNhUXayzEvtaJUy9B07lKzRC5wfYh
+ lRlqm8luYFxp5Z4ZRMgT8pjJMuE0S0ctlLE1e4Ws8Pg2q7dvwV3ZCI9AdABqLIDiRnYM+pDAjJ+
+ JJwFGGSeRKnrKA2K1PztyPzIexD9Coge8P/KalDtHQXfbn02qCqiANvP4nORG0Pjj1+1qc36N+u
+ XkqDQck7T71qHqJR8rl/hP3b14uhsiEpBX446NAba3Fu/E8NDEG2UMotIaq82kUuDgtpEw5NtzN
+ OmzzDoRsvHFqytqZce5fI3UGH6v9jMBQdZ8cVfLHFfdny9uaVXzIfDYKHoixhhR5SoDAzzuqPEz
+ r33TdMgVurGdfXA0Gpg==
+X-Proofpoint-ORIG-GUID: XGvBYu2GUr0nroez1SqLCyq-35lyhQ8l
+X-Authority-Analysis: v=2.4 cv=efEwvrEH c=1 sm=1 tr=0 ts=6966f2d9 cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=3IMT_TZWw9feNxxRiIEA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22
+X-Proofpoint-GUID: XGvBYu2GUr0nroez1SqLCyq-35lyhQ8l
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-13_04,2026-01-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 priorityscore=1501 adultscore=0 clxscore=1015 malwarescore=0
+ suspectscore=0 phishscore=0 impostorscore=0 lowpriorityscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601140008
 
-The VFS now warns if an inode flagged with S_ANON_INODE is located on a
-filesystem that does not have SB_I_NOEXEC set. dmabuf inodes are
-created using alloc_anon_inode(), which sets S_ANON_INODE.
+On 1/14/2026 4:53 AM, Vijay Kumar Tumati wrote:
+> 
+> On 1/13/2026 2:28 AM, Hangxiang Ma wrote:
+>> Add support for SM8750 in the camss driver. Add high level resource
+>> information along with the bus bandwidth votes. Module level detailed
+>> resource information will be enumerated in the following patches of the
+>> series.
+>>
+>> Signed-off-by: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
+> Hi Hangxiang, I believe some reviewed-by tags are missing for these 
+> patches. Can you please double check?
+>> ---
+>>   drivers/media/platform/qcom/camss/camss.c | 22 ++++++++++++++++++++++
+>>   drivers/media/platform/qcom/camss/camss.h |  1 +
+>>   2 files changed, 23 insertions(+)
+>>
+>> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/ 
+>> media/platform/qcom/camss/camss.c
+>> index 36ff645d9c1e..56f20daeca3e 100644
+>> --- a/drivers/media/platform/qcom/camss/camss.c
+>> +++ b/drivers/media/platform/qcom/camss/camss.c
+>> @@ -4066,6 +4066,20 @@ static const struct resources_icc 
+>> icc_res_sa8775p[] = {
+>>       },
+>>   };
+>> +static const struct resources_icc icc_res_sm8750[] = {
+>> +    {
+>> +        .name = "cam_ahb",
+>> +        .icc_bw_tbl.avg = 150000,
+>> +        .icc_bw_tbl.peak = 300000,
+>> +    },
+>> +    /* Based on 4096 x 3072 30 FPS 2496 Mbps mode */
+>> +    {
+>> +        .name = "cam_hf_mnoc",
+>> +        .icc_bw_tbl.avg = 471860,
+>> +        .icc_bw_tbl.peak = 925857,
+>> +    },
+>> +};
+>> +
+>>   static const struct camss_subdev_resources csiphy_res_x1e80100[] = {
+>>       /* CSIPHY0 */
+>>       {
+>> @@ -5487,6 +5501,13 @@ static const struct camss_resources 
+>> sm8650_resources = {
+>>       .vfe_num = ARRAY_SIZE(vfe_res_sm8650),
+>>   };
+>> +static const struct camss_resources sm8750_resources = {
+>> +    .version = CAMSS_8750,
+>> +    .pd_name = "top",
+>> +    .icc_res = icc_res_sm8750,
+>> +    .icc_path_num = ARRAY_SIZE(icc_res_sm8750),
+>> +};
+>> +
+>>   static const struct camss_resources x1e80100_resources = {
+>>       .version = CAMSS_X1E80100,
+>>       .pd_name = "top",
+>> @@ -5518,6 +5539,7 @@ static const struct of_device_id 
+>> camss_dt_match[] = {
+>>       { .compatible = "qcom,sm8250-camss", .data = &sm8250_resources },
+>>       { .compatible = "qcom,sm8550-camss", .data = &sm8550_resources },
+>>       { .compatible = "qcom,sm8650-camss", .data = &sm8650_resources },
+>> +    { .compatible = "qcom,sm8750-camss", .data = &sm8750_resources },
+>>       { .compatible = "qcom,x1e80100-camss", .data = 
+>> &x1e80100_resources },
+>>       { }
+>>   };
+>> diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/ 
+>> media/platform/qcom/camss/camss.h
+>> index 616ed7bbb732..2a53524dec93 100644
+>> --- a/drivers/media/platform/qcom/camss/camss.h
+>> +++ b/drivers/media/platform/qcom/camss/camss.h
+>> @@ -91,6 +91,7 @@ enum camss_version {
+>>       CAMSS_845,
+>>       CAMSS_8550,
+>>       CAMSS_8650,
+>> +    CAMSS_8750,
+>>       CAMSS_8775P,
+>>       CAMSS_KAANAPALI,
+>>       CAMSS_X1E80100,
+> 
+> Thanks,
+> 
+> Vijay.
+> 
+Hi Vijay, the B4 tool didn’t retrieve any ‘Review-by’ tags before I 
+submitted this revision. Since I wasn’t sure if they were valid, I 
+didn’t handle that by adding tags manually.
 
-This triggers a warning in path_noexec() when a dmabuf is mmapped, for
-example by GStreamer's v4l2src element.
+Hi Bryan, is it possible for me to add the 'Review-by' tags manually if 
+B4 doesn't pick them up automatically? Your feedback would be helpful so 
+I can manage this situation better in the future.
 
-[   60.061328] WARNING: CPU: 2 PID: 2803 at fs/exec.c:125 path_noexec+0xa0/0xd0
-...
-[   60.061637]  do_mmap+0x2b5/0x680
-
-The warning was introduced by commit 1e7ab6f67824 ("anon_inode: rework
-assertions") which added enforcement that anonymous inodes must be on
-filesystems with SB_I_NOEXEC set.
-
-Fix this by setting SB_I_NOEXEC and SB_I_NODEV on the dmabuf filesystem
-context, following the same pattern as commit ce7419b6cf23d ("anon_inode:
-raise SB_I_NODEV and SB_I_NOEXEC") and commit 98f99394a104c ("secretmem:
-use SB_I_NOEXEC").
-
-Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
----
- drivers/dma-buf/dma-buf.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index a4d8f2ff94e46..dea79aaab10ce 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -221,6 +221,8 @@ static int dma_buf_fs_init_context(struct fs_context *fc)
- 	if (!ctx)
- 		return -ENOMEM;
- 	ctx->dops = &dma_buf_dentry_ops;
-+	fc->s_iflags |= SB_I_NOEXEC;
-+	fc->s_iflags |= SB_I_NODEV;
- 	return 0;
- }
- 
--- 
-2.51.0
-
+Best Regards,
+Hangxiang
 
