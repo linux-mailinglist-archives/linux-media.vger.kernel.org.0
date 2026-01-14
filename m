@@ -1,114 +1,110 @@
-Return-Path: <linux-media+bounces-50688-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50689-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 833CCD1E6E6
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 12:35:03 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6234D1EA31
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 13:05:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 0DD2930055B8
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 11:34:51 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A76AC3047939
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 12:05:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA325381715;
-	Wed, 14 Jan 2026 11:34:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D9F7218AAD;
+	Wed, 14 Jan 2026 12:05:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="FbIj0Ne7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bTleEYBv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7137E395DB1
-	for <linux-media@vger.kernel.org>; Wed, 14 Jan 2026 11:34:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A4223557EA;
+	Wed, 14 Jan 2026 12:04:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768390479; cv=none; b=mEb2qIv1K7rky4V4jNT5F4epVUqRlj+8Qa/S62DiNgIp82XYw27oHzmtQLT3mmjP3M03Y84CZAkr1+hCmtfNmAvMsa5Jp23jfKV4LVT0Xo0RxDLtIdLlhWScbHPOisWKpcGDZjiY5LRaUp0ILuTadmblO69ZEs3XL8Jvk9exYmY=
+	t=1768392299; cv=none; b=AsIitnT9deqr8dNVV52f8X30/qavG/c7JIY+JiRAHRUfXlW/rVCel1ryFnbpJ9CqtXZQlPhBowkT7lw+Z0vvDOUXJndEBUQxL51vvj8fJwH9gxADFN/f3BhOyHdLU5wiUTcyxIj+Y7RXCeqjjqpBAvwCxvatpgmlXMccYVV4Y9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768390479; c=relaxed/simple;
-	bh=lr2jaXKLTYSemiRd4WCZWM7A71D5r7zK+ViV8cSzJ+U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oUbzEHP/nhiHT+XAHyRSfP6WwkY9gZRcjsCX2KK5+9l/7zd3W1ckcONI2HmPOOTR90zE5/uMVIWNceFIlzYUCCf1+IeRGQ/7MDgzS+QwPoZaSbvra8ezYObk5LRnC7kJb0eQaUyk8x76r8lM6Wda8v//xsHn5dUueinV6AOlKcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=FbIj0Ne7; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=lr2j
-	aXKLTYSemiRd4WCZWM7A71D5r7zK+ViV8cSzJ+U=; b=FbIj0Ne7HcdUaAEP0iAU
-	A55rGJ0oyna5P19mF+Qqxxdtkv9Cgi3ikY/VAziIha2Ymf37Sh7GcN6qaW4QeEEo
-	sBd+8Q/J4ZH0/a8KKWXi52G6yRrBYbtJHOc1MKWYeouC1RokrNbBn26LBMwcnNgu
-	8T93ffuZswv71EcU6CqAiK3f2JCJOYkgcxnkvqxbylojhjxtVsYe3sxNiK670Caz
-	EFvOqfSrAgjRTV+nnMfGbAdKt7v7gg/v17ziuAIKwmm1lI2cmH/CktRAautTnLuL
-	iGUMHmLaorf+k2EQ1TVUaIc7xjC+XNtiOXCvHeyQm9tY2O4ji9uDHLMak36lcI8j
-	2w==
-Received: (qmail 2108427 invoked from network); 14 Jan 2026 12:34:35 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Jan 2026 12:34:35 +0100
-X-UD-Smtp-Session: l3s3148p1@WxbafVdI0IsujnsM
-Date: Wed, 14 Jan 2026 12:34:30 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>,
-	Viken Dadhaniya <viken.dadhaniya@oss.qualcomm.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Wolfram Sang <wsa@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH] i2c: qcom-geni: make sure I2C hub controllers can't use
- SE DMA
-Message-ID: <aWd_RtYqGyUkjQao@ninjato>
-References: <20251029-topic-sm8x50-geni-i2c-hub-no-dma-v1-1-5e264258a5bd@linaro.org>
+	s=arc-20240116; t=1768392299; c=relaxed/simple;
+	bh=8Vys6z8x451y8jCfmv4tHJdqji+vE+8qZ4G6/y7V1fs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=uUmqcilZifmKtrkJBmoogxHkpte6lnl3w1JX7a0beoCVlMCYy0wJhj1mSeyPei/DOnZiQE7ElpvRzr8g3CzHHctB12c3Wq6l25lFHGvvlM6P7cBZrrw9WO0Gi+Tjo4xRZhjS4npEER4EiDizihwytlyKkaKzJ89J+LSmIq93eXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bTleEYBv; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768392297; x=1799928297;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=8Vys6z8x451y8jCfmv4tHJdqji+vE+8qZ4G6/y7V1fs=;
+  b=bTleEYBvTPwiLQ7JdoJfPVn5CnnqxLFhU0cJXLT/WCocWWV+IrIsxH9Y
+   m0O+NZ88XyF+18CNPzRXV+VuIKzKFJndh2UouFGnHK9RfHykWen8hM8Im
+   PECNs5SOYDUMPhMAWf8HbHONDZDsw9jmPT9dqONtaIK1DCp6WyyL82VuX
+   Zz+6jMwMlMN02c2QjbeqHSXes9D9feSJOieYOPG5rpAUDvOI6rLE7hGLU
+   bjjZ/Z/vDvGUICwkPtxPbV8EW/++9bKIrK8N4YTpLbW8kU1guoQY1ubiV
+   7p7sjp6LuDgrBeVkI0uCHxM5QBqbrGD/Fka48fmiW5GEl6U2SqTahuao1
+   A==;
+X-CSE-ConnectionGUID: IS4Nkmv5Q0qzqL+nXJT6zw==
+X-CSE-MsgGUID: G1AuqM+JTWq8Wl5pWX/cRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="69608381"
+X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
+   d="scan'208";a="69608381"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 04:04:56 -0800
+X-CSE-ConnectionGUID: L5TFJIbzQHuz1awGSe6Qmg==
+X-CSE-MsgGUID: UaaRHJhvTS+nCq8qGoc/sQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
+   d="scan'208";a="242205696"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.94])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 04:04:48 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Nishanth Menon <nm@ti.com>,
+ "Andrew F. Davis" <afd@ti.com>, Randolph Sapp <rs@ti.com>, Jonathan
+ Humphreys <j-humphreys@ti.com>, Andrei Aldea <a-aldea@ti.com>, Chirag
+ Shilwant <c-shilwant@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>, Tero
+ Kristo <kristo@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Oded
+ Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Sumit
+ Semwal <sumit.semwal@linaro.org>, Christian =?utf-8?Q?K=C3=B6nig?=
+ <christian.koenig@amd.com>
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Subject: Re: [PATCH 4/5] accel/thames: Add IOCTL for job submission
+In-Reply-To: <20260113-thames-v1-4-99390026937c@tomeuvizoso.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+References: <20260113-thames-v1-0-99390026937c@tomeuvizoso.net>
+ <20260113-thames-v1-4-99390026937c@tomeuvizoso.net>
+Date: Wed, 14 Jan 2026 14:04:44 +0200
+Message-ID: <1acdffd8f05eae0a3531d43d3919d8bd4558f37a@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="RMEH12Dl56iOtTld"
-Content-Disposition: inline
-In-Reply-To: <20251029-topic-sm8x50-geni-i2c-hub-no-dma-v1-1-5e264258a5bd@linaro.org>
+Content-Type: text/plain
+
+On Tue, 13 Jan 2026, Tomeu Vizoso <tomeu@tomeuvizoso.net> wrote:
+> +#include "linux/dev_printk.h"
+
+Random drive-by comment, please use <> instead of "" for include/
+headers.
+
+> +#include <drm/drm_file.h>
+> +#include <drm/drm_gem.h>
+> +#include <drm/drm_print.h>
+> +#include <drm/thames_accel.h>
+> +#include <linux/platform_device.h>
+
+In general, I think it will make everyone's life easier in the long run
+if the include directives are grouped and sorted.
+
+BR,
+Jani.
 
 
---RMEH12Dl56iOtTld
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Oct 29, 2025 at 07:07:42PM +0100, Neil Armstrong wrote:
-> The I2C Hub controller is a simpler GENI I2C variant that doesn't
-> support DMA at all, add a no_dma flag to make sure it nevers selects
-> the SE DMA mode with mappable 32bytes long transfers.
->=20
-> Fixes: cacd9643eca7 ("i2c: qcom-geni: add support for I2C Master Hub vari=
-ant")
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> Reviewed-by: Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>>
-
-Applied to for-current, thanks!
-
-
---RMEH12Dl56iOtTld
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmlnf0YACgkQFA3kzBSg
-Kbb1YxAAmYs6M2P+MSlXvKQkXgfmS6UTFY09WDBcqX0ouXMPYG9zzTeTHlzkfvpK
-Unobt+53hHGH1nMTnsIHOroZvR7EPWJt+myTKU9CFzS6wc3w5Su0JqaOMr1lYcT1
-VaD8+QFvs6z2wJeng9NNZNDiF2LX4LaFF8zPG+i/0KdxS3QKm9YFtiL1zSPzMa7h
-S8tg9AyR2lDDcxJwXThfEFj8QF74/iQw+nBJ5R/kfl4OWqDtYsv28y/t2ITpCWEM
-09NKIOvyLhD/720LhLTuS7pjjHMJWynq99lYhsWOdhnD0ZZdVipiHAOxoowEZIzl
-523xsVuFcLGzZLFqV2yDQU65txj6z1n/S8ycjkEiS+6pLXFvQ/Vozz1MOXz+7+1n
-1AjbBFerjy8NxXHThvNYeneqx0sg9AwY79xLYa1EYTKYowlF2s8V028rCV3eIiuz
-odsft7r7rqWs2I795ZeDL0EN/L0wtIJIxu6dVbJmzkExRbW5wdzyk/D8lvH6sCbt
-aXcEl/DZpUyU4YCJluHyx5m/9jR7DjngfGfeYIwARk9+uqOjrjF+JFDIXguqaV4K
-UUankoMGnmHJGvJNy45ttbB3QZZY4bgwcvk9WXlByMA8JlQ3aLEb7yi6T+PnCsUJ
-JYqolaQBTWfCJyW/RNcRXtCDWFL4GBv2Ori4Y8rbqFTCO9B6Y+M=
-=3JmV
------END PGP SIGNATURE-----
-
---RMEH12Dl56iOtTld--
+-- 
+Jani Nikula, Intel
 
