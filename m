@@ -1,103 +1,173 @@
-Return-Path: <linux-media+bounces-50662-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50663-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4D39D1D9E3
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 10:40:46 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E21A8D1D98F
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 10:38:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5E640305BC06
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 09:35:59 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D944F3025D9E
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 09:38:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C2B6389464;
-	Wed, 14 Jan 2026 09:35:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4CF4389457;
+	Wed, 14 Jan 2026 09:38:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="lFL4gl/M"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZIR3aNnG";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="LYLEoJ6W"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5130E38759E
-	for <linux-media@vger.kernel.org>; Wed, 14 Jan 2026 09:35:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00238387577
+	for <linux-media@vger.kernel.org>; Wed, 14 Jan 2026 09:37:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768383355; cv=none; b=puzkLEzFYSCdwzI25XulbDpjXKc5QhF6svg493J19HxNQ6gHar4bjjbY7UMWwjVrT6DnLgkg72nl5yj/hhquYFn59Zbx51zXVQymBiTnmtZozipcs2IAvha05uvcw+rUm1jmMf89CtROeGD2jZYozKk14HmVKygs3ITuMrLn2JY=
+	t=1768383481; cv=none; b=eax+SHPRx0L3DTZNq+M3n2bJL+avAVhQ5AXwpegOTQWGWoIDH1nNFgrNJI5PZuZrl9LH6+KocoKEPzGxtHmsYZJowsa6p2Bym3R/AwE7ect9jvIchfqSy+6Mx30StyXzXcQ60jKRAUf7nO48NwoGpOj8+tdm02WcexiiW3qvGzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768383355; c=relaxed/simple;
-	bh=oKxV+qFfS5FKXfTYiYm5FYHxvb0DygVGOo+vPqI0fgM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fYSBeFtvQ22OuzsAFVOKV3xAuTOYhghl9reJDum6HLjp1EY8xAqAvjzUw/aYb3uut0E1I6Ls5YE2GExla+R1TpiOgRQrJ9E5DBXaQjQQBe3UXNwTAeaS4xJG/ZlyKkKs5IblhUY07Fx28Mplke7dEJQDMLoNPW1t8K5iM3SVJpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=lFL4gl/M; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=oKxV
-	+qFfS5FKXfTYiYm5FYHxvb0DygVGOo+vPqI0fgM=; b=lFL4gl/McjXD1sWRa1jH
-	HeIc/7dIfVFpz70s9IOcucJa5FbpReYs2SQaxEkM9E6zSqbckRi4AjS6AlNJNSjL
-	3W+ha7jDa/jtBdPAb+enVK2Spd0hMtQYSHE/PZei4jeXUCkemZmGx3+XMpiLVJfI
-	iJmI7UQHTjymD2nlZ7w4Bz9XEr2u3SO4oHhdGgKRptO7Xlshj1bJXha44kkipgWB
-	EPdEnxUNV+f3facc4PkJrKuadV2mBLkM2hoY0eInAypFprC1ZvMFFypjEYO2LKa9
-	TgMKlh4p+ODDPlHZx0MsHbJfypoxxVdGvsAgupneA3Y1GTHJGF8RjfhkMg+9Bb5T
-	rg==
-Received: (qmail 2063917 invoked from network); 14 Jan 2026 10:35:50 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Jan 2026 10:35:50 +0100
-X-UD-Smtp-Session: l3s3148p1@Dudt1VVI9oMujnsM
-Date: Wed, 14 Jan 2026 10:35:50 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: saa7134: rename i2c_dbg() to saa7134_i2c_dbg()
-Message-ID: <aWdjds28O6Ph76_I@ninjato>
-References: <20260114080913.11960-1-bartosz.golaszewski@oss.qualcomm.com>
+	s=arc-20240116; t=1768383481; c=relaxed/simple;
+	bh=Q3JGsxGqTxa+quR/k2suvxodmwTgProYPmNagDneJYY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MMAvHJ9hTvfuTdPCpvXQtncL81khubixcDFBxrhJL6xM2Qi8HT5TR0jJyb4zWbY7wrbk9FJIlZ1kEkr15WSBliPgPRgVt7tyjyJvSK27ZwVk/ZCQTt+m041GJQpB8ymW29AQ/xmxasOU7CwYzPQssVUWKJGQ+lYoPU8DH35mTZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ZIR3aNnG; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=LYLEoJ6W; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60E7jAEB2587358
+	for <linux-media@vger.kernel.org>; Wed, 14 Jan 2026 09:37:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	RhhbnWDSKAq3cY01bhquUpPCOlQ2BxpDupyc8QFMtqM=; b=ZIR3aNnGGldnQyYj
+	UhaMs10N5GTIacsoOSvFIWOeLuRRwZ5lobaveKIaeJqCzbLnTbjlFbEnlU2937KW
+	0YqvSPUNXI9VDRqIFskq+hODjYuz/Pg79uq6nLJae8XoAxJmyBo84agJAN+fZSEv
+	Jg4J27UNoujc8JxEC0JkAOnJXhnBqMnXG5sGh0khnD5AUy6AEAnXFSJBpjJqpNxH
+	IE8I5ccvOt4NcHW7BNECeGDM9cUwz8PEEKi6QL/X7ypTLNF6fVQNDpe1B72KbrQG
+	ZDTojSWdrqhF3TEmt2bw/W+4FQb47Bm8usqHOPq/sWjccDAxe0Nvwx+LaqrHU0Xm
+	U3uedQ==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bnymsswgt-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 14 Jan 2026 09:37:59 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-5014f383effso245171cf.3
+        for <linux-media@vger.kernel.org>; Wed, 14 Jan 2026 01:37:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1768383478; x=1768988278; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RhhbnWDSKAq3cY01bhquUpPCOlQ2BxpDupyc8QFMtqM=;
+        b=LYLEoJ6W1Zga9eDRzkzQFVws0A0D89mZZb7FNR8UFvv03ZnQM4DhSuGyRFQJQGiReG
+         389fy5MdYiFc794pzu/N2q5JJH8Ztlls+h9c/l1/5gL2jMJBHj/yG++3QhiWB81dVAg7
+         qBJDs+tPdjfnvaO7t7aarHeV/orBTRGeHVoRtsx8A1xsDBVLEoa5eQ1sAYkEQvYIAlLY
+         Llt/Yl1mP0eC1tf49iQ5/kcAHJekvS0CjlROIVNHvgKeU6bvmi8D43QszZqi2VG8zGtT
+         /RqPmioXI55xpPKhnnvaPKIkOE1A3M0/QB+SY8x7YTBs8ZlIqsEl4/GyYdFbYD2xQKsk
+         XuMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768383478; x=1768988278;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RhhbnWDSKAq3cY01bhquUpPCOlQ2BxpDupyc8QFMtqM=;
+        b=ahpYNh22JSpTCbM4jXim8sHdwOrKx86Du8r9vOG5G65vB0Jsv/AmLt0yrb26WqqDma
+         5veSVxgNJ3B62qrjlT62vT94jMGswvQk4zsQakUk4P+1qDe+jSrYQx2GUo4KD9btNqTR
+         MGHyhKFx1vG6ZC12BYRaZ02+bDzhXVDU1KCMZw4VDwtNB8uWMXfBUUOiR/9s6OKi8fjg
+         crhZ0ES1fD6kAVtDRw08MMGNdEByek1u+btUCfMN6jYrGcM7KeuEiLlnHkMA0nXRAAEd
+         MOxI47v7/UaO76k+/Aj5ArG33dLx0r7A3Es5vqK0CPAtEmvl7pICnE8/LrCrdjZbJGpm
+         oJtQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUZETyspI7I+rnDYpViGZ3RpwSL7lfIFndlafT33LFhsaIsV7vft0QouZjjR6033V4FMpvwyA6L6T/OCQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw0xGQmGPnSAFMeLX1jWvlSlXcC/zuZRlEUhSCbfms5ZBBm2h2m
+	spNzRpMk5LYEQ1BHyNPjxy5HjMlLghyeWoZCzo1CZscyPFBuzNfJQQbT+NEmo8Dnc7thcmp2Yja
+	Sdm0xC19ciJdaRIYAtqxjPYrrwdKGQ3Y5rK4OhkRJwF/xCISgSuwNOGUEkne6mX8xIw==
+X-Gm-Gg: AY/fxX5RIh/McvZqRut7aEOaxlEL2cFKuoX8rZUsH4ENbE3QfhVtqBflRtP+xATYXQl
+	bt1ZLB80XSgQk4LsaUsi6LGjsObOttPiHkGZbMDoLB+BZ/Y6j1W/yC1cLLaumlxh+ous7pQqTpF
+	hKyDXQ5+3vFgkJP8p2nj3h8ZbMK3bWqM/Uwqy/BgrUIWNACteYNvweQzlOPdCgrG7Fzuv7Yq3Yd
+	z/JLNiqLaGEZL9MubzciwZU07JFbwfohUk1McMuPCd32jSaAKOF8lAfESyRwqreI+/96hKDHklX
+	j/Iozgak30k6UoshyiKHUsExdMLmzVgd3uk3IfcXMBpMZXkLcPtoCMS5GddUST/AXgS07bGUnzB
+	G9aLW1XvjKAv5E+lIVBHhUE6flZs/lSqGba9izNiBo6vgNK+kfciNinF2YthqTAs0rto=
+X-Received: by 2002:ac8:7d85:0:b0:4ff:b754:3a52 with SMTP id d75a77b69052e-5014816e52emr21627151cf.0.1768383478300;
+        Wed, 14 Jan 2026 01:37:58 -0800 (PST)
+X-Received: by 2002:ac8:7d85:0:b0:4ff:b754:3a52 with SMTP id d75a77b69052e-5014816e52emr21626971cf.0.1768383477873;
+        Wed, 14 Jan 2026 01:37:57 -0800 (PST)
+Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6507b8c3f89sm22240499a12.5.2026.01.14.01.37.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Jan 2026 01:37:57 -0800 (PST)
+Message-ID: <44d2ba08-e760-4f7d-bd87-6ef3a5415ebb@oss.qualcomm.com>
+Date: Wed, 14 Jan 2026 10:37:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="lSZ1+T9APsegSC8C"
-Content-Disposition: inline
-In-Reply-To: <20260114080913.11960-1-bartosz.golaszewski@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 02/11] soc: qcom: ubwc: add helper to get min_acc
+ length
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Rob Clark <robin.clark@oss.qualcomm.com>,
+        Dmitry Baryshkov
+ <lumag@kernel.org>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+        linux-media@vger.kernel.org,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+References: <20260113-iris-ubwc-v2-0-4346a6ef07a9@oss.qualcomm.com>
+ <20260113-iris-ubwc-v2-2-4346a6ef07a9@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20260113-iris-ubwc-v2-2-4346a6ef07a9@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE0MDA3OCBTYWx0ZWRfX7/Ihu5Xb3y+J
+ AFVzZ8560duIX3VYsZ7CZC0nJzqAfP2t7Xf76IujVDsVE9tzT2Yj1vt4pqMqm8NfEEhhOdIL1j2
+ G+EPt1BuFNvce1hjWJVShoD1krXPNxUaqToXxREXk6KwF0zgnf+DvC8ZJE1JrI48lg+HKSWQl4+
+ /+snBCx4c+5I/nrent/RuZJlIV+F6P19zm7OIdxV1LH76ehOyg+WyeJh0FW71UeyQO6WHczfEO/
+ offnQ23ABbwmI2YUwkRRvW6tqxUXJt6lK652MW9yBImwXEV11QZllGDQ/K7i94oB+FCdkUQ2MUz
+ 4kHJXRDZ19J1zFQEOSesYtMKfDC0pgigbX1X4nIF3RR3cj7MEJ0bJifFLuhOzNWQhSKRzpCNsvn
+ yb18S5zTuqAeZ5kcDjNbX68PGekG5+LhnIpbEOQL95Lacdgc/hblyl5gXwAUvYuA/vgsU2ot1RK
+ FXMd4yzkE+p8YW/pCug==
+X-Proofpoint-GUID: ttGxHtu3rDVTrkvH41Klp1XPzLiwtw5r
+X-Proofpoint-ORIG-GUID: ttGxHtu3rDVTrkvH41Klp1XPzLiwtw5r
+X-Authority-Analysis: v=2.4 cv=RuDI7SmK c=1 sm=1 tr=0 ts=696763f7 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8
+ a=4J1ihs_Kgnsqm2W37X4A:9 a=QEXdDO2ut3YA:10 a=dawVfQjAaf238kedN5IG:22
+ a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-14_03,2026-01-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 bulkscore=0 phishscore=0 adultscore=0 priorityscore=1501
+ spamscore=0 lowpriorityscore=0 suspectscore=0 clxscore=1015 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601140078
 
+On 1/13/26 5:57 PM, Dmitry Baryshkov wrote:
+> MDSS and GPU drivers use different approaches to get min_acc length.
+> Add helper function that can be used by all the drivers.
+> 
+> The helper reflects our current best guess, it blindly copies the
+> approach adopted by the MDSS drivers and it matches current values
+> selected by the GPU driver.
+> 
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
 
---lSZ1+T9APsegSC8C
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-On Wed, Jan 14, 2026 at 09:09:13AM +0100, Bartosz Golaszewski wrote:
-> Ahead of introducing I2C-adapter-specific printk() helpers, preemptively
-> avoid a conflict with the upcoming i2c_dbg() and rename the local macro
-> in the saa7134 driver to saa7134_i2c_dbg().
->=20
-> Suggested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Konrad
 
-Great, thanks for the update!
-
-
---lSZ1+T9APsegSC8C
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmlnY3YACgkQFA3kzBSg
-KbbEEhAAsQIGxMRyGPYU7z6RxQPsDC1F6bCHXqt5n+fIpN+4trQvFRoPK5niFYEa
-BE1MnyMAo+Gbch7y76n8pGlLD1mgp/Fnz2mQ7K/avIHHT0B5M5EMWjQOVhCs8a0J
-8nEEUiMjfczRtLUvzFW3m/oNRvsyYs7t7UkaphXd56WzMS8IrkVe1iTAMcbJeU4o
-mrq+mtMv7YT+v1KxoEpop2uGBtAEBsY0CgUZsJZ0paTH8QOxlZ2zTjVGd3SEKulC
-aqxk1KE+TQWB0IMXeCez/uhvgZTOmsMY6LrCDqFYrOakmP114izT7Zd89KlEAzbf
-LLa5Rga0AThMXtAXDHqZO/J+p0NOLfgN/bCU2viiOY1RRencpXpDNgUT0/5kIvbh
-8rO2AP8EmZLdcKfl/FBOryQHnBgcNEUO7YdRW6yYRwWL1sZarj1A8wCbgPGpRd8P
-bD+yHmLUzBEYSpTWqNyVvQXp8vxaZhp3t+g+6Rj/8tbP9HdSaTEIdoTG/xUQtLot
-n0H1weJIFNKXPAX6xMZ6085OpwXBwg7VSVrJtX1jDNUPf7TtXchGym4sGQVwQM9D
-OXYLD+eJFpogHLo3eiVk1f5UYUF4Ism6fS7ZA9K2G34NvarldL2jFUir8iNCgWNu
-7hs4ypVVrK7QMh1+j8wgMp2KPB9LkDo4Y24ItTlC08dMM2fX1zE=
-=pfTZ
------END PGP SIGNATURE-----
-
---lSZ1+T9APsegSC8C--
 
