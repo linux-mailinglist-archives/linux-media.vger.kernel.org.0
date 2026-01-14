@@ -1,190 +1,148 @@
-Return-Path: <linux-media+bounces-50700-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50701-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40CB1D1F026
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 14:15:02 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B100D1F020
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 14:14:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A692F30C4302
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 13:11:24 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 7F93A300EE40
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 13:14:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B69E39A7F5;
-	Wed, 14 Jan 2026 13:11:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A6AA39A807;
+	Wed, 14 Jan 2026 13:14:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b="X0ks54VN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f/COzU0D"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88099399A79;
-	Wed, 14 Jan 2026 13:11:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768396282; cv=pass; b=shhH+EVKGqcYrspzddN9G34XwCkPvUFkPQzbwOl9TRjVYZv6U4CT4NmXmE5FdHN6Wli20qjKJDuKAw3gLq01bVR4kwqDSM1iYYzTByPcR2uO8feVtf0FPLbBOMYQxzZLeS73u5dF6FN5qHFvEjCm5tMMIxQIRxV6XMW94OkANlw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768396282; c=relaxed/simple;
-	bh=hEBx7s5oIuzjVK0WdxnRyJ/sv3t+07BmPx76PT3AJmo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=udXH7Sufn6Ss7obdhp/uXzgnTThtmKmULDJgqVZp+B7hRzZ9WX6AhhCLItzZtYNw784ExOat45YzADHbYtJMKF3d8P/tRdtmAtPwALJht4s9YybE0MDHXERhdF8B5QGyiLLh50TOehJYAOhWUoWfMmkw8xksdZy6n3WfWxlOEDU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b=X0ks54VN; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1768396254; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=fzE7FgxAedH8uxX0VAeiDhzKipXVqRZ2kiSaXoud202thrp2+5O0CXyk+xIlkiRZd5FelhJ7OfDbg7xjDiPjBQHnMrFQA4eg5yMHe2vJFDsPFTzStZaMYkZ+0a6VwBMQrDybVis6CkxQNWYIKk2FvDI+mq8EJsjL31tFIBxCJhE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1768396254; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=4hNT9bMCTFBIbSQvqXd0vDReNnQZh/9obugkKAGLY2o=; 
-	b=Z3ypKbyrmN4UqyBQ/OpBF0Xt+PTnoN3lrsmi+bnS58U5VogPFE79P61hocJTfKf5V4yeQUd9Dfy44nOaW/WC25OHnrTWbgoBS3LtfodwTnaOr6emvOzBy7xsnqNFLv3pUEjJzX10wSd/uftfocWF4QyMhk9grdCDQXvxtzl1+lU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=benjamin.gaignard@collabora.com;
-	dmarc=pass header.from=<benjamin.gaignard@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1768396254;
-	s=zohomail; d=collabora.com; i=benjamin.gaignard@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=4hNT9bMCTFBIbSQvqXd0vDReNnQZh/9obugkKAGLY2o=;
-	b=X0ks54VN6tfrUJdG2MPakQ5UFB3h6zKvKNfKKUpWpfUgWbgTHNnEgeD2+PI0HybV
-	/b/+j9T6abRwqDw2PyUsCs8QMYnRBo+QkfQoyl0BFB0gA9BjsbvJnHM3TbfTefcK6+5
-	tNFmo4rlMi7g8x4CgqPkwptI/h8vsuTzlNYwEVbs=
-Received: by mx.zohomail.com with SMTPS id 1768396253114813.88687353656;
-	Wed, 14 Jan 2026 05:10:53 -0800 (PST)
-Message-ID: <db0950f1-b357-47c2-9829-e33262ab456d@collabora.com>
-Date: Wed, 14 Jan 2026 14:10:48 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AF9339A805
+	for <linux-media@vger.kernel.org>; Wed, 14 Jan 2026 13:14:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768396482; cv=none; b=L46kHAmVnfMhq+QKo6X0LyyNerNiQggStkIh9Mm0phB4LixvHQBtxnn4GAvk3oIkTX58VIbcrf7PaDbgeMGT20GkE4hMtGDEELrvaRX1Guqr3JePYCeg+ar2e9hLT2AQ5l3EfIEoBJK6e9W4kbHknuAibh0yJ3SsJ88xPEy/TpU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768396482; c=relaxed/simple;
+	bh=8Mk41d+wbLXmd9xsDJRd9qZvlp0u48NZgYtyWrbX6Ss=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dD1q5wd2J8tMQJbTAzWdBmCk942vN9rCLQjr7wjEYrImvbtGOIF8JD/VxI9GsUj9kBK8srQapl0qOf1vV7wgoiNRzFJiIiRSWOnXuUrrIdn6+vShM4SRNi+sCuQcbqq7aCOq7HlzdrXE0TReAdU2WC+z0QBZUwBmWWv5tOoz+YE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f/COzU0D; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768396481; x=1799932481;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8Mk41d+wbLXmd9xsDJRd9qZvlp0u48NZgYtyWrbX6Ss=;
+  b=f/COzU0DbN9hAcB7ZA+HSJ8nrmeFsxjK6sGUAHeQ/edw5LXQZmJUQaUN
+   XwHnn41pq1jPk/V2j+8cw5wDk48tVQM9QpWzLLB1H3elyr0oubXNHKhpz
+   HiPKybv/kh+cy0jecROHL4a3E9nm/M0H5r4AAhy1jScEbB6Oq3VdsQViz
+   8yaWjld7QRgQq+SXPDydnggv1ikcAPh7t75mcvh79OR7L44F0THPHuvZO
+   QIPy6StZmxFzYWPBevTdAbVyJ4oFzE5uYJpTboJmHfgiB7qiYIy6khPXi
+   9mbMIJeA5iYpJAyvMbjeXDKbc5AYWUVXNDWyGo3QVaEkDxSSMENjD4GZi
+   w==;
+X-CSE-ConnectionGUID: s6Qq5gJhSoemvb2y+HUjVw==
+X-CSE-MsgGUID: 66WljtjzQ82D4Qn3yR3ADQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="72276803"
+X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
+   d="scan'208";a="72276803"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 05:14:41 -0800
+X-CSE-ConnectionGUID: uT/bxbKRTgiL9WugsOrGaw==
+X-CSE-MsgGUID: +T6x+y3pR4uGRIomlVj/aA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
+   d="scan'208";a="235938319"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO mdjait-mobl) ([10.245.244.158])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 05:14:39 -0800
+Date: Wed, 14 Jan 2026 14:14:32 +0100
+From: Mehdi Djait <mehdi.djait@linux.intel.com>
+To: Hans de Goede <hansg@kernel.org>
+Cc: Bingbu Cao <bingbu.cao@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>, 
+	mehdi.djait@intel.com
+Subject: Re: [PATCH 1/1] media: ov01a10: Fix test pattern assignment
+Message-ID: <n3xke3e7trpry7n5f62gpxpb6qf4dvxdckhonj3r3tdqiy7je3@zkaixrffks55>
+References: <20260113082512.102779-1-sakari.ailus@linux.intel.com>
+ <988fe458-da1d-4042-92fa-8e1b80e09d5e@kernel.org>
+ <a6768fbf-9efb-9fbd-75c1-c6ed5710931c@linux.intel.com>
+ <61fe8284-9933-482d-80d2-8fe3b87d5ab7@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 3/7] iommu: Add verisilicon IOMMU driver
-To: Will Deacon <will@kernel.org>
-Cc: joro@8bytes.org, robin.murphy@arm.com, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, heiko@sntech.de,
- nicolas.dufresne@collabora.com, p.zabel@pengutronix.de, mchehab@kernel.org,
- iommu@lists.linux.dev, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
- kernel@collabora.com
-References: <20260107101005.84039-1-benjamin.gaignard@collabora.com>
- <20260107101005.84039-4-benjamin.gaignard@collabora.com>
- <aWZui-rn5RDPwpEO@willie-the-truck>
- <68a49f8b-178c-4fa2-b4a9-315ad602271d@collabora.com>
- <aWeTQ50DOtntcniN@willie-the-truck>
-Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <aWeTQ50DOtntcniN@willie-the-truck>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <61fe8284-9933-482d-80d2-8fe3b87d5ab7@kernel.org>
 
+Hi Hans, Bingbu and Sakari,
 
-Le 14/01/2026 à 13:59, Will Deacon a écrit :
-> On Tue, Jan 13, 2026 at 05:25:38PM +0100, Benjamin Gaignard wrote:
->> Le 13/01/2026 à 17:10, Will Deacon a écrit :
->>> Hi Benjamin,
->>>
->>> Thanks for posting a v11.
->>>
->>> On Wed, Jan 07, 2026 at 11:09:53AM +0100, Benjamin Gaignard wrote:
->>>> The Verisilicon IOMMU hardware block can be found in combination
->>>> with Verisilicon hardware video codecs (encoders or decoders) on
->>>> different SoCs.
->>>> Enable it will allow us to use non contiguous memory allocators
->>>> for Verisilicon video codecs.
->>>> If both decoder and this iommu driver are compiled has modules
->>>> there is undefined symboles issues so this iommu driver could
->>>> only be compiled has built-in.
->>>>
->>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>>> ---
->>>> changes in version 11:
->>>> - Fix dependency issue when decoder driver is build as module.
->>>>
->>>>    drivers/iommu/Kconfig     |  11 +
->>>>    drivers/iommu/Makefile    |   1 +
->>>>    drivers/iommu/vsi-iommu.c | 808 ++++++++++++++++++++++++++++++++++++++
->>>>    include/linux/vsi-iommu.h |  21 +
->>>>    4 files changed, 841 insertions(+)
->>>>    create mode 100644 drivers/iommu/vsi-iommu.c
->>>>    create mode 100644 include/linux/vsi-iommu.h
->>> Based on your reply to v9:
->>>
->>> https://lore.kernel.org/all/0eff8b1a-c45f-47b1-a871-59f4a0101f0f@collabora.com/
->>>
->>> I took another look at this to see whether it had changed significantly
->>> from v6 when compared to the rockchip driver. Sadly, they still look
->>> very similar to me and I continue to suspect that the hardware is a
->>> derivative. I really don't understand why having a shared implementation
->>> of the default domain ops is difficult or controversial. Have you tried
->>> to write it?
->>>
->>> However, given that nobody from the Rockchip side has contributed to the
->>> discussion and you claim that this is a distinct piece of IP, I don't
->>> want to block the merging of the driver by leaving the conversation
->>> hanging.
->>>
->>> There is still one thing I don't understand (which, amusingly, the
->>> rockchip driver doesn't seem to suffer from):
->>>
->>>> +static void vsi_iommu_flush_tlb_all(struct iommu_domain *domain)
->>>> +{
->>>> +	struct vsi_iommu_domain *vsi_domain = to_vsi_domain(domain);
->>>> +	struct list_head *pos;
->>>> +	unsigned long flags;
->>>> +
->>>> +	spin_lock_irqsave(&vsi_domain->lock, flags);
->>>> +
->>>> +	list_for_each(pos, &vsi_domain->iommus) {
->>>> +		struct vsi_iommu *iommu;
->>>> +		int ret;
->>>> +
->>>> +		iommu = list_entry(pos, struct vsi_iommu, node);
->>>> +		ret = pm_runtime_resume_and_get(iommu->dev);
->>>> +		if (ret < 0)
->>>> +			continue;
->>>> +
->>>> +		spin_lock(&iommu->lock);
->>>> +
->>>> +		writel(VSI_MMU_BIT_FLUSH, iommu->regs + VSI_MMU_FLUSH_BASE);
->>>> +		writel(0, iommu->regs + VSI_MMU_FLUSH_BASE);
->>>> +
->>>> +		spin_unlock(&iommu->lock);
->>>> +		pm_runtime_put_autosuspend(iommu->dev);
->>>> +	}
->>>> +
->>>> +	spin_unlock_irqrestore(&vsi_domain->lock, flags);
->>>> +}
->>> [...]
->>>
->>>> +static const struct iommu_ops vsi_iommu_ops = {
->>>> +	.identity_domain = &vsi_identity_domain,
->>>> +	.release_domain = &vsi_identity_domain,
->>>> +	.domain_alloc_paging = vsi_iommu_domain_alloc_paging,
->>>> +	.of_xlate = vsi_iommu_of_xlate,
->>>> +	.probe_device = vsi_iommu_probe_device,
->>>> +	.release_device = vsi_iommu_release_device,
->>>> +	.device_group = generic_single_device_group,
->>>> +	.owner = THIS_MODULE,
->>>> +	.default_domain_ops = &(const struct iommu_domain_ops) {
->>>> +		.attach_dev		= vsi_iommu_attach_device,
->>>> +		.map_pages		= vsi_iommu_map,
->>>> +		.unmap_pages		= vsi_iommu_unmap,
->>>> +		.flush_iotlb_all	= vsi_iommu_flush_tlb_all,
->>> This has no callers and so your unmap routine appears to be broken.
->> It is a leftover of previous attempt to allow video decoder to clean/flush
->> the iommu by using a function from the API.
->> Now it is using vsi_iommu_restore_ctx().
->> I while remove it in version 12.
-> Don't you still need some invalidation on the unmap path?
+On Wed, Jan 14, 2026 at 10:30:49AM +0100, Hans de Goede wrote:
+> Hi Bingbu,
+> 
+> On 14-Jan-26 04:13, Bingbu Cao wrote:
+> > Hans,
+> > 
+> > On 1/13/26 6:42 PM, Hans de Goede wrote:
+> >> Hi,
+> >>
+> >> On 13-Jan-26 09:25, Sakari Ailus wrote:
+> >>> The test patterns of the test pattern menu control start from 1 whereas
+> >>> register values start from 0. Fix this.
+> >>>
+> >>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> >>> ---
+> >>> This goes on top of my recent ov01a10 series.
+> >>>
+> >>>  drivers/media/i2c/ov01a10.c | 2 +-
+> >>>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/drivers/media/i2c/ov01a10.c b/drivers/media/i2c/ov01a10.c
+> >>> index 3dbc77430e0e..0a66d8974974 100644
+> >>> --- a/drivers/media/i2c/ov01a10.c
+> >>> +++ b/drivers/media/i2c/ov01a10.c
+> >>> @@ -319,7 +319,7 @@ static int ov01a10_update_digital_gain(struct ov01a10 *ov01a10, u32 d_gain)
+> >>>  static int ov01a10_test_pattern(struct ov01a10 *ov01a10, u32 pattern)
+> >>>  {
+> >>>  	if (pattern)
+> >>> -		pattern |= OV01A10_TEST_PATTERN_ENABLE;
+> >>> +		pattern = (pattern - 1) | OV01A10_TEST_PATTERN_ENABLE;
+> >>
+> >> Nack, copy paste of my reply to Bingbu's email where this change was requested:
+> >>
+> >> This was "pattern - 1" in the original v1 patch-set, the - 1 is dropped
+> >> deliberately c2 because testing has shown that there is no difference
+> >> between writing "0 | OV01A10_TEST_PATTERN_ENABLE" vs
+> >> "1 | OV01A10_TEST_PATTERN_ENABLE" to the register.
+> > 
+> > Hans,
+> > 
+> > Thanks for the explanation.
+> > 
+> > From the specification, color bar type1 is not same type2, type1 is a
+> > standard color bar, type2 is a top-bottom darker color bar, type3 is
+> > right-left darker one.
+> > 
+> > Mehdi, did you confirm the description in specification is wrong?
+> 
+> Yes Mehdi did confirm this, see:
+> 
+> https://lore.kernel.org/linux-media/jgzovuqvd5csxwzmzf5asri7xvftoyb4lqyywtfdsrsgdvwz7i@neqszepmzw3m/
+> 
+> Here is a table of register values ( + OV01A10_TEST_PATTERN_ENABLE) + test-pattern
+> seen in testing:
+> 
+> 0: Standard Color Bar
+> 1: Standard Color Bar
+> 2: Left-Right Darker Color Bar
+> 3: Bottom-Top Darker Color Bar
 
-In vsi_iommu_unmap_iova() page is invalided by calling vsi_mk_pte_invalid().
-That clear BIT(0) so the hardware knows the page is invalid.
-Do I have miss something here ?
+Yes I confirm this when testing/reviewing the series from Hans.
 
-Benjamin
-
->
-> Will
->
+--
+Kind Regards
+Mehdi Djait
 
