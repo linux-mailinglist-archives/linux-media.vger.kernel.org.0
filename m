@@ -1,214 +1,250 @@
-Return-Path: <linux-media+bounces-50695-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50696-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A95B2D1EE70
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 13:51:45 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69216D1EEBE
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 13:55:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D5C3A303E650
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 12:51:34 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7BA85302FA29
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 12:55:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E1B0399A5E;
-	Wed, 14 Jan 2026 12:51:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC80239903B;
+	Wed, 14 Jan 2026 12:55:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gKPJV0TZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FabH+C+m"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 359FB399A59;
-	Wed, 14 Jan 2026 12:51:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 845B5393DEB
+	for <linux-media@vger.kernel.org>; Wed, 14 Jan 2026 12:55:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768395092; cv=none; b=g8X4LtWHXI/zQMZW75UDya3FGcYzHE6iNfxuz+xHop/NyrWvb1jyUgs+UzhJXg55rvLBzkSceSDNPxXTahb4FG0LKx3+HkSz7ON86mC34KsemvAytWbP0AKgQ/R0EEUe8AjefaD4utfMku3ZELr6jtUYWqWA5q2DVxs7Sena3Zo=
+	t=1768395309; cv=none; b=ZtD/yvXzJRWiX5DXl0zouwG+YeoTHhL/bBjLka4pDYUjbfh2Nbpqkay9W/fc28lUUnF2H7+b6qGAisaIOActPTsPpFbAIJZ1BO4FxcmUoqmC0tEeH4XC8V6OPwrdvSJnHJOpzrR/UCDBN+0ShqTBmAETtqSQCFKMjC50D3DIDi0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768395092; c=relaxed/simple;
-	bh=LvhYESA3d/xLPNEnsIiUTbDMUK5xZBgP4wYl7OyKiPg=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=osAq7XMJnl9mXuQMhIagY83rPOCsYlgoS5aXuiLjEdXhP11wpRq2hae8+MMTHtlP1mu7/QTP7MC6amCLpAceLq6udajec1hyfJexOmW0ETsvo8MhAf23zC/r9bagA7zRg0QRTpZ6mHqkVvv+dhwE8eNnpLxGOzgaODbyu95UHX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gKPJV0TZ; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c31:76ee:df3c:dc54:9316:8c06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B11E51D1C;
-	Wed, 14 Jan 2026 13:50:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1768395060;
-	bh=LvhYESA3d/xLPNEnsIiUTbDMUK5xZBgP4wYl7OyKiPg=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=gKPJV0TZL7DpdFfPqhISX9/wmMFI54zNFEjDo9PkLQfmRzuZmAeQJNye1SZKH4Yvn
-	 pWboHp2TJandomfOPJDB/Wi6c+MtYRIdcrXgrdkC2n/WgT+/cB1W8EtpDhILbZaH4K
-	 BUgyQQeQvZEa1uDgjceaWNF2XqNHMCkVKz9djoPo=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1768395309; c=relaxed/simple;
+	bh=ir+vyFNo5tBlJjQUf+f0ArwFRSe0duKhjIjNuT6TX9s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OAPhzurvcCxxXOzO/4n2StgWB/8THzQhc+iGG/J1P3hVQOOj9UmCGC+PZCo6adR+I+G3PPkEN9RJtm+nioNXGylGNKU2v/+Eo9sm3VIbgR9Go0vLJu9UeuyST0TAntjk2oiOhLM2jz+ZMhZr0Ceof+bucjjTSJ8j2OS5IBteW2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FabH+C+m; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768395308; x=1799931308;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ir+vyFNo5tBlJjQUf+f0ArwFRSe0duKhjIjNuT6TX9s=;
+  b=FabH+C+m6dB0NLHf9kBVXJKO3oTMm+0fcmneox3OIBLxQKl4+berSN73
+   x3YNLToBH+eNuwDlyK53Gq5IWPUl9D1K0a1I9jfPVC2uTa46pi1GXBxxc
+   lRzBWrY4W0mnG8/kevK5FPrT0fDSAdjzXP2MpGzY0QzWeROqoDiYa58lD
+   /fKYJO1Rl9mXrBrPbrV1lJNh+G3nlHtHefLRdopXZ4T+r6G+1/+cEIPwL
+   p5uovaQa8QF01XLm5SjEY0poaVGHsVX+hV5/4HdnXlAvcGgeeTz/zKu3n
+   ZJIwtElhW8UeB/2dw5OW3yEgBgqQiqhUTzuKZRmf/KlrVghEDfYrcs9W8
+   w==;
+X-CSE-ConnectionGUID: S0yHp60WQN6e1TDbmomgBg==
+X-CSE-MsgGUID: 6yU/nO9KTtSEsHnQ15NY2Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="80802330"
+X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
+   d="scan'208";a="80802330"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 04:55:07 -0800
+X-CSE-ConnectionGUID: wrsgxbx1Sxyh/lS8GwI7fA==
+X-CSE-MsgGUID: 4OV1x73/SbOLOEo+azJ0Pw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
+   d="scan'208";a="204722916"
+Received: from zzombora-mobl1 (HELO kekkonen.fi.intel.com) ([10.245.244.116])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 04:55:00 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 6B5EB11F9B2;
+	Wed, 14 Jan 2026 14:54:57 +0200 (EET)
+Date: Wed, 14 Jan 2026 14:54:57 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	laurent.pinchart@ideasonboard.com,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	"Wang, Hongju" <hongju.wang@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v11 39/66] media: Documentation: Add subdev configuration
+ models, raw sensor model
+Message-ID: <aWeSIT6MU6bo-cMp@kekkonen.localdomain>
+References: <osdr2eavm23pzxrd73v4xscdtaafon3vllhzcg5r6eoqwclsfk@xgfnicn6iboj>
+ <aM1J9LsbpueEr30x@kekkonen.localdomain>
+ <5fwlztz2q2fewyml774my3sdw3wv5wdhnl6p4mfbubm4erm5ft@sthie2bobklf>
+ <aN4lQPK5Mqve2bUI@kekkonen.localdomain>
+ <kblfpuqfj2d6vkagspnqdhztno2js3wljdrsv2wpeywuwyzg5x@xt7rjhh5wt76>
+ <r3kv25lxbyjtuufb2ze27wp5gbqnbgnps2ytk2gy2qkaeiijdd@ydn4ptkze2qp>
+ <aN_MdmDhQPyLnQqD@kekkonen.localdomain>
+ <zq3gzieoqd4eieghjetm6sus5s7i6niplommnubl4d4rskbhra@v7gslcsg5hce>
+ <mseqfltfao5jqubs22asrzzrj2tnsf5bdmlvsmncwj4ss3gxmu@wk2lmramiy3a>
+ <aWZaRsPysHyjY_w0@zed>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20251230083220.2405247-9-r-donadkar@ti.com>
-References: <20251230083220.2405247-1-r-donadkar@ti.com> <20251230083220.2405247-9-r-donadkar@ti.com>
-Subject: Re: [PATCH v9 08/19] media: staging: starfive: Move to enabel-disable streams in starfive drivers
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: r-donadkar@ti.com, y-abhilashchandra@ti.com, devarsht@ti.com, s-jain1@ti.com, vigneshr@ti.com, mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org, p.zabel@pengutronix.de, conor+dt@kernel.org, sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl, tomi.valkeinen@ideasonboard.com, changhuang.liang@starfivetech.com, jack.zhu@starfivetech.com, sjoerd@collabora.com, dan.carpenter@linaro.org, hverkuil+cisco@kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, devicetree@vger.kernel.org
-To: Rishikesh Donadkar <r-donadkar@ti.com>, jai.luthra@linux.dev, laurent.pinchart@ideasonboard.com, mripard@kernel.org
-Date: Wed, 14 Jan 2026 18:21:21 +0530
-Message-ID: <176839508123.9154.16324392708272572564@freya>
-User-Agent: alot/0.12.dev62+gb9d6144a6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aWZaRsPysHyjY_w0@zed>
 
-Hi Rishikesh,
+Hi Jacopo,
 
-Thanks for the patch.
+On Tue, Jan 13, 2026 at 03:46:54PM +0100, Jacopo Mondi wrote:
+> Hi Sakari,
+>   I take the occasion as I've noticed you're reviving the series
+> 
+> There was a discussion item we didn't complete last fall, about the
+> semantic associated to selection rectangles for RAW camera sensors.
+> 
+> On Tue, Oct 07, 2025 at 04:01:11PM +0200, Jacopo Mondi wrote:
+> > Hi again Sakari,
+> >    cc Kieran and Stefan
+> >
+> > Stefan and Kieran brought to my attention a use case I would like to
+> > discuss with you
+> >
+> > On Fri, Oct 03, 2025 at 03:25:19PM +0200, Jacopo Mondi wrote:
+> > > Hi Sakari,
+> > >
+> > > On Fri, Oct 03, 2025 at 04:15:34PM +0300, Sakari Ailus wrote:
+> > > > Hi Jacopo,
+> > >
+> > > [snip]
+> > >
+> > > > > >
+> > > > >
+> > > > > A recent discussion on libcamera made me wonder a few things
+> > > > >
+> > > > > https://patchwork.libcamera.org/patch/24547/
+> > > > >
+> > > > > In the current world (pre-RAW sensor model) the situation can be
+> > > > > summarized as
+> > > > >
+> > > > > TGT_NATIVE_SIZE = full pixel array (readable and non readable)
+> > > > > TGT_CROP_BOUNDS = readable pixel array (visible and non visibile pixels)
+> > > >
+> > > > Crop bounds is generally the same as native size.
+> > > >
+> > >
+> > > I checked two sensors datasheet for this yesterday and both of them
+> > > had parts of the pixel array that cannot be read out
+> > >
+> > > > > TGT_CROP_DEFAULT = visible pixels
+> > > >
+> > > > The default could exclude not-so-great pixels, too.
+> > > >
+> > >
+> > > ok, suggested pixel array area used for image capture purposes then
+> > >
+> > > > > TGT_CROP = analgoue crop
+> > > >
+> > > > This could include digital crop as well.
+> > > >
+> > >
+> > > Yes it might, not all sensor drivers behaves the same indeed
+> > >
+> > > > >
+> > > > > where:
+> > > > > - visibile = pixels used for image capture purpose
+> > > > > - non-visible = optically black, dummies etc
+> > > > >
+> > > > > With the RAW sensor model:
+> > > > >
+> > > > > format(1/0) = readable pixel array (visible and non visible)
+> > > > > TGT_CROP_DEFAULT(1/0) = visible pixel area
+> > > > > TGT_CROP(1/0) = analogue crop
+> > > > > TGT_COMPOSE(1/0) = binning/skipping
+> > > > >
+> > > > > Have we lost the ability to report the full pixel array size (readable
+> > > > > and not readable) ? Is this intentional ? As if pixels cannot be read
+> > > > > out they basically do no exist, and the information on the actual
+> > > > > number of pixels (including non readable ones) should be kept
+> > > > > somewhere else (like the libcamera sensor properties database) ?
+> > > >
+> > > > I'd keep this information in the user space if needed. There's little
+> > > > software could presumably do with this information.
+> > > >
+> > >
+> > > Agreed, there is no value I can think of in having this information in
+> > > drivers
+> > >
+> >
+> > So, Kieran and Stefan are working with a sensor whose driver was
+> > initially upstreamed with a wrong "readable pixel array"
+> > (TGT_CROP_BOUNDS). The developer later realized there was more of the
+> > pixel array to read and there was a use for the non-image pixels like
+> > OB ones.
+> >
+> > With the current model this is fine (sort of), as all rectangles are
+> > expressed with the TGT_NATIVE size reference. TGT_BOUNDS might
+> > increases but TGT_CROP_DEFAULT and TGT_CROP are still valid both in the
+> > driver but also in userspace, which might have encoded some known
+> > "tested" configurations.
+> >
+> > With the new model we lose the information reported by TGT_NATIVE and
+> > all rectangles will be expressed with the format on 1/0 as reference.
+> > If the format changes because we later find out there were portions of
+> > the pixel array that could have been read out, all other rectangles
+> > will have to change as well, both in the driver (which is ok-ish) but
+> > also in userspace, which we have no control on.
+> >
+> > Stefan and Kieran could elaborate more on this, but basically, the
+> > physical array is the only fixed reference we could actually count on.
+> > Other rectangles, are subject to the driver developer understanding of
+> > how the device work, which as we know very well, can change over time.
+> >
+> > Now, if you agree this is something to be concerned on, I presume the
+> > fix is quite easy
+> >
+> >          format(1/0) = physical pixel array size
+> >          TGT_CROP_BOUNDS(1/0) = readable pixel array (visible and non visible)
+> >          TGT_CROP_DEFAULT(1/0) = visible pixel area
+> >          TGT_CROP(1/0) = analogue crop
+> >          TGT_COMPOSE(1/0) = binning/skipping
+> >
+> > which basically only require re-introducing the use of CROP_BOUNDS in
+> > the RAW camera model specification.
+> >
+> > What do you think ?
+> >
+> 
+> Sorry for dropping the ball on this, but I think the above still
+> applies.
+> 
+> Kieran and Stefan provided good points in their replies to this thread
+> on why we should care about the physical sensor size, which if I'm not
+> mistaken is now lost with the new proposed model.
+> 
+> Is the above still a valid suggestion in your opinion ?
 
-> Subject: [PATCH v9 08/19] media: staging: starfive: Move to enabel-disabl=
-e streams in starfive drivers
+Seems reasonable to me. I'll see how to align the patches with this for
+v12.
 
-s/enabel/enable
+-- 
+Kind regards,
 
-Quoting Rishikesh Donadkar (2025-12-30 14:02:09)
-> The enable_streams() API in v4l2 supports passing a bitmask to enable
-> each pad/stream combination individually on any media subdev. Use this
-> API instead of  s_stream() API in the starfive drivers
-
-nit: I think the description can be explicit that this driver does not
-support "multiple streams" (at least right now), but just switching to the
-new API while ignoring the passed streams mask.
-
->=20
-> Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
-> ---
->  .../staging/media/starfive/camss/stf-isp.c    | 43 ++++++++++++-------
->  .../staging/media/starfive/camss/stf-video.c  |  4 +-
->  2 files changed, 30 insertions(+), 17 deletions(-)
->=20
-> diff --git a/drivers/staging/media/starfive/camss/stf-isp.c b/drivers/sta=
-ging/media/starfive/camss/stf-isp.c
-> index df7a903fbb1b0..4930ffb0e07a6 100644
-> --- a/drivers/staging/media/starfive/camss/stf-isp.c
-> +++ b/drivers/staging/media/starfive/camss/stf-isp.c
-> @@ -55,27 +55,43 @@ int stf_isp_init(struct stfcamss *stfcamss)
->         return 0;
->  }
-> =20
-> -static int isp_set_stream(struct v4l2_subdev *sd, int enable)
-> +static int isp_sd_enable_stream(struct v4l2_subdev *sd,
-> +                               struct v4l2_subdev_state *state,
-> +                               u32 pad, u64 streams_mask)
->  {
->         struct stf_isp_dev *isp_dev =3D v4l2_get_subdevdata(sd);
->         struct v4l2_subdev_state *sd_state;
->         struct v4l2_mbus_framefmt *fmt;
->         struct v4l2_rect *crop;
-> +       int ret;
-> =20
-> -       sd_state =3D v4l2_subdev_lock_and_get_active_state(sd);
-> +       sd_state =3D v4l2_subdev_get_locked_active_state(sd);
->         fmt =3D v4l2_subdev_state_get_format(sd_state, STF_ISP_PAD_SINK);
->         crop =3D v4l2_subdev_state_get_crop(sd_state, STF_ISP_PAD_SRC);
-> =20
-> -       if (enable) {
-> -               stf_isp_reset(isp_dev);
-> -               stf_isp_init_cfg(isp_dev);
-> -               stf_isp_settings(isp_dev, crop, fmt->code);
-> -               stf_isp_stream_set(isp_dev);
-> -       }
-> +       stf_isp_reset(isp_dev);
-> +       stf_isp_init_cfg(isp_dev);
-> +       stf_isp_settings(isp_dev, crop, fmt->code);
-> +       stf_isp_stream_set(isp_dev);
-> +
-> +       ret =3D v4l2_subdev_enable_streams(isp_dev->source_subdev, 1, BIT=
-(0));
-
-Given you have a streams_mask argument in this function now, it might be
-cleaner to use it here (and let stf-video populate it with BIT(0)).
-
-> +       if (ret)
-> +               return ret;
-> +
-> +       return 0;
-> +}
-> =20
-> -       v4l2_subdev_call(isp_dev->source_subdev, video, s_stream, enable);
-> +static int isp_sd_disable_stream(struct v4l2_subdev *sd,
-> +                                struct v4l2_subdev_state *state,
-> +                                u32 pad, u64 streams_mask)
-> +{
-> +       struct stf_isp_dev *isp_dev =3D v4l2_get_subdevdata(sd);
-> +       int ret;
-> +
-> +       ret =3D v4l2_subdev_disable_streams(isp_dev->source_subdev, 1, BI=
-T(0));
-
-Same here.
-
-> +       if (ret)
-> +               return ret;
-> =20
-> -       v4l2_subdev_unlock_state(sd_state);
->         return 0;
->  }
-> =20
-> @@ -300,20 +316,17 @@ static int isp_init_formats(struct v4l2_subdev *sd,
->         return isp_set_format(sd, sd_state, &format);
->  }
-> =20
-> -static const struct v4l2_subdev_video_ops isp_video_ops =3D {
-> -       .s_stream =3D isp_set_stream,
-> -};
-> -
->  static const struct v4l2_subdev_pad_ops isp_pad_ops =3D {
->         .enum_mbus_code =3D isp_enum_mbus_code,
->         .get_fmt =3D v4l2_subdev_get_fmt,
->         .set_fmt =3D isp_set_format,
->         .get_selection =3D isp_get_selection,
->         .set_selection =3D isp_set_selection,
-> +       .enable_streams =3D isp_sd_enable_stream,
-> +       .disable_streams =3D isp_sd_disable_stream,
->  };
-> =20
->  static const struct v4l2_subdev_ops isp_v4l2_ops =3D {
-> -       .video =3D &isp_video_ops,
->         .pad =3D &isp_pad_ops,
->  };
-> =20
-> diff --git a/drivers/staging/media/starfive/camss/stf-video.c b/drivers/s=
-taging/media/starfive/camss/stf-video.c
-> index a0420eb6a0aa0..2db29bf8bdef8 100644
-> --- a/drivers/staging/media/starfive/camss/stf-video.c
-> +++ b/drivers/staging/media/starfive/camss/stf-video.c
-> @@ -287,7 +287,7 @@ static int video_start_streaming(struct vb2_queue *q,=
- unsigned int count)
-> =20
->         video->ops->start_streaming(video);
-> =20
-> -       ret =3D v4l2_subdev_call(video->source_subdev, video, s_stream, t=
-rue);
-> +       ret =3D v4l2_subdev_enable_streams(video->source_subdev, 1, BIT(0=
-));
-
-Now that I think of it, it was not necessary to implement enable / disable
-API for the ISP subdev driver given v4l2_subdev_*_streams falls back on
-s_stream. But it's anyway good to move drivers, so I guess it's alright.
-
->         if (ret) {
->                 dev_err(video->stfcamss->dev, "stream on failed\n");
->                 goto err_pm_put;
-> @@ -311,7 +311,7 @@ static void video_stop_streaming(struct vb2_queue *q)
-> =20
->         video->ops->stop_streaming(video);
-> =20
-> -       v4l2_subdev_call(video->source_subdev, video, s_stream, false);
-> +       v4l2_subdev_disable_streams(video->source_subdev, 1, BIT(0));
-> =20
->         pm_runtime_put(video->stfcamss->dev);
-> =20
-> --=20
-> 2.34.1
->=20
->=20
-
-Thanks,
-    Jai
+Sakari Ailus
 
