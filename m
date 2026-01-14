@@ -1,53 +1,46 @@
-Return-Path: <linux-media+bounces-50712-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50713-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7952D2066C
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 18:03:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DE8AD20687
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 18:05:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id A138E300928C
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 17:02:20 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id AD58930006EE
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 17:04:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D50FF2836AF;
-	Wed, 14 Jan 2026 17:02:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A6E82E0B59;
+	Wed, 14 Jan 2026 17:04:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="QQJERt0g"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WQA8+na/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.15.3])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42C1C155C82;
-	Wed, 14 Jan 2026 17:02:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D260D2857CC;
+	Wed, 14 Jan 2026 17:04:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768410137; cv=none; b=j2sugenakxb5HHIedjNARXZT2NpCo1yJrZ41/6zJrenAtzEH2gtNYgaDTnrqV5EcIF72tJJMj2wM6wJ7O57k51yUIGDT24GW4uVe0pOCU2njuBnSpS+JEEtZau2/eTHPxjTmQDYPZTJd8sJ84atOm473JBlBv2398dpwCYQHbYk=
+	t=1768410293; cv=none; b=MXSExyRhtz9kCwTB9+pIT4Ol0YqVkKJ/f3DHNe9PetJYnJGbYjKLJe5FxOS2FksJhVvI8Fma6AnEPbqc2lDc7RNSJl0aUBQuCwCAm3s5scIN/sXeDIPcegAE4yolEgJwnHGgESLihnaLpi4y1zemExNBpY2J31nJhtgxEm+NTnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768410137; c=relaxed/simple;
-	bh=QzM1ZStrRx6Dh/DfutRbJjFjWehSsZXVj6RoB6KCxZw=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=jEVopwDhIXArkZQgkOZdSqLKO4lgNQKoNpuHsX2ZSagT5fL2qR6v2zBmXkiOx1QB5TOU/YueGMcsxZAT96C5knNrM4YKhAbLAuAtVeuNB1Di/iMxKqFhKwa+mzJ/PMgwduhQTqLdpPPTieRrncfKk32DDCJsbxf4AA9W+5QzsIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=QQJERt0g; arc=none smtp.client-ip=212.227.15.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1768410133; x=1769014933; i=markus.elfring@web.de;
-	bh=bvtJ5D6PQisAG4ASgzXWMWrWNprZUu/F31yj9dv9ngs=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=QQJERt0gGQYr2igvLx6+duHgiF3ojJT4Qc9QAcI3kSlOwpOD9KiTH60fmQURsWkr
-	 swqLRGDhmI876qyTmoiX9mu+o9aKhjPIQb/3YCuzkcbMAyNmf9kO6tCSPsJclVyIb
-	 Rw7qh2kpY6itXa+Nj9hvjhHh8/+/pdpQHWmc4aoGnSMR+VzVdWoOeyzHXa/e6I2u+
-	 CuZFr5ejmpIpgZaAC8zVy27APj7XvvWQ/q/KGyuI3nK8JaiQZkBe5aq6ydRJZEE8t
-	 ycoc2mOINbgHs6XBuuFsoNHUYsn5dtjW3i65BrtWf6Jyo0Pw+MLYgpqXIi744mIsh
-	 78vS8o5a0Kp212qr4Q==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.69.218]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MCGSU-1vWkru3c2c-00GWK3; Wed, 14
- Jan 2026 18:02:12 +0100
-Message-ID: <fd22f4d2-b67d-4c07-9559-2b23eb558102@web.de>
-Date: Wed, 14 Jan 2026 18:02:08 +0100
+	s=arc-20240116; t=1768410293; c=relaxed/simple;
+	bh=eBpyoEQTjwaP1FIuFPJn+Xc7rbLhEgaAA+UFnNwI8G8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NP/OzxX+yfxRcuVYIi/qBuStUF3aCAPMGW2da0Qle/JLMoDOVWpygaEZb7rxucPUi2i/TaRWbd6ApEfQUIPdIzgZBdpE/Fich5gfyySexiJx5BaUQxuNVidi+XXeo9IahkmBmJoFaH2FPP9uluJcn0IaQNvf0TaR3WIqZkuNJAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=WQA8+na/; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A04F855C;
+	Wed, 14 Jan 2026 18:04:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1768410262;
+	bh=eBpyoEQTjwaP1FIuFPJn+Xc7rbLhEgaAA+UFnNwI8G8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=WQA8+na/JqZMerROtUbeogfYBsOZllHSybvZNnP0zQO9p9cdBvnlHsKNATqJkAcV0
+	 qRYaxH7AnYUGxRguLrlA17nwlX7otT6wCM1YpUFSHO/c70db+2gQlA45k3OGAWK5VK
+	 c/YcC8wau4q2cccnZXXSepsIxfAbELXB8FcE1/qE=
+Message-ID: <e1c78777-d7ea-43f5-9ee7-d0609416a32d@ideasonboard.com>
+Date: Wed, 14 Jan 2026 19:04:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,132 +48,348 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linaro-mm-sig@lists.linaro.org
-Cc: LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
- Andrei Aldea <a-aldea@ti.com>, "Andrew F. Davis" <afd@ti.com>,
- Chirag Shilwant <c-shilwant@ti.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Jonathan Humphreys <j-humphreys@ti.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Nishanth Menon <nm@ti.com>,
- Oded Gabbay <ogabbay@kernel.org>, Randolph Sapp <rs@ti.com>,
- Rob Herring <robh@kernel.org>, Robert Nelson <robertcnelson@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- Tero Kristo <kristo@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Vignesh Raghavendra <vigneshr@ti.com>
-References: <20260114-thames-v2-2-e94a6636e050@tomeuvizoso.net>
-Subject: Re: [PATCH v2 2/5] accel/thames: Add driver for the C7x DSPs in TI
- SoCs
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20260114-thames-v2-2-e94a6636e050@tomeuvizoso.net>
+Subject: Re: [PATCH v9 17/19] media: cadence: csi2rx: Support runtime PM
+To: Rishikesh Donadkar <r-donadkar@ti.com>
+Cc: y-abhilashchandra@ti.com, devarsht@ti.com, s-jain1@ti.com,
+ vigneshr@ti.com, mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ p.zabel@pengutronix.de, conor+dt@kernel.org, sakari.ailus@linux.intel.com,
+ hverkuil-cisco@xs4all.nl, jai.luthra@ideasonboard.com,
+ changhuang.liang@starfivetech.com, jack.zhu@starfivetech.com,
+ sjoerd@collabora.com, dan.carpenter@linaro.org, hverkuil+cisco@kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, jai.luthra@linux.dev,
+ laurent.pinchart@ideasonboard.com, mripard@kernel.org
+References: <20251230083220.2405247-1-r-donadkar@ti.com>
+ <20251230083220.2405247-18-r-donadkar@ti.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20251230083220.2405247-18-r-donadkar@ti.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:n7pZjXYgBnoGD7L3ypb03MX8PEI4TDCN7kxLOh/RXb2CHpIWxXe
- CUHGXaqMwjYLsqygtK2Qwk0NWUbGdRO5L1/DvmGuJruwhWdcXTOxPOY+z3il3rCs3jiWi3q
- 95h0RkGFkniWd6uYzhA+PRkTAKJcOahN2BEO85JXbVlhFyXrHnEFrtBbP3vP/jUvMFBGc5Q
- 60pWRZWVzmGekf7qHBRog==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:5n5eIst/jLs=;6s0LnvUzCkzv35uoBLjcgvKqRFw
- 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
- 2djZQwCc=
+Content-Transfer-Encoding: 7bit
 
-=E2=80=A6
-> +++ b/drivers/accel/thames/thames_drv.c
-> @@ -0,0 +1,155 @@
-=E2=80=A6
-> +static int thames_open(struct drm_device *dev, struct drm_file *file)
-> +{
-=E2=80=A6
-> +	if (!try_module_get(THIS_MODULE))
-> +		return -EINVAL;
+Hi,
+
+On 30/12/2025 10:32, Rishikesh Donadkar wrote:
+> From: Changhuang Liang <changhuang.liang@starfivetech.com>
+> 
+> Use runtime power management hooks to save power when CSI-RX is not in
+> use. Also, shift to goto based error handling in
+> csi2rx_enable_streams() function
+> 
+> Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+> Tested-by: Rishikesh Donadkar <r-donadkar@ti.com>
+> Reviewed-by: Rishikesh Donadkar <r-donadkar@ti.com>
+> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+> Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
+> ---
+>  drivers/media/platform/cadence/Kconfig       |   1 +
+>  drivers/media/platform/cadence/cdns-csi2rx.c | 136 ++++++++++++-------
+>  2 files changed, 88 insertions(+), 49 deletions(-)
+
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
+ Tomi
+
+> diff --git a/drivers/media/platform/cadence/Kconfig b/drivers/media/platform/cadence/Kconfig
+> index 1aa608c00dbce..ea85ef82760e6 100644
+> --- a/drivers/media/platform/cadence/Kconfig
+> +++ b/drivers/media/platform/cadence/Kconfig
+> @@ -5,6 +5,7 @@ comment "Cadence media platform drivers"
+>  config VIDEO_CADENCE_CSI2RX
+>  	tristate "Cadence MIPI-CSI2 RX Controller"
+>  	depends on VIDEO_DEV
+> +	depends on PM
+>  	select MEDIA_CONTROLLER
+>  	select VIDEO_V4L2_SUBDEV_API
+>  	select V4L2_FWNODE
+> diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
+> index 5c16a2e509136..40c947c813248 100644
+> --- a/drivers/media/platform/cadence/cdns-csi2rx.c
+> +++ b/drivers/media/platform/cadence/cdns-csi2rx.c
+> @@ -337,11 +337,6 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
+>  	u32 reg;
+>  	int ret;
+>  
+> -	ret = clk_prepare_enable(csi2rx->p_clk);
+> -	if (ret)
+> -		return ret;
+> -
+> -	reset_control_deassert(csi2rx->p_rst);
+>  	csi2rx_reset(csi2rx);
+>  
+>  	if (csi2rx->error_irq >= 0)
+> @@ -382,7 +377,7 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
+>  		if (ret) {
+>  			dev_err(csi2rx->dev,
+>  				"Failed to configure external DPHY: %d\n", ret);
+> -			goto err_disable_pclk;
+> +			return ret;
+>  		}
+>  	}
+>  
+> @@ -397,12 +392,6 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
+>  	 * hence the reference counting.
+>  	 */
+>  	for (i = 0; i < csi2rx->max_streams; i++) {
+> -		ret = clk_prepare_enable(csi2rx->pixel_clk[i]);
+> -		if (ret)
+> -			goto err_disable_pixclk;
+> -
+> -		reset_control_deassert(csi2rx->pixel_rst[i]);
+> -
+>  		writel(CSI2RX_STREAM_CFG_FIFO_MODE_LARGE_BUF |
+>  			       FIELD_PREP(CSI2RX_STREAM_CFG_NUM_PIXELS_MASK,
+>  					  csi2rx->num_pixels[i]),
+> @@ -415,30 +404,8 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
+>  		       csi2rx->base + CSI2RX_STREAM_CTRL_REG(i));
+>  	}
+>  
+> -	ret = clk_prepare_enable(csi2rx->sys_clk);
+> -	if (ret)
+> -		goto err_disable_pixclk;
+> -
+> -	reset_control_deassert(csi2rx->sys_rst);
+> -
+> -	clk_disable_unprepare(csi2rx->p_clk);
+>  
+>  	return 0;
+> -
+> -err_disable_pixclk:
+> -	for (; i > 0; i--) {
+> -		reset_control_assert(csi2rx->pixel_rst[i - 1]);
+> -		clk_disable_unprepare(csi2rx->pixel_clk[i - 1]);
+> -	}
+> -
+> -	if (csi2rx->dphy) {
+> -		writel(0, csi2rx->base + CSI2RX_DPHY_LANE_CTRL_REG);
+> -		phy_power_off(csi2rx->dphy);
+> -	}
+> -err_disable_pclk:
+> -	clk_disable_unprepare(csi2rx->p_clk);
+> -
+> -	return ret;
+>  }
+>  
+>  static void csi2rx_stop(struct csi2rx_priv *csi2rx)
+> @@ -447,10 +414,6 @@ static void csi2rx_stop(struct csi2rx_priv *csi2rx)
+>  	u32 val;
+>  	int ret;
+>  
+> -	clk_prepare_enable(csi2rx->p_clk);
+> -	reset_control_assert(csi2rx->sys_rst);
+> -	clk_disable_unprepare(csi2rx->sys_clk);
+> -
+>  	writel(0, csi2rx->base + CSI2RX_ERROR_IRQS_MASK_REG);
+>  
+>  	for (i = 0; i < csi2rx->max_streams; i++) {
+> @@ -465,14 +428,8 @@ static void csi2rx_stop(struct csi2rx_priv *csi2rx)
+>  		if (ret)
+>  			dev_warn(csi2rx->dev,
+>  				 "Failed to stop streaming on pad%u\n", i);
+> -
+> -		reset_control_assert(csi2rx->pixel_rst[i]);
+> -		clk_disable_unprepare(csi2rx->pixel_clk[i]);
+>  	}
+>  
+> -	reset_control_assert(csi2rx->p_rst);
+> -	clk_disable_unprepare(csi2rx->p_clk);
+> -
+>  	if (csi2rx->dphy) {
+>  		writel(0, csi2rx->base + CSI2RX_DPHY_LANE_CTRL_REG);
+>  
+> @@ -548,10 +505,15 @@ static int csi2rx_enable_streams(struct v4l2_subdev *subdev,
+>  	 * enable the whole controller.
+>  	 */
+>  	if (!csi2rx->count) {
+> +		ret = pm_runtime_resume_and_get(csi2rx->dev);
+> +		if (ret < 0)
+> +			goto err;
 > +
-> +	thames_priv =3D kzalloc(sizeof(*thames_priv), GFP_KERNEL);
-> +	if (!thames_priv) {
-> +		ret =3D -ENOMEM;
-> +		goto err_put_mod;
+>  		csi2rx_update_vc_select(csi2rx, state);
+> +
+>  		ret = csi2rx_start(csi2rx);
+>  		if (ret)
+> -			return ret;
+> +			goto err_put_pm;
+>  	}
+>  
+>  	/* Start streaming on the source */
+> @@ -561,13 +523,20 @@ static int csi2rx_enable_streams(struct v4l2_subdev *subdev,
+>  		dev_err(csi2rx->dev,
+>  			"Failed to start streams %#llx on subdev\n",
+>  			sink_streams);
+> -		if (!csi2rx->count)
+> -			csi2rx_stop(csi2rx);
+> -		return ret;
+> +		goto err_stop_csi;
+>  	}
+>  
+>  	csi2rx->count++;
+>  	return 0;
+> +
+> +err_stop_csi:
+> +	if (!csi2rx->count)
+> +		csi2rx_stop(csi2rx);
+> +err_put_pm:
+> +	if (!csi2rx->count)
+> +		pm_runtime_put(csi2rx->dev);
+> +err:
+> +	return ret;
+>  }
+>  
+>  static int csi2rx_disable_streams(struct v4l2_subdev *subdev,
+> @@ -589,8 +558,10 @@ static int csi2rx_disable_streams(struct v4l2_subdev *subdev,
+>  	csi2rx->count--;
+>  
+>  	/* Let the last user turn off the lights. */
+> -	if (!csi2rx->count)
+> +	if (!csi2rx->count) {
+>  		csi2rx_stop(csi2rx);
+> +		pm_runtime_put(csi2rx->dev);
 > +	}
-=E2=80=A6
+>  
+>  	return 0;
+>  }
+> @@ -1057,6 +1028,7 @@ static int csi2rx_probe(struct platform_device *pdev)
+>  	if (ret)
+>  		goto err_cleanup;
+>  
+> +	pm_runtime_enable(csi2rx->dev);
+>  	ret = v4l2_async_register_subdev(&csi2rx->subdev);
+>  	if (ret < 0)
+>  		goto err_free_state;
+> @@ -1071,6 +1043,7 @@ static int csi2rx_probe(struct platform_device *pdev)
+>  
+>  err_free_state:
+>  	v4l2_subdev_cleanup(&csi2rx->subdev);
+> +	pm_runtime_disable(csi2rx->dev);
+>  err_cleanup:
+>  	v4l2_async_nf_unregister(&csi2rx->notifier);
+>  	v4l2_async_nf_cleanup(&csi2rx->notifier);
+> @@ -1089,9 +1062,73 @@ static void csi2rx_remove(struct platform_device *pdev)
+>  	v4l2_async_unregister_subdev(&csi2rx->subdev);
+>  	v4l2_subdev_cleanup(&csi2rx->subdev);
+>  	media_entity_cleanup(&csi2rx->subdev.entity);
+> +	pm_runtime_disable(csi2rx->dev);
+>  	kfree(csi2rx);
+>  }
+>  
+> +static int csi2rx_runtime_suspend(struct device *dev)
+> +{
+> +	struct csi2rx_priv *csi2rx = dev_get_drvdata(dev);
+> +	unsigned int i;
+> +
+> +	reset_control_assert(csi2rx->sys_rst);
+> +	clk_disable_unprepare(csi2rx->sys_clk);
+> +
+> +	for (i = 0; i < csi2rx->max_streams; i++) {
+> +		reset_control_assert(csi2rx->pixel_rst[i]);
+> +		clk_disable_unprepare(csi2rx->pixel_clk[i]);
+> +	}
+> +
+> +	reset_control_assert(csi2rx->p_rst);
+> +	clk_disable_unprepare(csi2rx->p_clk);
+> +
+> +	return 0;
+> +}
+> +
+> +static int csi2rx_runtime_resume(struct device *dev)
+> +{
+> +	struct csi2rx_priv *csi2rx = dev_get_drvdata(dev);
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	ret = clk_prepare_enable(csi2rx->p_clk);
+> +	if (ret)
+> +		return ret;
+> +
+> +	reset_control_deassert(csi2rx->p_rst);
+> +
+> +	for (i = 0; i < csi2rx->max_streams; i++) {
+> +		ret = clk_prepare_enable(csi2rx->pixel_clk[i]);
+> +		if (ret)
+> +			goto err_disable_pixclk;
+> +
+> +		reset_control_deassert(csi2rx->pixel_rst[i]);
+> +	}
+> +
+> +	ret = clk_prepare_enable(csi2rx->sys_clk);
+> +	if (ret)
+> +		goto err_disable_pixclk;
+> +
+> +	reset_control_deassert(csi2rx->sys_rst);
+> +
+> +	return 0;
+> +
+> +err_disable_pixclk:
+> +	for (; i > 0; i--) {
+> +		reset_control_assert(csi2rx->pixel_rst[i - 1]);
+> +		clk_disable_unprepare(csi2rx->pixel_clk[i - 1]);
+> +	}
+> +
+> +	reset_control_assert(csi2rx->p_rst);
+> +	clk_disable_unprepare(csi2rx->p_clk);
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct dev_pm_ops csi2rx_pm_ops = {
+> +	RUNTIME_PM_OPS(csi2rx_runtime_suspend, csi2rx_runtime_resume, NULL)
+> +};
+> +
+>  static const struct of_device_id csi2rx_of_table[] = {
+>  	{ .compatible = "starfive,jh7110-csi2rx" },
+>  	{ .compatible = "cdns,csi2rx" },
+> @@ -1106,6 +1143,7 @@ static struct platform_driver csi2rx_driver = {
+>  	.driver	= {
+>  		.name		= "cdns-csi2rx",
+>  		.of_match_table	= csi2rx_of_table,
+> +		.pm		= &csi2rx_pm_ops,
+>  	},
+>  };
+>  module_platform_driver(csi2rx_driver);
 
-I find the identifiers =E2=80=9Cret=E2=80=9D and =E2=80=9Cerr_put_mod=E2=
-=80=9D redundant here because the desired
-exception handling can be specified in this if branch directly.
-
-Regards,
-Markus
 
