@@ -1,395 +1,175 @@
-Return-Path: <linux-media+bounces-50713-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50714-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DE8AD20687
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 18:05:03 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF9EBD2086B
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 18:24:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id AD58930006EE
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 17:04:56 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 469C83048C74
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 17:22:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A6E82E0B59;
-	Wed, 14 Jan 2026 17:04:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E5712D8773;
+	Wed, 14 Jan 2026 17:22:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WQA8+na/"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YzenFs2T"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D260D2857CC;
-	Wed, 14 Jan 2026 17:04:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8FB62FF643;
+	Wed, 14 Jan 2026 17:22:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768410293; cv=none; b=MXSExyRhtz9kCwTB9+pIT4Ol0YqVkKJ/f3DHNe9PetJYnJGbYjKLJe5FxOS2FksJhVvI8Fma6AnEPbqc2lDc7RNSJl0aUBQuCwCAm3s5scIN/sXeDIPcegAE4yolEgJwnHGgESLihnaLpi4y1zemExNBpY2J31nJhtgxEm+NTnI=
+	t=1768411364; cv=none; b=pX8RdZEUexXwuYRvhPfbo2fu1D1wz3W9AqLr2LgQPH/NCEmHisLqmSEtqzLjDDe1x52Pul0b+/KcsmhJyy+DSGd9o6CJsD5RyLvHdUS+XzZCK3Md1SrdrRmpEbB9zUzzFmOlU3YVay+zjKukUMR/a4ueJIs6bZV1DJsqDQk82uI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768410293; c=relaxed/simple;
-	bh=eBpyoEQTjwaP1FIuFPJn+Xc7rbLhEgaAA+UFnNwI8G8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NP/OzxX+yfxRcuVYIi/qBuStUF3aCAPMGW2da0Qle/JLMoDOVWpygaEZb7rxucPUi2i/TaRWbd6ApEfQUIPdIzgZBdpE/Fich5gfyySexiJx5BaUQxuNVidi+XXeo9IahkmBmJoFaH2FPP9uluJcn0IaQNvf0TaR3WIqZkuNJAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=WQA8+na/; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1768411364; c=relaxed/simple;
+	bh=4mSho9ntc1U97UdaBzFzP2NPXFg0G4kuUCkpBWD4ffg=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=Xo9ZI1dSnVEG7r+LE8DdmLeF5ADqWDREYQx2FieiKhsG29wL7LBmv5M0HzHpuSQ7dWvJkH1+KyrBBu9IcrCLzG7XyiEypGIDSO+XEWnhux0pg6amJrGTN4hSZGdr5IwWJ9MHlz4U7lQKa/EnAgCu+/hVSSVeeRY1dEVYa3OvRgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YzenFs2T; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A04F855C;
-	Wed, 14 Jan 2026 18:04:21 +0100 (CET)
+Received: from ideasonboard.com (unknown [IPv6:2a00:6020:448c:6c00:b781:dff2:957:7831])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 29BC255C;
+	Wed, 14 Jan 2026 18:22:10 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1768410262;
-	bh=eBpyoEQTjwaP1FIuFPJn+Xc7rbLhEgaAA+UFnNwI8G8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=WQA8+na/JqZMerROtUbeogfYBsOZllHSybvZNnP0zQO9p9cdBvnlHsKNATqJkAcV0
-	 qRYaxH7AnYUGxRguLrlA17nwlX7otT6wCM1YpUFSHO/c70db+2gQlA45k3OGAWK5VK
-	 c/YcC8wau4q2cccnZXXSepsIxfAbELXB8FcE1/qE=
-Message-ID: <e1c78777-d7ea-43f5-9ee7-d0609416a32d@ideasonboard.com>
-Date: Wed, 14 Jan 2026 19:04:44 +0200
+	s=mail; t=1768411330;
+	bh=4mSho9ntc1U97UdaBzFzP2NPXFg0G4kuUCkpBWD4ffg=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=YzenFs2T3Q3EEa9Y4lJHfVd4saGsTHNpqVnOix1bm7KXWNClbus4oeFsfOvRsUgMi
+	 Oex4gu3Qm8fjSxAKQ39TmjXvQhZ0G05NLE7ApzDmj1xJiGRUBqZu1wXdh74jGEheW2
+	 y9M8TzcjrwiYx6fWLNc7sC/ZsJAqVUV9RgdLVmF4=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 17/19] media: cadence: csi2rx: Support runtime PM
-To: Rishikesh Donadkar <r-donadkar@ti.com>
-Cc: y-abhilashchandra@ti.com, devarsht@ti.com, s-jain1@ti.com,
- vigneshr@ti.com, mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- p.zabel@pengutronix.de, conor+dt@kernel.org, sakari.ailus@linux.intel.com,
- hverkuil-cisco@xs4all.nl, jai.luthra@ideasonboard.com,
- changhuang.liang@starfivetech.com, jack.zhu@starfivetech.com,
- sjoerd@collabora.com, dan.carpenter@linaro.org, hverkuil+cisco@kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, jai.luthra@linux.dev,
- laurent.pinchart@ideasonboard.com, mripard@kernel.org
-References: <20251230083220.2405247-1-r-donadkar@ti.com>
- <20251230083220.2405247-18-r-donadkar@ti.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Content-Language: en-US
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
- wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
- Ru0lVvxsWyIwSfoYoLrazbT1wkWRs8YBkkXQFfL7Mn3ZMoGPcpfwYH9O7bV1NslbmyJzRCMO
- eYV258gjCcwYlrkyIratlHCek4GrwV8Z9NQcjD5iLzrONjfafrWPwj6yn2RlL0mQEwt1lOvn
- LnI7QRtB3zxA3yB+FLsT1hx0va6xCHpX3QO2gBsyHCyVafFMrg3c/7IIWkDLngJxFgz6DLiA
- G4ld1QK/jsYqfP2GIMH1mFdjY+iagG4DqOsjip479HCWAptpNxSOCL6z3qxCU8MCz8iNOtZk
- DYXQWVscM5qgYSn+fmMM2qN+eoWlnCGVURZZLDjg387S2E1jT/dNTOsM/IqQj+ZROUZuRcF7
- 0RTtuU5q1HnbRNwy+23xeoSGuwmLQ2UsUk7Q5CnrjYfiPo3wHze8avK95JBoSd+WIRmV3uoO
- rXCoYOIRlDhg9XJTrbnQ3Ot5zOa0Y9c4IpyAlut6mDtxtKXr4+8OzjSVFww7tIwadTK3wDQv
- Bus4jxHjS6dz1g2ypT65qnHen6mUUH63lhzewqO9peAHJ0SLrQARAQABzTBUb21pIFZhbGtl
- aW5lbiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbT7CwY4EEwEIADgWIQTEOAw+
- ll79gQef86f6PaqMvJYe9QUCX/HruAIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRD6
- PaqMvJYe9WmFD/99NGoD5lBJhlFDHMZvO+Op8vCwnIRZdTsyrtGl72rVh9xRfcSgYPZUvBuT
- VDxE53mY9HaZyu1eGMccYRBaTLJSfCXl/g317CrMNdY0k40b9YeIX10feiRYEWoDIPQ3tMmA
- 0nHDygzcnuPiPT68JYZ6tUOvAt7r6OX/litM+m2/E9mtp8xCoWOo/kYO4mOAIoMNvLB8vufi
- uBB4e/AvAjtny4ScuNV5c5q8MkfNIiOyag9QCiQ/JfoAqzXRjVb4VZG72AKaElwipiKCWEcU
- R4+Bu5Qbaxj7Cd36M/bI54OrbWWETJkVVSV1i0tghCd6HHyquTdFl7wYcz6cL1hn/6byVnD+
- sR3BLvSBHYp8WSwv0TCuf6tLiNgHAO1hWiQ1pOoXyMEsxZlgPXT+wb4dbNVunckwqFjGxRbl
- Rz7apFT/ZRwbazEzEzNyrBOfB55xdipG/2+SmFn0oMFqFOBEszXLQVslh64lI0CMJm2OYYe3
- PxHqYaztyeXsx13Bfnq9+bUynAQ4uW1P5DJ3OIRZWKmbQd/Me3Fq6TU57LsvwRgE0Le9PFQs
- dcP2071rMTpqTUteEgODJS4VDf4lXJfY91u32BJkiqM7/62Cqatcz5UWWHq5xeF03MIUTqdE
- qHWk3RJEoWHWQRzQfcx6Fn2fDAUKhAddvoopfcjAHfpAWJ+ENc7BTQROprNHARAAx0aat8GU
- hsusCLc4MIxOQwidecCTRc9Dz/7U2goUwhw2O5j9TPqLtp57VITmHILnvZf6q3QAho2QMQyE
- DDvHubrdtEoqaaSKxKkFie1uhWNNvXPhwkKLYieyL9m2JdU+b88HaDnpzdyTTR4uH7wk0bBa
- KbTSgIFDDe5lXInypewPO30TmYNkFSexnnM3n1PBCqiJXsJahE4ZQ+WnV5FbPUj8T2zXS2xk
- 0LZ0+DwKmZ0ZDovvdEWRWrz3UzJ8DLHb7blPpGhmqj3ANXQXC7mb9qJ6J/VSl61GbxIO2Dwb
- xPNkHk8fwnxlUBCOyBti/uD2uSTgKHNdabhVm2dgFNVuS1y3bBHbI/qjC3J7rWE0WiaHWEqy
- UVPk8rsph4rqITsj2RiY70vEW0SKePrChvET7D8P1UPqmveBNNtSS7In+DdZ5kUqLV7rJnM9
- /4cwy+uZUt8cuCZlcA5u8IsBCNJudxEqBG10GHg1B6h1RZIz9Q9XfiBdaqa5+CjyFs8ua01c
- 9HmyfkuhXG2OLjfQuK+Ygd56mV3lq0aFdwbaX16DG22c6flkkBSjyWXYepFtHz9KsBS0DaZb
- 4IkLmZwEXpZcIOQjQ71fqlpiXkXSIaQ6YMEs8WjBbpP81h7QxWIfWtp+VnwNGc6nq5IQDESH
- mvQcsFS7d3eGVI6eyjCFdcAO8eMAEQEAAcLBXwQYAQIACQUCTqazRwIbDAAKCRD6PaqMvJYe
- 9fA7EACS6exUedsBKmt4pT7nqXBcRsqm6YzT6DeCM8PWMTeaVGHiR4TnNFiT3otD5UpYQI7S
- suYxoTdHrrrBzdlKe5rUWpzoZkVK6p0s9OIvGzLT0lrb0HC9iNDWT3JgpYDnk4Z2mFi6tTbq
- xKMtpVFRA6FjviGDRsfkfoURZI51nf2RSAk/A8BEDDZ7lgJHskYoklSpwyrXhkp9FHGMaYII
- m9EKuUTX9JPDG2FTthCBrdsgWYPdJQvM+zscq09vFMQ9Fykbx5N8z/oFEUy3ACyPqW2oyfvU
- CH5WDpWBG0s5BALp1gBJPytIAd/pY/5ZdNoi0Cx3+Z7jaBFEyYJdWy1hGddpkgnMjyOfLI7B
- CFrdecTZbR5upjNSDvQ7RG85SnpYJTIin+SAUazAeA2nS6gTZzumgtdw8XmVXZwdBfF+ICof
- 92UkbYcYNbzWO/GHgsNT1WnM4sa9lwCSWH8Fw1o/3bX1VVPEsnESOfxkNdu+gAF5S6+I6n3a
- ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
- yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
- 3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20251230083220.2405247-18-r-donadkar@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260112114313.woeZoGZP@linutronix.de>
+References: <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-0-65af34d04fd8@ideasonboard.com> <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-3-65af34d04fd8@ideasonboard.com> <8a8ec84e5484d7a1a5e6fac9a5238f3cae66abc3.camel@ndufresne.ca> <20260105235921.GI10026@pendragon.ideasonboard.com> <20260105193933.40485807@gandalf.local.home> <20260106004928.GL10026@pendragon.ideasonboard.com> <176771948736.12184.11458532023194713133@localhost> <20260112114313.woeZoGZP@linutronix.de>
+Subject: Re: [PATCH 3/4] media: dw100: Fix kernel oops with PREEMPT_RT enabled
+From: Stefan Klug <stefan.klug@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Steven Rostedt <rostedt@goodmis.org>, Nicolas Dufresne <nicolas@ndufresne.ca>, Xavier Roumegue <xavier.roumegue@oss.nxp.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Clark Williams <clrkwllms@kernel.org>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Date: Wed, 14 Jan 2026 18:22:34 +0100
+Message-ID: <176841135424.20276.2623851494182415213@localhost>
+User-Agent: alot/0.12.dev8+g2c003385c862.d20250602
 
-Hi,
+Hi Sebastian,
 
-On 30/12/2025 10:32, Rishikesh Donadkar wrote:
-> From: Changhuang Liang <changhuang.liang@starfivetech.com>
-> 
-> Use runtime power management hooks to save power when CSI-RX is not in
-> use. Also, shift to goto based error handling in
-> csi2rx_enable_streams() function
-> 
-> Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
-> Tested-by: Rishikesh Donadkar <r-donadkar@ti.com>
-> Reviewed-by: Rishikesh Donadkar <r-donadkar@ti.com>
-> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-> Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
-> ---
->  drivers/media/platform/cadence/Kconfig       |   1 +
->  drivers/media/platform/cadence/cdns-csi2rx.c | 136 ++++++++++++-------
->  2 files changed, 88 insertions(+), 49 deletions(-)
+Thanks for your support.
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Quoting Sebastian Andrzej Siewior (2026-01-12 12:43:13)
+> On 2026-01-06 18:11:27 [+0100], Stefan Klug wrote:
+> > Hah, if I knew that :-).
+> >=20
+> > The pieces I have are:
+> > In the DT the interrupt line is marked as IRQ_TYPE_LEVEL_HIGH. I don't
+> > know why and couldn't find a reference to that in the reference manual.
+>=20
+> It is either a LEVEL interrupt or just marked as such. But it seems to
+> behave as such.
+>=20
+> > Assuming it is a level interrupt, then it makes sense to treat it as ON=
+ESHOT,
+> > otherwise it would fire again immediately after handling the hard
+> > interrupt...but it was a hard interrupt in first place - huh.
+>=20
+> So setting it ONESHOT while it is non-threaded does not seem to make
+> sense, correct.
+>=20
+> > I just realize that I still miss a bit of the puzzle:
+> > ONESHOT is doumented as:
+> >=20
+> > "Interrupt is not reenabled after the hardirq handler finished. Used by
+> > threaded interrupts which need to keep the irq line disabled until the
+> > threaded handler has been run."
+> >=20
+> > That makes perfect sense. So ONESHOT disables the irq line until the
+> > thread_fn has completed (if it was set). Now on preempt_rt inside
+> > irq_setup_forced_threading() we don't force threading if ONESHOT is
+> > requested. Why is that?
+>=20
+> Because ONESHOT is usually used where there is no primary handler/ the
+> primary handler does just a wake of thread.
+>=20
+> > So I'm left with two questions:
+> > - Why aren't ONESHOT irq handlers forced to threaded on preempt_rt?
+>=20
+> See above. Also PREEMPT_RT just enforces the kernel command line
+> threadirqs
+>=20
+> > - Why was ONESHOT requested in first place as to my current knowledge it
+> >   really only makes sense if a thread_fn is defined.
+>=20
+> I would say it was a mistake and nobody noticed it. There is no visible
+> difference if there is just the primary handler and the system does not
+> use threadirqs (or PREEMPT_RT which enforces it).
+>=20
+> > Did I just answer my own question? ONESHOT only makes sense if there is
+> > a thread_fn and it is assumed that the hard handler is necessary. So
+> > preempt_rt doesn't try to change that?
+>=20
+> Yes. ONESHOT is used if the interrupt source within the IRQ chip has to
+> be masked until after the thread completed. So setting ONESHOT without a
+> threaded handler is dubious.
+>=20
+> > That would mean the ONESHOT in the dw100 was not necessary in first
+> > place but didn't do any harm until preempt_rt was enabled... And if
+> > ONSHOT is *not* set preempt_rt would automatically force the irq handler
+> > to be threaded and set the ONESHOT flag in irq_setup_forced_threading().
+>=20
+> correct.
+>=20
+> > So everything would be fine except that we'd still hit the timeout issue
+> > from patch 4/4.
+> >=20
+> > So if I got that right, the dw100 driver is in the unfortunate
+> > situation, that the irq handler consists of two parts where the first
+> > part *must* run in hard interrupt context and the second part *should* =
+run
+> > in hard interrupt context but it is fine if it becomes threaded due to
+> > preempt_rt. As we can't model that, the best we can do is to always run
+> > the second part threaded...
+>=20
+> So happens if you avoid the IRQF_ONESHOT? Do you still get these
+> timeout errors?
 
- Tomi
+I did a bit more testing and got results that I fail to completely
+understand.
 
-> diff --git a/drivers/media/platform/cadence/Kconfig b/drivers/media/platform/cadence/Kconfig
-> index 1aa608c00dbce..ea85ef82760e6 100644
-> --- a/drivers/media/platform/cadence/Kconfig
-> +++ b/drivers/media/platform/cadence/Kconfig
-> @@ -5,6 +5,7 @@ comment "Cadence media platform drivers"
->  config VIDEO_CADENCE_CSI2RX
->  	tristate "Cadence MIPI-CSI2 RX Controller"
->  	depends on VIDEO_DEV
-> +	depends on PM
->  	select MEDIA_CONTROLLER
->  	select VIDEO_V4L2_SUBDEV_API
->  	select V4L2_FWNODE
-> diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
-> index 5c16a2e509136..40c947c813248 100644
-> --- a/drivers/media/platform/cadence/cdns-csi2rx.c
-> +++ b/drivers/media/platform/cadence/cdns-csi2rx.c
-> @@ -337,11 +337,6 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
->  	u32 reg;
->  	int ret;
->  
-> -	ret = clk_prepare_enable(csi2rx->p_clk);
-> -	if (ret)
-> -		return ret;
-> -
-> -	reset_control_deassert(csi2rx->p_rst);
->  	csi2rx_reset(csi2rx);
->  
->  	if (csi2rx->error_irq >= 0)
-> @@ -382,7 +377,7 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
->  		if (ret) {
->  			dev_err(csi2rx->dev,
->  				"Failed to configure external DPHY: %d\n", ret);
-> -			goto err_disable_pclk;
-> +			return ret;
->  		}
->  	}
->  
-> @@ -397,12 +392,6 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
->  	 * hence the reference counting.
->  	 */
->  	for (i = 0; i < csi2rx->max_streams; i++) {
-> -		ret = clk_prepare_enable(csi2rx->pixel_clk[i]);
-> -		if (ret)
-> -			goto err_disable_pixclk;
-> -
-> -		reset_control_deassert(csi2rx->pixel_rst[i]);
-> -
->  		writel(CSI2RX_STREAM_CFG_FIFO_MODE_LARGE_BUF |
->  			       FIELD_PREP(CSI2RX_STREAM_CFG_NUM_PIXELS_MASK,
->  					  csi2rx->num_pixels[i]),
-> @@ -415,30 +404,8 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
->  		       csi2rx->base + CSI2RX_STREAM_CTRL_REG(i));
->  	}
->  
-> -	ret = clk_prepare_enable(csi2rx->sys_clk);
-> -	if (ret)
-> -		goto err_disable_pixclk;
-> -
-> -	reset_control_deassert(csi2rx->sys_rst);
-> -
-> -	clk_disable_unprepare(csi2rx->p_clk);
->  
->  	return 0;
-> -
-> -err_disable_pixclk:
-> -	for (; i > 0; i--) {
-> -		reset_control_assert(csi2rx->pixel_rst[i - 1]);
-> -		clk_disable_unprepare(csi2rx->pixel_clk[i - 1]);
-> -	}
-> -
-> -	if (csi2rx->dphy) {
-> -		writel(0, csi2rx->base + CSI2RX_DPHY_LANE_CTRL_REG);
-> -		phy_power_off(csi2rx->dphy);
-> -	}
-> -err_disable_pclk:
-> -	clk_disable_unprepare(csi2rx->p_clk);
-> -
-> -	return ret;
->  }
->  
->  static void csi2rx_stop(struct csi2rx_priv *csi2rx)
-> @@ -447,10 +414,6 @@ static void csi2rx_stop(struct csi2rx_priv *csi2rx)
->  	u32 val;
->  	int ret;
->  
-> -	clk_prepare_enable(csi2rx->p_clk);
-> -	reset_control_assert(csi2rx->sys_rst);
-> -	clk_disable_unprepare(csi2rx->sys_clk);
-> -
->  	writel(0, csi2rx->base + CSI2RX_ERROR_IRQS_MASK_REG);
->  
->  	for (i = 0; i < csi2rx->max_streams; i++) {
-> @@ -465,14 +428,8 @@ static void csi2rx_stop(struct csi2rx_priv *csi2rx)
->  		if (ret)
->  			dev_warn(csi2rx->dev,
->  				 "Failed to stop streaming on pad%u\n", i);
-> -
-> -		reset_control_assert(csi2rx->pixel_rst[i]);
-> -		clk_disable_unprepare(csi2rx->pixel_clk[i]);
->  	}
->  
-> -	reset_control_assert(csi2rx->p_rst);
-> -	clk_disable_unprepare(csi2rx->p_clk);
-> -
->  	if (csi2rx->dphy) {
->  		writel(0, csi2rx->base + CSI2RX_DPHY_LANE_CTRL_REG);
->  
-> @@ -548,10 +505,15 @@ static int csi2rx_enable_streams(struct v4l2_subdev *subdev,
->  	 * enable the whole controller.
->  	 */
->  	if (!csi2rx->count) {
-> +		ret = pm_runtime_resume_and_get(csi2rx->dev);
-> +		if (ret < 0)
-> +			goto err;
-> +
->  		csi2rx_update_vc_select(csi2rx, state);
-> +
->  		ret = csi2rx_start(csi2rx);
->  		if (ret)
-> -			return ret;
-> +			goto err_put_pm;
->  	}
->  
->  	/* Start streaming on the source */
-> @@ -561,13 +523,20 @@ static int csi2rx_enable_streams(struct v4l2_subdev *subdev,
->  		dev_err(csi2rx->dev,
->  			"Failed to start streams %#llx on subdev\n",
->  			sink_streams);
-> -		if (!csi2rx->count)
-> -			csi2rx_stop(csi2rx);
-> -		return ret;
-> +		goto err_stop_csi;
->  	}
->  
->  	csi2rx->count++;
->  	return 0;
-> +
-> +err_stop_csi:
-> +	if (!csi2rx->count)
-> +		csi2rx_stop(csi2rx);
-> +err_put_pm:
-> +	if (!csi2rx->count)
-> +		pm_runtime_put(csi2rx->dev);
-> +err:
-> +	return ret;
->  }
->  
->  static int csi2rx_disable_streams(struct v4l2_subdev *subdev,
-> @@ -589,8 +558,10 @@ static int csi2rx_disable_streams(struct v4l2_subdev *subdev,
->  	csi2rx->count--;
->  
->  	/* Let the last user turn off the lights. */
-> -	if (!csi2rx->count)
-> +	if (!csi2rx->count) {
->  		csi2rx_stop(csi2rx);
-> +		pm_runtime_put(csi2rx->dev);
-> +	}
->  
->  	return 0;
->  }
-> @@ -1057,6 +1028,7 @@ static int csi2rx_probe(struct platform_device *pdev)
->  	if (ret)
->  		goto err_cleanup;
->  
-> +	pm_runtime_enable(csi2rx->dev);
->  	ret = v4l2_async_register_subdev(&csi2rx->subdev);
->  	if (ret < 0)
->  		goto err_free_state;
-> @@ -1071,6 +1043,7 @@ static int csi2rx_probe(struct platform_device *pdev)
->  
->  err_free_state:
->  	v4l2_subdev_cleanup(&csi2rx->subdev);
-> +	pm_runtime_disable(csi2rx->dev);
->  err_cleanup:
->  	v4l2_async_nf_unregister(&csi2rx->notifier);
->  	v4l2_async_nf_cleanup(&csi2rx->notifier);
-> @@ -1089,9 +1062,73 @@ static void csi2rx_remove(struct platform_device *pdev)
->  	v4l2_async_unregister_subdev(&csi2rx->subdev);
->  	v4l2_subdev_cleanup(&csi2rx->subdev);
->  	media_entity_cleanup(&csi2rx->subdev.entity);
-> +	pm_runtime_disable(csi2rx->dev);
->  	kfree(csi2rx);
->  }
->  
-> +static int csi2rx_runtime_suspend(struct device *dev)
-> +{
-> +	struct csi2rx_priv *csi2rx = dev_get_drvdata(dev);
-> +	unsigned int i;
-> +
-> +	reset_control_assert(csi2rx->sys_rst);
-> +	clk_disable_unprepare(csi2rx->sys_clk);
-> +
-> +	for (i = 0; i < csi2rx->max_streams; i++) {
-> +		reset_control_assert(csi2rx->pixel_rst[i]);
-> +		clk_disable_unprepare(csi2rx->pixel_clk[i]);
-> +	}
-> +
-> +	reset_control_assert(csi2rx->p_rst);
-> +	clk_disable_unprepare(csi2rx->p_clk);
-> +
-> +	return 0;
-> +}
-> +
-> +static int csi2rx_runtime_resume(struct device *dev)
-> +{
-> +	struct csi2rx_priv *csi2rx = dev_get_drvdata(dev);
-> +	unsigned int i;
-> +	int ret;
-> +
-> +	ret = clk_prepare_enable(csi2rx->p_clk);
-> +	if (ret)
-> +		return ret;
-> +
-> +	reset_control_deassert(csi2rx->p_rst);
-> +
-> +	for (i = 0; i < csi2rx->max_streams; i++) {
-> +		ret = clk_prepare_enable(csi2rx->pixel_clk[i]);
-> +		if (ret)
-> +			goto err_disable_pixclk;
-> +
-> +		reset_control_deassert(csi2rx->pixel_rst[i]);
-> +	}
-> +
-> +	ret = clk_prepare_enable(csi2rx->sys_clk);
-> +	if (ret)
-> +		goto err_disable_pixclk;
-> +
-> +	reset_control_deassert(csi2rx->sys_rst);
-> +
-> +	return 0;
-> +
-> +err_disable_pixclk:
-> +	for (; i > 0; i--) {
-> +		reset_control_assert(csi2rx->pixel_rst[i - 1]);
-> +		clk_disable_unprepare(csi2rx->pixel_clk[i - 1]);
-> +	}
-> +
-> +	reset_control_assert(csi2rx->p_rst);
-> +	clk_disable_unprepare(csi2rx->p_clk);
-> +
-> +	return ret;
-> +}
-> +
-> +static const struct dev_pm_ops csi2rx_pm_ops = {
-> +	RUNTIME_PM_OPS(csi2rx_runtime_suspend, csi2rx_runtime_resume, NULL)
-> +};
-> +
->  static const struct of_device_id csi2rx_of_table[] = {
->  	{ .compatible = "starfive,jh7110-csi2rx" },
->  	{ .compatible = "cdns,csi2rx" },
-> @@ -1106,6 +1143,7 @@ static struct platform_driver csi2rx_driver = {
->  	.driver	= {
->  		.name		= "cdns-csi2rx",
->  		.of_match_table	= csi2rx_of_table,
-> +		.pm		= &csi2rx_pm_ops,
->  	},
->  };
->  module_platform_driver(csi2rx_driver);
+If I enable IRQF_ONESHOT and use the threaded_fn, on a non PREEMPT_RT
+system I regularly observe the timeout message.
 
+If I pass irqflags=3D0 and use the hard handler on a PREEMPT_RT system I
+expected the same behavior (as the hard handler gets changed to be
+threaded and implicitely ONESHOT is set). But I don't see the timeout
+messages.
+
+Is there anything else that I need to do on PREEMPT_RT to force the
+threaded behavior besides enabling the config? Or is the irq thread
+running with higher priority and therefore possibly faster?
+
+Running irqflags=3D0 and the hard handler on a non PREEMPT_RT system
+didn't have any negative side effects. So maybe that is really the
+solution...
+
+I'll ping Xavier if he has more details on the hardware.
+
+Best regards,
+Stefan
+
+>=20
+> > So patch 4/4 seems correct until we get new information about the
+> > hardware.
+> >=20
+> > Any thoughts?
+> >=20
+> > Best regards,
+> > Stefan
+>=20
+> Sebastian
+>
 
