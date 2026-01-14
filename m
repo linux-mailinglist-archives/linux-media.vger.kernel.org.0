@@ -1,108 +1,161 @@
-Return-Path: <linux-media+bounces-50651-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50653-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D348DD1D34D
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 09:46:03 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D9A3D1D389
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 09:47:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1E3503027E2E
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 08:40:18 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 3D737300A7A8
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 08:47:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78EAC3793B5;
-	Wed, 14 Jan 2026 08:39:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e856R4uv"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A42837FF73;
+	Wed, 14 Jan 2026 08:47:22 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE4C436B041;
-	Wed, 14 Jan 2026 08:39:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD5437F740
+	for <linux-media@vger.kernel.org>; Wed, 14 Jan 2026 08:47:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768379970; cv=none; b=pqlRO6f4TF7ppMN/duG5RuP545e6NcKFEmqbGpmu+rOi9TCweDEtkA2Ywm9t7FItZBwBGrQ9H6f7bdM0hLXZEjNO8yqD+vVXBQVFRPO9BOf22YQTvRBaSmeBLifoXbn3DIs58igI3gjramraeikrE5hsruyhpFCTA3GRZNGpvzk=
+	t=1768380440; cv=none; b=If0ZXfi072+diJnDm+OMBr27219PcyitTnT+yDdHwU+bdCPw2iAo+iXSDJ9264byPoeYXvl9P68qfRUm4kPoEYAEj7S6d622VT3YVvIbMQ7Q7M13H4X5AGy9uUDWQQDvyn2k43QyHaoyjUQX8dF7z31flptyIsIiAQU80csnKjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768379970; c=relaxed/simple;
-	bh=614IsgCyPrC+LANiDqdeChyqdIK7swwNyY/uFwv4C6Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o/n9Noym4NJtugI33/zdWb3Ng+QYiLijgSOAztk5Q7ebuFyM0KUxr45/VSB1D1+SUZrrfx3mr8e5MAYXCD8JKpZy3LEv2wN7IYiwlzprkR+h+3DKX5G5aYMGT1152fmji7XsLkUqiNtsvXvbb2EMQIbetHxkshxc+9iNXr9QXNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e856R4uv; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29840C4CEF7;
-	Wed, 14 Jan 2026 08:39:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768379970;
-	bh=614IsgCyPrC+LANiDqdeChyqdIK7swwNyY/uFwv4C6Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e856R4uvDxkboLVICMNt/fAINa0TyYVejMcXnjghiNZ0AQRBaS1ciOdjzAlDXdzGC
-	 jGrLM0wujXr3Nr1TYa5mBxXcvIPaN/aze2dsmi28pS2MyKO8JOsqcDt9eAh+td72Nh
-	 zhOzPD4uCJdWO2+IPC6mpyQefb2FK5DSlVoA8SvBE/7j+PYlRZjYirwGCIHOY2fp/W
-	 2L8ABT3nYa/lPLzzzln1C4gL63ayMpwKeQdWrWSFS6kc4VK+DDtSbpsxNiVfw3cizs
-	 VmaslcIlOSg56vTBzarXR0QaSJiNYlUFlybJLisDEZXP28Ud77fc4s32ldn8Tnx2JT
-	 nMMmxqSEoLffA==
-Date: Wed, 14 Jan 2026 09:39:27 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
-Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
-	linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, jeyaprakash.soundrapandian@oss.qualcomm.com, 
-	Vijay Kumar Tumati <vijay.tumati@oss.qualcomm.com>
-Subject: Re: [PATCH v2 1/5] media: dt-bindings: Add CAMSS device for SM8750
-Message-ID: <20260114-notorious-bison-of-wholeness-0da70f@quoll>
-References: <20260113-sm8750-camss-v2-0-e5487b98eada@oss.qualcomm.com>
- <20260113-sm8750-camss-v2-1-e5487b98eada@oss.qualcomm.com>
+	s=arc-20240116; t=1768380440; c=relaxed/simple;
+	bh=J+ezMdLeKDw2KdHjb7fx+7OSZNe9loJWenNTh9oNP1A=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Mo9xunSbZTHeY7fwOtp2KCM/x2m9QPkNHRL7hWAofwFytCXK9mXiWTBwznM9fKymA8AOCvG3pvsIQMbPEgsXQ1NZNgeS7ewAFzb0chMvEvmXxzxK8RrTCOYmKjFHuKWrO3kb5FbY/6fg3djrzXjZbjlf+JPTfGAiOjnqHQGYSb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-64d1ef53cf3so12310905a12.0
+        for <linux-media@vger.kernel.org>; Wed, 14 Jan 2026 00:47:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768380433; x=1768985233;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BM8f7jH0taMvYnkaVr76MNplqROK/eiMRxPqXZYuq2Y=;
+        b=xT+a57sdcpqBh5w53aQWVw5Wcv1KfJs1yzMWT/1KbWb4EkwagN7CZrKThQ+c3goR0e
+         8/D4YFMKjmvmyDthDOk3w46QytjsZOrXzK3n0G3B8hwIxb94elq3bimWvG2Mdxi2B+cv
+         oPEVguToxG1eQMbyX50iAWM/kv4xNGm+hMtQdARqD6+1RcU9SL+e81BXXrxsy2wdss11
+         SCw/tOUh0YBxB+CdCmwawCN3d9Qp9QtyVlCPEhEJ/Fk08bTfQbsm5VQv7ZIqNbkL+eii
+         SlQYEWrVcYXxEKh9+HVBoEQ4e4lD+0DbHUATkfV84aRe7xhjqZuB/kDA+rEnJsFCL378
+         uzGA==
+X-Forwarded-Encrypted: i=1; AJvYcCXBB+hDg3h2LjZd74opjLa1LHmbZw7XlZzeYtuqjQA/YPj8XZpVDVEHBqvI3CBDoBaAGD1JEL3quhlpzQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwnDHhawf0XE7FPYucRfTEzGYxwbPMtZliKIhoFDitTF/bi7E+w
+	ihIA8PsU1D4dkHPwVFu4EOEGC5uye8l+lW2tz0c3/95a2UPj1+1JUrUC
+X-Gm-Gg: AY/fxX5YVMUDU+LP8JdtYzWzRpEkBiJgb4bxA7wZKVim1I2MUtcCOxagbHcYQCMPsrU
+	1Q/lF9EBIMiWIWe57+bBcJMXLQ5H3JaiwZIWJbVgr5Khq0BLG2Xy5Ul5qiRvSCZCkT0uCyHvP5N
+	tOjSuynANFx7FDfrK5iObAquakEkuL5PpLZkxs8l/KZoBS9tGESIJX8Of5fTdc/1OuxiP4QQz0r
+	NvW2dcem58XhHsT2jRY0FFbwzr08I/G+uM5QHiwnD6oVyF5VFzsaizs75DiitGGhpZs01Iyd6Ia
+	rysrEE/IRGM5Mtq4AIlDt8u4+ayyqHtP6IrUE2OzSMUdnSGqCc9oJwR/g/5i8temR3epLzQ2pYN
+	n/w9A9d42WJfwfJwT4CcwklKtURWWYvvDTTZZWwoC0Z/0zAdC2v9wPF1BUpmSqEQFpUZjHGusS1
+	KnxKMw1Cj1xJt5KOpMVX+pVDhUoNNJ/WUMNneVwxwIWww7UQ==
+X-Received: by 2002:a17:907:2da0:b0:b83:972c:77fe with SMTP id a640c23a62f3a-b876770a4famr96020166b.2.1768380432976;
+        Wed, 14 Jan 2026 00:47:12 -0800 (PST)
+Received: from [10.42.0.1] (cst-prg-36-231.cust.vodafone.cz. [46.135.36.231])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6507bf6d5d4sm22379136a12.32.2026.01.14.00.47.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Jan 2026 00:47:12 -0800 (PST)
+From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Subject: [PATCH v2 0/5] New DRM accel driver for Texas Instruments' C7x
+ DSPs
+Date: Wed, 14 Jan 2026 09:46:47 +0100
+Message-Id: <20260114-thames-v2-0-e94a6636e050@tomeuvizoso.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260113-sm8750-camss-v2-1-e5487b98eada@oss.qualcomm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPdXZ2kC/2WMQQ7CIBBFr9LMWgwDxgZX3sN0QcoosygYoERtu
+ LvYrcv3/8vbIFNiynAZNkhUOXMMHdRhgNnb8CDBrjMoqc4SUYvi7UJZaH1CNVrlDDro8jPRnV9
+ 76DZ19pxLTO+9W/G3/iUqCimM0Ub2w+hxvpa40Fr5E3M8Biowtda+r3H/yaIAAAA=
+X-Change-ID: 20260113-thames-334127a2d91d
+To: Nishanth Menon <nm@ti.com>, "Andrew F. Davis" <afd@ti.com>, 
+ Randolph Sapp <rs@ti.com>, Jonathan Humphreys <j-humphreys@ti.com>, 
+ Andrei Aldea <a-aldea@ti.com>, Chirag Shilwant <c-shilwant@ti.com>, 
+ Vignesh Raghavendra <vigneshr@ti.com>, Tero Kristo <kristo@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Robert Nelson <robertcnelson@gmail.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-doc@vger.kernel.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org, Tomeu Vizoso <tomeu@tomeuvizoso.net>
+X-Mailer: b4 0.14.2
 
-On Tue, Jan 13, 2026 at 02:28:27AM -0800, Hangxiang Ma wrote:
-> Add bindings for Camera Subsystem (CAMSS) on the Qualcomm SM8750 platform.
-> 
-> The SM8750 platform provides:
-> 
-> - 3 x VFE (Video Front End), 5 RDI per VFE
-> - 2 x VFE Lite, 4 RDI per VFE Lite
-> - 3 x CSID (CSI Decoder)
-> - 2 x CSID Lite
-> - 6 x CSIPHY (CSI Physical Layer)
-> - 2 x ICP (Image Control Processor)
-> - 1 x IPE (Image Processing Engine)
-> - 2 x JPEG DMA & Downscaler
-> - 2 x JPEG Encoder
-> - 1 x OFE (Offline Front End)
-> - 5 x RT CDM (Camera Data Mover)
-> - 3 x TPG (Test Pattern Generator)
-> 
-> Signed-off-by: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
-> ---
->  .../bindings/media/qcom,sm8750-camss.yaml          | 663 +++++++++++++++++++++
+This series adds a new DRM/Accel driver that supports the C7x DSPs
+inside some Texas Instruments SoCs such as the J722S. These can be used
+as accelerators for various workloads, including machine learning
+inference.
 
-Why are you changing the change IDs?
+This driver controls the power state of the hardware via remoteproc and
+communicates with the firmware running on the DSP via rpmsg_virtio.  The
+kernel driver itself allocates buffers, manages contexts, and submits
+jobs to the DSP firmware. Buffers are mapped by the DSP itself using its
+MMU, providing memory isolation among different clients.
 
-b4 diff '20260113-sm8750-camss-v2-0-e5487b98eada@oss.qualcomm.com'
-Grabbing thread from lore.kernel.org/all/20260113-sm8750-camss-v2-0-e5487b98eada@oss.qualcomm.com/t.mbox.gz
-Checking for older revisions
-Grabbing search results from lore.kernel.org
+The source code for the firmware running on the DSP is available at:
+https://gitlab.freedesktop.org/tomeu/thames_firmware/.
+
+Everything else is done in userspace, as a Gallium driver (also called
+thames) that is part of the Mesa3D project: https://docs.mesa3d.org/teflon.html
+
+If there is more than one core that advertises the same rpmsg_virtio
+service name, the driver will load balance jobs between them with
+drm-gpu-scheduler.
+
+Userspace portion of the driver: https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/39298
+
+Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 ---
-Analyzing 8 messages in the thread
-Could not find lower series to compare against.
+Changes in v2:
+- Add thames_accel.h UAPI header (Robert Nelson).
+- Link to v1: https://lore.kernel.org/r/20260113-thames-v1-0-99390026937c@tomeuvizoso.net
 
-Look at your v1 b4 data. Now look at this one. This is completely messed
-up process, not how you are suppose to use b4.
+---
+Tomeu Vizoso (5):
+      arm64: dts: ti: k3-j722s-ti-ipc-firmware: Add memory pool for DSP i/o buffers
+      accel/thames: Add driver for the C7x DSPs in TI SoCs
+      accel/thames: Add IOCTLs for BO creation and mapping
+      accel/thames: Add IOCTL for job submission
+      accel/thames: Add IOCTL for memory synchronization
 
-You make it difficult for us to handle your patch and I do not see
-reason why this should be my cost.
-
+ Documentation/accel/thames/index.rst               |  28 ++
+ MAINTAINERS                                        |   9 +
+ .../boot/dts/ti/k3-j722s-ti-ipc-firmware.dtsi      |  11 +-
+ drivers/accel/Kconfig                              |   1 +
+ drivers/accel/Makefile                             |   3 +-
+ drivers/accel/thames/Kconfig                       |  26 ++
+ drivers/accel/thames/Makefile                      |  11 +
+ drivers/accel/thames/thames_core.c                 | 161 +++++++
+ drivers/accel/thames/thames_core.h                 |  53 +++
+ drivers/accel/thames/thames_device.c               |  93 +++++
+ drivers/accel/thames/thames_device.h               |  46 ++
+ drivers/accel/thames/thames_drv.c                  | 180 ++++++++
+ drivers/accel/thames/thames_drv.h                  |  21 +
+ drivers/accel/thames/thames_gem.c                  | 405 ++++++++++++++++++
+ drivers/accel/thames/thames_gem.h                  |  45 ++
+ drivers/accel/thames/thames_ipc.h                  | 204 +++++++++
+ drivers/accel/thames/thames_job.c                  | 463 +++++++++++++++++++++
+ drivers/accel/thames/thames_job.h                  |  51 +++
+ drivers/accel/thames/thames_rpmsg.c                | 276 ++++++++++++
+ drivers/accel/thames/thames_rpmsg.h                |  27 ++
+ include/uapi/drm/thames_accel.h                    | 189 +++++++++
+ 21 files changed, 2300 insertions(+), 3 deletions(-)
+---
+base-commit: 27927a79b3c6aebd18f38507a8160294243763dc
+change-id: 20260113-thames-334127a2d91d
 
 Best regards,
-Krzysztof
+-- 
+Tomeu Vizoso <tomeu@tomeuvizoso.net>
 
 
