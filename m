@@ -1,284 +1,186 @@
-Return-Path: <linux-media+bounces-50711-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50712-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9160D201E1
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 17:14:42 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7952D2066C
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 18:03:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3961A30198A2
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 16:14:09 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id A138E300928C
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 17:02:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75E893A1D1F;
-	Wed, 14 Jan 2026 16:14:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D50FF2836AF;
+	Wed, 14 Jan 2026 17:02:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="RSoEmvBI"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="QQJERt0g"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.15.3])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB5572DE70A
-	for <linux-media@vger.kernel.org>; Wed, 14 Jan 2026 16:14:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42C1C155C82;
+	Wed, 14 Jan 2026 17:02:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768407247; cv=none; b=o9YPms3K+fwtgcmD7c5JVFd5BFA0CXonGCWKrumTsp+qwILytuwKjogHyhxoz6mKdgYmWP3zISairgAHj6lD6ZvrdqVJ96yJman5KERp3727WvhJ0GRgaUCmg9POZbPmJvYnofVN6Pq388l+WPMxWk7H2fL+evjfitPlezwg1jE=
+	t=1768410137; cv=none; b=j2sugenakxb5HHIedjNARXZT2NpCo1yJrZ41/6zJrenAtzEH2gtNYgaDTnrqV5EcIF72tJJMj2wM6wJ7O57k51yUIGDT24GW4uVe0pOCU2njuBnSpS+JEEtZau2/eTHPxjTmQDYPZTJd8sJ84atOm473JBlBv2398dpwCYQHbYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768407247; c=relaxed/simple;
-	bh=iJ0Aganr8KuPuLSs0mhZBFYNZP7jxgYftfZB3bUJhnM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=rtMmtq1xvTYDUoqph/HiNPvuhztm+k5bapTBlJDvRmPayLDKejBwMF3E+gyorUCgguEgF9kIWvjwwxdb87xYYEHTQLCalLp5io5el1EDE/fI9xGsrnP1QYx5WSbbU0cilz6LG2IemYdx0Ui4RHPFoOA+9haEshUxoJkjdZg9eqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=RSoEmvBI; arc=none smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4ed82ee9e57so117124511cf.0
-        for <linux-media@vger.kernel.org>; Wed, 14 Jan 2026 08:14:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1768407245; x=1769012045; darn=vger.kernel.org;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=e5+clJajQNm6silgVV5Zi3EM4F+meGHkoI3LcAyLzCA=;
-        b=RSoEmvBIzl/pkpxkG1v8AKeoNFCXMWknnZA07Dr1zN2MPatcmjmKoQCXtCuWpT5c3O
-         zHbe+aiDda8WP+DbrtpXThiZreg3DZpAQkyWE0IqIpMONJeQN3CNbxvvjaO6lPMlaznf
-         g/goa6fAGUtrQRhhokpBDjRrijfceB5BfcnV4AZDaEVCnk3gu9W3Ba6MwSXUp6sjihwe
-         6CPq6g+kxgIs9Fj6jHfwYF+OOtjQ6oXqZF+o2XxETNk14WGe86AeNacYaLh0Iqofn5K7
-         nodBeVcHvhc9HJ0XmZShkJGpONZKhLqQui1qwLaqwppZaNOiQBbOlUqTbFD/UsNJbbz7
-         SwvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768407245; x=1769012045;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=e5+clJajQNm6silgVV5Zi3EM4F+meGHkoI3LcAyLzCA=;
-        b=i+atvaDPujgvVe6QPSoOVXRKyRCIa8W404LQC3WZhNMm7v5fL+Ti/gWC0Ood0PVFNC
-         /l8AGN6LZV3uUXKsOakfsAyF7AGimSfxjleMRSmjpoNX6gvjl+gQ/9BWBaFz3s3joZen
-         qGEMpMSq8m3Ja1GMMHw7zioRa6K5SUeEXk8JCp+movRkUbnOiNkHZLtR11S/XGqPf0Yr
-         rhFqF59zL/ZQMFJa4XmDhjT+/TLNFA649zf77N1yUrbTP2BUDlfE4uKi+oSN3IFAHjSQ
-         VaozotlPXS8VSAaoHZe7ImrYFmhsQ+LPj/HAClmBKT8tsHrdM9ydBIanBOMLy+GtAacN
-         LMGQ==
-X-Gm-Message-State: AOJu0YzWcMRb4GudqvmfrozN0WsPQvs+2O2FM2fiGBQ5jGex8gpy1rUr
-	o+cfPJzxXZPmBwRSzBuKaEQ6MGxGmMs6F3R0fmgUqlbd7PjEgBAqfzlW+iRYUP3xoq0=
-X-Gm-Gg: AY/fxX6G6hr8cUpzyRrMr5ksIE38+VOO1CfhjWZ3bo8PTvaH0isyyd3iaI2Qfrz+RjM
-	/6dhN2dH5mfgUbhn1bwVQI4SpqiRFErfx5rwzwU9zf2AU8YFQ8owu+STJ/jAbhlEz86GDa3C2Mn
-	DJ/t1rDuj873fZEi946qkLw551+6b0cswcQeWg//2vlKA8AX+Ras1jJXcdfYWf466f3RKTa/t+u
-	VaBVjPqR/bVELfYPS8Cdl169Hylg06DfdDdDONiXmwWamhZ8e6bpu5YEL4/axS3RsKKngAMm3RC
-	lt93ofgexaIJr7LgvsN7K1/U/8RnqN2BoBIlZnC9JXa+ZpWCAUxiW14HWe78iFeR8Od3IPDWlkk
-	gHk8WPcsavBEg64xKE0pbdB5G9MklS2+A9i0gYQMSlIE4FkNFYj34VuWGdLA64r6j7XXe1gDOAn
-	D4uGe802atLofND7bz
-X-Received: by 2002:a05:622a:4203:b0:4ee:1db1:a605 with SMTP id d75a77b69052e-501481f8beemr45956951cf.20.1768407244604;
-        Wed, 14 Jan 2026 08:14:04 -0800 (PST)
-Received: from ?IPv6:2606:6d00:17:7b4b::5ac? ([2606:6d00:17:7b4b::5ac])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50148dd7454sm15536331cf.6.2026.01.14.08.14.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jan 2026 08:14:03 -0800 (PST)
-Message-ID: <08ff44d8907c72b7599fa4599477d78bcecb440a.camel@ndufresne.ca>
-Subject: Re: [RFC PATCH 1/3] media: uapi: Introduce new control for video
- encoder ROI
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Deepa Guthyappa Madivalara <deepa.madivalara@oss.qualcomm.com>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, Vikash Garodia
- <vikash.garodia@oss.qualcomm.com>, Dikshita Agarwal	
- <dikshita.agarwal@oss.qualcomm.com>, Abhinav Kumar
- <abhinav.kumar@linux.dev>,  Bryan O'Donoghue	 <bod@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org
-Date: Wed, 14 Jan 2026 11:14:02 -0500
-In-Reply-To: <20260113-iris_enc_roi-v1-1-6c86eba38587@oss.qualcomm.com>
-References: <20260113-iris_enc_roi-v1-0-6c86eba38587@oss.qualcomm.com>
-	 <20260113-iris_enc_roi-v1-1-6c86eba38587@oss.qualcomm.com>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-6Rnm5V13JnzOOMbNyzHt"
-User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
+	s=arc-20240116; t=1768410137; c=relaxed/simple;
+	bh=QzM1ZStrRx6Dh/DfutRbJjFjWehSsZXVj6RoB6KCxZw=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=jEVopwDhIXArkZQgkOZdSqLKO4lgNQKoNpuHsX2ZSagT5fL2qR6v2zBmXkiOx1QB5TOU/YueGMcsxZAT96C5knNrM4YKhAbLAuAtVeuNB1Di/iMxKqFhKwa+mzJ/PMgwduhQTqLdpPPTieRrncfKk32DDCJsbxf4AA9W+5QzsIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=QQJERt0g; arc=none smtp.client-ip=212.227.15.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1768410133; x=1769014933; i=markus.elfring@web.de;
+	bh=bvtJ5D6PQisAG4ASgzXWMWrWNprZUu/F31yj9dv9ngs=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=QQJERt0gGQYr2igvLx6+duHgiF3ojJT4Qc9QAcI3kSlOwpOD9KiTH60fmQURsWkr
+	 swqLRGDhmI876qyTmoiX9mu+o9aKhjPIQb/3YCuzkcbMAyNmf9kO6tCSPsJclVyIb
+	 Rw7qh2kpY6itXa+Nj9hvjhHh8/+/pdpQHWmc4aoGnSMR+VzVdWoOeyzHXa/e6I2u+
+	 CuZFr5ejmpIpgZaAC8zVy27APj7XvvWQ/q/KGyuI3nK8JaiQZkBe5aq6ydRJZEE8t
+	 ycoc2mOINbgHs6XBuuFsoNHUYsn5dtjW3i65BrtWf6Jyo0Pw+MLYgpqXIi744mIsh
+	 78vS8o5a0Kp212qr4Q==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.69.218]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MCGSU-1vWkru3c2c-00GWK3; Wed, 14
+ Jan 2026 18:02:12 +0100
+Message-ID: <fd22f4d2-b67d-4c07-9559-2b23eb558102@web.de>
+Date: Wed, 14 Jan 2026 18:02:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-
-
---=-6Rnm5V13JnzOOMbNyzHt
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linaro-mm-sig@lists.linaro.org
+Cc: LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+ Andrei Aldea <a-aldea@ti.com>, "Andrew F. Davis" <afd@ti.com>,
+ Chirag Shilwant <c-shilwant@ti.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Jonathan Humphreys <j-humphreys@ti.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Nishanth Menon <nm@ti.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Randolph Sapp <rs@ti.com>,
+ Rob Herring <robh@kernel.org>, Robert Nelson <robertcnelson@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Tero Kristo <kristo@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Vignesh Raghavendra <vigneshr@ti.com>
+References: <20260114-thames-v2-2-e94a6636e050@tomeuvizoso.net>
+Subject: Re: [PATCH v2 2/5] accel/thames: Add driver for the C7x DSPs in TI
+ SoCs
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20260114-thames-v2-2-e94a6636e050@tomeuvizoso.net>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:n7pZjXYgBnoGD7L3ypb03MX8PEI4TDCN7kxLOh/RXb2CHpIWxXe
+ CUHGXaqMwjYLsqygtK2Qwk0NWUbGdRO5L1/DvmGuJruwhWdcXTOxPOY+z3il3rCs3jiWi3q
+ 95h0RkGFkniWd6uYzhA+PRkTAKJcOahN2BEO85JXbVlhFyXrHnEFrtBbP3vP/jUvMFBGc5Q
+ 60pWRZWVzmGekf7qHBRog==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:5n5eIst/jLs=;6s0LnvUzCkzv35uoBLjcgvKqRFw
+ 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
+ 2djZQwCc=
 
-Hi,
-
-Le mardi 13 janvier 2026 =C3=A0 12:33 -0800, Deepa Guthyappa Madivalara a =
-=C3=A9crit=C2=A0:
-> Add compound control, V4L2_CID_MPEG_VIDEO_ENC_ROI, for
-> video encoder Region of Interest to allow applications to specify
-> different quality levels for specific regions in video frames. Define
-> struct v4l2_ctrl_enc_roi_params to hold up to 10 rectangular ROI,
-> regions and their corresponding delta_qp value (v4l2_roi_param)
-> that adjust quantization relative to the frame's base value.
->=20
-> This enables use cases like prioritizing quality for faces in video
-> conferencing or important objects in surveillance footage while reducing
-> bitrate for less critical areas.
->=20
-> Signed-off-by: Deepa Guthyappa Madivalara <deepa.madivalara@oss.qualcomm.=
-com>
-> ---
-> =C2=A0.../userspace-api/media/v4l/ext-ctrls-codec.rst=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 7 +++++++
-> =C2=A0include/media/v4l2-ctrls.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 +
-> =C2=A0include/uapi/linux/v4l2-controls.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 1 +
-> =C2=A0include/uapi/linux/videodev2.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 17 +++++++++++++++++
-> =C2=A04 files changed, 26 insertions(+)
->=20
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/=
-Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index c8890cb5e00ac05649e6c344c2a6b938b2ec1b24..0eecb46bb356c01411dfc313b=
-92376593bcd86f6 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -1668,6 +1668,13 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type=
- -
-> =C2=A0=C2=A0=C2=A0=C2=A0 Codecs need to always use the specified range, r=
-ather then a HW custom range.
-> =C2=A0=C2=A0=C2=A0=C2=A0 Applicable to encoders
-> =C2=A0
-> +``V4L2_CID_MPEG_VIDEO_ENC_ROI (struct)``
-> +=C2=A0=C2=A0=C2=A0 Defines the control id to configure specific delta QP=
- for one or more
-> +=C2=A0=C2=A0=C2=A0 rectangular regions of interest. The struct v4l2_ctrl=
-_enc_roi_params
-> +=C2=A0=C2=A0=C2=A0 is defined to hold up to 10 v4l2_rect regions and the=
-ir corresponding
-> +=C2=A0=C2=A0=C2=A0 delta_qp with a range of -31 to 30.
-> +=C2=A0=C2=A0=C2=A0 Applicable to encoders
-
-Any justification for this range ? Also, I believe I've seen hardware suppo=
-rt
-both delta and absolute values. Since it meant to be generic, some research=
- is
-needed. If we delibaritly ignore absolute, perhaps the CID should be named
-accordingly ? Something like V4L2_CID_MPEG_VIDEO_ENC__DELTAQP_ROI ?
-
+=E2=80=A6
+> +++ b/drivers/accel/thames/thames_drv.c
+> @@ -0,0 +1,155 @@
+=E2=80=A6
+> +static int thames_open(struct drm_device *dev, struct drm_file *file)
+> +{
+=E2=80=A6
+> +	if (!try_module_get(THIS_MODULE))
+> +		return -EINVAL;
 > +
-> =C2=A0.. raw:: latex
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0 \normalsize
-> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-> index 31fc1bee3797bfe532931889188c8f7a9dedad39..c44fad7f51db45a437dd3287a=
-a16830585ac42f3 100644
-> --- a/include/media/v4l2-ctrls.h
-> +++ b/include/media/v4l2-ctrls.h
-> @@ -91,6 +91,7 @@ union v4l2_ctrl_ptr {
-> =C2=A0	struct v4l2_ctrl_av1_frame *p_av1_frame;
-> =C2=A0	struct v4l2_ctrl_av1_film_grain *p_av1_film_grain;
-> =C2=A0	struct v4l2_rect *p_rect;
-> +	struct v4l2_ctrl_enc_roi_params *p_enc_roi_params;
-> =C2=A0	void *p;
-> =C2=A0	const void *p_const;
-> =C2=A0};
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2=
--controls.h
-> index f84ed133a6c9b2ddc1aedbd582ddf78cb71f34e5..5f2621365593ee19a7792fb25=
-ea29acf6a7860f1 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -918,6 +918,7 @@ enum v4l2_mpeg_video_av1_level {
-> =C2=A0};
-> =C2=A0
-> =C2=A0#define V4L2_CID_MPEG_VIDEO_AVERAGE_QP=C2=A0 (V4L2_CID_CODEC_BASE +=
- 657)
-> +#define V4L2_CID_MPEG_VIDEO_ENC_ROI=C2=A0 (V4L2_CID_CODEC_BASE + 658)
-> =C2=A0
-> =C2=A0/*=C2=A0 MPEG-class control IDs specific to the CX2341x driver as d=
-efined by V4L2 */
-> =C2=A0#define V4L2_CID_CODEC_CX2341X_BASE				(V4L2_CTRL_CLASS_CODEC | 0x1=
-000)
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev=
-2.h
-> index add08188f06890182a5c399a223c1ab0a546cae1..18a5ae34842721c2647a7a763=
-65e4d299d2b8a44 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -1909,6 +1909,7 @@ struct v4l2_ext_control {
-> =C2=A0		struct v4l2_ctrl_av1_film_grain __user *p_av1_film_grain;
-> =C2=A0		struct v4l2_ctrl_hdr10_cll_info __user *p_hdr10_cll_info;
-> =C2=A0		struct v4l2_ctrl_hdr10_mastering_display __user *p_hdr10_masterin=
-g_display;
-> +		struct v4l2_ctrl_enc_roi_params __user *p_enc_roi_params;
-> =C2=A0		void __user *ptr;
-> =C2=A0	} __attribute__ ((packed));
-> =C2=A0} __attribute__ ((packed));
-> @@ -1990,6 +1991,8 @@ enum v4l2_ctrl_type {
-> =C2=A0	V4L2_CTRL_TYPE_AV1_TILE_GROUP_ENTRY =3D 0x281,
-> =C2=A0	V4L2_CTRL_TYPE_AV1_FRAME	=C2=A0=C2=A0=C2=A0 =3D 0x282,
-> =C2=A0	V4L2_CTRL_TYPE_AV1_FILM_GRAIN	=C2=A0=C2=A0=C2=A0 =3D 0x283,
-> +
-> +	V4L2_CTRL_TYPE_ENC_ROI_PARAMS	=C2=A0=C2=A0=C2=A0 =3D 0x284,
-> =C2=A0};
-> =C2=A0
-> =C2=A0/*=C2=A0 Used in the VIDIOC_QUERYCTRL ioctl for querying controls *=
-/
-> @@ -2540,6 +2543,20 @@ struct v4l2_streamparm {
-> =C2=A0	} parm;
-> =C2=A0};
-> =C2=A0
-> +/* Roi format
-> + */
-> +#define VIDEO_MAX_ROI_REGIONS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 10
+> +	thames_priv =3D kzalloc(sizeof(*thames_priv), GFP_KERNEL);
+> +	if (!thames_priv) {
+> +		ret =3D -ENOMEM;
+> +		goto err_put_mod;
+> +	}
+=E2=80=A6
 
-Let's not hardcode hardware spececific constraints in the API. We have dyna=
-mic
-arrays now in compount controls, and you can define the maximum dimension a=
-nd
-all.
+I find the identifiers =E2=80=9Cret=E2=80=9D and =E2=80=9Cerr_put_mod=E2=
+=80=9D redundant here because the desired
+exception handling can be specified in this if branch directly.
 
-
-> +
-> +struct v4l2_roi_param {
-> +	struct v4l2_rect roi_rect;
-> +	__s32 delta_qp;
-> +};
-> +
-> +struct v4l2_ctrl_enc_roi_params {
-> +	__u32 num_roi_regions;
-
-With the dynamic arrays, this will not be needed.
-
-cheers,
-Nicolas
-
-> +	struct v4l2_roi_param roi_params[VIDEO_MAX_ROI_REGIONS];
-> +};
-> +
-> =C2=A0/*
-> =C2=A0 *	E V E N T S
-> =C2=A0 */
-
---=-6Rnm5V13JnzOOMbNyzHt
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaWfAygAKCRDZQZRRKWBy
-9DzvAP9nsdCtF+aeXH1MtJKut66iQShnnlyAUMVBmFMBNIkVywD/TcE6RkJCj22m
-E2ePASDSKHx3PUQkirNtWgG8ZR5SFgo=
-=lVyf
------END PGP SIGNATURE-----
-
---=-6Rnm5V13JnzOOMbNyzHt--
+Regards,
+Markus
 
