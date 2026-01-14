@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-50705-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50706-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DB01D1FBA0
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 16:25:34 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39525D1FE67
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 16:45:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 225CA3014DE7
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 15:25:30 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 08D743091D53
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jan 2026 15:32:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2FE62C11CF;
-	Wed, 14 Jan 2026 15:25:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77C803A0B29;
+	Wed, 14 Jan 2026 15:32:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mkcmw4CN"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hL3Vod+/"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4C6626E71F;
-	Wed, 14 Jan 2026 15:25:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D58439C655;
+	Wed, 14 Jan 2026 15:32:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768404327; cv=none; b=q/WZSL5di4VcKwGH6gyVMrc0+fIjlG7pn9Fd5wkCmMTHlitwZTnz6Ca0F4pHVrN1BRCUcLna2U/on3XiM3l2V1l34aHJ5I4+/u1cOEXnUGr5qnlMRDsb3zpq2cBEd48ZQNVwBIKkXC7zFCfPrPGQ5ScXGn9PsNepaUm8Eo3/YkQ=
+	t=1768404724; cv=none; b=fX7jv4CfspWMg0bPmyWSqTemeYJuHVQgqM7TuRcP1+JVLCfg2/zYdoszKBcvH/AiniPzTQyE8vvAMjIXkbmvkbF5Yw70Poy3UJ/Vs4K8ZHvyh1E+J4tPlf7UUmVcwBm6eFJ+ez2q5MjBm1Q/dwD+eBLUWLWk7tzR15QVipp2ox4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768404327; c=relaxed/simple;
-	bh=JEPgbnBV8NR9F2sgE2tsXfJ1BNyd6TZW9fi/HCqps7g=;
+	s=arc-20240116; t=1768404724; c=relaxed/simple;
+	bh=+8YbGQ84O5le4qfT2gsExq8Gsl8PpyFY4BI/dGopQk4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E5wicZAeMoxw9xAuGmqMvTmdJoGAgZk2SNp7+viseN5YmFdvQiyiVZQwMSVoeUuYBEWSeWDdjVzRHkXH7shMeZUT1e/DGOOayobAApQ5+7JEYA09CewKuyriYUcBfwufcj9+DPXoqL8pidfHbuySHeSVWXt5cVLcJ2kWq91yEzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mkcmw4CN; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=RDVg36g5ta1GTnkILVl7zFQgH8xFHp6zg7HvUWtkgY/OLJrBEHUS35gY+OCWvvGY0Nz3eFaF22md8SRtGpk/IduvIfWPzueuJS/fDAaZyGoH2/ANtcnM+69NMkC6+HK3uDiQ1kkIRjdSX43jISjZCHlPXVrarIlPcuOMil/vGQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=hL3Vod+/; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3C5CE55C;
-	Wed, 14 Jan 2026 16:24:55 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 27CFA55C;
+	Wed, 14 Jan 2026 16:31:33 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1768404296;
-	bh=JEPgbnBV8NR9F2sgE2tsXfJ1BNyd6TZW9fi/HCqps7g=;
+	s=mail; t=1768404694;
+	bh=+8YbGQ84O5le4qfT2gsExq8Gsl8PpyFY4BI/dGopQk4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=mkcmw4CNx6ZgM5tqEheZywLMQSh45oku6IexiwvnIpqBi+1miLLPvDlkSIWZ3EEkP
-	 OdHsxftksYeytqG4rBG1XImfkEssGDt6waET0D8NS6BKyAwlZbMs/bMyO6ylK/zEjU
-	 4pXcTytZwmie2bnlcg6zQqzx973oCsmx85+S3E1A=
-Message-ID: <d5830999-cd0b-4328-886c-25abc37660e5@ideasonboard.com>
-Date: Wed, 14 Jan 2026 17:25:18 +0200
+	b=hL3Vod+/XzV/Ci1wsmG6aAUJq3YhYRfeFDmgVYanQZ5akngqrzcknSp2cDpH211Ug
+	 uFdrsbB5Ku0S5EoVzLcTSbHQ1sLmHqUu7MMUm1zMkANqCrirnunCLTHsGj7xlQe/tz
+	 sx10y15fxRg2CAfsv8/jvlmEnT51G3gAvq1alZ0E=
+Message-ID: <bd2ee047-efd8-477b-bcdc-27047a1023cc@ideasonboard.com>
+Date: Wed, 14 Jan 2026 17:31:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -48,8 +48,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 07/19] media: cadence: csi2rx: Move to
- .enable/disable_streams API
+Subject: Re: [PATCH v9 11/19] media: ti: j721e-csi2rx: add support for
+ processing virtual channels
 To: Rishikesh Donadkar <r-donadkar@ti.com>
 Cc: y-abhilashchandra@ti.com, devarsht@ti.com, s-jain1@ti.com,
  vigneshr@ti.com, mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
@@ -61,7 +61,7 @@ Cc: y-abhilashchandra@ti.com, devarsht@ti.com, s-jain1@ti.com,
  devicetree@vger.kernel.org, jai.luthra@linux.dev,
  laurent.pinchart@ideasonboard.com, mripard@kernel.org
 References: <20251230083220.2405247-1-r-donadkar@ti.com>
- <20251230083220.2405247-8-r-donadkar@ti.com>
+ <20251230083220.2405247-12-r-donadkar@ti.com>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Content-Language: en-US
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -107,218 +107,138 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20251230083220.2405247-8-r-donadkar@ti.com>
+In-Reply-To: <20251230083220.2405247-12-r-donadkar@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
 On 30/12/2025 10:32, Rishikesh Donadkar wrote:
-> The enable_streams() API in v4l2 supports passing a bitmask to enable
-> each pad/stream combination individually on any media subdev. Use this
-> API instead of  s_stream() API.
+> From: Jai Luthra <j-luthra@ti.com>
 > 
-> Implement the enable_stream and disable_stream hooks in place of the
-> stream-unaware s_stream hook.
+> Use get_frame_desc() to get the frame desc from the connected source,
+> and use the provided virtual channel instead of VC 0.
 > 
-> Remove the lock that was used to serialize stream starts/stops which
-> is not required anymore since the v4l2-core serializes the
-> enable/disable_streams() calls for the subdev.
+> get_frame_desc() works for single stream case, but as we don't
+
+Is that supposed to say "get_frame_desc works for multi-stream use case"?
+
+> support multiple streams yet, we will just always use stream 0.
+> If the source doesn't support get_frame_desc(), fall back to
+> the previous method of always capturing virtual channel 0.
 > 
+> Reviewed-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
+> Co-developed-by: Pratyush Yadav <p.yadav@ti.com>
+> Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
+> Signed-off-by: Jai Luthra <j-luthra@ti.com>
 > Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
 > ---
->  drivers/media/platform/cadence/cdns-csi2rx.c | 108 +++++++++----------
->  1 file changed, 54 insertions(+), 54 deletions(-)
+>  .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 45 ++++++++++++++++++-
+>  1 file changed, 44 insertions(+), 1 deletion(-)
 > 
+> diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+> index f54ad67ff3f9d..6f9f34aa26f1b 100644
+> --- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+> +++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+> @@ -32,6 +32,7 @@
+>  #define SHIM_DMACNTX_YUV422		GENMASK(27, 26)
+>  #define SHIM_DMACNTX_DUAL_PCK_CFG	BIT(24)
+>  #define SHIM_DMACNTX_SIZE		GENMASK(21, 20)
+> +#define SHIM_DMACNTX_VC			GENMASK(9, 6)
+>  #define SHIM_DMACNTX_FMT		GENMASK(5, 0)
+>  #define SHIM_DMACNTX_YUV422_MODE_11	3
+>  #define SHIM_DMACNTX_SIZE_8		0
+> @@ -110,6 +111,9 @@ struct ti_csi2rx_ctx {
+>  	struct media_pad		pad;
+>  	u32				sequence;
+>  	u32				idx;
+> +	u32				vc;
+> +	u32				dt;
+> +	u32				stream;
+>  };
+>  
+>  struct ti_csi2rx_dev {
+> @@ -570,7 +574,7 @@ static void ti_csi2rx_setup_shim(struct ti_csi2rx_ctx *ctx)
+>  	ti_csi2rx_request_max_ppc(csi);
+>  
+>  	reg = SHIM_DMACNTX_EN;
+> -	reg |= FIELD_PREP(SHIM_DMACNTX_FMT, fmt->csi_dt);
+> +	reg |= FIELD_PREP(SHIM_DMACNTX_FMT, ctx->dt);
+>  
+>  	/*
+>  	 * The hardware assumes incoming YUV422 8-bit data on MIPI CSI2 bus
+> @@ -610,6 +614,7 @@ static void ti_csi2rx_setup_shim(struct ti_csi2rx_ctx *ctx)
+>  	}
+>  
+>  	reg |= FIELD_PREP(SHIM_DMACNTX_SIZE, fmt->size);
+> +	reg |= FIELD_PREP(SHIM_DMACNTX_VC, ctx->vc);
+>  
+>  	writel(reg, csi->shim + SHIM_DMACNTX(ctx->idx));
+>  
+> @@ -884,12 +889,41 @@ static void ti_csi2rx_buffer_queue(struct vb2_buffer *vb)
+>  	}
+>  }
+>  
+> +static int ti_csi2rx_get_vc_and_dt(struct ti_csi2rx_ctx *ctx)
+> +{
+> +	struct ti_csi2rx_dev *csi = ctx->csi;
+> +	struct v4l2_mbus_frame_desc fd;
+> +	struct media_pad *pad;
+> +	int ret, i;
+> +
+> +	pad = media_entity_remote_pad_unique(&csi->subdev.entity, MEDIA_PAD_FL_SOURCE);
+> +	if (!pad)
+> +		return -ENODEV;
+> +
+> +	ret = v4l2_subdev_call(csi->source, pad, get_frame_desc, pad->index, &fd);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (fd.type != V4L2_MBUS_FRAME_DESC_TYPE_CSI2)
+> +		return -EINVAL;
+> +
+> +	for (i = 0; i < fd.num_entries; i++) {
+> +		if (ctx->stream == fd.entry[i].stream) {
+> +			ctx->vc = fd.entry[i].bus.csi2.vc;
+> +			ctx->dt = fd.entry[i].bus.csi2.dt;
+> +		}
+> +	}
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+I think you can "break" when you find the stream. But this should also
+catch the case when there's no matching stream, and give an error in
+that case.
 
  Tomi
 
-> diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
-> index 8c19f125da3e5..8e7af2da62262 100644
-> --- a/drivers/media/platform/cadence/cdns-csi2rx.c
-> +++ b/drivers/media/platform/cadence/cdns-csi2rx.c
-> @@ -125,12 +125,6 @@ struct csi2rx_priv {
->  	unsigned int			count;
->  	int				error_irq;
->  
-> -	/*
-> -	 * Used to prevent race conditions between multiple,
-> -	 * concurrent calls to start and stop.
-> -	 */
-> -	struct mutex			lock;
-> -
->  	void __iomem			*base;
->  	struct clk			*sys_clk;
->  	struct clk			*p_clk;
-> @@ -268,20 +262,21 @@ static int csi2rx_configure_ext_dphy(struct csi2rx_priv *csi2rx)
->  		&csi2rx->source_subdev->entity.pads[csi2rx->source_pad];
->  	union phy_configure_opts opts = { };
->  	struct phy_configure_opts_mipi_dphy *cfg = &opts.mipi_dphy;
-> -	struct v4l2_subdev_format sd_fmt = {
-> -		.which	= V4L2_SUBDEV_FORMAT_ACTIVE,
-> -		.pad	= CSI2RX_PAD_SINK,
-> -	};
-> +	struct v4l2_subdev_state *state;
-> +	struct v4l2_mbus_framefmt *framefmt;
->  	const struct csi2rx_fmt *fmt;
->  	s64 link_freq;
->  	int ret;
->  
-> -	ret = v4l2_subdev_call_state_active(&csi2rx->subdev, pad, get_fmt,
-> -					    &sd_fmt);
-> -	if (ret < 0)
-> -		return ret;
-> +	state = v4l2_subdev_get_locked_active_state(&csi2rx->subdev);
->  
-> -	fmt = csi2rx_get_fmt_by_code(sd_fmt.format.code);
-> +	framefmt = v4l2_subdev_state_get_format(state, CSI2RX_PAD_SINK, 0);
-> +	if (!framefmt) {
-> +		dev_err(csi2rx->dev, "Did not find active sink format\n");
-> +		return -EINVAL;
-> +	}
 > +
-> +	fmt = csi2rx_get_fmt_by_code(framefmt->code);
->  
->  	link_freq = v4l2_get_link_freq(src_pad,
->  				       fmt->bpp, 2 * csi2rx->num_lanes);
-> @@ -401,16 +396,10 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
->  
->  	reset_control_deassert(csi2rx->sys_rst);
->  
-> -	ret = v4l2_subdev_call(csi2rx->source_subdev, video, s_stream, true);
-> -	if (ret)
-> -		goto err_disable_sysclk;
-> -
->  	clk_disable_unprepare(csi2rx->p_clk);
->  
->  	return 0;
->  
-> -err_disable_sysclk:
-> -	clk_disable_unprepare(csi2rx->sys_clk);
->  err_disable_pixclk:
->  	for (; i > 0; i--) {
->  		reset_control_assert(csi2rx->pixel_rst[i - 1]);
-> @@ -459,9 +448,6 @@ static void csi2rx_stop(struct csi2rx_priv *csi2rx)
->  	reset_control_assert(csi2rx->p_rst);
->  	clk_disable_unprepare(csi2rx->p_clk);
->  
-> -	if (v4l2_subdev_call(csi2rx->source_subdev, video, s_stream, false))
-> -		dev_warn(csi2rx->dev, "Couldn't disable our subdev\n");
-> -
->  	if (csi2rx->dphy) {
->  		writel(0, csi2rx->base + CSI2RX_DPHY_LANE_CTRL_REG);
->  
-> @@ -485,38 +471,56 @@ static int csi2rx_log_status(struct v4l2_subdev *sd)
->  	return 0;
->  }
->  
-> -static int csi2rx_s_stream(struct v4l2_subdev *subdev, int enable)
-> +static int csi2rx_enable_streams(struct v4l2_subdev *subdev,
-> +				 struct v4l2_subdev_state *state, u32 pad,
-> +				 u64 streams_mask)
->  {
->  	struct csi2rx_priv *csi2rx = v4l2_subdev_to_csi2rx(subdev);
-> -	int ret = 0;
-> -
-> -	mutex_lock(&csi2rx->lock);
-> -
-> -	if (enable) {
-> -		/*
-> -		 * If we're not the first users, there's no need to
-> -		 * enable the whole controller.
-> -		 */
-> -		if (!csi2rx->count) {
-> -			ret = csi2rx_start(csi2rx);
-> -			if (ret)
-> -				goto out;
-> -		}
-> +	int ret;
->  
-> -		csi2rx->count++;
-> -	} else {
-> -		csi2rx->count--;
-> +	/*
-> +	 * If we're not the first users, there's no need to
-> +	 * enable the whole controller.
-> +	 */
-> +	if (!csi2rx->count) {
-> +		ret = csi2rx_start(csi2rx);
-> +		if (ret)
-> +			return ret;
-> +	}
->  
-> -		/*
-> -		 * Let the last user turn off the lights.
-> -		 */
-> +	/* Start streaming on the source */
-> +	ret = v4l2_subdev_enable_streams(csi2rx->source_subdev, csi2rx->source_pad,
-> +					 BIT_U64(0));
-> +	if (ret) {
-> +		dev_err(csi2rx->dev,
-> +			"Failed to start streams %d on subdev\n", 0);
->  		if (!csi2rx->count)
->  			csi2rx_stop(csi2rx);
-> +		return ret;
->  	}
->  
-> -out:
-> -	mutex_unlock(&csi2rx->lock);
-> -	return ret;
-> +	csi2rx->count++;
 > +	return 0;
 > +}
 > +
-> +static int csi2rx_disable_streams(struct v4l2_subdev *subdev,
-> +				  struct v4l2_subdev_state *state, u32 pad,
-> +				  u64 streams_mask)
-> +{
-> +	struct csi2rx_priv *csi2rx = v4l2_subdev_to_csi2rx(subdev);
-> +
-> +	if (v4l2_subdev_disable_streams(csi2rx->source_subdev,
-> +					csi2rx->source_pad, BIT_U64(0))) {
-> +		dev_err(csi2rx->dev, "Couldn't disable our subdev\n");
+>  static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  {
+>  	struct ti_csi2rx_ctx *ctx = vb2_get_drv_priv(vq);
+>  	struct ti_csi2rx_dev *csi = ctx->csi;
+>  	struct ti_csi2rx_dma *dma = &ctx->dma;
+>  	struct ti_csi2rx_buffer *buf;
+> +	const struct ti_csi2rx_fmt *fmt;
+>  	unsigned long flags;
+>  	int ret = 0;
+>  
+> @@ -904,6 +938,15 @@ static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  	if (ret)
+>  		goto err;
+>  
+> +	ret = ti_csi2rx_get_vc_and_dt(ctx);
+> +	if (ret == -ENOIOCTLCMD) {
+> +		ctx->vc = 0;
+> +		fmt = find_format_by_fourcc(ctx->v_fmt.fmt.pix.pixelformat);
+> +		ctx->dt = fmt->csi_dt;
+> +	} else if (ret < 0) {
+> +		goto err;
 > +	}
 > +
-> +	csi2rx->count--;
-> +
-> +	/* Let the last user turn off the lights. */
-> +	if (!csi2rx->count)
-> +		csi2rx_stop(csi2rx);
-> +
-> +	return 0;
->  }
+>  	ti_csi2rx_setup_shim(ctx);
 >  
->  static int csi2rx_enum_mbus_code(struct v4l2_subdev *subdev,
-> @@ -611,10 +615,8 @@ static const struct v4l2_subdev_pad_ops csi2rx_pad_ops = {
->  	.enum_mbus_code	= csi2rx_enum_mbus_code,
->  	.get_fmt	= v4l2_subdev_get_fmt,
->  	.set_fmt	= csi2rx_set_fmt,
-> -};
-> -
-> -static const struct v4l2_subdev_video_ops csi2rx_video_ops = {
-> -	.s_stream	= csi2rx_s_stream,
-> +	.enable_streams         = csi2rx_enable_streams,
-> +	.disable_streams        = csi2rx_disable_streams,
->  };
->  
->  static const struct v4l2_subdev_core_ops csi2rx_core_ops = {
-> @@ -623,7 +625,6 @@ static const struct v4l2_subdev_core_ops csi2rx_core_ops = {
->  
->  static const struct v4l2_subdev_ops csi2rx_subdev_ops = {
->  	.core		= &csi2rx_core_ops,
-> -	.video		= &csi2rx_video_ops,
->  	.pad		= &csi2rx_pad_ops,
->  };
->  
-> @@ -829,7 +830,6 @@ static int csi2rx_probe(struct platform_device *pdev)
->  		return -ENOMEM;
->  	platform_set_drvdata(pdev, csi2rx);
->  	csi2rx->dev = &pdev->dev;
-> -	mutex_init(&csi2rx->lock);
->  
->  	ret = csi2rx_get_resources(csi2rx, pdev);
->  	if (ret)
+>  	ctx->sequence = 0;
 
 
