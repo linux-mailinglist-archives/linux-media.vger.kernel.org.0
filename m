@@ -1,632 +1,577 @@
-Return-Path: <linux-media+bounces-50777-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50778-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DAFFD24644
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 13:12:24 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B2B7D247F8
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 13:31:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id CFE47302D395
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 12:12:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 335C030E6D46
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 12:27:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D84172D94BA;
-	Thu, 15 Jan 2026 12:12:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0658D396B6C;
+	Thu, 15 Jan 2026 12:27:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kqY40oQm"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BlXxSD56"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35F32394493
-	for <linux-media@vger.kernel.org>; Thu, 15 Jan 2026 12:12:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 303EB35B150;
+	Thu, 15 Jan 2026 12:27:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768479137; cv=none; b=KJhuLoPN6mEG1ptUxV/gH+6v6D1zicFoKqEuGW4rjIzgIW+ZElDyU7Kt3HWa4+S0dPi6ug1EfGOSN68Nky3Fy+327UN0/TRU+SNncLAd3MRd6dBsII3CWQp0IWmMNeJdkTVzwHrfqrXN//bHDrV2mraTNzw/eAAiTdVruYVLPBo=
+	t=1768480033; cv=none; b=JCZr0tlYsuYFOL1+HnRV/V0NZgirKvjbp/REzYsWEbbN291x5XmlKXjNqzYES1w1vFHkdfSpN2VdTvUEmtGn9NiognvrUUGKfTJdSXpw93Otb76mUIPHtj43TABNFD40wW/GcWVAw3NpnEMJwgQtvvRR7zu5lEZeYAIuflUyjH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768479137; c=relaxed/simple;
-	bh=0V5MhAmrQYWB7Jh45G1akO5WS9ecpXZTWXBRVltktjc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YWv+OiSSwVM9qSgk9nuaok7MRnk2r58IHn0S/pkmTeATiD5D35u6FdQbpdlZ0rNFbamowDByeo6GvphkQuiD4GCqib5YK7joYF+Egi0Be49cBcmkFBryR2AzWn6HRC8wtXh0QL/SrsHFpvQBmNP/j1cFaiy4ZqsCIeZpXLtoq74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kqY40oQm; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-47ee0291921so6009705e9.3
-        for <linux-media@vger.kernel.org>; Thu, 15 Jan 2026 04:12:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768479130; x=1769083930; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9sG4GKmiUhlEzmmNvw+qd+4Gq3XADNvFz9+9slXzcQc=;
-        b=kqY40oQmdjO4XaI0u5xyjG8maZiez6Htk01+e6kGewXPEJY98SNonaOv6dOF3puInI
-         hYwp8NRZrM5zGzBPO2cZmDOkZHMZdte5Np3uEAh2gBReD13nfYQm3qm/Efzig7Lmf90O
-         J20XTR2E6NCuJODw6/i82cKk4EP3tflcSALSm2ubZeCXEDQLwmiuAqGt4qm0rRv3UvRb
-         3Fo/LkfemJmTIkWk2fEF87gYmPK3VneyPxN9fKAirIK3L5/ewOAY/blj1cEjjzXxOdnI
-         zSphetdVZhYpXRJV7A0b3kFRLvuB0MrNJVVnqYti1W6vo1XCkyhWTyOqniHpARszBybM
-         70qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768479130; x=1769083930;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9sG4GKmiUhlEzmmNvw+qd+4Gq3XADNvFz9+9slXzcQc=;
-        b=DX7bxc/hHsav8KI55g6LHGKnMu9FG7brP9YRAlok7vTLzA3ZiFotRcbyHZJBPnBPr7
-         atGFTXaZfQ6/RV3CJXWR7QKCgbBlKMWdUcmQJkL61kr/XZFUOQrqDt4/icPeEYk7kpF/
-         gy7tWPmtDMWdrwXb3rCd9/YXN8Tw6Yzb7YRUjtByZ9vCiXRAaYgJRzEAoQ5rI8eXd5Xc
-         z0QQwEcnPW/O6A1B/teynO9C36LpWVjrf9LCamagilIGrjXLQru//bQ3j//Hf97Ws1OW
-         IEV1c2jqCs95vkzZBXJzrv6vVxLzD0e+KA85suoSOuaT2fJZKXNhX9yEzTcvzuE5B+4f
-         FDjg==
-X-Forwarded-Encrypted: i=1; AJvYcCVvYgGCUkEdqpFoBQR7nYYn2Kt7z40cIxnnLW+e0F08O3gIsrFEUg5k+bEL9nbmZQfUP9ZgKRHQo47ivw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwrK50ih1GVLNouoc/8JndpZC4hbhbCHli0lSKCON3You0izHii
-	ZK31TxxhJZBMVTgT0zimu+hfKB/XFQavQu3uT7vVnZ8/SCFY23X1M9ge
-X-Gm-Gg: AY/fxX4bSbCX/s9ZXhd8H3g5c65F4V/qM2ryDU+dk+ukcFT1AEDTD5UUbPrF5WFJbrn
-	gqNX1nupTWJ10CrWj9R829M0uqoKmKJ2tQr+FcZR0RBouECqtzZFz1yztZSUvwVkhDEChaHX28t
-	DLkrYLPTnxR0Y6mVVBPQOxZpzkFhQNuUwJiMFyKFOVobo6skBj6T3btlp79j4ufMkB+/UwucTZB
-	oMW5NgX+kSypS0/1DU/nNseRJkrUPjguoMQVILe5Z8mH642wkjv2G1z6D4wNbqAvQGZMiPn/Jas
-	bDr5FcvNed/W4Q496kI7XCuQGSvyegXK5P3pJbn530ttK54edXR39qMThM+86bmJaKXwPKUNPzL
-	eYZj1G10ypq8smZtC0L4Lz5Dae+K+If/NvKneHKf1g2LKycJQ1j0rZO4e2Cwfk+hWRG4bKKh5m+
-	iLOO2V8U0DCmV/
-X-Received: by 2002:a05:600c:528e:b0:475:de14:db1e with SMTP id 5b1f17b1804b1-47ee3396c00mr60550685e9.24.1768479129986;
-        Thu, 15 Jan 2026 04:12:09 -0800 (PST)
-Received: from hamdan-pc.. ([39.34.128.30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47ee0b48921sm47710805e9.0.2026.01.15.04.12.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Jan 2026 04:12:09 -0800 (PST)
-From: Hamdan Khan <hamdankhan212@gmail.com>
-To: gregkh@linuxfoundation.org,
-	andy@kernel.org
-Cc: hansg@kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	dave.hansen@linux.intel.com,
-	tony.luck@intel.com,
-	hamdankhan212@gmail.com,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3] staging: media: atomisp: Fix typos and formatting in headers
-Date: Thu, 15 Jan 2026 17:11:57 +0500
-Message-ID: <20260115121157.10840-1-hamdankhan212@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1768480033; c=relaxed/simple;
+	bh=nLSZgV56iezNxSKqBce34DVNzHxKtSLSvcQvuSpAuec=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=psAfWPg62AtySM+2VIBCDZOPSSIoXXpIZpZ9I9jZXhC86yFp1+XipLDzjzFUf/QT3WzMDbYDjB78C5fLPF/WtVUQ3U0eJl+b4lUis2VHtJTCYlyNhSxWUPexIQCfsK814SIjuu2BHTiemy2bMvnl4IdPnS44BA4nez02PpvV/JE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=BlXxSD56; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9234C24A;
+	Thu, 15 Jan 2026 13:26:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1768480000;
+	bh=nLSZgV56iezNxSKqBce34DVNzHxKtSLSvcQvuSpAuec=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=BlXxSD56ZhIjgatuB3H+Le37hIlDTLBZWv6sZKpJNlF6DVhGNFkcuu/+tSf0rT/F9
+	 WTwA3GdOlt9hHm30O7L4U3MfKo0NPjsY4vAIxVnyFb1t9Lve4sH9H7l+WtBQyJxELj
+	 HD6xQprji1X7RSKI7MBk7TjNLb3UGQ3b8gVohZHY=
+Message-ID: <84a6038a-4805-4cce-abaf-975a61b196e4@ideasonboard.com>
+Date: Thu, 15 Jan 2026 14:27:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 13/19] media: ti: j721e-csi2rx: add multistream support
+To: Rishikesh Donadkar <r-donadkar@ti.com>
+Cc: y-abhilashchandra@ti.com, devarsht@ti.com, s-jain1@ti.com,
+ vigneshr@ti.com, mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ p.zabel@pengutronix.de, conor+dt@kernel.org, sakari.ailus@linux.intel.com,
+ hverkuil-cisco@xs4all.nl, jai.luthra@ideasonboard.com,
+ changhuang.liang@starfivetech.com, jack.zhu@starfivetech.com,
+ sjoerd@collabora.com, dan.carpenter@linaro.org, hverkuil+cisco@kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, jai.luthra@linux.dev,
+ laurent.pinchart@ideasonboard.com, mripard@kernel.org
+References: <20251230083220.2405247-1-r-donadkar@ti.com>
+ <20251230083220.2405247-14-r-donadkar@ti.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20251230083220.2405247-14-r-donadkar@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-This patch updates block and inline comments to follow kernel
-commenting conventions, fixes typos and wording, and reformats
-long comments for clarity and line length consistency.
+Hi,
 
-No functional changes are intended.
+On 30/12/2025 10:32, Rishikesh Donadkar wrote:
+> From: Jai Luthra <j-luthra@ti.com>
+> 
+> Each CSI2 stream can be multiplexed into 4 independent streams, each
+> identified by its virtual channel number and data type. The incoming
+> data from these streams can be filtered on the basis of either the
+> virtual channel or the data type.
+> 
+> To capture this multiplexed stream, the application needs to tell
+> the driver how it wants to route the data. It needs to specify
+> which context should process which stream. This is done via the
+> new routing APIs.
+> 
+> Add ioctls to accept routing information from the application and save
+> that in the driver. This can be used when starting streaming on a
+> context to determine which route and consequently which virtual channel
+> it should process.
+> 
+> De-assert the pixel interface reset on first start_streaming() and assert
+> it on the last stop_streaming().
+> 
+> Reviewed-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
+> Co-developed-by: Pratyush Yadav <p.yadav@ti.com>
+> Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
+> Signed-off-by: Jai Luthra <j-luthra@ti.com>
+> Co-developed-by: Rishikesh Donadkar <r-donadkar@ti.com>
+> Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
+> ---
+>  .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 259 +++++++++++++-----
+>  1 file changed, 189 insertions(+), 70 deletions(-)
+> 
+> diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+> index 6f9f34aa26f1b..4a063364f893e 100644
+> --- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+> +++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+> @@ -137,6 +137,7 @@ struct ti_csi2rx_dev {
+>  		dma_addr_t		paddr;
+>  		size_t			len;
+>  	} drain;
+> +	bool                            vc_cached;
+>  };
+>  
+>  static inline struct ti_csi2rx_dev *to_csi2rx_dev(struct v4l2_subdev *sd)
+> @@ -144,17 +145,6 @@ static inline struct ti_csi2rx_dev *to_csi2rx_dev(struct v4l2_subdev *sd)
+>  	return container_of(sd, struct ti_csi2rx_dev, subdev);
+>  }
+>  
+> -static const struct v4l2_mbus_framefmt ti_csi2rx_default_fmt = {
+> -	.width = 640,
+> -	.height = 480,
+> -	.code = MEDIA_BUS_FMT_UYVY8_1X16,
+> -	.field = V4L2_FIELD_NONE,
+> -	.colorspace = V4L2_COLORSPACE_SRGB,
+> -	.ycbcr_enc = V4L2_YCBCR_ENC_601,
+> -	.quantization = V4L2_QUANTIZATION_LIM_RANGE,
+> -	.xfer_func = V4L2_XFER_FUNC_SRGB,
+> -};
+> -
+>  static const struct ti_csi2rx_fmt ti_csi2rx_formats[] = {
+>  	{
+>  		.fourcc			= V4L2_PIX_FMT_YUYV,
+> @@ -567,8 +557,10 @@ static void ti_csi2rx_setup_shim(struct ti_csi2rx_ctx *ctx)
+>  	fmt = find_format_by_fourcc(ctx->v_fmt.fmt.pix.pixelformat);
+>  
+>  	/* De-assert the pixel interface reset. */
+> -	reg = SHIM_CNTL_PIX_RST;
+> -	writel(reg, csi->shim + SHIM_CNTL);
+> +	if (!csi->enable_count) {
+> +		reg = SHIM_CNTL_PIX_RST;
+> +		writel(reg, csi->shim + SHIM_CNTL);
+> +	}
 
-Signed-off-by: Hamdan Khan <hamdankhan212@gmail.com>
----
-Changes in v3:
-- fixed coding style issues as pointed out by Andy Shevchenko
-- fixed english text in some of the comments
-- covered all header files of this sub directory as a starting point
-  (can look into further files if this goes well)
-- fixed commit message
----
- .../media/atomisp/include/linux/atomisp.h     | 164 +++++++++---------
- .../include/linux/atomisp_gmin_platform.h     |   7 +-
- .../atomisp/include/linux/atomisp_platform.h  |  42 ++---
- 3 files changed, 111 insertions(+), 102 deletions(-)
+I think this is a bit messy. Here we have ti_csi2rx_setup_shim() which
+is passed ctx as a parameter, but it also does non-context stuff, if
+this is the first enable.
 
-diff --git a/drivers/staging/media/atomisp/include/linux/atomisp.h b/drivers/staging/media/atomisp/include/linux/atomisp.h
-index 3c8fa3f5808d..75f97477119c 100644
---- a/drivers/staging/media/atomisp/include/linux/atomisp.h
-+++ b/drivers/staging/media/atomisp/include/linux/atomisp.h
-@@ -22,7 +22,7 @@
- #define ATOMISP_HW_STEPPING_A0		0x00
- #define ATOMISP_HW_STEPPING_B0		0x10
- 
--/*ISP binary running mode*/
-+/* ISP binary running mode */
- #define CI_MODE_PREVIEW		0x8000
- #define CI_MODE_VIDEO		0x4000
- #define CI_MODE_STILL_CAPTURE	0x2000
-@@ -78,7 +78,8 @@ struct atomisp_tnr_config {
- 	unsigned int threshold_uv;/* [intensity] Motion sensitivity for U/V */
- };
- 
--/* Histogram. This contains num_elements values of type unsigned int.
-+/*
-+ * Contains num_elements values of type unsigned int.
-  * The data pointer is a DDR pointer (virtual address).
-  */
- struct atomisp_histogram {
-@@ -146,8 +147,7 @@ struct atomisp_3a_config {
- 	unsigned int ae_y_coef_r;	/* [gain] Weight of R for Y */
- 	unsigned int ae_y_coef_g;	/* [gain] Weight of G for Y */
- 	unsigned int ae_y_coef_b;	/* [gain] Weight of B for Y */
--	unsigned int awb_lg_high_raw;	/* [intensity]
--					   AWB level gate high for raw */
-+	unsigned int awb_lg_high_raw;	/* [intensity] AWB level gate high for raw */
- 	unsigned int awb_lg_low;	/* [intensity] AWB level gate low */
- 	unsigned int awb_lg_high;	/* [intensity] AWB level gate high */
- 	int af_fir1_coef[7];	/* [factor] AF FIR coefficients of fir1 */
-@@ -188,14 +188,15 @@ struct atomisp_dis_vector {
- 	int y;
- };
- 
--/* DVS 2.0 Coefficient types. This structure contains 4 pointers to
-- *  arrays that contain the coefficients for each type.
-+/*
-+ * DVS 2.0 Coefficient types. This structure contains 4 pointers to
-+ * arrays that contain the coefficients for each type.
-  */
- struct atomisp_dvs2_coef_types {
--	short __user *odd_real; /** real part of the odd coefficients*/
--	short __user *odd_imag; /** imaginary part of the odd coefficients*/
--	short __user *even_real;/** real part of the even coefficients*/
--	short __user *even_imag;/** imaginary part of the even coefficients*/
-+	short __user *odd_real; /* Real part of the odd coefficients*/
-+	short __user *odd_imag; /* Imaginary part of the odd coefficients*/
-+	short __user *even_real;/* Real part of the even coefficients*/
-+	short __user *even_imag;/* Imaginary part of the even coefficients*/
- };
- 
- /*
-@@ -203,10 +204,10 @@ struct atomisp_dvs2_coef_types {
-  * arrays that contain the statistics for each type.
-  */
- struct atomisp_dvs2_stat_types {
--	int __user *odd_real; /** real part of the odd statistics*/
--	int __user *odd_imag; /** imaginary part of the odd statistics*/
--	int __user *even_real;/** real part of the even statistics*/
--	int __user *even_imag;/** imaginary part of the even statistics*/
-+	int __user *odd_real; /* Real part of the odd statistics*/
-+	int __user *odd_imag; /* Imaginary part of the odd statistics*/
-+	int __user *even_real;/* Real part of the even statistics*/
-+	int __user *even_imag;/* Imaginary part of the even statistics*/
- };
- 
- struct atomisp_dis_coefficients {
-@@ -234,12 +235,12 @@ struct atomisp_3a_rgby_output {
- };
- 
- /*
-- * Because we have 2 pipes at max to output metadata, therefore driver will use
-- * ATOMISP_MAIN_METADATA to specify the metadata from the pipe which keeps
-- * streaming always and use ATOMISP_SEC_METADATA to specify the metadata from
-- * the pipe which is streaming by request like capture pipe of ZSL or SDV mode
-- * as secondary metadata. And for the use case which has only one pipe
-- * streaming like online capture, ATOMISP_MAIN_METADATA will be used.
-+ * As the driver can output metadata on two pipes at max,
-+ * ATOMISP_MAIN_METADATA is used for the pipe that streams continuously.
-+ * ATOMISP_SEC_METADATA is used for the pipe that streams on demand, e.g.,
-+ * the capture pipe in ZSL or SDV modes.
-+ * In use cases with a single streaming pipe (like online capture),
-+ * only ATOMISP_MAIN_METADATA is used.
-  */
- enum atomisp_metadata_type {
- 	ATOMISP_MAIN_METADATA = 0,
-@@ -257,7 +258,7 @@ struct atomisp_3a_statistics {
- 	struct atomisp_3a_output __user *data;
- 	struct atomisp_3a_rgby_output __user *rgby_data;
- 	u32 exp_id; /* exposure ID */
--	u32 isp_config_id; /* isp config ID */
-+	u32 isp_config_id; /* ISP config ID */
- };
- 
- /* White Balance (Gain Adjust) */
-@@ -272,8 +273,8 @@ struct atomisp_wb_config {
- /* Color Space Conversion settings */
- struct atomisp_cc_config {
- 	unsigned int fraction_bits;
--	int matrix[3 * 3];	/* RGB2YUV Color matrix, signed
--				   <13-fraction_bits>.<fraction_bits> */
-+	/* RGB2YUV Color matrix, signed <13-fraction_bits>.<fraction_bits> */
-+	int matrix[3 * 3];
- };
- 
- /* De pixel noise configuration */
-@@ -291,13 +292,15 @@ struct atomisp_ce_config {
- 
- /* Defect pixel correction configuration */
- struct atomisp_dp_config {
--	/* [intensity] The threshold of defect Pixel Correction, representing
-+	/*
-+	 * [intensity] The threshold of defect Pixel Correction, representing
- 	 * the permissible difference of intensity between one pixel and its
- 	 * surrounding pixels. Smaller values result in more frequent pixel
- 	 * corrections. u0_16
- 	 */
- 	unsigned int threshold;
--	/* [gain] The sensitivity of mis-correction. ISP will miss a lot of
-+	/*
-+	 * [gain] The sensitivity of mis-correction. ISP will miss a lot of
- 	 * defects if the value is set too large. u8_8
- 	 */
- 	unsigned int gain;
-@@ -312,7 +315,7 @@ struct atomisp_xnr_config {
- 	__u16 threshold;
- };
- 
--/* metadata config */
-+/* Metadata config */
- struct atomisp_metadata_config {
- 	u32 metadata_height;
- 	u32 metadata_stride;
-@@ -322,31 +325,30 @@ struct atomisp_metadata_config {
-  * Generic resolution structure.
-  */
- struct atomisp_resolution {
--	u32 width;  /** Width */
--	u32 height; /** Height */
-+	u32 width;  /* Width */
-+	u32 height; /* Height */
- };
- 
- /*
-- * This specifies the coordinates (x,y)
-+ * Specifies the zoom point coordinates (x,y)
-  */
- struct atomisp_zoom_point {
--	s32 x; /** x coordinate */
--	s32 y; /** y coordinate */
-+	s32 x; /* x coordinate */
-+	s32 y; /* y coordinate */
- };
- 
- /*
-- * This specifies the region
-+ * Specifies the zoom region
-  */
- struct atomisp_zoom_region {
--	struct atomisp_zoom_point
--		origin; /* Starting point coordinates for the region */
-+	struct atomisp_zoom_point origin; /* Starting point coordinates for the region */
- 	struct atomisp_resolution resolution; /* Region resolution */
- };
- 
- struct atomisp_dz_config {
--	u32 dx; /** Horizontal zoom factor */
--	u32 dy; /** Vertical zoom factor */
--	struct atomisp_zoom_region zoom_region; /** region for zoom */
-+	u32 dx; /* Horizontal zoom factor */
-+	u32 dy; /* Vertical zoom factor */
-+	struct atomisp_zoom_region zoom_region; /* Region for zoom */
- };
- 
- struct atomisp_parm {
-@@ -378,7 +380,7 @@ struct atomisp_dvs2_bq_resolutions {
- 	struct dvs2_bq_resolution output_bq;
- 	/* GDC effective envelope size [BQ] */
- 	struct dvs2_bq_resolution envelope_bq;
--	/* isp pipe filter size [BQ] */
-+	/* ISP pipe filter size [BQ] */
- 	struct dvs2_bq_resolution ispfilter_bq;
- 	/* GDC shit size [BQ] */
- 	struct dvs2_bq_resolution gdc_shift_bq;
-@@ -411,8 +413,8 @@ struct atomisp_parameters {
- 	struct atomisp_cnr_config  *cnr_config; /* Chroma Noise Reduction */
- 	struct atomisp_macc_config *macc_config;  /* MACC */
- 	struct atomisp_ctc_config  *ctc_config; /* Chroma Tone Control */
--	struct atomisp_aa_config   *aa_config;  /* Anti-Aliasing */
--	struct atomisp_aa_config   *baa_config;  /* Anti-Aliasing */
-+	struct atomisp_aa_config   *aa_config;	/* Anti-Aliasing */
-+	struct atomisp_aa_config   *baa_config;	/* Anti-Aliasing */
- 	struct atomisp_ce_config   *ce_config;
- 	struct atomisp_dvs_6axis_config *dvs_6axis_config;
- 	struct atomisp_ob_config   *ob_config;  /* Objective Black config */
-@@ -425,10 +427,8 @@ struct atomisp_parameters {
- 	struct atomisp_3a_config   *a3a_config; /* 3A Statistics config */
- 	struct atomisp_xnr_config  *xnr_config; /* eXtra Noise Reduction */
- 	struct atomisp_dz_config   *dz_config;  /* Digital Zoom */
--	struct atomisp_cc_config *yuv2rgb_cc_config; /* Color
--							Correction config */
--	struct atomisp_cc_config *rgb2yuv_cc_config; /* Color
--							Correction config */
-+	struct atomisp_cc_config *yuv2rgb_cc_config; /* Color Correction config */
-+	struct atomisp_cc_config *rgb2yuv_cc_config; /* Color Correction config */
- 	struct atomisp_macc_table  *macc_table;
- 	struct atomisp_gamma_table *gamma_table;
- 	struct atomisp_ctc_table   *ctc_table;
-@@ -490,9 +490,9 @@ struct atomisp_gamma_table {
- 	unsigned short data[ATOMISP_GAMMA_TABLE_SIZE];
- };
- 
--/* Morphing table for advanced ISP.
-- * Each line of width elements takes up COORD_TABLE_EXT_WIDTH elements
-- * in memory.
-+/*
-+ * Morphing table for advanced ISP.
-+ * Each line of width elements takes up COORD_TABLE_EXT_WIDTH elements in memory.
-  */
- #define ATOMISP_MORPH_TABLE_NUM_PLANES  6
- struct atomisp_morph_table {
-@@ -519,7 +519,7 @@ struct atomisp_shading_table {
- 	__u16 *data[ATOMISP_NUM_SC_COLORS];
- };
- 
--/* parameter for MACC */
-+/* Parameter for MACC */
- #define ATOMISP_NUM_MACC_AXES           16
- struct atomisp_macc_table {
- 	short data[4 * ATOMISP_NUM_MACC_AXES];
-@@ -538,9 +538,10 @@ struct atomisp_ctc_table {
- 
- /* Parameter for overlay image loading */
- struct atomisp_overlay {
--	/* the frame containing the overlay data The overlay frame width should
--	 * be the multiples of 2*ISP_VEC_NELEMS. The overlay frame height
--	 * should be the multiples of 2.
-+	/*
-+	 * The frame containing the overlay data. The overlay frame width should
-+	 * be a multiple of 2 * ISP_VEC_NELEMS. The overlay frame height
-+	 * should be a multiple of 2.
- 	 */
- 	struct v4l2_framebuffer *frame;
- 	/* Y value of overlay background */
-@@ -549,23 +550,27 @@ struct atomisp_overlay {
- 	char bg_u;
- 	/* V value of overlay background */
- 	char bg_v;
--	/* the blending percent of input data for Y subpixels */
-+	/* The blending percentage of input data for Y subpixels */
- 	unsigned char blend_input_perc_y;
--	/* the blending percent of input data for U subpixels */
-+	/* The blending percentage of input data for U subpixels */
- 	unsigned char blend_input_perc_u;
--	/* the blending percent of input data for V subpixels */
-+	/* The blending percentage of input data for V subpixels */
- 	unsigned char blend_input_perc_v;
--	/* the blending percent of overlay data for Y subpixels */
-+	/* The blending percentage of overlay data for Y subpixels */
- 	unsigned char blend_overlay_perc_y;
--	/* the blending percent of overlay data for U subpixels */
-+	/* The blending percentage of overlay data for U subpixels */
- 	unsigned char blend_overlay_perc_u;
--	/* the blending percent of overlay data for V subpixels */
-+	/* The blending percentage of overlay data for V subpixels */
- 	unsigned char blend_overlay_perc_v;
--	/* the overlay start x pixel position on output frame It should be the
--	   multiples of 2*ISP_VEC_NELEMS. */
-+	/*
-+	 * The overlay start x pixel position on output frame. It should be a
-+	 * multiple of 2 * ISP_VEC_NELEMS.
-+	 */
- 	unsigned int overlay_start_x;
--	/* the overlay start y pixel position on output frame It should be the
--	   multiples of 2. */
-+	/*
-+	 * The overlay start y pixel position on output frame. It should be a
-+	 * multiple of 2.
-+	 */
- 	unsigned int overlay_start_y;
- };
- 
-@@ -659,7 +664,7 @@ enum atomisp_burst_capture_options {
- #define EXT_ISP_SHOT_MODE_ANIMATED_PHOTO	10
- #define EXT_ISP_SHOT_MODE_SPORTS	11
- 
--/*Private IOCTLs for ISP */
-+/* Private IOCTLs for ISP */
- #define ATOMISP_IOC_G_XNR \
- 	_IOR('v', BASE_VIDIOC_PRIVATE + 0, int)
- #define ATOMISP_IOC_S_XNR \
-@@ -684,7 +689,8 @@ enum atomisp_burst_capture_options {
- 	_IOR('v', BASE_VIDIOC_PRIVATE + 5, struct atomisp_ee_config)
- #define ATOMISP_IOC_S_EE \
- 	_IOW('v', BASE_VIDIOC_PRIVATE + 5, struct atomisp_ee_config)
--/* Digital Image Stabilization:
-+/*
-+ * Digital Image Stabilization:
-  * 1. get dis statistics: reads DIS statistics from ISP (every frame)
-  * 2. set dis coefficients: set DIS filter coefficients (one time)
-  * 3. set dis motion vector: set motion vector (result of DIS, every frame)
-@@ -716,54 +722,54 @@ enum atomisp_burst_capture_options {
- #define ATOMISP_IOC_S_ISP_GDC_TAB \
- 	_IOW('v', BASE_VIDIOC_PRIVATE + 10, struct atomisp_morph_table)
- 
--/* macc parameter control*/
-+/* MACC parameter control*/
- #define ATOMISP_IOC_G_ISP_MACC \
- 	_IOR('v', BASE_VIDIOC_PRIVATE + 12, struct atomisp_macc_config)
- #define ATOMISP_IOC_S_ISP_MACC \
- 	_IOW('v', BASE_VIDIOC_PRIVATE + 12, struct atomisp_macc_config)
- 
--/* Defect pixel detection & Correction */
-+/* Defect pixel detection & correction */
- #define ATOMISP_IOC_G_ISP_BAD_PIXEL_DETECTION \
- 	_IOR('v', BASE_VIDIOC_PRIVATE + 13, struct atomisp_dp_config)
- #define ATOMISP_IOC_S_ISP_BAD_PIXEL_DETECTION \
- 	_IOW('v', BASE_VIDIOC_PRIVATE + 13, struct atomisp_dp_config)
- 
--/* False Color Correction */
-+/* False color correction */
- #define ATOMISP_IOC_G_ISP_FALSE_COLOR_CORRECTION \
- 	_IOR('v', BASE_VIDIOC_PRIVATE + 14, struct atomisp_de_config)
- #define ATOMISP_IOC_S_ISP_FALSE_COLOR_CORRECTION \
- 	_IOW('v', BASE_VIDIOC_PRIVATE + 14, struct atomisp_de_config)
- 
--/* ctc parameter control */
-+/* CTC parameter control */
- #define ATOMISP_IOC_G_ISP_CTC \
- 	_IOR('v', BASE_VIDIOC_PRIVATE + 15, struct atomisp_ctc_table)
- #define ATOMISP_IOC_S_ISP_CTC \
- 	_IOW('v', BASE_VIDIOC_PRIVATE + 15, struct atomisp_ctc_table)
- 
--/* white balance Correction */
-+/* White balance correction */
- #define ATOMISP_IOC_G_ISP_WHITE_BALANCE \
- 	_IOR('v', BASE_VIDIOC_PRIVATE + 16, struct atomisp_wb_config)
- #define ATOMISP_IOC_S_ISP_WHITE_BALANCE \
- 	_IOW('v', BASE_VIDIOC_PRIVATE + 16, struct atomisp_wb_config)
- 
--/* fpn table loading */
-+/* FPN table loading */
- #define ATOMISP_IOC_S_ISP_FPN_TABLE \
- 	_IOW('v', BASE_VIDIOC_PRIVATE + 17, struct v4l2_framebuffer)
- 
--/* overlay image loading */
-+/* Overlay image loading */
- #define ATOMISP_IOC_G_ISP_OVERLAY \
- 	_IOWR('v', BASE_VIDIOC_PRIVATE + 18, struct atomisp_overlay)
- #define ATOMISP_IOC_S_ISP_OVERLAY \
- 	_IOW('v', BASE_VIDIOC_PRIVATE + 18, struct atomisp_overlay)
- 
--/* bcd driver bridge */
-+/* BCD driver bridge */
- #define ATOMISP_IOC_CAMERA_BRIDGE \
- 	_IOWR('v', BASE_VIDIOC_PRIVATE + 19, struct atomisp_bc_video_package)
- 
- #define ATOMISP_IOC_S_EXPOSURE \
- 	_IOW('v', BASE_VIDIOC_PRIVATE + 21, struct atomisp_exposure)
- 
--/* white balance Correction */
-+/* White balance correction */
- #define ATOMISP_IOC_G_3A_CONFIG \
- 	_IOR('v', BASE_VIDIOC_PRIVATE + 23, struct atomisp_3a_config)
- #define ATOMISP_IOC_S_3A_CONFIG \
-@@ -773,7 +779,7 @@ enum atomisp_burst_capture_options {
- #define ATOMISP_IOC_S_ISP_SHD_TAB \
- 	_IOWR('v', BASE_VIDIOC_PRIVATE + 27, struct atomisp_shading_table)
- 
--/* Gamma Correction */
-+/* Gamma correction */
- #define ATOMISP_IOC_G_ISP_GAMMA_CORRECTION \
- 	_IOR('v', BASE_VIDIOC_PRIVATE + 28, struct atomisp_gc_config)
- 
-@@ -804,7 +810,7 @@ enum atomisp_burst_capture_options {
- #define ATOMISP_IOC_S_ARRAY_RESOLUTION \
- 	_IOW('v', BASE_VIDIOC_PRIVATE + 45, struct atomisp_resolution)
- 
--/* for depth mode sensor frame sync compensation */
-+/* For depth mode sensor frame sync compensation */
- #define ATOMISP_IOC_G_DEPTH_SYNC_COMP \
- 	_IOR('v', BASE_VIDIOC_PRIVATE + 46, unsigned int)
- 
-@@ -822,7 +828,7 @@ enum atomisp_burst_capture_options {
-  *	_IOW('v', BASE_VIDIOC_PRIVATE + 56, struct atomisp_sensor_regs)
-  */
- 
--/*  ISP Private control IDs */
-+/* ISP Private control IDs */
- #define V4L2_CID_ATOMISP_BAD_PIXEL_DETECTION \
- 	(V4L2_CID_PRIVATE_BASE + 0)
- #define V4L2_CID_ATOMISP_POSTPROCESS_GDC_CAC \
-@@ -836,8 +842,10 @@ enum atomisp_burst_capture_options {
- #define V4L2_CID_ATOMISP_LOW_LIGHT \
- 	(V4L2_CID_PRIVATE_BASE + 5)
- 
--/* Camera class:
-- * Exposure, Flash and privacy (indicator) light controls, to be upstreamed */
-+/*
-+ * Camera class:
-+ * Exposure, Flash and privacy (indicator) light controls, to be upstreamed
-+ */
- #define V4L2_CID_CAMERA_LASTP1             (V4L2_CID_CAMERA_CLASS_BASE + 1024)
- 
- #define V4L2_CID_RUN_MODE			(V4L2_CID_CAMERA_LASTP1 + 20)
-@@ -879,7 +887,7 @@ enum atomisp_burst_capture_options {
- #define V4L2_EVENT_ATOMISP_ACC_COMPLETE     (V4L2_EVENT_PRIVATE_START + 4)
- #define V4L2_EVENT_ATOMISP_PAUSE_BUFFER	    (V4L2_EVENT_PRIVATE_START + 5)
- #define V4L2_EVENT_ATOMISP_CSS_RESET	    (V4L2_EVENT_PRIVATE_START + 6)
--/* Nonstandard color effects for V4L2_CID_COLORFX */
-+/* Non-standard color effects for V4L2_CID_COLORFX */
- enum {
- 	V4L2_COLORFX_SKIN_WHITEN_LOW = 1001,
- 	V4L2_COLORFX_SKIN_WHITEN_HIGH = 1002,
-diff --git a/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h b/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h
-index 426c5ee4ec18..74092af1c659 100644
---- a/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h
-+++ b/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h
-@@ -15,8 +15,7 @@ int atomisp_gmin_remove_subdev(struct v4l2_subdev *sd);
- int gmin_get_var_int(struct device *dev, bool is_gmin,
- 		     const char *var, int def);
- struct camera_sensor_platform_data *
--gmin_camera_platform_data(
--    struct v4l2_subdev *subdev,
--    enum atomisp_input_format csi_format,
--    enum atomisp_bayer_order csi_bayer);
-+	gmin_camera_platform_data(struct v4l2_subdev *subdev,
-+				  enum atomisp_input_format csi_format,
-+				  enum atomisp_bayer_order csi_bayer);
- #endif
-diff --git a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
-index 6146555fe9cf..e8f91c55ba01 100644
---- a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
-+++ b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
-@@ -57,7 +57,8 @@ enum atomisp_input_format {
- 	ATOMISP_INPUT_FORMAT_RAW_16,   /* RAW data, 16 bits per pixel */
- 	ATOMISP_INPUT_FORMAT_BINARY_8, /* Binary byte stream. */
- 
--	/* CSI2-MIPI specific format: Generic short packet data. It is used to
-+	/*
-+	 * CSI2-MIPI specific format: Generic short packet data. It is used to
- 	 * keep the timing information for the opening/closing of shutters,
- 	 * triggering of flashes and etc.
- 	 */
-@@ -70,18 +71,18 @@ enum atomisp_input_format {
- 	ATOMISP_INPUT_FORMAT_GENERIC_SHORT7,  /* Generic Short Packet Code 7 */
- 	ATOMISP_INPUT_FORMAT_GENERIC_SHORT8,  /* Generic Short Packet Code 8 */
- 
--	/* CSI2-MIPI specific format: YUV data.
--	 */
--	ATOMISP_INPUT_FORMAT_YUV420_8_SHIFT,  /* YUV420 8-bit (Chroma Shifted
--						 Pixel Sampling) */
--	ATOMISP_INPUT_FORMAT_YUV420_10_SHIFT, /* YUV420 8-bit (Chroma Shifted
--						 Pixel Sampling) */
-+	/* YUV data */
-+	/* YUV420 8-bit (Chroma Shifted Pixel Sampling) */
-+	ATOMISP_INPUT_FORMAT_YUV420_8_SHIFT,
-+	/* YUV420 10-bit (Chroma Shifted Pixel Sampling) */
-+	ATOMISP_INPUT_FORMAT_YUV420_10_SHIFT,
- 
--	/* CSI2-MIPI specific format: Generic long packet data
--	 */
--	ATOMISP_INPUT_FORMAT_EMBEDDED, /* Embedded 8-bit non Image Data */
-+	/* CSI2-MIPI specific format: Generic long packet data */
-+	/* Embedded 8-bit non Image Data */
-+	ATOMISP_INPUT_FORMAT_EMBEDDED,
- 
--	/* CSI2-MIPI specific format: User defined byte-based data. For example,
-+	/*
-+	 * User defined byte-based data. For example,
- 	 * the data transmitter (e.g. the SoC sensor) can keep the JPEG data as
- 	 * the User Defined Data Type 4 and the MPEG data as the
- 	 * User Defined Data Type 7.
-@@ -105,9 +106,9 @@ struct intel_v4l2_subdev_table {
- };
- 
- /*
-- *  Sensor of external ISP can send multiple streams with different mipi data
-+ * Sensor of external ISP can send multiple streams with different MIPI data
-  * type in the same virtual channel. This information needs to come from the
-- * sensor or external ISP
-+ * sensor or external ISP.
-  */
- struct atomisp_isys_config_info {
- 	u8 input_format;
-@@ -118,16 +119,17 @@ struct atomisp_isys_config_info {
- struct atomisp_input_stream_info {
- 	enum atomisp_input_stream_id stream;
- 	u8 enable;
--	/* Sensor driver fills ch_id with the id
--	   of the virtual channel. */
-+	/* Sensor driver fills ch_id with the id of the virtual channel. */
- 	u8 ch_id;
--	/* Tells how many streams in this virtual channel. If 0 ignore rest
--	 * and the input format will be from mipi_info */
-+	/*
-+	 * Tells the number of streams in this virtual channel. If 0, ignore rest
-+	 * and the input format will be from mipi_info.
-+	 */
- 	u8 isys_configs;
- 	/*
--	 * if more isys_configs is more than 0, sensor needs to configure the
--	 * input format differently. width and height can be 0. If width and
--	 * height is not zero, then the corresponding data needs to be set
-+	 * If isys_configs is more than 0, sensor needs to configure the
-+	 * input format differently. Width and height can be 0. If width and
-+	 * height are not zero, then the corresponding data needs to be set.
- 	 */
- 	struct atomisp_isys_config_info isys_info[MAX_STREAMS_PER_CHANNEL];
- };
--- 
-2.43.0
+In ti_csi2rx_sd_enable_streams(), we check !csi->vc_cached (which,
+afaics, is essentially also "is this the first enable"), and do stuff.
+
+The structure should be so that we have a clear
+setup-things-on-the-first-enable function, and
+setup-things-for-a-context function. Now these two things are mixed in
+together, also with the 'vc_cached' field which I think is not needed at
+all.
+
+Actually, maybe I'm mixing the operation of the video dev and the subdev
+here, as the single file contains both. It still looks confusing: in
+ti_csi2rx_stop_streaming() we assert reset, but we don't de-assert in
+ti_csi2rx_start_streaming(). Instead we deassert in
+ti_csi2rx_setup_shim() which is called from ti_csi2rx_sd_enable_streams().
+
+Please check these out. There most likely should be more symmetry here
+wrt. enabling and disabling things.
+
+>  
+>  	/* Negotiate pixel count from the source */
+>  	ti_csi2rx_request_max_ppc(csi);
+> @@ -889,29 +881,69 @@ static void ti_csi2rx_buffer_queue(struct vb2_buffer *vb)
+>  	}
+>  }
+>  
+> +static int ti_csi2rx_get_stream(struct ti_csi2rx_ctx *ctx)
+> +{
+> +	struct ti_csi2rx_dev *csi = ctx->csi;
+> +	struct media_pad *pad;
+> +	struct v4l2_subdev_state *state;
+> +	struct v4l2_subdev_route *r;
+> +
+> +	/* Get the source pad connected to this ctx */
+> +	pad = media_entity_remote_source_pad_unique(ctx->pad.entity);
+> +	if (!pad) {
+> +		dev_err(csi->dev, "No pad connected to ctx %d\n", ctx->idx);
+> +		return -ENODEV;
+> +	}
+> +
+> +	state = v4l2_subdev_get_locked_active_state(&csi->subdev);
+> +
+> +	for_each_active_route(&state->routing, r) {
+> +		if (r->source_pad == pad->index) {
+> +			ctx->stream = r->sink_stream;
+> +			return 0;
+> +		}
+> +	}
+> +
+> +	/* No route found for this ctx */
+> +	return -ENODEV;
+> +}
+> +
+>  static int ti_csi2rx_get_vc_and_dt(struct ti_csi2rx_ctx *ctx)
+>  {
+>  	struct ti_csi2rx_dev *csi = ctx->csi;
+> +	struct ti_csi2rx_ctx *curr_ctx;
+>  	struct v4l2_mbus_frame_desc fd;
+> -	struct media_pad *pad;
+> -	int ret, i;
+> +	struct media_pad *source_pad;
+> +	int ret;
+> +	unsigned int i, j;
+>  
+> -	pad = media_entity_remote_pad_unique(&csi->subdev.entity, MEDIA_PAD_FL_SOURCE);
+> -	if (!pad)
+> +	/* Get the frame desc form source */
+> +	source_pad = media_entity_remote_pad_unique(&csi->subdev.entity, MEDIA_PAD_FL_SOURCE);
+> +	if (!source_pad)
+>  		return -ENODEV;
+>  
+> -	ret = v4l2_subdev_call(csi->source, pad, get_frame_desc, pad->index, &fd);
+> +	ret = v4l2_subdev_call(csi->source, pad, get_frame_desc, source_pad->index, &fd);
+>  	if (ret)
+>  		return ret;
+>  
+>  	if (fd.type != V4L2_MBUS_FRAME_DESC_TYPE_CSI2)
+>  		return -EINVAL;
+>  
+> -	for (i = 0; i < fd.num_entries; i++) {
+> -		if (ctx->stream == fd.entry[i].stream) {
+> -			ctx->vc = fd.entry[i].bus.csi2.vc;
+> -			ctx->dt = fd.entry[i].bus.csi2.dt;
+> -		}
+> +	for (i = 0; i < csi->num_ctx; i++) {
+> +		curr_ctx = &csi->ctx[i];
+> +
+> +		/* Capture VC 0 by default */
+> +		curr_ctx->vc = 0;
+> +
+> +		ret = ti_csi2rx_get_stream(curr_ctx);
+> +		if (ret)
+> +			continue;
+> +
+> +		for (j = 0; j < fd.num_entries; j++)
+> +			if (curr_ctx->stream == fd.entry[j].stream) {
+> +				curr_ctx->vc = fd.entry[j].bus.csi2.vc;
+> +				curr_ctx->dt = fd.entry[j].bus.csi2.dt;
+> +			}
+>  	}
+>  
+>  	return 0;
+> @@ -922,8 +954,6 @@ static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  	struct ti_csi2rx_ctx *ctx = vb2_get_drv_priv(vq);
+>  	struct ti_csi2rx_dev *csi = ctx->csi;
+>  	struct ti_csi2rx_dma *dma = &ctx->dma;
+> -	struct ti_csi2rx_buffer *buf;
+> -	const struct ti_csi2rx_fmt *fmt;
+>  	unsigned long flags;
+>  	int ret = 0;
+>  
+> @@ -938,35 +968,9 @@ static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  	if (ret)
+>  		goto err;
+>  
+> -	ret = ti_csi2rx_get_vc_and_dt(ctx);
+> -	if (ret == -ENOIOCTLCMD) {
+> -		ctx->vc = 0;
+> -		fmt = find_format_by_fourcc(ctx->v_fmt.fmt.pix.pixelformat);
+> -		ctx->dt = fmt->csi_dt;
+> -	} else if (ret < 0) {
+> -		goto err;
+> -	}
+> -
+> -	ti_csi2rx_setup_shim(ctx);
+> -
+> -	ctx->sequence = 0;
+> -
+> -	spin_lock_irqsave(&dma->lock, flags);
+> -	buf = list_entry(dma->queue.next, struct ti_csi2rx_buffer, list);
+> -
+> -	ret = ti_csi2rx_start_dma(ctx, buf);
+> -	if (ret) {
+> -		dev_err(csi->dev, "Failed to start DMA: %d\n", ret);
+> -		spin_unlock_irqrestore(&dma->lock, flags);
+> -		goto err_pipeline;
+> -	}
+> -
+> -	list_move_tail(&buf->list, &dma->submitted);
+> -	dma->state = TI_CSI2RX_DMA_ACTIVE;
+> -	spin_unlock_irqrestore(&dma->lock, flags);
+> -
+> +	/* Start stream 0, we don't allow multiple streams on the source pad */
+>  	ret = v4l2_subdev_enable_streams(&csi->subdev,
+> -					 TI_CSI2RX_PAD_FIRST_SOURCE,
+> +					 TI_CSI2RX_PAD_FIRST_SOURCE + ctx->idx,
+>  					 BIT_U64(0));
+>  	if (ret)
+>  		goto err_dma;
+> @@ -975,7 +979,6 @@ static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  
+>  err_dma:
+>  	ti_csi2rx_stop_dma(ctx);
+> -err_pipeline:
+>  	video_device_pipeline_stop(&ctx->vdev);
+>  	writel(0, csi->shim + SHIM_CNTL);
+>  	writel(0, csi->shim + SHIM_DMACNTX(ctx->idx));
+> @@ -990,17 +993,26 @@ static void ti_csi2rx_stop_streaming(struct vb2_queue *vq)
+>  	struct ti_csi2rx_dev *csi = ctx->csi;
+>  	int ret;
+>  
+> -	video_device_pipeline_stop(&ctx->vdev);
+> +	mutex_lock(&csi->mutex);
+>  
+> -	writel(0, csi->shim + SHIM_CNTL);
+>  	writel(0, csi->shim + SHIM_DMACNTX(ctx->idx));
+>  
+> +	/* assert pixel reset to prevent stale data */
+> +	if (csi->enable_count == 1) {
+> +		writel(0, csi->shim + SHIM_CNTL);
+> +		csi->vc_cached = false;
+> +	}
+> +
+> +	video_device_pipeline_stop(&ctx->vdev);
+> +
+>  	ret = v4l2_subdev_disable_streams(&csi->subdev,
+> -					  TI_CSI2RX_PAD_FIRST_SOURCE,
+> +					  TI_CSI2RX_PAD_FIRST_SOURCE + ctx->idx,
+>  					  BIT_U64(0));
+>  	if (ret)
+>  		dev_err(csi->dev, "Failed to stop subdev stream\n");
+>  
+> +	mutex_unlock(&csi->mutex);
+> +
+>  	ti_csi2rx_stop_dma(ctx);
+>  	ti_csi2rx_cleanup_buffers(ctx, VB2_BUF_STATE_ERROR);
+>  }
+> @@ -1043,25 +1055,84 @@ static int ti_csi2rx_sd_set_fmt(struct v4l2_subdev *sd,
+>  	fmt = v4l2_subdev_state_get_format(state, format->pad, format->stream);
+>  	*fmt = format->format;
+>  
+> -	fmt = v4l2_subdev_state_get_format(state, TI_CSI2RX_PAD_FIRST_SOURCE,
+> -					   format->stream);
+> +	fmt = v4l2_subdev_state_get_opposite_stream_format(state, format->pad,
+> +							   format->stream);
+> +	if (!fmt)
+> +		return -EINVAL;
+> +
+>  	*fmt = format->format;
+>  
+>  	return 0;
+>  }
+>  
+> -static int ti_csi2rx_sd_init_state(struct v4l2_subdev *sd,
+> -				   struct v4l2_subdev_state *state)
+> +static int _ti_csi2rx_sd_set_routing(struct v4l2_subdev *sd,
+> +				     struct v4l2_subdev_state *state,
+> +				     struct v4l2_subdev_krouting *routing)
+>  {
+> -	struct v4l2_mbus_framefmt *fmt;
+> +	int ret;
+> +
+> +	static const struct v4l2_mbus_framefmt format = {
+> +		.width = 640,
+> +		.height = 480,
+> +		.code = MEDIA_BUS_FMT_UYVY8_1X16,
+> +		.field = V4L2_FIELD_NONE,
+> +		.colorspace = V4L2_COLORSPACE_SRGB,
+> +		.ycbcr_enc = V4L2_YCBCR_ENC_601,
+> +		.quantization = V4L2_QUANTIZATION_LIM_RANGE,
+> +		.xfer_func = V4L2_XFER_FUNC_SRGB,
+> +	};
+>  
+> -	fmt = v4l2_subdev_state_get_format(state, TI_CSI2RX_PAD_SINK);
+> -	*fmt = ti_csi2rx_default_fmt;
+> +	ret = v4l2_subdev_routing_validate(sd, routing,
+> +					   V4L2_SUBDEV_ROUTING_ONLY_1_TO_1 |
+> +					   V4L2_SUBDEV_ROUTING_NO_SOURCE_MULTIPLEXING);
+>  
+> -	fmt = v4l2_subdev_state_get_format(state, TI_CSI2RX_PAD_FIRST_SOURCE);
+> -	*fmt = ti_csi2rx_default_fmt;
+> +	if (ret)
+> +		return ret;
+>  
+> -	return 0;
+> +	/* Only stream ID 0 allowed on source pads */
+> +	for (unsigned int i = 0; i < routing->num_routes; ++i) {
+> +		const struct v4l2_subdev_route *route = &routing->routes[i];
+> +
+> +		if (route->source_stream != 0)
+> +			return -EINVAL;
+> +	}
+> +
+> +	ret = v4l2_subdev_set_routing_with_fmt(sd, state, routing, &format);
+> +
+> +	return ret;
+> +}
+> +
+> +static int ti_csi2rx_sd_set_routing(struct v4l2_subdev *sd,
+> +				    struct v4l2_subdev_state *state,
+> +				    enum v4l2_subdev_format_whence which,
+> +				    struct v4l2_subdev_krouting *routing)
+> +{
+> +	struct ti_csi2rx_dev *csi = to_csi2rx_dev(sd);
+> +
+> +	if (csi->enable_count > 0)
+> +		return -EBUSY;
+> +
+> +	return _ti_csi2rx_sd_set_routing(sd, state, routing);
+> +}
+> +
+> +static int ti_csi2rx_sd_init_state(struct v4l2_subdev *sd,
+> +				   struct v4l2_subdev_state *state)
+> +{
+> +	struct v4l2_subdev_route routes[] = { {
+> +		.sink_pad = 0,
+> +		.sink_stream = 0,
+> +		.source_pad = TI_CSI2RX_PAD_FIRST_SOURCE,
+> +		.source_stream = 0,
+> +		.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
+> +	} };
+> +
+> +	struct v4l2_subdev_krouting routing = {
+> +		.num_routes = 1,
+> +		.routes = routes,
+> +	};
+> +
+> +	/* Initialize routing to single route to the fist source pad */
+> +	return _ti_csi2rx_sd_set_routing(sd, state, &routing);
+>  }
+>  
+>  static int ti_csi2rx_sd_enable_streams(struct v4l2_subdev *sd,
+> @@ -1069,15 +1140,58 @@ static int ti_csi2rx_sd_enable_streams(struct v4l2_subdev *sd,
+>  				       u32 pad, u64 streams_mask)
+>  {
+>  	struct ti_csi2rx_dev *csi = to_csi2rx_dev(sd);
+> +	struct ti_csi2rx_ctx *ctx = &csi->ctx[pad - TI_CSI2RX_PAD_FIRST_SOURCE];
+> +	struct ti_csi2rx_dma *dma = &ctx->dma;
+>  	struct media_pad *remote_pad;
+> +	struct ti_csi2rx_buffer *buf;
+> +	const struct ti_csi2rx_fmt *fmt;
+> +	unsigned long flags;
+> +	u64 sink_streams;
+>  	int ret = 0;
+>  
+> +	ret = ti_csi2rx_get_stream(ctx);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Get the VC and DT for all enabled ctx on first stream start */
+> +	if (!csi->vc_cached) {
+> +		ret = ti_csi2rx_get_vc_and_dt(ctx);
+> +		if (ret == -ENOIOCTLCMD) {
+> +			ctx->vc = 0;
+> +			fmt = find_format_by_fourcc(ctx->v_fmt.fmt.pix.pixelformat);
+> +			ctx->dt = fmt->csi_dt;
+> +		} else if (ret < 0) {
+> +			return ret;
+> +		}
+> +		csi->vc_cached = true;
+> +	}
+> +
+> +	ti_csi2rx_setup_shim(ctx);
+> +	ctx->sequence = 0;
+> +
+> +	spin_lock_irqsave(&dma->lock, flags);
+> +	buf = list_entry(dma->queue.next, struct ti_csi2rx_buffer, list);
+> +
+> +	ret = ti_csi2rx_start_dma(ctx, buf);
+> +	if (ret) {
+> +		dev_err(csi->dev, "Failed to start DMA: %d\n", ret);
+> +		spin_unlock_irqrestore(&dma->lock, flags);
+> +		return ret;
+> +	}
+> +
+> +	list_move_tail(&buf->list, &dma->submitted);
+> +	dma->state = TI_CSI2RX_DMA_ACTIVE;
+> +	spin_unlock_irqrestore(&dma->lock, flags);
+> +
+>  	remote_pad = media_entity_remote_source_pad_unique(&csi->subdev.entity);
+>  	if (!remote_pad)
+>  		return -ENODEV;
+> +	sink_streams = v4l2_subdev_state_xlate_streams(state, pad,
+> +						       TI_CSI2RX_PAD_SINK,
+> +						       &streams_mask);
+>  
+>  	ret = v4l2_subdev_enable_streams(csi->source, remote_pad->index,
+> -					 BIT_U64(0));
+> +					 sink_streams);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -1092,17 +1206,21 @@ static int ti_csi2rx_sd_disable_streams(struct v4l2_subdev *sd,
+>  {
+>  	struct ti_csi2rx_dev *csi = to_csi2rx_dev(sd);
+>  	struct media_pad *remote_pad;
+> +	u64 sink_streams;
+>  	int ret = 0;
+>  
+>  	remote_pad = media_entity_remote_source_pad_unique(&csi->subdev.entity);
+>  	if (!remote_pad)
+>  		return -ENODEV;
+> +	sink_streams = v4l2_subdev_state_xlate_streams(state, pad,
+> +						       TI_CSI2RX_PAD_SINK,
+> +						       &streams_mask);
+>  
+>  	if (csi->enable_count == 0)
+>  		return -EINVAL;
+
+Correct me if I'm wrong, but I don't think this should ever happen. If
+you want, you can place it in the beginning of the func, with a WARN_ON().
+
+>  
+>  	ret = v4l2_subdev_disable_streams(csi->source, remote_pad->index,
+> -					  BIT_U64(0));
+> +					  sink_streams);
+>  	if (!ret)
+>  		--csi->enable_count;
+>  
+> @@ -1111,6 +1229,7 @@ static int ti_csi2rx_sd_disable_streams(struct v4l2_subdev *sd,
+>  
+>  static const struct v4l2_subdev_pad_ops ti_csi2rx_subdev_pad_ops = {
+>  	.enum_mbus_code	= ti_csi2rx_enum_mbus_code,
+> +	.set_routing = ti_csi2rx_sd_set_routing,
+>  	.get_fmt = v4l2_subdev_get_fmt,
+>  	.set_fmt = ti_csi2rx_sd_set_fmt,
+>  	.enable_streams = ti_csi2rx_sd_enable_streams,
+> @@ -1289,7 +1408,7 @@ static int ti_csi2rx_v4l2_init(struct ti_csi2rx_dev *csi)
+>  	v4l2_subdev_init(sd, &ti_csi2rx_subdev_ops);
+>  	sd->internal_ops = &ti_csi2rx_internal_ops;
+>  	sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
+> -	sd->flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
+> +	sd->flags = V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_STREAMS;
+>  	strscpy(sd->name, dev_name(csi->dev), sizeof(sd->name));
+>  	sd->dev = csi->dev;
+>  	sd->entity.ops = &ti_csi2rx_subdev_entity_ops;
 
 
