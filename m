@@ -1,398 +1,210 @@
-Return-Path: <linux-media+bounces-50744-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50745-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CB97D2242A
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 04:13:03 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C3BAD22778
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 06:56:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A54433047DBF
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 03:12:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 87186302B117
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 05:56:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 017FF28A3EF;
-	Thu, 15 Jan 2026 03:12:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5CC929C321;
+	Thu, 15 Jan 2026 05:56:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d1UKJUuS"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="e6huNh49"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010001.outbound.protection.outlook.com [52.101.46.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D56528750A
-	for <linux-media@vger.kernel.org>; Thu, 15 Jan 2026 03:12:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768446745; cv=none; b=AEg7gWEpqC5F2ggkkErcpDX/il/x4SUmzcPUd5HCsd6VI2v4eQvUT683DxkBXCg7S2JkXGAL3O16kdCaAKOXJOoyhW7MhggKj/U9Wud/N3cyPM3gYRhMiy0RqYrMcc2GYjYvPpvpnEZt2oRFDZQgMXCjFtSpbOBWKh7hUrMNahQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768446745; c=relaxed/simple;
-	bh=bfY21wb9zreAqw4/f1hTl74rQI5Z5S4Zxq4SgQ9SBpE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rpMvWIvC7AbqPPpTMrJyhwTHGHytleYp+rJbW64O3NXG2E0IwPjwbkaP1UYuZ97qrb7rF0ZmQSEk0iOEbz2RLWRm+TtYWU4KafSxUGI37iReap4Mgr2pvxB4poRygYaO2aFmJxRUcDgVtCEcgMpXOiCHMIK0DmO1WROeu6u+ZfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d1UKJUuS; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2a0834769f0so3183195ad.2
-        for <linux-media@vger.kernel.org>; Wed, 14 Jan 2026 19:12:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768446743; x=1769051543; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UDVMaWbq7186xlbZBkIwTp4VvT95HkeR2Fa3C7B6kc8=;
-        b=d1UKJUuSXXjJSORa7tTnZmA/liHZeDELbCZZwgWgUiAeJ0zG/krI3OlAM9ZfXEDu7v
-         HFfBSriBrVyG6Wq1W3OCEFNIadlIOT+Lh44C+vxGFae9QE51G0WxBb1KVfLiQa1Xfwoe
-         S6C4jGzsTM1KIPiNDxYVGctlTf+ggRhuC9+fTRlT/avd9LZLDv7DFq8HY4FsX3DZ8GS6
-         SXWPRg1TcZt5KQISVViSi8ds8z8MfjOFsLOh2vrSzfVfTehBph98J7lDDlhn1V69eYEw
-         kh2TlOf4NK8w4l6lPnhfUhA1CfvIcYrfBvOncifDxZMuVZRlq1EooUH56fOyZblMZhcj
-         B0Xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768446743; x=1769051543;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UDVMaWbq7186xlbZBkIwTp4VvT95HkeR2Fa3C7B6kc8=;
-        b=spHww3l+aMwsJIbNz6kbUCzNF+GiFLqyc+mRWnVDfureBoLhoBkx8ccdDOena4WXK2
-         m1QvnUi2IjDF8KUdc2K9ZPOvHYKlOefj86rR6JpOdK/5/ERsGprIhObJ7u+msZnU4ati
-         fgWAQy7TLKy/FucW/WlHkZxOH4n3DDHxEIbLPsCTLeVIdTdun/Bh7PjWHWQHvZyCxzt0
-         ee88kuE50pMweQ0dJ3heLQXG0sik/ay/eZ2gAE4tHP9kikn85oZZZqrRtn3Xz1ZVmFE+
-         5vvhzW7MQDSSN+/I1mBrBfrVGDNv730PewqM41GCJncTGIat8EDxXXVqvcXKp+8y7qXu
-         R+gQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXTRy18oR2yiJUukEqkHnkfgkb+MEw3OXUkXAqB3BN384mGC6W3QtFd1u+ywDUQJ+VxLAHbKq0ybPbNnA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwlSRAAmHLLh6PcgIz3JL5yowSmhghq5I/lYMUfYqVBaBhwv6HH
-	90cBZHzOQPZL2vI+PtV35GF6QDGL6xZFTTCOCUbdusk6OTmU30dYLBPh
-X-Gm-Gg: AY/fxX7HWzrPd/7ejSNrmffmDirL75VLby/0HN5xtPQiqcBQOClmmHWF92JQq8MsqNp
-	zxVr4B2Zm0F4W4eF0359fXu9abTAIzaKMmsDoDUyWDoO6e25oS1WqpeFe70vSdF2NTMxN21ebvY
-	mUuZ8wdmMruvjiusMb2U4zsMSZ/h1hJge7RezTtcCuNpO9t43tIkcOmgQxHAqwxj2aDin9qIjlZ
-	xNMi0kkPM46AgMT4VmidPI4GAbDllppUuHCCD+TSnpRt71EJTRD5AuBLGz7Lyq/sj36GPcgi6Ha
-	jg+vnF51B1qEGBb0xyr29fJBsXpomF5IRHewwicvMlADecTPYhdls4Hnc71YLbl+uArDoWp9lYI
-	ypkrGK+/Q0QYOIBACKljX63VVDmjS7IoGzpCxPWbucNfexYKUj7BN+zFKBe0qaq02cwV0oYzBi3
-	ZDLGzUyO8DBK92zUAfagiGb9n5BCxC5g==
-X-Received: by 2002:a17:902:e784:b0:2a0:c58b:ed6 with SMTP id d9443c01a7336-2a599e347d0mr49824425ad.29.1768446742812;
-        Wed, 14 Jan 2026 19:12:22 -0800 (PST)
-Received: from localhost.localdomain ([103.215.237.249])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cc8d81sm237392495ad.81.2026.01.14.19.12.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jan 2026 19:12:22 -0800 (PST)
-From: Karthikey Kadati <karthikey3608@gmail.com>
-To: andy@kernel.org,
-	hansg@kernel.org,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: sakari.ailus@linux.intel.com,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	karthikey3608@gmail.com
-Subject: [PATCH v4] media: atomisp: replace ia_css_region with v4l2_rect
-Date: Thu, 15 Jan 2026 08:42:07 +0530
-Message-ID: <20260115031207.52840-1-karthikey3608@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C97D32367DF;
+	Thu, 15 Jan 2026 05:56:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.1
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768456608; cv=fail; b=YJ+iyTWVRaKvPLdLqBmJJK4GVzKL5AD08ELgLHtdRCKjY2iL7/dO/dB/QALB5yVu4YerDKVB32UGjErumVXCDHLxoecRJKwq/tsUyNg+j0Yl8QammARY6FygPalc/vJIe4J3ZwkN9qfZeeiaNKeArTxly3nR3BrpUBfUNIjd9h4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768456608; c=relaxed/simple;
+	bh=qRrcZFxoOIoe4midjqcfJMU+tZPUkVvIIPlD2FRmMAg=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=WqEBGNiUr7LP48oRGzwn5+2tKyMuBFb8VwXEBQVvyBoJZg5Xm3KmlkjFGOb3I6wJGkeF8WJpU12giqpbsnPOTwREotcYL5pz4SSOa+W+fRdwhKQZGYYwwAdyVepnzoJ5B0HR5kY19aPP023aWx8NJ/rASKQhYil6EVaddcoNIdM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=e6huNh49; arc=fail smtp.client-ip=52.101.46.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tj/DUAg/gvy0t1oeMU4L3RDb0NnPCbXcR4gkLQ6oAPSFQfmi1mgtSjve8yW7Mqr0Mi3iKyN2SQ/TLksCs2n9Dmv3mFloaSebuK//eTtSCFif4kZ4hzntUImgSeCJKw59tP3MeozDJCL8crty0vIVAs0ydrfrXgtJ4oQKYP55pBJfVLU1qM0wTTjwU3RIjPgtDq0k8k4fEAxIpnLmJYp8qq7kRJIm2YrTMInrNp+D/CTdfX8bd+aDi5befh7WqOPOdWJYNpHgqLfTcEU+UKgyvnZ93gw7k4T22SS3LwIt24tsj0Q125ktbXdyBEuklMwU7yxolA4QmB7ZtmDOvtM9YA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ywn8XVjs8CDrRhjLr9IoP1yXdhifoYpG8Rt4iuRS+p8=;
+ b=ECGv8f9mou8U8tGKnK4afjMe2scYfauMV8ceIQCpkmQgHTGmvnZmsMo4wZKh0xYzcStVECuE2+aI/tErg8buyrmmqEnhUlNQvkKq7HlpPnD9YPNy/uMYX0DcL8iK7C418FHIkwGYGslms8uDCyEa2l5KlGkx/ZBQ31UDINSKlmukYfmh/2p7Z6eBDghRryGSlQLt0X4UCnwUu/1Qp0R/b15yONwR7lcb5fasmRkpSiyWW6bfDAOMN0fmCk9GZy+KiF5mhzif2OzBxNOkmv5sue+upe+ugTzFAxf29KqvCPtRCukJbTbvsSPFwrSpLoi51B3gzJdtSOc+TvFpC2PJKg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ywn8XVjs8CDrRhjLr9IoP1yXdhifoYpG8Rt4iuRS+p8=;
+ b=e6huNh49C1gqV9iI3RgcKF09Q5y2oLoRKd/2MwR7yUTxJ30dgBJdwuidkaavMPWAhhwHNuZbzXDskwMPXPQzgbCpViTzuRNgQJZ4XIGnHe35q5M6C2iTjIa4dnQHi+gQI448oP/neJoGM61421BUcD7krmiP99IotYPfdK5EvF4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from LV9PR12MB9829.namprd12.prod.outlook.com (2603:10b6:408:2eb::9)
+ by SJ1PR12MB6268.namprd12.prod.outlook.com (2603:10b6:a03:455::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.4; Thu, 15 Jan
+ 2026 05:56:44 +0000
+Received: from LV9PR12MB9829.namprd12.prod.outlook.com
+ ([fe80::2bc0:451f:661a:ac32]) by LV9PR12MB9829.namprd12.prod.outlook.com
+ ([fe80::2bc0:451f:661a:ac32%7]) with mapi id 15.20.9499.005; Thu, 15 Jan 2026
+ 05:56:44 +0000
+Message-ID: <db6d11e2-0131-44a5-858f-e255923b9d5e@amd.com>
+Date: Thu, 15 Jan 2026 13:56:33 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 4/7] media: platform: amd: isp4 subdev and firmware
+ loading handling added
+To: Mario Limonciello <mario.limonciello@amd.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Sultan Alsawaf <sultan@kerneltoast.com>
+Cc: mchehab@kernel.org, hverkuil@xs4all.nl,
+ laurent.pinchart+renesas@ideasonboard.com, bryan.odonoghue@linaro.org,
+ prabhakar.mahadev-lad.rj@bp.renesas.com, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, pratap.nirujogi@amd.com,
+ benjamin.chan@amd.com, king.li@amd.com, gjorgji.rosikopulos@amd.com,
+ Phil.Jawich@amd.com, Dominic.Antony@amd.com, richard.gong@amd.com,
+ anson.tsao@amd.com, Alexey Zagorodnikov <xglooom@gmail.com>
+References: <20251216091326.111977-1-Bin.Du@amd.com>
+ <20251216091326.111977-5-Bin.Du@amd.com>
+ <aUkZP8i90uWaFliY@kekkonen.localdomain> <aV4MYcgdOviulN3E@sultan-box>
+ <aWgEtfp1MWioqKox@kekkonen.localdomain>
+ <bc665c1d-f2a6-495a-bda8-012b2619f0c4@amd.com>
+Content-Language: en-US
+From: "Du, Bin" <bin.du@amd.com>
+In-Reply-To: <bc665c1d-f2a6-495a-bda8-012b2619f0c4@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SI2PR04CA0004.apcprd04.prod.outlook.com
+ (2603:1096:4:197::22) To LV9PR12MB9829.namprd12.prod.outlook.com
+ (2603:10b6:408:2eb::9)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV9PR12MB9829:EE_|SJ1PR12MB6268:EE_
+X-MS-Office365-Filtering-Correlation-Id: cfbbf25f-981f-4cd5-15f5-08de53fadc4b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?Uy9aendqTlA0dHhLNS9ybDgwZFI1NzZKWVNBaEVjTGpEU2JHaDFRaFk4QlBX?=
+ =?utf-8?B?RXFGVThlUk5mcldwVTllSUlXT2EyS0hDQ0dQQklPZU1QdUxVZ0ZFTTVDakRW?=
+ =?utf-8?B?MVJWQjRXSGxsTkdDNjhhRUJWcVM5TTg0SGhwQko0bm93RnREaWxSbnBIWW9h?=
+ =?utf-8?B?Sy9ZYmVsTWNqempkUDg0Q3ZzM252UVg2NFBtSFZwSmJ1SDQveWpoT295RFl3?=
+ =?utf-8?B?UVVLaHErUDV1OUpLOHlVMCsyQ3pldXEwNXNZcTFzdnZGMXFKVUNOQVZydWIx?=
+ =?utf-8?B?SHUyK3ZWd3dUUUg4N3d0cXRWUDJKVWxNSTJkYndCZjBGZmVaYVMrdzA5NkY3?=
+ =?utf-8?B?MmtZcFVhODl6WTVaMmdud3FRc0NOVGRCU2htaElXc0E3bTRZYmk1Wm1kVHcr?=
+ =?utf-8?B?cC9yMDZNOTFJZ1BKTnEvc1dyUEJMa216dzdyUkNiM2tacGpHNEJiMFFtUVNE?=
+ =?utf-8?B?T3pZWEhMUVYzNzVPNCtENGNTSUtsc1V6U3Zna2J0MDcwVC91RGZRS1RGMFVN?=
+ =?utf-8?B?cHZldzVxanQ3WDhFWTIrM2xZN01wYmRCL1pQa3d4RG1Md2kyN216S29va280?=
+ =?utf-8?B?L0FRdzMzL3BDVVpWTGlVRXF2eHBIUHVQWWczeThzMzFuYm5JVklNTDZlYVdU?=
+ =?utf-8?B?NUFDbmVxL3hvbHRVc1lrZHZYdGtSSURJU1FlcEdtakt0dC8xNE5ZNjJaZjZL?=
+ =?utf-8?B?TG0yQWhyN1hHYkJIZDBrUDd2R3lvUHl5ZXpSRlovYzZ0TWhTcjl3cDhQUzBR?=
+ =?utf-8?B?a3FwV2Z1bEJBM2RaSjVYWDlwN3BNTDBkakNnWmU4YWhhMSszSWJlWUVkazZk?=
+ =?utf-8?B?VnZUSjZhcHY5TFRaNzgycUpxTG5EK2dxZVMzWk9nWksvZTlRYTM5d0o5ZzZS?=
+ =?utf-8?B?Q043WFpWZEtONGpzQ1NHMW44TmIxQjc4dktNN2dvUmw2T29lMXpVVC80eCts?=
+ =?utf-8?B?ZzRreXg2QTNCM1dyQ0NoVTREdDlJYzhjVHY3U2pPOUpyaHZlbTVuTG5mMTUw?=
+ =?utf-8?B?N01RY2VhSjNkdE5ScXk2N1Q0b0laVWpZMit4bVNsV3NYbVY3UVVPaEVCaXV0?=
+ =?utf-8?B?RXpzTWNhdnFZRDhkcjd1L251T21IOWpkNHJZa2M5K1R6dnRGREo1SHVBRzFF?=
+ =?utf-8?B?QlJNeVBieGUvYzVEUU9URmRDaHlCWkYyeHIybGtCRnZyNUdPTWdvM2d6M1dJ?=
+ =?utf-8?B?Z1hZdFB2Q2hCcjltZjArNVJObDhrclpQUmhCOGRyNmNHcTZhL21hTlljbVA3?=
+ =?utf-8?B?am1iK0RaUUJtcjRwRkFCd1V4VFhDaGZIaUpDbVpqQlp0cDZJMTVOL0lkMG5a?=
+ =?utf-8?B?dExLM2xaaWR1bitnaUZOeXRSSXZEQ3RZRUpvVzByVlcvQkQ5Ny93SHFITjV1?=
+ =?utf-8?B?Q1pCMkRlZ2NIR29IbzRJdGQ0MEFzNVFFdTJlWFhSMVdJbnRTbldsWmZyWkJQ?=
+ =?utf-8?B?bzNtUWhrTXV1WWlmK28vZzZndWR5amxXR3NERW52QUVtUnhPL2d0OGlJUmk2?=
+ =?utf-8?B?M0FKUUNiZWo1bW50aGxWb0ZwclZ6SWQyUk5IYUlReDRMSlYvSUZhTDI2cmZ1?=
+ =?utf-8?B?d0JJQUhSbk9jRXI5c3V1WkRNYjU4a3lhalNtZVJaSHVnK0lPRFhjN0NwckJx?=
+ =?utf-8?B?WFJaZG13cUVPSU9mM3VYUTM4TEp5N3QyZ2RITjNlWmtWQXBCSkZqVGhpWkg5?=
+ =?utf-8?B?blpubnpYczJyTWkvTTB4T0lXY2laRkVYTFlUUlJmQjJWMy9HS0dCOEw5eXFZ?=
+ =?utf-8?B?WWhiQmNtbFFtM2ExclNiK3Iyc2laVm42SjZmdUw0Z2dsc1g4Vy9ndUJDQzZj?=
+ =?utf-8?B?Z2g3amRKVk5FOElxb1RObVJUazFpbEt6Mm1rc1BuZXBlMm00MnFYb0ZMSnBP?=
+ =?utf-8?B?cDBjZlhjNFFqMklNRGJyTWNIZHR3ODJ6MGZ1Z1JsK1F0MDJKK2tMVmgrNUNl?=
+ =?utf-8?B?RDU3UU84RVgrb0VERHBLVEwwR25SSVVDcXpKaThlOXNnd0lseEtRUVFKYThn?=
+ =?utf-8?B?bjkyZ2pxZnVHek9LU2hvT211TWJ5U2Vjcm92alA2enNCekFDRTZwZXBrbGY5?=
+ =?utf-8?B?cTd0Y21LRlJQSFQ4UU4zM1lOTlB6dXh3YkhTMGFkeUVTZS8rcnhPOWdGdUlh?=
+ =?utf-8?Q?Pd2I=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV9PR12MB9829.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?TXhLOW5ZQkpzNFI5bUxNU2d6d1ZFWG9wbnRoYmxCOEEwK1lhQjd4aVZoZ2gx?=
+ =?utf-8?B?RURlZGQ0amg5Z2VhbXpISG1FTGFuNTcvclprM29lS3N1VE1OK29vRS9BaG15?=
+ =?utf-8?B?TkRBdHZVWGhia244ZkowWlBXUGVYSjVqL29OamdhUmEzcHROSlJNREdYTUdl?=
+ =?utf-8?B?WXhiU0lhclErREFob3ZjSkR1ZnBBeEVSNktheW5EVXJwWEZpOElTVXo3MUx1?=
+ =?utf-8?B?Y1FCL0hLTGlNbllHbGYzQTJhZ3hFUE5JajhwQzhXMjZudzd6UmNZeTdxbHlY?=
+ =?utf-8?B?WDdZSmlrVmlWMjV1MnJkMDhTZnN0OVlOUTlUdGVtRytlcVA1ODAvUTBJSjcy?=
+ =?utf-8?B?VVlGb0NURFlNd2xVZlB4TkI4azJaY01LQ1NkQnVGSjdIa2JVSmNua0JRaHhR?=
+ =?utf-8?B?aGdodW02aVQyQ05Vb3lmcHNHV2tOdVJnUlBoRWM2ODhPbi9DMjhsM1U5Tk1P?=
+ =?utf-8?B?bjN4OUlDU1pwWEhjUEhTdDUzbllaYWVGSWZleEVtaUk3YU1PVHdRamtsejc2?=
+ =?utf-8?B?TGZicXFJVGI1TmtWU1dPRHlFSzRNKzQ5dmcxY0c3WTlZc3NPdTUrYUNmUmhD?=
+ =?utf-8?B?M0JRSWZjSnAyMFBMUUxUUUgydFREbkZuTHhzZmhxVmk1bWVHMTRJaHp0WG9K?=
+ =?utf-8?B?bGZ6VDRXTEUzWU9FNUJLbTVicERxdnU0SVFNdHRSR3RlUWpQV05OK2xZWktK?=
+ =?utf-8?B?aElXU1J2Wm80THl2OFpHZ2d4YXhZaER3cUlLSW5VTytLM3NneDFWTHFsYndy?=
+ =?utf-8?B?bWNxa1lLT3NGWFI4blFqRWJUeGk3azduUC9IbUlxODFocHRNaTNQZzltN1Fi?=
+ =?utf-8?B?bGUzZ3MyeHczWE84QlNqTG5BM1dYQ3Z3dVhrTXRlcEtUZTkxVUJFVGRSdS82?=
+ =?utf-8?B?cURwUnVEWmErejZ2a0dQdjBSZUlmZmpuV1JCUU9FSnZtWDVlNG5OdUVWNEds?=
+ =?utf-8?B?aTJSWndrdkI5a3BtVFZYUEJkTSswYisvNHdjb0VpMXZhaDRKT2ErZ3J2dUkr?=
+ =?utf-8?B?Q1JZWVNjU0RLVHhEWDRLbVMyYWN0RnpjQVJMZ1ZPcDdIT0dHUFNMWTJadEIy?=
+ =?utf-8?B?SXVzUklNelQvbVJjVkszRjY4RldBelNRdU5aZkZ5RysreUtweXRLWCtzMmNY?=
+ =?utf-8?B?SzN2bS9RMVRIc0FrTWcwbi9qbGVLYm5hM3RoMGdyK1pQMTlTdEo0K1FWQ3ha?=
+ =?utf-8?B?dzNZbzNmSCtVYVp4OXBteHBCODZNVmVlTVZUWVFvVFFLUzZWRzh6R1NIQ0Yv?=
+ =?utf-8?B?WWJVZGpkQzFMK3ZKMzlPVCtuMVVtMU93TlZ1bEZLaEJJcGsrTU83MWJibFIr?=
+ =?utf-8?B?dFBPSWxWdlJSNmtZWjhIR0NUK0pXNENONE9nKzBOWWQ1c0VLZzlCUUkvUWlq?=
+ =?utf-8?B?MU90V21OQzltM0VtQU5lbnNRQXlWcEYzUnQzeHJJNmtZZTRlQzZ3eHl0eXBE?=
+ =?utf-8?B?ZnpBd1MrUmp4WUpzZkswa1VEZjhHUWpDaTFBSTFTaXJWMFBjU29vemdUVVFX?=
+ =?utf-8?B?bHppK1pBWm51aVU2MHVLS3FjZ2dLa1VlWElGdE9NZFdaWEVMVnlacUJ0M2lV?=
+ =?utf-8?B?MHJ3WFY2M1RjRkZVMjRnRXYvWUNzRkROL3RRMmk5VmhVSHZRUFdtbmpDbUlw?=
+ =?utf-8?B?UHJYOHhJc0xtamxXczRHQ1FhaFVjTkFWeHRFclNWYy9ucXYrQ2NZT0R5VWk5?=
+ =?utf-8?B?L1dsUHlRcWZac0RrODl2MzRkYVVXSjVJTlZrbkIwd20xYmxVZzIyQUFFRHgw?=
+ =?utf-8?B?Q1ZGb0FyaENYNDVSb0Q1clRzd29jekVDNGFQMnM4QlE0OTVMQWlFcmduK3pC?=
+ =?utf-8?B?QWxjdjZtVmcxanJqRVg5MjFLWFRmWUdreStqSnlPNm1pS3dUdlYwSEIwVlRy?=
+ =?utf-8?B?cTdQOVI1c0RDMHFPWURzejU0d05WZDdnNm1qbGNZUkRaczU5SG5Kd0VBeDBo?=
+ =?utf-8?B?UlZLUGJCQXJWWUFLczVOMEVjdTBQT25ISW4xbXE4b3U5aDBCaHU3S2xsUkkz?=
+ =?utf-8?B?a2k5STE5dkZlbnNRYjR1SktnNnJkend3RHI2dTYxYjdoQktEbGhrWG9xNXZP?=
+ =?utf-8?B?MUFzTXBnZjA4TVd1aFQvWlBZa042aFdMcEZDM3dGVHVnWmNsOXk4NjBURCtt?=
+ =?utf-8?B?UjRoNCtwZTd2U0FJNEFNUHVBaWgvTndYcDZaa3A1Tzc3UENBdFhYYzE0UGY4?=
+ =?utf-8?B?SFBsN1RFV05JR1Vrc2JaYnl6bDE1QUovTmc3SFZBNVI3MjhsMnBuNUF2bFJu?=
+ =?utf-8?B?NCtKSHBlb1BqRm1LWCsrbUlrWW5xWC85RWhjNGhnRXJ6RmZqYmZKbTN4R3Va?=
+ =?utf-8?Q?GOz4B5XTpNfTpmgpgA?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cfbbf25f-981f-4cd5-15f5-08de53fadc4b
+X-MS-Exchange-CrossTenant-AuthSource: LV9PR12MB9829.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2026 05:56:43.9813
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xI6Z8YoNPecpv+CKtcDWqFVoHXiFxJlVeWuGhUesrbvAcPNh7W6aqXax+LMww05N
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6268
 
-The struct ia_css_region definition is redundant as struct v4l2_rect
-provides the same functionality (left, top, width, height) and is the
-standard V4L2 type.
 
-Replace usage of ia_css_region with v4l2_rect in ia_css_dz_config
-and remove the definition of ia_css_region from ia_css_types.h.
 
-Also remove historical comments referencing the addition of zoom_region
-and include <linux/videodev2.h> to support the v4l2_rect type.
+On 1/15/2026 5:08 AM, Mario Limonciello wrote:
+>>>
+>>> Unless the firmware API structs are all __packed in a future firmware 
+>>> update, I
+>>> think the memsets should remain.
+>>
+>> If you want to be certain of the size of the structs, use BUILD_BUG_ON().
+>>
+> 
+> static_assert is another option here too.   I did something like that in 
+> drivers/acpi/platform_profile.c to make sure that a structure got 
+> updated from new members.
 
-Signed-off-by: Karthikey Kadati <karthikey3608@gmail.com>
----
-Changes in v4:
-- Reverted unrelated Dev_dbg removal and indentation changes in atomisp_cmd.c.
-- Fixed struct initializer in sh_css_params.c to be flat (fixes static analysis warnings).
-- Fixed line wrap issues and operator placement in atomisp_cmd.c (fixes checkpatch warnings), ensuring no unrelated lines were touched.
-- Added blank line after <linux/videodev2.h> in ia_css_types.h.
-Changes in v3:
-- Rebased on linux-media/next to resolve conflict with nested structs.
-- Replaced usage of zoom_region.origin/resolution with direct members.
-Changes in v2:
-- Removed unrelated changes to drivers/staging/sm750fb/ddk750_swi2c.c.
-- Removed historical comments in ia_css_types.h.
-- Corrected header ordering.
+Thank you, Sakari and Mario, for your informative sharing.
 
- .../staging/media/atomisp/pci/atomisp_cmd.c   | 122 +++++++++---------
- .../staging/media/atomisp/pci/ia_css_types.h  |  14 +-
- .../staging/media/atomisp/pci/sh_css_params.c |  18 +--
- 3 files changed, 69 insertions(+), 85 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 3a4eb4f6d3be..1651ef4eafe1 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -1762,15 +1762,13 @@ int atomisp_calculate_real_zoom_region(struct atomisp_sub_device *asd,
- 		return -EINVAL;
- 	}
- 
--	if (dz_config->zoom_region.resolution.width
--	    == asd->sensor_array_res.width
--	    || dz_config->zoom_region.resolution.height
--	    == asd->sensor_array_res.height) {
-+	if (dz_config->zoom_region.width == asd->sensor_array_res.width ||
-+	    dz_config->zoom_region.height == asd->sensor_array_res.height) {
- 		/*no need crop region*/
--		dz_config->zoom_region.origin.x = 0;
--		dz_config->zoom_region.origin.y = 0;
--		dz_config->zoom_region.resolution.width = eff_res.width;
--		dz_config->zoom_region.resolution.height = eff_res.height;
-+		dz_config->zoom_region.left = 0;
-+		dz_config->zoom_region.top = 0;
-+		dz_config->zoom_region.width = eff_res.width;
-+		dz_config->zoom_region.height = eff_res.height;
- 		return 0;
- 	}
- 
-@@ -1781,18 +1779,14 @@ int atomisp_calculate_real_zoom_region(struct atomisp_sub_device *asd,
- 	 */
- 
- 	if (!IS_ISP2401) {
--		dz_config->zoom_region.origin.x = dz_config->zoom_region.origin.x
--						  * eff_res.width
--						  / asd->sensor_array_res.width;
--		dz_config->zoom_region.origin.y = dz_config->zoom_region.origin.y
--						  * eff_res.height
--						  / asd->sensor_array_res.height;
--		dz_config->zoom_region.resolution.width = dz_config->zoom_region.resolution.width
--							  * eff_res.width
--							  / asd->sensor_array_res.width;
--		dz_config->zoom_region.resolution.height = dz_config->zoom_region.resolution.height
--							  * eff_res.height
--							  / asd->sensor_array_res.height;
-+		dz_config->zoom_region.left = dz_config->zoom_region.left *
-+					      eff_res.width / asd->sensor_array_res.width;
-+		dz_config->zoom_region.top = dz_config->zoom_region.top *
-+					     eff_res.height / asd->sensor_array_res.height;
-+		dz_config->zoom_region.width = dz_config->zoom_region.width *
-+					       eff_res.width / asd->sensor_array_res.width;
-+		dz_config->zoom_region.height = dz_config->zoom_region.height *
-+						eff_res.height / asd->sensor_array_res.height;
- 		/*
- 		 * Set same ratio of crop region resolution and current pipe output
- 		 * resolution
-@@ -1819,62 +1813,62 @@ int atomisp_calculate_real_zoom_region(struct atomisp_sub_device *asd,
- 				   - asd->sensor_array_res.width
- 				   * out_res.height / out_res.width;
- 			h_offset = h_offset / 2;
--			if (dz_config->zoom_region.origin.y < h_offset)
--				dz_config->zoom_region.origin.y = 0;
-+			if (dz_config->zoom_region.top < h_offset)
-+				dz_config->zoom_region.top = 0;
- 			else
--				dz_config->zoom_region.origin.y = dz_config->zoom_region.origin.y - h_offset;
-+				dz_config->zoom_region.top =
-+					dz_config->zoom_region.top - h_offset;
- 			w_offset = 0;
- 		} else {
- 			w_offset = asd->sensor_array_res.width
- 				   - asd->sensor_array_res.height
- 				   * out_res.width / out_res.height;
- 			w_offset = w_offset / 2;
--			if (dz_config->zoom_region.origin.x < w_offset)
--				dz_config->zoom_region.origin.x = 0;
-+			if (dz_config->zoom_region.left < w_offset)
-+				dz_config->zoom_region.left = 0;
- 			else
--				dz_config->zoom_region.origin.x = dz_config->zoom_region.origin.x - w_offset;
-+				dz_config->zoom_region.left =
-+					dz_config->zoom_region.left - w_offset;
- 			h_offset = 0;
- 		}
--		dz_config->zoom_region.origin.x = dz_config->zoom_region.origin.x
--						  * eff_res.width
--						  / (asd->sensor_array_res.width - 2 * w_offset);
--		dz_config->zoom_region.origin.y = dz_config->zoom_region.origin.y
--						  * eff_res.height
--						  / (asd->sensor_array_res.height - 2 * h_offset);
--		dz_config->zoom_region.resolution.width = dz_config->zoom_region.resolution.width
--						  * eff_res.width
--						  / (asd->sensor_array_res.width - 2 * w_offset);
--		dz_config->zoom_region.resolution.height = dz_config->zoom_region.resolution.height
--						  * eff_res.height
--						  / (asd->sensor_array_res.height - 2 * h_offset);
--	}
--
--	if (out_res.width * dz_config->zoom_region.resolution.height
--	    > dz_config->zoom_region.resolution.width * out_res.height) {
--		dz_config->zoom_region.resolution.height =
--		    dz_config->zoom_region.resolution.width
--		    * out_res.height / out_res.width;
-+		dz_config->zoom_region.left = dz_config->zoom_region.left *
-+			eff_res.width /
-+			(asd->sensor_array_res.width - 2 * w_offset);
-+		dz_config->zoom_region.top = dz_config->zoom_region.top *
-+			eff_res.height /
-+			(asd->sensor_array_res.height - 2 * h_offset);
-+		dz_config->zoom_region.width = dz_config->zoom_region.width *
-+			eff_res.width /
-+			(asd->sensor_array_res.width - 2 * w_offset);
-+		dz_config->zoom_region.height = dz_config->zoom_region.height *
-+			eff_res.height /
-+			(asd->sensor_array_res.height - 2 * h_offset);
-+	}
-+
-+	if (out_res.width * dz_config->zoom_region.height >
-+	    dz_config->zoom_region.width * out_res.height) {
-+		dz_config->zoom_region.height = dz_config->zoom_region.width *
-+						out_res.height / out_res.width;
- 	} else {
--		dz_config->zoom_region.resolution.width =
--		    dz_config->zoom_region.resolution.height
--		    * out_res.width / out_res.height;
-+		dz_config->zoom_region.width = dz_config->zoom_region.height *
-+					       out_res.width / out_res.height;
- 	}
- 	dev_dbg(asd->isp->dev,
- 		"%s crop region:(%d,%d),(%d,%d) eff_res(%d, %d) array_size(%d,%d) out_res(%d, %d)\n",
--		__func__, dz_config->zoom_region.origin.x,
--		dz_config->zoom_region.origin.y,
--		dz_config->zoom_region.resolution.width,
--		dz_config->zoom_region.resolution.height,
-+		__func__, dz_config->zoom_region.left,
-+		dz_config->zoom_region.top,
-+		dz_config->zoom_region.width,
-+		dz_config->zoom_region.height,
- 		eff_res.width, eff_res.height,
- 		asd->sensor_array_res.width,
- 		asd->sensor_array_res.height,
- 		out_res.width, out_res.height);
- 
--	if ((dz_config->zoom_region.origin.x +
--	     dz_config->zoom_region.resolution.width
-+	if ((dz_config->zoom_region.left +
-+	     dz_config->zoom_region.width
- 	     > eff_res.width) ||
--	    (dz_config->zoom_region.origin.y +
--	     dz_config->zoom_region.resolution.height
-+	    (dz_config->zoom_region.top +
-+	     dz_config->zoom_region.height
- 	     > eff_res.height))
- 		return -EINVAL;
- 
-@@ -1899,10 +1893,10 @@ static bool atomisp_check_zoom_region(
- 
- 	config.width = asd->sensor_array_res.width;
- 	config.height = asd->sensor_array_res.height;
--	w = dz_config->zoom_region.origin.x +
--	    dz_config->zoom_region.resolution.width;
--	h = dz_config->zoom_region.origin.y +
--	    dz_config->zoom_region.resolution.height;
-+	w = dz_config->zoom_region.left +
-+	    dz_config->zoom_region.width;
-+	h = dz_config->zoom_region.top +
-+	    dz_config->zoom_region.height;
- 
- 	if ((w <= config.width) && (h <= config.height) && w > 0 && h > 0)
- 		flag = true;
-@@ -1910,10 +1904,10 @@ static bool atomisp_check_zoom_region(
- 		/* setting error zoom region */
- 		dev_err(asd->isp->dev,
- 			"%s zoom region ERROR:dz_config:(%d,%d),(%d,%d)array_res(%d, %d)\n",
--			__func__, dz_config->zoom_region.origin.x,
--			dz_config->zoom_region.origin.y,
--			dz_config->zoom_region.resolution.width,
--			dz_config->zoom_region.resolution.height,
-+			__func__, dz_config->zoom_region.left,
-+			dz_config->zoom_region.top,
-+			dz_config->zoom_region.width,
-+			dz_config->zoom_region.height,
- 			config.width, config.height);
- 
- 	return flag;
-diff --git a/drivers/staging/media/atomisp/pci/ia_css_types.h b/drivers/staging/media/atomisp/pci/ia_css_types.h
-index 676d7e20b282..2b7db9cda23a 100644
---- a/drivers/staging/media/atomisp/pci/ia_css_types.h
-+++ b/drivers/staging/media/atomisp/pci/ia_css_types.h
-@@ -15,6 +15,8 @@
-  * directly but still need to forward parameters for it.
-  */
- 
-+#include <linux/videodev2.h>
-+
- #include <type_support.h>
- 
- #include "ia_css_frac.h"
-@@ -427,14 +429,6 @@ struct ia_css_point {
- 	s32 y; /** y coordinate */
- };
- 
--/**
-- * This specifies the region
-- */
--struct ia_css_region {
--	struct ia_css_point origin; /** Starting point coordinates for the region */
--	struct ia_css_resolution resolution; /** Region resolution */
--};
--
- /**
-  * Digital zoom:
-  * This feature is currently available only for video, but will become
-@@ -442,7 +436,7 @@ struct ia_css_region {
-  * Set the digital zoom factor, this is a logarithmic scale. The actual zoom
-  * factor will be 64/x.
-  * Setting dx or dy to 0 disables digital zoom for that direction.
-- * New API change for Digital zoom:(added struct ia_css_region zoom_region)
-+ *
-  * zoom_region specifies the origin of the zoom region and width and
-  * height of that region.
-  * origin : This is the coordinate (x,y) within the effective input resolution
-@@ -455,7 +449,7 @@ struct ia_css_region {
- struct ia_css_dz_config {
- 	u32 dx; /** Horizontal zoom factor */
- 	u32 dy; /** Vertical zoom factor */
--	struct ia_css_region zoom_region; /** region for zoom */
-+	struct v4l2_rect zoom_region; /** region for zoom */
- };
- 
- /* The still capture mode, this can be RAW (simply copy sensor input to DDR),
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
-index 11d62313c908..23e08142bf09 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_params.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
-@@ -657,11 +657,7 @@ static const int zoom_table[4][HRT_GDC_N] = {
- static const struct ia_css_dz_config default_dz_config = {
- 	HRT_GDC_N,
- 	HRT_GDC_N,
--	{
--		\
--		{0, 0}, \
--		{0, 0}, \
--	}
-+	{ 0, 0, 0, 0 }
- };
- 
- static const struct ia_css_vector default_motion_config = {
-@@ -1210,8 +1206,8 @@ ia_css_process_zoom_and_motion(
- 		}
- 
- 		assert(stage->stage_num < SH_CSS_MAX_STAGES);
--		if (params->dz_config.zoom_region.resolution.width == 0 &&
--		    params->dz_config.zoom_region.resolution.height == 0) {
-+		if (params->dz_config.zoom_region.width == 0 &&
-+		    params->dz_config.zoom_region.height == 0) {
- 			sh_css_update_uds_and_crop_info(
- 			    &info->sp,
- 			    &binary->in_frame_info,
-@@ -4096,10 +4092,10 @@ sh_css_update_uds_and_crop_info_based_on_zoom_region(
- 	assert(motion_vector);
- 	assert(uds);
- 	assert(sp_out_crop_pos);
--	x0 = zoom->zoom_region.origin.x;
--	y0 = zoom->zoom_region.origin.y;
--	x1 = zoom->zoom_region.resolution.width + x0;
--	y1 = zoom->zoom_region.resolution.height + y0;
-+	x0 = zoom->zoom_region.left;
-+	y0 = zoom->zoom_region.top;
-+	x1 = zoom->zoom_region.width + x0;
-+	y1 = zoom->zoom_region.height + y0;
- 
- 	if ((x0 > x1) || (y0 > y1) || (x1 > pipe_in_res.width) || (y1 > pipe_in_res.height))
- 		return -EINVAL;
 -- 
-2.43.0
+Regards,
+Bin
 
 
