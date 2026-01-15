@@ -1,52 +1,56 @@
-Return-Path: <linux-media+bounces-50799-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50800-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDD81D24E5A
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 15:17:55 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A973FD24E8A
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 15:21:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 6FFA93007F02
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 14:17:55 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E4FEF30198D1
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 14:20:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77FA23A1E6E;
-	Thu, 15 Jan 2026 14:17:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 204EC399000;
+	Thu, 15 Jan 2026 14:20:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cE4BlBJN"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mjUwElXj"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D4D39903F;
-	Thu, 15 Jan 2026 14:17:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB0F024DFF3;
+	Thu, 15 Jan 2026 14:20:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768486671; cv=none; b=ej7zYbnPg1l81uOqYZz7zVpA2+67DNn9l8vuTlzF38xDiY8nnpFv7uq0GVrS+v3iperPXPPeTbOBqBbiW6U9BYyzybE61C+GlV+tpF+GbPB8DfNwuqT6CL6SfytdjZxNv/NaJ2FrdIcj6lHBFKMq7m6iy7k7tQklZW0tzjX98n4=
+	t=1768486852; cv=none; b=kiGEvc4Ow3Og1j63wgQD4oZ5XmyRK5j/S7r0dz8aMQrFqUNx4Nckb8aZKlgTIsGVnuygNFaRfdMBj91CbmnHXdn/W+sHNoWYaKs5IVsg/C73OU/7sCyQmROdF1FVdoxZ7Mv+GVpJAWNKl9OXZR2G1qbXpW85TDF6loXdFovdMqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768486671; c=relaxed/simple;
-	bh=Kdu7cKtT0apulo+sidRa0A9VlXkD3hDd3zNRfOBkzmE=;
+	s=arc-20240116; t=1768486852; c=relaxed/simple;
+	bh=IhbGfQgMs/mCIShaiVYb9eV9usy/UqgSmlOkRrnHmzM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pRRzdcaWkrCFTBBo1e0ButCZZEZ5thiFYvkhCYo6Ed4rYG9wnE46vUdw8cLXog0xVDS587Q5JpLTpTDxl8Btcgb8YAryFHtVpIPd3HQwaP6mGtJmkDXo7NhHmOe3JomIoZwC1xuUiGfruHt9CmVkiHlgMfYeIcQ4eiF6VVOOn7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=cE4BlBJN; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=hmka+r4eg7Y8/nqgPJLrf6UBGP+iaSv/nUJIjxPHrza8zTDOQoK9wv/lizhUJUHX3svMnmqaRO2+QcYwlXM8K4kvHMJaMx1QkJzO7jBk8bMOa+x1LxNtQV4STYdnBKXG3D29heJgsDvCBaqTc+xvnMqYboWN3luqYmfpq5PzAIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mjUwElXj; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from ideasonboard.com (unknown [212.249.222.222])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9BE66465;
-	Thu, 15 Jan 2026 15:17:20 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 47524465;
+	Thu, 15 Jan 2026 15:20:21 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1768486640;
-	bh=Kdu7cKtT0apulo+sidRa0A9VlXkD3hDd3zNRfOBkzmE=;
+	s=mail; t=1768486821;
+	bh=IhbGfQgMs/mCIShaiVYb9eV9usy/UqgSmlOkRrnHmzM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cE4BlBJNJqzdPA8iXf+/3RjXezqWLHjIF6NhEDYQZS7Ahx53sh6UeiOcGGpyuhYe5
-	 gDAmxKFnGaRYaBIKlx+aoREpEWKxgcMuKz1AJ83VdhPiPuh+mIc6XHsL/WkFMb/YpI
-	 T8+OyIS2uNGQM2ptDhirrFHWjuJqefkHjE12q0mQ=
-Date: Thu, 15 Jan 2026 15:17:45 +0100
+	b=mjUwElXjui+LKDX/K0VxzDBZyeb6JSuLIf7g2bZUwW0Yt4JH+S+e8zbEbCOjARULN
+	 CHDYa44eR0lR/+2HvZIg92ZbI+n1dLi/KTlQWPvx8kYsovJky+pwKMg32WDeYpRmaa
+	 V52PVcTQq2yHh3Vw2fJe3naLFASlcim2DmsuH+kQ=
+Date: Thu, 15 Jan 2026 15:20:36 +0100
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Chen Ni <nichen@iscas.ac.cn>
-Cc: dan.scally@ideasonboard.com, jacopo.mondi@ideasonboard.com, 
-	mchehab@kernel.org, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: mali-c55: core: Remove redundant dev_err()
-Message-ID: <aWj20s8j5Y6_Qdz3@zed>
-References: <20260115023516.4142364-1-nichen@iscas.ac.cn>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Hans Verkuil <hverkuil@kernel.org>, Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>, 
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Subject: Re: [PATCH] media: renesas: vsp1: Fix NULL pointer deref on module
+ unload
+Message-ID: <aWj3khkjRiOcDNoL@zed>
+References: <20260115-rcar-vsp-crash-fix-v1-1-247bd51767fd@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,43 +59,62 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260115023516.4142364-1-nichen@iscas.ac.cn>
+In-Reply-To: <20260115-rcar-vsp-crash-fix-v1-1-247bd51767fd@ideasonboard.com>
 
-Hi Chen
+Hi Tomi
 
-On Thu, Jan 15, 2026 at 10:35:16AM +0800, Chen Ni wrote:
-> The platform_get_irq_byname() function already prints an error message
-> internally upon failure using dev_err_probe(). Therefore, the explicit
-> dev_err() is redundant and results in duplicate error logs.
+On Thu, Jan 15, 2026 at 11:22:35AM +0200, Tomi Valkeinen wrote:
+> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 >
-> Remove the redundant dev_err() call to clean up the error path.
+> When unloading the module on gen 4, we hit a NULL pointer dereference.
+> This is caused by the cleanup code calling vsp1_drm_cleanup() where it
+> should be calling vsp1_vspx_cleanup().
 >
+> Fix this by checking the IP version and calling the drm or vspx function
+> accordingly, the same way as the init code does.
+>
+> Fixes: d06c1a9f348d ("media: vsp1: Add VSPX support")
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-Indeed
+Thank you! This indeed was not correct
 
 Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
 Thanks
   j
 
-> Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
 > ---
->  drivers/media/platform/arm/mali-c55/mali-c55-core.c | 1 -
->  1 file changed, 1 deletion(-)
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>  drivers/media/platform/renesas/vsp1/vsp1_drv.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-core.c b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-> index 43b834459ccf..ab8f7f6f3be1 100644
-> --- a/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-> @@ -868,7 +868,6 @@ static int mali_c55_probe(struct platform_device *pdev)
->  	mali_c55->irqnum = platform_get_irq(pdev, 0);
->  	if (mali_c55->irqnum < 0) {
->  		ret = mali_c55->irqnum;
-> -		dev_err(dev, "failed to get interrupt\n");
->  		goto err_deinit_media_frameworks;
->  	}
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> index 6c64657fc4f3..30df9b36642d 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> @@ -240,8 +240,12 @@ static void vsp1_destroy_entities(struct vsp1_device *vsp1)
+>  		media_device_unregister(&vsp1->media_dev);
+>  	media_device_cleanup(&vsp1->media_dev);
 >
+> -	if (!vsp1->info->uapi)
+> -		vsp1_drm_cleanup(vsp1);
+> +	if (!vsp1->info->uapi) {
+> +		if (vsp1->info->version == VI6_IP_VERSION_MODEL_VSPX_GEN4)
+> +			vsp1_vspx_cleanup(vsp1);
+> +		else
+> +			vsp1_drm_cleanup(vsp1);
+> +	}
+>  }
+>
+>  static int vsp1_create_entities(struct vsp1_device *vsp1)
+>
+> ---
+> base-commit: 7d0a66e4bb9081d75c82ec4957c50034cb0ea449
+> change-id: 20260115-rcar-vsp-crash-fix-8d4871f0f39e
+>
+> Best regards,
 > --
-> 2.25.1
+> Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 >
 
