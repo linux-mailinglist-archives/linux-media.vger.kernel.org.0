@@ -1,157 +1,159 @@
-Return-Path: <linux-media+bounces-50802-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50803-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id A75A3D257C0
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 16:49:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF5D8D25831
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 16:54:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 0CA453013C4A
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 15:49:23 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 372273010E69
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 15:54:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB0E13B8BC2;
-	Thu, 15 Jan 2026 15:49:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C7F32750ED;
+	Thu, 15 Jan 2026 15:54:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mt20a8ba"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lfAGhMxK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64A5D374197;
-	Thu, 15 Jan 2026 15:49:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC4119E968
+	for <linux-media@vger.kernel.org>; Thu, 15 Jan 2026 15:54:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768492157; cv=none; b=sFPvUocDduOYjIUBmgfB0sv6MHrQfjUtRtN+FNnvOfRhS/yieBTqYy7yNjU2hkFkvvD5RgURudSc4CM5mSJiEYwpFQphtFZNCWmfq9rfmwuArvu5MR6tLGkB+A8NHOZuLWUtObYA/C+1OQNcJn8VeeyzIHJoxLT87aeneJ5BLa8=
+	t=1768492460; cv=none; b=hAiDlRrX9wY//L/BJDdJPGKzddapZWCGNgH4QaznbMWxP9838jBKZaK32PlpqSIxQRClp56P3zOoSVQkKYrDB72RA9hUdlLd0EXvjYNpyTpG0Jv6F9N0zzSMpRCPatMYhovxfnF68Qg33IwvP6vbHHGjUXUzmKDs5xZxGkMLLSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768492157; c=relaxed/simple;
-	bh=c6otoexpBFc0bdrxPkcgwQlewejnD1J1LdNjPxMDb2U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WY/Q18blJSfeJFPifiOe2TRnlIyKr1vhVfSnxukDqafDMV0YPJFJZzJrt64Y4uxvHNfE/TDaukIGgFJLLLD2c1XbK1XSHvo/upbLzViurp6LS3hRRVnJjHIjJEU2VF/aZ0SoAJIltcVjUYasMB7KOvesSt3joohecFuEjwhsY6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mt20a8ba; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768492156; x=1800028156;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=c6otoexpBFc0bdrxPkcgwQlewejnD1J1LdNjPxMDb2U=;
-  b=mt20a8baNtBzxLccpowomsfkZKkkaN6ld3N8JvCsh7znEZLKPXfwhqw1
-   JxLGb2qtdBrb5W/qVIGP2Vj+454EPg6Mocy5iE3jhW/l0g+nDWMwhYUoV
-   4k/RMrTEPTSuSO8/nPtmvsjBXAprqU5lpSq+vAFp+dhpdfS9QOOdghZL0
-   xadkDMgvEPvjMoWJlCsb+f1xNs2PMtYAq0xPrFB54oTOZkux9BdcEP0qB
-   gGTgmKJCQs/LgRL2dwgeyQlxyR6JG9uoiq7/thXQBAwYt3Qqt6Wo8P1P5
-   PqVIvwA4CQXOWjhP5uHd6VDUTAM2uBkGJ+TGSRlccq1m5Oxca7IhZaHYP
-   A==;
-X-CSE-ConnectionGUID: ohgIBwcNSgqUhN2tjC9skw==
-X-CSE-MsgGUID: HjE8w+SyQsa04b9x5Ou5cA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="80912492"
-X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
-   d="scan'208";a="80912492"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 07:49:15 -0800
-X-CSE-ConnectionGUID: VHu8/1ikSNKM5qY1JBuPHg==
-X-CSE-MsgGUID: GaUmVaxQRdK7Zxb+Lk8gpg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
-   d="scan'208";a="204190513"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 15 Jan 2026 07:49:12 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vgPav-00000000I9Y-2rox;
-	Thu, 15 Jan 2026 15:49:09 +0000
-Date: Thu, 15 Jan 2026 23:48:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>,
-	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
-Subject: Re: [PATCH v8 3/3] media: qcom: camss: tpg: Add TPG support for
- multiple targets
-Message-ID: <202601152315.fC7ckH9z-lkp@intel.com>
-References: <20260113-camss_tpg-v8-3-fa2cb186a018@oss.qualcomm.com>
+	s=arc-20240116; t=1768492460; c=relaxed/simple;
+	bh=Ske1nYGRXQK4PyUXkOyknKoa8+u+jcut+L+FXzFSQhA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Q4Dyttg7j7HucZd2eVM8KwroE5tR0Ws+Doi8M93Bt1M9FpMA6GQAfaXIFw4WC1nltheozqxAK/OyWMWH5qMPKRr05fpyecQ949jSjvPlOO/oXVoCy3zrkJFAkKsjyMTZ6kSm694tH88xTODNBcN/2ld22HuYCOaqY9cYE+pZFsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lfAGhMxK; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-47ee4338e01so4308205e9.2
+        for <linux-media@vger.kernel.org>; Thu, 15 Jan 2026 07:54:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1768492457; x=1769097257; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=giMlm7L2g+M4CFMM8/nACLMgbMspj8AJvUXN07mxYlg=;
+        b=lfAGhMxKEqvX1CfZ1GJdahUGj/ROD56xC91aK1qQysmzZGEg0v0xLmrXzS+vBXDsX2
+         OWblT13a3Mompj3Qapc7gIcrpfBkWwzev8UuV9XpVMNdCCRZBj4aumNntkov/95pCtNp
+         U1EflQyGEkYxgpLg8T17aJyoy7pvFX0LJwgvSOpW0rVJseXo2Ih/5pxDUCk9ebGR9JBd
+         OEvy9Gvc9sHdWTfytpsZdBzC6YxxuFAFdA8+PZU4RI8TzP3HEoIa9yWlQOz6ws6LhPLB
+         w0GXt50u9DylYVXWakzDfQRAB3z3rEOzhtdtPLyg39q/0q2Yt/ghJiS+rCfM6B0OwB7v
+         NYwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768492457; x=1769097257;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=giMlm7L2g+M4CFMM8/nACLMgbMspj8AJvUXN07mxYlg=;
+        b=vfaE+vkuwOfe3y22ZJK27IBXsJiBAJXCeyXaqIbArOG/QpoG1pUYGsjIn8wym2Fv+B
+         bMnvE2wvtjlLNoQGVRmsxl2Y+gr5fVv1sAzjZJXBUHI2pWO7kzfeNqXKhu7HydpXebrW
+         918KWlkeY9+NTtXkOUJEQGS6N5MTho5ZWVIscqxg/aWhDClfC4gEZ87ls8EEwZDpTtRh
+         uxgNspM7wXWqYSzjTCb3ui3+W6doXk3XycR01WnFrxs4VQnOlUErhPqZVxUiEa1hOsQv
+         0/Et2z49wwj58WsSYCxdobssXR3nSk+Fzprs1x4iTWHKqofIFJsZKBseiJRrgTzvFtZn
+         /L1g==
+X-Forwarded-Encrypted: i=1; AJvYcCX59dhves5sLLK5r7Qe3iQySbZKRIrwcv0nRN2iBt7Ag64KpruEH/fjwGzDvK6S2NsEb8UZJYePi+T8bQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwnTx24q/j6lPJu+1tOBNImhbdXGNvVl8zMhhhAHe1o+XzExhoW
+	hKBAAvIYP3FPn5ATxpbFTNBjqaM8ewZkZ0bOQ7wZRn57tSNxyn+3l2d2wqfLbEwJPg8=
+X-Gm-Gg: AY/fxX5bJLiHwqb8biyNFCp4nvhrnDT0JZfH8T+/drIyAbWGC5fgjxUCHfoXU/spTyf
+	Eo6aUg3DeZf6MlyyeiRHwLqXZrhpgOTZmy+M0yc9FSdhsL+rNJsyHD9TKMYObBEpCMmQjO65yZ1
+	2Q1fyBV7K7YSBMOnh0lL65ZRsi+/JkTT9BKeBSv+7UfwXlQi5W7PLzZFSd7FNoonrk7ul8yp408
+	Es46Og254hNYvsWnEAlw0BYEwvtZajgSvOt6XoeVVKCEpvW5EKghRKeCNbXbJcJyyqVrAlhvk8s
+	jlsNjGwe6GA0CU1FVkirJSKxH2Bk1ww8RvVd3P/RAGXCjsIMoc28a4VDB1nOP7uONdiurWekIMu
+	Y+6V+X0iYwU3N9VVO2FctYItyc+0n+M6++gsaV+ZqpyC+Fl+7AI6C+Pe07yW46yIxjMbcNIm/Sm
+	zA6MPFjks/aE/VuNPVVKrsxfJ/UuxIgo6iYU/2G/RKKOdX1sRNrF6xUvt08zCVTkA=
+X-Received: by 2002:a05:600c:8b30:b0:480:1aae:676c with SMTP id 5b1f17b1804b1-4801e337219mr2560995e9.18.1768492457318;
+        Thu, 15 Jan 2026 07:54:17 -0800 (PST)
+Received: from [192.168.0.40] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47f42907141sm52933395e9.9.2026.01.15.07.54.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Jan 2026 07:54:16 -0800 (PST)
+Message-ID: <e94e3391-6fef-4378-b5bd-66aafea95a0c@linaro.org>
+Date: Thu, 15 Jan 2026 15:54:15 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260113-camss_tpg-v8-3-fa2cb186a018@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 1/3] media: qcom: camss: Add common TPG support
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org
+References: <20260113-camss_tpg-v8-0-fa2cb186a018@oss.qualcomm.com>
+ <20260113-camss_tpg-v8-1-fa2cb186a018@oss.qualcomm.com>
+ <87a31d4e-b604-4b9a-92e9-75fd2748489a@linaro.org>
+ <98a26638-675b-4654-a940-898ba9e1af9c@oss.qualcomm.com>
+ <e1907273-3d14-41ee-9a22-a963f2b83d20@linaro.org>
+ <a70f69e6-6ee6-4a96-88fc-c0ec4db48697@oss.qualcomm.com>
+ <641421a6-bf42-49f4-8f94-9cb0bce8e97c@linaro.org>
+ <f77e0d03-ba4a-4722-b575-7aee8e93f04b@linaro.org>
+ <f1c4288f-983f-4a62-82fb-22d1ec56bed0@linaro.org>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <f1c4288f-983f-4a62-82fb-22d1ec56bed0@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Wenmeng,
+On 15/01/2026 02:58, Vladimir Zapolskiy wrote:
+>>> Writing proper values to registers should be a concern on the driver 
+>>> level,
+>>> it sounds improper to push this simple task and responsibility to
+>>> userspace.
+>>
+>> I think we should stick to the same format as is already upstream for
+>> the CSID version of this - which is the same data.
+>>
+> 
+> It is not the same and it will not be the same, if the currently presented
+> version is taken. If TPG modes in CSID are continuous, here they are not,
+> so it makes a big difference for userspace, and better it should be 
+> removed.
 
-kernel test robot noticed the following build errors:
+Not sure I follow you here.
 
-[auto build test ERROR on f417b7ffcbef7d76b0d8860518f50dae0e7e5eda]
+The set of strings for camss-csid we have now is:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Wenmeng-Liu/media-qcom-camss-Add-common-TPG-support/20260113-171032
-base:   f417b7ffcbef7d76b0d8860518f50dae0e7e5eda
-patch link:    https://lore.kernel.org/r/20260113-camss_tpg-v8-3-fa2cb186a018%40oss.qualcomm.com
-patch subject: [PATCH v8 3/3] media: qcom: camss: tpg: Add TPG support for multiple targets
-config: parisc-randconfig-002-20260115 (https://download.01.org/0day-ci/archive/20260115/202601152315.fC7ckH9z-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601152315.fC7ckH9z-lkp@intel.com/reproduce)
+const char * const csid_testgen_modes[] = {
+         "Disabled",
+         "Incrementing",
+         "Alternating 0x55/0xAA",
+         "All Zeros 0x00",
+         "All Ones 0xFF",
+         "Pseudo-random Data",
+         "User Specified",
+         "Complex pattern",
+         "Color box",
+         "Color bars",
+         NULL
+};
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601152315.fC7ckH9z-lkp@intel.com/
+Wengmeng has
 
-All errors (new ones prefixed by >>):
++const char * const testgen_payload_modes[] = {
++	"Disabled",
++	"Incrementing",
++	"Alternating 0x55/0xAA",
++	"Reserved",
++	"Reserved",
++	"Pseudo-random Data",
++	"User Specified",
++	"Reserved",
++	"Reserved",
++	"Color bars",
++	"Reserved"
++};
 
-   drivers/media/platform/qcom/camss/camss-csid-680.c: In function '__csid_configure_rx':
->> drivers/media/platform/qcom/camss/camss-csid-680.c:202:32: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
-     202 |                         val |= FIELD_PREP(CSI2_RX_CFG0_TPG_NUM_SEL, phy->csiphy_id + 1);
-         |                                ^~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   drivers/media/platform/qcom/camss/camss-csid-gen3.c: In function '__csid_configure_rx':
->> drivers/media/platform/qcom/camss/camss-csid-gen3.c:126:32: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
-     126 |                         val |= FIELD_PREP(CSI2_RX_CFG0_TPG_NUM_SEL, phy->csiphy_id + 1);
-         |                                ^~~~~~~~~~
-   cc1: some warnings being treated as errors
+I think the "Reserved" should go away but, other than that we should 
+keep namespace consistency between CSID-TPG and standalone-TPG.
 
-
-vim +/FIELD_PREP +202 drivers/media/platform/qcom/camss/camss-csid-680.c
-
-   185	
-   186	static void __csid_configure_rx(struct csid_device *csid,
-   187					struct csid_phy_config *phy, int vc)
-   188	{
-   189		u32 val;
-   190		struct camss *camss;
-   191		struct tpg_device *tpg;
-   192	
-   193		camss = csid->camss;
-   194		val = (phy->lane_cnt - 1) << CSI2_RX_CFG0_NUM_ACTIVE_LANES;
-   195		val |= phy->lane_assign << CSI2_RX_CFG0_DL0_INPUT_SEL;
-   196		val |= (phy->csiphy_id + CSI2_RX_CFG0_PHY_SEL_BASE_IDX) << CSI2_RX_CFG0_PHY_NUM_SEL;
-   197	
-   198		if (camss->tpg) {
-   199			tpg = &camss->tpg[phy->csiphy_id];
-   200	
-   201			if (csid->tpg_linked && tpg->testgen.mode > 0) {
- > 202				val |= FIELD_PREP(CSI2_RX_CFG0_TPG_NUM_SEL, phy->csiphy_id + 1);
-   203				val |= CSI2_RX_CFG0_TPG_NUM_EN;
-   204			}
-   205		}
-   206	
-   207		writel(val, csid->base + CSID_CSI2_RX_CFG0);
-   208	
-   209		val = CSI2_RX_CFG1_PACKET_ECC_CORRECTION_EN;
-   210		if (vc > 3)
-   211			val |= CSI2_RX_CFG1_VC_MODE;
-   212		writel(val, csid->base + CSID_CSI2_RX_CFG1);
-   213	}
-   214	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+---
+bod
 
