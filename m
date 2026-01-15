@@ -1,99 +1,79 @@
-Return-Path: <linux-media+bounces-50738-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50739-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47ADCD21E8F
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 01:54:51 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC05DD21EF0
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 02:06:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0CE50308113F
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 00:51:41 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 490FC3041CDB
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 01:06:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BD2D1E1DE5;
-	Thu, 15 Jan 2026 00:51:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84E8821018A;
+	Thu, 15 Jan 2026 01:06:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="h4G4IRrx";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="cXGha1kI"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gjnV/2GG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C38191F84
-	for <linux-media@vger.kernel.org>; Thu, 15 Jan 2026 00:51:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D9673FEF
+	for <linux-media@vger.kernel.org>; Thu, 15 Jan 2026 01:06:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768438300; cv=none; b=JEeO7iYMpxOL3zv1EAvlHI4NOxjSTtSrYtxYPP3i4R3kodfbVMPD3Qft2+qRyvMuoZkYQ0cWf0gzNWiuKjeWofcf8ID8pvGGor1B10lu9AXBNGyGxQeF4fTOh6+xCaups03LXhUMmx+dRRF+R0nGik8GufmsrOmR+weIDQ0kaKQ=
+	t=1768439194; cv=none; b=DqkORzQbrRHmULzZz6aNn6dKohSLB5ruV50axTcFheqm9xqdvNZN51bfMgadM5RTWkJto8dkBjoiuJ/v6x2QizKoZiTBDzm5voo6/Xy0nehbmqyikd+OYVfNNa672+VCLIgxCktWfQd1q8KDyevibK5joxygo4MpkI2AZAtD2V4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768438300; c=relaxed/simple;
-	bh=tdavTPbGpOyoV5PY/t3L4yLl1qvW4Cih3sS13k9Y0t8=;
+	s=arc-20240116; t=1768439194; c=relaxed/simple;
+	bh=ak4wXOlKry2SCJ882Ud0dTeYa6r7JZXVzc7NkoQyaKw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iJRDM2/ZHitWEfDoOiE+jnwizai2OI54J5DM5AwflNrHQRuYQ945pN0py1VB5PHdT9+kNZLdbTLJ/EIqlirLeOJcnU8sHozjPYXr5tp6hB2/1B85oJG7+szlyI4QZczg2yIyDxux3Zb3BiVW2CkQDBbUy5IWiv0FJqceYbM2Dg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=h4G4IRrx; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=cXGha1kI; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60EHBZBY2902838
-	for <linux-media@vger.kernel.org>; Thu, 15 Jan 2026 00:51:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	TxQq/pwXprxuVXwGkak/rWDrhplBBLx+dD+T6FfFFzw=; b=h4G4IRrxnTlRoZPV
-	JaVH85XmwxnmlM/ixxLwK2SqvW8umtQ/tm05ooV4ND7w0LRGSO4BEbXzFMFlIUa/
-	FssS7TSNwRmUxXgeNYjKwYOYskReSbFDH5oecp0GfGQzNu5dFIfWp+L1gGxk98BI
-	+ALSkqgjCfEIjA5mEt1Zc8O1WpBPiWoGh3qmzvL1oxSFTw7LbxGFM3QEQV7RsbJk
-	SO29lRKFj3CQoQoIIYr5HUrc73guNaF9iUhnSJJll2G+FFFfq2nSuH1LT4B3FzlI
-	PXXRFnFByikc0JaUUfvSpc7CW4g8yB5F+yXzlapfwF7M1W9CaysjWeH880502l46
-	wsUkAg==
-Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bp931jrxa-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 15 Jan 2026 00:51:37 +0000 (GMT)
-Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-2b0593cf938so73059eec.0
-        for <linux-media@vger.kernel.org>; Wed, 14 Jan 2026 16:51:37 -0800 (PST)
+	 In-Reply-To:Content-Type; b=AgUhSLHLhtbjNVssK0c7UgEKzEbw4L5F/RA/IzPpwA1xInlKe5brf79c1bO7V0xvvRErfxu661zpiVP0ofoSbxO4tzpxSeNcQyXL/wdyYCQeFGRu0YagtdWpyJJIbpXFvpYAWDnMNf6jvX/hoRJukaunHNTbFYWpL2T7YReqcxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gjnV/2GG; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-47edd6111b4so3768015e9.1
+        for <linux-media@vger.kernel.org>; Wed, 14 Jan 2026 17:06:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1768438297; x=1769043097; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
+        d=linaro.org; s=google; t=1768439191; x=1769043991; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=TxQq/pwXprxuVXwGkak/rWDrhplBBLx+dD+T6FfFFzw=;
-        b=cXGha1kIv7ZkrC+yI9+BgohnNHfN99N1SLgIPLgEdMfq6Oz26Q82S2VCXRHXDUGyGw
-         tIblVbW6p6PB/My34USBxA6kpjYyoCvyWpr3idyogflKmBqFLg/Ol4MnaoipkYAm1tSB
-         /GZH0Nmd9S63NRQ0lUs+59V6wyqXIJT5c0HjJn4zurtJPKMhER6ZLSS8R67lcfFqfo/I
-         wI+P6pIyjw0Fuu476cNxi6tXHm8DxWw0eVunPbMx+0m6wEXkrbF7p7TIZhaebSv1TtE2
-         rPRKbXNcmJmW9xdDlMxLPYibXIhxjHh33APbU3D/tbQ1j/w+hji/jP5zcN6sBXf1XWY2
-         kRDQ==
+        bh=mAyxiMZsZyARXFw5fNgXWiXzVahE3Fss7xj/J8Ttyak=;
+        b=gjnV/2GGKZFyMedXDt+n1e9eVX8I15OIOsuqUOklI19tZu4RwKe0nbRHwcnRGulitT
+         Rnvt+u9IHwagKCvFGaJ0f7bJYekHYULyOCPr61OXL37B792DacIk3NWDWcskoJgCUQ5v
+         JqW2drZjTQhqAKq1N0XB8txqk7u4fbLdQHnBnyjQV1kVdYyKIiE8sQ2M11tz9reVZ7AV
+         UjgVsaQIU/btbqsMuSh4SybvS9PNStIxLZWc+OZqCob4euZSMRaLWd9jVu7z+NtAiq3f
+         cpnTyJjqmvfWIjyDXJ4Trl7qZHFoy4nHqI8DT79L0zdUkhTQlyEqqNwAUZyfpcwKMX+C
+         PC5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768438297; x=1769043097;
-        h=content-transfer-encoding:in-reply-to:from:content-language
+        d=1e100.net; s=20230601; t=1768439191; x=1769043991;
+        h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TxQq/pwXprxuVXwGkak/rWDrhplBBLx+dD+T6FfFFzw=;
-        b=p6rLuDzycV+OHD+vb2Bt/qTf0zctKCOju0RBSatZ10fopRK4y2e5mQ9ph3G7MYV5ay
-         Q+WBAk27jwFqgfe2aGASjueKAtAvdavGPT+ACGMR9VzVWlYBCiaGM57+PXMznei1VMuQ
-         cMJlJdq/MhDFJ8osvK8HfxyK3kQCq8rcVejdFCTEASTGdDUt4CY8AZzzSDcXLG4ZwN2U
-         05N8oBTpjsbfd/LDJ0NtmCAsqt9fZsNyZ7xwU1nfP+v56Gb1CAtNe0Globao7mgQFs2N
-         0ze3M6sJDDrHUnBxHG11Pqsz7Qdz07J0dMB87o3/crGBYgCCw2goCgRvAWSV6FS3+jGo
-         09PA==
-X-Gm-Message-State: AOJu0YwP2IYPNOBMndWKoxuaXQLcqwWRW5xR2hYrrUN7WqyX5Fc+n7Qz
-	jUGtISzyVFvrzpQ6mENNpjgjybE9sztmJT2DPgjS2WGg9FWomOsuAYAI70dFDxfAMNXJz6YOVDH
-	YH0CDxH08rfvBJbSuSY+k9VjHW8ftOPTxfzlfrkpkGtXkwatIhJS23QpUKnoJ+WaK0zXKlu4MwQ
-	==
-X-Gm-Gg: AY/fxX58aijyoNnegUgbrbzNJvt6UDYSWFUhx6baiX+RZj9JlfqLzcqsS9Bz8AkqFH4
-	wuzyRGIfSN51sxoKC7/s6x9lp755N/QB5ejJQk774nN8iKxv1yAFU87ITm8sf+ewnZKc8r+g4Le
-	cDqN86XbY6m7YqG9VXxC29jZgpfDC/D/CbSr1Bg0LlQXYIB8dQ2LCnZGQS27944w1zj0Lkuwkrq
-	2n83eVo40u54OqvaYxBEWn3CDuHb0902VB1ksbSjzVorBAsmZiNCpR/Ec18kPQx/wNxVMJ/me/f
-	XY5DS9kPjlE8o0Ng+6DoW1K3TvDyGN2/Uk5R1tfL3+05f5fIPZUJD8W8Km4gnYWY/FTKE9c+ogp
-	uI0f5hdbGGyPV5DZlIEirbcDYioW4cd+resn+o1Olavv0FQyB56InE2Jt6yPCFNHQmp0/+szs
-X-Received: by 2002:a05:7300:ad28:b0:2ae:5549:2c86 with SMTP id 5a478bee46e88-2b48709d3bfmr2687507eec.5.1768438296195;
-        Wed, 14 Jan 2026 16:51:36 -0800 (PST)
-X-Received: by 2002:a05:7300:ad28:b0:2ae:5549:2c86 with SMTP id 5a478bee46e88-2b48709d3bfmr2687486eec.5.1768438295595;
-        Wed, 14 Jan 2026 16:51:35 -0800 (PST)
-Received: from [10.110.121.92] (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b1707da231sm23017954eec.34.2026.01.14.16.51.34
+        bh=mAyxiMZsZyARXFw5fNgXWiXzVahE3Fss7xj/J8Ttyak=;
+        b=nPjlqVwGWTkCzdBjZZyek4NiGaaeDCHLatw6F6EGgOrDOtBxj+aC7GZmRjtbwb8dAT
+         Ftf/mBu5HcfSU5nToTdRtCTkbl5pqEI/GQfs3A+SMfWs8vVdrIWWw+6oifJGy8hsHsV+
+         qUTQVNxX5sbyt/+30yhD0hYnC+9P/GGDXce6g+B+qzXMabbGvQuznPc4/0+pdDmF4YYE
+         b09Tm29ZfguwUrrkmZXMA1gc2L22U0NOPa70SpxoI+bSGMaWu0bRo9rstGvQIElu05nn
+         PKF55gEHf1Ai0EyXHnL+m151Gl1FTnqnBNRv2znPFzjvtdp2JL3BCPKAOwvKA67X7H8r
+         Q4iQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXWBE7UzTFhPmU7C8nir7kb3onoRJ260nTMCYY7KpnNbZSM8R/LBw7zgEMy27OjM6mVA8bRwD09Y/qVRQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwCQ7/YUpShtqrrSs27CMs0enq4oL8S1b/AHVx7ar4Oy44SHKeD
+	ubr/m8nN8kFVMuKuYLAVkTBgwvrQUYKQSOOsILYBx1UdgiXEtqauAZsrU3Q/RsX7kn4=
+X-Gm-Gg: AY/fxX4Ob1HK1b6wI6Zyu5Ez8dx9QjtpVs2e1GHn/eC8v7p8RdO9GZ0B/U0nSVc0Xst
+	NlfYiXIkDnEH8rnliROM8qYZj38v9JCEATuFGcTGTMpYpfJcH5nLj8pGZUvwy93v2xGm89O82Vy
+	f3kjlVaivLFPgCetTM5isLCw+W+hYuWWo9SgdmXs89/tZzeA4LP89B+h07vQ9ro3hgKe1k9ccqr
+	ffay1Mxh+BZRKv0iRZ+aVlBGNzXNFg5NnoP2x6CJ0wsYy3HfdMaw2ayiZ3ysqUzjfV7+O7DQs/q
+	dqg9CyXckuAIDioa277mRMvcH9Y4+we1S8tSwFCZAQ8vVJ44838ctd3SwrB9G85v30U9V8A5RNJ
+	ewWmCFxs/Q2n0R0tOWGEYmRnrU3utfoLbzasZae6rWPScHygdiG3BLg7J6+8h/Oy+eURsLn42q+
+	bOtC+l0u4hRxpVfoTN1BI/Pu4r7SCKcTeG2LoSYVZHPLWCbt5wlYgS
+X-Received: by 2002:a05:600c:34d1:b0:46f:c55a:5a8d with SMTP id 5b1f17b1804b1-47ee47b9e52mr41920405e9.4.1768439190811;
+        Wed, 14 Jan 2026 17:06:30 -0800 (PST)
+Received: from [192.168.0.40] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47ee0b488d4sm36692395e9.0.2026.01.14.17.06.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Jan 2026 16:51:35 -0800 (PST)
-Message-ID: <a27eb754-3989-4f28-badf-43b502a53e7d@oss.qualcomm.com>
-Date: Wed, 14 Jan 2026 16:51:34 -0800
+        Wed, 14 Jan 2026 17:06:29 -0800 (PST)
+Message-ID: <f77e0d03-ba4a-4722-b575-7aee8e93f04b@linaro.org>
+Date: Thu, 15 Jan 2026 01:06:27 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -101,169 +81,161 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 1/3] media: uapi: Introduce new control for video
- encoder ROI
-To: Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-References: <20260113-iris_enc_roi-v1-0-6c86eba38587@oss.qualcomm.com>
- <20260113-iris_enc_roi-v1-1-6c86eba38587@oss.qualcomm.com>
- <08ff44d8907c72b7599fa4599477d78bcecb440a.camel@ndufresne.ca>
+Subject: Re: [PATCH v8 1/3] media: qcom: camss: Add common TPG support
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org
+References: <20260113-camss_tpg-v8-0-fa2cb186a018@oss.qualcomm.com>
+ <20260113-camss_tpg-v8-1-fa2cb186a018@oss.qualcomm.com>
+ <87a31d4e-b604-4b9a-92e9-75fd2748489a@linaro.org>
+ <98a26638-675b-4654-a940-898ba9e1af9c@oss.qualcomm.com>
+ <e1907273-3d14-41ee-9a22-a963f2b83d20@linaro.org>
+ <a70f69e6-6ee6-4a96-88fc-c0ec4db48697@oss.qualcomm.com>
+ <641421a6-bf42-49f4-8f94-9cb0bce8e97c@linaro.org>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Content-Language: en-US
-From: Deepa Guthyappa Madivalara <deepa.madivalara@oss.qualcomm.com>
-In-Reply-To: <08ff44d8907c72b7599fa4599477d78bcecb440a.camel@ndufresne.ca>
+In-Reply-To: <641421a6-bf42-49f4-8f94-9cb0bce8e97c@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=BOW+bVQG c=1 sm=1 tr=0 ts=69683a19 cx=c_pps
- a=cFYjgdjTJScbgFmBucgdfQ==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=sEXkrLmidTYQQ7fN55sA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=scEy_gLbYbu1JhEsrz4S:22
-X-Proofpoint-ORIG-GUID: 6j-CBtIH02dpmrI6tlK_HzUwz05OHYWc
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE1MDAwMiBTYWx0ZWRfXyCixLgruSftq
- PFGC+Po+WXX3i7EskiCaWvFsk/GLJVBfoRU0NLyZkaGMJIk9weEagyk3RCtXMazXb479P2LFBWA
- xlkIK/F5V2FV5wGVaDeEfFacysSey4Wsm2CmO9Ivj1qPPELPYZYUfOoVCzIqGYxiy8TLpUHfM6S
- Qzkuq0lZYAZzyXtM7X3XXLTlO7JbAvcW7oo8tT6UB8bDhsBy0YqL30CoNhuVrLOVSnXIiL/OQAk
- oxhC/SkaAW9UOWttJo7vzX9+PkPym5YEuJ/s43yK2YdRODcgMlgIexrhaVB0uA27efem4Bt1BsA
- APPEZXlhdlkYrO/lYzA+JF7Xt0B/GrJ+V4324I9a9lJfbjQMUsl4uIxY+P0IRTsQgp9y8De8fXQ
- PGj+EZrj/GLGkIcSsCm5UIVS/NZ62VTxHEAPuEVwGUC0ZmT+4TlHjwE8U5Ed/t9kQzUiiXkteOk
- UwJTev/xf9MdxvdRwDA==
-X-Proofpoint-GUID: 6j-CBtIH02dpmrI6tlK_HzUwz05OHYWc
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-14_07,2026-01-14_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0 priorityscore=1501 malwarescore=0 clxscore=1015
- adultscore=0 lowpriorityscore=0 phishscore=0 impostorscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601150002
 
+On 14/01/2026 22:07, Vladimir Zapolskiy wrote:
+> Hi Wenmeng.
+> 
+> On 1/14/26 14:18, Wenmeng Liu wrote:
+>>
+>> Hi Vladimir,
+>>
+>>
+>> On 1/14/2026 1:05 PM, Vladimir Zapolskiy wrote:
+>>> Hi Wenmeng.
+>>>
+>>> On 1/14/26 05:04, Wenmeng Liu wrote:
+>>>> Hi Vladimir,
+>>>>
+>>>> On 1/14/2026 12:27 AM, Vladimir Zapolskiy wrote:
+>>>>> Hello Wenmeng.
+>>>>>
+>>>>> On 1/13/26 11:03, Wenmeng Liu wrote:
+>>>>>> Introduce a new common Test Pattern Generator (TPG) implementation 
+>>>>>> for
+>>>>>> Qualcomm CAMSS. This module provides a generic interface for pattern
+>>>>>> generation that can be reused by multiple platforms.
+>>>>>>
+>>>>>> Unlike CSID-integrated TPG, this TPG acts as a standalone block
+>>>>>> that emulates both CSIPHY and sensor behavior, enabling flexible test
+>>>>>> patterns without external hardware.
+>>>>>>
+>>>>>> Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+>>>>>> ---
+>>>>>>     drivers/media/platform/qcom/camss/Makefile    |   1 +
+>>>>>>     drivers/media/platform/qcom/camss/camss-tpg.c | 710 ++++++++++ 
+>>>>>> ++++++
+>>>>>> ++++++++++
+>>>>>>     drivers/media/platform/qcom/camss/camss-tpg.h | 127 +++++
+>>>>>>     drivers/media/platform/qcom/camss/camss.h     |   5 +
+>>>>>>     4 files changed, 843 insertions(+)
+>>>>>>
+>>>>>> diff --git a/drivers/media/platform/qcom/camss/Makefile b/drivers/
+>>>>>> media/platform/qcom/camss/Makefile
+>>>>>> index
+>>>>>> 5e349b4915130c71dbff90e73102e46dfede1520..d355e67c25700ac061b878543c32ed8defc03ad0 100644
+>>>>>> --- a/drivers/media/platform/qcom/camss/Makefile
+>>>>>> +++ b/drivers/media/platform/qcom/camss/Makefile
+>>>>>> @@ -27,5 +27,6 @@ qcom-camss-objs += \
+>>>>>>             camss-vfe.o \
+>>>>>>             camss-video.o \
+>>>>>>             camss-format.o \
+>>>>>> +        camss-tpg.o \
+>>>>>
+>>>>> While you're here, please sort and keep the lines in alphabetical 
+>>>>> order.
+>>>> ACK.
+>>>>
+>>>>>
+>>>>>>     obj-$(CONFIG_VIDEO_QCOM_CAMSS) += qcom-camss.o
+>>>>>> diff --git a/drivers/media/platform/qcom/camss/camss-tpg.c b/drivers/
+>>>>>> media/platform/qcom/camss/camss-tpg.c
+>>>>>> new file mode 100644
+>>>>>> index
+>>>>>> 0000000000000000000000000000000000000000..f4c015aafa202e5b64fafa3c543128fda6440b11
+>>>>>> --- /dev/null
+>>>>>> +++ b/drivers/media/platform/qcom/camss/camss-tpg.c
+>>>>>> @@ -0,0 +1,710 @@
+>>>>>> +// SPDX-License-Identifier: GPL-2.0
+>>>>>> +/*
+>>>>>> + *
+>>>>>> + * Qualcomm MSM Camera Subsystem - TPG Module
+>>>>>> + *
+>>>>>> + * Copyright (c) Qualcomm Technologies, Inc. and/or its 
+>>>>>> subsidiaries.
+>>>>>> + */
+>>>>>> +#include <linux/clk.h>
+>>>>>> +#include <linux/delay.h>
+>>>>>> +#include <linux/io.h>
+>>>>>> +#include <linux/kernel.h>
+>>>>>> +#include <linux/of.h>
+>>>>>> +#include <linux/platform_device.h>
+>>>>>> +#include <linux/pm_runtime.h>
+>>>>>> +#include <media/media-entity.h>
+>>>>>> +#include <media/v4l2-device.h>
+>>>>>> +#include <media/v4l2-subdev.h>
+>>>>>> +
+>>>>>> +#include "camss-tpg.h"
+>>>>>> +#include "camss.h"
+>>>>>> +
+>>>>>> +const char * const testgen_payload_modes[] = {
+>>>>>> +    "Disabled",
+>>>>>> +    "Incrementing",
+>>>>>> +    "Alternating 0x55/0xAA",
+>>>>>> +    "Reserved",
+>>>>>> +    "Reserved",
+>>>>>> +    "Pseudo-random Data",
+>>>>>> +    "User Specified",
+>>>>>> +    "Reserved",
+>>>>>> +    "Reserved",
+>>>>>> +    "Color bars",
+>>>>>> +    "Reserved"
+>>>>>
+>>>>> It makes little sense to mention the unsupported values, and then
+>>>>> introduce enum tpg_testgen_mode to list the supported ones.
+>>>>>
+>>>> This is for ctrl menu, will do as follow:
+>>>> static const char * const testgen_payload_modes[] = {
+>>>>        [TPG_PAYLOAD_MODE_DISABLED]          = "Disabled",
+>>>>        [TPG_PAYLOAD_MODE_INCREMENTING]      = "Incrementing",
+>>>>        [TPG_PAYLOAD_MODE_ALTERNATING_55_AA]       = "Alternating
+>>>> 0x55/0xAA",
+>>>>        [TPG_PAYLOAD_MODE_RANDOM]      = "Pseudo-random Data",
+>>>>        [TPG_PAYLOAD_MODE_USER_SPECIFIED]    = "User Specified",
+>>>>        [TPG_PAYLOAD_MODE_COLOR_BARS]        = "Color bars",
+>>>> };
+>>>>
+>>>
+>>> This is also not perfect, still userspace is misinformed about a number
+>>> of possible TPG modes vs. a number of actually supported TPG modes.
+>>>
+>> 0x0: INCREMENTING
+>> 0x1: ALTERNATING_55_AA
+>> 0x4: RANDOM
+>> 0x5: USER_SPECIFIED
+>> 0x8: COLOR_BARS
+>>
+>> These values come from the register configuration, these pattern values
+>> are consistent with the CSID TPG.
+> 
+> Userspace should not be aware of such low level details as register values,
+> there are many abstraction layers in-between to hide this type of 
+> information.
+> 
+> Writing proper values to registers should be a concern on the driver level,
+> it sounds improper to push this simple task and responsibility to 
+> userspace.
 
-On 1/14/2026 8:14 AM, Nicolas Dufresne wrote:
-> Hi,
->
-> Le mardi 13 janvier 2026 à 12:33 -0800, Deepa Guthyappa Madivalara a écrit :
->> Add compound control, V4L2_CID_MPEG_VIDEO_ENC_ROI, for
->> video encoder Region of Interest to allow applications to specify
->> different quality levels for specific regions in video frames. Define
->> struct v4l2_ctrl_enc_roi_params to hold up to 10 rectangular ROI,
->> regions and their corresponding delta_qp value (v4l2_roi_param)
->> that adjust quantization relative to the frame's base value.
->>
->> This enables use cases like prioritizing quality for faces in video
->> conferencing or important objects in surveillance footage while reducing
->> bitrate for less critical areas.
->>
->> Signed-off-by: Deepa Guthyappa Madivalara <deepa.madivalara@oss.qualcomm.com>
->> ---
->>   .../userspace-api/media/v4l/ext-ctrls-codec.rst         |  7 +++++++
->>   include/media/v4l2-ctrls.h                              |  1 +
->>   include/uapi/linux/v4l2-controls.h                      |  1 +
->>   include/uapi/linux/videodev2.h                          | 17 +++++++++++++++++
->>   4 files changed, 26 insertions(+)
->>
->> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> index c8890cb5e00ac05649e6c344c2a6b938b2ec1b24..0eecb46bb356c01411dfc313b92376593bcd86f6 100644
->> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> @@ -1668,6 +1668,13 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
->>       Codecs need to always use the specified range, rather then a HW custom range.
->>       Applicable to encoders
->>   
->> +``V4L2_CID_MPEG_VIDEO_ENC_ROI (struct)``
->> +    Defines the control id to configure specific delta QP for one or more
->> +    rectangular regions of interest. The struct v4l2_ctrl_enc_roi_params
->> +    is defined to hold up to 10 v4l2_rect regions and their corresponding
->> +    delta_qp with a range of -31 to 30.
->> +    Applicable to encoders
-> Any justification for this range ? Also, I believe I've seen hardware support
-> both delta and absolute values. Since it meant to be generic, some research is
-> needed. If we delibaritly ignore absolute, perhaps the CID should be named
-> accordingly ? Something like V4L2_CID_MPEG_VIDEO_ENC__DELTAQP_ROI ?
->
->> +
->>   .. raw:: latex
->>   
->>       \normalsize
->> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
->> index 31fc1bee3797bfe532931889188c8f7a9dedad39..c44fad7f51db45a437dd3287aa16830585ac42f3 100644
->> --- a/include/media/v4l2-ctrls.h
->> +++ b/include/media/v4l2-ctrls.h
->> @@ -91,6 +91,7 @@ union v4l2_ctrl_ptr {
->>   	struct v4l2_ctrl_av1_frame *p_av1_frame;
->>   	struct v4l2_ctrl_av1_film_grain *p_av1_film_grain;
->>   	struct v4l2_rect *p_rect;
->> +	struct v4l2_ctrl_enc_roi_params *p_enc_roi_params;
->>   	void *p;
->>   	const void *p_const;
->>   };
->> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
->> index f84ed133a6c9b2ddc1aedbd582ddf78cb71f34e5..5f2621365593ee19a7792fb25ea29acf6a7860f1 100644
->> --- a/include/uapi/linux/v4l2-controls.h
->> +++ b/include/uapi/linux/v4l2-controls.h
->> @@ -918,6 +918,7 @@ enum v4l2_mpeg_video_av1_level {
->>   };
->>   
->>   #define V4L2_CID_MPEG_VIDEO_AVERAGE_QP  (V4L2_CID_CODEC_BASE + 657)
->> +#define V4L2_CID_MPEG_VIDEO_ENC_ROI  (V4L2_CID_CODEC_BASE + 658)
->>   
->>   /*  MPEG-class control IDs specific to the CX2341x driver as defined by V4L2 */
->>   #define V4L2_CID_CODEC_CX2341X_BASE				(V4L2_CTRL_CLASS_CODEC | 0x1000)
->> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
->> index add08188f06890182a5c399a223c1ab0a546cae1..18a5ae34842721c2647a7a76365e4d299d2b8a44 100644
->> --- a/include/uapi/linux/videodev2.h
->> +++ b/include/uapi/linux/videodev2.h
->> @@ -1909,6 +1909,7 @@ struct v4l2_ext_control {
->>   		struct v4l2_ctrl_av1_film_grain __user *p_av1_film_grain;
->>   		struct v4l2_ctrl_hdr10_cll_info __user *p_hdr10_cll_info;
->>   		struct v4l2_ctrl_hdr10_mastering_display __user *p_hdr10_mastering_display;
->> +		struct v4l2_ctrl_enc_roi_params __user *p_enc_roi_params;
->>   		void __user *ptr;
->>   	} __attribute__ ((packed));
->>   } __attribute__ ((packed));
->> @@ -1990,6 +1991,8 @@ enum v4l2_ctrl_type {
->>   	V4L2_CTRL_TYPE_AV1_TILE_GROUP_ENTRY = 0x281,
->>   	V4L2_CTRL_TYPE_AV1_FRAME	    = 0x282,
->>   	V4L2_CTRL_TYPE_AV1_FILM_GRAIN	    = 0x283,
->> +
->> +	V4L2_CTRL_TYPE_ENC_ROI_PARAMS	    = 0x284,
->>   };
->>   
->>   /*  Used in the VIDIOC_QUERYCTRL ioctl for querying controls */
->> @@ -2540,6 +2543,20 @@ struct v4l2_streamparm {
->>   	} parm;
->>   };
->>   
->> +/* Roi format
->> + */
->> +#define VIDEO_MAX_ROI_REGIONS         10
-> Let's not hardcode hardware spececific constraints in the API. We have dynamic
-> arrays now in compount controls, and you can define the maximum dimension and
-> all.
->
->
->> +
->> +struct v4l2_roi_param {
->> +	struct v4l2_rect roi_rect;
->> +	__s32 delta_qp;
->> +};
->> +
->> +struct v4l2_ctrl_enc_roi_params {
->> +	__u32 num_roi_regions;
-> With the dynamic arrays, this will not be needed.
->
-> cheers,
-> Nicolas
-Sure, I will explore more on this.
->> +	struct v4l2_roi_param roi_params[VIDEO_MAX_ROI_REGIONS];
->> +};
->> +
->>   /*
->>    *	E V E N T S
->>    */
+I think we should stick to the same format as is already upstream for 
+the CSID version of this - which is the same data.
+
+---
+bod
 
