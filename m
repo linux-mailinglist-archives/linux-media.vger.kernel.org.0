@@ -1,67 +1,67 @@
-Return-Path: <linux-media+bounces-50788-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50789-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9132D24991
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 13:46:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9D2ED24996
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 13:47:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E1E613061DFC
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 12:46:35 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 5F72C30675F2
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 12:46:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5B9339B4BE;
-	Thu, 15 Jan 2026 12:46:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 677BE39A808;
+	Thu, 15 Jan 2026 12:46:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I0olpLwN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UuTKSz0u"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E100239900F
-	for <linux-media@vger.kernel.org>; Thu, 15 Jan 2026 12:46:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8048B39A81A
+	for <linux-media@vger.kernel.org>; Thu, 15 Jan 2026 12:46:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768481186; cv=none; b=p0IZb1NMZ7AXFB8Kyx/TG2YZTaYchEmBS5FRNv0JL0gT+Z78MXhbUUvd75weuaTAyzkxSCV+AbqQIgH2Lki5lDm+OEGVSXwQcU7oWRgfpnRwGBiKdwJB7pnMpKuHQOG4c/XWZsHrAZNqZZLPozCztCFGnMISeecIGkDuW1ykK7g=
+	t=1768481187; cv=none; b=bOagDrj6gEGky9vZq4HdwpcF8DQzEIcIV51bneu2j/enLEOzdVu1dsIt7QtrKaqpOpcQJy816z6bklriSYZ/IJOcmoPNjBV8ZTU343WV0Nl+ti59cKc5H67fknPCBeZIl8GAoFkCmifUojlNr6x46PcU6JBCZ0FMGREOf2qbQT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768481186; c=relaxed/simple;
-	bh=k0D1PJ1/Qxkx5IJBO8v/M3eFInUXN8d9UUnE7yhJqBI=;
+	s=arc-20240116; t=1768481187; c=relaxed/simple;
+	bh=JF8tdraQR624v/dX0OacfmeNh0Dn7Mwz9HH5Mq2HZBs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=M0IbtgXqqvXx7zG9Y6UyNzh7ZgbNjMNHIbC+JAR31fNS2/phMqpmLwt3hsm3t2BGTDID2PSIH3o1o5GxaSmHLoaaqi2mtPmzakiHO9MLYtrWdKhiyWvqzXSg6mI7UvfONzZ89qUGHYLn0A0bMCmDo5UpjI5De+0nfwmToJQ/Xyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I0olpLwN; arc=none smtp.client-ip=192.198.163.11
+	 MIME-Version; b=scekWB/IhkfQIIs3eNMXBS+by/EBXnWdCy7ADmsxV3wG7BVzgsBcEY8sByWwP6v+PtpL75kI0URrRDg4eIwViavIC+n5WpHzupOMwUVDAUy1BqQ/rVRJVTyHHT1fr2UEcyhPVH4SgjC9V5mAg4Xo1T49xZV247rmIoYP5cm30kY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UuTKSz0u; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768481184; x=1800017184;
+  t=1768481185; x=1800017185;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=k0D1PJ1/Qxkx5IJBO8v/M3eFInUXN8d9UUnE7yhJqBI=;
-  b=I0olpLwNSt0bLIVPVNIp9BRztt2u7wiMgNc3BnXugsubF4k1XvfLNocP
-   HyM+tT+Lc2864KatNdG6KLD3LDAb6eXPBIVKEJ0WfPNuh+lC/zzY9mMmc
-   db52VG3HgMmUgEP9OSM4q1n0aAa0TPjrXU4VJJSHo5T/de0YPlHbCbMrb
-   bOGKq/tR6U556cqchLaw8zvLZVGbCmSSgTsVQjYJRiz0wjxG4b3zVTe5s
-   JU+fpB8yuaggANDOn76K05s3Ld3TbQCMqwYMw5yeVrN2PLclewMo+gPJF
-   Uxk4ZBLTcOZuEgvXt3fbQNQ2hvYegykIbkqAeHotsJ6XP6Bx+4zltb4Ww
+  bh=JF8tdraQR624v/dX0OacfmeNh0Dn7Mwz9HH5Mq2HZBs=;
+  b=UuTKSz0uwVYiUb+7PGDbiVVIXICFJaKx0ZqZIRTOliZA5ng2k3IkvNZo
+   atU7Oj0B3+wUWDE4rfsIe3yMFerGH26ECu8EFp7xTRQmeFfgIY2S9BwDY
+   kJFkmbUyJQQkr5RR5L8wLQ63CXCQBekWtsJ/xj5Y++xE0KqJByOcDg+9T
+   KdpTbIt6wO1jITdlMkmk68c11Ubcg93pWUtcwUnyyIw5ko1bxQwNCtSot
+   AkTprMecZJoh2Q5WL1VRRIg3TqamNi1Oa8ksL1ZnYriavWYZTy6drmepX
+   hjZKbY4nREEf4i0NP9yr9mVa34tCAE4Yq9usD5tQTnSIJP7eVqpJFXlV/
    Q==;
-X-CSE-ConnectionGUID: osySfm8GQJKdNHVKVKhE+g==
-X-CSE-MsgGUID: kKGYApCtSE2VbYY/ScY46A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="80428317"
+X-CSE-ConnectionGUID: E3rcqXtyR2W/fk+mHQHSWQ==
+X-CSE-MsgGUID: RPiO8wnSSZiYtxRSMeb89g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="80428318"
 X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
-   d="scan'208";a="80428317"
+   d="scan'208";a="80428318"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
   by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 04:46:20 -0800
-X-CSE-ConnectionGUID: jhhZHfLFTKW8yo+N6WKpgg==
-X-CSE-MsgGUID: N3TYkNxCR/qX1xBULHwteA==
+X-CSE-ConnectionGUID: i3iX8LqyQz2Nr9fJoMPqCQ==
+X-CSE-MsgGUID: jbMTRGGaSkyymXiQGqd8Vw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
-   d="scan'208";a="204980459"
+   d="scan'208";a="204980460"
 Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.213])
   by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 04:46:18 -0800
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 01BE1121D87;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 029AE121DBA;
 	Thu, 15 Jan 2026 14:46:13 +0200 (EET)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1vgMjs-00000000UMO-3aYP;
+	id 1vgMjs-00000000UMS-3fRy;
 	Thu, 15 Jan 2026 14:46:12 +0200
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -69,9 +69,9 @@ To: linux-media@vger.kernel.org
 Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
 	laurent.pinchart@ideasonboard.com,
 	jai.luthra@ideasonboard.com
-Subject: [PATCH 5/7] media: ccs: Remove which parameter from ccs_propagate
-Date: Thu, 15 Jan 2026 14:46:10 +0200
-Message-ID: <20260115124612.116663-6-sakari.ailus@linux.intel.com>
+Subject: [PATCH 6/7] media: ccs: Make supported mbus code bitmask a u64
+Date: Thu, 15 Jan 2026 14:46:11 +0200
+Message-ID: <20260115124612.116663-7-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260115124612.116663-1-sakari.ailus@linux.intel.com>
 References: <20260115124612.116663-1-sakari.ailus@linux.intel.com>
@@ -83,72 +83,78 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-ccs_propagate() no longer stores information in the driver's context
-struct. The which parameter can thus be removed.
+Prepare for adding more media bus codes.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/media/i2c/ccs/ccs-core.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ drivers/media/i2c/ccs/ccs-core.c | 9 +++++----
+ drivers/media/i2c/ccs/ccs.h      | 4 ++--
+ 2 files changed, 7 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-index e60a8aff5454..a3f04b87cf7c 100644
+index a3f04b87cf7c..6a7622af257d 100644
 --- a/drivers/media/i2c/ccs/ccs-core.c
 +++ b/drivers/media/i2c/ccs/ccs-core.c
-@@ -2157,8 +2157,7 @@ static int ccs_get_format(struct v4l2_subdev *subdev,
+@@ -13,6 +13,7 @@
+  * Based on smia-sensor.c by Tuukka Toivonen <tuukkat76@gmail.com>
+  */
  
- /* Changes require propagation only on sink pad. */
- static void ccs_propagate(struct v4l2_subdev *subdev,
--			  struct v4l2_subdev_state *sd_state, int which,
--			  int target)
-+			  struct v4l2_subdev_state *sd_state, int target)
- {
- 	struct ccs_subdev *ssd = to_ccs_subdev(subdev);
- 	struct v4l2_rect *comp, *crop;
-@@ -2279,7 +2278,7 @@ static int ccs_set_format(struct v4l2_subdev *subdev,
- 	crop->top = 0;
- 	crop->width = fmt->format.width;
- 	crop->height = fmt->format.height;
--	ccs_propagate(subdev, sd_state, fmt->which, V4L2_SEL_TGT_CROP);
-+	ccs_propagate(subdev, sd_state, V4L2_SEL_TGT_CROP);
++#include <linux/bits.h>
+ #include <linux/clk.h>
+ #include <linux/delay.h>
+ #include <linux/device.h>
+@@ -1209,7 +1210,7 @@ static int ccs_get_mbus_formats(struct ccs_sensor *sensor)
  
- 	return 0;
- }
-@@ -2488,7 +2487,7 @@ static int ccs_set_compose(struct v4l2_subdev *subdev,
- 		ccs_set_compose_scaler(subdev, sd_state, sel, sink_crop);
+ 			dev_dbg(&client->dev, "jolly good! %u\n", j);
  
- 	*comp = sel->r;
--	ccs_propagate(subdev, sd_state, sel->which, V4L2_SEL_TGT_COMPOSE);
-+	ccs_propagate(subdev, sd_state, V4L2_SEL_TGT_COMPOSE);
+-			sensor->default_mbus_frame_fmts |= 1 << j;
++			sensor->default_mbus_frame_fmts |= BIT_U64(j);
+ 		}
+ 	}
  
- 	if (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE)
- 		return ccs_pll_blanking_update(sensor);
-@@ -2572,7 +2571,7 @@ static int ccs_set_crop(struct v4l2_subdev *subdev,
- 	*crop = sel->r;
+@@ -1242,7 +1243,7 @@ static int ccs_get_mbus_formats(struct ccs_sensor *sensor)
+ 				f->compressed - sensor->compressed_min_bpp];
+ 		unsigned int j;
  
- 	if (ssd != sensor->pixel_array && sel->pad == CCS_PAD_SINK)
--		ccs_propagate(subdev, sd_state, sel->which, V4L2_SEL_TGT_CROP);
-+		ccs_propagate(subdev, sd_state, V4L2_SEL_TGT_CROP);
+-		if (!(sensor->default_mbus_frame_fmts & 1 << i))
++		if (!(sensor->default_mbus_frame_fmts & BIT_U64(i)))
+ 			continue;
  
- 	return 0;
- }
-@@ -3078,7 +3077,6 @@ static int ccs_init_state(struct v4l2_subdev *sd,
- 		v4l2_subdev_state_get_format(sd_state, pad);
- 	struct v4l2_rect *crop =
- 		v4l2_subdev_state_get_crop(sd_state, pad);
--	bool is_active = !sd->active_state || sd->active_state == sd_state;
+ 		pll->bits_per_pixel = f->compressed;
+@@ -2091,7 +2092,7 @@ static const struct ccs_csi_data_format
+ 	unsigned int i;
  
- 	mutex_lock(&sensor->mutex);
+ 	for (i = 0; i < ARRAY_SIZE(ccs_csi_data_formats); i++) {
+-		if (sensor->mbus_frame_fmts & (1 << i) &&
++		if (sensor->mbus_frame_fmts & BIT_U64(i) &&
+ 		    ccs_csi_data_formats[i].code == code)
+ 			return &ccs_csi_data_formats[i];
+ 	}
+@@ -2121,7 +2122,7 @@ static int ccs_enum_mbus_code(struct v4l2_subdev *subdev,
+ 	}
  
-@@ -3097,7 +3095,7 @@ static int ccs_init_state(struct v4l2_subdev *sd,
- 		sensor->csi_format->code : sensor->internal_csi_format->code;
- 	fmt->field = V4L2_FIELD_NONE;
+ 	for (i = 0; i < ARRAY_SIZE(ccs_csi_data_formats); i++) {
+-		if (sensor->mbus_frame_fmts & (1 << i))
++		if (sensor->mbus_frame_fmts & BIT_U64(i))
+ 			idx++;
  
--	ccs_propagate(sd, sd_state, is_active, V4L2_SEL_TGT_CROP);
-+	ccs_propagate(sd, sd_state, V4L2_SEL_TGT_CROP);
- 
- 	mutex_unlock(&sensor->mutex);
+ 		if (idx == code->index) {
+diff --git a/drivers/media/i2c/ccs/ccs.h b/drivers/media/i2c/ccs/ccs.h
+index 51915321ef44..58952c5bf06b 100644
+--- a/drivers/media/i2c/ccs/ccs.h
++++ b/drivers/media/i2c/ccs/ccs.h
+@@ -222,10 +222,10 @@ struct ccs_sensor {
+ 	void *ccs_limits;
+ 	u8 nbinning_subtypes;
+ 	struct ccs_binning_subtype binning_subtypes[CCS_LIM_BINNING_SUB_TYPE_MAX_N + 1];
+-	u32 mbus_frame_fmts;
++	u64 mbus_frame_fmts;
+ 	const struct ccs_csi_data_format *csi_format;
+ 	const struct ccs_csi_data_format *internal_csi_format;
+-	u32 default_mbus_frame_fmts;
++	u64 default_mbus_frame_fmts;
+ 	int default_pixel_order;
+ 	struct ccs_data_container sdata, mdata;
  
 -- 
 2.47.3
