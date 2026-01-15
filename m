@@ -1,118 +1,161 @@
-Return-Path: <linux-media+bounces-50806-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50809-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91D40D25CE6
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 17:42:53 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84BAAD27A84
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 19:38:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 241FD30A1313
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 16:41:18 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 2922230B191F
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 18:26:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 019CE3BC4E6;
-	Thu, 15 Jan 2026 16:41:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC1D02D663D;
+	Thu, 15 Jan 2026 18:26:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XjTeWfju"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rLXb5/tc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E0233B8BB1
-	for <linux-media@vger.kernel.org>; Thu, 15 Jan 2026 16:41:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BFE92D3733;
+	Thu, 15 Jan 2026 18:26:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768495276; cv=none; b=kn7ZaNfdpLL5TghfBJexnP+e5ixIxfkxFDkN314QBhEH2uG3aM4IVZKC8hT6hqhAjju/AdJTtFNmKv/1rfVOJeeIzUTgK8RU0Js1WhnL+yUPqn1kLR6ZKv0/gNKZT1aVYsHa+aQhpuoX5Fm0W0KQRwkQHWy0OaTiqk7RJw+8B4Q=
+	t=1768501577; cv=none; b=V6WjaVBg6gsMWIZ7CoC02PNULXY9BZgRVmwYz+DStb30yMYCUoUghhb8IMnAoB+kwel/I5bmTrKgPrMZoCf60TxON+O9zq3Zfu3eQRkL4irCwLHXxjGu+VwPw6pesGKC/mCR9jYJ9S27DFyrBVqr8+1kqZQHznHJXwNCdw3ux/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768495276; c=relaxed/simple;
-	bh=+4PWdSBg60IK47JG9Drbm1wnM0TZv702uNZZZfQzlR8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=O6JmVD1MXiGsLS5DqWefJU0LsttPnw6LCLVjJUkVdKXNTXthcWgvJfm4hoOcN2cQh924c6NRVEfzLj1Wc5QP0UztuuE1TGv7yZ7LLDy/SodbCwle31tfFTq3GF9S6dYWoyY75tS48RYQZuCcJymemWpSjO7uPBJgx9s85Syicxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XjTeWfju; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b79f8f7ea43so272639266b.2
-        for <linux-media@vger.kernel.org>; Thu, 15 Jan 2026 08:41:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768495273; x=1769100073; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/JU/8ioXQOx55JlcUUUaOWyXEMvHCOB13Q3XcCjMtog=;
-        b=XjTeWfjuVzaUlxN0L6VtfVarhQFyMnd53OOLGqbQRX/S8E0q4JvpHRoX8Q1Vpd4Q+3
-         O/OnVwk6xZcWd4wPrTSbWEh9s+CwzSxrKxEEQuBbscCnyfOlqt5tHCLGXubGSsYeXF1g
-         ZM5RxfAz+cQrZVhU9MidVHd81FAxW+KqBMDhJPwdIdn9iRp7Z06GX8hfA3M4z0FmKpz0
-         27o7UltRh52rMP4oOGK0A1FrrBEtCOi53xPZEFiTimZPuewCHaFlImY+FoWLgx5da46U
-         BnOUgKKzEO774+xhJE+EK5h+KF3j8W3umo/z9YFoh77s8xL8xlcYk4zWQh0avz0SOZfw
-         +hrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768495273; x=1769100073;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=/JU/8ioXQOx55JlcUUUaOWyXEMvHCOB13Q3XcCjMtog=;
-        b=Rbpg/DZd3X8th53NL3oRvnS3fkkx0miykYz2AV161kYNhBUYJTBvwsX8rqWcGg05cP
-         NjHDOvwaS6kBr3ysvXeHLJeRx9m98LmDdlYph4KGrlrGqN3HH4zOOinZuPFJ1NObHDBd
-         /SAgXSl/mYgt7e01id5zdlOpt3fHc7XfFBu3qiZoAgO/ugbrl9UTRVYUIHX2bPc9jwVg
-         DSKePqtnWbRgLZDE8nzZ+JmcT8L5DH0G8f0bzhFrCGZO0Mftb8jOJikii60Y4GPvU09B
-         XJgYPkyy6qMj/zKRxvKNwPY2cbpZi6hHWHVWmsAkegomTZ0LwAerElRNP+F4X9gF1X08
-         i+Cg==
-X-Forwarded-Encrypted: i=1; AJvYcCVvLAWYiLIRHgj1rpyA9HIz/cpUGGg/SacVV1uv74mNNznc/z6Yw6YRGS3J7rVwK1xNoxnfV71DsqTtRA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzIDb9LIaUvGaRP36oFCosLzFFE/Z8Fxu05yX0oksnIKZRMajzU
-	r0BeAViBBFE31yfZPaATbfr6o0GamKVa41c7DmIvTDY2FYs19kxN/kTEkUTQ6ISp+R/SpxYhkfj
-	iBFN15SRpLfQ7SW8PZJtfLRhuXA/KZBs=
-X-Gm-Gg: AY/fxX4NHggDNcdmKobs6Qq9nfkdMoXjjNz50vS1brvUidMBw9/YAb+5XvntnMRHTqT
-	r5TTttOlhb0LLZlBg2UKGi8j0vcCuSKhLDJlWxcPe6VNbryh5B48xv5bQDYRuwDfY2/tLd+pcRu
-	tLj2eeoDFuqfhPe01CIQNRljPmfYM7kPPDVjxsWo9sslCpqesT9uejYnzW5er4HxwTU6iEcDBd9
-	3PmhzUIF2h8aSLX7pVDgtw0OiMJNyY7Yk3pMFsxuDfEdmmIK/j2Wq0buQt9FevPSLcTgTNa275q
-	WqqMWdZa4BY29IZJ50WzqP9ylqF+ddEuexgxzBp+2av9vtp8M4NtZRhSoC15CYb2HxItsY8=
-X-Received: by 2002:a17:907:6d1d:b0:b87:2abc:4a32 with SMTP id
- a640c23a62f3a-b8792ddb989mr21591466b.18.1768495273050; Thu, 15 Jan 2026
- 08:41:13 -0800 (PST)
+	s=arc-20240116; t=1768501577; c=relaxed/simple;
+	bh=TMv/2GMeJt7lNR4P7wDPkUHC6oexE2lmn2DPQBekD/o=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=L7Hs9qtQ0f/8DVOntoMIt68UWYEP0k+8DcxNdCQfT/WDCzK9EtBnvhUaRVTa94jfNPRe3r1SDEZsTLR4zaYKEWtDyl1u9u8Wxg2luoviisPyuSvDcmIKt7xKEjmjOy1wrVgtfK1RLYNonI/qg7l6yzJDqKpuXut1AB9oJEaMpTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rLXb5/tc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CF741C116D0;
+	Thu, 15 Jan 2026 18:26:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768501576;
+	bh=TMv/2GMeJt7lNR4P7wDPkUHC6oexE2lmn2DPQBekD/o=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=rLXb5/tcQilVNU6so/oL38Xg9sfM/z6vztpPineB35xipUc53EDFlGYR5I+O+wyx1
+	 M1k0/nP+aDppwLAu6UsjgRtnSegz4+zqRmZjFFcDhQqrMMEHYm4NeuYF2SS7yat7VL
+	 lWj4vhL92XL+XdAu0PqDIIJqoSLKtKSTky7eiOWDaFcrmXUOYAJHcfSi3VYnWBdsYD
+	 4LOUOIMGgQTF5xpxGP745cObWqzIF3sVzG02CCoV7HwhpcUT6avDLqge055960m3Rj
+	 CiaqIhhoDhoVtzLdv5QIDN9M67lQtF/hhBzLj2c4H9YGdUlwbf3MToRgNWeGPGG+RU
+	 tpcpU5awg4Y2w==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC137D46604;
+	Thu, 15 Jan 2026 18:26:16 +0000 (UTC)
+From: Michael Riesch via B4 Relay <devnull+michael.riesch.collabora.com@kernel.org>
+Subject: [PATCH v4 0/3] media: rockchip: add driver for the rockchip mipi
+ csi-2 receiver
+Date: Thu, 15 Jan 2026 19:26:06 +0100
+Message-Id: <20251114-rockchip-mipi-receiver-v4-0-a9c86fecd052@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <aWjiwto4BQS8Uudz@smile.fi.intel.com> <9980e019-d95a-4618-887c-2126e38cba73@gmail.com>
-In-Reply-To: <9980e019-d95a-4618-887c-2126e38cba73@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 15 Jan 2026 18:40:36 +0200
-X-Gm-Features: AZwV_QgH_P1lsy51S6XSbgBuUjhJnYU6hcNQlnwXZPC1uHXxEMDopLUuvkCLPxc
-Message-ID: <CAHp75Vc4DSk=-tf2oFJyd16GSSdWO1NELsCPe26BKVKUuq_Byw@mail.gmail.com>
-Subject: Re: [PATCH v3] staging: media: atomisp: Fix typos and formatting in headers
-To: Hamdan Khan <hamdankhan212@gmail.com>
-Cc: andriy.shevchenko@intel.com, andy@kernel.org, dave.hansen@linux.intel.com, 
-	gregkh@linuxfoundation.org, hansg@kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
-	mchehab@kernel.org, sakari.ailus@linux.intel.com, tony.luck@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAD4xaWkC/43OTW7CMBAF4Ksgr+vKf5CEVe+BurAnEzJqiKNxs
+ YpQ7s7AskKC5XvSfG+uqiATFrXfXBVjpUJ5lhA+NgrGOB9RUy9ZOeO21tqgOcMPjLToEy2kGQG
+ pImuT4uBCgA5aVHKcYkGdOM4wyvl8niYpF8aB/h5rh2/JI5XfzJfHeLX39uVOtdro3nrT7rC1p
+ u+/IE9TTJnjJ+STurPVvUc5oTB1KXjfNAOEZ5R/j/JCWfnIx9gMvtv+p9Z1vQF9hzI1awEAAA=
+ =
+To: Michael Riesch <michael.riesch@collabora.com>, 
+ Chaoyi Chen <chaoyi.chen@rock-chips.com>, 
+ Kever Yang <kever.yang@rock-chips.com>, Frank Li <Frank.li@nxp.com>, 
+ Mehdi Djait <mehdi.djait@linux.intel.com>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Hans Verkuil <hverkuil@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
+ Collabora Kernel Team <kernel@collabora.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Michael Riesch <michael.riesch@collabora.com>
+X-Mailer: b4 0.12.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1768501575; l=2749;
+ i=michael.riesch@collabora.com; s=20250410; h=from:subject:message-id;
+ bh=TMv/2GMeJt7lNR4P7wDPkUHC6oexE2lmn2DPQBekD/o=;
+ b=wmch28e0Zrxj/on33s1llwpel66Pa1hYRFRrdet1fz0xaiL1YM4wVrkV7w3GZKt9oDvXKj07L
+ T6ucjWHAyFDBz2VJbtSpCGMbYTusQp8JPXL2264+4aAogz+OIZq9FE5
+X-Developer-Key: i=michael.riesch@collabora.com; a=ed25519;
+ pk=+MWX1fffLFZtTPG/I6XdYm/+OSvpRE8D9evQaWbiN04=
+X-Endpoint-Received: by B4 Relay for michael.riesch@collabora.com/20250410
+ with auth_id=371
+X-Original-From: Michael Riesch <michael.riesch@collabora.com>
+Reply-To: michael.riesch@collabora.com
 
-On Thu, Jan 15, 2026 at 6:32=E2=80=AFPM Hamdan Khan <hamdankhan212@gmail.co=
-m> wrote:
->
-> > Have you tried to run kernel-doc script against this file? I believe
-> > it will be a difference between before and after.
->
-> I just ran the kernel-doc script for both the previous and updated
-> comments. The script doesn't detect kernel-doc for either of them,
-> comments even with /** because they're missing the struct
-> definition in the comment like:
->
-> /**
->  * struct atomisp_dvs2_coef_types - Brief description
->  * @odd_real:  Real part of the odd coefficients
->  * @odd_imag:  Imaginary part of the odd coefficients
->  * ... so on
->  */
->
-> Though, these can be converted to be kernel-doc compliant if you
-> prefer it.
+Habidere,
 
-In this case it's not needed. Please, clarify in the commit message
-that even if some comments look like kernel-doc, they are not.
+This series adds support for the Rockchip MIPI CSI-2 Receiver that is
+integrated into recent Rockchip SoCs, such as the RK3568 and the RK3588.
 
---=20
-With Best Regards,
-Andy Shevchenko
+According to Rockchip, this core is NOT the Synopsys MIPI CSI-2 Host, but
+it features a compatible register layout (thanks Chaoyi for the
+clarification).
+
+As pointed out by Frank, we should thus rename the driver and place it
+under drivers/media/platform/synopsys to facilitate re-use of this code
+for similar IP cores.
+
+As has been discussed in [0], it would be beneficial to add support 
+for the split mode (a feature of the Rockchip CSI-2 DPHY) before
+integrating the MIPI CSI-2 Receiver into the respective SoC device tree
+includes. However, we can readily add the DT binding and the driver
+as I am positive they will not need to be changed significantly when this
+feature is introduced.
+
+This constitutes a small step towards mainline video capture and camera
+support on the Rockchip RK3588.
+
+Looking forward to your comments!
+
+Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
+
+[0] https://lore.kernel.org/r/20240220-rk3568-vicap-v14-0-b38b6da0fc80@collabora.com
+
+---
+Changes in v4:
+- moved driver to drivers/media/platform/synopsys and renamed it (Frank)
+- addresse review comments by Sakari
+- Link to v3: https://lore.kernel.org/r/20251114-rockchip-mipi-receiver-v3-0-16e83aa7f395@collabora.com
+
+Changes in v3:
+- rebased onto v6.19/recent media-committers/next
+- Link to v2: https://lore.kernel.org/r/20251114-rockchip-mipi-receiver-v2-0-eb9b43377fc4@collabora.com
+
+Changes in v2:
+- dropped one R-b by Bryan, as there were two of them on the same patch
+  (Krzysztof)
+- Link to v1: https://lore.kernel.org/r/20251114-rockchip-mipi-receiver-v1-0-d13086e810dd@collabora.com
+
+---
+Michael Riesch (3):
+      media: dt-bindings: add rockchip mipi csi-2 receiver
+      media: synopsys: add driver for the designware mipi csi-2 receiver
+      arm64: defconfig: enable designware mipi csi-2 receiver
+
+ .../bindings/media/rockchip,rk3568-mipi-csi2.yaml  | 141 ++++
+ MAINTAINERS                                        |   7 +
+ arch/arm64/configs/defconfig                       |   1 +
+ drivers/media/platform/synopsys/Kconfig            |   1 +
+ drivers/media/platform/synopsys/Makefile           |   1 +
+ .../media/platform/synopsys/dw-mipi-csi2/Kconfig   |  17 +
+ .../media/platform/synopsys/dw-mipi-csi2/Makefile  |   2 +
+ .../platform/synopsys/dw-mipi-csi2/dw-mipi-csi2.c  | 735 +++++++++++++++++++++
+ 8 files changed, 905 insertions(+)
+---
+base-commit: dc6c52205bdaddf1dc259497a958402b35c01fe2
+change-id: 20251114-rockchip-mipi-receiver-0baf244c9c8e
+
+Best regards,
+-- 
+Michael Riesch <michael.riesch@collabora.com>
+
+
 
