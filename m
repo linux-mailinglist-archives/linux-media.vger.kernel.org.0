@@ -1,358 +1,632 @@
-Return-Path: <linux-media+bounces-50776-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50777-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 316BED24614
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 13:05:34 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DAFFD24644
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 13:12:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 10115303B469
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 12:04:44 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id CFE47302D395
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 12:12:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4F0C38BF6B;
-	Thu, 15 Jan 2026 12:04:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D84172D94BA;
+	Thu, 15 Jan 2026 12:12:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PGobSAz1"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kqY40oQm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD7B361DA9
-	for <linux-media@vger.kernel.org>; Thu, 15 Jan 2026 12:04:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35F32394493
+	for <linux-media@vger.kernel.org>; Thu, 15 Jan 2026 12:12:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768478680; cv=none; b=O+JdS8ANREpDtkktesI7yX7ljZ+A+nBpe/7lhBLNGsRnHNZvfTdc2H2KDCTivYSWt29sps07DIbLONyICErF2NccB7WiLPP5fgGWAuWGsINbFwemq7KcYAyZhkKMm0Ej4e6uewHPNEok9G7msnGrPub+8Ql3RS7UCQe79zDGRoY=
+	t=1768479137; cv=none; b=KJhuLoPN6mEG1ptUxV/gH+6v6D1zicFoKqEuGW4rjIzgIW+ZElDyU7Kt3HWa4+S0dPi6ug1EfGOSN68Nky3Fy+327UN0/TRU+SNncLAd3MRd6dBsII3CWQp0IWmMNeJdkTVzwHrfqrXN//bHDrV2mraTNzw/eAAiTdVruYVLPBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768478680; c=relaxed/simple;
-	bh=I03m3jyn863svnkjyptTDxXDJ6gpf/cmWunYhvPzvuA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KRRK8ZcXwiSzlDXyDW2M9QofIAMm8BLeBjgtokBQeLY1zqy/gdFU9+NrBsTkjVFGtU3m4Sg6f80KiX83XVldoI37K7B9ZAvKoUbM71MaBEjtp+/pUR6pSJTccntmLMdT25puf0AIyNPT6bzr7mLLUfQynC2VeiOugklJSp0N0e0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PGobSAz1; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768478678; x=1800014678;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=I03m3jyn863svnkjyptTDxXDJ6gpf/cmWunYhvPzvuA=;
-  b=PGobSAz1DOVgbA4D02VK8PbOSig1ocYdNNCjRBCBumWgeiiPkpNbGxou
-   FmYK1TH7imOj48tHJhPyBwlqs/PjH9LIzUJY4Y1S7011aJZnnHl+gJ+qu
-   m9RFKmFNI1u4EbmqSuZRi3dhBe1rPsEjw1OuF7Lp2UwTJir/Zc0VQ7vrQ
-   Q/kLLWTnAy+Ornoeal+FCQmsnnHyiUxyiLpQCrRsH571J8dL/AlBerUC1
-   cIqxcp41xpyfXQwTD0AJ9MMdXEM39l9N9vUPDJVcTkoVD4Y9ucwdWeNhK
-   YQa/MLdaW6oTKW5noVOG8HSvPVB6fNKa0R6KSrafKGLKCbux1y7GIXsAP
-   Q==;
-X-CSE-ConnectionGUID: qzywUZh8S+O8NR8X5tBjnw==
-X-CSE-MsgGUID: fgNWPQjLRcin1918bQq6sw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="69949384"
-X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
-   d="scan'208";a="69949384"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 04:04:38 -0800
-X-CSE-ConnectionGUID: t9wusLz/QH2DDXNlbhciwQ==
-X-CSE-MsgGUID: TglXkkBfSVaq+KLRNM4lpw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
-   d="scan'208";a="209083766"
-Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.213])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 04:04:31 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id D6D8C12020E;
-	Thu, 15 Jan 2026 14:04:28 +0200 (EET)
-Date: Thu, 15 Jan 2026 14:04:28 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	linux-media@vger.kernel.org, hans@jjverkuil.nl,
-	laurent.pinchart@ideasonboard.com,
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
-	Alexander Shiyan <eagle.alexander923@gmail.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Julien Massot <julien.massot@collabora.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
-	"Cao, Bingbu" <bingbu.cao@intel.com>,
-	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
-	"Wang, Hongju" <hongju.wang@intel.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Ricardo Ribalda Delgado <ribalda@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v11 39/66] media: Documentation: Add subdev configuration
- models, raw sensor model
-Message-ID: <aWjXzDXLxG7YyCY6@kekkonen.localdomain>
-References: <aM1J9LsbpueEr30x@kekkonen.localdomain>
- <5fwlztz2q2fewyml774my3sdw3wv5wdhnl6p4mfbubm4erm5ft@sthie2bobklf>
- <aN4lQPK5Mqve2bUI@kekkonen.localdomain>
- <kblfpuqfj2d6vkagspnqdhztno2js3wljdrsv2wpeywuwyzg5x@xt7rjhh5wt76>
- <r3kv25lxbyjtuufb2ze27wp5gbqnbgnps2ytk2gy2qkaeiijdd@ydn4ptkze2qp>
- <aN_MdmDhQPyLnQqD@kekkonen.localdomain>
- <zq3gzieoqd4eieghjetm6sus5s7i6niplommnubl4d4rskbhra@v7gslcsg5hce>
- <mseqfltfao5jqubs22asrzzrj2tnsf5bdmlvsmncwj4ss3gxmu@wk2lmramiy3a>
- <176008954951.211618.7730648133265251067@localhost>
- <176009379794.935713.4919963263447609305@ping.linuxembedded.co.uk>
+	s=arc-20240116; t=1768479137; c=relaxed/simple;
+	bh=0V5MhAmrQYWB7Jh45G1akO5WS9ecpXZTWXBRVltktjc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YWv+OiSSwVM9qSgk9nuaok7MRnk2r58IHn0S/pkmTeATiD5D35u6FdQbpdlZ0rNFbamowDByeo6GvphkQuiD4GCqib5YK7joYF+Egi0Be49cBcmkFBryR2AzWn6HRC8wtXh0QL/SrsHFpvQBmNP/j1cFaiy4ZqsCIeZpXLtoq74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kqY40oQm; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-47ee0291921so6009705e9.3
+        for <linux-media@vger.kernel.org>; Thu, 15 Jan 2026 04:12:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768479130; x=1769083930; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9sG4GKmiUhlEzmmNvw+qd+4Gq3XADNvFz9+9slXzcQc=;
+        b=kqY40oQmdjO4XaI0u5xyjG8maZiez6Htk01+e6kGewXPEJY98SNonaOv6dOF3puInI
+         hYwp8NRZrM5zGzBPO2cZmDOkZHMZdte5Np3uEAh2gBReD13nfYQm3qm/Efzig7Lmf90O
+         J20XTR2E6NCuJODw6/i82cKk4EP3tflcSALSm2ubZeCXEDQLwmiuAqGt4qm0rRv3UvRb
+         3Fo/LkfemJmTIkWk2fEF87gYmPK3VneyPxN9fKAirIK3L5/ewOAY/blj1cEjjzXxOdnI
+         zSphetdVZhYpXRJV7A0b3kFRLvuB0MrNJVVnqYti1W6vo1XCkyhWTyOqniHpARszBybM
+         70qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768479130; x=1769083930;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9sG4GKmiUhlEzmmNvw+qd+4Gq3XADNvFz9+9slXzcQc=;
+        b=DX7bxc/hHsav8KI55g6LHGKnMu9FG7brP9YRAlok7vTLzA3ZiFotRcbyHZJBPnBPr7
+         atGFTXaZfQ6/RV3CJXWR7QKCgbBlKMWdUcmQJkL61kr/XZFUOQrqDt4/icPeEYk7kpF/
+         gy7tWPmtDMWdrwXb3rCd9/YXN8Tw6Yzb7YRUjtByZ9vCiXRAaYgJRzEAoQ5rI8eXd5Xc
+         z0QQwEcnPW/O6A1B/teynO9C36LpWVjrf9LCamagilIGrjXLQru//bQ3j//Hf97Ws1OW
+         IEV1c2jqCs95vkzZBXJzrv6vVxLzD0e+KA85suoSOuaT2fJZKXNhX9yEzTcvzuE5B+4f
+         FDjg==
+X-Forwarded-Encrypted: i=1; AJvYcCVvYgGCUkEdqpFoBQR7nYYn2Kt7z40cIxnnLW+e0F08O3gIsrFEUg5k+bEL9nbmZQfUP9ZgKRHQo47ivw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwrK50ih1GVLNouoc/8JndpZC4hbhbCHli0lSKCON3You0izHii
+	ZK31TxxhJZBMVTgT0zimu+hfKB/XFQavQu3uT7vVnZ8/SCFY23X1M9ge
+X-Gm-Gg: AY/fxX4bSbCX/s9ZXhd8H3g5c65F4V/qM2ryDU+dk+ukcFT1AEDTD5UUbPrF5WFJbrn
+	gqNX1nupTWJ10CrWj9R829M0uqoKmKJ2tQr+FcZR0RBouECqtzZFz1yztZSUvwVkhDEChaHX28t
+	DLkrYLPTnxR0Y6mVVBPQOxZpzkFhQNuUwJiMFyKFOVobo6skBj6T3btlp79j4ufMkB+/UwucTZB
+	oMW5NgX+kSypS0/1DU/nNseRJkrUPjguoMQVILe5Z8mH642wkjv2G1z6D4wNbqAvQGZMiPn/Jas
+	bDr5FcvNed/W4Q496kI7XCuQGSvyegXK5P3pJbn530ttK54edXR39qMThM+86bmJaKXwPKUNPzL
+	eYZj1G10ypq8smZtC0L4Lz5Dae+K+If/NvKneHKf1g2LKycJQ1j0rZO4e2Cwfk+hWRG4bKKh5m+
+	iLOO2V8U0DCmV/
+X-Received: by 2002:a05:600c:528e:b0:475:de14:db1e with SMTP id 5b1f17b1804b1-47ee3396c00mr60550685e9.24.1768479129986;
+        Thu, 15 Jan 2026 04:12:09 -0800 (PST)
+Received: from hamdan-pc.. ([39.34.128.30])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47ee0b48921sm47710805e9.0.2026.01.15.04.12.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Jan 2026 04:12:09 -0800 (PST)
+From: Hamdan Khan <hamdankhan212@gmail.com>
+To: gregkh@linuxfoundation.org,
+	andy@kernel.org
+Cc: hansg@kernel.org,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	dave.hansen@linux.intel.com,
+	tony.luck@intel.com,
+	hamdankhan212@gmail.com,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] staging: media: atomisp: Fix typos and formatting in headers
+Date: Thu, 15 Jan 2026 17:11:57 +0500
+Message-ID: <20260115121157.10840-1-hamdankhan212@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <176009379794.935713.4919963263447609305@ping.linuxembedded.co.uk>
+Content-Transfer-Encoding: 8bit
 
-Hi Kieran, Stefan, Jacopo,
+This patch updates block and inline comments to follow kernel
+commenting conventions, fixes typos and wording, and reformats
+long comments for clarity and line length consistency.
 
-On Fri, Oct 10, 2025 at 11:56:37AM +0100, Kieran Bingham wrote:
-> Quoting Stefan Klug (2025-10-10 10:45:49)
-> > Hi Sakari, hi Jacopo,
-> > 
-> > Quoting Jacopo Mondi (2025-10-07 16:01:11)
-> > > Hi again Sakari,
-> > >    cc Kieran and Stefan
-> > > 
-> > > Stefan and Kieran brought to my attention a use case I would like to
-> > > discuss with you
-> > > 
-> > > On Fri, Oct 03, 2025 at 03:25:19PM +0200, Jacopo Mondi wrote:
-> > > > Hi Sakari,
-> > > >
-> > > > On Fri, Oct 03, 2025 at 04:15:34PM +0300, Sakari Ailus wrote:
-> > > > > Hi Jacopo,
-> > > >
-> > > > [snip]
-> > > >
-> > > > > > >
-> > > > > >
-> > > > > > A recent discussion on libcamera made me wonder a few things
-> > > > > >
-> > > > > > https://patchwork.libcamera.org/patch/24547/
-> > > > > >
-> > > > > > In the current world (pre-RAW sensor model) the situation can be
-> > > > > > summarized as
-> > > > > >
-> > > > > > TGT_NATIVE_SIZE = full pixel array (readable and non readable)
-> > > > > > TGT_CROP_BOUNDS = readable pixel array (visible and non visibile pixels)
-> > > > >
-> > > > > Crop bounds is generally the same as native size.
-> > > > >
-> > > >
-> > > > I checked two sensors datasheet for this yesterday and both of them
-> > > > had parts of the pixel array that cannot be read out
-> > > >
-> > > > > > TGT_CROP_DEFAULT = visible pixels
-> > > > >
-> > > > > The default could exclude not-so-great pixels, too.
-> > > > >
-> > > >
-> > > > ok, suggested pixel array area used for image capture purposes then
-> > > >
-> > > > > > TGT_CROP = analgoue crop
-> > > > >
-> > > > > This could include digital crop as well.
-> > > > >
-> > > >
-> > > > Yes it might, not all sensor drivers behaves the same indeed
-> > > >
-> > > > > >
-> > > > > > where:
-> > > > > > - visibile = pixels used for image capture purpose
-> > > > > > - non-visible = optically black, dummies etc
-> > > > > >
-> > > > > > With the RAW sensor model:
-> > > > > >
-> > > > > > format(1/0) = readable pixel array (visible and non visible)
-> > > > > > TGT_CROP_DEFAULT(1/0) = visible pixel area
-> > > > > > TGT_CROP(1/0) = analogue crop
-> > > > > > TGT_COMPOSE(1/0) = binning/skipping
-> > > > > >
-> > > > > > Have we lost the ability to report the full pixel array size (readable
-> > > > > > and not readable) ? Is this intentional ? As if pixels cannot be read
-> > > > > > out they basically do no exist, and the information on the actual
-> > > > > > number of pixels (including non readable ones) should be kept
-> > > > > > somewhere else (like the libcamera sensor properties database) ?
-> > > > >
-> > > > > I'd keep this information in the user space if needed. There's little
-> > > > > software could presumably do with this information.
-> > > > >
-> > > >
-> > > > Agreed, there is no value I can think of in having this information in
-> > > > drivers
-> > > >
-> > > 
-> > > So, Kieran and Stefan are working with a sensor whose driver was
-> > > initially upstreamed with a wrong "readable pixel array"
-> > > (TGT_CROP_BOUNDS). The developer later realized there was more of the
-> > > pixel array to read and there was a use for the non-image pixels like
-> > > OB ones.
-> > > 
-> > > With the current model this is fine (sort of), as all rectangles are
-> > > expressed with the TGT_NATIVE size reference. TGT_BOUNDS might
-> > > increases but TGT_CROP_DEFAULT and TGT_CROP are still valid both in the
-> > > driver but also in userspace, which might have encoded some known
-> > > "tested" configurations.
-> > > 
-> > > With the new model we lose the information reported by TGT_NATIVE and
-> > > all rectangles will be expressed with the format on 1/0 as reference.
-> > > If the format changes because we later find out there were portions of
-> > > the pixel array that could have been read out, all other rectangles
-> > > will have to change as well, both in the driver (which is ok-ish) but
-> > > also in userspace, which we have no control on.
-> > > 
-> > > Stefan and Kieran could elaborate more on this, but basically, the
-> > > physical array is the only fixed reference we could actually count on.
-> > > Other rectangles, are subject to the driver developer understanding of
-> > > how the device work, which as we know very well, can change over time.
-> > > 
-> > > Now, if you agree this is something to be concerned on, I presume the
-> > > fix is quite easy
-> > > 
-> > >          format(1/0) = physical pixel array size
-> > >          TGT_CROP_BOUNDS(1/0) = readable pixel array (visible and non visible)
-> > >          TGT_CROP_DEFAULT(1/0) = visible pixel area
-> > >          TGT_CROP(1/0) = analogue crop
-> > >          TGT_COMPOSE(1/0) = binning/skipping
-> > > 
-> > > which basically only require re-introducing the use of CROP_BOUNDS in
-> > > the RAW camera model specification.
-> > 
-> > Thanks Jacopo for writing that up. Maybe a little addition on that
-> > matter. To our (especially Kierans) experience all the rectangles tend
-> > to be unexpectedly difficult to handle when you try to configure the
-> > sensors in a pixel perfect manner (having binned and non binned modes
-> > cover exactly the same area in all possible flipping configurations).
-> > The datasheets I'm aware of use the physical pixel array as common
-> > coordinate system to describe the geometry. Adding the readable pixel
-> > array as "artificial" coordinate system makes it difficult to match the
-> > values reported by a v4l driver with the datasheets at hand.
-> > 
-> > Another time where this comes into play is lens shading correction where
-> > you would want to describe the LSC against one reference coordinate
-> > system that ideally never ever changes.
-> > 
-> > To add to the confusion I'd love to have another rectangle added to the
-> > list. I don't have a proper name for it. The intent would be to
-> > distinguish between the "readable pixel array" and the "light exposed
-> > pixel array". So the list would become:
-> > 
-> >     format(1/0) = physical pixel array size
-> >     TGT_CROP_BOUNDS(1/0) = readable pixel array (visible and non visible)
-> >     TGT_CROP_VISIBLE(1/0) = visible pixel area including "flesh" for ISP
+No functional changes are intended.
 
-Carnivorous ISPs?
+Signed-off-by: Hamdan Khan <hamdankhan212@gmail.com>
+---
+Changes in v3:
+- fixed coding style issues as pointed out by Andy Shevchenko
+- fixed english text in some of the comments
+- covered all header files of this sub directory as a starting point
+  (can look into further files if this goes well)
+- fixed commit message
+---
+ .../media/atomisp/include/linux/atomisp.h     | 164 +++++++++---------
+ .../include/linux/atomisp_gmin_platform.h     |   7 +-
+ .../atomisp/include/linux/atomisp_platform.h  |  42 ++---
+ 3 files changed, 111 insertions(+), 102 deletions(-)
 
-> >     TGT_CROP_DEFAULT(1/0) = Recommended "good" pixels
-
-How often is this known? Or would you rely on what the vendor tells?
-
-> >     TGT_CROP(1/0) = analogue crop
-> >     TGT_COMPOSE(1/0) = binning/skipping
-> > 
-> > The idea is to be able to capture a larger image from the sensor for ISP
-> > processing and then cut it down to CROP_DEFAULT. This way we can prevent
-> > interpolation seams at the edges. Maybe the naming is bad and we should
-> > make CROP_BOUNDS the recommended area and add CROP_READABLE to denote
-> > the readable pixels...
-
-CROP_BOUNDS really needs to be the bounding rectangle for everything.
-CROP_DEFAULT and NATIVE_SIZE are still up to definition, to a degree.
-
-Have you tried capturing the optical black pixels on different sensors?
-
-CCS specifies optical black pixel capture separately from the visible
-pixels and support also different VC, DT, depending on sensor capabilities;
-cropping results in capturing optical black pixel on the rows and columns
-specified for the crop area. In other words, the selection API isn't
-necessarily how optical black pixel capture is configured, at least for
-CCS.
-
-Let's assume the case of the sensor where you find, after the driver has
-been upstreamed, that there are extra columns and rows of pixels beyond the
-left and top of the image. How would you modify the selection rectangles
-and the format to allow capturing image data from that area? Can you avoid
-affecting the existing userspace?
-
-> 
-> I think this is important - and in IMX283 - it seems to be exactly what
-> the datasheet is ultimately recommending.
-> 
-> > > What do you think ?
-> > 
-> > Best regards,
-> > Stefan
-> > 
-> > > 
-> > > > > >
-> > > > > > All the discussion about readable/non-readable, visible/non-visibile
-> > > > > > and active and inactive areas make me think we would benefit from
-> > > > > > presenting a small glossary at the beginning of the "Sensor pixel
-> > > > > > array size, cropping and binning" paragraph ?
-> 
-> Oh yes, some sort of nicely interpretable description of "this rectangle
-> is expected to be this equivalent set of pixels" would be helpful. I've
-> found it so hard to identify which the right rectangle is here :D
-> 
-> 
-> I'm also weary that we might need to find a way to convey the
-> relationship between binning mode restrictions/offsets too.
-> 
-> The IMX283 2x2 and 3x3 binning modes produce offset outputs:
-> 
-> vwinpos is the coordinate programmed to the sensor to get a position -
-> and we have tooling in camshark that lets us determine the exact pixels
-> we capture from any mode to see what was really produced by the sensor:
-> 
-> 
-> ```
-> 'Sensor Native' ?
-> pixel (row)   -8 -7 -6 -5 -4 -3 -2 -1  0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16
-> native pixels  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-> 
-> 
-> vwinpos       -4    -3    -2    -1     0     1     2     3     4     5     6     7     8
-> no-binning     |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-> 
-> 
-> vwinpos             -3          -2          -1           0           1           2      
-> /2 binning     |     |     |     |     |     |     |     |     |     |     |     |     |
-> 
-> 
-> vwinpos        0                 1                 2                 3                 4
-> /3 binning     |        |        |        |        |        |        |        |        |
-> ```
-> 
-> 
-> To fix this - I'm moving the current '0' position for IMX283 to -2 in
-> the non binned modes.
-> 
-> That gives me a coordinate system where at least I can define an
-> alignment for 2x2 and 3x3 binning every 12 pixels (as the lowest common
-> multiplier).
-> 
-> But - also murkies the water from the above rectanges as this sensor
-> turns out to have 48 lines of pixels (24 bayer pair lines) 'less than
-> zero' ... or at least those are the ones that are visible in light. I
-> can read further below zero but only for black pixels.
-> 
-> So in otherwords - I can't even make a corresponding coordinate
-> rectangle that exactly matches the 'all readable' pixels or 'all
-> illuminated pixels' ... Ayeeeeee...
-> 
-> My lesson/take on this: Don't trust the datasheets. They lie :D
-
+diff --git a/drivers/staging/media/atomisp/include/linux/atomisp.h b/drivers/staging/media/atomisp/include/linux/atomisp.h
+index 3c8fa3f5808d..75f97477119c 100644
+--- a/drivers/staging/media/atomisp/include/linux/atomisp.h
++++ b/drivers/staging/media/atomisp/include/linux/atomisp.h
+@@ -22,7 +22,7 @@
+ #define ATOMISP_HW_STEPPING_A0		0x00
+ #define ATOMISP_HW_STEPPING_B0		0x10
+ 
+-/*ISP binary running mode*/
++/* ISP binary running mode */
+ #define CI_MODE_PREVIEW		0x8000
+ #define CI_MODE_VIDEO		0x4000
+ #define CI_MODE_STILL_CAPTURE	0x2000
+@@ -78,7 +78,8 @@ struct atomisp_tnr_config {
+ 	unsigned int threshold_uv;/* [intensity] Motion sensitivity for U/V */
+ };
+ 
+-/* Histogram. This contains num_elements values of type unsigned int.
++/*
++ * Contains num_elements values of type unsigned int.
+  * The data pointer is a DDR pointer (virtual address).
+  */
+ struct atomisp_histogram {
+@@ -146,8 +147,7 @@ struct atomisp_3a_config {
+ 	unsigned int ae_y_coef_r;	/* [gain] Weight of R for Y */
+ 	unsigned int ae_y_coef_g;	/* [gain] Weight of G for Y */
+ 	unsigned int ae_y_coef_b;	/* [gain] Weight of B for Y */
+-	unsigned int awb_lg_high_raw;	/* [intensity]
+-					   AWB level gate high for raw */
++	unsigned int awb_lg_high_raw;	/* [intensity] AWB level gate high for raw */
+ 	unsigned int awb_lg_low;	/* [intensity] AWB level gate low */
+ 	unsigned int awb_lg_high;	/* [intensity] AWB level gate high */
+ 	int af_fir1_coef[7];	/* [factor] AF FIR coefficients of fir1 */
+@@ -188,14 +188,15 @@ struct atomisp_dis_vector {
+ 	int y;
+ };
+ 
+-/* DVS 2.0 Coefficient types. This structure contains 4 pointers to
+- *  arrays that contain the coefficients for each type.
++/*
++ * DVS 2.0 Coefficient types. This structure contains 4 pointers to
++ * arrays that contain the coefficients for each type.
+  */
+ struct atomisp_dvs2_coef_types {
+-	short __user *odd_real; /** real part of the odd coefficients*/
+-	short __user *odd_imag; /** imaginary part of the odd coefficients*/
+-	short __user *even_real;/** real part of the even coefficients*/
+-	short __user *even_imag;/** imaginary part of the even coefficients*/
++	short __user *odd_real; /* Real part of the odd coefficients*/
++	short __user *odd_imag; /* Imaginary part of the odd coefficients*/
++	short __user *even_real;/* Real part of the even coefficients*/
++	short __user *even_imag;/* Imaginary part of the even coefficients*/
+ };
+ 
+ /*
+@@ -203,10 +204,10 @@ struct atomisp_dvs2_coef_types {
+  * arrays that contain the statistics for each type.
+  */
+ struct atomisp_dvs2_stat_types {
+-	int __user *odd_real; /** real part of the odd statistics*/
+-	int __user *odd_imag; /** imaginary part of the odd statistics*/
+-	int __user *even_real;/** real part of the even statistics*/
+-	int __user *even_imag;/** imaginary part of the even statistics*/
++	int __user *odd_real; /* Real part of the odd statistics*/
++	int __user *odd_imag; /* Imaginary part of the odd statistics*/
++	int __user *even_real;/* Real part of the even statistics*/
++	int __user *even_imag;/* Imaginary part of the even statistics*/
+ };
+ 
+ struct atomisp_dis_coefficients {
+@@ -234,12 +235,12 @@ struct atomisp_3a_rgby_output {
+ };
+ 
+ /*
+- * Because we have 2 pipes at max to output metadata, therefore driver will use
+- * ATOMISP_MAIN_METADATA to specify the metadata from the pipe which keeps
+- * streaming always and use ATOMISP_SEC_METADATA to specify the metadata from
+- * the pipe which is streaming by request like capture pipe of ZSL or SDV mode
+- * as secondary metadata. And for the use case which has only one pipe
+- * streaming like online capture, ATOMISP_MAIN_METADATA will be used.
++ * As the driver can output metadata on two pipes at max,
++ * ATOMISP_MAIN_METADATA is used for the pipe that streams continuously.
++ * ATOMISP_SEC_METADATA is used for the pipe that streams on demand, e.g.,
++ * the capture pipe in ZSL or SDV modes.
++ * In use cases with a single streaming pipe (like online capture),
++ * only ATOMISP_MAIN_METADATA is used.
+  */
+ enum atomisp_metadata_type {
+ 	ATOMISP_MAIN_METADATA = 0,
+@@ -257,7 +258,7 @@ struct atomisp_3a_statistics {
+ 	struct atomisp_3a_output __user *data;
+ 	struct atomisp_3a_rgby_output __user *rgby_data;
+ 	u32 exp_id; /* exposure ID */
+-	u32 isp_config_id; /* isp config ID */
++	u32 isp_config_id; /* ISP config ID */
+ };
+ 
+ /* White Balance (Gain Adjust) */
+@@ -272,8 +273,8 @@ struct atomisp_wb_config {
+ /* Color Space Conversion settings */
+ struct atomisp_cc_config {
+ 	unsigned int fraction_bits;
+-	int matrix[3 * 3];	/* RGB2YUV Color matrix, signed
+-				   <13-fraction_bits>.<fraction_bits> */
++	/* RGB2YUV Color matrix, signed <13-fraction_bits>.<fraction_bits> */
++	int matrix[3 * 3];
+ };
+ 
+ /* De pixel noise configuration */
+@@ -291,13 +292,15 @@ struct atomisp_ce_config {
+ 
+ /* Defect pixel correction configuration */
+ struct atomisp_dp_config {
+-	/* [intensity] The threshold of defect Pixel Correction, representing
++	/*
++	 * [intensity] The threshold of defect Pixel Correction, representing
+ 	 * the permissible difference of intensity between one pixel and its
+ 	 * surrounding pixels. Smaller values result in more frequent pixel
+ 	 * corrections. u0_16
+ 	 */
+ 	unsigned int threshold;
+-	/* [gain] The sensitivity of mis-correction. ISP will miss a lot of
++	/*
++	 * [gain] The sensitivity of mis-correction. ISP will miss a lot of
+ 	 * defects if the value is set too large. u8_8
+ 	 */
+ 	unsigned int gain;
+@@ -312,7 +315,7 @@ struct atomisp_xnr_config {
+ 	__u16 threshold;
+ };
+ 
+-/* metadata config */
++/* Metadata config */
+ struct atomisp_metadata_config {
+ 	u32 metadata_height;
+ 	u32 metadata_stride;
+@@ -322,31 +325,30 @@ struct atomisp_metadata_config {
+  * Generic resolution structure.
+  */
+ struct atomisp_resolution {
+-	u32 width;  /** Width */
+-	u32 height; /** Height */
++	u32 width;  /* Width */
++	u32 height; /* Height */
+ };
+ 
+ /*
+- * This specifies the coordinates (x,y)
++ * Specifies the zoom point coordinates (x,y)
+  */
+ struct atomisp_zoom_point {
+-	s32 x; /** x coordinate */
+-	s32 y; /** y coordinate */
++	s32 x; /* x coordinate */
++	s32 y; /* y coordinate */
+ };
+ 
+ /*
+- * This specifies the region
++ * Specifies the zoom region
+  */
+ struct atomisp_zoom_region {
+-	struct atomisp_zoom_point
+-		origin; /* Starting point coordinates for the region */
++	struct atomisp_zoom_point origin; /* Starting point coordinates for the region */
+ 	struct atomisp_resolution resolution; /* Region resolution */
+ };
+ 
+ struct atomisp_dz_config {
+-	u32 dx; /** Horizontal zoom factor */
+-	u32 dy; /** Vertical zoom factor */
+-	struct atomisp_zoom_region zoom_region; /** region for zoom */
++	u32 dx; /* Horizontal zoom factor */
++	u32 dy; /* Vertical zoom factor */
++	struct atomisp_zoom_region zoom_region; /* Region for zoom */
+ };
+ 
+ struct atomisp_parm {
+@@ -378,7 +380,7 @@ struct atomisp_dvs2_bq_resolutions {
+ 	struct dvs2_bq_resolution output_bq;
+ 	/* GDC effective envelope size [BQ] */
+ 	struct dvs2_bq_resolution envelope_bq;
+-	/* isp pipe filter size [BQ] */
++	/* ISP pipe filter size [BQ] */
+ 	struct dvs2_bq_resolution ispfilter_bq;
+ 	/* GDC shit size [BQ] */
+ 	struct dvs2_bq_resolution gdc_shift_bq;
+@@ -411,8 +413,8 @@ struct atomisp_parameters {
+ 	struct atomisp_cnr_config  *cnr_config; /* Chroma Noise Reduction */
+ 	struct atomisp_macc_config *macc_config;  /* MACC */
+ 	struct atomisp_ctc_config  *ctc_config; /* Chroma Tone Control */
+-	struct atomisp_aa_config   *aa_config;  /* Anti-Aliasing */
+-	struct atomisp_aa_config   *baa_config;  /* Anti-Aliasing */
++	struct atomisp_aa_config   *aa_config;	/* Anti-Aliasing */
++	struct atomisp_aa_config   *baa_config;	/* Anti-Aliasing */
+ 	struct atomisp_ce_config   *ce_config;
+ 	struct atomisp_dvs_6axis_config *dvs_6axis_config;
+ 	struct atomisp_ob_config   *ob_config;  /* Objective Black config */
+@@ -425,10 +427,8 @@ struct atomisp_parameters {
+ 	struct atomisp_3a_config   *a3a_config; /* 3A Statistics config */
+ 	struct atomisp_xnr_config  *xnr_config; /* eXtra Noise Reduction */
+ 	struct atomisp_dz_config   *dz_config;  /* Digital Zoom */
+-	struct atomisp_cc_config *yuv2rgb_cc_config; /* Color
+-							Correction config */
+-	struct atomisp_cc_config *rgb2yuv_cc_config; /* Color
+-							Correction config */
++	struct atomisp_cc_config *yuv2rgb_cc_config; /* Color Correction config */
++	struct atomisp_cc_config *rgb2yuv_cc_config; /* Color Correction config */
+ 	struct atomisp_macc_table  *macc_table;
+ 	struct atomisp_gamma_table *gamma_table;
+ 	struct atomisp_ctc_table   *ctc_table;
+@@ -490,9 +490,9 @@ struct atomisp_gamma_table {
+ 	unsigned short data[ATOMISP_GAMMA_TABLE_SIZE];
+ };
+ 
+-/* Morphing table for advanced ISP.
+- * Each line of width elements takes up COORD_TABLE_EXT_WIDTH elements
+- * in memory.
++/*
++ * Morphing table for advanced ISP.
++ * Each line of width elements takes up COORD_TABLE_EXT_WIDTH elements in memory.
+  */
+ #define ATOMISP_MORPH_TABLE_NUM_PLANES  6
+ struct atomisp_morph_table {
+@@ -519,7 +519,7 @@ struct atomisp_shading_table {
+ 	__u16 *data[ATOMISP_NUM_SC_COLORS];
+ };
+ 
+-/* parameter for MACC */
++/* Parameter for MACC */
+ #define ATOMISP_NUM_MACC_AXES           16
+ struct atomisp_macc_table {
+ 	short data[4 * ATOMISP_NUM_MACC_AXES];
+@@ -538,9 +538,10 @@ struct atomisp_ctc_table {
+ 
+ /* Parameter for overlay image loading */
+ struct atomisp_overlay {
+-	/* the frame containing the overlay data The overlay frame width should
+-	 * be the multiples of 2*ISP_VEC_NELEMS. The overlay frame height
+-	 * should be the multiples of 2.
++	/*
++	 * The frame containing the overlay data. The overlay frame width should
++	 * be a multiple of 2 * ISP_VEC_NELEMS. The overlay frame height
++	 * should be a multiple of 2.
+ 	 */
+ 	struct v4l2_framebuffer *frame;
+ 	/* Y value of overlay background */
+@@ -549,23 +550,27 @@ struct atomisp_overlay {
+ 	char bg_u;
+ 	/* V value of overlay background */
+ 	char bg_v;
+-	/* the blending percent of input data for Y subpixels */
++	/* The blending percentage of input data for Y subpixels */
+ 	unsigned char blend_input_perc_y;
+-	/* the blending percent of input data for U subpixels */
++	/* The blending percentage of input data for U subpixels */
+ 	unsigned char blend_input_perc_u;
+-	/* the blending percent of input data for V subpixels */
++	/* The blending percentage of input data for V subpixels */
+ 	unsigned char blend_input_perc_v;
+-	/* the blending percent of overlay data for Y subpixels */
++	/* The blending percentage of overlay data for Y subpixels */
+ 	unsigned char blend_overlay_perc_y;
+-	/* the blending percent of overlay data for U subpixels */
++	/* The blending percentage of overlay data for U subpixels */
+ 	unsigned char blend_overlay_perc_u;
+-	/* the blending percent of overlay data for V subpixels */
++	/* The blending percentage of overlay data for V subpixels */
+ 	unsigned char blend_overlay_perc_v;
+-	/* the overlay start x pixel position on output frame It should be the
+-	   multiples of 2*ISP_VEC_NELEMS. */
++	/*
++	 * The overlay start x pixel position on output frame. It should be a
++	 * multiple of 2 * ISP_VEC_NELEMS.
++	 */
+ 	unsigned int overlay_start_x;
+-	/* the overlay start y pixel position on output frame It should be the
+-	   multiples of 2. */
++	/*
++	 * The overlay start y pixel position on output frame. It should be a
++	 * multiple of 2.
++	 */
+ 	unsigned int overlay_start_y;
+ };
+ 
+@@ -659,7 +664,7 @@ enum atomisp_burst_capture_options {
+ #define EXT_ISP_SHOT_MODE_ANIMATED_PHOTO	10
+ #define EXT_ISP_SHOT_MODE_SPORTS	11
+ 
+-/*Private IOCTLs for ISP */
++/* Private IOCTLs for ISP */
+ #define ATOMISP_IOC_G_XNR \
+ 	_IOR('v', BASE_VIDIOC_PRIVATE + 0, int)
+ #define ATOMISP_IOC_S_XNR \
+@@ -684,7 +689,8 @@ enum atomisp_burst_capture_options {
+ 	_IOR('v', BASE_VIDIOC_PRIVATE + 5, struct atomisp_ee_config)
+ #define ATOMISP_IOC_S_EE \
+ 	_IOW('v', BASE_VIDIOC_PRIVATE + 5, struct atomisp_ee_config)
+-/* Digital Image Stabilization:
++/*
++ * Digital Image Stabilization:
+  * 1. get dis statistics: reads DIS statistics from ISP (every frame)
+  * 2. set dis coefficients: set DIS filter coefficients (one time)
+  * 3. set dis motion vector: set motion vector (result of DIS, every frame)
+@@ -716,54 +722,54 @@ enum atomisp_burst_capture_options {
+ #define ATOMISP_IOC_S_ISP_GDC_TAB \
+ 	_IOW('v', BASE_VIDIOC_PRIVATE + 10, struct atomisp_morph_table)
+ 
+-/* macc parameter control*/
++/* MACC parameter control*/
+ #define ATOMISP_IOC_G_ISP_MACC \
+ 	_IOR('v', BASE_VIDIOC_PRIVATE + 12, struct atomisp_macc_config)
+ #define ATOMISP_IOC_S_ISP_MACC \
+ 	_IOW('v', BASE_VIDIOC_PRIVATE + 12, struct atomisp_macc_config)
+ 
+-/* Defect pixel detection & Correction */
++/* Defect pixel detection & correction */
+ #define ATOMISP_IOC_G_ISP_BAD_PIXEL_DETECTION \
+ 	_IOR('v', BASE_VIDIOC_PRIVATE + 13, struct atomisp_dp_config)
+ #define ATOMISP_IOC_S_ISP_BAD_PIXEL_DETECTION \
+ 	_IOW('v', BASE_VIDIOC_PRIVATE + 13, struct atomisp_dp_config)
+ 
+-/* False Color Correction */
++/* False color correction */
+ #define ATOMISP_IOC_G_ISP_FALSE_COLOR_CORRECTION \
+ 	_IOR('v', BASE_VIDIOC_PRIVATE + 14, struct atomisp_de_config)
+ #define ATOMISP_IOC_S_ISP_FALSE_COLOR_CORRECTION \
+ 	_IOW('v', BASE_VIDIOC_PRIVATE + 14, struct atomisp_de_config)
+ 
+-/* ctc parameter control */
++/* CTC parameter control */
+ #define ATOMISP_IOC_G_ISP_CTC \
+ 	_IOR('v', BASE_VIDIOC_PRIVATE + 15, struct atomisp_ctc_table)
+ #define ATOMISP_IOC_S_ISP_CTC \
+ 	_IOW('v', BASE_VIDIOC_PRIVATE + 15, struct atomisp_ctc_table)
+ 
+-/* white balance Correction */
++/* White balance correction */
+ #define ATOMISP_IOC_G_ISP_WHITE_BALANCE \
+ 	_IOR('v', BASE_VIDIOC_PRIVATE + 16, struct atomisp_wb_config)
+ #define ATOMISP_IOC_S_ISP_WHITE_BALANCE \
+ 	_IOW('v', BASE_VIDIOC_PRIVATE + 16, struct atomisp_wb_config)
+ 
+-/* fpn table loading */
++/* FPN table loading */
+ #define ATOMISP_IOC_S_ISP_FPN_TABLE \
+ 	_IOW('v', BASE_VIDIOC_PRIVATE + 17, struct v4l2_framebuffer)
+ 
+-/* overlay image loading */
++/* Overlay image loading */
+ #define ATOMISP_IOC_G_ISP_OVERLAY \
+ 	_IOWR('v', BASE_VIDIOC_PRIVATE + 18, struct atomisp_overlay)
+ #define ATOMISP_IOC_S_ISP_OVERLAY \
+ 	_IOW('v', BASE_VIDIOC_PRIVATE + 18, struct atomisp_overlay)
+ 
+-/* bcd driver bridge */
++/* BCD driver bridge */
+ #define ATOMISP_IOC_CAMERA_BRIDGE \
+ 	_IOWR('v', BASE_VIDIOC_PRIVATE + 19, struct atomisp_bc_video_package)
+ 
+ #define ATOMISP_IOC_S_EXPOSURE \
+ 	_IOW('v', BASE_VIDIOC_PRIVATE + 21, struct atomisp_exposure)
+ 
+-/* white balance Correction */
++/* White balance correction */
+ #define ATOMISP_IOC_G_3A_CONFIG \
+ 	_IOR('v', BASE_VIDIOC_PRIVATE + 23, struct atomisp_3a_config)
+ #define ATOMISP_IOC_S_3A_CONFIG \
+@@ -773,7 +779,7 @@ enum atomisp_burst_capture_options {
+ #define ATOMISP_IOC_S_ISP_SHD_TAB \
+ 	_IOWR('v', BASE_VIDIOC_PRIVATE + 27, struct atomisp_shading_table)
+ 
+-/* Gamma Correction */
++/* Gamma correction */
+ #define ATOMISP_IOC_G_ISP_GAMMA_CORRECTION \
+ 	_IOR('v', BASE_VIDIOC_PRIVATE + 28, struct atomisp_gc_config)
+ 
+@@ -804,7 +810,7 @@ enum atomisp_burst_capture_options {
+ #define ATOMISP_IOC_S_ARRAY_RESOLUTION \
+ 	_IOW('v', BASE_VIDIOC_PRIVATE + 45, struct atomisp_resolution)
+ 
+-/* for depth mode sensor frame sync compensation */
++/* For depth mode sensor frame sync compensation */
+ #define ATOMISP_IOC_G_DEPTH_SYNC_COMP \
+ 	_IOR('v', BASE_VIDIOC_PRIVATE + 46, unsigned int)
+ 
+@@ -822,7 +828,7 @@ enum atomisp_burst_capture_options {
+  *	_IOW('v', BASE_VIDIOC_PRIVATE + 56, struct atomisp_sensor_regs)
+  */
+ 
+-/*  ISP Private control IDs */
++/* ISP Private control IDs */
+ #define V4L2_CID_ATOMISP_BAD_PIXEL_DETECTION \
+ 	(V4L2_CID_PRIVATE_BASE + 0)
+ #define V4L2_CID_ATOMISP_POSTPROCESS_GDC_CAC \
+@@ -836,8 +842,10 @@ enum atomisp_burst_capture_options {
+ #define V4L2_CID_ATOMISP_LOW_LIGHT \
+ 	(V4L2_CID_PRIVATE_BASE + 5)
+ 
+-/* Camera class:
+- * Exposure, Flash and privacy (indicator) light controls, to be upstreamed */
++/*
++ * Camera class:
++ * Exposure, Flash and privacy (indicator) light controls, to be upstreamed
++ */
+ #define V4L2_CID_CAMERA_LASTP1             (V4L2_CID_CAMERA_CLASS_BASE + 1024)
+ 
+ #define V4L2_CID_RUN_MODE			(V4L2_CID_CAMERA_LASTP1 + 20)
+@@ -879,7 +887,7 @@ enum atomisp_burst_capture_options {
+ #define V4L2_EVENT_ATOMISP_ACC_COMPLETE     (V4L2_EVENT_PRIVATE_START + 4)
+ #define V4L2_EVENT_ATOMISP_PAUSE_BUFFER	    (V4L2_EVENT_PRIVATE_START + 5)
+ #define V4L2_EVENT_ATOMISP_CSS_RESET	    (V4L2_EVENT_PRIVATE_START + 6)
+-/* Nonstandard color effects for V4L2_CID_COLORFX */
++/* Non-standard color effects for V4L2_CID_COLORFX */
+ enum {
+ 	V4L2_COLORFX_SKIN_WHITEN_LOW = 1001,
+ 	V4L2_COLORFX_SKIN_WHITEN_HIGH = 1002,
+diff --git a/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h b/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h
+index 426c5ee4ec18..74092af1c659 100644
+--- a/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h
++++ b/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h
+@@ -15,8 +15,7 @@ int atomisp_gmin_remove_subdev(struct v4l2_subdev *sd);
+ int gmin_get_var_int(struct device *dev, bool is_gmin,
+ 		     const char *var, int def);
+ struct camera_sensor_platform_data *
+-gmin_camera_platform_data(
+-    struct v4l2_subdev *subdev,
+-    enum atomisp_input_format csi_format,
+-    enum atomisp_bayer_order csi_bayer);
++	gmin_camera_platform_data(struct v4l2_subdev *subdev,
++				  enum atomisp_input_format csi_format,
++				  enum atomisp_bayer_order csi_bayer);
+ #endif
+diff --git a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
+index 6146555fe9cf..e8f91c55ba01 100644
+--- a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
++++ b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
+@@ -57,7 +57,8 @@ enum atomisp_input_format {
+ 	ATOMISP_INPUT_FORMAT_RAW_16,   /* RAW data, 16 bits per pixel */
+ 	ATOMISP_INPUT_FORMAT_BINARY_8, /* Binary byte stream. */
+ 
+-	/* CSI2-MIPI specific format: Generic short packet data. It is used to
++	/*
++	 * CSI2-MIPI specific format: Generic short packet data. It is used to
+ 	 * keep the timing information for the opening/closing of shutters,
+ 	 * triggering of flashes and etc.
+ 	 */
+@@ -70,18 +71,18 @@ enum atomisp_input_format {
+ 	ATOMISP_INPUT_FORMAT_GENERIC_SHORT7,  /* Generic Short Packet Code 7 */
+ 	ATOMISP_INPUT_FORMAT_GENERIC_SHORT8,  /* Generic Short Packet Code 8 */
+ 
+-	/* CSI2-MIPI specific format: YUV data.
+-	 */
+-	ATOMISP_INPUT_FORMAT_YUV420_8_SHIFT,  /* YUV420 8-bit (Chroma Shifted
+-						 Pixel Sampling) */
+-	ATOMISP_INPUT_FORMAT_YUV420_10_SHIFT, /* YUV420 8-bit (Chroma Shifted
+-						 Pixel Sampling) */
++	/* YUV data */
++	/* YUV420 8-bit (Chroma Shifted Pixel Sampling) */
++	ATOMISP_INPUT_FORMAT_YUV420_8_SHIFT,
++	/* YUV420 10-bit (Chroma Shifted Pixel Sampling) */
++	ATOMISP_INPUT_FORMAT_YUV420_10_SHIFT,
+ 
+-	/* CSI2-MIPI specific format: Generic long packet data
+-	 */
+-	ATOMISP_INPUT_FORMAT_EMBEDDED, /* Embedded 8-bit non Image Data */
++	/* CSI2-MIPI specific format: Generic long packet data */
++	/* Embedded 8-bit non Image Data */
++	ATOMISP_INPUT_FORMAT_EMBEDDED,
+ 
+-	/* CSI2-MIPI specific format: User defined byte-based data. For example,
++	/*
++	 * User defined byte-based data. For example,
+ 	 * the data transmitter (e.g. the SoC sensor) can keep the JPEG data as
+ 	 * the User Defined Data Type 4 and the MPEG data as the
+ 	 * User Defined Data Type 7.
+@@ -105,9 +106,9 @@ struct intel_v4l2_subdev_table {
+ };
+ 
+ /*
+- *  Sensor of external ISP can send multiple streams with different mipi data
++ * Sensor of external ISP can send multiple streams with different MIPI data
+  * type in the same virtual channel. This information needs to come from the
+- * sensor or external ISP
++ * sensor or external ISP.
+  */
+ struct atomisp_isys_config_info {
+ 	u8 input_format;
+@@ -118,16 +119,17 @@ struct atomisp_isys_config_info {
+ struct atomisp_input_stream_info {
+ 	enum atomisp_input_stream_id stream;
+ 	u8 enable;
+-	/* Sensor driver fills ch_id with the id
+-	   of the virtual channel. */
++	/* Sensor driver fills ch_id with the id of the virtual channel. */
+ 	u8 ch_id;
+-	/* Tells how many streams in this virtual channel. If 0 ignore rest
+-	 * and the input format will be from mipi_info */
++	/*
++	 * Tells the number of streams in this virtual channel. If 0, ignore rest
++	 * and the input format will be from mipi_info.
++	 */
+ 	u8 isys_configs;
+ 	/*
+-	 * if more isys_configs is more than 0, sensor needs to configure the
+-	 * input format differently. width and height can be 0. If width and
+-	 * height is not zero, then the corresponding data needs to be set
++	 * If isys_configs is more than 0, sensor needs to configure the
++	 * input format differently. Width and height can be 0. If width and
++	 * height are not zero, then the corresponding data needs to be set.
+ 	 */
+ 	struct atomisp_isys_config_info isys_info[MAX_STREAMS_PER_CHANNEL];
+ };
 -- 
-Kind regards,
+2.43.0
 
-Sakari Ailus
 
