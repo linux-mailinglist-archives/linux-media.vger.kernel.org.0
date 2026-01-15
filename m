@@ -1,95 +1,247 @@
-Return-Path: <linux-media+bounces-50741-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50742-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1DD4D22235
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 03:36:15 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 599F5D22369
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 03:59:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7DE08303B1A8
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 02:36:06 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0CE4E3026BEE
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jan 2026 02:58:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E06AD2673AA;
-	Thu, 15 Jan 2026 02:36:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA5EB275AF5;
+	Thu, 15 Jan 2026 02:58:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QA4C+0WL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3238221FDE;
-	Thu, 15 Jan 2026 02:36:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD7EC27874F
+	for <linux-media@vger.kernel.org>; Thu, 15 Jan 2026 02:58:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768444564; cv=none; b=VoZzthvhopcs/G86KpyLO1qr+Mzvvse33MWgefKtpe/IVdgX91Mfn7oQEcIQCAucAkew0+WGJ0/Dl4sFnXeaUBJzffcyZqY3Rkws91kzCEttQ06xcGb3GdOgpG43Z7zKNNccjORXy83EIWn4r7YceQizgh8P+VYoAObSrn08ZJE=
+	t=1768445936; cv=none; b=U53J2qFeOZ5XQRAGGqjl466lQnTDsVLWDpit+r0Um1tO3GKruUxu1ymn3xENuOfaJHzKLH3nu5Nym1jkigBg1bj2kleQmnqkkXfXLvaCyJWu3GgyaB8dJLtluwR3L3UJ+uCTT3J+A7G2mK3xxXO8gRPucX3OzoMywYYws1XKBw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768444564; c=relaxed/simple;
-	bh=fjAwJbx6/5I/lY349Xw5qM3nrMRr1HK8IJvTDBxQU48=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=I3KXdJSJ6HZuFjDc1TfAvubXO6E0CddDIm4qHQ/Q39b96R5N80jL6xBbIHFlIZQ3+LcsK7Gn/Bo/4RznKB6iYhNyCtH8tSxtygSfzCCAYT0tMsWvaMGh7Iwx996/B6cF6wQCeJ2zbHWCt+HQWzqu35C925J3+FgEvkH5RfXfkgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost (unknown [124.16.138.129])
-	by APP-03 (Coremail) with SMTP id rQCowAAXOuGIUmhpdFcxBQ--.31900S2;
-	Thu, 15 Jan 2026 10:35:52 +0800 (CST)
-From: Chen Ni <nichen@iscas.ac.cn>
-To: dan.scally@ideasonboard.com,
-	jacopo.mondi@ideasonboard.com,
-	mchehab@kernel.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] media: mali-c55: core: Remove redundant dev_err()
-Date: Thu, 15 Jan 2026 10:35:16 +0800
-Message-Id: <20260115023516.4142364-1-nichen@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1768445936; c=relaxed/simple;
+	bh=G0j5HAiR0C3JJjOni2dZdfpXBmHvJZ29uZYV9H6XczU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nyNA1JGE9/fKsgHEmDWwuwxuI89cw2yfspBVPdvhgyCwfFzcSab3dQtf+3Y6M3ux63c07XS3ftrIZj2IcwP01CwNzwhfbmsLDidnAdZ/vi9nYOHCjU5T6Rxnd/GvA+IIG4UwItLD0YlT88F2WlD+YvkOev+rFwlkPdmahM0C+sU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QA4C+0WL; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-382fb1e257bso582191fa.3
+        for <linux-media@vger.kernel.org>; Wed, 14 Jan 2026 18:58:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1768445933; x=1769050733; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=04QHhzYz2v+yNJO8IS9lKBiZ6dL208fyd5PVe/BXAQg=;
+        b=QA4C+0WLTqkasx+paTIXJtFZ3sRTPu9GXmpZWevkRG09GO3+zhSp/n0Mtspa5P1OTq
+         tVhoZmctfGe4f/l2sZFeRvRWzCpz0+BL/Zbwe42B2ZxQ+22CE4yU92u9tWOUhDhzgoAn
+         /eXL0FdOBNL18omzGV4RRbWPrWWk2ktImVRC91blG/J8exlKR2bnuEpJrn7SDdVHpVuY
+         uMoPLgIeIsb9klN40N4hCmSszZx6oaZfwTW8du8GRDLnTc/5Qxb20sMGOl53emmx8QQk
+         2JjQhyorVWhHy3dniZIQ7KG9T/IYMZY9wz5U/ex9SYBMSbAJZrJnnRxf2Ep0BRLecmKI
+         BEpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768445933; x=1769050733;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=04QHhzYz2v+yNJO8IS9lKBiZ6dL208fyd5PVe/BXAQg=;
+        b=OELpS+rj0WmZZvm9mNQszfpF5x3/bbvcdT3c+lkI5ive5dZQKeRDVdA0wSVvCkAtKk
+         SZjaLukxbVyY5pfqMHtitiI6ZtGF9xS0URhq971Rc+LhvxE2++tcLhhkO2uoTyXWt4yE
+         r4H6XK7tNZEw+peJUw51vdRLcSzDKDfY5G4mTPI4xrO8TJDjh8y5N4pDgqZNLmOiIDWa
+         d5dvLJXaZ3Tg/eSQNAlp4pznThis+mzljMgUcgDJgd2XUKbwdD2KLmomTU5OQzq3qBZF
+         VdI7ABdglHEpACCxPXWKuNjgcx5FUyHJDj4UcF24IUOpG5Yt7Va++34M6ameBJf2GPW9
+         ahHw==
+X-Forwarded-Encrypted: i=1; AJvYcCW5NBS5uS4rVTEe44EMd4PG7JRlEH/NTLQzwWqM7NfupAiOyTUkm2oH3FbiOfYvWGY1aA3SiWz05+rlNg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YykI7rNhGl8KERzEyIludg0DO9gdzpR0DJiVEtnJFioxjpKRCm7
+	IE1UrJOZQOLA8LdlrFewm0MwslruqAlkAjRdvhGW/a1tUWUvzRujs9fdHWVGgJSWg9Y=
+X-Gm-Gg: AY/fxX6ernxHW9IIQtHhuxNug1hZe8p545AVoBp25jsJpzh3t/vlo9YiwJx0935PVVJ
+	XdThID7Jz310TuiH1p0Xj21xXqVC1/q7kHmmbs7+McHoPWQJ28j9a7lTAp0/jIktsBzvD5BHW5C
+	Htxf13I6lH+9F8PD39i16yHMx6kZyu+DvEQdKdQrDyzK0sBDDSwj382npbvaIEqBXEMxHtUGGHe
+	QqYK+IaKpkNKzxYBc0paNpZzbYFn10bEllO5mJYo1xh7SU65xR9tMLUTw2SSnlzDYOPC+mn3l6x
+	4eIwJLi/BQo8e6Jx35X5GQS7ogHNrHrMJA7ie5nZf2i8rtE5lRq0h8qiF6FL3Viy1XhGWxQ30+f
+	dRShdtq5PyIlgmQdv1fHzNxkEplagOdF7NeXJWeiiE/3JduW4tSJs7OLfZCB7MNva91aKfTyC/s
+	m60017KqYmS8BkWcqMNuRBorryJZNTo+WqRJr6rQGoco6lh7kRNWnGlI0EmXYMmU1ZOQ==
+X-Received: by 2002:a05:6512:4017:b0:592:f383:3aad with SMTP id 2adb3069b0e04-59ba0f9f61emr890004e87.8.1768445932776;
+        Wed, 14 Jan 2026 18:58:52 -0800 (PST)
+Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59ba1045c55sm1219619e87.80.2026.01.14.18.58.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Jan 2026 18:58:51 -0800 (PST)
+Message-ID: <f1c4288f-983f-4a62-82fb-22d1ec56bed0@linaro.org>
+Date: Thu, 15 Jan 2026 04:58:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 1/3] media: qcom: camss: Add common TPG support
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org
+References: <20260113-camss_tpg-v8-0-fa2cb186a018@oss.qualcomm.com>
+ <20260113-camss_tpg-v8-1-fa2cb186a018@oss.qualcomm.com>
+ <87a31d4e-b604-4b9a-92e9-75fd2748489a@linaro.org>
+ <98a26638-675b-4654-a940-898ba9e1af9c@oss.qualcomm.com>
+ <e1907273-3d14-41ee-9a22-a963f2b83d20@linaro.org>
+ <a70f69e6-6ee6-4a96-88fc-c0ec4db48697@oss.qualcomm.com>
+ <641421a6-bf42-49f4-8f94-9cb0bce8e97c@linaro.org>
+ <f77e0d03-ba4a-4722-b575-7aee8e93f04b@linaro.org>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <f77e0d03-ba4a-4722-b575-7aee8e93f04b@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:rQCowAAXOuGIUmhpdFcxBQ--.31900S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7JF1xtry3JF1ktw4kGryUZFb_yoWDAwc_Ca
-	1Uu3y7X348AFyktr17tF1S9ryjyrZ5Cr48XanxKFsIq34vy3WUJr92vF1xZ347Xr42yFyU
-	ZFW5WrW3u3sIkjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbsxFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-	Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJV
-	W0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWrXVW3AwAv7VC2z280aVAFwI0_GcC_XcWlOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0262kKe7AKxVWU
-	AVWUtwCY02Avz4vE14v_Gr1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr
-	1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE
-	14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7
-	IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E
-	87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0x
-	ZFpf9x0pRNdbnUUUUU=
-X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
 
-The platform_get_irq_byname() function already prints an error message
-internally upon failure using dev_err_probe(). Therefore, the explicit
-dev_err() is redundant and results in duplicate error logs.
+On 1/15/26 03:06, Bryan O'Donoghue wrote:
+> On 14/01/2026 22:07, Vladimir Zapolskiy wrote:
+>> Hi Wenmeng.
+>>
+>> On 1/14/26 14:18, Wenmeng Liu wrote:
+>>>
+>>> Hi Vladimir,
+>>>
+>>>
+>>> On 1/14/2026 1:05 PM, Vladimir Zapolskiy wrote:
+>>>> Hi Wenmeng.
+>>>>
+>>>> On 1/14/26 05:04, Wenmeng Liu wrote:
+>>>>> Hi Vladimir,
+>>>>>
+>>>>> On 1/14/2026 12:27 AM, Vladimir Zapolskiy wrote:
+>>>>>> Hello Wenmeng.
+>>>>>>
+>>>>>> On 1/13/26 11:03, Wenmeng Liu wrote:
+>>>>>>> Introduce a new common Test Pattern Generator (TPG) implementation
+>>>>>>> for
+>>>>>>> Qualcomm CAMSS. This module provides a generic interface for pattern
+>>>>>>> generation that can be reused by multiple platforms.
+>>>>>>>
+>>>>>>> Unlike CSID-integrated TPG, this TPG acts as a standalone block
+>>>>>>> that emulates both CSIPHY and sensor behavior, enabling flexible test
+>>>>>>> patterns without external hardware.
+>>>>>>>
+>>>>>>> Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+>>>>>>> ---
+>>>>>>>      drivers/media/platform/qcom/camss/Makefile    |   1 +
+>>>>>>>      drivers/media/platform/qcom/camss/camss-tpg.c | 710 ++++++++++
+>>>>>>> ++++++
+>>>>>>> ++++++++++
+>>>>>>>      drivers/media/platform/qcom/camss/camss-tpg.h | 127 +++++
+>>>>>>>      drivers/media/platform/qcom/camss/camss.h     |   5 +
+>>>>>>>      4 files changed, 843 insertions(+)
+>>>>>>>
+>>>>>>> diff --git a/drivers/media/platform/qcom/camss/Makefile b/drivers/
+>>>>>>> media/platform/qcom/camss/Makefile
+>>>>>>> index
+>>>>>>> 5e349b4915130c71dbff90e73102e46dfede1520..d355e67c25700ac061b878543c32ed8defc03ad0 100644
+>>>>>>> --- a/drivers/media/platform/qcom/camss/Makefile
+>>>>>>> +++ b/drivers/media/platform/qcom/camss/Makefile
+>>>>>>> @@ -27,5 +27,6 @@ qcom-camss-objs += \
+>>>>>>>              camss-vfe.o \
+>>>>>>>              camss-video.o \
+>>>>>>>              camss-format.o \
+>>>>>>> +        camss-tpg.o \
+>>>>>>
+>>>>>> While you're here, please sort and keep the lines in alphabetical
+>>>>>> order.
+>>>>> ACK.
+>>>>>
+>>>>>>
+>>>>>>>      obj-$(CONFIG_VIDEO_QCOM_CAMSS) += qcom-camss.o
+>>>>>>> diff --git a/drivers/media/platform/qcom/camss/camss-tpg.c b/drivers/
+>>>>>>> media/platform/qcom/camss/camss-tpg.c
+>>>>>>> new file mode 100644
+>>>>>>> index
+>>>>>>> 0000000000000000000000000000000000000000..f4c015aafa202e5b64fafa3c543128fda6440b11
+>>>>>>> --- /dev/null
+>>>>>>> +++ b/drivers/media/platform/qcom/camss/camss-tpg.c
+>>>>>>> @@ -0,0 +1,710 @@
+>>>>>>> +// SPDX-License-Identifier: GPL-2.0
+>>>>>>> +/*
+>>>>>>> + *
+>>>>>>> + * Qualcomm MSM Camera Subsystem - TPG Module
+>>>>>>> + *
+>>>>>>> + * Copyright (c) Qualcomm Technologies, Inc. and/or its
+>>>>>>> subsidiaries.
+>>>>>>> + */
+>>>>>>> +#include <linux/clk.h>
+>>>>>>> +#include <linux/delay.h>
+>>>>>>> +#include <linux/io.h>
+>>>>>>> +#include <linux/kernel.h>
+>>>>>>> +#include <linux/of.h>
+>>>>>>> +#include <linux/platform_device.h>
+>>>>>>> +#include <linux/pm_runtime.h>
+>>>>>>> +#include <media/media-entity.h>
+>>>>>>> +#include <media/v4l2-device.h>
+>>>>>>> +#include <media/v4l2-subdev.h>
+>>>>>>> +
+>>>>>>> +#include "camss-tpg.h"
+>>>>>>> +#include "camss.h"
+>>>>>>> +
+>>>>>>> +const char * const testgen_payload_modes[] = {
+>>>>>>> +    "Disabled",
+>>>>>>> +    "Incrementing",
+>>>>>>> +    "Alternating 0x55/0xAA",
+>>>>>>> +    "Reserved",
+>>>>>>> +    "Reserved",
+>>>>>>> +    "Pseudo-random Data",
+>>>>>>> +    "User Specified",
+>>>>>>> +    "Reserved",
+>>>>>>> +    "Reserved",
+>>>>>>> +    "Color bars",
+>>>>>>> +    "Reserved"
+>>>>>>
+>>>>>> It makes little sense to mention the unsupported values, and then
+>>>>>> introduce enum tpg_testgen_mode to list the supported ones.
+>>>>>>
+>>>>> This is for ctrl menu, will do as follow:
+>>>>> static const char * const testgen_payload_modes[] = {
+>>>>>         [TPG_PAYLOAD_MODE_DISABLED]          = "Disabled",
+>>>>>         [TPG_PAYLOAD_MODE_INCREMENTING]      = "Incrementing",
+>>>>>         [TPG_PAYLOAD_MODE_ALTERNATING_55_AA]       = "Alternating
+>>>>> 0x55/0xAA",
+>>>>>         [TPG_PAYLOAD_MODE_RANDOM]      = "Pseudo-random Data",
+>>>>>         [TPG_PAYLOAD_MODE_USER_SPECIFIED]    = "User Specified",
+>>>>>         [TPG_PAYLOAD_MODE_COLOR_BARS]        = "Color bars",
+>>>>> };
+>>>>>
+>>>>
+>>>> This is also not perfect, still userspace is misinformed about a number
+>>>> of possible TPG modes vs. a number of actually supported TPG modes.
+>>>>
+>>> 0x0: INCREMENTING
+>>> 0x1: ALTERNATING_55_AA
+>>> 0x4: RANDOM
+>>> 0x5: USER_SPECIFIED
+>>> 0x8: COLOR_BARS
+>>>
+>>> These values come from the register configuration, these pattern values
+>>> are consistent with the CSID TPG.
+>>
+>> Userspace should not be aware of such low level details as register values,
+>> there are many abstraction layers in-between to hide this type of
+>> information.
+>>
+>> Writing proper values to registers should be a concern on the driver level,
+>> it sounds improper to push this simple task and responsibility to
+>> userspace.
+> 
+> I think we should stick to the same format as is already upstream for
+> the CSID version of this - which is the same data.
+> 
 
-Remove the redundant dev_err() call to clean up the error path.
+It is not the same and it will not be the same, if the currently presented
+version is taken. If TPG modes in CSID are continuous, here they are not,
+so it makes a big difference for userspace, and better it should be removed.
 
-Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
----
- drivers/media/platform/arm/mali-c55/mali-c55-core.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-core.c b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-index 43b834459ccf..ab8f7f6f3be1 100644
---- a/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-+++ b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-@@ -868,7 +868,6 @@ static int mali_c55_probe(struct platform_device *pdev)
- 	mali_c55->irqnum = platform_get_irq(pdev, 0);
- 	if (mali_c55->irqnum < 0) {
- 		ret = mali_c55->irqnum;
--		dev_err(dev, "failed to get interrupt\n");
- 		goto err_deinit_media_frameworks;
- 	}
- 
 -- 
-2.25.1
-
+Best wishes,
+Vladimir
 
