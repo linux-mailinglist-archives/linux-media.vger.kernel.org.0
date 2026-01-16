@@ -1,189 +1,86 @@
-Return-Path: <linux-media+bounces-50841-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50842-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0407D2DBCE
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 09:11:05 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E2AFD2DF57
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 09:23:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id DF9E0301937E
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 08:11:04 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 24D15301C0B7
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 08:23:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2ABE2F1FE7;
-	Fri, 16 Jan 2026 08:11:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BA672FFDD8;
+	Fri, 16 Jan 2026 08:23:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ChiTev5k"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PCptigFF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDAA42EAD09
-	for <linux-media@vger.kernel.org>; Fri, 16 Jan 2026 08:11:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 920E8238D22;
+	Fri, 16 Jan 2026 08:23:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768551063; cv=none; b=t0UU4ySaYJnamCluCnfA6Gb7w1DoMwLy5Yholfn4CN1BwGWgm3raWE79UPhklU4F4n4DDZmLUJzoaywtaELK4TEx2rd0ihYMXPS6eIBhvFxwYphI2BGGuYFyogpKH95m43xkrvXLEGtjk2Sp5kqKC5LXrvHrjJgL8tL4n1zGjcE=
+	t=1768551802; cv=none; b=QOU70Wp1/gUUJ/oSA7mJXfOXbHyfcOh98ePBlh0GenkOfBVIeVA4/9ocHXcorNRu8MAR0M8rJ4uoOh82qm/pKg4JI9dg/LcWTDWfo6IROtFxTuSO3z2TIj2w0sPDTbysfOIP0/W2MjBDecCwWiqzTnb1MTBQ7k3Ed3dkCRBeyvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768551063; c=relaxed/simple;
-	bh=V2tFe0XUwxqTapekW1Mzx/DadAu9gNFcir/81DpoFHQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TihDNbnJcRlJmPRfraWMWBx5dqACaVmppxDH0eprMXu0u/79Ukm+M4dgzoxyx5W4uqTkbHxIlIIIsNSFhKyZitnBJr03ctEKApPSlbpftVPsvet0ltX49YiRfZltDytixJPGbitu8pxedz0Zi9z59AfnmHn8kiuXMaOxC+IEmbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ChiTev5k; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b8710c9cddbso241945866b.2
-        for <linux-media@vger.kernel.org>; Fri, 16 Jan 2026 00:11:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768551060; x=1769155860; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+FlQ8Fy3LtvyqW1w8wqJOR68E11Ksdj0bttuuvoGMFI=;
-        b=ChiTev5knvFfjnqbmYCoRVTBcXYwumuOIj0dESG578kkIt9ZITi6Pk+ycsV4k2jEb/
-         1RNddF5lsSAHmFwjnxc0JqUy/7CbnmURuevUEemM6vYlKx1a1v38BvNlGD0ArJXOkypK
-         +2ScGbRF4fSHi9Im/A475DvCTmIoTc9UlgVHr6ud6Pp2x1hFSFkvIdPoYdacpbEEPbWg
-         3uC1vHwiUDk7TJcT74QBg3pR3zTRiO0yxQ0KDLOwuolbG2ccdUpM9IWYlOzWJnBLTDyf
-         5GSOgKGVq5Lk2XxRfrHENnfbLGafrwEwX31/QuU54tvFNr+IjIx5yQ5XosrVBp3LL+EA
-         /DEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768551060; x=1769155860;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+FlQ8Fy3LtvyqW1w8wqJOR68E11Ksdj0bttuuvoGMFI=;
-        b=a5l75RXGxkAPH9CMmCIRn27HPtyY+iCyLql7kXaZnd+k6K1bIstTnFmRyZksNtWk8l
-         TRgigC5+nifPBBkt8a4Qckf05ki11T6srERaZ+d9wUtu5HRaBZ2DhIwWSLFUnptdZrP9
-         gRM0+9VVzIurdwXTWN7Px6bnV0WIKLBBW69qdpCIElGFJIz/4LsVBLwWG/eQZTB7FMkP
-         8/mTfSb6YatNLSIoQtF49K8R6dJNfxJQKeFxLul74dMpHoPS50PSJLEFMwZfvK/qxjzI
-         hDFdUskHb2/yqmAKQbIFuStBkJO7NicqErjsJF2//zfcZUPislW+moFMdDsShFVo/1wc
-         kl5w==
-X-Forwarded-Encrypted: i=1; AJvYcCWkbi+ADR7/c8h9neRaHriJoo3LxmhDVmSO654p/fnK0wbqzFzJckL5TARgryDQ3sEKXYfNZLKeG7fedw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyOv1uihSGDxEi5sbf96L4/4qQR0LtjLkR8W6py7PQzeUGddiOI
-	LHpzUhBb6rN3odyKx8W4Dn5Snj/By/SPkksmpu6vzyeDzBr1sZcB4rmp8f8TRdRR85qob+Bjz00
-	vpbRuQwz5OZcg87zarMzM1BkMjm7oa2Ze/xEt
-X-Gm-Gg: AY/fxX6AYGeXw5y55sUgPNyHZaEuNx8I7gxCN+GCBR4neFrrowThwEVUt1DCcGglh2M
-	8GgJh/u6dpSwxArXoI6cjgXqZoa+e5STsMri/joidsrxWsDXfDHTEyCrArd4+sqSaUxG053Mw0W
-	vlAXogzAjnGyXeNopqoUEJuh/2lzvaQMRSPKGfLFumkxXs727bIYSp9yO7FscXv2R5mx9/rUrLN
-	guhn2DCAcnaaYEaJyBALQkLXk59ngpefDlyrTVTH7z8klZmhe9gEP2TeUQptiNG2/E2n6suQyhq
-	+3hnVHfgXfzm/cygzvRS7Aalaou8ojVDX2y4Ihs3QxbeZzfNd4j1m9tFnYFAol0agnrA9s4=
-X-Received: by 2002:a17:907:7f90:b0:b83:1376:2bb6 with SMTP id
- a640c23a62f3a-b8796afd58dmr129649966b.40.1768551060099; Fri, 16 Jan 2026
- 00:11:00 -0800 (PST)
+	s=arc-20240116; t=1768551802; c=relaxed/simple;
+	bh=S1kIUZKIzsRuosOO161eQC66tPw79XmUGVuFAOWHQ/s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZG/mdJHPLo+gmmXYgb3b8S4iOhLy86NaJU3FHZG/WLMviOXoTWazONaPMP1EgZEuPuLqoI74R057UiV1EiWrP3/Gd80DlApSMI6lgshWuV8+Prg9dQlnEdOOFbYh+2DnLC0XNe5MoItIZeG2iUdqy9AhnsDQ1u6ZrHnOMiFOBqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PCptigFF; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91E74C116C6;
+	Fri, 16 Jan 2026 08:23:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768551802;
+	bh=S1kIUZKIzsRuosOO161eQC66tPw79XmUGVuFAOWHQ/s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PCptigFFnLQ71JdSojmjSSSH3PChgvA/bck8jnhpZjM6/5o5a7Ae4LmLEdi51uReU
+	 uMD1VYcdi3o3H/iOp0/iTAffYsqBu2wvQnG3a7UA9cIAEhkG+FVfVC6S0KogolbJzx
+	 bmSVq/Fd94J5kV9Q7D5QW9qp2W7iA3rvvQ7PUHtI5jPLDV3bqBXGm3RJuAjhlqflrz
+	 u+wqjWzUlGePdVwwuiwQ08NmRbc5Tb6ynrWhnLEYTXVJG95hf1IWGodAq1QIXkd3BS
+	 PBdFFFCpvKSNhpgrKFslu9f0888sDxU7mLtD85wRUjsucnuGBlwA+ApZYe8KIhBBOD
+	 SPmSjkyIs051w==
+Date: Fri, 16 Jan 2026 09:23:19 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Michael Riesch <michael.riesch@collabora.com>
+Cc: Chaoyi Chen <chaoyi.chen@rock-chips.com>, 
+	Kever Yang <kever.yang@rock-chips.com>, Frank Li <Frank.li@nxp.com>, 
+	Mehdi Djait <mehdi.djait@linux.intel.com>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans Verkuil <hverkuil@kernel.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Heiko Stuebner <heiko@sntech.de>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Sebastian Reichel <sebastian.reichel@collabora.com>, Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
+	Collabora Kernel Team <kernel@collabora.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/3] media: dt-bindings: add rockchip mipi csi-2
+ receiver
+Message-ID: <20260116-alluring-chestnut-ibis-5cc776@quoll>
+References: <20251114-rockchip-mipi-receiver-v4-0-a9c86fecd052@collabora.com>
+ <20251114-rockchip-mipi-receiver-v4-1-a9c86fecd052@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260116072121.7591-1-hamdankhan212@gmail.com>
-In-Reply-To: <20260116072121.7591-1-hamdankhan212@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 16 Jan 2026 10:10:23 +0200
-X-Gm-Features: AZwV_QiyUOIxQjOUH_5Eh5Y3o_DUAbRTOzttku8_jqkoyIAjLFnwWX66dCRK5Ow
-Message-ID: <CAHp75Vefv2PCtd-xOw+7906g7MxXVzSE7cOm-xJ_fxe_arCx5w@mail.gmail.com>
-Subject: Re: [PATCH v4] staging: media: atomisp: Fix typos and formatting in headers
-To: Hamdan Khan <hamdankhan212@gmail.com>
-Cc: gregkh@linuxfoundation.org, andy@kernel.org, hansg@kernel.org, 
-	mchehab@kernel.org, sakari.ailus@linux.intel.com, dave.hansen@linux.intel.com, 
-	tony.luck@intel.com, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251114-rockchip-mipi-receiver-v4-1-a9c86fecd052@collabora.com>
 
-On Fri, Jan 16, 2026 at 9:21=E2=80=AFAM Hamdan Khan <hamdankhan212@gmail.co=
-m> wrote:
->
-> This patch updates block and inline comments to follow kernel
+On Thu, Jan 15, 2026 at 07:26:07PM +0100, Michael Riesch wrote:
+> Add documentation for the Rockchip MIPI CSI-2 Receiver.
+> 
+> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
+> Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
+> ---
+>  .../bindings/media/rockchip,rk3568-mipi-csi2.yaml  | 141 +++++++++++++++++++++
+>  MAINTAINERS                                        |   6 +
+>  2 files changed, 147 insertions(+)
 
-s/This patch updates/Update/
-The recommendation to use imperative mode is documented in the
-Submitting Patches.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-> commenting conventions, fixes typos and wording, and reformats
-> long comments for clarity and line length consistency.
->
-> Although some comments used the /** ... */ style, they are not
-> kernel-doc comments and are converted to normal comment style.
->
-> No functional changes are intended.
+Best regards,
+Krzysztof
 
-...
-
-> struct atomisp_3a_statistics {
-
->         struct atomisp_3a_output __user *data;
->         struct atomisp_3a_rgby_output __user *rgby_data;
->         u32 exp_id; /* exposure ID */
-> -       u32 isp_config_id; /* isp config ID */
-> +       u32 isp_config_id; /* ISP config ID */
-
-Useless comment (no added value), just drop it completely.
-
->  };
-
-...
-
->  struct atomisp_resolution {
-> -       u32 width;  /** Width */
-> -       u32 height; /** Height */
-> +       u32 width;  /* Width */
-> +       u32 height; /* Height */
->  };
-
-Ditto.
-
-...
-
->  struct atomisp_zoom_point {
-> -       s32 x; /** x coordinate */
-> -       s32 y; /** y coordinate */
-> +       s32 x; /* x coordinate */
-> +       s32 y; /* y coordinate */
->  };
-
-Ditto.
-
-Also double check the rest. The rule of thumb is if the comment just
-describes what's obvious from the variable name (without knowing the
-driver code and design), drop the useless comment.
-
-...
-
->         /* GDC shit size [BQ] */
-
-Probably we need to fix this "shit"...
-
->         struct dvs2_bq_resolution gdc_shift_bq;
-
-...
-
-> +       /*
-> +        * The overlay start x pixel position on output frame. It should =
-be a
-
-"start x"
-on the output
-
-> +        * multiple of 2 * ISP_VEC_NELEMS.
-> +        */
->         unsigned int overlay_start_x;
-
-...
-
-> +       /*
-> +        * The overlay start y pixel position on output frame. It should =
-be a
-> +        * multiple of 2.
-> +        */
->         unsigned int overlay_start_y;
-
-As per above.
-
-...
-
-> +/* MACC parameter control*/
-
-Fix the spacing in all comments you touched.
-
---=20
-With Best Regards,
-Andy Shevchenko
 
