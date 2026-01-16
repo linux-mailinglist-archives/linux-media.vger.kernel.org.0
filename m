@@ -1,266 +1,143 @@
-Return-Path: <linux-media+bounces-50824-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50825-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5E30D2C99C
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 07:35:04 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3308AD2CE7C
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 08:07:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D94963035278
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 06:34:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4498D3042FD3
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 07:07:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4734D34D90C;
-	Fri, 16 Jan 2026 06:34:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7220C34F24E;
+	Fri, 16 Jan 2026 07:07:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C0AyPmB7"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oz3jT53u"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4852D25EF9C
-	for <linux-media@vger.kernel.org>; Fri, 16 Jan 2026 06:34:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB6702DEA86;
+	Fri, 16 Jan 2026 07:07:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768545285; cv=none; b=ZdsJ1TvNTPrEaRmxBilxkGxvBTrF0lbFdnAwe81zd7/Zng17OC/SRh9Oqy/62GgebJHWwvdIC/iHVI2zMfS4uSykytxXKKH6/3TqferNJcrnf5LQrGCnYlQegFrpTCR19UngFJdw3UehuB6CBM8l6UUvICki3KYSdF6F7yTXJS4=
+	t=1768547247; cv=none; b=gpFqDRnr3JYjsFMkLzvrnQudpjnU7l+dLf8MKOUwBLpL3di6/qD841gmCFrMfo/moSndfPar1b/o0+xVLVZ2eQf/xITvsvkglC5KH3Y/Bug4Wbuj75tz6Zde9YijSZVdIZal09d197yKtoq10zO+RYKHX0Gt8UjdsgxnYWHbzrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768545285; c=relaxed/simple;
-	bh=ZLBDqKv7JVHijeGJ4uG1U/AKIJvxsB4k1qcHQr/wfMQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tqz+9WI9WGG+MFKz8nWTzYxvcdGDLYVuZAf4e4vVGoHWFIep0s3SQwuXgv1hbpsvYTBL+45gmKDbsG3miHpL9o7H3nMgxWvR2DOCe9pYr8g2qo2I7YwQImJE9Uels5n67qXjeC6RwW6kdfcKchrcASSe68+MVaqehAmePapjBMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C0AyPmB7; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768545284; x=1800081284;
-  h=date:from:to:cc:subject:message-id;
-  bh=ZLBDqKv7JVHijeGJ4uG1U/AKIJvxsB4k1qcHQr/wfMQ=;
-  b=C0AyPmB7RwqBiEGY5hrEmSBCd/iSdL9HrRwxuQzNxu/LL0qV5biWe+6Z
-   Cynr0GN09NWG834yob3SzXd624fKb3EHjxqtuaVN/0moOKX2+rrKdpHGg
-   EF/LtuSqfLnLGIK1uamQlw+DNlQb2Ehzf2fpEW3Da8er+C6FLQVscwJOk
-   y0QkftEK7zgU+4cXK039x2gMdIykBbkmHYvN7fkkhsCOOzd+Nfcux6IaK
-   Cxy37tz6eaaOykQFl9ADWNUy65mA4VjAa+QgqE3YpVYsOQOAmR43Z6BYh
-   FxATuC+Eh28n412QSK1jQXEE/Ne2saS1Q4xSOgFYhGenwnkfVPaN9JFsm
-   A==;
-X-CSE-ConnectionGUID: 5QEXKbN7QjmjUOhx5HKHtw==
-X-CSE-MsgGUID: 4GDisQQBSue8wP+21UfIcA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="69949831"
-X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; 
-   d="scan'208";a="69949831"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 22:34:44 -0800
-X-CSE-ConnectionGUID: mXW1isgxQxeo7CFe95qSDQ==
-X-CSE-MsgGUID: xanaVc9+QFWi1t2OXcPa8g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; 
-   d="scan'208";a="204307357"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 15 Jan 2026 22:34:42 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vgdPr-00000000KUG-2Snm;
-	Fri, 16 Jan 2026 06:34:39 +0000
-Date: Fri, 16 Jan 2026 14:33:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org
-Subject: [linuxtv-media-pending:next] BUILD SUCCESS
- dc6c52205bdaddf1dc259497a958402b35c01fe2
-Message-ID: <202601161437.B83cg6Jc-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1768547247; c=relaxed/simple;
+	bh=c99MDF9q1u7+i6n3zOJX6X91LyEGUnH55p+NHf1eRAQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=uCwZd6bn8ePRcOrzfG9tpSRxVCOHvE04bEvO2gidei2Seh/+2AP50bKpMM5XoE0fTQsUz1pbYy6VTm6Qph6fzmSF2cy9BFz8+6pSnWNjxBS84riebwiqiKg6epwjpmso0lrH4vP3fsRw+t1iadTCGmF1Wk/kaLeBHV0AIM5Z+20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oz3jT53u; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c31:76ee:df3c:dc54:9316:8c06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BA2984B3;
+	Fri, 16 Jan 2026 08:06:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1768547210;
+	bh=c99MDF9q1u7+i6n3zOJX6X91LyEGUnH55p+NHf1eRAQ=;
+	h=From:Subject:Date:To:Cc:From;
+	b=oz3jT53uLeBLhUeIRAQ7XjL55/0OWrCrPBuEGMfa/rGf6N7qrUg4JZv1Lle0NzYay
+	 YEBfquMZDBJfBcYFCnvB5+WWqK4pE00yp9+J74rrRjbC4PeG9LZ8NpupwMP1oPT+wO
+	 cmz936/dEKxOxz2yLkbapBuQLbIWcmzv44ok3nuE=
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+Subject: [PATCH v2 0/2] media: staging: Drop StarFive JH7110 Camera
+ Subsystem
+Date: Fri, 16 Jan 2026 12:36:57 +0530
+Message-Id: <20260116-drop-starfive-camss-v2-0-34df57025921@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJHjaWkC/32NQQ6CMBBFr2K6dkxbUhFX3sOwKO1UZgElM6TRE
+ O5u5QAu30v++5sSZEJR99OmGAsJ5bmCPZ9UGP38QqBYWVltr9oYB5HzArJ6TlQQgp9EwA5dSm1
+ ITWONqsuFMdH7qD77yiPJmvlznBTzs/97xYAG2zqnsfXdzbgHRfSS5yF7jpeQJ9Xv+/4FdAmly
+ r0AAAA=
+X-Change-ID: 20260115-drop-starfive-camss-2b9ff7cf3321
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Changhuang Liang <changhuang.liang@starfivetech.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Rishikesh Donadkar <r-donadkar@ti.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-staging@lists.linux.dev, Jai Luthra <jai.luthra@ideasonboard.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2586;
+ i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
+ bh=c99MDF9q1u7+i6n3zOJX6X91LyEGUnH55p+NHf1eRAQ=;
+ b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBpaeOdaFIshWbaCs13lSsXrXGeWAHB+7/g0YAEn
+ rADFpOCvH+JAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaWnjnQAKCRBD3pH5JJpx
+ Ra8sEACInfFOzocJusNdQM+6vf7g5ktmoVIkqAyRdcEJsPo2IEXpkmw6/bHo6jkcPXBxmpZPWUY
+ X7HfKRb4wLXeBgcXGb+zHhrc6DT/tixIh10k57Qtzbu2ENGvgVk+3P6GYoWqKCKVGiVLpS1Xuxr
+ D+YMbmS+40ycwsiMyzamKF0ULXcfk6eig7HIsCvs4RiVo/u+tjwrcUW6ht5KMeaNES5AEXbETA9
+ PsaZovLKZl3G2RjhtklFdpHCo0tYchKmVo4T1nvPYVPWVjZ/oyPO0XSpNeXia3+8wg9bA8ZheWr
+ cMkp7MyYnzsj90dY6QixkiJSXrVNGe6beEn5VKobfu6Lo6NYMvOVsb2dmbvGRJwqVihrcv13QDA
+ WA89h2X0PovTvlQD5NSczRdqPTP7K1I14pPfKVz7zNmWG2Ac9knjmjtU9fiNgCotiVKBCsa7U+t
+ 3ArWRX3uQjz8fSI8iwbaS6JwtB4a4aiXIGgwm5/eTAFgxOlFeWlHgeh/ISAyZ7MBtIWUaGsn/fK
+ L83Tsqrud2SvRVGGNCyTOCcDn8Apk6q2WEseWUn6INLdTeljdT41nJgWiz/Foy9+akw/R2aCcEF
+ OXTKxNsZRHaw191m4pareuuUISXg2TuffAyfIUplgA8lA/xkrlpYt1cSbJoSUlyX1ckikF5+w5F
+ 7CrxZkAk7MEJJ9w==
+X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
+ fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
 
-tree/branch: https://git.linuxtv.org/media-ci/media-pending.git next
-branch HEAD: dc6c52205bdaddf1dc259497a958402b35c01fe2  media: ipu6: Always call video_device_pipeline_alloc_start()
+StarFive no longer plans to maintain or develop the JH7110 camera
+subsystem for destaging, as discussed in below thread:
 
-elapsed time: 1043m
+https://lore.kernel.org/all/ZQ0PR01MB13024A92926C415C187D2C18F29F2@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn/
 
-configs tested: 175
-configs skipped: 2
+So drop the driver and bindings from staging. This came up while adding
+support for streams APIs in Cadence CSI2RX driver, which is used both by
+StarFive and TI in their capture pipelines:
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+https://lore.kernel.org/all/20260114130522.GE25101@pendragon.ideasonboard.com/
 
-tested configs:
-alpha                             allnoconfig    gcc-15.2.0
-alpha                            allyesconfig    gcc-15.2.0
-arc                              allmodconfig    clang-16
-arc                               allnoconfig    gcc-15.2.0
-arc                              allyesconfig    clang-22
-arc                   randconfig-001-20260116    gcc-8.5.0
-arc                   randconfig-002-20260116    gcc-8.5.0
-arc                    vdk_hs38_smp_defconfig    clang-22
-arm                               allnoconfig    gcc-15.2.0
-arm                              allyesconfig    clang-16
-arm                       imx_v4_v5_defconfig    clang-22
-arm                            qcom_defconfig    clang-22
-arm                   randconfig-001-20260116    gcc-8.5.0
-arm                   randconfig-002-20260116    gcc-8.5.0
-arm                   randconfig-003-20260116    gcc-8.5.0
-arm                   randconfig-004-20260116    gcc-8.5.0
-arm                       spear13xx_defconfig    clang-22
-arm64                            allmodconfig    clang-22
-arm64                             allnoconfig    gcc-15.2.0
-arm64                 randconfig-001-20260116    clang-22
-arm64                 randconfig-002-20260116    clang-22
-arm64                 randconfig-003-20260116    clang-22
-arm64                 randconfig-004-20260116    clang-22
-csky                             allmodconfig    gcc-15.2.0
-csky                              allnoconfig    gcc-15.2.0
-csky                  randconfig-001-20260116    clang-22
-csky                  randconfig-002-20260116    clang-22
-hexagon                          allmodconfig    gcc-15.2.0
-hexagon                           allnoconfig    gcc-15.2.0
-hexagon               randconfig-001-20260116    clang-20
-hexagon               randconfig-002-20260116    clang-20
-i386                             allmodconfig    clang-20
-i386                              allnoconfig    gcc-15.2.0
-i386                             allyesconfig    clang-20
-i386        buildonly-randconfig-001-20260116    gcc-12
-i386        buildonly-randconfig-002-20260116    gcc-12
-i386        buildonly-randconfig-003-20260116    gcc-12
-i386        buildonly-randconfig-004-20260116    gcc-12
-i386        buildonly-randconfig-005-20260116    gcc-12
-i386        buildonly-randconfig-006-20260116    gcc-12
-i386                  randconfig-001-20260116    clang-20
-i386                  randconfig-002-20260116    clang-20
-i386                  randconfig-003-20260116    clang-20
-i386                  randconfig-004-20260116    clang-20
-i386                  randconfig-005-20260116    clang-20
-i386                  randconfig-006-20260116    clang-20
-i386                  randconfig-007-20260116    clang-20
-i386                  randconfig-011-20260116    clang-20
-i386                  randconfig-012-20260116    clang-20
-i386                  randconfig-013-20260116    clang-20
-i386                  randconfig-014-20260116    clang-20
-i386                  randconfig-015-20260116    clang-20
-i386                  randconfig-016-20260116    clang-20
-i386                  randconfig-017-20260116    clang-20
-loongarch                        allmodconfig    clang-22
-loongarch                         allnoconfig    gcc-15.2.0
-loongarch                           defconfig    clang-19
-loongarch             randconfig-001-20260116    clang-20
-loongarch             randconfig-002-20260116    clang-20
-m68k                             allmodconfig    gcc-15.2.0
-m68k                              allnoconfig    gcc-15.2.0
-m68k                             allyesconfig    clang-16
-m68k                                defconfig    clang-19
-microblaze                        allnoconfig    gcc-15.2.0
-microblaze                       allyesconfig    gcc-15.2.0
-microblaze                          defconfig    clang-19
-mips                             allmodconfig    gcc-15.2.0
-mips                              allnoconfig    gcc-15.2.0
-mips                             allyesconfig    gcc-15.2.0
-mips                     cu1830-neo_defconfig    clang-22
-nios2                            allmodconfig    clang-22
-nios2                             allnoconfig    clang-22
-nios2                               defconfig    clang-19
-nios2                 randconfig-001-20260116    clang-20
-nios2                 randconfig-002-20260116    clang-20
-openrisc                         allmodconfig    clang-22
-openrisc                          allnoconfig    clang-22
-openrisc                            defconfig    gcc-15.2.0
-parisc                           allmodconfig    gcc-15.2.0
-parisc                            allnoconfig    clang-22
-parisc                           allyesconfig    clang-19
-parisc                              defconfig    gcc-15.2.0
-parisc                randconfig-001-20260116    clang-22
-parisc                randconfig-002-20260116    clang-22
-parisc64                            defconfig    clang-19
-powerpc                          allmodconfig    gcc-15.2.0
-powerpc                           allnoconfig    clang-22
-powerpc                      cm5200_defconfig    clang-22
-powerpc                        fsp2_defconfig    clang-22
-powerpc                 mpc837x_rdb_defconfig    clang-22
-powerpc               randconfig-001-20260116    clang-22
-powerpc               randconfig-002-20260116    clang-22
-powerpc                         wii_defconfig    clang-22
-powerpc64             randconfig-001-20260116    clang-22
-powerpc64             randconfig-002-20260116    clang-22
-riscv                            allmodconfig    clang-22
-riscv                             allnoconfig    clang-22
-riscv                            allyesconfig    clang-16
-riscv                               defconfig    gcc-15.2.0
-riscv                 randconfig-001-20260116    gcc-15.2.0
-riscv                 randconfig-002-20260116    gcc-15.2.0
-s390                             allmodconfig    clang-19
-s390                              allnoconfig    clang-22
-s390                             allyesconfig    gcc-15.2.0
-s390                          debug_defconfig    clang-22
-s390                                defconfig    gcc-15.2.0
-s390                  randconfig-001-20260116    gcc-15.2.0
-s390                  randconfig-002-20260116    gcc-15.2.0
-sh                               allmodconfig    gcc-15.2.0
-sh                                allnoconfig    clang-22
-sh                               allyesconfig    clang-19
-sh                        apsh4ad0a_defconfig    clang-22
-sh                                  defconfig    gcc-14
-sh                    randconfig-001-20260116    gcc-15.2.0
-sh                    randconfig-002-20260116    gcc-15.2.0
-sh                          rsk7269_defconfig    clang-22
-sh                        sh7763rdp_defconfig    clang-22
-sparc                             allnoconfig    clang-22
-sparc                               defconfig    gcc-15.2.0
-sparc                 randconfig-001-20260116    gcc-10.5.0
-sparc                 randconfig-002-20260116    gcc-10.5.0
-sparc64                          allmodconfig    clang-22
-sparc64                             defconfig    gcc-14
-sparc64               randconfig-001-20260116    gcc-10.5.0
-sparc64               randconfig-002-20260116    gcc-10.5.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-22
-um                               allyesconfig    gcc-15.2.0
-um                                  defconfig    gcc-14
-um                             i386_defconfig    gcc-14
-um                    randconfig-001-20260116    gcc-10.5.0
-um                    randconfig-002-20260116    gcc-10.5.0
-um                           x86_64_defconfig    gcc-14
-x86_64                           alldefconfig    clang-22
-x86_64                           allmodconfig    clang-20
-x86_64                            allnoconfig    clang-22
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20260116    gcc-14
-x86_64      buildonly-randconfig-002-20260116    gcc-14
-x86_64      buildonly-randconfig-003-20260116    gcc-14
-x86_64      buildonly-randconfig-004-20260116    gcc-14
-x86_64      buildonly-randconfig-005-20260116    gcc-14
-x86_64      buildonly-randconfig-006-20260116    gcc-14
-x86_64                              defconfig    gcc-14
-x86_64                                  kexec    clang-20
-x86_64                randconfig-001-20260116    clang-20
-x86_64                randconfig-002-20260116    clang-20
-x86_64                randconfig-003-20260116    clang-20
-x86_64                randconfig-004-20260116    clang-20
-x86_64                randconfig-005-20260116    clang-20
-x86_64                randconfig-006-20260116    clang-20
-x86_64                randconfig-011-20260116    clang-20
-x86_64                randconfig-012-20260116    clang-20
-x86_64                randconfig-013-20260116    clang-20
-x86_64                randconfig-014-20260116    clang-20
-x86_64                randconfig-015-20260116    clang-20
-x86_64                randconfig-016-20260116    clang-20
-x86_64                randconfig-071-20260116    clang-20
-x86_64                randconfig-072-20260116    clang-20
-x86_64                randconfig-073-20260116    clang-20
-x86_64                randconfig-074-20260116    clang-20
-x86_64                randconfig-075-20260116    clang-20
-x86_64                randconfig-076-20260116    clang-20
-x86_64                               rhel-9.4    clang-20
-x86_64                           rhel-9.4-bpf    gcc-14
-x86_64                          rhel-9.4-func    clang-20
-x86_64                    rhel-9.4-kselftests    clang-20
-x86_64                         rhel-9.4-kunit    gcc-14
-x86_64                           rhel-9.4-ltp    gcc-14
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                           alldefconfig    clang-22
-xtensa                            allnoconfig    clang-22
-xtensa                           allyesconfig    clang-22
-xtensa                randconfig-001-20260116    gcc-10.5.0
-xtensa                randconfig-002-20260116    gcc-10.5.0
+Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+---
+Changes in v2:
+- Add Changhuang's Ack on PATCH 1
+- Fix PATCH 2 to also drop reference to the starfive camss documentation
+  in v4l-drivers.rst
+- Link to v1: https://lore.kernel.org/r/20260115-drop-starfive-camss-v1-0-27550e7a9815@ideasonboard.com
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+---
+Jai Luthra (2):
+      media: dt-bindings: Drop starfive,jh7110-camss from staging
+      media: staging: Drop starfive-camss from staging
+
+ Documentation/admin-guide/media/starfive_camss.rst |  72 ---
+ .../admin-guide/media/starfive_camss_graph.dot     |  12 -
+ Documentation/admin-guide/media/v4l-drivers.rst    |   1 -
+ .../bindings/media/starfive,jh7110-camss.yaml      | 180 ------
+ MAINTAINERS                                        |   9 -
+ drivers/staging/media/Kconfig                      |   2 -
+ drivers/staging/media/Makefile                     |   1 -
+ drivers/staging/media/starfive/Kconfig             |   5 -
+ drivers/staging/media/starfive/Makefile            |   2 -
+ drivers/staging/media/starfive/camss/Kconfig       |  18 -
+ drivers/staging/media/starfive/camss/Makefile      |  13 -
+ drivers/staging/media/starfive/camss/TODO.txt      |   4 -
+ drivers/staging/media/starfive/camss/stf-camss.c   | 438 ---------------
+ drivers/staging/media/starfive/camss/stf-camss.h   | 134 -----
+ drivers/staging/media/starfive/camss/stf-capture.c | 605 ---------------------
+ drivers/staging/media/starfive/camss/stf-capture.h |  86 ---
+ .../staging/media/starfive/camss/stf-isp-hw-ops.c  | 445 ---------------
+ drivers/staging/media/starfive/camss/stf-isp.c     | 379 -------------
+ drivers/staging/media/starfive/camss/stf-isp.h     | 428 ---------------
+ drivers/staging/media/starfive/camss/stf-video.c   | 570 -------------------
+ drivers/staging/media/starfive/camss/stf-video.h   | 100 ----
+ 21 files changed, 3504 deletions(-)
+---
+base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+change-id: 20260115-drop-starfive-camss-2b9ff7cf3321
+
+Best regards,
+-- 
+Jai Luthra <jai.luthra@ideasonboard.com>
+
 
