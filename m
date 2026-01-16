@@ -1,78 +1,78 @@
-Return-Path: <linux-media+bounces-50847-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50848-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93E3FD2E8CE
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 10:12:19 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C252ED2EB72
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 10:26:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A389830263CC
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 09:12:14 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id EB652301A1E4
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 09:24:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B45931D759;
-	Fri, 16 Jan 2026 09:12:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7ED902E1758;
+	Fri, 16 Jan 2026 09:24:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pi8JlhvX"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Tn1m8XTq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B1C331BCAE
-	for <linux-media@vger.kernel.org>; Fri, 16 Jan 2026 09:12:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A8831AAAB
+	for <linux-media@vger.kernel.org>; Fri, 16 Jan 2026 09:24:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768554733; cv=none; b=YJn8Hldgay2Q4fQgE8e3/s30Gwmfjf55vNiu77xqFpxXopQUb6jpOul0bt/ii6ujGMhRaowzPP3Uf/7ThKFwsxRLHalkGwPQrnqbrlLlGi37kNJVdpYf44MzeekNIsFcdiNHS0XsLYDNUKT1I3M9tVRe4uKIkHp97wuzcm9m0Og=
+	t=1768555497; cv=none; b=kNTWGFd+aoXTHsAh9ufmT12SHwwvDdYfUMtEe+xvw+qKEl2GEGL3lCPdVXFvDatDCkbCXFncRS5Nlz6Lbtcs3/wFeziucsK32ItEMtWV3WJS7J/QsJrJtrNpUlQBYcNX/c9/kbcFwRor0jHYLuzjginXP3ix/yPbK0J5W81BQno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768554733; c=relaxed/simple;
-	bh=/HeROcY+wue/RnfDCzGh5TkygmGivHiZHG7v8KNDXNQ=;
+	s=arc-20240116; t=1768555497; c=relaxed/simple;
+	bh=F1dBOslSNJdmGhuKyZQUTNwmlqPoJ944FJFaQAUDiz0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PDGAFwm5CGL3XFaemDih5zGPTZQIQPy7ATLUxJQ7MXiT2FbRUYTEZQmGNmK5svfxhTqZadmOy53W0t3a9B/PS1G5W1cMKZ3Gz25tMuIil4yXugXmF+6Y2Rk4AdGhFI4XYIlz8KaqSItCia2P03ihLwbUY+LiJrCqb04JP2Ob3HI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pi8JlhvX; arc=none smtp.client-ip=209.85.208.180
+	 In-Reply-To:Content-Type; b=Rne3Fh/m2Udcl6crBRrRLurYIqKqFMCC7lfO9Vq3hnmPMhzeyFhRmURIkbP2Dh2we+kP0Ljp4OzcbUAnZV9impMnIpA/wXB2UdmHqLrDtj9M5AAbchQrRZbN/ClEK7H0fTRZjl/99BEqrvcYVyls85NX7NrLTglEovkjpzfqkEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Tn1m8XTq; arc=none smtp.client-ip=209.85.208.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-382fb1e257bso2512941fa.3
-        for <linux-media@vger.kernel.org>; Fri, 16 Jan 2026 01:12:10 -0800 (PST)
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-382ff96b169so1839471fa.2
+        for <linux-media@vger.kernel.org>; Fri, 16 Jan 2026 01:24:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1768554729; x=1769159529; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1768555494; x=1769160294; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
          :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pqAbJs5DEIYF5QCBGJfgcurtZvGAMM7ELYVo8ENiu9M=;
-        b=pi8JlhvXn++3rJEQ8Wv+3wopz/ouDG0V6LlCBdNEckYz7gLn9hS4zOS8yFN4JVTuj6
-         eUgVu2KVJlxZnSzR1uD6lqWeK/wEaVuWDmndR/TxKCBm3gBH8soWuXOFCsxpVKgYkChl
-         C87Vmhym4AvFaMuTl4VvwU5NZdS2rqiEFvMLu9QLy/Hd7lSLu+k+DifphE13QGO4pXMT
-         hT2wgq7+snBL3wFBYhoYhLF5Gd9x3v+/aSKD7VtkDI+uCMG/Ovi36zSTCmvrEQZFslzN
-         nOIqU6sxfdpeFhC/OFi15iANK6tfQir0yJkV8T8oevHvKGLwTZOASigK+1rtO1j/o5pn
-         skww==
+        bh=RUi1WEtiQf1a2/X/kibJLzk8TGAQoRCMC8REEAl19os=;
+        b=Tn1m8XTq+AMhynzbcolJZzo+b1QfjjDewJckwJgTiloPIkQw4tPNehpHKTzgyqLd1B
+         ic//+rQAc6if/9FEd0uwiNucsCaMZHitL4RDlEoKWO4yamsJ9udZUTIDBstiS8cmSWJd
+         TQIEdcP1PXK2ifB274SoXyLhiK51ImDs2Wbr3K2FGkKgjbeHzbt5L/Ije8NNvJhMzUIL
+         FdhTDeG04UbD0k7YxCe5fMfviEx6OV/xIEglWGAdwgIUovTL2TYcmRUFx7LbTDIQTA4f
+         nbM/cQRBVbzM3npJQVhRvWLC7dal0OH3BbvixtH9Qc6wdzD3799SJfJ+rmLXoV1J10su
+         Ds8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768554729; x=1769159529;
+        d=1e100.net; s=20230601; t=1768555494; x=1769160294;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
          :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=pqAbJs5DEIYF5QCBGJfgcurtZvGAMM7ELYVo8ENiu9M=;
-        b=Ve9AXsslY9sDxaluHBHyi0a+50822TME2HdZc0LZLomRercwmn0s+r9oUl2uW1WkQV
-         ojQCucaFzLEQL43qttDp7B0mCJlc7RkebFQ0M2PXjBd4xAZlO9XH6BAcMAVwTl/rECxJ
-         NQ6LLt2ZteqhnMJJ3IxQ67NdkDeM5kYqciX8ZZMOEjTjuvSO+12OHhnrWqec69bfvNsS
-         n5FURhYHU7tAy4Q85EhBvaNnwtZYR4AJs7gHej68674a1rmWQYt3bQzGB3IOUSVac+rF
-         mKk/sWMDM6zfsN4YbwuVhAwILMFuyqhBF04NBmG4RQ1PFzk2oivToCQYh4hVkRZ7OHG+
-         Piew==
-X-Forwarded-Encrypted: i=1; AJvYcCWDx3NPmcLF03v01FUFAGk/wter6m5AKwuXdqEZ9EmLLzHSRjncG6U3On99lvJOnOayr8m3h3NC92/f/g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyEoNec9294wSrIQFhqDngOggL14OAJmKfNwv/DXgFqL3o2cECb
-	DHymPMPlwgyxwjfhow9LdrhDzI57+Re+5hz1xWBwZ2BC3AuMOIsvtsBf5NzBbbdYiJ8=
-X-Gm-Gg: AY/fxX4lb8xf+5lcdWSXfM73wij5FMp6ouNbZFtWLlcQ/WKIi4pAiJnLNKgCQdSBXV0
-	jRIhlR1opE5cy1m6HkYflvBVIkfVDM5VjsOPGR0iq3VRKp+VOQKb2LSuCDqXBxMikR4TgpV1PwS
-	/lLDnGmOWkqJGKqSJsBAzHOSK3cvXAWoTTuz7t5Cx4w9gNdNWakUHGBQEM/oL2Kt4bFLxnBGMOJ
-	EYAGoX0QU7BjoSnB5cZLFU/TYB1mq5bxIeZQrYZsG0nn3Vix9oO1i3OZDu7hkytIJ4GRKmjbNxM
-	K3rg0TZBbIAVmw/eEovA7t2qpyXp2Ibg7on949K6Egy0soYTjfAbUFkuStu4wn9AuMmC+qzAFKX
-	uak5SQQulyCfXrxtKsK+9EbX+l3EHtxSha5Oc7g1W1qmlSkAANtrowLAqooP7WBI292+bou3kAf
-	xPIzJ9RnMAszTefmtsHyYkJTSjnAVYXyhae4C9eaPqBZBSe61Dis6ttzMsfgj/Q+IYGw==
-X-Received: by 2002:a05:651c:991:b0:380:a1c:7039 with SMTP id 38308e7fff4ca-38383fe5fbemr4683611fa.0.1768554729185;
-        Fri, 16 Jan 2026 01:12:09 -0800 (PST)
+        bh=RUi1WEtiQf1a2/X/kibJLzk8TGAQoRCMC8REEAl19os=;
+        b=ZVM44uVA+mO9Zxh2TeDh6J+y7lZBUvZ6cwxgf5k0I0w+UnmNmMgAOmNx2SMXI1tGCf
+         TOrpEyHuHkbxa5AEYdRN+9Dn+wj+GStvvSN8Y11rSu9exHrhvBLThOAHtnO/i/0MlIUc
+         KwQmxs0ijhmD4jSHbddvsEdq/XDWYnt/9VLlvUAm0JIk9ttkG9yNkvmYKyyUfqjZwcSq
+         rpHq50FiiHumQQeoJqS4opq8WKEmJyVdRjMMKllErxghFbKlayGPBZPHlGefaTHgk6E4
+         hwN6NfZUYSPx8FGPmdWpmP0SunBMUEtPGaHIi1s9eV6yCeAb0OG/7WUTD3VOnOdWlsuy
+         Mzkw==
+X-Forwarded-Encrypted: i=1; AJvYcCVwadc/ILVCkX6UsBhIQ5+V6Ru0wthzfspun1yiARnZJY2HaUVKmG1zzxgucqfe99HTi6GpTyaU6XzWyQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8l6mag0h8B9BFezALotceduyERe1gBys8cmHYetae8xHynrAi
+	ARVxglYnjBoYdkpgPXAX18pcoHy7HBRoxDNxq9NrfbC0jhqfPaSMOJiXMU2YwwgfPA4=
+X-Gm-Gg: AY/fxX68xSoanM0WBySyO8/sz1IvufmWjKWyXKRBIZOntZhqVqP0pjIL0LClJ0uKFq0
+	PumlcqKP8w1qpwRIZVesoQQfx3yJSUuGNT/QLb8JFCJ8XHXmLaAkpn1CR5WS/YVrvQBECek87zH
+	m8rh0aEEmvT/maep17BtA5Q9lVQPdLBTJfHR7jpSADzHzZwvYpw4b7sPm/Eqbt6GEVD47pKM7uG
+	Kgm8jy66tB5eLPSWU2/KmAqqaH2Q0a3j25dTaPMq4mad2MwVHCG0eNmOva+RR8wrSVcPUhBf4Q+
+	isqHtFONdMmvHHM7OSa7VsPIrP5g6Eq2uSWrGqgr8DDFylJZTs0Oaz3JZIRaWHY3Ach3HlTiNcC
+	5WMkXCVlvtsAbu1shRTjILZVa+IuHreMYP0WF6LQQ/sHhzCof0+q5BVOkANP5QIzJI6/5AiglrK
+	16G2S64IUbJw7/akJVf4rrVIbId9x0mDLe/3FhBHo4dApdq7aRt0RAlxWLYbSh7blNBA==
+X-Received: by 2002:a05:651c:41c4:b0:383:53e2:ad29 with SMTP id 38308e7fff4ca-383842f990amr4601421fa.6.1768555492152;
+        Fri, 16 Jan 2026 01:24:52 -0800 (PST)
 Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38384d8e0e5sm5608701fa.17.2026.01.16.01.12.07
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38384fb8fb1sm5639921fa.46.2026.01.16.01.24.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Jan 2026 01:12:08 -0800 (PST)
-Message-ID: <3b16ffa2-1580-426c-aa9c-f377d913d49c@linaro.org>
-Date: Fri, 16 Jan 2026 11:12:07 +0200
+        Fri, 16 Jan 2026 01:24:51 -0800 (PST)
+Message-ID: <c3a56645-0399-447c-b7a5-d7af9f567a7d@linaro.org>
+Date: Fri, 16 Jan 2026 11:24:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -80,133 +80,93 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/5] arm64: dts: qcom: talos-evk-camera: Add DT overlay
-To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>,
- Loic Poulain <loic.poulain@oss.qualcomm.com>,
- Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>
-Cc: linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-References: <20260115-sm6150_evk-v3-0-81526dd15543@oss.qualcomm.com>
- <20260115-sm6150_evk-v3-5-81526dd15543@oss.qualcomm.com>
+Subject: Re: [PATCH v8 1/3] media: qcom: camss: Add common TPG support
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org
+References: <20260113-camss_tpg-v8-0-fa2cb186a018@oss.qualcomm.com>
+ <20260113-camss_tpg-v8-1-fa2cb186a018@oss.qualcomm.com>
+ <87a31d4e-b604-4b9a-92e9-75fd2748489a@linaro.org>
+ <98a26638-675b-4654-a940-898ba9e1af9c@oss.qualcomm.com>
+ <e1907273-3d14-41ee-9a22-a963f2b83d20@linaro.org>
+ <a70f69e6-6ee6-4a96-88fc-c0ec4db48697@oss.qualcomm.com>
+ <641421a6-bf42-49f4-8f94-9cb0bce8e97c@linaro.org>
+ <f77e0d03-ba4a-4722-b575-7aee8e93f04b@linaro.org>
+ <f1c4288f-983f-4a62-82fb-22d1ec56bed0@linaro.org>
+ <e94e3391-6fef-4378-b5bd-66aafea95a0c@linaro.org>
 From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <20260115-sm6150_evk-v3-5-81526dd15543@oss.qualcomm.com>
+In-Reply-To: <e94e3391-6fef-4378-b5bd-66aafea95a0c@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 1/15/26 12:12, Wenmeng Liu wrote:
-> Enable IMX577 via CCI on Taloss EVK Core Kit.
+On 1/15/26 17:54, Bryan O'Donoghue wrote:
+> On 15/01/2026 02:58, Vladimir Zapolskiy wrote:
+>>>> Writing proper values to registers should be a concern on the driver
+>>>> level,
+>>>> it sounds improper to push this simple task and responsibility to
+>>>> userspace.
+>>>
+>>> I think we should stick to the same format as is already upstream for
+>>> the CSID version of this - which is the same data.
+>>>
+>>
+>> It is not the same and it will not be the same, if the currently presented
+>> version is taken. If TPG modes in CSID are continuous, here they are not,
+>> so it makes a big difference for userspace, and better it should be
+>> removed.
 > 
-> The Talos EVK board does not include a camera sensor
-> by default, this DTSO has enabled the Arducam 12.3MP
-> IMX577 Mini Camera Module on the CSI-1 interface.
+> Not sure I follow you here.
 > 
-> Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
-> ---
->   arch/arm64/boot/dts/qcom/Makefile                  |  3 ++
->   .../boot/dts/qcom/talos-evk-camera-imx577.dtso     | 63 ++++++++++++++++++++++
->   2 files changed, 66 insertions(+)
+> The set of strings for camss-csid we have now is:
 > 
-> diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
-> index 00652614e73582fa9bd5fbeff4836b9496721d2d..be9aeff2cd1555bc436e1b8eb78d8e1c9b84f9c4 100644
-> --- a/arch/arm64/boot/dts/qcom/Makefile
-> +++ b/arch/arm64/boot/dts/qcom/Makefile
-> @@ -339,8 +339,11 @@ dtb-$(CONFIG_ARCH_QCOM)	+= sm8650-qrd.dtb
->   dtb-$(CONFIG_ARCH_QCOM)	+= sm8750-mtp.dtb
->   dtb-$(CONFIG_ARCH_QCOM)	+= sm8750-qrd.dtb
->   dtb-$(CONFIG_ARCH_QCOM)	+= talos-evk.dtb
-> +dtbo-$(CONFIG_ARCH_QCOM)	+= talos-evk-camera-imx577.dtbo
-
-Please remind me, what does dtbo-y Makefile target serve for?
-
-> +talos-evk-camera-imx577-dtbs	:= talos-evk.dtb talos-evk-camera-imx577.dtbo
->   talos-evk-lvds-auo,g133han01-dtbs	:= \
->   	talos-evk.dtb talos-evk-lvds-auo,g133han01.dtbo
-> +dtb-$(CONFIG_ARCH_QCOM)	+= talos-evk-camera-imx577.dtb
->   dtb-$(CONFIG_ARCH_QCOM)	+= talos-evk-lvds-auo,g133han01.dtb
->   x1e001de-devkit-el2-dtbs	:= x1e001de-devkit.dtb x1-el2.dtbo
->   dtb-$(CONFIG_ARCH_QCOM)	+= x1e001de-devkit.dtb x1e001de-devkit-el2.dtb
-> diff --git a/arch/arm64/boot/dts/qcom/talos-evk-camera-imx577.dtso b/arch/arm64/boot/dts/qcom/talos-evk-camera-imx577.dtso
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..53006a861878f9112673b9a0ad954bed7a5fdca5
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/qcom/talos-evk-camera-imx577.dtso
-> @@ -0,0 +1,63 @@
-> +// SPDX-License-Identifier: BSD-3-Clause
-> +/*
-> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-> + */
-> +
-> +/dts-v1/;
-> +/plugin/;
-> +
-> +#include <dt-bindings/clock/qcom,qcs615-camcc.h>
-> +#include <dt-bindings/gpio/gpio.h>
-> +
-> +&camss {
-> +	vdd-csiphy-1p2-supply = <&vreg_l11a>;
-> +	vdd-csiphy-1p8-supply = <&vreg_l12a>;
-> +
-> +	status = "okay";
-> +
-> +	ports {
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +
-> +		port@1 {
-> +			reg = <1>;
-> +
-> +			csiphy1_ep: endpoint {
-> +				data-lanes = <0 1 2 3>;
-> +				remote-endpoint = <&imx577_ep1>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&cci {
-> +	status = "okay";
-> +};
-> +
-> +&cci_i2c1 {
-> +	#address-cells = <1>;
-> +	#size-cells = <0>;
-> +
-> +	camera@1a {
-> +		compatible = "sony,imx577";
-> +		reg = <0x1a>;
-> +
-> +		reset-gpios = <&tlmm 29 GPIO_ACTIVE_LOW>;
-> +		pinctrl-0 = <&cam2_default>;
-> +		pinctrl-names = "default";
-> +
-> +		clocks = <&camcc CAM_CC_MCLK2_CLK>;
-> +		assigned-clocks = <&camcc CAM_CC_MCLK2_CLK>;
-> +		assigned-clock-rates = <24000000>;
-> +
-> +		avdd-supply = <&vreg_s4a>;
-> +
-> +		port {
-> +			imx577_ep1: endpoint {
-> +				link-frequencies = /bits/ 64 <600000000>;
-> +				data-lanes = <1 2 3 4>;
-> +				remote-endpoint = <&csiphy1_ep>;
-> +			};
-> +		};
-> +	};
+> const char * const csid_testgen_modes[] = {
+>           "Disabled",
+>           "Incrementing",
+>           "Alternating 0x55/0xAA",
+>           "All Zeros 0x00",
+>           "All Ones 0xFF",
+>           "Pseudo-random Data",
+>           "User Specified",
+>           "Complex pattern",
+>           "Color box",
+>           "Color bars",
+>           NULL
+> };
+> 
+> Wengmeng has
+> 
+> +const char * const testgen_payload_modes[] = {
+> +	"Disabled",
+> +	"Incrementing",
+> +	"Alternating 0x55/0xAA",
+> +	"Reserved",
+> +	"Reserved",
+> +	"Pseudo-random Data",
+> +	"User Specified",
+> +	"Reserved",
+> +	"Reserved",
+> +	"Color bars",
+> +	"Reserved"
 > +};
 > 
+> I think the "Reserved" should go away but, other than that we should
 
-Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+That's what I've asked, there is no dispute.
+
+> keep namespace consistency between CSID-TPG and standalone-TPG.
+> 
+
+When "consistency" is not defined, it's just a fine sounding buzzword.
+
+CSID TPG has:
+* modes, which numbers are continuously incremented,
+* the number of TPG modes for a user is expectedly the number of TPG modes.
+
+The displayed v8 of the "standalone TPG" broke both assumptions from above,
+so there is no more "consistency" between two TPGs, while I explicitly ask
+to preserve the "consistency".
 
 -- 
 Best wishes,
