@@ -1,210 +1,435 @@
-Return-Path: <linux-media+bounces-50904-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50905-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 229C8D32AC6
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 15:33:56 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB4E7D32D56
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 15:47:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id D54113012E8A
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 14:33:52 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 4CF2A301AAA8
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 14:46:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CF633933F4;
-	Fri, 16 Jan 2026 14:33:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 561DC299947;
+	Fri, 16 Jan 2026 14:46:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="UC5E7Drk";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ZA1v2PU3"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ChyFnh94"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64D48392C41
-	for <linux-media@vger.kernel.org>; Fri, 16 Jan 2026 14:33:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 475F323D2B2
+	for <linux-media@vger.kernel.org>; Fri, 16 Jan 2026 14:46:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768574028; cv=none; b=t4U8hi5jRMdr+++0sERyQxjhEsY1lYoWe8TTXl73g1w0vuRqLxmCHREKC6cnLp6s7h7jH5w4CWVslcf+Wkhs/iP8diV+mPBwk3+BHUTkJURGweFyV7g9++/S1UIafgVf6Cgm9/C22QA4S5qkHHzfy55M+yJpZ+JdsxtJMPFZozM=
+	t=1768574781; cv=none; b=pBeCMttxnTDONynL8jiiTLXn4jyyPAexQOSJmZeCcct6oUt5T2puOuzwt/3EvbTsq9jEA4l8sp3CNOdnJx5ipPPfZsNQmHTYbtESTw3dIIk+WJ1TGHr8gOOKLdyjrNSaptjC/jGjEdm8nXfNlARBaAK+HuHwRyQKlI3BcXPeCGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768574028; c=relaxed/simple;
-	bh=DfZnrC2/XWteyHGq6Y7LKw5tSx7FDs7acTTloGgYEUI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LouUOwrHDukn/Z7qw8u+I5Ls050IF9l614UTjMoQXKdI1jc3dufj3WTstyB/mzaUsqoNHXwcAccfc9d3PdGqLkDV01j72shTvFrvtbCqIUDdhvoYA9xySbcMbKS/xCTDhewnGkBebTR6qYwHmu6zNVvbjA0fMdbNcncnrkbgSW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=UC5E7Drk; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ZA1v2PU3; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60G9iNqa006964
-	for <linux-media@vger.kernel.org>; Fri, 16 Jan 2026 14:33:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	ZaHsD/0AD7lBzKkvh6XVMrU+9amfBPvv7vVc2iCwtKs=; b=UC5E7DrkZ1z5Uv+7
-	FycRnXLQwY+1rTM48xRK/1J9gd975UbMQ7qofeEm5VskxtcczMF7hiwiuMVqgkeY
-	8b/wVYSI+64va092l0RCPEsFiALYYQdESd4Y9DPP7MUioGHQ/2dYHI94XMdNpQJH
-	/TZIUpqhnUIV0zDoZEqhfDoFclr5MM8EGfxx5I+7lTk2ykOip31lmlz6tCT+cc8Z
-	dHSNqnS5rFpw60M0v4gbAfWrQN4EwMJdRMRX0TAia5dJJ1cC/zZcrgv26y6UMYjj
-	4mJfQAVG0Vq34USJCP3DRvs9BhQvn+lakWgQa8MZTpQsgu8vF8E+MKM3CyVpPHLQ
-	/BbdXA==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bqjy9rset-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Fri, 16 Jan 2026 14:33:46 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8b2194e266aso540940385a.3
-        for <linux-media@vger.kernel.org>; Fri, 16 Jan 2026 06:33:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1768574025; x=1769178825; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZaHsD/0AD7lBzKkvh6XVMrU+9amfBPvv7vVc2iCwtKs=;
-        b=ZA1v2PU3Bb+ZYLjqcSsAapiQYTQFKQ4J0ougK56i4huyZUDhdUmP4wR0PsA1Ab/5DA
-         JqoxfQ46MIhnKspzqkxJYxOC4MLI3vUA+R7ymBlp+9tehoT2jHRRlxJCL29LuNuBSofZ
-         gwTjT2LCCZ+vqYVH7Hiq/nWHLIKimqEZOqris6LOyyONLFzWLjEakdxb0WDTH5BXWCku
-         EGBVqklr+qzj7fERYjOh5IIbyWQnVzjpiwErdxLC+3VctT2Uo/isdd2kmKncFrZSpv0X
-         ePfIX6SpNa7ogBWw0BP/vOoTzhPbQZJU+3WF41j9mwu+3fZnG4nbtSKPClmQyd3yRHJT
-         RWzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768574025; x=1769178825;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZaHsD/0AD7lBzKkvh6XVMrU+9amfBPvv7vVc2iCwtKs=;
-        b=O9/86uESpN5V/LnAd36I7qPYK6Z8umAxB/Gt02r3yc9hW0TF1r0erMVbC+GHFlxxqk
-         xkyNUClRBk/yCD75ZkELMe5mxiDhXgjXpDisf+pOEhc1L2VuHEqXtYIQGcqaCZA7V66m
-         sClEUBlVftXE3DxVd/NWNj2Z5hszXcP9jxquUYvmel2nllyZ7Y2vPJpIMpc9kJfPc3NL
-         DXrodVOtH3T7U/NxRGPb7EvVM5aiVdFlNfu6mfNdiz8l03ItqxUlKg/osx0pgJkt7nxw
-         DewdukrtFYl/yHqbrYQR3ZAxsr8CRmALTWhqzd/7f+uvkimBMRwAjqpOTVA6+qR2WRKa
-         r5Fg==
-X-Gm-Message-State: AOJu0YzCK6kMDa1ZQJ20ku72smXpvwUl8xeDu+jm+fUy6zicYLVTDcGi
-	Gmc5M94kCINYa1LxkLObWd0lY7z/w4HrWMcBZKseRdWMeZxp4PtDFMmMx6E3F9xUZqY3NmXTiBr
-	V/3+MMWlDXHh7jBv5t3EPy3FHOujftgLvaw7TQ1jt5P0bYeEc5sCJkVmnBJpVV+soXA==
-X-Gm-Gg: AY/fxX5VY4MlBErV/1n0FLe9327u1B/uG//5pkqqCfq8FiflLFAynWOT8jr2MLtDVcu
-	NbXMj5l9Aq3k4RYSAchkEULWHNSb6+y1M7MSnugBNHpzZgnLibXCWO3DVNavjJPnIJiqmVstSy8
-	i3AFsFZvySEA6XbmmQ6lM5ra9IpgJsnTn1Zea5/YqxhzSeYy92Cm0vJedu2eQVEHrSiQxCn/l7b
-	KSS9tNpsE5rzYk3ab5rVS5hN3N05ah/VU4N4+6D7O/vKJUeCUSjFjnyuMxIn83REaYgjsKs7uqw
-	6Dfe5++TOHYXVed4He7ydXS+uNbEz4AvZmtT9Ag8EfVLZUBoyl1VajmZ6cV6VE8G67jkj1w57Y4
-	gM0rupabt0v1rklSJUAo8OzVcGkSwTDodG+6j+Q==
-X-Received: by 2002:a05:620a:28c5:b0:8c5:3045:3e7b with SMTP id af79cd13be357-8c6a66f1e53mr472488985a.26.1768574025509;
-        Fri, 16 Jan 2026 06:33:45 -0800 (PST)
-X-Received: by 2002:a05:620a:28c5:b0:8c5:3045:3e7b with SMTP id af79cd13be357-8c6a66f1e53mr472482485a.26.1768574025035;
-        Fri, 16 Jan 2026 06:33:45 -0800 (PST)
-Received: from [192.168.1.29] ([178.197.218.229])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43569921dedsm5623880f8f.9.2026.01.16.06.33.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Jan 2026 06:33:44 -0800 (PST)
-Message-ID: <49ebb3b2-128c-4fe8-abea-51a3d47cce73@oss.qualcomm.com>
-Date: Fri, 16 Jan 2026 15:33:42 +0100
+	s=arc-20240116; t=1768574781; c=relaxed/simple;
+	bh=rWtHACq1YIx0F0Yo8c5Siu0eKD1qsxXbt3TuvD5l4nw=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=j2EC2JEIi4xTxTZsmZCGh8zE9t4Q3TzO5JVgDoer9aBgyblbnh1NF9s73CtqNo8oNRyhnYRpNFIL9fakGfpEjJMX8s5pcb2HTfDVz/YjjW8J+dPQN5sVWSNckuMOC9XV7Za9z3UiPItmbqWBFpFkrWhRpMJYwL4C6XnxBxdR67k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=fail (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ChyFnh94 reason="signature verification failed"; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (unknown [IPv6:2a00:6020:448c:6c00:3f72:9503:f91a:e3d2])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 314B34B3;
+	Fri, 16 Jan 2026 15:45:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1768574747;
+	bh=rWtHACq1YIx0F0Yo8c5Siu0eKD1qsxXbt3TuvD5l4nw=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=ChyFnh94SeBrmD3pDNknERAzqMhZgFnrmHpm/wudtg+Luak5sp3BFFMwK3m+STUJx
+	 /ald+WfF75Dz4ibLXuyJ9lnEpWF0mOlF1soxTbcCEFS3UD2SJP5k0KxShLxVY6vytw
+	 K8wP3zrgJKMVfOQkrV6TpKeu840XWqo38mroYyWs=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 0/3] media: rockchip: add driver for the rockchip mipi
- csi-2 receiver
-To: michael.riesch@collabora.com, Chaoyi Chen <chaoyi.chen@rock-chips.com>,
-        Kever Yang <kever.yang@rock-chips.com>, Frank Li <Frank.li@nxp.com>,
-        Mehdi Djait <mehdi.djait@linux.intel.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sebastian Reichel <sebastian.reichel@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Collabora Kernel Team <kernel@collabora.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20251114-rockchip-mipi-receiver-v6-0-b7ce6e68b3fa@collabora.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@oss.qualcomm.com; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTpLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQG9zcy5xdWFsY29tbS5jb20+wsGXBBMB
- CgBBFiEEm9B+DgxR+NWWd7dUG5NDfTtBYpsFAmkknB4CGwMFCRaWdJoFCwkIBwICIgIGFQoJ
- CAsCBBYCAwECHgcCF4AACgkQG5NDfTtBYpuCRw/+J19mfHuaPt205FXRSpogs/WWdheqNZ2s
- i50LIK7OJmBQ8+17LTCOV8MYgFTDRdWdM5PF2OafmVd7CT/K4B3pPfacHATtOqQFHYeHrGPf
- 2+4QxUyHIfx+Wp4GixnqpbXc76nTDv+rX8EbAB7e+9X35oKSJf/YhLFjGOD1Nl/s1WwHTJtQ
- a2XSXZ2T9HXa+nKMQfaiQI4WoFXjSt+tsAFXAuq1SLarpct4h52z4Zk//ET6Xs0zCWXm9HEz
- v4WR/Q7sycHeCGwm2p4thRak/B7yDPFOlZAQNdwBsnCkoFE1qLXI8ZgoWNd4TlcjG9UJSwru
- s1WTQVprOBYdxPkvUOlaXYjDo2QsSaMilJioyJkrniJnc7sdzcfkwfdWSnC+2DbHd4wxrRtW
- kajTc7OnJEiM78U3/GfvXgxCwYV297yClzkUIWqVpY2HYLBgkI89ntnN95ePyTnLSQ8WIZJk
- ug0/WZfTmCxX0SMxfCYt36QwlWsImHpArS6xjTvUwUNTUYN6XxYZuYBmJQF9eLERK2z3KUeY
- 2Ku5ZTm5axvlraM0VhUn8yv7G5Pciv7oGXJxrA6k4P9CAvHYeJSTXYnrLr/Kabn+6rc0my/l
- RMq9GeEUL3LbIUadL78yAtpf7HpNavYkVureuFD8xK8HntEHySnf7s2L28+kDbnDi27WR5kn
- u/POwU0EVUNcNAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDy
- fv4dEKuCqeh0hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOG
- mLPRIBkXHqJYoHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6
- H79LIsiYqf92H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4ar
- gt4e+jum3NwtyupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8
- nO2N5OsFJOcd5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFF
- knCmLpowhct95ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz
- 7fMkcaZU+ok/+HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgN
- yxBZepj41oVqFPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMi
- p+12jgw4mGjy5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYC
- GwwWIQSb0H4ODFH41ZZ3t1Qbk0N9O0FimwUCaBdQXwUJFpZbKgAKCRAbk0N9O0Fim07TD/92
- Vcmzn/jaEBcqyT48ODfDIQVvg2nIDW+qbHtJ8DOT0d/qVbBTU7oBuo0xuHo+MTBp0pSTWbTh
- LsSN1AuyP8wFKChC0JPcwOZZRS0dl3lFgg+c+rdZUHjsa247r+7fvm2zGG1/u+33lBJgnAIH
- 5lSCjhP4VXiGq5ngCxGRuBq+0jNCKyAOC/vq2cS/dgdXwmf2aL8G7QVREX7mSl0x+CjWyrpF
- c1D/9NV/zIWBG1NR1fFb+oeOVhRGubYfiS62htUQjGLK7qbTmrd715kH9Noww1U5HH7WQzeP
- t/SvC0RhQXNjXKBB+lwwM+XulFigmMF1KybRm7MNoLBrGDa3yGpAkHMkJ7NM4iSMdSxYAr60
- RtThnhKc2kLIzd8GqyBh0nGPIL+1ZVMBDXw1Eu0/Du0rWt1zAKXQYVAfBLCTmkOnPU0fjR7q
- VT41xdJ6KqQMNGQeV+0o9X91X6VBeK6Na3zt5y4eWkve65DRlk1aoeBmhAteioLZlXkqu0pZ
- v+PKIVf+zFKuh0At/TN/618e/QVlZPbMeNSp3S3ieMP9Q6y4gw5CfgiDRJ2K9g99m6Rvlx1q
- wom6QbU06ltbvJE2K9oKd9nPp1NrBfBdEhX8oOwdCLJXEq83vdtOEqE42RxfYta4P3by0BHp
- cwzYbmi/Et7T2+47PN9NZAOyb771QoVr8A==
-In-Reply-To: <20251114-rockchip-mipi-receiver-v6-0-b7ce6e68b3fa@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: jSPUA_XiSDKeHtdfoCVxFUNf15p-yE4N
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE2MDEwMiBTYWx0ZWRfX9zSnjFrOeOwY
- xCfYSCNMCt9ozfqLretGOcAmuum+0jmGMY7GR9t5t1LnW3Gne1gDJfFNEuyYisOVyCivWU/VrAi
- +cE5zRI5iZXJ0/vcpGgLv+D9B7gMjSbpDvSp4vrEXHbDrPRCEF8eKjghrEYaKryPPouv6OFwRGy
- RYPPP2jD/4TLp+tpecjnwPyTk9OW2LkKwEIlMTVADT1jBYGhg5YVVHTTJcg8IGgXF0sQi1tNZy1
- IwrZxfElNlF1r09699pYpxMlvu+WVw9GOscoxSAymezx1vlfzd/Pd+xsvWcQguo/VMcxqICajBa
- LV2ixnTBQpb2uQw1ZdLZswXG2hAWrtVt83I9Dl6R5fl9lO9VGYtddLxX+qwYsL0+70vQblG8GJz
- BQXEOCfWUYSz1fpo3ZAPNAYowgamkCFzlDSx2TRWYPWO8baWYg7JCvpGfH3c4xTmDJQ7w510gZK
- 2UnhDdtF9fgI6MCJFhg==
-X-Authority-Analysis: v=2.4 cv=OJIqHCaB c=1 sm=1 tr=0 ts=696a4c4a cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=Eb9f15NH/cHKzfGOmZSO4Q==:17
- a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=etG1dv-_i460GIfEFeoA:9 a=QEXdDO2ut3YA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-ORIG-GUID: jSPUA_XiSDKeHtdfoCVxFUNf15p-yE4N
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-16_05,2026-01-15_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 bulkscore=0 priorityscore=1501 malwarescore=0 spamscore=0
- suspectscore=0 adultscore=0 lowpriorityscore=0 impostorscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601160102
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <176851117186.98704.5427092951514812674@localhost>
+References: <aM1J9LsbpueEr30x@kekkonen.localdomain> <kblfpuqfj2d6vkagspnqdhztno2js3wljdrsv2wpeywuwyzg5x@xt7rjhh5wt76> <r3kv25lxbyjtuufb2ze27wp5gbqnbgnps2ytk2gy2qkaeiijdd@ydn4ptkze2qp> <aN_MdmDhQPyLnQqD@kekkonen.localdomain> <zq3gzieoqd4eieghjetm6sus5s7i6niplommnubl4d4rskbhra@v7gslcsg5hce> <mseqfltfao5jqubs22asrzzrj2tnsf5bdmlvsmncwj4ss3gxmu@wk2lmramiy3a> <176008954951.211618.7730648133265251067@localhost> <176009379794.935713.4919963263447609305@ping.linuxembedded.co.uk> <aWjXzDXLxG7YyCY6@kekkonen.localdomain> <176851117186.98704.5427092951514812674@localhost>
+Subject: Re: [PATCH v11 39/66] media: Documentation: Add subdev configuration models, raw sensor model
+From: Stefan Klug <stefan.klug@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, linux-media@vger.kernel.org, hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com, Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>, Alexander Shiyan <eagle.alexander923@gmail.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, Tommaso Merciai <tomm.merciai@gmail.com>, Umang Jain <umang.jain@ideasonboard.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Sylvain Petinot <sylvain.petinot@foss.st.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Julien Massot <julien.massot@collabora.com>, Naushir Patuck <naush@raspberrypi.com>, "Yan, Dongcheng" <dongcheng.yan@intel.com>, "Cao, Bingbu" <bingbu.cao@intel.com>, "Qiu, Tian Shu" <tian.shu.qiu@intel.com>, "Wang, Hongju" <hongju.wang@intel.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, =?utf-8?q?Andr=C3=A9?= Apitzsch <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>, Mehdi Djait <"me
+ h di.djait"@linux.intel.com>, Ricardo Ribalda Delgado <ribalda@kernel.org>, Hans de Goede <hdegoede@redhat.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>
+Date: Fri, 16 Jan 2026 15:46:12 +0100
+Message-ID: <176857477280.5324.260292878127292345@localhost>
+User-Agent: alot/0.12.dev8+g2c003385c862.d20250602
 
-On 16/01/2026 14:54, Michael Riesch via B4 Relay wrote:
-> Habidere,
-> 
-> This series adds support for the Rockchip MIPI CSI-2 Receiver that is
-> integrated into recent Rockchip SoCs, such as the RK3568 and the RK3588.
-> 
+Hi Sakari,
 
-Please slow down and post it once per 24h or 2-3 days. Not every 50
-minutes. Allow people to actually review your code.
+Quoting Stefan Klug (2026-01-15 22:06:11)
+> Hi Sakari,
+>=20
+> Quoting Sakari Ailus (2026-01-15 13:04:28)
+> > Hi Kieran, Stefan, Jacopo,
+> >=20
+> > On Fri, Oct 10, 2025 at 11:56:37AM +0100, Kieran Bingham wrote:
+> > > Quoting Stefan Klug (2025-10-10 10:45:49)
+> > > > Hi Sakari, hi Jacopo,
+> > > >=20
+> > > > Quoting Jacopo Mondi (2025-10-07 16:01:11)
+> > > > > Hi again Sakari,
+> > > > >    cc Kieran and Stefan
+> > > > >=20
+> > > > > Stefan and Kieran brought to my attention a use case I would like=
+ to
+> > > > > discuss with you
+> > > > >=20
+> > > > > On Fri, Oct 03, 2025 at 03:25:19PM +0200, Jacopo Mondi wrote:
+> > > > > > Hi Sakari,
+> > > > > >
+> > > > > > On Fri, Oct 03, 2025 at 04:15:34PM +0300, Sakari Ailus wrote:
+> > > > > > > Hi Jacopo,
+> > > > > >
+> > > > > > [snip]
+> > > > > >
+> > > > > > > > >
+> > > > > > > >
+> > > > > > > > A recent discussion on libcamera made me wonder a few things
+> > > > > > > >
+> > > > > > > > https://patchwork.libcamera.org/patch/24547/
+> > > > > > > >
+> > > > > > > > In the current world (pre-RAW sensor model) the situation c=
+an be
+> > > > > > > > summarized as
+> > > > > > > >
+> > > > > > > > TGT_NATIVE_SIZE =3D full pixel array (readable and non read=
+able)
+> > > > > > > > TGT_CROP_BOUNDS =3D readable pixel array (visible and non v=
+isibile pixels)
+> > > > > > >
+> > > > > > > Crop bounds is generally the same as native size.
+> > > > > > >
+> > > > > >
+> > > > > > I checked two sensors datasheet for this yesterday and both of =
+them
+> > > > > > had parts of the pixel array that cannot be read out
+> > > > > >
+> > > > > > > > TGT_CROP_DEFAULT =3D visible pixels
+> > > > > > >
+> > > > > > > The default could exclude not-so-great pixels, too.
+> > > > > > >
+> > > > > >
+> > > > > > ok, suggested pixel array area used for image capture purposes =
+then
+> > > > > >
+> > > > > > > > TGT_CROP =3D analgoue crop
+> > > > > > >
+> > > > > > > This could include digital crop as well.
+> > > > > > >
+> > > > > >
+> > > > > > Yes it might, not all sensor drivers behaves the same indeed
+> > > > > >
+> > > > > > > >
+> > > > > > > > where:
+> > > > > > > > - visibile =3D pixels used for image capture purpose
+> > > > > > > > - non-visible =3D optically black, dummies etc
+> > > > > > > >
+> > > > > > > > With the RAW sensor model:
+> > > > > > > >
+> > > > > > > > format(1/0) =3D readable pixel array (visible and non visib=
+le)
+> > > > > > > > TGT_CROP_DEFAULT(1/0) =3D visible pixel area
+> > > > > > > > TGT_CROP(1/0) =3D analogue crop
+> > > > > > > > TGT_COMPOSE(1/0) =3D binning/skipping
+> > > > > > > >
+> > > > > > > > Have we lost the ability to report the full pixel array siz=
+e (readable
+> > > > > > > > and not readable) ? Is this intentional ? As if pixels cann=
+ot be read
+> > > > > > > > out they basically do no exist, and the information on the =
+actual
+> > > > > > > > number of pixels (including non readable ones) should be ke=
+pt
+> > > > > > > > somewhere else (like the libcamera sensor properties databa=
+se) ?
+> > > > > > >
+> > > > > > > I'd keep this information in the user space if needed. There'=
+s little
+> > > > > > > software could presumably do with this information.
+> > > > > > >
+> > > > > >
+> > > > > > Agreed, there is no value I can think of in having this informa=
+tion in
+> > > > > > drivers
+> > > > > >
+> > > > >=20
+> > > > > So, Kieran and Stefan are working with a sensor whose driver was
+> > > > > initially upstreamed with a wrong "readable pixel array"
+> > > > > (TGT_CROP_BOUNDS). The developer later realized there was more of=
+ the
+> > > > > pixel array to read and there was a use for the non-image pixels =
+like
+> > > > > OB ones.
+> > > > >=20
+> > > > > With the current model this is fine (sort of), as all rectangles =
+are
+> > > > > expressed with the TGT_NATIVE size reference. TGT_BOUNDS might
+> > > > > increases but TGT_CROP_DEFAULT and TGT_CROP are still valid both =
+in the
+> > > > > driver but also in userspace, which might have encoded some known
+> > > > > "tested" configurations.
+> > > > >=20
+> > > > > With the new model we lose the information reported by TGT_NATIVE=
+ and
+> > > > > all rectangles will be expressed with the format on 1/0 as refere=
+nce.
+> > > > > If the format changes because we later find out there were portio=
+ns of
+> > > > > the pixel array that could have been read out, all other rectangl=
+es
+> > > > > will have to change as well, both in the driver (which is ok-ish)=
+ but
+> > > > > also in userspace, which we have no control on.
+> > > > >=20
+> > > > > Stefan and Kieran could elaborate more on this, but basically, the
+> > > > > physical array is the only fixed reference we could actually coun=
+t on.
+> > > > > Other rectangles, are subject to the driver developer understandi=
+ng of
+> > > > > how the device work, which as we know very well, can change over =
+time.
+> > > > >=20
+> > > > > Now, if you agree this is something to be concerned on, I presume=
+ the
+> > > > > fix is quite easy
+> > > > >=20
+> > > > >          format(1/0) =3D physical pixel array size
+> > > > >          TGT_CROP_BOUNDS(1/0) =3D readable pixel array (visible a=
+nd non visible)
+> > > > >          TGT_CROP_DEFAULT(1/0) =3D visible pixel area
+> > > > >          TGT_CROP(1/0) =3D analogue crop
+> > > > >          TGT_COMPOSE(1/0) =3D binning/skipping
+> > > > >=20
+> > > > > which basically only require re-introducing the use of CROP_BOUND=
+S in
+> > > > > the RAW camera model specification.
+> > > >=20
+> > > > Thanks Jacopo for writing that up. Maybe a little addition on that
+> > > > matter. To our (especially Kierans) experience all the rectangles t=
+end
+> > > > to be unexpectedly difficult to handle when you try to configure the
+> > > > sensors in a pixel perfect manner (having binned and non binned mod=
+es
+> > > > cover exactly the same area in all possible flipping configurations=
+).
+> > > > The datasheets I'm aware of use the physical pixel array as common
+> > > > coordinate system to describe the geometry. Adding the readable pix=
+el
+> > > > array as "artificial" coordinate system makes it difficult to match=
+ the
+> > > > values reported by a v4l driver with the datasheets at hand.
+> > > >=20
+> > > > Another time where this comes into play is lens shading correction =
+where
+> > > > you would want to describe the LSC against one reference coordinate
+> > > > system that ideally never ever changes.
+> > > >=20
+> > > > To add to the confusion I'd love to have another rectangle added to=
+ the
+> > > > list. I don't have a proper name for it. The intent would be to
+> > > > distinguish between the "readable pixel array" and the "light expos=
+ed
+> > > > pixel array". So the list would become:
+> > > >=20
+> > > >     format(1/0) =3D physical pixel array size
+> > > >     TGT_CROP_BOUNDS(1/0) =3D readable pixel array (visible and non =
+visible)
+> > > >     TGT_CROP_VISIBLE(1/0) =3D visible pixel area including "flesh" =
+for ISP
+> >=20
+> > Carnivorous ISPs?
+>=20
+> Yes, beware! :-)
+>=20
+> >=20
+> > > >     TGT_CROP_DEFAULT(1/0) =3D Recommended "good" pixels
+> >=20
+> > How often is this known? Or would you rely on what the vendor tells?
+>=20
+> We had a brief discussion about that internally. Some datasheets contain
+> that information by surrounding the "Recording area" with a margin
+> labeled as "Effective margin for color processing". I don't have numbers
+> how often that is the case though. As it doesn't add much technical
+> value to the kernel we could set TGT_CROP_DEFAULT to the above mentioned
+> TGT_CROP_VISIBLE and keep the information about the color processing
+> margin outside the kernel, e.g. in libcamera.
 
-Best regards,
-Krzysztof
+Jacopo told me that this wasn't completely clear and rereading it, he is
+right. So to clarify: The idea is to skip the introduction of
+TGT_CROP_VISIBLE and just include the processing margin in
+TGT_CROP_DEFAULT. The less rectangles, the better.
+
+>=20
+> The only downside I see there is that (to my knowledge) it will be
+> difficult to guarantee that really all the pixels inside
+> TGT_CROP_VISIBLE are good. That's ok for libraries like libcamera that
+> will default to cutting off some margin after processing, but it might
+> be a problem for simple applications that just try capture the
+> CROP_DEFAULT. But maybe these applications do not exist at all :-)
+>=20
+> >=20
+> > > >     TGT_CROP(1/0) =3D analogue crop
+> > > >     TGT_COMPOSE(1/0) =3D binning/skipping
+> > > >=20
+> > > > The idea is to be able to capture a larger image from the sensor fo=
+r ISP
+> > > > processing and then cut it down to CROP_DEFAULT. This way we can pr=
+event
+> > > > interpolation seams at the edges. Maybe the naming is bad and we sh=
+ould
+> > > > make CROP_BOUNDS the recommended area and add CROP_READABLE to deno=
+te
+> > > > the readable pixels...
+> >=20
+> > CROP_BOUNDS really needs to be the bounding rectangle for everything.
+> > CROP_DEFAULT and NATIVE_SIZE are still up to definition, to a degree.
+> >=20
+> > Have you tried capturing the optical black pixels on different sensors?
+>=20
+> Yes, we did at least on the imx335 and imx283. Kieran is more in the
+> details there...
+>=20
+> >=20
+> > CCS specifies optical black pixel capture separately from the visible
+> > pixels and support also different VC, DT, depending on sensor capabilit=
+ies;
+> > cropping results in capturing optical black pixel on the rows and colum=
+ns
+> > specified for the crop area. In other words, the selection API isn't
+> > necessarily how optical black pixel capture is configured, at least for
+> > CCS.
+>=20
+> Yes, that is a bit of a pain. Being able to select the VC or DT doesn't
+> make things easier. Some SoCs (e.g. imx8mp) are not able to capture
+> separate VCs or DTs. So to get to the information the only way is to go
+> through the image stream. Also for some use-cases like extra long
+> exposures in astro-photography it might be useful to have the OB in the
+> image data for postprocessing.  (The last case is a bit made up as I
+> don't know much about astro-photography tbh).=20
+>=20
+> So I believe we should keep the option to capture OB over the image
+> stream.
+>=20
+> >=20
+> > Let's assume the case of the sensor where you find, after the driver has
+> > been upstreamed, that there are extra columns and rows of pixels beyond=
+ the
+> > left and top of the image. How would you modify the selection rectangles
+> > and the format to allow capturing image data from that area? Can you av=
+oid
+> > affecting the existing userspace?
+>=20
+> That would mean that the TGT_CROP_BOUNDS and or TGT_CROP_DEFAULT
+> changes. The assumption is that the native coordinate system (the old
+> TGT_CROP_NATIVE_SIZE) stays in place so the application can still use
+> all the tuning that was done relative to the native coordinate system.
+> As the TGT_CROP_BOUNDS from the first version has top/left coordinates >
+> 0 there is room to enlarge the TGT_CROP_BOUNDS in that direction.
+>=20
+> Sure, this does not work if the initial driver didn't specify
+> TGT_CROP_BOUNDS with the correct top/left offset. It also does not guard
+> against really wrong datasheets or arbitrary bugs. But allows to
+> transparently improve in situations where the first version implements
+> the "default FullHD setup from the vendor" and later a improved version
+> of the driver allows access to the additional margins around.
+>=20
+> Best regards,
+> Stefan
+>=20
+> >=20
+> > >=20
+> > > I think this is important - and in IMX283 - it seems to be exactly wh=
+at
+> > > the datasheet is ultimately recommending.
+> > >=20
+> > > > > What do you think ?
+> > > >=20
+> > > > Best regards,
+> > > > Stefan
+> > > >=20
+> > > > >=20
+> > > > > > > >
+> > > > > > > > All the discussion about readable/non-readable, visible/non=
+-visibile
+> > > > > > > > and active and inactive areas make me think we would benefi=
+t from
+> > > > > > > > presenting a small glossary at the beginning of the "Sensor=
+ pixel
+> > > > > > > > array size, cropping and binning" paragraph ?
+> > >=20
+> > > Oh yes, some sort of nicely interpretable description of "this rectan=
+gle
+> > > is expected to be this equivalent set of pixels" would be helpful. I'=
+ve
+> > > found it so hard to identify which the right rectangle is here :D
+> > >=20
+> > >=20
+> > > I'm also weary that we might need to find a way to convey the
+> > > relationship between binning mode restrictions/offsets too.
+> > >=20
+> > > The IMX283 2x2 and 3x3 binning modes produce offset outputs:
+> > >=20
+> > > vwinpos is the coordinate programmed to the sensor to get a position -
+> > > and we have tooling in camshark that lets us determine the exact pixe=
+ls
+> > > we capture from any mode to see what was really produced by the senso=
+r:
+> > >=20
+> > >=20
+> > > ```
+> > > 'Sensor Native' ?
+> > > pixel (row)   -8 -7 -6 -5 -4 -3 -2 -1  0  1  2  3  4  5  6  7  8  9  =
+10 11 12 13 14 15 16
+> > > native pixels  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  =
+|  |  |  |  |  |  |
+> > >=20
+> > >=20
+> > > vwinpos       -4    -3    -2    -1     0     1     2     3     4     =
+5     6     7     8
+> > > no-binning     |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  =
+|  |  |  |  |  |  |
+> > >=20
+> > >=20
+> > > vwinpos             -3          -2          -1           0           =
+1           2     =20
+> > > /2 binning     |     |     |     |     |     |     |     |     |     =
+|     |     |     |
+> > >=20
+> > >=20
+> > > vwinpos        0                 1                 2                 =
+3                 4
+> > > /3 binning     |        |        |        |        |        |        =
+|        |        |
+> > > ```
+> > >=20
+> > >=20
+> > > To fix this - I'm moving the current '0' position for IMX283 to -2 in
+> > > the non binned modes.
+> > >=20
+> > > That gives me a coordinate system where at least I can define an
+> > > alignment for 2x2 and 3x3 binning every 12 pixels (as the lowest comm=
+on
+> > > multiplier).
+> > >=20
+> > > But - also murkies the water from the above rectanges as this sensor
+> > > turns out to have 48 lines of pixels (24 bayer pair lines) 'less than
+> > > zero' ... or at least those are the ones that are visible in light. I
+> > > can read further below zero but only for black pixels.
+> > >=20
+> > > So in otherwords - I can't even make a corresponding coordinate
+> > > rectangle that exactly matches the 'all readable' pixels or 'all
+> > > illuminated pixels' ... Ayeeeeee...
+> > >=20
+> > > My lesson/take on this: Don't trust the datasheets. They lie :D
+> >=20
+> > --=20
+> > Kind regards,
+> >=20
+> > Sakari Ailus
+> >
+>
 
