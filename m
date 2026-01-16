@@ -1,119 +1,128 @@
-Return-Path: <linux-media+bounces-50898-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50899-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B404D3180C
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 14:05:24 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 861AED31E0C
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 14:33:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 7A48E30213FC
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 13:04:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C7A9130AC746
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 13:29:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BA1E25783A;
-	Fri, 16 Jan 2026 13:04:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30FB4274FC1;
+	Fri, 16 Jan 2026 13:29:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KkzSWXSM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eDxka4fu"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8A3B23EABB;
-	Fri, 16 Jan 2026 13:04:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94DE525BF13
+	for <linux-media@vger.kernel.org>; Fri, 16 Jan 2026 13:29:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768568678; cv=none; b=RbeN4RWg1MhX0738kR7HIwbZvk+pdTNfYIRVfpNIhBU9G3Z7Hs3omzCT4+YeFgsOABXl1RGiC+uWAwkNC19LBbBqwSPEdxveEAZvHG8C9OOWddTucce4tb5MxyMHUcsNaIxe8oXWGpBo2lN6pETjouW/kQ6IyP3XSimJuh3zipA=
+	t=1768570193; cv=none; b=AAlJwJiwsxv21rB7KcoZQiyfNZ13jMiSq/Qa6Fg3kGXMfKsygKnDgTIi+3xKJkDuU/Wv35X7cAYNqfcWLxbuuAJxKZTVgAX/lQivA1FQbU+upMtpMKM3Fteh8Ccd/h5bSZo50qKyw+AnF5eJVYFVu+n/59b7KMEG0KzsG54Rz3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768568678; c=relaxed/simple;
-	bh=4CY5Ftxdqdf78iaz/GZPARSYtxXrYl4kHYgo18eZegU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=eYrW7pTuwRpo1Bz/4mMeg0Ve1pAvh1V/NK7S8gyztW1+ENvl3QOqVfyl21SERXplIYM3OvzkMKjkI69Hd9Xk+aW4Lb4avNg/zIHzO+dQKlbaGAw0p/7NMwMI+hBC3MXBC0XDRXv98Kue0PazPNuOtHnGFCtq0YdDoN0s7J9iB0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KkzSWXSM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8AB03C4AF0F;
-	Fri, 16 Jan 2026 13:04:38 +0000 (UTC)
+	s=arc-20240116; t=1768570193; c=relaxed/simple;
+	bh=Ii34bnfNGZgLEL8OC3/10ci4kB1hRgTpFPFbSfTbYAY=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=qVzajf1gDGJAlfBFqj6Nhz9RT8o3BF4b4C8uqZCbFio+Mubvl00erR4WiTrruSXvAwti6OjvT0L5IOrEh5RYtxCtbyoiDMiBHPknReaPAjTPFKRVyV42dnPY2fxZj6NS520IP/Dv1mUtOF9rBDlR7YzLEsEyuWeBdvSJ2raVf1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eDxka4fu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8443BC116C6;
+	Fri, 16 Jan 2026 13:29:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768568678;
-	bh=4CY5Ftxdqdf78iaz/GZPARSYtxXrYl4kHYgo18eZegU=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=KkzSWXSMuaN8tqpedT4ITAYYQIsUuvPx1YzJRL58rzA3lVObIyY35zaHEW2Fo8TXc
-	 Q+bPpupHEjosK9WFIdc4x1JF7kWwzVeSyR6e7wfAmOvmCb0g3+BTIFJW+rrcsSeJlb
-	 GBzuMCAVgDipOVAPO/We5imZVE2IT2s9NWuJ0K4YTM+T/Q+KLfyxVqLoiYtMMmVbU3
-	 N97YosQWyliZVcmUPUzyndr8JAYgr1PjHtCtUm6P6atV9KXY7ilsL1prlzyMt/hvfb
-	 zl9d4WUCCtCDr9kS1bpijyqC1STSuGTMfiht2PMbBNKjA5vPFsTV+SKuT7tNQno00h
-	 a85zi/xMcQ2xw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E626D4899D;
-	Fri, 16 Jan 2026 13:04:38 +0000 (UTC)
-From: Michael Riesch via B4 Relay <devnull+michael.riesch.collabora.com@kernel.org>
-Date: Fri, 16 Jan 2026 14:02:48 +0100
-Subject: [PATCH v5 3/3] arm64: defconfig: enable designware mipi csi-2
- receiver
+	s=k20201202; t=1768570193;
+	bh=Ii34bnfNGZgLEL8OC3/10ci4kB1hRgTpFPFbSfTbYAY=;
+	h=Date:From:Subject:To:Cc:From;
+	b=eDxka4fuo7yg0UCvt72Tskwuk99CnBxZRurGDL6QeVPHbNl/3q1K5q3riLVuNw5qe
+	 1WVkp1BhFXwdi96RDdo0v30BLrY7vhw/qxIEaeIju9KyrTbO/eQFpy+2SRdJTjro3r
+	 z5HXQwkQfU7qne5alpfPDauS0Ng4cr1ibaLp987Asgvdpdnu5Rg3IUDbWl3LQmoCVH
+	 SVOyfajeB9kCnkvLOFkUO4qCX7vr+MKk2B47Qp9Yecqy9Xcb0zOSOd3fiRm/D9FJN1
+	 Btnjas5i1bvcxAp/tcdumnFPxWwIDECdu70Gat/lZ9aAjhTC5vTbK/up8aOgkDmg3s
+	 O2ukHt3FZHxVg==
+Message-ID: <92e24f36-d189-4ba8-ad0b-43277bc1aabd@kernel.org>
+Date: Fri, 16 Jan 2026 14:29:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: [ANN] Media Summit on May 26th in Nice, France
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sean Young <sean@mess.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Ricardo Ribalda <ribalda@chromium.org>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Michael Tretter <m.tretter@pengutronix.de>, Tomasz Figa
+ <tfiga@chromium.org>, "Hu, Jerry W" <jerry.w.hu@intel.com>,
+ Steve Cho <stevecho@chromium.org>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Kevin Hilman <khilman@baylibre.com>, Paul Kocialkowski <paulk@sys-base.io>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Hans de Goede <hansg@kernel.org>, Maxime Ripard <mripard@kernel.org>
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251114-rockchip-mipi-receiver-v5-3-45aa117f190a@collabora.com>
-References: <20251114-rockchip-mipi-receiver-v5-0-45aa117f190a@collabora.com>
-In-Reply-To: <20251114-rockchip-mipi-receiver-v5-0-45aa117f190a@collabora.com>
-To: Michael Riesch <michael.riesch@collabora.com>, 
- Chaoyi Chen <chaoyi.chen@rock-chips.com>, 
- Kever Yang <kever.yang@rock-chips.com>, Frank Li <Frank.li@nxp.com>, 
- Mehdi Djait <mehdi.djait@linux.intel.com>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Hans Verkuil <hverkuil@kernel.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
- Collabora Kernel Team <kernel@collabora.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- linux-kernel@vger.kernel.org
-X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1768568677; l=784;
- i=michael.riesch@collabora.com; s=20250410; h=from:subject:message-id;
- bh=C9lnlkDzHuvbmOodwv1mUExRofM5smDG511gbhu0yVQ=;
- b=GtlzAED5qA4BDLUOI836OZbRb5e2245thVw8iwM5pvT6KCJ6Sn/RiDpYDVlgquSoo3/jIopjC
- ndk7KHAt6eDB1XRnhAx9TWPCP0mUIcEqs9QA6xug1stXtl+1BA+huRp
-X-Developer-Key: i=michael.riesch@collabora.com; a=ed25519;
- pk=+MWX1fffLFZtTPG/I6XdYm/+OSvpRE8D9evQaWbiN04=
-X-Endpoint-Received: by B4 Relay for michael.riesch@collabora.com/20250410
- with auth_id=371
-X-Original-From: Michael Riesch <michael.riesch@collabora.com>
-Reply-To: michael.riesch@collabora.com
 
-From: Michael Riesch <michael.riesch@collabora.com>
+(Please pass this on to anyone you think might be interested in this!)
 
-The Synopsys DesignWare MIPI CSI-2 Receiver is integrated into
-recent Rockchip SoCs, such as the RK3568 and the RK3588.
-Enable the driver for it in the default configuration.
+Hi all,
 
-Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
----
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+This year's Media Summit will be held on Tuesday May 26th the day before the
+Embedded Recipes Conference in Nice, France:
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 45288ec9eaf7..26532de26668 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -873,6 +873,7 @@ CONFIG_SDR_PLATFORM_DRIVERS=y
- CONFIG_V4L_MEM2MEM_DRIVERS=y
- CONFIG_VIDEO_AMPHION_VPU=m
- CONFIG_VIDEO_CADENCE_CSI2RX=m
-+CONFIG_VIDEO_DW_MIPI_CSI2=m
- CONFIG_VIDEO_MEDIATEK_JPEG=m
- CONFIG_VIDEO_MEDIATEK_VCODEC=m
- CONFIG_VIDEO_WAVE_VPU=m
+https://embedded-recipes.org/2026/
 
--- 
-2.39.5
+The Media Summit will be held at Hotel Campanile and in the same meeting room
+as last year (Nikaia):
 
+https://nice-aeroport.campanile.com/en-us/
 
+It is close to the Airport and to the Embedded Recipes venue.
+
+The meeting room can hold up to 30 people and I will provide video conferencing support,
+just like last year. The location and the meeting room was quite nice last year, so
+I saw no need to change it.
+
+That said, in-person participation is very much preferred. This yearly summit is meant
+for active media developers to meet face-to-face and to discuss media subsystem issues.
+
+And it is also a good opportunity to talk to each other during the Embedded Recipes
+conference to discuss topics in a smaller group. But if you are an active media developer
+and are really not able to attend in person, then remote participation is an option.
+
+If you want to attend the meeting (either in person or remote), then send an email to me
+directly. The deadline for in-person attendance is May 14 as the hotel needs to know the
+final number of attendees by then.
+
+There is no registration fee, the meeting room is sponsored by Cisco and Collabora, and
+the lunch is sponsored by Ideas on Board! Many thanks to our sponsors, it's very much
+appreciated.
+
+If you have a topic that you want to discuss, just 'Reply All' to this announcement
+and give the topic title, a short description and a guesstimate of the time you need
+for your topic.
+
+See last year's Media Summit Report as an example of what to expect:
+
+https://lore.kernel.org/linux-media/21769183-ca57-4f8f-818a-6a1ad089298d@jjverkuil.nl/
+
+This announcement goes out quite early for once, usually it takes a lot longer
+to organize, but having it in the same place as before made life so much easier.
+
+Regards,
+
+	Hans
+
+PS: Be aware that May 24 and 25 are public holidays in France. So many shops may be
+closed those days.
 
