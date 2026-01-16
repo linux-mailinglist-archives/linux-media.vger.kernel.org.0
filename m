@@ -1,123 +1,214 @@
-Return-Path: <linux-media+bounces-50846-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50847-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAA7BD2E53B
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 09:55:14 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93E3FD2E8CE
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 10:12:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id A79503005F11
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 08:55:10 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A389830263CC
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 09:12:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C25D31195A;
-	Fri, 16 Jan 2026 08:55:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B45931D759;
+	Fri, 16 Jan 2026 09:12:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="MGRVe4vq"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pi8JlhvX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 444883115AF
-	for <linux-media@vger.kernel.org>; Fri, 16 Jan 2026 08:55:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B1C331BCAE
+	for <linux-media@vger.kernel.org>; Fri, 16 Jan 2026 09:12:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768553706; cv=none; b=IxRcVn9f9029mypGh0/nUMgQA5plWDsAFoX36RWiKM01P5Ldxa5dclTM7HyZgoPu5uO8w5vP+TLfdx6VB0OGPW15TAY1NFzTLLih7zpmadOG3dTZEr62UiCgOWSzSTOwPiUvXcktwYc22unVq6Oc6b4qxIjdofLfioYCbunwNb8=
+	t=1768554733; cv=none; b=YJn8Hldgay2Q4fQgE8e3/s30Gwmfjf55vNiu77xqFpxXopQUb6jpOul0bt/ii6ujGMhRaowzPP3Uf/7ThKFwsxRLHalkGwPQrnqbrlLlGi37kNJVdpYf44MzeekNIsFcdiNHS0XsLYDNUKT1I3M9tVRe4uKIkHp97wuzcm9m0Og=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768553706; c=relaxed/simple;
-	bh=LZNh/B15RQu+YqUrBR6c36jS6KvAXKHkwL3ylqzkC0Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YQKUyP2mlaVEPQBpAwSG3PHXSeCKJI0IXMHiQr5HFkpRaSL4UnBpb4jZ2EcdnYOrWLqkvyUtmSqUUMVBr+Go/A4qGufKa3lc9B1o4Lu1PZ22HVDRQ+CFasEGLiW7ewU617ztBb5hGtQKsZQUDQ0gaBHn11ULaewgRiTV1hpClEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=MGRVe4vq; arc=none smtp.client-ip=209.85.208.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-383138a497bso16025961fa.2
-        for <linux-media@vger.kernel.org>; Fri, 16 Jan 2026 00:55:03 -0800 (PST)
+	s=arc-20240116; t=1768554733; c=relaxed/simple;
+	bh=/HeROcY+wue/RnfDCzGh5TkygmGivHiZHG7v8KNDXNQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PDGAFwm5CGL3XFaemDih5zGPTZQIQPy7ATLUxJQ7MXiT2FbRUYTEZQmGNmK5svfxhTqZadmOy53W0t3a9B/PS1G5W1cMKZ3Gz25tMuIil4yXugXmF+6Y2Rk4AdGhFI4XYIlz8KaqSItCia2P03ihLwbUY+LiJrCqb04JP2Ob3HI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pi8JlhvX; arc=none smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-382fb1e257bso2512941fa.3
+        for <linux-media@vger.kernel.org>; Fri, 16 Jan 2026 01:12:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1768553702; x=1769158502; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=linaro.org; s=google; t=1768554729; x=1769159529; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LZNh/B15RQu+YqUrBR6c36jS6KvAXKHkwL3ylqzkC0Q=;
-        b=MGRVe4vqEoQvvWoL83/yPMuGeLZxI0LilnPDo4aCbYv8NkZLO79tUUdqrDIsao5qZz
-         TODTY/3r2mlq7DakXQR2AxzzkRYpNk9dE5f/KqpbdkoW7K1lEaKZ/vk9GqF8GhsdxM+e
-         MNbnZuTpj9Z8FqcZ1gvHfw+8sotkc4mlA3a8gvWdJTOuygmlBNxVpc4aeC+bx3E62vGk
-         gOe7p337RYJ4VER6qP4jCRktNRGk4ckbZlZLkH2bWdQwVw/XCVIKk25pX5fNP8nXf0Ji
-         RWz9Iim4AgDVHhl44p6MMTalHC/SCgoEq+2No/o44WYlW1NG9HL36WEAvOyi4H/yemvc
-         OM9A==
+        bh=pqAbJs5DEIYF5QCBGJfgcurtZvGAMM7ELYVo8ENiu9M=;
+        b=pi8JlhvXn++3rJEQ8Wv+3wopz/ouDG0V6LlCBdNEckYz7gLn9hS4zOS8yFN4JVTuj6
+         eUgVu2KVJlxZnSzR1uD6lqWeK/wEaVuWDmndR/TxKCBm3gBH8soWuXOFCsxpVKgYkChl
+         C87Vmhym4AvFaMuTl4VvwU5NZdS2rqiEFvMLu9QLy/Hd7lSLu+k+DifphE13QGO4pXMT
+         hT2wgq7+snBL3wFBYhoYhLF5Gd9x3v+/aSKD7VtkDI+uCMG/Ovi36zSTCmvrEQZFslzN
+         nOIqU6sxfdpeFhC/OFi15iANK6tfQir0yJkV8T8oevHvKGLwTZOASigK+1rtO1j/o5pn
+         skww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768553702; x=1769158502;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LZNh/B15RQu+YqUrBR6c36jS6KvAXKHkwL3ylqzkC0Q=;
-        b=cLoXkmExcjBpOcTKEoGHypjPUFOSjZ2gD5N+EwVkQo3N3VKbvLxoAvP6jipmaICv2/
-         VZCIJtC0eGDo4icfTXDBvySiplB2cqYEfg1oksCLeEeSLwfupbenBcc6LLcJ9TxBsbAg
-         KguORT6lC6n3txRHqrlVtsGK7w0YgbjboIM8fWrwT22JTVMF8PQD+zIU4KPKOqM6hazx
-         2Rzzur7skTyQw8Fm1nHxYOklhuo0uASZKLQuo8GqSO2MfvPcS/085l9/t+DUmIpGXSau
-         Bg5H8+ACV7hf8SlInJZuN6G/BViWzQw9TMfeG6DkrPWl+6s7P9knZpXsWoT+nqU16rNJ
-         Aupg==
-X-Forwarded-Encrypted: i=1; AJvYcCXHtQ0wIQksfdO6vvKSfejRWF3Q8RfZMQQ4PkTNmwaUS5Py/BGq3roNXNE/xuF5pXUjMc8aFqEcSHVFQQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0y+droO37RtwvoA0plLLyzv34FPs0+UWOkoaDc5hatsr4gpjn
-	rgLGBXe7pnDnQxkcWdR+6TnO/P39JnAJrNyEbTu8R5T8gJeoGxWOR7yUC7KlpeRSEuJeGUncaLK
-	mdycfTblV33C9ZHr3qfkuVb8DKd+0neaMYJXaOSBASQ==
-X-Gm-Gg: AY/fxX7LWR9NcZ9z1VgMfr3yPB1y7ioU3rP0/gCwZRuSwPVTkq/wkau0tJUXbRZ7GrZ
-	AQds/41zdJaKc7H4iCM8Texyi2GYNpgGqYfMgxqoraL/+dBjUdzdr3S7G2EUmrxEkqnEy3rk0/D
-	okcVIkWr1E/yJgtC0ajosm22POeclfp6J22VVBfxc+tXNUgOghtUXtsnmlWQf+FNii85N9MO8+Q
-	JUiGU4Iiykg6ZvTEOyd4EC7WBxet0EDMEktUCX8jw3KD4dXxPUA651l/bN6waFiXrJFhC1Xr2Xv
-	Brk3mCjqVuYT2B+zwxI/5Y9zz8fl
-X-Received: by 2002:a05:6512:1153:b0:598:e8b7:665d with SMTP id
- 2adb3069b0e04-59bafdb54fcmr688853e87.3.1768553702228; Fri, 16 Jan 2026
- 00:55:02 -0800 (PST)
+        d=1e100.net; s=20230601; t=1768554729; x=1769159529;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pqAbJs5DEIYF5QCBGJfgcurtZvGAMM7ELYVo8ENiu9M=;
+        b=Ve9AXsslY9sDxaluHBHyi0a+50822TME2HdZc0LZLomRercwmn0s+r9oUl2uW1WkQV
+         ojQCucaFzLEQL43qttDp7B0mCJlc7RkebFQ0M2PXjBd4xAZlO9XH6BAcMAVwTl/rECxJ
+         NQ6LLt2ZteqhnMJJ3IxQ67NdkDeM5kYqciX8ZZMOEjTjuvSO+12OHhnrWqec69bfvNsS
+         n5FURhYHU7tAy4Q85EhBvaNnwtZYR4AJs7gHej68674a1rmWQYt3bQzGB3IOUSVac+rF
+         mKk/sWMDM6zfsN4YbwuVhAwILMFuyqhBF04NBmG4RQ1PFzk2oivToCQYh4hVkRZ7OHG+
+         Piew==
+X-Forwarded-Encrypted: i=1; AJvYcCWDx3NPmcLF03v01FUFAGk/wter6m5AKwuXdqEZ9EmLLzHSRjncG6U3On99lvJOnOayr8m3h3NC92/f/g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyEoNec9294wSrIQFhqDngOggL14OAJmKfNwv/DXgFqL3o2cECb
+	DHymPMPlwgyxwjfhow9LdrhDzI57+Re+5hz1xWBwZ2BC3AuMOIsvtsBf5NzBbbdYiJ8=
+X-Gm-Gg: AY/fxX4lb8xf+5lcdWSXfM73wij5FMp6ouNbZFtWLlcQ/WKIi4pAiJnLNKgCQdSBXV0
+	jRIhlR1opE5cy1m6HkYflvBVIkfVDM5VjsOPGR0iq3VRKp+VOQKb2LSuCDqXBxMikR4TgpV1PwS
+	/lLDnGmOWkqJGKqSJsBAzHOSK3cvXAWoTTuz7t5Cx4w9gNdNWakUHGBQEM/oL2Kt4bFLxnBGMOJ
+	EYAGoX0QU7BjoSnB5cZLFU/TYB1mq5bxIeZQrYZsG0nn3Vix9oO1i3OZDu7hkytIJ4GRKmjbNxM
+	K3rg0TZBbIAVmw/eEovA7t2qpyXp2Ibg7on949K6Egy0soYTjfAbUFkuStu4wn9AuMmC+qzAFKX
+	uak5SQQulyCfXrxtKsK+9EbX+l3EHtxSha5Oc7g1W1qmlSkAANtrowLAqooP7WBI292+bou3kAf
+	xPIzJ9RnMAszTefmtsHyYkJTSjnAVYXyhae4C9eaPqBZBSe61Dis6ttzMsfgj/Q+IYGw==
+X-Received: by 2002:a05:651c:991:b0:380:a1c:7039 with SMTP id 38308e7fff4ca-38383fe5fbemr4683611fa.0.1768554729185;
+        Fri, 16 Jan 2026 01:12:09 -0800 (PST)
+Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38384d8e0e5sm5608701fa.17.2026.01.16.01.12.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Jan 2026 01:12:08 -0800 (PST)
+Message-ID: <3b16ffa2-1580-426c-aa9c-f377d913d49c@linaro.org>
+Date: Fri, 16 Jan 2026 11:12:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260113140446.196930-1-marco.crivellari@suse.com> <ead963dd-11eb-44b4-9bf5-bab4dae4bcde@ideasonboard.com>
-In-Reply-To: <ead963dd-11eb-44b4-9bf5-bab4dae4bcde@ideasonboard.com>
-From: Marco Crivellari <marco.crivellari@suse.com>
-Date: Fri, 16 Jan 2026 09:54:50 +0100
-X-Gm-Features: AZwV_Qg7LDca2kc3G7dY5_H-fn6a9EkLkuaCsBuocRLHlERJRX0STr4pKIdN5sQ
-Message-ID: <CAAofZF4D4jAdTK6ZttOE7nSXbDqyGefYRsroNtS-7yoPRE5EEQ@mail.gmail.com>
-Subject: Re: [PATCH] media: platform: Add WQ_PERCPU to alloc_workqueue users
-To: Dan Scally <dan.scally@ideasonboard.com>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
-	Frederic Weisbecker <frederic@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Michal Hocko <mhocko@suse.com>, Mauro Carvalho Chehab <mchehab@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 5/5] arm64: dts: qcom: talos-evk-camera: Add DT overlay
+To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>,
+ Loic Poulain <loic.poulain@oss.qualcomm.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>
+Cc: linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+References: <20260115-sm6150_evk-v3-0-81526dd15543@oss.qualcomm.com>
+ <20260115-sm6150_evk-v3-5-81526dd15543@oss.qualcomm.com>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20260115-sm6150_evk-v3-5-81526dd15543@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jan 15, 2026 at 10:20=E2=80=AFPM Dan Scally <dan.scally@ideasonboar=
-d.com> wrote:
-> [...]
-> Sorry for the delay getting back to you. I haven't looked at the impact o=
-f the refactoring in
-> detail, but I'm happy to trust you on the workqueue internals and this is=
- line with the changes to
-> other drivers across the tree so:
->
-> Acked-by: Daniel Scally <dan.scally@ideasonboard.com>
+On 1/15/26 12:12, Wenmeng Liu wrote:
+> Enable IMX577 via CCI on Taloss EVK Core Kit.
+> 
+> The Talos EVK board does not include a camera sensor
+> by default, this DTSO has enabled the Arducam 12.3MP
+> IMX577 Mini Camera Module on the CSI-1 interface.
+> 
+> Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+> ---
+>   arch/arm64/boot/dts/qcom/Makefile                  |  3 ++
+>   .../boot/dts/qcom/talos-evk-camera-imx577.dtso     | 63 ++++++++++++++++++++++
+>   2 files changed, 66 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
+> index 00652614e73582fa9bd5fbeff4836b9496721d2d..be9aeff2cd1555bc436e1b8eb78d8e1c9b84f9c4 100644
+> --- a/arch/arm64/boot/dts/qcom/Makefile
+> +++ b/arch/arm64/boot/dts/qcom/Makefile
+> @@ -339,8 +339,11 @@ dtb-$(CONFIG_ARCH_QCOM)	+= sm8650-qrd.dtb
+>   dtb-$(CONFIG_ARCH_QCOM)	+= sm8750-mtp.dtb
+>   dtb-$(CONFIG_ARCH_QCOM)	+= sm8750-qrd.dtb
+>   dtb-$(CONFIG_ARCH_QCOM)	+= talos-evk.dtb
+> +dtbo-$(CONFIG_ARCH_QCOM)	+= talos-evk-camera-imx577.dtbo
 
-Hi Daniel,
+Please remind me, what does dtbo-y Makefile target serve for?
 
-No worries, thanks for your reply and the Ack!
+> +talos-evk-camera-imx577-dtbs	:= talos-evk.dtb talos-evk-camera-imx577.dtbo
+>   talos-evk-lvds-auo,g133han01-dtbs	:= \
+>   	talos-evk.dtb talos-evk-lvds-auo,g133han01.dtbo
+> +dtb-$(CONFIG_ARCH_QCOM)	+= talos-evk-camera-imx577.dtb
+>   dtb-$(CONFIG_ARCH_QCOM)	+= talos-evk-lvds-auo,g133han01.dtb
+>   x1e001de-devkit-el2-dtbs	:= x1e001de-devkit.dtb x1-el2.dtbo
+>   dtb-$(CONFIG_ARCH_QCOM)	+= x1e001de-devkit.dtb x1e001de-devkit-el2.dtb
+> diff --git a/arch/arm64/boot/dts/qcom/talos-evk-camera-imx577.dtso b/arch/arm64/boot/dts/qcom/talos-evk-camera-imx577.dtso
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..53006a861878f9112673b9a0ad954bed7a5fdca5
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/qcom/talos-evk-camera-imx577.dtso
+> @@ -0,0 +1,63 @@
+> +// SPDX-License-Identifier: BSD-3-Clause
+> +/*
+> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+> + */
+> +
+> +/dts-v1/;
+> +/plugin/;
+> +
+> +#include <dt-bindings/clock/qcom,qcs615-camcc.h>
+> +#include <dt-bindings/gpio/gpio.h>
+> +
+> +&camss {
+> +	vdd-csiphy-1p2-supply = <&vreg_l11a>;
+> +	vdd-csiphy-1p8-supply = <&vreg_l12a>;
+> +
+> +	status = "okay";
+> +
+> +	ports {
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +
+> +		port@1 {
+> +			reg = <1>;
+> +
+> +			csiphy1_ep: endpoint {
+> +				data-lanes = <0 1 2 3>;
+> +				remote-endpoint = <&imx577_ep1>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&cci {
+> +	status = "okay";
+> +};
+> +
+> +&cci_i2c1 {
+> +	#address-cells = <1>;
+> +	#size-cells = <0>;
+> +
+> +	camera@1a {
+> +		compatible = "sony,imx577";
+> +		reg = <0x1a>;
+> +
+> +		reset-gpios = <&tlmm 29 GPIO_ACTIVE_LOW>;
+> +		pinctrl-0 = <&cam2_default>;
+> +		pinctrl-names = "default";
+> +
+> +		clocks = <&camcc CAM_CC_MCLK2_CLK>;
+> +		assigned-clocks = <&camcc CAM_CC_MCLK2_CLK>;
+> +		assigned-clock-rates = <24000000>;
+> +
+> +		avdd-supply = <&vreg_s4a>;
+> +
+> +		port {
+> +			imx577_ep1: endpoint {
+> +				link-frequencies = /bits/ 64 <600000000>;
+> +				data-lanes = <1 2 3 4>;
+> +				remote-endpoint = <&csiphy1_ep>;
+> +			};
+> +		};
+> +	};
+> +};
+> 
 
-BTW, the introduction of WQ_PERCPU here it's only to keep the same old
-behavior, but make explicit it is per-cpu and not unbound.
+Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 
-Looking at the code there is a big chance this can already be
-converted to unbound anyhow,
-(WQ_UNBOUND, explicitly) because I don't see per-cpu variables around.
-Otherwise this can
-be done in a later step, and keep the per-cpu behavior for now, like
-it has been till now.
-
-Thanks!
-
---=20
-
-Marco Crivellari
-
-L3 Support Engineer
+-- 
+Best wishes,
+Vladimir
 
