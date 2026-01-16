@@ -1,53 +1,46 @@
-Return-Path: <linux-media+bounces-50873-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50874-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD091D30B9D
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 12:55:17 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9084AD30B61
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 12:54:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 37CC03063263
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 11:53:06 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 1979F304674E
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 11:53:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96F5937E2F2;
-	Fri, 16 Jan 2026 11:53:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9C6A37F0E8;
+	Fri, 16 Jan 2026 11:53:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="dACYW8d7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l20Ut8tl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CFC137A4A1;
-	Fri, 16 Jan 2026 11:52:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21088376BCC;
+	Fri, 16 Jan 2026 11:53:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768564382; cv=none; b=MCWVZNsjxm3LWByYkDR/qcg/dJ9oTC4GBzfA9UzzhnSkGK9MXaDb2Anc8xwMSXVQhCSP4/UKSpbO2MAITPSTtgc1Y7vWAFJRdHs4nr2lGJrOfBfK2BtF9PvJhLiBkJHS9b0e9YKoQm7LVhEbCaD7O79cYMRTSYlAvS//Z/t4ooU=
+	t=1768564412; cv=none; b=jbwb9NPLu8i9lKrfiuRpBPOIPloolM1HyS21csB+zuQy/b734UyCJKvKiMfs7NT1l6yee5MdIna68TE/6N81NrP/6umIgCG4zqZqqsNFSlh5W+K+IYmOAI5ag41FHCHh8vxdRLcrOBFOThV+3L+B3t8ixbvTiWJt46C7vUgwO5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768564382; c=relaxed/simple;
-	bh=nknwdjwlTfZ9RlS5zqZbBOK2l5l0+b+5NYdaA3MTaNM=;
+	s=arc-20240116; t=1768564412; c=relaxed/simple;
+	bh=jzZJx/DG6Zqo7qlJf1jhSne8lEhyZwo45DsiKRwHILw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CCSGcqo2I2Khy7MzK2cd1/jaORJg6pJWNmyrUbHPLfhatqc3oeBuCD2M9APLp79xMN1aoY1cSq9OWbRRzFlP9LpcbCcEUrAdEQAqAxfwigLH1URagI/C8uic5lAdae267kimZ8QCwvDD+35LO2rQwdElzbMsQpTGyUBnb5EaBnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=dACYW8d7; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1768564376;
-	bh=nknwdjwlTfZ9RlS5zqZbBOK2l5l0+b+5NYdaA3MTaNM=;
+	 In-Reply-To:Content-Type; b=i0eVmH4O9ZsvnNnx0l55Aa7OK/Xg8M8EqIItFMDsqGMChTlsOwAfMMPXu6aqGoDrAMwmMP7Bz+doHXhAl4rzVUjIIOc7eKBISB5Ya/2Xxz1D9wDEah6kg+606XbkeMJJ/cOkK1bnop2wle1TUyUhvmL2S/fKLdHf2Zq76JcaDeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l20Ut8tl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77198C116C6;
+	Fri, 16 Jan 2026 11:53:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768564411;
+	bh=jzZJx/DG6Zqo7qlJf1jhSne8lEhyZwo45DsiKRwHILw=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=dACYW8d7AN3fQWTePdA4eEQBJQXLG2fJ/HAc/QkTzGo2/XN6vbf6Wbq6KGqwKOdMY
-	 jcX+dVMgcqhVrzvYzyA9dgYgfrs1NrGhxkRmHTvMCw8Pgh9dp27XMd4Mnhj+kRIkCM
-	 SE+rCM+Snyn7GOWfAilrggBo7dmX/8emiA0AESpkZ+orwNJSOXrmHmGyyfR6+3lwtO
-	 Bv1KFQ+ykohO3Qp1ORsyxAHFDDCdBRKR1oWTj2UJ6ljHZKn0R7CNHmNEo7tdN4U0EP
-	 z6X6d/ffCqqYbFX2G+0BRdmKa53YnsBql1O5+8RUECR6jtyMbSryfMJmIFDT6W/Zpk
-	 U5kRswXfAb5DQ==
-Received: from [10.40.0.100] (185-67-175-126.lampert.tv [185.67.175.126])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: mriesch)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 5037017E1380;
-	Fri, 16 Jan 2026 12:52:55 +0100 (CET)
-Message-ID: <03547127-6903-4925-bb49-c77a377bf177@collabora.com>
-Date: Fri, 16 Jan 2026 12:52:54 +0100
+	b=l20Ut8tl3t6NzpOKUOVet0b04jq2qqYAS0XkD5ab8py4BfvaPlE5bZBXTOBx6wOl7
+	 97Z+LWyLUH1eLnOdMRM51d1tckUkjsKN7anclgHehXrk1MBf8Nz73nMpcnUn59VGzQ
+	 N8SRjlcttSXqE00szALY2bV5LaI3yLMiK2myGzweUfm9S2VavwukdOQUHUci1icFCE
+	 TuMfoKRI4i7ObL/a7zMd7VSXMoerTWpyQU7/zn5dFFDQOHRnD3DAXA+wIOuyI6MKhz
+	 ENzG2g5Gq9RwBxvdP3b6EARX7HMrpCr1AAs3hsCT7D7t7GzG32JVXuLuhgAwNLjYN7
+	 IxPRRID5eHllA==
+Message-ID: <cc6e1fdd-f15f-4d31-b2c6-1fb59938786c@kernel.org>
+Date: Fri, 16 Jan 2026 12:53:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,130 +48,110 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/3] media: synopsys: add driver for the designware
- mipi csi-2 receiver
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Chaoyi Chen <chaoyi.chen@rock-chips.com>,
- Kever Yang <kever.yang@rock-chips.com>, Frank Li <Frank.li@nxp.com>,
- Mehdi Djait <mehdi.djait@linux.intel.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans Verkuil <hverkuil@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Collabora Kernel Team <kernel@collabora.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20251114-rockchip-mipi-receiver-v4-0-a9c86fecd052@collabora.com>
- <20251114-rockchip-mipi-receiver-v4-2-a9c86fecd052@collabora.com>
- <aWoOoBS_hWRQP7ac@kekkonen.localdomain>
+Subject: Re: [PATCH v4 6/6] media: iris: Introduce vpu ops for vpu4 with
+ necessary hooks
+To: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+ Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+ Bryan O'Donoghue <bod@kernel.org>
+Cc: Abhinav Kumar <abhinav.kumar@linux.dev>, Rob Herring <robh@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Vishnu Reddy <busanna.reddy@oss.qualcomm.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+References: <20251210-knp_video-v4-0-8d11d840358a@oss.qualcomm.com>
+ <20251210-knp_video-v4-6-8d11d840358a@oss.qualcomm.com>
+ <54b29b03-4166-60d9-d553-d0e655749da4@oss.qualcomm.com>
+ <98481299-4db3-41f3-a974-d9d0075d92e0@kernel.org>
+ <b6a89ccc-45da-a4eb-df69-29e80dbe3655@oss.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Michael Riesch <michael.riesch@collabora.com>
-In-Reply-To: <aWoOoBS_hWRQP7ac@kekkonen.localdomain>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <b6a89ccc-45da-a4eb-df69-29e80dbe3655@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Sakari,
-
-Thanks for your review!
-
-On 1/16/26 11:10, Sakari Ailus wrote:
-> Hi Michael,
-> 
-> Thanks for the update. A few minor comments below...
-> 
-> On Thu, Jan 15, 2026 at 07:26:08PM +0100, Michael Riesch via B4 Relay wrote:
->> From: Michael Riesch <michael.riesch@collabora.com>
+On 16/01/2026 12:30, Dikshita Agarwal wrote:
 >>
->> The Synopsys DesignWare MIPI CSI-2 Receiver is a CSI-2 bridge with
->> one input port and one output port. It receives the data with the
->> help of an external MIPI PHY (C-PHY or D-PHY) and passes it to e.g.,
->> the Rockchip Video Capture (VICAP) block on recent Rockchip SoCs.
->>
->> Add a V4L2 subdevice driver for this unit.
->>
->> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
->> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->> Reviewed-by: Mehdi Djait <mehdi.djait@linux.intel.com>
->> Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
->> ---
->>  MAINTAINERS                                        |   1 +
->>  drivers/media/platform/synopsys/Kconfig            |   1 +
->>  drivers/media/platform/synopsys/Makefile           |   1 +
->>  .../media/platform/synopsys/dw-mipi-csi2/Kconfig   |  17 +
->>  .../media/platform/synopsys/dw-mipi-csi2/Makefile  |   2 +
->>  .../platform/synopsys/dw-mipi-csi2/dw-mipi-csi2.c  | 735 +++++++++++++++++++++
+>> I think this review timeline is final argument for Vikash to stop
+>> pushing such narratives and complains, because your review is expected
+>> to be BEFORE the maintainer upper in the upstream flow.
 > 
-> How about dw-mipi-csi2rx (or dw-csi2rx)? There might be a tx chip, too...
+> Since these changes were posted by Vikash, who is a co‑maintainer of this
+> driver, I initially waited for reviews from other community members before
+> adding my own tags. We did receive review comments on most of the patches,
 
-Heiko and I had an offlist name bikeshedding discussion, and he already
-responded to that concern. Please find the rationale for this there.
+This is not how it works.
 
+> and I intentionally held back my Reviewed-by tags to allow space for
+> broader feedback.
 > 
->>  [...]
->> +static int dw_mipi_csi2_disable_streams(struct v4l2_subdev *sd,
->> +					struct v4l2_subdev_state *state,
->> +					u32 pad, u64 streams_mask)
->> +{
->> +	struct dw_mipi_csi2_device *csi2 = to_csi2(sd);
->> +	struct v4l2_subdev *remote_sd;
->> +	struct media_pad *sink_pad, *remote_pad;
->> +	struct device *dev = csi2->dev;
->> +	u64 mask;
->> +	int ret;
->> +
->> +	sink_pad = &sd->entity.pads[DW_MIPI_CSI2_PAD_SINK];
->> +	remote_pad = media_pad_remote_pad_first(sink_pad);
->> +	remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
->> +
->> +	mask = v4l2_subdev_state_xlate_streams(state, DW_MIPI_CSI2_PAD_SINK,
->> +					       DW_MIPI_CSI2_PAD_SRC,
->> +					       &streams_mask);
->> +
->> +	ret = v4l2_subdev_disable_streams(remote_sd, remote_pad->index, mask);
->> +
->> +	dw_mipi_csi2_stop(csi2);
->> +
->> +	pm_runtime_put_sync(dev);
-> 
-> How about just pm_runtime_put()?
+> Now that the series has been on the mailing list for about a month without
+> any remaining open comments, I have gone ahead and reviewed the patches,
+You as a driver maintainer should review within few days, week maximum.
+Not a month. And IT IS DOCUMENTED.
 
-Ah right, for some reason I used the _sync variant in the error path of
-_enable_streams and used it here, too.
+You do not need to wait for anyone in the community for performing your
+side of driver review. Performing review after one month is not really
+responsible, but the only party you affect is your own team, so sure, I
+don't mind.
 
-But I can change both instances to plain _put.
+But DO NOT apply such rule of waiting months for the rest of the community.
 
+Please read Documentation/maintainer/feature-and-driver-maintainers.rst
+which gives you clear guidelines what is expected, including the
+timeline. If you disagree and claim Iris is maintained by you in
+weeks-time (one month), that rule will apply to all of us, entire
+community and also to Bryan - we all can look at patches to Iris within
+that timeframe.
 
-> [...]
->> +static struct platform_driver dw_mipi_csi2_drv = {
->> +	.driver = {
->> +		   .name = "dw-mipi-csi2",
->> +		   .of_match_table = dw_mipi_csi2_of_match,
->> +		   .pm = &dw_mipi_csi2_pm_ops,
-> 
-> Just tabs, please.
-
-Oops! Not sure how this could happen. Sorry for that, will fix!
-
-I'll send out v5 soon.
 
 Best regards,
-Michael
-
-> 
->> +	},
->> +	.probe = dw_mipi_csi2_probe,
->> +	.remove = dw_mipi_csi2_remove,
->> +};
->> +module_platform_driver(dw_mipi_csi2_drv);
->> +
->> +MODULE_DESCRIPTION("Synopsys DesignWare MIPI CSI-2 Receiver platform driver");
->> +MODULE_LICENSE("GPL");
->>
-> 
-
+Krzysztof
 
