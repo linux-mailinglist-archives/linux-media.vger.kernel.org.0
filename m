@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-50874-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50875-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9084AD30B61
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 12:54:10 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id D56ADD30C18
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 12:57:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 1979F304674E
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 11:53:34 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AEFD0310D9BC
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 11:54:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9C6A37F0E8;
-	Fri, 16 Jan 2026 11:53:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B6A637F73F;
+	Fri, 16 Jan 2026 11:54:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l20Ut8tl"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sxi96wCi"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21088376BCC;
-	Fri, 16 Jan 2026 11:53:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6547637E2E7;
+	Fri, 16 Jan 2026 11:54:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768564412; cv=none; b=jbwb9NPLu8i9lKrfiuRpBPOIPloolM1HyS21csB+zuQy/b734UyCJKvKiMfs7NT1l6yee5MdIna68TE/6N81NrP/6umIgCG4zqZqqsNFSlh5W+K+IYmOAI5ag41FHCHh8vxdRLcrOBFOThV+3L+B3t8ixbvTiWJt46C7vUgwO5Q=
+	t=1768564465; cv=none; b=aWLPcjr8CIyt2pbEjP0iBRMR/FwMoMz3RZ0PzMBoih/NXNAnUWggnLp8yV51d6xRFQaemNuaDo9oiettz+0J/4efPfxTFZIVydMz3y+EBIpAAFmHiRC865DmJ9743TIDQ7ua3TRaMVVjc3BD3kr5tDW0THBSJIMGfpZ87jMBR6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768564412; c=relaxed/simple;
-	bh=jzZJx/DG6Zqo7qlJf1jhSne8lEhyZwo45DsiKRwHILw=;
+	s=arc-20240116; t=1768564465; c=relaxed/simple;
+	bh=adWZdMr6CS292Gxbr1AaEQV3wG0/06DcKLNVaeyA/ZU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i0eVmH4O9ZsvnNnx0l55Aa7OK/Xg8M8EqIItFMDsqGMChTlsOwAfMMPXu6aqGoDrAMwmMP7Bz+doHXhAl4rzVUjIIOc7eKBISB5Ya/2Xxz1D9wDEah6kg+606XbkeMJJ/cOkK1bnop2wle1TUyUhvmL2S/fKLdHf2Zq76JcaDeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l20Ut8tl; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77198C116C6;
-	Fri, 16 Jan 2026 11:53:27 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=CQnuIiTgwFscgSKJBkOKru2LlzNh5sE5xoVgci927QKqWSPFE0JIJ2yi0RVQX8PMXo8gHQDZfpq94d51cEFwQilwuPFjoyx3z+CijMV+6oe3SiZ6fuP/CPMPSy5l18hb5V+mwFNfkmYw0DXNpcCN9L+iLA9WlkNPdObQ4FfHBRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sxi96wCi; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE627C116C6;
+	Fri, 16 Jan 2026 11:54:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768564411;
-	bh=jzZJx/DG6Zqo7qlJf1jhSne8lEhyZwo45DsiKRwHILw=;
+	s=k20201202; t=1768564464;
+	bh=adWZdMr6CS292Gxbr1AaEQV3wG0/06DcKLNVaeyA/ZU=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=l20Ut8tl3t6NzpOKUOVet0b04jq2qqYAS0XkD5ab8py4BfvaPlE5bZBXTOBx6wOl7
-	 97Z+LWyLUH1eLnOdMRM51d1tckUkjsKN7anclgHehXrk1MBf8Nz73nMpcnUn59VGzQ
-	 N8SRjlcttSXqE00szALY2bV5LaI3yLMiK2myGzweUfm9S2VavwukdOQUHUci1icFCE
-	 TuMfoKRI4i7ObL/a7zMd7VSXMoerTWpyQU7/zn5dFFDQOHRnD3DAXA+wIOuyI6MKhz
-	 ENzG2g5Gq9RwBxvdP3b6EARX7HMrpCr1AAs3hsCT7D7t7GzG32JVXuLuhgAwNLjYN7
-	 IxPRRID5eHllA==
-Message-ID: <cc6e1fdd-f15f-4d31-b2c6-1fb59938786c@kernel.org>
-Date: Fri, 16 Jan 2026 12:53:25 +0100
+	b=sxi96wCi4H6Y0A+QVERvjiX9/ylbxqPgJNT8s7gZt+Xwj+9vIk3/ZC6PJRgZTizBl
+	 K9xql/UAD0GesCLejFCPG+RWxnF4eh28m3TwRaS+XWqQEmo/0iu6nppO++3XR27eII
+	 odLe2+YQ7YA5HnUOwcSSbynAs37RN3sKixF4l3B4BMOXVBIDxwudQlQv+1h8Xq47F/
+	 /z0IQ/cfIssuVptNoPQQ/EP8ObYQ3oBQc18igNt4IKuNVQ1THCdZOifaqDB9d23Ttn
+	 dHgMWWPqbkrsQjEMjoCnSCAaz5dvN11ODjz/UT9XbMRDcdvb516FdLD/xGUt+eWxwI
+	 0qMJWLx9jb/QQ==
+Message-ID: <cc7104b7-87ba-442f-9582-e3fe0c725c22@kernel.org>
+Date: Fri, 16 Jan 2026 12:54:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,8 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v4 6/6] media: iris: Introduce vpu ops for vpu4 with
  necessary hooks
-To: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
- Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+ Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
  Bryan O'Donoghue <bod@kernel.org>
 Cc: Abhinav Kumar <abhinav.kumar@linux.dev>, Rob Herring <robh@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>,
@@ -67,7 +67,7 @@ References: <20251210-knp_video-v4-0-8d11d840358a@oss.qualcomm.com>
  <20251210-knp_video-v4-6-8d11d840358a@oss.qualcomm.com>
  <54b29b03-4166-60d9-d553-d0e655749da4@oss.qualcomm.com>
  <98481299-4db3-41f3-a974-d9d0075d92e0@kernel.org>
- <b6a89ccc-45da-a4eb-df69-29e80dbe3655@oss.qualcomm.com>
+ <035e9f34-f28f-47fd-ac36-6277171b0e28@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -113,44 +113,49 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <b6a89ccc-45da-a4eb-df69-29e80dbe3655@oss.qualcomm.com>
+In-Reply-To: <035e9f34-f28f-47fd-ac36-6277171b0e28@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 16/01/2026 12:30, Dikshita Agarwal wrote:
+On 16/01/2026 12:27, Vikash Garodia wrote:
+> 
+> On 1/16/2026 4:16 PM, Krzysztof Kozlowski wrote:
+>> On 16/01/2026 10:51, Dikshita Agarwal wrote:
+>>>
+>>>
+>>> On 12/10/2025 6:06 PM, Vikash Garodia wrote:
+>>>> Add power sequence for vpu4 by reusing from previous generation wherever
+>>>> possible. Hook up vpu4 op with vpu4 specific implemtation or resue from
+>>>> earlier generation wherever feasible, like clock calculation in this
+>>>> case.
+>>>>
+>>>> Co-developed-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+>>>> Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+>>>> Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+>>>> ---
+>>>>   drivers/media/platform/qcom/iris/Makefile          |   1 +
+>>>>   .../platform/qcom/iris/iris_platform_common.h      |   7 +
+>>>>   drivers/media/platform/qcom/iris/iris_vpu4x.c      | 369 +++++++++++++++++++++
+>>>>   drivers/media/platform/qcom/iris/iris_vpu_common.h |   1 +
+>>>>   4 files changed, 378 insertions(+)
+>>>>
+>>>
+>>> Reviewed-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
 >>
->> I think this review timeline is final argument for Vikash to stop
->> pushing such narratives and complains, because your review is expected
->> to be BEFORE the maintainer upper in the upstream flow.
+>>
+>> Thank you for reviewing this code. I would like to point that it took
+>> one month for Qualcomm to review this Qualcomm patch and in the same
+>> time Vikash is sending emails (more than one!) that Bryan does not
+>> review that fast as expected.
 > 
-> Since these changes were posted by Vikash, who is a co‑maintainer of this
-> driver, I initially waited for reviews from other community members before
-> adding my own tags. We did receive review comments on most of the patches,
+> Firstly, the ask to Bryan have been to pull patches (not stressed on 
+> review part), infact, even fixes are waiting for merge window while they 
+> can easily go into RCs. This part of the process need some improvement.
 
-This is not how it works.
+Lack of timeline reviews is the process needing improvement.
 
-> and I intentionally held back my Reviewed-by tags to allow space for
-> broader feedback.
-> 
-> Now that the series has been on the mailing list for about a month without
-> any remaining open comments, I have gone ahead and reviewed the patches,
-You as a driver maintainer should review within few days, week maximum.
-Not a month. And IT IS DOCUMENTED.
-
-You do not need to wait for anyone in the community for performing your
-side of driver review. Performing review after one month is not really
-responsible, but the only party you affect is your own team, so sure, I
-don't mind.
-
-But DO NOT apply such rule of waiting months for the rest of the community.
-
-Please read Documentation/maintainer/feature-and-driver-maintainers.rst
-which gives you clear guidelines what is expected, including the
-timeline. If you disagree and claim Iris is maintained by you in
-weeks-time (one month), that rule will apply to all of us, entire
-community and also to Bryan - we all can look at patches to Iris within
-that timeframe.
-
+Please read feature-and-driver-maintainers.rst document to understand
+the expectations of you.
 
 Best regards,
 Krzysztof
