@@ -1,175 +1,225 @@
-Return-Path: <linux-media+bounces-50857-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50858-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF6B0D2F127
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 10:53:08 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A59DCD2F12B
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 10:53:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 35DDE3043781
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 09:51:16 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 65955300FEF6
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 09:53:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1345635BDB8;
-	Fri, 16 Jan 2026 09:51:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E731271471;
+	Fri, 16 Jan 2026 09:53:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hzv8ym0I";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="GkZUBTdO"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Z3prj9WL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B24E30FF13
-	for <linux-media@vger.kernel.org>; Fri, 16 Jan 2026 09:51:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30DCB23183C
+	for <linux-media@vger.kernel.org>; Fri, 16 Jan 2026 09:53:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768557074; cv=none; b=UjZXhyJ6k2q6X+oGQMPV9M4Fd0E1gPexMb4O8QksPdjVkO7qx16i/zHnAJtDtIV2cS6SFmkGi59xo4nNvF7zhxOa7fNlSY8waU0QEk8VucrCsIwZEqUxszEOKikBZpnio3ZD8Pn0fxJLBQ4j21vlEANnk2s4grqkGtPUhUo4MLo=
+	t=1768557188; cv=none; b=XgU2V8JApwjkbTDNJ19eKuUY/IHV4xC+7G240pWnwth/X7Fy9FLyRamqej21PFBpgbkpmVpTx9qLNPprqJXsUoM6cgUCdUWgK+USE3dMMvWRT+Bu8MJrLQOt7Ee1sJzuFzsCLAmePavz6OSVWW4MHuCmmw4UTZ9x66ywvdva4OI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768557074; c=relaxed/simple;
-	bh=SW7TUx9OJbaODdBqBX9kDt83LgGVLSIRHq89fu2IJeM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QekgN3eWJT6QGPbYjQ60rHIPKGiXm1k3LRHMz56bDtOEs6ftDlDIqtoEKyBsPOUQ/X3sS9Q9JXOQ/gQi/3G9MnR+X5uB+Jbcw2bQdFfnbqaSrpAupIe6iVaS2ZNZ3VFhIkq3Qe/3O6G2ZGBi6msjKDte800QkgHh1ph7DP55MU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hzv8ym0I; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=GkZUBTdO; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60G9iIge006925
-	for <linux-media@vger.kernel.org>; Fri, 16 Jan 2026 09:51:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	JyySEoy4cs4LSscoZXS7M1fbq2iJJdJ7HX00v7rwAvw=; b=hzv8ym0IKZ0ZxlpU
-	m+jmdi97m5AkdI1y2bewZrci7G9ye3rGRUUoLjB/KtQlYtU1k253U/hWweCS8sOH
-	WhogKRLYsevGHH+cstY214AzhyJsboeo7t7ApVlD1vz93C97rTx6Z+PbkXm6A92I
-	Psmoxqwj6jO0oDfRzka/rh6FXlDihlNBkECl57yM0KqNv5/4ZsbWvk2lnd6A8eDH
-	WQN6d8fEKKbqS/IMbF8SQUWeEAJHnOcT3uS/O7nW1AmGAi77QJRqFYXV5mEAqGX3
-	TQg+6TZgjO5bXuotZaSrG9wQtt0jgeo4/TIVH8Wi8SWVc6ABNmTp0xFGnXIhDE36
-	92j3Jg==
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bqjy9r0nr-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Fri, 16 Jan 2026 09:51:09 +0000 (GMT)
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-81f3fb8c8caso3681625b3a.1
-        for <linux-media@vger.kernel.org>; Fri, 16 Jan 2026 01:51:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1768557068; x=1769161868; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JyySEoy4cs4LSscoZXS7M1fbq2iJJdJ7HX00v7rwAvw=;
-        b=GkZUBTdOVY8ZU56kQymfOK8obN0glC0Y9LNGWtjOfFQU3pHA9thonH/g9HPQv2YML+
-         Sbjl6+wAxJrTeWkWgwAECvUfquCiORlHWhiJsDl5mZy496ZtMncRNCuIyoQG6WdcF+BF
-         8IpMZGR69HqElFqGMI+JV7onPgc7MnShVVVPaUGtGSsgH5y96IBJ2TSo51L0nIjI6Z04
-         EvupcnTPyK7S5dvSrqUxXbZ6PV+CnbHax1hsRE5LHFhrunOJtgdnUWXX9XlDZW1E/IX1
-         xw3LPqWJ5iineEN9TVHcjhO6fZci8LtfFbV8rfEH5uTnqc4iRMvX/n1t+t/hQOm4JzBP
-         Zejw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768557068; x=1769161868;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JyySEoy4cs4LSscoZXS7M1fbq2iJJdJ7HX00v7rwAvw=;
-        b=sqhE76DNsW8eLd3x4uJhi/Vj21amxv2jECcB+ixfTCghpaoiTu8j/1fpzINcr0dORF
-         L4CcuE7yyp0nCYhKKSLAzwZKU74bA1ZcNfX6yaPhHCkr8ES/XtOM0fRqH4Q+fRu7nUdJ
-         K5w4ZRDfiOj0JS3KfRvzNx7ZRAoA5RXtHBKF5NWbyUio9RlRKyP3vC3REI5jkFEfmsla
-         rOIv5OhymwSdYE2ymVSt8NTcsdjevfZryGj7abyU6qP8fRSL4HXUDYNwCZ1XHOsiWsHi
-         vVg98v97S6kmjwncGt8ObBdxRef5P2kafnKv/hlApSGguJJh3c/wQk6nQMy7zHVPjIlu
-         n4Eg==
-X-Forwarded-Encrypted: i=1; AJvYcCVUD0ueZ8d10HGdUIUO3hac0blyDte0hbDcPusX/q8CCoPCnFV6aviDJS1Mu8cPfh78/2RBvUUKEUQJUA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVVrWsS5RbbxW1YlRF47kmblwZ/8IAKhi2Tm0zmLZ+dZYXWa7c
-	VkpY5KiC7vuE9yx2pLpFhelPZyLaq5pjMyEbAK/lNv7ePM1ndPOGkdrNeC1nk+utee2AnU5REVz
-	lx2zTnxjAG3jTErZwkM1IW2k98qRez13nL6u5Keaaq+4Zx485+qJmDfQ+N+PRe6hf3g==
-X-Gm-Gg: AY/fxX5uc5w9TY21pJ5N10D94mdNKfYIZaYmlh2w+umAa/w7Bxz+YzNlU1tyiQ0zLos
-	rojQYks2Y0/u9mun751B5BKOiXfq6vxM4Fx7x0XlYfcJZqLNuNmO7WJBIv3Mnb6DuRqfM4iWUKu
-	s8X6UNQuBI+WcZCxFbL/in6Vc6k0rNcKq/jvSCiAgbVwikIovXovuYI9JoW2XsyrNWNrvK+OW0N
-	M63O1M7oxfVSRIGEvo3nSP8iTMvkRUbPoUz2BkoeNQ58uk+C+qp4GSBpNOZsKWj1b6thhgsXIuJ
-	RwNkHjfNAv81mydjV7d2bBaG7BTlhlEZwZNfIUiBqRQcTEiNPqlem8UcmbHY2WkmYyIYkcx6HnK
-	eDwkWueKkYUAxihfON9ln6knoHCGTteJsIVq1LtQTCg==
-X-Received: by 2002:a05:6a00:18a8:b0:7f0:ead9:578 with SMTP id d2e1a72fcca58-81fa1780ff6mr1812567b3a.2.1768557068525;
-        Fri, 16 Jan 2026 01:51:08 -0800 (PST)
-X-Received: by 2002:a05:6a00:18a8:b0:7f0:ead9:578 with SMTP id d2e1a72fcca58-81fa1780ff6mr1812555b3a.2.1768557068045;
-        Fri, 16 Jan 2026 01:51:08 -0800 (PST)
-Received: from [10.0.0.3] ([106.222.229.125])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-81fa10a03ffsm1625170b3a.6.2026.01.16.01.51.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Jan 2026 01:51:07 -0800 (PST)
-Message-ID: <54b29b03-4166-60d9-d553-d0e655749da4@oss.qualcomm.com>
-Date: Fri, 16 Jan 2026 15:21:02 +0530
+	s=arc-20240116; t=1768557188; c=relaxed/simple;
+	bh=GkJL2EmITiB/2rVFB//ZJTqLB8tqFn7V8I4WIetKjuE=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:To:
+	 Cc:Date:Message-ID; b=J41OvN0CgEOfU13VVNl09zS7rHKsc5fur01sgmdfVdUm7sxK8IAhkwgjhJb5ceGu/RqGfDTnT7bETO+7CRh6p0rrKDv4DZGA+GbG84N2nRCWtx91tCau0zO38hRcRQEVcP+uY/3UbbwWWlmmEDuQQzCNdX0qAkxNA76Hcmr9lMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Z3prj9WL; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7466F4B3;
+	Fri, 16 Jan 2026 10:52:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1768557155;
+	bh=GkJL2EmITiB/2rVFB//ZJTqLB8tqFn7V8I4WIetKjuE=;
+	h=In-Reply-To:References:Subject:From:To:Cc:Date:From;
+	b=Z3prj9WLt7iNB2ajuKuHXTsAy291BCgsZvi5z4j1zpJCLAHTdlY7Yu1QjH5dhw+tL
+	 0I0Ni2y/CJUKB1EWc5NhJqQ4v+cs+wgrNHG6lk8lrBI1vb3Q0hMCvosKhkqmKNCSDb
+	 ZA30HL1rPjAS16LZqZNiYRvFZ2OAXsLOl1gYF83A=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v4 6/6] media: iris: Introduce vpu ops for vpu4 with
- necessary hooks
-Content-Language: en-US
-To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-References: <20251210-knp_video-v4-0-8d11d840358a@oss.qualcomm.com>
- <20251210-knp_video-v4-6-8d11d840358a@oss.qualcomm.com>
-From: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
-In-Reply-To: <20251210-knp_video-v4-6-8d11d840358a@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: VwaTZCuxyO_I3UHoeL9vVMSbBGxm5n9K
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE2MDA3MyBTYWx0ZWRfX7YPCKtnbBIoG
- oDjK3JaanWCfzmowsXxSCvcvOn0CoADBNIld7RzJ0EDebwNYTjCtnCXrLIa60dbiM46XW06/Lpw
- o8SCK3Gt95H1XuT+q+aW+pwwtWuuNv/n7OofTPZ758HGqlYdOGBoTEy9Vh9FHZFmov5tweuMxD1
- IDRq0VU0e9ONsS0E3lUQmxZWroqk5JXC+1Ek1HGwwM0wT2TLnl2E9fRVJ2laoYR0rWZmeTN/jxO
- P86pCnU3KW1Z8EYdztrDVhs9a75H6i+r/UTkKp1n45LwrRhzDdx+0wkjuua0fK7twedWt4mGooW
- TpvuM+/Yynp1FNpxySYd1tV2I98q5tIA/vbAxOHb2G7cdio3f/2xtDWcuDd5OUyhxh2mNeipusq
- yCGYfCfNZOXezD2WMKiMfF3GI29V7X7nGQxNwxnLqAQ1W8bF0q4gJRRNPBDdk4S4DXW2ROoMNUc
- L69rToz/0ENT95NiNXQ==
-X-Authority-Analysis: v=2.4 cv=OJIqHCaB c=1 sm=1 tr=0 ts=696a0a0d cx=c_pps
- a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=blWSk0AuXjsE0o78ys1YMg==:17
- a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=hqVnMPCZWYgSQcfks7QA:9
- a=QEXdDO2ut3YA:10 a=zc0IvFSfCIW2DFIPzwfm:22
-X-Proofpoint-ORIG-GUID: VwaTZCuxyO_I3UHoeL9vVMSbBGxm5n9K
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-16_03,2026-01-15_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 bulkscore=0 priorityscore=1501 malwarescore=0 spamscore=0
- suspectscore=0 adultscore=0 lowpriorityscore=0 impostorscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601160073
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260115191050.1370387-3-faizel.kb@gmail.com>
+References: <20260115191050.1370387-1-faizel.kb@gmail.com> <20260115191050.1370387-3-faizel.kb@gmail.com>
+Subject: Re: [PATCH 2/3] media: vimc: sensor: Add frame rate configuration support
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+To: Shuah Khan <skhan@linuxfoundation.org>, faizel.kb@gmail.com
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, Faizel K B <faizel.kb@gmail.com>, libcamera-devel@lists.libcamera.org,
+Date: Fri, 16 Jan 2026 09:53:00 +0000
+Message-ID: <176855718062.1693075.8294828651917203116@ping.linuxembedded.co.uk>
+User-Agent: alot/0.9.1
+
+Hi Faizel,
+
+Pullling in the libcamera-devel mailing list for relevant awareness too.
+
+Quoting faizel.kb@gmail.com (2026-01-15 19:10:49)
+> From: Faizel K B <faizel.kb@gmail.com>
+>=20
+> Implement set_frame_interval and get_frame_interval callbacks in
+> v4l2_subdev_pad_ops to enable frame rate configuration from 1-240 FPS.
+> The default frame rate is 60 FPS.
+>=20
+> The configured frame interval is pre-calculated into jiffies and
+> stored in the sensor's hw structure for efficient access by the
+> streamer thread.
+
+This is a really interesting and helpful bit of work - but I'm weary it
+might have taken one small mis-direction.
+
+VIMC aims to replicate the usage of camera sensors, and I don't think
+we're supposed to use frame interval interface for that.
+
+Instead following the camera sensor model, this should be implemented to
+mirror what the hardware in camera sensors actually does/needs which is
+to make the frame rate a function of the exposure time and blankings
+(both hblank and vblank).
+
+We have a bit of a write up about the calculation at the bottom of this
+page:
+
+ - https://libcamera.org/camera-sensor-model.html
+
+Or perhaps the sensor requirements of libcamera might be what a virtual
+sensor should aim for:
+
+ - https://libcamera.org/sensor_driver_requirements.html
+
+There's probably more helpful documentation in the linux kernel too in
+the upcoming sensor model rework from Sakari.
+
+Aha - in fact I found this:
+ - https://www.kernel.org/doc/html/latest/userspace-api/media/drivers/camer=
+a-sensor.html#raw-camera-sensors
+
+"2.2. Frame interval configuration
+
+There are two different methods for obtaining possibilities for
+different frame intervals as well as configuring the frame interval.
+Which one to implement depends on the type of the device."
+
+So perhaps the question we need to clarify is "what type of device is
+vimc-sensor".
+
+I'm likely biased to presume it's a virtual raw camera sensor ... But is
+it ?
+
+--
+Kieran
 
 
-
-On 12/10/2025 6:06 PM, Vikash Garodia wrote:
-> Add power sequence for vpu4 by reusing from previous generation wherever
-> possible. Hook up vpu4 op with vpu4 specific implemtation or resue from
-> earlier generation wherever feasible, like clock calculation in this
-> case.
-> 
-> Co-developed-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-> Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-> Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+> Signed-off-by: Faizel K B <faizel.kb@gmail.com>
 > ---
->  drivers/media/platform/qcom/iris/Makefile          |   1 +
->  .../platform/qcom/iris/iris_platform_common.h      |   7 +
->  drivers/media/platform/qcom/iris/iris_vpu4x.c      | 369 +++++++++++++++++++++
->  drivers/media/platform/qcom/iris/iris_vpu_common.h |   1 +
->  4 files changed, 378 insertions(+)
-> 
-
-Reviewed-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
-
-Thanks,
-Dikshita
+>  drivers/media/test-drivers/vimc/vimc-common.h |  2 +
+>  drivers/media/test-drivers/vimc/vimc-sensor.c | 45 +++++++++++++++++++
+>  2 files changed, 47 insertions(+)
+>=20
+> diff --git a/drivers/media/test-drivers/vimc/vimc-common.h b/drivers/medi=
+a/test-drivers/vimc/vimc-common.h
+> index 7f5f008e407b..a71ef761fa77 100644
+> --- a/drivers/media/test-drivers/vimc/vimc-common.h
+> +++ b/drivers/media/test-drivers/vimc/vimc-common.h
+> @@ -173,6 +173,7 @@ struct vimc_sensor_device {
+>         struct tpg_data tpg;
+>         struct v4l2_ctrl_handler hdl;
+>         struct media_pad pad;
+> +       struct v4l2_fract frame_interval;
+> =20
+>         u8 *frame;
+> =20
+> @@ -184,6 +185,7 @@ struct vimc_sensor_device {
+>                 struct v4l2_area size;
+>                 enum vimc_sensor_osd_mode osd_value;
+>                 u64 start_stream_ts;
+> +               unsigned long fps_jiffies;
+>         } hw;
+>  };
+> =20
+> diff --git a/drivers/media/test-drivers/vimc/vimc-sensor.c b/drivers/medi=
+a/test-drivers/vimc/vimc-sensor.c
+> index 2b07dc1f1278..d54425ff28a1 100644
+> --- a/drivers/media/test-drivers/vimc/vimc-sensor.c
+> +++ b/drivers/media/test-drivers/vimc/vimc-sensor.c
+> @@ -140,12 +140,53 @@ static int vimc_sensor_set_fmt(struct v4l2_subdev *=
+sd,
+> =20
+>         return 0;
+>  }
+> +static int vimc_sensor_get_frame_interval(struct v4l2_subdev *sd,
+> +                                         struct v4l2_subdev_state *state,
+> +                                         struct v4l2_subdev_frame_interv=
+al *fi)
+> +{
+> +       struct vimc_sensor_device *vsensor =3D v4l2_get_subdevdata(sd);
+> +
+> +       fi->interval =3D vsensor->frame_interval;
+> +
+> +       return 0;
+> +}
+> +
+> +static int vimc_sensor_set_frame_interval(struct v4l2_subdev *sd,
+> +                                         struct v4l2_subdev_state *state,
+> +                                         struct v4l2_subdev_frame_interv=
+al *fi)
+> +{
+> +       struct vimc_sensor_device *vsensor =3D v4l2_get_subdevdata(sd);
+> +       u32 fps;
+> +
+> +       /* Sanitize to default if invalid */
+> +       if (unlikely(!fi->interval.numerator || !fi->interval.denominator=
+)) {
+> +               fi->interval.numerator =3D 1;
+> +               fi->interval.denominator =3D 60;
+> +       } else {
+> +               /* Clamp FPS to 1-240 range */
+> +               fps =3D fi->interval.denominator / fi->interval.numerator;
+> +               fps =3D clamp(fps, 1U, 240U);
+> +
+> +               fi->interval.numerator =3D 1;
+> +               fi->interval.denominator =3D fps;
+> +       }
+> +
+> +       vsensor->frame_interval =3D fi->interval;
+> +
+> +       /* Update hardware timing configuration */
+> +       vsensor->hw.fps_jiffies =3D (HZ * vsensor->frame_interval.numerat=
+or) /
+> +                                 vsensor->frame_interval.denominator;
+> +
+> +       return 0;
+> +}
+> =20
+>  static const struct v4l2_subdev_pad_ops vimc_sensor_pad_ops =3D {
+>         .enum_mbus_code         =3D vimc_sensor_enum_mbus_code,
+>         .enum_frame_size        =3D vimc_sensor_enum_frame_size,
+>         .get_fmt                =3D v4l2_subdev_get_fmt,
+>         .set_fmt                =3D vimc_sensor_set_fmt,
+> +       .get_frame_interval     =3D vimc_sensor_get_frame_interval,
+> +       .set_frame_interval     =3D vimc_sensor_set_frame_interval,
+>  };
+> =20
+>  static void *vimc_sensor_process_frame(struct vimc_ent_device *ved,
+> @@ -400,6 +441,10 @@ static struct vimc_ent_device *vimc_sensor_add(struc=
+t vimc_device *vimc,
+> =20
+>         vsensor->ved.process_frame =3D vimc_sensor_process_frame;
+>         vsensor->ved.dev =3D vimc->mdev.dev;
+> +       /* Initialize to 60 FPS */
+> +       vsensor->frame_interval.numerator =3D 1;
+> +       vsensor->frame_interval.denominator =3D 60;
+> +       vsensor->hw.fps_jiffies =3D HZ / 60;
+> =20
+>         return &vsensor->ved;
+> =20
+> --=20
+> 2.43.0
+>
 
