@@ -1,224 +1,942 @@
-Return-Path: <linux-media+bounces-50859-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50860-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66279D2F411
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 11:07:15 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E16E6D2F55A
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 11:12:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C5B693058A3B
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 10:06:49 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 323D0303C611
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 10:10:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6544B35F8BF;
-	Fri, 16 Jan 2026 10:06:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B096135F8C7;
+	Fri, 16 Jan 2026 10:10:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="b8h9QWn/";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="LLB0kJfI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b74KeQke"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B55735C1B3
-	for <linux-media@vger.kernel.org>; Fri, 16 Jan 2026 10:06:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F5B31D393;
+	Fri, 16 Jan 2026 10:10:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768558007; cv=none; b=uLdHBnsu3YOQBUShNiNCSsy0/yTYtdHMS+MhXkjurFkXzVlOBPgHsIPdrbXZU+u2J1hy2OovovsA9HrVcOZ4yfkcK6yYr9BQINy+XgxMGFOW6Lm6NAP1neii+7jMJJGGepP7T79ZdtUahkHIKoLDTTS0KXZrpWuvut1uAS3ucjo=
+	t=1768558248; cv=none; b=KtrtrG+0RqlisOFgZx+bkavgaEQD+FdvSaBjxMLGUgBDy08siXRRStBYoErdd2Fv5smfF3KWsVOjJteK6pHO05Vz+5bpk/MYnp+7Tu/876iwyoT6Z9/kLevWnSl96Qj2+xAZQoreWZO4waGRDl3MCHEKwiect5uKD7uiN4C67XE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768558007; c=relaxed/simple;
-	bh=igkt8fixT/8eDhWnZxamzrdyWD6tcE1hvaTJJ3Tckkg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ctBpIb2spcSaDs2rWwOolXbY+zC8SMHf0LnI/jwU6HTO7Y6OsXkHfLuz3dSACdLODnmvuN+VvMh8pf7jcgT5CeNRUodV9Ex3Z08Ad8cHpzVZPz2wZ3lsCQ9nnZDhvSSJ3TAtnFGbJJ1CQhQr7ftNOZu/BaalyNVZzpsptTUZXTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=b8h9QWn/; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=LLB0kJfI; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60G804aK3074959
-	for <linux-media@vger.kernel.org>; Fri, 16 Jan 2026 10:06:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	V4oVVsla4+xBFjzBi0ugNP6lImplJ8evffrnYHm8c7Y=; b=b8h9QWn/IvMr34f8
-	hkWLUbJrG+X8xdGywFSRk9UyiXZbk2XhJu2NAg74C3AY4l2fOkILpp+gpTYkvNeD
-	izb1a1ShnfbJYtYaRfjlIen2YGQLpCLExTuvab4lzNpXaR72bLkMCvKI+6Nf0HZO
-	aW1acb3Y2wWTDFNNJDwugPl1TyyXg6EpexjcaCh7PWvC/qAfmAfy4fCzmCLAOcJn
-	fDbRcDMk2TPa8nVVsq2FMt5q60dqkNlPJwF8yN9QLdgnHPC7q69+NC6woHFVhwIq
-	Z/Jv8WItIK0nEjIcVRTsOJf28pbBxKTrTy+gO0rPCdhaUm8oqu6Odu4TN2pYPTkh
-	PalPXA==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bq98jsr7f-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Fri, 16 Jan 2026 10:06:45 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8c277fe676eso522663785a.0
-        for <linux-media@vger.kernel.org>; Fri, 16 Jan 2026 02:06:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1768558004; x=1769162804; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=V4oVVsla4+xBFjzBi0ugNP6lImplJ8evffrnYHm8c7Y=;
-        b=LLB0kJfIUJIbe0TP7aOYzgWOY9qMFGfr0xYmoorB7GplEmslMs5JaSuPnyIQt+r21p
-         jKAM4DXoodKFjI7qnwBoSFfgmLTS36jCoFkHMwEVmiDOG3/wGsAA/Gm82Cfn2oBe13Bo
-         WfRJMSiwnOH26516LyPG/PHO42R/uraj+DRRaFh39Q7j2RuHY3fQ/TxMhsHvyZOz7rA/
-         XGK76pzucJq2dH+0GOlfV6MpxUqyFiymTOxvVejhxrSjbwAQ+yBO6MryNM9ZQQqllVY/
-         MhrAGpDkWOQG7kjL/8yL2cExgOVWKNveCfSV3JL4zwW3GJEcs1UV0XNcSzFYu/7o6nJJ
-         2U4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768558004; x=1769162804;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=V4oVVsla4+xBFjzBi0ugNP6lImplJ8evffrnYHm8c7Y=;
-        b=mBG9OB1SreJzmSzL9KSCevznYi5reIlJPtt4a5xybsGUmW5Tr3uD1c/Nqvr5wc8JWB
-         jAIZtZ2vDfdRJBMwT2JIj9QFgMRva3sNIOyx3FONC+q4zysLp3X+LxiPWEfYOBlBZZVQ
-         3ZBj+MD8jMIkFrglidEQ4aTBL5IiR8fO56SZsVKvfSmzrp7CPaR2+Y8TAs1Vot9cC+8P
-         MqNFz2bYjOWuMviWPCR7KzNqm+CfPd1Et/Ml2q2iKhZbcPMlkF3Mjw3Ny8odNIvcnmpk
-         iuP6g1dnAqUqjN6Pbw5K/x1FnnqIqkRCxE6vXdNo+md1M3C8oNqmqOhTgOAt1MfMxRzm
-         uqpg==
-X-Forwarded-Encrypted: i=1; AJvYcCWuhhvOBP+gAiVJm42zk4tShIKsRL23VSoz3ndHGdWMID/1BSej6JcOFu2pfRxDfJaQSFLNqTQUkfu6QA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9XlEg2l6O0LZw2RbjoURJ8QC2Z0v2Kz+XssrbEjpqh1X5Fqei
-	S6qWqoQlnWxjnnT1obanVSgG/poFJ08K+LS9LGEUv0FaC/5DwhcwKCKbPjvI8NoNiCWHPu9sgc+
-	0BYZy/n9nGFD1mAd6S5lLe+WYsBjTVnYvIYufLYOk80ep6K3Godm3ckVmkNUsLhXLrg==
-X-Gm-Gg: AY/fxX6fPF7eRgWMPyS1HIHQHQjIrbDFvby07ZHm46Xaf0Bcv0rLX3FWgig98IsoHz7
-	c7Y9crmDIdeHNC8QT6N+IVKCFil1/kUOCtWaJlGjhAJIAQD6F9NRqQN+TCKLQ8yi57p8va4g4kW
-	lxdkSEdCREKACLg8ezAS7QEsnGDDN1Ntuv3o0PJHP+HiHcS7/13EFDrA8a6AWpbyiEgfHw9qdyl
-	8x0E+vf5awLAliUExGxNgxLHXfbVlxjJu+1U16h5PMlh4enVKu+tQJ+A6d5xLKm7xACZFeycT/Y
-	Ds04FQRv5f9WNXJiKkJVycaun6FWb8/qGgqfrE8gRtg0rpJARw3QGzHgEIq4ZjOHcaYIyl0NfY7
-	Ha3qTzax99q+8yJN/v8Cpx+ndvYGWDV6L7zJjglPpgVF+uHeJiuUKarhx/k/QyFFFNTQHTdmxfg
-	==
-X-Received: by 2002:a05:620a:2913:b0:8c5:f67c:ce34 with SMTP id af79cd13be357-8c6a6700a5emr282383585a.39.1768558004438;
-        Fri, 16 Jan 2026 02:06:44 -0800 (PST)
-X-Received: by 2002:a05:620a:2913:b0:8c5:f67c:ce34 with SMTP id af79cd13be357-8c6a6700a5emr282379785a.39.1768558003879;
-        Fri, 16 Jan 2026 02:06:43 -0800 (PST)
-Received: from [10.111.171.115] (Global_NAT1_IAD_FW.qualcomm.com. [129.46.232.65])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c6a71c149esm191212785a.18.2026.01.16.02.06.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Jan 2026 02:06:43 -0800 (PST)
-Message-ID: <f84d7a9e-2925-46ee-91a5-eca3ee68f478@oss.qualcomm.com>
-Date: Fri, 16 Jan 2026 18:06:34 +0800
+	s=arc-20240116; t=1768558248; c=relaxed/simple;
+	bh=N9mwTy9JVWgDJqFUuNoduw9parAkq6/3tl3ELHu7ZZg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cabti4BsqZ0wo9BVc95XjmMQ0z1c1DOTixXZfRXCNfF69I1kkG+0hhlYZEY+zsbVXiYCuJJlqMjSo/+oqybqTfN2jkEaTNtfFNND9b5JpFCsk6fYQM704b/Yl9ql8pTHPHboiUh3B3L+4JbLhicztAUNiARjYkRZxSJJ1POuCgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b74KeQke; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768558246; x=1800094246;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=N9mwTy9JVWgDJqFUuNoduw9parAkq6/3tl3ELHu7ZZg=;
+  b=b74KeQkeV0Aa5LUDoYlFGcdH8fkK72NQA2riARLXyGPt39rVhyBUDdgJ
+   fNHKyzNsulwHuqK5db+9vSBrbuySeABHCCy60CyyFZpS/21zZYoQAzbcN
+   Jte+fBE5XjO1DPjTipo0KU4wkEMpaSyaFoHUXcxCDE/G4axt0WwmlPMho
+   sbVBo1Ztyfr/yVXFN58IN9VNhboHvMhZalsKdbummWkBF5207r6Br2jfi
+   /cfkrymj6Hj7QMOasymZZTy/mMrKaCInxXMTQuiv7fdxCUK+UUbASn/wB
+   v0zvKmJq2u2W39mQSRcdqHV+aF9pxRfA87Rokj0wM/lu0hg+RVCvQdv35
+   Q==;
+X-CSE-ConnectionGUID: wWArmAF7Rv6OX8qtYxtmBw==
+X-CSE-MsgGUID: f6QcTd5iQnGNzbt+RzlrBA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="69075180"
+X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; 
+   d="scan'208";a="69075180"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 02:10:45 -0800
+X-CSE-ConnectionGUID: rcopLPmrQC2LM9sV5zmWSQ==
+X-CSE-MsgGUID: LRPs9Q2RS1S0vfzExqwCKA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; 
+   d="scan'208";a="210072531"
+Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.150])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 02:10:40 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id C7228121D8E;
+	Fri, 16 Jan 2026 12:10:40 +0200 (EET)
+Date: Fri, 16 Jan 2026 12:10:40 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: michael.riesch@collabora.com
+Cc: Chaoyi Chen <chaoyi.chen@rock-chips.com>,
+	Kever Yang <kever.yang@rock-chips.com>, Frank Li <Frank.li@nxp.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Collabora Kernel Team <kernel@collabora.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 2/3] media: synopsys: add driver for the designware
+ mipi csi-2 receiver
+Message-ID: <aWoOoBS_hWRQP7ac@kekkonen.localdomain>
+References: <20251114-rockchip-mipi-receiver-v4-0-a9c86fecd052@collabora.com>
+ <20251114-rockchip-mipi-receiver-v4-2-a9c86fecd052@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/5] arm64: dts: qcom: talos-evk-camera: Add DT overlay
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-        Loic Poulain <loic.poulain@oss.qualcomm.com>,
-        Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>
-Cc: linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, imx@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org
-References: <20260115-sm6150_evk-v3-0-81526dd15543@oss.qualcomm.com>
- <20260115-sm6150_evk-v3-5-81526dd15543@oss.qualcomm.com>
- <3b16ffa2-1580-426c-aa9c-f377d913d49c@linaro.org>
- <e27deffc-bbcc-48bc-9e4e-ce52698d98f3@oss.qualcomm.com>
- <e081fa74-9e0b-4e54-a51d-eee97ae6f4fa@linaro.org>
-Content-Language: en-US
-From: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
-In-Reply-To: <e081fa74-9e0b-4e54-a51d-eee97ae6f4fa@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=asW/yCZV c=1 sm=1 tr=0 ts=696a0db5 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
- a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=XwWqFBnoW6hE9qul-A8A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-ORIG-GUID: u8Jc2ztOznPaNYpa1_qrsM4jKPmGtVMS
-X-Proofpoint-GUID: u8Jc2ztOznPaNYpa1_qrsM4jKPmGtVMS
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE2MDA3NSBTYWx0ZWRfX/cW0hMV1AQyV
- Ssktx539r+tCZKHFmHCBLZfNEJF4Uu0PVGxLeqb1MKMvWyfxUNGKxkoy0oeUGZYCU7bAt61tgKZ
- QSujPrvKAUqSZnpg3dyfhk+ek713aaocaCDYIDat3fWDPDqDv9NqYRAJi74ezaw/XLWXIGR7wtU
- UlDSua5EwO7tA4K8BuHgbRkTGO+3zEs0Y5un3K03bSJZpUU2Q8wkIQAsct1tBTLGIWBkr407oPK
- pfIuh2iR6gASfKGTH89wXIwtXT9Qc0WbPqk+7dcCl633DDq3rtA/LbvwBRM04AV5Xhq6PUWY+eQ
- PUigx8fEotU0Kr2TXRc4dxqs2Zo0GClN3UTs7lpPuKnMUxGtWdk9f282K56LCFHMs/X7MbyQJId
- fOo8J40zXpnUXxuol9QKZf4nxIBgzsQMyKfuWo5vO70Ntm5ESnsgUTHQjMWRmwSfpnoKZ101UHE
- BNkunBaLufC0JS8pZZA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-16_03,2026-01-15_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 impostorscore=0 bulkscore=0 suspectscore=0 clxscore=1015
- adultscore=0 malwarescore=0 priorityscore=1501 spamscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601160075
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251114-rockchip-mipi-receiver-v4-2-a9c86fecd052@collabora.com>
 
+Hi Michael,
 
+Thanks for the update. A few minor comments below...
 
-On 1/16/2026 5:42 PM, Vladimir Zapolskiy wrote:
-> On 1/16/26 11:32, Wenmeng Liu wrote:
->>
->>
->> On 1/16/2026 5:12 PM, Vladimir Zapolskiy wrote:
->>> On 1/15/26 12:12, Wenmeng Liu wrote:
->>>> Enable IMX577 via CCI on Taloss EVK Core Kit.
->>>>
->>>> The Talos EVK board does not include a camera sensor
->>>> by default, this DTSO has enabled the Arducam 12.3MP
->>>> IMX577 Mini Camera Module on the CSI-1 interface.
->>>>
->>>> Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
->>>> ---
->>>>    arch/arm64/boot/dts/qcom/Makefile                  |  3 ++
->>>>    .../boot/dts/qcom/talos-evk-camera-imx577.dtso     | 63 ++++++++++++
->>>> ++++++++++
->>>>    2 files changed, 66 insertions(+)
->>>>
->>>> diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/
->>>> qcom/Makefile
->>>> index
->>>> 00652614e73582fa9bd5fbeff4836b9496721d2d..be9aeff2cd1555bc436e1b8eb78d8e1c9b84f9c4 100644
->>>> --- a/arch/arm64/boot/dts/qcom/Makefile
->>>> +++ b/arch/arm64/boot/dts/qcom/Makefile
->>>> @@ -339,8 +339,11 @@ dtb-$(CONFIG_ARCH_QCOM)    += sm8650-qrd.dtb
->>>>    dtb-$(CONFIG_ARCH_QCOM)    += sm8750-mtp.dtb
->>>>    dtb-$(CONFIG_ARCH_QCOM)    += sm8750-qrd.dtb
->>>>    dtb-$(CONFIG_ARCH_QCOM)    += talos-evk.dtb
->>>> +dtbo-$(CONFIG_ARCH_QCOM)    += talos-evk-camera-imx577.dtbo
->>>
->>> Please remind me, what does dtbo-y Makefile target serve for?
->> Rob mentioned:
->> https://lore.kernel.org/all/20260106192609.GA2581379-robh@kernel.org/
+On Thu, Jan 15, 2026 at 07:26:08PM +0100, Michael Riesch via B4 Relay wrote:
+> From: Michael Riesch <michael.riesch@collabora.com>
 > 
-> It'd be better to ask Rob about it, I suppose that the concern may be about
-> a missing in the qcom/Makefile mechanism to build standalone .dtbo 
-> artefacts.
+> The Synopsys DesignWare MIPI CSI-2 Receiver is a CSI-2 bridge with
+> one input port and one output port. It receives the data with the
+> help of an external MIPI PHY (C-PHY or D-PHY) and passes it to e.g.,
+> the Rockchip Video Capture (VICAP) block on recent Rockchip SoCs.
+> 
+> Add a V4L2 subdevice driver for this unit.
+> 
+> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Reviewed-by: Mehdi Djait <mehdi.djait@linux.intel.com>
+> Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
+> ---
+>  MAINTAINERS                                        |   1 +
+>  drivers/media/platform/synopsys/Kconfig            |   1 +
+>  drivers/media/platform/synopsys/Makefile           |   1 +
+>  .../media/platform/synopsys/dw-mipi-csi2/Kconfig   |  17 +
+>  .../media/platform/synopsys/dw-mipi-csi2/Makefile  |   2 +
+>  .../platform/synopsys/dw-mipi-csi2/dw-mipi-csi2.c  | 735 +++++++++++++++++++++
 
-As i checked other platform,
-dtb-$(CONFIG_ARCH_QCOM) += talos-evk-camera-imx577.dtbo is ok.
+How about dw-mipi-csi2rx (or dw-csi2rx)? There might be a tx chip, too...
 
-talos-evk-camera-imx577-dtbs	:= talos-evk.dtb talos-evk-camera-imx577.dtbo
-this compile only, will not install *.dtbo.
+>  6 files changed, 757 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 965132e0933a..42a739417a10 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -25369,6 +25369,7 @@ M:	Michael Riesch <michael.riesch@collabora.com>
+>  L:	linux-media@vger.kernel.org
+>  S:	Maintained
+>  F:	Documentation/devicetree/bindings/media/rockchip,rk3568-mipi-csi2.yaml
+> +F:	drivers/media/platform/synopsys/dw-mipi-csi2/
+>  
+>  SYNOPSYS DESIGNWARE MMC/SD/SDIO DRIVER
+>  M:	Jaehoon Chung <jh80.chung@samsung.com>
+> diff --git a/drivers/media/platform/synopsys/Kconfig b/drivers/media/platform/synopsys/Kconfig
+> index 4fd521f78425..7dbe5cbdd2cf 100644
+> --- a/drivers/media/platform/synopsys/Kconfig
+> +++ b/drivers/media/platform/synopsys/Kconfig
+> @@ -1,3 +1,4 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  
+> +source "drivers/media/platform/synopsys/dw-mipi-csi2/Kconfig"
+>  source "drivers/media/platform/synopsys/hdmirx/Kconfig"
+> diff --git a/drivers/media/platform/synopsys/Makefile b/drivers/media/platform/synopsys/Makefile
+> index 3b12c574dd67..30951176b029 100644
+> --- a/drivers/media/platform/synopsys/Makefile
+> +++ b/drivers/media/platform/synopsys/Makefile
+> @@ -1,2 +1,3 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+> +obj-y += dw-mipi-csi2/
+>  obj-y += hdmirx/
+> diff --git a/drivers/media/platform/synopsys/dw-mipi-csi2/Kconfig b/drivers/media/platform/synopsys/dw-mipi-csi2/Kconfig
+> new file mode 100644
+> index 000000000000..d5d56a1fc491
+> --- /dev/null
+> +++ b/drivers/media/platform/synopsys/dw-mipi-csi2/Kconfig
+> @@ -0,0 +1,17 @@
+> +config VIDEO_DW_MIPI_CSI2
+> +	tristate "Synopsys DesignWare MIPI CSI-2 Receiver"
+> +	depends on VIDEO_DEV
+> +	depends on V4L_PLATFORM_DRIVERS
+> +	depends on PM && COMMON_CLK
+> +	select MEDIA_CONTROLLER
+> +	select V4L2_FWNODE
+> +	select VIDEO_V4L2_SUBDEV_API
+> +	help
+> +	  The Synopsys DesignWare MIPI CSI-2 Receiver is a CSI-2 bridge with
+> +	  one input port and one output port. It receives the data with the
+> +	  help of an external MIPI PHY (C-PHY or D-PHY) and passes it to e.g.,
+> +	  the Rockchip Video Capture (VICAP) block on recent Rockchip SoCs.
+> +	  This is a driver for this unit.
+> +
+> +	  To compile this driver as a module, choose M here: the module
+> +	  will be called dw-mipi-csi2.
+> diff --git a/drivers/media/platform/synopsys/dw-mipi-csi2/Makefile b/drivers/media/platform/synopsys/dw-mipi-csi2/Makefile
+> new file mode 100644
+> index 000000000000..e49a125c531e
+> --- /dev/null
+> +++ b/drivers/media/platform/synopsys/dw-mipi-csi2/Makefile
+> @@ -0,0 +1,2 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +obj-$(CONFIG_VIDEO_DW_MIPI_CSI2) += dw-mipi-csi2.o
+> diff --git a/drivers/media/platform/synopsys/dw-mipi-csi2/dw-mipi-csi2.c b/drivers/media/platform/synopsys/dw-mipi-csi2/dw-mipi-csi2.c
+> new file mode 100644
+> index 000000000000..852c07d0ffc9
+> --- /dev/null
+> +++ b/drivers/media/platform/synopsys/dw-mipi-csi2/dw-mipi-csi2.c
+> @@ -0,0 +1,735 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Synopsys DesignWare MIPI CSI-2 Receiver Driver
+> + *
+> + * Copyright (C) 2019 Rockchip Electronics Co., Ltd.
+> + * Copyright (C) 2025 Michael Riesch <michael.riesch@wolfvision.net>
+> + * Copyright (C) 2026 Collabora, Ltd.
+> + */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/delay.h>
+> +#include <linux/io.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/phy/phy.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/property.h>
+> +#include <linux/reset.h>
+> +
+> +#include <media/mipi-csi2.h>
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-fwnode.h>
+> +#include <media/v4l2-mc.h>
+> +#include <media/v4l2-subdev.h>
+> +
+> +#define DW_MIPI_CSI2_N_LANES	0x04
+> +#define DW_MIPI_CSI2_RESETN	0x10
+> +#define DW_MIPI_CSI2_PHY_STATE	0x14
+> +#define DW_MIPI_CSI2_ERR1	0x20
+> +#define DW_MIPI_CSI2_ERR2	0x24
+> +#define DW_MIPI_CSI2_MSK1	0x28
+> +#define DW_MIPI_CSI2_MSK2	0x2c
+> +#define DW_MIPI_CSI2_CONTROL	0x40
+> +
+> +#define SW_CPHY_EN(x)		((x) << 0)
+> +#define SW_DSI_EN(x)		((x) << 4)
+> +#define SW_DATATYPE_FS(x)	((x) << 8)
+> +#define SW_DATATYPE_FE(x)	((x) << 14)
+> +#define SW_DATATYPE_LS(x)	((x) << 20)
+> +#define SW_DATATYPE_LE(x)	((x) << 26)
+> +
+> +#define DW_MIPI_CSI2_CLKS_MAX	1
+> +
+> +enum {
+> +	DW_MIPI_CSI2_PAD_SINK,
+> +	DW_MIPI_CSI2_PAD_SRC,
+> +	DW_MIPI_CSI2_PAD_MAX,
+> +};
+> +
+> +struct dw_mipi_csi2_format {
+> +	u32 code;
+> +	u8 depth;
+> +	u8 csi_dt;
+> +};
+> +
+> +struct dw_mipi_csi2_device {
+> +	struct device *dev;
+> +
+> +	void __iomem *base_addr;
+> +	struct clk_bulk_data *clks;
+> +	unsigned int clks_num;
+> +	struct phy *phy;
+> +	struct reset_control *reset;
+> +
+> +	const struct dw_mipi_csi2_format *formats;
+> +	unsigned int formats_num;
+> +
+> +	struct media_pad pads[DW_MIPI_CSI2_PAD_MAX];
+> +	struct v4l2_async_notifier notifier;
+> +	struct v4l2_subdev sd;
+> +
+> +	enum v4l2_mbus_type bus_type;
+> +	u32 lanes_num;
+> +};
+> +
+> +static const struct v4l2_mbus_framefmt default_format = {
+> +	.width = 3840,
+> +	.height = 2160,
+> +	.code = MEDIA_BUS_FMT_SRGGB10_1X10,
+> +	.field = V4L2_FIELD_NONE,
+> +	.colorspace = V4L2_COLORSPACE_RAW,
+> +	.ycbcr_enc = V4L2_YCBCR_ENC_601,
+> +	.quantization = V4L2_QUANTIZATION_FULL_RANGE,
+> +	.xfer_func = V4L2_XFER_FUNC_NONE,
+> +};
+> +
+> +static const struct dw_mipi_csi2_format formats[] = {
+> +	/* YUV formats */
+> +	{
+> +		.code = MEDIA_BUS_FMT_YUYV8_1X16,
+> +		.depth = 16,
+> +		.csi_dt = MIPI_CSI2_DT_YUV422_8B,
+> +	},
+> +	{
+> +		.code = MEDIA_BUS_FMT_UYVY8_1X16,
+> +		.depth = 16,
+> +		.csi_dt = MIPI_CSI2_DT_YUV422_8B,
+> +	},
+> +	{
+> +		.code = MEDIA_BUS_FMT_YVYU8_1X16,
+> +		.depth = 16,
+> +		.csi_dt = MIPI_CSI2_DT_YUV422_8B,
+> +	},
+> +	{
+> +		.code = MEDIA_BUS_FMT_VYUY8_1X16,
+> +		.depth = 16,
+> +		.csi_dt = MIPI_CSI2_DT_YUV422_8B,
+> +	},
+> +	/* RGB formats */
+> +	{
+> +		.code = MEDIA_BUS_FMT_RGB888_1X24,
+> +		.depth = 24,
+> +		.csi_dt = MIPI_CSI2_DT_RGB888,
+> +	},
+> +	{
+> +		.code = MEDIA_BUS_FMT_BGR888_1X24,
+> +		.depth = 24,
+> +		.csi_dt = MIPI_CSI2_DT_RGB888,
+> +	},
+> +	/* Bayer formats */
+> +	{
+> +		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
+> +		.depth = 8,
+> +		.csi_dt = MIPI_CSI2_DT_RAW8,
+> +	},
+> +	{
+> +		.code = MEDIA_BUS_FMT_SGBRG8_1X8,
+> +		.depth = 8,
+> +		.csi_dt = MIPI_CSI2_DT_RAW8,
+> +	},
+> +	{
+> +		.code = MEDIA_BUS_FMT_SGRBG8_1X8,
+> +		.depth = 8,
+> +		.csi_dt = MIPI_CSI2_DT_RAW8,
+> +	},
+> +	{
+> +		.code = MEDIA_BUS_FMT_SRGGB8_1X8,
+> +		.depth = 8,
+> +		.csi_dt = MIPI_CSI2_DT_RAW8,
+> +	},
+> +	{
+> +		.code = MEDIA_BUS_FMT_SBGGR10_1X10,
+> +		.depth = 10,
+> +		.csi_dt = MIPI_CSI2_DT_RAW10,
+> +	},
+> +	{
+> +		.code = MEDIA_BUS_FMT_SGBRG10_1X10,
+> +		.depth = 10,
+> +		.csi_dt = MIPI_CSI2_DT_RAW10,
+> +	},
+> +	{
+> +		.code = MEDIA_BUS_FMT_SGRBG10_1X10,
+> +		.depth = 10,
+> +		.csi_dt = MIPI_CSI2_DT_RAW10,
+> +	},
+> +	{
+> +		.code = MEDIA_BUS_FMT_SRGGB10_1X10,
+> +		.depth = 10,
+> +		.csi_dt = MIPI_CSI2_DT_RAW10,
+> +	},
+> +	{
+> +		.code = MEDIA_BUS_FMT_SBGGR12_1X12,
+> +		.depth = 12,
+> +		.csi_dt = MIPI_CSI2_DT_RAW12,
+> +	},
+> +	{
+> +		.code = MEDIA_BUS_FMT_SGBRG12_1X12,
+> +		.depth = 12,
+> +		.csi_dt = MIPI_CSI2_DT_RAW12,
+> +	},
+> +	{
+> +		.code = MEDIA_BUS_FMT_SGRBG12_1X12,
+> +		.depth = 12,
+> +		.csi_dt = MIPI_CSI2_DT_RAW12,
+> +	},
+> +	{
+> +		.code = MEDIA_BUS_FMT_SRGGB12_1X12,
+> +		.depth = 12,
+> +		.csi_dt = MIPI_CSI2_DT_RAW12,
+> +	},
+> +};
+> +
+> +static inline struct dw_mipi_csi2_device *to_csi2(struct v4l2_subdev *sd)
+> +{
+> +	return container_of(sd, struct dw_mipi_csi2_device, sd);
+> +}
+> +
+> +static inline __maybe_unused void
+> +dw_mipi_csi2_write(struct dw_mipi_csi2_device *csi2, unsigned int addr, u32 val)
+> +{
+> +	writel(val, csi2->base_addr + addr);
+> +}
+> +
+> +static inline __maybe_unused u32
+> +dw_mipi_csi2_read(struct dw_mipi_csi2_device *csi2, unsigned int addr)
+> +{
+> +	return readl(csi2->base_addr + addr);
+> +}
+> +
+> +static const struct dw_mipi_csi2_format *
+> +dw_mipi_csi2_find_format(struct dw_mipi_csi2_device *csi2, u32 mbus_code)
+> +{
+> +	WARN_ON(csi2->formats_num == 0);
+> +
+> +	for (unsigned int i = 0; i < csi2->formats_num; i++) {
+> +		const struct dw_mipi_csi2_format *format = &csi2->formats[i];
+> +
+> +		if (format->code == mbus_code)
+> +			return format;
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+> +static int dw_mipi_csi2_start(struct dw_mipi_csi2_device *csi2)
+> +{
+> +	struct media_pad *source_pad;
+> +	union phy_configure_opts opts;
+> +	s64 link_freq;
+> +	u32 control = 0;
+> +	u32 lanes = csi2->lanes_num;
+> +	int ret;
+> +
+> +	if (lanes < 1 || lanes > 4)
+> +		return -EINVAL;
+> +
+> +	source_pad =
+> +		media_pad_remote_pad_unique(&csi2->pads[DW_MIPI_CSI2_PAD_SINK]);
+> +	if (IS_ERR(source_pad))
+> +		return PTR_ERR(source_pad);
+> +
+> +	/* set mult and div to 0, thus completely rely on V4L2_CID_LINK_FREQ */
+> +	link_freq = v4l2_get_link_freq(source_pad, 0, 0);
+> +	if (link_freq <= 0)
+> +		return link_freq;
+> +
+> +	switch (csi2->bus_type) {
+> +	case V4L2_MBUS_CSI2_DPHY:
+> +		struct phy_configure_opts_mipi_dphy *cfg = &opts.mipi_dphy;
+> +
+> +		ret = phy_mipi_dphy_get_default_config_for_hsclk(link_freq * 2,
+> +								 lanes, cfg);
+> +		if (ret)
+> +			return ret;
+> +
+> +		ret = phy_set_mode(csi2->phy, PHY_MODE_MIPI_DPHY);
+> +		if (ret)
+> +			return ret;
+> +
+> +		ret = phy_configure(csi2->phy, &opts);
+> +		if (ret)
+> +			return ret;
+> +
+> +		control |= SW_CPHY_EN(0);
+> +		break;
+> +
+> +	case V4L2_MBUS_CSI2_CPHY:
+> +		/* TODO: implement CPHY configuration */
+> +		return -EOPNOTSUPP;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	control |= SW_DATATYPE_FS(0x00) | SW_DATATYPE_FE(0x01) |
+> +		   SW_DATATYPE_LS(0x02) | SW_DATATYPE_LE(0x03);
+> +
+> +	dw_mipi_csi2_write(csi2, DW_MIPI_CSI2_N_LANES, lanes - 1);
+> +	dw_mipi_csi2_write(csi2, DW_MIPI_CSI2_CONTROL, control);
+> +	dw_mipi_csi2_write(csi2, DW_MIPI_CSI2_RESETN, 1);
+> +
+> +	return phy_power_on(csi2->phy);
+> +}
+> +
+> +static void dw_mipi_csi2_stop(struct dw_mipi_csi2_device *csi2)
+> +{
+> +	phy_power_off(csi2->phy);
+> +
+> +	dw_mipi_csi2_write(csi2, DW_MIPI_CSI2_RESETN, 0);
+> +	dw_mipi_csi2_write(csi2, DW_MIPI_CSI2_MSK1, ~0);
+> +	dw_mipi_csi2_write(csi2, DW_MIPI_CSI2_MSK2, ~0);
+> +}
+> +
+> +static const struct media_entity_operations dw_mipi_csi2_media_ops = {
+> +	.link_validate = v4l2_subdev_link_validate,
+> +};
+> +
+> +static int dw_mipi_csi2_enum_mbus_code(struct v4l2_subdev *sd,
+> +				       struct v4l2_subdev_state *sd_state,
+> +				       struct v4l2_subdev_mbus_code_enum *code)
+> +{
+> +	struct dw_mipi_csi2_device *csi2 = to_csi2(sd);
+> +
+> +	switch (code->pad) {
+> +	case DW_MIPI_CSI2_PAD_SRC:
+> +		const struct v4l2_mbus_framefmt *sink_fmt;
+> +
+> +		if (code->index)
+> +			return -EINVAL;
+> +
+> +		sink_fmt = v4l2_subdev_state_get_format(sd_state,
+> +							DW_MIPI_CSI2_PAD_SINK);
+> +		code->code = sink_fmt->code;
+> +
+> +		return 0;
+> +	case DW_MIPI_CSI2_PAD_SINK:
+> +		if (code->index > csi2->formats_num)
+> +			return -EINVAL;
+> +
+> +		code->code = csi2->formats[code->index].code;
+> +		return 0;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+> +static int dw_mipi_csi2_set_fmt(struct v4l2_subdev *sd,
+> +				struct v4l2_subdev_state *state,
+> +				struct v4l2_subdev_format *format)
+> +{
+> +	struct dw_mipi_csi2_device *csi2 = to_csi2(sd);
+> +	const struct dw_mipi_csi2_format *fmt;
+> +	struct v4l2_mbus_framefmt *sink, *src;
+> +
+> +	/* the format on the source pad always matches the sink pad */
+> +	if (format->pad == DW_MIPI_CSI2_PAD_SRC)
+> +		return v4l2_subdev_get_fmt(sd, state, format);
+> +
+> +	sink = v4l2_subdev_state_get_format(state, format->pad, format->stream);
+> +	if (!sink)
+> +		return -EINVAL;
+> +
+> +	fmt = dw_mipi_csi2_find_format(csi2, format->format.code);
+> +	if (!fmt)
+> +		format->format = default_format;
+> +
+> +	*sink = format->format;
+> +
+> +	/* propagate the format to the source pad */
+> +	src = v4l2_subdev_state_get_opposite_stream_format(state, format->pad,
+> +							   format->stream);
+> +	if (!src)
+> +		return -EINVAL;
+> +
+> +	*src = *sink;
+> +
+> +	return 0;
+> +}
+> +
+> +static int dw_mipi_csi2_set_routing(struct v4l2_subdev *sd,
+> +				    struct v4l2_subdev_state *state,
+> +				    enum v4l2_subdev_format_whence which,
+> +				    struct v4l2_subdev_krouting *routing)
+> +{
+> +	int ret;
+> +
+> +	ret = v4l2_subdev_routing_validate(sd, routing,
+> +					   V4L2_SUBDEV_ROUTING_ONLY_1_TO_1);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return v4l2_subdev_set_routing_with_fmt(sd, state, routing,
+> +						&default_format);
+> +}
+> +
+> +static int dw_mipi_csi2_enable_streams(struct v4l2_subdev *sd,
+> +				       struct v4l2_subdev_state *state, u32 pad,
+> +				       u64 streams_mask)
+> +{
+> +	struct dw_mipi_csi2_device *csi2 = to_csi2(sd);
+> +	struct v4l2_subdev *remote_sd;
+> +	struct media_pad *sink_pad, *remote_pad;
+> +	struct device *dev = csi2->dev;
+> +	u64 mask;
+> +	int ret;
+> +
+> +	sink_pad = &sd->entity.pads[DW_MIPI_CSI2_PAD_SINK];
+> +	remote_pad = media_pad_remote_pad_first(sink_pad);
+> +	remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
+> +
+> +	mask = v4l2_subdev_state_xlate_streams(state, DW_MIPI_CSI2_PAD_SINK,
+> +					       DW_MIPI_CSI2_PAD_SRC,
+> +					       &streams_mask);
+> +
+> +	ret = pm_runtime_resume_and_get(dev);
+> +	if (ret)
+> +		goto err;
+> +
+> +	ret = dw_mipi_csi2_start(csi2);
+> +	if (ret) {
+> +		dev_err(dev, "failed to enable CSI hardware\n");
+> +		goto err_pm_runtime_put;
+> +	}
+> +
+> +	ret = v4l2_subdev_enable_streams(remote_sd, remote_pad->index, mask);
+> +	if (ret)
+> +		goto err_csi_stop;
+> +
+> +	return 0;
+> +
+> +err_csi_stop:
+> +	dw_mipi_csi2_stop(csi2);
+> +err_pm_runtime_put:
+> +	pm_runtime_put_sync(dev);
+> +err:
+> +	return ret;
+> +}
+> +
+> +static int dw_mipi_csi2_disable_streams(struct v4l2_subdev *sd,
+> +					struct v4l2_subdev_state *state,
+> +					u32 pad, u64 streams_mask)
+> +{
+> +	struct dw_mipi_csi2_device *csi2 = to_csi2(sd);
+> +	struct v4l2_subdev *remote_sd;
+> +	struct media_pad *sink_pad, *remote_pad;
+> +	struct device *dev = csi2->dev;
+> +	u64 mask;
+> +	int ret;
+> +
+> +	sink_pad = &sd->entity.pads[DW_MIPI_CSI2_PAD_SINK];
+> +	remote_pad = media_pad_remote_pad_first(sink_pad);
+> +	remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
+> +
+> +	mask = v4l2_subdev_state_xlate_streams(state, DW_MIPI_CSI2_PAD_SINK,
+> +					       DW_MIPI_CSI2_PAD_SRC,
+> +					       &streams_mask);
+> +
+> +	ret = v4l2_subdev_disable_streams(remote_sd, remote_pad->index, mask);
+> +
+> +	dw_mipi_csi2_stop(csi2);
+> +
+> +	pm_runtime_put_sync(dev);
 
-> 
->> I checked, dtbo- is not an upstream usage, it will be updated form
-> 
-> Right, that's why it attracted the attention.
-> 
->> dtbo-$(CONFIG_ARCH_QCOM) to dtb-$(CONFIG_ARCH_QCOM) in the next version.
->>
-> 
-> But...
-> 
->>>> +talos-evk-camera-imx577-dtbs    := talos-evk.dtb talos-evk-camera-
->>>> imx577.dtbo
->>>>    talos-evk-lvds-auo,g133han01-dtbs    := \
->>>>        talos-evk.dtb talos-evk-lvds-auo,g133han01.dtbo
->>>> +dtb-$(CONFIG_ARCH_QCOM)    += talos-evk-camera-imx577.dtb
-> 
-> it's already here and it was here in the previous version.
+How about just pm_runtime_put()?
+
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct v4l2_subdev_pad_ops dw_mipi_csi2_pad_ops = {
+> +	.enum_mbus_code = dw_mipi_csi2_enum_mbus_code,
+> +	.get_fmt = v4l2_subdev_get_fmt,
+> +	.set_fmt = dw_mipi_csi2_set_fmt,
+> +	.set_routing = dw_mipi_csi2_set_routing,
+> +	.enable_streams = dw_mipi_csi2_enable_streams,
+> +	.disable_streams = dw_mipi_csi2_disable_streams,
+> +};
+> +
+> +static const struct v4l2_subdev_ops dw_mipi_csi2_ops = {
+> +	.pad = &dw_mipi_csi2_pad_ops,
+> +};
+> +
+> +static int dw_mipi_csi2_init_state(struct v4l2_subdev *sd,
+> +				   struct v4l2_subdev_state *state)
+> +{
+> +	struct v4l2_subdev_route routes[] = {
+> +		{
+> +			.sink_pad = DW_MIPI_CSI2_PAD_SINK,
+> +			.sink_stream = 0,
+> +			.source_pad = DW_MIPI_CSI2_PAD_SRC,
+> +			.source_stream = 0,
+> +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
+> +		},
+> +	};
+> +	struct v4l2_subdev_krouting routing = {
+> +		.len_routes = ARRAY_SIZE(routes),
+> +		.num_routes = ARRAY_SIZE(routes),
+> +		.routes = routes,
+> +	};
+> +
+> +	return v4l2_subdev_set_routing_with_fmt(sd, state, &routing,
+> +						&default_format);
+> +}
+> +
+> +static const struct v4l2_subdev_internal_ops dw_mipi_csi2_internal_ops = {
+> +	.init_state = dw_mipi_csi2_init_state,
+> +};
+> +
+> +static int dw_mipi_csi2_notifier_bound(struct v4l2_async_notifier *notifier,
+> +				       struct v4l2_subdev *sd,
+> +				       struct v4l2_async_connection *asd)
+> +{
+> +	struct dw_mipi_csi2_device *csi2 =
+> +		container_of(notifier, struct dw_mipi_csi2_device, notifier);
+> +	struct media_pad *sink_pad = &csi2->pads[DW_MIPI_CSI2_PAD_SINK];
+> +	int ret;
+> +
+> +	ret = v4l2_create_fwnode_links_to_pad(sd, sink_pad,
+> +					      MEDIA_LNK_FL_ENABLED);
+> +	if (ret) {
+> +		dev_err(csi2->dev, "failed to link source pad of %s\n",
+> +			sd->name);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct v4l2_async_notifier_operations dw_mipi_csi2_notifier_ops = {
+> +	.bound = dw_mipi_csi2_notifier_bound,
+> +};
+> +
+> +static int dw_mipi_csi2_register_notifier(struct dw_mipi_csi2_device *csi2)
+> +{
+> +	struct v4l2_async_connection *asd;
+> +	struct v4l2_async_notifier *ntf = &csi2->notifier;
+> +	struct v4l2_fwnode_endpoint vep;
+> +	struct v4l2_subdev *sd = &csi2->sd;
+> +	struct device *dev = csi2->dev;
+> +	struct fwnode_handle *ep;
+> +	int ret;
+> +
+> +	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev), 0, 0, 0);
+> +	if (!ep)
+> +		return dev_err_probe(dev, -ENODEV, "failed to get endpoint\n");
+> +
+> +	vep.bus_type = V4L2_MBUS_UNKNOWN;
+> +	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
+> +	if (ret) {
+> +		ret = dev_err_probe(dev, ret, "failed to parse endpoint\n");
+> +		goto out;
+> +	}
+> +
+> +	if (vep.bus_type != V4L2_MBUS_CSI2_DPHY &&
+> +	    vep.bus_type != V4L2_MBUS_CSI2_CPHY) {
+> +		ret = dev_err_probe(dev, -EINVAL,
+> +				    "invalid bus type of endpoint\n");
+> +		goto out;
+> +	}
+> +
+> +	csi2->bus_type = vep.bus_type;
+> +	csi2->lanes_num = vep.bus.mipi_csi2.num_data_lanes;
+> +
+> +	v4l2_async_subdev_nf_init(ntf, sd);
+> +	ntf->ops = &dw_mipi_csi2_notifier_ops;
+> +
+> +	asd = v4l2_async_nf_add_fwnode_remote(ntf, ep,
+> +					      struct v4l2_async_connection);
+> +	if (IS_ERR(asd)) {
+> +		ret = PTR_ERR(asd);
+> +		goto err_nf_cleanup;
+> +	}
+> +
+> +	ret = v4l2_async_nf_register(ntf);
+> +	if (ret) {
+> +		ret = dev_err_probe(dev, ret, "failed to register notifier\n");
+> +		goto err_nf_cleanup;
+> +	}
+> +
+> +	goto out;
+> +
+> +err_nf_cleanup:
+> +	v4l2_async_nf_cleanup(ntf);
+> +out:
+> +	fwnode_handle_put(ep);
+> +	return ret;
+> +}
+> +
+> +static int dw_mipi_csi2_register(struct dw_mipi_csi2_device *csi2)
+> +{
+> +	struct media_pad *pads = csi2->pads;
+> +	struct v4l2_subdev *sd = &csi2->sd;
+> +	int ret;
+> +
+> +	ret = dw_mipi_csi2_register_notifier(csi2);
+> +	if (ret)
+> +		goto err;
+> +
+> +	v4l2_subdev_init(sd, &dw_mipi_csi2_ops);
+> +	sd->dev = csi2->dev;
+> +	sd->entity.ops = &dw_mipi_csi2_media_ops;
+> +	sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
+> +	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_STREAMS;
+> +	sd->internal_ops = &dw_mipi_csi2_internal_ops;
+> +	sd->owner = THIS_MODULE;
+> +	snprintf(sd->name, sizeof(sd->name), "dw-mipi-csi2 %s",
+> +		 dev_name(csi2->dev));
+> +
+> +	pads[DW_MIPI_CSI2_PAD_SINK].flags = MEDIA_PAD_FL_SINK |
+> +					    MEDIA_PAD_FL_MUST_CONNECT;
+> +	pads[DW_MIPI_CSI2_PAD_SRC].flags = MEDIA_PAD_FL_SOURCE;
+> +	ret = media_entity_pads_init(&sd->entity, DW_MIPI_CSI2_PAD_MAX, pads);
+> +	if (ret)
+> +		goto err_notifier_unregister;
+> +
+> +	ret = v4l2_subdev_init_finalize(sd);
+> +	if (ret)
+> +		goto err_entity_cleanup;
+> +
+> +	ret = v4l2_async_register_subdev(sd);
+> +	if (ret) {
+> +		dev_err(sd->dev, "failed to register CSI-2 subdev\n");
+> +		goto err_subdev_cleanup;
+> +	}
+> +
+> +	return 0;
+> +
+> +err_subdev_cleanup:
+> +	v4l2_subdev_cleanup(sd);
+> +err_entity_cleanup:
+> +	media_entity_cleanup(&sd->entity);
+> +err_notifier_unregister:
+> +	v4l2_async_nf_unregister(&csi2->notifier);
+> +	v4l2_async_nf_cleanup(&csi2->notifier);
+> +err:
+> +	return ret;
+> +}
+> +
+> +static void dw_mipi_csi2_unregister(struct dw_mipi_csi2_device *csi2)
+> +{
+> +	struct v4l2_subdev *sd = &csi2->sd;
+> +
+> +	v4l2_async_unregister_subdev(sd);
+> +	v4l2_subdev_cleanup(sd);
+> +	media_entity_cleanup(&sd->entity);
+> +	v4l2_async_nf_unregister(&csi2->notifier);
+> +	v4l2_async_nf_cleanup(&csi2->notifier);
+> +}
+> +
+> +static const struct of_device_id dw_mipi_csi2_of_match[] = {
+> +	{
+> +		.compatible = "rockchip,rk3568-mipi-csi2",
+> +	},
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, dw_mipi_csi2_of_match);
+> +
+> +static int dw_mipi_csi2_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct dw_mipi_csi2_device *csi2;
+> +	int ret;
+> +
+> +	csi2 = devm_kzalloc(dev, sizeof(*csi2), GFP_KERNEL);
+> +	if (!csi2)
+> +		return -ENOMEM;
+> +	csi2->dev = dev;
+> +	dev_set_drvdata(dev, csi2);
+> +
+> +	csi2->base_addr = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(csi2->base_addr))
+> +		return PTR_ERR(csi2->base_addr);
+> +
+> +	ret = devm_clk_bulk_get_all(dev, &csi2->clks);
+> +	if (ret != DW_MIPI_CSI2_CLKS_MAX)
+> +		return dev_err_probe(dev, -ENODEV, "failed to get clocks\n");
+> +	csi2->clks_num = ret;
+> +
+> +	csi2->phy = devm_phy_get(dev, NULL);
+> +	if (IS_ERR(csi2->phy))
+> +		return dev_err_probe(dev, PTR_ERR(csi2->phy),
+> +				     "failed to get MIPI CSI-2 PHY\n");
+> +
+> +	csi2->reset = devm_reset_control_get_exclusive(dev, NULL);
+> +	if (IS_ERR(csi2->reset))
+> +		return dev_err_probe(dev, PTR_ERR(csi2->reset),
+> +				     "failed to get reset\n");
+> +
+> +	csi2->formats = formats;
+> +	csi2->formats_num = ARRAY_SIZE(formats);
+> +
+> +	pm_runtime_enable(dev);
+> +
+> +	ret = phy_init(csi2->phy);
+> +	if (ret) {
+> +		ret = dev_err_probe(dev, ret,
+> +				    "failed to initialize MIPI CSI-2 PHY\n");
+> +		goto err_pm_runtime_disable;
+> +	}
+> +
+> +	ret = dw_mipi_csi2_register(csi2);
+> +	if (ret)
+> +		goto err_phy_exit;
+> +
+> +	return 0;
+> +
+> +err_phy_exit:
+> +	phy_exit(csi2->phy);
+> +err_pm_runtime_disable:
+> +	pm_runtime_disable(dev);
+> +
+> +	return ret;
+> +}
+> +
+> +static void dw_mipi_csi2_remove(struct platform_device *pdev)
+> +{
+> +	struct dw_mipi_csi2_device *csi2 = platform_get_drvdata(pdev);
+> +	struct device *dev = &pdev->dev;
+> +
+> +	dw_mipi_csi2_unregister(csi2);
+> +	phy_exit(csi2->phy);
+> +	pm_runtime_disable(dev);
+> +}
+> +
+> +static int dw_mipi_csi2_runtime_suspend(struct device *dev)
+> +{
+> +	struct dw_mipi_csi2_device *csi2 = dev_get_drvdata(dev);
+> +
+> +	clk_bulk_disable_unprepare(csi2->clks_num, csi2->clks);
+> +
+> +	return 0;
+> +}
+> +
+> +static int dw_mipi_csi2_runtime_resume(struct device *dev)
+> +{
+> +	struct dw_mipi_csi2_device *csi2 = dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	reset_control_assert(csi2->reset);
+> +	udelay(5);
+> +	reset_control_deassert(csi2->reset);
+> +
+> +	ret = clk_bulk_prepare_enable(csi2->clks_num, csi2->clks);
+> +	if (ret) {
+> +		dev_err(dev, "failed to enable clocks\n");
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static DEFINE_RUNTIME_DEV_PM_OPS(dw_mipi_csi2_pm_ops,
+> +				 dw_mipi_csi2_runtime_suspend,
+> +				 dw_mipi_csi2_runtime_resume, NULL);
+> +
+> +static struct platform_driver dw_mipi_csi2_drv = {
+> +	.driver = {
+> +		   .name = "dw-mipi-csi2",
+> +		   .of_match_table = dw_mipi_csi2_of_match,
+> +		   .pm = &dw_mipi_csi2_pm_ops,
+
+Just tabs, please.
+
+> +	},
+> +	.probe = dw_mipi_csi2_probe,
+> +	.remove = dw_mipi_csi2_remove,
+> +};
+> +module_platform_driver(dw_mipi_csi2_drv);
+> +
+> +MODULE_DESCRIPTION("Synopsys DesignWare MIPI CSI-2 Receiver platform driver");
+> +MODULE_LICENSE("GPL");
 > 
 
+-- 
+Kind regards,
+
+Sakari Ailus
 
