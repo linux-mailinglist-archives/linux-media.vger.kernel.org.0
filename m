@@ -1,435 +1,385 @@
-Return-Path: <linux-media+bounces-50905-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50906-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB4E7D32D56
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 15:47:15 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C95E8D33670
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 17:09:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 4CF2A301AAA8
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 14:46:32 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BABE7304A8EF
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jan 2026 16:09:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 561DC299947;
-	Fri, 16 Jan 2026 14:46:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A321A357724;
+	Fri, 16 Jan 2026 16:09:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ChyFnh94"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="ceG0Ceby"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011059.outbound.protection.outlook.com [52.101.70.59])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 475F323D2B2
-	for <linux-media@vger.kernel.org>; Fri, 16 Jan 2026 14:46:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768574781; cv=none; b=pBeCMttxnTDONynL8jiiTLXn4jyyPAexQOSJmZeCcct6oUt5T2puOuzwt/3EvbTsq9jEA4l8sp3CNOdnJx5ipPPfZsNQmHTYbtESTw3dIIk+WJ1TGHr8gOOKLdyjrNSaptjC/jGjEdm8nXfNlARBaAK+HuHwRyQKlI3BcXPeCGA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768574781; c=relaxed/simple;
-	bh=rWtHACq1YIx0F0Yo8c5Siu0eKD1qsxXbt3TuvD5l4nw=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=j2EC2JEIi4xTxTZsmZCGh8zE9t4Q3TzO5JVgDoer9aBgyblbnh1NF9s73CtqNo8oNRyhnYRpNFIL9fakGfpEjJMX8s5pcb2HTfDVz/YjjW8J+dPQN5sVWSNckuMOC9XV7Za9z3UiPItmbqWBFpFkrWhRpMJYwL4C6XnxBxdR67k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=fail (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ChyFnh94 reason="signature verification failed"; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (unknown [IPv6:2a00:6020:448c:6c00:3f72:9503:f91a:e3d2])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 314B34B3;
-	Fri, 16 Jan 2026 15:45:47 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1768574747;
-	bh=rWtHACq1YIx0F0Yo8c5Siu0eKD1qsxXbt3TuvD5l4nw=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=ChyFnh94SeBrmD3pDNknERAzqMhZgFnrmHpm/wudtg+Luak5sp3BFFMwK3m+STUJx
-	 /ald+WfF75Dz4ibLXuyJ9lnEpWF0mOlF1soxTbcCEFS3UD2SJP5k0KxShLxVY6vytw
-	 K8wP3zrgJKMVfOQkrV6TpKeu840XWqo38mroYyWs=
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E00133DEE7;
+	Fri, 16 Jan 2026 16:09:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.59
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768579754; cv=fail; b=CpolKrK69qoUgvUh2yU8MjiozRfyQPQcWZfVJldKnSaapyhq9iqYmuCfYGYOSiHxAjtieBZ9IClA3ayCZ3Vi598jC1IhY/YXOBuVAd8iABcCdx3upkDpTh7nGubD2qoZIjA8a621sUGH4vuffJinFJiUoLNyCfqV8ak6JhaX5sY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768579754; c=relaxed/simple;
+	bh=M4Tqipn95aImdPZZ3LzHc0M7EuGw90Y+fMgn62yCl/E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=Dw+2ON/gpLlurSgNYxFsAjVWgPHI30w+S/hpISm2957RBW8HPNC3i/ubPImqgehtYawbyt7lPsuyEG6aiUdFEG8uiIi9tKmjf4KMtcH3cRlvHnL8UdpJG9IUVSitgNQSPl6kT3xijIIfmUCVyC2cq1EYqTko+iQR2c26LjO9x8M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=ceG0Ceby; arc=fail smtp.client-ip=52.101.70.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=S1kcbcYIobenJzw7PlXNFWFH795jslnTxRK5Q7dEh2e9coYFbY+Tuyqs6fEldX4zFGsAXB7lIYAdeTM+CZxomNYtOTyWdu8+DGqECLejc4ZWvDuWlU2ZSDVeC2wq15/CYFAO/YZ+5iD6cHGNkYS5DPblsVte+E9rD01AjrkV1PKPIqF2iss6DK1CK3Uak8fDUOTGwnjcAJnbRFlhLhVqJwy9KzxESUW8liNDv9q7Oo7FGFG1qivp4m9hq8os7m1K2sdIkCLPFUcq/oVhsCxui/lHy0QQ0XZmi767V/v0snzx+T0KBQFP2X7QcX8cqAnMuZBni+c6fpobvZCvvnDJ2w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3Oecf8M7GO/uIJapRTguyUJlODoeuUrwBF+f4GP9vEg=;
+ b=pZQhx6/hrv7I1Xa1qdHWCztHJ+tKzRd78mhyFvvomF2BhoyvCfXnin7JWHun56Zk1xXrcP+T9TPPbh8fzm+Tlxm3KV8HHNNLYFdL8JvTrCgFFl8MommHeCLeWtyFwXisJzpGFp3S6KCAlEwGOf0FnZVT3gSgXuggg2nTZal3+DONAzyioH9RvWkJpmfpo+yxHKzTH0veFdkzA8MktuS0sCm+vc1GI2uHbgP4/i5pM/ziSP7mVHQYGS/EtgVszFlWrK3Ru8SAHcVy9wXIyjFyEZEIKJXCZi0w00G4hJy5Tc+/2XUq2oG4nkU8kkll99WQ+IwoSe4W6f67quFqQk6lWw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3Oecf8M7GO/uIJapRTguyUJlODoeuUrwBF+f4GP9vEg=;
+ b=ceG0CebyANq6VAq+CcqxYRrQkR7/aQMC9Bs47K/DL4U8t1JjBOoijFTR3VEUKjrxasrWBhEtvEevV37tjL2h6D4ZMrcJG4bSIR3uYS/Gt2SdA9hBeALguR0urfu6uOSDsnUzm69iGUk4qwScpbWiaiKgzo7ntZr2fjLFIkpoPY3nj+4hhTHw3Si/DOf0XqUnIii2ndCFnwHXNSu1VF4801H3M+9Upml2z3J7BQgCS4B1j2jZZueYBLoRjnl3Zef3VuObJ/pnYn2MNHBWqEmtbYAWv8XlYSRsgkxgwJsM8BGfQIaUlInEa3RBQvwlAhFYvuqb6LJ1XxTpifN7PAaegA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DU2PR04MB8951.eurprd04.prod.outlook.com (2603:10a6:10:2e2::22)
+ by GVXPR04MB10945.eurprd04.prod.outlook.com (2603:10a6:150:21e::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.6; Fri, 16 Jan
+ 2026 16:09:06 +0000
+Received: from DU2PR04MB8951.eurprd04.prod.outlook.com
+ ([fe80::753c:468d:266:196]) by DU2PR04MB8951.eurprd04.prod.outlook.com
+ ([fe80::753c:468d:266:196%4]) with mapi id 15.20.9478.004; Fri, 16 Jan 2026
+ 16:09:06 +0000
+Date: Fri, 16 Jan 2026 11:08:55 -0500
+From: Frank Li <Frank.li@nxp.com>
+To: Michael Riesch <michael.riesch@collabora.com>
+Cc: Chaoyi Chen <chaoyi.chen@rock-chips.com>,
+	Kever Yang <kever.yang@rock-chips.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Collabora Kernel Team <kernel@collabora.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 2/3] media: synopsys: add driver for the designware
+ mipi csi-2 receiver
+Message-ID: <aWpil6jI1Ad0DcEI@lizhi-Precision-Tower-5810>
+References: <20251114-rockchip-mipi-receiver-v5-0-45aa117f190a@collabora.com>
+ <20251114-rockchip-mipi-receiver-v5-2-45aa117f190a@collabora.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251114-rockchip-mipi-receiver-v5-2-45aa117f190a@collabora.com>
+X-ClientProxiedBy: SJ0PR03CA0191.namprd03.prod.outlook.com
+ (2603:10b6:a03:2ef::16) To DU2PR04MB8951.eurprd04.prod.outlook.com
+ (2603:10a6:10:2e2::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <176851117186.98704.5427092951514812674@localhost>
-References: <aM1J9LsbpueEr30x@kekkonen.localdomain> <kblfpuqfj2d6vkagspnqdhztno2js3wljdrsv2wpeywuwyzg5x@xt7rjhh5wt76> <r3kv25lxbyjtuufb2ze27wp5gbqnbgnps2ytk2gy2qkaeiijdd@ydn4ptkze2qp> <aN_MdmDhQPyLnQqD@kekkonen.localdomain> <zq3gzieoqd4eieghjetm6sus5s7i6niplommnubl4d4rskbhra@v7gslcsg5hce> <mseqfltfao5jqubs22asrzzrj2tnsf5bdmlvsmncwj4ss3gxmu@wk2lmramiy3a> <176008954951.211618.7730648133265251067@localhost> <176009379794.935713.4919963263447609305@ping.linuxembedded.co.uk> <aWjXzDXLxG7YyCY6@kekkonen.localdomain> <176851117186.98704.5427092951514812674@localhost>
-Subject: Re: [PATCH v11 39/66] media: Documentation: Add subdev configuration models, raw sensor model
-From: Stefan Klug <stefan.klug@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, linux-media@vger.kernel.org, hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com, Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>, Alexander Shiyan <eagle.alexander923@gmail.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, Tommaso Merciai <tomm.merciai@gmail.com>, Umang Jain <umang.jain@ideasonboard.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Sylvain Petinot <sylvain.petinot@foss.st.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Julien Massot <julien.massot@collabora.com>, Naushir Patuck <naush@raspberrypi.com>, "Yan, Dongcheng" <dongcheng.yan@intel.com>, "Cao, Bingbu" <bingbu.cao@intel.com>, "Qiu, Tian Shu" <tian.shu.qiu@intel.com>, "Wang, Hongju" <hongju.wang@intel.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, =?utf-8?q?Andr=C3=A9?= Apitzsch <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>, Mehdi Djait <"me
- h di.djait"@linux.intel.com>, Ricardo Ribalda Delgado <ribalda@kernel.org>, Hans de Goede <hdegoede@redhat.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>
-Date: Fri, 16 Jan 2026 15:46:12 +0100
-Message-ID: <176857477280.5324.260292878127292345@localhost>
-User-Agent: alot/0.12.dev8+g2c003385c862.d20250602
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU2PR04MB8951:EE_|GVXPR04MB10945:EE_
+X-MS-Office365-Filtering-Correlation-Id: c2cdf9d6-24c6-4eae-0f7b-08de551992b4
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|52116014|7416014|376014|366016|19092799006|1800799024|7053199007|38350700014;
+X-Microsoft-Antispam-Message-Info:
+ =?us-ascii?Q?ug7usz8zRxxrkbdtDWAuUwDwxd28xRUY8XfMMxza/5mVsa4TLnJjdJIvMJ4C?=
+ =?us-ascii?Q?oWOUfkW2ZY3MZdCThO3czc5kNqsTRzm1e31SCRJsbJfmpIPVt7G5YSxWXT2n?=
+ =?us-ascii?Q?CAkkGe9JbX/FAYFN2GLGCP3VNzZLMsUx3ykLFXGdihE0EDgTDRMb0+yRbhMQ?=
+ =?us-ascii?Q?fgcfUBYzhGqv+w0Gc79iV1gJJKfZquh+o0KWNuOQHgprixgorxl5qXGYyTog?=
+ =?us-ascii?Q?78mwWV36p+ISiemj5gE1Pwn8kWN8CJuvgo1HCwDRx6ZFF4QVoZlzPWnCpJBN?=
+ =?us-ascii?Q?kIedH7whKZdO4bNmdSuvyUagN+uWbauZU2wrSIbHdTVGIK1BQ+c/g7vwBwS5?=
+ =?us-ascii?Q?9qDoFLopmXConh/UZhn93P+7Ec2F/3NPlc17aynnfVZVrlfShnZ9o0c0T9Xz?=
+ =?us-ascii?Q?zBdudA9NwJGNjCMA2RxHgKv7CTNz6crJVKocQ4PXVfAdxk8kS4erxP5YQopb?=
+ =?us-ascii?Q?UJbqd4NwFI3PgyMOxoODpQLC4psTG8scNeHJ6d6rFO/6FiMHlDheib0UXeoO?=
+ =?us-ascii?Q?nxfzjIs8T4KxDLkSM8l4Ibdal+J1Mx9+yNqy6poNju13VR+2aF3gxpeZP7gg?=
+ =?us-ascii?Q?E7p+jgvQ57Hd1L0LUkJ20UnzUMNFyhMKw8gSf1z5uAH6kHMmORdsXMbtiAVL?=
+ =?us-ascii?Q?m8tVi9CQaSzhrgKYUMjf1x+F0alJ6OYTb9Tftme5F9bdbUigXqdZVVbjz2l0?=
+ =?us-ascii?Q?OHzcUPaQYOhxWpBWuQ5c5y7zAvS4VFoL2UmjF8sFmlO8WUZzdZs6uCRZGgBS?=
+ =?us-ascii?Q?901J3m7x7a7IIIsGRnM9MkuNGyiIra2WA2eyPn+SQMGBH5rKqnrG6BlC0sCo?=
+ =?us-ascii?Q?jUFF4tx+d3adAbLwa1viNoCMpEfm8aXStQQiTG/rnU9wvZxoVjzqC3zvl924?=
+ =?us-ascii?Q?jZuK4qyyu2COK/amjlsPDjO7TbXHBH7vN2gRzwGWUTttmpUVCP9aig4jHfpr?=
+ =?us-ascii?Q?3tac2b40s+Sw1N4ZCKl8UqiKyftliJvq4upHBdpCryPp0BYvKZbYc0KsnA2E?=
+ =?us-ascii?Q?hMC80mwTGL47L3hBBtvNAJ273vavX6Z/hrnJiR5vgJfvaDvIpnKplFavMJ5J?=
+ =?us-ascii?Q?ak/LguJlFlV41UwhlI27Pkn+lSNOs2SpEc5NRSRaUHUcziXEkXv/C4F+XK6k?=
+ =?us-ascii?Q?rnE7ydX9gVxhpJ0vVIS0czbXSHJDzjoBetleGF/HMjcvE9fO/IRN8cinA6F3?=
+ =?us-ascii?Q?10FErI0/LLFB0mBmq1vBLChxNLvBlhp/BiX4u2mVN5VpaVoPJ+yUhFiFjinr?=
+ =?us-ascii?Q?YpvMVguFUvpWMipJ0BV6dgOkdfI9HFL86M+m4/jfqtsXaIPifAgChzlxq0f1?=
+ =?us-ascii?Q?sbcDlxg7FY9fkW82ZOFp33Unv8VPvcLZzJ9xuSNXPBYyKgWYqOi1qpH6KLYq?=
+ =?us-ascii?Q?cxs3Ahi26+4ToYu41BBUEhQU/o6suMZ2JMAxABZbP4UeGwowWY/fKuGVpk7X?=
+ =?us-ascii?Q?CvJ6985WRZDfOb75mdFS4MWI0ImT2hBXPaaWBBBXOrO5Qd8FytgpBJjhGP4l?=
+ =?us-ascii?Q?74YzQyygD2C7yCM8a9ULlFjcxazA6Lk0CH+oUXuuD43ogW0kqndtxAIjohUy?=
+ =?us-ascii?Q?Bys+BzgwYxuUjzpzpIeEc5MhW3JxJb4u0fEpj1U1frzxhxlmzlToZsRcy4zD?=
+ =?us-ascii?Q?rQ6XXsPsbY1eQWr2w2hXkDw=3D?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8951.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(7416014)(376014)(366016)(19092799006)(1800799024)(7053199007)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?us-ascii?Q?V9xjxnq9F+GC4Lr+p6jHGj/IwNE84FDFyDgvUsn6poBRH0xuduBSxoWqEhW0?=
+ =?us-ascii?Q?VxckHmHVTlZMtgn639xXoyEYQFhSflwPez5SZlO+8b4cutl8iQhjavTqdf1u?=
+ =?us-ascii?Q?J3WCLLqK3VGo5193glAyKsPyoBz4b1fK0/9RSkQBTau7WBlwMQXyZ8txDJ9V?=
+ =?us-ascii?Q?yn7cUdHaP3vJqV/G2JX/BJHFNDrv5/TnCgHuQkIU3JTKuQTvF86Tvl+LmUcc?=
+ =?us-ascii?Q?ebN5AvY9Z8kFklAQGwbj/z4ekMF62RbCXehs6Ea+YCAqP5SBKO+fiPFpLoyP?=
+ =?us-ascii?Q?9ZRftvyh0T3FVKcMWEFkNIeL77ySqP4ljMXOYcXNjltHsFCB3MQicA+cEgBV?=
+ =?us-ascii?Q?xbPmjdYm6upli3lzPvtLgSXKSgcb/GxjLqIlerJ7YV/nCRXdhcEVeU+Aa7EW?=
+ =?us-ascii?Q?1SeeADhx0QrlxPwBSFycQKNRemP/3HREwb7Clmydsw8KbkueHXy1us8dkap9?=
+ =?us-ascii?Q?WLVOYqbQZhd8iEgxy5SbsWh0t/q3avI0U6nhw6E9kFrFbVudPs3hDNylZN5z?=
+ =?us-ascii?Q?x+4WrqaLw9rhL3ZULyu/0y3uvIXmJvSQtHD67BEf0LeXzfEd0+HGPZoS3n5h?=
+ =?us-ascii?Q?xQ0cvPJ2A0TKbR6NQPNsAFy5bVLiqCtQqzvYyvl7rCyGDSMXMSXT9YdhX4Fb?=
+ =?us-ascii?Q?Vr2aHbnS8TN+dF8hiPcXfzRQVxHuMgrqU6e48ZwoYRFJGfKNm25npkBwEfTo?=
+ =?us-ascii?Q?HYjmnEkLM+anPehNWDhEI0dGMfDu43yCnHotVIleKtU5sIk83nvZ41MjjQRx?=
+ =?us-ascii?Q?ED9+ZDlA6hH0S0GVwPbWfeL3lHGM+8XXB2P4TemqG+RBpgR7GTmvz/CmpAvF?=
+ =?us-ascii?Q?OnLSJkHpyPFdU3Sv0AG/6hlB89iTYdVt4feLo4mzfZzq7sbz+y+1c+tpt+I8?=
+ =?us-ascii?Q?4jI1Qrb4UoNPR2EQekLenB4yhL7CUCVF2AUvFuYBY6fN+R24SgHIJ6cx8sUM?=
+ =?us-ascii?Q?zO6QG+yRhXW529cLkhf7qkrLGYoKaMeICGlqKMeQFlOWmO8otjiyYSI0rPYx?=
+ =?us-ascii?Q?guqJdgtBlY+NMEn72VLQpZtzfiNq95h2YHpqwGKxseX4rtsAZRahmciXkXjq?=
+ =?us-ascii?Q?TeM5uGnjzQoaswXQEOYJnV4lRjHOs9M5cJeNa+FEpZGmH6iRb1sNJWLzEbRV?=
+ =?us-ascii?Q?O4l2QaM9uWRjLA56BbnsJwvrK6k7K6sqN4zRh/+8RIeHLyR4EHhldVNRgfXT?=
+ =?us-ascii?Q?PQq1OUXq3wVSMoAqwinxcgXtwgDelCPQMsFIlUvLaAooBdtseNcZ3gV5Ybzu?=
+ =?us-ascii?Q?L7DM80NOMZFX3IkHRA1YsycGfRYQz3K1r+LQDCoOHES7KFumNyWSp2S8NPD0?=
+ =?us-ascii?Q?CZa78D+2Aw4m4Gz+b/I5Z7jBnugSLnaNWcnhfvOIA4Y09/Jz013XtJjVS9bb?=
+ =?us-ascii?Q?Am3b7F+Y5gTtg5FGglYPws4AjccgNbMwTY2NrK3iNx+77x4qXkxpCi/KDSmm?=
+ =?us-ascii?Q?c+9ZpCUBhdoVCldxaTDWqJ51E1C6YjcOW3XabQm9Weoh2xDx/MpmKUs6P7y+?=
+ =?us-ascii?Q?RjP6RyI9vjNYQ2Ezb++6aWUGA4QhpYODylNym2g+aoF6WyHvtMt+YqPmqHNC?=
+ =?us-ascii?Q?MPlNf/zcWWvXyY94sSTGXUJK7EfHjelO4yynGbp0vkwps0/Nxs+yzYU2yEmx?=
+ =?us-ascii?Q?GAIra0ben++OW/y8eIBwFCdCYmD9B9daQmlLUVmhEAVwIw3Jzm7LjWgELiII?=
+ =?us-ascii?Q?B88OiAtQavY5/hy+angYsl9hpdZ8HkO8DWXuaqiVSdl+dKUMWutLNLzefMyE?=
+ =?us-ascii?Q?b/ytfHOYJA=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c2cdf9d6-24c6-4eae-0f7b-08de551992b4
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8951.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2026 16:09:05.9583
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JayZHEzGKUvGY02uYZdXeJoZFnXAoEclzUB+1lpMDzp4VaZxpOiMSRJbcgv3SrXIon2LTUG6V4wEGcSzY4YsKQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB10945
 
-Hi Sakari,
+On Fri, Jan 16, 2026 at 02:02:47PM +0100, Michael Riesch wrote:
+> The Synopsys DesignWare MIPI CSI-2 Receiver is a CSI-2 bridge with
+> one input port and one output port. It receives the data with the
+> help of an external MIPI PHY (C-PHY or D-PHY) and passes it to e.g.,
+> the Rockchip Video Capture (VICAP) block on recent Rockchip SoCs.
+>
+> Add a V4L2 subdevice driver for this unit.
+>
+> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Reviewed-by: Mehdi Djait <mehdi.djait@linux.intel.com>
+> Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
+> ---
+...
+> +
+> +static inline struct dw_mipi_csi2_device *to_csi2(struct v4l2_subdev *sd)
+> +{
+> +	return container_of(sd, struct dw_mipi_csi2_device, sd);
+> +}
+> +
+> +static inline __maybe_unused void
 
-Quoting Stefan Klug (2026-01-15 22:06:11)
-> Hi Sakari,
->=20
-> Quoting Sakari Ailus (2026-01-15 13:04:28)
-> > Hi Kieran, Stefan, Jacopo,
-> >=20
-> > On Fri, Oct 10, 2025 at 11:56:37AM +0100, Kieran Bingham wrote:
-> > > Quoting Stefan Klug (2025-10-10 10:45:49)
-> > > > Hi Sakari, hi Jacopo,
-> > > >=20
-> > > > Quoting Jacopo Mondi (2025-10-07 16:01:11)
-> > > > > Hi again Sakari,
-> > > > >    cc Kieran and Stefan
-> > > > >=20
-> > > > > Stefan and Kieran brought to my attention a use case I would like=
- to
-> > > > > discuss with you
-> > > > >=20
-> > > > > On Fri, Oct 03, 2025 at 03:25:19PM +0200, Jacopo Mondi wrote:
-> > > > > > Hi Sakari,
-> > > > > >
-> > > > > > On Fri, Oct 03, 2025 at 04:15:34PM +0300, Sakari Ailus wrote:
-> > > > > > > Hi Jacopo,
-> > > > > >
-> > > > > > [snip]
-> > > > > >
-> > > > > > > > >
-> > > > > > > >
-> > > > > > > > A recent discussion on libcamera made me wonder a few things
-> > > > > > > >
-> > > > > > > > https://patchwork.libcamera.org/patch/24547/
-> > > > > > > >
-> > > > > > > > In the current world (pre-RAW sensor model) the situation c=
-an be
-> > > > > > > > summarized as
-> > > > > > > >
-> > > > > > > > TGT_NATIVE_SIZE =3D full pixel array (readable and non read=
-able)
-> > > > > > > > TGT_CROP_BOUNDS =3D readable pixel array (visible and non v=
-isibile pixels)
-> > > > > > >
-> > > > > > > Crop bounds is generally the same as native size.
-> > > > > > >
-> > > > > >
-> > > > > > I checked two sensors datasheet for this yesterday and both of =
-them
-> > > > > > had parts of the pixel array that cannot be read out
-> > > > > >
-> > > > > > > > TGT_CROP_DEFAULT =3D visible pixels
-> > > > > > >
-> > > > > > > The default could exclude not-so-great pixels, too.
-> > > > > > >
-> > > > > >
-> > > > > > ok, suggested pixel array area used for image capture purposes =
-then
-> > > > > >
-> > > > > > > > TGT_CROP =3D analgoue crop
-> > > > > > >
-> > > > > > > This could include digital crop as well.
-> > > > > > >
-> > > > > >
-> > > > > > Yes it might, not all sensor drivers behaves the same indeed
-> > > > > >
-> > > > > > > >
-> > > > > > > > where:
-> > > > > > > > - visibile =3D pixels used for image capture purpose
-> > > > > > > > - non-visible =3D optically black, dummies etc
-> > > > > > > >
-> > > > > > > > With the RAW sensor model:
-> > > > > > > >
-> > > > > > > > format(1/0) =3D readable pixel array (visible and non visib=
-le)
-> > > > > > > > TGT_CROP_DEFAULT(1/0) =3D visible pixel area
-> > > > > > > > TGT_CROP(1/0) =3D analogue crop
-> > > > > > > > TGT_COMPOSE(1/0) =3D binning/skipping
-> > > > > > > >
-> > > > > > > > Have we lost the ability to report the full pixel array siz=
-e (readable
-> > > > > > > > and not readable) ? Is this intentional ? As if pixels cann=
-ot be read
-> > > > > > > > out they basically do no exist, and the information on the =
-actual
-> > > > > > > > number of pixels (including non readable ones) should be ke=
-pt
-> > > > > > > > somewhere else (like the libcamera sensor properties databa=
-se) ?
-> > > > > > >
-> > > > > > > I'd keep this information in the user space if needed. There'=
-s little
-> > > > > > > software could presumably do with this information.
-> > > > > > >
-> > > > > >
-> > > > > > Agreed, there is no value I can think of in having this informa=
-tion in
-> > > > > > drivers
-> > > > > >
-> > > > >=20
-> > > > > So, Kieran and Stefan are working with a sensor whose driver was
-> > > > > initially upstreamed with a wrong "readable pixel array"
-> > > > > (TGT_CROP_BOUNDS). The developer later realized there was more of=
- the
-> > > > > pixel array to read and there was a use for the non-image pixels =
-like
-> > > > > OB ones.
-> > > > >=20
-> > > > > With the current model this is fine (sort of), as all rectangles =
-are
-> > > > > expressed with the TGT_NATIVE size reference. TGT_BOUNDS might
-> > > > > increases but TGT_CROP_DEFAULT and TGT_CROP are still valid both =
-in the
-> > > > > driver but also in userspace, which might have encoded some known
-> > > > > "tested" configurations.
-> > > > >=20
-> > > > > With the new model we lose the information reported by TGT_NATIVE=
- and
-> > > > > all rectangles will be expressed with the format on 1/0 as refere=
-nce.
-> > > > > If the format changes because we later find out there were portio=
-ns of
-> > > > > the pixel array that could have been read out, all other rectangl=
-es
-> > > > > will have to change as well, both in the driver (which is ok-ish)=
- but
-> > > > > also in userspace, which we have no control on.
-> > > > >=20
-> > > > > Stefan and Kieran could elaborate more on this, but basically, the
-> > > > > physical array is the only fixed reference we could actually coun=
-t on.
-> > > > > Other rectangles, are subject to the driver developer understandi=
-ng of
-> > > > > how the device work, which as we know very well, can change over =
-time.
-> > > > >=20
-> > > > > Now, if you agree this is something to be concerned on, I presume=
- the
-> > > > > fix is quite easy
-> > > > >=20
-> > > > >          format(1/0) =3D physical pixel array size
-> > > > >          TGT_CROP_BOUNDS(1/0) =3D readable pixel array (visible a=
-nd non visible)
-> > > > >          TGT_CROP_DEFAULT(1/0) =3D visible pixel area
-> > > > >          TGT_CROP(1/0) =3D analogue crop
-> > > > >          TGT_COMPOSE(1/0) =3D binning/skipping
-> > > > >=20
-> > > > > which basically only require re-introducing the use of CROP_BOUND=
-S in
-> > > > > the RAW camera model specification.
-> > > >=20
-> > > > Thanks Jacopo for writing that up. Maybe a little addition on that
-> > > > matter. To our (especially Kierans) experience all the rectangles t=
-end
-> > > > to be unexpectedly difficult to handle when you try to configure the
-> > > > sensors in a pixel perfect manner (having binned and non binned mod=
-es
-> > > > cover exactly the same area in all possible flipping configurations=
-).
-> > > > The datasheets I'm aware of use the physical pixel array as common
-> > > > coordinate system to describe the geometry. Adding the readable pix=
-el
-> > > > array as "artificial" coordinate system makes it difficult to match=
- the
-> > > > values reported by a v4l driver with the datasheets at hand.
-> > > >=20
-> > > > Another time where this comes into play is lens shading correction =
-where
-> > > > you would want to describe the LSC against one reference coordinate
-> > > > system that ideally never ever changes.
-> > > >=20
-> > > > To add to the confusion I'd love to have another rectangle added to=
- the
-> > > > list. I don't have a proper name for it. The intent would be to
-> > > > distinguish between the "readable pixel array" and the "light expos=
-ed
-> > > > pixel array". So the list would become:
-> > > >=20
-> > > >     format(1/0) =3D physical pixel array size
-> > > >     TGT_CROP_BOUNDS(1/0) =3D readable pixel array (visible and non =
-visible)
-> > > >     TGT_CROP_VISIBLE(1/0) =3D visible pixel area including "flesh" =
-for ISP
-> >=20
-> > Carnivorous ISPs?
->=20
-> Yes, beware! :-)
->=20
-> >=20
-> > > >     TGT_CROP_DEFAULT(1/0) =3D Recommended "good" pixels
-> >=20
-> > How often is this known? Or would you rely on what the vendor tells?
->=20
-> We had a brief discussion about that internally. Some datasheets contain
-> that information by surrounding the "Recording area" with a margin
-> labeled as "Effective margin for color processing". I don't have numbers
-> how often that is the case though. As it doesn't add much technical
-> value to the kernel we could set TGT_CROP_DEFAULT to the above mentioned
-> TGT_CROP_VISIBLE and keep the information about the color processing
-> margin outside the kernel, e.g. in libcamera.
+why need '__maybe_unused', needn't inline. compiler can auto decide and
+report unused function if no 'inline'.
 
-Jacopo told me that this wasn't completely clear and rereading it, he is
-right. So to clarify: The idea is to skip the introduction of
-TGT_CROP_VISIBLE and just include the processing margin in
-TGT_CROP_DEFAULT. The less rectangles, the better.
+> +dw_mipi_csi2_write(struct dw_mipi_csi2_device *csi2, unsigned int addr, u32 val)
+> +{
+> +	writel(val, csi2->base_addr + addr);
+> +}
+> +
+> +static inline __maybe_unused u32
+> +dw_mipi_csi2_read(struct dw_mipi_csi2_device *csi2, unsigned int addr)
+> +{
+> +	return readl(csi2->base_addr + addr);
+> +}
+> +
+> +static const struct dw_mipi_csi2_format *
+> +dw_mipi_csi2_find_format(struct dw_mipi_csi2_device *csi2, u32 mbus_code)
+> +{
+> +	WARN_ON(csi2->formats_num == 0);
+> +
+> +	for (unsigned int i = 0; i < csi2->formats_num; i++) {
+> +		const struct dw_mipi_csi2_format *format = &csi2->formats[i];
+> +
+> +		if (format->code == mbus_code)
+> +			return format;
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+> +static int dw_mipi_csi2_start(struct dw_mipi_csi2_device *csi2)
+> +{
+> +	struct media_pad *source_pad;
+> +	union phy_configure_opts opts;
+> +	s64 link_freq;
+> +	u32 control = 0;
+> +	u32 lanes = csi2->lanes_num;
+> +	int ret;
 
->=20
-> The only downside I see there is that (to my knowledge) it will be
-> difficult to guarantee that really all the pixels inside
-> TGT_CROP_VISIBLE are good. That's ok for libraries like libcamera that
-> will default to cutting off some margin after processing, but it might
-> be a problem for simple applications that just try capture the
-> CROP_DEFAULT. But maybe these applications do not exist at all :-)
->=20
-> >=20
-> > > >     TGT_CROP(1/0) =3D analogue crop
-> > > >     TGT_COMPOSE(1/0) =3D binning/skipping
-> > > >=20
-> > > > The idea is to be able to capture a larger image from the sensor fo=
-r ISP
-> > > > processing and then cut it down to CROP_DEFAULT. This way we can pr=
-event
-> > > > interpolation seams at the edges. Maybe the naming is bad and we sh=
-ould
-> > > > make CROP_BOUNDS the recommended area and add CROP_READABLE to deno=
-te
-> > > > the readable pixels...
-> >=20
-> > CROP_BOUNDS really needs to be the bounding rectangle for everything.
-> > CROP_DEFAULT and NATIVE_SIZE are still up to definition, to a degree.
-> >=20
-> > Have you tried capturing the optical black pixels on different sensors?
->=20
-> Yes, we did at least on the imx335 and imx283. Kieran is more in the
-> details there...
->=20
-> >=20
-> > CCS specifies optical black pixel capture separately from the visible
-> > pixels and support also different VC, DT, depending on sensor capabilit=
-ies;
-> > cropping results in capturing optical black pixel on the rows and colum=
-ns
-> > specified for the crop area. In other words, the selection API isn't
-> > necessarily how optical black pixel capture is configured, at least for
-> > CCS.
->=20
-> Yes, that is a bit of a pain. Being able to select the VC or DT doesn't
-> make things easier. Some SoCs (e.g. imx8mp) are not able to capture
-> separate VCs or DTs. So to get to the information the only way is to go
-> through the image stream. Also for some use-cases like extra long
-> exposures in astro-photography it might be useful to have the OB in the
-> image data for postprocessing.  (The last case is a bit made up as I
-> don't know much about astro-photography tbh).=20
->=20
-> So I believe we should keep the option to capture OB over the image
-> stream.
->=20
-> >=20
-> > Let's assume the case of the sensor where you find, after the driver has
-> > been upstreamed, that there are extra columns and rows of pixels beyond=
- the
-> > left and top of the image. How would you modify the selection rectangles
-> > and the format to allow capturing image data from that area? Can you av=
-oid
-> > affecting the existing userspace?
->=20
-> That would mean that the TGT_CROP_BOUNDS and or TGT_CROP_DEFAULT
-> changes. The assumption is that the native coordinate system (the old
-> TGT_CROP_NATIVE_SIZE) stays in place so the application can still use
-> all the tuning that was done relative to the native coordinate system.
-> As the TGT_CROP_BOUNDS from the first version has top/left coordinates >
-> 0 there is room to enlarge the TGT_CROP_BOUNDS in that direction.
->=20
-> Sure, this does not work if the initial driver didn't specify
-> TGT_CROP_BOUNDS with the correct top/left offset. It also does not guard
-> against really wrong datasheets or arbitrary bugs. But allows to
-> transparently improve in situations where the first version implements
-> the "default FullHD setup from the vendor" and later a improved version
-> of the driver allows access to the additional margins around.
->=20
-> Best regards,
-> Stefan
->=20
-> >=20
-> > >=20
-> > > I think this is important - and in IMX283 - it seems to be exactly wh=
-at
-> > > the datasheet is ultimately recommending.
-> > >=20
-> > > > > What do you think ?
-> > > >=20
-> > > > Best regards,
-> > > > Stefan
-> > > >=20
-> > > > >=20
-> > > > > > > >
-> > > > > > > > All the discussion about readable/non-readable, visible/non=
--visibile
-> > > > > > > > and active and inactive areas make me think we would benefi=
-t from
-> > > > > > > > presenting a small glossary at the beginning of the "Sensor=
- pixel
-> > > > > > > > array size, cropping and binning" paragraph ?
-> > >=20
-> > > Oh yes, some sort of nicely interpretable description of "this rectan=
-gle
-> > > is expected to be this equivalent set of pixels" would be helpful. I'=
-ve
-> > > found it so hard to identify which the right rectangle is here :D
-> > >=20
-> > >=20
-> > > I'm also weary that we might need to find a way to convey the
-> > > relationship between binning mode restrictions/offsets too.
-> > >=20
-> > > The IMX283 2x2 and 3x3 binning modes produce offset outputs:
-> > >=20
-> > > vwinpos is the coordinate programmed to the sensor to get a position -
-> > > and we have tooling in camshark that lets us determine the exact pixe=
-ls
-> > > we capture from any mode to see what was really produced by the senso=
-r:
-> > >=20
-> > >=20
-> > > ```
-> > > 'Sensor Native' ?
-> > > pixel (row)   -8 -7 -6 -5 -4 -3 -2 -1  0  1  2  3  4  5  6  7  8  9  =
-10 11 12 13 14 15 16
-> > > native pixels  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  =
-|  |  |  |  |  |  |
-> > >=20
-> > >=20
-> > > vwinpos       -4    -3    -2    -1     0     1     2     3     4     =
-5     6     7     8
-> > > no-binning     |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  =
-|  |  |  |  |  |  |
-> > >=20
-> > >=20
-> > > vwinpos             -3          -2          -1           0           =
-1           2     =20
-> > > /2 binning     |     |     |     |     |     |     |     |     |     =
-|     |     |     |
-> > >=20
-> > >=20
-> > > vwinpos        0                 1                 2                 =
-3                 4
-> > > /3 binning     |        |        |        |        |        |        =
-|        |        |
-> > > ```
-> > >=20
-> > >=20
-> > > To fix this - I'm moving the current '0' position for IMX283 to -2 in
-> > > the non binned modes.
-> > >=20
-> > > That gives me a coordinate system where at least I can define an
-> > > alignment for 2x2 and 3x3 binning every 12 pixels (as the lowest comm=
-on
-> > > multiplier).
-> > >=20
-> > > But - also murkies the water from the above rectanges as this sensor
-> > > turns out to have 48 lines of pixels (24 bayer pair lines) 'less than
-> > > zero' ... or at least those are the ones that are visible in light. I
-> > > can read further below zero but only for black pixels.
-> > >=20
-> > > So in otherwords - I can't even make a corresponding coordinate
-> > > rectangle that exactly matches the 'all readable' pixels or 'all
-> > > illuminated pixels' ... Ayeeeeee...
-> > >=20
-> > > My lesson/take on this: Don't trust the datasheets. They lie :D
-> >=20
-> > --=20
-> > Kind regards,
-> >=20
-> > Sakari Ailus
-> >
+try keep reverise christmas tree order.
+
+> +
+> +	if (lanes < 1 || lanes > 4)
+> +		return -EINVAL;
+> +
+...
+> +
+> +static int dw_mipi_csi2_register_notifier(struct dw_mipi_csi2_device *csi2)
+> +{
+> +	struct v4l2_async_connection *asd;
+> +	struct v4l2_async_notifier *ntf = &csi2->notifier;
+> +	struct v4l2_fwnode_endpoint vep;
+> +	struct v4l2_subdev *sd = &csi2->sd;
+> +	struct device *dev = csi2->dev;
+> +	struct fwnode_handle *ep;
+> +	int ret;
+> +
+> +	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev), 0, 0, 0);
+
+use  struct fwnode_handle *ep __free(fwnode_handle) can simplify err
+handler.
+
+> +	if (!ep)
+> +		return dev_err_probe(dev, -ENODEV, "failed to get endpoint\n");
+> +
+...
+> +{
+> +	struct media_pad *pads = csi2->pads;
+> +	struct v4l2_subdev *sd = &csi2->sd;
+> +	int ret;
+> +
+> +	ret = dw_mipi_csi2_register_notifier(csi2);
+> +	if (ret)
+> +		goto err;
+> +
+> +	v4l2_subdev_init(sd, &dw_mipi_csi2_ops);
+> +	sd->dev = csi2->dev;
+> +	sd->entity.ops = &dw_mipi_csi2_media_ops;
+> +	sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
+> +	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_STREAMS;
+> +	sd->internal_ops = &dw_mipi_csi2_internal_ops;
+> +	sd->owner = THIS_MODULE;
+
+I remeber needn't set owner, v4l2_async_register_subdev() do it for you.
+
+> +	snprintf(sd->name, sizeof(sd->name), "dw-mipi-csi2 %s",
+> +		 dev_name(csi2->dev));
+> +
+...
+> +
+> +static int dw_mipi_csi2_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct dw_mipi_csi2_device *csi2;
+> +	int ret;
+> +
+> +	csi2 = devm_kzalloc(dev, sizeof(*csi2), GFP_KERNEL);
+> +	if (!csi2)
+> +		return -ENOMEM;
+> +	csi2->dev = dev;
+> +	dev_set_drvdata(dev, csi2);
+> +
+> +	csi2->base_addr = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(csi2->base_addr))
+> +		return PTR_ERR(csi2->base_addr);
+> +
+> +	ret = devm_clk_bulk_get_all(dev, &csi2->clks);
+> +	if (ret != DW_MIPI_CSI2_CLKS_MAX)
+> +		return dev_err_probe(dev, -ENODEV, "failed to get clocks\n");
+> +	csi2->clks_num = ret;
+> +
+> +	csi2->phy = devm_phy_get(dev, NULL);
+> +	if (IS_ERR(csi2->phy))
+> +		return dev_err_probe(dev, PTR_ERR(csi2->phy),
+> +				     "failed to get MIPI CSI-2 PHY\n");
+> +
+> +	csi2->reset = devm_reset_control_get_exclusive(dev, NULL);
+> +	if (IS_ERR(csi2->reset))
+> +		return dev_err_probe(dev, PTR_ERR(csi2->reset),
+> +				     "failed to get reset\n");
+> +
+> +	csi2->formats = formats;
+> +	csi2->formats_num = ARRAY_SIZE(formats);
+> +
+> +	pm_runtime_enable(dev);
+
+devm_pm_runtime_enable() will simple error handle.
+
+> +
+> +	ret = phy_init(csi2->phy);
+> +	if (ret) {
+> +		ret = dev_err_probe(dev, ret,
+> +				    "failed to initialize MIPI CSI-2 PHY\n");
+> +		goto err_pm_runtime_disable;
+> +	}
+> +
+...
+> +
+> +static int dw_mipi_csi2_runtime_resume(struct device *dev)
+> +{
+> +	struct dw_mipi_csi2_device *csi2 = dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	reset_control_assert(csi2->reset);
+> +	udelay(5);
+
+Now prefer use fsleep(), which auto choose difference sleep function
+according to delay number.
+
+> +	reset_control_deassert(csi2->reset);
+> +
+> +	ret = clk_bulk_prepare_enable(csi2->clks_num, csi2->clks);
+> +	if (ret) {
+> +		dev_err(dev, "failed to enable clocks\n");
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static DEFINE_RUNTIME_DEV_PM_OPS(dw_mipi_csi2_pm_ops,
+> +				 dw_mipi_csi2_runtime_suspend,
+> +				 dw_mipi_csi2_runtime_resume, NULL);
+> +
+> +static struct platform_driver dw_mipi_csi2_drv = {
+> +	.driver = {
+> +		.name = "dw-mipi-csi2",
+> +		.of_match_table = dw_mipi_csi2_of_match,
+> +		.pm = &dw_mipi_csi2_pm_ops,
+
+pm_ptr( &dw_mipi_csi2_pm_ops)
+
+Frank
+> +	},
+> +	.probe = dw_mipi_csi2_probe,
+> +	.remove = dw_mipi_csi2_remove,
+> +};
+> +module_platform_driver(dw_mipi_csi2_drv);
+> +
+> +MODULE_DESCRIPTION("Synopsys DesignWare MIPI CSI-2 Receiver platform driver");
+> +MODULE_LICENSE("GPL");
+>
+> --
+> 2.39.5
 >
 
