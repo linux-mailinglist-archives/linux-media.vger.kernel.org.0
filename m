@@ -1,241 +1,282 @@
-Return-Path: <linux-media+bounces-50940-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50941-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id C677CD38C59
-	for <lists+linux-media@lfdr.de>; Sat, 17 Jan 2026 05:44:45 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DC87D38D7A
+	for <lists+linux-media@lfdr.de>; Sat, 17 Jan 2026 10:47:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 4365F300D802
-	for <lists+linux-media@lfdr.de>; Sat, 17 Jan 2026 04:44:45 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 499F9301FFB3
+	for <lists+linux-media@lfdr.de>; Sat, 17 Jan 2026 09:46:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59406326939;
-	Sat, 17 Jan 2026 04:44:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC71030EF8F;
+	Sat, 17 Jan 2026 09:46:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="W78oMkq+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BTONMrbA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C2CC2E11C7
-	for <linux-media@vger.kernel.org>; Sat, 17 Jan 2026 04:44:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E15B7260D
+	for <linux-media@vger.kernel.org>; Sat, 17 Jan 2026 09:46:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768625081; cv=none; b=uAfmJxIuBJzwhiLPOLifujd8HMTkTI+VKVG9d56mz2NErm4MsQZHok+Q6nUeE1qALq6yS5V13ls6TEzcy2Ie3uLiZvWayjlVqzTS8uOkWvuA/LSkwdakFEZGL5RehaaU7kRHoL/6WiyLB8pSpAhyn8BVZQ8OH2AqhzHOdw6wI+I=
+	t=1768643213; cv=none; b=esNSrabAmp8zNZaKuALw3gXYc0jcj5BNSBKOWp1QSpKmZ49fiB6H3lDpEPiod1ZbHOOxIOezR/U7Q+qw2fHmCZCd32U/Q+kek0HAiISXsDrukCxZZdyLNbQA8TrrfGg5jZ8cTLEIOqhSIc6Ww8GMXu2pTAwSOHo45f4WoBn/1Nk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768625081; c=relaxed/simple;
-	bh=/Wuoalou3aggWHgAQCEz4garPC5Alk/bJiLEKNrA5tk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nBh2PsRywDjVpE7f0/tjungdkVIGF42IkV7HGNIUqU9+/MllmqXkTHI1OyqOXddeLZpjvAonGwNuVf1PQ23yri2iwg8NmQj0ekUkX7YNiR1DK4PW2KMHRv3ZGzkr69cx+0aOaVL/IXkV+iCq6gMkHAFcnb3W34XMrZdT7z1cTV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=W78oMkq+; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-152.bb.dnainternet.fi [81.175.209.152])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 1BDBE492;
-	Sat, 17 Jan 2026 05:44:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1768625047;
-	bh=/Wuoalou3aggWHgAQCEz4garPC5Alk/bJiLEKNrA5tk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=W78oMkq+O7OS4H8GjPYbD5DoYpsLLfKhJuk+JAJ2PzWx45V0DLftbx+u25H3SLCXX
-	 zULfdQddolOTHBAUhsGBfPxDmIcMXzdh+hYfBq4nCfhFYYBh+TCTAJjrpMEvLsmVAY
-	 V/eXGdoLfYcFp4kl6urZWw1Ec1JKVq57ihsIEQpc=
-Date: Sat, 17 Jan 2026 06:44:13 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Faizel K B <faizel.kb@gmail.com>
-Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org
-Subject: Re: [PATCH 2/3] media: vimc: sensor: Add frame rate configuration
- support
-Message-ID: <20260117044413.GB445@pendragon.ideasonboard.com>
-References: <20260115191050.1370387-1-faizel.kb@gmail.com>
- <20260115191050.1370387-3-faizel.kb@gmail.com>
- <176855718062.1693075.8294828651917203116@ping.linuxembedded.co.uk>
- <cr7vrmkqxuriwici63khv4rv4fyeyp4aacejqe5mqfwuwbd2bs@xrjarfm6g4fv>
+	s=arc-20240116; t=1768643213; c=relaxed/simple;
+	bh=Igob9mQOwvi6HkKvZTZ9Qi0GGne3O5JsshMcuEwIv/U=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=o2guKj7VK2/Lcfpo/VRhEePVcX1wBZEm0gz78cgZkM+yHfuMedhFtyqiq62Ju3Y1kyxtsdXhM2XPqr4xbzxvw3707DDPpnfWa+4SL34OxG1iAY9TG79YyeDYp/N3AkIzqk68FB6V04wDYi4s3tpvWhsS2f9D3BYsa0yjdcNlcAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BTONMrbA; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768643212; x=1800179212;
+  h=date:from:to:cc:subject:message-id;
+  bh=Igob9mQOwvi6HkKvZTZ9Qi0GGne3O5JsshMcuEwIv/U=;
+  b=BTONMrbARtKxsJ1IwcJQSBDwdklD/nyKGyWnBh0fXW3S5wJXvYkH7Hsg
+   Z8baiiCIRdx2uFW38QdWWkf3a9S92F2FUTucQasOal8EMeiVqrLIdEqXU
+   I2w6vAG05ya+osOjvRsfyrL5E0f8QCZYtQJ/3wl8T9gOsE3WKDJIAMdWN
+   OqdUdJdaFTcxaltJrIiLadIleLB5RVPSarYu56Npu41FrLqnDrcQGlz39
+   amUR3wXC+bD6SeHq/cEX+vIkg5lpTpjyvPrDIXARL0Pz6HMo4dHCih6Gu
+   owvBNYCk+G18h9PuQx+WrplQEH9vljRba5zZGmEPfMY85926xcqgrwWTb
+   w==;
+X-CSE-ConnectionGUID: pbxR5yYlTq6AfvtHP/ZJMA==
+X-CSE-MsgGUID: xLoZv1koSuWJGV6vz2p84Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="81056155"
+X-IronPort-AV: E=Sophos;i="6.21,233,1763452800"; 
+   d="scan'208";a="81056155"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2026 01:46:51 -0800
+X-CSE-ConnectionGUID: 9yoH72azTqmVjo9WQ4Y//g==
+X-CSE-MsgGUID: 70yIgGkKSziELO2/wkcigQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,233,1763452800"; 
+   d="scan'208";a="209941138"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 17 Jan 2026 01:46:49 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vh2tL-00000000LjO-0Kjx;
+	Sat, 17 Jan 2026 09:46:47 +0000
+Date: Sat, 17 Jan 2026 17:45:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Subject: [sailus-media-tree:cleanup] BUILD SUCCESS
+ f31283b29e5f1c39e183c6ca694cd9540e1db0dc
+Message-ID: <202601171744.5CuIn67J-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <cr7vrmkqxuriwici63khv4rv4fyeyp4aacejqe5mqfwuwbd2bs@xrjarfm6g4fv>
 
-On Fri, Jan 16, 2026 at 12:35:47PM -0800, Faizel K B wrote:
-> On Fri, Jan 16, 2026 at 09:53:00AM +0000, Kieran Bingham wrote:
-> > Hi Faizel,
-> >
-> > Pullling in the libcamera-devel mailing list for relevant awareness too.
-> >
-> > Quoting faizel.kb@gmail.com (2026-01-15 19:10:49)
-> >> From: Faizel K B <faizel.kb@gmail.com>
-> >>
-> >> Implement set_frame_interval and get_frame_interval callbacks in
-> >> v4l2_subdev_pad_ops to enable frame rate configuration from 1-240 FPS.
-> >> The default frame rate is 60 FPS.
-> >>
-> >> The configured frame interval is pre-calculated into jiffies and
-> >> stored in the sensor's hw structure for efficient access by the
-> >> streamer thread.
-> >
-> > This is a really interesting and helpful bit of work - but I'm weary it
-> > might have taken one small mis-direction.
-> >
-> > VIMC aims to replicate the usage of camera sensors, and I don't think
-> > we're supposed to use frame interval interface for that.
-> >
-> > Instead following the camera sensor model, this should be implemented to
-> > mirror what the hardware in camera sensors actually does/needs which is
-> > to make the frame rate a function of the exposure time and blankings
-> > (both hblank and vblank).
-> >
-> > We have a bit of a write up about the calculation at the bottom of this
-> > page:
-> >
-> > - https://libcamera.org/camera-sensor-model.html
-> >
-> > Or perhaps the sensor requirements of libcamera might be what a virtual
-> > sensor should aim for:
-> >
-> > - https://libcamera.org/sensor_driver_requirements.html
-> 
-> Thanks for the review and links. It makes sense to implement the pixelrate, 
-> v/h blanking from a sensor point of view.The exposure value also
-> matters. Sensors even prioritize the exposure to the frame timings or the
-> other way. This parameters can be added inside using v4l2_ctrl_new_std(),
-> for pixel rate,blanking and exposure and calculate the sleep time for the
-> frame rate delay in the streamer thread. By this, a user need to do few
-> calculations to adjust the frame rate.
-> 
-> > There's probably more helpful documentation in the linux kernel too in
-> > the upcoming sensor model rework from Sakari.
-> >
-> > Aha - in fact I found this:
-> > - https://www.kernel.org/doc/html/latest/userspace-api/media/drivers/camera-sensor.html#raw-camera-sensors
-> >
-> > "2.2. Frame interval configuration
-> >
-> > There are two different methods for obtaining possibilities for
-> > different frame intervals as well as configuring the frame interval.
-> > Which one to implement depends on the type of the device."
-> >
-> > So perhaps the question we need to clarify is "what type of device is
-> > vimc-sensor".
-> >
-> > I'm likely biased to presume it's a virtual raw camera sensor ... But is
-> > it ?
-> 
-> Would like to hear more about this.
+tree/branch: git://linuxtv.org/sailus/media_tree.git cleanup
+branch HEAD: f31283b29e5f1c39e183c6ca694cd9540e1db0dc  media: i2c: os05b10: Few minor improvements
 
-Given that the vimc driver exposes raw bayer formats, and that the
-sensor is connected to an entity called debayer, it's safe to say it
-should be considered as a raw sensor. This is how libcamera uses vimc,
-and I think it's the most important use case for the driver.
+elapsed time: 1216m
 
-This being said, the media graph exposed by the vimc driver doesn't map
-exactly to how a raw sensor connected to an inline ISP would look like.
-It would be nice to improve this at some point.
+configs tested: 191
+configs skipped: 4
 
-> >> Signed-off-by: Faizel K B <faizel.kb@gmail.com>
-> >> ---
-> >>  drivers/media/test-drivers/vimc/vimc-common.h |  2 +
-> >>  drivers/media/test-drivers/vimc/vimc-sensor.c | 45 +++++++++++++++++++
-> >>  2 files changed, 47 insertions(+)
-> >>
-> >> diff --git a/drivers/media/test-drivers/vimc/vimc-common.h b/drivers/media/test-drivers/vimc/vimc-common.h
-> >> index 7f5f008e407b..a71ef761fa77 100644
-> >> --- a/drivers/media/test-drivers/vimc/vimc-common.h
-> >> +++ b/drivers/media/test-drivers/vimc/vimc-common.h
-> >> @@ -173,6 +173,7 @@ struct vimc_sensor_device {
-> >>         struct tpg_data tpg;
-> >>         struct v4l2_ctrl_handler hdl;
-> >>         struct media_pad pad;
-> >> +       struct v4l2_fract frame_interval;
-> >>
-> >>         u8 *frame;
-> >>
-> >> @@ -184,6 +185,7 @@ struct vimc_sensor_device {
-> >>                 struct v4l2_area size;
-> >>                 enum vimc_sensor_osd_mode osd_value;
-> >>                 u64 start_stream_ts;
-> >> +               unsigned long fps_jiffies;
-> >>         } hw;
-> >>  };
-> >>
-> >> diff --git a/drivers/media/test-drivers/vimc/vimc-sensor.c b/drivers/media/test-drivers/vimc/vimc-sensor.c
-> >> index 2b07dc1f1278..d54425ff28a1 100644
-> >> --- a/drivers/media/test-drivers/vimc/vimc-sensor.c
-> >> +++ b/drivers/media/test-drivers/vimc/vimc-sensor.c
-> >> @@ -140,12 +140,53 @@ static int vimc_sensor_set_fmt(struct v4l2_subdev *sd,
-> >>
-> >>         return 0;
-> >>  }
-> >> +static int vimc_sensor_get_frame_interval(struct v4l2_subdev *sd,
-> >> +                                         struct v4l2_subdev_state *state,
-> >> +                                         struct v4l2_subdev_frame_interval *fi)
-> >> +{
-> >> +       struct vimc_sensor_device *vsensor = v4l2_get_subdevdata(sd);
-> >> +
-> >> +       fi->interval = vsensor->frame_interval;
-> >> +
-> >> +       return 0;
-> >> +}
-> >> +
-> >> +static int vimc_sensor_set_frame_interval(struct v4l2_subdev *sd,
-> >> +                                         struct v4l2_subdev_state *state,
-> >> +                                         struct v4l2_subdev_frame_interval *fi)
-> >> +{
-> >> +       struct vimc_sensor_device *vsensor = v4l2_get_subdevdata(sd);
-> >> +       u32 fps;
-> >> +
-> >> +       /* Sanitize to default if invalid */
-> >> +       if (unlikely(!fi->interval.numerator || !fi->interval.denominator)) {
-> >> +               fi->interval.numerator = 1;
-> >> +               fi->interval.denominator = 60;
-> >> +       } else {
-> >> +               /* Clamp FPS to 1-240 range */
-> >> +               fps = fi->interval.denominator / fi->interval.numerator;
-> >> +               fps = clamp(fps, 1U, 240U);
-> >> +
-> >> +               fi->interval.numerator = 1;
-> >> +               fi->interval.denominator = fps;
-> >> +       }
-> >> +
-> >> +       vsensor->frame_interval = fi->interval;
-> >> +
-> >> +       /* Update hardware timing configuration */
-> >> +       vsensor->hw.fps_jiffies = (HZ * vsensor->frame_interval.numerator) /
-> >> +                                 vsensor->frame_interval.denominator;
-> >> +
-> >> +       return 0;
-> >> +}
-> >>
-> >>  static const struct v4l2_subdev_pad_ops vimc_sensor_pad_ops = {
-> >>         .enum_mbus_code         = vimc_sensor_enum_mbus_code,
-> >>         .enum_frame_size        = vimc_sensor_enum_frame_size,
-> >>         .get_fmt                = v4l2_subdev_get_fmt,
-> >>         .set_fmt                = vimc_sensor_set_fmt,
-> >> +       .get_frame_interval     = vimc_sensor_get_frame_interval,
-> >> +       .set_frame_interval     = vimc_sensor_set_frame_interval,
-> >>  };
-> >>
-> >>  static void *vimc_sensor_process_frame(struct vimc_ent_device *ved,
-> >> @@ -400,6 +441,10 @@ static struct vimc_ent_device *vimc_sensor_add(struct vimc_device *vimc,
-> >>
-> >>         vsensor->ved.process_frame = vimc_sensor_process_frame;
-> >>         vsensor->ved.dev = vimc->mdev.dev;
-> >> +       /* Initialize to 60 FPS */
-> >> +       vsensor->frame_interval.numerator = 1;
-> >> +       vsensor->frame_interval.denominator = 60;
-> >> +       vsensor->hw.fps_jiffies = HZ / 60;
-> >>
-> >>         return &vsensor->ved;
-> >>
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
--- 
-Regards,
+tested configs:
+alpha                             allnoconfig    gcc-15.2.0
+alpha                            allyesconfig    gcc-15.2.0
+alpha                               defconfig    gcc-15.2.0
+arc                              allmodconfig    clang-16
+arc                               allnoconfig    gcc-15.2.0
+arc                              allyesconfig    clang-22
+arc                              allyesconfig    gcc-15.2.0
+arc                          axs103_defconfig    gcc-15.2.0
+arc                                 defconfig    gcc-15.2.0
+arm                              alldefconfig    gcc-15.2.0
+arm                               allnoconfig    clang-22
+arm                               allnoconfig    gcc-15.2.0
+arm                              allyesconfig    clang-16
+arm                                 defconfig    gcc-15.2.0
+arm                        spear3xx_defconfig    gcc-15.2.0
+arm                           stm32_defconfig    gcc-15.2.0
+arm64                            allmodconfig    clang-19
+arm64                            allmodconfig    clang-22
+arm64                             allnoconfig    gcc-15.2.0
+arm64                               defconfig    gcc-15.2.0
+csky                             allmodconfig    gcc-15.2.0
+csky                              allnoconfig    gcc-15.2.0
+csky                                defconfig    gcc-15.2.0
+hexagon                          allmodconfig    clang-17
+hexagon                          allmodconfig    gcc-15.2.0
+hexagon                           allnoconfig    clang-22
+hexagon                           allnoconfig    gcc-15.2.0
+hexagon                             defconfig    gcc-15.2.0
+hexagon               randconfig-001-20260117    clang-22
+hexagon               randconfig-002-20260117    clang-22
+i386                             allmodconfig    clang-20
+i386                              allnoconfig    gcc-14
+i386                              allnoconfig    gcc-15.2.0
+i386                             allyesconfig    clang-20
+i386        buildonly-randconfig-001-20260117    gcc-13
+i386        buildonly-randconfig-002-20260117    gcc-13
+i386        buildonly-randconfig-003-20260117    gcc-13
+i386        buildonly-randconfig-004-20260117    gcc-13
+i386        buildonly-randconfig-005-20260117    gcc-13
+i386        buildonly-randconfig-006-20260117    gcc-13
+i386                                defconfig    gcc-15.2.0
+i386                  randconfig-001-20260117    gcc-14
+i386                  randconfig-002-20260117    gcc-14
+i386                  randconfig-003-20260117    gcc-14
+i386                  randconfig-004-20260117    gcc-14
+i386                  randconfig-005-20260117    gcc-14
+i386                  randconfig-006-20260117    gcc-14
+i386                  randconfig-007-20260117    gcc-14
+i386                  randconfig-011-20260117    gcc-14
+i386                  randconfig-012-20260117    gcc-14
+i386                  randconfig-013-20260117    gcc-14
+i386                  randconfig-014-20260117    gcc-14
+i386                  randconfig-015-20260117    gcc-14
+i386                  randconfig-016-20260117    gcc-14
+i386                  randconfig-017-20260117    gcc-14
+loongarch                        allmodconfig    clang-22
+loongarch                         allnoconfig    clang-22
+loongarch                         allnoconfig    gcc-15.2.0
+loongarch                           defconfig    clang-19
+loongarch             randconfig-001-20260117    clang-20
+loongarch             randconfig-001-20260117    clang-22
+loongarch             randconfig-002-20260117    clang-22
+m68k                             allmodconfig    gcc-15.2.0
+m68k                              allnoconfig    gcc-15.2.0
+m68k                             allyesconfig    clang-16
+m68k                         amcore_defconfig    gcc-15.2.0
+m68k                                defconfig    clang-19
+microblaze                        allnoconfig    gcc-15.2.0
+microblaze                       allyesconfig    gcc-15.2.0
+microblaze                          defconfig    clang-19
+mips                             allmodconfig    gcc-15.2.0
+mips                              allnoconfig    gcc-15.2.0
+mips                             allyesconfig    gcc-15.2.0
+mips                      loongson3_defconfig    gcc-15.2.0
+mips                          malta_defconfig    gcc-15.2.0
+nios2                            allmodconfig    clang-22
+nios2                            allmodconfig    gcc-11.5.0
+nios2                             allnoconfig    clang-22
+nios2                             allnoconfig    gcc-11.5.0
+nios2                               defconfig    clang-19
+nios2                 randconfig-001-20260117    clang-22
+nios2                 randconfig-001-20260117    gcc-8.5.0
+nios2                 randconfig-002-20260117    clang-22
+nios2                 randconfig-002-20260117    gcc-11.5.0
+openrisc                         allmodconfig    clang-22
+openrisc                         allmodconfig    gcc-15.2.0
+openrisc                          allnoconfig    clang-22
+openrisc                          allnoconfig    gcc-15.2.0
+openrisc                            defconfig    gcc-15.2.0
+parisc                           allmodconfig    gcc-15.2.0
+parisc                            allnoconfig    clang-22
+parisc                            allnoconfig    gcc-15.2.0
+parisc                           allyesconfig    clang-19
+parisc                           allyesconfig    gcc-15.2.0
+parisc                              defconfig    gcc-15.2.0
+parisc                randconfig-001-20260117    clang-22
+parisc                randconfig-002-20260117    clang-22
+parisc64                            defconfig    clang-19
+powerpc                          allmodconfig    gcc-15.2.0
+powerpc                           allnoconfig    clang-22
+powerpc                           allnoconfig    gcc-15.2.0
+powerpc                      bamboo_defconfig    gcc-15.2.0
+powerpc                    ge_imp3a_defconfig    gcc-15.2.0
+powerpc                      ppc64e_defconfig    gcc-15.2.0
+powerpc               randconfig-001-20260117    clang-22
+powerpc               randconfig-002-20260117    clang-22
+powerpc                    socrates_defconfig    gcc-15.2.0
+powerpc                     tqm5200_defconfig    gcc-15.2.0
+powerpc                     tqm8540_defconfig    gcc-15.2.0
+powerpc64             randconfig-001-20260117    clang-22
+powerpc64             randconfig-002-20260117    clang-22
+riscv                            allmodconfig    clang-22
+riscv                             allnoconfig    clang-22
+riscv                             allnoconfig    gcc-15.2.0
+riscv                            allyesconfig    clang-16
+riscv                               defconfig    gcc-15.2.0
+riscv                 randconfig-001-20260117    gcc-10.5.0
+riscv                 randconfig-002-20260117    gcc-10.5.0
+s390                             allmodconfig    clang-18
+s390                             allmodconfig    clang-19
+s390                              allnoconfig    clang-22
+s390                             allyesconfig    gcc-15.2.0
+s390                                defconfig    gcc-15.2.0
+s390                  randconfig-001-20260117    gcc-10.5.0
+s390                  randconfig-002-20260117    gcc-10.5.0
+sh                               alldefconfig    gcc-15.2.0
+sh                               allmodconfig    gcc-15.2.0
+sh                                allnoconfig    clang-22
+sh                                allnoconfig    gcc-15.2.0
+sh                               allyesconfig    clang-19
+sh                               allyesconfig    gcc-15.2.0
+sh                                  defconfig    gcc-14
+sh                    randconfig-001-20260117    gcc-10.5.0
+sh                    randconfig-002-20260117    gcc-10.5.0
+sparc                             allnoconfig    clang-22
+sparc                             allnoconfig    gcc-15.2.0
+sparc                               defconfig    gcc-15.2.0
+sparc                 randconfig-001-20260117    gcc-14.3.0
+sparc                 randconfig-002-20260117    gcc-14.3.0
+sparc64                          allmodconfig    clang-22
+sparc64                             defconfig    gcc-14
+sparc64               randconfig-001-20260117    gcc-14.3.0
+sparc64               randconfig-002-20260117    gcc-14.3.0
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-22
+um                               allyesconfig    gcc-14
+um                               allyesconfig    gcc-15.2.0
+um                                  defconfig    gcc-14
+um                             i386_defconfig    gcc-14
+um                    randconfig-001-20260117    gcc-14.3.0
+um                    randconfig-002-20260117    gcc-14.3.0
+um                           x86_64_defconfig    gcc-14
+x86_64                           allmodconfig    clang-20
+x86_64                            allnoconfig    clang-20
+x86_64                            allnoconfig    clang-22
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20260117    clang-20
+x86_64      buildonly-randconfig-002-20260117    clang-20
+x86_64      buildonly-randconfig-003-20260117    clang-20
+x86_64      buildonly-randconfig-004-20260117    clang-20
+x86_64      buildonly-randconfig-005-20260117    clang-20
+x86_64      buildonly-randconfig-006-20260117    clang-20
+x86_64                              defconfig    gcc-14
+x86_64                                  kexec    clang-20
+x86_64                randconfig-001-20260117    clang-20
+x86_64                randconfig-002-20260117    clang-20
+x86_64                randconfig-003-20260117    clang-20
+x86_64                randconfig-004-20260117    clang-20
+x86_64                randconfig-005-20260117    clang-20
+x86_64                randconfig-005-20260117    gcc-12
+x86_64                randconfig-006-20260117    clang-20
+x86_64                randconfig-006-20260117    gcc-14
+x86_64                randconfig-011-20260117    clang-20
+x86_64                randconfig-012-20260117    clang-20
+x86_64                randconfig-013-20260117    clang-20
+x86_64                randconfig-014-20260117    clang-20
+x86_64                randconfig-015-20260117    clang-20
+x86_64                randconfig-016-20260117    clang-20
+x86_64                               rhel-9.4    clang-20
+x86_64                           rhel-9.4-bpf    gcc-14
+x86_64                          rhel-9.4-func    clang-20
+x86_64                    rhel-9.4-kselftests    clang-20
+x86_64                         rhel-9.4-kunit    gcc-14
+x86_64                           rhel-9.4-ltp    gcc-14
+x86_64                          rhel-9.4-rust    clang-20
+xtensa                            allnoconfig    clang-22
+xtensa                            allnoconfig    gcc-15.2.0
+xtensa                           allyesconfig    clang-22
+xtensa                  cadence_csp_defconfig    gcc-15.2.0
+xtensa                randconfig-001-20260117    gcc-14.3.0
+xtensa                randconfig-002-20260117    gcc-14.3.0
 
-Laurent Pinchart
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
